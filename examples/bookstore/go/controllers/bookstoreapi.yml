@@ -1,4 +1,4 @@
-basePath: /api/github.com/fullstack-lang/examples/bookstore/go/v1
+basePath: /api/github.com/fullstack-lang/gong/examples/bookstore/go/v1
 consumes:
 - application/json
 definitions:
@@ -10,7 +10,7 @@ definitions:
       Subarea:
         $ref: '#/definitions/Area'
     type: object
-    x-go-package: github.com/fullstack-lang/examples/bookstore/go/models
+    x-go-package: github.com/fullstack-lang/gong/examples/bookstore/go/models
   Book:
     description: Book describes a book
     properties:
@@ -37,7 +37,7 @@ definitions:
         format: int64
         type: integer
     type: object
-    x-go-package: github.com/fullstack-lang/examples/bookstore/go/models
+    x-go-package: github.com/fullstack-lang/gong/examples/bookstore/go/models
   NullBool:
     description: |-
       NullBool implements the Scanner interface so
@@ -118,7 +118,7 @@ definitions:
     title: AreaAPI is the input in POST API
     type: object
     x-go-name: AreaAPI
-    x-go-package: github.com/fullstack-lang/examples/bookstore/go/orm
+    x-go-package: github.com/fullstack-lang/gong/examples/bookstore/go/orm
   areaDB:
     description: 'It incorporates all fields : from the model, from the generated
       field for the API and the GORM ID'
@@ -150,7 +150,7 @@ definitions:
     title: AreaDB describes a area in the database
     type: object
     x-go-name: AreaDB
-    x-go-package: github.com/fullstack-lang/examples/bookstore/go/orm
+    x-go-package: github.com/fullstack-lang/gong/examples/bookstore/go/orm
   bookAPI:
     description: |-
       for POST, API, one needs the fields of the model as well as the fields
@@ -202,7 +202,7 @@ definitions:
     title: BookAPI is the input in POST API
     type: object
     x-go-name: BookAPI
-    x-go-package: github.com/fullstack-lang/examples/bookstore/go/orm
+    x-go-package: github.com/fullstack-lang/gong/examples/bookstore/go/orm
   bookDB:
     description: 'It incorporates all fields : from the model, from the generated
       field for the API and the GORM ID'
@@ -264,7 +264,7 @@ definitions:
     title: BookDB describes a book in the database
     type: object
     x-go-name: BookDB
-    x-go-package: github.com/fullstack-lang/examples/bookstore/go/orm
+    x-go-package: github.com/fullstack-lang/gong/examples/bookstore/go/orm
   editorAPI:
     description: |-
       for POST, API, one needs the fields of the model as well as the fields
@@ -282,7 +282,7 @@ definitions:
     title: EditorAPI is the input in POST API
     type: object
     x-go-name: EditorAPI
-    x-go-package: github.com/fullstack-lang/examples/bookstore/go/orm
+    x-go-package: github.com/fullstack-lang/gong/examples/bookstore/go/orm
   editorDB:
     description: 'It incorporates all fields : from the model, from the generated
       field for the API and the GORM ID'
@@ -310,7 +310,7 @@ definitions:
     title: EditorDB describes a editor in the database
     type: object
     x-go-name: EditorDB
-    x-go-package: github.com/fullstack-lang/examples/bookstore/go/orm
+    x-go-package: github.com/fullstack-lang/gong/examples/bookstore/go/orm
 host: localhost:8080
 info:
   description: bookstore exposes types of a package.

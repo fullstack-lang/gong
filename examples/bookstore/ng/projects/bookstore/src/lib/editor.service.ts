@@ -26,7 +26,7 @@ export class EditorService {
   // so that they are notified of a change.
   EditorServiceChanged: BehaviorSubject<string> = new BehaviorSubject("");
 
-  private editorsUrl = 'http://localhost:8080/api/github.com/fullstack-lang/examples/bookstore/go/v1/editors';
+  private editorsUrl = 'http://localhost:8080/api/github.com/fullstack-lang/gong/examples/bookstore/go/v1/editors';
 
   constructor(
     private http: HttpClient
