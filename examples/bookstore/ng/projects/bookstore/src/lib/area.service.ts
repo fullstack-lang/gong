@@ -26,7 +26,7 @@ export class AreaService {
   // so that they are notified of a change.
   AreaServiceChanged: BehaviorSubject<string> = new BehaviorSubject("");
 
-  private areasUrl = 'http://localhost:8080/api/github.com/fullstack-lang/gong-example/examples/bookstore/go/v1/areas';
+  private areasUrl = 'http://localhost:8080/api/github.com/fullstack-lang/examples/bookstore/go/v1/areas';
 
   constructor(
     private http: HttpClient

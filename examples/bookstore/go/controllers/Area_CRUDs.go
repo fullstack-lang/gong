@@ -4,8 +4,8 @@ package controllers
 import (
 	"net/http"
 
-	"github.com/fullstack-lang/gong-example/examples/bookstore/go/models"
-	"github.com/fullstack-lang/gong-example/examples/bookstore/go/orm"
+	"github.com/fullstack-lang/examples/bookstore/go/models"
+	"github.com/fullstack-lang/examples/bookstore/go/orm"
 
 	"github.com/gin-gonic/gin"
 	"github.com/jinzhu/gorm"

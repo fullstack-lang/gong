@@ -7,7 +7,7 @@ The bookstore code architecture is as follow.
 README.md       (this file)
 go/             (the application backend, in go)
     go.mod          (file created by the command 
-                    `go mod init github.com/fullstack-lang/gong-example/examples/bookstore/go`)
+                    `go mod init github.com/fullstack-lang/examples/bookstore/go`)
     go.sum          (idem)
 
     bookstore/            (a fun part, hand written by the programmer)
