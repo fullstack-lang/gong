@@ -1,0 +1,82 @@
+<div *ngIf="book" class="details">
+    <h1 class="details__title">book</h1>
+    <!-- insertion point for fields specific code -->
+    <!-- -->
+    <div class="details__item">
+        <form>
+            <mat-form-field>
+                <mat-label>Name</mat-label>
+                <input name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="book.Name">
+            </mat-form-field>
+        </form>
+    </div>
+    <!-- -->
+    <div class="details__item">
+        <form>
+            <mat-form-field>
+                <mat-label>Author</mat-label>
+                <input name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="book.Author">
+            </mat-form-field>
+        </form>
+    </div>
+    <!-- -->
+    <div class="details__item">
+        <form>
+            <mat-form-field>
+                <mat-label>City</mat-label>
+                <input name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="book.City">
+            </mat-form-field>
+        </form>
+    </div>
+    <!-- -->
+    <div class="details__item">
+        <form>
+            <mat-form-field>
+                <mat-label>Year</mat-label>
+                <input type="number" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="book.Year">
+            </mat-form-field>
+        </form>
+    </div>
+    <!-- -->
+    <div class="details__item">
+        <form>
+            <mat-form-field>
+                <mat-label>Price</mat-label>
+                <input type="number" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="book.Price">
+            </mat-form-field>
+        </form>
+    </div>
+    <!-- -->
+    <div class="details__item">
+        <form>
+            <mat-checkbox [formControl]="RecommandedFormControl">Recommanded</mat-checkbox>
+        </form>
+    </div>
+    <div class="details__item">
+        <mat-form-field>
+            <mat-label>Area</mat-label>
+            <mat-select [(ngModel)]="book.Area">
+                <mat-option>None</mat-option>
+                <mat-option *ngFor="let area of frontRepo.Areas_array" [value]="area">
+                    {{area.Name}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+    <div class="details__item">
+    <mat-form-field>
+        <mat-label><- Books</mat-label>
+        <mat-select [(ngModel)]="book.Editor_Books_reverse">
+            <mat-option>None</mat-option>
+            <mat-option *ngFor="let editor of frontRepo.Editors_array" [value]="editor">
+                {{editor.Name}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+</div>
+    <div class="details__save">
+        <button mat-raised-button color="primary" (click)="save()">
+			Save book
+		</button>
+    </div>
+</div>

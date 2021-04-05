@@ -1,0 +1,22 @@
+<table mat-table [dataSource]="classdiagrams">
+
+    <ng-container matColumnDef="ID">
+        <th mat-header-cell *matHeaderCellDef> ID. </th>
+        <td mat-cell *matCellDef="let Classdiagram"> {{Classdiagram.ID}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="Name">
+        <th mat-header-cell *matHeaderCellDef> Classdiagram </th>
+        <td mat-cell *matCellDef="let Classdiagram">
+            {{Classdiagram.Name}}
+        </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+
+    <tr mat-row *matRowDef="
+    let row; 
+    columns: displayedColumns;
+    " (click)="setEditorRouterOutlet( row.ID ) " class="row-link">
+    </tr>
+</table>

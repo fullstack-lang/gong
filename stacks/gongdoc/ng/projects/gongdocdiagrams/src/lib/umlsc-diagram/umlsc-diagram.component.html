@@ -1,0 +1,13 @@
+<div>
+    <mat-toolbar *ngIf="savebutton">
+        <span>Diagram Editor</span>
+        <span class="example-spacer"></span>
+        <button mat-button (click)='saveClassdiagram()'>
+            <mat-icon>
+                save
+            </mat-icon>
+        </button>
+    </mat-toolbar>
+</div>
+<!-- stateChartDiagram.Name is the element id where the uml sc diagram is drawn -->
+<div *ngIf="stateChartDiagram" [id]='stateChartDiagram.Name'></div>
