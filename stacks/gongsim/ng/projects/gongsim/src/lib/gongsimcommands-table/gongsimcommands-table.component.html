@@ -1,0 +1,81 @@
+<h1 *ngIf="dialogData">gongsimcommand</h1>
+<table class="table" mat-table [dataSource]="gongsimcommands">
+    <!-- Checkbox Column -->
+    <ng-container matColumnDef="select" sticky>
+        <th mat-header-cell *matHeaderCellDef>
+            <mat-checkbox (change)="$event ? masterToggle() : null" [checked]="selection.hasValue() && isAllSelected()" [indeterminate]="selection.hasValue() && !isAllSelected()">
+            </mat-checkbox>
+        </th>
+        <td mat-cell *matCellDef="let row">
+            <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(row) : null" [checked]="selection.isSelected(row)">
+            </mat-checkbox>
+        </td>
+    </ng-container>
+
+    <!-- insertion point for fields specific code -->
+    <!-- -->
+    <ng-container matColumnDef="Name">
+        <th mat-header-cell *matHeaderCellDef> Name </th>
+        <td mat-cell *matCellDef="let GongsimCommand">
+            {{GongsimCommand.Name}}
+        </td>
+    </ng-container>
+    <!-- -->
+    <ng-container matColumnDef="Command">
+        <th mat-header-cell *matHeaderCellDef> Command </th>
+        <td mat-cell *matCellDef="let GongsimCommand">
+            {{GongsimCommand.Command}}
+        </td>
+    </ng-container>
+    <!-- -->
+    <ng-container matColumnDef="CommandDate">
+        <th mat-header-cell *matHeaderCellDef> CommandDate </th>
+        <td mat-cell *matCellDef="let GongsimCommand">
+            {{GongsimCommand.CommandDate}}
+        </td>
+    </ng-container>
+    <!-- -->
+    <ng-container matColumnDef="SpeedCommandType">
+        <th mat-header-cell *matHeaderCellDef> SpeedCommandType </th>
+        <td mat-cell *matCellDef="let GongsimCommand">
+            {{GongsimCommand.SpeedCommandType}}
+        </td>
+    </ng-container>
+    <!-- -->
+    <ng-container matColumnDef="DateSpeedCommand">
+        <th mat-header-cell *matHeaderCellDef> DateSpeedCommand </th>
+        <td mat-cell *matCellDef="let GongsimCommand">
+            {{GongsimCommand.DateSpeedCommand}}
+        </td>
+    </ng-container>
+
+    <ng-container matColumnDef="ID" sticky>
+        <th mat-header-cell *matHeaderCellDef> ID. </th>
+        <td mat-cell *matCellDef="let GongsimCommand"> {{GongsimCommand.ID}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="Edit">
+        <th mat-header-cell *matHeaderCellDef> Edit </th>
+        <td mat-cell *matCellDef="let gongsimcommand;  let j = index;">
+            <i class="material-icons" [ngStyle]="{'color':'rgba(0,0,0,.50)'}" (click)="setEditorRouterOutlet(gongsimcommand.ID)">edit</i>
+        </td>
+    </ng-container>
+
+    <ng-container matColumnDef="Delete">
+        <th mat-header-cell *matHeaderCellDef> Delete </th>
+        <td mat-cell *matCellDef="let gongsimcommand;  let j = index;">
+            <i class="material-icons" [ngStyle]="{'color':'rgba(0,0,0,.50)'}" (click)="deleteGongsimCommand(gongsimcommand.ID, gongsimcommand)">delete</i>
+        </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+
+    <tr mat-row *matRowDef="
+    let row; 
+    columns: displayedColumns;
+    " (click)="setPresentationRouterOutlet( row.ID ) " class="row-link">
+    </tr>
+</table>
+<button class="table__save" color="primary" *ngIf="dialogData" mat-raised-button (click)="save()">
+    Save
+</button>

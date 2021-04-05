@@ -1,0 +1,1303 @@
+basePath: /api/github.com/fullstack-lang/gong/stacks/gongsim/go/v1
+consumes:
+- application/json
+definitions:
+  Agent:
+    description: |-
+      Agent is the empty struct to perform
+      generic agents chores
+    properties:
+      TechName:
+        type: string
+    type: object
+    x-go-package: github.com/fullstack-lang/gong/stacks/gongsim/go/models
+  AgentInterface:
+    description: AgentInterface is the interface that must be followed by part of
+      the simulation
+    properties:
+      Events:
+        description: Events fire next Event
+        items:
+          $ref: '#/definitions/EventInterface'
+        type: array
+      GetTechName:
+        description: get technical name
+        type: string
+    type: object
+    x-go-package: github.com/fullstack-lang/gong/stacks/gongsim/go/models
+  Duration:
+    description: |-
+      A Duration represents the elapsed time between two instants
+      as an int64 nanosecond count. The representation limits the
+      largest representable duration to approximately 290 years.
+    format: int64
+    type: integer
+    x-go-package: time
+  EventInterface:
+    title: EventInterface ...
+  NullFloat64:
+    description: |-
+      NullFloat64 implements the Scanner interface so
+      it can be used as a scan destination, similar to NullString.
+    properties:
+      Float64:
+        format: double
+        type: number
+      Valid:
+        type: boolean
+    title: NullFloat64 represents a float64 that may be null.
+    type: object
+    x-go-package: database/sql
+  NullInt64:
+    description: |-
+      NullInt64 implements the Scanner interface so
+      it can be used as a scan destination, similar to NullString.
+    properties:
+      Int64:
+        format: int64
+        type: integer
+      Valid:
+        type: boolean
+    title: NullInt64 represents an int64 that may be null.
+    type: object
+    x-go-package: database/sql
+  NullString:
+    description: |-
+      var s NullString
+      err := db.QueryRow("SELECT name FROM foo WHERE id=?", id).Scan(&s)
+      ...
+      if s.Valid {
+      use s.String
+      } else {
+      NULL value
+      }
+    properties:
+      String:
+        type: string
+      Valid:
+        type: boolean
+    title: |-
+      NullString represents a string that may be null.
+      NullString implements the Scanner interface so
+      it can be used as a scan destination:
+    type: object
+    x-go-package: database/sql
+  SimulationInterface:
+    description: |-
+      SimulationInterface is the callback support for
+      events that happens on the generic engine
+    properties:
+      GetLastCommitNb:
+        description: |-
+          GetLastCommitNb fetch the last commit nb from the simulation
+          this enables the engine to compute when it is necessary to update the stage following
+          updates to the back repo from the front
+        format: uint64
+        type: integer
+    type: object
+    x-go-package: github.com/fullstack-lang/gong/stacks/gongsim/go/models
+  engineAPI:
+    description: |-
+      for POST, API, one needs the fields of the model as well as the fields
+      from associations ("Has One" and "Has Many") that are generated to
+      fullfill the ORM requirements for associations
+    properties:
+      ControlMode:
+        description: control mode.
+        enum:
+        - Autonomous
+        - ClientControl
+        type: string
+      ControlMode_Data:
+        $ref: '#/definitions/NullString'
+      CurrentTime:
+        type: string
+      CurrentTime_Data:
+        $ref: '#/definitions/NullString'
+      EndTime:
+        type: string
+      EndTime_Data:
+        $ref: '#/definitions/NullString'
+      Fired:
+        description: Fired events
+        format: int64
+        type: integer
+      Fired_Data:
+        $ref: '#/definitions/NullInt64'
+      LastEvent:
+        $ref: '#/definitions/EventInterface'
+      LastEventAgent:
+        $ref: '#/definitions/AgentInterface'
+      Name:
+        description: Name of the engine "laundramat" for instance
+        type: string
+      Name_Data:
+        $ref: '#/definitions/NullString'
+      SecondsSinceStart:
+        description: number of the seconds elapsed since the beginning of the simulation
+        format: double
+        type: number
+      SecondsSinceStart_Data:
+        $ref: '#/definitions/NullFloat64'
+      Simulation:
+        $ref: '#/definitions/SimulationInterface'
+      Speed:
+        description: Speed compared to realtime
+        format: double
+        type: number
+      Speed_Data:
+        $ref: '#/definitions/NullFloat64'
+      State:
+        description: engine state
+        enum:
+        - RUNNING
+        - PAUSED
+        - OVER
+        type: string
+      State_Data:
+        $ref: '#/definitions/NullString'
+    title: EngineAPI is the input in POST API
+    type: object
+    x-go-name: EngineAPI
+    x-go-package: github.com/fullstack-lang/gong/stacks/gongsim/go/orm
+  engineDB:
+    description: 'It incorporates all fields : from the model, from the generated
+      field for the API and the GORM ID'
+    properties:
+      ControlMode:
+        description: control mode.
+        enum:
+        - Autonomous
+        - ClientControl
+        type: string
+      ControlMode_Data:
+        $ref: '#/definitions/NullString'
+      CreatedAt:
+        format: date-time
+        type: string
+      CurrentTime:
+        type: string
+      CurrentTime_Data:
+        $ref: '#/definitions/NullString'
+      DeletedAt:
+        format: date-time
+        type: string
+      EndTime:
+        type: string
+      EndTime_Data:
+        $ref: '#/definitions/NullString'
+      Fired:
+        description: Fired events
+        format: int64
+        type: integer
+      Fired_Data:
+        $ref: '#/definitions/NullInt64'
+      ID:
+        format: uint64
+        type: integer
+      LastEvent:
+        $ref: '#/definitions/EventInterface'
+      LastEventAgent:
+        $ref: '#/definitions/AgentInterface'
+      Name:
+        description: Name of the engine "laundramat" for instance
+        type: string
+      Name_Data:
+        $ref: '#/definitions/NullString'
+      SecondsSinceStart:
+        description: number of the seconds elapsed since the beginning of the simulation
+        format: double
+        type: number
+      SecondsSinceStart_Data:
+        $ref: '#/definitions/NullFloat64'
+      Simulation:
+        $ref: '#/definitions/SimulationInterface'
+      Speed:
+        description: Speed compared to realtime
+        format: double
+        type: number
+      Speed_Data:
+        $ref: '#/definitions/NullFloat64'
+      State:
+        description: engine state
+        enum:
+        - RUNNING
+        - PAUSED
+        - OVER
+        type: string
+      State_Data:
+        $ref: '#/definitions/NullString'
+      UpdatedAt:
+        format: date-time
+        type: string
+    title: EngineDB describes a engine in the database
+    type: object
+    x-go-name: EngineDB
+    x-go-package: github.com/fullstack-lang/gong/stacks/gongsim/go/orm
+  eventAPI:
+    description: |-
+      for POST, API, one needs the fields of the model as well as the fields
+      from associations ("Has One" and "Has Many") that are generated to
+      fullfill the ORM requirements for associations
+    properties:
+      Duration:
+        $ref: '#/definitions/Duration'
+      Name:
+        type: string
+      Name_Data:
+        $ref: '#/definitions/NullString'
+    title: EventAPI is the input in POST API
+    type: object
+    x-go-name: EventAPI
+    x-go-package: github.com/fullstack-lang/gong/stacks/gongsim/go/orm
+  eventDB:
+    description: 'It incorporates all fields : from the model, from the generated
+      field for the API and the GORM ID'
+    properties:
+      CreatedAt:
+        format: date-time
+        type: string
+      DeletedAt:
+        format: date-time
+        type: string
+      Duration:
+        $ref: '#/definitions/Duration'
+      ID:
+        format: uint64
+        type: integer
+      Name:
+        type: string
+      Name_Data:
+        $ref: '#/definitions/NullString'
+      UpdatedAt:
+        format: date-time
+        type: string
+    title: EventDB describes a event in the database
+    type: object
+    x-go-name: EventDB
+    x-go-package: github.com/fullstack-lang/gong/stacks/gongsim/go/orm
+  gongsimcommandAPI:
+    description: |-
+      for POST, API, one needs the fields of the model as well as the fields
+      from associations ("Has One" and "Has Many") that are generated to
+      fullfill the ORM requirements for associations
+    properties:
+      Command:
+        enum:
+        - PLAY
+        - PAUSE
+        - FIRE_NEXT_EVENT
+        - FIRE_EVENT_TILL_STATES_CHANGE
+        - RESET
+        - ADVANCE_10_MIN
+        type: string
+      Command_Data:
+        $ref: '#/definitions/NullString'
+      CommandDate:
+        type: string
+      CommandDate_Data:
+        $ref: '#/definitions/NullString'
+      DateSpeedCommand:
+        type: string
+      DateSpeedCommand_Data:
+        $ref: '#/definitions/NullString'
+      Name:
+        type: string
+      Name_Data:
+        $ref: '#/definitions/NullString'
+      SpeedCommandType:
+        enum:
+        - PLAY
+        - PAUSE
+        - FIRE_NEXT_EVENT
+        - FIRE_EVENT_TILL_STATES_CHANGE
+        - RESET
+        - ADVANCE_10_MIN
+        type: string
+      SpeedCommandType_Data:
+        $ref: '#/definitions/NullString'
+    title: GongsimCommandAPI is the input in POST API
+    type: object
+    x-go-name: GongsimCommandAPI
+    x-go-package: github.com/fullstack-lang/gong/stacks/gongsim/go/orm
+  gongsimcommandDB:
+    description: 'It incorporates all fields : from the model, from the generated
+      field for the API and the GORM ID'
+    properties:
+      Command:
+        enum:
+        - PLAY
+        - PAUSE
+        - FIRE_NEXT_EVENT
+        - FIRE_EVENT_TILL_STATES_CHANGE
+        - RESET
+        - ADVANCE_10_MIN
+        type: string
+      Command_Data:
+        $ref: '#/definitions/NullString'
+      CommandDate:
+        type: string
+      CommandDate_Data:
+        $ref: '#/definitions/NullString'
+      CreatedAt:
+        format: date-time
+        type: string
+      DateSpeedCommand:
+        type: string
+      DateSpeedCommand_Data:
+        $ref: '#/definitions/NullString'
+      DeletedAt:
+        format: date-time
+        type: string
+      ID:
+        format: uint64
+        type: integer
+      Name:
+        type: string
+      Name_Data:
+        $ref: '#/definitions/NullString'
+      SpeedCommandType:
+        enum:
+        - PLAY
+        - PAUSE
+        - FIRE_NEXT_EVENT
+        - FIRE_EVENT_TILL_STATES_CHANGE
+        - RESET
+        - ADVANCE_10_MIN
+        type: string
+      SpeedCommandType_Data:
+        $ref: '#/definitions/NullString'
+      UpdatedAt:
+        format: date-time
+        type: string
+    title: GongsimCommandDB describes a gongsimcommand in the database
+    type: object
+    x-go-name: GongsimCommandDB
+    x-go-package: github.com/fullstack-lang/gong/stacks/gongsim/go/orm
+  gongsimstatusAPI:
+    description: |-
+      for POST, API, one needs the fields of the model as well as the fields
+      from associations ("Has One" and "Has Many") that are generated to
+      fullfill the ORM requirements for associations
+    properties:
+      CompletionDate:
+        type: string
+      CompletionDate_Data:
+        $ref: '#/definitions/NullString'
+      CurrentCommand:
+        enum:
+        - PLAY
+        - PAUSE
+        - FIRE_NEXT_EVENT
+        - FIRE_EVENT_TILL_STATES_CHANGE
+        - RESET
+        - ADVANCE_10_MIN
+        type: string
+      CurrentCommand_Data:
+        $ref: '#/definitions/NullString'
+      CurrentSpeedCommand:
+        enum:
+        - PLAY
+        - PAUSE
+        - FIRE_NEXT_EVENT
+        - FIRE_EVENT_TILL_STATES_CHANGE
+        - RESET
+        - ADVANCE_10_MIN
+        type: string
+      CurrentSpeedCommand_Data:
+        $ref: '#/definitions/NullString'
+      Name:
+        type: string
+      Name_Data:
+        $ref: '#/definitions/NullString'
+      SpeedCommandCompletionDate:
+        type: string
+      SpeedCommandCompletionDate_Data:
+        $ref: '#/definitions/NullString'
+    title: GongsimStatusAPI is the input in POST API
+    type: object
+    x-go-name: GongsimStatusAPI
+    x-go-package: github.com/fullstack-lang/gong/stacks/gongsim/go/orm
+  gongsimstatusDB:
+    description: 'It incorporates all fields : from the model, from the generated
+      field for the API and the GORM ID'
+    properties:
+      CompletionDate:
+        type: string
+      CompletionDate_Data:
+        $ref: '#/definitions/NullString'
+      CreatedAt:
+        format: date-time
+        type: string
+      CurrentCommand:
+        enum:
+        - PLAY
+        - PAUSE
+        - FIRE_NEXT_EVENT
+        - FIRE_EVENT_TILL_STATES_CHANGE
+        - RESET
+        - ADVANCE_10_MIN
+        type: string
+      CurrentCommand_Data:
+        $ref: '#/definitions/NullString'
+      CurrentSpeedCommand:
+        enum:
+        - PLAY
+        - PAUSE
+        - FIRE_NEXT_EVENT
+        - FIRE_EVENT_TILL_STATES_CHANGE
+        - RESET
+        - ADVANCE_10_MIN
+        type: string
+      CurrentSpeedCommand_Data:
+        $ref: '#/definitions/NullString'
+      DeletedAt:
+        format: date-time
+        type: string
+      ID:
+        format: uint64
+        type: integer
+      Name:
+        type: string
+      Name_Data:
+        $ref: '#/definitions/NullString'
+      SpeedCommandCompletionDate:
+        type: string
+      SpeedCommandCompletionDate_Data:
+        $ref: '#/definitions/NullString'
+      UpdatedAt:
+        format: date-time
+        type: string
+    title: GongsimStatusDB describes a gongsimstatus in the database
+    type: object
+    x-go-name: GongsimStatusDB
+    x-go-package: github.com/fullstack-lang/gong/stacks/gongsim/go/orm
+  updatestateAPI:
+    description: |-
+      for POST, API, one needs the fields of the model as well as the fields
+      from associations ("Has One" and "Has Many") that are generated to
+      fullfill the ORM requirements for associations
+    properties:
+      Duration:
+        $ref: '#/definitions/Duration'
+      Name:
+        type: string
+      Name_Data:
+        $ref: '#/definitions/NullString'
+      Period:
+        $ref: '#/definitions/Duration'
+    title: UpdateStateAPI is the input in POST API
+    type: object
+    x-go-name: UpdateStateAPI
+    x-go-package: github.com/fullstack-lang/gong/stacks/gongsim/go/orm
+  updatestateDB:
+    description: 'It incorporates all fields : from the model, from the generated
+      field for the API and the GORM ID'
+    properties:
+      CreatedAt:
+        format: date-time
+        type: string
+      DeletedAt:
+        format: date-time
+        type: string
+      Duration:
+        $ref: '#/definitions/Duration'
+      ID:
+        format: uint64
+        type: integer
+      Name:
+        type: string
+      Name_Data:
+        $ref: '#/definitions/NullString'
+      Period:
+        $ref: '#/definitions/Duration'
+      UpdatedAt:
+        format: date-time
+        type: string
+    title: UpdateStateDB describes a updatestate in the database
+    type: object
+    x-go-name: UpdateStateDB
+    x-go-package: github.com/fullstack-lang/gong/stacks/gongsim/go/orm
+host: localhost:8080
+info:
+  description: gongsim exposes types of a package.
+  title: gongsim backend API
+  version: "0.1"
+paths:
+  /commitnb:
+    get:
+      operationId: GetLastCommitNb
+      tags:
+      - backrepo
+  /engines:
+    get:
+      description: Get all engines
+      operationId: getEngines
+      responses:
+        "200":
+          $ref: '#/responses/engineDBsResponse'
+        default:
+          $ref: '#/responses/genericError'
+      tags:
+      - engines
+    post:
+      consumes:
+      - application/json
+      description: Creates a engine
+      operationId: postEngine
+      parameters:
+      - description: The Engine to submit or modify
+        in: body
+        name: Engine
+        schema:
+          $ref: '#/definitions/engineAPI'
+      produces:
+      - application/json
+      responses:
+        "200":
+          $ref: '#/responses/engineDBResponse'
+      tags:
+      - engines
+  /engines/{ID}:
+    delete:
+      description: Delete a engine
+      operationId: deleteEngine
+      parameters:
+      - description: The ID of the order
+        format: int64
+        in: path
+        name: ID
+        required: true
+        type: integer
+      responses:
+        default:
+          $ref: '#/responses/genericError'
+      tags:
+      - engines
+    get:
+      operationId: getEngine
+      parameters:
+      - description: The ID of the order
+        format: int64
+        in: path
+        name: ID
+        required: true
+        type: integer
+      responses:
+        "200":
+          $ref: '#/responses/engineDBResponse'
+        default:
+          $ref: '#/responses/genericError'
+      summary: Gets the details for a engine.
+      tags:
+      - engines
+    patch:
+      description: Update a engine
+      operationId: updateEngine
+      parameters:
+      - description: The ID of the order
+        format: int64
+        in: path
+        name: ID
+        required: true
+        type: integer
+      - description: The Engine to submit or modify
+        in: body
+        name: Engine
+        schema:
+          $ref: '#/definitions/engineAPI'
+      responses:
+        "200":
+          $ref: '#/responses/engineDBResponse'
+        default:
+          $ref: '#/responses/genericError'
+      tags:
+      - engines
+  /events:
+    get:
+      description: Get all events
+      operationId: getEvents
+      responses:
+        "200":
+          $ref: '#/responses/eventDBsResponse'
+        default:
+          $ref: '#/responses/genericError'
+      tags:
+      - events
+    post:
+      consumes:
+      - application/json
+      description: Creates a event
+      operationId: postEvent
+      parameters:
+      - description: The Event to submit or modify
+        in: body
+        name: Event
+        schema:
+          $ref: '#/definitions/eventAPI'
+      produces:
+      - application/json
+      responses:
+        "200":
+          $ref: '#/responses/eventDBResponse'
+      tags:
+      - events
+  /events/{ID}:
+    delete:
+      description: Delete a event
+      operationId: deleteEvent
+      parameters:
+      - description: The ID of the order
+        format: int64
+        in: path
+        name: ID
+        required: true
+        type: integer
+      responses:
+        default:
+          $ref: '#/responses/genericError'
+      tags:
+      - events
+    get:
+      operationId: getEvent
+      parameters:
+      - description: The ID of the order
+        format: int64
+        in: path
+        name: ID
+        required: true
+        type: integer
+      responses:
+        "200":
+          $ref: '#/responses/eventDBResponse'
+        default:
+          $ref: '#/responses/genericError'
+      summary: Gets the details for a event.
+      tags:
+      - events
+    patch:
+      description: Update a event
+      operationId: updateEvent
+      parameters:
+      - description: The ID of the order
+        format: int64
+        in: path
+        name: ID
+        required: true
+        type: integer
+      - description: The Event to submit or modify
+        in: body
+        name: Event
+        schema:
+          $ref: '#/definitions/eventAPI'
+      responses:
+        "200":
+          $ref: '#/responses/eventDBResponse'
+        default:
+          $ref: '#/responses/genericError'
+      tags:
+      - events
+  /gongsimcommands:
+    get:
+      description: Get all gongsimcommands
+      operationId: getGongsimCommands
+      responses:
+        "200":
+          $ref: '#/responses/gongsimcommandDBsResponse'
+        default:
+          $ref: '#/responses/genericError'
+      tags:
+      - gongsimcommands
+    post:
+      consumes:
+      - application/json
+      description: Creates a gongsimcommand
+      operationId: postGongsimCommand
+      parameters:
+      - description: The GongsimCommand to submit or modify
+        in: body
+        name: GongsimCommand
+        schema:
+          $ref: '#/definitions/gongsimcommandAPI'
+      produces:
+      - application/json
+      responses:
+        "200":
+          $ref: '#/responses/gongsimcommandDBResponse'
+      tags:
+      - gongsimcommands
+  /gongsimcommands/{ID}:
+    delete:
+      description: Delete a gongsimcommand
+      operationId: deleteGongsimCommand
+      parameters:
+      - description: The ID of the order
+        format: int64
+        in: path
+        name: ID
+        required: true
+        type: integer
+      responses:
+        default:
+          $ref: '#/responses/genericError'
+      tags:
+      - gongsimcommands
+    get:
+      operationId: getGongsimCommand
+      parameters:
+      - description: The ID of the order
+        format: int64
+        in: path
+        name: ID
+        required: true
+        type: integer
+      responses:
+        "200":
+          $ref: '#/responses/gongsimcommandDBResponse'
+        default:
+          $ref: '#/responses/genericError'
+      summary: Gets the details for a gongsimcommand.
+      tags:
+      - gongsimcommands
+    patch:
+      description: Update a gongsimcommand
+      operationId: updateGongsimCommand
+      parameters:
+      - description: The ID of the order
+        format: int64
+        in: path
+        name: ID
+        required: true
+        type: integer
+      - description: The GongsimCommand to submit or modify
+        in: body
+        name: GongsimCommand
+        schema:
+          $ref: '#/definitions/gongsimcommandAPI'
+      responses:
+        "200":
+          $ref: '#/responses/gongsimcommandDBResponse'
+        default:
+          $ref: '#/responses/genericError'
+      tags:
+      - gongsimcommands
+  /gongsimstatuss:
+    get:
+      description: Get all gongsimstatuss
+      operationId: getGongsimStatuss
+      responses:
+        "200":
+          $ref: '#/responses/gongsimstatusDBsResponse'
+        default:
+          $ref: '#/responses/genericError'
+      tags:
+      - gongsimstatuss
+    post:
+      consumes:
+      - application/json
+      description: Creates a gongsimstatus
+      operationId: postGongsimStatus
+      parameters:
+      - description: The GongsimStatus to submit or modify
+        in: body
+        name: GongsimStatus
+        schema:
+          $ref: '#/definitions/gongsimstatusAPI'
+      produces:
+      - application/json
+      responses:
+        "200":
+          $ref: '#/responses/gongsimstatusDBResponse'
+      tags:
+      - gongsimstatuss
+  /gongsimstatuss/{ID}:
+    delete:
+      description: Delete a gongsimstatus
+      operationId: deleteGongsimStatus
+      parameters:
+      - description: The ID of the order
+        format: int64
+        in: path
+        name: ID
+        required: true
+        type: integer
+      responses:
+        default:
+          $ref: '#/responses/genericError'
+      tags:
+      - gongsimstatuss
+    get:
+      operationId: getGongsimStatus
+      parameters:
+      - description: The ID of the order
+        format: int64
+        in: path
+        name: ID
+        required: true
+        type: integer
+      responses:
+        "200":
+          $ref: '#/responses/gongsimstatusDBResponse'
+        default:
+          $ref: '#/responses/genericError'
+      summary: Gets the details for a gongsimstatus.
+      tags:
+      - gongsimstatuss
+    patch:
+      description: Update a gongsimstatus
+      operationId: updateGongsimStatus
+      parameters:
+      - description: The ID of the order
+        format: int64
+        in: path
+        name: ID
+        required: true
+        type: integer
+      - description: The GongsimStatus to submit or modify
+        in: body
+        name: GongsimStatus
+        schema:
+          $ref: '#/definitions/gongsimstatusAPI'
+      responses:
+        "200":
+          $ref: '#/responses/gongsimstatusDBResponse'
+        default:
+          $ref: '#/responses/genericError'
+      tags:
+      - gongsimstatuss
+  /updatestates:
+    get:
+      description: Get all updatestates
+      operationId: getUpdateStates
+      responses:
+        "200":
+          $ref: '#/responses/updatestateDBsResponse'
+        default:
+          $ref: '#/responses/genericError'
+      tags:
+      - updatestates
+    post:
+      consumes:
+      - application/json
+      description: Creates a updatestate
+      operationId: postUpdateState
+      parameters:
+      - description: The UpdateState to submit or modify
+        in: body
+        name: UpdateState
+        schema:
+          $ref: '#/definitions/updatestateAPI'
+      produces:
+      - application/json
+      responses:
+        "200":
+          $ref: '#/responses/updatestateDBResponse'
+      tags:
+      - updatestates
+  /updatestates/{ID}:
+    delete:
+      description: Delete a updatestate
+      operationId: deleteUpdateState
+      parameters:
+      - description: The ID of the order
+        format: int64
+        in: path
+        name: ID
+        required: true
+        type: integer
+      responses:
+        default:
+          $ref: '#/responses/genericError'
+      tags:
+      - updatestates
+    get:
+      operationId: getUpdateState
+      parameters:
+      - description: The ID of the order
+        format: int64
+        in: path
+        name: ID
+        required: true
+        type: integer
+      responses:
+        "200":
+          $ref: '#/responses/updatestateDBResponse'
+        default:
+          $ref: '#/responses/genericError'
+      summary: Gets the details for a updatestate.
+      tags:
+      - updatestates
+    patch:
+      description: Update a updatestate
+      operationId: updateUpdateState
+      parameters:
+      - description: The ID of the order
+        format: int64
+        in: path
+        name: ID
+        required: true
+        type: integer
+      - description: The UpdateState to submit or modify
+        in: body
+        name: UpdateState
+        schema:
+          $ref: '#/definitions/updatestateAPI'
+      responses:
+        "200":
+          $ref: '#/responses/updatestateDBResponse'
+        default:
+          $ref: '#/responses/genericError'
+      tags:
+      - updatestates
+produces:
+- application/json
+responses:
+  engineDBResponse:
+    description: EngineDBResponse provides response
+    headers:
+      ControlMode:
+        description: control mode.
+        enum:
+        - - Autonomous
+          - ClientControl
+        type: string
+      ControlMode_Data:
+        description: Declation for basic field engineDB.ControlMode {{BasicKind}}
+          (to be completed)
+      CreatedAt:
+        format: date-time
+        type: string
+      CurrentTime:
+        type: string
+      CurrentTime_Data:
+        description: Declation for basic field engineDB.CurrentTime {{BasicKind}}
+          (to be completed)
+      DeletedAt:
+        format: date-time
+        type: string
+      EndTime:
+        type: string
+      EndTime_Data:
+        description: Declation for basic field engineDB.EndTime {{BasicKind}} (to
+          be completed)
+      Fired:
+        description: Fired events
+        format: int64
+        type: integer
+      Fired_Data:
+        description: Declation for basic field engineDB.Fired {{BasicKind}} (to be
+          completed)
+      ID:
+        format: uint64
+        type: integer
+      LastEvent:
+        description: LastEvent ...
+      LastEventAgent:
+        description: LastEvent agent
+      Name:
+        description: Name of the engine "laundramat" for instance
+        type: string
+      Name_Data:
+        description: |-
+          insertion for fields declaration
+          Declation for basic field engineDB.Name {{BasicKind}} (to be completed)
+      SecondsSinceStart:
+        description: number of the seconds elapsed since the beginning of the simulation
+        format: double
+        type: number
+      SecondsSinceStart_Data:
+        description: Declation for basic field engineDB.SecondsSinceStart {{BasicKind}}
+          (to be completed)
+      Simulation:
+        description: |-
+          Simulation supportspecific callback
+          on the engine events
+      Speed:
+        description: Speed compared to realtime
+        format: double
+        type: number
+      Speed_Data:
+        description: Declation for basic field engineDB.Speed {{BasicKind}} (to be
+          completed)
+      State:
+        description: engine state
+        enum:
+        - - RUNNING
+          - PAUSED
+          - OVER
+        type: string
+      State_Data:
+        description: Declation for basic field engineDB.State {{BasicKind}} (to be
+          completed)
+      UpdatedAt:
+        format: date-time
+        type: string
+      agents:
+        description: list of engine agents
+        items:
+          $ref: '#/definitions/AgentInterface'
+        type: array
+      currentTime:
+        description: currentTime is the simulation current time
+        format: date-time
+        type: string
+      endTime:
+        description: endTime is the simulatio end date
+        format: date-time
+        type: string
+      nextCheckoutDate:
+        format: date-time
+        type: string
+      startTime:
+        description: startTime is the simulation start date
+        format: date-time
+        type: string
+    schema:
+      $ref: '#/definitions/NullFloat64'
+  engineDBsResponse:
+    description: EngineDBs arrays engineDBs
+    schema:
+      items:
+        $ref: '#/definitions/engineDB'
+      type: array
+  eventDBResponse:
+    description: EventDBResponse provides response
+    headers:
+      CreatedAt:
+        format: date-time
+        type: string
+      DeletedAt:
+        format: date-time
+        type: string
+      Duration:
+        description: |-
+          Duration is the difference between the current time and the fire time of the
+          event. It is handy to compute directly the fire time
+      ID:
+        format: uint64
+        type: integer
+      Name:
+        type: string
+      Name_Data:
+        description: |-
+          insertion for fields declaration
+          Declation for basic field eventDB.Name {{BasicKind}} (to be completed)
+      UpdatedAt:
+        format: date-time
+        type: string
+      agent: {}
+      fireTime:
+        description: Fire is the time at which the event is Fired
+        format: date-time
+        type: string
+    schema:
+      $ref: '#/definitions/NullString'
+  eventDBsResponse:
+    description: EventDBs arrays eventDBs
+    schema:
+      items:
+        $ref: '#/definitions/eventDB'
+      type: array
+  genericError:
+    description: |-
+      A GenericError is the default error message that is generated.
+      For certain status codes there are more appropriate error structures.
+    schema:
+      properties:
+        code:
+          format: int32
+          type: integer
+          x-go-name: Code
+        message:
+          type: string
+          x-go-name: Message
+      type: object
+  gongsimcommandDBResponse:
+    description: GongsimCommandDBResponse provides response
+    headers:
+      Command:
+        enum:
+        - - PLAY
+          - PAUSE
+          - FIRE_NEXT_EVENT
+          - FIRE_EVENT_TILL_STATES_CHANGE
+          - RESET
+          - ADVANCE_10_MIN
+        type: string
+      Command_Data:
+        description: Declation for basic field gongsimcommandDB.Command {{BasicKind}}
+          (to be completed)
+      CommandDate:
+        type: string
+      CommandDate_Data:
+        description: Declation for basic field gongsimcommandDB.CommandDate {{BasicKind}}
+          (to be completed)
+      CreatedAt:
+        format: date-time
+        type: string
+      DateSpeedCommand:
+        type: string
+      DateSpeedCommand_Data:
+        description: Declation for basic field gongsimcommandDB.DateSpeedCommand {{BasicKind}}
+          (to be completed)
+      DeletedAt:
+        format: date-time
+        type: string
+      ID:
+        format: uint64
+        type: integer
+      Name:
+        type: string
+      Name_Data:
+        description: |-
+          insertion for fields declaration
+          Declation for basic field gongsimcommandDB.Name {{BasicKind}} (to be completed)
+      SpeedCommandType:
+        enum:
+        - - PLAY
+          - PAUSE
+          - FIRE_NEXT_EVENT
+          - FIRE_EVENT_TILL_STATES_CHANGE
+          - RESET
+          - ADVANCE_10_MIN
+        type: string
+      SpeedCommandType_Data:
+        description: Declation for basic field gongsimcommandDB.SpeedCommandType {{BasicKind}}
+          (to be completed)
+      UpdatedAt:
+        format: date-time
+        type: string
+    schema:
+      $ref: '#/definitions/NullString'
+  gongsimcommandDBsResponse:
+    description: GongsimCommandDBs arrays gongsimcommandDBs
+    schema:
+      items:
+        $ref: '#/definitions/gongsimcommandDB'
+      type: array
+  gongsimstatusDBResponse:
+    description: GongsimStatusDBResponse provides response
+    headers:
+      CompletionDate:
+        type: string
+      CompletionDate_Data:
+        description: Declation for basic field gongsimstatusDB.CompletionDate {{BasicKind}}
+          (to be completed)
+      CreatedAt:
+        format: date-time
+        type: string
+      CurrentCommand:
+        enum:
+        - - PLAY
+          - PAUSE
+          - FIRE_NEXT_EVENT
+          - FIRE_EVENT_TILL_STATES_CHANGE
+          - RESET
+          - ADVANCE_10_MIN
+        type: string
+      CurrentCommand_Data:
+        description: Declation for basic field gongsimstatusDB.CurrentCommand {{BasicKind}}
+          (to be completed)
+      CurrentSpeedCommand:
+        enum:
+        - - PLAY
+          - PAUSE
+          - FIRE_NEXT_EVENT
+          - FIRE_EVENT_TILL_STATES_CHANGE
+          - RESET
+          - ADVANCE_10_MIN
+        type: string
+      CurrentSpeedCommand_Data:
+        description: Declation for basic field gongsimstatusDB.CurrentSpeedCommand
+          {{BasicKind}} (to be completed)
+      DeletedAt:
+        format: date-time
+        type: string
+      ID:
+        format: uint64
+        type: integer
+      Name:
+        type: string
+      Name_Data:
+        description: |-
+          insertion for fields declaration
+          Declation for basic field gongsimstatusDB.Name {{BasicKind}} (to be completed)
+      SpeedCommandCompletionDate:
+        type: string
+      SpeedCommandCompletionDate_Data:
+        description: Declation for basic field gongsimstatusDB.SpeedCommandCompletionDate
+          {{BasicKind}} (to be completed)
+      UpdatedAt:
+        format: date-time
+        type: string
+    schema:
+      $ref: '#/definitions/NullString'
+  gongsimstatusDBsResponse:
+    description: GongsimStatusDBs arrays gongsimstatusDBs
+    schema:
+      items:
+        $ref: '#/definitions/gongsimstatusDB'
+      type: array
+  updatestateDBResponse:
+    description: UpdateStateDBResponse provides response
+    headers:
+      CreatedAt:
+        format: date-time
+        type: string
+      DeletedAt:
+        format: date-time
+        type: string
+      Duration:
+        description: |-
+          Duration is the difference between the current time and the fire time of the
+          event. It is handy to compute directly the fire time
+      ID:
+        format: uint64
+        type: integer
+      Name:
+        type: string
+      Name_Data:
+        description: |-
+          insertion for fields declaration
+          Declation for basic field updatestateDB.Name {{BasicKind}} (to be completed)
+      Period:
+        description: Period is the time between two fires of FireTime
+      UpdatedAt:
+        format: date-time
+        type: string
+      agent: {}
+      fireTime:
+        description: Fire is the time at which the event is Fired
+        format: date-time
+        type: string
+    schema:
+      $ref: '#/definitions/NullString'
+  updatestateDBsResponse:
+    description: UpdateStateDBs arrays updatestateDBs
+    schema:
+      items:
+        $ref: '#/definitions/updatestateDB'
+      type: array
+  validationError:
+    description: |-
+      A ValidationError is an that is generated for validation failures.
+      It has the same fields as a generic error but adds a Field property.
+    schema:
+      properties:
+        code:
+          format: int32
+          type: integer
+          x-go-name: Code
+        field:
+          type: string
+          x-go-name: Field
+        message:
+          type: string
+          x-go-name: Message
+      type: object
+schemes:
+- http
+securityDefinitions:
+  basic:
+    type: basic
+swagger: "2.0"

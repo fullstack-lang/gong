@@ -1,0 +1,67 @@
+<h1 *ngIf="dialogData">pointertogongstructfield</h1>
+<table class="table" mat-table [dataSource]="pointertogongstructfields">
+    <!-- Checkbox Column -->
+    <ng-container matColumnDef="select" sticky>
+        <th mat-header-cell *matHeaderCellDef>
+            <mat-checkbox (change)="$event ? masterToggle() : null" [checked]="selection.hasValue() && isAllSelected()" [indeterminate]="selection.hasValue() && !isAllSelected()">
+            </mat-checkbox>
+        </th>
+        <td mat-cell *matCellDef="let row">
+            <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(row) : null" [checked]="selection.isSelected(row)">
+            </mat-checkbox>
+        </td>
+    </ng-container>
+
+    <!-- insertion point for fields specific code -->
+    <!-- -->
+    <ng-container matColumnDef="Name">
+        <th mat-header-cell *matHeaderCellDef> Name </th>
+        <td mat-cell *matCellDef="let PointerToGongStructField">
+            {{PointerToGongStructField.Name}}
+        </td>
+    </ng-container>
+    <!-- -->
+    <ng-container matColumnDef="GongStruct">
+        <th mat-header-cell *matHeaderCellDef> GongStruct </th>
+        <td mat-cell *matCellDef="let PointerToGongStructField">
+            {{ PointerToGongStructField.GongStruct ? PointerToGongStructField.GongStruct.Name : ''}}
+        </td>
+    </ng-container>
+    <!-- -->
+    <ng-container matColumnDef="PointerToGongStructFields">
+        <th mat-header-cell *matHeaderCellDef> <-- PointerToGongStructFields </th>
+        <td mat-cell *matCellDef="let pointertogongstructfield">
+            {{frontRepo.GongStructs.get(pointertogongstructfield.GongStruct_PointerToGongStructFieldsDBID.Int64)?.Name}}
+        </td>
+    </ng-container>
+
+    <ng-container matColumnDef="ID" sticky>
+        <th mat-header-cell *matHeaderCellDef> ID. </th>
+        <td mat-cell *matCellDef="let PointerToGongStructField"> {{PointerToGongStructField.ID}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="Edit">
+        <th mat-header-cell *matHeaderCellDef> Edit </th>
+        <td mat-cell *matCellDef="let pointertogongstructfield;  let j = index;">
+            <i class="material-icons" [ngStyle]="{'color':'rgba(0,0,0,.50)'}" (click)="setEditorRouterOutlet(pointertogongstructfield.ID)">edit</i>
+        </td>
+    </ng-container>
+
+    <ng-container matColumnDef="Delete">
+        <th mat-header-cell *matHeaderCellDef> Delete </th>
+        <td mat-cell *matCellDef="let pointertogongstructfield;  let j = index;">
+            <i class="material-icons" [ngStyle]="{'color':'rgba(0,0,0,.50)'}" (click)="deletePointerToGongStructField(pointertogongstructfield.ID, pointertogongstructfield)">delete</i>
+        </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+
+    <tr mat-row *matRowDef="
+    let row; 
+    columns: displayedColumns;
+    " (click)="setPresentationRouterOutlet( row.ID ) " class="row-link">
+    </tr>
+</table>
+<button class="table__save" color="primary" *ngIf="dialogData" mat-raised-button (click)="save()">
+    Save
+</button>

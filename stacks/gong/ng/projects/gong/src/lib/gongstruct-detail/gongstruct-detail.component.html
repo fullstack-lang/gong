@@ -1,0 +1,27 @@
+<div *ngIf="gongstruct" class="details">
+    <h1 class="details__title">gongstruct</h1>
+    <!-- insertion point for fields specific code -->
+    <!-- -->
+    <div class="details__item">
+        <form>
+            <mat-form-field>
+                <mat-label>Name</mat-label>
+                <input name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="gongstruct.Name">
+            </mat-form-field>
+        </form>
+    </div>
+    <div class="details__item">
+        <button mat-raised-button (click)="openReverseSelection('GongBasicField', 'GongStruct_GongBasicFieldsDBID')">GongBasicFields</button>
+    </div>
+    <div class="details__item">
+        <button mat-raised-button (click)="openReverseSelection('PointerToGongStructField', 'GongStruct_PointerToGongStructFieldsDBID')">PointerToGongStructFields</button>
+    </div>
+    <div class="details__item">
+        <button mat-raised-button (click)="openReverseSelection('SliceOfPointerToGongStructField', 'GongStruct_SliceOfPointerToGongStructFieldsDBID')">SliceOfPointerToGongStructFields</button>
+    </div>
+    <div class="details__save">
+        <button mat-raised-button color="primary" (click)="save()">
+			Save gongstruct
+		</button>
+    </div>
+</div>

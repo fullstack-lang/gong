@@ -1,0 +1,51 @@
+h1 {
+    font-size: 20px !important;
+    margin: 0;
+}
+
+h1::first-letter {
+    text-transform: uppercase;
+}
+
+
+/* Override Material UI font-size */
+
+* {
+    font-size: 15px !important;
+}
+
+
+/*
+========================
+===== PRESENTATION =====
+========================
+*/
+
+th.mat-header-cell,
+td.mat-cell {
+    padding: 0 15px !important;
+}
+
+.presentation__header {
+    display: flex;
+    justify-content: center;
+    top: 0;
+    position: sticky;
+    padding: 10px 0;
+    z-index: 1;
+    background-color: white;
+}
+
+.presentation__header:hover {
+    color: #E8E8E8;
+    cursor: pointer;
+}
+
+.presentation__table {
+    border: 1px solid #E8E8E8;
+    border-bottom: none;
+    margin: 10px;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+}

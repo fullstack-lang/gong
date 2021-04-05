@@ -1,0 +1,4592 @@
+basePath: /api/github.com/fullstack-lang/gong/examples/laundromat/go/v1
+consumes:
+- application/json
+definitions:
+  Agent:
+    description: |-
+      Agent is the empty struct to perform
+      generic agents chores
+    properties:
+      TechName:
+        type: string
+    type: object
+    x-go-package: github.com/fullstack-lang/gong/stacks/gongsim/go/models
+  AgentInterface:
+    description: AgentInterface is the interface that must be followed by part of
+      the simulation
+    properties:
+      Events:
+        description: Events fire next Event
+        items:
+          $ref: '#/definitions/EventInterface'
+        type: array
+      GetTechName:
+        description: get technical name
+        type: string
+    type: object
+    x-go-package: github.com/fullstack-lang/gong/stacks/gongsim/go/models
+  Classdiagram:
+    description: |-
+      Classdiagram diagram struct store a class diagram
+      temporary here
+    properties:
+      Classshapes:
+        description: |-
+          this is the memory model (and not the "memory motel" of the Rolling Stones)
+          it is not ignored by swagger because it is used by the angular model
+        items:
+          $ref: '#/definitions/Classshape'
+        type: array
+      Name:
+        type: string
+    type: object
+    x-go-package: github.com/fullstack-lang/gong/stacks/gongdoc/go/models
+  Classshape:
+    description: Classshape mirrors joint.shapes.uml.Class
+    properties:
+      ClassshapeTargetType:
+        $ref: '#/definitions/ClassshapeTargetType'
+      Fields:
+        description: models of the composition of Field
+        items:
+          $ref: '#/definitions/Field'
+        type: array
+      Links:
+        description: models of the composition of Link
+        items:
+          $ref: '#/definitions/Link'
+        type: array
+      Name:
+        description: for technical reasons
+        type: string
+      Structname:
+        type: string
+      Width:
+        description: |-
+          with and height of the shape when they are rendered on SVG or with jointjs
+          They are optional fields. they can be computed when empty
+        format: double
+        type: number
+        x-go-name: Heigth
+    type: object
+    x-go-package: github.com/fullstack-lang/gong/stacks/gongdoc/go/models
+  ClassshapeTargetType:
+    type: string
+    x-go-package: github.com/fullstack-lang/gong/stacks/gongdoc/go/models
+  Duration:
+    description: |-
+      A Duration represents the elapsed time between two instants
+      as an int64 nanosecond count. The representation limits the
+      largest representable duration to approximately 290 years.
+    format: int64
+    type: integer
+    x-go-package: time
+  EventInterface:
+    title: EventInterface ...
+  Field:
+    description: Field represent the UML Field of a Class (a "struct" in go)
+    properties:
+      FieldTypeAsString:
+        type: string
+      Fieldname:
+        type: string
+      Fieldtypename:
+        type: string
+      Name:
+        type: string
+      Structname:
+        type: string
+    type: object
+    x-go-package: github.com/fullstack-lang/gong/stacks/gongdoc/go/models
+  Link:
+    description: |-
+      Link represent the UML Link in any diagram
+      uni-directional https://en.wikipedia.org/wiki/Association_(object-oriented_programming)
+      More specificaly It is a 0..1 ---> 0..1
+    properties:
+      Fieldname:
+        type: string
+      Fieldtypename:
+        type: string
+      Multiplicity:
+        $ref: '#/definitions/MultiplicityType'
+      Name:
+        type: string
+      Structname:
+        type: string
+    type: object
+    x-go-package: github.com/fullstack-lang/gong/stacks/gongdoc/go/models
+  Machine:
+    description: Machine is a sim agent
+    properties:
+      Cleanedlaundry:
+        description: Cleanedlaundry indicate wether the laundry in the drum is wet
+          (it has been cleand)
+        type: boolean
+      DrumLoad:
+        description: DrumLoad in kg
+        format: double
+        type: number
+      Name:
+        description: Name is a mandatory field with metab
+        type: string
+      RemainingTime:
+        $ref: '#/definitions/Duration'
+      RemainingTimeMinutes:
+        format: int64
+        type: integer
+      State:
+        description: State of the machine
+        enum:
+        - MACHINE_DOOR_OPEN
+        - MACHINE_DOOR_CLOSED_RUNNING
+        - MACHINE_DOOR_CLOSED_IDLE
+        type: string
+    type: object
+    x-go-package: github.com/fullstack-lang/gong/examples/laundromat/go/models
+  MultiplicityType:
+    type: string
+    x-go-package: github.com/fullstack-lang/gong/stacks/gongdoc/go/models
+  NullBool:
+    description: |-
+      NullBool implements the Scanner interface so
+      it can be used as a scan destination, similar to NullString.
+    properties:
+      Bool:
+        type: boolean
+      Valid:
+        type: boolean
+    title: NullBool represents a bool that may be null.
+    type: object
+    x-go-package: database/sql
+  NullFloat64:
+    description: |-
+      NullFloat64 implements the Scanner interface so
+      it can be used as a scan destination, similar to NullString.
+    properties:
+      Float64:
+        format: double
+        type: number
+      Valid:
+        type: boolean
+    title: NullFloat64 represents a float64 that may be null.
+    type: object
+    x-go-package: database/sql
+  NullInt64:
+    description: |-
+      NullInt64 implements the Scanner interface so
+      it can be used as a scan destination, similar to NullString.
+    properties:
+      Int64:
+        format: int64
+        type: integer
+      Valid:
+        type: boolean
+    title: NullInt64 represents an int64 that may be null.
+    type: object
+    x-go-package: database/sql
+  NullString:
+    description: |-
+      var s NullString
+      err := db.QueryRow("SELECT name FROM foo WHERE id=?", id).Scan(&s)
+      ...
+      if s.Valid {
+      use s.String
+      } else {
+      NULL value
+      }
+    properties:
+      String:
+        type: string
+      Valid:
+        type: boolean
+    title: |-
+      NullString represents a string that may be null.
+      NullString implements the Scanner interface so
+      it can be used as a scan destination:
+    type: object
+    x-go-package: database/sql
+  SimulationInterface:
+    description: |-
+      SimulationInterface is the callback support for
+      events that happens on the generic engine
+    properties:
+      GetLastCommitNb:
+        description: |-
+          GetLastCommitNb fetch the last commit nb from the simulation
+          this enables the engine to compute when it is necessary to update the stage following
+          updates to the back repo from the front
+        format: uint64
+        type: integer
+    type: object
+    x-go-package: github.com/fullstack-lang/gong/stacks/gongsim/go/models
+  State:
+    description: State mirrors joint.shapes.uml.State
+    properties:
+      Name:
+        type: string
+      X:
+        format: double
+        type: number
+      "Y":
+        format: double
+        type: number
+    type: object
+    x-go-package: github.com/fullstack-lang/gong/stacks/gongdoc/go/models
+  Umlsc:
+    description: |-
+      Umlsc diagram struct store a class diagram
+      temporary here
+    properties:
+      Activestate:
+        description: |-
+          in this version, only one state is active mong the states
+          (with the embedded states version, that might change)
+        type: string
+      Name:
+        type: string
+      States:
+        description: |-
+          this is the memory model (and not the "memory motel" of the Rolling Stones)
+          it is not ignored by swagger because it is used by the angular model
+        items:
+          $ref: '#/definitions/State'
+        type: array
+    type: object
+    x-go-package: github.com/fullstack-lang/gong/stacks/gongdoc/go/models
+  Washer:
+    description: Washer is a sim agent
+    properties:
+      CleanedLaundryWeight:
+        description: |-
+          CleanedLaundryWeight is the cumulative cleaned laundry
+          the Washer. in kilo
+        format: double
+        type: number
+      DirtyLaundryWeight:
+        description: DirtyLaundryWeight is the weigh of the dirty laundry to clean
+        format: double
+        type: number
+      Name:
+        description: Name is a mandatory field with metab
+        type: string
+      State:
+        description: State
+        enum:
+        - WASHER_IDLE
+        - WASHER_LOAD_DRUM
+        - WASHER_OPEN_DOOR
+        - WASHER_WAIT_PROGRAM_END
+        - WASHER_CLOSE_DOOR
+        - WASHER_UNLOAD_DRUM
+        - WASHER_START_PROGRAM
+        type: string
+      TechName:
+        type: string
+    type: object
+    x-go-package: github.com/fullstack-lang/gong/examples/laundromat/go/models
+  classdiagramAPI:
+    description: |-
+      for POST, API, one needs the fields of the model as well as the fields
+      from associations ("Has One" and "Has Many") that are generated to
+      fullfill the ORM requirements for associations
+    properties:
+      Classshapes:
+        description: |-
+          this is the memory model (and not the "memory motel" of the Rolling Stones)
+          it is not ignored by swagger because it is used by the angular model
+        items:
+          $ref: '#/definitions/Classshape'
+        type: array
+      Name:
+        type: string
+      Name_Data:
+        $ref: '#/definitions/NullString'
+      Pkgelt_ClassdiagramsDBID:
+        $ref: '#/definitions/NullInt64'
+    title: ClassdiagramAPI is the input in POST API
+    type: object
+    x-go-name: ClassdiagramAPI
+    x-go-package: github.com/fullstack-lang/gong/stacks/gongdoc/go/orm
+  classdiagramDB:
+    description: 'It incorporates all fields : from the model, from the generated
+      field for the API and the GORM ID'
+    properties:
+      Classshapes:
+        description: |-
+          this is the memory model (and not the "memory motel" of the Rolling Stones)
+          it is not ignored by swagger because it is used by the angular model
+        items:
+          $ref: '#/definitions/Classshape'
+        type: array
+      CreatedAt:
+        format: date-time
+        type: string
+      DeletedAt:
+        format: date-time
+        type: string
+      ID:
+        format: uint64
+        type: integer
+      Name:
+        type: string
+      Name_Data:
+        $ref: '#/definitions/NullString'
+      Pkgelt_ClassdiagramsDBID:
+        $ref: '#/definitions/NullInt64'
+      UpdatedAt:
+        format: date-time
+        type: string
+    title: ClassdiagramDB describes a classdiagram in the database
+    type: object
+    x-go-name: ClassdiagramDB
+    x-go-package: github.com/fullstack-lang/gong/stacks/gongdoc/go/orm
+  classshapeAPI:
+    description: |-
+      for POST, API, one needs the fields of the model as well as the fields
+      from associations ("Has One" and "Has Many") that are generated to
+      fullfill the ORM requirements for associations
+    properties:
+      Classdiagram_ClassshapesDBID:
+        $ref: '#/definitions/NullInt64'
+      ClassshapeTargetType:
+        $ref: '#/definitions/ClassshapeTargetType'
+      ClassshapeTargetType_Data:
+        $ref: '#/definitions/NullString'
+      Fields:
+        description: models of the composition of Field
+        items:
+          $ref: '#/definitions/Field'
+        type: array
+      Heigth_Data:
+        $ref: '#/definitions/NullFloat64'
+      Links:
+        description: models of the composition of Link
+        items:
+          $ref: '#/definitions/Link'
+        type: array
+      Name:
+        description: for technical reasons
+        type: string
+      Name_Data:
+        $ref: '#/definitions/NullString'
+      PositionID:
+        $ref: '#/definitions/NullInt64'
+      PositionName:
+        description: all gong Struct has a Name field, this enables this data to object
+          field
+        type: string
+      Structname:
+        type: string
+      Structname_Data:
+        $ref: '#/definitions/NullString'
+      Width:
+        description: |-
+          with and height of the shape when they are rendered on SVG or with jointjs
+          They are optional fields. they can be computed when empty
+        format: double
+        type: number
+        x-go-name: Heigth
+      Width_Data:
+        $ref: '#/definitions/NullFloat64'
+    title: ClassshapeAPI is the input in POST API
+    type: object
+    x-go-name: ClassshapeAPI
+    x-go-package: github.com/fullstack-lang/gong/stacks/gongdoc/go/orm
+  classshapeDB:
+    description: 'It incorporates all fields : from the model, from the generated
+      field for the API and the GORM ID'
+    properties:
+      Classdiagram_ClassshapesDBID:
+        $ref: '#/definitions/NullInt64'
+      ClassshapeTargetType:
+        $ref: '#/definitions/ClassshapeTargetType'
+      ClassshapeTargetType_Data:
+        $ref: '#/definitions/NullString'
+      CreatedAt:
+        format: date-time
+        type: string
+      DeletedAt:
+        format: date-time
+        type: string
+      Fields:
+        description: models of the composition of Field
+        items:
+          $ref: '#/definitions/Field'
+        type: array
+      Heigth_Data:
+        $ref: '#/definitions/NullFloat64'
+      ID:
+        format: uint64
+        type: integer
+      Links:
+        description: models of the composition of Link
+        items:
+          $ref: '#/definitions/Link'
+        type: array
+      Name:
+        description: for technical reasons
+        type: string
+      Name_Data:
+        $ref: '#/definitions/NullString'
+      PositionID:
+        $ref: '#/definitions/NullInt64'
+      PositionName:
+        description: all gong Struct has a Name field, this enables this data to object
+          field
+        type: string
+      Structname:
+        type: string
+      Structname_Data:
+        $ref: '#/definitions/NullString'
+      UpdatedAt:
+        format: date-time
+        type: string
+      Width:
+        description: |-
+          with and height of the shape when they are rendered on SVG or with jointjs
+          They are optional fields. they can be computed when empty
+        format: double
+        type: number
+        x-go-name: Heigth
+      Width_Data:
+        $ref: '#/definitions/NullFloat64'
+    title: ClassshapeDB describes a classshape in the database
+    type: object
+    x-go-name: ClassshapeDB
+    x-go-package: github.com/fullstack-lang/gong/stacks/gongdoc/go/orm
+  engineAPI:
+    description: |-
+      for POST, API, one needs the fields of the model as well as the fields
+      from associations ("Has One" and "Has Many") that are generated to
+      fullfill the ORM requirements for associations
+    properties:
+      ControlMode:
+        description: control mode.
+        enum:
+        - Autonomous
+        - ClientControl
+        type: string
+      ControlMode_Data:
+        $ref: '#/definitions/NullString'
+      CurrentTime:
+        type: string
+      CurrentTime_Data:
+        $ref: '#/definitions/NullString'
+      EndTime:
+        type: string
+      EndTime_Data:
+        $ref: '#/definitions/NullString'
+      Fired:
+        description: Fired events
+        format: int64
+        type: integer
+      Fired_Data:
+        $ref: '#/definitions/NullInt64'
+      LastEvent:
+        $ref: '#/definitions/EventInterface'
+      LastEventAgent:
+        $ref: '#/definitions/AgentInterface'
+      Name:
+        description: Name of the engine "laundramat" for instance
+        type: string
+      Name_Data:
+        $ref: '#/definitions/NullString'
+      SecondsSinceStart:
+        description: number of the seconds elapsed since the beginning of the simulation
+        format: double
+        type: number
+      SecondsSinceStart_Data:
+        $ref: '#/definitions/NullFloat64'
+      Simulation:
+        $ref: '#/definitions/SimulationInterface'
+      Speed:
+        description: Speed compared to realtime
+        format: double
+        type: number
+      Speed_Data:
+        $ref: '#/definitions/NullFloat64'
+      State:
+        description: engine state
+        enum:
+        - RUNNING
+        - PAUSED
+        - OVER
+        type: string
+      State_Data:
+        $ref: '#/definitions/NullString'
+    title: EngineAPI is the input in POST API
+    type: object
+    x-go-name: EngineAPI
+    x-go-package: github.com/fullstack-lang/gong/stacks/gongsim/go/orm
+  engineDB:
+    description: 'It incorporates all fields : from the model, from the generated
+      field for the API and the GORM ID'
+    properties:
+      ControlMode:
+        description: control mode.
+        enum:
+        - Autonomous
+        - ClientControl
+        type: string
+      ControlMode_Data:
+        $ref: '#/definitions/NullString'
+      CreatedAt:
+        format: date-time
+        type: string
+      CurrentTime:
+        type: string
+      CurrentTime_Data:
+        $ref: '#/definitions/NullString'
+      DeletedAt:
+        format: date-time
+        type: string
+      EndTime:
+        type: string
+      EndTime_Data:
+        $ref: '#/definitions/NullString'
+      Fired:
+        description: Fired events
+        format: int64
+        type: integer
+      Fired_Data:
+        $ref: '#/definitions/NullInt64'
+      ID:
+        format: uint64
+        type: integer
+      LastEvent:
+        $ref: '#/definitions/EventInterface'
+      LastEventAgent:
+        $ref: '#/definitions/AgentInterface'
+      Name:
+        description: Name of the engine "laundramat" for instance
+        type: string
+      Name_Data:
+        $ref: '#/definitions/NullString'
+      SecondsSinceStart:
+        description: number of the seconds elapsed since the beginning of the simulation
+        format: double
+        type: number
+      SecondsSinceStart_Data:
+        $ref: '#/definitions/NullFloat64'
+      Simulation:
+        $ref: '#/definitions/SimulationInterface'
+      Speed:
+        description: Speed compared to realtime
+        format: double
+        type: number
+      Speed_Data:
+        $ref: '#/definitions/NullFloat64'
+      State:
+        description: engine state
+        enum:
+        - RUNNING
+        - PAUSED
+        - OVER
+        type: string
+      State_Data:
+        $ref: '#/definitions/NullString'
+      UpdatedAt:
+        format: date-time
+        type: string
+    title: EngineDB describes a engine in the database
+    type: object
+    x-go-name: EngineDB
+    x-go-package: github.com/fullstack-lang/gong/stacks/gongsim/go/orm
+  eventAPI:
+    description: |-
+      for POST, API, one needs the fields of the model as well as the fields
+      from associations ("Has One" and "Has Many") that are generated to
+      fullfill the ORM requirements for associations
+    properties:
+      Duration:
+        $ref: '#/definitions/Duration'
+      Name:
+        type: string
+      Name_Data:
+        $ref: '#/definitions/NullString'
+    title: EventAPI is the input in POST API
+    type: object
+    x-go-name: EventAPI
+    x-go-package: github.com/fullstack-lang/gong/stacks/gongsim/go/orm
+  eventDB:
+    description: 'It incorporates all fields : from the model, from the generated
+      field for the API and the GORM ID'
+    properties:
+      CreatedAt:
+        format: date-time
+        type: string
+      DeletedAt:
+        format: date-time
+        type: string
+      Duration:
+        $ref: '#/definitions/Duration'
+      ID:
+        format: uint64
+        type: integer
+      Name:
+        type: string
+      Name_Data:
+        $ref: '#/definitions/NullString'
+      UpdatedAt:
+        format: date-time
+        type: string
+    title: EventDB describes a event in the database
+    type: object
+    x-go-name: EventDB
+    x-go-package: github.com/fullstack-lang/gong/stacks/gongsim/go/orm
+  fieldAPI:
+    description: |-
+      for POST, API, one needs the fields of the model as well as the fields
+      from associations ("Has One" and "Has Many") that are generated to
+      fullfill the ORM requirements for associations
+    properties:
+      Classshape_FieldsDBID:
+        $ref: '#/definitions/NullInt64'
+      FieldTypeAsString:
+        type: string
+      FieldTypeAsString_Data:
+        $ref: '#/definitions/NullString'
+      Fieldname:
+        type: string
+      Fieldname_Data:
+        $ref: '#/definitions/NullString'
+      Fieldtypename:
+        type: string
+      Fieldtypename_Data:
+        $ref: '#/definitions/NullString'
+      Name:
+        type: string
+      Name_Data:
+        $ref: '#/definitions/NullString'
+      Structname:
+        type: string
+      Structname_Data:
+        $ref: '#/definitions/NullString'
+    title: FieldAPI is the input in POST API
+    type: object
+    x-go-name: FieldAPI
+    x-go-package: github.com/fullstack-lang/gong/stacks/gongdoc/go/orm
+  fieldDB:
+    description: 'It incorporates all fields : from the model, from the generated
+      field for the API and the GORM ID'
+    properties:
+      Classshape_FieldsDBID:
+        $ref: '#/definitions/NullInt64'
+      CreatedAt:
+        format: date-time
+        type: string
+      DeletedAt:
+        format: date-time
+        type: string
+      FieldTypeAsString:
+        type: string
+      FieldTypeAsString_Data:
+        $ref: '#/definitions/NullString'
+      Fieldname:
+        type: string
+      Fieldname_Data:
+        $ref: '#/definitions/NullString'
+      Fieldtypename:
+        type: string
+      Fieldtypename_Data:
+        $ref: '#/definitions/NullString'
+      ID:
+        format: uint64
+        type: integer
+      Name:
+        type: string
+      Name_Data:
+        $ref: '#/definitions/NullString'
+      Structname:
+        type: string
+      Structname_Data:
+        $ref: '#/definitions/NullString'
+      UpdatedAt:
+        format: date-time
+        type: string
+    title: FieldDB describes a field in the database
+    type: object
+    x-go-name: FieldDB
+    x-go-package: github.com/fullstack-lang/gong/stacks/gongdoc/go/orm
+  gongdoccommandAPI:
+    description: |-
+      for POST, API, one needs the fields of the model as well as the fields
+      from associations ("Has One" and "Has Many") that are generated to
+      fullfill the ORM requirements for associations
+    properties:
+      Command:
+        enum:
+        - MARSHALL_ALL_DIAGRAMS
+        - PRINT_ALL_DOCUMENTS
+        - DIAGRAM_ELEMENT_DELETE
+        - DIAGRAM_ELEMENT_CREATE
+        type: string
+      Command_Data:
+        $ref: '#/definitions/NullString'
+      Date:
+        type: string
+      Date_Data:
+        $ref: '#/definitions/NullString'
+      DiagramName:
+        type: string
+      DiagramName_Data:
+        $ref: '#/definitions/NullString'
+      FieldName:
+        type: string
+      FieldName_Data:
+        $ref: '#/definitions/NullString'
+      FieldTypeName:
+        type: string
+      FieldTypeName_Data:
+        $ref: '#/definitions/NullString'
+      GongdocNodeType:
+        enum:
+        - ROOT_OF_GONG_STRUCTS
+        - GONG_STRUCT
+        - ROOT_OF_BASIC_FIELDS
+        - BASIC_FIELD
+        - ROOT_OF_POINTER_TO_STRUCT_FIELDS
+        - POINTER_TO_STRUCT
+        - ROOT_OF_SLICE_OF_POINTER_TO_GONG_STRUCT_FIELDS
+        - SLICE_OF_POINTER_TO_STRUCT
+        type: string
+      GongdocNodeType_Data:
+        $ref: '#/definitions/NullString'
+      Name:
+        type: string
+      Name_Data:
+        $ref: '#/definitions/NullString'
+      PositionX:
+        format: int64
+        type: integer
+      PositionX_Data:
+        $ref: '#/definitions/NullInt64'
+      PositionY:
+        format: int64
+        type: integer
+      PositionY_Data:
+        $ref: '#/definitions/NullInt64'
+      StructName:
+        type: string
+      StructName_Data:
+        $ref: '#/definitions/NullString'
+    title: GongdocCommandAPI is the input in POST API
+    type: object
+    x-go-name: GongdocCommandAPI
+    x-go-package: github.com/fullstack-lang/gong/stacks/gongdoc/go/orm
+  gongdoccommandDB:
+    description: 'It incorporates all fields : from the model, from the generated
+      field for the API and the GORM ID'
+    properties:
+      Command:
+        enum:
+        - MARSHALL_ALL_DIAGRAMS
+        - PRINT_ALL_DOCUMENTS
+        - DIAGRAM_ELEMENT_DELETE
+        - DIAGRAM_ELEMENT_CREATE
+        type: string
+      Command_Data:
+        $ref: '#/definitions/NullString'
+      CreatedAt:
+        format: date-time
+        type: string
+      Date:
+        type: string
+      Date_Data:
+        $ref: '#/definitions/NullString'
+      DeletedAt:
+        format: date-time
+        type: string
+      DiagramName:
+        type: string
+      DiagramName_Data:
+        $ref: '#/definitions/NullString'
+      FieldName:
+        type: string
+      FieldName_Data:
+        $ref: '#/definitions/NullString'
+      FieldTypeName:
+        type: string
+      FieldTypeName_Data:
+        $ref: '#/definitions/NullString'
+      GongdocNodeType:
+        enum:
+        - ROOT_OF_GONG_STRUCTS
+        - GONG_STRUCT
+        - ROOT_OF_BASIC_FIELDS
+        - BASIC_FIELD
+        - ROOT_OF_POINTER_TO_STRUCT_FIELDS
+        - POINTER_TO_STRUCT
+        - ROOT_OF_SLICE_OF_POINTER_TO_GONG_STRUCT_FIELDS
+        - SLICE_OF_POINTER_TO_STRUCT
+        type: string
+      GongdocNodeType_Data:
+        $ref: '#/definitions/NullString'
+      ID:
+        format: uint64
+        type: integer
+      Name:
+        type: string
+      Name_Data:
+        $ref: '#/definitions/NullString'
+      PositionX:
+        format: int64
+        type: integer
+      PositionX_Data:
+        $ref: '#/definitions/NullInt64'
+      PositionY:
+        format: int64
+        type: integer
+      PositionY_Data:
+        $ref: '#/definitions/NullInt64'
+      StructName:
+        type: string
+      StructName_Data:
+        $ref: '#/definitions/NullString'
+      UpdatedAt:
+        format: date-time
+        type: string
+    title: GongdocCommandDB describes a gongdoccommand in the database
+    type: object
+    x-go-name: GongdocCommandDB
+    x-go-package: github.com/fullstack-lang/gong/stacks/gongdoc/go/orm
+  gongdocstatusAPI:
+    description: |-
+      for POST, API, one needs the fields of the model as well as the fields
+      from associations ("Has One" and "Has Many") that are generated to
+      fullfill the ORM requirements for associations
+    properties:
+      CommandCompletionDate:
+        type: string
+      CommandCompletionDate_Data:
+        $ref: '#/definitions/NullString'
+      Name:
+        type: string
+      Name_Data:
+        $ref: '#/definitions/NullString'
+      Status:
+        enum:
+        - MARSHALL_ALL_DIAGRAMS
+        - PRINT_ALL_DOCUMENTS
+        - DIAGRAM_ELEMENT_DELETE
+        - DIAGRAM_ELEMENT_CREATE
+        type: string
+      Status_Data:
+        $ref: '#/definitions/NullString'
+    title: GongdocStatusAPI is the input in POST API
+    type: object
+    x-go-name: GongdocStatusAPI
+    x-go-package: github.com/fullstack-lang/gong/stacks/gongdoc/go/orm
+  gongdocstatusDB:
+    description: 'It incorporates all fields : from the model, from the generated
+      field for the API and the GORM ID'
+    properties:
+      CommandCompletionDate:
+        type: string
+      CommandCompletionDate_Data:
+        $ref: '#/definitions/NullString'
+      CreatedAt:
+        format: date-time
+        type: string
+      DeletedAt:
+        format: date-time
+        type: string
+      ID:
+        format: uint64
+        type: integer
+      Name:
+        type: string
+      Name_Data:
+        $ref: '#/definitions/NullString'
+      Status:
+        enum:
+        - MARSHALL_ALL_DIAGRAMS
+        - PRINT_ALL_DOCUMENTS
+        - DIAGRAM_ELEMENT_DELETE
+        - DIAGRAM_ELEMENT_CREATE
+        type: string
+      Status_Data:
+        $ref: '#/definitions/NullString'
+      UpdatedAt:
+        format: date-time
+        type: string
+    title: GongdocStatusDB describes a gongdocstatus in the database
+    type: object
+    x-go-name: GongdocStatusDB
+    x-go-package: github.com/fullstack-lang/gong/stacks/gongdoc/go/orm
+  gongsimcommandAPI:
+    description: |-
+      for POST, API, one needs the fields of the model as well as the fields
+      from associations ("Has One" and "Has Many") that are generated to
+      fullfill the ORM requirements for associations
+    properties:
+      Command:
+        enum:
+        - PLAY
+        - PAUSE
+        - FIRE_NEXT_EVENT
+        - FIRE_EVENT_TILL_STATES_CHANGE
+        - RESET
+        - ADVANCE_10_MIN
+        type: string
+      Command_Data:
+        $ref: '#/definitions/NullString'
+      CommandDate:
+        type: string
+      CommandDate_Data:
+        $ref: '#/definitions/NullString'
+      DateSpeedCommand:
+        type: string
+      DateSpeedCommand_Data:
+        $ref: '#/definitions/NullString'
+      Name:
+        type: string
+      Name_Data:
+        $ref: '#/definitions/NullString'
+      SpeedCommandType:
+        enum:
+        - PLAY
+        - PAUSE
+        - FIRE_NEXT_EVENT
+        - FIRE_EVENT_TILL_STATES_CHANGE
+        - RESET
+        - ADVANCE_10_MIN
+        type: string
+      SpeedCommandType_Data:
+        $ref: '#/definitions/NullString'
+    title: GongsimCommandAPI is the input in POST API
+    type: object
+    x-go-name: GongsimCommandAPI
+    x-go-package: github.com/fullstack-lang/gong/stacks/gongsim/go/orm
+  gongsimcommandDB:
+    description: 'It incorporates all fields : from the model, from the generated
+      field for the API and the GORM ID'
+    properties:
+      Command:
+        enum:
+        - PLAY
+        - PAUSE
+        - FIRE_NEXT_EVENT
+        - FIRE_EVENT_TILL_STATES_CHANGE
+        - RESET
+        - ADVANCE_10_MIN
+        type: string
+      Command_Data:
+        $ref: '#/definitions/NullString'
+      CommandDate:
+        type: string
+      CommandDate_Data:
+        $ref: '#/definitions/NullString'
+      CreatedAt:
+        format: date-time
+        type: string
+      DateSpeedCommand:
+        type: string
+      DateSpeedCommand_Data:
+        $ref: '#/definitions/NullString'
+      DeletedAt:
+        format: date-time
+        type: string
+      ID:
+        format: uint64
+        type: integer
+      Name:
+        type: string
+      Name_Data:
+        $ref: '#/definitions/NullString'
+      SpeedCommandType:
+        enum:
+        - PLAY
+        - PAUSE
+        - FIRE_NEXT_EVENT
+        - FIRE_EVENT_TILL_STATES_CHANGE
+        - RESET
+        - ADVANCE_10_MIN
+        type: string
+      SpeedCommandType_Data:
+        $ref: '#/definitions/NullString'
+      UpdatedAt:
+        format: date-time
+        type: string
+    title: GongsimCommandDB describes a gongsimcommand in the database
+    type: object
+    x-go-name: GongsimCommandDB
+    x-go-package: github.com/fullstack-lang/gong/stacks/gongsim/go/orm
+  gongsimstatusAPI:
+    description: |-
+      for POST, API, one needs the fields of the model as well as the fields
+      from associations ("Has One" and "Has Many") that are generated to
+      fullfill the ORM requirements for associations
+    properties:
+      CompletionDate:
+        type: string
+      CompletionDate_Data:
+        $ref: '#/definitions/NullString'
+      CurrentCommand:
+        enum:
+        - PLAY
+        - PAUSE
+        - FIRE_NEXT_EVENT
+        - FIRE_EVENT_TILL_STATES_CHANGE
+        - RESET
+        - ADVANCE_10_MIN
+        type: string
+      CurrentCommand_Data:
+        $ref: '#/definitions/NullString'
+      CurrentSpeedCommand:
+        enum:
+        - PLAY
+        - PAUSE
+        - FIRE_NEXT_EVENT
+        - FIRE_EVENT_TILL_STATES_CHANGE
+        - RESET
+        - ADVANCE_10_MIN
+        type: string
+      CurrentSpeedCommand_Data:
+        $ref: '#/definitions/NullString'
+      Name:
+        type: string
+      Name_Data:
+        $ref: '#/definitions/NullString'
+      SpeedCommandCompletionDate:
+        type: string
+      SpeedCommandCompletionDate_Data:
+        $ref: '#/definitions/NullString'
+    title: GongsimStatusAPI is the input in POST API
+    type: object
+    x-go-name: GongsimStatusAPI
+    x-go-package: github.com/fullstack-lang/gong/stacks/gongsim/go/orm
+  gongsimstatusDB:
+    description: 'It incorporates all fields : from the model, from the generated
+      field for the API and the GORM ID'
+    properties:
+      CompletionDate:
+        type: string
+      CompletionDate_Data:
+        $ref: '#/definitions/NullString'
+      CreatedAt:
+        format: date-time
+        type: string
+      CurrentCommand:
+        enum:
+        - PLAY
+        - PAUSE
+        - FIRE_NEXT_EVENT
+        - FIRE_EVENT_TILL_STATES_CHANGE
+        - RESET
+        - ADVANCE_10_MIN
+        type: string
+      CurrentCommand_Data:
+        $ref: '#/definitions/NullString'
+      CurrentSpeedCommand:
+        enum:
+        - PLAY
+        - PAUSE
+        - FIRE_NEXT_EVENT
+        - FIRE_EVENT_TILL_STATES_CHANGE
+        - RESET
+        - ADVANCE_10_MIN
+        type: string
+      CurrentSpeedCommand_Data:
+        $ref: '#/definitions/NullString'
+      DeletedAt:
+        format: date-time
+        type: string
+      ID:
+        format: uint64
+        type: integer
+      Name:
+        type: string
+      Name_Data:
+        $ref: '#/definitions/NullString'
+      SpeedCommandCompletionDate:
+        type: string
+      SpeedCommandCompletionDate_Data:
+        $ref: '#/definitions/NullString'
+      UpdatedAt:
+        format: date-time
+        type: string
+    title: GongsimStatusDB describes a gongsimstatus in the database
+    type: object
+    x-go-name: GongsimStatusDB
+    x-go-package: github.com/fullstack-lang/gong/stacks/gongsim/go/orm
+  linkAPI:
+    description: |-
+      for POST, API, one needs the fields of the model as well as the fields
+      from associations ("Has One" and "Has Many") that are generated to
+      fullfill the ORM requirements for associations
+    properties:
+      Classshape_LinksDBID:
+        $ref: '#/definitions/NullInt64'
+      Fieldname:
+        type: string
+      Fieldname_Data:
+        $ref: '#/definitions/NullString'
+      Fieldtypename:
+        type: string
+      Fieldtypename_Data:
+        $ref: '#/definitions/NullString'
+      MiddleverticeID:
+        $ref: '#/definitions/NullInt64'
+      MiddleverticeName:
+        description: all gong Struct has a Name field, this enables this data to object
+          field
+        type: string
+      Multiplicity:
+        $ref: '#/definitions/MultiplicityType'
+      Multiplicity_Data:
+        $ref: '#/definitions/NullString'
+      Name:
+        type: string
+      Name_Data:
+        $ref: '#/definitions/NullString'
+      Structname:
+        type: string
+      Structname_Data:
+        $ref: '#/definitions/NullString'
+    title: LinkAPI is the input in POST API
+    type: object
+    x-go-name: LinkAPI
+    x-go-package: github.com/fullstack-lang/gong/stacks/gongdoc/go/orm
+  linkDB:
+    description: 'It incorporates all fields : from the model, from the generated
+      field for the API and the GORM ID'
+    properties:
+      Classshape_LinksDBID:
+        $ref: '#/definitions/NullInt64'
+      CreatedAt:
+        format: date-time
+        type: string
+      DeletedAt:
+        format: date-time
+        type: string
+      Fieldname:
+        type: string
+      Fieldname_Data:
+        $ref: '#/definitions/NullString'
+      Fieldtypename:
+        type: string
+      Fieldtypename_Data:
+        $ref: '#/definitions/NullString'
+      ID:
+        format: uint64
+        type: integer
+      MiddleverticeID:
+        $ref: '#/definitions/NullInt64'
+      MiddleverticeName:
+        description: all gong Struct has a Name field, this enables this data to object
+          field
+        type: string
+      Multiplicity:
+        $ref: '#/definitions/MultiplicityType'
+      Multiplicity_Data:
+        $ref: '#/definitions/NullString'
+      Name:
+        type: string
+      Name_Data:
+        $ref: '#/definitions/NullString'
+      Structname:
+        type: string
+      Structname_Data:
+        $ref: '#/definitions/NullString'
+      UpdatedAt:
+        format: date-time
+        type: string
+    title: LinkDB describes a link in the database
+    type: object
+    x-go-name: LinkDB
+    x-go-package: github.com/fullstack-lang/gong/stacks/gongdoc/go/orm
+  machineAPI:
+    description: |-
+      for POST, API, one needs the fields of the model as well as the fields
+      from associations ("Has One" and "Has Many") that are generated to
+      fullfill the ORM requirements for associations
+    properties:
+      Cleanedlaundry:
+        description: Cleanedlaundry indicate wether the laundry in the drum is wet
+          (it has been cleand)
+        type: boolean
+      Cleanedlaundry_Data:
+        $ref: '#/definitions/NullBool'
+      DrumLoad:
+        description: DrumLoad in kg
+        format: double
+        type: number
+      DrumLoad_Data:
+        $ref: '#/definitions/NullFloat64'
+      Name:
+        description: Name is a mandatory field with metab
+        type: string
+      Name_Data:
+        $ref: '#/definitions/NullString'
+      RemainingTime:
+        $ref: '#/definitions/Duration'
+      RemainingTimeMinutes:
+        format: int64
+        type: integer
+      RemainingTimeMinutes_Data:
+        $ref: '#/definitions/NullInt64'
+      State:
+        description: State of the machine
+        enum:
+        - MACHINE_DOOR_OPEN
+        - MACHINE_DOOR_CLOSED_RUNNING
+        - MACHINE_DOOR_CLOSED_IDLE
+        type: string
+      State_Data:
+        $ref: '#/definitions/NullString'
+      TechName_Data:
+        $ref: '#/definitions/NullString'
+    title: MachineAPI is the input in POST API
+    type: object
+    x-go-name: MachineAPI
+    x-go-package: github.com/fullstack-lang/gong/examples/laundromat/go/orm
+  machineDB:
+    description: 'It incorporates all fields : from the model, from the generated
+      field for the API and the GORM ID'
+    properties:
+      Cleanedlaundry:
+        description: Cleanedlaundry indicate wether the laundry in the drum is wet
+          (it has been cleand)
+        type: boolean
+      Cleanedlaundry_Data:
+        $ref: '#/definitions/NullBool'
+      CreatedAt:
+        format: date-time
+        type: string
+      DeletedAt:
+        format: date-time
+        type: string
+      DrumLoad:
+        description: DrumLoad in kg
+        format: double
+        type: number
+      DrumLoad_Data:
+        $ref: '#/definitions/NullFloat64'
+      ID:
+        format: uint64
+        type: integer
+      Name:
+        description: Name is a mandatory field with metab
+        type: string
+      Name_Data:
+        $ref: '#/definitions/NullString'
+      RemainingTime:
+        $ref: '#/definitions/Duration'
+      RemainingTimeMinutes:
+        format: int64
+        type: integer
+      RemainingTimeMinutes_Data:
+        $ref: '#/definitions/NullInt64'
+      State:
+        description: State of the machine
+        enum:
+        - MACHINE_DOOR_OPEN
+        - MACHINE_DOOR_CLOSED_RUNNING
+        - MACHINE_DOOR_CLOSED_IDLE
+        type: string
+      State_Data:
+        $ref: '#/definitions/NullString'
+      TechName_Data:
+        $ref: '#/definitions/NullString'
+      UpdatedAt:
+        format: date-time
+        type: string
+    title: MachineDB describes a machine in the database
+    type: object
+    x-go-name: MachineDB
+    x-go-package: github.com/fullstack-lang/gong/examples/laundromat/go/orm
+  pkgeltAPI:
+    description: |-
+      for POST, API, one needs the fields of the model as well as the fields
+      from associations ("Has One" and "Has Many") that are generated to
+      fullfill the ORM requirements for associations
+    properties:
+      Classdiagrams:
+        items:
+          $ref: '#/definitions/Classdiagram'
+        type: array
+      Name:
+        type: string
+      Name_Data:
+        $ref: '#/definitions/NullString'
+      Path:
+        type: string
+      Path_Data:
+        $ref: '#/definitions/NullString'
+      Umlscs:
+        items:
+          $ref: '#/definitions/Umlsc'
+        type: array
+    title: PkgeltAPI is the input in POST API
+    type: object
+    x-go-name: PkgeltAPI
+    x-go-package: github.com/fullstack-lang/gong/stacks/gongdoc/go/orm
+  pkgeltDB:
+    description: 'It incorporates all fields : from the model, from the generated
+      field for the API and the GORM ID'
+    properties:
+      Classdiagrams:
+        items:
+          $ref: '#/definitions/Classdiagram'
+        type: array
+      CreatedAt:
+        format: date-time
+        type: string
+      DeletedAt:
+        format: date-time
+        type: string
+      ID:
+        format: uint64
+        type: integer
+      Name:
+        type: string
+      Name_Data:
+        $ref: '#/definitions/NullString'
+      Path:
+        type: string
+      Path_Data:
+        $ref: '#/definitions/NullString'
+      Umlscs:
+        items:
+          $ref: '#/definitions/Umlsc'
+        type: array
+      UpdatedAt:
+        format: date-time
+        type: string
+    title: PkgeltDB describes a pkgelt in the database
+    type: object
+    x-go-name: PkgeltDB
+    x-go-package: github.com/fullstack-lang/gong/stacks/gongdoc/go/orm
+  positionAPI:
+    description: |-
+      for POST, API, one needs the fields of the model as well as the fields
+      from associations ("Has One" and "Has Many") that are generated to
+      fullfill the ORM requirements for associations
+    properties:
+      Name:
+        type: string
+      Name_Data:
+        $ref: '#/definitions/NullString'
+      X:
+        format: double
+        type: number
+      X_Data:
+        $ref: '#/definitions/NullFloat64'
+      "Y":
+        format: double
+        type: number
+      Y_Data:
+        $ref: '#/definitions/NullFloat64'
+    title: PositionAPI is the input in POST API
+    type: object
+    x-go-name: PositionAPI
+    x-go-package: github.com/fullstack-lang/gong/stacks/gongdoc/go/orm
+  positionDB:
+    description: 'It incorporates all fields : from the model, from the generated
+      field for the API and the GORM ID'
+    properties:
+      CreatedAt:
+        format: date-time
+        type: string
+      DeletedAt:
+        format: date-time
+        type: string
+      ID:
+        format: uint64
+        type: integer
+      Name:
+        type: string
+      Name_Data:
+        $ref: '#/definitions/NullString'
+      UpdatedAt:
+        format: date-time
+        type: string
+      X:
+        format: double
+        type: number
+      X_Data:
+        $ref: '#/definitions/NullFloat64'
+      "Y":
+        format: double
+        type: number
+      Y_Data:
+        $ref: '#/definitions/NullFloat64'
+    title: PositionDB describes a position in the database
+    type: object
+    x-go-name: PositionDB
+    x-go-package: github.com/fullstack-lang/gong/stacks/gongdoc/go/orm
+  simulationAPI:
+    description: |-
+      for POST, API, one needs the fields of the model as well as the fields
+      from associations ("Has One" and "Has Many") that are generated to
+      fullfill the ORM requirements for associations
+    properties:
+      Etats_Machine:
+        $ref: '#/definitions/Umlsc'
+      Etats_Washer:
+        $ref: '#/definitions/Umlsc'
+      LastCommitNb:
+        format: int64
+        type: integer
+      LastCommitNb_Data:
+        $ref: '#/definitions/NullInt64'
+      Machine:
+        $ref: '#/definitions/Machine'
+      MachineID:
+        $ref: '#/definitions/NullInt64'
+      MachineName:
+        description: all gong Struct has a Name field, this enables this data to object
+          field
+        type: string
+      Name:
+        type: string
+      Name_Data:
+        $ref: '#/definitions/NullString'
+      Washer:
+        $ref: '#/definitions/Washer'
+      WasherID:
+        $ref: '#/definitions/NullInt64'
+      WasherName:
+        description: all gong Struct has a Name field, this enables this data to object
+          field
+        type: string
+    title: SimulationAPI is the input in POST API
+    type: object
+    x-go-name: SimulationAPI
+    x-go-package: github.com/fullstack-lang/gong/examples/laundromat/go/orm
+  simulationDB:
+    description: 'It incorporates all fields : from the model, from the generated
+      field for the API and the GORM ID'
+    properties:
+      CreatedAt:
+        format: date-time
+        type: string
+      DeletedAt:
+        format: date-time
+        type: string
+      Etats_Machine:
+        $ref: '#/definitions/Umlsc'
+      Etats_Washer:
+        $ref: '#/definitions/Umlsc'
+      ID:
+        format: uint64
+        type: integer
+      LastCommitNb:
+        format: int64
+        type: integer
+      LastCommitNb_Data:
+        $ref: '#/definitions/NullInt64'
+      Machine:
+        $ref: '#/definitions/Machine'
+      MachineID:
+        $ref: '#/definitions/NullInt64'
+      MachineName:
+        description: all gong Struct has a Name field, this enables this data to object
+          field
+        type: string
+      Name:
+        type: string
+      Name_Data:
+        $ref: '#/definitions/NullString'
+      UpdatedAt:
+        format: date-time
+        type: string
+      Washer:
+        $ref: '#/definitions/Washer'
+      WasherID:
+        $ref: '#/definitions/NullInt64'
+      WasherName:
+        description: all gong Struct has a Name field, this enables this data to object
+          field
+        type: string
+    title: SimulationDB describes a simulation in the database
+    type: object
+    x-go-name: SimulationDB
+    x-go-package: github.com/fullstack-lang/gong/examples/laundromat/go/orm
+  stateAPI:
+    description: |-
+      for POST, API, one needs the fields of the model as well as the fields
+      from associations ("Has One" and "Has Many") that are generated to
+      fullfill the ORM requirements for associations
+    properties:
+      Name:
+        type: string
+      Name_Data:
+        $ref: '#/definitions/NullString'
+      Umlsc_StatesDBID:
+        $ref: '#/definitions/NullInt64'
+      X:
+        format: double
+        type: number
+      X_Data:
+        $ref: '#/definitions/NullFloat64'
+      "Y":
+        format: double
+        type: number
+      Y_Data:
+        $ref: '#/definitions/NullFloat64'
+    title: StateAPI is the input in POST API
+    type: object
+    x-go-name: StateAPI
+    x-go-package: github.com/fullstack-lang/gong/stacks/gongdoc/go/orm
+  stateDB:
+    description: 'It incorporates all fields : from the model, from the generated
+      field for the API and the GORM ID'
+    properties:
+      CreatedAt:
+        format: date-time
+        type: string
+      DeletedAt:
+        format: date-time
+        type: string
+      ID:
+        format: uint64
+        type: integer
+      Name:
+        type: string
+      Name_Data:
+        $ref: '#/definitions/NullString'
+      Umlsc_StatesDBID:
+        $ref: '#/definitions/NullInt64'
+      UpdatedAt:
+        format: date-time
+        type: string
+      X:
+        format: double
+        type: number
+      X_Data:
+        $ref: '#/definitions/NullFloat64'
+      "Y":
+        format: double
+        type: number
+      Y_Data:
+        $ref: '#/definitions/NullFloat64'
+    title: StateDB describes a state in the database
+    type: object
+    x-go-name: StateDB
+    x-go-package: github.com/fullstack-lang/gong/stacks/gongdoc/go/orm
+  umlscAPI:
+    description: |-
+      for POST, API, one needs the fields of the model as well as the fields
+      from associations ("Has One" and "Has Many") that are generated to
+      fullfill the ORM requirements for associations
+    properties:
+      Activestate:
+        description: |-
+          in this version, only one state is active mong the states
+          (with the embedded states version, that might change)
+        type: string
+      Activestate_Data:
+        $ref: '#/definitions/NullString'
+      Name:
+        type: string
+      Name_Data:
+        $ref: '#/definitions/NullString'
+      Pkgelt_UmlscsDBID:
+        $ref: '#/definitions/NullInt64'
+      States:
+        description: |-
+          this is the memory model (and not the "memory motel" of the Rolling Stones)
+          it is not ignored by swagger because it is used by the angular model
+        items:
+          $ref: '#/definitions/State'
+        type: array
+    title: UmlscAPI is the input in POST API
+    type: object
+    x-go-name: UmlscAPI
+    x-go-package: github.com/fullstack-lang/gong/stacks/gongdoc/go/orm
+  umlscDB:
+    description: 'It incorporates all fields : from the model, from the generated
+      field for the API and the GORM ID'
+    properties:
+      Activestate:
+        description: |-
+          in this version, only one state is active mong the states
+          (with the embedded states version, that might change)
+        type: string
+      Activestate_Data:
+        $ref: '#/definitions/NullString'
+      CreatedAt:
+        format: date-time
+        type: string
+      DeletedAt:
+        format: date-time
+        type: string
+      ID:
+        format: uint64
+        type: integer
+      Name:
+        type: string
+      Name_Data:
+        $ref: '#/definitions/NullString'
+      Pkgelt_UmlscsDBID:
+        $ref: '#/definitions/NullInt64'
+      States:
+        description: |-
+          this is the memory model (and not the "memory motel" of the Rolling Stones)
+          it is not ignored by swagger because it is used by the angular model
+        items:
+          $ref: '#/definitions/State'
+        type: array
+      UpdatedAt:
+        format: date-time
+        type: string
+    title: UmlscDB describes a umlsc in the database
+    type: object
+    x-go-name: UmlscDB
+    x-go-package: github.com/fullstack-lang/gong/stacks/gongdoc/go/orm
+  updatestateAPI:
+    description: |-
+      for POST, API, one needs the fields of the model as well as the fields
+      from associations ("Has One" and "Has Many") that are generated to
+      fullfill the ORM requirements for associations
+    properties:
+      Duration:
+        $ref: '#/definitions/Duration'
+      Name:
+        type: string
+      Name_Data:
+        $ref: '#/definitions/NullString'
+      Period:
+        $ref: '#/definitions/Duration'
+    title: UpdateStateAPI is the input in POST API
+    type: object
+    x-go-name: UpdateStateAPI
+    x-go-package: github.com/fullstack-lang/gong/stacks/gongsim/go/orm
+  updatestateDB:
+    description: 'It incorporates all fields : from the model, from the generated
+      field for the API and the GORM ID'
+    properties:
+      CreatedAt:
+        format: date-time
+        type: string
+      DeletedAt:
+        format: date-time
+        type: string
+      Duration:
+        $ref: '#/definitions/Duration'
+      ID:
+        format: uint64
+        type: integer
+      Name:
+        type: string
+      Name_Data:
+        $ref: '#/definitions/NullString'
+      Period:
+        $ref: '#/definitions/Duration'
+      UpdatedAt:
+        format: date-time
+        type: string
+    title: UpdateStateDB describes a updatestate in the database
+    type: object
+    x-go-name: UpdateStateDB
+    x-go-package: github.com/fullstack-lang/gong/stacks/gongsim/go/orm
+  verticeAPI:
+    description: |-
+      for POST, API, one needs the fields of the model as well as the fields
+      from associations ("Has One" and "Has Many") that are generated to
+      fullfill the ORM requirements for associations
+    properties:
+      Name:
+        type: string
+      Name_Data:
+        $ref: '#/definitions/NullString'
+      X:
+        format: double
+        type: number
+      X_Data:
+        $ref: '#/definitions/NullFloat64'
+      "Y":
+        format: double
+        type: number
+      Y_Data:
+        $ref: '#/definitions/NullFloat64'
+    title: VerticeAPI is the input in POST API
+    type: object
+    x-go-name: VerticeAPI
+    x-go-package: github.com/fullstack-lang/gong/stacks/gongdoc/go/orm
+  verticeDB:
+    description: 'It incorporates all fields : from the model, from the generated
+      field for the API and the GORM ID'
+    properties:
+      CreatedAt:
+        format: date-time
+        type: string
+      DeletedAt:
+        format: date-time
+        type: string
+      ID:
+        format: uint64
+        type: integer
+      Name:
+        type: string
+      Name_Data:
+        $ref: '#/definitions/NullString'
+      UpdatedAt:
+        format: date-time
+        type: string
+      X:
+        format: double
+        type: number
+      X_Data:
+        $ref: '#/definitions/NullFloat64'
+      "Y":
+        format: double
+        type: number
+      Y_Data:
+        $ref: '#/definitions/NullFloat64'
+    title: VerticeDB describes a vertice in the database
+    type: object
+    x-go-name: VerticeDB
+    x-go-package: github.com/fullstack-lang/gong/stacks/gongdoc/go/orm
+  washerAPI:
+    description: |-
+      for POST, API, one needs the fields of the model as well as the fields
+      from associations ("Has One" and "Has Many") that are generated to
+      fullfill the ORM requirements for associations
+    properties:
+      CleanedLaundryWeight:
+        description: |-
+          CleanedLaundryWeight is the cumulative cleaned laundry
+          the Washer. in kilo
+        format: double
+        type: number
+      CleanedLaundryWeight_Data:
+        $ref: '#/definitions/NullFloat64'
+      DirtyLaundryWeight:
+        description: DirtyLaundryWeight is the weigh of the dirty laundry to clean
+        format: double
+        type: number
+      DirtyLaundryWeight_Data:
+        $ref: '#/definitions/NullFloat64'
+      MachineID:
+        $ref: '#/definitions/NullInt64'
+      MachineName:
+        description: all gong Struct has a Name field, this enables this data to object
+          field
+        type: string
+      Name:
+        description: Name is a mandatory field with metab
+        type: string
+      Name_Data:
+        $ref: '#/definitions/NullString'
+      State:
+        description: State
+        enum:
+        - WASHER_IDLE
+        - WASHER_LOAD_DRUM
+        - WASHER_OPEN_DOOR
+        - WASHER_WAIT_PROGRAM_END
+        - WASHER_CLOSE_DOOR
+        - WASHER_UNLOAD_DRUM
+        - WASHER_START_PROGRAM
+        type: string
+      State_Data:
+        $ref: '#/definitions/NullString'
+      TechName:
+        type: string
+      TechName_Data:
+        $ref: '#/definitions/NullString'
+    title: WasherAPI is the input in POST API
+    type: object
+    x-go-name: WasherAPI
+    x-go-package: github.com/fullstack-lang/gong/examples/laundromat/go/orm
+  washerDB:
+    description: 'It incorporates all fields : from the model, from the generated
+      field for the API and the GORM ID'
+    properties:
+      CleanedLaundryWeight:
+        description: |-
+          CleanedLaundryWeight is the cumulative cleaned laundry
+          the Washer. in kilo
+        format: double
+        type: number
+      CleanedLaundryWeight_Data:
+        $ref: '#/definitions/NullFloat64'
+      CreatedAt:
+        format: date-time
+        type: string
+      DeletedAt:
+        format: date-time
+        type: string
+      DirtyLaundryWeight:
+        description: DirtyLaundryWeight is the weigh of the dirty laundry to clean
+        format: double
+        type: number
+      DirtyLaundryWeight_Data:
+        $ref: '#/definitions/NullFloat64'
+      ID:
+        format: uint64
+        type: integer
+      MachineID:
+        $ref: '#/definitions/NullInt64'
+      MachineName:
+        description: all gong Struct has a Name field, this enables this data to object
+          field
+        type: string
+      Name:
+        description: Name is a mandatory field with metab
+        type: string
+      Name_Data:
+        $ref: '#/definitions/NullString'
+      State:
+        description: State
+        enum:
+        - WASHER_IDLE
+        - WASHER_LOAD_DRUM
+        - WASHER_OPEN_DOOR
+        - WASHER_WAIT_PROGRAM_END
+        - WASHER_CLOSE_DOOR
+        - WASHER_UNLOAD_DRUM
+        - WASHER_START_PROGRAM
+        type: string
+      State_Data:
+        $ref: '#/definitions/NullString'
+      TechName:
+        type: string
+      TechName_Data:
+        $ref: '#/definitions/NullString'
+      UpdatedAt:
+        format: date-time
+        type: string
+    title: WasherDB describes a washer in the database
+    type: object
+    x-go-name: WasherDB
+    x-go-package: github.com/fullstack-lang/gong/examples/laundromat/go/orm
+host: localhost:8080
+info:
+  description: laundromat exposes types of a package.
+  title: laundromat backend API
+  version: "0.1"
+paths:
+  /classdiagrams:
+    get:
+      description: Get all classdiagrams
+      operationId: getClassdiagrams
+      responses:
+        "200":
+          $ref: '#/responses/classdiagramDBsResponse'
+        default:
+          $ref: '#/responses/genericError'
+      tags:
+      - classdiagrams
+    post:
+      consumes:
+      - application/json
+      description: Creates a classdiagram
+      operationId: postClassdiagram
+      parameters:
+      - description: The Classdiagram to submit or modify
+        in: body
+        name: Classdiagram
+        schema:
+          $ref: '#/definitions/classdiagramAPI'
+      produces:
+      - application/json
+      responses:
+        "200":
+          $ref: '#/responses/classdiagramDBResponse'
+      tags:
+      - classdiagrams
+  /classdiagrams/{ID}:
+    delete:
+      description: Delete a classdiagram
+      operationId: deleteClassdiagram
+      parameters:
+      - description: The ID of the order
+        format: int64
+        in: path
+        name: ID
+        required: true
+        type: integer
+      responses:
+        default:
+          $ref: '#/responses/genericError'
+      tags:
+      - classdiagrams
+    get:
+      operationId: getClassdiagram
+      parameters:
+      - description: The ID of the order
+        format: int64
+        in: path
+        name: ID
+        required: true
+        type: integer
+      responses:
+        "200":
+          $ref: '#/responses/classdiagramDBResponse'
+        default:
+          $ref: '#/responses/genericError'
+      summary: Gets the details for a classdiagram.
+      tags:
+      - classdiagrams
+    patch:
+      description: Update a classdiagram
+      operationId: updateClassdiagram
+      parameters:
+      - description: The ID of the order
+        format: int64
+        in: path
+        name: ID
+        required: true
+        type: integer
+      - description: The Classdiagram to submit or modify
+        in: body
+        name: Classdiagram
+        schema:
+          $ref: '#/definitions/classdiagramAPI'
+      responses:
+        "200":
+          $ref: '#/responses/classdiagramDBResponse'
+        default:
+          $ref: '#/responses/genericError'
+      tags:
+      - classdiagrams
+  /classshapes:
+    get:
+      description: Get all classshapes
+      operationId: getClassshapes
+      responses:
+        "200":
+          $ref: '#/responses/classshapeDBsResponse'
+        default:
+          $ref: '#/responses/genericError'
+      tags:
+      - classshapes
+    post:
+      consumes:
+      - application/json
+      description: Creates a classshape
+      operationId: postClassshape
+      parameters:
+      - description: The Classshape to submit or modify
+        in: body
+        name: Classshape
+        schema:
+          $ref: '#/definitions/classshapeAPI'
+      produces:
+      - application/json
+      responses:
+        "200":
+          $ref: '#/responses/classshapeDBResponse'
+      tags:
+      - classshapes
+  /classshapes/{ID}:
+    delete:
+      description: Delete a classshape
+      operationId: deleteClassshape
+      parameters:
+      - description: The ID of the order
+        format: int64
+        in: path
+        name: ID
+        required: true
+        type: integer
+      responses:
+        default:
+          $ref: '#/responses/genericError'
+      tags:
+      - classshapes
+    get:
+      operationId: getClassshape
+      parameters:
+      - description: The ID of the order
+        format: int64
+        in: path
+        name: ID
+        required: true
+        type: integer
+      responses:
+        "200":
+          $ref: '#/responses/classshapeDBResponse'
+        default:
+          $ref: '#/responses/genericError'
+      summary: Gets the details for a classshape.
+      tags:
+      - classshapes
+    patch:
+      description: Update a classshape
+      operationId: updateClassshape
+      parameters:
+      - description: The ID of the order
+        format: int64
+        in: path
+        name: ID
+        required: true
+        type: integer
+      - description: The Classshape to submit or modify
+        in: body
+        name: Classshape
+        schema:
+          $ref: '#/definitions/classshapeAPI'
+      responses:
+        "200":
+          $ref: '#/responses/classshapeDBResponse'
+        default:
+          $ref: '#/responses/genericError'
+      tags:
+      - classshapes
+  /commitnb:
+    get:
+      operationId: GetLastCommitNb
+      tags:
+      - backrepo
+  /engines:
+    get:
+      description: Get all engines
+      operationId: getEngines
+      responses:
+        "200":
+          $ref: '#/responses/engineDBsResponse'
+        default:
+          $ref: '#/responses/genericError'
+      tags:
+      - engines
+    post:
+      consumes:
+      - application/json
+      description: Creates a engine
+      operationId: postEngine
+      parameters:
+      - description: The Engine to submit or modify
+        in: body
+        name: Engine
+        schema:
+          $ref: '#/definitions/engineAPI'
+      produces:
+      - application/json
+      responses:
+        "200":
+          $ref: '#/responses/engineDBResponse'
+      tags:
+      - engines
+  /engines/{ID}:
+    delete:
+      description: Delete a engine
+      operationId: deleteEngine
+      parameters:
+      - description: The ID of the order
+        format: int64
+        in: path
+        name: ID
+        required: true
+        type: integer
+      responses:
+        default:
+          $ref: '#/responses/genericError'
+      tags:
+      - engines
+    get:
+      operationId: getEngine
+      parameters:
+      - description: The ID of the order
+        format: int64
+        in: path
+        name: ID
+        required: true
+        type: integer
+      responses:
+        "200":
+          $ref: '#/responses/engineDBResponse'
+        default:
+          $ref: '#/responses/genericError'
+      summary: Gets the details for a engine.
+      tags:
+      - engines
+    patch:
+      description: Update a engine
+      operationId: updateEngine
+      parameters:
+      - description: The ID of the order
+        format: int64
+        in: path
+        name: ID
+        required: true
+        type: integer
+      - description: The Engine to submit or modify
+        in: body
+        name: Engine
+        schema:
+          $ref: '#/definitions/engineAPI'
+      responses:
+        "200":
+          $ref: '#/responses/engineDBResponse'
+        default:
+          $ref: '#/responses/genericError'
+      tags:
+      - engines
+  /events:
+    get:
+      description: Get all events
+      operationId: getEvents
+      responses:
+        "200":
+          $ref: '#/responses/eventDBsResponse'
+        default:
+          $ref: '#/responses/genericError'
+      tags:
+      - events
+    post:
+      consumes:
+      - application/json
+      description: Creates a event
+      operationId: postEvent
+      parameters:
+      - description: The Event to submit or modify
+        in: body
+        name: Event
+        schema:
+          $ref: '#/definitions/eventAPI'
+      produces:
+      - application/json
+      responses:
+        "200":
+          $ref: '#/responses/eventDBResponse'
+      tags:
+      - events
+  /events/{ID}:
+    delete:
+      description: Delete a event
+      operationId: deleteEvent
+      parameters:
+      - description: The ID of the order
+        format: int64
+        in: path
+        name: ID
+        required: true
+        type: integer
+      responses:
+        default:
+          $ref: '#/responses/genericError'
+      tags:
+      - events
+    get:
+      operationId: getEvent
+      parameters:
+      - description: The ID of the order
+        format: int64
+        in: path
+        name: ID
+        required: true
+        type: integer
+      responses:
+        "200":
+          $ref: '#/responses/eventDBResponse'
+        default:
+          $ref: '#/responses/genericError'
+      summary: Gets the details for a event.
+      tags:
+      - events
+    patch:
+      description: Update a event
+      operationId: updateEvent
+      parameters:
+      - description: The ID of the order
+        format: int64
+        in: path
+        name: ID
+        required: true
+        type: integer
+      - description: The Event to submit or modify
+        in: body
+        name: Event
+        schema:
+          $ref: '#/definitions/eventAPI'
+      responses:
+        "200":
+          $ref: '#/responses/eventDBResponse'
+        default:
+          $ref: '#/responses/genericError'
+      tags:
+      - events
+  /fields:
+    get:
+      description: Get all fields
+      operationId: getFields
+      responses:
+        "200":
+          $ref: '#/responses/fieldDBsResponse'
+        default:
+          $ref: '#/responses/genericError'
+      tags:
+      - fields
+    post:
+      consumes:
+      - application/json
+      description: Creates a field
+      operationId: postField
+      parameters:
+      - description: The Field to submit or modify
+        in: body
+        name: Field
+        schema:
+          $ref: '#/definitions/fieldAPI'
+      produces:
+      - application/json
+      responses:
+        "200":
+          $ref: '#/responses/fieldDBResponse'
+      tags:
+      - fields
+  /fields/{ID}:
+    delete:
+      description: Delete a field
+      operationId: deleteField
+      parameters:
+      - description: The ID of the order
+        format: int64
+        in: path
+        name: ID
+        required: true
+        type: integer
+      responses:
+        default:
+          $ref: '#/responses/genericError'
+      tags:
+      - fields
+    get:
+      operationId: getField
+      parameters:
+      - description: The ID of the order
+        format: int64
+        in: path
+        name: ID
+        required: true
+        type: integer
+      responses:
+        "200":
+          $ref: '#/responses/fieldDBResponse'
+        default:
+          $ref: '#/responses/genericError'
+      summary: Gets the details for a field.
+      tags:
+      - fields
+    patch:
+      description: Update a field
+      operationId: updateField
+      parameters:
+      - description: The ID of the order
+        format: int64
+        in: path
+        name: ID
+        required: true
+        type: integer
+      - description: The Field to submit or modify
+        in: body
+        name: Field
+        schema:
+          $ref: '#/definitions/fieldAPI'
+      responses:
+        "200":
+          $ref: '#/responses/fieldDBResponse'
+        default:
+          $ref: '#/responses/genericError'
+      tags:
+      - fields
+  /gongdoccommands:
+    get:
+      description: Get all gongdoccommands
+      operationId: getGongdocCommands
+      responses:
+        "200":
+          $ref: '#/responses/gongdoccommandDBsResponse'
+        default:
+          $ref: '#/responses/genericError'
+      tags:
+      - gongdoccommands
+    post:
+      consumes:
+      - application/json
+      description: Creates a gongdoccommand
+      operationId: postGongdocCommand
+      parameters:
+      - description: The GongdocCommand to submit or modify
+        in: body
+        name: GongdocCommand
+        schema:
+          $ref: '#/definitions/gongdoccommandAPI'
+      produces:
+      - application/json
+      responses:
+        "200":
+          $ref: '#/responses/gongdoccommandDBResponse'
+      tags:
+      - gongdoccommands
+  /gongdoccommands/{ID}:
+    delete:
+      description: Delete a gongdoccommand
+      operationId: deleteGongdocCommand
+      parameters:
+      - description: The ID of the order
+        format: int64
+        in: path
+        name: ID
+        required: true
+        type: integer
+      responses:
+        default:
+          $ref: '#/responses/genericError'
+      tags:
+      - gongdoccommands
+    get:
+      operationId: getGongdocCommand
+      parameters:
+      - description: The ID of the order
+        format: int64
+        in: path
+        name: ID
+        required: true
+        type: integer
+      responses:
+        "200":
+          $ref: '#/responses/gongdoccommandDBResponse'
+        default:
+          $ref: '#/responses/genericError'
+      summary: Gets the details for a gongdoccommand.
+      tags:
+      - gongdoccommands
+    patch:
+      description: Update a gongdoccommand
+      operationId: updateGongdocCommand
+      parameters:
+      - description: The ID of the order
+        format: int64
+        in: path
+        name: ID
+        required: true
+        type: integer
+      - description: The GongdocCommand to submit or modify
+        in: body
+        name: GongdocCommand
+        schema:
+          $ref: '#/definitions/gongdoccommandAPI'
+      responses:
+        "200":
+          $ref: '#/responses/gongdoccommandDBResponse'
+        default:
+          $ref: '#/responses/genericError'
+      tags:
+      - gongdoccommands
+  /gongdocstatuss:
+    get:
+      description: Get all gongdocstatuss
+      operationId: getGongdocStatuss
+      responses:
+        "200":
+          $ref: '#/responses/gongdocstatusDBsResponse'
+        default:
+          $ref: '#/responses/genericError'
+      tags:
+      - gongdocstatuss
+    post:
+      consumes:
+      - application/json
+      description: Creates a gongdocstatus
+      operationId: postGongdocStatus
+      parameters:
+      - description: The GongdocStatus to submit or modify
+        in: body
+        name: GongdocStatus
+        schema:
+          $ref: '#/definitions/gongdocstatusAPI'
+      produces:
+      - application/json
+      responses:
+        "200":
+          $ref: '#/responses/gongdocstatusDBResponse'
+      tags:
+      - gongdocstatuss
+  /gongdocstatuss/{ID}:
+    delete:
+      description: Delete a gongdocstatus
+      operationId: deleteGongdocStatus
+      parameters:
+      - description: The ID of the order
+        format: int64
+        in: path
+        name: ID
+        required: true
+        type: integer
+      responses:
+        default:
+          $ref: '#/responses/genericError'
+      tags:
+      - gongdocstatuss
+    get:
+      operationId: getGongdocStatus
+      parameters:
+      - description: The ID of the order
+        format: int64
+        in: path
+        name: ID
+        required: true
+        type: integer
+      responses:
+        "200":
+          $ref: '#/responses/gongdocstatusDBResponse'
+        default:
+          $ref: '#/responses/genericError'
+      summary: Gets the details for a gongdocstatus.
+      tags:
+      - gongdocstatuss
+    patch:
+      description: Update a gongdocstatus
+      operationId: updateGongdocStatus
+      parameters:
+      - description: The ID of the order
+        format: int64
+        in: path
+        name: ID
+        required: true
+        type: integer
+      - description: The GongdocStatus to submit or modify
+        in: body
+        name: GongdocStatus
+        schema:
+          $ref: '#/definitions/gongdocstatusAPI'
+      responses:
+        "200":
+          $ref: '#/responses/gongdocstatusDBResponse'
+        default:
+          $ref: '#/responses/genericError'
+      tags:
+      - gongdocstatuss
+  /gongsimcommands:
+    get:
+      description: Get all gongsimcommands
+      operationId: getGongsimCommands
+      responses:
+        "200":
+          $ref: '#/responses/gongsimcommandDBsResponse'
+        default:
+          $ref: '#/responses/genericError'
+      tags:
+      - gongsimcommands
+    post:
+      consumes:
+      - application/json
+      description: Creates a gongsimcommand
+      operationId: postGongsimCommand
+      parameters:
+      - description: The GongsimCommand to submit or modify
+        in: body
+        name: GongsimCommand
+        schema:
+          $ref: '#/definitions/gongsimcommandAPI'
+      produces:
+      - application/json
+      responses:
+        "200":
+          $ref: '#/responses/gongsimcommandDBResponse'
+      tags:
+      - gongsimcommands
+  /gongsimcommands/{ID}:
+    delete:
+      description: Delete a gongsimcommand
+      operationId: deleteGongsimCommand
+      parameters:
+      - description: The ID of the order
+        format: int64
+        in: path
+        name: ID
+        required: true
+        type: integer
+      responses:
+        default:
+          $ref: '#/responses/genericError'
+      tags:
+      - gongsimcommands
+    get:
+      operationId: getGongsimCommand
+      parameters:
+      - description: The ID of the order
+        format: int64
+        in: path
+        name: ID
+        required: true
+        type: integer
+      responses:
+        "200":
+          $ref: '#/responses/gongsimcommandDBResponse'
+        default:
+          $ref: '#/responses/genericError'
+      summary: Gets the details for a gongsimcommand.
+      tags:
+      - gongsimcommands
+    patch:
+      description: Update a gongsimcommand
+      operationId: updateGongsimCommand
+      parameters:
+      - description: The ID of the order
+        format: int64
+        in: path
+        name: ID
+        required: true
+        type: integer
+      - description: The GongsimCommand to submit or modify
+        in: body
+        name: GongsimCommand
+        schema:
+          $ref: '#/definitions/gongsimcommandAPI'
+      responses:
+        "200":
+          $ref: '#/responses/gongsimcommandDBResponse'
+        default:
+          $ref: '#/responses/genericError'
+      tags:
+      - gongsimcommands
+  /gongsimstatuss:
+    get:
+      description: Get all gongsimstatuss
+      operationId: getGongsimStatuss
+      responses:
+        "200":
+          $ref: '#/responses/gongsimstatusDBsResponse'
+        default:
+          $ref: '#/responses/genericError'
+      tags:
+      - gongsimstatuss
+    post:
+      consumes:
+      - application/json
+      description: Creates a gongsimstatus
+      operationId: postGongsimStatus
+      parameters:
+      - description: The GongsimStatus to submit or modify
+        in: body
+        name: GongsimStatus
+        schema:
+          $ref: '#/definitions/gongsimstatusAPI'
+      produces:
+      - application/json
+      responses:
+        "200":
+          $ref: '#/responses/gongsimstatusDBResponse'
+      tags:
+      - gongsimstatuss
+  /gongsimstatuss/{ID}:
+    delete:
+      description: Delete a gongsimstatus
+      operationId: deleteGongsimStatus
+      parameters:
+      - description: The ID of the order
+        format: int64
+        in: path
+        name: ID
+        required: true
+        type: integer
+      responses:
+        default:
+          $ref: '#/responses/genericError'
+      tags:
+      - gongsimstatuss
+    get:
+      operationId: getGongsimStatus
+      parameters:
+      - description: The ID of the order
+        format: int64
+        in: path
+        name: ID
+        required: true
+        type: integer
+      responses:
+        "200":
+          $ref: '#/responses/gongsimstatusDBResponse'
+        default:
+          $ref: '#/responses/genericError'
+      summary: Gets the details for a gongsimstatus.
+      tags:
+      - gongsimstatuss
+    patch:
+      description: Update a gongsimstatus
+      operationId: updateGongsimStatus
+      parameters:
+      - description: The ID of the order
+        format: int64
+        in: path
+        name: ID
+        required: true
+        type: integer
+      - description: The GongsimStatus to submit or modify
+        in: body
+        name: GongsimStatus
+        schema:
+          $ref: '#/definitions/gongsimstatusAPI'
+      responses:
+        "200":
+          $ref: '#/responses/gongsimstatusDBResponse'
+        default:
+          $ref: '#/responses/genericError'
+      tags:
+      - gongsimstatuss
+  /links:
+    get:
+      description: Get all links
+      operationId: getLinks
+      responses:
+        "200":
+          $ref: '#/responses/linkDBsResponse'
+        default:
+          $ref: '#/responses/genericError'
+      tags:
+      - links
+    post:
+      consumes:
+      - application/json
+      description: Creates a link
+      operationId: postLink
+      parameters:
+      - description: The Link to submit or modify
+        in: body
+        name: Link
+        schema:
+          $ref: '#/definitions/linkAPI'
+      produces:
+      - application/json
+      responses:
+        "200":
+          $ref: '#/responses/linkDBResponse'
+      tags:
+      - links
+  /links/{ID}:
+    delete:
+      description: Delete a link
+      operationId: deleteLink
+      parameters:
+      - description: The ID of the order
+        format: int64
+        in: path
+        name: ID
+        required: true
+        type: integer
+      responses:
+        default:
+          $ref: '#/responses/genericError'
+      tags:
+      - links
+    get:
+      operationId: getLink
+      parameters:
+      - description: The ID of the order
+        format: int64
+        in: path
+        name: ID
+        required: true
+        type: integer
+      responses:
+        "200":
+          $ref: '#/responses/linkDBResponse'
+        default:
+          $ref: '#/responses/genericError'
+      summary: Gets the details for a link.
+      tags:
+      - links
+    patch:
+      description: Update a link
+      operationId: updateLink
+      parameters:
+      - description: The ID of the order
+        format: int64
+        in: path
+        name: ID
+        required: true
+        type: integer
+      - description: The Link to submit or modify
+        in: body
+        name: Link
+        schema:
+          $ref: '#/definitions/linkAPI'
+      responses:
+        "200":
+          $ref: '#/responses/linkDBResponse'
+        default:
+          $ref: '#/responses/genericError'
+      tags:
+      - links
+  /machines:
+    get:
+      description: Get all machines
+      operationId: getMachines
+      responses:
+        "200":
+          $ref: '#/responses/machineDBsResponse'
+        default:
+          $ref: '#/responses/genericError'
+      tags:
+      - machines
+    post:
+      consumes:
+      - application/json
+      description: Creates a machine
+      operationId: postMachine
+      parameters:
+      - description: The Machine to submit or modify
+        in: body
+        name: Machine
+        schema:
+          $ref: '#/definitions/machineAPI'
+      produces:
+      - application/json
+      responses:
+        "200":
+          $ref: '#/responses/machineDBResponse'
+      tags:
+      - machines
+  /machines/{ID}:
+    delete:
+      description: Delete a machine
+      operationId: deleteMachine
+      parameters:
+      - description: The ID of the order
+        format: int64
+        in: path
+        name: ID
+        required: true
+        type: integer
+      responses:
+        default:
+          $ref: '#/responses/genericError'
+      tags:
+      - machines
+    get:
+      operationId: getMachine
+      parameters:
+      - description: The ID of the order
+        format: int64
+        in: path
+        name: ID
+        required: true
+        type: integer
+      responses:
+        "200":
+          $ref: '#/responses/machineDBResponse'
+        default:
+          $ref: '#/responses/genericError'
+      summary: Gets the details for a machine.
+      tags:
+      - machines
+    patch:
+      description: Update a machine
+      operationId: updateMachine
+      parameters:
+      - description: The ID of the order
+        format: int64
+        in: path
+        name: ID
+        required: true
+        type: integer
+      - description: The Machine to submit or modify
+        in: body
+        name: Machine
+        schema:
+          $ref: '#/definitions/machineAPI'
+      responses:
+        "200":
+          $ref: '#/responses/machineDBResponse'
+        default:
+          $ref: '#/responses/genericError'
+      tags:
+      - machines
+  /pkgelts:
+    get:
+      description: Get all pkgelts
+      operationId: getPkgelts
+      responses:
+        "200":
+          $ref: '#/responses/pkgeltDBsResponse'
+        default:
+          $ref: '#/responses/genericError'
+      tags:
+      - pkgelts
+    post:
+      consumes:
+      - application/json
+      description: Creates a pkgelt
+      operationId: postPkgelt
+      parameters:
+      - description: The Pkgelt to submit or modify
+        in: body
+        name: Pkgelt
+        schema:
+          $ref: '#/definitions/pkgeltAPI'
+      produces:
+      - application/json
+      responses:
+        "200":
+          $ref: '#/responses/pkgeltDBResponse'
+      tags:
+      - pkgelts
+  /pkgelts/{ID}:
+    delete:
+      description: Delete a pkgelt
+      operationId: deletePkgelt
+      parameters:
+      - description: The ID of the order
+        format: int64
+        in: path
+        name: ID
+        required: true
+        type: integer
+      responses:
+        default:
+          $ref: '#/responses/genericError'
+      tags:
+      - pkgelts
+    get:
+      operationId: getPkgelt
+      parameters:
+      - description: The ID of the order
+        format: int64
+        in: path
+        name: ID
+        required: true
+        type: integer
+      responses:
+        "200":
+          $ref: '#/responses/pkgeltDBResponse'
+        default:
+          $ref: '#/responses/genericError'
+      summary: Gets the details for a pkgelt.
+      tags:
+      - pkgelts
+    patch:
+      description: Update a pkgelt
+      operationId: updatePkgelt
+      parameters:
+      - description: The ID of the order
+        format: int64
+        in: path
+        name: ID
+        required: true
+        type: integer
+      - description: The Pkgelt to submit or modify
+        in: body
+        name: Pkgelt
+        schema:
+          $ref: '#/definitions/pkgeltAPI'
+      responses:
+        "200":
+          $ref: '#/responses/pkgeltDBResponse'
+        default:
+          $ref: '#/responses/genericError'
+      tags:
+      - pkgelts
+  /positions:
+    get:
+      description: Get all positions
+      operationId: getPositions
+      responses:
+        "200":
+          $ref: '#/responses/positionDBsResponse'
+        default:
+          $ref: '#/responses/genericError'
+      tags:
+      - positions
+    post:
+      consumes:
+      - application/json
+      description: Creates a position
+      operationId: postPosition
+      parameters:
+      - description: The Position to submit or modify
+        in: body
+        name: Position
+        schema:
+          $ref: '#/definitions/positionAPI'
+      produces:
+      - application/json
+      responses:
+        "200":
+          $ref: '#/responses/positionDBResponse'
+      tags:
+      - positions
+  /positions/{ID}:
+    delete:
+      description: Delete a position
+      operationId: deletePosition
+      parameters:
+      - description: The ID of the order
+        format: int64
+        in: path
+        name: ID
+        required: true
+        type: integer
+      responses:
+        default:
+          $ref: '#/responses/genericError'
+      tags:
+      - positions
+    get:
+      operationId: getPosition
+      parameters:
+      - description: The ID of the order
+        format: int64
+        in: path
+        name: ID
+        required: true
+        type: integer
+      responses:
+        "200":
+          $ref: '#/responses/positionDBResponse'
+        default:
+          $ref: '#/responses/genericError'
+      summary: Gets the details for a position.
+      tags:
+      - positions
+    patch:
+      description: Update a position
+      operationId: updatePosition
+      parameters:
+      - description: The ID of the order
+        format: int64
+        in: path
+        name: ID
+        required: true
+        type: integer
+      - description: The Position to submit or modify
+        in: body
+        name: Position
+        schema:
+          $ref: '#/definitions/positionAPI'
+      responses:
+        "200":
+          $ref: '#/responses/positionDBResponse'
+        default:
+          $ref: '#/responses/genericError'
+      tags:
+      - positions
+  /simulations:
+    get:
+      description: Get all simulations
+      operationId: getSimulations
+      responses:
+        "200":
+          $ref: '#/responses/simulationDBsResponse'
+        default:
+          $ref: '#/responses/genericError'
+      tags:
+      - simulations
+    post:
+      consumes:
+      - application/json
+      description: Creates a simulation
+      operationId: postSimulation
+      parameters:
+      - description: The Simulation to submit or modify
+        in: body
+        name: Simulation
+        schema:
+          $ref: '#/definitions/simulationAPI'
+      produces:
+      - application/json
+      responses:
+        "200":
+          $ref: '#/responses/simulationDBResponse'
+      tags:
+      - simulations
+  /simulations/{ID}:
+    delete:
+      description: Delete a simulation
+      operationId: deleteSimulation
+      parameters:
+      - description: The ID of the order
+        format: int64
+        in: path
+        name: ID
+        required: true
+        type: integer
+      responses:
+        default:
+          $ref: '#/responses/genericError'
+      tags:
+      - simulations
+    get:
+      operationId: getSimulation
+      parameters:
+      - description: The ID of the order
+        format: int64
+        in: path
+        name: ID
+        required: true
+        type: integer
+      responses:
+        "200":
+          $ref: '#/responses/simulationDBResponse'
+        default:
+          $ref: '#/responses/genericError'
+      summary: Gets the details for a simulation.
+      tags:
+      - simulations
+    patch:
+      description: Update a simulation
+      operationId: updateSimulation
+      parameters:
+      - description: The ID of the order
+        format: int64
+        in: path
+        name: ID
+        required: true
+        type: integer
+      - description: The Simulation to submit or modify
+        in: body
+        name: Simulation
+        schema:
+          $ref: '#/definitions/simulationAPI'
+      responses:
+        "200":
+          $ref: '#/responses/simulationDBResponse'
+        default:
+          $ref: '#/responses/genericError'
+      tags:
+      - simulations
+  /states:
+    get:
+      description: Get all states
+      operationId: getStates
+      responses:
+        "200":
+          $ref: '#/responses/stateDBsResponse'
+        default:
+          $ref: '#/responses/genericError'
+      tags:
+      - states
+    post:
+      consumes:
+      - application/json
+      description: Creates a state
+      operationId: postState
+      parameters:
+      - description: The State to submit or modify
+        in: body
+        name: State
+        schema:
+          $ref: '#/definitions/stateAPI'
+      produces:
+      - application/json
+      responses:
+        "200":
+          $ref: '#/responses/stateDBResponse'
+      tags:
+      - states
+  /states/{ID}:
+    delete:
+      description: Delete a state
+      operationId: deleteState
+      parameters:
+      - description: The ID of the order
+        format: int64
+        in: path
+        name: ID
+        required: true
+        type: integer
+      responses:
+        default:
+          $ref: '#/responses/genericError'
+      tags:
+      - states
+    get:
+      operationId: getState
+      parameters:
+      - description: The ID of the order
+        format: int64
+        in: path
+        name: ID
+        required: true
+        type: integer
+      responses:
+        "200":
+          $ref: '#/responses/stateDBResponse'
+        default:
+          $ref: '#/responses/genericError'
+      summary: Gets the details for a state.
+      tags:
+      - states
+    patch:
+      description: Update a state
+      operationId: updateState
+      parameters:
+      - description: The ID of the order
+        format: int64
+        in: path
+        name: ID
+        required: true
+        type: integer
+      - description: The State to submit or modify
+        in: body
+        name: State
+        schema:
+          $ref: '#/definitions/stateAPI'
+      responses:
+        "200":
+          $ref: '#/responses/stateDBResponse'
+        default:
+          $ref: '#/responses/genericError'
+      tags:
+      - states
+  /umlscs:
+    get:
+      description: Get all umlscs
+      operationId: getUmlscs
+      responses:
+        "200":
+          $ref: '#/responses/umlscDBsResponse'
+        default:
+          $ref: '#/responses/genericError'
+      tags:
+      - umlscs
+    post:
+      consumes:
+      - application/json
+      description: Creates a umlsc
+      operationId: postUmlsc
+      parameters:
+      - description: The Umlsc to submit or modify
+        in: body
+        name: Umlsc
+        schema:
+          $ref: '#/definitions/umlscAPI'
+      produces:
+      - application/json
+      responses:
+        "200":
+          $ref: '#/responses/umlscDBResponse'
+      tags:
+      - umlscs
+  /umlscs/{ID}:
+    delete:
+      description: Delete a umlsc
+      operationId: deleteUmlsc
+      parameters:
+      - description: The ID of the order
+        format: int64
+        in: path
+        name: ID
+        required: true
+        type: integer
+      responses:
+        default:
+          $ref: '#/responses/genericError'
+      tags:
+      - umlscs
+    get:
+      operationId: getUmlsc
+      parameters:
+      - description: The ID of the order
+        format: int64
+        in: path
+        name: ID
+        required: true
+        type: integer
+      responses:
+        "200":
+          $ref: '#/responses/umlscDBResponse'
+        default:
+          $ref: '#/responses/genericError'
+      summary: Gets the details for a umlsc.
+      tags:
+      - umlscs
+    patch:
+      description: Update a umlsc
+      operationId: updateUmlsc
+      parameters:
+      - description: The ID of the order
+        format: int64
+        in: path
+        name: ID
+        required: true
+        type: integer
+      - description: The Umlsc to submit or modify
+        in: body
+        name: Umlsc
+        schema:
+          $ref: '#/definitions/umlscAPI'
+      responses:
+        "200":
+          $ref: '#/responses/umlscDBResponse'
+        default:
+          $ref: '#/responses/genericError'
+      tags:
+      - umlscs
+  /updatestates:
+    get:
+      description: Get all updatestates
+      operationId: getUpdateStates
+      responses:
+        "200":
+          $ref: '#/responses/updatestateDBsResponse'
+        default:
+          $ref: '#/responses/genericError'
+      tags:
+      - updatestates
+    post:
+      consumes:
+      - application/json
+      description: Creates a updatestate
+      operationId: postUpdateState
+      parameters:
+      - description: The UpdateState to submit or modify
+        in: body
+        name: UpdateState
+        schema:
+          $ref: '#/definitions/updatestateAPI'
+      produces:
+      - application/json
+      responses:
+        "200":
+          $ref: '#/responses/updatestateDBResponse'
+      tags:
+      - updatestates
+  /updatestates/{ID}:
+    delete:
+      description: Delete a updatestate
+      operationId: deleteUpdateState
+      parameters:
+      - description: The ID of the order
+        format: int64
+        in: path
+        name: ID
+        required: true
+        type: integer
+      responses:
+        default:
+          $ref: '#/responses/genericError'
+      tags:
+      - updatestates
+    get:
+      operationId: getUpdateState
+      parameters:
+      - description: The ID of the order
+        format: int64
+        in: path
+        name: ID
+        required: true
+        type: integer
+      responses:
+        "200":
+          $ref: '#/responses/updatestateDBResponse'
+        default:
+          $ref: '#/responses/genericError'
+      summary: Gets the details for a updatestate.
+      tags:
+      - updatestates
+    patch:
+      description: Update a updatestate
+      operationId: updateUpdateState
+      parameters:
+      - description: The ID of the order
+        format: int64
+        in: path
+        name: ID
+        required: true
+        type: integer
+      - description: The UpdateState to submit or modify
+        in: body
+        name: UpdateState
+        schema:
+          $ref: '#/definitions/updatestateAPI'
+      responses:
+        "200":
+          $ref: '#/responses/updatestateDBResponse'
+        default:
+          $ref: '#/responses/genericError'
+      tags:
+      - updatestates
+  /vertices:
+    get:
+      description: Get all vertices
+      operationId: getVertices
+      responses:
+        "200":
+          $ref: '#/responses/verticeDBsResponse'
+        default:
+          $ref: '#/responses/genericError'
+      tags:
+      - vertices
+    post:
+      consumes:
+      - application/json
+      description: Creates a vertice
+      operationId: postVertice
+      parameters:
+      - description: The Vertice to submit or modify
+        in: body
+        name: Vertice
+        schema:
+          $ref: '#/definitions/verticeAPI'
+      produces:
+      - application/json
+      responses:
+        "200":
+          $ref: '#/responses/verticeDBResponse'
+      tags:
+      - vertices
+  /vertices/{ID}:
+    delete:
+      description: Delete a vertice
+      operationId: deleteVertice
+      parameters:
+      - description: The ID of the order
+        format: int64
+        in: path
+        name: ID
+        required: true
+        type: integer
+      responses:
+        default:
+          $ref: '#/responses/genericError'
+      tags:
+      - vertices
+    get:
+      operationId: getVertice
+      parameters:
+      - description: The ID of the order
+        format: int64
+        in: path
+        name: ID
+        required: true
+        type: integer
+      responses:
+        "200":
+          $ref: '#/responses/verticeDBResponse'
+        default:
+          $ref: '#/responses/genericError'
+      summary: Gets the details for a vertice.
+      tags:
+      - vertices
+    patch:
+      description: Update a vertice
+      operationId: updateVertice
+      parameters:
+      - description: The ID of the order
+        format: int64
+        in: path
+        name: ID
+        required: true
+        type: integer
+      - description: The Vertice to submit or modify
+        in: body
+        name: Vertice
+        schema:
+          $ref: '#/definitions/verticeAPI'
+      responses:
+        "200":
+          $ref: '#/responses/verticeDBResponse'
+        default:
+          $ref: '#/responses/genericError'
+      tags:
+      - vertices
+  /washers:
+    get:
+      description: Get all washers
+      operationId: getWashers
+      responses:
+        "200":
+          $ref: '#/responses/washerDBsResponse'
+        default:
+          $ref: '#/responses/genericError'
+      tags:
+      - washers
+    post:
+      consumes:
+      - application/json
+      description: Creates a washer
+      operationId: postWasher
+      parameters:
+      - description: The Washer to submit or modify
+        in: body
+        name: Washer
+        schema:
+          $ref: '#/definitions/washerAPI'
+      produces:
+      - application/json
+      responses:
+        "200":
+          $ref: '#/responses/washerDBResponse'
+      tags:
+      - washers
+  /washers/{ID}:
+    delete:
+      description: Delete a washer
+      operationId: deleteWasher
+      parameters:
+      - description: The ID of the order
+        format: int64
+        in: path
+        name: ID
+        required: true
+        type: integer
+      responses:
+        default:
+          $ref: '#/responses/genericError'
+      tags:
+      - washers
+    get:
+      operationId: getWasher
+      parameters:
+      - description: The ID of the order
+        format: int64
+        in: path
+        name: ID
+        required: true
+        type: integer
+      responses:
+        "200":
+          $ref: '#/responses/washerDBResponse'
+        default:
+          $ref: '#/responses/genericError'
+      summary: Gets the details for a washer.
+      tags:
+      - washers
+    patch:
+      description: Update a washer
+      operationId: updateWasher
+      parameters:
+      - description: The ID of the order
+        format: int64
+        in: path
+        name: ID
+        required: true
+        type: integer
+      - description: The Washer to submit or modify
+        in: body
+        name: Washer
+        schema:
+          $ref: '#/definitions/washerAPI'
+      responses:
+        "200":
+          $ref: '#/responses/washerDBResponse'
+        default:
+          $ref: '#/responses/genericError'
+      tags:
+      - washers
+produces:
+- application/json
+responses:
+  classdiagramDBResponse:
+    description: ClassdiagramDBResponse provides response
+    headers:
+      Classshapes:
+        description: |-
+          this is the memory model (and not the "memory motel" of the Rolling Stones)
+          it is not ignored by swagger because it is used by the angular model
+        items:
+          $ref: '#/definitions/Classshape'
+        type: array
+      CreatedAt:
+        format: date-time
+        type: string
+      DeletedAt:
+        format: date-time
+        type: string
+      ID:
+        format: uint64
+        type: integer
+      Name:
+        type: string
+      Name_Data:
+        description: |-
+          insertion for fields declaration
+          Declation for basic field classdiagramDB.Name {{BasicKind}} (to be completed)
+      Pkgelt_ClassdiagramsDBID:
+        description: Implementation of a reverse ID for field Pkgelt{}.Classdiagrams
+          []*Classdiagram
+      UpdatedAt:
+        format: date-time
+        type: string
+    schema:
+      $ref: '#/definitions/NullInt64'
+  classdiagramDBsResponse:
+    description: ClassdiagramDBs arrays classdiagramDBs
+    schema:
+      items:
+        $ref: '#/definitions/classdiagramDB'
+      type: array
+  classshapeDBResponse:
+    description: ClassshapeDBResponse provides response
+    headers:
+      Classdiagram_ClassshapesDBID:
+        description: Implementation of a reverse ID for field Classdiagram{}.Classshapes
+          []*Classshape
+      ClassshapeTargetType: {}
+      ClassshapeTargetType_Data:
+        description: Declation for basic field classshapeDB.ClassshapeTargetType {{BasicKind}}
+          (to be completed)
+      CreatedAt:
+        format: date-time
+        type: string
+      DeletedAt:
+        format: date-time
+        type: string
+      Fields:
+        description: models of the composition of Field
+        items:
+          $ref: '#/definitions/Field'
+        type: array
+      Heigth_Data:
+        description: Declation for basic field classshapeDB.Heigth {{BasicKind}} (to
+          be completed)
+      ID:
+        format: uint64
+        type: integer
+      Links:
+        description: models of the composition of Link
+        items:
+          $ref: '#/definitions/Link'
+        type: array
+      Name:
+        description: for technical reasons
+        type: string
+      Name_Data:
+        description: |-
+          insertion for fields declaration
+          Declation for basic field classshapeDB.Name {{BasicKind}} (to be completed)
+      PositionID:
+        description: |-
+          field Position is a pointer to another Struct (optional or 0..1)
+          This field is generated into another field to enable AS ONE association
+      PositionName:
+        description: all gong Struct has a Name field, this enables this data to object
+          field
+        type: string
+      Structname:
+        type: string
+      Structname_Data:
+        description: Declation for basic field classshapeDB.Structname {{BasicKind}}
+          (to be completed)
+      UpdatedAt:
+        format: date-time
+        type: string
+      Width:
+        description: |-
+          with and height of the shape when they are rendered on SVG or with jointjs
+          They are optional fields. they can be computed when empty
+        format: double
+        type: number
+      Width_Data:
+        description: Declation for basic field classshapeDB.Width {{BasicKind}} (to
+          be completed)
+    schema:
+      $ref: '#/definitions/NullInt64'
+  classshapeDBsResponse:
+    description: ClassshapeDBs arrays classshapeDBs
+    schema:
+      items:
+        $ref: '#/definitions/classshapeDB'
+      type: array
+  engineDBResponse:
+    description: EngineDBResponse provides response
+    headers:
+      ControlMode:
+        description: control mode.
+        enum:
+        - - Autonomous
+          - ClientControl
+        type: string
+      ControlMode_Data:
+        description: Declation for basic field engineDB.ControlMode {{BasicKind}}
+          (to be completed)
+      CreatedAt:
+        format: date-time
+        type: string
+      CurrentTime:
+        type: string
+      CurrentTime_Data:
+        description: Declation for basic field engineDB.CurrentTime {{BasicKind}}
+          (to be completed)
+      DeletedAt:
+        format: date-time
+        type: string
+      EndTime:
+        type: string
+      EndTime_Data:
+        description: Declation for basic field engineDB.EndTime {{BasicKind}} (to
+          be completed)
+      Fired:
+        description: Fired events
+        format: int64
+        type: integer
+      Fired_Data:
+        description: Declation for basic field engineDB.Fired {{BasicKind}} (to be
+          completed)
+      ID:
+        format: uint64
+        type: integer
+      LastEvent:
+        description: LastEvent ...
+      LastEventAgent:
+        description: LastEvent agent
+      Name:
+        description: Name of the engine "laundramat" for instance
+        type: string
+      Name_Data:
+        description: |-
+          insertion for fields declaration
+          Declation for basic field engineDB.Name {{BasicKind}} (to be completed)
+      SecondsSinceStart:
+        description: number of the seconds elapsed since the beginning of the simulation
+        format: double
+        type: number
+      SecondsSinceStart_Data:
+        description: Declation for basic field engineDB.SecondsSinceStart {{BasicKind}}
+          (to be completed)
+      Simulation:
+        description: |-
+          Simulation supportspecific callback
+          on the engine events
+      Speed:
+        description: Speed compared to realtime
+        format: double
+        type: number
+      Speed_Data:
+        description: Declation for basic field engineDB.Speed {{BasicKind}} (to be
+          completed)
+      State:
+        description: engine state
+        enum:
+        - - RUNNING
+          - PAUSED
+          - OVER
+        type: string
+      State_Data:
+        description: Declation for basic field engineDB.State {{BasicKind}} (to be
+          completed)
+      UpdatedAt:
+        format: date-time
+        type: string
+      agents:
+        description: list of engine agents
+        items:
+          $ref: '#/definitions/AgentInterface'
+        type: array
+      currentTime:
+        description: currentTime is the simulation current time
+        format: date-time
+        type: string
+      endTime:
+        description: endTime is the simulatio end date
+        format: date-time
+        type: string
+      nextCheckoutDate:
+        format: date-time
+        type: string
+      startTime:
+        description: startTime is the simulation start date
+        format: date-time
+        type: string
+    schema:
+      $ref: '#/definitions/NullFloat64'
+  engineDBsResponse:
+    description: EngineDBs arrays engineDBs
+    schema:
+      items:
+        $ref: '#/definitions/engineDB'
+      type: array
+  eventDBResponse:
+    description: EventDBResponse provides response
+    headers:
+      CreatedAt:
+        format: date-time
+        type: string
+      DeletedAt:
+        format: date-time
+        type: string
+      Duration:
+        description: |-
+          Duration is the difference between the current time and the fire time of the
+          event. It is handy to compute directly the fire time
+      ID:
+        format: uint64
+        type: integer
+      Name:
+        type: string
+      Name_Data:
+        description: |-
+          insertion for fields declaration
+          Declation for basic field eventDB.Name {{BasicKind}} (to be completed)
+      UpdatedAt:
+        format: date-time
+        type: string
+      agent: {}
+      fireTime:
+        description: Fire is the time at which the event is Fired
+        format: date-time
+        type: string
+    schema:
+      $ref: '#/definitions/NullString'
+  eventDBsResponse:
+    description: EventDBs arrays eventDBs
+    schema:
+      items:
+        $ref: '#/definitions/eventDB'
+      type: array
+  fieldDBResponse:
+    description: FieldDBResponse provides response
+    headers:
+      Classshape_FieldsDBID:
+        description: Implementation of a reverse ID for field Classshape{}.Fields
+          []*Field
+      CreatedAt:
+        format: date-time
+        type: string
+      DeletedAt:
+        format: date-time
+        type: string
+      FieldTypeAsString:
+        type: string
+      FieldTypeAsString_Data:
+        description: Declation for basic field fieldDB.FieldTypeAsString {{BasicKind}}
+          (to be completed)
+      Fieldname:
+        type: string
+      Fieldname_Data:
+        description: Declation for basic field fieldDB.Fieldname {{BasicKind}} (to
+          be completed)
+      Fieldtypename:
+        type: string
+      Fieldtypename_Data:
+        description: Declation for basic field fieldDB.Fieldtypename {{BasicKind}}
+          (to be completed)
+      ID:
+        format: uint64
+        type: integer
+      Name:
+        type: string
+      Name_Data:
+        description: |-
+          insertion for fields declaration
+          Declation for basic field fieldDB.Name {{BasicKind}} (to be completed)
+      Structname:
+        type: string
+      Structname_Data:
+        description: Declation for basic field fieldDB.Structname {{BasicKind}} (to
+          be completed)
+      UpdatedAt:
+        format: date-time
+        type: string
+    schema:
+      $ref: '#/definitions/NullInt64'
+  fieldDBsResponse:
+    description: FieldDBs arrays fieldDBs
+    schema:
+      items:
+        $ref: '#/definitions/fieldDB'
+      type: array
+  genericError:
+    description: |-
+      A GenericError is the default error message that is generated.
+      For certain status codes there are more appropriate error structures.
+    schema:
+      properties:
+        code:
+          format: int32
+          type: integer
+          x-go-name: Code
+        message:
+          type: string
+          x-go-name: Message
+      type: object
+  gongdoccommandDBResponse:
+    description: GongdocCommandDBResponse provides response
+    headers:
+      Command:
+        enum:
+        - - MARSHALL_ALL_DIAGRAMS
+          - PRINT_ALL_DOCUMENTS
+          - DIAGRAM_ELEMENT_DELETE
+          - DIAGRAM_ELEMENT_CREATE
+        type: string
+      Command_Data:
+        description: Declation for basic field gongdoccommandDB.Command {{BasicKind}}
+          (to be completed)
+      CreatedAt:
+        format: date-time
+        type: string
+      Date:
+        type: string
+      Date_Data:
+        description: Declation for basic field gongdoccommandDB.Date {{BasicKind}}
+          (to be completed)
+      DeletedAt:
+        format: date-time
+        type: string
+      DiagramName:
+        type: string
+      DiagramName_Data:
+        description: Declation for basic field gongdoccommandDB.DiagramName {{BasicKind}}
+          (to be completed)
+      FieldName:
+        type: string
+      FieldName_Data:
+        description: Declation for basic field gongdoccommandDB.FieldName {{BasicKind}}
+          (to be completed)
+      FieldTypeName:
+        type: string
+      FieldTypeName_Data:
+        description: Declation for basic field gongdoccommandDB.FieldTypeName {{BasicKind}}
+          (to be completed)
+      GongdocNodeType:
+        enum:
+        - - ROOT_OF_GONG_STRUCTS
+          - GONG_STRUCT
+          - ROOT_OF_BASIC_FIELDS
+          - BASIC_FIELD
+          - ROOT_OF_POINTER_TO_STRUCT_FIELDS
+          - POINTER_TO_STRUCT
+          - ROOT_OF_SLICE_OF_POINTER_TO_GONG_STRUCT_FIELDS
+          - SLICE_OF_POINTER_TO_STRUCT
+        type: string
+      GongdocNodeType_Data:
+        description: Declation for basic field gongdoccommandDB.GongdocNodeType {{BasicKind}}
+          (to be completed)
+      ID:
+        format: uint64
+        type: integer
+      Name:
+        type: string
+      Name_Data:
+        description: |-
+          insertion for fields declaration
+          Declation for basic field gongdoccommandDB.Name {{BasicKind}} (to be completed)
+      PositionX:
+        format: int64
+        type: integer
+      PositionX_Data:
+        description: Declation for basic field gongdoccommandDB.PositionX {{BasicKind}}
+          (to be completed)
+      PositionY:
+        format: int64
+        type: integer
+      PositionY_Data:
+        description: Declation for basic field gongdoccommandDB.PositionY {{BasicKind}}
+          (to be completed)
+      StructName:
+        type: string
+      StructName_Data:
+        description: Declation for basic field gongdoccommandDB.StructName {{BasicKind}}
+          (to be completed)
+      UpdatedAt:
+        format: date-time
+        type: string
+    schema:
+      $ref: '#/definitions/NullInt64'
+  gongdoccommandDBsResponse:
+    description: GongdocCommandDBs arrays gongdoccommandDBs
+    schema:
+      items:
+        $ref: '#/definitions/gongdoccommandDB'
+      type: array
+  gongdocstatusDBResponse:
+    description: GongdocStatusDBResponse provides response
+    headers:
+      CommandCompletionDate:
+        type: string
+      CommandCompletionDate_Data:
+        description: Declation for basic field gongdocstatusDB.CommandCompletionDate
+          {{BasicKind}} (to be completed)
+      CreatedAt:
+        format: date-time
+        type: string
+      DeletedAt:
+        format: date-time
+        type: string
+      ID:
+        format: uint64
+        type: integer
+      Name:
+        type: string
+      Name_Data:
+        description: |-
+          insertion for fields declaration
+          Declation for basic field gongdocstatusDB.Name {{BasicKind}} (to be completed)
+      Status:
+        enum:
+        - - MARSHALL_ALL_DIAGRAMS
+          - PRINT_ALL_DOCUMENTS
+          - DIAGRAM_ELEMENT_DELETE
+          - DIAGRAM_ELEMENT_CREATE
+        type: string
+      Status_Data:
+        description: Declation for basic field gongdocstatusDB.Status {{BasicKind}}
+          (to be completed)
+      UpdatedAt:
+        format: date-time
+        type: string
+    schema:
+      $ref: '#/definitions/NullString'
+  gongdocstatusDBsResponse:
+    description: GongdocStatusDBs arrays gongdocstatusDBs
+    schema:
+      items:
+        $ref: '#/definitions/gongdocstatusDB'
+      type: array
+  gongsimcommandDBResponse:
+    description: GongsimCommandDBResponse provides response
+    headers:
+      Command:
+        enum:
+        - - PLAY
+          - PAUSE
+          - FIRE_NEXT_EVENT
+          - FIRE_EVENT_TILL_STATES_CHANGE
+          - RESET
+          - ADVANCE_10_MIN
+        type: string
+      Command_Data:
+        description: Declation for basic field gongsimcommandDB.Command {{BasicKind}}
+          (to be completed)
+      CommandDate:
+        type: string
+      CommandDate_Data:
+        description: Declation for basic field gongsimcommandDB.CommandDate {{BasicKind}}
+          (to be completed)
+      CreatedAt:
+        format: date-time
+        type: string
+      DateSpeedCommand:
+        type: string
+      DateSpeedCommand_Data:
+        description: Declation for basic field gongsimcommandDB.DateSpeedCommand {{BasicKind}}
+          (to be completed)
+      DeletedAt:
+        format: date-time
+        type: string
+      ID:
+        format: uint64
+        type: integer
+      Name:
+        type: string
+      Name_Data:
+        description: |-
+          insertion for fields declaration
+          Declation for basic field gongsimcommandDB.Name {{BasicKind}} (to be completed)
+      SpeedCommandType:
+        enum:
+        - - PLAY
+          - PAUSE
+          - FIRE_NEXT_EVENT
+          - FIRE_EVENT_TILL_STATES_CHANGE
+          - RESET
+          - ADVANCE_10_MIN
+        type: string
+      SpeedCommandType_Data:
+        description: Declation for basic field gongsimcommandDB.SpeedCommandType {{BasicKind}}
+          (to be completed)
+      UpdatedAt:
+        format: date-time
+        type: string
+    schema:
+      $ref: '#/definitions/NullString'
+  gongsimcommandDBsResponse:
+    description: GongsimCommandDBs arrays gongsimcommandDBs
+    schema:
+      items:
+        $ref: '#/definitions/gongsimcommandDB'
+      type: array
+  gongsimstatusDBResponse:
+    description: GongsimStatusDBResponse provides response
+    headers:
+      CompletionDate:
+        type: string
+      CompletionDate_Data:
+        description: Declation for basic field gongsimstatusDB.CompletionDate {{BasicKind}}
+          (to be completed)
+      CreatedAt:
+        format: date-time
+        type: string
+      CurrentCommand:
+        enum:
+        - - PLAY
+          - PAUSE
+          - FIRE_NEXT_EVENT
+          - FIRE_EVENT_TILL_STATES_CHANGE
+          - RESET
+          - ADVANCE_10_MIN
+        type: string
+      CurrentCommand_Data:
+        description: Declation for basic field gongsimstatusDB.CurrentCommand {{BasicKind}}
+          (to be completed)
+      CurrentSpeedCommand:
+        enum:
+        - - PLAY
+          - PAUSE
+          - FIRE_NEXT_EVENT
+          - FIRE_EVENT_TILL_STATES_CHANGE
+          - RESET
+          - ADVANCE_10_MIN
+        type: string
+      CurrentSpeedCommand_Data:
+        description: Declation for basic field gongsimstatusDB.CurrentSpeedCommand
+          {{BasicKind}} (to be completed)
+      DeletedAt:
+        format: date-time
+        type: string
+      ID:
+        format: uint64
+        type: integer
+      Name:
+        type: string
+      Name_Data:
+        description: |-
+          insertion for fields declaration
+          Declation for basic field gongsimstatusDB.Name {{BasicKind}} (to be completed)
+      SpeedCommandCompletionDate:
+        type: string
+      SpeedCommandCompletionDate_Data:
+        description: Declation for basic field gongsimstatusDB.SpeedCommandCompletionDate
+          {{BasicKind}} (to be completed)
+      UpdatedAt:
+        format: date-time
+        type: string
+    schema:
+      $ref: '#/definitions/NullString'
+  gongsimstatusDBsResponse:
+    description: GongsimStatusDBs arrays gongsimstatusDBs
+    schema:
+      items:
+        $ref: '#/definitions/gongsimstatusDB'
+      type: array
+  linkDBResponse:
+    description: LinkDBResponse provides response
+    headers:
+      Classshape_LinksDBID:
+        description: Implementation of a reverse ID for field Classshape{}.Links []*Link
+      CreatedAt:
+        format: date-time
+        type: string
+      DeletedAt:
+        format: date-time
+        type: string
+      Fieldname:
+        type: string
+      Fieldname_Data:
+        description: Declation for basic field linkDB.Fieldname {{BasicKind}} (to
+          be completed)
+      Fieldtypename:
+        type: string
+      Fieldtypename_Data:
+        description: Declation for basic field linkDB.Fieldtypename {{BasicKind}}
+          (to be completed)
+      ID:
+        format: uint64
+        type: integer
+      MiddleverticeID:
+        description: |-
+          field Middlevertice is a pointer to another Struct (optional or 0..1)
+          This field is generated into another field to enable AS ONE association
+      MiddleverticeName:
+        description: all gong Struct has a Name field, this enables this data to object
+          field
+        type: string
+      Multiplicity: {}
+      Multiplicity_Data:
+        description: Declation for basic field linkDB.Multiplicity {{BasicKind}} (to
+          be completed)
+      Name:
+        type: string
+      Name_Data:
+        description: |-
+          insertion for fields declaration
+          Declation for basic field linkDB.Name {{BasicKind}} (to be completed)
+      Structname:
+        type: string
+      Structname_Data:
+        description: Declation for basic field linkDB.Structname {{BasicKind}} (to
+          be completed)
+      UpdatedAt:
+        format: date-time
+        type: string
+    schema:
+      $ref: '#/definitions/NullInt64'
+  linkDBsResponse:
+    description: LinkDBs arrays linkDBs
+    schema:
+      items:
+        $ref: '#/definitions/linkDB'
+      type: array
+  machineDBResponse:
+    description: MachineDBResponse provides response
+    headers:
+      Cleanedlaundry:
+        description: Cleanedlaundry indicate wether the laundry in the drum is wet
+          (it has been cleand)
+        type: boolean
+      Cleanedlaundry_Data:
+        description: |-
+          Declation for basic field machineDB.Cleanedlaundry bool (to be completed)
+          provide the sql storage for the boolan
+      CreatedAt:
+        format: date-time
+        type: string
+      DeletedAt:
+        format: date-time
+        type: string
+      DrumLoad:
+        description: DrumLoad in kg
+        format: double
+        type: number
+      DrumLoad_Data:
+        description: Declation for basic field machineDB.DrumLoad {{BasicKind}} (to
+          be completed)
+      ID:
+        format: uint64
+        type: integer
+      Name:
+        description: Name is a mandatory field with metab
+        type: string
+      Name_Data:
+        description: Declation for basic field machineDB.Name {{BasicKind}} (to be
+          completed)
+      RemainingTime:
+        description: Remaining Time
+      RemainingTimeMinutes:
+        format: int64
+        type: integer
+      RemainingTimeMinutes_Data:
+        description: Declation for basic field machineDB.RemainingTimeMinutes {{BasicKind}}
+          (to be completed)
+      State:
+        description: State of the machine
+        enum:
+        - - MACHINE_DOOR_OPEN
+          - MACHINE_DOOR_CLOSED_RUNNING
+          - MACHINE_DOOR_CLOSED_IDLE
+        type: string
+      State_Data:
+        description: Declation for basic field machineDB.State {{BasicKind}} (to be
+          completed)
+      TechName:
+        type: string
+      TechName_Data:
+        description: |-
+          insertion for fields declaration
+          Declation for basic field machineDB.TechName {{BasicKind}} (to be completed)
+      UpdatedAt:
+        format: date-time
+        type: string
+    schema:
+      $ref: '#/definitions/NullString'
+  machineDBsResponse:
+    description: MachineDBs arrays machineDBs
+    schema:
+      items:
+        $ref: '#/definitions/machineDB'
+      type: array
+  pkgeltDBResponse:
+    description: PkgeltDBResponse provides response
+    headers:
+      Classdiagrams:
+        items:
+          $ref: '#/definitions/Classdiagram'
+        type: array
+      CreatedAt:
+        format: date-time
+        type: string
+      DeletedAt:
+        format: date-time
+        type: string
+      ID:
+        format: uint64
+        type: integer
+      Name:
+        type: string
+      Name_Data:
+        description: |-
+          insertion for fields declaration
+          Declation for basic field pkgeltDB.Name {{BasicKind}} (to be completed)
+      Path:
+        type: string
+      Path_Data:
+        description: Declation for basic field pkgeltDB.Path {{BasicKind}} (to be
+          completed)
+      Umlscs:
+        items:
+          $ref: '#/definitions/Umlsc'
+        type: array
+      UpdatedAt:
+        format: date-time
+        type: string
+    schema:
+      $ref: '#/definitions/NullString'
+  pkgeltDBsResponse:
+    description: PkgeltDBs arrays pkgeltDBs
+    schema:
+      items:
+        $ref: '#/definitions/pkgeltDB'
+      type: array
+  positionDBResponse:
+    description: PositionDBResponse provides response
+    headers:
+      CreatedAt:
+        format: date-time
+        type: string
+      DeletedAt:
+        format: date-time
+        type: string
+      ID:
+        format: uint64
+        type: integer
+      Name:
+        type: string
+      Name_Data:
+        description: Declation for basic field positionDB.Name {{BasicKind}} (to be
+          completed)
+      UpdatedAt:
+        format: date-time
+        type: string
+      X:
+        format: double
+        type: number
+      X_Data:
+        description: |-
+          insertion for fields declaration
+          Declation for basic field positionDB.X {{BasicKind}} (to be completed)
+      "Y":
+        format: double
+        type: number
+      Y_Data:
+        description: Declation for basic field positionDB.Y {{BasicKind}} (to be completed)
+    schema:
+      $ref: '#/definitions/NullString'
+  positionDBsResponse:
+    description: PositionDBs arrays positionDBs
+    schema:
+      items:
+        $ref: '#/definitions/positionDB'
+      type: array
+  simulationDBResponse:
+    description: SimulationDBResponse provides response
+    headers:
+      CreatedAt:
+        format: date-time
+        type: string
+      DeletedAt:
+        format: date-time
+        type: string
+      Etats_Machine: {}
+      Etats_Washer: {}
+      ID:
+        format: uint64
+        type: integer
+      LastCommitNb:
+        format: int64
+        type: integer
+      LastCommitNb_Data:
+        description: Declation for basic field simulationDB.LastCommitNb {{BasicKind}}
+          (to be completed)
+      Machine: {}
+      MachineID:
+        description: |-
+          field Machine is a pointer to another Struct (optional or 0..1)
+          This field is generated into another field to enable AS ONE association
+      MachineName:
+        description: all gong Struct has a Name field, this enables this data to object
+          field
+        type: string
+      Name:
+        type: string
+      Name_Data:
+        description: |-
+          insertion for fields declaration
+          Declation for basic field simulationDB.Name {{BasicKind}} (to be completed)
+      UpdatedAt:
+        format: date-time
+        type: string
+      Washer: {}
+      WasherID:
+        description: |-
+          field Washer is a pointer to another Struct (optional or 0..1)
+          This field is generated into another field to enable AS ONE association
+      WasherName:
+        description: all gong Struct has a Name field, this enables this data to object
+          field
+        type: string
+      machineState:
+        enum:
+        - - MACHINE_DOOR_OPEN
+          - MACHINE_DOOR_CLOSED_RUNNING
+          - MACHINE_DOOR_CLOSED_IDLE
+        type: string
+      washerState:
+        enum:
+        - - WASHER_IDLE
+          - WASHER_LOAD_DRUM
+          - WASHER_OPEN_DOOR
+          - WASHER_WAIT_PROGRAM_END
+          - WASHER_CLOSE_DOOR
+          - WASHER_UNLOAD_DRUM
+          - WASHER_START_PROGRAM
+        type: string
+    schema:
+      $ref: '#/definitions/NullInt64'
+  simulationDBsResponse:
+    description: SimulationDBs arrays simulationDBs
+    schema:
+      items:
+        $ref: '#/definitions/simulationDB'
+      type: array
+  stateDBResponse:
+    description: StateDBResponse provides response
+    headers:
+      CreatedAt:
+        format: date-time
+        type: string
+      DeletedAt:
+        format: date-time
+        type: string
+      ID:
+        format: uint64
+        type: integer
+      Name:
+        type: string
+      Name_Data:
+        description: |-
+          insertion for fields declaration
+          Declation for basic field stateDB.Name {{BasicKind}} (to be completed)
+      Umlsc_StatesDBID:
+        description: Implementation of a reverse ID for field Umlsc{}.States []*State
+      UpdatedAt:
+        format: date-time
+        type: string
+      X:
+        format: double
+        type: number
+      X_Data:
+        description: Declation for basic field stateDB.X {{BasicKind}} (to be completed)
+      "Y":
+        format: double
+        type: number
+      Y_Data:
+        description: Declation for basic field stateDB.Y {{BasicKind}} (to be completed)
+    schema:
+      $ref: '#/definitions/NullInt64'
+  stateDBsResponse:
+    description: StateDBs arrays stateDBs
+    schema:
+      items:
+        $ref: '#/definitions/stateDB'
+      type: array
+  umlscDBResponse:
+    description: UmlscDBResponse provides response
+    headers:
+      Activestate:
+        description: |-
+          in this version, only one state is active mong the states
+          (with the embedded states version, that might change)
+        type: string
+      Activestate_Data:
+        description: Declation for basic field umlscDB.Activestate {{BasicKind}} (to
+          be completed)
+      CreatedAt:
+        format: date-time
+        type: string
+      DeletedAt:
+        format: date-time
+        type: string
+      ID:
+        format: uint64
+        type: integer
+      Name:
+        type: string
+      Name_Data:
+        description: |-
+          insertion for fields declaration
+          Declation for basic field umlscDB.Name {{BasicKind}} (to be completed)
+      Pkgelt_UmlscsDBID:
+        description: Implementation of a reverse ID for field Pkgelt{}.Umlscs []*Umlsc
+      States:
+        description: |-
+          this is the memory model (and not the "memory motel" of the Rolling Stones)
+          it is not ignored by swagger because it is used by the angular model
+        items:
+          $ref: '#/definitions/State'
+        type: array
+      UpdatedAt:
+        format: date-time
+        type: string
+    schema:
+      $ref: '#/definitions/NullInt64'
+  umlscDBsResponse:
+    description: UmlscDBs arrays umlscDBs
+    schema:
+      items:
+        $ref: '#/definitions/umlscDB'
+      type: array
+  updatestateDBResponse:
+    description: UpdateStateDBResponse provides response
+    headers:
+      CreatedAt:
+        format: date-time
+        type: string
+      DeletedAt:
+        format: date-time
+        type: string
+      Duration:
+        description: |-
+          Duration is the difference between the current time and the fire time of the
+          event. It is handy to compute directly the fire time
+      ID:
+        format: uint64
+        type: integer
+      Name:
+        type: string
+      Name_Data:
+        description: |-
+          insertion for fields declaration
+          Declation for basic field updatestateDB.Name {{BasicKind}} (to be completed)
+      Period:
+        description: Period is the time between two fires of FireTime
+      UpdatedAt:
+        format: date-time
+        type: string
+      agent: {}
+      fireTime:
+        description: Fire is the time at which the event is Fired
+        format: date-time
+        type: string
+    schema:
+      $ref: '#/definitions/NullString'
+  updatestateDBsResponse:
+    description: UpdateStateDBs arrays updatestateDBs
+    schema:
+      items:
+        $ref: '#/definitions/updatestateDB'
+      type: array
+  validationError:
+    description: |-
+      A ValidationError is an that is generated for validation failures.
+      It has the same fields as a generic error but adds a Field property.
+    schema:
+      properties:
+        code:
+          format: int32
+          type: integer
+          x-go-name: Code
+        field:
+          type: string
+          x-go-name: Field
+        message:
+          type: string
+          x-go-name: Message
+      type: object
+  verticeDBResponse:
+    description: VerticeDBResponse provides response
+    headers:
+      CreatedAt:
+        format: date-time
+        type: string
+      DeletedAt:
+        format: date-time
+        type: string
+      ID:
+        format: uint64
+        type: integer
+      Name:
+        type: string
+      Name_Data:
+        description: Declation for basic field verticeDB.Name {{BasicKind}} (to be
+          completed)
+      UpdatedAt:
+        format: date-time
+        type: string
+      X:
+        format: double
+        type: number
+      X_Data:
+        description: |-
+          insertion for fields declaration
+          Declation for basic field verticeDB.X {{BasicKind}} (to be completed)
+      "Y":
+        format: double
+        type: number
+      Y_Data:
+        description: Declation for basic field verticeDB.Y {{BasicKind}} (to be completed)
+    schema:
+      $ref: '#/definitions/NullString'
+  verticeDBsResponse:
+    description: VerticeDBs arrays verticeDBs
+    schema:
+      items:
+        $ref: '#/definitions/verticeDB'
+      type: array
+  washerDBResponse:
+    description: WasherDBResponse provides response
+    headers:
+      CleanedLaundryWeight:
+        description: |-
+          CleanedLaundryWeight is the cumulative cleaned laundry
+          the Washer. in kilo
+        format: double
+        type: number
+      CleanedLaundryWeight_Data:
+        description: Declation for basic field washerDB.CleanedLaundryWeight {{BasicKind}}
+          (to be completed)
+      CreatedAt:
+        format: date-time
+        type: string
+      DeletedAt:
+        format: date-time
+        type: string
+      DirtyLaundryWeight:
+        description: DirtyLaundryWeight is the weigh of the dirty laundry to clean
+        format: double
+        type: number
+      DirtyLaundryWeight_Data:
+        description: Declation for basic field washerDB.DirtyLaundryWeight {{BasicKind}}
+          (to be completed)
+      ID:
+        format: uint64
+        type: integer
+      MachineID:
+        description: |-
+          field Machine is a pointer to another Struct (optional or 0..1)
+          This field is generated into another field to enable AS ONE association
+      MachineName:
+        description: all gong Struct has a Name field, this enables this data to object
+          field
+        type: string
+      Name:
+        description: Name is a mandatory field with metab
+        type: string
+      Name_Data:
+        description: Declation for basic field washerDB.Name {{BasicKind}} (to be
+          completed)
+      State:
+        description: State
+        enum:
+        - - WASHER_IDLE
+          - WASHER_LOAD_DRUM
+          - WASHER_OPEN_DOOR
+          - WASHER_WAIT_PROGRAM_END
+          - WASHER_CLOSE_DOOR
+          - WASHER_UNLOAD_DRUM
+          - WASHER_START_PROGRAM
+        type: string
+      State_Data:
+        description: Declation for basic field washerDB.State {{BasicKind}} (to be
+          completed)
+      TechName:
+        type: string
+      TechName_Data:
+        description: |-
+          insertion for fields declaration
+          Declation for basic field washerDB.TechName {{BasicKind}} (to be completed)
+      UpdatedAt:
+        format: date-time
+        type: string
+    schema:
+      $ref: '#/definitions/NullFloat64'
+  washerDBsResponse:
+    description: WasherDBs arrays washerDBs
+    schema:
+      items:
+        $ref: '#/definitions/washerDB'
+      type: array
+schemes:
+- http
+securityDefinitions:
+  basic:
+    type: basic
+swagger: "2.0"

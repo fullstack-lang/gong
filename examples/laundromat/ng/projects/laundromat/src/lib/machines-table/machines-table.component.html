@@ -1,0 +1,95 @@
+<h1 *ngIf="dialogData">machine</h1>
+<table class="table" mat-table [dataSource]="machines">
+    <!-- Checkbox Column -->
+    <ng-container matColumnDef="select" sticky>
+        <th mat-header-cell *matHeaderCellDef>
+            <mat-checkbox (change)="$event ? masterToggle() : null" [checked]="selection.hasValue() && isAllSelected()" [indeterminate]="selection.hasValue() && !isAllSelected()">
+            </mat-checkbox>
+        </th>
+        <td mat-cell *matCellDef="let row">
+            <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(row) : null" [checked]="selection.isSelected(row)">
+            </mat-checkbox>
+        </td>
+    </ng-container>
+
+    <!-- insertion point for fields specific code -->
+    <!-- -->
+    <ng-container matColumnDef="TechName">
+        <th mat-header-cell *matHeaderCellDef> TechName </th>
+        <td mat-cell *matCellDef="let Machine">
+            {{Machine.TechName}}
+        </td>
+    </ng-container>
+    <!-- -->
+    <ng-container matColumnDef="Name">
+        <th mat-header-cell *matHeaderCellDef> Name </th>
+        <td mat-cell *matCellDef="let Machine">
+            {{Machine.Name}}
+        </td>
+    </ng-container>
+    <!-- -->
+    <ng-container matColumnDef="DrumLoad">
+        <th mat-header-cell *matHeaderCellDef> DrumLoad </th>
+        <td mat-cell *matCellDef="let Machine">
+            {{Machine.DrumLoad.toPrecision(5)}}
+        </td>
+    </ng-container>
+    <!-- -->
+    <ng-container matColumnDef="RemainingTime">
+        <th mat-header-cell *matHeaderCellDef> RemainingTime </th>
+        <td mat-cell *matCellDef="let Machine">
+            {{Machine.RemainingTime}}
+        </td>
+    </ng-container>
+    <!-- -->
+    <ng-container matColumnDef="RemainingTimeMinutes">
+        <th mat-header-cell *matHeaderCellDef> RemainingTimeMinutes </th>
+        <td mat-cell *matCellDef="let Machine">
+            {{Machine.RemainingTimeMinutes}}
+        </td>
+    </ng-container>
+    <!-- -->
+    <ng-container matColumnDef="Cleanedlaundry">
+        <th mat-header-cell *matHeaderCellDef> Cleanedlaundry </th>
+        <td mat-cell *matCellDef="let Machine">
+            <mat-checkbox [checked]="Machine.Cleanedlaundry" disabled=true></mat-checkbox>
+        </td>
+    </ng-container>
+    <!-- -->
+    <ng-container matColumnDef="State">
+        <th mat-header-cell *matHeaderCellDef> State </th>
+        <td mat-cell *matCellDef="let Machine">
+            {{Machine.State}}
+        </td>
+    </ng-container>
+
+    <ng-container matColumnDef="ID" sticky>
+        <th mat-header-cell *matHeaderCellDef> ID. </th>
+        <td mat-cell *matCellDef="let Machine"> {{Machine.ID}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="Edit">
+        <th mat-header-cell *matHeaderCellDef> Edit </th>
+        <td mat-cell *matCellDef="let machine;  let j = index;">
+            <i class="material-icons" [ngStyle]="{'color':'rgba(0,0,0,.50)'}" (click)="setEditorRouterOutlet(machine.ID)">edit</i>
+        </td>
+    </ng-container>
+
+    <ng-container matColumnDef="Delete">
+        <th mat-header-cell *matHeaderCellDef> Delete </th>
+        <td mat-cell *matCellDef="let machine;  let j = index;">
+            <i class="material-icons" [ngStyle]="{'color':'rgba(0,0,0,.50)'}" (click)="deleteMachine(machine.ID, machine)">delete</i>
+        </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+
+    <tr mat-row *matRowDef="
+    let row; 
+    columns: displayedColumns;
+    " (click)="setPresentationRouterOutlet( row.ID ) " class="row-link">
+    </tr>
+</table>
+<button class="table__save" color="primary" *ngIf="dialogData" mat-raised-button (click)="save()">
+    Save
+</button>

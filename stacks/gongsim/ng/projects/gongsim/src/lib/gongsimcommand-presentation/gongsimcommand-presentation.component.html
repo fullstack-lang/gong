@@ -1,0 +1,37 @@
+
+<div class="presentation__header" (click)="setEditorRouterOutlet(gongsimcommand.ID)">
+    <h1>GongsimCommand's fields <span class="material-icons">edit</span></h1>
+</div>
+<table *ngIf="gongsimcommand" class="presentation__table mat-table">
+    <tr class="mat-header-row">
+        <th class="mat-header-cell">Name</th>
+        <th class="mat-header-cell">Value</th>
+    </tr>
+    <!-- insertion point for fields specific code -->
+    <tr class="mat-row">
+        <td class="mat-cell">Name</td>
+        <td class="mat-cell">{{gongsimcommand.Name}}</td>
+    </tr>
+    <tr class="mat-row">
+        <td class="mat-cell">Command</td>
+        <td class="mat-cell">{{gongsimcommand.Command}}</td>
+    </tr>
+    <tr class="mat-row">
+        <td class="mat-cell">CommandDate</td>
+        <td class="mat-cell">{{gongsimcommand.CommandDate}}</td>
+    </tr>
+    <tr class="mat-row">
+        <td class="mat-cell">SpeedCommandType</td>
+        <td class="mat-cell">{{gongsimcommand.SpeedCommandType}}</td>
+    </tr>
+    <tr class="mat-row">
+        <td class="mat-cell">DateSpeedCommand</td>
+        <td class="mat-cell">{{gongsimcommand.DateSpeedCommand}}</td>
+    </tr>
+</table>
+<!-- hack to force loading of mat table style an error is generated but it is a know angular issue https://github.com/angular/components/issues/10941 -->
+<table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+    <!-- Position Column -->
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>

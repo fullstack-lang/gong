@@ -1,0 +1,102 @@
+<h1 *ngIf="dialogData">book</h1>
+<table class="table" mat-table [dataSource]="books">
+    <!-- Checkbox Column -->
+    <ng-container matColumnDef="select" sticky>
+        <th mat-header-cell *matHeaderCellDef>
+            <mat-checkbox (change)="$event ? masterToggle() : null" [checked]="selection.hasValue() && isAllSelected()" [indeterminate]="selection.hasValue() && !isAllSelected()">
+            </mat-checkbox>
+        </th>
+        <td mat-cell *matCellDef="let row">
+            <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(row) : null" [checked]="selection.isSelected(row)">
+            </mat-checkbox>
+        </td>
+    </ng-container>
+
+    <!-- insertion point for fields specific code -->
+    <!-- -->
+    <ng-container matColumnDef="Name">
+        <th mat-header-cell *matHeaderCellDef> Name </th>
+        <td mat-cell *matCellDef="let Book">
+            {{Book.Name}}
+        </td>
+    </ng-container>
+    <!-- -->
+    <ng-container matColumnDef="Author">
+        <th mat-header-cell *matHeaderCellDef> Author </th>
+        <td mat-cell *matCellDef="let Book">
+            {{Book.Author}}
+        </td>
+    </ng-container>
+    <!-- -->
+    <ng-container matColumnDef="City">
+        <th mat-header-cell *matHeaderCellDef> City </th>
+        <td mat-cell *matCellDef="let Book">
+            {{Book.City}}
+        </td>
+    </ng-container>
+    <!-- -->
+    <ng-container matColumnDef="Year">
+        <th mat-header-cell *matHeaderCellDef> Year </th>
+        <td mat-cell *matCellDef="let Book">
+            {{Book.Year}}
+        </td>
+    </ng-container>
+    <!-- -->
+    <ng-container matColumnDef="Price">
+        <th mat-header-cell *matHeaderCellDef> Price </th>
+        <td mat-cell *matCellDef="let Book">
+            {{Book.Price.toPrecision(5)}}
+        </td>
+    </ng-container>
+    <!-- -->
+    <ng-container matColumnDef="Recommanded">
+        <th mat-header-cell *matHeaderCellDef> Recommanded </th>
+        <td mat-cell *matCellDef="let Book">
+            <mat-checkbox [checked]="Book.Recommanded" disabled=true></mat-checkbox>
+        </td>
+    </ng-container>
+    <!-- -->
+    <ng-container matColumnDef="Area">
+        <th mat-header-cell *matHeaderCellDef> Area </th>
+        <td mat-cell *matCellDef="let Book">
+            {{ Book.Area ? Book.Area.Name : ''}}
+        </td>
+    </ng-container>
+    <!-- -->
+    <ng-container matColumnDef="Books">
+        <th mat-header-cell *matHeaderCellDef> <-- Books </th>
+        <td mat-cell *matCellDef="let book">
+            {{frontRepo.Editors.get(book.Editor_BooksDBID.Int64)?.Name}}
+        </td>
+    </ng-container>
+
+    <ng-container matColumnDef="ID" sticky>
+        <th mat-header-cell *matHeaderCellDef> ID. </th>
+        <td mat-cell *matCellDef="let Book"> {{Book.ID}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="Edit">
+        <th mat-header-cell *matHeaderCellDef> Edit </th>
+        <td mat-cell *matCellDef="let book;  let j = index;">
+            <i class="material-icons" [ngStyle]="{'color':'rgba(0,0,0,.50)'}" (click)="setEditorRouterOutlet(book.ID)">edit</i>
+        </td>
+    </ng-container>
+
+    <ng-container matColumnDef="Delete">
+        <th mat-header-cell *matHeaderCellDef> Delete </th>
+        <td mat-cell *matCellDef="let book;  let j = index;">
+            <i class="material-icons" [ngStyle]="{'color':'rgba(0,0,0,.50)'}" (click)="deleteBook(book.ID, book)">delete</i>
+        </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+
+    <tr mat-row *matRowDef="
+    let row; 
+    columns: displayedColumns;
+    " (click)="setPresentationRouterOutlet( row.ID ) " class="row-link">
+    </tr>
+</table>
+<button class="table__save" color="primary" *ngIf="dialogData" mat-raised-button (click)="save()">
+    Save
+</button>

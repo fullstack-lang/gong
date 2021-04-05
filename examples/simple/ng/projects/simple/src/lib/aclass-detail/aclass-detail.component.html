@@ -1,0 +1,141 @@
+<div *ngIf="aclass" class="details">
+    <h1 class="details__title">aclass</h1>
+    <!-- insertion point for fields specific code -->
+    <!-- -->
+    <div class="details__item">
+        <form>
+            <mat-form-field>
+                <mat-label>Name</mat-label>
+                <input name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="aclass.Name">
+            </mat-form-field>
+        </form>
+    </div>
+    <!-- -->
+    <div class="details__item">
+        <form>
+            <mat-checkbox [formControl]="BooleanfieldFormControl">Booleanfield</mat-checkbox>
+        </form>
+    </div>
+    <!-- -->
+    <div class="details__item">
+        <mat-form-field appearance="fill">
+            <mat-label>Aenum</mat-label>
+            <mat-select [(ngModel)]="aclass.Aenum">
+                <mat-option *ngFor="let enum of AEnumTypeList" [value]="enum.value">
+                    {{enum.viewValue}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+    <!-- -->
+    <div class="details__item">
+        <mat-form-field appearance="fill">
+            <mat-label>Aenum_2</mat-label>
+            <mat-select [(ngModel)]="aclass.Aenum_2">
+                <mat-option *ngFor="let enum of AEnumTypeList" [value]="enum.value">
+                    {{enum.viewValue}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+    <!-- -->
+    <div class="details__item">
+        <mat-form-field appearance="fill">
+            <mat-label>Benum</mat-label>
+            <mat-select [(ngModel)]="aclass.Benum">
+                <mat-option *ngFor="let enum of BEnumTypeList" [value]="enum.value">
+                    {{enum.viewValue}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+    <!-- -->
+    <div class="details__item">
+        <form>
+            <mat-form-field>
+                <mat-label>CName</mat-label>
+                <input name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="aclass.CName">
+            </mat-form-field>
+        </form>
+    </div>
+    <!-- -->
+    <div class="details__item">
+        <form>
+            <mat-form-field>
+                <mat-label>CFloatfield</mat-label>
+                <input type="number" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="aclass.CFloatfield">
+            </mat-form-field>
+        </form>
+    </div>
+    <!-- -->
+    <div class="details__item">
+        <form>
+            <mat-form-field>
+                <mat-label>Floatfield</mat-label>
+                <input type="number" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="aclass.Floatfield">
+            </mat-form-field>
+        </form>
+    </div>
+    <!-- -->
+    <div class="details__item">
+        <form>
+            <mat-form-field>
+                <mat-label>Intfield</mat-label>
+                <input type="number" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="aclass.Intfield">
+            </mat-form-field>
+        </form>
+    </div>
+    <!-- -->
+    <div class="details__item">
+        <form>
+            <mat-checkbox [formControl]="AnotherbooleanfieldFormControl">Anotherbooleanfield</mat-checkbox>
+        </form>
+    </div>
+    <div class="details__item">
+        <mat-form-field>
+            <mat-label>Associationtob</mat-label>
+            <mat-select [(ngModel)]="aclass.Associationtob">
+                <mat-option>None</mat-option>
+                <mat-option *ngFor="let bclass of frontRepo.Bclasss_array" [value]="bclass">
+                    {{bclass.Name}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+    <div class="details__item">
+        <mat-form-field>
+            <mat-label>Anotherassociationtob_2</mat-label>
+            <mat-select [(ngModel)]="aclass.Anotherassociationtob_2">
+                <mat-option>None</mat-option>
+                <mat-option *ngFor="let bclass of frontRepo.Bclasss_array" [value]="bclass">
+                    {{bclass.Name}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+    <div class="details__item">
+        <button mat-raised-button (click)="openReverseSelection('Bclass', 'Aclass_AnarrayofbDBID')">Anarrayofb</button>
+    </div>
+    <div class="details__item">
+        <button mat-raised-button (click)="openReverseSelection('Bclass', 'Aclass_AnotherarrayofbDBID')">Anotherarrayofb</button>
+    </div>
+    <div class="details__item">
+        <button mat-raised-button (click)="openReverseSelection('Aclass', 'Aclass_AnarrayofaDBID')">Anarrayofa</button>
+    </div>
+    <div class="details__item">
+    <mat-form-field>
+        <mat-label><- Anarrayofa</mat-label>
+        <mat-select [(ngModel)]="aclass.Aclass_Anarrayofa_reverse">
+            <mat-option>None</mat-option>
+            <mat-option *ngFor="let aclass of frontRepo.Aclasss_array" [value]="aclass">
+                {{aclass.Name}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+</div>
+    <div class="details__save">
+        <button mat-raised-button color="primary" (click)="save()">
+			Save aclass
+		</button>
+    </div>
+</div>

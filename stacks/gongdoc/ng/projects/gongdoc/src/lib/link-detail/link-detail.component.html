@@ -1,0 +1,78 @@
+<div *ngIf="link" class="details">
+    <h1 class="details__title">link</h1>
+    <!-- insertion point for fields specific code -->
+    <!-- -->
+    <div class="details__item">
+        <form>
+            <mat-form-field>
+                <mat-label>Name</mat-label>
+                <input name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="link.Name">
+            </mat-form-field>
+        </form>
+    </div>
+    <!-- -->
+    <div class="details__item">
+        <form>
+            <mat-form-field>
+                <mat-label>Fieldname</mat-label>
+                <input name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="link.Fieldname">
+            </mat-form-field>
+        </form>
+    </div>
+    <!-- -->
+    <div class="details__item">
+        <form>
+            <mat-form-field>
+                <mat-label>Structname</mat-label>
+                <input name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="link.Structname">
+            </mat-form-field>
+        </form>
+    </div>
+    <!-- -->
+    <div class="details__item">
+        <form>
+            <mat-form-field>
+                <mat-label>Fieldtypename</mat-label>
+                <input name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="link.Fieldtypename">
+            </mat-form-field>
+        </form>
+    </div>
+    <!-- -->
+    <div class="details__item">
+        <mat-form-field appearance="fill">
+            <mat-label>Multiplicity</mat-label>
+            <mat-select [(ngModel)]="link.Multiplicity">
+                <mat-option *ngFor="let enum of MultiplicityTypeList" [value]="enum.value">
+                    {{enum.viewValue}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+    <div class="details__item">
+        <mat-form-field>
+            <mat-label>Middlevertice</mat-label>
+            <mat-select [(ngModel)]="link.Middlevertice">
+                <mat-option>None</mat-option>
+                <mat-option *ngFor="let vertice of frontRepo.Vertices_array" [value]="vertice">
+                    {{vertice.Name}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+    <div class="details__item">
+    <mat-form-field>
+        <mat-label><- Links</mat-label>
+        <mat-select [(ngModel)]="link.Classshape_Links_reverse">
+            <mat-option>None</mat-option>
+            <mat-option *ngFor="let classshape of frontRepo.Classshapes_array" [value]="classshape">
+                {{classshape.Name}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+</div>
+    <div class="details__save">
+        <button mat-raised-button color="primary" (click)="save()">
+			Save link
+		</button>
+    </div>
+</div>
