@@ -1,0 +1,67 @@
+<div *ngIf="washer" class="details">
+    <h1 class="details__title">washer</h1>
+    <!-- insertion point for fields specific code -->
+    <!-- -->
+    <div class="details__item">
+        <form>
+            <mat-form-field>
+                <mat-label>TechName</mat-label>
+                <input name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="washer.TechName">
+            </mat-form-field>
+        </form>
+    </div>
+    <!-- -->
+    <div class="details__item">
+        <form>
+            <mat-form-field>
+                <mat-label>Name</mat-label>
+                <input name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="washer.Name">
+            </mat-form-field>
+        </form>
+    </div>
+    <!-- -->
+    <div class="details__item">
+        <form>
+            <mat-form-field>
+                <mat-label>DirtyLaundryWeight</mat-label>
+                <input type="number" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="washer.DirtyLaundryWeight">
+            </mat-form-field>
+        </form>
+    </div>
+    <!-- -->
+    <div class="details__item">
+        <mat-form-field appearance="fill">
+            <mat-label>State</mat-label>
+            <mat-select [(ngModel)]="washer.State">
+                <mat-option *ngFor="let enum of WasherStateEnumList" [value]="enum.value">
+                    {{enum.viewValue}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+    <div class="details__item">
+        <mat-form-field>
+            <mat-label>Machine</mat-label>
+            <mat-select [(ngModel)]="washer.Machine">
+                <mat-option>None</mat-option>
+                <mat-option *ngFor="let machine of frontRepo.Machines_array" [value]="machine">
+                    {{machine.Name}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+    <!-- -->
+    <div class="details__item">
+        <form>
+            <mat-form-field>
+                <mat-label>CleanedLaundryWeight</mat-label>
+                <input type="number" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="washer.CleanedLaundryWeight">
+            </mat-form-field>
+        </form>
+    </div>
+    <div class="details__save">
+        <button mat-raised-button color="primary" (click)="save()">
+			Save washer
+		</button>
+    </div>
+</div>

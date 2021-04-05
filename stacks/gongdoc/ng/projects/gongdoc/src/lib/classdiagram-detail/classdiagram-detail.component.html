@@ -1,0 +1,32 @@
+<div *ngIf="classdiagram" class="details">
+    <h1 class="details__title">classdiagram</h1>
+    <!-- insertion point for fields specific code -->
+    <!-- -->
+    <div class="details__item">
+        <form>
+            <mat-form-field>
+                <mat-label>Name</mat-label>
+                <input name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="classdiagram.Name">
+            </mat-form-field>
+        </form>
+    </div>
+    <div class="details__item">
+        <button mat-raised-button (click)="openReverseSelection('Classshape', 'Classdiagram_ClassshapesDBID')">Classshapes</button>
+    </div>
+    <div class="details__item">
+    <mat-form-field>
+        <mat-label><- Classdiagrams</mat-label>
+        <mat-select [(ngModel)]="classdiagram.Pkgelt_Classdiagrams_reverse">
+            <mat-option>None</mat-option>
+            <mat-option *ngFor="let pkgelt of frontRepo.Pkgelts_array" [value]="pkgelt">
+                {{pkgelt.Name}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+</div>
+    <div class="details__save">
+        <button mat-raised-button color="primary" (click)="save()">
+			Save classdiagram
+		</button>
+    </div>
+</div>

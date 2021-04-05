@@ -1,0 +1,41 @@
+<div *ngIf="umlsc" class="details">
+    <h1 class="details__title">umlsc</h1>
+    <!-- insertion point for fields specific code -->
+    <!-- -->
+    <div class="details__item">
+        <form>
+            <mat-form-field>
+                <mat-label>Name</mat-label>
+                <input name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="umlsc.Name">
+            </mat-form-field>
+        </form>
+    </div>
+    <div class="details__item">
+        <button mat-raised-button (click)="openReverseSelection('State', 'Umlsc_StatesDBID')">States</button>
+    </div>
+    <!-- -->
+    <div class="details__item">
+        <form>
+            <mat-form-field>
+                <mat-label>Activestate</mat-label>
+                <input name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="umlsc.Activestate">
+            </mat-form-field>
+        </form>
+    </div>
+    <div class="details__item">
+    <mat-form-field>
+        <mat-label><- Umlscs</mat-label>
+        <mat-select [(ngModel)]="umlsc.Pkgelt_Umlscs_reverse">
+            <mat-option>None</mat-option>
+            <mat-option *ngFor="let pkgelt of frontRepo.Pkgelts_array" [value]="pkgelt">
+                {{pkgelt.Name}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+</div>
+    <div class="details__save">
+        <button mat-raised-button color="primary" (click)="save()">
+			Save umlsc
+		</button>
+    </div>
+</div>

@@ -1,0 +1,12 @@
+<mat-toolbar>
+    <span>Class diagram editor {{lastCommitNb}}</span>
+    <span class="example-spacer"></span>
+    <button mat-button (click)='saveClassdiagram()'>
+        <mat-icon  >
+            save
+        </mat-icon>
+    </button>
+</mat-toolbar>
+<div class="class-diagram__box">
+    <div id="jointjs-holder"></div>
+</div>

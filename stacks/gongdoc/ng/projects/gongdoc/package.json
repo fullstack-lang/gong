@@ -1,0 +1,11 @@
+{
+    "name": "gongdoc",
+    "version": "0.0.1",
+    "peerDependencies": {
+        "@angular/common": "^9.1.12",
+        "@angular/core": "^9.1.12"
+    },
+    "dependencies": {
+        "tslib": "^2.0.0"
+    }
+}

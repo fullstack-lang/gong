@@ -1,0 +1,29 @@
+<div *ngIf="area" class="details">
+    <h1 class="details__title">area</h1>
+    <!-- insertion point for fields specific code -->
+    <!-- -->
+    <div class="details__item">
+        <form>
+            <mat-form-field>
+                <mat-label>Name</mat-label>
+                <input name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="area.Name">
+            </mat-form-field>
+        </form>
+    </div>
+    <div class="details__item">
+        <mat-form-field>
+            <mat-label>Subarea</mat-label>
+            <mat-select [(ngModel)]="area.Subarea">
+                <mat-option>None</mat-option>
+                <mat-option *ngFor="let area of frontRepo.Areas_array" [value]="area">
+                    {{area.Name}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+    <div class="details__save">
+        <button mat-raised-button color="primary" (click)="save()">
+			Save area
+		</button>
+    </div>
+</div>

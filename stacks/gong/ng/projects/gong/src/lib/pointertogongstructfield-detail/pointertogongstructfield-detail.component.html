@@ -1,0 +1,40 @@
+<div *ngIf="pointertogongstructfield" class="details">
+    <h1 class="details__title">pointertogongstructfield</h1>
+    <!-- insertion point for fields specific code -->
+    <!-- -->
+    <div class="details__item">
+        <form>
+            <mat-form-field>
+                <mat-label>Name</mat-label>
+                <input name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="pointertogongstructfield.Name">
+            </mat-form-field>
+        </form>
+    </div>
+    <div class="details__item">
+        <mat-form-field>
+            <mat-label>GongStruct</mat-label>
+            <mat-select [(ngModel)]="pointertogongstructfield.GongStruct">
+                <mat-option>None</mat-option>
+                <mat-option *ngFor="let gongstruct of frontRepo.GongStructs_array" [value]="gongstruct">
+                    {{gongstruct.Name}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+    <div class="details__item">
+    <mat-form-field>
+        <mat-label><- PointerToGongStructFields</mat-label>
+        <mat-select [(ngModel)]="pointertogongstructfield.GongStruct_PointerToGongStructFields_reverse">
+            <mat-option>None</mat-option>
+            <mat-option *ngFor="let gongstruct of frontRepo.GongStructs_array" [value]="gongstruct">
+                {{gongstruct.Name}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+</div>
+    <div class="details__save">
+        <button mat-raised-button color="primary" (click)="save()">
+			Save pointertogongstructfield
+		</button>
+    </div>
+</div>

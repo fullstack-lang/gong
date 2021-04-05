@@ -1,0 +1,84 @@
+<div *ngIf="classshape" class="details">
+    <h1 class="details__title">classshape</h1>
+    <!-- insertion point for fields specific code -->
+    <!-- -->
+    <div class="details__item">
+        <form>
+            <mat-form-field>
+                <mat-label>Name</mat-label>
+                <input name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="classshape.Name">
+            </mat-form-field>
+        </form>
+    </div>
+    <div class="details__item">
+        <mat-form-field>
+            <mat-label>Position</mat-label>
+            <mat-select [(ngModel)]="classshape.Position">
+                <mat-option>None</mat-option>
+                <mat-option *ngFor="let position of frontRepo.Positions_array" [value]="position">
+                    {{position.Name}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+    <!-- -->
+    <div class="details__item">
+        <form>
+            <mat-form-field>
+                <mat-label>Structname</mat-label>
+                <input name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="classshape.Structname">
+            </mat-form-field>
+        </form>
+    </div>
+    <div class="details__item">
+        <button mat-raised-button (click)="openReverseSelection('Field', 'Classshape_FieldsDBID')">Fields</button>
+    </div>
+    <div class="details__item">
+        <button mat-raised-button (click)="openReverseSelection('Link', 'Classshape_LinksDBID')">Links</button>
+    </div>
+    <!-- -->
+    <div class="details__item">
+        <form>
+            <mat-form-field>
+                <mat-label>Width</mat-label>
+                <input type="number" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="classshape.Width">
+            </mat-form-field>
+        </form>
+    </div>
+    <!-- -->
+    <div class="details__item">
+        <form>
+            <mat-form-field>
+                <mat-label>Heigth</mat-label>
+                <input type="number" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="classshape.Heigth">
+            </mat-form-field>
+        </form>
+    </div>
+    <!-- -->
+    <div class="details__item">
+        <mat-form-field appearance="fill">
+            <mat-label>ClassshapeTargetType</mat-label>
+            <mat-select [(ngModel)]="classshape.ClassshapeTargetType">
+                <mat-option *ngFor="let enum of ClassshapeTargetTypeList" [value]="enum.value">
+                    {{enum.viewValue}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+    <div class="details__item">
+    <mat-form-field>
+        <mat-label><- Classshapes</mat-label>
+        <mat-select [(ngModel)]="classshape.Classdiagram_Classshapes_reverse">
+            <mat-option>None</mat-option>
+            <mat-option *ngFor="let classdiagram of frontRepo.Classdiagrams_array" [value]="classdiagram">
+                {{classdiagram.Name}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+</div>
+    <div class="details__save">
+        <button mat-raised-button color="primary" (click)="save()">
+			Save classshape
+		</button>
+    </div>
+</div>

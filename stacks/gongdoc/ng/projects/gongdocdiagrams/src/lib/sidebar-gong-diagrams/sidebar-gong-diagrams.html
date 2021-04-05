@@ -1,0 +1,74 @@
+<div #innerHTMLelement>
+<mat-toolbar>
+    <span>Gong Elements</span>
+    <span class="example-spacer"></span>
+</mat-toolbar>
+
+<mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
+
+    <!-- This is the tree node template for leaf nodes -->
+    <mat-tree-node class="node-link" *matTreeNodeDef="let node" matTreeNodePadding>
+        <div [cdkDropListDisabled]="false" (cdkDropListDropped)="dropped($event, node)" cdkDropList>
+            <!-- use a disabled button to provide padding for tree leaf -->
+            <button mat-icon-button disabled></button>
+            <div *ngIf="node.present; then leafPresentBlock else leafNotPresentBlock" ></div>
+            <ng-template #leafPresentBlock>
+                <span>{{node.name}} &nbsp;</span>
+                <mat-icon class="node-link-icon" (click)="removeNodeFromDiagram(node)">
+                    visibility_off_outline
+                </mat-icon>
+            </ng-template>
+            <ng-template #leafNotPresentBlock>
+                <div *ngIf="node.draggable; then leafDraggableBlock else leafNotDraggableBlock" ></div>
+                <ng-template #leafDraggableBlock>
+                    <span cdkDrag>{{node.name}} &nbsp;</span>
+                    <mat-icon cdkDrag class="node-link-icon" >
+                        person_add
+                    </mat-icon>
+                </ng-template>
+                <ng-template #leafNotDraggableBlock>
+                    <span>{{node.name}} &nbsp;</span>
+                    <mat-icon class="node-link-icon">
+                        person_add_alt
+                    </mat-icon>
+                </ng-template>
+            </ng-template>
+        </div>
+    </mat-tree-node>
+
+    <!-- This is the tree node template for expandable nodes -->
+    <mat-tree-node class="node-link" *matTreeNodeDef="let node;when: hasChild" matTreeNodePadding>
+        <button mat-icon-button matTreeNodeToggle [attr.aria-label]="'Toggle ' + node.name">
+            <mat-icon class="mat-icon-rtl-mirror">
+                {{treeControl.isExpanded(node) ?
+                'expand_more' :
+                'chevron_right'
+                }}
+            </mat-icon>
+        </button>
+        <div *ngIf="node.present; then blockForGongStructInstancePresentInDiagram else otherCases"></div>
+            <ng-template #blockForGongStructInstancePresentInDiagram>
+                <div>
+                    <span >{{node.name}} &nbsp;</span>
+                </div>
+                <mat-icon class="node-link-icon" (click)="removeNodeFromDiagram(node)">
+                    visibility_off_outline
+                </mat-icon>
+            </ng-template>
+            <ng-template #otherCases>
+                <div *ngIf="node.level == 1 || node.level == 3; then blockForGongStructInstanceNotPresentInDiagram else otherNodes"></div>
+                <ng-template #blockForGongStructInstanceNotPresentInDiagram>
+                    <div  [cdkDropListDisabled]="false" (cdkDropListDropped)="dropped($event, node)" cdkDropList>
+                        <span cdkDrag>{{node.name}}
+                            &nbsp;</span>
+                    </div>
+                </ng-template>
+                <ng-template #otherNodes>
+                    <div>
+                        <span>{{node.name}} &nbsp;</span>
+                    </div>
+                </ng-template>
+            </ng-template>
+    </mat-tree-node>
+</mat-tree>
+</div>

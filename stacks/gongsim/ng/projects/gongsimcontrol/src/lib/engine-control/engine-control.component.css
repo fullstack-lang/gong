@@ -1,0 +1,15 @@
+.example-spacer {
+    flex: 1 1 auto;
+}
+
+.red {
+    color: red; 
+}
+
+.grey {
+    color: grey; 
+}
+
+.green {
+    color: green;
+}

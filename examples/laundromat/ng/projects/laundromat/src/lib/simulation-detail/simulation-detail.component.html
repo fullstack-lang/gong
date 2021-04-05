@@ -1,0 +1,49 @@
+<div *ngIf="simulation" class="details">
+    <h1 class="details__title">simulation</h1>
+    <!-- insertion point for fields specific code -->
+    <!-- -->
+    <div class="details__item">
+        <form>
+            <mat-form-field>
+                <mat-label>Name</mat-label>
+                <input name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="simulation.Name">
+            </mat-form-field>
+        </form>
+    </div>
+    <div class="details__item">
+        <mat-form-field>
+            <mat-label>Machine</mat-label>
+            <mat-select [(ngModel)]="simulation.Machine">
+                <mat-option>None</mat-option>
+                <mat-option *ngFor="let machine of frontRepo.Machines_array" [value]="machine">
+                    {{machine.Name}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+    <div class="details__item">
+        <mat-form-field>
+            <mat-label>Washer</mat-label>
+            <mat-select [(ngModel)]="simulation.Washer">
+                <mat-option>None</mat-option>
+                <mat-option *ngFor="let washer of frontRepo.Washers_array" [value]="washer">
+                    {{washer.Name}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+    <!-- -->
+    <div class="details__item">
+        <form>
+            <mat-form-field>
+                <mat-label>LastCommitNb</mat-label>
+                <input type="number" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="simulation.LastCommitNb">
+            </mat-form-field>
+        </form>
+    </div>
+    <div class="details__save">
+        <button mat-raised-button color="primary" (click)="save()">
+			Save simulation
+		</button>
+    </div>
+</div>
