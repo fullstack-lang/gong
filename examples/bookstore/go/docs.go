@@ -3,7 +3,7 @@
 // bookstore exposes types of a package.
 //
 //     Schemes: http
-//     BasePath: /api/github.com/fullstack-lang/gong-example/examples/bookstore/go/v1
+//     BasePath: /api/github.com/fullstack-lang/examples/bookstore/go/v1
 //     Version: 0.1
 //     Host: localhost:8080
 //

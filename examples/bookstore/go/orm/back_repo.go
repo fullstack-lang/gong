@@ -2,7 +2,7 @@
 package orm
 
 import (
-	"github.com/fullstack-lang/gong-example/examples/bookstore/go/models"
+	"github.com/fullstack-lang/examples/bookstore/go/models"
 	"github.com/jinzhu/gorm"
 )
 

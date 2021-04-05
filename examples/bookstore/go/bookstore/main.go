@@ -7,8 +7,8 @@ import (
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 
-	"github.com/fullstack-lang/gong-example/examples/bookstore/go/controllers"
-	"github.com/fullstack-lang/gong-example/examples/bookstore/go/orm"
+	"github.com/fullstack-lang/examples/bookstore/go/controllers"
+	"github.com/fullstack-lang/examples/bookstore/go/orm"
 )
 
 var (

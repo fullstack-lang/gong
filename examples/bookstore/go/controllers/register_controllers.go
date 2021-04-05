@@ -6,7 +6,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 
-	"github.com/fullstack-lang/gong-example/examples/bookstore/go/orm"
+	"github.com/fullstack-lang/examples/bookstore/go/orm"
 )
 
 // genQuery return the name of the column
@@ -41,7 +41,7 @@ type ValidationError struct {
 
 // RegisterControllers register controllers
 func RegisterControllers(r *gin.Engine) {
-	v1 := r.Group("/api/github.com/fullstack-lang/gong-example/examples/bookstore/go")
+	v1 := r.Group("/api/github.com/fullstack-lang/examples/bookstore/go")
 	{ // insertion point for registrations
 		v1.GET("/v1/areas", GetAreas)
 		v1.GET("/v1/areas/:id", GetArea)

@@ -22,7 +22,7 @@ export class CommitNbService {
         private http: HttpClient
     ) { }
 
-    private commitNbUrl = 'http://localhost:8080/api/github.com/fullstack-lang/gong-example/examples/bookstore/go/commitnb';
+    private commitNbUrl = 'http://localhost:8080/api/github.com/fullstack-lang/examples/bookstore/go/commitnb';
 
     // observable of the commit nb getter
     public getCommitNb(): Observable<number> {

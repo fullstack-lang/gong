@@ -39,7 +39,7 @@ func AutoMigrate(db *gorm.DB) {
 
 	if _db.Error != nil {
 		msg := _db.Error.Error()
-		panic("problem with migration " + msg + " on package github.com/fullstack-lang/gong-example/examples/bookstore/go")
+		panic("problem with migration " + msg + " on package github.com/fullstack-lang/examples/bookstore/go")
 	}
 	log.Printf("Migration OK")
 }

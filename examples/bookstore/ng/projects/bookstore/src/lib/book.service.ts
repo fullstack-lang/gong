@@ -26,7 +26,7 @@ export class BookService {
   // so that they are notified of a change.
   BookServiceChanged: BehaviorSubject<string> = new BehaviorSubject("");
 
-  private booksUrl = 'http://localhost:8080/api/github.com/fullstack-lang/gong-example/examples/bookstore/go/v1/books';
+  private booksUrl = 'http://localhost:8080/api/github.com/fullstack-lang/examples/bookstore/go/v1/books';
 
   constructor(
     private http: HttpClient
