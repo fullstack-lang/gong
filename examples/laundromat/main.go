@@ -81,12 +81,18 @@ func main() {
 
 	var pkgelt gongdoc_models.Pkgelt
 
-	// classdiagram can only be fully in memory when they are Unmarshalled
-	// for instance, the Name of diagrams or the Name of the Link
+	//
+	// load gongdoc stack
+	//
 	pkgelt.Unmarshall("go/diagrams")
-	// Umarshall docmuments (after diagrams, because they might reference diagrams)
-	pkgelt.Unmarshall("go/docs")
 	pkgelt.SerializeToStage()
+
+	//
+	// load gong stack
+	//
+	modelPkg := &gong_models.ModelPkg{}
+	gong_models.Walk("go/models", modelPkg)
+	modelPkg.SerializeToStage()
 
 	//
 	//  setup controlers
