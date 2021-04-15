@@ -62,13 +62,13 @@ export class PointerToGongStructFieldsTableComponent implements OnInit {
       }
     )
     if (dialogData == undefined) {
-  	  this.displayedColumns = ['ID', 'Edit', 'Delete', // insertion point for columns to display
+      this.displayedColumns = ['ID', 'Edit', 'Delete', // insertion point for columns to display
         "Name",
         "GongStruct",
         "PointerToGongStructFields",
       ]
     } else {
-  	  this.displayedColumns = ['select', 'ID', // insertion point for columns to display
+      this.displayedColumns = ['select', 'ID', // insertion point for columns to display
         "Name",
         "GongStruct",
         "PointerToGongStructFields",
@@ -89,6 +89,9 @@ export class PointerToGongStructFieldsTableComponent implements OnInit {
         console.log("front repo pull returned")
 
         this.pointertogongstructfields = this.frontRepo.PointerToGongStructFields_array;
+
+        // insertion point for variables Recoveries
+
         // in case the component is called as a selection component
         if (this.dialogData != undefined) {
           this.pointertogongstructfields.forEach(
@@ -169,7 +172,7 @@ export class PointerToGongStructFieldsTableComponent implements OnInit {
 
     let toUpdate = new Set<PointerToGongStructFieldDB>()
 
-    // reset all initial selection of pointertogongstructfield that belong to aclass through Anarrayofb
+    // reset all initial selection of pointertogongstructfield that belong to pointertogongstructfield through Anarrayofb
     this.initialSelection.forEach(
       pointertogongstructfield => {
         pointertogongstructfield[this.dialogData.ReversePointer].Int64 = 0
@@ -178,7 +181,7 @@ export class PointerToGongStructFieldsTableComponent implements OnInit {
       }
     )
 
-    // from selection, set pointertogongstructfield that belong to aclass through Anarrayofb
+    // from selection, set pointertogongstructfield that belong to pointertogongstructfield through Anarrayofb
     this.selection.selected.forEach(
       pointertogongstructfield => {
         console.log("selection ID " + pointertogongstructfield.ID)

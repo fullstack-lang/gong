@@ -62,11 +62,11 @@ export class GongEnumsTableComponent implements OnInit {
       }
     )
     if (dialogData == undefined) {
-  	  this.displayedColumns = ['ID', 'Edit', 'Delete', // insertion point for columns to display
+      this.displayedColumns = ['ID', 'Edit', 'Delete', // insertion point for columns to display
         "Name",
       ]
     } else {
-  	  this.displayedColumns = ['select', 'ID', // insertion point for columns to display
+      this.displayedColumns = ['select', 'ID', // insertion point for columns to display
         "Name",
       ]
       this.selection = new SelectionModel<GongEnumDB>(allowMultiSelect, this.initialSelection);
@@ -85,6 +85,9 @@ export class GongEnumsTableComponent implements OnInit {
         console.log("front repo pull returned")
 
         this.gongenums = this.frontRepo.GongEnums_array;
+
+        // insertion point for variables Recoveries
+
         // in case the component is called as a selection component
         if (this.dialogData != undefined) {
           this.gongenums.forEach(
@@ -165,7 +168,7 @@ export class GongEnumsTableComponent implements OnInit {
 
     let toUpdate = new Set<GongEnumDB>()
 
-    // reset all initial selection of gongenum that belong to aclass through Anarrayofb
+    // reset all initial selection of gongenum that belong to gongenum through Anarrayofb
     this.initialSelection.forEach(
       gongenum => {
         gongenum[this.dialogData.ReversePointer].Int64 = 0
@@ -174,7 +177,7 @@ export class GongEnumsTableComponent implements OnInit {
       }
     )
 
-    // from selection, set gongenum that belong to aclass through Anarrayofb
+    // from selection, set gongenum that belong to gongenum through Anarrayofb
     this.selection.selected.forEach(
       gongenum => {
         console.log("selection ID " + gongenum.ID)

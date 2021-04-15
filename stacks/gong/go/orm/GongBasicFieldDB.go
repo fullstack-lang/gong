@@ -6,13 +6,15 @@ import (
 	"errors"
 	"fmt"
 	"log"
+	"time"
 
-	"github.com/fullstack-lang/gong/stacks/gong/go/models"
 	"github.com/jinzhu/gorm"
+	"github.com/fullstack-lang/gong/stacks/gong/go/models"
 )
 
 // dummy variable to have the import database/sql wihthout compile failure id no sql is used
 var dummy_GongBasicField sql.NullBool
+var __GongBasicField_time__dummyDeclaration time.Duration
 
 // GongBasicFieldAPI is the input in POST API
 //
@@ -37,6 +39,9 @@ type GongBasicFieldAPI struct {
 
 	// all gong Struct has a Name field, this enables this data to object field
 	GongEnumName string
+
+	// Declation for basic field gongbasicfieldDB.DeclaredType {{BasicKind}} (to be completed)
+	DeclaredType_Data sql.NullString
 
 	// Implementation of a reverse ID for field GongStruct{}.GongBasicFields []*GongBasicField
 	GongStruct_GongBasicFieldsDBID sql.NullInt64
@@ -209,6 +214,9 @@ func (backRepoGongBasicField *BackRepoGongBasicFieldStruct) CommitPhaseTwoInstan
 					}
 				}
 
+				gongbasicfieldDB.DeclaredType_Data.String = gongbasicfield.DeclaredType
+				gongbasicfieldDB.DeclaredType_Data.Valid = true
+
 			}
 		}
 		query := backRepoGongBasicField.db.Save(&gongbasicfieldDB)
@@ -296,6 +304,8 @@ func (backRepoGongBasicField *BackRepoGongBasicFieldStruct) CheckoutPhaseTwoInst
 			if gongbasicfieldDB.GongEnumID.Int64 != 0 {
 				gongbasicfield.GongEnum = (*backRepo.BackRepoGongEnum.Map_GongEnumDBID_GongEnumPtr)[uint(gongbasicfieldDB.GongEnumID.Int64)]
 			}
+
+			gongbasicfield.DeclaredType = gongbasicfieldDB.DeclaredType_Data.String
 
 		}
 	}

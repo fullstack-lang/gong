@@ -3,6 +3,7 @@ package controllers
 
 import (
 	"net/http"
+	"time"
 
 	"github.com/fullstack-lang/gong/stacks/gong/go/models"
 	"github.com/fullstack-lang/gong/stacks/gong/go/orm"
@@ -13,6 +14,7 @@ import (
 
 // declaration in order to justify use of the models import
 var __GongEnumValue__dummysDeclaration__ models.GongEnumValue
+var __GongEnumValue_time__dummyDeclaration time.Duration
 
 // An GongEnumValueID parameter model.
 //

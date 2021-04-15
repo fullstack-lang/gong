@@ -27,6 +27,8 @@ const (
 	NgPresentationHtmlField                    NgPresentationHtmlSubTemplate = "NgPresentationHtmlField"
 	NgPresentationHtmlEnum                     NgPresentationHtmlSubTemplate = "NgPresentationHtmlEnum"
 	NgPresentationHtmlBasicField               NgPresentationHtmlSubTemplate = "NgPresentationHtmlBasicField"
+	NgPresentationHtmlTimeField                NgPresentationHtmlSubTemplate = "NgPresentationHtmlTimeField"
+	NgPresentationHtmlBasicFieldTimeDuration   NgPresentationHtmlSubTemplate = "NgPresentationHtmlBasicFieldTimeDuration"
 	NgPresentationHtmlBool                     NgPresentationHtmlSubTemplate = "NgPresentationHtmlBool"
 	NgPresentationPointerToStructHtmlFormField NgPresentationHtmlSubTemplate = "NgPresentationPointerToStructHtmlFormField"
 	// NgPresentationSliceOfPointerToStructHtml   NgPresentationHtmlSubTemplate = "NgPresentationSliceOfPointerToStructHtml"
@@ -45,6 +47,22 @@ var NgPresentationBasicFieldHtmlSubTemplateCode map[string]string = map[string]s
     <tr class="mat-row">
         <td class="mat-cell">{{FieldName}}</td>
         <td class="mat-cell">{{{{structname}}.{{FieldName}}}}</td>
+    </tr>`,
+}
+
+var NgPresentationTimeFieldHtmlSubTemplateCode map[string]string = map[string]string{
+	string(NgPresentationHtmlTimeField): `
+    <tr class="mat-row">
+        <td class="mat-cell">{{FieldName}}</td>
+        <td class="mat-cell">{{{{structname}}.{{FieldName}}}}</td>
+    </tr>`,
+}
+
+var NgPresentationBasicFieldTimeDurationHtmlSubTemplateCode map[string]string = map[string]string{
+	string(NgPresentationHtmlBasicFieldTimeDuration): `
+    <tr class="mat-row">
+        <td class="mat-cell">{{FieldName}}</td>
+        <td class="mat-cell">{{{{FieldName}}_Hours}}H {{{{FieldName}}_Minutes}}M {{{{FieldName}}_Seconds}}S</td>
     </tr>`,
 }
 

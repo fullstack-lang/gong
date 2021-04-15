@@ -15,9 +15,11 @@ const ELEMENT_DATA: modelpkgDummyElement[] = [
 @Component({
 	selector: 'app-modelpkg-presentation',
 	templateUrl: './modelpkg-presentation.component.html',
-  styleUrls: ['./modelpkg-presentation.component.css'],
+	styleUrls: ['./modelpkg-presentation.component.css'],
 })
 export class ModelPkgPresentationComponent implements OnInit {
+
+	// insertion point for declarations
 
 	displayedColumns: string[] = [];
 	dataSource = ELEMENT_DATA;
@@ -53,6 +55,9 @@ export class ModelPkgPresentationComponent implements OnInit {
 			.subscribe(
 				modelpkg => {
 					this.modelpkg = modelpkg
+
+					// insertion point for recovery of durations
+
 				}
 			);
 	}

@@ -20,6 +20,8 @@ type StageStruct struct { // insertion point for definition of arrays registerin
 
 	GongStructs map[*GongStruct]struct{}
 
+	GongTimeFields map[*GongTimeField]struct{}
+
 	ModelPkgs map[*ModelPkg]struct{}
 
 	PointerToGongStructFields map[*PointerToGongStructField]struct{}
@@ -45,6 +47,8 @@ type BackRepoInterface interface {
 	CheckoutGongEnumValue(gongenumvalue *GongEnumValue)
 	CommitGongStruct(gongstruct *GongStruct)
 	CheckoutGongStruct(gongstruct *GongStruct)
+	CommitGongTimeField(gongtimefield *GongTimeField)
+	CheckoutGongTimeField(gongtimefield *GongTimeField)
 	CommitModelPkg(modelpkg *ModelPkg)
 	CheckoutModelPkg(modelpkg *ModelPkg)
 	CommitPointerToGongStructField(pointertogongstructfield *PointerToGongStructField)
@@ -63,6 +67,8 @@ var Stage StageStruct = StageStruct{ // insertion point for array initiatialisat
 	GongEnumValues: make(map[*GongEnumValue]struct{}, 0),
 
 	GongStructs: make(map[*GongStruct]struct{}, 0),
+
+	GongTimeFields: make(map[*GongTimeField]struct{}, 0),
 
 	ModelPkgs: make(map[*ModelPkg]struct{}, 0),
 
@@ -481,6 +487,105 @@ func DeleteORMGongStruct(gongstruct *GongStruct) {
 	}
 }
 
+func (stage *StageStruct) getGongTimeFieldOrderedStructWithNameField() []*GongTimeField {
+	// have alphabetical order generation
+	gongtimefieldOrdered := []*GongTimeField{}
+	for gongtimefield := range stage.GongTimeFields {
+		gongtimefieldOrdered = append(gongtimefieldOrdered, gongtimefield)
+	}
+	sort.Slice(gongtimefieldOrdered[:], func(i, j int) bool {
+		return gongtimefieldOrdered[i].Name < gongtimefieldOrdered[j].Name
+	})
+	return gongtimefieldOrdered
+}
+
+// Stage puts gongtimefield to the model stage
+func (gongtimefield *GongTimeField) Stage() *GongTimeField {
+	Stage.GongTimeFields[gongtimefield] = __member
+	return gongtimefield
+}
+
+// Unstage removes gongtimefield off the model stage
+func (gongtimefield *GongTimeField) Unstage() *GongTimeField {
+	delete(Stage.GongTimeFields, gongtimefield)
+	return gongtimefield
+}
+
+// commit gongtimefield to the back repo (if it is already staged)
+func (gongtimefield *GongTimeField) Commit() *GongTimeField {
+	if _, ok := Stage.GongTimeFields[gongtimefield]; ok {
+		if Stage.BackRepo != nil {
+			Stage.BackRepo.CommitGongTimeField(gongtimefield)
+		}
+	}
+	return gongtimefield
+}
+
+// Checkout gongtimefield to the back repo (if it is already staged)
+func (gongtimefield *GongTimeField) Checkout() *GongTimeField {
+	if _, ok := Stage.GongTimeFields[gongtimefield]; ok {
+		if Stage.BackRepo != nil {
+			Stage.BackRepo.CheckoutGongTimeField(gongtimefield)
+		}
+	}
+	return gongtimefield
+}
+
+//
+// Legacy, to be deleted
+//
+
+// StageCopy appends a copy of gongtimefield to the model stage
+func (gongtimefield *GongTimeField) StageCopy() *GongTimeField {
+	_gongtimefield := new(GongTimeField)
+	*_gongtimefield = *gongtimefield
+	_gongtimefield.Stage()
+	return _gongtimefield
+}
+
+// StageAndCommit appends gongtimefield to the model stage and commit to the orm repo
+func (gongtimefield *GongTimeField) StageAndCommit() *GongTimeField {
+	gongtimefield.Stage()
+	if Stage.AllModelsStructCreateCallback != nil {
+		Stage.AllModelsStructCreateCallback.CreateORMGongTimeField(gongtimefield)
+	}
+	return gongtimefield
+}
+
+// DeleteStageAndCommit appends gongtimefield to the model stage and commit to the orm repo
+func (gongtimefield *GongTimeField) DeleteStageAndCommit() *GongTimeField {
+	gongtimefield.Unstage()
+	DeleteORMGongTimeField(gongtimefield)
+	return gongtimefield
+}
+
+// StageCopyAndCommit appends a copy of gongtimefield to the model stage and commit to the orm repo
+func (gongtimefield *GongTimeField) StageCopyAndCommit() *GongTimeField {
+	_gongtimefield := new(GongTimeField)
+	*_gongtimefield = *gongtimefield
+	_gongtimefield.Stage()
+	if Stage.AllModelsStructCreateCallback != nil {
+		Stage.AllModelsStructCreateCallback.CreateORMGongTimeField(gongtimefield)
+	}
+	return _gongtimefield
+}
+
+// CreateORMGongTimeField enables dynamic staging of a GongTimeField instance
+func CreateORMGongTimeField(gongtimefield *GongTimeField) {
+	gongtimefield.Stage()
+	if Stage.AllModelsStructCreateCallback != nil {
+		Stage.AllModelsStructCreateCallback.CreateORMGongTimeField(gongtimefield)
+	}
+}
+
+// DeleteORMGongTimeField enables dynamic staging of a GongTimeField instance
+func DeleteORMGongTimeField(gongtimefield *GongTimeField) {
+	gongtimefield.Unstage()
+	if Stage.AllModelsStructDeleteCallback != nil {
+		Stage.AllModelsStructDeleteCallback.DeleteORMGongTimeField(gongtimefield)
+	}
+}
+
 func (stage *StageStruct) getModelPkgOrderedStructWithNameField() []*ModelPkg {
 	// have alphabetical order generation
 	modelpkgOrdered := []*ModelPkg{}
@@ -784,6 +889,7 @@ type AllModelsStructCreateInterface interface { // insertion point for Callbacks
 	CreateORMGongEnum(GongEnum *GongEnum)
 	CreateORMGongEnumValue(GongEnumValue *GongEnumValue)
 	CreateORMGongStruct(GongStruct *GongStruct)
+	CreateORMGongTimeField(GongTimeField *GongTimeField)
 	CreateORMModelPkg(ModelPkg *ModelPkg)
 	CreateORMPointerToGongStructField(PointerToGongStructField *PointerToGongStructField)
 	CreateORMSliceOfPointerToGongStructField(SliceOfPointerToGongStructField *SliceOfPointerToGongStructField)
@@ -794,6 +900,7 @@ type AllModelsStructDeleteInterface interface { // insertion point for Callbacks
 	DeleteORMGongEnum(GongEnum *GongEnum)
 	DeleteORMGongEnumValue(GongEnumValue *GongEnumValue)
 	DeleteORMGongStruct(GongStruct *GongStruct)
+	DeleteORMGongTimeField(GongTimeField *GongTimeField)
 	DeleteORMModelPkg(ModelPkg *ModelPkg)
 	DeleteORMPointerToGongStructField(PointerToGongStructField *PointerToGongStructField)
 	DeleteORMSliceOfPointerToGongStructField(SliceOfPointerToGongStructField *SliceOfPointerToGongStructField)
@@ -804,6 +911,7 @@ func (stage *StageStruct) Reset() { // insertion point for array reset
 	stage.GongEnums = make(map[*GongEnum]struct{}, 0)
 	stage.GongEnumValues = make(map[*GongEnumValue]struct{}, 0)
 	stage.GongStructs = make(map[*GongStruct]struct{}, 0)
+	stage.GongTimeFields = make(map[*GongTimeField]struct{}, 0)
 	stage.ModelPkgs = make(map[*ModelPkg]struct{}, 0)
 	stage.PointerToGongStructFields = make(map[*PointerToGongStructField]struct{}, 0)
 	stage.SliceOfPointerToGongStructFields = make(map[*SliceOfPointerToGongStructField]struct{}, 0)
@@ -814,6 +922,7 @@ func (stage *StageStruct) Nil() { // insertion point for array nil
 	stage.GongEnums = nil
 	stage.GongEnumValues = nil
 	stage.GongStructs = nil
+	stage.GongTimeFields = nil
 	stage.ModelPkgs = nil
 	stage.PointerToGongStructFields = nil
 	stage.SliceOfPointerToGongStructFields = nil

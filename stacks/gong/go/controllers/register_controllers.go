@@ -1,3 +1,4 @@
+
 package controllers
 
 import (
@@ -10,7 +11,7 @@ import (
 )
 
 // genQuery return the name of the column
-func genQuery(columnName string) string {
+func genQuery( columnName string) string {
 	return fmt.Sprintf("%s = ?", columnName)
 }
 
@@ -21,7 +22,7 @@ func genQuery(columnName string) string {
 type GenericError struct {
 	// in: body
 	Body struct {
-		Code    int32  `json:"code"`
+		Code    int32 `json:"code"`
 		Message string `json:"message"`
 	} `json:"body"`
 }
@@ -42,7 +43,7 @@ type ValidationError struct {
 // RegisterControllers register controllers
 func RegisterControllers(r *gin.Engine) {
 	v1 := r.Group("/api/github.com/fullstack-lang/gong/stacks/gong/go")
-	{ // insertion point for registrations
+	{// insertion point for registrations
 		v1.GET("/v1/gongbasicfields", GetGongBasicFields)
 		v1.GET("/v1/gongbasicfields/:id", GetGongBasicField)
 		v1.POST("/v1/gongbasicfields", PostGongBasicField)
@@ -71,6 +72,13 @@ func RegisterControllers(r *gin.Engine) {
 		v1.PUT("/v1/gongstructs/:id", UpdateGongStruct)
 		v1.DELETE("/v1/gongstructs/:id", DeleteGongStruct)
 
+		v1.GET("/v1/gongtimefields", GetGongTimeFields)
+		v1.GET("/v1/gongtimefields/:id", GetGongTimeField)
+		v1.POST("/v1/gongtimefields", PostGongTimeField)
+		v1.PATCH("/v1/gongtimefields/:id", UpdateGongTimeField)
+		v1.PUT("/v1/gongtimefields/:id", UpdateGongTimeField)
+		v1.DELETE("/v1/gongtimefields/:id", DeleteGongTimeField)
+
 		v1.GET("/v1/modelpkgs", GetModelPkgs)
 		v1.GET("/v1/modelpkgs/:id", GetModelPkg)
 		v1.POST("/v1/modelpkgs", PostModelPkg)
@@ -92,6 +100,7 @@ func RegisterControllers(r *gin.Engine) {
 		v1.PUT("/v1/sliceofpointertogongstructfields/:id", UpdateSliceOfPointerToGongStructField)
 		v1.DELETE("/v1/sliceofpointertogongstructfields/:id", DeleteSliceOfPointerToGongStructField)
 
+
 		v1.GET("/commitnb", GetLastCommitNb)
 	}
 }
@@ -102,3 +111,4 @@ func GetLastCommitNb(c *gin.Context) {
 
 	c.JSON(http.StatusOK, res)
 }
+

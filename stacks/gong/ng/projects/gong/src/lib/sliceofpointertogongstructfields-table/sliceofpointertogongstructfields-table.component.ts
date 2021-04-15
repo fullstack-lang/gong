@@ -62,13 +62,13 @@ export class SliceOfPointerToGongStructFieldsTableComponent implements OnInit {
       }
     )
     if (dialogData == undefined) {
-  	  this.displayedColumns = ['ID', 'Edit', 'Delete', // insertion point for columns to display
+      this.displayedColumns = ['ID', 'Edit', 'Delete', // insertion point for columns to display
         "Name",
         "GongStruct",
         "SliceOfPointerToGongStructFields",
       ]
     } else {
-  	  this.displayedColumns = ['select', 'ID', // insertion point for columns to display
+      this.displayedColumns = ['select', 'ID', // insertion point for columns to display
         "Name",
         "GongStruct",
         "SliceOfPointerToGongStructFields",
@@ -89,6 +89,9 @@ export class SliceOfPointerToGongStructFieldsTableComponent implements OnInit {
         console.log("front repo pull returned")
 
         this.sliceofpointertogongstructfields = this.frontRepo.SliceOfPointerToGongStructFields_array;
+
+        // insertion point for variables Recoveries
+
         // in case the component is called as a selection component
         if (this.dialogData != undefined) {
           this.sliceofpointertogongstructfields.forEach(
@@ -169,7 +172,7 @@ export class SliceOfPointerToGongStructFieldsTableComponent implements OnInit {
 
     let toUpdate = new Set<SliceOfPointerToGongStructFieldDB>()
 
-    // reset all initial selection of sliceofpointertogongstructfield that belong to aclass through Anarrayofb
+    // reset all initial selection of sliceofpointertogongstructfield that belong to sliceofpointertogongstructfield through Anarrayofb
     this.initialSelection.forEach(
       sliceofpointertogongstructfield => {
         sliceofpointertogongstructfield[this.dialogData.ReversePointer].Int64 = 0
@@ -178,7 +181,7 @@ export class SliceOfPointerToGongStructFieldsTableComponent implements OnInit {
       }
     )
 
-    // from selection, set sliceofpointertogongstructfield that belong to aclass through Anarrayofb
+    // from selection, set sliceofpointertogongstructfield that belong to sliceofpointertogongstructfield through Anarrayofb
     this.selection.selected.forEach(
       sliceofpointertogongstructfield => {
         console.log("selection ID " + sliceofpointertogongstructfield.ID)

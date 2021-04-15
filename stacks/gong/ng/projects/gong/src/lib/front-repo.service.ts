@@ -16,6 +16,9 @@ import { GongEnumValueService } from './gongenumvalue.service'
 import { GongStructDB } from './gongstruct-db'
 import { GongStructService } from './gongstruct.service'
 
+import { GongTimeFieldDB } from './gongtimefield-db'
+import { GongTimeFieldService } from './gongtimefield.service'
+
 import { ModelPkgDB } from './modelpkg-db'
 import { ModelPkgService } from './modelpkg.service'
 
@@ -40,6 +43,9 @@ export class FrontRepo { // insertion point sub template
   GongStructs_array = new Array<GongStructDB>(); // array of repo instances
   GongStructs = new Map<number, GongStructDB>(); // map of repo instances
   GongStructs_batch = new Map<number, GongStructDB>(); // same but only in last GET (for finding repo instances to delete)
+  GongTimeFields_array = new Array<GongTimeFieldDB>(); // array of repo instances
+  GongTimeFields = new Map<number, GongTimeFieldDB>(); // map of repo instances
+  GongTimeFields_batch = new Map<number, GongTimeFieldDB>(); // same but only in last GET (for finding repo instances to delete)
   ModelPkgs_array = new Array<ModelPkgDB>(); // array of repo instances
   ModelPkgs = new Map<number, ModelPkgDB>(); // map of repo instances
   ModelPkgs_batch = new Map<number, ModelPkgDB>(); // same but only in last GET (for finding repo instances to delete)
@@ -87,6 +93,7 @@ export class FrontRepoService {
     private gongenumService: GongEnumService,
     private gongenumvalueService: GongEnumValueService,
     private gongstructService: GongStructService,
+    private gongtimefieldService: GongTimeFieldService,
     private modelpkgService: ModelPkgService,
     private pointertogongstructfieldService: PointerToGongStructFieldService,
     private sliceofpointertogongstructfieldService: SliceOfPointerToGongStructFieldService,
@@ -98,6 +105,7 @@ export class FrontRepoService {
     Observable<GongEnumDB[]>,
     Observable<GongEnumValueDB[]>,
     Observable<GongStructDB[]>,
+    Observable<GongTimeFieldDB[]>,
     Observable<ModelPkgDB[]>,
     Observable<PointerToGongStructFieldDB[]>,
     Observable<SliceOfPointerToGongStructFieldDB[]>,
@@ -106,6 +114,7 @@ export class FrontRepoService {
       this.gongenumService.getGongEnums(),
       this.gongenumvalueService.getGongEnumValues(),
       this.gongstructService.getGongStructs(),
+      this.gongtimefieldService.getGongTimeFields(),
       this.modelpkgService.getModelPkgs(),
       this.pointertogongstructfieldService.getPointerToGongStructFields(),
       this.sliceofpointertogongstructfieldService.getSliceOfPointerToGongStructFields(),
@@ -128,6 +137,7 @@ export class FrontRepoService {
             gongenums_,
             gongenumvalues_,
             gongstructs_,
+            gongtimefields_,
             modelpkgs_,
             pointertogongstructfields_,
             sliceofpointertogongstructfields_,
@@ -142,6 +152,8 @@ export class FrontRepoService {
             gongenumvalues = gongenumvalues_
             var gongstructs: GongStructDB[]
             gongstructs = gongstructs_
+            var gongtimefields: GongTimeFieldDB[]
+            gongtimefields = gongtimefields_
             var modelpkgs: ModelPkgDB[]
             modelpkgs = modelpkgs_
             var pointertogongstructfields: PointerToGongStructFieldDB[]
@@ -233,6 +245,27 @@ export class FrontRepoService {
               gongstruct => {
                 if (FrontRepoSingloton.GongStructs_batch.get(gongstruct.ID) == undefined) {
                   FrontRepoSingloton.GongStructs.delete(gongstruct.ID)
+                }
+              }
+            )
+            // init the array
+            FrontRepoSingloton.GongTimeFields_array = gongtimefields
+
+            // clear the map that counts GongTimeField in the GET
+            FrontRepoSingloton.GongTimeFields_batch.clear()
+            
+            gongtimefields.forEach(
+              gongtimefield => {
+                FrontRepoSingloton.GongTimeFields.set(gongtimefield.ID, gongtimefield)
+                FrontRepoSingloton.GongTimeFields_batch.set(gongtimefield.ID, gongtimefield)
+              }
+            )
+            
+            // clear gongtimefields that are absent from the batch
+            FrontRepoSingloton.GongTimeFields.forEach(
+              gongtimefield => {
+                if (FrontRepoSingloton.GongTimeFields_batch.get(gongtimefield.ID) == undefined) {
+                  FrontRepoSingloton.GongTimeFields.delete(gongtimefield.ID)
                 }
               }
             )
@@ -359,6 +392,13 @@ export class FrontRepoService {
             )
             gongstructs.forEach(
               gongstruct => {
+                // insertion point sub sub template for ONE-/ZERO-ONE associations pointers redeeming
+
+                // insertion point for redeeming ONE-MANY associations
+              }
+            )
+            gongtimefields.forEach(
+              gongtimefield => {
                 // insertion point sub sub template for ONE-/ZERO-ONE associations pointers redeeming
 
                 // insertion point for redeeming ONE-MANY associations
@@ -673,6 +713,57 @@ export class FrontRepoService {
     )
   }
 
+  // GongTimeFieldPull performs a GET on GongTimeField of the stack and redeem association pointers 
+  GongTimeFieldPull(): Observable<FrontRepo> {
+    return new Observable<FrontRepo>(
+      (observer) => {
+        combineLatest([
+          this.gongtimefieldService.getGongTimeFields()
+        ]).subscribe(
+          ([ // insertion point sub template 
+            gongtimefields,
+          ]) => {
+            // init the array
+            FrontRepoSingloton.GongTimeFields_array = gongtimefields
+
+            // clear the map that counts GongTimeField in the GET
+            FrontRepoSingloton.GongTimeFields_batch.clear()
+
+            // 
+            // First Step: init map of instances
+            // insertion point sub template 
+            gongtimefields.forEach(
+              gongtimefield => {
+                FrontRepoSingloton.GongTimeFields.set(gongtimefield.ID, gongtimefield)
+                FrontRepoSingloton.GongTimeFields_batch.set(gongtimefield.ID, gongtimefield)
+
+                // insertion point for redeeming ONE/ZERO-ONE associations 
+
+                // insertion point for redeeming ONE-MANY associations 
+              }
+            )
+
+            // clear gongtimefields that are absent from the GET
+            FrontRepoSingloton.GongTimeFields.forEach(
+              gongtimefield => {
+                if (FrontRepoSingloton.GongTimeFields_batch.get(gongtimefield.ID) == undefined) {
+                  FrontRepoSingloton.GongTimeFields.delete(gongtimefield.ID)
+                }
+              }
+            )
+
+            // 
+            // Second Step: redeem pointers between instances (thanks to maps in the First Step)
+            // insertion point sub template 
+
+            // hand over control flow to observer
+            observer.next(FrontRepoSingloton)
+          }
+        )
+      }
+    )
+  }
+
   // ModelPkgPull performs a GET on ModelPkg of the stack and redeem association pointers 
   ModelPkgPull(): Observable<FrontRepo> {
     return new Observable<FrontRepo>(
@@ -880,12 +971,15 @@ export function getGongEnumValueUniqueID(id: number): number {
 export function getGongStructUniqueID(id: number): number {
   return 43 * id
 }
-export function getModelPkgUniqueID(id: number): number {
+export function getGongTimeFieldUniqueID(id: number): number {
   return 47 * id
 }
-export function getPointerToGongStructFieldUniqueID(id: number): number {
+export function getModelPkgUniqueID(id: number): number {
   return 53 * id
 }
-export function getSliceOfPointerToGongStructFieldUniqueID(id: number): number {
+export function getPointerToGongStructFieldUniqueID(id: number): number {
   return 59 * id
+}
+export function getSliceOfPointerToGongStructFieldUniqueID(id: number): number {
+  return 61 * id
 }

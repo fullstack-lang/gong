@@ -15,6 +15,7 @@ package controllers
 
 import (
 	"net/http"
+	"time"
 
 	"{{PkgPathRoot}}/models"
 	"{{PkgPathRoot}}/orm"
@@ -25,6 +26,7 @@ import (
 
 // declaration in order to justify use of the models import
 var __{{Structname}}__dummysDeclaration__ models.{{Structname}}
+var __{{Structname}}_time__dummyDeclaration time.Duration
 
 // An {{Structname}}ID parameter model.
 //
@@ -73,7 +75,7 @@ func Get{{Structname}}s(c *gin.Context) {
 	for idx := range {{structname}}s {
 		{{structname}} := &{{structname}}s[idx]
 		_ = {{structname}}
-		// insertion point for updating fields{{` + string(rune(ControllerFileGetInsertion)) + `}}
+		// insertion point for updating fields{{` + string(rune(ControllerFileGetsInsertion)) + `}}
 	}
 
 	c.JSON(http.StatusOK, {{structname}}s)
@@ -111,7 +113,6 @@ func Post{{Structname}}(c *gin.Context) {
 	{{structname}}DB := orm.{{Structname}}DB{}
 	{{structname}}DB.{{Structname}}API = input
 	// insertion point for nullable field set{{` + string(rune(ControllerFilePostInsertion)) + `}}
-
 	query := db.Create(&{{structname}}DB)
 	if query.Error != nil {
 		var returnError GenericError
@@ -151,7 +152,6 @@ func Get{{Structname}}(c *gin.Context) {
 	}
 
 	// insertion point for fields value set from nullable fields{{` + string(rune(ControllerFileGetInsertion)) + `}}
-
 	c.JSON(http.StatusOK, {{structname}})
 }
 
@@ -190,7 +190,6 @@ func Update{{Structname}}(c *gin.Context) {
 
 	// update
 	// insertion point for nullable field set{{` + string(rune(ControllerFileUpdateInsertion)) + `}}
-
 	query = db.Model(&{{structname}}DB).Updates(input)
 	if query.Error != nil {
 		var returnError GenericError
@@ -277,6 +276,11 @@ const (
 	ControllerFileFieldSubTmplGetBasicFieldString
 	ControllerFileFieldSubTmplUpdateBasicFieldString
 
+	ControllerFileFieldSubTmplGetsTimeField
+	ControllerFileFieldSubTmplPostTimeField
+	ControllerFileFieldSubTmplGetTimeField
+	ControllerFileFieldSubTmplUpdateTimeField
+
 	ControllerFileFieldSubTmplGetsBasicFieldStringEnum
 	ControllerFileFieldSubTmplPostBasicFieldStringEnum
 	ControllerFileFieldSubTmplGetBasicFieldStringEnum
@@ -291,7 +295,7 @@ map[ControllerFilPerStructSubTemplate]string{
 	//
 
 	ControllerFileFieldSubTmplGetsBasicFieldBool: `
-	{{structname}}.{{FieldName}} = {{structname}}.{{FieldName}}_Data.Bool
+		{{structname}}.{{FieldName}} = {{structname}}.{{FieldName}}_Data.Bool
 `,
 
 	ControllerFileFieldSubTmplPostBasicFieldBool: `
@@ -309,13 +313,39 @@ map[ControllerFilPerStructSubTemplate]string{
 `,
 
 	//
+	// Time
+	//
+
+	ControllerFileFieldSubTmplGetsTimeField: `
+		if {{structname}}.{{FieldName}}_Data.Valid {
+			{{structname}}.{{FieldName}} = {{structname}}.{{FieldName}}_Data.Time
+		}
+`,
+
+	ControllerFileFieldSubTmplPostTimeField: `
+	{{structname}}DB.{{FieldName}}_Data.Time = input.{{FieldName}}
+	{{structname}}DB.{{FieldName}}_Data.Valid = true
+`,
+
+	ControllerFileFieldSubTmplGetTimeField: `
+	if {{structname}}.{{FieldName}}_Data.Valid {
+		{{structname}}.{{FieldName}} = {{structname}}.{{FieldName}}_Data.Time
+	}
+`,
+
+	ControllerFileFieldSubTmplUpdateTimeField: `
+	input.{{FieldName}}_Data.Time = input.{{FieldName}}
+	input.{{FieldName}}_Data.Valid = true
+`,
+
+	//
 	// Int
 	//
 
 	ControllerFileFieldSubTmplGetsBasicFieldInt: `
-	if {{structname}}.{{FieldName}}_Data.Valid {
-		{{structname}}.{{FieldName}} = {{structname}}.{{FieldName}}_Data.Int64
-	}
+		if {{structname}}.{{FieldName}}_Data.Valid {
+			{{structname}}.{{FieldName}} = {{FieldType}}({{structname}}.{{FieldName}}_Data.Int64)
+		}
 `,
 
 	ControllerFileFieldSubTmplPostBasicFieldInt: `
@@ -325,7 +355,7 @@ map[ControllerFilPerStructSubTemplate]string{
 
 	ControllerFileFieldSubTmplGetBasicFieldInt: `
 	if {{structname}}.{{FieldName}}_Data.Valid {
-		{{structname}}.{{FieldName}} = int({{structname}}.{{FieldName}}_Data.Int64)
+		{{structname}}.{{FieldName}} = {{FieldType}}({{structname}}.{{FieldName}}_Data.Int64)
 	}
 `,
 
@@ -339,9 +369,9 @@ map[ControllerFilPerStructSubTemplate]string{
 	//
 
 	ControllerFileFieldSubTmplGetsBasicFieldFloat64: `
-	if {{structname}}.{{FieldName}}_Data.Valid {
-		{{structname}}.{{FieldName}} = {{structname}}.{{FieldName}}_Data.Float64
-	}
+		if {{structname}}.{{FieldName}}_Data.Valid {
+			{{structname}}.{{FieldName}} = {{structname}}.{{FieldName}}_Data.Float64
+		}
 `,
 
 	ControllerFileFieldSubTmplPostBasicFieldFloat64: `
@@ -365,9 +395,9 @@ map[ControllerFilPerStructSubTemplate]string{
 	//
 
 	ControllerFileFieldSubTmplGetsBasicFieldString: `
-	if {{structname}}.{{FieldName}}_Data.Valid {
-		{{structname}}.{{FieldName}} = {{structname}}.{{FieldName}}_Data.String
-	}
+		if {{structname}}.{{FieldName}}_Data.Valid {
+			{{structname}}.{{FieldName}} = {{structname}}.{{FieldName}}_Data.String
+		}
 `,
 
 	ControllerFileFieldSubTmplPostBasicFieldString: `
@@ -391,9 +421,9 @@ map[ControllerFilPerStructSubTemplate]string{
 	//
 
 	ControllerFileFieldSubTmplGetsBasicFieldStringEnum: `
-	if {{structname}}.{{FieldName}}_Data.Valid {
-		{{structname}}.{{FieldName}} = models.{{EnumType}}({{structname}}.{{FieldName}}_Data.String)
-	}
+		if {{structname}}.{{FieldName}}_Data.Valid {
+			{{structname}}.{{FieldName}} = models.{{EnumType}}({{structname}}.{{FieldName}}_Data.String)
+		}
 `,
 
 	ControllerFileFieldSubTmplPostBasicFieldStringEnum: `
@@ -447,99 +477,119 @@ func MultiCodeGeneratorControllers(
 		for _, field := range _struct.Fields {
 			switch field.(type) {
 			case *GongBasicField:
-				modelBasicField := field.(*GongBasicField)
+				gongBasicField := field.(*GongBasicField)
 
-				switch modelBasicField.basicKind {
+				switch gongBasicField.basicKind {
 				case types.Bool:
 					insertions[ControllerFileGetsInsertion] += Replace1(
 						ControllerFileFieldFieldSubTemplateCode[ControllerFileFieldSubTmplGetsBasicFieldBool],
-						"{{FieldName}}", modelBasicField.Name)
+						"{{FieldName}}", gongBasicField.Name)
 
 					insertions[ControllerFilePostInsertion] += Replace1(
 						ControllerFileFieldFieldSubTemplateCode[ControllerFileFieldSubTmplPostBasicFieldBool],
-						"{{FieldName}}", modelBasicField.Name)
+						"{{FieldName}}", gongBasicField.Name)
 
 					insertions[ControllerFileGetInsertion] += Replace1(
 						ControllerFileFieldFieldSubTemplateCode[ControllerFileFieldSubTmplGetBasicFieldBool],
-						"{{FieldName}}", modelBasicField.Name)
+						"{{FieldName}}", gongBasicField.Name)
 
 					insertions[ControllerFileUpdateInsertion] += Replace1(
 						ControllerFileFieldFieldSubTemplateCode[ControllerFileFieldSubTmplUpdateBasicFieldBool],
-						"{{FieldName}}", modelBasicField.Name)
+						"{{FieldName}}", gongBasicField.Name)
 
-				case types.Int:
-					insertions[ControllerFileGetsInsertion] += Replace1(
+				case types.Int, types.Int64:
+					insertions[ControllerFileGetsInsertion] += Replace2(
 						ControllerFileFieldFieldSubTemplateCode[ControllerFileFieldSubTmplGetsBasicFieldInt],
-						"{{FieldName}}", modelBasicField.Name)
+						"{{FieldName}}", gongBasicField.Name,
+						"{{FieldType}}", gongBasicField.DeclaredType)
 
 					insertions[ControllerFilePostInsertion] += Replace1(
 						ControllerFileFieldFieldSubTemplateCode[ControllerFileFieldSubTmplPostBasicFieldInt],
-						"{{FieldName}}", modelBasicField.Name)
+						"{{FieldName}}", gongBasicField.Name)
 
-					insertions[ControllerFileGetInsertion] += Replace1(
+					insertions[ControllerFileGetInsertion] += Replace2(
 						ControllerFileFieldFieldSubTemplateCode[ControllerFileFieldSubTmplGetBasicFieldInt],
-						"{{FieldName}}", modelBasicField.Name)
+						"{{FieldName}}", gongBasicField.Name,
+						"{{FieldType}}", gongBasicField.DeclaredType)
 
 					insertions[ControllerFileUpdateInsertion] += Replace1(
 						ControllerFileFieldFieldSubTemplateCode[ControllerFileFieldSubTmplUpdateBasicFieldInt],
-						"{{FieldName}}", modelBasicField.Name)
+						"{{FieldName}}", gongBasicField.Name)
 
 				case types.Float64:
 					insertions[ControllerFileGetsInsertion] += Replace1(
 						ControllerFileFieldFieldSubTemplateCode[ControllerFileFieldSubTmplGetsBasicFieldFloat64],
-						"{{FieldName}}", modelBasicField.Name)
+						"{{FieldName}}", gongBasicField.Name)
 
 					insertions[ControllerFilePostInsertion] += Replace1(
 						ControllerFileFieldFieldSubTemplateCode[ControllerFileFieldSubTmplPostBasicFieldFloat64],
-						"{{FieldName}}", modelBasicField.Name)
+						"{{FieldName}}", gongBasicField.Name)
 
 					insertions[ControllerFileGetInsertion] += Replace1(
 						ControllerFileFieldFieldSubTemplateCode[ControllerFileFieldSubTmplGetBasicFieldFloat64],
-						"{{FieldName}}", modelBasicField.Name)
+						"{{FieldName}}", gongBasicField.Name)
 
 					insertions[ControllerFileUpdateInsertion] += Replace1(
 						ControllerFileFieldFieldSubTemplateCode[ControllerFileFieldSubTmplUpdateBasicFieldFloat64],
-						"{{FieldName}}", modelBasicField.Name)
+						"{{FieldName}}", gongBasicField.Name)
 
 				case types.String:
-					if modelBasicField.GongEnum != nil {
+					if gongBasicField.GongEnum != nil {
 						insertions[ControllerFileGetsInsertion] += Replace2(
 							ControllerFileFieldFieldSubTemplateCode[ControllerFileFieldSubTmplGetsBasicFieldStringEnum],
-							"{{FieldName}}", modelBasicField.Name,
-							"{{EnumType}}", modelBasicField.GongEnum.Name)
+							"{{FieldName}}", gongBasicField.Name,
+							"{{EnumType}}", gongBasicField.GongEnum.Name)
 
 						insertions[ControllerFilePostInsertion] += Replace2(
 							ControllerFileFieldFieldSubTemplateCode[ControllerFileFieldSubTmplPostBasicFieldStringEnum],
-							"{{FieldName}}", modelBasicField.Name,
-							"{{EnumType}}", modelBasicField.GongEnum.Name)
+							"{{FieldName}}", gongBasicField.Name,
+							"{{EnumType}}", gongBasicField.GongEnum.Name)
 
 						insertions[ControllerFileGetInsertion] += Replace2(
 							ControllerFileFieldFieldSubTemplateCode[ControllerFileFieldSubTmplGetBasicFieldStringEnum],
-							"{{FieldName}}", modelBasicField.Name,
-							"{{EnumType}}", modelBasicField.GongEnum.Name)
+							"{{FieldName}}", gongBasicField.Name,
+							"{{EnumType}}", gongBasicField.GongEnum.Name)
 
 						insertions[ControllerFileUpdateInsertion] += Replace2(
 							ControllerFileFieldFieldSubTemplateCode[ControllerFileFieldSubTmplUpdateBasicFieldStringEnum],
-							"{{FieldName}}", modelBasicField.Name,
-							"{{EnumType}}", modelBasicField.GongEnum.Name)
+							"{{FieldName}}", gongBasicField.Name,
+							"{{EnumType}}", gongBasicField.GongEnum.Name)
 					} else {
 						insertions[ControllerFileGetsInsertion] += Replace1(
 							ControllerFileFieldFieldSubTemplateCode[ControllerFileFieldSubTmplGetsBasicFieldString],
-							"{{FieldName}}", modelBasicField.Name)
+							"{{FieldName}}", gongBasicField.Name)
 
 						insertions[ControllerFilePostInsertion] += Replace1(
 							ControllerFileFieldFieldSubTemplateCode[ControllerFileFieldSubTmplPostBasicFieldString],
-							"{{FieldName}}", modelBasicField.Name)
+							"{{FieldName}}", gongBasicField.Name)
 
 						insertions[ControllerFileGetInsertion] += Replace1(
 							ControllerFileFieldFieldSubTemplateCode[ControllerFileFieldSubTmplGetBasicFieldString],
-							"{{FieldName}}", modelBasicField.Name)
+							"{{FieldName}}", gongBasicField.Name)
 
 						insertions[ControllerFileUpdateInsertion] += Replace1(
 							ControllerFileFieldFieldSubTemplateCode[ControllerFileFieldSubTmplUpdateBasicFieldString],
-							"{{FieldName}}", modelBasicField.Name)
+							"{{FieldName}}", gongBasicField.Name)
 					}
 				}
+			case *GongTimeField:
+				gongTimeField := field.(*GongTimeField)
+
+				insertions[ControllerFileGetsInsertion] += Replace1(
+					ControllerFileFieldFieldSubTemplateCode[ControllerFileFieldSubTmplGetsTimeField],
+					"{{FieldName}}", gongTimeField.Name)
+
+				insertions[ControllerFilePostInsertion] += Replace1(
+					ControllerFileFieldFieldSubTemplateCode[ControllerFileFieldSubTmplPostTimeField],
+					"{{FieldName}}", gongTimeField.Name)
+
+				insertions[ControllerFileGetInsertion] += Replace1(
+					ControllerFileFieldFieldSubTemplateCode[ControllerFileFieldSubTmplGetTimeField],
+					"{{FieldName}}", gongTimeField.Name)
+
+				insertions[ControllerFileUpdateInsertion] += Replace1(
+					ControllerFileFieldFieldSubTemplateCode[ControllerFileFieldSubTmplUpdateTimeField],
+					"{{FieldName}}", gongTimeField.Name)
 			default:
 			}
 		}

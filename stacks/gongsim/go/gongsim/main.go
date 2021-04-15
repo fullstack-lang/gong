@@ -90,9 +90,6 @@ func main() {
 	} else {
 		models.EngineSingloton.Run()
 	}
-
-	// r.StaticFS("/static/", http.Dir("/Users/thomaspeugeot/go/src/github.com/fullstack-lang/gong/stacks/gongsim/ng/dist/ng"))
-
 }
 
 type Simulation struct {

@@ -6,13 +6,15 @@ import (
 	"errors"
 	"fmt"
 	"log"
+	"time"
 
-	"github.com/fullstack-lang/gong/stacks/gong/go/models"
 	"github.com/jinzhu/gorm"
+	"github.com/fullstack-lang/gong/stacks/gong/go/models"
 )
 
 // dummy variable to have the import database/sql wihthout compile failure id no sql is used
 var dummy_GongEnumValue sql.NullBool
+var __GongEnumValue_time__dummyDeclaration time.Duration
 
 // GongEnumValueAPI is the input in POST API
 //

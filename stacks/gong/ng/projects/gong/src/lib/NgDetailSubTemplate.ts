@@ -7,9 +7,12 @@ export enum NgDetailSubTemplate {
 	NgDetailTSEnumDeclarations = 1,
 	NgDetailTSEnumImports = 0,
 	NgDetailTSEnumInits = 2,
-	NgDetailTSPointerToGongStructSaves = 6,
-	NgDetailTSReversePointerToSliceOfGongStructSavesWhenCreateFromOwner = 7,
-	NgDetailTSReversePointerToSliceOfGongStructSavesWhenUpdate = 8,
+	NgDetailTSPointerToGongStructSaves = 9,
+	NgDetailTSReversePointerToSliceOfGongStructSavesWhenCreateFromOwner = 10,
+	NgDetailTSReversePointerToSliceOfGongStructSavesWhenUpdate = 11,
+	NgDetailTSTimeDurationDeclarations = 6,
+	NgDetailTSTimeDurationRecoveries = 7,
+	NgDetailTSTimeDurationSaves = 8,
 }
 
 export interface NgDetailSubTemplateSelect {
@@ -24,7 +27,10 @@ export const NgDetailSubTemplateList: NgDetailSubTemplateSelect[] = [ // inserti
 	{ value: 'NgDetailTSEnumDeclarations', viewValue: '1' },
 	{ value: 'NgDetailTSEnumImports', viewValue: '0' },
 	{ value: 'NgDetailTSEnumInits', viewValue: '2' },
-	{ value: 'NgDetailTSPointerToGongStructSaves', viewValue: '6' },
-	{ value: 'NgDetailTSReversePointerToSliceOfGongStructSavesWhenCreateFromOwner', viewValue: '7' },
-	{ value: 'NgDetailTSReversePointerToSliceOfGongStructSavesWhenUpdate', viewValue: '8' },
+	{ value: 'NgDetailTSPointerToGongStructSaves', viewValue: '9' },
+	{ value: 'NgDetailTSReversePointerToSliceOfGongStructSavesWhenCreateFromOwner', viewValue: '10' },
+	{ value: 'NgDetailTSReversePointerToSliceOfGongStructSavesWhenUpdate', viewValue: '11' },
+	{ value: 'NgDetailTSTimeDurationDeclarations', viewValue: '6' },
+	{ value: 'NgDetailTSTimeDurationRecoveries', viewValue: '7' },
+	{ value: 'NgDetailTSTimeDurationSaves', viewValue: '8' },
 ];

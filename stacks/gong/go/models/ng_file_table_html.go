@@ -59,7 +59,9 @@ type NgTableHTMLSubTemplate int
 
 const (
 	NgTableHTMLBasicField NgTableHTMLSubTemplate = iota
+	NgTableHTMLTimeField
 	NgTableHTMLBasicFloat64Field
+	NgTableHTMLBasicFieldTimeDuration
 	NgTableHTMLBool
 	NgTablePointerToStructHTMLFormField
 	NgTablePointerToSliceOfGongStructHTMLFormField
@@ -73,6 +75,24 @@ var NgTableHTMLSubTemplateCode map[NgTableHTMLSubTemplate]string = map[NgTableHT
         <th mat-header-cell *matHeaderCellDef> {{FieldName}} </th>
         <td mat-cell *matCellDef="let {{Structname}}">
             {{{{Structname}}.{{FieldName}}}}
+        </td>
+    </ng-container>`,
+
+	NgTableHTMLTimeField: `
+    <!-- -->
+    <ng-container matColumnDef="{{FieldName}}">
+        <th mat-header-cell *matHeaderCellDef> {{FieldName}} </th>
+        <td mat-cell *matCellDef="let {{Structname}}">
+            {{{{Structname}}.{{FieldName}}}}
+        </td>
+    </ng-container>`,
+
+	NgTableHTMLBasicFieldTimeDuration: `
+    <!-- -->
+    <ng-container matColumnDef="{{FieldName}}">
+        <th mat-header-cell *matHeaderCellDef> {{FieldName}} </th>
+        <td mat-cell *matCellDef="let {{Structname}}">
+            {{{{Structname}}.{{FieldName}}_string}}
         </td>
     </ng-container>`,
 
@@ -106,7 +126,7 @@ var NgTableHTMLSubTemplateCode map[NgTableHTMLSubTemplate]string = map[NgTableHT
 	NgTablePointerToSliceOfGongStructHTMLFormField: `
     <!-- -->
     <ng-container matColumnDef="{{FieldName}}">
-        <th mat-header-cell *matHeaderCellDef> <-- {{FieldName}} </th>
+        <th mat-header-cell *matHeaderCellDef> <-- ({{AssocStructName}}) {{FieldName}} </th>
         <td mat-cell *matCellDef="let {{structname}}">
             {{frontRepo.{{AssocStructName}}s.get({{structname}}.{{AssocStructName}}_{{FieldName}}DBID.Int64)?.Name}}
         </td>

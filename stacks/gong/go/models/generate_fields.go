@@ -62,6 +62,7 @@ func GenerateFields(structName string, __struct *types.Struct, pkg *packages.Pac
 						basicKind:     t2.Kind(),
 						BasicKindName: kindAsString,
 						GongEnum:      gongEnum,
+						DeclaredType:  fieldType,
 					})
 		case *types.Pointer:
 			// if pointer, field should be of form *Struct
@@ -125,10 +126,8 @@ func GenerateFields(structName string, __struct *types.Struct, pkg *packages.Pac
 			if _typesField.Type().String() == "time.Time" {
 				modelPkg.GongStructs[structName].Fields =
 					append(modelPkg.GongStructs[structName].Fields, //
-						&GongBasicField{
-							Name:      _typesField.Name(),
-							Type:      _typesField.Type().Underlying(),
-							basicKind: types.String,
+						&GongTimeField{
+							Name: _typesField.Name(),
 						},
 					)
 			} else {

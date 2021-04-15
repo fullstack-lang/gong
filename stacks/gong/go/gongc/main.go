@@ -51,6 +51,8 @@ var (
 
 	addr = flag.String("addr", "localhost:8080/api",
 		"network address addr where the angular generated service will lookup the server")
+
+	run = flag.Bool("run", false, "run 'go run main.go' after compilation")
 )
 
 func main() {
@@ -74,6 +76,12 @@ func main() {
 	var modelPkg gong_models.ModelPkg
 	gong_models.Walk(*pkgPath, &modelPkg)
 
+	// check wether the package name follows gong naming convention
+	if strings.ContainsAny(modelPkg.Name, "-") {
+		log.Panicln(modelPkg.Name + " is not OK for a gong package name because it contains a - (dash) " +
+			"and it cannot be used for naming a typescript class (the generated module in this cause)")
+	}
+
 	// compute path to generation directory
 	{
 		if *backendTargetPath == COMPUTED_FROM_PKG_PATH {
@@ -95,6 +103,26 @@ func main() {
 		}
 		gong_models.BackendTargetPath = directory
 		log.Println("backend target path " + gong_models.BackendTargetPath)
+	}
+
+	{
+		// check existance of "main.go" file and generate a default "main.go" if absent
+		mainFilePath := filepath.Join(*pkgPath, "../../main.go")
+
+		_, errd := os.Stat(mainFilePath)
+		if os.IsNotExist(errd) {
+			log.Printf("maing.go does not exist, gongc creates a default main.go")
+
+			// sometimes on windows, directory creation is not completed before creation of file/directory (this
+			// leads to non reproductible "access denied")
+			time.Sleep(1000 * time.Millisecond)
+			gong_models.VerySimpleCodeGenerator(
+				&modelPkg,
+				gong_models.PkgName,
+				gong_models.PkgGoPath,
+				mainFilePath,
+				gong_models.PackageMain)
+		}
 	}
 	{
 		if *ngWorkspacePath == COMPUTED_FROM_PKG_PATH {
@@ -223,6 +251,13 @@ func main() {
 				fmt.Fprintf(f, "%s", res)
 			}
 
+			{
+				// patch tsconfig file in order to have the path to the public-api of the
+				// generated library (instead of the path to "dist")
+				filename := filepath.Join(gong_models.NgWorkspacePath, "tsconfig.json")
+				InsertStringToFile(filename, "        \"projects/"+modelPkg.Name+"/src/public-api.ts\",", modelPkg.Name+"\": [")
+			}
+
 		} else {
 			log.Printf("ng directory %s does exist", gong_models.NgWorkspacePath)
 		}
@@ -293,27 +328,6 @@ func main() {
 	sourcePath, errd2 := filepath.Abs(*pkgPath)
 	if errd2 != nil {
 		log.Panic("Problem with source path " + errd2.Error())
-	}
-
-	// check existance of go/{{PkgName}} directory and generate default "main.go" if absent
-	mainDirectory := filepath.Join(*pkgPath, fmt.Sprintf("../%s", gong_models.PkgName))
-	{
-		_, errd := os.Stat(mainDirectory)
-		if os.IsNotExist(errd) {
-			log.Printf("main directory %s does not exist, gongc creates dir and default main", gong_models.NgWorkspacePath)
-
-			os.Mkdir(mainDirectory, os.ModePerm)
-
-			// sometimes on windows, directory creation is not completed before creation of file/directory (this
-			// leads to non reproductible "access denied")
-			time.Sleep(1000 * time.Millisecond)
-			gong_models.VerySimpleCodeGenerator(
-				&modelPkg,
-				gong_models.PkgName,
-				gong_models.PkgGoPath,
-				filepath.Join(mainDirectory, "main.go"),
-				gong_models.PackageMain)
-		}
 	}
 
 	gong_models.MultiCodeGeneratorNgDetail(
@@ -548,6 +562,29 @@ func main() {
 	}
 
 	log.Printf("compilation over")
+
+	if *run {
+
+		cmd := exec.Command("go", "run", "main.go")
+		cmd.Dir, _ = filepath.Abs(filepath.Join(*ngWorkspacePath, ".."))
+		log.Printf("Running %s command in directory %s and waiting for it to finish...\n", cmd.Args, cmd.Dir)
+
+		// https://stackoverflow.com/questions/48253268/print-the-stdout-from-exec-command-in-real-time-in-go
+		var stdBuffer bytes.Buffer
+		mw := io.MultiWriter(os.Stdout, &stdBuffer)
+
+		cmd.Stdout = mw
+		cmd.Stderr = mw
+
+		log.Println(cmd.String())
+		log.Println(stdBuffer.String())
+
+		// Execute the command
+		if err := cmd.Run(); err != nil {
+			log.Panic(err)
+		}
+
+	}
 }
 
 func RemoveContents(dir string) error {

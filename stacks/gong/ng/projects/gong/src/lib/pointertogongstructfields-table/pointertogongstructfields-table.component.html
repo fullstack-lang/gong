@@ -29,7 +29,7 @@
     </ng-container>
     <!-- -->
     <ng-container matColumnDef="PointerToGongStructFields">
-        <th mat-header-cell *matHeaderCellDef> <-- PointerToGongStructFields </th>
+        <th mat-header-cell *matHeaderCellDef> <-- (GongStruct) PointerToGongStructFields </th>
         <td mat-cell *matCellDef="let pointertogongstructfield">
             {{frontRepo.GongStructs.get(pointertogongstructfield.GongStruct_PointerToGongStructFieldsDBID.Int64)?.Name}}
         </td>

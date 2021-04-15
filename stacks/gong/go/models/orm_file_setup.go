@@ -40,7 +40,7 @@ func AutoMigrate(db *gorm.DB) {
 		msg := _db.Error.Error()
 		panic("problem with migration " + msg + " on package {{PkgPathRoot}}")
 	}
-	log.Printf("Migration OK")
+	log.Printf("Database Migration of package {{PkgPathRoot}} is OK")
 }
 
 func ResetDB(db *gorm.DB) { // insertion point for reference to structs {{` + string(OrmSetupDelete) + `}}
