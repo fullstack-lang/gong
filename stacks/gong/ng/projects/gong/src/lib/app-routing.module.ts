@@ -18,6 +18,10 @@ import { GongStructsTableComponent } from './gongstructs-table/gongstructs-table
 import { GongStructDetailComponent } from './gongstruct-detail/gongstruct-detail.component'
 import { GongStructPresentationComponent } from './gongstruct-presentation/gongstruct-presentation.component'
 
+import { GongTimeFieldsTableComponent } from './gongtimefields-table/gongtimefields-table.component'
+import { GongTimeFieldDetailComponent } from './gongtimefield-detail/gongtimefield-detail.component'
+import { GongTimeFieldPresentationComponent } from './gongtimefield-presentation/gongtimefield-presentation.component'
+
 import { ModelPkgsTableComponent } from './modelpkgs-table/modelpkgs-table.component'
 import { ModelPkgDetailComponent } from './modelpkg-detail/modelpkg-detail.component'
 import { ModelPkgPresentationComponent } from './modelpkg-presentation/modelpkg-presentation.component'
@@ -59,6 +63,13 @@ const routes: Routes = [ // insertion point for routes declarations
 	{ path: 'gongstruct-detail/:id', component: GongStructDetailComponent, outlet: 'editor' },
 	{ path: 'gongstruct-presentation/:id', component: GongStructPresentationComponent, outlet: 'presentation' },
 	{ path: 'gongstruct-presentation-special/:id', component: GongStructPresentationComponent, outlet: 'gongstructpres' },
+
+	{ path: 'gongtimefields', component: GongTimeFieldsTableComponent, outlet: 'table' },
+	{ path: 'gongtimefield-adder', component: GongTimeFieldDetailComponent, outlet: 'editor' },
+	{ path: 'gongtimefield-adder/:id/:association', component: GongTimeFieldDetailComponent, outlet: 'editor' },
+	{ path: 'gongtimefield-detail/:id', component: GongTimeFieldDetailComponent, outlet: 'editor' },
+	{ path: 'gongtimefield-presentation/:id', component: GongTimeFieldPresentationComponent, outlet: 'presentation' },
+	{ path: 'gongtimefield-presentation-special/:id', component: GongTimeFieldPresentationComponent, outlet: 'gongtimefieldpres' },
 
 	{ path: 'modelpkgs', component: ModelPkgsTableComponent, outlet: 'table' },
 	{ path: 'modelpkg-adder', component: ModelPkgDetailComponent, outlet: 'editor' },

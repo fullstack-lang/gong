@@ -11,7 +11,7 @@ import (
 )
 
 const NgClassTmpl = `export class {{Structname}}API {
-  // insertion point for basic fields declarations{{` + string(rune(NgClassTsInsertionPerStructBasicFieldsDecl)) + `}}
+	// insertion point for basic fields declarations{{` + string(rune(NgClassTsInsertionPerStructBasicFieldsDecl)) + `}}
 }
 `
 const NgClassDBTmpl = `// insertion point for imports{{` + string(rune(NgClassTsInsertionPerStructImports)) + `}}
@@ -47,6 +47,8 @@ const (
 	NgClassTSBasicFieldImports NgClassSubTemplate = iota
 	NgClassTSBasicFieldDecls
 
+	NgClassTSTimeFieldDecls
+
 	NgClassTSOtherDecls
 
 	NgClassTSPointerToStructFieldsDecl
@@ -54,6 +56,8 @@ const (
 	NgClassTSSliceOfPtrToStructFieldsDecl
 
 	NgClassTSSliceOfPtrToGongStructReverseID
+
+	NgClassTSOtherDeclsTimeDuration
 )
 
 var NgClassSubTemplateCode map[NgClassSubTemplate]string = map[NgClassSubTemplate]string{
@@ -63,6 +67,9 @@ import { {{AssocStructName}}DB } from './{{assocStructName}}-db'`,
 
 	NgClassTSBasicFieldDecls: `
 	{{FieldName}}?: {{TypeInput}}`,
+
+	NgClassTSTimeFieldDecls: `
+	{{FieldName}}?: Date`,
 
 	NgClassTSPointerToStructFieldsDecl: `
 	{{FieldName}}?: {{TypeInput}}DB
@@ -77,6 +84,9 @@ import { {{AssocStructName}}DB } from './{{assocStructName}}-db'`,
 	{{AssocStructName}}_{{FieldName}}DBID?: NullInt64
 	{{AssocStructName}}_{{FieldName}}_reverse?: {{AssocStructName}}DB
 `,
+
+	NgClassTSOtherDeclsTimeDuration: `
+	{{FieldName}}_string?: string`,
 }
 
 // MultiCodeGeneratorNgTable generates the code for the
@@ -110,13 +120,13 @@ func MultiCodeGeneratorNgClass(
 		for _, field := range _struct.Fields {
 			switch field.(type) {
 			case *GongBasicField:
-				modelBasicField := field.(*GongBasicField)
+				gongBasicField := field.(*GongBasicField)
 
 				// conversion form go type to ts type
 				typeOfField := ""
 
 				// conversion form go type to ts type
-				switch modelBasicField.basicKind {
+				switch gongBasicField.basicKind {
 				case types.Int, types.Int64, types.Int32, types.Float64:
 					typeOfField = "number"
 				case types.String, types.Bool:
@@ -125,8 +135,20 @@ func MultiCodeGeneratorNgClass(
 
 				TSinsertions[NgClassTsInsertionPerStructBasicFieldsDecl] += Replace2(
 					NgClassSubTemplateCode[NgClassTSBasicFieldDecls],
-					"{{FieldName}}", modelBasicField.Name,
+					"{{FieldName}}", gongBasicField.Name,
 					"{{TypeInput}}", typeOfField)
+
+				if gongBasicField.DeclaredType == "time.Duration" {
+					TSinsertions[NgClassTsInsertionPerStructOtherDecls] += Replace1(
+						NgClassSubTemplateCode[NgClassTSOtherDeclsTimeDuration],
+						"{{FieldName}}", gongBasicField.Name)
+				}
+			case *GongTimeField:
+				gongBasicField := field.(*GongTimeField)
+
+				TSinsertions[NgClassTsInsertionPerStructBasicFieldsDecl] += Replace1(
+					NgClassSubTemplateCode[NgClassTSTimeFieldDecls],
+					"{{FieldName}}", gongBasicField.Name)
 
 			case *PointerToGongStructField:
 				modelPointerToStructField := field.(*PointerToGongStructField)

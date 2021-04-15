@@ -15,9 +15,11 @@ const ELEMENT_DATA: pointertogongstructfieldDummyElement[] = [
 @Component({
 	selector: 'app-pointertogongstructfield-presentation',
 	templateUrl: './pointertogongstructfield-presentation.component.html',
-  styleUrls: ['./pointertogongstructfield-presentation.component.css'],
+	styleUrls: ['./pointertogongstructfield-presentation.component.css'],
 })
 export class PointerToGongStructFieldPresentationComponent implements OnInit {
+
+	// insertion point for declarations
 
 	displayedColumns: string[] = [];
 	dataSource = ELEMENT_DATA;
@@ -53,6 +55,9 @@ export class PointerToGongStructFieldPresentationComponent implements OnInit {
 			.subscribe(
 				pointertogongstructfield => {
 					this.pointertogongstructfield = pointertogongstructfield
+
+					// insertion point for recovery of durations
+
 				}
 			);
 	}

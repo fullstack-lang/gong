@@ -45,6 +45,10 @@ import { GongStructsTableComponent } from './gongstructs-table/gongstructs-table
 import { GongStructDetailComponent } from './gongstruct-detail/gongstruct-detail.component'
 import { GongStructPresentationComponent } from './gongstruct-presentation/gongstruct-presentation.component'
 
+import { GongTimeFieldsTableComponent } from './gongtimefields-table/gongtimefields-table.component'
+import { GongTimeFieldDetailComponent } from './gongtimefield-detail/gongtimefield-detail.component'
+import { GongTimeFieldPresentationComponent } from './gongtimefield-presentation/gongtimefield-presentation.component'
+
 import { ModelPkgsTableComponent } from './modelpkgs-table/modelpkgs-table.component'
 import { ModelPkgDetailComponent } from './modelpkg-detail/modelpkg-detail.component'
 import { ModelPkgPresentationComponent } from './modelpkg-presentation/modelpkg-presentation.component'
@@ -76,6 +80,10 @@ import { SliceOfPointerToGongStructFieldPresentationComponent } from './sliceofp
 		GongStructsTableComponent,
 		GongStructDetailComponent,
 		GongStructPresentationComponent,
+
+		GongTimeFieldsTableComponent,
+		GongTimeFieldDetailComponent,
+		GongTimeFieldPresentationComponent,
 
 		ModelPkgsTableComponent,
 		ModelPkgDetailComponent,
@@ -136,6 +144,10 @@ import { SliceOfPointerToGongStructFieldPresentationComponent } from './sliceofp
 		GongStructsTableComponent,
 		GongStructDetailComponent,
 		GongStructPresentationComponent,
+
+		GongTimeFieldsTableComponent,
+		GongTimeFieldDetailComponent,
+		GongTimeFieldPresentationComponent,
 
 		ModelPkgsTableComponent,
 		ModelPkgDetailComponent,

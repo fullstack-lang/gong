@@ -6,13 +6,15 @@ import (
 	"errors"
 	"fmt"
 	"log"
+	"time"
 
-	"github.com/fullstack-lang/gong/stacks/gong/go/models"
 	"github.com/jinzhu/gorm"
+	"github.com/fullstack-lang/gong/stacks/gong/go/models"
 )
 
 // dummy variable to have the import database/sql wihthout compile failure id no sql is used
 var dummy_PointerToGongStructField sql.NullBool
+var __PointerToGongStructField_time__dummyDeclaration time.Duration
 
 // PointerToGongStructFieldAPI is the input in POST API
 //

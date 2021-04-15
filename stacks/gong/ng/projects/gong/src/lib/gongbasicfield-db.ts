@@ -13,6 +13,7 @@ export class GongBasicFieldDB {
 	// insertion point for basic fields declarations
 	Name?: string
 	BasicKindName?: string
+	DeclaredType?: string
 
 	// insertion point for other declarations
 	GongEnum?: GongEnumDB

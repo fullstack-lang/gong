@@ -16,6 +16,8 @@ import { GongEnumValueService } from '../gongenumvalue.service'
 import { getGongEnumValueUniqueID } from '../front-repo.service'
 import { GongStructService } from '../gongstruct.service'
 import { getGongStructUniqueID } from '../front-repo.service'
+import { GongTimeFieldService } from '../gongtimefield.service'
+import { getGongTimeFieldUniqueID } from '../front-repo.service'
 import { ModelPkgService } from '../modelpkg.service'
 import { getModelPkgUniqueID } from '../front-repo.service'
 import { PointerToGongStructFieldService } from '../pointertogongstructfield.service'
@@ -158,6 +160,7 @@ export class SidebarComponent implements OnInit {
     private gongenumService: GongEnumService,
     private gongenumvalueService: GongEnumValueService,
     private gongstructService: GongStructService,
+    private gongtimefieldService: GongTimeFieldService,
     private modelpkgService: ModelPkgService,
     private pointertogongstructfieldService: PointerToGongStructFieldService,
     private sliceofpointertogongstructfieldService: SliceOfPointerToGongStructFieldService,
@@ -193,6 +196,14 @@ export class SidebarComponent implements OnInit {
     )
     // observable for changes in structs
     this.gongstructService.GongStructServiceChanged.subscribe(
+      message => {
+        if (message == "post" || message == "update" || message == "delete") {
+          this.refresh()
+        }
+      }
+    )
+    // observable for changes in structs
+    this.gongtimefieldService.GongTimeFieldServiceChanged.subscribe(
       message => {
         if (message == "post" || message == "update" || message == "delete") {
           this.refresh()
@@ -526,6 +537,38 @@ export class SidebarComponent implements OnInit {
             SliceOfPointerToGongStructFieldsGongNodeAssociation.children.push(sliceofpointertogongstructfieldNode)
           })
 
+        }
+      )
+
+      /**
+      * fill up the GongTimeField part of the mat tree
+      */
+      let gongtimefieldGongNodeStruct: GongNode = {
+        name: "GongTimeField",
+        type: GongNodeType.STRUCT,
+        id: 0,
+        uniqueIdPerStack: 13 * nonInstanceNodeId,
+        structName: "GongTimeField",
+        associatedStructName: "",
+        children: new Array<GongNode>()
+      }
+      nonInstanceNodeId = nonInstanceNodeId + 1
+      this.gongNodeTree.push(gongtimefieldGongNodeStruct)
+
+      this.frontRepo.GongTimeFields_array.forEach(
+        gongtimefieldDB => {
+          let gongtimefieldGongNodeInstance: GongNode = {
+            name: gongtimefieldDB.Name,
+            type: GongNodeType.INSTANCE,
+            id: gongtimefieldDB.ID,
+            uniqueIdPerStack: getGongTimeFieldUniqueID(gongtimefieldDB.ID),
+            structName: "GongTimeField",
+            associatedStructName: "",
+            children: new Array<GongNode>()
+          }
+          gongtimefieldGongNodeStruct.children.push(gongtimefieldGongNodeInstance)
+
+          // insertion point for per field code
         }
       )
 

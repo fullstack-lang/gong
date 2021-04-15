@@ -62,17 +62,19 @@ export class GongBasicFieldsTableComponent implements OnInit {
       }
     )
     if (dialogData == undefined) {
-  	  this.displayedColumns = ['ID', 'Edit', 'Delete', // insertion point for columns to display
+      this.displayedColumns = ['ID', 'Edit', 'Delete', // insertion point for columns to display
         "Name",
         "BasicKindName",
         "GongEnum",
+        "DeclaredType",
         "GongBasicFields",
       ]
     } else {
-  	  this.displayedColumns = ['select', 'ID', // insertion point for columns to display
+      this.displayedColumns = ['select', 'ID', // insertion point for columns to display
         "Name",
         "BasicKindName",
         "GongEnum",
+        "DeclaredType",
         "GongBasicFields",
       ]
       this.selection = new SelectionModel<GongBasicFieldDB>(allowMultiSelect, this.initialSelection);
@@ -91,6 +93,9 @@ export class GongBasicFieldsTableComponent implements OnInit {
         console.log("front repo pull returned")
 
         this.gongbasicfields = this.frontRepo.GongBasicFields_array;
+
+        // insertion point for variables Recoveries
+
         // in case the component is called as a selection component
         if (this.dialogData != undefined) {
           this.gongbasicfields.forEach(
@@ -171,7 +176,7 @@ export class GongBasicFieldsTableComponent implements OnInit {
 
     let toUpdate = new Set<GongBasicFieldDB>()
 
-    // reset all initial selection of gongbasicfield that belong to aclass through Anarrayofb
+    // reset all initial selection of gongbasicfield that belong to gongbasicfield through Anarrayofb
     this.initialSelection.forEach(
       gongbasicfield => {
         gongbasicfield[this.dialogData.ReversePointer].Int64 = 0
@@ -180,7 +185,7 @@ export class GongBasicFieldsTableComponent implements OnInit {
       }
     )
 
-    // from selection, set gongbasicfield that belong to aclass through Anarrayofb
+    // from selection, set gongbasicfield that belong to gongbasicfield through Anarrayofb
     this.selection.selected.forEach(
       gongbasicfield => {
         console.log("selection ID " + gongbasicfield.ID)

@@ -62,12 +62,12 @@ export class ModelPkgsTableComponent implements OnInit {
       }
     )
     if (dialogData == undefined) {
-  	  this.displayedColumns = ['ID', 'Edit', 'Delete', // insertion point for columns to display
+      this.displayedColumns = ['ID', 'Edit', 'Delete', // insertion point for columns to display
         "Name",
         "PkgPath",
       ]
     } else {
-  	  this.displayedColumns = ['select', 'ID', // insertion point for columns to display
+      this.displayedColumns = ['select', 'ID', // insertion point for columns to display
         "Name",
         "PkgPath",
       ]
@@ -87,6 +87,9 @@ export class ModelPkgsTableComponent implements OnInit {
         console.log("front repo pull returned")
 
         this.modelpkgs = this.frontRepo.ModelPkgs_array;
+
+        // insertion point for variables Recoveries
+
         // in case the component is called as a selection component
         if (this.dialogData != undefined) {
           this.modelpkgs.forEach(
@@ -167,7 +170,7 @@ export class ModelPkgsTableComponent implements OnInit {
 
     let toUpdate = new Set<ModelPkgDB>()
 
-    // reset all initial selection of modelpkg that belong to aclass through Anarrayofb
+    // reset all initial selection of modelpkg that belong to modelpkg through Anarrayofb
     this.initialSelection.forEach(
       modelpkg => {
         modelpkg[this.dialogData.ReversePointer].Int64 = 0
@@ -176,7 +179,7 @@ export class ModelPkgsTableComponent implements OnInit {
       }
     )
 
-    // from selection, set modelpkg that belong to aclass through Anarrayofb
+    // from selection, set modelpkg that belong to modelpkg through Anarrayofb
     this.selection.selected.forEach(
       modelpkg => {
         console.log("selection ID " + modelpkg.ID)

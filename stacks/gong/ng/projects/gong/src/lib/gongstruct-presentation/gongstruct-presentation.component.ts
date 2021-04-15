@@ -15,9 +15,11 @@ const ELEMENT_DATA: gongstructDummyElement[] = [
 @Component({
 	selector: 'app-gongstruct-presentation',
 	templateUrl: './gongstruct-presentation.component.html',
-  styleUrls: ['./gongstruct-presentation.component.css'],
+	styleUrls: ['./gongstruct-presentation.component.css'],
 })
 export class GongStructPresentationComponent implements OnInit {
+
+	// insertion point for declarations
 
 	displayedColumns: string[] = [];
 	dataSource = ELEMENT_DATA;
@@ -53,6 +55,9 @@ export class GongStructPresentationComponent implements OnInit {
 			.subscribe(
 				gongstruct => {
 					this.gongstruct = gongstruct
+
+					// insertion point for recovery of durations
+
 				}
 			);
 	}
