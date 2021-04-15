@@ -62,11 +62,11 @@ export class GongStructsTableComponent implements OnInit {
       }
     )
     if (dialogData == undefined) {
-  	  this.displayedColumns = ['ID', 'Edit', 'Delete', // insertion point for columns to display
+      this.displayedColumns = ['ID', 'Edit', 'Delete', // insertion point for columns to display
         "Name",
       ]
     } else {
-  	  this.displayedColumns = ['select', 'ID', // insertion point for columns to display
+      this.displayedColumns = ['select', 'ID', // insertion point for columns to display
         "Name",
       ]
       this.selection = new SelectionModel<GongStructDB>(allowMultiSelect, this.initialSelection);
@@ -85,6 +85,9 @@ export class GongStructsTableComponent implements OnInit {
         console.log("front repo pull returned")
 
         this.gongstructs = this.frontRepo.GongStructs_array;
+
+        // insertion point for variables Recoveries
+
         // in case the component is called as a selection component
         if (this.dialogData != undefined) {
           this.gongstructs.forEach(
@@ -165,7 +168,7 @@ export class GongStructsTableComponent implements OnInit {
 
     let toUpdate = new Set<GongStructDB>()
 
-    // reset all initial selection of gongstruct that belong to aclass through Anarrayofb
+    // reset all initial selection of gongstruct that belong to gongstruct through Anarrayofb
     this.initialSelection.forEach(
       gongstruct => {
         gongstruct[this.dialogData.ReversePointer].Int64 = 0
@@ -174,7 +177,7 @@ export class GongStructsTableComponent implements OnInit {
       }
     )
 
-    // from selection, set gongstruct that belong to aclass through Anarrayofb
+    // from selection, set gongstruct that belong to gongstruct through Anarrayofb
     this.selection.selected.forEach(
       gongstruct => {
         console.log("selection ID " + gongstruct.ID)

@@ -32,9 +32,11 @@ const ELEMENT_DATA: {{structname}}DummyElement[] = [
 @Component({
 	selector: 'app-{{structname}}-presentation',
 	templateUrl: './{{structname}}-presentation.component.html',
-  styleUrls: ['./{{structname}}-presentation.component.css'],
+	styleUrls: ['./{{structname}}-presentation.component.css'],
 })
 export class {{Structname}}PresentationComponent implements OnInit {
+
+	// insertion point for declarations{{` + string(rune(NgPresentationTsInsertionPerStructDeclarations)) + `}}
 
 	displayedColumns: string[] = [];
 	dataSource = ELEMENT_DATA;
@@ -70,6 +72,9 @@ export class {{Structname}}PresentationComponent implements OnInit {
 			.subscribe(
 				{{structname}} => {
 					this.{{structname}} = {{structname}}
+
+					// insertion point for recovery of durations{{` + string(rune(NgPresentationTsInsertionPerStructRecoveries)) + `}}
+
 				}
 			);
 	}
@@ -94,41 +99,34 @@ export class {{Structname}}PresentationComponent implements OnInit {
 }
 `
 
-//
-// Sub Templates
-//
-type NgPresentationEnumSubTemplate string
+// Insertion points
+type NgPresentationTsInsertionPoint int
 
 const (
-	NgPresentationEnumImports         NgPresentationEnumSubTemplate = "NgPresentationEnumImports"
-	NgPresentationEnumSelectListDecls NgPresentationEnumSubTemplate = "NgPresentationSelectListDecls"
-	NgPresentationEnumSelectListInits NgPresentationEnumSubTemplate = "NgPresentationSelectListInits"
+	NgPresentationTsInsertionPerStructDeclarations NgPresentationTsInsertionPoint = iota
+	NgPresentationTsInsertionPerStructRecoveries
+	NgPresentationTsInsertionsNb
 )
 
-var NgPresentationEnumSubTemplateCode map[string]string = map[string]string{
-	string(NgPresentationEnumImports): `
-import { {{EnumName}}Select, {{EnumName}}List } from '../{{EnumName}}'`,
-
-	string(NgPresentationEnumSelectListDecls): `
-	{{EnumName}}List: {{EnumName}}Select[]`,
-
-	string(NgPresentationEnumSelectListInits): `
-		this.{{EnumName}}List = {{EnumName}}List`,
-}
-
-type NgPresentationPointerToStructSubTemplate string
+type NgPresentationSubTemplate int
 
 const (
-	NgPresentationPointerToStructSavingTS NgPresentationPointerToStructSubTemplate = "NgPresentationPointerToStructSavingTS"
+	NgPresentationTSTimeDurationDeclarations NgPresentationSubTemplate = iota
+	NgPresentationTSTimeDurationRecoveries
 )
 
-var NgPresentationPointerToStructSubTemplateCode map[string]string = map[string]string{
+var NgPresentationSubTemplateCode map[NgPresentationSubTemplate]string = map[NgPresentationSubTemplate]string{
 
-	string(NgPresentationPointerToStructSavingTS): `
-		if (this.{{structname}}.{{FieldName}} != undefined) {
-			this.{{structname}}.{{FieldName}}ID = this.{{structname}}.{{FieldName}}.ID
-			this.{{structname}}.{{FieldName}}Name = this.{{structname}}.{{FieldName}}.Name
-		}`,
+	NgPresentationTSTimeDurationDeclarations: `
+	// fields from {{FieldName}}
+	{{FieldName}}_Hours: number
+	{{FieldName}}_Minutes: number
+	{{FieldName}}_Seconds: number`,
+	NgPresentationTSTimeDurationRecoveries: `
+					// computation of Hours, Minutes, Seconds for {{FieldName}}
+					this.{{FieldName}}_Hours = Math.floor(this.{{structname}}.{{FieldName}} / (3600 * 1000 * 1000 * 1000))
+					this.{{FieldName}}_Minutes = Math.floor(this.{{structname}}.{{FieldName}} % (3600 * 1000 * 1000 * 1000) / (60 * 1000 * 1000 * 1000))
+					this.{{FieldName}}_Seconds = this.{{structname}}.{{FieldName}} % (60 * 1000 * 1000 * 1000) / (1000 * 1000 * 1000)`,
 }
 
 // MultiCodeGeneratorNgPresentation parses mdlPkg and generates the code for the
@@ -162,6 +160,29 @@ func MultiCodeGeneratorNgPresentation(
 
 		// generate the typescript file
 		codeTS := NgPresentationTemplateTS
+
+		TSinsertions := make(map[NgPresentationTsInsertionPoint]string)
+		for insertion := NgPresentationTsInsertionPoint(0); insertion < NgPresentationTsInsertionsNb; insertion++ {
+			TSinsertions[insertion] = ""
+		}
+
+		for _, field := range _struct.Fields {
+			switch field.(type) {
+			case *GongBasicField:
+				gongBasicField := field.(*GongBasicField)
+
+				if gongBasicField.DeclaredType == "time.Duration" {
+					TSinsertions[NgPresentationTsInsertionPerStructDeclarations] += Replace1(
+						NgPresentationSubTemplateCode[NgPresentationTSTimeDurationDeclarations],
+						"{{FieldName}}", gongBasicField.Name)
+
+					TSinsertions[NgPresentationTsInsertionPerStructRecoveries] += Replace1(
+						NgPresentationSubTemplateCode[NgPresentationTSTimeDurationRecoveries],
+						"{{FieldName}}", gongBasicField.Name)
+				}
+			}
+		}
+
 		codeHTML := NgPresentationTemplateHTML
 
 		//
@@ -190,51 +211,6 @@ func MultiCodeGeneratorNgPresentation(
 		}
 		sort.Strings(sorted)
 
-		// cumulative sub template
-		subCodesEnumTS := make(map[string]string)
-		for subTemplate := range NgPresentationEnumSubTemplateCode {
-			subCodesEnumTS[subTemplate] = ""
-		}
-
-		// generate sub codes from enum lists
-		for _, _enum := range sorted {
-			for subTemplate := range NgPresentationEnumSubTemplateCode {
-				subCodesEnumTS[subTemplate] += Replace1(NgPresentationEnumSubTemplateCode[subTemplate],
-					"{{EnumName}}", _enum)
-			}
-		}
-
-		// insert sub codes in main template for enum lists
-		for subTemplate := range NgPresentationEnumSubTemplateCode {
-			toReplace := "{{" + string(subTemplate) + "}}"
-			codeTS = strings.ReplaceAll(codeTS, toReplace, subCodesEnumTS[subTemplate])
-		}
-
-		//
-		// for typescript, generate pointer to struct code
-		//
-		subCodesPointerToStructTS := make(map[string]string)
-		for subTemplate := range NgPresentationPointerToStructSubTemplateCode {
-			subCodesPointerToStructTS[subTemplate] = ""
-		}
-		for _, field := range _struct.Fields {
-			switch field.(type) {
-			case *PointerToGongStructField:
-				modelPointerToStruct := field.(*PointerToGongStructField)
-				for subTemplate := range NgPresentationPointerToStructSubTemplateCode {
-					subCodesPointerToStructTS[subTemplate] += Replace1(
-						NgPresentationPointerToStructSubTemplateCode[subTemplate],
-						"{{FieldName}}", modelPointerToStruct.Name)
-				}
-			}
-		}
-
-		// insert sub codes in main template for pointer to bools
-		for subTemplate := range NgPresentationPointerToStructSubTemplateCode {
-			toReplace := "{{" + string(subTemplate) + "}}"
-			codeTS = strings.ReplaceAll(codeTS, toReplace, subCodesPointerToStructTS[subTemplate])
-		}
-
 		//
 		// generate `per field` HTML code
 		// cumulative sub template
@@ -243,35 +219,50 @@ func MultiCodeGeneratorNgPresentation(
 		for _, field := range _struct.Fields {
 			switch field.(type) {
 			case *GongBasicField:
-				modelBasicField := field.(*GongBasicField)
+				gongBasicField := field.(*GongBasicField)
 
 				// bais field (enum)
-				if modelBasicField.GongEnum != nil {
+				if gongBasicField.GongEnum != nil {
 					subCodesHTML += Replace2(NgPresentationEnumHtmlSubTemplateCode[string(NgPresentationHtmlEnum)],
-						"{{FieldName}}", modelBasicField.Name,
-						"{{EnumName}}", modelBasicField.GongEnum.Name)
+						"{{FieldName}}", gongBasicField.Name,
+						"{{EnumName}}", gongBasicField.GongEnum.Name)
 
 				} else // basic field (not enum)
 				{
-					if modelBasicField.basicKind == types.Bool {
+					if gongBasicField.basicKind == types.Bool {
 						subCodesHTML += Replace1(
 							NgPresentationBoolHtmlSubTemplateCode[string(NgPresentationHtmlBool)],
-							"{{FieldName}}", modelBasicField.Name)
+							"{{FieldName}}", gongBasicField.Name)
 					} else {
-						// conversion form go type to ts type
-						TypeInput := ""
-						switch modelBasicField.basicKind {
-						case types.Int, types.Float64:
-							TypeInput = "type=\"number\" [ngModelOptions]=\"{standalone: true}\" "
-						case types.String:
-							TypeInput = "name=\"\" [ngModelOptions]=\"{standalone: true}\" 	"
+
+						if gongBasicField.DeclaredType != "time.Duration" {
+
+							// conversion form go type to ts type
+							TypeInput := ""
+							switch gongBasicField.basicKind {
+							case types.Int, types.Float64:
+								TypeInput = "type=\"number\" [ngModelOptions]=\"{standalone: true}\" "
+							case types.String:
+								TypeInput = "name=\"\" [ngModelOptions]=\"{standalone: true}\" 	"
+							}
+							subCodesHTML += Replace2(
+								NgPresentationBasicFieldHtmlSubTemplateCode[string(NgPresentationHtmlBasicField)],
+								"{{FieldName}}", gongBasicField.Name,
+								"{{TypeInput}}", TypeInput)
+						} else {
+							subCodesHTML += Replace1(
+								NgPresentationBasicFieldTimeDurationHtmlSubTemplateCode[string(NgPresentationHtmlBasicFieldTimeDuration)],
+								"{{FieldName}}", gongBasicField.Name)
 						}
-						subCodesHTML += Replace2(
-							NgPresentationBasicFieldHtmlSubTemplateCode[string(NgPresentationHtmlBasicField)],
-							"{{FieldName}}", modelBasicField.Name,
-							"{{TypeInput}}", TypeInput)
+
 					}
 				}
+
+			case *GongTimeField:
+				gongTimeField := field.(*GongTimeField)
+				subCodesHTML +=
+					Replace1(NgPresentationTimeFieldHtmlSubTemplateCode[string(NgPresentationHtmlTimeField)],
+						"{{FieldName}}", gongTimeField.Name)
 
 			case *PointerToGongStructField:
 				modelPointerToStructField := field.(*PointerToGongStructField)
@@ -286,6 +277,11 @@ func MultiCodeGeneratorNgPresentation(
 		{
 			toReplace := "{{" + string(NgPresentationHtmlField) + "}}"
 			codeHTML = strings.ReplaceAll(codeHTML, toReplace, subCodesHTML)
+		}
+
+		for insertion := NgPresentationTsInsertionPoint(0); insertion < NgPresentationTsInsertionsNb; insertion++ {
+			toReplace := "{{" + string(rune(insertion)) + "}}"
+			codeTS = strings.ReplaceAll(codeTS, toReplace, TSinsertions[insertion])
 		}
 
 		// final replacement

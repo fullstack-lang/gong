@@ -15,9 +15,11 @@ const ELEMENT_DATA: gongenumDummyElement[] = [
 @Component({
 	selector: 'app-gongenum-presentation',
 	templateUrl: './gongenum-presentation.component.html',
-  styleUrls: ['./gongenum-presentation.component.css'],
+	styleUrls: ['./gongenum-presentation.component.css'],
 })
 export class GongEnumPresentationComponent implements OnInit {
+
+	// insertion point for declarations
 
 	displayedColumns: string[] = [];
 	dataSource = ELEMENT_DATA;
@@ -53,6 +55,9 @@ export class GongEnumPresentationComponent implements OnInit {
 			.subscribe(
 				gongenum => {
 					this.gongenum = gongenum
+
+					// insertion point for recovery of durations
+
 				}
 			);
 	}

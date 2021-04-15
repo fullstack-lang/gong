@@ -2,8 +2,8 @@
 package orm
 
 import (
-	"github.com/fullstack-lang/gong/stacks/gong/go/models"
 	"github.com/jinzhu/gorm"
+	"github.com/fullstack-lang/gong/stacks/gong/go/models"
 )
 
 // BackRepoStruct supports callback functions
@@ -16,6 +16,8 @@ type BackRepoStruct struct {
 	BackRepoGongEnumValue BackRepoGongEnumValueStruct
 
 	BackRepoGongStruct BackRepoGongStructStruct
+
+	BackRepoGongTimeField BackRepoGongTimeFieldStruct
 
 	BackRepoModelPkg BackRepoModelPkgStruct
 
@@ -42,6 +44,7 @@ func (backRepo *BackRepoStruct) Init(db *gorm.DB) {
 	backRepo.BackRepoGongEnum.Init(db)
 	backRepo.BackRepoGongEnumValue.Init(db)
 	backRepo.BackRepoGongStruct.Init(db)
+	backRepo.BackRepoGongTimeField.Init(db)
 	backRepo.BackRepoModelPkg.Init(db)
 	backRepo.BackRepoPointerToGongStructField.Init(db)
 	backRepo.BackRepoSliceOfPointerToGongStructField.Init(db)
@@ -56,6 +59,7 @@ func (backRepo *BackRepoStruct) Commit(stage *models.StageStruct) {
 	backRepo.BackRepoGongEnum.CommitPhaseOne(stage)
 	backRepo.BackRepoGongEnumValue.CommitPhaseOne(stage)
 	backRepo.BackRepoGongStruct.CommitPhaseOne(stage)
+	backRepo.BackRepoGongTimeField.CommitPhaseOne(stage)
 	backRepo.BackRepoModelPkg.CommitPhaseOne(stage)
 	backRepo.BackRepoPointerToGongStructField.CommitPhaseOne(stage)
 	backRepo.BackRepoSliceOfPointerToGongStructField.CommitPhaseOne(stage)
@@ -65,6 +69,7 @@ func (backRepo *BackRepoStruct) Commit(stage *models.StageStruct) {
 	backRepo.BackRepoGongEnum.CommitPhaseTwo(backRepo)
 	backRepo.BackRepoGongEnumValue.CommitPhaseTwo(backRepo)
 	backRepo.BackRepoGongStruct.CommitPhaseTwo(backRepo)
+	backRepo.BackRepoGongTimeField.CommitPhaseTwo(backRepo)
 	backRepo.BackRepoModelPkg.CommitPhaseTwo(backRepo)
 	backRepo.BackRepoPointerToGongStructField.CommitPhaseTwo(backRepo)
 	backRepo.BackRepoSliceOfPointerToGongStructField.CommitPhaseTwo(backRepo)
@@ -79,6 +84,7 @@ func (backRepo *BackRepoStruct) Checkout(stage *models.StageStruct) {
 	backRepo.BackRepoGongEnum.CheckoutPhaseOne()
 	backRepo.BackRepoGongEnumValue.CheckoutPhaseOne()
 	backRepo.BackRepoGongStruct.CheckoutPhaseOne()
+	backRepo.BackRepoGongTimeField.CheckoutPhaseOne()
 	backRepo.BackRepoModelPkg.CheckoutPhaseOne()
 	backRepo.BackRepoPointerToGongStructField.CheckoutPhaseOne()
 	backRepo.BackRepoSliceOfPointerToGongStructField.CheckoutPhaseOne()
@@ -88,6 +94,7 @@ func (backRepo *BackRepoStruct) Checkout(stage *models.StageStruct) {
 	backRepo.BackRepoGongEnum.CheckoutPhaseTwo(backRepo)
 	backRepo.BackRepoGongEnumValue.CheckoutPhaseTwo(backRepo)
 	backRepo.BackRepoGongStruct.CheckoutPhaseTwo(backRepo)
+	backRepo.BackRepoGongTimeField.CheckoutPhaseTwo(backRepo)
 	backRepo.BackRepoModelPkg.CheckoutPhaseTwo(backRepo)
 	backRepo.BackRepoPointerToGongStructField.CheckoutPhaseTwo(backRepo)
 	backRepo.BackRepoSliceOfPointerToGongStructField.CheckoutPhaseTwo(backRepo)

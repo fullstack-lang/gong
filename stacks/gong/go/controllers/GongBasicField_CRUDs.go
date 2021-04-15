@@ -3,6 +3,7 @@ package controllers
 
 import (
 	"net/http"
+	"time"
 
 	"github.com/fullstack-lang/gong/stacks/gong/go/models"
 	"github.com/fullstack-lang/gong/stacks/gong/go/orm"
@@ -13,6 +14,7 @@ import (
 
 // declaration in order to justify use of the models import
 var __GongBasicField__dummysDeclaration__ models.GongBasicField
+var __GongBasicField_time__dummyDeclaration time.Duration
 
 // An GongBasicFieldID parameter model.
 //
@@ -70,6 +72,10 @@ func GetGongBasicFields(c *gin.Context) {
 			gongbasicfield.BasicKindName = gongbasicfield.BasicKindName_Data.String
 		}
 
+		if gongbasicfield.DeclaredType_Data.Valid {
+			gongbasicfield.DeclaredType = gongbasicfield.DeclaredType_Data.String
+		}
+
 	}
 
 	c.JSON(http.StatusOK, gongbasicfields)
@@ -112,6 +118,9 @@ func PostGongBasicField(c *gin.Context) {
 
 	gongbasicfieldDB.BasicKindName_Data.String = input.BasicKindName
 	gongbasicfieldDB.BasicKindName_Data.Valid = true
+
+	gongbasicfieldDB.DeclaredType_Data.String = input.DeclaredType
+	gongbasicfieldDB.DeclaredType_Data.Valid = true
 
 	query := db.Create(&gongbasicfieldDB)
 	if query.Error != nil {
@@ -160,6 +169,10 @@ func GetGongBasicField(c *gin.Context) {
 		gongbasicfield.BasicKindName = gongbasicfield.BasicKindName_Data.String
 	}
 
+	if gongbasicfield.DeclaredType_Data.Valid {
+		gongbasicfield.DeclaredType = gongbasicfield.DeclaredType_Data.String
+	}
+
 	c.JSON(http.StatusOK, gongbasicfield)
 }
 
@@ -203,6 +216,9 @@ func UpdateGongBasicField(c *gin.Context) {
 
 	input.BasicKindName_Data.String = input.BasicKindName
 	input.BasicKindName_Data.Valid = true
+
+	input.DeclaredType_Data.String = input.DeclaredType
+	input.DeclaredType_Data.Valid = true
 
 	query = db.Model(&gongbasicfieldDB).Updates(input)
 	if query.Error != nil {

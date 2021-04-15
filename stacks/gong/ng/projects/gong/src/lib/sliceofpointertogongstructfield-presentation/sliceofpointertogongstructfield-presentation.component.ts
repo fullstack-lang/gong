@@ -15,9 +15,11 @@ const ELEMENT_DATA: sliceofpointertogongstructfieldDummyElement[] = [
 @Component({
 	selector: 'app-sliceofpointertogongstructfield-presentation',
 	templateUrl: './sliceofpointertogongstructfield-presentation.component.html',
-  styleUrls: ['./sliceofpointertogongstructfield-presentation.component.css'],
+	styleUrls: ['./sliceofpointertogongstructfield-presentation.component.css'],
 })
 export class SliceOfPointerToGongStructFieldPresentationComponent implements OnInit {
+
+	// insertion point for declarations
 
 	displayedColumns: string[] = [];
 	dataSource = ELEMENT_DATA;
@@ -53,6 +55,9 @@ export class SliceOfPointerToGongStructFieldPresentationComponent implements OnI
 			.subscribe(
 				sliceofpointertogongstructfield => {
 					this.sliceofpointertogongstructfield = sliceofpointertogongstructfield
+
+					// insertion point for recovery of durations
+
 				}
 			);
 	}

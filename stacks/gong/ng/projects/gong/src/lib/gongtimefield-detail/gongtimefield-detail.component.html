@@ -1,0 +1,18 @@
+<div *ngIf="gongtimefield" class="details">
+    <h1 class="details__title">gongtimefield</h1>
+    <!-- insertion point for fields specific code -->
+    <!-- -->
+    <div class="details__item">
+        <form>
+            <mat-form-field>
+                <mat-label>Name</mat-label>
+                <input name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="gongtimefield.Name">
+            </mat-form-field>
+        </form>
+    </div>
+    <div class="details__save">
+        <button mat-raised-button color="primary" (click)="save()">
+			Save gongtimefield
+		</button>
+    </div>
+</div>

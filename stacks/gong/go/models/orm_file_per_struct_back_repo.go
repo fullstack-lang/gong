@@ -18,6 +18,7 @@ import (
 	"errors"
 	"fmt"
 	"log"
+	"time"
 
 	"github.com/jinzhu/gorm"
 	"{{PkgPathRoot}}"
@@ -25,6 +26,7 @@ import (
 
 // dummy variable to have the import database/sql wihthout compile failure id no sql is used
 var dummy_{{Structname}} sql.NullBool
+var __{{Structname}}_time__dummyDeclaration time.Duration
 
 // {{Structname}}API is the input in POST API
 //
@@ -322,6 +324,10 @@ const (
 	BackRepoCommitBasicField
 	BackRepoCheckoutBasicField
 
+	BackRepoDeclarationTimeField
+	BackRepoCommitTimeField
+	BackRepoCheckoutTimeField
+
 	BackRepoCommitBasicFieldEnum
 	BackRepoCheckoutBasicFieldEnum
 
@@ -351,6 +357,11 @@ var BackRepoFieldSubTemplateCode map[BackRepoPerStructSubTemplate]string = map[B
 	BackRepoDeclarationBasicField: `
 	// Declation for basic field {{structname}}DB.{{FieldName}} {{BasicKind}} (to be completed)
 	{{FieldName}}_Data sql.{{SqlNullType}}
+`,
+
+	BackRepoDeclarationTimeField: `
+	// Declation for basic field {{structname}}DB.{{FieldName}}
+	{{FieldName}}_Data sql.NullTime
 `,
 
 	BackRepoDeclarationBasicBooleanField: `
@@ -389,6 +400,10 @@ var BackRepoFieldSubTemplateCode map[BackRepoPerStructSubTemplate]string = map[B
 
 	BackRepoCommitBasicFieldInt: `
 				{{structname}}DB.{{FieldName}}_Data.Int64 = int64({{structname}}.{{FieldName}})
+				{{structname}}DB.{{FieldName}}_Data.Valid = true
+`,
+	BackRepoCommitTimeField: `
+				{{structname}}DB.{{FieldName}}_Data.Time = {{structname}}.{{FieldName}}
 				{{structname}}DB.{{FieldName}}_Data.Valid = true
 `,
 
@@ -445,12 +460,16 @@ var BackRepoFieldSubTemplateCode map[BackRepoPerStructSubTemplate]string = map[B
 			{{structname}}.{{FieldName}} = {{structname}}DB.{{FieldName}}_Data.{{SqlNullType}}
 `,
 
+	BackRepoCheckoutTimeField: `
+			{{structname}}.{{FieldName}} = {{structname}}DB.{{FieldName}}_Data.Time
+`,
+
 	BackRepoCheckoutBasicFieldEnum: `
 			{{structname}}.{{FieldName}} = models.{{EnumType}}({{structname}}DB.{{FieldName}}_Data.String)
 `,
 
 	BackRepoCheckoutBasicFieldInt: `
-			{{structname}}.{{FieldName}} = int({{structname}}DB.{{FieldName}}_Data.Int64)
+			{{structname}}.{{FieldName}} = {{FieldType}}({{structname}}DB.{{FieldName}}_Data.Int64)
 `,
 
 	BackRepoCheckoutBasicFieldBoolean: `
@@ -506,84 +525,99 @@ func MultiCodeGeneratorBackRepo(
 		for _, field := range _struct.Fields {
 			switch field.(type) {
 			case *GongBasicField:
-				modelBasicField := field.(*GongBasicField)
+				gongBasicField := field.(*GongBasicField)
 
-				if modelBasicField.basicKind == types.Bool {
+				if gongBasicField.basicKind == types.Bool {
 
 					insertions[BackRepoFieldsDeclaration] += Replace2(
 						BackRepoFieldSubTemplateCode[BackRepoDeclarationBasicBooleanField],
-						"{{FieldName}}", modelBasicField.Name,
-						"{{BasicKind}}", modelBasicField.Type.Underlying().String())
+						"{{FieldName}}", gongBasicField.Name,
+						"{{BasicKind}}", gongBasicField.Type.Underlying().String())
 
 					insertions[BackRepoFieldsCommitNew] += Replace1(
 						BackRepoFieldSubTemplateCode[BackRepoCommitBasicBooleanField],
-						"{{FieldName}}", modelBasicField.Name)
+						"{{FieldName}}", gongBasicField.Name)
 
 					insertions[BackRepoFieldsCheckoutNew] += Replace1(
 						BackRepoFieldSubTemplateCode[BackRepoCheckoutBasicFieldBoolean],
-						"{{FieldName}}", modelBasicField.Name)
+						"{{FieldName}}", gongBasicField.Name)
 
 				} else {
-					switch modelBasicField.basicKind {
+					switch gongBasicField.basicKind {
 					case types.String:
 						insertions[BackRepoFieldsDeclaration] += Replace2(
 							BackRepoFieldSubTemplateCode[BackRepoDeclarationBasicField],
-							"{{FieldName}}", modelBasicField.Name,
+							"{{FieldName}}", gongBasicField.Name,
 							"{{SqlNullType}}", "NullString")
 
-						if modelBasicField.GongEnum != nil {
+						if gongBasicField.GongEnum != nil {
 							insertions[BackRepoFieldsCommitNew] += Replace1(
 								BackRepoFieldSubTemplateCode[BackRepoCommitBasicFieldEnum],
-								"{{FieldName}}", modelBasicField.Name)
+								"{{FieldName}}", gongBasicField.Name)
 
 							insertions[BackRepoFieldsCheckoutNew] += Replace2(
 								BackRepoFieldSubTemplateCode[BackRepoCheckoutBasicFieldEnum],
-								"{{FieldName}}", modelBasicField.Name,
-								"{{EnumType}}", modelBasicField.GongEnum.Name)
+								"{{FieldName}}", gongBasicField.Name,
+								"{{EnumType}}", gongBasicField.GongEnum.Name)
 
 						} else {
 							insertions[BackRepoFieldsCommitNew] += Replace2(
 								BackRepoFieldSubTemplateCode[BackRepoCommitBasicField],
-								"{{FieldName}}", modelBasicField.Name,
+								"{{FieldName}}", gongBasicField.Name,
 								"{{SqlNullType}}", "String")
 
 							insertions[BackRepoFieldsCheckoutNew] += Replace2(
 								BackRepoFieldSubTemplateCode[BackRepoCheckoutBasicField],
-								"{{FieldName}}", modelBasicField.Name,
+								"{{FieldName}}", gongBasicField.Name,
 								"{{SqlNullType}}", "String")
 
 						}
 					case types.Float64:
 						insertions[BackRepoFieldsDeclaration] += Replace2(
 							BackRepoFieldSubTemplateCode[BackRepoDeclarationBasicField],
-							"{{FieldName}}", modelBasicField.Name,
+							"{{FieldName}}", gongBasicField.Name,
 							"{{SqlNullType}}", "NullFloat64")
 
 						insertions[BackRepoFieldsCommitNew] += Replace2(
 							BackRepoFieldSubTemplateCode[BackRepoCommitBasicField],
-							"{{FieldName}}", modelBasicField.Name,
+							"{{FieldName}}", gongBasicField.Name,
 							"{{SqlNullType}}", "Float64")
 
 						insertions[BackRepoFieldsCheckoutNew] += Replace2(
 							BackRepoFieldSubTemplateCode[BackRepoCheckoutBasicField],
-							"{{FieldName}}", modelBasicField.Name,
+							"{{FieldName}}", gongBasicField.Name,
 							"{{SqlNullType}}", "Float64")
-					case types.Int:
+					case types.Int, types.Int64:
 						insertions[BackRepoFieldsDeclaration] += Replace2(
 							BackRepoFieldSubTemplateCode[BackRepoDeclarationBasicField],
-							"{{FieldName}}", modelBasicField.Name,
+							"{{FieldName}}", gongBasicField.Name,
 							"{{SqlNullType}}", "NullInt64")
 
 						insertions[BackRepoFieldsCommitNew] += Replace1(
 							BackRepoFieldSubTemplateCode[BackRepoCommitBasicFieldInt],
-							"{{FieldName}}", modelBasicField.Name)
+							"{{FieldName}}", gongBasicField.Name)
 
-						insertions[BackRepoFieldsCheckoutNew] += Replace1(
+						insertions[BackRepoFieldsCheckoutNew] += Replace2(
 							BackRepoFieldSubTemplateCode[BackRepoCheckoutBasicFieldInt],
-							"{{FieldName}}", modelBasicField.Name)
+							"{{FieldName}}", gongBasicField.Name,
+							"{{FieldType}}", gongBasicField.DeclaredType)
 					default:
 					}
 				}
+
+			case *GongTimeField:
+				gongTimeField := field.(*GongTimeField)
+				insertions[BackRepoFieldsDeclaration] += Replace1(
+					BackRepoFieldSubTemplateCode[BackRepoDeclarationTimeField],
+					"{{FieldName}}", gongTimeField.Name)
+
+				insertions[BackRepoFieldsCheckoutNew] += Replace1(
+					BackRepoFieldSubTemplateCode[BackRepoCheckoutTimeField],
+					"{{FieldName}}", gongTimeField.Name)
+
+				insertions[BackRepoFieldsCommitNew] += Replace1(
+					BackRepoFieldSubTemplateCode[BackRepoCommitTimeField],
+					"{{FieldName}}", gongTimeField.Name)
 
 			case *PointerToGongStructField:
 				modelPointerToStruct := field.(*PointerToGongStructField)

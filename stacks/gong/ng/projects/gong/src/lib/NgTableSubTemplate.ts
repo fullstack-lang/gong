@@ -1,7 +1,8 @@
 // generated from ng_file_enum.ts.go
 export enum NgTableSubTemplate {
 	// insertion point	
-	NgTableTSPerStructColumn = 0,
+	NgTableTSPerStructColumn = 1,
+	NgTableTSPerStructTimeDurationRecoveries = 0,
 }
 
 export interface NgTableSubTemplateSelect {
@@ -10,5 +11,6 @@ export interface NgTableSubTemplateSelect {
 }
 
 export const NgTableSubTemplateList: NgTableSubTemplateSelect[] = [ // insertion point	
-	{ value: 'NgTableTSPerStructColumn', viewValue: '0' },
+	{ value: 'NgTableTSPerStructColumn', viewValue: '1' },
+	{ value: 'NgTableTSPerStructTimeDurationRecoveries', viewValue: '0' },
 ];

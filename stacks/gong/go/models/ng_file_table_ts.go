@@ -9,7 +9,7 @@ import (
 	"sort"
 	"strings"
 
-  _ "embed"
+	_ "embed"
 )
 
 //go:embed ng_file_table.css
@@ -79,10 +79,10 @@ export class {{Structname}}sTableComponent implements OnInit {
       }
     )
     if (dialogData == undefined) {
-  	  this.displayedColumns = ['ID', 'Edit', 'Delete', // insertion point for columns to display{{` + string(rune(NgTableTsInsertionPerStructColumns)) + `}}
+      this.displayedColumns = ['ID', 'Edit', 'Delete', // insertion point for columns to display{{` + string(rune(NgTableTsInsertionPerStructColumns)) + `}}
       ]
     } else {
-  	  this.displayedColumns = ['select', 'ID', // insertion point for columns to display{{` + string(rune(NgTableTsInsertionPerStructColumns)) + `}}
+      this.displayedColumns = ['select', 'ID', // insertion point for columns to display{{` + string(rune(NgTableTsInsertionPerStructColumns)) + `}}
       ]
       this.selection = new SelectionModel<{{Structname}}DB>(allowMultiSelect, this.initialSelection);
     }
@@ -100,6 +100,9 @@ export class {{Structname}}sTableComponent implements OnInit {
         console.log("front repo pull returned")
 
         this.{{structname}}s = this.frontRepo.{{Structname}}s_array;
+
+        // insertion point for variables Recoveries{{` + string(rune(NgTableTsInsertionPerStructRecoveries)) + `}}
+
         // in case the component is called as a selection component
         if (this.dialogData != undefined) {
           this.{{structname}}s.forEach(
@@ -180,7 +183,7 @@ export class {{Structname}}sTableComponent implements OnInit {
 
     let toUpdate = new Set<{{Structname}}DB>()
 
-    // reset all initial selection of {{structname}} that belong to aclass through Anarrayofb
+    // reset all initial selection of {{structname}} that belong to {{structname}} through Anarrayofb
     this.initialSelection.forEach(
       {{structname}} => {
         {{structname}}[this.dialogData.ReversePointer].Int64 = 0
@@ -189,7 +192,7 @@ export class {{Structname}}sTableComponent implements OnInit {
       }
     )
 
-    // from selection, set {{structname}} that belong to aclass through Anarrayofb
+    // from selection, set {{structname}} that belong to {{structname}} through Anarrayofb
     this.selection.selected.forEach(
       {{structname}} => {
         console.log("selection ID " + {{structname}}.ID)
@@ -219,17 +222,29 @@ export class {{Structname}}sTableComponent implements OnInit {
 type NgTableTsInsertionPoint int
 
 const (
-	NgTableTsInsertionPerStructColumns NgTableTsInsertionPoint = iota
+	NgTableTsInsertionPerStructRecoveries NgTableTsInsertionPoint = iota
+	NgTableTsInsertionPerStructColumns
 	NgTableTsInsertionsNb
 )
 
 type NgTableSubTemplate int
 
 const (
-	NgTableTSPerStructColumn NgTableSubTemplate = iota
+	NgTableTSPerStructTimeDurationRecoveries NgTableSubTemplate = iota
+
+	NgTableTSPerStructColumn
 )
 
 var NgTablelSubTemplateCode map[NgTableSubTemplate]string = map[NgTableSubTemplate]string{
+
+	NgTableTSPerStructTimeDurationRecoveries: `
+        // compute strings for durations
+        for (let {{structname}} of this.{{structname}}s) {
+          {{structname}}.{{FieldName}}_string =
+            Math.floor({{structname}}.{{FieldName}} / (3600 * 1000 * 1000 * 1000)) + "H " +
+            Math.floor({{structname}}.{{FieldName}} % (3600 * 1000 * 1000 * 1000) / (60 * 1000 * 1000 * 1000)) + "M " +
+            {{structname}}.{{FieldName}} % (60 * 1000 * 1000 * 1000) / (1000 * 1000 * 1000) + "S"
+        }`,
 
 	NgTableTSPerStructColumn: `
         "{{FieldName}}",`,
@@ -264,13 +279,13 @@ func MultiCodeGeneratorNgTable(
 			log.Println("creating directory : " + dirPath)
 		}
 
-    // generate the css file
+		// generate the css file
 		VerySimpleCodeGenerator(mdlPkg,
 			pkgName,
 			pkgGoPath,
 			filepath.Join(dirPath, strings.ToLower(_struct.Name)+"s-table.component.css"),
 			NgFileTableCssTmpl,
-    )
+		)
 
 		// generate the typescript file
 		codeTS := NgTableTemplateTS
@@ -290,35 +305,54 @@ func MultiCodeGeneratorNgTable(
 		for _, field := range _struct.Fields {
 			switch field.(type) {
 			case *GongBasicField:
-				modelBasicField := field.(*GongBasicField)
+				gongBasicField := field.(*GongBasicField)
 
 				// conversion form go type to ts type
 				TypeInput := ""
-				switch modelBasicField.basicKind {
+				switch gongBasicField.basicKind {
 				case types.Int, types.Float64:
 					TypeInput = "type=\"number\" [ngModelOptions]=\"{standalone: true}\" "
 				case types.String:
-					TypeInput = "name=\"\" [ngModelOptions]=\"{standalone: true}\" 	"
+					TypeInput = "name=\"\" [ngModelOptions]=\"{standalone: true}\"     "
 				}
 
-				switch modelBasicField.basicKind {
+				switch gongBasicField.basicKind {
 				case types.Float64:
 					HtmlInsertions[NgTableHtmlInsertionColumn] += Replace2(NgTableHTMLSubTemplateCode[NgTableHTMLBasicFloat64Field],
-						"{{FieldName}}", modelBasicField.Name,
+						"{{FieldName}}", gongBasicField.Name,
 						"{{TypeInput}}", TypeInput)
 				case types.Bool:
 					HtmlInsertions[NgTableHtmlInsertionColumn] += Replace2(NgTableHTMLSubTemplateCode[NgTableHTMLBool],
-						"{{FieldName}}", modelBasicField.Name,
+						"{{FieldName}}", gongBasicField.Name,
 						"{{TypeInput}}", TypeInput)
 				default:
-					HtmlInsertions[NgTableHtmlInsertionColumn] += Replace2(NgTableHTMLSubTemplateCode[NgTableHTMLBasicField],
-						"{{FieldName}}", modelBasicField.Name,
-						"{{TypeInput}}", TypeInput)
+
+					if gongBasicField.DeclaredType != "time.Duration" {
+						HtmlInsertions[NgTableHtmlInsertionColumn] += Replace2(NgTableHTMLSubTemplateCode[NgTableHTMLBasicField],
+							"{{FieldName}}", gongBasicField.Name,
+							"{{TypeInput}}", TypeInput)
+					} else {
+						HtmlInsertions[NgTableHtmlInsertionColumn] += Replace1(NgTableHTMLSubTemplateCode[NgTableHTMLBasicFieldTimeDuration],
+							"{{FieldName}}", gongBasicField.Name)
+					}
 				}
 				TsInsertions[NgTableTsInsertionPerStructColumns] +=
 					Replace1(NgTablelSubTemplateCode[NgTableTSPerStructColumn],
-						"{{FieldName}}", modelBasicField.Name)
+						"{{FieldName}}", gongBasicField.Name)
 
+				if gongBasicField.DeclaredType == "time.Duration" {
+					TsInsertions[NgTableTsInsertionPerStructRecoveries] +=
+						Replace1(NgTablelSubTemplateCode[NgTableTSPerStructTimeDurationRecoveries],
+							"{{FieldName}}", gongBasicField.Name)
+				}
+			case *GongTimeField:
+				gongTimeField := field.(*GongTimeField)
+				TsInsertions[NgTableTsInsertionPerStructColumns] +=
+					Replace1(NgTablelSubTemplateCode[NgTableTSPerStructColumn],
+						"{{FieldName}}", gongTimeField.Name)
+
+				HtmlInsertions[NgTableHtmlInsertionColumn] += Replace1(NgTableHTMLSubTemplateCode[NgTableHTMLTimeField],
+					"{{FieldName}}", gongTimeField.Name)
 			case *PointerToGongStructField:
 				modelPointerToStructField := field.(*PointerToGongStructField)
 

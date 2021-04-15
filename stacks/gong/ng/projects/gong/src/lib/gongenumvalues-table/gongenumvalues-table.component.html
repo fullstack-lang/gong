@@ -29,7 +29,7 @@
     </ng-container>
     <!-- -->
     <ng-container matColumnDef="GongEnumValues">
-        <th mat-header-cell *matHeaderCellDef> <-- GongEnumValues </th>
+        <th mat-header-cell *matHeaderCellDef> <-- (GongEnum) GongEnumValues </th>
         <td mat-cell *matCellDef="let gongenumvalue">
             {{frontRepo.GongEnums.get(gongenumvalue.GongEnum_GongEnumValuesDBID.Int64)?.Name}}
         </td>

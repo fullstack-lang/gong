@@ -15,9 +15,11 @@ const ELEMENT_DATA: gongbasicfieldDummyElement[] = [
 @Component({
 	selector: 'app-gongbasicfield-presentation',
 	templateUrl: './gongbasicfield-presentation.component.html',
-  styleUrls: ['./gongbasicfield-presentation.component.css'],
+	styleUrls: ['./gongbasicfield-presentation.component.css'],
 })
 export class GongBasicFieldPresentationComponent implements OnInit {
+
+	// insertion point for declarations
 
 	displayedColumns: string[] = [];
 	dataSource = ELEMENT_DATA;
@@ -53,6 +55,9 @@ export class GongBasicFieldPresentationComponent implements OnInit {
 			.subscribe(
 				gongbasicfield => {
 					this.gongbasicfield = gongbasicfield
+
+					// insertion point for recovery of durations
+
 				}
 			);
 	}

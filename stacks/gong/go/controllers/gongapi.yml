@@ -6,6 +6,8 @@ definitions:
     properties:
       BasicKindName:
         type: string
+      DeclaredType:
+        type: string
       GongEnum:
         $ref: '#/definitions/GongEnum'
       Name:
@@ -116,6 +118,10 @@ definitions:
         type: string
       BasicKindName_Data:
         $ref: '#/definitions/NullString'
+      DeclaredType:
+        type: string
+      DeclaredType_Data:
+        $ref: '#/definitions/NullString'
       GongEnum:
         $ref: '#/definitions/GongEnum'
       GongEnumID:
@@ -145,6 +151,10 @@ definitions:
       CreatedAt:
         format: date-time
         type: string
+      DeclaredType:
+        type: string
+      DeclaredType_Data:
+        $ref: '#/definitions/NullString'
       DeletedAt:
         format: date-time
         type: string
@@ -331,6 +341,44 @@ definitions:
     title: GongStructDB describes a gongstruct in the database
     type: object
     x-go-name: GongStructDB
+    x-go-package: github.com/fullstack-lang/gong/stacks/gong/go/orm
+  gongtimefieldAPI:
+    description: |-
+      for POST, API, one needs the fields of the model as well as the fields
+      from associations ("Has One" and "Has Many") that are generated to
+      fullfill the ORM requirements for associations
+    properties:
+      Name:
+        type: string
+      Name_Data:
+        $ref: '#/definitions/NullString'
+    title: GongTimeFieldAPI is the input in POST API
+    type: object
+    x-go-name: GongTimeFieldAPI
+    x-go-package: github.com/fullstack-lang/gong/stacks/gong/go/orm
+  gongtimefieldDB:
+    description: 'It incorporates all fields : from the model, from the generated
+      field for the API and the GORM ID'
+    properties:
+      CreatedAt:
+        format: date-time
+        type: string
+      DeletedAt:
+        format: date-time
+        type: string
+      ID:
+        format: uint64
+        type: integer
+      Name:
+        type: string
+      Name_Data:
+        $ref: '#/definitions/NullString'
+      UpdatedAt:
+        format: date-time
+        type: string
+    title: GongTimeFieldDB describes a gongtimefield in the database
+    type: object
+    x-go-name: GongTimeFieldDB
     x-go-package: github.com/fullstack-lang/gong/stacks/gong/go/orm
   modelpkgAPI:
     description: |-
@@ -859,6 +907,90 @@ paths:
           $ref: '#/responses/genericError'
       tags:
       - gongstructs
+  /gongtimefields:
+    get:
+      description: Get all gongtimefields
+      operationId: getGongTimeFields
+      responses:
+        "200":
+          $ref: '#/responses/gongtimefieldDBsResponse'
+        default:
+          $ref: '#/responses/genericError'
+      tags:
+      - gongtimefields
+    post:
+      consumes:
+      - application/json
+      description: Creates a gongtimefield
+      operationId: postGongTimeField
+      parameters:
+      - description: The GongTimeField to submit or modify
+        in: body
+        name: GongTimeField
+        schema:
+          $ref: '#/definitions/gongtimefieldAPI'
+      produces:
+      - application/json
+      responses:
+        "200":
+          $ref: '#/responses/gongtimefieldDBResponse'
+      tags:
+      - gongtimefields
+  /gongtimefields/{ID}:
+    delete:
+      description: Delete a gongtimefield
+      operationId: deleteGongTimeField
+      parameters:
+      - description: The ID of the order
+        format: int64
+        in: path
+        name: ID
+        required: true
+        type: integer
+      responses:
+        default:
+          $ref: '#/responses/genericError'
+      tags:
+      - gongtimefields
+    get:
+      operationId: getGongTimeField
+      parameters:
+      - description: The ID of the order
+        format: int64
+        in: path
+        name: ID
+        required: true
+        type: integer
+      responses:
+        "200":
+          $ref: '#/responses/gongtimefieldDBResponse'
+        default:
+          $ref: '#/responses/genericError'
+      summary: Gets the details for a gongtimefield.
+      tags:
+      - gongtimefields
+    patch:
+      description: Update a gongtimefield
+      operationId: updateGongTimeField
+      parameters:
+      - description: The ID of the order
+        format: int64
+        in: path
+        name: ID
+        required: true
+        type: integer
+      - description: The GongTimeField to submit or modify
+        in: body
+        name: GongTimeField
+        schema:
+          $ref: '#/definitions/gongtimefieldAPI'
+      responses:
+        "200":
+          $ref: '#/responses/gongtimefieldDBResponse'
+        default:
+          $ref: '#/responses/genericError'
+      tags:
+      - gongtimefields
   /modelpkgs:
     get:
       description: Get all modelpkgs
@@ -1139,6 +1271,11 @@ responses:
       CreatedAt:
         format: date-time
         type: string
+      DeclaredType:
+        type: string
+      DeclaredType_Data:
+        description: Declation for basic field gongbasicfieldDB.DeclaredType {{BasicKind}}
+          (to be completed)
       DeletedAt:
         format: date-time
         type: string
@@ -1285,6 +1422,35 @@ responses:
     schema:
       items:
         $ref: '#/definitions/gongstructDB'
+      type: array
+  gongtimefieldDBResponse:
+    description: GongTimeFieldDBResponse provides response
+    headers:
+      CreatedAt:
+        format: date-time
+        type: string
+      DeletedAt:
+        format: date-time
+        type: string
+      ID:
+        format: uint64
+        type: integer
+      Name:
+        type: string
+      Name_Data:
+        description: |-
+          insertion for fields declaration
+          Declation for basic field gongtimefieldDB.Name {{BasicKind}} (to be completed)
+      UpdatedAt:
+        format: date-time
+        type: string
+    schema:
+      $ref: '#/definitions/NullString'
+  gongtimefieldDBsResponse:
+    description: GongTimeFieldDBs arrays gongtimefieldDBs
+    schema:
+      items:
+        $ref: '#/definitions/gongtimefieldDB'
       type: array
   modelpkgDBResponse:
     description: ModelPkgDBResponse provides response

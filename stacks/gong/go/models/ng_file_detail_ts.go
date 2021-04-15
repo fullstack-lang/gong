@@ -182,6 +182,10 @@ const (
 	NgDetailTSBooleanRecoveries
 	NgDetailTSBooleanSaves
 
+	NgDetailTSTimeDurationDeclarations
+	NgDetailTSTimeDurationRecoveries
+	NgDetailTSTimeDurationSaves
+
 	NgDetailTSPointerToGongStructSaves
 
 	NgDetailTSReversePointerToSliceOfGongStructSavesWhenCreateFromOwner
@@ -203,6 +207,21 @@ import { {{EnumName}}Select, {{EnumName}}List } from '../{{EnumName}}'`,
 				this.{{FieldName}}FormControl.setValue(this.{{structname}}.{{FieldName}})`,
 	NgDetailTSBooleanSaves: `
 		this.{{structname}}.{{FieldName}} = this.{{FieldName}}FormControl.value`,
+
+	NgDetailTSTimeDurationDeclarations: `
+	{{FieldName}}_Hours: number
+	{{FieldName}}_Minutes: number
+	{{FieldName}}_Seconds: number`,
+	NgDetailTSTimeDurationRecoveries: `
+				// computation of Hours, Minutes, Seconds for {{FieldName}}
+				this.{{FieldName}}_Hours = Math.floor(this.{{structname}}.{{FieldName}} / (3600 * 1000 * 1000 * 1000))
+				this.{{FieldName}}_Minutes = Math.floor(this.{{structname}}.{{FieldName}} % (3600 * 1000 * 1000 * 1000) / (60 * 1000 * 1000 * 1000))
+				this.{{FieldName}}_Seconds = this.{{structname}}.{{FieldName}} % (60 * 1000 * 1000 * 1000) / (1000 * 1000 * 1000)`,
+	NgDetailTSTimeDurationSaves: `
+		this.{{structname}}.{{FieldName}} =
+			this.{{FieldName}}_Hours * (3600 * 1000 * 1000 * 1000) +
+			this.{{FieldName}}_Minutes * (60 * 1000 * 1000 * 1000) +
+			this.{{FieldName}}_Seconds * (1000 * 1000 * 1000)`,
 
 	NgDetailTSPointerToGongStructSaves: `
 		if (this.{{structname}}.{{FieldName}}ID == undefined) {
@@ -287,13 +306,13 @@ func MultiCodeGeneratorNgDetail(
 		for _, field := range _struct.Fields {
 			switch field.(type) {
 			case *GongBasicField:
-				modelBasicField := field.(*GongBasicField)
+				gongBasicField := field.(*GongBasicField)
 
-				if modelBasicField.GongEnum != nil {
+				if gongBasicField.GongEnum != nil {
 
 					var importToInsert = Replace1(
 						NgDetailSubTemplateCode[NgDetailTSEnumImports],
-						"{{EnumName}}", modelBasicField.GongEnum.Name)
+						"{{EnumName}}", gongBasicField.GongEnum.Name)
 
 					// cannot insert twice the same import
 					if !strings.Contains(TSinsertions[NgDetailTsInsertionPerStructImports], importToInsert) {
@@ -302,7 +321,7 @@ func MultiCodeGeneratorNgDetail(
 
 					var declarationToInsert = Replace1(
 						NgDetailSubTemplateCode[NgDetailTSEnumDeclarations],
-						"{{EnumName}}", modelBasicField.GongEnum.Name)
+						"{{EnumName}}", gongBasicField.GongEnum.Name)
 
 					if !strings.Contains(TSinsertions[NgDetailTsInsertionPerStructDeclarations], declarationToInsert) {
 						TSinsertions[NgDetailTsInsertionPerStructDeclarations] += declarationToInsert
@@ -310,25 +329,39 @@ func MultiCodeGeneratorNgDetail(
 
 					var initsToInsert = Replace1(
 						NgDetailSubTemplateCode[NgDetailTSEnumInits],
-						"{{EnumName}}", modelBasicField.GongEnum.Name)
+						"{{EnumName}}", gongBasicField.GongEnum.Name)
 
 					if !strings.Contains(TSinsertions[NgDetailTsInsertionPerStructInits], initsToInsert) {
 						TSinsertions[NgDetailTsInsertionPerStructInits] += initsToInsert
 					}
 				}
 
-				if modelBasicField.basicKind == types.Bool {
+				if gongBasicField.basicKind == types.Bool {
 					TSinsertions[NgDetailTsInsertionPerStructDeclarations] += Replace1(
 						NgDetailSubTemplateCode[NgDetailTSBooleanDeclarations],
-						"{{FieldName}}", modelBasicField.Name)
+						"{{FieldName}}", gongBasicField.Name)
 
 					TSinsertions[NgDetailTsInsertionPerStructRecoveries] += Replace1(
 						NgDetailSubTemplateCode[NgDetailTSBooleanRecoveries],
-						"{{FieldName}}", modelBasicField.Name)
+						"{{FieldName}}", gongBasicField.Name)
 
 					TSinsertions[NgDetailTsInsertionPerStructSaves] += Replace1(
 						NgDetailSubTemplateCode[NgDetailTSBooleanSaves],
-						"{{FieldName}}", modelBasicField.Name)
+						"{{FieldName}}", gongBasicField.Name)
+				}
+
+				if gongBasicField.DeclaredType == "time.Duration" {
+					TSinsertions[NgDetailTsInsertionPerStructDeclarations] += Replace1(
+						NgDetailSubTemplateCode[NgDetailTSTimeDurationDeclarations],
+						"{{FieldName}}", gongBasicField.Name)
+
+					TSinsertions[NgDetailTsInsertionPerStructRecoveries] += Replace1(
+						NgDetailSubTemplateCode[NgDetailTSTimeDurationRecoveries],
+						"{{FieldName}}", gongBasicField.Name)
+
+					TSinsertions[NgDetailTsInsertionPerStructSaves] += Replace1(
+						NgDetailSubTemplateCode[NgDetailTSTimeDurationSaves],
+						"{{FieldName}}", gongBasicField.Name)
 				}
 			case *PointerToGongStructField:
 				modelPointerToStruct := field.(*PointerToGongStructField)
@@ -348,37 +381,47 @@ func MultiCodeGeneratorNgDetail(
 		for _, field := range _struct.Fields {
 			switch field.(type) {
 			case *GongBasicField:
-				modelBasicField := field.(*GongBasicField)
+				gongBasicField := field.(*GongBasicField)
 
 				// bais field (enum)
-				if modelBasicField.GongEnum != nil {
+				if gongBasicField.GongEnum != nil {
 
 					HtmlInsertions[NgDetailHtmlInsertionPerStructFields] +=
 						Replace2(NgDetailHtmlSubTemplateCode[NgDetailHtmlEnum],
-							"{{FieldName}}", modelBasicField.Name,
-							"{{EnumName}}", modelBasicField.GongEnum.Name)
+							"{{FieldName}}", gongBasicField.Name,
+							"{{EnumName}}", gongBasicField.GongEnum.Name)
 
 				} else // basic field (not enum)
 				{
-					if modelBasicField.basicKind == types.Bool {
+					if gongBasicField.basicKind == types.Bool {
 						HtmlInsertions[NgDetailHtmlInsertionPerStructFields] +=
 							Replace1(NgDetailHtmlSubTemplateCode[NgDetailHtmlBool],
-								"{{FieldName}}", modelBasicField.Name)
-					} else {
+								"{{FieldName}}", gongBasicField.Name)
+					} else if gongBasicField.DeclaredType != "time.Duration" {
+
 						// conversion form go type to ts type
 						TypeInput := ""
-						switch modelBasicField.basicKind {
-						case types.Int, types.Float64:
+						switch gongBasicField.basicKind {
+						case types.Int, types.Int64, types.Float64:
 							TypeInput = "type=\"number\" [ngModelOptions]=\"{standalone: true}\""
 						case types.String:
 							TypeInput = "name=\"\" [ngModelOptions]=\"{standalone: true}\""
 						}
 						HtmlInsertions[NgDetailHtmlInsertionPerStructFields] +=
 							Replace2(NgDetailHtmlSubTemplateCode[NgDetailHtmlBasicField],
-								"{{FieldName}}", modelBasicField.Name,
+								"{{FieldName}}", gongBasicField.Name,
 								"{{TypeInput}}", TypeInput)
+					} else {
+						HtmlInsertions[NgDetailHtmlInsertionPerStructFields] +=
+							Replace1(NgDetailHtmlSubTemplateCode[NgDetailHtmlTimeDuration],
+								"{{FieldName}}", gongBasicField.Name)
 					}
 				}
+			case *GongTimeField:
+				gongTimeField := field.(*GongTimeField)
+				HtmlInsertions[NgDetailHtmlInsertionPerStructFields] +=
+					Replace1(NgDetailHtmlSubTemplateCode[NgDetailHtmlTimeField],
+						"{{FieldName}}", gongTimeField.Name)
 
 			case *PointerToGongStructField:
 				modelPointerToStructField := field.(*PointerToGongStructField)
