@@ -5,11 +5,20 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "type": "pwa-chrome",
+            "name": "gongc landromat",
+            "type": "go",
             "request": "launch",
-            "name": "Launch Chrome against localhost",
-            "url": "http://localhost:8080",
-            "webRoot": "${workspaceFolder}/examples/laundromat/ng"
-        }
+            "mode": "debug",
+            "cwd": "${workspaceFolder}/../laundromat/go/models",
+            "program": "${workspaceFolder}/go/gongc",
+            "dlvLoadConfig": {
+                "followPointers": true,
+                "maxVariableRecurse": 1,
+                "maxStringLen": 3000,
+                "maxArrayValues": 64,
+                "maxStructFields": -1
+            },
+            "args": []
+        },
     ]
 }
