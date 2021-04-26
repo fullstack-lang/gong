@@ -20,5 +20,37 @@
             },
             "args": []
         },
+        {
+            "name": "gongc test example",
+            "type": "go",
+            "request": "launch",
+            "mode": "debug",
+            "cwd": "${workspaceFolder}/test/go/models",
+            "program": "${workspaceFolder}/go/gongc",
+            "dlvLoadConfig": {
+                "followPointers": true,
+                "maxVariableRecurse": 1,
+                "maxStringLen": 3000,
+                "maxArrayValues": 64,
+                "maxStructFields": -1
+            },
+            "args": []
+        },
+        {
+            "name": "go server test example",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/test",
+            "dlvLoadConfig": {
+                "followPointers": true,
+                "maxVariableRecurse": 1,
+                "maxStringLen": 3000,
+                "maxArrayValues": 64,
+                "maxStructFields": -1
+            },
+            "args": [
+            ]
+        },
     ]
 }

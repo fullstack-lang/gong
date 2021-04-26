@@ -1,0 +1,63 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+        {
+            "label": "00 - go install gongc",
+            "type": "shell",
+            "options": {
+                "cwd": "go/gongc"
+            },
+            "command": "go",
+            "args": [
+                "install",
+            ],
+            "group": "build"
+        },
+		{
+            "label": "04 - go run test example",
+            "type": "shell",
+            "command": "cd test; go run main.go",
+            "group": "build"
+        },
+		{
+            "label": "03 - ng serve test example",
+            "type": "shell",
+            "options": {
+                "cwd": "test/ng"
+            },
+            "command": "ng serve",
+            "group": "build"
+        },
+		{
+            "label": "01 - gongc test backendOnly",
+            "type": "shell",
+            "options": {
+                "cwd": "${workspaceFolder}/test/go/models"
+            },
+            "command": "gongc",
+            "group": "build",
+            "args": [
+                "-backendOnly"
+            ]
+        },
+		{
+            "label": "01 - gongc test",
+            "type": "shell",
+            "options": {
+                "cwd": "${workspaceFolder}/test/go/models"
+            },
+            "command": "gongc",
+            "group": "build",
+            "args": [
+            ]
+        },
+        {
+            // you can check in go.mod, the timestamp is UTC
+            "label": "00 go mod tidy",
+            "type": "shell",
+            "group": "build",
+            "command": "go mod tidy"
+        },
+
+	]
+}
