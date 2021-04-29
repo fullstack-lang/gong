@@ -8,7 +8,7 @@ import (
 	"sort"
 	"strings"
 
-  _ "embed"
+	_ "embed"
 )
 
 //go:embed ng_file_sidebar.css
@@ -306,6 +306,16 @@ var NgSidebarTsSubTemplateCode map[NgSidebarTsSubTemplate]string = map[NgSidebar
       nonInstanceNodeId = nonInstanceNodeId + 1
       this.gongNodeTree.push({{structname}}GongNodeStruct)
 
+      this.frontRepo.{{Structname}}s_array.sort((t1, t2) => {
+        if (t1.Name > t2.Name) {
+          return 1;
+        }
+        if (t1.Name < t2.Name) {
+          return -1;
+        }
+        return 0;
+      });
+
       this.frontRepo.{{Structname}}s_array.forEach(
         {{structname}}DB => {
           let {{structname}}GongNodeInstance: GongNode = {
@@ -443,13 +453,13 @@ func CodeGeneratorNgSidebar(
 		log.Println("creating directory : " + dirPath)
 	}
 
-  // generate the css file
-  VerySimpleCodeGenerator(mdlPkg,
-    pkgName,
-    pkgGoPath,
-    filepath.Join(dirPath, "sidebar.component.css"),
-    NgFileSidebarCssTmpl,
-  )
+	// generate the css file
+	VerySimpleCodeGenerator(mdlPkg,
+		pkgName,
+		pkgGoPath,
+		filepath.Join(dirPath, "sidebar.component.css"),
+		NgFileSidebarCssTmpl,
+	)
 
 	// have alphabetical order generation
 	structList := []*GongStruct{}
