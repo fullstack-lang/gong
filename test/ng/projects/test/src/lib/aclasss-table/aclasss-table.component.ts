@@ -132,15 +132,15 @@ export class AclasssTableComponent implements OnInit {
         this.frontRepo = frontRepo
         console.log("front repo pull returned")
 
-				this.frontRepo.Aclasss_array.sort((t1, t2) => {
-					if (t1.Name > t2.Name) {
-						return 1;
-					}
-					if (t1.Name < t2.Name) {
-						return -1;
-					}
-					return 0;
-				});
+        this.frontRepo.Aclasss_array.sort((t1, t2) => {
+            if (t1.Name > t2.Name) {
+              return 1;
+            }
+            if (t1.Name < t2.Name) {
+              return -1;
+            }
+            return 0;
+        });
 
         this.aclasss = this.frontRepo.Aclasss_array;
 
@@ -167,7 +167,7 @@ export class AclasssTableComponent implements OnInit {
           this.selection = new SelectionModel<AclassDB>(allowMultiSelect, this.initialSelection);
         }
 
-		// update the mat table data source
+        // update the mat table data source
         this.matTableDataSource.data = this.aclasss
       }
     )
