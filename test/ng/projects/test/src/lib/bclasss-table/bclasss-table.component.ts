@@ -112,6 +112,16 @@ export class BclasssTableComponent implements OnInit {
         this.frontRepo = frontRepo
         console.log("front repo pull returned")
 
+        this.frontRepo.Bclasss_array.sort((t1, t2) => {
+					if (t1.Name > t2.Name) {
+						return 1;
+					}
+					if (t1.Name < t2.Name) {
+						return -1;
+					}
+					return 0;
+				});
+
         this.bclasss = this.frontRepo.Bclasss_array;
 
         // insertion point for variables Recoveries

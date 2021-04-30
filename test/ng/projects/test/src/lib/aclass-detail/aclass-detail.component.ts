@@ -80,6 +80,27 @@ export class AclassDetailComponent implements OnInit {
 				this.frontRepo = frontRepo
 				console.log("front repo AclassPull returned")
 
+				this.frontRepo.Aclasss_array.sort((t1, t2) => {
+					if (t1.Name > t2.Name) {
+						return 1;
+					}
+					if (t1.Name < t2.Name) {
+						return -1;
+					}
+					return 0;
+				});
+
+				this.frontRepo.Bclasss_array.sort((t1, t2) => {
+					if (t1.Name > t2.Name) {
+						return 1;
+					}
+					if (t1.Name < t2.Name) {
+						return -1;
+					}
+					return 0;
+				});
+
+
 				if (id != 0 && association == undefined) {
 					this.aclass = frontRepo.Aclasss.get(id)
 				} else {
@@ -105,7 +126,7 @@ export class AclassDetailComponent implements OnInit {
 
 		// some fields needs to be translated into serializable forms
 		// pointers fields, after the translation, are nulled in order to perform serialization
-		
+
 		// insertion point for translation/nullation of each field
 		this.aclass.Booleanfield = this.BooleanfieldFormControl.value
 		this.aclass.Anotherbooleanfield = this.AnotherbooleanfieldFormControl.value
@@ -137,7 +158,7 @@ export class AclassDetailComponent implements OnInit {
 			this.aclass.Anotherassociationtob_2ID.Valid = true
 			this.aclass.Anotherassociationtob_2Name = ""
 		}
-		
+
 		// save from the front pointer space to the non pointer space for serialization
 		if (association == undefined) {
 			// insertion point for translation/nullation of each pointers
