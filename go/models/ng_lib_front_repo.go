@@ -165,7 +165,19 @@ import { {{Structname}}Service } from './{{structname}}.service'
                   FrontRepoSingloton.{{Structname}}s.delete({{structname}}.ID)
                 }
               }
-            )`,
+            )
+            
+            // sort {{Structname}}s_array array
+            FrontRepoSingloton.{{Structname}}s_array.sort((t1, t2) => {
+              if (t1.Name > t2.Name) {
+                return 1;
+              }
+              if (t1.Name < t2.Name) {
+                return -1;
+              }
+              return 0;
+            });
+            `,
 
 	string(NgLibFrontRepoRedeemPointers): `
             {{structname}}s.forEach(

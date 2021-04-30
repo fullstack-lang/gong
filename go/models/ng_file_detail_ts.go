@@ -171,6 +171,7 @@ const (
 	NgDetailTsInsertionPerStructImports NgDetailTsInsertionPoint = iota
 	NgDetailTsInsertionPerStructDeclarations
 	NgDetailTsInsertionPerStructInits
+	NgDetailTsInsertionPerStructSorting
 	NgDetailTsInsertionPerStructRecoveries
 	NgDetailTsInsertionPerStructSaves
 	NgDetailTsInsertionPerStructReversePointerSaveWhenUpdate
