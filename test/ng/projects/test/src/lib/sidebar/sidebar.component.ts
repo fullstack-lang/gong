@@ -208,6 +208,16 @@ export class SidebarComponent implements OnInit {
       nonInstanceNodeId = nonInstanceNodeId + 1
       this.gongNodeTree.push(aclassGongNodeStruct)
 
+      this.frontRepo.Aclasss_array.sort((t1, t2) => {
+        if (t1.Name > t2.Name) {
+          return 1;
+        }
+        if (t1.Name < t2.Name) {
+          return -1;
+        }
+        return 0;
+      });
+
       this.frontRepo.Aclasss_array.forEach(
         aclassDB => {
           let aclassGongNodeInstance: GongNode = {
@@ -395,6 +405,16 @@ export class SidebarComponent implements OnInit {
       }
       nonInstanceNodeId = nonInstanceNodeId + 1
       this.gongNodeTree.push(bclassGongNodeStruct)
+
+      this.frontRepo.Bclasss_array.sort((t1, t2) => {
+        if (t1.Name > t2.Name) {
+          return 1;
+        }
+        if (t1.Name < t2.Name) {
+          return -1;
+        }
+        return 0;
+      });
 
       this.frontRepo.Bclasss_array.forEach(
         bclassDB => {

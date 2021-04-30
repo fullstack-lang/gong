@@ -130,7 +130,7 @@ export class BclasssTableComponent implements OnInit {
           this.selection = new SelectionModel<BclassDB>(allowMultiSelect, this.initialSelection);
         }
 
-		// update the mat table data source
+        // update the mat table data source
         this.matTableDataSource.data = this.bclasss
       }
     )
