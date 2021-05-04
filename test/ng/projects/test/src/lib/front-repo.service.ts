@@ -206,7 +206,7 @@ export class FrontRepoService {
                   let _aclass = FrontRepoSingloton.Aclasss.get(bclass.Aclass_AnarrayofbDBID.Int64)
                   if (_aclass) {
                     if (_aclass.Anarrayofb == undefined) {
-                      _aclass.Anarrayofb = new Array<AclassDB>()
+                      _aclass.Anarrayofb = new Array<BclassDB>()
                     }
                     _aclass.Anarrayofb.push(bclass)
                     if (bclass.Aclass_Anarrayofb_reverse == undefined) {
@@ -219,7 +219,7 @@ export class FrontRepoService {
                   let _aclass = FrontRepoSingloton.Aclasss.get(bclass.Aclass_AnotherarrayofbDBID.Int64)
                   if (_aclass) {
                     if (_aclass.Anotherarrayofb == undefined) {
-                      _aclass.Anotherarrayofb = new Array<AclassDB>()
+                      _aclass.Anotherarrayofb = new Array<BclassDB>()
                     }
                     _aclass.Anotherarrayofb.push(bclass)
                     if (bclass.Aclass_Anotherarrayofb_reverse == undefined) {
@@ -350,7 +350,7 @@ export class FrontRepoService {
                   let _aclass = FrontRepoSingloton.Aclasss.get(bclass.Aclass_AnarrayofbDBID.Int64)
                   if (_aclass) {
                     if (_aclass.Anarrayofb == undefined) {
-                      _aclass.Anarrayofb = new Array<AclassDB>()
+                      _aclass.Anarrayofb = new Array<BclassDB>()
                     }
                     _aclass.Anarrayofb.push(bclass)
                     if (bclass.Aclass_Anarrayofb_reverse == undefined) {
@@ -363,7 +363,7 @@ export class FrontRepoService {
                   let _aclass = FrontRepoSingloton.Aclasss.get(bclass.Aclass_AnotherarrayofbDBID.Int64)
                   if (_aclass) {
                     if (_aclass.Anotherarrayofb == undefined) {
-                      _aclass.Anotherarrayofb = new Array<AclassDB>()
+                      _aclass.Anotherarrayofb = new Array<BclassDB>()
                     }
                     _aclass.Anotherarrayofb.push(bclass)
                     if (bclass.Aclass_Anotherarrayofb_reverse == undefined) {

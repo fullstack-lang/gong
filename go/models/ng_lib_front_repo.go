@@ -283,7 +283,7 @@ map[string]string{
                   let _{{structname}} = FrontRepoSingloton.{{Structname}}s.get({{assocStructName}}.{{Structname}}_{{FieldName}}DBID.Int64)
                   if (_{{structname}}) {
                     if (_{{structname}}.{{FieldName}} == undefined) {
-                      _{{structname}}.{{FieldName}} = new Array<{{Structname}}DB>()
+                      _{{structname}}.{{FieldName}} = new Array<{{AssocStructName}}DB>()
                     }
                     _{{structname}}.{{FieldName}}.push({{assocStructName}})
                     if ({{assocStructName}}.{{Structname}}_{{FieldName}}_reverse == undefined) {
