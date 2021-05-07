@@ -145,6 +145,8 @@ export class {{Structname}}DetailComponent implements OnInit {
 
 		// dialogConfig.disableClose = true;
 		dialogConfig.autoFocus = true;
+		dialogConfig.width = "50%"
+		dialogConfig.height = "50%"
 		dialogConfig.data = {
 			ID: this.{{structname}}.ID,
 			ReversePointer: reverseField,
