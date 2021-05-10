@@ -47,3 +47,10 @@
     transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
   }
   
+  
+.table__save {
+  position: relative !important;
+  left: 50%;
+  transform: translateX(-50%) !important;
+  margin-top: 15px !important;
+}
