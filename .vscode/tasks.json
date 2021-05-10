@@ -14,7 +14,7 @@
             "group": "build"
         },
 		{
-            "label": "04 - go run test example",
+            "label": "04 - go run test",
             "type": "shell",
             "command": "cd test; go run main.go",
             "group": "build"

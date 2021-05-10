@@ -89,14 +89,21 @@ export class BclasssTableComponent implements OnInit {
         "Anotherarrayofb",
       ]
     } else {
-      this.displayedColumns = ['select', 'ID', // insertion point for columns to display
+      if (dialogData.OrderingMode == false) {
+        this.displayedColumns = ['select', 'ID', // insertion point for columns to display
+          "Name",
+          "Floatfield",
+          "Intfield",
+          "Anarrayofb",
+          "Anotherarrayofb",
+        ]
+        this.selection = new SelectionModel<BclassDB>(allowMultiSelect, this.initialSelection);
+      } else {
+        this.displayedColumns = ['ID', // insertion point for columns to display
         "Name",
-        "Floatfield",
-        "Intfield",
-        "Anarrayofb",
-        "Anotherarrayofb",
       ]
-      this.selection = new SelectionModel<BclassDB>(allowMultiSelect, this.initialSelection);
+        console.log("for ordering items")
+      }
     }
 
   }
