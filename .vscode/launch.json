@@ -22,7 +22,7 @@
             "args": []
         },
         {
-            "name": "gongc test example",
+            "name": "gongc test",
             "type": "go",
             "request": "launch",
             "mode": "debug",
@@ -38,7 +38,7 @@
             "args": []
         },
         {
-            "name": "go server test example",
+            "name": "go server test",
             "type": "go",
             "request": "launch",
             "mode": "auto",
