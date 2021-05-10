@@ -4,7 +4,6 @@
     // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
-
         {
             "name": "gongc landromat",
             "type": "go",
@@ -50,8 +49,7 @@
                 "maxArrayValues": 64,
                 "maxStructFields": -1
             },
-            "args": [
-            ]
+            "args": []
         },
         {
             "name": "Attach chrome (windows)",
@@ -66,11 +64,10 @@
             "webRoot": "${workspaceFolder}/test/ng",
         },
         {
-            "name": "Attach chrome",
-            "type": "chrome",
-            "request": "attach",
-            "port": 9222,
-            "url": "http://localhost:4200/",
+            "type": "pwa-chrome",
+            "request": "launch",
+            "name": "Launch Chrome against localhost",
+            "url": "http://localhost:4200",
             "webRoot": "${workspaceFolder}/test/ng"
         },
     ]

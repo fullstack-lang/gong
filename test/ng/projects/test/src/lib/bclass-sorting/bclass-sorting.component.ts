@@ -82,6 +82,7 @@ export class BclassSortingComponent implements OnInit {
     // set the order of Bclass instances
     let index = 0
     for (let bclass of this.associatedBclasss) {
+      bclass.Aclass_AnarrayofbDBID_Order.Valid = true
       bclass.Aclass_AnarrayofbDBID_Order.Int64 = index++
     }
     console.log("after drop")
