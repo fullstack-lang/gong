@@ -1,10 +1,18 @@
 // insertion point sub template for components imports 
 import { AclasssTableComponent } from './aclasss-table/aclasss-table.component'
 import { BclasssTableComponent } from './bclasss-table/bclasss-table.component'
+import { BclassSortingComponent } from './bclass-sorting/bclass-sorting.component'
 
 // insertion point sub template for map of components per struct 
 export const MapOfAclasssComponents: Map<string, any> = new Map([["AclasssTableComponent", AclasssTableComponent],])
-export const MapOfBclasssComponents: Map<string, any> = new Map([["BclasssTableComponent", BclasssTableComponent],])
+export const MapOfBclasssComponents: Map<string, any> = new Map([
+  ["BclasssTableComponent", BclasssTableComponent],
+])
+
+export const MapOfBclassSortingComponents: Map<string, any> = new Map([
+  ["BclassSortingComponent", BclassSortingComponent],
+])
+
 
 // map of all ng components of the stacks
 export const MapOfComponents: Map<string, any> =
@@ -15,3 +23,12 @@ export const MapOfComponents: Map<string, any> =
       ["Bclass", MapOfBclasssComponents],
     ]
   )
+
+  // map of all ng sorting components of the stacks
+export const MapOfSortingComponents: Map<string, any> =
+new Map(
+  [
+    // insertion point sub template for map of components 
+    ["Bclass", MapOfBclassSortingComponents],
+  ]
+)

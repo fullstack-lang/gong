@@ -22,6 +22,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatTreeModule } from '@angular/material/tree';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 import { AngularSplitModule, SplitComponent } from 'angular-split';
 
@@ -37,7 +38,8 @@ import { AclassPresentationComponent } from './aclass-presentation/aclass-presen
 
 import { BclasssTableComponent } from './bclasss-table/bclasss-table.component'
 import { BclassDetailComponent } from './bclass-detail/bclass-detail.component'
-import { BclassPresentationComponent } from './bclass-presentation/bclass-presentation.component'
+import { BclassPresentationComponent } from './bclass-presentation/bclass-presentation.component';
+import { BclassSortingComponent } from './bclass-sorting/bclass-sorting.component'
 
 
 @NgModule({
@@ -53,7 +55,8 @@ import { BclassPresentationComponent } from './bclass-presentation/bclass-presen
 
 
 		SplitterComponent,
-		SidebarComponent
+		SidebarComponent,
+  BclassSortingComponent
 	],
 	imports: [
 		FormsModule,
@@ -80,6 +83,7 @@ import { BclassPresentationComponent } from './bclass-presentation/bclass-presen
 		MatDialogModule,
 		MatGridListModule,
 		MatTreeModule,
+		DragDropModule,
 
 		AngularSplitModule,
 	],
