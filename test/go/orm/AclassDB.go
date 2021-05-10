@@ -8,8 +8,8 @@ import (
 	"log"
 	"time"
 
-	"github.com/jinzhu/gorm"
 	"github.com/fullstack-lang/gong/test/go/models"
+	"github.com/jinzhu/gorm"
 )
 
 // dummy variable to have the import database/sql wihthout compile failure id no sql is used
@@ -291,9 +291,13 @@ func (backRepoAclass *BackRepoAclassStruct) CommitPhaseTwoInstance(backRepo *Bac
 				// commit a slice of pointer translates to update reverse pointer to Bclass, i.e.
 				for _, bclass := range aclass.Anarrayofb {
 					if bclassDBID, ok := (*backRepo.BackRepoBclass.Map_BclassPtr_BclassDBID)[bclass]; ok {
+						index := 0
 						if bclassDB, ok := (*backRepo.BackRepoBclass.Map_BclassDBID_BclassDB)[bclassDBID]; ok {
 							bclassDB.Aclass_AnarrayofbDBID.Int64 = int64(aclassDB.ID)
 							bclassDB.Aclass_AnarrayofbDBID.Valid = true
+							bclassDB.Aclass_AnarrayofbDBID_Order.Int64 = int64(index)
+							index = index + 1
+							bclassDB.Aclass_AnarrayofbDBID_Order.Valid = true
 							if q := backRepoAclass.db.Save(&bclassDB); q.Error != nil {
 								return q.Error
 							}

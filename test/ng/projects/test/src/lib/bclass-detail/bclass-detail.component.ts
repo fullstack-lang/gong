@@ -88,9 +88,9 @@ export class BclassDetailComponent implements OnInit {
 
 		// some fields needs to be translated into serializable forms
 		// pointers fields, after the translation, are nulled in order to perform serialization
-		
+
 		// insertion point for translation/nullation of each field
-		
+
 		// save from the front pointer space to the non pointer space for serialization
 		if (association == undefined) {
 			// insertion point for translation/nullation of each pointers
@@ -98,6 +98,7 @@ export class BclassDetailComponent implements OnInit {
 				this.bclass.Aclass_AnarrayofbDBID = new NullInt64
 				this.bclass.Aclass_AnarrayofbDBID.Int64 = this.bclass.Aclass_Anarrayofb_reverse.ID
 				this.bclass.Aclass_AnarrayofbDBID.Valid = true
+				this.bclass.Aclass_AnarrayofbDBID_Order.Valid = true
 				this.bclass.Aclass_Anarrayofb_reverse = undefined // very important, otherwise, circular JSON
 			}
 			if (this.bclass.Aclass_Anotherarrayofb_reverse != undefined) {
