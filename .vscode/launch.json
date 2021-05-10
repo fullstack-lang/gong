@@ -4,6 +4,7 @@
     // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
+
         {
             "name": "gongc landromat",
             "type": "go",
@@ -51,6 +52,26 @@
             },
             "args": [
             ]
+        },
+        {
+            "name": "Attach chrome (windows)",
+            "runtimeArgs": [
+                "--remote-debugging-port=9222"
+            ],
+            "runtimeExecutable": "${env:CHROME_EXE}",
+            "type": "chrome",
+            "request": "launch",
+            "url": "http://localhost:4200/",
+            // the workspace folder is the .vscode ?
+            "webRoot": "${workspaceFolder}/test/ng",
+        },
+        {
+            "name": "Attach chrome",
+            "type": "chrome",
+            "request": "attach",
+            "port": 9222,
+            "url": "http://localhost:4200/",
+            "webRoot": "${workspaceFolder}/test/ng"
         },
     ]
 }

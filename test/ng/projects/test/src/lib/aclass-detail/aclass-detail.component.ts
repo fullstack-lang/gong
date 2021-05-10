@@ -188,6 +188,30 @@ export class AclassDetailComponent implements OnInit {
 		dialogConfig.data = {
 			ID: this.aclass.ID,
 			ReversePointer: reverseField,
+			OrderingMode: false,
+		};
+		const dialogRef: MatDialogRef<string, any> = this.dialog.open(
+			MapOfComponents.get(AssociatedStruct).get(
+				AssociatedStruct + 'sTableComponent'
+			),
+			dialogConfig
+		);
+
+		dialogRef.afterClosed().subscribe(result => {
+			console.log('The dialog was closed');
+		});
+	}
+
+	openDragAndDropOrdering(AssociatedStruct: string, reverseField: string) {
+
+		const dialogConfig = new MatDialogConfig();
+
+		// dialogConfig.disableClose = true;
+		dialogConfig.autoFocus = true;
+		dialogConfig.data = {
+			ID: this.aclass.ID,
+			ReversePointer: reverseField,
+			OrderingMode: true,
 		};
 		const dialogRef: MatDialogRef<string, any> = this.dialog.open(
 			MapOfComponents.get(AssociatedStruct).get(

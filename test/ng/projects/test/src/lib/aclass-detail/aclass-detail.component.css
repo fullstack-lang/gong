@@ -35,6 +35,12 @@ h1::first-letter {
     padding: 2.5px 5px;
 }
 
+
+.details__selector {
+    justify-content: flex-start !important ;
+    align-items: flex-start !important;
+}
+
 .details__save {
     position: sticky;
     bottom: 5px;
