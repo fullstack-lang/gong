@@ -7,6 +7,7 @@ import { AclassService } from '../aclass.service'
 
 import { FrontRepoService, FrontRepo } from '../front-repo.service'
 import { MapOfComponents } from '../map-components'
+import { MapOfSortingComponents } from '../map-components'
 
 // insertion point for imports
 import { AEnumTypeSelect, AEnumTypeList } from '../AEnumType'
@@ -214,8 +215,8 @@ export class AclassDetailComponent implements OnInit {
 			OrderingMode: true,
 		};
 		const dialogRef: MatDialogRef<string, any> = this.dialog.open(
-			MapOfComponents.get(AssociatedStruct).get(
-				AssociatedStruct + 'sTableComponent'
+			MapOfSortingComponents.get(AssociatedStruct).get(
+				AssociatedStruct + 'SortingComponent'
 			),
 			dialogConfig
 		);
