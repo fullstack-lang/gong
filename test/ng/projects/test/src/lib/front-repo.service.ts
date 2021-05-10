@@ -10,7 +10,6 @@ import { AclassService } from './aclass.service'
 import { BclassDB } from './bclass-db'
 import { BclassService } from './bclass.service'
 
-
 // FrontRepo stores all instances in a front repository (design pattern repository)
 export class FrontRepo { // insertion point sub template 
   Aclasss_array = new Array<AclassDB>(); // array of repo instances
