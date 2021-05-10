@@ -8,8 +8,8 @@ import (
 	"log"
 	"time"
 
-	"github.com/jinzhu/gorm"
 	"github.com/fullstack-lang/gong/test/go/models"
+	"github.com/jinzhu/gorm"
 )
 
 // dummy variable to have the import database/sql wihthout compile failure id no sql is used
@@ -37,7 +37,8 @@ type BclassAPI struct {
 	Intfield_Data sql.NullInt64
 
 	// Implementation of a reverse ID for field Aclass{}.Anarrayofb []*Bclass
-	Aclass_AnarrayofbDBID sql.NullInt64
+	Aclass_AnarrayofbDBID       sql.NullInt64
+	Aclass_AnarrayofbDBID_Order sql.NullInt64
 
 	// Implementation of a reverse ID for field Aclass{}.Anotherarrayofb []*Bclass
 	Aclass_AnotherarrayofbDBID sql.NullInt64
