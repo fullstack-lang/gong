@@ -57,5 +57,14 @@
             "group": "build",
             "command": "go mod tidy"
         },
+        {
+            "label": "Sequence - gongc all",
+            "type": "shell",
+            "options": {
+                "cwd": "${workspaceFolder}/.."
+            },
+            "group": "build",
+            "command": "find . -name gong.go -print -execdir gongc \\;"
+        },
     ]
 }
