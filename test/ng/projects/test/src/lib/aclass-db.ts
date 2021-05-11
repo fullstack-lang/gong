@@ -37,6 +37,7 @@ export class AclassDB {
 	Anotherarrayofb?: Array<BclassDB>
 	Anarrayofa?: Array<AclassDB>
 	Aclass_AnarrayofaDBID?: NullInt64
+	Aclass_AnarrayofaDBID_Index?: NullInt64 // store the index of the aclass instance in Aclass.Anarrayofa
 	Aclass_Anarrayofa_reverse?: AclassDB
 
 }

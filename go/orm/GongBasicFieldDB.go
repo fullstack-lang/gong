@@ -6,15 +6,18 @@ import (
 	"errors"
 	"fmt"
 	"log"
+	"sort"
 	"time"
 
 	"github.com/jinzhu/gorm"
+
 	"github.com/fullstack-lang/gong/go/models"
 )
 
-// dummy variable to have the import database/sql wihthout compile failure id no sql is used
+// dummy variable to have the import declaration wihthout compile failure (even if no code needing this import is generated)
 var dummy_GongBasicField sql.NullBool
 var __GongBasicField_time__dummyDeclaration time.Duration
+var dummy_GongBasicField_sort sort.Float64Slice
 
 // GongBasicFieldAPI is the input in POST API
 //
@@ -45,6 +48,7 @@ type GongBasicFieldAPI struct {
 
 	// Implementation of a reverse ID for field GongStruct{}.GongBasicFields []*GongBasicField
 	GongStruct_GongBasicFieldsDBID sql.NullInt64
+	GongStruct_GongBasicFieldsDBID_Index sql.NullInt64
 
 	// end of insertion
 }

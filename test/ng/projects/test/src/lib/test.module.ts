@@ -22,6 +22,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatTreeModule } from '@angular/material/tree';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 import { AngularSplitModule, SplitComponent } from 'angular-split';
 
@@ -32,10 +33,12 @@ import { SidebarComponent } from './sidebar/sidebar.component';
 
 // insertion point for imports 
 import { AclasssTableComponent } from './aclasss-table/aclasss-table.component'
+import { AclassSortingComponent } from './aclass-sorting/aclass-sorting.component'
 import { AclassDetailComponent } from './aclass-detail/aclass-detail.component'
 import { AclassPresentationComponent } from './aclass-presentation/aclass-presentation.component'
 
 import { BclasssTableComponent } from './bclasss-table/bclasss-table.component'
+import { BclassSortingComponent } from './bclass-sorting/bclass-sorting.component'
 import { BclassDetailComponent } from './bclass-detail/bclass-detail.component'
 import { BclassPresentationComponent } from './bclass-presentation/bclass-presentation.component'
 
@@ -44,10 +47,12 @@ import { BclassPresentationComponent } from './bclass-presentation/bclass-presen
 	declarations: [
 		// insertion point for declarations 
 		AclasssTableComponent,
+		AclassSortingComponent,
 		AclassDetailComponent,
 		AclassPresentationComponent,
 
 		BclasssTableComponent,
+		BclassSortingComponent,
 		BclassDetailComponent,
 		BclassPresentationComponent,
 
@@ -80,16 +85,19 @@ import { BclassPresentationComponent } from './bclass-presentation/bclass-presen
 		MatDialogModule,
 		MatGridListModule,
 		MatTreeModule,
+		DragDropModule,
 
 		AngularSplitModule,
 	],
 	exports: [
 		// insertion point for declarations 
 		AclasssTableComponent,
+		AclassSortingComponent,
 		AclassDetailComponent,
 		AclassPresentationComponent,
 
 		BclasssTableComponent,
+		BclassSortingComponent,
 		BclassDetailComponent,
 		BclassPresentationComponent,
 
