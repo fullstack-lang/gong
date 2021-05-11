@@ -359,6 +359,12 @@ func main() {
 		gong_models.MatTargetPath,
 		gong_models.PkgGoPath)
 
+	gong_models.MultiCodeGeneratorNgSorting(
+		&modelPkg,
+		gong_models.PkgName,
+		gong_models.MatTargetPath,
+		gong_models.PkgGoPath)
+
 	gong_models.CodeGeneratorModelGong(
 		&modelPkg,
 		gong_models.PkgName,

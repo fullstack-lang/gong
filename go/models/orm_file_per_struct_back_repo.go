@@ -18,15 +18,18 @@ import (
 	"errors"
 	"fmt"
 	"log"
+	"sort"
 	"time"
 
 	"github.com/jinzhu/gorm"
+
 	"{{PkgPathRoot}}"
 )
 
-// dummy variable to have the import database/sql wihthout compile failure id no sql is used
+// dummy variable to have the import declaration wihthout compile failure (even if no code needing this import is generated)
 var dummy_{{Structname}} sql.NullBool
 var __{{Structname}}_time__dummyDeclaration time.Duration
+var dummy_{{Structname}}_sort sort.Float64Slice
 
 // {{Structname}}API is the input in POST API
 //
@@ -382,6 +385,7 @@ var BackRepoFieldSubTemplateCode map[BackRepoPerStructSubTemplate]string = map[B
 	BackRepoDeclarationSliceOfPointerToStructField: `
 	// Implementation of a reverse ID for field {{AssociationStructName}}{}.{{FieldName}} []*{{Structname}}
 	{{AssociationStructName}}_{{FieldName}}DBID sql.NullInt64
+	{{AssociationStructName}}_{{FieldName}}DBID_Index sql.NullInt64
 `,
 
 	//
@@ -440,10 +444,14 @@ var BackRepoFieldSubTemplateCode map[BackRepoPerStructSubTemplate]string = map[B
 	BackRepoCommitNewSliceOfPointerToStructField: `
 				// commit a slice of pointer translates to update reverse pointer to {{AssociationStructName}}, i.e.
 				for _, {{associationStructName}} := range {{structname}}.{{FieldName}} {
+					index := 0
 					if {{associationStructName}}DBID, ok := (*backRepo.BackRepo{{AssociationStructName}}.Map_{{AssociationStructName}}Ptr_{{AssociationStructName}}DBID)[{{associationStructName}}]; ok {
 						if {{associationStructName}}DB, ok := (*backRepo.BackRepo{{AssociationStructName}}.Map_{{AssociationStructName}}DBID_{{AssociationStructName}}DB)[{{associationStructName}}DBID]; ok {
 							{{associationStructName}}DB.{{Structname}}_{{FieldName}}DBID.Int64 = int64({{structname}}DB.ID)
 							{{associationStructName}}DB.{{Structname}}_{{FieldName}}DBID.Valid = true
+							{{associationStructName}}DB.{{Structname}}_{{FieldName}}DBID_Index.Int64 = int64(index)
+							index = index + 1
+							{{associationStructName}}DB.{{Structname}}_{{FieldName}}DBID_Index.Valid = true
 							if q := backRepo{{Structname}}.db.Save(&{{associationStructName}}DB); q.Error != nil {
 								return q.Error
 							}
@@ -492,6 +500,17 @@ var BackRepoFieldSubTemplateCode map[BackRepoPerStructSubTemplate]string = map[B
 					{{structname}}.{{FieldName}} = append({{structname}}.{{FieldName}}, {{AssociationStructName}})
 				}
 			}
+			
+			// sort the array according to the order
+			sort.Slice({{structname}}.{{FieldName}}, func(i, j int) bool {
+				{{associationStructName}}DB_i_ID := (*backRepo.BackRepo{{AssociationStructName}}.Map_{{AssociationStructName}}Ptr_{{AssociationStructName}}DBID)[{{structname}}.{{FieldName}}[i]]
+				{{associationStructName}}DB_j_ID := (*backRepo.BackRepo{{AssociationStructName}}.Map_{{AssociationStructName}}Ptr_{{AssociationStructName}}DBID)[{{structname}}.{{FieldName}}[j]]
+
+				{{associationStructName}}DB_i := (*backRepo.BackRepo{{AssociationStructName}}.Map_{{AssociationStructName}}DBID_{{AssociationStructName}}DB)[{{associationStructName}}DB_i_ID]
+				{{associationStructName}}DB_j := (*backRepo.BackRepo{{AssociationStructName}}.Map_{{AssociationStructName}}DBID_{{AssociationStructName}}DB)[{{associationStructName}}DB_j_ID]
+
+				return {{associationStructName}}DB_i.{{Structname}}_{{FieldName}}DBID_Index.Int64 < {{associationStructName}}DB_j.{{Structname}}_{{FieldName}}DBID_Index.Int64
+			})
 `,
 }
 

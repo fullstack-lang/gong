@@ -1,6 +1,6 @@
 {
-	"version": "2.0.0",
-	"tasks": [
+    "version": "2.0.0",
+    "tasks": [
         {
             "label": "00 - go install gongc",
             "type": "shell",
@@ -13,14 +13,14 @@
             ],
             "group": "build"
         },
-		{
-            "label": "04 - go run test example",
+        {
+            "label": "04 - go run test",
             "type": "shell",
             "command": "cd test; go run main.go",
             "group": "build"
         },
-		{
-            "label": "03 - ng serve test example",
+        {
+            "label": "03 - ng serve test",
             "type": "shell",
             "options": {
                 "cwd": "test/ng"
@@ -28,7 +28,7 @@
             "command": "ng serve",
             "group": "build"
         },
-		{
+        {
             "label": "01 - gongc test backendOnly",
             "type": "shell",
             "options": {
@@ -40,7 +40,7 @@
                 "-backendOnly"
             ]
         },
-		{
+        {
             "label": "01 - gongc test",
             "type": "shell",
             "options": {
@@ -48,8 +48,7 @@
             },
             "command": "gongc",
             "group": "build",
-            "args": [
-            ]
+            "args": []
         },
         {
             // you can check in go.mod, the timestamp is UTC
@@ -58,6 +57,14 @@
             "group": "build",
             "command": "go mod tidy"
         },
-
-	]
+        {
+            "label": "Sequence - gongc all",
+            "type": "shell",
+            "options": {
+                "cwd": "${workspaceFolder}/.."
+            },
+            "group": "build",
+            "command": "find . -name gong.go -print -execdir gongc \\;"
+        },
+    ]
 }
