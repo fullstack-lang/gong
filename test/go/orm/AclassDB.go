@@ -9,13 +9,15 @@ import (
 	"sort"
 	"time"
 
-	"github.com/fullstack-lang/gong/test/go/models"
 	"github.com/jinzhu/gorm"
+
+	"github.com/fullstack-lang/gong/test/go/models"
 )
 
-// dummy variable to have the import database/sql wihthout compile failure id no sql is used
+// dummy variable to have the import declaration wihthout compile failure (even if no code needing this import is generated)
 var dummy_Aclass sql.NullBool
 var __Aclass_time__dummyDeclaration time.Duration
+var dummy_Aclass_sort sort.Float64Slice
 
 // AclassAPI is the input in POST API
 //
@@ -82,6 +84,7 @@ type AclassAPI struct {
 
 	// Implementation of a reverse ID for field Aclass{}.Anarrayofa []*Aclass
 	Aclass_AnarrayofaDBID sql.NullInt64
+	Aclass_AnarrayofaDBID_Index sql.NullInt64
 
 	// end of insertion
 }
@@ -291,8 +294,8 @@ func (backRepoAclass *BackRepoAclassStruct) CommitPhaseTwoInstance(backRepo *Bac
 
 				// commit a slice of pointer translates to update reverse pointer to Bclass, i.e.
 				for _, bclass := range aclass.Anarrayofb {
+					index := 0
 					if bclassDBID, ok := (*backRepo.BackRepoBclass.Map_BclassPtr_BclassDBID)[bclass]; ok {
-						index := 0
 						if bclassDB, ok := (*backRepo.BackRepoBclass.Map_BclassDBID_BclassDB)[bclassDBID]; ok {
 							bclassDB.Aclass_AnarrayofbDBID.Int64 = int64(aclassDB.ID)
 							bclassDB.Aclass_AnarrayofbDBID.Valid = true
@@ -308,10 +311,14 @@ func (backRepoAclass *BackRepoAclassStruct) CommitPhaseTwoInstance(backRepo *Bac
 
 				// commit a slice of pointer translates to update reverse pointer to Bclass, i.e.
 				for _, bclass := range aclass.Anotherarrayofb {
+					index := 0
 					if bclassDBID, ok := (*backRepo.BackRepoBclass.Map_BclassPtr_BclassDBID)[bclass]; ok {
 						if bclassDB, ok := (*backRepo.BackRepoBclass.Map_BclassDBID_BclassDB)[bclassDBID]; ok {
 							bclassDB.Aclass_AnotherarrayofbDBID.Int64 = int64(aclassDB.ID)
 							bclassDB.Aclass_AnotherarrayofbDBID.Valid = true
+							bclassDB.Aclass_AnotherarrayofbDBID_Index.Int64 = int64(index)
+							index = index + 1
+							bclassDB.Aclass_AnotherarrayofbDBID_Index.Valid = true
 							if q := backRepoAclass.db.Save(&bclassDB); q.Error != nil {
 								return q.Error
 							}
@@ -321,10 +328,14 @@ func (backRepoAclass *BackRepoAclassStruct) CommitPhaseTwoInstance(backRepo *Bac
 
 				// commit a slice of pointer translates to update reverse pointer to Aclass, i.e.
 				for _, aclass := range aclass.Anarrayofa {
+					index := 0
 					if aclassDBID, ok := (*backRepo.BackRepoAclass.Map_AclassPtr_AclassDBID)[aclass]; ok {
 						if aclassDB, ok := (*backRepo.BackRepoAclass.Map_AclassDBID_AclassDB)[aclassDBID]; ok {
 							aclassDB.Aclass_AnarrayofaDBID.Int64 = int64(aclassDB.ID)
 							aclassDB.Aclass_AnarrayofaDBID.Valid = true
+							aclassDB.Aclass_AnarrayofaDBID_Index.Int64 = int64(index)
+							index = index + 1
+							aclassDB.Aclass_AnarrayofaDBID_Index.Valid = true
 							if q := backRepoAclass.db.Save(&aclassDB); q.Error != nil {
 								return q.Error
 							}
@@ -452,7 +463,7 @@ func (backRepoAclass *BackRepoAclassStruct) CheckoutPhaseTwoInstance(backRepo *B
 					aclass.Anarrayofb = append(aclass.Anarrayofb, Bclass)
 				}
 			}
-
+			
 			// sort the array according to the order
 			sort.Slice(aclass.Anarrayofb, func(i, j int) bool {
 				bclassDB_i_ID := (*backRepo.BackRepoBclass.Map_BclassPtr_BclassDBID)[aclass.Anarrayofb[i]]
@@ -473,6 +484,17 @@ func (backRepoAclass *BackRepoAclassStruct) CheckoutPhaseTwoInstance(backRepo *B
 					aclass.Anotherarrayofb = append(aclass.Anotherarrayofb, Bclass)
 				}
 			}
+			
+			// sort the array according to the order
+			sort.Slice(aclass.Anotherarrayofb, func(i, j int) bool {
+				bclassDB_i_ID := (*backRepo.BackRepoBclass.Map_BclassPtr_BclassDBID)[aclass.Anotherarrayofb[i]]
+				bclassDB_j_ID := (*backRepo.BackRepoBclass.Map_BclassPtr_BclassDBID)[aclass.Anotherarrayofb[j]]
+
+				bclassDB_i := (*backRepo.BackRepoBclass.Map_BclassDBID_BclassDB)[bclassDB_i_ID]
+				bclassDB_j := (*backRepo.BackRepoBclass.Map_BclassDBID_BclassDB)[bclassDB_j_ID]
+
+				return bclassDB_i.Aclass_AnotherarrayofbDBID_Index.Int64 < bclassDB_j.Aclass_AnotherarrayofbDBID_Index.Int64
+			})
 
 			// parse all AclassDB and redeem the array of poiners to Aclass
 			// first reset the slice
@@ -483,6 +505,17 @@ func (backRepoAclass *BackRepoAclassStruct) CheckoutPhaseTwoInstance(backRepo *B
 					aclass.Anarrayofa = append(aclass.Anarrayofa, Aclass)
 				}
 			}
+			
+			// sort the array according to the order
+			sort.Slice(aclass.Anarrayofa, func(i, j int) bool {
+				aclassDB_i_ID := (*backRepo.BackRepoAclass.Map_AclassPtr_AclassDBID)[aclass.Anarrayofa[i]]
+				aclassDB_j_ID := (*backRepo.BackRepoAclass.Map_AclassPtr_AclassDBID)[aclass.Anarrayofa[j]]
+
+				aclassDB_i := (*backRepo.BackRepoAclass.Map_AclassDBID_AclassDB)[aclassDB_i_ID]
+				aclassDB_j := (*backRepo.BackRepoAclass.Map_AclassDBID_AclassDB)[aclassDB_j_ID]
+
+				return aclassDB_i.Aclass_AnarrayofaDBID_Index.Int64 < aclassDB_j.Aclass_AnarrayofaDBID_Index.Int64
+			})
 
 		}
 	}

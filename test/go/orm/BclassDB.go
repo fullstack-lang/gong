@@ -6,15 +6,18 @@ import (
 	"errors"
 	"fmt"
 	"log"
+	"sort"
 	"time"
 
-	"github.com/fullstack-lang/gong/test/go/models"
 	"github.com/jinzhu/gorm"
+
+	"github.com/fullstack-lang/gong/test/go/models"
 )
 
-// dummy variable to have the import database/sql wihthout compile failure id no sql is used
+// dummy variable to have the import declaration wihthout compile failure (even if no code needing this import is generated)
 var dummy_Bclass sql.NullBool
 var __Bclass_time__dummyDeclaration time.Duration
+var dummy_Bclass_sort sort.Float64Slice
 
 // BclassAPI is the input in POST API
 //
@@ -37,11 +40,12 @@ type BclassAPI struct {
 	Intfield_Data sql.NullInt64
 
 	// Implementation of a reverse ID for field Aclass{}.Anarrayofb []*Bclass
-	Aclass_AnarrayofbDBID       sql.NullInt64
+	Aclass_AnarrayofbDBID sql.NullInt64
 	Aclass_AnarrayofbDBID_Index sql.NullInt64
 
 	// Implementation of a reverse ID for field Aclass{}.Anotherarrayofb []*Bclass
 	Aclass_AnotherarrayofbDBID sql.NullInt64
+	Aclass_AnotherarrayofbDBID_Index sql.NullInt64
 
 	// end of insertion
 }
