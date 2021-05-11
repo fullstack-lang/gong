@@ -129,23 +129,19 @@ var NgDetailHtmlSubTemplateCode map[NgDetailHtmlSubTemplate]string = map[NgDetai
         <mat-grid-tile>
             <div style="width: 100vw; text-align: right;">
                 <button mat-raised-button
-                    (click)="openReverseSelection('{{AssocStructName}}', '{{Structname}}_{{FieldName}DBID')">{{FieldName}}</button>
+                    (click)="openReverseSelection('{{AssocStructName}}', '{{Structname}}_{{FieldName}}DBID')">{{FieldName}}</button>
             </div>
         </mat-grid-tile>
         <mat-grid-tile>
             <div style="width: 100vw; text-align: left;">
-                <button mat-raised-button (click)="openDragAndDropOrdering('{{AssocStructName}}', '{{Structname}}_{{FieldName}DBID')">
+                <button mat-raised-button (click)="openDragAndDropOrdering('{{AssocStructName}}', '{{Structname}}_{{FieldName}}DBID')">
                     <mat-icon>
                         shuffle
                     </mat-icon>
                 </button>
             </div>
         </mat-grid-tile>
-    </mat-grid-list>
-
-    <div class="details__item">
-        <button mat-raised-button (click)="openReverseSelection('{{AssocStructName}}', '{{Structname}}_{{FieldName}}DBID')">{{FieldName}}</button>
-    </div>`,
+    </mat-grid-list>`,
 
 	NgDetailSliceOfPointerToStructReverseHtml: `
     <div class="details__item">
