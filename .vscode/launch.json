@@ -60,8 +60,7 @@
             "type": "chrome",
             "request": "launch",
             "url": "http://localhost:4200/",
-            // the workspace folder is the .vscode ?
-            "webRoot": "${workspaceFolder}/test/ng",
+            "webRoot": "${workspaceFolder}/test/ng"
         },
         {
             "type": "pwa-chrome",
@@ -70,5 +69,45 @@
             "url": "http://localhost:4200",
             "webRoot": "${workspaceFolder}/test/ng"
         },
+        {
+            "name": "go test BclassOrder",
+            "type": "go",
+            "request": "launch",
+            "mode": "test",
+            "program": "${workspaceFolder}/test/go/tests",
+            "dlvLoadConfig": {
+                "followPointers": true,
+                "maxVariableRecurse": 1,
+                "maxStringLen": 300,
+                "maxArrayValues": 64,
+                "maxStructFields": -1
+            },
+            "args": [
+                "-test.run",
+                "BclassOrder"
+            ]
+        },
+        {
+            "name": "Launch firefox localhost:4200",
+            "type": "firefox",
+            "request": "launch",
+            "reAttach": true,
+            "url": "http://localhost:4200/",
+            "webRoot": "${workspaceFolder}/test/ng",
+            "pathMappings": [
+                {
+                    "url": "webpack:///projects/test/src/lib/bclass-sorting/bclass-sorting.component.ts",
+                    "path": "${workspaceFolder}/test/ng/projects/test/src/lib/bclass-sorting/bclass-sorting.component.ts"
+                }
+            ],
+            "reloadOnChange": {
+                "watch": [
+                    "${workspaceFolder}/**/*.js"
+                ],
+                "ignore": [
+                    "${workspaceFolder}/node_modules/**"
+                ]
+            }
+        }
     ]
 }
