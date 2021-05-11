@@ -23,28 +23,28 @@ import { DialogData } from '../front-repo.service'
 import { SelectionModel } from '@angular/cdk/collections';
 
 import { Router, RouterState } from '@angular/router';
-import { BclassDB } from '../bclass-db'
-import { BclassService } from '../bclass.service'
+import { {{Structname}}DB } from '../{{structname}}-db'
+import { {{Structname}}Service } from '../{{structname}}.service'
 
 import { FrontRepoService, FrontRepo, NullInt64 } from '../front-repo.service'
 @Component({
-  selector: 'lib-bclass-sorting',
-  templateUrl: './bclass-sorting.component.html',
-  styleUrls: ['./bclass-sorting.component.css']
+  selector: 'lib-{{structname}}-sorting',
+  templateUrl: './{{structname}}-sorting.component.html',
+  styleUrls: ['./{{structname}}-sorting.component.css']
 })
-export class BclassSortingComponent implements OnInit {
+export class {{Structname}}SortingComponent implements OnInit {
 
   frontRepo: FrontRepo
 
-  // array of Bclass instances that are in the association
-  associatedBclasss = new Array<BclassDB>();
+  // array of {{Structname}} instances that are in the association
+  associated{{Structname}}s = new Array<{{Structname}}DB>();
 
   constructor(
-    private bclassService: BclassService,
+    private {{structname}}Service: {{Structname}}Service,
     private frontRepoService: FrontRepoService,
 
-    // not null if the component is called as a selection component of bclass instances
-    public dialogRef: MatDialogRef<BclassSortingComponent>,
+    // not null if the component is called as a selection component of {{structname}} instances
+    public dialogRef: MatDialogRef<{{Structname}}SortingComponent>,
     @Optional() @Inject(MAT_DIALOG_DATA) public dialogData: DialogData,
 
     private router: Router,
@@ -55,34 +55,37 @@ export class BclassSortingComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getBclasss()
+    this.get{{Structname}}s()
   }
 
-  getBclasss(): void {
+  get{{Structname}}s(): void {
     this.frontRepoService.pull().subscribe(
       frontRepo => {
         this.frontRepo = frontRepo
 
         let index = 0
-        for (let bclass of this.frontRepo.Bclasss_array) {
+        for (let {{structname}} of this.frontRepo.{{Structname}}s_array) {
           let ID = this.dialogData.ID
-          let revPointer = bclass[this.dialogData.ReversePointer]
-          if (revPointer.Int64 == ID) {
-            if (bclass.Aclass_AnarrayofbDBID_Index == undefined) {
-              bclass.Aclass_AnarrayofbDBID_Index = new NullInt64
-              bclass.Aclass_AnarrayofbDBID_Index.Valid = true
-              bclass.Aclass_AnarrayofbDBID_Index.Int64 = index++
+          let revPointerID = {{structname}}[this.dialogData.ReversePointer]
+          let revPointerID_Index = {{structname}}[this.dialogData.ReversePointer+"_Index"]
+          if (revPointerID.Int64 == ID) {
+            if (revPointerID_Index == undefined) {
+              revPointerID_Index = new NullInt64
+              revPointerID_Index.Valid = true
+              revPointerID_Index.Int64 = index++
             }
-            this.associatedBclasss.push(bclass)
+            this.associated{{Structname}}s.push({{structname}})
           }
         }
 
-        // sort associated bclass according to order
-        this.associatedBclasss.sort((t1, t2) => {
-          if (t1.Aclass_AnarrayofbDBID_Index.Int64 > t2.Aclass_AnarrayofbDBID_Index.Int64) {
+        // sort associated {{structname}} according to order
+        this.associated{{Structname}}s.sort((t1, t2) => {
+          let t1_revPointerID_Index = t1[this.dialogData.ReversePointer+"_Index"]
+          let t2_revPointerID_Index = t2[this.dialogData.ReversePointer+"_Index"]
+          if (t1_revPointerID_Index.Int64 > t2_revPointerID_Index.Int64) {
             return 1;
           }
-          if (t1.Aclass_AnarrayofbDBID_Index.Int64 < t2.Aclass_AnarrayofbDBID_Index.Int64) {
+          if (t1_revPointerID_Index.Int64 < t2_revPointerID_Index.Int64) {
             return -1;
           }
           return 0;
@@ -94,65 +97,35 @@ export class BclassSortingComponent implements OnInit {
   }
 
   drop(event: CdkDragDrop<string[]>) {
-    moveItemInArray(this.associatedBclasss, event.previousIndex, event.currentIndex);
+    moveItemInArray(this.associated{{Structname}}s, event.previousIndex, event.currentIndex);
 
-    // set the order of Bclass instances
+    // set the order of {{Structname}} instances
     let index = 0
-    for (let bclass of this.associatedBclasss) {
-      bclass.Aclass_AnarrayofbDBID_Index.Valid = true
-      bclass.Aclass_AnarrayofbDBID_Index.Int64 = index++
+    
+    for (let {{structname}} of this.associated{{Structname}}s) {
+      let revPointerID_Index = {{structname}}[this.dialogData.ReversePointer+"_Index"]
+      revPointerID_Index.Valid = true
+      revPointerID_Index.Int64 = index++
     }
     console.log("after drop")
   }
 
   save() {
 
-    this.associatedBclasss.forEach(
-      bclass => {
-        this.bclassService.updateBclass(bclass)
-          .subscribe(bclass => {
-            this.bclassService.BclassServiceChanged.next("update")
-            console.log("bclass saved")
+    this.associated{{Structname}}s.forEach(
+      {{structname}} => {
+        this.{{structname}}Service.update{{Structname}}({{structname}})
+          .subscribe({{structname}} => {
+            this.{{structname}}Service.{{Structname}}ServiceChanged.next("update")
+            console.log("{{structname}} saved")
           });
       }
     )
 
-    this.dialogRef.close('Sorting of Aclass.Anarrayofb done');
+    this.dialogRef.close('Sorting of '+ this.dialogData.ReversePointer+' done');
   }
 }
 `
-
-// insertion points in the main template
-type NgSortingTsInsertionPoint int
-
-const (
-	NgSortingTsInsertionPerStructRecoveries NgSortingTsInsertionPoint = iota
-	NgSortingTsInsertionPerStructColumns
-	NgSortingTsInsertionsNb
-)
-
-type NgSortingSubTemplate int
-
-const (
-	NgSortingTSPerStructTimeDurationRecoveries NgSortingSubTemplate = iota
-
-	NgSortingTSPerStructColumn
-)
-
-var NgSortinglSubTemplateCode map[NgSortingSubTemplate]string = map[NgSortingSubTemplate]string{
-
-	NgSortingTSPerStructTimeDurationRecoveries: `
-        // compute strings for durations
-        for (let {{structname}} of this.{{structname}}s) {
-          {{structname}}.{{FieldName}}_string =
-            Math.floor({{structname}}.{{FieldName}} / (3600 * 1000 * 1000 * 1000)) + "H " +
-            Math.floor({{structname}}.{{FieldName}} % (3600 * 1000 * 1000 * 1000) / (60 * 1000 * 1000 * 1000)) + "M " +
-            {{structname}}.{{FieldName}} % (60 * 1000 * 1000 * 1000) / (1000 * 1000 * 1000) + "S"
-        }`,
-
-	NgSortingTSPerStructColumn: `
-        "{{FieldName}}",`,
-}
 
 // MultiCodeGeneratorNgSorting parses mdlPkg and generates the code for the
 // Sorting component
@@ -193,37 +166,7 @@ func MultiCodeGeneratorNgSorting(
 
 		// generate the typescript file
 		codeTS := NgSortingTemplateTS
-
-		TsInsertions := make(map[NgSortingTsInsertionPoint]string)
-		for insertion := NgSortingTsInsertionPoint(0); insertion < NgSortingTsInsertionsNb; insertion++ {
-			TsInsertions[insertion] = ""
-		}
-
 		codeHTML := NgSortingTemplateHTML
-
-		//
-		// Parse all fields from other structs that points to this struct
-		//
-		for _, __struct := range structList {
-			for _, field := range __struct.Fields {
-				switch field.(type) {
-				case *SliceOfPointerToGongStructField:
-					fieldSliceOfPointerToModel := field.(*SliceOfPointerToGongStructField)
-
-					if fieldSliceOfPointerToModel.GongStruct == _struct {
-
-						TsInsertions[NgSortingTsInsertionPerStructColumns] +=
-							Replace1(NgSortinglSubTemplateCode[NgSortingTSPerStructColumn],
-								"{{FieldName}}", fieldSliceOfPointerToModel.Name)
-					}
-				}
-			}
-		}
-
-		for insertion := NgSortingTsInsertionPoint(0); insertion < NgSortingTsInsertionsNb; insertion++ {
-			toReplace := "{{" + string(rune(insertion)) + "}}"
-			codeTS = strings.ReplaceAll(codeTS, toReplace, TsInsertions[insertion])
-		}
 
 		// final replacement
 		codeTS = Replace6(codeTS,
