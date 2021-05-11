@@ -7,28 +7,28 @@ import { DialogData } from '../front-repo.service'
 import { SelectionModel } from '@angular/cdk/collections';
 
 import { Router, RouterState } from '@angular/router';
-import { BclassDB } from '../bclass-db'
-import { BclassService } from '../bclass.service'
+import { AclassDB } from '../aclass-db'
+import { AclassService } from '../aclass.service'
 
 import { FrontRepoService, FrontRepo, NullInt64 } from '../front-repo.service'
 @Component({
-  selector: 'lib-bclass-sorting',
-  templateUrl: './bclass-sorting.component.html',
-  styleUrls: ['./bclass-sorting.component.css']
+  selector: 'lib-aclass-sorting',
+  templateUrl: './aclass-sorting.component.html',
+  styleUrls: ['./aclass-sorting.component.css']
 })
-export class BclassSortingComponent implements OnInit {
+export class AclassSortingComponent implements OnInit {
 
   frontRepo: FrontRepo
 
-  // array of Bclass instances that are in the association
-  associatedBclasss = new Array<BclassDB>();
+  // array of Aclass instances that are in the association
+  associatedAclasss = new Array<AclassDB>();
 
   constructor(
-    private bclassService: BclassService,
+    private aclassService: AclassService,
     private frontRepoService: FrontRepoService,
 
-    // not null if the component is called as a selection component of bclass instances
-    public dialogRef: MatDialogRef<BclassSortingComponent>,
+    // not null if the component is called as a selection component of aclass instances
+    public dialogRef: MatDialogRef<AclassSortingComponent>,
     @Optional() @Inject(MAT_DIALOG_DATA) public dialogData: DialogData,
 
     private router: Router,
@@ -39,31 +39,31 @@ export class BclassSortingComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getBclasss()
+    this.getAclasss()
   }
 
-  getBclasss(): void {
+  getAclasss(): void {
     this.frontRepoService.pull().subscribe(
       frontRepo => {
         this.frontRepo = frontRepo
 
         let index = 0
-        for (let bclass of this.frontRepo.Bclasss_array) {
+        for (let aclass of this.frontRepo.Aclasss_array) {
           let ID = this.dialogData.ID
-          let revPointerID = bclass[this.dialogData.ReversePointer]
-          let revPointerID_Index = bclass[this.dialogData.ReversePointer+"_Index"]
+          let revPointerID = aclass[this.dialogData.ReversePointer]
+          let revPointerID_Index = aclass[this.dialogData.ReversePointer+"_Index"]
           if (revPointerID.Int64 == ID) {
             if (revPointerID_Index == undefined) {
               revPointerID_Index = new NullInt64
               revPointerID_Index.Valid = true
               revPointerID_Index.Int64 = index++
             }
-            this.associatedBclasss.push(bclass)
+            this.associatedAclasss.push(aclass)
           }
         }
 
-        // sort associated bclass according to order
-        this.associatedBclasss.sort((t1, t2) => {
+        // sort associated aclass according to order
+        this.associatedAclasss.sort((t1, t2) => {
           let t1_revPointerID_Index = t1[this.dialogData.ReversePointer+"_Index"]
           let t2_revPointerID_Index = t2[this.dialogData.ReversePointer+"_Index"]
           if (t1_revPointerID_Index.Int64 > t2_revPointerID_Index.Int64) {
@@ -81,13 +81,13 @@ export class BclassSortingComponent implements OnInit {
   }
 
   drop(event: CdkDragDrop<string[]>) {
-    moveItemInArray(this.associatedBclasss, event.previousIndex, event.currentIndex);
+    moveItemInArray(this.associatedAclasss, event.previousIndex, event.currentIndex);
 
-    // set the order of Bclass instances
+    // set the order of Aclass instances
     let index = 0
     
-    for (let bclass of this.associatedBclasss) {
-      let revPointerID_Index = bclass[this.dialogData.ReversePointer+"_Index"]
+    for (let aclass of this.associatedAclasss) {
+      let revPointerID_Index = aclass[this.dialogData.ReversePointer+"_Index"]
       revPointerID_Index.Valid = true
       revPointerID_Index.Int64 = index++
     }
@@ -96,12 +96,12 @@ export class BclassSortingComponent implements OnInit {
 
   save() {
 
-    this.associatedBclasss.forEach(
-      bclass => {
-        this.bclassService.updateBclass(bclass)
-          .subscribe(bclass => {
-            this.bclassService.BclassServiceChanged.next("update")
-            console.log("bclass saved")
+    this.associatedAclasss.forEach(
+      aclass => {
+        this.aclassService.updateAclass(aclass)
+          .subscribe(aclass => {
+            this.aclassService.AclassServiceChanged.next("update")
+            console.log("aclass saved")
           });
       }
     )

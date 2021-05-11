@@ -94,10 +94,11 @@
             "reAttach": true,
             "url": "http://localhost:4200/",
             "webRoot": "${workspaceFolder}/test/ng",
+            "firefoxExecutable": "C:/Users/peugeot/AppData/Local/Microsoft/AppV/Client/Integration/F8B22858-413B-4241-955C-7CDA2C0B6696/Root/VFS/ProgramFilesX64/Mozilla Firefox/firefox.exe",
             "pathMappings": [
                 {
-                    "url": "webpack:///projects/test/src/lib/bclass-sorting/bclass-sorting.component.ts",
-                    "path": "${workspaceFolder}/test/ng/projects/test/src/lib/bclass-sorting/bclass-sorting.component.ts"
+                    "url": "webpack:///projects",
+                    "path": "${workspaceFolder}/test/ng/projects"
                 }
             ],
             "reloadOnChange": {
