@@ -16,7 +16,7 @@ export class BclassDB {
 
 	// insertion point for other declarations
 	Aclass_AnarrayofbDBID?: NullInt64
-	Aclass_AnarrayofbDBID_Order?: NullInt64 // store the order of the bclass instance in Aclass.Anarrayofb
+	Aclass_AnarrayofbDBID_Index?: NullInt64 // store the order of the bclass instance in Aclass.Anarrayofb
 	Aclass_Anarrayofb_reverse?: AclassDB
 
 	Aclass_AnotherarrayofbDBID?: NullInt64

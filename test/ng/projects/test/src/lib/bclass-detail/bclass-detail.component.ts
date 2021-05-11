@@ -98,7 +98,7 @@ export class BclassDetailComponent implements OnInit {
 				this.bclass.Aclass_AnarrayofbDBID = new NullInt64
 				this.bclass.Aclass_AnarrayofbDBID.Int64 = this.bclass.Aclass_Anarrayofb_reverse.ID
 				this.bclass.Aclass_AnarrayofbDBID.Valid = true
-				this.bclass.Aclass_AnarrayofbDBID_Order.Valid = true
+				this.bclass.Aclass_AnarrayofbDBID_Index.Valid = true
 				this.bclass.Aclass_Anarrayofb_reverse = undefined // very important, otherwise, circular JSON
 			}
 			if (this.bclass.Aclass_Anotherarrayofb_reverse != undefined) {

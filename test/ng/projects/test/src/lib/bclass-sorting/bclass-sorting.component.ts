@@ -51,10 +51,10 @@ export class BclassSortingComponent implements OnInit {
           let ID = this.dialogData.ID
           let revPointer = bclass[this.dialogData.ReversePointer]
           if (revPointer.Int64 == ID) {
-            if (bclass.Aclass_AnarrayofbDBID_Order == undefined) {
-              bclass.Aclass_AnarrayofbDBID_Order = new NullInt64
-              bclass.Aclass_AnarrayofbDBID_Order.Valid = true
-              bclass.Aclass_AnarrayofbDBID_Order.Int64 = index++
+            if (bclass.Aclass_AnarrayofbDBID_Index == undefined) {
+              bclass.Aclass_AnarrayofbDBID_Index = new NullInt64
+              bclass.Aclass_AnarrayofbDBID_Index.Valid = true
+              bclass.Aclass_AnarrayofbDBID_Index.Int64 = index++
             }
             this.associatedBclasss.push(bclass)
           }
@@ -62,10 +62,10 @@ export class BclassSortingComponent implements OnInit {
 
         // sort associated bclass according to order
         this.associatedBclasss.sort((t1, t2) => {
-          if (t1.Aclass_AnarrayofbDBID_Order.Int64 > t2.Aclass_AnarrayofbDBID_Order.Int64) {
+          if (t1.Aclass_AnarrayofbDBID_Index.Int64 > t2.Aclass_AnarrayofbDBID_Index.Int64) {
             return 1;
           }
-          if (t1.Aclass_AnarrayofbDBID_Order.Int64 < t2.Aclass_AnarrayofbDBID_Order.Int64) {
+          if (t1.Aclass_AnarrayofbDBID_Index.Int64 < t2.Aclass_AnarrayofbDBID_Index.Int64) {
             return -1;
           }
           return 0;
@@ -82,8 +82,8 @@ export class BclassSortingComponent implements OnInit {
     // set the order of Bclass instances
     let index = 0
     for (let bclass of this.associatedBclasss) {
-      bclass.Aclass_AnarrayofbDBID_Order.Valid = true
-      bclass.Aclass_AnarrayofbDBID_Order.Int64 = index++
+      bclass.Aclass_AnarrayofbDBID_Index.Valid = true
+      bclass.Aclass_AnarrayofbDBID_Index.Int64 = index++
     }
     console.log("after drop")
   }

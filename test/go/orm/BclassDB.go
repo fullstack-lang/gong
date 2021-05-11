@@ -38,7 +38,7 @@ type BclassAPI struct {
 
 	// Implementation of a reverse ID for field Aclass{}.Anarrayofb []*Bclass
 	Aclass_AnarrayofbDBID       sql.NullInt64
-	Aclass_AnarrayofbDBID_Order sql.NullInt64
+	Aclass_AnarrayofbDBID_Index sql.NullInt64
 
 	// Implementation of a reverse ID for field Aclass{}.Anotherarrayofb []*Bclass
 	Aclass_AnotherarrayofbDBID sql.NullInt64
