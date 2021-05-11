@@ -6,15 +6,18 @@ import (
 	"errors"
 	"fmt"
 	"log"
+	"sort"
 	"time"
 
 	"github.com/jinzhu/gorm"
+
 	"github.com/fullstack-lang/gong/go/models"
 )
 
-// dummy variable to have the import database/sql wihthout compile failure id no sql is used
+// dummy variable to have the import declaration wihthout compile failure (even if no code needing this import is generated)
 var dummy_GongEnum sql.NullBool
 var __GongEnum_time__dummyDeclaration time.Duration
+var dummy_GongEnum_sort sort.Float64Slice
 
 // GongEnumAPI is the input in POST API
 //
@@ -189,10 +192,14 @@ func (backRepoGongEnum *BackRepoGongEnumStruct) CommitPhaseTwoInstance(backRepo 
 
 				// commit a slice of pointer translates to update reverse pointer to GongEnumValue, i.e.
 				for _, gongenumvalue := range gongenum.GongEnumValues {
+					index := 0
 					if gongenumvalueDBID, ok := (*backRepo.BackRepoGongEnumValue.Map_GongEnumValuePtr_GongEnumValueDBID)[gongenumvalue]; ok {
 						if gongenumvalueDB, ok := (*backRepo.BackRepoGongEnumValue.Map_GongEnumValueDBID_GongEnumValueDB)[gongenumvalueDBID]; ok {
 							gongenumvalueDB.GongEnum_GongEnumValuesDBID.Int64 = int64(gongenumDB.ID)
 							gongenumvalueDB.GongEnum_GongEnumValuesDBID.Valid = true
+							gongenumvalueDB.GongEnum_GongEnumValuesDBID_Index.Int64 = int64(index)
+							index = index + 1
+							gongenumvalueDB.GongEnum_GongEnumValuesDBID_Index.Valid = true
 							if q := backRepoGongEnum.db.Save(&gongenumvalueDB); q.Error != nil {
 								return q.Error
 							}
@@ -290,6 +297,17 @@ func (backRepoGongEnum *BackRepoGongEnumStruct) CheckoutPhaseTwoInstance(backRep
 					gongenum.GongEnumValues = append(gongenum.GongEnumValues, GongEnumValue)
 				}
 			}
+			
+			// sort the array according to the order
+			sort.Slice(gongenum.GongEnumValues, func(i, j int) bool {
+				gongenumvalueDB_i_ID := (*backRepo.BackRepoGongEnumValue.Map_GongEnumValuePtr_GongEnumValueDBID)[gongenum.GongEnumValues[i]]
+				gongenumvalueDB_j_ID := (*backRepo.BackRepoGongEnumValue.Map_GongEnumValuePtr_GongEnumValueDBID)[gongenum.GongEnumValues[j]]
+
+				gongenumvalueDB_i := (*backRepo.BackRepoGongEnumValue.Map_GongEnumValueDBID_GongEnumValueDB)[gongenumvalueDB_i_ID]
+				gongenumvalueDB_j := (*backRepo.BackRepoGongEnumValue.Map_GongEnumValueDBID_GongEnumValueDB)[gongenumvalueDB_j_ID]
+
+				return gongenumvalueDB_i.GongEnum_GongEnumValuesDBID_Index.Int64 < gongenumvalueDB_j.GongEnum_GongEnumValuesDBID_Index.Int64
+			})
 
 		}
 	}
