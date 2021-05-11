@@ -24,6 +24,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatTreeModule } from '@angular/material/tree';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 import { AngularSplitModule, SplitComponent } from 'angular-split';
 
@@ -66,6 +67,7 @@ import { SidebarComponent } from './sidebar/sidebar.component';
 		MatDialogModule,
 		MatGridListModule,
 		MatTreeModule,
+		DragDropModule,
 
 		AngularSplitModule,
 	],
@@ -98,12 +100,14 @@ map[string]string{
 
 	string(NgLibModuleImports): `
 import { {{Structname}}sTableComponent } from './{{structname}}s-table/{{structname}}s-table.component'
+import { {{Structname}}SortingComponent } from './{{structname}}-sorting/{{structname}}-sorting.component'
 import { {{Structname}}DetailComponent } from './{{structname}}-detail/{{structname}}-detail.component'
 import { {{Structname}}PresentationComponent } from './{{structname}}-presentation/{{structname}}-presentation.component'
 `,
 
 	string(NgLibModuleDeclarations): `
 		{{Structname}}sTableComponent,
+		{{Structname}}SortingComponent,
 		{{Structname}}DetailComponent,
 		{{Structname}}PresentationComponent,
 `,

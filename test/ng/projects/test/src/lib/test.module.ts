@@ -33,30 +33,32 @@ import { SidebarComponent } from './sidebar/sidebar.component';
 
 // insertion point for imports 
 import { AclasssTableComponent } from './aclasss-table/aclasss-table.component'
+import { AclassSortingComponent } from './aclass-sorting/aclass-sorting.component'
 import { AclassDetailComponent } from './aclass-detail/aclass-detail.component'
 import { AclassPresentationComponent } from './aclass-presentation/aclass-presentation.component'
 
 import { BclasssTableComponent } from './bclasss-table/bclasss-table.component'
-import { BclassDetailComponent } from './bclass-detail/bclass-detail.component'
-import { BclassPresentationComponent } from './bclass-presentation/bclass-presentation.component';
 import { BclassSortingComponent } from './bclass-sorting/bclass-sorting.component'
+import { BclassDetailComponent } from './bclass-detail/bclass-detail.component'
+import { BclassPresentationComponent } from './bclass-presentation/bclass-presentation.component'
 
 
 @NgModule({
 	declarations: [
 		// insertion point for declarations 
 		AclasssTableComponent,
+		AclassSortingComponent,
 		AclassDetailComponent,
 		AclassPresentationComponent,
 
 		BclasssTableComponent,
+		BclassSortingComponent,
 		BclassDetailComponent,
 		BclassPresentationComponent,
 
 
 		SplitterComponent,
-		SidebarComponent,
-  BclassSortingComponent
+		SidebarComponent
 	],
 	imports: [
 		FormsModule,
@@ -90,10 +92,12 @@ import { BclassSortingComponent } from './bclass-sorting/bclass-sorting.componen
 	exports: [
 		// insertion point for declarations 
 		AclasssTableComponent,
+		AclassSortingComponent,
 		AclassDetailComponent,
 		AclassPresentationComponent,
 
 		BclasssTableComponent,
+		BclassSortingComponent,
 		BclassDetailComponent,
 		BclassPresentationComponent,
 
