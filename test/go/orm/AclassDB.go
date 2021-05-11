@@ -6,6 +6,7 @@ import (
 	"errors"
 	"fmt"
 	"log"
+	"sort"
 	"time"
 
 	"github.com/fullstack-lang/gong/test/go/models"
@@ -295,9 +296,9 @@ func (backRepoAclass *BackRepoAclassStruct) CommitPhaseTwoInstance(backRepo *Bac
 						if bclassDB, ok := (*backRepo.BackRepoBclass.Map_BclassDBID_BclassDB)[bclassDBID]; ok {
 							bclassDB.Aclass_AnarrayofbDBID.Int64 = int64(aclassDB.ID)
 							bclassDB.Aclass_AnarrayofbDBID.Valid = true
-							bclassDB.Aclass_AnarrayofbDBID_Order.Int64 = int64(index)
+							bclassDB.Aclass_AnarrayofbDBID_Index.Int64 = int64(index)
 							index = index + 1
-							bclassDB.Aclass_AnarrayofbDBID_Order.Valid = true
+							bclassDB.Aclass_AnarrayofbDBID_Index.Valid = true
 							if q := backRepoAclass.db.Save(&bclassDB); q.Error != nil {
 								return q.Error
 							}
@@ -451,6 +452,17 @@ func (backRepoAclass *BackRepoAclassStruct) CheckoutPhaseTwoInstance(backRepo *B
 					aclass.Anarrayofb = append(aclass.Anarrayofb, Bclass)
 				}
 			}
+
+			// sort the array according to the order
+			sort.Slice(aclass.Anarrayofb, func(i, j int) bool {
+				bclassDB_i_ID := (*backRepo.BackRepoBclass.Map_BclassPtr_BclassDBID)[aclass.Anarrayofb[i]]
+				bclassDB_j_ID := (*backRepo.BackRepoBclass.Map_BclassPtr_BclassDBID)[aclass.Anarrayofb[j]]
+
+				bclassDB_i := (*backRepo.BackRepoBclass.Map_BclassDBID_BclassDB)[bclassDB_i_ID]
+				bclassDB_j := (*backRepo.BackRepoBclass.Map_BclassDBID_BclassDB)[bclassDB_j_ID]
+
+				return bclassDB_i.Aclass_AnarrayofbDBID_Index.Int64 < bclassDB_j.Aclass_AnarrayofbDBID_Index.Int64
+			})
 
 			// parse all BclassDB and redeem the array of poiners to Aclass
 			// first reset the slice
