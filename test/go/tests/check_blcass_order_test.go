@@ -43,8 +43,10 @@ func TestBclassOrder(t *testing.T) {
 	models.Stage.Checkout()
 
 	// get the aclass instance with name "A1_1"
+	var aclass_A1_1 *models.Aclass
 	for aclass := range models.Stage.Aclasss {
 		if aclass.Name == "A1_1" {
+			aclass_A1_1 = aclass
 			log.Println("found A1_1")
 
 			for _, bclass := range aclass.Anarrayofb {
@@ -52,6 +54,12 @@ func TestBclassOrder(t *testing.T) {
 			}
 		}
 	}
+
+	// make a permutation of
+	tmp := aclass_A1_1.Anarrayofb[2]
+	aclass_A1_1.Anarrayofb[2] = aclass_A1_1.Anarrayofb[3]
+	aclass_A1_1.Anarrayofb[3] = tmp
+	models.Stage.Commit()
 
 	db.Close()
 }
