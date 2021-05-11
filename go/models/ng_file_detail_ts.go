@@ -25,6 +25,7 @@ import { {{Structname}}Service } from '../{{structname}}.service'
 
 import { FrontRepoService, FrontRepo } from '../front-repo.service'
 import { MapOfComponents } from '../map-components'
+import { MapOfSortingComponents } from '../map-components'
 
 // insertion point for imports{{` + string(rune(NgDetailTsInsertionPerStructImports)) + `}}
 
@@ -150,10 +151,34 @@ export class {{Structname}}DetailComponent implements OnInit {
 		dialogConfig.data = {
 			ID: this.{{structname}}.ID,
 			ReversePointer: reverseField,
+			OrderingMode: false,
 		};
 		const dialogRef: MatDialogRef<string, any> = this.dialog.open(
 			MapOfComponents.get(AssociatedStruct).get(
 				AssociatedStruct + 'sTableComponent'
+			),
+			dialogConfig
+		);
+
+		dialogRef.afterClosed().subscribe(result => {
+			console.log('The dialog was closed');
+		});
+	}
+
+	openDragAndDropOrdering(AssociatedStruct: string, reverseField: string) {
+
+		const dialogConfig = new MatDialogConfig();
+
+		// dialogConfig.disableClose = true;
+		dialogConfig.autoFocus = true;
+		dialogConfig.data = {
+			ID: this.{{structname}}.ID,
+			ReversePointer: reverseField,
+			OrderingMode: true,
+		};
+		const dialogRef: MatDialogRef<string, any> = this.dialog.open(
+			MapOfSortingComponents.get(AssociatedStruct).get(
+				AssociatedStruct + 'SortingComponent'
 			),
 			dialogConfig
 		);
@@ -252,6 +277,7 @@ import { {{EnumName}}Select, {{EnumName}}List } from '../{{EnumName}}'`,
 					this.{{structname}}.{{AssocStructName}}_{{FieldName}}DBID = new NullInt64
 					this.{{structname}}.{{AssocStructName}}_{{FieldName}}DBID.Int64 = id
 					this.{{structname}}.{{AssocStructName}}_{{FieldName}}DBID.Valid = true
+					this.{{structname}}.{{AssocStructName}}_{{FieldName}}DBID_Index.Valid = true
 					break`,
 
 	NgDetailTSReversePointerToSliceOfGongStructSavesWhenUpdate: `
@@ -259,6 +285,7 @@ import { {{EnumName}}Select, {{EnumName}}List } from '../{{EnumName}}'`,
 				this.{{structname}}.{{AssocStructName}}_{{FieldName}}DBID = new NullInt64
 				this.{{structname}}.{{AssocStructName}}_{{FieldName}}DBID.Int64 = this.{{structname}}.{{AssocStructName}}_{{FieldName}}_reverse.ID
 				this.{{structname}}.{{AssocStructName}}_{{FieldName}}DBID.Valid = true
+				this.{{structname}}.{{AssocStructName}}_{{FieldName}}DBID_Index.Valid = true
 				this.{{structname}}.{{AssocStructName}}_{{FieldName}}_reverse = undefined // very important, otherwise, circular JSON
 			}`,
 }

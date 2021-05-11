@@ -7,6 +7,7 @@ import { BclassService } from '../bclass.service'
 
 import { FrontRepoService, FrontRepo } from '../front-repo.service'
 import { MapOfComponents } from '../map-components'
+import { MapOfSortingComponents } from '../map-components'
 
 // insertion point for imports
 
@@ -88,9 +89,9 @@ export class BclassDetailComponent implements OnInit {
 
 		// some fields needs to be translated into serializable forms
 		// pointers fields, after the translation, are nulled in order to perform serialization
-
+		
 		// insertion point for translation/nullation of each field
-
+		
 		// save from the front pointer space to the non pointer space for serialization
 		if (association == undefined) {
 			// insertion point for translation/nullation of each pointers
@@ -105,6 +106,7 @@ export class BclassDetailComponent implements OnInit {
 				this.bclass.Aclass_AnotherarrayofbDBID = new NullInt64
 				this.bclass.Aclass_AnotherarrayofbDBID.Int64 = this.bclass.Aclass_Anotherarrayofb_reverse.ID
 				this.bclass.Aclass_AnotherarrayofbDBID.Valid = true
+				this.bclass.Aclass_AnotherarrayofbDBID_Index.Valid = true
 				this.bclass.Aclass_Anotherarrayofb_reverse = undefined // very important, otherwise, circular JSON
 			}
 		}
@@ -124,11 +126,13 @@ export class BclassDetailComponent implements OnInit {
 					this.bclass.Aclass_AnarrayofbDBID = new NullInt64
 					this.bclass.Aclass_AnarrayofbDBID.Int64 = id
 					this.bclass.Aclass_AnarrayofbDBID.Valid = true
+					this.bclass.Aclass_AnarrayofbDBID_Index.Valid = true
 					break
 				case "Aclass_Anotherarrayofb":
 					this.bclass.Aclass_AnotherarrayofbDBID = new NullInt64
 					this.bclass.Aclass_AnotherarrayofbDBID.Int64 = id
 					this.bclass.Aclass_AnotherarrayofbDBID.Valid = true
+					this.bclass.Aclass_AnotherarrayofbDBID_Index.Valid = true
 					break
 			}
 			this.bclassService.postBclass(this.bclass).subscribe(bclass => {
@@ -150,13 +154,39 @@ export class BclassDetailComponent implements OnInit {
 
 		// dialogConfig.disableClose = true;
 		dialogConfig.autoFocus = true;
+		dialogConfig.width = "50%"
+		dialogConfig.height = "50%"
 		dialogConfig.data = {
 			ID: this.bclass.ID,
 			ReversePointer: reverseField,
+			OrderingMode: false,
 		};
 		const dialogRef: MatDialogRef<string, any> = this.dialog.open(
 			MapOfComponents.get(AssociatedStruct).get(
 				AssociatedStruct + 'sTableComponent'
+			),
+			dialogConfig
+		);
+
+		dialogRef.afterClosed().subscribe(result => {
+			console.log('The dialog was closed');
+		});
+	}
+
+	openDragAndDropOrdering(AssociatedStruct: string, reverseField: string) {
+
+		const dialogConfig = new MatDialogConfig();
+
+		// dialogConfig.disableClose = true;
+		dialogConfig.autoFocus = true;
+		dialogConfig.data = {
+			ID: this.bclass.ID,
+			ReversePointer: reverseField,
+			OrderingMode: true,
+		};
+		const dialogRef: MatDialogRef<string, any> = this.dialog.open(
+			MapOfSortingComponents.get(AssociatedStruct).get(
+				AssociatedStruct + 'SortingComponent'
 			),
 			dialogConfig
 		);

@@ -146,6 +146,7 @@ export class AclassDetailComponent implements OnInit {
 				this.aclass.Aclass_AnarrayofaDBID = new NullInt64
 				this.aclass.Aclass_AnarrayofaDBID.Int64 = this.aclass.Aclass_Anarrayofa_reverse.ID
 				this.aclass.Aclass_AnarrayofaDBID.Valid = true
+				this.aclass.Aclass_AnarrayofaDBID_Index.Valid = true
 				this.aclass.Aclass_Anarrayofa_reverse = undefined // very important, otherwise, circular JSON
 			}
 		}
@@ -165,6 +166,7 @@ export class AclassDetailComponent implements OnInit {
 					this.aclass.Aclass_AnarrayofaDBID = new NullInt64
 					this.aclass.Aclass_AnarrayofaDBID.Int64 = id
 					this.aclass.Aclass_AnarrayofaDBID.Valid = true
+					this.aclass.Aclass_AnarrayofaDBID_Index.Valid = true
 					break
 			}
 			this.aclassService.postAclass(this.aclass).subscribe(aclass => {
@@ -186,6 +188,8 @@ export class AclassDetailComponent implements OnInit {
 
 		// dialogConfig.disableClose = true;
 		dialogConfig.autoFocus = true;
+		dialogConfig.width = "50%"
+		dialogConfig.height = "50%"
 		dialogConfig.data = {
 			ID: this.aclass.ID,
 			ReversePointer: reverseField,
