@@ -66,11 +66,13 @@ export class AclassSortingComponent implements OnInit {
         this.associatedAclasss.sort((t1, t2) => {
           let t1_revPointerID_Index = t1[this.dialogData.ReversePointer+"_Index"]
           let t2_revPointerID_Index = t2[this.dialogData.ReversePointer+"_Index"]
-          if (t1_revPointerID_Index.Int64 > t2_revPointerID_Index.Int64) {
-            return 1;
-          }
-          if (t1_revPointerID_Index.Int64 < t2_revPointerID_Index.Int64) {
-            return -1;
+          if (t1_revPointerID_Index && t2_revPointerID_Index) {
+            if (t1_revPointerID_Index.Int64 > t2_revPointerID_Index.Int64) {
+              return 1;
+            }
+            if (t1_revPointerID_Index.Int64 < t2_revPointerID_Index.Int64) {
+              return -1;
+            }  
           }
           return 0;
         });
