@@ -33,6 +33,13 @@ type StageStruct struct { // insertion point for definition of arrays registerin
 	AllModelsStructDeleteCallback AllModelsStructDeleteInterface
 
 	BackRepo BackRepoInterface
+	
+	// if set will be called before each commit to the back repo
+	OnInitCommitCallback OnInitCommitInterface
+}
+
+type OnInitCommitInterface interface {
+	BeforeCommit(stage *StageStruct)
 }
 
 type BackRepoInterface interface {
