@@ -37,6 +37,7 @@ export class NullInt64 {
 export interface DialogData {
   ID: number; // ID of the calling instance
   ReversePointer: string; // field of {{Structname}} that serve as reverse pointer
+  OrderingMode: boolean; // if true, this is for ordering items
 }
 
 //
