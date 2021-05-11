@@ -82,6 +82,7 @@ import { {{AssocStructName}}DB } from './{{assocStructName}}-db'`,
 
 	NgClassTSSliceOfPtrToGongStructReverseID: `
 	{{AssocStructName}}_{{FieldName}}DBID?: NullInt64
+	{{AssocStructName}}_{{FieldName}}DBID_Index?: NullInt64 // store the index of the {{structname}} instance in {{AssocStructName}}.{{FieldName}}
 	{{AssocStructName}}_{{FieldName}}_reverse?: {{AssocStructName}}DB
 `,
 
