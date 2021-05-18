@@ -443,14 +443,14 @@ var BackRepoFieldSubTemplateCode map[BackRepoPerStructSubTemplate]string = map[B
 
 	BackRepoCommitNewSliceOfPointerToStructField: `
 				// commit a slice of pointer translates to update reverse pointer to {{AssociationStructName}}, i.e.
+				index_{{FieldName}} := 0
 				for _, {{associationStructName}} := range {{structname}}.{{FieldName}} {
-					index := 0
 					if {{associationStructName}}DBID, ok := (*backRepo.BackRepo{{AssociationStructName}}.Map_{{AssociationStructName}}Ptr_{{AssociationStructName}}DBID)[{{associationStructName}}]; ok {
 						if {{associationStructName}}DB, ok := (*backRepo.BackRepo{{AssociationStructName}}.Map_{{AssociationStructName}}DBID_{{AssociationStructName}}DB)[{{associationStructName}}DBID]; ok {
 							{{associationStructName}}DB.{{Structname}}_{{FieldName}}DBID.Int64 = int64({{structname}}DB.ID)
 							{{associationStructName}}DB.{{Structname}}_{{FieldName}}DBID.Valid = true
-							{{associationStructName}}DB.{{Structname}}_{{FieldName}}DBID_Index.Int64 = int64(index)
-							index = index + 1
+							{{associationStructName}}DB.{{Structname}}_{{FieldName}}DBID_Index.Int64 = int64(index_{{FieldName}})
+							index_{{FieldName}} = index_{{FieldName}} + 1
 							{{associationStructName}}DB.{{Structname}}_{{FieldName}}DBID_Index.Valid = true
 							if q := backRepo{{Structname}}.db.Save(&{{associationStructName}}DB); q.Error != nil {
 								return q.Error
