@@ -20,10 +20,25 @@
             "group": "build"
         },
         {
+            "label": "04 - go run test2",
+            "type": "shell",
+            "command": "cd test2; go run main.go",
+            "group": "build"
+        },
+        {
             "label": "03 - ng serve test",
             "type": "shell",
             "options": {
                 "cwd": "test/ng"
+            },
+            "command": "ng serve",
+            "group": "build"
+        },
+        {
+            "label": "03 - ng serve test2",
+            "type": "shell",
+            "options": {
+                "cwd": "test2/ng"
             },
             "command": "ng serve",
             "group": "build"
