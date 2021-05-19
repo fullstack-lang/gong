@@ -1,0 +1,57 @@
+h1 {
+    font-size: 20px !important;
+    margin: 0;
+}
+
+h1::first-letter {
+    text-transform: uppercase;
+}
+
+/* Override Material UI font-size */
+* {
+    font-size: 15px !important;
+}
+
+/*
+===================
+===== DETAILS =====
+===================
+*/
+.details {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}
+
+.details__title {
+    padding: 10px 0;
+    background: #ffffff;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+}
+
+.details__item {
+    padding: 2.5px 5px;
+}
+
+.details__save {
+    position: sticky;
+    bottom: 5px;
+    margin-top: 15px;
+}
+
+.details_hours_width {
+    min-width: 150px;
+    max-width: 150px;
+}
+
+.details_minutes_width {
+    min-width: 100px;
+    max-width: 100px;
+}
+
+.details_seconds_width {
+    min-width: 100px;
+    max-width: 100px;
+}
