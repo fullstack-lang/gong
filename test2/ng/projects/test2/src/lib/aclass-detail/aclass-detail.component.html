@@ -81,9 +81,23 @@
             </mat-grid-tile>
         </mat-grid-list>
     </div>
-    <div class="details__item">
-        <button mat-raised-button (click)="openReverseSelection('Aclass', 'Aclass_AnarrayofaDBID')">Anarrayofa</button>
-    </div>
+    <mat-grid-list cols="2" rowHeight="6:1">
+        <mat-grid-tile>
+            <div style="width: 100vw; text-align: right;">
+                <button mat-raised-button
+                    (click)="openReverseSelection('Aclass', 'Aclass_AnarrayofaDBID')">Anarrayofa</button>
+            </div>
+        </mat-grid-tile>
+        <mat-grid-tile>
+            <div style="width: 100vw; text-align: left;">
+                <button mat-raised-button (click)="openDragAndDropOrdering('Aclass', 'Aclass_AnarrayofaDBID')">
+                    <mat-icon>
+                        shuffle
+                    </mat-icon>
+                </button>
+            </div>
+        </mat-grid-tile>
+    </mat-grid-list>
     <div class="details__item">
     <mat-form-field>
         <mat-label><- Anarrayofa</mat-label>
