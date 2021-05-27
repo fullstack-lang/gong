@@ -92,8 +92,6 @@ export class {{Structname}}SortingComponent implements OnInit {
           }
           return 0;
         });
-
-        console.log("front repo pull returned")
       }
     )
   }
@@ -109,7 +107,6 @@ export class {{Structname}}SortingComponent implements OnInit {
       revPointerID_Index.Valid = true
       revPointerID_Index.Int64 = index++
     }
-    console.log("after drop")
   }
 
   save() {
@@ -119,7 +116,6 @@ export class {{Structname}}SortingComponent implements OnInit {
         this.{{structname}}Service.update{{Structname}}({{structname}})
           .subscribe({{structname}} => {
             this.{{structname}}Service.{{Structname}}ServiceChanged.next("update")
-            console.log("{{structname}} saved")
           });
       }
     )

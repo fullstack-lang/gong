@@ -104,7 +104,6 @@ export class BclasssTableComponent implements OnInit {
     this.frontRepoService.pull().subscribe(
       frontRepo => {
         this.frontRepo = frontRepo
-        console.log("front repo pull returned")
 
         this.bclasss = this.frontRepo.Bclasss_array;
 
@@ -142,8 +141,6 @@ export class BclasssTableComponent implements OnInit {
     this.bclassService.deleteBclass(bclassID).subscribe(
       bclass => {
         this.bclassService.BclassServiceChanged.next("delete")
-
-        console.log("bclass deleted")
       }
     );
   }
@@ -205,7 +202,6 @@ export class BclasssTableComponent implements OnInit {
     // from selection, set bclass that belong to bclass through Anarrayofb
     this.selection.selected.forEach(
       bclass => {
-        console.log("selection ID " + bclass.ID)
         let ID = +this.dialogData.ID
         bclass[this.dialogData.ReversePointer].Int64 = ID
         bclass[this.dialogData.ReversePointer].Valid = true
@@ -219,7 +215,6 @@ export class BclasssTableComponent implements OnInit {
         this.bclassService.updateBclass(bclass)
           .subscribe(bclass => {
             this.bclassService.BclassServiceChanged.next("update")
-            console.log("bclass saved")
           });
       }
     )

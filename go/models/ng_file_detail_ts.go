@@ -81,8 +81,6 @@ export class {{Structname}}DetailComponent implements OnInit {
 		this.frontRepoService.pull().subscribe(
 			frontRepo => {
 				this.frontRepo = frontRepo
-				console.log("front repo {{Structname}}Pull returned")
-
 				if (id != 0 && association == undefined) {
 					this.{{structname}} = frontRepo.{{Structname}}s.get(id)
 				} else {
@@ -115,8 +113,6 @@ export class {{Structname}}DetailComponent implements OnInit {
 			this.{{structname}}Service.update{{Structname}}(this.{{structname}})
 				.subscribe({{structname}} => {
 					this.{{structname}}Service.{{Structname}}ServiceChanged.next("update")
-
-					console.log("{{structname}} saved")
 				});
 		} else {
 			switch (association) {
@@ -127,7 +123,6 @@ export class {{Structname}}DetailComponent implements OnInit {
 				this.{{structname}}Service.{{Structname}}ServiceChanged.next("post")
 
 				this.{{structname}} = {} // reset fields
-				console.log("{{structname}} added")
 			});
 		}
 	}
@@ -156,7 +151,6 @@ export class {{Structname}}DetailComponent implements OnInit {
 		);
 
 		dialogRef.afterClosed().subscribe(result => {
-			console.log('The dialog was closed');
 		});
 	}
 
@@ -179,7 +173,6 @@ export class {{Structname}}DetailComponent implements OnInit {
 		);
 
 		dialogRef.afterClosed().subscribe(result => {
-			console.log('The dialog was closed');
 		});
 	}
 }

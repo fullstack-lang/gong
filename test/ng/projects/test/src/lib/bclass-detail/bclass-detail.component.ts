@@ -63,8 +63,6 @@ export class BclassDetailComponent implements OnInit {
 		this.frontRepoService.pull().subscribe(
 			frontRepo => {
 				this.frontRepo = frontRepo
-				console.log("front repo BclassPull returned")
-
 				if (id != 0 && association == undefined) {
 					this.bclass = frontRepo.Bclasss.get(id)
 				} else {
@@ -113,8 +111,6 @@ export class BclassDetailComponent implements OnInit {
 			this.bclassService.updateBclass(this.bclass)
 				.subscribe(bclass => {
 					this.bclassService.BclassServiceChanged.next("update")
-
-					console.log("bclass saved")
 				});
 		} else {
 			switch (association) {
@@ -139,7 +135,6 @@ export class BclassDetailComponent implements OnInit {
 				this.bclassService.BclassServiceChanged.next("post")
 
 				this.bclass = {} // reset fields
-				console.log("bclass added")
 			});
 		}
 	}
@@ -168,7 +163,6 @@ export class BclassDetailComponent implements OnInit {
 		);
 
 		dialogRef.afterClosed().subscribe(result => {
-			console.log('The dialog was closed');
 		});
 	}
 
@@ -191,7 +185,6 @@ export class BclassDetailComponent implements OnInit {
 		);
 
 		dialogRef.afterClosed().subscribe(result => {
-			console.log('The dialog was closed');
 		});
 	}
 }
