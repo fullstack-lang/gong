@@ -74,8 +74,6 @@ export class AclassDetailComponent implements OnInit {
 		this.frontRepoService.pull().subscribe(
 			frontRepo => {
 				this.frontRepo = frontRepo
-				console.log("front repo AclassPull returned")
-
 				if (id != 0 && association == undefined) {
 					this.aclass = frontRepo.Aclasss.get(id)
 				} else {
@@ -152,8 +150,6 @@ export class AclassDetailComponent implements OnInit {
 			this.aclassService.updateAclass(this.aclass)
 				.subscribe(aclass => {
 					this.aclassService.AclassServiceChanged.next("update")
-
-					console.log("aclass saved")
 				});
 		} else {
 			switch (association) {
@@ -171,7 +167,6 @@ export class AclassDetailComponent implements OnInit {
 				this.aclassService.AclassServiceChanged.next("post")
 
 				this.aclass = {} // reset fields
-				console.log("aclass added")
 			});
 		}
 	}
@@ -200,7 +195,6 @@ export class AclassDetailComponent implements OnInit {
 		);
 
 		dialogRef.afterClosed().subscribe(result => {
-			console.log('The dialog was closed');
 		});
 	}
 
@@ -223,7 +217,6 @@ export class AclassDetailComponent implements OnInit {
 		);
 
 		dialogRef.afterClosed().subscribe(result => {
-			console.log('The dialog was closed');
 		});
 	}
 }

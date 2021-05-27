@@ -111,7 +111,6 @@ export class {{Structname}}sTableComponent implements OnInit {
     this.frontRepoService.pull().subscribe(
       frontRepo => {
         this.frontRepo = frontRepo
-        console.log("front repo pull returned")
 
         this.{{structname}}s = this.frontRepo.{{Structname}}s_array;
 
@@ -149,8 +148,6 @@ export class {{Structname}}sTableComponent implements OnInit {
     this.{{structname}}Service.delete{{Structname}}({{structname}}ID).subscribe(
       {{structname}} => {
         this.{{structname}}Service.{{Structname}}ServiceChanged.next("delete")
-
-        console.log("{{structname}} deleted")
       }
     );
   }
@@ -212,7 +209,6 @@ export class {{Structname}}sTableComponent implements OnInit {
     // from selection, set {{structname}} that belong to {{structname}} through Anarrayofb
     this.selection.selected.forEach(
       {{structname}} => {
-        console.log("selection ID " + {{structname}}.ID)
         let ID = +this.dialogData.ID
         {{structname}}[this.dialogData.ReversePointer].Int64 = ID
         {{structname}}[this.dialogData.ReversePointer].Valid = true
@@ -226,7 +222,6 @@ export class {{Structname}}sTableComponent implements OnInit {
         this.{{structname}}Service.update{{Structname}}({{structname}})
           .subscribe({{structname}} => {
             this.{{structname}}Service.{{Structname}}ServiceChanged.next("update")
-            console.log("{{structname}} saved")
           });
       }
     )
