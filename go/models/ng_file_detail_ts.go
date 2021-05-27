@@ -272,6 +272,7 @@ import { {{EnumName}}Select, {{EnumName}}List } from '../{{EnumName}}'`,
 					this.{{structname}}.{{AssocStructName}}_{{FieldName}}DBID = new NullInt64
 					this.{{structname}}.{{AssocStructName}}_{{FieldName}}DBID.Int64 = id
 					this.{{structname}}.{{AssocStructName}}_{{FieldName}}DBID.Valid = true
+					this.{{structname}}.{{AssocStructName}}_{{FieldName}}DBID_Index = new NullInt64
 					this.{{structname}}.{{AssocStructName}}_{{FieldName}}DBID_Index.Valid = true
 					break`,
 
@@ -280,6 +281,7 @@ import { {{EnumName}}Select, {{EnumName}}List } from '../{{EnumName}}'`,
 				this.{{structname}}.{{AssocStructName}}_{{FieldName}}DBID = new NullInt64
 				this.{{structname}}.{{AssocStructName}}_{{FieldName}}DBID.Int64 = this.{{structname}}.{{AssocStructName}}_{{FieldName}}_reverse.ID
 				this.{{structname}}.{{AssocStructName}}_{{FieldName}}DBID.Valid = true
+				this.{{structname}}.{{AssocStructName}}_{{FieldName}}DBID_Index = new NullInt64
 				this.{{structname}}.{{AssocStructName}}_{{FieldName}}DBID_Index.Valid = true
 				this.{{structname}}.{{AssocStructName}}_{{FieldName}}_reverse = undefined // very important, otherwise, circular JSON
 			}`,

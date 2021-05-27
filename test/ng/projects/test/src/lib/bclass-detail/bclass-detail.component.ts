@@ -94,6 +94,7 @@ export class BclassDetailComponent implements OnInit {
 				this.bclass.Aclass_AnarrayofbDBID = new NullInt64
 				this.bclass.Aclass_AnarrayofbDBID.Int64 = this.bclass.Aclass_Anarrayofb_reverse.ID
 				this.bclass.Aclass_AnarrayofbDBID.Valid = true
+				this.bclass.Aclass_AnarrayofbDBID_Index = new NullInt64
 				this.bclass.Aclass_AnarrayofbDBID_Index.Valid = true
 				this.bclass.Aclass_Anarrayofb_reverse = undefined // very important, otherwise, circular JSON
 			}
@@ -101,6 +102,7 @@ export class BclassDetailComponent implements OnInit {
 				this.bclass.Aclass_AnotherarrayofbDBID = new NullInt64
 				this.bclass.Aclass_AnotherarrayofbDBID.Int64 = this.bclass.Aclass_Anotherarrayofb_reverse.ID
 				this.bclass.Aclass_AnotherarrayofbDBID.Valid = true
+				this.bclass.Aclass_AnotherarrayofbDBID_Index = new NullInt64
 				this.bclass.Aclass_AnotherarrayofbDBID_Index.Valid = true
 				this.bclass.Aclass_Anotherarrayofb_reverse = undefined // very important, otherwise, circular JSON
 			}
@@ -121,12 +123,14 @@ export class BclassDetailComponent implements OnInit {
 					this.bclass.Aclass_AnarrayofbDBID = new NullInt64
 					this.bclass.Aclass_AnarrayofbDBID.Int64 = id
 					this.bclass.Aclass_AnarrayofbDBID.Valid = true
+					this.bclass.Aclass_AnarrayofbDBID_Index = new NullInt64
 					this.bclass.Aclass_AnarrayofbDBID_Index.Valid = true
 					break
 				case "Aclass_Anotherarrayofb":
 					this.bclass.Aclass_AnotherarrayofbDBID = new NullInt64
 					this.bclass.Aclass_AnotherarrayofbDBID.Int64 = id
 					this.bclass.Aclass_AnotherarrayofbDBID.Valid = true
+					this.bclass.Aclass_AnotherarrayofbDBID_Index = new NullInt64
 					this.bclass.Aclass_AnotherarrayofbDBID_Index.Valid = true
 					break
 			}
