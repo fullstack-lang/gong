@@ -124,7 +124,6 @@ export class AclasssTableComponent implements OnInit {
     this.frontRepoService.pull().subscribe(
       frontRepo => {
         this.frontRepo = frontRepo
-        console.log("front repo pull returned")
 
         this.aclasss = this.frontRepo.Aclasss_array;
 
@@ -169,8 +168,6 @@ export class AclasssTableComponent implements OnInit {
     this.aclassService.deleteAclass(aclassID).subscribe(
       aclass => {
         this.aclassService.AclassServiceChanged.next("delete")
-
-        console.log("aclass deleted")
       }
     );
   }
@@ -232,7 +229,6 @@ export class AclasssTableComponent implements OnInit {
     // from selection, set aclass that belong to aclass through Anarrayofb
     this.selection.selected.forEach(
       aclass => {
-        console.log("selection ID " + aclass.ID)
         let ID = +this.dialogData.ID
         aclass[this.dialogData.ReversePointer].Int64 = ID
         aclass[this.dialogData.ReversePointer].Valid = true
@@ -246,7 +242,6 @@ export class AclasssTableComponent implements OnInit {
         this.aclassService.updateAclass(aclass)
           .subscribe(aclass => {
             this.aclassService.AclassServiceChanged.next("update")
-            console.log("aclass saved")
           });
       }
     )
