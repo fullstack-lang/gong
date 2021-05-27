@@ -141,6 +141,7 @@ export class AclassDetailComponent implements OnInit {
 				this.aclass.Aclass_AnarrayofaDBID = new NullInt64
 				this.aclass.Aclass_AnarrayofaDBID.Int64 = this.aclass.Aclass_Anarrayofa_reverse.ID
 				this.aclass.Aclass_AnarrayofaDBID.Valid = true
+				this.aclass.Aclass_AnarrayofaDBID_Index = new NullInt64
 				this.aclass.Aclass_AnarrayofaDBID_Index.Valid = true
 				this.aclass.Aclass_Anarrayofa_reverse = undefined // very important, otherwise, circular JSON
 			}
@@ -161,6 +162,7 @@ export class AclassDetailComponent implements OnInit {
 					this.aclass.Aclass_AnarrayofaDBID = new NullInt64
 					this.aclass.Aclass_AnarrayofaDBID.Int64 = id
 					this.aclass.Aclass_AnarrayofaDBID.Valid = true
+					this.aclass.Aclass_AnarrayofaDBID_Index = new NullInt64
 					this.aclass.Aclass_AnarrayofaDBID_Index.Valid = true
 					break
 			}
