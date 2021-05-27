@@ -116,6 +116,8 @@ definitions:
     properties:
       Aclass_AnarrayofaDBID:
         $ref: '#/definitions/NullInt64'
+      Aclass_AnarrayofaDBID_Index:
+        $ref: '#/definitions/NullInt64'
       Anarrayofa:
         items:
           $ref: '#/definitions/Aclass'
@@ -160,6 +162,8 @@ definitions:
       field for the API and the GORM ID'
     properties:
       Aclass_AnarrayofaDBID:
+        $ref: '#/definitions/NullInt64'
+      Aclass_AnarrayofaDBID_Index:
         $ref: '#/definitions/NullInt64'
       Anarrayofa:
         items:
@@ -316,6 +320,7 @@ responses:
       Aclass_AnarrayofaDBID:
         description: Implementation of a reverse ID for field Aclass{}.Anarrayofa
           []*Aclass
+      Aclass_AnarrayofaDBID_Index: {}
       Anarrayofa:
         items:
           $ref: '#/definitions/Aclass'

@@ -6,15 +6,18 @@ import (
 	"errors"
 	"fmt"
 	"log"
+	"sort"
 	"time"
 
 	"github.com/jinzhu/gorm"
+
 	"github.com/fullstack-lang/gong/test2/go/models"
 )
 
-// dummy variable to have the import database/sql wihthout compile failure id no sql is used
+// dummy variable to have the import declaration wihthout compile failure (even if no code needing this import is generated)
 var dummy_Aclass sql.NullBool
 var __Aclass_time__dummyDeclaration time.Duration
+var dummy_Aclass_sort sort.Float64Slice
 
 // AclassAPI is the input in POST API
 //
@@ -52,6 +55,7 @@ type AclassAPI struct {
 
 	// Implementation of a reverse ID for field Aclass{}.Anarrayofa []*Aclass
 	Aclass_AnarrayofaDBID sql.NullInt64
+	Aclass_AnarrayofaDBID_Index sql.NullInt64
 
 	// end of insertion
 }
@@ -229,11 +233,15 @@ func (backRepoAclass *BackRepoAclassStruct) CommitPhaseTwoInstance(backRepo *Bac
 				aclassDB.Duration1_Data.Valid = true
 
 				// commit a slice of pointer translates to update reverse pointer to Aclass, i.e.
+				index_Anarrayofa := 0
 				for _, aclass := range aclass.Anarrayofa {
 					if aclassDBID, ok := (*backRepo.BackRepoAclass.Map_AclassPtr_AclassDBID)[aclass]; ok {
 						if aclassDB, ok := (*backRepo.BackRepoAclass.Map_AclassDBID_AclassDB)[aclassDBID]; ok {
 							aclassDB.Aclass_AnarrayofaDBID.Int64 = int64(aclassDB.ID)
 							aclassDB.Aclass_AnarrayofaDBID.Valid = true
+							aclassDB.Aclass_AnarrayofaDBID_Index.Int64 = int64(index_Anarrayofa)
+							index_Anarrayofa = index_Anarrayofa + 1
+							aclassDB.Aclass_AnarrayofaDBID_Index.Valid = true
 							if q := backRepoAclass.db.Save(&aclassDB); q.Error != nil {
 								return q.Error
 							}
@@ -341,6 +349,17 @@ func (backRepoAclass *BackRepoAclassStruct) CheckoutPhaseTwoInstance(backRepo *B
 					aclass.Anarrayofa = append(aclass.Anarrayofa, Aclass)
 				}
 			}
+			
+			// sort the array according to the order
+			sort.Slice(aclass.Anarrayofa, func(i, j int) bool {
+				aclassDB_i_ID := (*backRepo.BackRepoAclass.Map_AclassPtr_AclassDBID)[aclass.Anarrayofa[i]]
+				aclassDB_j_ID := (*backRepo.BackRepoAclass.Map_AclassPtr_AclassDBID)[aclass.Anarrayofa[j]]
+
+				aclassDB_i := (*backRepo.BackRepoAclass.Map_AclassDBID_AclassDB)[aclassDB_i_ID]
+				aclassDB_j := (*backRepo.BackRepoAclass.Map_AclassDBID_AclassDB)[aclassDB_j_ID]
+
+				return aclassDB_i.Aclass_AnarrayofaDBID_Index.Int64 < aclassDB_j.Aclass_AnarrayofaDBID_Index.Int64
+			})
 
 		}
 	}

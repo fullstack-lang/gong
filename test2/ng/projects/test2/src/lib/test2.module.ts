@@ -22,6 +22,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatTreeModule } from '@angular/material/tree';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 import { AngularSplitModule, SplitComponent } from 'angular-split';
 
@@ -32,6 +33,7 @@ import { SidebarComponent } from './sidebar/sidebar.component';
 
 // insertion point for imports 
 import { AclasssTableComponent } from './aclasss-table/aclasss-table.component'
+import { AclassSortingComponent } from './aclass-sorting/aclass-sorting.component'
 import { AclassDetailComponent } from './aclass-detail/aclass-detail.component'
 import { AclassPresentationComponent } from './aclass-presentation/aclass-presentation.component'
 
@@ -40,6 +42,7 @@ import { AclassPresentationComponent } from './aclass-presentation/aclass-presen
 	declarations: [
 		// insertion point for declarations 
 		AclasssTableComponent,
+		AclassSortingComponent,
 		AclassDetailComponent,
 		AclassPresentationComponent,
 
@@ -72,12 +75,14 @@ import { AclassPresentationComponent } from './aclass-presentation/aclass-presen
 		MatDialogModule,
 		MatGridListModule,
 		MatTreeModule,
+		DragDropModule,
 
 		AngularSplitModule,
 	],
 	exports: [
 		// insertion point for declarations 
 		AclasssTableComponent,
+		AclassSortingComponent,
 		AclassDetailComponent,
 		AclassPresentationComponent,
 

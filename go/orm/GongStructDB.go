@@ -191,14 +191,14 @@ func (backRepoGongStruct *BackRepoGongStructStruct) CommitPhaseTwoInstance(backR
 				gongstructDB.Name_Data.Valid = true
 
 				// commit a slice of pointer translates to update reverse pointer to GongBasicField, i.e.
+				index_GongBasicFields := 0
 				for _, gongbasicfield := range gongstruct.GongBasicFields {
-					index := 0
 					if gongbasicfieldDBID, ok := (*backRepo.BackRepoGongBasicField.Map_GongBasicFieldPtr_GongBasicFieldDBID)[gongbasicfield]; ok {
 						if gongbasicfieldDB, ok := (*backRepo.BackRepoGongBasicField.Map_GongBasicFieldDBID_GongBasicFieldDB)[gongbasicfieldDBID]; ok {
 							gongbasicfieldDB.GongStruct_GongBasicFieldsDBID.Int64 = int64(gongstructDB.ID)
 							gongbasicfieldDB.GongStruct_GongBasicFieldsDBID.Valid = true
-							gongbasicfieldDB.GongStruct_GongBasicFieldsDBID_Index.Int64 = int64(index)
-							index = index + 1
+							gongbasicfieldDB.GongStruct_GongBasicFieldsDBID_Index.Int64 = int64(index_GongBasicFields)
+							index_GongBasicFields = index_GongBasicFields + 1
 							gongbasicfieldDB.GongStruct_GongBasicFieldsDBID_Index.Valid = true
 							if q := backRepoGongStruct.db.Save(&gongbasicfieldDB); q.Error != nil {
 								return q.Error
@@ -208,14 +208,14 @@ func (backRepoGongStruct *BackRepoGongStructStruct) CommitPhaseTwoInstance(backR
 				}
 
 				// commit a slice of pointer translates to update reverse pointer to PointerToGongStructField, i.e.
+				index_PointerToGongStructFields := 0
 				for _, pointertogongstructfield := range gongstruct.PointerToGongStructFields {
-					index := 0
 					if pointertogongstructfieldDBID, ok := (*backRepo.BackRepoPointerToGongStructField.Map_PointerToGongStructFieldPtr_PointerToGongStructFieldDBID)[pointertogongstructfield]; ok {
 						if pointertogongstructfieldDB, ok := (*backRepo.BackRepoPointerToGongStructField.Map_PointerToGongStructFieldDBID_PointerToGongStructFieldDB)[pointertogongstructfieldDBID]; ok {
 							pointertogongstructfieldDB.GongStruct_PointerToGongStructFieldsDBID.Int64 = int64(gongstructDB.ID)
 							pointertogongstructfieldDB.GongStruct_PointerToGongStructFieldsDBID.Valid = true
-							pointertogongstructfieldDB.GongStruct_PointerToGongStructFieldsDBID_Index.Int64 = int64(index)
-							index = index + 1
+							pointertogongstructfieldDB.GongStruct_PointerToGongStructFieldsDBID_Index.Int64 = int64(index_PointerToGongStructFields)
+							index_PointerToGongStructFields = index_PointerToGongStructFields + 1
 							pointertogongstructfieldDB.GongStruct_PointerToGongStructFieldsDBID_Index.Valid = true
 							if q := backRepoGongStruct.db.Save(&pointertogongstructfieldDB); q.Error != nil {
 								return q.Error
@@ -225,14 +225,14 @@ func (backRepoGongStruct *BackRepoGongStructStruct) CommitPhaseTwoInstance(backR
 				}
 
 				// commit a slice of pointer translates to update reverse pointer to SliceOfPointerToGongStructField, i.e.
+				index_SliceOfPointerToGongStructFields := 0
 				for _, sliceofpointertogongstructfield := range gongstruct.SliceOfPointerToGongStructFields {
-					index := 0
 					if sliceofpointertogongstructfieldDBID, ok := (*backRepo.BackRepoSliceOfPointerToGongStructField.Map_SliceOfPointerToGongStructFieldPtr_SliceOfPointerToGongStructFieldDBID)[sliceofpointertogongstructfield]; ok {
 						if sliceofpointertogongstructfieldDB, ok := (*backRepo.BackRepoSliceOfPointerToGongStructField.Map_SliceOfPointerToGongStructFieldDBID_SliceOfPointerToGongStructFieldDB)[sliceofpointertogongstructfieldDBID]; ok {
 							sliceofpointertogongstructfieldDB.GongStruct_SliceOfPointerToGongStructFieldsDBID.Int64 = int64(gongstructDB.ID)
 							sliceofpointertogongstructfieldDB.GongStruct_SliceOfPointerToGongStructFieldsDBID.Valid = true
-							sliceofpointertogongstructfieldDB.GongStruct_SliceOfPointerToGongStructFieldsDBID_Index.Int64 = int64(index)
-							index = index + 1
+							sliceofpointertogongstructfieldDB.GongStruct_SliceOfPointerToGongStructFieldsDBID_Index.Int64 = int64(index_SliceOfPointerToGongStructFields)
+							index_SliceOfPointerToGongStructFields = index_SliceOfPointerToGongStructFields + 1
 							sliceofpointertogongstructfieldDB.GongStruct_SliceOfPointerToGongStructFieldsDBID_Index.Valid = true
 							if q := backRepoGongStruct.db.Save(&sliceofpointertogongstructfieldDB); q.Error != nil {
 								return q.Error
