@@ -191,14 +191,14 @@ func (backRepoGongEnum *BackRepoGongEnumStruct) CommitPhaseTwoInstance(backRepo 
 				gongenumDB.Name_Data.Valid = true
 
 				// commit a slice of pointer translates to update reverse pointer to GongEnumValue, i.e.
+				index_GongEnumValues := 0
 				for _, gongenumvalue := range gongenum.GongEnumValues {
-					index := 0
 					if gongenumvalueDBID, ok := (*backRepo.BackRepoGongEnumValue.Map_GongEnumValuePtr_GongEnumValueDBID)[gongenumvalue]; ok {
 						if gongenumvalueDB, ok := (*backRepo.BackRepoGongEnumValue.Map_GongEnumValueDBID_GongEnumValueDB)[gongenumvalueDBID]; ok {
 							gongenumvalueDB.GongEnum_GongEnumValuesDBID.Int64 = int64(gongenumDB.ID)
 							gongenumvalueDB.GongEnum_GongEnumValuesDBID.Valid = true
-							gongenumvalueDB.GongEnum_GongEnumValuesDBID_Index.Int64 = int64(index)
-							index = index + 1
+							gongenumvalueDB.GongEnum_GongEnumValuesDBID_Index.Int64 = int64(index_GongEnumValues)
+							index_GongEnumValues = index_GongEnumValues + 1
 							gongenumvalueDB.GongEnum_GongEnumValuesDBID_Index.Valid = true
 							if q := backRepoGongEnum.db.Save(&gongenumvalueDB); q.Error != nil {
 								return q.Error

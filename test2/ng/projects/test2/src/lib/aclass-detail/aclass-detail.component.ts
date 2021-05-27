@@ -7,6 +7,7 @@ import { AclassService } from '../aclass.service'
 
 import { FrontRepoService, FrontRepo } from '../front-repo.service'
 import { MapOfComponents } from '../map-components'
+import { MapOfSortingComponents } from '../map-components'
 
 // insertion point for imports
 
@@ -43,11 +44,6 @@ export class AclassDetailComponent implements OnInit {
 		private route: ActivatedRoute,
 		private router: Router,
 	) {
-		// https://stackoverflow.com/questions/54627478/angular-7-routing-to-same-component-but-different-param-not-working
-		// this is for routerLink on same component when only queryParameter changes
-		this.router.routeReuseStrategy.shouldReuseRoute = function () {
-			return false;
-		};
 	}
 
 	ngOnInit(): void {
@@ -115,6 +111,7 @@ export class AclassDetailComponent implements OnInit {
 				this.aclass.Aclass_AnarrayofaDBID = new NullInt64
 				this.aclass.Aclass_AnarrayofaDBID.Int64 = this.aclass.Aclass_Anarrayofa_reverse.ID
 				this.aclass.Aclass_AnarrayofaDBID.Valid = true
+				this.aclass.Aclass_AnarrayofaDBID_Index.Valid = true
 				this.aclass.Aclass_Anarrayofa_reverse = undefined // very important, otherwise, circular JSON
 			}
 		}
@@ -134,6 +131,7 @@ export class AclassDetailComponent implements OnInit {
 					this.aclass.Aclass_AnarrayofaDBID = new NullInt64
 					this.aclass.Aclass_AnarrayofaDBID.Int64 = id
 					this.aclass.Aclass_AnarrayofaDBID.Valid = true
+					this.aclass.Aclass_AnarrayofaDBID_Index.Valid = true
 					break
 			}
 			this.aclassService.postAclass(this.aclass).subscribe(aclass => {
@@ -160,10 +158,34 @@ export class AclassDetailComponent implements OnInit {
 		dialogConfig.data = {
 			ID: this.aclass.ID,
 			ReversePointer: reverseField,
+			OrderingMode: false,
 		};
 		const dialogRef: MatDialogRef<string, any> = this.dialog.open(
 			MapOfComponents.get(AssociatedStruct).get(
 				AssociatedStruct + 'sTableComponent'
+			),
+			dialogConfig
+		);
+
+		dialogRef.afterClosed().subscribe(result => {
+			console.log('The dialog was closed');
+		});
+	}
+
+	openDragAndDropOrdering(AssociatedStruct: string, reverseField: string) {
+
+		const dialogConfig = new MatDialogConfig();
+
+		// dialogConfig.disableClose = true;
+		dialogConfig.autoFocus = true;
+		dialogConfig.data = {
+			ID: this.aclass.ID,
+			ReversePointer: reverseField,
+			OrderingMode: true,
+		};
+		const dialogRef: MatDialogRef<string, any> = this.dialog.open(
+			MapOfSortingComponents.get(AssociatedStruct).get(
+				AssociatedStruct + 'SortingComponent'
 			),
 			dialogConfig
 		);
