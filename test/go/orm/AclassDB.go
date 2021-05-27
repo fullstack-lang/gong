@@ -293,14 +293,14 @@ func (backRepoAclass *BackRepoAclassStruct) CommitPhaseTwoInstance(backRepo *Bac
 				}
 
 				// commit a slice of pointer translates to update reverse pointer to Bclass, i.e.
+				index_Anarrayofb := 0
 				for _, bclass := range aclass.Anarrayofb {
-					index := 0
 					if bclassDBID, ok := (*backRepo.BackRepoBclass.Map_BclassPtr_BclassDBID)[bclass]; ok {
 						if bclassDB, ok := (*backRepo.BackRepoBclass.Map_BclassDBID_BclassDB)[bclassDBID]; ok {
 							bclassDB.Aclass_AnarrayofbDBID.Int64 = int64(aclassDB.ID)
 							bclassDB.Aclass_AnarrayofbDBID.Valid = true
-							bclassDB.Aclass_AnarrayofbDBID_Index.Int64 = int64(index)
-							index = index + 1
+							bclassDB.Aclass_AnarrayofbDBID_Index.Int64 = int64(index_Anarrayofb)
+							index_Anarrayofb = index_Anarrayofb + 1
 							bclassDB.Aclass_AnarrayofbDBID_Index.Valid = true
 							if q := backRepoAclass.db.Save(&bclassDB); q.Error != nil {
 								return q.Error
@@ -310,14 +310,14 @@ func (backRepoAclass *BackRepoAclassStruct) CommitPhaseTwoInstance(backRepo *Bac
 				}
 
 				// commit a slice of pointer translates to update reverse pointer to Bclass, i.e.
+				index_Anotherarrayofb := 0
 				for _, bclass := range aclass.Anotherarrayofb {
-					index := 0
 					if bclassDBID, ok := (*backRepo.BackRepoBclass.Map_BclassPtr_BclassDBID)[bclass]; ok {
 						if bclassDB, ok := (*backRepo.BackRepoBclass.Map_BclassDBID_BclassDB)[bclassDBID]; ok {
 							bclassDB.Aclass_AnotherarrayofbDBID.Int64 = int64(aclassDB.ID)
 							bclassDB.Aclass_AnotherarrayofbDBID.Valid = true
-							bclassDB.Aclass_AnotherarrayofbDBID_Index.Int64 = int64(index)
-							index = index + 1
+							bclassDB.Aclass_AnotherarrayofbDBID_Index.Int64 = int64(index_Anotherarrayofb)
+							index_Anotherarrayofb = index_Anotherarrayofb + 1
 							bclassDB.Aclass_AnotherarrayofbDBID_Index.Valid = true
 							if q := backRepoAclass.db.Save(&bclassDB); q.Error != nil {
 								return q.Error
@@ -327,14 +327,14 @@ func (backRepoAclass *BackRepoAclassStruct) CommitPhaseTwoInstance(backRepo *Bac
 				}
 
 				// commit a slice of pointer translates to update reverse pointer to Aclass, i.e.
+				index_Anarrayofa := 0
 				for _, aclass := range aclass.Anarrayofa {
-					index := 0
 					if aclassDBID, ok := (*backRepo.BackRepoAclass.Map_AclassPtr_AclassDBID)[aclass]; ok {
 						if aclassDB, ok := (*backRepo.BackRepoAclass.Map_AclassDBID_AclassDB)[aclassDBID]; ok {
 							aclassDB.Aclass_AnarrayofaDBID.Int64 = int64(aclassDB.ID)
 							aclassDB.Aclass_AnarrayofaDBID.Valid = true
-							aclassDB.Aclass_AnarrayofaDBID_Index.Int64 = int64(index)
-							index = index + 1
+							aclassDB.Aclass_AnarrayofaDBID_Index.Int64 = int64(index_Anarrayofa)
+							index_Anarrayofa = index_Anarrayofa + 1
 							aclassDB.Aclass_AnarrayofaDBID_Index.Valid = true
 							if q := backRepoAclass.db.Save(&aclassDB); q.Error != nil {
 								return q.Error

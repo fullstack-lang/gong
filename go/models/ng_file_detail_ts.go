@@ -57,11 +57,6 @@ export class {{Structname}}DetailComponent implements OnInit {
 		private route: ActivatedRoute,
 		private router: Router,
 	) {
-		// https://stackoverflow.com/questions/54627478/angular-7-routing-to-same-component-but-different-param-not-working
-		// this is for routerLink on same component when only queryParameter changes
-		this.router.routeReuseStrategy.shouldReuseRoute = function () {
-			return false;
-		};
 	}
 
 	ngOnInit(): void {
