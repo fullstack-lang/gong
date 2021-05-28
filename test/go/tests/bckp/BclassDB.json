@@ -1,8 +1,8 @@
 [
  {
   "ID": 1,
-  "CreatedAt": "2021-05-28T17:37:41.957981+02:00",
-  "UpdatedAt": "2021-05-28T17:37:41.961055+02:00",
+  "CreatedAt": "0001-01-01T00:00:00Z",
+  "UpdatedAt": "0001-01-01T00:00:00Z",
   "DeletedAt": null,
   "Name_Data": {
    "String": "B1",
@@ -35,8 +35,8 @@
  },
  {
   "ID": 2,
-  "CreatedAt": "2021-05-28T17:37:41.958412+02:00",
-  "UpdatedAt": "2021-05-28T17:37:41.960901+02:00",
+  "CreatedAt": "0001-01-01T00:00:00Z",
+  "UpdatedAt": "0001-01-01T00:00:00Z",
   "DeletedAt": null,
   "Name_Data": {
    "String": "B2",

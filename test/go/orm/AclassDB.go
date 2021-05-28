@@ -139,6 +139,13 @@ type BackRepoAclassStruct struct {
 	db *gorm.DB
 }
 
+// GetAclassDBFromAclassPtr is a handy function to access the back repo instance from the stage instance
+func (backRepoAclass *BackRepoAclassStruct) GetAclassDBFromAclassPtr(aclass *models.Aclass) (aclassDB *AclassDB) {
+	id := (*backRepoAclass.Map_AclassPtr_AclassDBID)[aclass]
+	aclassDB = (*backRepoAclass.Map_AclassDBID_AclassDB)[id]
+	return
+}
+
 // BackRepoAclass.Init set up the BackRepo of the Aclass
 func (backRepoAclass *BackRepoAclassStruct) Init(db *gorm.DB) (Error error) {
 
@@ -559,7 +566,8 @@ func (aclassDB *AclassDB) CopyBasicFieldsToAclass(aclass *models.Aclass) {
 	aclass.Duration1 = time.Duration(aclassDB.Duration1_Data.Int64)
 }
 
-func (backRepoAclass *BackRepoAclassStruct) Backup(stage *models.StageStruct, dirPath string) {
+// Backup generates a json file from a slice of all AclassDB instances in the backrepo
+func (backRepoAclass *BackRepoAclassStruct) Backup(dirPath string) {
 
 	filename := filepath.Join(dirPath, "AclassDB.json")
 
@@ -586,7 +594,7 @@ func (backRepoAclass *BackRepoAclassStruct) Backup(stage *models.StageStruct, di
 	}
 }
 
-func (backRepoAclass *BackRepoAclassStruct) Restore(stage *models.StageStruct, dirPath string) {
+func (backRepoAclass *BackRepoAclassStruct) Restore(dirPath string) {
 
 	filename := filepath.Join(dirPath, "AclassDB.json")
 	jsonFile, err := os.Open(filename)

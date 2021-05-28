@@ -3,6 +3,7 @@ package tests
 import (
 	"log"
 	"testing"
+	"time"
 
 	"github.com/fullstack-lang/gong/test/go/models"
 	"github.com/fullstack-lang/gong/test/go/orm"
@@ -48,6 +49,22 @@ func TestBackup(t *testing.T) {
 	aclass1.Anarrayofa = append(aclass1.Anarrayofa, aclass2)
 
 	models.Stage.Commit()
+
+	aclass1DB := orm.BackRepo.BackRepoAclass.GetAclassDBFromAclassPtr(aclass1)
+	aclass1DB.CreatedAt = time.Time{}
+	aclass1DB.UpdatedAt = time.Time{}
+
+	aclass2DB := orm.BackRepo.BackRepoAclass.GetAclassDBFromAclassPtr(aclass2)
+	aclass2DB.CreatedAt = time.Time{}
+	aclass2DB.UpdatedAt = time.Time{}
+
+	bclass1DB := orm.BackRepo.BackRepoBclass.GetBclassDBFromBclassPtr(bclass1)
+	bclass1DB.CreatedAt = time.Time{}
+	bclass1DB.UpdatedAt = time.Time{}
+
+	bclass2DB := orm.BackRepo.BackRepoBclass.GetBclassDBFromBclassPtr(bclass2)
+	bclass2DB.CreatedAt = time.Time{}
+	bclass2DB.UpdatedAt = time.Time{}
 
 	models.Stage.Backup("bckp")
 }

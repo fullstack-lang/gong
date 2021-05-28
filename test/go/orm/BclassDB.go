@@ -101,6 +101,13 @@ type BackRepoBclassStruct struct {
 	db *gorm.DB
 }
 
+// GetBclassDBFromBclassPtr is a handy function to access the back repo instance from the stage instance
+func (backRepoBclass *BackRepoBclassStruct) GetBclassDBFromBclassPtr(bclass *models.Bclass) (bclassDB *BclassDB) {
+	id := (*backRepoBclass.Map_BclassPtr_BclassDBID)[bclass]
+	bclassDB = (*backRepoBclass.Map_BclassDBID_BclassDB)[id]
+	return
+}
+
 // BackRepoBclass.Init set up the BackRepo of the Bclass
 func (backRepoBclass *BackRepoBclassStruct) Init(db *gorm.DB) (Error error) {
 
@@ -347,11 +354,16 @@ func (bclassDB *BclassDB) CopyBasicFieldsToBclass(bclass *models.Bclass) {
 	bclass.Intfield = int(bclassDB.Intfield_Data.Int64)
 }
 
-func (backRepoBclass *BackRepoBclassStruct) Backup(stage *models.StageStruct, dirPath string) {
+// Backup generates a json file from a slice of all BclassDB instances in the backrepo
+func (backRepoBclass *BackRepoBclassStruct) Backup(dirPath string) {
 
+	filename := filepath.Join(dirPath, "BclassDB.json")
+
+	// organize the map into an array with increasing IDs, in order to have repoductible
+	// backup file
 	var forBackup []*BclassDB
-	for _, aclassDB := range *backRepoBclass.Map_BclassDBID_BclassDB {
-		forBackup = append(forBackup, aclassDB)
+	for _, bclassDB := range *backRepoBclass.Map_BclassDBID_BclassDB {
+		forBackup = append(forBackup, bclassDB)
 	}
 
 	sort.Slice(forBackup[:], func(i, j int) bool {
@@ -361,16 +373,16 @@ func (backRepoBclass *BackRepoBclassStruct) Backup(stage *models.StageStruct, di
 	file, err := json.MarshalIndent(forBackup, "", " ")
 
 	if err != nil {
-		log.Panic("Cannot json Bclass ", err.Error())
+		log.Panic("Cannot json Bclass ", filename, " ", err.Error())
 	}
 
-	err = ioutil.WriteFile(filepath.Join(dirPath, "BclassDB.json"), file, 0644)
+	err = ioutil.WriteFile(filename, file, 0644)
 	if err != nil {
 		log.Panic("Cannot write the json Bclass file", err.Error())
 	}
 }
 
-func (backRepoBclass *BackRepoBclassStruct) Restore(stage *models.StageStruct, dirPath string) {
+func (backRepoBclass *BackRepoBclassStruct) Restore(dirPath string) {
 
 	filename := filepath.Join(dirPath, "BclassDB.json")
 	jsonFile, err := os.Open(filename)

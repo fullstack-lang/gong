@@ -151,5 +151,5 @@ map[string]string{
 `,
 
 	string(rune(BackRepoBackup)): `
-	backRepo.BackRepo{{Structname}}.Backup(stage, dirPath)`,
+	backRepo.BackRepo{{Structname}}.Backup(dirPath)`,
 }
