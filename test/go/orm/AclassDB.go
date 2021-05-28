@@ -398,8 +398,7 @@ func (backRepoAclass *BackRepoAclassStruct) CheckoutPhaseTwoInstance(backRepo *B
 	aclass := (*backRepoAclass.Map_AclassDBID_AclassPtr)[aclassDB.ID]
 	_ = aclass // sometimes, there is no code generated. This lines voids the "unused variable" compilation error
 
-	// insertion point for checkout of pointer encoding, i.e. update of fields of stage instance from fields of back repo instances
-	//
+	// insertion point for checkout of pointer encoding
 	// Associationtob field
 	if aclassDB.AssociationtobID.Int64 != 0 {
 		aclass.Associationtob = (*backRepo.BackRepoBclass.Map_BclassDBID_BclassPtr)[uint(aclassDB.AssociationtobID.Int64)]

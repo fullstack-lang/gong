@@ -7,6 +7,7 @@ import (
 	"os"
 	
 	"github.com/jinzhu/gorm"
+
 	"{{PkgPathRoot}}/models"
 )
 
@@ -60,6 +61,8 @@ func GetLastCommitNb() uint {
 // Backup the BackRepoStruct
 func (backRepo *BackRepoStruct) Backup(stage *models.StageStruct, dirPath string) {
 	os.Mkdir(dirPath, os.ModePerm)
+
+	// insertion point for per struct backup{{` + string(rune(BackRepoBackup)) + `}}
 }
 
 // Restore the database into the back repo
@@ -81,6 +84,8 @@ const (
 	BackRepoInitAndCheckout
 	BackRepoCommit
 	BackRepoCheckout
+	BackRepoBackup
+	BackRepoRestore
 )
 
 var BackRepoSubTemplate map[string]string = // new line
@@ -144,4 +149,7 @@ map[string]string{
 		return err
 	}
 `,
+
+	string(rune(BackRepoBackup)): `
+	backRepo.BackRepo{{Structname}}.Backup(stage, dirPath)`,
 }

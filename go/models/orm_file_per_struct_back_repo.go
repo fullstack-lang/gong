@@ -15,9 +15,12 @@ package orm
 
 import (
 	"database/sql"
+	"encoding/json"
 	"errors"
 	"fmt"
+	"io/ioutil"
 	"log"
+	"path/filepath"
 	"sort"
 	"time"
 
@@ -47,7 +50,7 @@ type {{Structname}}API struct {
 	{{Structname}}PointersEnconding
 }
 
-// {{Structname}}PointersEnconding encodes pointers to Struct and 
+// {{Structname}}PointersEnconding encodes pointers to Struct and
 // reverse pointers of slice of poitners to Struct
 type {{Structname}}PointersEnconding struct {
 	// insertion for pointer fields encoding declaration{{` + string(rune(BackRepoPointerEncodingFieldsDeclaration)) + `}}
@@ -63,7 +66,6 @@ type {{Structname}}DB struct {
 	gorm.Model
 
 	// insertion for basic fields declaration{{` + string(rune(BackRepoBasicFieldsDeclaration)) + `}}
-
 	// encoding of pointers
 	{{Structname}}PointersEnconding
 }
@@ -208,7 +210,6 @@ func (backRepo{{Structname}} *BackRepo{{Structname}}Struct) CommitPhaseTwoInstan
 		{{structname}}DB.CopyBasicFieldsFrom{{Structname}}({{structname}})
 
 		// insertion point for fields commit{{` + string(rune(BackRepoPointerEncodingFieldsCommit)) + `}}
-
 		query := backRepo{{Structname}}.db.Save(&{{structname}}DB)
 		if query.Error != nil {
 			return query.Error
@@ -285,9 +286,7 @@ func (backRepo{{Structname}} *BackRepo{{Structname}}Struct) CheckoutPhaseTwoInst
 	{{structname}} := (*backRepo{{Structname}}.Map_{{Structname}}DBID_{{Structname}}Ptr)[{{structname}}DB.ID]
 	_ = {{structname}} // sometimes, there is no code generated. This lines voids the "unused variable" compilation error
 
-	// insertion point for checkout of pointer encoding, i.e. update of fields of stage instance from fields of back repo instances
-	//{{` + string(rune(BackRepoPointerEncodingFieldsCheckout)) + `}}
-
+	// insertion point for checkout of pointer encoding{{` + string(rune(BackRepoPointerEncodingFieldsCheckout)) + `}}
 	return
 }
 
@@ -326,6 +325,20 @@ func ({{structname}}DB *{{Structname}}DB) CopyBasicFieldsFrom{{Structname}}({{st
 func ({{structname}}DB *{{Structname}}DB) CopyBasicFieldsTo{{Structname}}({{structname}} *models.{{Structname}}) {
 
 	// insertion point for checkout of basic fields (back repo to stage){{` + string(rune(BackRepoBasicFieldsCheckout)) + `}}
+}
+
+func (backRepo{{Structname}} *BackRepo{{Structname}}Struct) Backup(stage *models.StageStruct, dirPath string) {
+
+	file, err := json.MarshalIndent(backRepo{{Structname}}.Map_{{Structname}}DBID_{{Structname}}DB, "", " ")
+
+	if err != nil {
+		log.Panic("Cannot json {{Structname}} ", err.Error())
+	}
+
+	err = ioutil.WriteFile(filepath.Join(dirPath, "{{Structname}}DB.json"), file, 0644)
+	if err != nil {
+		log.Panic("Cannot write the json {{Structname}} file", err.Error())
+	}
 }
 `
 

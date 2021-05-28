@@ -1,0 +1,70 @@
+{
+ "1": {
+  "ID": 1,
+  "CreatedAt": "2021-05-28T10:54:45.584338+02:00",
+  "UpdatedAt": "2021-05-28T10:54:45.585677+02:00",
+  "DeletedAt": null,
+  "Name_Data": {
+   "String": "B1",
+   "Valid": true
+  },
+  "Floatfield_Data": {
+   "Float64": 0,
+   "Valid": true
+  },
+  "Intfield_Data": {
+   "Int64": 0,
+   "Valid": true
+  },
+  "Aclass_AnarrayofbDBID": {
+   "Int64": 0,
+   "Valid": false
+  },
+  "Aclass_AnarrayofbDBID_Index": {
+   "Int64": 0,
+   "Valid": false
+  },
+  "Aclass_AnotherarrayofbDBID": {
+   "Int64": 1,
+   "Valid": true
+  },
+  "Aclass_AnotherarrayofbDBID_Index": {
+   "Int64": 0,
+   "Valid": true
+  }
+ },
+ "2": {
+  "ID": 2,
+  "CreatedAt": "2021-05-28T10:54:45.584482+02:00",
+  "UpdatedAt": "2021-05-28T10:54:45.585807+02:00",
+  "DeletedAt": null,
+  "Name_Data": {
+   "String": "B2",
+   "Valid": true
+  },
+  "Floatfield_Data": {
+   "Float64": 0,
+   "Valid": true
+  },
+  "Intfield_Data": {
+   "Int64": 0,
+   "Valid": true
+  },
+  "Aclass_AnarrayofbDBID": {
+   "Int64": 0,
+   "Valid": false
+  },
+  "Aclass_AnarrayofbDBID_Index": {
+   "Int64": 0,
+   "Valid": false
+  },
+  "Aclass_AnotherarrayofbDBID": {
+   "Int64": 1,
+   "Valid": true
+  },
+  "Aclass_AnotherarrayofbDBID_Index": {
+   "Int64": 1,
+   "Valid": true
+  }
+ }
+}
