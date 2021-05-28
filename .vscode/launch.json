@@ -88,6 +88,24 @@
             ]
         },
         {
+            "name": "go test TestBackup",
+            "type": "go",
+            "request": "launch",
+            "mode": "test",
+            "program": "${workspaceFolder}/test/go/tests",
+            "dlvLoadConfig": {
+                "followPointers": true,
+                "maxVariableRecurse": 1,
+                "maxStringLen": 300,
+                "maxArrayValues": 64,
+                "maxStructFields": -1
+            },
+            "args": [
+                "-test.run",
+                "TestBackup"
+            ]
+        },
+        {
             "name": "Launch firefox localhost:4200",
             "type": "firefox",
             "request": "launch",

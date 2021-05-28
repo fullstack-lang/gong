@@ -27,7 +27,41 @@ var dummy_Aclass_sort sort.Float64Slice
 //
 // swagger:model aclassAPI
 type AclassAPI struct {
+	gorm.Model
+
 	models.Aclass
+
+	AclassPointersEnconding
+	// end of insertion
+}
+
+type AclassPointersEnconding struct {
+	// field Associationtob is a pointer to another Struct (optional or 0..1)
+	// This field is generated into another field to enable AS ONE association
+	AssociationtobID sql.NullInt64
+
+	// all gong Struct has a Name field, this enables this data to object field
+	AssociationtobName string
+
+	// field Anotherassociationtob_2 is a pointer to another Struct (optional or 0..1)
+	// This field is generated into another field to enable AS ONE association
+	Anotherassociationtob_2ID sql.NullInt64
+
+	// all gong Struct has a Name field, this enables this data to object field
+	Anotherassociationtob_2Name string
+
+	// Implementation of a reverse ID for field Aclass{}.Anarrayofa []*Aclass
+	Aclass_AnarrayofaDBID       sql.NullInt64
+	Aclass_AnarrayofaDBID_Index sql.NullInt64
+}
+
+// AclassDB describes a aclass in the database
+//
+// It incorporates all fields : from the model, from the generated field for the API and the GORM ID
+//
+// swagger:model aclassDB
+type AclassDB struct {
+	gorm.Model
 
 	// insertion for fields declaration
 	// Declation for basic field aclassDB.Name {{BasicKind}} (to be completed)
@@ -68,36 +102,7 @@ type AclassAPI struct {
 	// Declation for basic field aclassDB.Duration1 {{BasicKind}} (to be completed)
 	Duration1_Data sql.NullInt64
 
-	// field Associationtob is a pointer to another Struct (optional or 0..1)
-	// This field is generated into another field to enable AS ONE association
-	AssociationtobID sql.NullInt64
-
-	// all gong Struct has a Name field, this enables this data to object field
-	AssociationtobName string
-
-	// field Anotherassociationtob_2 is a pointer to another Struct (optional or 0..1)
-	// This field is generated into another field to enable AS ONE association
-	Anotherassociationtob_2ID sql.NullInt64
-
-	// all gong Struct has a Name field, this enables this data to object field
-	Anotherassociationtob_2Name string
-
-	// Implementation of a reverse ID for field Aclass{}.Anarrayofa []*Aclass
-	Aclass_AnarrayofaDBID sql.NullInt64
-	Aclass_AnarrayofaDBID_Index sql.NullInt64
-
-	// end of insertion
-}
-
-// AclassDB describes a aclass in the database
-//
-// It incorporates all fields : from the model, from the generated field for the API and the GORM ID
-//
-// swagger:model aclassDB
-type AclassDB struct {
-	gorm.Model
-
-	AclassAPI
+	AclassPointersEnconding
 }
 
 // AclassDBs arrays aclassDBs
@@ -204,7 +209,7 @@ func (backRepoAclass *BackRepoAclassStruct) CommitPhaseOneInstance(aclass *model
 
 	// initiate aclass
 	var aclassDB AclassDB
-	aclassDB.Aclass = *aclass
+	aclassDB.CopyBasicFieldsFromAclass(aclass)
 
 	query := backRepoAclass.db.Create(&aclassDB)
 	if query.Error != nil {
@@ -239,42 +244,7 @@ func (backRepoAclass *BackRepoAclassStruct) CommitPhaseTwoInstance(backRepo *Bac
 
 		{
 			{
-				// insertion point for fields commit
-				aclassDB.Name_Data.String = aclass.Name
-				aclassDB.Name_Data.Valid = true
-
-				aclassDB.Date_Data.Time = aclass.Date
-				aclassDB.Date_Data.Valid = true
-
-				aclassDB.Booleanfield_Data.Bool = aclass.Booleanfield
-				aclassDB.Booleanfield_Data.Valid = true
-
-				aclassDB.Aenum_Data.String = string(aclass.Aenum)
-				aclassDB.Aenum_Data.Valid = true
-
-				aclassDB.Aenum_2_Data.String = string(aclass.Aenum_2)
-				aclassDB.Aenum_2_Data.Valid = true
-
-				aclassDB.Benum_Data.String = string(aclass.Benum)
-				aclassDB.Benum_Data.Valid = true
-
-				aclassDB.CName_Data.String = aclass.CName
-				aclassDB.CName_Data.Valid = true
-
-				aclassDB.CFloatfield_Data.Float64 = aclass.CFloatfield
-				aclassDB.CFloatfield_Data.Valid = true
-
-				aclassDB.Floatfield_Data.Float64 = aclass.Floatfield
-				aclassDB.Floatfield_Data.Valid = true
-
-				aclassDB.Intfield_Data.Int64 = int64(aclass.Intfield)
-				aclassDB.Intfield_Data.Valid = true
-
-				aclassDB.Anotherbooleanfield_Data.Bool = aclass.Anotherbooleanfield
-				aclassDB.Anotherbooleanfield_Data.Valid = true
-
-				aclassDB.Duration1_Data.Int64 = int64(aclass.Duration1)
-				aclassDB.Duration1_Data.Valid = true
+				aclassDB.CopyBasicFieldsFromAclass(aclass)
 
 				// commit pointer value aclass.Associationtob translates to updating the aclass.AssociationtobID
 				aclassDB.AssociationtobID.Valid = true // allow for a 0 value (nil association)
@@ -386,7 +356,9 @@ func (backRepoAclass *BackRepoAclassStruct) CheckoutPhaseOne() (Error error) {
 func (backRepoAclass *BackRepoAclassStruct) CheckoutPhaseOneInstance(aclassDB *AclassDB) (Error error) {
 
 	// if absent, create entries in the backRepoAclass maps.
-	aclassWithNewFieldValues := aclassDB.Aclass
+	var aclassWithNewFieldValues models.Aclass
+	aclassDB.CopyBasicFieldsToAclass(&aclassWithNewFieldValues)
+
 	if _, ok := (*backRepoAclass.Map_AclassDBID_AclassPtr)[aclassDB.ID]; !ok {
 
 		(*backRepoAclass.Map_AclassDBID_AclassPtr)[aclassDB.ID] = &aclassWithNewFieldValues
@@ -420,30 +392,6 @@ func (backRepoAclass *BackRepoAclassStruct) CheckoutPhaseTwoInstance(backRepo *B
 	_ = aclass // sometimes, there is no code generated. This lines voids the "unused variable" compilation error
 	{
 		{
-			// insertion point for checkout, i.e. update of fields of stage instance from fields of back repo instances
-			//
-			aclass.Name = aclassDB.Name_Data.String
-
-			aclass.Date = aclassDB.Date_Data.Time
-
-			aclass.Booleanfield = aclassDB.Booleanfield_Data.Bool
-			aclass.Aenum = models.AEnumType(aclassDB.Aenum_Data.String)
-
-			aclass.Aenum_2 = models.AEnumType(aclassDB.Aenum_2_Data.String)
-
-			aclass.Benum = models.BEnumType(aclassDB.Benum_Data.String)
-
-			aclass.CName = aclassDB.CName_Data.String
-
-			aclass.CFloatfield = aclassDB.CFloatfield_Data.Float64
-
-			aclass.Floatfield = aclassDB.Floatfield_Data.Float64
-
-			aclass.Intfield = int(aclassDB.Intfield_Data.Int64)
-
-			aclass.Anotherbooleanfield = aclassDB.Anotherbooleanfield_Data.Bool
-			aclass.Duration1 = time.Duration(aclassDB.Duration1_Data.Int64)
-
 			// Associationtob field
 			if aclassDB.AssociationtobID.Int64 != 0 {
 				aclass.Associationtob = (*backRepo.BackRepoBclass.Map_BclassDBID_BclassPtr)[uint(aclassDB.AssociationtobID.Int64)]
@@ -463,7 +411,7 @@ func (backRepoAclass *BackRepoAclassStruct) CheckoutPhaseTwoInstance(backRepo *B
 					aclass.Anarrayofb = append(aclass.Anarrayofb, Bclass)
 				}
 			}
-			
+
 			// sort the array according to the order
 			sort.Slice(aclass.Anarrayofb, func(i, j int) bool {
 				bclassDB_i_ID := (*backRepo.BackRepoBclass.Map_BclassPtr_BclassDBID)[aclass.Anarrayofb[i]]
@@ -484,7 +432,7 @@ func (backRepoAclass *BackRepoAclassStruct) CheckoutPhaseTwoInstance(backRepo *B
 					aclass.Anotherarrayofb = append(aclass.Anotherarrayofb, Bclass)
 				}
 			}
-			
+
 			// sort the array according to the order
 			sort.Slice(aclass.Anotherarrayofb, func(i, j int) bool {
 				bclassDB_i_ID := (*backRepo.BackRepoBclass.Map_BclassPtr_BclassDBID)[aclass.Anotherarrayofb[i]]
@@ -505,7 +453,7 @@ func (backRepoAclass *BackRepoAclassStruct) CheckoutPhaseTwoInstance(backRepo *B
 					aclass.Anarrayofa = append(aclass.Anarrayofa, Aclass)
 				}
 			}
-			
+
 			// sort the array according to the order
 			sort.Slice(aclass.Anarrayofa, func(i, j int) bool {
 				aclassDB_i_ID := (*backRepo.BackRepoAclass.Map_AclassPtr_AclassDBID)[aclass.Anarrayofa[i]]
