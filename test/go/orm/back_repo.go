@@ -3,9 +3,10 @@ package orm
 
 import (
 	"os"
+	
+	"github.com/jinzhu/gorm"
 
 	"github.com/fullstack-lang/gong/test/go/models"
-	"github.com/jinzhu/gorm"
 )
 
 // BackRepoStruct supports callback functions
@@ -73,9 +74,12 @@ func GetLastCommitNb() uint {
 func (backRepo *BackRepoStruct) Backup(stage *models.StageStruct, dirPath string) {
 	os.Mkdir(dirPath, os.ModePerm)
 
+	// insertion point for per struct backup
 	backRepo.BackRepoAclass.Backup(stage, dirPath)
+	backRepo.BackRepoBclass.Backup(stage, dirPath)
 }
 
 // Restore the database into the back repo
 func (backRepo *BackRepoStruct) Restore(stage *models.StageStruct, dirPath string) {
 }
+
