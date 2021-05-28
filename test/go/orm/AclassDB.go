@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"log"
+	"os"
 	"path/filepath"
 	"sort"
 	"time"
@@ -560,14 +561,49 @@ func (aclassDB *AclassDB) CopyBasicFieldsToAclass(aclass *models.Aclass) {
 
 func (backRepoAclass *BackRepoAclassStruct) Backup(stage *models.StageStruct, dirPath string) {
 
+	filename := filepath.Join(dirPath, "AclassDB.json")
 	file, err := json.MarshalIndent(backRepoAclass.Map_AclassDBID_AclassDB, "", " ")
 
 	if err != nil {
-		log.Panic("Cannot json Aclass ", err.Error())
+		log.Panic("Cannot json Aclass ", filename, " ", err.Error())
 	}
 
-	err = ioutil.WriteFile(filepath.Join(dirPath, "AclassDB.json"), file, 0644)
+	err = ioutil.WriteFile(filename, file, 0644)
 	if err != nil {
 		log.Panic("Cannot write the json Aclass file", err.Error())
+	}
+}
+
+func (backRepoAclass *BackRepoAclassStruct) Restore(stage *models.StageStruct, dirPath string) {
+
+	filename := filepath.Join(dirPath, "AclassDB.json")
+	jsonFile, err := os.Open(filename)
+	// if we os.Open returns an error then handle it
+	if err != nil {
+		log.Panic("Cannot restore/open the json Aclass file", filename, " ", err.Error())
+	}
+
+	// read our opened jsonFile as a byte array.
+	byteValue, _ := ioutil.ReadAll(jsonFile)
+
+	var _Map_AclassDBID_AclassDB map[uint]*AclassDB
+
+	err = json.Unmarshal(byteValue, &_Map_AclassDBID_AclassDB)
+
+	// fill up Map_AclassDBID_AclassDB
+	for aclassDB_ID, aclassDB := range _Map_AclassDBID_AclassDB {
+
+		query := backRepoAclass.db.Create(aclassDB)
+		if query.Error != nil {
+			log.Panic(query.Error)
+		}
+		if aclassDB_ID != aclassDB.ID {
+			log.Panicf("ID of Aclass restore ID %d, name %s, has wrong ID %d in DB after create",
+				aclassDB_ID, aclassDB.Name_Data.String, aclassDB.ID)
+		}
+	}
+
+	if err != nil {
+		log.Panic("Cannot restore/unmarshall json Aclass file", err.Error())
 	}
 }

@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"log"
+	"os"
 	"path/filepath"
 	"sort"
 	"time"
@@ -357,5 +358,38 @@ func (backRepoBclass *BackRepoBclassStruct) Backup(stage *models.StageStruct, di
 	err = ioutil.WriteFile(filepath.Join(dirPath, "BclassDB.json"), file, 0644)
 	if err != nil {
 		log.Panic("Cannot write the json Bclass file", err.Error())
+	}
+}
+
+func (backRepoBclass *BackRepoBclassStruct) Restore(stage *models.StageStruct, dirPath string) {
+
+	filename := filepath.Join(dirPath, "BclassDB.json")
+	jsonFile, err := os.Open(filename)
+	// if we os.Open returns an error then handle it
+	if err != nil {
+		log.Panic("Cannot restore/open the json Bclass file", filename, " ", err.Error())
+	}
+
+	// read our opened jsonFile as a byte array.
+	byteValue, _ := ioutil.ReadAll(jsonFile)
+
+	var _Map_BclassDBID_BclassDB map[uint]*BclassDB
+
+	err = json.Unmarshal(byteValue, &_Map_BclassDBID_BclassDB)
+
+	// fill up Map_BclassDBID_BclassDB
+	for bclassDB_ID, bclassDB := range _Map_BclassDBID_BclassDB {
+		query := backRepoBclass.db.Create(bclassDB)
+		if query.Error != nil {
+			log.Panic(query.Error)
+		}
+		if bclassDB_ID != bclassDB.ID {
+			log.Panicf("ID of Bclass restore ID %d, name %s, has wrong ID %d in DB after create",
+				bclassDB_ID, bclassDB.Name_Data.String, bclassDB.ID)
+		}
+	}
+
+	if err != nil {
+		log.Panic("Cannot restore/unmarshall json Bclass file", err.Error())
 	}
 }
