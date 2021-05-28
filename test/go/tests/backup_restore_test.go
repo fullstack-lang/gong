@@ -1,6 +1,7 @@
 package tests
 
 import (
+	"log"
 	"testing"
 
 	"github.com/fullstack-lang/gong/test/go/models"
@@ -46,4 +47,30 @@ func TestBackup(t *testing.T) {
 	models.Stage.Commit()
 
 	models.Stage.Backup("bckp")
+}
+
+func TestRestore(t *testing.T) {
+
+	// setup GORM
+	db := orm.SetupModels(false, ":memory:")
+	db.DB().SetMaxOpenConns(1)
+
+	// initiate back repo a callback functions
+	orm.BackRepo.Init(db)
+
+	models.Stage.Restore("bckp")
+
+	for aclass := range models.Stage.Aclasss {
+		log.Print(aclass)
+	}
+
+	var a1 *models.Aclass
+	for a := range models.Stage.Aclasss {
+		a1 = a
+	}
+	a1.Floatfield = 17.0
+
+	models.Stage.Commit()
+
+	models.Stage.Backup("bckp-after-restore")
 }

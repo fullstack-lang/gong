@@ -1,65 +1,9 @@
 {
  "1": {
   "ID": 1,
-  "CreatedAt": "2021-05-28T05:43:32.921083+02:00",
-  "UpdatedAt": "2021-05-28T05:43:32.922293+02:00",
+  "CreatedAt": "2021-05-28T10:54:45.583914+02:00",
+  "UpdatedAt": "2021-05-28T15:15:37.221995+02:00",
   "DeletedAt": null,
-  "Name": "A1",
-  "Date": "0001-01-01T00:00:00Z",
-  "Booleanfield": true,
-  "Aenum": "",
-  "Aenum_2": "",
-  "Benum": "",
-  "CName": "",
-  "CFloatfield": 0,
-  "Floatfield": 10.2,
-  "Intfield": 0,
-  "Anotherbooleanfield": true,
-  "Duration1": 0,
-  "Associationtob": {
-   "Name": "B1",
-   "Floatfield": 0,
-   "Intfield": 0
-  },
-  "Anotherassociationtob_2": null,
-  "Anarrayofb": null,
-  "Anotherarrayofb": [
-   {
-    "Name": "B1",
-    "Floatfield": 0,
-    "Intfield": 0
-   },
-   {
-    "Name": "B2",
-    "Floatfield": 0,
-    "Intfield": 0
-   }
-  ],
-  "Anarrayofa": [
-   {
-    "Name": "A2",
-    "Date": "0001-01-01T00:00:00Z",
-    "Booleanfield": true,
-    "Aenum": "",
-    "Aenum_2": "",
-    "Benum": "",
-    "CName": "",
-    "CFloatfield": 0,
-    "Floatfield": 10.77,
-    "Intfield": 0,
-    "Anotherbooleanfield": true,
-    "Duration1": 0,
-    "Associationtob": {
-     "Name": "B1",
-     "Floatfield": 0,
-     "Intfield": 0
-    },
-    "Anotherassociationtob_2": null,
-    "Anarrayofb": null,
-    "Anotherarrayofb": null,
-    "Anarrayofa": null
-   }
-  ],
   "Name_Data": {
    "String": "A1",
    "Valid": true
@@ -119,40 +63,19 @@
   },
   "Anotherassociationtob_2Name": "",
   "Aclass_AnarrayofaDBID": {
-   "Int64": 0,
-   "Valid": false
+   "Int64": 1,
+   "Valid": true
   },
   "Aclass_AnarrayofaDBID_Index": {
    "Int64": 0,
-   "Valid": false
+   "Valid": true
   }
  },
  "2": {
   "ID": 2,
-  "CreatedAt": "2021-05-28T05:43:32.921353+02:00",
-  "UpdatedAt": "2021-05-28T05:43:32.922508+02:00",
+  "CreatedAt": "2021-05-28T10:54:45.584159+02:00",
+  "UpdatedAt": "2021-05-28T15:15:37.221268+02:00",
   "DeletedAt": null,
-  "Name": "A2",
-  "Date": "0001-01-01T00:00:00Z",
-  "Booleanfield": true,
-  "Aenum": "",
-  "Aenum_2": "",
-  "Benum": "",
-  "CName": "",
-  "CFloatfield": 0,
-  "Floatfield": 10.77,
-  "Intfield": 0,
-  "Anotherbooleanfield": true,
-  "Duration1": 0,
-  "Associationtob": {
-   "Name": "B1",
-   "Floatfield": 0,
-   "Intfield": 0
-  },
-  "Anotherassociationtob_2": null,
-  "Anarrayofb": null,
-  "Anotherarrayofb": null,
-  "Anarrayofa": null,
   "Name_Data": {
    "String": "A2",
    "Valid": true
@@ -186,7 +109,7 @@
    "Valid": true
   },
   "Floatfield_Data": {
-   "Float64": 10.77,
+   "Float64": 17,
    "Valid": true
   },
   "Intfield_Data": {
