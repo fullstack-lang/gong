@@ -27,9 +27,40 @@ var dummy_Bclass_sort sort.Float64Slice
 //
 // swagger:model bclassAPI
 type BclassAPI struct {
+	gorm.Model
+
 	models.Bclass
 
-	// insertion for fields declaration
+	// encoding of pointers
+	BclassPointersEnconding
+}
+
+// BclassPointersEnconding encodes pointers to Struct and 
+// reverse pointers of slice of poitners to Struct
+type BclassPointersEnconding struct {
+	// insertion for pointer fields encoding declaration
+	// Implementation of a reverse ID for field Aclass{}.Anarrayofb []*Bclass
+	Aclass_AnarrayofbDBID sql.NullInt64
+
+	// implementation of the index of the withing the slice
+	Aclass_AnarrayofbDBID_Index sql.NullInt64
+	// Implementation of a reverse ID for field Aclass{}.Anotherarrayofb []*Bclass
+	Aclass_AnotherarrayofbDBID sql.NullInt64
+
+	// implementation of the index of the withing the slice
+	Aclass_AnotherarrayofbDBID_Index sql.NullInt64
+}
+
+// BclassDB describes a bclass in the database
+//
+// It incorporates the GORM ID, basic fields from the model (because they can be serialized),
+// the encoded version of pointers
+//
+// swagger:model bclassDB
+type BclassDB struct {
+	gorm.Model
+
+	// insertion for basic fields declaration
 	// Declation for basic field bclassDB.Name {{BasicKind}} (to be completed)
 	Name_Data sql.NullString
 
@@ -39,26 +70,9 @@ type BclassAPI struct {
 	// Declation for basic field bclassDB.Intfield {{BasicKind}} (to be completed)
 	Intfield_Data sql.NullInt64
 
-	// Implementation of a reverse ID for field Aclass{}.Anarrayofb []*Bclass
-	Aclass_AnarrayofbDBID sql.NullInt64
-	Aclass_AnarrayofbDBID_Index sql.NullInt64
 
-	// Implementation of a reverse ID for field Aclass{}.Anotherarrayofb []*Bclass
-	Aclass_AnotherarrayofbDBID sql.NullInt64
-	Aclass_AnotherarrayofbDBID_Index sql.NullInt64
-
-	// end of insertion
-}
-
-// BclassDB describes a bclass in the database
-//
-// It incorporates all fields : from the model, from the generated field for the API and the GORM ID
-//
-// swagger:model bclassDB
-type BclassDB struct {
-	gorm.Model
-
-	BclassAPI
+	// encoding of pointers
+	BclassPointersEnconding
 }
 
 // BclassDBs arrays bclassDBs
@@ -165,7 +179,7 @@ func (backRepoBclass *BackRepoBclassStruct) CommitPhaseOneInstance(bclass *model
 
 	// initiate bclass
 	var bclassDB BclassDB
-	bclassDB.Bclass = *bclass
+	bclassDB.CopyBasicFieldsFromBclass(bclass)
 
 	query := backRepoBclass.db.Create(&bclassDB)
 	if query.Error != nil {
@@ -198,20 +212,10 @@ func (backRepoBclass *BackRepoBclassStruct) CommitPhaseTwoInstance(backRepo *Bac
 	// fetch matching bclassDB
 	if bclassDB, ok := (*backRepoBclass.Map_BclassDBID_BclassDB)[idx]; ok {
 
-		{
-			{
-				// insertion point for fields commit
-				bclassDB.Name_Data.String = bclass.Name
-				bclassDB.Name_Data.Valid = true
+		bclassDB.CopyBasicFieldsFromBclass(bclass)
 
-				bclassDB.Floatfield_Data.Float64 = bclass.Floatfield
-				bclassDB.Floatfield_Data.Valid = true
+		// insertion point for fields commit
 
-				bclassDB.Intfield_Data.Int64 = int64(bclass.Intfield)
-				bclassDB.Intfield_Data.Valid = true
-
-			}
-		}
 		query := backRepoBclass.db.Save(&bclassDB)
 		if query.Error != nil {
 			return query.Error
@@ -253,7 +257,9 @@ func (backRepoBclass *BackRepoBclassStruct) CheckoutPhaseOne() (Error error) {
 func (backRepoBclass *BackRepoBclassStruct) CheckoutPhaseOneInstance(bclassDB *BclassDB) (Error error) {
 
 	// if absent, create entries in the backRepoBclass maps.
-	bclassWithNewFieldValues := bclassDB.Bclass
+	var bclassWithNewFieldValues models.Bclass
+	bclassDB.CopyBasicFieldsToBclass(&bclassWithNewFieldValues)
+
 	if _, ok := (*backRepoBclass.Map_BclassDBID_BclassPtr)[bclassDB.ID]; !ok {
 
 		(*backRepoBclass.Map_BclassDBID_BclassPtr)[bclassDB.ID] = &bclassWithNewFieldValues
@@ -285,18 +291,10 @@ func (backRepoBclass *BackRepoBclassStruct) CheckoutPhaseTwoInstance(backRepo *B
 
 	bclass := (*backRepoBclass.Map_BclassDBID_BclassPtr)[bclassDB.ID]
 	_ = bclass // sometimes, there is no code generated. This lines voids the "unused variable" compilation error
-	{
-		{
-			// insertion point for checkout, i.e. update of fields of stage instance from fields of back repo instances
-			//
-			bclass.Name = bclassDB.Name_Data.String
 
-			bclass.Floatfield = bclassDB.Floatfield_Data.Float64
+	// insertion point for checkout of pointer encoding, i.e. update of fields of stage instance from fields of back repo instances
+	//
 
-			bclass.Intfield = int(bclassDB.Intfield_Data.Int64)
-
-		}
-	}
 	return
 }
 
@@ -324,4 +322,27 @@ func (backRepo *BackRepoStruct) CheckoutBclass(bclass *models.Bclass) {
 			backRepo.BackRepoBclass.CheckoutPhaseTwoInstance(backRepo, &bclassDB)
 		}
 	}
+}
+
+// CopyBasicFieldsToBclassDB is used to copy basic fields between the Stage or the CRUD to the back repo
+func (bclassDB *BclassDB) CopyBasicFieldsFromBclass(bclass *models.Bclass) {
+	// insertion point for fields commit
+	bclassDB.Name_Data.String = bclass.Name
+	bclassDB.Name_Data.Valid = true
+
+	bclassDB.Floatfield_Data.Float64 = bclass.Floatfield
+	bclassDB.Floatfield_Data.Valid = true
+
+	bclassDB.Intfield_Data.Int64 = int64(bclass.Intfield)
+	bclassDB.Intfield_Data.Valid = true
+
+}
+
+// CopyBasicFieldsToBclassDB is used to copy basic fields between the Stage or the CRUD to the back repo
+func (bclassDB *BclassDB) CopyBasicFieldsToBclass(bclass *models.Bclass) {
+
+	// insertion point for checkout of basic fields (back repo to stage)
+	bclass.Name = bclassDB.Name_Data.String
+	bclass.Floatfield = bclassDB.Floatfield_Data.Float64
+	bclass.Intfield = int(bclassDB.Intfield_Data.Int64)
 }

@@ -192,7 +192,6 @@ func UpdateAclass(c *gin.Context) {
 	}
 
 	// update
-	// insertion point for nullable field set
 	aclassDB.CopyBasicFieldsFromAclass(&input.Aclass)
 	aclassDB.AclassPointersEnconding = input.AclassPointersEnconding
 

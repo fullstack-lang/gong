@@ -173,10 +173,6 @@ definitions:
         - ENUM_VAL1_NOT_THE_SAME
         - ENUM_VAL2
         type: string
-      Aenum_2_Data:
-        $ref: '#/definitions/NullString'
-      Aenum_Data:
-        $ref: '#/definitions/NullString'
       Anarrayofa:
         items:
           $ref: '#/definitions/Aclass'
@@ -194,141 +190,96 @@ definitions:
       Anotherassociationtob_2ID:
         $ref: '#/definitions/NullInt64'
       Anotherassociationtob_2Name:
-        description: all gong Struct has a Name field, this enables this data to object field
+        description: all gong Struct has a Name field, this enables this data to object
+          field
         type: string
       Anotherbooleanfield:
         type: boolean
-      Anotherbooleanfield_Data:
-        $ref: '#/definitions/NullBool'
       Associationtob:
         $ref: '#/definitions/Bclass'
       AssociationtobID:
         $ref: '#/definitions/NullInt64'
       AssociationtobName:
-        description: all gong Struct has a Name field, this enables this data to object field
+        description: all gong Struct has a Name field, this enables this data to object
+          field
         type: string
       Benum:
         enum:
         - ENUM_VAL1_NOT_THE_SAME
         - ENUM_VAL2
         type: string
-      Benum_Data:
-        $ref: '#/definitions/NullString'
       Booleanfield:
         type: boolean
-      Booleanfield_Data:
-        $ref: '#/definitions/NullBool'
       CFloatfield:
         format: double
         type: number
-      CFloatfield_Data:
-        $ref: '#/definitions/NullFloat64'
       CName:
         type: string
-      CName_Data:
-        $ref: '#/definitions/NullString'
+      CreatedAt:
+        format: date-time
+        type: string
       Date:
         format: date-time
         type: string
-      Date_Data:
-        $ref: '#/definitions/NullTime'
+      DeletedAt:
+        format: date-time
+        type: string
       Duration1:
         $ref: '#/definitions/Duration'
-      Duration1_Data:
-        $ref: '#/definitions/NullInt64'
       Floatfield:
         format: double
         type: number
-      Floatfield_Data:
-        $ref: '#/definitions/NullFloat64'
+      ID:
+        format: uint64
+        type: integer
       Intfield:
         format: int64
         type: integer
-      Intfield_Data:
-        $ref: '#/definitions/NullInt64'
       Name:
         type: string
-      Name_Data:
-        $ref: '#/definitions/NullString'
+      UpdatedAt:
+        format: date-time
+        type: string
     title: AclassAPI is the input in POST API
     type: object
     x-go-name: AclassAPI
     x-go-package: github.com/fullstack-lang/gong/test/go/orm
   aclassDB:
-    description: 'It incorporates all fields : from the model, from the generated field for the API and the GORM ID'
+    description: |-
+      It incorporates the GORM ID, basic fields from the model (because they can be serialized),
+      the encoded version of pointers
     properties:
       Aclass_AnarrayofaDBID:
         $ref: '#/definitions/NullInt64'
       Aclass_AnarrayofaDBID_Index:
         $ref: '#/definitions/NullInt64'
-      Aenum:
-        enum:
-        - ENUM_VAL1_NOT_THE_SAME
-        - ENUM_VAL2
-        type: string
-      Aenum_2:
-        enum:
-        - ENUM_VAL1_NOT_THE_SAME
-        - ENUM_VAL2
-        type: string
       Aenum_2_Data:
         $ref: '#/definitions/NullString'
       Aenum_Data:
         $ref: '#/definitions/NullString'
-      Anarrayofa:
-        items:
-          $ref: '#/definitions/Aclass'
-        type: array
-      Anarrayofb:
-        items:
-          $ref: '#/definitions/Bclass'
-        type: array
-      Anotherarrayofb:
-        items:
-          $ref: '#/definitions/Bclass'
-        type: array
-      Anotherassociationtob_2:
-        $ref: '#/definitions/Bclass'
       Anotherassociationtob_2ID:
         $ref: '#/definitions/NullInt64'
       Anotherassociationtob_2Name:
-        description: all gong Struct has a Name field, this enables this data to object field
+        description: all gong Struct has a Name field, this enables this data to object
+          field
         type: string
-      Anotherbooleanfield:
-        type: boolean
       Anotherbooleanfield_Data:
         $ref: '#/definitions/NullBool'
-      Associationtob:
-        $ref: '#/definitions/Bclass'
       AssociationtobID:
         $ref: '#/definitions/NullInt64'
       AssociationtobName:
-        description: all gong Struct has a Name field, this enables this data to object field
-        type: string
-      Benum:
-        enum:
-        - ENUM_VAL1_NOT_THE_SAME
-        - ENUM_VAL2
+        description: all gong Struct has a Name field, this enables this data to object
+          field
         type: string
       Benum_Data:
         $ref: '#/definitions/NullString'
-      Booleanfield:
-        type: boolean
       Booleanfield_Data:
         $ref: '#/definitions/NullBool'
-      CFloatfield:
-        format: double
-        type: number
       CFloatfield_Data:
         $ref: '#/definitions/NullFloat64'
-      CName:
-        type: string
       CName_Data:
         $ref: '#/definitions/NullString'
       CreatedAt:
-        format: date-time
-        type: string
-      Date:
         format: date-time
         type: string
       Date_Data:
@@ -336,25 +287,15 @@ definitions:
       DeletedAt:
         format: date-time
         type: string
-      Duration1:
-        $ref: '#/definitions/Duration'
       Duration1_Data:
         $ref: '#/definitions/NullInt64'
-      Floatfield:
-        format: double
-        type: number
       Floatfield_Data:
         $ref: '#/definitions/NullFloat64'
       ID:
         format: uint64
         type: integer
-      Intfield:
-        format: int64
-        type: integer
       Intfield_Data:
         $ref: '#/definitions/NullInt64'
-      Name:
-        type: string
       Name_Data:
         $ref: '#/definitions/NullString'
       UpdatedAt:
@@ -378,26 +319,34 @@ definitions:
         $ref: '#/definitions/NullInt64'
       Aclass_AnotherarrayofbDBID_Index:
         $ref: '#/definitions/NullInt64'
+      CreatedAt:
+        format: date-time
+        type: string
+      DeletedAt:
+        format: date-time
+        type: string
       Floatfield:
         format: double
         type: number
-      Floatfield_Data:
-        $ref: '#/definitions/NullFloat64'
+      ID:
+        format: uint64
+        type: integer
       Intfield:
         format: int64
         type: integer
-      Intfield_Data:
-        $ref: '#/definitions/NullInt64'
       Name:
         type: string
-      Name_Data:
-        $ref: '#/definitions/NullString'
+      UpdatedAt:
+        format: date-time
+        type: string
     title: BclassAPI is the input in POST API
     type: object
     x-go-name: BclassAPI
     x-go-package: github.com/fullstack-lang/gong/test/go/orm
   bclassDB:
-    description: 'It incorporates all fields : from the model, from the generated field for the API and the GORM ID'
+    description: |-
+      It incorporates the GORM ID, basic fields from the model (because they can be serialized),
+      the encoded version of pointers
     properties:
       Aclass_AnarrayofbDBID:
         $ref: '#/definitions/NullInt64'
@@ -413,21 +362,13 @@ definitions:
       DeletedAt:
         format: date-time
         type: string
-      Floatfield:
-        format: double
-        type: number
       Floatfield_Data:
         $ref: '#/definitions/NullFloat64'
       ID:
         format: uint64
         type: integer
-      Intfield:
-        format: int64
-        type: integer
       Intfield_Data:
         $ref: '#/definitions/NullInt64'
-      Name:
-        type: string
       Name_Data:
         $ref: '#/definitions/NullString'
       UpdatedAt:
@@ -623,82 +564,51 @@ responses:
     description: AclassDBResponse provides response
     headers:
       Aclass_AnarrayofaDBID:
-        description: Implementation of a reverse ID for field Aclass{}.Anarrayofa []*Aclass
-      Aclass_AnarrayofaDBID_Index: {}
-      Aenum:
-        enum:
-        - - ENUM_VAL1_NOT_THE_SAME
-          - ENUM_VAL2
-        type: string
-      Aenum_2:
-        enum:
-        - - ENUM_VAL1_NOT_THE_SAME
-          - ENUM_VAL2
-        type: string
+        description: Implementation of a reverse ID for field Aclass{}.Anarrayofa
+          []*Aclass
+      Aclass_AnarrayofaDBID_Index:
+        description: implementation of the index of the withing the slice
       Aenum_2_Data:
-        description: Declation for basic field aclassDB.Aenum_2 {{BasicKind}} (to be completed)
+        description: Declation for basic field aclassDB.Aenum_2 {{BasicKind}} (to
+          be completed)
       Aenum_Data:
-        description: Declation for basic field aclassDB.Aenum {{BasicKind}} (to be completed)
-      Anarrayofa:
-        items:
-          $ref: '#/definitions/Aclass'
-        type: array
-      Anarrayofb:
-        items:
-          $ref: '#/definitions/Bclass'
-        type: array
-      Anotherarrayofb:
-        items:
-          $ref: '#/definitions/Bclass'
-        type: array
-      Anotherassociationtob_2: {}
+        description: Declation for basic field aclassDB.Aenum {{BasicKind}} (to be
+          completed)
       Anotherassociationtob_2ID:
         description: |-
           field Anotherassociationtob_2 is a pointer to another Struct (optional or 0..1)
           This field is generated into another field to enable AS ONE association
       Anotherassociationtob_2Name:
-        description: all gong Struct has a Name field, this enables this data to object field
+        description: all gong Struct has a Name field, this enables this data to object
+          field
         type: string
-      Anotherbooleanfield:
-        type: boolean
       Anotherbooleanfield_Data:
         description: |-
           Declation for basic field aclassDB.Anotherbooleanfield bool (to be completed)
           provide the sql storage for the boolan
-      Associationtob: {}
       AssociationtobID:
         description: |-
+          insertion for pointer fields encoding declaration
           field Associationtob is a pointer to another Struct (optional or 0..1)
           This field is generated into another field to enable AS ONE association
       AssociationtobName:
-        description: all gong Struct has a Name field, this enables this data to object field
-        type: string
-      Benum:
-        enum:
-        - - ENUM_VAL1_NOT_THE_SAME
-          - ENUM_VAL2
+        description: all gong Struct has a Name field, this enables this data to object
+          field
         type: string
       Benum_Data:
-        description: Declation for basic field aclassDB.Benum {{BasicKind}} (to be completed)
-      Booleanfield:
-        type: boolean
+        description: Declation for basic field aclassDB.Benum {{BasicKind}} (to be
+          completed)
       Booleanfield_Data:
         description: |-
           Declation for basic field aclassDB.Booleanfield bool (to be completed)
           provide the sql storage for the boolan
-      CFloatfield:
-        format: double
-        type: number
       CFloatfield_Data:
-        description: Declation for basic field aclassDB.CFloatfield {{BasicKind}} (to be completed)
-      CName:
-        type: string
+        description: Declation for basic field aclassDB.CFloatfield {{BasicKind}}
+          (to be completed)
       CName_Data:
-        description: Declation for basic field aclassDB.CName {{BasicKind}} (to be completed)
+        description: Declation for basic field aclassDB.CName {{BasicKind}} (to be
+          completed)
       CreatedAt:
-        format: date-time
-        type: string
-      Date:
         format: date-time
         type: string
       Date_Data:
@@ -706,27 +616,21 @@ responses:
       DeletedAt:
         format: date-time
         type: string
-      Duration1: {}
       Duration1_Data:
-        description: Declation for basic field aclassDB.Duration1 {{BasicKind}} (to be completed)
-      Floatfield:
-        format: double
-        type: number
+        description: Declation for basic field aclassDB.Duration1 {{BasicKind}} (to
+          be completed)
       Floatfield_Data:
-        description: Declation for basic field aclassDB.Floatfield {{BasicKind}} (to be completed)
+        description: Declation for basic field aclassDB.Floatfield {{BasicKind}} (to
+          be completed)
       ID:
         format: uint64
         type: integer
-      Intfield:
-        format: int64
-        type: integer
       Intfield_Data:
-        description: Declation for basic field aclassDB.Intfield {{BasicKind}} (to be completed)
-      Name:
-        type: string
+        description: Declation for basic field aclassDB.Intfield {{BasicKind}} (to
+          be completed)
       Name_Data:
         description: |-
-          insertion for fields declaration
+          insertion for basic fields declaration
           Declation for basic field aclassDB.Name {{BasicKind}} (to be completed)
       UpdatedAt:
         format: date-time
@@ -743,35 +647,34 @@ responses:
     description: BclassDBResponse provides response
     headers:
       Aclass_AnarrayofbDBID:
-        description: Implementation of a reverse ID for field Aclass{}.Anarrayofb []*Bclass
-      Aclass_AnarrayofbDBID_Index: {}
+        description: |-
+          insertion for pointer fields encoding declaration
+          Implementation of a reverse ID for field Aclass{}.Anarrayofb []*Bclass
+      Aclass_AnarrayofbDBID_Index:
+        description: implementation of the index of the withing the slice
       Aclass_AnotherarrayofbDBID:
-        description: Implementation of a reverse ID for field Aclass{}.Anotherarrayofb []*Bclass
-      Aclass_AnotherarrayofbDBID_Index: {}
+        description: Implementation of a reverse ID for field Aclass{}.Anotherarrayofb
+          []*Bclass
+      Aclass_AnotherarrayofbDBID_Index:
+        description: implementation of the index of the withing the slice
       CreatedAt:
         format: date-time
         type: string
       DeletedAt:
         format: date-time
         type: string
-      Floatfield:
-        format: double
-        type: number
       Floatfield_Data:
-        description: Declation for basic field bclassDB.Floatfield {{BasicKind}} (to be completed)
+        description: Declation for basic field bclassDB.Floatfield {{BasicKind}} (to
+          be completed)
       ID:
         format: uint64
         type: integer
-      Intfield:
-        format: int64
-        type: integer
       Intfield_Data:
-        description: Declation for basic field bclassDB.Intfield {{BasicKind}} (to be completed)
-      Name:
-        type: string
+        description: Declation for basic field bclassDB.Intfield {{BasicKind}} (to
+          be completed)
       Name_Data:
         description: |-
-          insertion for fields declaration
+          insertion for basic fields declaration
           Declation for basic field bclassDB.Name {{BasicKind}} (to be completed)
       UpdatedAt:
         format: date-time
