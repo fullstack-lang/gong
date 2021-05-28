@@ -3,9 +3,12 @@ package orm
 
 import (
 	"database/sql"
+	"encoding/json"
 	"errors"
 	"fmt"
+	"io/ioutil"
 	"log"
+	"path/filepath"
 	"sort"
 	"time"
 
@@ -35,7 +38,7 @@ type BclassAPI struct {
 	BclassPointersEnconding
 }
 
-// BclassPointersEnconding encodes pointers to Struct and 
+// BclassPointersEnconding encodes pointers to Struct and
 // reverse pointers of slice of poitners to Struct
 type BclassPointersEnconding struct {
 	// insertion for pointer fields encoding declaration
@@ -69,7 +72,6 @@ type BclassDB struct {
 
 	// Declation for basic field bclassDB.Intfield {{BasicKind}} (to be completed)
 	Intfield_Data sql.NullInt64
-
 
 	// encoding of pointers
 	BclassPointersEnconding
@@ -215,7 +217,6 @@ func (backRepoBclass *BackRepoBclassStruct) CommitPhaseTwoInstance(backRepo *Bac
 		bclassDB.CopyBasicFieldsFromBclass(bclass)
 
 		// insertion point for fields commit
-
 		query := backRepoBclass.db.Save(&bclassDB)
 		if query.Error != nil {
 			return query.Error
@@ -292,9 +293,7 @@ func (backRepoBclass *BackRepoBclassStruct) CheckoutPhaseTwoInstance(backRepo *B
 	bclass := (*backRepoBclass.Map_BclassDBID_BclassPtr)[bclassDB.ID]
 	_ = bclass // sometimes, there is no code generated. This lines voids the "unused variable" compilation error
 
-	// insertion point for checkout of pointer encoding, i.e. update of fields of stage instance from fields of back repo instances
-	//
-
+	// insertion point for checkout of pointer encoding
 	return
 }
 
@@ -345,4 +344,18 @@ func (bclassDB *BclassDB) CopyBasicFieldsToBclass(bclass *models.Bclass) {
 	bclass.Name = bclassDB.Name_Data.String
 	bclass.Floatfield = bclassDB.Floatfield_Data.Float64
 	bclass.Intfield = int(bclassDB.Intfield_Data.Int64)
+}
+
+func (backRepoBclass *BackRepoBclassStruct) Backup(stage *models.StageStruct, dirPath string) {
+
+	file, err := json.MarshalIndent(backRepoBclass.Map_BclassDBID_BclassDB, "", " ")
+
+	if err != nil {
+		log.Panic("Cannot json Bclass ", err.Error())
+	}
+
+	err = ioutil.WriteFile(filepath.Join(dirPath, "BclassDB.json"), file, 0644)
+	if err != nil {
+		log.Panic("Cannot write the json Bclass file", err.Error())
+	}
 }
