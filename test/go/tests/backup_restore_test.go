@@ -17,9 +17,8 @@ func TestBackup(t *testing.T) {
 	// initiate back repo a callback functions
 	orm.BackRepo.Init(db)
 
-	bclass1 := (&models.Bclass{Name: "B1"}).Stage()
-	bclass2 := (&models.Bclass{Name: "B2"}).Stage()
-	_ = bclass2
+	bclass1 := (&models.Bclass{Name: "B1"}).Stage().Commit()
+	bclass2 := (&models.Bclass{Name: "B2"}).Stage().Commit()
 
 	aclass1 := (&models.Aclass{
 		Name:                "A1",
@@ -27,8 +26,7 @@ func TestBackup(t *testing.T) {
 		Booleanfield:        true,
 		Anotherbooleanfield: true,
 		Associationtob:      bclass1,
-	}).Stage()
-	_ = aclass1
+	}).Stage().Commit()
 
 	aclass2 := (&models.Aclass{
 		Name:                "A2",
@@ -37,10 +35,15 @@ func TestBackup(t *testing.T) {
 		Anotherbooleanfield: true,
 		Associationtob:      bclass1,
 	})
-	aclass2.Stage()
+	aclass2.Stage().Commit()
+
+	// order is important, since it is stored in the index
+	aclass1.Anarrayofb = append(aclass1.Anarrayofb, bclass2)
+	aclass1.Anarrayofb = append(aclass1.Anarrayofb, bclass1)
 
 	aclass1.Anotherarrayofb = append(aclass1.Anotherarrayofb, bclass1)
 	aclass1.Anotherarrayofb = append(aclass1.Anotherarrayofb, bclass2)
+
 	aclass1.Anarrayofa = append(aclass1.Anarrayofa, aclass1)
 	aclass1.Anarrayofa = append(aclass1.Anarrayofa, aclass2)
 
@@ -61,16 +64,28 @@ func TestRestore(t *testing.T) {
 	models.Stage.Restore("bckp")
 
 	for aclass := range models.Stage.Aclasss {
-		log.Print(aclass)
+		if aclass.Name == "A1" {
+			log.Print("aclass.Anarrayofb[0].Name of b : ", aclass.Anarrayofb[0].Name)
+			log.Print("aclass.Anarrayofb[1].Name of b : ", aclass.Anarrayofb[1].Name)
+			log.Print("aclass.Anarrayofa[0].Name of b : ", aclass.Anarrayofa[0].Name)
+			log.Print("aclass.Anarrayofa[1].Name of b : ", aclass.Anarrayofa[1].Name)
+		}
 	}
-
-	var a1 *models.Aclass
-	for a := range models.Stage.Aclasss {
-		a1 = a
-	}
-	a1.Floatfield = 17.0
 
 	models.Stage.Commit()
 
 	models.Stage.Backup("bckp-after-restore")
+
+	models.Stage.Restore("bckp-after-restore")
+
+	log.Print("new restore")
+
+	for aclass := range models.Stage.Aclasss {
+		if aclass.Name == "A1" {
+			log.Print("aclass.Anarrayofb[0].Name of b : ", aclass.Anarrayofb[0].Name)
+			log.Print("aclass.Anarrayofb[1].Name of b : ", aclass.Anarrayofb[1].Name)
+			log.Print("aclass.Anarrayofa[0].Name of b : ", aclass.Anarrayofa[0].Name)
+			log.Print("aclass.Anarrayofa[1].Name of b : ", aclass.Anarrayofa[1].Name)
+		}
+	}
 }
