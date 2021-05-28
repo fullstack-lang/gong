@@ -3,9 +3,9 @@ package orm
 
 import (
 	"os"
-
-	"github.com/fullstack-lang/gong/test/go/models"
+	
 	"github.com/jinzhu/gorm"
+	"github.com/fullstack-lang/gong/test/go/models"
 )
 
 // BackRepoStruct supports callback functions
@@ -63,19 +63,18 @@ func (backRepo *BackRepoStruct) Checkout(stage *models.StageStruct) {
 	backRepo.BackRepoBclass.CheckoutPhaseTwo(backRepo)
 }
 
+var BackRepo BackRepoStruct
+
+func GetLastCommitNb() uint {
+	return BackRepo.GetLastCommitNb()
+}
+
 // Backup the BackRepoStruct
 func (backRepo *BackRepoStruct) Backup(stage *models.StageStruct, dirPath string) {
-
 	os.Mkdir(dirPath, os.ModePerm)
-	backRepo.BackRepoAclass.Backup(stage, dirPath)
 }
 
 // Restore the database into the back repo
 func (backRepo *BackRepoStruct) Restore(stage *models.StageStruct, dirPath string) {
 }
 
-var BackRepo BackRepoStruct
-
-func GetLastCommitNb() uint {
-	return BackRepo.GetLastCommitNb()
-}

@@ -13,9 +13,7 @@ var __member __void
 // swagger:ignore
 type StageStruct struct { // insertion point for definition of arrays registering instances
 	Aclasss map[*Aclass]struct{}
-
 	Bclasss map[*Bclass]struct{}
-
 	AllModelsStructCreateCallback AllModelsStructCreateInterface
 
 	AllModelsStructDeleteCallback AllModelsStructDeleteInterface
@@ -46,7 +44,6 @@ type BackRepoInterface interface {
 // swagger:ignore instructs the gong compiler (gongc) to avoid this particular struct
 var Stage StageStruct = StageStruct{ // insertion point for array initiatialisation
 	Aclasss: make(map[*Aclass]struct{}, 0),
-
 	Bclasss: make(map[*Bclass]struct{}, 0),
 }
 
