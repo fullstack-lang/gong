@@ -31,11 +31,14 @@ type AclassAPI struct {
 
 	models.Aclass
 
+	// encoding of pointers
 	AclassPointersEnconding
-	// end of insertion
 }
 
+// AclassPointersEnconding encodes pointers to Struct and 
+// reverse pointers of slice of poitners to Struct
 type AclassPointersEnconding struct {
+	// insertion for pointer fields encoding declaration
 	// field Associationtob is a pointer to another Struct (optional or 0..1)
 	// This field is generated into another field to enable AS ONE association
 	AssociationtobID sql.NullInt64
@@ -51,19 +54,22 @@ type AclassPointersEnconding struct {
 	Anotherassociationtob_2Name string
 
 	// Implementation of a reverse ID for field Aclass{}.Anarrayofa []*Aclass
-	Aclass_AnarrayofaDBID       sql.NullInt64
+	Aclass_AnarrayofaDBID sql.NullInt64
+
+	// implementation of the index of the withing the slice
 	Aclass_AnarrayofaDBID_Index sql.NullInt64
 }
 
 // AclassDB describes a aclass in the database
 //
-// It incorporates all fields : from the model, from the generated field for the API and the GORM ID
+// It incorporates the GORM ID, basic fields from the model (because they can be serialized),
+// the encoded version of pointers
 //
 // swagger:model aclassDB
 type AclassDB struct {
 	gorm.Model
 
-	// insertion for fields declaration
+	// insertion for basic fields declaration
 	// Declation for basic field aclassDB.Name {{BasicKind}} (to be completed)
 	Name_Data sql.NullString
 
@@ -102,6 +108,8 @@ type AclassDB struct {
 	// Declation for basic field aclassDB.Duration1 {{BasicKind}} (to be completed)
 	Duration1_Data sql.NullInt64
 
+
+	// encoding of pointers
 	AclassPointersEnconding
 }
 
@@ -242,79 +250,77 @@ func (backRepoAclass *BackRepoAclassStruct) CommitPhaseTwoInstance(backRepo *Bac
 	// fetch matching aclassDB
 	if aclassDB, ok := (*backRepoAclass.Map_AclassDBID_AclassDB)[idx]; ok {
 
-		{
-			{
-				aclassDB.CopyBasicFieldsFromAclass(aclass)
+		aclassDB.CopyBasicFieldsFromAclass(aclass)
 
-				// commit pointer value aclass.Associationtob translates to updating the aclass.AssociationtobID
-				aclassDB.AssociationtobID.Valid = true // allow for a 0 value (nil association)
-				if aclass.Associationtob != nil {
-					if AssociationtobId, ok := (*backRepo.BackRepoBclass.Map_BclassPtr_BclassDBID)[aclass.Associationtob]; ok {
-						aclassDB.AssociationtobID.Int64 = int64(AssociationtobId)
-					}
-				}
-
-				// commit pointer value aclass.Anotherassociationtob_2 translates to updating the aclass.Anotherassociationtob_2ID
-				aclassDB.Anotherassociationtob_2ID.Valid = true // allow for a 0 value (nil association)
-				if aclass.Anotherassociationtob_2 != nil {
-					if Anotherassociationtob_2Id, ok := (*backRepo.BackRepoBclass.Map_BclassPtr_BclassDBID)[aclass.Anotherassociationtob_2]; ok {
-						aclassDB.Anotherassociationtob_2ID.Int64 = int64(Anotherassociationtob_2Id)
-					}
-				}
-
-				// commit a slice of pointer translates to update reverse pointer to Bclass, i.e.
-				index_Anarrayofb := 0
-				for _, bclass := range aclass.Anarrayofb {
-					if bclassDBID, ok := (*backRepo.BackRepoBclass.Map_BclassPtr_BclassDBID)[bclass]; ok {
-						if bclassDB, ok := (*backRepo.BackRepoBclass.Map_BclassDBID_BclassDB)[bclassDBID]; ok {
-							bclassDB.Aclass_AnarrayofbDBID.Int64 = int64(aclassDB.ID)
-							bclassDB.Aclass_AnarrayofbDBID.Valid = true
-							bclassDB.Aclass_AnarrayofbDBID_Index.Int64 = int64(index_Anarrayofb)
-							index_Anarrayofb = index_Anarrayofb + 1
-							bclassDB.Aclass_AnarrayofbDBID_Index.Valid = true
-							if q := backRepoAclass.db.Save(&bclassDB); q.Error != nil {
-								return q.Error
-							}
-						}
-					}
-				}
-
-				// commit a slice of pointer translates to update reverse pointer to Bclass, i.e.
-				index_Anotherarrayofb := 0
-				for _, bclass := range aclass.Anotherarrayofb {
-					if bclassDBID, ok := (*backRepo.BackRepoBclass.Map_BclassPtr_BclassDBID)[bclass]; ok {
-						if bclassDB, ok := (*backRepo.BackRepoBclass.Map_BclassDBID_BclassDB)[bclassDBID]; ok {
-							bclassDB.Aclass_AnotherarrayofbDBID.Int64 = int64(aclassDB.ID)
-							bclassDB.Aclass_AnotherarrayofbDBID.Valid = true
-							bclassDB.Aclass_AnotherarrayofbDBID_Index.Int64 = int64(index_Anotherarrayofb)
-							index_Anotherarrayofb = index_Anotherarrayofb + 1
-							bclassDB.Aclass_AnotherarrayofbDBID_Index.Valid = true
-							if q := backRepoAclass.db.Save(&bclassDB); q.Error != nil {
-								return q.Error
-							}
-						}
-					}
-				}
-
-				// commit a slice of pointer translates to update reverse pointer to Aclass, i.e.
-				index_Anarrayofa := 0
-				for _, aclass := range aclass.Anarrayofa {
-					if aclassDBID, ok := (*backRepo.BackRepoAclass.Map_AclassPtr_AclassDBID)[aclass]; ok {
-						if aclassDB, ok := (*backRepo.BackRepoAclass.Map_AclassDBID_AclassDB)[aclassDBID]; ok {
-							aclassDB.Aclass_AnarrayofaDBID.Int64 = int64(aclassDB.ID)
-							aclassDB.Aclass_AnarrayofaDBID.Valid = true
-							aclassDB.Aclass_AnarrayofaDBID_Index.Int64 = int64(index_Anarrayofa)
-							index_Anarrayofa = index_Anarrayofa + 1
-							aclassDB.Aclass_AnarrayofaDBID_Index.Valid = true
-							if q := backRepoAclass.db.Save(&aclassDB); q.Error != nil {
-								return q.Error
-							}
-						}
-					}
-				}
-
+		// insertion point for fields commit
+		// commit pointer value aclass.Associationtob translates to updating the aclass.AssociationtobID
+		aclassDB.AssociationtobID.Valid = true // allow for a 0 value (nil association)
+		if aclass.Associationtob != nil {
+			if AssociationtobId, ok := (*backRepo.BackRepoBclass.Map_BclassPtr_BclassDBID)[aclass.Associationtob]; ok {
+				aclassDB.AssociationtobID.Int64 = int64(AssociationtobId)
 			}
 		}
+
+		// commit pointer value aclass.Anotherassociationtob_2 translates to updating the aclass.Anotherassociationtob_2ID
+		aclassDB.Anotherassociationtob_2ID.Valid = true // allow for a 0 value (nil association)
+		if aclass.Anotherassociationtob_2 != nil {
+			if Anotherassociationtob_2Id, ok := (*backRepo.BackRepoBclass.Map_BclassPtr_BclassDBID)[aclass.Anotherassociationtob_2]; ok {
+				aclassDB.Anotherassociationtob_2ID.Int64 = int64(Anotherassociationtob_2Id)
+			}
+		}
+
+		// commit a slice of pointer translates to update reverse pointer to Bclass, i.e.
+		index_Anarrayofb := 0
+		for _, bclass := range aclass.Anarrayofb {
+			if bclassDBID, ok := (*backRepo.BackRepoBclass.Map_BclassPtr_BclassDBID)[bclass]; ok {
+				if bclassDB, ok := (*backRepo.BackRepoBclass.Map_BclassDBID_BclassDB)[bclassDBID]; ok {
+					bclassDB.Aclass_AnarrayofbDBID.Int64 = int64(aclassDB.ID)
+					bclassDB.Aclass_AnarrayofbDBID.Valid = true
+					bclassDB.Aclass_AnarrayofbDBID_Index.Int64 = int64(index_Anarrayofb)
+					index_Anarrayofb = index_Anarrayofb + 1
+					bclassDB.Aclass_AnarrayofbDBID_Index.Valid = true
+					if q := backRepoAclass.db.Save(&bclassDB); q.Error != nil {
+						return q.Error
+					}
+				}
+			}
+		}
+
+		// commit a slice of pointer translates to update reverse pointer to Bclass, i.e.
+		index_Anotherarrayofb := 0
+		for _, bclass := range aclass.Anotherarrayofb {
+			if bclassDBID, ok := (*backRepo.BackRepoBclass.Map_BclassPtr_BclassDBID)[bclass]; ok {
+				if bclassDB, ok := (*backRepo.BackRepoBclass.Map_BclassDBID_BclassDB)[bclassDBID]; ok {
+					bclassDB.Aclass_AnotherarrayofbDBID.Int64 = int64(aclassDB.ID)
+					bclassDB.Aclass_AnotherarrayofbDBID.Valid = true
+					bclassDB.Aclass_AnotherarrayofbDBID_Index.Int64 = int64(index_Anotherarrayofb)
+					index_Anotherarrayofb = index_Anotherarrayofb + 1
+					bclassDB.Aclass_AnotherarrayofbDBID_Index.Valid = true
+					if q := backRepoAclass.db.Save(&bclassDB); q.Error != nil {
+						return q.Error
+					}
+				}
+			}
+		}
+
+		// commit a slice of pointer translates to update reverse pointer to Aclass, i.e.
+		index_Anarrayofa := 0
+		for _, aclass := range aclass.Anarrayofa {
+			if aclassDBID, ok := (*backRepo.BackRepoAclass.Map_AclassPtr_AclassDBID)[aclass]; ok {
+				if aclassDB, ok := (*backRepo.BackRepoAclass.Map_AclassDBID_AclassDB)[aclassDBID]; ok {
+					aclassDB.Aclass_AnarrayofaDBID.Int64 = int64(aclassDB.ID)
+					aclassDB.Aclass_AnarrayofaDBID.Valid = true
+					aclassDB.Aclass_AnarrayofaDBID_Index.Int64 = int64(index_Anarrayofa)
+					index_Anarrayofa = index_Anarrayofa + 1
+					aclassDB.Aclass_AnarrayofaDBID_Index.Valid = true
+					if q := backRepoAclass.db.Save(&aclassDB); q.Error != nil {
+						return q.Error
+					}
+				}
+			}
+		}
+
+
 		query := backRepoAclass.db.Save(&aclassDB)
 		if query.Error != nil {
 			return query.Error
@@ -390,83 +396,81 @@ func (backRepoAclass *BackRepoAclassStruct) CheckoutPhaseTwoInstance(backRepo *B
 
 	aclass := (*backRepoAclass.Map_AclassDBID_AclassPtr)[aclassDB.ID]
 	_ = aclass // sometimes, there is no code generated. This lines voids the "unused variable" compilation error
-	{
-		{
-			// Associationtob field
-			if aclassDB.AssociationtobID.Int64 != 0 {
-				aclass.Associationtob = (*backRepo.BackRepoBclass.Map_BclassDBID_BclassPtr)[uint(aclassDB.AssociationtobID.Int64)]
-			}
 
-			// Anotherassociationtob_2 field
-			if aclassDB.Anotherassociationtob_2ID.Int64 != 0 {
-				aclass.Anotherassociationtob_2 = (*backRepo.BackRepoBclass.Map_BclassDBID_BclassPtr)[uint(aclassDB.Anotherassociationtob_2ID.Int64)]
-			}
-
-			// parse all BclassDB and redeem the array of poiners to Aclass
-			// first reset the slice
-			aclass.Anarrayofb = aclass.Anarrayofb[:0]
-			for _, BclassDB := range *backRepo.BackRepoBclass.Map_BclassDBID_BclassDB {
-				if BclassDB.Aclass_AnarrayofbDBID.Int64 == int64(aclassDB.ID) {
-					Bclass := (*backRepo.BackRepoBclass.Map_BclassDBID_BclassPtr)[BclassDB.ID]
-					aclass.Anarrayofb = append(aclass.Anarrayofb, Bclass)
-				}
-			}
-
-			// sort the array according to the order
-			sort.Slice(aclass.Anarrayofb, func(i, j int) bool {
-				bclassDB_i_ID := (*backRepo.BackRepoBclass.Map_BclassPtr_BclassDBID)[aclass.Anarrayofb[i]]
-				bclassDB_j_ID := (*backRepo.BackRepoBclass.Map_BclassPtr_BclassDBID)[aclass.Anarrayofb[j]]
-
-				bclassDB_i := (*backRepo.BackRepoBclass.Map_BclassDBID_BclassDB)[bclassDB_i_ID]
-				bclassDB_j := (*backRepo.BackRepoBclass.Map_BclassDBID_BclassDB)[bclassDB_j_ID]
-
-				return bclassDB_i.Aclass_AnarrayofbDBID_Index.Int64 < bclassDB_j.Aclass_AnarrayofbDBID_Index.Int64
-			})
-
-			// parse all BclassDB and redeem the array of poiners to Aclass
-			// first reset the slice
-			aclass.Anotherarrayofb = aclass.Anotherarrayofb[:0]
-			for _, BclassDB := range *backRepo.BackRepoBclass.Map_BclassDBID_BclassDB {
-				if BclassDB.Aclass_AnotherarrayofbDBID.Int64 == int64(aclassDB.ID) {
-					Bclass := (*backRepo.BackRepoBclass.Map_BclassDBID_BclassPtr)[BclassDB.ID]
-					aclass.Anotherarrayofb = append(aclass.Anotherarrayofb, Bclass)
-				}
-			}
-
-			// sort the array according to the order
-			sort.Slice(aclass.Anotherarrayofb, func(i, j int) bool {
-				bclassDB_i_ID := (*backRepo.BackRepoBclass.Map_BclassPtr_BclassDBID)[aclass.Anotherarrayofb[i]]
-				bclassDB_j_ID := (*backRepo.BackRepoBclass.Map_BclassPtr_BclassDBID)[aclass.Anotherarrayofb[j]]
-
-				bclassDB_i := (*backRepo.BackRepoBclass.Map_BclassDBID_BclassDB)[bclassDB_i_ID]
-				bclassDB_j := (*backRepo.BackRepoBclass.Map_BclassDBID_BclassDB)[bclassDB_j_ID]
-
-				return bclassDB_i.Aclass_AnotherarrayofbDBID_Index.Int64 < bclassDB_j.Aclass_AnotherarrayofbDBID_Index.Int64
-			})
-
-			// parse all AclassDB and redeem the array of poiners to Aclass
-			// first reset the slice
-			aclass.Anarrayofa = aclass.Anarrayofa[:0]
-			for _, AclassDB := range *backRepo.BackRepoAclass.Map_AclassDBID_AclassDB {
-				if AclassDB.Aclass_AnarrayofaDBID.Int64 == int64(aclassDB.ID) {
-					Aclass := (*backRepo.BackRepoAclass.Map_AclassDBID_AclassPtr)[AclassDB.ID]
-					aclass.Anarrayofa = append(aclass.Anarrayofa, Aclass)
-				}
-			}
-
-			// sort the array according to the order
-			sort.Slice(aclass.Anarrayofa, func(i, j int) bool {
-				aclassDB_i_ID := (*backRepo.BackRepoAclass.Map_AclassPtr_AclassDBID)[aclass.Anarrayofa[i]]
-				aclassDB_j_ID := (*backRepo.BackRepoAclass.Map_AclassPtr_AclassDBID)[aclass.Anarrayofa[j]]
-
-				aclassDB_i := (*backRepo.BackRepoAclass.Map_AclassDBID_AclassDB)[aclassDB_i_ID]
-				aclassDB_j := (*backRepo.BackRepoAclass.Map_AclassDBID_AclassDB)[aclassDB_j_ID]
-
-				return aclassDB_i.Aclass_AnarrayofaDBID_Index.Int64 < aclassDB_j.Aclass_AnarrayofaDBID_Index.Int64
-			})
-
+	// insertion point for checkout of pointer encoding, i.e. update of fields of stage instance from fields of back repo instances
+	//
+	// Associationtob field
+	if aclassDB.AssociationtobID.Int64 != 0 {
+		aclass.Associationtob = (*backRepo.BackRepoBclass.Map_BclassDBID_BclassPtr)[uint(aclassDB.AssociationtobID.Int64)]
+	}
+	// Anotherassociationtob_2 field
+	if aclassDB.Anotherassociationtob_2ID.Int64 != 0 {
+		aclass.Anotherassociationtob_2 = (*backRepo.BackRepoBclass.Map_BclassDBID_BclassPtr)[uint(aclassDB.Anotherassociationtob_2ID.Int64)]
+	}
+	// parse all BclassDB and redeem the array of poiners to Aclass
+	// first reset the slice
+	aclass.Anarrayofb = aclass.Anarrayofb[:0]
+	for _, BclassDB := range *backRepo.BackRepoBclass.Map_BclassDBID_BclassDB {
+		if BclassDB.Aclass_AnarrayofbDBID.Int64 == int64(aclassDB.ID) {
+			Bclass := (*backRepo.BackRepoBclass.Map_BclassDBID_BclassPtr)[BclassDB.ID]
+			aclass.Anarrayofb = append(aclass.Anarrayofb, Bclass)
 		}
 	}
+
+	// sort the array according to the order
+	sort.Slice(aclass.Anarrayofb, func(i, j int) bool {
+		bclassDB_i_ID := (*backRepo.BackRepoBclass.Map_BclassPtr_BclassDBID)[aclass.Anarrayofb[i]]
+		bclassDB_j_ID := (*backRepo.BackRepoBclass.Map_BclassPtr_BclassDBID)[aclass.Anarrayofb[j]]
+
+		bclassDB_i := (*backRepo.BackRepoBclass.Map_BclassDBID_BclassDB)[bclassDB_i_ID]
+		bclassDB_j := (*backRepo.BackRepoBclass.Map_BclassDBID_BclassDB)[bclassDB_j_ID]
+
+		return bclassDB_i.Aclass_AnarrayofbDBID_Index.Int64 < bclassDB_j.Aclass_AnarrayofbDBID_Index.Int64
+	})
+
+	// parse all BclassDB and redeem the array of poiners to Aclass
+	// first reset the slice
+	aclass.Anotherarrayofb = aclass.Anotherarrayofb[:0]
+	for _, BclassDB := range *backRepo.BackRepoBclass.Map_BclassDBID_BclassDB {
+		if BclassDB.Aclass_AnotherarrayofbDBID.Int64 == int64(aclassDB.ID) {
+			Bclass := (*backRepo.BackRepoBclass.Map_BclassDBID_BclassPtr)[BclassDB.ID]
+			aclass.Anotherarrayofb = append(aclass.Anotherarrayofb, Bclass)
+		}
+	}
+
+	// sort the array according to the order
+	sort.Slice(aclass.Anotherarrayofb, func(i, j int) bool {
+		bclassDB_i_ID := (*backRepo.BackRepoBclass.Map_BclassPtr_BclassDBID)[aclass.Anotherarrayofb[i]]
+		bclassDB_j_ID := (*backRepo.BackRepoBclass.Map_BclassPtr_BclassDBID)[aclass.Anotherarrayofb[j]]
+
+		bclassDB_i := (*backRepo.BackRepoBclass.Map_BclassDBID_BclassDB)[bclassDB_i_ID]
+		bclassDB_j := (*backRepo.BackRepoBclass.Map_BclassDBID_BclassDB)[bclassDB_j_ID]
+
+		return bclassDB_i.Aclass_AnotherarrayofbDBID_Index.Int64 < bclassDB_j.Aclass_AnotherarrayofbDBID_Index.Int64
+	})
+
+	// parse all AclassDB and redeem the array of poiners to Aclass
+	// first reset the slice
+	aclass.Anarrayofa = aclass.Anarrayofa[:0]
+	for _, AclassDB := range *backRepo.BackRepoAclass.Map_AclassDBID_AclassDB {
+		if AclassDB.Aclass_AnarrayofaDBID.Int64 == int64(aclassDB.ID) {
+			Aclass := (*backRepo.BackRepoAclass.Map_AclassDBID_AclassPtr)[AclassDB.ID]
+			aclass.Anarrayofa = append(aclass.Anarrayofa, Aclass)
+		}
+	}
+
+	// sort the array according to the order
+	sort.Slice(aclass.Anarrayofa, func(i, j int) bool {
+		aclassDB_i_ID := (*backRepo.BackRepoAclass.Map_AclassPtr_AclassDBID)[aclass.Anarrayofa[i]]
+		aclassDB_j_ID := (*backRepo.BackRepoAclass.Map_AclassPtr_AclassDBID)[aclass.Anarrayofa[j]]
+
+		aclassDB_i := (*backRepo.BackRepoAclass.Map_AclassDBID_AclassDB)[aclassDB_i_ID]
+		aclassDB_j := (*backRepo.BackRepoAclass.Map_AclassDBID_AclassDB)[aclassDB_j_ID]
+
+		return aclassDB_i.Aclass_AnarrayofaDBID_Index.Int64 < aclassDB_j.Aclass_AnarrayofaDBID_Index.Int64
+	})
+
+
 	return
 }
 
@@ -494,4 +498,63 @@ func (backRepo *BackRepoStruct) CheckoutAclass(aclass *models.Aclass) {
 			backRepo.BackRepoAclass.CheckoutPhaseTwoInstance(backRepo, &aclassDB)
 		}
 	}
+}
+
+// CopyBasicFieldsToAclassDB is used to copy basic fields between the Stage or the CRUD to the back repo
+func (aclassDB *AclassDB) CopyBasicFieldsFromAclass(aclass *models.Aclass) {
+	// insertion point for fields commit
+	aclassDB.Name_Data.String = aclass.Name
+	aclassDB.Name_Data.Valid = true
+
+	aclassDB.Date_Data.Time = aclass.Date
+	aclassDB.Date_Data.Valid = true
+
+	aclassDB.Booleanfield_Data.Bool = aclass.Booleanfield
+	aclassDB.Booleanfield_Data.Valid = true
+
+	aclassDB.Aenum_Data.String = string(aclass.Aenum)
+	aclassDB.Aenum_Data.Valid = true
+
+	aclassDB.Aenum_2_Data.String = string(aclass.Aenum_2)
+	aclassDB.Aenum_2_Data.Valid = true
+
+	aclassDB.Benum_Data.String = string(aclass.Benum)
+	aclassDB.Benum_Data.Valid = true
+
+	aclassDB.CName_Data.String = aclass.CName
+	aclassDB.CName_Data.Valid = true
+
+	aclassDB.CFloatfield_Data.Float64 = aclass.CFloatfield
+	aclassDB.CFloatfield_Data.Valid = true
+
+	aclassDB.Floatfield_Data.Float64 = aclass.Floatfield
+	aclassDB.Floatfield_Data.Valid = true
+
+	aclassDB.Intfield_Data.Int64 = int64(aclass.Intfield)
+	aclassDB.Intfield_Data.Valid = true
+
+	aclassDB.Anotherbooleanfield_Data.Bool = aclass.Anotherbooleanfield
+	aclassDB.Anotherbooleanfield_Data.Valid = true
+
+	aclassDB.Duration1_Data.Int64 = int64(aclass.Duration1)
+	aclassDB.Duration1_Data.Valid = true
+
+}
+
+// CopyBasicFieldsToAclassDB is used to copy basic fields between the Stage or the CRUD to the back repo
+func (aclassDB *AclassDB) CopyBasicFieldsToAclass(aclass *models.Aclass) {
+
+	// insertion point for checkout of basic fields (back repo to stage)
+	aclass.Name = aclassDB.Name_Data.String
+	aclass.Date = aclassDB.Date_Data.Time
+	aclass.Booleanfield = aclassDB.Booleanfield_Data.Bool
+	aclass.Aenum = models.AEnumType(aclassDB.Aenum_Data.String)
+	aclass.Aenum_2 = models.AEnumType(aclassDB.Aenum_2_Data.String)
+	aclass.Benum = models.BEnumType(aclassDB.Benum_Data.String)
+	aclass.CName = aclassDB.CName_Data.String
+	aclass.CFloatfield = aclassDB.CFloatfield_Data.Float64
+	aclass.Floatfield = aclassDB.Floatfield_Data.Float64
+	aclass.Intfield = int(aclassDB.Intfield_Data.Int64)
+	aclass.Anotherbooleanfield = aclassDB.Anotherbooleanfield_Data.Bool
+	aclass.Duration1 = time.Duration(aclassDB.Duration1_Data.Int64)
 }
