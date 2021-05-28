@@ -3,7 +3,7 @@ package orm
 
 import (
 	"os"
-	
+
 	"github.com/jinzhu/gorm"
 
 	"github.com/fullstack-lang/gong/test/go/models"
@@ -79,7 +79,14 @@ func (backRepo *BackRepoStruct) Backup(stage *models.StageStruct, dirPath string
 	backRepo.BackRepoBclass.Backup(stage, dirPath)
 }
 
-// Restore the database into the back repo
+// Restore the database into the stage/back repo
 func (backRepo *BackRepoStruct) Restore(stage *models.StageStruct, dirPath string) {
-}
 
+	// clean back repo and stage
+	stage.Checkout()
+	stage.Reset()
+	stage.Commit()
+	backRepo.BackRepoAclass.Restore(stage, dirPath)
+	backRepo.BackRepoBclass.Restore(stage, dirPath)
+	stage.Checkout()
+}
