@@ -1,8 +1,8 @@
-{
- "1": {
+[
+ {
   "ID": 1,
-  "CreatedAt": "2021-05-28T10:54:45.583914+02:00",
-  "UpdatedAt": "2021-05-28T10:54:45.585334+02:00",
+  "CreatedAt": "2021-05-28T17:37:41.958751+02:00",
+  "UpdatedAt": "2021-05-28T17:37:41.960527+02:00",
   "DeletedAt": null,
   "Name_Data": {
    "String": "A1",
@@ -71,10 +71,10 @@
    "Valid": true
   }
  },
- "2": {
+ {
   "ID": 2,
-  "CreatedAt": "2021-05-28T10:54:45.584159+02:00",
-  "UpdatedAt": "2021-05-28T10:54:45.585514+02:00",
+  "CreatedAt": "2021-05-28T17:37:41.959159+02:00",
+  "UpdatedAt": "2021-05-28T17:37:41.960724+02:00",
   "DeletedAt": null,
   "Name_Data": {
    "String": "A2",
@@ -135,7 +135,7 @@
   },
   "Anotherassociationtob_2Name": "",
   "Aclass_AnarrayofaDBID": {
-   "Int64": 2,
+   "Int64": 1,
    "Valid": true
   },
   "Aclass_AnarrayofaDBID_Index": {
@@ -143,4 +143,4 @@
    "Valid": true
   }
  }
-}
+]

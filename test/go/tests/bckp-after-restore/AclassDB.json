@@ -1,8 +1,8 @@
-{
- "1": {
+[
+ {
   "ID": 1,
-  "CreatedAt": "2021-05-28T10:54:45.583914+02:00",
-  "UpdatedAt": "2021-05-28T15:15:37.221995+02:00",
+  "CreatedAt": "2021-05-28T15:36:01.544891+02:00",
+  "UpdatedAt": "2021-05-28T16:01:57.651153+02:00",
   "DeletedAt": null,
   "Name_Data": {
    "String": "A1",
@@ -53,7 +53,7 @@
    "Valid": true
   },
   "AssociationtobID": {
-   "Int64": 1,
+   "Int64": 2,
    "Valid": true
   },
   "AssociationtobName": "",
@@ -71,10 +71,10 @@
    "Valid": true
   }
  },
- "2": {
+ {
   "ID": 2,
-  "CreatedAt": "2021-05-28T10:54:45.584159+02:00",
-  "UpdatedAt": "2021-05-28T15:15:37.221268+02:00",
+  "CreatedAt": "2021-05-28T15:36:01.545096+02:00",
+  "UpdatedAt": "2021-05-28T16:01:57.651532+02:00",
   "DeletedAt": null,
   "Name_Data": {
    "String": "A2",
@@ -109,7 +109,7 @@
    "Valid": true
   },
   "Floatfield_Data": {
-   "Float64": 17,
+   "Float64": 10.77,
    "Valid": true
   },
   "Intfield_Data": {
@@ -125,7 +125,7 @@
    "Valid": true
   },
   "AssociationtobID": {
-   "Int64": 1,
+   "Int64": 2,
    "Valid": true
   },
   "AssociationtobName": "",
@@ -143,4 +143,4 @@
    "Valid": true
   }
  }
-}
+]
