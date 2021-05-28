@@ -1,0 +1,223 @@
+{
+ "1": {
+  "ID": 1,
+  "CreatedAt": "2021-05-28T05:43:32.921083+02:00",
+  "UpdatedAt": "2021-05-28T05:43:32.922293+02:00",
+  "DeletedAt": null,
+  "Name": "A1",
+  "Date": "0001-01-01T00:00:00Z",
+  "Booleanfield": true,
+  "Aenum": "",
+  "Aenum_2": "",
+  "Benum": "",
+  "CName": "",
+  "CFloatfield": 0,
+  "Floatfield": 10.2,
+  "Intfield": 0,
+  "Anotherbooleanfield": true,
+  "Duration1": 0,
+  "Associationtob": {
+   "Name": "B1",
+   "Floatfield": 0,
+   "Intfield": 0
+  },
+  "Anotherassociationtob_2": null,
+  "Anarrayofb": null,
+  "Anotherarrayofb": [
+   {
+    "Name": "B1",
+    "Floatfield": 0,
+    "Intfield": 0
+   },
+   {
+    "Name": "B2",
+    "Floatfield": 0,
+    "Intfield": 0
+   }
+  ],
+  "Anarrayofa": [
+   {
+    "Name": "A2",
+    "Date": "0001-01-01T00:00:00Z",
+    "Booleanfield": true,
+    "Aenum": "",
+    "Aenum_2": "",
+    "Benum": "",
+    "CName": "",
+    "CFloatfield": 0,
+    "Floatfield": 10.77,
+    "Intfield": 0,
+    "Anotherbooleanfield": true,
+    "Duration1": 0,
+    "Associationtob": {
+     "Name": "B1",
+     "Floatfield": 0,
+     "Intfield": 0
+    },
+    "Anotherassociationtob_2": null,
+    "Anarrayofb": null,
+    "Anotherarrayofb": null,
+    "Anarrayofa": null
+   }
+  ],
+  "Name_Data": {
+   "String": "A1",
+   "Valid": true
+  },
+  "Date_Data": {
+   "Time": "0001-01-01T00:00:00Z",
+   "Valid": true
+  },
+  "Booleanfield_Data": {
+   "Bool": true,
+   "Valid": true
+  },
+  "Aenum_Data": {
+   "String": "",
+   "Valid": true
+  },
+  "Aenum_2_Data": {
+   "String": "",
+   "Valid": true
+  },
+  "Benum_Data": {
+   "String": "",
+   "Valid": true
+  },
+  "CName_Data": {
+   "String": "",
+   "Valid": true
+  },
+  "CFloatfield_Data": {
+   "Float64": 0,
+   "Valid": true
+  },
+  "Floatfield_Data": {
+   "Float64": 10.2,
+   "Valid": true
+  },
+  "Intfield_Data": {
+   "Int64": 0,
+   "Valid": true
+  },
+  "Anotherbooleanfield_Data": {
+   "Bool": true,
+   "Valid": true
+  },
+  "Duration1_Data": {
+   "Int64": 0,
+   "Valid": true
+  },
+  "AssociationtobID": {
+   "Int64": 1,
+   "Valid": true
+  },
+  "AssociationtobName": "",
+  "Anotherassociationtob_2ID": {
+   "Int64": 0,
+   "Valid": true
+  },
+  "Anotherassociationtob_2Name": "",
+  "Aclass_AnarrayofaDBID": {
+   "Int64": 0,
+   "Valid": false
+  },
+  "Aclass_AnarrayofaDBID_Index": {
+   "Int64": 0,
+   "Valid": false
+  }
+ },
+ "2": {
+  "ID": 2,
+  "CreatedAt": "2021-05-28T05:43:32.921353+02:00",
+  "UpdatedAt": "2021-05-28T05:43:32.922508+02:00",
+  "DeletedAt": null,
+  "Name": "A2",
+  "Date": "0001-01-01T00:00:00Z",
+  "Booleanfield": true,
+  "Aenum": "",
+  "Aenum_2": "",
+  "Benum": "",
+  "CName": "",
+  "CFloatfield": 0,
+  "Floatfield": 10.77,
+  "Intfield": 0,
+  "Anotherbooleanfield": true,
+  "Duration1": 0,
+  "Associationtob": {
+   "Name": "B1",
+   "Floatfield": 0,
+   "Intfield": 0
+  },
+  "Anotherassociationtob_2": null,
+  "Anarrayofb": null,
+  "Anotherarrayofb": null,
+  "Anarrayofa": null,
+  "Name_Data": {
+   "String": "A2",
+   "Valid": true
+  },
+  "Date_Data": {
+   "Time": "0001-01-01T00:00:00Z",
+   "Valid": true
+  },
+  "Booleanfield_Data": {
+   "Bool": true,
+   "Valid": true
+  },
+  "Aenum_Data": {
+   "String": "",
+   "Valid": true
+  },
+  "Aenum_2_Data": {
+   "String": "",
+   "Valid": true
+  },
+  "Benum_Data": {
+   "String": "",
+   "Valid": true
+  },
+  "CName_Data": {
+   "String": "",
+   "Valid": true
+  },
+  "CFloatfield_Data": {
+   "Float64": 0,
+   "Valid": true
+  },
+  "Floatfield_Data": {
+   "Float64": 10.77,
+   "Valid": true
+  },
+  "Intfield_Data": {
+   "Int64": 0,
+   "Valid": true
+  },
+  "Anotherbooleanfield_Data": {
+   "Bool": true,
+   "Valid": true
+  },
+  "Duration1_Data": {
+   "Int64": 0,
+   "Valid": true
+  },
+  "AssociationtobID": {
+   "Int64": 1,
+   "Valid": true
+  },
+  "AssociationtobName": "",
+  "Anotherassociationtob_2ID": {
+   "Int64": 0,
+   "Valid": true
+  },
+  "Anotherassociationtob_2Name": "",
+  "Aclass_AnarrayofaDBID": {
+   "Int64": 2,
+   "Valid": true
+  },
+  "Aclass_AnarrayofaDBID_Index": {
+   "Int64": 0,
+   "Valid": true
+  }
+ }
+}
