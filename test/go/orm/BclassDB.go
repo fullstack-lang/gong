@@ -349,7 +349,16 @@ func (bclassDB *BclassDB) CopyBasicFieldsToBclass(bclass *models.Bclass) {
 
 func (backRepoBclass *BackRepoBclassStruct) Backup(stage *models.StageStruct, dirPath string) {
 
-	file, err := json.MarshalIndent(backRepoBclass.Map_BclassDBID_BclassDB, "", " ")
+	var forBackup []*BclassDB
+	for _, aclassDB := range *backRepoBclass.Map_BclassDBID_BclassDB {
+		forBackup = append(forBackup, aclassDB)
+	}
+
+	sort.Slice(forBackup[:], func(i, j int) bool {
+		return forBackup[i].ID < forBackup[j].ID
+	})
+
+	file, err := json.MarshalIndent(forBackup, "", " ")
 
 	if err != nil {
 		log.Panic("Cannot json Bclass ", err.Error())
@@ -373,12 +382,14 @@ func (backRepoBclass *BackRepoBclassStruct) Restore(stage *models.StageStruct, d
 	// read our opened jsonFile as a byte array.
 	byteValue, _ := ioutil.ReadAll(jsonFile)
 
-	var _Map_BclassDBID_BclassDB map[uint]*BclassDB
+	var forRestore []*BclassDB
 
-	err = json.Unmarshal(byteValue, &_Map_BclassDBID_BclassDB)
+	err = json.Unmarshal(byteValue, &forRestore)
 
 	// fill up Map_BclassDBID_BclassDB
-	for bclassDB_ID, bclassDB := range _Map_BclassDBID_BclassDB {
+	for _, bclassDB := range forRestore {
+
+		bclassDB_ID := bclassDB.ID
 		query := backRepoBclass.db.Create(bclassDB)
 		if query.Error != nil {
 			log.Panic(query.Error)

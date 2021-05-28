@@ -467,12 +467,12 @@ var BackRepoFieldSubTemplateCode map[BackRepoPerStructSubTemplate]string = map[B
 
 	BackRepoCommitSliceOfPointerToStructField: `
 		// commit a slice of pointer translates to update reverse pointer to {{AssociationStructName}}, i.e.
-		for _, {{associationStructName}} := range {{structname}}.{{FieldName}} {
-			if {{associationStructName}}DBID, ok := (*map_{{AssociationStructName}}Ptr_{{AssociationStructName}}DBID)[{{associationStructName}}]; ok {
-				if {{associationStructName}}DB, ok := (*map_{{AssociationStructName}}DBID_{{AssociationStructName}}DB)[{{associationStructName}}DBID]; ok {
-					{{associationStructName}}DB.{{Structname}}_{{FieldName}}DBID.Int64 = int64({{structname}}DB.ID)
-					{{associationStructName}}DB.{{Structname}}_{{FieldName}}DBID.Valid = true
-					if q := db.Save(&{{associationStructName}}DB); q.Error != nil {
+		for _, _{{associationStructName}} := range {{structname}}.{{FieldName}} {
+			if _{{associationStructName}}DBID, ok := (*map_{{AssociationStructName}}Ptr_{{AssociationStructName}}DBID)[_{{associationStructName}}]; ok {
+				if _{{associationStructName}}DB, ok := (*map_{{AssociationStructName}}DBID_{{AssociationStructName}}DB)[_{{associationStructName}}DBID]; ok {
+					_{{associationStructName}}DB.{{Structname}}_{{FieldName}}DBID.Int64 = int64({{structname}}DB.ID)
+					_{{associationStructName}}DB.{{Structname}}_{{FieldName}}DBID.Valid = true
+					if q := db.Save(&_{{associationStructName}}DB); q.Error != nil {
 						return q.Error
 					}
 				}
@@ -483,15 +483,15 @@ var BackRepoFieldSubTemplateCode map[BackRepoPerStructSubTemplate]string = map[B
 	BackRepoCommitNewSliceOfPointerToStructField: `
 		// commit a slice of pointer translates to update reverse pointer to {{AssociationStructName}}, i.e.
 		index_{{FieldName}} := 0
-		for _, {{associationStructName}} := range {{structname}}.{{FieldName}} {
-			if {{associationStructName}}DBID, ok := (*backRepo.BackRepo{{AssociationStructName}}.Map_{{AssociationStructName}}Ptr_{{AssociationStructName}}DBID)[{{associationStructName}}]; ok {
-				if {{associationStructName}}DB, ok := (*backRepo.BackRepo{{AssociationStructName}}.Map_{{AssociationStructName}}DBID_{{AssociationStructName}}DB)[{{associationStructName}}DBID]; ok {
-					{{associationStructName}}DB.{{Structname}}_{{FieldName}}DBID.Int64 = int64({{structname}}DB.ID)
-					{{associationStructName}}DB.{{Structname}}_{{FieldName}}DBID.Valid = true
-					{{associationStructName}}DB.{{Structname}}_{{FieldName}}DBID_Index.Int64 = int64(index_{{FieldName}})
+		for _, _{{associationStructName}} := range {{structname}}.{{FieldName}} {
+			if _{{associationStructName}}DBID, ok := (*backRepo.BackRepo{{AssociationStructName}}.Map_{{AssociationStructName}}Ptr_{{AssociationStructName}}DBID)[_{{associationStructName}}]; ok {
+				if _{{associationStructName}}DB, ok := (*backRepo.BackRepo{{AssociationStructName}}.Map_{{AssociationStructName}}DBID_{{AssociationStructName}}DB)[_{{associationStructName}}DBID]; ok {
+					_{{associationStructName}}DB.{{Structname}}_{{FieldName}}DBID.Int64 = int64({{structname}}DB.ID)
+					_{{associationStructName}}DB.{{Structname}}_{{FieldName}}DBID.Valid = true
+					_{{associationStructName}}DB.{{Structname}}_{{FieldName}}DBID_Index.Int64 = int64(index_{{FieldName}})
 					index_{{FieldName}} = index_{{FieldName}} + 1
-					{{associationStructName}}DB.{{Structname}}_{{FieldName}}DBID_Index.Valid = true
-					if q := backRepo{{Structname}}.db.Save(&{{associationStructName}}DB); q.Error != nil {
+					_{{associationStructName}}DB.{{Structname}}_{{FieldName}}DBID_Index.Valid = true
+					if q := backRepo{{Structname}}.db.Save(&_{{associationStructName}}DB); q.Error != nil {
 						return q.Error
 					}
 				}

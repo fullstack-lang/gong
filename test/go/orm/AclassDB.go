@@ -274,15 +274,15 @@ func (backRepoAclass *BackRepoAclassStruct) CommitPhaseTwoInstance(backRepo *Bac
 
 		// commit a slice of pointer translates to update reverse pointer to Bclass, i.e.
 		index_Anarrayofb := 0
-		for _, bclass := range aclass.Anarrayofb {
-			if bclassDBID, ok := (*backRepo.BackRepoBclass.Map_BclassPtr_BclassDBID)[bclass]; ok {
-				if bclassDB, ok := (*backRepo.BackRepoBclass.Map_BclassDBID_BclassDB)[bclassDBID]; ok {
-					bclassDB.Aclass_AnarrayofbDBID.Int64 = int64(aclassDB.ID)
-					bclassDB.Aclass_AnarrayofbDBID.Valid = true
-					bclassDB.Aclass_AnarrayofbDBID_Index.Int64 = int64(index_Anarrayofb)
+		for _, _bclass := range aclass.Anarrayofb {
+			if _bclassDBID, ok := (*backRepo.BackRepoBclass.Map_BclassPtr_BclassDBID)[_bclass]; ok {
+				if _bclassDB, ok := (*backRepo.BackRepoBclass.Map_BclassDBID_BclassDB)[_bclassDBID]; ok {
+					_bclassDB.Aclass_AnarrayofbDBID.Int64 = int64(aclassDB.ID)
+					_bclassDB.Aclass_AnarrayofbDBID.Valid = true
+					_bclassDB.Aclass_AnarrayofbDBID_Index.Int64 = int64(index_Anarrayofb)
 					index_Anarrayofb = index_Anarrayofb + 1
-					bclassDB.Aclass_AnarrayofbDBID_Index.Valid = true
-					if q := backRepoAclass.db.Save(&bclassDB); q.Error != nil {
+					_bclassDB.Aclass_AnarrayofbDBID_Index.Valid = true
+					if q := backRepoAclass.db.Save(&_bclassDB); q.Error != nil {
 						return q.Error
 					}
 				}
@@ -291,15 +291,15 @@ func (backRepoAclass *BackRepoAclassStruct) CommitPhaseTwoInstance(backRepo *Bac
 
 		// commit a slice of pointer translates to update reverse pointer to Bclass, i.e.
 		index_Anotherarrayofb := 0
-		for _, bclass := range aclass.Anotherarrayofb {
-			if bclassDBID, ok := (*backRepo.BackRepoBclass.Map_BclassPtr_BclassDBID)[bclass]; ok {
-				if bclassDB, ok := (*backRepo.BackRepoBclass.Map_BclassDBID_BclassDB)[bclassDBID]; ok {
-					bclassDB.Aclass_AnotherarrayofbDBID.Int64 = int64(aclassDB.ID)
-					bclassDB.Aclass_AnotherarrayofbDBID.Valid = true
-					bclassDB.Aclass_AnotherarrayofbDBID_Index.Int64 = int64(index_Anotherarrayofb)
+		for _, _bclass := range aclass.Anotherarrayofb {
+			if _bclassDBID, ok := (*backRepo.BackRepoBclass.Map_BclassPtr_BclassDBID)[_bclass]; ok {
+				if _bclassDB, ok := (*backRepo.BackRepoBclass.Map_BclassDBID_BclassDB)[_bclassDBID]; ok {
+					_bclassDB.Aclass_AnotherarrayofbDBID.Int64 = int64(aclassDB.ID)
+					_bclassDB.Aclass_AnotherarrayofbDBID.Valid = true
+					_bclassDB.Aclass_AnotherarrayofbDBID_Index.Int64 = int64(index_Anotherarrayofb)
 					index_Anotherarrayofb = index_Anotherarrayofb + 1
-					bclassDB.Aclass_AnotherarrayofbDBID_Index.Valid = true
-					if q := backRepoAclass.db.Save(&bclassDB); q.Error != nil {
+					_bclassDB.Aclass_AnotherarrayofbDBID_Index.Valid = true
+					if q := backRepoAclass.db.Save(&_bclassDB); q.Error != nil {
 						return q.Error
 					}
 				}
@@ -308,15 +308,15 @@ func (backRepoAclass *BackRepoAclassStruct) CommitPhaseTwoInstance(backRepo *Bac
 
 		// commit a slice of pointer translates to update reverse pointer to Aclass, i.e.
 		index_Anarrayofa := 0
-		for _, aclass := range aclass.Anarrayofa {
-			if aclassDBID, ok := (*backRepo.BackRepoAclass.Map_AclassPtr_AclassDBID)[aclass]; ok {
-				if aclassDB, ok := (*backRepo.BackRepoAclass.Map_AclassDBID_AclassDB)[aclassDBID]; ok {
-					aclassDB.Aclass_AnarrayofaDBID.Int64 = int64(aclassDB.ID)
-					aclassDB.Aclass_AnarrayofaDBID.Valid = true
-					aclassDB.Aclass_AnarrayofaDBID_Index.Int64 = int64(index_Anarrayofa)
+		for _, _aclass := range aclass.Anarrayofa {
+			if _aclassDBID, ok := (*backRepo.BackRepoAclass.Map_AclassPtr_AclassDBID)[_aclass]; ok {
+				if _aclassDB, ok := (*backRepo.BackRepoAclass.Map_AclassDBID_AclassDB)[_aclassDBID]; ok {
+					_aclassDB.Aclass_AnarrayofaDBID.Int64 = int64(aclassDB.ID)
+					_aclassDB.Aclass_AnarrayofaDBID.Valid = true
+					_aclassDB.Aclass_AnarrayofaDBID_Index.Int64 = int64(index_Anarrayofa)
 					index_Anarrayofa = index_Anarrayofa + 1
-					aclassDB.Aclass_AnarrayofaDBID_Index.Valid = true
-					if q := backRepoAclass.db.Save(&aclassDB); q.Error != nil {
+					_aclassDB.Aclass_AnarrayofaDBID_Index.Valid = true
+					if q := backRepoAclass.db.Save(&_aclassDB); q.Error != nil {
 						return q.Error
 					}
 				}
@@ -562,7 +562,19 @@ func (aclassDB *AclassDB) CopyBasicFieldsToAclass(aclass *models.Aclass) {
 func (backRepoAclass *BackRepoAclassStruct) Backup(stage *models.StageStruct, dirPath string) {
 
 	filename := filepath.Join(dirPath, "AclassDB.json")
-	file, err := json.MarshalIndent(backRepoAclass.Map_AclassDBID_AclassDB, "", " ")
+
+	// organize the map into an array with increasing IDs, in order to have repoductible
+	// backup file
+	var forBackup []*AclassDB
+	for _, aclassDB := range *backRepoAclass.Map_AclassDBID_AclassDB {
+		forBackup = append(forBackup, aclassDB)
+	}
+
+	sort.Slice(forBackup[:], func(i, j int) bool {
+		return forBackup[i].ID < forBackup[j].ID
+	})
+
+	file, err := json.MarshalIndent(forBackup, "", " ")
 
 	if err != nil {
 		log.Panic("Cannot json Aclass ", filename, " ", err.Error())
@@ -586,13 +598,14 @@ func (backRepoAclass *BackRepoAclassStruct) Restore(stage *models.StageStruct, d
 	// read our opened jsonFile as a byte array.
 	byteValue, _ := ioutil.ReadAll(jsonFile)
 
-	var _Map_AclassDBID_AclassDB map[uint]*AclassDB
+	var forRestore []*AclassDB
 
-	err = json.Unmarshal(byteValue, &_Map_AclassDBID_AclassDB)
+	err = json.Unmarshal(byteValue, &forRestore)
 
 	// fill up Map_AclassDBID_AclassDB
-	for aclassDB_ID, aclassDB := range _Map_AclassDBID_AclassDB {
+	for _, aclassDB := range forRestore {
 
+		aclassDB_ID := aclassDB.ID
 		query := backRepoAclass.db.Create(aclassDB)
 		if query.Error != nil {
 			log.Panic(query.Error)
