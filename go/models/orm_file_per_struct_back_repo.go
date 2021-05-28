@@ -20,6 +20,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"log"
+	"os"
 	"path/filepath"
 	"sort"
 	"time"
@@ -91,6 +92,13 @@ type BackRepo{{Structname}}Struct struct {
 	Map_{{Structname}}DBID_{{Structname}}Ptr *map[uint]*models.{{Structname}}
 
 	db *gorm.DB
+}
+
+// Get{{Structname}}DBFrom{{Structname}}Ptr is a handy function to access the back repo instance from the stage instance
+func (backRepo{{Structname}} *BackRepo{{Structname}}Struct) Get{{Structname}}DBFrom{{Structname}}Ptr({{structname}} *models.{{Structname}}) ({{structname}}DB *{{Structname}}DB) {
+	id := (*backRepo{{Structname}}.Map_{{Structname}}Ptr_{{Structname}}DBID)[{{structname}}]
+	{{structname}}DB = (*backRepo{{Structname}}.Map_{{Structname}}DBID_{{Structname}}DB)[id]
+	return
 }
 
 // BackRepo{{Structname}}.Init set up the BackRepo of the {{Structname}}
@@ -327,17 +335,66 @@ func ({{structname}}DB *{{Structname}}DB) CopyBasicFieldsTo{{Structname}}({{stru
 	// insertion point for checkout of basic fields (back repo to stage){{` + string(rune(BackRepoBasicFieldsCheckout)) + `}}
 }
 
-func (backRepo{{Structname}} *BackRepo{{Structname}}Struct) Backup(stage *models.StageStruct, dirPath string) {
+// Backup generates a json file from a slice of all {{Structname}}DB instances in the backrepo
+func (backRepo{{Structname}} *BackRepo{{Structname}}Struct) Backup(dirPath string) {
 
-	file, err := json.MarshalIndent(backRepo{{Structname}}.Map_{{Structname}}DBID_{{Structname}}DB, "", " ")
+	filename := filepath.Join(dirPath, "{{Structname}}DB.json")
 
-	if err != nil {
-		log.Panic("Cannot json {{Structname}} ", err.Error())
+	// organize the map into an array with increasing IDs, in order to have repoductible
+	// backup file
+	var forBackup []*{{Structname}}DB
+	for _, {{structname}}DB := range *backRepo{{Structname}}.Map_{{Structname}}DBID_{{Structname}}DB {
+		forBackup = append(forBackup, {{structname}}DB)
 	}
 
-	err = ioutil.WriteFile(filepath.Join(dirPath, "{{Structname}}DB.json"), file, 0644)
+	sort.Slice(forBackup[:], func(i, j int) bool {
+		return forBackup[i].ID < forBackup[j].ID
+	})
+
+	file, err := json.MarshalIndent(forBackup, "", " ")
+
+	if err != nil {
+		log.Panic("Cannot json {{Structname}} ", filename, " ", err.Error())
+	}
+
+	err = ioutil.WriteFile(filename, file, 0644)
 	if err != nil {
 		log.Panic("Cannot write the json {{Structname}} file", err.Error())
+	}
+}
+
+func (backRepo{{Structname}} *BackRepo{{Structname}}Struct) Restore(dirPath string) {
+
+	filename := filepath.Join(dirPath, "{{Structname}}DB.json")
+	jsonFile, err := os.Open(filename)
+	// if we os.Open returns an error then handle it
+	if err != nil {
+		log.Panic("Cannot restore/open the json {{Structname}} file", filename, " ", err.Error())
+	}
+
+	// read our opened jsonFile as a byte array.
+	byteValue, _ := ioutil.ReadAll(jsonFile)
+
+	var forRestore []*{{Structname}}DB
+
+	err = json.Unmarshal(byteValue, &forRestore)
+
+	// fill up Map_{{Structname}}DBID_{{Structname}}DB
+	for _, {{structname}}DB := range forRestore {
+
+		{{structname}}DB_ID := {{structname}}DB.ID
+		query := backRepo{{Structname}}.db.Create({{structname}}DB)
+		if query.Error != nil {
+			log.Panic(query.Error)
+		}
+		if {{structname}}DB_ID != {{structname}}DB.ID {
+			log.Panicf("ID of {{Structname}} restore ID %d, name %s, has wrong ID %d in DB after create",
+				{{structname}}DB_ID, {{structname}}DB.Name_Data.String, {{structname}}DB.ID)
+		}
+	}
+
+	if err != nil {
+		log.Panic("Cannot restore/unmarshall json {{Structname}} file", err.Error())
 	}
 }
 `

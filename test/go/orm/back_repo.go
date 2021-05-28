@@ -75,8 +75,8 @@ func (backRepo *BackRepoStruct) Backup(stage *models.StageStruct, dirPath string
 	os.Mkdir(dirPath, os.ModePerm)
 
 	// insertion point for per struct backup
-	backRepo.BackRepoAclass.Backup(stage, dirPath)
-	backRepo.BackRepoBclass.Backup(stage, dirPath)
+	backRepo.BackRepoAclass.Backup(dirPath)
+	backRepo.BackRepoBclass.Backup(dirPath)
 }
 
 // Restore the database into the back repo
