@@ -108,7 +108,7 @@ func TestStageCallBack(t *testing.T) {
 	log.Printf("aclass float field %f ", aclass1.Floatfield)
 
 	// more direct
-	aclassDB.Floatfield = 10.5
+	aclassDB.Floatfield_Data.Float64 = 10.5
 
 	models.Stage.Checkout()
 
