@@ -3,9 +3,12 @@ package orm
 
 import (
 	"database/sql"
+	"encoding/json"
 	"errors"
 	"fmt"
+	"io/ioutil"
 	"log"
+	"path/filepath"
 	"sort"
 	"time"
 
@@ -35,7 +38,7 @@ type AclassAPI struct {
 	AclassPointersEnconding
 }
 
-// AclassPointersEnconding encodes pointers to Struct and 
+// AclassPointersEnconding encodes pointers to Struct and
 // reverse pointers of slice of poitners to Struct
 type AclassPointersEnconding struct {
 	// insertion for pointer fields encoding declaration
@@ -107,7 +110,6 @@ type AclassDB struct {
 
 	// Declation for basic field aclassDB.Duration1 {{BasicKind}} (to be completed)
 	Duration1_Data sql.NullInt64
-
 
 	// encoding of pointers
 	AclassPointersEnconding
@@ -320,7 +322,6 @@ func (backRepoAclass *BackRepoAclassStruct) CommitPhaseTwoInstance(backRepo *Bac
 			}
 		}
 
-
 		query := backRepoAclass.db.Save(&aclassDB)
 		if query.Error != nil {
 			return query.Error
@@ -470,7 +471,6 @@ func (backRepoAclass *BackRepoAclassStruct) CheckoutPhaseTwoInstance(backRepo *B
 		return aclassDB_i.Aclass_AnarrayofaDBID_Index.Int64 < aclassDB_j.Aclass_AnarrayofaDBID_Index.Int64
 	})
 
-
 	return
 }
 
@@ -557,4 +557,18 @@ func (aclassDB *AclassDB) CopyBasicFieldsToAclass(aclass *models.Aclass) {
 	aclass.Intfield = int(aclassDB.Intfield_Data.Int64)
 	aclass.Anotherbooleanfield = aclassDB.Anotherbooleanfield_Data.Bool
 	aclass.Duration1 = time.Duration(aclassDB.Duration1_Data.Int64)
+}
+
+func (backRepoAclass *BackRepoAclassStruct) Backup(stage *models.StageStruct, dirPath string) {
+
+	file, err := json.MarshalIndent(backRepoAclass.Map_AclassDBID_AclassDB, "", " ")
+
+	if err != nil {
+		log.Panic("Cannot json Aclass ", err.Error())
+	}
+
+	err = ioutil.WriteFile(filepath.Join(dirPath, "AclassDB.json"), file, 0644)
+	if err != nil {
+		log.Panic("Cannot write the json Aclass file", err.Error())
+	}
 }
