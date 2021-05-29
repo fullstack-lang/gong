@@ -67,6 +67,11 @@ func (backRepo *BackRepoStruct) Backup(stage *models.StageStruct, dirPath string
 
 // Restore the database into the back repo
 func (backRepo *BackRepoStruct) Restore(stage *models.StageStruct, dirPath string) {
+	models.Stage.Commit()
+	models.Stage.Reset()
+	models.Stage.Checkout()
+	// insertion point for per struct backup{{` + string(rune(BackRepoRestore)) + `}}
+	models.Stage.Checkout()
 }
 
 `
@@ -152,4 +157,7 @@ map[string]string{
 
 	string(rune(BackRepoBackup)): `
 	backRepo.BackRepo{{Structname}}.Backup(dirPath)`,
+
+	string(rune(BackRepoRestore)): `
+	backRepo.BackRepo{{Structname}}.Restore(dirPath)`,
 }

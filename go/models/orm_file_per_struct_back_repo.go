@@ -217,7 +217,7 @@ func (backRepo{{Structname}} *BackRepo{{Structname}}Struct) CommitPhaseTwoInstan
 
 		{{structname}}DB.CopyBasicFieldsFrom{{Structname}}({{structname}})
 
-		// insertion point for fields commit{{` + string(rune(BackRepoPointerEncodingFieldsCommit)) + `}}
+		// insertion point for translating pointers encodings into actual pointers{{` + string(rune(BackRepoPointerEncodingFieldsCommit)) + `}}
 		query := backRepo{{Structname}}.db.Save(&{{structname}}DB)
 		if query.Error != nil {
 			return query.Error
@@ -258,20 +258,18 @@ func (backRepo{{Structname}} *BackRepo{{Structname}}Struct) CheckoutPhaseOne() (
 // models version of the {{structname}}DB
 func (backRepo{{Structname}} *BackRepo{{Structname}}Struct) CheckoutPhaseOneInstance({{structname}}DB *{{Structname}}DB) (Error error) {
 
-	// if absent, create entries in the backRepo{{Structname}} maps.
-	var {{structname}}WithNewFieldValues models.{{Structname}}
-	{{structname}}DB.CopyBasicFieldsTo{{Structname}}(&{{structname}}WithNewFieldValues)
+	{{structname}}, ok := (*backRepo{{Structname}}.Map_{{Structname}}DBID_{{Structname}}Ptr)[{{structname}}DB.ID]
+	if !ok {
+		{{structname}} = new(models.{{Structname}})
 
-	if _, ok := (*backRepo{{Structname}}.Map_{{Structname}}DBID_{{Structname}}Ptr)[{{structname}}DB.ID]; !ok {
-
-		(*backRepo{{Structname}}.Map_{{Structname}}DBID_{{Structname}}Ptr)[{{structname}}DB.ID] = &{{structname}}WithNewFieldValues
-		(*backRepo{{Structname}}.Map_{{Structname}}Ptr_{{Structname}}DBID)[&{{structname}}WithNewFieldValues] = {{structname}}DB.ID
+		(*backRepo{{Structname}}.Map_{{Structname}}DBID_{{Structname}}Ptr)[{{structname}}DB.ID] = {{structname}}
+		(*backRepo{{Structname}}.Map_{{Structname}}Ptr_{{Structname}}DBID)[{{structname}}] = {{structname}}DB.ID
 
 		// append model store with the new element
-		{{structname}}WithNewFieldValues.Stage()
+		{{structname}}.Stage()
 	}
-	{{structname}}DBWithNewFieldValues := *{{structname}}DB
-	(*backRepo{{Structname}}.Map_{{Structname}}DBID_{{Structname}}DB)[{{structname}}DB.ID] = &{{structname}}DBWithNewFieldValues
+	{{structname}}DB.CopyBasicFieldsTo{{Structname}}({{structname}})
+	(*backRepo{{Structname}}.Map_{{Structname}}DBID_{{Structname}}DB)[{{structname}}DB.ID] = {{structname}}DB
 
 	return
 }
@@ -437,12 +435,11 @@ const (
 	BackRepoCheckoutBasicFieldBoolean
 
 	BackRepoDeclarationPointerToStructField
-	BackRepoCommitNewPointerToStructField
+	BackRepoCommitPointerToStructField
 	BackRepoCheckoutNewPointerToStructStageField
 
 	BackRepoDeclarationSliceOfPointerToStructField
 	BackRepoCommitSliceOfPointerToStructField
-	BackRepoCommitNewSliceOfPointerToStructField
 	BackRepoCheckoutNewSliceOfPointerToStructStageField
 )
 
@@ -512,7 +509,7 @@ var BackRepoFieldSubTemplateCode map[BackRepoPerStructSubTemplate]string = map[B
 	{{structname}}DB.{{FieldName}}_Data.Valid = true
 `,
 
-	BackRepoCommitNewPointerToStructField: `
+	BackRepoCommitPointerToStructField: `
 		// commit pointer value {{structname}}.{{FieldName}} translates to updating the {{structname}}.{{FieldName}}ID
 		{{structname}}DB.{{FieldName}}ID.Valid = true // allow for a 0 value (nil association)
 		if {{structname}}.{{FieldName}} != nil {
@@ -523,35 +520,22 @@ var BackRepoFieldSubTemplateCode map[BackRepoPerStructSubTemplate]string = map[B
 `,
 
 	BackRepoCommitSliceOfPointerToStructField: `
-		// commit a slice of pointer translates to update reverse pointer to {{AssociationStructName}}, i.e.
-		for _, _{{associationStructName}} := range {{structname}}.{{FieldName}} {
-			if _{{associationStructName}}DBID, ok := (*map_{{AssociationStructName}}Ptr_{{AssociationStructName}}DBID)[_{{associationStructName}}]; ok {
-				if _{{associationStructName}}DB, ok := (*map_{{AssociationStructName}}DBID_{{AssociationStructName}}DB)[_{{associationStructName}}DBID]; ok {
-					_{{associationStructName}}DB.{{Structname}}_{{FieldName}}DBID.Int64 = int64({{structname}}DB.ID)
-					_{{associationStructName}}DB.{{Structname}}_{{FieldName}}DBID.Valid = true
-					if q := db.Save(&_{{associationStructName}}DB); q.Error != nil {
-						return q.Error
-					}
-				}
-			}
-		}
-`,
+		// This loop encodes the slice of pointers {{structname}}.{{FieldName}} into the back repo.
+		// Each back repo instance at the end of the association encode the ID of the association start
+		// into a dedicated field for coding the association. The back repo instance is then saved to the db
+		for idx, {{associationStructName}}AssocEnd := range {{structname}}.{{FieldName}} {
 
-	BackRepoCommitNewSliceOfPointerToStructField: `
-		// commit a slice of pointer translates to update reverse pointer to {{AssociationStructName}}, i.e.
-		index_{{FieldName}} := 0
-		for _, _{{associationStructName}} := range {{structname}}.{{FieldName}} {
-			if _{{associationStructName}}DBID, ok := (*backRepo.BackRepo{{AssociationStructName}}.Map_{{AssociationStructName}}Ptr_{{AssociationStructName}}DBID)[_{{associationStructName}}]; ok {
-				if _{{associationStructName}}DB, ok := (*backRepo.BackRepo{{AssociationStructName}}.Map_{{AssociationStructName}}DBID_{{AssociationStructName}}DB)[_{{associationStructName}}DBID]; ok {
-					_{{associationStructName}}DB.{{Structname}}_{{FieldName}}DBID.Int64 = int64({{structname}}DB.ID)
-					_{{associationStructName}}DB.{{Structname}}_{{FieldName}}DBID.Valid = true
-					_{{associationStructName}}DB.{{Structname}}_{{FieldName}}DBID_Index.Int64 = int64(index_{{FieldName}})
-					index_{{FieldName}} = index_{{FieldName}} + 1
-					_{{associationStructName}}DB.{{Structname}}_{{FieldName}}DBID_Index.Valid = true
-					if q := backRepo{{Structname}}.db.Save(&_{{associationStructName}}DB); q.Error != nil {
-						return q.Error
-					}
-				}
+			// get the back repo instance at the association end
+			{{associationStructName}}AssocEnd_DB :=
+				backRepo.BackRepo{{AssociationStructName}}.Get{{AssociationStructName}}DBFrom{{AssociationStructName}}Ptr( {{associationStructName}}AssocEnd)
+
+			// encode reverse pointer in the association end back repo instance
+			{{associationStructName}}AssocEnd_DB.{{Structname}}_{{FieldName}}DBID.Int64 = int64({{structname}}DB.ID)
+			{{associationStructName}}AssocEnd_DB.{{Structname}}_{{FieldName}}DBID.Valid = true
+			{{associationStructName}}AssocEnd_DB.{{Structname}}_{{FieldName}}DBID_Index.Int64 = int64(idx)
+			{{associationStructName}}AssocEnd_DB.{{Structname}}_{{FieldName}}DBID_Index.Valid = true
+			if q := backRepo{{Structname}}.db.Save({{associationStructName}}AssocEnd_DB); q.Error != nil {
+				return q.Error
 			}
 		}
 `,
@@ -582,13 +566,19 @@ var BackRepoFieldSubTemplateCode map[BackRepoPerStructSubTemplate]string = map[B
 	}`,
 
 	BackRepoCheckoutNewSliceOfPointerToStructStageField: `
-	// parse all {{AssociationStructName}}DB and redeem the array of poiners to {{Structname}}
-	// first reset the slice
+	// This loop redeem {{structname}}.{{FieldName}} in the stage from the encode in the back repo
+	// It parses all {{AssociationStructName}}DB in the back repo and if the reverse pointer encoding matches the back repo ID
+	// it appends the stage instance
+	// 1. reset the slice
 	{{structname}}.{{FieldName}} = {{structname}}.{{FieldName}}[:0]
-	for _, {{AssociationStructName}}DB := range *backRepo.BackRepo{{AssociationStructName}}.Map_{{AssociationStructName}}DBID_{{AssociationStructName}}DB {
-		if {{AssociationStructName}}DB.{{Structname}}_{{FieldName}}DBID.Int64 == int64({{structname}}DB.ID) {
-			{{AssociationStructName}} := (*backRepo.BackRepo{{AssociationStructName}}.Map_{{AssociationStructName}}DBID_{{AssociationStructName}}Ptr)[{{AssociationStructName}}DB.ID]
-			{{structname}}.{{FieldName}} = append({{structname}}.{{FieldName}}, {{AssociationStructName}})
+	// 2. loop all instances in the type in the association end
+	for _, {{associationStructName}}DB_AssocEnd := range *backRepo.BackRepo{{AssociationStructName}}.Map_{{AssociationStructName}}DBID_{{AssociationStructName}}DB {
+		// 3. Does the ID encoding at the end and the ID at the start matches ?
+		if {{associationStructName}}DB_AssocEnd.{{Structname}}_{{FieldName}}DBID.Int64 == int64({{structname}}DB.ID) {
+			// 4. fetch the associated instance in the stage
+			{{associationStructName}}_AssocEnd := (*backRepo.BackRepo{{AssociationStructName}}.Map_{{AssociationStructName}}DBID_{{AssociationStructName}}Ptr)[{{associationStructName}}DB_AssocEnd.ID]
+			// 5. append it the association slice
+			{{structname}}.{{FieldName}} = append({{structname}}.{{FieldName}}, {{associationStructName}}_AssocEnd)
 		}
 	}
 
@@ -737,7 +727,7 @@ func MultiCodeGeneratorBackRepo(
 					"{{FieldName}}", modelPointerToStruct.Name)
 
 				insertions[BackRepoPointerEncodingFieldsCommit] += Replace3(
-					BackRepoFieldSubTemplateCode[BackRepoCommitNewPointerToStructField],
+					BackRepoFieldSubTemplateCode[BackRepoCommitPointerToStructField],
 					"{{AssociationStructName}}", modelPointerToStruct.GongStruct.Name,
 					"{{associationStructName}}", strings.ToLower(modelPointerToStruct.GongStruct.Name),
 					"{{FieldName}}", modelPointerToStruct.Name)
@@ -752,7 +742,7 @@ func MultiCodeGeneratorBackRepo(
 				fieldSliceOfPointerToModel := field.(*SliceOfPointerToGongStructField)
 
 				insertions[BackRepoPointerEncodingFieldsCommit] += Replace3(
-					BackRepoFieldSubTemplateCode[BackRepoCommitNewSliceOfPointerToStructField],
+					BackRepoFieldSubTemplateCode[BackRepoCommitSliceOfPointerToStructField],
 					"{{AssociationStructName}}", fieldSliceOfPointerToModel.GongStruct.Name,
 					"{{associationStructName}}", strings.ToLower(fieldSliceOfPointerToModel.GongStruct.Name),
 					"{{FieldName}}", fieldSliceOfPointerToModel.Name)

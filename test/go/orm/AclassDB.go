@@ -262,7 +262,7 @@ func (backRepoAclass *BackRepoAclassStruct) CommitPhaseTwoInstance(backRepo *Bac
 
 		aclassDB.CopyBasicFieldsFromAclass(aclass)
 
-		// insertion point for fields commit
+		// insertion point for translating pointers encodings into actual pointers
 		// commit pointer value aclass.Associationtob translates to updating the aclass.AssociationtobID
 		aclassDB.AssociationtobID.Valid = true // allow for a 0 value (nil association)
 		if aclass.Associationtob != nil {
@@ -279,54 +279,60 @@ func (backRepoAclass *BackRepoAclassStruct) CommitPhaseTwoInstance(backRepo *Bac
 			}
 		}
 
-		// commit a slice of pointer translates to update reverse pointer to Bclass, i.e.
-		index_Anarrayofb := 0
-		for _, _bclass := range aclass.Anarrayofb {
-			if _bclassDBID, ok := (*backRepo.BackRepoBclass.Map_BclassPtr_BclassDBID)[_bclass]; ok {
-				if _bclassDB, ok := (*backRepo.BackRepoBclass.Map_BclassDBID_BclassDB)[_bclassDBID]; ok {
-					_bclassDB.Aclass_AnarrayofbDBID.Int64 = int64(aclassDB.ID)
-					_bclassDB.Aclass_AnarrayofbDBID.Valid = true
-					_bclassDB.Aclass_AnarrayofbDBID_Index.Int64 = int64(index_Anarrayofb)
-					index_Anarrayofb = index_Anarrayofb + 1
-					_bclassDB.Aclass_AnarrayofbDBID_Index.Valid = true
-					if q := backRepoAclass.db.Save(&_bclassDB); q.Error != nil {
-						return q.Error
-					}
-				}
+		// This loop encodes the slice of pointers aclass.Anarrayofb into the back repo.
+		// Each back repo instance at the end of the association encode the ID of the association start
+		// into a dedicated field for coding the association. The back repo instance is then saved to the db
+		for idx, bclassAssocEnd := range aclass.Anarrayofb {
+
+			// get the back repo instance at the association end
+			bclassAssocEnd_DB :=
+				backRepo.BackRepoBclass.GetBclassDBFromBclassPtr( bclassAssocEnd)
+
+			// encode reverse pointer in the association end back repo instance
+			bclassAssocEnd_DB.Aclass_AnarrayofbDBID.Int64 = int64(aclassDB.ID)
+			bclassAssocEnd_DB.Aclass_AnarrayofbDBID.Valid = true
+			bclassAssocEnd_DB.Aclass_AnarrayofbDBID_Index.Int64 = int64(idx)
+			bclassAssocEnd_DB.Aclass_AnarrayofbDBID_Index.Valid = true
+			if q := backRepoAclass.db.Save(bclassAssocEnd_DB); q.Error != nil {
+				return q.Error
 			}
 		}
 
-		// commit a slice of pointer translates to update reverse pointer to Bclass, i.e.
-		index_Anotherarrayofb := 0
-		for _, _bclass := range aclass.Anotherarrayofb {
-			if _bclassDBID, ok := (*backRepo.BackRepoBclass.Map_BclassPtr_BclassDBID)[_bclass]; ok {
-				if _bclassDB, ok := (*backRepo.BackRepoBclass.Map_BclassDBID_BclassDB)[_bclassDBID]; ok {
-					_bclassDB.Aclass_AnotherarrayofbDBID.Int64 = int64(aclassDB.ID)
-					_bclassDB.Aclass_AnotherarrayofbDBID.Valid = true
-					_bclassDB.Aclass_AnotherarrayofbDBID_Index.Int64 = int64(index_Anotherarrayofb)
-					index_Anotherarrayofb = index_Anotherarrayofb + 1
-					_bclassDB.Aclass_AnotherarrayofbDBID_Index.Valid = true
-					if q := backRepoAclass.db.Save(&_bclassDB); q.Error != nil {
-						return q.Error
-					}
-				}
+		// This loop encodes the slice of pointers aclass.Anotherarrayofb into the back repo.
+		// Each back repo instance at the end of the association encode the ID of the association start
+		// into a dedicated field for coding the association. The back repo instance is then saved to the db
+		for idx, bclassAssocEnd := range aclass.Anotherarrayofb {
+
+			// get the back repo instance at the association end
+			bclassAssocEnd_DB :=
+				backRepo.BackRepoBclass.GetBclassDBFromBclassPtr( bclassAssocEnd)
+
+			// encode reverse pointer in the association end back repo instance
+			bclassAssocEnd_DB.Aclass_AnotherarrayofbDBID.Int64 = int64(aclassDB.ID)
+			bclassAssocEnd_DB.Aclass_AnotherarrayofbDBID.Valid = true
+			bclassAssocEnd_DB.Aclass_AnotherarrayofbDBID_Index.Int64 = int64(idx)
+			bclassAssocEnd_DB.Aclass_AnotherarrayofbDBID_Index.Valid = true
+			if q := backRepoAclass.db.Save(bclassAssocEnd_DB); q.Error != nil {
+				return q.Error
 			}
 		}
 
-		// commit a slice of pointer translates to update reverse pointer to Aclass, i.e.
-		index_Anarrayofa := 0
-		for _, _aclass := range aclass.Anarrayofa {
-			if _aclassDBID, ok := (*backRepo.BackRepoAclass.Map_AclassPtr_AclassDBID)[_aclass]; ok {
-				if _aclassDB, ok := (*backRepo.BackRepoAclass.Map_AclassDBID_AclassDB)[_aclassDBID]; ok {
-					_aclassDB.Aclass_AnarrayofaDBID.Int64 = int64(aclassDB.ID)
-					_aclassDB.Aclass_AnarrayofaDBID.Valid = true
-					_aclassDB.Aclass_AnarrayofaDBID_Index.Int64 = int64(index_Anarrayofa)
-					index_Anarrayofa = index_Anarrayofa + 1
-					_aclassDB.Aclass_AnarrayofaDBID_Index.Valid = true
-					if q := backRepoAclass.db.Save(&_aclassDB); q.Error != nil {
-						return q.Error
-					}
-				}
+		// This loop encodes the slice of pointers aclass.Anarrayofa into the back repo.
+		// Each back repo instance at the end of the association encode the ID of the association start
+		// into a dedicated field for coding the association. The back repo instance is then saved to the db
+		for idx, aclassAssocEnd := range aclass.Anarrayofa {
+
+			// get the back repo instance at the association end
+			aclassAssocEnd_DB :=
+				backRepo.BackRepoAclass.GetAclassDBFromAclassPtr( aclassAssocEnd)
+
+			// encode reverse pointer in the association end back repo instance
+			aclassAssocEnd_DB.Aclass_AnarrayofaDBID.Int64 = int64(aclassDB.ID)
+			aclassAssocEnd_DB.Aclass_AnarrayofaDBID.Valid = true
+			aclassAssocEnd_DB.Aclass_AnarrayofaDBID_Index.Int64 = int64(idx)
+			aclassAssocEnd_DB.Aclass_AnarrayofaDBID_Index.Valid = true
+			if q := backRepoAclass.db.Save(aclassAssocEnd_DB); q.Error != nil {
+				return q.Error
 			}
 		}
 
@@ -370,20 +376,18 @@ func (backRepoAclass *BackRepoAclassStruct) CheckoutPhaseOne() (Error error) {
 // models version of the aclassDB
 func (backRepoAclass *BackRepoAclassStruct) CheckoutPhaseOneInstance(aclassDB *AclassDB) (Error error) {
 
-	// if absent, create entries in the backRepoAclass maps.
-	var aclassWithNewFieldValues models.Aclass
-	aclassDB.CopyBasicFieldsToAclass(&aclassWithNewFieldValues)
+	aclass, ok := (*backRepoAclass.Map_AclassDBID_AclassPtr)[aclassDB.ID]
+	if !ok {
+		aclass = new(models.Aclass)
 
-	if _, ok := (*backRepoAclass.Map_AclassDBID_AclassPtr)[aclassDB.ID]; !ok {
-
-		(*backRepoAclass.Map_AclassDBID_AclassPtr)[aclassDB.ID] = &aclassWithNewFieldValues
-		(*backRepoAclass.Map_AclassPtr_AclassDBID)[&aclassWithNewFieldValues] = aclassDB.ID
+		(*backRepoAclass.Map_AclassDBID_AclassPtr)[aclassDB.ID] = aclass
+		(*backRepoAclass.Map_AclassPtr_AclassDBID)[aclass] = aclassDB.ID
 
 		// append model store with the new element
-		aclassWithNewFieldValues.Stage()
+		aclass.Stage()
 	}
-	aclassDBWithNewFieldValues := *aclassDB
-	(*backRepoAclass.Map_AclassDBID_AclassDB)[aclassDB.ID] = &aclassDBWithNewFieldValues
+	aclassDB.CopyBasicFieldsToAclass(aclass)
+	(*backRepoAclass.Map_AclassDBID_AclassDB)[aclassDB.ID] = aclassDB
 
 	return
 }
@@ -415,13 +419,19 @@ func (backRepoAclass *BackRepoAclassStruct) CheckoutPhaseTwoInstance(backRepo *B
 	if aclassDB.Anotherassociationtob_2ID.Int64 != 0 {
 		aclass.Anotherassociationtob_2 = (*backRepo.BackRepoBclass.Map_BclassDBID_BclassPtr)[uint(aclassDB.Anotherassociationtob_2ID.Int64)]
 	}
-	// parse all BclassDB and redeem the array of poiners to Aclass
-	// first reset the slice
+	// This loop redeem aclass.Anarrayofb in the stage from the encode in the back repo
+	// It parses all BclassDB in the back repo and if the reverse pointer encoding matches the back repo ID
+	// it appends the stage instance
+	// 1. reset the slice
 	aclass.Anarrayofb = aclass.Anarrayofb[:0]
-	for _, BclassDB := range *backRepo.BackRepoBclass.Map_BclassDBID_BclassDB {
-		if BclassDB.Aclass_AnarrayofbDBID.Int64 == int64(aclassDB.ID) {
-			Bclass := (*backRepo.BackRepoBclass.Map_BclassDBID_BclassPtr)[BclassDB.ID]
-			aclass.Anarrayofb = append(aclass.Anarrayofb, Bclass)
+	// 2. loop all instances in the type in the association end
+	for _, bclassDB_AssocEnd := range *backRepo.BackRepoBclass.Map_BclassDBID_BclassDB {
+		// 3. Does the ID encoding at the end and the ID at the start matches ?
+		if bclassDB_AssocEnd.Aclass_AnarrayofbDBID.Int64 == int64(aclassDB.ID) {
+			// 4. fetch the associated instance in the stage
+			bclass_AssocEnd := (*backRepo.BackRepoBclass.Map_BclassDBID_BclassPtr)[bclassDB_AssocEnd.ID]
+			// 5. append it the association slice
+			aclass.Anarrayofb = append(aclass.Anarrayofb, bclass_AssocEnd)
 		}
 	}
 
@@ -436,13 +446,19 @@ func (backRepoAclass *BackRepoAclassStruct) CheckoutPhaseTwoInstance(backRepo *B
 		return bclassDB_i.Aclass_AnarrayofbDBID_Index.Int64 < bclassDB_j.Aclass_AnarrayofbDBID_Index.Int64
 	})
 
-	// parse all BclassDB and redeem the array of poiners to Aclass
-	// first reset the slice
+	// This loop redeem aclass.Anotherarrayofb in the stage from the encode in the back repo
+	// It parses all BclassDB in the back repo and if the reverse pointer encoding matches the back repo ID
+	// it appends the stage instance
+	// 1. reset the slice
 	aclass.Anotherarrayofb = aclass.Anotherarrayofb[:0]
-	for _, BclassDB := range *backRepo.BackRepoBclass.Map_BclassDBID_BclassDB {
-		if BclassDB.Aclass_AnotherarrayofbDBID.Int64 == int64(aclassDB.ID) {
-			Bclass := (*backRepo.BackRepoBclass.Map_BclassDBID_BclassPtr)[BclassDB.ID]
-			aclass.Anotherarrayofb = append(aclass.Anotherarrayofb, Bclass)
+	// 2. loop all instances in the type in the association end
+	for _, bclassDB_AssocEnd := range *backRepo.BackRepoBclass.Map_BclassDBID_BclassDB {
+		// 3. Does the ID encoding at the end and the ID at the start matches ?
+		if bclassDB_AssocEnd.Aclass_AnotherarrayofbDBID.Int64 == int64(aclassDB.ID) {
+			// 4. fetch the associated instance in the stage
+			bclass_AssocEnd := (*backRepo.BackRepoBclass.Map_BclassDBID_BclassPtr)[bclassDB_AssocEnd.ID]
+			// 5. append it the association slice
+			aclass.Anotherarrayofb = append(aclass.Anotherarrayofb, bclass_AssocEnd)
 		}
 	}
 
@@ -457,13 +473,19 @@ func (backRepoAclass *BackRepoAclassStruct) CheckoutPhaseTwoInstance(backRepo *B
 		return bclassDB_i.Aclass_AnotherarrayofbDBID_Index.Int64 < bclassDB_j.Aclass_AnotherarrayofbDBID_Index.Int64
 	})
 
-	// parse all AclassDB and redeem the array of poiners to Aclass
-	// first reset the slice
+	// This loop redeem aclass.Anarrayofa in the stage from the encode in the back repo
+	// It parses all AclassDB in the back repo and if the reverse pointer encoding matches the back repo ID
+	// it appends the stage instance
+	// 1. reset the slice
 	aclass.Anarrayofa = aclass.Anarrayofa[:0]
-	for _, AclassDB := range *backRepo.BackRepoAclass.Map_AclassDBID_AclassDB {
-		if AclassDB.Aclass_AnarrayofaDBID.Int64 == int64(aclassDB.ID) {
-			Aclass := (*backRepo.BackRepoAclass.Map_AclassDBID_AclassPtr)[AclassDB.ID]
-			aclass.Anarrayofa = append(aclass.Anarrayofa, Aclass)
+	// 2. loop all instances in the type in the association end
+	for _, aclassDB_AssocEnd := range *backRepo.BackRepoAclass.Map_AclassDBID_AclassDB {
+		// 3. Does the ID encoding at the end and the ID at the start matches ?
+		if aclassDB_AssocEnd.Aclass_AnarrayofaDBID.Int64 == int64(aclassDB.ID) {
+			// 4. fetch the associated instance in the stage
+			aclass_AssocEnd := (*backRepo.BackRepoAclass.Map_AclassDBID_AclassPtr)[aclassDB_AssocEnd.ID]
+			// 5. append it the association slice
+			aclass.Anarrayofa = append(aclass.Anarrayofa, aclass_AssocEnd)
 		}
 	}
 
