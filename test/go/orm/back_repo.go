@@ -81,5 +81,12 @@ func (backRepo *BackRepoStruct) Backup(stage *models.StageStruct, dirPath string
 
 // Restore the database into the back repo
 func (backRepo *BackRepoStruct) Restore(stage *models.StageStruct, dirPath string) {
+	models.Stage.Commit()
+	models.Stage.Reset()
+	models.Stage.Checkout()
+	// insertion point for per struct backup
+	backRepo.BackRepoAclass.Restore(dirPath)
+	backRepo.BackRepoBclass.Restore(dirPath)
+	models.Stage.Checkout()
 }
 

@@ -224,7 +224,7 @@ func (backRepoBclass *BackRepoBclassStruct) CommitPhaseTwoInstance(backRepo *Bac
 
 		bclassDB.CopyBasicFieldsFromBclass(bclass)
 
-		// insertion point for fields commit
+		// insertion point for translating pointers encodings into actual pointers
 		query := backRepoBclass.db.Save(&bclassDB)
 		if query.Error != nil {
 			return query.Error
@@ -265,20 +265,18 @@ func (backRepoBclass *BackRepoBclassStruct) CheckoutPhaseOne() (Error error) {
 // models version of the bclassDB
 func (backRepoBclass *BackRepoBclassStruct) CheckoutPhaseOneInstance(bclassDB *BclassDB) (Error error) {
 
-	// if absent, create entries in the backRepoBclass maps.
-	var bclassWithNewFieldValues models.Bclass
-	bclassDB.CopyBasicFieldsToBclass(&bclassWithNewFieldValues)
+	bclass, ok := (*backRepoBclass.Map_BclassDBID_BclassPtr)[bclassDB.ID]
+	if !ok {
+		bclass = new(models.Bclass)
 
-	if _, ok := (*backRepoBclass.Map_BclassDBID_BclassPtr)[bclassDB.ID]; !ok {
-
-		(*backRepoBclass.Map_BclassDBID_BclassPtr)[bclassDB.ID] = &bclassWithNewFieldValues
-		(*backRepoBclass.Map_BclassPtr_BclassDBID)[&bclassWithNewFieldValues] = bclassDB.ID
+		(*backRepoBclass.Map_BclassDBID_BclassPtr)[bclassDB.ID] = bclass
+		(*backRepoBclass.Map_BclassPtr_BclassDBID)[bclass] = bclassDB.ID
 
 		// append model store with the new element
-		bclassWithNewFieldValues.Stage()
+		bclass.Stage()
 	}
-	bclassDBWithNewFieldValues := *bclassDB
-	(*backRepoBclass.Map_BclassDBID_BclassDB)[bclassDB.ID] = &bclassDBWithNewFieldValues
+	bclassDB.CopyBasicFieldsToBclass(bclass)
+	(*backRepoBclass.Map_BclassDBID_BclassDB)[bclassDB.ID] = bclassDB
 
 	return
 }
