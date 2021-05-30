@@ -1,8 +1,8 @@
 [
  {
   "ID": 1,
-  "CreatedAt": "2021-05-28T15:36:01.544891+02:00",
-  "UpdatedAt": "2021-05-28T16:01:57.651153+02:00",
+  "CreatedAt": "0001-01-01T00:00:00Z",
+  "UpdatedAt": "0001-01-01T00:00:00Z",
   "DeletedAt": null,
   "Name_Data": {
    "String": "A1",
@@ -53,7 +53,7 @@
    "Valid": true
   },
   "AssociationtobID": {
-   "Int64": 2,
+   "Int64": 1,
    "Valid": true
   },
   "AssociationtobName": "",
@@ -73,8 +73,8 @@
  },
  {
   "ID": 2,
-  "CreatedAt": "2021-05-28T15:36:01.545096+02:00",
-  "UpdatedAt": "2021-05-28T16:01:57.651532+02:00",
+  "CreatedAt": "0001-01-01T00:00:00Z",
+  "UpdatedAt": "0001-01-01T00:00:00Z",
   "DeletedAt": null,
   "Name_Data": {
    "String": "A2",
@@ -125,7 +125,7 @@
    "Valid": true
   },
   "AssociationtobID": {
-   "Int64": 2,
+   "Int64": 1,
    "Valid": true
   },
   "AssociationtobName": "",
@@ -135,11 +135,11 @@
   },
   "Anotherassociationtob_2Name": "",
   "Aclass_AnarrayofaDBID": {
-   "Int64": 2,
+   "Int64": 1,
    "Valid": true
   },
   "Aclass_AnarrayofaDBID_Index": {
-   "Int64": 0,
+   "Int64": 1,
    "Valid": true
   }
  }

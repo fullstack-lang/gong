@@ -387,7 +387,12 @@ func (backRepoAclass *BackRepoAclassStruct) CheckoutPhaseOneInstance(aclassDB *A
 		aclass.Stage()
 	}
 	aclassDB.CopyBasicFieldsToAclass(aclass)
-	(*backRepoAclass.Map_AclassDBID_AclassDB)[aclassDB.ID] = aclassDB
+
+	// preserve pointer to aclassDB. Otherwise, pointer will is recycled and the map of pointers
+	// Map_AclassDBID_AclassDB)[aclassDB hold variable pointers
+	aclassDB_Data := *aclassDB
+	preservedPtrToAclass := &aclassDB_Data
+	(*backRepoAclass.Map_AclassDBID_AclassDB)[aclassDB.ID] = preservedPtrToAclass
 
 	return
 }
@@ -636,6 +641,7 @@ func (backRepoAclass *BackRepoAclassStruct) Restore(dirPath string) {
 	for _, aclassDB := range forRestore {
 
 		aclassDB_ID := aclassDB.ID
+		aclassDB.ID = 0
 		query := backRepoAclass.db.Create(aclassDB)
 		if query.Error != nil {
 			log.Panic(query.Error)

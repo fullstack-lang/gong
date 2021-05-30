@@ -3,7 +3,7 @@ package orm
 
 import (
 	"os"
-	
+
 	"github.com/jinzhu/gorm"
 
 	"github.com/fullstack-lang/gong/test/go/models"
