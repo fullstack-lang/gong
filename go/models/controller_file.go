@@ -73,7 +73,7 @@ func Get{{Structname}}s(c *gin.Context) {
 	}
 
 	// slice that will be transmitted to the front
-	var {{structname}}APIs []orm.{{Structname}}API
+	{{structname}}APIs := make([]orm.{{Structname}}API, 0)
 
 	// for each {{structname}}, update fields from the database nullable fields
 	for idx := range {{structname}}DBs {

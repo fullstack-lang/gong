@@ -12,6 +12,8 @@ import { AclassService } from '../aclass.service'
 import { getAclassUniqueID } from '../front-repo.service'
 import { BclassService } from '../bclass.service'
 import { getBclassUniqueID } from '../front-repo.service'
+import { DclassService } from '../dclass.service'
+import { getDclassUniqueID } from '../front-repo.service'
 
 /**
  * Types of a GongNode / GongFlatNode
@@ -146,6 +148,7 @@ export class SidebarComponent implements OnInit {
     // insertion point for per struct service declaration
     private aclassService: AclassService,
     private bclassService: BclassService,
+    private dclassService: DclassService,
   ) { }
 
   ngOnInit(): void {
@@ -162,6 +165,14 @@ export class SidebarComponent implements OnInit {
     )
     // observable for changes in structs
     this.bclassService.BclassServiceChanged.subscribe(
+      message => {
+        if (message == "post" || message == "update" || message == "delete") {
+          this.refresh()
+        }
+      }
+    )
+    // observable for changes in structs
+    this.dclassService.DclassServiceChanged.subscribe(
       message => {
         if (message == "post" || message == "update" || message == "delete") {
           this.refresh()
@@ -428,6 +439,48 @@ export class SidebarComponent implements OnInit {
             children: new Array<GongNode>()
           }
           bclassGongNodeStruct.children.push(bclassGongNodeInstance)
+
+          // insertion point for per field code
+        }
+      )
+
+      /**
+      * fill up the Dclass part of the mat tree
+      */
+      let dclassGongNodeStruct: GongNode = {
+        name: "Dclass",
+        type: GongNodeType.STRUCT,
+        id: 0,
+        uniqueIdPerStack: 13 * nonInstanceNodeId,
+        structName: "Dclass",
+        associatedStructName: "",
+        children: new Array<GongNode>()
+      }
+      nonInstanceNodeId = nonInstanceNodeId + 1
+      this.gongNodeTree.push(dclassGongNodeStruct)
+
+      this.frontRepo.Dclasss_array.sort((t1, t2) => {
+        if (t1.Name > t2.Name) {
+          return 1;
+        }
+        if (t1.Name < t2.Name) {
+          return -1;
+        }
+        return 0;
+      });
+
+      this.frontRepo.Dclasss_array.forEach(
+        dclassDB => {
+          let dclassGongNodeInstance: GongNode = {
+            name: dclassDB.Name,
+            type: GongNodeType.INSTANCE,
+            id: dclassDB.ID,
+            uniqueIdPerStack: getDclassUniqueID(dclassDB.ID),
+            structName: "Dclass",
+            associatedStructName: "",
+            children: new Array<GongNode>()
+          }
+          dclassGongNodeStruct.children.push(dclassGongNodeInstance)
 
           // insertion point for per field code
         }

@@ -61,7 +61,7 @@ func GetBclasss(c *gin.Context) {
 	}
 
 	// slice that will be transmitted to the front
-	var bclassAPIs []orm.BclassAPI
+	bclassAPIs := make([]orm.BclassAPI, 0)
 
 	// for each bclass, update fields from the database nullable fields
 	for idx := range bclassDBs {

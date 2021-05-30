@@ -378,6 +378,53 @@ definitions:
     type: object
     x-go-name: BclassDB
     x-go-package: github.com/fullstack-lang/gong/test/go/orm
+  dclassAPI:
+    description: |-
+      for POST, API, one needs the fields of the model as well as the fields
+      from associations ("Has One" and "Has Many") that are generated to
+      fullfill the ORM requirements for associations
+    properties:
+      CreatedAt:
+        format: date-time
+        type: string
+      DeletedAt:
+        format: date-time
+        type: string
+      ID:
+        format: uint64
+        type: integer
+      Name:
+        type: string
+      UpdatedAt:
+        format: date-time
+        type: string
+    title: DclassAPI is the input in POST API
+    type: object
+    x-go-name: DclassAPI
+    x-go-package: github.com/fullstack-lang/gong/test/go/orm
+  dclassDB:
+    description: |-
+      It incorporates the GORM ID, basic fields from the model (because they can be serialized),
+      the encoded version of pointers
+    properties:
+      CreatedAt:
+        format: date-time
+        type: string
+      DeletedAt:
+        format: date-time
+        type: string
+      ID:
+        format: uint64
+        type: integer
+      Name_Data:
+        $ref: '#/definitions/NullString'
+      UpdatedAt:
+        format: date-time
+        type: string
+    title: DclassDB describes a dclass in the database
+    type: object
+    x-go-name: DclassDB
+    x-go-package: github.com/fullstack-lang/gong/test/go/orm
 host: localhost:8080
 info:
   description: test exposes types of a package.
@@ -557,6 +604,90 @@ paths:
       operationId: GetLastCommitNb
       tags:
       - backrepo
+  /dclasss:
+    get:
+      description: Get all dclasss
+      operationId: getDclasss
+      responses:
+        "200":
+          $ref: '#/responses/dclassDBsResponse'
+        default:
+          $ref: '#/responses/genericError'
+      tags:
+      - dclasss
+    post:
+      consumes:
+      - application/json
+      description: Creates a dclass
+      operationId: postDclass
+      parameters:
+      - description: The Dclass to submit or modify
+        in: body
+        name: Dclass
+        schema:
+          $ref: '#/definitions/dclassAPI'
+      produces:
+      - application/json
+      responses:
+        "200":
+          $ref: '#/responses/dclassDBResponse'
+      tags:
+      - dclasss
+  /dclasss/{ID}:
+    delete:
+      description: Delete a dclass
+      operationId: deleteDclass
+      parameters:
+      - description: The ID of the order
+        format: int64
+        in: path
+        name: ID
+        required: true
+        type: integer
+      responses:
+        default:
+          $ref: '#/responses/genericError'
+      tags:
+      - dclasss
+    get:
+      operationId: getDclass
+      parameters:
+      - description: The ID of the order
+        format: int64
+        in: path
+        name: ID
+        required: true
+        type: integer
+      responses:
+        "200":
+          $ref: '#/responses/dclassDBResponse'
+        default:
+          $ref: '#/responses/genericError'
+      summary: Gets the details for a dclass.
+      tags:
+      - dclasss
+    patch:
+      description: Update a dclass
+      operationId: updateDclass
+      parameters:
+      - description: The ID of the order
+        format: int64
+        in: path
+        name: ID
+        required: true
+        type: integer
+      - description: The Dclass to submit or modify
+        in: body
+        name: Dclass
+        schema:
+          $ref: '#/definitions/dclassAPI'
+      responses:
+        "200":
+          $ref: '#/responses/dclassDBResponse'
+        default:
+          $ref: '#/responses/genericError'
+      tags:
+      - dclasss
 produces:
 - application/json
 responses:
@@ -686,6 +817,33 @@ responses:
     schema:
       items:
         $ref: '#/definitions/bclassDB'
+      type: array
+  dclassDBResponse:
+    description: DclassDBResponse provides response
+    headers:
+      CreatedAt:
+        format: date-time
+        type: string
+      DeletedAt:
+        format: date-time
+        type: string
+      ID:
+        format: uint64
+        type: integer
+      Name_Data:
+        description: |-
+          insertion for basic fields declaration
+          Declation for basic field dclassDB.Name {{BasicKind}} (to be completed)
+      UpdatedAt:
+        format: date-time
+        type: string
+    schema:
+      $ref: '#/definitions/NullString'
+  dclassDBsResponse:
+    description: DclassDBs arrays dclassDBs
+    schema:
+      items:
+        $ref: '#/definitions/dclassDB'
       type: array
   genericError:
     description: |-

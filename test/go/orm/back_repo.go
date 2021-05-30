@@ -16,6 +16,8 @@ type BackRepoStruct struct {
 
 	BackRepoBclass BackRepoBclassStruct
 
+	BackRepoDclass BackRepoDclassStruct
+
 	CommitNb uint // this ng is updated at the BackRepo level but also at the BackRepo<GongStruct> level
 }
 
@@ -36,6 +38,7 @@ func (backRepo *BackRepoStruct) Init(db *gorm.DB) {
 	// insertion point for per struct back repo declarations
 	backRepo.BackRepoAclass.Init(db)
 	backRepo.BackRepoBclass.Init(db)
+	backRepo.BackRepoDclass.Init(db)
 
 	models.Stage.BackRepo = backRepo
 }
@@ -45,10 +48,12 @@ func (backRepo *BackRepoStruct) Commit(stage *models.StageStruct) {
 	// insertion point for per struct back repo phase one commit
 	backRepo.BackRepoAclass.CommitPhaseOne(stage)
 	backRepo.BackRepoBclass.CommitPhaseOne(stage)
+	backRepo.BackRepoDclass.CommitPhaseOne(stage)
 
 	// insertion point for per struct back repo phase two commit
 	backRepo.BackRepoAclass.CommitPhaseTwo(backRepo)
 	backRepo.BackRepoBclass.CommitPhaseTwo(backRepo)
+	backRepo.BackRepoDclass.CommitPhaseTwo(backRepo)
 
 	backRepo.IncrementCommitNb()
 }
@@ -58,10 +63,12 @@ func (backRepo *BackRepoStruct) Checkout(stage *models.StageStruct) {
 	// insertion point for per struct back repo phase one commit
 	backRepo.BackRepoAclass.CheckoutPhaseOne()
 	backRepo.BackRepoBclass.CheckoutPhaseOne()
+	backRepo.BackRepoDclass.CheckoutPhaseOne()
 
 	// insertion point for per struct back repo phase two commit
 	backRepo.BackRepoAclass.CheckoutPhaseTwo(backRepo)
 	backRepo.BackRepoBclass.CheckoutPhaseTwo(backRepo)
+	backRepo.BackRepoDclass.CheckoutPhaseTwo(backRepo)
 }
 
 var BackRepo BackRepoStruct
@@ -77,6 +84,7 @@ func (backRepo *BackRepoStruct) Backup(stage *models.StageStruct, dirPath string
 	// insertion point for per struct backup
 	backRepo.BackRepoAclass.Backup(dirPath)
 	backRepo.BackRepoBclass.Backup(dirPath)
+	backRepo.BackRepoDclass.Backup(dirPath)
 }
 
 // Restore the database into the back repo
@@ -87,6 +95,7 @@ func (backRepo *BackRepoStruct) Restore(stage *models.StageStruct, dirPath strin
 	// insertion point for per struct backup
 	backRepo.BackRepoAclass.Restore(dirPath)
 	backRepo.BackRepoBclass.Restore(dirPath)
+	backRepo.BackRepoDclass.Restore(dirPath)
 	models.Stage.Checkout()
 }
 

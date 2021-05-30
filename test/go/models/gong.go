@@ -16,6 +16,8 @@ type StageStruct struct { // insertion point for definition of arrays registerin
 
 	Bclasss map[*Bclass]struct{}
 
+	Dclasss map[*Dclass]struct{}
+
 	AllModelsStructCreateCallback AllModelsStructCreateInterface
 
 	AllModelsStructDeleteCallback AllModelsStructDeleteInterface
@@ -40,6 +42,8 @@ type BackRepoInterface interface {
 	CheckoutAclass(aclass *Aclass)
 	CommitBclass(bclass *Bclass)
 	CheckoutBclass(bclass *Bclass)
+	CommitDclass(dclass *Dclass)
+	CheckoutDclass(dclass *Dclass)
 	GetLastCommitNb() uint
 }
 
@@ -48,6 +52,8 @@ var Stage StageStruct = StageStruct{ // insertion point for array initiatialisat
 	Aclasss: make(map[*Aclass]struct{}, 0),
 
 	Bclasss: make(map[*Bclass]struct{}, 0),
+
+	Dclasss: make(map[*Dclass]struct{}, 0),
 
 }
 
@@ -277,15 +283,116 @@ func DeleteORMBclass(bclass *Bclass) {
 	}
 }
 
+func (stage *StageStruct) getDclassOrderedStructWithNameField() []*Dclass {
+	// have alphabetical order generation
+	dclassOrdered := []*Dclass{}
+	for dclass := range stage.Dclasss {
+		dclassOrdered = append(dclassOrdered, dclass)
+	}
+	sort.Slice(dclassOrdered[:], func(i, j int) bool {
+		return dclassOrdered[i].Name < dclassOrdered[j].Name
+	})
+	return dclassOrdered
+}
+
+// Stage puts dclass to the model stage
+func (dclass *Dclass) Stage() *Dclass {
+	Stage.Dclasss[dclass] = __member
+	return dclass
+}
+
+// Unstage removes dclass off the model stage
+func (dclass *Dclass) Unstage() *Dclass {
+	delete(Stage.Dclasss, dclass)
+	return dclass
+}
+
+// commit dclass to the back repo (if it is already staged)
+func (dclass *Dclass) Commit() *Dclass {
+	if _, ok := Stage.Dclasss[dclass]; ok {
+		if Stage.BackRepo != nil {
+			Stage.BackRepo.CommitDclass(dclass)
+		}
+	}
+	return dclass
+}
+
+// Checkout dclass to the back repo (if it is already staged)
+func (dclass *Dclass) Checkout() *Dclass {
+	if _, ok := Stage.Dclasss[dclass]; ok {
+		if Stage.BackRepo != nil {
+			Stage.BackRepo.CheckoutDclass(dclass)
+		}
+	}
+	return dclass
+}
+
+//
+// Legacy, to be deleted
+//
+
+// StageCopy appends a copy of dclass to the model stage
+func (dclass *Dclass) StageCopy() *Dclass {
+	_dclass := new(Dclass)
+	*_dclass = *dclass
+	_dclass.Stage()
+	return _dclass
+}
+
+// StageAndCommit appends dclass to the model stage and commit to the orm repo
+func (dclass *Dclass) StageAndCommit() *Dclass {
+	dclass.Stage()
+	if Stage.AllModelsStructCreateCallback != nil {
+		Stage.AllModelsStructCreateCallback.CreateORMDclass(dclass)
+	}
+	return dclass
+}
+
+// DeleteStageAndCommit appends dclass to the model stage and commit to the orm repo
+func (dclass *Dclass) DeleteStageAndCommit() *Dclass {
+	dclass.Unstage()
+	DeleteORMDclass(dclass)
+	return dclass
+}
+
+// StageCopyAndCommit appends a copy of dclass to the model stage and commit to the orm repo
+func (dclass *Dclass) StageCopyAndCommit() *Dclass {
+	_dclass := new(Dclass)
+	*_dclass = *dclass
+	_dclass.Stage()
+	if Stage.AllModelsStructCreateCallback != nil {
+		Stage.AllModelsStructCreateCallback.CreateORMDclass(dclass)
+	}
+	return _dclass
+}
+
+// CreateORMDclass enables dynamic staging of a Dclass instance
+func CreateORMDclass(dclass *Dclass) {
+	dclass.Stage()
+	if Stage.AllModelsStructCreateCallback != nil {
+		Stage.AllModelsStructCreateCallback.CreateORMDclass(dclass)
+	}
+}
+
+// DeleteORMDclass enables dynamic staging of a Dclass instance
+func DeleteORMDclass(dclass *Dclass) {
+	dclass.Unstage()
+	if Stage.AllModelsStructDeleteCallback != nil {
+		Stage.AllModelsStructDeleteCallback.DeleteORMDclass(dclass)
+	}
+}
+
 // swagger:ignore
 type AllModelsStructCreateInterface interface { // insertion point for Callbacks on creation
 	CreateORMAclass(Aclass *Aclass)
 	CreateORMBclass(Bclass *Bclass)
+	CreateORMDclass(Dclass *Dclass)
 }
 
 type AllModelsStructDeleteInterface interface { // insertion point for Callbacks on deletion
 	DeleteORMAclass(Aclass *Aclass)
 	DeleteORMBclass(Bclass *Bclass)
+	DeleteORMDclass(Dclass *Dclass)
 }
 
 func (stage *StageStruct) Reset() { // insertion point for array reset
@@ -293,9 +400,12 @@ func (stage *StageStruct) Reset() { // insertion point for array reset
 
 	stage.Bclasss = make(map[*Bclass]struct{}, 0)
 
+	stage.Dclasss = make(map[*Dclass]struct{}, 0)
+
 }
 
 func (stage *StageStruct) Nil() { // insertion point for array nil
 	stage.Aclasss = nil
 	stage.Bclasss = nil
+	stage.Dclasss = nil
 }
