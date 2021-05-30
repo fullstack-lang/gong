@@ -42,6 +42,11 @@ import { BclassSortingComponent } from './bclass-sorting/bclass-sorting.componen
 import { BclassDetailComponent } from './bclass-detail/bclass-detail.component'
 import { BclassPresentationComponent } from './bclass-presentation/bclass-presentation.component'
 
+import { DclasssTableComponent } from './dclasss-table/dclasss-table.component'
+import { DclassSortingComponent } from './dclass-sorting/dclass-sorting.component'
+import { DclassDetailComponent } from './dclass-detail/dclass-detail.component'
+import { DclassPresentationComponent } from './dclass-presentation/dclass-presentation.component'
+
 
 @NgModule({
 	declarations: [
@@ -55,6 +60,11 @@ import { BclassPresentationComponent } from './bclass-presentation/bclass-presen
 		BclassSortingComponent,
 		BclassDetailComponent,
 		BclassPresentationComponent,
+
+		DclasssTableComponent,
+		DclassSortingComponent,
+		DclassDetailComponent,
+		DclassPresentationComponent,
 
 
 		SplitterComponent,
@@ -100,6 +110,11 @@ import { BclassPresentationComponent } from './bclass-presentation/bclass-presen
 		BclassSortingComponent,
 		BclassDetailComponent,
 		BclassPresentationComponent,
+
+		DclasssTableComponent,
+		DclassSortingComponent,
+		DclassDetailComponent,
+		DclassPresentationComponent,
 
 
 		SplitterComponent,

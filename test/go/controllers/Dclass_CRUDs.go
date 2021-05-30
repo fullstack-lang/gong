@@ -13,14 +13,14 @@ import (
 )
 
 // declaration in order to justify use of the models import
-var __Aclass__dummysDeclaration__ models.Aclass
-var __Aclass_time__dummyDeclaration time.Duration
+var __Dclass__dummysDeclaration__ models.Dclass
+var __Dclass_time__dummyDeclaration time.Duration
 
-// An AclassID parameter model.
+// An DclassID parameter model.
 //
 // This is used for operations that want the ID of an order in the path
-// swagger:parameters getAclass updateAclass deleteAclass
-type AclassID struct {
+// swagger:parameters getDclass updateDclass deleteDclass
+type DclassID struct {
 	// The ID of the order
 	//
 	// in: path
@@ -28,30 +28,30 @@ type AclassID struct {
 	ID int64
 }
 
-// AclassInput is a schema that can validate the user’s
+// DclassInput is a schema that can validate the user’s
 // input to prevent us from getting invalid data
-// swagger:parameters postAclass updateAclass
-type AclassInput struct {
-	// The Aclass to submit or modify
+// swagger:parameters postDclass updateDclass
+type DclassInput struct {
+	// The Dclass to submit or modify
 	// in: body
-	Aclass *orm.AclassAPI
+	Dclass *orm.DclassAPI
 }
 
-// GetAclasss
+// GetDclasss
 //
-// swagger:route GET /aclasss aclasss getAclasss
+// swagger:route GET /dclasss dclasss getDclasss
 //
-// Get all aclasss
+// Get all dclasss
 //
 // Responses:
 //    default: genericError
-//        200: aclassDBsResponse
-func GetAclasss(c *gin.Context) {
+//        200: dclassDBsResponse
+func GetDclasss(c *gin.Context) {
 	db := c.MustGet("db").(*gorm.DB)
 
 	// source slice
-	var aclassDBs []orm.AclassDB
-	query := db.Find(&aclassDBs)
+	var dclassDBs []orm.DclassDB
+	query := db.Find(&dclassDBs)
 	if query.Error != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
@@ -61,29 +61,29 @@ func GetAclasss(c *gin.Context) {
 	}
 
 	// slice that will be transmitted to the front
-	aclassAPIs := make([]orm.AclassAPI, 0)
+	dclassAPIs := make([]orm.DclassAPI, 0)
 
-	// for each aclass, update fields from the database nullable fields
-	for idx := range aclassDBs {
-		aclassDB := &aclassDBs[idx]
-		_ = aclassDB
-		var aclassAPI orm.AclassAPI
+	// for each dclass, update fields from the database nullable fields
+	for idx := range dclassDBs {
+		dclassDB := &dclassDBs[idx]
+		_ = dclassDB
+		var dclassAPI orm.DclassAPI
 
 		// insertion point for updating fields
-		aclassAPI.ID = aclassDB.ID
-		aclassDB.CopyBasicFieldsToAclass(&aclassAPI.Aclass)
-		aclassAPI.AclassPointersEnconding = aclassDB.AclassPointersEnconding
-		aclassAPIs = append(aclassAPIs, aclassAPI)
+		dclassAPI.ID = dclassDB.ID
+		dclassDB.CopyBasicFieldsToDclass(&dclassAPI.Dclass)
+		dclassAPI.DclassPointersEnconding = dclassDB.DclassPointersEnconding
+		dclassAPIs = append(dclassAPIs, dclassAPI)
 	}
 
-	c.JSON(http.StatusOK, aclassAPIs)
+	c.JSON(http.StatusOK, dclassAPIs)
 }
 
-// PostAclass
+// PostDclass
 //
-// swagger:route POST /aclasss aclasss postAclass
+// swagger:route POST /dclasss dclasss postDclass
 //
-// Creates a aclass
+// Creates a dclass
 //     Consumes:
 //     - application/json
 //
@@ -91,12 +91,12 @@ func GetAclasss(c *gin.Context) {
 //     - application/json
 //
 //     Responses:
-//       200: aclassDBResponse
-func PostAclass(c *gin.Context) {
+//       200: dclassDBResponse
+func PostDclass(c *gin.Context) {
 	db := c.MustGet("db").(*gorm.DB)
 
 	// Validate input
-	var input orm.AclassAPI
+	var input orm.DclassAPI
 
 	err := c.ShouldBindJSON(&input)
 	if err != nil {
@@ -107,12 +107,12 @@ func PostAclass(c *gin.Context) {
 		return
 	}
 
-	// Create aclass
-	aclassDB := orm.AclassDB{}
-	aclassDB.AclassPointersEnconding = input.AclassPointersEnconding
-	aclassDB.CopyBasicFieldsFromAclass(&input.Aclass)
+	// Create dclass
+	dclassDB := orm.DclassDB{}
+	dclassDB.DclassPointersEnconding = input.DclassPointersEnconding
+	dclassDB.CopyBasicFieldsFromDclass(&input.Dclass)
 
-	query := db.Create(&aclassDB)
+	query := db.Create(&dclassDB)
 	if query.Error != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
@@ -125,24 +125,24 @@ func PostAclass(c *gin.Context) {
 	// (this will be improved with implementation of unit of work design pattern)
 	orm.BackRepo.IncrementCommitNb()
 
-	c.JSON(http.StatusOK, aclassDB)
+	c.JSON(http.StatusOK, dclassDB)
 }
 
-// GetAclass
+// GetDclass
 //
-// swagger:route GET /aclasss/{ID} aclasss getAclass
+// swagger:route GET /dclasss/{ID} dclasss getDclass
 //
-// Gets the details for a aclass.
+// Gets the details for a dclass.
 //
 // Responses:
 //    default: genericError
-//        200: aclassDBResponse
-func GetAclass(c *gin.Context) {
+//        200: dclassDBResponse
+func GetDclass(c *gin.Context) {
 	db := c.MustGet("db").(*gorm.DB)
 
-	// Get aclassDB in DB
-	var aclassDB orm.AclassDB
-	if err := db.First(&aclassDB, c.Param("id")).Error; err != nil {
+	// Get dclassDB in DB
+	var dclassDB orm.DclassDB
+	if err := db.First(&dclassDB, c.Param("id")).Error; err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
@@ -150,31 +150,31 @@ func GetAclass(c *gin.Context) {
 		return
 	}
 
-	var aclassAPI orm.AclassAPI
-	aclassAPI.ID = aclassDB.ID
-	aclassAPI.AclassPointersEnconding = aclassDB.AclassPointersEnconding
-	aclassDB.CopyBasicFieldsToAclass(&aclassAPI.Aclass)
+	var dclassAPI orm.DclassAPI
+	dclassAPI.ID = dclassDB.ID
+	dclassAPI.DclassPointersEnconding = dclassDB.DclassPointersEnconding
+	dclassDB.CopyBasicFieldsToDclass(&dclassAPI.Dclass)
 
-	c.JSON(http.StatusOK, aclassAPI)
+	c.JSON(http.StatusOK, dclassAPI)
 }
 
-// UpdateAclass
+// UpdateDclass
 //
-// swagger:route PATCH /aclasss/{ID} aclasss updateAclass
+// swagger:route PATCH /dclasss/{ID} dclasss updateDclass
 //
-// Update a aclass
+// Update a dclass
 //
 // Responses:
 //    default: genericError
-//        200: aclassDBResponse
-func UpdateAclass(c *gin.Context) {
+//        200: dclassDBResponse
+func UpdateDclass(c *gin.Context) {
 	db := c.MustGet("db").(*gorm.DB)
 
 	// Get model if exist
-	var aclassDB orm.AclassDB
+	var dclassDB orm.DclassDB
 
-	// fetch the aclass
-	query := db.First(&aclassDB, c.Param("id"))
+	// fetch the dclass
+	query := db.First(&dclassDB, c.Param("id"))
 
 	if query.Error != nil {
 		var returnError GenericError
@@ -185,17 +185,17 @@ func UpdateAclass(c *gin.Context) {
 	}
 
 	// Validate input
-	var input orm.AclassAPI
+	var input orm.DclassAPI
 	if err := c.ShouldBindJSON(&input); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
 	// update
-	aclassDB.CopyBasicFieldsFromAclass(&input.Aclass)
-	aclassDB.AclassPointersEnconding = input.AclassPointersEnconding
+	dclassDB.CopyBasicFieldsFromDclass(&input.Dclass)
+	dclassDB.DclassPointersEnconding = input.DclassPointersEnconding
 
-	query = db.Model(&aclassDB).Updates(aclassDB)
+	query = db.Model(&dclassDB).Updates(dclassDB)
 	if query.Error != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
@@ -208,24 +208,24 @@ func UpdateAclass(c *gin.Context) {
 	// (this will be improved with implementation of unit of work design pattern)
 	orm.BackRepo.IncrementCommitNb()
 
-	// return status OK with the marshalling of the the aclassDB
-	c.JSON(http.StatusOK, aclassDB)
+	// return status OK with the marshalling of the the dclassDB
+	c.JSON(http.StatusOK, dclassDB)
 }
 
-// DeleteAclass
+// DeleteDclass
 //
-// swagger:route DELETE /aclasss/{ID} aclasss deleteAclass
+// swagger:route DELETE /dclasss/{ID} dclasss deleteDclass
 //
-// Delete a aclass
+// Delete a dclass
 //
 // Responses:
 //    default: genericError
-func DeleteAclass(c *gin.Context) {
+func DeleteDclass(c *gin.Context) {
 	db := c.MustGet("db").(*gorm.DB)
 
 	// Get model if exist
-	var aclassDB orm.AclassDB
-	if err := db.First(&aclassDB, c.Param("id")).Error; err != nil {
+	var dclassDB orm.DclassDB
+	if err := db.First(&dclassDB, c.Param("id")).Error; err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
@@ -234,7 +234,7 @@ func DeleteAclass(c *gin.Context) {
 	}
 
 	// with gorm.Model field, default delete is a soft delete. Unscoped() force delete
-	db.Unscoped().Delete(&aclassDB)
+	db.Unscoped().Delete(&dclassDB)
 
 	// a DELETE generates a back repo commit increase
 	// (this will be improved with implementation of unit of work design pattern)

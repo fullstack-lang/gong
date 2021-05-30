@@ -10,6 +10,9 @@ import { AclassService } from './aclass.service'
 import { BclassDB } from './bclass-db'
 import { BclassService } from './bclass.service'
 
+import { DclassDB } from './dclass-db'
+import { DclassService } from './dclass.service'
+
 
 // FrontRepo stores all instances in a front repository (design pattern repository)
 export class FrontRepo { // insertion point sub template 
@@ -19,6 +22,9 @@ export class FrontRepo { // insertion point sub template
   Bclasss_array = new Array<BclassDB>(); // array of repo instances
   Bclasss = new Map<number, BclassDB>(); // map of repo instances
   Bclasss_batch = new Map<number, BclassDB>(); // same but only in last GET (for finding repo instances to delete)
+  Dclasss_array = new Array<DclassDB>(); // array of repo instances
+  Dclasss = new Map<number, DclassDB>(); // map of repo instances
+  Dclasss_batch = new Map<number, DclassDB>(); // same but only in last GET (for finding repo instances to delete)
 }
 
 //
@@ -56,15 +62,18 @@ export class FrontRepoService {
     private http: HttpClient, // insertion point sub template 
     private aclassService: AclassService,
     private bclassService: BclassService,
+    private dclassService: DclassService,
   ) { }
 
   // typing of observable can be messy in typescript. Therefore, one force the type
   observableFrontRepo: [ // insertion point sub template 
     Observable<AclassDB[]>,
     Observable<BclassDB[]>,
+    Observable<DclassDB[]>,
   ] = [ // insertion point sub template 
       this.aclassService.getAclasss(),
       this.bclassService.getBclasss(),
+      this.dclassService.getDclasss(),
     ];
 
   //
@@ -82,6 +91,7 @@ export class FrontRepoService {
           ([ // insertion point sub template for declarations 
             aclasss_,
             bclasss_,
+            dclasss_,
           ]) => {
             // Typing can be messy with many items. Therefore, type casting is necessary here
             // insertion point sub template for type casting 
@@ -89,6 +99,8 @@ export class FrontRepoService {
             aclasss = aclasss_
             var bclasss: BclassDB[]
             bclasss = bclasss_
+            var dclasss: DclassDB[]
+            dclasss = dclasss_
 
             // 
             // First Step: init map of instances
@@ -150,6 +162,39 @@ export class FrontRepoService {
             
             // sort Bclasss_array array
             FrontRepoSingloton.Bclasss_array.sort((t1, t2) => {
+              if (t1.Name > t2.Name) {
+                return 1;
+              }
+              if (t1.Name < t2.Name) {
+                return -1;
+              }
+              return 0;
+            });
+            
+            // init the array
+            FrontRepoSingloton.Dclasss_array = dclasss
+
+            // clear the map that counts Dclass in the GET
+            FrontRepoSingloton.Dclasss_batch.clear()
+            
+            dclasss.forEach(
+              dclass => {
+                FrontRepoSingloton.Dclasss.set(dclass.ID, dclass)
+                FrontRepoSingloton.Dclasss_batch.set(dclass.ID, dclass)
+              }
+            )
+            
+            // clear dclasss that are absent from the batch
+            FrontRepoSingloton.Dclasss.forEach(
+              dclass => {
+                if (FrontRepoSingloton.Dclasss_batch.get(dclass.ID) == undefined) {
+                  FrontRepoSingloton.Dclasss.delete(dclass.ID)
+                }
+              }
+            )
+            
+            // sort Dclasss_array array
+            FrontRepoSingloton.Dclasss_array.sort((t1, t2) => {
               if (t1.Name > t2.Name) {
                 return 1;
               }
@@ -228,6 +273,13 @@ export class FrontRepoService {
                     }
                   }
                 }
+              }
+            )
+            dclasss.forEach(
+              dclass => {
+                // insertion point sub sub template for ONE-/ZERO-ONE associations pointers redeeming
+
+                // insertion point for redeeming ONE-MANY associations
               }
             )
 
@@ -395,6 +447,57 @@ export class FrontRepoService {
       }
     )
   }
+
+  // DclassPull performs a GET on Dclass of the stack and redeem association pointers 
+  DclassPull(): Observable<FrontRepo> {
+    return new Observable<FrontRepo>(
+      (observer) => {
+        combineLatest([
+          this.dclassService.getDclasss()
+        ]).subscribe(
+          ([ // insertion point sub template 
+            dclasss,
+          ]) => {
+            // init the array
+            FrontRepoSingloton.Dclasss_array = dclasss
+
+            // clear the map that counts Dclass in the GET
+            FrontRepoSingloton.Dclasss_batch.clear()
+
+            // 
+            // First Step: init map of instances
+            // insertion point sub template 
+            dclasss.forEach(
+              dclass => {
+                FrontRepoSingloton.Dclasss.set(dclass.ID, dclass)
+                FrontRepoSingloton.Dclasss_batch.set(dclass.ID, dclass)
+
+                // insertion point for redeeming ONE/ZERO-ONE associations 
+
+                // insertion point for redeeming ONE-MANY associations 
+              }
+            )
+
+            // clear dclasss that are absent from the GET
+            FrontRepoSingloton.Dclasss.forEach(
+              dclass => {
+                if (FrontRepoSingloton.Dclasss_batch.get(dclass.ID) == undefined) {
+                  FrontRepoSingloton.Dclasss.delete(dclass.ID)
+                }
+              }
+            )
+
+            // 
+            // Second Step: redeem pointers between instances (thanks to maps in the First Step)
+            // insertion point sub template 
+
+            // hand over control flow to observer
+            observer.next(FrontRepoSingloton)
+          }
+        )
+      }
+    )
+  }
 }
 
 // insertion point for get unique ID per struct 
@@ -403,4 +506,7 @@ export function getAclassUniqueID(id: number): number {
 }
 export function getBclassUniqueID(id: number): number {
   return 37 * id
+}
+export function getDclassUniqueID(id: number): number {
+  return 41 * id
 }
