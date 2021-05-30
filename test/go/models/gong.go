@@ -13,15 +13,13 @@ var __member __void
 // swagger:ignore
 type StageStruct struct { // insertion point for definition of arrays registering instances
 	Aclasss map[*Aclass]struct{}
-
 	Bclasss map[*Bclass]struct{}
-
 	AllModelsStructCreateCallback AllModelsStructCreateInterface
 
 	AllModelsStructDeleteCallback AllModelsStructDeleteInterface
 
 	BackRepo BackRepoInterface
-	
+
 	// if set will be called before each commit to the back repo
 	OnInitCommitCallback OnInitCommitInterface
 }
@@ -33,6 +31,8 @@ type OnInitCommitInterface interface {
 type BackRepoInterface interface {
 	Commit(stage *StageStruct)
 	Checkout(stage *StageStruct)
+	Backup(stage *StageStruct, dirPath string)
+	Restore(stage *StageStruct, dirPath string)
 	// insertion point for Commit and Checkout signatures
 	CommitAclass(aclass *Aclass)
 	CheckoutAclass(aclass *Aclass)
@@ -44,9 +44,7 @@ type BackRepoInterface interface {
 // swagger:ignore instructs the gong compiler (gongc) to avoid this particular struct
 var Stage StageStruct = StageStruct{ // insertion point for array initiatialisation
 	Aclasss: make(map[*Aclass]struct{}, 0),
-
 	Bclasss: make(map[*Bclass]struct{}, 0),
-
 }
 
 func (stage *StageStruct) Commit() {
@@ -58,6 +56,21 @@ func (stage *StageStruct) Commit() {
 func (stage *StageStruct) Checkout() {
 	if stage.BackRepo != nil {
 		stage.BackRepo.Checkout(stage)
+	}
+}
+
+// backup generates backup files in the dirPath
+func (stage *StageStruct) Backup(dirPath string) {
+	if stage.BackRepo != nil {
+		stage.BackRepo.Backup(stage, dirPath)
+	}
+}
+
+// Restore resets Stage & BackRepo and restores their content from the restore files in dirPath
+// Restore shall be performed only on a new database with rowids at 0 (otherwise, it will panic)
+func (stage *StageStruct) Restore(dirPath string) {
+	if stage.BackRepo != nil {
+		stage.BackRepo.Restore(stage, dirPath)
 	}
 }
 
@@ -106,61 +119,6 @@ func (aclass *Aclass) Checkout() *Aclass {
 	return aclass
 }
 
-//
-// Legacy, to be deleted
-//
-
-// StageCopy appends a copy of aclass to the model stage
-func (aclass *Aclass) StageCopy() *Aclass {
-	_aclass := new(Aclass)
-	*_aclass = *aclass
-	_aclass.Stage()
-	return _aclass
-}
-
-// StageAndCommit appends aclass to the model stage and commit to the orm repo
-func (aclass *Aclass) StageAndCommit() *Aclass {
-	aclass.Stage()
-	if Stage.AllModelsStructCreateCallback != nil {
-		Stage.AllModelsStructCreateCallback.CreateORMAclass(aclass)
-	}
-	return aclass
-}
-
-// DeleteStageAndCommit appends aclass to the model stage and commit to the orm repo
-func (aclass *Aclass) DeleteStageAndCommit() *Aclass {
-	aclass.Unstage()
-	DeleteORMAclass(aclass)
-	return aclass
-}
-
-// StageCopyAndCommit appends a copy of aclass to the model stage and commit to the orm repo
-func (aclass *Aclass) StageCopyAndCommit() *Aclass {
-	_aclass := new(Aclass)
-	*_aclass = *aclass
-	_aclass.Stage()
-	if Stage.AllModelsStructCreateCallback != nil {
-		Stage.AllModelsStructCreateCallback.CreateORMAclass(aclass)
-	}
-	return _aclass
-}
-
-// CreateORMAclass enables dynamic staging of a Aclass instance
-func CreateORMAclass(aclass *Aclass) {
-	aclass.Stage()
-	if Stage.AllModelsStructCreateCallback != nil {
-		Stage.AllModelsStructCreateCallback.CreateORMAclass(aclass)
-	}
-}
-
-// DeleteORMAclass enables dynamic staging of a Aclass instance
-func DeleteORMAclass(aclass *Aclass) {
-	aclass.Unstage()
-	if Stage.AllModelsStructDeleteCallback != nil {
-		Stage.AllModelsStructDeleteCallback.DeleteORMAclass(aclass)
-	}
-}
-
 func (stage *StageStruct) getBclassOrderedStructWithNameField() []*Bclass {
 	// have alphabetical order generation
 	bclassOrdered := []*Bclass{}
@@ -203,61 +161,6 @@ func (bclass *Bclass) Checkout() *Bclass {
 		}
 	}
 	return bclass
-}
-
-//
-// Legacy, to be deleted
-//
-
-// StageCopy appends a copy of bclass to the model stage
-func (bclass *Bclass) StageCopy() *Bclass {
-	_bclass := new(Bclass)
-	*_bclass = *bclass
-	_bclass.Stage()
-	return _bclass
-}
-
-// StageAndCommit appends bclass to the model stage and commit to the orm repo
-func (bclass *Bclass) StageAndCommit() *Bclass {
-	bclass.Stage()
-	if Stage.AllModelsStructCreateCallback != nil {
-		Stage.AllModelsStructCreateCallback.CreateORMBclass(bclass)
-	}
-	return bclass
-}
-
-// DeleteStageAndCommit appends bclass to the model stage and commit to the orm repo
-func (bclass *Bclass) DeleteStageAndCommit() *Bclass {
-	bclass.Unstage()
-	DeleteORMBclass(bclass)
-	return bclass
-}
-
-// StageCopyAndCommit appends a copy of bclass to the model stage and commit to the orm repo
-func (bclass *Bclass) StageCopyAndCommit() *Bclass {
-	_bclass := new(Bclass)
-	*_bclass = *bclass
-	_bclass.Stage()
-	if Stage.AllModelsStructCreateCallback != nil {
-		Stage.AllModelsStructCreateCallback.CreateORMBclass(bclass)
-	}
-	return _bclass
-}
-
-// CreateORMBclass enables dynamic staging of a Bclass instance
-func CreateORMBclass(bclass *Bclass) {
-	bclass.Stage()
-	if Stage.AllModelsStructCreateCallback != nil {
-		Stage.AllModelsStructCreateCallback.CreateORMBclass(bclass)
-	}
-}
-
-// DeleteORMBclass enables dynamic staging of a Bclass instance
-func DeleteORMBclass(bclass *Bclass) {
-	bclass.Unstage()
-	if Stage.AllModelsStructDeleteCallback != nil {
-		Stage.AllModelsStructDeleteCallback.DeleteORMBclass(bclass)
-	}
 }
 
 // swagger:ignore

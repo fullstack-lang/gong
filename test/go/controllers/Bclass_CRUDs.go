@@ -49,8 +49,9 @@ type BclassInput struct {
 func GetBclasss(c *gin.Context) {
 	db := c.MustGet("db").(*gorm.DB)
 
-	var bclasss []orm.BclassDB
-	query := db.Find(&bclasss)
+	// source slice
+	var bclassDBs []orm.BclassDB
+	query := db.Find(&bclassDBs)
 	if query.Error != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
@@ -59,26 +60,23 @@ func GetBclasss(c *gin.Context) {
 		return
 	}
 
+	// slice that will be transmitted to the front
+	var bclassAPIs []orm.BclassAPI
+
 	// for each bclass, update fields from the database nullable fields
-	for idx := range bclasss {
-		bclass := &bclasss[idx]
-		_ = bclass
+	for idx := range bclassDBs {
+		bclassDB := &bclassDBs[idx]
+		_ = bclassDB
+		var bclassAPI orm.BclassAPI
+
 		// insertion point for updating fields
-		if bclass.Name_Data.Valid {
-			bclass.Name = bclass.Name_Data.String
-		}
-
-		if bclass.Floatfield_Data.Valid {
-			bclass.Floatfield = bclass.Floatfield_Data.Float64
-		}
-
-		if bclass.Intfield_Data.Valid {
-			bclass.Intfield = int(bclass.Intfield_Data.Int64)
-		}
-
+		bclassAPI.ID = bclassDB.ID
+		bclassDB.CopyBasicFieldsToBclass(&bclassAPI.Bclass)
+		bclassAPI.BclassPointersEnconding = bclassDB.BclassPointersEnconding
+		bclassAPIs = append(bclassAPIs, bclassAPI)
 	}
 
-	c.JSON(http.StatusOK, bclasss)
+	c.JSON(http.StatusOK, bclassAPIs)
 }
 
 // PostBclass
@@ -111,16 +109,8 @@ func PostBclass(c *gin.Context) {
 
 	// Create bclass
 	bclassDB := orm.BclassDB{}
-	bclassDB.BclassAPI = input
-	// insertion point for nullable field set
-	bclassDB.Name_Data.String = input.Name
-	bclassDB.Name_Data.Valid = true
-
-	bclassDB.Floatfield_Data.Float64 = input.Floatfield
-	bclassDB.Floatfield_Data.Valid = true
-
-	bclassDB.Intfield_Data.Int64 = int64(input.Intfield)
-	bclassDB.Intfield_Data.Valid = true
+	bclassDB.BclassPointersEnconding = input.BclassPointersEnconding
+	bclassDB.CopyBasicFieldsFromBclass(&input.Bclass)
 
 	query := db.Create(&bclassDB)
 	if query.Error != nil {
@@ -150,9 +140,9 @@ func PostBclass(c *gin.Context) {
 func GetBclass(c *gin.Context) {
 	db := c.MustGet("db").(*gorm.DB)
 
-	// Get bclass in DB
-	var bclass orm.BclassDB
-	if err := db.First(&bclass, c.Param("id")).Error; err != nil {
+	// Get bclassDB in DB
+	var bclassDB orm.BclassDB
+	if err := db.First(&bclassDB, c.Param("id")).Error; err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
@@ -160,20 +150,12 @@ func GetBclass(c *gin.Context) {
 		return
 	}
 
-	// insertion point for fields value set from nullable fields
-	if bclass.Name_Data.Valid {
-		bclass.Name = bclass.Name_Data.String
-	}
+	var bclassAPI orm.BclassAPI
+	bclassAPI.ID = bclassDB.ID
+	bclassAPI.BclassPointersEnconding = bclassDB.BclassPointersEnconding
+	bclassDB.CopyBasicFieldsToBclass(&bclassAPI.Bclass)
 
-	if bclass.Floatfield_Data.Valid {
-		bclass.Floatfield = bclass.Floatfield_Data.Float64
-	}
-
-	if bclass.Intfield_Data.Valid {
-		bclass.Intfield = int(bclass.Intfield_Data.Int64)
-	}
-
-	c.JSON(http.StatusOK, bclass)
+	c.JSON(http.StatusOK, bclassAPI)
 }
 
 // UpdateBclass
@@ -210,17 +192,10 @@ func UpdateBclass(c *gin.Context) {
 	}
 
 	// update
-	// insertion point for nullable field set
-	input.Name_Data.String = input.Name
-	input.Name_Data.Valid = true
+	bclassDB.CopyBasicFieldsFromBclass(&input.Bclass)
+	bclassDB.BclassPointersEnconding = input.BclassPointersEnconding
 
-	input.Floatfield_Data.Float64 = input.Floatfield
-	input.Floatfield_Data.Valid = true
-
-	input.Intfield_Data.Int64 = int64(input.Intfield)
-	input.Intfield_Data.Valid = true
-
-	query = db.Model(&bclassDB).Updates(input)
+	query = db.Model(&bclassDB).Updates(bclassDB)
 	if query.Error != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest

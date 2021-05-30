@@ -49,8 +49,9 @@ type AclassInput struct {
 func GetAclasss(c *gin.Context) {
 	db := c.MustGet("db").(*gorm.DB)
 
-	var aclasss []orm.AclassDB
-	query := db.Find(&aclasss)
+	// source slice
+	var aclassDBs []orm.AclassDB
+	query := db.Find(&aclassDBs)
 	if query.Error != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
@@ -59,58 +60,23 @@ func GetAclasss(c *gin.Context) {
 		return
 	}
 
+	// slice that will be transmitted to the front
+	var aclassAPIs []orm.AclassAPI
+
 	// for each aclass, update fields from the database nullable fields
-	for idx := range aclasss {
-		aclass := &aclasss[idx]
-		_ = aclass
+	for idx := range aclassDBs {
+		aclassDB := &aclassDBs[idx]
+		_ = aclassDB
+		var aclassAPI orm.AclassAPI
+
 		// insertion point for updating fields
-		if aclass.Name_Data.Valid {
-			aclass.Name = aclass.Name_Data.String
-		}
-
-		if aclass.Date_Data.Valid {
-			aclass.Date = aclass.Date_Data.Time
-		}
-
-		aclass.Booleanfield = aclass.Booleanfield_Data.Bool
-
-		if aclass.Aenum_Data.Valid {
-			aclass.Aenum = models.AEnumType(aclass.Aenum_Data.String)
-		}
-
-		if aclass.Aenum_2_Data.Valid {
-			aclass.Aenum_2 = models.AEnumType(aclass.Aenum_2_Data.String)
-		}
-
-		if aclass.Benum_Data.Valid {
-			aclass.Benum = models.BEnumType(aclass.Benum_Data.String)
-		}
-
-		if aclass.CName_Data.Valid {
-			aclass.CName = aclass.CName_Data.String
-		}
-
-		if aclass.CFloatfield_Data.Valid {
-			aclass.CFloatfield = aclass.CFloatfield_Data.Float64
-		}
-
-		if aclass.Floatfield_Data.Valid {
-			aclass.Floatfield = aclass.Floatfield_Data.Float64
-		}
-
-		if aclass.Intfield_Data.Valid {
-			aclass.Intfield = int(aclass.Intfield_Data.Int64)
-		}
-
-		aclass.Anotherbooleanfield = aclass.Anotherbooleanfield_Data.Bool
-
-		if aclass.Duration1_Data.Valid {
-			aclass.Duration1 = time.Duration(aclass.Duration1_Data.Int64)
-		}
-
+		aclassAPI.ID = aclassDB.ID
+		aclassDB.CopyBasicFieldsToAclass(&aclassAPI.Aclass)
+		aclassAPI.AclassPointersEnconding = aclassDB.AclassPointersEnconding
+		aclassAPIs = append(aclassAPIs, aclassAPI)
 	}
 
-	c.JSON(http.StatusOK, aclasss)
+	c.JSON(http.StatusOK, aclassAPIs)
 }
 
 // PostAclass
@@ -143,43 +109,8 @@ func PostAclass(c *gin.Context) {
 
 	// Create aclass
 	aclassDB := orm.AclassDB{}
-	aclassDB.AclassAPI = input
-	// insertion point for nullable field set
-	aclassDB.Name_Data.String = input.Name
-	aclassDB.Name_Data.Valid = true
-
-	aclassDB.Date_Data.Time = input.Date
-	aclassDB.Date_Data.Valid = true
-
-	aclassDB.Booleanfield_Data.Bool = input.Booleanfield
-	aclassDB.Booleanfield_Data.Valid = true
-
-	aclassDB.Aenum_Data.String = string(input.Aenum)
-	aclassDB.Aenum_Data.Valid = true
-
-	aclassDB.Aenum_2_Data.String = string(input.Aenum_2)
-	aclassDB.Aenum_2_Data.Valid = true
-
-	aclassDB.Benum_Data.String = string(input.Benum)
-	aclassDB.Benum_Data.Valid = true
-
-	aclassDB.CName_Data.String = input.CName
-	aclassDB.CName_Data.Valid = true
-
-	aclassDB.CFloatfield_Data.Float64 = input.CFloatfield
-	aclassDB.CFloatfield_Data.Valid = true
-
-	aclassDB.Floatfield_Data.Float64 = input.Floatfield
-	aclassDB.Floatfield_Data.Valid = true
-
-	aclassDB.Intfield_Data.Int64 = int64(input.Intfield)
-	aclassDB.Intfield_Data.Valid = true
-
-	aclassDB.Anotherbooleanfield_Data.Bool = input.Anotherbooleanfield
-	aclassDB.Anotherbooleanfield_Data.Valid = true
-
-	aclassDB.Duration1_Data.Int64 = int64(input.Duration1)
-	aclassDB.Duration1_Data.Valid = true
+	aclassDB.AclassPointersEnconding = input.AclassPointersEnconding
+	aclassDB.CopyBasicFieldsFromAclass(&input.Aclass)
 
 	query := db.Create(&aclassDB)
 	if query.Error != nil {
@@ -209,9 +140,9 @@ func PostAclass(c *gin.Context) {
 func GetAclass(c *gin.Context) {
 	db := c.MustGet("db").(*gorm.DB)
 
-	// Get aclass in DB
-	var aclass orm.AclassDB
-	if err := db.First(&aclass, c.Param("id")).Error; err != nil {
+	// Get aclassDB in DB
+	var aclassDB orm.AclassDB
+	if err := db.First(&aclassDB, c.Param("id")).Error; err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
@@ -219,52 +150,12 @@ func GetAclass(c *gin.Context) {
 		return
 	}
 
-	// insertion point for fields value set from nullable fields
-	if aclass.Name_Data.Valid {
-		aclass.Name = aclass.Name_Data.String
-	}
+	var aclassAPI orm.AclassAPI
+	aclassAPI.ID = aclassDB.ID
+	aclassAPI.AclassPointersEnconding = aclassDB.AclassPointersEnconding
+	aclassDB.CopyBasicFieldsToAclass(&aclassAPI.Aclass)
 
-	if aclass.Date_Data.Valid {
-		aclass.Date = aclass.Date_Data.Time
-	}
-
-	aclass.Booleanfield = aclass.Booleanfield_Data.Bool
-
-	if aclass.Aenum_Data.Valid {
-		aclass.Aenum = models.AEnumType(aclass.Aenum_Data.String)
-	}
-
-	if aclass.Aenum_2_Data.Valid {
-		aclass.Aenum_2 = models.AEnumType(aclass.Aenum_2_Data.String)
-	}
-
-	if aclass.Benum_Data.Valid {
-		aclass.Benum = models.BEnumType(aclass.Benum_Data.String)
-	}
-
-	if aclass.CName_Data.Valid {
-		aclass.CName = aclass.CName_Data.String
-	}
-
-	if aclass.CFloatfield_Data.Valid {
-		aclass.CFloatfield = aclass.CFloatfield_Data.Float64
-	}
-
-	if aclass.Floatfield_Data.Valid {
-		aclass.Floatfield = aclass.Floatfield_Data.Float64
-	}
-
-	if aclass.Intfield_Data.Valid {
-		aclass.Intfield = int(aclass.Intfield_Data.Int64)
-	}
-
-	aclass.Anotherbooleanfield = aclass.Anotherbooleanfield_Data.Bool
-
-	if aclass.Duration1_Data.Valid {
-		aclass.Duration1 = time.Duration(aclass.Duration1_Data.Int64)
-	}
-
-	c.JSON(http.StatusOK, aclass)
+	c.JSON(http.StatusOK, aclassAPI)
 }
 
 // UpdateAclass
@@ -301,44 +192,10 @@ func UpdateAclass(c *gin.Context) {
 	}
 
 	// update
-	// insertion point for nullable field set
-	input.Name_Data.String = input.Name
-	input.Name_Data.Valid = true
+	aclassDB.CopyBasicFieldsFromAclass(&input.Aclass)
+	aclassDB.AclassPointersEnconding = input.AclassPointersEnconding
 
-	input.Date_Data.Time = input.Date
-	input.Date_Data.Valid = true
-
-	input.Booleanfield_Data.Bool = input.Booleanfield
-	input.Booleanfield_Data.Valid = true
-
-	input.Aenum_Data.String = string(input.Aenum)
-	input.Aenum_Data.Valid = true
-
-	input.Aenum_2_Data.String = string(input.Aenum_2)
-	input.Aenum_2_Data.Valid = true
-
-	input.Benum_Data.String = string(input.Benum)
-	input.Benum_Data.Valid = true
-
-	input.CName_Data.String = input.CName
-	input.CName_Data.Valid = true
-
-	input.CFloatfield_Data.Float64 = input.CFloatfield
-	input.CFloatfield_Data.Valid = true
-
-	input.Floatfield_Data.Float64 = input.Floatfield
-	input.Floatfield_Data.Valid = true
-
-	input.Intfield_Data.Int64 = int64(input.Intfield)
-	input.Intfield_Data.Valid = true
-
-	input.Anotherbooleanfield_Data.Bool = input.Anotherbooleanfield
-	input.Anotherbooleanfield_Data.Valid = true
-
-	input.Duration1_Data.Int64 = int64(input.Duration1)
-	input.Duration1_Data.Valid = true
-
-	query = db.Model(&aclassDB).Updates(input)
+	query = db.Model(&aclassDB).Updates(aclassDB)
 	if query.Error != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest

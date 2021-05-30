@@ -15,9 +15,13 @@ package orm
 
 import (
 	"database/sql"
+	"encoding/json"
 	"errors"
 	"fmt"
+	"io/ioutil"
 	"log"
+	"os"
+	"path/filepath"
 	"sort"
 	"time"
 
@@ -39,21 +43,32 @@ var dummy_{{Structname}}_sort sort.Float64Slice
 //
 // swagger:model {{structname}}API
 type {{Structname}}API struct {
+	gorm.Model
+
 	models.{{Structname}}
 
-	// insertion for fields declaration{{` + string(rune(BackRepoFieldsDeclaration)) + `}}
-	// end of insertion
+	// encoding of pointers
+	{{Structname}}PointersEnconding
+}
+
+// {{Structname}}PointersEnconding encodes pointers to Struct and
+// reverse pointers of slice of poitners to Struct
+type {{Structname}}PointersEnconding struct {
+	// insertion for pointer fields encoding declaration{{` + string(rune(BackRepoPointerEncodingFieldsDeclaration)) + `}}
 }
 
 // {{Structname}}DB describes a {{structname}} in the database
 //
-// It incorporates all fields : from the model, from the generated field for the API and the GORM ID
+// It incorporates the GORM ID, basic fields from the model (because they can be serialized),
+// the encoded version of pointers
 //
 // swagger:model {{structname}}DB
 type {{Structname}}DB struct {
 	gorm.Model
 
-	{{Structname}}API
+	// insertion for basic fields declaration{{` + string(rune(BackRepoBasicFieldsDeclaration)) + `}}
+	// encoding of pointers
+	{{Structname}}PointersEnconding
 }
 
 // {{Structname}}DBs arrays {{structname}}DBs
@@ -77,6 +92,13 @@ type BackRepo{{Structname}}Struct struct {
 	Map_{{Structname}}DBID_{{Structname}}Ptr *map[uint]*models.{{Structname}}
 
 	db *gorm.DB
+}
+
+// Get{{Structname}}DBFrom{{Structname}}Ptr is a handy function to access the back repo instance from the stage instance
+func (backRepo{{Structname}} *BackRepo{{Structname}}Struct) Get{{Structname}}DBFrom{{Structname}}Ptr({{structname}} *models.{{Structname}}) ({{structname}}DB *{{Structname}}DB) {
+	id := (*backRepo{{Structname}}.Map_{{Structname}}Ptr_{{Structname}}DBID)[{{structname}}]
+	{{structname}}DB = (*backRepo{{Structname}}.Map_{{Structname}}DBID_{{Structname}}DB)[id]
+	return
 }
 
 // BackRepo{{Structname}}.Init set up the BackRepo of the {{Structname}}
@@ -160,7 +182,7 @@ func (backRepo{{Structname}} *BackRepo{{Structname}}Struct) CommitPhaseOneInstan
 
 	// initiate {{structname}}
 	var {{structname}}DB {{Structname}}DB
-	{{structname}}DB.{{Structname}} = *{{structname}}
+	{{structname}}DB.CopyBasicFieldsFrom{{Structname}}({{structname}})
 
 	query := backRepo{{Structname}}.db.Create(&{{structname}}DB)
 	if query.Error != nil {
@@ -193,11 +215,9 @@ func (backRepo{{Structname}} *BackRepo{{Structname}}Struct) CommitPhaseTwoInstan
 	// fetch matching {{structname}}DB
 	if {{structname}}DB, ok := (*backRepo{{Structname}}.Map_{{Structname}}DBID_{{Structname}}DB)[idx]; ok {
 
-		{
-			{
-				// insertion point for fields commit{{` + string(rune(BackRepoFieldsCommitNew)) + `}}
-			}
-		}
+		{{structname}}DB.CopyBasicFieldsFrom{{Structname}}({{structname}})
+
+		// insertion point for translating pointers encodings into actual pointers{{` + string(rune(BackRepoPointerEncodingFieldsCommit)) + `}}
 		query := backRepo{{Structname}}.db.Save(&{{structname}}DB)
 		if query.Error != nil {
 			return query.Error
@@ -238,18 +258,23 @@ func (backRepo{{Structname}} *BackRepo{{Structname}}Struct) CheckoutPhaseOne() (
 // models version of the {{structname}}DB
 func (backRepo{{Structname}} *BackRepo{{Structname}}Struct) CheckoutPhaseOneInstance({{structname}}DB *{{Structname}}DB) (Error error) {
 
-	// if absent, create entries in the backRepo{{Structname}} maps.
-	{{structname}}WithNewFieldValues := {{structname}}DB.{{Structname}}
-	if _, ok := (*backRepo{{Structname}}.Map_{{Structname}}DBID_{{Structname}}Ptr)[{{structname}}DB.ID]; !ok {
+	{{structname}}, ok := (*backRepo{{Structname}}.Map_{{Structname}}DBID_{{Structname}}Ptr)[{{structname}}DB.ID]
+	if !ok {
+		{{structname}} = new(models.{{Structname}})
 
-		(*backRepo{{Structname}}.Map_{{Structname}}DBID_{{Structname}}Ptr)[{{structname}}DB.ID] = &{{structname}}WithNewFieldValues
-		(*backRepo{{Structname}}.Map_{{Structname}}Ptr_{{Structname}}DBID)[&{{structname}}WithNewFieldValues] = {{structname}}DB.ID
+		(*backRepo{{Structname}}.Map_{{Structname}}DBID_{{Structname}}Ptr)[{{structname}}DB.ID] = {{structname}}
+		(*backRepo{{Structname}}.Map_{{Structname}}Ptr_{{Structname}}DBID)[{{structname}}] = {{structname}}DB.ID
 
 		// append model store with the new element
-		{{structname}}WithNewFieldValues.Stage()
+		{{structname}}.Stage()
 	}
-	{{structname}}DBWithNewFieldValues := *{{structname}}DB
-	(*backRepo{{Structname}}.Map_{{Structname}}DBID_{{Structname}}DB)[{{structname}}DB.ID] = &{{structname}}DBWithNewFieldValues
+	{{structname}}DB.CopyBasicFieldsTo{{Structname}}({{structname}})
+
+	// preserve pointer to aclassDB. Otherwise, pointer will is recycled and the map of pointers
+	// Map_{{Structname}}DBID_{{Structname}}DB)[{{structname}}DB hold variable pointers
+	{{structname}}DB_Data := *{{structname}}DB
+	preservedPtrTo{{Structname}} := &{{structname}}DB_Data
+	(*backRepo{{Structname}}.Map_{{Structname}}DBID_{{Structname}}DB)[{{structname}}DB.ID] = preservedPtrTo{{Structname}}
 
 	return
 }
@@ -271,12 +296,8 @@ func (backRepo{{Structname}} *BackRepo{{Structname}}Struct) CheckoutPhaseTwoInst
 
 	{{structname}} := (*backRepo{{Structname}}.Map_{{Structname}}DBID_{{Structname}}Ptr)[{{structname}}DB.ID]
 	_ = {{structname}} // sometimes, there is no code generated. This lines voids the "unused variable" compilation error
-	{
-		{
-			// insertion point for checkout, i.e. update of fields of stage instance from fields of back repo instances
-			//{{` + string(rune(BackRepoFieldsCheckoutNew)) + `}}
-		}
-	}
+
+	// insertion point for checkout of pointer encoding{{` + string(rune(BackRepoPointerEncodingFieldsCheckout)) + `}}
 	return
 }
 
@@ -305,15 +326,93 @@ func (backRepo *BackRepoStruct) Checkout{{Structname}}({{structname}} *models.{{
 		}
 	}
 }
+
+// CopyBasicFieldsTo{{Structname}}DB is used to copy basic fields between the Stage or the CRUD to the back repo
+func ({{structname}}DB *{{Structname}}DB) CopyBasicFieldsFrom{{Structname}}({{structname}} *models.{{Structname}}) {
+	// insertion point for fields commit{{` + string(rune(BackRepoBasicFieldsCommit)) + `}}
+}
+
+// CopyBasicFieldsTo{{Structname}}DB is used to copy basic fields between the Stage or the CRUD to the back repo
+func ({{structname}}DB *{{Structname}}DB) CopyBasicFieldsTo{{Structname}}({{structname}} *models.{{Structname}}) {
+
+	// insertion point for checkout of basic fields (back repo to stage){{` + string(rune(BackRepoBasicFieldsCheckout)) + `}}
+}
+
+// Backup generates a json file from a slice of all {{Structname}}DB instances in the backrepo
+func (backRepo{{Structname}} *BackRepo{{Structname}}Struct) Backup(dirPath string) {
+
+	filename := filepath.Join(dirPath, "{{Structname}}DB.json")
+
+	// organize the map into an array with increasing IDs, in order to have repoductible
+	// backup file
+	var forBackup []*{{Structname}}DB
+	for _, {{structname}}DB := range *backRepo{{Structname}}.Map_{{Structname}}DBID_{{Structname}}DB {
+		forBackup = append(forBackup, {{structname}}DB)
+	}
+
+	sort.Slice(forBackup[:], func(i, j int) bool {
+		return forBackup[i].ID < forBackup[j].ID
+	})
+
+	file, err := json.MarshalIndent(forBackup, "", " ")
+
+	if err != nil {
+		log.Panic("Cannot json {{Structname}} ", filename, " ", err.Error())
+	}
+
+	err = ioutil.WriteFile(filename, file, 0644)
+	if err != nil {
+		log.Panic("Cannot write the json {{Structname}} file", err.Error())
+	}
+}
+
+func (backRepo{{Structname}} *BackRepo{{Structname}}Struct) Restore(dirPath string) {
+
+	filename := filepath.Join(dirPath, "{{Structname}}DB.json")
+	jsonFile, err := os.Open(filename)
+	// if we os.Open returns an error then handle it
+	if err != nil {
+		log.Panic("Cannot restore/open the json {{Structname}} file", filename, " ", err.Error())
+	}
+
+	// read our opened jsonFile as a byte array.
+	byteValue, _ := ioutil.ReadAll(jsonFile)
+
+	var forRestore []*{{Structname}}DB
+
+	err = json.Unmarshal(byteValue, &forRestore)
+
+	// fill up Map_{{Structname}}DBID_{{Structname}}DB
+	for _, {{structname}}DB := range forRestore {
+
+		{{structname}}DB_ID := {{structname}}DB.ID
+		{{structname}}DB.ID = 0
+		query := backRepo{{Structname}}.db.Create({{structname}}DB)
+		if query.Error != nil {
+			log.Panic(query.Error)
+		}
+		if {{structname}}DB_ID != {{structname}}DB.ID {
+			log.Panicf("ID of {{Structname}} restore ID %d, name %s, has wrong ID %d in DB after create",
+				{{structname}}DB_ID, {{structname}}DB.Name_Data.String, {{structname}}DB.ID)
+		}
+	}
+
+	if err != nil {
+		log.Panic("Cannot restore/unmarshall json {{Structname}} file", err.Error())
+	}
+}
 `
 
 // insertion points
 type BackRepoInsertionPoint int
 
 const (
-	BackRepoFieldsDeclaration BackRepoInsertionPoint = iota
-	BackRepoFieldsCommitNew
-	BackRepoFieldsCheckoutNew
+	BackRepoBasicFieldsDeclaration BackRepoInsertionPoint = iota
+	BackRepoPointerEncodingFieldsDeclaration
+	BackRepoBasicFieldsCommit
+	BackRepoPointerEncodingFieldsCommit
+	BackRepoBasicFieldsCheckout
+	BackRepoPointerEncodingFieldsCheckout
 	BackRepoNbInsertionPoints
 )
 
@@ -342,12 +441,11 @@ const (
 	BackRepoCheckoutBasicFieldBoolean
 
 	BackRepoDeclarationPointerToStructField
-	BackRepoCommitNewPointerToStructField
+	BackRepoCommitPointerToStructField
 	BackRepoCheckoutNewPointerToStructStageField
 
 	BackRepoDeclarationSliceOfPointerToStructField
 	BackRepoCommitSliceOfPointerToStructField
-	BackRepoCommitNewSliceOfPointerToStructField
 	BackRepoCheckoutNewSliceOfPointerToStructStageField
 )
 
@@ -385,79 +483,67 @@ var BackRepoFieldSubTemplateCode map[BackRepoPerStructSubTemplate]string = map[B
 	BackRepoDeclarationSliceOfPointerToStructField: `
 	// Implementation of a reverse ID for field {{AssociationStructName}}{}.{{FieldName}} []*{{Structname}}
 	{{AssociationStructName}}_{{FieldName}}DBID sql.NullInt64
-	{{AssociationStructName}}_{{FieldName}}DBID_Index sql.NullInt64
-`,
+
+	// implementation of the index of the withing the slice
+	{{AssociationStructName}}_{{FieldName}}DBID_Index sql.NullInt64`,
 
 	//
 	// Commit sub templates
 	//
 
 	BackRepoCommitBasicField: `
-				{{structname}}DB.{{FieldName}}_Data.{{SqlNullType}} = {{structname}}.{{FieldName}}
-				{{structname}}DB.{{FieldName}}_Data.Valid = true
+	{{structname}}DB.{{FieldName}}_Data.{{SqlNullType}} = {{structname}}.{{FieldName}}
+	{{structname}}DB.{{FieldName}}_Data.Valid = true
 `,
 
 	BackRepoCommitBasicFieldEnum: `
-				{{structname}}DB.{{FieldName}}_Data.String = string({{structname}}.{{FieldName}})
-				{{structname}}DB.{{FieldName}}_Data.Valid = true
+	{{structname}}DB.{{FieldName}}_Data.String = string({{structname}}.{{FieldName}})
+	{{structname}}DB.{{FieldName}}_Data.Valid = true
 `,
 
 	BackRepoCommitBasicFieldInt: `
-				{{structname}}DB.{{FieldName}}_Data.Int64 = int64({{structname}}.{{FieldName}})
-				{{structname}}DB.{{FieldName}}_Data.Valid = true
+	{{structname}}DB.{{FieldName}}_Data.Int64 = int64({{structname}}.{{FieldName}})
+	{{structname}}DB.{{FieldName}}_Data.Valid = true
 `,
 	BackRepoCommitTimeField: `
-				{{structname}}DB.{{FieldName}}_Data.Time = {{structname}}.{{FieldName}}
-				{{structname}}DB.{{FieldName}}_Data.Valid = true
+	{{structname}}DB.{{FieldName}}_Data.Time = {{structname}}.{{FieldName}}
+	{{structname}}DB.{{FieldName}}_Data.Valid = true
 `,
 
 	BackRepoCommitBasicBooleanField: `
-				{{structname}}DB.{{FieldName}}_Data.Bool = {{structname}}.{{FieldName}}
-				{{structname}}DB.{{FieldName}}_Data.Valid = true
+	{{structname}}DB.{{FieldName}}_Data.Bool = {{structname}}.{{FieldName}}
+	{{structname}}DB.{{FieldName}}_Data.Valid = true
 `,
 
-	BackRepoCommitNewPointerToStructField: `
-				// commit pointer value {{structname}}.{{FieldName}} translates to updating the {{structname}}.{{FieldName}}ID
-				{{structname}}DB.{{FieldName}}ID.Valid = true // allow for a 0 value (nil association)
-				if {{structname}}.{{FieldName}} != nil {
-					if {{FieldName}}Id, ok := (*backRepo.BackRepo{{AssociationStructName}}.Map_{{AssociationStructName}}Ptr_{{AssociationStructName}}DBID)[{{structname}}.{{FieldName}}]; ok {
-						{{structname}}DB.{{FieldName}}ID.Int64 = int64({{FieldName}}Id)
-					}
-				}
+	BackRepoCommitPointerToStructField: `
+		// commit pointer value {{structname}}.{{FieldName}} translates to updating the {{structname}}.{{FieldName}}ID
+		{{structname}}DB.{{FieldName}}ID.Valid = true // allow for a 0 value (nil association)
+		if {{structname}}.{{FieldName}} != nil {
+			if {{FieldName}}Id, ok := (*backRepo.BackRepo{{AssociationStructName}}.Map_{{AssociationStructName}}Ptr_{{AssociationStructName}}DBID)[{{structname}}.{{FieldName}}]; ok {
+				{{structname}}DB.{{FieldName}}ID.Int64 = int64({{FieldName}}Id)
+			}
+		}
 `,
 
 	BackRepoCommitSliceOfPointerToStructField: `
-				// commit a slice of pointer translates to update reverse pointer to {{AssociationStructName}}, i.e.
-				for _, {{associationStructName}} := range {{structname}}.{{FieldName}} {
-					if {{associationStructName}}DBID, ok := (*map_{{AssociationStructName}}Ptr_{{AssociationStructName}}DBID)[{{associationStructName}}]; ok {
-						if {{associationStructName}}DB, ok := (*map_{{AssociationStructName}}DBID_{{AssociationStructName}}DB)[{{associationStructName}}DBID]; ok {
-							{{associationStructName}}DB.{{Structname}}_{{FieldName}}DBID.Int64 = int64({{structname}}DB.ID)
-							{{associationStructName}}DB.{{Structname}}_{{FieldName}}DBID.Valid = true
-							if q := db.Save(&{{associationStructName}}DB); q.Error != nil {
-								return q.Error
-							}
-						}
-					}
-				}
-`,
+		// This loop encodes the slice of pointers {{structname}}.{{FieldName}} into the back repo.
+		// Each back repo instance at the end of the association encode the ID of the association start
+		// into a dedicated field for coding the association. The back repo instance is then saved to the db
+		for idx, {{associationStructName}}AssocEnd := range {{structname}}.{{FieldName}} {
 
-	BackRepoCommitNewSliceOfPointerToStructField: `
-				// commit a slice of pointer translates to update reverse pointer to {{AssociationStructName}}, i.e.
-				index_{{FieldName}} := 0
-				for _, {{associationStructName}} := range {{structname}}.{{FieldName}} {
-					if {{associationStructName}}DBID, ok := (*backRepo.BackRepo{{AssociationStructName}}.Map_{{AssociationStructName}}Ptr_{{AssociationStructName}}DBID)[{{associationStructName}}]; ok {
-						if {{associationStructName}}DB, ok := (*backRepo.BackRepo{{AssociationStructName}}.Map_{{AssociationStructName}}DBID_{{AssociationStructName}}DB)[{{associationStructName}}DBID]; ok {
-							{{associationStructName}}DB.{{Structname}}_{{FieldName}}DBID.Int64 = int64({{structname}}DB.ID)
-							{{associationStructName}}DB.{{Structname}}_{{FieldName}}DBID.Valid = true
-							{{associationStructName}}DB.{{Structname}}_{{FieldName}}DBID_Index.Int64 = int64(index_{{FieldName}})
-							index_{{FieldName}} = index_{{FieldName}} + 1
-							{{associationStructName}}DB.{{Structname}}_{{FieldName}}DBID_Index.Valid = true
-							if q := backRepo{{Structname}}.db.Save(&{{associationStructName}}DB); q.Error != nil {
-								return q.Error
-							}
-						}
-					}
-				}
+			// get the back repo instance at the association end
+			{{associationStructName}}AssocEnd_DB :=
+				backRepo.BackRepo{{AssociationStructName}}.Get{{AssociationStructName}}DBFrom{{AssociationStructName}}Ptr( {{associationStructName}}AssocEnd)
+
+			// encode reverse pointer in the association end back repo instance
+			{{associationStructName}}AssocEnd_DB.{{Structname}}_{{FieldName}}DBID.Int64 = int64({{structname}}DB.ID)
+			{{associationStructName}}AssocEnd_DB.{{Structname}}_{{FieldName}}DBID.Valid = true
+			{{associationStructName}}AssocEnd_DB.{{Structname}}_{{FieldName}}DBID_Index.Int64 = int64(idx)
+			{{associationStructName}}AssocEnd_DB.{{Structname}}_{{FieldName}}DBID_Index.Valid = true
+			if q := backRepo{{Structname}}.db.Save({{associationStructName}}AssocEnd_DB); q.Error != nil {
+				return q.Error
+			}
+		}
 `,
 
 	//
@@ -465,52 +551,53 @@ var BackRepoFieldSubTemplateCode map[BackRepoPerStructSubTemplate]string = map[B
 	//
 
 	BackRepoCheckoutBasicField: `
-			{{structname}}.{{FieldName}} = {{structname}}DB.{{FieldName}}_Data.{{SqlNullType}}
-`,
+	{{structname}}.{{FieldName}} = {{structname}}DB.{{FieldName}}_Data.{{SqlNullType}}`,
 
 	BackRepoCheckoutTimeField: `
-			{{structname}}.{{FieldName}} = {{structname}}DB.{{FieldName}}_Data.Time
-`,
+	{{structname}}.{{FieldName}} = {{structname}}DB.{{FieldName}}_Data.Time`,
 
 	BackRepoCheckoutBasicFieldEnum: `
-			{{structname}}.{{FieldName}} = models.{{EnumType}}({{structname}}DB.{{FieldName}}_Data.String)
-`,
+	{{structname}}.{{FieldName}} = models.{{EnumType}}({{structname}}DB.{{FieldName}}_Data.String)`,
 
 	BackRepoCheckoutBasicFieldInt: `
-			{{structname}}.{{FieldName}} = {{FieldType}}({{structname}}DB.{{FieldName}}_Data.Int64)
-`,
+	{{structname}}.{{FieldName}} = {{FieldType}}({{structname}}DB.{{FieldName}}_Data.Int64)`,
 
 	BackRepoCheckoutBasicFieldBoolean: `
-			{{structname}}.{{FieldName}} = {{structname}}DB.{{FieldName}}_Data.Bool`,
+	{{structname}}.{{FieldName}} = {{structname}}DB.{{FieldName}}_Data.Bool`,
 
 	BackRepoCheckoutNewPointerToStructStageField: `
-			// {{FieldName}} field
-			if {{structname}}DB.{{FieldName}}ID.Int64 != 0 {
-				{{structname}}.{{FieldName}} = (*backRepo.BackRepo{{AssociationStructName}}.Map_{{AssociationStructName}}DBID_{{AssociationStructName}}Ptr)[uint({{structname}}DB.{{FieldName}}ID.Int64)]
-			}
-`,
+	// {{FieldName}} field
+	if {{structname}}DB.{{FieldName}}ID.Int64 != 0 {
+		{{structname}}.{{FieldName}} = (*backRepo.BackRepo{{AssociationStructName}}.Map_{{AssociationStructName}}DBID_{{AssociationStructName}}Ptr)[uint({{structname}}DB.{{FieldName}}ID.Int64)]
+	}`,
 
 	BackRepoCheckoutNewSliceOfPointerToStructStageField: `
-			// parse all {{AssociationStructName}}DB and redeem the array of poiners to {{Structname}}
-			// first reset the slice
-			{{structname}}.{{FieldName}} = {{structname}}.{{FieldName}}[:0]
-			for _, {{AssociationStructName}}DB := range *backRepo.BackRepo{{AssociationStructName}}.Map_{{AssociationStructName}}DBID_{{AssociationStructName}}DB {
-				if {{AssociationStructName}}DB.{{Structname}}_{{FieldName}}DBID.Int64 == int64({{structname}}DB.ID) {
-					{{AssociationStructName}} := (*backRepo.BackRepo{{AssociationStructName}}.Map_{{AssociationStructName}}DBID_{{AssociationStructName}}Ptr)[{{AssociationStructName}}DB.ID]
-					{{structname}}.{{FieldName}} = append({{structname}}.{{FieldName}}, {{AssociationStructName}})
-				}
-			}
-			
-			// sort the array according to the order
-			sort.Slice({{structname}}.{{FieldName}}, func(i, j int) bool {
-				{{associationStructName}}DB_i_ID := (*backRepo.BackRepo{{AssociationStructName}}.Map_{{AssociationStructName}}Ptr_{{AssociationStructName}}DBID)[{{structname}}.{{FieldName}}[i]]
-				{{associationStructName}}DB_j_ID := (*backRepo.BackRepo{{AssociationStructName}}.Map_{{AssociationStructName}}Ptr_{{AssociationStructName}}DBID)[{{structname}}.{{FieldName}}[j]]
+	// This loop redeem {{structname}}.{{FieldName}} in the stage from the encode in the back repo
+	// It parses all {{AssociationStructName}}DB in the back repo and if the reverse pointer encoding matches the back repo ID
+	// it appends the stage instance
+	// 1. reset the slice
+	{{structname}}.{{FieldName}} = {{structname}}.{{FieldName}}[:0]
+	// 2. loop all instances in the type in the association end
+	for _, {{associationStructName}}DB_AssocEnd := range *backRepo.BackRepo{{AssociationStructName}}.Map_{{AssociationStructName}}DBID_{{AssociationStructName}}DB {
+		// 3. Does the ID encoding at the end and the ID at the start matches ?
+		if {{associationStructName}}DB_AssocEnd.{{Structname}}_{{FieldName}}DBID.Int64 == int64({{structname}}DB.ID) {
+			// 4. fetch the associated instance in the stage
+			{{associationStructName}}_AssocEnd := (*backRepo.BackRepo{{AssociationStructName}}.Map_{{AssociationStructName}}DBID_{{AssociationStructName}}Ptr)[{{associationStructName}}DB_AssocEnd.ID]
+			// 5. append it the association slice
+			{{structname}}.{{FieldName}} = append({{structname}}.{{FieldName}}, {{associationStructName}}_AssocEnd)
+		}
+	}
 
-				{{associationStructName}}DB_i := (*backRepo.BackRepo{{AssociationStructName}}.Map_{{AssociationStructName}}DBID_{{AssociationStructName}}DB)[{{associationStructName}}DB_i_ID]
-				{{associationStructName}}DB_j := (*backRepo.BackRepo{{AssociationStructName}}.Map_{{AssociationStructName}}DBID_{{AssociationStructName}}DB)[{{associationStructName}}DB_j_ID]
+	// sort the array according to the order
+	sort.Slice({{structname}}.{{FieldName}}, func(i, j int) bool {
+		{{associationStructName}}DB_i_ID := (*backRepo.BackRepo{{AssociationStructName}}.Map_{{AssociationStructName}}Ptr_{{AssociationStructName}}DBID)[{{structname}}.{{FieldName}}[i]]
+		{{associationStructName}}DB_j_ID := (*backRepo.BackRepo{{AssociationStructName}}.Map_{{AssociationStructName}}Ptr_{{AssociationStructName}}DBID)[{{structname}}.{{FieldName}}[j]]
 
-				return {{associationStructName}}DB_i.{{Structname}}_{{FieldName}}DBID_Index.Int64 < {{associationStructName}}DB_j.{{Structname}}_{{FieldName}}DBID_Index.Int64
-			})
+		{{associationStructName}}DB_i := (*backRepo.BackRepo{{AssociationStructName}}.Map_{{AssociationStructName}}DBID_{{AssociationStructName}}DB)[{{associationStructName}}DB_i_ID]
+		{{associationStructName}}DB_j := (*backRepo.BackRepo{{AssociationStructName}}.Map_{{AssociationStructName}}DBID_{{AssociationStructName}}DB)[{{associationStructName}}DB_j_ID]
+
+		return {{associationStructName}}DB_i.{{Structname}}_{{FieldName}}DBID_Index.Int64 < {{associationStructName}}DB_j.{{Structname}}_{{FieldName}}DBID_Index.Int64
+	})
 `,
 }
 
@@ -548,75 +635,75 @@ func MultiCodeGeneratorBackRepo(
 
 				if gongBasicField.basicKind == types.Bool {
 
-					insertions[BackRepoFieldsDeclaration] += Replace2(
+					insertions[BackRepoBasicFieldsDeclaration] += Replace2(
 						BackRepoFieldSubTemplateCode[BackRepoDeclarationBasicBooleanField],
 						"{{FieldName}}", gongBasicField.Name,
 						"{{BasicKind}}", gongBasicField.Type.Underlying().String())
 
-					insertions[BackRepoFieldsCommitNew] += Replace1(
+					insertions[BackRepoBasicFieldsCommit] += Replace1(
 						BackRepoFieldSubTemplateCode[BackRepoCommitBasicBooleanField],
 						"{{FieldName}}", gongBasicField.Name)
 
-					insertions[BackRepoFieldsCheckoutNew] += Replace1(
+					insertions[BackRepoBasicFieldsCheckout] += Replace1(
 						BackRepoFieldSubTemplateCode[BackRepoCheckoutBasicFieldBoolean],
 						"{{FieldName}}", gongBasicField.Name)
 
 				} else {
 					switch gongBasicField.basicKind {
 					case types.String:
-						insertions[BackRepoFieldsDeclaration] += Replace2(
+						insertions[BackRepoBasicFieldsDeclaration] += Replace2(
 							BackRepoFieldSubTemplateCode[BackRepoDeclarationBasicField],
 							"{{FieldName}}", gongBasicField.Name,
 							"{{SqlNullType}}", "NullString")
 
 						if gongBasicField.GongEnum != nil {
-							insertions[BackRepoFieldsCommitNew] += Replace1(
+							insertions[BackRepoBasicFieldsCommit] += Replace1(
 								BackRepoFieldSubTemplateCode[BackRepoCommitBasicFieldEnum],
 								"{{FieldName}}", gongBasicField.Name)
 
-							insertions[BackRepoFieldsCheckoutNew] += Replace2(
+							insertions[BackRepoBasicFieldsCheckout] += Replace2(
 								BackRepoFieldSubTemplateCode[BackRepoCheckoutBasicFieldEnum],
 								"{{FieldName}}", gongBasicField.Name,
 								"{{EnumType}}", gongBasicField.GongEnum.Name)
 
 						} else {
-							insertions[BackRepoFieldsCommitNew] += Replace2(
+							insertions[BackRepoBasicFieldsCommit] += Replace2(
 								BackRepoFieldSubTemplateCode[BackRepoCommitBasicField],
 								"{{FieldName}}", gongBasicField.Name,
 								"{{SqlNullType}}", "String")
 
-							insertions[BackRepoFieldsCheckoutNew] += Replace2(
+							insertions[BackRepoBasicFieldsCheckout] += Replace2(
 								BackRepoFieldSubTemplateCode[BackRepoCheckoutBasicField],
 								"{{FieldName}}", gongBasicField.Name,
 								"{{SqlNullType}}", "String")
 
 						}
 					case types.Float64:
-						insertions[BackRepoFieldsDeclaration] += Replace2(
+						insertions[BackRepoBasicFieldsDeclaration] += Replace2(
 							BackRepoFieldSubTemplateCode[BackRepoDeclarationBasicField],
 							"{{FieldName}}", gongBasicField.Name,
 							"{{SqlNullType}}", "NullFloat64")
 
-						insertions[BackRepoFieldsCommitNew] += Replace2(
+						insertions[BackRepoBasicFieldsCommit] += Replace2(
 							BackRepoFieldSubTemplateCode[BackRepoCommitBasicField],
 							"{{FieldName}}", gongBasicField.Name,
 							"{{SqlNullType}}", "Float64")
 
-						insertions[BackRepoFieldsCheckoutNew] += Replace2(
+						insertions[BackRepoBasicFieldsCheckout] += Replace2(
 							BackRepoFieldSubTemplateCode[BackRepoCheckoutBasicField],
 							"{{FieldName}}", gongBasicField.Name,
 							"{{SqlNullType}}", "Float64")
 					case types.Int, types.Int64:
-						insertions[BackRepoFieldsDeclaration] += Replace2(
+						insertions[BackRepoBasicFieldsDeclaration] += Replace2(
 							BackRepoFieldSubTemplateCode[BackRepoDeclarationBasicField],
 							"{{FieldName}}", gongBasicField.Name,
 							"{{SqlNullType}}", "NullInt64")
 
-						insertions[BackRepoFieldsCommitNew] += Replace1(
+						insertions[BackRepoBasicFieldsCommit] += Replace1(
 							BackRepoFieldSubTemplateCode[BackRepoCommitBasicFieldInt],
 							"{{FieldName}}", gongBasicField.Name)
 
-						insertions[BackRepoFieldsCheckoutNew] += Replace2(
+						insertions[BackRepoBasicFieldsCheckout] += Replace2(
 							BackRepoFieldSubTemplateCode[BackRepoCheckoutBasicFieldInt],
 							"{{FieldName}}", gongBasicField.Name,
 							"{{FieldType}}", gongBasicField.DeclaredType)
@@ -626,32 +713,32 @@ func MultiCodeGeneratorBackRepo(
 
 			case *GongTimeField:
 				gongTimeField := field.(*GongTimeField)
-				insertions[BackRepoFieldsDeclaration] += Replace1(
+				insertions[BackRepoBasicFieldsDeclaration] += Replace1(
 					BackRepoFieldSubTemplateCode[BackRepoDeclarationTimeField],
 					"{{FieldName}}", gongTimeField.Name)
 
-				insertions[BackRepoFieldsCheckoutNew] += Replace1(
+				insertions[BackRepoBasicFieldsCheckout] += Replace1(
 					BackRepoFieldSubTemplateCode[BackRepoCheckoutTimeField],
 					"{{FieldName}}", gongTimeField.Name)
 
-				insertions[BackRepoFieldsCommitNew] += Replace1(
+				insertions[BackRepoBasicFieldsCommit] += Replace1(
 					BackRepoFieldSubTemplateCode[BackRepoCommitTimeField],
 					"{{FieldName}}", gongTimeField.Name)
 
 			case *PointerToGongStructField:
 				modelPointerToStruct := field.(*PointerToGongStructField)
 
-				insertions[BackRepoFieldsDeclaration] += Replace1(
+				insertions[BackRepoPointerEncodingFieldsDeclaration] += Replace1(
 					BackRepoFieldSubTemplateCode[BackRepoDeclarationPointerToStructField],
 					"{{FieldName}}", modelPointerToStruct.Name)
 
-				insertions[BackRepoFieldsCommitNew] += Replace3(
-					BackRepoFieldSubTemplateCode[BackRepoCommitNewPointerToStructField],
+				insertions[BackRepoPointerEncodingFieldsCommit] += Replace3(
+					BackRepoFieldSubTemplateCode[BackRepoCommitPointerToStructField],
 					"{{AssociationStructName}}", modelPointerToStruct.GongStruct.Name,
 					"{{associationStructName}}", strings.ToLower(modelPointerToStruct.GongStruct.Name),
 					"{{FieldName}}", modelPointerToStruct.Name)
 
-				insertions[BackRepoFieldsCheckoutNew] += Replace3(
+				insertions[BackRepoPointerEncodingFieldsCheckout] += Replace3(
 					BackRepoFieldSubTemplateCode[BackRepoCheckoutNewPointerToStructStageField],
 					"{{AssociationStructName}}", modelPointerToStruct.GongStruct.Name,
 					"{{associationStructName}}", strings.ToLower(modelPointerToStruct.GongStruct.Name),
@@ -660,13 +747,13 @@ func MultiCodeGeneratorBackRepo(
 			case *SliceOfPointerToGongStructField:
 				fieldSliceOfPointerToModel := field.(*SliceOfPointerToGongStructField)
 
-				insertions[BackRepoFieldsCommitNew] += Replace3(
-					BackRepoFieldSubTemplateCode[BackRepoCommitNewSliceOfPointerToStructField],
+				insertions[BackRepoPointerEncodingFieldsCommit] += Replace3(
+					BackRepoFieldSubTemplateCode[BackRepoCommitSliceOfPointerToStructField],
 					"{{AssociationStructName}}", fieldSliceOfPointerToModel.GongStruct.Name,
 					"{{associationStructName}}", strings.ToLower(fieldSliceOfPointerToModel.GongStruct.Name),
 					"{{FieldName}}", fieldSliceOfPointerToModel.Name)
 
-				insertions[BackRepoFieldsCheckoutNew] += Replace3(
+				insertions[BackRepoPointerEncodingFieldsCheckout] += Replace3(
 					BackRepoFieldSubTemplateCode[BackRepoCheckoutNewSliceOfPointerToStructStageField],
 					"{{AssociationStructName}}", fieldSliceOfPointerToModel.GongStruct.Name,
 					"{{associationStructName}}", strings.ToLower(fieldSliceOfPointerToModel.GongStruct.Name),
@@ -685,7 +772,7 @@ func MultiCodeGeneratorBackRepo(
 
 					if fieldSliceOfPointerToModel.GongStruct == _struct {
 
-						insertions[BackRepoFieldsDeclaration] += Replace2(
+						insertions[BackRepoPointerEncodingFieldsDeclaration] += Replace2(
 							BackRepoFieldSubTemplateCode[BackRepoDeclarationSliceOfPointerToStructField],
 							"{{FieldName}}", fieldSliceOfPointerToModel.Name,
 							"{{AssociationStructName}}", __struct.Name)

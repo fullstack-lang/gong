@@ -28,7 +28,7 @@ type StageStruct struct { // insertion point for definition of arrays registerin
 	AllModelsStructDeleteCallback AllModelsStructDeleteInterface
 
 	BackRepo BackRepoInterface
-	
+
 	// if set will be called before each commit to the back repo
 	OnInitCommitCallback OnInitCommitInterface
 }
@@ -40,6 +40,8 @@ type OnInitCommitInterface interface {
 type BackRepoInterface interface {
 	Commit(stage *StageStruct)
 	Checkout(stage *StageStruct)
+	Backup(stage *StageStruct, dirPath string)
+	Restore(stage *StageStruct, dirPath string)
 	// insertion point for Commit and Checkout signatures{{` + string(rune(ModelGongInsertionCommitCheckoutSignature)) + `}}
 	GetLastCommitNb() uint
 }
@@ -57,6 +59,21 @@ func (stage *StageStruct) Commit() {
 func (stage *StageStruct) Checkout() {
 	if stage.BackRepo != nil {
 		stage.BackRepo.Checkout(stage)
+	}
+}
+
+// backup generates backup files in the dirPath
+func (stage *StageStruct) Backup(dirPath string) {
+	if stage.BackRepo != nil {
+		stage.BackRepo.Backup(stage, dirPath)
+	}
+}
+
+// Restore resets Stage & BackRepo and restores their content from the restore files in dirPath
+// Restore shall be performed only on a new database with rowids at 0 (otherwise, it will panic)
+func (stage *StageStruct) Restore(dirPath string) {
+	if stage.BackRepo != nil {
+		stage.BackRepo.Restore(stage, dirPath)
 	}
 }
 
@@ -153,61 +170,6 @@ func ({{structname}} *{{Structname}}) Checkout() *{{Structname}} {
 	}
 	return {{structname}}
 }
-
-//
-// Legacy, to be deleted
-//
-
-// StageCopy appends a copy of {{structname}} to the model stage
-func ({{structname}} *{{Structname}}) StageCopy() *{{Structname}} {
-	_{{structname}} := new({{Structname}})
-	*_{{structname}} = *{{structname}}
-	_{{structname}}.Stage()
-	return _{{structname}}
-}
-
-// StageAndCommit appends {{structname}} to the model stage and commit to the orm repo
-func ({{structname}} *{{Structname}}) StageAndCommit() *{{Structname}} {
-	{{structname}}.Stage()
-	if Stage.AllModelsStructCreateCallback != nil {
-		Stage.AllModelsStructCreateCallback.CreateORM{{Structname}}({{structname}})
-	}
-	return {{structname}}
-}
-
-// DeleteStageAndCommit appends {{structname}} to the model stage and commit to the orm repo
-func ({{structname}} *{{Structname}}) DeleteStageAndCommit() *{{Structname}} {
-	{{structname}}.Unstage()
-	DeleteORM{{Structname}}({{structname}})
-	return {{structname}}
-}
-
-// StageCopyAndCommit appends a copy of {{structname}} to the model stage and commit to the orm repo
-func ({{structname}} *{{Structname}}) StageCopyAndCommit() *{{Structname}} {
-	_{{structname}} := new({{Structname}})
-	*_{{structname}} = *{{structname}}
-	_{{structname}}.Stage()
-	if Stage.AllModelsStructCreateCallback != nil {
-		Stage.AllModelsStructCreateCallback.CreateORM{{Structname}}({{structname}})
-	}
-	return _{{structname}}
-}
-
-// CreateORM{{Structname}} enables dynamic staging of a {{Structname}} instance
-func CreateORM{{Structname}}({{structname}} *{{Structname}}) {
-	{{structname}}.Stage()
-	if Stage.AllModelsStructCreateCallback != nil {
-		Stage.AllModelsStructCreateCallback.CreateORM{{Structname}}({{structname}})
-	}
-}
-
-// DeleteORM{{Structname}} enables dynamic staging of a {{Structname}} instance
-func DeleteORM{{Structname}}({{structname}} *{{Structname}}) {
-	{{structname}}.Unstage()
-	if Stage.AllModelsStructDeleteCallback != nil {
-		Stage.AllModelsStructDeleteCallback.DeleteORM{{Structname}}({{structname}})
-	}
-}
 `,
 
 	ModelGongStructCreateCallback: `
@@ -217,12 +179,10 @@ func DeleteORM{{Structname}}({{structname}} *{{Structname}}) {
 	DeleteORM{{Structname}}({{Structname}} *{{Structname}})`,
 
 	ModelGongStructArrayDefintion: `
-	{{Structname}}s map[*{{Structname}}]struct{}
-`,
+	{{Structname}}s map[*{{Structname}}]struct{}`,
 
 	ModelGongStructArrayInitialisation: `
-	{{Structname}}s: make(map[*{{Structname}}]struct{}, 0),
-`,
+	{{Structname}}s: make(map[*{{Structname}}]struct{}, 0),`,
 
 	ModelGongStructArrayReset: `
 	stage.{{Structname}}s = make(map[*{{Structname}}]struct{}, 0)`,
