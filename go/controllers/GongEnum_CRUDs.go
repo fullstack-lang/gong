@@ -61,7 +61,7 @@ func GetGongEnums(c *gin.Context) {
 	}
 
 	// slice that will be transmitted to the front
-	var gongenumAPIs []orm.GongEnumAPI
+	gongenumAPIs := make([]orm.GongEnumAPI, 0)
 
 	// for each gongenum, update fields from the database nullable fields
 	for idx := range gongenumDBs {

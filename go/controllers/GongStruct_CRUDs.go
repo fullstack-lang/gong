@@ -61,7 +61,7 @@ func GetGongStructs(c *gin.Context) {
 	}
 
 	// slice that will be transmitted to the front
-	var gongstructAPIs []orm.GongStructAPI
+	gongstructAPIs := make([]orm.GongStructAPI, 0)
 
 	// for each gongstruct, update fields from the database nullable fields
 	for idx := range gongstructDBs {

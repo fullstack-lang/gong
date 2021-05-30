@@ -61,7 +61,7 @@ func GetGongBasicFields(c *gin.Context) {
 	}
 
 	// slice that will be transmitted to the front
-	var gongbasicfieldAPIs []orm.GongBasicFieldAPI
+	gongbasicfieldAPIs := make([]orm.GongBasicFieldAPI, 0)
 
 	// for each gongbasicfield, update fields from the database nullable fields
 	for idx := range gongbasicfieldDBs {

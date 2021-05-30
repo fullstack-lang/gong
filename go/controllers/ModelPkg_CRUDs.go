@@ -61,7 +61,7 @@ func GetModelPkgs(c *gin.Context) {
 	}
 
 	// slice that will be transmitted to the front
-	var modelpkgAPIs []orm.ModelPkgAPI
+	modelpkgAPIs := make([]orm.ModelPkgAPI, 0)
 
 	// for each modelpkg, update fields from the database nullable fields
 	for idx := range modelpkgDBs {
