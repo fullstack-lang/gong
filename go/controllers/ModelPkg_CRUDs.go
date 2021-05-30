@@ -49,8 +49,9 @@ type ModelPkgInput struct {
 func GetModelPkgs(c *gin.Context) {
 	db := c.MustGet("db").(*gorm.DB)
 
-	var modelpkgs []orm.ModelPkgDB
-	query := db.Find(&modelpkgs)
+	// source slice
+	var modelpkgDBs []orm.ModelPkgDB
+	query := db.Find(&modelpkgDBs)
 	if query.Error != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
@@ -59,22 +60,23 @@ func GetModelPkgs(c *gin.Context) {
 		return
 	}
 
+	// slice that will be transmitted to the front
+	var modelpkgAPIs []orm.ModelPkgAPI
+
 	// for each modelpkg, update fields from the database nullable fields
-	for idx := range modelpkgs {
-		modelpkg := &modelpkgs[idx]
-		_ = modelpkg
+	for idx := range modelpkgDBs {
+		modelpkgDB := &modelpkgDBs[idx]
+		_ = modelpkgDB
+		var modelpkgAPI orm.ModelPkgAPI
+
 		// insertion point for updating fields
-		if modelpkg.Name_Data.Valid {
-			modelpkg.Name = modelpkg.Name_Data.String
-		}
-
-		if modelpkg.PkgPath_Data.Valid {
-			modelpkg.PkgPath = modelpkg.PkgPath_Data.String
-		}
-
+		modelpkgAPI.ID = modelpkgDB.ID
+		modelpkgDB.CopyBasicFieldsToModelPkg(&modelpkgAPI.ModelPkg)
+		modelpkgAPI.ModelPkgPointersEnconding = modelpkgDB.ModelPkgPointersEnconding
+		modelpkgAPIs = append(modelpkgAPIs, modelpkgAPI)
 	}
 
-	c.JSON(http.StatusOK, modelpkgs)
+	c.JSON(http.StatusOK, modelpkgAPIs)
 }
 
 // PostModelPkg
@@ -107,13 +109,8 @@ func PostModelPkg(c *gin.Context) {
 
 	// Create modelpkg
 	modelpkgDB := orm.ModelPkgDB{}
-	modelpkgDB.ModelPkgAPI = input
-	// insertion point for nullable field set
-	modelpkgDB.Name_Data.String = input.Name
-	modelpkgDB.Name_Data.Valid = true
-
-	modelpkgDB.PkgPath_Data.String = input.PkgPath
-	modelpkgDB.PkgPath_Data.Valid = true
+	modelpkgDB.ModelPkgPointersEnconding = input.ModelPkgPointersEnconding
+	modelpkgDB.CopyBasicFieldsFromModelPkg(&input.ModelPkg)
 
 	query := db.Create(&modelpkgDB)
 	if query.Error != nil {
@@ -143,9 +140,9 @@ func PostModelPkg(c *gin.Context) {
 func GetModelPkg(c *gin.Context) {
 	db := c.MustGet("db").(*gorm.DB)
 
-	// Get modelpkg in DB
-	var modelpkg orm.ModelPkgDB
-	if err := db.First(&modelpkg, c.Param("id")).Error; err != nil {
+	// Get modelpkgDB in DB
+	var modelpkgDB orm.ModelPkgDB
+	if err := db.First(&modelpkgDB, c.Param("id")).Error; err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
@@ -153,16 +150,12 @@ func GetModelPkg(c *gin.Context) {
 		return
 	}
 
-	// insertion point for fields value set from nullable fields
-	if modelpkg.Name_Data.Valid {
-		modelpkg.Name = modelpkg.Name_Data.String
-	}
+	var modelpkgAPI orm.ModelPkgAPI
+	modelpkgAPI.ID = modelpkgDB.ID
+	modelpkgAPI.ModelPkgPointersEnconding = modelpkgDB.ModelPkgPointersEnconding
+	modelpkgDB.CopyBasicFieldsToModelPkg(&modelpkgAPI.ModelPkg)
 
-	if modelpkg.PkgPath_Data.Valid {
-		modelpkg.PkgPath = modelpkg.PkgPath_Data.String
-	}
-
-	c.JSON(http.StatusOK, modelpkg)
+	c.JSON(http.StatusOK, modelpkgAPI)
 }
 
 // UpdateModelPkg
@@ -199,14 +192,10 @@ func UpdateModelPkg(c *gin.Context) {
 	}
 
 	// update
-	// insertion point for nullable field set
-	input.Name_Data.String = input.Name
-	input.Name_Data.Valid = true
+	modelpkgDB.CopyBasicFieldsFromModelPkg(&input.ModelPkg)
+	modelpkgDB.ModelPkgPointersEnconding = input.ModelPkgPointersEnconding
 
-	input.PkgPath_Data.String = input.PkgPath
-	input.PkgPath_Data.Valid = true
-
-	query = db.Model(&modelpkgDB).Updates(input)
+	query = db.Model(&modelpkgDB).Updates(modelpkgDB)
 	if query.Error != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
