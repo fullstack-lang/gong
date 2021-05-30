@@ -49,8 +49,9 @@ type GongTimeFieldInput struct {
 func GetGongTimeFields(c *gin.Context) {
 	db := c.MustGet("db").(*gorm.DB)
 
-	var gongtimefields []orm.GongTimeFieldDB
-	query := db.Find(&gongtimefields)
+	// source slice
+	var gongtimefieldDBs []orm.GongTimeFieldDB
+	query := db.Find(&gongtimefieldDBs)
 	if query.Error != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
@@ -59,18 +60,23 @@ func GetGongTimeFields(c *gin.Context) {
 		return
 	}
 
-	// for each gongtimefield, update fields from the database nullable fields
-	for idx := range gongtimefields {
-		gongtimefield := &gongtimefields[idx]
-		_ = gongtimefield
-		// insertion point for updating fields
-		if gongtimefield.Name_Data.Valid {
-			gongtimefield.Name = gongtimefield.Name_Data.String
-		}
+	// slice that will be transmitted to the front
+	var gongtimefieldAPIs []orm.GongTimeFieldAPI
 
+	// for each gongtimefield, update fields from the database nullable fields
+	for idx := range gongtimefieldDBs {
+		gongtimefieldDB := &gongtimefieldDBs[idx]
+		_ = gongtimefieldDB
+		var gongtimefieldAPI orm.GongTimeFieldAPI
+
+		// insertion point for updating fields
+		gongtimefieldAPI.ID = gongtimefieldDB.ID
+		gongtimefieldDB.CopyBasicFieldsToGongTimeField(&gongtimefieldAPI.GongTimeField)
+		gongtimefieldAPI.GongTimeFieldPointersEnconding = gongtimefieldDB.GongTimeFieldPointersEnconding
+		gongtimefieldAPIs = append(gongtimefieldAPIs, gongtimefieldAPI)
 	}
 
-	c.JSON(http.StatusOK, gongtimefields)
+	c.JSON(http.StatusOK, gongtimefieldAPIs)
 }
 
 // PostGongTimeField
@@ -103,10 +109,8 @@ func PostGongTimeField(c *gin.Context) {
 
 	// Create gongtimefield
 	gongtimefieldDB := orm.GongTimeFieldDB{}
-	gongtimefieldDB.GongTimeFieldAPI = input
-	// insertion point for nullable field set
-	gongtimefieldDB.Name_Data.String = input.Name
-	gongtimefieldDB.Name_Data.Valid = true
+	gongtimefieldDB.GongTimeFieldPointersEnconding = input.GongTimeFieldPointersEnconding
+	gongtimefieldDB.CopyBasicFieldsFromGongTimeField(&input.GongTimeField)
 
 	query := db.Create(&gongtimefieldDB)
 	if query.Error != nil {
@@ -136,9 +140,9 @@ func PostGongTimeField(c *gin.Context) {
 func GetGongTimeField(c *gin.Context) {
 	db := c.MustGet("db").(*gorm.DB)
 
-	// Get gongtimefield in DB
-	var gongtimefield orm.GongTimeFieldDB
-	if err := db.First(&gongtimefield, c.Param("id")).Error; err != nil {
+	// Get gongtimefieldDB in DB
+	var gongtimefieldDB orm.GongTimeFieldDB
+	if err := db.First(&gongtimefieldDB, c.Param("id")).Error; err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
@@ -146,12 +150,12 @@ func GetGongTimeField(c *gin.Context) {
 		return
 	}
 
-	// insertion point for fields value set from nullable fields
-	if gongtimefield.Name_Data.Valid {
-		gongtimefield.Name = gongtimefield.Name_Data.String
-	}
+	var gongtimefieldAPI orm.GongTimeFieldAPI
+	gongtimefieldAPI.ID = gongtimefieldDB.ID
+	gongtimefieldAPI.GongTimeFieldPointersEnconding = gongtimefieldDB.GongTimeFieldPointersEnconding
+	gongtimefieldDB.CopyBasicFieldsToGongTimeField(&gongtimefieldAPI.GongTimeField)
 
-	c.JSON(http.StatusOK, gongtimefield)
+	c.JSON(http.StatusOK, gongtimefieldAPI)
 }
 
 // UpdateGongTimeField
@@ -188,11 +192,10 @@ func UpdateGongTimeField(c *gin.Context) {
 	}
 
 	// update
-	// insertion point for nullable field set
-	input.Name_Data.String = input.Name
-	input.Name_Data.Valid = true
+	gongtimefieldDB.CopyBasicFieldsFromGongTimeField(&input.GongTimeField)
+	gongtimefieldDB.GongTimeFieldPointersEnconding = input.GongTimeFieldPointersEnconding
 
-	query = db.Model(&gongtimefieldDB).Updates(input)
+	query = db.Model(&gongtimefieldDB).Updates(gongtimefieldDB)
 	if query.Error != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest

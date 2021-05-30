@@ -3,9 +3,13 @@ package orm
 
 import (
 	"database/sql"
+	"encoding/json"
 	"errors"
 	"fmt"
+	"io/ioutil"
 	"log"
+	"os"
+	"path/filepath"
 	"sort"
 	"time"
 
@@ -27,12 +31,18 @@ var dummy_SliceOfPointerToGongStructField_sort sort.Float64Slice
 //
 // swagger:model sliceofpointertogongstructfieldAPI
 type SliceOfPointerToGongStructFieldAPI struct {
+	gorm.Model
+
 	models.SliceOfPointerToGongStructField
 
-	// insertion for fields declaration
-	// Declation for basic field sliceofpointertogongstructfieldDB.Name {{BasicKind}} (to be completed)
-	Name_Data sql.NullString
+	// encoding of pointers
+	SliceOfPointerToGongStructFieldPointersEnconding
+}
 
+// SliceOfPointerToGongStructFieldPointersEnconding encodes pointers to Struct and
+// reverse pointers of slice of poitners to Struct
+type SliceOfPointerToGongStructFieldPointersEnconding struct {
+	// insertion for pointer fields encoding declaration
 	// field GongStruct is a pointer to another Struct (optional or 0..1)
 	// This field is generated into another field to enable AS ONE association
 	GongStructID sql.NullInt64
@@ -42,20 +52,26 @@ type SliceOfPointerToGongStructFieldAPI struct {
 
 	// Implementation of a reverse ID for field GongStruct{}.SliceOfPointerToGongStructFields []*SliceOfPointerToGongStructField
 	GongStruct_SliceOfPointerToGongStructFieldsDBID sql.NullInt64
-	GongStruct_SliceOfPointerToGongStructFieldsDBID_Index sql.NullInt64
 
-	// end of insertion
+	// implementation of the index of the withing the slice
+	GongStruct_SliceOfPointerToGongStructFieldsDBID_Index sql.NullInt64
 }
 
 // SliceOfPointerToGongStructFieldDB describes a sliceofpointertogongstructfield in the database
 //
-// It incorporates all fields : from the model, from the generated field for the API and the GORM ID
+// It incorporates the GORM ID, basic fields from the model (because they can be serialized),
+// the encoded version of pointers
 //
 // swagger:model sliceofpointertogongstructfieldDB
 type SliceOfPointerToGongStructFieldDB struct {
 	gorm.Model
 
-	SliceOfPointerToGongStructFieldAPI
+	// insertion for basic fields declaration
+	// Declation for basic field sliceofpointertogongstructfieldDB.Name {{BasicKind}} (to be completed)
+	Name_Data sql.NullString
+
+	// encoding of pointers
+	SliceOfPointerToGongStructFieldPointersEnconding
 }
 
 // SliceOfPointerToGongStructFieldDBs arrays sliceofpointertogongstructfieldDBs
@@ -79,6 +95,13 @@ type BackRepoSliceOfPointerToGongStructFieldStruct struct {
 	Map_SliceOfPointerToGongStructFieldDBID_SliceOfPointerToGongStructFieldPtr *map[uint]*models.SliceOfPointerToGongStructField
 
 	db *gorm.DB
+}
+
+// GetSliceOfPointerToGongStructFieldDBFromSliceOfPointerToGongStructFieldPtr is a handy function to access the back repo instance from the stage instance
+func (backRepoSliceOfPointerToGongStructField *BackRepoSliceOfPointerToGongStructFieldStruct) GetSliceOfPointerToGongStructFieldDBFromSliceOfPointerToGongStructFieldPtr(sliceofpointertogongstructfield *models.SliceOfPointerToGongStructField) (sliceofpointertogongstructfieldDB *SliceOfPointerToGongStructFieldDB) {
+	id := (*backRepoSliceOfPointerToGongStructField.Map_SliceOfPointerToGongStructFieldPtr_SliceOfPointerToGongStructFieldDBID)[sliceofpointertogongstructfield]
+	sliceofpointertogongstructfieldDB = (*backRepoSliceOfPointerToGongStructField.Map_SliceOfPointerToGongStructFieldDBID_SliceOfPointerToGongStructFieldDB)[id]
+	return
 }
 
 // BackRepoSliceOfPointerToGongStructField.Init set up the BackRepo of the SliceOfPointerToGongStructField
@@ -162,7 +185,7 @@ func (backRepoSliceOfPointerToGongStructField *BackRepoSliceOfPointerToGongStruc
 
 	// initiate sliceofpointertogongstructfield
 	var sliceofpointertogongstructfieldDB SliceOfPointerToGongStructFieldDB
-	sliceofpointertogongstructfieldDB.SliceOfPointerToGongStructField = *sliceofpointertogongstructfield
+	sliceofpointertogongstructfieldDB.CopyBasicFieldsFromSliceOfPointerToGongStructField(sliceofpointertogongstructfield)
 
 	query := backRepoSliceOfPointerToGongStructField.db.Create(&sliceofpointertogongstructfieldDB)
 	if query.Error != nil {
@@ -195,22 +218,17 @@ func (backRepoSliceOfPointerToGongStructField *BackRepoSliceOfPointerToGongStruc
 	// fetch matching sliceofpointertogongstructfieldDB
 	if sliceofpointertogongstructfieldDB, ok := (*backRepoSliceOfPointerToGongStructField.Map_SliceOfPointerToGongStructFieldDBID_SliceOfPointerToGongStructFieldDB)[idx]; ok {
 
-		{
-			{
-				// insertion point for fields commit
-				sliceofpointertogongstructfieldDB.Name_Data.String = sliceofpointertogongstructfield.Name
-				sliceofpointertogongstructfieldDB.Name_Data.Valid = true
+		sliceofpointertogongstructfieldDB.CopyBasicFieldsFromSliceOfPointerToGongStructField(sliceofpointertogongstructfield)
 
-				// commit pointer value sliceofpointertogongstructfield.GongStruct translates to updating the sliceofpointertogongstructfield.GongStructID
-				sliceofpointertogongstructfieldDB.GongStructID.Valid = true // allow for a 0 value (nil association)
-				if sliceofpointertogongstructfield.GongStruct != nil {
-					if GongStructId, ok := (*backRepo.BackRepoGongStruct.Map_GongStructPtr_GongStructDBID)[sliceofpointertogongstructfield.GongStruct]; ok {
-						sliceofpointertogongstructfieldDB.GongStructID.Int64 = int64(GongStructId)
-					}
-				}
-
+		// insertion point for translating pointers encodings into actual pointers
+		// commit pointer value sliceofpointertogongstructfield.GongStruct translates to updating the sliceofpointertogongstructfield.GongStructID
+		sliceofpointertogongstructfieldDB.GongStructID.Valid = true // allow for a 0 value (nil association)
+		if sliceofpointertogongstructfield.GongStruct != nil {
+			if GongStructId, ok := (*backRepo.BackRepoGongStruct.Map_GongStructPtr_GongStructDBID)[sliceofpointertogongstructfield.GongStruct]; ok {
+				sliceofpointertogongstructfieldDB.GongStructID.Int64 = int64(GongStructId)
 			}
 		}
+
 		query := backRepoSliceOfPointerToGongStructField.db.Save(&sliceofpointertogongstructfieldDB)
 		if query.Error != nil {
 			return query.Error
@@ -251,18 +269,23 @@ func (backRepoSliceOfPointerToGongStructField *BackRepoSliceOfPointerToGongStruc
 // models version of the sliceofpointertogongstructfieldDB
 func (backRepoSliceOfPointerToGongStructField *BackRepoSliceOfPointerToGongStructFieldStruct) CheckoutPhaseOneInstance(sliceofpointertogongstructfieldDB *SliceOfPointerToGongStructFieldDB) (Error error) {
 
-	// if absent, create entries in the backRepoSliceOfPointerToGongStructField maps.
-	sliceofpointertogongstructfieldWithNewFieldValues := sliceofpointertogongstructfieldDB.SliceOfPointerToGongStructField
-	if _, ok := (*backRepoSliceOfPointerToGongStructField.Map_SliceOfPointerToGongStructFieldDBID_SliceOfPointerToGongStructFieldPtr)[sliceofpointertogongstructfieldDB.ID]; !ok {
+	sliceofpointertogongstructfield, ok := (*backRepoSliceOfPointerToGongStructField.Map_SliceOfPointerToGongStructFieldDBID_SliceOfPointerToGongStructFieldPtr)[sliceofpointertogongstructfieldDB.ID]
+	if !ok {
+		sliceofpointertogongstructfield = new(models.SliceOfPointerToGongStructField)
 
-		(*backRepoSliceOfPointerToGongStructField.Map_SliceOfPointerToGongStructFieldDBID_SliceOfPointerToGongStructFieldPtr)[sliceofpointertogongstructfieldDB.ID] = &sliceofpointertogongstructfieldWithNewFieldValues
-		(*backRepoSliceOfPointerToGongStructField.Map_SliceOfPointerToGongStructFieldPtr_SliceOfPointerToGongStructFieldDBID)[&sliceofpointertogongstructfieldWithNewFieldValues] = sliceofpointertogongstructfieldDB.ID
+		(*backRepoSliceOfPointerToGongStructField.Map_SliceOfPointerToGongStructFieldDBID_SliceOfPointerToGongStructFieldPtr)[sliceofpointertogongstructfieldDB.ID] = sliceofpointertogongstructfield
+		(*backRepoSliceOfPointerToGongStructField.Map_SliceOfPointerToGongStructFieldPtr_SliceOfPointerToGongStructFieldDBID)[sliceofpointertogongstructfield] = sliceofpointertogongstructfieldDB.ID
 
 		// append model store with the new element
-		sliceofpointertogongstructfieldWithNewFieldValues.Stage()
+		sliceofpointertogongstructfield.Stage()
 	}
-	sliceofpointertogongstructfieldDBWithNewFieldValues := *sliceofpointertogongstructfieldDB
-	(*backRepoSliceOfPointerToGongStructField.Map_SliceOfPointerToGongStructFieldDBID_SliceOfPointerToGongStructFieldDB)[sliceofpointertogongstructfieldDB.ID] = &sliceofpointertogongstructfieldDBWithNewFieldValues
+	sliceofpointertogongstructfieldDB.CopyBasicFieldsToSliceOfPointerToGongStructField(sliceofpointertogongstructfield)
+
+	// preserve pointer to aclassDB. Otherwise, pointer will is recycled and the map of pointers
+	// Map_SliceOfPointerToGongStructFieldDBID_SliceOfPointerToGongStructFieldDB)[sliceofpointertogongstructfieldDB hold variable pointers
+	sliceofpointertogongstructfieldDB_Data := *sliceofpointertogongstructfieldDB
+	preservedPtrToSliceOfPointerToGongStructField := &sliceofpointertogongstructfieldDB_Data
+	(*backRepoSliceOfPointerToGongStructField.Map_SliceOfPointerToGongStructFieldDBID_SliceOfPointerToGongStructFieldDB)[sliceofpointertogongstructfieldDB.ID] = preservedPtrToSliceOfPointerToGongStructField
 
 	return
 }
@@ -284,18 +307,11 @@ func (backRepoSliceOfPointerToGongStructField *BackRepoSliceOfPointerToGongStruc
 
 	sliceofpointertogongstructfield := (*backRepoSliceOfPointerToGongStructField.Map_SliceOfPointerToGongStructFieldDBID_SliceOfPointerToGongStructFieldPtr)[sliceofpointertogongstructfieldDB.ID]
 	_ = sliceofpointertogongstructfield // sometimes, there is no code generated. This lines voids the "unused variable" compilation error
-	{
-		{
-			// insertion point for checkout, i.e. update of fields of stage instance from fields of back repo instances
-			//
-			sliceofpointertogongstructfield.Name = sliceofpointertogongstructfieldDB.Name_Data.String
 
-			// GongStruct field
-			if sliceofpointertogongstructfieldDB.GongStructID.Int64 != 0 {
-				sliceofpointertogongstructfield.GongStruct = (*backRepo.BackRepoGongStruct.Map_GongStructDBID_GongStructPtr)[uint(sliceofpointertogongstructfieldDB.GongStructID.Int64)]
-			}
-
-		}
+	// insertion point for checkout of pointer encoding
+	// GongStruct field
+	if sliceofpointertogongstructfieldDB.GongStructID.Int64 != 0 {
+		sliceofpointertogongstructfield.GongStruct = (*backRepo.BackRepoGongStruct.Map_GongStructDBID_GongStructPtr)[uint(sliceofpointertogongstructfieldDB.GongStructID.Int64)]
 	}
 	return
 }
@@ -323,5 +339,84 @@ func (backRepo *BackRepoStruct) CheckoutSliceOfPointerToGongStructField(sliceofp
 			backRepo.BackRepoSliceOfPointerToGongStructField.CheckoutPhaseOneInstance(&sliceofpointertogongstructfieldDB)
 			backRepo.BackRepoSliceOfPointerToGongStructField.CheckoutPhaseTwoInstance(backRepo, &sliceofpointertogongstructfieldDB)
 		}
+	}
+}
+
+// CopyBasicFieldsToSliceOfPointerToGongStructFieldDB is used to copy basic fields between the Stage or the CRUD to the back repo
+func (sliceofpointertogongstructfieldDB *SliceOfPointerToGongStructFieldDB) CopyBasicFieldsFromSliceOfPointerToGongStructField(sliceofpointertogongstructfield *models.SliceOfPointerToGongStructField) {
+	// insertion point for fields commit
+	sliceofpointertogongstructfieldDB.Name_Data.String = sliceofpointertogongstructfield.Name
+	sliceofpointertogongstructfieldDB.Name_Data.Valid = true
+
+}
+
+// CopyBasicFieldsToSliceOfPointerToGongStructFieldDB is used to copy basic fields between the Stage or the CRUD to the back repo
+func (sliceofpointertogongstructfieldDB *SliceOfPointerToGongStructFieldDB) CopyBasicFieldsToSliceOfPointerToGongStructField(sliceofpointertogongstructfield *models.SliceOfPointerToGongStructField) {
+
+	// insertion point for checkout of basic fields (back repo to stage)
+	sliceofpointertogongstructfield.Name = sliceofpointertogongstructfieldDB.Name_Data.String
+}
+
+// Backup generates a json file from a slice of all SliceOfPointerToGongStructFieldDB instances in the backrepo
+func (backRepoSliceOfPointerToGongStructField *BackRepoSliceOfPointerToGongStructFieldStruct) Backup(dirPath string) {
+
+	filename := filepath.Join(dirPath, "SliceOfPointerToGongStructFieldDB.json")
+
+	// organize the map into an array with increasing IDs, in order to have repoductible
+	// backup file
+	var forBackup []*SliceOfPointerToGongStructFieldDB
+	for _, sliceofpointertogongstructfieldDB := range *backRepoSliceOfPointerToGongStructField.Map_SliceOfPointerToGongStructFieldDBID_SliceOfPointerToGongStructFieldDB {
+		forBackup = append(forBackup, sliceofpointertogongstructfieldDB)
+	}
+
+	sort.Slice(forBackup[:], func(i, j int) bool {
+		return forBackup[i].ID < forBackup[j].ID
+	})
+
+	file, err := json.MarshalIndent(forBackup, "", " ")
+
+	if err != nil {
+		log.Panic("Cannot json SliceOfPointerToGongStructField ", filename, " ", err.Error())
+	}
+
+	err = ioutil.WriteFile(filename, file, 0644)
+	if err != nil {
+		log.Panic("Cannot write the json SliceOfPointerToGongStructField file", err.Error())
+	}
+}
+
+func (backRepoSliceOfPointerToGongStructField *BackRepoSliceOfPointerToGongStructFieldStruct) Restore(dirPath string) {
+
+	filename := filepath.Join(dirPath, "SliceOfPointerToGongStructFieldDB.json")
+	jsonFile, err := os.Open(filename)
+	// if we os.Open returns an error then handle it
+	if err != nil {
+		log.Panic("Cannot restore/open the json SliceOfPointerToGongStructField file", filename, " ", err.Error())
+	}
+
+	// read our opened jsonFile as a byte array.
+	byteValue, _ := ioutil.ReadAll(jsonFile)
+
+	var forRestore []*SliceOfPointerToGongStructFieldDB
+
+	err = json.Unmarshal(byteValue, &forRestore)
+
+	// fill up Map_SliceOfPointerToGongStructFieldDBID_SliceOfPointerToGongStructFieldDB
+	for _, sliceofpointertogongstructfieldDB := range forRestore {
+
+		sliceofpointertogongstructfieldDB_ID := sliceofpointertogongstructfieldDB.ID
+		sliceofpointertogongstructfieldDB.ID = 0
+		query := backRepoSliceOfPointerToGongStructField.db.Create(sliceofpointertogongstructfieldDB)
+		if query.Error != nil {
+			log.Panic(query.Error)
+		}
+		if sliceofpointertogongstructfieldDB_ID != sliceofpointertogongstructfieldDB.ID {
+			log.Panicf("ID of SliceOfPointerToGongStructField restore ID %d, name %s, has wrong ID %d in DB after create",
+				sliceofpointertogongstructfieldDB_ID, sliceofpointertogongstructfieldDB.Name_Data.String, sliceofpointertogongstructfieldDB.ID)
+		}
+	}
+
+	if err != nil {
+		log.Panic("Cannot restore/unmarshall json SliceOfPointerToGongStructField file", err.Error())
 	}
 }

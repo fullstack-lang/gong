@@ -3,9 +3,13 @@ package orm
 
 import (
 	"database/sql"
+	"encoding/json"
 	"errors"
 	"fmt"
+	"io/ioutil"
 	"log"
+	"os"
+	"path/filepath"
 	"sort"
 	"time"
 
@@ -27,24 +31,35 @@ var dummy_GongTimeField_sort sort.Float64Slice
 //
 // swagger:model gongtimefieldAPI
 type GongTimeFieldAPI struct {
+	gorm.Model
+
 	models.GongTimeField
 
-	// insertion for fields declaration
-	// Declation for basic field gongtimefieldDB.Name {{BasicKind}} (to be completed)
-	Name_Data sql.NullString
+	// encoding of pointers
+	GongTimeFieldPointersEnconding
+}
 
-	// end of insertion
+// GongTimeFieldPointersEnconding encodes pointers to Struct and
+// reverse pointers of slice of poitners to Struct
+type GongTimeFieldPointersEnconding struct {
+	// insertion for pointer fields encoding declaration
 }
 
 // GongTimeFieldDB describes a gongtimefield in the database
 //
-// It incorporates all fields : from the model, from the generated field for the API and the GORM ID
+// It incorporates the GORM ID, basic fields from the model (because they can be serialized),
+// the encoded version of pointers
 //
 // swagger:model gongtimefieldDB
 type GongTimeFieldDB struct {
 	gorm.Model
 
-	GongTimeFieldAPI
+	// insertion for basic fields declaration
+	// Declation for basic field gongtimefieldDB.Name {{BasicKind}} (to be completed)
+	Name_Data sql.NullString
+
+	// encoding of pointers
+	GongTimeFieldPointersEnconding
 }
 
 // GongTimeFieldDBs arrays gongtimefieldDBs
@@ -68,6 +83,13 @@ type BackRepoGongTimeFieldStruct struct {
 	Map_GongTimeFieldDBID_GongTimeFieldPtr *map[uint]*models.GongTimeField
 
 	db *gorm.DB
+}
+
+// GetGongTimeFieldDBFromGongTimeFieldPtr is a handy function to access the back repo instance from the stage instance
+func (backRepoGongTimeField *BackRepoGongTimeFieldStruct) GetGongTimeFieldDBFromGongTimeFieldPtr(gongtimefield *models.GongTimeField) (gongtimefieldDB *GongTimeFieldDB) {
+	id := (*backRepoGongTimeField.Map_GongTimeFieldPtr_GongTimeFieldDBID)[gongtimefield]
+	gongtimefieldDB = (*backRepoGongTimeField.Map_GongTimeFieldDBID_GongTimeFieldDB)[id]
+	return
 }
 
 // BackRepoGongTimeField.Init set up the BackRepo of the GongTimeField
@@ -151,7 +173,7 @@ func (backRepoGongTimeField *BackRepoGongTimeFieldStruct) CommitPhaseOneInstance
 
 	// initiate gongtimefield
 	var gongtimefieldDB GongTimeFieldDB
-	gongtimefieldDB.GongTimeField = *gongtimefield
+	gongtimefieldDB.CopyBasicFieldsFromGongTimeField(gongtimefield)
 
 	query := backRepoGongTimeField.db.Create(&gongtimefieldDB)
 	if query.Error != nil {
@@ -184,14 +206,9 @@ func (backRepoGongTimeField *BackRepoGongTimeFieldStruct) CommitPhaseTwoInstance
 	// fetch matching gongtimefieldDB
 	if gongtimefieldDB, ok := (*backRepoGongTimeField.Map_GongTimeFieldDBID_GongTimeFieldDB)[idx]; ok {
 
-		{
-			{
-				// insertion point for fields commit
-				gongtimefieldDB.Name_Data.String = gongtimefield.Name
-				gongtimefieldDB.Name_Data.Valid = true
+		gongtimefieldDB.CopyBasicFieldsFromGongTimeField(gongtimefield)
 
-			}
-		}
+		// insertion point for translating pointers encodings into actual pointers
 		query := backRepoGongTimeField.db.Save(&gongtimefieldDB)
 		if query.Error != nil {
 			return query.Error
@@ -232,18 +249,23 @@ func (backRepoGongTimeField *BackRepoGongTimeFieldStruct) CheckoutPhaseOne() (Er
 // models version of the gongtimefieldDB
 func (backRepoGongTimeField *BackRepoGongTimeFieldStruct) CheckoutPhaseOneInstance(gongtimefieldDB *GongTimeFieldDB) (Error error) {
 
-	// if absent, create entries in the backRepoGongTimeField maps.
-	gongtimefieldWithNewFieldValues := gongtimefieldDB.GongTimeField
-	if _, ok := (*backRepoGongTimeField.Map_GongTimeFieldDBID_GongTimeFieldPtr)[gongtimefieldDB.ID]; !ok {
+	gongtimefield, ok := (*backRepoGongTimeField.Map_GongTimeFieldDBID_GongTimeFieldPtr)[gongtimefieldDB.ID]
+	if !ok {
+		gongtimefield = new(models.GongTimeField)
 
-		(*backRepoGongTimeField.Map_GongTimeFieldDBID_GongTimeFieldPtr)[gongtimefieldDB.ID] = &gongtimefieldWithNewFieldValues
-		(*backRepoGongTimeField.Map_GongTimeFieldPtr_GongTimeFieldDBID)[&gongtimefieldWithNewFieldValues] = gongtimefieldDB.ID
+		(*backRepoGongTimeField.Map_GongTimeFieldDBID_GongTimeFieldPtr)[gongtimefieldDB.ID] = gongtimefield
+		(*backRepoGongTimeField.Map_GongTimeFieldPtr_GongTimeFieldDBID)[gongtimefield] = gongtimefieldDB.ID
 
 		// append model store with the new element
-		gongtimefieldWithNewFieldValues.Stage()
+		gongtimefield.Stage()
 	}
-	gongtimefieldDBWithNewFieldValues := *gongtimefieldDB
-	(*backRepoGongTimeField.Map_GongTimeFieldDBID_GongTimeFieldDB)[gongtimefieldDB.ID] = &gongtimefieldDBWithNewFieldValues
+	gongtimefieldDB.CopyBasicFieldsToGongTimeField(gongtimefield)
+
+	// preserve pointer to aclassDB. Otherwise, pointer will is recycled and the map of pointers
+	// Map_GongTimeFieldDBID_GongTimeFieldDB)[gongtimefieldDB hold variable pointers
+	gongtimefieldDB_Data := *gongtimefieldDB
+	preservedPtrToGongTimeField := &gongtimefieldDB_Data
+	(*backRepoGongTimeField.Map_GongTimeFieldDBID_GongTimeFieldDB)[gongtimefieldDB.ID] = preservedPtrToGongTimeField
 
 	return
 }
@@ -265,14 +287,8 @@ func (backRepoGongTimeField *BackRepoGongTimeFieldStruct) CheckoutPhaseTwoInstan
 
 	gongtimefield := (*backRepoGongTimeField.Map_GongTimeFieldDBID_GongTimeFieldPtr)[gongtimefieldDB.ID]
 	_ = gongtimefield // sometimes, there is no code generated. This lines voids the "unused variable" compilation error
-	{
-		{
-			// insertion point for checkout, i.e. update of fields of stage instance from fields of back repo instances
-			//
-			gongtimefield.Name = gongtimefieldDB.Name_Data.String
 
-		}
-	}
+	// insertion point for checkout of pointer encoding
 	return
 }
 
@@ -299,5 +315,84 @@ func (backRepo *BackRepoStruct) CheckoutGongTimeField(gongtimefield *models.Gong
 			backRepo.BackRepoGongTimeField.CheckoutPhaseOneInstance(&gongtimefieldDB)
 			backRepo.BackRepoGongTimeField.CheckoutPhaseTwoInstance(backRepo, &gongtimefieldDB)
 		}
+	}
+}
+
+// CopyBasicFieldsToGongTimeFieldDB is used to copy basic fields between the Stage or the CRUD to the back repo
+func (gongtimefieldDB *GongTimeFieldDB) CopyBasicFieldsFromGongTimeField(gongtimefield *models.GongTimeField) {
+	// insertion point for fields commit
+	gongtimefieldDB.Name_Data.String = gongtimefield.Name
+	gongtimefieldDB.Name_Data.Valid = true
+
+}
+
+// CopyBasicFieldsToGongTimeFieldDB is used to copy basic fields between the Stage or the CRUD to the back repo
+func (gongtimefieldDB *GongTimeFieldDB) CopyBasicFieldsToGongTimeField(gongtimefield *models.GongTimeField) {
+
+	// insertion point for checkout of basic fields (back repo to stage)
+	gongtimefield.Name = gongtimefieldDB.Name_Data.String
+}
+
+// Backup generates a json file from a slice of all GongTimeFieldDB instances in the backrepo
+func (backRepoGongTimeField *BackRepoGongTimeFieldStruct) Backup(dirPath string) {
+
+	filename := filepath.Join(dirPath, "GongTimeFieldDB.json")
+
+	// organize the map into an array with increasing IDs, in order to have repoductible
+	// backup file
+	var forBackup []*GongTimeFieldDB
+	for _, gongtimefieldDB := range *backRepoGongTimeField.Map_GongTimeFieldDBID_GongTimeFieldDB {
+		forBackup = append(forBackup, gongtimefieldDB)
+	}
+
+	sort.Slice(forBackup[:], func(i, j int) bool {
+		return forBackup[i].ID < forBackup[j].ID
+	})
+
+	file, err := json.MarshalIndent(forBackup, "", " ")
+
+	if err != nil {
+		log.Panic("Cannot json GongTimeField ", filename, " ", err.Error())
+	}
+
+	err = ioutil.WriteFile(filename, file, 0644)
+	if err != nil {
+		log.Panic("Cannot write the json GongTimeField file", err.Error())
+	}
+}
+
+func (backRepoGongTimeField *BackRepoGongTimeFieldStruct) Restore(dirPath string) {
+
+	filename := filepath.Join(dirPath, "GongTimeFieldDB.json")
+	jsonFile, err := os.Open(filename)
+	// if we os.Open returns an error then handle it
+	if err != nil {
+		log.Panic("Cannot restore/open the json GongTimeField file", filename, " ", err.Error())
+	}
+
+	// read our opened jsonFile as a byte array.
+	byteValue, _ := ioutil.ReadAll(jsonFile)
+
+	var forRestore []*GongTimeFieldDB
+
+	err = json.Unmarshal(byteValue, &forRestore)
+
+	// fill up Map_GongTimeFieldDBID_GongTimeFieldDB
+	for _, gongtimefieldDB := range forRestore {
+
+		gongtimefieldDB_ID := gongtimefieldDB.ID
+		gongtimefieldDB.ID = 0
+		query := backRepoGongTimeField.db.Create(gongtimefieldDB)
+		if query.Error != nil {
+			log.Panic(query.Error)
+		}
+		if gongtimefieldDB_ID != gongtimefieldDB.ID {
+			log.Panicf("ID of GongTimeField restore ID %d, name %s, has wrong ID %d in DB after create",
+				gongtimefieldDB_ID, gongtimefieldDB.Name_Data.String, gongtimefieldDB.ID)
+		}
+	}
+
+	if err != nil {
+		log.Panic("Cannot restore/unmarshall json GongTimeField file", err.Error())
 	}
 }

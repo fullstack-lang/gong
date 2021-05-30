@@ -116,47 +116,11 @@ definitions:
     properties:
       BasicKindName:
         type: string
-      BasicKindName_Data:
-        $ref: '#/definitions/NullString'
-      DeclaredType:
-        type: string
-      DeclaredType_Data:
-        $ref: '#/definitions/NullString'
-      GongEnum:
-        $ref: '#/definitions/GongEnum'
-      GongEnumID:
-        $ref: '#/definitions/NullInt64'
-      GongEnumName:
-        description: all gong Struct has a Name field, this enables this data to object
-          field
-        type: string
-      GongStruct_GongBasicFieldsDBID:
-        $ref: '#/definitions/NullInt64'
-      GongStruct_GongBasicFieldsDBID_Index:
-        $ref: '#/definitions/NullInt64'
-      Name:
-        type: string
-      Name_Data:
-        $ref: '#/definitions/NullString'
-    title: GongBasicFieldAPI is the input in POST API
-    type: object
-    x-go-name: GongBasicFieldAPI
-    x-go-package: github.com/fullstack-lang/gong/go/orm
-  gongbasicfieldDB:
-    description: 'It incorporates all fields : from the model, from the generated
-      field for the API and the GORM ID'
-    properties:
-      BasicKindName:
-        type: string
-      BasicKindName_Data:
-        $ref: '#/definitions/NullString'
       CreatedAt:
         format: date-time
         type: string
       DeclaredType:
         type: string
-      DeclaredType_Data:
-        $ref: '#/definitions/NullString'
       DeletedAt:
         format: date-time
         type: string
@@ -177,6 +141,41 @@ definitions:
         type: integer
       Name:
         type: string
+      UpdatedAt:
+        format: date-time
+        type: string
+    title: GongBasicFieldAPI is the input in POST API
+    type: object
+    x-go-name: GongBasicFieldAPI
+    x-go-package: github.com/fullstack-lang/gong/go/orm
+  gongbasicfieldDB:
+    description: |-
+      It incorporates the GORM ID, basic fields from the model (because they can be serialized),
+      the encoded version of pointers
+    properties:
+      BasicKindName_Data:
+        $ref: '#/definitions/NullString'
+      CreatedAt:
+        format: date-time
+        type: string
+      DeclaredType_Data:
+        $ref: '#/definitions/NullString'
+      DeletedAt:
+        format: date-time
+        type: string
+      GongEnumID:
+        $ref: '#/definitions/NullInt64'
+      GongEnumName:
+        description: all gong Struct has a Name field, this enables this data to object
+          field
+        type: string
+      GongStruct_GongBasicFieldsDBID:
+        $ref: '#/definitions/NullInt64'
+      GongStruct_GongBasicFieldsDBID_Index:
+        $ref: '#/definitions/NullInt64'
+      ID:
+        format: uint64
+        type: integer
       Name_Data:
         $ref: '#/definitions/NullString'
       UpdatedAt:
@@ -192,22 +191,6 @@ definitions:
       from associations ("Has One" and "Has Many") that are generated to
       fullfill the ORM requirements for associations
     properties:
-      GongEnumValues:
-        items:
-          $ref: '#/definitions/GongEnumValue'
-        type: array
-      Name:
-        type: string
-      Name_Data:
-        $ref: '#/definitions/NullString'
-    title: GongEnumAPI is the input in POST API
-    type: object
-    x-go-name: GongEnumAPI
-    x-go-package: github.com/fullstack-lang/gong/go/orm
-  gongenumDB:
-    description: 'It incorporates all fields : from the model, from the generated
-      field for the API and the GORM ID'
-    properties:
       CreatedAt:
         format: date-time
         type: string
@@ -223,6 +206,27 @@ definitions:
         type: integer
       Name:
         type: string
+      UpdatedAt:
+        format: date-time
+        type: string
+    title: GongEnumAPI is the input in POST API
+    type: object
+    x-go-name: GongEnumAPI
+    x-go-package: github.com/fullstack-lang/gong/go/orm
+  gongenumDB:
+    description: |-
+      It incorporates the GORM ID, basic fields from the model (because they can be serialized),
+      the encoded version of pointers
+    properties:
+      CreatedAt:
+        format: date-time
+        type: string
+      DeletedAt:
+        format: date-time
+        type: string
+      ID:
+        format: uint64
+        type: integer
       Name_Data:
         $ref: '#/definitions/NullString'
       UpdatedAt:
@@ -238,26 +242,6 @@ definitions:
       from associations ("Has One" and "Has Many") that are generated to
       fullfill the ORM requirements for associations
     properties:
-      GongEnum_GongEnumValuesDBID:
-        $ref: '#/definitions/NullInt64'
-      GongEnum_GongEnumValuesDBID_Index:
-        $ref: '#/definitions/NullInt64'
-      Name:
-        type: string
-      Name_Data:
-        $ref: '#/definitions/NullString'
-      Value:
-        type: string
-      Value_Data:
-        $ref: '#/definitions/NullString'
-    title: GongEnumValueAPI is the input in POST API
-    type: object
-    x-go-name: GongEnumValueAPI
-    x-go-package: github.com/fullstack-lang/gong/go/orm
-  gongenumvalueDB:
-    description: 'It incorporates all fields : from the model, from the generated
-      field for the API and the GORM ID'
-    properties:
       CreatedAt:
         format: date-time
         type: string
@@ -273,12 +257,37 @@ definitions:
         type: integer
       Name:
         type: string
-      Name_Data:
-        $ref: '#/definitions/NullString'
       UpdatedAt:
         format: date-time
         type: string
       Value:
+        type: string
+    title: GongEnumValueAPI is the input in POST API
+    type: object
+    x-go-name: GongEnumValueAPI
+    x-go-package: github.com/fullstack-lang/gong/go/orm
+  gongenumvalueDB:
+    description: |-
+      It incorporates the GORM ID, basic fields from the model (because they can be serialized),
+      the encoded version of pointers
+    properties:
+      CreatedAt:
+        format: date-time
+        type: string
+      DeletedAt:
+        format: date-time
+        type: string
+      GongEnum_GongEnumValuesDBID:
+        $ref: '#/definitions/NullInt64'
+      GongEnum_GongEnumValuesDBID_Index:
+        $ref: '#/definitions/NullInt64'
+      ID:
+        format: uint64
+        type: integer
+      Name_Data:
+        $ref: '#/definitions/NullString'
+      UpdatedAt:
+        format: date-time
         type: string
       Value_Data:
         $ref: '#/definitions/NullString'
@@ -292,31 +301,6 @@ definitions:
       from associations ("Has One" and "Has Many") that are generated to
       fullfill the ORM requirements for associations
     properties:
-      GongBasicFields:
-        description: Slice of Fields by their type (not populated by the gongc)
-        items:
-          $ref: '#/definitions/GongBasicField'
-        type: array
-      Name:
-        type: string
-      Name_Data:
-        $ref: '#/definitions/NullString'
-      PointerToGongStructFields:
-        items:
-          $ref: '#/definitions/PointerToGongStructField'
-        type: array
-      SliceOfPointerToGongStructFields:
-        items:
-          $ref: '#/definitions/SliceOfPointerToGongStructField'
-        type: array
-    title: GongStructAPI is the input in POST API
-    type: object
-    x-go-name: GongStructAPI
-    x-go-package: github.com/fullstack-lang/gong/go/orm
-  gongstructDB:
-    description: 'It incorporates all fields : from the model, from the generated
-      field for the API and the GORM ID'
-    properties:
       CreatedAt:
         format: date-time
         type: string
@@ -333,8 +317,6 @@ definitions:
         type: integer
       Name:
         type: string
-      Name_Data:
-        $ref: '#/definitions/NullString'
       PointerToGongStructFields:
         items:
           $ref: '#/definitions/PointerToGongStructField'
@@ -343,6 +325,29 @@ definitions:
         items:
           $ref: '#/definitions/SliceOfPointerToGongStructField'
         type: array
+      UpdatedAt:
+        format: date-time
+        type: string
+    title: GongStructAPI is the input in POST API
+    type: object
+    x-go-name: GongStructAPI
+    x-go-package: github.com/fullstack-lang/gong/go/orm
+  gongstructDB:
+    description: |-
+      It incorporates the GORM ID, basic fields from the model (because they can be serialized),
+      the encoded version of pointers
+    properties:
+      CreatedAt:
+        format: date-time
+        type: string
+      DeletedAt:
+        format: date-time
+        type: string
+      ID:
+        format: uint64
+        type: integer
+      Name_Data:
+        $ref: '#/definitions/NullString'
       UpdatedAt:
         format: date-time
         type: string
@@ -356,18 +361,6 @@ definitions:
       from associations ("Has One" and "Has Many") that are generated to
       fullfill the ORM requirements for associations
     properties:
-      Name:
-        type: string
-      Name_Data:
-        $ref: '#/definitions/NullString'
-    title: GongTimeFieldAPI is the input in POST API
-    type: object
-    x-go-name: GongTimeFieldAPI
-    x-go-package: github.com/fullstack-lang/gong/go/orm
-  gongtimefieldDB:
-    description: 'It incorporates all fields : from the model, from the generated
-      field for the API and the GORM ID'
-    properties:
       CreatedAt:
         format: date-time
         type: string
@@ -379,6 +372,27 @@ definitions:
         type: integer
       Name:
         type: string
+      UpdatedAt:
+        format: date-time
+        type: string
+    title: GongTimeFieldAPI is the input in POST API
+    type: object
+    x-go-name: GongTimeFieldAPI
+    x-go-package: github.com/fullstack-lang/gong/go/orm
+  gongtimefieldDB:
+    description: |-
+      It incorporates the GORM ID, basic fields from the model (because they can be serialized),
+      the encoded version of pointers
+    properties:
+      CreatedAt:
+        format: date-time
+        type: string
+      DeletedAt:
+        format: date-time
+        type: string
+      ID:
+        format: uint64
+        type: integer
       Name_Data:
         $ref: '#/definitions/NullString'
       UpdatedAt:
@@ -394,30 +408,6 @@ definitions:
       from associations ("Has One" and "Has Many") that are generated to
       fullfill the ORM requirements for associations
     properties:
-      GongEnums:
-        additionalProperties:
-          $ref: '#/definitions/GongEnum'
-        type: object
-      GongStructs:
-        additionalProperties:
-          $ref: '#/definitions/GongStruct'
-        type: object
-      Name:
-        type: string
-      Name_Data:
-        $ref: '#/definitions/NullString'
-      PkgPath:
-        type: string
-      PkgPath_Data:
-        $ref: '#/definitions/NullString'
-    title: ModelPkgAPI is the input in POST API
-    type: object
-    x-go-name: ModelPkgAPI
-    x-go-package: github.com/fullstack-lang/gong/go/orm
-  modelpkgDB:
-    description: 'It incorporates all fields : from the model, from the generated
-      field for the API and the GORM ID'
-    properties:
       CreatedAt:
         format: date-time
         type: string
@@ -437,10 +427,31 @@ definitions:
         type: integer
       Name:
         type: string
-      Name_Data:
-        $ref: '#/definitions/NullString'
       PkgPath:
         type: string
+      UpdatedAt:
+        format: date-time
+        type: string
+    title: ModelPkgAPI is the input in POST API
+    type: object
+    x-go-name: ModelPkgAPI
+    x-go-package: github.com/fullstack-lang/gong/go/orm
+  modelpkgDB:
+    description: |-
+      It incorporates the GORM ID, basic fields from the model (because they can be serialized),
+      the encoded version of pointers
+    properties:
+      CreatedAt:
+        format: date-time
+        type: string
+      DeletedAt:
+        format: date-time
+        type: string
+      ID:
+        format: uint64
+        type: integer
+      Name_Data:
+        $ref: '#/definitions/NullString'
       PkgPath_Data:
         $ref: '#/definitions/NullString'
       UpdatedAt:
@@ -456,30 +467,6 @@ definitions:
       from associations ("Has One" and "Has Many") that are generated to
       fullfill the ORM requirements for associations
     properties:
-      GongStruct:
-        $ref: '#/definitions/GongStruct'
-      GongStruct_PointerToGongStructFieldsDBID:
-        $ref: '#/definitions/NullInt64'
-      GongStruct_PointerToGongStructFieldsDBID_Index:
-        $ref: '#/definitions/NullInt64'
-      GongStructID:
-        $ref: '#/definitions/NullInt64'
-      GongStructName:
-        description: all gong Struct has a Name field, this enables this data to object
-          field
-        type: string
-      Name:
-        type: string
-      Name_Data:
-        $ref: '#/definitions/NullString'
-    title: PointerToGongStructFieldAPI is the input in POST API
-    type: object
-    x-go-name: PointerToGongStructFieldAPI
-    x-go-package: github.com/fullstack-lang/gong/go/orm
-  pointertogongstructfieldDB:
-    description: 'It incorporates all fields : from the model, from the generated
-      field for the API and the GORM ID'
-    properties:
       CreatedAt:
         format: date-time
         type: string
@@ -503,6 +490,37 @@ definitions:
         type: integer
       Name:
         type: string
+      UpdatedAt:
+        format: date-time
+        type: string
+    title: PointerToGongStructFieldAPI is the input in POST API
+    type: object
+    x-go-name: PointerToGongStructFieldAPI
+    x-go-package: github.com/fullstack-lang/gong/go/orm
+  pointertogongstructfieldDB:
+    description: |-
+      It incorporates the GORM ID, basic fields from the model (because they can be serialized),
+      the encoded version of pointers
+    properties:
+      CreatedAt:
+        format: date-time
+        type: string
+      DeletedAt:
+        format: date-time
+        type: string
+      GongStruct_PointerToGongStructFieldsDBID:
+        $ref: '#/definitions/NullInt64'
+      GongStruct_PointerToGongStructFieldsDBID_Index:
+        $ref: '#/definitions/NullInt64'
+      GongStructID:
+        $ref: '#/definitions/NullInt64'
+      GongStructName:
+        description: all gong Struct has a Name field, this enables this data to object
+          field
+        type: string
+      ID:
+        format: uint64
+        type: integer
       Name_Data:
         $ref: '#/definitions/NullString'
       UpdatedAt:
@@ -519,30 +537,6 @@ definitions:
       from associations ("Has One" and "Has Many") that are generated to
       fullfill the ORM requirements for associations
     properties:
-      GongStruct:
-        $ref: '#/definitions/GongStruct'
-      GongStruct_SliceOfPointerToGongStructFieldsDBID:
-        $ref: '#/definitions/NullInt64'
-      GongStruct_SliceOfPointerToGongStructFieldsDBID_Index:
-        $ref: '#/definitions/NullInt64'
-      GongStructID:
-        $ref: '#/definitions/NullInt64'
-      GongStructName:
-        description: all gong Struct has a Name field, this enables this data to object
-          field
-        type: string
-      Name:
-        type: string
-      Name_Data:
-        $ref: '#/definitions/NullString'
-    title: SliceOfPointerToGongStructFieldAPI is the input in POST API
-    type: object
-    x-go-name: SliceOfPointerToGongStructFieldAPI
-    x-go-package: github.com/fullstack-lang/gong/go/orm
-  sliceofpointertogongstructfieldDB:
-    description: 'It incorporates all fields : from the model, from the generated
-      field for the API and the GORM ID'
-    properties:
       CreatedAt:
         format: date-time
         type: string
@@ -566,6 +560,37 @@ definitions:
         type: integer
       Name:
         type: string
+      UpdatedAt:
+        format: date-time
+        type: string
+    title: SliceOfPointerToGongStructFieldAPI is the input in POST API
+    type: object
+    x-go-name: SliceOfPointerToGongStructFieldAPI
+    x-go-package: github.com/fullstack-lang/gong/go/orm
+  sliceofpointertogongstructfieldDB:
+    description: |-
+      It incorporates the GORM ID, basic fields from the model (because they can be serialized),
+      the encoded version of pointers
+    properties:
+      CreatedAt:
+        format: date-time
+        type: string
+      DeletedAt:
+        format: date-time
+        type: string
+      GongStruct_SliceOfPointerToGongStructFieldsDBID:
+        $ref: '#/definitions/NullInt64'
+      GongStruct_SliceOfPointerToGongStructFieldsDBID_Index:
+        $ref: '#/definitions/NullInt64'
+      GongStructID:
+        $ref: '#/definitions/NullInt64'
+      GongStructName:
+        description: all gong Struct has a Name field, this enables this data to object
+          field
+        type: string
+      ID:
+        format: uint64
+        type: integer
       Name_Data:
         $ref: '#/definitions/NullString'
       UpdatedAt:
@@ -1279,15 +1304,11 @@ responses:
   gongbasicfieldDBResponse:
     description: GongBasicFieldDBResponse provides response
     headers:
-      BasicKindName:
-        type: string
       BasicKindName_Data:
         description: Declation for basic field gongbasicfieldDB.BasicKindName {{BasicKind}}
           (to be completed)
       CreatedAt:
         format: date-time
-        type: string
-      DeclaredType:
         type: string
       DeclaredType_Data:
         description: Declation for basic field gongbasicfieldDB.DeclaredType {{BasicKind}}
@@ -1295,9 +1316,9 @@ responses:
       DeletedAt:
         format: date-time
         type: string
-      GongEnum: {}
       GongEnumID:
         description: |-
+          insertion for pointer fields encoding declaration
           field GongEnum is a pointer to another Struct (optional or 0..1)
           This field is generated into another field to enable AS ONE association
       GongEnumName:
@@ -1307,15 +1328,14 @@ responses:
       GongStruct_GongBasicFieldsDBID:
         description: Implementation of a reverse ID for field GongStruct{}.GongBasicFields
           []*GongBasicField
-      GongStruct_GongBasicFieldsDBID_Index: {}
+      GongStruct_GongBasicFieldsDBID_Index:
+        description: implementation of the index of the withing the slice
       ID:
         format: uint64
         type: integer
-      Name:
-        type: string
       Name_Data:
         description: |-
-          insertion for fields declaration
+          insertion for basic fields declaration
           Declation for basic field gongbasicfieldDB.Name {{BasicKind}} (to be completed)
       UpdatedAt:
         format: date-time
@@ -1337,18 +1357,12 @@ responses:
       DeletedAt:
         format: date-time
         type: string
-      GongEnumValues:
-        items:
-          $ref: '#/definitions/GongEnumValue'
-        type: array
       ID:
         format: uint64
         type: integer
-      Name:
-        type: string
       Name_Data:
         description: |-
-          insertion for fields declaration
+          insertion for basic fields declaration
           Declation for basic field gongenumDB.Name {{BasicKind}} (to be completed)
       UpdatedAt:
         format: date-time
@@ -1371,22 +1385,20 @@ responses:
         format: date-time
         type: string
       GongEnum_GongEnumValuesDBID:
-        description: Implementation of a reverse ID for field GongEnum{}.GongEnumValues
-          []*GongEnumValue
-      GongEnum_GongEnumValuesDBID_Index: {}
+        description: |-
+          insertion for pointer fields encoding declaration
+          Implementation of a reverse ID for field GongEnum{}.GongEnumValues []*GongEnumValue
+      GongEnum_GongEnumValuesDBID_Index:
+        description: implementation of the index of the withing the slice
       ID:
         format: uint64
         type: integer
-      Name:
-        type: string
       Name_Data:
         description: |-
-          insertion for fields declaration
+          insertion for basic fields declaration
           Declation for basic field gongenumvalueDB.Name {{BasicKind}} (to be completed)
       UpdatedAt:
         format: date-time
-        type: string
-      Value:
         type: string
       Value_Data:
         description: Declation for basic field gongenumvalueDB.Value {{BasicKind}}
@@ -1408,28 +1420,13 @@ responses:
       DeletedAt:
         format: date-time
         type: string
-      GongBasicFields:
-        description: Slice of Fields by their type (not populated by the gongc)
-        items:
-          $ref: '#/definitions/GongBasicField'
-        type: array
       ID:
         format: uint64
         type: integer
-      Name:
-        type: string
       Name_Data:
         description: |-
-          insertion for fields declaration
+          insertion for basic fields declaration
           Declation for basic field gongstructDB.Name {{BasicKind}} (to be completed)
-      PointerToGongStructFields:
-        items:
-          $ref: '#/definitions/PointerToGongStructField'
-        type: array
-      SliceOfPointerToGongStructFields:
-        items:
-          $ref: '#/definitions/SliceOfPointerToGongStructField'
-        type: array
       UpdatedAt:
         format: date-time
         type: string
@@ -1453,11 +1450,9 @@ responses:
       ID:
         format: uint64
         type: integer
-      Name:
-        type: string
       Name_Data:
         description: |-
-          insertion for fields declaration
+          insertion for basic fields declaration
           Declation for basic field gongtimefieldDB.Name {{BasicKind}} (to be completed)
       UpdatedAt:
         format: date-time
@@ -1479,19 +1474,13 @@ responses:
       DeletedAt:
         format: date-time
         type: string
-      GongEnums: {}
-      GongStructs: {}
       ID:
         format: uint64
         type: integer
-      Name:
-        type: string
       Name_Data:
         description: |-
-          insertion for fields declaration
+          insertion for basic fields declaration
           Declation for basic field modelpkgDB.Name {{BasicKind}} (to be completed)
-      PkgPath:
-        type: string
       PkgPath_Data:
         description: Declation for basic field modelpkgDB.PkgPath {{BasicKind}} (to
           be completed)
@@ -1500,9 +1489,6 @@ responses:
         type: string
     schema:
       $ref: '#/definitions/NullString'
-      additionalProperties:
-        $ref: '#/definitions/GongEnum'
-      type: object
   modelpkgDBsResponse:
     description: ModelPkgDBs arrays modelpkgDBs
     schema:
@@ -1518,13 +1504,14 @@ responses:
       DeletedAt:
         format: date-time
         type: string
-      GongStruct: {}
       GongStruct_PointerToGongStructFieldsDBID:
         description: Implementation of a reverse ID for field GongStruct{}.PointerToGongStructFields
           []*PointerToGongStructField
-      GongStruct_PointerToGongStructFieldsDBID_Index: {}
+      GongStruct_PointerToGongStructFieldsDBID_Index:
+        description: implementation of the index of the withing the slice
       GongStructID:
         description: |-
+          insertion for pointer fields encoding declaration
           field GongStruct is a pointer to another Struct (optional or 0..1)
           This field is generated into another field to enable AS ONE association
       GongStructName:
@@ -1534,11 +1521,9 @@ responses:
       ID:
         format: uint64
         type: integer
-      Name:
-        type: string
       Name_Data:
         description: |-
-          insertion for fields declaration
+          insertion for basic fields declaration
           Declation for basic field pointertogongstructfieldDB.Name {{BasicKind}} (to be completed)
       UpdatedAt:
         format: date-time
@@ -1560,13 +1545,14 @@ responses:
       DeletedAt:
         format: date-time
         type: string
-      GongStruct: {}
       GongStruct_SliceOfPointerToGongStructFieldsDBID:
         description: Implementation of a reverse ID for field GongStruct{}.SliceOfPointerToGongStructFields
           []*SliceOfPointerToGongStructField
-      GongStruct_SliceOfPointerToGongStructFieldsDBID_Index: {}
+      GongStruct_SliceOfPointerToGongStructFieldsDBID_Index:
+        description: implementation of the index of the withing the slice
       GongStructID:
         description: |-
+          insertion for pointer fields encoding declaration
           field GongStruct is a pointer to another Struct (optional or 0..1)
           This field is generated into another field to enable AS ONE association
       GongStructName:
@@ -1576,11 +1562,9 @@ responses:
       ID:
         format: uint64
         type: integer
-      Name:
-        type: string
       Name_Data:
         description: |-
-          insertion for fields declaration
+          insertion for basic fields declaration
           Declation for basic field sliceofpointertogongstructfieldDB.Name {{BasicKind}} (to be completed)
       UpdatedAt:
         format: date-time

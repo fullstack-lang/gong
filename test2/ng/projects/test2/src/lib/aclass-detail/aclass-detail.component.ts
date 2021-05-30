@@ -68,8 +68,6 @@ export class AclassDetailComponent implements OnInit {
 		this.frontRepoService.pull().subscribe(
 			frontRepo => {
 				this.frontRepo = frontRepo
-				console.log("front repo AclassPull returned")
-
 				if (id != 0 && association == undefined) {
 					this.aclass = frontRepo.Aclasss.get(id)
 				} else {
@@ -111,6 +109,7 @@ export class AclassDetailComponent implements OnInit {
 				this.aclass.Aclass_AnarrayofaDBID = new NullInt64
 				this.aclass.Aclass_AnarrayofaDBID.Int64 = this.aclass.Aclass_Anarrayofa_reverse.ID
 				this.aclass.Aclass_AnarrayofaDBID.Valid = true
+				this.aclass.Aclass_AnarrayofaDBID_Index = new NullInt64
 				this.aclass.Aclass_AnarrayofaDBID_Index.Valid = true
 				this.aclass.Aclass_Anarrayofa_reverse = undefined // very important, otherwise, circular JSON
 			}
@@ -121,8 +120,6 @@ export class AclassDetailComponent implements OnInit {
 			this.aclassService.updateAclass(this.aclass)
 				.subscribe(aclass => {
 					this.aclassService.AclassServiceChanged.next("update")
-
-					console.log("aclass saved")
 				});
 		} else {
 			switch (association) {
@@ -131,6 +128,7 @@ export class AclassDetailComponent implements OnInit {
 					this.aclass.Aclass_AnarrayofaDBID = new NullInt64
 					this.aclass.Aclass_AnarrayofaDBID.Int64 = id
 					this.aclass.Aclass_AnarrayofaDBID.Valid = true
+					this.aclass.Aclass_AnarrayofaDBID_Index = new NullInt64
 					this.aclass.Aclass_AnarrayofaDBID_Index.Valid = true
 					break
 			}
@@ -139,7 +137,6 @@ export class AclassDetailComponent implements OnInit {
 				this.aclassService.AclassServiceChanged.next("post")
 
 				this.aclass = {} // reset fields
-				console.log("aclass added")
 			});
 		}
 	}
@@ -168,7 +165,6 @@ export class AclassDetailComponent implements OnInit {
 		);
 
 		dialogRef.afterClosed().subscribe(result => {
-			console.log('The dialog was closed');
 		});
 	}
 
@@ -191,7 +187,6 @@ export class AclassDetailComponent implements OnInit {
 		);
 
 		dialogRef.afterClosed().subscribe(result => {
-			console.log('The dialog was closed');
 		});
 	}
 }

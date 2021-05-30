@@ -49,8 +49,9 @@ type PointerToGongStructFieldInput struct {
 func GetPointerToGongStructFields(c *gin.Context) {
 	db := c.MustGet("db").(*gorm.DB)
 
-	var pointertogongstructfields []orm.PointerToGongStructFieldDB
-	query := db.Find(&pointertogongstructfields)
+	// source slice
+	var pointertogongstructfieldDBs []orm.PointerToGongStructFieldDB
+	query := db.Find(&pointertogongstructfieldDBs)
 	if query.Error != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
@@ -59,18 +60,23 @@ func GetPointerToGongStructFields(c *gin.Context) {
 		return
 	}
 
-	// for each pointertogongstructfield, update fields from the database nullable fields
-	for idx := range pointertogongstructfields {
-		pointertogongstructfield := &pointertogongstructfields[idx]
-		_ = pointertogongstructfield
-		// insertion point for updating fields
-		if pointertogongstructfield.Name_Data.Valid {
-			pointertogongstructfield.Name = pointertogongstructfield.Name_Data.String
-		}
+	// slice that will be transmitted to the front
+	var pointertogongstructfieldAPIs []orm.PointerToGongStructFieldAPI
 
+	// for each pointertogongstructfield, update fields from the database nullable fields
+	for idx := range pointertogongstructfieldDBs {
+		pointertogongstructfieldDB := &pointertogongstructfieldDBs[idx]
+		_ = pointertogongstructfieldDB
+		var pointertogongstructfieldAPI orm.PointerToGongStructFieldAPI
+
+		// insertion point for updating fields
+		pointertogongstructfieldAPI.ID = pointertogongstructfieldDB.ID
+		pointertogongstructfieldDB.CopyBasicFieldsToPointerToGongStructField(&pointertogongstructfieldAPI.PointerToGongStructField)
+		pointertogongstructfieldAPI.PointerToGongStructFieldPointersEnconding = pointertogongstructfieldDB.PointerToGongStructFieldPointersEnconding
+		pointertogongstructfieldAPIs = append(pointertogongstructfieldAPIs, pointertogongstructfieldAPI)
 	}
 
-	c.JSON(http.StatusOK, pointertogongstructfields)
+	c.JSON(http.StatusOK, pointertogongstructfieldAPIs)
 }
 
 // PostPointerToGongStructField
@@ -103,10 +109,8 @@ func PostPointerToGongStructField(c *gin.Context) {
 
 	// Create pointertogongstructfield
 	pointertogongstructfieldDB := orm.PointerToGongStructFieldDB{}
-	pointertogongstructfieldDB.PointerToGongStructFieldAPI = input
-	// insertion point for nullable field set
-	pointertogongstructfieldDB.Name_Data.String = input.Name
-	pointertogongstructfieldDB.Name_Data.Valid = true
+	pointertogongstructfieldDB.PointerToGongStructFieldPointersEnconding = input.PointerToGongStructFieldPointersEnconding
+	pointertogongstructfieldDB.CopyBasicFieldsFromPointerToGongStructField(&input.PointerToGongStructField)
 
 	query := db.Create(&pointertogongstructfieldDB)
 	if query.Error != nil {
@@ -136,9 +140,9 @@ func PostPointerToGongStructField(c *gin.Context) {
 func GetPointerToGongStructField(c *gin.Context) {
 	db := c.MustGet("db").(*gorm.DB)
 
-	// Get pointertogongstructfield in DB
-	var pointertogongstructfield orm.PointerToGongStructFieldDB
-	if err := db.First(&pointertogongstructfield, c.Param("id")).Error; err != nil {
+	// Get pointertogongstructfieldDB in DB
+	var pointertogongstructfieldDB orm.PointerToGongStructFieldDB
+	if err := db.First(&pointertogongstructfieldDB, c.Param("id")).Error; err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
@@ -146,12 +150,12 @@ func GetPointerToGongStructField(c *gin.Context) {
 		return
 	}
 
-	// insertion point for fields value set from nullable fields
-	if pointertogongstructfield.Name_Data.Valid {
-		pointertogongstructfield.Name = pointertogongstructfield.Name_Data.String
-	}
+	var pointertogongstructfieldAPI orm.PointerToGongStructFieldAPI
+	pointertogongstructfieldAPI.ID = pointertogongstructfieldDB.ID
+	pointertogongstructfieldAPI.PointerToGongStructFieldPointersEnconding = pointertogongstructfieldDB.PointerToGongStructFieldPointersEnconding
+	pointertogongstructfieldDB.CopyBasicFieldsToPointerToGongStructField(&pointertogongstructfieldAPI.PointerToGongStructField)
 
-	c.JSON(http.StatusOK, pointertogongstructfield)
+	c.JSON(http.StatusOK, pointertogongstructfieldAPI)
 }
 
 // UpdatePointerToGongStructField
@@ -188,11 +192,10 @@ func UpdatePointerToGongStructField(c *gin.Context) {
 	}
 
 	// update
-	// insertion point for nullable field set
-	input.Name_Data.String = input.Name
-	input.Name_Data.Valid = true
+	pointertogongstructfieldDB.CopyBasicFieldsFromPointerToGongStructField(&input.PointerToGongStructField)
+	pointertogongstructfieldDB.PointerToGongStructFieldPointersEnconding = input.PointerToGongStructFieldPointersEnconding
 
-	query = db.Model(&pointertogongstructfieldDB).Updates(input)
+	query = db.Model(&pointertogongstructfieldDB).Updates(pointertogongstructfieldDB)
 	if query.Error != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest

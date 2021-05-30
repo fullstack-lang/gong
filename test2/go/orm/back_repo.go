@@ -2,7 +2,10 @@
 package orm
 
 import (
+	"os"
+
 	"github.com/jinzhu/gorm"
+
 	"github.com/fullstack-lang/gong/test2/go/models"
 )
 
@@ -59,3 +62,22 @@ var BackRepo BackRepoStruct
 func GetLastCommitNb() uint {
 	return BackRepo.GetLastCommitNb()
 }
+
+// Backup the BackRepoStruct
+func (backRepo *BackRepoStruct) Backup(stage *models.StageStruct, dirPath string) {
+	os.Mkdir(dirPath, os.ModePerm)
+
+	// insertion point for per struct backup
+	backRepo.BackRepoAclass.Backup(dirPath)
+}
+
+// Restore the database into the back repo
+func (backRepo *BackRepoStruct) Restore(stage *models.StageStruct, dirPath string) {
+	models.Stage.Commit()
+	models.Stage.Reset()
+	models.Stage.Checkout()
+	// insertion point for per struct backup
+	backRepo.BackRepoAclass.Restore(dirPath)
+	models.Stage.Checkout()
+}
+

@@ -49,8 +49,9 @@ type GongStructInput struct {
 func GetGongStructs(c *gin.Context) {
 	db := c.MustGet("db").(*gorm.DB)
 
-	var gongstructs []orm.GongStructDB
-	query := db.Find(&gongstructs)
+	// source slice
+	var gongstructDBs []orm.GongStructDB
+	query := db.Find(&gongstructDBs)
 	if query.Error != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
@@ -59,18 +60,23 @@ func GetGongStructs(c *gin.Context) {
 		return
 	}
 
-	// for each gongstruct, update fields from the database nullable fields
-	for idx := range gongstructs {
-		gongstruct := &gongstructs[idx]
-		_ = gongstruct
-		// insertion point for updating fields
-		if gongstruct.Name_Data.Valid {
-			gongstruct.Name = gongstruct.Name_Data.String
-		}
+	// slice that will be transmitted to the front
+	var gongstructAPIs []orm.GongStructAPI
 
+	// for each gongstruct, update fields from the database nullable fields
+	for idx := range gongstructDBs {
+		gongstructDB := &gongstructDBs[idx]
+		_ = gongstructDB
+		var gongstructAPI orm.GongStructAPI
+
+		// insertion point for updating fields
+		gongstructAPI.ID = gongstructDB.ID
+		gongstructDB.CopyBasicFieldsToGongStruct(&gongstructAPI.GongStruct)
+		gongstructAPI.GongStructPointersEnconding = gongstructDB.GongStructPointersEnconding
+		gongstructAPIs = append(gongstructAPIs, gongstructAPI)
 	}
 
-	c.JSON(http.StatusOK, gongstructs)
+	c.JSON(http.StatusOK, gongstructAPIs)
 }
 
 // PostGongStruct
@@ -103,10 +109,8 @@ func PostGongStruct(c *gin.Context) {
 
 	// Create gongstruct
 	gongstructDB := orm.GongStructDB{}
-	gongstructDB.GongStructAPI = input
-	// insertion point for nullable field set
-	gongstructDB.Name_Data.String = input.Name
-	gongstructDB.Name_Data.Valid = true
+	gongstructDB.GongStructPointersEnconding = input.GongStructPointersEnconding
+	gongstructDB.CopyBasicFieldsFromGongStruct(&input.GongStruct)
 
 	query := db.Create(&gongstructDB)
 	if query.Error != nil {
@@ -136,9 +140,9 @@ func PostGongStruct(c *gin.Context) {
 func GetGongStruct(c *gin.Context) {
 	db := c.MustGet("db").(*gorm.DB)
 
-	// Get gongstruct in DB
-	var gongstruct orm.GongStructDB
-	if err := db.First(&gongstruct, c.Param("id")).Error; err != nil {
+	// Get gongstructDB in DB
+	var gongstructDB orm.GongStructDB
+	if err := db.First(&gongstructDB, c.Param("id")).Error; err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
@@ -146,12 +150,12 @@ func GetGongStruct(c *gin.Context) {
 		return
 	}
 
-	// insertion point for fields value set from nullable fields
-	if gongstruct.Name_Data.Valid {
-		gongstruct.Name = gongstruct.Name_Data.String
-	}
+	var gongstructAPI orm.GongStructAPI
+	gongstructAPI.ID = gongstructDB.ID
+	gongstructAPI.GongStructPointersEnconding = gongstructDB.GongStructPointersEnconding
+	gongstructDB.CopyBasicFieldsToGongStruct(&gongstructAPI.GongStruct)
 
-	c.JSON(http.StatusOK, gongstruct)
+	c.JSON(http.StatusOK, gongstructAPI)
 }
 
 // UpdateGongStruct
@@ -188,11 +192,10 @@ func UpdateGongStruct(c *gin.Context) {
 	}
 
 	// update
-	// insertion point for nullable field set
-	input.Name_Data.String = input.Name
-	input.Name_Data.Valid = true
+	gongstructDB.CopyBasicFieldsFromGongStruct(&input.GongStruct)
+	gongstructDB.GongStructPointersEnconding = input.GongStructPointersEnconding
 
-	query = db.Model(&gongstructDB).Updates(input)
+	query = db.Model(&gongstructDB).Updates(gongstructDB)
 	if query.Error != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
