@@ -37,6 +37,24 @@
             "args": []
         },
         {
+            "name": "gongc test -backendOnly",
+            "type": "go",
+            "request": "launch",
+            "mode": "debug",
+            "cwd": "${workspaceFolder}/test/go/models",
+            "program": "${workspaceFolder}/go/gongc",
+            "dlvLoadConfig": {
+                "followPointers": true,
+                "maxVariableRecurse": 1,
+                "maxStringLen": 3000,
+                "maxArrayValues": 64,
+                "maxStructFields": -1
+            },
+            "args": [
+                "-backendOnly"
+            ]
+        },
+        {
             "name": "go server test",
             "type": "go",
             "request": "launch",
@@ -85,6 +103,42 @@
             "args": [
                 "-test.run",
                 "BclassOrder"
+            ]
+        },
+        {
+            "name": "go test TestBackup",
+            "type": "go",
+            "request": "launch",
+            "mode": "test",
+            "program": "${workspaceFolder}/test/go/tests",
+            "dlvLoadConfig": {
+                "followPointers": true,
+                "maxVariableRecurse": 1,
+                "maxStringLen": 300,
+                "maxArrayValues": 64,
+                "maxStructFields": -1
+            },
+            "args": [
+                "-test.run",
+                "TestBackup"
+            ]
+        },
+        {
+            "name": "go test TestRestore",
+            "type": "go",
+            "request": "launch",
+            "mode": "test",
+            "program": "${workspaceFolder}/test/go/tests",
+            "dlvLoadConfig": {
+                "followPointers": true,
+                "maxVariableRecurse": 1,
+                "maxStringLen": 300,
+                "maxArrayValues": 64,
+                "maxStructFields": -1
+            },
+            "args": [
+                "-test.run",
+                "TestRestore"
             ]
         },
         {

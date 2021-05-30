@@ -81,5 +81,14 @@
             "group": "build",
             "command": "find . -name gong.go -print -execdir gongc \\;"
         },
+        {
+            "label": "Sequence - gongc all -backendOnly",
+            "type": "shell",
+            "options": {
+                "cwd": "${workspaceFolder}/.."
+            },
+            "group": "build",
+            "command": "find . -name gong.go -print -execdir gongc -backendOnly\\;"
+        },
     ]
 }

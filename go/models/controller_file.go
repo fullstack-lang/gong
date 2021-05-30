@@ -61,8 +61,9 @@ type {{Structname}}Input struct {
 func Get{{Structname}}s(c *gin.Context) {
 	db := c.MustGet("db").(*gorm.DB)
 
-	var {{structname}}s []orm.{{Structname}}DB
-	query := db.Find(&{{structname}}s)
+	// source slice
+	var {{structname}}DBs []orm.{{Structname}}DB
+	query := db.Find(&{{structname}}DBs)
 	if query.Error != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
@@ -71,14 +72,23 @@ func Get{{Structname}}s(c *gin.Context) {
 		return
 	}
 
+	// slice that will be transmitted to the front
+	var {{structname}}APIs []orm.{{Structname}}API
+
 	// for each {{structname}}, update fields from the database nullable fields
-	for idx := range {{structname}}s {
-		{{structname}} := &{{structname}}s[idx]
-		_ = {{structname}}
-		// insertion point for updating fields{{` + string(rune(ControllerFileGetsInsertion)) + `}}
+	for idx := range {{structname}}DBs {
+		{{structname}}DB := &{{structname}}DBs[idx]
+		_ = {{structname}}DB
+		var {{structname}}API orm.{{Structname}}API
+
+		// insertion point for updating fields
+		{{structname}}API.ID = {{structname}}DB.ID
+		{{structname}}DB.CopyBasicFieldsTo{{Structname}}(&{{structname}}API.{{Structname}})
+		{{structname}}API.{{Structname}}PointersEnconding = {{structname}}DB.{{Structname}}PointersEnconding
+		{{structname}}APIs = append({{structname}}APIs, {{structname}}API)
 	}
 
-	c.JSON(http.StatusOK, {{structname}}s)
+	c.JSON(http.StatusOK, {{structname}}APIs)
 }
 
 // Post{{Structname}}
@@ -111,8 +121,9 @@ func Post{{Structname}}(c *gin.Context) {
 
 	// Create {{structname}}
 	{{structname}}DB := orm.{{Structname}}DB{}
-	{{structname}}DB.{{Structname}}API = input
-	// insertion point for nullable field set{{` + string(rune(ControllerFilePostInsertion)) + `}}
+	{{structname}}DB.{{Structname}}PointersEnconding = input.{{Structname}}PointersEnconding
+	{{structname}}DB.CopyBasicFieldsFrom{{Structname}}(&input.{{Structname}})
+
 	query := db.Create(&{{structname}}DB)
 	if query.Error != nil {
 		var returnError GenericError
@@ -141,9 +152,9 @@ func Post{{Structname}}(c *gin.Context) {
 func Get{{Structname}}(c *gin.Context) {
 	db := c.MustGet("db").(*gorm.DB)
 
-	// Get {{structname}} in DB
-	var {{structname}} orm.{{Structname}}DB
-	if err := db.First(&{{structname}}, c.Param("id")).Error; err != nil {
+	// Get {{structname}}DB in DB
+	var {{structname}}DB orm.{{Structname}}DB
+	if err := db.First(&{{structname}}DB, c.Param("id")).Error; err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
@@ -151,8 +162,12 @@ func Get{{Structname}}(c *gin.Context) {
 		return
 	}
 
-	// insertion point for fields value set from nullable fields{{` + string(rune(ControllerFileGetInsertion)) + `}}
-	c.JSON(http.StatusOK, {{structname}})
+	var {{structname}}API orm.{{Structname}}API
+	{{structname}}API.ID = {{structname}}DB.ID
+	{{structname}}API.{{Structname}}PointersEnconding = {{structname}}DB.{{Structname}}PointersEnconding
+	{{structname}}DB.CopyBasicFieldsTo{{Structname}}(&{{structname}}API.{{Structname}})
+
+	c.JSON(http.StatusOK, {{structname}}API)
 }
 
 // Update{{Structname}}
@@ -189,8 +204,10 @@ func Update{{Structname}}(c *gin.Context) {
 	}
 
 	// update
-	// insertion point for nullable field set{{` + string(rune(ControllerFileUpdateInsertion)) + `}}
-	query = db.Model(&{{structname}}DB).Updates(input)
+	{{structname}}DB.CopyBasicFieldsFrom{{Structname}}(&input.{{Structname}})
+	{{structname}}DB.{{Structname}}PointersEnconding = input.{{Structname}}PointersEnconding
+
+	query = db.Model(&{{structname}}DB).Updates({{structname}}DB)
 	if query.Error != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
