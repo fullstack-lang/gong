@@ -1,0 +1,70 @@
+[
+ {
+  "ID": 1,
+  "CreatedAt": "0001-01-01T00:00:00Z",
+  "UpdatedAt": "0001-01-01T00:00:00Z",
+  "DeletedAt": null,
+  "Name_Data": {
+   "String": "B1",
+   "Valid": true
+  },
+  "Floatfield_Data": {
+   "Float64": 0,
+   "Valid": true
+  },
+  "Intfield_Data": {
+   "Int64": 0,
+   "Valid": true
+  },
+  "Aclass_AnarrayofbDBID": {
+   "Int64": 1,
+   "Valid": true
+  },
+  "Aclass_AnarrayofbDBID_Index": {
+   "Int64": 1,
+   "Valid": true
+  },
+  "Aclass_AnotherarrayofbDBID": {
+   "Int64": 1,
+   "Valid": true
+  },
+  "Aclass_AnotherarrayofbDBID_Index": {
+   "Int64": 0,
+   "Valid": true
+  }
+ },
+ {
+  "ID": 2,
+  "CreatedAt": "0001-01-01T00:00:00Z",
+  "UpdatedAt": "0001-01-01T00:00:00Z",
+  "DeletedAt": null,
+  "Name_Data": {
+   "String": "B2",
+   "Valid": true
+  },
+  "Floatfield_Data": {
+   "Float64": 0,
+   "Valid": true
+  },
+  "Intfield_Data": {
+   "Int64": 0,
+   "Valid": true
+  },
+  "Aclass_AnarrayofbDBID": {
+   "Int64": 1,
+   "Valid": true
+  },
+  "Aclass_AnarrayofbDBID_Index": {
+   "Int64": 0,
+   "Valid": true
+  },
+  "Aclass_AnotherarrayofbDBID": {
+   "Int64": 1,
+   "Valid": true
+  },
+  "Aclass_AnotherarrayofbDBID_Index": {
+   "Int64": 1,
+   "Valid": true
+  }
+ }
+]

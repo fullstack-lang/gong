@@ -3,9 +3,13 @@ package orm
 
 import (
 	"database/sql"
+	"encoding/json"
 	"errors"
 	"fmt"
+	"io/ioutil"
 	"log"
+	"os"
+	"path/filepath"
 	"sort"
 	"time"
 
@@ -27,9 +31,40 @@ var dummy_Bclass_sort sort.Float64Slice
 //
 // swagger:model bclassAPI
 type BclassAPI struct {
+	gorm.Model
+
 	models.Bclass
 
-	// insertion for fields declaration
+	// encoding of pointers
+	BclassPointersEnconding
+}
+
+// BclassPointersEnconding encodes pointers to Struct and
+// reverse pointers of slice of poitners to Struct
+type BclassPointersEnconding struct {
+	// insertion for pointer fields encoding declaration
+	// Implementation of a reverse ID for field Aclass{}.Anarrayofb []*Bclass
+	Aclass_AnarrayofbDBID sql.NullInt64
+
+	// implementation of the index of the withing the slice
+	Aclass_AnarrayofbDBID_Index sql.NullInt64
+	// Implementation of a reverse ID for field Aclass{}.Anotherarrayofb []*Bclass
+	Aclass_AnotherarrayofbDBID sql.NullInt64
+
+	// implementation of the index of the withing the slice
+	Aclass_AnotherarrayofbDBID_Index sql.NullInt64
+}
+
+// BclassDB describes a bclass in the database
+//
+// It incorporates the GORM ID, basic fields from the model (because they can be serialized),
+// the encoded version of pointers
+//
+// swagger:model bclassDB
+type BclassDB struct {
+	gorm.Model
+
+	// insertion for basic fields declaration
 	// Declation for basic field bclassDB.Name {{BasicKind}} (to be completed)
 	Name_Data sql.NullString
 
@@ -39,26 +74,8 @@ type BclassAPI struct {
 	// Declation for basic field bclassDB.Intfield {{BasicKind}} (to be completed)
 	Intfield_Data sql.NullInt64
 
-	// Implementation of a reverse ID for field Aclass{}.Anarrayofb []*Bclass
-	Aclass_AnarrayofbDBID sql.NullInt64
-	Aclass_AnarrayofbDBID_Index sql.NullInt64
-
-	// Implementation of a reverse ID for field Aclass{}.Anotherarrayofb []*Bclass
-	Aclass_AnotherarrayofbDBID sql.NullInt64
-	Aclass_AnotherarrayofbDBID_Index sql.NullInt64
-
-	// end of insertion
-}
-
-// BclassDB describes a bclass in the database
-//
-// It incorporates all fields : from the model, from the generated field for the API and the GORM ID
-//
-// swagger:model bclassDB
-type BclassDB struct {
-	gorm.Model
-
-	BclassAPI
+	// encoding of pointers
+	BclassPointersEnconding
 }
 
 // BclassDBs arrays bclassDBs
@@ -82,6 +99,13 @@ type BackRepoBclassStruct struct {
 	Map_BclassDBID_BclassPtr *map[uint]*models.Bclass
 
 	db *gorm.DB
+}
+
+// GetBclassDBFromBclassPtr is a handy function to access the back repo instance from the stage instance
+func (backRepoBclass *BackRepoBclassStruct) GetBclassDBFromBclassPtr(bclass *models.Bclass) (bclassDB *BclassDB) {
+	id := (*backRepoBclass.Map_BclassPtr_BclassDBID)[bclass]
+	bclassDB = (*backRepoBclass.Map_BclassDBID_BclassDB)[id]
+	return
 }
 
 // BackRepoBclass.Init set up the BackRepo of the Bclass
@@ -165,7 +189,7 @@ func (backRepoBclass *BackRepoBclassStruct) CommitPhaseOneInstance(bclass *model
 
 	// initiate bclass
 	var bclassDB BclassDB
-	bclassDB.Bclass = *bclass
+	bclassDB.CopyBasicFieldsFromBclass(bclass)
 
 	query := backRepoBclass.db.Create(&bclassDB)
 	if query.Error != nil {
@@ -198,20 +222,9 @@ func (backRepoBclass *BackRepoBclassStruct) CommitPhaseTwoInstance(backRepo *Bac
 	// fetch matching bclassDB
 	if bclassDB, ok := (*backRepoBclass.Map_BclassDBID_BclassDB)[idx]; ok {
 
-		{
-			{
-				// insertion point for fields commit
-				bclassDB.Name_Data.String = bclass.Name
-				bclassDB.Name_Data.Valid = true
+		bclassDB.CopyBasicFieldsFromBclass(bclass)
 
-				bclassDB.Floatfield_Data.Float64 = bclass.Floatfield
-				bclassDB.Floatfield_Data.Valid = true
-
-				bclassDB.Intfield_Data.Int64 = int64(bclass.Intfield)
-				bclassDB.Intfield_Data.Valid = true
-
-			}
-		}
+		// insertion point for translating pointers encodings into actual pointers
 		query := backRepoBclass.db.Save(&bclassDB)
 		if query.Error != nil {
 			return query.Error
@@ -252,18 +265,23 @@ func (backRepoBclass *BackRepoBclassStruct) CheckoutPhaseOne() (Error error) {
 // models version of the bclassDB
 func (backRepoBclass *BackRepoBclassStruct) CheckoutPhaseOneInstance(bclassDB *BclassDB) (Error error) {
 
-	// if absent, create entries in the backRepoBclass maps.
-	bclassWithNewFieldValues := bclassDB.Bclass
-	if _, ok := (*backRepoBclass.Map_BclassDBID_BclassPtr)[bclassDB.ID]; !ok {
+	bclass, ok := (*backRepoBclass.Map_BclassDBID_BclassPtr)[bclassDB.ID]
+	if !ok {
+		bclass = new(models.Bclass)
 
-		(*backRepoBclass.Map_BclassDBID_BclassPtr)[bclassDB.ID] = &bclassWithNewFieldValues
-		(*backRepoBclass.Map_BclassPtr_BclassDBID)[&bclassWithNewFieldValues] = bclassDB.ID
+		(*backRepoBclass.Map_BclassDBID_BclassPtr)[bclassDB.ID] = bclass
+		(*backRepoBclass.Map_BclassPtr_BclassDBID)[bclass] = bclassDB.ID
 
 		// append model store with the new element
-		bclassWithNewFieldValues.Stage()
+		bclass.Stage()
 	}
-	bclassDBWithNewFieldValues := *bclassDB
-	(*backRepoBclass.Map_BclassDBID_BclassDB)[bclassDB.ID] = &bclassDBWithNewFieldValues
+	bclassDB.CopyBasicFieldsToBclass(bclass)
+
+	// preserve pointer to aclassDB. Otherwise, pointer will is recycled and the map of pointers
+	// Map_BclassDBID_BclassDB)[bclassDB hold variable pointers
+	bclassDB_Data := *bclassDB
+	preservedPtrToBclass := &bclassDB_Data
+	(*backRepoBclass.Map_BclassDBID_BclassDB)[bclassDB.ID] = preservedPtrToBclass
 
 	return
 }
@@ -285,18 +303,8 @@ func (backRepoBclass *BackRepoBclassStruct) CheckoutPhaseTwoInstance(backRepo *B
 
 	bclass := (*backRepoBclass.Map_BclassDBID_BclassPtr)[bclassDB.ID]
 	_ = bclass // sometimes, there is no code generated. This lines voids the "unused variable" compilation error
-	{
-		{
-			// insertion point for checkout, i.e. update of fields of stage instance from fields of back repo instances
-			//
-			bclass.Name = bclassDB.Name_Data.String
 
-			bclass.Floatfield = bclassDB.Floatfield_Data.Float64
-
-			bclass.Intfield = int(bclassDB.Intfield_Data.Int64)
-
-		}
-	}
+	// insertion point for checkout of pointer encoding
 	return
 }
 
@@ -323,5 +331,92 @@ func (backRepo *BackRepoStruct) CheckoutBclass(bclass *models.Bclass) {
 			backRepo.BackRepoBclass.CheckoutPhaseOneInstance(&bclassDB)
 			backRepo.BackRepoBclass.CheckoutPhaseTwoInstance(backRepo, &bclassDB)
 		}
+	}
+}
+
+// CopyBasicFieldsToBclassDB is used to copy basic fields between the Stage or the CRUD to the back repo
+func (bclassDB *BclassDB) CopyBasicFieldsFromBclass(bclass *models.Bclass) {
+	// insertion point for fields commit
+	bclassDB.Name_Data.String = bclass.Name
+	bclassDB.Name_Data.Valid = true
+
+	bclassDB.Floatfield_Data.Float64 = bclass.Floatfield
+	bclassDB.Floatfield_Data.Valid = true
+
+	bclassDB.Intfield_Data.Int64 = int64(bclass.Intfield)
+	bclassDB.Intfield_Data.Valid = true
+
+}
+
+// CopyBasicFieldsToBclassDB is used to copy basic fields between the Stage or the CRUD to the back repo
+func (bclassDB *BclassDB) CopyBasicFieldsToBclass(bclass *models.Bclass) {
+
+	// insertion point for checkout of basic fields (back repo to stage)
+	bclass.Name = bclassDB.Name_Data.String
+	bclass.Floatfield = bclassDB.Floatfield_Data.Float64
+	bclass.Intfield = int(bclassDB.Intfield_Data.Int64)
+}
+
+// Backup generates a json file from a slice of all BclassDB instances in the backrepo
+func (backRepoBclass *BackRepoBclassStruct) Backup(dirPath string) {
+
+	filename := filepath.Join(dirPath, "BclassDB.json")
+
+	// organize the map into an array with increasing IDs, in order to have repoductible
+	// backup file
+	var forBackup []*BclassDB
+	for _, bclassDB := range *backRepoBclass.Map_BclassDBID_BclassDB {
+		forBackup = append(forBackup, bclassDB)
+	}
+
+	sort.Slice(forBackup[:], func(i, j int) bool {
+		return forBackup[i].ID < forBackup[j].ID
+	})
+
+	file, err := json.MarshalIndent(forBackup, "", " ")
+
+	if err != nil {
+		log.Panic("Cannot json Bclass ", filename, " ", err.Error())
+	}
+
+	err = ioutil.WriteFile(filename, file, 0644)
+	if err != nil {
+		log.Panic("Cannot write the json Bclass file", err.Error())
+	}
+}
+
+func (backRepoBclass *BackRepoBclassStruct) Restore(dirPath string) {
+
+	filename := filepath.Join(dirPath, "BclassDB.json")
+	jsonFile, err := os.Open(filename)
+	// if we os.Open returns an error then handle it
+	if err != nil {
+		log.Panic("Cannot restore/open the json Bclass file", filename, " ", err.Error())
+	}
+
+	// read our opened jsonFile as a byte array.
+	byteValue, _ := ioutil.ReadAll(jsonFile)
+
+	var forRestore []*BclassDB
+
+	err = json.Unmarshal(byteValue, &forRestore)
+
+	// fill up Map_BclassDBID_BclassDB
+	for _, bclassDB := range forRestore {
+
+		bclassDB_ID := bclassDB.ID
+		bclassDB.ID = 0
+		query := backRepoBclass.db.Create(bclassDB)
+		if query.Error != nil {
+			log.Panic(query.Error)
+		}
+		if bclassDB_ID != bclassDB.ID {
+			log.Panicf("ID of Bclass restore ID %d, name %s, has wrong ID %d in DB after create",
+				bclassDB_ID, bclassDB.Name_Data.String, bclassDB.ID)
+		}
+	}
+
+	if err != nil {
+		log.Panic("Cannot restore/unmarshall json Bclass file", err.Error())
 	}
 }
