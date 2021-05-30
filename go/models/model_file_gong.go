@@ -70,6 +70,7 @@ func (stage *StageStruct) Backup(dirPath string) {
 }
 
 // Restore resets Stage & BackRepo and restores their content from the restore files in dirPath
+// Restore shall be performed only on a new database with rowids at 0 (otherwise, it will panic)
 func (stage *StageStruct) Restore(dirPath string) {
 	if stage.BackRepo != nil {
 		stage.BackRepo.Restore(stage, dirPath)
@@ -168,61 +169,6 @@ func ({{structname}} *{{Structname}}) Checkout() *{{Structname}} {
 		}
 	}
 	return {{structname}}
-}
-
-//
-// Legacy, to be deleted
-//
-
-// StageCopy appends a copy of {{structname}} to the model stage
-func ({{structname}} *{{Structname}}) StageCopy() *{{Structname}} {
-	_{{structname}} := new({{Structname}})
-	*_{{structname}} = *{{structname}}
-	_{{structname}}.Stage()
-	return _{{structname}}
-}
-
-// StageAndCommit appends {{structname}} to the model stage and commit to the orm repo
-func ({{structname}} *{{Structname}}) StageAndCommit() *{{Structname}} {
-	{{structname}}.Stage()
-	if Stage.AllModelsStructCreateCallback != nil {
-		Stage.AllModelsStructCreateCallback.CreateORM{{Structname}}({{structname}})
-	}
-	return {{structname}}
-}
-
-// DeleteStageAndCommit appends {{structname}} to the model stage and commit to the orm repo
-func ({{structname}} *{{Structname}}) DeleteStageAndCommit() *{{Structname}} {
-	{{structname}}.Unstage()
-	DeleteORM{{Structname}}({{structname}})
-	return {{structname}}
-}
-
-// StageCopyAndCommit appends a copy of {{structname}} to the model stage and commit to the orm repo
-func ({{structname}} *{{Structname}}) StageCopyAndCommit() *{{Structname}} {
-	_{{structname}} := new({{Structname}})
-	*_{{structname}} = *{{structname}}
-	_{{structname}}.Stage()
-	if Stage.AllModelsStructCreateCallback != nil {
-		Stage.AllModelsStructCreateCallback.CreateORM{{Structname}}({{structname}})
-	}
-	return _{{structname}}
-}
-
-// CreateORM{{Structname}} enables dynamic staging of a {{Structname}} instance
-func CreateORM{{Structname}}({{structname}} *{{Structname}}) {
-	{{structname}}.Stage()
-	if Stage.AllModelsStructCreateCallback != nil {
-		Stage.AllModelsStructCreateCallback.CreateORM{{Structname}}({{structname}})
-	}
-}
-
-// DeleteORM{{Structname}} enables dynamic staging of a {{Structname}} instance
-func DeleteORM{{Structname}}({{structname}} *{{Structname}}) {
-	{{structname}}.Unstage()
-	if Stage.AllModelsStructDeleteCallback != nil {
-		Stage.AllModelsStructDeleteCallback.DeleteORM{{Structname}}({{structname}})
-	}
 }
 `,
 
