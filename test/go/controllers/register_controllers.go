@@ -58,6 +58,13 @@ func RegisterControllers(r *gin.Engine) {
 		v1.PUT("/v1/bclasss/:id", UpdateBclass)
 		v1.DELETE("/v1/bclasss/:id", DeleteBclass)
 
+		v1.GET("/v1/dclasss", GetDclasss)
+		v1.GET("/v1/dclasss/:id", GetDclass)
+		v1.POST("/v1/dclasss", PostDclass)
+		v1.PATCH("/v1/dclasss/:id", UpdateDclass)
+		v1.PUT("/v1/dclasss/:id", UpdateDclass)
+		v1.DELETE("/v1/dclasss/:id", DeleteDclass)
+
 
 		v1.GET("/commitnb", GetLastCommitNb)
 	}

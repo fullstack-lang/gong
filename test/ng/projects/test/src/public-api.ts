@@ -26,6 +26,13 @@ export * from './lib/bclass-db'
 export * from './lib/bclass-api'
 export * from './lib/bclass.service'
 
+export * from './lib/dclass-detail/dclass-detail.component'
+export * from './lib/dclass-presentation/dclass-presentation.component'
+export * from './lib/dclasss-table/dclasss-table.component'
+export * from './lib/dclass-db'
+export * from './lib/dclass-api'
+export * from './lib/dclass.service'
+
 
 export * from './lib/AEnumType'
 export * from './lib/BEnumType'
