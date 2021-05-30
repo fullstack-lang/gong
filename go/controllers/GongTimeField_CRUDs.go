@@ -61,7 +61,7 @@ func GetGongTimeFields(c *gin.Context) {
 	}
 
 	// slice that will be transmitted to the front
-	var gongtimefieldAPIs []orm.GongTimeFieldAPI
+	gongtimefieldAPIs := make([]orm.GongTimeFieldAPI, 0)
 
 	// for each gongtimefield, update fields from the database nullable fields
 	for idx := range gongtimefieldDBs {

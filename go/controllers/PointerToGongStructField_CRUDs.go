@@ -61,7 +61,7 @@ func GetPointerToGongStructFields(c *gin.Context) {
 	}
 
 	// slice that will be transmitted to the front
-	var pointertogongstructfieldAPIs []orm.PointerToGongStructFieldAPI
+	pointertogongstructfieldAPIs := make([]orm.PointerToGongStructFieldAPI, 0)
 
 	// for each pointertogongstructfield, update fields from the database nullable fields
 	for idx := range pointertogongstructfieldDBs {
