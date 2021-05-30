@@ -49,8 +49,9 @@ type GongEnumValueInput struct {
 func GetGongEnumValues(c *gin.Context) {
 	db := c.MustGet("db").(*gorm.DB)
 
-	var gongenumvalues []orm.GongEnumValueDB
-	query := db.Find(&gongenumvalues)
+	// source slice
+	var gongenumvalueDBs []orm.GongEnumValueDB
+	query := db.Find(&gongenumvalueDBs)
 	if query.Error != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
@@ -59,22 +60,23 @@ func GetGongEnumValues(c *gin.Context) {
 		return
 	}
 
+	// slice that will be transmitted to the front
+	var gongenumvalueAPIs []orm.GongEnumValueAPI
+
 	// for each gongenumvalue, update fields from the database nullable fields
-	for idx := range gongenumvalues {
-		gongenumvalue := &gongenumvalues[idx]
-		_ = gongenumvalue
+	for idx := range gongenumvalueDBs {
+		gongenumvalueDB := &gongenumvalueDBs[idx]
+		_ = gongenumvalueDB
+		var gongenumvalueAPI orm.GongEnumValueAPI
+
 		// insertion point for updating fields
-		if gongenumvalue.Name_Data.Valid {
-			gongenumvalue.Name = gongenumvalue.Name_Data.String
-		}
-
-		if gongenumvalue.Value_Data.Valid {
-			gongenumvalue.Value = gongenumvalue.Value_Data.String
-		}
-
+		gongenumvalueAPI.ID = gongenumvalueDB.ID
+		gongenumvalueDB.CopyBasicFieldsToGongEnumValue(&gongenumvalueAPI.GongEnumValue)
+		gongenumvalueAPI.GongEnumValuePointersEnconding = gongenumvalueDB.GongEnumValuePointersEnconding
+		gongenumvalueAPIs = append(gongenumvalueAPIs, gongenumvalueAPI)
 	}
 
-	c.JSON(http.StatusOK, gongenumvalues)
+	c.JSON(http.StatusOK, gongenumvalueAPIs)
 }
 
 // PostGongEnumValue
@@ -107,13 +109,8 @@ func PostGongEnumValue(c *gin.Context) {
 
 	// Create gongenumvalue
 	gongenumvalueDB := orm.GongEnumValueDB{}
-	gongenumvalueDB.GongEnumValueAPI = input
-	// insertion point for nullable field set
-	gongenumvalueDB.Name_Data.String = input.Name
-	gongenumvalueDB.Name_Data.Valid = true
-
-	gongenumvalueDB.Value_Data.String = input.Value
-	gongenumvalueDB.Value_Data.Valid = true
+	gongenumvalueDB.GongEnumValuePointersEnconding = input.GongEnumValuePointersEnconding
+	gongenumvalueDB.CopyBasicFieldsFromGongEnumValue(&input.GongEnumValue)
 
 	query := db.Create(&gongenumvalueDB)
 	if query.Error != nil {
@@ -143,9 +140,9 @@ func PostGongEnumValue(c *gin.Context) {
 func GetGongEnumValue(c *gin.Context) {
 	db := c.MustGet("db").(*gorm.DB)
 
-	// Get gongenumvalue in DB
-	var gongenumvalue orm.GongEnumValueDB
-	if err := db.First(&gongenumvalue, c.Param("id")).Error; err != nil {
+	// Get gongenumvalueDB in DB
+	var gongenumvalueDB orm.GongEnumValueDB
+	if err := db.First(&gongenumvalueDB, c.Param("id")).Error; err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
@@ -153,16 +150,12 @@ func GetGongEnumValue(c *gin.Context) {
 		return
 	}
 
-	// insertion point for fields value set from nullable fields
-	if gongenumvalue.Name_Data.Valid {
-		gongenumvalue.Name = gongenumvalue.Name_Data.String
-	}
+	var gongenumvalueAPI orm.GongEnumValueAPI
+	gongenumvalueAPI.ID = gongenumvalueDB.ID
+	gongenumvalueAPI.GongEnumValuePointersEnconding = gongenumvalueDB.GongEnumValuePointersEnconding
+	gongenumvalueDB.CopyBasicFieldsToGongEnumValue(&gongenumvalueAPI.GongEnumValue)
 
-	if gongenumvalue.Value_Data.Valid {
-		gongenumvalue.Value = gongenumvalue.Value_Data.String
-	}
-
-	c.JSON(http.StatusOK, gongenumvalue)
+	c.JSON(http.StatusOK, gongenumvalueAPI)
 }
 
 // UpdateGongEnumValue
@@ -199,14 +192,10 @@ func UpdateGongEnumValue(c *gin.Context) {
 	}
 
 	// update
-	// insertion point for nullable field set
-	input.Name_Data.String = input.Name
-	input.Name_Data.Valid = true
+	gongenumvalueDB.CopyBasicFieldsFromGongEnumValue(&input.GongEnumValue)
+	gongenumvalueDB.GongEnumValuePointersEnconding = input.GongEnumValuePointersEnconding
 
-	input.Value_Data.String = input.Value
-	input.Value_Data.Valid = true
-
-	query = db.Model(&gongenumvalueDB).Updates(input)
+	query = db.Model(&gongenumvalueDB).Updates(gongenumvalueDB)
 	if query.Error != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest

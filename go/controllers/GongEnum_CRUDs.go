@@ -49,8 +49,9 @@ type GongEnumInput struct {
 func GetGongEnums(c *gin.Context) {
 	db := c.MustGet("db").(*gorm.DB)
 
-	var gongenums []orm.GongEnumDB
-	query := db.Find(&gongenums)
+	// source slice
+	var gongenumDBs []orm.GongEnumDB
+	query := db.Find(&gongenumDBs)
 	if query.Error != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
@@ -59,18 +60,23 @@ func GetGongEnums(c *gin.Context) {
 		return
 	}
 
-	// for each gongenum, update fields from the database nullable fields
-	for idx := range gongenums {
-		gongenum := &gongenums[idx]
-		_ = gongenum
-		// insertion point for updating fields
-		if gongenum.Name_Data.Valid {
-			gongenum.Name = gongenum.Name_Data.String
-		}
+	// slice that will be transmitted to the front
+	var gongenumAPIs []orm.GongEnumAPI
 
+	// for each gongenum, update fields from the database nullable fields
+	for idx := range gongenumDBs {
+		gongenumDB := &gongenumDBs[idx]
+		_ = gongenumDB
+		var gongenumAPI orm.GongEnumAPI
+
+		// insertion point for updating fields
+		gongenumAPI.ID = gongenumDB.ID
+		gongenumDB.CopyBasicFieldsToGongEnum(&gongenumAPI.GongEnum)
+		gongenumAPI.GongEnumPointersEnconding = gongenumDB.GongEnumPointersEnconding
+		gongenumAPIs = append(gongenumAPIs, gongenumAPI)
 	}
 
-	c.JSON(http.StatusOK, gongenums)
+	c.JSON(http.StatusOK, gongenumAPIs)
 }
 
 // PostGongEnum
@@ -103,10 +109,8 @@ func PostGongEnum(c *gin.Context) {
 
 	// Create gongenum
 	gongenumDB := orm.GongEnumDB{}
-	gongenumDB.GongEnumAPI = input
-	// insertion point for nullable field set
-	gongenumDB.Name_Data.String = input.Name
-	gongenumDB.Name_Data.Valid = true
+	gongenumDB.GongEnumPointersEnconding = input.GongEnumPointersEnconding
+	gongenumDB.CopyBasicFieldsFromGongEnum(&input.GongEnum)
 
 	query := db.Create(&gongenumDB)
 	if query.Error != nil {
@@ -136,9 +140,9 @@ func PostGongEnum(c *gin.Context) {
 func GetGongEnum(c *gin.Context) {
 	db := c.MustGet("db").(*gorm.DB)
 
-	// Get gongenum in DB
-	var gongenum orm.GongEnumDB
-	if err := db.First(&gongenum, c.Param("id")).Error; err != nil {
+	// Get gongenumDB in DB
+	var gongenumDB orm.GongEnumDB
+	if err := db.First(&gongenumDB, c.Param("id")).Error; err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
@@ -146,12 +150,12 @@ func GetGongEnum(c *gin.Context) {
 		return
 	}
 
-	// insertion point for fields value set from nullable fields
-	if gongenum.Name_Data.Valid {
-		gongenum.Name = gongenum.Name_Data.String
-	}
+	var gongenumAPI orm.GongEnumAPI
+	gongenumAPI.ID = gongenumDB.ID
+	gongenumAPI.GongEnumPointersEnconding = gongenumDB.GongEnumPointersEnconding
+	gongenumDB.CopyBasicFieldsToGongEnum(&gongenumAPI.GongEnum)
 
-	c.JSON(http.StatusOK, gongenum)
+	c.JSON(http.StatusOK, gongenumAPI)
 }
 
 // UpdateGongEnum
@@ -188,11 +192,10 @@ func UpdateGongEnum(c *gin.Context) {
 	}
 
 	// update
-	// insertion point for nullable field set
-	input.Name_Data.String = input.Name
-	input.Name_Data.Valid = true
+	gongenumDB.CopyBasicFieldsFromGongEnum(&input.GongEnum)
+	gongenumDB.GongEnumPointersEnconding = input.GongEnumPointersEnconding
 
-	query = db.Model(&gongenumDB).Updates(input)
+	query = db.Model(&gongenumDB).Updates(gongenumDB)
 	if query.Error != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest

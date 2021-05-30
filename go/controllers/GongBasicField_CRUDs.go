@@ -49,8 +49,9 @@ type GongBasicFieldInput struct {
 func GetGongBasicFields(c *gin.Context) {
 	db := c.MustGet("db").(*gorm.DB)
 
-	var gongbasicfields []orm.GongBasicFieldDB
-	query := db.Find(&gongbasicfields)
+	// source slice
+	var gongbasicfieldDBs []orm.GongBasicFieldDB
+	query := db.Find(&gongbasicfieldDBs)
 	if query.Error != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
@@ -59,26 +60,23 @@ func GetGongBasicFields(c *gin.Context) {
 		return
 	}
 
+	// slice that will be transmitted to the front
+	var gongbasicfieldAPIs []orm.GongBasicFieldAPI
+
 	// for each gongbasicfield, update fields from the database nullable fields
-	for idx := range gongbasicfields {
-		gongbasicfield := &gongbasicfields[idx]
-		_ = gongbasicfield
+	for idx := range gongbasicfieldDBs {
+		gongbasicfieldDB := &gongbasicfieldDBs[idx]
+		_ = gongbasicfieldDB
+		var gongbasicfieldAPI orm.GongBasicFieldAPI
+
 		// insertion point for updating fields
-		if gongbasicfield.Name_Data.Valid {
-			gongbasicfield.Name = gongbasicfield.Name_Data.String
-		}
-
-		if gongbasicfield.BasicKindName_Data.Valid {
-			gongbasicfield.BasicKindName = gongbasicfield.BasicKindName_Data.String
-		}
-
-		if gongbasicfield.DeclaredType_Data.Valid {
-			gongbasicfield.DeclaredType = gongbasicfield.DeclaredType_Data.String
-		}
-
+		gongbasicfieldAPI.ID = gongbasicfieldDB.ID
+		gongbasicfieldDB.CopyBasicFieldsToGongBasicField(&gongbasicfieldAPI.GongBasicField)
+		gongbasicfieldAPI.GongBasicFieldPointersEnconding = gongbasicfieldDB.GongBasicFieldPointersEnconding
+		gongbasicfieldAPIs = append(gongbasicfieldAPIs, gongbasicfieldAPI)
 	}
 
-	c.JSON(http.StatusOK, gongbasicfields)
+	c.JSON(http.StatusOK, gongbasicfieldAPIs)
 }
 
 // PostGongBasicField
@@ -111,16 +109,8 @@ func PostGongBasicField(c *gin.Context) {
 
 	// Create gongbasicfield
 	gongbasicfieldDB := orm.GongBasicFieldDB{}
-	gongbasicfieldDB.GongBasicFieldAPI = input
-	// insertion point for nullable field set
-	gongbasicfieldDB.Name_Data.String = input.Name
-	gongbasicfieldDB.Name_Data.Valid = true
-
-	gongbasicfieldDB.BasicKindName_Data.String = input.BasicKindName
-	gongbasicfieldDB.BasicKindName_Data.Valid = true
-
-	gongbasicfieldDB.DeclaredType_Data.String = input.DeclaredType
-	gongbasicfieldDB.DeclaredType_Data.Valid = true
+	gongbasicfieldDB.GongBasicFieldPointersEnconding = input.GongBasicFieldPointersEnconding
+	gongbasicfieldDB.CopyBasicFieldsFromGongBasicField(&input.GongBasicField)
 
 	query := db.Create(&gongbasicfieldDB)
 	if query.Error != nil {
@@ -150,9 +140,9 @@ func PostGongBasicField(c *gin.Context) {
 func GetGongBasicField(c *gin.Context) {
 	db := c.MustGet("db").(*gorm.DB)
 
-	// Get gongbasicfield in DB
-	var gongbasicfield orm.GongBasicFieldDB
-	if err := db.First(&gongbasicfield, c.Param("id")).Error; err != nil {
+	// Get gongbasicfieldDB in DB
+	var gongbasicfieldDB orm.GongBasicFieldDB
+	if err := db.First(&gongbasicfieldDB, c.Param("id")).Error; err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
@@ -160,20 +150,12 @@ func GetGongBasicField(c *gin.Context) {
 		return
 	}
 
-	// insertion point for fields value set from nullable fields
-	if gongbasicfield.Name_Data.Valid {
-		gongbasicfield.Name = gongbasicfield.Name_Data.String
-	}
+	var gongbasicfieldAPI orm.GongBasicFieldAPI
+	gongbasicfieldAPI.ID = gongbasicfieldDB.ID
+	gongbasicfieldAPI.GongBasicFieldPointersEnconding = gongbasicfieldDB.GongBasicFieldPointersEnconding
+	gongbasicfieldDB.CopyBasicFieldsToGongBasicField(&gongbasicfieldAPI.GongBasicField)
 
-	if gongbasicfield.BasicKindName_Data.Valid {
-		gongbasicfield.BasicKindName = gongbasicfield.BasicKindName_Data.String
-	}
-
-	if gongbasicfield.DeclaredType_Data.Valid {
-		gongbasicfield.DeclaredType = gongbasicfield.DeclaredType_Data.String
-	}
-
-	c.JSON(http.StatusOK, gongbasicfield)
+	c.JSON(http.StatusOK, gongbasicfieldAPI)
 }
 
 // UpdateGongBasicField
@@ -210,17 +192,10 @@ func UpdateGongBasicField(c *gin.Context) {
 	}
 
 	// update
-	// insertion point for nullable field set
-	input.Name_Data.String = input.Name
-	input.Name_Data.Valid = true
+	gongbasicfieldDB.CopyBasicFieldsFromGongBasicField(&input.GongBasicField)
+	gongbasicfieldDB.GongBasicFieldPointersEnconding = input.GongBasicFieldPointersEnconding
 
-	input.BasicKindName_Data.String = input.BasicKindName
-	input.BasicKindName_Data.Valid = true
-
-	input.DeclaredType_Data.String = input.DeclaredType
-	input.DeclaredType_Data.Valid = true
-
-	query = db.Model(&gongbasicfieldDB).Updates(input)
+	query = db.Model(&gongbasicfieldDB).Updates(gongbasicfieldDB)
 	if query.Error != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest

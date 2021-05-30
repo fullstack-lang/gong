@@ -3,9 +3,13 @@ package orm
 
 import (
 	"database/sql"
+	"encoding/json"
 	"errors"
 	"fmt"
+	"io/ioutil"
 	"log"
+	"os"
+	"path/filepath"
 	"sort"
 	"time"
 
@@ -27,27 +31,38 @@ var dummy_ModelPkg_sort sort.Float64Slice
 //
 // swagger:model modelpkgAPI
 type ModelPkgAPI struct {
+	gorm.Model
+
 	models.ModelPkg
 
-	// insertion for fields declaration
+	// encoding of pointers
+	ModelPkgPointersEnconding
+}
+
+// ModelPkgPointersEnconding encodes pointers to Struct and
+// reverse pointers of slice of poitners to Struct
+type ModelPkgPointersEnconding struct {
+	// insertion for pointer fields encoding declaration
+}
+
+// ModelPkgDB describes a modelpkg in the database
+//
+// It incorporates the GORM ID, basic fields from the model (because they can be serialized),
+// the encoded version of pointers
+//
+// swagger:model modelpkgDB
+type ModelPkgDB struct {
+	gorm.Model
+
+	// insertion for basic fields declaration
 	// Declation for basic field modelpkgDB.Name {{BasicKind}} (to be completed)
 	Name_Data sql.NullString
 
 	// Declation for basic field modelpkgDB.PkgPath {{BasicKind}} (to be completed)
 	PkgPath_Data sql.NullString
 
-	// end of insertion
-}
-
-// ModelPkgDB describes a modelpkg in the database
-//
-// It incorporates all fields : from the model, from the generated field for the API and the GORM ID
-//
-// swagger:model modelpkgDB
-type ModelPkgDB struct {
-	gorm.Model
-
-	ModelPkgAPI
+	// encoding of pointers
+	ModelPkgPointersEnconding
 }
 
 // ModelPkgDBs arrays modelpkgDBs
@@ -71,6 +86,13 @@ type BackRepoModelPkgStruct struct {
 	Map_ModelPkgDBID_ModelPkgPtr *map[uint]*models.ModelPkg
 
 	db *gorm.DB
+}
+
+// GetModelPkgDBFromModelPkgPtr is a handy function to access the back repo instance from the stage instance
+func (backRepoModelPkg *BackRepoModelPkgStruct) GetModelPkgDBFromModelPkgPtr(modelpkg *models.ModelPkg) (modelpkgDB *ModelPkgDB) {
+	id := (*backRepoModelPkg.Map_ModelPkgPtr_ModelPkgDBID)[modelpkg]
+	modelpkgDB = (*backRepoModelPkg.Map_ModelPkgDBID_ModelPkgDB)[id]
+	return
 }
 
 // BackRepoModelPkg.Init set up the BackRepo of the ModelPkg
@@ -154,7 +176,7 @@ func (backRepoModelPkg *BackRepoModelPkgStruct) CommitPhaseOneInstance(modelpkg 
 
 	// initiate modelpkg
 	var modelpkgDB ModelPkgDB
-	modelpkgDB.ModelPkg = *modelpkg
+	modelpkgDB.CopyBasicFieldsFromModelPkg(modelpkg)
 
 	query := backRepoModelPkg.db.Create(&modelpkgDB)
 	if query.Error != nil {
@@ -187,17 +209,9 @@ func (backRepoModelPkg *BackRepoModelPkgStruct) CommitPhaseTwoInstance(backRepo 
 	// fetch matching modelpkgDB
 	if modelpkgDB, ok := (*backRepoModelPkg.Map_ModelPkgDBID_ModelPkgDB)[idx]; ok {
 
-		{
-			{
-				// insertion point for fields commit
-				modelpkgDB.Name_Data.String = modelpkg.Name
-				modelpkgDB.Name_Data.Valid = true
+		modelpkgDB.CopyBasicFieldsFromModelPkg(modelpkg)
 
-				modelpkgDB.PkgPath_Data.String = modelpkg.PkgPath
-				modelpkgDB.PkgPath_Data.Valid = true
-
-			}
-		}
+		// insertion point for translating pointers encodings into actual pointers
 		query := backRepoModelPkg.db.Save(&modelpkgDB)
 		if query.Error != nil {
 			return query.Error
@@ -238,18 +252,23 @@ func (backRepoModelPkg *BackRepoModelPkgStruct) CheckoutPhaseOne() (Error error)
 // models version of the modelpkgDB
 func (backRepoModelPkg *BackRepoModelPkgStruct) CheckoutPhaseOneInstance(modelpkgDB *ModelPkgDB) (Error error) {
 
-	// if absent, create entries in the backRepoModelPkg maps.
-	modelpkgWithNewFieldValues := modelpkgDB.ModelPkg
-	if _, ok := (*backRepoModelPkg.Map_ModelPkgDBID_ModelPkgPtr)[modelpkgDB.ID]; !ok {
+	modelpkg, ok := (*backRepoModelPkg.Map_ModelPkgDBID_ModelPkgPtr)[modelpkgDB.ID]
+	if !ok {
+		modelpkg = new(models.ModelPkg)
 
-		(*backRepoModelPkg.Map_ModelPkgDBID_ModelPkgPtr)[modelpkgDB.ID] = &modelpkgWithNewFieldValues
-		(*backRepoModelPkg.Map_ModelPkgPtr_ModelPkgDBID)[&modelpkgWithNewFieldValues] = modelpkgDB.ID
+		(*backRepoModelPkg.Map_ModelPkgDBID_ModelPkgPtr)[modelpkgDB.ID] = modelpkg
+		(*backRepoModelPkg.Map_ModelPkgPtr_ModelPkgDBID)[modelpkg] = modelpkgDB.ID
 
 		// append model store with the new element
-		modelpkgWithNewFieldValues.Stage()
+		modelpkg.Stage()
 	}
-	modelpkgDBWithNewFieldValues := *modelpkgDB
-	(*backRepoModelPkg.Map_ModelPkgDBID_ModelPkgDB)[modelpkgDB.ID] = &modelpkgDBWithNewFieldValues
+	modelpkgDB.CopyBasicFieldsToModelPkg(modelpkg)
+
+	// preserve pointer to aclassDB. Otherwise, pointer will is recycled and the map of pointers
+	// Map_ModelPkgDBID_ModelPkgDB)[modelpkgDB hold variable pointers
+	modelpkgDB_Data := *modelpkgDB
+	preservedPtrToModelPkg := &modelpkgDB_Data
+	(*backRepoModelPkg.Map_ModelPkgDBID_ModelPkgDB)[modelpkgDB.ID] = preservedPtrToModelPkg
 
 	return
 }
@@ -271,16 +290,8 @@ func (backRepoModelPkg *BackRepoModelPkgStruct) CheckoutPhaseTwoInstance(backRep
 
 	modelpkg := (*backRepoModelPkg.Map_ModelPkgDBID_ModelPkgPtr)[modelpkgDB.ID]
 	_ = modelpkg // sometimes, there is no code generated. This lines voids the "unused variable" compilation error
-	{
-		{
-			// insertion point for checkout, i.e. update of fields of stage instance from fields of back repo instances
-			//
-			modelpkg.Name = modelpkgDB.Name_Data.String
 
-			modelpkg.PkgPath = modelpkgDB.PkgPath_Data.String
-
-		}
-	}
+	// insertion point for checkout of pointer encoding
 	return
 }
 
@@ -307,5 +318,88 @@ func (backRepo *BackRepoStruct) CheckoutModelPkg(modelpkg *models.ModelPkg) {
 			backRepo.BackRepoModelPkg.CheckoutPhaseOneInstance(&modelpkgDB)
 			backRepo.BackRepoModelPkg.CheckoutPhaseTwoInstance(backRepo, &modelpkgDB)
 		}
+	}
+}
+
+// CopyBasicFieldsToModelPkgDB is used to copy basic fields between the Stage or the CRUD to the back repo
+func (modelpkgDB *ModelPkgDB) CopyBasicFieldsFromModelPkg(modelpkg *models.ModelPkg) {
+	// insertion point for fields commit
+	modelpkgDB.Name_Data.String = modelpkg.Name
+	modelpkgDB.Name_Data.Valid = true
+
+	modelpkgDB.PkgPath_Data.String = modelpkg.PkgPath
+	modelpkgDB.PkgPath_Data.Valid = true
+
+}
+
+// CopyBasicFieldsToModelPkgDB is used to copy basic fields between the Stage or the CRUD to the back repo
+func (modelpkgDB *ModelPkgDB) CopyBasicFieldsToModelPkg(modelpkg *models.ModelPkg) {
+
+	// insertion point for checkout of basic fields (back repo to stage)
+	modelpkg.Name = modelpkgDB.Name_Data.String
+	modelpkg.PkgPath = modelpkgDB.PkgPath_Data.String
+}
+
+// Backup generates a json file from a slice of all ModelPkgDB instances in the backrepo
+func (backRepoModelPkg *BackRepoModelPkgStruct) Backup(dirPath string) {
+
+	filename := filepath.Join(dirPath, "ModelPkgDB.json")
+
+	// organize the map into an array with increasing IDs, in order to have repoductible
+	// backup file
+	var forBackup []*ModelPkgDB
+	for _, modelpkgDB := range *backRepoModelPkg.Map_ModelPkgDBID_ModelPkgDB {
+		forBackup = append(forBackup, modelpkgDB)
+	}
+
+	sort.Slice(forBackup[:], func(i, j int) bool {
+		return forBackup[i].ID < forBackup[j].ID
+	})
+
+	file, err := json.MarshalIndent(forBackup, "", " ")
+
+	if err != nil {
+		log.Panic("Cannot json ModelPkg ", filename, " ", err.Error())
+	}
+
+	err = ioutil.WriteFile(filename, file, 0644)
+	if err != nil {
+		log.Panic("Cannot write the json ModelPkg file", err.Error())
+	}
+}
+
+func (backRepoModelPkg *BackRepoModelPkgStruct) Restore(dirPath string) {
+
+	filename := filepath.Join(dirPath, "ModelPkgDB.json")
+	jsonFile, err := os.Open(filename)
+	// if we os.Open returns an error then handle it
+	if err != nil {
+		log.Panic("Cannot restore/open the json ModelPkg file", filename, " ", err.Error())
+	}
+
+	// read our opened jsonFile as a byte array.
+	byteValue, _ := ioutil.ReadAll(jsonFile)
+
+	var forRestore []*ModelPkgDB
+
+	err = json.Unmarshal(byteValue, &forRestore)
+
+	// fill up Map_ModelPkgDBID_ModelPkgDB
+	for _, modelpkgDB := range forRestore {
+
+		modelpkgDB_ID := modelpkgDB.ID
+		modelpkgDB.ID = 0
+		query := backRepoModelPkg.db.Create(modelpkgDB)
+		if query.Error != nil {
+			log.Panic(query.Error)
+		}
+		if modelpkgDB_ID != modelpkgDB.ID {
+			log.Panicf("ID of ModelPkg restore ID %d, name %s, has wrong ID %d in DB after create",
+				modelpkgDB_ID, modelpkgDB.Name_Data.String, modelpkgDB.ID)
+		}
+	}
+
+	if err != nil {
+		log.Panic("Cannot restore/unmarshall json ModelPkg file", err.Error())
 	}
 }

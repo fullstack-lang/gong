@@ -3,9 +3,13 @@ package orm
 
 import (
 	"database/sql"
+	"encoding/json"
 	"errors"
 	"fmt"
+	"io/ioutil"
 	"log"
+	"os"
+	"path/filepath"
 	"sort"
 	"time"
 
@@ -27,24 +31,35 @@ var dummy_GongStruct_sort sort.Float64Slice
 //
 // swagger:model gongstructAPI
 type GongStructAPI struct {
+	gorm.Model
+
 	models.GongStruct
 
-	// insertion for fields declaration
-	// Declation for basic field gongstructDB.Name {{BasicKind}} (to be completed)
-	Name_Data sql.NullString
+	// encoding of pointers
+	GongStructPointersEnconding
+}
 
-	// end of insertion
+// GongStructPointersEnconding encodes pointers to Struct and
+// reverse pointers of slice of poitners to Struct
+type GongStructPointersEnconding struct {
+	// insertion for pointer fields encoding declaration
 }
 
 // GongStructDB describes a gongstruct in the database
 //
-// It incorporates all fields : from the model, from the generated field for the API and the GORM ID
+// It incorporates the GORM ID, basic fields from the model (because they can be serialized),
+// the encoded version of pointers
 //
 // swagger:model gongstructDB
 type GongStructDB struct {
 	gorm.Model
 
-	GongStructAPI
+	// insertion for basic fields declaration
+	// Declation for basic field gongstructDB.Name {{BasicKind}} (to be completed)
+	Name_Data sql.NullString
+
+	// encoding of pointers
+	GongStructPointersEnconding
 }
 
 // GongStructDBs arrays gongstructDBs
@@ -68,6 +83,13 @@ type BackRepoGongStructStruct struct {
 	Map_GongStructDBID_GongStructPtr *map[uint]*models.GongStruct
 
 	db *gorm.DB
+}
+
+// GetGongStructDBFromGongStructPtr is a handy function to access the back repo instance from the stage instance
+func (backRepoGongStruct *BackRepoGongStructStruct) GetGongStructDBFromGongStructPtr(gongstruct *models.GongStruct) (gongstructDB *GongStructDB) {
+	id := (*backRepoGongStruct.Map_GongStructPtr_GongStructDBID)[gongstruct]
+	gongstructDB = (*backRepoGongStruct.Map_GongStructDBID_GongStructDB)[id]
+	return
 }
 
 // BackRepoGongStruct.Init set up the BackRepo of the GongStruct
@@ -151,7 +173,7 @@ func (backRepoGongStruct *BackRepoGongStructStruct) CommitPhaseOneInstance(gongs
 
 	// initiate gongstruct
 	var gongstructDB GongStructDB
-	gongstructDB.GongStruct = *gongstruct
+	gongstructDB.CopyBasicFieldsFromGongStruct(gongstruct)
 
 	query := backRepoGongStruct.db.Create(&gongstructDB)
 	if query.Error != nil {
@@ -184,65 +206,66 @@ func (backRepoGongStruct *BackRepoGongStructStruct) CommitPhaseTwoInstance(backR
 	// fetch matching gongstructDB
 	if gongstructDB, ok := (*backRepoGongStruct.Map_GongStructDBID_GongStructDB)[idx]; ok {
 
-		{
-			{
-				// insertion point for fields commit
-				gongstructDB.Name_Data.String = gongstruct.Name
-				gongstructDB.Name_Data.Valid = true
+		gongstructDB.CopyBasicFieldsFromGongStruct(gongstruct)
 
-				// commit a slice of pointer translates to update reverse pointer to GongBasicField, i.e.
-				index_GongBasicFields := 0
-				for _, gongbasicfield := range gongstruct.GongBasicFields {
-					if gongbasicfieldDBID, ok := (*backRepo.BackRepoGongBasicField.Map_GongBasicFieldPtr_GongBasicFieldDBID)[gongbasicfield]; ok {
-						if gongbasicfieldDB, ok := (*backRepo.BackRepoGongBasicField.Map_GongBasicFieldDBID_GongBasicFieldDB)[gongbasicfieldDBID]; ok {
-							gongbasicfieldDB.GongStruct_GongBasicFieldsDBID.Int64 = int64(gongstructDB.ID)
-							gongbasicfieldDB.GongStruct_GongBasicFieldsDBID.Valid = true
-							gongbasicfieldDB.GongStruct_GongBasicFieldsDBID_Index.Int64 = int64(index_GongBasicFields)
-							index_GongBasicFields = index_GongBasicFields + 1
-							gongbasicfieldDB.GongStruct_GongBasicFieldsDBID_Index.Valid = true
-							if q := backRepoGongStruct.db.Save(&gongbasicfieldDB); q.Error != nil {
-								return q.Error
-							}
-						}
-					}
-				}
+		// insertion point for translating pointers encodings into actual pointers
+		// This loop encodes the slice of pointers gongstruct.GongBasicFields into the back repo.
+		// Each back repo instance at the end of the association encode the ID of the association start
+		// into a dedicated field for coding the association. The back repo instance is then saved to the db
+		for idx, gongbasicfieldAssocEnd := range gongstruct.GongBasicFields {
 
-				// commit a slice of pointer translates to update reverse pointer to PointerToGongStructField, i.e.
-				index_PointerToGongStructFields := 0
-				for _, pointertogongstructfield := range gongstruct.PointerToGongStructFields {
-					if pointertogongstructfieldDBID, ok := (*backRepo.BackRepoPointerToGongStructField.Map_PointerToGongStructFieldPtr_PointerToGongStructFieldDBID)[pointertogongstructfield]; ok {
-						if pointertogongstructfieldDB, ok := (*backRepo.BackRepoPointerToGongStructField.Map_PointerToGongStructFieldDBID_PointerToGongStructFieldDB)[pointertogongstructfieldDBID]; ok {
-							pointertogongstructfieldDB.GongStruct_PointerToGongStructFieldsDBID.Int64 = int64(gongstructDB.ID)
-							pointertogongstructfieldDB.GongStruct_PointerToGongStructFieldsDBID.Valid = true
-							pointertogongstructfieldDB.GongStruct_PointerToGongStructFieldsDBID_Index.Int64 = int64(index_PointerToGongStructFields)
-							index_PointerToGongStructFields = index_PointerToGongStructFields + 1
-							pointertogongstructfieldDB.GongStruct_PointerToGongStructFieldsDBID_Index.Valid = true
-							if q := backRepoGongStruct.db.Save(&pointertogongstructfieldDB); q.Error != nil {
-								return q.Error
-							}
-						}
-					}
-				}
+			// get the back repo instance at the association end
+			gongbasicfieldAssocEnd_DB :=
+				backRepo.BackRepoGongBasicField.GetGongBasicFieldDBFromGongBasicFieldPtr( gongbasicfieldAssocEnd)
 
-				// commit a slice of pointer translates to update reverse pointer to SliceOfPointerToGongStructField, i.e.
-				index_SliceOfPointerToGongStructFields := 0
-				for _, sliceofpointertogongstructfield := range gongstruct.SliceOfPointerToGongStructFields {
-					if sliceofpointertogongstructfieldDBID, ok := (*backRepo.BackRepoSliceOfPointerToGongStructField.Map_SliceOfPointerToGongStructFieldPtr_SliceOfPointerToGongStructFieldDBID)[sliceofpointertogongstructfield]; ok {
-						if sliceofpointertogongstructfieldDB, ok := (*backRepo.BackRepoSliceOfPointerToGongStructField.Map_SliceOfPointerToGongStructFieldDBID_SliceOfPointerToGongStructFieldDB)[sliceofpointertogongstructfieldDBID]; ok {
-							sliceofpointertogongstructfieldDB.GongStruct_SliceOfPointerToGongStructFieldsDBID.Int64 = int64(gongstructDB.ID)
-							sliceofpointertogongstructfieldDB.GongStruct_SliceOfPointerToGongStructFieldsDBID.Valid = true
-							sliceofpointertogongstructfieldDB.GongStruct_SliceOfPointerToGongStructFieldsDBID_Index.Int64 = int64(index_SliceOfPointerToGongStructFields)
-							index_SliceOfPointerToGongStructFields = index_SliceOfPointerToGongStructFields + 1
-							sliceofpointertogongstructfieldDB.GongStruct_SliceOfPointerToGongStructFieldsDBID_Index.Valid = true
-							if q := backRepoGongStruct.db.Save(&sliceofpointertogongstructfieldDB); q.Error != nil {
-								return q.Error
-							}
-						}
-					}
-				}
-
+			// encode reverse pointer in the association end back repo instance
+			gongbasicfieldAssocEnd_DB.GongStruct_GongBasicFieldsDBID.Int64 = int64(gongstructDB.ID)
+			gongbasicfieldAssocEnd_DB.GongStruct_GongBasicFieldsDBID.Valid = true
+			gongbasicfieldAssocEnd_DB.GongStruct_GongBasicFieldsDBID_Index.Int64 = int64(idx)
+			gongbasicfieldAssocEnd_DB.GongStruct_GongBasicFieldsDBID_Index.Valid = true
+			if q := backRepoGongStruct.db.Save(gongbasicfieldAssocEnd_DB); q.Error != nil {
+				return q.Error
 			}
 		}
+
+		// This loop encodes the slice of pointers gongstruct.PointerToGongStructFields into the back repo.
+		// Each back repo instance at the end of the association encode the ID of the association start
+		// into a dedicated field for coding the association. The back repo instance is then saved to the db
+		for idx, pointertogongstructfieldAssocEnd := range gongstruct.PointerToGongStructFields {
+
+			// get the back repo instance at the association end
+			pointertogongstructfieldAssocEnd_DB :=
+				backRepo.BackRepoPointerToGongStructField.GetPointerToGongStructFieldDBFromPointerToGongStructFieldPtr( pointertogongstructfieldAssocEnd)
+
+			// encode reverse pointer in the association end back repo instance
+			pointertogongstructfieldAssocEnd_DB.GongStruct_PointerToGongStructFieldsDBID.Int64 = int64(gongstructDB.ID)
+			pointertogongstructfieldAssocEnd_DB.GongStruct_PointerToGongStructFieldsDBID.Valid = true
+			pointertogongstructfieldAssocEnd_DB.GongStruct_PointerToGongStructFieldsDBID_Index.Int64 = int64(idx)
+			pointertogongstructfieldAssocEnd_DB.GongStruct_PointerToGongStructFieldsDBID_Index.Valid = true
+			if q := backRepoGongStruct.db.Save(pointertogongstructfieldAssocEnd_DB); q.Error != nil {
+				return q.Error
+			}
+		}
+
+		// This loop encodes the slice of pointers gongstruct.SliceOfPointerToGongStructFields into the back repo.
+		// Each back repo instance at the end of the association encode the ID of the association start
+		// into a dedicated field for coding the association. The back repo instance is then saved to the db
+		for idx, sliceofpointertogongstructfieldAssocEnd := range gongstruct.SliceOfPointerToGongStructFields {
+
+			// get the back repo instance at the association end
+			sliceofpointertogongstructfieldAssocEnd_DB :=
+				backRepo.BackRepoSliceOfPointerToGongStructField.GetSliceOfPointerToGongStructFieldDBFromSliceOfPointerToGongStructFieldPtr( sliceofpointertogongstructfieldAssocEnd)
+
+			// encode reverse pointer in the association end back repo instance
+			sliceofpointertogongstructfieldAssocEnd_DB.GongStruct_SliceOfPointerToGongStructFieldsDBID.Int64 = int64(gongstructDB.ID)
+			sliceofpointertogongstructfieldAssocEnd_DB.GongStruct_SliceOfPointerToGongStructFieldsDBID.Valid = true
+			sliceofpointertogongstructfieldAssocEnd_DB.GongStruct_SliceOfPointerToGongStructFieldsDBID_Index.Int64 = int64(idx)
+			sliceofpointertogongstructfieldAssocEnd_DB.GongStruct_SliceOfPointerToGongStructFieldsDBID_Index.Valid = true
+			if q := backRepoGongStruct.db.Save(sliceofpointertogongstructfieldAssocEnd_DB); q.Error != nil {
+				return q.Error
+			}
+		}
+
 		query := backRepoGongStruct.db.Save(&gongstructDB)
 		if query.Error != nil {
 			return query.Error
@@ -283,18 +306,23 @@ func (backRepoGongStruct *BackRepoGongStructStruct) CheckoutPhaseOne() (Error er
 // models version of the gongstructDB
 func (backRepoGongStruct *BackRepoGongStructStruct) CheckoutPhaseOneInstance(gongstructDB *GongStructDB) (Error error) {
 
-	// if absent, create entries in the backRepoGongStruct maps.
-	gongstructWithNewFieldValues := gongstructDB.GongStruct
-	if _, ok := (*backRepoGongStruct.Map_GongStructDBID_GongStructPtr)[gongstructDB.ID]; !ok {
+	gongstruct, ok := (*backRepoGongStruct.Map_GongStructDBID_GongStructPtr)[gongstructDB.ID]
+	if !ok {
+		gongstruct = new(models.GongStruct)
 
-		(*backRepoGongStruct.Map_GongStructDBID_GongStructPtr)[gongstructDB.ID] = &gongstructWithNewFieldValues
-		(*backRepoGongStruct.Map_GongStructPtr_GongStructDBID)[&gongstructWithNewFieldValues] = gongstructDB.ID
+		(*backRepoGongStruct.Map_GongStructDBID_GongStructPtr)[gongstructDB.ID] = gongstruct
+		(*backRepoGongStruct.Map_GongStructPtr_GongStructDBID)[gongstruct] = gongstructDB.ID
 
 		// append model store with the new element
-		gongstructWithNewFieldValues.Stage()
+		gongstruct.Stage()
 	}
-	gongstructDBWithNewFieldValues := *gongstructDB
-	(*backRepoGongStruct.Map_GongStructDBID_GongStructDB)[gongstructDB.ID] = &gongstructDBWithNewFieldValues
+	gongstructDB.CopyBasicFieldsToGongStruct(gongstruct)
+
+	// preserve pointer to aclassDB. Otherwise, pointer will is recycled and the map of pointers
+	// Map_GongStructDBID_GongStructDB)[gongstructDB hold variable pointers
+	gongstructDB_Data := *gongstructDB
+	preservedPtrToGongStruct := &gongstructDB_Data
+	(*backRepoGongStruct.Map_GongStructDBID_GongStructDB)[gongstructDB.ID] = preservedPtrToGongStruct
 
 	return
 }
@@ -316,77 +344,89 @@ func (backRepoGongStruct *BackRepoGongStructStruct) CheckoutPhaseTwoInstance(bac
 
 	gongstruct := (*backRepoGongStruct.Map_GongStructDBID_GongStructPtr)[gongstructDB.ID]
 	_ = gongstruct // sometimes, there is no code generated. This lines voids the "unused variable" compilation error
-	{
-		{
-			// insertion point for checkout, i.e. update of fields of stage instance from fields of back repo instances
-			//
-			gongstruct.Name = gongstructDB.Name_Data.String
 
-			// parse all GongBasicFieldDB and redeem the array of poiners to GongStruct
-			// first reset the slice
-			gongstruct.GongBasicFields = gongstruct.GongBasicFields[:0]
-			for _, GongBasicFieldDB := range *backRepo.BackRepoGongBasicField.Map_GongBasicFieldDBID_GongBasicFieldDB {
-				if GongBasicFieldDB.GongStruct_GongBasicFieldsDBID.Int64 == int64(gongstructDB.ID) {
-					GongBasicField := (*backRepo.BackRepoGongBasicField.Map_GongBasicFieldDBID_GongBasicFieldPtr)[GongBasicFieldDB.ID]
-					gongstruct.GongBasicFields = append(gongstruct.GongBasicFields, GongBasicField)
-				}
-			}
-			
-			// sort the array according to the order
-			sort.Slice(gongstruct.GongBasicFields, func(i, j int) bool {
-				gongbasicfieldDB_i_ID := (*backRepo.BackRepoGongBasicField.Map_GongBasicFieldPtr_GongBasicFieldDBID)[gongstruct.GongBasicFields[i]]
-				gongbasicfieldDB_j_ID := (*backRepo.BackRepoGongBasicField.Map_GongBasicFieldPtr_GongBasicFieldDBID)[gongstruct.GongBasicFields[j]]
-
-				gongbasicfieldDB_i := (*backRepo.BackRepoGongBasicField.Map_GongBasicFieldDBID_GongBasicFieldDB)[gongbasicfieldDB_i_ID]
-				gongbasicfieldDB_j := (*backRepo.BackRepoGongBasicField.Map_GongBasicFieldDBID_GongBasicFieldDB)[gongbasicfieldDB_j_ID]
-
-				return gongbasicfieldDB_i.GongStruct_GongBasicFieldsDBID_Index.Int64 < gongbasicfieldDB_j.GongStruct_GongBasicFieldsDBID_Index.Int64
-			})
-
-			// parse all PointerToGongStructFieldDB and redeem the array of poiners to GongStruct
-			// first reset the slice
-			gongstruct.PointerToGongStructFields = gongstruct.PointerToGongStructFields[:0]
-			for _, PointerToGongStructFieldDB := range *backRepo.BackRepoPointerToGongStructField.Map_PointerToGongStructFieldDBID_PointerToGongStructFieldDB {
-				if PointerToGongStructFieldDB.GongStruct_PointerToGongStructFieldsDBID.Int64 == int64(gongstructDB.ID) {
-					PointerToGongStructField := (*backRepo.BackRepoPointerToGongStructField.Map_PointerToGongStructFieldDBID_PointerToGongStructFieldPtr)[PointerToGongStructFieldDB.ID]
-					gongstruct.PointerToGongStructFields = append(gongstruct.PointerToGongStructFields, PointerToGongStructField)
-				}
-			}
-			
-			// sort the array according to the order
-			sort.Slice(gongstruct.PointerToGongStructFields, func(i, j int) bool {
-				pointertogongstructfieldDB_i_ID := (*backRepo.BackRepoPointerToGongStructField.Map_PointerToGongStructFieldPtr_PointerToGongStructFieldDBID)[gongstruct.PointerToGongStructFields[i]]
-				pointertogongstructfieldDB_j_ID := (*backRepo.BackRepoPointerToGongStructField.Map_PointerToGongStructFieldPtr_PointerToGongStructFieldDBID)[gongstruct.PointerToGongStructFields[j]]
-
-				pointertogongstructfieldDB_i := (*backRepo.BackRepoPointerToGongStructField.Map_PointerToGongStructFieldDBID_PointerToGongStructFieldDB)[pointertogongstructfieldDB_i_ID]
-				pointertogongstructfieldDB_j := (*backRepo.BackRepoPointerToGongStructField.Map_PointerToGongStructFieldDBID_PointerToGongStructFieldDB)[pointertogongstructfieldDB_j_ID]
-
-				return pointertogongstructfieldDB_i.GongStruct_PointerToGongStructFieldsDBID_Index.Int64 < pointertogongstructfieldDB_j.GongStruct_PointerToGongStructFieldsDBID_Index.Int64
-			})
-
-			// parse all SliceOfPointerToGongStructFieldDB and redeem the array of poiners to GongStruct
-			// first reset the slice
-			gongstruct.SliceOfPointerToGongStructFields = gongstruct.SliceOfPointerToGongStructFields[:0]
-			for _, SliceOfPointerToGongStructFieldDB := range *backRepo.BackRepoSliceOfPointerToGongStructField.Map_SliceOfPointerToGongStructFieldDBID_SliceOfPointerToGongStructFieldDB {
-				if SliceOfPointerToGongStructFieldDB.GongStruct_SliceOfPointerToGongStructFieldsDBID.Int64 == int64(gongstructDB.ID) {
-					SliceOfPointerToGongStructField := (*backRepo.BackRepoSliceOfPointerToGongStructField.Map_SliceOfPointerToGongStructFieldDBID_SliceOfPointerToGongStructFieldPtr)[SliceOfPointerToGongStructFieldDB.ID]
-					gongstruct.SliceOfPointerToGongStructFields = append(gongstruct.SliceOfPointerToGongStructFields, SliceOfPointerToGongStructField)
-				}
-			}
-			
-			// sort the array according to the order
-			sort.Slice(gongstruct.SliceOfPointerToGongStructFields, func(i, j int) bool {
-				sliceofpointertogongstructfieldDB_i_ID := (*backRepo.BackRepoSliceOfPointerToGongStructField.Map_SliceOfPointerToGongStructFieldPtr_SliceOfPointerToGongStructFieldDBID)[gongstruct.SliceOfPointerToGongStructFields[i]]
-				sliceofpointertogongstructfieldDB_j_ID := (*backRepo.BackRepoSliceOfPointerToGongStructField.Map_SliceOfPointerToGongStructFieldPtr_SliceOfPointerToGongStructFieldDBID)[gongstruct.SliceOfPointerToGongStructFields[j]]
-
-				sliceofpointertogongstructfieldDB_i := (*backRepo.BackRepoSliceOfPointerToGongStructField.Map_SliceOfPointerToGongStructFieldDBID_SliceOfPointerToGongStructFieldDB)[sliceofpointertogongstructfieldDB_i_ID]
-				sliceofpointertogongstructfieldDB_j := (*backRepo.BackRepoSliceOfPointerToGongStructField.Map_SliceOfPointerToGongStructFieldDBID_SliceOfPointerToGongStructFieldDB)[sliceofpointertogongstructfieldDB_j_ID]
-
-				return sliceofpointertogongstructfieldDB_i.GongStruct_SliceOfPointerToGongStructFieldsDBID_Index.Int64 < sliceofpointertogongstructfieldDB_j.GongStruct_SliceOfPointerToGongStructFieldsDBID_Index.Int64
-			})
-
+	// insertion point for checkout of pointer encoding
+	// This loop redeem gongstruct.GongBasicFields in the stage from the encode in the back repo
+	// It parses all GongBasicFieldDB in the back repo and if the reverse pointer encoding matches the back repo ID
+	// it appends the stage instance
+	// 1. reset the slice
+	gongstruct.GongBasicFields = gongstruct.GongBasicFields[:0]
+	// 2. loop all instances in the type in the association end
+	for _, gongbasicfieldDB_AssocEnd := range *backRepo.BackRepoGongBasicField.Map_GongBasicFieldDBID_GongBasicFieldDB {
+		// 3. Does the ID encoding at the end and the ID at the start matches ?
+		if gongbasicfieldDB_AssocEnd.GongStruct_GongBasicFieldsDBID.Int64 == int64(gongstructDB.ID) {
+			// 4. fetch the associated instance in the stage
+			gongbasicfield_AssocEnd := (*backRepo.BackRepoGongBasicField.Map_GongBasicFieldDBID_GongBasicFieldPtr)[gongbasicfieldDB_AssocEnd.ID]
+			// 5. append it the association slice
+			gongstruct.GongBasicFields = append(gongstruct.GongBasicFields, gongbasicfield_AssocEnd)
 		}
 	}
+
+	// sort the array according to the order
+	sort.Slice(gongstruct.GongBasicFields, func(i, j int) bool {
+		gongbasicfieldDB_i_ID := (*backRepo.BackRepoGongBasicField.Map_GongBasicFieldPtr_GongBasicFieldDBID)[gongstruct.GongBasicFields[i]]
+		gongbasicfieldDB_j_ID := (*backRepo.BackRepoGongBasicField.Map_GongBasicFieldPtr_GongBasicFieldDBID)[gongstruct.GongBasicFields[j]]
+
+		gongbasicfieldDB_i := (*backRepo.BackRepoGongBasicField.Map_GongBasicFieldDBID_GongBasicFieldDB)[gongbasicfieldDB_i_ID]
+		gongbasicfieldDB_j := (*backRepo.BackRepoGongBasicField.Map_GongBasicFieldDBID_GongBasicFieldDB)[gongbasicfieldDB_j_ID]
+
+		return gongbasicfieldDB_i.GongStruct_GongBasicFieldsDBID_Index.Int64 < gongbasicfieldDB_j.GongStruct_GongBasicFieldsDBID_Index.Int64
+	})
+
+	// This loop redeem gongstruct.PointerToGongStructFields in the stage from the encode in the back repo
+	// It parses all PointerToGongStructFieldDB in the back repo and if the reverse pointer encoding matches the back repo ID
+	// it appends the stage instance
+	// 1. reset the slice
+	gongstruct.PointerToGongStructFields = gongstruct.PointerToGongStructFields[:0]
+	// 2. loop all instances in the type in the association end
+	for _, pointertogongstructfieldDB_AssocEnd := range *backRepo.BackRepoPointerToGongStructField.Map_PointerToGongStructFieldDBID_PointerToGongStructFieldDB {
+		// 3. Does the ID encoding at the end and the ID at the start matches ?
+		if pointertogongstructfieldDB_AssocEnd.GongStruct_PointerToGongStructFieldsDBID.Int64 == int64(gongstructDB.ID) {
+			// 4. fetch the associated instance in the stage
+			pointertogongstructfield_AssocEnd := (*backRepo.BackRepoPointerToGongStructField.Map_PointerToGongStructFieldDBID_PointerToGongStructFieldPtr)[pointertogongstructfieldDB_AssocEnd.ID]
+			// 5. append it the association slice
+			gongstruct.PointerToGongStructFields = append(gongstruct.PointerToGongStructFields, pointertogongstructfield_AssocEnd)
+		}
+	}
+
+	// sort the array according to the order
+	sort.Slice(gongstruct.PointerToGongStructFields, func(i, j int) bool {
+		pointertogongstructfieldDB_i_ID := (*backRepo.BackRepoPointerToGongStructField.Map_PointerToGongStructFieldPtr_PointerToGongStructFieldDBID)[gongstruct.PointerToGongStructFields[i]]
+		pointertogongstructfieldDB_j_ID := (*backRepo.BackRepoPointerToGongStructField.Map_PointerToGongStructFieldPtr_PointerToGongStructFieldDBID)[gongstruct.PointerToGongStructFields[j]]
+
+		pointertogongstructfieldDB_i := (*backRepo.BackRepoPointerToGongStructField.Map_PointerToGongStructFieldDBID_PointerToGongStructFieldDB)[pointertogongstructfieldDB_i_ID]
+		pointertogongstructfieldDB_j := (*backRepo.BackRepoPointerToGongStructField.Map_PointerToGongStructFieldDBID_PointerToGongStructFieldDB)[pointertogongstructfieldDB_j_ID]
+
+		return pointertogongstructfieldDB_i.GongStruct_PointerToGongStructFieldsDBID_Index.Int64 < pointertogongstructfieldDB_j.GongStruct_PointerToGongStructFieldsDBID_Index.Int64
+	})
+
+	// This loop redeem gongstruct.SliceOfPointerToGongStructFields in the stage from the encode in the back repo
+	// It parses all SliceOfPointerToGongStructFieldDB in the back repo and if the reverse pointer encoding matches the back repo ID
+	// it appends the stage instance
+	// 1. reset the slice
+	gongstruct.SliceOfPointerToGongStructFields = gongstruct.SliceOfPointerToGongStructFields[:0]
+	// 2. loop all instances in the type in the association end
+	for _, sliceofpointertogongstructfieldDB_AssocEnd := range *backRepo.BackRepoSliceOfPointerToGongStructField.Map_SliceOfPointerToGongStructFieldDBID_SliceOfPointerToGongStructFieldDB {
+		// 3. Does the ID encoding at the end and the ID at the start matches ?
+		if sliceofpointertogongstructfieldDB_AssocEnd.GongStruct_SliceOfPointerToGongStructFieldsDBID.Int64 == int64(gongstructDB.ID) {
+			// 4. fetch the associated instance in the stage
+			sliceofpointertogongstructfield_AssocEnd := (*backRepo.BackRepoSliceOfPointerToGongStructField.Map_SliceOfPointerToGongStructFieldDBID_SliceOfPointerToGongStructFieldPtr)[sliceofpointertogongstructfieldDB_AssocEnd.ID]
+			// 5. append it the association slice
+			gongstruct.SliceOfPointerToGongStructFields = append(gongstruct.SliceOfPointerToGongStructFields, sliceofpointertogongstructfield_AssocEnd)
+		}
+	}
+
+	// sort the array according to the order
+	sort.Slice(gongstruct.SliceOfPointerToGongStructFields, func(i, j int) bool {
+		sliceofpointertogongstructfieldDB_i_ID := (*backRepo.BackRepoSliceOfPointerToGongStructField.Map_SliceOfPointerToGongStructFieldPtr_SliceOfPointerToGongStructFieldDBID)[gongstruct.SliceOfPointerToGongStructFields[i]]
+		sliceofpointertogongstructfieldDB_j_ID := (*backRepo.BackRepoSliceOfPointerToGongStructField.Map_SliceOfPointerToGongStructFieldPtr_SliceOfPointerToGongStructFieldDBID)[gongstruct.SliceOfPointerToGongStructFields[j]]
+
+		sliceofpointertogongstructfieldDB_i := (*backRepo.BackRepoSliceOfPointerToGongStructField.Map_SliceOfPointerToGongStructFieldDBID_SliceOfPointerToGongStructFieldDB)[sliceofpointertogongstructfieldDB_i_ID]
+		sliceofpointertogongstructfieldDB_j := (*backRepo.BackRepoSliceOfPointerToGongStructField.Map_SliceOfPointerToGongStructFieldDBID_SliceOfPointerToGongStructFieldDB)[sliceofpointertogongstructfieldDB_j_ID]
+
+		return sliceofpointertogongstructfieldDB_i.GongStruct_SliceOfPointerToGongStructFieldsDBID_Index.Int64 < sliceofpointertogongstructfieldDB_j.GongStruct_SliceOfPointerToGongStructFieldsDBID_Index.Int64
+	})
+
 	return
 }
 
@@ -413,5 +453,84 @@ func (backRepo *BackRepoStruct) CheckoutGongStruct(gongstruct *models.GongStruct
 			backRepo.BackRepoGongStruct.CheckoutPhaseOneInstance(&gongstructDB)
 			backRepo.BackRepoGongStruct.CheckoutPhaseTwoInstance(backRepo, &gongstructDB)
 		}
+	}
+}
+
+// CopyBasicFieldsToGongStructDB is used to copy basic fields between the Stage or the CRUD to the back repo
+func (gongstructDB *GongStructDB) CopyBasicFieldsFromGongStruct(gongstruct *models.GongStruct) {
+	// insertion point for fields commit
+	gongstructDB.Name_Data.String = gongstruct.Name
+	gongstructDB.Name_Data.Valid = true
+
+}
+
+// CopyBasicFieldsToGongStructDB is used to copy basic fields between the Stage or the CRUD to the back repo
+func (gongstructDB *GongStructDB) CopyBasicFieldsToGongStruct(gongstruct *models.GongStruct) {
+
+	// insertion point for checkout of basic fields (back repo to stage)
+	gongstruct.Name = gongstructDB.Name_Data.String
+}
+
+// Backup generates a json file from a slice of all GongStructDB instances in the backrepo
+func (backRepoGongStruct *BackRepoGongStructStruct) Backup(dirPath string) {
+
+	filename := filepath.Join(dirPath, "GongStructDB.json")
+
+	// organize the map into an array with increasing IDs, in order to have repoductible
+	// backup file
+	var forBackup []*GongStructDB
+	for _, gongstructDB := range *backRepoGongStruct.Map_GongStructDBID_GongStructDB {
+		forBackup = append(forBackup, gongstructDB)
+	}
+
+	sort.Slice(forBackup[:], func(i, j int) bool {
+		return forBackup[i].ID < forBackup[j].ID
+	})
+
+	file, err := json.MarshalIndent(forBackup, "", " ")
+
+	if err != nil {
+		log.Panic("Cannot json GongStruct ", filename, " ", err.Error())
+	}
+
+	err = ioutil.WriteFile(filename, file, 0644)
+	if err != nil {
+		log.Panic("Cannot write the json GongStruct file", err.Error())
+	}
+}
+
+func (backRepoGongStruct *BackRepoGongStructStruct) Restore(dirPath string) {
+
+	filename := filepath.Join(dirPath, "GongStructDB.json")
+	jsonFile, err := os.Open(filename)
+	// if we os.Open returns an error then handle it
+	if err != nil {
+		log.Panic("Cannot restore/open the json GongStruct file", filename, " ", err.Error())
+	}
+
+	// read our opened jsonFile as a byte array.
+	byteValue, _ := ioutil.ReadAll(jsonFile)
+
+	var forRestore []*GongStructDB
+
+	err = json.Unmarshal(byteValue, &forRestore)
+
+	// fill up Map_GongStructDBID_GongStructDB
+	for _, gongstructDB := range forRestore {
+
+		gongstructDB_ID := gongstructDB.ID
+		gongstructDB.ID = 0
+		query := backRepoGongStruct.db.Create(gongstructDB)
+		if query.Error != nil {
+			log.Panic(query.Error)
+		}
+		if gongstructDB_ID != gongstructDB.ID {
+			log.Panicf("ID of GongStruct restore ID %d, name %s, has wrong ID %d in DB after create",
+				gongstructDB_ID, gongstructDB.Name_Data.String, gongstructDB.ID)
+		}
+	}
+
+	if err != nil {
+		log.Panic("Cannot restore/unmarshall json GongStruct file", err.Error())
 	}
 }
