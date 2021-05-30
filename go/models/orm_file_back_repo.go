@@ -5,7 +5,7 @@ package orm
 
 import (
 	"os"
-	
+
 	"github.com/jinzhu/gorm"
 
 	"{{PkgPathRoot}}/models"

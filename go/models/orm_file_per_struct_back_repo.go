@@ -269,7 +269,12 @@ func (backRepo{{Structname}} *BackRepo{{Structname}}Struct) CheckoutPhaseOneInst
 		{{structname}}.Stage()
 	}
 	{{structname}}DB.CopyBasicFieldsTo{{Structname}}({{structname}})
-	(*backRepo{{Structname}}.Map_{{Structname}}DBID_{{Structname}}DB)[{{structname}}DB.ID] = {{structname}}DB
+
+	// preserve pointer to aclassDB. Otherwise, pointer will is recycled and the map of pointers
+	// Map_{{Structname}}DBID_{{Structname}}DB)[{{structname}}DB hold variable pointers
+	{{structname}}DB_Data := *{{structname}}DB
+	preservedPtrTo{{Structname}} := &{{structname}}DB_Data
+	(*backRepo{{Structname}}.Map_{{Structname}}DBID_{{Structname}}DB)[{{structname}}DB.ID] = preservedPtrTo{{Structname}}
 
 	return
 }
@@ -381,6 +386,7 @@ func (backRepo{{Structname}} *BackRepo{{Structname}}Struct) Restore(dirPath stri
 	for _, {{structname}}DB := range forRestore {
 
 		{{structname}}DB_ID := {{structname}}DB.ID
+		{{structname}}DB.ID = 0
 		query := backRepo{{Structname}}.db.Create({{structname}}DB)
 		if query.Error != nil {
 			log.Panic(query.Error)

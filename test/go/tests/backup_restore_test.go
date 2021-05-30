@@ -91,18 +91,16 @@ func TestRestore(t *testing.T) {
 
 	models.Stage.Commit()
 
-	models.Stage.Backup("bckp-after-restore")
-
-	models.Stage.Restore("bckp-after-restore")
-
-	log.Print("new restore")
-
 	for aclass := range models.Stage.Aclasss {
-		if aclass.Name == "A1" {
-			log.Print("aclass.Anarrayofb[0].Name of b : ", aclass.Anarrayofb[0].Name)
-			log.Print("aclass.Anarrayofb[1].Name of b : ", aclass.Anarrayofb[1].Name)
-			log.Print("aclass.Anarrayofa[0].Name of b : ", aclass.Anarrayofa[0].Name)
-			log.Print("aclass.Anarrayofa[1].Name of b : ", aclass.Anarrayofa[1].Name)
-		}
+		aclassDB := orm.BackRepo.BackRepoAclass.GetAclassDBFromAclassPtr(aclass)
+		aclassDB.CreatedAt = time.Time{}
+		aclassDB.UpdatedAt = time.Time{}
 	}
+	for bclass := range models.Stage.Bclasss {
+		bclassDB := orm.BackRepo.BackRepoBclass.GetBclassDBFromBclassPtr(bclass)
+		bclassDB.CreatedAt = time.Time{}
+		bclassDB.UpdatedAt = time.Time{}
+	}
+
+	models.Stage.Backup("bckp-after-restore")
 }
