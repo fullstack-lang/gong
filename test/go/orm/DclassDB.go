@@ -400,3 +400,7 @@ func (backRepoDclass *BackRepoDclassStruct) Restore(dirPath string) {
 		log.Panic("Cannot restore/unmarshall json Dclass file", err.Error())
 	}
 }
+
+// this field is used during the restauration process.
+// it stores the ID at the backup time and is used for renumbering
+var BackRepoDclassid_atBckpTime_newID map[uint]uint

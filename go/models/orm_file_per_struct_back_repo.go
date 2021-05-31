@@ -405,6 +405,10 @@ func (backRepo{{Structname}} *BackRepo{{Structname}}Struct) Restore(dirPath stri
 		log.Panic("Cannot restore/unmarshall json {{Structname}} file", err.Error())
 	}
 }
+
+// this field is used during the restauration process.
+// it stores the ID at the backup time and is used for renumbering
+var BackRepo{{Structname}}id_atBckpTime_newID map[uint]uint
 `
 
 // insertion points

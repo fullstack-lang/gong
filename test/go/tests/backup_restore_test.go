@@ -29,6 +29,17 @@ func TestBackup(t *testing.T) {
 		Associationtob:      bclass1,
 	}).Stage().Commit()
 
+	// test renumbering
+	aclass1_bis := (&models.Aclass{
+		Name:                "A1_bis",
+		Floatfield:          10.2,
+		Booleanfield:        true,
+		Anotherbooleanfield: true,
+		Associationtob:      bclass1,
+	}).Stage().Commit()
+	_ = aclass1_bis
+	aclass1_bis.Unstage()
+
 	aclass2 := (&models.Aclass{
 		Name:                "A2",
 		Floatfield:          10.77,
