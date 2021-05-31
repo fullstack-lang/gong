@@ -9,7 +9,6 @@ import (
 	"github.com/fullstack-lang/gong/go/orm"
 
 	"github.com/gin-gonic/gin"
-	"github.com/jinzhu/gorm"
 )
 
 // declaration in order to justify use of the models import
@@ -47,8 +46,8 @@ type GongStructInput struct {
 //    default: genericError
 //        200: gongstructDBsResponse
 func GetGongStructs(c *gin.Context) {
-	db := c.MustGet("db").(*gorm.DB)
-
+	db := orm.BackRepo.BackRepoGongStruct.GetDB()
+	
 	// source slice
 	var gongstructDBs []orm.GongStructDB
 	query := db.Find(&gongstructDBs)
@@ -93,7 +92,7 @@ func GetGongStructs(c *gin.Context) {
 //     Responses:
 //       200: gongstructDBResponse
 func PostGongStruct(c *gin.Context) {
-	db := c.MustGet("db").(*gorm.DB)
+	db := orm.BackRepo.BackRepoGongStruct.GetDB()
 
 	// Validate input
 	var input orm.GongStructAPI
@@ -138,7 +137,7 @@ func PostGongStruct(c *gin.Context) {
 //    default: genericError
 //        200: gongstructDBResponse
 func GetGongStruct(c *gin.Context) {
-	db := c.MustGet("db").(*gorm.DB)
+	db := orm.BackRepo.BackRepoGongStruct.GetDB()
 
 	// Get gongstructDB in DB
 	var gongstructDB orm.GongStructDB
@@ -168,7 +167,7 @@ func GetGongStruct(c *gin.Context) {
 //    default: genericError
 //        200: gongstructDBResponse
 func UpdateGongStruct(c *gin.Context) {
-	db := c.MustGet("db").(*gorm.DB)
+	db := orm.BackRepo.BackRepoGongStruct.GetDB()
 
 	// Get model if exist
 	var gongstructDB orm.GongStructDB
@@ -221,7 +220,7 @@ func UpdateGongStruct(c *gin.Context) {
 // Responses:
 //    default: genericError
 func DeleteGongStruct(c *gin.Context) {
-	db := c.MustGet("db").(*gorm.DB)
+	db := orm.BackRepo.BackRepoGongStruct.GetDB()
 
 	// Get model if exist
 	var gongstructDB orm.GongStructDB

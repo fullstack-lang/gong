@@ -9,7 +9,6 @@ import (
 	"github.com/fullstack-lang/gong/go/orm"
 
 	"github.com/gin-gonic/gin"
-	"github.com/jinzhu/gorm"
 )
 
 // declaration in order to justify use of the models import
@@ -47,8 +46,8 @@ type SliceOfPointerToGongStructFieldInput struct {
 //    default: genericError
 //        200: sliceofpointertogongstructfieldDBsResponse
 func GetSliceOfPointerToGongStructFields(c *gin.Context) {
-	db := c.MustGet("db").(*gorm.DB)
-
+	db := orm.BackRepo.BackRepoSliceOfPointerToGongStructField.GetDB()
+	
 	// source slice
 	var sliceofpointertogongstructfieldDBs []orm.SliceOfPointerToGongStructFieldDB
 	query := db.Find(&sliceofpointertogongstructfieldDBs)
@@ -93,7 +92,7 @@ func GetSliceOfPointerToGongStructFields(c *gin.Context) {
 //     Responses:
 //       200: sliceofpointertogongstructfieldDBResponse
 func PostSliceOfPointerToGongStructField(c *gin.Context) {
-	db := c.MustGet("db").(*gorm.DB)
+	db := orm.BackRepo.BackRepoSliceOfPointerToGongStructField.GetDB()
 
 	// Validate input
 	var input orm.SliceOfPointerToGongStructFieldAPI
@@ -138,7 +137,7 @@ func PostSliceOfPointerToGongStructField(c *gin.Context) {
 //    default: genericError
 //        200: sliceofpointertogongstructfieldDBResponse
 func GetSliceOfPointerToGongStructField(c *gin.Context) {
-	db := c.MustGet("db").(*gorm.DB)
+	db := orm.BackRepo.BackRepoSliceOfPointerToGongStructField.GetDB()
 
 	// Get sliceofpointertogongstructfieldDB in DB
 	var sliceofpointertogongstructfieldDB orm.SliceOfPointerToGongStructFieldDB
@@ -168,7 +167,7 @@ func GetSliceOfPointerToGongStructField(c *gin.Context) {
 //    default: genericError
 //        200: sliceofpointertogongstructfieldDBResponse
 func UpdateSliceOfPointerToGongStructField(c *gin.Context) {
-	db := c.MustGet("db").(*gorm.DB)
+	db := orm.BackRepo.BackRepoSliceOfPointerToGongStructField.GetDB()
 
 	// Get model if exist
 	var sliceofpointertogongstructfieldDB orm.SliceOfPointerToGongStructFieldDB
@@ -221,7 +220,7 @@ func UpdateSliceOfPointerToGongStructField(c *gin.Context) {
 // Responses:
 //    default: genericError
 func DeleteSliceOfPointerToGongStructField(c *gin.Context) {
-	db := c.MustGet("db").(*gorm.DB)
+	db := orm.BackRepo.BackRepoSliceOfPointerToGongStructField.GetDB()
 
 	// Get model if exist
 	var sliceofpointertogongstructfieldDB orm.SliceOfPointerToGongStructFieldDB

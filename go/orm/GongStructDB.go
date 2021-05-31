@@ -85,6 +85,10 @@ type BackRepoGongStructStruct struct {
 	db *gorm.DB
 }
 
+func (backRepoGongStruct *BackRepoGongStructStruct) GetDB() *gorm.DB {
+	return backRepoGongStruct.db
+}
+
 // GetGongStructDBFromGongStructPtr is a handy function to access the back repo instance from the stage instance
 func (backRepoGongStruct *BackRepoGongStructStruct) GetGongStructDBFromGongStructPtr(gongstruct *models.GongStruct) (gongstructDB *GongStructDB) {
 	id := (*backRepoGongStruct.Map_GongStructPtr_GongStructDBID)[gongstruct]

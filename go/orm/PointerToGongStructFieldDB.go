@@ -97,6 +97,10 @@ type BackRepoPointerToGongStructFieldStruct struct {
 	db *gorm.DB
 }
 
+func (backRepoPointerToGongStructField *BackRepoPointerToGongStructFieldStruct) GetDB() *gorm.DB {
+	return backRepoPointerToGongStructField.db
+}
+
 // GetPointerToGongStructFieldDBFromPointerToGongStructFieldPtr is a handy function to access the back repo instance from the stage instance
 func (backRepoPointerToGongStructField *BackRepoPointerToGongStructFieldStruct) GetPointerToGongStructFieldDBFromPointerToGongStructFieldPtr(pointertogongstructfield *models.PointerToGongStructField) (pointertogongstructfieldDB *PointerToGongStructFieldDB) {
 	id := (*backRepoPointerToGongStructField.Map_PointerToGongStructFieldPtr_PointerToGongStructFieldDBID)[pointertogongstructfield]

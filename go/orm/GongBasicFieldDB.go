@@ -103,6 +103,10 @@ type BackRepoGongBasicFieldStruct struct {
 	db *gorm.DB
 }
 
+func (backRepoGongBasicField *BackRepoGongBasicFieldStruct) GetDB() *gorm.DB {
+	return backRepoGongBasicField.db
+}
+
 // GetGongBasicFieldDBFromGongBasicFieldPtr is a handy function to access the back repo instance from the stage instance
 func (backRepoGongBasicField *BackRepoGongBasicFieldStruct) GetGongBasicFieldDBFromGongBasicFieldPtr(gongbasicfield *models.GongBasicField) (gongbasicfieldDB *GongBasicFieldDB) {
 	id := (*backRepoGongBasicField.Map_GongBasicFieldPtr_GongBasicFieldDBID)[gongbasicfield]
