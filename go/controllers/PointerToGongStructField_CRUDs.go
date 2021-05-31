@@ -9,7 +9,6 @@ import (
 	"github.com/fullstack-lang/gong/go/orm"
 
 	"github.com/gin-gonic/gin"
-	"github.com/jinzhu/gorm"
 )
 
 // declaration in order to justify use of the models import
@@ -47,8 +46,8 @@ type PointerToGongStructFieldInput struct {
 //    default: genericError
 //        200: pointertogongstructfieldDBsResponse
 func GetPointerToGongStructFields(c *gin.Context) {
-	db := c.MustGet("db").(*gorm.DB)
-
+	db := orm.BackRepo.BackRepoPointerToGongStructField.GetDB()
+	
 	// source slice
 	var pointertogongstructfieldDBs []orm.PointerToGongStructFieldDB
 	query := db.Find(&pointertogongstructfieldDBs)
@@ -93,7 +92,7 @@ func GetPointerToGongStructFields(c *gin.Context) {
 //     Responses:
 //       200: pointertogongstructfieldDBResponse
 func PostPointerToGongStructField(c *gin.Context) {
-	db := c.MustGet("db").(*gorm.DB)
+	db := orm.BackRepo.BackRepoPointerToGongStructField.GetDB()
 
 	// Validate input
 	var input orm.PointerToGongStructFieldAPI
@@ -138,7 +137,7 @@ func PostPointerToGongStructField(c *gin.Context) {
 //    default: genericError
 //        200: pointertogongstructfieldDBResponse
 func GetPointerToGongStructField(c *gin.Context) {
-	db := c.MustGet("db").(*gorm.DB)
+	db := orm.BackRepo.BackRepoPointerToGongStructField.GetDB()
 
 	// Get pointertogongstructfieldDB in DB
 	var pointertogongstructfieldDB orm.PointerToGongStructFieldDB
@@ -168,7 +167,7 @@ func GetPointerToGongStructField(c *gin.Context) {
 //    default: genericError
 //        200: pointertogongstructfieldDBResponse
 func UpdatePointerToGongStructField(c *gin.Context) {
-	db := c.MustGet("db").(*gorm.DB)
+	db := orm.BackRepo.BackRepoPointerToGongStructField.GetDB()
 
 	// Get model if exist
 	var pointertogongstructfieldDB orm.PointerToGongStructFieldDB
@@ -221,7 +220,7 @@ func UpdatePointerToGongStructField(c *gin.Context) {
 // Responses:
 //    default: genericError
 func DeletePointerToGongStructField(c *gin.Context) {
-	db := c.MustGet("db").(*gorm.DB)
+	db := orm.BackRepo.BackRepoPointerToGongStructField.GetDB()
 
 	// Get model if exist
 	var pointertogongstructfieldDB orm.PointerToGongStructFieldDB

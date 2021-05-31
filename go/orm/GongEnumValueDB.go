@@ -93,6 +93,10 @@ type BackRepoGongEnumValueStruct struct {
 	db *gorm.DB
 }
 
+func (backRepoGongEnumValue *BackRepoGongEnumValueStruct) GetDB() *gorm.DB {
+	return backRepoGongEnumValue.db
+}
+
 // GetGongEnumValueDBFromGongEnumValuePtr is a handy function to access the back repo instance from the stage instance
 func (backRepoGongEnumValue *BackRepoGongEnumValueStruct) GetGongEnumValueDBFromGongEnumValuePtr(gongenumvalue *models.GongEnumValue) (gongenumvalueDB *GongEnumValueDB) {
 	id := (*backRepoGongEnumValue.Map_GongEnumValuePtr_GongEnumValueDBID)[gongenumvalue]
