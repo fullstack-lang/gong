@@ -9,7 +9,6 @@ import (
 	"github.com/fullstack-lang/gong/test/go/orm"
 
 	"github.com/gin-gonic/gin"
-	"github.com/jinzhu/gorm"
 )
 
 // declaration in order to justify use of the models import
@@ -47,8 +46,8 @@ type BclassInput struct {
 //    default: genericError
 //        200: bclassDBsResponse
 func GetBclasss(c *gin.Context) {
-	db := c.MustGet("db").(*gorm.DB)
-
+	db := orm.BackRepo.BackRepoBclass.GetDB()
+	
 	// source slice
 	var bclassDBs []orm.BclassDB
 	query := db.Find(&bclassDBs)
@@ -93,7 +92,7 @@ func GetBclasss(c *gin.Context) {
 //     Responses:
 //       200: bclassDBResponse
 func PostBclass(c *gin.Context) {
-	db := c.MustGet("db").(*gorm.DB)
+	db := orm.BackRepo.BackRepoBclass.GetDB()
 
 	// Validate input
 	var input orm.BclassAPI
@@ -138,7 +137,7 @@ func PostBclass(c *gin.Context) {
 //    default: genericError
 //        200: bclassDBResponse
 func GetBclass(c *gin.Context) {
-	db := c.MustGet("db").(*gorm.DB)
+	db := orm.BackRepo.BackRepoBclass.GetDB()
 
 	// Get bclassDB in DB
 	var bclassDB orm.BclassDB
@@ -168,7 +167,7 @@ func GetBclass(c *gin.Context) {
 //    default: genericError
 //        200: bclassDBResponse
 func UpdateBclass(c *gin.Context) {
-	db := c.MustGet("db").(*gorm.DB)
+	db := orm.BackRepo.BackRepoBclass.GetDB()
 
 	// Get model if exist
 	var bclassDB orm.BclassDB
@@ -221,7 +220,7 @@ func UpdateBclass(c *gin.Context) {
 // Responses:
 //    default: genericError
 func DeleteBclass(c *gin.Context) {
-	db := c.MustGet("db").(*gorm.DB)
+	db := orm.BackRepo.BackRepoBclass.GetDB()
 
 	// Get model if exist
 	var bclassDB orm.BclassDB

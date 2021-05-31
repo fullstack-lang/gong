@@ -9,7 +9,6 @@ import (
 	"github.com/fullstack-lang/gong/go/orm"
 
 	"github.com/gin-gonic/gin"
-	"github.com/jinzhu/gorm"
 )
 
 // declaration in order to justify use of the models import
@@ -47,8 +46,8 @@ type GongEnumInput struct {
 //    default: genericError
 //        200: gongenumDBsResponse
 func GetGongEnums(c *gin.Context) {
-	db := c.MustGet("db").(*gorm.DB)
-
+	db := orm.BackRepo.BackRepoGongEnum.GetDB()
+	
 	// source slice
 	var gongenumDBs []orm.GongEnumDB
 	query := db.Find(&gongenumDBs)
@@ -93,7 +92,7 @@ func GetGongEnums(c *gin.Context) {
 //     Responses:
 //       200: gongenumDBResponse
 func PostGongEnum(c *gin.Context) {
-	db := c.MustGet("db").(*gorm.DB)
+	db := orm.BackRepo.BackRepoGongEnum.GetDB()
 
 	// Validate input
 	var input orm.GongEnumAPI
@@ -138,7 +137,7 @@ func PostGongEnum(c *gin.Context) {
 //    default: genericError
 //        200: gongenumDBResponse
 func GetGongEnum(c *gin.Context) {
-	db := c.MustGet("db").(*gorm.DB)
+	db := orm.BackRepo.BackRepoGongEnum.GetDB()
 
 	// Get gongenumDB in DB
 	var gongenumDB orm.GongEnumDB
@@ -168,7 +167,7 @@ func GetGongEnum(c *gin.Context) {
 //    default: genericError
 //        200: gongenumDBResponse
 func UpdateGongEnum(c *gin.Context) {
-	db := c.MustGet("db").(*gorm.DB)
+	db := orm.BackRepo.BackRepoGongEnum.GetDB()
 
 	// Get model if exist
 	var gongenumDB orm.GongEnumDB
@@ -221,7 +220,7 @@ func UpdateGongEnum(c *gin.Context) {
 // Responses:
 //    default: genericError
 func DeleteGongEnum(c *gin.Context) {
-	db := c.MustGet("db").(*gorm.DB)
+	db := orm.BackRepo.BackRepoGongEnum.GetDB()
 
 	// Get model if exist
 	var gongenumDB orm.GongEnumDB
