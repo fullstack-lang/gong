@@ -9,7 +9,6 @@ import (
 	"github.com/fullstack-lang/gong/test/go/orm"
 
 	"github.com/gin-gonic/gin"
-	"github.com/jinzhu/gorm"
 )
 
 // declaration in order to justify use of the models import
@@ -47,8 +46,8 @@ type DclassInput struct {
 //    default: genericError
 //        200: dclassDBsResponse
 func GetDclasss(c *gin.Context) {
-	db := c.MustGet("db").(*gorm.DB)
-
+	db := orm.BackRepo.BackRepoDclass.GetDB()
+	
 	// source slice
 	var dclassDBs []orm.DclassDB
 	query := db.Find(&dclassDBs)
@@ -93,7 +92,7 @@ func GetDclasss(c *gin.Context) {
 //     Responses:
 //       200: dclassDBResponse
 func PostDclass(c *gin.Context) {
-	db := c.MustGet("db").(*gorm.DB)
+	db := orm.BackRepo.BackRepoDclass.GetDB()
 
 	// Validate input
 	var input orm.DclassAPI
@@ -138,7 +137,7 @@ func PostDclass(c *gin.Context) {
 //    default: genericError
 //        200: dclassDBResponse
 func GetDclass(c *gin.Context) {
-	db := c.MustGet("db").(*gorm.DB)
+	db := orm.BackRepo.BackRepoDclass.GetDB()
 
 	// Get dclassDB in DB
 	var dclassDB orm.DclassDB
@@ -168,7 +167,7 @@ func GetDclass(c *gin.Context) {
 //    default: genericError
 //        200: dclassDBResponse
 func UpdateDclass(c *gin.Context) {
-	db := c.MustGet("db").(*gorm.DB)
+	db := orm.BackRepo.BackRepoDclass.GetDB()
 
 	// Get model if exist
 	var dclassDB orm.DclassDB
@@ -221,7 +220,7 @@ func UpdateDclass(c *gin.Context) {
 // Responses:
 //    default: genericError
 func DeleteDclass(c *gin.Context) {
-	db := c.MustGet("db").(*gorm.DB)
+	db := orm.BackRepo.BackRepoDclass.GetDB()
 
 	// Get model if exist
 	var dclassDB orm.DclassDB

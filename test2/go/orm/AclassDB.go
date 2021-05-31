@@ -110,6 +110,10 @@ type BackRepoAclassStruct struct {
 	db *gorm.DB
 }
 
+func (backRepoAclass *BackRepoAclassStruct) GetDB() *gorm.DB {
+	return backRepoAclass.db
+}
+
 // GetAclassDBFromAclassPtr is a handy function to access the back repo instance from the stage instance
 func (backRepoAclass *BackRepoAclassStruct) GetAclassDBFromAclassPtr(aclass *models.Aclass) (aclassDB *AclassDB) {
 	id := (*backRepoAclass.Map_AclassPtr_AclassDBID)[aclass]

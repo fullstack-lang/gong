@@ -9,7 +9,6 @@ import (
 	"github.com/fullstack-lang/gong/go/orm"
 
 	"github.com/gin-gonic/gin"
-	"github.com/jinzhu/gorm"
 )
 
 // declaration in order to justify use of the models import
@@ -47,8 +46,8 @@ type GongBasicFieldInput struct {
 //    default: genericError
 //        200: gongbasicfieldDBsResponse
 func GetGongBasicFields(c *gin.Context) {
-	db := c.MustGet("db").(*gorm.DB)
-
+	db := orm.BackRepo.BackRepoGongBasicField.GetDB()
+	
 	// source slice
 	var gongbasicfieldDBs []orm.GongBasicFieldDB
 	query := db.Find(&gongbasicfieldDBs)
@@ -93,7 +92,7 @@ func GetGongBasicFields(c *gin.Context) {
 //     Responses:
 //       200: gongbasicfieldDBResponse
 func PostGongBasicField(c *gin.Context) {
-	db := c.MustGet("db").(*gorm.DB)
+	db := orm.BackRepo.BackRepoGongBasicField.GetDB()
 
 	// Validate input
 	var input orm.GongBasicFieldAPI
@@ -138,7 +137,7 @@ func PostGongBasicField(c *gin.Context) {
 //    default: genericError
 //        200: gongbasicfieldDBResponse
 func GetGongBasicField(c *gin.Context) {
-	db := c.MustGet("db").(*gorm.DB)
+	db := orm.BackRepo.BackRepoGongBasicField.GetDB()
 
 	// Get gongbasicfieldDB in DB
 	var gongbasicfieldDB orm.GongBasicFieldDB
@@ -168,7 +167,7 @@ func GetGongBasicField(c *gin.Context) {
 //    default: genericError
 //        200: gongbasicfieldDBResponse
 func UpdateGongBasicField(c *gin.Context) {
-	db := c.MustGet("db").(*gorm.DB)
+	db := orm.BackRepo.BackRepoGongBasicField.GetDB()
 
 	// Get model if exist
 	var gongbasicfieldDB orm.GongBasicFieldDB
@@ -221,7 +220,7 @@ func UpdateGongBasicField(c *gin.Context) {
 // Responses:
 //    default: genericError
 func DeleteGongBasicField(c *gin.Context) {
-	db := c.MustGet("db").(*gorm.DB)
+	db := orm.BackRepo.BackRepoGongBasicField.GetDB()
 
 	// Get model if exist
 	var gongbasicfieldDB orm.GongBasicFieldDB

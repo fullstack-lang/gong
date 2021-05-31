@@ -9,7 +9,6 @@ import (
 	"github.com/fullstack-lang/gong/test/go/orm"
 
 	"github.com/gin-gonic/gin"
-	"github.com/jinzhu/gorm"
 )
 
 // declaration in order to justify use of the models import
@@ -47,8 +46,8 @@ type AclassInput struct {
 //    default: genericError
 //        200: aclassDBsResponse
 func GetAclasss(c *gin.Context) {
-	db := c.MustGet("db").(*gorm.DB)
-
+	db := orm.BackRepo.BackRepoAclass.GetDB()
+	
 	// source slice
 	var aclassDBs []orm.AclassDB
 	query := db.Find(&aclassDBs)
@@ -93,7 +92,7 @@ func GetAclasss(c *gin.Context) {
 //     Responses:
 //       200: aclassDBResponse
 func PostAclass(c *gin.Context) {
-	db := c.MustGet("db").(*gorm.DB)
+	db := orm.BackRepo.BackRepoAclass.GetDB()
 
 	// Validate input
 	var input orm.AclassAPI
@@ -138,7 +137,7 @@ func PostAclass(c *gin.Context) {
 //    default: genericError
 //        200: aclassDBResponse
 func GetAclass(c *gin.Context) {
-	db := c.MustGet("db").(*gorm.DB)
+	db := orm.BackRepo.BackRepoAclass.GetDB()
 
 	// Get aclassDB in DB
 	var aclassDB orm.AclassDB
@@ -168,7 +167,7 @@ func GetAclass(c *gin.Context) {
 //    default: genericError
 //        200: aclassDBResponse
 func UpdateAclass(c *gin.Context) {
-	db := c.MustGet("db").(*gorm.DB)
+	db := orm.BackRepo.BackRepoAclass.GetDB()
 
 	// Get model if exist
 	var aclassDB orm.AclassDB
@@ -221,7 +220,7 @@ func UpdateAclass(c *gin.Context) {
 // Responses:
 //    default: genericError
 func DeleteAclass(c *gin.Context) {
-	db := c.MustGet("db").(*gorm.DB)
+	db := orm.BackRepo.BackRepoAclass.GetDB()
 
 	// Get model if exist
 	var aclassDB orm.AclassDB

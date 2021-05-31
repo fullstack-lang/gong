@@ -88,6 +88,10 @@ type BackRepoModelPkgStruct struct {
 	db *gorm.DB
 }
 
+func (backRepoModelPkg *BackRepoModelPkgStruct) GetDB() *gorm.DB {
+	return backRepoModelPkg.db
+}
+
 // GetModelPkgDBFromModelPkgPtr is a handy function to access the back repo instance from the stage instance
 func (backRepoModelPkg *BackRepoModelPkgStruct) GetModelPkgDBFromModelPkgPtr(modelpkg *models.ModelPkg) (modelpkgDB *ModelPkgDB) {
 	id := (*backRepoModelPkg.Map_ModelPkgPtr_ModelPkgDBID)[modelpkg]

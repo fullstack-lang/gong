@@ -21,7 +21,6 @@ import (
 	"{{PkgPathRoot}}/orm"
 
 	"github.com/gin-gonic/gin"
-	"github.com/jinzhu/gorm"
 )
 
 // declaration in order to justify use of the models import
@@ -59,8 +58,8 @@ type {{Structname}}Input struct {
 //    default: genericError
 //        200: {{structname}}DBsResponse
 func Get{{Structname}}s(c *gin.Context) {
-	db := c.MustGet("db").(*gorm.DB)
-
+	db := orm.BackRepo.BackRepo{{Structname}}.GetDB()
+	
 	// source slice
 	var {{structname}}DBs []orm.{{Structname}}DB
 	query := db.Find(&{{structname}}DBs)
@@ -105,7 +104,7 @@ func Get{{Structname}}s(c *gin.Context) {
 //     Responses:
 //       200: {{structname}}DBResponse
 func Post{{Structname}}(c *gin.Context) {
-	db := c.MustGet("db").(*gorm.DB)
+	db := orm.BackRepo.BackRepo{{Structname}}.GetDB()
 
 	// Validate input
 	var input orm.{{Structname}}API
@@ -150,7 +149,7 @@ func Post{{Structname}}(c *gin.Context) {
 //    default: genericError
 //        200: {{structname}}DBResponse
 func Get{{Structname}}(c *gin.Context) {
-	db := c.MustGet("db").(*gorm.DB)
+	db := orm.BackRepo.BackRepo{{Structname}}.GetDB()
 
 	// Get {{structname}}DB in DB
 	var {{structname}}DB orm.{{Structname}}DB
@@ -180,7 +179,7 @@ func Get{{Structname}}(c *gin.Context) {
 //    default: genericError
 //        200: {{structname}}DBResponse
 func Update{{Structname}}(c *gin.Context) {
-	db := c.MustGet("db").(*gorm.DB)
+	db := orm.BackRepo.BackRepo{{Structname}}.GetDB()
 
 	// Get model if exist
 	var {{structname}}DB orm.{{Structname}}DB
@@ -233,7 +232,7 @@ func Update{{Structname}}(c *gin.Context) {
 // Responses:
 //    default: genericError
 func Delete{{Structname}}(c *gin.Context) {
-	db := c.MustGet("db").(*gorm.DB)
+	db := orm.BackRepo.BackRepo{{Structname}}.GetDB()
 
 	// Get model if exist
 	var {{structname}}DB orm.{{Structname}}DB
