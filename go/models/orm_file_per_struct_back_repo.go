@@ -94,6 +94,10 @@ type BackRepo{{Structname}}Struct struct {
 	db *gorm.DB
 }
 
+func (backRepo{{Structname}} *BackRepo{{Structname}}Struct) GetDB() *gorm.DB {
+	return backRepo{{Structname}}.db
+}
+
 // Get{{Structname}}DBFrom{{Structname}}Ptr is a handy function to access the back repo instance from the stage instance
 func (backRepo{{Structname}} *BackRepo{{Structname}}Struct) Get{{Structname}}DBFrom{{Structname}}Ptr({{structname}} *models.{{Structname}}) ({{structname}}DB *{{Structname}}DB) {
 	id := (*backRepo{{Structname}}.Map_{{Structname}}Ptr_{{Structname}}DBID)[{{structname}}]

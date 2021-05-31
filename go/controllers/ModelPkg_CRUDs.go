@@ -9,7 +9,6 @@ import (
 	"github.com/fullstack-lang/gong/go/orm"
 
 	"github.com/gin-gonic/gin"
-	"github.com/jinzhu/gorm"
 )
 
 // declaration in order to justify use of the models import
@@ -47,8 +46,8 @@ type ModelPkgInput struct {
 //    default: genericError
 //        200: modelpkgDBsResponse
 func GetModelPkgs(c *gin.Context) {
-	db := c.MustGet("db").(*gorm.DB)
-
+	db := orm.BackRepo.BackRepoModelPkg.GetDB()
+	
 	// source slice
 	var modelpkgDBs []orm.ModelPkgDB
 	query := db.Find(&modelpkgDBs)
@@ -93,7 +92,7 @@ func GetModelPkgs(c *gin.Context) {
 //     Responses:
 //       200: modelpkgDBResponse
 func PostModelPkg(c *gin.Context) {
-	db := c.MustGet("db").(*gorm.DB)
+	db := orm.BackRepo.BackRepoModelPkg.GetDB()
 
 	// Validate input
 	var input orm.ModelPkgAPI
@@ -138,7 +137,7 @@ func PostModelPkg(c *gin.Context) {
 //    default: genericError
 //        200: modelpkgDBResponse
 func GetModelPkg(c *gin.Context) {
-	db := c.MustGet("db").(*gorm.DB)
+	db := orm.BackRepo.BackRepoModelPkg.GetDB()
 
 	// Get modelpkgDB in DB
 	var modelpkgDB orm.ModelPkgDB
@@ -168,7 +167,7 @@ func GetModelPkg(c *gin.Context) {
 //    default: genericError
 //        200: modelpkgDBResponse
 func UpdateModelPkg(c *gin.Context) {
-	db := c.MustGet("db").(*gorm.DB)
+	db := orm.BackRepo.BackRepoModelPkg.GetDB()
 
 	// Get model if exist
 	var modelpkgDB orm.ModelPkgDB
@@ -221,7 +220,7 @@ func UpdateModelPkg(c *gin.Context) {
 // Responses:
 //    default: genericError
 func DeleteModelPkg(c *gin.Context) {
-	db := c.MustGet("db").(*gorm.DB)
+	db := orm.BackRepo.BackRepoModelPkg.GetDB()
 
 	// Get model if exist
 	var modelpkgDB orm.ModelPkgDB

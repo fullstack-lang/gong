@@ -85,6 +85,10 @@ type BackRepoGongTimeFieldStruct struct {
 	db *gorm.DB
 }
 
+func (backRepoGongTimeField *BackRepoGongTimeFieldStruct) GetDB() *gorm.DB {
+	return backRepoGongTimeField.db
+}
+
 // GetGongTimeFieldDBFromGongTimeFieldPtr is a handy function to access the back repo instance from the stage instance
 func (backRepoGongTimeField *BackRepoGongTimeFieldStruct) GetGongTimeFieldDBFromGongTimeFieldPtr(gongtimefield *models.GongTimeField) (gongtimefieldDB *GongTimeFieldDB) {
 	id := (*backRepoGongTimeField.Map_GongTimeFieldPtr_GongTimeFieldDBID)[gongtimefield]

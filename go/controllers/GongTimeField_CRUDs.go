@@ -9,7 +9,6 @@ import (
 	"github.com/fullstack-lang/gong/go/orm"
 
 	"github.com/gin-gonic/gin"
-	"github.com/jinzhu/gorm"
 )
 
 // declaration in order to justify use of the models import
@@ -47,8 +46,8 @@ type GongTimeFieldInput struct {
 //    default: genericError
 //        200: gongtimefieldDBsResponse
 func GetGongTimeFields(c *gin.Context) {
-	db := c.MustGet("db").(*gorm.DB)
-
+	db := orm.BackRepo.BackRepoGongTimeField.GetDB()
+	
 	// source slice
 	var gongtimefieldDBs []orm.GongTimeFieldDB
 	query := db.Find(&gongtimefieldDBs)
@@ -93,7 +92,7 @@ func GetGongTimeFields(c *gin.Context) {
 //     Responses:
 //       200: gongtimefieldDBResponse
 func PostGongTimeField(c *gin.Context) {
-	db := c.MustGet("db").(*gorm.DB)
+	db := orm.BackRepo.BackRepoGongTimeField.GetDB()
 
 	// Validate input
 	var input orm.GongTimeFieldAPI
@@ -138,7 +137,7 @@ func PostGongTimeField(c *gin.Context) {
 //    default: genericError
 //        200: gongtimefieldDBResponse
 func GetGongTimeField(c *gin.Context) {
-	db := c.MustGet("db").(*gorm.DB)
+	db := orm.BackRepo.BackRepoGongTimeField.GetDB()
 
 	// Get gongtimefieldDB in DB
 	var gongtimefieldDB orm.GongTimeFieldDB
@@ -168,7 +167,7 @@ func GetGongTimeField(c *gin.Context) {
 //    default: genericError
 //        200: gongtimefieldDBResponse
 func UpdateGongTimeField(c *gin.Context) {
-	db := c.MustGet("db").(*gorm.DB)
+	db := orm.BackRepo.BackRepoGongTimeField.GetDB()
 
 	// Get model if exist
 	var gongtimefieldDB orm.GongTimeFieldDB
@@ -221,7 +220,7 @@ func UpdateGongTimeField(c *gin.Context) {
 // Responses:
 //    default: genericError
 func DeleteGongTimeField(c *gin.Context) {
-	db := c.MustGet("db").(*gorm.DB)
+	db := orm.BackRepo.BackRepoGongTimeField.GetDB()
 
 	// Get model if exist
 	var gongtimefieldDB orm.GongTimeFieldDB
