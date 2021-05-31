@@ -175,6 +175,12 @@ export class {{Structname}}DetailComponent implements OnInit {
 		dialogRef.afterClosed().subscribe(result => {
 		});
 	}
+
+	fillUpNameIfEmpty(event) {
+		if (this.{{structname}}.Name == undefined) {
+			this.{{structname}}.Name = event.value.Name		
+		}
+	}
 }
 `
 

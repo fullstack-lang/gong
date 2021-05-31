@@ -115,7 +115,7 @@ var NgDetailHtmlSubTemplateCode map[NgDetailHtmlSubTemplate]string = map[NgDetai
     <div class="details__item">
         <mat-form-field>
             <mat-label>{{FieldName}}</mat-label>
-            <mat-select [(ngModel)]="{{structname}}.{{FieldName}}">
+            <mat-select [(ngModel)]="{{structname}}.{{FieldName}}" (selectionChange)="fillUpNameIfEmpty($event)">
                 <mat-option>None</mat-option>
                 <mat-option *ngFor="let {{assocStructName}} of frontRepo.{{AssocStructName}}s_array" [value]="{{assocStructName}}">
                     {{{{assocStructName}}.Name}}
