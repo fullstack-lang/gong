@@ -157,4 +157,10 @@ export class DclassDetailComponent implements OnInit {
 		dialogRef.afterClosed().subscribe(result => {
 		});
 	}
+
+	fillUpNameIfEmpty(event) {
+		if (this.dclass.Name == undefined) {
+			this.dclass.Name = event.value.Name		
+		}
+	}
 }
