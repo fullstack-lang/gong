@@ -285,7 +285,7 @@ func (backRepoPointerToGongStructField *BackRepoPointerToGongStructFieldStruct) 
 	}
 	pointertogongstructfieldDB.CopyBasicFieldsToPointerToGongStructField(pointertogongstructfield)
 
-	// preserve pointer to aclassDB. Otherwise, pointer will is recycled and the map of pointers
+	// preserve pointer to pointertogongstructfieldDB. Otherwise, pointer will is recycled and the map of pointers
 	// Map_PointerToGongStructFieldDBID_PointerToGongStructFieldDB)[pointertogongstructfieldDB hold variable pointers
 	pointertogongstructfieldDB_Data := *pointertogongstructfieldDB
 	preservedPtrToPointerToGongStructField := &pointertogongstructfieldDB_Data
@@ -368,7 +368,7 @@ func (backRepoPointerToGongStructField *BackRepoPointerToGongStructFieldStruct) 
 
 	// organize the map into an array with increasing IDs, in order to have repoductible
 	// backup file
-	var forBackup []*PointerToGongStructFieldDB
+	forBackup := make([]*PointerToGongStructFieldDB, 0)
 	for _, pointertogongstructfieldDB := range *backRepoPointerToGongStructField.Map_PointerToGongStructFieldDBID_PointerToGongStructFieldDB {
 		forBackup = append(forBackup, pointertogongstructfieldDB)
 	}
@@ -389,7 +389,13 @@ func (backRepoPointerToGongStructField *BackRepoPointerToGongStructFieldStruct) 
 	}
 }
 
-func (backRepoPointerToGongStructField *BackRepoPointerToGongStructFieldStruct) Restore(dirPath string) {
+// RestorePhaseOne read the file "PointerToGongStructFieldDB.json" in dirPath that stores an array
+// of PointerToGongStructFieldDB and stores it in the database
+// the map BackRepoPointerToGongStructFieldid_atBckpTime_newID is updated accordingly
+func (backRepoPointerToGongStructField *BackRepoPointerToGongStructFieldStruct) RestorePhaseOne(dirPath string) {
+
+	// resets the map
+	BackRepoPointerToGongStructFieldid_atBckpTime_newID = make(map[uint]uint)
 
 	filename := filepath.Join(dirPath, "PointerToGongStructFieldDB.json")
 	jsonFile, err := os.Open(filename)
@@ -408,19 +414,51 @@ func (backRepoPointerToGongStructField *BackRepoPointerToGongStructFieldStruct) 
 	// fill up Map_PointerToGongStructFieldDBID_PointerToGongStructFieldDB
 	for _, pointertogongstructfieldDB := range forRestore {
 
-		pointertogongstructfieldDB_ID := pointertogongstructfieldDB.ID
+		pointertogongstructfieldDB_ID_atBackupTime := pointertogongstructfieldDB.ID
 		pointertogongstructfieldDB.ID = 0
 		query := backRepoPointerToGongStructField.db.Create(pointertogongstructfieldDB)
 		if query.Error != nil {
 			log.Panic(query.Error)
 		}
-		if pointertogongstructfieldDB_ID != pointertogongstructfieldDB.ID {
-			log.Panicf("ID of PointerToGongStructField restore ID %d, name %s, has wrong ID %d in DB after create",
-				pointertogongstructfieldDB_ID, pointertogongstructfieldDB.Name_Data.String, pointertogongstructfieldDB.ID)
-		}
+		(*backRepoPointerToGongStructField.Map_PointerToGongStructFieldDBID_PointerToGongStructFieldDB)[pointertogongstructfieldDB.ID] = pointertogongstructfieldDB
+		BackRepoPointerToGongStructFieldid_atBckpTime_newID[pointertogongstructfieldDB_ID_atBackupTime] = pointertogongstructfieldDB.ID
 	}
 
 	if err != nil {
 		log.Panic("Cannot restore/unmarshall json PointerToGongStructField file", err.Error())
 	}
 }
+
+// RestorePhaseTwo uses all map BackRepo<PointerToGongStructField>id_atBckpTime_newID
+// to compute new index
+func (backRepoPointerToGongStructField *BackRepoPointerToGongStructFieldStruct) RestorePhaseTwo() {
+
+	for _, pointertogongstructfieldDB := range (*backRepoPointerToGongStructField.Map_PointerToGongStructFieldDBID_PointerToGongStructFieldDB) {
+
+		// next line of code is to avert unused variable compilation error
+		_ = pointertogongstructfieldDB
+
+		// insertion point for reindexing pointers encoding
+		// reindexing GongStruct field
+		if pointertogongstructfieldDB.GongStructID.Int64 != 0 {
+			pointertogongstructfieldDB.GongStructID.Int64 = int64(BackRepoGongStructid_atBckpTime_newID[uint(pointertogongstructfieldDB.GongStructID.Int64)])
+		}
+
+		// This reindex pointertogongstructfield.PointerToGongStructFields
+		if pointertogongstructfieldDB.GongStruct_PointerToGongStructFieldsDBID.Int64 != 0 {
+			pointertogongstructfieldDB.GongStruct_PointerToGongStructFieldsDBID.Int64 = 
+				int64(BackRepoGongStructid_atBckpTime_newID[uint(pointertogongstructfieldDB.GongStruct_PointerToGongStructFieldsDBID.Int64)])
+		}
+
+		// update databse with new index encoding
+		query := backRepoPointerToGongStructField.db.Model(pointertogongstructfieldDB).Updates(*pointertogongstructfieldDB)
+		if query.Error != nil {
+			log.Panic(query.Error)
+		}
+	}
+
+}
+
+// this field is used during the restauration process.
+// it stores the ID at the backup time and is used for renumbering
+var BackRepoPointerToGongStructFieldid_atBckpTime_newID map[uint]uint

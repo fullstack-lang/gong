@@ -265,7 +265,7 @@ func (backRepoGongTimeField *BackRepoGongTimeFieldStruct) CheckoutPhaseOneInstan
 	}
 	gongtimefieldDB.CopyBasicFieldsToGongTimeField(gongtimefield)
 
-	// preserve pointer to aclassDB. Otherwise, pointer will is recycled and the map of pointers
+	// preserve pointer to gongtimefieldDB. Otherwise, pointer will is recycled and the map of pointers
 	// Map_GongTimeFieldDBID_GongTimeFieldDB)[gongtimefieldDB hold variable pointers
 	gongtimefieldDB_Data := *gongtimefieldDB
 	preservedPtrToGongTimeField := &gongtimefieldDB_Data
@@ -344,7 +344,7 @@ func (backRepoGongTimeField *BackRepoGongTimeFieldStruct) Backup(dirPath string)
 
 	// organize the map into an array with increasing IDs, in order to have repoductible
 	// backup file
-	var forBackup []*GongTimeFieldDB
+	forBackup := make([]*GongTimeFieldDB, 0)
 	for _, gongtimefieldDB := range *backRepoGongTimeField.Map_GongTimeFieldDBID_GongTimeFieldDB {
 		forBackup = append(forBackup, gongtimefieldDB)
 	}
@@ -365,7 +365,13 @@ func (backRepoGongTimeField *BackRepoGongTimeFieldStruct) Backup(dirPath string)
 	}
 }
 
-func (backRepoGongTimeField *BackRepoGongTimeFieldStruct) Restore(dirPath string) {
+// RestorePhaseOne read the file "GongTimeFieldDB.json" in dirPath that stores an array
+// of GongTimeFieldDB and stores it in the database
+// the map BackRepoGongTimeFieldid_atBckpTime_newID is updated accordingly
+func (backRepoGongTimeField *BackRepoGongTimeFieldStruct) RestorePhaseOne(dirPath string) {
+
+	// resets the map
+	BackRepoGongTimeFieldid_atBckpTime_newID = make(map[uint]uint)
 
 	filename := filepath.Join(dirPath, "GongTimeFieldDB.json")
 	jsonFile, err := os.Open(filename)
@@ -384,19 +390,40 @@ func (backRepoGongTimeField *BackRepoGongTimeFieldStruct) Restore(dirPath string
 	// fill up Map_GongTimeFieldDBID_GongTimeFieldDB
 	for _, gongtimefieldDB := range forRestore {
 
-		gongtimefieldDB_ID := gongtimefieldDB.ID
+		gongtimefieldDB_ID_atBackupTime := gongtimefieldDB.ID
 		gongtimefieldDB.ID = 0
 		query := backRepoGongTimeField.db.Create(gongtimefieldDB)
 		if query.Error != nil {
 			log.Panic(query.Error)
 		}
-		if gongtimefieldDB_ID != gongtimefieldDB.ID {
-			log.Panicf("ID of GongTimeField restore ID %d, name %s, has wrong ID %d in DB after create",
-				gongtimefieldDB_ID, gongtimefieldDB.Name_Data.String, gongtimefieldDB.ID)
-		}
+		(*backRepoGongTimeField.Map_GongTimeFieldDBID_GongTimeFieldDB)[gongtimefieldDB.ID] = gongtimefieldDB
+		BackRepoGongTimeFieldid_atBckpTime_newID[gongtimefieldDB_ID_atBackupTime] = gongtimefieldDB.ID
 	}
 
 	if err != nil {
 		log.Panic("Cannot restore/unmarshall json GongTimeField file", err.Error())
 	}
 }
+
+// RestorePhaseTwo uses all map BackRepo<GongTimeField>id_atBckpTime_newID
+// to compute new index
+func (backRepoGongTimeField *BackRepoGongTimeFieldStruct) RestorePhaseTwo() {
+
+	for _, gongtimefieldDB := range (*backRepoGongTimeField.Map_GongTimeFieldDBID_GongTimeFieldDB) {
+
+		// next line of code is to avert unused variable compilation error
+		_ = gongtimefieldDB
+
+		// insertion point for reindexing pointers encoding
+		// update databse with new index encoding
+		query := backRepoGongTimeField.db.Model(gongtimefieldDB).Updates(*gongtimefieldDB)
+		if query.Error != nil {
+			log.Panic(query.Error)
+		}
+	}
+
+}
+
+// this field is used during the restauration process.
+// it stores the ID at the backup time and is used for renumbering
+var BackRepoGongTimeFieldid_atBckpTime_newID map[uint]uint
