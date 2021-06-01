@@ -37,6 +37,8 @@ type BackRepoInterface interface {
 	Checkout(stage *StageStruct)
 	Backup(stage *StageStruct, dirPath string)
 	Restore(stage *StageStruct, dirPath string)
+	BackupXL(stage *StageStruct, dirPath string)
+	RestoreXL(stage *StageStruct, dirPath string)
 	// insertion point for Commit and Checkout signatures
 	CommitAclass(aclass *Aclass)
 	CheckoutAclass(aclass *Aclass)
@@ -54,7 +56,6 @@ var Stage StageStruct = StageStruct{ // insertion point for array initiatialisat
 	Bclasss: make(map[*Bclass]struct{}, 0),
 
 	Dclasss: make(map[*Dclass]struct{}, 0),
-
 }
 
 func (stage *StageStruct) Commit() {
@@ -77,10 +78,23 @@ func (stage *StageStruct) Backup(dirPath string) {
 }
 
 // Restore resets Stage & BackRepo and restores their content from the restore files in dirPath
-// Restore shall be performed only on a new database with rowids at 0 (otherwise, it will panic)
 func (stage *StageStruct) Restore(dirPath string) {
 	if stage.BackRepo != nil {
 		stage.BackRepo.Restore(stage, dirPath)
+	}
+}
+
+// backup generates backup files in the dirPath
+func (stage *StageStruct) BackupXL(dirPath string) {
+	if stage.BackRepo != nil {
+		stage.BackRepo.BackupXL(stage, dirPath)
+	}
+}
+
+// Restore resets Stage & BackRepo and restores their content from the restore files in dirPath
+func (stage *StageStruct) RestoreXL(dirPath string) {
+	if stage.BackRepo != nil {
+		stage.BackRepo.RestoreXL(stage, dirPath)
 	}
 }
 
