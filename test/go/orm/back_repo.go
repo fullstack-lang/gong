@@ -94,7 +94,7 @@ func (backRepo *BackRepoStruct) Backup(stage *models.StageStruct, dirPath string
 	backRepo.BackRepoDclass.Backup(dirPath)
 }
 
-// Backup the BackRepoStruct
+// Backup in XL the BackRepoStruct
 func (backRepo *BackRepoStruct) BackupXL(stage *models.StageStruct, dirPath string) {
 	os.Mkdir(dirPath, os.ModePerm)
 
@@ -102,9 +102,9 @@ func (backRepo *BackRepoStruct) BackupXL(stage *models.StageStruct, dirPath stri
 	file := xlsx.NewFile()
 
 	// insertion point for per struct backup
-	backRepo.BackRepoAclass.BackupXL(file)
-	// backRepo.BackRepoBclass.Backup(dirPath)
-	// backRepo.BackRepoDclass.Backup(dirPath)
+	backRepo.BackRepoXLAclass.Backup(file)
+	backRepo.BackRepoXLBclass.Backup(file)
+	backRepo.BackRepoXLDclass.Backup(file)
 
 	var b bytes.Buffer
 	writer := bufio.NewWriter(&b)
@@ -136,7 +136,7 @@ func (backRepo *BackRepoStruct) Restore(stage *models.StageStruct, dirPath strin
 	//
 	// restauration second phase (reindex pointers with the new ID)
 	//
-
+	
 	// insertion point for per struct backup
 	backRepo.BackRepoAclass.RestorePhaseTwo()
 	backRepo.BackRepoBclass.RestorePhaseTwo()
@@ -145,5 +145,6 @@ func (backRepo *BackRepoStruct) Restore(stage *models.StageStruct, dirPath strin
 	models.Stage.Checkout()
 }
 
+// Restore the database into the back repo
 func (backRepo *BackRepoStruct) RestoreXL(stage *models.StageStruct, dirPath string) {
 }
