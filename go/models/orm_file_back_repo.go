@@ -204,7 +204,7 @@ map[string]string{
 	backRepo.BackRepo{{Structname}}.Backup(dirPath)`,
 
 	string(rune(BackRepoBackupXL)): `
-	backRepo.BackRepoXL{{Structname}}.Backup(file)`,
+	backRepo.BackRepo{{Structname}}.BackupXL(file)`,
 
 	string(rune(BackRepoRestorePhaseOne)): `
 	backRepo.BackRepo{{Structname}}.RestorePhaseOne(dirPath)`,

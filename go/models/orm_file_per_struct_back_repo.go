@@ -27,6 +27,8 @@ import (
 
 	"github.com/jinzhu/gorm"
 
+	"github.com/tealeg/xlsx/v3"
+
 	"{{PkgPathRoot}}"
 )
 
@@ -367,6 +369,33 @@ func (backRepo{{Structname}} *BackRepo{{Structname}}Struct) Backup(dirPath strin
 	err = ioutil.WriteFile(filename, file, 0644)
 	if err != nil {
 		log.Panic("Cannot write the json {{Structname}} file", err.Error())
+	}
+}
+
+// Backup generates a json file from a slice of all {{Structname}}DB instances in the backrepo
+func (backRepo{{Structname}} *BackRepo{{Structname}}Struct) BackupXL(file *xlsx.File) {
+
+	// organize the map into an array with increasing IDs, in order to have repoductible
+	// backup file
+	forBackup := make([]*{{Structname}}DB, 0)
+	for _, {{structname}}DB := range *backRepo{{Structname}}.Map_{{Structname}}DBID_{{Structname}}DB {
+		forBackup = append(forBackup, {{structname}}DB)
+	}
+
+	sort.Slice(forBackup[:], func(i, j int) bool {
+		return forBackup[i].ID < forBackup[j].ID
+	})
+
+	sh, err := file.AddSheet("{{Structname}}")
+	if err != nil {
+		log.Panic("Cannot add XL file", err.Error())
+	}
+	_ = sh
+
+	for _, {{structname}}DB := range forBackup {
+
+		row := sh.AddRow()
+		row.WriteStruct({{structname}}DB, -1)
 	}
 }
 

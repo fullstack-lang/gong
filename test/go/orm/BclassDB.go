@@ -15,6 +15,8 @@ import (
 
 	"github.com/jinzhu/gorm"
 
+	"github.com/tealeg/xlsx/v3"
+
 	"github.com/fullstack-lang/gong/test/go/models"
 )
 
@@ -386,6 +388,33 @@ func (backRepoBclass *BackRepoBclassStruct) Backup(dirPath string) {
 	err = ioutil.WriteFile(filename, file, 0644)
 	if err != nil {
 		log.Panic("Cannot write the json Bclass file", err.Error())
+	}
+}
+
+// Backup generates a json file from a slice of all BclassDB instances in the backrepo
+func (backRepoBclass *BackRepoBclassStruct) BackupXL(file *xlsx.File) {
+
+	// organize the map into an array with increasing IDs, in order to have repoductible
+	// backup file
+	forBackup := make([]*BclassDB, 0)
+	for _, bclassDB := range *backRepoBclass.Map_BclassDBID_BclassDB {
+		forBackup = append(forBackup, bclassDB)
+	}
+
+	sort.Slice(forBackup[:], func(i, j int) bool {
+		return forBackup[i].ID < forBackup[j].ID
+	})
+
+	sh, err := file.AddSheet("Bclass")
+	if err != nil {
+		log.Panic("Cannot add XL file", err.Error())
+	}
+	_ = sh
+
+	for _, bclassDB := range forBackup {
+
+		row := sh.AddRow()
+		row.WriteStruct(bclassDB, -1)
 	}
 }
 

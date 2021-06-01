@@ -32,6 +32,8 @@ func TestXLBackup(t *testing.T) {
 	// test renumbering
 	aclass1_bis := (&models.Aclass{
 		Name:                "A1_bis",
+		Date:                time.Date(2021, time.February, 20, 20, 12, 4, 0, time.UTC),
+		Duration1:           time.Hour + 3*time.Minute + time.Millisecond,
 		Floatfield:          10.2,
 		Booleanfield:        true,
 		Anotherbooleanfield: true,
