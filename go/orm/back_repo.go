@@ -132,15 +132,35 @@ func (backRepo *BackRepoStruct) Restore(stage *models.StageStruct, dirPath strin
 	models.Stage.Commit()
 	models.Stage.Reset()
 	models.Stage.Checkout()
+
+	//
+	// restauration first phase (create DB instance with new IDs)
+	//
+
 	// insertion point for per struct backup
-	backRepo.BackRepoGongBasicField.Restore(dirPath)
-	backRepo.BackRepoGongEnum.Restore(dirPath)
-	backRepo.BackRepoGongEnumValue.Restore(dirPath)
-	backRepo.BackRepoGongStruct.Restore(dirPath)
-	backRepo.BackRepoGongTimeField.Restore(dirPath)
-	backRepo.BackRepoModelPkg.Restore(dirPath)
-	backRepo.BackRepoPointerToGongStructField.Restore(dirPath)
-	backRepo.BackRepoSliceOfPointerToGongStructField.Restore(dirPath)
+	backRepo.BackRepoGongBasicField.RestorePhaseOne(dirPath)
+	backRepo.BackRepoGongEnum.RestorePhaseOne(dirPath)
+	backRepo.BackRepoGongEnumValue.RestorePhaseOne(dirPath)
+	backRepo.BackRepoGongStruct.RestorePhaseOne(dirPath)
+	backRepo.BackRepoGongTimeField.RestorePhaseOne(dirPath)
+	backRepo.BackRepoModelPkg.RestorePhaseOne(dirPath)
+	backRepo.BackRepoPointerToGongStructField.RestorePhaseOne(dirPath)
+	backRepo.BackRepoSliceOfPointerToGongStructField.RestorePhaseOne(dirPath)
+
+	//
+	// restauration second phase (reindex pointers with the new ID)
+	//
+	
+	// insertion point for per struct backup
+	backRepo.BackRepoGongBasicField.RestorePhaseTwo()
+	backRepo.BackRepoGongEnum.RestorePhaseTwo()
+	backRepo.BackRepoGongEnumValue.RestorePhaseTwo()
+	backRepo.BackRepoGongStruct.RestorePhaseTwo()
+	backRepo.BackRepoGongTimeField.RestorePhaseTwo()
+	backRepo.BackRepoModelPkg.RestorePhaseTwo()
+	backRepo.BackRepoPointerToGongStructField.RestorePhaseTwo()
+	backRepo.BackRepoSliceOfPointerToGongStructField.RestorePhaseTwo()
+
 	models.Stage.Checkout()
 }
 

@@ -285,7 +285,7 @@ func (backRepoSliceOfPointerToGongStructField *BackRepoSliceOfPointerToGongStruc
 	}
 	sliceofpointertogongstructfieldDB.CopyBasicFieldsToSliceOfPointerToGongStructField(sliceofpointertogongstructfield)
 
-	// preserve pointer to aclassDB. Otherwise, pointer will is recycled and the map of pointers
+	// preserve pointer to sliceofpointertogongstructfieldDB. Otherwise, pointer will is recycled and the map of pointers
 	// Map_SliceOfPointerToGongStructFieldDBID_SliceOfPointerToGongStructFieldDB)[sliceofpointertogongstructfieldDB hold variable pointers
 	sliceofpointertogongstructfieldDB_Data := *sliceofpointertogongstructfieldDB
 	preservedPtrToSliceOfPointerToGongStructField := &sliceofpointertogongstructfieldDB_Data
@@ -368,7 +368,7 @@ func (backRepoSliceOfPointerToGongStructField *BackRepoSliceOfPointerToGongStruc
 
 	// organize the map into an array with increasing IDs, in order to have repoductible
 	// backup file
-	var forBackup []*SliceOfPointerToGongStructFieldDB
+	forBackup := make([]*SliceOfPointerToGongStructFieldDB, 0)
 	for _, sliceofpointertogongstructfieldDB := range *backRepoSliceOfPointerToGongStructField.Map_SliceOfPointerToGongStructFieldDBID_SliceOfPointerToGongStructFieldDB {
 		forBackup = append(forBackup, sliceofpointertogongstructfieldDB)
 	}
@@ -389,7 +389,13 @@ func (backRepoSliceOfPointerToGongStructField *BackRepoSliceOfPointerToGongStruc
 	}
 }
 
-func (backRepoSliceOfPointerToGongStructField *BackRepoSliceOfPointerToGongStructFieldStruct) Restore(dirPath string) {
+// RestorePhaseOne read the file "SliceOfPointerToGongStructFieldDB.json" in dirPath that stores an array
+// of SliceOfPointerToGongStructFieldDB and stores it in the database
+// the map BackRepoSliceOfPointerToGongStructFieldid_atBckpTime_newID is updated accordingly
+func (backRepoSliceOfPointerToGongStructField *BackRepoSliceOfPointerToGongStructFieldStruct) RestorePhaseOne(dirPath string) {
+
+	// resets the map
+	BackRepoSliceOfPointerToGongStructFieldid_atBckpTime_newID = make(map[uint]uint)
 
 	filename := filepath.Join(dirPath, "SliceOfPointerToGongStructFieldDB.json")
 	jsonFile, err := os.Open(filename)
@@ -408,19 +414,51 @@ func (backRepoSliceOfPointerToGongStructField *BackRepoSliceOfPointerToGongStruc
 	// fill up Map_SliceOfPointerToGongStructFieldDBID_SliceOfPointerToGongStructFieldDB
 	for _, sliceofpointertogongstructfieldDB := range forRestore {
 
-		sliceofpointertogongstructfieldDB_ID := sliceofpointertogongstructfieldDB.ID
+		sliceofpointertogongstructfieldDB_ID_atBackupTime := sliceofpointertogongstructfieldDB.ID
 		sliceofpointertogongstructfieldDB.ID = 0
 		query := backRepoSliceOfPointerToGongStructField.db.Create(sliceofpointertogongstructfieldDB)
 		if query.Error != nil {
 			log.Panic(query.Error)
 		}
-		if sliceofpointertogongstructfieldDB_ID != sliceofpointertogongstructfieldDB.ID {
-			log.Panicf("ID of SliceOfPointerToGongStructField restore ID %d, name %s, has wrong ID %d in DB after create",
-				sliceofpointertogongstructfieldDB_ID, sliceofpointertogongstructfieldDB.Name_Data.String, sliceofpointertogongstructfieldDB.ID)
-		}
+		(*backRepoSliceOfPointerToGongStructField.Map_SliceOfPointerToGongStructFieldDBID_SliceOfPointerToGongStructFieldDB)[sliceofpointertogongstructfieldDB.ID] = sliceofpointertogongstructfieldDB
+		BackRepoSliceOfPointerToGongStructFieldid_atBckpTime_newID[sliceofpointertogongstructfieldDB_ID_atBackupTime] = sliceofpointertogongstructfieldDB.ID
 	}
 
 	if err != nil {
 		log.Panic("Cannot restore/unmarshall json SliceOfPointerToGongStructField file", err.Error())
 	}
 }
+
+// RestorePhaseTwo uses all map BackRepo<SliceOfPointerToGongStructField>id_atBckpTime_newID
+// to compute new index
+func (backRepoSliceOfPointerToGongStructField *BackRepoSliceOfPointerToGongStructFieldStruct) RestorePhaseTwo() {
+
+	for _, sliceofpointertogongstructfieldDB := range (*backRepoSliceOfPointerToGongStructField.Map_SliceOfPointerToGongStructFieldDBID_SliceOfPointerToGongStructFieldDB) {
+
+		// next line of code is to avert unused variable compilation error
+		_ = sliceofpointertogongstructfieldDB
+
+		// insertion point for reindexing pointers encoding
+		// reindexing GongStruct field
+		if sliceofpointertogongstructfieldDB.GongStructID.Int64 != 0 {
+			sliceofpointertogongstructfieldDB.GongStructID.Int64 = int64(BackRepoGongStructid_atBckpTime_newID[uint(sliceofpointertogongstructfieldDB.GongStructID.Int64)])
+		}
+
+		// This reindex sliceofpointertogongstructfield.SliceOfPointerToGongStructFields
+		if sliceofpointertogongstructfieldDB.GongStruct_SliceOfPointerToGongStructFieldsDBID.Int64 != 0 {
+			sliceofpointertogongstructfieldDB.GongStruct_SliceOfPointerToGongStructFieldsDBID.Int64 = 
+				int64(BackRepoGongStructid_atBckpTime_newID[uint(sliceofpointertogongstructfieldDB.GongStruct_SliceOfPointerToGongStructFieldsDBID.Int64)])
+		}
+
+		// update databse with new index encoding
+		query := backRepoSliceOfPointerToGongStructField.db.Model(sliceofpointertogongstructfieldDB).Updates(*sliceofpointertogongstructfieldDB)
+		if query.Error != nil {
+			log.Panic(query.Error)
+		}
+	}
+
+}
+
+// this field is used during the restauration process.
+// it stores the ID at the backup time and is used for renumbering
+var BackRepoSliceOfPointerToGongStructFieldid_atBckpTime_newID map[uint]uint

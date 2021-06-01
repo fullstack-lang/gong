@@ -219,4 +219,10 @@ export class AclassDetailComponent implements OnInit {
 		dialogRef.afterClosed().subscribe(result => {
 		});
 	}
+
+	fillUpNameIfEmpty(event) {
+		if (this.aclass.Name == undefined) {
+			this.aclass.Name = event.value.Name		
+		}
+	}
 }
