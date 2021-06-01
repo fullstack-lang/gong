@@ -265,7 +265,7 @@ func (backRepoDclass *BackRepoDclassStruct) CheckoutPhaseOneInstance(dclassDB *D
 	}
 	dclassDB.CopyBasicFieldsToDclass(dclass)
 
-	// preserve pointer to aclassDB. Otherwise, pointer will is recycled and the map of pointers
+	// preserve pointer to dclassDB. Otherwise, pointer will is recycled and the map of pointers
 	// Map_DclassDBID_DclassDB)[dclassDB hold variable pointers
 	dclassDB_Data := *dclassDB
 	preservedPtrToDclass := &dclassDB_Data
@@ -344,7 +344,7 @@ func (backRepoDclass *BackRepoDclassStruct) Backup(dirPath string) {
 
 	// organize the map into an array with increasing IDs, in order to have repoductible
 	// backup file
-	var forBackup []*DclassDB
+	forBackup := make([]*DclassDB, 0)
 	for _, dclassDB := range *backRepoDclass.Map_DclassDBID_DclassDB {
 		forBackup = append(forBackup, dclassDB)
 	}
@@ -365,7 +365,13 @@ func (backRepoDclass *BackRepoDclassStruct) Backup(dirPath string) {
 	}
 }
 
-func (backRepoDclass *BackRepoDclassStruct) Restore(dirPath string) {
+// RestorePhaseOne read the file "DclassDB.json" in dirPath that stores an array
+// of DclassDB and stores it in the database
+// the map BackRepoDclassid_atBckpTime_newID is updated accordingly
+func (backRepoDclass *BackRepoDclassStruct) RestorePhaseOne(dirPath string) {
+
+	// resets the map
+	BackRepoDclassid_atBckpTime_newID = make(map[uint]uint)
 
 	filename := filepath.Join(dirPath, "DclassDB.json")
 	jsonFile, err := os.Open(filename)
@@ -384,21 +390,38 @@ func (backRepoDclass *BackRepoDclassStruct) Restore(dirPath string) {
 	// fill up Map_DclassDBID_DclassDB
 	for _, dclassDB := range forRestore {
 
-		dclassDB_ID := dclassDB.ID
+		dclassDB_ID_atBackupTime := dclassDB.ID
 		dclassDB.ID = 0
 		query := backRepoDclass.db.Create(dclassDB)
 		if query.Error != nil {
 			log.Panic(query.Error)
 		}
-		if dclassDB_ID != dclassDB.ID {
-			log.Panicf("ID of Dclass restore ID %d, name %s, has wrong ID %d in DB after create",
-				dclassDB_ID, dclassDB.Name_Data.String, dclassDB.ID)
-		}
+		(*backRepoDclass.Map_DclassDBID_DclassDB)[dclassDB.ID] = dclassDB
+		BackRepoDclassid_atBckpTime_newID[dclassDB_ID_atBackupTime] = dclassDB.ID
 	}
 
 	if err != nil {
 		log.Panic("Cannot restore/unmarshall json Dclass file", err.Error())
 	}
+}
+
+// RestorePhaseTwo uses all map BackRepo<Dclass>id_atBckpTime_newID
+// to compute new index
+func (backRepoDclass *BackRepoDclassStruct) RestorePhaseTwo() {
+
+	for _, dclassDB := range (*backRepoDclass.Map_DclassDBID_DclassDB) {
+
+		// next line of code is to avert unused variable compilation error
+		_ = dclassDB
+
+		// insertion point for reindexing pointers encoding
+		// update databse with new index encoding
+		query := backRepoDclass.db.Model(dclassDB).Updates(*dclassDB)
+		if query.Error != nil {
+			log.Panic(query.Error)
+		}
+	}
+
 }
 
 // this field is used during the restauration process.
