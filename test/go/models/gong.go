@@ -56,6 +56,8 @@ var Stage StageStruct = StageStruct{ // insertion point for array initiatialisat
 	Bclasss: make(map[*Bclass]struct{}, 0),
 
 	Dclasss: make(map[*Dclass]struct{}, 0),
+
+	// end of insertion point
 }
 
 func (stage *StageStruct) Commit() {
