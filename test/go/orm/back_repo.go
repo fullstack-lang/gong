@@ -102,9 +102,9 @@ func (backRepo *BackRepoStruct) BackupXL(stage *models.StageStruct, dirPath stri
 	file := xlsx.NewFile()
 
 	// insertion point for per struct backup
-	backRepo.BackRepoXLAclass.Backup(file)
-	backRepo.BackRepoXLBclass.Backup(file)
-	backRepo.BackRepoXLDclass.Backup(file)
+	backRepo.BackRepoAclass.BackupXL(file)
+	backRepo.BackRepoBclass.BackupXL(file)
+	backRepo.BackRepoDclass.BackupXL(file)
 
 	var b bytes.Buffer
 	writer := bufio.NewWriter(&b)
