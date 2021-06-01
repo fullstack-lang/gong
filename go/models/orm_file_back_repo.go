@@ -70,7 +70,19 @@ func (backRepo *BackRepoStruct) Restore(stage *models.StageStruct, dirPath strin
 	models.Stage.Commit()
 	models.Stage.Reset()
 	models.Stage.Checkout()
-	// insertion point for per struct backup{{` + string(rune(BackRepoRestore)) + `}}
+
+	//
+	// restauration first phase (create DB instance with new IDs)
+	//
+
+	// insertion point for per struct backup{{` + string(rune(BackRepoRestorePhaseOne)) + `}}
+
+	//
+	// restauration second phase (reindex pointers with the new ID)
+	//
+	
+	// insertion point for per struct backup{{` + string(rune(BackRepoRestorePhaseTwo)) + `}}
+
 	models.Stage.Checkout()
 }
 
@@ -90,7 +102,8 @@ const (
 	BackRepoCommit
 	BackRepoCheckout
 	BackRepoBackup
-	BackRepoRestore
+	BackRepoRestorePhaseOne
+	BackRepoRestorePhaseTwo
 )
 
 var BackRepoSubTemplate map[string]string = // new line
@@ -158,6 +171,9 @@ map[string]string{
 	string(rune(BackRepoBackup)): `
 	backRepo.BackRepo{{Structname}}.Backup(dirPath)`,
 
-	string(rune(BackRepoRestore)): `
-	backRepo.BackRepo{{Structname}}.Restore(dirPath)`,
+	string(rune(BackRepoRestorePhaseOne)): `
+	backRepo.BackRepo{{Structname}}.RestorePhaseOne(dirPath)`,
+
+	string(rune(BackRepoRestorePhaseTwo)): `
+	backRepo.BackRepo{{Structname}}.RestorePhaseTwo()`,
 }
