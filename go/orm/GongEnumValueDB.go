@@ -273,7 +273,7 @@ func (backRepoGongEnumValue *BackRepoGongEnumValueStruct) CheckoutPhaseOneInstan
 	}
 	gongenumvalueDB.CopyBasicFieldsToGongEnumValue(gongenumvalue)
 
-	// preserve pointer to aclassDB. Otherwise, pointer will is recycled and the map of pointers
+	// preserve pointer to gongenumvalueDB. Otherwise, pointer will is recycled and the map of pointers
 	// Map_GongEnumValueDBID_GongEnumValueDB)[gongenumvalueDB hold variable pointers
 	gongenumvalueDB_Data := *gongenumvalueDB
 	preservedPtrToGongEnumValue := &gongenumvalueDB_Data
@@ -356,7 +356,7 @@ func (backRepoGongEnumValue *BackRepoGongEnumValueStruct) Backup(dirPath string)
 
 	// organize the map into an array with increasing IDs, in order to have repoductible
 	// backup file
-	var forBackup []*GongEnumValueDB
+	forBackup := make([]*GongEnumValueDB, 0)
 	for _, gongenumvalueDB := range *backRepoGongEnumValue.Map_GongEnumValueDBID_GongEnumValueDB {
 		forBackup = append(forBackup, gongenumvalueDB)
 	}
@@ -377,7 +377,13 @@ func (backRepoGongEnumValue *BackRepoGongEnumValueStruct) Backup(dirPath string)
 	}
 }
 
-func (backRepoGongEnumValue *BackRepoGongEnumValueStruct) Restore(dirPath string) {
+// RestorePhaseOne read the file "GongEnumValueDB.json" in dirPath that stores an array
+// of GongEnumValueDB and stores it in the database
+// the map BackRepoGongEnumValueid_atBckpTime_newID is updated accordingly
+func (backRepoGongEnumValue *BackRepoGongEnumValueStruct) RestorePhaseOne(dirPath string) {
+
+	// resets the map
+	BackRepoGongEnumValueid_atBckpTime_newID = make(map[uint]uint)
 
 	filename := filepath.Join(dirPath, "GongEnumValueDB.json")
 	jsonFile, err := os.Open(filename)
@@ -396,19 +402,46 @@ func (backRepoGongEnumValue *BackRepoGongEnumValueStruct) Restore(dirPath string
 	// fill up Map_GongEnumValueDBID_GongEnumValueDB
 	for _, gongenumvalueDB := range forRestore {
 
-		gongenumvalueDB_ID := gongenumvalueDB.ID
+		gongenumvalueDB_ID_atBackupTime := gongenumvalueDB.ID
 		gongenumvalueDB.ID = 0
 		query := backRepoGongEnumValue.db.Create(gongenumvalueDB)
 		if query.Error != nil {
 			log.Panic(query.Error)
 		}
-		if gongenumvalueDB_ID != gongenumvalueDB.ID {
-			log.Panicf("ID of GongEnumValue restore ID %d, name %s, has wrong ID %d in DB after create",
-				gongenumvalueDB_ID, gongenumvalueDB.Name_Data.String, gongenumvalueDB.ID)
-		}
+		(*backRepoGongEnumValue.Map_GongEnumValueDBID_GongEnumValueDB)[gongenumvalueDB.ID] = gongenumvalueDB
+		BackRepoGongEnumValueid_atBckpTime_newID[gongenumvalueDB_ID_atBackupTime] = gongenumvalueDB.ID
 	}
 
 	if err != nil {
 		log.Panic("Cannot restore/unmarshall json GongEnumValue file", err.Error())
 	}
 }
+
+// RestorePhaseTwo uses all map BackRepo<GongEnumValue>id_atBckpTime_newID
+// to compute new index
+func (backRepoGongEnumValue *BackRepoGongEnumValueStruct) RestorePhaseTwo() {
+
+	for _, gongenumvalueDB := range (*backRepoGongEnumValue.Map_GongEnumValueDBID_GongEnumValueDB) {
+
+		// next line of code is to avert unused variable compilation error
+		_ = gongenumvalueDB
+
+		// insertion point for reindexing pointers encoding
+		// This reindex gongenumvalue.GongEnumValues
+		if gongenumvalueDB.GongEnum_GongEnumValuesDBID.Int64 != 0 {
+			gongenumvalueDB.GongEnum_GongEnumValuesDBID.Int64 = 
+				int64(BackRepoGongEnumid_atBckpTime_newID[uint(gongenumvalueDB.GongEnum_GongEnumValuesDBID.Int64)])
+		}
+
+		// update databse with new index encoding
+		query := backRepoGongEnumValue.db.Model(gongenumvalueDB).Updates(*gongenumvalueDB)
+		if query.Error != nil {
+			log.Panic(query.Error)
+		}
+	}
+
+}
+
+// this field is used during the restauration process.
+// it stores the ID at the backup time and is used for renumbering
+var BackRepoGongEnumValueid_atBckpTime_newID map[uint]uint

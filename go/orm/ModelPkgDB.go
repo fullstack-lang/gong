@@ -268,7 +268,7 @@ func (backRepoModelPkg *BackRepoModelPkgStruct) CheckoutPhaseOneInstance(modelpk
 	}
 	modelpkgDB.CopyBasicFieldsToModelPkg(modelpkg)
 
-	// preserve pointer to aclassDB. Otherwise, pointer will is recycled and the map of pointers
+	// preserve pointer to modelpkgDB. Otherwise, pointer will is recycled and the map of pointers
 	// Map_ModelPkgDBID_ModelPkgDB)[modelpkgDB hold variable pointers
 	modelpkgDB_Data := *modelpkgDB
 	preservedPtrToModelPkg := &modelpkgDB_Data
@@ -351,7 +351,7 @@ func (backRepoModelPkg *BackRepoModelPkgStruct) Backup(dirPath string) {
 
 	// organize the map into an array with increasing IDs, in order to have repoductible
 	// backup file
-	var forBackup []*ModelPkgDB
+	forBackup := make([]*ModelPkgDB, 0)
 	for _, modelpkgDB := range *backRepoModelPkg.Map_ModelPkgDBID_ModelPkgDB {
 		forBackup = append(forBackup, modelpkgDB)
 	}
@@ -372,7 +372,13 @@ func (backRepoModelPkg *BackRepoModelPkgStruct) Backup(dirPath string) {
 	}
 }
 
-func (backRepoModelPkg *BackRepoModelPkgStruct) Restore(dirPath string) {
+// RestorePhaseOne read the file "ModelPkgDB.json" in dirPath that stores an array
+// of ModelPkgDB and stores it in the database
+// the map BackRepoModelPkgid_atBckpTime_newID is updated accordingly
+func (backRepoModelPkg *BackRepoModelPkgStruct) RestorePhaseOne(dirPath string) {
+
+	// resets the map
+	BackRepoModelPkgid_atBckpTime_newID = make(map[uint]uint)
 
 	filename := filepath.Join(dirPath, "ModelPkgDB.json")
 	jsonFile, err := os.Open(filename)
@@ -391,19 +397,40 @@ func (backRepoModelPkg *BackRepoModelPkgStruct) Restore(dirPath string) {
 	// fill up Map_ModelPkgDBID_ModelPkgDB
 	for _, modelpkgDB := range forRestore {
 
-		modelpkgDB_ID := modelpkgDB.ID
+		modelpkgDB_ID_atBackupTime := modelpkgDB.ID
 		modelpkgDB.ID = 0
 		query := backRepoModelPkg.db.Create(modelpkgDB)
 		if query.Error != nil {
 			log.Panic(query.Error)
 		}
-		if modelpkgDB_ID != modelpkgDB.ID {
-			log.Panicf("ID of ModelPkg restore ID %d, name %s, has wrong ID %d in DB after create",
-				modelpkgDB_ID, modelpkgDB.Name_Data.String, modelpkgDB.ID)
-		}
+		(*backRepoModelPkg.Map_ModelPkgDBID_ModelPkgDB)[modelpkgDB.ID] = modelpkgDB
+		BackRepoModelPkgid_atBckpTime_newID[modelpkgDB_ID_atBackupTime] = modelpkgDB.ID
 	}
 
 	if err != nil {
 		log.Panic("Cannot restore/unmarshall json ModelPkg file", err.Error())
 	}
 }
+
+// RestorePhaseTwo uses all map BackRepo<ModelPkg>id_atBckpTime_newID
+// to compute new index
+func (backRepoModelPkg *BackRepoModelPkgStruct) RestorePhaseTwo() {
+
+	for _, modelpkgDB := range (*backRepoModelPkg.Map_ModelPkgDBID_ModelPkgDB) {
+
+		// next line of code is to avert unused variable compilation error
+		_ = modelpkgDB
+
+		// insertion point for reindexing pointers encoding
+		// update databse with new index encoding
+		query := backRepoModelPkg.db.Model(modelpkgDB).Updates(*modelpkgDB)
+		if query.Error != nil {
+			log.Panic(query.Error)
+		}
+	}
+
+}
+
+// this field is used during the restauration process.
+// it stores the ID at the backup time and is used for renumbering
+var BackRepoModelPkgid_atBckpTime_newID map[uint]uint

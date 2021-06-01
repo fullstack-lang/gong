@@ -439,7 +439,7 @@ func (backRepoAclass *BackRepoAclassStruct) Backup(dirPath string) {
 
 	// organize the map into an array with increasing IDs, in order to have repoductible
 	// backup file
-	var forBackup []*AclassDB
+	forBackup := make([]*AclassDB, 0)
 	for _, aclassDB := range *backRepoAclass.Map_AclassDBID_AclassDB {
 		forBackup = append(forBackup, aclassDB)
 	}
@@ -460,7 +460,13 @@ func (backRepoAclass *BackRepoAclassStruct) Backup(dirPath string) {
 	}
 }
 
-func (backRepoAclass *BackRepoAclassStruct) Restore(dirPath string) {
+// RestorePhaseOne read the file "AclassDB.json" in dirPath that stores an array
+// of AclassDB and stores it in the database
+// the map BackRepoAclassid_atBckpTime_newID is updated accordingly
+func (backRepoAclass *BackRepoAclassStruct) RestorePhaseOne(dirPath string) {
+
+	// resets the map
+	BackRepoAclassid_atBckpTime_newID = make(map[uint]uint)
 
 	filename := filepath.Join(dirPath, "AclassDB.json")
 	jsonFile, err := os.Open(filename)
@@ -479,19 +485,46 @@ func (backRepoAclass *BackRepoAclassStruct) Restore(dirPath string) {
 	// fill up Map_AclassDBID_AclassDB
 	for _, aclassDB := range forRestore {
 
-		aclassDB_ID := aclassDB.ID
+		aclassDB_ID_atBackupTime := aclassDB.ID
 		aclassDB.ID = 0
 		query := backRepoAclass.db.Create(aclassDB)
 		if query.Error != nil {
 			log.Panic(query.Error)
 		}
-		if aclassDB_ID != aclassDB.ID {
-			log.Panicf("ID of Aclass restore ID %d, name %s, has wrong ID %d in DB after create",
-				aclassDB_ID, aclassDB.Name_Data.String, aclassDB.ID)
-		}
+		(*backRepoAclass.Map_AclassDBID_AclassDB)[aclassDB.ID] = aclassDB
+		BackRepoAclassid_atBckpTime_newID[aclassDB_ID_atBackupTime] = aclassDB.ID
 	}
 
 	if err != nil {
 		log.Panic("Cannot restore/unmarshall json Aclass file", err.Error())
 	}
 }
+
+// RestorePhaseTwo uses all map BackRepo<Aclass>id_atBckpTime_newID
+// to compute new index
+func (backRepoAclass *BackRepoAclassStruct) RestorePhaseTwo() {
+
+	for _, aclassDB := range (*backRepoAclass.Map_AclassDBID_AclassDB) {
+
+		// next line of code is to avert unused variable compilation error
+		_ = aclassDB
+
+		// insertion point for reindexing pointers encoding
+		// This reindex aclass.Anarrayofa
+		if aclassDB.Aclass_AnarrayofaDBID.Int64 != 0 {
+			aclassDB.Aclass_AnarrayofaDBID.Int64 = 
+				int64(BackRepoAclassid_atBckpTime_newID[uint(aclassDB.Aclass_AnarrayofaDBID.Int64)])
+		}
+
+		// update databse with new index encoding
+		query := backRepoAclass.db.Model(aclassDB).Updates(*aclassDB)
+		if query.Error != nil {
+			log.Panic(query.Error)
+		}
+	}
+
+}
+
+// this field is used during the restauration process.
+// it stores the ID at the backup time and is used for renumbering
+var BackRepoAclassid_atBckpTime_newID map[uint]uint
