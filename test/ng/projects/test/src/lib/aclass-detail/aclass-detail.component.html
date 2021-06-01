@@ -135,7 +135,7 @@
     <div class="details__item">
         <mat-form-field>
             <mat-label>Associationtob</mat-label>
-            <mat-select [(ngModel)]="aclass.Associationtob">
+            <mat-select [(ngModel)]="aclass.Associationtob" (selectionChange)="fillUpNameIfEmpty($event)">
                 <mat-option>None</mat-option>
                 <mat-option *ngFor="let bclass of frontRepo.Bclasss_array" [value]="bclass">
                     {{bclass.Name}}
@@ -146,7 +146,7 @@
     <div class="details__item">
         <mat-form-field>
             <mat-label>Anotherassociationtob_2</mat-label>
-            <mat-select [(ngModel)]="aclass.Anotherassociationtob_2">
+            <mat-select [(ngModel)]="aclass.Anotherassociationtob_2" (selectionChange)="fillUpNameIfEmpty($event)">
                 <mat-option>None</mat-option>
                 <mat-option *ngFor="let bclass of frontRepo.Bclasss_array" [value]="bclass">
                     {{bclass.Name}}

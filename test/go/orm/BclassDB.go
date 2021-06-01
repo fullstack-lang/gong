@@ -281,7 +281,7 @@ func (backRepoBclass *BackRepoBclassStruct) CheckoutPhaseOneInstance(bclassDB *B
 	}
 	bclassDB.CopyBasicFieldsToBclass(bclass)
 
-	// preserve pointer to aclassDB. Otherwise, pointer will is recycled and the map of pointers
+	// preserve pointer to bclassDB. Otherwise, pointer will is recycled and the map of pointers
 	// Map_BclassDBID_BclassDB)[bclassDB hold variable pointers
 	bclassDB_Data := *bclassDB
 	preservedPtrToBclass := &bclassDB_Data
@@ -368,7 +368,7 @@ func (backRepoBclass *BackRepoBclassStruct) Backup(dirPath string) {
 
 	// organize the map into an array with increasing IDs, in order to have repoductible
 	// backup file
-	var forBackup []*BclassDB
+	forBackup := make([]*BclassDB, 0)
 	for _, bclassDB := range *backRepoBclass.Map_BclassDBID_BclassDB {
 		forBackup = append(forBackup, bclassDB)
 	}
@@ -389,7 +389,13 @@ func (backRepoBclass *BackRepoBclassStruct) Backup(dirPath string) {
 	}
 }
 
-func (backRepoBclass *BackRepoBclassStruct) Restore(dirPath string) {
+// RestorePhaseOne read the file "BclassDB.json" in dirPath that stores an array
+// of BclassDB and stores it in the database
+// the map BackRepoBclassid_atBckpTime_newID is updated accordingly
+func (backRepoBclass *BackRepoBclassStruct) RestorePhaseOne(dirPath string) {
+
+	// resets the map
+	BackRepoBclassid_atBckpTime_newID = make(map[uint]uint)
 
 	filename := filepath.Join(dirPath, "BclassDB.json")
 	jsonFile, err := os.Open(filename)
@@ -408,19 +414,52 @@ func (backRepoBclass *BackRepoBclassStruct) Restore(dirPath string) {
 	// fill up Map_BclassDBID_BclassDB
 	for _, bclassDB := range forRestore {
 
-		bclassDB_ID := bclassDB.ID
+		bclassDB_ID_atBackupTime := bclassDB.ID
 		bclassDB.ID = 0
 		query := backRepoBclass.db.Create(bclassDB)
 		if query.Error != nil {
 			log.Panic(query.Error)
 		}
-		if bclassDB_ID != bclassDB.ID {
-			log.Panicf("ID of Bclass restore ID %d, name %s, has wrong ID %d in DB after create",
-				bclassDB_ID, bclassDB.Name_Data.String, bclassDB.ID)
-		}
+		(*backRepoBclass.Map_BclassDBID_BclassDB)[bclassDB.ID] = bclassDB
+		BackRepoBclassid_atBckpTime_newID[bclassDB_ID_atBackupTime] = bclassDB.ID
 	}
 
 	if err != nil {
 		log.Panic("Cannot restore/unmarshall json Bclass file", err.Error())
 	}
 }
+
+// RestorePhaseTwo uses all map BackRepo<Bclass>id_atBckpTime_newID
+// to compute new index
+func (backRepoBclass *BackRepoBclassStruct) RestorePhaseTwo() {
+
+	for _, bclassDB := range (*backRepoBclass.Map_BclassDBID_BclassDB) {
+
+		// next line of code is to avert unused variable compilation error
+		_ = bclassDB
+
+		// insertion point for reindexing pointers encoding
+		// This reindex bclass.Anarrayofb
+		if bclassDB.Aclass_AnarrayofbDBID.Int64 != 0 {
+			bclassDB.Aclass_AnarrayofbDBID.Int64 = 
+				int64(BackRepoAclassid_atBckpTime_newID[uint(bclassDB.Aclass_AnarrayofbDBID.Int64)])
+		}
+
+		// This reindex bclass.Anotherarrayofb
+		if bclassDB.Aclass_AnotherarrayofbDBID.Int64 != 0 {
+			bclassDB.Aclass_AnotherarrayofbDBID.Int64 = 
+				int64(BackRepoAclassid_atBckpTime_newID[uint(bclassDB.Aclass_AnotherarrayofbDBID.Int64)])
+		}
+
+		// update databse with new index encoding
+		query := backRepoBclass.db.Model(bclassDB).Updates(*bclassDB)
+		if query.Error != nil {
+			log.Panic(query.Error)
+		}
+	}
+
+}
+
+// this field is used during the restauration process.
+// it stores the ID at the backup time and is used for renumbering
+var BackRepoBclassid_atBckpTime_newID map[uint]uint

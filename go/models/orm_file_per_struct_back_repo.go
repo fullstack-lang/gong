@@ -274,7 +274,7 @@ func (backRepo{{Structname}} *BackRepo{{Structname}}Struct) CheckoutPhaseOneInst
 	}
 	{{structname}}DB.CopyBasicFieldsTo{{Structname}}({{structname}})
 
-	// preserve pointer to aclassDB. Otherwise, pointer will is recycled and the map of pointers
+	// preserve pointer to {{structname}}DB. Otherwise, pointer will is recycled and the map of pointers
 	// Map_{{Structname}}DBID_{{Structname}}DB)[{{structname}}DB hold variable pointers
 	{{structname}}DB_Data := *{{structname}}DB
 	preservedPtrTo{{Structname}} := &{{structname}}DB_Data
@@ -349,7 +349,7 @@ func (backRepo{{Structname}} *BackRepo{{Structname}}Struct) Backup(dirPath strin
 
 	// organize the map into an array with increasing IDs, in order to have repoductible
 	// backup file
-	var forBackup []*{{Structname}}DB
+	forBackup := make([]*{{Structname}}DB, 0)
 	for _, {{structname}}DB := range *backRepo{{Structname}}.Map_{{Structname}}DBID_{{Structname}}DB {
 		forBackup = append(forBackup, {{structname}}DB)
 	}
@@ -370,7 +370,13 @@ func (backRepo{{Structname}} *BackRepo{{Structname}}Struct) Backup(dirPath strin
 	}
 }
 
-func (backRepo{{Structname}} *BackRepo{{Structname}}Struct) Restore(dirPath string) {
+// RestorePhaseOne read the file "{{Structname}}DB.json" in dirPath that stores an array
+// of {{Structname}}DB and stores it in the database
+// the map BackRepo{{Structname}}id_atBckpTime_newID is updated accordingly
+func (backRepo{{Structname}} *BackRepo{{Structname}}Struct) RestorePhaseOne(dirPath string) {
+
+	// resets the map
+	BackRepo{{Structname}}id_atBckpTime_newID = make(map[uint]uint)
 
 	filename := filepath.Join(dirPath, "{{Structname}}DB.json")
 	jsonFile, err := os.Open(filename)
@@ -389,22 +395,43 @@ func (backRepo{{Structname}} *BackRepo{{Structname}}Struct) Restore(dirPath stri
 	// fill up Map_{{Structname}}DBID_{{Structname}}DB
 	for _, {{structname}}DB := range forRestore {
 
-		{{structname}}DB_ID := {{structname}}DB.ID
+		{{structname}}DB_ID_atBackupTime := {{structname}}DB.ID
 		{{structname}}DB.ID = 0
 		query := backRepo{{Structname}}.db.Create({{structname}}DB)
 		if query.Error != nil {
 			log.Panic(query.Error)
 		}
-		if {{structname}}DB_ID != {{structname}}DB.ID {
-			log.Panicf("ID of {{Structname}} restore ID %d, name %s, has wrong ID %d in DB after create",
-				{{structname}}DB_ID, {{structname}}DB.Name_Data.String, {{structname}}DB.ID)
-		}
+		(*backRepo{{Structname}}.Map_{{Structname}}DBID_{{Structname}}DB)[{{structname}}DB.ID] = {{structname}}DB
+		BackRepo{{Structname}}id_atBckpTime_newID[{{structname}}DB_ID_atBackupTime] = {{structname}}DB.ID
 	}
 
 	if err != nil {
 		log.Panic("Cannot restore/unmarshall json {{Structname}} file", err.Error())
 	}
 }
+
+// RestorePhaseTwo uses all map BackRepo<{{Structname}}>id_atBckpTime_newID
+// to compute new index
+func (backRepo{{Structname}} *BackRepo{{Structname}}Struct) RestorePhaseTwo() {
+
+	for _, {{structname}}DB := range (*backRepo{{Structname}}.Map_{{Structname}}DBID_{{Structname}}DB) {
+
+		// next line of code is to avert unused variable compilation error
+		_ = {{structname}}DB
+
+		// insertion point for reindexing pointers encoding{{` + string(rune(BackRepoPointerEncodingFieldsReindexing)) + `}}
+		// update databse with new index encoding
+		query := backRepo{{Structname}}.db.Model({{structname}}DB).Updates(*{{structname}}DB)
+		if query.Error != nil {
+			log.Panic(query.Error)
+		}
+	}
+
+}
+
+// this field is used during the restauration process.
+// it stores the ID at the backup time and is used for renumbering
+var BackRepo{{Structname}}id_atBckpTime_newID map[uint]uint
 `
 
 // insertion points
@@ -417,6 +444,7 @@ const (
 	BackRepoPointerEncodingFieldsCommit
 	BackRepoBasicFieldsCheckout
 	BackRepoPointerEncodingFieldsCheckout
+	BackRepoPointerEncodingFieldsReindexing
 	BackRepoNbInsertionPoints
 )
 
@@ -446,11 +474,13 @@ const (
 
 	BackRepoDeclarationPointerToStructField
 	BackRepoCommitPointerToStructField
-	BackRepoCheckoutNewPointerToStructStageField
+	BackRepoCheckoutPointerToStructStageField
+	BackRepoReindexingPointerToStruct
 
 	BackRepoDeclarationSliceOfPointerToStructField
 	BackRepoCommitSliceOfPointerToStructField
-	BackRepoCheckoutNewSliceOfPointerToStructStageField
+	BackRepoCheckoutSliceOfPointerToStructStageField
+	BackRepoReindexingSliceOfPointerToStruct
 )
 
 var BackRepoFieldSubTemplateCode map[BackRepoPerStructSubTemplate]string = map[BackRepoPerStructSubTemplate]string{
@@ -569,13 +599,20 @@ var BackRepoFieldSubTemplateCode map[BackRepoPerStructSubTemplate]string = map[B
 	BackRepoCheckoutBasicFieldBoolean: `
 	{{structname}}.{{FieldName}} = {{structname}}DB.{{FieldName}}_Data.Bool`,
 
-	BackRepoCheckoutNewPointerToStructStageField: `
+	BackRepoCheckoutPointerToStructStageField: `
 	// {{FieldName}} field
 	if {{structname}}DB.{{FieldName}}ID.Int64 != 0 {
 		{{structname}}.{{FieldName}} = (*backRepo.BackRepo{{AssociationStructName}}.Map_{{AssociationStructName}}DBID_{{AssociationStructName}}Ptr)[uint({{structname}}DB.{{FieldName}}ID.Int64)]
 	}`,
 
-	BackRepoCheckoutNewSliceOfPointerToStructStageField: `
+	BackRepoReindexingPointerToStruct: `
+		// reindexing {{FieldName}} field
+		if {{structname}}DB.{{FieldName}}ID.Int64 != 0 {
+			{{structname}}DB.{{FieldName}}ID.Int64 = int64(BackRepo{{AssociationStructName}}id_atBckpTime_newID[uint({{structname}}DB.{{FieldName}}ID.Int64)])
+		}
+`,
+
+	BackRepoCheckoutSliceOfPointerToStructStageField: `
 	// This loop redeem {{structname}}.{{FieldName}} in the stage from the encode in the back repo
 	// It parses all {{AssociationStructName}}DB in the back repo and if the reverse pointer encoding matches the back repo ID
 	// it appends the stage instance
@@ -602,6 +639,14 @@ var BackRepoFieldSubTemplateCode map[BackRepoPerStructSubTemplate]string = map[B
 
 		return {{associationStructName}}DB_i.{{Structname}}_{{FieldName}}DBID_Index.Int64 < {{associationStructName}}DB_j.{{Structname}}_{{FieldName}}DBID_Index.Int64
 	})
+`,
+
+	BackRepoReindexingSliceOfPointerToStruct: `
+		// This reindex {{structname}}.{{FieldName}}
+		if {{structname}}DB.{{AssociationStructName}}_{{FieldName}}DBID.Int64 != 0 {
+			{{structname}}DB.{{AssociationStructName}}_{{FieldName}}DBID.Int64 = 
+				int64(BackRepo{{AssociationStructName}}id_atBckpTime_newID[uint({{structname}}DB.{{AssociationStructName}}_{{FieldName}}DBID.Int64)])
+		}
 `,
 }
 
@@ -743,7 +788,13 @@ func MultiCodeGeneratorBackRepo(
 					"{{FieldName}}", modelPointerToStruct.Name)
 
 				insertions[BackRepoPointerEncodingFieldsCheckout] += Replace3(
-					BackRepoFieldSubTemplateCode[BackRepoCheckoutNewPointerToStructStageField],
+					BackRepoFieldSubTemplateCode[BackRepoCheckoutPointerToStructStageField],
+					"{{AssociationStructName}}", modelPointerToStruct.GongStruct.Name,
+					"{{associationStructName}}", strings.ToLower(modelPointerToStruct.GongStruct.Name),
+					"{{FieldName}}", modelPointerToStruct.Name)
+
+				insertions[BackRepoPointerEncodingFieldsReindexing] += Replace3(
+					BackRepoFieldSubTemplateCode[BackRepoReindexingPointerToStruct],
 					"{{AssociationStructName}}", modelPointerToStruct.GongStruct.Name,
 					"{{associationStructName}}", strings.ToLower(modelPointerToStruct.GongStruct.Name),
 					"{{FieldName}}", modelPointerToStruct.Name)
@@ -758,10 +809,11 @@ func MultiCodeGeneratorBackRepo(
 					"{{FieldName}}", fieldSliceOfPointerToModel.Name)
 
 				insertions[BackRepoPointerEncodingFieldsCheckout] += Replace3(
-					BackRepoFieldSubTemplateCode[BackRepoCheckoutNewSliceOfPointerToStructStageField],
+					BackRepoFieldSubTemplateCode[BackRepoCheckoutSliceOfPointerToStructStageField],
 					"{{AssociationStructName}}", fieldSliceOfPointerToModel.GongStruct.Name,
 					"{{associationStructName}}", strings.ToLower(fieldSliceOfPointerToModel.GongStruct.Name),
 					"{{FieldName}}", fieldSliceOfPointerToModel.Name)
+
 			}
 		}
 
@@ -780,6 +832,12 @@ func MultiCodeGeneratorBackRepo(
 							BackRepoFieldSubTemplateCode[BackRepoDeclarationSliceOfPointerToStructField],
 							"{{FieldName}}", fieldSliceOfPointerToModel.Name,
 							"{{AssociationStructName}}", __struct.Name)
+
+						insertions[BackRepoPointerEncodingFieldsReindexing] += Replace3(
+							BackRepoFieldSubTemplateCode[BackRepoReindexingSliceOfPointerToStruct],
+							"{{AssociationStructName}}", __struct.Name,
+							"{{associationStructName}}", strings.ToLower(__struct.Name),
+							"{{FieldName}}", fieldSliceOfPointerToModel.Name)
 					}
 				}
 			}
