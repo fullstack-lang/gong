@@ -93,7 +93,7 @@ type BclassDBResponse struct {
 // BclassWOP is a Bclass without pointers
 // it holds the same basic fields but pointers are encoded into uint
 type BclassWOP struct {
-	gorm.Model
+	ID int
 
 	// insertion for WOP basic fields
 
@@ -107,6 +107,7 @@ type BclassWOP struct {
 
 var Bclass_Fields = []string{
 	// insertion for WOP basic fields
+	"ID",
 	"Name",
 	"Floatfield",
 	"Intfield",
@@ -401,6 +402,7 @@ func (bclassDB *BclassDB) CopyBasicFieldsToBclass(bclass *models.Bclass) {
 
 // CopyBasicFieldsToBclassWOP
 func (bclassDB *BclassDB) CopyBasicFieldsToBclassWOP(bclass *BclassWOP) {
+	bclass.ID = int(bclassDB.ID)
 	// insertion point for checkout of basic fields (back repo to stage)
 	bclass.Name = bclassDB.Name_Data.String
 	bclass.Floatfield = bclassDB.Floatfield_Data.Float64

@@ -86,7 +86,7 @@ type {{Structname}}DBResponse struct {
 // {{Structname}}WOP is a {{Structname}} without pointers
 // it holds the same basic fields but pointers are encoded into uint
 type {{Structname}}WOP struct {
-	gorm.Model
+	ID int
 
 	// insertion for WOP basic fields{{` + string(rune(BackRepoBasicAndTimeFieldsWOPDeclaration)) + `}}
 	// insertion for WOP pointer fields{{` + string(rune(BackRepoPointerEncodingFieldsWOPDeclaration)) + `}}
@@ -364,6 +364,7 @@ func ({{structname}}DB *{{Structname}}DB) CopyBasicFieldsTo{{Structname}}({{stru
 
 // CopyBasicFieldsTo{{Structname}}WOP
 func ({{structname}}DB *{{Structname}}DB) CopyBasicFieldsTo{{Structname}}WOP({{structname}} *{{Structname}}WOP) {
+	{{structname}}.ID = int({{structname}}DB.ID)
 	// insertion point for checkout of basic fields (back repo to stage){{` + string(rune(BackRepoBasicFieldsCheckout)) + `}}
 }
 
@@ -737,6 +738,8 @@ func MultiCodeGeneratorBackRepo(
 		for insertion := BackRepoInsertionPoint(0); insertion < BackRepoNbInsertionPoints; insertion++ {
 			insertions[insertion] = ""
 		}
+
+		insertions[BackRepoBasicAndTimeFieldsName] += "\n\t\"ID\","
 
 		for _, field := range _struct.Fields {
 

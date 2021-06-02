@@ -131,7 +131,7 @@ type AclassDBResponse struct {
 // AclassWOP is a Aclass without pointers
 // it holds the same basic fields but pointers are encoded into uint
 type AclassWOP struct {
-	gorm.Model
+	ID int
 
 	// insertion for WOP basic fields
 
@@ -163,6 +163,7 @@ type AclassWOP struct {
 
 var Aclass_Fields = []string{
 	// insertion for WOP basic fields
+	"ID",
 	"Name",
 	"Date",
 	"Booleanfield",
@@ -691,6 +692,7 @@ func (aclassDB *AclassDB) CopyBasicFieldsToAclass(aclass *models.Aclass) {
 
 // CopyBasicFieldsToAclassWOP
 func (aclassDB *AclassDB) CopyBasicFieldsToAclassWOP(aclass *AclassWOP) {
+	aclass.ID = int(aclassDB.ID)
 	// insertion point for checkout of basic fields (back repo to stage)
 	aclass.Name = aclassDB.Name_Data.String
 	aclass.Date = aclassDB.Date_Data.Time
