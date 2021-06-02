@@ -96,14 +96,21 @@ type BclassWOP struct {
 	gorm.Model
 
 	// insertion for WOP basic fields
+
 	Name string
+
 	Floatfield float64
+
 	Intfield int
-	Aclass_Anarrayofb uint
-	Aclass_Anotherarrayofb uint
 	// insertion for WOP pointer fields
 }
 
+var Bclass_Fields = []string{
+	// insertion for WOP basic fields
+	"Name",
+	"Floatfield",
+	"Intfield",
+}
 
 
 type BackRepoBclassStruct struct {
@@ -448,6 +455,8 @@ func (backRepoBclass *BackRepoBclassStruct) BackupXL(file *xlsx.File) {
 	}
 	_ = sh
 
+	row := sh.AddRow()
+	row.WriteSlice(&Bclass_Fields, -1)
 	for _, bclassDB := range forBackup {
 
 		var bclassWOP BclassWOP
