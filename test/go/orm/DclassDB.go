@@ -77,7 +77,7 @@ type DclassDBResponse struct {
 // DclassWOP is a Dclass without pointers
 // it holds the same basic fields but pointers are encoded into uint
 type DclassWOP struct {
-	gorm.Model
+	ID int
 
 	// insertion for WOP basic fields
 
@@ -87,6 +87,7 @@ type DclassWOP struct {
 
 var Dclass_Fields = []string{
 	// insertion for WOP basic fields
+	"ID",
 	"Name",
 }
 
@@ -365,6 +366,7 @@ func (dclassDB *DclassDB) CopyBasicFieldsToDclass(dclass *models.Dclass) {
 
 // CopyBasicFieldsToDclassWOP
 func (dclassDB *DclassDB) CopyBasicFieldsToDclassWOP(dclass *DclassWOP) {
+	dclass.ID = int(dclassDB.ID)
 	// insertion point for checkout of basic fields (back repo to stage)
 	dclass.Name = dclassDB.Name_Data.String
 }
