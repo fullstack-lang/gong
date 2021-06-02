@@ -74,6 +74,18 @@ type DclassDBResponse struct {
 	DclassDB
 }
 
+// DclassWOP is a Dclass without pointers
+// it holds the same basic fields but pointers are encoded into uint
+type DclassWOP struct {
+	gorm.Model
+
+	// insertion for WOP basic fields
+	Name string
+	// insertion for WOP pointer fields
+}
+
+
+
 type BackRepoDclassStruct struct {
 	// stores DclassDB according to their gorm ID
 	Map_DclassDBID_DclassDB *map[uint]*DclassDB
@@ -324,7 +336,7 @@ func (backRepo *BackRepoStruct) CheckoutDclass(dclass *models.Dclass) {
 	}
 }
 
-// CopyBasicFieldsToDclassDB is used to copy basic fields between the Stage or the CRUD to the back repo
+// CopyBasicFieldsFromDclass
 func (dclassDB *DclassDB) CopyBasicFieldsFromDclass(dclass *models.Dclass) {
 	// insertion point for fields commit
 	dclassDB.Name_Data.String = dclass.Name
@@ -332,9 +344,22 @@ func (dclassDB *DclassDB) CopyBasicFieldsFromDclass(dclass *models.Dclass) {
 
 }
 
-// CopyBasicFieldsToDclassDB is used to copy basic fields between the Stage or the CRUD to the back repo
-func (dclassDB *DclassDB) CopyBasicFieldsToDclass(dclass *models.Dclass) {
+// CopyBasicFieldsFromDclassWOP
+func (dclassDB *DclassDB) CopyBasicFieldsFromDclassWOP(dclass *DclassWOP) {
+	// insertion point for fields commit
+	dclassDB.Name_Data.String = dclass.Name
+	dclassDB.Name_Data.Valid = true
 
+}
+
+// CopyBasicFieldsToDclass
+func (dclassDB *DclassDB) CopyBasicFieldsToDclass(dclass *models.Dclass) {
+	// insertion point for checkout of basic fields (back repo to stage)
+	dclass.Name = dclassDB.Name_Data.String
+}
+
+// CopyBasicFieldsToDclassWOP
+func (dclassDB *DclassDB) CopyBasicFieldsToDclassWOP(dclass *DclassWOP) {
 	// insertion point for checkout of basic fields (back repo to stage)
 	dclass.Name = dclassDB.Name_Data.String
 }
@@ -389,8 +414,11 @@ func (backRepoDclass *BackRepoDclassStruct) BackupXL(file *xlsx.File) {
 
 	for _, dclassDB := range forBackup {
 
+		var dclassWOP DclassWOP
+		dclassDB.CopyBasicFieldsToDclassWOP(&dclassWOP)
+
 		row := sh.AddRow()
-		row.WriteStruct(dclassDB, -1)
+		row.WriteStruct(&dclassWOP, -1)
 	}
 }
 

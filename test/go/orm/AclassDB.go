@@ -128,6 +128,36 @@ type AclassDBResponse struct {
 	AclassDB
 }
 
+var Aclass_Fields = []string{
+	"India",
+	"Canada",
+	"Japan",
+}
+
+// AclassWOP is a Aclass without pointers
+// it holds the same basic fields but pointers are encoded into uint
+type AclassWOP struct {
+	gorm.Model
+
+	// insertion for WOP basic fields
+	Name                    string
+	Date                    time.Time
+	Booleanfield            bool
+	Aenum                   models.AEnumType
+	Aenum_2                 models.AEnumType
+	Benum                   models.BEnumType
+	CName                   string
+	CFloatfield             float64
+	Floatfield              float64
+	Intfield                int
+	Anotherbooleanfield     bool
+	Duration1               time.Duration
+	Associationtob          uint
+	Anotherassociationtob_2 uint
+	Aclass_Anarrayofa       uint
+	// insertion for WOP pointer fields
+}
+
 type BackRepoAclassStruct struct {
 	// stores AclassDB according to their gorm ID
 	Map_AclassDBID_AclassDB *map[uint]*AclassDB
@@ -292,7 +322,7 @@ func (backRepoAclass *BackRepoAclassStruct) CommitPhaseTwoInstance(backRepo *Bac
 
 			// get the back repo instance at the association end
 			bclassAssocEnd_DB :=
-				backRepo.BackRepoBclass.GetBclassDBFromBclassPtr( bclassAssocEnd)
+				backRepo.BackRepoBclass.GetBclassDBFromBclassPtr(bclassAssocEnd)
 
 			// encode reverse pointer in the association end back repo instance
 			bclassAssocEnd_DB.Aclass_AnarrayofbDBID.Int64 = int64(aclassDB.ID)
@@ -311,7 +341,7 @@ func (backRepoAclass *BackRepoAclassStruct) CommitPhaseTwoInstance(backRepo *Bac
 
 			// get the back repo instance at the association end
 			bclassAssocEnd_DB :=
-				backRepo.BackRepoBclass.GetBclassDBFromBclassPtr( bclassAssocEnd)
+				backRepo.BackRepoBclass.GetBclassDBFromBclassPtr(bclassAssocEnd)
 
 			// encode reverse pointer in the association end back repo instance
 			bclassAssocEnd_DB.Aclass_AnotherarrayofbDBID.Int64 = int64(aclassDB.ID)
@@ -330,7 +360,7 @@ func (backRepoAclass *BackRepoAclassStruct) CommitPhaseTwoInstance(backRepo *Bac
 
 			// get the back repo instance at the association end
 			aclassAssocEnd_DB :=
-				backRepo.BackRepoAclass.GetAclassDBFromAclassPtr( aclassAssocEnd)
+				backRepo.BackRepoAclass.GetAclassDBFromAclassPtr(aclassAssocEnd)
 
 			// encode reverse pointer in the association end back repo instance
 			aclassAssocEnd_DB.Aclass_AnarrayofaDBID.Int64 = int64(aclassDB.ID)
@@ -540,7 +570,7 @@ func (backRepo *BackRepoStruct) CheckoutAclass(aclass *models.Aclass) {
 	}
 }
 
-// CopyBasicFieldsToAclassDB is used to copy basic fields between the Stage or the CRUD to the back repo
+// CopyBasicFieldsFromAclass
 func (aclassDB *AclassDB) CopyBasicFieldsFromAclass(aclass *models.Aclass) {
 	// insertion point for fields commit
 	aclassDB.Name_Data.String = aclass.Name
@@ -581,9 +611,66 @@ func (aclassDB *AclassDB) CopyBasicFieldsFromAclass(aclass *models.Aclass) {
 
 }
 
-// CopyBasicFieldsToAclassDB is used to copy basic fields between the Stage or the CRUD to the back repo
-func (aclassDB *AclassDB) CopyBasicFieldsToAclass(aclass *models.Aclass) {
+// CopyBasicFieldsFromAclassWOP
+func (aclassDB *AclassDB) CopyBasicFieldsFromAclassWOP(aclass *AclassWOP) {
+	// insertion point for fields commit
+	aclassDB.Name_Data.String = aclass.Name
+	aclassDB.Name_Data.Valid = true
 
+	aclassDB.Date_Data.Time = aclass.Date
+	aclassDB.Date_Data.Valid = true
+
+	aclassDB.Booleanfield_Data.Bool = aclass.Booleanfield
+	aclassDB.Booleanfield_Data.Valid = true
+
+	aclassDB.Aenum_Data.String = string(aclass.Aenum)
+	aclassDB.Aenum_Data.Valid = true
+
+	aclassDB.Aenum_2_Data.String = string(aclass.Aenum_2)
+	aclassDB.Aenum_2_Data.Valid = true
+
+	aclassDB.Benum_Data.String = string(aclass.Benum)
+	aclassDB.Benum_Data.Valid = true
+
+	aclassDB.CName_Data.String = aclass.CName
+	aclassDB.CName_Data.Valid = true
+
+	aclassDB.CFloatfield_Data.Float64 = aclass.CFloatfield
+	aclassDB.CFloatfield_Data.Valid = true
+
+	aclassDB.Floatfield_Data.Float64 = aclass.Floatfield
+	aclassDB.Floatfield_Data.Valid = true
+
+	aclassDB.Intfield_Data.Int64 = int64(aclass.Intfield)
+	aclassDB.Intfield_Data.Valid = true
+
+	aclassDB.Anotherbooleanfield_Data.Bool = aclass.Anotherbooleanfield
+	aclassDB.Anotherbooleanfield_Data.Valid = true
+
+	aclassDB.Duration1_Data.Int64 = int64(aclass.Duration1)
+	aclassDB.Duration1_Data.Valid = true
+
+}
+
+// CopyBasicFieldsToAclass
+func (aclassDB *AclassDB) CopyBasicFieldsToAclass(aclass *models.Aclass) {
+	// insertion point for checkout of basic fields (back repo to stage)
+	aclass.Name = aclassDB.Name_Data.String
+	aclass.Date = aclassDB.Date_Data.Time
+	aclass.Booleanfield = aclassDB.Booleanfield_Data.Bool
+	aclass.Aenum = models.AEnumType(aclassDB.Aenum_Data.String)
+	aclass.Aenum_2 = models.AEnumType(aclassDB.Aenum_2_Data.String)
+	aclass.Benum = models.BEnumType(aclassDB.Benum_Data.String)
+	aclass.CName = aclassDB.CName_Data.String
+	aclass.CFloatfield = aclassDB.CFloatfield_Data.Float64
+	aclass.Floatfield = aclassDB.Floatfield_Data.Float64
+	aclass.Intfield = int(aclassDB.Intfield_Data.Int64)
+	aclass.Anotherbooleanfield = aclassDB.Anotherbooleanfield_Data.Bool
+	aclass.Duration1 = time.Duration(aclassDB.Duration1_Data.Int64)
+}
+
+// CopyBasicFieldsToAclassWOP
+func (aclassDB *AclassDB) CopyBasicFieldsToAclassWOP(aclass *AclassWOP) {
 	// insertion point for checkout of basic fields (back repo to stage)
 	aclass.Name = aclassDB.Name_Data.String
 	aclass.Date = aclassDB.Date_Data.Time
@@ -647,10 +734,16 @@ func (backRepoAclass *BackRepoAclassStruct) BackupXL(file *xlsx.File) {
 	}
 	_ = sh
 
+	row := sh.AddRow()
+	row.WriteSlice(&Aclass_Fields, -1)
+
 	for _, aclassDB := range forBackup {
 
+		var aclassWOP AclassWOP
+		aclassDB.CopyBasicFieldsToAclassWOP(&aclassWOP)
+
 		row := sh.AddRow()
-		row.WriteStruct(aclassDB, -1)
+		row.WriteStruct(&aclassWOP, -1)
 	}
 }
 
@@ -698,7 +791,7 @@ func (backRepoAclass *BackRepoAclassStruct) RestorePhaseOne(dirPath string) {
 // to compute new index
 func (backRepoAclass *BackRepoAclassStruct) RestorePhaseTwo() {
 
-	for _, aclassDB := range (*backRepoAclass.Map_AclassDBID_AclassDB) {
+	for _, aclassDB := range *backRepoAclass.Map_AclassDBID_AclassDB {
 
 		// next line of code is to avert unused variable compilation error
 		_ = aclassDB
@@ -716,7 +809,7 @@ func (backRepoAclass *BackRepoAclassStruct) RestorePhaseTwo() {
 
 		// This reindex aclass.Anarrayofa
 		if aclassDB.Aclass_AnarrayofaDBID.Int64 != 0 {
-			aclassDB.Aclass_AnarrayofaDBID.Int64 = 
+			aclassDB.Aclass_AnarrayofaDBID.Int64 =
 				int64(BackRepoAclassid_atBckpTime_newID[uint(aclassDB.Aclass_AnarrayofaDBID.Int64)])
 		}
 
