@@ -90,6 +90,22 @@ type BclassDBResponse struct {
 	BclassDB
 }
 
+// BclassWOP is a Bclass without pointers
+// it holds the same basic fields but pointers are encoded into uint
+type BclassWOP struct {
+	gorm.Model
+
+	// insertion for WOP basic fields
+	Name string
+	Floatfield float64
+	Intfield int
+	Aclass_Anarrayofb uint
+	Aclass_Anotherarrayofb uint
+	// insertion for WOP pointer fields
+}
+
+
+
 type BackRepoBclassStruct struct {
 	// stores BclassDB according to their gorm ID
 	Map_BclassDBID_BclassDB *map[uint]*BclassDB
@@ -340,7 +356,7 @@ func (backRepo *BackRepoStruct) CheckoutBclass(bclass *models.Bclass) {
 	}
 }
 
-// CopyBasicFieldsToBclassDB is used to copy basic fields between the Stage or the CRUD to the back repo
+// CopyBasicFieldsFromBclass
 func (bclassDB *BclassDB) CopyBasicFieldsFromBclass(bclass *models.Bclass) {
 	// insertion point for fields commit
 	bclassDB.Name_Data.String = bclass.Name
@@ -354,9 +370,30 @@ func (bclassDB *BclassDB) CopyBasicFieldsFromBclass(bclass *models.Bclass) {
 
 }
 
-// CopyBasicFieldsToBclassDB is used to copy basic fields between the Stage or the CRUD to the back repo
-func (bclassDB *BclassDB) CopyBasicFieldsToBclass(bclass *models.Bclass) {
+// CopyBasicFieldsFromBclassWOP
+func (bclassDB *BclassDB) CopyBasicFieldsFromBclassWOP(bclass *BclassWOP) {
+	// insertion point for fields commit
+	bclassDB.Name_Data.String = bclass.Name
+	bclassDB.Name_Data.Valid = true
 
+	bclassDB.Floatfield_Data.Float64 = bclass.Floatfield
+	bclassDB.Floatfield_Data.Valid = true
+
+	bclassDB.Intfield_Data.Int64 = int64(bclass.Intfield)
+	bclassDB.Intfield_Data.Valid = true
+
+}
+
+// CopyBasicFieldsToBclass
+func (bclassDB *BclassDB) CopyBasicFieldsToBclass(bclass *models.Bclass) {
+	// insertion point for checkout of basic fields (back repo to stage)
+	bclass.Name = bclassDB.Name_Data.String
+	bclass.Floatfield = bclassDB.Floatfield_Data.Float64
+	bclass.Intfield = int(bclassDB.Intfield_Data.Int64)
+}
+
+// CopyBasicFieldsToBclassWOP
+func (bclassDB *BclassDB) CopyBasicFieldsToBclassWOP(bclass *BclassWOP) {
 	// insertion point for checkout of basic fields (back repo to stage)
 	bclass.Name = bclassDB.Name_Data.String
 	bclass.Floatfield = bclassDB.Floatfield_Data.Float64
@@ -413,8 +450,11 @@ func (backRepoBclass *BackRepoBclassStruct) BackupXL(file *xlsx.File) {
 
 	for _, bclassDB := range forBackup {
 
+		var bclassWOP BclassWOP
+		bclassDB.CopyBasicFieldsToBclassWOP(&bclassWOP)
+
 		row := sh.AddRow()
-		row.WriteStruct(bclassDB, -1)
+		row.WriteStruct(&bclassWOP, -1)
 	}
 }
 

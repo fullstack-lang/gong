@@ -23,6 +23,10 @@ func TestXLBackup(t *testing.T) {
 
 	aclass1 := (&models.Aclass{
 		Name:                "A1",
+		Date:                time.Date(2021, time.February, 20, 20, 12, 4, 0, time.UTC),
+		Duration1:           time.Hour + 3*time.Minute + time.Millisecond,
+		Aenum:               models.ENUM_VAL1,
+		Intfield:            4,
 		Floatfield:          10.2,
 		Booleanfield:        true,
 		Anotherbooleanfield: true,
