@@ -80,10 +80,15 @@ type DclassWOP struct {
 	gorm.Model
 
 	// insertion for WOP basic fields
+
 	Name string
 	// insertion for WOP pointer fields
 }
 
+var Dclass_Fields = []string{
+	// insertion for WOP basic fields
+	"Name",
+}
 
 
 type BackRepoDclassStruct struct {
@@ -412,6 +417,8 @@ func (backRepoDclass *BackRepoDclassStruct) BackupXL(file *xlsx.File) {
 	}
 	_ = sh
 
+	row := sh.AddRow()
+	row.WriteSlice(&Dclass_Fields, -1)
 	for _, dclassDB := range forBackup {
 
 		var dclassWOP DclassWOP

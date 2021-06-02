@@ -92,6 +92,9 @@ type {{Structname}}WOP struct {
 	// insertion for WOP pointer fields{{` + string(rune(BackRepoPointerEncodingFieldsWOPDeclaration)) + `}}
 }
 
+var {{Structname}}_Fields = []string{
+	// insertion for WOP basic fields{{` + string(rune(BackRepoBasicAndTimeFieldsName)) + `}}
+}
 
 
 type BackRepo{{Structname}}Struct struct {
@@ -412,6 +415,8 @@ func (backRepo{{Structname}} *BackRepo{{Structname}}Struct) BackupXL(file *xlsx.
 	}
 	_ = sh
 
+	row := sh.AddRow()
+	row.WriteSlice(&{{Structname}}_Fields, -1)
 	for _, {{structname}}DB := range forBackup {
 
 		var {{structname}}WOP {{Structname}}WOP
@@ -491,6 +496,7 @@ type BackRepoInsertionPoint int
 
 const (
 	BackRepoBasicFieldsDeclaration BackRepoInsertionPoint = iota
+	BackRepoBasicAndTimeFieldsName
 	BackRepoBasicAndTimeFieldsWOPDeclaration
 	BackRepoPointerEncodingFieldsDeclaration
 	BackRepoPointerEncodingFieldsWOPDeclaration
@@ -739,8 +745,10 @@ func MultiCodeGeneratorBackRepo(
 				gongBasicField := field.(*GongBasicField)
 
 				insertions[BackRepoBasicAndTimeFieldsWOPDeclaration] +=
-					"\n\t" + gongBasicField.Name + " " +
+					"\n\n\t" + gongBasicField.Name + " " +
 						strings.ReplaceAll(gongBasicField.DeclaredType, pkgGoPath+".", "models.")
+
+				insertions[BackRepoBasicAndTimeFieldsName] += "\n\t\"" + gongBasicField.Name + "\","
 
 				if gongBasicField.basicKind == types.Bool {
 
@@ -824,7 +832,9 @@ func MultiCodeGeneratorBackRepo(
 				gongTimeField := field.(*GongTimeField)
 
 				insertions[BackRepoBasicAndTimeFieldsWOPDeclaration] +=
-					"\n\t" + gongTimeField.Name + " " + "time.Time"
+					"\n\n\t" + gongTimeField.Name + " " + "time.Time"
+
+				insertions[BackRepoBasicAndTimeFieldsName] += "\n\t\"" + gongTimeField.Name + "\","
 
 				insertions[BackRepoBasicFieldsDeclaration] += Replace1(
 					BackRepoFieldSubTemplateCode[BackRepoDeclarationTimeField],
@@ -841,8 +851,8 @@ func MultiCodeGeneratorBackRepo(
 			case *PointerToGongStructField:
 				modelPointerToStruct := field.(*PointerToGongStructField)
 
-				insertions[BackRepoBasicAndTimeFieldsWOPDeclaration] +=
-					"\n\t" + modelPointerToStruct.Name + " uint"
+				// insertions[BackRepoBasicAndTimeFieldsWOPDeclaration] +=
+				// 	"\n\n\t" + modelPointerToStruct.Name + " uint"
 
 				insertions[BackRepoPointerEncodingFieldsDeclaration] += Replace1(
 					BackRepoFieldSubTemplateCode[BackRepoDeclarationPointerToStructField],
@@ -895,8 +905,8 @@ func MultiCodeGeneratorBackRepo(
 
 					if fieldSliceOfPointerToModel.GongStruct == _struct {
 
-						insertions[BackRepoBasicAndTimeFieldsWOPDeclaration] +=
-							"\n\t" + __struct.Name + "_" + fieldSliceOfPointerToModel.Name + " uint"
+						// insertions[BackRepoBasicAndTimeFieldsWOPDeclaration] +=
+						// 	"\n\n\t" + __struct.Name + "_" + fieldSliceOfPointerToModel.Name + " uint"
 
 						insertions[BackRepoPointerEncodingFieldsDeclaration] += Replace2(
 							BackRepoFieldSubTemplateCode[BackRepoDeclarationSliceOfPointerToStructField],
