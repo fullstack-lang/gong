@@ -128,35 +128,55 @@ type AclassDBResponse struct {
 	AclassDB
 }
 
-var Aclass_Fields = []string{
-	"India",
-	"Canada",
-	"Japan",
-}
-
 // AclassWOP is a Aclass without pointers
 // it holds the same basic fields but pointers are encoded into uint
 type AclassWOP struct {
 	gorm.Model
 
 	// insertion for WOP basic fields
-	Name                    string
-	Date                    time.Time
-	Booleanfield            bool
-	Aenum                   models.AEnumType
-	Aenum_2                 models.AEnumType
-	Benum                   models.BEnumType
-	CName                   string
-	CFloatfield             float64
-	Floatfield              float64
-	Intfield                int
-	Anotherbooleanfield     bool
-	Duration1               time.Duration
-	Associationtob          uint
-	Anotherassociationtob_2 uint
-	Aclass_Anarrayofa       uint
+
+	Name string
+
+	Date time.Time
+
+	Booleanfield bool
+
+	Aenum models.AEnumType
+
+	Aenum_2 models.AEnumType
+
+	Benum models.BEnumType
+
+	CName string
+
+	CFloatfield float64
+
+	Floatfield float64
+
+	Intfield int
+
+	Anotherbooleanfield bool
+
+	Duration1 time.Duration
 	// insertion for WOP pointer fields
 }
+
+var Aclass_Fields = []string{
+	// insertion for WOP basic fields
+	"Name",
+	"Date",
+	"Booleanfield",
+	"Aenum",
+	"Aenum_2",
+	"Benum",
+	"CName",
+	"CFloatfield",
+	"Floatfield",
+	"Intfield",
+	"Anotherbooleanfield",
+	"Duration1",
+}
+
 
 type BackRepoAclassStruct struct {
 	// stores AclassDB according to their gorm ID
@@ -322,7 +342,7 @@ func (backRepoAclass *BackRepoAclassStruct) CommitPhaseTwoInstance(backRepo *Bac
 
 			// get the back repo instance at the association end
 			bclassAssocEnd_DB :=
-				backRepo.BackRepoBclass.GetBclassDBFromBclassPtr(bclassAssocEnd)
+				backRepo.BackRepoBclass.GetBclassDBFromBclassPtr( bclassAssocEnd)
 
 			// encode reverse pointer in the association end back repo instance
 			bclassAssocEnd_DB.Aclass_AnarrayofbDBID.Int64 = int64(aclassDB.ID)
@@ -341,7 +361,7 @@ func (backRepoAclass *BackRepoAclassStruct) CommitPhaseTwoInstance(backRepo *Bac
 
 			// get the back repo instance at the association end
 			bclassAssocEnd_DB :=
-				backRepo.BackRepoBclass.GetBclassDBFromBclassPtr(bclassAssocEnd)
+				backRepo.BackRepoBclass.GetBclassDBFromBclassPtr( bclassAssocEnd)
 
 			// encode reverse pointer in the association end back repo instance
 			bclassAssocEnd_DB.Aclass_AnotherarrayofbDBID.Int64 = int64(aclassDB.ID)
@@ -360,7 +380,7 @@ func (backRepoAclass *BackRepoAclassStruct) CommitPhaseTwoInstance(backRepo *Bac
 
 			// get the back repo instance at the association end
 			aclassAssocEnd_DB :=
-				backRepo.BackRepoAclass.GetAclassDBFromAclassPtr(aclassAssocEnd)
+				backRepo.BackRepoAclass.GetAclassDBFromAclassPtr( aclassAssocEnd)
 
 			// encode reverse pointer in the association end back repo instance
 			aclassAssocEnd_DB.Aclass_AnarrayofaDBID.Int64 = int64(aclassDB.ID)
@@ -736,7 +756,6 @@ func (backRepoAclass *BackRepoAclassStruct) BackupXL(file *xlsx.File) {
 
 	row := sh.AddRow()
 	row.WriteSlice(&Aclass_Fields, -1)
-
 	for _, aclassDB := range forBackup {
 
 		var aclassWOP AclassWOP
@@ -791,7 +810,7 @@ func (backRepoAclass *BackRepoAclassStruct) RestorePhaseOne(dirPath string) {
 // to compute new index
 func (backRepoAclass *BackRepoAclassStruct) RestorePhaseTwo() {
 
-	for _, aclassDB := range *backRepoAclass.Map_AclassDBID_AclassDB {
+	for _, aclassDB := range (*backRepoAclass.Map_AclassDBID_AclassDB) {
 
 		// next line of code is to avert unused variable compilation error
 		_ = aclassDB
@@ -809,7 +828,7 @@ func (backRepoAclass *BackRepoAclassStruct) RestorePhaseTwo() {
 
 		// This reindex aclass.Anarrayofa
 		if aclassDB.Aclass_AnarrayofaDBID.Int64 != 0 {
-			aclassDB.Aclass_AnarrayofaDBID.Int64 =
+			aclassDB.Aclass_AnarrayofaDBID.Int64 = 
 				int64(BackRepoAclassid_atBckpTime_newID[uint(aclassDB.Aclass_AnarrayofaDBID.Int64)])
 		}
 
