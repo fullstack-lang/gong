@@ -15,6 +15,8 @@ import (
 
 	"github.com/jinzhu/gorm"
 
+	"github.com/tealeg/xlsx/v3"
+
 	"github.com/fullstack-lang/gong/test/go/models"
 )
 
@@ -125,6 +127,57 @@ type AclassDBs []AclassDB
 type AclassDBResponse struct {
 	AclassDB
 }
+
+// AclassWOP is a Aclass without pointers
+// it holds the same basic fields but pointers are encoded into uint
+type AclassWOP struct {
+	ID int
+
+	// insertion for WOP basic fields
+
+	Name string
+
+	Date time.Time
+
+	Booleanfield bool
+
+	Aenum models.AEnumType
+
+	Aenum_2 models.AEnumType
+
+	Benum models.BEnumType
+
+	CName string
+
+	CFloatfield float64
+
+	Floatfield float64
+
+	Intfield int
+
+	Anotherbooleanfield bool
+
+	Duration1 time.Duration
+	// insertion for WOP pointer fields
+}
+
+var Aclass_Fields = []string{
+	// insertion for WOP basic fields
+	"ID",
+	"Name",
+	"Date",
+	"Booleanfield",
+	"Aenum",
+	"Aenum_2",
+	"Benum",
+	"CName",
+	"CFloatfield",
+	"Floatfield",
+	"Intfield",
+	"Anotherbooleanfield",
+	"Duration1",
+}
+
 
 type BackRepoAclassStruct struct {
 	// stores AclassDB according to their gorm ID
@@ -538,7 +591,7 @@ func (backRepo *BackRepoStruct) CheckoutAclass(aclass *models.Aclass) {
 	}
 }
 
-// CopyBasicFieldsToAclassDB is used to copy basic fields between the Stage or the CRUD to the back repo
+// CopyBasicFieldsFromAclass
 func (aclassDB *AclassDB) CopyBasicFieldsFromAclass(aclass *models.Aclass) {
 	// insertion point for fields commit
 	aclassDB.Name_Data.String = aclass.Name
@@ -579,9 +632,67 @@ func (aclassDB *AclassDB) CopyBasicFieldsFromAclass(aclass *models.Aclass) {
 
 }
 
-// CopyBasicFieldsToAclassDB is used to copy basic fields between the Stage or the CRUD to the back repo
-func (aclassDB *AclassDB) CopyBasicFieldsToAclass(aclass *models.Aclass) {
+// CopyBasicFieldsFromAclassWOP
+func (aclassDB *AclassDB) CopyBasicFieldsFromAclassWOP(aclass *AclassWOP) {
+	// insertion point for fields commit
+	aclassDB.Name_Data.String = aclass.Name
+	aclassDB.Name_Data.Valid = true
 
+	aclassDB.Date_Data.Time = aclass.Date
+	aclassDB.Date_Data.Valid = true
+
+	aclassDB.Booleanfield_Data.Bool = aclass.Booleanfield
+	aclassDB.Booleanfield_Data.Valid = true
+
+	aclassDB.Aenum_Data.String = string(aclass.Aenum)
+	aclassDB.Aenum_Data.Valid = true
+
+	aclassDB.Aenum_2_Data.String = string(aclass.Aenum_2)
+	aclassDB.Aenum_2_Data.Valid = true
+
+	aclassDB.Benum_Data.String = string(aclass.Benum)
+	aclassDB.Benum_Data.Valid = true
+
+	aclassDB.CName_Data.String = aclass.CName
+	aclassDB.CName_Data.Valid = true
+
+	aclassDB.CFloatfield_Data.Float64 = aclass.CFloatfield
+	aclassDB.CFloatfield_Data.Valid = true
+
+	aclassDB.Floatfield_Data.Float64 = aclass.Floatfield
+	aclassDB.Floatfield_Data.Valid = true
+
+	aclassDB.Intfield_Data.Int64 = int64(aclass.Intfield)
+	aclassDB.Intfield_Data.Valid = true
+
+	aclassDB.Anotherbooleanfield_Data.Bool = aclass.Anotherbooleanfield
+	aclassDB.Anotherbooleanfield_Data.Valid = true
+
+	aclassDB.Duration1_Data.Int64 = int64(aclass.Duration1)
+	aclassDB.Duration1_Data.Valid = true
+
+}
+
+// CopyBasicFieldsToAclass
+func (aclassDB *AclassDB) CopyBasicFieldsToAclass(aclass *models.Aclass) {
+	// insertion point for checkout of basic fields (back repo to stage)
+	aclass.Name = aclassDB.Name_Data.String
+	aclass.Date = aclassDB.Date_Data.Time
+	aclass.Booleanfield = aclassDB.Booleanfield_Data.Bool
+	aclass.Aenum = models.AEnumType(aclassDB.Aenum_Data.String)
+	aclass.Aenum_2 = models.AEnumType(aclassDB.Aenum_2_Data.String)
+	aclass.Benum = models.BEnumType(aclassDB.Benum_Data.String)
+	aclass.CName = aclassDB.CName_Data.String
+	aclass.CFloatfield = aclassDB.CFloatfield_Data.Float64
+	aclass.Floatfield = aclassDB.Floatfield_Data.Float64
+	aclass.Intfield = int(aclassDB.Intfield_Data.Int64)
+	aclass.Anotherbooleanfield = aclassDB.Anotherbooleanfield_Data.Bool
+	aclass.Duration1 = time.Duration(aclassDB.Duration1_Data.Int64)
+}
+
+// CopyBasicFieldsToAclassWOP
+func (aclassDB *AclassDB) CopyBasicFieldsToAclassWOP(aclass *AclassWOP) {
+	aclass.ID = int(aclassDB.ID)
 	// insertion point for checkout of basic fields (back repo to stage)
 	aclass.Name = aclassDB.Name_Data.String
 	aclass.Date = aclassDB.Date_Data.Time
@@ -622,6 +733,38 @@ func (backRepoAclass *BackRepoAclassStruct) Backup(dirPath string) {
 	err = ioutil.WriteFile(filename, file, 0644)
 	if err != nil {
 		log.Panic("Cannot write the json Aclass file", err.Error())
+	}
+}
+
+// Backup generates a json file from a slice of all AclassDB instances in the backrepo
+func (backRepoAclass *BackRepoAclassStruct) BackupXL(file *xlsx.File) {
+
+	// organize the map into an array with increasing IDs, in order to have repoductible
+	// backup file
+	forBackup := make([]*AclassDB, 0)
+	for _, aclassDB := range *backRepoAclass.Map_AclassDBID_AclassDB {
+		forBackup = append(forBackup, aclassDB)
+	}
+
+	sort.Slice(forBackup[:], func(i, j int) bool {
+		return forBackup[i].ID < forBackup[j].ID
+	})
+
+	sh, err := file.AddSheet("Aclass")
+	if err != nil {
+		log.Panic("Cannot add XL file", err.Error())
+	}
+	_ = sh
+
+	row := sh.AddRow()
+	row.WriteSlice(&Aclass_Fields, -1)
+	for _, aclassDB := range forBackup {
+
+		var aclassWOP AclassWOP
+		aclassDB.CopyBasicFieldsToAclassWOP(&aclassWOP)
+
+		row := sh.AddRow()
+		row.WriteStruct(&aclassWOP, -1)
 	}
 }
 

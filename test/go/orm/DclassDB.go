@@ -15,6 +15,8 @@ import (
 
 	"github.com/jinzhu/gorm"
 
+	"github.com/tealeg/xlsx/v3"
+
 	"github.com/fullstack-lang/gong/test/go/models"
 )
 
@@ -71,6 +73,24 @@ type DclassDBs []DclassDB
 type DclassDBResponse struct {
 	DclassDB
 }
+
+// DclassWOP is a Dclass without pointers
+// it holds the same basic fields but pointers are encoded into uint
+type DclassWOP struct {
+	ID int
+
+	// insertion for WOP basic fields
+
+	Name string
+	// insertion for WOP pointer fields
+}
+
+var Dclass_Fields = []string{
+	// insertion for WOP basic fields
+	"ID",
+	"Name",
+}
+
 
 type BackRepoDclassStruct struct {
 	// stores DclassDB according to their gorm ID
@@ -322,7 +342,7 @@ func (backRepo *BackRepoStruct) CheckoutDclass(dclass *models.Dclass) {
 	}
 }
 
-// CopyBasicFieldsToDclassDB is used to copy basic fields between the Stage or the CRUD to the back repo
+// CopyBasicFieldsFromDclass
 func (dclassDB *DclassDB) CopyBasicFieldsFromDclass(dclass *models.Dclass) {
 	// insertion point for fields commit
 	dclassDB.Name_Data.String = dclass.Name
@@ -330,9 +350,23 @@ func (dclassDB *DclassDB) CopyBasicFieldsFromDclass(dclass *models.Dclass) {
 
 }
 
-// CopyBasicFieldsToDclassDB is used to copy basic fields between the Stage or the CRUD to the back repo
-func (dclassDB *DclassDB) CopyBasicFieldsToDclass(dclass *models.Dclass) {
+// CopyBasicFieldsFromDclassWOP
+func (dclassDB *DclassDB) CopyBasicFieldsFromDclassWOP(dclass *DclassWOP) {
+	// insertion point for fields commit
+	dclassDB.Name_Data.String = dclass.Name
+	dclassDB.Name_Data.Valid = true
 
+}
+
+// CopyBasicFieldsToDclass
+func (dclassDB *DclassDB) CopyBasicFieldsToDclass(dclass *models.Dclass) {
+	// insertion point for checkout of basic fields (back repo to stage)
+	dclass.Name = dclassDB.Name_Data.String
+}
+
+// CopyBasicFieldsToDclassWOP
+func (dclassDB *DclassDB) CopyBasicFieldsToDclassWOP(dclass *DclassWOP) {
+	dclass.ID = int(dclassDB.ID)
 	// insertion point for checkout of basic fields (back repo to stage)
 	dclass.Name = dclassDB.Name_Data.String
 }
@@ -362,6 +396,38 @@ func (backRepoDclass *BackRepoDclassStruct) Backup(dirPath string) {
 	err = ioutil.WriteFile(filename, file, 0644)
 	if err != nil {
 		log.Panic("Cannot write the json Dclass file", err.Error())
+	}
+}
+
+// Backup generates a json file from a slice of all DclassDB instances in the backrepo
+func (backRepoDclass *BackRepoDclassStruct) BackupXL(file *xlsx.File) {
+
+	// organize the map into an array with increasing IDs, in order to have repoductible
+	// backup file
+	forBackup := make([]*DclassDB, 0)
+	for _, dclassDB := range *backRepoDclass.Map_DclassDBID_DclassDB {
+		forBackup = append(forBackup, dclassDB)
+	}
+
+	sort.Slice(forBackup[:], func(i, j int) bool {
+		return forBackup[i].ID < forBackup[j].ID
+	})
+
+	sh, err := file.AddSheet("Dclass")
+	if err != nil {
+		log.Panic("Cannot add XL file", err.Error())
+	}
+	_ = sh
+
+	row := sh.AddRow()
+	row.WriteSlice(&Dclass_Fields, -1)
+	for _, dclassDB := range forBackup {
+
+		var dclassWOP DclassWOP
+		dclassDB.CopyBasicFieldsToDclassWOP(&dclassWOP)
+
+		row := sh.AddRow()
+		row.WriteStruct(&dclassWOP, -1)
 	}
 }
 
