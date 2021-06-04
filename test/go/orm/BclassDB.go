@@ -15,6 +15,8 @@ import (
 
 	"github.com/jinzhu/gorm"
 
+	"github.com/tealeg/xlsx/v3"
+
 	"github.com/fullstack-lang/gong/test/go/models"
 )
 
@@ -87,6 +89,30 @@ type BclassDBs []BclassDB
 type BclassDBResponse struct {
 	BclassDB
 }
+
+// BclassWOP is a Bclass without pointers
+// it holds the same basic fields but pointers are encoded into uint
+type BclassWOP struct {
+	ID int
+
+	// insertion for WOP basic fields
+
+	Name string
+
+	Floatfield float64
+
+	Intfield int
+	// insertion for WOP pointer fields
+}
+
+var Bclass_Fields = []string{
+	// insertion for WOP basic fields
+	"ID",
+	"Name",
+	"Floatfield",
+	"Intfield",
+}
+
 
 type BackRepoBclassStruct struct {
 	// stores BclassDB according to their gorm ID
@@ -338,7 +364,7 @@ func (backRepo *BackRepoStruct) CheckoutBclass(bclass *models.Bclass) {
 	}
 }
 
-// CopyBasicFieldsToBclassDB is used to copy basic fields between the Stage or the CRUD to the back repo
+// CopyBasicFieldsFromBclass
 func (bclassDB *BclassDB) CopyBasicFieldsFromBclass(bclass *models.Bclass) {
 	// insertion point for fields commit
 	bclassDB.Name_Data.String = bclass.Name
@@ -352,9 +378,31 @@ func (bclassDB *BclassDB) CopyBasicFieldsFromBclass(bclass *models.Bclass) {
 
 }
 
-// CopyBasicFieldsToBclassDB is used to copy basic fields between the Stage or the CRUD to the back repo
-func (bclassDB *BclassDB) CopyBasicFieldsToBclass(bclass *models.Bclass) {
+// CopyBasicFieldsFromBclassWOP
+func (bclassDB *BclassDB) CopyBasicFieldsFromBclassWOP(bclass *BclassWOP) {
+	// insertion point for fields commit
+	bclassDB.Name_Data.String = bclass.Name
+	bclassDB.Name_Data.Valid = true
 
+	bclassDB.Floatfield_Data.Float64 = bclass.Floatfield
+	bclassDB.Floatfield_Data.Valid = true
+
+	bclassDB.Intfield_Data.Int64 = int64(bclass.Intfield)
+	bclassDB.Intfield_Data.Valid = true
+
+}
+
+// CopyBasicFieldsToBclass
+func (bclassDB *BclassDB) CopyBasicFieldsToBclass(bclass *models.Bclass) {
+	// insertion point for checkout of basic fields (back repo to stage)
+	bclass.Name = bclassDB.Name_Data.String
+	bclass.Floatfield = bclassDB.Floatfield_Data.Float64
+	bclass.Intfield = int(bclassDB.Intfield_Data.Int64)
+}
+
+// CopyBasicFieldsToBclassWOP
+func (bclassDB *BclassDB) CopyBasicFieldsToBclassWOP(bclass *BclassWOP) {
+	bclass.ID = int(bclassDB.ID)
 	// insertion point for checkout of basic fields (back repo to stage)
 	bclass.Name = bclassDB.Name_Data.String
 	bclass.Floatfield = bclassDB.Floatfield_Data.Float64
@@ -386,6 +434,38 @@ func (backRepoBclass *BackRepoBclassStruct) Backup(dirPath string) {
 	err = ioutil.WriteFile(filename, file, 0644)
 	if err != nil {
 		log.Panic("Cannot write the json Bclass file", err.Error())
+	}
+}
+
+// Backup generates a json file from a slice of all BclassDB instances in the backrepo
+func (backRepoBclass *BackRepoBclassStruct) BackupXL(file *xlsx.File) {
+
+	// organize the map into an array with increasing IDs, in order to have repoductible
+	// backup file
+	forBackup := make([]*BclassDB, 0)
+	for _, bclassDB := range *backRepoBclass.Map_BclassDBID_BclassDB {
+		forBackup = append(forBackup, bclassDB)
+	}
+
+	sort.Slice(forBackup[:], func(i, j int) bool {
+		return forBackup[i].ID < forBackup[j].ID
+	})
+
+	sh, err := file.AddSheet("Bclass")
+	if err != nil {
+		log.Panic("Cannot add XL file", err.Error())
+	}
+	_ = sh
+
+	row := sh.AddRow()
+	row.WriteSlice(&Bclass_Fields, -1)
+	for _, bclassDB := range forBackup {
+
+		var bclassWOP BclassWOP
+		bclassDB.CopyBasicFieldsToBclassWOP(&bclassWOP)
+
+		row := sh.AddRow()
+		row.WriteStruct(&bclassWOP, -1)
 	}
 }
 
