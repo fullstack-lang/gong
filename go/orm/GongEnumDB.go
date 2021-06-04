@@ -15,6 +15,8 @@ import (
 
 	"github.com/jinzhu/gorm"
 
+	"github.com/tealeg/xlsx/v3"
+
 	"github.com/fullstack-lang/gong/go/models"
 )
 
@@ -71,6 +73,24 @@ type GongEnumDBs []GongEnumDB
 type GongEnumDBResponse struct {
 	GongEnumDB
 }
+
+// GongEnumWOP is a GongEnum without pointers
+// it holds the same basic fields but pointers are encoded into uint
+type GongEnumWOP struct {
+	ID int
+
+	// insertion for WOP basic fields
+
+	Name string
+	// insertion for WOP pointer fields
+}
+
+var GongEnum_Fields = []string{
+	// insertion for WOP basic fields
+	"ID",
+	"Name",
+}
+
 
 type BackRepoGongEnumStruct struct {
 	// stores GongEnumDB according to their gorm ID
@@ -368,7 +388,7 @@ func (backRepo *BackRepoStruct) CheckoutGongEnum(gongenum *models.GongEnum) {
 	}
 }
 
-// CopyBasicFieldsToGongEnumDB is used to copy basic fields between the Stage or the CRUD to the back repo
+// CopyBasicFieldsFromGongEnum
 func (gongenumDB *GongEnumDB) CopyBasicFieldsFromGongEnum(gongenum *models.GongEnum) {
 	// insertion point for fields commit
 	gongenumDB.Name_Data.String = gongenum.Name
@@ -376,9 +396,23 @@ func (gongenumDB *GongEnumDB) CopyBasicFieldsFromGongEnum(gongenum *models.GongE
 
 }
 
-// CopyBasicFieldsToGongEnumDB is used to copy basic fields between the Stage or the CRUD to the back repo
-func (gongenumDB *GongEnumDB) CopyBasicFieldsToGongEnum(gongenum *models.GongEnum) {
+// CopyBasicFieldsFromGongEnumWOP
+func (gongenumDB *GongEnumDB) CopyBasicFieldsFromGongEnumWOP(gongenum *GongEnumWOP) {
+	// insertion point for fields commit
+	gongenumDB.Name_Data.String = gongenum.Name
+	gongenumDB.Name_Data.Valid = true
 
+}
+
+// CopyBasicFieldsToGongEnum
+func (gongenumDB *GongEnumDB) CopyBasicFieldsToGongEnum(gongenum *models.GongEnum) {
+	// insertion point for checkout of basic fields (back repo to stage)
+	gongenum.Name = gongenumDB.Name_Data.String
+}
+
+// CopyBasicFieldsToGongEnumWOP
+func (gongenumDB *GongEnumDB) CopyBasicFieldsToGongEnumWOP(gongenum *GongEnumWOP) {
+	gongenum.ID = int(gongenumDB.ID)
 	// insertion point for checkout of basic fields (back repo to stage)
 	gongenum.Name = gongenumDB.Name_Data.String
 }
@@ -408,6 +442,38 @@ func (backRepoGongEnum *BackRepoGongEnumStruct) Backup(dirPath string) {
 	err = ioutil.WriteFile(filename, file, 0644)
 	if err != nil {
 		log.Panic("Cannot write the json GongEnum file", err.Error())
+	}
+}
+
+// Backup generates a json file from a slice of all GongEnumDB instances in the backrepo
+func (backRepoGongEnum *BackRepoGongEnumStruct) BackupXL(file *xlsx.File) {
+
+	// organize the map into an array with increasing IDs, in order to have repoductible
+	// backup file
+	forBackup := make([]*GongEnumDB, 0)
+	for _, gongenumDB := range *backRepoGongEnum.Map_GongEnumDBID_GongEnumDB {
+		forBackup = append(forBackup, gongenumDB)
+	}
+
+	sort.Slice(forBackup[:], func(i, j int) bool {
+		return forBackup[i].ID < forBackup[j].ID
+	})
+
+	sh, err := file.AddSheet("GongEnum")
+	if err != nil {
+		log.Panic("Cannot add XL file", err.Error())
+	}
+	_ = sh
+
+	row := sh.AddRow()
+	row.WriteSlice(&GongEnum_Fields, -1)
+	for _, gongenumDB := range forBackup {
+
+		var gongenumWOP GongEnumWOP
+		gongenumDB.CopyBasicFieldsToGongEnumWOP(&gongenumWOP)
+
+		row := sh.AddRow()
+		row.WriteStruct(&gongenumWOP, -1)
 	}
 }
 

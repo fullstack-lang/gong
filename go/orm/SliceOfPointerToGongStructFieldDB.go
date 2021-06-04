@@ -15,6 +15,8 @@ import (
 
 	"github.com/jinzhu/gorm"
 
+	"github.com/tealeg/xlsx/v3"
+
 	"github.com/fullstack-lang/gong/go/models"
 )
 
@@ -83,6 +85,24 @@ type SliceOfPointerToGongStructFieldDBs []SliceOfPointerToGongStructFieldDB
 type SliceOfPointerToGongStructFieldDBResponse struct {
 	SliceOfPointerToGongStructFieldDB
 }
+
+// SliceOfPointerToGongStructFieldWOP is a SliceOfPointerToGongStructField without pointers
+// it holds the same basic fields but pointers are encoded into uint
+type SliceOfPointerToGongStructFieldWOP struct {
+	ID int
+
+	// insertion for WOP basic fields
+
+	Name string
+	// insertion for WOP pointer fields
+}
+
+var SliceOfPointerToGongStructField_Fields = []string{
+	// insertion for WOP basic fields
+	"ID",
+	"Name",
+}
+
 
 type BackRepoSliceOfPointerToGongStructFieldStruct struct {
 	// stores SliceOfPointerToGongStructFieldDB according to their gorm ID
@@ -346,7 +366,7 @@ func (backRepo *BackRepoStruct) CheckoutSliceOfPointerToGongStructField(sliceofp
 	}
 }
 
-// CopyBasicFieldsToSliceOfPointerToGongStructFieldDB is used to copy basic fields between the Stage or the CRUD to the back repo
+// CopyBasicFieldsFromSliceOfPointerToGongStructField
 func (sliceofpointertogongstructfieldDB *SliceOfPointerToGongStructFieldDB) CopyBasicFieldsFromSliceOfPointerToGongStructField(sliceofpointertogongstructfield *models.SliceOfPointerToGongStructField) {
 	// insertion point for fields commit
 	sliceofpointertogongstructfieldDB.Name_Data.String = sliceofpointertogongstructfield.Name
@@ -354,9 +374,23 @@ func (sliceofpointertogongstructfieldDB *SliceOfPointerToGongStructFieldDB) Copy
 
 }
 
-// CopyBasicFieldsToSliceOfPointerToGongStructFieldDB is used to copy basic fields between the Stage or the CRUD to the back repo
-func (sliceofpointertogongstructfieldDB *SliceOfPointerToGongStructFieldDB) CopyBasicFieldsToSliceOfPointerToGongStructField(sliceofpointertogongstructfield *models.SliceOfPointerToGongStructField) {
+// CopyBasicFieldsFromSliceOfPointerToGongStructFieldWOP
+func (sliceofpointertogongstructfieldDB *SliceOfPointerToGongStructFieldDB) CopyBasicFieldsFromSliceOfPointerToGongStructFieldWOP(sliceofpointertogongstructfield *SliceOfPointerToGongStructFieldWOP) {
+	// insertion point for fields commit
+	sliceofpointertogongstructfieldDB.Name_Data.String = sliceofpointertogongstructfield.Name
+	sliceofpointertogongstructfieldDB.Name_Data.Valid = true
 
+}
+
+// CopyBasicFieldsToSliceOfPointerToGongStructField
+func (sliceofpointertogongstructfieldDB *SliceOfPointerToGongStructFieldDB) CopyBasicFieldsToSliceOfPointerToGongStructField(sliceofpointertogongstructfield *models.SliceOfPointerToGongStructField) {
+	// insertion point for checkout of basic fields (back repo to stage)
+	sliceofpointertogongstructfield.Name = sliceofpointertogongstructfieldDB.Name_Data.String
+}
+
+// CopyBasicFieldsToSliceOfPointerToGongStructFieldWOP
+func (sliceofpointertogongstructfieldDB *SliceOfPointerToGongStructFieldDB) CopyBasicFieldsToSliceOfPointerToGongStructFieldWOP(sliceofpointertogongstructfield *SliceOfPointerToGongStructFieldWOP) {
+	sliceofpointertogongstructfield.ID = int(sliceofpointertogongstructfieldDB.ID)
 	// insertion point for checkout of basic fields (back repo to stage)
 	sliceofpointertogongstructfield.Name = sliceofpointertogongstructfieldDB.Name_Data.String
 }
@@ -386,6 +420,38 @@ func (backRepoSliceOfPointerToGongStructField *BackRepoSliceOfPointerToGongStruc
 	err = ioutil.WriteFile(filename, file, 0644)
 	if err != nil {
 		log.Panic("Cannot write the json SliceOfPointerToGongStructField file", err.Error())
+	}
+}
+
+// Backup generates a json file from a slice of all SliceOfPointerToGongStructFieldDB instances in the backrepo
+func (backRepoSliceOfPointerToGongStructField *BackRepoSliceOfPointerToGongStructFieldStruct) BackupXL(file *xlsx.File) {
+
+	// organize the map into an array with increasing IDs, in order to have repoductible
+	// backup file
+	forBackup := make([]*SliceOfPointerToGongStructFieldDB, 0)
+	for _, sliceofpointertogongstructfieldDB := range *backRepoSliceOfPointerToGongStructField.Map_SliceOfPointerToGongStructFieldDBID_SliceOfPointerToGongStructFieldDB {
+		forBackup = append(forBackup, sliceofpointertogongstructfieldDB)
+	}
+
+	sort.Slice(forBackup[:], func(i, j int) bool {
+		return forBackup[i].ID < forBackup[j].ID
+	})
+
+	sh, err := file.AddSheet("SliceOfPointerToGongStructField")
+	if err != nil {
+		log.Panic("Cannot add XL file", err.Error())
+	}
+	_ = sh
+
+	row := sh.AddRow()
+	row.WriteSlice(&SliceOfPointerToGongStructField_Fields, -1)
+	for _, sliceofpointertogongstructfieldDB := range forBackup {
+
+		var sliceofpointertogongstructfieldWOP SliceOfPointerToGongStructFieldWOP
+		sliceofpointertogongstructfieldDB.CopyBasicFieldsToSliceOfPointerToGongStructFieldWOP(&sliceofpointertogongstructfieldWOP)
+
+		row := sh.AddRow()
+		row.WriteStruct(&sliceofpointertogongstructfieldWOP, -1)
 	}
 }
 

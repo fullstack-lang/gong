@@ -15,6 +15,8 @@ import (
 
 	"github.com/jinzhu/gorm"
 
+	"github.com/tealeg/xlsx/v3"
+
 	"github.com/fullstack-lang/gong/go/models"
 )
 
@@ -89,6 +91,30 @@ type GongBasicFieldDBs []GongBasicFieldDB
 type GongBasicFieldDBResponse struct {
 	GongBasicFieldDB
 }
+
+// GongBasicFieldWOP is a GongBasicField without pointers
+// it holds the same basic fields but pointers are encoded into uint
+type GongBasicFieldWOP struct {
+	ID int
+
+	// insertion for WOP basic fields
+
+	Name string
+
+	BasicKindName string
+
+	DeclaredType string
+	// insertion for WOP pointer fields
+}
+
+var GongBasicField_Fields = []string{
+	// insertion for WOP basic fields
+	"ID",
+	"Name",
+	"BasicKindName",
+	"DeclaredType",
+}
+
 
 type BackRepoGongBasicFieldStruct struct {
 	// stores GongBasicFieldDB according to their gorm ID
@@ -352,7 +378,7 @@ func (backRepo *BackRepoStruct) CheckoutGongBasicField(gongbasicfield *models.Go
 	}
 }
 
-// CopyBasicFieldsToGongBasicFieldDB is used to copy basic fields between the Stage or the CRUD to the back repo
+// CopyBasicFieldsFromGongBasicField
 func (gongbasicfieldDB *GongBasicFieldDB) CopyBasicFieldsFromGongBasicField(gongbasicfield *models.GongBasicField) {
 	// insertion point for fields commit
 	gongbasicfieldDB.Name_Data.String = gongbasicfield.Name
@@ -366,9 +392,31 @@ func (gongbasicfieldDB *GongBasicFieldDB) CopyBasicFieldsFromGongBasicField(gong
 
 }
 
-// CopyBasicFieldsToGongBasicFieldDB is used to copy basic fields between the Stage or the CRUD to the back repo
-func (gongbasicfieldDB *GongBasicFieldDB) CopyBasicFieldsToGongBasicField(gongbasicfield *models.GongBasicField) {
+// CopyBasicFieldsFromGongBasicFieldWOP
+func (gongbasicfieldDB *GongBasicFieldDB) CopyBasicFieldsFromGongBasicFieldWOP(gongbasicfield *GongBasicFieldWOP) {
+	// insertion point for fields commit
+	gongbasicfieldDB.Name_Data.String = gongbasicfield.Name
+	gongbasicfieldDB.Name_Data.Valid = true
 
+	gongbasicfieldDB.BasicKindName_Data.String = gongbasicfield.BasicKindName
+	gongbasicfieldDB.BasicKindName_Data.Valid = true
+
+	gongbasicfieldDB.DeclaredType_Data.String = gongbasicfield.DeclaredType
+	gongbasicfieldDB.DeclaredType_Data.Valid = true
+
+}
+
+// CopyBasicFieldsToGongBasicField
+func (gongbasicfieldDB *GongBasicFieldDB) CopyBasicFieldsToGongBasicField(gongbasicfield *models.GongBasicField) {
+	// insertion point for checkout of basic fields (back repo to stage)
+	gongbasicfield.Name = gongbasicfieldDB.Name_Data.String
+	gongbasicfield.BasicKindName = gongbasicfieldDB.BasicKindName_Data.String
+	gongbasicfield.DeclaredType = gongbasicfieldDB.DeclaredType_Data.String
+}
+
+// CopyBasicFieldsToGongBasicFieldWOP
+func (gongbasicfieldDB *GongBasicFieldDB) CopyBasicFieldsToGongBasicFieldWOP(gongbasicfield *GongBasicFieldWOP) {
+	gongbasicfield.ID = int(gongbasicfieldDB.ID)
 	// insertion point for checkout of basic fields (back repo to stage)
 	gongbasicfield.Name = gongbasicfieldDB.Name_Data.String
 	gongbasicfield.BasicKindName = gongbasicfieldDB.BasicKindName_Data.String
@@ -400,6 +448,38 @@ func (backRepoGongBasicField *BackRepoGongBasicFieldStruct) Backup(dirPath strin
 	err = ioutil.WriteFile(filename, file, 0644)
 	if err != nil {
 		log.Panic("Cannot write the json GongBasicField file", err.Error())
+	}
+}
+
+// Backup generates a json file from a slice of all GongBasicFieldDB instances in the backrepo
+func (backRepoGongBasicField *BackRepoGongBasicFieldStruct) BackupXL(file *xlsx.File) {
+
+	// organize the map into an array with increasing IDs, in order to have repoductible
+	// backup file
+	forBackup := make([]*GongBasicFieldDB, 0)
+	for _, gongbasicfieldDB := range *backRepoGongBasicField.Map_GongBasicFieldDBID_GongBasicFieldDB {
+		forBackup = append(forBackup, gongbasicfieldDB)
+	}
+
+	sort.Slice(forBackup[:], func(i, j int) bool {
+		return forBackup[i].ID < forBackup[j].ID
+	})
+
+	sh, err := file.AddSheet("GongBasicField")
+	if err != nil {
+		log.Panic("Cannot add XL file", err.Error())
+	}
+	_ = sh
+
+	row := sh.AddRow()
+	row.WriteSlice(&GongBasicField_Fields, -1)
+	for _, gongbasicfieldDB := range forBackup {
+
+		var gongbasicfieldWOP GongBasicFieldWOP
+		gongbasicfieldDB.CopyBasicFieldsToGongBasicFieldWOP(&gongbasicfieldWOP)
+
+		row := sh.AddRow()
+		row.WriteStruct(&gongbasicfieldWOP, -1)
 	}
 }
 

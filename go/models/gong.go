@@ -13,20 +13,28 @@ var __member __void
 // swagger:ignore
 type StageStruct struct { // insertion point for definition of arrays registering instances
 	GongBasicFields map[*GongBasicField]struct{}
+	GongBasicFields_mapString map[string]*GongBasicField
 
 	GongEnums map[*GongEnum]struct{}
+	GongEnums_mapString map[string]*GongEnum
 
 	GongEnumValues map[*GongEnumValue]struct{}
+	GongEnumValues_mapString map[string]*GongEnumValue
 
 	GongStructs map[*GongStruct]struct{}
+	GongStructs_mapString map[string]*GongStruct
 
 	GongTimeFields map[*GongTimeField]struct{}
+	GongTimeFields_mapString map[string]*GongTimeField
 
 	ModelPkgs map[*ModelPkg]struct{}
+	ModelPkgs_mapString map[string]*ModelPkg
 
 	PointerToGongStructFields map[*PointerToGongStructField]struct{}
+	PointerToGongStructFields_mapString map[string]*PointerToGongStructField
 
 	SliceOfPointerToGongStructFields map[*SliceOfPointerToGongStructField]struct{}
+	SliceOfPointerToGongStructFields_mapString map[string]*SliceOfPointerToGongStructField
 
 	AllModelsStructCreateCallback AllModelsStructCreateInterface
 
@@ -47,6 +55,8 @@ type BackRepoInterface interface {
 	Checkout(stage *StageStruct)
 	Backup(stage *StageStruct, dirPath string)
 	Restore(stage *StageStruct, dirPath string)
+	BackupXL(stage *StageStruct, dirPath string)
+	RestoreXL(stage *StageStruct, dirPath string)
 	// insertion point for Commit and Checkout signatures
 	CommitGongBasicField(gongbasicfield *GongBasicField)
 	CheckoutGongBasicField(gongbasicfield *GongBasicField)
@@ -70,21 +80,30 @@ type BackRepoInterface interface {
 // swagger:ignore instructs the gong compiler (gongc) to avoid this particular struct
 var Stage StageStruct = StageStruct{ // insertion point for array initiatialisation
 	GongBasicFields: make(map[*GongBasicField]struct{}, 0),
+	GongBasicFields_mapString: make(map[string]*GongBasicField, 0),
 
 	GongEnums: make(map[*GongEnum]struct{}, 0),
+	GongEnums_mapString: make(map[string]*GongEnum, 0),
 
 	GongEnumValues: make(map[*GongEnumValue]struct{}, 0),
+	GongEnumValues_mapString: make(map[string]*GongEnumValue, 0),
 
 	GongStructs: make(map[*GongStruct]struct{}, 0),
+	GongStructs_mapString: make(map[string]*GongStruct, 0),
 
 	GongTimeFields: make(map[*GongTimeField]struct{}, 0),
+	GongTimeFields_mapString: make(map[string]*GongTimeField, 0),
 
 	ModelPkgs: make(map[*ModelPkg]struct{}, 0),
+	ModelPkgs_mapString: make(map[string]*ModelPkg, 0),
 
 	PointerToGongStructFields: make(map[*PointerToGongStructField]struct{}, 0),
+	PointerToGongStructFields_mapString: make(map[string]*PointerToGongStructField, 0),
 
 	SliceOfPointerToGongStructFields: make(map[*SliceOfPointerToGongStructField]struct{}, 0),
+	SliceOfPointerToGongStructFields_mapString: make(map[string]*SliceOfPointerToGongStructField, 0),
 
+	// end of insertion point
 }
 
 func (stage *StageStruct) Commit() {
@@ -107,10 +126,23 @@ func (stage *StageStruct) Backup(dirPath string) {
 }
 
 // Restore resets Stage & BackRepo and restores their content from the restore files in dirPath
-// Restore shall be performed only on a new database with rowids at 0 (otherwise, it will panic)
 func (stage *StageStruct) Restore(dirPath string) {
 	if stage.BackRepo != nil {
 		stage.BackRepo.Restore(stage, dirPath)
+	}
+}
+
+// backup generates backup files in the dirPath
+func (stage *StageStruct) BackupXL(dirPath string) {
+	if stage.BackRepo != nil {
+		stage.BackRepo.BackupXL(stage, dirPath)
+	}
+}
+
+// Restore resets Stage & BackRepo and restores their content from the restore files in dirPath
+func (stage *StageStruct) RestoreXL(dirPath string) {
+	if stage.BackRepo != nil {
+		stage.BackRepo.RestoreXL(stage, dirPath)
 	}
 }
 
@@ -130,12 +162,15 @@ func (stage *StageStruct) getGongBasicFieldOrderedStructWithNameField() []*GongB
 // Stage puts gongbasicfield to the model stage
 func (gongbasicfield *GongBasicField) Stage() *GongBasicField {
 	Stage.GongBasicFields[gongbasicfield] = __member
+	Stage.GongBasicFields_mapString[gongbasicfield.Name] = gongbasicfield
+	
 	return gongbasicfield
 }
 
 // Unstage removes gongbasicfield off the model stage
 func (gongbasicfield *GongBasicField) Unstage() *GongBasicField {
 	delete(Stage.GongBasicFields, gongbasicfield)
+	delete(Stage.GongBasicFields_mapString, gongbasicfield.Name)
 	return gongbasicfield
 }
 
@@ -229,12 +264,15 @@ func (stage *StageStruct) getGongEnumOrderedStructWithNameField() []*GongEnum {
 // Stage puts gongenum to the model stage
 func (gongenum *GongEnum) Stage() *GongEnum {
 	Stage.GongEnums[gongenum] = __member
+	Stage.GongEnums_mapString[gongenum.Name] = gongenum
+	
 	return gongenum
 }
 
 // Unstage removes gongenum off the model stage
 func (gongenum *GongEnum) Unstage() *GongEnum {
 	delete(Stage.GongEnums, gongenum)
+	delete(Stage.GongEnums_mapString, gongenum.Name)
 	return gongenum
 }
 
@@ -328,12 +366,15 @@ func (stage *StageStruct) getGongEnumValueOrderedStructWithNameField() []*GongEn
 // Stage puts gongenumvalue to the model stage
 func (gongenumvalue *GongEnumValue) Stage() *GongEnumValue {
 	Stage.GongEnumValues[gongenumvalue] = __member
+	Stage.GongEnumValues_mapString[gongenumvalue.Name] = gongenumvalue
+	
 	return gongenumvalue
 }
 
 // Unstage removes gongenumvalue off the model stage
 func (gongenumvalue *GongEnumValue) Unstage() *GongEnumValue {
 	delete(Stage.GongEnumValues, gongenumvalue)
+	delete(Stage.GongEnumValues_mapString, gongenumvalue.Name)
 	return gongenumvalue
 }
 
@@ -427,12 +468,15 @@ func (stage *StageStruct) getGongStructOrderedStructWithNameField() []*GongStruc
 // Stage puts gongstruct to the model stage
 func (gongstruct *GongStruct) Stage() *GongStruct {
 	Stage.GongStructs[gongstruct] = __member
+	Stage.GongStructs_mapString[gongstruct.Name] = gongstruct
+	
 	return gongstruct
 }
 
 // Unstage removes gongstruct off the model stage
 func (gongstruct *GongStruct) Unstage() *GongStruct {
 	delete(Stage.GongStructs, gongstruct)
+	delete(Stage.GongStructs_mapString, gongstruct.Name)
 	return gongstruct
 }
 
@@ -526,12 +570,15 @@ func (stage *StageStruct) getGongTimeFieldOrderedStructWithNameField() []*GongTi
 // Stage puts gongtimefield to the model stage
 func (gongtimefield *GongTimeField) Stage() *GongTimeField {
 	Stage.GongTimeFields[gongtimefield] = __member
+	Stage.GongTimeFields_mapString[gongtimefield.Name] = gongtimefield
+	
 	return gongtimefield
 }
 
 // Unstage removes gongtimefield off the model stage
 func (gongtimefield *GongTimeField) Unstage() *GongTimeField {
 	delete(Stage.GongTimeFields, gongtimefield)
+	delete(Stage.GongTimeFields_mapString, gongtimefield.Name)
 	return gongtimefield
 }
 
@@ -625,12 +672,15 @@ func (stage *StageStruct) getModelPkgOrderedStructWithNameField() []*ModelPkg {
 // Stage puts modelpkg to the model stage
 func (modelpkg *ModelPkg) Stage() *ModelPkg {
 	Stage.ModelPkgs[modelpkg] = __member
+	Stage.ModelPkgs_mapString[modelpkg.Name] = modelpkg
+	
 	return modelpkg
 }
 
 // Unstage removes modelpkg off the model stage
 func (modelpkg *ModelPkg) Unstage() *ModelPkg {
 	delete(Stage.ModelPkgs, modelpkg)
+	delete(Stage.ModelPkgs_mapString, modelpkg.Name)
 	return modelpkg
 }
 
@@ -724,12 +774,15 @@ func (stage *StageStruct) getPointerToGongStructFieldOrderedStructWithNameField(
 // Stage puts pointertogongstructfield to the model stage
 func (pointertogongstructfield *PointerToGongStructField) Stage() *PointerToGongStructField {
 	Stage.PointerToGongStructFields[pointertogongstructfield] = __member
+	Stage.PointerToGongStructFields_mapString[pointertogongstructfield.Name] = pointertogongstructfield
+	
 	return pointertogongstructfield
 }
 
 // Unstage removes pointertogongstructfield off the model stage
 func (pointertogongstructfield *PointerToGongStructField) Unstage() *PointerToGongStructField {
 	delete(Stage.PointerToGongStructFields, pointertogongstructfield)
+	delete(Stage.PointerToGongStructFields_mapString, pointertogongstructfield.Name)
 	return pointertogongstructfield
 }
 
@@ -823,12 +876,15 @@ func (stage *StageStruct) getSliceOfPointerToGongStructFieldOrderedStructWithNam
 // Stage puts sliceofpointertogongstructfield to the model stage
 func (sliceofpointertogongstructfield *SliceOfPointerToGongStructField) Stage() *SliceOfPointerToGongStructField {
 	Stage.SliceOfPointerToGongStructFields[sliceofpointertogongstructfield] = __member
+	Stage.SliceOfPointerToGongStructFields_mapString[sliceofpointertogongstructfield.Name] = sliceofpointertogongstructfield
+	
 	return sliceofpointertogongstructfield
 }
 
 // Unstage removes sliceofpointertogongstructfield off the model stage
 func (sliceofpointertogongstructfield *SliceOfPointerToGongStructField) Unstage() *SliceOfPointerToGongStructField {
 	delete(Stage.SliceOfPointerToGongStructFields, sliceofpointertogongstructfield)
+	delete(Stage.SliceOfPointerToGongStructFields_mapString, sliceofpointertogongstructfield.Name)
 	return sliceofpointertogongstructfield
 }
 
@@ -932,30 +988,54 @@ type AllModelsStructDeleteInterface interface { // insertion point for Callbacks
 
 func (stage *StageStruct) Reset() { // insertion point for array reset
 	stage.GongBasicFields = make(map[*GongBasicField]struct{}, 0)
+	stage.GongBasicFields_mapString = make(map[string]*GongBasicField, 0)
 
 	stage.GongEnums = make(map[*GongEnum]struct{}, 0)
+	stage.GongEnums_mapString = make(map[string]*GongEnum, 0)
 
 	stage.GongEnumValues = make(map[*GongEnumValue]struct{}, 0)
+	stage.GongEnumValues_mapString = make(map[string]*GongEnumValue, 0)
 
 	stage.GongStructs = make(map[*GongStruct]struct{}, 0)
+	stage.GongStructs_mapString = make(map[string]*GongStruct, 0)
 
 	stage.GongTimeFields = make(map[*GongTimeField]struct{}, 0)
+	stage.GongTimeFields_mapString = make(map[string]*GongTimeField, 0)
 
 	stage.ModelPkgs = make(map[*ModelPkg]struct{}, 0)
+	stage.ModelPkgs_mapString = make(map[string]*ModelPkg, 0)
 
 	stage.PointerToGongStructFields = make(map[*PointerToGongStructField]struct{}, 0)
+	stage.PointerToGongStructFields_mapString = make(map[string]*PointerToGongStructField, 0)
 
 	stage.SliceOfPointerToGongStructFields = make(map[*SliceOfPointerToGongStructField]struct{}, 0)
+	stage.SliceOfPointerToGongStructFields_mapString = make(map[string]*SliceOfPointerToGongStructField, 0)
 
 }
 
 func (stage *StageStruct) Nil() { // insertion point for array nil
 	stage.GongBasicFields = nil
+	stage.GongBasicFields_mapString = nil
+
 	stage.GongEnums = nil
+	stage.GongEnums_mapString = nil
+
 	stage.GongEnumValues = nil
+	stage.GongEnumValues_mapString = nil
+
 	stage.GongStructs = nil
+	stage.GongStructs_mapString = nil
+
 	stage.GongTimeFields = nil
+	stage.GongTimeFields_mapString = nil
+
 	stage.ModelPkgs = nil
+	stage.ModelPkgs_mapString = nil
+
 	stage.PointerToGongStructFields = nil
+	stage.PointerToGongStructFields_mapString = nil
+
 	stage.SliceOfPointerToGongStructFields = nil
+	stage.SliceOfPointerToGongStructFields_mapString = nil
+
 }

@@ -66,6 +66,16 @@
             "args": []
         },
         {
+            "label": "01 - gongc gong",
+            "type": "shell",
+            "options": {
+                "cwd": "${workspaceFolder}/go/models"
+            },
+            "command": "gongc",
+            "group": "build",
+            "args": []
+        },
+        {
             // you can check in go.mod, the timestamp is UTC
             "label": "00 go mod tidy",
             "type": "shell",

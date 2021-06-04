@@ -15,6 +15,8 @@ import (
 
 	"github.com/jinzhu/gorm"
 
+	"github.com/tealeg/xlsx/v3"
+
 	"github.com/fullstack-lang/gong/go/models"
 )
 
@@ -83,6 +85,24 @@ type PointerToGongStructFieldDBs []PointerToGongStructFieldDB
 type PointerToGongStructFieldDBResponse struct {
 	PointerToGongStructFieldDB
 }
+
+// PointerToGongStructFieldWOP is a PointerToGongStructField without pointers
+// it holds the same basic fields but pointers are encoded into uint
+type PointerToGongStructFieldWOP struct {
+	ID int
+
+	// insertion for WOP basic fields
+
+	Name string
+	// insertion for WOP pointer fields
+}
+
+var PointerToGongStructField_Fields = []string{
+	// insertion for WOP basic fields
+	"ID",
+	"Name",
+}
+
 
 type BackRepoPointerToGongStructFieldStruct struct {
 	// stores PointerToGongStructFieldDB according to their gorm ID
@@ -346,7 +366,7 @@ func (backRepo *BackRepoStruct) CheckoutPointerToGongStructField(pointertogongst
 	}
 }
 
-// CopyBasicFieldsToPointerToGongStructFieldDB is used to copy basic fields between the Stage or the CRUD to the back repo
+// CopyBasicFieldsFromPointerToGongStructField
 func (pointertogongstructfieldDB *PointerToGongStructFieldDB) CopyBasicFieldsFromPointerToGongStructField(pointertogongstructfield *models.PointerToGongStructField) {
 	// insertion point for fields commit
 	pointertogongstructfieldDB.Name_Data.String = pointertogongstructfield.Name
@@ -354,9 +374,23 @@ func (pointertogongstructfieldDB *PointerToGongStructFieldDB) CopyBasicFieldsFro
 
 }
 
-// CopyBasicFieldsToPointerToGongStructFieldDB is used to copy basic fields between the Stage or the CRUD to the back repo
-func (pointertogongstructfieldDB *PointerToGongStructFieldDB) CopyBasicFieldsToPointerToGongStructField(pointertogongstructfield *models.PointerToGongStructField) {
+// CopyBasicFieldsFromPointerToGongStructFieldWOP
+func (pointertogongstructfieldDB *PointerToGongStructFieldDB) CopyBasicFieldsFromPointerToGongStructFieldWOP(pointertogongstructfield *PointerToGongStructFieldWOP) {
+	// insertion point for fields commit
+	pointertogongstructfieldDB.Name_Data.String = pointertogongstructfield.Name
+	pointertogongstructfieldDB.Name_Data.Valid = true
 
+}
+
+// CopyBasicFieldsToPointerToGongStructField
+func (pointertogongstructfieldDB *PointerToGongStructFieldDB) CopyBasicFieldsToPointerToGongStructField(pointertogongstructfield *models.PointerToGongStructField) {
+	// insertion point for checkout of basic fields (back repo to stage)
+	pointertogongstructfield.Name = pointertogongstructfieldDB.Name_Data.String
+}
+
+// CopyBasicFieldsToPointerToGongStructFieldWOP
+func (pointertogongstructfieldDB *PointerToGongStructFieldDB) CopyBasicFieldsToPointerToGongStructFieldWOP(pointertogongstructfield *PointerToGongStructFieldWOP) {
+	pointertogongstructfield.ID = int(pointertogongstructfieldDB.ID)
 	// insertion point for checkout of basic fields (back repo to stage)
 	pointertogongstructfield.Name = pointertogongstructfieldDB.Name_Data.String
 }
@@ -386,6 +420,38 @@ func (backRepoPointerToGongStructField *BackRepoPointerToGongStructFieldStruct) 
 	err = ioutil.WriteFile(filename, file, 0644)
 	if err != nil {
 		log.Panic("Cannot write the json PointerToGongStructField file", err.Error())
+	}
+}
+
+// Backup generates a json file from a slice of all PointerToGongStructFieldDB instances in the backrepo
+func (backRepoPointerToGongStructField *BackRepoPointerToGongStructFieldStruct) BackupXL(file *xlsx.File) {
+
+	// organize the map into an array with increasing IDs, in order to have repoductible
+	// backup file
+	forBackup := make([]*PointerToGongStructFieldDB, 0)
+	for _, pointertogongstructfieldDB := range *backRepoPointerToGongStructField.Map_PointerToGongStructFieldDBID_PointerToGongStructFieldDB {
+		forBackup = append(forBackup, pointertogongstructfieldDB)
+	}
+
+	sort.Slice(forBackup[:], func(i, j int) bool {
+		return forBackup[i].ID < forBackup[j].ID
+	})
+
+	sh, err := file.AddSheet("PointerToGongStructField")
+	if err != nil {
+		log.Panic("Cannot add XL file", err.Error())
+	}
+	_ = sh
+
+	row := sh.AddRow()
+	row.WriteSlice(&PointerToGongStructField_Fields, -1)
+	for _, pointertogongstructfieldDB := range forBackup {
+
+		var pointertogongstructfieldWOP PointerToGongStructFieldWOP
+		pointertogongstructfieldDB.CopyBasicFieldsToPointerToGongStructFieldWOP(&pointertogongstructfieldWOP)
+
+		row := sh.AddRow()
+		row.WriteStruct(&pointertogongstructfieldWOP, -1)
 	}
 }
 
