@@ -24,6 +24,12 @@ func (modelPkg *ModelPkg) SerializeToStage() {
 				gongBasicField.Stage()
 				gongStruct.GongBasicFields = append(gongStruct.GongBasicFields, gongBasicField)
 
+			case *GongTimeField:
+				gongTimeField := field.(*GongTimeField)
+				_ = gongTimeField
+				gongTimeField.Stage()
+				gongStruct.GongTimeFields = append(gongStruct.GongTimeFields, gongTimeField)
+
 			case *PointerToGongStructField:
 				pointerToStructField := field.(*PointerToGongStructField)
 				_ = pointerToStructField
