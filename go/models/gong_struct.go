@@ -11,6 +11,7 @@ type GongStruct struct {
 
 	// Slice of Fields by their type (not populated by the gongc)
 	GongBasicFields                  []*GongBasicField
+	GongTimeFields                   []*GongTimeField
 	PointerToGongStructFields        []*PointerToGongStructField
 	SliceOfPointerToGongStructFields []*SliceOfPointerToGongStructField
 }
