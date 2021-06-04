@@ -13,10 +13,13 @@ var __member __void
 // swagger:ignore
 type StageStruct struct { // insertion point for definition of arrays registering instances
 	Aclasss map[*Aclass]struct{}
+	Aclasss_mapString map[string]*Aclass
 
 	Bclasss map[*Bclass]struct{}
+	Bclasss_mapString map[string]*Bclass
 
 	Dclasss map[*Dclass]struct{}
+	Dclasss_mapString map[string]*Dclass
 
 	AllModelsStructCreateCallback AllModelsStructCreateInterface
 
@@ -52,10 +55,13 @@ type BackRepoInterface interface {
 // swagger:ignore instructs the gong compiler (gongc) to avoid this particular struct
 var Stage StageStruct = StageStruct{ // insertion point for array initiatialisation
 	Aclasss: make(map[*Aclass]struct{}, 0),
+	Aclasss_mapString: make(map[string]*Aclass, 0),
 
 	Bclasss: make(map[*Bclass]struct{}, 0),
+	Bclasss_mapString: make(map[string]*Bclass, 0),
 
 	Dclasss: make(map[*Dclass]struct{}, 0),
+	Dclasss_mapString: make(map[string]*Dclass, 0),
 
 	// end of insertion point
 }
@@ -116,12 +122,15 @@ func (stage *StageStruct) getAclassOrderedStructWithNameField() []*Aclass {
 // Stage puts aclass to the model stage
 func (aclass *Aclass) Stage() *Aclass {
 	Stage.Aclasss[aclass] = __member
+	Stage.Aclasss_mapString[aclass.Name] = aclass
+	
 	return aclass
 }
 
 // Unstage removes aclass off the model stage
 func (aclass *Aclass) Unstage() *Aclass {
 	delete(Stage.Aclasss, aclass)
+	delete(Stage.Aclasss_mapString, aclass.Name)
 	return aclass
 }
 
@@ -215,12 +224,15 @@ func (stage *StageStruct) getBclassOrderedStructWithNameField() []*Bclass {
 // Stage puts bclass to the model stage
 func (bclass *Bclass) Stage() *Bclass {
 	Stage.Bclasss[bclass] = __member
+	Stage.Bclasss_mapString[bclass.Name] = bclass
+	
 	return bclass
 }
 
 // Unstage removes bclass off the model stage
 func (bclass *Bclass) Unstage() *Bclass {
 	delete(Stage.Bclasss, bclass)
+	delete(Stage.Bclasss_mapString, bclass.Name)
 	return bclass
 }
 
@@ -314,12 +326,15 @@ func (stage *StageStruct) getDclassOrderedStructWithNameField() []*Dclass {
 // Stage puts dclass to the model stage
 func (dclass *Dclass) Stage() *Dclass {
 	Stage.Dclasss[dclass] = __member
+	Stage.Dclasss_mapString[dclass.Name] = dclass
+	
 	return dclass
 }
 
 // Unstage removes dclass off the model stage
 func (dclass *Dclass) Unstage() *Dclass {
 	delete(Stage.Dclasss, dclass)
+	delete(Stage.Dclasss_mapString, dclass.Name)
 	return dclass
 }
 
@@ -413,15 +428,24 @@ type AllModelsStructDeleteInterface interface { // insertion point for Callbacks
 
 func (stage *StageStruct) Reset() { // insertion point for array reset
 	stage.Aclasss = make(map[*Aclass]struct{}, 0)
+	stage.Aclasss_mapString = make(map[string]*Aclass, 0)
 
 	stage.Bclasss = make(map[*Bclass]struct{}, 0)
+	stage.Bclasss_mapString = make(map[string]*Bclass, 0)
 
 	stage.Dclasss = make(map[*Dclass]struct{}, 0)
+	stage.Dclasss_mapString = make(map[string]*Dclass, 0)
 
 }
 
 func (stage *StageStruct) Nil() { // insertion point for array nil
 	stage.Aclasss = nil
+	stage.Aclasss_mapString = nil
+
 	stage.Bclasss = nil
+	stage.Bclasss_mapString = nil
+
 	stage.Dclasss = nil
+	stage.Dclasss_mapString = nil
+
 }

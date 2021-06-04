@@ -158,12 +158,15 @@ func (stage *StageStruct) get{{Structname}}OrderedStructWithNameField() []*{{Str
 // Stage puts {{structname}} to the model stage
 func ({{structname}} *{{Structname}}) Stage() *{{Structname}} {
 	Stage.{{Structname}}s[{{structname}}] = __member
+	Stage.{{Structname}}s_mapString[{{structname}}.Name] = {{structname}}
+	
 	return {{structname}}
 }
 
 // Unstage removes {{structname}} off the model stage
 func ({{structname}} *{{Structname}}) Unstage() *{{Structname}} {
 	delete(Stage.{{Structname}}s, {{structname}})
+	delete(Stage.{{Structname}}s_mapString, {{structname}}.Name)
 	return {{structname}}
 }
 
@@ -251,18 +254,23 @@ func DeleteORM{{Structname}}({{structname}} *{{Structname}}) {
 
 	ModelGongStructArrayDefintion: `
 	{{Structname}}s map[*{{Structname}}]struct{}
+	{{Structname}}s_mapString map[string]*{{Structname}}
 `,
 
 	ModelGongStructArrayInitialisation: `
 	{{Structname}}s: make(map[*{{Structname}}]struct{}, 0),
+	{{Structname}}s_mapString: make(map[string]*{{Structname}}, 0),
 `,
 
 	ModelGongStructArrayReset: `
 	stage.{{Structname}}s = make(map[*{{Structname}}]struct{}, 0)
+	stage.{{Structname}}s_mapString = make(map[string]*{{Structname}}, 0)
 `,
 
 	ModelGongStructArrayNil: `
-	stage.{{Structname}}s = nil`,
+	stage.{{Structname}}s = nil
+	stage.{{Structname}}s_mapString = nil
+`,
 }
 
 var ModelGongSubSubTemplateCode map[string]string = // new line
