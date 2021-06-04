@@ -15,6 +15,8 @@ import (
 
 	"github.com/jinzhu/gorm"
 
+	"github.com/tealeg/xlsx/v3"
+
 	"github.com/fullstack-lang/gong/go/models"
 )
 
@@ -74,6 +76,27 @@ type ModelPkgDBs []ModelPkgDB
 type ModelPkgDBResponse struct {
 	ModelPkgDB
 }
+
+// ModelPkgWOP is a ModelPkg without pointers
+// it holds the same basic fields but pointers are encoded into uint
+type ModelPkgWOP struct {
+	ID int
+
+	// insertion for WOP basic fields
+
+	Name string
+
+	PkgPath string
+	// insertion for WOP pointer fields
+}
+
+var ModelPkg_Fields = []string{
+	// insertion for WOP basic fields
+	"ID",
+	"Name",
+	"PkgPath",
+}
+
 
 type BackRepoModelPkgStruct struct {
 	// stores ModelPkgDB according to their gorm ID
@@ -325,7 +348,7 @@ func (backRepo *BackRepoStruct) CheckoutModelPkg(modelpkg *models.ModelPkg) {
 	}
 }
 
-// CopyBasicFieldsToModelPkgDB is used to copy basic fields between the Stage or the CRUD to the back repo
+// CopyBasicFieldsFromModelPkg
 func (modelpkgDB *ModelPkgDB) CopyBasicFieldsFromModelPkg(modelpkg *models.ModelPkg) {
 	// insertion point for fields commit
 	modelpkgDB.Name_Data.String = modelpkg.Name
@@ -336,9 +359,27 @@ func (modelpkgDB *ModelPkgDB) CopyBasicFieldsFromModelPkg(modelpkg *models.Model
 
 }
 
-// CopyBasicFieldsToModelPkgDB is used to copy basic fields between the Stage or the CRUD to the back repo
-func (modelpkgDB *ModelPkgDB) CopyBasicFieldsToModelPkg(modelpkg *models.ModelPkg) {
+// CopyBasicFieldsFromModelPkgWOP
+func (modelpkgDB *ModelPkgDB) CopyBasicFieldsFromModelPkgWOP(modelpkg *ModelPkgWOP) {
+	// insertion point for fields commit
+	modelpkgDB.Name_Data.String = modelpkg.Name
+	modelpkgDB.Name_Data.Valid = true
 
+	modelpkgDB.PkgPath_Data.String = modelpkg.PkgPath
+	modelpkgDB.PkgPath_Data.Valid = true
+
+}
+
+// CopyBasicFieldsToModelPkg
+func (modelpkgDB *ModelPkgDB) CopyBasicFieldsToModelPkg(modelpkg *models.ModelPkg) {
+	// insertion point for checkout of basic fields (back repo to stage)
+	modelpkg.Name = modelpkgDB.Name_Data.String
+	modelpkg.PkgPath = modelpkgDB.PkgPath_Data.String
+}
+
+// CopyBasicFieldsToModelPkgWOP
+func (modelpkgDB *ModelPkgDB) CopyBasicFieldsToModelPkgWOP(modelpkg *ModelPkgWOP) {
+	modelpkg.ID = int(modelpkgDB.ID)
 	// insertion point for checkout of basic fields (back repo to stage)
 	modelpkg.Name = modelpkgDB.Name_Data.String
 	modelpkg.PkgPath = modelpkgDB.PkgPath_Data.String
@@ -369,6 +410,38 @@ func (backRepoModelPkg *BackRepoModelPkgStruct) Backup(dirPath string) {
 	err = ioutil.WriteFile(filename, file, 0644)
 	if err != nil {
 		log.Panic("Cannot write the json ModelPkg file", err.Error())
+	}
+}
+
+// Backup generates a json file from a slice of all ModelPkgDB instances in the backrepo
+func (backRepoModelPkg *BackRepoModelPkgStruct) BackupXL(file *xlsx.File) {
+
+	// organize the map into an array with increasing IDs, in order to have repoductible
+	// backup file
+	forBackup := make([]*ModelPkgDB, 0)
+	for _, modelpkgDB := range *backRepoModelPkg.Map_ModelPkgDBID_ModelPkgDB {
+		forBackup = append(forBackup, modelpkgDB)
+	}
+
+	sort.Slice(forBackup[:], func(i, j int) bool {
+		return forBackup[i].ID < forBackup[j].ID
+	})
+
+	sh, err := file.AddSheet("ModelPkg")
+	if err != nil {
+		log.Panic("Cannot add XL file", err.Error())
+	}
+	_ = sh
+
+	row := sh.AddRow()
+	row.WriteSlice(&ModelPkg_Fields, -1)
+	for _, modelpkgDB := range forBackup {
+
+		var modelpkgWOP ModelPkgWOP
+		modelpkgDB.CopyBasicFieldsToModelPkgWOP(&modelpkgWOP)
+
+		row := sh.AddRow()
+		row.WriteStruct(&modelpkgWOP, -1)
 	}
 }
 
