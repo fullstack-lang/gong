@@ -281,6 +281,7 @@ func (backRepoDclass *BackRepoDclassStruct) CheckoutPhaseOneInstance(dclassDB *D
 		(*backRepoDclass.Map_DclassPtr_DclassDBID)[dclass] = dclassDB.ID
 
 		// append model store with the new element
+		dclass.Name = dclassDB.Name_Data.String
 		dclass.Stage()
 	}
 	dclassDB.CopyBasicFieldsToDclass(dclass)

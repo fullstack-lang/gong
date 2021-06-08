@@ -286,6 +286,7 @@ func (backRepo{{Structname}} *BackRepo{{Structname}}Struct) CheckoutPhaseOneInst
 		(*backRepo{{Structname}}.Map_{{Structname}}Ptr_{{Structname}}DBID)[{{structname}}] = {{structname}}DB.ID
 
 		// append model store with the new element
+		{{structname}}.Name = {{structname}}DB.Name_Data.String
 		{{structname}}.Stage()
 	}
 	{{structname}}DB.CopyBasicFieldsTo{{Structname}}({{structname}})

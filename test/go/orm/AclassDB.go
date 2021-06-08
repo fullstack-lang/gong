@@ -441,6 +441,7 @@ func (backRepoAclass *BackRepoAclassStruct) CheckoutPhaseOneInstance(aclassDB *A
 		(*backRepoAclass.Map_AclassPtr_AclassDBID)[aclass] = aclassDB.ID
 
 		// append model store with the new element
+		aclass.Name = aclassDB.Name_Data.String
 		aclass.Stage()
 	}
 	aclassDB.CopyBasicFieldsToAclass(aclass)
