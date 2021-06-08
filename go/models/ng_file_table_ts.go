@@ -64,6 +64,14 @@ export class {{Structname}}sTableComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   ngAfterViewInit() {
+    this.matTableDataSource.sortingDataAccessor = ({{structname}}DB: {{Structname}}DB, property: string) => {
+		switch (property) {
+				// insertion point for specific sorting accessor{{` + string(rune(NgTableTsInsertionPerStructColumnsSorting)) + `}}
+		  default:
+			return {{Structname}}DB[property];
+		}
+	  }; 
+
     this.matTableDataSource.sort = this.sort;
     this.matTableDataSource.paginator = this.paginator;
   }
@@ -236,6 +244,7 @@ type NgTableTsInsertionPoint int
 const (
 	NgTableTsInsertionPerStructRecoveries NgTableTsInsertionPoint = iota
 	NgTableTsInsertionPerStructColumns
+	NgTableTsInsertionPerStructColumnsSorting
 	NgTableTsInsertionsNb
 )
 
@@ -243,6 +252,8 @@ type NgTableSubTemplate int
 
 const (
 	NgTableTSPerStructTimeDurationRecoveries NgTableSubTemplate = iota
+	NgTableTSPointerToStructSorting
+	NgTableTSSliceOfPointerToStructSorting
 
 	NgTableTSPerStructColumn
 )
@@ -257,6 +268,15 @@ var NgTablelSubTemplateCode map[NgTableSubTemplate]string = map[NgTableSubTempla
             Math.floor({{structname}}.{{FieldName}} % (3600 * 1000 * 1000 * 1000) / (60 * 1000 * 1000 * 1000)) + "M " +
             {{structname}}.{{FieldName}} % (60 * 1000 * 1000 * 1000) / (1000 * 1000 * 1000) + "S"
         }`,
+
+	NgTableTSPointerToStructSorting: `
+  			case '{{FieldName}}':
+				return ({{structname}}DB.{{FieldName}} ? {{structname}}DB.{{FieldName}}.Name : '');
+`,
+	NgTableTSSliceOfPointerToStructSorting: `
+				case '{{FieldName}}':
+					return this.frontRepo.{{AssocStructName}}s.get({{structname}}DB.{{AssocStructName}}_{{FieldName}}DBID.Int64)?.Name;
+`,
 
 	NgTableTSPerStructColumn: `
         "{{FieldName}}",`,
@@ -376,6 +396,11 @@ func MultiCodeGeneratorNgTable(
 				TsInsertions[NgTableTsInsertionPerStructColumns] +=
 					Replace1(NgTablelSubTemplateCode[NgTableTSPerStructColumn],
 						"{{FieldName}}", modelPointerToStructField.Name)
+
+				TsInsertions[NgTableTsInsertionPerStructColumnsSorting] +=
+					Replace1(NgTablelSubTemplateCode[NgTableTSPointerToStructSorting],
+						"{{FieldName}}", modelPointerToStructField.Name)
+
 			}
 		}
 
@@ -395,6 +420,13 @@ func MultiCodeGeneratorNgTable(
 
 						TsInsertions[NgTableTsInsertionPerStructColumns] +=
 							Replace1(NgTablelSubTemplateCode[NgTableTSPerStructColumn],
+								"{{FieldName}}", fieldSliceOfPointerToModel.Name)
+
+						fieldSliceOfPointerToModel := field.(*SliceOfPointerToGongStructField)
+
+						TsInsertions[NgTableTsInsertionPerStructColumnsSorting] +=
+							Replace2(NgTablelSubTemplateCode[NgTableTSSliceOfPointerToStructSorting],
+								"{{AssocStructName}}", __struct.Name,
 								"{{FieldName}}", fieldSliceOfPointerToModel.Name)
 					}
 				}

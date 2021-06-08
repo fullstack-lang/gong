@@ -47,6 +47,20 @@ export class BclasssTableComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   ngAfterViewInit() {
+    this.matTableDataSource.sortingDataAccessor = (bclassDB: BclassDB, property: string) => {
+		switch (property) {
+				// insertion point for specific sorting accessor
+				case 'Anarrayofb':
+					return this.frontRepo.Aclasss.get(bclassDB.Aclass_AnarrayofbDBID.Int64)?.Name;
+
+				case 'Anotherarrayofb':
+					return this.frontRepo.Aclasss.get(bclassDB.Aclass_AnotherarrayofbDBID.Int64)?.Name;
+
+		  default:
+			return BclassDB[property];
+		}
+	  }; 
+
     this.matTableDataSource.sort = this.sort;
     this.matTableDataSource.paginator = this.paginator;
   }
