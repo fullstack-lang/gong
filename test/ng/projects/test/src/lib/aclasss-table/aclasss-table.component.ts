@@ -47,6 +47,23 @@ export class AclasssTableComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   ngAfterViewInit() {
+    this.matTableDataSource.sortingDataAccessor = (aclassDB: AclassDB, property: string) => {
+		switch (property) {
+				// insertion point for specific sorting accessor
+  			case 'Associationtob':
+				return (aclassDB.Associationtob ? aclassDB.Associationtob.Name : '');
+
+  			case 'Anotherassociationtob_2':
+				return (aclassDB.Anotherassociationtob_2 ? aclassDB.Anotherassociationtob_2.Name : '');
+
+				case 'Anarrayofa':
+					return this.frontRepo.Aclasss.get(aclassDB.Aclass_AnarrayofaDBID.Int64)?.Name;
+
+		  default:
+			return AclassDB[property];
+		}
+	  }; 
+
     this.matTableDataSource.sort = this.sort;
     this.matTableDataSource.paginator = this.paginator;
   }
