@@ -47,6 +47,14 @@ export class DclasssTableComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   ngAfterViewInit() {
+    this.matTableDataSource.sortingDataAccessor = (dclassDB: DclassDB, property: string) => {
+		switch (property) {
+				// insertion point for specific sorting accessor
+		  default:
+			return DclassDB[property];
+		}
+	  }; 
+
     this.matTableDataSource.sort = this.sort;
     this.matTableDataSource.paginator = this.paginator;
   }
