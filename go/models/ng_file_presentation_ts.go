@@ -16,7 +16,7 @@ import (
 var NgFilePresentationCssTmpl string
 
 const NgPresentationTemplateTS = `import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup} from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 
 import { {{Structname}}DB } from '../{{structname}}-db'
 import { {{Structname}}Service } from '../{{structname}}.service'

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup} from '@angular/forms';
 
 import { AclassDB } from '../aclass-db'
 import { AclassService } from '../aclass.service'
@@ -34,7 +34,7 @@ export class AclassPresentationComponent implements OnInit {
 
 	// front repo
 	frontRepo: FrontRepo
-
+ 
 	constructor(
 		private aclassService: AclassService,
 		private frontRepoService: FrontRepoService,

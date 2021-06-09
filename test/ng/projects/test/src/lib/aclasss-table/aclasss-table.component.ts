@@ -48,21 +48,36 @@ export class AclasssTableComponent implements OnInit {
 
   ngAfterViewInit() {
     this.matTableDataSource.sortingDataAccessor = (aclassDB: AclassDB, property: string) => {
-		switch (property) {
-				// insertion point for specific sorting accessor
-  			case 'Associationtob':
-				return (aclassDB.Associationtob ? aclassDB.Associationtob.Name : '');
+      switch (property) {
+        // insertion point for specific sorting accessor
+        case 'Associationtob':
+          return (aclassDB.Associationtob ? aclassDB.Associationtob.Name : '');
 
-  			case 'Anotherassociationtob_2':
-				return (aclassDB.Anotherassociationtob_2 ? aclassDB.Anotherassociationtob_2.Name : '');
+        case 'Anotherassociationtob_2':
+          return (aclassDB.Anotherassociationtob_2 ? aclassDB.Anotherassociationtob_2.Name : '');
 
-				case 'Anarrayofa':
-					return this.frontRepo.Aclasss.get(aclassDB.Aclass_AnarrayofaDBID.Int64)?.Name;
+        case 'Anarrayofa':
+          return this.frontRepo.Aclasss.get(aclassDB.Aclass_AnarrayofaDBID.Int64)?.Name;
 
-		  default:
-			return AclassDB[property];
-		}
-	  }; 
+        default:
+          return AclassDB[property];
+      }
+    };
+
+    this.matTableDataSource.filterPredicate = (aclassDB: AclassDB, filter: string) => {
+
+      let mergeContentOfAclassDB = ""
+      mergeContentOfAclassDB += aclassDB.Name.toLowerCase()
+      mergeContentOfAclassDB += aclassDB.Date.toLocaleString()
+      if (aclassDB.Associationtob) {
+        mergeContentOfAclassDB += aclassDB.Associationtob.Name
+      }
+      if (aclassDB.Aclass_AnarrayofaDBID.Int64 != 0) {
+        mergeContentOfAclassDB += this.frontRepo.Aclasss.get(aclassDB.Aclass_AnarrayofaDBID.Int64)?.Name.toLowerCase()
+      }
+      let isSelected = mergeContentOfAclassDB.includes(filter.toLowerCase())
+      return isSelected
+    };
 
     this.matTableDataSource.sort = this.sort;
     this.matTableDataSource.paginator = this.paginator;
