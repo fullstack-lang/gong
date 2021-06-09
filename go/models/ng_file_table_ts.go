@@ -312,7 +312,7 @@ var NgTablelSubTemplateCode map[NgTableSubTemplate]string = map[NgTableSubTempla
     		mergedContent += {{structname}}DB.{{FieldName}}.Name.toLowerCase()
 		}`,
 	NgTableTSSliceOfPointerToStructFiltering: `
-		if ({{structname}}DB.Aclass_{{FieldName}}DBID.Int64 != 0) {
+		if ({{structname}}DB.{{AssocStructName}}_{{FieldName}}DBID.Int64 != 0) {
         	mergedContent += this.frontRepo.{{AssocStructName}}s.get({{structname}}DB.{{AssocStructName}}_{{FieldName}}DBID.Int64)?.Name.toLowerCase()
     	}
 `,
