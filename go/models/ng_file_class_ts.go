@@ -74,7 +74,6 @@ import { {{AssocStructName}}DB } from './{{assocStructName}}-db'`,
 	NgClassTSPointerToStructFieldsDecl: `
 	{{FieldName}}?: {{TypeInput}}DB
 	{{FieldName}}ID?: NullInt64
-	{{FieldName}}Name?: string
 `,
 
 	NgClassTSSliceOfPtrToStructFieldsDecl: `

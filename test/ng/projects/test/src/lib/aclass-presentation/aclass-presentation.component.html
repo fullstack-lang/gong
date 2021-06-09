@@ -64,11 +64,11 @@
     </tr>
     <tr class="mat-row">
         <td class="mat-cell">Associationtob</td>
-        <td class="mat-cell">{{aclass.AssociationtobName}}</td>
+        <td class="mat-cell">{{aclass.Associationtob ? aclass.Associationtob.Name : ""}}</td>
     </tr>
     <tr class="mat-row">
         <td class="mat-cell">Anotherassociationtob_2</td>
-        <td class="mat-cell">{{aclass.Anotherassociationtob_2Name}}</td>
+        <td class="mat-cell">{{aclass.Anotherassociationtob_2 ? aclass.Anotherassociationtob_2.Name : ""}}</td>
     </tr>
 </table>
 <!-- hack to force loading of mat table style an error is generated but it is a know angular issue https://github.com/angular/components/issues/10941 -->
