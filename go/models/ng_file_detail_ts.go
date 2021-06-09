@@ -259,11 +259,9 @@ import { {{EnumName}}Select, {{EnumName}}List } from '../{{EnumName}}'`,
 		if (this.{{structname}}.{{FieldName}} != undefined) {
 			this.{{structname}}.{{FieldName}}ID.Int64 = this.{{structname}}.{{FieldName}}.ID
 			this.{{structname}}.{{FieldName}}ID.Valid = true
-			this.{{structname}}.{{FieldName}}Name = this.{{structname}}.{{FieldName}}.Name
 		} else {
 			this.{{structname}}.{{FieldName}}ID.Int64 = 0
 			this.{{structname}}.{{FieldName}}ID.Valid = true
-			this.{{structname}}.{{FieldName}}Name = ""
 		}`,
 
 	NgDetailTSReversePointerToSliceOfGongStructSavesWhenCreateFromOwner: `

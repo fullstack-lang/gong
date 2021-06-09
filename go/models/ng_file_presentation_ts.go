@@ -21,6 +21,8 @@ import { FormBuilder, FormControl, FormGroup} from '@angular/forms';
 import { {{Structname}}DB } from '../{{structname}}-db'
 import { {{Structname}}Service } from '../{{structname}}.service'
 
+import { FrontRepoService, FrontRepo } from '../front-repo.service'
+
 import { Router, RouterState, ActivatedRoute } from '@angular/router';
 
 export interface {{structname}}DummyElement {
@@ -42,9 +44,13 @@ export class {{Structname}}PresentationComponent implements OnInit {
 	dataSource = ELEMENT_DATA;
 
 	{{structname}}: {{Structname}}DB;
+
+	// front repo
+	frontRepo: FrontRepo
  
 	constructor(
 		private {{structname}}Service: {{Structname}}Service,
+		private frontRepoService: FrontRepoService,
 		private route: ActivatedRoute,
 		private router: Router,
 	) {
@@ -68,15 +74,15 @@ export class {{Structname}}PresentationComponent implements OnInit {
 
 	get{{Structname}}(): void {
 		const id = +this.route.snapshot.paramMap.get('id');
-		this.{{structname}}Service.get{{Structname}}(id)
-			.subscribe(
-				{{structname}} => {
-					this.{{structname}} = {{structname}}
+		this.frontRepoService.pull().subscribe(
+			frontRepo => {
+				this.frontRepo = frontRepo
 
-					// insertion point for recovery of durations{{` + string(rune(NgPresentationTsInsertionPerStructRecoveries)) + `}}
+				this.{{structname}} = this.frontRepo.{{Structname}}s.get(id)
 
-				}
-			);
+				// insertion point for recovery of durations{{` + string(rune(NgPresentationTsInsertionPerStructRecoveries)) + `}}
+			}
+		);
 	}
 
 	// set presentation outlet
@@ -123,10 +129,10 @@ var NgPresentationSubTemplateCode map[NgPresentationSubTemplate]string = map[NgP
 	{{FieldName}}_Minutes: number
 	{{FieldName}}_Seconds: number`,
 	NgPresentationTSTimeDurationRecoveries: `
-					// computation of Hours, Minutes, Seconds for {{FieldName}}
-					this.{{FieldName}}_Hours = Math.floor(this.{{structname}}.{{FieldName}} / (3600 * 1000 * 1000 * 1000))
-					this.{{FieldName}}_Minutes = Math.floor(this.{{structname}}.{{FieldName}} % (3600 * 1000 * 1000 * 1000) / (60 * 1000 * 1000 * 1000))
-					this.{{FieldName}}_Seconds = this.{{structname}}.{{FieldName}} % (60 * 1000 * 1000 * 1000) / (1000 * 1000 * 1000)`,
+				// computation of Hours, Minutes, Seconds for {{FieldName}}
+				this.{{FieldName}}_Hours = Math.floor(this.{{structname}}.{{FieldName}} / (3600 * 1000 * 1000 * 1000))
+				this.{{FieldName}}_Minutes = Math.floor(this.{{structname}}.{{FieldName}} % (3600 * 1000 * 1000 * 1000) / (60 * 1000 * 1000 * 1000))
+				this.{{FieldName}}_Seconds = this.{{structname}}.{{FieldName}} % (60 * 1000 * 1000 * 1000) / (1000 * 1000 * 1000)`,
 }
 
 // MultiCodeGeneratorNgPresentation parses mdlPkg and generates the code for the

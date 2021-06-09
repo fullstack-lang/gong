@@ -81,7 +81,7 @@ var NgPresentationPointerToStructHtmlSubTemplateCode map[string]string = map[str
 	string(NgPresentationPointerToStructHtmlFormField): `
     <tr class="mat-row">
         <td class="mat-cell">{{FieldName}}</td>
-        <td class="mat-cell">{{{{structname}}.{{FieldName}}Name}}</td>
+        <td class="mat-cell">{{{{structname}}.{{FieldName}} ? {{structname}}.{{FieldName}}.Name : ""}}</td>
     </tr>`,
 }
 

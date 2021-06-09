@@ -27,11 +27,9 @@ export class AclassDB {
 	Duration1_string?: string
 	Associationtob?: BclassDB
 	AssociationtobID?: NullInt64
-	AssociationtobName?: string
 
 	Anotherassociationtob_2?: BclassDB
 	Anotherassociationtob_2ID?: NullInt64
-	Anotherassociationtob_2Name?: string
 
 	Anarrayofb?: Array<BclassDB>
 	Anotherarrayofb?: Array<BclassDB>
