@@ -113,11 +113,9 @@ export class AclassDetailComponent implements OnInit {
 		if (this.aclass.Associationtob != undefined) {
 			this.aclass.AssociationtobID.Int64 = this.aclass.Associationtob.ID
 			this.aclass.AssociationtobID.Valid = true
-			this.aclass.AssociationtobName = this.aclass.Associationtob.Name
 		} else {
 			this.aclass.AssociationtobID.Int64 = 0
 			this.aclass.AssociationtobID.Valid = true
-			this.aclass.AssociationtobName = ""
 		}
 		if (this.aclass.Anotherassociationtob_2ID == undefined) {
 			this.aclass.Anotherassociationtob_2ID = new NullInt64
@@ -125,11 +123,9 @@ export class AclassDetailComponent implements OnInit {
 		if (this.aclass.Anotherassociationtob_2 != undefined) {
 			this.aclass.Anotherassociationtob_2ID.Int64 = this.aclass.Anotherassociationtob_2.ID
 			this.aclass.Anotherassociationtob_2ID.Valid = true
-			this.aclass.Anotherassociationtob_2Name = this.aclass.Anotherassociationtob_2.Name
 		} else {
 			this.aclass.Anotherassociationtob_2ID.Int64 = 0
 			this.aclass.Anotherassociationtob_2ID.Valid = true
-			this.aclass.Anotherassociationtob_2Name = ""
 		}
 		
 		// save from the front pointer space to the non pointer space for serialization

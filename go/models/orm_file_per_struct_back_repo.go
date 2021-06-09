@@ -571,9 +571,6 @@ var BackRepoFieldSubTemplateCode map[BackRepoPerStructSubTemplate]string = map[B
 	// field {{FieldName}} is a pointer to another Struct (optional or 0..1)
 	// This field is generated into another field to enable AS ONE association
 	{{FieldName}}ID sql.NullInt64
-
-	// all gong Struct has a Name field, this enables this data to object field
-	{{FieldName}}Name string
 `,
 
 	BackRepoDeclarationSliceOfPointerToStructField: `

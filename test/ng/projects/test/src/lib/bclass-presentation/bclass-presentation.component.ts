@@ -4,6 +4,8 @@ import { FormBuilder, FormControl, FormGroup} from '@angular/forms';
 import { BclassDB } from '../bclass-db'
 import { BclassService } from '../bclass.service'
 
+import { FrontRepoService, FrontRepo } from '../front-repo.service'
+
 import { Router, RouterState, ActivatedRoute } from '@angular/router';
 
 export interface bclassDummyElement {
@@ -25,9 +27,13 @@ export class BclassPresentationComponent implements OnInit {
 	dataSource = ELEMENT_DATA;
 
 	bclass: BclassDB;
+
+	// front repo
+	frontRepo: FrontRepo
  
 	constructor(
 		private bclassService: BclassService,
+		private frontRepoService: FrontRepoService,
 		private route: ActivatedRoute,
 		private router: Router,
 	) {
@@ -51,15 +57,15 @@ export class BclassPresentationComponent implements OnInit {
 
 	getBclass(): void {
 		const id = +this.route.snapshot.paramMap.get('id');
-		this.bclassService.getBclass(id)
-			.subscribe(
-				bclass => {
-					this.bclass = bclass
+		this.frontRepoService.pull().subscribe(
+			frontRepo => {
+				this.frontRepo = frontRepo
 
-					// insertion point for recovery of durations
+				this.bclass = this.frontRepo.Bclasss.get(id)
 
-				}
-			);
+				// insertion point for recovery of durations
+			}
+		);
 	}
 
 	// set presentation outlet
