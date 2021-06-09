@@ -64,13 +64,28 @@ export class {{Structname}}sTableComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   ngAfterViewInit() {
-    this.matTableDataSource.sortingDataAccessor = ({{structname}}DB: {{Structname}}DB, property: string) => {
+
+	// enable sorting on all fields (including pointers and reverse pointer)
+	this.matTableDataSource.sortingDataAccessor = ({{structname}}DB: {{Structname}}DB, property: string) => {
 		switch (property) {
 				// insertion point for specific sorting accessor{{` + string(rune(NgTableTsInsertionPerStructColumnsSorting)) + `}}
-		  default:
-			return {{Structname}}DB[property];
+				default:
+					return {{Structname}}DB[property];
 		}
-	  }; 
+	}; 
+
+	// enable filtering on all fields (including pointers and reverse pointer, which is not done by default)
+	this.matTableDataSource.filterPredicate = ({{structname}}DB: {{Structname}}DB, filter: string) => {
+
+		// filtering is based on finding a lower case filter into a concatenated string
+		// the {{structname}}DB properties
+		let mergedContent = ""
+
+		// insertion point for merging of fields{{` + string(rune(NgTableTsInsertionPerStructColumnsFiltering)) + `}}
+
+		let isSelected = mergedContent.includes(filter.toLowerCase())
+		return isSelected
+	};
 
     this.matTableDataSource.sort = this.sort;
     this.matTableDataSource.paginator = this.paginator;
@@ -245,6 +260,7 @@ const (
 	NgTableTsInsertionPerStructRecoveries NgTableTsInsertionPoint = iota
 	NgTableTsInsertionPerStructColumns
 	NgTableTsInsertionPerStructColumnsSorting
+	NgTableTsInsertionPerStructColumnsFiltering
 	NgTableTsInsertionsNb
 )
 
@@ -252,8 +268,15 @@ type NgTableSubTemplate int
 
 const (
 	NgTableTSPerStructTimeDurationRecoveries NgTableSubTemplate = iota
+
 	NgTableTSPointerToStructSorting
 	NgTableTSSliceOfPointerToStructSorting
+
+	NgTableTSNonNumberFieldFiltering
+	NgTableTSNumberFieldFiltering
+	NgTableTSTimeFieldFiltering
+	NgTableTSPointerToStructFiltering
+	NgTableTSSliceOfPointerToStructFiltering
 
 	NgTableTSPerStructColumn
 )
@@ -276,6 +299,22 @@ var NgTablelSubTemplateCode map[NgTableSubTemplate]string = map[NgTableSubTempla
 	NgTableTSSliceOfPointerToStructSorting: `
 				case '{{FieldName}}':
 					return this.frontRepo.{{AssocStructName}}s.get({{structname}}DB.{{AssocStructName}}_{{FieldName}}DBID.Int64)?.Name;
+`,
+
+	NgTableTSNonNumberFieldFiltering: `
+		mergedContent += {{structname}}DB.{{FieldName}}.toLowerCase()`,
+	NgTableTSNumberFieldFiltering: `
+		mergedContent += {{structname}}DB.{{FieldName}}.toString()`,
+	NgTableTSTimeFieldFiltering: `
+`,
+	NgTableTSPointerToStructFiltering: `
+		if ({{structname}}DB.{{FieldName}}) {
+    		mergedContent += {{structname}}DB.{{FieldName}}.Name.toLowerCase()
+		}`,
+	NgTableTSSliceOfPointerToStructFiltering: `
+		if ({{structname}}DB.Aclass_{{FieldName}}DBID.Int64 != 0) {
+        	mergedContent += this.frontRepo.{{AssocStructName}}s.get({{structname}}DB.{{AssocStructName}}_{{FieldName}}DBID.Int64)?.Name.toLowerCase()
+    	}
 `,
 
 	NgTableTSPerStructColumn: `
@@ -353,20 +392,32 @@ func MultiCodeGeneratorNgTable(
 					HtmlInsertions[NgTableHtmlInsertionColumn] += Replace2(NgTableHTMLSubTemplateCode[NgTableHTMLBasicFloat64Field],
 						"{{FieldName}}", gongBasicField.Name,
 						"{{TypeInput}}", TypeInput)
+					TsInsertions[NgTableTsInsertionPerStructColumnsFiltering] += Replace1(NgTablelSubTemplateCode[NgTableTSNumberFieldFiltering],
+						"{{FieldName}}", gongBasicField.Name)
+				case types.Int, types.Int64:
+					if gongBasicField.DeclaredType != "time.Duration" {
+						HtmlInsertions[NgTableHtmlInsertionColumn] += Replace2(NgTableHTMLSubTemplateCode[NgTableHTMLBasicField],
+							"{{FieldName}}", gongBasicField.Name,
+							"{{TypeInput}}", TypeInput)
+						TsInsertions[NgTableTsInsertionPerStructColumnsFiltering] += Replace1(NgTablelSubTemplateCode[NgTableTSNumberFieldFiltering],
+							"{{FieldName}}", gongBasicField.Name)
+
+					} else {
+						HtmlInsertions[NgTableHtmlInsertionColumn] += Replace1(NgTableHTMLSubTemplateCode[NgTableHTMLBasicFieldTimeDuration],
+							"{{FieldName}}", gongBasicField.Name)
+					}
+
 				case types.Bool:
 					HtmlInsertions[NgTableHtmlInsertionColumn] += Replace2(NgTableHTMLSubTemplateCode[NgTableHTMLBool],
 						"{{FieldName}}", gongBasicField.Name,
 						"{{TypeInput}}", TypeInput)
 				default:
 
-					if gongBasicField.DeclaredType != "time.Duration" {
-						HtmlInsertions[NgTableHtmlInsertionColumn] += Replace2(NgTableHTMLSubTemplateCode[NgTableHTMLBasicField],
-							"{{FieldName}}", gongBasicField.Name,
-							"{{TypeInput}}", TypeInput)
-					} else {
-						HtmlInsertions[NgTableHtmlInsertionColumn] += Replace1(NgTableHTMLSubTemplateCode[NgTableHTMLBasicFieldTimeDuration],
-							"{{FieldName}}", gongBasicField.Name)
-					}
+					HtmlInsertions[NgTableHtmlInsertionColumn] += Replace1(NgTableHTMLSubTemplateCode[NgTableHTMLBasicField],
+						"{{FieldName}}", gongBasicField.Name)
+					TsInsertions[NgTableTsInsertionPerStructColumnsFiltering] += Replace1(NgTablelSubTemplateCode[NgTableTSNonNumberFieldFiltering],
+						"{{FieldName}}", gongBasicField.Name)
+
 				}
 				TsInsertions[NgTableTsInsertionPerStructColumns] +=
 					Replace1(NgTablelSubTemplateCode[NgTableTSPerStructColumn],
@@ -377,6 +428,7 @@ func MultiCodeGeneratorNgTable(
 						Replace1(NgTablelSubTemplateCode[NgTableTSPerStructTimeDurationRecoveries],
 							"{{FieldName}}", gongBasicField.Name)
 				}
+
 			case *GongTimeField:
 				gongTimeField := field.(*GongTimeField)
 				TsInsertions[NgTableTsInsertionPerStructColumns] +=
@@ -401,6 +453,9 @@ func MultiCodeGeneratorNgTable(
 					Replace1(NgTablelSubTemplateCode[NgTableTSPointerToStructSorting],
 						"{{FieldName}}", modelPointerToStructField.Name)
 
+				TsInsertions[NgTableTsInsertionPerStructColumnsFiltering] +=
+					Replace1(NgTablelSubTemplateCode[NgTableTSPointerToStructFiltering],
+						"{{FieldName}}", modelPointerToStructField.Name)
 			}
 		}
 
@@ -426,6 +481,11 @@ func MultiCodeGeneratorNgTable(
 
 						TsInsertions[NgTableTsInsertionPerStructColumnsSorting] +=
 							Replace2(NgTablelSubTemplateCode[NgTableTSSliceOfPointerToStructSorting],
+								"{{AssocStructName}}", __struct.Name,
+								"{{FieldName}}", fieldSliceOfPointerToModel.Name)
+
+						TsInsertions[NgTableTsInsertionPerStructColumnsFiltering] +=
+							Replace2(NgTablelSubTemplateCode[NgTableTSSliceOfPointerToStructFiltering],
 								"{{AssocStructName}}", __struct.Name,
 								"{{FieldName}}", fieldSliceOfPointerToModel.Name)
 					}
