@@ -47,37 +47,55 @@ export class AclasssTableComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   ngAfterViewInit() {
-    this.matTableDataSource.sortingDataAccessor = (aclassDB: AclassDB, property: string) => {
-      switch (property) {
-        // insertion point for specific sorting accessor
-        case 'Associationtob':
-          return (aclassDB.Associationtob ? aclassDB.Associationtob.Name : '');
 
-        case 'Anotherassociationtob_2':
-          return (aclassDB.Anotherassociationtob_2 ? aclassDB.Anotherassociationtob_2.Name : '');
+	// enable sorting on all fields (including pointers and reverse pointer)
+	this.matTableDataSource.sortingDataAccessor = (aclassDB: AclassDB, property: string) => {
+		switch (property) {
+				// insertion point for specific sorting accessor
+  			case 'Associationtob':
+				return (aclassDB.Associationtob ? aclassDB.Associationtob.Name : '');
 
-        case 'Anarrayofa':
-          return this.frontRepo.Aclasss.get(aclassDB.Aclass_AnarrayofaDBID.Int64)?.Name;
+  			case 'Anotherassociationtob_2':
+				return (aclassDB.Anotherassociationtob_2 ? aclassDB.Anotherassociationtob_2.Name : '');
 
-        default:
-          return AclassDB[property];
-      }
-    };
+				case 'Anarrayofa':
+					return this.frontRepo.Aclasss.get(aclassDB.Aclass_AnarrayofaDBID.Int64)?.Name;
 
-    this.matTableDataSource.filterPredicate = (aclassDB: AclassDB, filter: string) => {
+				default:
+					return AclassDB[property];
+		}
+	}; 
 
-      let mergeContentOfAclassDB = ""
-      mergeContentOfAclassDB += aclassDB.Name.toLowerCase()
-      mergeContentOfAclassDB += aclassDB.Date.toLocaleString()
-      if (aclassDB.Associationtob) {
-        mergeContentOfAclassDB += aclassDB.Associationtob.Name
-      }
-      if (aclassDB.Aclass_AnarrayofaDBID.Int64 != 0) {
-        mergeContentOfAclassDB += this.frontRepo.Aclasss.get(aclassDB.Aclass_AnarrayofaDBID.Int64)?.Name.toLowerCase()
-      }
-      let isSelected = mergeContentOfAclassDB.includes(filter.toLowerCase())
-      return isSelected
-    };
+	// enable filtering on all fields (including pointers and reverse pointer, which is not done by default)
+	this.matTableDataSource.filterPredicate = (aclassDB: AclassDB, filter: string) => {
+
+		// filtering is based on finding a lower case filter into a concatenated string
+		// the aclassDB properties
+		let mergedContent = ""
+
+		// insertion point for merging of fields
+		mergedContent += aclassDB.Name.toLowerCase()
+		mergedContent += aclassDB.Aenum.toLowerCase()
+		mergedContent += aclassDB.Aenum_2.toLowerCase()
+		mergedContent += aclassDB.Benum.toLowerCase()
+		mergedContent += aclassDB.CName.toLowerCase()
+		mergedContent += aclassDB.CFloatfield.toString()
+		mergedContent += aclassDB.Floatfield.toString()
+		mergedContent += aclassDB.Intfield.toString()
+		if (aclassDB.Associationtob) {
+    		mergedContent += aclassDB.Associationtob.Name.toLowerCase()
+		}
+		if (aclassDB.Anotherassociationtob_2) {
+    		mergedContent += aclassDB.Anotherassociationtob_2.Name.toLowerCase()
+		}
+		if (aclassDB.Aclass_AnarrayofaDBID.Int64 != 0) {
+        	mergedContent += this.frontRepo.Aclasss.get(aclassDB.Aclass_AnarrayofaDBID.Int64)?.Name.toLowerCase()
+    	}
+
+
+		let isSelected = mergedContent.includes(filter.toLowerCase())
+		return isSelected
+	};
 
     this.matTableDataSource.sort = this.sort;
     this.matTableDataSource.paginator = this.paginator;
