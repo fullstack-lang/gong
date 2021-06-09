@@ -34,7 +34,7 @@ export class AclassPresentationComponent implements OnInit {
 
 	// front repo
 	frontRepo: FrontRepo
-
+ 
 	constructor(
 		private aclassService: AclassService,
 		private frontRepoService: FrontRepoService,

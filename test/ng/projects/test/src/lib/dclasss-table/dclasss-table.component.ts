@@ -47,13 +47,29 @@ export class DclasssTableComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   ngAfterViewInit() {
-    this.matTableDataSource.sortingDataAccessor = (dclassDB: DclassDB, property: string) => {
+
+	// enable sorting on all fields (including pointers and reverse pointer)
+	this.matTableDataSource.sortingDataAccessor = (dclassDB: DclassDB, property: string) => {
 		switch (property) {
 				// insertion point for specific sorting accessor
-		  default:
-			return DclassDB[property];
+				default:
+					return DclassDB[property];
 		}
-	  }; 
+	}; 
+
+	// enable filtering on all fields (including pointers and reverse pointer, which is not done by default)
+	this.matTableDataSource.filterPredicate = (dclassDB: DclassDB, filter: string) => {
+
+		// filtering is based on finding a lower case filter into a concatenated string
+		// the dclassDB properties
+		let mergedContent = ""
+
+		// insertion point for merging of fields
+		mergedContent += dclassDB.Name.toLowerCase()
+
+		let isSelected = mergedContent.includes(filter.toLowerCase())
+		return isSelected
+	};
 
     this.matTableDataSource.sort = this.sort;
     this.matTableDataSource.paginator = this.paginator;
