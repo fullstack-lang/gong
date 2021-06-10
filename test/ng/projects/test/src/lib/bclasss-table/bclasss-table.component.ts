@@ -191,14 +191,14 @@ export class BclasssTableComponent implements OnInit {
 
   // display bclass in router
   displayBclassInRouter(bclassID: number) {
-    this.router.navigate(["bclass-display", bclassID])
+    this.router.navigate(["github.com.fullstack-lang.gong.test.go-" + "bclass-display", bclassID])
   }
 
   // set editor outlet
   setEditorRouterOutlet(bclassID: number) {
     this.router.navigate([{
       outlets: {
-        editor: ["bclass-detail", bclassID]
+        editor: ["github.com.fullstack-lang.gong.test.go-" + "bclass-detail", bclassID]
       }
     }]);
   }
@@ -207,7 +207,7 @@ export class BclasssTableComponent implements OnInit {
   setPresentationRouterOutlet(bclassID: number) {
     this.router.navigate([{
       outlets: {
-        presentation: ["bclass-presentation", bclassID]
+        presentation: ["github.com.fullstack-lang.gong.test.go-" + "bclass-presentation", bclassID]
       }
     }]);
   }
