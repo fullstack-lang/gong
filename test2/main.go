@@ -43,20 +43,16 @@ func main() {
 	r.Use(cors.Default())
 
 	// setup GORM
-	db2 := test2_orm.SetupModels(*logDBFlag, ":memory:")
+	inMemoryDB := test2_orm.SetupModels(*logDBFlag, ":memory:")
 	// mandatory, otherwise, bizarre errors occurs
-	db2.DB().SetMaxOpenConns(1)
+	inMemoryDB.DB().SetMaxOpenConns(1)
+	test2_orm.BackRepo.Init(inMemoryDB)
 
 	// setup GORM
-	db := test_orm.SetupModels(*logDBFlag, "./test.db")
+	inFileDB := test_orm.SetupModels(*logDBFlag, "./test.db")
 	// mandatory, otherwise, bizarre errors occurs
-	db.DB().SetMaxOpenConns(1)
-
-	// Provide db variable to controllers
-	r.Use(func(c *gin.Context) {
-		c.Set("db", db2) // a gin Context can have a map of variable that is set up at runtime
-		c.Next()
-	})
+	inFileDB.DB().SetMaxOpenConns(1)
+	test_orm.BackRepo.Init(inFileDB)
 
 	test2_controllers.RegisterControllers(r)
 	test_controllers.RegisterControllers(r)

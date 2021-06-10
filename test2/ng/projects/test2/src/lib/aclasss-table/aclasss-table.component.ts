@@ -47,6 +47,39 @@ export class AclasssTableComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   ngAfterViewInit() {
+
+	// enable sorting on all fields (including pointers and reverse pointer)
+	this.matTableDataSource.sortingDataAccessor = (aclassDB: AclassDB, property: string) => {
+		switch (property) {
+				// insertion point for specific sorting accessor
+				case 'Anarrayofa':
+					return this.frontRepo.Aclasss.get(aclassDB.Aclass_AnarrayofaDBID.Int64)?.Name;
+
+				default:
+					return AclassDB[property];
+		}
+	}; 
+
+	// enable filtering on all fields (including pointers and reverse pointer, which is not done by default)
+	this.matTableDataSource.filterPredicate = (aclassDB: AclassDB, filter: string) => {
+
+		// filtering is based on finding a lower case filter into a concatenated string
+		// the aclassDB properties
+		let mergedContent = ""
+
+		// insertion point for merging of fields
+		mergedContent += aclassDB.Name.toLowerCase()
+		mergedContent += aclassDB.Floatfield.toString()
+		mergedContent += aclassDB.Intfield.toString()
+		if (aclassDB.Aclass_AnarrayofaDBID.Int64 != 0) {
+        	mergedContent += this.frontRepo.Aclasss.get(aclassDB.Aclass_AnarrayofaDBID.Int64)?.Name.toLowerCase()
+    	}
+
+
+		let isSelected = mergedContent.includes(filter.toLowerCase())
+		return isSelected
+	};
+
     this.matTableDataSource.sort = this.sort;
     this.matTableDataSource.paginator = this.paginator;
   }
