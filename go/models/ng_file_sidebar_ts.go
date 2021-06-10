@@ -219,7 +219,7 @@ export class SidebarComponent implements OnInit {
   setTableRouterOutlet(path: string) {
     this.router.navigate([{
       outlets: {
-        table: ["{{PkgPathRootWithoutSlashes}}-" + path]
+        {{PkgPathRootWithoutSlashes}}table: ["{{PkgPathRootWithoutSlashes}}-" + path]
       }
     }]);
   }
@@ -233,7 +233,7 @@ export class SidebarComponent implements OnInit {
     if (type == GongNodeType.STRUCT) {
       this.router.navigate([{
         outlets: {
-          table: ["{{PkgPathRootWithoutSlashes}}-" + path.toLowerCase()]
+          {{PkgPathRootWithoutSlashes}}table: ["{{PkgPathRootWithoutSlashes}}-" + path.toLowerCase()]
         }
       }]);
     }
@@ -241,7 +241,7 @@ export class SidebarComponent implements OnInit {
     if (type == GongNodeType.INSTANCE) {
       this.router.navigate([{
         outlets: {
-          presentation: ["{{PkgPathRootWithoutSlashes}}-" + structName.toLowerCase() + "-presentation", id]
+          {{PkgPathRootWithoutSlashes}}presentation: ["{{PkgPathRootWithoutSlashes}}-" + structName.toLowerCase() + "-presentation", id]
         }
       }]);
     }
@@ -250,7 +250,7 @@ export class SidebarComponent implements OnInit {
   setEditorRouterOutlet(path) {
     this.router.navigate([{
       outlets: {
-        editor: ["{{PkgPathRootWithoutSlashes}}-" + path.toLowerCase()]
+        {{PkgPathRootWithoutSlashes}}editor: ["{{PkgPathRootWithoutSlashes}}-" + path.toLowerCase()]
       }
     }]);
   }
@@ -258,7 +258,7 @@ export class SidebarComponent implements OnInit {
   setEditorSpecialRouterOutlet( node: GongFlatNode) {
     this.router.navigate([{
       outlets: {
-        editor: ["{{PkgPathRootWithoutSlashes}}-" + node.associatedStructName.toLowerCase() + "-adder", node.id, node.structName + "_" + node.name]
+        {{PkgPathRootWithoutSlashes}}editor: ["{{PkgPathRootWithoutSlashes}}-" + node.associatedStructName.toLowerCase() + "-adder", node.id, node.structName + "_" + node.name]
       }
     }]);
   }
@@ -583,7 +583,10 @@ func CodeGeneratorNgSidebar(
 	}
 
 	pkgPathRootWithoutSlashes := strings.ReplaceAll(pkgGoPath, "/models", "")
-	pkgPathRootWithoutSlashes = strings.ReplaceAll(pkgPathRootWithoutSlashes, "/", ".")
+	pkgPathRootWithoutSlashes = strings.ReplaceAll(pkgPathRootWithoutSlashes, "/", "")
+	pkgPathRootWithoutSlashes = strings.ReplaceAll(pkgPathRootWithoutSlashes, "-", "")
+	pkgPathRootWithoutSlashes = strings.ReplaceAll(pkgPathRootWithoutSlashes, ".", "")
+
 	codeTS = Replace5(codeTS,
 		"{{PkgName}}", pkgName,
 		"{{TitlePkgName}}", strings.Title(pkgName),

@@ -37,7 +37,7 @@ import { FrontRepoService, FrontRepo } from '../front-repo.service'
 
 // generated table component
 @Component({
-  selector: 'app-{{structname}}s-table',
+  selector: 'app-{{structname}}stable',
   templateUrl: './{{structname}}s-table.component.html',
   styleUrls: ['./{{structname}}s-table.component.css'],
 })
@@ -188,7 +188,7 @@ export class {{Structname}}sTableComponent implements OnInit {
   setEditorRouterOutlet({{structname}}ID: number) {
     this.router.navigate([{
       outlets: {
-        editor: ["{{PkgPathRootWithoutSlashes}}-" + "{{structname}}-detail", {{structname}}ID]
+        {{PkgPathRootWithoutSlashes}}editor: ["{{PkgPathRootWithoutSlashes}}-" + "{{structname}}-detail", {{structname}}ID]
       }
     }]);
   }
@@ -197,7 +197,7 @@ export class {{Structname}}sTableComponent implements OnInit {
   setPresentationRouterOutlet({{structname}}ID: number) {
     this.router.navigate([{
       outlets: {
-        presentation: ["{{PkgPathRootWithoutSlashes}}-" + "{{structname}}-presentation", {{structname}}ID]
+        {{PkgPathRootWithoutSlashes}}presentation: ["{{PkgPathRootWithoutSlashes}}-" + "{{structname}}-presentation", {{structname}}ID]
       }
     }]);
   }
@@ -504,7 +504,9 @@ func MultiCodeGeneratorNgTable(
 		}
 
 		pkgPathRootWithoutSlashes := strings.ReplaceAll(pkgGoPath, "/models", "")
-		pkgPathRootWithoutSlashes = strings.ReplaceAll(pkgPathRootWithoutSlashes, "/", ".")
+		pkgPathRootWithoutSlashes = strings.ReplaceAll(pkgPathRootWithoutSlashes, "/", "")
+		pkgPathRootWithoutSlashes = strings.ReplaceAll(pkgPathRootWithoutSlashes, "-", "")
+		pkgPathRootWithoutSlashes = strings.ReplaceAll(pkgPathRootWithoutSlashes, ".", "")
 
 		// final replacement
 		codeTS = Replace7(codeTS,

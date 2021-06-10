@@ -20,7 +20,7 @@ import { FrontRepoService, FrontRepo } from '../front-repo.service'
 
 // generated table component
 @Component({
-  selector: 'app-dclasss-table',
+  selector: 'app-dclassstable',
   templateUrl: './dclasss-table.component.html',
   styleUrls: ['./dclasss-table.component.css'],
 })
@@ -167,14 +167,14 @@ export class DclasssTableComponent implements OnInit {
 
   // display dclass in router
   displayDclassInRouter(dclassID: number) {
-    this.router.navigate(["github.com.fullstack-lang.gong.test.go-" + "dclass-display", dclassID])
+    this.router.navigate(["githubcomfullstacklanggongtestgo-" + "dclass-display", dclassID])
   }
 
   // set editor outlet
   setEditorRouterOutlet(dclassID: number) {
     this.router.navigate([{
       outlets: {
-        editor: ["github.com.fullstack-lang.gong.test.go-" + "dclass-detail", dclassID]
+        githubcomfullstacklanggongtestgoeditor: ["githubcomfullstacklanggongtestgo-" + "dclass-detail", dclassID]
       }
     }]);
   }
@@ -183,7 +183,7 @@ export class DclasssTableComponent implements OnInit {
   setPresentationRouterOutlet(dclassID: number) {
     this.router.navigate([{
       outlets: {
-        presentation: ["github.com.fullstack-lang.gong.test.go-" + "dclass-presentation", dclassID]
+        githubcomfullstacklanggongtestgopresentation: ["githubcomfullstacklanggongtestgo-" + "dclass-presentation", dclassID]
       }
     }]);
   }
