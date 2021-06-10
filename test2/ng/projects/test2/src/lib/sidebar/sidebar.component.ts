@@ -286,7 +286,7 @@ export class SidebarComponent implements OnInit {
   setTableRouterOutlet(path: string) {
     this.router.navigate([{
       outlets: {
-        table: ["github.com.fullstack-lang.gong.test2.go-" + path]
+        githubcomfullstacklanggongtest2gotable: ["githubcomfullstacklanggongtest2go-" + path]
       }
     }]);
   }
@@ -300,7 +300,7 @@ export class SidebarComponent implements OnInit {
     if (type == GongNodeType.STRUCT) {
       this.router.navigate([{
         outlets: {
-          table: ["github.com.fullstack-lang.gong.test2.go-" + path.toLowerCase()]
+          githubcomfullstacklanggongtest2gotable: ["githubcomfullstacklanggongtest2go-" + path.toLowerCase()]
         }
       }]);
     }
@@ -308,7 +308,7 @@ export class SidebarComponent implements OnInit {
     if (type == GongNodeType.INSTANCE) {
       this.router.navigate([{
         outlets: {
-          presentation: ["github.com.fullstack-lang.gong.test2.go-" + structName.toLowerCase() + "-presentation", id]
+          githubcomfullstacklanggongtest2gopresentation: ["githubcomfullstacklanggongtest2go-" + structName.toLowerCase() + "-presentation", id]
         }
       }]);
     }
@@ -317,7 +317,7 @@ export class SidebarComponent implements OnInit {
   setEditorRouterOutlet(path) {
     this.router.navigate([{
       outlets: {
-        editor: ["github.com.fullstack-lang.gong.test2.go-" + path.toLowerCase()]
+        githubcomfullstacklanggongtest2goeditor: ["githubcomfullstacklanggongtest2go-" + path.toLowerCase()]
       }
     }]);
   }
@@ -325,7 +325,7 @@ export class SidebarComponent implements OnInit {
   setEditorSpecialRouterOutlet( node: GongFlatNode) {
     this.router.navigate([{
       outlets: {
-        editor: ["github.com.fullstack-lang.gong.test2.go-" + node.associatedStructName.toLowerCase() + "-adder", node.id, node.structName + "_" + node.name]
+        githubcomfullstacklanggongtest2goeditor: ["githubcomfullstacklanggongtest2go-" + node.associatedStructName.toLowerCase() + "-adder", node.id, node.structName + "_" + node.name]
       }
     }]);
   }
