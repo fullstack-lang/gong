@@ -8,12 +8,12 @@ import { AclassPresentationComponent } from './aclass-presentation/aclass-presen
 
 
 const routes: Routes = [ // insertion point for routes declarations
-	{ path: 'github.com.fullstack-lang.gong.test2.go-aclasss', component: AclasssTableComponent, outlet: 'table' },
-	{ path: 'github.com.fullstack-lang.gong.test2.go-aclass-adder', component: AclassDetailComponent, outlet: 'editor' },
-	{ path: 'github.com.fullstack-lang.gong.test2.go-aclass-adder/:id/:association', component: AclassDetailComponent, outlet: 'editor' },
-	{ path: 'github.com.fullstack-lang.gong.test2.go-aclass-detail/:id', component: AclassDetailComponent, outlet: 'editor' },
-	{ path: 'github.com.fullstack-lang.gong.test2.go-aclass-presentation/:id', component: AclassPresentationComponent, outlet: 'presentation' },
-	{ path: 'github.com.fullstack-lang.gong.test2.go-aclass-presentation-special/:id', component: AclassPresentationComponent, outlet: 'aclasspres' },
+	{ path: 'githubcomfullstacklanggongtest2go-aclasss', component: AclasssTableComponent, outlet: 'githubcomfullstacklanggongtest2gotable' },
+	{ path: 'githubcomfullstacklanggongtest2go-aclass-adder', component: AclassDetailComponent, outlet: 'githubcomfullstacklanggongtest2goeditor' },
+	{ path: 'githubcomfullstacklanggongtest2go-aclass-adder/:id/:association', component: AclassDetailComponent, outlet: 'githubcomfullstacklanggongtest2goeditor' },
+	{ path: 'githubcomfullstacklanggongtest2go-aclass-detail/:id', component: AclassDetailComponent, outlet: 'githubcomfullstacklanggongtest2goeditor' },
+	{ path: 'githubcomfullstacklanggongtest2go-aclass-presentation/:id', component: AclassPresentationComponent, outlet: 'githubcomfullstacklanggongtest2gopresentation' },
+	{ path: 'githubcomfullstacklanggongtest2go-aclass-presentation-special/:id', component: AclassPresentationComponent, outlet: 'githubcomfullstacklanggongtest2goaclasspres' },
 
 ];
 

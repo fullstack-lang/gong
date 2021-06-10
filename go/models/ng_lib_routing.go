@@ -32,11 +32,11 @@ import { {{Structname}}PresentationComponent } from './{{structname}}-presentati
 `,
 
 	string(NgRoutingDeclarations): `
-	{ path: '{{PkgPathRootWithoutSlashes}}-{{structname}}s', component: {{Structname}}sTableComponent, outlet: 'table' },
-	{ path: '{{PkgPathRootWithoutSlashes}}-{{structname}}-adder', component: {{Structname}}DetailComponent, outlet: 'editor' },
-	{ path: '{{PkgPathRootWithoutSlashes}}-{{structname}}-adder/:id/:association', component: {{Structname}}DetailComponent, outlet: 'editor' },
-	{ path: '{{PkgPathRootWithoutSlashes}}-{{structname}}-detail/:id', component: {{Structname}}DetailComponent, outlet: 'editor' },
-	{ path: '{{PkgPathRootWithoutSlashes}}-{{structname}}-presentation/:id', component: {{Structname}}PresentationComponent, outlet: 'presentation' },
-	{ path: '{{PkgPathRootWithoutSlashes}}-{{structname}}-presentation-special/:id', component: {{Structname}}PresentationComponent, outlet: '{{structname}}pres' },
+	{ path: '{{PkgPathRootWithoutSlashes}}-{{structname}}s', component: {{Structname}}sTableComponent, outlet: '{{PkgPathRootWithoutSlashes}}table' },
+	{ path: '{{PkgPathRootWithoutSlashes}}-{{structname}}-adder', component: {{Structname}}DetailComponent, outlet: '{{PkgPathRootWithoutSlashes}}editor' },
+	{ path: '{{PkgPathRootWithoutSlashes}}-{{structname}}-adder/:id/:association', component: {{Structname}}DetailComponent, outlet: '{{PkgPathRootWithoutSlashes}}editor' },
+	{ path: '{{PkgPathRootWithoutSlashes}}-{{structname}}-detail/:id', component: {{Structname}}DetailComponent, outlet: '{{PkgPathRootWithoutSlashes}}editor' },
+	{ path: '{{PkgPathRootWithoutSlashes}}-{{structname}}-presentation/:id', component: {{Structname}}PresentationComponent, outlet: '{{PkgPathRootWithoutSlashes}}presentation' },
+	{ path: '{{PkgPathRootWithoutSlashes}}-{{structname}}-presentation-special/:id', component: {{Structname}}PresentationComponent, outlet: '{{PkgPathRootWithoutSlashes}}{{structname}}pres' },
 `,
 }
