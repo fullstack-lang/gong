@@ -153,6 +153,11 @@ func CodeGenerator(
 	code = strings.ReplaceAll(code, "{{pkgname}}", strings.ToLower(pkgName))
 	code = strings.ReplaceAll(code, "{{PkgPathRoot}}", strings.ReplaceAll(pkgGoPath, "/models", ""))
 
+	pkgPathRootWithoutSlashes := strings.ReplaceAll(pkgGoPath, "/models", "")
+	pkgPathRootWithoutSlashes = strings.ReplaceAll(pkgPathRootWithoutSlashes, "/", ".")
+
+	code = strings.ReplaceAll(code, "{{PkgPathRootWithoutSlashes}}", pkgPathRootWithoutSlashes)
+
 	defer file.Close()
 	fmt.Fprint(file, code)
 }

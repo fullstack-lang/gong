@@ -89,7 +89,7 @@ export class {{Structname}}PresentationComponent implements OnInit {
 	setPresentationRouterOutlet(structName: string, ID: number) {
 		this.router.navigate([{
 			outlets: {
-				presentation: [structName + "-presentation", ID]
+				presentation: ["{{PkgPathRootWithoutSlashes}}-" + structName + "-presentation", ID]
 			}
 		}]);
 	}
@@ -98,7 +98,7 @@ export class {{Structname}}PresentationComponent implements OnInit {
 	setEditorRouterOutlet(ID: number) {
 		this.router.navigate([{
 			outlets: {
-				editor: ["{{structname}}-detail", ID]
+				editor: ["{{PkgPathRootWithoutSlashes}}-" + "{{structname}}-detail", ID]
 			}
 		}]);
 	}
@@ -291,13 +291,17 @@ func MultiCodeGeneratorNgPresentation(
 		}
 
 		// final replacement
-		codeTS = Replace6(codeTS,
+		pkgPathRootWithoutSlashes := strings.ReplaceAll(pkgGoPath, "/models", "")
+		pkgPathRootWithoutSlashes = strings.ReplaceAll(pkgPathRootWithoutSlashes, "/", ".")
+
+		codeTS = Replace7(codeTS,
 			"{{PkgName}}", pkgName,
 			"{{TitlePkgName}}", strings.Title(pkgName),
 			"{{pkgname}}", strings.ToLower(pkgName),
 			"{{PkgPathRoot}}", strings.ReplaceAll(pkgGoPath, "/models", ""),
 			"{{Structname}}", _struct.Name,
-			"{{structname}}", strings.ToLower(_struct.Name))
+			"{{structname}}", strings.ToLower(_struct.Name),
+			"{{PkgPathRootWithoutSlashes}}", pkgPathRootWithoutSlashes)
 		codeHTML = Replace6(codeHTML,
 			"{{PkgName}}", pkgName,
 			"{{TitlePkgName}}", strings.Title(pkgName),

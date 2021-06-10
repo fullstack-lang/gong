@@ -167,14 +167,14 @@ export class DclasssTableComponent implements OnInit {
 
   // display dclass in router
   displayDclassInRouter(dclassID: number) {
-    this.router.navigate(["dclass-display", dclassID])
+    this.router.navigate(["github.com.fullstack-lang.gong.test.go-" + "dclass-display", dclassID])
   }
 
   // set editor outlet
   setEditorRouterOutlet(dclassID: number) {
     this.router.navigate([{
       outlets: {
-        editor: ["dclass-detail", dclassID]
+        editor: ["github.com.fullstack-lang.gong.test.go-" + "dclass-detail", dclassID]
       }
     }]);
   }
@@ -183,7 +183,7 @@ export class DclasssTableComponent implements OnInit {
   setPresentationRouterOutlet(dclassID: number) {
     this.router.navigate([{
       outlets: {
-        presentation: ["dclass-presentation", dclassID]
+        presentation: ["github.com.fullstack-lang.gong.test.go-" + "dclass-presentation", dclassID]
       }
     }]);
   }

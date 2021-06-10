@@ -16,26 +16,26 @@ import { DclassPresentationComponent } from './dclass-presentation/dclass-presen
 
 
 const routes: Routes = [ // insertion point for routes declarations
-	{ path: 'aclasss', component: AclasssTableComponent, outlet: 'table' },
-	{ path: 'aclass-adder', component: AclassDetailComponent, outlet: 'editor' },
-	{ path: 'aclass-adder/:id/:association', component: AclassDetailComponent, outlet: 'editor' },
-	{ path: 'aclass-detail/:id', component: AclassDetailComponent, outlet: 'editor' },
-	{ path: 'aclass-presentation/:id', component: AclassPresentationComponent, outlet: 'presentation' },
-	{ path: 'aclass-presentation-special/:id', component: AclassPresentationComponent, outlet: 'aclasspres' },
+	{ path: 'github.com.fullstack-lang.gong.test.go-aclasss', component: AclasssTableComponent, outlet: 'table' },
+	{ path: 'github.com.fullstack-lang.gong.test.go-aclass-adder', component: AclassDetailComponent, outlet: 'editor' },
+	{ path: 'github.com.fullstack-lang.gong.test.go-aclass-adder/:id/:association', component: AclassDetailComponent, outlet: 'editor' },
+	{ path: 'github.com.fullstack-lang.gong.test.go-aclass-detail/:id', component: AclassDetailComponent, outlet: 'editor' },
+	{ path: 'github.com.fullstack-lang.gong.test.go-aclass-presentation/:id', component: AclassPresentationComponent, outlet: 'presentation' },
+	{ path: 'github.com.fullstack-lang.gong.test.go-aclass-presentation-special/:id', component: AclassPresentationComponent, outlet: 'aclasspres' },
 
-	{ path: 'bclasss', component: BclasssTableComponent, outlet: 'table' },
-	{ path: 'bclass-adder', component: BclassDetailComponent, outlet: 'editor' },
-	{ path: 'bclass-adder/:id/:association', component: BclassDetailComponent, outlet: 'editor' },
-	{ path: 'bclass-detail/:id', component: BclassDetailComponent, outlet: 'editor' },
-	{ path: 'bclass-presentation/:id', component: BclassPresentationComponent, outlet: 'presentation' },
-	{ path: 'bclass-presentation-special/:id', component: BclassPresentationComponent, outlet: 'bclasspres' },
+	{ path: 'github.com.fullstack-lang.gong.test.go-bclasss', component: BclasssTableComponent, outlet: 'table' },
+	{ path: 'github.com.fullstack-lang.gong.test.go-bclass-adder', component: BclassDetailComponent, outlet: 'editor' },
+	{ path: 'github.com.fullstack-lang.gong.test.go-bclass-adder/:id/:association', component: BclassDetailComponent, outlet: 'editor' },
+	{ path: 'github.com.fullstack-lang.gong.test.go-bclass-detail/:id', component: BclassDetailComponent, outlet: 'editor' },
+	{ path: 'github.com.fullstack-lang.gong.test.go-bclass-presentation/:id', component: BclassPresentationComponent, outlet: 'presentation' },
+	{ path: 'github.com.fullstack-lang.gong.test.go-bclass-presentation-special/:id', component: BclassPresentationComponent, outlet: 'bclasspres' },
 
-	{ path: 'dclasss', component: DclasssTableComponent, outlet: 'table' },
-	{ path: 'dclass-adder', component: DclassDetailComponent, outlet: 'editor' },
-	{ path: 'dclass-adder/:id/:association', component: DclassDetailComponent, outlet: 'editor' },
-	{ path: 'dclass-detail/:id', component: DclassDetailComponent, outlet: 'editor' },
-	{ path: 'dclass-presentation/:id', component: DclassPresentationComponent, outlet: 'presentation' },
-	{ path: 'dclass-presentation-special/:id', component: DclassPresentationComponent, outlet: 'dclasspres' },
+	{ path: 'github.com.fullstack-lang.gong.test.go-dclasss', component: DclasssTableComponent, outlet: 'table' },
+	{ path: 'github.com.fullstack-lang.gong.test.go-dclass-adder', component: DclassDetailComponent, outlet: 'editor' },
+	{ path: 'github.com.fullstack-lang.gong.test.go-dclass-adder/:id/:association', component: DclassDetailComponent, outlet: 'editor' },
+	{ path: 'github.com.fullstack-lang.gong.test.go-dclass-detail/:id', component: DclassDetailComponent, outlet: 'editor' },
+	{ path: 'github.com.fullstack-lang.gong.test.go-dclass-presentation/:id', component: DclassPresentationComponent, outlet: 'presentation' },
+	{ path: 'github.com.fullstack-lang.gong.test.go-dclass-presentation-special/:id', component: DclassPresentationComponent, outlet: 'dclasspres' },
 
 ];
 

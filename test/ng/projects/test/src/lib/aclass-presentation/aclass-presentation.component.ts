@@ -80,7 +80,7 @@ export class AclassPresentationComponent implements OnInit {
 	setPresentationRouterOutlet(structName: string, ID: number) {
 		this.router.navigate([{
 			outlets: {
-				presentation: [structName + "-presentation", ID]
+				presentation: ["github.com.fullstack-lang.gong.test.go-" + structName + "-presentation", ID]
 			}
 		}]);
 	}
@@ -89,7 +89,7 @@ export class AclassPresentationComponent implements OnInit {
 	setEditorRouterOutlet(ID: number) {
 		this.router.navigate([{
 			outlets: {
-				editor: ["aclass-detail", ID]
+				editor: ["github.com.fullstack-lang.gong.test.go-" + "aclass-detail", ID]
 			}
 		}]);
 	}

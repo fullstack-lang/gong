@@ -518,7 +518,7 @@ export class SidebarComponent implements OnInit {
   setTableRouterOutlet(path: string) {
     this.router.navigate([{
       outlets: {
-        table: [path]
+        table: ["github.com.fullstack-lang.gong.test.go-" + path]
       }
     }]);
   }
@@ -532,7 +532,7 @@ export class SidebarComponent implements OnInit {
     if (type == GongNodeType.STRUCT) {
       this.router.navigate([{
         outlets: {
-          table: [path.toLowerCase()]
+          table: ["github.com.fullstack-lang.gong.test.go-" + path.toLowerCase()]
         }
       }]);
     }
@@ -540,7 +540,7 @@ export class SidebarComponent implements OnInit {
     if (type == GongNodeType.INSTANCE) {
       this.router.navigate([{
         outlets: {
-          presentation: [structName.toLowerCase() + "-presentation", id]
+          presentation: ["github.com.fullstack-lang.gong.test.go-" + structName.toLowerCase() + "-presentation", id]
         }
       }]);
     }
@@ -549,7 +549,7 @@ export class SidebarComponent implements OnInit {
   setEditorRouterOutlet(path) {
     this.router.navigate([{
       outlets: {
-        editor: [path.toLowerCase()]
+        editor: ["github.com.fullstack-lang.gong.test.go-" + path.toLowerCase()]
       }
     }]);
   }
@@ -557,7 +557,7 @@ export class SidebarComponent implements OnInit {
   setEditorSpecialRouterOutlet( node: GongFlatNode) {
     this.router.navigate([{
       outlets: {
-        editor: [node.associatedStructName.toLowerCase() + "-adder", node.id, node.structName + "_" + node.name]
+        editor: ["github.com.fullstack-lang.gong.test.go-" + node.associatedStructName.toLowerCase() + "-adder", node.id, node.structName + "_" + node.name]
       }
     }]);
   }
