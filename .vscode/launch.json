@@ -89,6 +89,24 @@
             ]
         },
         {
+            "name": "gongc gong",
+            "type": "go",
+            "request": "launch",
+            "mode": "debug",
+            "cwd": "${workspaceFolder}/go/models",
+            "program": "${workspaceFolder}/go/gongc",
+            "dlvLoadConfig": {
+                "followPointers": true,
+                "maxVariableRecurse": 1,
+                "maxStringLen": 3000,
+                "maxArrayValues": 64,
+                "maxStructFields": -1
+            },
+            "args": [
+                "-backendOnly"
+            ]
+        },
+        {
             "name": "go run test",
             "type": "go",
             "request": "launch",
