@@ -48,11 +48,20 @@ func main() {
 	inMemoryDB.DB().SetMaxOpenConns(1)
 	test2_orm.BackRepo.Init(inMemoryDB)
 
-	// setup GORM
-	inFileDB := test_orm.SetupModels(*logDBFlag, "./test.db")
-	// mandatory, otherwise, bizarre errors occurs
-	inFileDB.DB().SetMaxOpenConns(1)
-	test_orm.BackRepo.Init(inFileDB)
+	var bothStackShareTheSameDB = true
+
+	if !bothStackShareTheSameDB {
+		// setup GORM
+		inFileDB := test_orm.SetupModels(*logDBFlag, "./test.db")
+		// mandatory, otherwise, bizarre errors occurs
+		inFileDB.DB().SetMaxOpenConns(1)
+		test_orm.BackRepo.Init(inFileDB)
+	} else {
+		test_orm.AutoMigrate(inMemoryDB)
+		// mandatory, otherwise, bizarre errors occurs
+		inMemoryDB.DB().SetMaxOpenConns(1)
+		test_orm.BackRepo.Init(inMemoryDB)
+	}
 
 	test2_controllers.RegisterControllers(r)
 	test_controllers.RegisterControllers(r)
