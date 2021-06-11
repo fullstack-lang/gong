@@ -2,6 +2,8 @@ basePath: /api/github.com/fullstack-lang/gong/go/v1
 consumes:
 - application/json
 definitions:
+  DeletedAt:
+    $ref: '#/definitions/NullTime'
   GongBasicField:
     properties:
       BasicKindName:
@@ -98,6 +100,19 @@ definitions:
       it can be used as a scan destination:
     type: object
     x-go-package: database/sql
+  NullTime:
+    description: |-
+      NullTime implements the Scanner interface so
+      it can be used as a scan destination, similar to NullString.
+    properties:
+      Time:
+        format: date-time
+        type: string
+      Valid:
+        type: boolean
+    title: NullTime represents a time.Time that may be null.
+    type: object
+    x-go-package: database/sql
   PointerToGongStructField:
     description: PointerToGongStructField
     properties:
@@ -130,15 +145,11 @@ definitions:
       DeclaredType:
         type: string
       DeletedAt:
-        format: date-time
-        type: string
+        $ref: '#/definitions/DeletedAt'
       GongEnum:
         $ref: '#/definitions/GongEnum'
       GongEnumID:
         $ref: '#/definitions/NullInt64'
-      GongEnumName:
-        description: all gong Struct has a Name field, this enables this data to object field
-        type: string
       GongStruct_GongBasicFieldsDBID:
         $ref: '#/definitions/NullInt64'
       GongStruct_GongBasicFieldsDBID_Index:
@@ -168,13 +179,9 @@ definitions:
       DeclaredType_Data:
         $ref: '#/definitions/NullString'
       DeletedAt:
-        format: date-time
-        type: string
+        $ref: '#/definitions/DeletedAt'
       GongEnumID:
         $ref: '#/definitions/NullInt64'
-      GongEnumName:
-        description: all gong Struct has a Name field, this enables this data to object field
-        type: string
       GongStruct_GongBasicFieldsDBID:
         $ref: '#/definitions/NullInt64'
       GongStruct_GongBasicFieldsDBID_Index:
@@ -201,8 +208,7 @@ definitions:
         format: date-time
         type: string
       DeletedAt:
-        format: date-time
-        type: string
+        $ref: '#/definitions/DeletedAt'
       GongEnumValues:
         items:
           $ref: '#/definitions/GongEnumValue'
@@ -228,8 +234,7 @@ definitions:
         format: date-time
         type: string
       DeletedAt:
-        format: date-time
-        type: string
+        $ref: '#/definitions/DeletedAt'
       ID:
         format: uint64
         type: integer
@@ -252,8 +257,7 @@ definitions:
         format: date-time
         type: string
       DeletedAt:
-        format: date-time
-        type: string
+        $ref: '#/definitions/DeletedAt'
       GongEnum_GongEnumValuesDBID:
         $ref: '#/definitions/NullInt64'
       GongEnum_GongEnumValuesDBID_Index:
@@ -281,8 +285,7 @@ definitions:
         format: date-time
         type: string
       DeletedAt:
-        format: date-time
-        type: string
+        $ref: '#/definitions/DeletedAt'
       GongEnum_GongEnumValuesDBID:
         $ref: '#/definitions/NullInt64'
       GongEnum_GongEnumValuesDBID_Index:
@@ -311,8 +314,7 @@ definitions:
         format: date-time
         type: string
       DeletedAt:
-        format: date-time
-        type: string
+        $ref: '#/definitions/DeletedAt'
       GongBasicFields:
         description: Slice of Fields by their type (not populated by the gongc)
         items:
@@ -351,8 +353,7 @@ definitions:
         format: date-time
         type: string
       DeletedAt:
-        format: date-time
-        type: string
+        $ref: '#/definitions/DeletedAt'
       ID:
         format: uint64
         type: integer
@@ -375,8 +376,7 @@ definitions:
         format: date-time
         type: string
       DeletedAt:
-        format: date-time
-        type: string
+        $ref: '#/definitions/DeletedAt'
       GongStruct_GongTimeFieldsDBID:
         $ref: '#/definitions/NullInt64'
       GongStruct_GongTimeFieldsDBID_Index:
@@ -402,8 +402,7 @@ definitions:
         format: date-time
         type: string
       DeletedAt:
-        format: date-time
-        type: string
+        $ref: '#/definitions/DeletedAt'
       GongStruct_GongTimeFieldsDBID:
         $ref: '#/definitions/NullInt64'
       GongStruct_GongTimeFieldsDBID_Index:
@@ -430,8 +429,7 @@ definitions:
         format: date-time
         type: string
       DeletedAt:
-        format: date-time
-        type: string
+        $ref: '#/definitions/DeletedAt'
       GongEnums:
         additionalProperties:
           $ref: '#/definitions/GongEnum'
@@ -463,8 +461,7 @@ definitions:
         format: date-time
         type: string
       DeletedAt:
-        format: date-time
-        type: string
+        $ref: '#/definitions/DeletedAt'
       ID:
         format: uint64
         type: integer
@@ -489,8 +486,7 @@ definitions:
         format: date-time
         type: string
       DeletedAt:
-        format: date-time
-        type: string
+        $ref: '#/definitions/DeletedAt'
       GongStruct:
         $ref: '#/definitions/GongStruct'
       GongStruct_PointerToGongStructFieldsDBID:
@@ -499,9 +495,6 @@ definitions:
         $ref: '#/definitions/NullInt64'
       GongStructID:
         $ref: '#/definitions/NullInt64'
-      GongStructName:
-        description: all gong Struct has a Name field, this enables this data to object field
-        type: string
       ID:
         format: uint64
         type: integer
@@ -523,17 +516,13 @@ definitions:
         format: date-time
         type: string
       DeletedAt:
-        format: date-time
-        type: string
+        $ref: '#/definitions/DeletedAt'
       GongStruct_PointerToGongStructFieldsDBID:
         $ref: '#/definitions/NullInt64'
       GongStruct_PointerToGongStructFieldsDBID_Index:
         $ref: '#/definitions/NullInt64'
       GongStructID:
         $ref: '#/definitions/NullInt64'
-      GongStructName:
-        description: all gong Struct has a Name field, this enables this data to object field
-        type: string
       ID:
         format: uint64
         type: integer
@@ -556,8 +545,7 @@ definitions:
         format: date-time
         type: string
       DeletedAt:
-        format: date-time
-        type: string
+        $ref: '#/definitions/DeletedAt'
       GongStruct:
         $ref: '#/definitions/GongStruct'
       GongStruct_SliceOfPointerToGongStructFieldsDBID:
@@ -566,9 +554,6 @@ definitions:
         $ref: '#/definitions/NullInt64'
       GongStructID:
         $ref: '#/definitions/NullInt64'
-      GongStructName:
-        description: all gong Struct has a Name field, this enables this data to object field
-        type: string
       ID:
         format: uint64
         type: integer
@@ -590,17 +575,13 @@ definitions:
         format: date-time
         type: string
       DeletedAt:
-        format: date-time
-        type: string
+        $ref: '#/definitions/DeletedAt'
       GongStruct_SliceOfPointerToGongStructFieldsDBID:
         $ref: '#/definitions/NullInt64'
       GongStruct_SliceOfPointerToGongStructFieldsDBID_Index:
         $ref: '#/definitions/NullInt64'
       GongStructID:
         $ref: '#/definitions/NullInt64'
-      GongStructName:
-        description: all gong Struct has a Name field, this enables this data to object field
-        type: string
       ID:
         format: uint64
         type: integer
@@ -1323,17 +1304,12 @@ responses:
         type: string
       DeclaredType_Data:
         description: Declation for basic field gongbasicfieldDB.DeclaredType {{BasicKind}} (to be completed)
-      DeletedAt:
-        format: date-time
-        type: string
+      DeletedAt: {}
       GongEnumID:
         description: |-
           insertion for pointer fields encoding declaration
           field GongEnum is a pointer to another Struct (optional or 0..1)
           This field is generated into another field to enable AS ONE association
-      GongEnumName:
-        description: all gong Struct has a Name field, this enables this data to object field
-        type: string
       GongStruct_GongBasicFieldsDBID:
         description: Implementation of a reverse ID for field GongStruct{}.GongBasicFields []*GongBasicField
       GongStruct_GongBasicFieldsDBID_Index:
@@ -1362,9 +1338,7 @@ responses:
       CreatedAt:
         format: date-time
         type: string
-      DeletedAt:
-        format: date-time
-        type: string
+      DeletedAt: {}
       ID:
         format: uint64
         type: integer
@@ -1389,9 +1363,7 @@ responses:
       CreatedAt:
         format: date-time
         type: string
-      DeletedAt:
-        format: date-time
-        type: string
+      DeletedAt: {}
       GongEnum_GongEnumValuesDBID:
         description: |-
           insertion for pointer fields encoding declaration
@@ -1424,9 +1396,7 @@ responses:
       CreatedAt:
         format: date-time
         type: string
-      DeletedAt:
-        format: date-time
-        type: string
+      DeletedAt: {}
       ID:
         format: uint64
         type: integer
@@ -1451,9 +1421,7 @@ responses:
       CreatedAt:
         format: date-time
         type: string
-      DeletedAt:
-        format: date-time
-        type: string
+      DeletedAt: {}
       GongStruct_GongTimeFieldsDBID:
         description: |-
           insertion for pointer fields encoding declaration
@@ -1484,9 +1452,7 @@ responses:
       CreatedAt:
         format: date-time
         type: string
-      DeletedAt:
-        format: date-time
-        type: string
+      DeletedAt: {}
       ID:
         format: uint64
         type: integer
@@ -1513,9 +1479,7 @@ responses:
       CreatedAt:
         format: date-time
         type: string
-      DeletedAt:
-        format: date-time
-        type: string
+      DeletedAt: {}
       GongStruct_PointerToGongStructFieldsDBID:
         description: Implementation of a reverse ID for field GongStruct{}.PointerToGongStructFields []*PointerToGongStructField
       GongStruct_PointerToGongStructFieldsDBID_Index:
@@ -1525,9 +1489,6 @@ responses:
           insertion for pointer fields encoding declaration
           field GongStruct is a pointer to another Struct (optional or 0..1)
           This field is generated into another field to enable AS ONE association
-      GongStructName:
-        description: all gong Struct has a Name field, this enables this data to object field
-        type: string
       ID:
         format: uint64
         type: integer
@@ -1552,9 +1513,7 @@ responses:
       CreatedAt:
         format: date-time
         type: string
-      DeletedAt:
-        format: date-time
-        type: string
+      DeletedAt: {}
       GongStruct_SliceOfPointerToGongStructFieldsDBID:
         description: Implementation of a reverse ID for field GongStruct{}.SliceOfPointerToGongStructFields []*SliceOfPointerToGongStructField
       GongStruct_SliceOfPointerToGongStructFieldsDBID_Index:
@@ -1564,9 +1523,6 @@ responses:
           insertion for pointer fields encoding declaration
           field GongStruct is a pointer to another Struct (optional or 0..1)
           This field is generated into another field to enable AS ONE association
-      GongStructName:
-        description: all gong Struct has a Name field, this enables this data to object field
-        type: string
       ID:
         format: uint64
         type: integer

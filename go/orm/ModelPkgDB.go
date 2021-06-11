@@ -13,7 +13,7 @@ import (
 	"sort"
 	"time"
 
-	"github.com/jinzhu/gorm"
+	"gorm.io/gorm"
 
 	"github.com/tealeg/xlsx/v3"
 
@@ -287,6 +287,7 @@ func (backRepoModelPkg *BackRepoModelPkgStruct) CheckoutPhaseOneInstance(modelpk
 		(*backRepoModelPkg.Map_ModelPkgPtr_ModelPkgDBID)[modelpkg] = modelpkgDB.ID
 
 		// append model store with the new element
+		modelpkg.Name = modelpkgDB.Name_Data.String
 		modelpkg.Stage()
 	}
 	modelpkgDB.CopyBasicFieldsToModelPkg(modelpkg)

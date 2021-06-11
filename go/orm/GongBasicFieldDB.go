@@ -13,7 +13,7 @@ import (
 	"sort"
 	"time"
 
-	"github.com/jinzhu/gorm"
+	"gorm.io/gorm"
 
 	"github.com/tealeg/xlsx/v3"
 
@@ -48,9 +48,6 @@ type GongBasicFieldPointersEnconding struct {
 	// field GongEnum is a pointer to another Struct (optional or 0..1)
 	// This field is generated into another field to enable AS ONE association
 	GongEnumID sql.NullInt64
-
-	// all gong Struct has a Name field, this enables this data to object field
-	GongEnumName string
 
 	// Implementation of a reverse ID for field GongStruct{}.GongBasicFields []*GongBasicField
 	GongStruct_GongBasicFieldsDBID sql.NullInt64
@@ -313,6 +310,7 @@ func (backRepoGongBasicField *BackRepoGongBasicFieldStruct) CheckoutPhaseOneInst
 		(*backRepoGongBasicField.Map_GongBasicFieldPtr_GongBasicFieldDBID)[gongbasicfield] = gongbasicfieldDB.ID
 
 		// append model store with the new element
+		gongbasicfield.Name = gongbasicfieldDB.Name_Data.String
 		gongbasicfield.Stage()
 	}
 	gongbasicfieldDB.CopyBasicFieldsToGongBasicField(gongbasicfield)

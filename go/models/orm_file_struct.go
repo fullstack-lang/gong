@@ -17,7 +17,7 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/jinzhu/gorm"
+	"gorm.io/gorm"
 	"{{PkgPathRoot}}/models"
 )
 

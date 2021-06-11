@@ -45,7 +45,13 @@ func main() {
 	// setup GORM
 	inMemoryDB := test2_orm.SetupModels(*logDBFlag, ":memory:")
 	// mandatory, otherwise, bizarre errors occurs
-	inMemoryDB.DB().SetMaxOpenConns(1)
+	inMemoryDBSqlDB, err := inMemoryDB.DB()
+	if err != nil {
+		log.Panic("Cannot access to DB of database")
+	}
+	inMemoryDBSqlDB.SetMaxOpenConns(1)
+
+	// init test2 first
 	test2_orm.BackRepo.Init(inMemoryDB)
 
 	var bothStackShareTheSameDB = true
@@ -53,13 +59,16 @@ func main() {
 	if !bothStackShareTheSameDB {
 		// setup GORM
 		inFileDB := test_orm.SetupModels(*logDBFlag, "./test.db")
+
 		// mandatory, otherwise, bizarre errors occurs
-		inFileDB.DB().SetMaxOpenConns(1)
+		inFileDBSqlDB, err := inFileDB.DB()
+		if err != nil {
+			log.Panic("Cannot access to DB of database")
+		}
+		inFileDBSqlDB.SetMaxOpenConns(1)
 		test_orm.BackRepo.Init(inFileDB)
 	} else {
 		test_orm.AutoMigrate(inMemoryDB)
-		// mandatory, otherwise, bizarre errors occurs
-		inMemoryDB.DB().SetMaxOpenConns(1)
 		test_orm.BackRepo.Init(inMemoryDB)
 	}
 

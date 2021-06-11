@@ -5,8 +5,8 @@ import (
 	"log"
 	"fmt"
 
-	"github.com/jinzhu/gorm"
-	_ "github.com/jinzhu/gorm/dialects/sqlite" // justificiation for blank import : initialisaion of the sqlite driver
+	"gorm.io/gorm"
+	"gorm.io/driver/sqlite"
 )
 
 // genQuery return the name of the column
@@ -16,13 +16,12 @@ func genQuery( columnName string) string {
 
 // SetupModels connects to the sqlite database
 func SetupModels(logMode bool, filepath string) *gorm.DB {
-	db, err := gorm.Open("sqlite3", filepath)
+
+	db, err := gorm.Open(sqlite.Open(filepath), &gorm.Config{})
 
 	if err != nil {
 		panic("Failed to connect to database!")
 	}
-
-	db.LogMode(logMode)
 
 	AutoMigrate(db)
 
@@ -31,14 +30,14 @@ func SetupModels(logMode bool, filepath string) *gorm.DB {
 
 // AutoMigrate migrates db with with orm Struct
 func AutoMigrate(db *gorm.DB) {
-	_db := db.AutoMigrate( // insertion point for reference to structs 
+	err := db.AutoMigrate( // insertion point for reference to structs 
 	  &AclassDB{},
 	  &BclassDB{},
 	  &DclassDB{},
 	)
 
-	if _db.Error != nil {
-		msg := _db.Error.Error()
+	if err != nil {
+		msg := err.Error()
 		panic("problem with migration " + msg + " on package github.com/fullstack-lang/gong/test/go")
 	}
 	log.Printf("Database Migration of package github.com/fullstack-lang/gong/test/go is OK")
