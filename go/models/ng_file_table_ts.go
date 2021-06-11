@@ -188,7 +188,7 @@ export class {{Structname}}sTableComponent implements OnInit {
   setEditorRouterOutlet({{structname}}ID: number) {
     this.router.navigate([{
       outlets: {
-        {{PkgPathRootWithoutSlashes}}editor: ["{{PkgPathRootWithoutSlashes}}-" + "{{structname}}-detail", {{structname}}ID]
+        {{PkgPathRootWithoutSlashes}}_editor: ["{{PkgPathRootWithoutSlashes}}-" + "{{structname}}-detail", {{structname}}ID]
       }
     }]);
   }
@@ -197,7 +197,7 @@ export class {{Structname}}sTableComponent implements OnInit {
   setPresentationRouterOutlet({{structname}}ID: number) {
     this.router.navigate([{
       outlets: {
-        {{PkgPathRootWithoutSlashes}}presentation: ["{{PkgPathRootWithoutSlashes}}-" + "{{structname}}-presentation", {{structname}}ID]
+        {{PkgPathRootWithoutSlashes}}_presentation: ["{{PkgPathRootWithoutSlashes}}-" + "{{structname}}-presentation", {{structname}}ID]
       }
     }]);
   }
@@ -504,9 +504,9 @@ func MultiCodeGeneratorNgTable(
 		}
 
 		pkgPathRootWithoutSlashes := strings.ReplaceAll(pkgGoPath, "/models", "")
-		pkgPathRootWithoutSlashes = strings.ReplaceAll(pkgPathRootWithoutSlashes, "/", "")
-		pkgPathRootWithoutSlashes = strings.ReplaceAll(pkgPathRootWithoutSlashes, "-", "")
-		pkgPathRootWithoutSlashes = strings.ReplaceAll(pkgPathRootWithoutSlashes, ".", "")
+		pkgPathRootWithoutSlashes = strings.ReplaceAll(pkgPathRootWithoutSlashes, "/", "_")
+		pkgPathRootWithoutSlashes = strings.ReplaceAll(pkgPathRootWithoutSlashes, "-", "_")
+		pkgPathRootWithoutSlashes = strings.ReplaceAll(pkgPathRootWithoutSlashes, ".", "_")
 
 		// final replacement
 		codeTS = Replace7(codeTS,

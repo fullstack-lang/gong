@@ -228,14 +228,14 @@ export class AclasssTableComponent implements OnInit {
 
   // display aclass in router
   displayAclassInRouter(aclassID: number) {
-    this.router.navigate(["githubcomfullstacklanggongtestgo-" + "aclass-display", aclassID])
+    this.router.navigate(["github_com_fullstack_lang_gong_test_go-" + "aclass-display", aclassID])
   }
 
   // set editor outlet
   setEditorRouterOutlet(aclassID: number) {
     this.router.navigate([{
       outlets: {
-        githubcomfullstacklanggongtestgoeditor: ["githubcomfullstacklanggongtestgo-" + "aclass-detail", aclassID]
+        github_com_fullstack_lang_gong_test_go_editor: ["github_com_fullstack_lang_gong_test_go-" + "aclass-detail", aclassID]
       }
     }]);
   }
@@ -244,7 +244,7 @@ export class AclasssTableComponent implements OnInit {
   setPresentationRouterOutlet(aclassID: number) {
     this.router.navigate([{
       outlets: {
-        githubcomfullstacklanggongtestgopresentation: ["githubcomfullstacklanggongtestgo-" + "aclass-presentation", aclassID]
+        github_com_fullstack_lang_gong_test_go_presentation: ["github_com_fullstack_lang_gong_test_go-" + "aclass-presentation", aclassID]
       }
     }]);
   }
