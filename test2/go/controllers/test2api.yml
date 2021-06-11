@@ -28,6 +28,8 @@ definitions:
         type: string
     type: object
     x-go-package: github.com/fullstack-lang/gong/test2/go/models
+  DeletedAt:
+    $ref: '#/definitions/NullTime'
   Duration:
     description: |-
       A Duration represents the elapsed time between two instants
@@ -133,8 +135,7 @@ definitions:
         format: date-time
         type: string
       DeletedAt:
-        format: date-time
-        type: string
+        $ref: '#/definitions/DeletedAt'
       Duration1:
         $ref: '#/definitions/Duration'
       Floatfield:
@@ -174,8 +175,7 @@ definitions:
       Date_Data:
         $ref: '#/definitions/NullTime'
       DeletedAt:
-        format: date-time
-        type: string
+        $ref: '#/definitions/DeletedAt'
       Duration1_Data:
         $ref: '#/definitions/NullInt64'
       Floatfield_Data:
@@ -314,21 +314,16 @@ responses:
         type: string
       Date_Data:
         description: Declation for basic field aclassDB.Date
-      DeletedAt:
-        format: date-time
-        type: string
+      DeletedAt: {}
       Duration1_Data:
-        description: Declation for basic field aclassDB.Duration1 {{BasicKind}} (to
-          be completed)
+        description: Declation for basic field aclassDB.Duration1 {{BasicKind}} (to be completed)
       Floatfield_Data:
-        description: Declation for basic field aclassDB.Floatfield {{BasicKind}} (to
-          be completed)
+        description: Declation for basic field aclassDB.Floatfield {{BasicKind}} (to be completed)
       ID:
         format: uint64
         type: integer
       Intfield_Data:
-        description: Declation for basic field aclassDB.Intfield {{BasicKind}} (to
-          be completed)
+        description: Declation for basic field aclassDB.Intfield {{BasicKind}} (to be completed)
       Name_Data:
         description: |-
           insertion for basic fields declaration

@@ -13,7 +13,7 @@ import (
 	"sort"
 	"time"
 
-	"github.com/jinzhu/gorm"
+	"gorm.io/gorm"
 
 	"github.com/tealeg/xlsx/v3"
 
@@ -286,6 +286,7 @@ func (backRepoGongTimeField *BackRepoGongTimeFieldStruct) CheckoutPhaseOneInstan
 		(*backRepoGongTimeField.Map_GongTimeFieldPtr_GongTimeFieldDBID)[gongtimefield] = gongtimefieldDB.ID
 
 		// append model store with the new element
+		gongtimefield.Name = gongtimefieldDB.Name_Data.String
 		gongtimefield.Stage()
 	}
 	gongtimefieldDB.CopyBasicFieldsToGongTimeField(gongtimefield)
