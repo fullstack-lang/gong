@@ -219,7 +219,7 @@ export class SidebarComponent implements OnInit {
   setTableRouterOutlet(path: string) {
     this.router.navigate([{
       outlets: {
-        {{PkgPathRootWithoutSlashes}}table: ["{{PkgPathRootWithoutSlashes}}-" + path]
+        {{PkgPathRootWithoutSlashes}}_table: ["{{PkgPathRootWithoutSlashes}}-" + path]
       }
     }]);
   }
@@ -233,7 +233,7 @@ export class SidebarComponent implements OnInit {
     if (type == GongNodeType.STRUCT) {
       this.router.navigate([{
         outlets: {
-          {{PkgPathRootWithoutSlashes}}table: ["{{PkgPathRootWithoutSlashes}}-" + path.toLowerCase()]
+          {{PkgPathRootWithoutSlashes}}_table: ["{{PkgPathRootWithoutSlashes}}-" + path.toLowerCase()]
         }
       }]);
     }
@@ -241,7 +241,7 @@ export class SidebarComponent implements OnInit {
     if (type == GongNodeType.INSTANCE) {
       this.router.navigate([{
         outlets: {
-          {{PkgPathRootWithoutSlashes}}presentation: ["{{PkgPathRootWithoutSlashes}}-" + structName.toLowerCase() + "-presentation", id]
+          {{PkgPathRootWithoutSlashes}}_presentation: ["{{PkgPathRootWithoutSlashes}}-" + structName.toLowerCase() + "-presentation", id]
         }
       }]);
     }
@@ -250,7 +250,7 @@ export class SidebarComponent implements OnInit {
   setEditorRouterOutlet(path) {
     this.router.navigate([{
       outlets: {
-        {{PkgPathRootWithoutSlashes}}editor: ["{{PkgPathRootWithoutSlashes}}-" + path.toLowerCase()]
+        {{PkgPathRootWithoutSlashes}}_editor: ["{{PkgPathRootWithoutSlashes}}-" + path.toLowerCase()]
       }
     }]);
   }
@@ -258,7 +258,7 @@ export class SidebarComponent implements OnInit {
   setEditorSpecialRouterOutlet( node: GongFlatNode) {
     this.router.navigate([{
       outlets: {
-        {{PkgPathRootWithoutSlashes}}editor: ["{{PkgPathRootWithoutSlashes}}-" + node.associatedStructName.toLowerCase() + "-adder", node.id, node.structName + "_" + node.name]
+        {{PkgPathRootWithoutSlashes}}_editor: ["{{PkgPathRootWithoutSlashes}}-" + node.associatedStructName.toLowerCase() + "-adder", node.id, node.structName + "_" + node.name]
       }
     }]);
   }
@@ -583,9 +583,9 @@ func CodeGeneratorNgSidebar(
 	}
 
 	pkgPathRootWithoutSlashes := strings.ReplaceAll(pkgGoPath, "/models", "")
-	pkgPathRootWithoutSlashes = strings.ReplaceAll(pkgPathRootWithoutSlashes, "/", "")
-	pkgPathRootWithoutSlashes = strings.ReplaceAll(pkgPathRootWithoutSlashes, "-", "")
-	pkgPathRootWithoutSlashes = strings.ReplaceAll(pkgPathRootWithoutSlashes, ".", "")
+	pkgPathRootWithoutSlashes = strings.ReplaceAll(pkgPathRootWithoutSlashes, "/", "_")
+	pkgPathRootWithoutSlashes = strings.ReplaceAll(pkgPathRootWithoutSlashes, "-", "_")
+	pkgPathRootWithoutSlashes = strings.ReplaceAll(pkgPathRootWithoutSlashes, ".", "_")
 
 	codeTS = Replace5(codeTS,
 		"{{PkgName}}", pkgName,

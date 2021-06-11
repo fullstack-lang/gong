@@ -318,14 +318,17 @@ responses:
         format: date-time
         type: string
       Duration1_Data:
-        description: Declation for basic field aclassDB.Duration1 {{BasicKind}} (to be completed)
+        description: Declation for basic field aclassDB.Duration1 {{BasicKind}} (to
+          be completed)
       Floatfield_Data:
-        description: Declation for basic field aclassDB.Floatfield {{BasicKind}} (to be completed)
+        description: Declation for basic field aclassDB.Floatfield {{BasicKind}} (to
+          be completed)
       ID:
         format: uint64
         type: integer
       Intfield_Data:
-        description: Declation for basic field aclassDB.Intfield {{BasicKind}} (to be completed)
+        description: Declation for basic field aclassDB.Intfield {{BasicKind}} (to
+          be completed)
       Name_Data:
         description: |-
           insertion for basic fields declaration
