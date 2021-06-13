@@ -18,7 +18,6 @@ func TestBclassOrder(t *testing.T) {
 
 	// setup GORM
 	db := orm.SetupModels(false, "../../test.db")
-	db.DB().SetMaxOpenConns(1)
 
 	// initiate back repo a callback functions
 	orm.BackRepo.Init(db)
@@ -61,5 +60,4 @@ func TestBclassOrder(t *testing.T) {
 	aclass_A1_1.Anarrayofb[3] = tmp
 	models.Stage.Commit()
 
-	db.Close()
 }
