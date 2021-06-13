@@ -39,8 +39,6 @@ func main() {
 	db := orm.SetupModels(*logDBFlag, "./test.db")
 	orm.BackRepo.Init(db)
 
-	orm.BackRepo.Init(db)
-
 	controllers.RegisterControllers(r)
 
 	r.Use(static.Serve("/", EmbedFolder(ng, "ng/dist/ng")))
