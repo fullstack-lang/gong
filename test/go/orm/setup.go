@@ -17,10 +17,10 @@ func genQuery(columnName string) string {
 
 // SetupModels connects to the sqlite database
 func SetupModels(logMode bool, filepath string) *gorm.DB {
-
+	// adjust naming strategy to the stack
 	gormConfig := &gorm.Config{
 		NamingStrategy: schema.NamingStrategy{
-			TablePrefix: "github_com_fullstack_lang_gong_test_go_", // table name prefix, table for `User` would be `t_users`
+			TablePrefix: "github_com_fullstack_lang_gong_test_go_", // table name prefix
 		},
 	}
 	db, err := gorm.Open(sqlite.Open(filepath), gormConfig)
@@ -36,10 +36,9 @@ func SetupModels(logMode bool, filepath string) *gorm.DB {
 
 // AutoMigrate migrates db with with orm Struct
 func AutoMigrate(db *gorm.DB) {
-
 	// adjust naming strategy to the stack
 	db.Config.NamingStrategy = &schema.NamingStrategy{
-		TablePrefix: "github_com_fullstack_lang_gong_test_go_", // table name prefix, table for `User` would be `t_users`
+		TablePrefix: "github_com_fullstack_lang_gong_test_go_", // table name prefix
 	}
 
 	err := db.AutoMigrate( // insertion point for reference to structs

@@ -4,22 +4,28 @@ const OrmFileSetupTemplate = `// generated from OrmFileSetupTemplate
 package orm
 
 import (
-	"log"
 	"fmt"
+	"log"
 
-	"gorm.io/gorm"
 	"gorm.io/driver/sqlite"
+	"gorm.io/gorm"
+	"gorm.io/gorm/schema"
 )
 
 // genQuery return the name of the column
-func genQuery( columnName string) string {
+func genQuery(columnName string) string {
 	return fmt.Sprintf("%s = ?", columnName)
 }
 
 // SetupModels connects to the sqlite database
 func SetupModels(logMode bool, filepath string) *gorm.DB {
-
-	db, err := gorm.Open(sqlite.Open(filepath), &gorm.Config{})
+	// adjust naming strategy to the stack
+	gormConfig := &gorm.Config{
+		NamingStrategy: schema.NamingStrategy{
+			TablePrefix: "{{PkgPathRootWithoutSlashes}}_", // table name prefix
+		},
+	}
+	db, err := gorm.Open(sqlite.Open(filepath), gormConfig)
 
 	if err != nil {
 		panic("Failed to connect to database!")
@@ -32,7 +38,12 @@ func SetupModels(logMode bool, filepath string) *gorm.DB {
 
 // AutoMigrate migrates db with with orm Struct
 func AutoMigrate(db *gorm.DB) {
-	err := db.AutoMigrate( // insertion point for reference to structs {{` + string(OrmSetupRefToStructDB) + `}}
+	// adjust naming strategy to the stack
+	db.Config.NamingStrategy = &schema.NamingStrategy{
+		TablePrefix: "{{PkgPathRootWithoutSlashes}}_", // table name prefix
+	}
+
+	err := db.AutoMigrate( // insertion point for reference to structs{{` + string(OrmSetupRefToStructDB) + `}}
 	)
 
 	if err != nil {
@@ -42,7 +53,7 @@ func AutoMigrate(db *gorm.DB) {
 	log.Printf("Database Migration of package {{PkgPathRoot}} is OK")
 }
 
-func ResetDB(db *gorm.DB) { // insertion point for reference to structs {{` + string(OrmSetupDelete) + `}}
+func ResetDB(db *gorm.DB) { // insertion point for reference to structs{{` + string(OrmSetupDelete) + `}}
 }`
 
 type OrmSetupCumulSubTemplate string
@@ -56,8 +67,8 @@ var OrmSetupCumulSubTemplateCode map[string]string = // new line
 map[string]string{
 
 	string(OrmSetupRefToStructDB): `
-	  &{{Structname}}DB{},`,
+		&{{Structname}}DB{},`,
 
 	string(OrmSetupDelete): `
-	  db.Delete(&{{Structname}}DB{})`,
+	db.Delete(&{{Structname}}DB{})`,
 }
