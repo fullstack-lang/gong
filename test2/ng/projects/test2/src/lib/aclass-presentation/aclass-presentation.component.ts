@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup} from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 
 import { AclassDB } from '../aclass-db'
 import { AclassService } from '../aclass.service'
+
+import { FrontRepoService, FrontRepo } from '../front-repo.service'
 
 import { Router, RouterState, ActivatedRoute } from '@angular/router';
 
@@ -29,9 +31,13 @@ export class AclassPresentationComponent implements OnInit {
 	dataSource = ELEMENT_DATA;
 
 	aclass: AclassDB;
+
+	// front repo
+	frontRepo: FrontRepo
  
 	constructor(
 		private aclassService: AclassService,
+		private frontRepoService: FrontRepoService,
 		private route: ActivatedRoute,
 		private router: Router,
 	) {
@@ -55,26 +61,26 @@ export class AclassPresentationComponent implements OnInit {
 
 	getAclass(): void {
 		const id = +this.route.snapshot.paramMap.get('id');
-		this.aclassService.getAclass(id)
-			.subscribe(
-				aclass => {
-					this.aclass = aclass
+		this.frontRepoService.pull().subscribe(
+			frontRepo => {
+				this.frontRepo = frontRepo
 
-					// insertion point for recovery of durations
-					// computation of Hours, Minutes, Seconds for Duration1
-					this.Duration1_Hours = Math.floor(this.aclass.Duration1 / (3600 * 1000 * 1000 * 1000))
-					this.Duration1_Minutes = Math.floor(this.aclass.Duration1 % (3600 * 1000 * 1000 * 1000) / (60 * 1000 * 1000 * 1000))
-					this.Duration1_Seconds = this.aclass.Duration1 % (60 * 1000 * 1000 * 1000) / (1000 * 1000 * 1000)
+				this.aclass = this.frontRepo.Aclasss.get(id)
 
-				}
-			);
+				// insertion point for recovery of durations
+				// computation of Hours, Minutes, Seconds for Duration1
+				this.Duration1_Hours = Math.floor(this.aclass.Duration1 / (3600 * 1000 * 1000 * 1000))
+				this.Duration1_Minutes = Math.floor(this.aclass.Duration1 % (3600 * 1000 * 1000 * 1000) / (60 * 1000 * 1000 * 1000))
+				this.Duration1_Seconds = this.aclass.Duration1 % (60 * 1000 * 1000 * 1000) / (1000 * 1000 * 1000)
+			}
+		);
 	}
 
 	// set presentation outlet
 	setPresentationRouterOutlet(structName: string, ID: number) {
 		this.router.navigate([{
 			outlets: {
-				presentation: [structName + "-presentation", ID]
+				github_com_fullstack_lang_gong_test2_go_presentation: ["github_com_fullstack_lang_gong_test2_go-" + structName + "-presentation", ID]
 			}
 		}]);
 	}
@@ -83,7 +89,7 @@ export class AclassPresentationComponent implements OnInit {
 	setEditorRouterOutlet(ID: number) {
 		this.router.navigate([{
 			outlets: {
-				editor: ["aclass-detail", ID]
+				github_com_fullstack_lang_gong_test2_go_editor: ["github_com_fullstack_lang_gong_test2_go-" + "aclass-detail", ID]
 			}
 		}]);
 	}

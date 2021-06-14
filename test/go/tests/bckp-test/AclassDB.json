@@ -1,0 +1,422 @@
+[
+ {
+  "ID": 1,
+  "CreatedAt": "2020-09-18T17:50:16.193359+02:00",
+  "UpdatedAt": "2021-06-10T17:31:03.5439506+02:00",
+  "DeletedAt": null,
+  "Name_Data": {
+   "String": "A1_1",
+   "Valid": true
+  },
+  "Date_Data": {
+   "Time": "2021-02-01T00:00:00Z",
+   "Valid": true
+  },
+  "Booleanfield_Data": {
+   "Bool": true,
+   "Valid": true
+  },
+  "Aenum_Data": {
+   "String": "ENUM_VAL1",
+   "Valid": true
+  },
+  "Aenum_2_Data": {
+   "String": "ENUM_VAL1",
+   "Valid": true
+  },
+  "Benum_Data": {
+   "String": "BENUM_VAL1",
+   "Valid": true
+  },
+  "CName_Data": {
+   "String": "C éé 0",
+   "Valid": true
+  },
+  "CFloatfield_Data": {
+   "Float64": 20,
+   "Valid": true
+  },
+  "Floatfield_Data": {
+   "Float64": 3.5,
+   "Valid": true
+  },
+  "Intfield_Data": {
+   "Int64": 0,
+   "Valid": true
+  },
+  "Anotherbooleanfield_Data": {
+   "Bool": false,
+   "Valid": true
+  },
+  "Duration1_Data": {
+   "Int64": 36228000000000,
+   "Valid": true
+  },
+  "AssociationtobID": {
+   "Int64": 2,
+   "Valid": true
+  },
+  "Anotherassociationtob_2ID": {
+   "Int64": 14,
+   "Valid": true
+  },
+  "Aclass_AnarrayofaDBID": {
+   "Int64": 3,
+   "Valid": true
+  },
+  "Aclass_AnarrayofaDBID_Index": {
+   "Int64": 0,
+   "Valid": true
+  }
+ },
+ {
+  "ID": 2,
+  "CreatedAt": "2020-09-18T17:50:22.807071+02:00",
+  "UpdatedAt": "2021-05-27T07:55:53.153931+02:00",
+  "DeletedAt": null,
+  "Name_Data": {
+   "String": "A2",
+   "Valid": true
+  },
+  "Date_Data": {
+   "Time": "2023-03-01T00:00:00Z",
+   "Valid": true
+  },
+  "Booleanfield_Data": {
+   "Bool": false,
+   "Valid": true
+  },
+  "Aenum_Data": {
+   "String": "ENUM_VAL2",
+   "Valid": true
+  },
+  "Aenum_2_Data": {
+   "String": "",
+   "Valid": true
+  },
+  "Benum_Data": {
+   "String": "",
+   "Valid": true
+  },
+  "CName_Data": {
+   "String": "",
+   "Valid": true
+  },
+  "CFloatfield_Data": {
+   "Float64": 0,
+   "Valid": true
+  },
+  "Floatfield_Data": {
+   "Float64": 0,
+   "Valid": true
+  },
+  "Intfield_Data": {
+   "Int64": 0,
+   "Valid": true
+  },
+  "Anotherbooleanfield_Data": {
+   "Bool": false,
+   "Valid": true
+  },
+  "Duration1_Data": {
+   "Int64": 0,
+   "Valid": true
+  },
+  "AssociationtobID": {
+   "Int64": 1,
+   "Valid": true
+  },
+  "Anotherassociationtob_2ID": {
+   "Int64": 2,
+   "Valid": true
+  },
+  "Aclass_AnarrayofaDBID": {
+   "Int64": 2,
+   "Valid": true
+  },
+  "Aclass_AnarrayofaDBID_Index": {
+   "Int64": 0,
+   "Valid": true
+  }
+ },
+ {
+  "ID": 3,
+  "CreatedAt": "2020-09-19T07:25:59.096408+02:00",
+  "UpdatedAt": "2021-06-09T12:21:18.9689746+02:00",
+  "DeletedAt": null,
+  "Name_Data": {
+   "String": "A3",
+   "Valid": true
+  },
+  "Date_Data": {
+   "Time": "2022-01-01T04:00:00Z",
+   "Valid": true
+  },
+  "Booleanfield_Data": {
+   "Bool": false,
+   "Valid": true
+  },
+  "Aenum_Data": {
+   "String": "ENUM_VAL1",
+   "Valid": true
+  },
+  "Aenum_2_Data": {
+   "String": "ENUM_VAL1",
+   "Valid": true
+  },
+  "Benum_Data": {
+   "String": "",
+   "Valid": true
+  },
+  "CName_Data": {
+   "String": "",
+   "Valid": true
+  },
+  "CFloatfield_Data": {
+   "Float64": 0,
+   "Valid": true
+  },
+  "Floatfield_Data": {
+   "Float64": 4.3,
+   "Valid": true
+  },
+  "Intfield_Data": {
+   "Int64": 1,
+   "Valid": true
+  },
+  "Anotherbooleanfield_Data": {
+   "Bool": false,
+   "Valid": true
+  },
+  "Duration1_Data": {
+   "Int64": 0,
+   "Valid": true
+  },
+  "AssociationtobID": {
+   "Int64": 2,
+   "Valid": true
+  },
+  "Anotherassociationtob_2ID": {
+   "Int64": 1,
+   "Valid": true
+  },
+  "Aclass_AnarrayofaDBID": {
+   "Int64": 1,
+   "Valid": true
+  },
+  "Aclass_AnarrayofaDBID_Index": {
+   "Int64": 0,
+   "Valid": false
+  }
+ },
+ {
+  "ID": 4,
+  "CreatedAt": "2020-10-01T08:40:36.050107+02:00",
+  "UpdatedAt": "2021-05-11T07:04:41.897506+02:00",
+  "DeletedAt": null,
+  "Name_Data": {
+   "String": "A4_4",
+   "Valid": true
+  },
+  "Date_Data": {
+   "Time": "0001-01-01T00:00:00Z",
+   "Valid": true
+  },
+  "Booleanfield_Data": {
+   "Bool": true,
+   "Valid": true
+  },
+  "Aenum_Data": {
+   "String": "ENUM_VAL2",
+   "Valid": true
+  },
+  "Aenum_2_Data": {
+   "String": "ENUM_VAL1",
+   "Valid": true
+  },
+  "Benum_Data": {
+   "String": "BENUM_VAL2",
+   "Valid": true
+  },
+  "CName_Data": {
+   "String": "C4",
+   "Valid": true
+  },
+  "CFloatfield_Data": {
+   "Float64": 4.5,
+   "Valid": true
+  },
+  "Floatfield_Data": {
+   "Float64": 4.5,
+   "Valid": true
+  },
+  "Intfield_Data": {
+   "Int64": 4,
+   "Valid": true
+  },
+  "Anotherbooleanfield_Data": {
+   "Bool": true,
+   "Valid": true
+  },
+  "Duration1_Data": {
+   "Int64": 0,
+   "Valid": true
+  },
+  "AssociationtobID": {
+   "Int64": 2,
+   "Valid": true
+  },
+  "Anotherassociationtob_2ID": {
+   "Int64": 2,
+   "Valid": true
+  },
+  "Aclass_AnarrayofaDBID": {
+   "Int64": 0,
+   "Valid": true
+  },
+  "Aclass_AnarrayofaDBID_Index": {
+   "Int64": 0,
+   "Valid": false
+  }
+ },
+ {
+  "ID": 30,
+  "CreatedAt": "2021-04-23T13:49:34.0448261+02:00",
+  "UpdatedAt": "2021-05-11T07:04:41.898558+02:00",
+  "DeletedAt": null,
+  "Name_Data": {
+   "String": "A5",
+   "Valid": true
+  },
+  "Date_Data": {
+   "Time": "0001-01-01T00:00:00Z",
+   "Valid": true
+  },
+  "Booleanfield_Data": {
+   "Bool": false,
+   "Valid": true
+  },
+  "Aenum_Data": {
+   "String": "",
+   "Valid": true
+  },
+  "Aenum_2_Data": {
+   "String": "",
+   "Valid": true
+  },
+  "Benum_Data": {
+   "String": "",
+   "Valid": true
+  },
+  "CName_Data": {
+   "String": "",
+   "Valid": true
+  },
+  "CFloatfield_Data": {
+   "Float64": 0,
+   "Valid": true
+  },
+  "Floatfield_Data": {
+   "Float64": 0,
+   "Valid": true
+  },
+  "Intfield_Data": {
+   "Int64": 0,
+   "Valid": true
+  },
+  "Anotherbooleanfield_Data": {
+   "Bool": false,
+   "Valid": true
+  },
+  "Duration1_Data": {
+   "Int64": 0,
+   "Valid": true
+  },
+  "AssociationtobID": {
+   "Int64": 1,
+   "Valid": true
+  },
+  "Anotherassociationtob_2ID": {
+   "Int64": 0,
+   "Valid": true
+  },
+  "Aclass_AnarrayofaDBID": {
+   "Int64": 0,
+   "Valid": false
+  },
+  "Aclass_AnarrayofaDBID_Index": {
+   "Int64": 0,
+   "Valid": false
+  }
+ },
+ {
+  "ID": 31,
+  "CreatedAt": "2021-04-24T11:27:18.030612+02:00",
+  "UpdatedAt": "2021-05-11T07:04:41.899611+02:00",
+  "DeletedAt": null,
+  "Name_Data": {
+   "String": "A6",
+   "Valid": true
+  },
+  "Date_Data": {
+   "Time": "0001-01-01T00:00:00Z",
+   "Valid": true
+  },
+  "Booleanfield_Data": {
+   "Bool": false,
+   "Valid": true
+  },
+  "Aenum_Data": {
+   "String": "",
+   "Valid": true
+  },
+  "Aenum_2_Data": {
+   "String": "",
+   "Valid": true
+  },
+  "Benum_Data": {
+   "String": "",
+   "Valid": true
+  },
+  "CName_Data": {
+   "String": "",
+   "Valid": true
+  },
+  "CFloatfield_Data": {
+   "Float64": 0,
+   "Valid": true
+  },
+  "Floatfield_Data": {
+   "Float64": 0,
+   "Valid": true
+  },
+  "Intfield_Data": {
+   "Int64": 0,
+   "Valid": true
+  },
+  "Anotherbooleanfield_Data": {
+   "Bool": false,
+   "Valid": true
+  },
+  "Duration1_Data": {
+   "Int64": 0,
+   "Valid": true
+  },
+  "AssociationtobID": {
+   "Int64": 0,
+   "Valid": true
+  },
+  "Anotherassociationtob_2ID": {
+   "Int64": 0,
+   "Valid": true
+  },
+  "Aclass_AnarrayofaDBID": {
+   "Int64": 0,
+   "Valid": false
+  },
+  "Aclass_AnarrayofaDBID_Index": {
+   "Int64": 0,
+   "Valid": false
+  }
+ }
+]

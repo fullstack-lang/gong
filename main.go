@@ -41,8 +41,6 @@ func main() {
 
 	// setup GORM
 	db := orm.SetupModels(*logDBFlag, "./test.db")
-	// mandatory, otherwise, bizarre errors occurs
-	db.DB().SetMaxOpenConns(1)
 
 	orm.BackRepo.Init(db)
 

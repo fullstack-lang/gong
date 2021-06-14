@@ -37,7 +37,7 @@ import { FrontRepoService, FrontRepo } from '../front-repo.service'
 
 // generated table component
 @Component({
-  selector: 'app-{{structname}}s-table',
+  selector: 'app-{{structname}}stable',
   templateUrl: './{{structname}}s-table.component.html',
   styleUrls: ['./{{structname}}s-table.component.css'],
 })
@@ -181,14 +181,14 @@ export class {{Structname}}sTableComponent implements OnInit {
 
   // display {{structname}} in router
   display{{Structname}}InRouter({{structname}}ID: number) {
-    this.router.navigate(["{{structname}}-display", {{structname}}ID])
+    this.router.navigate(["{{PkgPathRootWithoutSlashes}}-" + "{{structname}}-display", {{structname}}ID])
   }
 
   // set editor outlet
   setEditorRouterOutlet({{structname}}ID: number) {
     this.router.navigate([{
       outlets: {
-        editor: ["{{structname}}-detail", {{structname}}ID]
+        {{PkgPathRootWithoutSlashes}}_editor: ["{{PkgPathRootWithoutSlashes}}-" + "{{structname}}-detail", {{structname}}ID]
       }
     }]);
   }
@@ -197,7 +197,7 @@ export class {{Structname}}sTableComponent implements OnInit {
   setPresentationRouterOutlet({{structname}}ID: number) {
     this.router.navigate([{
       outlets: {
-        presentation: ["{{structname}}-presentation", {{structname}}ID]
+        {{PkgPathRootWithoutSlashes}}_presentation: ["{{PkgPathRootWithoutSlashes}}-" + "{{structname}}-presentation", {{structname}}ID]
       }
     }]);
   }
@@ -503,14 +503,20 @@ func MultiCodeGeneratorNgTable(
 			codeHTML = strings.ReplaceAll(codeHTML, toReplace, HtmlInsertions[insertion])
 		}
 
+		pkgPathRootWithoutSlashes := strings.ReplaceAll(pkgGoPath, "/models", "")
+		pkgPathRootWithoutSlashes = strings.ReplaceAll(pkgPathRootWithoutSlashes, "/", "_")
+		pkgPathRootWithoutSlashes = strings.ReplaceAll(pkgPathRootWithoutSlashes, "-", "_")
+		pkgPathRootWithoutSlashes = strings.ReplaceAll(pkgPathRootWithoutSlashes, ".", "_")
+
 		// final replacement
-		codeTS = Replace6(codeTS,
+		codeTS = Replace7(codeTS,
 			"{{PkgName}}", pkgName,
 			"{{TitlePkgName}}", strings.Title(pkgName),
 			"{{pkgname}}", strings.ToLower(pkgName),
 			"{{PkgPathRoot}}", strings.ReplaceAll(pkgGoPath, "/models", ""),
 			"{{Structname}}", _struct.Name,
-			"{{structname}}", strings.ToLower(_struct.Name))
+			"{{structname}}", strings.ToLower(_struct.Name),
+			"{{PkgPathRootWithoutSlashes}}", pkgPathRootWithoutSlashes)
 		codeHTML = Replace6(codeHTML,
 			"{{PkgName}}", pkgName,
 			"{{TitlePkgName}}", strings.Title(pkgName),

@@ -20,7 +20,7 @@ import { FrontRepoService, FrontRepo } from '../front-repo.service'
 
 // generated table component
 @Component({
-  selector: 'app-aclasss-table',
+  selector: 'app-aclassstable',
   templateUrl: './aclasss-table.component.html',
   styleUrls: ['./aclasss-table.component.css'],
 })
@@ -228,14 +228,14 @@ export class AclasssTableComponent implements OnInit {
 
   // display aclass in router
   displayAclassInRouter(aclassID: number) {
-    this.router.navigate(["aclass-display", aclassID])
+    this.router.navigate(["github_com_fullstack_lang_gong_test_go-" + "aclass-display", aclassID])
   }
 
   // set editor outlet
   setEditorRouterOutlet(aclassID: number) {
     this.router.navigate([{
       outlets: {
-        editor: ["aclass-detail", aclassID]
+        github_com_fullstack_lang_gong_test_go_editor: ["github_com_fullstack_lang_gong_test_go-" + "aclass-detail", aclassID]
       }
     }]);
   }
@@ -244,7 +244,7 @@ export class AclasssTableComponent implements OnInit {
   setPresentationRouterOutlet(aclassID: number) {
     this.router.navigate([{
       outlets: {
-        presentation: ["aclass-presentation", aclassID]
+        github_com_fullstack_lang_gong_test_go_presentation: ["github_com_fullstack_lang_gong_test_go-" + "aclass-presentation", aclassID]
       }
     }]);
   }

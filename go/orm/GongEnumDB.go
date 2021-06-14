@@ -13,7 +13,7 @@ import (
 	"sort"
 	"time"
 
-	"github.com/jinzhu/gorm"
+	"gorm.io/gorm"
 
 	"github.com/tealeg/xlsx/v3"
 
@@ -300,6 +300,7 @@ func (backRepoGongEnum *BackRepoGongEnumStruct) CheckoutPhaseOneInstance(gongenu
 		(*backRepoGongEnum.Map_GongEnumPtr_GongEnumDBID)[gongenum] = gongenumDB.ID
 
 		// append model store with the new element
+		gongenum.Name = gongenumDB.Name_Data.String
 		gongenum.Stage()
 	}
 	gongenumDB.CopyBasicFieldsToGongEnum(gongenum)

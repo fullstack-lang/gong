@@ -1,0 +1,172 @@
+[
+ {
+  "ID": 1,
+  "CreatedAt": "2020-09-18T18:42:30.476992+02:00",
+  "UpdatedAt": "2021-05-31T05:59:06.93473+02:00",
+  "DeletedAt": null,
+  "Name_Data": {
+   "String": "B8",
+   "Valid": true
+  },
+  "Floatfield_Data": {
+   "Float64": 3.88,
+   "Valid": true
+  },
+  "Intfield_Data": {
+   "Int64": 5,
+   "Valid": true
+  },
+  "Aclass_AnarrayofbDBID": {
+   "Int64": 1,
+   "Valid": true
+  },
+  "Aclass_AnarrayofbDBID_Index": {
+   "Int64": 1,
+   "Valid": true
+  },
+  "Aclass_AnotherarrayofbDBID": {
+   "Int64": 0,
+   "Valid": true
+  },
+  "Aclass_AnotherarrayofbDBID_Index": {
+   "Int64": 0,
+   "Valid": false
+  }
+ },
+ {
+  "ID": 2,
+  "CreatedAt": "2020-09-18T18:43:14.24727+02:00",
+  "UpdatedAt": "2021-05-11T07:04:48.437504+02:00",
+  "DeletedAt": null,
+  "Name_Data": {
+   "String": "B2",
+   "Valid": true
+  },
+  "Floatfield_Data": {
+   "Float64": 4.5,
+   "Valid": true
+  },
+  "Intfield_Data": {
+   "Int64": 1,
+   "Valid": true
+  },
+  "Aclass_AnarrayofbDBID": {
+   "Int64": 2,
+   "Valid": true
+  },
+  "Aclass_AnarrayofbDBID_Index": {
+   "Int64": 0,
+   "Valid": true
+  },
+  "Aclass_AnotherarrayofbDBID": {
+   "Int64": 3,
+   "Valid": true
+  },
+  "Aclass_AnotherarrayofbDBID_Index": {
+   "Int64": 0,
+   "Valid": false
+  }
+ },
+ {
+  "ID": 8,
+  "CreatedAt": "2021-03-22T10:55:57.155584+01:00",
+  "UpdatedAt": "2021-05-31T05:59:15.733766+02:00",
+  "DeletedAt": null,
+  "Name_Data": {
+   "String": "B3",
+   "Valid": true
+  },
+  "Floatfield_Data": {
+   "Float64": 0,
+   "Valid": true
+  },
+  "Intfield_Data": {
+   "Int64": 0,
+   "Valid": true
+  },
+  "Aclass_AnarrayofbDBID": {
+   "Int64": 0,
+   "Valid": true
+  },
+  "Aclass_AnarrayofbDBID_Index": {
+   "Int64": 3,
+   "Valid": true
+  },
+  "Aclass_AnotherarrayofbDBID": {
+   "Int64": 1,
+   "Valid": true
+  },
+  "Aclass_AnotherarrayofbDBID_Index": {
+   "Int64": 0,
+   "Valid": false
+  }
+ },
+ {
+  "ID": 9,
+  "CreatedAt": "2021-03-22T10:56:09.939396+01:00",
+  "UpdatedAt": "2021-05-31T05:59:06.92531+02:00",
+  "DeletedAt": null,
+  "Name_Data": {
+   "String": "B4",
+   "Valid": true
+  },
+  "Floatfield_Data": {
+   "Float64": 0,
+   "Valid": true
+  },
+  "Intfield_Data": {
+   "Int64": 0,
+   "Valid": true
+  },
+  "Aclass_AnarrayofbDBID": {
+   "Int64": 1,
+   "Valid": true
+  },
+  "Aclass_AnarrayofbDBID_Index": {
+   "Int64": 2,
+   "Valid": true
+  },
+  "Aclass_AnotherarrayofbDBID": {
+   "Int64": 29,
+   "Valid": true
+  },
+  "Aclass_AnotherarrayofbDBID_Index": {
+   "Int64": 0,
+   "Valid": false
+  }
+ },
+ {
+  "ID": 14,
+  "CreatedAt": "2021-04-23T14:17:46.2066345+02:00",
+  "UpdatedAt": "2021-05-31T05:59:06.926889+02:00",
+  "DeletedAt": null,
+  "Name_Data": {
+   "String": "B5",
+   "Valid": true
+  },
+  "Floatfield_Data": {
+   "Float64": 0,
+   "Valid": true
+  },
+  "Intfield_Data": {
+   "Int64": 0,
+   "Valid": true
+  },
+  "Aclass_AnarrayofbDBID": {
+   "Int64": 0,
+   "Valid": true
+  },
+  "Aclass_AnarrayofbDBID_Index": {
+   "Int64": 0,
+   "Valid": true
+  },
+  "Aclass_AnotherarrayofbDBID": {
+   "Int64": 4,
+   "Valid": true
+  },
+  "Aclass_AnotherarrayofbDBID_Index": {
+   "Int64": 0,
+   "Valid": false
+  }
+ }
+]

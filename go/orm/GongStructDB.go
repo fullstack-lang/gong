@@ -13,7 +13,7 @@ import (
 	"sort"
 	"time"
 
-	"github.com/jinzhu/gorm"
+	"gorm.io/gorm"
 
 	"github.com/tealeg/xlsx/v3"
 
@@ -357,6 +357,7 @@ func (backRepoGongStruct *BackRepoGongStructStruct) CheckoutPhaseOneInstance(gon
 		(*backRepoGongStruct.Map_GongStructPtr_GongStructDBID)[gongstruct] = gongstructDB.ID
 
 		// append model store with the new element
+		gongstruct.Name = gongstructDB.Name_Data.String
 		gongstruct.Stage()
 	}
 	gongstructDB.CopyBasicFieldsToGongStruct(gongstruct)

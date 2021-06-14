@@ -13,7 +13,7 @@ import (
 	"sort"
 	"time"
 
-	"github.com/jinzhu/gorm"
+	"gorm.io/gorm"
 
 	"github.com/tealeg/xlsx/v3"
 
@@ -48,9 +48,6 @@ type PointerToGongStructFieldPointersEnconding struct {
 	// field GongStruct is a pointer to another Struct (optional or 0..1)
 	// This field is generated into another field to enable AS ONE association
 	GongStructID sql.NullInt64
-
-	// all gong Struct has a Name field, this enables this data to object field
-	GongStructName string
 
 	// Implementation of a reverse ID for field GongStruct{}.PointerToGongStructFields []*PointerToGongStructField
 	GongStruct_PointerToGongStructFieldsDBID sql.NullInt64
@@ -301,6 +298,7 @@ func (backRepoPointerToGongStructField *BackRepoPointerToGongStructFieldStruct) 
 		(*backRepoPointerToGongStructField.Map_PointerToGongStructFieldPtr_PointerToGongStructFieldDBID)[pointertogongstructfield] = pointertogongstructfieldDB.ID
 
 		// append model store with the new element
+		pointertogongstructfield.Name = pointertogongstructfieldDB.Name_Data.String
 		pointertogongstructfield.Stage()
 	}
 	pointertogongstructfieldDB.CopyBasicFieldsToPointerToGongStructField(pointertogongstructfield)
