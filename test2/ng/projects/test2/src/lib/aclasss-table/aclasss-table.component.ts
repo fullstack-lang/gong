@@ -20,7 +20,7 @@ import { FrontRepoService, FrontRepo } from '../front-repo.service'
 
 // generated table component
 @Component({
-  selector: 'app-aclasss-table',
+  selector: 'app-aclassstable',
   templateUrl: './aclasss-table.component.html',
   styleUrls: ['./aclasss-table.component.css'],
 })
@@ -47,6 +47,39 @@ export class AclasssTableComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   ngAfterViewInit() {
+
+	// enable sorting on all fields (including pointers and reverse pointer)
+	this.matTableDataSource.sortingDataAccessor = (aclassDB: AclassDB, property: string) => {
+		switch (property) {
+				// insertion point for specific sorting accessor
+				case 'Anarrayofa':
+					return this.frontRepo.Aclasss.get(aclassDB.Aclass_AnarrayofaDBID.Int64)?.Name;
+
+				default:
+					return AclassDB[property];
+		}
+	}; 
+
+	// enable filtering on all fields (including pointers and reverse pointer, which is not done by default)
+	this.matTableDataSource.filterPredicate = (aclassDB: AclassDB, filter: string) => {
+
+		// filtering is based on finding a lower case filter into a concatenated string
+		// the aclassDB properties
+		let mergedContent = ""
+
+		// insertion point for merging of fields
+		mergedContent += aclassDB.Name.toLowerCase()
+		mergedContent += aclassDB.Floatfield.toString()
+		mergedContent += aclassDB.Intfield.toString()
+		if (aclassDB.Aclass_AnarrayofaDBID.Int64 != 0) {
+        	mergedContent += this.frontRepo.Aclasss.get(aclassDB.Aclass_AnarrayofaDBID.Int64)?.Name.toLowerCase()
+    	}
+
+
+		let isSelected = mergedContent.includes(filter.toLowerCase())
+		return isSelected
+	};
+
     this.matTableDataSource.sort = this.sort;
     this.matTableDataSource.paginator = this.paginator;
   }
@@ -164,14 +197,14 @@ export class AclasssTableComponent implements OnInit {
 
   // display aclass in router
   displayAclassInRouter(aclassID: number) {
-    this.router.navigate(["aclass-display", aclassID])
+    this.router.navigate(["github_com_fullstack_lang_gong_test2_go-" + "aclass-display", aclassID])
   }
 
   // set editor outlet
   setEditorRouterOutlet(aclassID: number) {
     this.router.navigate([{
       outlets: {
-        editor: ["aclass-detail", aclassID]
+        github_com_fullstack_lang_gong_test2_go_editor: ["github_com_fullstack_lang_gong_test2_go-" + "aclass-detail", aclassID]
       }
     }]);
   }
@@ -180,7 +213,7 @@ export class AclasssTableComponent implements OnInit {
   setPresentationRouterOutlet(aclassID: number) {
     this.router.navigate([{
       outlets: {
-        presentation: ["aclass-presentation", aclassID]
+        github_com_fullstack_lang_gong_test2_go_presentation: ["github_com_fullstack_lang_gong_test2_go-" + "aclass-presentation", aclassID]
       }
     }]);
   }

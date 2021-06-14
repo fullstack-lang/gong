@@ -43,20 +43,34 @@ func main() {
 	r.Use(cors.Default())
 
 	// setup GORM
-	db2 := test2_orm.SetupModels(*logDBFlag, ":memory:")
+	inMemoryDB := test2_orm.SetupModels(*logDBFlag, ":memory:")
 	// mandatory, otherwise, bizarre errors occurs
-	db2.DB().SetMaxOpenConns(1)
+	inMemoryDBSqlDB, err := inMemoryDB.DB()
+	if err != nil {
+		log.Panic("Cannot access to DB of database")
+	}
+	inMemoryDBSqlDB.SetMaxOpenConns(1)
 
-	// setup GORM
-	db := test_orm.SetupModels(*logDBFlag, "./test.db")
-	// mandatory, otherwise, bizarre errors occurs
-	db.DB().SetMaxOpenConns(1)
+	// init test2 first
+	test2_orm.BackRepo.Init(inMemoryDB)
 
-	// Provide db variable to controllers
-	r.Use(func(c *gin.Context) {
-		c.Set("db", db2) // a gin Context can have a map of variable that is set up at runtime
-		c.Next()
-	})
+	var bothStackShareTheSameDB = true
+
+	if !bothStackShareTheSameDB {
+		// setup GORM
+		inFileDB := test_orm.SetupModels(*logDBFlag, "./test.db")
+
+		// mandatory, otherwise, bizarre errors occurs
+		inFileDBSqlDB, err := inFileDB.DB()
+		if err != nil {
+			log.Panic("Cannot access to DB of database")
+		}
+		inFileDBSqlDB.SetMaxOpenConns(1)
+		test_orm.BackRepo.Init(inFileDB)
+	} else {
+		test_orm.AutoMigrate(inMemoryDB)
+		test_orm.BackRepo.Init(inMemoryDB)
+	}
 
 	test2_controllers.RegisterControllers(r)
 	test_controllers.RegisterControllers(r)
