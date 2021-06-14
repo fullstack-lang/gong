@@ -2,6 +2,7 @@
   - [About Gong](#about-gong)
   - [Prerequisite](#prerequisite)
     - [Go](#go)
+    - [cgo](#cgo)
     - [go-swagger (generating Postman files)](#go-swagger-generating-postman-files)
     - [Angular](#angular)
     - [Vscode](#vscode)
@@ -9,8 +10,9 @@
 - [Using gong](#using-gong)
   - [installing The gong compiler](#installing-the-gong-compiler)
   - [reusable stacks](#reusable-stacks)
-  - [example](#example)
-  - [Other ressources](#other-ressources)
+  - [examples](#examples)
+
+WORK IN PROGRESS
 
 # Gong
 

@@ -18,7 +18,6 @@ func TestStageCallBack(t *testing.T) {
 
 	// setup GORM
 	db := orm.SetupModels(false, ":memory:")
-	db.DB().SetMaxOpenConns(1)
 
 	// initiate back repo a callback functions
 	orm.BackRepo.Init(db)

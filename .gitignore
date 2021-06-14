@@ -4,3 +4,4 @@ ng/*
 go/gongc/__debug_bin
 test/__debug_bin
 test/go/tests/.DS_Store
+test2/__debug_bin

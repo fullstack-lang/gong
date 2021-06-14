@@ -13,6 +13,7 @@ var __member __void
 // swagger:ignore
 type StageStruct struct { // insertion point for definition of arrays registering instances
 	Aclasss map[*Aclass]struct{}
+	Aclasss_mapString map[string]*Aclass
 
 	AllModelsStructCreateCallback AllModelsStructCreateInterface
 
@@ -33,6 +34,8 @@ type BackRepoInterface interface {
 	Checkout(stage *StageStruct)
 	Backup(stage *StageStruct, dirPath string)
 	Restore(stage *StageStruct, dirPath string)
+	BackupXL(stage *StageStruct, dirPath string)
+	RestoreXL(stage *StageStruct, dirPath string)
 	// insertion point for Commit and Checkout signatures
 	CommitAclass(aclass *Aclass)
 	CheckoutAclass(aclass *Aclass)
@@ -42,7 +45,9 @@ type BackRepoInterface interface {
 // swagger:ignore instructs the gong compiler (gongc) to avoid this particular struct
 var Stage StageStruct = StageStruct{ // insertion point for array initiatialisation
 	Aclasss: make(map[*Aclass]struct{}, 0),
+	Aclasss_mapString: make(map[string]*Aclass, 0),
 
+	// end of insertion point
 }
 
 func (stage *StageStruct) Commit() {
@@ -65,10 +70,23 @@ func (stage *StageStruct) Backup(dirPath string) {
 }
 
 // Restore resets Stage & BackRepo and restores their content from the restore files in dirPath
-// Restore shall be performed only on a new database with rowids at 0 (otherwise, it will panic)
 func (stage *StageStruct) Restore(dirPath string) {
 	if stage.BackRepo != nil {
 		stage.BackRepo.Restore(stage, dirPath)
+	}
+}
+
+// backup generates backup files in the dirPath
+func (stage *StageStruct) BackupXL(dirPath string) {
+	if stage.BackRepo != nil {
+		stage.BackRepo.BackupXL(stage, dirPath)
+	}
+}
+
+// Restore resets Stage & BackRepo and restores their content from the restore files in dirPath
+func (stage *StageStruct) RestoreXL(dirPath string) {
+	if stage.BackRepo != nil {
+		stage.BackRepo.RestoreXL(stage, dirPath)
 	}
 }
 
@@ -88,12 +106,15 @@ func (stage *StageStruct) getAclassOrderedStructWithNameField() []*Aclass {
 // Stage puts aclass to the model stage
 func (aclass *Aclass) Stage() *Aclass {
 	Stage.Aclasss[aclass] = __member
+	Stage.Aclasss_mapString[aclass.Name] = aclass
+	
 	return aclass
 }
 
 // Unstage removes aclass off the model stage
 func (aclass *Aclass) Unstage() *Aclass {
 	delete(Stage.Aclasss, aclass)
+	delete(Stage.Aclasss_mapString, aclass.Name)
 	return aclass
 }
 
@@ -183,9 +204,12 @@ type AllModelsStructDeleteInterface interface { // insertion point for Callbacks
 
 func (stage *StageStruct) Reset() { // insertion point for array reset
 	stage.Aclasss = make(map[*Aclass]struct{}, 0)
+	stage.Aclasss_mapString = make(map[string]*Aclass, 0)
 
 }
 
 func (stage *StageStruct) Nil() { // insertion point for array nil
 	stage.Aclasss = nil
+	stage.Aclasss_mapString = nil
+
 }

@@ -37,6 +37,22 @@
             "args": []
         },
         {
+            "name": "gongc test2",
+            "type": "go",
+            "request": "launch",
+            "mode": "debug",
+            "cwd": "${workspaceFolder}/test2/go/models",
+            "program": "${workspaceFolder}/go/gongc",
+            "dlvLoadConfig": {
+                "followPointers": true,
+                "maxVariableRecurse": 1,
+                "maxStringLen": 3000,
+                "maxArrayValues": 64,
+                "maxStructFields": -1
+            },
+            "args": []
+        },        
+        {
             "name": "gongc test -backendOnly",
             "type": "go",
             "request": "launch",
@@ -55,7 +71,43 @@
             ]
         },
         {
-            "name": "go server test",
+            "name": "gongc test2 -backendOnly",
+            "type": "go",
+            "request": "launch",
+            "mode": "debug",
+            "cwd": "${workspaceFolder}/test2/go/models",
+            "program": "${workspaceFolder}/go/gongc",
+            "dlvLoadConfig": {
+                "followPointers": true,
+                "maxVariableRecurse": 1,
+                "maxStringLen": 3000,
+                "maxArrayValues": 64,
+                "maxStructFields": -1
+            },
+            "args": [
+                "-backendOnly"
+            ]
+        },
+        {
+            "name": "gongc gong",
+            "type": "go",
+            "request": "launch",
+            "mode": "debug",
+            "cwd": "${workspaceFolder}/go/models",
+            "program": "${workspaceFolder}/go/gongc",
+            "dlvLoadConfig": {
+                "followPointers": true,
+                "maxVariableRecurse": 1,
+                "maxStringLen": 3000,
+                "maxArrayValues": 64,
+                "maxStructFields": -1
+            },
+            "args": [
+                "-backendOnly"
+            ]
+        },
+        {
+            "name": "go run test",
             "type": "go",
             "request": "launch",
             "mode": "auto",
@@ -70,15 +122,19 @@
             "args": []
         },
         {
-            "name": "Attach chrome (windows)",
-            "runtimeArgs": [
-                "--remote-debugging-port=9222"
-            ],
-            "runtimeExecutable": "${env:CHROME_EXE}",
-            "type": "chrome",
+            "name": "go run test2",
+            "type": "go",
             "request": "launch",
-            "url": "http://localhost:4200/",
-            "webRoot": "${workspaceFolder}/test/ng"
+            "mode": "auto",
+            "program": "${workspaceFolder}/test2",
+            "dlvLoadConfig": {
+                "followPointers": true,
+                "maxVariableRecurse": 1,
+                "maxStringLen": 3000,
+                "maxArrayValues": 64,
+                "maxStructFields": -1
+            },
+            "args": []
         },
         {
             "type": "pwa-chrome",

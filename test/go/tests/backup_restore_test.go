@@ -9,11 +9,36 @@ import (
 	"github.com/fullstack-lang/gong/test/go/orm"
 )
 
+func TestBackupTest(t *testing.T) {
+
+	// setup GORM
+	db := orm.SetupModels(false, "../../../test/test.db")
+
+	// initiate back repo a callback functions
+	orm.BackRepo.Init(db)
+
+	models.Stage.Checkout()
+
+	models.Stage.Backup("bckp-test")
+}
+
+func TestRestoreTest(t *testing.T) {
+
+	// setup GORM
+	db := orm.SetupModels(false, "../../../test/test.db")
+
+	// initiate back repo a callback functions
+	orm.BackRepo.Init(db)
+
+	models.Stage.Restore("bckp-test")
+
+	models.Stage.Commit()
+}
+
 func TestBackup(t *testing.T) {
 
 	// setup GORM
 	db := orm.SetupModels(false, ":memory:")
-	db.DB().SetMaxOpenConns(1)
 
 	// initiate back repo a callback functions
 	orm.BackRepo.Init(db)
@@ -79,7 +104,6 @@ func TestRestore(t *testing.T) {
 
 	// setup GORM
 	db := orm.SetupModels(false, ":memory:")
-	db.DB().SetMaxOpenConns(1)
 
 	// initiate back repo a callback functions
 	orm.BackRepo.Init(db)
