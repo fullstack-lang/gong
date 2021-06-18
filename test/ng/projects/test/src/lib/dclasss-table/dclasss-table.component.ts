@@ -52,6 +52,9 @@ export class DclasssTableComponent implements OnInit {
 	this.matTableDataSource.sortingDataAccessor = (dclassDB: DclassDB, property: string) => {
 		switch (property) {
 				// insertion point for specific sorting accessor
+			case 'Name':
+				return dclassDB.Name;
+
 				default:
 					return DclassDB[property];
 		}
