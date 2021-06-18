@@ -52,6 +52,27 @@ export class AclasssTableComponent implements OnInit {
 	this.matTableDataSource.sortingDataAccessor = (aclassDB: AclassDB, property: string) => {
 		switch (property) {
 				// insertion point for specific sorting accessor
+			case 'Name':
+				return aclassDB.Name;
+
+			case 'Date':
+				return aclassDB.Date;
+
+			case 'Booleanfield':
+				return aclassDB.Booleanfield;
+
+			case 'Floatfield':
+				return aclassDB.Floatfield;
+
+			case 'Intfield':
+				return aclassDB.Intfield;
+
+			case 'Anotherbooleanfield':
+				return aclassDB.Anotherbooleanfield;
+
+			case 'Duration1':
+				return aclassDB.Duration1;
+
 				case 'Anarrayofa':
 					return this.frontRepo.Aclasss.get(aclassDB.Aclass_AnarrayofaDBID.Int64)?.Name;
 

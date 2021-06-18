@@ -269,6 +269,9 @@ type NgTableSubTemplate int
 const (
 	NgTableTSPerStructTimeDurationRecoveries NgTableSubTemplate = iota
 
+	NgTableTSBasicFieldSorting
+	NgTableTSTimeFieldSorting
+
 	NgTableTSPointerToStructSorting
 	NgTableTSSliceOfPointerToStructSorting
 
@@ -292,8 +295,16 @@ var NgTablelSubTemplateCode map[NgTableSubTemplate]string = map[NgTableSubTempla
             {{structname}}.{{FieldName}} % (60 * 1000 * 1000 * 1000) / (1000 * 1000 * 1000) + "S"
         }`,
 
+	NgTableTSBasicFieldSorting: `
+			case '{{FieldName}}':
+				return {{structname}}DB.{{FieldName}};
+`,
+	NgTableTSTimeFieldSorting: `
+			case '{{FieldName}}':
+				return {{structname}}DB.{{FieldName}};
+`,
 	NgTableTSPointerToStructSorting: `
-  			case '{{FieldName}}':
+			case '{{FieldName}}':
 				return ({{structname}}DB.{{FieldName}} ? {{structname}}DB.{{FieldName}}.Name : '');
 `,
 	NgTableTSSliceOfPointerToStructSorting: `
@@ -429,10 +440,18 @@ func MultiCodeGeneratorNgTable(
 							"{{FieldName}}", gongBasicField.Name)
 				}
 
+				TsInsertions[NgTableTsInsertionPerStructColumnsSorting] +=
+					Replace1(NgTablelSubTemplateCode[NgTableTSBasicFieldSorting],
+						"{{FieldName}}", gongBasicField.Name)
+
 			case *GongTimeField:
 				gongTimeField := field.(*GongTimeField)
 				TsInsertions[NgTableTsInsertionPerStructColumns] +=
 					Replace1(NgTablelSubTemplateCode[NgTableTSPerStructColumn],
+						"{{FieldName}}", gongTimeField.Name)
+
+				TsInsertions[NgTableTsInsertionPerStructColumnsSorting] +=
+					Replace1(NgTablelSubTemplateCode[NgTableTSBasicFieldSorting],
 						"{{FieldName}}", gongTimeField.Name)
 
 				HtmlInsertions[NgTableHtmlInsertionColumn] += Replace1(NgTableHTMLSubTemplateCode[NgTableHTMLTimeField],

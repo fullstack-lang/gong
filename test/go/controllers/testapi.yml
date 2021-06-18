@@ -675,16 +675,13 @@ responses:
     description: AclassDBResponse provides response
     headers:
       Aclass_AnarrayofaDBID:
-        description: Implementation of a reverse ID for field Aclass{}.Anarrayofa
-          []*Aclass
+        description: Implementation of a reverse ID for field Aclass{}.Anarrayofa []*Aclass
       Aclass_AnarrayofaDBID_Index:
         description: implementation of the index of the withing the slice
       Aenum_2_Data:
-        description: Declation for basic field aclassDB.Aenum_2 {{BasicKind}} (to
-          be completed)
+        description: Declation for basic field aclassDB.Aenum_2 {{BasicKind}} (to be completed)
       Aenum_Data:
-        description: Declation for basic field aclassDB.Aenum {{BasicKind}} (to be
-          completed)
+        description: Declation for basic field aclassDB.Aenum {{BasicKind}} (to be completed)
       Anotherassociationtob_2ID:
         description: |-
           field Anotherassociationtob_2 is a pointer to another Struct (optional or 0..1)
@@ -699,18 +696,15 @@ responses:
           field Associationtob is a pointer to another Struct (optional or 0..1)
           This field is generated into another field to enable AS ONE association
       Benum_Data:
-        description: Declation for basic field aclassDB.Benum {{BasicKind}} (to be
-          completed)
+        description: Declation for basic field aclassDB.Benum {{BasicKind}} (to be completed)
       Booleanfield_Data:
         description: |-
           Declation for basic field aclassDB.Booleanfield bool (to be completed)
           provide the sql storage for the boolan
       CFloatfield_Data:
-        description: Declation for basic field aclassDB.CFloatfield {{BasicKind}}
-          (to be completed)
+        description: Declation for basic field aclassDB.CFloatfield {{BasicKind}} (to be completed)
       CName_Data:
-        description: Declation for basic field aclassDB.CName {{BasicKind}} (to be
-          completed)
+        description: Declation for basic field aclassDB.CName {{BasicKind}} (to be completed)
       CreatedAt:
         format: date-time
         type: string
@@ -718,17 +712,14 @@ responses:
         description: Declation for basic field aclassDB.Date
       DeletedAt: {}
       Duration1_Data:
-        description: Declation for basic field aclassDB.Duration1 {{BasicKind}} (to
-          be completed)
+        description: Declation for basic field aclassDB.Duration1 {{BasicKind}} (to be completed)
       Floatfield_Data:
-        description: Declation for basic field aclassDB.Floatfield {{BasicKind}} (to
-          be completed)
+        description: Declation for basic field aclassDB.Floatfield {{BasicKind}} (to be completed)
       ID:
         format: uint64
         type: integer
       Intfield_Data:
-        description: Declation for basic field aclassDB.Intfield {{BasicKind}} (to
-          be completed)
+        description: Declation for basic field aclassDB.Intfield {{BasicKind}} (to be completed)
       Name_Data:
         description: |-
           insertion for basic fields declaration
@@ -754,8 +745,7 @@ responses:
       Aclass_AnarrayofbDBID_Index:
         description: implementation of the index of the withing the slice
       Aclass_AnotherarrayofbDBID:
-        description: Implementation of a reverse ID for field Aclass{}.Anotherarrayofb
-          []*Bclass
+        description: Implementation of a reverse ID for field Aclass{}.Anotherarrayofb []*Bclass
       Aclass_AnotherarrayofbDBID_Index:
         description: implementation of the index of the withing the slice
       CreatedAt:
@@ -763,14 +753,12 @@ responses:
         type: string
       DeletedAt: {}
       Floatfield_Data:
-        description: Declation for basic field bclassDB.Floatfield {{BasicKind}} (to
-          be completed)
+        description: Declation for basic field bclassDB.Floatfield {{BasicKind}} (to be completed)
       ID:
         format: uint64
         type: integer
       Intfield_Data:
-        description: Declation for basic field bclassDB.Intfield {{BasicKind}} (to
-          be completed)
+        description: Declation for basic field bclassDB.Intfield {{BasicKind}} (to be completed)
       Name_Data:
         description: |-
           insertion for basic fields declaration

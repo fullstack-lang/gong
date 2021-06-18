@@ -52,10 +52,46 @@ export class AclasssTableComponent implements OnInit {
 	this.matTableDataSource.sortingDataAccessor = (aclassDB: AclassDB, property: string) => {
 		switch (property) {
 				// insertion point for specific sorting accessor
-  			case 'Associationtob':
+			case 'Name':
+				return aclassDB.Name;
+
+			case 'Date':
+				return aclassDB.Date;
+
+			case 'Booleanfield':
+				return aclassDB.Booleanfield;
+
+			case 'Aenum':
+				return aclassDB.Aenum;
+
+			case 'Aenum_2':
+				return aclassDB.Aenum_2;
+
+			case 'Benum':
+				return aclassDB.Benum;
+
+			case 'CName':
+				return aclassDB.CName;
+
+			case 'CFloatfield':
+				return aclassDB.CFloatfield;
+
+			case 'Floatfield':
+				return aclassDB.Floatfield;
+
+			case 'Intfield':
+				return aclassDB.Intfield;
+
+			case 'Anotherbooleanfield':
+				return aclassDB.Anotherbooleanfield;
+
+			case 'Duration1':
+				return aclassDB.Duration1;
+
+			case 'Associationtob':
 				return (aclassDB.Associationtob ? aclassDB.Associationtob.Name : '');
 
-  			case 'Anotherassociationtob_2':
+			case 'Anotherassociationtob_2':
 				return (aclassDB.Anotherassociationtob_2 ? aclassDB.Anotherassociationtob_2.Name : '');
 
 				case 'Anarrayofa':
