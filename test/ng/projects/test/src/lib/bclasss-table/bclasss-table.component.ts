@@ -52,6 +52,15 @@ export class BclasssTableComponent implements OnInit {
 	this.matTableDataSource.sortingDataAccessor = (bclassDB: BclassDB, property: string) => {
 		switch (property) {
 				// insertion point for specific sorting accessor
+			case 'Name':
+				return bclassDB.Name;
+
+			case 'Floatfield':
+				return bclassDB.Floatfield;
+
+			case 'Intfield':
+				return bclassDB.Intfield;
+
 				case 'Anarrayofb':
 					return this.frontRepo.Aclasss.get(bclassDB.Aclass_AnarrayofbDBID.Int64)?.Name;
 
