@@ -159,7 +159,7 @@ func (stage *StageStruct) get{{Structname}}OrderedStructWithNameField() []*{{Str
 func ({{structname}} *{{Structname}}) Stage() *{{Structname}} {
 	Stage.{{Structname}}s[{{structname}}] = __member
 	Stage.{{Structname}}s_mapString[{{structname}}.Name] = {{structname}}
-	
+
 	return {{structname}}
 }
 
@@ -253,12 +253,12 @@ func DeleteORM{{Structname}}({{structname}} *{{Structname}}) {
 	DeleteORM{{Structname}}({{Structname}} *{{Structname}})`,
 
 	ModelGongStructArrayDefintion: `
-	{{Structname}}s map[*{{Structname}}]struct{}
+	{{Structname}}s           map[*{{Structname}}]struct{}
 	{{Structname}}s_mapString map[string]*{{Structname}}
 `,
 
 	ModelGongStructArrayInitialisation: `
-	{{Structname}}s: make(map[*{{Structname}}]struct{}, 0),
+	{{Structname}}s:           make(map[*{{Structname}}]struct{}, 0),
 	{{Structname}}s_mapString: make(map[string]*{{Structname}}, 0),
 `,
 
