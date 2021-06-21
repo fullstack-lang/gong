@@ -12,13 +12,13 @@ var __member __void
 // StageStruct enables storage of staged instances
 // swagger:ignore
 type StageStruct struct { // insertion point for definition of arrays registering instances
-	Aclasss map[*Aclass]struct{}
+	Aclasss           map[*Aclass]struct{}
 	Aclasss_mapString map[string]*Aclass
 
-	Bclasss map[*Bclass]struct{}
+	Bclasss           map[*Bclass]struct{}
 	Bclasss_mapString map[string]*Bclass
 
-	Dclasss map[*Dclass]struct{}
+	Dclasss           map[*Dclass]struct{}
 	Dclasss_mapString map[string]*Dclass
 
 	AllModelsStructCreateCallback AllModelsStructCreateInterface
@@ -50,17 +50,18 @@ type BackRepoInterface interface {
 	CommitDclass(dclass *Dclass)
 	CheckoutDclass(dclass *Dclass)
 	GetLastCommitNb() uint
+	GetLastPushFromFrontNb() uint
 }
 
 // swagger:ignore instructs the gong compiler (gongc) to avoid this particular struct
 var Stage StageStruct = StageStruct{ // insertion point for array initiatialisation
-	Aclasss: make(map[*Aclass]struct{}, 0),
+	Aclasss:           make(map[*Aclass]struct{}, 0),
 	Aclasss_mapString: make(map[string]*Aclass, 0),
 
-	Bclasss: make(map[*Bclass]struct{}, 0),
+	Bclasss:           make(map[*Bclass]struct{}, 0),
 	Bclasss_mapString: make(map[string]*Bclass, 0),
 
-	Dclasss: make(map[*Dclass]struct{}, 0),
+	Dclasss:           make(map[*Dclass]struct{}, 0),
 	Dclasss_mapString: make(map[string]*Dclass, 0),
 
 	// end of insertion point
@@ -123,7 +124,7 @@ func (stage *StageStruct) getAclassOrderedStructWithNameField() []*Aclass {
 func (aclass *Aclass) Stage() *Aclass {
 	Stage.Aclasss[aclass] = __member
 	Stage.Aclasss_mapString[aclass.Name] = aclass
-	
+
 	return aclass
 }
 
@@ -225,7 +226,7 @@ func (stage *StageStruct) getBclassOrderedStructWithNameField() []*Bclass {
 func (bclass *Bclass) Stage() *Bclass {
 	Stage.Bclasss[bclass] = __member
 	Stage.Bclasss_mapString[bclass.Name] = bclass
-	
+
 	return bclass
 }
 
@@ -327,7 +328,7 @@ func (stage *StageStruct) getDclassOrderedStructWithNameField() []*Dclass {
 func (dclass *Dclass) Stage() *Dclass {
 	Stage.Dclasss[dclass] = __member
 	Stage.Dclasss_mapString[dclass.Name] = dclass
-	
+
 	return dclass
 }
 

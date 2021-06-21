@@ -122,7 +122,7 @@ type AclassDBResponse struct {
 	AclassDB
 }
 
-// AclassWOP is a Aclass without pointers
+// AclassWOP is a Aclass without pointers (WOP is an acronym for "Without Pointers")
 // it holds the same basic fields but pointers are encoded into uint
 type AclassWOP struct {
 	ID int
@@ -171,7 +171,6 @@ var Aclass_Fields = []string{
 	"Anotherbooleanfield",
 	"Duration1",
 }
-
 
 type BackRepoAclassStruct struct {
 	// stores AclassDB according to their gorm ID
@@ -337,7 +336,7 @@ func (backRepoAclass *BackRepoAclassStruct) CommitPhaseTwoInstance(backRepo *Bac
 
 			// get the back repo instance at the association end
 			bclassAssocEnd_DB :=
-				backRepo.BackRepoBclass.GetBclassDBFromBclassPtr( bclassAssocEnd)
+				backRepo.BackRepoBclass.GetBclassDBFromBclassPtr(bclassAssocEnd)
 
 			// encode reverse pointer in the association end back repo instance
 			bclassAssocEnd_DB.Aclass_AnarrayofbDBID.Int64 = int64(aclassDB.ID)
@@ -356,7 +355,7 @@ func (backRepoAclass *BackRepoAclassStruct) CommitPhaseTwoInstance(backRepo *Bac
 
 			// get the back repo instance at the association end
 			bclassAssocEnd_DB :=
-				backRepo.BackRepoBclass.GetBclassDBFromBclassPtr( bclassAssocEnd)
+				backRepo.BackRepoBclass.GetBclassDBFromBclassPtr(bclassAssocEnd)
 
 			// encode reverse pointer in the association end back repo instance
 			bclassAssocEnd_DB.Aclass_AnotherarrayofbDBID.Int64 = int64(aclassDB.ID)
@@ -375,7 +374,7 @@ func (backRepoAclass *BackRepoAclassStruct) CommitPhaseTwoInstance(backRepo *Bac
 
 			// get the back repo instance at the association end
 			aclassAssocEnd_DB :=
-				backRepo.BackRepoAclass.GetAclassDBFromAclassPtr( aclassAssocEnd)
+				backRepo.BackRepoAclass.GetAclassDBFromAclassPtr(aclassAssocEnd)
 
 			// encode reverse pointer in the association end back repo instance
 			aclassAssocEnd_DB.Aclass_AnarrayofaDBID.Int64 = int64(aclassDB.ID)
@@ -403,9 +402,8 @@ func (backRepoAclass *BackRepoAclassStruct) CommitPhaseTwoInstance(backRepo *Bac
 
 // BackRepoAclass.CheckoutPhaseOne Checkouts all BackRepo instances to the Stage
 //
-// Phase One is the creation of instance in the stage
-//
-// NOTE: the is supposed to have been reset before
+// Phase One will result in having instances on the stage aligned with the back repo
+// pointers are not initialized yet (this is for pahse two)
 //
 func (backRepoAclass *BackRepoAclassStruct) CheckoutPhaseOne() (Error error) {
 
@@ -415,9 +413,34 @@ func (backRepoAclass *BackRepoAclassStruct) CheckoutPhaseOne() (Error error) {
 		return query.Error
 	}
 
+	// list of instances to be removed
+	// start from the initial map on the stage and remove instances that have been checked out
+	aclassInstancesToBeRemovedFromTheStage := make(map[*models.Aclass]struct{})
+	for key, value := range models.Stage.Aclasss {
+		aclassInstancesToBeRemovedFromTheStage[key] = value
+	}
+
 	// copy orm objects to the the map
 	for _, aclassDB := range aclassDBArray {
 		backRepoAclass.CheckoutPhaseOneInstance(&aclassDB)
+
+		// do not remove this instance from the stage, therefore
+		// remove instance from the list of instances to be be removed from the stage
+		aclass, ok := (*backRepoAclass.Map_AclassDBID_AclassPtr)[aclassDB.ID]
+		if ok {
+			delete(aclassInstancesToBeRemovedFromTheStage, aclass)
+		}
+	}
+
+	// remove from stage and back repo's 3 maps all aclasss that are not in the checkout
+	for aclass := range aclassInstancesToBeRemovedFromTheStage {
+		aclass.Unstage()
+
+		// remove instance from the back repo 3 maps
+		aclassID := (*backRepoAclass.Map_AclassPtr_AclassDBID)[aclass]
+		delete((*backRepoAclass.Map_AclassPtr_AclassDBID), aclass)
+		delete((*backRepoAclass.Map_AclassDBID_AclassDB), aclassID)
+		delete((*backRepoAclass.Map_AclassDBID_AclassPtr), aclassID)
 	}
 
 	return
@@ -807,7 +830,7 @@ func (backRepoAclass *BackRepoAclassStruct) RestorePhaseOne(dirPath string) {
 // to compute new index
 func (backRepoAclass *BackRepoAclassStruct) RestorePhaseTwo() {
 
-	for _, aclassDB := range (*backRepoAclass.Map_AclassDBID_AclassDB) {
+	for _, aclassDB := range *backRepoAclass.Map_AclassDBID_AclassDB {
 
 		// next line of code is to avert unused variable compilation error
 		_ = aclassDB
@@ -825,7 +848,7 @@ func (backRepoAclass *BackRepoAclassStruct) RestorePhaseTwo() {
 
 		// This reindex aclass.Anarrayofa
 		if aclassDB.Aclass_AnarrayofaDBID.Int64 != 0 {
-			aclassDB.Aclass_AnarrayofaDBID.Int64 = 
+			aclassDB.Aclass_AnarrayofaDBID.Int64 =
 				int64(BackRepoAclassid_atBckpTime_newID[uint(aclassDB.Aclass_AnarrayofaDBID.Int64)])
 		}
 

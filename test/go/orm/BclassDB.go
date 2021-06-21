@@ -90,7 +90,7 @@ type BclassDBResponse struct {
 	BclassDB
 }
 
-// BclassWOP is a Bclass without pointers
+// BclassWOP is a Bclass without pointers (WOP is an acronym for "Without Pointers")
 // it holds the same basic fields but pointers are encoded into uint
 type BclassWOP struct {
 	ID int
@@ -112,7 +112,6 @@ var Bclass_Fields = []string{
 	"Floatfield",
 	"Intfield",
 }
-
 
 type BackRepoBclassStruct struct {
 	// stores BclassDB according to their gorm ID
@@ -271,9 +270,8 @@ func (backRepoBclass *BackRepoBclassStruct) CommitPhaseTwoInstance(backRepo *Bac
 
 // BackRepoBclass.CheckoutPhaseOne Checkouts all BackRepo instances to the Stage
 //
-// Phase One is the creation of instance in the stage
-//
-// NOTE: the is supposed to have been reset before
+// Phase One will result in having instances on the stage aligned with the back repo
+// pointers are not initialized yet (this is for pahse two)
 //
 func (backRepoBclass *BackRepoBclassStruct) CheckoutPhaseOne() (Error error) {
 
@@ -283,9 +281,34 @@ func (backRepoBclass *BackRepoBclassStruct) CheckoutPhaseOne() (Error error) {
 		return query.Error
 	}
 
+	// list of instances to be removed
+	// start from the initial map on the stage and remove instances that have been checked out
+	bclassInstancesToBeRemovedFromTheStage := make(map[*models.Bclass]struct{})
+	for key, value := range models.Stage.Bclasss {
+		bclassInstancesToBeRemovedFromTheStage[key] = value
+	}
+
 	// copy orm objects to the the map
 	for _, bclassDB := range bclassDBArray {
 		backRepoBclass.CheckoutPhaseOneInstance(&bclassDB)
+
+		// do not remove this instance from the stage, therefore
+		// remove instance from the list of instances to be be removed from the stage
+		bclass, ok := (*backRepoBclass.Map_BclassDBID_BclassPtr)[bclassDB.ID]
+		if ok {
+			delete(bclassInstancesToBeRemovedFromTheStage, bclass)
+		}
+	}
+
+	// remove from stage and back repo's 3 maps all bclasss that are not in the checkout
+	for bclass := range bclassInstancesToBeRemovedFromTheStage {
+		bclass.Unstage()
+
+		// remove instance from the back repo 3 maps
+		bclassID := (*backRepoBclass.Map_BclassPtr_BclassDBID)[bclass]
+		delete((*backRepoBclass.Map_BclassPtr_BclassDBID), bclass)
+		delete((*backRepoBclass.Map_BclassDBID_BclassDB), bclassID)
+		delete((*backRepoBclass.Map_BclassDBID_BclassPtr), bclassID)
 	}
 
 	return
@@ -514,7 +537,7 @@ func (backRepoBclass *BackRepoBclassStruct) RestorePhaseOne(dirPath string) {
 // to compute new index
 func (backRepoBclass *BackRepoBclassStruct) RestorePhaseTwo() {
 
-	for _, bclassDB := range (*backRepoBclass.Map_BclassDBID_BclassDB) {
+	for _, bclassDB := range *backRepoBclass.Map_BclassDBID_BclassDB {
 
 		// next line of code is to avert unused variable compilation error
 		_ = bclassDB
@@ -522,13 +545,13 @@ func (backRepoBclass *BackRepoBclassStruct) RestorePhaseTwo() {
 		// insertion point for reindexing pointers encoding
 		// This reindex bclass.Anarrayofb
 		if bclassDB.Aclass_AnarrayofbDBID.Int64 != 0 {
-			bclassDB.Aclass_AnarrayofbDBID.Int64 = 
+			bclassDB.Aclass_AnarrayofbDBID.Int64 =
 				int64(BackRepoAclassid_atBckpTime_newID[uint(bclassDB.Aclass_AnarrayofbDBID.Int64)])
 		}
 
 		// This reindex bclass.Anotherarrayofb
 		if bclassDB.Aclass_AnotherarrayofbDBID.Int64 != 0 {
-			bclassDB.Aclass_AnotherarrayofbDBID.Int64 = 
+			bclassDB.Aclass_AnotherarrayofbDBID.Int64 =
 				int64(BackRepoAclassid_atBckpTime_newID[uint(bclassDB.Aclass_AnotherarrayofbDBID.Int64)])
 		}
 
