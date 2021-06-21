@@ -83,7 +83,7 @@ type {{Structname}}DBResponse struct {
 	{{Structname}}DB
 }
 
-// {{Structname}}WOP is a {{Structname}} without pointers
+// {{Structname}}WOP is a {{Structname}} without pointers (WOP is an acronym for "Without Pointers")
 // it holds the same basic fields but pointers are encoded into uint
 type {{Structname}}WOP struct {
 	ID int
@@ -95,7 +95,6 @@ type {{Structname}}WOP struct {
 var {{Structname}}_Fields = []string{
 	// insertion for WOP basic fields{{` + string(rune(BackRepoBasicAndTimeFieldsName)) + `}}
 }
-
 
 type BackRepo{{Structname}}Struct struct {
 	// stores {{Structname}}DB according to their gorm ID
@@ -254,9 +253,8 @@ func (backRepo{{Structname}} *BackRepo{{Structname}}Struct) CommitPhaseTwoInstan
 
 // BackRepo{{Structname}}.CheckoutPhaseOne Checkouts all BackRepo instances to the Stage
 //
-// Phase One is the creation of instance in the stage
-//
-// NOTE: the is supposed to have been reset before
+// Phase One will result in having instances on the stage aligned with the back repo
+// pointers are not initialized yet (this is for pahse two)
 //
 func (backRepo{{Structname}} *BackRepo{{Structname}}Struct) CheckoutPhaseOne() (Error error) {
 
@@ -266,9 +264,34 @@ func (backRepo{{Structname}} *BackRepo{{Structname}}Struct) CheckoutPhaseOne() (
 		return query.Error
 	}
 
+	// list of instances to be removed
+	// start from the initial map on the stage and remove instances that have been checked out
+	{{structname}}InstancesToBeRemovedFromTheStage := make(map[*models.{{Structname}}]struct{})
+	for key, value := range models.Stage.{{Structname}}s {
+		{{structname}}InstancesToBeRemovedFromTheStage[key] = value
+	}
+
 	// copy orm objects to the the map
 	for _, {{structname}}DB := range {{structname}}DBArray {
 		backRepo{{Structname}}.CheckoutPhaseOneInstance(&{{structname}}DB)
+
+		// do not remove this instance from the stage, therefore
+		// remove instance from the list of instances to be be removed from the stage
+		{{structname}}, ok := (*backRepo{{Structname}}.Map_{{Structname}}DBID_{{Structname}}Ptr)[{{structname}}DB.ID]
+		if ok {
+			delete({{structname}}InstancesToBeRemovedFromTheStage, {{structname}})
+		}
+	}
+
+	// remove from stage and back repo's 3 maps all {{structname}}s that are not in the checkout
+	for {{structname}} := range {{structname}}InstancesToBeRemovedFromTheStage {
+		{{structname}}.Unstage()
+
+		// remove instance from the back repo 3 maps
+		{{structname}}ID := (*backRepo{{Structname}}.Map_{{Structname}}Ptr_{{Structname}}DBID)[{{structname}}]
+		delete((*backRepo{{Structname}}.Map_{{Structname}}Ptr_{{Structname}}DBID), {{structname}})
+		delete((*backRepo{{Structname}}.Map_{{Structname}}DBID_{{Structname}}DB), {{structname}}ID)
+		delete((*backRepo{{Structname}}.Map_{{Structname}}DBID_{{Structname}}Ptr), {{structname}}ID)
 	}
 
 	return
@@ -473,7 +496,7 @@ func (backRepo{{Structname}} *BackRepo{{Structname}}Struct) RestorePhaseOne(dirP
 // to compute new index
 func (backRepo{{Structname}} *BackRepo{{Structname}}Struct) RestorePhaseTwo() {
 
-	for _, {{structname}}DB := range (*backRepo{{Structname}}.Map_{{Structname}}DBID_{{Structname}}DB) {
+	for _, {{structname}}DB := range *backRepo{{Structname}}.Map_{{Structname}}DBID_{{Structname}}DB {
 
 		// next line of code is to avert unused variable compilation error
 		_ = {{structname}}DB
@@ -626,7 +649,7 @@ var BackRepoFieldSubTemplateCode map[BackRepoPerStructSubTemplate]string = map[B
 
 			// get the back repo instance at the association end
 			{{associationStructName}}AssocEnd_DB :=
-				backRepo.BackRepo{{AssociationStructName}}.Get{{AssociationStructName}}DBFrom{{AssociationStructName}}Ptr( {{associationStructName}}AssocEnd)
+				backRepo.BackRepo{{AssociationStructName}}.Get{{AssociationStructName}}DBFrom{{AssociationStructName}}Ptr({{associationStructName}}AssocEnd)
 
 			// encode reverse pointer in the association end back repo instance
 			{{associationStructName}}AssocEnd_DB.{{Structname}}_{{FieldName}}DBID.Int64 = int64({{structname}}DB.ID)
