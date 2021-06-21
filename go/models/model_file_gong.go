@@ -46,6 +46,7 @@ type BackRepoInterface interface {
 	RestoreXL(stage *StageStruct, dirPath string)
 	// insertion point for Commit and Checkout signatures{{` + string(rune(ModelGongInsertionCommitCheckoutSignature)) + `}}
 	GetLastCommitNb() uint
+	GetLastPushFromFrontNb() uint
 }
 
 // swagger:ignore instructs the gong compiler (gongc) to avoid this particular struct
