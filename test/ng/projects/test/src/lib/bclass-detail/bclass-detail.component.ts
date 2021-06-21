@@ -89,18 +89,26 @@ export class BclassDetailComponent implements OnInit {
 		if (association == undefined) {
 			// insertion point for translation/nullation of each pointers
 			if (this.bclass.Aclass_Anarrayofb_reverse != undefined) {
-				this.bclass.Aclass_AnarrayofbDBID = new NullInt64
+				if (this.bclass.Aclass_AnarrayofbDBID == undefined) {
+					this.bclass.Aclass_AnarrayofbDBID = new NullInt64
+				}
 				this.bclass.Aclass_AnarrayofbDBID.Int64 = this.bclass.Aclass_Anarrayofb_reverse.ID
 				this.bclass.Aclass_AnarrayofbDBID.Valid = true
-				this.bclass.Aclass_AnarrayofbDBID_Index = new NullInt64
+				if (this.bclass.Aclass_AnarrayofbDBID_Index == undefined) {
+					this.bclass.Aclass_AnarrayofbDBID_Index = new NullInt64
+				}
 				this.bclass.Aclass_AnarrayofbDBID_Index.Valid = true
 				this.bclass.Aclass_Anarrayofb_reverse = undefined // very important, otherwise, circular JSON
 			}
 			if (this.bclass.Aclass_Anotherarrayofb_reverse != undefined) {
-				this.bclass.Aclass_AnotherarrayofbDBID = new NullInt64
+				if (this.bclass.Aclass_AnotherarrayofbDBID == undefined) {
+					this.bclass.Aclass_AnotherarrayofbDBID = new NullInt64
+				}
 				this.bclass.Aclass_AnotherarrayofbDBID.Int64 = this.bclass.Aclass_Anotherarrayofb_reverse.ID
 				this.bclass.Aclass_AnotherarrayofbDBID.Valid = true
-				this.bclass.Aclass_AnotherarrayofbDBID_Index = new NullInt64
+				if (this.bclass.Aclass_AnotherarrayofbDBID_Index == undefined) {
+					this.bclass.Aclass_AnotherarrayofbDBID_Index = new NullInt64
+				}
 				this.bclass.Aclass_AnotherarrayofbDBID_Index.Valid = true
 				this.bclass.Aclass_Anotherarrayofb_reverse = undefined // very important, otherwise, circular JSON
 			}
