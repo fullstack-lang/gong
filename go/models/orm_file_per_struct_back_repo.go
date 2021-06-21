@@ -726,7 +726,7 @@ var BackRepoFieldSubTemplateCode map[BackRepoPerStructSubTemplate]string = map[B
 	BackRepoReindexingSliceOfPointerToStruct: `
 		// This reindex {{structname}}.{{FieldName}}
 		if {{structname}}DB.{{AssociationStructName}}_{{FieldName}}DBID.Int64 != 0 {
-			{{structname}}DB.{{AssociationStructName}}_{{FieldName}}DBID.Int64 = 
+			{{structname}}DB.{{AssociationStructName}}_{{FieldName}}DBID.Int64 =
 				int64(BackRepo{{AssociationStructName}}id_atBckpTime_newID[uint({{structname}}DB.{{AssociationStructName}}_{{FieldName}}DBID.Int64)])
 		}
 `,
