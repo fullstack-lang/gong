@@ -74,7 +74,7 @@ type DclassDBResponse struct {
 	DclassDB
 }
 
-// DclassWOP is a Dclass without pointers
+// DclassWOP is a Dclass without pointers (WOP is an acronym for "Without Pointers")
 // it holds the same basic fields but pointers are encoded into uint
 type DclassWOP struct {
 	ID int
@@ -90,7 +90,6 @@ var Dclass_Fields = []string{
 	"ID",
 	"Name",
 }
-
 
 type BackRepoDclassStruct struct {
 	// stores DclassDB according to their gorm ID
@@ -249,9 +248,8 @@ func (backRepoDclass *BackRepoDclassStruct) CommitPhaseTwoInstance(backRepo *Bac
 
 // BackRepoDclass.CheckoutPhaseOne Checkouts all BackRepo instances to the Stage
 //
-// Phase One is the creation of instance in the stage
-//
-// NOTE: the is supposed to have been reset before
+// Phase One will result in having instances on the stage aligned with the back repo
+// pointers are not initialized yet (this is for pahse two)
 //
 func (backRepoDclass *BackRepoDclassStruct) CheckoutPhaseOne() (Error error) {
 
@@ -261,9 +259,34 @@ func (backRepoDclass *BackRepoDclassStruct) CheckoutPhaseOne() (Error error) {
 		return query.Error
 	}
 
+	// list of instances to be removed
+	// start from the initial map on the stage and remove instances that have been checked out
+	dclassInstancesToBeRemovedFromTheStage := make(map[*models.Dclass]struct{})
+	for key, value := range models.Stage.Dclasss {
+		dclassInstancesToBeRemovedFromTheStage[key] = value
+	}
+
 	// copy orm objects to the the map
 	for _, dclassDB := range dclassDBArray {
 		backRepoDclass.CheckoutPhaseOneInstance(&dclassDB)
+
+		// do not remove this instance from the stage, therefore
+		// remove instance from the list of instances to be be removed from the stage
+		dclass, ok := (*backRepoDclass.Map_DclassDBID_DclassPtr)[dclassDB.ID]
+		if ok {
+			delete(dclassInstancesToBeRemovedFromTheStage, dclass)
+		}
+	}
+
+	// remove from stage and back repo's 3 maps all dclasss that are not in the checkout
+	for dclass := range dclassInstancesToBeRemovedFromTheStage {
+		dclass.Unstage()
+
+		// remove instance from the back repo 3 maps
+		dclassID := (*backRepoDclass.Map_DclassPtr_DclassDBID)[dclass]
+		delete((*backRepoDclass.Map_DclassPtr_DclassDBID), dclass)
+		delete((*backRepoDclass.Map_DclassDBID_DclassDB), dclassID)
+		delete((*backRepoDclass.Map_DclassDBID_DclassPtr), dclassID)
 	}
 
 	return
@@ -476,7 +499,7 @@ func (backRepoDclass *BackRepoDclassStruct) RestorePhaseOne(dirPath string) {
 // to compute new index
 func (backRepoDclass *BackRepoDclassStruct) RestorePhaseTwo() {
 
-	for _, dclassDB := range (*backRepoDclass.Map_DclassDBID_DclassDB) {
+	for _, dclassDB := range *backRepoDclass.Map_DclassDBID_DclassDB {
 
 		// next line of code is to avert unused variable compilation error
 		_ = dclassDB
