@@ -22,7 +22,7 @@ export class PushFromFrontNbService {
         private http: HttpClient
     ) { }
 
-    private commitNbUrl = 'http://localhost:8080/api/github.com/fullstack-lang/gong/test/go/pushfromfrontnb';
+    private commitNbUrl = 'http://localhost:8080/api/github.com/fullstack-lang/gong/test2/go/pushfromfrontnb';
 
     // observable of the commit nb getter
     public getPushFromFrontNb(): Observable<number> {
