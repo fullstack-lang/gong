@@ -353,6 +353,13 @@ func main() {
 		gong_models.PkgGoPath,
 		*addr)
 
+	gong_models.CodeGeneratorNgPushFromFrontNb(
+		&modelPkg,
+		gong_models.PkgName,
+		gong_models.MatTargetPath,
+		gong_models.PkgGoPath,
+		*addr)
+
 	gong_models.MultiCodeGeneratorNgTable(
 		&modelPkg,
 		gong_models.PkgName,
