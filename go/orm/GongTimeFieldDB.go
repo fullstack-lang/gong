@@ -79,7 +79,7 @@ type GongTimeFieldDBResponse struct {
 	GongTimeFieldDB
 }
 
-// GongTimeFieldWOP is a GongTimeField without pointers
+// GongTimeFieldWOP is a GongTimeField without pointers (WOP is an acronym for "Without Pointers")
 // it holds the same basic fields but pointers are encoded into uint
 type GongTimeFieldWOP struct {
 	ID int
@@ -95,7 +95,6 @@ var GongTimeField_Fields = []string{
 	"ID",
 	"Name",
 }
-
 
 type BackRepoGongTimeFieldStruct struct {
 	// stores GongTimeFieldDB according to their gorm ID
@@ -254,9 +253,8 @@ func (backRepoGongTimeField *BackRepoGongTimeFieldStruct) CommitPhaseTwoInstance
 
 // BackRepoGongTimeField.CheckoutPhaseOne Checkouts all BackRepo instances to the Stage
 //
-// Phase One is the creation of instance in the stage
-//
-// NOTE: the is supposed to have been reset before
+// Phase One will result in having instances on the stage aligned with the back repo
+// pointers are not initialized yet (this is for pahse two)
 //
 func (backRepoGongTimeField *BackRepoGongTimeFieldStruct) CheckoutPhaseOne() (Error error) {
 
@@ -266,9 +264,34 @@ func (backRepoGongTimeField *BackRepoGongTimeFieldStruct) CheckoutPhaseOne() (Er
 		return query.Error
 	}
 
+	// list of instances to be removed
+	// start from the initial map on the stage and remove instances that have been checked out
+	gongtimefieldInstancesToBeRemovedFromTheStage := make(map[*models.GongTimeField]struct{})
+	for key, value := range models.Stage.GongTimeFields {
+		gongtimefieldInstancesToBeRemovedFromTheStage[key] = value
+	}
+
 	// copy orm objects to the the map
 	for _, gongtimefieldDB := range gongtimefieldDBArray {
 		backRepoGongTimeField.CheckoutPhaseOneInstance(&gongtimefieldDB)
+
+		// do not remove this instance from the stage, therefore
+		// remove instance from the list of instances to be be removed from the stage
+		gongtimefield, ok := (*backRepoGongTimeField.Map_GongTimeFieldDBID_GongTimeFieldPtr)[gongtimefieldDB.ID]
+		if ok {
+			delete(gongtimefieldInstancesToBeRemovedFromTheStage, gongtimefield)
+		}
+	}
+
+	// remove from stage and back repo's 3 maps all gongtimefields that are not in the checkout
+	for gongtimefield := range gongtimefieldInstancesToBeRemovedFromTheStage {
+		gongtimefield.Unstage()
+
+		// remove instance from the back repo 3 maps
+		gongtimefieldID := (*backRepoGongTimeField.Map_GongTimeFieldPtr_GongTimeFieldDBID)[gongtimefield]
+		delete((*backRepoGongTimeField.Map_GongTimeFieldPtr_GongTimeFieldDBID), gongtimefield)
+		delete((*backRepoGongTimeField.Map_GongTimeFieldDBID_GongTimeFieldDB), gongtimefieldID)
+		delete((*backRepoGongTimeField.Map_GongTimeFieldDBID_GongTimeFieldPtr), gongtimefieldID)
 	}
 
 	return
@@ -481,7 +504,7 @@ func (backRepoGongTimeField *BackRepoGongTimeFieldStruct) RestorePhaseOne(dirPat
 // to compute new index
 func (backRepoGongTimeField *BackRepoGongTimeFieldStruct) RestorePhaseTwo() {
 
-	for _, gongtimefieldDB := range (*backRepoGongTimeField.Map_GongTimeFieldDBID_GongTimeFieldDB) {
+	for _, gongtimefieldDB := range *backRepoGongTimeField.Map_GongTimeFieldDBID_GongTimeFieldDB {
 
 		// next line of code is to avert unused variable compilation error
 		_ = gongtimefieldDB
@@ -489,7 +512,7 @@ func (backRepoGongTimeField *BackRepoGongTimeFieldStruct) RestorePhaseTwo() {
 		// insertion point for reindexing pointers encoding
 		// This reindex gongtimefield.GongTimeFields
 		if gongtimefieldDB.GongStruct_GongTimeFieldsDBID.Int64 != 0 {
-			gongtimefieldDB.GongStruct_GongTimeFieldsDBID.Int64 = 
+			gongtimefieldDB.GongStruct_GongTimeFieldsDBID.Int64 =
 				int64(BackRepoGongStructid_atBckpTime_newID[uint(gongtimefieldDB.GongStruct_GongTimeFieldsDBID.Int64)])
 		}
 

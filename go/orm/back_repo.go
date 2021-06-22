@@ -36,10 +36,16 @@ type BackRepoStruct struct {
 	BackRepoSliceOfPointerToGongStructField BackRepoSliceOfPointerToGongStructFieldStruct
 
 	CommitNb uint // this ng is updated at the BackRepo level but also at the BackRepo<GongStruct> level
+
+	PushFromFrontNb uint // records increments from push from front
 }
 
 func (backRepo *BackRepoStruct) GetLastCommitNb() uint {
 	return backRepo.CommitNb
+}
+
+func (backRepo *BackRepoStruct) GetLastPushFromFrontNb() uint {
+	return backRepo.PushFromFrontNb
 }
 
 func (backRepo *BackRepoStruct) IncrementCommitNb() uint {
@@ -47,6 +53,11 @@ func (backRepo *BackRepoStruct) IncrementCommitNb() uint {
 		models.Stage.OnInitCommitCallback.BeforeCommit(&models.Stage)
 	}
 	backRepo.CommitNb = backRepo.CommitNb + 1
+	return backRepo.CommitNb
+}
+
+func (backRepo *BackRepoStruct) IncrementPushFromFrontNb() uint {
+	backRepo.PushFromFrontNb = backRepo.PushFromFrontNb + 1
 	return backRepo.CommitNb
 }
 

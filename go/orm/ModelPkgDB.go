@@ -77,7 +77,7 @@ type ModelPkgDBResponse struct {
 	ModelPkgDB
 }
 
-// ModelPkgWOP is a ModelPkg without pointers
+// ModelPkgWOP is a ModelPkg without pointers (WOP is an acronym for "Without Pointers")
 // it holds the same basic fields but pointers are encoded into uint
 type ModelPkgWOP struct {
 	ID int
@@ -96,7 +96,6 @@ var ModelPkg_Fields = []string{
 	"Name",
 	"PkgPath",
 }
-
 
 type BackRepoModelPkgStruct struct {
 	// stores ModelPkgDB according to their gorm ID
@@ -255,9 +254,8 @@ func (backRepoModelPkg *BackRepoModelPkgStruct) CommitPhaseTwoInstance(backRepo 
 
 // BackRepoModelPkg.CheckoutPhaseOne Checkouts all BackRepo instances to the Stage
 //
-// Phase One is the creation of instance in the stage
-//
-// NOTE: the is supposed to have been reset before
+// Phase One will result in having instances on the stage aligned with the back repo
+// pointers are not initialized yet (this is for pahse two)
 //
 func (backRepoModelPkg *BackRepoModelPkgStruct) CheckoutPhaseOne() (Error error) {
 
@@ -267,9 +265,34 @@ func (backRepoModelPkg *BackRepoModelPkgStruct) CheckoutPhaseOne() (Error error)
 		return query.Error
 	}
 
+	// list of instances to be removed
+	// start from the initial map on the stage and remove instances that have been checked out
+	modelpkgInstancesToBeRemovedFromTheStage := make(map[*models.ModelPkg]struct{})
+	for key, value := range models.Stage.ModelPkgs {
+		modelpkgInstancesToBeRemovedFromTheStage[key] = value
+	}
+
 	// copy orm objects to the the map
 	for _, modelpkgDB := range modelpkgDBArray {
 		backRepoModelPkg.CheckoutPhaseOneInstance(&modelpkgDB)
+
+		// do not remove this instance from the stage, therefore
+		// remove instance from the list of instances to be be removed from the stage
+		modelpkg, ok := (*backRepoModelPkg.Map_ModelPkgDBID_ModelPkgPtr)[modelpkgDB.ID]
+		if ok {
+			delete(modelpkgInstancesToBeRemovedFromTheStage, modelpkg)
+		}
+	}
+
+	// remove from stage and back repo's 3 maps all modelpkgs that are not in the checkout
+	for modelpkg := range modelpkgInstancesToBeRemovedFromTheStage {
+		modelpkg.Unstage()
+
+		// remove instance from the back repo 3 maps
+		modelpkgID := (*backRepoModelPkg.Map_ModelPkgPtr_ModelPkgDBID)[modelpkg]
+		delete((*backRepoModelPkg.Map_ModelPkgPtr_ModelPkgDBID), modelpkg)
+		delete((*backRepoModelPkg.Map_ModelPkgDBID_ModelPkgDB), modelpkgID)
+		delete((*backRepoModelPkg.Map_ModelPkgDBID_ModelPkgPtr), modelpkgID)
 	}
 
 	return
@@ -490,7 +513,7 @@ func (backRepoModelPkg *BackRepoModelPkgStruct) RestorePhaseOne(dirPath string) 
 // to compute new index
 func (backRepoModelPkg *BackRepoModelPkgStruct) RestorePhaseTwo() {
 
-	for _, modelpkgDB := range (*backRepoModelPkg.Map_ModelPkgDBID_ModelPkgDB) {
+	for _, modelpkgDB := range *backRepoModelPkg.Map_ModelPkgDBID_ModelPkgDB {
 
 		// next line of code is to avert unused variable compilation error
 		_ = modelpkgDB
