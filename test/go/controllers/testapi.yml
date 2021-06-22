@@ -668,6 +668,11 @@ paths:
           $ref: '#/responses/genericError'
       tags:
       - dclasss
+  /pushfromfrontnb:
+    get:
+      operationId: GetLastPushFromFrontNb
+      tags:
+      - backrepo
 produces:
 - application/json
 responses:

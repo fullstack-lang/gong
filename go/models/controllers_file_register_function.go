@@ -1,7 +1,6 @@
 package models
 
-const ControllersRegisterTemplate = `
-package controllers
+const ControllersRegisterTemplate = `package controllers
 
 import (
 	"fmt"
@@ -13,7 +12,7 @@ import (
 )
 
 // genQuery return the name of the column
-func genQuery( columnName string) string {
+func genQuery(columnName string) string {
 	return fmt.Sprintf("%s = ?", columnName)
 }
 
@@ -24,7 +23,7 @@ func genQuery( columnName string) string {
 type GenericError struct {
 	// in: body
 	Body struct {
-		Code    int32 ` + "`" + `json:"code"` + "`" + `
+		Code    int32  ` + "`" + `json:"code"` + "`" + `
 		Message string ` + "`" + `json:"message"` + "`" + `
 	} ` + "`" + `json:"body"` + "`" + `
 }
@@ -45,9 +44,9 @@ type ValidationError struct {
 // RegisterControllers register controllers
 func RegisterControllers(r *gin.Engine) {
 	v1 := r.Group("/api/{{PkgPathRoot}}")
-	{// insertion point for registrations{{` + string(rune(ControllersDeclaration)) + `}}
-
+	{ // insertion point for registrations{{` + string(rune(ControllersDeclaration)) + `}}
 		v1.GET("/commitnb", GetLastCommitNb)
+		v1.GET("/pushfromfrontnb", GetLastPushFromFrontNb)
 	}
 }
 
@@ -58,6 +57,12 @@ func GetLastCommitNb(c *gin.Context) {
 	c.JSON(http.StatusOK, res)
 }
 
+// swagger:route GET /pushfromfrontnb backrepo GetLastPushFromFrontNb
+func GetLastPushFromFrontNb(c *gin.Context) {
+	res := orm.GetLastPushFromFrontNb()
+
+	c.JSON(http.StatusOK, res)
+}
 `
 
 type ControllersRegistrationsSubTemplateInsertions int
