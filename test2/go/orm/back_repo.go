@@ -81,6 +81,10 @@ func GetLastCommitNb() uint {
 	return BackRepo.GetLastCommitNb()
 }
 
+func GetLastPushFromFrontNb() uint {
+	return BackRepo.GetLastPushFromFrontNb()
+}
+
 // Backup the BackRepoStruct
 func (backRepo *BackRepoStruct) Backup(stage *models.StageStruct, dirPath string) {
 	os.Mkdir(dirPath, os.ModePerm)
@@ -127,7 +131,7 @@ func (backRepo *BackRepoStruct) Restore(stage *models.StageStruct, dirPath strin
 	//
 	// restauration second phase (reindex pointers with the new ID)
 	//
-	
+
 	// insertion point for per struct backup
 	backRepo.BackRepoAclass.RestorePhaseTwo()
 
