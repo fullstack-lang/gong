@@ -1,4 +1,3 @@
-
 package controllers
 
 import (
@@ -11,7 +10,7 @@ import (
 )
 
 // genQuery return the name of the column
-func genQuery( columnName string) string {
+func genQuery(columnName string) string {
 	return fmt.Sprintf("%s = ?", columnName)
 }
 
@@ -22,7 +21,7 @@ func genQuery( columnName string) string {
 type GenericError struct {
 	// in: body
 	Body struct {
-		Code    int32 `json:"code"`
+		Code    int32  `json:"code"`
 		Message string `json:"message"`
 	} `json:"body"`
 }
@@ -43,7 +42,7 @@ type ValidationError struct {
 // RegisterControllers register controllers
 func RegisterControllers(r *gin.Engine) {
 	v1 := r.Group("/api/github.com/fullstack-lang/gong/go")
-	{// insertion point for registrations
+	{ // insertion point for registrations
 		v1.GET("/v1/gongbasicfields", GetGongBasicFields)
 		v1.GET("/v1/gongbasicfields/:id", GetGongBasicField)
 		v1.POST("/v1/gongbasicfields", PostGongBasicField)
@@ -100,8 +99,8 @@ func RegisterControllers(r *gin.Engine) {
 		v1.PUT("/v1/sliceofpointertogongstructfields/:id", UpdateSliceOfPointerToGongStructField)
 		v1.DELETE("/v1/sliceofpointertogongstructfields/:id", DeleteSliceOfPointerToGongStructField)
 
-
 		v1.GET("/commitnb", GetLastCommitNb)
+		v1.GET("/pushfromfrontnb", GetLastPushFromFrontNb)
 	}
 }
 
@@ -112,3 +111,9 @@ func GetLastCommitNb(c *gin.Context) {
 	c.JSON(http.StatusOK, res)
 }
 
+// swagger:route GET /pushfromfrontnb backrepo GetLastPushFromFrontNb
+func GetLastPushFromFrontNb(c *gin.Context) {
+	res := orm.GetLastPushFromFrontNb()
+
+	c.JSON(http.StatusOK, res)
+}

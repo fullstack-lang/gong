@@ -1197,6 +1197,11 @@ paths:
           $ref: '#/responses/genericError'
       tags:
       - pointertogongstructfields
+  /pushfromfrontnb:
+    get:
+      operationId: GetLastPushFromFrontNb
+      tags:
+      - backrepo
   /sliceofpointertogongstructfields:
     get:
       description: Get all sliceofpointertogongstructfields

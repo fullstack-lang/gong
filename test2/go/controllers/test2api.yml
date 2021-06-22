@@ -289,6 +289,11 @@ paths:
       operationId: GetLastCommitNb
       tags:
       - backrepo
+  /pushfromfrontnb:
+    get:
+      operationId: GetLastPushFromFrontNb
+      tags:
+      - backrepo
 produces:
 - application/json
 responses:

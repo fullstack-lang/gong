@@ -62,7 +62,7 @@ func GetLastCommitNb(c *gin.Context) {
 	c.JSON(http.StatusOK, res)
 }
 
-// swagger:route GET /commitnb backrepo GetLastCommitNb
+// swagger:route GET /pushfromfrontnb backrepo GetLastPushFromFrontNb
 func GetLastPushFromFrontNb(c *gin.Context) {
 	res := orm.GetLastPushFromFrontNb()
 
