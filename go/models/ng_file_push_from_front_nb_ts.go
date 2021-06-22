@@ -32,7 +32,7 @@ export class PushFromFrontNbService {
         private http: HttpClient
     ) { }
 
-    private commitNbUrl = 'http://{{addr}}/{{PkgPathRoot}}/commitnb';
+    private commitNbUrl = 'http://{{addr}}/{{PkgPathRoot}}/pushfromfrontnb';
 
     // observable of the commit nb getter
     public getPushFromFrontNb(): Observable<number> {
