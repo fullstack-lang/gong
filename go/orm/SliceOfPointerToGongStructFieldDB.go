@@ -83,7 +83,7 @@ type SliceOfPointerToGongStructFieldDBResponse struct {
 	SliceOfPointerToGongStructFieldDB
 }
 
-// SliceOfPointerToGongStructFieldWOP is a SliceOfPointerToGongStructField without pointers
+// SliceOfPointerToGongStructFieldWOP is a SliceOfPointerToGongStructField without pointers (WOP is an acronym for "Without Pointers")
 // it holds the same basic fields but pointers are encoded into uint
 type SliceOfPointerToGongStructFieldWOP struct {
 	ID int
@@ -99,7 +99,6 @@ var SliceOfPointerToGongStructField_Fields = []string{
 	"ID",
 	"Name",
 }
-
 
 type BackRepoSliceOfPointerToGongStructFieldStruct struct {
 	// stores SliceOfPointerToGongStructFieldDB according to their gorm ID
@@ -266,9 +265,8 @@ func (backRepoSliceOfPointerToGongStructField *BackRepoSliceOfPointerToGongStruc
 
 // BackRepoSliceOfPointerToGongStructField.CheckoutPhaseOne Checkouts all BackRepo instances to the Stage
 //
-// Phase One is the creation of instance in the stage
-//
-// NOTE: the is supposed to have been reset before
+// Phase One will result in having instances on the stage aligned with the back repo
+// pointers are not initialized yet (this is for pahse two)
 //
 func (backRepoSliceOfPointerToGongStructField *BackRepoSliceOfPointerToGongStructFieldStruct) CheckoutPhaseOne() (Error error) {
 
@@ -278,9 +276,34 @@ func (backRepoSliceOfPointerToGongStructField *BackRepoSliceOfPointerToGongStruc
 		return query.Error
 	}
 
+	// list of instances to be removed
+	// start from the initial map on the stage and remove instances that have been checked out
+	sliceofpointertogongstructfieldInstancesToBeRemovedFromTheStage := make(map[*models.SliceOfPointerToGongStructField]struct{})
+	for key, value := range models.Stage.SliceOfPointerToGongStructFields {
+		sliceofpointertogongstructfieldInstancesToBeRemovedFromTheStage[key] = value
+	}
+
 	// copy orm objects to the the map
 	for _, sliceofpointertogongstructfieldDB := range sliceofpointertogongstructfieldDBArray {
 		backRepoSliceOfPointerToGongStructField.CheckoutPhaseOneInstance(&sliceofpointertogongstructfieldDB)
+
+		// do not remove this instance from the stage, therefore
+		// remove instance from the list of instances to be be removed from the stage
+		sliceofpointertogongstructfield, ok := (*backRepoSliceOfPointerToGongStructField.Map_SliceOfPointerToGongStructFieldDBID_SliceOfPointerToGongStructFieldPtr)[sliceofpointertogongstructfieldDB.ID]
+		if ok {
+			delete(sliceofpointertogongstructfieldInstancesToBeRemovedFromTheStage, sliceofpointertogongstructfield)
+		}
+	}
+
+	// remove from stage and back repo's 3 maps all sliceofpointertogongstructfields that are not in the checkout
+	for sliceofpointertogongstructfield := range sliceofpointertogongstructfieldInstancesToBeRemovedFromTheStage {
+		sliceofpointertogongstructfield.Unstage()
+
+		// remove instance from the back repo 3 maps
+		sliceofpointertogongstructfieldID := (*backRepoSliceOfPointerToGongStructField.Map_SliceOfPointerToGongStructFieldPtr_SliceOfPointerToGongStructFieldDBID)[sliceofpointertogongstructfield]
+		delete((*backRepoSliceOfPointerToGongStructField.Map_SliceOfPointerToGongStructFieldPtr_SliceOfPointerToGongStructFieldDBID), sliceofpointertogongstructfield)
+		delete((*backRepoSliceOfPointerToGongStructField.Map_SliceOfPointerToGongStructFieldDBID_SliceOfPointerToGongStructFieldDB), sliceofpointertogongstructfieldID)
+		delete((*backRepoSliceOfPointerToGongStructField.Map_SliceOfPointerToGongStructFieldDBID_SliceOfPointerToGongStructFieldPtr), sliceofpointertogongstructfieldID)
 	}
 
 	return
@@ -497,7 +520,7 @@ func (backRepoSliceOfPointerToGongStructField *BackRepoSliceOfPointerToGongStruc
 // to compute new index
 func (backRepoSliceOfPointerToGongStructField *BackRepoSliceOfPointerToGongStructFieldStruct) RestorePhaseTwo() {
 
-	for _, sliceofpointertogongstructfieldDB := range (*backRepoSliceOfPointerToGongStructField.Map_SliceOfPointerToGongStructFieldDBID_SliceOfPointerToGongStructFieldDB) {
+	for _, sliceofpointertogongstructfieldDB := range *backRepoSliceOfPointerToGongStructField.Map_SliceOfPointerToGongStructFieldDBID_SliceOfPointerToGongStructFieldDB {
 
 		// next line of code is to avert unused variable compilation error
 		_ = sliceofpointertogongstructfieldDB
@@ -510,7 +533,7 @@ func (backRepoSliceOfPointerToGongStructField *BackRepoSliceOfPointerToGongStruc
 
 		// This reindex sliceofpointertogongstructfield.SliceOfPointerToGongStructFields
 		if sliceofpointertogongstructfieldDB.GongStruct_SliceOfPointerToGongStructFieldsDBID.Int64 != 0 {
-			sliceofpointertogongstructfieldDB.GongStruct_SliceOfPointerToGongStructFieldsDBID.Int64 = 
+			sliceofpointertogongstructfieldDB.GongStruct_SliceOfPointerToGongStructFieldsDBID.Int64 =
 				int64(BackRepoGongStructid_atBckpTime_newID[uint(sliceofpointertogongstructfieldDB.GongStruct_SliceOfPointerToGongStructFieldsDBID.Int64)])
 		}
 

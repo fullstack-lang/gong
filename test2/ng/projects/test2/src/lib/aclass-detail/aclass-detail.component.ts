@@ -106,10 +106,14 @@ export class AclassDetailComponent implements OnInit {
 		if (association == undefined) {
 			// insertion point for translation/nullation of each pointers
 			if (this.aclass.Aclass_Anarrayofa_reverse != undefined) {
-				this.aclass.Aclass_AnarrayofaDBID = new NullInt64
+				if (this.aclass.Aclass_AnarrayofaDBID == undefined) {
+					this.aclass.Aclass_AnarrayofaDBID = new NullInt64
+				}
 				this.aclass.Aclass_AnarrayofaDBID.Int64 = this.aclass.Aclass_Anarrayofa_reverse.ID
 				this.aclass.Aclass_AnarrayofaDBID.Valid = true
-				this.aclass.Aclass_AnarrayofaDBID_Index = new NullInt64
+				if (this.aclass.Aclass_AnarrayofaDBID_Index == undefined) {
+					this.aclass.Aclass_AnarrayofaDBID_Index = new NullInt64
+				}
 				this.aclass.Aclass_AnarrayofaDBID_Index.Valid = true
 				this.aclass.Aclass_Anarrayofa_reverse = undefined // very important, otherwise, circular JSON
 			}

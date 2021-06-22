@@ -74,7 +74,7 @@ type GongStructDBResponse struct {
 	GongStructDB
 }
 
-// GongStructWOP is a GongStruct without pointers
+// GongStructWOP is a GongStruct without pointers (WOP is an acronym for "Without Pointers")
 // it holds the same basic fields but pointers are encoded into uint
 type GongStructWOP struct {
 	ID int
@@ -90,7 +90,6 @@ var GongStruct_Fields = []string{
 	"ID",
 	"Name",
 }
-
 
 type BackRepoGongStructStruct struct {
 	// stores GongStructDB according to their gorm ID
@@ -240,7 +239,7 @@ func (backRepoGongStruct *BackRepoGongStructStruct) CommitPhaseTwoInstance(backR
 
 			// get the back repo instance at the association end
 			gongbasicfieldAssocEnd_DB :=
-				backRepo.BackRepoGongBasicField.GetGongBasicFieldDBFromGongBasicFieldPtr( gongbasicfieldAssocEnd)
+				backRepo.BackRepoGongBasicField.GetGongBasicFieldDBFromGongBasicFieldPtr(gongbasicfieldAssocEnd)
 
 			// encode reverse pointer in the association end back repo instance
 			gongbasicfieldAssocEnd_DB.GongStruct_GongBasicFieldsDBID.Int64 = int64(gongstructDB.ID)
@@ -259,7 +258,7 @@ func (backRepoGongStruct *BackRepoGongStructStruct) CommitPhaseTwoInstance(backR
 
 			// get the back repo instance at the association end
 			gongtimefieldAssocEnd_DB :=
-				backRepo.BackRepoGongTimeField.GetGongTimeFieldDBFromGongTimeFieldPtr( gongtimefieldAssocEnd)
+				backRepo.BackRepoGongTimeField.GetGongTimeFieldDBFromGongTimeFieldPtr(gongtimefieldAssocEnd)
 
 			// encode reverse pointer in the association end back repo instance
 			gongtimefieldAssocEnd_DB.GongStruct_GongTimeFieldsDBID.Int64 = int64(gongstructDB.ID)
@@ -278,7 +277,7 @@ func (backRepoGongStruct *BackRepoGongStructStruct) CommitPhaseTwoInstance(backR
 
 			// get the back repo instance at the association end
 			pointertogongstructfieldAssocEnd_DB :=
-				backRepo.BackRepoPointerToGongStructField.GetPointerToGongStructFieldDBFromPointerToGongStructFieldPtr( pointertogongstructfieldAssocEnd)
+				backRepo.BackRepoPointerToGongStructField.GetPointerToGongStructFieldDBFromPointerToGongStructFieldPtr(pointertogongstructfieldAssocEnd)
 
 			// encode reverse pointer in the association end back repo instance
 			pointertogongstructfieldAssocEnd_DB.GongStruct_PointerToGongStructFieldsDBID.Int64 = int64(gongstructDB.ID)
@@ -297,7 +296,7 @@ func (backRepoGongStruct *BackRepoGongStructStruct) CommitPhaseTwoInstance(backR
 
 			// get the back repo instance at the association end
 			sliceofpointertogongstructfieldAssocEnd_DB :=
-				backRepo.BackRepoSliceOfPointerToGongStructField.GetSliceOfPointerToGongStructFieldDBFromSliceOfPointerToGongStructFieldPtr( sliceofpointertogongstructfieldAssocEnd)
+				backRepo.BackRepoSliceOfPointerToGongStructField.GetSliceOfPointerToGongStructFieldDBFromSliceOfPointerToGongStructFieldPtr(sliceofpointertogongstructfieldAssocEnd)
 
 			// encode reverse pointer in the association end back repo instance
 			sliceofpointertogongstructfieldAssocEnd_DB.GongStruct_SliceOfPointerToGongStructFieldsDBID.Int64 = int64(gongstructDB.ID)
@@ -325,9 +324,8 @@ func (backRepoGongStruct *BackRepoGongStructStruct) CommitPhaseTwoInstance(backR
 
 // BackRepoGongStruct.CheckoutPhaseOne Checkouts all BackRepo instances to the Stage
 //
-// Phase One is the creation of instance in the stage
-//
-// NOTE: the is supposed to have been reset before
+// Phase One will result in having instances on the stage aligned with the back repo
+// pointers are not initialized yet (this is for pahse two)
 //
 func (backRepoGongStruct *BackRepoGongStructStruct) CheckoutPhaseOne() (Error error) {
 
@@ -337,9 +335,34 @@ func (backRepoGongStruct *BackRepoGongStructStruct) CheckoutPhaseOne() (Error er
 		return query.Error
 	}
 
+	// list of instances to be removed
+	// start from the initial map on the stage and remove instances that have been checked out
+	gongstructInstancesToBeRemovedFromTheStage := make(map[*models.GongStruct]struct{})
+	for key, value := range models.Stage.GongStructs {
+		gongstructInstancesToBeRemovedFromTheStage[key] = value
+	}
+
 	// copy orm objects to the the map
 	for _, gongstructDB := range gongstructDBArray {
 		backRepoGongStruct.CheckoutPhaseOneInstance(&gongstructDB)
+
+		// do not remove this instance from the stage, therefore
+		// remove instance from the list of instances to be be removed from the stage
+		gongstruct, ok := (*backRepoGongStruct.Map_GongStructDBID_GongStructPtr)[gongstructDB.ID]
+		if ok {
+			delete(gongstructInstancesToBeRemovedFromTheStage, gongstruct)
+		}
+	}
+
+	// remove from stage and back repo's 3 maps all gongstructs that are not in the checkout
+	for gongstruct := range gongstructInstancesToBeRemovedFromTheStage {
+		gongstruct.Unstage()
+
+		// remove instance from the back repo 3 maps
+		gongstructID := (*backRepoGongStruct.Map_GongStructPtr_GongStructDBID)[gongstruct]
+		delete((*backRepoGongStruct.Map_GongStructPtr_GongStructDBID), gongstruct)
+		delete((*backRepoGongStruct.Map_GongStructDBID_GongStructDB), gongstructID)
+		delete((*backRepoGongStruct.Map_GongStructDBID_GongStructPtr), gongstructID)
 	}
 
 	return
@@ -660,7 +683,7 @@ func (backRepoGongStruct *BackRepoGongStructStruct) RestorePhaseOne(dirPath stri
 // to compute new index
 func (backRepoGongStruct *BackRepoGongStructStruct) RestorePhaseTwo() {
 
-	for _, gongstructDB := range (*backRepoGongStruct.Map_GongStructDBID_GongStructDB) {
+	for _, gongstructDB := range *backRepoGongStruct.Map_GongStructDBID_GongStructDB {
 
 		// next line of code is to avert unused variable compilation error
 		_ = gongstructDB

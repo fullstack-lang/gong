@@ -89,7 +89,7 @@ type GongBasicFieldDBResponse struct {
 	GongBasicFieldDB
 }
 
-// GongBasicFieldWOP is a GongBasicField without pointers
+// GongBasicFieldWOP is a GongBasicField without pointers (WOP is an acronym for "Without Pointers")
 // it holds the same basic fields but pointers are encoded into uint
 type GongBasicFieldWOP struct {
 	ID int
@@ -111,7 +111,6 @@ var GongBasicField_Fields = []string{
 	"BasicKindName",
 	"DeclaredType",
 }
-
 
 type BackRepoGongBasicFieldStruct struct {
 	// stores GongBasicFieldDB according to their gorm ID
@@ -278,9 +277,8 @@ func (backRepoGongBasicField *BackRepoGongBasicFieldStruct) CommitPhaseTwoInstan
 
 // BackRepoGongBasicField.CheckoutPhaseOne Checkouts all BackRepo instances to the Stage
 //
-// Phase One is the creation of instance in the stage
-//
-// NOTE: the is supposed to have been reset before
+// Phase One will result in having instances on the stage aligned with the back repo
+// pointers are not initialized yet (this is for pahse two)
 //
 func (backRepoGongBasicField *BackRepoGongBasicFieldStruct) CheckoutPhaseOne() (Error error) {
 
@@ -290,9 +288,34 @@ func (backRepoGongBasicField *BackRepoGongBasicFieldStruct) CheckoutPhaseOne() (
 		return query.Error
 	}
 
+	// list of instances to be removed
+	// start from the initial map on the stage and remove instances that have been checked out
+	gongbasicfieldInstancesToBeRemovedFromTheStage := make(map[*models.GongBasicField]struct{})
+	for key, value := range models.Stage.GongBasicFields {
+		gongbasicfieldInstancesToBeRemovedFromTheStage[key] = value
+	}
+
 	// copy orm objects to the the map
 	for _, gongbasicfieldDB := range gongbasicfieldDBArray {
 		backRepoGongBasicField.CheckoutPhaseOneInstance(&gongbasicfieldDB)
+
+		// do not remove this instance from the stage, therefore
+		// remove instance from the list of instances to be be removed from the stage
+		gongbasicfield, ok := (*backRepoGongBasicField.Map_GongBasicFieldDBID_GongBasicFieldPtr)[gongbasicfieldDB.ID]
+		if ok {
+			delete(gongbasicfieldInstancesToBeRemovedFromTheStage, gongbasicfield)
+		}
+	}
+
+	// remove from stage and back repo's 3 maps all gongbasicfields that are not in the checkout
+	for gongbasicfield := range gongbasicfieldInstancesToBeRemovedFromTheStage {
+		gongbasicfield.Unstage()
+
+		// remove instance from the back repo 3 maps
+		gongbasicfieldID := (*backRepoGongBasicField.Map_GongBasicFieldPtr_GongBasicFieldDBID)[gongbasicfield]
+		delete((*backRepoGongBasicField.Map_GongBasicFieldPtr_GongBasicFieldDBID), gongbasicfield)
+		delete((*backRepoGongBasicField.Map_GongBasicFieldDBID_GongBasicFieldDB), gongbasicfieldID)
+		delete((*backRepoGongBasicField.Map_GongBasicFieldDBID_GongBasicFieldPtr), gongbasicfieldID)
 	}
 
 	return
@@ -525,7 +548,7 @@ func (backRepoGongBasicField *BackRepoGongBasicFieldStruct) RestorePhaseOne(dirP
 // to compute new index
 func (backRepoGongBasicField *BackRepoGongBasicFieldStruct) RestorePhaseTwo() {
 
-	for _, gongbasicfieldDB := range (*backRepoGongBasicField.Map_GongBasicFieldDBID_GongBasicFieldDB) {
+	for _, gongbasicfieldDB := range *backRepoGongBasicField.Map_GongBasicFieldDBID_GongBasicFieldDB {
 
 		// next line of code is to avert unused variable compilation error
 		_ = gongbasicfieldDB
@@ -538,7 +561,7 @@ func (backRepoGongBasicField *BackRepoGongBasicFieldStruct) RestorePhaseTwo() {
 
 		// This reindex gongbasicfield.GongBasicFields
 		if gongbasicfieldDB.GongStruct_GongBasicFieldsDBID.Int64 != 0 {
-			gongbasicfieldDB.GongStruct_GongBasicFieldsDBID.Int64 = 
+			gongbasicfieldDB.GongStruct_GongBasicFieldsDBID.Int64 =
 				int64(BackRepoGongStructid_atBckpTime_newID[uint(gongbasicfieldDB.GongStruct_GongBasicFieldsDBID.Int64)])
 		}
 

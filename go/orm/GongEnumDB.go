@@ -74,7 +74,7 @@ type GongEnumDBResponse struct {
 	GongEnumDB
 }
 
-// GongEnumWOP is a GongEnum without pointers
+// GongEnumWOP is a GongEnum without pointers (WOP is an acronym for "Without Pointers")
 // it holds the same basic fields but pointers are encoded into uint
 type GongEnumWOP struct {
 	ID int
@@ -90,7 +90,6 @@ var GongEnum_Fields = []string{
 	"ID",
 	"Name",
 }
-
 
 type BackRepoGongEnumStruct struct {
 	// stores GongEnumDB according to their gorm ID
@@ -240,7 +239,7 @@ func (backRepoGongEnum *BackRepoGongEnumStruct) CommitPhaseTwoInstance(backRepo 
 
 			// get the back repo instance at the association end
 			gongenumvalueAssocEnd_DB :=
-				backRepo.BackRepoGongEnumValue.GetGongEnumValueDBFromGongEnumValuePtr( gongenumvalueAssocEnd)
+				backRepo.BackRepoGongEnumValue.GetGongEnumValueDBFromGongEnumValuePtr(gongenumvalueAssocEnd)
 
 			// encode reverse pointer in the association end back repo instance
 			gongenumvalueAssocEnd_DB.GongEnum_GongEnumValuesDBID.Int64 = int64(gongenumDB.ID)
@@ -268,9 +267,8 @@ func (backRepoGongEnum *BackRepoGongEnumStruct) CommitPhaseTwoInstance(backRepo 
 
 // BackRepoGongEnum.CheckoutPhaseOne Checkouts all BackRepo instances to the Stage
 //
-// Phase One is the creation of instance in the stage
-//
-// NOTE: the is supposed to have been reset before
+// Phase One will result in having instances on the stage aligned with the back repo
+// pointers are not initialized yet (this is for pahse two)
 //
 func (backRepoGongEnum *BackRepoGongEnumStruct) CheckoutPhaseOne() (Error error) {
 
@@ -280,9 +278,34 @@ func (backRepoGongEnum *BackRepoGongEnumStruct) CheckoutPhaseOne() (Error error)
 		return query.Error
 	}
 
+	// list of instances to be removed
+	// start from the initial map on the stage and remove instances that have been checked out
+	gongenumInstancesToBeRemovedFromTheStage := make(map[*models.GongEnum]struct{})
+	for key, value := range models.Stage.GongEnums {
+		gongenumInstancesToBeRemovedFromTheStage[key] = value
+	}
+
 	// copy orm objects to the the map
 	for _, gongenumDB := range gongenumDBArray {
 		backRepoGongEnum.CheckoutPhaseOneInstance(&gongenumDB)
+
+		// do not remove this instance from the stage, therefore
+		// remove instance from the list of instances to be be removed from the stage
+		gongenum, ok := (*backRepoGongEnum.Map_GongEnumDBID_GongEnumPtr)[gongenumDB.ID]
+		if ok {
+			delete(gongenumInstancesToBeRemovedFromTheStage, gongenum)
+		}
+	}
+
+	// remove from stage and back repo's 3 maps all gongenums that are not in the checkout
+	for gongenum := range gongenumInstancesToBeRemovedFromTheStage {
+		gongenum.Unstage()
+
+		// remove instance from the back repo 3 maps
+		gongenumID := (*backRepoGongEnum.Map_GongEnumPtr_GongEnumDBID)[gongenum]
+		delete((*backRepoGongEnum.Map_GongEnumPtr_GongEnumDBID), gongenum)
+		delete((*backRepoGongEnum.Map_GongEnumDBID_GongEnumDB), gongenumID)
+		delete((*backRepoGongEnum.Map_GongEnumDBID_GongEnumPtr), gongenumID)
 	}
 
 	return
@@ -522,7 +545,7 @@ func (backRepoGongEnum *BackRepoGongEnumStruct) RestorePhaseOne(dirPath string) 
 // to compute new index
 func (backRepoGongEnum *BackRepoGongEnumStruct) RestorePhaseTwo() {
 
-	for _, gongenumDB := range (*backRepoGongEnum.Map_GongEnumDBID_GongEnumDB) {
+	for _, gongenumDB := range *backRepoGongEnum.Map_GongEnumDBID_GongEnumDB {
 
 		// next line of code is to avert unused variable compilation error
 		_ = gongenumDB

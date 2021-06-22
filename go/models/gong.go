@@ -12,28 +12,28 @@ var __member __void
 // StageStruct enables storage of staged instances
 // swagger:ignore
 type StageStruct struct { // insertion point for definition of arrays registering instances
-	GongBasicFields map[*GongBasicField]struct{}
+	GongBasicFields           map[*GongBasicField]struct{}
 	GongBasicFields_mapString map[string]*GongBasicField
 
-	GongEnums map[*GongEnum]struct{}
+	GongEnums           map[*GongEnum]struct{}
 	GongEnums_mapString map[string]*GongEnum
 
-	GongEnumValues map[*GongEnumValue]struct{}
+	GongEnumValues           map[*GongEnumValue]struct{}
 	GongEnumValues_mapString map[string]*GongEnumValue
 
-	GongStructs map[*GongStruct]struct{}
+	GongStructs           map[*GongStruct]struct{}
 	GongStructs_mapString map[string]*GongStruct
 
-	GongTimeFields map[*GongTimeField]struct{}
+	GongTimeFields           map[*GongTimeField]struct{}
 	GongTimeFields_mapString map[string]*GongTimeField
 
-	ModelPkgs map[*ModelPkg]struct{}
+	ModelPkgs           map[*ModelPkg]struct{}
 	ModelPkgs_mapString map[string]*ModelPkg
 
-	PointerToGongStructFields map[*PointerToGongStructField]struct{}
+	PointerToGongStructFields           map[*PointerToGongStructField]struct{}
 	PointerToGongStructFields_mapString map[string]*PointerToGongStructField
 
-	SliceOfPointerToGongStructFields map[*SliceOfPointerToGongStructField]struct{}
+	SliceOfPointerToGongStructFields           map[*SliceOfPointerToGongStructField]struct{}
 	SliceOfPointerToGongStructFields_mapString map[string]*SliceOfPointerToGongStructField
 
 	AllModelsStructCreateCallback AllModelsStructCreateInterface
@@ -75,32 +75,33 @@ type BackRepoInterface interface {
 	CommitSliceOfPointerToGongStructField(sliceofpointertogongstructfield *SliceOfPointerToGongStructField)
 	CheckoutSliceOfPointerToGongStructField(sliceofpointertogongstructfield *SliceOfPointerToGongStructField)
 	GetLastCommitNb() uint
+	GetLastPushFromFrontNb() uint
 }
 
 // swagger:ignore instructs the gong compiler (gongc) to avoid this particular struct
 var Stage StageStruct = StageStruct{ // insertion point for array initiatialisation
-	GongBasicFields: make(map[*GongBasicField]struct{}, 0),
+	GongBasicFields:           make(map[*GongBasicField]struct{}, 0),
 	GongBasicFields_mapString: make(map[string]*GongBasicField, 0),
 
-	GongEnums: make(map[*GongEnum]struct{}, 0),
+	GongEnums:           make(map[*GongEnum]struct{}, 0),
 	GongEnums_mapString: make(map[string]*GongEnum, 0),
 
-	GongEnumValues: make(map[*GongEnumValue]struct{}, 0),
+	GongEnumValues:           make(map[*GongEnumValue]struct{}, 0),
 	GongEnumValues_mapString: make(map[string]*GongEnumValue, 0),
 
-	GongStructs: make(map[*GongStruct]struct{}, 0),
+	GongStructs:           make(map[*GongStruct]struct{}, 0),
 	GongStructs_mapString: make(map[string]*GongStruct, 0),
 
-	GongTimeFields: make(map[*GongTimeField]struct{}, 0),
+	GongTimeFields:           make(map[*GongTimeField]struct{}, 0),
 	GongTimeFields_mapString: make(map[string]*GongTimeField, 0),
 
-	ModelPkgs: make(map[*ModelPkg]struct{}, 0),
+	ModelPkgs:           make(map[*ModelPkg]struct{}, 0),
 	ModelPkgs_mapString: make(map[string]*ModelPkg, 0),
 
-	PointerToGongStructFields: make(map[*PointerToGongStructField]struct{}, 0),
+	PointerToGongStructFields:           make(map[*PointerToGongStructField]struct{}, 0),
 	PointerToGongStructFields_mapString: make(map[string]*PointerToGongStructField, 0),
 
-	SliceOfPointerToGongStructFields: make(map[*SliceOfPointerToGongStructField]struct{}, 0),
+	SliceOfPointerToGongStructFields:           make(map[*SliceOfPointerToGongStructField]struct{}, 0),
 	SliceOfPointerToGongStructFields_mapString: make(map[string]*SliceOfPointerToGongStructField, 0),
 
 	// end of insertion point
@@ -163,7 +164,7 @@ func (stage *StageStruct) getGongBasicFieldOrderedStructWithNameField() []*GongB
 func (gongbasicfield *GongBasicField) Stage() *GongBasicField {
 	Stage.GongBasicFields[gongbasicfield] = __member
 	Stage.GongBasicFields_mapString[gongbasicfield.Name] = gongbasicfield
-	
+
 	return gongbasicfield
 }
 
@@ -265,7 +266,7 @@ func (stage *StageStruct) getGongEnumOrderedStructWithNameField() []*GongEnum {
 func (gongenum *GongEnum) Stage() *GongEnum {
 	Stage.GongEnums[gongenum] = __member
 	Stage.GongEnums_mapString[gongenum.Name] = gongenum
-	
+
 	return gongenum
 }
 
@@ -367,7 +368,7 @@ func (stage *StageStruct) getGongEnumValueOrderedStructWithNameField() []*GongEn
 func (gongenumvalue *GongEnumValue) Stage() *GongEnumValue {
 	Stage.GongEnumValues[gongenumvalue] = __member
 	Stage.GongEnumValues_mapString[gongenumvalue.Name] = gongenumvalue
-	
+
 	return gongenumvalue
 }
 
@@ -469,7 +470,7 @@ func (stage *StageStruct) getGongStructOrderedStructWithNameField() []*GongStruc
 func (gongstruct *GongStruct) Stage() *GongStruct {
 	Stage.GongStructs[gongstruct] = __member
 	Stage.GongStructs_mapString[gongstruct.Name] = gongstruct
-	
+
 	return gongstruct
 }
 
@@ -571,7 +572,7 @@ func (stage *StageStruct) getGongTimeFieldOrderedStructWithNameField() []*GongTi
 func (gongtimefield *GongTimeField) Stage() *GongTimeField {
 	Stage.GongTimeFields[gongtimefield] = __member
 	Stage.GongTimeFields_mapString[gongtimefield.Name] = gongtimefield
-	
+
 	return gongtimefield
 }
 
@@ -673,7 +674,7 @@ func (stage *StageStruct) getModelPkgOrderedStructWithNameField() []*ModelPkg {
 func (modelpkg *ModelPkg) Stage() *ModelPkg {
 	Stage.ModelPkgs[modelpkg] = __member
 	Stage.ModelPkgs_mapString[modelpkg.Name] = modelpkg
-	
+
 	return modelpkg
 }
 
@@ -775,7 +776,7 @@ func (stage *StageStruct) getPointerToGongStructFieldOrderedStructWithNameField(
 func (pointertogongstructfield *PointerToGongStructField) Stage() *PointerToGongStructField {
 	Stage.PointerToGongStructFields[pointertogongstructfield] = __member
 	Stage.PointerToGongStructFields_mapString[pointertogongstructfield.Name] = pointertogongstructfield
-	
+
 	return pointertogongstructfield
 }
 
@@ -877,7 +878,7 @@ func (stage *StageStruct) getSliceOfPointerToGongStructFieldOrderedStructWithNam
 func (sliceofpointertogongstructfield *SliceOfPointerToGongStructField) Stage() *SliceOfPointerToGongStructField {
 	Stage.SliceOfPointerToGongStructFields[sliceofpointertogongstructfield] = __member
 	Stage.SliceOfPointerToGongStructFields_mapString[sliceofpointertogongstructfield.Name] = sliceofpointertogongstructfield
-	
+
 	return sliceofpointertogongstructfield
 }
 

@@ -12,7 +12,7 @@ var __member __void
 // StageStruct enables storage of staged instances
 // swagger:ignore
 type StageStruct struct { // insertion point for definition of arrays registering instances
-	Aclasss map[*Aclass]struct{}
+	Aclasss           map[*Aclass]struct{}
 	Aclasss_mapString map[string]*Aclass
 
 	AllModelsStructCreateCallback AllModelsStructCreateInterface
@@ -40,11 +40,12 @@ type BackRepoInterface interface {
 	CommitAclass(aclass *Aclass)
 	CheckoutAclass(aclass *Aclass)
 	GetLastCommitNb() uint
+	GetLastPushFromFrontNb() uint
 }
 
 // swagger:ignore instructs the gong compiler (gongc) to avoid this particular struct
 var Stage StageStruct = StageStruct{ // insertion point for array initiatialisation
-	Aclasss: make(map[*Aclass]struct{}, 0),
+	Aclasss:           make(map[*Aclass]struct{}, 0),
 	Aclasss_mapString: make(map[string]*Aclass, 0),
 
 	// end of insertion point
@@ -107,7 +108,7 @@ func (stage *StageStruct) getAclassOrderedStructWithNameField() []*Aclass {
 func (aclass *Aclass) Stage() *Aclass {
 	Stage.Aclasss[aclass] = __member
 	Stage.Aclasss_mapString[aclass.Name] = aclass
-	
+
 	return aclass
 }
 
