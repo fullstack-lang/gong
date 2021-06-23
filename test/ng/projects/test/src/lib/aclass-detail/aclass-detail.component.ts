@@ -41,6 +41,9 @@ export class AclassDetailComponent implements OnInit {
 	// front repo
 	frontRepo: FrontRepo
 
+	// this stores the information related to string fields
+	// if false, the field is inputed with an <input ...> form 
+	// if true, it is inputed with a <textarea ...> </textarea>
 	mapFields_displayAsTextArea = new Map<string, boolean>()
 
 	constructor(

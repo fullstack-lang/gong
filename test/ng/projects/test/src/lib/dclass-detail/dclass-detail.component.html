@@ -1,18 +1,29 @@
-<div *ngIf="dclass" class="details">
+<form *ngIf="dclass" class="details">
     <h1 class="details__title">dclass</h1>
     <!-- insertion point for fields specific code -->
-    <!-- -->
-    <div class="details__item">
-        <form>
-            <mat-form-field>
+    <mat-grid-list *ngIf='!isATextArea("Name")' cols="4" rowHeight="6:1">
+        <mat-grid-tile [colspan]="3">
+            <mat-form-field mat-form-field class="detail-full-width">
                 <mat-label>Name</mat-label>
                 <input name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="dclass.Name">
             </mat-form-field>
-        </form>
-    </div>
+        </mat-grid-tile>
+        <mat-grid-tile>
+            <button mat-raised-button (click)="toggleTextArea('Name')">
+                <mat-icon>
+                    expand_more
+                </mat-icon>
+            </button>
+        </mat-grid-tile>
+    </mat-grid-list>
+    <mat-form-field *ngIf='isATextArea("Name")' mat-form-field class="detail-full-width">
+        <mat-label>Name</mat-label>
+        <textarea name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="dclass.Name"></textarea>
+    </mat-form-field>
+
     <div class="details__save">
         <button mat-raised-button color="primary" (click)="save()">
 			Save dclass
 		</button>
     </div>
-</div>
+</form>
