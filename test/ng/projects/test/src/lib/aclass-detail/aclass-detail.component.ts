@@ -41,6 +41,8 @@ export class AclassDetailComponent implements OnInit {
 	// front repo
 	frontRepo: FrontRepo
 
+	mapFields_displayAsTextArea = new Map<string, boolean>()
+
 	constructor(
 		private aclassService: AclassService,
 		private frontRepoService: FrontRepoService,
@@ -99,7 +101,7 @@ export class AclassDetailComponent implements OnInit {
 
 		// some fields needs to be translated into serializable forms
 		// pointers fields, after the translation, are nulled in order to perform serialization
-		
+
 		// insertion point for translation/nullation of each field
 		this.aclass.Booleanfield = this.BooleanfieldFormControl.value
 		this.aclass.Anotherbooleanfield = this.AnotherbooleanfieldFormControl.value
@@ -127,7 +129,7 @@ export class AclassDetailComponent implements OnInit {
 			this.aclass.Anotherassociationtob_2ID.Int64 = 0
 			this.aclass.Anotherassociationtob_2ID.Valid = true
 		}
-		
+
 		// save from the front pointer space to the non pointer space for serialization
 		if (association == undefined) {
 			// insertion point for translation/nullation of each pointers
@@ -222,7 +224,24 @@ export class AclassDetailComponent implements OnInit {
 
 	fillUpNameIfEmpty(event) {
 		if (this.aclass.Name == undefined) {
-			this.aclass.Name = event.value.Name		
+			this.aclass.Name = event.value.Name
+		}
+	}
+
+	toggleTextArea(fieldName: string) {
+		if (this.mapFields_displayAsTextArea.has(fieldName)) {
+			let displayAsTextArea = this.mapFields_displayAsTextArea.get(fieldName)
+			this.mapFields_displayAsTextArea.set(fieldName, !displayAsTextArea)
+		} else {
+			this.mapFields_displayAsTextArea.set(fieldName, true)
+		}
+	}
+
+	isATextArea(fieldName: string): boolean {
+		if (this.mapFields_displayAsTextArea.has(fieldName)) {
+			return this.mapFields_displayAsTextArea.get(fieldName)
+		} else {
+			return false
 		}
 	}
 }
