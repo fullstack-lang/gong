@@ -61,11 +61,11 @@
     <!-- -->
 
 
-    <mat-grid-list cols="4" rowHeight="6:1">
+    <mat-grid-list *ngIf='!isATextArea("CName")' cols="4" rowHeight="6:1">
         <mat-grid-tile [colspan]="3">
             <mat-form-field mat-form-field class="detail-full-width">
                 <mat-label>CName</mat-label>
-                <input *ngIf='isATextArea("CName")' name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="aclass.CName">
+                <input name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="aclass.CName">
             </mat-form-field>
         </mat-grid-tile>
         <mat-grid-tile>
@@ -77,7 +77,10 @@
         </mat-grid-tile>
     </mat-grid-list>
 
-
+    <mat-form-field *ngIf='isATextArea("CName")' mat-form-field class="detail-full-width">
+        <mat-label>CName</mat-label>
+        <textarea name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="aclass.CName"></textarea>
+    </mat-form-field>
     <!-- -->
 
 
