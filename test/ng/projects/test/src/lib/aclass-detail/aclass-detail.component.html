@@ -1,33 +1,37 @@
 <form *ngIf="aclass" class="details">
     <h1 class="details__title">aclass</h1>
     <!-- insertion point for fields specific code -->
-    <!-- -->
-
-
-    <mat-form-field mat-form-field class="detail-full-width">
+    <mat-grid-list *ngIf='!isATextArea("Name")' cols="4" rowHeight="6:1">
+        <mat-grid-tile [colspan]="3">
+            <mat-form-field mat-form-field class="detail-full-width">
+                <mat-label>Name</mat-label>
+                <input name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="aclass.Name">
+            </mat-form-field>
+        </mat-grid-tile>
+        <mat-grid-tile>
+            <button mat-raised-button (click)="toggleTextArea('Name')">
+                <mat-icon>
+                    expand_more
+                </mat-icon>
+            </button>
+        </mat-grid-tile>
+    </mat-grid-list>
+    <mat-form-field *ngIf='isATextArea("Name")' mat-form-field class="detail-full-width">
         <mat-label>Name</mat-label>
-        <input name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="aclass.Name">
+        <textarea name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="aclass.Name"></textarea>
     </mat-form-field>
 
-
     <!-- -->
-
-
-    <mat-form-field mat-form-field class="detail-full-width">
+    <mat-form-field class="detail-full-width">
         <mat-label>Date</mat-label>
         <input name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="aclass.Date">
     </mat-form-field>
 
-
     <!-- -->
-
-
     <mat-checkbox [formControl]="BooleanfieldFormControl">Booleanfield</mat-checkbox>
 
-
     <!-- -->
-
-    <mat-form-field appearance="fill">
+    <mat-form-field appearance="fill" class="detail-full-width">
         <mat-label>Aenum</mat-label>
         <mat-select [(ngModel)]="aclass.Aenum" [ngModelOptions]="{standalone: true}">
             <mat-option *ngFor="let enum of AEnumTypeList" [value]="enum.value">
@@ -37,10 +41,9 @@
     </mat-form-field>
 
     <!-- -->
-
-    <mat-form-field appearance="fill">
+    <mat-form-field appearance="fill" class="detail-full-width">
         <mat-label>Aenum_2</mat-label>
-        <mat-select name="" [(ngModel)]="aclass.Aenum_2" [ngModelOptions]="{standalone: true}">
+        <mat-select [(ngModel)]="aclass.Aenum_2" [ngModelOptions]="{standalone: true}">
             <mat-option *ngFor="let enum of AEnumTypeList" [value]="enum.value">
                 {{enum.viewValue}}
             </mat-option>
@@ -48,18 +51,14 @@
     </mat-form-field>
 
     <!-- -->
-
-    <mat-form-field appearance="fill">
+    <mat-form-field appearance="fill" class="detail-full-width">
         <mat-label>Benum</mat-label>
-        <mat-select name="" [(ngModel)]="aclass.Benum" [ngModelOptions]="{standalone: true}">
+        <mat-select [(ngModel)]="aclass.Benum" [ngModelOptions]="{standalone: true}">
             <mat-option *ngFor="let enum of BEnumTypeList" [value]="enum.value">
                 {{enum.viewValue}}
             </mat-option>
         </mat-select>
     </mat-form-field>
-
-    <!-- -->
-
 
     <mat-grid-list *ngIf='!isATextArea("CName")' cols="4" rowHeight="6:1">
         <mat-grid-tile [colspan]="3">
@@ -76,77 +75,60 @@
             </button>
         </mat-grid-tile>
     </mat-grid-list>
-
     <mat-form-field *ngIf='isATextArea("CName")' mat-form-field class="detail-full-width">
         <mat-label>CName</mat-label>
         <textarea name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="aclass.CName"></textarea>
     </mat-form-field>
+
     <!-- -->
-
-
-    <mat-form-field mat-form-field class="detail-full-width">
+    <mat-form-field class="detail-full-width">
         <mat-label>CFloatfield</mat-label>
-        <input name="" type="number" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="aclass.CFloatfield">
+        <input type="number" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="aclass.CFloatfield" [ngModelOptions]="{standalone: true}">
     </mat-form-field>
 
-
     <!-- -->
-
-
-    <mat-form-field mat-form-field class="detail-full-width">
+    <mat-form-field class="detail-full-width">
         <mat-label>Floatfield</mat-label>
-        <input name="" type="number" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="aclass.Floatfield">
+        <input type="number" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="aclass.Floatfield" [ngModelOptions]="{standalone: true}">
     </mat-form-field>
 
-
     <!-- -->
-
-
-    <mat-form-field mat-form-field class="detail-full-width">
+    <mat-form-field class="detail-full-width">
         <mat-label>Intfield</mat-label>
-        <input name="" type="number" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="aclass.Intfield">
+        <input type="number" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="aclass.Intfield" [ngModelOptions]="{standalone: true}">
     </mat-form-field>
 
-
     <!-- -->
-
-
     <mat-checkbox [formControl]="AnotherbooleanfieldFormControl">Anotherbooleanfield</mat-checkbox>
 
-
     <!-- -->
-
     <mat-grid-list cols="3" rowHeight="4:1">
         <mat-grid-tile>
-
             <mat-form-field class="details_hours_width">
                 <mat-label>Duration1 Hours</mat-label>
-                <input name="" type="number" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="Duration1_Hours">
+                <input type="number" [ngModelOptions]="{standalone: true}" matInput
+                    [(ngModel)]="Duration1_Hours">
             </mat-form-field>
-
         </mat-grid-tile>
         <mat-grid-tile>
-
             <mat-form-field class="details_minutes_width">
                 <mat-label>Duration1 Minutes</mat-label>
-                <input name="" type="number" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="Duration1_Minutes">
+                <input type="number" [ngModelOptions]="{standalone: true}" matInput
+                    [(ngModel)]="Duration1_Minutes">
             </mat-form-field>
-
         </mat-grid-tile>
         <mat-grid-tile>
-
             <mat-form-field class="details_seconds_width">
                 <mat-label>Duration1 Seconds</mat-label>
-                <input name="" type="number" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="Duration1_Seconds">
+                <input type="number" [ngModelOptions]="{standalone: true}" matInput
+                    [(ngModel)]="Duration1_Seconds">
             </mat-form-field>
-
         </mat-grid-tile>
     </mat-grid-list>
 
-
-    <mat-form-field mat-form-field class="detail-full-width">
+    <mat-form-field class="detail-full-width">
         <mat-label>Associationtob</mat-label>
-        <mat-select [(ngModel)]="aclass.Associationtob" (selectionChange)="fillUpNameIfEmpty($event)" [ngModelOptions]="{standalone: true}">
+        <mat-select [(value)]="aclass.Associationtob" (selectionChange)="fillUpNameIfEmpty($event)">
             <mat-option>None</mat-option>
             <mat-option *ngFor="let bclass of frontRepo.Bclasss_array" [value]="bclass">
                 {{bclass.Name}}
@@ -154,10 +136,9 @@
         </mat-select>
     </mat-form-field>
 
-
-    <mat-form-field mat-form-field class="detail-full-width">
+    <mat-form-field class="detail-full-width">
         <mat-label>Anotherassociationtob_2</mat-label>
-        <mat-select [(ngModel)]="aclass.Anotherassociationtob_2" (selectionChange)="fillUpNameIfEmpty($event)" [ngModelOptions]="{standalone: true}">
+        <mat-select [(value)]="aclass.Anotherassociationtob_2" (selectionChange)="fillUpNameIfEmpty($event)">
             <mat-option>None</mat-option>
             <mat-option *ngFor="let bclass of frontRepo.Bclasss_array" [value]="bclass">
                 {{bclass.Name}}
@@ -165,26 +146,28 @@
         </mat-select>
     </mat-form-field>
 
-    <mat-grid-list cols="4" rowHeight="6:1">
-        <mat-grid-tile [colspan]="3">
-
-            <button style="width: 90%;" mat-raised-button (click)="openReverseSelection('Bclass', 'Aclass_AnarrayofbDBID')">Anarrayofb</button>
-
+    <mat-grid-list cols="2" rowHeight="6:1">
+        <mat-grid-tile>
+            <div style="width: 100vw; text-align: right;">
+                <button mat-raised-button
+                    (click)="openReverseSelection('Bclass', 'Aclass_AnarrayofbDBID')">Anarrayofb</button>
+            </div>
         </mat-grid-tile>
         <mat-grid-tile>
-
-            <button style="width: 90%;" mat-raised-button (click)="openDragAndDropOrdering('Bclass', 'Aclass_AnarrayofbDBID')">
-                <mat-icon>
-                    shuffle
-                </mat-icon>
-            </button>
-
+            <div style="width: 100vw; text-align: left;">
+                <button mat-raised-button (click)="openDragAndDropOrdering('Bclass', 'Aclass_AnarrayofbDBID')">
+                    <mat-icon>
+                        shuffle
+                    </mat-icon>
+                </button>
+            </div>
         </mat-grid-tile>
     </mat-grid-list>
     <mat-grid-list cols="2" rowHeight="6:1">
         <mat-grid-tile>
             <div style="width: 100vw; text-align: right;">
-                <button mat-raised-button (click)="openReverseSelection('Bclass', 'Aclass_AnotherarrayofbDBID')">Anotherarrayofb</button>
+                <button mat-raised-button
+                    (click)="openReverseSelection('Bclass', 'Aclass_AnotherarrayofbDBID')">Anotherarrayofb</button>
             </div>
         </mat-grid-tile>
         <mat-grid-tile>
@@ -200,7 +183,8 @@
     <mat-grid-list cols="2" rowHeight="6:1">
         <mat-grid-tile>
             <div style="width: 100vw; text-align: right;">
-                <button mat-raised-button (click)="openReverseSelection('Aclass', 'Aclass_AnarrayofaDBID')">Anarrayofa</button>
+                <button mat-raised-button
+                    (click)="openReverseSelection('Aclass', 'Aclass_AnarrayofaDBID')">Anarrayofa</button>
             </div>
         </mat-grid-tile>
         <mat-grid-tile>
@@ -213,21 +197,18 @@
             </div>
         </mat-grid-tile>
     </mat-grid-list>
-
-    <mat-form-field mat-form-field class="detail-full-width">
-        <mat-label>
-            <- Anarrayofa</mat-label>
-                <mat-select [(ngModel)]="aclass.Aclass_Anarrayofa_reverse" [ngModelOptions]="{standalone: true}">
-                    <mat-option>None</mat-option>
-                    <mat-option *ngFor="let aclass of frontRepo.Aclasss_array" [value]="aclass">
-                        {{aclass.Name}}
-                    </mat-option>
-                </mat-select>
+    <mat-form-field class="detail-full-width">
+        <mat-label><- Anarrayofa</mat-label>
+        <mat-select [(ngModel)]="aclass.Aclass_Anarrayofa_reverse" [ngModelOptions]="{standalone: true}">
+            <mat-option>None</mat-option>
+            <mat-option *ngFor="let aclass of frontRepo.Aclasss_array" [value]="aclass">
+                {{aclass.Name}}
+            </mat-option>
+        </mat-select>
     </mat-form-field>
-
     <div class="details__save">
         <button mat-raised-button color="primary" (click)="save()">
-            Save aclass
-        </button>
+			Save aclass
+		</button>
     </div>
 </form>
