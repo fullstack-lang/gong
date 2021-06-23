@@ -461,13 +461,18 @@ func MultiCodeGeneratorNgDetail(
 						switch gongBasicField.basicKind {
 						case types.Int, types.Int64, types.Float64:
 							TypeInput = "type=\"number\" [ngModelOptions]=\"{standalone: true}\""
+							HtmlInsertions[NgDetailHtmlInsertionPerStructFields] +=
+								Replace2(NgDetailHtmlSubTemplateCode[NgDetailHtmlBasicField],
+									"{{FieldName}}", gongBasicField.Name,
+									"{{TypeInput}}", TypeInput)
 						case types.String:
 							TypeInput = "name=\"\" [ngModelOptions]=\"{standalone: true}\""
+							HtmlInsertions[NgDetailHtmlInsertionPerStructFields] +=
+								Replace2(NgDetailHtmlSubTemplateCode[NgDetailHtmlBasicStringField],
+									"{{FieldName}}", gongBasicField.Name,
+									"{{TypeInput}}", TypeInput)
 						}
-						HtmlInsertions[NgDetailHtmlInsertionPerStructFields] +=
-							Replace2(NgDetailHtmlSubTemplateCode[NgDetailHtmlBasicField],
-								"{{FieldName}}", gongBasicField.Name,
-								"{{TypeInput}}", TypeInput)
+
 					} else {
 						HtmlInsertions[NgDetailHtmlInsertionPerStructFields] +=
 							Replace1(NgDetailHtmlSubTemplateCode[NgDetailHtmlTimeDuration],

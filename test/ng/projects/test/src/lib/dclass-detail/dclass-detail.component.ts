@@ -32,6 +32,11 @@ export class DclassDetailComponent implements OnInit {
 	// front repo
 	frontRepo: FrontRepo
 
+	// this stores the information related to string fields
+	// if false, the field is inputed with an <input ...> form 
+	// if true, it is inputed with a <textarea ...> </textarea>
+	mapFields_displayAsTextArea = new Map<string, boolean>()
+
 	constructor(
 		private dclassService: DclassService,
 		private frontRepoService: FrontRepoService,
@@ -82,9 +87,9 @@ export class DclassDetailComponent implements OnInit {
 
 		// some fields needs to be translated into serializable forms
 		// pointers fields, after the translation, are nulled in order to perform serialization
-		
+
 		// insertion point for translation/nullation of each field
-		
+
 		// save from the front pointer space to the non pointer space for serialization
 		if (association == undefined) {
 			// insertion point for translation/nullation of each pointers
@@ -160,7 +165,24 @@ export class DclassDetailComponent implements OnInit {
 
 	fillUpNameIfEmpty(event) {
 		if (this.dclass.Name == undefined) {
-			this.dclass.Name = event.value.Name		
+			this.dclass.Name = event.value.Name
+		}
+	}
+
+	toggleTextArea(fieldName: string) {
+		if (this.mapFields_displayAsTextArea.has(fieldName)) {
+			let displayAsTextArea = this.mapFields_displayAsTextArea.get(fieldName)
+			this.mapFields_displayAsTextArea.set(fieldName, !displayAsTextArea)
+		} else {
+			this.mapFields_displayAsTextArea.set(fieldName, true)
+		}
+	}
+
+	isATextArea(fieldName: string): boolean {
+		if (this.mapFields_displayAsTextArea.has(fieldName)) {
+			return this.mapFields_displayAsTextArea.get(fieldName)
+		} else {
+			return false
 		}
 	}
 }
