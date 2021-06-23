@@ -1,6 +1,6 @@
 package models
 
-const NgDetailTemplateHTML = `<div *ngIf="{{structname}}" class="details">
+const NgDetailTemplateHTML = `<form *ngIf="{{structname}}" class="details">
     <h1 class="details__title">{{structname}}</h1>
     <!-- insertion point for fields specific code -->{{` + string(rune(NgDetailHtmlInsertionPerStructFields)) + `}}
     <div class="details__save">
@@ -8,7 +8,7 @@ const NgDetailTemplateHTML = `<div *ngIf="{{structname}}" class="details">
 			Save {{structname}}
 		</button>
     </div>
-</div>`
+</form>`
 
 type NgDetailHtmlInsertionPoint int
 
@@ -25,6 +25,7 @@ type NgDetailHtmlSubTemplate int
 const (
 	NgDetailHtmlEnum NgDetailHtmlSubTemplate = iota
 	NgDetailHtmlBasicField
+	NgDetailHtmlBasicStringField
 	NgDetailHtmlTimeField
 	NgDetailHtmlBool
 	NgDetailHtmlTimeDuration
@@ -36,93 +37,96 @@ const (
 var NgDetailHtmlSubTemplateCode map[NgDetailHtmlSubTemplate]string = map[NgDetailHtmlSubTemplate]string{
 	NgDetailHtmlEnum: `
     <!-- -->
-    <div class="details__item">
-        <mat-form-field appearance="fill">
-            <mat-label>{{FieldName}}</mat-label>
-            <mat-select [(ngModel)]="{{structname}}.{{FieldName}}">
-                <mat-option *ngFor="let enum of {{EnumName}}List" [value]="enum.value">
-                    {{enum.viewValue}}
-                </mat-option>
-            </mat-select>
-        </mat-form-field>
-    </div>`,
+    <mat-form-field appearance="fill" class="detail-full-width">
+        <mat-label>{{FieldName}}</mat-label>
+        <mat-select [(ngModel)]="{{structname}}.{{FieldName}}" [ngModelOptions]="{standalone: true}">
+            <mat-option *ngFor="let enum of {{EnumName}}List" [value]="enum.value">
+                {{enum.viewValue}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+`,
 
 	NgDetailHtmlBasicField: `
     <!-- -->
-    <div class="details__item">
-        <form>
-            <mat-form-field>
-                <mat-label>{{FieldName}}</mat-label>
-                <input {{TypeInput}} matInput [(ngModel)]="{{structname}}.{{FieldName}}">
-            </mat-form-field>
-        </form>
-    </div>`,
+    <mat-form-field class="detail-full-width">
+        <mat-label>{{FieldName}}</mat-label>
+        <input {{TypeInput}} matInput [(ngModel)]="{{structname}}.{{FieldName}}" [ngModelOptions]="{standalone: true}">
+    </mat-form-field>
+`,
 
-	NgDetailHtmlTimeField: `
-    <!-- -->
-    <div class="details__item">
-        <form>
-            <mat-form-field>
+	NgDetailHtmlBasicStringField: `
+    <mat-grid-list *ngIf='!isATextArea("{{FieldName}}")' cols="4" rowHeight="6:1">
+        <mat-grid-tile [colspan]="3">
+            <mat-form-field mat-form-field class="detail-full-width">
                 <mat-label>{{FieldName}}</mat-label>
                 <input name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="{{structname}}.{{FieldName}}">
             </mat-form-field>
-        </form>
-    </div>`,
+        </mat-grid-tile>
+        <mat-grid-tile>
+            <button mat-raised-button (click)="toggleTextArea('{{FieldName}}')">
+                <mat-icon>
+                    expand_more
+                </mat-icon>
+            </button>
+        </mat-grid-tile>
+    </mat-grid-list>
+    <mat-form-field *ngIf='isATextArea("{{FieldName}}")' mat-form-field class="detail-full-width">
+        <mat-label>{{FieldName}}</mat-label>
+        <textarea name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="{{structname}}.{{FieldName}}"></textarea>
+    </mat-form-field>
+`,
+	NgDetailHtmlTimeField: `
+    <!-- -->
+    <mat-form-field class="detail-full-width">
+        <mat-label>{{FieldName}}</mat-label>
+        <input name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="{{structname}}.{{FieldName}}">
+    </mat-form-field>
+`,
 
 	NgDetailHtmlBool: `
     <!-- -->
-    <div class="details__item">
-        <form>
-            <mat-checkbox [formControl]="{{FieldName}}FormControl">{{FieldName}}</mat-checkbox>
-        </form>
-    </div>`,
+    <mat-checkbox [formControl]="{{FieldName}}FormControl">{{FieldName}}</mat-checkbox>
+`,
 
 	NgDetailHtmlTimeDuration: `
     <!-- -->
-    <div class="details__item">
-        <mat-grid-list cols="3" rowHeight="4:1">
-            <mat-grid-tile>
-                <form>
-                    <mat-form-field class="details_hours_width">
-                        <mat-label>{{FieldName}} Hours</mat-label>
-                        <input type="number" [ngModelOptions]="{standalone: true}" matInput
-                            [(ngModel)]="{{FieldName}}_Hours">
-                    </mat-form-field>
-                </form>
-            </mat-grid-tile>
-            <mat-grid-tile>
-                <form>
-                    <mat-form-field class="details_minutes_width">
-                        <mat-label>{{FieldName}} Minutes</mat-label>
-                        <input type="number" [ngModelOptions]="{standalone: true}" matInput
-                            [(ngModel)]="{{FieldName}}_Minutes">
-                    </mat-form-field>
-                </form>
-            </mat-grid-tile>
-            <mat-grid-tile>
-                <form>
-                    <mat-form-field class="details_seconds_width">
-                        <mat-label>{{FieldName}} Seconds</mat-label>
-                        <input type="number" [ngModelOptions]="{standalone: true}" matInput
-                            [(ngModel)]="{{FieldName}}_Seconds">
-                    </mat-form-field>
-                </form>
-            </mat-grid-tile>
-        </mat-grid-list>
-    </div>`,
+    <mat-grid-list cols="3" rowHeight="4:1">
+        <mat-grid-tile>
+            <mat-form-field class="details_hours_width">
+                <mat-label>{{FieldName}} Hours</mat-label>
+                <input type="number" [ngModelOptions]="{standalone: true}" matInput
+                    [(ngModel)]="{{FieldName}}_Hours">
+            </mat-form-field>
+        </mat-grid-tile>
+        <mat-grid-tile>
+            <mat-form-field class="details_minutes_width">
+                <mat-label>{{FieldName}} Minutes</mat-label>
+                <input type="number" [ngModelOptions]="{standalone: true}" matInput
+                    [(ngModel)]="{{FieldName}}_Minutes">
+            </mat-form-field>
+        </mat-grid-tile>
+        <mat-grid-tile>
+            <mat-form-field class="details_seconds_width">
+                <mat-label>{{FieldName}} Seconds</mat-label>
+                <input type="number" [ngModelOptions]="{standalone: true}" matInput
+                    [(ngModel)]="{{FieldName}}_Seconds">
+            </mat-form-field>
+        </mat-grid-tile>
+    </mat-grid-list>
+`,
 
 	NgDetailPointerToStructHtmlFormField: `
-    <div class="details__item">
-        <mat-form-field>
-            <mat-label>{{FieldName}}</mat-label>
-            <mat-select [(ngModel)]="{{structname}}.{{FieldName}}" (selectionChange)="fillUpNameIfEmpty($event)">
-                <mat-option>None</mat-option>
-                <mat-option *ngFor="let {{assocStructName}} of frontRepo.{{AssocStructName}}s_array" [value]="{{assocStructName}}">
-                    {{{{assocStructName}}.Name}}
-                </mat-option>
-            </mat-select>
-        </mat-form-field>
-    </div>`,
+    <mat-form-field class="detail-full-width">
+        <mat-label>{{FieldName}}</mat-label>
+        <mat-select [(value)]="{{structname}}.{{FieldName}}" (selectionChange)="fillUpNameIfEmpty($event)">
+            <mat-option>None</mat-option>
+            <mat-option *ngFor="let {{assocStructName}} of frontRepo.{{AssocStructName}}s_array" [value]="{{assocStructName}}">
+                {{{{assocStructName}}.Name}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+`,
 
 	NgDetailSliceOfPointerToStructHtml: `
     <mat-grid-list cols="2" rowHeight="6:1">
@@ -144,15 +148,13 @@ var NgDetailHtmlSubTemplateCode map[NgDetailHtmlSubTemplate]string = map[NgDetai
     </mat-grid-list>`,
 
 	NgDetailSliceOfPointerToStructReverseHtml: `
-    <div class="details__item">
-    <mat-form-field>
+    <mat-form-field class="detail-full-width">
         <mat-label><- {{FieldName}}</mat-label>
-        <mat-select [(ngModel)]="{{structname}}.{{AssocStructName}}_{{FieldName}}_reverse">
+        <mat-select [(ngModel)]="{{structname}}.{{AssocStructName}}_{{FieldName}}_reverse" [ngModelOptions]="{standalone: true}">
             <mat-option>None</mat-option>
             <mat-option *ngFor="let {{assocStructName}} of frontRepo.{{AssocStructName}}s_array" [value]="{{assocStructName}}">
                 {{{{assocStructName}}.Name}}
             </mat-option>
         </mat-select>
-    </mat-form-field>
-</div>`,
+    </mat-form-field>`,
 }
