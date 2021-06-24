@@ -72,6 +72,8 @@ export class AclassDetailComponent implements OnInit {
 		this.BEnumTypeList = BEnumTypeList
 	}
 
+	Bclasss_array_IDs = new Array<number>()
+
 	getAclass(): void {
 		const id = +this.route.snapshot.paramMap.get('id');
 		const association = this.route.snapshot.paramMap.get('association');
@@ -83,6 +85,10 @@ export class AclassDetailComponent implements OnInit {
 					this.aclass = frontRepo.Aclasss.get(id)
 				} else {
 					this.aclass = new (AclassDB)
+				}
+
+				for (let bclass of this.frontRepo.Bclasss_array) {
+					this.Bclasss_array_IDs.push( bclass.ID)
 				}
 
 				// insertion point for recovery of form controls value for bool fields

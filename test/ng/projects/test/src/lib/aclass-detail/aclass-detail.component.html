@@ -128,10 +128,10 @@
 
     <mat-form-field class="detail-full-width">
         <mat-label>Associationtob</mat-label>
-        <mat-select [(value)]="aclass.Associationtob" (selectionChange)="fillUpNameIfEmpty($event)">
+        <mat-select [(value)]="aclass.Associationtob.ID" (selectionChange)="fillUpNameIfEmpty($event)">
             <mat-option>None</mat-option>
-            <mat-option *ngFor="let bclass of frontRepo.Bclasss_array" [value]="bclass">
-                {{bclass.Name}}
+            <mat-option *ngFor="let bclassID of Bclasss_array_IDs" [value]="bclassID">
+                {{frontRepo.Bclasss.get(bclassID).Name}}
             </mat-option>
         </mat-select>
     </mat-form-field>
