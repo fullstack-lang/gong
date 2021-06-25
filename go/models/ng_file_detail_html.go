@@ -119,7 +119,7 @@ var NgDetailHtmlSubTemplateCode map[NgDetailHtmlSubTemplate]string = map[NgDetai
 	NgDetailPointerToStructHtmlFormField: `
     <mat-form-field class="detail-full-width">
         <mat-label>{{FieldName}}</mat-label>
-        <mat-select [(value)]="{{structname}}.{{FieldName}}" (selectionChange)="fillUpNameIfEmpty($event)">
+        <mat-select [compareWith]="compareObjects" [(value)]="{{structname}}.{{FieldName}}" (selectionChange)="fillUpNameIfEmpty($event)">
             <mat-option>None</mat-option>
             <mat-option *ngFor="let {{assocStructName}} of frontRepo.{{AssocStructName}}s_array" [value]="{{assocStructName}}">
                 {{{{assocStructName}}.Name}}
@@ -150,7 +150,7 @@ var NgDetailHtmlSubTemplateCode map[NgDetailHtmlSubTemplate]string = map[NgDetai
 	NgDetailSliceOfPointerToStructReverseHtml: `
     <mat-form-field class="detail-full-width">
         <mat-label><- {{FieldName}}</mat-label>
-        <mat-select [(ngModel)]="{{structname}}.{{AssocStructName}}_{{FieldName}}_reverse" [ngModelOptions]="{standalone: true}">
+        <mat-select [compareWith]="compareObjects" [(ngModel)]="{{structname}}.{{AssocStructName}}_{{FieldName}}_reverse" [ngModelOptions]="{standalone: true}">
             <mat-option>None</mat-option>
             <mat-option *ngFor="let {{assocStructName}} of frontRepo.{{AssocStructName}}s_array" [value]="{{assocStructName}}">
                 {{{{assocStructName}}.Name}}
