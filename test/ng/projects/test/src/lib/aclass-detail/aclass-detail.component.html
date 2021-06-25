@@ -128,7 +128,7 @@
 
     <mat-form-field class="detail-full-width">
         <mat-label>Associationtob</mat-label>
-        <mat-select [(value)]="aclass.Associationtob" (selectionChange)="fillUpNameIfEmpty($event)">
+        <mat-select [compareWith]="compareObjects" [(value)]="aclass.Associationtob" (selectionChange)="fillUpNameIfEmpty($event)">
             <mat-option>None</mat-option>
             <mat-option *ngFor="let bclass of frontRepo.Bclasss_array" [value]="bclass">
                 {{bclass.Name}}
@@ -138,7 +138,7 @@
 
     <mat-form-field class="detail-full-width">
         <mat-label>Anotherassociationtob_2</mat-label>
-        <mat-select [(value)]="aclass.Anotherassociationtob_2" (selectionChange)="fillUpNameIfEmpty($event)">
+        <mat-select [compareWith]="compareObjects" [(value)]="aclass.Anotherassociationtob_2" (selectionChange)="fillUpNameIfEmpty($event)">
             <mat-option>None</mat-option>
             <mat-option *ngFor="let bclass of frontRepo.Bclasss_array" [value]="bclass">
                 {{bclass.Name}}
@@ -199,7 +199,7 @@
     </mat-grid-list>
     <mat-form-field class="detail-full-width">
         <mat-label><- Anarrayofa</mat-label>
-        <mat-select [(ngModel)]="aclass.Aclass_Anarrayofa_reverse" [ngModelOptions]="{standalone: true}">
+        <mat-select [compareWith]="compareObjects" [(ngModel)]="aclass.Aclass_Anarrayofa_reverse" [ngModelOptions]="{standalone: true}">
             <mat-option>None</mat-option>
             <mat-option *ngFor="let aclass of frontRepo.Aclasss_array" [value]="aclass">
                 {{aclass.Name}}

@@ -185,4 +185,13 @@ export class DclassDetailComponent implements OnInit {
 			return false
 		}
 	}
+
+	compareObjects(o1: any, o2: any) {
+		if (o1?.ID == o2?.ID) {
+			return true;
+		}
+		else {
+			return false
+		}
+	}
 }
