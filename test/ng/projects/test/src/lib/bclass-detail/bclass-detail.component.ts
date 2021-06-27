@@ -22,8 +22,11 @@ import { NullInt64 } from '../front-repo.service'
 enum BclassDetailComponentState {
 	CREATE_INSTANCE,
 	UPDATE_INSTANCE,
-	CREATE_INSTANCE_WITH_ASSOCIATION_Aclass_Anarrayofb_SET
+	// insertion point for declarations of enum values of state
+	CREATE_INSTANCE_WITH_ASSOCIATION_Aclass_Anarrayofb_SET,
+	CREATE_INSTANCE_WITH_ASSOCIATION_Aclass_Anotherarrayofb_SET,
 }
+
 @Component({
 	selector: 'app-bclass-detail',
 	templateUrl: './bclass-detail.component.html',
@@ -44,10 +47,14 @@ export class BclassDetailComponent implements OnInit {
 	// if true, it is inputed with a <textarea ...> </textarea>
 	mapFields_displayAsTextArea = new Map<string, boolean>()
 
-	// the state at initialization
+	// the state at initialization (CREATION, UPDATE or CREATE with one association set)
 	state: BclassDetailComponentState
 
+	// in UDPATE state, if is the id of the instance to update
+	// in CREATE state with one association set, this is the id of the associated instance
 	id: number
+
+	// in CREATE state with one association set, this is the id of the associated instance
 	originStruct: string
 	originStructFieldName: string
 
@@ -58,9 +65,6 @@ export class BclassDetailComponent implements OnInit {
 		private route: ActivatedRoute,
 		private router: Router,
 	) {
-
-		// the detail component can be called from different routes (parameters).
-		// therefore, a different initialization is required
 	}
 
 	ngOnInit(): void {
@@ -75,15 +79,20 @@ export class BclassDetailComponent implements OnInit {
 			this.state = BclassDetailComponentState.CREATE_INSTANCE
 		} else {
 			if (this.originStruct == undefined) {
-				this.state - BclassDetailComponentState.UPDATE_INSTANCE
+				this.state = BclassDetailComponentState.UPDATE_INSTANCE
 			} else {
 				switch (this.originStructFieldName) {
+					// insertion point for state computation
 					case "Anarrayofb":
 						console.log("Bclass" + " is instanciated with back pointer to instance " + this.id + " Aclass association Anarrayofb")
 						this.state = BclassDetailComponentState.CREATE_INSTANCE_WITH_ASSOCIATION_Aclass_Anarrayofb_SET
 						break;
+					case "Anotherarrayofb":
+						console.log("Bclass" + " is instanciated with back pointer to instance " + this.id + " Aclass association Anotherarrayofb")
+						this.state = BclassDetailComponentState.CREATE_INSTANCE_WITH_ASSOCIATION_Aclass_Anotherarrayofb_SET
+						break;
 					default:
-						console.log(association + " is unkown association")
+						console.log(this.originStructFieldName + " is unkown association")
 				}
 			}
 		}
@@ -103,8 +112,6 @@ export class BclassDetailComponent implements OnInit {
 	}
 
 	getBclass(): void {
-		const id = +this.route.snapshot.paramMap.get('id');
-		const association = this.route.snapshot.paramMap.get('association');
 
 		this.frontRepoService.pull().subscribe(
 			frontRepo => {
@@ -115,26 +122,38 @@ export class BclassDetailComponent implements OnInit {
 						this.bclass = new (BclassDB)
 						break;
 					case BclassDetailComponentState.UPDATE_INSTANCE:
-						this.bclass = frontRepo.Bclasss.get(id)
+						this.bclass = frontRepo.Bclasss.get(this.id)
 						break;
+					// insertion point for init of association field
 					case BclassDetailComponentState.CREATE_INSTANCE_WITH_ASSOCIATION_Aclass_Anarrayofb_SET:
 						this.bclass = new (BclassDB)
-						this.bclass.Aclass_Anarrayofb_reverse = frontRepo.Aclasss.get(id)
+						this.bclass.Aclass_Anarrayofb_reverse = frontRepo.Aclasss.get(this.id)
+						break;
+					case BclassDetailComponentState.CREATE_INSTANCE_WITH_ASSOCIATION_Aclass_Anotherarrayofb_SET:
+						this.bclass = new (BclassDB)
+						this.bclass.Aclass_Anotherarrayofb_reverse = frontRepo.Aclasss.get(this.id)
+						break;
+					default:
+						console.log(this.state + " is unkown state")
 				}
 
 				// insertion point for recovery of form controls value for bool fields
 			}
 		)
+
+
 	}
 
 	save(): void {
-		const id = +this.route.snapshot.paramMap.get('id');
-		const association = this.route.snapshot.paramMap.get('association');
 
 		// some fields needs to be translated into serializable forms
 		// pointers fields, after the translation, are nulled in order to perform serialization
 
 		// insertion point for translation/nullation of each field
+
+		// save from the front pointer space to the non pointer space for serialization
+
+		// insertion point for translation/nullation of each pointers
 		if (this.bclass.Aclass_Anarrayofb_reverse != undefined) {
 			if (this.bclass.Aclass_AnarrayofbDBID == undefined) {
 				this.bclass.Aclass_AnarrayofbDBID = new NullInt64
