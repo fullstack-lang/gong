@@ -37,6 +37,11 @@ import { AclassSortingComponent } from './aclass-sorting/aclass-sorting.componen
 import { AclassDetailComponent } from './aclass-detail/aclass-detail.component'
 import { AclassPresentationComponent } from './aclass-presentation/aclass-presentation.component'
 
+import { AclassBclassUsesTableComponent } from './aclassbclassuses-table/aclassbclassuses-table.component'
+import { AclassBclassUseSortingComponent } from './aclassbclassuse-sorting/aclassbclassuse-sorting.component'
+import { AclassBclassUseDetailComponent } from './aclassbclassuse-detail/aclassbclassuse-detail.component'
+import { AclassBclassUsePresentationComponent } from './aclassbclassuse-presentation/aclassbclassuse-presentation.component'
+
 import { BclasssTableComponent } from './bclasss-table/bclasss-table.component'
 import { BclassSortingComponent } from './bclass-sorting/bclass-sorting.component'
 import { BclassDetailComponent } from './bclass-detail/bclass-detail.component'
@@ -55,6 +60,11 @@ import { DclassPresentationComponent } from './dclass-presentation/dclass-presen
 		AclassSortingComponent,
 		AclassDetailComponent,
 		AclassPresentationComponent,
+
+		AclassBclassUsesTableComponent,
+		AclassBclassUseSortingComponent,
+		AclassBclassUseDetailComponent,
+		AclassBclassUsePresentationComponent,
 
 		BclasssTableComponent,
 		BclassSortingComponent,
@@ -105,6 +115,11 @@ import { DclassPresentationComponent } from './dclass-presentation/dclass-presen
 		AclassSortingComponent,
 		AclassDetailComponent,
 		AclassPresentationComponent,
+
+		AclassBclassUsesTableComponent,
+		AclassBclassUseSortingComponent,
+		AclassBclassUseDetailComponent,
+		AclassBclassUsePresentationComponent,
 
 		BclasssTableComponent,
 		BclassSortingComponent,

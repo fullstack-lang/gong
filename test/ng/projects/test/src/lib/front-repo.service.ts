@@ -7,6 +7,9 @@ import { Observable, combineLatest } from 'rxjs';
 import { AclassDB } from './aclass-db'
 import { AclassService } from './aclass.service'
 
+import { AclassBclassUseDB } from './aclassbclassuse-db'
+import { AclassBclassUseService } from './aclassbclassuse.service'
+
 import { BclassDB } from './bclass-db'
 import { BclassService } from './bclass.service'
 
@@ -19,6 +22,9 @@ export class FrontRepo { // insertion point sub template
   Aclasss_array = new Array<AclassDB>(); // array of repo instances
   Aclasss = new Map<number, AclassDB>(); // map of repo instances
   Aclasss_batch = new Map<number, AclassDB>(); // same but only in last GET (for finding repo instances to delete)
+  AclassBclassUses_array = new Array<AclassBclassUseDB>(); // array of repo instances
+  AclassBclassUses = new Map<number, AclassBclassUseDB>(); // map of repo instances
+  AclassBclassUses_batch = new Map<number, AclassBclassUseDB>(); // same but only in last GET (for finding repo instances to delete)
   Bclasss_array = new Array<BclassDB>(); // array of repo instances
   Bclasss = new Map<number, BclassDB>(); // map of repo instances
   Bclasss_batch = new Map<number, BclassDB>(); // same but only in last GET (for finding repo instances to delete)
@@ -61,6 +67,7 @@ export class FrontRepoService {
   constructor(
     private http: HttpClient, // insertion point sub template 
     private aclassService: AclassService,
+    private aclassbclassuseService: AclassBclassUseService,
     private bclassService: BclassService,
     private dclassService: DclassService,
   ) { }
@@ -68,10 +75,12 @@ export class FrontRepoService {
   // typing of observable can be messy in typescript. Therefore, one force the type
   observableFrontRepo: [ // insertion point sub template 
     Observable<AclassDB[]>,
+    Observable<AclassBclassUseDB[]>,
     Observable<BclassDB[]>,
     Observable<DclassDB[]>,
   ] = [ // insertion point sub template 
       this.aclassService.getAclasss(),
+      this.aclassbclassuseService.getAclassBclassUses(),
       this.bclassService.getBclasss(),
       this.dclassService.getDclasss(),
     ];
@@ -90,6 +99,7 @@ export class FrontRepoService {
         ).subscribe(
           ([ // insertion point sub template for declarations 
             aclasss_,
+            aclassbclassuses_,
             bclasss_,
             dclasss_,
           ]) => {
@@ -97,6 +107,8 @@ export class FrontRepoService {
             // insertion point sub template for type casting 
             var aclasss: AclassDB[]
             aclasss = aclasss_
+            var aclassbclassuses: AclassBclassUseDB[]
+            aclassbclassuses = aclassbclassuses_
             var bclasss: BclassDB[]
             bclasss = bclasss_
             var dclasss: DclassDB[]
@@ -129,6 +141,39 @@ export class FrontRepoService {
             
             // sort Aclasss_array array
             FrontRepoSingloton.Aclasss_array.sort((t1, t2) => {
+              if (t1.Name > t2.Name) {
+                return 1;
+              }
+              if (t1.Name < t2.Name) {
+                return -1;
+              }
+              return 0;
+            });
+            
+            // init the array
+            FrontRepoSingloton.AclassBclassUses_array = aclassbclassuses
+
+            // clear the map that counts AclassBclassUse in the GET
+            FrontRepoSingloton.AclassBclassUses_batch.clear()
+            
+            aclassbclassuses.forEach(
+              aclassbclassuse => {
+                FrontRepoSingloton.AclassBclassUses.set(aclassbclassuse.ID, aclassbclassuse)
+                FrontRepoSingloton.AclassBclassUses_batch.set(aclassbclassuse.ID, aclassbclassuse)
+              }
+            )
+            
+            // clear aclassbclassuses that are absent from the batch
+            FrontRepoSingloton.AclassBclassUses.forEach(
+              aclassbclassuse => {
+                if (FrontRepoSingloton.AclassBclassUses_batch.get(aclassbclassuse.ID) == undefined) {
+                  FrontRepoSingloton.AclassBclassUses.delete(aclassbclassuse.ID)
+                }
+              }
+            )
+            
+            // sort AclassBclassUses_array array
+            FrontRepoSingloton.AclassBclassUses_array.sort((t1, t2) => {
               if (t1.Name > t2.Name) {
                 return 1;
               }
@@ -237,6 +282,33 @@ export class FrontRepoService {
                     _aclass.Anarrayofa.push(aclass)
                     if (aclass.Aclass_Anarrayofa_reverse == undefined) {
                       aclass.Aclass_Anarrayofa_reverse = _aclass
+                    }
+                  }
+                }
+              }
+            )
+            aclassbclassuses.forEach(
+              aclassbclassuse => {
+                // insertion point sub sub template for ONE-/ZERO-ONE associations pointers redeeming
+                // insertion point for pointer field Bclass redeeming
+                {
+                  let _bclass = FrontRepoSingloton.Bclasss.get(aclassbclassuse.BclassID.Int64)
+                  if (_bclass) {
+                    aclassbclassuse.Bclass = _bclass
+                  }
+                }
+
+                // insertion point for redeeming ONE-MANY associations
+                // insertion point for slice of pointer field Aclass.AnarrayofbUse redeeming
+                {
+                  let _aclass = FrontRepoSingloton.Aclasss.get(aclassbclassuse.Aclass_AnarrayofbUseDBID.Int64)
+                  if (_aclass) {
+                    if (_aclass.AnarrayofbUse == undefined) {
+                      _aclass.AnarrayofbUse = new Array<AclassBclassUseDB>()
+                    }
+                    _aclass.AnarrayofbUse.push(aclassbclassuse)
+                    if (aclassbclassuse.Aclass_AnarrayofbUse_reverse == undefined) {
+                      aclassbclassuse.Aclass_AnarrayofbUse_reverse = _aclass
                     }
                   }
                 }
@@ -355,6 +427,77 @@ export class FrontRepoService {
               aclass => {
                 if (FrontRepoSingloton.Aclasss_batch.get(aclass.ID) == undefined) {
                   FrontRepoSingloton.Aclasss.delete(aclass.ID)
+                }
+              }
+            )
+
+            // 
+            // Second Step: redeem pointers between instances (thanks to maps in the First Step)
+            // insertion point sub template 
+
+            // hand over control flow to observer
+            observer.next(FrontRepoSingloton)
+          }
+        )
+      }
+    )
+  }
+
+  // AclassBclassUsePull performs a GET on AclassBclassUse of the stack and redeem association pointers 
+  AclassBclassUsePull(): Observable<FrontRepo> {
+    return new Observable<FrontRepo>(
+      (observer) => {
+        combineLatest([
+          this.aclassbclassuseService.getAclassBclassUses()
+        ]).subscribe(
+          ([ // insertion point sub template 
+            aclassbclassuses,
+          ]) => {
+            // init the array
+            FrontRepoSingloton.AclassBclassUses_array = aclassbclassuses
+
+            // clear the map that counts AclassBclassUse in the GET
+            FrontRepoSingloton.AclassBclassUses_batch.clear()
+
+            // 
+            // First Step: init map of instances
+            // insertion point sub template 
+            aclassbclassuses.forEach(
+              aclassbclassuse => {
+                FrontRepoSingloton.AclassBclassUses.set(aclassbclassuse.ID, aclassbclassuse)
+                FrontRepoSingloton.AclassBclassUses_batch.set(aclassbclassuse.ID, aclassbclassuse)
+
+                // insertion point for redeeming ONE/ZERO-ONE associations 
+                // insertion point for pointer field Bclass redeeming
+                {
+                  let _bclass = FrontRepoSingloton.Bclasss.get(aclassbclassuse.BclassID.Int64)
+                  if (_bclass) {
+                    aclassbclassuse.Bclass = _bclass
+                  }
+                }
+
+                // insertion point for redeeming ONE-MANY associations 
+                // insertion point for slice of pointer field Aclass.AnarrayofbUse redeeming
+                {
+                  let _aclass = FrontRepoSingloton.Aclasss.get(aclassbclassuse.Aclass_AnarrayofbUseDBID.Int64)
+                  if (_aclass) {
+                    if (_aclass.AnarrayofbUse == undefined) {
+                      _aclass.AnarrayofbUse = new Array<AclassBclassUseDB>()
+                    }
+                    _aclass.AnarrayofbUse.push(aclassbclassuse)
+                    if (aclassbclassuse.Aclass_AnarrayofbUse_reverse == undefined) {
+                      aclassbclassuse.Aclass_AnarrayofbUse_reverse = _aclass
+                    }
+                  }
+                }
+              }
+            )
+
+            // clear aclassbclassuses that are absent from the GET
+            FrontRepoSingloton.AclassBclassUses.forEach(
+              aclassbclassuse => {
+                if (FrontRepoSingloton.AclassBclassUses_batch.get(aclassbclassuse.ID) == undefined) {
+                  FrontRepoSingloton.AclassBclassUses.delete(aclassbclassuse.ID)
                 }
               }
             )
@@ -504,9 +647,12 @@ export class FrontRepoService {
 export function getAclassUniqueID(id: number): number {
   return 31 * id
 }
-export function getBclassUniqueID(id: number): number {
+export function getAclassBclassUseUniqueID(id: number): number {
   return 37 * id
 }
-export function getDclassUniqueID(id: number): number {
+export function getBclassUniqueID(id: number): number {
   return 41 * id
+}
+export function getDclassUniqueID(id: number): number {
+  return 43 * id
 }

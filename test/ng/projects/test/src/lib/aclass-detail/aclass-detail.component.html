@@ -197,6 +197,23 @@
             </div>
         </mat-grid-tile>
     </mat-grid-list>
+    <mat-grid-list cols="2" rowHeight="6:1">
+        <mat-grid-tile>
+            <div style="width: 100vw; text-align: right;">
+                <button mat-raised-button
+                    (click)="openReverseSelection('AclassBclassUse', 'Aclass_AnarrayofbUseDBID')">AnarrayofbUse</button>
+            </div>
+        </mat-grid-tile>
+        <mat-grid-tile>
+            <div style="width: 100vw; text-align: left;">
+                <button mat-raised-button (click)="openDragAndDropOrdering('AclassBclassUse', 'Aclass_AnarrayofbUseDBID')">
+                    <mat-icon>
+                        shuffle
+                    </mat-icon>
+                </button>
+            </div>
+        </mat-grid-tile>
+    </mat-grid-list>
     <mat-form-field class="detail-full-width">
         <mat-label><- Anarrayofa</mat-label>
         <mat-select [compareWith]="compareObjects" [(ngModel)]="aclass.Aclass_Anarrayofa_reverse" [ngModelOptions]="{standalone: true}">

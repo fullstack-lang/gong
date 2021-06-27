@@ -15,6 +15,9 @@ type StageStruct struct { // insertion point for definition of arrays registerin
 	Aclasss           map[*Aclass]struct{}
 	Aclasss_mapString map[string]*Aclass
 
+	AclassBclassUses           map[*AclassBclassUse]struct{}
+	AclassBclassUses_mapString map[string]*AclassBclassUse
+
 	Bclasss           map[*Bclass]struct{}
 	Bclasss_mapString map[string]*Bclass
 
@@ -45,6 +48,8 @@ type BackRepoInterface interface {
 	// insertion point for Commit and Checkout signatures
 	CommitAclass(aclass *Aclass)
 	CheckoutAclass(aclass *Aclass)
+	CommitAclassBclassUse(aclassbclassuse *AclassBclassUse)
+	CheckoutAclassBclassUse(aclassbclassuse *AclassBclassUse)
 	CommitBclass(bclass *Bclass)
 	CheckoutBclass(bclass *Bclass)
 	CommitDclass(dclass *Dclass)
@@ -57,6 +62,9 @@ type BackRepoInterface interface {
 var Stage StageStruct = StageStruct{ // insertion point for array initiatialisation
 	Aclasss:           make(map[*Aclass]struct{}, 0),
 	Aclasss_mapString: make(map[string]*Aclass, 0),
+
+	AclassBclassUses:           make(map[*AclassBclassUse]struct{}, 0),
+	AclassBclassUses_mapString: make(map[string]*AclassBclassUse, 0),
 
 	Bclasss:           make(map[*Bclass]struct{}, 0),
 	Bclasss_mapString: make(map[string]*Bclass, 0),
@@ -207,6 +215,108 @@ func DeleteORMAclass(aclass *Aclass) {
 	aclass.Unstage()
 	if Stage.AllModelsStructDeleteCallback != nil {
 		Stage.AllModelsStructDeleteCallback.DeleteORMAclass(aclass)
+	}
+}
+
+func (stage *StageStruct) getAclassBclassUseOrderedStructWithNameField() []*AclassBclassUse {
+	// have alphabetical order generation
+	aclassbclassuseOrdered := []*AclassBclassUse{}
+	for aclassbclassuse := range stage.AclassBclassUses {
+		aclassbclassuseOrdered = append(aclassbclassuseOrdered, aclassbclassuse)
+	}
+	sort.Slice(aclassbclassuseOrdered[:], func(i, j int) bool {
+		return aclassbclassuseOrdered[i].Name < aclassbclassuseOrdered[j].Name
+	})
+	return aclassbclassuseOrdered
+}
+
+// Stage puts aclassbclassuse to the model stage
+func (aclassbclassuse *AclassBclassUse) Stage() *AclassBclassUse {
+	Stage.AclassBclassUses[aclassbclassuse] = __member
+	Stage.AclassBclassUses_mapString[aclassbclassuse.Name] = aclassbclassuse
+
+	return aclassbclassuse
+}
+
+// Unstage removes aclassbclassuse off the model stage
+func (aclassbclassuse *AclassBclassUse) Unstage() *AclassBclassUse {
+	delete(Stage.AclassBclassUses, aclassbclassuse)
+	delete(Stage.AclassBclassUses_mapString, aclassbclassuse.Name)
+	return aclassbclassuse
+}
+
+// commit aclassbclassuse to the back repo (if it is already staged)
+func (aclassbclassuse *AclassBclassUse) Commit() *AclassBclassUse {
+	if _, ok := Stage.AclassBclassUses[aclassbclassuse]; ok {
+		if Stage.BackRepo != nil {
+			Stage.BackRepo.CommitAclassBclassUse(aclassbclassuse)
+		}
+	}
+	return aclassbclassuse
+}
+
+// Checkout aclassbclassuse to the back repo (if it is already staged)
+func (aclassbclassuse *AclassBclassUse) Checkout() *AclassBclassUse {
+	if _, ok := Stage.AclassBclassUses[aclassbclassuse]; ok {
+		if Stage.BackRepo != nil {
+			Stage.BackRepo.CheckoutAclassBclassUse(aclassbclassuse)
+		}
+	}
+	return aclassbclassuse
+}
+
+//
+// Legacy, to be deleted
+//
+
+// StageCopy appends a copy of aclassbclassuse to the model stage
+func (aclassbclassuse *AclassBclassUse) StageCopy() *AclassBclassUse {
+	_aclassbclassuse := new(AclassBclassUse)
+	*_aclassbclassuse = *aclassbclassuse
+	_aclassbclassuse.Stage()
+	return _aclassbclassuse
+}
+
+// StageAndCommit appends aclassbclassuse to the model stage and commit to the orm repo
+func (aclassbclassuse *AclassBclassUse) StageAndCommit() *AclassBclassUse {
+	aclassbclassuse.Stage()
+	if Stage.AllModelsStructCreateCallback != nil {
+		Stage.AllModelsStructCreateCallback.CreateORMAclassBclassUse(aclassbclassuse)
+	}
+	return aclassbclassuse
+}
+
+// DeleteStageAndCommit appends aclassbclassuse to the model stage and commit to the orm repo
+func (aclassbclassuse *AclassBclassUse) DeleteStageAndCommit() *AclassBclassUse {
+	aclassbclassuse.Unstage()
+	DeleteORMAclassBclassUse(aclassbclassuse)
+	return aclassbclassuse
+}
+
+// StageCopyAndCommit appends a copy of aclassbclassuse to the model stage and commit to the orm repo
+func (aclassbclassuse *AclassBclassUse) StageCopyAndCommit() *AclassBclassUse {
+	_aclassbclassuse := new(AclassBclassUse)
+	*_aclassbclassuse = *aclassbclassuse
+	_aclassbclassuse.Stage()
+	if Stage.AllModelsStructCreateCallback != nil {
+		Stage.AllModelsStructCreateCallback.CreateORMAclassBclassUse(aclassbclassuse)
+	}
+	return _aclassbclassuse
+}
+
+// CreateORMAclassBclassUse enables dynamic staging of a AclassBclassUse instance
+func CreateORMAclassBclassUse(aclassbclassuse *AclassBclassUse) {
+	aclassbclassuse.Stage()
+	if Stage.AllModelsStructCreateCallback != nil {
+		Stage.AllModelsStructCreateCallback.CreateORMAclassBclassUse(aclassbclassuse)
+	}
+}
+
+// DeleteORMAclassBclassUse enables dynamic staging of a AclassBclassUse instance
+func DeleteORMAclassBclassUse(aclassbclassuse *AclassBclassUse) {
+	aclassbclassuse.Unstage()
+	if Stage.AllModelsStructDeleteCallback != nil {
+		Stage.AllModelsStructDeleteCallback.DeleteORMAclassBclassUse(aclassbclassuse)
 	}
 }
 
@@ -417,12 +527,14 @@ func DeleteORMDclass(dclass *Dclass) {
 // swagger:ignore
 type AllModelsStructCreateInterface interface { // insertion point for Callbacks on creation
 	CreateORMAclass(Aclass *Aclass)
+	CreateORMAclassBclassUse(AclassBclassUse *AclassBclassUse)
 	CreateORMBclass(Bclass *Bclass)
 	CreateORMDclass(Dclass *Dclass)
 }
 
 type AllModelsStructDeleteInterface interface { // insertion point for Callbacks on deletion
 	DeleteORMAclass(Aclass *Aclass)
+	DeleteORMAclassBclassUse(AclassBclassUse *AclassBclassUse)
 	DeleteORMBclass(Bclass *Bclass)
 	DeleteORMDclass(Dclass *Dclass)
 }
@@ -430,6 +542,9 @@ type AllModelsStructDeleteInterface interface { // insertion point for Callbacks
 func (stage *StageStruct) Reset() { // insertion point for array reset
 	stage.Aclasss = make(map[*Aclass]struct{}, 0)
 	stage.Aclasss_mapString = make(map[string]*Aclass, 0)
+
+	stage.AclassBclassUses = make(map[*AclassBclassUse]struct{}, 0)
+	stage.AclassBclassUses_mapString = make(map[string]*AclassBclassUse, 0)
 
 	stage.Bclasss = make(map[*Bclass]struct{}, 0)
 	stage.Bclasss_mapString = make(map[string]*Bclass, 0)
@@ -442,6 +557,9 @@ func (stage *StageStruct) Reset() { // insertion point for array reset
 func (stage *StageStruct) Nil() { // insertion point for array nil
 	stage.Aclasss = nil
 	stage.Aclasss_mapString = nil
+
+	stage.AclassBclassUses = nil
+	stage.AclassBclassUses_mapString = nil
 
 	stage.Bclasss = nil
 	stage.Bclasss_mapString = nil
