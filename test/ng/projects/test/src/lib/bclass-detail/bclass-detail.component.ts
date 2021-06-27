@@ -17,6 +17,13 @@ import { MatDialog, MAT_DIALOG_DATA, MatDialogRef, MatDialogConfig } from '@angu
 
 import { NullInt64 } from '../front-repo.service'
 
+// BclassDetailComponent is initilizaed from different routes
+// BclassDetailComponentState detail different cases 
+enum BclassDetailComponentState {
+	CREATE_INSTANCE,
+	UPDATE_INSTANCE,
+	CREATE_INSTANCE_WITH_ASSOCIATION_Aclass_Anarrayofb_SET
+}
 @Component({
 	selector: 'app-bclass-detail',
 	templateUrl: './bclass-detail.component.html',
@@ -37,6 +44,13 @@ export class BclassDetailComponent implements OnInit {
 	// if true, it is inputed with a <textarea ...> </textarea>
 	mapFields_displayAsTextArea = new Map<string, boolean>()
 
+	// the state at initialization
+	state: BclassDetailComponentState
+
+	id: number
+	originStruct: string
+	originStructFieldName: string
+
 	constructor(
 		private bclassService: BclassService,
 		private frontRepoService: FrontRepoService,
@@ -44,9 +58,36 @@ export class BclassDetailComponent implements OnInit {
 		private route: ActivatedRoute,
 		private router: Router,
 	) {
+
+		// the detail component can be called from different routes (parameters).
+		// therefore, a different initialization is required
 	}
 
 	ngOnInit(): void {
+
+		// compute state
+		this.id = +this.route.snapshot.paramMap.get('id');
+		this.originStruct = this.route.snapshot.paramMap.get('originStruct');
+		this.originStructFieldName = this.route.snapshot.paramMap.get('originStructFieldName');
+
+		const association = this.route.snapshot.paramMap.get('association');
+		if (this.id == 0) {
+			this.state = BclassDetailComponentState.CREATE_INSTANCE
+		} else {
+			if (this.originStruct == undefined) {
+				this.state - BclassDetailComponentState.UPDATE_INSTANCE
+			} else {
+				switch (this.originStructFieldName) {
+					case "Anarrayofb":
+						console.log("Bclass" + " is instanciated with back pointer to instance " + this.id + " Aclass association Anarrayofb")
+						this.state = BclassDetailComponentState.CREATE_INSTANCE_WITH_ASSOCIATION_Aclass_Anarrayofb_SET
+						break;
+					default:
+						console.log(association + " is unkown association")
+				}
+			}
+		}
+
 		this.getBclass()
 
 		// observable for changes in structs
@@ -68,17 +109,22 @@ export class BclassDetailComponent implements OnInit {
 		this.frontRepoService.pull().subscribe(
 			frontRepo => {
 				this.frontRepo = frontRepo
-				if (id != 0 && association == undefined) {
-					this.bclass = frontRepo.Bclasss.get(id)
-				} else {
-					this.bclass = new (BclassDB)
+
+				switch (this.state) {
+					case BclassDetailComponentState.CREATE_INSTANCE:
+						this.bclass = new (BclassDB)
+						break;
+					case BclassDetailComponentState.UPDATE_INSTANCE:
+						this.bclass = frontRepo.Bclasss.get(id)
+						break;
+					case BclassDetailComponentState.CREATE_INSTANCE_WITH_ASSOCIATION_Aclass_Anarrayofb_SET:
+						this.bclass = new (BclassDB)
+						this.bclass.Aclass_Anarrayofb_reverse = frontRepo.Aclasss.get(id)
 				}
 
 				// insertion point for recovery of form controls value for bool fields
 			}
 		)
-
-
 	}
 
 	save(): void {
@@ -89,66 +135,43 @@ export class BclassDetailComponent implements OnInit {
 		// pointers fields, after the translation, are nulled in order to perform serialization
 
 		// insertion point for translation/nullation of each field
-
-		// save from the front pointer space to the non pointer space for serialization
-		if (association == undefined) {
-			// insertion point for translation/nullation of each pointers
-			if (this.bclass.Aclass_Anarrayofb_reverse != undefined) {
-				if (this.bclass.Aclass_AnarrayofbDBID == undefined) {
-					this.bclass.Aclass_AnarrayofbDBID = new NullInt64
-				}
-				this.bclass.Aclass_AnarrayofbDBID.Int64 = this.bclass.Aclass_Anarrayofb_reverse.ID
-				this.bclass.Aclass_AnarrayofbDBID.Valid = true
-				if (this.bclass.Aclass_AnarrayofbDBID_Index == undefined) {
-					this.bclass.Aclass_AnarrayofbDBID_Index = new NullInt64
-				}
-				this.bclass.Aclass_AnarrayofbDBID_Index.Valid = true
-				this.bclass.Aclass_Anarrayofb_reverse = undefined // very important, otherwise, circular JSON
+		if (this.bclass.Aclass_Anarrayofb_reverse != undefined) {
+			if (this.bclass.Aclass_AnarrayofbDBID == undefined) {
+				this.bclass.Aclass_AnarrayofbDBID = new NullInt64
 			}
-			if (this.bclass.Aclass_Anotherarrayofb_reverse != undefined) {
-				if (this.bclass.Aclass_AnotherarrayofbDBID == undefined) {
-					this.bclass.Aclass_AnotherarrayofbDBID = new NullInt64
-				}
-				this.bclass.Aclass_AnotherarrayofbDBID.Int64 = this.bclass.Aclass_Anotherarrayofb_reverse.ID
-				this.bclass.Aclass_AnotherarrayofbDBID.Valid = true
-				if (this.bclass.Aclass_AnotherarrayofbDBID_Index == undefined) {
-					this.bclass.Aclass_AnotherarrayofbDBID_Index = new NullInt64
-				}
-				this.bclass.Aclass_AnotherarrayofbDBID_Index.Valid = true
-				this.bclass.Aclass_Anotherarrayofb_reverse = undefined // very important, otherwise, circular JSON
+			this.bclass.Aclass_AnarrayofbDBID.Int64 = this.bclass.Aclass_Anarrayofb_reverse.ID
+			this.bclass.Aclass_AnarrayofbDBID.Valid = true
+			if (this.bclass.Aclass_AnarrayofbDBID_Index == undefined) {
+				this.bclass.Aclass_AnarrayofbDBID_Index = new NullInt64
 			}
+			this.bclass.Aclass_AnarrayofbDBID_Index.Valid = true
+			this.bclass.Aclass_Anarrayofb_reverse = undefined // very important, otherwise, circular JSON
+		}
+		if (this.bclass.Aclass_Anotherarrayofb_reverse != undefined) {
+			if (this.bclass.Aclass_AnotherarrayofbDBID == undefined) {
+				this.bclass.Aclass_AnotherarrayofbDBID = new NullInt64
+			}
+			this.bclass.Aclass_AnotherarrayofbDBID.Int64 = this.bclass.Aclass_Anotherarrayofb_reverse.ID
+			this.bclass.Aclass_AnotherarrayofbDBID.Valid = true
+			if (this.bclass.Aclass_AnotherarrayofbDBID_Index == undefined) {
+				this.bclass.Aclass_AnotherarrayofbDBID_Index = new NullInt64
+			}
+			this.bclass.Aclass_AnotherarrayofbDBID_Index.Valid = true
+			this.bclass.Aclass_Anotherarrayofb_reverse = undefined // very important, otherwise, circular JSON
 		}
 
-		if (id != 0 && association == undefined) {
-
-			this.bclassService.updateBclass(this.bclass)
-				.subscribe(bclass => {
-					this.bclassService.BclassServiceChanged.next("update")
+		switch (this.state) {
+			case BclassDetailComponentState.UPDATE_INSTANCE:
+				this.bclassService.updateBclass(this.bclass)
+					.subscribe(bclass => {
+						this.bclassService.BclassServiceChanged.next("update")
+					});
+				break;
+			default:
+				this.bclassService.postBclass(this.bclass).subscribe(bclass => {
+					this.bclassService.BclassServiceChanged.next("post")
+					this.bclass = {} // reset fields
 				});
-		} else {
-			switch (association) {
-				// insertion point for saving value of ONE_MANY association reverse pointer
-				case "Aclass_Anarrayofb":
-					this.bclass.Aclass_AnarrayofbDBID = new NullInt64
-					this.bclass.Aclass_AnarrayofbDBID.Int64 = id
-					this.bclass.Aclass_AnarrayofbDBID.Valid = true
-					this.bclass.Aclass_AnarrayofbDBID_Index = new NullInt64
-					this.bclass.Aclass_AnarrayofbDBID_Index.Valid = true
-					break
-				case "Aclass_Anotherarrayofb":
-					this.bclass.Aclass_AnotherarrayofbDBID = new NullInt64
-					this.bclass.Aclass_AnotherarrayofbDBID.Int64 = id
-					this.bclass.Aclass_AnotherarrayofbDBID.Valid = true
-					this.bclass.Aclass_AnotherarrayofbDBID_Index = new NullInt64
-					this.bclass.Aclass_AnotherarrayofbDBID_Index.Valid = true
-					break
-			}
-			this.bclassService.postBclass(this.bclass).subscribe(bclass => {
-
-				this.bclassService.BclassServiceChanged.next("post")
-
-				this.bclass = {} // reset fields
-			});
 		}
 	}
 
