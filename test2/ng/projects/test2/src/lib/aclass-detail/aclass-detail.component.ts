@@ -17,6 +17,15 @@ import { MatDialog, MAT_DIALOG_DATA, MatDialogRef, MatDialogConfig } from '@angu
 
 import { NullInt64 } from '../front-repo.service'
 
+// AclassDetailComponent is initilizaed from different routes
+// AclassDetailComponentState detail different cases 
+enum AclassDetailComponentState {
+	CREATE_INSTANCE,
+	UPDATE_INSTANCE,
+	// insertion point for declarations of enum values of state
+	CREATE_INSTANCE_WITH_ASSOCIATION_Aclass_Anarrayofa_SET,
+}
+
 @Component({
 	selector: 'app-aclass-detail',
 	templateUrl: './aclass-detail.component.html',
@@ -42,6 +51,17 @@ export class AclassDetailComponent implements OnInit {
 	// if true, it is inputed with a <textarea ...> </textarea>
 	mapFields_displayAsTextArea = new Map<string, boolean>()
 
+	// the state at initialization (CREATION, UPDATE or CREATE with one association set)
+	state: AclassDetailComponentState
+
+	// in UDPATE state, if is the id of the instance to update
+	// in CREATE state with one association set, this is the id of the associated instance
+	id: number
+
+	// in CREATE state with one association set, this is the id of the associated instance
+	originStruct: string
+	originStructFieldName: string
+
 	constructor(
 		private aclassService: AclassService,
 		private frontRepoService: FrontRepoService,
@@ -52,6 +72,31 @@ export class AclassDetailComponent implements OnInit {
 	}
 
 	ngOnInit(): void {
+
+		// compute state
+		this.id = +this.route.snapshot.paramMap.get('id');
+		this.originStruct = this.route.snapshot.paramMap.get('originStruct');
+		this.originStructFieldName = this.route.snapshot.paramMap.get('originStructFieldName');
+
+		const association = this.route.snapshot.paramMap.get('association');
+		if (this.id == 0) {
+			this.state = AclassDetailComponentState.CREATE_INSTANCE
+		} else {
+			if (this.originStruct == undefined) {
+				this.state = AclassDetailComponentState.UPDATE_INSTANCE
+			} else {
+				switch (this.originStructFieldName) {
+					// insertion point for state computation
+					case "Anarrayofa":
+						console.log("Aclass" + " is instanciated with back pointer to instance " + this.id + " Aclass association Anarrayofa")
+						this.state = AclassDetailComponentState.CREATE_INSTANCE_WITH_ASSOCIATION_Aclass_Anarrayofa_SET
+						break;
+					default:
+						console.log(this.originStructFieldName + " is unkown association")
+				}
+			}
+		}
+
 		this.getAclass()
 
 		// observable for changes in structs
@@ -67,16 +112,25 @@ export class AclassDetailComponent implements OnInit {
 	}
 
 	getAclass(): void {
-		const id = +this.route.snapshot.paramMap.get('id');
-		const association = this.route.snapshot.paramMap.get('association');
 
 		this.frontRepoService.pull().subscribe(
 			frontRepo => {
 				this.frontRepo = frontRepo
-				if (id != 0 && association == undefined) {
-					this.aclass = frontRepo.Aclasss.get(id)
-				} else {
-					this.aclass = new (AclassDB)
+
+				switch (this.state) {
+					case AclassDetailComponentState.CREATE_INSTANCE:
+						this.aclass = new (AclassDB)
+						break;
+					case AclassDetailComponentState.UPDATE_INSTANCE:
+						this.aclass = frontRepo.Aclasss.get(this.id)
+						break;
+					// insertion point for init of association field
+					case AclassDetailComponentState.CREATE_INSTANCE_WITH_ASSOCIATION_Aclass_Anarrayofa_SET:
+						this.aclass = new (AclassDB)
+						this.aclass.Aclass_Anarrayofa_reverse = frontRepo.Aclasss.get(this.id)
+						break;
+					default:
+						console.log(this.state + " is unkown state")
 				}
 
 				// insertion point for recovery of form controls value for bool fields
@@ -93,8 +147,6 @@ export class AclassDetailComponent implements OnInit {
 	}
 
 	save(): void {
-		const id = +this.route.snapshot.paramMap.get('id');
-		const association = this.route.snapshot.paramMap.get('association');
 
 		// some fields needs to be translated into serializable forms
 		// pointers fields, after the translation, are nulled in order to perform serialization
@@ -108,45 +160,33 @@ export class AclassDetailComponent implements OnInit {
 			this.Duration1_Seconds * (1000 * 1000 * 1000)
 
 		// save from the front pointer space to the non pointer space for serialization
-		if (association == undefined) {
-			// insertion point for translation/nullation of each pointers
-			if (this.aclass.Aclass_Anarrayofa_reverse != undefined) {
-				if (this.aclass.Aclass_AnarrayofaDBID == undefined) {
-					this.aclass.Aclass_AnarrayofaDBID = new NullInt64
-				}
-				this.aclass.Aclass_AnarrayofaDBID.Int64 = this.aclass.Aclass_Anarrayofa_reverse.ID
-				this.aclass.Aclass_AnarrayofaDBID.Valid = true
-				if (this.aclass.Aclass_AnarrayofaDBID_Index == undefined) {
-					this.aclass.Aclass_AnarrayofaDBID_Index = new NullInt64
-				}
-				this.aclass.Aclass_AnarrayofaDBID_Index.Valid = true
-				this.aclass.Aclass_Anarrayofa_reverse = undefined // very important, otherwise, circular JSON
+
+		// insertion point for translation/nullation of each pointers
+		if (this.aclass.Aclass_Anarrayofa_reverse != undefined) {
+			if (this.aclass.Aclass_AnarrayofaDBID == undefined) {
+				this.aclass.Aclass_AnarrayofaDBID = new NullInt64
 			}
+			this.aclass.Aclass_AnarrayofaDBID.Int64 = this.aclass.Aclass_Anarrayofa_reverse.ID
+			this.aclass.Aclass_AnarrayofaDBID.Valid = true
+			if (this.aclass.Aclass_AnarrayofaDBID_Index == undefined) {
+				this.aclass.Aclass_AnarrayofaDBID_Index = new NullInt64
+			}
+			this.aclass.Aclass_AnarrayofaDBID_Index.Valid = true
+			this.aclass.Aclass_Anarrayofa_reverse = undefined // very important, otherwise, circular JSON
 		}
 
-		if (id != 0 && association == undefined) {
-
-			this.aclassService.updateAclass(this.aclass)
-				.subscribe(aclass => {
-					this.aclassService.AclassServiceChanged.next("update")
+		switch (this.state) {
+			case AclassDetailComponentState.UPDATE_INSTANCE:
+				this.aclassService.updateAclass(this.aclass)
+					.subscribe(aclass => {
+						this.aclassService.AclassServiceChanged.next("update")
+					});
+				break;
+			default:
+				this.aclassService.postAclass(this.aclass).subscribe(aclass => {
+					this.aclassService.AclassServiceChanged.next("post")
+					this.aclass = {} // reset fields
 				});
-		} else {
-			switch (association) {
-				// insertion point for saving value of ONE_MANY association reverse pointer
-				case "Aclass_Anarrayofa":
-					this.aclass.Aclass_AnarrayofaDBID = new NullInt64
-					this.aclass.Aclass_AnarrayofaDBID.Int64 = id
-					this.aclass.Aclass_AnarrayofaDBID.Valid = true
-					this.aclass.Aclass_AnarrayofaDBID_Index = new NullInt64
-					this.aclass.Aclass_AnarrayofaDBID_Index.Valid = true
-					break
-			}
-			this.aclassService.postAclass(this.aclass).subscribe(aclass => {
-
-				this.aclassService.AclassServiceChanged.next("post")
-
-				this.aclass = {} // reset fields
-			});
 		}
 	}
 
