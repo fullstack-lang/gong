@@ -43,6 +43,7 @@ interface GongNode {
   children?: GongNode[];
   type: GongNodeType;
   structName: string;
+  associationField: string;
   associatedStructName: string;
   id: number;
   uniqueIdPerStack: number;
@@ -58,6 +59,7 @@ interface GongFlatNode {
   level: number;
   type: GongNodeType;
   structName: string;
+  associationField: string;
   associatedStructName: string;
   id: number;
   uniqueIdPerStack: number;
@@ -92,6 +94,7 @@ export class SidebarComponent implements OnInit {
       level: level,
       type: node.type,
       structName: node.structName,
+      associationField: node.associationField,
       associatedStructName: node.associatedStructName,
       id: node.id,
       uniqueIdPerStack: node.uniqueIdPerStack,
@@ -258,7 +261,7 @@ export class SidebarComponent implements OnInit {
   setEditorSpecialRouterOutlet( node: GongFlatNode) {
     this.router.navigate([{
       outlets: {
-        {{PkgPathRootWithoutSlashes}}_editor: ["{{PkgPathRootWithoutSlashes}}-" + node.associatedStructName.toLowerCase() + "-adder", node.id, node.structName + "_" + node.name]
+        {{PkgPathRootWithoutSlashes}}_editor: ["{{PkgPathRootWithoutSlashes}}-" + node.associatedStructName.toLowerCase() + "-adder", node.id, node.structName, node.associationField]
       }
     }]);
   }
@@ -299,6 +302,7 @@ var NgSidebarTsSubTemplateCode map[NgSidebarTsSubTemplate]string = map[NgSidebar
         id: 0,
         uniqueIdPerStack: 13 * nonInstanceNodeId,
         structName: "{{Structname}}",
+        associationField: "",
         associatedStructName: "",
         children: new Array<GongNode>()
       }
@@ -323,6 +327,7 @@ var NgSidebarTsSubTemplateCode map[NgSidebarTsSubTemplate]string = map[NgSidebar
             id: {{structname}}DB.ID,
             uniqueIdPerStack: get{{Structname}}UniqueID({{structname}}DB.ID),
             structName: "{{Structname}}",
+            associationField: "",
             associatedStructName: "",
             children: new Array<GongNode>()
           }
@@ -380,7 +385,8 @@ var NgSidebarTsSubPerFieldTemplateCode map[NgSidebarTsStructSubTemplate]string =
             id: {{structname}}DB.ID,
             uniqueIdPerStack: 17 * nonInstanceNodeId,
             structName: "{{Structname}}",
-            associatedStructName: "",
+            associationField: "{{Fieldname}}",
+            associatedStructName: "{{AssociatedStructname}}",
             children: new Array<GongNode>()
           }
           nonInstanceNodeId = nonInstanceNodeId + 1
@@ -398,6 +404,7 @@ var NgSidebarTsSubPerFieldTemplateCode map[NgSidebarTsStructSubTemplate]string =
                 3 * get{{Structname}}UniqueID({{structname}}DB.ID)
                 + 5 * get{{AssociatedStructname}}UniqueID({{structname}}DB.{{Fieldname}}.ID),
               structName: "{{AssociatedStructname}}",
+              associationField: "",
               associatedStructName: "",
               children: new Array<GongNode>()
             }
@@ -414,6 +421,7 @@ var NgSidebarTsSubPerFieldTemplateCode map[NgSidebarTsStructSubTemplate]string =
             id: {{structname}}DB.ID,
             uniqueIdPerStack: 19 * nonInstanceNodeId,
             structName: "{{Structname}}",
+            associationField: "{{Fieldname}}",
             associatedStructName: "{{AssociatedStructname}}",
             children: new Array<GongNode>()
           }
@@ -429,6 +437,7 @@ var NgSidebarTsSubPerFieldTemplateCode map[NgSidebarTsStructSubTemplate]string =
                 7 * get{{Structname}}UniqueID({{structname}}DB.ID)
                 + 11 * get{{AssociatedStructname}}UniqueID({{associatedStructname}}DB.ID),
               structName: "{{AssociatedStructname}}",
+              associationField: "",
               associatedStructName: "",
               children: new Array<GongNode>()
             }
