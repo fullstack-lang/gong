@@ -18,14 +18,14 @@ import { DclassPresentationComponent } from './dclass-presentation/dclass-presen
 const routes: Routes = [ // insertion point for routes declarations
 	{ path: 'github_com_fullstack_lang_gong_test_go-aclasss', component: AclasssTableComponent, outlet: 'github_com_fullstack_lang_gong_test_go_table' },
 	{ path: 'github_com_fullstack_lang_gong_test_go-aclass-adder', component: AclassDetailComponent, outlet: 'github_com_fullstack_lang_gong_test_go_editor' },
-	{ path: 'github_com_fullstack_lang_gong_test_go-aclass-adder/:id/:association', component: AclassDetailComponent, outlet: 'github_com_fullstack_lang_gong_test_go_editor' },
+	{ path: 'github_com_fullstack_lang_gong_test_go-aclass-adder/:id/:originStruct/:originStructFieldName', component: AclassDetailComponent, outlet: 'github_com_fullstack_lang_gong_test_go_editor' },
 	{ path: 'github_com_fullstack_lang_gong_test_go-aclass-detail/:id', component: AclassDetailComponent, outlet: 'github_com_fullstack_lang_gong_test_go_editor' },
 	{ path: 'github_com_fullstack_lang_gong_test_go-aclass-presentation/:id', component: AclassPresentationComponent, outlet: 'github_com_fullstack_lang_gong_test_go_presentation' },
 	{ path: 'github_com_fullstack_lang_gong_test_go-aclass-presentation-special/:id', component: AclassPresentationComponent, outlet: 'github_com_fullstack_lang_gong_test_goaclasspres' },
 
 	{ path: 'github_com_fullstack_lang_gong_test_go-bclasss', component: BclasssTableComponent, outlet: 'github_com_fullstack_lang_gong_test_go_table' },
 	{ path: 'github_com_fullstack_lang_gong_test_go-bclass-adder', component: BclassDetailComponent, outlet: 'github_com_fullstack_lang_gong_test_go_editor' },
-	{ path: 'github_com_fullstack_lang_gong_test_go-bclass-adder/:id/:association', component: BclassDetailComponent, outlet: 'github_com_fullstack_lang_gong_test_go_editor' },
+	{ path: 'github_com_fullstack_lang_gong_test_go-bclass-adder/:id/:originStruct/:originStructFieldName', component: BclassDetailComponent, outlet: 'github_com_fullstack_lang_gong_test_go_editor' },
 	{ path: 'github_com_fullstack_lang_gong_test_go-bclass-detail/:id', component: BclassDetailComponent, outlet: 'github_com_fullstack_lang_gong_test_go_editor' },
 	{ path: 'github_com_fullstack_lang_gong_test_go-bclass-presentation/:id', component: BclassPresentationComponent, outlet: 'github_com_fullstack_lang_gong_test_go_presentation' },
 	{ path: 'github_com_fullstack_lang_gong_test_go-bclass-presentation-special/:id', component: BclassPresentationComponent, outlet: 'github_com_fullstack_lang_gong_test_gobclasspres' },
