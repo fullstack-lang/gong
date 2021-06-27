@@ -29,7 +29,14 @@ definitions:
         items:
           $ref: '#/definitions/Bclass'
         type: array
+      AnarrayofbUse:
+        description: MANY-MANY association, (because AclassBclassUse ends with "Use")
+        items:
+          $ref: '#/definitions/AclassBclassUse'
+        type: array
       Anotherarrayofb:
+        description: gong supports different fields with the same destination struct,
+          even itself
         items:
           $ref: '#/definitions/Bclass'
         type: array
@@ -69,6 +76,18 @@ definitions:
       Name:
         description: a "Name" field is necessary to generate a GongStruct
         type: string
+    type: object
+    x-go-package: github.com/fullstack-lang/gong/test/go/models
+  AclassBclassUse:
+    description: |-
+      The go generated code is the same as for any struct.
+      The "Use" at the end of the struct name will generate something different in the front
+    properties:
+      Bclass:
+        $ref: '#/definitions/Bclass'
+      Name:
+        type: string
+    title: AclassBclassUse is the gong way of defining a MANY-MANY association
     type: object
     x-go-package: github.com/fullstack-lang/gong/test/go/models
   Bclass:
@@ -200,7 +219,14 @@ definitions:
         items:
           $ref: '#/definitions/Bclass'
         type: array
+      AnarrayofbUse:
+        description: MANY-MANY association, (because AclassBclassUse ends with "Use")
+        items:
+          $ref: '#/definitions/AclassBclassUse'
+        type: array
       Anotherarrayofb:
+        description: gong supports different fields with the same destination struct,
+          even itself
         items:
           $ref: '#/definitions/Bclass'
         type: array
@@ -310,6 +336,65 @@ definitions:
     title: AclassDB describes a aclass in the database
     type: object
     x-go-name: AclassDB
+    x-go-package: github.com/fullstack-lang/gong/test/go/orm
+  aclassbclassuseAPI:
+    description: |-
+      for POST, API, one needs the fields of the model as well as the fields
+      from associations ("Has One" and "Has Many") that are generated to
+      fullfill the ORM requirements for associations
+    properties:
+      Aclass_AnarrayofbUseDBID:
+        $ref: '#/definitions/NullInt64'
+      Aclass_AnarrayofbUseDBID_Index:
+        $ref: '#/definitions/NullInt64'
+      Bclass:
+        $ref: '#/definitions/Bclass'
+      BclassID:
+        $ref: '#/definitions/NullInt64'
+      CreatedAt:
+        format: date-time
+        type: string
+      DeletedAt:
+        $ref: '#/definitions/DeletedAt'
+      ID:
+        format: uint64
+        type: integer
+      Name:
+        type: string
+      UpdatedAt:
+        format: date-time
+        type: string
+    title: AclassBclassUseAPI is the input in POST API
+    type: object
+    x-go-name: AclassBclassUseAPI
+    x-go-package: github.com/fullstack-lang/gong/test/go/orm
+  aclassbclassuseDB:
+    description: |-
+      It incorporates the GORM ID, basic fields from the model (because they can be serialized),
+      the encoded version of pointers
+    properties:
+      Aclass_AnarrayofbUseDBID:
+        $ref: '#/definitions/NullInt64'
+      Aclass_AnarrayofbUseDBID_Index:
+        $ref: '#/definitions/NullInt64'
+      BclassID:
+        $ref: '#/definitions/NullInt64'
+      CreatedAt:
+        format: date-time
+        type: string
+      DeletedAt:
+        $ref: '#/definitions/DeletedAt'
+      ID:
+        format: uint64
+        type: integer
+      Name_Data:
+        $ref: '#/definitions/NullString'
+      UpdatedAt:
+        format: date-time
+        type: string
+    title: AclassBclassUseDB describes a aclassbclassuse in the database
+    type: object
+    x-go-name: AclassBclassUseDB
     x-go-package: github.com/fullstack-lang/gong/test/go/orm
   bclassAPI:
     description: |-
@@ -433,6 +518,90 @@ info:
   title: test backend API
   version: "0.1"
 paths:
+  /aclassbclassuses:
+    get:
+      description: Get all aclassbclassuses
+      operationId: getAclassBclassUses
+      responses:
+        "200":
+          $ref: '#/responses/aclassbclassuseDBsResponse'
+        default:
+          $ref: '#/responses/genericError'
+      tags:
+      - aclassbclassuses
+    post:
+      consumes:
+      - application/json
+      description: Creates a aclassbclassuse
+      operationId: postAclassBclassUse
+      parameters:
+      - description: The AclassBclassUse to submit or modify
+        in: body
+        name: AclassBclassUse
+        schema:
+          $ref: '#/definitions/aclassbclassuseAPI'
+      produces:
+      - application/json
+      responses:
+        "200":
+          $ref: '#/responses/aclassbclassuseDBResponse'
+      tags:
+      - aclassbclassuses
+  /aclassbclassuses/{ID}:
+    delete:
+      description: Delete a aclassbclassuse
+      operationId: deleteAclassBclassUse
+      parameters:
+      - description: The ID of the order
+        format: int64
+        in: path
+        name: ID
+        required: true
+        type: integer
+      responses:
+        default:
+          $ref: '#/responses/genericError'
+      tags:
+      - aclassbclassuses
+    get:
+      operationId: getAclassBclassUse
+      parameters:
+      - description: The ID of the order
+        format: int64
+        in: path
+        name: ID
+        required: true
+        type: integer
+      responses:
+        "200":
+          $ref: '#/responses/aclassbclassuseDBResponse'
+        default:
+          $ref: '#/responses/genericError'
+      summary: Gets the details for a aclassbclassuse.
+      tags:
+      - aclassbclassuses
+    patch:
+      description: Update a aclassbclassuse
+      operationId: updateAclassBclassUse
+      parameters:
+      - description: The ID of the order
+        format: int64
+        in: path
+        name: ID
+        required: true
+        type: integer
+      - description: The AclassBclassUse to submit or modify
+        in: body
+        name: AclassBclassUse
+        schema:
+          $ref: '#/definitions/aclassbclassuseAPI'
+      responses:
+        "200":
+          $ref: '#/responses/aclassbclassuseDBResponse'
+        default:
+          $ref: '#/responses/genericError'
+      tags:
+      - aclassbclassuses
   /aclasss:
     get:
       description: Get all aclasss
@@ -770,6 +939,41 @@ responses:
     schema:
       items:
         $ref: '#/definitions/aclassDB'
+      type: array
+  aclassbclassuseDBResponse:
+    description: AclassBclassUseDBResponse provides response
+    headers:
+      Aclass_AnarrayofbUseDBID:
+        description: Implementation of a reverse ID for field Aclass{}.AnarrayofbUse
+          []*AclassBclassUse
+      Aclass_AnarrayofbUseDBID_Index:
+        description: implementation of the index of the withing the slice
+      BclassID:
+        description: |-
+          insertion for pointer fields encoding declaration
+          field Bclass is a pointer to another Struct (optional or 0..1)
+          This field is generated into another field to enable AS ONE association
+      CreatedAt:
+        format: date-time
+        type: string
+      DeletedAt: {}
+      ID:
+        format: uint64
+        type: integer
+      Name_Data:
+        description: |-
+          insertion for basic fields declaration
+          Declation for basic field aclassbclassuseDB.Name {{BasicKind}} (to be completed)
+      UpdatedAt:
+        format: date-time
+        type: string
+    schema:
+      $ref: '#/definitions/NullInt64'
+  aclassbclassuseDBsResponse:
+    description: AclassBclassUseDBs arrays aclassbclassuseDBs
+    schema:
+      items:
+        $ref: '#/definitions/aclassbclassuseDB'
       type: array
   bclassDBResponse:
     description: BclassDBResponse provides response
