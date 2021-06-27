@@ -35,6 +35,14 @@ import { {{Structname}}Service } from '../{{structname}}.service'
 
 import { FrontRepoService, FrontRepo } from '../front-repo.service'
 
+// TableComponent is initilizaed from different routes
+// TableComponentMode detail different cases 
+enum TableComponentMode {
+  DISPLAY_MODE,
+  ONE_MANY_ASSOCIATION_MODE,
+  MANY_MANY_ASSOCIATION_MODE,
+}
+
 // generated table component
 @Component({
   selector: 'app-{{structname}}stable',
@@ -42,6 +50,9 @@ import { FrontRepoService, FrontRepo } from '../front-repo.service'
   styleUrls: ['./{{structname}}s-table.component.css'],
 })
 export class {{Structname}}sTableComponent implements OnInit {
+
+  // mode at invocation
+  mode: TableComponentMode
 
   // used if the component is called as a selection component of {{Structname}} instances
   selection: SelectionModel<{{Structname}}DB>;
@@ -65,27 +76,27 @@ export class {{Structname}}sTableComponent implements OnInit {
 
   ngAfterViewInit() {
 
-	// enable sorting on all fields (including pointers and reverse pointer)
-	this.matTableDataSource.sortingDataAccessor = ({{structname}}DB: {{Structname}}DB, property: string) => {
-		switch (property) {
-				// insertion point for specific sorting accessor{{` + string(rune(NgTableTsInsertionPerStructColumnsSorting)) + `}}
-				default:
-					return {{Structname}}DB[property];
-		}
-	}; 
+    // enable sorting on all fields (including pointers and reverse pointer)
+    this.matTableDataSource.sortingDataAccessor = ({{structname}}DB: {{Structname}}DB, property: string) => {
+      switch (property) {
+        // insertion point for specific sorting accessor{{` + string(rune(NgTableTsInsertionPerStructColumnsSorting)) + `}}
+        default:
+          return {{Structname}}DB[property];
+      }
+    };
 
-	// enable filtering on all fields (including pointers and reverse pointer, which is not done by default)
-	this.matTableDataSource.filterPredicate = ({{structname}}DB: {{Structname}}DB, filter: string) => {
+    // enable filtering on all fields (including pointers and reverse pointer, which is not done by default)
+    this.matTableDataSource.filterPredicate = ({{structname}}DB: {{Structname}}DB, filter: string) => {
 
-		// filtering is based on finding a lower case filter into a concatenated string
-		// the {{structname}}DB properties
-		let mergedContent = ""
+      // filtering is based on finding a lower case filter into a concatenated string
+      // the {{structname}}DB properties
+      let mergedContent = ""
 
-		// insertion point for merging of fields{{` + string(rune(NgTableTsInsertionPerStructColumnsFiltering)) + `}}
+      // insertion point for merging of fields{{` + string(rune(NgTableTsInsertionPerStructColumnsFiltering)) + `}}
 
-		let isSelected = mergedContent.includes(filter.toLowerCase())
-		return isSelected
-	};
+      let isSelected = mergedContent.includes(filter.toLowerCase())
+      return isSelected
+    };
 
     this.matTableDataSource.sort = this.sort;
     this.matTableDataSource.paginator = this.paginator;
@@ -106,6 +117,14 @@ export class {{Structname}}sTableComponent implements OnInit {
 
     private router: Router,
   ) {
+
+    // compute mode
+    if (dialogData == undefined) {
+      this.mode = TableComponentMode.DISPLAY_MODE
+    } else {
+      this.mode = TableComponentMode.ONE_MANY_ASSOCIATION_MODE
+    }
+
     // observable for changes in structs
     this.{{structname}}Service.{{Structname}}ServiceChanged.subscribe(
       message => {
@@ -114,8 +133,8 @@ export class {{Structname}}sTableComponent implements OnInit {
         }
       }
     )
-    if (dialogData == undefined) {
-      this.displayedColumns = ['ID', 'Edit', 'Delete', // insertion point for columns to display{{` + string(rune(NgTableTsInsertionPerStructColumns)) + `}}
+    if (this.mode == TableComponentMode.DISPLAY_MODE) {
+		this.displayedColumns = ['ID', 'Edit', 'Delete', // insertion point for columns to display{{` + string(rune(NgTableTsInsertionPerStructColumns)) + `}}
       ]
     } else {
       this.displayedColumns = ['select', 'ID', // insertion point for columns to display{{` + string(rune(NgTableTsInsertionPerStructColumns)) + `}}
@@ -140,8 +159,8 @@ export class {{Structname}}sTableComponent implements OnInit {
         // insertion point for variables Recoveries{{` + string(rune(NgTableTsInsertionPerStructRecoveries)) + `}}
 
         // in case the component is called as a selection component
-        if (this.dialogData != undefined) {
-          this.{{structname}}s.forEach(
+        if (this.mode == TableComponentMode.ONE_MANY_ASSOCIATION_MODE) {
+			this.{{structname}}s.forEach(
             {{structname}} => {
               let ID = this.dialogData.ID
               let revPointer = {{structname}}[this.dialogData.ReversePointer]
@@ -296,36 +315,36 @@ var NgTablelSubTemplateCode map[NgTableSubTemplate]string = map[NgTableSubTempla
         }`,
 
 	NgTableTSBasicFieldSorting: `
-			case '{{FieldName}}':
-				return {{structname}}DB.{{FieldName}};
+        case '{{FieldName}}':
+          return {{structname}}DB.{{FieldName}};
 `,
 	NgTableTSTimeFieldSorting: `
-			case '{{FieldName}}':
-				return {{structname}}DB.{{FieldName}};
+        case '{{FieldName}}':
+          return {{structname}}DB.{{FieldName}};
 `,
 	NgTableTSPointerToStructSorting: `
-			case '{{FieldName}}':
-				return ({{structname}}DB.{{FieldName}} ? {{structname}}DB.{{FieldName}}.Name : '');
+        case '{{FieldName}}':
+          return ({{structname}}DB.{{FieldName}} ? {{structname}}DB.{{FieldName}}.Name : '');
 `,
 	NgTableTSSliceOfPointerToStructSorting: `
-				case '{{FieldName}}':
-					return this.frontRepo.{{AssocStructName}}s.get({{structname}}DB.{{AssocStructName}}_{{FieldName}}DBID.Int64)?.Name;
+        case '{{FieldName}}':
+          return this.frontRepo.{{AssocStructName}}s.get({{structname}}DB.{{AssocStructName}}_{{FieldName}}DBID.Int64)?.Name;
 `,
 
 	NgTableTSNonNumberFieldFiltering: `
-		mergedContent += {{structname}}DB.{{FieldName}}.toLowerCase()`,
+      mergedContent += {{structname}}DB.{{FieldName}}.toLowerCase()`,
 	NgTableTSNumberFieldFiltering: `
-		mergedContent += {{structname}}DB.{{FieldName}}.toString()`,
+      mergedContent += {{structname}}DB.{{FieldName}}.toString()`,
 	NgTableTSTimeFieldFiltering: `
 `,
 	NgTableTSPointerToStructFiltering: `
-		if ({{structname}}DB.{{FieldName}}) {
-    		mergedContent += {{structname}}DB.{{FieldName}}.Name.toLowerCase()
-		}`,
+      if ({{structname}}DB.{{FieldName}}) {
+        mergedContent += {{structname}}DB.{{FieldName}}.Name.toLowerCase()
+      }`,
 	NgTableTSSliceOfPointerToStructFiltering: `
-		if ({{structname}}DB.{{AssocStructName}}_{{FieldName}}DBID.Int64 != 0) {
-        	mergedContent += this.frontRepo.{{AssocStructName}}s.get({{structname}}DB.{{AssocStructName}}_{{FieldName}}DBID.Int64)?.Name.toLowerCase()
-    	}
+      if ({{structname}}DB.{{AssocStructName}}_{{FieldName}}DBID.Int64 != 0) {
+        mergedContent += this.frontRepo.{{AssocStructName}}s.get({{structname}}DB.{{AssocStructName}}_{{FieldName}}DBID.Int64)?.Name.toLowerCase()
+      }
 `,
 
 	NgTableTSPerStructColumn: `

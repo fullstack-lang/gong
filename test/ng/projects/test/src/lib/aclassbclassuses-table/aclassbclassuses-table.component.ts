@@ -18,6 +18,14 @@ import { AclassBclassUseService } from '../aclassbclassuse.service'
 
 import { FrontRepoService, FrontRepo } from '../front-repo.service'
 
+// TableComponent is initilizaed from different routes
+// TableComponentMode detail different cases 
+enum TableComponentMode {
+  DISPLAY_MODE,
+  ONE_MANY_ASSOCIATION_MODE,
+  MANY_MANY_ASSOCIATION_MODE,
+}
+
 // generated table component
 @Component({
   selector: 'app-aclassbclassusestable',
@@ -25,6 +33,9 @@ import { FrontRepoService, FrontRepo } from '../front-repo.service'
   styleUrls: ['./aclassbclassuses-table.component.css'],
 })
 export class AclassBclassUsesTableComponent implements OnInit {
+
+  // mode at invocation
+  mode: TableComponentMode
 
   // used if the component is called as a selection component of AclassBclassUse instances
   selection: SelectionModel<AclassBclassUseDB>;
@@ -48,44 +59,44 @@ export class AclassBclassUsesTableComponent implements OnInit {
 
   ngAfterViewInit() {
 
-	// enable sorting on all fields (including pointers and reverse pointer)
-	this.matTableDataSource.sortingDataAccessor = (aclassbclassuseDB: AclassBclassUseDB, property: string) => {
-		switch (property) {
-				// insertion point for specific sorting accessor
-			case 'Name':
-				return aclassbclassuseDB.Name;
+    // enable sorting on all fields (including pointers and reverse pointer)
+    this.matTableDataSource.sortingDataAccessor = (aclassbclassuseDB: AclassBclassUseDB, property: string) => {
+      switch (property) {
+        // insertion point for specific sorting accessor
+        case 'Name':
+          return aclassbclassuseDB.Name;
 
-			case 'Bclass':
-				return (aclassbclassuseDB.Bclass ? aclassbclassuseDB.Bclass.Name : '');
+        case 'Bclass':
+          return (aclassbclassuseDB.Bclass ? aclassbclassuseDB.Bclass.Name : '');
 
-				case 'AnarrayofbUse':
-					return this.frontRepo.Aclasss.get(aclassbclassuseDB.Aclass_AnarrayofbUseDBID.Int64)?.Name;
+        case 'AnarrayofbUse':
+          return this.frontRepo.Aclasss.get(aclassbclassuseDB.Aclass_AnarrayofbUseDBID.Int64)?.Name;
 
-				default:
-					return AclassBclassUseDB[property];
-		}
-	}; 
+        default:
+          return AclassBclassUseDB[property];
+      }
+    };
 
-	// enable filtering on all fields (including pointers and reverse pointer, which is not done by default)
-	this.matTableDataSource.filterPredicate = (aclassbclassuseDB: AclassBclassUseDB, filter: string) => {
+    // enable filtering on all fields (including pointers and reverse pointer, which is not done by default)
+    this.matTableDataSource.filterPredicate = (aclassbclassuseDB: AclassBclassUseDB, filter: string) => {
 
-		// filtering is based on finding a lower case filter into a concatenated string
-		// the aclassbclassuseDB properties
-		let mergedContent = ""
+      // filtering is based on finding a lower case filter into a concatenated string
+      // the aclassbclassuseDB properties
+      let mergedContent = ""
 
-		// insertion point for merging of fields
-		mergedContent += aclassbclassuseDB.Name.toLowerCase()
-		if (aclassbclassuseDB.Bclass) {
-    		mergedContent += aclassbclassuseDB.Bclass.Name.toLowerCase()
-		}
-		if (aclassbclassuseDB.Aclass_AnarrayofbUseDBID.Int64 != 0) {
-        	mergedContent += this.frontRepo.Aclasss.get(aclassbclassuseDB.Aclass_AnarrayofbUseDBID.Int64)?.Name.toLowerCase()
-    	}
+      // insertion point for merging of fields
+      mergedContent += aclassbclassuseDB.Name.toLowerCase()
+      if (aclassbclassuseDB.Bclass) {
+        mergedContent += aclassbclassuseDB.Bclass.Name.toLowerCase()
+      }
+      if (aclassbclassuseDB.Aclass_AnarrayofbUseDBID.Int64 != 0) {
+        mergedContent += this.frontRepo.Aclasss.get(aclassbclassuseDB.Aclass_AnarrayofbUseDBID.Int64)?.Name.toLowerCase()
+      }
 
 
-		let isSelected = mergedContent.includes(filter.toLowerCase())
-		return isSelected
-	};
+      let isSelected = mergedContent.includes(filter.toLowerCase())
+      return isSelected
+    };
 
     this.matTableDataSource.sort = this.sort;
     this.matTableDataSource.paginator = this.paginator;
@@ -106,6 +117,14 @@ export class AclassBclassUsesTableComponent implements OnInit {
 
     private router: Router,
   ) {
+
+    // compute mode
+    if (dialogData == undefined) {
+      this.mode = TableComponentMode.DISPLAY_MODE
+    } else {
+      this.mode = TableComponentMode.ONE_MANY_ASSOCIATION_MODE
+    }
+
     // observable for changes in structs
     this.aclassbclassuseService.AclassBclassUseServiceChanged.subscribe(
       message => {
@@ -114,8 +133,8 @@ export class AclassBclassUsesTableComponent implements OnInit {
         }
       }
     )
-    if (dialogData == undefined) {
-      this.displayedColumns = ['ID', 'Edit', 'Delete', // insertion point for columns to display
+    if (this.mode == TableComponentMode.DISPLAY_MODE) {
+		this.displayedColumns = ['ID', 'Edit', 'Delete', // insertion point for columns to display
         "Name",
         "Bclass",
         "AnarrayofbUse",
@@ -146,8 +165,8 @@ export class AclassBclassUsesTableComponent implements OnInit {
         // insertion point for variables Recoveries
 
         // in case the component is called as a selection component
-        if (this.dialogData != undefined) {
-          this.aclassbclassuses.forEach(
+        if (this.mode == TableComponentMode.ONE_MANY_ASSOCIATION_MODE) {
+			this.aclassbclassuses.forEach(
             aclassbclassuse => {
               let ID = this.dialogData.ID
               let revPointer = aclassbclassuse[this.dialogData.ReversePointer]

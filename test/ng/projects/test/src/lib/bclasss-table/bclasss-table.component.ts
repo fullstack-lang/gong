@@ -18,6 +18,14 @@ import { BclassService } from '../bclass.service'
 
 import { FrontRepoService, FrontRepo } from '../front-repo.service'
 
+// TableComponent is initilizaed from different routes
+// TableComponentMode detail different cases 
+enum TableComponentMode {
+  DISPLAY_MODE,
+  ONE_MANY_ASSOCIATION_MODE,
+  MANY_MANY_ASSOCIATION_MODE,
+}
+
 // generated table component
 @Component({
   selector: 'app-bclassstable',
@@ -25,6 +33,9 @@ import { FrontRepoService, FrontRepo } from '../front-repo.service'
   styleUrls: ['./bclasss-table.component.css'],
 })
 export class BclasssTableComponent implements OnInit {
+
+  // mode at invocation
+  mode: TableComponentMode
 
   // used if the component is called as a selection component of Bclass instances
   selection: SelectionModel<BclassDB>;
@@ -48,53 +59,53 @@ export class BclasssTableComponent implements OnInit {
 
   ngAfterViewInit() {
 
-	// enable sorting on all fields (including pointers and reverse pointer)
-	this.matTableDataSource.sortingDataAccessor = (bclassDB: BclassDB, property: string) => {
-		switch (property) {
-				// insertion point for specific sorting accessor
-			case 'Name':
-				return bclassDB.Name;
+    // enable sorting on all fields (including pointers and reverse pointer)
+    this.matTableDataSource.sortingDataAccessor = (bclassDB: BclassDB, property: string) => {
+      switch (property) {
+        // insertion point for specific sorting accessor
+        case 'Name':
+          return bclassDB.Name;
 
-			case 'Floatfield':
-				return bclassDB.Floatfield;
+        case 'Floatfield':
+          return bclassDB.Floatfield;
 
-			case 'Intfield':
-				return bclassDB.Intfield;
+        case 'Intfield':
+          return bclassDB.Intfield;
 
-				case 'Anarrayofb':
-					return this.frontRepo.Aclasss.get(bclassDB.Aclass_AnarrayofbDBID.Int64)?.Name;
+        case 'Anarrayofb':
+          return this.frontRepo.Aclasss.get(bclassDB.Aclass_AnarrayofbDBID.Int64)?.Name;
 
-				case 'Anotherarrayofb':
-					return this.frontRepo.Aclasss.get(bclassDB.Aclass_AnotherarrayofbDBID.Int64)?.Name;
+        case 'Anotherarrayofb':
+          return this.frontRepo.Aclasss.get(bclassDB.Aclass_AnotherarrayofbDBID.Int64)?.Name;
 
-				default:
-					return BclassDB[property];
-		}
-	}; 
+        default:
+          return BclassDB[property];
+      }
+    };
 
-	// enable filtering on all fields (including pointers and reverse pointer, which is not done by default)
-	this.matTableDataSource.filterPredicate = (bclassDB: BclassDB, filter: string) => {
+    // enable filtering on all fields (including pointers and reverse pointer, which is not done by default)
+    this.matTableDataSource.filterPredicate = (bclassDB: BclassDB, filter: string) => {
 
-		// filtering is based on finding a lower case filter into a concatenated string
-		// the bclassDB properties
-		let mergedContent = ""
+      // filtering is based on finding a lower case filter into a concatenated string
+      // the bclassDB properties
+      let mergedContent = ""
 
-		// insertion point for merging of fields
-		mergedContent += bclassDB.Name.toLowerCase()
-		mergedContent += bclassDB.Floatfield.toString()
-		mergedContent += bclassDB.Intfield.toString()
-		if (bclassDB.Aclass_AnarrayofbDBID.Int64 != 0) {
-        	mergedContent += this.frontRepo.Aclasss.get(bclassDB.Aclass_AnarrayofbDBID.Int64)?.Name.toLowerCase()
-    	}
+      // insertion point for merging of fields
+      mergedContent += bclassDB.Name.toLowerCase()
+      mergedContent += bclassDB.Floatfield.toString()
+      mergedContent += bclassDB.Intfield.toString()
+      if (bclassDB.Aclass_AnarrayofbDBID.Int64 != 0) {
+        mergedContent += this.frontRepo.Aclasss.get(bclassDB.Aclass_AnarrayofbDBID.Int64)?.Name.toLowerCase()
+      }
 
-		if (bclassDB.Aclass_AnotherarrayofbDBID.Int64 != 0) {
-        	mergedContent += this.frontRepo.Aclasss.get(bclassDB.Aclass_AnotherarrayofbDBID.Int64)?.Name.toLowerCase()
-    	}
+      if (bclassDB.Aclass_AnotherarrayofbDBID.Int64 != 0) {
+        mergedContent += this.frontRepo.Aclasss.get(bclassDB.Aclass_AnotherarrayofbDBID.Int64)?.Name.toLowerCase()
+      }
 
 
-		let isSelected = mergedContent.includes(filter.toLowerCase())
-		return isSelected
-	};
+      let isSelected = mergedContent.includes(filter.toLowerCase())
+      return isSelected
+    };
 
     this.matTableDataSource.sort = this.sort;
     this.matTableDataSource.paginator = this.paginator;
@@ -115,6 +126,14 @@ export class BclasssTableComponent implements OnInit {
 
     private router: Router,
   ) {
+
+    // compute mode
+    if (dialogData == undefined) {
+      this.mode = TableComponentMode.DISPLAY_MODE
+    } else {
+      this.mode = TableComponentMode.ONE_MANY_ASSOCIATION_MODE
+    }
+
     // observable for changes in structs
     this.bclassService.BclassServiceChanged.subscribe(
       message => {
@@ -123,8 +142,8 @@ export class BclasssTableComponent implements OnInit {
         }
       }
     )
-    if (dialogData == undefined) {
-      this.displayedColumns = ['ID', 'Edit', 'Delete', // insertion point for columns to display
+    if (this.mode == TableComponentMode.DISPLAY_MODE) {
+		this.displayedColumns = ['ID', 'Edit', 'Delete', // insertion point for columns to display
         "Name",
         "Floatfield",
         "Intfield",
@@ -159,8 +178,8 @@ export class BclasssTableComponent implements OnInit {
         // insertion point for variables Recoveries
 
         // in case the component is called as a selection component
-        if (this.dialogData != undefined) {
-          this.bclasss.forEach(
+        if (this.mode == TableComponentMode.ONE_MANY_ASSOCIATION_MODE) {
+			this.bclasss.forEach(
             bclass => {
               let ID = this.dialogData.ID
               let revPointer = bclass[this.dialogData.ReversePointer]
