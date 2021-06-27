@@ -1,7 +1,7 @@
 <form *ngIf="aclassbclassuse" class="details">
-    <h1 class="details__title">aclassbclassuse</h1>
+    <h2 class="details__title">aclassbclassuse</h2>
     <!-- insertion point for fields specific code -->
-    <mat-grid-list *ngIf='!isATextArea("Name")' cols="5" rowHeight="1:1">
+    <mat-grid-list *ngIf='!isATextArea("Name")' cols="5" rowHeight="2:1">
         <mat-grid-tile [colspan]="4">
             <mat-form-field mat-form-field class="detail-full-width">
                 <mat-label>Name</mat-label>
@@ -32,7 +32,7 @@
     </mat-form-field>
 
     <mat-form-field class="detail-full-width">
-        <mat-label><- AnarrayofbUse</mat-label>
+        <mat-label>(Aclass) AnarrayofbUse</mat-label>
         <mat-select [compareWith]="compareObjects" [(ngModel)]="aclassbclassuse.Aclass_AnarrayofbUse_reverse" [ngModelOptions]="{standalone: true}">
             <mat-option>None</mat-option>
             <mat-option *ngFor="let aclass of frontRepo.Aclasss_array" [value]="aclass">

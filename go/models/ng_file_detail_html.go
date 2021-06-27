@@ -1,7 +1,7 @@
 package models
 
 const NgDetailTemplateHTML = `<form *ngIf="{{structname}}" class="details">
-    <h1 class="details__title">{{structname}}</h1>
+    <h2 class="details__title">{{structname}}</h2>
     <!-- insertion point for fields specific code -->{{` + string(rune(NgDetailHtmlInsertionPerStructFields)) + `}}
     <div class="details__save">
         <button mat-raised-button color="primary" (click)="save()">
@@ -56,7 +56,7 @@ var NgDetailHtmlSubTemplateCode map[NgDetailHtmlSubTemplate]string = map[NgDetai
 `,
 
 	NgDetailHtmlBasicStringField: `
-    <mat-grid-list *ngIf='!isATextArea("{{FieldName}}")' cols="5" rowHeight="1:1">
+    <mat-grid-list *ngIf='!isATextArea("{{FieldName}}")' cols="5" rowHeight="2:1">
         <mat-grid-tile [colspan]="4">
             <mat-form-field mat-form-field class="detail-full-width">
                 <mat-label>{{FieldName}}</mat-label>
@@ -129,27 +129,23 @@ var NgDetailHtmlSubTemplateCode map[NgDetailHtmlSubTemplate]string = map[NgDetai
 `,
 
 	NgDetailSliceOfPointerToStructHtml: `
-    <mat-grid-list cols="2" rowHeight="6:1">
-        <mat-grid-tile>
-            <div style="width: 100vw; text-align: right;">
-                <button mat-raised-button
-                    (click)="openReverseSelection('{{AssocStructName}}', '{{Structname}}_{{FieldName}}DBID')">{{FieldName}}</button>
-            </div>
+    <mat-grid-list cols="5" rowHeight="2:1">
+        <mat-grid-tile [colspan]="4">
+            <button mat-raised-button
+                (click)="openReverseSelection('{{AssocStructName}}', '{{Structname}}_{{FieldName}}DBID')">{{FieldName}}</button>
         </mat-grid-tile>
         <mat-grid-tile>
-            <div style="width: 100vw; text-align: left;">
-                <button mat-raised-button (click)="openDragAndDropOrdering('{{AssocStructName}}', '{{Structname}}_{{FieldName}}DBID')">
-                    <mat-icon>
-                        shuffle
-                    </mat-icon>
-                </button>
-            </div>
+            <button mat-raised-button (click)="openDragAndDropOrdering('{{AssocStructName}}', '{{Structname}}_{{FieldName}}DBID')">
+                <mat-icon>
+                    shuffle
+                </mat-icon>
+            </button>
         </mat-grid-tile>
     </mat-grid-list>`,
 
 	NgDetailSliceOfPointerToStructReverseHtml: `
     <mat-form-field class="detail-full-width">
-        <mat-label><- {{FieldName}}</mat-label>
+        <mat-label>({{AssocStructName}}) {{FieldName}}</mat-label>
         <mat-select [compareWith]="compareObjects" [(ngModel)]="{{structname}}.{{AssocStructName}}_{{FieldName}}_reverse" [ngModelOptions]="{standalone: true}">
             <mat-option>None</mat-option>
             <mat-option *ngFor="let {{assocStructName}} of frontRepo.{{AssocStructName}}s_array" [value]="{{assocStructName}}">
