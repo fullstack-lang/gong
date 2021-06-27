@@ -32,7 +32,7 @@ const routes: Routes = [ // insertion point for routes declarations
 
 	{ path: 'github_com_fullstack_lang_gong_test_go-dclasss', component: DclasssTableComponent, outlet: 'github_com_fullstack_lang_gong_test_go_table' },
 	{ path: 'github_com_fullstack_lang_gong_test_go-dclass-adder', component: DclassDetailComponent, outlet: 'github_com_fullstack_lang_gong_test_go_editor' },
-	{ path: 'github_com_fullstack_lang_gong_test_go-dclass-adder/:id/:association', component: DclassDetailComponent, outlet: 'github_com_fullstack_lang_gong_test_go_editor' },
+	{ path: 'github_com_fullstack_lang_gong_test_go-dclass-adder/:id/:originStruct/:originStructFieldName', component: DclassDetailComponent, outlet: 'github_com_fullstack_lang_gong_test_go_editor' },
 	{ path: 'github_com_fullstack_lang_gong_test_go-dclass-detail/:id', component: DclassDetailComponent, outlet: 'github_com_fullstack_lang_gong_test_go_editor' },
 	{ path: 'github_com_fullstack_lang_gong_test_go-dclass-presentation/:id', component: DclassPresentationComponent, outlet: 'github_com_fullstack_lang_gong_test_go_presentation' },
 	{ path: 'github_com_fullstack_lang_gong_test_go-dclass-presentation-special/:id', component: DclassPresentationComponent, outlet: 'github_com_fullstack_lang_gong_test_godclasspres' },
