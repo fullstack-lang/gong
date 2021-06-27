@@ -18,6 +18,14 @@ import { DclassService } from '../dclass.service'
 
 import { FrontRepoService, FrontRepo } from '../front-repo.service'
 
+// TableComponent is initilizaed from different routes
+// TableComponentMode detail different cases 
+enum TableComponentMode {
+  DISPLAY_MODE,
+  ONE_MANY_ASSOCIATION_MODE,
+  MANY_MANY_ASSOCIATION_MODE,
+}
+
 // generated table component
 @Component({
   selector: 'app-dclassstable',
@@ -25,6 +33,9 @@ import { FrontRepoService, FrontRepo } from '../front-repo.service'
   styleUrls: ['./dclasss-table.component.css'],
 })
 export class DclasssTableComponent implements OnInit {
+
+  // mode at invocation
+  mode: TableComponentMode
 
   // used if the component is called as a selection component of Dclass instances
   selection: SelectionModel<DclassDB>;
@@ -48,31 +59,31 @@ export class DclasssTableComponent implements OnInit {
 
   ngAfterViewInit() {
 
-	// enable sorting on all fields (including pointers and reverse pointer)
-	this.matTableDataSource.sortingDataAccessor = (dclassDB: DclassDB, property: string) => {
-		switch (property) {
-				// insertion point for specific sorting accessor
-			case 'Name':
-				return dclassDB.Name;
+    // enable sorting on all fields (including pointers and reverse pointer)
+    this.matTableDataSource.sortingDataAccessor = (dclassDB: DclassDB, property: string) => {
+      switch (property) {
+        // insertion point for specific sorting accessor
+        case 'Name':
+          return dclassDB.Name;
 
-				default:
-					return DclassDB[property];
-		}
-	}; 
+        default:
+          return DclassDB[property];
+      }
+    };
 
-	// enable filtering on all fields (including pointers and reverse pointer, which is not done by default)
-	this.matTableDataSource.filterPredicate = (dclassDB: DclassDB, filter: string) => {
+    // enable filtering on all fields (including pointers and reverse pointer, which is not done by default)
+    this.matTableDataSource.filterPredicate = (dclassDB: DclassDB, filter: string) => {
 
-		// filtering is based on finding a lower case filter into a concatenated string
-		// the dclassDB properties
-		let mergedContent = ""
+      // filtering is based on finding a lower case filter into a concatenated string
+      // the dclassDB properties
+      let mergedContent = ""
 
-		// insertion point for merging of fields
-		mergedContent += dclassDB.Name.toLowerCase()
+      // insertion point for merging of fields
+      mergedContent += dclassDB.Name.toLowerCase()
 
-		let isSelected = mergedContent.includes(filter.toLowerCase())
-		return isSelected
-	};
+      let isSelected = mergedContent.includes(filter.toLowerCase())
+      return isSelected
+    };
 
     this.matTableDataSource.sort = this.sort;
     this.matTableDataSource.paginator = this.paginator;
@@ -93,6 +104,14 @@ export class DclasssTableComponent implements OnInit {
 
     private router: Router,
   ) {
+
+    // compute mode
+    if (dialogData == undefined) {
+      this.mode = TableComponentMode.DISPLAY_MODE
+    } else {
+      this.mode = TableComponentMode.ONE_MANY_ASSOCIATION_MODE
+    }
+
     // observable for changes in structs
     this.dclassService.DclassServiceChanged.subscribe(
       message => {
@@ -101,8 +120,8 @@ export class DclasssTableComponent implements OnInit {
         }
       }
     )
-    if (dialogData == undefined) {
-      this.displayedColumns = ['ID', 'Edit', 'Delete', // insertion point for columns to display
+    if (this.mode == TableComponentMode.DISPLAY_MODE) {
+		this.displayedColumns = ['ID', 'Edit', 'Delete', // insertion point for columns to display
         "Name",
       ]
     } else {
@@ -129,8 +148,8 @@ export class DclasssTableComponent implements OnInit {
         // insertion point for variables Recoveries
 
         // in case the component is called as a selection component
-        if (this.dialogData != undefined) {
-          this.dclasss.forEach(
+        if (this.mode == TableComponentMode.ONE_MANY_ASSOCIATION_MODE) {
+			this.dclasss.forEach(
             dclass => {
               let ID = this.dialogData.ID
               let revPointer = dclass[this.dialogData.ReversePointer]

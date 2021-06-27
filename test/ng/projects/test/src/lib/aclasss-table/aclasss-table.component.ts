@@ -18,6 +18,14 @@ import { AclassService } from '../aclass.service'
 
 import { FrontRepoService, FrontRepo } from '../front-repo.service'
 
+// TableComponent is initilizaed from different routes
+// TableComponentMode detail different cases 
+enum TableComponentMode {
+  DISPLAY_MODE,
+  ONE_MANY_ASSOCIATION_MODE,
+  MANY_MANY_ASSOCIATION_MODE,
+}
+
 // generated table component
 @Component({
   selector: 'app-aclassstable',
@@ -25,6 +33,9 @@ import { FrontRepoService, FrontRepo } from '../front-repo.service'
   styleUrls: ['./aclasss-table.component.css'],
 })
 export class AclasssTableComponent implements OnInit {
+
+  // mode at invocation
+  mode: TableComponentMode
 
   // used if the component is called as a selection component of Aclass instances
   selection: SelectionModel<AclassDB>;
@@ -48,90 +59,90 @@ export class AclasssTableComponent implements OnInit {
 
   ngAfterViewInit() {
 
-	// enable sorting on all fields (including pointers and reverse pointer)
-	this.matTableDataSource.sortingDataAccessor = (aclassDB: AclassDB, property: string) => {
-		switch (property) {
-				// insertion point for specific sorting accessor
-			case 'Name':
-				return aclassDB.Name;
+    // enable sorting on all fields (including pointers and reverse pointer)
+    this.matTableDataSource.sortingDataAccessor = (aclassDB: AclassDB, property: string) => {
+      switch (property) {
+        // insertion point for specific sorting accessor
+        case 'Name':
+          return aclassDB.Name;
 
-			case 'Date':
-				return aclassDB.Date;
+        case 'Date':
+          return aclassDB.Date;
 
-			case 'Booleanfield':
-				return aclassDB.Booleanfield;
+        case 'Booleanfield':
+          return aclassDB.Booleanfield;
 
-			case 'Aenum':
-				return aclassDB.Aenum;
+        case 'Aenum':
+          return aclassDB.Aenum;
 
-			case 'Aenum_2':
-				return aclassDB.Aenum_2;
+        case 'Aenum_2':
+          return aclassDB.Aenum_2;
 
-			case 'Benum':
-				return aclassDB.Benum;
+        case 'Benum':
+          return aclassDB.Benum;
 
-			case 'CName':
-				return aclassDB.CName;
+        case 'CName':
+          return aclassDB.CName;
 
-			case 'CFloatfield':
-				return aclassDB.CFloatfield;
+        case 'CFloatfield':
+          return aclassDB.CFloatfield;
 
-			case 'Floatfield':
-				return aclassDB.Floatfield;
+        case 'Floatfield':
+          return aclassDB.Floatfield;
 
-			case 'Intfield':
-				return aclassDB.Intfield;
+        case 'Intfield':
+          return aclassDB.Intfield;
 
-			case 'Anotherbooleanfield':
-				return aclassDB.Anotherbooleanfield;
+        case 'Anotherbooleanfield':
+          return aclassDB.Anotherbooleanfield;
 
-			case 'Duration1':
-				return aclassDB.Duration1;
+        case 'Duration1':
+          return aclassDB.Duration1;
 
-			case 'Associationtob':
-				return (aclassDB.Associationtob ? aclassDB.Associationtob.Name : '');
+        case 'Associationtob':
+          return (aclassDB.Associationtob ? aclassDB.Associationtob.Name : '');
 
-			case 'Anotherassociationtob_2':
-				return (aclassDB.Anotherassociationtob_2 ? aclassDB.Anotherassociationtob_2.Name : '');
+        case 'Anotherassociationtob_2':
+          return (aclassDB.Anotherassociationtob_2 ? aclassDB.Anotherassociationtob_2.Name : '');
 
-				case 'Anarrayofa':
-					return this.frontRepo.Aclasss.get(aclassDB.Aclass_AnarrayofaDBID.Int64)?.Name;
+        case 'Anarrayofa':
+          return this.frontRepo.Aclasss.get(aclassDB.Aclass_AnarrayofaDBID.Int64)?.Name;
 
-				default:
-					return AclassDB[property];
-		}
-	}; 
+        default:
+          return AclassDB[property];
+      }
+    };
 
-	// enable filtering on all fields (including pointers and reverse pointer, which is not done by default)
-	this.matTableDataSource.filterPredicate = (aclassDB: AclassDB, filter: string) => {
+    // enable filtering on all fields (including pointers and reverse pointer, which is not done by default)
+    this.matTableDataSource.filterPredicate = (aclassDB: AclassDB, filter: string) => {
 
-		// filtering is based on finding a lower case filter into a concatenated string
-		// the aclassDB properties
-		let mergedContent = ""
+      // filtering is based on finding a lower case filter into a concatenated string
+      // the aclassDB properties
+      let mergedContent = ""
 
-		// insertion point for merging of fields
-		mergedContent += aclassDB.Name.toLowerCase()
-		mergedContent += aclassDB.Aenum.toLowerCase()
-		mergedContent += aclassDB.Aenum_2.toLowerCase()
-		mergedContent += aclassDB.Benum.toLowerCase()
-		mergedContent += aclassDB.CName.toLowerCase()
-		mergedContent += aclassDB.CFloatfield.toString()
-		mergedContent += aclassDB.Floatfield.toString()
-		mergedContent += aclassDB.Intfield.toString()
-		if (aclassDB.Associationtob) {
-    		mergedContent += aclassDB.Associationtob.Name.toLowerCase()
-		}
-		if (aclassDB.Anotherassociationtob_2) {
-    		mergedContent += aclassDB.Anotherassociationtob_2.Name.toLowerCase()
-		}
-		if (aclassDB.Aclass_AnarrayofaDBID.Int64 != 0) {
-        	mergedContent += this.frontRepo.Aclasss.get(aclassDB.Aclass_AnarrayofaDBID.Int64)?.Name.toLowerCase()
-    	}
+      // insertion point for merging of fields
+      mergedContent += aclassDB.Name.toLowerCase()
+      mergedContent += aclassDB.Aenum.toLowerCase()
+      mergedContent += aclassDB.Aenum_2.toLowerCase()
+      mergedContent += aclassDB.Benum.toLowerCase()
+      mergedContent += aclassDB.CName.toLowerCase()
+      mergedContent += aclassDB.CFloatfield.toString()
+      mergedContent += aclassDB.Floatfield.toString()
+      mergedContent += aclassDB.Intfield.toString()
+      if (aclassDB.Associationtob) {
+        mergedContent += aclassDB.Associationtob.Name.toLowerCase()
+      }
+      if (aclassDB.Anotherassociationtob_2) {
+        mergedContent += aclassDB.Anotherassociationtob_2.Name.toLowerCase()
+      }
+      if (aclassDB.Aclass_AnarrayofaDBID.Int64 != 0) {
+        mergedContent += this.frontRepo.Aclasss.get(aclassDB.Aclass_AnarrayofaDBID.Int64)?.Name.toLowerCase()
+      }
 
 
-		let isSelected = mergedContent.includes(filter.toLowerCase())
-		return isSelected
-	};
+      let isSelected = mergedContent.includes(filter.toLowerCase())
+      return isSelected
+    };
 
     this.matTableDataSource.sort = this.sort;
     this.matTableDataSource.paginator = this.paginator;
@@ -152,6 +163,14 @@ export class AclasssTableComponent implements OnInit {
 
     private router: Router,
   ) {
+
+    // compute mode
+    if (dialogData == undefined) {
+      this.mode = TableComponentMode.DISPLAY_MODE
+    } else {
+      this.mode = TableComponentMode.ONE_MANY_ASSOCIATION_MODE
+    }
+
     // observable for changes in structs
     this.aclassService.AclassServiceChanged.subscribe(
       message => {
@@ -160,7 +179,7 @@ export class AclasssTableComponent implements OnInit {
         }
       }
     )
-    if (dialogData == undefined) {
+    if (this.mode == TableComponentMode.DISPLAY_MODE) {
       this.displayedColumns = ['ID', 'Edit', 'Delete', // insertion point for columns to display
         "Name",
         "Date",
@@ -223,7 +242,7 @@ export class AclasssTableComponent implements OnInit {
         }
 
         // in case the component is called as a selection component
-        if (this.dialogData != undefined) {
+        if (this.mode == TableComponentMode.ONE_MANY_ASSOCIATION_MODE) {
           this.aclasss.forEach(
             aclass => {
               let ID = this.dialogData.ID
