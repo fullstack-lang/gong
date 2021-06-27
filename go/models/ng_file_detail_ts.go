@@ -35,6 +35,14 @@ import { MatDialog, MAT_DIALOG_DATA, MatDialogRef, MatDialogConfig } from '@angu
 
 import { NullInt64 } from '../front-repo.service'
 
+// {{Structname}}DetailComponent is initilizaed from different routes
+// {{Structname}}DetailComponentState detail different cases 
+enum {{Structname}}DetailComponentState {
+	CREATE_INSTANCE,
+	UPDATE_INSTANCE,
+	// insertion point for declarations of enum values of state{{` + string(rune(NgDetailTsInsertionPerStructEnumFieldDeclarations)) + `}}
+}
+
 @Component({
 	selector: 'app-{{structname}}-detail',
 	templateUrl: './{{structname}}-detail.component.html',
@@ -55,6 +63,17 @@ export class {{Structname}}DetailComponent implements OnInit {
 	// if true, it is inputed with a <textarea ...> </textarea>
 	mapFields_displayAsTextArea = new Map<string, boolean>()
 
+	// the state at initialization (CREATION, UPDATE or CREATE with one association set)
+	state: {{Structname}}DetailComponentState
+
+	// in UDPATE state, if is the id of the instance to update
+	// in CREATE state with one association set, this is the id of the associated instance
+	id: number
+
+	// in CREATE state with one association set, this is the id of the associated instance
+	originStruct: string
+	originStructFieldName: string
+
 	constructor(
 		private {{structname}}Service: {{Structname}}Service,
 		private frontRepoService: FrontRepoService,
@@ -65,6 +84,27 @@ export class {{Structname}}DetailComponent implements OnInit {
 	}
 
 	ngOnInit(): void {
+
+		// compute state
+		this.id = +this.route.snapshot.paramMap.get('id');
+		this.originStruct = this.route.snapshot.paramMap.get('originStruct');
+		this.originStructFieldName = this.route.snapshot.paramMap.get('originStructFieldName');
+
+		const association = this.route.snapshot.paramMap.get('association');
+		if (this.id == 0) {
+			this.state = {{Structname}}DetailComponentState.CREATE_INSTANCE
+		} else {
+			if (this.originStruct == undefined) {
+				this.state = {{Structname}}DetailComponentState.UPDATE_INSTANCE
+			} else {
+				switch (this.originStructFieldName) {
+					// insertion point for state computation{{` + string(rune(NgDetailTsInsertionPerStructCaseInitFieldDeclarations)) + `}}
+					default:
+						console.log(this.originStructFieldName + " is unkown association")
+				}
+			}
+		}
+
 		this.get{{Structname}}()
 
 		// observable for changes in structs
@@ -80,16 +120,21 @@ export class {{Structname}}DetailComponent implements OnInit {
 	}
 
 	get{{Structname}}(): void {
-		const id = +this.route.snapshot.paramMap.get('id');
-		const association = this.route.snapshot.paramMap.get('association');
 
 		this.frontRepoService.pull().subscribe(
 			frontRepo => {
 				this.frontRepo = frontRepo
-				if (id != 0 && association == undefined) {
-					this.{{structname}} = frontRepo.{{Structname}}s.get(id)
-				} else {
-					this.{{structname}} = new ({{Structname}}DB)
+
+				switch (this.state) {
+					case {{Structname}}DetailComponentState.CREATE_INSTANCE:
+						this.{{structname}} = new ({{Structname}}DB)
+						break;
+					case {{Structname}}DetailComponentState.UPDATE_INSTANCE:
+						this.{{structname}} = frontRepo.{{Structname}}s.get(this.id)
+						break;
+					// insertion point for init of association field{{` + string(rune(NgDetailTsInsertionPerStructCaseSetField)) + `}}
+					default:
+						console.log(this.state + " is unkown state")
 				}
 
 				// insertion point for recovery of form controls value for bool fields{{` + string(rune(NgDetailTsInsertionPerStructRecoveries)) + `}}
@@ -100,8 +145,6 @@ export class {{Structname}}DetailComponent implements OnInit {
 	}
 
 	save(): void {
-		const id = +this.route.snapshot.paramMap.get('id');
-		const association = this.route.snapshot.paramMap.get('association');
 
 		// some fields needs to be translated into serializable forms
 		// pointers fields, after the translation, are nulled in order to perform serialization
@@ -109,26 +152,21 @@ export class {{Structname}}DetailComponent implements OnInit {
 		// insertion point for translation/nullation of each field{{` + string(rune(NgDetailTsInsertionPerStructSaves)) + `}}
 
 		// save from the front pointer space to the non pointer space for serialization
-		if (association == undefined) {
-			// insertion point for translation/nullation of each pointers{{` + string(rune(NgDetailTsInsertionPerStructReversePointerSaveWhenUpdate)) + `}}
-		}
 
-		if (id != 0 && association == undefined) {
+		// insertion point for translation/nullation of each pointers{{` + string(rune(NgDetailTsInsertionPerStructReversePointerSaveWhenUpdate)) + `}}
 
-			this.{{structname}}Service.update{{Structname}}(this.{{structname}})
-				.subscribe({{structname}} => {
-					this.{{structname}}Service.{{Structname}}ServiceChanged.next("update")
+		switch (this.state) {
+			case {{Structname}}DetailComponentState.UPDATE_INSTANCE:
+				this.{{structname}}Service.update{{Structname}}(this.{{structname}})
+					.subscribe({{structname}} => {
+						this.{{structname}}Service.{{Structname}}ServiceChanged.next("update")
+					});
+				break;
+			default:
+				this.{{structname}}Service.post{{Structname}}(this.{{structname}}).subscribe({{structname}} => {
+					this.{{structname}}Service.{{Structname}}ServiceChanged.next("post")
+					this.{{structname}} = {} // reset fields
 				});
-		} else {
-			switch (association) {
-				// insertion point for saving value of ONE_MANY association reverse pointer{{` + string(rune(NgDetailTsInsertionPerStructReversePointerSaveWhenCreateFromOwner)) + `}}
-			}
-			this.{{structname}}Service.post{{Structname}}(this.{{structname}}).subscribe({{structname}} => {
-
-				this.{{structname}}Service.{{Structname}}ServiceChanged.next("post")
-
-				this.{{structname}} = {} // reset fields
-			});
 		}
 	}
 
@@ -221,7 +259,10 @@ type NgDetailTsInsertionPoint int
 
 const (
 	NgDetailTsInsertionPerStructImports NgDetailTsInsertionPoint = iota
+	NgDetailTsInsertionPerStructEnumFieldDeclarations
 	NgDetailTsInsertionPerStructDeclarations
+	NgDetailTsInsertionPerStructCaseInitFieldDeclarations
+	NgDetailTsInsertionPerStructCaseSetField
 	NgDetailTsInsertionPerStructInits
 	NgDetailTsInsertionPerStructSorting
 	NgDetailTsInsertionPerStructRecoveries
@@ -248,7 +289,9 @@ const (
 
 	NgDetailTSPointerToGongStructSaves
 
-	NgDetailTSReversePointerToSliceOfGongStructSavesWhenCreateFromOwner
+	NgDetailTSReversePointerToSliceOfGongStructStateEnumDeclaration
+	NgDetailTSReversePointerToSliceOfGongStructStateCaseComputation
+	NgDetailTSReversePointerToSliceOfGongStructStateCaseSetField
 	NgDetailTSReversePointerToSliceOfGongStructSavesWhenUpdate
 )
 
@@ -263,8 +306,10 @@ import { {{EnumName}}Select, {{EnumName}}List } from '../{{EnumName}}'`,
 
 	NgDetailTSBooleanDeclarations: `
 	{{FieldName}}FormControl = new FormControl(false);`,
+
 	NgDetailTSBooleanRecoveries: `
 				this.{{FieldName}}FormControl.setValue(this.{{structname}}.{{FieldName}})`,
+
 	NgDetailTSBooleanSaves: `
 		this.{{structname}}.{{FieldName}} = this.{{FieldName}}FormControl.value`,
 
@@ -272,11 +317,13 @@ import { {{EnumName}}Select, {{EnumName}}List } from '../{{EnumName}}'`,
 	{{FieldName}}_Hours: number
 	{{FieldName}}_Minutes: number
 	{{FieldName}}_Seconds: number`,
+
 	NgDetailTSTimeDurationRecoveries: `
 				// computation of Hours, Minutes, Seconds for {{FieldName}}
 				this.{{FieldName}}_Hours = Math.floor(this.{{structname}}.{{FieldName}} / (3600 * 1000 * 1000 * 1000))
 				this.{{FieldName}}_Minutes = Math.floor(this.{{structname}}.{{FieldName}} % (3600 * 1000 * 1000 * 1000) / (60 * 1000 * 1000 * 1000))
 				this.{{FieldName}}_Seconds = this.{{structname}}.{{FieldName}} % (60 * 1000 * 1000 * 1000) / (1000 * 1000 * 1000)`,
+
 	NgDetailTSTimeDurationSaves: `
 		this.{{structname}}.{{FieldName}} =
 			this.{{FieldName}}_Hours * (3600 * 1000 * 1000 * 1000) +
@@ -295,28 +342,34 @@ import { {{EnumName}}Select, {{EnumName}}List } from '../{{EnumName}}'`,
 			this.{{structname}}.{{FieldName}}ID.Valid = true
 		}`,
 
-	NgDetailTSReversePointerToSliceOfGongStructSavesWhenCreateFromOwner: `
-				case "{{AssocStructName}}_{{FieldName}}":
-					this.{{structname}}.{{AssocStructName}}_{{FieldName}}DBID = new NullInt64
-					this.{{structname}}.{{AssocStructName}}_{{FieldName}}DBID.Int64 = id
-					this.{{structname}}.{{AssocStructName}}_{{FieldName}}DBID.Valid = true
-					this.{{structname}}.{{AssocStructName}}_{{FieldName}}DBID_Index = new NullInt64
-					this.{{structname}}.{{AssocStructName}}_{{FieldName}}DBID_Index.Valid = true
-					break`,
+	NgDetailTSReversePointerToSliceOfGongStructStateEnumDeclaration: `
+	CREATE_INSTANCE_WITH_ASSOCIATION_{{AssocStructName}}_{{FieldName}}_SET,`,
+
+	NgDetailTSReversePointerToSliceOfGongStructStateCaseComputation: `
+					case "{{FieldName}}":
+						console.log("{{Structname}}" + " is instanciated with back pointer to instance " + this.id + " {{AssocStructName}} association {{FieldName}}")
+						this.state = {{Structname}}DetailComponentState.CREATE_INSTANCE_WITH_ASSOCIATION_{{AssocStructName}}_{{FieldName}}_SET
+						break;`,
+
+	NgDetailTSReversePointerToSliceOfGongStructStateCaseSetField: `
+					case {{Structname}}DetailComponentState.CREATE_INSTANCE_WITH_ASSOCIATION_{{AssocStructName}}_{{FieldName}}_SET:
+						this.{{structname}} = new ({{Structname}}DB)
+						this.{{structname}}.{{AssocStructName}}_{{FieldName}}_reverse = frontRepo.{{AssocStructName}}s.get(this.id)
+						break;`,
 
 	NgDetailTSReversePointerToSliceOfGongStructSavesWhenUpdate: `
-			if (this.{{structname}}.{{AssocStructName}}_{{FieldName}}_reverse != undefined) {
-				if (this.{{structname}}.{{AssocStructName}}_{{FieldName}}DBID == undefined) {
-					this.{{structname}}.{{AssocStructName}}_{{FieldName}}DBID = new NullInt64
-				}
-				this.{{structname}}.{{AssocStructName}}_{{FieldName}}DBID.Int64 = this.{{structname}}.{{AssocStructName}}_{{FieldName}}_reverse.ID
-				this.{{structname}}.{{AssocStructName}}_{{FieldName}}DBID.Valid = true
-				if (this.{{structname}}.{{AssocStructName}}_{{FieldName}}DBID_Index == undefined) {
-					this.{{structname}}.{{AssocStructName}}_{{FieldName}}DBID_Index = new NullInt64
-				}
-				this.{{structname}}.{{AssocStructName}}_{{FieldName}}DBID_Index.Valid = true
-				this.{{structname}}.{{AssocStructName}}_{{FieldName}}_reverse = undefined // very important, otherwise, circular JSON
-			}`,
+		if (this.{{structname}}.{{AssocStructName}}_{{FieldName}}_reverse != undefined) {
+			if (this.{{structname}}.{{AssocStructName}}_{{FieldName}}DBID == undefined) {
+				this.{{structname}}.{{AssocStructName}}_{{FieldName}}DBID = new NullInt64
+			}
+			this.{{structname}}.{{AssocStructName}}_{{FieldName}}DBID.Int64 = this.{{structname}}.{{AssocStructName}}_{{FieldName}}_reverse.ID
+			this.{{structname}}.{{AssocStructName}}_{{FieldName}}DBID.Valid = true
+			if (this.{{structname}}.{{AssocStructName}}_{{FieldName}}DBID_Index == undefined) {
+				this.{{structname}}.{{AssocStructName}}_{{FieldName}}DBID_Index = new NullInt64
+			}
+			this.{{structname}}.{{AssocStructName}}_{{FieldName}}DBID_Index.Valid = true
+			this.{{structname}}.{{AssocStructName}}_{{FieldName}}_reverse = undefined // very important, otherwise, circular JSON
+		}`,
 }
 
 // MultiCodeGeneratorNgDetail parses mdlPkg and generates the code for the
@@ -521,8 +574,18 @@ func MultiCodeGeneratorNgDetail(
 					fieldSliceOfPointerToModel := field.(*SliceOfPointerToGongStructField)
 
 					if fieldSliceOfPointerToModel.GongStruct == _struct {
-						TSinsertions[NgDetailTsInsertionPerStructReversePointerSaveWhenCreateFromOwner] +=
-							Replace2(NgDetailSubTemplateCode[NgDetailTSReversePointerToSliceOfGongStructSavesWhenCreateFromOwner],
+						TSinsertions[NgDetailTsInsertionPerStructEnumFieldDeclarations] +=
+							Replace2(NgDetailSubTemplateCode[NgDetailTSReversePointerToSliceOfGongStructStateEnumDeclaration],
+								"{{FieldName}}", fieldSliceOfPointerToModel.Name,
+								"{{AssocStructName}}", __struct.Name)
+
+						TSinsertions[NgDetailTsInsertionPerStructCaseInitFieldDeclarations] +=
+							Replace2(NgDetailSubTemplateCode[NgDetailTSReversePointerToSliceOfGongStructStateCaseComputation],
+								"{{FieldName}}", fieldSliceOfPointerToModel.Name,
+								"{{AssocStructName}}", __struct.Name)
+
+						TSinsertions[NgDetailTsInsertionPerStructCaseSetField] +=
+							Replace2(NgDetailSubTemplateCode[NgDetailTSReversePointerToSliceOfGongStructStateCaseSetField],
 								"{{FieldName}}", fieldSliceOfPointerToModel.Name,
 								"{{AssocStructName}}", __struct.Name)
 
