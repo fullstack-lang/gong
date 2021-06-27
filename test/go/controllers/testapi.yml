@@ -6,6 +6,7 @@ definitions:
     description: Aclass demonstrate basic metabaron
     properties:
       Aenum:
+        description: enums is a supported type of gong (if they are string)
         enum:
         - ENUM_VAL1_NOT_THE_SAME
         - ENUM_VAL2
@@ -20,6 +21,11 @@ definitions:
           $ref: '#/definitions/Aclass'
         type: array
       Anarrayofb:
+        description: |-
+          ONE-MANY association is a supported type of gong
+          not that that in go, this is a MANY-MANY association. In gong, the association
+          is implemented in the destination of the association, therefore, a Bclass instance
+          is related to ZERO/ONE Aclass instance by Arrayofb field
         items:
           $ref: '#/definitions/Bclass'
         type: array
@@ -39,6 +45,7 @@ definitions:
         - ENUM_VAL2
         type: string
       Booleanfield:
+        description: bool is a supported type of gong
         type: boolean
       CFloatfield:
         format: double
@@ -46,17 +53,21 @@ definitions:
       CName:
         type: string
       Date:
+        description: time.Time is a supported type of gong
         format: date-time
         type: string
       Duration1:
         $ref: '#/definitions/Duration'
       Floatfield:
+        description: float64 is a supported type of gong
         format: double
         type: number
       Intfield:
+        description: int is a supported type of gong
         format: int64
         type: integer
       Name:
+        description: a "Name" field is necessary to generate a GongStruct
         type: string
     type: object
     x-go-package: github.com/fullstack-lang/gong/test/go/models
@@ -166,6 +177,7 @@ definitions:
       Aclass_AnarrayofaDBID_Index:
         $ref: '#/definitions/NullInt64'
       Aenum:
+        description: enums is a supported type of gong (if they are string)
         enum:
         - ENUM_VAL1_NOT_THE_SAME
         - ENUM_VAL2
@@ -180,6 +192,11 @@ definitions:
           $ref: '#/definitions/Aclass'
         type: array
       Anarrayofb:
+        description: |-
+          ONE-MANY association is a supported type of gong
+          not that that in go, this is a MANY-MANY association. In gong, the association
+          is implemented in the destination of the association, therefore, a Bclass instance
+          is related to ZERO/ONE Aclass instance by Arrayofb field
         items:
           $ref: '#/definitions/Bclass'
         type: array
@@ -203,6 +220,7 @@ definitions:
         - ENUM_VAL2
         type: string
       Booleanfield:
+        description: bool is a supported type of gong
         type: boolean
       CFloatfield:
         format: double
@@ -213,6 +231,7 @@ definitions:
         format: date-time
         type: string
       Date:
+        description: time.Time is a supported type of gong
         format: date-time
         type: string
       DeletedAt:
@@ -220,15 +239,18 @@ definitions:
       Duration1:
         $ref: '#/definitions/Duration'
       Floatfield:
+        description: float64 is a supported type of gong
         format: double
         type: number
       ID:
         format: uint64
         type: integer
       Intfield:
+        description: int is a supported type of gong
         format: int64
         type: integer
       Name:
+        description: a "Name" field is necessary to generate a GongStruct
         type: string
       UpdatedAt:
         format: date-time
