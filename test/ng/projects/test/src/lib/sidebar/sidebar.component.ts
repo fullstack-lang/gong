@@ -33,6 +33,7 @@ interface GongNode {
   children?: GongNode[];
   type: GongNodeType;
   structName: string;
+  associationField: string;
   associatedStructName: string;
   id: number;
   uniqueIdPerStack: number;
@@ -48,6 +49,7 @@ interface GongFlatNode {
   level: number;
   type: GongNodeType;
   structName: string;
+  associationField: string;
   associatedStructName: string;
   id: number;
   uniqueIdPerStack: number;
@@ -82,6 +84,7 @@ export class SidebarComponent implements OnInit {
       level: level,
       type: node.type,
       structName: node.structName,
+      associationField: node.associationField,
       associatedStructName: node.associatedStructName,
       id: node.id,
       uniqueIdPerStack: node.uniqueIdPerStack,
@@ -213,6 +216,7 @@ export class SidebarComponent implements OnInit {
         id: 0,
         uniqueIdPerStack: 13 * nonInstanceNodeId,
         structName: "Aclass",
+        associationField: "",
         associatedStructName: "",
         children: new Array<GongNode>()
       }
@@ -237,6 +241,7 @@ export class SidebarComponent implements OnInit {
             id: aclassDB.ID,
             uniqueIdPerStack: getAclassUniqueID(aclassDB.ID),
             structName: "Aclass",
+            associationField: "",
             associatedStructName: "",
             children: new Array<GongNode>()
           }
@@ -252,7 +257,8 @@ export class SidebarComponent implements OnInit {
             id: aclassDB.ID,
             uniqueIdPerStack: 17 * nonInstanceNodeId,
             structName: "Aclass",
-            associatedStructName: "",
+            associationField: "Associationtob",
+            associatedStructName: "Bclass",
             children: new Array<GongNode>()
           }
           nonInstanceNodeId = nonInstanceNodeId + 1
@@ -270,6 +276,7 @@ export class SidebarComponent implements OnInit {
                 3 * getAclassUniqueID(aclassDB.ID)
                 + 5 * getBclassUniqueID(aclassDB.Associationtob.ID),
               structName: "Bclass",
+              associationField: "",
               associatedStructName: "",
               children: new Array<GongNode>()
             }
@@ -285,6 +292,7 @@ export class SidebarComponent implements OnInit {
             id: aclassDB.ID,
             uniqueIdPerStack: 17 * nonInstanceNodeId,
             structName: "Aclass",
+            associationField: "",
             associatedStructName: "",
             children: new Array<GongNode>()
           }
@@ -303,6 +311,7 @@ export class SidebarComponent implements OnInit {
                 3 * getAclassUniqueID(aclassDB.ID)
                 + 5 * getBclassUniqueID(aclassDB.Anotherassociationtob_2.ID),
               structName: "Bclass",
+              associationField: "",
               associatedStructName: "",
               children: new Array<GongNode>()
             }
@@ -318,6 +327,7 @@ export class SidebarComponent implements OnInit {
             id: aclassDB.ID,
             uniqueIdPerStack: 19 * nonInstanceNodeId,
             structName: "Aclass",
+            associationField: "Anarrayofb",
             associatedStructName: "Bclass",
             children: new Array<GongNode>()
           }
@@ -333,6 +343,7 @@ export class SidebarComponent implements OnInit {
                 7 * getAclassUniqueID(aclassDB.ID)
                 + 11 * getBclassUniqueID(bclassDB.ID),
               structName: "Bclass",
+              associationField: "",
               associatedStructName: "",
               children: new Array<GongNode>()
             }
@@ -348,6 +359,7 @@ export class SidebarComponent implements OnInit {
             id: aclassDB.ID,
             uniqueIdPerStack: 19 * nonInstanceNodeId,
             structName: "Aclass",
+            associationField: "Anotherarrayofb",
             associatedStructName: "Bclass",
             children: new Array<GongNode>()
           }
@@ -363,6 +375,7 @@ export class SidebarComponent implements OnInit {
                 7 * getAclassUniqueID(aclassDB.ID)
                 + 11 * getBclassUniqueID(bclassDB.ID),
               structName: "Bclass",
+              associationField: "",
               associatedStructName: "",
               children: new Array<GongNode>()
             }
@@ -378,6 +391,7 @@ export class SidebarComponent implements OnInit {
             id: aclassDB.ID,
             uniqueIdPerStack: 19 * nonInstanceNodeId,
             structName: "Aclass",
+            associationField: "Anarrayofa",
             associatedStructName: "Aclass",
             children: new Array<GongNode>()
           }
@@ -393,6 +407,7 @@ export class SidebarComponent implements OnInit {
                 7 * getAclassUniqueID(aclassDB.ID)
                 + 11 * getAclassUniqueID(aclassDB.ID),
               structName: "Aclass",
+              associationField: "",
               associatedStructName: "",
               children: new Array<GongNode>()
             }
@@ -411,6 +426,7 @@ export class SidebarComponent implements OnInit {
         id: 0,
         uniqueIdPerStack: 13 * nonInstanceNodeId,
         structName: "Bclass",
+        associationField: "",
         associatedStructName: "",
         children: new Array<GongNode>()
       }
@@ -435,6 +451,7 @@ export class SidebarComponent implements OnInit {
             id: bclassDB.ID,
             uniqueIdPerStack: getBclassUniqueID(bclassDB.ID),
             structName: "Bclass",
+            associationField: "",
             associatedStructName: "",
             children: new Array<GongNode>()
           }
@@ -453,6 +470,7 @@ export class SidebarComponent implements OnInit {
         id: 0,
         uniqueIdPerStack: 13 * nonInstanceNodeId,
         structName: "Dclass",
+        associationField: "",
         associatedStructName: "",
         children: new Array<GongNode>()
       }
@@ -477,6 +495,7 @@ export class SidebarComponent implements OnInit {
             id: dclassDB.ID,
             uniqueIdPerStack: getDclassUniqueID(dclassDB.ID),
             structName: "Dclass",
+            associationField: "",
             associatedStructName: "",
             children: new Array<GongNode>()
           }
@@ -554,10 +573,10 @@ export class SidebarComponent implements OnInit {
     }]);
   }
 
-  setEditorSpecialRouterOutlet( node: GongFlatNode) {
+  setEditorSpecialRouterOutlet(node: GongFlatNode) {
     this.router.navigate([{
       outlets: {
-        github_com_fullstack_lang_gong_test_go_editor: ["github_com_fullstack_lang_gong_test_go-" + node.associatedStructName.toLowerCase() + "-adder", node.id, node.structName + "_" + node.name]
+        github_com_fullstack_lang_gong_test_go_editor: ["github_com_fullstack_lang_gong_test_go-" + node.associatedStructName.toLowerCase() + "-adder", node.id, node.structName, node.associationField]
       }
     }]);
   }
