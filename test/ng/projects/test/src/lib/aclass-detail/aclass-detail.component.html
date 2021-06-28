@@ -181,10 +181,11 @@
     </mat-grid-list>
     <mat-grid-list cols="5" rowHeight="2:1">
         <mat-grid-tile [colspan]="3">
-            <button mat-raised-button (click)="openReverseSelection('AclassBclassUse', 'Aclass_AnarrayofbUseDBID', 'ONE_MANY_ASSOCIATION_MODE', '', '')">AnarrayofbUse</button>
+            <button mat-raised-button (click)="openReverseSelection('AclassBclassUse', 'Aclass_AnarrayofbUseDBID', 'ONE_MANY_ASSOCIATION_MODE', '', '', '')">AnarrayofbUse</button>
         </mat-grid-tile>
         <mat-grid-tile>
-            <button mat-raised-button (click)="openReverseSelection('AclassBclassUse', 'Aclass_AnarrayofbUseDBID', 'MANY_MANY_ASSOCIATION_MODE', 'Bclass', 'AclassBclassUse_Bclass')">
+            <button mat-raised-button (click)="openReverseSelection('AclassBclassUse', 'Aclass_AnarrayofbUseDBID', 
+            'MANY_MANY_ASSOCIATION_MODE', 'AnarrayofbUse', 'Bclass', 'Bclass')">
                 <mat-icon>
                     list
                 </mat-icon>
