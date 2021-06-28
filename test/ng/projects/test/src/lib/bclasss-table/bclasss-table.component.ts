@@ -355,18 +355,18 @@ export class BclasssTableComponent implements OnInit {
             if (!this.initialSelection.includes(bclass)) {
               console.log("bclass " + bclass.Name + " has been added to the selection")
 
-              let aclassBclassUse = new (AclassBclassUseDB)
-              aclassBclassUse.Name = sourceInstance["Name"] + "-" + bclass.Name
+              let associationInstance = new (AclassBclassUseDB)
+              associationInstance.Name = sourceInstance["Name"] + "-" + bclass.Name
 
-              aclassBclassUse.BclassID = new NullInt64
-              aclassBclassUse.BclassID.Int64 = bclass.ID
-              aclassBclassUse.BclassID.Valid = true
+              associationInstance[this.dialogData.IntermediateStructField+"ID"] = new NullInt64
+              associationInstance[this.dialogData.IntermediateStructField+"ID"].Int64 = bclass.ID
+              associationInstance[this.dialogData.IntermediateStructField+"ID"].Valid = true
 
-              aclassBclassUse.Aclass_AnarrayofbUseDBID = new NullInt64
-              aclassBclassUse.Aclass_AnarrayofbUseDBID.Int64 = sourceInstance["ID"]
-              aclassBclassUse.Aclass_AnarrayofbUseDBID.Valid = true
+              associationInstance[this.dialogData.SourceStruct + "_" + this.dialogData.SourceField + "DBID"] = new NullInt64
+              associationInstance[this.dialogData.SourceStruct + "_" + this.dialogData.SourceField + "DBID"].Int64 = sourceInstance["ID"]
+              associationInstance[this.dialogData.SourceStruct + "_" + this.dialogData.SourceField + "DBID"].Valid = true
 
-              this.reverseAclassBclassUseService.postAclassBclassUse(aclassBclassUse).subscribe(
+              this.reverseAclassBclassUseService.postAclassBclassUse(associationInstance).subscribe(
                 aclassBclassUse => {
                   this.reverseAclassBclassUseService.AclassBclassUseServiceChanged.next("post")
                 }
