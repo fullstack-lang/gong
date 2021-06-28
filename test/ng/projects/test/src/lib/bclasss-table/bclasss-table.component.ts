@@ -339,13 +339,15 @@ export class BclasssTableComponent implements OnInit {
         for (let associationInstance of sourceInstance[this.dialogData.SourceField]) {
           let bclass = associationInstance[this.dialogData.IntermediateStructField]
           if (unselectedBclass.has(bclass.ID)) {
-            this.reverseAclassBclassUseService.deleteAclassBclassUse(associationInstance.ID).subscribe(
-              aclassBclassUse => {
-                this.reverseAclassBclassUseService.AclassBclassUseServiceChanged.next("delete")
-              }
-            );
+
+            this.frontRepoService.deleteService( this.dialogData.IntermediateStruct, associationInstance )
           }
         }
+      }
+
+      // is the source array is emptyn create it
+      if (sourceInstance[this.dialogData.SourceField] == undefined) {
+        sourceInstance[this.dialogData.SourceField] = new Array<any>()
       }
 
       // second, parse all instance of the selected
@@ -355,8 +357,9 @@ export class BclasssTableComponent implements OnInit {
             if (!this.initialSelection.includes(bclass)) {
               console.log("bclass " + bclass.Name + " has been added to the selection")
 
-              let associationInstance = new (AclassBclassUseDB)
-              associationInstance.Name = sourceInstance["Name"] + "-" + bclass.Name
+              let associationInstance = {
+                Name: sourceInstance["Name"] + "-" + bclass.Name,
+              }
 
               associationInstance[this.dialogData.IntermediateStructField+"ID"] = new NullInt64
               associationInstance[this.dialogData.IntermediateStructField+"ID"].Int64 = bclass.ID
@@ -366,11 +369,7 @@ export class BclasssTableComponent implements OnInit {
               associationInstance[this.dialogData.SourceStruct + "_" + this.dialogData.SourceField + "DBID"].Int64 = sourceInstance["ID"]
               associationInstance[this.dialogData.SourceStruct + "_" + this.dialogData.SourceField + "DBID"].Valid = true
 
-              this.reverseAclassBclassUseService.postAclassBclassUse(associationInstance).subscribe(
-                aclassBclassUse => {
-                  this.reverseAclassBclassUseService.AclassBclassUseServiceChanged.next("post")
-                }
-              );
+              this.frontRepoService.postService( this.dialogData.IntermediateStruct, associationInstance )
 
             } else {
               // console.log("bclass " + bclass.Name + " is still selected")
