@@ -219,7 +219,7 @@ export class AclassDetailComponent implements OnInit {
 	// ONE-MANY association
 	// It uses the MapOfComponent provided by the front repo
 	openReverseSelection(AssociatedStruct: string, reverseField: string, selectionMode: SelectionMode,
-		nextAssociatedStruct: string, nextReverseField: string) {
+		sourceField: string, intermediateStructField: string, nextAssociatedStruct: string ) {
 
 		console.log("mode " + selectionMode)
 
@@ -253,8 +253,17 @@ export class AclassDetailComponent implements OnInit {
 			dialogData.ReversePointer = reverseField
 			dialogData.OrderingMode = false
 			dialogData.SelectionMode = selectionMode
+
+			// set up the source
+			dialogData.SourceStruct = "Aclass"
+			dialogData.SourceField = sourceField
+
+			// set up the intermediate struct
+			dialogData.IntermediateStruct = AssociatedStruct
+			dialogData.IntermediateStructField = intermediateStructField
+
+			// set up the end struct
 			dialogData.NextAssociationStruct = nextAssociatedStruct
-			dialogData.NextAssociationFieldReversePointer = nextReverseField
 
 			dialogConfig.data = dialogData
 			const dialogRef: MatDialogRef<string, any> = this.dialog.open(

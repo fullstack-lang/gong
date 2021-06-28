@@ -200,18 +200,18 @@ export class BclasssTableComponent implements OnInit {
         }
 
         if (this.mode == TableComponentMode.MANY_MANY_ASSOCIATION_MODE) {
-          this.bclasss.forEach(
-            bclass => {
-              let ID = this.dialogData.ID
-              let revPointer = bclass[this.dialogData.NextAssociationFieldReversePointer]
-              if (revPointer.Int64 == ID) {
-                this.initialSelection.push(bclass)
-              }
+
+          let mapOfSourceInstances = this.frontRepo[this.dialogData.SourceStruct + "s"]
+          let sourceInstance = mapOfSourceInstances.get(this.dialogData.ID)
+
+          if (sourceInstance[this.dialogData.SourceField]) {
+            for (let associationInstance of sourceInstance[this.dialogData.SourceField]) {
+              let bclass = associationInstance[this.dialogData.IntermediateStructField]
+              this.initialSelection.push(bclass)
             }
-          )
+          }
           this.selection = new SelectionModel<BclassDB>(allowMultiSelect, this.initialSelection);
         }
-
 
         // update the mat table data source
         this.matTableDataSource.data = this.bclasss
@@ -278,36 +278,39 @@ export class BclasssTableComponent implements OnInit {
 
   save() {
 
-    let toUpdate = new Set<BclassDB>()
+    if (this.mode == TableComponentMode.ONE_MANY_ASSOCIATION_MODE) {
 
-    // reset all initial selection of bclass that belong to bclass through Anarrayofb
-    this.initialSelection.forEach(
-      bclass => {
-        bclass[this.dialogData.ReversePointer].Int64 = 0
-        bclass[this.dialogData.ReversePointer].Valid = true
-        toUpdate.add(bclass)
-      }
-    )
+      let toUpdate = new Set<BclassDB>()
 
-    // from selection, set bclass that belong to bclass through Anarrayofb
-    this.selection.selected.forEach(
-      bclass => {
-        let ID = +this.dialogData.ID
-        bclass[this.dialogData.ReversePointer].Int64 = ID
-        bclass[this.dialogData.ReversePointer].Valid = true
-        toUpdate.add(bclass)
-      }
-    )
+      // reset all initial selection of bclass that belong to bclass through Anarrayofb
+      this.initialSelection.forEach(
+        bclass => {
+          bclass[this.dialogData.ReversePointer].Int64 = 0
+          bclass[this.dialogData.ReversePointer].Valid = true
+          toUpdate.add(bclass)
+        }
+      )
 
-    // update all bclass (only update selection & initial selection)
-    toUpdate.forEach(
-      bclass => {
-        this.bclassService.updateBclass(bclass)
-          .subscribe(bclass => {
-            this.bclassService.BclassServiceChanged.next("update")
-          });
-      }
-    )
-    this.dialogRef.close('Pizza!');
+      // from selection, set bclass that belong to bclass through Anarrayofb
+      this.selection.selected.forEach(
+        bclass => {
+          let ID = +this.dialogData.ID
+          bclass[this.dialogData.ReversePointer].Int64 = ID
+          bclass[this.dialogData.ReversePointer].Valid = true
+          toUpdate.add(bclass)
+        }
+      )
+
+      // update all bclass (only update selection & initial selection)
+      toUpdate.forEach(
+        bclass => {
+          this.bclassService.updateBclass(bclass)
+            .subscribe(bclass => {
+              this.bclassService.BclassServiceChanged.next("update")
+            });
+        }
+      )
+      this.dialogRef.close('Pizza!');
+    }
   }
 }
