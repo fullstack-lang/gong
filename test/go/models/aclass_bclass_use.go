@@ -5,6 +5,8 @@ package models
 // The go generated code is the same as for any struct.
 // The "Use" at the end of the struct name will generate something different in the front
 type AclassBclassUse struct {
-	Name   string
+	Name string
+
+	// the field of a MANY-MANY association must be the name of the destination struct
 	Bclass *Bclass
 }

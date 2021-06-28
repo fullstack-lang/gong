@@ -106,22 +106,19 @@
         <mat-grid-tile>
             <mat-form-field class="details_hours_width">
                 <mat-label>Duration1 Hours</mat-label>
-                <input type="number" [ngModelOptions]="{standalone: true}" matInput
-                    [(ngModel)]="Duration1_Hours">
+                <input type="number" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="Duration1_Hours">
             </mat-form-field>
         </mat-grid-tile>
         <mat-grid-tile>
             <mat-form-field class="details_minutes_width">
                 <mat-label>Duration1 Minutes</mat-label>
-                <input type="number" [ngModelOptions]="{standalone: true}" matInput
-                    [(ngModel)]="Duration1_Minutes">
+                <input type="number" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="Duration1_Minutes">
             </mat-form-field>
         </mat-grid-tile>
         <mat-grid-tile>
             <mat-form-field class="details_seconds_width">
                 <mat-label>Duration1 Seconds</mat-label>
-                <input type="number" [ngModelOptions]="{standalone: true}" matInput
-                    [(ngModel)]="Duration1_Seconds">
+                <input type="number" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="Duration1_Seconds">
             </mat-form-field>
         </mat-grid-tile>
     </mat-grid-list>
@@ -148,8 +145,7 @@
 
     <mat-grid-list cols="5" rowHeight="2:1">
         <mat-grid-tile [colspan]="4">
-            <button mat-raised-button
-                (click)="openReverseSelection('Bclass', 'Aclass_AnarrayofbDBID')">Anarrayofb</button>
+            <button mat-raised-button (click)="openReverseSelection('Bclass', 'Aclass_AnarrayofbDBID')">Anarrayofb</button>
         </mat-grid-tile>
         <mat-grid-tile>
             <button mat-raised-button (click)="openDragAndDropOrdering('Bclass', 'Aclass_AnarrayofbDBID')">
@@ -161,8 +157,7 @@
     </mat-grid-list>
     <mat-grid-list cols="5" rowHeight="2:1">
         <mat-grid-tile [colspan]="4">
-            <button mat-raised-button
-                (click)="openReverseSelection('Bclass', 'Aclass_AnotherarrayofbDBID')">Anotherarrayofb</button>
+            <button mat-raised-button (click)="openReverseSelection('Bclass', 'Aclass_AnotherarrayofbDBID')">Anotherarrayofb</button>
         </mat-grid-tile>
         <mat-grid-tile>
             <button mat-raised-button (click)="openDragAndDropOrdering('Bclass', 'Aclass_AnotherarrayofbDBID')">
@@ -174,8 +169,7 @@
     </mat-grid-list>
     <mat-grid-list cols="5" rowHeight="2:1">
         <mat-grid-tile [colspan]="4">
-            <button mat-raised-button
-                (click)="openReverseSelection('Aclass', 'Aclass_AnarrayofaDBID')">Anarrayofa</button>
+            <button mat-raised-button (click)="openReverseSelection('Aclass', 'Aclass_AnarrayofaDBID')">Anarrayofa</button>
         </mat-grid-tile>
         <mat-grid-tile>
             <button mat-raised-button (click)="openDragAndDropOrdering('Aclass', 'Aclass_AnarrayofaDBID')">
@@ -186,9 +180,15 @@
         </mat-grid-tile>
     </mat-grid-list>
     <mat-grid-list cols="5" rowHeight="2:1">
-        <mat-grid-tile [colspan]="4">
-            <button mat-raised-button
-                (click)="openReverseSelection('AclassBclassUse', 'Aclass_AnarrayofbUseDBID')">AnarrayofbUse</button>
+        <mat-grid-tile [colspan]="3">
+            <button mat-raised-button (click)="openReverseSelection('AclassBclassUse', 'Aclass_AnarrayofbUseDBID', 'ONE_MANY_ASSOCIATION_MODE', '', '')">AnarrayofbUse</button>
+        </mat-grid-tile>
+        <mat-grid-tile>
+            <button mat-raised-button (click)="openReverseSelection('AclassBclassUse', 'Aclass_AnarrayofbUseDBID', 'MANY_MANY_ASSOCIATION_MODE', 'Bclass', 'AclassBclassUse_Bclass')">
+                <mat-icon>
+                    list
+                </mat-icon>
+            </button>
         </mat-grid-tile>
         <mat-grid-tile>
             <button mat-raised-button (click)="openDragAndDropOrdering('AclassBclassUse', 'Aclass_AnarrayofbUseDBID')">
@@ -209,7 +209,7 @@
     </mat-form-field>
     <div class="details__save">
         <button mat-raised-button color="primary" (click)="save()">
-			Save aclass
-		</button>
+            Save aclass
+        </button>
     </div>
 </form>

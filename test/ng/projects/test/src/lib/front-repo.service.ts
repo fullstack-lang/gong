@@ -40,17 +40,34 @@ export const FrontRepoSingloton = new (FrontRepo)
 
 // define the type of nullable Int64 in order to support back pointers IDs
 export class NullInt64 {
-    Int64: number
-    Valid: boolean
+  Int64: number
+  Valid: boolean
 }
 
 // define the interface for information that is forwarded from the calling instance to 
 // the select table
-export interface DialogData {
+export class DialogData {
   ID: number; // ID of the calling instance
   ReversePointer: string; // field of {{Structname}} that serve as reverse pointer
   OrderingMode: boolean; // if true, this is for ordering items
+  SelectionMode: SelectionMode;
+
+  // used if SelectionMode is MANY_MANY_ASSOCIATION_MODE
+  //
+  // a MANY-MANY association is a ONE-ZERO/ONE followed by a ONE_MANY association
+  // 
+  // TheReversePointer is for the ONE-ZERO/ONE association
+  // in the MANY_MANY_ASSOCIATION_MODE case, we need also the Struct and the FieldName that are
+  // at the end of the ONE-MANY association
+  NextAssociationStruct: string;
+  NextAssociationFieldReversePointer: string;
 }
+
+export enum SelectionMode {
+  ONE_MANY_ASSOCIATION_MODE = "ONE_MANY_ASSOCIATION_MODE",
+  MANY_MANY_ASSOCIATION_MODE = "MANY_MANY_ASSOCIATION_MODE",
+}
+
 
 //
 // observable that fetch all elements of the stack and store them in the FrontRepo
@@ -122,14 +139,14 @@ export class FrontRepoService {
 
             // clear the map that counts Aclass in the GET
             FrontRepoSingloton.Aclasss_batch.clear()
-            
+
             aclasss.forEach(
               aclass => {
                 FrontRepoSingloton.Aclasss.set(aclass.ID, aclass)
                 FrontRepoSingloton.Aclasss_batch.set(aclass.ID, aclass)
               }
             )
-            
+
             // clear aclasss that are absent from the batch
             FrontRepoSingloton.Aclasss.forEach(
               aclass => {
@@ -138,7 +155,7 @@ export class FrontRepoService {
                 }
               }
             )
-            
+
             // sort Aclasss_array array
             FrontRepoSingloton.Aclasss_array.sort((t1, t2) => {
               if (t1.Name > t2.Name) {
@@ -149,20 +166,20 @@ export class FrontRepoService {
               }
               return 0;
             });
-            
+
             // init the array
             FrontRepoSingloton.AclassBclassUses_array = aclassbclassuses
 
             // clear the map that counts AclassBclassUse in the GET
             FrontRepoSingloton.AclassBclassUses_batch.clear()
-            
+
             aclassbclassuses.forEach(
               aclassbclassuse => {
                 FrontRepoSingloton.AclassBclassUses.set(aclassbclassuse.ID, aclassbclassuse)
                 FrontRepoSingloton.AclassBclassUses_batch.set(aclassbclassuse.ID, aclassbclassuse)
               }
             )
-            
+
             // clear aclassbclassuses that are absent from the batch
             FrontRepoSingloton.AclassBclassUses.forEach(
               aclassbclassuse => {
@@ -171,7 +188,7 @@ export class FrontRepoService {
                 }
               }
             )
-            
+
             // sort AclassBclassUses_array array
             FrontRepoSingloton.AclassBclassUses_array.sort((t1, t2) => {
               if (t1.Name > t2.Name) {
@@ -182,20 +199,20 @@ export class FrontRepoService {
               }
               return 0;
             });
-            
+
             // init the array
             FrontRepoSingloton.Bclasss_array = bclasss
 
             // clear the map that counts Bclass in the GET
             FrontRepoSingloton.Bclasss_batch.clear()
-            
+
             bclasss.forEach(
               bclass => {
                 FrontRepoSingloton.Bclasss.set(bclass.ID, bclass)
                 FrontRepoSingloton.Bclasss_batch.set(bclass.ID, bclass)
               }
             )
-            
+
             // clear bclasss that are absent from the batch
             FrontRepoSingloton.Bclasss.forEach(
               bclass => {
@@ -204,7 +221,7 @@ export class FrontRepoService {
                 }
               }
             )
-            
+
             // sort Bclasss_array array
             FrontRepoSingloton.Bclasss_array.sort((t1, t2) => {
               if (t1.Name > t2.Name) {
@@ -215,20 +232,20 @@ export class FrontRepoService {
               }
               return 0;
             });
-            
+
             // init the array
             FrontRepoSingloton.Dclasss_array = dclasss
 
             // clear the map that counts Dclass in the GET
             FrontRepoSingloton.Dclasss_batch.clear()
-            
+
             dclasss.forEach(
               dclass => {
                 FrontRepoSingloton.Dclasss.set(dclass.ID, dclass)
                 FrontRepoSingloton.Dclasss_batch.set(dclass.ID, dclass)
               }
             )
-            
+
             // clear dclasss that are absent from the batch
             FrontRepoSingloton.Dclasss.forEach(
               dclass => {
@@ -237,7 +254,7 @@ export class FrontRepoService {
                 }
               }
             )
-            
+
             // sort Dclasss_array array
             FrontRepoSingloton.Dclasss_array.sort((t1, t2) => {
               if (t1.Name > t2.Name) {
@@ -248,7 +265,7 @@ export class FrontRepoService {
               }
               return 0;
             });
-            
+
 
             // 
             // Second Step: redeem pointers between instances (thanks to maps in the First Step)

@@ -7,7 +7,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatButton } from '@angular/material/button'
 
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog'
-import { DialogData } from '../front-repo.service'
+import { DialogData, SelectionMode } from '../front-repo.service'
 import { SelectionModel } from '@angular/cdk/collections';
 
 const allowMultiSelect = true;
@@ -131,7 +131,15 @@ export class BclasssTableComponent implements OnInit {
     if (dialogData == undefined) {
       this.mode = TableComponentMode.DISPLAY_MODE
     } else {
-      this.mode = TableComponentMode.ONE_MANY_ASSOCIATION_MODE
+      switch (dialogData.SelectionMode) {
+        case SelectionMode.ONE_MANY_ASSOCIATION_MODE:
+          this.mode = TableComponentMode.ONE_MANY_ASSOCIATION_MODE
+          break
+        case SelectionMode.MANY_MANY_ASSOCIATION_MODE:
+          this.mode = TableComponentMode.MANY_MANY_ASSOCIATION_MODE
+          break
+        default:
+      }
     }
 
     // observable for changes in structs
@@ -143,7 +151,7 @@ export class BclasssTableComponent implements OnInit {
       }
     )
     if (this.mode == TableComponentMode.DISPLAY_MODE) {
-		this.displayedColumns = ['ID', 'Edit', 'Delete', // insertion point for columns to display
+      this.displayedColumns = ['ID', 'Edit', 'Delete', // insertion point for columns to display
         "Name",
         "Floatfield",
         "Intfield",
@@ -179,7 +187,7 @@ export class BclasssTableComponent implements OnInit {
 
         // in case the component is called as a selection component
         if (this.mode == TableComponentMode.ONE_MANY_ASSOCIATION_MODE) {
-			this.bclasss.forEach(
+          this.bclasss.forEach(
             bclass => {
               let ID = this.dialogData.ID
               let revPointer = bclass[this.dialogData.ReversePointer]
@@ -190,6 +198,20 @@ export class BclasssTableComponent implements OnInit {
           )
           this.selection = new SelectionModel<BclassDB>(allowMultiSelect, this.initialSelection);
         }
+
+        if (this.mode == TableComponentMode.MANY_MANY_ASSOCIATION_MODE) {
+          this.bclasss.forEach(
+            bclass => {
+              let ID = this.dialogData.ID
+              let revPointer = bclass[this.dialogData.NextAssociationFieldReversePointer]
+              if (revPointer.Int64 == ID) {
+                this.initialSelection.push(bclass)
+              }
+            }
+          )
+          this.selection = new SelectionModel<BclassDB>(allowMultiSelect, this.initialSelection);
+        }
+
 
         // update the mat table data source
         this.matTableDataSource.data = this.bclasss
