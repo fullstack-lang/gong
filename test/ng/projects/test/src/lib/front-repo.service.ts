@@ -59,8 +59,11 @@ export class DialogData {
   // TheReversePointer is for the ONE-ZERO/ONE association
   // in the MANY_MANY_ASSOCIATION_MODE case, we need also the Struct and the FieldName that are
   // at the end of the ONE-MANY association
-  NextAssociationStruct: string;
-  NextAssociationFieldReversePointer: string;
+  SourceStruct: string;  // The "Aclass"
+  SourceField: string; // the "AnarrayofbUse"
+  IntermediateStruct: string; // the "AclassBclassUse" 
+  IntermediateStructField: string; // the "Bclass" as field
+  NextAssociationStruct: string; // the "Bclass"
 }
 
 export enum SelectionMode {
