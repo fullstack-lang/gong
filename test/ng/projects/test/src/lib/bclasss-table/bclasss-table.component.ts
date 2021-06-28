@@ -7,7 +7,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatButton } from '@angular/material/button'
 
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog'
-import { DialogData, SelectionMode } from '../front-repo.service'
+import { DialogData, NullInt64, SelectionMode } from '../front-repo.service'
 import { SelectionModel } from '@angular/cdk/collections';
 
 const allowMultiSelect = true;
@@ -17,6 +17,8 @@ import { BclassDB } from '../bclass-db'
 import { BclassService } from '../bclass.service'
 
 import { FrontRepoService, FrontRepo } from '../front-repo.service'
+import { AclassBclassUseService } from '../aclassbclassuse.service';
+import { AclassBclassUseDB } from '../aclassbclassuse-db';
 
 // TableComponent is initilizaed from different routes
 // TableComponentMode detail different cases 
@@ -125,6 +127,8 @@ export class BclasssTableComponent implements OnInit {
     @Optional() @Inject(MAT_DIALOG_DATA) public dialogData: DialogData,
 
     private router: Router,
+
+    private reverseAclassBclassUseService: AclassBclassUseService,
   ) {
 
     // compute mode
@@ -310,7 +314,75 @@ export class BclasssTableComponent implements OnInit {
             });
         }
       )
-      this.dialogRef.close('Pizza!');
     }
+
+    if (this.mode == TableComponentMode.MANY_MANY_ASSOCIATION_MODE) {
+
+      let mapOfSourceInstances = this.frontRepo[this.dialogData.SourceStruct + "s"]
+      let sourceInstance = mapOfSourceInstances.get(this.dialogData.ID)
+
+      // First, parse all instance of the association struct and remove the instance
+      // that have unselect
+      let unselectedBclass = new Set<number>()
+      for (let bclass of this.initialSelection) {
+        if (this.selection.selected.includes(bclass)) {
+          // console.log("bclass " + bclass.Name + " is still selected")
+        } else {
+          console.log("bclass " + bclass.Name + " has been unselected")
+          unselectedBclass.add(bclass.ID)
+          console.log("is unselected " + unselectedBclass.has(bclass.ID))
+        }
+      }
+
+      // delete the association instance
+      if (sourceInstance[this.dialogData.SourceField]) {
+        for (let associationInstance of sourceInstance[this.dialogData.SourceField]) {
+          let bclass = associationInstance[this.dialogData.IntermediateStructField]
+          if (unselectedBclass.has(bclass.ID)) {
+            this.reverseAclassBclassUseService.deleteAclassBclassUse(associationInstance.ID).subscribe(
+              aclassBclassUse => {
+                this.reverseAclassBclassUseService.AclassBclassUseServiceChanged.next("delete")
+              }
+            );
+          }
+        }
+      }
+
+      // second, parse all instance of the selected
+      if (sourceInstance[this.dialogData.SourceField]) {
+        this.selection.selected.forEach(
+          bclass => {
+            if (!this.initialSelection.includes(bclass)) {
+              console.log("bclass " + bclass.Name + " has been added to the selection")
+
+              let aclassBclassUse = new (AclassBclassUseDB)
+              aclassBclassUse.Name = sourceInstance["Name"] + "-" + bclass.Name
+
+              aclassBclassUse.BclassID = new NullInt64
+              aclassBclassUse.BclassID.Int64 = bclass.ID
+              aclassBclassUse.BclassID.Valid = true
+
+              aclassBclassUse.Aclass_AnarrayofbUseDBID = new NullInt64
+              aclassBclassUse.Aclass_AnarrayofbUseDBID.Int64 = sourceInstance["ID"]
+              aclassBclassUse.Aclass_AnarrayofbUseDBID.Valid = true
+
+              this.reverseAclassBclassUseService.postAclassBclassUse(aclassBclassUse).subscribe(
+                aclassBclassUse => {
+                  this.reverseAclassBclassUseService.AclassBclassUseServiceChanged.next("post")
+                }
+              );
+
+            } else {
+              // console.log("bclass " + bclass.Name + " is still selected")
+            }
+          }
+        )
+      }
+
+      // this.selection = new SelectionModel<BclassDB>(allowMultiSelect, this.initialSelection);
+    }
+
+    // why pizza ?
+    this.dialogRef.close('Pizza!');
   }
 }
