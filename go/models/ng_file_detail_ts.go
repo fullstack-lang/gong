@@ -601,13 +601,33 @@ func MultiCodeGeneratorNgDetail(
 				// check if this is a field of a MANY MANY association
 				if strings.HasSuffix(modelSliceOfPointerToStructField.Name, "Use") {
 
-					addedHtmlCode := Replace3(NgDetailHtmlSubTemplateCode[NgDetailSliceOfPointerToStructManyManyHtml],
-						"{{FieldName}}", modelSliceOfPointerToStructField.Name,
-						"{{AssocStructName}}", modelSliceOfPointerToStructField.GongStruct.Name,
-						"{{assocStructName}}", strings.ToLower(modelSliceOfPointerToStructField.GongStruct.Name))
+					intermediateStruct := modelSliceOfPointerToStructField.GongStruct
 
-					toReplace := "{{" + string(rune(NgDetailHtmlInsertionPerStructFieldsManyMany)) + "}}"
-					htmlCodeForField = strings.ReplaceAll(htmlCodeForField, toReplace, addedHtmlCode)
+					// a "Use" struct should have exactly 2 fields (Name and the pointer to the next struct)
+					if len(intermediateStruct.Fields) != 2 {
+						log.Panicf("%s struct is a Use struct. Expected 2 fields, got %d",
+							modelSliceOfPointerToStructField.Name, len(intermediateStruct.Fields))
+					}
+
+					intermediateStructField := intermediateStruct.Fields[1]
+					_ = intermediateStructField
+
+					// get the end type. first  (cast on ta PointerToStructField)
+					switch intermediateStructField.(type) {
+					case *PointerToGongStructField:
+						nextStruct := (intermediateStructField.(*PointerToGongStructField)).GongStruct
+
+						addedHtmlCode := Replace5(NgDetailHtmlSubTemplateCode[NgDetailSliceOfPointerToStructManyManyHtml],
+							"{{FieldName}}", modelSliceOfPointerToStructField.Name,
+							"{{AssocStructName}}", modelSliceOfPointerToStructField.GongStruct.Name,
+							"{{assocStructName}}", strings.ToLower(modelSliceOfPointerToStructField.GongStruct.Name),
+							"{{IntermediateStructField}}", intermediateStructField.GetName(),
+							"{{NextAssociatedStruct}}", nextStruct.Name)
+						toReplace := "{{" + string(rune(NgDetailHtmlInsertionPerStructFieldsManyMany)) + "}}"
+						htmlCodeForField = strings.ReplaceAll(htmlCodeForField, toReplace, addedHtmlCode)
+					default:
+					}
+
 				}
 				HtmlInsertions[NgDetailHtmlInsertionPerStructFields] += htmlCodeForField
 

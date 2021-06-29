@@ -13,8 +13,8 @@ import { SelectionModel } from '@angular/cdk/collections';
 const allowMultiSelect = true;
 
 import { Router, RouterState } from '@angular/router';
-import { AclassBclassUseDB } from '../aclassbclassuse-db'
-import { AclassBclassUseService } from '../aclassbclassuse.service'
+import { AclassBclass2UseDB } from '../aclassbclass2use-db'
+import { AclassBclass2UseService } from '../aclassbclass2use.service'
 
 // TableComponent is initilizaed from different routes
 // TableComponentMode detail different cases 
@@ -26,24 +26,24 @@ enum TableComponentMode {
 
 // generated table component
 @Component({
-  selector: 'app-aclassbclassusestable',
-  templateUrl: './aclassbclassuses-table.component.html',
-  styleUrls: ['./aclassbclassuses-table.component.css'],
+  selector: 'app-aclassbclass2usestable',
+  templateUrl: './aclassbclass2uses-table.component.html',
+  styleUrls: ['./aclassbclass2uses-table.component.css'],
 })
-export class AclassBclassUsesTableComponent implements OnInit {
+export class AclassBclass2UsesTableComponent implements OnInit {
 
   // mode at invocation
   mode: TableComponentMode
 
-  // used if the component is called as a selection component of AclassBclassUse instances
-  selection: SelectionModel<AclassBclassUseDB>;
-  initialSelection = new Array<AclassBclassUseDB>();
+  // used if the component is called as a selection component of AclassBclass2Use instances
+  selection: SelectionModel<AclassBclass2UseDB>;
+  initialSelection = new Array<AclassBclass2UseDB>();
 
   // the data source for the table
-  aclassbclassuses: AclassBclassUseDB[];
-  matTableDataSource: MatTableDataSource<AclassBclassUseDB>
+  aclassbclass2uses: AclassBclass2UseDB[];
+  matTableDataSource: MatTableDataSource<AclassBclass2UseDB>
 
-  // front repo, that will be referenced by this.aclassbclassuses
+  // front repo, that will be referenced by this.aclassbclass2uses
   frontRepo: FrontRepo
 
   // displayedColumns is referenced by the MatTable component for specify what columns
@@ -57,37 +57,37 @@ export class AclassBclassUsesTableComponent implements OnInit {
   ngAfterViewInit() {
 
     // enable sorting on all fields (including pointers and reverse pointer)
-    this.matTableDataSource.sortingDataAccessor = (aclassbclassuseDB: AclassBclassUseDB, property: string) => {
+    this.matTableDataSource.sortingDataAccessor = (aclassbclass2useDB: AclassBclass2UseDB, property: string) => {
       switch (property) {
         // insertion point for specific sorting accessor
         case 'Name':
-          return aclassbclassuseDB.Name;
+          return aclassbclass2useDB.Name;
 
         case 'Bclass2':
-          return (aclassbclassuseDB.Bclass2 ? aclassbclassuseDB.Bclass2.Name : '');
+          return (aclassbclass2useDB.Bclass2 ? aclassbclass2useDB.Bclass2.Name : '');
 
-        case 'AnarrayofbUse':
-          return this.frontRepo.Aclasss.get(aclassbclassuseDB.Aclass_AnarrayofbUseDBID.Int64)?.Name;
+        case 'Anarrayofb2Use':
+          return this.frontRepo.Aclasss.get(aclassbclass2useDB.Aclass_Anarrayofb2UseDBID.Int64)?.Name;
 
         default:
-          return AclassBclassUseDB[property];
+          return AclassBclass2UseDB[property];
       }
     };
 
     // enable filtering on all fields (including pointers and reverse pointer, which is not done by default)
-    this.matTableDataSource.filterPredicate = (aclassbclassuseDB: AclassBclassUseDB, filter: string) => {
+    this.matTableDataSource.filterPredicate = (aclassbclass2useDB: AclassBclass2UseDB, filter: string) => {
 
       // filtering is based on finding a lower case filter into a concatenated string
-      // the aclassbclassuseDB properties
+      // the aclassbclass2useDB properties
       let mergedContent = ""
 
       // insertion point for merging of fields
-      mergedContent += aclassbclassuseDB.Name.toLowerCase()
-      if (aclassbclassuseDB.Bclass2) {
-        mergedContent += aclassbclassuseDB.Bclass2.Name.toLowerCase()
+      mergedContent += aclassbclass2useDB.Name.toLowerCase()
+      if (aclassbclass2useDB.Bclass2) {
+        mergedContent += aclassbclass2useDB.Bclass2.Name.toLowerCase()
       }
-      if (aclassbclassuseDB.Aclass_AnarrayofbUseDBID.Int64 != 0) {
-        mergedContent += this.frontRepo.Aclasss.get(aclassbclassuseDB.Aclass_AnarrayofbUseDBID.Int64)?.Name.toLowerCase()
+      if (aclassbclass2useDB.Aclass_Anarrayofb2UseDBID.Int64 != 0) {
+        mergedContent += this.frontRepo.Aclasss.get(aclassbclass2useDB.Aclass_Anarrayofb2UseDBID.Int64)?.Name.toLowerCase()
       }
 
 
@@ -105,11 +105,11 @@ export class AclassBclassUsesTableComponent implements OnInit {
   }
 
   constructor(
-    private aclassbclassuseService: AclassBclassUseService,
+    private aclassbclass2useService: AclassBclass2UseService,
     private frontRepoService: FrontRepoService,
 
-    // not null if the component is called as a selection component of aclassbclassuse instances
-    public dialogRef: MatDialogRef<AclassBclassUsesTableComponent>,
+    // not null if the component is called as a selection component of aclassbclass2use instances
+    public dialogRef: MatDialogRef<AclassBclass2UsesTableComponent>,
     @Optional() @Inject(MAT_DIALOG_DATA) public dialogData: DialogData,
 
     private router: Router,
@@ -131,10 +131,10 @@ export class AclassBclassUsesTableComponent implements OnInit {
     }
 
     // observable for changes in structs
-    this.aclassbclassuseService.AclassBclassUseServiceChanged.subscribe(
+    this.aclassbclass2useService.AclassBclass2UseServiceChanged.subscribe(
       message => {
         if (message == "post" || message == "update" || message == "delete") {
-          this.getAclassBclassUses()
+          this.getAclassBclass2Uses()
         }
       }
     )
@@ -142,45 +142,45 @@ export class AclassBclassUsesTableComponent implements OnInit {
       this.displayedColumns = ['ID', 'Edit', 'Delete', // insertion point for columns to display
         "Name",
         "Bclass2",
-        "AnarrayofbUse",
+        "Anarrayofb2Use",
       ]
     } else {
       this.displayedColumns = ['select', 'ID', // insertion point for columns to display
         "Name",
         "Bclass2",
-        "AnarrayofbUse",
+        "Anarrayofb2Use",
       ]
-      this.selection = new SelectionModel<AclassBclassUseDB>(allowMultiSelect, this.initialSelection);
+      this.selection = new SelectionModel<AclassBclass2UseDB>(allowMultiSelect, this.initialSelection);
     }
 
   }
 
   ngOnInit(): void {
-    this.getAclassBclassUses()
-    this.matTableDataSource = new MatTableDataSource(this.aclassbclassuses)
+    this.getAclassBclass2Uses()
+    this.matTableDataSource = new MatTableDataSource(this.aclassbclass2uses)
   }
 
-  getAclassBclassUses(): void {
+  getAclassBclass2Uses(): void {
     this.frontRepoService.pull().subscribe(
       frontRepo => {
         this.frontRepo = frontRepo
 
-        this.aclassbclassuses = this.frontRepo.AclassBclassUses_array;
+        this.aclassbclass2uses = this.frontRepo.AclassBclass2Uses_array;
 
         // insertion point for variables Recoveries
 
         // in case the component is called as a selection component
         if (this.mode == TableComponentMode.ONE_MANY_ASSOCIATION_MODE) {
-          this.aclassbclassuses.forEach(
-            aclassbclassuse => {
+          this.aclassbclass2uses.forEach(
+            aclassbclass2use => {
               let ID = this.dialogData.ID
-              let revPointer = aclassbclassuse[this.dialogData.ReversePointer]
+              let revPointer = aclassbclass2use[this.dialogData.ReversePointer]
               if (revPointer.Int64 == ID) {
-                this.initialSelection.push(aclassbclassuse)
+                this.initialSelection.push(aclassbclass2use)
               }
             }
           )
-          this.selection = new SelectionModel<AclassBclassUseDB>(allowMultiSelect, this.initialSelection);
+          this.selection = new SelectionModel<AclassBclass2UseDB>(allowMultiSelect, this.initialSelection);
         }
 
         if (this.mode == TableComponentMode.MANY_MANY_ASSOCIATION_MODE) {
@@ -190,58 +190,58 @@ export class AclassBclassUsesTableComponent implements OnInit {
 
           if (sourceInstance[this.dialogData.SourceField]) {
             for (let associationInstance of sourceInstance[this.dialogData.SourceField]) {
-              let aclassbclassuse = associationInstance[this.dialogData.IntermediateStructField]
-              this.initialSelection.push(aclassbclassuse)
+              let aclassbclass2use = associationInstance[this.dialogData.IntermediateStructField]
+              this.initialSelection.push(aclassbclass2use)
             }
           }
-          this.selection = new SelectionModel<AclassBclassUseDB>(allowMultiSelect, this.initialSelection);
+          this.selection = new SelectionModel<AclassBclass2UseDB>(allowMultiSelect, this.initialSelection);
         }
 
         // update the mat table data source
-        this.matTableDataSource.data = this.aclassbclassuses
+        this.matTableDataSource.data = this.aclassbclass2uses
       }
     )
   }
 
-  // newAclassBclassUse initiate a new aclassbclassuse
-  // create a new AclassBclassUse objet
-  newAclassBclassUse() {
+  // newAclassBclass2Use initiate a new aclassbclass2use
+  // create a new AclassBclass2Use objet
+  newAclassBclass2Use() {
   }
 
-  deleteAclassBclassUse(aclassbclassuseID: number, aclassbclassuse: AclassBclassUseDB) {
-    // list of aclassbclassuses is truncated of aclassbclassuse before the delete
-    this.aclassbclassuses = this.aclassbclassuses.filter(h => h !== aclassbclassuse);
+  deleteAclassBclass2Use(aclassbclass2useID: number, aclassbclass2use: AclassBclass2UseDB) {
+    // list of aclassbclass2uses is truncated of aclassbclass2use before the delete
+    this.aclassbclass2uses = this.aclassbclass2uses.filter(h => h !== aclassbclass2use);
 
-    this.aclassbclassuseService.deleteAclassBclassUse(aclassbclassuseID).subscribe(
-      aclassbclassuse => {
-        this.aclassbclassuseService.AclassBclassUseServiceChanged.next("delete")
+    this.aclassbclass2useService.deleteAclassBclass2Use(aclassbclass2useID).subscribe(
+      aclassbclass2use => {
+        this.aclassbclass2useService.AclassBclass2UseServiceChanged.next("delete")
       }
     );
   }
 
-  editAclassBclassUse(aclassbclassuseID: number, aclassbclassuse: AclassBclassUseDB) {
+  editAclassBclass2Use(aclassbclass2useID: number, aclassbclass2use: AclassBclass2UseDB) {
 
   }
 
-  // display aclassbclassuse in router
-  displayAclassBclassUseInRouter(aclassbclassuseID: number) {
-    this.router.navigate(["github_com_fullstack_lang_gong_test_go-" + "aclassbclassuse-display", aclassbclassuseID])
+  // display aclassbclass2use in router
+  displayAclassBclass2UseInRouter(aclassbclass2useID: number) {
+    this.router.navigate(["github_com_fullstack_lang_gong_test_go-" + "aclassbclass2use-display", aclassbclass2useID])
   }
 
   // set editor outlet
-  setEditorRouterOutlet(aclassbclassuseID: number) {
+  setEditorRouterOutlet(aclassbclass2useID: number) {
     this.router.navigate([{
       outlets: {
-        github_com_fullstack_lang_gong_test_go_editor: ["github_com_fullstack_lang_gong_test_go-" + "aclassbclassuse-detail", aclassbclassuseID]
+        github_com_fullstack_lang_gong_test_go_editor: ["github_com_fullstack_lang_gong_test_go-" + "aclassbclass2use-detail", aclassbclass2useID]
       }
     }]);
   }
 
   // set presentation outlet
-  setPresentationRouterOutlet(aclassbclassuseID: number) {
+  setPresentationRouterOutlet(aclassbclass2useID: number) {
     this.router.navigate([{
       outlets: {
-        github_com_fullstack_lang_gong_test_go_presentation: ["github_com_fullstack_lang_gong_test_go-" + "aclassbclassuse-presentation", aclassbclassuseID]
+        github_com_fullstack_lang_gong_test_go_presentation: ["github_com_fullstack_lang_gong_test_go-" + "aclassbclass2use-presentation", aclassbclass2useID]
       }
     }]);
   }
@@ -249,7 +249,7 @@ export class AclassBclassUsesTableComponent implements OnInit {
   /** Whether the number of selected elements matches the total number of rows. */
   isAllSelected() {
     const numSelected = this.selection.selected.length;
-    const numRows = this.aclassbclassuses.length;
+    const numRows = this.aclassbclass2uses.length;
     return numSelected === numRows;
   }
 
@@ -257,40 +257,40 @@ export class AclassBclassUsesTableComponent implements OnInit {
   masterToggle() {
     this.isAllSelected() ?
       this.selection.clear() :
-      this.aclassbclassuses.forEach(row => this.selection.select(row));
+      this.aclassbclass2uses.forEach(row => this.selection.select(row));
   }
 
   save() {
 
     if (this.mode == TableComponentMode.ONE_MANY_ASSOCIATION_MODE) {
 
-      let toUpdate = new Set<AclassBclassUseDB>()
+      let toUpdate = new Set<AclassBclass2UseDB>()
 
-      // reset all initial selection of aclassbclassuse that belong to aclassbclassuse
+      // reset all initial selection of aclassbclass2use that belong to aclassbclass2use
       this.initialSelection.forEach(
-        aclassbclassuse => {
-          aclassbclassuse[this.dialogData.ReversePointer].Int64 = 0
-          aclassbclassuse[this.dialogData.ReversePointer].Valid = true
-          toUpdate.add(aclassbclassuse)
+        aclassbclass2use => {
+          aclassbclass2use[this.dialogData.ReversePointer].Int64 = 0
+          aclassbclass2use[this.dialogData.ReversePointer].Valid = true
+          toUpdate.add(aclassbclass2use)
         }
       )
 
-      // from selection, set aclassbclassuse that belong to aclassbclassuse
+      // from selection, set aclassbclass2use that belong to aclassbclass2use
       this.selection.selected.forEach(
-        aclassbclassuse => {
+        aclassbclass2use => {
           let ID = +this.dialogData.ID
-          aclassbclassuse[this.dialogData.ReversePointer].Int64 = ID
-          aclassbclassuse[this.dialogData.ReversePointer].Valid = true
-          toUpdate.add(aclassbclassuse)
+          aclassbclass2use[this.dialogData.ReversePointer].Int64 = ID
+          aclassbclass2use[this.dialogData.ReversePointer].Valid = true
+          toUpdate.add(aclassbclass2use)
         }
       )
 
-      // update all aclassbclassuse (only update selection & initial selection)
+      // update all aclassbclass2use (only update selection & initial selection)
       toUpdate.forEach(
-        aclassbclassuse => {
-          this.aclassbclassuseService.updateAclassBclassUse(aclassbclassuse)
-            .subscribe(aclassbclassuse => {
-              this.aclassbclassuseService.AclassBclassUseServiceChanged.next("update")
+        aclassbclass2use => {
+          this.aclassbclass2useService.updateAclassBclass2Use(aclassbclass2use)
+            .subscribe(aclassbclass2use => {
+              this.aclassbclass2useService.AclassBclass2UseServiceChanged.next("update")
             });
         }
       )
@@ -303,22 +303,22 @@ export class AclassBclassUsesTableComponent implements OnInit {
 
       // First, parse all instance of the association struct and remove the instance
       // that have unselect
-      let unselectedAclassBclassUse = new Set<number>()
-      for (let aclassbclassuse of this.initialSelection) {
-        if (this.selection.selected.includes(aclassbclassuse)) {
-          // console.log("aclassbclassuse " + aclassbclassuse.Name + " is still selected")
+      let unselectedAclassBclass2Use = new Set<number>()
+      for (let aclassbclass2use of this.initialSelection) {
+        if (this.selection.selected.includes(aclassbclass2use)) {
+          // console.log("aclassbclass2use " + aclassbclass2use.Name + " is still selected")
         } else {
-          console.log("aclassbclassuse " + aclassbclassuse.Name + " has been unselected")
-          unselectedAclassBclassUse.add(aclassbclassuse.ID)
-          console.log("is unselected " + unselectedAclassBclassUse.has(aclassbclassuse.ID))
+          console.log("aclassbclass2use " + aclassbclass2use.Name + " has been unselected")
+          unselectedAclassBclass2Use.add(aclassbclass2use.ID)
+          console.log("is unselected " + unselectedAclassBclass2Use.has(aclassbclass2use.ID))
         }
       }
 
       // delete the association instance
       if (sourceInstance[this.dialogData.SourceField]) {
         for (let associationInstance of sourceInstance[this.dialogData.SourceField]) {
-          let aclassbclassuse = associationInstance[this.dialogData.IntermediateStructField]
-          if (unselectedAclassBclassUse.has(aclassbclassuse.ID)) {
+          let aclassbclass2use = associationInstance[this.dialogData.IntermediateStructField]
+          if (unselectedAclassBclass2Use.has(aclassbclass2use.ID)) {
 
             this.frontRepoService.deleteService( this.dialogData.IntermediateStruct, associationInstance )
           }
@@ -333,16 +333,16 @@ export class AclassBclassUsesTableComponent implements OnInit {
       // second, parse all instance of the selected
       if (sourceInstance[this.dialogData.SourceField]) {
         this.selection.selected.forEach(
-          aclassbclassuse => {
-            if (!this.initialSelection.includes(aclassbclassuse)) {
-              // console.log("aclassbclassuse " + aclassbclassuse.Name + " has been added to the selection")
+          aclassbclass2use => {
+            if (!this.initialSelection.includes(aclassbclass2use)) {
+              // console.log("aclassbclass2use " + aclassbclass2use.Name + " has been added to the selection")
 
               let associationInstance = {
-                Name: sourceInstance["Name"] + "-" + aclassbclassuse.Name,
+                Name: sourceInstance["Name"] + "-" + aclassbclass2use.Name,
               }
 
               associationInstance[this.dialogData.IntermediateStructField+"ID"] = new NullInt64
-              associationInstance[this.dialogData.IntermediateStructField+"ID"].Int64 = aclassbclassuse.ID
+              associationInstance[this.dialogData.IntermediateStructField+"ID"].Int64 = aclassbclass2use.ID
               associationInstance[this.dialogData.IntermediateStructField+"ID"].Valid = true
 
               associationInstance[this.dialogData.SourceStruct + "_" + this.dialogData.SourceField + "DBID"] = new NullInt64
@@ -352,13 +352,13 @@ export class AclassBclassUsesTableComponent implements OnInit {
               this.frontRepoService.postService( this.dialogData.IntermediateStruct, associationInstance )
 
             } else {
-              // console.log("aclassbclassuse " + aclassbclassuse.Name + " is still selected")
+              // console.log("aclassbclass2use " + aclassbclass2use.Name + " is still selected")
             }
           }
         )
       }
 
-      // this.selection = new SelectionModel<AclassBclassUseDB>(allowMultiSelect, this.initialSelection);
+      // this.selection = new SelectionModel<AclassBclass2UseDB>(allowMultiSelect, this.initialSelection);
     }
 
     // why pizza ?

@@ -45,9 +45,9 @@ type AclassBclassUseAPI struct {
 // reverse pointers of slice of poitners to Struct
 type AclassBclassUsePointersEnconding struct {
 	// insertion for pointer fields encoding declaration
-	// field Bclass is a pointer to another Struct (optional or 0..1)
+	// field Bclass2 is a pointer to another Struct (optional or 0..1)
 	// This field is generated into another field to enable AS ONE association
-	BclassID sql.NullInt64
+	Bclass2ID sql.NullInt64
 
 	// Implementation of a reverse ID for field Aclass{}.AnarrayofbUse []*AclassBclassUse
 	Aclass_AnarrayofbUseDBID sql.NullInt64
@@ -241,11 +241,11 @@ func (backRepoAclassBclassUse *BackRepoAclassBclassUseStruct) CommitPhaseTwoInst
 		aclassbclassuseDB.CopyBasicFieldsFromAclassBclassUse(aclassbclassuse)
 
 		// insertion point for translating pointers encodings into actual pointers
-		// commit pointer value aclassbclassuse.Bclass translates to updating the aclassbclassuse.BclassID
-		aclassbclassuseDB.BclassID.Valid = true // allow for a 0 value (nil association)
-		if aclassbclassuse.Bclass != nil {
-			if BclassId, ok := (*backRepo.BackRepoBclass.Map_BclassPtr_BclassDBID)[aclassbclassuse.Bclass]; ok {
-				aclassbclassuseDB.BclassID.Int64 = int64(BclassId)
+		// commit pointer value aclassbclassuse.Bclass2 translates to updating the aclassbclassuse.Bclass2ID
+		aclassbclassuseDB.Bclass2ID.Valid = true // allow for a 0 value (nil association)
+		if aclassbclassuse.Bclass2 != nil {
+			if Bclass2Id, ok := (*backRepo.BackRepoBclass.Map_BclassPtr_BclassDBID)[aclassbclassuse.Bclass2]; ok {
+				aclassbclassuseDB.Bclass2ID.Int64 = int64(Bclass2Id)
 			}
 		}
 
@@ -354,9 +354,9 @@ func (backRepoAclassBclassUse *BackRepoAclassBclassUseStruct) CheckoutPhaseTwoIn
 	_ = aclassbclassuse // sometimes, there is no code generated. This lines voids the "unused variable" compilation error
 
 	// insertion point for checkout of pointer encoding
-	// Bclass field
-	if aclassbclassuseDB.BclassID.Int64 != 0 {
-		aclassbclassuse.Bclass = (*backRepo.BackRepoBclass.Map_BclassDBID_BclassPtr)[uint(aclassbclassuseDB.BclassID.Int64)]
+	// Bclass2 field
+	if aclassbclassuseDB.Bclass2ID.Int64 != 0 {
+		aclassbclassuse.Bclass2 = (*backRepo.BackRepoBclass.Map_BclassDBID_BclassPtr)[uint(aclassbclassuseDB.Bclass2ID.Int64)]
 	}
 	return
 }
@@ -526,9 +526,9 @@ func (backRepoAclassBclassUse *BackRepoAclassBclassUseStruct) RestorePhaseTwo() 
 		_ = aclassbclassuseDB
 
 		// insertion point for reindexing pointers encoding
-		// reindexing Bclass field
-		if aclassbclassuseDB.BclassID.Int64 != 0 {
-			aclassbclassuseDB.BclassID.Int64 = int64(BackRepoBclassid_atBckpTime_newID[uint(aclassbclassuseDB.BclassID.Int64)])
+		// reindexing Bclass2 field
+		if aclassbclassuseDB.Bclass2ID.Int64 != 0 {
+			aclassbclassuseDB.Bclass2ID.Int64 = int64(BackRepoBclassid_atBckpTime_newID[uint(aclassbclassuseDB.Bclass2ID.Int64)])
 		}
 
 		// This reindex aclassbclassuse.AnarrayofbUse

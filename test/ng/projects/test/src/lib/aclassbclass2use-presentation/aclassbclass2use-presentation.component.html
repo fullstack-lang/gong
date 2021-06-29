@@ -1,8 +1,8 @@
 
-<div class="presentation__header" (click)="setEditorRouterOutlet(aclassbclassuse.ID)">
-    <h1>AclassBclassUse's fields <span class="material-icons">edit</span></h1>
+<div class="presentation__header" (click)="setEditorRouterOutlet(aclassbclass2use.ID)">
+    <h1>AclassBclass2Use's fields <span class="material-icons">edit</span></h1>
 </div>
-<table *ngIf="aclassbclassuse" class="presentation__table mat-table">
+<table *ngIf="aclassbclass2use" class="presentation__table mat-table">
     <tr class="mat-header-row">
         <th class="mat-header-cell">Name</th>
         <th class="mat-header-cell">Value</th>
@@ -10,11 +10,11 @@
     <!-- insertion point for fields specific code -->
     <tr class="mat-row">
         <td class="mat-cell">Name</td>
-        <td class="mat-cell">{{aclassbclassuse.Name}}</td>
+        <td class="mat-cell">{{aclassbclass2use.Name}}</td>
     </tr>
     <tr class="mat-row">
         <td class="mat-cell">Bclass2</td>
-        <td class="mat-cell">{{aclassbclassuse.Bclass2 ? aclassbclassuse.Bclass2.Name : ""}}</td>
+        <td class="mat-cell">{{aclassbclass2use.Bclass2 ? aclassbclass2use.Bclass2.Name : ""}}</td>
     </tr>
 </table>
 <!-- hack to force loading of mat table style an error is generated but it is a know angular issue https://github.com/angular/components/issues/10941 -->

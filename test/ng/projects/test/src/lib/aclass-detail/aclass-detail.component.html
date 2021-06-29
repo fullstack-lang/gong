@@ -189,7 +189,7 @@
         <!-- insertion point for the button of the MANY_MANY association-->
         <mat-grid-tile>
             <button mat-raised-button (click)="openReverseSelection('AclassBclassUse', 'Aclass_AnarrayofbUseDBID', 
-            'MANY_MANY_ASSOCIATION_MODE', 'AnarrayofbUse', 'Bclass', 'Bclass')">
+            'MANY_MANY_ASSOCIATION_MODE', 'AnarrayofbUse', 'Bclass2', 'Bclass')">
                 <mat-icon>
                     list
                 </mat-icon>
@@ -197,6 +197,27 @@
         </mat-grid-tile> <!-- end of insertion -->
         <mat-grid-tile>
             <button mat-raised-button (click)="openDragAndDropOrdering('AclassBclassUse', 'Aclass_AnarrayofbUseDBID')">
+                <mat-icon>
+                    shuffle
+                </mat-icon>
+            </button>
+        </mat-grid-tile>
+    </mat-grid-list>
+    <mat-grid-list cols="5" rowHeight="2:1">
+        <mat-grid-tile [colspan]="3">
+            <button mat-raised-button (click)="openReverseSelection('AclassBclass2Use', 'Aclass_Anarrayofb2UseDBID', 'ONE_MANY_ASSOCIATION_MODE', '', '', '')">Anarrayofb2Use</button>
+        </mat-grid-tile>
+        <!-- insertion point for the button of the MANY_MANY association-->
+        <mat-grid-tile>
+            <button mat-raised-button (click)="openReverseSelection('AclassBclass2Use', 'Aclass_Anarrayofb2UseDBID', 
+            'MANY_MANY_ASSOCIATION_MODE', 'Anarrayofb2Use', 'Bclass2', 'Bclass')">
+                <mat-icon>
+                    list
+                </mat-icon>
+            </button>
+        </mat-grid-tile> <!-- end of insertion -->
+        <mat-grid-tile>
+            <button mat-raised-button (click)="openDragAndDropOrdering('AclassBclass2Use', 'Aclass_Anarrayofb2UseDBID')">
                 <mat-icon>
                     shuffle
                 </mat-icon>

@@ -51,5 +51,6 @@ type Aclass struct {
 	Anarrayofa      []*Aclass
 
 	// MANY-MANY association, (because AclassBclassUse ends with "Use")
-	AnarrayofbUse []*AclassBclassUse
+	AnarrayofbUse  []*AclassBclassUse
+	Anarrayofb2Use []*AclassBclass2Use
 }
