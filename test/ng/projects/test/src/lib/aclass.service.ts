@@ -61,6 +61,8 @@ export class AclassService {
     aclassdb.Anarrayofb = []
     aclassdb.Anotherarrayofb = []
     aclassdb.Anarrayofa = []
+    aclassdb.AnarrayofbUse = []
+    aclassdb.Anarrayofb2Use = []
     let _Aclass_Anarrayofa_reverse = aclassdb.Aclass_Anarrayofa_reverse
     aclassdb.Aclass_Anarrayofa_reverse = {}
 
@@ -96,6 +98,8 @@ export class AclassService {
     aclassdb.Anarrayofb = []
     aclassdb.Anotherarrayofb = []
     aclassdb.Anarrayofa = []
+    aclassdb.AnarrayofbUse = []
+    aclassdb.Anarrayofb2Use = []
     let _Aclass_Anarrayofa_reverse = aclassdb.Aclass_Anarrayofa_reverse
     aclassdb.Aclass_Anarrayofa_reverse = {}
 

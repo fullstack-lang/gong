@@ -21,6 +21,10 @@ type BackRepoStruct struct {
 	// insertion point for per struct back repo declarations
 	BackRepoAclass BackRepoAclassStruct
 
+	BackRepoAclassBclass2Use BackRepoAclassBclass2UseStruct
+
+	BackRepoAclassBclassUse BackRepoAclassBclassUseStruct
+
 	BackRepoBclass BackRepoBclassStruct
 
 	BackRepoDclass BackRepoDclassStruct
@@ -55,6 +59,8 @@ func (backRepo *BackRepoStruct) IncrementPushFromFrontNb() uint {
 func (backRepo *BackRepoStruct) Init(db *gorm.DB) {
 	// insertion point for per struct back repo declarations
 	backRepo.BackRepoAclass.Init(db)
+	backRepo.BackRepoAclassBclass2Use.Init(db)
+	backRepo.BackRepoAclassBclassUse.Init(db)
 	backRepo.BackRepoBclass.Init(db)
 	backRepo.BackRepoDclass.Init(db)
 
@@ -65,11 +71,15 @@ func (backRepo *BackRepoStruct) Init(db *gorm.DB) {
 func (backRepo *BackRepoStruct) Commit(stage *models.StageStruct) {
 	// insertion point for per struct back repo phase one commit
 	backRepo.BackRepoAclass.CommitPhaseOne(stage)
+	backRepo.BackRepoAclassBclass2Use.CommitPhaseOne(stage)
+	backRepo.BackRepoAclassBclassUse.CommitPhaseOne(stage)
 	backRepo.BackRepoBclass.CommitPhaseOne(stage)
 	backRepo.BackRepoDclass.CommitPhaseOne(stage)
 
 	// insertion point for per struct back repo phase two commit
 	backRepo.BackRepoAclass.CommitPhaseTwo(backRepo)
+	backRepo.BackRepoAclassBclass2Use.CommitPhaseTwo(backRepo)
+	backRepo.BackRepoAclassBclassUse.CommitPhaseTwo(backRepo)
 	backRepo.BackRepoBclass.CommitPhaseTwo(backRepo)
 	backRepo.BackRepoDclass.CommitPhaseTwo(backRepo)
 
@@ -80,11 +90,15 @@ func (backRepo *BackRepoStruct) Commit(stage *models.StageStruct) {
 func (backRepo *BackRepoStruct) Checkout(stage *models.StageStruct) {
 	// insertion point for per struct back repo phase one commit
 	backRepo.BackRepoAclass.CheckoutPhaseOne()
+	backRepo.BackRepoAclassBclass2Use.CheckoutPhaseOne()
+	backRepo.BackRepoAclassBclassUse.CheckoutPhaseOne()
 	backRepo.BackRepoBclass.CheckoutPhaseOne()
 	backRepo.BackRepoDclass.CheckoutPhaseOne()
 
 	// insertion point for per struct back repo phase two commit
 	backRepo.BackRepoAclass.CheckoutPhaseTwo(backRepo)
+	backRepo.BackRepoAclassBclass2Use.CheckoutPhaseTwo(backRepo)
+	backRepo.BackRepoAclassBclassUse.CheckoutPhaseTwo(backRepo)
 	backRepo.BackRepoBclass.CheckoutPhaseTwo(backRepo)
 	backRepo.BackRepoDclass.CheckoutPhaseTwo(backRepo)
 }
@@ -105,6 +119,8 @@ func (backRepo *BackRepoStruct) Backup(stage *models.StageStruct, dirPath string
 
 	// insertion point for per struct backup
 	backRepo.BackRepoAclass.Backup(dirPath)
+	backRepo.BackRepoAclassBclass2Use.Backup(dirPath)
+	backRepo.BackRepoAclassBclassUse.Backup(dirPath)
 	backRepo.BackRepoBclass.Backup(dirPath)
 	backRepo.BackRepoDclass.Backup(dirPath)
 }
@@ -118,6 +134,8 @@ func (backRepo *BackRepoStruct) BackupXL(stage *models.StageStruct, dirPath stri
 
 	// insertion point for per struct backup
 	backRepo.BackRepoAclass.BackupXL(file)
+	backRepo.BackRepoAclassBclass2Use.BackupXL(file)
+	backRepo.BackRepoAclassBclassUse.BackupXL(file)
 	backRepo.BackRepoBclass.BackupXL(file)
 	backRepo.BackRepoDclass.BackupXL(file)
 
@@ -145,6 +163,8 @@ func (backRepo *BackRepoStruct) Restore(stage *models.StageStruct, dirPath strin
 
 	// insertion point for per struct backup
 	backRepo.BackRepoAclass.RestorePhaseOne(dirPath)
+	backRepo.BackRepoAclassBclass2Use.RestorePhaseOne(dirPath)
+	backRepo.BackRepoAclassBclassUse.RestorePhaseOne(dirPath)
 	backRepo.BackRepoBclass.RestorePhaseOne(dirPath)
 	backRepo.BackRepoDclass.RestorePhaseOne(dirPath)
 
@@ -154,6 +174,8 @@ func (backRepo *BackRepoStruct) Restore(stage *models.StageStruct, dirPath strin
 
 	// insertion point for per struct backup
 	backRepo.BackRepoAclass.RestorePhaseTwo()
+	backRepo.BackRepoAclassBclass2Use.RestorePhaseTwo()
+	backRepo.BackRepoAclassBclassUse.RestorePhaseTwo()
 	backRepo.BackRepoBclass.RestorePhaseTwo()
 	backRepo.BackRepoDclass.RestorePhaseTwo()
 

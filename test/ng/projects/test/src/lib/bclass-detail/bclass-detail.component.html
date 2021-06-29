@@ -1,8 +1,8 @@
 <form *ngIf="bclass" class="details">
-    <h1 class="details__title">bclass</h1>
+    <h2 class="details__title">bclass</h2>
     <!-- insertion point for fields specific code -->
-    <mat-grid-list *ngIf='!isATextArea("Name")' cols="5" rowHeight="1:1">
-        <mat-grid-tile [colspan]="4">
+    <mat-grid-list *ngIf='!isATextArea("Name")' cols="5" rowHeight="2:1">
+        <mat-grid-tile [colspan]="3">
             <mat-form-field mat-form-field class="detail-full-width">
                 <mat-label>Name</mat-label>
                 <input name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="bclass.Name">
@@ -34,7 +34,7 @@
     </mat-form-field>
 
     <mat-form-field class="detail-full-width">
-        <mat-label><- Anarrayofb</mat-label>
+        <mat-label>(Aclass) Anarrayofb</mat-label>
         <mat-select [compareWith]="compareObjects" [(ngModel)]="bclass.Aclass_Anarrayofb_reverse" [ngModelOptions]="{standalone: true}">
             <mat-option>None</mat-option>
             <mat-option *ngFor="let aclass of frontRepo.Aclasss_array" [value]="aclass">
@@ -43,7 +43,7 @@
         </mat-select>
     </mat-form-field>
     <mat-form-field class="detail-full-width">
-        <mat-label><- Anotherarrayofb</mat-label>
+        <mat-label>(Aclass) Anotherarrayofb</mat-label>
         <mat-select [compareWith]="compareObjects" [(ngModel)]="bclass.Aclass_Anotherarrayofb_reverse" [ngModelOptions]="{standalone: true}">
             <mat-option>None</mat-option>
             <mat-option *ngFor="let aclass of frontRepo.Aclasss_array" [value]="aclass">
@@ -53,7 +53,7 @@
     </mat-form-field>
     <div class="details__save">
         <button mat-raised-button color="primary" (click)="save()">
-			Save bclass
-		</button>
+            Save bclass
+        </button>
     </div>
 </form>

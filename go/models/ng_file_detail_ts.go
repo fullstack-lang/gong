@@ -23,7 +23,7 @@ import { FormControl } from '@angular/forms';
 import { {{Structname}}DB } from '../{{structname}}-db'
 import { {{Structname}}Service } from '../{{structname}}.service'
 
-import { FrontRepoService, FrontRepo } from '../front-repo.service'
+import { FrontRepoService, FrontRepo, SelectionMode, DialogData } from '../front-repo.service'
 import { MapOfComponents } from '../map-components'
 import { MapOfSortingComponents } from '../map-components'
 
@@ -173,28 +173,64 @@ export class {{Structname}}DetailComponent implements OnInit {
 	// openReverseSelection is a generic function that calls dialog for the edition of 
 	// ONE-MANY association
 	// It uses the MapOfComponent provided by the front repo
-	openReverseSelection(AssociatedStruct: string, reverseField: string) {
+	openReverseSelection(AssociatedStruct: string, reverseField: string, selectionMode: SelectionMode,
+		sourceField: string, intermediateStructField: string, nextAssociatedStruct: string ) {
+
+		console.log("mode " + selectionMode)
 
 		const dialogConfig = new MatDialogConfig();
+
+		let dialogData = new DialogData();
 
 		// dialogConfig.disableClose = true;
 		dialogConfig.autoFocus = true;
 		dialogConfig.width = "50%"
 		dialogConfig.height = "50%"
-		dialogConfig.data = {
-			ID: this.{{structname}}.ID,
-			ReversePointer: reverseField,
-			OrderingMode: false,
-		};
-		const dialogRef: MatDialogRef<string, any> = this.dialog.open(
-			MapOfComponents.get(AssociatedStruct).get(
-				AssociatedStruct + 'sTableComponent'
-			),
-			dialogConfig
-		);
+		if (selectionMode == SelectionMode.ONE_MANY_ASSOCIATION_MODE) {
 
-		dialogRef.afterClosed().subscribe(result => {
-		});
+			dialogData.ID = this.{{structname}}.ID
+			dialogData.ReversePointer = reverseField
+			dialogData.OrderingMode = false
+			dialogData.SelectionMode = selectionMode
+
+			dialogConfig.data = dialogData
+			const dialogRef: MatDialogRef<string, any> = this.dialog.open(
+				MapOfComponents.get(AssociatedStruct).get(
+					AssociatedStruct + 'sTableComponent'
+				),
+				dialogConfig
+			);
+			dialogRef.afterClosed().subscribe(result => {
+			});
+		}
+		if (selectionMode == SelectionMode.MANY_MANY_ASSOCIATION_MODE) {
+			dialogData.ID = this.{{structname}}.ID
+			dialogData.ReversePointer = reverseField
+			dialogData.OrderingMode = false
+			dialogData.SelectionMode = selectionMode
+
+			// set up the source
+			dialogData.SourceStruct = "{{Structname}}"
+			dialogData.SourceField = sourceField
+
+			// set up the intermediate struct
+			dialogData.IntermediateStruct = AssociatedStruct
+			dialogData.IntermediateStructField = intermediateStructField
+
+			// set up the end struct
+			dialogData.NextAssociationStruct = nextAssociatedStruct
+
+			dialogConfig.data = dialogData
+			const dialogRef: MatDialogRef<string, any> = this.dialog.open(
+				MapOfComponents.get(nextAssociatedStruct).get(
+					nextAssociatedStruct + 'sTableComponent'
+				),
+				dialogConfig
+			);
+			dialogRef.afterClosed().subscribe(result => {
+			});
+		}
+
 	}
 
 	openDragAndDropOrdering(AssociatedStruct: string, reverseField: string) {
@@ -556,11 +592,50 @@ func MultiCodeGeneratorNgDetail(
 						"{{assocStructName}}", strings.ToLower(modelPointerToStructField.GongStruct.Name))
 			case *SliceOfPointerToGongStructField:
 				modelSliceOfPointerToStructField := field.(*SliceOfPointerToGongStructField)
-				HtmlInsertions[NgDetailHtmlInsertionPerStructFields] +=
-					Replace3(NgDetailHtmlSubTemplateCode[NgDetailSliceOfPointerToStructHtml],
-						"{{FieldName}}", modelSliceOfPointerToStructField.Name,
-						"{{AssocStructName}}", modelSliceOfPointerToStructField.GongStruct.Name,
-						"{{assocStructName}}", strings.ToLower(modelSliceOfPointerToStructField.GongStruct.Name))
+
+				htmlCodeForField := Replace3(NgDetailHtmlSubTemplateCode[NgDetailSliceOfPointerToStructHtml],
+					"{{FieldName}}", modelSliceOfPointerToStructField.Name,
+					"{{AssocStructName}}", modelSliceOfPointerToStructField.GongStruct.Name,
+					"{{assocStructName}}", strings.ToLower(modelSliceOfPointerToStructField.GongStruct.Name))
+
+				// check if this is a field of a MANY MANY association
+				if strings.HasSuffix(modelSliceOfPointerToStructField.Name, "Use") {
+
+					intermediateStruct := modelSliceOfPointerToStructField.GongStruct
+
+					// a "Use" struct should have exactly 2 fields (Name and the pointer to the next struct)
+					if len(intermediateStruct.Fields) != 2 {
+						log.Panicf("%s struct is a Use struct. Expected 2 fields, got %d",
+							modelSliceOfPointerToStructField.Name, len(intermediateStruct.Fields))
+					}
+
+					intermediateStructField := intermediateStruct.Fields[1]
+					_ = intermediateStructField
+
+					// get the end type. first  (cast on ta PointerToStructField)
+					switch intermediateStructField.(type) {
+					case *PointerToGongStructField:
+						nextStruct := (intermediateStructField.(*PointerToGongStructField)).GongStruct
+
+						addedHtmlCode := Replace5(NgDetailHtmlSubTemplateCode[NgDetailSliceOfPointerToStructManyManyHtml],
+							"{{FieldName}}", modelSliceOfPointerToStructField.Name,
+							"{{AssocStructName}}", modelSliceOfPointerToStructField.GongStruct.Name,
+							"{{assocStructName}}", strings.ToLower(modelSliceOfPointerToStructField.GongStruct.Name),
+							"{{IntermediateStructField}}", intermediateStructField.GetName(),
+							"{{NextAssociatedStruct}}", nextStruct.Name)
+						toReplace := "{{" + string(rune(NgDetailHtmlInsertionPerStructFieldsManyMany)) + "}}"
+						htmlCodeForField = strings.ReplaceAll(htmlCodeForField, toReplace, addedHtmlCode)
+					default:
+					}
+
+				}
+				HtmlInsertions[NgDetailHtmlInsertionPerStructFields] += htmlCodeForField
+
+				// HtmlInsertions[NgDetailHtmlInsertionPerStructFieldsManyMany] +=
+				// 	Replace3(NgDetailHtmlSubTemplateCode[NgDetailSliceOfPointerToStructManyManyHtml],
+				// 		"{{FieldName}}", modelSliceOfPointerToStructField.Name,
+				// 		"{{AssocStructName}}", modelSliceOfPointerToStructField.GongStruct.Name,
+				// 		"{{assocStructName}}", strings.ToLower(modelSliceOfPointerToStructField.GongStruct.Name))
 			}
 		}
 
