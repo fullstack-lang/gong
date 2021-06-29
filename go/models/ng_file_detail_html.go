@@ -59,7 +59,7 @@ var NgDetailHtmlSubTemplateCode map[NgDetailHtmlSubTemplate]string = map[NgDetai
 
 	NgDetailHtmlBasicStringField: `
     <mat-grid-list *ngIf='!isATextArea("{{FieldName}}")' cols="5" rowHeight="2:1">
-        <mat-grid-tile [colspan]="4">
+        <mat-grid-tile [colspan]="3">
             <mat-form-field mat-form-field class="detail-full-width">
                 <mat-label>{{FieldName}}</mat-label>
                 <input name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="{{structname}}.{{FieldName}}">
@@ -129,7 +129,7 @@ var NgDetailHtmlSubTemplateCode map[NgDetailHtmlSubTemplate]string = map[NgDetai
 
 	NgDetailSliceOfPointerToStructHtml: `
     <mat-grid-list cols="5" rowHeight="2:1">
-        <mat-grid-tile [colspan]="4">
+        <mat-grid-tile [colspan]="3">
             <button mat-raised-button (click)="openReverseSelection('{{AssocStructName}}', '{{Structname}}_{{FieldName}}DBID', 'ONE_MANY_ASSOCIATION_MODE', '', '', '')">{{FieldName}}</button>
         </mat-grid-tile>
         <!-- insertion point for the button of the MANY_MANY association{{` + string(rune(NgDetailHtmlInsertionPerStructFieldsManyMany)) + `}}-->
@@ -143,7 +143,7 @@ var NgDetailHtmlSubTemplateCode map[NgDetailHtmlSubTemplate]string = map[NgDetai
     </mat-grid-list>`,
 
 	NgDetailSliceOfPointerToStructManyManyHtml: `-->
-        <mat-grid-tile [colspan]="4">
+        <mat-grid-tile>
             <button mat-raised-button (click)="openReverseSelection('AclassBclassUse', 'Aclass_AnarrayofbUseDBID', 
             'MANY_MANY_ASSOCIATION_MODE', 'AnarrayofbUse', 'Bclass', 'Bclass')">
                 <mat-icon>

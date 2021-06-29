@@ -2,7 +2,7 @@
     <h2 class="details__title">aclass</h2>
     <!-- insertion point for fields specific code -->
     <mat-grid-list *ngIf='!isATextArea("Name")' cols="5" rowHeight="2:1">
-        <mat-grid-tile [colspan]="4">
+        <mat-grid-tile [colspan]="3">
             <mat-form-field mat-form-field class="detail-full-width">
                 <mat-label>Name</mat-label>
                 <input name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="aclass.Name">
@@ -61,7 +61,7 @@
     </mat-form-field>
 
     <mat-grid-list *ngIf='!isATextArea("CName")' cols="5" rowHeight="2:1">
-        <mat-grid-tile [colspan]="4">
+        <mat-grid-tile [colspan]="3">
             <mat-form-field mat-form-field class="detail-full-width">
                 <mat-label>CName</mat-label>
                 <input name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="aclass.CName">
@@ -144,7 +144,7 @@
     </mat-form-field>
 
     <mat-grid-list cols="5" rowHeight="2:1">
-        <mat-grid-tile [colspan]="4">
+        <mat-grid-tile [colspan]="3">
             <button mat-raised-button (click)="openReverseSelection('Bclass', 'Aclass_AnarrayofbDBID', 'ONE_MANY_ASSOCIATION_MODE', '', '', '')">Anarrayofb</button>
         </mat-grid-tile>
         <!-- insertion point for the button of the MANY_MANY association-->
@@ -157,7 +157,7 @@
         </mat-grid-tile>
     </mat-grid-list>
     <mat-grid-list cols="5" rowHeight="2:1">
-        <mat-grid-tile [colspan]="4">
+        <mat-grid-tile [colspan]="3">
             <button mat-raised-button (click)="openReverseSelection('Bclass', 'Aclass_AnotherarrayofbDBID', 'ONE_MANY_ASSOCIATION_MODE', '', '', '')">Anotherarrayofb</button>
         </mat-grid-tile>
         <!-- insertion point for the button of the MANY_MANY association-->
@@ -170,7 +170,7 @@
         </mat-grid-tile>
     </mat-grid-list>
     <mat-grid-list cols="5" rowHeight="2:1">
-        <mat-grid-tile [colspan]="4">
+        <mat-grid-tile [colspan]="3">
             <button mat-raised-button (click)="openReverseSelection('Aclass', 'Aclass_AnarrayofaDBID', 'ONE_MANY_ASSOCIATION_MODE', '', '', '')">Anarrayofa</button>
         </mat-grid-tile>
         <!-- insertion point for the button of the MANY_MANY association-->
@@ -183,19 +183,18 @@
         </mat-grid-tile>
     </mat-grid-list>
     <mat-grid-list cols="5" rowHeight="2:1">
-        <mat-grid-tile [colspan]="4">
+        <mat-grid-tile [colspan]="3">
             <button mat-raised-button (click)="openReverseSelection('AclassBclassUse', 'Aclass_AnarrayofbUseDBID', 'ONE_MANY_ASSOCIATION_MODE', '', '', '')">AnarrayofbUse</button>
         </mat-grid-tile>
         <!-- insertion point for the button of the MANY_MANY association-->
-        <mat-grid-tile [colspan]="4">
+        <mat-grid-tile>
             <button mat-raised-button (click)="openReverseSelection('AclassBclassUse', 'Aclass_AnarrayofbUseDBID', 
             'MANY_MANY_ASSOCIATION_MODE', 'AnarrayofbUse', 'Bclass', 'Bclass')">
                 <mat-icon>
                     list
                 </mat-icon>
             </button>
-        </mat-grid-tile>
-        <!-- end of insertion -->
+        </mat-grid-tile> <!-- end of insertion -->
         <mat-grid-tile>
             <button mat-raised-button (click)="openDragAndDropOrdering('AclassBclassUse', 'Aclass_AnarrayofbUseDBID')">
                 <mat-icon>
