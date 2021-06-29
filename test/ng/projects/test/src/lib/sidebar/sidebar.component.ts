@@ -10,6 +10,10 @@ import { CommitNbService } from '../commitnb.service'
 // insertion point for per struct import code
 import { AclassService } from '../aclass.service'
 import { getAclassUniqueID } from '../front-repo.service'
+import { AclassBclass2UseService } from '../aclassbclass2use.service'
+import { getAclassBclass2UseUniqueID } from '../front-repo.service'
+import { AclassBclassUseService } from '../aclassbclassuse.service'
+import { getAclassBclassUseUniqueID } from '../front-repo.service'
 import { BclassService } from '../bclass.service'
 import { getBclassUniqueID } from '../front-repo.service'
 import { DclassService } from '../dclass.service'
@@ -150,6 +154,8 @@ export class SidebarComponent implements OnInit {
 
     // insertion point for per struct service declaration
     private aclassService: AclassService,
+    private aclassbclass2useService: AclassBclass2UseService,
+    private aclassbclassuseService: AclassBclassUseService,
     private bclassService: BclassService,
     private dclassService: DclassService,
   ) { }
@@ -160,6 +166,22 @@ export class SidebarComponent implements OnInit {
     // insertion point for per struct observable for refresh trigger
     // observable for changes in structs
     this.aclassService.AclassServiceChanged.subscribe(
+      message => {
+        if (message == "post" || message == "update" || message == "delete") {
+          this.refresh()
+        }
+      }
+    )
+    // observable for changes in structs
+    this.aclassbclass2useService.AclassBclass2UseServiceChanged.subscribe(
+      message => {
+        if (message == "post" || message == "update" || message == "delete") {
+          this.refresh()
+        }
+      }
+    )
+    // observable for changes in structs
+    this.aclassbclassuseService.AclassBclassUseServiceChanged.subscribe(
       message => {
         if (message == "post" || message == "update" || message == "delete") {
           this.refresh()
@@ -413,6 +435,228 @@ export class SidebarComponent implements OnInit {
             }
             AnarrayofaGongNodeAssociation.children.push(aclassNode)
           })
+
+          /**
+          * let append a node for the slide of pointer AnarrayofbUse
+          */
+          let AnarrayofbUseGongNodeAssociation: GongNode = {
+            name: "(AclassBclassUse) AnarrayofbUse",
+            type: GongNodeType.ONE__ZERO_MANY_ASSOCIATION,
+            id: aclassDB.ID,
+            uniqueIdPerStack: 19 * nonInstanceNodeId,
+            structName: "Aclass",
+            associationField: "AnarrayofbUse",
+            associatedStructName: "AclassBclassUse",
+            children: new Array<GongNode>()
+          }
+          nonInstanceNodeId = nonInstanceNodeId + 1
+          aclassGongNodeInstance.children.push(AnarrayofbUseGongNodeAssociation)
+
+          aclassDB.AnarrayofbUse?.forEach(aclassbclassuseDB => {
+            let aclassbclassuseNode: GongNode = {
+              name: aclassbclassuseDB.Name,
+              type: GongNodeType.INSTANCE,
+              id: aclassbclassuseDB.ID,
+              uniqueIdPerStack: // godel numbering (thank you kurt)
+                7 * getAclassUniqueID(aclassDB.ID)
+                + 11 * getAclassBclassUseUniqueID(aclassbclassuseDB.ID),
+              structName: "AclassBclassUse",
+              associationField: "",
+              associatedStructName: "",
+              children: new Array<GongNode>()
+            }
+            AnarrayofbUseGongNodeAssociation.children.push(aclassbclassuseNode)
+          })
+
+          /**
+          * let append a node for the slide of pointer Anarrayofb2Use
+          */
+          let Anarrayofb2UseGongNodeAssociation: GongNode = {
+            name: "(AclassBclass2Use) Anarrayofb2Use",
+            type: GongNodeType.ONE__ZERO_MANY_ASSOCIATION,
+            id: aclassDB.ID,
+            uniqueIdPerStack: 19 * nonInstanceNodeId,
+            structName: "Aclass",
+            associationField: "Anarrayofb2Use",
+            associatedStructName: "AclassBclass2Use",
+            children: new Array<GongNode>()
+          }
+          nonInstanceNodeId = nonInstanceNodeId + 1
+          aclassGongNodeInstance.children.push(Anarrayofb2UseGongNodeAssociation)
+
+          aclassDB.Anarrayofb2Use?.forEach(aclassbclass2useDB => {
+            let aclassbclass2useNode: GongNode = {
+              name: aclassbclass2useDB.Name,
+              type: GongNodeType.INSTANCE,
+              id: aclassbclass2useDB.ID,
+              uniqueIdPerStack: // godel numbering (thank you kurt)
+                7 * getAclassUniqueID(aclassDB.ID)
+                + 11 * getAclassBclass2UseUniqueID(aclassbclass2useDB.ID),
+              structName: "AclassBclass2Use",
+              associationField: "",
+              associatedStructName: "",
+              children: new Array<GongNode>()
+            }
+            Anarrayofb2UseGongNodeAssociation.children.push(aclassbclass2useNode)
+          })
+
+        }
+      )
+
+      /**
+      * fill up the AclassBclass2Use part of the mat tree
+      */
+      let aclassbclass2useGongNodeStruct: GongNode = {
+        name: "AclassBclass2Use",
+        type: GongNodeType.STRUCT,
+        id: 0,
+        uniqueIdPerStack: 13 * nonInstanceNodeId,
+        structName: "AclassBclass2Use",
+        associationField: "",
+        associatedStructName: "",
+        children: new Array<GongNode>()
+      }
+      nonInstanceNodeId = nonInstanceNodeId + 1
+      this.gongNodeTree.push(aclassbclass2useGongNodeStruct)
+
+      this.frontRepo.AclassBclass2Uses_array.sort((t1, t2) => {
+        if (t1.Name > t2.Name) {
+          return 1;
+        }
+        if (t1.Name < t2.Name) {
+          return -1;
+        }
+        return 0;
+      });
+
+      this.frontRepo.AclassBclass2Uses_array.forEach(
+        aclassbclass2useDB => {
+          let aclassbclass2useGongNodeInstance: GongNode = {
+            name: aclassbclass2useDB.Name,
+            type: GongNodeType.INSTANCE,
+            id: aclassbclass2useDB.ID,
+            uniqueIdPerStack: getAclassBclass2UseUniqueID(aclassbclass2useDB.ID),
+            structName: "AclassBclass2Use",
+            associationField: "",
+            associatedStructName: "",
+            children: new Array<GongNode>()
+          }
+          aclassbclass2useGongNodeStruct.children.push(aclassbclass2useGongNodeInstance)
+
+          // insertion point for per field code
+          /**
+          * let append a node for the association Bclass2
+          */
+          let Bclass2GongNodeAssociation: GongNode = {
+            name: "(Bclass) Bclass2",
+            type: GongNodeType.ONE__ZERO_ONE_ASSOCIATION,
+            id: aclassbclass2useDB.ID,
+            uniqueIdPerStack: 17 * nonInstanceNodeId,
+            structName: "AclassBclass2Use",
+            associationField: "Bclass2",
+            associatedStructName: "Bclass",
+            children: new Array<GongNode>()
+          }
+          nonInstanceNodeId = nonInstanceNodeId + 1
+          aclassbclass2useGongNodeInstance.children.push(Bclass2GongNodeAssociation)
+
+          /**
+            * let append a node for the instance behind the asssociation Bclass2
+            */
+          if (aclassbclass2useDB.Bclass2 != undefined) {
+            let aclassbclass2useGongNodeInstance_Bclass2: GongNode = {
+              name: aclassbclass2useDB.Bclass2.Name,
+              type: GongNodeType.INSTANCE,
+              id: aclassbclass2useDB.Bclass2.ID,
+              uniqueIdPerStack: // godel numbering (thank you kurt)
+                3 * getAclassBclass2UseUniqueID(aclassbclass2useDB.ID)
+                + 5 * getBclassUniqueID(aclassbclass2useDB.Bclass2.ID),
+              structName: "Bclass",
+              associationField: "",
+              associatedStructName: "",
+              children: new Array<GongNode>()
+            }
+            Bclass2GongNodeAssociation.children.push(aclassbclass2useGongNodeInstance_Bclass2)
+          }
+
+        }
+      )
+
+      /**
+      * fill up the AclassBclassUse part of the mat tree
+      */
+      let aclassbclassuseGongNodeStruct: GongNode = {
+        name: "AclassBclassUse",
+        type: GongNodeType.STRUCT,
+        id: 0,
+        uniqueIdPerStack: 13 * nonInstanceNodeId,
+        structName: "AclassBclassUse",
+        associationField: "",
+        associatedStructName: "",
+        children: new Array<GongNode>()
+      }
+      nonInstanceNodeId = nonInstanceNodeId + 1
+      this.gongNodeTree.push(aclassbclassuseGongNodeStruct)
+
+      this.frontRepo.AclassBclassUses_array.sort((t1, t2) => {
+        if (t1.Name > t2.Name) {
+          return 1;
+        }
+        if (t1.Name < t2.Name) {
+          return -1;
+        }
+        return 0;
+      });
+
+      this.frontRepo.AclassBclassUses_array.forEach(
+        aclassbclassuseDB => {
+          let aclassbclassuseGongNodeInstance: GongNode = {
+            name: aclassbclassuseDB.Name,
+            type: GongNodeType.INSTANCE,
+            id: aclassbclassuseDB.ID,
+            uniqueIdPerStack: getAclassBclassUseUniqueID(aclassbclassuseDB.ID),
+            structName: "AclassBclassUse",
+            associationField: "",
+            associatedStructName: "",
+            children: new Array<GongNode>()
+          }
+          aclassbclassuseGongNodeStruct.children.push(aclassbclassuseGongNodeInstance)
+
+          // insertion point for per field code
+          /**
+          * let append a node for the association Bclass2
+          */
+          let Bclass2GongNodeAssociation: GongNode = {
+            name: "(Bclass) Bclass2",
+            type: GongNodeType.ONE__ZERO_ONE_ASSOCIATION,
+            id: aclassbclassuseDB.ID,
+            uniqueIdPerStack: 17 * nonInstanceNodeId,
+            structName: "AclassBclassUse",
+            associationField: "Bclass2",
+            associatedStructName: "Bclass",
+            children: new Array<GongNode>()
+          }
+          nonInstanceNodeId = nonInstanceNodeId + 1
+          aclassbclassuseGongNodeInstance.children.push(Bclass2GongNodeAssociation)
+
+          /**
+            * let append a node for the instance behind the asssociation Bclass2
+            */
+          if (aclassbclassuseDB.Bclass2 != undefined) {
+            let aclassbclassuseGongNodeInstance_Bclass2: GongNode = {
+              name: aclassbclassuseDB.Bclass2.Name,
+              type: GongNodeType.INSTANCE,
+              id: aclassbclassuseDB.Bclass2.ID,
+              uniqueIdPerStack: // godel numbering (thank you kurt)
+                3 * getAclassBclassUseUniqueID(aclassbclassuseDB.ID)
+                + 5 * getBclassUniqueID(aclassbclassuseDB.Bclass2.ID),
+              structName: "Bclass",
+              associationField: "",
+              associatedStructName: "",
+              children: new Array<GongNode>()
+            }
+            Bclass2GongNodeAssociation.children.push(aclassbclassuseGongNodeInstance_Bclass2)
+          }
 
         }
       )

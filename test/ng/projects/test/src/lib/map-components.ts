@@ -1,6 +1,10 @@
 // insertion point sub template for components imports 
   import { AclasssTableComponent } from './aclasss-table/aclasss-table.component'
   import { AclassSortingComponent } from './aclass-sorting/aclass-sorting.component'
+  import { AclassBclass2UsesTableComponent } from './aclassbclass2uses-table/aclassbclass2uses-table.component'
+  import { AclassBclass2UseSortingComponent } from './aclassbclass2use-sorting/aclassbclass2use-sorting.component'
+  import { AclassBclassUsesTableComponent } from './aclassbclassuses-table/aclassbclassuses-table.component'
+  import { AclassBclassUseSortingComponent } from './aclassbclassuse-sorting/aclassbclassuse-sorting.component'
   import { BclasssTableComponent } from './bclasss-table/bclasss-table.component'
   import { BclassSortingComponent } from './bclass-sorting/bclass-sorting.component'
   import { DclasssTableComponent } from './dclasss-table/dclasss-table.component'
@@ -9,6 +13,10 @@
 // insertion point sub template for map of components per struct 
   export const MapOfAclasssComponents: Map<string, any> = new Map([["AclasssTableComponent", AclasssTableComponent],])
   export const MapOfAclassSortingComponents: Map<string, any> = new Map([["AclassSortingComponent", AclassSortingComponent],])
+  export const MapOfAclassBclass2UsesComponents: Map<string, any> = new Map([["AclassBclass2UsesTableComponent", AclassBclass2UsesTableComponent],])
+  export const MapOfAclassBclass2UseSortingComponents: Map<string, any> = new Map([["AclassBclass2UseSortingComponent", AclassBclass2UseSortingComponent],])
+  export const MapOfAclassBclassUsesComponents: Map<string, any> = new Map([["AclassBclassUsesTableComponent", AclassBclassUsesTableComponent],])
+  export const MapOfAclassBclassUseSortingComponents: Map<string, any> = new Map([["AclassBclassUseSortingComponent", AclassBclassUseSortingComponent],])
   export const MapOfBclasssComponents: Map<string, any> = new Map([["BclasssTableComponent", BclasssTableComponent],])
   export const MapOfBclassSortingComponents: Map<string, any> = new Map([["BclassSortingComponent", BclassSortingComponent],])
   export const MapOfDclasssComponents: Map<string, any> = new Map([["DclasssTableComponent", DclasssTableComponent],])
@@ -20,6 +28,8 @@ export const MapOfComponents: Map<string, any> =
     [
       // insertion point sub template for map of components 
       ["Aclass", MapOfAclasssComponents],
+      ["AclassBclass2Use", MapOfAclassBclass2UsesComponents],
+      ["AclassBclassUse", MapOfAclassBclassUsesComponents],
       ["Bclass", MapOfBclasssComponents],
       ["Dclass", MapOfDclasssComponents],
     ]
@@ -31,6 +41,8 @@ export const MapOfSortingComponents: Map<string, any> =
     [
     // insertion point sub template for map of sorting components 
       ["Aclass", MapOfAclassSortingComponents],
+      ["AclassBclass2Use", MapOfAclassBclass2UseSortingComponents],
+      ["AclassBclassUse", MapOfAclassBclassUseSortingComponents],
       ["Bclass", MapOfBclassSortingComponents],
       ["Dclass", MapOfDclassSortingComponents],
     ]

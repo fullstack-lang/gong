@@ -1,0 +1,48 @@
+<form *ngIf="aclassbclassuse" class="details">
+    <h2 class="details__title">aclassbclassuse</h2>
+    <!-- insertion point for fields specific code -->
+    <mat-grid-list *ngIf='!isATextArea("Name")' cols="5" rowHeight="2:1">
+        <mat-grid-tile [colspan]="3">
+            <mat-form-field mat-form-field class="detail-full-width">
+                <mat-label>Name</mat-label>
+                <input name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="aclassbclassuse.Name">
+            </mat-form-field>
+        </mat-grid-tile>
+        <mat-grid-tile>
+            <button mat-raised-button (click)="toggleTextArea('Name')">
+                <mat-icon>
+                    expand_more
+                </mat-icon>
+            </button>
+        </mat-grid-tile>
+    </mat-grid-list>
+    <mat-form-field *ngIf='isATextArea("Name")' mat-form-field class="detail-full-width">
+        <mat-label>Name</mat-label>
+        <textarea name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="aclassbclassuse.Name"></textarea>
+    </mat-form-field>
+
+    <mat-form-field class="detail-full-width">
+        <mat-label>Bclass2</mat-label>
+        <mat-select [compareWith]="compareObjects" [(value)]="aclassbclassuse.Bclass2" (selectionChange)="fillUpNameIfEmpty($event)">
+            <mat-option>None</mat-option>
+            <mat-option *ngFor="let bclass of frontRepo.Bclasss_array" [value]="bclass">
+                {{bclass.Name}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    <mat-form-field class="detail-full-width">
+        <mat-label>(Aclass) AnarrayofbUse</mat-label>
+        <mat-select [compareWith]="compareObjects" [(ngModel)]="aclassbclassuse.Aclass_AnarrayofbUse_reverse" [ngModelOptions]="{standalone: true}">
+            <mat-option>None</mat-option>
+            <mat-option *ngFor="let aclass of frontRepo.Aclasss_array" [value]="aclass">
+                {{aclass.Name}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+    <div class="details__save">
+        <button mat-raised-button color="primary" (click)="save()">
+            Save aclassbclassuse
+        </button>
+    </div>
+</form>

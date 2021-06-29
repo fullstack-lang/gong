@@ -50,6 +50,20 @@ func RegisterControllers(r *gin.Engine) {
 		v1.PUT("/v1/aclasss/:id", UpdateAclass)
 		v1.DELETE("/v1/aclasss/:id", DeleteAclass)
 
+		v1.GET("/v1/aclassbclass2uses", GetAclassBclass2Uses)
+		v1.GET("/v1/aclassbclass2uses/:id", GetAclassBclass2Use)
+		v1.POST("/v1/aclassbclass2uses", PostAclassBclass2Use)
+		v1.PATCH("/v1/aclassbclass2uses/:id", UpdateAclassBclass2Use)
+		v1.PUT("/v1/aclassbclass2uses/:id", UpdateAclassBclass2Use)
+		v1.DELETE("/v1/aclassbclass2uses/:id", DeleteAclassBclass2Use)
+
+		v1.GET("/v1/aclassbclassuses", GetAclassBclassUses)
+		v1.GET("/v1/aclassbclassuses/:id", GetAclassBclassUse)
+		v1.POST("/v1/aclassbclassuses", PostAclassBclassUse)
+		v1.PATCH("/v1/aclassbclassuses/:id", UpdateAclassBclassUse)
+		v1.PUT("/v1/aclassbclassuses/:id", UpdateAclassBclassUse)
+		v1.DELETE("/v1/aclassbclassuses/:id", DeleteAclassBclassUse)
+
 		v1.GET("/v1/bclasss", GetBclasss)
 		v1.GET("/v1/bclasss/:id", GetBclass)
 		v1.POST("/v1/bclasss", PostBclass)

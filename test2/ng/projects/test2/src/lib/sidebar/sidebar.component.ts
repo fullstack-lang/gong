@@ -29,6 +29,7 @@ interface GongNode {
   children?: GongNode[];
   type: GongNodeType;
   structName: string;
+  associationField: string;
   associatedStructName: string;
   id: number;
   uniqueIdPerStack: number;
@@ -44,6 +45,7 @@ interface GongFlatNode {
   level: number;
   type: GongNodeType;
   structName: string;
+  associationField: string;
   associatedStructName: string;
   id: number;
   uniqueIdPerStack: number;
@@ -78,6 +80,7 @@ export class SidebarComponent implements OnInit {
       level: level,
       type: node.type,
       structName: node.structName,
+      associationField: node.associationField,
       associatedStructName: node.associatedStructName,
       id: node.id,
       uniqueIdPerStack: node.uniqueIdPerStack,
@@ -191,6 +194,7 @@ export class SidebarComponent implements OnInit {
         id: 0,
         uniqueIdPerStack: 13 * nonInstanceNodeId,
         structName: "Aclass",
+        associationField: "",
         associatedStructName: "",
         children: new Array<GongNode>()
       }
@@ -215,6 +219,7 @@ export class SidebarComponent implements OnInit {
             id: aclassDB.ID,
             uniqueIdPerStack: getAclassUniqueID(aclassDB.ID),
             structName: "Aclass",
+            associationField: "",
             associatedStructName: "",
             children: new Array<GongNode>()
           }
@@ -230,6 +235,7 @@ export class SidebarComponent implements OnInit {
             id: aclassDB.ID,
             uniqueIdPerStack: 19 * nonInstanceNodeId,
             structName: "Aclass",
+            associationField: "Anarrayofa",
             associatedStructName: "Aclass",
             children: new Array<GongNode>()
           }
@@ -245,6 +251,7 @@ export class SidebarComponent implements OnInit {
                 7 * getAclassUniqueID(aclassDB.ID)
                 + 11 * getAclassUniqueID(aclassDB.ID),
               structName: "Aclass",
+              associationField: "",
               associatedStructName: "",
               children: new Array<GongNode>()
             }
@@ -325,7 +332,7 @@ export class SidebarComponent implements OnInit {
   setEditorSpecialRouterOutlet( node: GongFlatNode) {
     this.router.navigate([{
       outlets: {
-        github_com_fullstack_lang_gong_test2_go_editor: ["github_com_fullstack_lang_gong_test2_go-" + node.associatedStructName.toLowerCase() + "-adder", node.id, node.structName + "_" + node.name]
+        github_com_fullstack_lang_gong_test2_go_editor: ["github_com_fullstack_lang_gong_test2_go-" + node.associatedStructName.toLowerCase() + "-adder", node.id, node.structName, node.associationField]
       }
     }]);
   }

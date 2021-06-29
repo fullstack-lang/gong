@@ -1,12 +1,12 @@
 package models
 
 const NgDetailTemplateHTML = `<form *ngIf="{{structname}}" class="details">
-    <h1 class="details__title">{{structname}}</h1>
+    <h2 class="details__title">{{structname}}</h2>
     <!-- insertion point for fields specific code -->{{` + string(rune(NgDetailHtmlInsertionPerStructFields)) + `}}
     <div class="details__save">
         <button mat-raised-button color="primary" (click)="save()">
-			Save {{structname}}
-		</button>
+            Save {{structname}}
+        </button>
     </div>
 </form>`
 
@@ -14,6 +14,7 @@ type NgDetailHtmlInsertionPoint int
 
 const (
 	NgDetailHtmlInsertionPerStructFields NgDetailHtmlInsertionPoint = iota
+	NgDetailHtmlInsertionPerStructFieldsManyMany
 	NgDetailHtmlInsertionsNb
 )
 
@@ -31,6 +32,7 @@ const (
 	NgDetailHtmlTimeDuration
 	NgDetailPointerToStructHtmlFormField
 	NgDetailSliceOfPointerToStructHtml
+	NgDetailSliceOfPointerToStructManyManyHtml
 	NgDetailSliceOfPointerToStructReverseHtml
 )
 
@@ -56,8 +58,8 @@ var NgDetailHtmlSubTemplateCode map[NgDetailHtmlSubTemplate]string = map[NgDetai
 `,
 
 	NgDetailHtmlBasicStringField: `
-    <mat-grid-list *ngIf='!isATextArea("{{FieldName}}")' cols="5" rowHeight="1:1">
-        <mat-grid-tile [colspan]="4">
+    <mat-grid-list *ngIf='!isATextArea("{{FieldName}}")' cols="5" rowHeight="2:1">
+        <mat-grid-tile [colspan]="3">
             <mat-form-field mat-form-field class="detail-full-width">
                 <mat-label>{{FieldName}}</mat-label>
                 <input name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="{{structname}}.{{FieldName}}">
@@ -95,22 +97,19 @@ var NgDetailHtmlSubTemplateCode map[NgDetailHtmlSubTemplate]string = map[NgDetai
         <mat-grid-tile>
             <mat-form-field class="details_hours_width">
                 <mat-label>{{FieldName}} Hours</mat-label>
-                <input type="number" [ngModelOptions]="{standalone: true}" matInput
-                    [(ngModel)]="{{FieldName}}_Hours">
+                <input type="number" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="{{FieldName}}_Hours">
             </mat-form-field>
         </mat-grid-tile>
         <mat-grid-tile>
             <mat-form-field class="details_minutes_width">
                 <mat-label>{{FieldName}} Minutes</mat-label>
-                <input type="number" [ngModelOptions]="{standalone: true}" matInput
-                    [(ngModel)]="{{FieldName}}_Minutes">
+                <input type="number" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="{{FieldName}}_Minutes">
             </mat-form-field>
         </mat-grid-tile>
         <mat-grid-tile>
             <mat-form-field class="details_seconds_width">
                 <mat-label>{{FieldName}} Seconds</mat-label>
-                <input type="number" [ngModelOptions]="{standalone: true}" matInput
-                    [(ngModel)]="{{FieldName}}_Seconds">
+                <input type="number" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="{{FieldName}}_Seconds">
             </mat-form-field>
         </mat-grid-tile>
     </mat-grid-list>
@@ -129,27 +128,33 @@ var NgDetailHtmlSubTemplateCode map[NgDetailHtmlSubTemplate]string = map[NgDetai
 `,
 
 	NgDetailSliceOfPointerToStructHtml: `
-    <mat-grid-list cols="2" rowHeight="6:1">
-        <mat-grid-tile>
-            <div style="width: 100vw; text-align: right;">
-                <button mat-raised-button
-                    (click)="openReverseSelection('{{AssocStructName}}', '{{Structname}}_{{FieldName}}DBID')">{{FieldName}}</button>
-            </div>
+    <mat-grid-list cols="5" rowHeight="2:1">
+        <mat-grid-tile [colspan]="3">
+            <button mat-raised-button (click)="openReverseSelection('{{AssocStructName}}', '{{Structname}}_{{FieldName}}DBID', 'ONE_MANY_ASSOCIATION_MODE', '', '', '')">{{FieldName}}</button>
         </mat-grid-tile>
+        <!-- insertion point for the button of the MANY_MANY association{{` + string(rune(NgDetailHtmlInsertionPerStructFieldsManyMany)) + `}}-->
         <mat-grid-tile>
-            <div style="width: 100vw; text-align: left;">
-                <button mat-raised-button (click)="openDragAndDropOrdering('{{AssocStructName}}', '{{Structname}}_{{FieldName}}DBID')">
-                    <mat-icon>
-                        shuffle
-                    </mat-icon>
-                </button>
-            </div>
+            <button mat-raised-button (click)="openDragAndDropOrdering('{{AssocStructName}}', '{{Structname}}_{{FieldName}}DBID')">
+                <mat-icon>
+                    shuffle
+                </mat-icon>
+            </button>
         </mat-grid-tile>
     </mat-grid-list>`,
 
+	NgDetailSliceOfPointerToStructManyManyHtml: `-->
+        <mat-grid-tile>
+            <button mat-raised-button (click)="openReverseSelection('{{AssocStructName}}', '{{Structname}}_{{FieldName}}DBID', 
+            'MANY_MANY_ASSOCIATION_MODE', '{{FieldName}}', '{{IntermediateStructField}}', '{{NextAssociatedStruct}}')">
+                <mat-icon>
+                    list
+                </mat-icon>
+            </button>
+        </mat-grid-tile> <!-- end of insertion `,
+
 	NgDetailSliceOfPointerToStructReverseHtml: `
     <mat-form-field class="detail-full-width">
-        <mat-label><- {{FieldName}}</mat-label>
+        <mat-label>({{AssocStructName}}) {{FieldName}}</mat-label>
         <mat-select [compareWith]="compareObjects" [(ngModel)]="{{structname}}.{{AssocStructName}}_{{FieldName}}_reverse" [ngModelOptions]="{standalone: true}">
             <mat-option>None</mat-option>
             <mat-option *ngFor="let {{assocStructName}} of frontRepo.{{AssocStructName}}s_array" [value]="{{assocStructName}}">
