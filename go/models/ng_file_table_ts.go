@@ -24,7 +24,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatButton } from '@angular/material/button'
 
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog'
-import { DialogData } from '../front-repo.service'
+import { DialogData, FrontRepoService, FrontRepo, NullInt64, SelectionMode } from '../front-repo.service'
 import { SelectionModel } from '@angular/cdk/collections';
 
 const allowMultiSelect = true;
@@ -32,8 +32,6 @@ const allowMultiSelect = true;
 import { Router, RouterState } from '@angular/router';
 import { {{Structname}}DB } from '../{{structname}}-db'
 import { {{Structname}}Service } from '../{{structname}}.service'
-
-import { FrontRepoService, FrontRepo } from '../front-repo.service'
 
 // TableComponent is initilizaed from different routes
 // TableComponentMode detail different cases 
@@ -61,7 +59,6 @@ export class {{Structname}}sTableComponent implements OnInit {
   // the data source for the table
   {{structname}}s: {{Structname}}DB[];
   matTableDataSource: MatTableDataSource<{{Structname}}DB>
-
 
   // front repo, that will be referenced by this.{{structname}}s
   frontRepo: FrontRepo
@@ -122,7 +119,15 @@ export class {{Structname}}sTableComponent implements OnInit {
     if (dialogData == undefined) {
       this.mode = TableComponentMode.DISPLAY_MODE
     } else {
-      this.mode = TableComponentMode.ONE_MANY_ASSOCIATION_MODE
+      switch (dialogData.SelectionMode) {
+        case SelectionMode.ONE_MANY_ASSOCIATION_MODE:
+          this.mode = TableComponentMode.ONE_MANY_ASSOCIATION_MODE
+          break
+        case SelectionMode.MANY_MANY_ASSOCIATION_MODE:
+          this.mode = TableComponentMode.MANY_MANY_ASSOCIATION_MODE
+          break
+        default:
+      }
     }
 
     // observable for changes in structs
@@ -134,7 +139,7 @@ export class {{Structname}}sTableComponent implements OnInit {
       }
     )
     if (this.mode == TableComponentMode.DISPLAY_MODE) {
-		this.displayedColumns = ['ID', 'Edit', 'Delete', // insertion point for columns to display{{` + string(rune(NgTableTsInsertionPerStructColumns)) + `}}
+      this.displayedColumns = ['ID', 'Edit', 'Delete', // insertion point for columns to display{{` + string(rune(NgTableTsInsertionPerStructColumns)) + `}}
       ]
     } else {
       this.displayedColumns = ['select', 'ID', // insertion point for columns to display{{` + string(rune(NgTableTsInsertionPerStructColumns)) + `}}
@@ -160,7 +165,7 @@ export class {{Structname}}sTableComponent implements OnInit {
 
         // in case the component is called as a selection component
         if (this.mode == TableComponentMode.ONE_MANY_ASSOCIATION_MODE) {
-			this.{{structname}}s.forEach(
+          this.{{structname}}s.forEach(
             {{structname}} => {
               let ID = this.dialogData.ID
               let revPointer = {{structname}}[this.dialogData.ReversePointer]
@@ -169,6 +174,20 @@ export class {{Structname}}sTableComponent implements OnInit {
               }
             }
           )
+          this.selection = new SelectionModel<{{Structname}}DB>(allowMultiSelect, this.initialSelection);
+        }
+
+        if (this.mode == TableComponentMode.MANY_MANY_ASSOCIATION_MODE) {
+
+          let mapOfSourceInstances = this.frontRepo[this.dialogData.SourceStruct + "s"]
+          let sourceInstance = mapOfSourceInstances.get(this.dialogData.ID)
+
+          if (sourceInstance[this.dialogData.SourceField]) {
+            for (let associationInstance of sourceInstance[this.dialogData.SourceField]) {
+              let {{structname}} = associationInstance[this.dialogData.IntermediateStructField]
+              this.initialSelection.push({{structname}})
+            }
+          }
           this.selection = new SelectionModel<{{Structname}}DB>(allowMultiSelect, this.initialSelection);
         }
 
@@ -237,36 +256,106 @@ export class {{Structname}}sTableComponent implements OnInit {
 
   save() {
 
-    let toUpdate = new Set<{{Structname}}DB>()
+    if (this.mode == TableComponentMode.ONE_MANY_ASSOCIATION_MODE) {
 
-    // reset all initial selection of {{structname}} that belong to {{structname}} through Anarrayofb
-    this.initialSelection.forEach(
-      {{structname}} => {
-        {{structname}}[this.dialogData.ReversePointer].Int64 = 0
-        {{structname}}[this.dialogData.ReversePointer].Valid = true
-        toUpdate.add({{structname}})
-      }
-    )
+      let toUpdate = new Set<{{Structname}}DB>()
 
-    // from selection, set {{structname}} that belong to {{structname}} through Anarrayofb
-    this.selection.selected.forEach(
-      {{structname}} => {
-        let ID = +this.dialogData.ID
-        {{structname}}[this.dialogData.ReversePointer].Int64 = ID
-        {{structname}}[this.dialogData.ReversePointer].Valid = true
-        toUpdate.add({{structname}})
-      }
-    )
+      // reset all initial selection of {{structname}} that belong to {{structname}}
+      this.initialSelection.forEach(
+        {{structname}} => {
+          {{structname}}[this.dialogData.ReversePointer].Int64 = 0
+          {{structname}}[this.dialogData.ReversePointer].Valid = true
+          toUpdate.add({{structname}})
+        }
+      )
 
-    // update all {{structname}} (only update selection & initial selection)
-    toUpdate.forEach(
-      {{structname}} => {
-        this.{{structname}}Service.update{{Structname}}({{structname}})
-          .subscribe({{structname}} => {
-            this.{{structname}}Service.{{Structname}}ServiceChanged.next("update")
-          });
+      // from selection, set {{structname}} that belong to {{structname}}
+      this.selection.selected.forEach(
+        {{structname}} => {
+          let ID = +this.dialogData.ID
+          {{structname}}[this.dialogData.ReversePointer].Int64 = ID
+          {{structname}}[this.dialogData.ReversePointer].Valid = true
+          toUpdate.add({{structname}})
+        }
+      )
+
+      // update all {{structname}} (only update selection & initial selection)
+      toUpdate.forEach(
+        {{structname}} => {
+          this.{{structname}}Service.update{{Structname}}({{structname}})
+            .subscribe({{structname}} => {
+              this.{{structname}}Service.{{Structname}}ServiceChanged.next("update")
+            });
+        }
+      )
+    }
+
+    if (this.mode == TableComponentMode.MANY_MANY_ASSOCIATION_MODE) {
+
+      let mapOfSourceInstances = this.frontRepo[this.dialogData.SourceStruct + "s"]
+      let sourceInstance = mapOfSourceInstances.get(this.dialogData.ID)
+
+      // First, parse all instance of the association struct and remove the instance
+      // that have unselect
+      let unselected{{Structname}} = new Set<number>()
+      for (let {{structname}} of this.initialSelection) {
+        if (this.selection.selected.includes({{structname}})) {
+          // console.log("{{structname}} " + {{structname}}.Name + " is still selected")
+        } else {
+          console.log("{{structname}} " + {{structname}}.Name + " has been unselected")
+          unselected{{Structname}}.add({{structname}}.ID)
+          console.log("is unselected " + unselected{{Structname}}.has({{structname}}.ID))
+        }
       }
-    )
+
+      // delete the association instance
+      if (sourceInstance[this.dialogData.SourceField]) {
+        for (let associationInstance of sourceInstance[this.dialogData.SourceField]) {
+          let {{structname}} = associationInstance[this.dialogData.IntermediateStructField]
+          if (unselected{{Structname}}.has({{structname}}.ID)) {
+
+            this.frontRepoService.deleteService( this.dialogData.IntermediateStruct, associationInstance )
+          }
+        }
+      }
+
+      // is the source array is emptyn create it
+      if (sourceInstance[this.dialogData.SourceField] == undefined) {
+        sourceInstance[this.dialogData.SourceField] = new Array<any>()
+      }
+
+      // second, parse all instance of the selected
+      if (sourceInstance[this.dialogData.SourceField]) {
+        this.selection.selected.forEach(
+          {{structname}} => {
+            if (!this.initialSelection.includes({{structname}})) {
+              // console.log("{{structname}} " + {{structname}}.Name + " has been added to the selection")
+
+              let associationInstance = {
+                Name: sourceInstance["Name"] + "-" + {{structname}}.Name,
+              }
+
+              associationInstance[this.dialogData.IntermediateStructField+"ID"] = new NullInt64
+              associationInstance[this.dialogData.IntermediateStructField+"ID"].Int64 = {{structname}}.ID
+              associationInstance[this.dialogData.IntermediateStructField+"ID"].Valid = true
+
+              associationInstance[this.dialogData.SourceStruct + "_" + this.dialogData.SourceField + "DBID"] = new NullInt64
+              associationInstance[this.dialogData.SourceStruct + "_" + this.dialogData.SourceField + "DBID"].Int64 = sourceInstance["ID"]
+              associationInstance[this.dialogData.SourceStruct + "_" + this.dialogData.SourceField + "DBID"].Valid = true
+
+              this.frontRepoService.postService( this.dialogData.IntermediateStruct, associationInstance )
+
+            } else {
+              // console.log("{{structname}} " + {{structname}}.Name + " is still selected")
+            }
+          }
+        )
+      }
+
+      // this.selection = new SelectionModel<{{Structname}}DB>(allowMultiSelect, this.initialSelection);
+    }
+
+    // why pizza ?
     this.dialogRef.close('Pizza!');
   }
 }
