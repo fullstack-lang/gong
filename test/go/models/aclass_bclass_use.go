@@ -8,5 +8,5 @@ type AclassBclassUse struct {
 	Name string
 
 	// the field of a MANY-MANY association must be the name of the destination struct
-	Bclass *Bclass
+	Bclass2 *Bclass
 }

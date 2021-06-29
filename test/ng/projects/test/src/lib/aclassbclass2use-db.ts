@@ -5,7 +5,7 @@ import { AclassDB } from './aclass-db'
 // usefull for managing pointer ID values that can be nullable
 import { NullInt64 } from './front-repo.service'
 
-export class AclassBclassUseDB {
+export class AclassBclass2UseDB {
 	CreatedAt?: string;
 	DeletedAt?: string;
 	ID?: number;
@@ -17,8 +17,8 @@ export class AclassBclassUseDB {
 	Bclass2?: BclassDB
 	Bclass2ID?: NullInt64
 
-	Aclass_AnarrayofbUseDBID?: NullInt64
-	Aclass_AnarrayofbUseDBID_Index?: NullInt64 // store the index of the aclassbclassuse instance in Aclass.AnarrayofbUse
-	Aclass_AnarrayofbUse_reverse?: AclassDB
+	Aclass_Anarrayofb2UseDBID?: NullInt64
+	Aclass_Anarrayofb2UseDBID_Index?: NullInt64 // store the index of the aclassbclass2use instance in Aclass.Anarrayofb2Use
+	Aclass_Anarrayofb2Use_reverse?: AclassDB
 
 }

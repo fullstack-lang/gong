@@ -56,7 +56,7 @@ export class AclassBclassUseService {
   postAclassBclassUse(aclassbclassusedb: AclassBclassUseDB): Observable<AclassBclassUseDB> {
 
 		// insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
-    aclassbclassusedb.Bclass = {}
+    aclassbclassusedb.Bclass2 = {}
     let _Aclass_AnarrayofbUse_reverse = aclassbclassusedb.Aclass_AnarrayofbUse_reverse
     aclassbclassusedb.Aclass_AnarrayofbUse_reverse = {}
 
@@ -87,7 +87,7 @@ export class AclassBclassUseService {
     const url = `${this.aclassbclassusesUrl}/${id}`;
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
-    aclassbclassusedb.Bclass = {}
+    aclassbclassusedb.Bclass2 = {}
     let _Aclass_AnarrayofbUse_reverse = aclassbclassusedb.Aclass_AnarrayofbUse_reverse
     aclassbclassusedb.Aclass_AnarrayofbUse_reverse = {}
 
