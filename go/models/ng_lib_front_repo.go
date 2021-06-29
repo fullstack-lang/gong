@@ -28,16 +28,45 @@ export const FrontRepoSingloton = new (FrontRepo)
 
 // define the type of nullable Int64 in order to support back pointers IDs
 export class NullInt64 {
-    Int64: number
-    Valid: boolean
+  Int64: number
+  Valid: boolean
 }
 
-// define the interface for information that is forwarded from the calling instance to 
+// the table component is called in different ways
+//
+// DISPLAY or ASSOCIATION MODE
+//
+// in ASSOCIATION MODE, it is invoked within a diaglo and a Dialog Data item is used to
+// configure the component
+// DialogData define the interface for information that is forwarded from the calling instance to 
 // the select table
-export interface DialogData {
+export class DialogData {
   ID: number; // ID of the calling instance
+
+  // the reverse pointer is the name of the generated field on the destination
+  // struct of the ONE-MANY association
   ReversePointer: string; // field of {{Structname}} that serve as reverse pointer
   OrderingMode: boolean; // if true, this is for ordering items
+
+  // there are different selection mode : ONE_MANY or MANY_MANY
+  SelectionMode: SelectionMode;
+
+  // used if SelectionMode is MANY_MANY_ASSOCIATION_MODE
+  //
+  // In Gong, a MANY-MANY association is implemented as a ONE-ZERO/ONE followed by a ONE_MANY association
+  // 
+  // in the MANY_MANY_ASSOCIATION_MODE case, we need also the Struct and the FieldName that are
+  // at the end of the ONE-MANY association
+  SourceStruct: string;  // The "Aclass"
+  SourceField: string; // the "AnarrayofbUse"
+  IntermediateStruct: string; // the "AclassBclassUse" 
+  IntermediateStructField: string; // the "Bclass" as field
+  NextAssociationStruct: string; // the "Bclass"
+}
+
+export enum SelectionMode {
+  ONE_MANY_ASSOCIATION_MODE = "ONE_MANY_ASSOCIATION_MODE",
+  MANY_MANY_ASSOCIATION_MODE = "MANY_MANY_ASSOCIATION_MODE",
 }
 
 //
@@ -55,6 +84,26 @@ export class FrontRepoService {
   constructor(
     private http: HttpClient, // insertion point sub template {{` + string(NgLibFrontRepoServiceDecl) + `}}
   ) { }
+
+  // postService provides a post function for each struct name
+  postService(structName: string, instanceToBePosted: any) {
+    let service = this[structName.toLowerCase() + "Service"]
+    service["post" + structName](instanceToBePosted).subscribe(
+      instance => {
+        service[structName + "ServiceChanged"].next("post")
+      }
+    );
+  }
+
+  // deleteService provides a delete function for each struct name
+  deleteService(structName: string, instanceToBeDeleted: any) {
+    let service = this[structName.toLowerCase() + "Service"]
+    service["delete" + structName](instanceToBeDeleted).subscribe(
+      instance => {
+        service[structName + "ServiceChanged"].next("delete")
+      }
+    );
+  }
 
   // typing of observable can be messy in typescript. Therefore, one force the type
   observableFrontRepo: [ // insertion point sub template {{` + string(NgLibFrontRepoObservableArrayType) + `}}
@@ -151,14 +200,14 @@ import { {{Structname}}Service } from './{{structname}}.service'
 
             // clear the map that counts {{Structname}} in the GET
             FrontRepoSingloton.{{Structname}}s_batch.clear()
-            
+
             {{structname}}s.forEach(
               {{structname}} => {
                 FrontRepoSingloton.{{Structname}}s.set({{structname}}.ID, {{structname}})
                 FrontRepoSingloton.{{Structname}}s_batch.set({{structname}}.ID, {{structname}})
               }
             )
-            
+
             // clear {{structname}}s that are absent from the batch
             FrontRepoSingloton.{{Structname}}s.forEach(
               {{structname}} => {
@@ -167,7 +216,7 @@ import { {{Structname}}Service } from './{{structname}}.service'
                 }
               }
             )
-            
+
             // sort {{Structname}}s_array array
             FrontRepoSingloton.{{Structname}}s_array.sort((t1, t2) => {
               if (t1.Name > t2.Name) {
@@ -178,7 +227,7 @@ import { {{Structname}}Service } from './{{structname}}.service'
               }
               return 0;
             });
-            `,
+`,
 
 	string(NgLibFrontRepoRedeemPointers): `
             {{structname}}s.forEach(
@@ -215,9 +264,9 @@ import { {{Structname}}Service } from './{{structname}}.service'
                 FrontRepoSingloton.{{Structname}}s.set({{structname}}.ID, {{structname}})
                 FrontRepoSingloton.{{Structname}}s_batch.set({{structname}}.ID, {{structname}})
 
-                // insertion point for redeeming ONE/ZERO-ONE associations {{` + string(NgFrontRepoPtrToStructRedeeming) + `}}
+                // insertion point for redeeming ONE/ZERO-ONE associations{{` + string(NgFrontRepoPtrToStructRedeeming) + `}}
 
-                // insertion point for redeeming ONE-MANY associations {{` + string(NgFrontRepoSliceOfPointerRedeeming) + `}}
+                // insertion point for redeeming ONE-MANY associations{{` + string(NgFrontRepoSliceOfPointerRedeeming) + `}}
               }
             )
 
