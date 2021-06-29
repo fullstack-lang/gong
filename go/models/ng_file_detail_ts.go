@@ -592,11 +592,30 @@ func MultiCodeGeneratorNgDetail(
 						"{{assocStructName}}", strings.ToLower(modelPointerToStructField.GongStruct.Name))
 			case *SliceOfPointerToGongStructField:
 				modelSliceOfPointerToStructField := field.(*SliceOfPointerToGongStructField)
-				HtmlInsertions[NgDetailHtmlInsertionPerStructFields] +=
-					Replace3(NgDetailHtmlSubTemplateCode[NgDetailSliceOfPointerToStructHtml],
+
+				htmlCodeForField := Replace3(NgDetailHtmlSubTemplateCode[NgDetailSliceOfPointerToStructHtml],
+					"{{FieldName}}", modelSliceOfPointerToStructField.Name,
+					"{{AssocStructName}}", modelSliceOfPointerToStructField.GongStruct.Name,
+					"{{assocStructName}}", strings.ToLower(modelSliceOfPointerToStructField.GongStruct.Name))
+
+				// check if this is a field of a MANY MANY association
+				if strings.HasSuffix(modelSliceOfPointerToStructField.Name, "Use") {
+
+					addedHtmlCode := Replace3(NgDetailHtmlSubTemplateCode[NgDetailSliceOfPointerToStructManyManyHtml],
 						"{{FieldName}}", modelSliceOfPointerToStructField.Name,
 						"{{AssocStructName}}", modelSliceOfPointerToStructField.GongStruct.Name,
 						"{{assocStructName}}", strings.ToLower(modelSliceOfPointerToStructField.GongStruct.Name))
+
+					toReplace := "{{" + string(rune(NgDetailHtmlInsertionPerStructFieldsManyMany)) + "}}"
+					htmlCodeForField = strings.ReplaceAll(htmlCodeForField, toReplace, addedHtmlCode)
+				}
+				HtmlInsertions[NgDetailHtmlInsertionPerStructFields] += htmlCodeForField
+
+				// HtmlInsertions[NgDetailHtmlInsertionPerStructFieldsManyMany] +=
+				// 	Replace3(NgDetailHtmlSubTemplateCode[NgDetailSliceOfPointerToStructManyManyHtml],
+				// 		"{{FieldName}}", modelSliceOfPointerToStructField.Name,
+				// 		"{{AssocStructName}}", modelSliceOfPointerToStructField.GongStruct.Name,
+				// 		"{{assocStructName}}", strings.ToLower(modelSliceOfPointerToStructField.GongStruct.Name))
 			}
 		}
 

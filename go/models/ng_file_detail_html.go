@@ -5,8 +5,8 @@ const NgDetailTemplateHTML = `<form *ngIf="{{structname}}" class="details">
     <!-- insertion point for fields specific code -->{{` + string(rune(NgDetailHtmlInsertionPerStructFields)) + `}}
     <div class="details__save">
         <button mat-raised-button color="primary" (click)="save()">
-			Save {{structname}}
-		</button>
+            Save {{structname}}
+        </button>
     </div>
 </form>`
 
@@ -14,6 +14,7 @@ type NgDetailHtmlInsertionPoint int
 
 const (
 	NgDetailHtmlInsertionPerStructFields NgDetailHtmlInsertionPoint = iota
+	NgDetailHtmlInsertionPerStructFieldsManyMany
 	NgDetailHtmlInsertionsNb
 )
 
@@ -31,6 +32,7 @@ const (
 	NgDetailHtmlTimeDuration
 	NgDetailPointerToStructHtmlFormField
 	NgDetailSliceOfPointerToStructHtml
+	NgDetailSliceOfPointerToStructManyManyHtml
 	NgDetailSliceOfPointerToStructReverseHtml
 )
 
@@ -95,22 +97,19 @@ var NgDetailHtmlSubTemplateCode map[NgDetailHtmlSubTemplate]string = map[NgDetai
         <mat-grid-tile>
             <mat-form-field class="details_hours_width">
                 <mat-label>{{FieldName}} Hours</mat-label>
-                <input type="number" [ngModelOptions]="{standalone: true}" matInput
-                    [(ngModel)]="{{FieldName}}_Hours">
+                <input type="number" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="{{FieldName}}_Hours">
             </mat-form-field>
         </mat-grid-tile>
         <mat-grid-tile>
             <mat-form-field class="details_minutes_width">
                 <mat-label>{{FieldName}} Minutes</mat-label>
-                <input type="number" [ngModelOptions]="{standalone: true}" matInput
-                    [(ngModel)]="{{FieldName}}_Minutes">
+                <input type="number" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="{{FieldName}}_Minutes">
             </mat-form-field>
         </mat-grid-tile>
         <mat-grid-tile>
             <mat-form-field class="details_seconds_width">
                 <mat-label>{{FieldName}} Seconds</mat-label>
-                <input type="number" [ngModelOptions]="{standalone: true}" matInput
-                    [(ngModel)]="{{FieldName}}_Seconds">
+                <input type="number" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="{{FieldName}}_Seconds">
             </mat-form-field>
         </mat-grid-tile>
     </mat-grid-list>
@@ -131,9 +130,9 @@ var NgDetailHtmlSubTemplateCode map[NgDetailHtmlSubTemplate]string = map[NgDetai
 	NgDetailSliceOfPointerToStructHtml: `
     <mat-grid-list cols="5" rowHeight="2:1">
         <mat-grid-tile [colspan]="4">
-            <button mat-raised-button
-                (click)="openReverseSelection('{{AssocStructName}}', '{{Structname}}_{{FieldName}}DBID')">{{FieldName}}</button>
+            <button mat-raised-button (click)="openReverseSelection('{{AssocStructName}}', '{{Structname}}_{{FieldName}}DBID', 'ONE_MANY_ASSOCIATION_MODE', '', '', '')">{{FieldName}}</button>
         </mat-grid-tile>
+        <!-- insertion point for the button of the MANY_MANY association{{` + string(rune(NgDetailHtmlInsertionPerStructFieldsManyMany)) + `}}-->
         <mat-grid-tile>
             <button mat-raised-button (click)="openDragAndDropOrdering('{{AssocStructName}}', '{{Structname}}_{{FieldName}}DBID')">
                 <mat-icon>
@@ -142,6 +141,16 @@ var NgDetailHtmlSubTemplateCode map[NgDetailHtmlSubTemplate]string = map[NgDetai
             </button>
         </mat-grid-tile>
     </mat-grid-list>`,
+
+	NgDetailSliceOfPointerToStructManyManyHtml: `-->
+        <mat-grid-tile [colspan]="4">
+            <button mat-raised-button (click)="openReverseSelection('AclassBclassUse', 'Aclass_AnarrayofbUseDBID', 
+            'MANY_MANY_ASSOCIATION_MODE', 'AnarrayofbUse', 'Bclass', 'Bclass')">
+                <mat-icon>
+                    list
+                </mat-icon>
+            </button>
+        </mat-grid-tile> <!-- end of insertion `,
 
 	NgDetailSliceOfPointerToStructReverseHtml: `
     <mat-form-field class="detail-full-width">
