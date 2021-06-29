@@ -144,8 +144,8 @@ var NgDetailHtmlSubTemplateCode map[NgDetailHtmlSubTemplate]string = map[NgDetai
 
 	NgDetailSliceOfPointerToStructManyManyHtml: `-->
         <mat-grid-tile>
-            <button mat-raised-button (click)="openReverseSelection('AclassBclassUse', 'Aclass_AnarrayofbUseDBID', 
-            'MANY_MANY_ASSOCIATION_MODE', 'AnarrayofbUse', 'Bclass', 'Bclass')">
+            <button mat-raised-button (click)="openReverseSelection('{{AssocStructName}}', '{{Structname}}_{{FieldName}}DBID', 
+            'MANY_MANY_ASSOCIATION_MODE', '{{FieldName}}', '{{IntermediateStructField}}', '{{NextAssociatedStruct}}')">
                 <mat-icon>
                     list
                 </mat-icon>

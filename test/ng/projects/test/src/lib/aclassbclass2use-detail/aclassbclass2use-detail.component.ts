@@ -2,8 +2,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 
-import { AclassBclassUseDB } from '../aclassbclassuse-db'
-import { AclassBclassUseService } from '../aclassbclassuse.service'
+import { AclassBclass2UseDB } from '../aclassbclass2use-db'
+import { AclassBclass2UseService } from '../aclassbclass2use.service'
 
 import { FrontRepoService, FrontRepo, SelectionMode, DialogData } from '../front-repo.service'
 import { MapOfComponents } from '../map-components'
@@ -17,26 +17,26 @@ import { MatDialog, MAT_DIALOG_DATA, MatDialogRef, MatDialogConfig } from '@angu
 
 import { NullInt64 } from '../front-repo.service'
 
-// AclassBclassUseDetailComponent is initilizaed from different routes
-// AclassBclassUseDetailComponentState detail different cases 
-enum AclassBclassUseDetailComponentState {
+// AclassBclass2UseDetailComponent is initilizaed from different routes
+// AclassBclass2UseDetailComponentState detail different cases 
+enum AclassBclass2UseDetailComponentState {
 	CREATE_INSTANCE,
 	UPDATE_INSTANCE,
 	// insertion point for declarations of enum values of state
-	CREATE_INSTANCE_WITH_ASSOCIATION_Aclass_AnarrayofbUse_SET,
+	CREATE_INSTANCE_WITH_ASSOCIATION_Aclass_Anarrayofb2Use_SET,
 }
 
 @Component({
-	selector: 'app-aclassbclassuse-detail',
-	templateUrl: './aclassbclassuse-detail.component.html',
-	styleUrls: ['./aclassbclassuse-detail.component.css'],
+	selector: 'app-aclassbclass2use-detail',
+	templateUrl: './aclassbclass2use-detail.component.html',
+	styleUrls: ['./aclassbclass2use-detail.component.css'],
 })
-export class AclassBclassUseDetailComponent implements OnInit {
+export class AclassBclass2UseDetailComponent implements OnInit {
 
 	// insertion point for declarations
 
-	// the AclassBclassUseDB of interest
-	aclassbclassuse: AclassBclassUseDB;
+	// the AclassBclass2UseDB of interest
+	aclassbclass2use: AclassBclass2UseDB;
 
 	// front repo
 	frontRepo: FrontRepo
@@ -47,7 +47,7 @@ export class AclassBclassUseDetailComponent implements OnInit {
 	mapFields_displayAsTextArea = new Map<string, boolean>()
 
 	// the state at initialization (CREATION, UPDATE or CREATE with one association set)
-	state: AclassBclassUseDetailComponentState
+	state: AclassBclass2UseDetailComponentState
 
 	// in UDPATE state, if is the id of the instance to update
 	// in CREATE state with one association set, this is the id of the associated instance
@@ -58,7 +58,7 @@ export class AclassBclassUseDetailComponent implements OnInit {
 	originStructFieldName: string
 
 	constructor(
-		private aclassbclassuseService: AclassBclassUseService,
+		private aclassbclass2useService: AclassBclass2UseService,
 		private frontRepoService: FrontRepoService,
 		public dialog: MatDialog,
 		private route: ActivatedRoute,
@@ -75,16 +75,16 @@ export class AclassBclassUseDetailComponent implements OnInit {
 
 		const association = this.route.snapshot.paramMap.get('association');
 		if (this.id == 0) {
-			this.state = AclassBclassUseDetailComponentState.CREATE_INSTANCE
+			this.state = AclassBclass2UseDetailComponentState.CREATE_INSTANCE
 		} else {
 			if (this.originStruct == undefined) {
-				this.state = AclassBclassUseDetailComponentState.UPDATE_INSTANCE
+				this.state = AclassBclass2UseDetailComponentState.UPDATE_INSTANCE
 			} else {
 				switch (this.originStructFieldName) {
 					// insertion point for state computation
-					case "AnarrayofbUse":
-						console.log("AclassBclassUse" + " is instanciated with back pointer to instance " + this.id + " Aclass association AnarrayofbUse")
-						this.state = AclassBclassUseDetailComponentState.CREATE_INSTANCE_WITH_ASSOCIATION_Aclass_AnarrayofbUse_SET
+					case "Anarrayofb2Use":
+						console.log("AclassBclass2Use" + " is instanciated with back pointer to instance " + this.id + " Aclass association Anarrayofb2Use")
+						this.state = AclassBclass2UseDetailComponentState.CREATE_INSTANCE_WITH_ASSOCIATION_Aclass_Anarrayofb2Use_SET
 						break;
 					default:
 						console.log(this.originStructFieldName + " is unkown association")
@@ -92,13 +92,13 @@ export class AclassBclassUseDetailComponent implements OnInit {
 			}
 		}
 
-		this.getAclassBclassUse()
+		this.getAclassBclass2Use()
 
 		// observable for changes in structs
-		this.aclassbclassuseService.AclassBclassUseServiceChanged.subscribe(
+		this.aclassbclass2useService.AclassBclass2UseServiceChanged.subscribe(
 			message => {
 				if (message == "post" || message == "update" || message == "delete") {
-					this.getAclassBclassUse()
+					this.getAclassBclass2Use()
 				}
 			}
 		)
@@ -106,23 +106,23 @@ export class AclassBclassUseDetailComponent implements OnInit {
 		// insertion point for initialisation of enums list
 	}
 
-	getAclassBclassUse(): void {
+	getAclassBclass2Use(): void {
 
 		this.frontRepoService.pull().subscribe(
 			frontRepo => {
 				this.frontRepo = frontRepo
 
 				switch (this.state) {
-					case AclassBclassUseDetailComponentState.CREATE_INSTANCE:
-						this.aclassbclassuse = new (AclassBclassUseDB)
+					case AclassBclass2UseDetailComponentState.CREATE_INSTANCE:
+						this.aclassbclass2use = new (AclassBclass2UseDB)
 						break;
-					case AclassBclassUseDetailComponentState.UPDATE_INSTANCE:
-						this.aclassbclassuse = frontRepo.AclassBclassUses.get(this.id)
+					case AclassBclass2UseDetailComponentState.UPDATE_INSTANCE:
+						this.aclassbclass2use = frontRepo.AclassBclass2Uses.get(this.id)
 						break;
 					// insertion point for init of association field
-					case AclassBclassUseDetailComponentState.CREATE_INSTANCE_WITH_ASSOCIATION_Aclass_AnarrayofbUse_SET:
-						this.aclassbclassuse = new (AclassBclassUseDB)
-						this.aclassbclassuse.Aclass_AnarrayofbUse_reverse = frontRepo.Aclasss.get(this.id)
+					case AclassBclass2UseDetailComponentState.CREATE_INSTANCE_WITH_ASSOCIATION_Aclass_Anarrayofb2Use_SET:
+						this.aclassbclass2use = new (AclassBclass2UseDB)
+						this.aclassbclass2use.Aclass_Anarrayofb2Use_reverse = frontRepo.Aclasss.get(this.id)
 						break;
 					default:
 						console.log(this.state + " is unkown state")
@@ -141,44 +141,44 @@ export class AclassBclassUseDetailComponent implements OnInit {
 		// pointers fields, after the translation, are nulled in order to perform serialization
 
 		// insertion point for translation/nullation of each field
-		if (this.aclassbclassuse.Bclass2ID == undefined) {
-			this.aclassbclassuse.Bclass2ID = new NullInt64
+		if (this.aclassbclass2use.Bclass2ID == undefined) {
+			this.aclassbclass2use.Bclass2ID = new NullInt64
 		}
-		if (this.aclassbclassuse.Bclass2 != undefined) {
-			this.aclassbclassuse.Bclass2ID.Int64 = this.aclassbclassuse.Bclass2.ID
-			this.aclassbclassuse.Bclass2ID.Valid = true
+		if (this.aclassbclass2use.Bclass2 != undefined) {
+			this.aclassbclass2use.Bclass2ID.Int64 = this.aclassbclass2use.Bclass2.ID
+			this.aclassbclass2use.Bclass2ID.Valid = true
 		} else {
-			this.aclassbclassuse.Bclass2ID.Int64 = 0
-			this.aclassbclassuse.Bclass2ID.Valid = true
+			this.aclassbclass2use.Bclass2ID.Int64 = 0
+			this.aclassbclass2use.Bclass2ID.Valid = true
 		}
 
 		// save from the front pointer space to the non pointer space for serialization
 
 		// insertion point for translation/nullation of each pointers
-		if (this.aclassbclassuse.Aclass_AnarrayofbUse_reverse != undefined) {
-			if (this.aclassbclassuse.Aclass_AnarrayofbUseDBID == undefined) {
-				this.aclassbclassuse.Aclass_AnarrayofbUseDBID = new NullInt64
+		if (this.aclassbclass2use.Aclass_Anarrayofb2Use_reverse != undefined) {
+			if (this.aclassbclass2use.Aclass_Anarrayofb2UseDBID == undefined) {
+				this.aclassbclass2use.Aclass_Anarrayofb2UseDBID = new NullInt64
 			}
-			this.aclassbclassuse.Aclass_AnarrayofbUseDBID.Int64 = this.aclassbclassuse.Aclass_AnarrayofbUse_reverse.ID
-			this.aclassbclassuse.Aclass_AnarrayofbUseDBID.Valid = true
-			if (this.aclassbclassuse.Aclass_AnarrayofbUseDBID_Index == undefined) {
-				this.aclassbclassuse.Aclass_AnarrayofbUseDBID_Index = new NullInt64
+			this.aclassbclass2use.Aclass_Anarrayofb2UseDBID.Int64 = this.aclassbclass2use.Aclass_Anarrayofb2Use_reverse.ID
+			this.aclassbclass2use.Aclass_Anarrayofb2UseDBID.Valid = true
+			if (this.aclassbclass2use.Aclass_Anarrayofb2UseDBID_Index == undefined) {
+				this.aclassbclass2use.Aclass_Anarrayofb2UseDBID_Index = new NullInt64
 			}
-			this.aclassbclassuse.Aclass_AnarrayofbUseDBID_Index.Valid = true
-			this.aclassbclassuse.Aclass_AnarrayofbUse_reverse = undefined // very important, otherwise, circular JSON
+			this.aclassbclass2use.Aclass_Anarrayofb2UseDBID_Index.Valid = true
+			this.aclassbclass2use.Aclass_Anarrayofb2Use_reverse = undefined // very important, otherwise, circular JSON
 		}
 
 		switch (this.state) {
-			case AclassBclassUseDetailComponentState.UPDATE_INSTANCE:
-				this.aclassbclassuseService.updateAclassBclassUse(this.aclassbclassuse)
-					.subscribe(aclassbclassuse => {
-						this.aclassbclassuseService.AclassBclassUseServiceChanged.next("update")
+			case AclassBclass2UseDetailComponentState.UPDATE_INSTANCE:
+				this.aclassbclass2useService.updateAclassBclass2Use(this.aclassbclass2use)
+					.subscribe(aclassbclass2use => {
+						this.aclassbclass2useService.AclassBclass2UseServiceChanged.next("update")
 					});
 				break;
 			default:
-				this.aclassbclassuseService.postAclassBclassUse(this.aclassbclassuse).subscribe(aclassbclassuse => {
-					this.aclassbclassuseService.AclassBclassUseServiceChanged.next("post")
-					this.aclassbclassuse = {} // reset fields
+				this.aclassbclass2useService.postAclassBclass2Use(this.aclassbclass2use).subscribe(aclassbclass2use => {
+					this.aclassbclass2useService.AclassBclass2UseServiceChanged.next("post")
+					this.aclassbclass2use = {} // reset fields
 				});
 		}
 	}
@@ -201,7 +201,7 @@ export class AclassBclassUseDetailComponent implements OnInit {
 		dialogConfig.height = "50%"
 		if (selectionMode == SelectionMode.ONE_MANY_ASSOCIATION_MODE) {
 
-			dialogData.ID = this.aclassbclassuse.ID
+			dialogData.ID = this.aclassbclass2use.ID
 			dialogData.ReversePointer = reverseField
 			dialogData.OrderingMode = false
 			dialogData.SelectionMode = selectionMode
@@ -217,13 +217,13 @@ export class AclassBclassUseDetailComponent implements OnInit {
 			});
 		}
 		if (selectionMode == SelectionMode.MANY_MANY_ASSOCIATION_MODE) {
-			dialogData.ID = this.aclassbclassuse.ID
+			dialogData.ID = this.aclassbclass2use.ID
 			dialogData.ReversePointer = reverseField
 			dialogData.OrderingMode = false
 			dialogData.SelectionMode = selectionMode
 
 			// set up the source
-			dialogData.SourceStruct = "AclassBclassUse"
+			dialogData.SourceStruct = "AclassBclass2Use"
 			dialogData.SourceField = sourceField
 
 			// set up the intermediate struct
@@ -253,7 +253,7 @@ export class AclassBclassUseDetailComponent implements OnInit {
 		// dialogConfig.disableClose = true;
 		dialogConfig.autoFocus = true;
 		dialogConfig.data = {
-			ID: this.aclassbclassuse.ID,
+			ID: this.aclassbclass2use.ID,
 			ReversePointer: reverseField,
 			OrderingMode: true,
 		};
@@ -269,8 +269,8 @@ export class AclassBclassUseDetailComponent implements OnInit {
 	}
 
 	fillUpNameIfEmpty(event) {
-		if (this.aclassbclassuse.Name == undefined) {
-			this.aclassbclassuse.Name = event.value.Name
+		if (this.aclassbclass2use.Name == undefined) {
+			this.aclassbclass2use.Name = event.value.Name
 		}
 	}
 

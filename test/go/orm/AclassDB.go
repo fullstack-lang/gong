@@ -405,6 +405,25 @@ func (backRepoAclass *BackRepoAclassStruct) CommitPhaseTwoInstance(backRepo *Bac
 			}
 		}
 
+		// This loop encodes the slice of pointers aclass.Anarrayofb2Use into the back repo.
+		// Each back repo instance at the end of the association encode the ID of the association start
+		// into a dedicated field for coding the association. The back repo instance is then saved to the db
+		for idx, aclassbclass2useAssocEnd := range aclass.Anarrayofb2Use {
+
+			// get the back repo instance at the association end
+			aclassbclass2useAssocEnd_DB :=
+				backRepo.BackRepoAclassBclass2Use.GetAclassBclass2UseDBFromAclassBclass2UsePtr(aclassbclass2useAssocEnd)
+
+			// encode reverse pointer in the association end back repo instance
+			aclassbclass2useAssocEnd_DB.Aclass_Anarrayofb2UseDBID.Int64 = int64(aclassDB.ID)
+			aclassbclass2useAssocEnd_DB.Aclass_Anarrayofb2UseDBID.Valid = true
+			aclassbclass2useAssocEnd_DB.Aclass_Anarrayofb2UseDBID_Index.Int64 = int64(idx)
+			aclassbclass2useAssocEnd_DB.Aclass_Anarrayofb2UseDBID_Index.Valid = true
+			if q := backRepoAclass.db.Save(aclassbclass2useAssocEnd_DB); q.Error != nil {
+				return q.Error
+			}
+		}
+
 		query := backRepoAclass.db.Save(&aclassDB)
 		if query.Error != nil {
 			return query.Error
@@ -624,6 +643,33 @@ func (backRepoAclass *BackRepoAclassStruct) CheckoutPhaseTwoInstance(backRepo *B
 		aclassbclassuseDB_j := (*backRepo.BackRepoAclassBclassUse.Map_AclassBclassUseDBID_AclassBclassUseDB)[aclassbclassuseDB_j_ID]
 
 		return aclassbclassuseDB_i.Aclass_AnarrayofbUseDBID_Index.Int64 < aclassbclassuseDB_j.Aclass_AnarrayofbUseDBID_Index.Int64
+	})
+
+	// This loop redeem aclass.Anarrayofb2Use in the stage from the encode in the back repo
+	// It parses all AclassBclass2UseDB in the back repo and if the reverse pointer encoding matches the back repo ID
+	// it appends the stage instance
+	// 1. reset the slice
+	aclass.Anarrayofb2Use = aclass.Anarrayofb2Use[:0]
+	// 2. loop all instances in the type in the association end
+	for _, aclassbclass2useDB_AssocEnd := range *backRepo.BackRepoAclassBclass2Use.Map_AclassBclass2UseDBID_AclassBclass2UseDB {
+		// 3. Does the ID encoding at the end and the ID at the start matches ?
+		if aclassbclass2useDB_AssocEnd.Aclass_Anarrayofb2UseDBID.Int64 == int64(aclassDB.ID) {
+			// 4. fetch the associated instance in the stage
+			aclassbclass2use_AssocEnd := (*backRepo.BackRepoAclassBclass2Use.Map_AclassBclass2UseDBID_AclassBclass2UsePtr)[aclassbclass2useDB_AssocEnd.ID]
+			// 5. append it the association slice
+			aclass.Anarrayofb2Use = append(aclass.Anarrayofb2Use, aclassbclass2use_AssocEnd)
+		}
+	}
+
+	// sort the array according to the order
+	sort.Slice(aclass.Anarrayofb2Use, func(i, j int) bool {
+		aclassbclass2useDB_i_ID := (*backRepo.BackRepoAclassBclass2Use.Map_AclassBclass2UsePtr_AclassBclass2UseDBID)[aclass.Anarrayofb2Use[i]]
+		aclassbclass2useDB_j_ID := (*backRepo.BackRepoAclassBclass2Use.Map_AclassBclass2UsePtr_AclassBclass2UseDBID)[aclass.Anarrayofb2Use[j]]
+
+		aclassbclass2useDB_i := (*backRepo.BackRepoAclassBclass2Use.Map_AclassBclass2UseDBID_AclassBclass2UseDB)[aclassbclass2useDB_i_ID]
+		aclassbclass2useDB_j := (*backRepo.BackRepoAclassBclass2Use.Map_AclassBclass2UseDBID_AclassBclass2UseDB)[aclassbclass2useDB_j_ID]
+
+		return aclassbclass2useDB_i.Aclass_Anarrayofb2UseDBID_Index.Int64 < aclassbclass2useDB_j.Aclass_Anarrayofb2UseDBID_Index.Int64
 	})
 
 	return
