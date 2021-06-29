@@ -44,19 +44,29 @@ export class NullInt64 {
   Valid: boolean
 }
 
-// define the interface for information that is forwarded from the calling instance to 
+// the table component is called in different ways
+//
+// DISPLAY or ASSOCIATION MODE
+//
+// in ASSOCIATION MODE, it is invoked within a diaglo and a Dialog Data item is used to
+// configure the component
+// DialogData define the interface for information that is forwarded from the calling instance to 
 // the select table
 export class DialogData {
   ID: number; // ID of the calling instance
+
+  // the reverse pointer is the name of the generated field on the destination
+  // struct of the ONE-MANY association
   ReversePointer: string; // field of {{Structname}} that serve as reverse pointer
   OrderingMode: boolean; // if true, this is for ordering items
+
+  // there are different selection mode : ONE_MANY or MANY_MANY
   SelectionMode: SelectionMode;
 
   // used if SelectionMode is MANY_MANY_ASSOCIATION_MODE
   //
-  // a MANY-MANY association is a ONE-ZERO/ONE followed by a ONE_MANY association
+  // In Gong, a MANY-MANY association is implemented as a ONE-ZERO/ONE followed by a ONE_MANY association
   // 
-  // TheReversePointer is for the ONE-ZERO/ONE association
   // in the MANY_MANY_ASSOCIATION_MODE case, we need also the Struct and the FieldName that are
   // at the end of the ONE-MANY association
   SourceStruct: string;  // The "Aclass"
@@ -69,10 +79,6 @@ export class DialogData {
 export enum SelectionMode {
   ONE_MANY_ASSOCIATION_MODE = "ONE_MANY_ASSOCIATION_MODE",
   MANY_MANY_ASSOCIATION_MODE = "MANY_MANY_ASSOCIATION_MODE",
-}
-
-function unCapitalizeFirstLetter(string) {
-  return string.charAt(0).toLowerCase() + string.slice(1);
 }
 
 //
@@ -106,9 +112,9 @@ export class FrontRepoService {
   }
 
   // deleteService provides a delete function for each struct name
-  deleteService(structName: string, instanceToBeDeleteed: any) {
+  deleteService(structName: string, instanceToBeDeleted: any) {
     let service = this[structName.toLowerCase() + "Service"]
-    service["delete" + structName](instanceToBeDeleteed).subscribe(
+    service["delete" + structName](instanceToBeDeleted).subscribe(
       instance => {
         service[structName + "ServiceChanged"].next("delete")
       }
@@ -432,7 +438,7 @@ export class FrontRepoService {
                 FrontRepoSingloton.Aclasss.set(aclass.ID, aclass)
                 FrontRepoSingloton.Aclasss_batch.set(aclass.ID, aclass)
 
-                // insertion point for redeeming ONE/ZERO-ONE associations 
+                // insertion point for redeeming ONE/ZERO-ONE associations
                 // insertion point for pointer field Associationtob redeeming
                 {
                   let _bclass = FrontRepoSingloton.Bclasss.get(aclass.AssociationtobID.Int64)
@@ -448,7 +454,7 @@ export class FrontRepoService {
                   }
                 }
 
-                // insertion point for redeeming ONE-MANY associations 
+                // insertion point for redeeming ONE-MANY associations
                 // insertion point for slice of pointer field Aclass.Anarrayofa redeeming
                 {
                   let _aclass = FrontRepoSingloton.Aclasss.get(aclass.Aclass_AnarrayofaDBID.Int64)
@@ -510,7 +516,7 @@ export class FrontRepoService {
                 FrontRepoSingloton.AclassBclassUses.set(aclassbclassuse.ID, aclassbclassuse)
                 FrontRepoSingloton.AclassBclassUses_batch.set(aclassbclassuse.ID, aclassbclassuse)
 
-                // insertion point for redeeming ONE/ZERO-ONE associations 
+                // insertion point for redeeming ONE/ZERO-ONE associations
                 // insertion point for pointer field Bclass redeeming
                 {
                   let _bclass = FrontRepoSingloton.Bclasss.get(aclassbclassuse.BclassID.Int64)
@@ -519,7 +525,7 @@ export class FrontRepoService {
                   }
                 }
 
-                // insertion point for redeeming ONE-MANY associations 
+                // insertion point for redeeming ONE-MANY associations
                 // insertion point for slice of pointer field Aclass.AnarrayofbUse redeeming
                 {
                   let _aclass = FrontRepoSingloton.Aclasss.get(aclassbclassuse.Aclass_AnarrayofbUseDBID.Int64)
@@ -581,9 +587,9 @@ export class FrontRepoService {
                 FrontRepoSingloton.Bclasss.set(bclass.ID, bclass)
                 FrontRepoSingloton.Bclasss_batch.set(bclass.ID, bclass)
 
-                // insertion point for redeeming ONE/ZERO-ONE associations 
+                // insertion point for redeeming ONE/ZERO-ONE associations
 
-                // insertion point for redeeming ONE-MANY associations 
+                // insertion point for redeeming ONE-MANY associations
                 // insertion point for slice of pointer field Aclass.Anarrayofb redeeming
                 {
                   let _aclass = FrontRepoSingloton.Aclasss.get(bclass.Aclass_AnarrayofbDBID.Int64)
@@ -658,9 +664,9 @@ export class FrontRepoService {
                 FrontRepoSingloton.Dclasss.set(dclass.ID, dclass)
                 FrontRepoSingloton.Dclasss_batch.set(dclass.ID, dclass)
 
-                // insertion point for redeeming ONE/ZERO-ONE associations 
+                // insertion point for redeeming ONE/ZERO-ONE associations
 
-                // insertion point for redeeming ONE-MANY associations 
+                // insertion point for redeeming ONE-MANY associations
               }
             )
 
