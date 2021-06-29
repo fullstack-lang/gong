@@ -7,7 +7,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatButton } from '@angular/material/button'
 
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog'
-import { DialogData } from '../front-repo.service'
+import { DialogData, FrontRepoService, FrontRepo, NullInt64, SelectionMode } from '../front-repo.service'
 import { SelectionModel } from '@angular/cdk/collections';
 
 const allowMultiSelect = true;
@@ -15,8 +15,6 @@ const allowMultiSelect = true;
 import { Router, RouterState } from '@angular/router';
 import { AclassBclassUseDB } from '../aclassbclassuse-db'
 import { AclassBclassUseService } from '../aclassbclassuse.service'
-
-import { FrontRepoService, FrontRepo } from '../front-repo.service'
 
 // TableComponent is initilizaed from different routes
 // TableComponentMode detail different cases 
@@ -44,7 +42,6 @@ export class AclassBclassUsesTableComponent implements OnInit {
   // the data source for the table
   aclassbclassuses: AclassBclassUseDB[];
   matTableDataSource: MatTableDataSource<AclassBclassUseDB>
-
 
   // front repo, that will be referenced by this.aclassbclassuses
   frontRepo: FrontRepo
@@ -122,7 +119,15 @@ export class AclassBclassUsesTableComponent implements OnInit {
     if (dialogData == undefined) {
       this.mode = TableComponentMode.DISPLAY_MODE
     } else {
-      this.mode = TableComponentMode.ONE_MANY_ASSOCIATION_MODE
+      switch (dialogData.SelectionMode) {
+        case SelectionMode.ONE_MANY_ASSOCIATION_MODE:
+          this.mode = TableComponentMode.ONE_MANY_ASSOCIATION_MODE
+          break
+        case SelectionMode.MANY_MANY_ASSOCIATION_MODE:
+          this.mode = TableComponentMode.MANY_MANY_ASSOCIATION_MODE
+          break
+        default:
+      }
     }
 
     // observable for changes in structs
@@ -134,7 +139,7 @@ export class AclassBclassUsesTableComponent implements OnInit {
       }
     )
     if (this.mode == TableComponentMode.DISPLAY_MODE) {
-		this.displayedColumns = ['ID', 'Edit', 'Delete', // insertion point for columns to display
+      this.displayedColumns = ['ID', 'Edit', 'Delete', // insertion point for columns to display
         "Name",
         "Bclass",
         "AnarrayofbUse",
@@ -166,7 +171,7 @@ export class AclassBclassUsesTableComponent implements OnInit {
 
         // in case the component is called as a selection component
         if (this.mode == TableComponentMode.ONE_MANY_ASSOCIATION_MODE) {
-			this.aclassbclassuses.forEach(
+          this.aclassbclassuses.forEach(
             aclassbclassuse => {
               let ID = this.dialogData.ID
               let revPointer = aclassbclassuse[this.dialogData.ReversePointer]
@@ -175,6 +180,20 @@ export class AclassBclassUsesTableComponent implements OnInit {
               }
             }
           )
+          this.selection = new SelectionModel<AclassBclassUseDB>(allowMultiSelect, this.initialSelection);
+        }
+
+        if (this.mode == TableComponentMode.MANY_MANY_ASSOCIATION_MODE) {
+
+          let mapOfSourceInstances = this.frontRepo[this.dialogData.SourceStruct + "s"]
+          let sourceInstance = mapOfSourceInstances.get(this.dialogData.ID)
+
+          if (sourceInstance[this.dialogData.SourceField]) {
+            for (let associationInstance of sourceInstance[this.dialogData.SourceField]) {
+              let aclassbclassuse = associationInstance[this.dialogData.IntermediateStructField]
+              this.initialSelection.push(aclassbclassuse)
+            }
+          }
           this.selection = new SelectionModel<AclassBclassUseDB>(allowMultiSelect, this.initialSelection);
         }
 
@@ -243,36 +262,106 @@ export class AclassBclassUsesTableComponent implements OnInit {
 
   save() {
 
-    let toUpdate = new Set<AclassBclassUseDB>()
+    if (this.mode == TableComponentMode.ONE_MANY_ASSOCIATION_MODE) {
 
-    // reset all initial selection of aclassbclassuse that belong to aclassbclassuse through Anarrayofb
-    this.initialSelection.forEach(
-      aclassbclassuse => {
-        aclassbclassuse[this.dialogData.ReversePointer].Int64 = 0
-        aclassbclassuse[this.dialogData.ReversePointer].Valid = true
-        toUpdate.add(aclassbclassuse)
-      }
-    )
+      let toUpdate = new Set<AclassBclassUseDB>()
 
-    // from selection, set aclassbclassuse that belong to aclassbclassuse through Anarrayofb
-    this.selection.selected.forEach(
-      aclassbclassuse => {
-        let ID = +this.dialogData.ID
-        aclassbclassuse[this.dialogData.ReversePointer].Int64 = ID
-        aclassbclassuse[this.dialogData.ReversePointer].Valid = true
-        toUpdate.add(aclassbclassuse)
-      }
-    )
+      // reset all initial selection of aclassbclassuse that belong to aclassbclassuse
+      this.initialSelection.forEach(
+        aclassbclassuse => {
+          aclassbclassuse[this.dialogData.ReversePointer].Int64 = 0
+          aclassbclassuse[this.dialogData.ReversePointer].Valid = true
+          toUpdate.add(aclassbclassuse)
+        }
+      )
 
-    // update all aclassbclassuse (only update selection & initial selection)
-    toUpdate.forEach(
-      aclassbclassuse => {
-        this.aclassbclassuseService.updateAclassBclassUse(aclassbclassuse)
-          .subscribe(aclassbclassuse => {
-            this.aclassbclassuseService.AclassBclassUseServiceChanged.next("update")
-          });
+      // from selection, set aclassbclassuse that belong to aclassbclassuse
+      this.selection.selected.forEach(
+        aclassbclassuse => {
+          let ID = +this.dialogData.ID
+          aclassbclassuse[this.dialogData.ReversePointer].Int64 = ID
+          aclassbclassuse[this.dialogData.ReversePointer].Valid = true
+          toUpdate.add(aclassbclassuse)
+        }
+      )
+
+      // update all aclassbclassuse (only update selection & initial selection)
+      toUpdate.forEach(
+        aclassbclassuse => {
+          this.aclassbclassuseService.updateAclassBclassUse(aclassbclassuse)
+            .subscribe(aclassbclassuse => {
+              this.aclassbclassuseService.AclassBclassUseServiceChanged.next("update")
+            });
+        }
+      )
+    }
+
+    if (this.mode == TableComponentMode.MANY_MANY_ASSOCIATION_MODE) {
+
+      let mapOfSourceInstances = this.frontRepo[this.dialogData.SourceStruct + "s"]
+      let sourceInstance = mapOfSourceInstances.get(this.dialogData.ID)
+
+      // First, parse all instance of the association struct and remove the instance
+      // that have unselect
+      let unselectedAclassBclassUse = new Set<number>()
+      for (let aclassbclassuse of this.initialSelection) {
+        if (this.selection.selected.includes(aclassbclassuse)) {
+          // console.log("aclassbclassuse " + aclassbclassuse.Name + " is still selected")
+        } else {
+          console.log("aclassbclassuse " + aclassbclassuse.Name + " has been unselected")
+          unselectedAclassBclassUse.add(aclassbclassuse.ID)
+          console.log("is unselected " + unselectedAclassBclassUse.has(aclassbclassuse.ID))
+        }
       }
-    )
+
+      // delete the association instance
+      if (sourceInstance[this.dialogData.SourceField]) {
+        for (let associationInstance of sourceInstance[this.dialogData.SourceField]) {
+          let aclassbclassuse = associationInstance[this.dialogData.IntermediateStructField]
+          if (unselectedAclassBclassUse.has(aclassbclassuse.ID)) {
+
+            this.frontRepoService.deleteService( this.dialogData.IntermediateStruct, associationInstance )
+          }
+        }
+      }
+
+      // is the source array is emptyn create it
+      if (sourceInstance[this.dialogData.SourceField] == undefined) {
+        sourceInstance[this.dialogData.SourceField] = new Array<any>()
+      }
+
+      // second, parse all instance of the selected
+      if (sourceInstance[this.dialogData.SourceField]) {
+        this.selection.selected.forEach(
+          aclassbclassuse => {
+            if (!this.initialSelection.includes(aclassbclassuse)) {
+              // console.log("aclassbclassuse " + aclassbclassuse.Name + " has been added to the selection")
+
+              let associationInstance = {
+                Name: sourceInstance["Name"] + "-" + aclassbclassuse.Name,
+              }
+
+              associationInstance[this.dialogData.IntermediateStructField+"ID"] = new NullInt64
+              associationInstance[this.dialogData.IntermediateStructField+"ID"].Int64 = aclassbclassuse.ID
+              associationInstance[this.dialogData.IntermediateStructField+"ID"].Valid = true
+
+              associationInstance[this.dialogData.SourceStruct + "_" + this.dialogData.SourceField + "DBID"] = new NullInt64
+              associationInstance[this.dialogData.SourceStruct + "_" + this.dialogData.SourceField + "DBID"].Int64 = sourceInstance["ID"]
+              associationInstance[this.dialogData.SourceStruct + "_" + this.dialogData.SourceField + "DBID"].Valid = true
+
+              this.frontRepoService.postService( this.dialogData.IntermediateStruct, associationInstance )
+
+            } else {
+              // console.log("aclassbclassuse " + aclassbclassuse.Name + " is still selected")
+            }
+          }
+        )
+      }
+
+      // this.selection = new SelectionModel<AclassBclassUseDB>(allowMultiSelect, this.initialSelection);
+    }
+
+    // why pizza ?
     this.dialogRef.close('Pizza!');
   }
 }

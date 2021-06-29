@@ -7,7 +7,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatButton } from '@angular/material/button'
 
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog'
-import { DialogData, NullInt64, SelectionMode } from '../front-repo.service'
+import { DialogData, FrontRepoService, FrontRepo, NullInt64, SelectionMode } from '../front-repo.service'
 import { SelectionModel } from '@angular/cdk/collections';
 
 const allowMultiSelect = true;
@@ -15,10 +15,6 @@ const allowMultiSelect = true;
 import { Router, RouterState } from '@angular/router';
 import { BclassDB } from '../bclass-db'
 import { BclassService } from '../bclass.service'
-
-import { FrontRepoService, FrontRepo } from '../front-repo.service'
-import { AclassBclassUseService } from '../aclassbclassuse.service';
-import { AclassBclassUseDB } from '../aclassbclassuse-db';
 
 // TableComponent is initilizaed from different routes
 // TableComponentMode detail different cases 
@@ -46,7 +42,6 @@ export class BclasssTableComponent implements OnInit {
   // the data source for the table
   bclasss: BclassDB[];
   matTableDataSource: MatTableDataSource<BclassDB>
-
 
   // front repo, that will be referenced by this.bclasss
   frontRepo: FrontRepo
@@ -127,8 +122,6 @@ export class BclasssTableComponent implements OnInit {
     @Optional() @Inject(MAT_DIALOG_DATA) public dialogData: DialogData,
 
     private router: Router,
-
-    private reverseAclassBclassUseService: AclassBclassUseService,
   ) {
 
     // compute mode
@@ -286,7 +279,7 @@ export class BclasssTableComponent implements OnInit {
 
       let toUpdate = new Set<BclassDB>()
 
-      // reset all initial selection of bclass that belong to bclass through Anarrayofb
+      // reset all initial selection of bclass that belong to bclass
       this.initialSelection.forEach(
         bclass => {
           bclass[this.dialogData.ReversePointer].Int64 = 0
@@ -295,7 +288,7 @@ export class BclasssTableComponent implements OnInit {
         }
       )
 
-      // from selection, set bclass that belong to bclass through Anarrayofb
+      // from selection, set bclass that belong to bclass
       this.selection.selected.forEach(
         bclass => {
           let ID = +this.dialogData.ID
@@ -355,7 +348,7 @@ export class BclasssTableComponent implements OnInit {
         this.selection.selected.forEach(
           bclass => {
             if (!this.initialSelection.includes(bclass)) {
-              console.log("bclass " + bclass.Name + " has been added to the selection")
+              // console.log("bclass " + bclass.Name + " has been added to the selection")
 
               let associationInstance = {
                 Name: sourceInstance["Name"] + "-" + bclass.Name,
