@@ -1,8 +1,8 @@
 <form *ngIf="aclass" class="details">
-    <h1 class="details__title">aclass</h1>
+    <h2 class="details__title">aclass</h2>
     <!-- insertion point for fields specific code -->
-    <mat-grid-list *ngIf='!isATextArea("Name")' cols="4" rowHeight="6:1">
-        <mat-grid-tile [colspan]="3">
+    <mat-grid-list *ngIf='!isATextArea("Name")' cols="5" rowHeight="2:1">
+        <mat-grid-tile [colspan]="4">
             <mat-form-field mat-form-field class="detail-full-width">
                 <mat-label>Name</mat-label>
                 <input name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="aclass.Name">
@@ -70,25 +70,21 @@
         </mat-grid-tile>
     </mat-grid-list>
 
-    <mat-grid-list cols="2" rowHeight="6:1">
-        <mat-grid-tile>
-            <div style="width: 100vw; text-align: right;">
-                <button mat-raised-button
-                    (click)="openReverseSelection('Aclass', 'Aclass_AnarrayofaDBID')">Anarrayofa</button>
-            </div>
+    <mat-grid-list cols="5" rowHeight="2:1">
+        <mat-grid-tile [colspan]="4">
+            <button mat-raised-button
+                (click)="openReverseSelection('Aclass', 'Aclass_AnarrayofaDBID')">Anarrayofa</button>
         </mat-grid-tile>
         <mat-grid-tile>
-            <div style="width: 100vw; text-align: left;">
-                <button mat-raised-button (click)="openDragAndDropOrdering('Aclass', 'Aclass_AnarrayofaDBID')">
-                    <mat-icon>
-                        shuffle
-                    </mat-icon>
-                </button>
-            </div>
+            <button mat-raised-button (click)="openDragAndDropOrdering('Aclass', 'Aclass_AnarrayofaDBID')">
+                <mat-icon>
+                    shuffle
+                </mat-icon>
+            </button>
         </mat-grid-tile>
     </mat-grid-list>
     <mat-form-field class="detail-full-width">
-        <mat-label><- Anarrayofa</mat-label>
+        <mat-label>(Aclass) Anarrayofa</mat-label>
         <mat-select [compareWith]="compareObjects" [(ngModel)]="aclass.Aclass_Anarrayofa_reverse" [ngModelOptions]="{standalone: true}">
             <mat-option>None</mat-option>
             <mat-option *ngFor="let aclass of frontRepo.Aclasss_array" [value]="aclass">

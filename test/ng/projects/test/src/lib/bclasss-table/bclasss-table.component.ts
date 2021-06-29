@@ -7,7 +7,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatButton } from '@angular/material/button'
 
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog'
-import { DialogData } from '../front-repo.service'
+import { DialogData, FrontRepoService, FrontRepo, NullInt64, SelectionMode } from '../front-repo.service'
 import { SelectionModel } from '@angular/cdk/collections';
 
 const allowMultiSelect = true;
@@ -16,7 +16,13 @@ import { Router, RouterState } from '@angular/router';
 import { BclassDB } from '../bclass-db'
 import { BclassService } from '../bclass.service'
 
-import { FrontRepoService, FrontRepo } from '../front-repo.service'
+// TableComponent is initilizaed from different routes
+// TableComponentMode detail different cases 
+enum TableComponentMode {
+  DISPLAY_MODE,
+  ONE_MANY_ASSOCIATION_MODE,
+  MANY_MANY_ASSOCIATION_MODE,
+}
 
 // generated table component
 @Component({
@@ -26,6 +32,9 @@ import { FrontRepoService, FrontRepo } from '../front-repo.service'
 })
 export class BclasssTableComponent implements OnInit {
 
+  // mode at invocation
+  mode: TableComponentMode
+
   // used if the component is called as a selection component of Bclass instances
   selection: SelectionModel<BclassDB>;
   initialSelection = new Array<BclassDB>();
@@ -33,7 +42,6 @@ export class BclasssTableComponent implements OnInit {
   // the data source for the table
   bclasss: BclassDB[];
   matTableDataSource: MatTableDataSource<BclassDB>
-
 
   // front repo, that will be referenced by this.bclasss
   frontRepo: FrontRepo
@@ -48,53 +56,53 @@ export class BclasssTableComponent implements OnInit {
 
   ngAfterViewInit() {
 
-	// enable sorting on all fields (including pointers and reverse pointer)
-	this.matTableDataSource.sortingDataAccessor = (bclassDB: BclassDB, property: string) => {
-		switch (property) {
-				// insertion point for specific sorting accessor
-			case 'Name':
-				return bclassDB.Name;
+    // enable sorting on all fields (including pointers and reverse pointer)
+    this.matTableDataSource.sortingDataAccessor = (bclassDB: BclassDB, property: string) => {
+      switch (property) {
+        // insertion point for specific sorting accessor
+        case 'Name':
+          return bclassDB.Name;
 
-			case 'Floatfield':
-				return bclassDB.Floatfield;
+        case 'Floatfield':
+          return bclassDB.Floatfield;
 
-			case 'Intfield':
-				return bclassDB.Intfield;
+        case 'Intfield':
+          return bclassDB.Intfield;
 
-				case 'Anarrayofb':
-					return this.frontRepo.Aclasss.get(bclassDB.Aclass_AnarrayofbDBID.Int64)?.Name;
+        case 'Anarrayofb':
+          return this.frontRepo.Aclasss.get(bclassDB.Aclass_AnarrayofbDBID.Int64)?.Name;
 
-				case 'Anotherarrayofb':
-					return this.frontRepo.Aclasss.get(bclassDB.Aclass_AnotherarrayofbDBID.Int64)?.Name;
+        case 'Anotherarrayofb':
+          return this.frontRepo.Aclasss.get(bclassDB.Aclass_AnotherarrayofbDBID.Int64)?.Name;
 
-				default:
-					return BclassDB[property];
-		}
-	}; 
+        default:
+          return BclassDB[property];
+      }
+    };
 
-	// enable filtering on all fields (including pointers and reverse pointer, which is not done by default)
-	this.matTableDataSource.filterPredicate = (bclassDB: BclassDB, filter: string) => {
+    // enable filtering on all fields (including pointers and reverse pointer, which is not done by default)
+    this.matTableDataSource.filterPredicate = (bclassDB: BclassDB, filter: string) => {
 
-		// filtering is based on finding a lower case filter into a concatenated string
-		// the bclassDB properties
-		let mergedContent = ""
+      // filtering is based on finding a lower case filter into a concatenated string
+      // the bclassDB properties
+      let mergedContent = ""
 
-		// insertion point for merging of fields
-		mergedContent += bclassDB.Name.toLowerCase()
-		mergedContent += bclassDB.Floatfield.toString()
-		mergedContent += bclassDB.Intfield.toString()
-		if (bclassDB.Aclass_AnarrayofbDBID.Int64 != 0) {
-        	mergedContent += this.frontRepo.Aclasss.get(bclassDB.Aclass_AnarrayofbDBID.Int64)?.Name.toLowerCase()
-    	}
+      // insertion point for merging of fields
+      mergedContent += bclassDB.Name.toLowerCase()
+      mergedContent += bclassDB.Floatfield.toString()
+      mergedContent += bclassDB.Intfield.toString()
+      if (bclassDB.Aclass_AnarrayofbDBID.Int64 != 0) {
+        mergedContent += this.frontRepo.Aclasss.get(bclassDB.Aclass_AnarrayofbDBID.Int64)?.Name.toLowerCase()
+      }
 
-		if (bclassDB.Aclass_AnotherarrayofbDBID.Int64 != 0) {
-        	mergedContent += this.frontRepo.Aclasss.get(bclassDB.Aclass_AnotherarrayofbDBID.Int64)?.Name.toLowerCase()
-    	}
+      if (bclassDB.Aclass_AnotherarrayofbDBID.Int64 != 0) {
+        mergedContent += this.frontRepo.Aclasss.get(bclassDB.Aclass_AnotherarrayofbDBID.Int64)?.Name.toLowerCase()
+      }
 
 
-		let isSelected = mergedContent.includes(filter.toLowerCase())
-		return isSelected
-	};
+      let isSelected = mergedContent.includes(filter.toLowerCase())
+      return isSelected
+    };
 
     this.matTableDataSource.sort = this.sort;
     this.matTableDataSource.paginator = this.paginator;
@@ -115,6 +123,22 @@ export class BclasssTableComponent implements OnInit {
 
     private router: Router,
   ) {
+
+    // compute mode
+    if (dialogData == undefined) {
+      this.mode = TableComponentMode.DISPLAY_MODE
+    } else {
+      switch (dialogData.SelectionMode) {
+        case SelectionMode.ONE_MANY_ASSOCIATION_MODE:
+          this.mode = TableComponentMode.ONE_MANY_ASSOCIATION_MODE
+          break
+        case SelectionMode.MANY_MANY_ASSOCIATION_MODE:
+          this.mode = TableComponentMode.MANY_MANY_ASSOCIATION_MODE
+          break
+        default:
+      }
+    }
+
     // observable for changes in structs
     this.bclassService.BclassServiceChanged.subscribe(
       message => {
@@ -123,7 +147,7 @@ export class BclasssTableComponent implements OnInit {
         }
       }
     )
-    if (dialogData == undefined) {
+    if (this.mode == TableComponentMode.DISPLAY_MODE) {
       this.displayedColumns = ['ID', 'Edit', 'Delete', // insertion point for columns to display
         "Name",
         "Floatfield",
@@ -159,7 +183,7 @@ export class BclasssTableComponent implements OnInit {
         // insertion point for variables Recoveries
 
         // in case the component is called as a selection component
-        if (this.dialogData != undefined) {
+        if (this.mode == TableComponentMode.ONE_MANY_ASSOCIATION_MODE) {
           this.bclasss.forEach(
             bclass => {
               let ID = this.dialogData.ID
@@ -169,6 +193,20 @@ export class BclasssTableComponent implements OnInit {
               }
             }
           )
+          this.selection = new SelectionModel<BclassDB>(allowMultiSelect, this.initialSelection);
+        }
+
+        if (this.mode == TableComponentMode.MANY_MANY_ASSOCIATION_MODE) {
+
+          let mapOfSourceInstances = this.frontRepo[this.dialogData.SourceStruct + "s"]
+          let sourceInstance = mapOfSourceInstances.get(this.dialogData.ID)
+
+          if (sourceInstance[this.dialogData.SourceField]) {
+            for (let associationInstance of sourceInstance[this.dialogData.SourceField]) {
+              let bclass = associationInstance[this.dialogData.IntermediateStructField]
+              this.initialSelection.push(bclass)
+            }
+          }
           this.selection = new SelectionModel<BclassDB>(allowMultiSelect, this.initialSelection);
         }
 
@@ -237,36 +275,106 @@ export class BclasssTableComponent implements OnInit {
 
   save() {
 
-    let toUpdate = new Set<BclassDB>()
+    if (this.mode == TableComponentMode.ONE_MANY_ASSOCIATION_MODE) {
 
-    // reset all initial selection of bclass that belong to bclass through Anarrayofb
-    this.initialSelection.forEach(
-      bclass => {
-        bclass[this.dialogData.ReversePointer].Int64 = 0
-        bclass[this.dialogData.ReversePointer].Valid = true
-        toUpdate.add(bclass)
-      }
-    )
+      let toUpdate = new Set<BclassDB>()
 
-    // from selection, set bclass that belong to bclass through Anarrayofb
-    this.selection.selected.forEach(
-      bclass => {
-        let ID = +this.dialogData.ID
-        bclass[this.dialogData.ReversePointer].Int64 = ID
-        bclass[this.dialogData.ReversePointer].Valid = true
-        toUpdate.add(bclass)
-      }
-    )
+      // reset all initial selection of bclass that belong to bclass
+      this.initialSelection.forEach(
+        bclass => {
+          bclass[this.dialogData.ReversePointer].Int64 = 0
+          bclass[this.dialogData.ReversePointer].Valid = true
+          toUpdate.add(bclass)
+        }
+      )
 
-    // update all bclass (only update selection & initial selection)
-    toUpdate.forEach(
-      bclass => {
-        this.bclassService.updateBclass(bclass)
-          .subscribe(bclass => {
-            this.bclassService.BclassServiceChanged.next("update")
-          });
+      // from selection, set bclass that belong to bclass
+      this.selection.selected.forEach(
+        bclass => {
+          let ID = +this.dialogData.ID
+          bclass[this.dialogData.ReversePointer].Int64 = ID
+          bclass[this.dialogData.ReversePointer].Valid = true
+          toUpdate.add(bclass)
+        }
+      )
+
+      // update all bclass (only update selection & initial selection)
+      toUpdate.forEach(
+        bclass => {
+          this.bclassService.updateBclass(bclass)
+            .subscribe(bclass => {
+              this.bclassService.BclassServiceChanged.next("update")
+            });
+        }
+      )
+    }
+
+    if (this.mode == TableComponentMode.MANY_MANY_ASSOCIATION_MODE) {
+
+      let mapOfSourceInstances = this.frontRepo[this.dialogData.SourceStruct + "s"]
+      let sourceInstance = mapOfSourceInstances.get(this.dialogData.ID)
+
+      // First, parse all instance of the association struct and remove the instance
+      // that have unselect
+      let unselectedBclass = new Set<number>()
+      for (let bclass of this.initialSelection) {
+        if (this.selection.selected.includes(bclass)) {
+          // console.log("bclass " + bclass.Name + " is still selected")
+        } else {
+          console.log("bclass " + bclass.Name + " has been unselected")
+          unselectedBclass.add(bclass.ID)
+          console.log("is unselected " + unselectedBclass.has(bclass.ID))
+        }
       }
-    )
+
+      // delete the association instance
+      if (sourceInstance[this.dialogData.SourceField]) {
+        for (let associationInstance of sourceInstance[this.dialogData.SourceField]) {
+          let bclass = associationInstance[this.dialogData.IntermediateStructField]
+          if (unselectedBclass.has(bclass.ID)) {
+
+            this.frontRepoService.deleteService( this.dialogData.IntermediateStruct, associationInstance )
+          }
+        }
+      }
+
+      // is the source array is emptyn create it
+      if (sourceInstance[this.dialogData.SourceField] == undefined) {
+        sourceInstance[this.dialogData.SourceField] = new Array<any>()
+      }
+
+      // second, parse all instance of the selected
+      if (sourceInstance[this.dialogData.SourceField]) {
+        this.selection.selected.forEach(
+          bclass => {
+            if (!this.initialSelection.includes(bclass)) {
+              // console.log("bclass " + bclass.Name + " has been added to the selection")
+
+              let associationInstance = {
+                Name: sourceInstance["Name"] + "-" + bclass.Name,
+              }
+
+              associationInstance[this.dialogData.IntermediateStructField+"ID"] = new NullInt64
+              associationInstance[this.dialogData.IntermediateStructField+"ID"].Int64 = bclass.ID
+              associationInstance[this.dialogData.IntermediateStructField+"ID"].Valid = true
+
+              associationInstance[this.dialogData.SourceStruct + "_" + this.dialogData.SourceField + "DBID"] = new NullInt64
+              associationInstance[this.dialogData.SourceStruct + "_" + this.dialogData.SourceField + "DBID"].Int64 = sourceInstance["ID"]
+              associationInstance[this.dialogData.SourceStruct + "_" + this.dialogData.SourceField + "DBID"].Valid = true
+
+              this.frontRepoService.postService( this.dialogData.IntermediateStruct, associationInstance )
+
+            } else {
+              // console.log("bclass " + bclass.Name + " is still selected")
+            }
+          }
+        )
+      }
+
+      // this.selection = new SelectionModel<BclassDB>(allowMultiSelect, this.initialSelection);
+    }
+
+    // why pizza ?
     this.dialogRef.close('Pizza!');
   }
 }
