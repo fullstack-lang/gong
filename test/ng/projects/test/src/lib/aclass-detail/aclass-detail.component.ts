@@ -27,6 +27,7 @@ enum AclassDetailComponentState {
 	// insertion point for declarations of enum values of state
 	CREATE_INSTANCE_WITH_ASSOCIATION_Aclass_Anarrayofa_SET,
 }
+
 @Component({
 	selector: 'app-aclass-detail',
 	templateUrl: './aclass-detail.component.html',
