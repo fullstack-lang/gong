@@ -5,7 +5,7 @@ import { FormControl } from '@angular/forms';
 import { AclassBclassUseDB } from '../aclassbclassuse-db'
 import { AclassBclassUseService } from '../aclassbclassuse.service'
 
-import { FrontRepoService, FrontRepo } from '../front-repo.service'
+import { FrontRepoService, FrontRepo, SelectionMode, DialogData } from '../front-repo.service'
 import { MapOfComponents } from '../map-components'
 import { MapOfSortingComponents } from '../map-components'
 
@@ -186,28 +186,64 @@ export class AclassBclassUseDetailComponent implements OnInit {
 	// openReverseSelection is a generic function that calls dialog for the edition of 
 	// ONE-MANY association
 	// It uses the MapOfComponent provided by the front repo
-	openReverseSelection(AssociatedStruct: string, reverseField: string) {
+	openReverseSelection(AssociatedStruct: string, reverseField: string, selectionMode: SelectionMode,
+		sourceField: string, intermediateStructField: string, nextAssociatedStruct: string ) {
+
+		console.log("mode " + selectionMode)
 
 		const dialogConfig = new MatDialogConfig();
+
+		let dialogData = new DialogData();
 
 		// dialogConfig.disableClose = true;
 		dialogConfig.autoFocus = true;
 		dialogConfig.width = "50%"
 		dialogConfig.height = "50%"
-		dialogConfig.data = {
-			ID: this.aclassbclassuse.ID,
-			ReversePointer: reverseField,
-			OrderingMode: false,
-		};
-		const dialogRef: MatDialogRef<string, any> = this.dialog.open(
-			MapOfComponents.get(AssociatedStruct).get(
-				AssociatedStruct + 'sTableComponent'
-			),
-			dialogConfig
-		);
+		if (selectionMode == SelectionMode.ONE_MANY_ASSOCIATION_MODE) {
 
-		dialogRef.afterClosed().subscribe(result => {
-		});
+			dialogData.ID = this.aclassbclassuse.ID
+			dialogData.ReversePointer = reverseField
+			dialogData.OrderingMode = false
+			dialogData.SelectionMode = selectionMode
+
+			dialogConfig.data = dialogData
+			const dialogRef: MatDialogRef<string, any> = this.dialog.open(
+				MapOfComponents.get(AssociatedStruct).get(
+					AssociatedStruct + 'sTableComponent'
+				),
+				dialogConfig
+			);
+			dialogRef.afterClosed().subscribe(result => {
+			});
+		}
+		if (selectionMode == SelectionMode.MANY_MANY_ASSOCIATION_MODE) {
+			dialogData.ID = this.aclassbclassuse.ID
+			dialogData.ReversePointer = reverseField
+			dialogData.OrderingMode = false
+			dialogData.SelectionMode = selectionMode
+
+			// set up the source
+			dialogData.SourceStruct = "AclassBclassUse"
+			dialogData.SourceField = sourceField
+
+			// set up the intermediate struct
+			dialogData.IntermediateStruct = AssociatedStruct
+			dialogData.IntermediateStructField = intermediateStructField
+
+			// set up the end struct
+			dialogData.NextAssociationStruct = nextAssociatedStruct
+
+			dialogConfig.data = dialogData
+			const dialogRef: MatDialogRef<string, any> = this.dialog.open(
+				MapOfComponents.get(nextAssociatedStruct).get(
+					nextAssociatedStruct + 'sTableComponent'
+				),
+				dialogConfig
+			);
+			dialogRef.afterClosed().subscribe(result => {
+			});
+		}
+
 	}
 
 	openDragAndDropOrdering(AssociatedStruct: string, reverseField: string) {
