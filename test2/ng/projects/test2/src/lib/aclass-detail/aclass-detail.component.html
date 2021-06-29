@@ -2,7 +2,7 @@
     <h2 class="details__title">aclass</h2>
     <!-- insertion point for fields specific code -->
     <mat-grid-list *ngIf='!isATextArea("Name")' cols="5" rowHeight="2:1">
-        <mat-grid-tile [colspan]="4">
+        <mat-grid-tile [colspan]="3">
             <mat-form-field mat-form-field class="detail-full-width">
                 <mat-label>Name</mat-label>
                 <input name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="aclass.Name">
@@ -50,31 +50,28 @@
         <mat-grid-tile>
             <mat-form-field class="details_hours_width">
                 <mat-label>Duration1 Hours</mat-label>
-                <input type="number" [ngModelOptions]="{standalone: true}" matInput
-                    [(ngModel)]="Duration1_Hours">
+                <input type="number" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="Duration1_Hours">
             </mat-form-field>
         </mat-grid-tile>
         <mat-grid-tile>
             <mat-form-field class="details_minutes_width">
                 <mat-label>Duration1 Minutes</mat-label>
-                <input type="number" [ngModelOptions]="{standalone: true}" matInput
-                    [(ngModel)]="Duration1_Minutes">
+                <input type="number" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="Duration1_Minutes">
             </mat-form-field>
         </mat-grid-tile>
         <mat-grid-tile>
             <mat-form-field class="details_seconds_width">
                 <mat-label>Duration1 Seconds</mat-label>
-                <input type="number" [ngModelOptions]="{standalone: true}" matInput
-                    [(ngModel)]="Duration1_Seconds">
+                <input type="number" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="Duration1_Seconds">
             </mat-form-field>
         </mat-grid-tile>
     </mat-grid-list>
 
     <mat-grid-list cols="5" rowHeight="2:1">
-        <mat-grid-tile [colspan]="4">
-            <button mat-raised-button
-                (click)="openReverseSelection('Aclass', 'Aclass_AnarrayofaDBID')">Anarrayofa</button>
+        <mat-grid-tile [colspan]="3">
+            <button mat-raised-button (click)="openReverseSelection('Aclass', 'Aclass_AnarrayofaDBID', 'ONE_MANY_ASSOCIATION_MODE', '', '', '')">Anarrayofa</button>
         </mat-grid-tile>
+        <!-- insertion point for the button of the MANY_MANY association-->
         <mat-grid-tile>
             <button mat-raised-button (click)="openDragAndDropOrdering('Aclass', 'Aclass_AnarrayofaDBID')">
                 <mat-icon>
@@ -94,7 +91,7 @@
     </mat-form-field>
     <div class="details__save">
         <button mat-raised-button color="primary" (click)="save()">
-			Save aclass
-		</button>
+            Save aclass
+        </button>
     </div>
 </form>
