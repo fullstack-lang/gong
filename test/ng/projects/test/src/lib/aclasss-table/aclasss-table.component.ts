@@ -7,7 +7,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatButton } from '@angular/material/button'
 
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog'
-import { DialogData } from '../front-repo.service'
+import { DialogData, FrontRepoService, FrontRepo, NullInt64, SelectionMode } from '../front-repo.service'
 import { SelectionModel } from '@angular/cdk/collections';
 
 const allowMultiSelect = true;
@@ -15,8 +15,6 @@ const allowMultiSelect = true;
 import { Router, RouterState } from '@angular/router';
 import { AclassDB } from '../aclass-db'
 import { AclassService } from '../aclass.service'
-
-import { FrontRepoService, FrontRepo } from '../front-repo.service'
 
 // TableComponent is initilizaed from different routes
 // TableComponentMode detail different cases 
@@ -44,7 +42,6 @@ export class AclasssTableComponent implements OnInit {
   // the data source for the table
   aclasss: AclassDB[];
   matTableDataSource: MatTableDataSource<AclassDB>
-
 
   // front repo, that will be referenced by this.aclasss
   frontRepo: FrontRepo
@@ -168,7 +165,15 @@ export class AclasssTableComponent implements OnInit {
     if (dialogData == undefined) {
       this.mode = TableComponentMode.DISPLAY_MODE
     } else {
-      this.mode = TableComponentMode.ONE_MANY_ASSOCIATION_MODE
+      switch (dialogData.SelectionMode) {
+        case SelectionMode.ONE_MANY_ASSOCIATION_MODE:
+          this.mode = TableComponentMode.ONE_MANY_ASSOCIATION_MODE
+          break
+        case SelectionMode.MANY_MANY_ASSOCIATION_MODE:
+          this.mode = TableComponentMode.MANY_MANY_ASSOCIATION_MODE
+          break
+        default:
+      }
     }
 
     // observable for changes in structs
@@ -255,6 +260,20 @@ export class AclasssTableComponent implements OnInit {
           this.selection = new SelectionModel<AclassDB>(allowMultiSelect, this.initialSelection);
         }
 
+        if (this.mode == TableComponentMode.MANY_MANY_ASSOCIATION_MODE) {
+
+          let mapOfSourceInstances = this.frontRepo[this.dialogData.SourceStruct + "s"]
+          let sourceInstance = mapOfSourceInstances.get(this.dialogData.ID)
+
+          if (sourceInstance[this.dialogData.SourceField]) {
+            for (let associationInstance of sourceInstance[this.dialogData.SourceField]) {
+              let aclass = associationInstance[this.dialogData.IntermediateStructField]
+              this.initialSelection.push(aclass)
+            }
+          }
+          this.selection = new SelectionModel<AclassDB>(allowMultiSelect, this.initialSelection);
+        }
+
         // update the mat table data source
         this.matTableDataSource.data = this.aclasss
       }
@@ -320,36 +339,106 @@ export class AclasssTableComponent implements OnInit {
 
   save() {
 
-    let toUpdate = new Set<AclassDB>()
+    if (this.mode == TableComponentMode.ONE_MANY_ASSOCIATION_MODE) {
 
-    // reset all initial selection of aclass that belong to aclass through Anarrayofb
-    this.initialSelection.forEach(
-      aclass => {
-        aclass[this.dialogData.ReversePointer].Int64 = 0
-        aclass[this.dialogData.ReversePointer].Valid = true
-        toUpdate.add(aclass)
-      }
-    )
+      let toUpdate = new Set<AclassDB>()
 
-    // from selection, set aclass that belong to aclass through Anarrayofb
-    this.selection.selected.forEach(
-      aclass => {
-        let ID = +this.dialogData.ID
-        aclass[this.dialogData.ReversePointer].Int64 = ID
-        aclass[this.dialogData.ReversePointer].Valid = true
-        toUpdate.add(aclass)
-      }
-    )
+      // reset all initial selection of aclass that belong to aclass
+      this.initialSelection.forEach(
+        aclass => {
+          aclass[this.dialogData.ReversePointer].Int64 = 0
+          aclass[this.dialogData.ReversePointer].Valid = true
+          toUpdate.add(aclass)
+        }
+      )
 
-    // update all aclass (only update selection & initial selection)
-    toUpdate.forEach(
-      aclass => {
-        this.aclassService.updateAclass(aclass)
-          .subscribe(aclass => {
-            this.aclassService.AclassServiceChanged.next("update")
-          });
+      // from selection, set aclass that belong to aclass
+      this.selection.selected.forEach(
+        aclass => {
+          let ID = +this.dialogData.ID
+          aclass[this.dialogData.ReversePointer].Int64 = ID
+          aclass[this.dialogData.ReversePointer].Valid = true
+          toUpdate.add(aclass)
+        }
+      )
+
+      // update all aclass (only update selection & initial selection)
+      toUpdate.forEach(
+        aclass => {
+          this.aclassService.updateAclass(aclass)
+            .subscribe(aclass => {
+              this.aclassService.AclassServiceChanged.next("update")
+            });
+        }
+      )
+    }
+
+    if (this.mode == TableComponentMode.MANY_MANY_ASSOCIATION_MODE) {
+
+      let mapOfSourceInstances = this.frontRepo[this.dialogData.SourceStruct + "s"]
+      let sourceInstance = mapOfSourceInstances.get(this.dialogData.ID)
+
+      // First, parse all instance of the association struct and remove the instance
+      // that have unselect
+      let unselectedAclass = new Set<number>()
+      for (let aclass of this.initialSelection) {
+        if (this.selection.selected.includes(aclass)) {
+          // console.log("aclass " + aclass.Name + " is still selected")
+        } else {
+          console.log("aclass " + aclass.Name + " has been unselected")
+          unselectedAclass.add(aclass.ID)
+          console.log("is unselected " + unselectedAclass.has(aclass.ID))
+        }
       }
-    )
+
+      // delete the association instance
+      if (sourceInstance[this.dialogData.SourceField]) {
+        for (let associationInstance of sourceInstance[this.dialogData.SourceField]) {
+          let aclass = associationInstance[this.dialogData.IntermediateStructField]
+          if (unselectedAclass.has(aclass.ID)) {
+
+            this.frontRepoService.deleteService( this.dialogData.IntermediateStruct, associationInstance )
+          }
+        }
+      }
+
+      // is the source array is emptyn create it
+      if (sourceInstance[this.dialogData.SourceField] == undefined) {
+        sourceInstance[this.dialogData.SourceField] = new Array<any>()
+      }
+
+      // second, parse all instance of the selected
+      if (sourceInstance[this.dialogData.SourceField]) {
+        this.selection.selected.forEach(
+          aclass => {
+            if (!this.initialSelection.includes(aclass)) {
+              // console.log("aclass " + aclass.Name + " has been added to the selection")
+
+              let associationInstance = {
+                Name: sourceInstance["Name"] + "-" + aclass.Name,
+              }
+
+              associationInstance[this.dialogData.IntermediateStructField+"ID"] = new NullInt64
+              associationInstance[this.dialogData.IntermediateStructField+"ID"].Int64 = aclass.ID
+              associationInstance[this.dialogData.IntermediateStructField+"ID"].Valid = true
+
+              associationInstance[this.dialogData.SourceStruct + "_" + this.dialogData.SourceField + "DBID"] = new NullInt64
+              associationInstance[this.dialogData.SourceStruct + "_" + this.dialogData.SourceField + "DBID"].Int64 = sourceInstance["ID"]
+              associationInstance[this.dialogData.SourceStruct + "_" + this.dialogData.SourceField + "DBID"].Valid = true
+
+              this.frontRepoService.postService( this.dialogData.IntermediateStruct, associationInstance )
+
+            } else {
+              // console.log("aclass " + aclass.Name + " is still selected")
+            }
+          }
+        )
+      }
+
+      // this.selection = new SelectionModel<AclassDB>(allowMultiSelect, this.initialSelection);
+    }
+
+    // why pizza ?
     this.dialogRef.close('Pizza!');
   }
 }
