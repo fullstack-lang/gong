@@ -44,8 +44,14 @@ func main() {
 
 	// setup GORM
 	db := orm.SetupModels(*logDBFlag, "./test.db")
-	// mandatory, otherwise, bizarre errors occurs
-	db.DB().SetMaxOpenConns(1)
+	dbDB, err := db.DB()
+
+	// since gongsim is a multi threaded application. It is important to set up
+	// only one open connexion at a time
+	if err != nil {
+		panic("cannot access DB of db" + err.Error())
+	}
+	dbDB.SetMaxOpenConns(1)
 
 
 	orm.BackRepo.Init(db)
