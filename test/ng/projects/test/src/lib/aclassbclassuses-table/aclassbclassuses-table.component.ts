@@ -66,7 +66,7 @@ export class AclassBclassUsesTableComponent implements OnInit {
         case 'Bclass2':
           return (aclassbclassuseDB.Bclass2 ? aclassbclassuseDB.Bclass2.Name : '');
 
-        case 'AnarrayofbUse':
+        case 'Aclass_AnarrayofbUse':
           return this.frontRepo.Aclasss.get(aclassbclassuseDB.Aclass_AnarrayofbUseDBID.Int64)?.Name;
 
         default:
@@ -142,13 +142,13 @@ export class AclassBclassUsesTableComponent implements OnInit {
       this.displayedColumns = ['ID', 'Edit', 'Delete', // insertion point for columns to display
         "Name",
         "Bclass2",
-        "AnarrayofbUse",
+        "Aclass_AnarrayofbUse",
       ]
     } else {
       this.displayedColumns = ['select', 'ID', // insertion point for columns to display
         "Name",
         "Bclass2",
-        "AnarrayofbUse",
+        "Aclass_AnarrayofbUse",
       ]
       this.selection = new SelectionModel<AclassBclassUseDB>(allowMultiSelect, this.initialSelection);
     }

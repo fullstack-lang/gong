@@ -390,6 +390,7 @@ const (
 	NgTableTSSliceOfPointerToStructFiltering
 
 	NgTableTSPerStructColumn
+	NgTableTSSliceOfPointerToStructPerStructColumn
 )
 
 var NgTablelSubTemplateCode map[NgTableSubTemplate]string = map[NgTableSubTemplate]string{
@@ -416,7 +417,7 @@ var NgTablelSubTemplateCode map[NgTableSubTemplate]string = map[NgTableSubTempla
           return ({{structname}}DB.{{FieldName}} ? {{structname}}DB.{{FieldName}}.Name : '');
 `,
 	NgTableTSSliceOfPointerToStructSorting: `
-        case '{{FieldName}}':
+        case '{{AssocStructName}}_{{FieldName}}':
           return this.frontRepo.{{AssocStructName}}s.get({{structname}}DB.{{AssocStructName}}_{{FieldName}}DBID.Int64)?.Name;
 `,
 
@@ -438,6 +439,9 @@ var NgTablelSubTemplateCode map[NgTableSubTemplate]string = map[NgTableSubTempla
 
 	NgTableTSPerStructColumn: `
         "{{FieldName}}",`,
+
+	NgTableTSSliceOfPointerToStructPerStructColumn: `
+        "{{AssocStructName}}_{{FieldName}}",`,
 }
 
 // MultiCodeGeneratorNgTable parses mdlPkg and generates the code for the
@@ -601,8 +605,9 @@ func MultiCodeGeneratorNgTable(
 							"{{AssocStructName}}", __struct.Name)
 
 						TsInsertions[NgTableTsInsertionPerStructColumns] +=
-							Replace1(NgTablelSubTemplateCode[NgTableTSPerStructColumn],
-								"{{FieldName}}", fieldSliceOfPointerToModel.Name)
+							Replace2(NgTablelSubTemplateCode[NgTableTSSliceOfPointerToStructPerStructColumn],
+								"{{FieldName}}", fieldSliceOfPointerToModel.Name,
+								"{{AssocStructName}}", __struct.Name)
 
 						fieldSliceOfPointerToModel := field.(*SliceOfPointerToGongStructField)
 

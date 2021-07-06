@@ -102,7 +102,7 @@ export class AclasssTableComponent implements OnInit {
         case 'Anotherassociationtob_2':
           return (aclassDB.Anotherassociationtob_2 ? aclassDB.Anotherassociationtob_2.Name : '');
 
-        case 'Anarrayofa':
+        case 'Aclass_Anarrayofa':
           return this.frontRepo.Aclasss.get(aclassDB.Aclass_AnarrayofaDBID.Int64)?.Name;
 
         default:
@@ -200,7 +200,7 @@ export class AclasssTableComponent implements OnInit {
         "Duration1",
         "Associationtob",
         "Anotherassociationtob_2",
-        "Anarrayofa",
+        "Aclass_Anarrayofa",
       ]
     } else {
       this.displayedColumns = ['select', 'ID', // insertion point for columns to display
@@ -218,7 +218,7 @@ export class AclasssTableComponent implements OnInit {
         "Duration1",
         "Associationtob",
         "Anotherassociationtob_2",
-        "Anarrayofa",
+        "Aclass_Anarrayofa",
       ]
       this.selection = new SelectionModel<AclassDB>(allowMultiSelect, this.initialSelection);
     }
