@@ -5,11 +5,27 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "gongc landromat",
+            "name": "gongc laundromat",
             "type": "go",
             "request": "launch",
             "mode": "debug",
             "cwd": "${workspaceFolder}/../laundromat/go/models",
+            "program": "${workspaceFolder}/go/gongc",
+            "dlvLoadConfig": {
+                "followPointers": true,
+                "maxVariableRecurse": 1,
+                "maxStringLen": 3000,
+                "maxArrayValues": 64,
+                "maxStructFields": -1
+            },
+            "args": []
+        },
+        {
+            "name": "gongc gongsvg",
+            "type": "go",
+            "request": "launch",
+            "mode": "debug",
+            "cwd": "${workspaceFolder}/../gongsvg/go/models",
             "program": "${workspaceFolder}/go/gongc",
             "dlvLoadConfig": {
                 "followPointers": true,
