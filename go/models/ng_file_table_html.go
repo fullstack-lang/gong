@@ -137,7 +137,7 @@ var NgTableHTMLSubTemplateCode map[NgTableHTMLSubTemplate]string = map[NgTableHT
 
 	NgTablePointerToSliceOfGongStructHTMLFormField: `
         <!-- -->
-        <ng-container matColumnDef="{{FieldName}}">
+        <ng-container matColumnDef="{{AssocStructName}}_{{FieldName}}">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> <-- ({{AssocStructName}}) {{FieldName}} </th>
             <td mat-cell *matCellDef="let {{structname}}">
                 {{frontRepo.{{AssocStructName}}s.get({{structname}}.{{AssocStructName}}_{{FieldName}}DBID.Int64)?.Name}}

@@ -69,10 +69,10 @@ export class BclasssTableComponent implements OnInit {
         case 'Intfield':
           return bclassDB.Intfield;
 
-        case 'Anarrayofb':
+        case 'Aclass_Anarrayofb':
           return this.frontRepo.Aclasss.get(bclassDB.Aclass_AnarrayofbDBID.Int64)?.Name;
 
-        case 'Anotherarrayofb':
+        case 'Aclass_Anotherarrayofb':
           return this.frontRepo.Aclasss.get(bclassDB.Aclass_AnotherarrayofbDBID.Int64)?.Name;
 
         default:
@@ -152,16 +152,16 @@ export class BclasssTableComponent implements OnInit {
         "Name",
         "Floatfield",
         "Intfield",
-        "Anarrayofb",
-        "Anotherarrayofb",
+        "Aclass_Anarrayofb",
+        "Aclass_Anotherarrayofb",
       ]
     } else {
       this.displayedColumns = ['select', 'ID', // insertion point for columns to display
         "Name",
         "Floatfield",
         "Intfield",
-        "Anarrayofb",
-        "Anotherarrayofb",
+        "Aclass_Anarrayofb",
+        "Aclass_Anotherarrayofb",
       ]
       this.selection = new SelectionModel<BclassDB>(allowMultiSelect, this.initialSelection);
     }
