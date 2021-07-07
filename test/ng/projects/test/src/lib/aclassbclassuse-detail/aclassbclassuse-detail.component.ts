@@ -186,7 +186,7 @@ export class AclassBclassUseDetailComponent implements OnInit {
 	// openReverseSelection is a generic function that calls dialog for the edition of 
 	// ONE-MANY association
 	// It uses the MapOfComponent provided by the front repo
-	openReverseSelection(AssociatedStruct: string, reverseField: string, selectionMode: SelectionMode,
+	openReverseSelection(AssociatedStruct: string, reverseField: string, selectionMode: string,
 		sourceField: string, intermediateStructField: string, nextAssociatedStruct: string ) {
 
 		console.log("mode " + selectionMode)
