@@ -81,7 +81,7 @@ export class AclasssTableComponent implements OnInit {
         case 'Duration1':
           return aclassDB.Duration1;
 
-        case 'Anarrayofa':
+        case 'Aclass_Anarrayofa':
           return this.frontRepo.Aclasss.get(aclassDB.Aclass_AnarrayofaDBID.Int64)?.Name;
 
         default:
@@ -161,7 +161,7 @@ export class AclasssTableComponent implements OnInit {
         "Intfield",
         "Anotherbooleanfield",
         "Duration1",
-        "Anarrayofa",
+        "Aclass_Anarrayofa",
       ]
     } else {
       this.displayedColumns = ['select', 'ID', // insertion point for columns to display
@@ -172,7 +172,7 @@ export class AclasssTableComponent implements OnInit {
         "Intfield",
         "Anotherbooleanfield",
         "Duration1",
-        "Anarrayofa",
+        "Aclass_Anarrayofa",
       ]
       this.selection = new SelectionModel<AclassDB>(allowMultiSelect, this.initialSelection);
     }
