@@ -63,6 +63,7 @@ func GenerateFields(structName string, __struct *types.Struct, pkg *packages.Pac
 						BasicKindName: kindAsString,
 						GongEnum:      gongEnum,
 						DeclaredType:  fieldType,
+						Index:         len(modelPkg.GongStructs[structName].Fields),
 					})
 		case *types.Pointer:
 			// if pointer, field should be of form *Struct
@@ -87,6 +88,7 @@ func GenerateFields(structName string, __struct *types.Struct, pkg *packages.Pac
 					&PointerToGongStructField{
 						Name:       _typesField.Name(),
 						GongStruct: __struct,
+						Index:      len(modelPkg.GongStructs[structName].Fields),
 					},
 				)
 
@@ -107,6 +109,7 @@ func GenerateFields(structName string, __struct *types.Struct, pkg *packages.Pac
 						&SliceOfPointerToGongStructField{
 							Name:       _typesField.Name(),
 							GongStruct: modelPkg.GongStructs[assocLongName],
+							Index:      len(modelPkg.GongStructs[structName].Fields),
 						},
 					)
 
@@ -127,7 +130,8 @@ func GenerateFields(structName string, __struct *types.Struct, pkg *packages.Pac
 				modelPkg.GongStructs[structName].Fields =
 					append(modelPkg.GongStructs[structName].Fields, //
 						&GongTimeField{
-							Name: _typesField.Name(),
+							Name:  _typesField.Name(),
+							Index: len(modelPkg.GongStructs[structName].Fields),
 						},
 					)
 			} else {

@@ -8,12 +8,14 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"path/filepath"
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-contrib/static"
 	"github.com/gin-gonic/gin"
 
 	"github.com/fullstack-lang/gong/go/controllers"
+	gong_models "github.com/fullstack-lang/gong/go/models"
 	"github.com/fullstack-lang/gong/go/orm"
 )
 
@@ -21,6 +23,8 @@ var (
 	logDBFlag  = flag.Bool("logDB", false, "log mode for db")
 	logGINFlag = flag.Bool("logGIN", false, "log mode for gin")
 	apiFlag    = flag.Bool("api", false, "it true, use api controllers instead of default controllers")
+
+	pkgPath = flag.String("pkgPath", "go/models", "path to the models package in order to reveal gong elements in the package")
 )
 
 func main() {
@@ -30,6 +34,10 @@ func main() {
 
 	// parse program arguments
 	flag.Parse()
+
+	if len(flag.Args()) == 1 {
+		*pkgPath = flag.Arg(0)
+	}
 
 	// setup controlers
 	if !*logGINFlag {
@@ -43,6 +51,16 @@ func main() {
 	db := orm.SetupModels(*logDBFlag, "./test.db")
 
 	orm.BackRepo.Init(db)
+
+	// compute absolute path
+	absPkgPath, _ := filepath.Abs(*pkgPath)
+	*pkgPath = absPkgPath
+
+	// load package to analyse
+	modelPkg := &gong_models.ModelPkg{}
+	gong_models.Walk(*pkgPath, modelPkg)
+	modelPkg.SerializeToStage()
+	gong_models.Stage.Commit()
 
 	controllers.RegisterControllers(r)
 
