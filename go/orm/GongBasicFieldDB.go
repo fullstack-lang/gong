@@ -75,6 +75,9 @@ type GongBasicFieldDB struct {
 	// Declation for basic field gongbasicfieldDB.DeclaredType {{BasicKind}} (to be completed)
 	DeclaredType_Data sql.NullString
 
+	// Declation for basic field gongbasicfieldDB.Index {{BasicKind}} (to be completed)
+	Index_Data sql.NullInt64
+
 	// encoding of pointers
 	GongBasicFieldPointersEnconding
 }
@@ -101,6 +104,8 @@ type GongBasicFieldWOP struct {
 	BasicKindName string
 
 	DeclaredType string
+
+	Index int
 	// insertion for WOP pointer fields
 }
 
@@ -110,6 +115,7 @@ var GongBasicField_Fields = []string{
 	"Name",
 	"BasicKindName",
 	"DeclaredType",
+	"Index",
 }
 
 type BackRepoGongBasicFieldStruct struct {
@@ -411,6 +417,9 @@ func (gongbasicfieldDB *GongBasicFieldDB) CopyBasicFieldsFromGongBasicField(gong
 	gongbasicfieldDB.DeclaredType_Data.String = gongbasicfield.DeclaredType
 	gongbasicfieldDB.DeclaredType_Data.Valid = true
 
+	gongbasicfieldDB.Index_Data.Int64 = int64(gongbasicfield.Index)
+	gongbasicfieldDB.Index_Data.Valid = true
+
 }
 
 // CopyBasicFieldsFromGongBasicFieldWOP
@@ -425,6 +434,9 @@ func (gongbasicfieldDB *GongBasicFieldDB) CopyBasicFieldsFromGongBasicFieldWOP(g
 	gongbasicfieldDB.DeclaredType_Data.String = gongbasicfield.DeclaredType
 	gongbasicfieldDB.DeclaredType_Data.Valid = true
 
+	gongbasicfieldDB.Index_Data.Int64 = int64(gongbasicfield.Index)
+	gongbasicfieldDB.Index_Data.Valid = true
+
 }
 
 // CopyBasicFieldsToGongBasicField
@@ -433,6 +445,7 @@ func (gongbasicfieldDB *GongBasicFieldDB) CopyBasicFieldsToGongBasicField(gongba
 	gongbasicfield.Name = gongbasicfieldDB.Name_Data.String
 	gongbasicfield.BasicKindName = gongbasicfieldDB.BasicKindName_Data.String
 	gongbasicfield.DeclaredType = gongbasicfieldDB.DeclaredType_Data.String
+	gongbasicfield.Index = int(gongbasicfieldDB.Index_Data.Int64)
 }
 
 // CopyBasicFieldsToGongBasicFieldWOP
@@ -442,6 +455,7 @@ func (gongbasicfieldDB *GongBasicFieldDB) CopyBasicFieldsToGongBasicFieldWOP(gon
 	gongbasicfield.Name = gongbasicfieldDB.Name_Data.String
 	gongbasicfield.BasicKindName = gongbasicfieldDB.BasicKindName_Data.String
 	gongbasicfield.DeclaredType = gongbasicfieldDB.DeclaredType_Data.String
+	gongbasicfield.Index = int(gongbasicfieldDB.Index_Data.Int64)
 }
 
 // Backup generates a json file from a slice of all GongBasicFieldDB instances in the backrepo

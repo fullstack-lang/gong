@@ -69,6 +69,9 @@ type SliceOfPointerToGongStructFieldDB struct {
 	// Declation for basic field sliceofpointertogongstructfieldDB.Name {{BasicKind}} (to be completed)
 	Name_Data sql.NullString
 
+	// Declation for basic field sliceofpointertogongstructfieldDB.Index {{BasicKind}} (to be completed)
+	Index_Data sql.NullInt64
+
 	// encoding of pointers
 	SliceOfPointerToGongStructFieldPointersEnconding
 }
@@ -91,6 +94,8 @@ type SliceOfPointerToGongStructFieldWOP struct {
 	// insertion for WOP basic fields
 
 	Name string
+
+	Index int
 	// insertion for WOP pointer fields
 }
 
@@ -98,6 +103,7 @@ var SliceOfPointerToGongStructField_Fields = []string{
 	// insertion for WOP basic fields
 	"ID",
 	"Name",
+	"Index",
 }
 
 type BackRepoSliceOfPointerToGongStructFieldStruct struct {
@@ -393,6 +399,9 @@ func (sliceofpointertogongstructfieldDB *SliceOfPointerToGongStructFieldDB) Copy
 	sliceofpointertogongstructfieldDB.Name_Data.String = sliceofpointertogongstructfield.Name
 	sliceofpointertogongstructfieldDB.Name_Data.Valid = true
 
+	sliceofpointertogongstructfieldDB.Index_Data.Int64 = int64(sliceofpointertogongstructfield.Index)
+	sliceofpointertogongstructfieldDB.Index_Data.Valid = true
+
 }
 
 // CopyBasicFieldsFromSliceOfPointerToGongStructFieldWOP
@@ -401,12 +410,16 @@ func (sliceofpointertogongstructfieldDB *SliceOfPointerToGongStructFieldDB) Copy
 	sliceofpointertogongstructfieldDB.Name_Data.String = sliceofpointertogongstructfield.Name
 	sliceofpointertogongstructfieldDB.Name_Data.Valid = true
 
+	sliceofpointertogongstructfieldDB.Index_Data.Int64 = int64(sliceofpointertogongstructfield.Index)
+	sliceofpointertogongstructfieldDB.Index_Data.Valid = true
+
 }
 
 // CopyBasicFieldsToSliceOfPointerToGongStructField
 func (sliceofpointertogongstructfieldDB *SliceOfPointerToGongStructFieldDB) CopyBasicFieldsToSliceOfPointerToGongStructField(sliceofpointertogongstructfield *models.SliceOfPointerToGongStructField) {
 	// insertion point for checkout of basic fields (back repo to stage)
 	sliceofpointertogongstructfield.Name = sliceofpointertogongstructfieldDB.Name_Data.String
+	sliceofpointertogongstructfield.Index = int(sliceofpointertogongstructfieldDB.Index_Data.Int64)
 }
 
 // CopyBasicFieldsToSliceOfPointerToGongStructFieldWOP
@@ -414,6 +427,7 @@ func (sliceofpointertogongstructfieldDB *SliceOfPointerToGongStructFieldDB) Copy
 	sliceofpointertogongstructfield.ID = int(sliceofpointertogongstructfieldDB.ID)
 	// insertion point for checkout of basic fields (back repo to stage)
 	sliceofpointertogongstructfield.Name = sliceofpointertogongstructfieldDB.Name_Data.String
+	sliceofpointertogongstructfield.Index = int(sliceofpointertogongstructfieldDB.Index_Data.Int64)
 }
 
 // Backup generates a json file from a slice of all SliceOfPointerToGongStructFieldDB instances in the backrepo
