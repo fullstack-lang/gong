@@ -65,6 +65,9 @@ type GongTimeFieldDB struct {
 	// Declation for basic field gongtimefieldDB.Name {{BasicKind}} (to be completed)
 	Name_Data sql.NullString
 
+	// Declation for basic field gongtimefieldDB.Index {{BasicKind}} (to be completed)
+	Index_Data sql.NullInt64
+
 	// encoding of pointers
 	GongTimeFieldPointersEnconding
 }
@@ -87,6 +90,8 @@ type GongTimeFieldWOP struct {
 	// insertion for WOP basic fields
 
 	Name string
+
+	Index int
 	// insertion for WOP pointer fields
 }
 
@@ -94,6 +99,7 @@ var GongTimeField_Fields = []string{
 	// insertion for WOP basic fields
 	"ID",
 	"Name",
+	"Index",
 }
 
 type BackRepoGongTimeFieldStruct struct {
@@ -377,6 +383,9 @@ func (gongtimefieldDB *GongTimeFieldDB) CopyBasicFieldsFromGongTimeField(gongtim
 	gongtimefieldDB.Name_Data.String = gongtimefield.Name
 	gongtimefieldDB.Name_Data.Valid = true
 
+	gongtimefieldDB.Index_Data.Int64 = int64(gongtimefield.Index)
+	gongtimefieldDB.Index_Data.Valid = true
+
 }
 
 // CopyBasicFieldsFromGongTimeFieldWOP
@@ -385,12 +394,16 @@ func (gongtimefieldDB *GongTimeFieldDB) CopyBasicFieldsFromGongTimeFieldWOP(gong
 	gongtimefieldDB.Name_Data.String = gongtimefield.Name
 	gongtimefieldDB.Name_Data.Valid = true
 
+	gongtimefieldDB.Index_Data.Int64 = int64(gongtimefield.Index)
+	gongtimefieldDB.Index_Data.Valid = true
+
 }
 
 // CopyBasicFieldsToGongTimeField
 func (gongtimefieldDB *GongTimeFieldDB) CopyBasicFieldsToGongTimeField(gongtimefield *models.GongTimeField) {
 	// insertion point for checkout of basic fields (back repo to stage)
 	gongtimefield.Name = gongtimefieldDB.Name_Data.String
+	gongtimefield.Index = int(gongtimefieldDB.Index_Data.Int64)
 }
 
 // CopyBasicFieldsToGongTimeFieldWOP
@@ -398,6 +411,7 @@ func (gongtimefieldDB *GongTimeFieldDB) CopyBasicFieldsToGongTimeFieldWOP(gongti
 	gongtimefield.ID = int(gongtimefieldDB.ID)
 	// insertion point for checkout of basic fields (back repo to stage)
 	gongtimefield.Name = gongtimefieldDB.Name_Data.String
+	gongtimefield.Index = int(gongtimefieldDB.Index_Data.Int64)
 }
 
 // Backup generates a json file from a slice of all GongTimeFieldDB instances in the backrepo
