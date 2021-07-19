@@ -50,6 +50,7 @@ var NgPublicApiHtmlSubTemplateCode map[NgPublicApiSubTemplate]string = map[NgPub
 	NgPublicApiStructComponentsExportDeclaration: `
 export * from './lib/{{structname}}-detail/{{structname}}-detail.component'
 export * from './lib/{{structname}}-presentation/{{structname}}-presentation.component'
+export * from './lib/{{structname}}-sorting/{{structname}}-sorting.component'
 export * from './lib/{{structname}}s-table/{{structname}}s-table.component'
 export * from './lib/{{structname}}-db'
 export * from './lib/{{structname}}-api'
