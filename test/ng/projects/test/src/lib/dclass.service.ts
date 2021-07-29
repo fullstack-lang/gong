@@ -10,7 +10,6 @@ import { BehaviorSubject } from 'rxjs';
 import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 
-import { DclassAPI } from './dclass-api';
 import { DclassDB } from './dclass-db';
 
 @Injectable({

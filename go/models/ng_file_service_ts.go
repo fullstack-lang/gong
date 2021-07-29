@@ -21,7 +21,6 @@ import { BehaviorSubject } from 'rxjs';
 import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 
-import { {{Structname}}API } from './{{structname}}-api';
 import { {{Structname}}DB } from './{{structname}}-db';
 
 @Injectable({
