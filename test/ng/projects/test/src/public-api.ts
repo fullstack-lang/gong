@@ -18,7 +18,6 @@ export * from './lib/aclass-presentation/aclass-presentation.component'
 export * from './lib/aclass-sorting/aclass-sorting.component'
 export * from './lib/aclasss-table/aclasss-table.component'
 export * from './lib/aclass-db'
-export * from './lib/aclass-api'
 export * from './lib/aclass.service'
 
 export * from './lib/aclassbclass2use-detail/aclassbclass2use-detail.component'
@@ -26,7 +25,6 @@ export * from './lib/aclassbclass2use-presentation/aclassbclass2use-presentation
 export * from './lib/aclassbclass2use-sorting/aclassbclass2use-sorting.component'
 export * from './lib/aclassbclass2uses-table/aclassbclass2uses-table.component'
 export * from './lib/aclassbclass2use-db'
-export * from './lib/aclassbclass2use-api'
 export * from './lib/aclassbclass2use.service'
 
 export * from './lib/aclassbclassuse-detail/aclassbclassuse-detail.component'
@@ -34,7 +32,6 @@ export * from './lib/aclassbclassuse-presentation/aclassbclassuse-presentation.c
 export * from './lib/aclassbclassuse-sorting/aclassbclassuse-sorting.component'
 export * from './lib/aclassbclassuses-table/aclassbclassuses-table.component'
 export * from './lib/aclassbclassuse-db'
-export * from './lib/aclassbclassuse-api'
 export * from './lib/aclassbclassuse.service'
 
 export * from './lib/bclass-detail/bclass-detail.component'
@@ -42,7 +39,6 @@ export * from './lib/bclass-presentation/bclass-presentation.component'
 export * from './lib/bclass-sorting/bclass-sorting.component'
 export * from './lib/bclasss-table/bclasss-table.component'
 export * from './lib/bclass-db'
-export * from './lib/bclass-api'
 export * from './lib/bclass.service'
 
 export * from './lib/dclass-detail/dclass-detail.component'
@@ -50,7 +46,6 @@ export * from './lib/dclass-presentation/dclass-presentation.component'
 export * from './lib/dclass-sorting/dclass-sorting.component'
 export * from './lib/dclasss-table/dclasss-table.component'
 export * from './lib/dclass-db'
-export * from './lib/dclass-api'
 export * from './lib/dclass.service'
 
 

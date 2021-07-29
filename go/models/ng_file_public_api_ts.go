@@ -53,7 +53,6 @@ export * from './lib/{{structname}}-presentation/{{structname}}-presentation.com
 export * from './lib/{{structname}}-sorting/{{structname}}-sorting.component'
 export * from './lib/{{structname}}s-table/{{structname}}s-table.component'
 export * from './lib/{{structname}}-db'
-export * from './lib/{{structname}}-api'
 export * from './lib/{{structname}}.service'
 `,
 

@@ -109,7 +109,6 @@ func MultiCodeGeneratorNgClass(
 	for _, _struct := range structList {
 
 		// generate the typescript file
-		codeTS := NgClassTmpl
 		codeDBTS := NgClassDBTmpl
 
 		TSinsertions := make(map[NgClassTsInsertionPoint]string)
@@ -223,18 +222,10 @@ func MultiCodeGeneratorNgClass(
 
 		for insertion := NgClassTsInsertionPoint(0); insertion < NgClassTsInsertionsNb; insertion++ {
 			toReplace := "{{" + string(rune(insertion)) + "}}"
-			codeTS = strings.ReplaceAll(codeTS, toReplace, TSinsertions[insertion])
 			codeDBTS = strings.ReplaceAll(codeDBTS, toReplace, TSinsertions[insertion])
 		}
 
 		// final replacement
-		codeTS = Replace6(codeTS,
-			"{{PkgName}}", PkgName,
-			"{{TitlePkgName}}", strings.Title(PkgName),
-			"{{pkgname}}", strings.ToLower(PkgName),
-			"{{PkgPathRoot}}", strings.ReplaceAll(PkgGoPath, "/models", ""),
-			"{{Structname}}", _struct.Name,
-			"{{structname}}", strings.ToLower(_struct.Name))
 		codeDBTS = Replace6(codeDBTS,
 			"{{PkgName}}", PkgName,
 			"{{TitlePkgName}}", strings.Title(PkgName),
@@ -242,14 +233,6 @@ func MultiCodeGeneratorNgClass(
 			"{{PkgPathRoot}}", strings.ReplaceAll(PkgGoPath, "/models", ""),
 			"{{Structname}}", _struct.Name,
 			"{{structname}}", strings.ToLower(_struct.Name))
-		{
-			file, err := os.Create(filepath.Join(MatTargetPath, strings.ToLower(_struct.Name)+"-api.ts"))
-			if err != nil {
-				log.Panic(err)
-			}
-			defer file.Close()
-			fmt.Fprint(file, codeTS)
-		}
 		{
 			file, err := os.Create(filepath.Join(MatTargetPath, strings.ToLower(_struct.Name)+"-db.ts"))
 			if err != nil {
