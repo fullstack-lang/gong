@@ -21,8 +21,8 @@ import (
 )
 
 // dummy variable to have the import declaration wihthout compile failure (even if no code needing this import is generated)
-var dummy_AclassBclassUse sql.NullBool
-var __AclassBclassUse_time__dummyDeclaration time.Duration
+var dummy_AclassBclassUse_sql sql.NullBool
+var dummy_AclassBclassUse_time time.Duration
 var dummy_AclassBclassUse_sort sort.Float64Slice
 
 // AclassBclassUseAPI is the input in POST API

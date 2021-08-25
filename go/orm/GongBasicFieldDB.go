@@ -21,8 +21,8 @@ import (
 )
 
 // dummy variable to have the import declaration wihthout compile failure (even if no code needing this import is generated)
-var dummy_GongBasicField sql.NullBool
-var __GongBasicField_time__dummyDeclaration time.Duration
+var dummy_GongBasicField_sql sql.NullBool
+var dummy_GongBasicField_time time.Duration
 var dummy_GongBasicField_sort sort.Float64Slice
 
 // GongBasicFieldAPI is the input in POST API

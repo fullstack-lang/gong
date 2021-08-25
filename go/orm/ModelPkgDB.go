@@ -21,8 +21,8 @@ import (
 )
 
 // dummy variable to have the import declaration wihthout compile failure (even if no code needing this import is generated)
-var dummy_ModelPkg sql.NullBool
-var __ModelPkg_time__dummyDeclaration time.Duration
+var dummy_ModelPkg_sql sql.NullBool
+var dummy_ModelPkg_time time.Duration
 var dummy_ModelPkg_sort sort.Float64Slice
 
 // ModelPkgAPI is the input in POST API
