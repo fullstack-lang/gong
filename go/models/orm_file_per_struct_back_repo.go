@@ -33,8 +33,8 @@ import (
 )
 
 // dummy variable to have the import declaration wihthout compile failure (even if no code needing this import is generated)
-var dummy_{{Structname}} sql.NullBool
-var __{{Structname}}_time__dummyDeclaration time.Duration
+var dummy_{{Structname}}_sql sql.NullBool
+var dummy_{{Structname}}_time time.Duration
 var dummy_{{Structname}}_sort sort.Float64Slice
 
 // {{Structname}}API is the input in POST API

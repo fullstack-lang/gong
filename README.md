@@ -104,6 +104,8 @@ This stack can be packaged into a reusable `gong` library to be used in another 
 
 if a gong variable data is created on the backend, a constraint is to register all instances on a store.
 
+See [Detailled description of the architecture](./Architecture.md) for details.
+
 # Using gong
 
 ## installing The gong compiler
