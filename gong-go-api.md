@@ -1,3 +1,9 @@
+- [Gong back-end architecture and the repository pattern](#gong-back-end-architecture-and-the-repository-pattern)
+	- [Rationale](#rationale)
+	- [Staging gongstruct instances](#staging-gongstruct-instances)
+	- [Commiting a unit of work of the stage](#commiting-a-unit-of-work-of-the-stage)
+	- [Initializing a gong stack](#initializing-a-gong-stack)
+
 ## Gong back-end architecture and the repository pattern
 
 ### Rationale
@@ -144,3 +150,34 @@ type AclassPointersEnconding struct {
 Notice that the *stage* can be checked-out from the `backRepo`.
 
 When a commit is performed, the WOP sister is created and it is persisted in the database.
+
+### Initializing a gong stack
+
+First, on need to import all tree packages
+
+```go
+import (
+
+	"github.com/fullstack-lang/gong/test/go/models"
+	"github.com/fullstack-lang/gong/test/go/orm"
+	"github.com/fullstack-lang/gong/test/go/controllers"
+)
+```
+
+Then, the first element to init is the back repository. The back repo leverages the [gorm](https://gorm.io/index.html) framework, to manages persistance into [sqlite](https://www.sqlite.org), a database. 
+
+If you do not need to persist into a file database, the API provides the path to the database. Notice that the database is migrated if the data model has been changed.
+
+```go
+	// setup GORM
+	db := orm.SetupModels(false, "./test.db")
+```
+
+If you do not need to persist into a file, sqlite provides a in memory database.
+
+```go
+	// setup GORM
+	db := orm.SetupModels(false, ":memory:")
+```
+
+This operation hooks the stage to the orm.
