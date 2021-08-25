@@ -30,6 +30,9 @@ func TestStageCallBack(t *testing.T) {
 		Booleanfield:        true,
 		Anotherbooleanfield: true,
 		Associationtob:      bclass1,
+		Anarrayofb: []*models.Bclass{
+			bclass1,
+		},
 	}).Stage()
 
 	aclass2 := (&models.Aclass{
