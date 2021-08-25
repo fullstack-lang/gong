@@ -21,8 +21,8 @@ import (
 )
 
 // dummy variable to have the import declaration wihthout compile failure (even if no code needing this import is generated)
-var dummy_SliceOfPointerToGongStructField sql.NullBool
-var __SliceOfPointerToGongStructField_time__dummyDeclaration time.Duration
+var dummy_SliceOfPointerToGongStructField_sql sql.NullBool
+var dummy_SliceOfPointerToGongStructField_time time.Duration
 var dummy_SliceOfPointerToGongStructField_sort sort.Float64Slice
 
 // SliceOfPointerToGongStructFieldAPI is the input in POST API
