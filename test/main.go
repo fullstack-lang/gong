@@ -36,8 +36,7 @@ func main() {
 	r.Use(cors.Default())
 
 	// setup GORM
-	db := orm.SetupModels(*logDBFlag, "./test.db")
-	orm.BackRepo.Init(db)
+	orm.SetupModels(*logDBFlag, "./test.db")
 
 	controllers.RegisterControllers(r)
 

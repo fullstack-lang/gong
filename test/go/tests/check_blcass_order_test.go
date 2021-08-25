@@ -19,9 +19,6 @@ func TestBclassOrder(t *testing.T) {
 	// setup GORM
 	db := orm.SetupModels(false, "../../test.db")
 
-	// initiate back repo a callback functions
-	orm.BackRepo.Init(db)
-
 	var aclasss []orm.AclassDB
 	{
 		query := db.Find(&aclasss)
