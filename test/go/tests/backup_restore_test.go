@@ -12,10 +12,7 @@ import (
 func TestBackupTest(t *testing.T) {
 
 	// setup GORM
-	db := orm.SetupModels(false, "../../../test/test.db")
-
-	// initiate back repo a callback functions
-	orm.BackRepo.Init(db)
+	orm.SetupModels(false, "../../../test/test.db")
 
 	models.Stage.Checkout()
 
@@ -25,10 +22,7 @@ func TestBackupTest(t *testing.T) {
 func TestRestoreTest(t *testing.T) {
 
 	// setup GORM
-	db := orm.SetupModels(false, "../../../test/test.db")
-
-	// initiate back repo a callback functions
-	orm.BackRepo.Init(db)
+	orm.SetupModels(false, "../../../test/test.db")
 
 	models.Stage.Restore("bckp-test")
 
@@ -38,10 +32,7 @@ func TestRestoreTest(t *testing.T) {
 func TestBackup(t *testing.T) {
 
 	// setup GORM
-	db := orm.SetupModels(false, ":memory:")
-
-	// initiate back repo a callback functions
-	orm.BackRepo.Init(db)
+	orm.SetupModels(false, ":memory:")
 
 	bclass1 := (&models.Bclass{Name: "B1"}).Stage().Commit()
 	bclass2 := (&models.Bclass{Name: "B2"}).Stage().Commit()
@@ -103,10 +94,7 @@ func TestBackup(t *testing.T) {
 func TestRestore(t *testing.T) {
 
 	// setup GORM
-	db := orm.SetupModels(false, ":memory:")
-
-	// initiate back repo a callback functions
-	orm.BackRepo.Init(db)
+	orm.SetupModels(false, ":memory:")
 
 	models.Stage.Restore("bckp")
 

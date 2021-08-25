@@ -51,9 +51,6 @@ func main() {
 	}
 	inMemoryDBSqlDB.SetMaxOpenConns(1)
 
-	// init test2 first
-	test2_orm.BackRepo.Init(inMemoryDB)
-
 	var bothStackShareTheSameDB = true
 
 	if !bothStackShareTheSameDB {
@@ -66,10 +63,8 @@ func main() {
 			log.Panic("Cannot access to DB of database")
 		}
 		inFileDBSqlDB.SetMaxOpenConns(1)
-		test_orm.BackRepo.Init(inFileDB)
 	} else {
 		test_orm.AutoMigrate(inMemoryDB)
-		test_orm.BackRepo.Init(inMemoryDB)
 	}
 
 	test2_controllers.RegisterControllers(r)

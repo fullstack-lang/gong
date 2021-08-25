@@ -21,8 +21,8 @@ import (
 )
 
 // dummy variable to have the import declaration wihthout compile failure (even if no code needing this import is generated)
-var dummy_GongEnumValue sql.NullBool
-var __GongEnumValue_time__dummyDeclaration time.Duration
+var dummy_GongEnumValue_sql sql.NullBool
+var dummy_GongEnumValue_time time.Duration
 var dummy_GongEnumValue_sort sort.Float64Slice
 
 // GongEnumValueAPI is the input in POST API

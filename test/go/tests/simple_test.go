@@ -19,9 +19,6 @@ func TestStageCallBack(t *testing.T) {
 	// setup GORM
 	db := orm.SetupModels(false, ":memory:")
 
-	// initiate back repo a callback functions
-	orm.BackRepo.Init(db)
-
 	bclass1 := (&models.Bclass{Name: "B1"}).Stage()
 
 	aclass1 := (&models.Aclass{

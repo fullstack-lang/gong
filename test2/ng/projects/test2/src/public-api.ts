@@ -18,7 +18,6 @@ export * from './lib/aclass-presentation/aclass-presentation.component'
 export * from './lib/aclass-sorting/aclass-sorting.component'
 export * from './lib/aclasss-table/aclasss-table.component'
 export * from './lib/aclass-db'
-export * from './lib/aclass-api'
 export * from './lib/aclass.service'
 
 
