@@ -21,8 +21,8 @@ import (
 )
 
 // dummy variable to have the import declaration wihthout compile failure (even if no code needing this import is generated)
-var dummy_GongStruct sql.NullBool
-var __GongStruct_time__dummyDeclaration time.Duration
+var dummy_GongStruct_sql sql.NullBool
+var dummy_GongStruct_time time.Duration
 var dummy_GongStruct_sort sort.Float64Slice
 
 // GongStructAPI is the input in POST API
