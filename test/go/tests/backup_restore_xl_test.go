@@ -12,10 +12,7 @@ import (
 func TestXLBackup(t *testing.T) {
 
 	// setup GORM
-	db := orm.SetupModels(false, ":memory:")
-
-	// initiate back repo a callback functions
-	orm.BackRepo.Init(db)
+	orm.SetupModels(false, ":memory:")
 
 	bclass1 := (&models.Bclass{Name: "B1"}).Stage().Commit()
 	bclass2 := (&models.Bclass{Name: "B2"}).Stage().Commit()
@@ -83,10 +80,7 @@ func TestXLBackup(t *testing.T) {
 func TestRestoreXL(t *testing.T) {
 
 	// setup GORM
-	db := orm.SetupModels(false, ":memory:")
-
-	// initiate back repo a callback functions
-	orm.BackRepo.Init(db)
+	orm.SetupModels(false, ":memory:")
 
 	models.Stage.Restore("bckp")
 
