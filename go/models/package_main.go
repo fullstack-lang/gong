@@ -53,9 +53,6 @@ func main() {
 	}
 	dbDB.SetMaxOpenConns(1)
 
-
-	orm.BackRepo.Init(db)
-
 	controllers.RegisterControllers(r)
 
 	// provide the static route for the angular pages
