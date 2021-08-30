@@ -89,8 +89,8 @@ This stack can be packaged into a reusable `gong` library to be used in another 
 
 if a gong variable data is created on the backend, a constraint is to register all instances on a store.
 
-See [gong back-end API](./gong-go-api.md.md) for API details.
-See [gong back-end implementation](./gong-go-impl.md.md) for implementation details.
+See [gong back-end API](./gong-go-api.md) for API details.
+See [gong back-end implementation](./gong-go-impl.md) for implementation details.
 
 # Using gong
 
