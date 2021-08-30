@@ -25,9 +25,7 @@ Gong (go + ng) is a framework for rapid web application development (full stack)
 
 The code in a gong stack is organized in a predefined directory structures. At the top are 2 directories `go` for the go code and `ng` for the angular code. The data model of the web application is in the `go/models` directory. 
 
-github.com/fullstack-lang/gong is the repository for the code generation tool.
-
-It is mainly a compilers, `gongc` (in go/gongc), a compiler that compiles the business logic written in `go`, extracts some elements in a `gong` language and generates code in `go` and `ng` directories.
+Gong includes `gongc` (in go/gongc), a compiler that compiles the business logic written in `go`, extracts some elements in a `gong` language and generates code in `go` and `ng` directories.
 
 ## Prerequisite
 
