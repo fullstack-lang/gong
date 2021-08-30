@@ -7,6 +7,7 @@
     - [Angular](#angular)
     - [Vscode](#vscode)
   - [Description of a gong application](#description-of-a-gong-application)
+  - [API description](#api-description)
 - [Using gong](#using-gong)
   - [installing The gong compiler](#installing-the-gong-compiler)
   - [reusable stacks](#reusable-stacks)
@@ -88,6 +89,8 @@ This stack can be packaged into a reusable `gong` library to be used in another 
 - a `ng/projects/<path>` angular service library for accessing gong object with some an angular material library with commonly used material components: table, editor, presentation, splitter presentation, arborescence presentation
 
 if a gong variable data is created on the backend, a constraint is to register all instances on a store.
+
+## API description
 
 See [gong back-end API](./gong-go-api.md) for API details.
 See [gong back-end implementation](./gong-go-impl.md) for implementation details.
