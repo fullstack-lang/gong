@@ -1,5 +1,6 @@
 - [Gong](#gong)
   - [About Gong](#about-gong)
+  - [gong stack organization](#gong-stack-organization)
   - [Prerequisite](#prerequisite)
     - [Go](#go)
     - [gcc](#gcc)
@@ -12,18 +13,22 @@
   - [reusable stacks](#reusable-stacks)
   - [examples](#examples)
 
-WORK IN PROGRESS
-
 # Gong
 
 ![Example of a generated application with gong](docs/images/bookstore-client.png)
 *Example of a generated application with gong*
+
+Gong is a work in progress.
 
 ## About Gong
 
 Gong (go + ng) is a framework for rapid web application development (a.k.a. full stack development) based on go for the back-end and angular for the front-end.
 
 The unit of development in gong is the **gong stack**. A gong stack can import other gong stacks. With gong, The front end and the back end of a gong stack are integrated as a whole.
+
+Gong has been developped for developping web application in system engineering (see [paper](https://www.researchgate.net/publication/354237095_GONG_an_open_source_MBSE_toolset/references#fullTextFileContent) for details)
+
+## gong stack organization
 
 The code in a gong stack is organized in a predefined directory structures. At the top are 2 directories:
 
