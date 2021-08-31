@@ -85,9 +85,28 @@ See [gong back-end implementation](./gong-go-impl.md) for implementation details
 
 # Using gong
 
-## Installing The gong compiler
+## Running the gong test application
 
-> cd go/gongc; go install
+the `test` directory contains a stack wit the generated code.
+
+```
+cd test/ng
+npm i; ng build
+cd ..
+go run main.go
+```
+
+## Testing the generation of the code
+
+Installing The gong compiler.
+
+From the root directory.
+
+> cd go/gongc; go install; cd ../..
+
+Generating the code
+
+> cd test; gongc go/models
 
 ## Reusable stacks
 
