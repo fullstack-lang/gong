@@ -1,32 +1,45 @@
 - [Gong](#gong)
   - [About Gong](#about-gong)
+  - [gong stack organization](#gong-stack-organization)
   - [Prerequisite](#prerequisite)
     - [Go](#go)
     - [gcc](#gcc)
-    - [go-swagger (optional, for generating Postman files)](#go-swagger-optional-for-generating-postman-files)
+    - [go-swagger (optional)](#go-swagger-optional)
     - [Angular](#angular)
-    - [Vscode](#vscode)
-  - [Description of a gong application](#description-of-a-gong-application)
+    - [Vscode (optional)](#vscode-optional)
   - [API description](#api-description)
 - [Using gong](#using-gong)
   - [installing The gong compiler](#installing-the-gong-compiler)
   - [reusable stacks](#reusable-stacks)
   - [examples](#examples)
 
-WORK IN PROGRESS
-
 # Gong
 
 ![Example of a generated application with gong](docs/images/bookstore-client.png)
 *Example of a generated application with gong*
 
+Gong is a work in progress.
+
 ## About Gong
 
-Gong (go + ng) is a framework for rapid web application development (full stack) based on go for the back-end and angular for the front-end.
+Gong (go + ng) is a framework for rapid web application development (a.k.a. full stack development) based on go for the back-end and angular for the front-end.
 
-The code in a gong stack is organized in a predefined directory structures. At the top are 2 directories `go` for the go code and `ng` for the angular code. The data model of the web application is in the `go/models` directory. 
+The unit of development in gong is the **gong stack** (a "stack" in the rest of this document). A stack can import other stacks (both the front end and the back end of a stack are integrated as a whole).
 
-Gong includes `gongc` (in go/gongc), a compiler that compiles the business logic written in `go`, extracts some elements in a `gong` language and generates code in `go` and `ng` directories.
+Gong's stated goal is the rapid development of web applications for system engineering (see [paper](https://www.researchgate.net/publication/354237095_GONG_an_open_source_MBSE_toolset/references#fullTextFileContent) for details on this goal)
+
+## Stack organization
+
+Code is organized with a fixed directory structure. At the top are 2 directories:
+
+- `go` for the go code, with the data model and business logic of the application in the `go/models` directory. 
+- `ng` for the angular code.
+
+By default, the main program `main.go` of the back-end of a stack provides the web server, the business logic and the database in one single binary. `main.go` is located in the root directory because it `embeds` the `ng` directory (thanks to go v1.16 `embeds` feature).
+
+This repository (github.com/fullstack-lang/gong) is the home of `gongc` (in go/gongc), a compiler that compiles the business logic written in `go` and generates code in `go` and `ng` directories.
+
+This repository is also the home of the `gong` stack whose data model is the description of the data model that is parsed by `gongc`. The gong stack an be reused in other stacks. (for instance, in gongdoc, an UML editor).
 
 ## Prerequisite
 
@@ -36,15 +49,13 @@ go version equal or above 1.16 is mandatory (cf. use of `embed` package). See ht
 
 ### gcc
 
-a gong stack uses gorm for the database and sqlite as the default database. Unfortunatly, the sqlite driver requires cgo, which requires gcc.
+A stack uses gorm for database access and sqlite as the default database. The sqlite driver requires cgo, which requires gcc.
 
-### go-swagger (optional, for generating Postman files)
+### go-swagger (optional)
 
-swagger is a go program is used after each `gongc` compilation to generate the project API in a `yml` file. gongc is robust to the absence of go-swagger but it is recommanded to use it
+go-swagger is a go program is used after each `gongc` compilation to generate the project API in a `yml` file. *gongc* is robust to the absence of go-swagger but it is recommanded to use it if you need to document the API with yaml.
 
-It is not mandatory to install it.
-
-On mac/linux, One way is
+On mac/linux,
 
 ```bash
 dir=$(mktemp -d) 
@@ -59,36 +70,13 @@ git clone https://github.com/go-swagger/go-swagger
 go install ./go-swagger/cmd/swagger
 ```
 
-setting up the path for `swagger` on mac/linux
-```sh
-export PATH=$PATH:$(go env GOPATH)/bin:$HOME/go/bin
-```
-
 ### Angular
 
-The `ng` command is used by different gong programs. Gong uses ng version >= 11 (see https://angular.io for installation)
+Gong uses angular version >= 11 (see https://angular.io for installation)
 
-### Vscode
+### Vscode (optional)
 
-Vscode is usefull & handy because the tasks definitionq and debug configuration related to gong are provided in the repository.
-
-(note: No makefile is provided).
-
-## Description of a gong application
-
-A go package (for instance `<path>/go/models` ) written following the `gong` langage constraints can be compiled by the `gongc` compiler into a stack of integrated components:
-- a set of `go` packages for the backend
-- an `angular` library for the front end. 
-
-This stack can be packaged into a reusable `gong` library to be used in another full stack developpemnent (a *bookstore* example is provided in the repository).
-
-- a `go/orm` package, leveraging gorm, the fantastic go ORM, for the persistance into GORM supported database (sqlite3 in memory, sqlite3 file, postgres, ...)
-- a `go/controllers` package, leveraging the gin framework, an HTTP web framework written in Go (Golang)
-- a `go/controllers/<path>.yaml` open api 2.0 interface definition (thks to go-swagger), it provides a RESTful interface for  developing and consuming an API of the gong package
-
-- a `ng/projects/<path>` angular service library for accessing gong object with some an angular material library with commonly used material components: table, editor, presentation, splitter presentation, arborescence presentation
-
-if a gong variable data is created on the backend, a constraint is to register all instances on a store.
+Vscode is usefull & handy because the tasks definitions and debug configuration related to gong are provided in the repository.
 
 ## API description
 
@@ -97,13 +85,34 @@ See [gong back-end implementation](./gong-go-impl.md) for implementation details
 
 # Using gong
 
-## installing The gong compiler
+## Running the gong test application
 
-> cd go/gongc; go install
+the `test` directory contains a stack wit the generated code.
 
-## reusable stacks 
+```
+cd test/ng
+npm i; ng build
+cd ..
+go run main.go
+```
 
-https://github.com/fullstack-lang/gongdoc, a UML editor for documenting a gong model
+## Testing the generation of the code
+
+Installing The gong compiler.
+
+From the root directory.
+
+> cd go/gongc; go install; cd ../..
+
+Generating the code
+
+> cd test; gongc go/models
+
+## Reusable stacks
+
+A gong application is a stack that can integrate other stacks. Below is a list of stacks that can be reused. 
+
+https://github.com/fullstack-lang/gongdoc, a UML editor (based on jointjs) for documenting a gong model. gongdoc uses the gong stack.
 
 https://github.com/fullstack-lang/gongsim, a stack for developping simulations
 
@@ -111,10 +120,12 @@ https://github.com/fullstack-lang/gongleaflet, a stack for developping applicati
 
 https://github.com/fullstack-lang/gongsvg, a stack for developping application with svg graphical components
 
-## examples
+## Examples
 
-https://github.com/fullstack-lang/helloworld
+https://github.com/fullstack-lang/helloworld is a recommanded starting point for understanding gong.
 
-https://github.com/fullstack-lang/bookstore
+https://github.com/fullstack-lang/bookstore is a little more sophisticated example than helloworld.
 
-https://github.com/fullstack-lang/laundromat, An example that uses 3 stacks (gong, gongsim, gongdoc)
+https://github.com/fullstack-lang/laundromat, is a more sophisticated example. It is a simulation stack that reuses 3 other stacks (gong, gongsim, gongdoc)
+
+https://github.com/fullstack-lang/gongfly, An airplane simulation that reuses 4 stacks (gong, gongsim, gongdoc, gongleaflet)
