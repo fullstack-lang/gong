@@ -24,20 +24,18 @@ Gong is a work in progress.
 
 Gong (go + ng) is a framework for rapid web application development (a.k.a. full stack development) based on go for the back-end and angular for the front-end.
 
-The unit of development in gong is the **gong stack** (referenced as a stack in this document). A stack can import other stacks (both the front end and the back end of a stack are integrated as a whole).
+The unit of development in gong is the **gong stack** (a "stack" in the rest of this document). A stack can import other stacks (both the front end and the back end of a stack are integrated as a whole).
 
-Gong has been developped for developping web application in system engineering (see [paper](https://www.researchgate.net/publication/354237095_GONG_an_open_source_MBSE_toolset/references#fullTextFileContent) for details)
+Gong's stated goal is the rapid development of web applications for system engineering (see [paper](https://www.researchgate.net/publication/354237095_GONG_an_open_source_MBSE_toolset/references#fullTextFileContent) for details on this goal)
 
 ## Stack organization
 
-The code in a stack is organized in a predefined directory structures. At the top are 2 directories:
+Code is organized with a fixed directory structure. At the top are 2 directories:
 
-- `go` for the go code
-- `ng` for the angular code. 
+- `go` for the go code, with the data model and business logic of the application in the `go/models` directory. 
+- `ng` for the angular code.
 
 By default, the main program `main.go` of the back-end of a stack provides the web server, the business logic and the database in one single binary. `main.go` is located in the root directory because it `embeds` the `ng` directory (thanks to go v1.16 `embeds` feature).
-
-The data model and business logic of the web application is in the `go/models` directory. 
 
 This repository (github.com/fullstack-lang/gong) is the home of `gongc` (in go/gongc), a compiler that compiles the business logic written in `go` and generates code in `go` and `ng` directories.
 
