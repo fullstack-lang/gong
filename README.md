@@ -85,11 +85,13 @@ See [gong back-end implementation](./gong-go-impl.md) for implementation details
 
 # Using gong
 
-## installing The gong compiler
+## Installing The gong compiler
 
 > cd go/gongc; go install
 
-## reusable stacks 
+## Reusable stacks
+
+A gong application is a stack that can integrate other stacks. Below is a list of stacks that can be reused. 
 
 https://github.com/fullstack-lang/gongdoc, a UML editor (based on jointjs) for documenting a gong model. gongdoc uses the gong stack.
 
@@ -99,12 +101,12 @@ https://github.com/fullstack-lang/gongleaflet, a stack for developping applicati
 
 https://github.com/fullstack-lang/gongsvg, a stack for developping application with svg graphical components
 
-## examples
+## Examples
 
-https://github.com/fullstack-lang/helloworld
+https://github.com/fullstack-lang/helloworld is a recommanded starting point for understanding gong.
 
-https://github.com/fullstack-lang/bookstore
+https://github.com/fullstack-lang/bookstore is a little more sophisticated example than helloworld.
 
-https://github.com/fullstack-lang/laundromat, An example that uses 3 stacks (gong, gongsim, gongdoc)
+https://github.com/fullstack-lang/laundromat, is a more sophisticated example. It is a simulation stack that reuses 3 other stacks (gong, gongsim, gongdoc)
 
-https://github.com/fullstack-lang/gongfly, An airplane simulation that uses 4 stacks (gong, gongsim, gongdoc, gongleaflet)
+https://github.com/fullstack-lang/gongfly, An airplane simulation that reuses 4 stacks (gong, gongsim, gongdoc, gongleaflet)
