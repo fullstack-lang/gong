@@ -24,24 +24,24 @@ Gong is a work in progress.
 
 Gong (go + ng) is a framework for rapid web application development (a.k.a. full stack development) based on go for the back-end and angular for the front-end.
 
-The unit of development in gong is the **gong stack**. A gong stack can import other gong stacks. With gong, The front end and the back end of a gong stack are integrated as a whole.
+The unit of development in gong is the **gong stack** (referenced as a stack in this document). A stack can import other stacks (both the front end and the back end of a stack are integrated as a whole).
 
 Gong has been developped for developping web application in system engineering (see [paper](https://www.researchgate.net/publication/354237095_GONG_an_open_source_MBSE_toolset/references#fullTextFileContent) for details)
 
-## gong stack organization
+## Stack organization
 
-The code in a gong stack is organized in a predefined directory structures. At the top are 2 directories:
+The code in a stack is organized in a predefined directory structures. At the top are 2 directories:
 
 - `go` for the go code
 - `ng` for the angular code. 
 
-By default, the main program `main.go` of the back-end of a gong stack provides the web server, the business logic and the database in one single binary. `main.go` is located in the root directory because it `embeds` the `ng` directory.
+By default, the main program `main.go` of the back-end of a stack provides the web server, the business logic and the database in one single binary. `main.go` is located in the root directory because it `embeds` the `ng` directory (thanks to go v1.16 `embeds` feature).
 
 The data model and business logic of the web application is in the `go/models` directory. 
 
-This repository (github.com/fullstack-lang/gong) is the home `gongc` (in go/gongc), a compiler that compiles the business logic written in `go` and generates code in `go` and `ng` directories.
+This repository (github.com/fullstack-lang/gong) is the home of `gongc` (in go/gongc), a compiler that compiles the business logic written in `go` and generates code in `go` and `ng` directories.
 
-This repository is also a gong stack that can be reused in other gong stacks. For instance, it is used in the gongdoc stack.
+This repository is also the home of the `gong` stack whose data model is the description of the data model that is parsed by `gongc`. The gong stack an be reused in other stacks. (for instance, in gongdoc, an UML editor).
 
 ## Prerequisite
 
@@ -51,7 +51,7 @@ go version equal or above 1.16 is mandatory (cf. use of `embed` package). See ht
 
 ### gcc
 
-A gong stack uses gorm for database access and sqlite as the default database. The sqlite driver requires cgo, which requires gcc.
+A stack uses gorm for database access and sqlite as the default database. The sqlite driver requires cgo, which requires gcc.
 
 ### go-swagger (optional)
 
@@ -109,4 +109,4 @@ https://github.com/fullstack-lang/bookstore
 
 https://github.com/fullstack-lang/laundromat, An example that uses 3 stacks (gong, gongsim, gongdoc)
 
-https://github.com/fullstack-lang/gongfly, An example that uses 4 stacks (gong, gongsim, gongdoc, gongleaflet)
+https://github.com/fullstack-lang/gongfly, An airplane simulation that uses 4 stacks (gong, gongsim, gongdoc, gongleaflet)
