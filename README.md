@@ -1,6 +1,6 @@
 - [Gong](#gong)
   - [About Gong](#about-gong)
-  - [gong stack organization](#gong-stack-organization)
+  - [Stack organization](#stack-organization)
   - [Prerequisite](#prerequisite)
     - [Go](#go)
     - [gcc](#gcc)
@@ -9,14 +9,12 @@
     - [Vscode (optional)](#vscode-optional)
   - [API description](#api-description)
 - [Using gong](#using-gong)
-  - [installing The gong compiler](#installing-the-gong-compiler)
-  - [reusable stacks](#reusable-stacks)
-  - [examples](#examples)
+  - [Running the gong test application](#running-the-gong-test-application)
+  - [Testing the generation of the code](#testing-the-generation-of-the-code)
+  - [Reusable stacks](#reusable-stacks)
+  - [Examples](#examples)
 
 # Gong
-
-![Example of a generated application with gong](docs/images/bookstore-client.png)
-*Example of a generated application with gong*
 
 Gong is a work in progress.
 
@@ -95,6 +93,11 @@ npm i; ng build
 cd ..
 go run main.go
 ```
+
+Then, browse to [localhost:8080](localhost:8080)
+
+![test web application](docs/images/test.png)
+*Example of a generated application with gong*
 
 ## Testing the generation of the code
 
