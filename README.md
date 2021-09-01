@@ -16,6 +16,8 @@
 
 # Gong
 
+![gong logo](docs/images/gong%20logo.svg)
+
 Gong is a work in progress.
 
 ## About Gong
