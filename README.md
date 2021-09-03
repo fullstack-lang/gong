@@ -67,7 +67,7 @@ cd ..
 go run main.go
 ```
 
-Then, browse to [localhost:8080](localhost:8080)
+Then, browse to [localhost:8080](http://localhost:8080)
 
 ![test web application](docs/images/test.png)
 *Example of a generated application with gong*
