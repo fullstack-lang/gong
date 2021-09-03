@@ -80,8 +80,8 @@ Vscode is usefull & handy because the tasks definitions and debug configuration 
 
 ## API description
 
-See [gong back-end API](./gong-go-api.md) for API details.
-See [gong back-end implementation](./gong-go-impl.md) for implementation details.
+See [gong back-end API](./docs/gong-go-api.md) for API details.
+See [gong back-end implementation](./docs/gong-go-impl.md) for implementation details.
 
 # Using gong
 
