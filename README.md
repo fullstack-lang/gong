@@ -49,7 +49,7 @@ Gong uses angular version >= 11 (see https://angular.io for installation)
 
 Vscode is usefull & handy because the tasks definitions and debug configuration related to gong are provided in the repository.
 
-## API description
+## Developping a gong stack
 
 See [gong back-end API](./docs/gong-go-api.md) for API details.
 See [gong back-end implementation](./docs/gong-go-impl.md) for implementation details.
