@@ -2,6 +2,7 @@
 
 - [Gong API](#gong-api)
   - [Stack organization](#stack-organization)
+  - [Developping a stack](#developping-a-stack)
   - [The github.com/fullstack-lang/gong repository](#the-githubcomfullstack-langgong-repository)
   - [Gong back-end API and the repository pattern](#gong-back-end-api-and-the-repository-pattern)
     - [Rationale](#rationale)
@@ -24,7 +25,9 @@ Code is organized with a fixed directory structure. At the top are 2 directories
 
 By default, the main program `main.go` of the back-end of a stack provides the web server, the business logic and the database in one single binary. `main.go` is located in the root directory because it `embeds` the `ng` directory (thanks to go v1.16 `embeds` feature).
 
-To develop a stack with, the programmer will, on average, edit the following places:
+## Developping a stack
+
+To develop a stack with gong, the programmer will, on average, edit the following places:
 
 - the data model and business logic of the application in the `go/models` directory
 
