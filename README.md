@@ -6,7 +6,7 @@
     - [go-swagger (optional)](#go-swagger-optional)
     - [Angular](#angular)
     - [Vscode (optional)](#vscode-optional)
-  - [API description](#api-description)
+  - [Developping a gong stack](#developping-a-gong-stack)
 - [Using gong](#using-gong)
   - [Running the gong test application](#running-the-gong-test-application)
   - [Testing the generation of the code](#testing-the-generation-of-the-code)
