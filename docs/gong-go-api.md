@@ -3,7 +3,7 @@
 - [Gong API](#gong-api)
   - [Stack organization](#stack-organization)
   - [Developping a stack](#developping-a-stack)
-  - [The github.com/fullstack-lang/gong repository](#the-githubcomfullstack-langgong-repository)
+  - [The gong repository](#the-gong-repository)
   - [Gong back-end API and the repository pattern](#gong-back-end-api-and-the-repository-pattern)
     - [Rationale](#rationale)
     - [Repostory pattern from the programmer perspective](#repostory-pattern-from-the-programmer-perspective)
@@ -18,16 +18,17 @@
 
 ## Stack organization
 
-Code is organized with a fixed directory structure. At the top are 2 directories:
+Code is organized with a fixed directory structure. At the top are 2 directories and a file:
 
 - `go` for the go code. 
 - `ng` for the angular code.
+- `main.go`
 
-By default, the main program `main.go` of the back-end of a stack provides the web server, the business logic and the database in one single binary. `main.go` is located in the root directory because it `embeds` the `ng` directory (thanks to go v1.16 `embeds` feature).
+By default,  `main.go` provides the web server, the business logic and the database in one single binary. `main.go` is located in the root directory because it embeds the `ng` directory (thanks to go v1.16 [embed](https://pkg.go.dev/embed) feature).
 
 ## Developping a stack
 
-To develop a stack with gong, the programmer will, on average, edit the following places:
+To develop a stack with gong, the programmer will, by default, edit the following places:
 
 - the data model and business logic of the application in the `go/models` directory
 
@@ -37,9 +38,9 @@ To develop a stack with gong, the programmer will, on average, edit the followin
 
 - the `main.go` file at the root level where th the composition of back-end stacks is described
 
-## The github.com/fullstack-lang/gong repository
+## The gong repository
 
-This repository (github.com/fullstack-lang/gong) is the home of `gongc` (in go/gongc), a compiler that compiles the business logic written in `go` and generates code in `go` and `ng` directories.
+This [repository](https://github.com/fullstack-lang/gong) is the home of `gongc` (in go/gongc), a compiler that compiles the business logic written in `go` and generates code in `go` and `ng` directories.
 
 This repository is also the home of the `gong` stack whose data model is the description of the data model that is parsed by `gongc`. The gong stack an be reused in other stacks. (for instance, in gongdoc, an UML editor).
 
@@ -59,7 +60,7 @@ This architecture presents two advantages:
 
 - since `gongc` generates the code implementing the repository pattern, it insulates the programmer from the the complexity of database management and REST API implementation. Database management includes pointer encoding, instances management, null values encoding, data migration and REST API implementation includes GET/POST/UPDATE/DELETE implementation and generation of the open api 2.0 specification of the API.
 
-- It leverages the "repository pattern", a mental model that is familiar to all programmers.  `Stage()`, `Unstage()`, `Checkin()` an `Checkout()` are not trivial operations but they are part of the knowledge of all programmers who **git**, the *de facto* standard tool of configuration management.
+- It leverages the "repository pattern", a mental model that is familiar to all programmers. Functions such as `Stage()`, `Unstage()`, `Checkin()` an `Checkout()` are not trivial but they are part of the knowledge of all programmers who **git**, the *de facto* standard tool of configuration management.
 
 ### Repostory pattern from the programmer perspective
 
