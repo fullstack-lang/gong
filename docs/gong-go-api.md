@@ -1,6 +1,7 @@
 # Gong API
 
 - [Gong API](#gong-api)
+  - [Stack organization](#stack-organization)
   - [Gong back-end API and the repository pattern](#gong-back-end-api-and-the-repository-pattern)
     - [Rationale](#rationale)
     - [Repostory pattern from the programmer perspective](#repostory-pattern-from-the-programmer-perspective)
@@ -12,7 +13,20 @@
     - [Init the back repo](#init-the-back-repo)
     - [Registring controllers](#registring-controllers)
     - [Serving angular file with gin and embedding](#serving-angular-file-with-gin-and-embedding)
-  
+
+## Stack organization
+
+Code is organized with a fixed directory structure. At the top are 2 directories:
+
+- `go` for the go code, with the data model and business logic of the application in the `go/models` directory. 
+- `ng` for the angular code.
+
+By default, the main program `main.go` of the back-end of a stack provides the web server, the business logic and the database in one single binary. `main.go` is located in the root directory because it `embeds` the `ng` directory (thanks to go v1.16 `embeds` feature).
+
+This repository (github.com/fullstack-lang/gong) is the home of `gongc` (in go/gongc), a compiler that compiles the business logic written in `go` and generates code in `go` and `ng` directories.
+
+This repository is also the home of the `gong` stack whose data model is the description of the data model that is parsed by `gongc`. The gong stack an be reused in other stacks. (for instance, in gongdoc, an UML editor).
+
 ## Gong back-end API and the repository pattern
 
 ### Rationale
