@@ -23,7 +23,7 @@ A stack developped with the gong framework is based on go and angular. It is des
 
 ## About Gong
 
-Gong (go + ng) is a framework for rapid web application development (a.k.a. full stack development) based on go for the back-end and angular for the front-end.
+Gong (go + ng) is a framework for rapid web application development (a.k.a. full stack development) based on go for the back-end and angular for the front-end. Gong idea is to leverages best in class components. The back-end leverages the [gin](https://github.com/gin-gonic/gin) web framework and [gorm](https://gorm.io/index.html), the fantastic ORM. The front-end leverages and [angular material](https://material.angular.io/) and [angular split](https://github.com/angular-split/angular-split).
 
 The unit of development in gong is the **gong stack** (a "stack" in the rest of this document). A stack can import other stacks (both the front end and the back end of a stack are integrated as a whole).
 
