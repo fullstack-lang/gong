@@ -17,7 +17,7 @@
 
 ![gong logo](docs/images/gong%20logo.svg)
 
-A stack developped with the gong framework is based on go and angular. It is designed to integrate other stacks with minimal effort.
+A stack developped with the gong framework is based on go and angular. It is designed to integrate other stacks developped with gong with minimal effort.
 
 *Gong is a work in progress. API of the framework is not yet stabilized/baselined*
 
