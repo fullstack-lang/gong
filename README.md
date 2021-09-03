@@ -17,7 +17,9 @@
 
 ![gong logo](docs/images/gong%20logo.svg)
 
-Gong is a work in progress.
+A stack developped with the gong framework is based on go and angular. It is designed to integrate other stacks with minimal effort.
+
+*Gong is a work in progress. API of the framework is not yet stabilized/baselined*
 
 ## About Gong
 
