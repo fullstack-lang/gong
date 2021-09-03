@@ -1,6 +1,5 @@
 - [Gong](#gong)
   - [About Gong](#about-gong)
-  - [Stack organization](#stack-organization)
   - [Prerequisite](#prerequisite)
     - [Go](#go)
     - [gcc](#gcc)
@@ -28,19 +27,6 @@ The unit of development in gong is the **gong stack** (a "stack" in the rest of 
 
 Gong's stated goal is the rapid development of web applications for system engineering (see [paper](https://www.researchgate.net/publication/354237095_GONG_an_open_source_MBSE_toolset/references#fullTextFileContent) for details on this goal)
 
-## Stack organization
-
-Code is organized with a fixed directory structure. At the top are 2 directories:
-
-- `go` for the go code, with the data model and business logic of the application in the `go/models` directory. 
-- `ng` for the angular code.
-
-By default, the main program `main.go` of the back-end of a stack provides the web server, the business logic and the database in one single binary. `main.go` is located in the root directory because it `embeds` the `ng` directory (thanks to go v1.16 `embeds` feature).
-
-This repository (github.com/fullstack-lang/gong) is the home of `gongc` (in go/gongc), a compiler that compiles the business logic written in `go` and generates code in `go` and `ng` directories.
-
-This repository is also the home of the `gong` stack whose data model is the description of the data model that is parsed by `gongc`. The gong stack an be reused in other stacks. (for instance, in gongdoc, an UML editor).
-
 ## Prerequisite
 
 ### Go
@@ -53,22 +39,7 @@ A stack uses gorm for database access and sqlite as the default database. The sq
 
 ### go-swagger (optional)
 
-go-swagger is a go program is used after each `gongc` compilation to generate the project API in a `yml` file. *gongc* is robust to the absence of go-swagger but it is recommanded to use it if you need to document the API with yaml.
-
-On mac/linux,
-
-```bash
-dir=$(mktemp -d) 
-git clone https://github.com/go-swagger/go-swagger "$dir" 
-cd "$dir"
-go install ./cmd/swagger
-```
-
-on windows with powershell, creates and go into `go-swagger`
-```bash
-git clone https://github.com/go-swagger/go-swagger
-go install ./go-swagger/cmd/swagger
-```
+[go-swagger](https://github.com/go-swagger/go-swagger) is a go program is used after each `gongc` compilation to generate the project API in a `yml` file. *gongc* is robust to the absence of go-swagger but it is recommanded to use it if you need to document the API with yaml.
 
 ### Angular
 
