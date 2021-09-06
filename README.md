@@ -25,11 +25,11 @@ With gong, a web application is a set of stacks. Each stack, based on go and ang
 
 Gong (go + ng) is a framework for rapid web application development (a.k.a. full stack development) based on go for the back-end and angular for the front-end. Gong idea is to leverages best in class components. The back-end leverages the [gin](https://github.com/gin-gonic/gin) web framework and [gorm](https://gorm.io/index.html), the fantastic ORM. The front-end leverages and [angular material](https://material.angular.io/) and [angular split](https://github.com/angular-split/angular-split).
 
-The unit of development in gong is the **gong stack** (a "stack" in the rest of this document). A stack can import other stacks (both the front end and the back end of a stack are integrated as a whole). The granularity of a stack is similar to an angular components. There exist gong stacks for [jointjs](https://www.jointjs.com/) and [leaflet](https://leafletjs.com/).
+The unit of development in gong is the **gong stack** (a "stack" in the rest of this document). A stack can import other stacks (both the front end and the back end of a stack are integrated as a whole). The granularity of a stack is similar to an angular components. There are available stacks for [jointjs](https://www.jointjs.com/) and [leaflet](https://leafletjs.com/).
 
-Gong is similar in intent to [lorca](https://github.com/zserge/lorca), [wails](https://github.com/wailsapp/wails) and [fyne](https://github.com/fyne-io/fyne). However, the gong framework approach is different because it includes gongc, a go data model compiler.
+Gong is similar in intent to [lorca](https://github.com/zserge/lorca), [wails](https://github.com/wailsapp/wails) and [fyne](https://github.com/fyne-io/fyne). However, the gong framework approach is different because it includes gongc, a go data model compiler to generate front-end and back-end code.
 
-Gong's stated goal is the rapid development of web applications for system engineering (see [paper](https://www.researchgate.net/publication/354237095_GONG_an_open_source_MBSE_toolset/references#fullTextFileContent) for details on this goal)
+Also, gong's stated goal is narrower, it is the rapid development of web applications for system engineering (see [paper](https://www.researchgate.net/publication/354237095_GONG_an_open_source_MBSE_toolset/references#fullTextFileContent) for details on this goal)
 
 ## Prerequisite
 
