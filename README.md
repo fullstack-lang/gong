@@ -17,7 +17,7 @@
 
 ![gong logo](docs/images/gong%20logo.svg)
 
-With gong, a web application is a set of gong stacks. Each gong stack, based on go and angular, has its own data model.
+With gong, a web application is a set of stacks. Each stack, based on go and angular, has its own data model.
 
 *Gong is a work in progress. API of the framework is not yet stabilized/baselined*
 
