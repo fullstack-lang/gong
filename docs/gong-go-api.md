@@ -34,9 +34,9 @@ To develop a stack with gong, the programmer will, by default, edit the followin
 
 - optional, one or more angular library in `ng\src\projects\<angular library>`
 
-- the angular application in `ng\src\app`, where the the composition of front-end stacks is described
+- the angular application in `ng\src\app`, where the the composition of front-end stacks is defined
 
-- the `main.go` file at the root level where th the composition of back-end stacks is described
+- the `main.go` file at the root level where th the composition of back-end stacks is defined
 
 ## The gong repository
 
