@@ -17,11 +17,11 @@
 
 ![gong logo](docs/images/gong%20logo.svg)
 
-A gong stack developped is based on go and angular. It can integrate other gong stacks with minimal effort.
+A gong stack developped is based on go and angular. A gong web application is a set of gong stacks.
 
 *Gong is a work in progress. API of the framework is not yet stabilized/baselined*
 
-A gong stack developped is based on go and angular. It is suitable for integrating an angular component of interest in a web application. For this end, a gong stack integrates other gong stacks with minimal effort.
+A gong stack developped is based on go and angular. It is suitable for integrating an angular component of interest in a web application. For this end, a gong's goal is to allow a gong stack to integrates other gong stacks with minimal effort.
 
 ## About Gong
 
