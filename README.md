@@ -21,13 +21,15 @@ A gong stack developped is based on go and angular. It can integrate other gong 
 
 *Gong is a work in progress. API of the framework is not yet stabilized/baselined*
 
-Gong is similar in intent to [Lorca](https://github.com/zserge/lorca), [wails](https://github.com/wailsapp/wails) and [fyne](https://github.com/fyne-io/fyne). However, the gong framework approach is different because it includes gongc, a go data model compiler. 
+A gong stack developped is based on go and angular. It is suitable for integrating an angular component of interest in a web application. For this end, a gong stack integrates other gong stacks with minimal effort.
 
 ## About Gong
 
 Gong (go + ng) is a framework for rapid web application development (a.k.a. full stack development) based on go for the back-end and angular for the front-end. Gong idea is to leverages best in class components. The back-end leverages the [gin](https://github.com/gin-gonic/gin) web framework and [gorm](https://gorm.io/index.html), the fantastic ORM. The front-end leverages and [angular material](https://material.angular.io/) and [angular split](https://github.com/angular-split/angular-split).
 
 The unit of development in gong is the **gong stack** (a "stack" in the rest of this document). A stack can import other stacks (both the front end and the back end of a stack are integrated as a whole). The granularity of a stack is similar to an angular components. There exist gong stacks for [jointjs](https://www.jointjs.com/) and [leaflet](https://leafletjs.com/).
+
+Gong is similar in intent to [lorca](https://github.com/zserge/lorca), [wails](https://github.com/wailsapp/wails) and [fyne](https://github.com/fyne-io/fyne). However, the gong framework approach is different because it includes gongc, a go data model compiler.
 
 Gong's stated goal is the rapid development of web applications for system engineering (see [paper](https://www.researchgate.net/publication/354237095_GONG_an_open_source_MBSE_toolset/references#fullTextFileContent) for details on this goal)
 
