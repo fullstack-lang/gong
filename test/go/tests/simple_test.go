@@ -19,20 +19,20 @@ func TestStageCallBack(t *testing.T) {
 	// setup GORM
 	db := orm.SetupModels(false, ":memory:")
 
-	bclass1 := (&models.Bclass{Name: "B1"}).Stage()
+	bclass1 := (&models.Bstruct{Name: "B1"}).Stage()
 
-	aclass1 := (&models.Aclass{
+	aclass1 := (&models.Astruct{
 		Name:                "A1",
 		Floatfield:          10.2,
 		Booleanfield:        true,
 		Anotherbooleanfield: true,
 		Associationtob:      bclass1,
-		Anarrayofb: []*models.Bclass{
+		Anarrayofb: []*models.Bstruct{
 			bclass1,
 		},
 	}).Stage()
 
-	aclass2 := (&models.Aclass{
+	aclass2 := (&models.Astruct{
 		Name:                "A2",
 		Floatfield:          10.77,
 		Booleanfield:        true,
@@ -41,30 +41,30 @@ func TestStageCallBack(t *testing.T) {
 	})
 	aclass2.Stage()
 
-	bclass2 := (&models.Bclass{Name: "B2"}).Stage()
+	bclass2 := (&models.Bstruct{Name: "B2"}).Stage()
 	_ = bclass2
 
 	models.Stage.Commit()
 
 	want := 2
-	got := len(models.Stage.Aclasss)
+	got := len(models.Stage.Astructs)
 
 	if got != want {
 		t.Errorf("got = %d; want %d", got, want)
 	}
 
-	log.Printf("After models.Stage reset, ng of aclass instance %d", len(models.Stage.Aclasss))
+	log.Printf("After models.Stage reset, ng of aclass instance %d", len(models.Stage.Astructs))
 
 	aclass2.Unstage()
 
 	want = 1
-	got = len(models.Stage.Aclasss)
+	got = len(models.Stage.Astructs)
 
 	if got != want {
 		t.Errorf("got = %d; want %d", got, want)
 	}
 
-	var aclasss []orm.AclassDB
+	var aclasss []orm.AstructDB
 	{
 		query := db.Find(&aclasss)
 		if query.Error != nil {
@@ -97,8 +97,8 @@ func TestStageCallBack(t *testing.T) {
 		t.Errorf("got = %d; want %d", got, want)
 	}
 
-	// get the AclassDB
-	aclassDB := &(orm.AclassDB{})
+	// get the AstructDB
+	aclassDB := &(orm.AstructDB{})
 	if err := db.First(aclassDB).Error; err != nil {
 		t.Errorf("Bad Query")
 	}
@@ -113,13 +113,13 @@ func TestStageCallBack(t *testing.T) {
 
 	// resets stage
 	models.Stage.Reset()
-	log.Printf("After models.Stage reset, ng of aclass instance %d", len(models.Stage.Aclasss))
+	log.Printf("After models.Stage reset, ng of aclass instance %d", len(models.Stage.Astructs))
 
 	models.Stage.Checkout()
-	log.Printf("After models.Stage checkout, ng of aclass instance %d", len(models.Stage.Aclasss))
-	log.Printf("After models.Stage checkout, ng of bclass instance %d", len(models.Stage.Bclasss))
+	log.Printf("After models.Stage checkout, ng of aclass instance %d", len(models.Stage.Astructs))
+	log.Printf("After models.Stage checkout, ng of bclass instance %d", len(models.Stage.Bstructs))
 
-	for aclass := range models.Stage.Aclasss {
+	for aclass := range models.Stage.Astructs {
 		log.Printf("After models.Stage checkout, aclass Floatfield value %f", aclass.Floatfield)
 	}
 
