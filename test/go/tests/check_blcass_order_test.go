@@ -14,12 +14,12 @@ import (
 // through a callback that is defined in the "models" package
 //
 //
-func TestBclassOrder(t *testing.T) {
+func TestBstructOrder(t *testing.T) {
 
 	// setup GORM
 	db := orm.SetupModels(false, "../../test.db")
 
-	var aclasss []orm.AclassDB
+	var aclasss []orm.AstructDB
 	{
 		query := db.Find(&aclasss)
 		if query.Error != nil {
@@ -28,7 +28,7 @@ func TestBclassOrder(t *testing.T) {
 		}
 	}
 
-	var bclasss []orm.BclassDB
+	var bclasss []orm.BstructDB
 	{
 		query := db.Find(&bclasss)
 		if query.Error != nil {
@@ -39,8 +39,8 @@ func TestBclassOrder(t *testing.T) {
 	models.Stage.Checkout()
 
 	// get the aclass instance with name "A1_1"
-	var aclass_A1_1 *models.Aclass
-	for aclass := range models.Stage.Aclasss {
+	var aclass_A1_1 *models.Astruct
+	for aclass := range models.Stage.Astructs {
 		if aclass.Name == "A1_1" {
 			aclass_A1_1 = aclass
 			log.Println("found A1_1")

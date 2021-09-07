@@ -1,0 +1,241 @@
+<form *ngIf="astruct" class="details">
+    <h2 class="details__title">astruct</h2>
+    <!-- insertion point for fields specific code -->
+    <mat-grid-list *ngIf='!isATextArea("Name")' cols="5" rowHeight="2:1">
+        <mat-grid-tile [colspan]="3">
+            <mat-form-field mat-form-field class="detail-full-width">
+                <mat-label>Name</mat-label>
+                <input name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="astruct.Name">
+            </mat-form-field>
+        </mat-grid-tile>
+        <mat-grid-tile>
+            <button mat-raised-button (click)="toggleTextArea('Name')">
+                <mat-icon>
+                    expand_more
+                </mat-icon>
+            </button>
+        </mat-grid-tile>
+    </mat-grid-list>
+    <mat-form-field *ngIf='isATextArea("Name")' mat-form-field class="detail-full-width">
+        <mat-label>Name</mat-label>
+        <textarea name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="astruct.Name"></textarea>
+    </mat-form-field>
+
+    <!-- -->
+    <mat-form-field class="detail-full-width">
+        <mat-label>Date</mat-label>
+        <input name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="astruct.Date">
+    </mat-form-field>
+
+    <!-- -->
+    <mat-checkbox [formControl]="BooleanfieldFormControl">Booleanfield</mat-checkbox>
+
+    <!-- -->
+    <mat-form-field appearance="fill" class="detail-full-width">
+        <mat-label>Aenum</mat-label>
+        <mat-select [(ngModel)]="astruct.Aenum" [ngModelOptions]="{standalone: true}">
+            <mat-option *ngFor="let enum of AEnumTypeList" [value]="enum.value">
+                {{enum.viewValue}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    <!-- -->
+    <mat-form-field appearance="fill" class="detail-full-width">
+        <mat-label>Aenum_2</mat-label>
+        <mat-select [(ngModel)]="astruct.Aenum_2" [ngModelOptions]="{standalone: true}">
+            <mat-option *ngFor="let enum of AEnumTypeList" [value]="enum.value">
+                {{enum.viewValue}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    <!-- -->
+    <mat-form-field appearance="fill" class="detail-full-width">
+        <mat-label>Benum</mat-label>
+        <mat-select [(ngModel)]="astruct.Benum" [ngModelOptions]="{standalone: true}">
+            <mat-option *ngFor="let enum of BEnumTypeList" [value]="enum.value">
+                {{enum.viewValue}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    <mat-grid-list *ngIf='!isATextArea("CName")' cols="5" rowHeight="2:1">
+        <mat-grid-tile [colspan]="3">
+            <mat-form-field mat-form-field class="detail-full-width">
+                <mat-label>CName</mat-label>
+                <input name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="astruct.CName">
+            </mat-form-field>
+        </mat-grid-tile>
+        <mat-grid-tile>
+            <button mat-raised-button (click)="toggleTextArea('CName')">
+                <mat-icon>
+                    expand_more
+                </mat-icon>
+            </button>
+        </mat-grid-tile>
+    </mat-grid-list>
+    <mat-form-field *ngIf='isATextArea("CName")' mat-form-field class="detail-full-width">
+        <mat-label>CName</mat-label>
+        <textarea name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="astruct.CName"></textarea>
+    </mat-form-field>
+
+    <!-- -->
+    <mat-form-field class="detail-full-width">
+        <mat-label>CFloatfield</mat-label>
+        <input type="number" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="astruct.CFloatfield" [ngModelOptions]="{standalone: true}">
+    </mat-form-field>
+
+    <!-- -->
+    <mat-form-field class="detail-full-width">
+        <mat-label>Floatfield</mat-label>
+        <input type="number" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="astruct.Floatfield" [ngModelOptions]="{standalone: true}">
+    </mat-form-field>
+
+    <!-- -->
+    <mat-form-field class="detail-full-width">
+        <mat-label>Intfield</mat-label>
+        <input type="number" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="astruct.Intfield" [ngModelOptions]="{standalone: true}">
+    </mat-form-field>
+
+    <!-- -->
+    <mat-checkbox [formControl]="AnotherbooleanfieldFormControl">Anotherbooleanfield</mat-checkbox>
+
+    <!-- -->
+    <mat-grid-list cols="3" rowHeight="4:1">
+        <mat-grid-tile>
+            <mat-form-field class="details_hours_width">
+                <mat-label>Duration1 Hours</mat-label>
+                <input type="number" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="Duration1_Hours">
+            </mat-form-field>
+        </mat-grid-tile>
+        <mat-grid-tile>
+            <mat-form-field class="details_minutes_width">
+                <mat-label>Duration1 Minutes</mat-label>
+                <input type="number" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="Duration1_Minutes">
+            </mat-form-field>
+        </mat-grid-tile>
+        <mat-grid-tile>
+            <mat-form-field class="details_seconds_width">
+                <mat-label>Duration1 Seconds</mat-label>
+                <input type="number" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="Duration1_Seconds">
+            </mat-form-field>
+        </mat-grid-tile>
+    </mat-grid-list>
+
+    <mat-form-field class="detail-full-width">
+        <mat-label>Associationtob</mat-label>
+        <mat-select [compareWith]="compareObjects" [(value)]="astruct.Associationtob" (selectionChange)="fillUpNameIfEmpty($event)">
+            <mat-option>None</mat-option>
+            <mat-option *ngFor="let bstruct of frontRepo.Bstructs_array" [value]="bstruct">
+                {{bstruct.Name}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    <mat-form-field class="detail-full-width">
+        <mat-label>Anotherassociationtob_2</mat-label>
+        <mat-select [compareWith]="compareObjects" [(value)]="astruct.Anotherassociationtob_2" (selectionChange)="fillUpNameIfEmpty($event)">
+            <mat-option>None</mat-option>
+            <mat-option *ngFor="let bstruct of frontRepo.Bstructs_array" [value]="bstruct">
+                {{bstruct.Name}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    <mat-grid-list cols="5" rowHeight="2:1">
+        <mat-grid-tile [colspan]="3">
+            <button mat-raised-button (click)="openReverseSelection('Bstruct', 'Astruct_AnarrayofbDBID', 'ONE_MANY_ASSOCIATION_MODE', '', '', '')">Anarrayofb</button>
+        </mat-grid-tile>
+        <!-- insertion point for the button of the MANY_MANY association-->
+        <mat-grid-tile>
+            <button mat-raised-button (click)="openDragAndDropOrdering('Bstruct', 'Astruct_AnarrayofbDBID')">
+                <mat-icon>
+                    shuffle
+                </mat-icon>
+            </button>
+        </mat-grid-tile>
+    </mat-grid-list>
+    <mat-grid-list cols="5" rowHeight="2:1">
+        <mat-grid-tile [colspan]="3">
+            <button mat-raised-button (click)="openReverseSelection('Bstruct', 'Astruct_AnotherarrayofbDBID', 'ONE_MANY_ASSOCIATION_MODE', '', '', '')">Anotherarrayofb</button>
+        </mat-grid-tile>
+        <!-- insertion point for the button of the MANY_MANY association-->
+        <mat-grid-tile>
+            <button mat-raised-button (click)="openDragAndDropOrdering('Bstruct', 'Astruct_AnotherarrayofbDBID')">
+                <mat-icon>
+                    shuffle
+                </mat-icon>
+            </button>
+        </mat-grid-tile>
+    </mat-grid-list>
+    <mat-grid-list cols="5" rowHeight="2:1">
+        <mat-grid-tile [colspan]="3">
+            <button mat-raised-button (click)="openReverseSelection('Astruct', 'Astruct_AnarrayofaDBID', 'ONE_MANY_ASSOCIATION_MODE', '', '', '')">Anarrayofa</button>
+        </mat-grid-tile>
+        <!-- insertion point for the button of the MANY_MANY association-->
+        <mat-grid-tile>
+            <button mat-raised-button (click)="openDragAndDropOrdering('Astruct', 'Astruct_AnarrayofaDBID')">
+                <mat-icon>
+                    shuffle
+                </mat-icon>
+            </button>
+        </mat-grid-tile>
+    </mat-grid-list>
+    <mat-grid-list cols="5" rowHeight="2:1">
+        <mat-grid-tile [colspan]="3">
+            <button mat-raised-button (click)="openReverseSelection('AstructBstructUse', 'Astruct_AnarrayofbUseDBID', 'ONE_MANY_ASSOCIATION_MODE', '', '', '')">AnarrayofbUse</button>
+        </mat-grid-tile>
+        <!-- insertion point for the button of the MANY_MANY association-->
+        <mat-grid-tile>
+            <button mat-raised-button (click)="openReverseSelection('AstructBstructUse', 'Astruct_AnarrayofbUseDBID', 
+            'MANY_MANY_ASSOCIATION_MODE', 'AnarrayofbUse', 'Bstruct2', 'Bstruct')">
+                <mat-icon>
+                    list
+                </mat-icon>
+            </button>
+        </mat-grid-tile> <!-- end of insertion -->
+        <mat-grid-tile>
+            <button mat-raised-button (click)="openDragAndDropOrdering('AstructBstructUse', 'Astruct_AnarrayofbUseDBID')">
+                <mat-icon>
+                    shuffle
+                </mat-icon>
+            </button>
+        </mat-grid-tile>
+    </mat-grid-list>
+    <mat-grid-list cols="5" rowHeight="2:1">
+        <mat-grid-tile [colspan]="3">
+            <button mat-raised-button (click)="openReverseSelection('AstructBstruct2Use', 'Astruct_Anarrayofb2UseDBID', 'ONE_MANY_ASSOCIATION_MODE', '', '', '')">Anarrayofb2Use</button>
+        </mat-grid-tile>
+        <!-- insertion point for the button of the MANY_MANY association-->
+        <mat-grid-tile>
+            <button mat-raised-button (click)="openReverseSelection('AstructBstruct2Use', 'Astruct_Anarrayofb2UseDBID', 
+            'MANY_MANY_ASSOCIATION_MODE', 'Anarrayofb2Use', 'Bstrcut2', 'Bstruct')">
+                <mat-icon>
+                    list
+                </mat-icon>
+            </button>
+        </mat-grid-tile> <!-- end of insertion -->
+        <mat-grid-tile>
+            <button mat-raised-button (click)="openDragAndDropOrdering('AstructBstruct2Use', 'Astruct_Anarrayofb2UseDBID')">
+                <mat-icon>
+                    shuffle
+                </mat-icon>
+            </button>
+        </mat-grid-tile>
+    </mat-grid-list>
+    <mat-form-field class="detail-full-width">
+        <mat-label>(Astruct) Anarrayofa</mat-label>
+        <mat-select [compareWith]="compareObjects" [(ngModel)]="astruct.Astruct_Anarrayofa_reverse" [ngModelOptions]="{standalone: true}">
+            <mat-option>None</mat-option>
+            <mat-option *ngFor="let astruct of frontRepo.Astructs_array" [value]="astruct">
+                {{astruct.Name}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+    <div class="details__save">
+        <button mat-raised-button color="primary" (click)="save()">
+            Save astruct
+        </button>
+    </div>
+</form>

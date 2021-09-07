@@ -1,37 +1,37 @@
 // insertion point sub template for components imports 
-  import { AclasssTableComponent } from './aclasss-table/aclasss-table.component'
-  import { AclassSortingComponent } from './aclass-sorting/aclass-sorting.component'
-  import { AclassBclass2UsesTableComponent } from './aclassbclass2uses-table/aclassbclass2uses-table.component'
-  import { AclassBclass2UseSortingComponent } from './aclassbclass2use-sorting/aclassbclass2use-sorting.component'
-  import { AclassBclassUsesTableComponent } from './aclassbclassuses-table/aclassbclassuses-table.component'
-  import { AclassBclassUseSortingComponent } from './aclassbclassuse-sorting/aclassbclassuse-sorting.component'
-  import { BclasssTableComponent } from './bclasss-table/bclasss-table.component'
-  import { BclassSortingComponent } from './bclass-sorting/bclass-sorting.component'
-  import { DclasssTableComponent } from './dclasss-table/dclasss-table.component'
-  import { DclassSortingComponent } from './dclass-sorting/dclass-sorting.component'
+  import { AstructsTableComponent } from './astructs-table/astructs-table.component'
+  import { AstructSortingComponent } from './astruct-sorting/astruct-sorting.component'
+  import { AstructBstruct2UsesTableComponent } from './astructbstruct2uses-table/astructbstruct2uses-table.component'
+  import { AstructBstruct2UseSortingComponent } from './astructbstruct2use-sorting/astructbstruct2use-sorting.component'
+  import { AstructBstructUsesTableComponent } from './astructbstructuses-table/astructbstructuses-table.component'
+  import { AstructBstructUseSortingComponent } from './astructbstructuse-sorting/astructbstructuse-sorting.component'
+  import { BstructsTableComponent } from './bstructs-table/bstructs-table.component'
+  import { BstructSortingComponent } from './bstruct-sorting/bstruct-sorting.component'
+  import { DstructsTableComponent } from './dstructs-table/dstructs-table.component'
+  import { DstructSortingComponent } from './dstruct-sorting/dstruct-sorting.component'
 
 // insertion point sub template for map of components per struct 
-  export const MapOfAclasssComponents: Map<string, any> = new Map([["AclasssTableComponent", AclasssTableComponent],])
-  export const MapOfAclassSortingComponents: Map<string, any> = new Map([["AclassSortingComponent", AclassSortingComponent],])
-  export const MapOfAclassBclass2UsesComponents: Map<string, any> = new Map([["AclassBclass2UsesTableComponent", AclassBclass2UsesTableComponent],])
-  export const MapOfAclassBclass2UseSortingComponents: Map<string, any> = new Map([["AclassBclass2UseSortingComponent", AclassBclass2UseSortingComponent],])
-  export const MapOfAclassBclassUsesComponents: Map<string, any> = new Map([["AclassBclassUsesTableComponent", AclassBclassUsesTableComponent],])
-  export const MapOfAclassBclassUseSortingComponents: Map<string, any> = new Map([["AclassBclassUseSortingComponent", AclassBclassUseSortingComponent],])
-  export const MapOfBclasssComponents: Map<string, any> = new Map([["BclasssTableComponent", BclasssTableComponent],])
-  export const MapOfBclassSortingComponents: Map<string, any> = new Map([["BclassSortingComponent", BclassSortingComponent],])
-  export const MapOfDclasssComponents: Map<string, any> = new Map([["DclasssTableComponent", DclasssTableComponent],])
-  export const MapOfDclassSortingComponents: Map<string, any> = new Map([["DclassSortingComponent", DclassSortingComponent],])
+  export const MapOfAstructsComponents: Map<string, any> = new Map([["AstructsTableComponent", AstructsTableComponent],])
+  export const MapOfAstructSortingComponents: Map<string, any> = new Map([["AstructSortingComponent", AstructSortingComponent],])
+  export const MapOfAstructBstruct2UsesComponents: Map<string, any> = new Map([["AstructBstruct2UsesTableComponent", AstructBstruct2UsesTableComponent],])
+  export const MapOfAstructBstruct2UseSortingComponents: Map<string, any> = new Map([["AstructBstruct2UseSortingComponent", AstructBstruct2UseSortingComponent],])
+  export const MapOfAstructBstructUsesComponents: Map<string, any> = new Map([["AstructBstructUsesTableComponent", AstructBstructUsesTableComponent],])
+  export const MapOfAstructBstructUseSortingComponents: Map<string, any> = new Map([["AstructBstructUseSortingComponent", AstructBstructUseSortingComponent],])
+  export const MapOfBstructsComponents: Map<string, any> = new Map([["BstructsTableComponent", BstructsTableComponent],])
+  export const MapOfBstructSortingComponents: Map<string, any> = new Map([["BstructSortingComponent", BstructSortingComponent],])
+  export const MapOfDstructsComponents: Map<string, any> = new Map([["DstructsTableComponent", DstructsTableComponent],])
+  export const MapOfDstructSortingComponents: Map<string, any> = new Map([["DstructSortingComponent", DstructSortingComponent],])
 
 // map of all ng components of the stacks
 export const MapOfComponents: Map<string, any> =
   new Map(
     [
       // insertion point sub template for map of components 
-      ["Aclass", MapOfAclasssComponents],
-      ["AclassBclass2Use", MapOfAclassBclass2UsesComponents],
-      ["AclassBclassUse", MapOfAclassBclassUsesComponents],
-      ["Bclass", MapOfBclasssComponents],
-      ["Dclass", MapOfDclasssComponents],
+      ["Astruct", MapOfAstructsComponents],
+      ["AstructBstruct2Use", MapOfAstructBstruct2UsesComponents],
+      ["AstructBstructUse", MapOfAstructBstructUsesComponents],
+      ["Bstruct", MapOfBstructsComponents],
+      ["Dstruct", MapOfDstructsComponents],
     ]
   )
 
@@ -40,10 +40,10 @@ export const MapOfSortingComponents: Map<string, any> =
   new Map(
     [
     // insertion point sub template for map of sorting components 
-      ["Aclass", MapOfAclassSortingComponents],
-      ["AclassBclass2Use", MapOfAclassBclass2UseSortingComponents],
-      ["AclassBclassUse", MapOfAclassBclassUseSortingComponents],
-      ["Bclass", MapOfBclassSortingComponents],
-      ["Dclass", MapOfDclassSortingComponents],
+      ["Astruct", MapOfAstructSortingComponents],
+      ["AstructBstruct2Use", MapOfAstructBstruct2UseSortingComponents],
+      ["AstructBstructUse", MapOfAstructBstructUseSortingComponents],
+      ["Bstruct", MapOfBstructSortingComponents],
+      ["Dstruct", MapOfDstructSortingComponents],
     ]
   )

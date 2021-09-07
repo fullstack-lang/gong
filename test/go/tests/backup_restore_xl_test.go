@@ -14,10 +14,10 @@ func TestXLBackup(t *testing.T) {
 	// setup GORM
 	orm.SetupModels(false, ":memory:")
 
-	bclass1 := (&models.Bclass{Name: "B1"}).Stage().Commit()
-	bclass2 := (&models.Bclass{Name: "B2"}).Stage().Commit()
+	bclass1 := (&models.Bstruct{Name: "B1"}).Stage().Commit()
+	bclass2 := (&models.Bstruct{Name: "B2"}).Stage().Commit()
 
-	aclass1 := (&models.Aclass{
+	aclass1 := (&models.Astruct{
 		Name:                "A1",
 		Date:                time.Date(2021, time.February, 20, 20, 12, 4, 0, time.UTC),
 		Duration1:           time.Hour + 3*time.Minute + time.Millisecond,
@@ -30,7 +30,7 @@ func TestXLBackup(t *testing.T) {
 	}).Stage().Commit()
 
 	// test renumbering
-	aclass1_bis := (&models.Aclass{
+	aclass1_bis := (&models.Astruct{
 		Name:                "A1_bis",
 		Date:                time.Date(2021, time.February, 20, 20, 12, 4, 0, time.UTC),
 		Duration1:           time.Hour + 3*time.Minute + time.Millisecond,
@@ -42,7 +42,7 @@ func TestXLBackup(t *testing.T) {
 	_ = aclass1_bis
 	aclass1_bis.Unstage()
 
-	aclass2 := (&models.Aclass{
+	aclass2 := (&models.Astruct{
 		Name:                "A2",
 		Floatfield:          10.77,
 		Booleanfield:        true,
@@ -63,13 +63,13 @@ func TestXLBackup(t *testing.T) {
 
 	models.Stage.Commit()
 
-	for aclass := range models.Stage.Aclasss {
-		aclassDB := orm.BackRepo.BackRepoAclass.GetAclassDBFromAclassPtr(aclass)
+	for aclass := range models.Stage.Astructs {
+		aclassDB := orm.BackRepo.BackRepoAstruct.GetAstructDBFromAstructPtr(aclass)
 		aclassDB.CreatedAt = time.Time{}
 		aclassDB.UpdatedAt = time.Time{}
 	}
-	for bclass := range models.Stage.Bclasss {
-		bclassDB := orm.BackRepo.BackRepoBclass.GetBclassDBFromBclassPtr(bclass)
+	for bclass := range models.Stage.Bstructs {
+		bclassDB := orm.BackRepo.BackRepoBstruct.GetBstructDBFromBstructPtr(bclass)
 		bclassDB.CreatedAt = time.Time{}
 		bclassDB.UpdatedAt = time.Time{}
 	}
@@ -84,7 +84,7 @@ func TestRestoreXL(t *testing.T) {
 
 	models.Stage.Restore("bckp")
 
-	for aclass := range models.Stage.Aclasss {
+	for aclass := range models.Stage.Astructs {
 		if aclass.Name == "A1" {
 			log.Print("aclass.Anarrayofb[0].Name of b : ", aclass.Anarrayofb[0].Name)
 			log.Print("aclass.Anarrayofb[1].Name of b : ", aclass.Anarrayofb[1].Name)
@@ -95,13 +95,13 @@ func TestRestoreXL(t *testing.T) {
 
 	models.Stage.Commit()
 
-	for aclass := range models.Stage.Aclasss {
-		aclassDB := orm.BackRepo.BackRepoAclass.GetAclassDBFromAclassPtr(aclass)
+	for aclass := range models.Stage.Astructs {
+		aclassDB := orm.BackRepo.BackRepoAstruct.GetAstructDBFromAstructPtr(aclass)
 		aclassDB.CreatedAt = time.Time{}
 		aclassDB.UpdatedAt = time.Time{}
 	}
-	for bclass := range models.Stage.Bclasss {
-		bclassDB := orm.BackRepo.BackRepoBclass.GetBclassDBFromBclassPtr(bclass)
+	for bclass := range models.Stage.Bstructs {
+		bclassDB := orm.BackRepo.BackRepoBstruct.GetBstructDBFromBstructPtr(bclass)
 		bclassDB.CreatedAt = time.Time{}
 		bclassDB.UpdatedAt = time.Time{}
 	}
