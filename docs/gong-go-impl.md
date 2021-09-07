@@ -131,3 +131,14 @@ sets the maps
 	(*backRepoAstruct.Map_AstructDBID_AstructDB)[astructDB.ID] = &astructDB
 ```
 
+It is possible to navigate from the back repo instance to the stage instance
+
+```go
+// GetAstructDBFromAstructPtr is a handy function to access the back repo instance from the stage instance
+func (backRepoAstruct *BackRepoAstructStruct) GetAstructDBFromAstructPtr(astruct *models.Astruct) (astructDB *AstructDB) {
+	id := (*backRepoAstruct.Map_AstructPtr_AstructDBID)[astruct]
+	astructDB = (*backRepoAstruct.Map_AstructDBID_AstructDB)[id]
+	return
+}
+```
+
