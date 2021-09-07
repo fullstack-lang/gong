@@ -87,12 +87,47 @@ func (stage *StageStruct) Checkout() {
 
 Now, let's see in `orm/back_repo.go` how the back repo is implemented.
 
-
+For each gong struct, there is a corresponding BackRepo
 ```go
 var BackRepo BackRepoStruct
 
 type BackRepoStruct struct {
-	// insertion point for per struct back repo declarations
-	BackRepoAclass BackRepoAclassStruct
+
+	BackRepoAstruct BackRepoAstructStruct
+    ...
 }
 ```
+
+in `orm/AstructDB.go`, there is the definition of the back repo of `Astruct`. This back repo holds
+3 maps that enables to navigate between :
+
+- the original staged object `models.Astruct`
+- its version persisted in the database `orm.AstructDB`
+- the unique ID of its version persisted in the database
+
+```go
+package orm
+
+type BackRepoAstructStruct struct {
+	// stores AstructDB according to their gorm ID
+	Map_AstructDBID_AstructDB *map[uint]*AstructDB
+
+	// stores AstructDB ID according to Astruct address
+	Map_AstructPtr_AstructDBID *map[*models.Astruct]uint
+
+	// stores Astruct according to their gorm ID
+	Map_AstructDBID_AstructPtr *map[uint]*models.Astruct
+
+	db *gorm.DB
+}
+```
+
+When an instance is commited, the database return an unique ID in `orm.AstructDB.ID` and the back repo
+sets the maps
+
+```go
+	(*backRepoAstruct.Map_AstructPtr_AstructDBID)[astruct] = astructDB.ID
+	(*backRepoAstruct.Map_AstructDBID_AstructPtr)[astructDB.ID] = astruct
+	(*backRepoAstruct.Map_AstructDBID_AstructDB)[astructDB.ID] = &astructDB
+```
+
