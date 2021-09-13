@@ -12,6 +12,7 @@
   - [Testing the generation of the code](#testing-the-generation-of-the-code)
   - [Reusable stacks](#reusable-stacks)
   - [Examples](#examples)
+  - [Generating a "hello world" stack in 5 minutes](#generating-a-hello-world-stack-in-5-minutes)
 
 # Gong
 
@@ -109,3 +110,40 @@ https://github.com/fullstack-lang/bookstore is a little more sophisticated examp
 https://github.com/fullstack-lang/laundromat, is a more sophisticated example. It is a simulation stack that reuses 3 other stacks (gong, gongsim, gongdoc)
 
 https://github.com/fullstack-lang/gongfly, An airplane simulation that reuses 4 stacks (gong, gongsim, gongdoc, gongleaflet)
+
+## Generating a "hello world" stack in 5 minutes
+
+If gongc is installed, it is possible to generate a functionning stack in 5 minutes. 
+Open a terminal and execute below commands.
+
+```bash
+mkdir helloworld
+cd helloworld
+go mod init github.com/fullstack-lang/helloworld
+mkdir go
+mkdir go/models
+echo "package models
+type Hello struct {
+Name string
+}" > go/models/hello.go
+echo "package models
+type Country struct {
+Name string
+Hello *Hello
+}" > go/models/country.go
+gongc go/models
+go mod tidy
+go build
+./helloworld
+```
+Then, browse to [localhost:8080](http://localhost:8080)
+
+This stack has a model with two structs:
+
+- `Hello` which stores a way to say hello
+- `Country` which stores a country and an association to the way to say hello in this country 
+
+All commands are executed fast (on an average computer) except `gongc go/models` which takes a few minutes. `gongc` can be long the first time it is executed for a stack because it perfoms `npm i` (installation of node packages) which requires the download of hundreds of megabytes.
+
+If `gongc` is performed again, it will take a few seconds.
+
