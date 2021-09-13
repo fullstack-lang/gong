@@ -113,9 +113,21 @@ https://github.com/fullstack-lang/gongfly, An airplane simulation that reuses 4 
 
 ## Generating a "hello world" stack in 5 minutes
 
-If prerequisite and gongc are installed installed, 
+If prerequisite and gongc are installed, 
 it is possible to generate a functionning stack in 5 minutes. 
-Open a terminal and execute below commands.
+
+In a terminal, below commands :
+
+- `mkdir` creates a `helloworld` directory
+- `go mod init` generates a go module `github.com/fullstack-lang/helloworld`
+- `mkdir` generates a sub directory `go/models`
+- `echo` commands generates 2 go structs in this subdirectory
+  - `Hello` which stores a way to say hello
+  - `Country` which stores a country and an association to the way to say hello in this country 
+- `gongc go/models` compiles the models
+- `go mod tidy` download needed go packages
+- `go build` generates the single binary `./helloworld`
+- `./helloworld` run the server
 
 ```bash
 mkdir helloworld
@@ -142,8 +154,7 @@ Then, browse to [localhost:8080](http://localhost:8080)
 
 This stack has a model with two structs:
 
-- `Hello` which stores a way to say hello
-- `Country` which stores a country and an association to the way to say hello in this country 
+
 
 All commands are executed fast (on an average computer) except `gongc go/models` which takes a few minutes. `gongc` can be long the first time it is executed for a stack because it perfoms `npm i` (installation of node packages) which requires the download of hundreds of megabytes.
 
