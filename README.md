@@ -113,7 +113,8 @@ https://github.com/fullstack-lang/gongfly, An airplane simulation that reuses 4 
 
 ## Generating a "hello world" stack in 5 minutes
 
-If gongc is installed, it is possible to generate a functionning stack in 5 minutes. 
+If prerequisite and gongc are installed installed, 
+it is possible to generate a functionning stack in 5 minutes. 
 Open a terminal and execute below commands.
 
 ```bash
@@ -136,6 +137,7 @@ go mod tidy
 go build
 ./helloworld
 ```
+
 Then, browse to [localhost:8080](http://localhost:8080)
 
 This stack has a model with two structs:
