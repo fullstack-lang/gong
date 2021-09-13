@@ -152,10 +152,6 @@ go build
 
 Then, browse to [localhost:8080](http://localhost:8080)
 
-This stack has a model with two structs:
-
-
-
 All commands are executed fast (on an average computer) except `gongc go/models` which takes a few minutes. `gongc` can be long the first time it is executed for a stack because it perfoms `npm i` (installation of node packages) which requires the download of hundreds of megabytes.
 
 If `gongc` is performed again, it will take a few seconds.
