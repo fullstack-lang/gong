@@ -173,18 +173,17 @@ func MultiCodeGeneratorNgPresentation(
 		}
 
 		for _, field := range _struct.Fields {
-			switch field.(type) {
+			switch field := field.(type) {
 			case *GongBasicField:
-				gongBasicField := field.(*GongBasicField)
 
-				if gongBasicField.DeclaredType == "time.Duration" {
+				if field.DeclaredType == "time.Duration" {
 					TSinsertions[NgPresentationTsInsertionPerStructDeclarations] += Replace1(
 						NgPresentationSubTemplateCode[NgPresentationTSTimeDurationDeclarations],
-						"{{FieldName}}", gongBasicField.Name)
+						"{{FieldName}}", field.Name)
 
 					TSinsertions[NgPresentationTsInsertionPerStructRecoveries] += Replace1(
 						NgPresentationSubTemplateCode[NgPresentationTSTimeDurationRecoveries],
-						"{{FieldName}}", gongBasicField.Name)
+						"{{FieldName}}", field.Name)
 				}
 			}
 		}
@@ -200,12 +199,11 @@ func MultiCodeGeneratorNgPresentation(
 		// then retain the enum type
 		modelEnums := make(map[string]*GongEnum)
 		for _, field := range _struct.Fields {
-			switch field.(type) {
+			switch field := field.(type) {
 			case *GongBasicField:
-				modelBasicField := field.(*GongBasicField)
 
-				if modelBasicField.GongEnum != nil {
-					modelEnums[modelBasicField.GongEnum.Name] = modelBasicField.GongEnum
+				if field.GongEnum != nil {
+					modelEnums[field.GongEnum.Name] = field.GongEnum
 				}
 			}
 		}
@@ -223,29 +221,28 @@ func MultiCodeGeneratorNgPresentation(
 		//
 		subCodesHTML := ""
 		for _, field := range _struct.Fields {
-			switch field.(type) {
+			switch field := field.(type) {
 			case *GongBasicField:
-				gongBasicField := field.(*GongBasicField)
 
 				// bais field (enum)
-				if gongBasicField.GongEnum != nil {
+				if field.GongEnum != nil {
 					subCodesHTML += Replace2(NgPresentationEnumHtmlSubTemplateCode[string(NgPresentationHtmlEnum)],
-						"{{FieldName}}", gongBasicField.Name,
-						"{{EnumName}}", gongBasicField.GongEnum.Name)
+						"{{FieldName}}", field.Name,
+						"{{EnumName}}", field.GongEnum.Name)
 
 				} else // basic field (not enum)
 				{
-					if gongBasicField.basicKind == types.Bool {
+					if field.basicKind == types.Bool {
 						subCodesHTML += Replace1(
 							NgPresentationBoolHtmlSubTemplateCode[string(NgPresentationHtmlBool)],
-							"{{FieldName}}", gongBasicField.Name)
+							"{{FieldName}}", field.Name)
 					} else {
 
-						if gongBasicField.DeclaredType != "time.Duration" {
+						if field.DeclaredType != "time.Duration" {
 
 							// conversion form go type to ts type
 							TypeInput := ""
-							switch gongBasicField.basicKind {
+							switch field.basicKind {
 							case types.Int, types.Float64:
 								TypeInput = "type=\"number\" [ngModelOptions]=\"{standalone: true}\" "
 							case types.String:
@@ -253,30 +250,30 @@ func MultiCodeGeneratorNgPresentation(
 							}
 							subCodesHTML += Replace2(
 								NgPresentationBasicFieldHtmlSubTemplateCode[string(NgPresentationHtmlBasicField)],
-								"{{FieldName}}", gongBasicField.Name,
+								"{{FieldName}}", field.Name,
 								"{{TypeInput}}", TypeInput)
 						} else {
 							subCodesHTML += Replace1(
 								NgPresentationBasicFieldTimeDurationHtmlSubTemplateCode[string(NgPresentationHtmlBasicFieldTimeDuration)],
-								"{{FieldName}}", gongBasicField.Name)
+								"{{FieldName}}", field.Name)
 						}
 
 					}
 				}
 
 			case *GongTimeField:
-				gongTimeField := field.(*GongTimeField)
+
 				subCodesHTML +=
 					Replace1(NgPresentationTimeFieldHtmlSubTemplateCode[string(NgPresentationHtmlTimeField)],
-						"{{FieldName}}", gongTimeField.Name)
+						"{{FieldName}}", field.Name)
 
 			case *PointerToGongStructField:
-				modelPointerToStructField := field.(*PointerToGongStructField)
+
 				subCodesHTML += Replace3(
 					NgPresentationPointerToStructHtmlSubTemplateCode[string(NgPresentationPointerToStructHtmlFormField)],
-					"{{FieldName}}", modelPointerToStructField.Name,
-					"{{AssocStructName}}", modelPointerToStructField.GongStruct.Name,
-					"{{assocStructName}}", strings.ToLower(modelPointerToStructField.GongStruct.Name))
+					"{{FieldName}}", field.Name,
+					"{{AssocStructName}}", field.GongStruct.Name,
+					"{{assocStructName}}", strings.ToLower(field.GongStruct.Name))
 			}
 		}
 

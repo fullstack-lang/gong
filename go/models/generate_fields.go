@@ -29,7 +29,7 @@ func GenerateFields(structName string, __struct *types.Struct, pkg *packages.Pac
 
 		// check if it is an Enum
 		fieldType := _typesField.Type().String()
-		gongEnum, _ := modelPkg.GongEnums[fieldType]
+		gongEnum := modelPkg.GongEnums[fieldType]
 
 		// fetch the field
 		// we have to process pointers to spinosa type & array of of pointers
