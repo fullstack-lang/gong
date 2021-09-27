@@ -107,18 +107,17 @@ func CodeGenerator(
 
 		// compute code from sub sub template
 		for _, field := range _struct.Fields {
-			switch field.(type) {
+			switch field := field.(type) {
 			case *PointerToGongStructField:
-				fieldPointerToModel := field.(*PointerToGongStructField)
 
-				fieldName := strings.ToLower(fieldPointerToModel.Name)
-				assocStructName := strings.ToLower(fieldPointerToModel.GongStruct.Name)
+				fieldName := strings.ToLower(field.Name)
+				assocStructName := strings.ToLower(field.GongStruct.Name)
 
 				for subSubTemplate := range subSubTemplateCode {
 					subSubCodes[subSubTemplate] += Replace6(subSubTemplateCode[subSubTemplate],
 						"{{fieldName}}", fieldName,
-						"{{FieldName}}", fieldPointerToModel.Name,
-						"{{AssocStructName}}", fieldPointerToModel.GongStruct.Name,
+						"{{FieldName}}", field.Name,
+						"{{AssocStructName}}", field.GongStruct.Name,
 						"{{assocStructName}}", assocStructName,
 						"{{Structname}}", _struct.Name,
 						"{{structname}}", structName)
@@ -204,18 +203,17 @@ func MultiCodeGenerator(
 
 		// compute code from sub sub template
 		for _, field := range _struct.Fields {
-			switch field.(type) {
+			switch field := field.(type) {
 			case *PointerToGongStructField:
-				fieldPointerToModel := field.(*PointerToGongStructField)
 
-				fieldName := strings.ToLower(fieldPointerToModel.Name)
-				assocStructName := strings.ToLower(fieldPointerToModel.GongStruct.Name)
+				fieldName := strings.ToLower(field.Name)
+				assocStructName := strings.ToLower(field.GongStruct.Name)
 
 				for subSubTemplate := range subSubTemplateCode {
 					subSubCodes[subSubTemplate] += Replace6(subSubTemplateCode[subSubTemplate],
 						"{{fieldName}}", fieldName,
-						"{{FieldName}}", fieldPointerToModel.Name,
-						"{{AssocStructName}}", fieldPointerToModel.GongStruct.Name,
+						"{{FieldName}}", field.Name,
+						"{{AssocStructName}}", field.GongStruct.Name,
 						"{{assocStructName}}", assocStructName,
 						"{{Structname}}", _struct.Name,
 						"{{structname}}", structName)

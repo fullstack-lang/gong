@@ -532,27 +532,25 @@ func CodeGeneratorNgSidebar(
 
 			// Generate association nodes
 			for _, field := range _struct.Fields {
-				switch field.(type) {
+				switch field := field.(type) {
 				case *PointerToGongStructField:
-					pointerToGongStructField := field.(*PointerToGongStructField)
 
 					TSSubInsertions[NgSidebarTsSubInsertionPerField] += Replace4(
 						NgSidebarTsSubPerFieldTemplateCode[NgSidebarTsPerStructPointerToStructFieldTemplateNode],
 						"{{Structname}}", _struct.Name,
 						"{{structname}}", strings.ToLower(_struct.Name),
-						"{{Fieldname}}", pointerToGongStructField.Name,
-						"{{AssociatedStructname}}", pointerToGongStructField.GongStruct.Name)
+						"{{Fieldname}}", field.Name,
+						"{{AssociatedStructname}}", field.GongStruct.Name)
 
 				case *SliceOfPointerToGongStructField:
-					sliceOfPointerToGongStructField := field.(*SliceOfPointerToGongStructField)
 
 					TSSubInsertions[NgSidebarTsSubInsertionPerField] += Replace5(
 						NgSidebarTsSubPerFieldTemplateCode[NgSidebarTsPerStructSliceOfPointerToStructFieldTemplateNode],
 						"{{Structname}}", _struct.Name,
 						"{{structname}}", strings.ToLower(_struct.Name),
-						"{{Fieldname}}", sliceOfPointerToGongStructField.Name,
-						"{{associatedStructname}}", strings.ToLower(sliceOfPointerToGongStructField.GongStruct.Name),
-						"{{AssociatedStructname}}", sliceOfPointerToGongStructField.GongStruct.Name)
+						"{{Fieldname}}", field.Name,
+						"{{associatedStructname}}", strings.ToLower(field.GongStruct.Name),
+						"{{AssociatedStructname}}", field.GongStruct.Name)
 				}
 			}
 			// substitutes {{<<insertion points>>}} stuff with generated code

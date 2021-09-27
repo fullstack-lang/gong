@@ -80,29 +80,29 @@ type BackRepoInterface interface {
 
 // swagger:ignore instructs the gong compiler (gongc) to avoid this particular struct
 var Stage StageStruct = StageStruct{ // insertion point for array initiatialisation
-	GongBasicFields:           make(map[*GongBasicField]struct{}, 0),
-	GongBasicFields_mapString: make(map[string]*GongBasicField, 0),
+	GongBasicFields:           make(map[*GongBasicField]struct{}),
+	GongBasicFields_mapString: make(map[string]*GongBasicField),
 
-	GongEnums:           make(map[*GongEnum]struct{}, 0),
-	GongEnums_mapString: make(map[string]*GongEnum, 0),
+	GongEnums:           make(map[*GongEnum]struct{}),
+	GongEnums_mapString: make(map[string]*GongEnum),
 
-	GongEnumValues:           make(map[*GongEnumValue]struct{}, 0),
-	GongEnumValues_mapString: make(map[string]*GongEnumValue, 0),
+	GongEnumValues:           make(map[*GongEnumValue]struct{}),
+	GongEnumValues_mapString: make(map[string]*GongEnumValue),
 
-	GongStructs:           make(map[*GongStruct]struct{}, 0),
-	GongStructs_mapString: make(map[string]*GongStruct, 0),
+	GongStructs:           make(map[*GongStruct]struct{}),
+	GongStructs_mapString: make(map[string]*GongStruct),
 
-	GongTimeFields:           make(map[*GongTimeField]struct{}, 0),
-	GongTimeFields_mapString: make(map[string]*GongTimeField, 0),
+	GongTimeFields:           make(map[*GongTimeField]struct{}),
+	GongTimeFields_mapString: make(map[string]*GongTimeField),
 
-	ModelPkgs:           make(map[*ModelPkg]struct{}, 0),
-	ModelPkgs_mapString: make(map[string]*ModelPkg, 0),
+	ModelPkgs:           make(map[*ModelPkg]struct{}),
+	ModelPkgs_mapString: make(map[string]*ModelPkg),
 
-	PointerToGongStructFields:           make(map[*PointerToGongStructField]struct{}, 0),
-	PointerToGongStructFields_mapString: make(map[string]*PointerToGongStructField, 0),
+	PointerToGongStructFields:           make(map[*PointerToGongStructField]struct{}),
+	PointerToGongStructFields_mapString: make(map[string]*PointerToGongStructField),
 
-	SliceOfPointerToGongStructFields:           make(map[*SliceOfPointerToGongStructField]struct{}, 0),
-	SliceOfPointerToGongStructFields_mapString: make(map[string]*SliceOfPointerToGongStructField, 0),
+	SliceOfPointerToGongStructFields:           make(map[*SliceOfPointerToGongStructField]struct{}),
+	SliceOfPointerToGongStructFields_mapString: make(map[string]*SliceOfPointerToGongStructField),
 
 	// end of insertion point
 }
@@ -988,29 +988,29 @@ type AllModelsStructDeleteInterface interface { // insertion point for Callbacks
 }
 
 func (stage *StageStruct) Reset() { // insertion point for array reset
-	stage.GongBasicFields = make(map[*GongBasicField]struct{}, 0)
-	stage.GongBasicFields_mapString = make(map[string]*GongBasicField, 0)
+	stage.GongBasicFields = make(map[*GongBasicField]struct{})
+	stage.GongBasicFields_mapString = make(map[string]*GongBasicField)
 
-	stage.GongEnums = make(map[*GongEnum]struct{}, 0)
-	stage.GongEnums_mapString = make(map[string]*GongEnum, 0)
+	stage.GongEnums = make(map[*GongEnum]struct{})
+	stage.GongEnums_mapString = make(map[string]*GongEnum)
 
-	stage.GongEnumValues = make(map[*GongEnumValue]struct{}, 0)
-	stage.GongEnumValues_mapString = make(map[string]*GongEnumValue, 0)
+	stage.GongEnumValues = make(map[*GongEnumValue]struct{})
+	stage.GongEnumValues_mapString = make(map[string]*GongEnumValue)
 
-	stage.GongStructs = make(map[*GongStruct]struct{}, 0)
-	stage.GongStructs_mapString = make(map[string]*GongStruct, 0)
+	stage.GongStructs = make(map[*GongStruct]struct{})
+	stage.GongStructs_mapString = make(map[string]*GongStruct)
 
-	stage.GongTimeFields = make(map[*GongTimeField]struct{}, 0)
-	stage.GongTimeFields_mapString = make(map[string]*GongTimeField, 0)
+	stage.GongTimeFields = make(map[*GongTimeField]struct{})
+	stage.GongTimeFields_mapString = make(map[string]*GongTimeField)
 
-	stage.ModelPkgs = make(map[*ModelPkg]struct{}, 0)
-	stage.ModelPkgs_mapString = make(map[string]*ModelPkg, 0)
+	stage.ModelPkgs = make(map[*ModelPkg]struct{})
+	stage.ModelPkgs_mapString = make(map[string]*ModelPkg)
 
-	stage.PointerToGongStructFields = make(map[*PointerToGongStructField]struct{}, 0)
-	stage.PointerToGongStructFields_mapString = make(map[string]*PointerToGongStructField, 0)
+	stage.PointerToGongStructFields = make(map[*PointerToGongStructField]struct{})
+	stage.PointerToGongStructFields_mapString = make(map[string]*PointerToGongStructField)
 
-	stage.SliceOfPointerToGongStructFields = make(map[*SliceOfPointerToGongStructField]struct{}, 0)
-	stage.SliceOfPointerToGongStructFields_mapString = make(map[string]*SliceOfPointerToGongStructField, 0)
+	stage.SliceOfPointerToGongStructFields = make(map[*SliceOfPointerToGongStructField]struct{})
+	stage.SliceOfPointerToGongStructFields_mapString = make(map[string]*SliceOfPointerToGongStructField)
 
 }
 

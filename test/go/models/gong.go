@@ -65,20 +65,20 @@ type BackRepoInterface interface {
 
 // swagger:ignore instructs the gong compiler (gongc) to avoid this particular struct
 var Stage StageStruct = StageStruct{ // insertion point for array initiatialisation
-	Astructs:           make(map[*Astruct]struct{}, 0),
-	Astructs_mapString: make(map[string]*Astruct, 0),
+	Astructs:           make(map[*Astruct]struct{}),
+	Astructs_mapString: make(map[string]*Astruct),
 
-	AstructBstruct2Uses:           make(map[*AstructBstruct2Use]struct{}, 0),
-	AstructBstruct2Uses_mapString: make(map[string]*AstructBstruct2Use, 0),
+	AstructBstruct2Uses:           make(map[*AstructBstruct2Use]struct{}),
+	AstructBstruct2Uses_mapString: make(map[string]*AstructBstruct2Use),
 
-	AstructBstructUses:           make(map[*AstructBstructUse]struct{}, 0),
-	AstructBstructUses_mapString: make(map[string]*AstructBstructUse, 0),
+	AstructBstructUses:           make(map[*AstructBstructUse]struct{}),
+	AstructBstructUses_mapString: make(map[string]*AstructBstructUse),
 
-	Bstructs:           make(map[*Bstruct]struct{}, 0),
-	Bstructs_mapString: make(map[string]*Bstruct, 0),
+	Bstructs:           make(map[*Bstruct]struct{}),
+	Bstructs_mapString: make(map[string]*Bstruct),
 
-	Dstructs:           make(map[*Dstruct]struct{}, 0),
-	Dstructs_mapString: make(map[string]*Dstruct, 0),
+	Dstructs:           make(map[*Dstruct]struct{}),
+	Dstructs_mapString: make(map[string]*Dstruct),
 
 	// end of insertion point
 }
@@ -652,20 +652,20 @@ type AllModelsStructDeleteInterface interface { // insertion point for Callbacks
 }
 
 func (stage *StageStruct) Reset() { // insertion point for array reset
-	stage.Astructs = make(map[*Astruct]struct{}, 0)
-	stage.Astructs_mapString = make(map[string]*Astruct, 0)
+	stage.Astructs = make(map[*Astruct]struct{})
+	stage.Astructs_mapString = make(map[string]*Astruct)
 
-	stage.AstructBstruct2Uses = make(map[*AstructBstruct2Use]struct{}, 0)
-	stage.AstructBstruct2Uses_mapString = make(map[string]*AstructBstruct2Use, 0)
+	stage.AstructBstruct2Uses = make(map[*AstructBstruct2Use]struct{})
+	stage.AstructBstruct2Uses_mapString = make(map[string]*AstructBstruct2Use)
 
-	stage.AstructBstructUses = make(map[*AstructBstructUse]struct{}, 0)
-	stage.AstructBstructUses_mapString = make(map[string]*AstructBstructUse, 0)
+	stage.AstructBstructUses = make(map[*AstructBstructUse]struct{})
+	stage.AstructBstructUses_mapString = make(map[string]*AstructBstructUse)
 
-	stage.Bstructs = make(map[*Bstruct]struct{}, 0)
-	stage.Bstructs_mapString = make(map[string]*Bstruct, 0)
+	stage.Bstructs = make(map[*Bstruct]struct{})
+	stage.Bstructs_mapString = make(map[string]*Bstruct)
 
-	stage.Dstructs = make(map[*Dstruct]struct{}, 0)
-	stage.Dstructs_mapString = make(map[string]*Dstruct, 0)
+	stage.Dstructs = make(map[*Dstruct]struct{})
+	stage.Dstructs_mapString = make(map[string]*Dstruct)
 
 }
 

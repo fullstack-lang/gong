@@ -27,10 +27,9 @@ func (gongStruct *GongStruct) HasNameField() (hasNameField bool) {
 
 	// hasNameField default value is false
 	for _, field := range gongStruct.Fields {
-		switch field.(type) {
+		switch field := field.(type) {
 		case *GongBasicField:
-			modelBasicField := field.(*GongBasicField)
-			if modelBasicField.Name == "Name" {
+			if field.Name == "Name" {
 				hasNameField = true
 				continue
 			}
