@@ -209,22 +209,18 @@ func MultiCodeGeneratorNgService(
 		}
 
 		for _, field := range _struct.Fields {
-			switch field.(type) {
+			switch field := field.(type) {
 			case *PointerToGongStructField:
-				modelPointerToStructField := field.(*PointerToGongStructField)
-				_ = modelPointerToStructField
 
 				TSinsertions[NgServiceTsInsertionPointerReset] +=
 					Replace1(NgServiceSubTemplateCode[NgServiceTSPointerToGongStructReset],
-						"{{FieldName}}", modelPointerToStructField.Name)
+						"{{FieldName}}", field.Name)
 
 			case *SliceOfPointerToGongStructField:
-				fieldSliceOfPointerToModel := field.(*SliceOfPointerToGongStructField)
-				_ = fieldSliceOfPointerToModel
 
 				TSinsertions[NgServiceTsInsertionPointerReset] +=
 					Replace1(NgServiceSubTemplateCode[NgServiceTSSliceOfPointerToGongStructReset],
-						"{{FieldName}}", fieldSliceOfPointerToModel.Name)
+						"{{FieldName}}", field.Name)
 			}
 		}
 
@@ -233,20 +229,19 @@ func MultiCodeGeneratorNgService(
 		//
 		for _, __struct := range structList {
 			for _, field := range __struct.Fields {
-				switch field.(type) {
+				switch field := field.(type) {
 				case *SliceOfPointerToGongStructField:
-					fieldSliceOfPointerToModel := field.(*SliceOfPointerToGongStructField)
 
-					if fieldSliceOfPointerToModel.GongStruct == _struct {
+					if field.GongStruct == _struct {
 
 						TSinsertions[NgServiceTsInsertionPointerReset] +=
 							Replace2(NgServiceSubTemplateCode[NgServiceTSSliceOfPointerToGongStructReversePointerReset],
-								"{{FieldName}}", fieldSliceOfPointerToModel.Name,
+								"{{FieldName}}", field.Name,
 								"{{AssocStructName}}", __struct.Name)
 
 						TSinsertions[NgServiceTsInsertionPointerRestore] +=
 							Replace2(NgServiceSubTemplateCode[NgServiceTSSliceOfPointerToGongStructReversePointerRestore],
-								"{{FieldName}}", fieldSliceOfPointerToModel.Name,
+								"{{FieldName}}", field.Name,
 								"{{AssocStructName}}", __struct.Name)
 
 					}

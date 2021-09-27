@@ -1,7 +1,6 @@
 package models
 
 import (
-	"bytes"
 	"strings"
 )
 
@@ -81,16 +80,16 @@ func Replace7(template, match1, replace1, match2, replace2, match3, replace3, //
 	return res
 }
 
-func makeFirstLowerCase(s string) string {
+// func makeFirstLowerCase(s string) string {
 
-	if len(s) < 2 {
-		return strings.ToLower(s)
-	}
+// 	if len(s) < 2 {
+// 		return strings.ToLower(s)
+// 	}
 
-	bts := []byte(s)
+// 	bts := []byte(s)
 
-	lc := bytes.ToLower([]byte{bts[0]})
-	rest := bts[1:]
+// 	lc := bytes.ToLower([]byte{bts[0]})
+// 	rest := bts[1:]
 
-	return string(bytes.Join([][]byte{lc, rest}, nil))
-}
+// 	return string(bytes.Join([][]byte{lc, rest}, nil))
+// }

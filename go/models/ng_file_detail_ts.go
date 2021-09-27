@@ -459,15 +459,14 @@ func MultiCodeGeneratorNgDetail(
 		}
 
 		for _, field := range _struct.Fields {
-			switch field.(type) {
+			switch field := field.(type) {
 			case *GongBasicField:
-				gongBasicField := field.(*GongBasicField)
 
-				if gongBasicField.GongEnum != nil {
+				if field.GongEnum != nil {
 
 					var importToInsert = Replace1(
 						NgDetailSubTemplateCode[NgDetailTSEnumImports],
-						"{{EnumName}}", gongBasicField.GongEnum.Name)
+						"{{EnumName}}", field.GongEnum.Name)
 
 					// cannot insert twice the same import
 					if !strings.Contains(TSinsertions[NgDetailTsInsertionPerStructImports], importToInsert) {
@@ -476,7 +475,7 @@ func MultiCodeGeneratorNgDetail(
 
 					var declarationToInsert = Replace1(
 						NgDetailSubTemplateCode[NgDetailTSEnumDeclarations],
-						"{{EnumName}}", gongBasicField.GongEnum.Name)
+						"{{EnumName}}", field.GongEnum.Name)
 
 					if !strings.Contains(TSinsertions[NgDetailTsInsertionPerStructDeclarations], declarationToInsert) {
 						TSinsertions[NgDetailTsInsertionPerStructDeclarations] += declarationToInsert
@@ -484,45 +483,45 @@ func MultiCodeGeneratorNgDetail(
 
 					var initsToInsert = Replace1(
 						NgDetailSubTemplateCode[NgDetailTSEnumInits],
-						"{{EnumName}}", gongBasicField.GongEnum.Name)
+						"{{EnumName}}", field.GongEnum.Name)
 
 					if !strings.Contains(TSinsertions[NgDetailTsInsertionPerStructInits], initsToInsert) {
 						TSinsertions[NgDetailTsInsertionPerStructInits] += initsToInsert
 					}
 				}
 
-				if gongBasicField.basicKind == types.Bool {
+				if field.basicKind == types.Bool {
 					TSinsertions[NgDetailTsInsertionPerStructDeclarations] += Replace1(
 						NgDetailSubTemplateCode[NgDetailTSBooleanDeclarations],
-						"{{FieldName}}", gongBasicField.Name)
+						"{{FieldName}}", field.Name)
 
 					TSinsertions[NgDetailTsInsertionPerStructRecoveries] += Replace1(
 						NgDetailSubTemplateCode[NgDetailTSBooleanRecoveries],
-						"{{FieldName}}", gongBasicField.Name)
+						"{{FieldName}}", field.Name)
 
 					TSinsertions[NgDetailTsInsertionPerStructSaves] += Replace1(
 						NgDetailSubTemplateCode[NgDetailTSBooleanSaves],
-						"{{FieldName}}", gongBasicField.Name)
+						"{{FieldName}}", field.Name)
 				}
 
-				if gongBasicField.DeclaredType == "time.Duration" {
+				if field.DeclaredType == "time.Duration" {
 					TSinsertions[NgDetailTsInsertionPerStructDeclarations] += Replace1(
 						NgDetailSubTemplateCode[NgDetailTSTimeDurationDeclarations],
-						"{{FieldName}}", gongBasicField.Name)
+						"{{FieldName}}", field.Name)
 
 					TSinsertions[NgDetailTsInsertionPerStructRecoveries] += Replace1(
 						NgDetailSubTemplateCode[NgDetailTSTimeDurationRecoveries],
-						"{{FieldName}}", gongBasicField.Name)
+						"{{FieldName}}", field.Name)
 
 					TSinsertions[NgDetailTsInsertionPerStructSaves] += Replace1(
 						NgDetailSubTemplateCode[NgDetailTSTimeDurationSaves],
-						"{{FieldName}}", gongBasicField.Name)
+						"{{FieldName}}", field.Name)
 				}
 			case *PointerToGongStructField:
-				modelPointerToStruct := field.(*PointerToGongStructField)
+
 				TSinsertions[NgDetailTsInsertionPerStructSaves] += Replace1(
 					NgDetailSubTemplateCode[NgDetailTSPointerToGongStructSaves],
-					"{{FieldName}}", modelPointerToStruct.Name)
+					"{{FieldName}}", field.Name)
 			}
 		}
 
@@ -534,93 +533,91 @@ func MultiCodeGeneratorNgDetail(
 		}
 
 		for _, field := range _struct.Fields {
-			switch field.(type) {
+			switch field := field.(type) {
 			case *GongBasicField:
-				gongBasicField := field.(*GongBasicField)
 
 				// bais field (enum)
-				if gongBasicField.GongEnum != nil {
+				if field.GongEnum != nil {
 
 					HtmlInsertions[NgDetailHtmlInsertionPerStructFields] +=
 						Replace2(NgDetailHtmlSubTemplateCode[NgDetailHtmlEnum],
-							"{{FieldName}}", gongBasicField.Name,
-							"{{EnumName}}", gongBasicField.GongEnum.Name)
+							"{{FieldName}}", field.Name,
+							"{{EnumName}}", field.GongEnum.Name)
 
 				} else // basic field (not enum)
 				{
-					if gongBasicField.basicKind == types.Bool {
+					if field.basicKind == types.Bool {
 						HtmlInsertions[NgDetailHtmlInsertionPerStructFields] +=
 							Replace1(NgDetailHtmlSubTemplateCode[NgDetailHtmlBool],
-								"{{FieldName}}", gongBasicField.Name)
-					} else if gongBasicField.DeclaredType != "time.Duration" {
+								"{{FieldName}}", field.Name)
+					} else if field.DeclaredType != "time.Duration" {
 
 						// conversion form go type to ts type
 						TypeInput := ""
-						switch gongBasicField.basicKind {
+						switch field.basicKind {
 						case types.Int, types.Int64, types.Float64:
 							TypeInput = "type=\"number\" [ngModelOptions]=\"{standalone: true}\""
 							HtmlInsertions[NgDetailHtmlInsertionPerStructFields] +=
 								Replace2(NgDetailHtmlSubTemplateCode[NgDetailHtmlBasicField],
-									"{{FieldName}}", gongBasicField.Name,
+									"{{FieldName}}", field.Name,
 									"{{TypeInput}}", TypeInput)
 						case types.String:
 							TypeInput = "name=\"\" [ngModelOptions]=\"{standalone: true}\""
 							HtmlInsertions[NgDetailHtmlInsertionPerStructFields] +=
 								Replace2(NgDetailHtmlSubTemplateCode[NgDetailHtmlBasicStringField],
-									"{{FieldName}}", gongBasicField.Name,
+									"{{FieldName}}", field.Name,
 									"{{TypeInput}}", TypeInput)
 						}
 
 					} else {
 						HtmlInsertions[NgDetailHtmlInsertionPerStructFields] +=
 							Replace1(NgDetailHtmlSubTemplateCode[NgDetailHtmlTimeDuration],
-								"{{FieldName}}", gongBasicField.Name)
+								"{{FieldName}}", field.Name)
 					}
 				}
 			case *GongTimeField:
-				gongTimeField := field.(*GongTimeField)
+
 				HtmlInsertions[NgDetailHtmlInsertionPerStructFields] +=
 					Replace1(NgDetailHtmlSubTemplateCode[NgDetailHtmlTimeField],
-						"{{FieldName}}", gongTimeField.Name)
+						"{{FieldName}}", field.Name)
 
 			case *PointerToGongStructField:
-				modelPointerToStructField := field.(*PointerToGongStructField)
+
 				HtmlInsertions[NgDetailHtmlInsertionPerStructFields] +=
 					Replace3(NgDetailHtmlSubTemplateCode[NgDetailPointerToStructHtmlFormField],
-						"{{FieldName}}", modelPointerToStructField.Name,
-						"{{AssocStructName}}", modelPointerToStructField.GongStruct.Name,
-						"{{assocStructName}}", strings.ToLower(modelPointerToStructField.GongStruct.Name))
+						"{{FieldName}}", field.Name,
+						"{{AssocStructName}}", field.GongStruct.Name,
+						"{{assocStructName}}", strings.ToLower(field.GongStruct.Name))
 			case *SliceOfPointerToGongStructField:
-				modelSliceOfPointerToStructField := field.(*SliceOfPointerToGongStructField)
 
 				htmlCodeForField := Replace3(NgDetailHtmlSubTemplateCode[NgDetailSliceOfPointerToStructHtml],
-					"{{FieldName}}", modelSliceOfPointerToStructField.Name,
-					"{{AssocStructName}}", modelSliceOfPointerToStructField.GongStruct.Name,
-					"{{assocStructName}}", strings.ToLower(modelSliceOfPointerToStructField.GongStruct.Name))
+					"{{FieldName}}", field.Name,
+					"{{AssocStructName}}", field.GongStruct.Name,
+					"{{assocStructName}}", strings.ToLower(field.GongStruct.Name))
 
 				// check if this is a field of a MANY MANY association
-				if strings.HasSuffix(modelSliceOfPointerToStructField.Name, "Use") {
+				if strings.HasSuffix(field.Name, "Use") {
 
-					intermediateStruct := modelSliceOfPointerToStructField.GongStruct
+					intermediateStruct := field.GongStruct
 
 					// a "Use" struct should have exactly 2 fields (Name and the pointer to the next struct)
 					if len(intermediateStruct.Fields) != 2 {
 						log.Panicf("%s struct is a Use struct. Expected 2 fields, got %d",
-							modelSliceOfPointerToStructField.Name, len(intermediateStruct.Fields))
+							field.Name, len(intermediateStruct.Fields))
 					}
 
 					intermediateStructField := intermediateStruct.Fields[1]
 					_ = intermediateStructField
 
 					// get the end type. first  (cast on ta PointerToStructField)
-					switch intermediateStructField.(type) {
+					switch intermediateStructField := intermediateStructField.(type) {
 					case *PointerToGongStructField:
-						nextStruct := (intermediateStructField.(*PointerToGongStructField)).GongStruct
+						nextStruct := (intermediateStructField).GongStruct
 
 						addedHtmlCode := Replace5(NgDetailHtmlSubTemplateCode[NgDetailSliceOfPointerToStructManyManyHtml],
-							"{{FieldName}}", modelSliceOfPointerToStructField.Name,
-							"{{AssocStructName}}", modelSliceOfPointerToStructField.GongStruct.Name,
-							"{{assocStructName}}", strings.ToLower(modelSliceOfPointerToStructField.GongStruct.Name),
+							"{{FieldName}}", field.Name,
+							"{{AssocStructName}}", field.GongStruct.Name,
+							"{{assocStructName}}", strings.ToLower(field.GongStruct.Name),
 							"{{IntermediateStructField}}", intermediateStructField.GetName(),
 							"{{NextAssociatedStruct}}", nextStruct.Name)
 						toReplace := "{{" + string(rune(NgDetailHtmlInsertionPerStructFieldsManyMany)) + "}}"
@@ -633,9 +630,9 @@ func MultiCodeGeneratorNgDetail(
 
 				// HtmlInsertions[NgDetailHtmlInsertionPerStructFieldsManyMany] +=
 				// 	Replace3(NgDetailHtmlSubTemplateCode[NgDetailSliceOfPointerToStructManyManyHtml],
-				// 		"{{FieldName}}", modelSliceOfPointerToStructField.Name,
-				// 		"{{AssocStructName}}", modelSliceOfPointerToStructField.GongStruct.Name,
-				// 		"{{assocStructName}}", strings.ToLower(modelSliceOfPointerToStructField.GongStruct.Name))
+				// 		"{{FieldName}}", field.Name,
+				// 		"{{AssocStructName}}", field.GongStruct.Name,
+				// 		"{{assocStructName}}", strings.ToLower(field.GongStruct.Name))
 			}
 		}
 
@@ -644,34 +641,33 @@ func MultiCodeGeneratorNgDetail(
 		//
 		for _, __struct := range structList {
 			for _, field := range __struct.Fields {
-				switch field.(type) {
+				switch field := field.(type) {
 				case *SliceOfPointerToGongStructField:
-					fieldSliceOfPointerToModel := field.(*SliceOfPointerToGongStructField)
 
-					if fieldSliceOfPointerToModel.GongStruct == _struct {
+					if field.GongStruct == _struct {
 						TSinsertions[NgDetailTsInsertionPerStructEnumFieldDeclarations] +=
 							Replace2(NgDetailSubTemplateCode[NgDetailTSReversePointerToSliceOfGongStructStateEnumDeclaration],
-								"{{FieldName}}", fieldSliceOfPointerToModel.Name,
+								"{{FieldName}}", field.Name,
 								"{{AssocStructName}}", __struct.Name)
 
 						TSinsertions[NgDetailTsInsertionPerStructCaseInitFieldDeclarations] +=
 							Replace2(NgDetailSubTemplateCode[NgDetailTSReversePointerToSliceOfGongStructStateCaseComputation],
-								"{{FieldName}}", fieldSliceOfPointerToModel.Name,
+								"{{FieldName}}", field.Name,
 								"{{AssocStructName}}", __struct.Name)
 
 						TSinsertions[NgDetailTsInsertionPerStructCaseSetField] +=
 							Replace2(NgDetailSubTemplateCode[NgDetailTSReversePointerToSliceOfGongStructStateCaseSetField],
-								"{{FieldName}}", fieldSliceOfPointerToModel.Name,
+								"{{FieldName}}", field.Name,
 								"{{AssocStructName}}", __struct.Name)
 
 						TSinsertions[NgDetailTsInsertionPerStructReversePointerSaveWhenUpdate] +=
 							Replace2(NgDetailSubTemplateCode[NgDetailTSReversePointerToSliceOfGongStructSavesWhenUpdate],
-								"{{FieldName}}", fieldSliceOfPointerToModel.Name,
+								"{{FieldName}}", field.Name,
 								"{{AssocStructName}}", __struct.Name)
 
 						HtmlInsertions[NgDetailHtmlInsertionPerStructFields] +=
 							Replace3(NgDetailHtmlSubTemplateCode[NgDetailSliceOfPointerToStructReverseHtml],
-								"{{FieldName}}", fieldSliceOfPointerToModel.Name,
+								"{{FieldName}}", field.Name,
 								"{{AssocStructName}}", __struct.Name,
 								"{{assocStructName}}", strings.ToLower(__struct.Name))
 					}
