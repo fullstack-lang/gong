@@ -497,96 +497,94 @@ func MultiCodeGeneratorNgTable(
 		codeHTML := NgTableTemplateHTML
 
 		for _, field := range _struct.Fields {
-			switch field.(type) {
+			switch field := field.(type) {
 			case *GongBasicField:
-				gongBasicField := field.(*GongBasicField)
 
 				// conversion form go type to ts type
 				TypeInput := ""
-				switch gongBasicField.basicKind {
+				switch field.basicKind {
 				case types.Int, types.Float64:
 					TypeInput = "type=\"number\" [ngModelOptions]=\"{standalone: true}\" "
 				case types.String:
 					TypeInput = "name=\"\" [ngModelOptions]=\"{standalone: true}\"     "
 				}
 
-				switch gongBasicField.basicKind {
+				switch field.basicKind {
 				case types.Float64:
 					HtmlInsertions[NgTableHtmlInsertionColumn] += Replace2(NgTableHTMLSubTemplateCode[NgTableHTMLBasicFloat64Field],
-						"{{FieldName}}", gongBasicField.Name,
+						"{{FieldName}}", field.Name,
 						"{{TypeInput}}", TypeInput)
 					TsInsertions[NgTableTsInsertionPerStructColumnsFiltering] += Replace1(NgTablelSubTemplateCode[NgTableTSNumberFieldFiltering],
-						"{{FieldName}}", gongBasicField.Name)
+						"{{FieldName}}", field.Name)
 				case types.Int, types.Int64:
-					if gongBasicField.DeclaredType != "time.Duration" {
+					if field.DeclaredType != "time.Duration" {
 						HtmlInsertions[NgTableHtmlInsertionColumn] += Replace2(NgTableHTMLSubTemplateCode[NgTableHTMLBasicField],
-							"{{FieldName}}", gongBasicField.Name,
+							"{{FieldName}}", field.Name,
 							"{{TypeInput}}", TypeInput)
 						TsInsertions[NgTableTsInsertionPerStructColumnsFiltering] += Replace1(NgTablelSubTemplateCode[NgTableTSNumberFieldFiltering],
-							"{{FieldName}}", gongBasicField.Name)
+							"{{FieldName}}", field.Name)
 
 					} else {
 						HtmlInsertions[NgTableHtmlInsertionColumn] += Replace1(NgTableHTMLSubTemplateCode[NgTableHTMLBasicFieldTimeDuration],
-							"{{FieldName}}", gongBasicField.Name)
+							"{{FieldName}}", field.Name)
 					}
 
 				case types.Bool:
 					HtmlInsertions[NgTableHtmlInsertionColumn] += Replace2(NgTableHTMLSubTemplateCode[NgTableHTMLBool],
-						"{{FieldName}}", gongBasicField.Name,
+						"{{FieldName}}", field.Name,
 						"{{TypeInput}}", TypeInput)
 				default:
 
 					HtmlInsertions[NgTableHtmlInsertionColumn] += Replace1(NgTableHTMLSubTemplateCode[NgTableHTMLBasicField],
-						"{{FieldName}}", gongBasicField.Name)
+						"{{FieldName}}", field.Name)
 					TsInsertions[NgTableTsInsertionPerStructColumnsFiltering] += Replace1(NgTablelSubTemplateCode[NgTableTSNonNumberFieldFiltering],
-						"{{FieldName}}", gongBasicField.Name)
+						"{{FieldName}}", field.Name)
 
 				}
 				TsInsertions[NgTableTsInsertionPerStructColumns] +=
 					Replace1(NgTablelSubTemplateCode[NgTableTSPerStructColumn],
-						"{{FieldName}}", gongBasicField.Name)
+						"{{FieldName}}", field.Name)
 
-				if gongBasicField.DeclaredType == "time.Duration" {
+				if field.DeclaredType == "time.Duration" {
 					TsInsertions[NgTableTsInsertionPerStructRecoveries] +=
 						Replace1(NgTablelSubTemplateCode[NgTableTSPerStructTimeDurationRecoveries],
-							"{{FieldName}}", gongBasicField.Name)
+							"{{FieldName}}", field.Name)
 				}
 
 				TsInsertions[NgTableTsInsertionPerStructColumnsSorting] +=
 					Replace1(NgTablelSubTemplateCode[NgTableTSBasicFieldSorting],
-						"{{FieldName}}", gongBasicField.Name)
+						"{{FieldName}}", field.Name)
 
 			case *GongTimeField:
-				gongTimeField := field.(*GongTimeField)
+
 				TsInsertions[NgTableTsInsertionPerStructColumns] +=
 					Replace1(NgTablelSubTemplateCode[NgTableTSPerStructColumn],
-						"{{FieldName}}", gongTimeField.Name)
+						"{{FieldName}}", field.Name)
 
 				TsInsertions[NgTableTsInsertionPerStructColumnsSorting] +=
 					Replace1(NgTablelSubTemplateCode[NgTableTSBasicFieldSorting],
-						"{{FieldName}}", gongTimeField.Name)
+						"{{FieldName}}", field.Name)
 
 				HtmlInsertions[NgTableHtmlInsertionColumn] += Replace1(NgTableHTMLSubTemplateCode[NgTableHTMLTimeField],
-					"{{FieldName}}", gongTimeField.Name)
+					"{{FieldName}}", field.Name)
 			case *PointerToGongStructField:
-				modelPointerToStructField := field.(*PointerToGongStructField)
 
 				HtmlInsertions[NgTableHtmlInsertionColumn] += Replace3(NgTableHTMLSubTemplateCode[NgTablePointerToStructHTMLFormField],
-					"{{FieldName}}", modelPointerToStructField.Name,
-					"{{AssocStructName}}", modelPointerToStructField.GongStruct.Name,
-					"{{assocStructName}}", strings.ToLower(modelPointerToStructField.GongStruct.Name))
+					"{{FieldName}}", field.Name,
+					"{{AssocStructName}}", field.GongStruct.Name,
+					"{{assocStructName}}", strings.ToLower(field.GongStruct.Name))
 
 				TsInsertions[NgTableTsInsertionPerStructColumns] +=
 					Replace1(NgTablelSubTemplateCode[NgTableTSPerStructColumn],
-						"{{FieldName}}", modelPointerToStructField.Name)
+						"{{FieldName}}", field.Name)
 
 				TsInsertions[NgTableTsInsertionPerStructColumnsSorting] +=
 					Replace1(NgTablelSubTemplateCode[NgTableTSPointerToStructSorting],
-						"{{FieldName}}", modelPointerToStructField.Name)
+						"{{FieldName}}", field.Name)
 
 				TsInsertions[NgTableTsInsertionPerStructColumnsFiltering] +=
 					Replace1(NgTablelSubTemplateCode[NgTableTSPointerToStructFiltering],
-						"{{FieldName}}", modelPointerToStructField.Name)
+						"{{FieldName}}", field.Name)
 			}
 		}
 
@@ -595,31 +593,28 @@ func MultiCodeGeneratorNgTable(
 		//
 		for _, __struct := range structList {
 			for _, field := range __struct.Fields {
-				switch field.(type) {
+				switch field := field.(type) {
 				case *SliceOfPointerToGongStructField:
-					fieldSliceOfPointerToModel := field.(*SliceOfPointerToGongStructField)
 
-					if fieldSliceOfPointerToModel.GongStruct == _struct {
+					if field.GongStruct == _struct {
 						HtmlInsertions[NgTableHtmlInsertionColumn] += Replace2(NgTableHTMLSubTemplateCode[NgTablePointerToSliceOfGongStructHTMLFormField],
-							"{{FieldName}}", fieldSliceOfPointerToModel.Name,
+							"{{FieldName}}", field.Name,
 							"{{AssocStructName}}", __struct.Name)
 
 						TsInsertions[NgTableTsInsertionPerStructColumns] +=
 							Replace2(NgTablelSubTemplateCode[NgTableTSSliceOfPointerToStructPerStructColumn],
-								"{{FieldName}}", fieldSliceOfPointerToModel.Name,
+								"{{FieldName}}", field.Name,
 								"{{AssocStructName}}", __struct.Name)
-
-						fieldSliceOfPointerToModel := field.(*SliceOfPointerToGongStructField)
 
 						TsInsertions[NgTableTsInsertionPerStructColumnsSorting] +=
 							Replace2(NgTablelSubTemplateCode[NgTableTSSliceOfPointerToStructSorting],
 								"{{AssocStructName}}", __struct.Name,
-								"{{FieldName}}", fieldSliceOfPointerToModel.Name)
+								"{{FieldName}}", field.Name)
 
 						TsInsertions[NgTableTsInsertionPerStructColumnsFiltering] +=
 							Replace2(NgTablelSubTemplateCode[NgTableTSSliceOfPointerToStructFiltering],
 								"{{AssocStructName}}", __struct.Name,
-								"{{FieldName}}", fieldSliceOfPointerToModel.Name)
+								"{{FieldName}}", field.Name)
 					}
 				}
 			}

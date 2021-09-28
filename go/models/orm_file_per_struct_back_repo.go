@@ -764,156 +764,149 @@ func MultiCodeGeneratorBackRepo(
 
 		for _, field := range _struct.Fields {
 
-			switch field.(type) {
+			switch field := field.(type) {
 			case *GongBasicField:
-				gongBasicField := field.(*GongBasicField)
 
 				insertions[BackRepoBasicAndTimeFieldsWOPDeclaration] +=
-					"\n\n\t" + gongBasicField.Name + " " +
-						strings.ReplaceAll(gongBasicField.DeclaredType, pkgGoPath+".", "models.")
+					"\n\n\t" + field.Name + " " +
+						strings.ReplaceAll(field.DeclaredType, pkgGoPath+".", "models.")
 
-				insertions[BackRepoBasicAndTimeFieldsName] += "\n\t\"" + gongBasicField.Name + "\","
+				insertions[BackRepoBasicAndTimeFieldsName] += "\n\t\"" + field.Name + "\","
 
-				if gongBasicField.basicKind == types.Bool {
+				if field.basicKind == types.Bool {
 
 					insertions[BackRepoBasicFieldsDeclaration] += Replace2(
 						BackRepoFieldSubTemplateCode[BackRepoDeclarationBasicBooleanField],
-						"{{FieldName}}", gongBasicField.Name,
-						"{{BasicKind}}", gongBasicField.Type.Underlying().String())
+						"{{FieldName}}", field.Name,
+						"{{BasicKind}}", field.Type.Underlying().String())
 
 					insertions[BackRepoBasicFieldsCommit] += Replace1(
 						BackRepoFieldSubTemplateCode[BackRepoCommitBasicBooleanField],
-						"{{FieldName}}", gongBasicField.Name)
+						"{{FieldName}}", field.Name)
 
 					insertions[BackRepoBasicFieldsCheckout] += Replace1(
 						BackRepoFieldSubTemplateCode[BackRepoCheckoutBasicFieldBoolean],
-						"{{FieldName}}", gongBasicField.Name)
+						"{{FieldName}}", field.Name)
 
 				} else {
-					switch gongBasicField.basicKind {
+					switch field.basicKind {
 					case types.String:
 						insertions[BackRepoBasicFieldsDeclaration] += Replace2(
 							BackRepoFieldSubTemplateCode[BackRepoDeclarationBasicField],
-							"{{FieldName}}", gongBasicField.Name,
+							"{{FieldName}}", field.Name,
 							"{{SqlNullType}}", "NullString")
 
-						if gongBasicField.GongEnum != nil {
+						if field.GongEnum != nil {
 							insertions[BackRepoBasicFieldsCommit] += Replace1(
 								BackRepoFieldSubTemplateCode[BackRepoCommitBasicFieldEnum],
-								"{{FieldName}}", gongBasicField.Name)
+								"{{FieldName}}", field.Name)
 
 							insertions[BackRepoBasicFieldsCheckout] += Replace2(
 								BackRepoFieldSubTemplateCode[BackRepoCheckoutBasicFieldEnum],
-								"{{FieldName}}", gongBasicField.Name,
-								"{{EnumType}}", gongBasicField.GongEnum.Name)
+								"{{FieldName}}", field.Name,
+								"{{EnumType}}", field.GongEnum.Name)
 
 						} else {
 							insertions[BackRepoBasicFieldsCommit] += Replace2(
 								BackRepoFieldSubTemplateCode[BackRepoCommitBasicField],
-								"{{FieldName}}", gongBasicField.Name,
+								"{{FieldName}}", field.Name,
 								"{{SqlNullType}}", "String")
 
 							insertions[BackRepoBasicFieldsCheckout] += Replace2(
 								BackRepoFieldSubTemplateCode[BackRepoCheckoutBasicField],
-								"{{FieldName}}", gongBasicField.Name,
+								"{{FieldName}}", field.Name,
 								"{{SqlNullType}}", "String")
 
 						}
 					case types.Float64:
 						insertions[BackRepoBasicFieldsDeclaration] += Replace2(
 							BackRepoFieldSubTemplateCode[BackRepoDeclarationBasicField],
-							"{{FieldName}}", gongBasicField.Name,
+							"{{FieldName}}", field.Name,
 							"{{SqlNullType}}", "NullFloat64")
 
 						insertions[BackRepoBasicFieldsCommit] += Replace2(
 							BackRepoFieldSubTemplateCode[BackRepoCommitBasicField],
-							"{{FieldName}}", gongBasicField.Name,
+							"{{FieldName}}", field.Name,
 							"{{SqlNullType}}", "Float64")
 
 						insertions[BackRepoBasicFieldsCheckout] += Replace2(
 							BackRepoFieldSubTemplateCode[BackRepoCheckoutBasicField],
-							"{{FieldName}}", gongBasicField.Name,
+							"{{FieldName}}", field.Name,
 							"{{SqlNullType}}", "Float64")
 					case types.Int, types.Int64:
 						insertions[BackRepoBasicFieldsDeclaration] += Replace2(
 							BackRepoFieldSubTemplateCode[BackRepoDeclarationBasicField],
-							"{{FieldName}}", gongBasicField.Name,
+							"{{FieldName}}", field.Name,
 							"{{SqlNullType}}", "NullInt64")
 
 						insertions[BackRepoBasicFieldsCommit] += Replace1(
 							BackRepoFieldSubTemplateCode[BackRepoCommitBasicFieldInt],
-							"{{FieldName}}", gongBasicField.Name)
+							"{{FieldName}}", field.Name)
 
 						insertions[BackRepoBasicFieldsCheckout] += Replace2(
 							BackRepoFieldSubTemplateCode[BackRepoCheckoutBasicFieldInt],
-							"{{FieldName}}", gongBasicField.Name,
-							"{{FieldType}}", gongBasicField.DeclaredType)
+							"{{FieldName}}", field.Name,
+							"{{FieldType}}", field.DeclaredType)
 					default:
 					}
 				}
 
 			case *GongTimeField:
-				gongTimeField := field.(*GongTimeField)
 
 				insertions[BackRepoBasicAndTimeFieldsWOPDeclaration] +=
-					"\n\n\t" + gongTimeField.Name + " " + "time.Time"
+					"\n\n\t" + field.Name + " " + "time.Time"
 
-				insertions[BackRepoBasicAndTimeFieldsName] += "\n\t\"" + gongTimeField.Name + "\","
+				insertions[BackRepoBasicAndTimeFieldsName] += "\n\t\"" + field.Name + "\","
 
 				insertions[BackRepoBasicFieldsDeclaration] += Replace1(
 					BackRepoFieldSubTemplateCode[BackRepoDeclarationTimeField],
-					"{{FieldName}}", gongTimeField.Name)
+					"{{FieldName}}", field.Name)
 
 				insertions[BackRepoBasicFieldsCheckout] += Replace1(
 					BackRepoFieldSubTemplateCode[BackRepoCheckoutTimeField],
-					"{{FieldName}}", gongTimeField.Name)
+					"{{FieldName}}", field.Name)
 
 				insertions[BackRepoBasicFieldsCommit] += Replace1(
 					BackRepoFieldSubTemplateCode[BackRepoCommitTimeField],
-					"{{FieldName}}", gongTimeField.Name)
+					"{{FieldName}}", field.Name)
 
 			case *PointerToGongStructField:
-				modelPointerToStruct := field.(*PointerToGongStructField)
-
-				// insertions[BackRepoBasicAndTimeFieldsWOPDeclaration] +=
-				// 	"\n\n\t" + modelPointerToStruct.Name + " uint"
 
 				insertions[BackRepoPointerEncodingFieldsDeclaration] += Replace1(
 					BackRepoFieldSubTemplateCode[BackRepoDeclarationPointerToStructField],
-					"{{FieldName}}", modelPointerToStruct.Name)
+					"{{FieldName}}", field.Name)
 
 				insertions[BackRepoPointerEncodingFieldsCommit] += Replace3(
 					BackRepoFieldSubTemplateCode[BackRepoCommitPointerToStructField],
-					"{{AssociationStructName}}", modelPointerToStruct.GongStruct.Name,
-					"{{associationStructName}}", strings.ToLower(modelPointerToStruct.GongStruct.Name),
-					"{{FieldName}}", modelPointerToStruct.Name)
+					"{{AssociationStructName}}", field.GongStruct.Name,
+					"{{associationStructName}}", strings.ToLower(field.GongStruct.Name),
+					"{{FieldName}}", field.Name)
 
 				insertions[BackRepoPointerEncodingFieldsCheckout] += Replace3(
 					BackRepoFieldSubTemplateCode[BackRepoCheckoutPointerToStructStageField],
-					"{{AssociationStructName}}", modelPointerToStruct.GongStruct.Name,
-					"{{associationStructName}}", strings.ToLower(modelPointerToStruct.GongStruct.Name),
-					"{{FieldName}}", modelPointerToStruct.Name)
+					"{{AssociationStructName}}", field.GongStruct.Name,
+					"{{associationStructName}}", strings.ToLower(field.GongStruct.Name),
+					"{{FieldName}}", field.Name)
 
 				insertions[BackRepoPointerEncodingFieldsReindexing] += Replace3(
 					BackRepoFieldSubTemplateCode[BackRepoReindexingPointerToStruct],
-					"{{AssociationStructName}}", modelPointerToStruct.GongStruct.Name,
-					"{{associationStructName}}", strings.ToLower(modelPointerToStruct.GongStruct.Name),
-					"{{FieldName}}", modelPointerToStruct.Name)
+					"{{AssociationStructName}}", field.GongStruct.Name,
+					"{{associationStructName}}", strings.ToLower(field.GongStruct.Name),
+					"{{FieldName}}", field.Name)
 
 			case *SliceOfPointerToGongStructField:
-				fieldSliceOfPointerToModel := field.(*SliceOfPointerToGongStructField)
 
 				insertions[BackRepoPointerEncodingFieldsCommit] += Replace3(
 					BackRepoFieldSubTemplateCode[BackRepoCommitSliceOfPointerToStructField],
-					"{{AssociationStructName}}", fieldSliceOfPointerToModel.GongStruct.Name,
-					"{{associationStructName}}", strings.ToLower(fieldSliceOfPointerToModel.GongStruct.Name),
-					"{{FieldName}}", fieldSliceOfPointerToModel.Name)
+					"{{AssociationStructName}}", field.GongStruct.Name,
+					"{{associationStructName}}", strings.ToLower(field.GongStruct.Name),
+					"{{FieldName}}", field.Name)
 
 				insertions[BackRepoPointerEncodingFieldsCheckout] += Replace3(
 					BackRepoFieldSubTemplateCode[BackRepoCheckoutSliceOfPointerToStructStageField],
-					"{{AssociationStructName}}", fieldSliceOfPointerToModel.GongStruct.Name,
-					"{{associationStructName}}", strings.ToLower(fieldSliceOfPointerToModel.GongStruct.Name),
-					"{{FieldName}}", fieldSliceOfPointerToModel.Name)
+					"{{AssociationStructName}}", field.GongStruct.Name,
+					"{{associationStructName}}", strings.ToLower(field.GongStruct.Name),
+					"{{FieldName}}", field.Name)
 
 			}
 		}
@@ -923,25 +916,21 @@ func MultiCodeGeneratorBackRepo(
 		//
 		for _, __struct := range structList {
 			for _, field := range __struct.Fields {
-				switch field.(type) {
+				switch field := field.(type) {
 				case *SliceOfPointerToGongStructField:
-					fieldSliceOfPointerToModel := field.(*SliceOfPointerToGongStructField)
 
-					if fieldSliceOfPointerToModel.GongStruct == _struct {
-
-						// insertions[BackRepoBasicAndTimeFieldsWOPDeclaration] +=
-						// 	"\n\n\t" + __struct.Name + "_" + fieldSliceOfPointerToModel.Name + " uint"
+					if field.GongStruct == _struct {
 
 						insertions[BackRepoPointerEncodingFieldsDeclaration] += Replace2(
 							BackRepoFieldSubTemplateCode[BackRepoDeclarationSliceOfPointerToStructField],
-							"{{FieldName}}", fieldSliceOfPointerToModel.Name,
+							"{{FieldName}}", field.Name,
 							"{{AssociationStructName}}", __struct.Name)
 
 						insertions[BackRepoPointerEncodingFieldsReindexing] += Replace3(
 							BackRepoFieldSubTemplateCode[BackRepoReindexingSliceOfPointerToStruct],
 							"{{AssociationStructName}}", __struct.Name,
 							"{{associationStructName}}", strings.ToLower(__struct.Name),
-							"{{FieldName}}", fieldSliceOfPointerToModel.Name)
+							"{{FieldName}}", field.Name)
 					}
 				}
 			}

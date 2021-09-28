@@ -259,13 +259,13 @@ func DeleteORM{{Structname}}({{structname}} *{{Structname}}) {
 `,
 
 	ModelGongStructArrayInitialisation: `
-	{{Structname}}s:           make(map[*{{Structname}}]struct{}, 0),
-	{{Structname}}s_mapString: make(map[string]*{{Structname}}, 0),
+	{{Structname}}s:           make(map[*{{Structname}}]struct{}),
+	{{Structname}}s_mapString: make(map[string]*{{Structname}}),
 `,
 
 	ModelGongStructArrayReset: `
-	stage.{{Structname}}s = make(map[*{{Structname}}]struct{}, 0)
-	stage.{{Structname}}s_mapString = make(map[string]*{{Structname}}, 0)
+	stage.{{Structname}}s = make(map[*{{Structname}}]struct{})
+	stage.{{Structname}}s_mapString = make(map[string]*{{Structname}})
 `,
 
 	ModelGongStructArrayNil: `

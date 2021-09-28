@@ -45,8 +45,8 @@ type BackRepoInterface interface {
 
 // swagger:ignore instructs the gong compiler (gongc) to avoid this particular struct
 var Stage StageStruct = StageStruct{ // insertion point for array initiatialisation
-	Aclasss:           make(map[*Aclass]struct{}, 0),
-	Aclasss_mapString: make(map[string]*Aclass, 0),
+	Aclasss:           make(map[*Aclass]struct{}),
+	Aclasss_mapString: make(map[string]*Aclass),
 
 	// end of insertion point
 }
@@ -204,8 +204,8 @@ type AllModelsStructDeleteInterface interface { // insertion point for Callbacks
 }
 
 func (stage *StageStruct) Reset() { // insertion point for array reset
-	stage.Aclasss = make(map[*Aclass]struct{}, 0)
-	stage.Aclasss_mapString = make(map[string]*Aclass, 0)
+	stage.Aclasss = make(map[*Aclass]struct{})
+	stage.Aclasss_mapString = make(map[string]*Aclass)
 
 }
 

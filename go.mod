@@ -15,7 +15,6 @@ require (
 	github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd // indirect
 	github.com/shabbyrobe/xmlwriter v0.0.0-20210324110748-440e98cf0c87 // indirect
 	github.com/tealeg/xlsx/v3 v3.2.3
-	github.com/ugorji/go v1.2.6 // indirect
 	golang.org/x/crypto v0.0.0-20210921155107-089bfa567519 // indirect
 	golang.org/x/mod v0.5.1 // indirect
 	golang.org/x/sys v0.0.0-20210927094055-39ccf1dd6fa6 // indirect
