@@ -117,15 +117,14 @@ func MultiCodeGeneratorNgClass(
 		}
 
 		for _, field := range _struct.Fields {
-			switch field.(type) {
+			switch field := field.(type) {
 			case *GongBasicField:
-				gongBasicField := field.(*GongBasicField)
 
 				// conversion form go type to ts type
 				typeOfField := ""
 
 				// conversion form go type to ts type
-				switch gongBasicField.basicKind {
+				switch field.basicKind {
 				case types.Int, types.Int64, types.Int32, types.Float64:
 					typeOfField = "number"
 				case types.String, types.Bool:
@@ -134,58 +133,53 @@ func MultiCodeGeneratorNgClass(
 
 				TSinsertions[NgClassTsInsertionPerStructBasicFieldsDecl] += Replace2(
 					NgClassSubTemplateCode[NgClassTSBasicFieldDecls],
-					"{{FieldName}}", gongBasicField.Name,
+					"{{FieldName}}", field.Name,
 					"{{TypeInput}}", typeOfField)
 
-				if gongBasicField.DeclaredType == "time.Duration" {
+				if field.DeclaredType == "time.Duration" {
 					TSinsertions[NgClassTsInsertionPerStructOtherDecls] += Replace1(
 						NgClassSubTemplateCode[NgClassTSOtherDeclsTimeDuration],
-						"{{FieldName}}", gongBasicField.Name)
+						"{{FieldName}}", field.Name)
 				}
 			case *GongTimeField:
-				gongBasicField := field.(*GongTimeField)
 
 				TSinsertions[NgClassTsInsertionPerStructBasicFieldsDecl] += Replace1(
 					NgClassSubTemplateCode[NgClassTSTimeFieldDecls],
-					"{{FieldName}}", gongBasicField.Name)
+					"{{FieldName}}", field.Name)
 
 			case *PointerToGongStructField:
-				modelPointerToStructField := field.(*PointerToGongStructField)
-				_ = modelPointerToStructField
 
 				newImport := Replace2(NgClassSubTemplateCode[NgClassTSBasicFieldImports],
-					"{{AssocStructName}}", modelPointerToStructField.GongStruct.Name,
-					"{{assocStructName}}", strings.ToLower(modelPointerToStructField.GongStruct.Name))
+					"{{AssocStructName}}", field.GongStruct.Name,
+					"{{assocStructName}}", strings.ToLower(field.GongStruct.Name))
 
 				// for imports, duplicate imports or imports of the class itself are not allowed
 				if !strings.Contains(TSinsertions[NgClassTsInsertionPerStructImports], newImport) &&
-					_struct != modelPointerToStructField.GongStruct {
+					_struct != field.GongStruct {
 					TSinsertions[NgClassTsInsertionPerStructImports] += newImport
 				}
 
 				TSinsertions[NgClassTsInsertionPerStructOtherDecls] +=
 					Replace2(NgClassSubTemplateCode[NgClassTSPointerToStructFieldsDecl],
-						"{{FieldName}}", modelPointerToStructField.Name,
-						"{{TypeInput}}", modelPointerToStructField.GongStruct.Name)
+						"{{FieldName}}", field.Name,
+						"{{TypeInput}}", field.GongStruct.Name)
 
 			case *SliceOfPointerToGongStructField:
-				fieldSliceOfPointerToModel := field.(*SliceOfPointerToGongStructField)
-				_ = fieldSliceOfPointerToModel
 
 				newImport := Replace2(NgClassSubTemplateCode[NgClassTSBasicFieldImports],
-					"{{AssocStructName}}", fieldSliceOfPointerToModel.GongStruct.Name,
-					"{{assocStructName}}", strings.ToLower(fieldSliceOfPointerToModel.GongStruct.Name))
+					"{{AssocStructName}}", field.GongStruct.Name,
+					"{{assocStructName}}", strings.ToLower(field.GongStruct.Name))
 
 				// for imports, duplicate imports are not allowed
 				if !strings.Contains(TSinsertions[NgClassTsInsertionPerStructImports], newImport) &&
-					_struct != fieldSliceOfPointerToModel.GongStruct {
+					_struct != field.GongStruct {
 					TSinsertions[NgClassTsInsertionPerStructImports] += newImport
 				}
 
 				TSinsertions[NgClassTsInsertionPerStructOtherDecls] +=
 					Replace2(NgClassSubTemplateCode[NgClassTSSliceOfPtrToStructFieldsDecl],
-						"{{FieldName}}", fieldSliceOfPointerToModel.Name,
-						"{{TypeInput}}", fieldSliceOfPointerToModel.GongStruct.Name)
+						"{{FieldName}}", field.Name,
+						"{{TypeInput}}", field.GongStruct.Name)
 
 			}
 		}
@@ -195,11 +189,10 @@ func MultiCodeGeneratorNgClass(
 		//
 		for _, __struct := range structList {
 			for _, field := range __struct.Fields {
-				switch field.(type) {
+				switch field := field.(type) {
 				case *SliceOfPointerToGongStructField:
-					fieldSliceOfPointerToModel := field.(*SliceOfPointerToGongStructField)
 
-					if fieldSliceOfPointerToModel.GongStruct == _struct {
+					if field.GongStruct == _struct {
 
 						newImport := Replace2(NgClassSubTemplateCode[NgClassTSBasicFieldImports],
 							"{{AssocStructName}}", __struct.Name,
@@ -207,13 +200,13 @@ func MultiCodeGeneratorNgClass(
 
 						// for imports, duplicate imports are not allowed
 						if !strings.Contains(TSinsertions[NgClassTsInsertionPerStructImports], newImport) &&
-							__struct != fieldSliceOfPointerToModel.GongStruct {
+							__struct != field.GongStruct {
 							TSinsertions[NgClassTsInsertionPerStructImports] += newImport
 						}
 
 						TSinsertions[NgClassTsInsertionPerStructOtherDecls] +=
 							Replace2(NgClassSubTemplateCode[NgClassTSSliceOfPtrToGongStructReverseID],
-								"{{FieldName}}", fieldSliceOfPointerToModel.Name,
+								"{{FieldName}}", field.Name,
 								"{{AssocStructName}}", __struct.Name)
 					}
 				}

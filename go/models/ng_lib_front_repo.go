@@ -383,18 +383,17 @@ func CodeGeneratorNgFrontRepo(
 
 		// compute code per field
 		for _, field := range _struct.Fields {
-			switch field.(type) {
+			switch field := field.(type) {
 			case *PointerToGongStructField:
-				fieldPointerToModel := field.(*PointerToGongStructField)
 
-				fieldName := strings.ToLower(fieldPointerToModel.Name)
-				assocStructName := strings.ToLower(fieldPointerToModel.GongStruct.Name)
+				fieldName := strings.ToLower(field.Name)
+				assocStructName := strings.ToLower(field.GongStruct.Name)
 
 				fieldPointerToStructCodes += Replace6(
 					NgFrontRepoPtrToStructTmplCodes[string(NgFrontRepoPtrToStructRedeeming)],
 					"{{fieldName}}", fieldName,
-					"{{FieldName}}", fieldPointerToModel.Name,
-					"{{AssocStructName}}", fieldPointerToModel.GongStruct.Name,
+					"{{FieldName}}", field.Name,
+					"{{AssocStructName}}", field.GongStruct.Name,
 					"{{assocStructName}}", assocStructName,
 					"{{Structname}}", _struct.Name,
 					"{{structname}}", structName)
@@ -408,21 +407,20 @@ func CodeGeneratorNgFrontRepo(
 		//
 		for _, __struct := range structList {
 			for _, field := range __struct.Fields {
-				switch field.(type) {
+				switch field := field.(type) {
 				case *SliceOfPointerToGongStructField:
-					fieldSliceOfPointerToModel := field.(*SliceOfPointerToGongStructField)
 
-					if fieldSliceOfPointerToModel.GongStruct == _struct {
+					if field.GongStruct == _struct {
 
-						fieldName := strings.ToLower(fieldSliceOfPointerToModel.Name)
-						assocStructName := strings.ToLower(fieldSliceOfPointerToModel.GongStruct.Name)
+						fieldName := strings.ToLower(field.Name)
+						assocStructName := strings.ToLower(field.GongStruct.Name)
 						__structName := strings.ToLower(__struct.Name)
 
 						fieldSliceOfPtrToStructCodes += Replace6(
 							NgFrontRepoSliceOfPointerToStructTmplCode[string(NgFrontRepoSliceOfPointerRedeeming)],
 							"{{fieldName}}", fieldName,
-							"{{FieldName}}", fieldSliceOfPointerToModel.Name,
-							"{{AssocStructName}}", fieldSliceOfPointerToModel.GongStruct.Name,
+							"{{FieldName}}", field.Name,
+							"{{AssocStructName}}", field.GongStruct.Name,
 							"{{assocStructName}}", assocStructName,
 							"{{Structname}}", __struct.Name,
 							"{{structname}}", __structName)

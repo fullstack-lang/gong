@@ -17,31 +17,24 @@ func (modelPkg *ModelPkg) SerializeToStage() {
 		gongStruct.Stage()
 
 		for _, field := range gongStruct.Fields {
-			switch field.(type) {
+			switch field := field.(type) {
 			case *GongBasicField:
-				gongBasicField := field.(*GongBasicField)
-				_ = gongBasicField
-				gongBasicField.Stage()
-				gongStruct.GongBasicFields = append(gongStruct.GongBasicFields, gongBasicField)
+
+				field.Stage()
+				gongStruct.GongBasicFields = append(gongStruct.GongBasicFields, field)
 
 			case *GongTimeField:
-				gongTimeField := field.(*GongTimeField)
-				_ = gongTimeField
-				gongTimeField.Stage()
-				gongStruct.GongTimeFields = append(gongStruct.GongTimeFields, gongTimeField)
+				field.Stage()
+				gongStruct.GongTimeFields = append(gongStruct.GongTimeFields, field)
 
 			case *PointerToGongStructField:
-				pointerToStructField := field.(*PointerToGongStructField)
-				_ = pointerToStructField
-				pointerToStructField.Stage()
-				gongStruct.PointerToGongStructFields = append(gongStruct.PointerToGongStructFields, pointerToStructField)
+				field.Stage()
+				gongStruct.PointerToGongStructFields = append(gongStruct.PointerToGongStructFields, field)
 
 			case *SliceOfPointerToGongStructField:
-				sliceOfPointerToGongStruct := field.(*SliceOfPointerToGongStructField)
-				_ = sliceOfPointerToGongStruct
-				sliceOfPointerToGongStruct.Stage()
+				field.Stage()
 				gongStruct.SliceOfPointerToGongStructFields = append(gongStruct.SliceOfPointerToGongStructFields,
-					sliceOfPointerToGongStruct)
+					field)
 			}
 		}
 
