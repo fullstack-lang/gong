@@ -39,7 +39,8 @@ definitions:
           $ref: '#/definitions/AstructBstructUse'
         type: array
       Anotherarrayofb:
-        description: gong supports different fields with the same destination struct, even itself
+        description: gong supports different fields with the same destination struct,
+          even itself
         items:
           $ref: '#/definitions/Bstruct'
         type: array
@@ -236,7 +237,8 @@ definitions:
           $ref: '#/definitions/AstructBstructUse'
         type: array
       Anotherarrayofb:
-        description: gong supports different fields with the same destination struct, even itself
+        description: gong supports different fields with the same destination struct,
+          even itself
         items:
           $ref: '#/definitions/Bstruct'
         type: array
@@ -1028,9 +1030,11 @@ responses:
     description: AstructDBResponse provides response
     headers:
       Aenum_2_Data:
-        description: Declation for basic field astructDB.Aenum_2 {{BasicKind}} (to be completed)
+        description: Declation for basic field astructDB.Aenum_2 {{BasicKind}} (to
+          be completed)
       Aenum_Data:
-        description: Declation for basic field astructDB.Aenum {{BasicKind}} (to be completed)
+        description: Declation for basic field astructDB.Aenum {{BasicKind}} (to be
+          completed)
       Anotherassociationtob_2ID:
         description: |-
           field Anotherassociationtob_2 is a pointer to another Struct (optional or 0..1)
@@ -1045,19 +1049,23 @@ responses:
           field Associationtob is a pointer to another Struct (optional or 0..1)
           This field is generated into another field to enable AS ONE association
       Astruct_AnarrayofaDBID:
-        description: Implementation of a reverse ID for field Astruct{}.Anarrayofa []*Astruct
+        description: Implementation of a reverse ID for field Astruct{}.Anarrayofa
+          []*Astruct
       Astruct_AnarrayofaDBID_Index:
         description: implementation of the index of the withing the slice
       Benum_Data:
-        description: Declation for basic field astructDB.Benum {{BasicKind}} (to be completed)
+        description: Declation for basic field astructDB.Benum {{BasicKind}} (to be
+          completed)
       Booleanfield_Data:
         description: |-
           Declation for basic field astructDB.Booleanfield bool (to be completed)
           provide the sql storage for the boolan
       CFloatfield_Data:
-        description: Declation for basic field astructDB.CFloatfield {{BasicKind}} (to be completed)
+        description: Declation for basic field astructDB.CFloatfield {{BasicKind}}
+          (to be completed)
       CName_Data:
-        description: Declation for basic field astructDB.CName {{BasicKind}} (to be completed)
+        description: Declation for basic field astructDB.CName {{BasicKind}} (to be
+          completed)
       CreatedAt:
         format: date-time
         type: string
@@ -1065,14 +1073,17 @@ responses:
         description: Declation for basic field astructDB.Date
       DeletedAt: {}
       Duration1_Data:
-        description: Declation for basic field astructDB.Duration1 {{BasicKind}} (to be completed)
+        description: Declation for basic field astructDB.Duration1 {{BasicKind}} (to
+          be completed)
       Floatfield_Data:
-        description: Declation for basic field astructDB.Floatfield {{BasicKind}} (to be completed)
+        description: Declation for basic field astructDB.Floatfield {{BasicKind}}
+          (to be completed)
       ID:
         format: uint64
         type: integer
       Intfield_Data:
-        description: Declation for basic field astructDB.Intfield {{BasicKind}} (to be completed)
+        description: Declation for basic field astructDB.Intfield {{BasicKind}} (to
+          be completed)
       Name_Data:
         description: |-
           insertion for basic fields declaration
@@ -1092,7 +1103,8 @@ responses:
     description: AstructBstruct2UseDBResponse provides response
     headers:
       Astruct_Anarrayofb2UseDBID:
-        description: Implementation of a reverse ID for field Astruct{}.Anarrayofb2Use []*AstructBstruct2Use
+        description: Implementation of a reverse ID for field Astruct{}.Anarrayofb2Use
+          []*AstructBstruct2Use
       Astruct_Anarrayofb2UseDBID_Index:
         description: implementation of the index of the withing the slice
       Bstrcut2ID:
@@ -1126,7 +1138,8 @@ responses:
     description: AstructBstructUseDBResponse provides response
     headers:
       Astruct_AnarrayofbUseDBID:
-        description: Implementation of a reverse ID for field Astruct{}.AnarrayofbUse []*AstructBstructUse
+        description: Implementation of a reverse ID for field Astruct{}.AnarrayofbUse
+          []*AstructBstructUse
       Astruct_AnarrayofbUseDBID_Index:
         description: implementation of the index of the withing the slice
       Bstruct2ID:
@@ -1166,7 +1179,8 @@ responses:
       Astruct_AnarrayofbDBID_Index:
         description: implementation of the index of the withing the slice
       Astruct_AnotherarrayofbDBID:
-        description: Implementation of a reverse ID for field Astruct{}.Anotherarrayofb []*Bstruct
+        description: Implementation of a reverse ID for field Astruct{}.Anotherarrayofb
+          []*Bstruct
       Astruct_AnotherarrayofbDBID_Index:
         description: implementation of the index of the withing the slice
       CreatedAt:
@@ -1174,12 +1188,14 @@ responses:
         type: string
       DeletedAt: {}
       Floatfield_Data:
-        description: Declation for basic field bstructDB.Floatfield {{BasicKind}} (to be completed)
+        description: Declation for basic field bstructDB.Floatfield {{BasicKind}}
+          (to be completed)
       ID:
         format: uint64
         type: integer
       Intfield_Data:
-        description: Declation for basic field bstructDB.Intfield {{BasicKind}} (to be completed)
+        description: Declation for basic field bstructDB.Intfield {{BasicKind}} (to
+          be completed)
       Name_Data:
         description: |-
           insertion for basic fields declaration
