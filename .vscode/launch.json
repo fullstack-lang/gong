@@ -11,13 +11,6 @@
             "mode": "debug",
             "cwd": "${workspaceFolder}/../laundromat/go/models",
             "program": "${workspaceFolder}/go/gongc",
-            "dlvLoadConfig": {
-                "followPointers": true,
-                "maxVariableRecurse": 1,
-                "maxStringLen": 3000,
-                "maxArrayValues": 64,
-                "maxStructFields": -1
-            },
             "args": []
         },
         {
@@ -27,13 +20,6 @@
             "mode": "debug",
             "cwd": "${workspaceFolder}/../gongsvg/go/models",
             "program": "${workspaceFolder}/go/gongc",
-            "dlvLoadConfig": {
-                "followPointers": true,
-                "maxVariableRecurse": 1,
-                "maxStringLen": 3000,
-                "maxArrayValues": 64,
-                "maxStructFields": -1
-            },
             "args": []
         },
         {
@@ -52,13 +38,6 @@
             "mode": "debug",
             "cwd": "${workspaceFolder}/test2/go/models",
             "program": "${workspaceFolder}/go/gongc",
-            "dlvLoadConfig": {
-                "followPointers": true,
-                "maxVariableRecurse": 1,
-                "maxStringLen": 3000,
-                "maxArrayValues": 64,
-                "maxStructFields": -1
-            },
             "args": []
         },        
         {
@@ -68,13 +47,6 @@
             "mode": "debug",
             "cwd": "${workspaceFolder}/test/go/models",
             "program": "${workspaceFolder}/go/gongc",
-            "dlvLoadConfig": {
-                "followPointers": true,
-                "maxVariableRecurse": 1,
-                "maxStringLen": 3000,
-                "maxArrayValues": 64,
-                "maxStructFields": -1
-            },
             "args": [
                 "-backendOnly"
             ]
@@ -86,13 +58,6 @@
             "mode": "debug",
             "cwd": "${workspaceFolder}/test2/go/models",
             "program": "${workspaceFolder}/go/gongc",
-            "dlvLoadConfig": {
-                "followPointers": true,
-                "maxVariableRecurse": 1,
-                "maxStringLen": 3000,
-                "maxArrayValues": 64,
-                "maxStructFields": -1
-            },
             "args": [
                 "-backendOnly"
             ]
@@ -104,13 +69,6 @@
             "mode": "debug",
             "cwd": "${workspaceFolder}/go/models",
             "program": "${workspaceFolder}/go/gongc",
-            "dlvLoadConfig": {
-                "followPointers": true,
-                "maxVariableRecurse": 1,
-                "maxStringLen": 3000,
-                "maxArrayValues": 64,
-                "maxStructFields": -1
-            },
             "args": [
                 "-backendOnly"
             ]
@@ -121,13 +79,6 @@
             "request": "launch",
             "mode": "auto",
             "program": "${workspaceFolder}/test",
-            "dlvLoadConfig": {
-                "followPointers": true,
-                "maxVariableRecurse": 1,
-                "maxStringLen": 3000,
-                "maxArrayValues": 64,
-                "maxStructFields": -1
-            },
             "args": []
         },
         {
@@ -136,13 +87,6 @@
             "request": "launch",
             "mode": "auto",
             "program": "${workspaceFolder}/test2",
-            "dlvLoadConfig": {
-                "followPointers": true,
-                "maxVariableRecurse": 1,
-                "maxStringLen": 3000,
-                "maxArrayValues": 64,
-                "maxStructFields": -1
-            },
             "args": []
         },
         {
