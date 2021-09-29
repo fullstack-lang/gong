@@ -1,6 +1,7 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Component, Inject } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { DOCUMENT, Location } from '@angular/common'
 
 /*
  * Behavior subject
@@ -18,11 +19,23 @@ export class CommitNbService {
         headers: new HttpHeaders({ 'Content-Type': 'application/json' })
     };
 
-    constructor(
-        private http: HttpClient
-    ) { }
+    private commitNbUrl: string
 
-    private commitNbUrl = 'http://localhost:8080/api/github.com/fullstack-lang/gong/test/go/commitnb';
+    constructor(
+        private http: HttpClient,
+        private location: Location,
+        @Inject(DOCUMENT) private document: Document
+    ) {
+        // path to the service share the same origin with the path to the document
+        // get the origin in the URL to the document
+        let origin = this.document.location.origin
+
+        // if debugging with ng, replace 4200 with 8080
+        origin = origin.replace("4200", "8080")
+
+        // compute path to the service
+        this.commitNbUrl = origin + '/api/github.com/fullstack-lang/gong/test/go/commitnb';
+    }
 
     // observable of the commit nb getter
     public getCommitNb(): Observable<number> {
