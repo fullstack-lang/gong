@@ -178,7 +178,7 @@ func main() {
 				}
 			}
 			{
-				cmd := exec.Command("ng", "add", "@angular/material", "--defaults=true")
+				cmd := exec.Command("ng", "add", "@angular/material", "--defaults=true", "--skip-confirmation")
 				cmd.Dir = gong_models.NgWorkspacePath
 				log.Printf("Adding angular material\n")
 
