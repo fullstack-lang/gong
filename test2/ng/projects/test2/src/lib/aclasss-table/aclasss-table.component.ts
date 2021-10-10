@@ -63,27 +63,6 @@ export class AclasssTableComponent implements OnInit {
         case 'Name':
           return aclassDB.Name;
 
-        case 'Date':
-          return aclassDB.Date;
-
-        case 'Booleanfield':
-          return aclassDB.Booleanfield;
-
-        case 'Floatfield':
-          return aclassDB.Floatfield;
-
-        case 'Intfield':
-          return aclassDB.Intfield;
-
-        case 'Anotherbooleanfield':
-          return aclassDB.Anotherbooleanfield;
-
-        case 'Duration1':
-          return aclassDB.Duration1;
-
-        case 'Aclass_Anarrayofa':
-          return this.frontRepo.Aclasss.get(aclassDB.Aclass_AnarrayofaDBID.Int64)?.Name;
-
         default:
           return AclassDB[property];
       }
@@ -98,12 +77,6 @@ export class AclasssTableComponent implements OnInit {
 
       // insertion point for merging of fields
       mergedContent += aclassDB.Name.toLowerCase()
-      mergedContent += aclassDB.Floatfield.toString()
-      mergedContent += aclassDB.Intfield.toString()
-      if (aclassDB.Aclass_AnarrayofaDBID.Int64 != 0) {
-        mergedContent += this.frontRepo.Aclasss.get(aclassDB.Aclass_AnarrayofaDBID.Int64)?.Name.toLowerCase()
-      }
-
 
       let isSelected = mergedContent.includes(filter.toLowerCase())
       return isSelected
@@ -155,24 +128,10 @@ export class AclasssTableComponent implements OnInit {
     if (this.mode == TableComponentMode.DISPLAY_MODE) {
       this.displayedColumns = ['ID', 'Edit', 'Delete', // insertion point for columns to display
         "Name",
-        "Date",
-        "Booleanfield",
-        "Floatfield",
-        "Intfield",
-        "Anotherbooleanfield",
-        "Duration1",
-        "Aclass_Anarrayofa",
       ]
     } else {
       this.displayedColumns = ['select', 'ID', // insertion point for columns to display
         "Name",
-        "Date",
-        "Booleanfield",
-        "Floatfield",
-        "Intfield",
-        "Anotherbooleanfield",
-        "Duration1",
-        "Aclass_Anarrayofa",
       ]
       this.selection = new SelectionModel<AclassDB>(allowMultiSelect, this.initialSelection);
     }
@@ -192,13 +151,6 @@ export class AclasssTableComponent implements OnInit {
         this.aclasss = this.frontRepo.Aclasss_array;
 
         // insertion point for variables Recoveries
-        // compute strings for durations
-        for (let aclass of this.aclasss) {
-          aclass.Duration1_string =
-            Math.floor(aclass.Duration1 / (3600 * 1000 * 1000 * 1000)) + "H " +
-            Math.floor(aclass.Duration1 % (3600 * 1000 * 1000 * 1000) / (60 * 1000 * 1000 * 1000)) + "M " +
-            aclass.Duration1 % (60 * 1000 * 1000 * 1000) / (1000 * 1000 * 1000) + "S"
-        }
 
         // in case the component is called as a selection component
         if (this.mode == TableComponentMode.ONE_MANY_ASSOCIATION_MODE) {

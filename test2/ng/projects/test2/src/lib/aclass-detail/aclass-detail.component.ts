@@ -23,7 +23,6 @@ enum AclassDetailComponentState {
 	CREATE_INSTANCE,
 	UPDATE_INSTANCE,
 	// insertion point for declarations of enum values of state
-	CREATE_INSTANCE_WITH_ASSOCIATION_Aclass_Anarrayofa_SET,
 }
 
 @Component({
@@ -34,11 +33,6 @@ enum AclassDetailComponentState {
 export class AclassDetailComponent implements OnInit {
 
 	// insertion point for declarations
-	BooleanfieldFormControl = new FormControl(false);
-	AnotherbooleanfieldFormControl = new FormControl(false);
-	Duration1_Hours: number
-	Duration1_Minutes: number
-	Duration1_Seconds: number
 
 	// the AclassDB of interest
 	aclass: AclassDB;
@@ -87,10 +81,6 @@ export class AclassDetailComponent implements OnInit {
 			} else {
 				switch (this.originStructFieldName) {
 					// insertion point for state computation
-					case "Anarrayofa":
-						console.log("Aclass" + " is instanciated with back pointer to instance " + this.id + " Aclass association Anarrayofa")
-						this.state = AclassDetailComponentState.CREATE_INSTANCE_WITH_ASSOCIATION_Aclass_Anarrayofa_SET
-						break;
 					default:
 						console.log(this.originStructFieldName + " is unkown association")
 				}
@@ -125,21 +115,11 @@ export class AclassDetailComponent implements OnInit {
 						this.aclass = frontRepo.Aclasss.get(this.id)
 						break;
 					// insertion point for init of association field
-					case AclassDetailComponentState.CREATE_INSTANCE_WITH_ASSOCIATION_Aclass_Anarrayofa_SET:
-						this.aclass = new (AclassDB)
-						this.aclass.Aclass_Anarrayofa_reverse = frontRepo.Aclasss.get(this.id)
-						break;
 					default:
 						console.log(this.state + " is unkown state")
 				}
 
 				// insertion point for recovery of form controls value for bool fields
-				this.BooleanfieldFormControl.setValue(this.aclass.Booleanfield)
-				this.AnotherbooleanfieldFormControl.setValue(this.aclass.Anotherbooleanfield)
-				// computation of Hours, Minutes, Seconds for Duration1
-				this.Duration1_Hours = Math.floor(this.aclass.Duration1 / (3600 * 1000 * 1000 * 1000))
-				this.Duration1_Minutes = Math.floor(this.aclass.Duration1 % (3600 * 1000 * 1000 * 1000) / (60 * 1000 * 1000 * 1000))
-				this.Duration1_Seconds = this.aclass.Duration1 % (60 * 1000 * 1000 * 1000) / (1000 * 1000 * 1000)
 			}
 		)
 
@@ -152,28 +132,10 @@ export class AclassDetailComponent implements OnInit {
 		// pointers fields, after the translation, are nulled in order to perform serialization
 
 		// insertion point for translation/nullation of each field
-		this.aclass.Booleanfield = this.BooleanfieldFormControl.value
-		this.aclass.Anotherbooleanfield = this.AnotherbooleanfieldFormControl.value
-		this.aclass.Duration1 =
-			this.Duration1_Hours * (3600 * 1000 * 1000 * 1000) +
-			this.Duration1_Minutes * (60 * 1000 * 1000 * 1000) +
-			this.Duration1_Seconds * (1000 * 1000 * 1000)
 
 		// save from the front pointer space to the non pointer space for serialization
 
 		// insertion point for translation/nullation of each pointers
-		if (this.aclass.Aclass_Anarrayofa_reverse != undefined) {
-			if (this.aclass.Aclass_AnarrayofaDBID == undefined) {
-				this.aclass.Aclass_AnarrayofaDBID = new NullInt64
-			}
-			this.aclass.Aclass_AnarrayofaDBID.Int64 = this.aclass.Aclass_Anarrayofa_reverse.ID
-			this.aclass.Aclass_AnarrayofaDBID.Valid = true
-			if (this.aclass.Aclass_AnarrayofaDBID_Index == undefined) {
-				this.aclass.Aclass_AnarrayofaDBID_Index = new NullInt64
-			}
-			this.aclass.Aclass_AnarrayofaDBID_Index.Valid = true
-			this.aclass.Aclass_Anarrayofa_reverse = undefined // very important, otherwise, circular JSON
-		}
 
 		switch (this.state) {
 			case AclassDetailComponentState.UPDATE_INSTANCE:
