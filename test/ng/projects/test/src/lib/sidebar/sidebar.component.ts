@@ -817,7 +817,7 @@ export class SidebarComponent implements OnInit {
     }]);
   }
 
-  setEditorSpecialRouterOutlet( node: GongFlatNode) {
+  setEditorSpecialRouterOutlet(node: GongFlatNode) {
     this.router.navigate([{
       outlets: {
         github_com_fullstack_lang_gong_test_go_editor: ["github_com_fullstack_lang_gong_test_go-" + node.associatedStructName.toLowerCase() + "-adder", node.id, node.structName, node.associationField]

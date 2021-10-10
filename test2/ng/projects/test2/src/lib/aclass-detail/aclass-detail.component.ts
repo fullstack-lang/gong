@@ -35,10 +35,10 @@ export class AclassDetailComponent implements OnInit {
 	// insertion point for declarations
 
 	// the AclassDB of interest
-	aclass: AclassDB;
+	aclass: AclassDB = new (AclassDB);
 
 	// front repo
-	frontRepo: FrontRepo
+	frontRepo: FrontRepo = new (FrontRepo)
 
 	// this stores the information related to string fields
 	// if false, the field is inputed with an <input ...> form 
@@ -46,15 +46,15 @@ export class AclassDetailComponent implements OnInit {
 	mapFields_displayAsTextArea = new Map<string, boolean>()
 
 	// the state at initialization (CREATION, UPDATE or CREATE with one association set)
-	state: AclassDetailComponentState
+	state: AclassDetailComponentState = AclassDetailComponentState.CREATE_INSTANCE
 
 	// in UDPATE state, if is the id of the instance to update
 	// in CREATE state with one association set, this is the id of the associated instance
-	id: number
+	id: number = 0
 
 	// in CREATE state with one association set, this is the id of the associated instance
-	originStruct: string
-	originStructFieldName: string
+	originStruct: string = ""
+	originStructFieldName: string = ""
 
 	constructor(
 		private aclassService: AclassService,
@@ -68,9 +68,9 @@ export class AclassDetailComponent implements OnInit {
 	ngOnInit(): void {
 
 		// compute state
-		this.id = +this.route.snapshot.paramMap.get('id');
-		this.originStruct = this.route.snapshot.paramMap.get('originStruct');
-		this.originStructFieldName = this.route.snapshot.paramMap.get('originStructFieldName');
+		this.id = +this.route.snapshot.paramMap.get('id')!;
+		this.originStruct = this.route.snapshot.paramMap.get('originStruct')!;
+		this.originStructFieldName = this.route.snapshot.paramMap.get('originStructFieldName')!;
 
 		const association = this.route.snapshot.paramMap.get('association');
 		if (this.id == 0) {
@@ -112,7 +112,9 @@ export class AclassDetailComponent implements OnInit {
 						this.aclass = new (AclassDB)
 						break;
 					case AclassDetailComponentState.UPDATE_INSTANCE:
-						this.aclass = frontRepo.Aclasss.get(this.id)
+						let aclass = frontRepo.Aclasss.get(this.id)
+						console.assert(aclass, "missing aclass with id:" + this.id)
+						this.aclass = aclass!
 						break;
 					// insertion point for init of association field
 					default:
@@ -147,7 +149,7 @@ export class AclassDetailComponent implements OnInit {
 			default:
 				this.aclassService.postAclass(this.aclass).subscribe(aclass => {
 					this.aclassService.AclassServiceChanged.next("post")
-					this.aclass = {} // reset fields
+					this.aclass = new (AclassDB) // reset fields
 				});
 		}
 	}
@@ -156,7 +158,7 @@ export class AclassDetailComponent implements OnInit {
 	// ONE-MANY association
 	// It uses the MapOfComponent provided by the front repo
 	openReverseSelection(AssociatedStruct: string, reverseField: string, selectionMode: string,
-		sourceField: string, intermediateStructField: string, nextAssociatedStruct: string ) {
+		sourceField: string, intermediateStructField: string, nextAssociatedStruct: string) {
 
 		console.log("mode " + selectionMode)
 
@@ -237,7 +239,7 @@ export class AclassDetailComponent implements OnInit {
 		});
 	}
 
-	fillUpNameIfEmpty(event) {
+	fillUpNameIfEmpty(event: { value: { Name: string; }; }) {
 		if (this.aclass.Name == undefined) {
 			this.aclass.Name = event.value.Name
 		}
@@ -254,7 +256,7 @@ export class AclassDetailComponent implements OnInit {
 
 	isATextArea(fieldName: string): boolean {
 		if (this.mapFields_displayAsTextArea.has(fieldName)) {
-			return this.mapFields_displayAsTextArea.get(fieldName)
+			return this.mapFields_displayAsTextArea.get(fieldName)!
 		} else {
 			return false
 		}
