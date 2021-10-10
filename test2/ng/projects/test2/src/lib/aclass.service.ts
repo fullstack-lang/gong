@@ -68,14 +68,10 @@ export class AclassService {
   postAclass(aclassdb: AclassDB): Observable<AclassDB> {
 
 		// insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
-    aclassdb.Anarrayofa = []
-    let _Aclass_Anarrayofa_reverse = aclassdb.Aclass_Anarrayofa_reverse
-    aclassdb.Aclass_Anarrayofa_reverse = {}
 
 		return this.http.post<AclassDB>(this.aclasssUrl, aclassdb, this.httpOptions).pipe(
 			tap(_ => {
 				// insertion point for restoration of reverse pointers
-        aclassdb.Aclass_Anarrayofa_reverse = _Aclass_Anarrayofa_reverse
 				this.log(`posted aclassdb id=${aclassdb.ID}`)
 			}),
 			catchError(this.handleError<AclassDB>('postAclass'))
@@ -99,14 +95,10 @@ export class AclassService {
     const url = `${this.aclasssUrl}/${id}`;
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
-    aclassdb.Anarrayofa = []
-    let _Aclass_Anarrayofa_reverse = aclassdb.Aclass_Anarrayofa_reverse
-    aclassdb.Aclass_Anarrayofa_reverse = {}
 
     return this.http.put(url, aclassdb, this.httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
-        aclassdb.Aclass_Anarrayofa_reverse = _Aclass_Anarrayofa_reverse
         this.log(`updated aclassdb id=${aclassdb.ID}`)
       }),
       catchError(this.handleError<AclassDB>('updateAclass'))

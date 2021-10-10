@@ -22,10 +22,6 @@ const ELEMENT_DATA: aclassDummyElement[] = [
 export class AclassPresentationComponent implements OnInit {
 
 	// insertion point for declarations
-	// fields from Duration1
-	Duration1_Hours: number
-	Duration1_Minutes: number
-	Duration1_Seconds: number
 
 	displayedColumns: string[] = [];
 	dataSource = ELEMENT_DATA;
@@ -68,10 +64,6 @@ export class AclassPresentationComponent implements OnInit {
 				this.aclass = this.frontRepo.Aclasss.get(id)
 
 				// insertion point for recovery of durations
-				// computation of Hours, Minutes, Seconds for Duration1
-				this.Duration1_Hours = Math.floor(this.aclass.Duration1 / (3600 * 1000 * 1000 * 1000))
-				this.Duration1_Minutes = Math.floor(this.aclass.Duration1 % (3600 * 1000 * 1000 * 1000) / (60 * 1000 * 1000 * 1000))
-				this.Duration1_Seconds = this.aclass.Duration1 % (60 * 1000 * 1000 * 1000) / (1000 * 1000 * 1000)
 			}
 		);
 	}
