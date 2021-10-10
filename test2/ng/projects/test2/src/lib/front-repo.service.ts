@@ -172,19 +172,6 @@ export class FrontRepoService {
                 // insertion point sub sub template for ONE-/ZERO-ONE associations pointers redeeming
 
                 // insertion point for redeeming ONE-MANY associations
-                // insertion point for slice of pointer field Aclass.Anarrayofa redeeming
-                {
-                  let _aclass = FrontRepoSingloton.Aclasss.get(aclass.Aclass_AnarrayofaDBID.Int64)
-                  if (_aclass) {
-                    if (_aclass.Anarrayofa == undefined) {
-                      _aclass.Anarrayofa = new Array<AclassDB>()
-                    }
-                    _aclass.Anarrayofa.push(aclass)
-                    if (aclass.Aclass_Anarrayofa_reverse == undefined) {
-                      aclass.Aclass_Anarrayofa_reverse = _aclass
-                    }
-                  }
-                }
               }
             )
 
@@ -225,19 +212,6 @@ export class FrontRepoService {
                 // insertion point for redeeming ONE/ZERO-ONE associations
 
                 // insertion point for redeeming ONE-MANY associations
-                // insertion point for slice of pointer field Aclass.Anarrayofa redeeming
-                {
-                  let _aclass = FrontRepoSingloton.Aclasss.get(aclass.Aclass_AnarrayofaDBID.Int64)
-                  if (_aclass) {
-                    if (_aclass.Anarrayofa == undefined) {
-                      _aclass.Anarrayofa = new Array<AclassDB>()
-                    }
-                    _aclass.Anarrayofa.push(aclass)
-                    if (aclass.Aclass_Anarrayofa_reverse == undefined) {
-                      aclass.Aclass_Anarrayofa_reverse = _aclass
-                    }
-                  }
-                }
               }
             )
 

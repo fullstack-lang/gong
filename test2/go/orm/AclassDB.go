@@ -45,11 +45,6 @@ type AclassAPI struct {
 // reverse pointers of slice of poitners to Struct
 type AclassPointersEnconding struct {
 	// insertion for pointer fields encoding declaration
-	// Implementation of a reverse ID for field Aclass{}.Anarrayofa []*Aclass
-	Aclass_AnarrayofaDBID sql.NullInt64
-
-	// implementation of the index of the withing the slice
-	Aclass_AnarrayofaDBID_Index sql.NullInt64
 }
 
 // AclassDB describes a aclass in the database
@@ -64,26 +59,6 @@ type AclassDB struct {
 	// insertion for basic fields declaration
 	// Declation for basic field aclassDB.Name {{BasicKind}} (to be completed)
 	Name_Data sql.NullString
-
-	// Declation for basic field aclassDB.Date
-	Date_Data sql.NullTime
-
-	// Declation for basic field aclassDB.Booleanfield bool (to be completed)
-	// provide the sql storage for the boolan
-	Booleanfield_Data sql.NullBool
-
-	// Declation for basic field aclassDB.Floatfield {{BasicKind}} (to be completed)
-	Floatfield_Data sql.NullFloat64
-
-	// Declation for basic field aclassDB.Intfield {{BasicKind}} (to be completed)
-	Intfield_Data sql.NullInt64
-
-	// Declation for basic field aclassDB.Anotherbooleanfield bool (to be completed)
-	// provide the sql storage for the boolan
-	Anotherbooleanfield_Data sql.NullBool
-
-	// Declation for basic field aclassDB.Duration1 {{BasicKind}} (to be completed)
-	Duration1_Data sql.NullInt64
 
 	// encoding of pointers
 	AclassPointersEnconding
@@ -107,18 +82,6 @@ type AclassWOP struct {
 	// insertion for WOP basic fields
 
 	Name string
-
-	Date time.Time
-
-	Booleanfield bool
-
-	Floatfield float64
-
-	Intfield int
-
-	Anotherbooleanfield bool
-
-	Duration1 time.Duration
 	// insertion for WOP pointer fields
 }
 
@@ -126,12 +89,6 @@ var Aclass_Fields = []string{
 	// insertion for WOP basic fields
 	"ID",
 	"Name",
-	"Date",
-	"Booleanfield",
-	"Floatfield",
-	"Intfield",
-	"Anotherbooleanfield",
-	"Duration1",
 }
 
 type BackRepoAclassStruct struct {
@@ -275,25 +232,6 @@ func (backRepoAclass *BackRepoAclassStruct) CommitPhaseTwoInstance(backRepo *Bac
 		aclassDB.CopyBasicFieldsFromAclass(aclass)
 
 		// insertion point for translating pointers encodings into actual pointers
-		// This loop encodes the slice of pointers aclass.Anarrayofa into the back repo.
-		// Each back repo instance at the end of the association encode the ID of the association start
-		// into a dedicated field for coding the association. The back repo instance is then saved to the db
-		for idx, aclassAssocEnd := range aclass.Anarrayofa {
-
-			// get the back repo instance at the association end
-			aclassAssocEnd_DB :=
-				backRepo.BackRepoAclass.GetAclassDBFromAclassPtr(aclassAssocEnd)
-
-			// encode reverse pointer in the association end back repo instance
-			aclassAssocEnd_DB.Aclass_AnarrayofaDBID.Int64 = int64(aclassDB.ID)
-			aclassAssocEnd_DB.Aclass_AnarrayofaDBID.Valid = true
-			aclassAssocEnd_DB.Aclass_AnarrayofaDBID_Index.Int64 = int64(idx)
-			aclassAssocEnd_DB.Aclass_AnarrayofaDBID_Index.Valid = true
-			if q := backRepoAclass.db.Save(aclassAssocEnd_DB); q.Error != nil {
-				return q.Error
-			}
-		}
-
 		query := backRepoAclass.db.Save(&aclassDB)
 		if query.Error != nil {
 			return query.Error
@@ -399,33 +337,6 @@ func (backRepoAclass *BackRepoAclassStruct) CheckoutPhaseTwoInstance(backRepo *B
 	_ = aclass // sometimes, there is no code generated. This lines voids the "unused variable" compilation error
 
 	// insertion point for checkout of pointer encoding
-	// This loop redeem aclass.Anarrayofa in the stage from the encode in the back repo
-	// It parses all AclassDB in the back repo and if the reverse pointer encoding matches the back repo ID
-	// it appends the stage instance
-	// 1. reset the slice
-	aclass.Anarrayofa = aclass.Anarrayofa[:0]
-	// 2. loop all instances in the type in the association end
-	for _, aclassDB_AssocEnd := range *backRepo.BackRepoAclass.Map_AclassDBID_AclassDB {
-		// 3. Does the ID encoding at the end and the ID at the start matches ?
-		if aclassDB_AssocEnd.Aclass_AnarrayofaDBID.Int64 == int64(aclassDB.ID) {
-			// 4. fetch the associated instance in the stage
-			aclass_AssocEnd := (*backRepo.BackRepoAclass.Map_AclassDBID_AclassPtr)[aclassDB_AssocEnd.ID]
-			// 5. append it the association slice
-			aclass.Anarrayofa = append(aclass.Anarrayofa, aclass_AssocEnd)
-		}
-	}
-
-	// sort the array according to the order
-	sort.Slice(aclass.Anarrayofa, func(i, j int) bool {
-		aclassDB_i_ID := (*backRepo.BackRepoAclass.Map_AclassPtr_AclassDBID)[aclass.Anarrayofa[i]]
-		aclassDB_j_ID := (*backRepo.BackRepoAclass.Map_AclassPtr_AclassDBID)[aclass.Anarrayofa[j]]
-
-		aclassDB_i := (*backRepo.BackRepoAclass.Map_AclassDBID_AclassDB)[aclassDB_i_ID]
-		aclassDB_j := (*backRepo.BackRepoAclass.Map_AclassDBID_AclassDB)[aclassDB_j_ID]
-
-		return aclassDB_i.Aclass_AnarrayofaDBID_Index.Int64 < aclassDB_j.Aclass_AnarrayofaDBID_Index.Int64
-	})
-
 	return
 }
 
@@ -461,24 +372,6 @@ func (aclassDB *AclassDB) CopyBasicFieldsFromAclass(aclass *models.Aclass) {
 	aclassDB.Name_Data.String = aclass.Name
 	aclassDB.Name_Data.Valid = true
 
-	aclassDB.Date_Data.Time = aclass.Date
-	aclassDB.Date_Data.Valid = true
-
-	aclassDB.Booleanfield_Data.Bool = aclass.Booleanfield
-	aclassDB.Booleanfield_Data.Valid = true
-
-	aclassDB.Floatfield_Data.Float64 = aclass.Floatfield
-	aclassDB.Floatfield_Data.Valid = true
-
-	aclassDB.Intfield_Data.Int64 = int64(aclass.Intfield)
-	aclassDB.Intfield_Data.Valid = true
-
-	aclassDB.Anotherbooleanfield_Data.Bool = aclass.Anotherbooleanfield
-	aclassDB.Anotherbooleanfield_Data.Valid = true
-
-	aclassDB.Duration1_Data.Int64 = int64(aclass.Duration1)
-	aclassDB.Duration1_Data.Valid = true
-
 }
 
 // CopyBasicFieldsFromAclassWOP
@@ -487,36 +380,12 @@ func (aclassDB *AclassDB) CopyBasicFieldsFromAclassWOP(aclass *AclassWOP) {
 	aclassDB.Name_Data.String = aclass.Name
 	aclassDB.Name_Data.Valid = true
 
-	aclassDB.Date_Data.Time = aclass.Date
-	aclassDB.Date_Data.Valid = true
-
-	aclassDB.Booleanfield_Data.Bool = aclass.Booleanfield
-	aclassDB.Booleanfield_Data.Valid = true
-
-	aclassDB.Floatfield_Data.Float64 = aclass.Floatfield
-	aclassDB.Floatfield_Data.Valid = true
-
-	aclassDB.Intfield_Data.Int64 = int64(aclass.Intfield)
-	aclassDB.Intfield_Data.Valid = true
-
-	aclassDB.Anotherbooleanfield_Data.Bool = aclass.Anotherbooleanfield
-	aclassDB.Anotherbooleanfield_Data.Valid = true
-
-	aclassDB.Duration1_Data.Int64 = int64(aclass.Duration1)
-	aclassDB.Duration1_Data.Valid = true
-
 }
 
 // CopyBasicFieldsToAclass
 func (aclassDB *AclassDB) CopyBasicFieldsToAclass(aclass *models.Aclass) {
 	// insertion point for checkout of basic fields (back repo to stage)
 	aclass.Name = aclassDB.Name_Data.String
-	aclass.Date = aclassDB.Date_Data.Time
-	aclass.Booleanfield = aclassDB.Booleanfield_Data.Bool
-	aclass.Floatfield = aclassDB.Floatfield_Data.Float64
-	aclass.Intfield = int(aclassDB.Intfield_Data.Int64)
-	aclass.Anotherbooleanfield = aclassDB.Anotherbooleanfield_Data.Bool
-	aclass.Duration1 = time.Duration(aclassDB.Duration1_Data.Int64)
 }
 
 // CopyBasicFieldsToAclassWOP
@@ -524,12 +393,6 @@ func (aclassDB *AclassDB) CopyBasicFieldsToAclassWOP(aclass *AclassWOP) {
 	aclass.ID = int(aclassDB.ID)
 	// insertion point for checkout of basic fields (back repo to stage)
 	aclass.Name = aclassDB.Name_Data.String
-	aclass.Date = aclassDB.Date_Data.Time
-	aclass.Booleanfield = aclassDB.Booleanfield_Data.Bool
-	aclass.Floatfield = aclassDB.Floatfield_Data.Float64
-	aclass.Intfield = int(aclassDB.Intfield_Data.Int64)
-	aclass.Anotherbooleanfield = aclassDB.Anotherbooleanfield_Data.Bool
-	aclass.Duration1 = time.Duration(aclassDB.Duration1_Data.Int64)
 }
 
 // Backup generates a json file from a slice of all AclassDB instances in the backrepo
@@ -642,12 +505,6 @@ func (backRepoAclass *BackRepoAclassStruct) RestorePhaseTwo() {
 		_ = aclassDB
 
 		// insertion point for reindexing pointers encoding
-		// This reindex aclass.Anarrayofa
-		if aclassDB.Aclass_AnarrayofaDBID.Int64 != 0 {
-			aclassDB.Aclass_AnarrayofaDBID.Int64 =
-				int64(BackRepoAclassid_atBckpTime_newID[uint(aclassDB.Aclass_AnarrayofaDBID.Int64)])
-		}
-
 		// update databse with new index encoding
 		query := backRepoAclass.db.Model(aclassDB).Updates(*aclassDB)
 		if query.Error != nil {

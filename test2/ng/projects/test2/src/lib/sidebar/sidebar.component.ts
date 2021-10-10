@@ -226,38 +226,6 @@ export class SidebarComponent implements OnInit {
           aclassGongNodeStruct.children.push(aclassGongNodeInstance)
 
           // insertion point for per field code
-          /**
-          * let append a node for the slide of pointer Anarrayofa
-          */
-          let AnarrayofaGongNodeAssociation: GongNode = {
-            name: "(Aclass) Anarrayofa",
-            type: GongNodeType.ONE__ZERO_MANY_ASSOCIATION,
-            id: aclassDB.ID,
-            uniqueIdPerStack: 19 * nonInstanceNodeId,
-            structName: "Aclass",
-            associationField: "Anarrayofa",
-            associatedStructName: "Aclass",
-            children: new Array<GongNode>()
-          }
-          nonInstanceNodeId = nonInstanceNodeId + 1
-          aclassGongNodeInstance.children.push(AnarrayofaGongNodeAssociation)
-
-          aclassDB.Anarrayofa?.forEach(aclassDB => {
-            let aclassNode: GongNode = {
-              name: aclassDB.Name,
-              type: GongNodeType.INSTANCE,
-              id: aclassDB.ID,
-              uniqueIdPerStack: // godel numbering (thank you kurt)
-                7 * getAclassUniqueID(aclassDB.ID)
-                + 11 * getAclassUniqueID(aclassDB.ID),
-              structName: "Aclass",
-              associationField: "",
-              associatedStructName: "",
-              children: new Array<GongNode>()
-            }
-            AnarrayofaGongNodeAssociation.children.push(aclassNode)
-          })
-
         }
       )
 
