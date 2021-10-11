@@ -23,14 +23,14 @@ export class AclassPresentationComponent implements OnInit {
 
 	// insertion point for declarations
 
-	displayedColumns: string[] = [];
-	dataSource = ELEMENT_DATA;
+	displayedColumns: string[] = []
+	dataSource = ELEMENT_DATA
 
-	aclass: AclassDB = new (AclassDB);
+	aclass: AclassDB = new (AclassDB)
 
 	// front repo
 	frontRepo: FrontRepo = new (FrontRepo)
-
+ 
 	constructor(
 		private aclassService: AclassService,
 		private frontRepoService: FrontRepoService,
@@ -56,7 +56,7 @@ export class AclassPresentationComponent implements OnInit {
 	}
 
 	getAclass(): void {
-		const id = +this.route.snapshot.paramMap.get('id')!;
+		const id = +this.route.snapshot.paramMap.get('id')!
 		this.frontRepoService.pull().subscribe(
 			frontRepo => {
 				this.frontRepo = frontRepo

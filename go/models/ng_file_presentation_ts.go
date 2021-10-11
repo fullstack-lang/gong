@@ -40,13 +40,13 @@ export class {{Structname}}PresentationComponent implements OnInit {
 
 	// insertion point for declarations{{` + string(rune(NgPresentationTsInsertionPerStructDeclarations)) + `}}
 
-	displayedColumns: string[] = [];
-	dataSource = ELEMENT_DATA;
+	displayedColumns: string[] = []
+	dataSource = ELEMENT_DATA
 
-	{{structname}}: {{Structname}}DB;
+	{{structname}}: {{Structname}}DB = new ({{Structname}}DB)
 
 	// front repo
-	frontRepo: FrontRepo
+	frontRepo: FrontRepo = new (FrontRepo)
  
 	constructor(
 		private {{structname}}Service: {{Structname}}Service,
@@ -73,12 +73,12 @@ export class {{Structname}}PresentationComponent implements OnInit {
 	}
 
 	get{{Structname}}(): void {
-		const id = +this.route.snapshot.paramMap.get('id');
+		const id = +this.route.snapshot.paramMap.get('id')!
 		this.frontRepoService.pull().subscribe(
 			frontRepo => {
 				this.frontRepo = frontRepo
 
-				this.{{structname}} = this.frontRepo.{{Structname}}s.get(id)
+				this.{{structname}} = this.frontRepo.{{Structname}}s.get(id)!
 
 				// insertion point for recovery of durations{{` + string(rune(NgPresentationTsInsertionPerStructRecoveries)) + `}}
 			}
