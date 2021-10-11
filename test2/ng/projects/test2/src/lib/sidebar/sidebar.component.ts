@@ -133,8 +133,8 @@ export class SidebarComponent implements OnInit {
   hasChild = (_: number, node: GongFlatNode) => node.expandable;
 
   // front repo
-  frontRepo: FrontRepo
-  commitNb: number
+  frontRepo: FrontRepo = new (FrontRepo)
+  commitNb: number = 0
 
   // "data" tree that is constructed during NgInit and is passed to the mat-tree component
   gongNodeTree = new Array<GongNode>();
@@ -174,9 +174,9 @@ export class SidebarComponent implements OnInit {
         this.treeControl.dataNodes.forEach(
           node => {
             if (this.treeControl.isExpanded(node)) {
-              memoryOfExpandedNodes[node.uniqueIdPerStack] = true
+              memoryOfExpandedNodes.set(node.uniqueIdPerStack, true)
             } else {
-              memoryOfExpandedNodes[node.uniqueIdPerStack] = false
+              memoryOfExpandedNodes.set(node.uniqueIdPerStack, false)
             }
           }
         )
@@ -223,7 +223,7 @@ export class SidebarComponent implements OnInit {
             associatedStructName: "",
             children: new Array<GongNode>()
           }
-          aclassGongNodeStruct.children.push(aclassGongNodeInstance)
+          aclassGongNodeStruct.children!.push(aclassGongNodeInstance)
 
           // insertion point for per field code
         }
@@ -233,17 +233,14 @@ export class SidebarComponent implements OnInit {
       this.dataSource.data = this.gongNodeTree
 
       // expand nodes that were exapanded before
-      if (this.treeControl.dataNodes != undefined) {
-        this.treeControl.dataNodes.forEach(
-          node => {
-            if (memoryOfExpandedNodes[node.uniqueIdPerStack] != undefined) {
-              if (memoryOfExpandedNodes[node.uniqueIdPerStack]) {
-                this.treeControl.expand(node)
-              }
-            }
+
+      this.treeControl.dataNodes?.forEach(
+        node => {
+          if (memoryOfExpandedNodes.has(node.uniqueIdPerStack)) {
+            this.treeControl.expand(node)
           }
-        )
-      }
+        }
+      )
     });
 
     // fetch the number of commits
@@ -289,7 +286,7 @@ export class SidebarComponent implements OnInit {
     }
   }
 
-  setEditorRouterOutlet(path) {
+  setEditorRouterOutlet(path: string) {
     this.router.navigate([{
       outlets: {
         github_com_fullstack_lang_gong_test2_go_editor: ["github_com_fullstack_lang_gong_test2_go-" + path.toLowerCase()]
@@ -297,7 +294,7 @@ export class SidebarComponent implements OnInit {
     }]);
   }
 
-  setEditorSpecialRouterOutlet( node: GongFlatNode) {
+  setEditorSpecialRouterOutlet(node: GongFlatNode) {
     this.router.navigate([{
       outlets: {
         github_com_fullstack_lang_gong_test2_go_editor: ["github_com_fullstack_lang_gong_test2_go-" + node.associatedStructName.toLowerCase() + "-adder", node.id, node.structName, node.associationField]
