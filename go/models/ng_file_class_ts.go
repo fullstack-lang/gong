@@ -20,9 +20,9 @@ const NgClassDBTmpl = `// insertion point for imports{{` + string(rune(NgClassTs
 import { NullInt64 } from './front-repo.service'
 
 export class {{Structname}}DB {
-	CreatedAt?: string;
-	DeletedAt?: string;
-	ID?: number;
+	CreatedAt: string = ""
+	DeletedAt: string = ""
+	ID: number = 0
 
 	// insertion point for basic fields declarations{{` + string(rune(NgClassTsInsertionPerStructBasicFieldsDecl)) + `}}
 
@@ -66,7 +66,7 @@ var NgClassSubTemplateCode map[NgClassSubTemplate]string = map[NgClassSubTemplat
 import { {{AssocStructName}}DB } from './{{assocStructName}}-db'`,
 
 	NgClassTSBasicFieldDecls: `
-	{{FieldName}}?: {{TypeInput}}`,
+	{{FieldName}}: {{TypeInput}} = {{NullValue}}`,
 
 	NgClassTSTimeFieldDecls: `
 	{{FieldName}}?: Date`,
@@ -122,19 +122,24 @@ func MultiCodeGeneratorNgClass(
 
 				// conversion form go type to ts type
 				typeOfField := ""
+				nullValue := ""
 
 				// conversion form go type to ts type
 				switch field.basicKind {
 				case types.Int, types.Int64, types.Int32, types.Float64:
 					typeOfField = "number"
+					nullValue = "0"
 				case types.String, types.Bool:
 					typeOfField = "string"
+					nullValue = "\"\""
 				}
 
-				TSinsertions[NgClassTsInsertionPerStructBasicFieldsDecl] += Replace2(
+				TSinsertions[NgClassTsInsertionPerStructBasicFieldsDecl] += Replace3(
 					NgClassSubTemplateCode[NgClassTSBasicFieldDecls],
 					"{{FieldName}}", field.Name,
-					"{{TypeInput}}", typeOfField)
+					"{{TypeInput}}", typeOfField,
+					"{{NullValue}}", nullValue,
+				)
 
 				if field.DeclaredType == "time.Duration" {
 					TSinsertions[NgClassTsInsertionPerStructOtherDecls] += Replace1(
