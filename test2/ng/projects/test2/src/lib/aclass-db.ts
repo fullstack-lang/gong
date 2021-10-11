@@ -4,8 +4,8 @@
 import { NullInt64 } from './front-repo.service'
 
 export class AclassDB {
-	CreatedAt?: string
-	DeletedAt?: string
+	CreatedAt: string = ""
+	DeletedAt: string = ""
 	ID: number = 0
 
 	// insertion point for basic fields declarations
