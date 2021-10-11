@@ -46,14 +46,14 @@ export class {{Structname}}Service {
   ) {
     // path to the service share the same origin with the path to the document
     // get the origin in the URL to the document
-	let origin = this.document.location.origin
-    
-	// if debugging with ng, replace 4200 with 8080
-	origin = origin.replace("4200", "8080")
+    let origin = this.document.location.origin
+
+    // if debugging with ng, replace 4200 with 8080
+    origin = origin.replace("4200", "8080")
 
     // compute path to the service
     this.{{structname}}sUrl = origin + '/api/{{PkgPathRoot}}/v1/{{structname}}s';
-   }
+  }
 
   /** GET {{structname}}s from the server */
   get{{Structname}}s(): Observable<{{Structname}}DB[]> {
@@ -78,15 +78,15 @@ export class {{Structname}}Service {
   /** POST: add a new {{structname}} to the server */
   post{{Structname}}({{structname}}db: {{Structname}}DB): Observable<{{Structname}}DB> {
 
-		// insertion point for reset of pointers and reverse pointers (to avoid circular JSON){{` + string(rune(NgServiceTsInsertionPointerReset)) + `}}
+    // insertion point for reset of pointers and reverse pointers (to avoid circular JSON){{` + string(rune(NgServiceTsInsertionPointerReset)) + `}}
 
-		return this.http.post<{{Structname}}DB>(this.{{structname}}sUrl, {{structname}}db, this.httpOptions).pipe(
-			tap(_ => {
-				// insertion point for restoration of reverse pointers{{` + string(rune(NgServiceTsInsertionPointerRestore)) + `}}
-				this.log(` + "`" + `posted {{structname}}db id=${{{structname}}db.ID}` + "`" + `)
-			}),
-			catchError(this.handleError<{{Structname}}DB>('post{{Structname}}'))
-		);
+    return this.http.post<{{Structname}}DB>(this.{{structname}}sUrl, {{structname}}db, this.httpOptions).pipe(
+      tap(_ => {
+        // insertion point for restoration of reverse pointers{{` + string(rune(NgServiceTsInsertionPointerRestore)) + `}}
+        this.log(` + "`" + `posted {{structname}}db id=${{{structname}}db.ID}` + "`" + `)
+      }),
+      catchError(this.handleError<{{Structname}}DB>('post{{Structname}}'))
+    );
   }
 
   /** DELETE: delete the {{structname}}db from the server */
@@ -107,7 +107,7 @@ export class {{Structname}}Service {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON){{` + string(rune(NgServiceTsInsertionPointerReset)) + `}}
 
-    return this.http.put(url, {{structname}}db, this.httpOptions).pipe(
+    return this.http.put<AclassDB>(url, {{structname}}db, this.httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers{{` + string(rune(NgServiceTsInsertionPointerRestore)) + `}}
         this.log(` + "`" + `updated {{structname}}db id=${{{structname}}db.ID}` + "`" + `)
