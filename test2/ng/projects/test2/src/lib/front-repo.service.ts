@@ -23,7 +23,7 @@ export const FrontRepoSingloton = new (FrontRepo)
 // define the type of nullable Int64 in order to support back pointers IDs
 export class NullInt64 {
   Int64: number = 0
-  Valid: boolean = true // exception to the golang convention.
+  Valid: boolean = true // exception to the golang convention that boolean default value is false
 }
 
 // the table component is called in different ways
@@ -35,15 +35,15 @@ export class NullInt64 {
 // DialogData define the interface for information that is forwarded from the calling instance to 
 // the select table
 export class DialogData {
-  ID: number = 0; // ID of the calling instance
+  ID: number = 0 // ID of the calling instance
 
   // the reverse pointer is the name of the generated field on the destination
   // struct of the ONE-MANY association
-  ReversePointer: string = ""; // field of {{Structname}} that serve as reverse pointer
-  OrderingMode: boolean = false; // if true, this is for ordering items
+  ReversePointer: string = "" // field of {{Structname}} that serve as reverse pointer
+  OrderingMode: boolean = false // if true, this is for ordering items
 
   // there are different selection mode : ONE_MANY or MANY_MANY
-  SelectionMode: SelectionMode = SelectionMode.ONE_MANY_ASSOCIATION_MODE;
+  SelectionMode: SelectionMode = SelectionMode.ONE_MANY_ASSOCIATION_MODE
 
   // used if SelectionMode is MANY_MANY_ASSOCIATION_MODE
   //
@@ -51,11 +51,11 @@ export class DialogData {
   // 
   // in the MANY_MANY_ASSOCIATION_MODE case, we need also the Struct and the FieldName that are
   // at the end of the ONE-MANY association
-  SourceStruct: string = "";  // The "Aclass"
-  SourceField: string = ""; // the "AnarrayofbUse"
-  IntermediateStruct: string = ""; // the "AclassBclassUse" 
-  IntermediateStructField: string = ""; // the "Bclass" as field
-  NextAssociationStruct: string = ""; // the "Bclass"
+  SourceStruct: string = ""  // The "Aclass"
+  SourceField: string = "" // the "AnarrayofbUse"
+  IntermediateStruct: string = "" // the "AclassBclassUse" 
+  IntermediateStructField: string = "" // the "Bclass" as field
+  NextAssociationStruct: string = "" // the "Bclass"
 }
 
 export enum SelectionMode {
@@ -82,7 +82,7 @@ export class FrontRepoService {
 
   // postService provides a post function for each struct name
   postService(structName: string, instanceToBePosted: any) {
-    let service = this[structName.toLowerCase() + "Service" as keyof FrontRepoService]
+    let service = this[structName.toLowerCase() + "Service" + "Service" as keyof FrontRepoService]
     let servicePostFunction = service[("post" + structName) as keyof typeof service] as (instance: typeof instanceToBePosted) => Observable<typeof instanceToBePosted>
 
     servicePostFunction(instanceToBePosted).subscribe(
