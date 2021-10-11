@@ -113,7 +113,7 @@ export class AclassDetailComponent implements OnInit {
 						break;
 					case AclassDetailComponentState.UPDATE_INSTANCE:
 						let aclass = frontRepo.Aclasss.get(this.id)
-						console.assert(aclass, "missing aclass with id:" + this.id)
+						console.assert(aclass != undefined, "missing aclass with id:" + this.id)
 						this.aclass = aclass!
 						break;
 					// insertion point for init of association field
