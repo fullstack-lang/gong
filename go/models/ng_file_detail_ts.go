@@ -53,10 +53,10 @@ export class {{Structname}}DetailComponent implements OnInit {
 	// insertion point for declarations{{` + string(rune(NgDetailTsInsertionPerStructDeclarations)) + `}}
 
 	// the {{Structname}}DB of interest
-	{{structname}}: {{Structname}}DB;
+	{{structname}}: {{Structname}}DB = new({{Structname}}DB)
 
 	// front repo
-	frontRepo: FrontRepo
+	frontRepo: FrontRepo = new(FrontRepo)
 
 	// this stores the information related to string fields
 	// if false, the field is inputed with an <input ...> form 
@@ -64,15 +64,15 @@ export class {{Structname}}DetailComponent implements OnInit {
 	mapFields_displayAsTextArea = new Map<string, boolean>()
 
 	// the state at initialization (CREATION, UPDATE or CREATE with one association set)
-	state: {{Structname}}DetailComponentState
+	state: {{Structname}}DetailComponentState = {{Structname}}DetailComponentState.CREATE_INSTANCE
 
 	// in UDPATE state, if is the id of the instance to update
 	// in CREATE state with one association set, this is the id of the associated instance
-	id: number
+	id: number = 0
 
 	// in CREATE state with one association set, this is the id of the associated instance
-	originStruct: string
-	originStructFieldName: string
+	originStruct: string = ""
+	originStructFieldName: string = ""
 
 	constructor(
 		private {{structname}}Service: {{Structname}}Service,
@@ -86,9 +86,9 @@ export class {{Structname}}DetailComponent implements OnInit {
 	ngOnInit(): void {
 
 		// compute state
-		this.id = +this.route.snapshot.paramMap.get('id');
-		this.originStruct = this.route.snapshot.paramMap.get('originStruct');
-		this.originStructFieldName = this.route.snapshot.paramMap.get('originStructFieldName');
+		this.id = +this.route.snapshot.paramMap.get('id')!;
+		this.originStruct = this.route.snapshot.paramMap.get('originStruct')!;
+		this.originStructFieldName = this.route.snapshot.paramMap.get('originStructFieldName')!;
 
 		const association = this.route.snapshot.paramMap.get('association');
 		if (this.id == 0) {
@@ -130,7 +130,9 @@ export class {{Structname}}DetailComponent implements OnInit {
 						this.{{structname}} = new ({{Structname}}DB)
 						break;
 					case {{Structname}}DetailComponentState.UPDATE_INSTANCE:
-						this.{{structname}} = frontRepo.{{Structname}}s.get(this.id)
+						let {{structname}} = frontRepo.{{Structname}}s.get(this.id)
+						console.assert({{structname}} != undefined, "missing {{structname}} with id:" + this.id)
+						this.{{structname}} = {{structname}}!
 						break;
 					// insertion point for init of association field{{` + string(rune(NgDetailTsInsertionPerStructCaseSetField)) + `}}
 					default:
@@ -165,7 +167,7 @@ export class {{Structname}}DetailComponent implements OnInit {
 			default:
 				this.{{structname}}Service.post{{Structname}}(this.{{structname}}).subscribe({{structname}} => {
 					this.{{structname}}Service.{{Structname}}ServiceChanged.next("post")
-					this.{{structname}} = {} // reset fields
+					this.{{structname}} = new ({{Structname}}DB) // reset fields
 				});
 		}
 	}
@@ -174,7 +176,7 @@ export class {{Structname}}DetailComponent implements OnInit {
 	// ONE-MANY association
 	// It uses the MapOfComponent provided by the front repo
 	openReverseSelection(AssociatedStruct: string, reverseField: string, selectionMode: string,
-		sourceField: string, intermediateStructField: string, nextAssociatedStruct: string ) {
+		sourceField: string, intermediateStructField: string, nextAssociatedStruct: string) {
 
 		console.log("mode " + selectionMode)
 
@@ -188,7 +190,7 @@ export class {{Structname}}DetailComponent implements OnInit {
 		dialogConfig.height = "50%"
 		if (selectionMode == SelectionMode.ONE_MANY_ASSOCIATION_MODE) {
 
-			dialogData.ID = this.{{structname}}.ID
+			dialogData.ID = this.{{structname}}.ID!
 			dialogData.ReversePointer = reverseField
 			dialogData.OrderingMode = false
 			dialogData.SelectionMode = selectionMode
@@ -204,7 +206,7 @@ export class {{Structname}}DetailComponent implements OnInit {
 			});
 		}
 		if (selectionMode == SelectionMode.MANY_MANY_ASSOCIATION_MODE) {
-			dialogData.ID = this.{{structname}}.ID
+			dialogData.ID = this.{{structname}}.ID!
 			dialogData.ReversePointer = reverseField
 			dialogData.OrderingMode = false
 			dialogData.SelectionMode = selectionMode
@@ -255,7 +257,7 @@ export class {{Structname}}DetailComponent implements OnInit {
 		});
 	}
 
-	fillUpNameIfEmpty(event) {
+	fillUpNameIfEmpty(event: { value: { Name: string; }; }) {
 		if (this.{{structname}}.Name == undefined) {
 			this.{{structname}}.Name = event.value.Name
 		}
@@ -272,7 +274,7 @@ export class {{Structname}}DetailComponent implements OnInit {
 
 	isATextArea(fieldName: string): boolean {
 		if (this.mapFields_displayAsTextArea.has(fieldName)) {
-			return this.mapFields_displayAsTextArea.get(fieldName)
+			return this.mapFields_displayAsTextArea.get(fieldName)!
 		} else {
 			return false
 		}

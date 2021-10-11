@@ -35,10 +35,10 @@ export class AclassDetailComponent implements OnInit {
 	// insertion point for declarations
 
 	// the AclassDB of interest
-	aclass: AclassDB = new (AclassDB);
+	aclass: AclassDB = new(AclassDB)
 
 	// front repo
-	frontRepo: FrontRepo = new (FrontRepo)
+	frontRepo: FrontRepo = new(FrontRepo)
 
 	// this stores the information related to string fields
 	// if false, the field is inputed with an <input ...> form 
@@ -172,7 +172,7 @@ export class AclassDetailComponent implements OnInit {
 		dialogConfig.height = "50%"
 		if (selectionMode == SelectionMode.ONE_MANY_ASSOCIATION_MODE) {
 
-			dialogData.ID = this.aclass.ID
+			dialogData.ID = this.aclass.ID!
 			dialogData.ReversePointer = reverseField
 			dialogData.OrderingMode = false
 			dialogData.SelectionMode = selectionMode
@@ -188,7 +188,7 @@ export class AclassDetailComponent implements OnInit {
 			});
 		}
 		if (selectionMode == SelectionMode.MANY_MANY_ASSOCIATION_MODE) {
-			dialogData.ID = this.aclass.ID
+			dialogData.ID = this.aclass.ID!
 			dialogData.ReversePointer = reverseField
 			dialogData.OrderingMode = false
 			dialogData.SelectionMode = selectionMode
