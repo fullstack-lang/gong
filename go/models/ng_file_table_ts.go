@@ -50,26 +50,28 @@ enum TableComponentMode {
 export class {{Structname}}sTableComponent implements OnInit {
 
   // mode at invocation
-  mode: TableComponentMode
+  mode: TableComponentMode = TableComponentMode.DISPLAY_MODE
 
   // used if the component is called as a selection component of {{Structname}} instances
-  selection: SelectionModel<{{Structname}}DB>;
-  initialSelection = new Array<{{Structname}}DB>();
+  selection: SelectionModel<{{Structname}}DB> = new (SelectionModel)
+  initialSelection = new Array<{{Structname}}DB>()
 
   // the data source for the table
-  {{structname}}s: {{Structname}}DB[];
-  matTableDataSource: MatTableDataSource<{{Structname}}DB>
+  {{structname}}s: {{Structname}}DB[] = []
+  matTableDataSource: MatTableDataSource<{{Structname}}DB> = new (MatTableDataSource)
 
   // front repo, that will be referenced by this.{{structname}}s
-  frontRepo: FrontRepo
+  frontRepo: FrontRepo = new (FrontRepo)
 
   // displayedColumns is referenced by the MatTable component for specify what columns
   // have to be displayed and in what order
   displayedColumns: string[];
 
   // for sorting & pagination
-  @ViewChild(MatSort) sort: MatSort;
-  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort)
+  sort: MatSort | undefined
+  @ViewChild(MatPaginator)
+  paginator: MatPaginator | undefined;
 
   ngAfterViewInit() {
 
@@ -78,7 +80,8 @@ export class {{Structname}}sTableComponent implements OnInit {
       switch (property) {
         // insertion point for specific sorting accessor{{` + string(rune(NgTableTsInsertionPerStructColumnsSorting)) + `}}
         default:
-          return {{Structname}}DB[property];
+          console.assert(false, "Unknown field")
+          return "";
       }
     };
 
@@ -95,8 +98,8 @@ export class {{Structname}}sTableComponent implements OnInit {
       return isSelected
     };
 
-    this.matTableDataSource.sort = this.sort;
-    this.matTableDataSource.paginator = this.paginator;
+    this.matTableDataSource.sort = this.sort!
+    this.matTableDataSource.paginator = this.paginator!
   }
 
   applyFilter(event: Event) {
@@ -168,7 +171,7 @@ export class {{Structname}}sTableComponent implements OnInit {
           this.{{structname}}s.forEach(
             {{structname}} => {
               let ID = this.dialogData.ID
-              let revPointer = {{structname}}[this.dialogData.ReversePointer]
+              let revPointer = {{structname}}[this.dialogData.ReversePointer as keyof {{Structname}}DB] as unknown as NullInt64
               if (revPointer.Int64 == ID) {
                 this.initialSelection.push({{structname}})
               }
@@ -179,15 +182,15 @@ export class {{Structname}}sTableComponent implements OnInit {
 
         if (this.mode == TableComponentMode.MANY_MANY_ASSOCIATION_MODE) {
 
-          let mapOfSourceInstances = this.frontRepo[this.dialogData.SourceStruct + "s"]
-          let sourceInstance = mapOfSourceInstances.get(this.dialogData.ID)
+          let mapOfSourceInstances = this.frontRepo[this.dialogData.SourceStruct + "s" as keyof FrontRepo] as Map<number, {{Structname}}DB>
+          let sourceInstance = mapOfSourceInstances.get(this.dialogData.ID)!
 
-          if (sourceInstance[this.dialogData.SourceField]) {
-            for (let associationInstance of sourceInstance[this.dialogData.SourceField]) {
-              let {{structname}} = associationInstance[this.dialogData.IntermediateStructField]
-              this.initialSelection.push({{structname}})
-            }
+          let sourceField = sourceInstance[this.dialogData.SourceField as keyof typeof sourceInstance]! as unknown as {{Structname}}DB[]
+          for (let associationInstance of sourceField) {
+            let {{structname}} = associationInstance[this.dialogData.IntermediateStructField as keyof typeof associationInstance] as unknown as {{Structname}}DB
+            this.initialSelection.push({{structname}})
           }
+
           this.selection = new SelectionModel<{{Structname}}DB>(allowMultiSelect, this.initialSelection);
         }
 
@@ -263,8 +266,9 @@ export class {{Structname}}sTableComponent implements OnInit {
       // reset all initial selection of {{structname}} that belong to {{structname}}
       this.initialSelection.forEach(
         {{structname}} => {
-          {{structname}}[this.dialogData.ReversePointer].Int64 = 0
-          {{structname}}[this.dialogData.ReversePointer].Valid = true
+          let index = {{structname}}[this.dialogData.ReversePointer as keyof {{Structname}}DB] as unknown as NullInt64
+          index.Int64 = 0
+          index.Valid = true
           toUpdate.add({{structname}})
         }
       )
@@ -272,9 +276,9 @@ export class {{Structname}}sTableComponent implements OnInit {
       // from selection, set {{structname}} that belong to {{structname}}
       this.selection.selected.forEach(
         {{structname}} => {
-          let ID = +this.dialogData.ID
-          {{structname}}[this.dialogData.ReversePointer].Int64 = ID
-          {{structname}}[this.dialogData.ReversePointer].Valid = true
+          let ID = this.dialogData.ID as number
+          let reversePointer = {{structname}}[this.dialogData.ReversePointer  as keyof {{Structname}}DB] as unknown as NullInt64
+          reversePointer.Int64 = ID
           toUpdate.add({{structname}})
         }
       )
@@ -290,10 +294,10 @@ export class {{Structname}}sTableComponent implements OnInit {
       )
     }
 
+    let mapOfSourceInstances = this.frontRepo[this.dialogData.SourceStruct + "s" as keyof FrontRepo] as Map<number, {{Structname}}DB>
+    let sourceInstance = mapOfSourceInstances.get(this.dialogData.ID)!
     if (this.mode == TableComponentMode.MANY_MANY_ASSOCIATION_MODE) {
 
-      let mapOfSourceInstances = this.frontRepo[this.dialogData.SourceStruct + "s"]
-      let sourceInstance = mapOfSourceInstances.get(this.dialogData.ID)
 
       // First, parse all instance of the association struct and remove the instance
       // that have unselect
@@ -309,23 +313,21 @@ export class {{Structname}}sTableComponent implements OnInit {
       }
 
       // delete the association instance
-      if (sourceInstance[this.dialogData.SourceField]) {
-        for (let associationInstance of sourceInstance[this.dialogData.SourceField]) {
-          let {{structname}} = associationInstance[this.dialogData.IntermediateStructField]
-          if (unselected{{Structname}}.has({{structname}}.ID)) {
+      let associationInstance = sourceInstance[this.dialogData.SourceField as keyof typeof sourceInstance]
+      let {{structname}} = associationInstance![this.dialogData.IntermediateStructField as keyof typeof associationInstance] as unknown as {{Structname}}DB
+      if (unselectedAclass.has({{structname}}.ID)) {
+        this.frontRepoService.deleteService(this.dialogData.IntermediateStruct, associationInstance)
 
-            this.frontRepoService.deleteService( this.dialogData.IntermediateStruct, associationInstance )
-          }
-        }
+
       }
 
-      // is the source array is emptyn create it
-      if (sourceInstance[this.dialogData.SourceField] == undefined) {
-        sourceInstance[this.dialogData.SourceField] = new Array<any>()
+      // is the source array is empty create it
+      if (sourceInstance[this.dialogData.SourceField as keyof typeof sourceInstance] == undefined) {
+        (sourceInstance[this.dialogData.SourceField as keyof typeof sourceInstance] as unknown as Array<{{Structname}}DB>) = new Array<{{Structname}}DB>()
       }
 
       // second, parse all instance of the selected
-      if (sourceInstance[this.dialogData.SourceField]) {
+      if (sourceInstance[this.dialogData.SourceField as keyof typeof sourceInstance]) {
         this.selection.selected.forEach(
           {{structname}} => {
             if (!this.initialSelection.includes({{structname}})) {
@@ -335,13 +337,11 @@ export class {{Structname}}sTableComponent implements OnInit {
                 Name: sourceInstance["Name"] + "-" + {{structname}}.Name,
               }
 
-              associationInstance[this.dialogData.IntermediateStructField+"ID"] = new NullInt64
-              associationInstance[this.dialogData.IntermediateStructField+"ID"].Int64 = {{structname}}.ID
-              associationInstance[this.dialogData.IntermediateStructField+"ID"].Valid = true
+              let index = associationInstance[this.dialogData.IntermediateStructField+"ID" as keyof typeof associationInstance] as unknown as NullInt64
+              index.Int64 = {{structname}}.ID
 
-              associationInstance[this.dialogData.SourceStruct + "_" + this.dialogData.SourceField + "DBID"] = new NullInt64
-              associationInstance[this.dialogData.SourceStruct + "_" + this.dialogData.SourceField + "DBID"].Int64 = sourceInstance["ID"]
-              associationInstance[this.dialogData.SourceStruct + "_" + this.dialogData.SourceField + "DBID"].Valid = true
+              let indexDB = associationInstance[this.dialogData.IntermediateStructField+"DBID" as keyof typeof associationInstance] as unknown as NullInt64
+              indexDB.Int64 = {{structname}}.ID
 
               this.frontRepoService.postService( this.dialogData.IntermediateStruct, associationInstance )
 
