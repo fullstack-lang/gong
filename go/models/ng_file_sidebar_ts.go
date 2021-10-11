@@ -147,8 +147,8 @@ export class SidebarComponent implements OnInit {
   hasChild = (_: number, node: GongFlatNode) => node.expandable;
 
   // front repo
-  frontRepo: FrontRepo
-  commitNb: number
+  frontRepo: FrontRepo = new (FrontRepo)
+  commitNb: number = 0
 
   // "data" tree that is constructed during NgInit and is passed to the mat-tree component
   gongNodeTree = new Array<GongNode>();
@@ -175,36 +175,28 @@ export class SidebarComponent implements OnInit {
       let memoryOfExpandedNodes = new Map<number, boolean>()
       let nonInstanceNodeId = 1
 
-      if (this.treeControl.dataNodes != undefined) {
-        this.treeControl.dataNodes.forEach(
-          node => {
-            if (this.treeControl.isExpanded(node)) {
-              memoryOfExpandedNodes[node.uniqueIdPerStack] = true
-            } else {
-              memoryOfExpandedNodes[node.uniqueIdPerStack] = false
-            }
+      this.treeControl.dataNodes?.forEach(
+        node => {
+          if (this.treeControl.isExpanded(node)) {
+            memoryOfExpandedNodes.set(node.uniqueIdPerStack, true)
+          } else {
+            memoryOfExpandedNodes.set(node.uniqueIdPerStack, false)
           }
-        )
-      }
-
-      this.gongNodeTree = new Array<GongNode>();
+        }
+      )
 
       // insertion point for per struct tree construction{{` + string(rune(NgSidebarTsInsertionPerStruct)) + `}}
 
       this.dataSource.data = this.gongNodeTree
 
       // expand nodes that were exapanded before
-      if (this.treeControl.dataNodes != undefined) {
-        this.treeControl.dataNodes.forEach(
-          node => {
-            if (memoryOfExpandedNodes[node.uniqueIdPerStack] != undefined) {
-              if (memoryOfExpandedNodes[node.uniqueIdPerStack]) {
-                this.treeControl.expand(node)
-              }
-            }
+      this.treeControl.dataNodes?.forEach(
+        node => {
+          if (memoryOfExpandedNodes.has(node.uniqueIdPerStack)) {
+            this.treeControl.expand(node)
           }
-        )
-      }
+        }
+      )
     });
 
     // fetch the number of commits
@@ -250,7 +242,7 @@ export class SidebarComponent implements OnInit {
     }
   }
 
-  setEditorRouterOutlet(path) {
+  setEditorRouterOutlet(path: string) {
     this.router.navigate([{
       outlets: {
         {{PkgPathRootWithoutSlashes}}_editor: ["{{PkgPathRootWithoutSlashes}}-" + path.toLowerCase()]
@@ -258,7 +250,7 @@ export class SidebarComponent implements OnInit {
     }]);
   }
 
-  setEditorSpecialRouterOutlet( node: GongFlatNode) {
+  setEditorSpecialRouterOutlet(node: GongFlatNode) {
     this.router.navigate([{
       outlets: {
         {{PkgPathRootWithoutSlashes}}_editor: ["{{PkgPathRootWithoutSlashes}}-" + node.associatedStructName.toLowerCase() + "-adder", node.id, node.structName, node.associationField]
@@ -331,7 +323,7 @@ var NgSidebarTsSubTemplateCode map[NgSidebarTsSubTemplate]string = map[NgSidebar
             associatedStructName: "",
             children: new Array<GongNode>()
           }
-          {{structname}}GongNodeStruct.children.push({{structname}}GongNodeInstance)
+          {{structname}}GongNodeStruct.children!.push({{structname}}GongNodeInstance)
 
           // insertion point for per field code{{` + string(rune(NgSidebarTsSubInsertionPerField)) + `}}
         }
@@ -390,7 +382,7 @@ var NgSidebarTsSubPerFieldTemplateCode map[NgSidebarTsStructSubTemplate]string =
             children: new Array<GongNode>()
           }
           nonInstanceNodeId = nonInstanceNodeId + 1
-          {{structname}}GongNodeInstance.children.push({{Fieldname}}GongNodeAssociation)
+          {{structname}}GongNodeInstance.children!.push({{Fieldname}}GongNodeAssociation)
 
           /**
             * let append a node for the instance behind the asssociation {{Fieldname}}
