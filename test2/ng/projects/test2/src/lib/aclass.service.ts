@@ -35,14 +35,14 @@ export class AclassService {
   ) {
     // path to the service share the same origin with the path to the document
     // get the origin in the URL to the document
-	let origin = this.document.location.origin
-    
-	// if debugging with ng, replace 4200 with 8080
-	origin = origin.replace("4200", "8080")
+    let origin = this.document.location.origin
+
+    // if debugging with ng, replace 4200 with 8080
+    origin = origin.replace("4200", "8080")
 
     // compute path to the service
     this.aclasssUrl = origin + '/api/github.com/fullstack-lang/gong/test2/go/v1/aclasss';
-   }
+  }
 
   /** GET aclasss from the server */
   getAclasss(): Observable<AclassDB[]> {
@@ -67,15 +67,15 @@ export class AclassService {
   /** POST: add a new aclass to the server */
   postAclass(aclassdb: AclassDB): Observable<AclassDB> {
 
-		// insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
+    // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
 
-		return this.http.post<AclassDB>(this.aclasssUrl, aclassdb, this.httpOptions).pipe(
-			tap(_ => {
-				// insertion point for restoration of reverse pointers
-				this.log(`posted aclassdb id=${aclassdb.ID}`)
-			}),
-			catchError(this.handleError<AclassDB>('postAclass'))
-		);
+    return this.http.post<AclassDB>(this.aclasssUrl, aclassdb, this.httpOptions).pipe(
+      tap(_ => {
+        // insertion point for restoration of reverse pointers
+        this.log(`posted aclassdb id=${aclassdb.ID}`)
+      }),
+      catchError(this.handleError<AclassDB>('postAclass'))
+    );
   }
 
   /** DELETE: delete the aclassdb from the server */
@@ -96,7 +96,7 @@ export class AclassService {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
 
-    return this.http.put(url, aclassdb, this.httpOptions).pipe(
+    return this.http.put<AclassDB>(url, aclassdb, this.httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
         this.log(`updated aclassdb id=${aclassdb.ID}`)

@@ -11,6 +11,7 @@ import { AclassDB } from '../aclass-db'
 import { AclassService } from '../aclass.service'
 
 import { FrontRepoService, FrontRepo, NullInt64 } from '../front-repo.service'
+import { TypeofExpr } from '@angular/compiler';
 @Component({
   selector: 'lib-aclass-sorting',
   templateUrl: './aclass-sorting.component.html',
@@ -18,7 +19,7 @@ import { FrontRepoService, FrontRepo, NullInt64 } from '../front-repo.service'
 })
 export class AclassSortingComponent implements OnInit {
 
-  frontRepo: FrontRepo
+  frontRepo: FrontRepo = new (FrontRepo)
 
   // array of Aclass instances that are in the association
   associatedAclasss = new Array<AclassDB>();
@@ -50,8 +51,8 @@ export class AclassSortingComponent implements OnInit {
         let index = 0
         for (let aclass of this.frontRepo.Aclasss_array) {
           let ID = this.dialogData.ID
-          let revPointerID = aclass[this.dialogData.ReversePointer]
-          let revPointerID_Index = aclass[this.dialogData.ReversePointer+"_Index"]
+          let revPointerID = aclass[this.dialogData.ReversePointer as keyof AclassDB] as unknown as NullInt64
+          let revPointerID_Index = aclass[this.dialogData.ReversePointer + "_Index" as keyof AclassDB] as unknown as NullInt64
           if (revPointerID.Int64 == ID) {
             if (revPointerID_Index == undefined) {
               revPointerID_Index = new NullInt64
@@ -64,15 +65,15 @@ export class AclassSortingComponent implements OnInit {
 
         // sort associated aclass according to order
         this.associatedAclasss.sort((t1, t2) => {
-          let t1_revPointerID_Index = t1[this.dialogData.ReversePointer+"_Index"]
-          let t2_revPointerID_Index = t2[this.dialogData.ReversePointer+"_Index"]
+          let t1_revPointerID_Index = t1[this.dialogData.ReversePointer + "_Index" as keyof typeof t1] as unknown as NullInt64
+          let t2_revPointerID_Index = t2[this.dialogData.ReversePointer + "_Index" as keyof typeof t2] as unknown as NullInt64
           if (t1_revPointerID_Index && t2_revPointerID_Index) {
             if (t1_revPointerID_Index.Int64 > t2_revPointerID_Index.Int64) {
               return 1;
             }
             if (t1_revPointerID_Index.Int64 < t2_revPointerID_Index.Int64) {
               return -1;
-            }  
+            }
           }
           return 0;
         });
@@ -85,9 +86,9 @@ export class AclassSortingComponent implements OnInit {
 
     // set the order of Aclass instances
     let index = 0
-    
+
     for (let aclass of this.associatedAclasss) {
-      let revPointerID_Index = aclass[this.dialogData.ReversePointer+"_Index"]
+      let revPointerID_Index = aclass[this.dialogData.ReversePointer + "_Index" as keyof AclassDB] as unknown as NullInt64
       revPointerID_Index.Valid = true
       revPointerID_Index.Int64 = index++
     }
@@ -104,6 +105,6 @@ export class AclassSortingComponent implements OnInit {
       }
     )
 
-    this.dialogRef.close('Sorting of '+ this.dialogData.ReversePointer+' done');
+    this.dialogRef.close('Sorting of ' + this.dialogData.ReversePointer + ' done');
   }
 }

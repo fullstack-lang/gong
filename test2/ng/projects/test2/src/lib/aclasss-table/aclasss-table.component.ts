@@ -33,26 +33,27 @@ enum TableComponentMode {
 export class AclasssTableComponent implements OnInit {
 
   // mode at invocation
-  mode: TableComponentMode
+  mode: TableComponentMode = TableComponentMode.DISPLAY_MODE
 
   // used if the component is called as a selection component of Aclass instances
-  selection: SelectionModel<AclassDB>;
+  selection: SelectionModel<AclassDB> = new (SelectionModel);
   initialSelection = new Array<AclassDB>();
 
   // the data source for the table
-  aclasss: AclassDB[];
-  matTableDataSource: MatTableDataSource<AclassDB>
+  aclasss: AclassDB[] = [];
+  matTableDataSource: MatTableDataSource<AclassDB> = new (MatTableDataSource)
 
   // front repo, that will be referenced by this.aclasss
-  frontRepo: FrontRepo
+  frontRepo: FrontRepo = new (FrontRepo)
 
   // displayedColumns is referenced by the MatTable component for specify what columns
   // have to be displayed and in what order
   displayedColumns: string[];
 
   // for sorting & pagination
-  @ViewChild(MatSort) sort: MatSort;
-  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort)
+  sort: MatSort | undefined;
+  @ViewChild(MatPaginator) paginator: MatPaginator | undefined;
 
   ngAfterViewInit() {
 
@@ -64,7 +65,8 @@ export class AclasssTableComponent implements OnInit {
           return aclassDB.Name;
 
         default:
-          return AclassDB[property];
+          console.assert(false, "Unknown field")
+          return "";
       }
     };
 
@@ -82,8 +84,8 @@ export class AclasssTableComponent implements OnInit {
       return isSelected
     };
 
-    this.matTableDataSource.sort = this.sort;
-    this.matTableDataSource.paginator = this.paginator;
+    this.matTableDataSource.sort = this.sort!;
+    this.matTableDataSource.paginator = this.paginator!;
   }
 
   applyFilter(event: Event) {
@@ -157,7 +159,7 @@ export class AclasssTableComponent implements OnInit {
           this.aclasss.forEach(
             aclass => {
               let ID = this.dialogData.ID
-              let revPointer = aclass[this.dialogData.ReversePointer]
+              let revPointer = aclass[this.dialogData.ReversePointer as keyof AclassDB] as unknown as NullInt64
               if (revPointer.Int64 == ID) {
                 this.initialSelection.push(aclass)
               }
@@ -168,12 +170,12 @@ export class AclasssTableComponent implements OnInit {
 
         if (this.mode == TableComponentMode.MANY_MANY_ASSOCIATION_MODE) {
 
-          let mapOfSourceInstances = this.frontRepo[this.dialogData.SourceStruct + "s"]
-          let sourceInstance = mapOfSourceInstances.get(this.dialogData.ID)
+          let mapOfSourceInstances = this.frontRepo[this.dialogData.SourceStruct + "s" as keyof FrontRepo] as Map<number, AclassDB>
+          let sourceInstance = mapOfSourceInstances.get(this.dialogData.ID)!
 
-          if (sourceInstance[this.dialogData.SourceField]) {
-            for (let associationInstance of sourceInstance[this.dialogData.SourceField]) {
-              let aclass = associationInstance[this.dialogData.IntermediateStructField]
+          if (sourceInstance[this.dialogData.SourceField as keyof AclassDB]) {
+            for (let associationInstance of (sourceInstance[this.dialogData.SourceField as keyof typeof sourceInstance]) as unknown as AclassDB[]) {
+              let aclass = associationInstance[this.dialogData.IntermediateStructField as keyof typeof associationInstance] as unknown as AclassDB
               this.initialSelection.push(aclass)
             }
           }
@@ -252,8 +254,9 @@ export class AclasssTableComponent implements OnInit {
       // reset all initial selection of aclass that belong to aclass
       this.initialSelection.forEach(
         aclass => {
-          aclass[this.dialogData.ReversePointer].Int64 = 0
-          aclass[this.dialogData.ReversePointer].Valid = true
+          let index = aclass[this.dialogData.ReversePointer as keyof AclassDB] as unknown as NullInt64
+          index.Int64 = 0
+          index.Valid = true
           toUpdate.add(aclass)
         }
       )
@@ -261,9 +264,9 @@ export class AclasssTableComponent implements OnInit {
       // from selection, set aclass that belong to aclass
       this.selection.selected.forEach(
         aclass => {
-          let ID = +this.dialogData.ID
-          aclass[this.dialogData.ReversePointer].Int64 = ID
-          aclass[this.dialogData.ReversePointer].Valid = true
+          let ID = this.dialogData.ID as number
+          let reversePointer = aclass[this.dialogData.ReversePointer as keyof AclassDB] as unknown as NullInt64
+          reversePointer.Int64 = ID
           toUpdate.add(aclass)
         }
       )
@@ -279,10 +282,10 @@ export class AclasssTableComponent implements OnInit {
       )
     }
 
-    if (this.mode == TableComponentMode.MANY_MANY_ASSOCIATION_MODE) {
+    let mapOfSourceInstances = this.frontRepo[this.dialogData.SourceStruct + "s" as keyof FrontRepo] as Map<number, AclassDB>
+    let sourceInstance = mapOfSourceInstances.get(this.dialogData.ID)!
 
-      let mapOfSourceInstances = this.frontRepo[this.dialogData.SourceStruct + "s"]
-      let sourceInstance = mapOfSourceInstances.get(this.dialogData.ID)
+    if (this.mode == TableComponentMode.MANY_MANY_ASSOCIATION_MODE) {
 
       // First, parse all instance of the association struct and remove the instance
       // that have unselect
@@ -298,23 +301,20 @@ export class AclasssTableComponent implements OnInit {
       }
 
       // delete the association instance
-      if (sourceInstance[this.dialogData.SourceField]) {
-        for (let associationInstance of sourceInstance[this.dialogData.SourceField]) {
-          let aclass = associationInstance[this.dialogData.IntermediateStructField]
-          if (unselectedAclass.has(aclass.ID)) {
+      let associationInstance = sourceInstance[this.dialogData.SourceField as keyof typeof sourceInstance]
+      let aclass = associationInstance![this.dialogData.IntermediateStructField as keyof typeof associationInstance] as AclassDB
+      if (unselectedAclass.has(aclass.ID)) {
+        this.frontRepoService.deleteService(this.dialogData.IntermediateStruct, associationInstance)
 
-            this.frontRepoService.deleteService( this.dialogData.IntermediateStruct, associationInstance )
-          }
-        }
       }
 
-      // is the source array is emptyn create it
-      if (sourceInstance[this.dialogData.SourceField] == undefined) {
-        sourceInstance[this.dialogData.SourceField] = new Array<any>()
+      // is the source array is empty create it
+      if (sourceInstance[this.dialogData.SourceField as keyof typeof sourceInstance] == undefined) {
+        (sourceInstance[this.dialogData.SourceField as keyof typeof sourceInstance] as unknown as Array<AclassDB>) = new Array<AclassDB>()
       }
 
       // second, parse all instance of the selected
-      if (sourceInstance[this.dialogData.SourceField]) {
+      if (sourceInstance[this.dialogData.SourceField as keyof typeof sourceInstance]) {
         this.selection.selected.forEach(
           aclass => {
             if (!this.initialSelection.includes(aclass)) {
@@ -324,15 +324,15 @@ export class AclasssTableComponent implements OnInit {
                 Name: sourceInstance["Name"] + "-" + aclass.Name,
               }
 
-              associationInstance[this.dialogData.IntermediateStructField+"ID"] = new NullInt64
-              associationInstance[this.dialogData.IntermediateStructField+"ID"].Int64 = aclass.ID
-              associationInstance[this.dialogData.IntermediateStructField+"ID"].Valid = true
+              // associationInstance[this.dialogData.IntermediateStructField + "ID" as keyof typeof associationInstance] as NullInt64 = new NullInt64
+              // associationInstance[this.dialogData.IntermediateStructField + "ID"].Int64 = aclass.ID
+              // associationInstance[this.dialogData.IntermediateStructField + "ID"].Valid = true
 
-              associationInstance[this.dialogData.SourceStruct + "_" + this.dialogData.SourceField + "DBID"] = new NullInt64
-              associationInstance[this.dialogData.SourceStruct + "_" + this.dialogData.SourceField + "DBID"].Int64 = sourceInstance["ID"]
-              associationInstance[this.dialogData.SourceStruct + "_" + this.dialogData.SourceField + "DBID"].Valid = true
+              // associationInstance[this.dialogData.SourceStruct + "_" + this.dialogData.SourceField + "DBID"] = new NullInt64
+              // associationInstance[this.dialogData.SourceStruct + "_" + this.dialogData.SourceField + "DBID"].Int64 = sourceInstance["ID"]
+              // associationInstance[this.dialogData.SourceStruct + "_" + this.dialogData.SourceField + "DBID"].Valid = true
 
-              this.frontRepoService.postService( this.dialogData.IntermediateStruct, associationInstance )
+              this.frontRepoService.postService(this.dialogData.IntermediateStruct, associationInstance)
 
             } else {
               // console.log("aclass " + aclass.Name + " is still selected")
