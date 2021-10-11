@@ -170,19 +170,15 @@ export class SidebarComponent implements OnInit {
       let memoryOfExpandedNodes = new Map<number, boolean>()
       let nonInstanceNodeId = 1
 
-      if (this.treeControl.dataNodes != undefined) {
-        this.treeControl.dataNodes.forEach(
-          node => {
-            if (this.treeControl.isExpanded(node)) {
-              memoryOfExpandedNodes.set(node.uniqueIdPerStack, true)
-            } else {
-              memoryOfExpandedNodes.set(node.uniqueIdPerStack, false)
-            }
+      this.treeControl.dataNodes?.forEach(
+        node => {
+          if (this.treeControl.isExpanded(node)) {
+            memoryOfExpandedNodes.set(node.uniqueIdPerStack, true)
+          } else {
+            memoryOfExpandedNodes.set(node.uniqueIdPerStack, false)
           }
-        )
-      }
-
-      this.gongNodeTree = new Array<GongNode>();
+        }
+      )
 
       // insertion point for per struct tree construction
       /**
@@ -233,7 +229,6 @@ export class SidebarComponent implements OnInit {
       this.dataSource.data = this.gongNodeTree
 
       // expand nodes that were exapanded before
-
       this.treeControl.dataNodes?.forEach(
         node => {
           if (memoryOfExpandedNodes.has(node.uniqueIdPerStack)) {
