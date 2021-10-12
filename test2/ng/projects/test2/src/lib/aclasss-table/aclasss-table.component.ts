@@ -69,7 +69,7 @@ export class AclasssTableComponent implements OnInit {
           return aclassDB.Date.getDate();
 
         case 'Booleanfield':
-          return aclassDB.Booleanfield;
+          return aclassDB.Booleanfield?"true":"false";
 
         case 'Floatfield':
           return aclassDB.Floatfield;
@@ -78,7 +78,7 @@ export class AclasssTableComponent implements OnInit {
           return aclassDB.Intfield;
 
         case 'Anotherbooleanfield':
-          return aclassDB.Anotherbooleanfield;
+          return aclassDB.Anotherbooleanfield?"true":"false";
 
         case 'Duration1':
           return aclassDB.Duration1;
