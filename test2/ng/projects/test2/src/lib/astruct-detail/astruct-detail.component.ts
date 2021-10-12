@@ -40,10 +40,10 @@ export class AstructDetailComponent implements OnInit {
 	Duration1_Seconds: number = 0
 
 	// the AstructDB of interest
-	astruct: AstructDB = new(AstructDB)
+	astruct: AstructDB = new AstructDB
 
 	// front repo
-	frontRepo: FrontRepo = new(FrontRepo)
+	frontRepo: FrontRepo = new FrontRepo
 
 	// this stores the information related to string fields
 	// if false, the field is inputed with an <input ...> form 

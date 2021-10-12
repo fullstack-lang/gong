@@ -53,10 +53,10 @@ export class {{Structname}}DetailComponent implements OnInit {
 	// insertion point for declarations{{` + string(rune(NgDetailTsInsertionPerStructDeclarations)) + `}}
 
 	// the {{Structname}}DB of interest
-	{{structname}}: {{Structname}}DB = new({{Structname}}DB)
+	{{structname}}: {{Structname}}DB = new {{Structname}}DB
 
 	// front repo
-	frontRepo: FrontRepo = new(FrontRepo)
+	frontRepo: FrontRepo = new FrontRepo
 
 	// this stores the information related to string fields
 	// if false, the field is inputed with an <input ...> form 
@@ -327,6 +327,7 @@ const (
 
 	NgDetailTSPointerToGongStructSaves
 
+	NgDetailTSReversePointerToSliceOfGongStructImports
 	NgDetailTSReversePointerToSliceOfGongStructStateEnumDeclaration
 	NgDetailTSReversePointerToSliceOfGongStructStateCaseComputation
 	NgDetailTSReversePointerToSliceOfGongStructStateCaseSetField
@@ -379,6 +380,9 @@ import { {{EnumName}}Select, {{EnumName}}List } from '../{{EnumName}}'`,
 			this.{{structname}}.{{FieldName}}ID.Int64 = 0
 			this.{{structname}}.{{FieldName}}ID.Valid = true
 		}`,
+
+	NgDetailTSReversePointerToSliceOfGongStructImports: `
+import { {{AssocStructName}}DB } from '../{{assocStructName}}-db'`,
 
 	NgDetailTSReversePointerToSliceOfGongStructStateEnumDeclaration: `
 	CREATE_INSTANCE_WITH_ASSOCIATION_{{AssocStructName}}_{{FieldName}}_SET,`,
@@ -647,6 +651,16 @@ func MultiCodeGeneratorNgDetail(
 				case *SliceOfPointerToGongStructField:
 
 					if field.GongStruct == _struct {
+						var importToInsert = Replace2(
+							NgDetailSubTemplateCode[NgDetailTSReversePointerToSliceOfGongStructImports],
+							"{{AssocStructName}}", __struct.Name,
+							"{{assocStructName}}", strings.ToLower(__struct.Name))
+
+						// cannot insert twice the same import
+						if !strings.Contains(TSinsertions[NgDetailTsInsertionPerStructImports], importToInsert) {
+							TSinsertions[NgDetailTsInsertionPerStructImports] += importToInsert
+						}
+
 						TSinsertions[NgDetailTsInsertionPerStructEnumFieldDeclarations] +=
 							Replace2(NgDetailSubTemplateCode[NgDetailTSReversePointerToSliceOfGongStructStateEnumDeclaration],
 								"{{FieldName}}", field.Name,
