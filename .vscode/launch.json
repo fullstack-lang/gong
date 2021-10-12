@@ -230,7 +230,6 @@
             "request": "launch",
             "reAttach": true,
             "url": "http://localhost:4200/",
-            "firefoxExecutable": "C:/Users/peugeot/AppData/Local/Microsoft/AppV/Client/Integration/F8B22858-413B-4241-955C-7CDA2C0B6696/Root/VFS/ProgramFilesX64/Mozilla Firefox/firefox.exe",
             "webRoot": "${workspaceFolder}/test2/ng",
             "pathMappings": [
                 {
