@@ -406,7 +406,7 @@ var NgTablelSubTemplateCode map[NgTableSubTemplate]string = map[NgTableSubTempla
 
 	NgTableTSBasicFieldSorting: `
         case '{{FieldName}}':
-          return {{structname}}DB.{{FieldName}};
+          return {{structname}}DB.{{FieldName}}{{TranslationIntoString}};
 `,
 	NgTableTSTimeFieldSorting: `
         case '{{FieldName}}':
@@ -551,9 +551,17 @@ func MultiCodeGeneratorNgTable(
 							"{{FieldName}}", field.Name)
 				}
 
+				// sorting requires a string translation for each field
+				// for boolean, one needs true or false
+				translationString := ""
+				if field.basicKind == types.Bool {
+					translationString = "?\"true\":\"false\""
+				}
+
 				TsInsertions[NgTableTsInsertionPerStructColumnsSorting] +=
-					Replace1(NgTablelSubTemplateCode[NgTableTSBasicFieldSorting],
-						"{{FieldName}}", field.Name)
+					Replace2(NgTablelSubTemplateCode[NgTableTSBasicFieldSorting],
+						"{{FieldName}}", field.Name,
+						"{{TranslationIntoString}}", translationString)
 
 			case *GongTimeField:
 
