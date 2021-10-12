@@ -10,13 +10,13 @@ import { MapOfComponents } from '../map-components'
 import { MapOfSortingComponents } from '../map-components'
 
 // insertion point for imports
+import { AstructDB } from '../astruct-db'
 
 import { Router, RouterState, ActivatedRoute } from '@angular/router';
 
 import { MatDialog, MAT_DIALOG_DATA, MatDialogRef, MatDialogConfig } from '@angular/material/dialog';
 
 import { NullInt64 } from '../front-repo.service'
-import { AstructDB } from '../astruct-db';
 
 // BstructDetailComponent is initilizaed from different routes
 // BstructDetailComponentState detail different cases 
@@ -37,10 +37,10 @@ export class BstructDetailComponent implements OnInit {
 	// insertion point for declarations
 
 	// the BstructDB of interest
-	bstruct: BstructDB = new (BstructDB)
+	bstruct: BstructDB = new BstructDB
 
 	// front repo
-	frontRepo: FrontRepo = new (FrontRepo)
+	frontRepo: FrontRepo = new FrontRepo
 
 	// this stores the information related to string fields
 	// if false, the field is inputed with an <input ...> form 
