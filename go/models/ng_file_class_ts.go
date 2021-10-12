@@ -20,8 +20,8 @@ const NgClassDBTmpl = `// insertion point for imports{{` + string(rune(NgClassTs
 import { NullInt64 } from './front-repo.service'
 
 export class {{Structname}}DB {
-	CreatedAt: string = ""
-	DeletedAt: string = ""
+	CreatedAt?: string
+	DeletedAt?: string
 	ID: number = 0
 
 	// insertion point for basic fields declarations{{` + string(rune(NgClassTsInsertionPerStructBasicFieldsDecl)) + `}}
