@@ -39,7 +39,7 @@
             "cwd": "${workspaceFolder}/test2/go/models",
             "program": "${workspaceFolder}/go/gongc",
             "args": []
-        },        
+        },
         {
             "name": "gongc test -backendOnly",
             "type": "go",
@@ -184,7 +184,7 @@
             ],
         },
         {
-            "name": "Launch firefox localhost:4200",
+            "name": "Launch firefox localhost:4200 for test",
             "type": "firefox",
             "request": "launch",
             "reAttach": true,
@@ -194,6 +194,20 @@
                 {
                     "url": "webpack:///projects",
                     "path": "${workspaceFolder}/test/ng/projects"
+                }
+            ],
+        },
+        {
+            "name": "Launch firefox localhost:4200 for test2",
+            "type": "firefox",
+            "request": "launch",
+            "reAttach": true,
+            "url": "http://localhost:4200/",
+            "webRoot": "${workspaceFolder}/test/ng",
+            "pathMappings": [
+                {
+                    "url": "webpack:///projects",
+                    "path": "${workspaceFolder}/test2/ng/projects"
                 }
             ],
         }
