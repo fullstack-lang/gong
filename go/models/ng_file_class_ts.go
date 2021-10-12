@@ -129,9 +129,12 @@ func MultiCodeGeneratorNgClass(
 				case types.Int, types.Int64, types.Int32, types.Float64:
 					typeOfField = "number"
 					nullValue = "0"
-				case types.String, types.Bool:
+				case types.String:
 					typeOfField = "string"
 					nullValue = "\"\""
+				case types.Bool:
+					typeOfField = "boolean"
+					nullValue = "false"
 				}
 
 				TSinsertions[NgClassTsInsertionPerStructBasicFieldsDecl] += Replace3(
