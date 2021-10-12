@@ -16,7 +16,7 @@ import { Router, RouterState, ActivatedRoute } from '@angular/router';
 import { MatDialog, MAT_DIALOG_DATA, MatDialogRef, MatDialogConfig } from '@angular/material/dialog';
 
 import { NullInt64 } from '../front-repo.service'
-import { AstructDB } from 'test2';
+import { AstructDB } from '../astruct-db';
 
 // BstructDetailComponent is initilizaed from different routes
 // BstructDetailComponentState detail different cases 
