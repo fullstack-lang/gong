@@ -8,12 +8,14 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"time"
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-contrib/static"
 	"github.com/gin-gonic/gin"
 
 	test2_controllers "github.com/fullstack-lang/gong/test2/go/controllers"
+	"github.com/fullstack-lang/gong/test2/go/models"
 	test2_orm "github.com/fullstack-lang/gong/test2/go/orm"
 
 	test_controllers "github.com/fullstack-lang/gong/test/go/controllers"
@@ -66,6 +68,12 @@ func main() {
 	} else {
 		test_orm.AutoMigrate(inMemoryDB)
 	}
+
+	aclass := new(models.Aclass).Stage()
+	aclass.Name = "Test2 first Aclass instance"
+	aclass.Date = time.Date(2020, time.January, 1, 10, 11, 12, 0, time.UTC)
+
+	models.Stage.Commit()
 
 	test2_controllers.RegisterControllers(r)
 	test_controllers.RegisterControllers(r)
