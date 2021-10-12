@@ -125,9 +125,9 @@ var NgPresentationSubTemplateCode map[NgPresentationSubTemplate]string = map[NgP
 
 	NgPresentationTSTimeDurationDeclarations: `
 	// fields from {{FieldName}}
-	{{FieldName}}_Hours: number
-	{{FieldName}}_Minutes: number
-	{{FieldName}}_Seconds: number`,
+	{{FieldName}}_Hours: number = 0
+	{{FieldName}}_Minutes: number = 0
+	{{FieldName}}_Seconds: number = 0`,
 	NgPresentationTSTimeDurationRecoveries: `
 				// computation of Hours, Minutes, Seconds for {{FieldName}}
 				this.{{FieldName}}_Hours = Math.floor(this.{{structname}}.{{FieldName}} / (3600 * 1000 * 1000 * 1000))

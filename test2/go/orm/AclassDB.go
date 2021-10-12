@@ -60,6 +60,26 @@ type AclassDB struct {
 	// Declation for basic field aclassDB.Name {{BasicKind}} (to be completed)
 	Name_Data sql.NullString
 
+	// Declation for basic field aclassDB.Date
+	Date_Data sql.NullTime
+
+	// Declation for basic field aclassDB.Booleanfield bool (to be completed)
+	// provide the sql storage for the boolan
+	Booleanfield_Data sql.NullBool
+
+	// Declation for basic field aclassDB.Floatfield {{BasicKind}} (to be completed)
+	Floatfield_Data sql.NullFloat64
+
+	// Declation for basic field aclassDB.Intfield {{BasicKind}} (to be completed)
+	Intfield_Data sql.NullInt64
+
+	// Declation for basic field aclassDB.Anotherbooleanfield bool (to be completed)
+	// provide the sql storage for the boolan
+	Anotherbooleanfield_Data sql.NullBool
+
+	// Declation for basic field aclassDB.Duration1 {{BasicKind}} (to be completed)
+	Duration1_Data sql.NullInt64
+
 	// encoding of pointers
 	AclassPointersEnconding
 }
@@ -82,6 +102,18 @@ type AclassWOP struct {
 	// insertion for WOP basic fields
 
 	Name string
+
+	Date time.Time
+
+	Booleanfield bool
+
+	Floatfield float64
+
+	Intfield int
+
+	Anotherbooleanfield bool
+
+	Duration1 time.Duration
 	// insertion for WOP pointer fields
 }
 
@@ -89,6 +121,12 @@ var Aclass_Fields = []string{
 	// insertion for WOP basic fields
 	"ID",
 	"Name",
+	"Date",
+	"Booleanfield",
+	"Floatfield",
+	"Intfield",
+	"Anotherbooleanfield",
+	"Duration1",
 }
 
 type BackRepoAclassStruct struct {
@@ -372,6 +410,24 @@ func (aclassDB *AclassDB) CopyBasicFieldsFromAclass(aclass *models.Aclass) {
 	aclassDB.Name_Data.String = aclass.Name
 	aclassDB.Name_Data.Valid = true
 
+	aclassDB.Date_Data.Time = aclass.Date
+	aclassDB.Date_Data.Valid = true
+
+	aclassDB.Booleanfield_Data.Bool = aclass.Booleanfield
+	aclassDB.Booleanfield_Data.Valid = true
+
+	aclassDB.Floatfield_Data.Float64 = aclass.Floatfield
+	aclassDB.Floatfield_Data.Valid = true
+
+	aclassDB.Intfield_Data.Int64 = int64(aclass.Intfield)
+	aclassDB.Intfield_Data.Valid = true
+
+	aclassDB.Anotherbooleanfield_Data.Bool = aclass.Anotherbooleanfield
+	aclassDB.Anotherbooleanfield_Data.Valid = true
+
+	aclassDB.Duration1_Data.Int64 = int64(aclass.Duration1)
+	aclassDB.Duration1_Data.Valid = true
+
 }
 
 // CopyBasicFieldsFromAclassWOP
@@ -380,12 +436,36 @@ func (aclassDB *AclassDB) CopyBasicFieldsFromAclassWOP(aclass *AclassWOP) {
 	aclassDB.Name_Data.String = aclass.Name
 	aclassDB.Name_Data.Valid = true
 
+	aclassDB.Date_Data.Time = aclass.Date
+	aclassDB.Date_Data.Valid = true
+
+	aclassDB.Booleanfield_Data.Bool = aclass.Booleanfield
+	aclassDB.Booleanfield_Data.Valid = true
+
+	aclassDB.Floatfield_Data.Float64 = aclass.Floatfield
+	aclassDB.Floatfield_Data.Valid = true
+
+	aclassDB.Intfield_Data.Int64 = int64(aclass.Intfield)
+	aclassDB.Intfield_Data.Valid = true
+
+	aclassDB.Anotherbooleanfield_Data.Bool = aclass.Anotherbooleanfield
+	aclassDB.Anotherbooleanfield_Data.Valid = true
+
+	aclassDB.Duration1_Data.Int64 = int64(aclass.Duration1)
+	aclassDB.Duration1_Data.Valid = true
+
 }
 
 // CopyBasicFieldsToAclass
 func (aclassDB *AclassDB) CopyBasicFieldsToAclass(aclass *models.Aclass) {
 	// insertion point for checkout of basic fields (back repo to stage)
 	aclass.Name = aclassDB.Name_Data.String
+	aclass.Date = aclassDB.Date_Data.Time
+	aclass.Booleanfield = aclassDB.Booleanfield_Data.Bool
+	aclass.Floatfield = aclassDB.Floatfield_Data.Float64
+	aclass.Intfield = int(aclassDB.Intfield_Data.Int64)
+	aclass.Anotherbooleanfield = aclassDB.Anotherbooleanfield_Data.Bool
+	aclass.Duration1 = time.Duration(aclassDB.Duration1_Data.Int64)
 }
 
 // CopyBasicFieldsToAclassWOP
@@ -393,6 +473,12 @@ func (aclassDB *AclassDB) CopyBasicFieldsToAclassWOP(aclass *AclassWOP) {
 	aclass.ID = int(aclassDB.ID)
 	// insertion point for checkout of basic fields (back repo to stage)
 	aclass.Name = aclassDB.Name_Data.String
+	aclass.Date = aclassDB.Date_Data.Time
+	aclass.Booleanfield = aclassDB.Booleanfield_Data.Bool
+	aclass.Floatfield = aclassDB.Floatfield_Data.Float64
+	aclass.Intfield = int(aclassDB.Intfield_Data.Int64)
+	aclass.Anotherbooleanfield = aclassDB.Anotherbooleanfield_Data.Bool
+	aclass.Duration1 = time.Duration(aclassDB.Duration1_Data.Int64)
 }
 
 // Backup generates a json file from a slice of all AclassDB instances in the backrepo

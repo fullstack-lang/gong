@@ -69,7 +69,7 @@ import { {{AssocStructName}}DB } from './{{assocStructName}}-db'`,
 	{{FieldName}}: {{TypeInput}} = {{NullValue}}`,
 
 	NgClassTSTimeFieldDecls: `
-	{{FieldName}}?: Date`,
+	{{FieldName}}: Date = new (Date)`,
 
 	NgClassTSPointerToStructFieldsDecl: `
 	{{FieldName}}?: {{TypeInput}}DB
