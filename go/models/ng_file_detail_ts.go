@@ -352,9 +352,9 @@ import { {{EnumName}}Select, {{EnumName}}List } from '../{{EnumName}}'`,
 		this.{{structname}}.{{FieldName}} = this.{{FieldName}}FormControl.value`,
 
 	NgDetailTSTimeDurationDeclarations: `
-	{{FieldName}}_Hours: number
-	{{FieldName}}_Minutes: number
-	{{FieldName}}_Seconds: number`,
+	{{FieldName}}_Hours: number = 0
+	{{FieldName}}_Minutes: number = 0
+	{{FieldName}}_Seconds: number = 0`,
 
 	NgDetailTSTimeDurationRecoveries: `
 				// computation of Hours, Minutes, Seconds for {{FieldName}}

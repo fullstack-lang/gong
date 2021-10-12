@@ -21,6 +21,52 @@
         <textarea name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="aclass.Name"></textarea>
     </mat-form-field>
 
+    <!-- -->
+    <mat-form-field class="detail-full-width">
+        <mat-label>Date</mat-label>
+        <input name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="aclass.Date">
+    </mat-form-field>
+
+    <!-- -->
+    <mat-checkbox [formControl]="BooleanfieldFormControl">Booleanfield</mat-checkbox>
+
+    <!-- -->
+    <mat-form-field class="detail-full-width">
+        <mat-label>Floatfield</mat-label>
+        <input type="number" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="aclass.Floatfield" [ngModelOptions]="{standalone: true}">
+    </mat-form-field>
+
+    <!-- -->
+    <mat-form-field class="detail-full-width">
+        <mat-label>Intfield</mat-label>
+        <input type="number" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="aclass.Intfield" [ngModelOptions]="{standalone: true}">
+    </mat-form-field>
+
+    <!-- -->
+    <mat-checkbox [formControl]="AnotherbooleanfieldFormControl">Anotherbooleanfield</mat-checkbox>
+
+    <!-- -->
+    <mat-grid-list cols="3" rowHeight="4:1">
+        <mat-grid-tile>
+            <mat-form-field class="details_hours_width">
+                <mat-label>Duration1 Hours</mat-label>
+                <input type="number" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="Duration1_Hours">
+            </mat-form-field>
+        </mat-grid-tile>
+        <mat-grid-tile>
+            <mat-form-field class="details_minutes_width">
+                <mat-label>Duration1 Minutes</mat-label>
+                <input type="number" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="Duration1_Minutes">
+            </mat-form-field>
+        </mat-grid-tile>
+        <mat-grid-tile>
+            <mat-form-field class="details_seconds_width">
+                <mat-label>Duration1 Seconds</mat-label>
+                <input type="number" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="Duration1_Seconds">
+            </mat-form-field>
+        </mat-grid-tile>
+    </mat-grid-list>
+
     <div class="details__save">
         <button mat-raised-button color="primary" (click)="save()">
             Save aclass

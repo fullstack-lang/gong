@@ -410,7 +410,7 @@ var NgTablelSubTemplateCode map[NgTableSubTemplate]string = map[NgTableSubTempla
 `,
 	NgTableTSTimeFieldSorting: `
         case '{{FieldName}}':
-          return {{structname}}DB.{{FieldName}};
+          return {{structname}}DB.{{FieldName}}.getDate();
 `,
 	NgTableTSPointerToStructSorting: `
         case '{{FieldName}}':
@@ -562,7 +562,7 @@ func MultiCodeGeneratorNgTable(
 						"{{FieldName}}", field.Name)
 
 				TsInsertions[NgTableTsInsertionPerStructColumnsSorting] +=
-					Replace1(NgTablelSubTemplateCode[NgTableTSBasicFieldSorting],
+					Replace1(NgTablelSubTemplateCode[NgTableTSTimeFieldSorting],
 						"{{FieldName}}", field.Name)
 
 				HtmlInsertions[NgTableHtmlInsertionColumn] += Replace1(NgTableHTMLSubTemplateCode[NgTableHTMLTimeField],
