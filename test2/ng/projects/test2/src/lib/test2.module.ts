@@ -38,6 +38,12 @@ import { AclassDetailComponent } from './aclass-detail/aclass-detail.component'
 import { AclassPresentationComponent } from './aclass-presentation/aclass-presentation.component'
 
 
+import {
+	NgxMatDatetimePickerModule,
+	NgxMatNativeDateModule,
+	NgxMatTimepickerModule
+} from '@angular-material-components/datetime-picker';
+
 @NgModule({
 	declarations: [
 		// insertion point for declarations 
@@ -76,6 +82,9 @@ import { AclassPresentationComponent } from './aclass-presentation/aclass-presen
 		MatGridListModule,
 		MatTreeModule,
 		DragDropModule,
+		NgxMatDatetimePickerModule,
+		NgxMatNativeDateModule,
+		NgxMatTimepickerModule,
 
 		AngularSplitModule,
 	],
