@@ -1,22 +1,24 @@
 package models
 
+import "time"
+
 // Aclass demonstrate basic metabaron
 //
 // 		swagger:model Aclass
 type Aclass struct {
 	Name string
 
-	// Date time.Time
+	Date time.Time
 
-	// Booleanfield bool
+	Booleanfield bool
 
-	// Floatfield float64
+	Floatfield float64
 
-	// Intfield int
+	Intfield int
 
-	// Anotherbooleanfield bool
+	Anotherbooleanfield bool
 
-	// Duration1 time.Duration
+	Duration1 time.Duration
 
 	// Anarrayofa []*Aclass
 }

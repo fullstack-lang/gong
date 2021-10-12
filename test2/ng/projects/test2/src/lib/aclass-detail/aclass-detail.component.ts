@@ -33,6 +33,11 @@ enum AclassDetailComponentState {
 export class AclassDetailComponent implements OnInit {
 
 	// insertion point for declarations
+	BooleanfieldFormControl = new FormControl(false);
+	AnotherbooleanfieldFormControl = new FormControl(false);
+	Duration1_Hours: number = 0
+	Duration1_Minutes: number = 0
+	Duration1_Seconds: number = 0
 
 	// the AclassDB of interest
 	aclass: AclassDB = new(AclassDB)
@@ -122,6 +127,12 @@ export class AclassDetailComponent implements OnInit {
 				}
 
 				// insertion point for recovery of form controls value for bool fields
+				this.BooleanfieldFormControl.setValue(this.aclass.Booleanfield)
+				this.AnotherbooleanfieldFormControl.setValue(this.aclass.Anotherbooleanfield)
+				// computation of Hours, Minutes, Seconds for Duration1
+				this.Duration1_Hours = Math.floor(this.aclass.Duration1 / (3600 * 1000 * 1000 * 1000))
+				this.Duration1_Minutes = Math.floor(this.aclass.Duration1 % (3600 * 1000 * 1000 * 1000) / (60 * 1000 * 1000 * 1000))
+				this.Duration1_Seconds = this.aclass.Duration1 % (60 * 1000 * 1000 * 1000) / (1000 * 1000 * 1000)
 			}
 		)
 
@@ -134,6 +145,12 @@ export class AclassDetailComponent implements OnInit {
 		// pointers fields, after the translation, are nulled in order to perform serialization
 
 		// insertion point for translation/nullation of each field
+		this.aclass.Booleanfield = this.BooleanfieldFormControl.value
+		this.aclass.Anotherbooleanfield = this.AnotherbooleanfieldFormControl.value
+		this.aclass.Duration1 =
+			this.Duration1_Hours * (3600 * 1000 * 1000 * 1000) +
+			this.Duration1_Minutes * (60 * 1000 * 1000 * 1000) +
+			this.Duration1_Seconds * (1000 * 1000 * 1000)
 
 		// save from the front pointer space to the non pointer space for serialization
 

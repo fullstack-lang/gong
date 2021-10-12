@@ -4,6 +4,52 @@ consumes:
 definitions:
   DeletedAt:
     $ref: '#/definitions/NullTime'
+  Duration:
+    description: |-
+      A Duration represents the elapsed time between two instants
+      as an int64 nanosecond count. The representation limits the
+      largest representable duration to approximately 290 years.
+    format: int64
+    type: integer
+    x-go-package: time
+  NullBool:
+    description: |-
+      NullBool implements the Scanner interface so
+      it can be used as a scan destination, similar to NullString.
+    properties:
+      Bool:
+        type: boolean
+      Valid:
+        type: boolean
+    title: NullBool represents a bool that may be null.
+    type: object
+    x-go-package: database/sql
+  NullFloat64:
+    description: |-
+      NullFloat64 implements the Scanner interface so
+      it can be used as a scan destination, similar to NullString.
+    properties:
+      Float64:
+        format: double
+        type: number
+      Valid:
+        type: boolean
+    title: NullFloat64 represents a float64 that may be null.
+    type: object
+    x-go-package: database/sql
+  NullInt64:
+    description: |-
+      NullInt64 implements the Scanner interface so
+      it can be used as a scan destination, similar to NullString.
+    properties:
+      Int64:
+        format: int64
+        type: integer
+      Valid:
+        type: boolean
+    title: NullInt64 represents an int64 that may be null.
+    type: object
+    x-go-package: database/sql
   NullString:
     description: |-
       var s NullString
@@ -44,13 +90,28 @@ definitions:
       from associations ("Has One" and "Has Many") that are generated to
       fullfill the ORM requirements for associations
     properties:
+      Anotherbooleanfield:
+        type: boolean
+      Booleanfield:
+        type: boolean
       CreatedAt:
+        format: date-time
+        type: string
+      Date:
         format: date-time
         type: string
       DeletedAt:
         $ref: '#/definitions/DeletedAt'
+      Duration1:
+        $ref: '#/definitions/Duration'
+      Floatfield:
+        format: double
+        type: number
       ID:
         format: uint64
+        type: integer
+      Intfield:
+        format: int64
         type: integer
       Name:
         type: string
@@ -66,14 +127,26 @@ definitions:
       It incorporates the GORM ID, basic fields from the model (because they can be serialized),
       the encoded version of pointers
     properties:
+      Anotherbooleanfield_Data:
+        $ref: '#/definitions/NullBool'
+      Booleanfield_Data:
+        $ref: '#/definitions/NullBool'
       CreatedAt:
         format: date-time
         type: string
+      Date_Data:
+        $ref: '#/definitions/NullTime'
       DeletedAt:
         $ref: '#/definitions/DeletedAt'
+      Duration1_Data:
+        $ref: '#/definitions/NullInt64'
+      Floatfield_Data:
+        $ref: '#/definitions/NullFloat64'
       ID:
         format: uint64
         type: integer
+      Intfield_Data:
+        $ref: '#/definitions/NullInt64'
       Name_Data:
         $ref: '#/definitions/NullString'
       UpdatedAt:
@@ -189,13 +262,32 @@ responses:
   aclassDBResponse:
     description: AclassDBResponse provides response
     headers:
+      Anotherbooleanfield_Data:
+        description: |-
+          Declation for basic field aclassDB.Anotherbooleanfield bool (to be completed)
+          provide the sql storage for the boolan
+      Booleanfield_Data:
+        description: |-
+          Declation for basic field aclassDB.Booleanfield bool (to be completed)
+          provide the sql storage for the boolan
       CreatedAt:
         format: date-time
         type: string
+      Date_Data:
+        description: Declation for basic field aclassDB.Date
       DeletedAt: {}
+      Duration1_Data:
+        description: Declation for basic field aclassDB.Duration1 {{BasicKind}} (to
+          be completed)
+      Floatfield_Data:
+        description: Declation for basic field aclassDB.Floatfield {{BasicKind}} (to
+          be completed)
       ID:
         format: uint64
         type: integer
+      Intfield_Data:
+        description: Declation for basic field aclassDB.Intfield {{BasicKind}} (to
+          be completed)
       Name_Data:
         description: |-
           insertion for basic fields declaration
@@ -204,7 +296,7 @@ responses:
         format: date-time
         type: string
     schema:
-      $ref: '#/definitions/NullString'
+      $ref: '#/definitions/NullInt64'
   aclassDBsResponse:
     description: AclassDBs arrays aclassDBs
     schema:
