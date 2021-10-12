@@ -1,16 +1,17 @@
 // insertion point for imports
+import { BstructDB } from './bstruct-db'
 
 // usefull for managing pointer ID values that can be nullable
 import { NullInt64 } from './front-repo.service'
 
-export class AclassDB {
+export class AstructDB {
 	CreatedAt?: string
 	DeletedAt?: string
 	ID: number = 0
 
 	// insertion point for basic fields declarations
 	Name: string = ""
-	Date: Date = new (Date)
+	Date: Date = new Date
 	Booleanfield: boolean = false
 	Floatfield: number = 0
 	Intfield: number = 0
@@ -19,4 +20,5 @@ export class AclassDB {
 
 	// insertion point for other declarations
 	Duration1_string?: string
+	Anarrayofbstruct?: Array<BstructDB>
 }

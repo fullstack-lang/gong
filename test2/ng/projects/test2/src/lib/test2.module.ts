@@ -38,19 +38,29 @@ import { SplitterComponent } from './splitter/splitter.component'
 import { SidebarComponent } from './sidebar/sidebar.component';
 
 // insertion point for imports 
-import { AclasssTableComponent } from './aclasss-table/aclasss-table.component'
-import { AclassSortingComponent } from './aclass-sorting/aclass-sorting.component'
-import { AclassDetailComponent } from './aclass-detail/aclass-detail.component'
-import { AclassPresentationComponent } from './aclass-presentation/aclass-presentation.component'
+import { AstructsTableComponent } from './astructs-table/astructs-table.component'
+import { AstructSortingComponent } from './astruct-sorting/astruct-sorting.component'
+import { AstructDetailComponent } from './astruct-detail/astruct-detail.component'
+import { AstructPresentationComponent } from './astruct-presentation/astruct-presentation.component'
+
+import { BstructsTableComponent } from './bstructs-table/bstructs-table.component'
+import { BstructSortingComponent } from './bstruct-sorting/bstruct-sorting.component'
+import { BstructDetailComponent } from './bstruct-detail/bstruct-detail.component'
+import { BstructPresentationComponent } from './bstruct-presentation/bstruct-presentation.component'
 
 
 @NgModule({
 	declarations: [
 		// insertion point for declarations 
-		AclasssTableComponent,
-		AclassSortingComponent,
-		AclassDetailComponent,
-		AclassPresentationComponent,
+		AstructsTableComponent,
+		AstructSortingComponent,
+		AstructDetailComponent,
+		AstructPresentationComponent,
+
+		BstructsTableComponent,
+		BstructSortingComponent,
+		BstructDetailComponent,
+		BstructPresentationComponent,
 
 
 		SplitterComponent,
@@ -91,10 +101,15 @@ import { AclassPresentationComponent } from './aclass-presentation/aclass-presen
 	],
 	exports: [
 		// insertion point for declarations 
-		AclasssTableComponent,
-		AclassSortingComponent,
-		AclassDetailComponent,
-		AclassPresentationComponent,
+		AstructsTableComponent,
+		AstructSortingComponent,
+		AstructDetailComponent,
+		AstructPresentationComponent,
+
+		BstructsTableComponent,
+		BstructSortingComponent,
+		BstructDetailComponent,
+		BstructPresentationComponent,
 
 
 		SplitterComponent,

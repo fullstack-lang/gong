@@ -315,7 +315,7 @@ export class {{Structname}}sTableComponent implements OnInit {
       // delete the association instance
       let associationInstance = sourceInstance[this.dialogData.SourceField as keyof typeof sourceInstance]
       let {{structname}} = associationInstance![this.dialogData.IntermediateStructField as keyof typeof associationInstance] as unknown as {{Structname}}DB
-      if (unselectedAclass.has({{structname}}.ID)) {
+      if (unselected{{Structname}}.has({{structname}}.ID)) {
         this.frontRepoService.deleteService(this.dialogData.IntermediateStruct, associationInstance)
 
 
@@ -418,7 +418,7 @@ var NgTablelSubTemplateCode map[NgTableSubTemplate]string = map[NgTableSubTempla
 `,
 	NgTableTSSliceOfPointerToStructSorting: `
         case '{{AssocStructName}}_{{FieldName}}':
-          return this.frontRepo.{{AssocStructName}}s.get({{structname}}DB.{{AssocStructName}}_{{FieldName}}DBID.Int64)?.Name;
+          return this.frontRepo.{{AssocStructName}}s.get({{structname}}DB.{{AssocStructName}}_{{FieldName}}DBID.Int64)!.Name;
 `,
 
 	NgTableTSNonNumberFieldFiltering: `
@@ -433,7 +433,7 @@ var NgTablelSubTemplateCode map[NgTableSubTemplate]string = map[NgTableSubTempla
       }`,
 	NgTableTSSliceOfPointerToStructFiltering: `
       if ({{structname}}DB.{{AssocStructName}}_{{FieldName}}DBID.Int64 != 0) {
-        mergedContent += this.frontRepo.{{AssocStructName}}s.get({{structname}}DB.{{AssocStructName}}_{{FieldName}}DBID.Int64)?.Name.toLowerCase()
+        mergedContent += this.frontRepo.{{AssocStructName}}s.get({{structname}}DB.{{AssocStructName}}_{{FieldName}}DBID.Int64)!.Name.toLowerCase()
       }
 `,
 

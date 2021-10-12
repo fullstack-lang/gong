@@ -13,8 +13,8 @@ import { SelectionModel } from '@angular/cdk/collections';
 const allowMultiSelect = true;
 
 import { Router, RouterState } from '@angular/router';
-import { AclassDB } from '../aclass-db'
-import { AclassService } from '../aclass.service'
+import { AstructDB } from '../astruct-db'
+import { AstructService } from '../astruct.service'
 
 // TableComponent is initilizaed from different routes
 // TableComponentMode detail different cases 
@@ -26,24 +26,24 @@ enum TableComponentMode {
 
 // generated table component
 @Component({
-  selector: 'app-aclassstable',
-  templateUrl: './aclasss-table.component.html',
-  styleUrls: ['./aclasss-table.component.css'],
+  selector: 'app-astructstable',
+  templateUrl: './astructs-table.component.html',
+  styleUrls: ['./astructs-table.component.css'],
 })
-export class AclasssTableComponent implements OnInit {
+export class AstructsTableComponent implements OnInit {
 
   // mode at invocation
   mode: TableComponentMode = TableComponentMode.DISPLAY_MODE
 
-  // used if the component is called as a selection component of Aclass instances
-  selection: SelectionModel<AclassDB> = new (SelectionModel)
-  initialSelection = new Array<AclassDB>()
+  // used if the component is called as a selection component of Astruct instances
+  selection: SelectionModel<AstructDB> = new (SelectionModel)
+  initialSelection = new Array<AstructDB>()
 
   // the data source for the table
-  aclasss: AclassDB[] = []
-  matTableDataSource: MatTableDataSource<AclassDB> = new (MatTableDataSource)
+  astructs: AstructDB[] = []
+  matTableDataSource: MatTableDataSource<AstructDB> = new (MatTableDataSource)
 
-  // front repo, that will be referenced by this.aclasss
+  // front repo, that will be referenced by this.astructs
   frontRepo: FrontRepo = new (FrontRepo)
 
   // displayedColumns is referenced by the MatTable component for specify what columns
@@ -59,29 +59,29 @@ export class AclasssTableComponent implements OnInit {
   ngAfterViewInit() {
 
     // enable sorting on all fields (including pointers and reverse pointer)
-    this.matTableDataSource.sortingDataAccessor = (aclassDB: AclassDB, property: string) => {
+    this.matTableDataSource.sortingDataAccessor = (astructDB: AstructDB, property: string) => {
       switch (property) {
         // insertion point for specific sorting accessor
         case 'Name':
-          return aclassDB.Name;
+          return astructDB.Name;
 
         case 'Date':
-          return aclassDB.Date.getDate();
+          return astructDB.Date.getDate();
 
         case 'Booleanfield':
-          return aclassDB.Booleanfield?"true":"false";
+          return astructDB.Booleanfield?"true":"false";
 
         case 'Floatfield':
-          return aclassDB.Floatfield;
+          return astructDB.Floatfield;
 
         case 'Intfield':
-          return aclassDB.Intfield;
+          return astructDB.Intfield;
 
         case 'Anotherbooleanfield':
-          return aclassDB.Anotherbooleanfield?"true":"false";
+          return astructDB.Anotherbooleanfield?"true":"false";
 
         case 'Duration1':
-          return aclassDB.Duration1;
+          return astructDB.Duration1;
 
         default:
           console.assert(false, "Unknown field")
@@ -90,16 +90,16 @@ export class AclasssTableComponent implements OnInit {
     };
 
     // enable filtering on all fields (including pointers and reverse pointer, which is not done by default)
-    this.matTableDataSource.filterPredicate = (aclassDB: AclassDB, filter: string) => {
+    this.matTableDataSource.filterPredicate = (astructDB: AstructDB, filter: string) => {
 
       // filtering is based on finding a lower case filter into a concatenated string
-      // the aclassDB properties
+      // the astructDB properties
       let mergedContent = ""
 
       // insertion point for merging of fields
-      mergedContent += aclassDB.Name.toLowerCase()
-      mergedContent += aclassDB.Floatfield.toString()
-      mergedContent += aclassDB.Intfield.toString()
+      mergedContent += astructDB.Name.toLowerCase()
+      mergedContent += astructDB.Floatfield.toString()
+      mergedContent += astructDB.Intfield.toString()
 
       let isSelected = mergedContent.includes(filter.toLowerCase())
       return isSelected
@@ -115,11 +115,11 @@ export class AclasssTableComponent implements OnInit {
   }
 
   constructor(
-    private aclassService: AclassService,
+    private astructService: AstructService,
     private frontRepoService: FrontRepoService,
 
-    // not null if the component is called as a selection component of aclass instances
-    public dialogRef: MatDialogRef<AclasssTableComponent>,
+    // not null if the component is called as a selection component of astruct instances
+    public dialogRef: MatDialogRef<AstructsTableComponent>,
     @Optional() @Inject(MAT_DIALOG_DATA) public dialogData: DialogData,
 
     private router: Router,
@@ -141,10 +141,10 @@ export class AclasssTableComponent implements OnInit {
     }
 
     // observable for changes in structs
-    this.aclassService.AclassServiceChanged.subscribe(
+    this.astructService.AstructServiceChanged.subscribe(
       message => {
         if (message == "post" || message == "update" || message == "delete") {
-          this.getAclasss()
+          this.getAstructs()
         }
       }
     )
@@ -168,105 +168,105 @@ export class AclasssTableComponent implements OnInit {
         "Anotherbooleanfield",
         "Duration1",
       ]
-      this.selection = new SelectionModel<AclassDB>(allowMultiSelect, this.initialSelection);
+      this.selection = new SelectionModel<AstructDB>(allowMultiSelect, this.initialSelection);
     }
 
   }
 
   ngOnInit(): void {
-    this.getAclasss()
-    this.matTableDataSource = new MatTableDataSource(this.aclasss)
+    this.getAstructs()
+    this.matTableDataSource = new MatTableDataSource(this.astructs)
   }
 
-  getAclasss(): void {
+  getAstructs(): void {
     this.frontRepoService.pull().subscribe(
       frontRepo => {
         this.frontRepo = frontRepo
 
-        this.aclasss = this.frontRepo.Aclasss_array;
+        this.astructs = this.frontRepo.Astructs_array;
 
         // insertion point for variables Recoveries
         // compute strings for durations
-        for (let aclass of this.aclasss) {
-          aclass.Duration1_string =
-            Math.floor(aclass.Duration1 / (3600 * 1000 * 1000 * 1000)) + "H " +
-            Math.floor(aclass.Duration1 % (3600 * 1000 * 1000 * 1000) / (60 * 1000 * 1000 * 1000)) + "M " +
-            aclass.Duration1 % (60 * 1000 * 1000 * 1000) / (1000 * 1000 * 1000) + "S"
+        for (let astruct of this.astructs) {
+          astruct.Duration1_string =
+            Math.floor(astruct.Duration1 / (3600 * 1000 * 1000 * 1000)) + "H " +
+            Math.floor(astruct.Duration1 % (3600 * 1000 * 1000 * 1000) / (60 * 1000 * 1000 * 1000)) + "M " +
+            astruct.Duration1 % (60 * 1000 * 1000 * 1000) / (1000 * 1000 * 1000) + "S"
         }
 
         // in case the component is called as a selection component
         if (this.mode == TableComponentMode.ONE_MANY_ASSOCIATION_MODE) {
-          this.aclasss.forEach(
-            aclass => {
+          this.astructs.forEach(
+            astruct => {
               let ID = this.dialogData.ID
-              let revPointer = aclass[this.dialogData.ReversePointer as keyof AclassDB] as unknown as NullInt64
+              let revPointer = astruct[this.dialogData.ReversePointer as keyof AstructDB] as unknown as NullInt64
               if (revPointer.Int64 == ID) {
-                this.initialSelection.push(aclass)
+                this.initialSelection.push(astruct)
               }
             }
           )
-          this.selection = new SelectionModel<AclassDB>(allowMultiSelect, this.initialSelection);
+          this.selection = new SelectionModel<AstructDB>(allowMultiSelect, this.initialSelection);
         }
 
         if (this.mode == TableComponentMode.MANY_MANY_ASSOCIATION_MODE) {
 
-          let mapOfSourceInstances = this.frontRepo[this.dialogData.SourceStruct + "s" as keyof FrontRepo] as Map<number, AclassDB>
+          let mapOfSourceInstances = this.frontRepo[this.dialogData.SourceStruct + "s" as keyof FrontRepo] as Map<number, AstructDB>
           let sourceInstance = mapOfSourceInstances.get(this.dialogData.ID)!
 
-          let sourceField = sourceInstance[this.dialogData.SourceField as keyof typeof sourceInstance]! as unknown as AclassDB[]
+          let sourceField = sourceInstance[this.dialogData.SourceField as keyof typeof sourceInstance]! as unknown as AstructDB[]
           for (let associationInstance of sourceField) {
-            let aclass = associationInstance[this.dialogData.IntermediateStructField as keyof typeof associationInstance] as unknown as AclassDB
-            this.initialSelection.push(aclass)
+            let astruct = associationInstance[this.dialogData.IntermediateStructField as keyof typeof associationInstance] as unknown as AstructDB
+            this.initialSelection.push(astruct)
           }
 
-          this.selection = new SelectionModel<AclassDB>(allowMultiSelect, this.initialSelection);
+          this.selection = new SelectionModel<AstructDB>(allowMultiSelect, this.initialSelection);
         }
 
         // update the mat table data source
-        this.matTableDataSource.data = this.aclasss
+        this.matTableDataSource.data = this.astructs
       }
     )
   }
 
-  // newAclass initiate a new aclass
-  // create a new Aclass objet
-  newAclass() {
+  // newAstruct initiate a new astruct
+  // create a new Astruct objet
+  newAstruct() {
   }
 
-  deleteAclass(aclassID: number, aclass: AclassDB) {
-    // list of aclasss is truncated of aclass before the delete
-    this.aclasss = this.aclasss.filter(h => h !== aclass);
+  deleteAstruct(astructID: number, astruct: AstructDB) {
+    // list of astructs is truncated of astruct before the delete
+    this.astructs = this.astructs.filter(h => h !== astruct);
 
-    this.aclassService.deleteAclass(aclassID).subscribe(
-      aclass => {
-        this.aclassService.AclassServiceChanged.next("delete")
+    this.astructService.deleteAstruct(astructID).subscribe(
+      astruct => {
+        this.astructService.AstructServiceChanged.next("delete")
       }
     );
   }
 
-  editAclass(aclassID: number, aclass: AclassDB) {
+  editAstruct(astructID: number, astruct: AstructDB) {
 
   }
 
-  // display aclass in router
-  displayAclassInRouter(aclassID: number) {
-    this.router.navigate(["github_com_fullstack_lang_gong_test2_go-" + "aclass-display", aclassID])
+  // display astruct in router
+  displayAstructInRouter(astructID: number) {
+    this.router.navigate(["github_com_fullstack_lang_gong_test2_go-" + "astruct-display", astructID])
   }
 
   // set editor outlet
-  setEditorRouterOutlet(aclassID: number) {
+  setEditorRouterOutlet(astructID: number) {
     this.router.navigate([{
       outlets: {
-        github_com_fullstack_lang_gong_test2_go_editor: ["github_com_fullstack_lang_gong_test2_go-" + "aclass-detail", aclassID]
+        github_com_fullstack_lang_gong_test2_go_editor: ["github_com_fullstack_lang_gong_test2_go-" + "astruct-detail", astructID]
       }
     }]);
   }
 
   // set presentation outlet
-  setPresentationRouterOutlet(aclassID: number) {
+  setPresentationRouterOutlet(astructID: number) {
     this.router.navigate([{
       outlets: {
-        github_com_fullstack_lang_gong_test2_go_presentation: ["github_com_fullstack_lang_gong_test2_go-" + "aclass-presentation", aclassID]
+        github_com_fullstack_lang_gong_test2_go_presentation: ["github_com_fullstack_lang_gong_test2_go-" + "astruct-presentation", astructID]
       }
     }]);
   }
@@ -274,7 +274,7 @@ export class AclasssTableComponent implements OnInit {
   /** Whether the number of selected elements matches the total number of rows. */
   isAllSelected() {
     const numSelected = this.selection.selected.length;
-    const numRows = this.aclasss.length;
+    const numRows = this.astructs.length;
     return numSelected === numRows;
   }
 
@@ -282,68 +282,68 @@ export class AclasssTableComponent implements OnInit {
   masterToggle() {
     this.isAllSelected() ?
       this.selection.clear() :
-      this.aclasss.forEach(row => this.selection.select(row));
+      this.astructs.forEach(row => this.selection.select(row));
   }
 
   save() {
 
     if (this.mode == TableComponentMode.ONE_MANY_ASSOCIATION_MODE) {
 
-      let toUpdate = new Set<AclassDB>()
+      let toUpdate = new Set<AstructDB>()
 
-      // reset all initial selection of aclass that belong to aclass
+      // reset all initial selection of astruct that belong to astruct
       this.initialSelection.forEach(
-        aclass => {
-          let index = aclass[this.dialogData.ReversePointer as keyof AclassDB] as unknown as NullInt64
+        astruct => {
+          let index = astruct[this.dialogData.ReversePointer as keyof AstructDB] as unknown as NullInt64
           index.Int64 = 0
           index.Valid = true
-          toUpdate.add(aclass)
+          toUpdate.add(astruct)
         }
       )
 
-      // from selection, set aclass that belong to aclass
+      // from selection, set astruct that belong to astruct
       this.selection.selected.forEach(
-        aclass => {
+        astruct => {
           let ID = this.dialogData.ID as number
-          let reversePointer = aclass[this.dialogData.ReversePointer  as keyof AclassDB] as unknown as NullInt64
+          let reversePointer = astruct[this.dialogData.ReversePointer  as keyof AstructDB] as unknown as NullInt64
           reversePointer.Int64 = ID
-          toUpdate.add(aclass)
+          toUpdate.add(astruct)
         }
       )
 
-      // update all aclass (only update selection & initial selection)
+      // update all astruct (only update selection & initial selection)
       toUpdate.forEach(
-        aclass => {
-          this.aclassService.updateAclass(aclass)
-            .subscribe(aclass => {
-              this.aclassService.AclassServiceChanged.next("update")
+        astruct => {
+          this.astructService.updateAstruct(astruct)
+            .subscribe(astruct => {
+              this.astructService.AstructServiceChanged.next("update")
             });
         }
       )
     }
 
-    let mapOfSourceInstances = this.frontRepo[this.dialogData.SourceStruct + "s" as keyof FrontRepo] as Map<number, AclassDB>
+    let mapOfSourceInstances = this.frontRepo[this.dialogData.SourceStruct + "s" as keyof FrontRepo] as Map<number, AstructDB>
     let sourceInstance = mapOfSourceInstances.get(this.dialogData.ID)!
     if (this.mode == TableComponentMode.MANY_MANY_ASSOCIATION_MODE) {
 
 
       // First, parse all instance of the association struct and remove the instance
       // that have unselect
-      let unselectedAclass = new Set<number>()
-      for (let aclass of this.initialSelection) {
-        if (this.selection.selected.includes(aclass)) {
-          // console.log("aclass " + aclass.Name + " is still selected")
+      let unselectedAstruct = new Set<number>()
+      for (let astruct of this.initialSelection) {
+        if (this.selection.selected.includes(astruct)) {
+          // console.log("astruct " + astruct.Name + " is still selected")
         } else {
-          console.log("aclass " + aclass.Name + " has been unselected")
-          unselectedAclass.add(aclass.ID)
-          console.log("is unselected " + unselectedAclass.has(aclass.ID))
+          console.log("astruct " + astruct.Name + " has been unselected")
+          unselectedAstruct.add(astruct.ID)
+          console.log("is unselected " + unselectedAstruct.has(astruct.ID))
         }
       }
 
       // delete the association instance
       let associationInstance = sourceInstance[this.dialogData.SourceField as keyof typeof sourceInstance]
-      let aclass = associationInstance![this.dialogData.IntermediateStructField as keyof typeof associationInstance] as unknown as AclassDB
-      if (unselectedAclass.has(aclass.ID)) {
+      let astruct = associationInstance![this.dialogData.IntermediateStructField as keyof typeof associationInstance] as unknown as AstructDB
+      if (unselectedAstruct.has(astruct.ID)) {
         this.frontRepoService.deleteService(this.dialogData.IntermediateStruct, associationInstance)
 
 
@@ -351,36 +351,36 @@ export class AclasssTableComponent implements OnInit {
 
       // is the source array is empty create it
       if (sourceInstance[this.dialogData.SourceField as keyof typeof sourceInstance] == undefined) {
-        (sourceInstance[this.dialogData.SourceField as keyof typeof sourceInstance] as unknown as Array<AclassDB>) = new Array<AclassDB>()
+        (sourceInstance[this.dialogData.SourceField as keyof typeof sourceInstance] as unknown as Array<AstructDB>) = new Array<AstructDB>()
       }
 
       // second, parse all instance of the selected
       if (sourceInstance[this.dialogData.SourceField as keyof typeof sourceInstance]) {
         this.selection.selected.forEach(
-          aclass => {
-            if (!this.initialSelection.includes(aclass)) {
-              // console.log("aclass " + aclass.Name + " has been added to the selection")
+          astruct => {
+            if (!this.initialSelection.includes(astruct)) {
+              // console.log("astruct " + astruct.Name + " has been added to the selection")
 
               let associationInstance = {
-                Name: sourceInstance["Name"] + "-" + aclass.Name,
+                Name: sourceInstance["Name"] + "-" + astruct.Name,
               }
 
               let index = associationInstance[this.dialogData.IntermediateStructField+"ID" as keyof typeof associationInstance] as unknown as NullInt64
-              index.Int64 = aclass.ID
+              index.Int64 = astruct.ID
 
               let indexDB = associationInstance[this.dialogData.IntermediateStructField+"DBID" as keyof typeof associationInstance] as unknown as NullInt64
-              indexDB.Int64 = aclass.ID
+              indexDB.Int64 = astruct.ID
 
               this.frontRepoService.postService( this.dialogData.IntermediateStruct, associationInstance )
 
             } else {
-              // console.log("aclass " + aclass.Name + " is still selected")
+              // console.log("astruct " + astruct.Name + " is still selected")
             }
           }
         )
       }
 
-      // this.selection = new SelectionModel<AclassDB>(allowMultiSelect, this.initialSelection);
+      // this.selection = new SelectionModel<AstructDB>(allowMultiSelect, this.initialSelection);
     }
 
     // why pizza ?

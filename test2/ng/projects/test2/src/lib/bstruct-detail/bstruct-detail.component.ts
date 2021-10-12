@@ -2,8 +2,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 
-import { AclassDB } from '../aclass-db'
-import { AclassService } from '../aclass.service'
+import { BstructDB } from '../bstruct-db'
+import { BstructService } from '../bstruct.service'
 
 import { FrontRepoService, FrontRepo, SelectionMode, DialogData } from '../front-repo.service'
 import { MapOfComponents } from '../map-components'
@@ -16,34 +16,31 @@ import { Router, RouterState, ActivatedRoute } from '@angular/router';
 import { MatDialog, MAT_DIALOG_DATA, MatDialogRef, MatDialogConfig } from '@angular/material/dialog';
 
 import { NullInt64 } from '../front-repo.service'
+import { AstructDB } from 'test2';
 
-// AclassDetailComponent is initilizaed from different routes
-// AclassDetailComponentState detail different cases 
-enum AclassDetailComponentState {
+// BstructDetailComponent is initilizaed from different routes
+// BstructDetailComponentState detail different cases 
+enum BstructDetailComponentState {
 	CREATE_INSTANCE,
 	UPDATE_INSTANCE,
 	// insertion point for declarations of enum values of state
+	CREATE_INSTANCE_WITH_ASSOCIATION_Astruct_Anarrayofbstruct_SET,
 }
 
 @Component({
-	selector: 'app-aclass-detail',
-	templateUrl: './aclass-detail.component.html',
-	styleUrls: ['./aclass-detail.component.css'],
+	selector: 'app-bstruct-detail',
+	templateUrl: './bstruct-detail.component.html',
+	styleUrls: ['./bstruct-detail.component.css'],
 })
-export class AclassDetailComponent implements OnInit {
+export class BstructDetailComponent implements OnInit {
 
 	// insertion point for declarations
-	BooleanfieldFormControl = new FormControl(false);
-	AnotherbooleanfieldFormControl = new FormControl(false);
-	Duration1_Hours: number = 0
-	Duration1_Minutes: number = 0
-	Duration1_Seconds: number = 0
 
-	// the AclassDB of interest
-	aclass: AclassDB = new(AclassDB)
+	// the BstructDB of interest
+	bstruct: BstructDB = new (BstructDB)
 
 	// front repo
-	frontRepo: FrontRepo = new(FrontRepo)
+	frontRepo: FrontRepo = new (FrontRepo)
 
 	// this stores the information related to string fields
 	// if false, the field is inputed with an <input ...> form 
@@ -51,7 +48,7 @@ export class AclassDetailComponent implements OnInit {
 	mapFields_displayAsTextArea = new Map<string, boolean>()
 
 	// the state at initialization (CREATION, UPDATE or CREATE with one association set)
-	state: AclassDetailComponentState = AclassDetailComponentState.CREATE_INSTANCE
+	state: BstructDetailComponentState = BstructDetailComponentState.CREATE_INSTANCE
 
 	// in UDPATE state, if is the id of the instance to update
 	// in CREATE state with one association set, this is the id of the associated instance
@@ -62,7 +59,7 @@ export class AclassDetailComponent implements OnInit {
 	originStructFieldName: string = ""
 
 	constructor(
-		private aclassService: AclassService,
+		private bstructService: BstructService,
 		private frontRepoService: FrontRepoService,
 		public dialog: MatDialog,
 		private route: ActivatedRoute,
@@ -79,26 +76,30 @@ export class AclassDetailComponent implements OnInit {
 
 		const association = this.route.snapshot.paramMap.get('association');
 		if (this.id == 0) {
-			this.state = AclassDetailComponentState.CREATE_INSTANCE
+			this.state = BstructDetailComponentState.CREATE_INSTANCE
 		} else {
 			if (this.originStruct == undefined) {
-				this.state = AclassDetailComponentState.UPDATE_INSTANCE
+				this.state = BstructDetailComponentState.UPDATE_INSTANCE
 			} else {
 				switch (this.originStructFieldName) {
 					// insertion point for state computation
+					case "Anarrayofbstruct":
+						console.log("Bstruct" + " is instanciated with back pointer to instance " + this.id + " Astruct association Anarrayofbstruct")
+						this.state = BstructDetailComponentState.CREATE_INSTANCE_WITH_ASSOCIATION_Astruct_Anarrayofbstruct_SET
+						break;
 					default:
 						console.log(this.originStructFieldName + " is unkown association")
 				}
 			}
 		}
 
-		this.getAclass()
+		this.getBstruct()
 
 		// observable for changes in structs
-		this.aclassService.AclassServiceChanged.subscribe(
+		this.bstructService.BstructServiceChanged.subscribe(
 			message => {
 				if (message == "post" || message == "update" || message == "delete") {
-					this.getAclass()
+					this.getBstruct()
 				}
 			}
 		)
@@ -106,33 +107,31 @@ export class AclassDetailComponent implements OnInit {
 		// insertion point for initialisation of enums list
 	}
 
-	getAclass(): void {
+	getBstruct(): void {
 
 		this.frontRepoService.pull().subscribe(
 			frontRepo => {
 				this.frontRepo = frontRepo
 
 				switch (this.state) {
-					case AclassDetailComponentState.CREATE_INSTANCE:
-						this.aclass = new (AclassDB)
+					case BstructDetailComponentState.CREATE_INSTANCE:
+						this.bstruct = new (BstructDB)
 						break;
-					case AclassDetailComponentState.UPDATE_INSTANCE:
-						let aclass = frontRepo.Aclasss.get(this.id)
-						console.assert(aclass != undefined, "missing aclass with id:" + this.id)
-						this.aclass = aclass!
+					case BstructDetailComponentState.UPDATE_INSTANCE:
+						let bstruct = frontRepo.Bstructs.get(this.id)
+						console.assert(bstruct != undefined, "missing bstruct with id:" + this.id)
+						this.bstruct = bstruct!
 						break;
 					// insertion point for init of association field
+					case BstructDetailComponentState.CREATE_INSTANCE_WITH_ASSOCIATION_Astruct_Anarrayofbstruct_SET:
+						this.bstruct = new (BstructDB)
+						this.bstruct.Astruct_Anarrayofbstruct_reverse = frontRepo.Astructs.get(this.id)!
+						break;
 					default:
 						console.log(this.state + " is unkown state")
 				}
 
 				// insertion point for recovery of form controls value for bool fields
-				this.BooleanfieldFormControl.setValue(this.aclass.Booleanfield)
-				this.AnotherbooleanfieldFormControl.setValue(this.aclass.Anotherbooleanfield)
-				// computation of Hours, Minutes, Seconds for Duration1
-				this.Duration1_Hours = Math.floor(this.aclass.Duration1 / (3600 * 1000 * 1000 * 1000))
-				this.Duration1_Minutes = Math.floor(this.aclass.Duration1 % (3600 * 1000 * 1000 * 1000) / (60 * 1000 * 1000 * 1000))
-				this.Duration1_Seconds = this.aclass.Duration1 % (60 * 1000 * 1000 * 1000) / (1000 * 1000 * 1000)
 			}
 		)
 
@@ -145,28 +144,34 @@ export class AclassDetailComponent implements OnInit {
 		// pointers fields, after the translation, are nulled in order to perform serialization
 
 		// insertion point for translation/nullation of each field
-		this.aclass.Booleanfield = this.BooleanfieldFormControl.value
-		this.aclass.Anotherbooleanfield = this.AnotherbooleanfieldFormControl.value
-		this.aclass.Duration1 =
-			this.Duration1_Hours * (3600 * 1000 * 1000 * 1000) +
-			this.Duration1_Minutes * (60 * 1000 * 1000 * 1000) +
-			this.Duration1_Seconds * (1000 * 1000 * 1000)
 
 		// save from the front pointer space to the non pointer space for serialization
 
 		// insertion point for translation/nullation of each pointers
+		if (this.bstruct.Astruct_Anarrayofbstruct_reverse != undefined) {
+			if (this.bstruct.Astruct_AnarrayofbstructDBID == undefined) {
+				this.bstruct.Astruct_AnarrayofbstructDBID = new NullInt64
+			}
+			this.bstruct.Astruct_AnarrayofbstructDBID.Int64 = this.bstruct.Astruct_Anarrayofbstruct_reverse.ID
+			this.bstruct.Astruct_AnarrayofbstructDBID.Valid = true
+			if (this.bstruct.Astruct_AnarrayofbstructDBID_Index == undefined) {
+				this.bstruct.Astruct_AnarrayofbstructDBID_Index = new NullInt64
+			}
+			this.bstruct.Astruct_AnarrayofbstructDBID_Index.Valid = true
+			this.bstruct.Astruct_Anarrayofbstruct_reverse = new AstructDB // very important, otherwise, circular JSON
+		}
 
 		switch (this.state) {
-			case AclassDetailComponentState.UPDATE_INSTANCE:
-				this.aclassService.updateAclass(this.aclass)
-					.subscribe(aclass => {
-						this.aclassService.AclassServiceChanged.next("update")
+			case BstructDetailComponentState.UPDATE_INSTANCE:
+				this.bstructService.updateBstruct(this.bstruct)
+					.subscribe(bstruct => {
+						this.bstructService.BstructServiceChanged.next("update")
 					});
 				break;
 			default:
-				this.aclassService.postAclass(this.aclass).subscribe(aclass => {
-					this.aclassService.AclassServiceChanged.next("post")
-					this.aclass = new (AclassDB) // reset fields
+				this.bstructService.postBstruct(this.bstruct).subscribe(bstruct => {
+					this.bstructService.BstructServiceChanged.next("post")
+					this.bstruct = new (BstructDB) // reset fields
 				});
 		}
 	}
@@ -189,7 +194,7 @@ export class AclassDetailComponent implements OnInit {
 		dialogConfig.height = "50%"
 		if (selectionMode == SelectionMode.ONE_MANY_ASSOCIATION_MODE) {
 
-			dialogData.ID = this.aclass.ID!
+			dialogData.ID = this.bstruct.ID!
 			dialogData.ReversePointer = reverseField
 			dialogData.OrderingMode = false
 			dialogData.SelectionMode = selectionMode
@@ -205,13 +210,13 @@ export class AclassDetailComponent implements OnInit {
 			});
 		}
 		if (selectionMode == SelectionMode.MANY_MANY_ASSOCIATION_MODE) {
-			dialogData.ID = this.aclass.ID!
+			dialogData.ID = this.bstruct.ID!
 			dialogData.ReversePointer = reverseField
 			dialogData.OrderingMode = false
 			dialogData.SelectionMode = selectionMode
 
 			// set up the source
-			dialogData.SourceStruct = "Aclass"
+			dialogData.SourceStruct = "Bstruct"
 			dialogData.SourceField = sourceField
 
 			// set up the intermediate struct
@@ -241,7 +246,7 @@ export class AclassDetailComponent implements OnInit {
 		// dialogConfig.disableClose = true;
 		dialogConfig.autoFocus = true;
 		dialogConfig.data = {
-			ID: this.aclass.ID,
+			ID: this.bstruct.ID,
 			ReversePointer: reverseField,
 			OrderingMode: true,
 		};
@@ -257,8 +262,8 @@ export class AclassDetailComponent implements OnInit {
 	}
 
 	fillUpNameIfEmpty(event: { value: { Name: string; }; }) {
-		if (this.aclass.Name == undefined) {
-			this.aclass.Name = event.value.Name
+		if (this.bstruct.Name == undefined) {
+			this.bstruct.Name = event.value.Name
 		}
 	}
 

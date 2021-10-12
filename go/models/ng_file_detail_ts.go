@@ -392,7 +392,7 @@ import { {{EnumName}}Select, {{EnumName}}List } from '../{{EnumName}}'`,
 	NgDetailTSReversePointerToSliceOfGongStructStateCaseSetField: `
 					case {{Structname}}DetailComponentState.CREATE_INSTANCE_WITH_ASSOCIATION_{{AssocStructName}}_{{FieldName}}_SET:
 						this.{{structname}} = new ({{Structname}}DB)
-						this.{{structname}}.{{AssocStructName}}_{{FieldName}}_reverse = frontRepo.{{AssocStructName}}s.get(this.id)
+						this.{{structname}}.{{AssocStructName}}_{{FieldName}}_reverse = frontRepo.{{AssocStructName}}s.get(this.id)!
 						break;`,
 
 	NgDetailTSReversePointerToSliceOfGongStructSavesWhenUpdate: `
@@ -406,7 +406,7 @@ import { {{EnumName}}Select, {{EnumName}}List } from '../{{EnumName}}'`,
 				this.{{structname}}.{{AssocStructName}}_{{FieldName}}DBID_Index = new NullInt64
 			}
 			this.{{structname}}.{{AssocStructName}}_{{FieldName}}DBID_Index.Valid = true
-			this.{{structname}}.{{AssocStructName}}_{{FieldName}}_reverse = undefined // very important, otherwise, circular JSON
+			this.{{structname}}.{{AssocStructName}}_{{FieldName}}_reverse = new {{AssocStructName}}DB // very important, otherwise, circular JSON
 		}`,
 }
 

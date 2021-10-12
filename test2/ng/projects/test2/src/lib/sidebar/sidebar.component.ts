@@ -8,8 +8,10 @@ import { FrontRepoService, FrontRepo } from '../front-repo.service'
 import { CommitNbService } from '../commitnb.service'
 
 // insertion point for per struct import code
-import { AclassService } from '../aclass.service'
-import { getAclassUniqueID } from '../front-repo.service'
+import { AstructService } from '../astruct.service'
+import { getAstructUniqueID } from '../front-repo.service'
+import { BstructService } from '../bstruct.service'
+import { getBstructUniqueID } from '../front-repo.service'
 
 /**
  * Types of a GongNode / GongFlatNode
@@ -26,7 +28,7 @@ export enum GongNodeType {
  */
 interface GongNode {
   name: string; // if STRUCT, the name of the struct, if INSTANCE the name of the instance
-  children?: GongNode[];
+  children: GongNode[];
   type: GongNodeType;
   structName: string;
   associationField: string;
@@ -145,7 +147,8 @@ export class SidebarComponent implements OnInit {
     private commitNbService: CommitNbService,
 
     // insertion point for per struct service declaration
-    private aclassService: AclassService,
+    private astructService: AstructService,
+    private bstructService: BstructService,
   ) { }
 
   ngOnInit(): void {
@@ -153,7 +156,15 @@ export class SidebarComponent implements OnInit {
 
     // insertion point for per struct observable for refresh trigger
     // observable for changes in structs
-    this.aclassService.AclassServiceChanged.subscribe(
+    this.astructService.AstructServiceChanged.subscribe(
+      message => {
+        if (message == "post" || message == "update" || message == "delete") {
+          this.refresh()
+        }
+      }
+    )
+    // observable for changes in structs
+    this.bstructService.BstructServiceChanged.subscribe(
       message => {
         if (message == "post" || message == "update" || message == "delete") {
           this.refresh()
@@ -185,22 +196,22 @@ export class SidebarComponent implements OnInit {
       
       // insertion point for per struct tree construction
       /**
-      * fill up the Aclass part of the mat tree
+      * fill up the Astruct part of the mat tree
       */
-      let aclassGongNodeStruct: GongNode = {
-        name: "Aclass",
+      let astructGongNodeStruct: GongNode = {
+        name: "Astruct",
         type: GongNodeType.STRUCT,
         id: 0,
         uniqueIdPerStack: 13 * nonInstanceNodeId,
-        structName: "Aclass",
+        structName: "Astruct",
         associationField: "",
         associatedStructName: "",
         children: new Array<GongNode>()
       }
       nonInstanceNodeId = nonInstanceNodeId + 1
-      this.gongNodeTree.push(aclassGongNodeStruct)
+      this.gongNodeTree.push(astructGongNodeStruct)
 
-      this.frontRepo.Aclasss_array.sort((t1, t2) => {
+      this.frontRepo.Astructs_array.sort((t1, t2) => {
         if (t1.Name > t2.Name) {
           return 1;
         }
@@ -210,19 +221,95 @@ export class SidebarComponent implements OnInit {
         return 0;
       });
 
-      this.frontRepo.Aclasss_array.forEach(
-        aclassDB => {
-          let aclassGongNodeInstance: GongNode = {
-            name: aclassDB.Name,
+      this.frontRepo.Astructs_array.forEach(
+        astructDB => {
+          let astructGongNodeInstance: GongNode = {
+            name: astructDB.Name,
             type: GongNodeType.INSTANCE,
-            id: aclassDB.ID,
-            uniqueIdPerStack: getAclassUniqueID(aclassDB.ID),
-            structName: "Aclass",
+            id: astructDB.ID,
+            uniqueIdPerStack: getAstructUniqueID(astructDB.ID),
+            structName: "Astruct",
             associationField: "",
             associatedStructName: "",
             children: new Array<GongNode>()
           }
-          aclassGongNodeStruct.children!.push(aclassGongNodeInstance)
+          astructGongNodeStruct.children!.push(astructGongNodeInstance)
+
+          // insertion point for per field code
+          /**
+          * let append a node for the slide of pointer Anarrayofbstruct
+          */
+          let AnarrayofbstructGongNodeAssociation: GongNode = {
+            name: "(Bstruct) Anarrayofbstruct",
+            type: GongNodeType.ONE__ZERO_MANY_ASSOCIATION,
+            id: astructDB.ID,
+            uniqueIdPerStack: 19 * nonInstanceNodeId,
+            structName: "Astruct",
+            associationField: "Anarrayofbstruct",
+            associatedStructName: "Bstruct",
+            children: new Array<GongNode>()
+          }
+          nonInstanceNodeId = nonInstanceNodeId + 1
+          astructGongNodeInstance.children.push(AnarrayofbstructGongNodeAssociation)
+
+          astructDB.Anarrayofbstruct?.forEach(bstructDB => {
+            let bstructNode: GongNode = {
+              name: bstructDB.Name,
+              type: GongNodeType.INSTANCE,
+              id: bstructDB.ID,
+              uniqueIdPerStack: // godel numbering (thank you kurt)
+                7 * getAstructUniqueID(astructDB.ID)
+                + 11 * getBstructUniqueID(bstructDB.ID),
+              structName: "Bstruct",
+              associationField: "",
+              associatedStructName: "",
+              children: new Array<GongNode>()
+            }
+            AnarrayofbstructGongNodeAssociation.children.push(bstructNode)
+          })
+
+        }
+      )
+
+      /**
+      * fill up the Bstruct part of the mat tree
+      */
+      let bstructGongNodeStruct: GongNode = {
+        name: "Bstruct",
+        type: GongNodeType.STRUCT,
+        id: 0,
+        uniqueIdPerStack: 13 * nonInstanceNodeId,
+        structName: "Bstruct",
+        associationField: "",
+        associatedStructName: "",
+        children: new Array<GongNode>()
+      }
+      nonInstanceNodeId = nonInstanceNodeId + 1
+      this.gongNodeTree.push(bstructGongNodeStruct)
+
+      this.frontRepo.Bstructs_array.sort((t1, t2) => {
+        if (t1.Name > t2.Name) {
+          return 1;
+        }
+        if (t1.Name < t2.Name) {
+          return -1;
+        }
+        return 0;
+      });
+
+      this.frontRepo.Bstructs_array.forEach(
+        bstructDB => {
+          let bstructGongNodeInstance: GongNode = {
+            name: bstructDB.Name,
+            type: GongNodeType.INSTANCE,
+            id: bstructDB.ID,
+            uniqueIdPerStack: getBstructUniqueID(bstructDB.ID),
+            structName: "Bstruct",
+            associationField: "",
+            associatedStructName: "",
+            children: new Array<GongNode>()
+          }
+          bstructGongNodeStruct.children!.push(bstructGongNodeInstance)
 
           // insertion point for per field code
         }

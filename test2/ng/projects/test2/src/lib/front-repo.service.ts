@@ -4,15 +4,21 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, combineLatest, BehaviorSubject } from 'rxjs';
 
 // insertion point sub template for services imports 
-import { AclassDB } from './aclass-db'
-import { AclassService } from './aclass.service'
+import { AstructDB } from './astruct-db'
+import { AstructService } from './astruct.service'
+
+import { BstructDB } from './bstruct-db'
+import { BstructService } from './bstruct.service'
 
 
 // FrontRepo stores all instances in a front repository (design pattern repository)
 export class FrontRepo { // insertion point sub template 
-  Aclasss_array = new Array<AclassDB>(); // array of repo instances
-  Aclasss = new Map<number, AclassDB>(); // map of repo instances
-  Aclasss_batch = new Map<number, AclassDB>(); // same but only in last GET (for finding repo instances to delete)
+  Astructs_array = new Array<AstructDB>(); // array of repo instances
+  Astructs = new Map<number, AstructDB>(); // map of repo instances
+  Astructs_batch = new Map<number, AstructDB>(); // same but only in last GET (for finding repo instances to delete)
+  Bstructs_array = new Array<BstructDB>(); // array of repo instances
+  Bstructs = new Map<number, BstructDB>(); // map of repo instances
+  Bstructs_batch = new Map<number, BstructDB>(); // same but only in last GET (for finding repo instances to delete)
 }
 
 //
@@ -77,7 +83,8 @@ export class FrontRepoService {
 
   constructor(
     private http: HttpClient, // insertion point sub template 
-    private aclassService: AclassService,
+    private astructService: AstructService,
+    private bstructService: BstructService,
   ) { }
 
   // postService provides a post function for each struct name
@@ -108,9 +115,11 @@ export class FrontRepoService {
 
   // typing of observable can be messy in typescript. Therefore, one force the type
   observableFrontRepo: [ // insertion point sub template 
-    Observable<AclassDB[]>,
+    Observable<AstructDB[]>,
+    Observable<BstructDB[]>,
   ] = [ // insertion point sub template 
-      this.aclassService.getAclasss(),
+      this.astructService.getAstructs(),
+      this.bstructService.getBstructs(),
     ];
 
   //
@@ -126,40 +135,76 @@ export class FrontRepoService {
           this.observableFrontRepo
         ).subscribe(
           ([ // insertion point sub template for declarations 
-            aclasss_,
+            astructs_,
+            bstructs_,
           ]) => {
             // Typing can be messy with many items. Therefore, type casting is necessary here
             // insertion point sub template for type casting 
-            var aclasss: AclassDB[]
-            aclasss = aclasss_
+            var astructs: AstructDB[]
+            astructs = astructs_
+            var bstructs: BstructDB[]
+            bstructs = bstructs_
 
             // 
             // First Step: init map of instances
             // insertion point sub template for init 
             // init the array
-            FrontRepoSingloton.Aclasss_array = aclasss
+            FrontRepoSingloton.Astructs_array = astructs
 
-            // clear the map that counts Aclass in the GET
-            FrontRepoSingloton.Aclasss_batch.clear()
+            // clear the map that counts Astruct in the GET
+            FrontRepoSingloton.Astructs_batch.clear()
 
-            aclasss.forEach(
-              aclass => {
-                FrontRepoSingloton.Aclasss.set(aclass.ID, aclass)
-                FrontRepoSingloton.Aclasss_batch.set(aclass.ID, aclass)
+            astructs.forEach(
+              astruct => {
+                FrontRepoSingloton.Astructs.set(astruct.ID, astruct)
+                FrontRepoSingloton.Astructs_batch.set(astruct.ID, astruct)
               }
             )
 
-            // clear aclasss that are absent from the batch
-            FrontRepoSingloton.Aclasss.forEach(
-              aclass => {
-                if (FrontRepoSingloton.Aclasss_batch.get(aclass.ID) == undefined) {
-                  FrontRepoSingloton.Aclasss.delete(aclass.ID)
+            // clear astructs that are absent from the batch
+            FrontRepoSingloton.Astructs.forEach(
+              astruct => {
+                if (FrontRepoSingloton.Astructs_batch.get(astruct.ID) == undefined) {
+                  FrontRepoSingloton.Astructs.delete(astruct.ID)
                 }
               }
             )
 
-            // sort Aclasss_array array
-            FrontRepoSingloton.Aclasss_array.sort((t1, t2) => {
+            // sort Astructs_array array
+            FrontRepoSingloton.Astructs_array.sort((t1, t2) => {
+              if (t1.Name > t2.Name) {
+                return 1;
+              }
+              if (t1.Name < t2.Name) {
+                return -1;
+              }
+              return 0;
+            });
+
+            // init the array
+            FrontRepoSingloton.Bstructs_array = bstructs
+
+            // clear the map that counts Bstruct in the GET
+            FrontRepoSingloton.Bstructs_batch.clear()
+
+            bstructs.forEach(
+              bstruct => {
+                FrontRepoSingloton.Bstructs.set(bstruct.ID, bstruct)
+                FrontRepoSingloton.Bstructs_batch.set(bstruct.ID, bstruct)
+              }
+            )
+
+            // clear bstructs that are absent from the batch
+            FrontRepoSingloton.Bstructs.forEach(
+              bstruct => {
+                if (FrontRepoSingloton.Bstructs_batch.get(bstruct.ID) == undefined) {
+                  FrontRepoSingloton.Bstructs.delete(bstruct.ID)
+                }
+              }
+            )
+
+            // sort Bstructs_array array
+            FrontRepoSingloton.Bstructs_array.sort((t1, t2) => {
               if (t1.Name > t2.Name) {
                 return 1;
               }
@@ -173,11 +218,31 @@ export class FrontRepoService {
             // 
             // Second Step: redeem pointers between instances (thanks to maps in the First Step)
             // insertion point sub template for redeem 
-            aclasss.forEach(
-              aclass => {
+            astructs.forEach(
+              astruct => {
                 // insertion point sub sub template for ONE-/ZERO-ONE associations pointers redeeming
 
                 // insertion point for redeeming ONE-MANY associations
+              }
+            )
+            bstructs.forEach(
+              bstruct => {
+                // insertion point sub sub template for ONE-/ZERO-ONE associations pointers redeeming
+
+                // insertion point for redeeming ONE-MANY associations
+                // insertion point for slice of pointer field Astruct.Anarrayofbstruct redeeming
+                {
+                  let _astruct = FrontRepoSingloton.Astructs.get(bstruct.Astruct_AnarrayofbstructDBID.Int64)
+                  if (_astruct) {
+                    if (_astruct.Anarrayofbstruct == undefined) {
+                      _astruct.Anarrayofbstruct = new Array<BstructDB>()
+                    }
+                    _astruct.Anarrayofbstruct.push(bstruct)
+                    if (bstruct.Astruct_Anarrayofbstruct_reverse == undefined) {
+                      bstruct.Astruct_Anarrayofbstruct_reverse = _astruct
+                    }
+                  }
+                }
               }
             )
 
@@ -191,29 +256,29 @@ export class FrontRepoService {
 
   // insertion point for pull per struct 
 
-  // AclassPull performs a GET on Aclass of the stack and redeem association pointers 
-  AclassPull(): Observable<FrontRepo> {
+  // AstructPull performs a GET on Astruct of the stack and redeem association pointers 
+  AstructPull(): Observable<FrontRepo> {
     return new Observable<FrontRepo>(
       (observer) => {
         combineLatest([
-          this.aclassService.getAclasss()
+          this.astructService.getAstructs()
         ]).subscribe(
           ([ // insertion point sub template 
-            aclasss,
+            astructs,
           ]) => {
             // init the array
-            FrontRepoSingloton.Aclasss_array = aclasss
+            FrontRepoSingloton.Astructs_array = astructs
 
-            // clear the map that counts Aclass in the GET
-            FrontRepoSingloton.Aclasss_batch.clear()
+            // clear the map that counts Astruct in the GET
+            FrontRepoSingloton.Astructs_batch.clear()
 
             // 
             // First Step: init map of instances
             // insertion point sub template 
-            aclasss.forEach(
-              aclass => {
-                FrontRepoSingloton.Aclasss.set(aclass.ID, aclass)
-                FrontRepoSingloton.Aclasss_batch.set(aclass.ID, aclass)
+            astructs.forEach(
+              astruct => {
+                FrontRepoSingloton.Astructs.set(astruct.ID, astruct)
+                FrontRepoSingloton.Astructs_batch.set(astruct.ID, astruct)
 
                 // insertion point for redeeming ONE/ZERO-ONE associations
 
@@ -221,11 +286,75 @@ export class FrontRepoService {
               }
             )
 
-            // clear aclasss that are absent from the GET
-            FrontRepoSingloton.Aclasss.forEach(
-              aclass => {
-                if (FrontRepoSingloton.Aclasss_batch.get(aclass.ID) == undefined) {
-                  FrontRepoSingloton.Aclasss.delete(aclass.ID)
+            // clear astructs that are absent from the GET
+            FrontRepoSingloton.Astructs.forEach(
+              astruct => {
+                if (FrontRepoSingloton.Astructs_batch.get(astruct.ID) == undefined) {
+                  FrontRepoSingloton.Astructs.delete(astruct.ID)
+                }
+              }
+            )
+
+            // 
+            // Second Step: redeem pointers between instances (thanks to maps in the First Step)
+            // insertion point sub template 
+
+            // hand over control flow to observer
+            observer.next(FrontRepoSingloton)
+          }
+        )
+      }
+    )
+  }
+
+  // BstructPull performs a GET on Bstruct of the stack and redeem association pointers 
+  BstructPull(): Observable<FrontRepo> {
+    return new Observable<FrontRepo>(
+      (observer) => {
+        combineLatest([
+          this.bstructService.getBstructs()
+        ]).subscribe(
+          ([ // insertion point sub template 
+            bstructs,
+          ]) => {
+            // init the array
+            FrontRepoSingloton.Bstructs_array = bstructs
+
+            // clear the map that counts Bstruct in the GET
+            FrontRepoSingloton.Bstructs_batch.clear()
+
+            // 
+            // First Step: init map of instances
+            // insertion point sub template 
+            bstructs.forEach(
+              bstruct => {
+                FrontRepoSingloton.Bstructs.set(bstruct.ID, bstruct)
+                FrontRepoSingloton.Bstructs_batch.set(bstruct.ID, bstruct)
+
+                // insertion point for redeeming ONE/ZERO-ONE associations
+
+                // insertion point for redeeming ONE-MANY associations
+                // insertion point for slice of pointer field Astruct.Anarrayofbstruct redeeming
+                {
+                  let _astruct = FrontRepoSingloton.Astructs.get(bstruct.Astruct_AnarrayofbstructDBID.Int64)
+                  if (_astruct) {
+                    if (_astruct.Anarrayofbstruct == undefined) {
+                      _astruct.Anarrayofbstruct = new Array<BstructDB>()
+                    }
+                    _astruct.Anarrayofbstruct.push(bstruct)
+                    if (bstruct.Astruct_Anarrayofbstruct_reverse == undefined) {
+                      bstruct.Astruct_Anarrayofbstruct_reverse = _astruct
+                    }
+                  }
+                }
+              }
+            )
+
+            // clear bstructs that are absent from the GET
+            FrontRepoSingloton.Bstructs.forEach(
+              bstruct => {
+                if (FrontRepoSingloton.Bstructs_batch.get(bstruct.ID) == undefined) {
+                  FrontRepoSingloton.Bstructs.delete(bstruct.ID)
                 }
               }
             )
@@ -244,6 +373,9 @@ export class FrontRepoService {
 }
 
 // insertion point for get unique ID per struct 
-export function getAclassUniqueID(id: number): number {
+export function getAstructUniqueID(id: number): number {
   return 31 * id
+}
+export function getBstructUniqueID(id: number): number {
+  return 37 * id
 }

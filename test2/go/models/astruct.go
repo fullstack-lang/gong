@@ -2,10 +2,10 @@ package models
 
 import "time"
 
-// Aclass demonstrate basic metabaron
+// Astruct demonstrate basic metabaron
 //
-// 		swagger:model Aclass
-type Aclass struct {
+// 		swagger:model Astruct
+type Astruct struct {
 	Name string
 
 	Date time.Time
@@ -20,5 +20,5 @@ type Aclass struct {
 
 	Duration1 time.Duration
 
-	// Anarrayofa []*Aclass
+	Anarrayofbstruct []*Bstruct
 }

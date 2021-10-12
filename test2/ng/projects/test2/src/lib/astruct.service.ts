@@ -11,12 +11,12 @@ import { BehaviorSubject } from 'rxjs';
 import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 
-import { AclassDB } from './aclass-db';
+import { AstructDB } from './astruct-db';
 
 @Injectable({
   providedIn: 'root'
 })
-export class AclassService {
+export class AstructService {
 
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -24,9 +24,9 @@ export class AclassService {
 
   // Kamar Raïmo: Adding a way to communicate between components that share information
   // so that they are notified of a change.
-  AclassServiceChanged: BehaviorSubject<string> = new BehaviorSubject("");
+  AstructServiceChanged: BehaviorSubject<string> = new BehaviorSubject("");
 
-  private aclasssUrl: string
+  private astructsUrl: string
 
   constructor(
     private http: HttpClient,
@@ -41,67 +41,69 @@ export class AclassService {
     origin = origin.replace("4200", "8080")
 
     // compute path to the service
-    this.aclasssUrl = origin + '/api/github.com/fullstack-lang/gong/test2/go/v1/aclasss';
+    this.astructsUrl = origin + '/api/github.com/fullstack-lang/gong/test2/go/v1/astructs';
   }
 
-  /** GET aclasss from the server */
-  getAclasss(): Observable<AclassDB[]> {
-    return this.http.get<AclassDB[]>(this.aclasssUrl)
+  /** GET astructs from the server */
+  getAstructs(): Observable<AstructDB[]> {
+    return this.http.get<AstructDB[]>(this.astructsUrl)
       .pipe(
-        tap(_ => this.log('fetched aclasss')),
-        catchError(this.handleError<AclassDB[]>('getAclasss', []))
+        tap(_ => this.log('fetched astructs')),
+        catchError(this.handleError<AstructDB[]>('getAstructs', []))
       );
   }
 
-  /** GET aclass by id. Will 404 if id not found */
-  getAclass(id: number): Observable<AclassDB> {
-    const url = `${this.aclasssUrl}/${id}`;
-    return this.http.get<AclassDB>(url).pipe(
-      tap(_ => this.log(`fetched aclass id=${id}`)),
-      catchError(this.handleError<AclassDB>(`getAclass id=${id}`))
+  /** GET astruct by id. Will 404 if id not found */
+  getAstruct(id: number): Observable<AstructDB> {
+    const url = `${this.astructsUrl}/${id}`;
+    return this.http.get<AstructDB>(url).pipe(
+      tap(_ => this.log(`fetched astruct id=${id}`)),
+      catchError(this.handleError<AstructDB>(`getAstruct id=${id}`))
     );
   }
 
   //////// Save methods //////////
 
-  /** POST: add a new aclass to the server */
-  postAclass(aclassdb: AclassDB): Observable<AclassDB> {
+  /** POST: add a new astruct to the server */
+  postAstruct(astructdb: AstructDB): Observable<AstructDB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
+    astructdb.Anarrayofbstruct = []
 
-    return this.http.post<AclassDB>(this.aclasssUrl, aclassdb, this.httpOptions).pipe(
+    return this.http.post<AstructDB>(this.astructsUrl, astructdb, this.httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
-        this.log(`posted aclassdb id=${aclassdb.ID}`)
+        this.log(`posted astructdb id=${astructdb.ID}`)
       }),
-      catchError(this.handleError<AclassDB>('postAclass'))
+      catchError(this.handleError<AstructDB>('postAstruct'))
     );
   }
 
-  /** DELETE: delete the aclassdb from the server */
-  deleteAclass(aclassdb: AclassDB | number): Observable<AclassDB> {
-    const id = typeof aclassdb === 'number' ? aclassdb : aclassdb.ID;
-    const url = `${this.aclasssUrl}/${id}`;
+  /** DELETE: delete the astructdb from the server */
+  deleteAstruct(astructdb: AstructDB | number): Observable<AstructDB> {
+    const id = typeof astructdb === 'number' ? astructdb : astructdb.ID;
+    const url = `${this.astructsUrl}/${id}`;
 
-    return this.http.delete<AclassDB>(url, this.httpOptions).pipe(
-      tap(_ => this.log(`deleted aclassdb id=${id}`)),
-      catchError(this.handleError<AclassDB>('deleteAclass'))
+    return this.http.delete<AstructDB>(url, this.httpOptions).pipe(
+      tap(_ => this.log(`deleted astructdb id=${id}`)),
+      catchError(this.handleError<AstructDB>('deleteAstruct'))
     );
   }
 
-  /** PUT: update the aclassdb on the server */
-  updateAclass(aclassdb: AclassDB): Observable<AclassDB> {
-    const id = typeof aclassdb === 'number' ? aclassdb : aclassdb.ID;
-    const url = `${this.aclasssUrl}/${id}`;
+  /** PUT: update the astructdb on the server */
+  updateAstruct(astructdb: AstructDB): Observable<AstructDB> {
+    const id = typeof astructdb === 'number' ? astructdb : astructdb.ID;
+    const url = `${this.astructsUrl}/${id}`;
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
+    astructdb.Anarrayofbstruct = []
 
-    return this.http.put<AclassDB>(url, aclassdb, this.httpOptions).pipe(
+    return this.http.put<AstructDB>(url, astructdb, this.httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
-        this.log(`updated aclassdb id=${aclassdb.ID}`)
+        this.log(`updated astructdb id=${astructdb.ID}`)
       }),
-      catchError(this.handleError<AclassDB>('updateAclass'))
+      catchError(this.handleError<AstructDB>('updateAstruct'))
     );
   }
 
