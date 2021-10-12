@@ -69,9 +69,9 @@ func main() {
 		test_orm.AutoMigrate(inMemoryDB)
 	}
 
-	aclass := new(models.Aclass).Stage()
-	aclass.Name = "Test2 first Aclass instance"
-	aclass.Date = time.Date(2020, time.January, 1, 10, 11, 12, 0, time.UTC)
+	astruct := new(models.Astruct).Stage()
+	astruct.Name = "Test2 first Astruct instance"
+	astruct.Date = time.Date(2020, time.January, 1, 10, 11, 12, 0, time.UTC)
 
 	models.Stage.Commit()
 

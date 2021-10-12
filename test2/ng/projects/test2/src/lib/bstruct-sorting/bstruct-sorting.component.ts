@@ -8,28 +8,28 @@ import { DialogData } from '../front-repo.service'
 import { SelectionModel } from '@angular/cdk/collections';
 
 import { Router, RouterState } from '@angular/router';
-import { AclassDB } from '../aclass-db'
-import { AclassService } from '../aclass.service'
+import { BstructDB } from '../bstruct-db'
+import { BstructService } from '../bstruct.service'
 
 import { FrontRepoService, FrontRepo, NullInt64 } from '../front-repo.service'
 @Component({
-  selector: 'lib-aclass-sorting',
-  templateUrl: './aclass-sorting.component.html',
-  styleUrls: ['./aclass-sorting.component.css']
+  selector: 'lib-bstruct-sorting',
+  templateUrl: './bstruct-sorting.component.html',
+  styleUrls: ['./bstruct-sorting.component.css']
 })
-export class AclassSortingComponent implements OnInit {
+export class BstructSortingComponent implements OnInit {
 
   frontRepo: FrontRepo = new (FrontRepo)
 
-  // array of Aclass instances that are in the association
-  associatedAclasss = new Array<AclassDB>();
+  // array of Bstruct instances that are in the association
+  associatedBstructs = new Array<BstructDB>();
 
   constructor(
-    private aclassService: AclassService,
+    private bstructService: BstructService,
     private frontRepoService: FrontRepoService,
 
-    // not null if the component is called as a selection component of aclass instances
-    public dialogRef: MatDialogRef<AclassSortingComponent>,
+    // not null if the component is called as a selection component of bstruct instances
+    public dialogRef: MatDialogRef<BstructSortingComponent>,
     @Optional() @Inject(MAT_DIALOG_DATA) public dialogData: DialogData,
 
     private router: Router,
@@ -40,31 +40,31 @@ export class AclassSortingComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getAclasss()
+    this.getBstructs()
   }
 
-  getAclasss(): void {
+  getBstructs(): void {
     this.frontRepoService.pull().subscribe(
       frontRepo => {
         this.frontRepo = frontRepo
 
         let index = 0
-        for (let aclass of this.frontRepo.Aclasss_array) {
+        for (let bstruct of this.frontRepo.Bstructs_array) {
           let ID = this.dialogData.ID
-          let revPointerID = aclass[this.dialogData.ReversePointer as keyof AclassDB] as unknown as NullInt64
-          let revPointerID_Index = aclass[this.dialogData.ReversePointer + "_Index" as keyof AclassDB] as unknown as NullInt64
+          let revPointerID = bstruct[this.dialogData.ReversePointer as keyof BstructDB] as unknown as NullInt64
+          let revPointerID_Index = bstruct[this.dialogData.ReversePointer + "_Index" as keyof BstructDB] as unknown as NullInt64
           if (revPointerID.Int64 == ID) {
             if (revPointerID_Index == undefined) {
               revPointerID_Index = new NullInt64
               revPointerID_Index.Valid = true
               revPointerID_Index.Int64 = index++
             }
-            this.associatedAclasss.push(aclass)
+            this.associatedBstructs.push(bstruct)
           }
         }
 
-        // sort associated aclass according to order
-        this.associatedAclasss.sort((t1, t2) => {
+        // sort associated bstruct according to order
+        this.associatedBstructs.sort((t1, t2) => {
           let t1_revPointerID_Index = t1[this.dialogData.ReversePointer + "_Index" as keyof typeof t1] as unknown as NullInt64
           let t2_revPointerID_Index = t2[this.dialogData.ReversePointer + "_Index" as keyof typeof t2] as unknown as NullInt64
           if (t1_revPointerID_Index && t2_revPointerID_Index) {
@@ -82,13 +82,13 @@ export class AclassSortingComponent implements OnInit {
   }
 
   drop(event: CdkDragDrop<string[]>) {
-    moveItemInArray(this.associatedAclasss, event.previousIndex, event.currentIndex);
+    moveItemInArray(this.associatedBstructs, event.previousIndex, event.currentIndex);
 
-    // set the order of Aclass instances
+    // set the order of Bstruct instances
     let index = 0
 
-    for (let aclass of this.associatedAclasss) {
-      let revPointerID_Index = aclass[this.dialogData.ReversePointer + "_Index" as keyof AclassDB] as unknown as NullInt64
+    for (let bstruct of this.associatedBstructs) {
+      let revPointerID_Index = bstruct[this.dialogData.ReversePointer + "_Index" as keyof BstructDB] as unknown as NullInt64
       revPointerID_Index.Valid = true
       revPointerID_Index.Int64 = index++
     }
@@ -96,11 +96,11 @@ export class AclassSortingComponent implements OnInit {
 
   save() {
 
-    this.associatedAclasss.forEach(
-      aclass => {
-        this.aclassService.updateAclass(aclass)
-          .subscribe(aclass => {
-            this.aclassService.AclassServiceChanged.next("update")
+    this.associatedBstructs.forEach(
+      bstruct => {
+        this.bstructService.updateBstruct(bstruct)
+          .subscribe(bstruct => {
+            this.bstructService.BstructServiceChanged.next("update")
           });
       }
     )

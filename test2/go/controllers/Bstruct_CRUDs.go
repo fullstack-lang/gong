@@ -13,14 +13,14 @@ import (
 )
 
 // declaration in order to justify use of the models import
-var __Aclass__dummysDeclaration__ models.Aclass
-var __Aclass_time__dummyDeclaration time.Duration
+var __Bstruct__dummysDeclaration__ models.Bstruct
+var __Bstruct_time__dummyDeclaration time.Duration
 
-// An AclassID parameter model.
+// An BstructID parameter model.
 //
 // This is used for operations that want the ID of an order in the path
-// swagger:parameters getAclass updateAclass deleteAclass
-type AclassID struct {
+// swagger:parameters getBstruct updateBstruct deleteBstruct
+type BstructID struct {
 	// The ID of the order
 	//
 	// in: path
@@ -28,30 +28,30 @@ type AclassID struct {
 	ID int64
 }
 
-// AclassInput is a schema that can validate the user’s
+// BstructInput is a schema that can validate the user’s
 // input to prevent us from getting invalid data
-// swagger:parameters postAclass updateAclass
-type AclassInput struct {
-	// The Aclass to submit or modify
+// swagger:parameters postBstruct updateBstruct
+type BstructInput struct {
+	// The Bstruct to submit or modify
 	// in: body
-	Aclass *orm.AclassAPI
+	Bstruct *orm.BstructAPI
 }
 
-// GetAclasss
+// GetBstructs
 //
-// swagger:route GET /aclasss aclasss getAclasss
+// swagger:route GET /bstructs bstructs getBstructs
 //
-// Get all aclasss
+// Get all bstructs
 //
 // Responses:
 //    default: genericError
-//        200: aclassDBsResponse
-func GetAclasss(c *gin.Context) {
-	db := orm.BackRepo.BackRepoAclass.GetDB()
+//        200: bstructDBsResponse
+func GetBstructs(c *gin.Context) {
+	db := orm.BackRepo.BackRepoBstruct.GetDB()
 
 	// source slice
-	var aclassDBs []orm.AclassDB
-	query := db.Find(&aclassDBs)
+	var bstructDBs []orm.BstructDB
+	query := db.Find(&bstructDBs)
 	if query.Error != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
@@ -62,29 +62,29 @@ func GetAclasss(c *gin.Context) {
 	}
 
 	// slice that will be transmitted to the front
-	aclassAPIs := make([]orm.AclassAPI, 0)
+	bstructAPIs := make([]orm.BstructAPI, 0)
 
-	// for each aclass, update fields from the database nullable fields
-	for idx := range aclassDBs {
-		aclassDB := &aclassDBs[idx]
-		_ = aclassDB
-		var aclassAPI orm.AclassAPI
+	// for each bstruct, update fields from the database nullable fields
+	for idx := range bstructDBs {
+		bstructDB := &bstructDBs[idx]
+		_ = bstructDB
+		var bstructAPI orm.BstructAPI
 
 		// insertion point for updating fields
-		aclassAPI.ID = aclassDB.ID
-		aclassDB.CopyBasicFieldsToAclass(&aclassAPI.Aclass)
-		aclassAPI.AclassPointersEnconding = aclassDB.AclassPointersEnconding
-		aclassAPIs = append(aclassAPIs, aclassAPI)
+		bstructAPI.ID = bstructDB.ID
+		bstructDB.CopyBasicFieldsToBstruct(&bstructAPI.Bstruct)
+		bstructAPI.BstructPointersEnconding = bstructDB.BstructPointersEnconding
+		bstructAPIs = append(bstructAPIs, bstructAPI)
 	}
 
-	c.JSON(http.StatusOK, aclassAPIs)
+	c.JSON(http.StatusOK, bstructAPIs)
 }
 
-// PostAclass
+// PostBstruct
 //
-// swagger:route POST /aclasss aclasss postAclass
+// swagger:route POST /bstructs bstructs postBstruct
 //
-// Creates a aclass
+// Creates a bstruct
 //     Consumes:
 //     - application/json
 //
@@ -92,12 +92,12 @@ func GetAclasss(c *gin.Context) {
 //     - application/json
 //
 //     Responses:
-//       200: aclassDBResponse
-func PostAclass(c *gin.Context) {
-	db := orm.BackRepo.BackRepoAclass.GetDB()
+//       200: bstructDBResponse
+func PostBstruct(c *gin.Context) {
+	db := orm.BackRepo.BackRepoBstruct.GetDB()
 
 	// Validate input
-	var input orm.AclassAPI
+	var input orm.BstructAPI
 
 	err := c.ShouldBindJSON(&input)
 	if err != nil {
@@ -109,12 +109,12 @@ func PostAclass(c *gin.Context) {
 		return
 	}
 
-	// Create aclass
-	aclassDB := orm.AclassDB{}
-	aclassDB.AclassPointersEnconding = input.AclassPointersEnconding
-	aclassDB.CopyBasicFieldsFromAclass(&input.Aclass)
+	// Create bstruct
+	bstructDB := orm.BstructDB{}
+	bstructDB.BstructPointersEnconding = input.BstructPointersEnconding
+	bstructDB.CopyBasicFieldsFromBstruct(&input.Bstruct)
 
-	query := db.Create(&aclassDB)
+	query := db.Create(&bstructDB)
 	if query.Error != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
@@ -128,24 +128,24 @@ func PostAclass(c *gin.Context) {
 	// (this will be improved with implementation of unit of work design pattern)
 	orm.BackRepo.IncrementPushFromFrontNb()
 
-	c.JSON(http.StatusOK, aclassDB)
+	c.JSON(http.StatusOK, bstructDB)
 }
 
-// GetAclass
+// GetBstruct
 //
-// swagger:route GET /aclasss/{ID} aclasss getAclass
+// swagger:route GET /bstructs/{ID} bstructs getBstruct
 //
-// Gets the details for a aclass.
+// Gets the details for a bstruct.
 //
 // Responses:
 //    default: genericError
-//        200: aclassDBResponse
-func GetAclass(c *gin.Context) {
-	db := orm.BackRepo.BackRepoAclass.GetDB()
+//        200: bstructDBResponse
+func GetBstruct(c *gin.Context) {
+	db := orm.BackRepo.BackRepoBstruct.GetDB()
 
-	// Get aclassDB in DB
-	var aclassDB orm.AclassDB
-	if err := db.First(&aclassDB, c.Param("id")).Error; err != nil {
+	// Get bstructDB in DB
+	var bstructDB orm.BstructDB
+	if err := db.First(&bstructDB, c.Param("id")).Error; err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
@@ -154,31 +154,31 @@ func GetAclass(c *gin.Context) {
 		return
 	}
 
-	var aclassAPI orm.AclassAPI
-	aclassAPI.ID = aclassDB.ID
-	aclassAPI.AclassPointersEnconding = aclassDB.AclassPointersEnconding
-	aclassDB.CopyBasicFieldsToAclass(&aclassAPI.Aclass)
+	var bstructAPI orm.BstructAPI
+	bstructAPI.ID = bstructDB.ID
+	bstructAPI.BstructPointersEnconding = bstructDB.BstructPointersEnconding
+	bstructDB.CopyBasicFieldsToBstruct(&bstructAPI.Bstruct)
 
-	c.JSON(http.StatusOK, aclassAPI)
+	c.JSON(http.StatusOK, bstructAPI)
 }
 
-// UpdateAclass
+// UpdateBstruct
 //
-// swagger:route PATCH /aclasss/{ID} aclasss updateAclass
+// swagger:route PATCH /bstructs/{ID} bstructs updateBstruct
 //
-// Update a aclass
+// Update a bstruct
 //
 // Responses:
 //    default: genericError
-//        200: aclassDBResponse
-func UpdateAclass(c *gin.Context) {
-	db := orm.BackRepo.BackRepoAclass.GetDB()
+//        200: bstructDBResponse
+func UpdateBstruct(c *gin.Context) {
+	db := orm.BackRepo.BackRepoBstruct.GetDB()
 
 	// Get model if exist
-	var aclassDB orm.AclassDB
+	var bstructDB orm.BstructDB
 
-	// fetch the aclass
-	query := db.First(&aclassDB, c.Param("id"))
+	// fetch the bstruct
+	query := db.First(&bstructDB, c.Param("id"))
 
 	if query.Error != nil {
 		var returnError GenericError
@@ -190,7 +190,7 @@ func UpdateAclass(c *gin.Context) {
 	}
 
 	// Validate input
-	var input orm.AclassAPI
+	var input orm.BstructAPI
 	if err := c.ShouldBindJSON(&input); err != nil {
 		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -198,10 +198,10 @@ func UpdateAclass(c *gin.Context) {
 	}
 
 	// update
-	aclassDB.CopyBasicFieldsFromAclass(&input.Aclass)
-	aclassDB.AclassPointersEnconding = input.AclassPointersEnconding
+	bstructDB.CopyBasicFieldsFromBstruct(&input.Bstruct)
+	bstructDB.BstructPointersEnconding = input.BstructPointersEnconding
 
-	query = db.Model(&aclassDB).Updates(aclassDB)
+	query = db.Model(&bstructDB).Updates(bstructDB)
 	if query.Error != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
@@ -215,24 +215,24 @@ func UpdateAclass(c *gin.Context) {
 	// (this will be improved with implementation of unit of work design pattern)
 	orm.BackRepo.IncrementPushFromFrontNb()
 
-	// return status OK with the marshalling of the the aclassDB
-	c.JSON(http.StatusOK, aclassDB)
+	// return status OK with the marshalling of the the bstructDB
+	c.JSON(http.StatusOK, bstructDB)
 }
 
-// DeleteAclass
+// DeleteBstruct
 //
-// swagger:route DELETE /aclasss/{ID} aclasss deleteAclass
+// swagger:route DELETE /bstructs/{ID} bstructs deleteBstruct
 //
-// Delete a aclass
+// Delete a bstruct
 //
 // Responses:
 //    default: genericError
-func DeleteAclass(c *gin.Context) {
-	db := orm.BackRepo.BackRepoAclass.GetDB()
+func DeleteBstruct(c *gin.Context) {
+	db := orm.BackRepo.BackRepoBstruct.GetDB()
 
 	// Get model if exist
-	var aclassDB orm.AclassDB
-	if err := db.First(&aclassDB, c.Param("id")).Error; err != nil {
+	var bstructDB orm.BstructDB
+	if err := db.First(&bstructDB, c.Param("id")).Error; err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
@@ -242,7 +242,7 @@ func DeleteAclass(c *gin.Context) {
 	}
 
 	// with gorm.Model field, default delete is a soft delete. Unscoped() force delete
-	db.Unscoped().Delete(&aclassDB)
+	db.Unscoped().Delete(&bstructDB)
 
 	// a DELETE generates a back repo commit increase
 	// (this will be improved with implementation of unit of work design pattern)

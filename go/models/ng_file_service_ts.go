@@ -107,7 +107,7 @@ export class {{Structname}}Service {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON){{` + string(rune(NgServiceTsInsertionPointerReset)) + `}}
 
-    return this.http.put<AclassDB>(url, {{structname}}db, this.httpOptions).pipe(
+    return this.http.put<{{Structname}}DB>(url, {{structname}}db, this.httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers{{` + string(rune(NgServiceTsInsertionPointerRestore)) + `}}
         this.log(` + "`" + `updated {{structname}}db id=${{{structname}}db.ID}` + "`" + `)
@@ -165,14 +165,14 @@ const (
 var NgServiceSubTemplateCode map[NgServiceSubTemplate]string = map[NgServiceSubTemplate]string{
 
 	NgServiceTSPointerToGongStructReset: `
-    {{structname}}db.{{FieldName}} = {}`,
+    {{structname}}db.{{FieldName}} = new {{AssocStructName}}DB`,
 
 	NgServiceTSSliceOfPointerToGongStructReset: `
     {{structname}}db.{{FieldName}} = []`,
 
 	NgServiceTSSliceOfPointerToGongStructReversePointerReset: `
     let _{{AssocStructName}}_{{FieldName}}_reverse = {{structname}}db.{{AssocStructName}}_{{FieldName}}_reverse
-    {{structname}}db.{{AssocStructName}}_{{FieldName}}_reverse = {}`,
+    {{structname}}db.{{AssocStructName}}_{{FieldName}}_reverse = new {{AssocStructName}}DB`,
 
 	NgServiceTSSliceOfPointerToGongStructReversePointerRestore: `
         {{structname}}db.{{AssocStructName}}_{{FieldName}}_reverse = _{{AssocStructName}}_{{FieldName}}_reverse`,
