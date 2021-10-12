@@ -5,6 +5,14 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "Attach chrome on test2",
+            "type": "chrome",
+            "request": "attach",
+            "port": 9222,
+            "url": "http://localhost:4200/",
+            "webRoot": "${workspaceFolder}/test2/ng"
+        },
+        {
             "name": "gongc laundromat",
             "type": "go",
             "request": "launch",
@@ -180,8 +188,27 @@
                 {
                     "url": "webpack:///projects",
                     "path": "${workspaceFolder}/test/ng/projects"
+                },
+                {
+                    "url": "webpack:///projects",
+                    "path": "${workspaceFolder}/test/ng"
                 }
-            ],
+            ]
+        },
+        {
+            "name": "Launch appv firefox localhost:4200 on test2",
+            "type": "firefox",
+            "request": "launch",
+            "reAttach": true,
+            "url": "http://localhost:4200/",
+            "webRoot": "${workspaceFolder}/test/ng",
+            "firefoxExecutable": "C:/Users/peugeot/AppData/Local/Microsoft/AppV/Client/Integration/F8B22858-413B-4241-955C-7CDA2C0B6696/Root/VFS/ProgramFilesX64/Mozilla Firefox/firefox.exe",
+            "pathMappings": [
+                {
+                    "url": "webpack:///projects",
+                    "path": "${workspaceFolder}/test2/ng/projects"
+                }
+            ]
         },
         {
             "name": "Launch firefox localhost:4200 for test",
@@ -195,7 +222,7 @@
                     "url": "webpack:///projects",
                     "path": "${workspaceFolder}/test/ng/projects"
                 }
-            ],
+            ]
         },
         {
             "name": "Launch firefox localhost:4200 for test2",
@@ -203,13 +230,14 @@
             "request": "launch",
             "reAttach": true,
             "url": "http://localhost:4200/",
-            "webRoot": "${workspaceFolder}/test/ng",
+            "firefoxExecutable": "C:/Users/peugeot/AppData/Local/Microsoft/AppV/Client/Integration/F8B22858-413B-4241-955C-7CDA2C0B6696/Root/VFS/ProgramFilesX64/Mozilla Firefox/firefox.exe",
+            "webRoot": "${workspaceFolder}/test2/ng",
             "pathMappings": [
                 {
                     "url": "webpack:///projects",
                     "path": "${workspaceFolder}/test2/ng/projects"
                 }
-            ],
+            ]
         }
     ]
 }

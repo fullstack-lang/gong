@@ -11,10 +11,10 @@ export class AclassDB {
 	// insertion point for basic fields declarations
 	Name: string = ""
 	Date: Date = new (Date)
-	Booleanfield: string = ""
+	Booleanfield: boolean = false
 	Floatfield: number = 0
 	Intfield: number = 0
-	Anotherbooleanfield: string = ""
+	Anotherbooleanfield: boolean = false
 	Duration1: number = 0
 
 	// insertion point for other declarations

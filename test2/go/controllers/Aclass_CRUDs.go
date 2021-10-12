@@ -2,6 +2,7 @@
 package controllers
 
 import (
+	"log"
 	"net/http"
 	"time"
 
@@ -47,7 +48,7 @@ type AclassInput struct {
 //        200: aclassDBsResponse
 func GetAclasss(c *gin.Context) {
 	db := orm.BackRepo.BackRepoAclass.GetDB()
-	
+
 	// source slice
 	var aclassDBs []orm.AclassDB
 	query := db.Find(&aclassDBs)
@@ -102,6 +103,7 @@ func PostAclass(c *gin.Context) {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
