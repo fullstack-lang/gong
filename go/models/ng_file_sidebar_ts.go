@@ -185,6 +185,9 @@ export class SidebarComponent implements OnInit {
         }
       )
 
+      // reset the gong node tree
+      this.gongNodeTree = new Array<GongNode>();
+      
       // insertion point for per struct tree construction{{` + string(rune(NgSidebarTsInsertionPerStruct)) + `}}
 
       this.dataSource.data = this.gongNodeTree
