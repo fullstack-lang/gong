@@ -180,6 +180,9 @@ export class SidebarComponent implements OnInit {
         }
       )
 
+      // reset the gong node tree
+      this.gongNodeTree = new Array<GongNode>();
+      
       // insertion point for per struct tree construction
       /**
       * fill up the Aclass part of the mat tree
