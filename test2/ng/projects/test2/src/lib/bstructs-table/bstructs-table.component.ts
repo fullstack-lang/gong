@@ -292,10 +292,11 @@ export class BstructsTableComponent implements OnInit {
       )
     }
 
-    let mapOfSourceInstances = this.frontRepo[this.dialogData.SourceStruct + "s" as keyof FrontRepo] as Map<number, BstructDB>
-    let sourceInstance = mapOfSourceInstances.get(this.dialogData.ID)!
     if (this.mode == TableComponentMode.MANY_MANY_ASSOCIATION_MODE) {
 
+      // get the source instance via the map of instances in the front repo
+      let mapOfSourceInstances = this.frontRepo[this.dialogData.SourceStruct + "s" as keyof FrontRepo] as Map<number, BstructDB>
+      let sourceInstance = mapOfSourceInstances.get(this.dialogData.ID)!
 
       // First, parse all instance of the association struct and remove the instance
       // that have unselect
