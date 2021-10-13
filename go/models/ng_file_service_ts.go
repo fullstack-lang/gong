@@ -160,7 +160,9 @@ const (
 type NgServiceSubTemplate int
 
 const (
-	NgServiceTSPointerToGongStructReset NgServiceSubTemplate = iota
+	NgServiceTSPointerToGongStructImports NgServiceSubTemplate = iota
+	NgServiceTSPointerToGongStructReset
+
 	NgServiceTSSliceOfPointerToGongStructReset
 	NgServiceTSSliceOfPointerToGongStructReversePointerReset
 	NgServiceTSSliceOfPointerToGongStructReversePointerRestore
@@ -169,6 +171,9 @@ const (
 )
 
 var NgServiceSubTemplateCode map[NgServiceSubTemplate]string = map[NgServiceSubTemplate]string{
+
+	NgServiceTSPointerToGongStructImports: `
+import { {{AssocStructName}}DB } from './{{assocStructName}}-db'`,
 
 	NgServiceTSPointerToGongStructReset: `
     {{structname}}db.{{FieldName}} = new {{AssocStructName}}DB`,
@@ -225,6 +230,15 @@ func MultiCodeGeneratorNgService(
 					Replace2(NgServiceSubTemplateCode[NgServiceTSPointerToGongStructReset],
 						"{{FieldName}}", field.Name,
 						"{{AssocStructName}}", field.GongStruct.Name)
+
+				var importToInsert = Replace2(NgServiceSubTemplateCode[NgServiceTSPointerToGongStructImports],
+					"{{AssocStructName}}", field.GongStruct.Name,
+					"{{assocStructName}}", strings.ToLower(field.GongStruct.Name))
+
+				// cannot insert twice the same import
+				if !strings.Contains(TSinsertions[NgServiceTsInsertionImports], importToInsert) {
+					TSinsertions[NgServiceTsInsertionImports] += importToInsert
+				}
 
 			case *SliceOfPointerToGongStructField:
 

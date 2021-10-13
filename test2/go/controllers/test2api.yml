@@ -112,10 +112,6 @@ definitions:
         items:
           $ref: '#/definitions/AstructBstructUse'
         type: array
-      Anarrayofbstruct:
-        items:
-          $ref: '#/definitions/Bstruct'
-        type: array
       Anotherbooleanfield:
         type: boolean
       Booleanfield:
@@ -247,10 +243,6 @@ definitions:
       from associations ("Has One" and "Has Many") that are generated to
       fullfill the ORM requirements for associations
     properties:
-      Astruct_AnarrayofbstructDBID:
-        $ref: '#/definitions/NullInt64'
-      Astruct_AnarrayofbstructDBID_Index:
-        $ref: '#/definitions/NullInt64'
       CreatedAt:
         format: date-time
         type: string
@@ -273,10 +265,6 @@ definitions:
       It incorporates the GORM ID, basic fields from the model (because they can be serialized),
       the encoded version of pointers
     properties:
-      Astruct_AnarrayofbstructDBID:
-        $ref: '#/definitions/NullInt64'
-      Astruct_AnarrayofbstructDBID_Index:
-        $ref: '#/definitions/NullInt64'
       CreatedAt:
         format: date-time
         type: string
@@ -643,12 +631,6 @@ responses:
   bstructDBResponse:
     description: BstructDBResponse provides response
     headers:
-      Astruct_AnarrayofbstructDBID:
-        description: |-
-          insertion for pointer fields encoding declaration
-          Implementation of a reverse ID for field Astruct{}.Anarrayofbstruct []*Bstruct
-      Astruct_AnarrayofbstructDBID_Index:
-        description: implementation of the index of the withing the slice
       CreatedAt:
         format: date-time
         type: string
@@ -664,7 +646,7 @@ responses:
         format: date-time
         type: string
     schema:
-      $ref: '#/definitions/NullInt64'
+      $ref: '#/definitions/NullString'
   bstructDBsResponse:
     description: BstructDBs arrays bstructDBs
     schema:
