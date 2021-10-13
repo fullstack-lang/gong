@@ -1,4 +1,5 @@
 // insertion point for imports
+import { BstructDB } from './bstruct-db'
 import { AstructBstructUseDB } from './astructbstructuse-db'
 
 // usefull for managing pointer ID values that can be nullable
@@ -20,5 +21,9 @@ export class AstructDB {
 
 	// insertion point for other declarations
 	Duration1_string?: string
+	Associationtob?: BstructDB
+	AssociationtobID?: NullInt64
+
+	Anarrayofb?: Array<BstructDB>
 	AnarrayofbUse?: Array<AstructBstructUseDB>
 }

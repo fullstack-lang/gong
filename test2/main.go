@@ -70,8 +70,16 @@ func main() {
 	}
 
 	astruct := new(models.Astruct).Stage()
-	astruct.Name = "Test2 first Astruct instance"
+	astruct.Name = "Test2 Astruct instance #1"
 	astruct.Date = time.Date(2020, time.January, 1, 10, 11, 12, 0, time.UTC)
+
+	bstruct1 := new(models.Bstruct).Stage()
+	bstruct1.Name = "Test2 Bstruct instance #1"
+	bstruct2 := new(models.Bstruct).Stage()
+	bstruct2.Name = "Test2 Bstruct instance #2"
+	astruct.Associationtob = bstruct1
+	astruct.Anarrayofb = append(astruct.Anarrayofb, bstruct1)
+	astruct.Anarrayofb = append(astruct.Anarrayofb, bstruct2)
 
 	models.Stage.Commit()
 

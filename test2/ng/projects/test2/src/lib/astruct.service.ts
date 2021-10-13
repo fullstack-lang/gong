@@ -14,6 +14,7 @@ import { catchError, map, tap } from 'rxjs/operators';
 import { AstructDB } from './astruct-db';
 
 // insertion point for imports
+import { BstructDB } from './bstruct-db'
 
 @Injectable({
   providedIn: 'root'
@@ -70,6 +71,8 @@ export class AstructService {
   postAstruct(astructdb: AstructDB): Observable<AstructDB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
+    astructdb.Associationtob = new BstructDB
+    astructdb.Anarrayofb = []
     astructdb.AnarrayofbUse = []
 
     return this.http.post<AstructDB>(this.astructsUrl, astructdb, this.httpOptions).pipe(
@@ -98,6 +101,8 @@ export class AstructService {
     const url = `${this.astructsUrl}/${id}`;
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
+    astructdb.Associationtob = new BstructDB
+    astructdb.Anarrayofb = []
     astructdb.AnarrayofbUse = []
 
     return this.http.put<AstructDB>(url, astructdb, this.httpOptions).pipe(

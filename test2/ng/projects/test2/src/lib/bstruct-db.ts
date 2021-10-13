@@ -1,4 +1,5 @@
 // insertion point for imports
+import { AstructDB } from './astruct-db'
 
 // usefull for managing pointer ID values that can be nullable
 import { NullInt64 } from './front-repo.service'
@@ -12,4 +13,8 @@ export class BstructDB {
 	Name: string = ""
 
 	// insertion point for other declarations
+	Astruct_AnarrayofbDBID: NullInt64 = new NullInt64
+	Astruct_AnarrayofbDBID_Index: NullInt64  = new NullInt64 // store the index of the bstruct instance in Astruct.Anarrayofb
+	Astruct_Anarrayofb_reverse: AstructDB = new AstructDB
+
 }
