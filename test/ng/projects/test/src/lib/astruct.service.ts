@@ -15,7 +15,6 @@ import { AstructDB } from './astruct-db';
 
 // insertion point for imports
 import { BstructDB } from './bstruct-db'
-import { AstructDB } from './astruct-db'
 
 @Injectable({
   providedIn: 'root'

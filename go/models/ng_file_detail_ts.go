@@ -656,8 +656,9 @@ func MultiCodeGeneratorNgDetail(
 							"{{AssocStructName}}", __struct.Name,
 							"{{assocStructName}}", strings.ToLower(__struct.Name))
 
-						// cannot insert twice the same import
-						if !strings.Contains(TSinsertions[NgDetailTsInsertionPerStructImports], importToInsert) {
+						// cannot insert twice the same import and do not import the struct of interest
+						if !strings.Contains(TSinsertions[NgDetailTsInsertionPerStructImports], importToInsert) &&
+							__struct.Name != _struct.Name {
 							TSinsertions[NgDetailTsInsertionPerStructImports] += importToInsert
 						}
 
