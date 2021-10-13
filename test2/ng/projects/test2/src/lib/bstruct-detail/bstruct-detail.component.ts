@@ -84,7 +84,7 @@ export class BstructDetailComponent implements OnInit {
 				switch (this.originStructFieldName) {
 					// insertion point for state computation
 					case "Anarrayofb":
-						console.log("Bstruct" + " is instanciated with back pointer to instance " + this.id + " Astruct association Anarrayofb")
+						// console.log("Bstruct" + " is instanciated with back pointer to instance " + this.id + " Astruct association Anarrayofb")
 						this.state = BstructDetailComponentState.CREATE_INSTANCE_WITH_ASSOCIATION_Astruct_Anarrayofb_SET
 						break;
 					default:

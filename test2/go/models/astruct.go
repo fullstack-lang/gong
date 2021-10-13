@@ -21,7 +21,8 @@ type Astruct struct {
 	Duration1 time.Duration
 
 	Associationtob *Bstruct
-	Anarrayofb     []*Bstruct
+
+	Anarrayofb []*Bstruct
 
 	AnarrayofbUse []*AstructBstructUse
 }
