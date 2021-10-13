@@ -92,7 +92,7 @@ export class AstructDetailComponent implements OnInit {
 				switch (this.originStructFieldName) {
 					// insertion point for state computation
 					case "Anarrayofa":
-						console.log("Astruct" + " is instanciated with back pointer to instance " + this.id + " Astruct association Anarrayofa")
+						// console.log("Astruct" + " is instanciated with back pointer to instance " + this.id + " Astruct association Anarrayofa")
 						this.state = AstructDetailComponentState.CREATE_INSTANCE_WITH_ASSOCIATION_Astruct_Anarrayofa_SET
 						break;
 					default:
