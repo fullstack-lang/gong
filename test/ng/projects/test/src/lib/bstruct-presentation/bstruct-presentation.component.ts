@@ -23,13 +23,13 @@ export class BstructPresentationComponent implements OnInit {
 
 	// insertion point for declarations
 
-	displayedColumns: string[] = [];
-	dataSource = ELEMENT_DATA;
+	displayedColumns: string[] = []
+	dataSource = ELEMENT_DATA
 
-	bstruct: BstructDB;
+	bstruct: BstructDB = new (BstructDB)
 
 	// front repo
-	frontRepo: FrontRepo
+	frontRepo: FrontRepo = new (FrontRepo)
  
 	constructor(
 		private bstructService: BstructService,
@@ -56,12 +56,12 @@ export class BstructPresentationComponent implements OnInit {
 	}
 
 	getBstruct(): void {
-		const id = +this.route.snapshot.paramMap.get('id');
+		const id = +this.route.snapshot.paramMap.get('id')!
 		this.frontRepoService.pull().subscribe(
 			frontRepo => {
 				this.frontRepo = frontRepo
 
-				this.bstruct = this.frontRepo.Bstructs.get(id)
+				this.bstruct = this.frontRepo.Bstructs.get(id)!
 
 				// insertion point for recovery of durations
 			}
