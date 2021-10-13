@@ -83,6 +83,9 @@ export class AstructsTableComponent implements OnInit {
         case 'Duration1':
           return astructDB.Duration1;
 
+        case 'Associationtob':
+          return (astructDB.Associationtob ? astructDB.Associationtob.Name : '');
+
         default:
           console.assert(false, "Unknown field")
           return "";
@@ -100,6 +103,9 @@ export class AstructsTableComponent implements OnInit {
       mergedContent += astructDB.Name.toLowerCase()
       mergedContent += astructDB.Floatfield.toString()
       mergedContent += astructDB.Intfield.toString()
+      if (astructDB.Associationtob) {
+        mergedContent += astructDB.Associationtob.Name.toLowerCase()
+      }
 
       let isSelected = mergedContent.includes(filter.toLowerCase())
       return isSelected
@@ -157,6 +163,7 @@ export class AstructsTableComponent implements OnInit {
         "Intfield",
         "Anotherbooleanfield",
         "Duration1",
+        "Associationtob",
       ]
     } else {
       this.displayedColumns = ['select', 'ID', // insertion point for columns to display
@@ -167,6 +174,7 @@ export class AstructsTableComponent implements OnInit {
         "Intfield",
         "Anotherbooleanfield",
         "Duration1",
+        "Associationtob",
       ]
       this.selection = new SelectionModel<AstructDB>(allowMultiSelect, this.initialSelection);
     }

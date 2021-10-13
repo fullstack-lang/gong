@@ -45,6 +45,11 @@ type BstructAPI struct {
 // reverse pointers of slice of poitners to Struct
 type BstructPointersEnconding struct {
 	// insertion for pointer fields encoding declaration
+	// Implementation of a reverse ID for field Astruct{}.Anarrayofb []*Bstruct
+	Astruct_AnarrayofbDBID sql.NullInt64
+
+	// implementation of the index of the withing the slice
+	Astruct_AnarrayofbDBID_Index sql.NullInt64
 }
 
 // BstructDB describes a bstruct in the database
@@ -505,6 +510,12 @@ func (backRepoBstruct *BackRepoBstructStruct) RestorePhaseTwo() {
 		_ = bstructDB
 
 		// insertion point for reindexing pointers encoding
+		// This reindex bstruct.Anarrayofb
+		if bstructDB.Astruct_AnarrayofbDBID.Int64 != 0 {
+			bstructDB.Astruct_AnarrayofbDBID.Int64 =
+				int64(BackRepoAstructid_atBckpTime_newID[uint(bstructDB.Astruct_AnarrayofbDBID.Int64)])
+		}
+
 		// update databse with new index encoding
 		query := backRepoBstruct.db.Model(bstructDB).Updates(*bstructDB)
 		if query.Error != nil {

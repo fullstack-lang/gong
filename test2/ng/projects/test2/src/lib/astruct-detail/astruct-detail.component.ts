@@ -151,6 +151,16 @@ export class AstructDetailComponent implements OnInit {
 			this.Duration1_Hours * (3600 * 1000 * 1000 * 1000) +
 			this.Duration1_Minutes * (60 * 1000 * 1000 * 1000) +
 			this.Duration1_Seconds * (1000 * 1000 * 1000)
+		if (this.astruct.AssociationtobID == undefined) {
+			this.astruct.AssociationtobID = new NullInt64
+		}
+		if (this.astruct.Associationtob != undefined) {
+			this.astruct.AssociationtobID.Int64 = this.astruct.Associationtob.ID
+			this.astruct.AssociationtobID.Valid = true
+		} else {
+			this.astruct.AssociationtobID.Int64 = 0
+			this.astruct.AssociationtobID.Valid = true
+		}
 
 		// save from the front pointer space to the non pointer space for serialization
 
