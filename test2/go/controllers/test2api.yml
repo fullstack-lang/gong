@@ -424,17 +424,14 @@ responses:
         description: Declation for basic field astructDB.Date
       DeletedAt: {}
       Duration1_Data:
-        description: Declation for basic field astructDB.Duration1 {{BasicKind}} (to
-          be completed)
+        description: Declation for basic field astructDB.Duration1 {{BasicKind}} (to be completed)
       Floatfield_Data:
-        description: Declation for basic field astructDB.Floatfield {{BasicKind}}
-          (to be completed)
+        description: Declation for basic field astructDB.Floatfield {{BasicKind}} (to be completed)
       ID:
         format: uint64
         type: integer
       Intfield_Data:
-        description: Declation for basic field astructDB.Intfield {{BasicKind}} (to
-          be completed)
+        description: Declation for basic field astructDB.Intfield {{BasicKind}} (to be completed)
       Name_Data:
         description: |-
           insertion for basic fields declaration
