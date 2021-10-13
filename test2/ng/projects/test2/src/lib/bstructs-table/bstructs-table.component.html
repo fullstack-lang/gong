@@ -25,13 +25,6 @@
                 {{Bstruct.Name}}
             </td>
         </ng-container>
-        <!-- -->
-        <ng-container matColumnDef="Astruct_Anarrayofbstruct">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> <-- (Astruct) Anarrayofbstruct </th>
-            <td mat-cell *matCellDef="let bstruct">
-                {{frontRepo.Astructs.get(bstruct.Astruct_AnarrayofbstructDBID.Int64)?.Name}}
-            </td>
-        </ng-container>
 
         <ng-container matColumnDef="ID" sticky>
             <th mat-header-cell *matHeaderCellDef> ID. </th>
