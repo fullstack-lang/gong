@@ -24,6 +24,8 @@ import { catchError, map, tap } from 'rxjs/operators';
 
 import { {{Structname}}DB } from './{{structname}}-db';
 
+// insertion point for imports{{` + string(rune(NgServiceTsInsertionImports)) + `}}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -150,6 +152,8 @@ const (
 	NgServiceTsInsertionPointerReset NgServiceTsInsertionPoint = iota
 	NgServiceTsInsertionPointerRestore
 
+	NgServiceTsInsertionImports
+
 	NgServiceTsInsertionsNb
 )
 
@@ -160,6 +164,8 @@ const (
 	NgServiceTSSliceOfPointerToGongStructReset
 	NgServiceTSSliceOfPointerToGongStructReversePointerReset
 	NgServiceTSSliceOfPointerToGongStructReversePointerRestore
+
+	NgServiceTSReversePointerToSliceOfGongStructImports
 )
 
 var NgServiceSubTemplateCode map[NgServiceSubTemplate]string = map[NgServiceSubTemplate]string{
@@ -176,6 +182,9 @@ var NgServiceSubTemplateCode map[NgServiceSubTemplate]string = map[NgServiceSubT
 
 	NgServiceTSSliceOfPointerToGongStructReversePointerRestore: `
         {{structname}}db.{{AssocStructName}}_{{FieldName}}_reverse = _{{AssocStructName}}_{{FieldName}}_reverse`,
+
+	NgServiceTSReversePointerToSliceOfGongStructImports: `
+import { {{AssocStructName}}DB } from './{{assocStructName}}-db'`,
 }
 
 // MultiCodeGeneratorNgService generates the code for the
@@ -244,6 +253,14 @@ func MultiCodeGeneratorNgService(
 								"{{FieldName}}", field.Name,
 								"{{AssocStructName}}", __struct.Name)
 
+						var importToInsert = Replace2(NgServiceSubTemplateCode[NgServiceTSReversePointerToSliceOfGongStructImports],
+							"{{AssocStructName}}", __struct.Name,
+							"{{assocStructName}}", strings.ToLower(__struct.Name))
+
+						// cannot insert twice the same import
+						if !strings.Contains(TSinsertions[NgServiceTsInsertionImports], importToInsert) {
+							TSinsertions[NgServiceTsInsertionImports] += importToInsert
+						}
 					}
 				}
 			}

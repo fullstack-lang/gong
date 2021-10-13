@@ -12,7 +12,9 @@ import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 
 import { BstructDB } from './bstruct-db';
-import { AstructDB } from './astruct-db';
+
+// insertion point for imports
+import { AstructDB } from './astruct-db'
 
 @Injectable({
   providedIn: 'root'
