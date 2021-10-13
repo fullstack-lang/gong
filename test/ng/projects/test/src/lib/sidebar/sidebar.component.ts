@@ -754,7 +754,7 @@ export class SidebarComponent implements OnInit {
       // expand nodes that were exapanded before
       this.treeControl.dataNodes?.forEach(
         node => {
-          if (memoryOfExpandedNodes.has(node.uniqueIdPerStack)) {
+          if (memoryOfExpandedNodes.get(node.uniqueIdPerStack)) {
             this.treeControl.expand(node)
           }
         }
