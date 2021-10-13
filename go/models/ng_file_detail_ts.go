@@ -389,7 +389,7 @@ import { {{AssocStructName}}DB } from '../{{assocStructName}}-db'`,
 
 	NgDetailTSReversePointerToSliceOfGongStructStateCaseComputation: `
 					case "{{FieldName}}":
-						console.log("{{Structname}}" + " is instanciated with back pointer to instance " + this.id + " {{AssocStructName}} association {{FieldName}}")
+						// console.log("{{Structname}}" + " is instanciated with back pointer to instance " + this.id + " {{AssocStructName}} association {{FieldName}}")
 						this.state = {{Structname}}DetailComponentState.CREATE_INSTANCE_WITH_ASSOCIATION_{{AssocStructName}}_{{FieldName}}_SET
 						break;`,
 
