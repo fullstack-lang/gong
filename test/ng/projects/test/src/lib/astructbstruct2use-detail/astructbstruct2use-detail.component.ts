@@ -10,12 +10,13 @@ import { MapOfComponents } from '../map-components'
 import { MapOfSortingComponents } from '../map-components'
 
 // insertion point for imports
+import { AstructDB } from '../astruct-db'
 
 import { Router, RouterState, ActivatedRoute } from '@angular/router';
 
 import { MatDialog, MAT_DIALOG_DATA, MatDialogRef, MatDialogConfig } from '@angular/material/dialog';
 
-import { NullInt64 } from '../front-repo.service'
+import { NullInt64 } from '../null-int64'
 
 // AstructBstruct2UseDetailComponent is initilizaed from different routes
 // AstructBstruct2UseDetailComponentState detail different cases 
@@ -36,10 +37,10 @@ export class AstructBstruct2UseDetailComponent implements OnInit {
 	// insertion point for declarations
 
 	// the AstructBstruct2UseDB of interest
-	astructbstruct2use: AstructBstruct2UseDB;
+	astructbstruct2use: AstructBstruct2UseDB = new AstructBstruct2UseDB
 
 	// front repo
-	frontRepo: FrontRepo
+	frontRepo: FrontRepo = new FrontRepo
 
 	// this stores the information related to string fields
 	// if false, the field is inputed with an <input ...> form 
@@ -47,15 +48,15 @@ export class AstructBstruct2UseDetailComponent implements OnInit {
 	mapFields_displayAsTextArea = new Map<string, boolean>()
 
 	// the state at initialization (CREATION, UPDATE or CREATE with one association set)
-	state: AstructBstruct2UseDetailComponentState
+	state: AstructBstruct2UseDetailComponentState = AstructBstruct2UseDetailComponentState.CREATE_INSTANCE
 
 	// in UDPATE state, if is the id of the instance to update
 	// in CREATE state with one association set, this is the id of the associated instance
-	id: number
+	id: number = 0
 
 	// in CREATE state with one association set, this is the id of the associated instance
-	originStruct: string
-	originStructFieldName: string
+	originStruct: string = ""
+	originStructFieldName: string = ""
 
 	constructor(
 		private astructbstruct2useService: AstructBstruct2UseService,
@@ -69,9 +70,9 @@ export class AstructBstruct2UseDetailComponent implements OnInit {
 	ngOnInit(): void {
 
 		// compute state
-		this.id = +this.route.snapshot.paramMap.get('id');
-		this.originStruct = this.route.snapshot.paramMap.get('originStruct');
-		this.originStructFieldName = this.route.snapshot.paramMap.get('originStructFieldName');
+		this.id = +this.route.snapshot.paramMap.get('id')!;
+		this.originStruct = this.route.snapshot.paramMap.get('originStruct')!;
+		this.originStructFieldName = this.route.snapshot.paramMap.get('originStructFieldName')!;
 
 		const association = this.route.snapshot.paramMap.get('association');
 		if (this.id == 0) {
@@ -117,12 +118,14 @@ export class AstructBstruct2UseDetailComponent implements OnInit {
 						this.astructbstruct2use = new (AstructBstruct2UseDB)
 						break;
 					case AstructBstruct2UseDetailComponentState.UPDATE_INSTANCE:
-						this.astructbstruct2use = frontRepo.AstructBstruct2Uses.get(this.id)
+						let astructbstruct2use = frontRepo.AstructBstruct2Uses.get(this.id)
+						console.assert(astructbstruct2use != undefined, "missing astructbstruct2use with id:" + this.id)
+						this.astructbstruct2use = astructbstruct2use!
 						break;
 					// insertion point for init of association field
 					case AstructBstruct2UseDetailComponentState.CREATE_INSTANCE_WITH_ASSOCIATION_Astruct_Anarrayofb2Use_SET:
 						this.astructbstruct2use = new (AstructBstruct2UseDB)
-						this.astructbstruct2use.Astruct_Anarrayofb2Use_reverse = frontRepo.Astructs.get(this.id)
+						this.astructbstruct2use.Astruct_Anarrayofb2Use_reverse = frontRepo.Astructs.get(this.id)!
 						break;
 					default:
 						console.log(this.state + " is unkown state")
@@ -165,7 +168,7 @@ export class AstructBstruct2UseDetailComponent implements OnInit {
 				this.astructbstruct2use.Astruct_Anarrayofb2UseDBID_Index = new NullInt64
 			}
 			this.astructbstruct2use.Astruct_Anarrayofb2UseDBID_Index.Valid = true
-			this.astructbstruct2use.Astruct_Anarrayofb2Use_reverse = undefined // very important, otherwise, circular JSON
+			this.astructbstruct2use.Astruct_Anarrayofb2Use_reverse = new AstructDB // very important, otherwise, circular JSON
 		}
 
 		switch (this.state) {
@@ -178,7 +181,7 @@ export class AstructBstruct2UseDetailComponent implements OnInit {
 			default:
 				this.astructbstruct2useService.postAstructBstruct2Use(this.astructbstruct2use).subscribe(astructbstruct2use => {
 					this.astructbstruct2useService.AstructBstruct2UseServiceChanged.next("post")
-					this.astructbstruct2use = {} // reset fields
+					this.astructbstruct2use = new (AstructBstruct2UseDB) // reset fields
 				});
 		}
 	}
@@ -187,7 +190,7 @@ export class AstructBstruct2UseDetailComponent implements OnInit {
 	// ONE-MANY association
 	// It uses the MapOfComponent provided by the front repo
 	openReverseSelection(AssociatedStruct: string, reverseField: string, selectionMode: string,
-		sourceField: string, intermediateStructField: string, nextAssociatedStruct: string ) {
+		sourceField: string, intermediateStructField: string, nextAssociatedStruct: string) {
 
 		console.log("mode " + selectionMode)
 
@@ -201,7 +204,7 @@ export class AstructBstruct2UseDetailComponent implements OnInit {
 		dialogConfig.height = "50%"
 		if (selectionMode == SelectionMode.ONE_MANY_ASSOCIATION_MODE) {
 
-			dialogData.ID = this.astructbstruct2use.ID
+			dialogData.ID = this.astructbstruct2use.ID!
 			dialogData.ReversePointer = reverseField
 			dialogData.OrderingMode = false
 			dialogData.SelectionMode = selectionMode
@@ -217,7 +220,7 @@ export class AstructBstruct2UseDetailComponent implements OnInit {
 			});
 		}
 		if (selectionMode == SelectionMode.MANY_MANY_ASSOCIATION_MODE) {
-			dialogData.ID = this.astructbstruct2use.ID
+			dialogData.ID = this.astructbstruct2use.ID!
 			dialogData.ReversePointer = reverseField
 			dialogData.OrderingMode = false
 			dialogData.SelectionMode = selectionMode
@@ -268,7 +271,7 @@ export class AstructBstruct2UseDetailComponent implements OnInit {
 		});
 	}
 
-	fillUpNameIfEmpty(event) {
+	fillUpNameIfEmpty(event: { value: { Name: string; }; }) {
 		if (this.astructbstruct2use.Name == undefined) {
 			this.astructbstruct2use.Name = event.value.Name
 		}
@@ -285,7 +288,7 @@ export class AstructBstruct2UseDetailComponent implements OnInit {
 
 	isATextArea(fieldName: string): boolean {
 		if (this.mapFields_displayAsTextArea.has(fieldName)) {
-			return this.mapFields_displayAsTextArea.get(fieldName)
+			return this.mapFields_displayAsTextArea.get(fieldName)!
 		} else {
 			return false
 		}

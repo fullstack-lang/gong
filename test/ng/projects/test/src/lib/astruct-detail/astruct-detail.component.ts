@@ -12,12 +12,13 @@ import { MapOfSortingComponents } from '../map-components'
 // insertion point for imports
 import { AEnumTypeSelect, AEnumTypeList } from '../AEnumType'
 import { BEnumTypeSelect, BEnumTypeList } from '../BEnumType'
+import { AstructDB } from '../astruct-db'
 
 import { Router, RouterState, ActivatedRoute } from '@angular/router';
 
 import { MatDialog, MAT_DIALOG_DATA, MatDialogRef, MatDialogConfig } from '@angular/material/dialog';
 
-import { NullInt64 } from '../front-repo.service'
+import { NullInt64 } from '../null-int64'
 
 // AstructDetailComponent is initilizaed from different routes
 // AstructDetailComponentState detail different cases 
@@ -40,15 +41,15 @@ export class AstructDetailComponent implements OnInit {
 	AEnumTypeList: AEnumTypeSelect[]
 	BEnumTypeList: BEnumTypeSelect[]
 	AnotherbooleanfieldFormControl = new FormControl(false);
-	Duration1_Hours: number
-	Duration1_Minutes: number
-	Duration1_Seconds: number
+	Duration1_Hours: number = 0
+	Duration1_Minutes: number = 0
+	Duration1_Seconds: number = 0
 
 	// the AstructDB of interest
-	astruct: AstructDB;
+	astruct: AstructDB = new AstructDB
 
 	// front repo
-	frontRepo: FrontRepo
+	frontRepo: FrontRepo = new FrontRepo
 
 	// this stores the information related to string fields
 	// if false, the field is inputed with an <input ...> form 
@@ -56,15 +57,15 @@ export class AstructDetailComponent implements OnInit {
 	mapFields_displayAsTextArea = new Map<string, boolean>()
 
 	// the state at initialization (CREATION, UPDATE or CREATE with one association set)
-	state: AstructDetailComponentState
+	state: AstructDetailComponentState = AstructDetailComponentState.CREATE_INSTANCE
 
 	// in UDPATE state, if is the id of the instance to update
 	// in CREATE state with one association set, this is the id of the associated instance
-	id: number
+	id: number = 0
 
 	// in CREATE state with one association set, this is the id of the associated instance
-	originStruct: string
-	originStructFieldName: string
+	originStruct: string = ""
+	originStructFieldName: string = ""
 
 	constructor(
 		private astructService: AstructService,
@@ -78,9 +79,9 @@ export class AstructDetailComponent implements OnInit {
 	ngOnInit(): void {
 
 		// compute state
-		this.id = +this.route.snapshot.paramMap.get('id');
-		this.originStruct = this.route.snapshot.paramMap.get('originStruct');
-		this.originStructFieldName = this.route.snapshot.paramMap.get('originStructFieldName');
+		this.id = +this.route.snapshot.paramMap.get('id')!;
+		this.originStruct = this.route.snapshot.paramMap.get('originStruct')!;
+		this.originStructFieldName = this.route.snapshot.paramMap.get('originStructFieldName')!;
 
 		const association = this.route.snapshot.paramMap.get('association');
 		if (this.id == 0) {
@@ -128,12 +129,14 @@ export class AstructDetailComponent implements OnInit {
 						this.astruct = new (AstructDB)
 						break;
 					case AstructDetailComponentState.UPDATE_INSTANCE:
-						this.astruct = frontRepo.Astructs.get(this.id)
+						let astruct = frontRepo.Astructs.get(this.id)
+						console.assert(astruct != undefined, "missing astruct with id:" + this.id)
+						this.astruct = astruct!
 						break;
 					// insertion point for init of association field
 					case AstructDetailComponentState.CREATE_INSTANCE_WITH_ASSOCIATION_Astruct_Anarrayofa_SET:
 						this.astruct = new (AstructDB)
-						this.astruct.Astruct_Anarrayofa_reverse = frontRepo.Astructs.get(this.id)
+						this.astruct.Astruct_Anarrayofa_reverse = frontRepo.Astructs.get(this.id)!
 						break;
 					default:
 						console.log(this.state + " is unkown state")
@@ -198,7 +201,7 @@ export class AstructDetailComponent implements OnInit {
 				this.astruct.Astruct_AnarrayofaDBID_Index = new NullInt64
 			}
 			this.astruct.Astruct_AnarrayofaDBID_Index.Valid = true
-			this.astruct.Astruct_Anarrayofa_reverse = undefined // very important, otherwise, circular JSON
+			this.astruct.Astruct_Anarrayofa_reverse = new AstructDB // very important, otherwise, circular JSON
 		}
 
 		switch (this.state) {
@@ -211,7 +214,7 @@ export class AstructDetailComponent implements OnInit {
 			default:
 				this.astructService.postAstruct(this.astruct).subscribe(astruct => {
 					this.astructService.AstructServiceChanged.next("post")
-					this.astruct = {} // reset fields
+					this.astruct = new (AstructDB) // reset fields
 				});
 		}
 	}
@@ -220,7 +223,7 @@ export class AstructDetailComponent implements OnInit {
 	// ONE-MANY association
 	// It uses the MapOfComponent provided by the front repo
 	openReverseSelection(AssociatedStruct: string, reverseField: string, selectionMode: string,
-		sourceField: string, intermediateStructField: string, nextAssociatedStruct: string ) {
+		sourceField: string, intermediateStructField: string, nextAssociatedStruct: string) {
 
 		console.log("mode " + selectionMode)
 
@@ -234,7 +237,7 @@ export class AstructDetailComponent implements OnInit {
 		dialogConfig.height = "50%"
 		if (selectionMode == SelectionMode.ONE_MANY_ASSOCIATION_MODE) {
 
-			dialogData.ID = this.astruct.ID
+			dialogData.ID = this.astruct.ID!
 			dialogData.ReversePointer = reverseField
 			dialogData.OrderingMode = false
 			dialogData.SelectionMode = selectionMode
@@ -250,7 +253,7 @@ export class AstructDetailComponent implements OnInit {
 			});
 		}
 		if (selectionMode == SelectionMode.MANY_MANY_ASSOCIATION_MODE) {
-			dialogData.ID = this.astruct.ID
+			dialogData.ID = this.astruct.ID!
 			dialogData.ReversePointer = reverseField
 			dialogData.OrderingMode = false
 			dialogData.SelectionMode = selectionMode
@@ -301,7 +304,7 @@ export class AstructDetailComponent implements OnInit {
 		});
 	}
 
-	fillUpNameIfEmpty(event) {
+	fillUpNameIfEmpty(event: { value: { Name: string; }; }) {
 		if (this.astruct.Name == undefined) {
 			this.astruct.Name = event.value.Name
 		}
@@ -318,7 +321,7 @@ export class AstructDetailComponent implements OnInit {
 
 	isATextArea(fieldName: string): boolean {
 		if (this.mapFields_displayAsTextArea.has(fieldName)) {
-			return this.mapFields_displayAsTextArea.get(fieldName)
+			return this.mapFields_displayAsTextArea.get(fieldName)!
 		} else {
 			return false
 		}
