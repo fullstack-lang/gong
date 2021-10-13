@@ -339,7 +339,7 @@ var NgDetailSubTemplateCode map[NgDetailSubTemplate]string = map[NgDetailSubTemp
 	NgDetailTSEnumImports: `
 import { {{EnumName}}Select, {{EnumName}}List } from '../{{EnumName}}'`,
 	NgDetailTSEnumDeclarations: `
-	{{EnumName}}List: {{EnumName}}Select[]`,
+	{{EnumName}}List: {{EnumName}}Select[] = []`,
 	NgDetailTSEnumInits: `
 		this.{{EnumName}}List = {{EnumName}}List`,
 
