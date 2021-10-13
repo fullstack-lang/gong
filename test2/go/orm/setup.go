@@ -43,6 +43,7 @@ func AutoMigrate(db *gorm.DB) {
 
 	err := db.AutoMigrate( // insertion point for reference to structs
 		&AstructDB{},
+		&AstructBstructUseDB{},
 		&BstructDB{},
 	)
 
@@ -57,5 +58,6 @@ func AutoMigrate(db *gorm.DB) {
 
 func ResetDB(db *gorm.DB) { // insertion point for reference to structs
 	db.Delete(&AstructDB{})
+	db.Delete(&AstructBstructUseDB{})
 	db.Delete(&BstructDB{})
 }

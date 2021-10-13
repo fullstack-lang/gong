@@ -21,4 +21,6 @@ type Astruct struct {
 	Duration1 time.Duration
 
 	Anarrayofbstruct []*Bstruct
+
+	AnarrayofbUse []*AstructBstructUse
 }

@@ -222,8 +222,9 @@ func MultiCodeGeneratorNgService(
 			case *PointerToGongStructField:
 
 				TSinsertions[NgServiceTsInsertionPointerReset] +=
-					Replace1(NgServiceSubTemplateCode[NgServiceTSPointerToGongStructReset],
-						"{{FieldName}}", field.Name)
+					Replace2(NgServiceSubTemplateCode[NgServiceTSPointerToGongStructReset],
+						"{{FieldName}}", field.Name,
+						"{{AssocStructName}}", field.GongStruct.Name)
 
 			case *SliceOfPointerToGongStructField:
 

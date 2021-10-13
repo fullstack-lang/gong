@@ -20,6 +20,13 @@ export * from './lib/astructs-table/astructs-table.component'
 export * from './lib/astruct-db'
 export * from './lib/astruct.service'
 
+export * from './lib/astructbstructuse-detail/astructbstructuse-detail.component'
+export * from './lib/astructbstructuse-presentation/astructbstructuse-presentation.component'
+export * from './lib/astructbstructuse-sorting/astructbstructuse-sorting.component'
+export * from './lib/astructbstructuses-table/astructbstructuses-table.component'
+export * from './lib/astructbstructuse-db'
+export * from './lib/astructbstructuse.service'
+
 export * from './lib/bstruct-detail/bstruct-detail.component'
 export * from './lib/bstruct-presentation/bstruct-presentation.component'
 export * from './lib/bstruct-sorting/bstruct-sorting.component'
