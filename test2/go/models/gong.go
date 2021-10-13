@@ -15,6 +15,9 @@ type StageStruct struct { // insertion point for definition of arrays registerin
 	Astructs           map[*Astruct]struct{}
 	Astructs_mapString map[string]*Astruct
 
+	AstructBstructUses           map[*AstructBstructUse]struct{}
+	AstructBstructUses_mapString map[string]*AstructBstructUse
+
 	Bstructs           map[*Bstruct]struct{}
 	Bstructs_mapString map[string]*Bstruct
 
@@ -42,6 +45,8 @@ type BackRepoInterface interface {
 	// insertion point for Commit and Checkout signatures
 	CommitAstruct(astruct *Astruct)
 	CheckoutAstruct(astruct *Astruct)
+	CommitAstructBstructUse(astructbstructuse *AstructBstructUse)
+	CheckoutAstructBstructUse(astructbstructuse *AstructBstructUse)
 	CommitBstruct(bstruct *Bstruct)
 	CheckoutBstruct(bstruct *Bstruct)
 	GetLastCommitNb() uint
@@ -52,6 +57,9 @@ type BackRepoInterface interface {
 var Stage StageStruct = StageStruct{ // insertion point for array initiatialisation
 	Astructs:           make(map[*Astruct]struct{}),
 	Astructs_mapString: make(map[string]*Astruct),
+
+	AstructBstructUses:           make(map[*AstructBstructUse]struct{}),
+	AstructBstructUses_mapString: make(map[string]*AstructBstructUse),
 
 	Bstructs:           make(map[*Bstruct]struct{}),
 	Bstructs_mapString: make(map[string]*Bstruct),
@@ -202,6 +210,108 @@ func DeleteORMAstruct(astruct *Astruct) {
 	}
 }
 
+func (stage *StageStruct) getAstructBstructUseOrderedStructWithNameField() []*AstructBstructUse {
+	// have alphabetical order generation
+	astructbstructuseOrdered := []*AstructBstructUse{}
+	for astructbstructuse := range stage.AstructBstructUses {
+		astructbstructuseOrdered = append(astructbstructuseOrdered, astructbstructuse)
+	}
+	sort.Slice(astructbstructuseOrdered[:], func(i, j int) bool {
+		return astructbstructuseOrdered[i].Name < astructbstructuseOrdered[j].Name
+	})
+	return astructbstructuseOrdered
+}
+
+// Stage puts astructbstructuse to the model stage
+func (astructbstructuse *AstructBstructUse) Stage() *AstructBstructUse {
+	Stage.AstructBstructUses[astructbstructuse] = __member
+	Stage.AstructBstructUses_mapString[astructbstructuse.Name] = astructbstructuse
+
+	return astructbstructuse
+}
+
+// Unstage removes astructbstructuse off the model stage
+func (astructbstructuse *AstructBstructUse) Unstage() *AstructBstructUse {
+	delete(Stage.AstructBstructUses, astructbstructuse)
+	delete(Stage.AstructBstructUses_mapString, astructbstructuse.Name)
+	return astructbstructuse
+}
+
+// commit astructbstructuse to the back repo (if it is already staged)
+func (astructbstructuse *AstructBstructUse) Commit() *AstructBstructUse {
+	if _, ok := Stage.AstructBstructUses[astructbstructuse]; ok {
+		if Stage.BackRepo != nil {
+			Stage.BackRepo.CommitAstructBstructUse(astructbstructuse)
+		}
+	}
+	return astructbstructuse
+}
+
+// Checkout astructbstructuse to the back repo (if it is already staged)
+func (astructbstructuse *AstructBstructUse) Checkout() *AstructBstructUse {
+	if _, ok := Stage.AstructBstructUses[astructbstructuse]; ok {
+		if Stage.BackRepo != nil {
+			Stage.BackRepo.CheckoutAstructBstructUse(astructbstructuse)
+		}
+	}
+	return astructbstructuse
+}
+
+//
+// Legacy, to be deleted
+//
+
+// StageCopy appends a copy of astructbstructuse to the model stage
+func (astructbstructuse *AstructBstructUse) StageCopy() *AstructBstructUse {
+	_astructbstructuse := new(AstructBstructUse)
+	*_astructbstructuse = *astructbstructuse
+	_astructbstructuse.Stage()
+	return _astructbstructuse
+}
+
+// StageAndCommit appends astructbstructuse to the model stage and commit to the orm repo
+func (astructbstructuse *AstructBstructUse) StageAndCommit() *AstructBstructUse {
+	astructbstructuse.Stage()
+	if Stage.AllModelsStructCreateCallback != nil {
+		Stage.AllModelsStructCreateCallback.CreateORMAstructBstructUse(astructbstructuse)
+	}
+	return astructbstructuse
+}
+
+// DeleteStageAndCommit appends astructbstructuse to the model stage and commit to the orm repo
+func (astructbstructuse *AstructBstructUse) DeleteStageAndCommit() *AstructBstructUse {
+	astructbstructuse.Unstage()
+	DeleteORMAstructBstructUse(astructbstructuse)
+	return astructbstructuse
+}
+
+// StageCopyAndCommit appends a copy of astructbstructuse to the model stage and commit to the orm repo
+func (astructbstructuse *AstructBstructUse) StageCopyAndCommit() *AstructBstructUse {
+	_astructbstructuse := new(AstructBstructUse)
+	*_astructbstructuse = *astructbstructuse
+	_astructbstructuse.Stage()
+	if Stage.AllModelsStructCreateCallback != nil {
+		Stage.AllModelsStructCreateCallback.CreateORMAstructBstructUse(astructbstructuse)
+	}
+	return _astructbstructuse
+}
+
+// CreateORMAstructBstructUse enables dynamic staging of a AstructBstructUse instance
+func CreateORMAstructBstructUse(astructbstructuse *AstructBstructUse) {
+	astructbstructuse.Stage()
+	if Stage.AllModelsStructCreateCallback != nil {
+		Stage.AllModelsStructCreateCallback.CreateORMAstructBstructUse(astructbstructuse)
+	}
+}
+
+// DeleteORMAstructBstructUse enables dynamic staging of a AstructBstructUse instance
+func DeleteORMAstructBstructUse(astructbstructuse *AstructBstructUse) {
+	astructbstructuse.Unstage()
+	if Stage.AllModelsStructDeleteCallback != nil {
+		Stage.AllModelsStructDeleteCallback.DeleteORMAstructBstructUse(astructbstructuse)
+	}
+}
+
 func (stage *StageStruct) getBstructOrderedStructWithNameField() []*Bstruct {
 	// have alphabetical order generation
 	bstructOrdered := []*Bstruct{}
@@ -307,17 +417,22 @@ func DeleteORMBstruct(bstruct *Bstruct) {
 // swagger:ignore
 type AllModelsStructCreateInterface interface { // insertion point for Callbacks on creation
 	CreateORMAstruct(Astruct *Astruct)
+	CreateORMAstructBstructUse(AstructBstructUse *AstructBstructUse)
 	CreateORMBstruct(Bstruct *Bstruct)
 }
 
 type AllModelsStructDeleteInterface interface { // insertion point for Callbacks on deletion
 	DeleteORMAstruct(Astruct *Astruct)
+	DeleteORMAstructBstructUse(AstructBstructUse *AstructBstructUse)
 	DeleteORMBstruct(Bstruct *Bstruct)
 }
 
 func (stage *StageStruct) Reset() { // insertion point for array reset
 	stage.Astructs = make(map[*Astruct]struct{})
 	stage.Astructs_mapString = make(map[string]*Astruct)
+
+	stage.AstructBstructUses = make(map[*AstructBstructUse]struct{})
+	stage.AstructBstructUses_mapString = make(map[string]*AstructBstructUse)
 
 	stage.Bstructs = make(map[*Bstruct]struct{})
 	stage.Bstructs_mapString = make(map[string]*Bstruct)
@@ -327,6 +442,9 @@ func (stage *StageStruct) Reset() { // insertion point for array reset
 func (stage *StageStruct) Nil() { // insertion point for array nil
 	stage.Astructs = nil
 	stage.Astructs_mapString = nil
+
+	stage.AstructBstructUses = nil
+	stage.AstructBstructUses_mapString = nil
 
 	stage.Bstructs = nil
 	stage.Bstructs_mapString = nil

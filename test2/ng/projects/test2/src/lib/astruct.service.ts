@@ -71,6 +71,7 @@ export class AstructService {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
     astructdb.Anarrayofbstruct = []
+    astructdb.AnarrayofbUse = []
 
     return this.http.post<AstructDB>(this.astructsUrl, astructdb, this.httpOptions).pipe(
       tap(_ => {
@@ -99,6 +100,7 @@ export class AstructService {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
     astructdb.Anarrayofbstruct = []
+    astructdb.AnarrayofbUse = []
 
     return this.http.put<AstructDB>(url, astructdb, this.httpOptions).pipe(
       tap(_ => {

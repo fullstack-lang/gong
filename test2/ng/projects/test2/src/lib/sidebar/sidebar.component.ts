@@ -10,6 +10,8 @@ import { CommitNbService } from '../commitnb.service'
 // insertion point for per struct import code
 import { AstructService } from '../astruct.service'
 import { getAstructUniqueID } from '../front-repo.service'
+import { AstructBstructUseService } from '../astructbstructuse.service'
+import { getAstructBstructUseUniqueID } from '../front-repo.service'
 import { BstructService } from '../bstruct.service'
 import { getBstructUniqueID } from '../front-repo.service'
 
@@ -148,6 +150,7 @@ export class SidebarComponent implements OnInit {
 
     // insertion point for per struct service declaration
     private astructService: AstructService,
+    private astructbstructuseService: AstructBstructUseService,
     private bstructService: BstructService,
   ) { }
 
@@ -157,6 +160,14 @@ export class SidebarComponent implements OnInit {
     // insertion point for per struct observable for refresh trigger
     // observable for changes in structs
     this.astructService.AstructServiceChanged.subscribe(
+      message => {
+        if (message == "post" || message == "update" || message == "delete") {
+          this.refresh()
+        }
+      }
+    )
+    // observable for changes in structs
+    this.astructbstructuseService.AstructBstructUseServiceChanged.subscribe(
       message => {
         if (message == "post" || message == "update" || message == "delete") {
           this.refresh()
@@ -267,6 +278,117 @@ export class SidebarComponent implements OnInit {
             }
             AnarrayofbstructGongNodeAssociation.children.push(bstructNode)
           })
+
+          /**
+          * let append a node for the slide of pointer AnarrayofbUse
+          */
+          let AnarrayofbUseGongNodeAssociation: GongNode = {
+            name: "(AstructBstructUse) AnarrayofbUse",
+            type: GongNodeType.ONE__ZERO_MANY_ASSOCIATION,
+            id: astructDB.ID,
+            uniqueIdPerStack: 19 * nonInstanceNodeId,
+            structName: "Astruct",
+            associationField: "AnarrayofbUse",
+            associatedStructName: "AstructBstructUse",
+            children: new Array<GongNode>()
+          }
+          nonInstanceNodeId = nonInstanceNodeId + 1
+          astructGongNodeInstance.children.push(AnarrayofbUseGongNodeAssociation)
+
+          astructDB.AnarrayofbUse?.forEach(astructbstructuseDB => {
+            let astructbstructuseNode: GongNode = {
+              name: astructbstructuseDB.Name,
+              type: GongNodeType.INSTANCE,
+              id: astructbstructuseDB.ID,
+              uniqueIdPerStack: // godel numbering (thank you kurt)
+                7 * getAstructUniqueID(astructDB.ID)
+                + 11 * getAstructBstructUseUniqueID(astructbstructuseDB.ID),
+              structName: "AstructBstructUse",
+              associationField: "",
+              associatedStructName: "",
+              children: new Array<GongNode>()
+            }
+            AnarrayofbUseGongNodeAssociation.children.push(astructbstructuseNode)
+          })
+
+        }
+      )
+
+      /**
+      * fill up the AstructBstructUse part of the mat tree
+      */
+      let astructbstructuseGongNodeStruct: GongNode = {
+        name: "AstructBstructUse",
+        type: GongNodeType.STRUCT,
+        id: 0,
+        uniqueIdPerStack: 13 * nonInstanceNodeId,
+        structName: "AstructBstructUse",
+        associationField: "",
+        associatedStructName: "",
+        children: new Array<GongNode>()
+      }
+      nonInstanceNodeId = nonInstanceNodeId + 1
+      this.gongNodeTree.push(astructbstructuseGongNodeStruct)
+
+      this.frontRepo.AstructBstructUses_array.sort((t1, t2) => {
+        if (t1.Name > t2.Name) {
+          return 1;
+        }
+        if (t1.Name < t2.Name) {
+          return -1;
+        }
+        return 0;
+      });
+
+      this.frontRepo.AstructBstructUses_array.forEach(
+        astructbstructuseDB => {
+          let astructbstructuseGongNodeInstance: GongNode = {
+            name: astructbstructuseDB.Name,
+            type: GongNodeType.INSTANCE,
+            id: astructbstructuseDB.ID,
+            uniqueIdPerStack: getAstructBstructUseUniqueID(astructbstructuseDB.ID),
+            structName: "AstructBstructUse",
+            associationField: "",
+            associatedStructName: "",
+            children: new Array<GongNode>()
+          }
+          astructbstructuseGongNodeStruct.children!.push(astructbstructuseGongNodeInstance)
+
+          // insertion point for per field code
+          /**
+          * let append a node for the association Bstruct2
+          */
+          let Bstruct2GongNodeAssociation: GongNode = {
+            name: "(Bstruct) Bstruct2",
+            type: GongNodeType.ONE__ZERO_ONE_ASSOCIATION,
+            id: astructbstructuseDB.ID,
+            uniqueIdPerStack: 17 * nonInstanceNodeId,
+            structName: "AstructBstructUse",
+            associationField: "Bstruct2",
+            associatedStructName: "Bstruct",
+            children: new Array<GongNode>()
+          }
+          nonInstanceNodeId = nonInstanceNodeId + 1
+          astructbstructuseGongNodeInstance.children!.push(Bstruct2GongNodeAssociation)
+
+          /**
+            * let append a node for the instance behind the asssociation Bstruct2
+            */
+          if (astructbstructuseDB.Bstruct2 != undefined) {
+            let astructbstructuseGongNodeInstance_Bstruct2: GongNode = {
+              name: astructbstructuseDB.Bstruct2.Name,
+              type: GongNodeType.INSTANCE,
+              id: astructbstructuseDB.Bstruct2.ID,
+              uniqueIdPerStack: // godel numbering (thank you kurt)
+                3 * getAstructBstructUseUniqueID(astructbstructuseDB.ID)
+                + 5 * getBstructUniqueID(astructbstructuseDB.Bstruct2.ID),
+              structName: "Bstruct",
+              associationField: "",
+              associatedStructName: "",
+              children: new Array<GongNode>()
+            }
+            Bstruct2GongNodeAssociation.children.push(astructbstructuseGongNodeInstance_Bstruct2)
+          }
 
         }
       )

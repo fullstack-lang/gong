@@ -2,6 +2,18 @@ basePath: /api/github.com/fullstack-lang/gong/test2/go/v1
 consumes:
 - application/json
 definitions:
+  AstructBstructUse:
+    description: |-
+      The go generated code is the same as for any struct.
+      The "Use" at the end of the struct name will generate something different in the front
+    properties:
+      Bstruct2:
+        $ref: '#/definitions/Bstruct'
+      Name:
+        type: string
+    title: AstructBstructUse is the gong way of defining a MANY-MANY association
+    type: object
+    x-go-package: github.com/fullstack-lang/gong/test2/go/models
   Bstruct:
     properties:
       Name:
@@ -96,6 +108,10 @@ definitions:
       from associations ("Has One" and "Has Many") that are generated to
       fullfill the ORM requirements for associations
     properties:
+      AnarrayofbUse:
+        items:
+          $ref: '#/definitions/AstructBstructUse'
+        type: array
       Anarrayofbstruct:
         items:
           $ref: '#/definitions/Bstruct'
@@ -166,6 +182,65 @@ definitions:
     type: object
     x-go-name: AstructDB
     x-go-package: github.com/fullstack-lang/gong/test2/go/orm
+  astructbstructuseAPI:
+    description: |-
+      for POST, API, one needs the fields of the model as well as the fields
+      from associations ("Has One" and "Has Many") that are generated to
+      fullfill the ORM requirements for associations
+    properties:
+      Astruct_AnarrayofbUseDBID:
+        $ref: '#/definitions/NullInt64'
+      Astruct_AnarrayofbUseDBID_Index:
+        $ref: '#/definitions/NullInt64'
+      Bstruct2:
+        $ref: '#/definitions/Bstruct'
+      Bstruct2ID:
+        $ref: '#/definitions/NullInt64'
+      CreatedAt:
+        format: date-time
+        type: string
+      DeletedAt:
+        $ref: '#/definitions/DeletedAt'
+      ID:
+        format: uint64
+        type: integer
+      Name:
+        type: string
+      UpdatedAt:
+        format: date-time
+        type: string
+    title: AstructBstructUseAPI is the input in POST API
+    type: object
+    x-go-name: AstructBstructUseAPI
+    x-go-package: github.com/fullstack-lang/gong/test2/go/orm
+  astructbstructuseDB:
+    description: |-
+      It incorporates the GORM ID, basic fields from the model (because they can be serialized),
+      the encoded version of pointers
+    properties:
+      Astruct_AnarrayofbUseDBID:
+        $ref: '#/definitions/NullInt64'
+      Astruct_AnarrayofbUseDBID_Index:
+        $ref: '#/definitions/NullInt64'
+      Bstruct2ID:
+        $ref: '#/definitions/NullInt64'
+      CreatedAt:
+        format: date-time
+        type: string
+      DeletedAt:
+        $ref: '#/definitions/DeletedAt'
+      ID:
+        format: uint64
+        type: integer
+      Name_Data:
+        $ref: '#/definitions/NullString'
+      UpdatedAt:
+        format: date-time
+        type: string
+    title: AstructBstructUseDB describes a astructbstructuse in the database
+    type: object
+    x-go-name: AstructBstructUseDB
+    x-go-package: github.com/fullstack-lang/gong/test2/go/orm
   bstructAPI:
     description: |-
       for POST, API, one needs the fields of the model as well as the fields
@@ -225,6 +300,90 @@ info:
   title: test2 backend API
   version: "0.1"
 paths:
+  /astructbstructuses:
+    get:
+      description: Get all astructbstructuses
+      operationId: getAstructBstructUses
+      responses:
+        "200":
+          $ref: '#/responses/astructbstructuseDBsResponse'
+        default:
+          $ref: '#/responses/genericError'
+      tags:
+      - astructbstructuses
+    post:
+      consumes:
+      - application/json
+      description: Creates a astructbstructuse
+      operationId: postAstructBstructUse
+      parameters:
+      - description: The AstructBstructUse to submit or modify
+        in: body
+        name: AstructBstructUse
+        schema:
+          $ref: '#/definitions/astructbstructuseAPI'
+      produces:
+      - application/json
+      responses:
+        "200":
+          $ref: '#/responses/astructbstructuseDBResponse'
+      tags:
+      - astructbstructuses
+  /astructbstructuses/{ID}:
+    delete:
+      description: Delete a astructbstructuse
+      operationId: deleteAstructBstructUse
+      parameters:
+      - description: The ID of the order
+        format: int64
+        in: path
+        name: ID
+        required: true
+        type: integer
+      responses:
+        default:
+          $ref: '#/responses/genericError'
+      tags:
+      - astructbstructuses
+    get:
+      operationId: getAstructBstructUse
+      parameters:
+      - description: The ID of the order
+        format: int64
+        in: path
+        name: ID
+        required: true
+        type: integer
+      responses:
+        "200":
+          $ref: '#/responses/astructbstructuseDBResponse'
+        default:
+          $ref: '#/responses/genericError'
+      summary: Gets the details for a astructbstructuse.
+      tags:
+      - astructbstructuses
+    patch:
+      description: Update a astructbstructuse
+      operationId: updateAstructBstructUse
+      parameters:
+      - description: The ID of the order
+        format: int64
+        in: path
+        name: ID
+        required: true
+        type: integer
+      - description: The AstructBstructUse to submit or modify
+        in: body
+        name: AstructBstructUse
+        schema:
+          $ref: '#/definitions/astructbstructuseAPI'
+      responses:
+        "200":
+          $ref: '#/responses/astructbstructuseDBResponse'
+        default:
+          $ref: '#/responses/genericError'
+      tags:
+      - astructbstructuses
   /astructs:
     get:
       description: Get all astructs
@@ -446,6 +605,40 @@ responses:
     schema:
       items:
         $ref: '#/definitions/astructDB'
+      type: array
+  astructbstructuseDBResponse:
+    description: AstructBstructUseDBResponse provides response
+    headers:
+      Astruct_AnarrayofbUseDBID:
+        description: Implementation of a reverse ID for field Astruct{}.AnarrayofbUse []*AstructBstructUse
+      Astruct_AnarrayofbUseDBID_Index:
+        description: implementation of the index of the withing the slice
+      Bstruct2ID:
+        description: |-
+          insertion for pointer fields encoding declaration
+          field Bstruct2 is a pointer to another Struct (optional or 0..1)
+          This field is generated into another field to enable AS ONE association
+      CreatedAt:
+        format: date-time
+        type: string
+      DeletedAt: {}
+      ID:
+        format: uint64
+        type: integer
+      Name_Data:
+        description: |-
+          insertion for basic fields declaration
+          Declation for basic field astructbstructuseDB.Name {{BasicKind}} (to be completed)
+      UpdatedAt:
+        format: date-time
+        type: string
+    schema:
+      $ref: '#/definitions/NullInt64'
+  astructbstructuseDBsResponse:
+    description: AstructBstructUseDBs arrays astructbstructuseDBs
+    schema:
+      items:
+        $ref: '#/definitions/astructbstructuseDB'
       type: array
   bstructDBResponse:
     description: BstructDBResponse provides response

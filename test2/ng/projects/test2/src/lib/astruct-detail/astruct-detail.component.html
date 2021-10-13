@@ -81,6 +81,27 @@
             </button>
         </mat-grid-tile>
     </mat-grid-list>
+    <mat-grid-list cols="5" rowHeight="2:1">
+        <mat-grid-tile [colspan]="3">
+            <button mat-raised-button (click)="openReverseSelection('AstructBstructUse', 'Astruct_AnarrayofbUseDBID', 'ONE_MANY_ASSOCIATION_MODE', '', '', '')">AnarrayofbUse</button>
+        </mat-grid-tile>
+        <!-- insertion point for the button of the MANY_MANY association-->
+        <mat-grid-tile>
+            <button mat-raised-button (click)="openReverseSelection('AstructBstructUse', 'Astruct_AnarrayofbUseDBID', 
+            'MANY_MANY_ASSOCIATION_MODE', 'AnarrayofbUse', 'Bstruct2', 'Bstruct')">
+                <mat-icon>
+                    list
+                </mat-icon>
+            </button>
+        </mat-grid-tile> <!-- end of insertion -->
+        <mat-grid-tile>
+            <button mat-raised-button (click)="openDragAndDropOrdering('AstructBstructUse', 'Astruct_AnarrayofbUseDBID')">
+                <mat-icon>
+                    shuffle
+                </mat-icon>
+            </button>
+        </mat-grid-tile>
+    </mat-grid-list>
     <div class="details__save">
         <button mat-raised-button color="primary" (click)="save()">
             Save astruct
