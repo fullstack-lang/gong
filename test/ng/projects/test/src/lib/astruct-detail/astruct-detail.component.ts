@@ -37,8 +37,8 @@ export class AstructDetailComponent implements OnInit {
 
 	// insertion point for declarations
 	BooleanfieldFormControl = new FormControl(false);
-	AEnumTypeList: AEnumTypeSelect[]
-	BEnumTypeList: BEnumTypeSelect[]
+	AEnumTypeList: AEnumTypeSelect[] = []
+	BEnumTypeList: BEnumTypeSelect[] = []
 	AnotherbooleanfieldFormControl = new FormControl(false);
 	Duration1_Hours: number = 0
 	Duration1_Minutes: number = 0
