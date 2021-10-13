@@ -10,6 +10,7 @@ import { MapOfComponents } from '../map-components'
 import { MapOfSortingComponents } from '../map-components'
 
 // insertion point for imports
+import { AstructDB } from '../astruct-db'
 
 import { Router, RouterState, ActivatedRoute } from '@angular/router';
 
@@ -23,6 +24,7 @@ enum BstructDetailComponentState {
 	CREATE_INSTANCE,
 	UPDATE_INSTANCE,
 	// insertion point for declarations of enum values of state
+	CREATE_INSTANCE_WITH_ASSOCIATION_Astruct_Anarrayofb_SET,
 }
 
 @Component({
@@ -81,6 +83,10 @@ export class BstructDetailComponent implements OnInit {
 			} else {
 				switch (this.originStructFieldName) {
 					// insertion point for state computation
+					case "Anarrayofb":
+						console.log("Bstruct" + " is instanciated with back pointer to instance " + this.id + " Astruct association Anarrayofb")
+						this.state = BstructDetailComponentState.CREATE_INSTANCE_WITH_ASSOCIATION_Astruct_Anarrayofb_SET
+						break;
 					default:
 						console.log(this.originStructFieldName + " is unkown association")
 				}
@@ -117,6 +123,10 @@ export class BstructDetailComponent implements OnInit {
 						this.bstruct = bstruct!
 						break;
 					// insertion point for init of association field
+					case BstructDetailComponentState.CREATE_INSTANCE_WITH_ASSOCIATION_Astruct_Anarrayofb_SET:
+						this.bstruct = new (BstructDB)
+						this.bstruct.Astruct_Anarrayofb_reverse = frontRepo.Astructs.get(this.id)!
+						break;
 					default:
 						console.log(this.state + " is unkown state")
 				}
@@ -138,6 +148,18 @@ export class BstructDetailComponent implements OnInit {
 		// save from the front pointer space to the non pointer space for serialization
 
 		// insertion point for translation/nullation of each pointers
+		if (this.bstruct.Astruct_Anarrayofb_reverse != undefined) {
+			if (this.bstruct.Astruct_AnarrayofbDBID == undefined) {
+				this.bstruct.Astruct_AnarrayofbDBID = new NullInt64
+			}
+			this.bstruct.Astruct_AnarrayofbDBID.Int64 = this.bstruct.Astruct_Anarrayofb_reverse.ID
+			this.bstruct.Astruct_AnarrayofbDBID.Valid = true
+			if (this.bstruct.Astruct_AnarrayofbDBID_Index == undefined) {
+				this.bstruct.Astruct_AnarrayofbDBID_Index = new NullInt64
+			}
+			this.bstruct.Astruct_AnarrayofbDBID_Index.Valid = true
+			this.bstruct.Astruct_Anarrayofb_reverse = new AstructDB // very important, otherwise, circular JSON
+		}
 
 		switch (this.state) {
 			case BstructDetailComponentState.UPDATE_INSTANCE:

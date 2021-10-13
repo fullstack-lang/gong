@@ -108,12 +108,20 @@ definitions:
       from associations ("Has One" and "Has Many") that are generated to
       fullfill the ORM requirements for associations
     properties:
+      Anarrayofb:
+        items:
+          $ref: '#/definitions/Bstruct'
+        type: array
       AnarrayofbUse:
         items:
           $ref: '#/definitions/AstructBstructUse'
         type: array
       Anotherbooleanfield:
         type: boolean
+      Associationtob:
+        $ref: '#/definitions/Bstruct'
+      AssociationtobID:
+        $ref: '#/definitions/NullInt64'
       Booleanfield:
         type: boolean
       CreatedAt:
@@ -151,6 +159,8 @@ definitions:
     properties:
       Anotherbooleanfield_Data:
         $ref: '#/definitions/NullBool'
+      AssociationtobID:
+        $ref: '#/definitions/NullInt64'
       Booleanfield_Data:
         $ref: '#/definitions/NullBool'
       CreatedAt:
@@ -243,6 +253,10 @@ definitions:
       from associations ("Has One" and "Has Many") that are generated to
       fullfill the ORM requirements for associations
     properties:
+      Astruct_AnarrayofbDBID:
+        $ref: '#/definitions/NullInt64'
+      Astruct_AnarrayofbDBID_Index:
+        $ref: '#/definitions/NullInt64'
       CreatedAt:
         format: date-time
         type: string
@@ -265,6 +279,10 @@ definitions:
       It incorporates the GORM ID, basic fields from the model (because they can be serialized),
       the encoded version of pointers
     properties:
+      Astruct_AnarrayofbDBID:
+        $ref: '#/definitions/NullInt64'
+      Astruct_AnarrayofbDBID_Index:
+        $ref: '#/definitions/NullInt64'
       CreatedAt:
         format: date-time
         type: string
@@ -560,6 +578,11 @@ responses:
         description: |-
           Declation for basic field astructDB.Anotherbooleanfield bool (to be completed)
           provide the sql storage for the boolan
+      AssociationtobID:
+        description: |-
+          insertion for pointer fields encoding declaration
+          field Associationtob is a pointer to another Struct (optional or 0..1)
+          This field is generated into another field to enable AS ONE association
       Booleanfield_Data:
         description: |-
           Declation for basic field astructDB.Booleanfield bool (to be completed)
@@ -631,6 +654,12 @@ responses:
   bstructDBResponse:
     description: BstructDBResponse provides response
     headers:
+      Astruct_AnarrayofbDBID:
+        description: |-
+          insertion for pointer fields encoding declaration
+          Implementation of a reverse ID for field Astruct{}.Anarrayofb []*Bstruct
+      Astruct_AnarrayofbDBID_Index:
+        description: implementation of the index of the withing the slice
       CreatedAt:
         format: date-time
         type: string
@@ -646,7 +675,7 @@ responses:
         format: date-time
         type: string
     schema:
-      $ref: '#/definitions/NullString'
+      $ref: '#/definitions/NullInt64'
   bstructDBsResponse:
     description: BstructDBs arrays bstructDBs
     schema:
