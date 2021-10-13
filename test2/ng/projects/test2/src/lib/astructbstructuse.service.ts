@@ -14,8 +14,8 @@ import { catchError, map, tap } from 'rxjs/operators';
 import { AstructBstructUseDB } from './astructbstructuse-db';
 
 // insertion point for imports
+import { BstructDB } from './bstruct-db'
 import { AstructDB } from './astruct-db'
-import { BstructDB } from './bstruct-db';
 
 @Injectable({
   providedIn: 'root'

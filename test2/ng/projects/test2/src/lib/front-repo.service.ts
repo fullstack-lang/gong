@@ -302,19 +302,6 @@ export class FrontRepoService {
                 // insertion point sub sub template for ONE-/ZERO-ONE associations pointers redeeming
 
                 // insertion point for redeeming ONE-MANY associations
-                // insertion point for slice of pointer field Astruct.Anarrayofbstruct redeeming
-                {
-                  let _astruct = FrontRepoSingloton.Astructs.get(bstruct.Astruct_AnarrayofbstructDBID.Int64)
-                  if (_astruct) {
-                    if (_astruct.Anarrayofbstruct == undefined) {
-                      _astruct.Anarrayofbstruct = new Array<BstructDB>()
-                    }
-                    _astruct.Anarrayofbstruct.push(bstruct)
-                    if (bstruct.Astruct_Anarrayofbstruct_reverse == undefined) {
-                      bstruct.Astruct_Anarrayofbstruct_reverse = _astruct
-                    }
-                  }
-                }
               }
             )
 
@@ -477,19 +464,6 @@ export class FrontRepoService {
                 // insertion point for redeeming ONE/ZERO-ONE associations
 
                 // insertion point for redeeming ONE-MANY associations
-                // insertion point for slice of pointer field Astruct.Anarrayofbstruct redeeming
-                {
-                  let _astruct = FrontRepoSingloton.Astructs.get(bstruct.Astruct_AnarrayofbstructDBID.Int64)
-                  if (_astruct) {
-                    if (_astruct.Anarrayofbstruct == undefined) {
-                      _astruct.Anarrayofbstruct = new Array<BstructDB>()
-                    }
-                    _astruct.Anarrayofbstruct.push(bstruct)
-                    if (bstruct.Astruct_Anarrayofbstruct_reverse == undefined) {
-                      bstruct.Astruct_Anarrayofbstruct_reverse = _astruct
-                    }
-                  }
-                }
               }
             )
 

@@ -320,7 +320,7 @@ map[string]string{
 	string(NgFrontRepoPtrToStructRedeeming): `
                 // insertion point for pointer field {{FieldName}} redeeming
                 {
-                  let _{{assocStructName}} = FrontRepoSingloton.{{AssocStructName}}s.get({{structname}}.{{FieldName}}ID.Int64)
+                  let _{{assocStructName}} = FrontRepoSingloton.{{AssocStructName}}s.get({{structname}}.{{FieldName}}ID!.Int64)
                   if (_{{assocStructName}}) {
                     {{structname}}.{{FieldName}} = _{{assocStructName}}
                   }

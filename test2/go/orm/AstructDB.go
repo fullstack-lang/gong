@@ -270,25 +270,6 @@ func (backRepoAstruct *BackRepoAstructStruct) CommitPhaseTwoInstance(backRepo *B
 		astructDB.CopyBasicFieldsFromAstruct(astruct)
 
 		// insertion point for translating pointers encodings into actual pointers
-		// This loop encodes the slice of pointers astruct.Anarrayofbstruct into the back repo.
-		// Each back repo instance at the end of the association encode the ID of the association start
-		// into a dedicated field for coding the association. The back repo instance is then saved to the db
-		for idx, bstructAssocEnd := range astruct.Anarrayofbstruct {
-
-			// get the back repo instance at the association end
-			bstructAssocEnd_DB :=
-				backRepo.BackRepoBstruct.GetBstructDBFromBstructPtr(bstructAssocEnd)
-
-			// encode reverse pointer in the association end back repo instance
-			bstructAssocEnd_DB.Astruct_AnarrayofbstructDBID.Int64 = int64(astructDB.ID)
-			bstructAssocEnd_DB.Astruct_AnarrayofbstructDBID.Valid = true
-			bstructAssocEnd_DB.Astruct_AnarrayofbstructDBID_Index.Int64 = int64(idx)
-			bstructAssocEnd_DB.Astruct_AnarrayofbstructDBID_Index.Valid = true
-			if q := backRepoAstruct.db.Save(bstructAssocEnd_DB); q.Error != nil {
-				return q.Error
-			}
-		}
-
 		// This loop encodes the slice of pointers astruct.AnarrayofbUse into the back repo.
 		// Each back repo instance at the end of the association encode the ID of the association start
 		// into a dedicated field for coding the association. The back repo instance is then saved to the db
@@ -413,33 +394,6 @@ func (backRepoAstruct *BackRepoAstructStruct) CheckoutPhaseTwoInstance(backRepo 
 	_ = astruct // sometimes, there is no code generated. This lines voids the "unused variable" compilation error
 
 	// insertion point for checkout of pointer encoding
-	// This loop redeem astruct.Anarrayofbstruct in the stage from the encode in the back repo
-	// It parses all BstructDB in the back repo and if the reverse pointer encoding matches the back repo ID
-	// it appends the stage instance
-	// 1. reset the slice
-	astruct.Anarrayofbstruct = astruct.Anarrayofbstruct[:0]
-	// 2. loop all instances in the type in the association end
-	for _, bstructDB_AssocEnd := range *backRepo.BackRepoBstruct.Map_BstructDBID_BstructDB {
-		// 3. Does the ID encoding at the end and the ID at the start matches ?
-		if bstructDB_AssocEnd.Astruct_AnarrayofbstructDBID.Int64 == int64(astructDB.ID) {
-			// 4. fetch the associated instance in the stage
-			bstruct_AssocEnd := (*backRepo.BackRepoBstruct.Map_BstructDBID_BstructPtr)[bstructDB_AssocEnd.ID]
-			// 5. append it the association slice
-			astruct.Anarrayofbstruct = append(astruct.Anarrayofbstruct, bstruct_AssocEnd)
-		}
-	}
-
-	// sort the array according to the order
-	sort.Slice(astruct.Anarrayofbstruct, func(i, j int) bool {
-		bstructDB_i_ID := (*backRepo.BackRepoBstruct.Map_BstructPtr_BstructDBID)[astruct.Anarrayofbstruct[i]]
-		bstructDB_j_ID := (*backRepo.BackRepoBstruct.Map_BstructPtr_BstructDBID)[astruct.Anarrayofbstruct[j]]
-
-		bstructDB_i := (*backRepo.BackRepoBstruct.Map_BstructDBID_BstructDB)[bstructDB_i_ID]
-		bstructDB_j := (*backRepo.BackRepoBstruct.Map_BstructDBID_BstructDB)[bstructDB_j_ID]
-
-		return bstructDB_i.Astruct_AnarrayofbstructDBID_Index.Int64 < bstructDB_j.Astruct_AnarrayofbstructDBID_Index.Int64
-	})
-
 	// This loop redeem astruct.AnarrayofbUse in the stage from the encode in the back repo
 	// It parses all AstructBstructUseDB in the back repo and if the reverse pointer encoding matches the back repo ID
 	// it appends the stage instance

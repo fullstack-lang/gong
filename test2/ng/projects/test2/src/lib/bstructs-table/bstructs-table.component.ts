@@ -65,9 +65,6 @@ export class BstructsTableComponent implements OnInit {
         case 'Name':
           return bstructDB.Name;
 
-        case 'Astruct_Anarrayofbstruct':
-          return this.frontRepo.Astructs.get(bstructDB.Astruct_AnarrayofbstructDBID.Int64)!.Name;
-
         default:
           console.assert(false, "Unknown field")
           return "";
@@ -83,10 +80,6 @@ export class BstructsTableComponent implements OnInit {
 
       // insertion point for merging of fields
       mergedContent += bstructDB.Name.toLowerCase()
-      if (bstructDB.Astruct_AnarrayofbstructDBID.Int64 != 0) {
-        mergedContent += this.frontRepo.Astructs.get(bstructDB.Astruct_AnarrayofbstructDBID.Int64)!.Name.toLowerCase()
-      }
-
 
       let isSelected = mergedContent.includes(filter.toLowerCase())
       return isSelected
@@ -138,12 +131,10 @@ export class BstructsTableComponent implements OnInit {
     if (this.mode == TableComponentMode.DISPLAY_MODE) {
       this.displayedColumns = ['ID', 'Edit', 'Delete', // insertion point for columns to display
         "Name",
-        "Astruct_Anarrayofbstruct",
       ]
     } else {
       this.displayedColumns = ['select', 'ID', // insertion point for columns to display
         "Name",
-        "Astruct_Anarrayofbstruct",
       ]
       this.selection = new SelectionModel<BstructDB>(allowMultiSelect, this.initialSelection);
     }
