@@ -84,7 +84,7 @@ export class AstructBstructUseDetailComponent implements OnInit {
 				switch (this.originStructFieldName) {
 					// insertion point for state computation
 					case "AnarrayofbUse":
-						console.log("AstructBstructUse" + " is instanciated with back pointer to instance " + this.id + " Astruct association AnarrayofbUse")
+						// console.log("AstructBstructUse" + " is instanciated with back pointer to instance " + this.id + " Astruct association AnarrayofbUse")
 						this.state = AstructBstructUseDetailComponentState.CREATE_INSTANCE_WITH_ASSOCIATION_Astruct_AnarrayofbUse_SET
 						break;
 					default:
