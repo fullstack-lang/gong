@@ -73,7 +73,7 @@ import { {{AssocStructName}}DB } from './{{assocStructName}}-db'`,
 
 	NgClassTSPointerToStructFieldsDecl: `
 	{{FieldName}}?: {{TypeInput}}DB
-	{{FieldName}}ID?: NullInt64
+	{{FieldName}}ID: NullInt64 = new NullInt64 // if pointer is null, {{FieldName}}.ID = 0
 `,
 
 	NgClassTSSliceOfPtrToStructFieldsDecl: `
