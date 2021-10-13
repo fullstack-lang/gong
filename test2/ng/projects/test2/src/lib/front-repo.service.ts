@@ -262,7 +262,7 @@ export class FrontRepoService {
                 // insertion point sub sub template for ONE-/ZERO-ONE associations pointers redeeming
                 // insertion point for pointer field Associationtob redeeming
                 {
-                  let _bstruct = FrontRepoSingloton.Bstructs.get(astruct.AssociationtobID!.Int64)
+                  let _bstruct = FrontRepoSingloton.Bstructs.get(astruct.AssociationtobID.Int64)
                   if (_bstruct) {
                     astruct.Associationtob = _bstruct
                   }
@@ -276,7 +276,7 @@ export class FrontRepoService {
                 // insertion point sub sub template for ONE-/ZERO-ONE associations pointers redeeming
                 // insertion point for pointer field Bstruct2 redeeming
                 {
-                  let _bstruct = FrontRepoSingloton.Bstructs.get(astructbstructuse.Bstruct2ID!.Int64)
+                  let _bstruct = FrontRepoSingloton.Bstructs.get(astructbstructuse.Bstruct2ID.Int64)
                   if (_bstruct) {
                     astructbstructuse.Bstruct2 = _bstruct
                   }
@@ -356,7 +356,7 @@ export class FrontRepoService {
                 // insertion point for redeeming ONE/ZERO-ONE associations
                 // insertion point for pointer field Associationtob redeeming
                 {
-                  let _bstruct = FrontRepoSingloton.Bstructs.get(astruct.AssociationtobID!.Int64)
+                  let _bstruct = FrontRepoSingloton.Bstructs.get(astruct.AssociationtobID.Int64)
                   if (_bstruct) {
                     astruct.Associationtob = _bstruct
                   }
@@ -414,7 +414,7 @@ export class FrontRepoService {
                 // insertion point for redeeming ONE/ZERO-ONE associations
                 // insertion point for pointer field Bstruct2 redeeming
                 {
-                  let _bstruct = FrontRepoSingloton.Bstructs.get(astructbstructuse.Bstruct2ID!.Int64)
+                  let _bstruct = FrontRepoSingloton.Bstructs.get(astructbstructuse.Bstruct2ID.Int64)
                   if (_bstruct) {
                     astructbstructuse.Bstruct2 = _bstruct
                   }
