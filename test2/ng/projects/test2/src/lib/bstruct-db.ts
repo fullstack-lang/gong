@@ -2,7 +2,7 @@
 import { AstructDB } from './astruct-db'
 
 // usefull for managing pointer ID values that can be nullable
-import { NullInt64 } from './front-repo.service'
+import { NullInt64 } from './null-int64'
 
 export class BstructDB {
 	CreatedAt?: string

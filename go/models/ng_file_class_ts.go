@@ -17,7 +17,7 @@ const NgClassTmpl = `export class {{Structname}}API {
 const NgClassDBTmpl = `// insertion point for imports{{` + string(rune(NgClassTsInsertionPerStructImports)) + `}}
 
 // usefull for managing pointer ID values that can be nullable
-import { NullInt64 } from './front-repo.service'
+import { NullInt64 } from './null-int64'
 
 export class {{Structname}}DB {
 	CreatedAt?: string
