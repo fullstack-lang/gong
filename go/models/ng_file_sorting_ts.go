@@ -27,7 +27,9 @@ import { Router, RouterState } from '@angular/router';
 import { {{Structname}}DB } from '../{{structname}}-db'
 import { {{Structname}}Service } from '../{{structname}}.service'
 
-import { FrontRepoService, FrontRepo, NullInt64 } from '../front-repo.service'
+import { FrontRepoService, FrontRepo } from '../front-repo.service'
+import { NullInt64 } from '../null-int64'
+
 @Component({
   selector: 'lib-{{structname}}-sorting',
   templateUrl: './{{structname}}-sorting.component.html',

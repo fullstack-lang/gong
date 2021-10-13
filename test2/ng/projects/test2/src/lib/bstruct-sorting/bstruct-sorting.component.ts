@@ -11,7 +11,9 @@ import { Router, RouterState } from '@angular/router';
 import { BstructDB } from '../bstruct-db'
 import { BstructService } from '../bstruct.service'
 
-import { FrontRepoService, FrontRepo, NullInt64 } from '../front-repo.service'
+import { FrontRepoService, FrontRepo } from '../front-repo.service'
+import { NullInt64 } from '../null-int64'
+
 @Component({
   selector: 'lib-bstruct-sorting',
   templateUrl: './bstruct-sorting.component.html',
