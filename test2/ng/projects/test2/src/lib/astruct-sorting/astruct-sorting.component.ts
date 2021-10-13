@@ -11,7 +11,9 @@ import { Router, RouterState } from '@angular/router';
 import { AstructDB } from '../astruct-db'
 import { AstructService } from '../astruct.service'
 
-import { FrontRepoService, FrontRepo, NullInt64 } from '../front-repo.service'
+import { FrontRepoService, FrontRepo } from '../front-repo.service'
+import { NullInt64 } from '../null-int64'
+
 @Component({
   selector: 'lib-astruct-sorting',
   templateUrl: './astruct-sorting.component.html',
