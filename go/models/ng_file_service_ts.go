@@ -273,7 +273,8 @@ func MultiCodeGeneratorNgService(
 							"{{assocStructName}}", strings.ToLower(__struct.Name))
 
 						// cannot insert twice the same import
-						if !strings.Contains(TSinsertions[NgServiceTsInsertionImports], importToInsert) {
+						if !strings.Contains(TSinsertions[NgServiceTsInsertionImports], importToInsert) &&
+							__struct.Name != _struct.Name {
 							TSinsertions[NgServiceTsInsertionImports] += importToInsert
 						}
 					}

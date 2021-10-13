@@ -12,7 +12,6 @@ import { MapOfSortingComponents } from '../map-components'
 // insertion point for imports
 import { AEnumTypeSelect, AEnumTypeList } from '../AEnumType'
 import { BEnumTypeSelect, BEnumTypeList } from '../BEnumType'
-import { AstructDB } from '../astruct-db'
 
 import { Router, RouterState, ActivatedRoute } from '@angular/router';
 
