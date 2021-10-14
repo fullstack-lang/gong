@@ -43,16 +43,6 @@ import { AstructSortingComponent } from './astruct-sorting/astruct-sorting.compo
 import { AstructDetailComponent } from './astruct-detail/astruct-detail.component'
 import { AstructPresentationComponent } from './astruct-presentation/astruct-presentation.component'
 
-import { AstructBstructUsesTableComponent } from './astructbstructuses-table/astructbstructuses-table.component'
-import { AstructBstructUseSortingComponent } from './astructbstructuse-sorting/astructbstructuse-sorting.component'
-import { AstructBstructUseDetailComponent } from './astructbstructuse-detail/astructbstructuse-detail.component'
-import { AstructBstructUsePresentationComponent } from './astructbstructuse-presentation/astructbstructuse-presentation.component'
-
-import { BstructsTableComponent } from './bstructs-table/bstructs-table.component'
-import { BstructSortingComponent } from './bstruct-sorting/bstruct-sorting.component'
-import { BstructDetailComponent } from './bstruct-detail/bstruct-detail.component'
-import { BstructPresentationComponent } from './bstruct-presentation/bstruct-presentation.component'
-
 
 @NgModule({
 	declarations: [
@@ -61,16 +51,6 @@ import { BstructPresentationComponent } from './bstruct-presentation/bstruct-pre
 		AstructSortingComponent,
 		AstructDetailComponent,
 		AstructPresentationComponent,
-
-		AstructBstructUsesTableComponent,
-		AstructBstructUseSortingComponent,
-		AstructBstructUseDetailComponent,
-		AstructBstructUsePresentationComponent,
-
-		BstructsTableComponent,
-		BstructSortingComponent,
-		BstructDetailComponent,
-		BstructPresentationComponent,
 
 
 		SplitterComponent,
@@ -115,16 +95,6 @@ import { BstructPresentationComponent } from './bstruct-presentation/bstruct-pre
 		AstructSortingComponent,
 		AstructDetailComponent,
 		AstructPresentationComponent,
-
-		AstructBstructUsesTableComponent,
-		AstructBstructUseSortingComponent,
-		AstructBstructUseDetailComponent,
-		AstructBstructUsePresentationComponent,
-
-		BstructsTableComponent,
-		BstructSortingComponent,
-		BstructDetailComponent,
-		BstructPresentationComponent,
 
 
 		SplitterComponent,

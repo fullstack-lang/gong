@@ -1,6 +1,4 @@
 // insertion point for imports
-import { BstructDB } from './bstruct-db'
-import { AstructBstructUseDB } from './astructbstructuse-db'
 
 // usefull for managing pointer ID values that can be nullable
 import { NullInt64 } from './null-int64'
@@ -12,18 +10,11 @@ export class AstructDB {
 
 	// insertion point for basic fields declarations
 	Name: string = ""
-	Date: Date = new Date
-	Booleanfield: boolean = false
-	Floatfield: number = 0
-	Intfield: number = 0
-	Anotherbooleanfield: boolean = false
-	Duration1: number = 0
 
 	// insertion point for other declarations
-	Duration1_string?: string
-	Associationtob?: BstructDB
-	AssociationtobID: NullInt64 = new NullInt64 // if pointer is null, Associationtob.ID = 0
+	Anarrayofa?: Array<AstructDB>
+	Astruct_AnarrayofaDBID: NullInt64 = new NullInt64
+	Astruct_AnarrayofaDBID_Index: NullInt64  = new NullInt64 // store the index of the astruct instance in Astruct.Anarrayofa
+	Astruct_Anarrayofa_reverse?: AstructDB 
 
-	Anarrayofb?: Array<BstructDB>
-	AnarrayofbUse?: Array<AstructBstructUseDB>
 }

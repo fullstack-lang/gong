@@ -14,7 +14,6 @@ import { catchError, map, tap } from 'rxjs/operators';
 import { AstructDB } from './astruct-db';
 
 // insertion point for imports
-import { BstructDB } from './bstruct-db'
 
 @Injectable({
   providedIn: 'root'
@@ -71,13 +70,14 @@ export class AstructService {
   postAstruct(astructdb: AstructDB): Observable<AstructDB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
-    astructdb.Associationtob = new BstructDB
-    astructdb.Anarrayofb = []
-    astructdb.AnarrayofbUse = []
+    astructdb.Anarrayofa = []
+    let _Astruct_Anarrayofa_reverse = astructdb.Astruct_Anarrayofa_reverse
+    astructdb.Astruct_Anarrayofa_reverse = new AstructDB
 
     return this.http.post<AstructDB>(this.astructsUrl, astructdb, this.httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
+        astructdb.Astruct_Anarrayofa_reverse = _Astruct_Anarrayofa_reverse
         this.log(`posted astructdb id=${astructdb.ID}`)
       }),
       catchError(this.handleError<AstructDB>('postAstruct'))
@@ -101,13 +101,14 @@ export class AstructService {
     const url = `${this.astructsUrl}/${id}`;
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
-    astructdb.Associationtob = new BstructDB
-    astructdb.Anarrayofb = []
-    astructdb.AnarrayofbUse = []
+    astructdb.Anarrayofa = []
+    let _Astruct_Anarrayofa_reverse = astructdb.Astruct_Anarrayofa_reverse
+    astructdb.Astruct_Anarrayofa_reverse = new AstructDB
 
     return this.http.put<AstructDB>(url, astructdb, this.httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
+        astructdb.Astruct_Anarrayofa_reverse = _Astruct_Anarrayofa_reverse
         this.log(`updated astructdb id=${astructdb.ID}`)
       }),
       catchError(this.handleError<AstructDB>('updateAstruct'))

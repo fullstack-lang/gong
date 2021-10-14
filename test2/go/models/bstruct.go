@@ -1,5 +1,5 @@
 package models
 
-type Bstruct struct {
-	Name string
-}
+// type Bstruct struct {
+// 	Name string
+// }
