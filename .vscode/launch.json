@@ -31,6 +31,15 @@
             "args": []
         },
         {
+            "name": "gongc gongdoc",
+            "type": "go",
+            "request": "launch",
+            "mode": "debug",
+            "cwd": "${workspaceFolder}/../gongdoc/go/models",
+            "program": "${workspaceFolder}/go/gongc",
+            "args": []
+        },
+        {
             "name": "gongc test",
             "type": "go",
             "request": "launch",
