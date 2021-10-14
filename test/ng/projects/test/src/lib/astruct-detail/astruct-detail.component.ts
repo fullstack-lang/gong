@@ -73,7 +73,6 @@ export class AstructDetailComponent implements OnInit {
 		private route: ActivatedRoute,
 		private router: Router,
 	) {
-		console.log("contructor")
 	}
 
 	ngOnInit(): void {

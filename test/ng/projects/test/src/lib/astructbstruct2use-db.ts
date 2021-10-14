@@ -19,6 +19,6 @@ export class AstructBstruct2UseDB {
 
 	Astruct_Anarrayofb2UseDBID: NullInt64 = new NullInt64
 	Astruct_Anarrayofb2UseDBID_Index: NullInt64  = new NullInt64 // store the index of the astructbstruct2use instance in Astruct.Anarrayofb2Use
-	Astruct_Anarrayofb2Use_reverse: AstructDB = new AstructDB
+	Astruct_Anarrayofb2Use_reverse?: AstructDB 
 
 }
