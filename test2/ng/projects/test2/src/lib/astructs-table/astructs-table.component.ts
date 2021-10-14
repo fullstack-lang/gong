@@ -66,26 +66,8 @@ export class AstructsTableComponent implements OnInit {
         case 'Name':
           return astructDB.Name;
 
-        case 'Date':
-          return astructDB.Date.getDate();
-
-        case 'Booleanfield':
-          return astructDB.Booleanfield?"true":"false";
-
-        case 'Floatfield':
-          return astructDB.Floatfield;
-
-        case 'Intfield':
-          return astructDB.Intfield;
-
-        case 'Anotherbooleanfield':
-          return astructDB.Anotherbooleanfield?"true":"false";
-
-        case 'Duration1':
-          return astructDB.Duration1;
-
-        case 'Associationtob':
-          return (astructDB.Associationtob ? astructDB.Associationtob.Name : '');
+        case 'Astruct_Anarrayofa':
+          return this.frontRepo.Astructs.get(astructDB.Astruct_AnarrayofaDBID.Int64)!.Name;
 
         default:
           console.assert(false, "Unknown field")
@@ -102,11 +84,10 @@ export class AstructsTableComponent implements OnInit {
 
       // insertion point for merging of fields
       mergedContent += astructDB.Name.toLowerCase()
-      mergedContent += astructDB.Floatfield.toString()
-      mergedContent += astructDB.Intfield.toString()
-      if (astructDB.Associationtob) {
-        mergedContent += astructDB.Associationtob.Name.toLowerCase()
+      if (astructDB.Astruct_AnarrayofaDBID.Int64 != 0) {
+        mergedContent += this.frontRepo.Astructs.get(astructDB.Astruct_AnarrayofaDBID.Int64)!.Name.toLowerCase()
       }
+
 
       let isSelected = mergedContent.includes(filter.toLowerCase())
       return isSelected
@@ -158,24 +139,12 @@ export class AstructsTableComponent implements OnInit {
     if (this.mode == TableComponentMode.DISPLAY_MODE) {
       this.displayedColumns = ['ID', 'Edit', 'Delete', // insertion point for columns to display
         "Name",
-        "Date",
-        "Booleanfield",
-        "Floatfield",
-        "Intfield",
-        "Anotherbooleanfield",
-        "Duration1",
-        "Associationtob",
+        "Astruct_Anarrayofa",
       ]
     } else {
       this.displayedColumns = ['select', 'ID', // insertion point for columns to display
         "Name",
-        "Date",
-        "Booleanfield",
-        "Floatfield",
-        "Intfield",
-        "Anotherbooleanfield",
-        "Duration1",
-        "Associationtob",
+        "Astruct_Anarrayofa",
       ]
       this.selection = new SelectionModel<AstructDB>(allowMultiSelect, this.initialSelection);
     }
@@ -195,13 +164,6 @@ export class AstructsTableComponent implements OnInit {
         this.astructs = this.frontRepo.Astructs_array;
 
         // insertion point for variables Recoveries
-        // compute strings for durations
-        for (let astruct of this.astructs) {
-          astruct.Duration1_string =
-            Math.floor(astruct.Duration1 / (3600 * 1000 * 1000 * 1000)) + "H " +
-            Math.floor(astruct.Duration1 % (3600 * 1000 * 1000 * 1000) / (60 * 1000 * 1000 * 1000)) + "M " +
-            astruct.Duration1 % (60 * 1000 * 1000 * 1000) / (1000 * 1000 * 1000) + "S"
-        }
 
         // in case the component is called as a selection component
         if (this.mode == TableComponentMode.ONE_MANY_ASSOCIATION_MODE) {
