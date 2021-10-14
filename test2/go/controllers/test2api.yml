@@ -2,59 +2,19 @@ basePath: /api/github.com/fullstack-lang/gong/test2/go/v1
 consumes:
 - application/json
 definitions:
-  AstructBstructUse:
-    description: |-
-      The go generated code is the same as for any struct.
-      The "Use" at the end of the struct name will generate something different in the front
+  Astruct:
+    description: Astruct demonstrate basic metabaron
     properties:
-      Bstruct2:
-        $ref: '#/definitions/Bstruct'
-      Name:
-        type: string
-    title: AstructBstructUse is the gong way of defining a MANY-MANY association
-    type: object
-    x-go-package: github.com/fullstack-lang/gong/test2/go/models
-  Bstruct:
-    properties:
+      Anarrayofa:
+        items:
+          $ref: '#/definitions/Astruct'
+        type: array
       Name:
         type: string
     type: object
     x-go-package: github.com/fullstack-lang/gong/test2/go/models
   DeletedAt:
     $ref: '#/definitions/NullTime'
-  Duration:
-    description: |-
-      A Duration represents the elapsed time between two instants
-      as an int64 nanosecond count. The representation limits the
-      largest representable duration to approximately 290 years.
-    format: int64
-    type: integer
-    x-go-package: time
-  NullBool:
-    description: |-
-      NullBool implements the Scanner interface so
-      it can be used as a scan destination, similar to NullString.
-    properties:
-      Bool:
-        type: boolean
-      Valid:
-        type: boolean
-    title: NullBool represents a bool that may be null.
-    type: object
-    x-go-package: database/sql
-  NullFloat64:
-    description: |-
-      NullFloat64 implements the Scanner interface so
-      it can be used as a scan destination, similar to NullString.
-    properties:
-      Float64:
-        format: double
-        type: number
-      Valid:
-        type: boolean
-    title: NullFloat64 represents a float64 that may be null.
-    type: object
-    x-go-package: database/sql
   NullInt64:
     description: |-
       NullInt64 implements the Scanner interface so
@@ -108,40 +68,21 @@ definitions:
       from associations ("Has One" and "Has Many") that are generated to
       fullfill the ORM requirements for associations
     properties:
-      Anarrayofb:
+      Anarrayofa:
         items:
-          $ref: '#/definitions/Bstruct'
+          $ref: '#/definitions/Astruct'
         type: array
-      AnarrayofbUse:
-        items:
-          $ref: '#/definitions/AstructBstructUse'
-        type: array
-      Anotherbooleanfield:
-        type: boolean
-      Associationtob:
-        $ref: '#/definitions/Bstruct'
-      AssociationtobID:
+      Astruct_AnarrayofaDBID:
         $ref: '#/definitions/NullInt64'
-      Booleanfield:
-        type: boolean
+      Astruct_AnarrayofaDBID_Index:
+        $ref: '#/definitions/NullInt64'
       CreatedAt:
-        format: date-time
-        type: string
-      Date:
         format: date-time
         type: string
       DeletedAt:
         $ref: '#/definitions/DeletedAt'
-      Duration1:
-        $ref: '#/definitions/Duration'
-      Floatfield:
-        format: double
-        type: number
       ID:
         format: uint64
-        type: integer
-      Intfield:
-        format: int64
         type: integer
       Name:
         type: string
@@ -157,28 +98,18 @@ definitions:
       It incorporates the GORM ID, basic fields from the model (because they can be serialized),
       the encoded version of pointers
     properties:
-      Anotherbooleanfield_Data:
-        $ref: '#/definitions/NullBool'
-      AssociationtobID:
+      Astruct_AnarrayofaDBID:
         $ref: '#/definitions/NullInt64'
-      Booleanfield_Data:
-        $ref: '#/definitions/NullBool'
+      Astruct_AnarrayofaDBID_Index:
+        $ref: '#/definitions/NullInt64'
       CreatedAt:
         format: date-time
         type: string
-      Date_Data:
-        $ref: '#/definitions/NullTime'
       DeletedAt:
         $ref: '#/definitions/DeletedAt'
-      Duration1_Data:
-        $ref: '#/definitions/NullInt64'
-      Floatfield_Data:
-        $ref: '#/definitions/NullFloat64'
       ID:
         format: uint64
         type: integer
-      Intfield_Data:
-        $ref: '#/definitions/NullInt64'
       Name_Data:
         $ref: '#/definitions/NullString'
       UpdatedAt:
@@ -188,208 +119,12 @@ definitions:
     type: object
     x-go-name: AstructDB
     x-go-package: github.com/fullstack-lang/gong/test2/go/orm
-  astructbstructuseAPI:
-    description: |-
-      for POST, API, one needs the fields of the model as well as the fields
-      from associations ("Has One" and "Has Many") that are generated to
-      fullfill the ORM requirements for associations
-    properties:
-      Astruct_AnarrayofbUseDBID:
-        $ref: '#/definitions/NullInt64'
-      Astruct_AnarrayofbUseDBID_Index:
-        $ref: '#/definitions/NullInt64'
-      Bstruct2:
-        $ref: '#/definitions/Bstruct'
-      Bstruct2ID:
-        $ref: '#/definitions/NullInt64'
-      CreatedAt:
-        format: date-time
-        type: string
-      DeletedAt:
-        $ref: '#/definitions/DeletedAt'
-      ID:
-        format: uint64
-        type: integer
-      Name:
-        type: string
-      UpdatedAt:
-        format: date-time
-        type: string
-    title: AstructBstructUseAPI is the input in POST API
-    type: object
-    x-go-name: AstructBstructUseAPI
-    x-go-package: github.com/fullstack-lang/gong/test2/go/orm
-  astructbstructuseDB:
-    description: |-
-      It incorporates the GORM ID, basic fields from the model (because they can be serialized),
-      the encoded version of pointers
-    properties:
-      Astruct_AnarrayofbUseDBID:
-        $ref: '#/definitions/NullInt64'
-      Astruct_AnarrayofbUseDBID_Index:
-        $ref: '#/definitions/NullInt64'
-      Bstruct2ID:
-        $ref: '#/definitions/NullInt64'
-      CreatedAt:
-        format: date-time
-        type: string
-      DeletedAt:
-        $ref: '#/definitions/DeletedAt'
-      ID:
-        format: uint64
-        type: integer
-      Name_Data:
-        $ref: '#/definitions/NullString'
-      UpdatedAt:
-        format: date-time
-        type: string
-    title: AstructBstructUseDB describes a astructbstructuse in the database
-    type: object
-    x-go-name: AstructBstructUseDB
-    x-go-package: github.com/fullstack-lang/gong/test2/go/orm
-  bstructAPI:
-    description: |-
-      for POST, API, one needs the fields of the model as well as the fields
-      from associations ("Has One" and "Has Many") that are generated to
-      fullfill the ORM requirements for associations
-    properties:
-      Astruct_AnarrayofbDBID:
-        $ref: '#/definitions/NullInt64'
-      Astruct_AnarrayofbDBID_Index:
-        $ref: '#/definitions/NullInt64'
-      CreatedAt:
-        format: date-time
-        type: string
-      DeletedAt:
-        $ref: '#/definitions/DeletedAt'
-      ID:
-        format: uint64
-        type: integer
-      Name:
-        type: string
-      UpdatedAt:
-        format: date-time
-        type: string
-    title: BstructAPI is the input in POST API
-    type: object
-    x-go-name: BstructAPI
-    x-go-package: github.com/fullstack-lang/gong/test2/go/orm
-  bstructDB:
-    description: |-
-      It incorporates the GORM ID, basic fields from the model (because they can be serialized),
-      the encoded version of pointers
-    properties:
-      Astruct_AnarrayofbDBID:
-        $ref: '#/definitions/NullInt64'
-      Astruct_AnarrayofbDBID_Index:
-        $ref: '#/definitions/NullInt64'
-      CreatedAt:
-        format: date-time
-        type: string
-      DeletedAt:
-        $ref: '#/definitions/DeletedAt'
-      ID:
-        format: uint64
-        type: integer
-      Name_Data:
-        $ref: '#/definitions/NullString'
-      UpdatedAt:
-        format: date-time
-        type: string
-    title: BstructDB describes a bstruct in the database
-    type: object
-    x-go-name: BstructDB
-    x-go-package: github.com/fullstack-lang/gong/test2/go/orm
 host: localhost:8080
 info:
   description: test2 exposes types of a package.
   title: test2 backend API
   version: "0.1"
 paths:
-  /astructbstructuses:
-    get:
-      description: Get all astructbstructuses
-      operationId: getAstructBstructUses
-      responses:
-        "200":
-          $ref: '#/responses/astructbstructuseDBsResponse'
-        default:
-          $ref: '#/responses/genericError'
-      tags:
-      - astructbstructuses
-    post:
-      consumes:
-      - application/json
-      description: Creates a astructbstructuse
-      operationId: postAstructBstructUse
-      parameters:
-      - description: The AstructBstructUse to submit or modify
-        in: body
-        name: AstructBstructUse
-        schema:
-          $ref: '#/definitions/astructbstructuseAPI'
-      produces:
-      - application/json
-      responses:
-        "200":
-          $ref: '#/responses/astructbstructuseDBResponse'
-      tags:
-      - astructbstructuses
-  /astructbstructuses/{ID}:
-    delete:
-      description: Delete a astructbstructuse
-      operationId: deleteAstructBstructUse
-      parameters:
-      - description: The ID of the order
-        format: int64
-        in: path
-        name: ID
-        required: true
-        type: integer
-      responses:
-        default:
-          $ref: '#/responses/genericError'
-      tags:
-      - astructbstructuses
-    get:
-      operationId: getAstructBstructUse
-      parameters:
-      - description: The ID of the order
-        format: int64
-        in: path
-        name: ID
-        required: true
-        type: integer
-      responses:
-        "200":
-          $ref: '#/responses/astructbstructuseDBResponse'
-        default:
-          $ref: '#/responses/genericError'
-      summary: Gets the details for a astructbstructuse.
-      tags:
-      - astructbstructuses
-    patch:
-      description: Update a astructbstructuse
-      operationId: updateAstructBstructUse
-      parameters:
-      - description: The ID of the order
-        format: int64
-        in: path
-        name: ID
-        required: true
-        type: integer
-      - description: The AstructBstructUse to submit or modify
-        in: body
-        name: AstructBstructUse
-        schema:
-          $ref: '#/definitions/astructbstructuseAPI'
-      responses:
-        "200":
-          $ref: '#/responses/astructbstructuseDBResponse'
-        default:
-          $ref: '#/responses/genericError'
-      tags:
-      - astructbstructuses
   /astructs:
     get:
       description: Get all astructs
@@ -474,90 +209,6 @@ paths:
           $ref: '#/responses/genericError'
       tags:
       - astructs
-  /bstructs:
-    get:
-      description: Get all bstructs
-      operationId: getBstructs
-      responses:
-        "200":
-          $ref: '#/responses/bstructDBsResponse'
-        default:
-          $ref: '#/responses/genericError'
-      tags:
-      - bstructs
-    post:
-      consumes:
-      - application/json
-      description: Creates a bstruct
-      operationId: postBstruct
-      parameters:
-      - description: The Bstruct to submit or modify
-        in: body
-        name: Bstruct
-        schema:
-          $ref: '#/definitions/bstructAPI'
-      produces:
-      - application/json
-      responses:
-        "200":
-          $ref: '#/responses/bstructDBResponse'
-      tags:
-      - bstructs
-  /bstructs/{ID}:
-    delete:
-      description: Delete a bstruct
-      operationId: deleteBstruct
-      parameters:
-      - description: The ID of the order
-        format: int64
-        in: path
-        name: ID
-        required: true
-        type: integer
-      responses:
-        default:
-          $ref: '#/responses/genericError'
-      tags:
-      - bstructs
-    get:
-      operationId: getBstruct
-      parameters:
-      - description: The ID of the order
-        format: int64
-        in: path
-        name: ID
-        required: true
-        type: integer
-      responses:
-        "200":
-          $ref: '#/responses/bstructDBResponse'
-        default:
-          $ref: '#/responses/genericError'
-      summary: Gets the details for a bstruct.
-      tags:
-      - bstructs
-    patch:
-      description: Update a bstruct
-      operationId: updateBstruct
-      parameters:
-      - description: The ID of the order
-        format: int64
-        in: path
-        name: ID
-        required: true
-        type: integer
-      - description: The Bstruct to submit or modify
-        in: body
-        name: Bstruct
-        schema:
-          $ref: '#/definitions/bstructAPI'
-      responses:
-        "200":
-          $ref: '#/responses/bstructDBResponse'
-        default:
-          $ref: '#/responses/genericError'
-      tags:
-      - bstructs
   /commitnb:
     get:
       operationId: GetLastCommitNb
@@ -574,34 +225,19 @@ responses:
   astructDBResponse:
     description: AstructDBResponse provides response
     headers:
-      Anotherbooleanfield_Data:
-        description: |-
-          Declation for basic field astructDB.Anotherbooleanfield bool (to be completed)
-          provide the sql storage for the boolan
-      AssociationtobID:
+      Astruct_AnarrayofaDBID:
         description: |-
           insertion for pointer fields encoding declaration
-          field Associationtob is a pointer to another Struct (optional or 0..1)
-          This field is generated into another field to enable AS ONE association
-      Booleanfield_Data:
-        description: |-
-          Declation for basic field astructDB.Booleanfield bool (to be completed)
-          provide the sql storage for the boolan
+          Implementation of a reverse ID for field Astruct{}.Anarrayofa []*Astruct
+      Astruct_AnarrayofaDBID_Index:
+        description: implementation of the index of the withing the slice
       CreatedAt:
         format: date-time
         type: string
-      Date_Data:
-        description: Declation for basic field astructDB.Date
       DeletedAt: {}
-      Duration1_Data:
-        description: Declation for basic field astructDB.Duration1 {{BasicKind}} (to be completed)
-      Floatfield_Data:
-        description: Declation for basic field astructDB.Floatfield {{BasicKind}} (to be completed)
       ID:
         format: uint64
         type: integer
-      Intfield_Data:
-        description: Declation for basic field astructDB.Intfield {{BasicKind}} (to be completed)
       Name_Data:
         description: |-
           insertion for basic fields declaration
@@ -616,71 +252,6 @@ responses:
     schema:
       items:
         $ref: '#/definitions/astructDB'
-      type: array
-  astructbstructuseDBResponse:
-    description: AstructBstructUseDBResponse provides response
-    headers:
-      Astruct_AnarrayofbUseDBID:
-        description: Implementation of a reverse ID for field Astruct{}.AnarrayofbUse []*AstructBstructUse
-      Astruct_AnarrayofbUseDBID_Index:
-        description: implementation of the index of the withing the slice
-      Bstruct2ID:
-        description: |-
-          insertion for pointer fields encoding declaration
-          field Bstruct2 is a pointer to another Struct (optional or 0..1)
-          This field is generated into another field to enable AS ONE association
-      CreatedAt:
-        format: date-time
-        type: string
-      DeletedAt: {}
-      ID:
-        format: uint64
-        type: integer
-      Name_Data:
-        description: |-
-          insertion for basic fields declaration
-          Declation for basic field astructbstructuseDB.Name {{BasicKind}} (to be completed)
-      UpdatedAt:
-        format: date-time
-        type: string
-    schema:
-      $ref: '#/definitions/NullInt64'
-  astructbstructuseDBsResponse:
-    description: AstructBstructUseDBs arrays astructbstructuseDBs
-    schema:
-      items:
-        $ref: '#/definitions/astructbstructuseDB'
-      type: array
-  bstructDBResponse:
-    description: BstructDBResponse provides response
-    headers:
-      Astruct_AnarrayofbDBID:
-        description: |-
-          insertion for pointer fields encoding declaration
-          Implementation of a reverse ID for field Astruct{}.Anarrayofb []*Bstruct
-      Astruct_AnarrayofbDBID_Index:
-        description: implementation of the index of the withing the slice
-      CreatedAt:
-        format: date-time
-        type: string
-      DeletedAt: {}
-      ID:
-        format: uint64
-        type: integer
-      Name_Data:
-        description: |-
-          insertion for basic fields declaration
-          Declation for basic field bstructDB.Name {{BasicKind}} (to be completed)
-      UpdatedAt:
-        format: date-time
-        type: string
-    schema:
-      $ref: '#/definitions/NullInt64'
-  bstructDBsResponse:
-    description: BstructDBs arrays bstructDBs
-    schema:
-      items:
-        $ref: '#/definitions/bstructDB'
       type: array
   genericError:
     description: |-

@@ -1,28 +1,28 @@
 package models
 
-import "time"
-
 // Astruct demonstrate basic metabaron
 //
 // 		swagger:model Astruct
 type Astruct struct {
 	Name string
 
-	Date time.Time
+	Anarrayofa []*Astruct
 
-	Booleanfield bool
+	// Date time.Time
 
-	Floatfield float64
+	// Booleanfield bool
 
-	Intfield int
+	// Floatfield float64
 
-	Anotherbooleanfield bool
+	// Intfield int
 
-	Duration1 time.Duration
+	// Anotherbooleanfield bool
 
-	Associationtob *Bstruct
+	// Duration1 time.Duration
 
-	Anarrayofb []*Bstruct
+	// Associationtob *Bstruct
 
-	AnarrayofbUse []*AstructBstructUse
+	// Anarrayofb []*Bstruct
+
+	// AnarrayofbUse []*AstructBstructUse
 }
