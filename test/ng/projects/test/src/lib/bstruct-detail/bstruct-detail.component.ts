@@ -10,12 +10,13 @@ import { MapOfComponents } from '../map-components'
 import { MapOfSortingComponents } from '../map-components'
 
 // insertion point for imports
+import { AstructDB } from '../astruct-db'
 
 import { Router, RouterState, ActivatedRoute } from '@angular/router';
 
 import { MatDialog, MAT_DIALOG_DATA, MatDialogRef, MatDialogConfig } from '@angular/material/dialog';
 
-import { NullInt64 } from '../front-repo.service'
+import { NullInt64 } from '../null-int64'
 
 // BstructDetailComponent is initilizaed from different routes
 // BstructDetailComponentState detail different cases 
@@ -37,10 +38,10 @@ export class BstructDetailComponent implements OnInit {
 	// insertion point for declarations
 
 	// the BstructDB of interest
-	bstruct: BstructDB;
+	bstruct: BstructDB = new BstructDB
 
 	// front repo
-	frontRepo: FrontRepo
+	frontRepo: FrontRepo = new FrontRepo
 
 	// this stores the information related to string fields
 	// if false, the field is inputed with an <input ...> form 
@@ -48,15 +49,15 @@ export class BstructDetailComponent implements OnInit {
 	mapFields_displayAsTextArea = new Map<string, boolean>()
 
 	// the state at initialization (CREATION, UPDATE or CREATE with one association set)
-	state: BstructDetailComponentState
+	state: BstructDetailComponentState = BstructDetailComponentState.CREATE_INSTANCE
 
 	// in UDPATE state, if is the id of the instance to update
 	// in CREATE state with one association set, this is the id of the associated instance
-	id: number
+	id: number = 0
 
 	// in CREATE state with one association set, this is the id of the associated instance
-	originStruct: string
-	originStructFieldName: string
+	originStruct: string = ""
+	originStructFieldName: string = ""
 
 	constructor(
 		private bstructService: BstructService,
@@ -70,9 +71,9 @@ export class BstructDetailComponent implements OnInit {
 	ngOnInit(): void {
 
 		// compute state
-		this.id = +this.route.snapshot.paramMap.get('id');
-		this.originStruct = this.route.snapshot.paramMap.get('originStruct');
-		this.originStructFieldName = this.route.snapshot.paramMap.get('originStructFieldName');
+		this.id = +this.route.snapshot.paramMap.get('id')!;
+		this.originStruct = this.route.snapshot.paramMap.get('originStruct')!;
+		this.originStructFieldName = this.route.snapshot.paramMap.get('originStructFieldName')!;
 
 		const association = this.route.snapshot.paramMap.get('association');
 		if (this.id == 0) {
@@ -84,11 +85,11 @@ export class BstructDetailComponent implements OnInit {
 				switch (this.originStructFieldName) {
 					// insertion point for state computation
 					case "Anarrayofb":
-						console.log("Bstruct" + " is instanciated with back pointer to instance " + this.id + " Astruct association Anarrayofb")
+						// console.log("Bstruct" + " is instanciated with back pointer to instance " + this.id + " Astruct association Anarrayofb")
 						this.state = BstructDetailComponentState.CREATE_INSTANCE_WITH_ASSOCIATION_Astruct_Anarrayofb_SET
 						break;
 					case "Anotherarrayofb":
-						console.log("Bstruct" + " is instanciated with back pointer to instance " + this.id + " Astruct association Anotherarrayofb")
+						// console.log("Bstruct" + " is instanciated with back pointer to instance " + this.id + " Astruct association Anotherarrayofb")
 						this.state = BstructDetailComponentState.CREATE_INSTANCE_WITH_ASSOCIATION_Astruct_Anotherarrayofb_SET
 						break;
 					default:
@@ -122,16 +123,18 @@ export class BstructDetailComponent implements OnInit {
 						this.bstruct = new (BstructDB)
 						break;
 					case BstructDetailComponentState.UPDATE_INSTANCE:
-						this.bstruct = frontRepo.Bstructs.get(this.id)
+						let bstruct = frontRepo.Bstructs.get(this.id)
+						console.assert(bstruct != undefined, "missing bstruct with id:" + this.id)
+						this.bstruct = bstruct!
 						break;
 					// insertion point for init of association field
 					case BstructDetailComponentState.CREATE_INSTANCE_WITH_ASSOCIATION_Astruct_Anarrayofb_SET:
 						this.bstruct = new (BstructDB)
-						this.bstruct.Astruct_Anarrayofb_reverse = frontRepo.Astructs.get(this.id)
+						this.bstruct.Astruct_Anarrayofb_reverse = frontRepo.Astructs.get(this.id)!
 						break;
 					case BstructDetailComponentState.CREATE_INSTANCE_WITH_ASSOCIATION_Astruct_Anotherarrayofb_SET:
 						this.bstruct = new (BstructDB)
-						this.bstruct.Astruct_Anotherarrayofb_reverse = frontRepo.Astructs.get(this.id)
+						this.bstruct.Astruct_Anotherarrayofb_reverse = frontRepo.Astructs.get(this.id)!
 						break;
 					default:
 						console.log(this.state + " is unkown state")
@@ -164,7 +167,7 @@ export class BstructDetailComponent implements OnInit {
 				this.bstruct.Astruct_AnarrayofbDBID_Index = new NullInt64
 			}
 			this.bstruct.Astruct_AnarrayofbDBID_Index.Valid = true
-			this.bstruct.Astruct_Anarrayofb_reverse = undefined // very important, otherwise, circular JSON
+			this.bstruct.Astruct_Anarrayofb_reverse = new AstructDB // very important, otherwise, circular JSON
 		}
 		if (this.bstruct.Astruct_Anotherarrayofb_reverse != undefined) {
 			if (this.bstruct.Astruct_AnotherarrayofbDBID == undefined) {
@@ -176,7 +179,7 @@ export class BstructDetailComponent implements OnInit {
 				this.bstruct.Astruct_AnotherarrayofbDBID_Index = new NullInt64
 			}
 			this.bstruct.Astruct_AnotherarrayofbDBID_Index.Valid = true
-			this.bstruct.Astruct_Anotherarrayofb_reverse = undefined // very important, otherwise, circular JSON
+			this.bstruct.Astruct_Anotherarrayofb_reverse = new AstructDB // very important, otherwise, circular JSON
 		}
 
 		switch (this.state) {
@@ -189,7 +192,7 @@ export class BstructDetailComponent implements OnInit {
 			default:
 				this.bstructService.postBstruct(this.bstruct).subscribe(bstruct => {
 					this.bstructService.BstructServiceChanged.next("post")
-					this.bstruct = {} // reset fields
+					this.bstruct = new (BstructDB) // reset fields
 				});
 		}
 	}
@@ -198,7 +201,7 @@ export class BstructDetailComponent implements OnInit {
 	// ONE-MANY association
 	// It uses the MapOfComponent provided by the front repo
 	openReverseSelection(AssociatedStruct: string, reverseField: string, selectionMode: string,
-		sourceField: string, intermediateStructField: string, nextAssociatedStruct: string ) {
+		sourceField: string, intermediateStructField: string, nextAssociatedStruct: string) {
 
 		console.log("mode " + selectionMode)
 
@@ -212,7 +215,7 @@ export class BstructDetailComponent implements OnInit {
 		dialogConfig.height = "50%"
 		if (selectionMode == SelectionMode.ONE_MANY_ASSOCIATION_MODE) {
 
-			dialogData.ID = this.bstruct.ID
+			dialogData.ID = this.bstruct.ID!
 			dialogData.ReversePointer = reverseField
 			dialogData.OrderingMode = false
 			dialogData.SelectionMode = selectionMode
@@ -228,7 +231,7 @@ export class BstructDetailComponent implements OnInit {
 			});
 		}
 		if (selectionMode == SelectionMode.MANY_MANY_ASSOCIATION_MODE) {
-			dialogData.ID = this.bstruct.ID
+			dialogData.ID = this.bstruct.ID!
 			dialogData.ReversePointer = reverseField
 			dialogData.OrderingMode = false
 			dialogData.SelectionMode = selectionMode
@@ -279,7 +282,7 @@ export class BstructDetailComponent implements OnInit {
 		});
 	}
 
-	fillUpNameIfEmpty(event) {
+	fillUpNameIfEmpty(event: { value: { Name: string; }; }) {
 		if (this.bstruct.Name == undefined) {
 			this.bstruct.Name = event.value.Name
 		}
@@ -296,7 +299,7 @@ export class BstructDetailComponent implements OnInit {
 
 	isATextArea(fieldName: string): boolean {
 		if (this.mapFields_displayAsTextArea.has(fieldName)) {
-			return this.mapFields_displayAsTextArea.get(fieldName)
+			return this.mapFields_displayAsTextArea.get(fieldName)!
 		} else {
 			return false
 		}

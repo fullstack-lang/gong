@@ -13,6 +13,8 @@ import { catchError, map, tap } from 'rxjs/operators';
 
 import { CstructDB } from './cstruct-db';
 
+// insertion point for imports
+
 @Injectable({
   providedIn: 'root'
 })
@@ -35,14 +37,14 @@ export class CstructService {
   ) {
     // path to the service share the same origin with the path to the document
     // get the origin in the URL to the document
-	let origin = this.document.location.origin
-    
-	// if debugging with ng, replace 4200 with 8080
-	origin = origin.replace("4200", "8080")
+    let origin = this.document.location.origin
+
+    // if debugging with ng, replace 4200 with 8080
+    origin = origin.replace("4200", "8080")
 
     // compute path to the service
     this.cstructsUrl = origin + '/api/github.com/fullstack-lang/gong/test/go/v1/cstructs';
-   }
+  }
 
   /** GET cstructs from the server */
   getCstructs(): Observable<CstructDB[]> {
@@ -67,15 +69,15 @@ export class CstructService {
   /** POST: add a new cstruct to the server */
   postCstruct(cstructdb: CstructDB): Observable<CstructDB> {
 
-		// insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
+    // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
 
-		return this.http.post<CstructDB>(this.cstructsUrl, cstructdb, this.httpOptions).pipe(
-			tap(_ => {
-				// insertion point for restoration of reverse pointers
-				this.log(`posted cstructdb id=${cstructdb.ID}`)
-			}),
-			catchError(this.handleError<CstructDB>('postCstruct'))
-		);
+    return this.http.post<CstructDB>(this.cstructsUrl, cstructdb, this.httpOptions).pipe(
+      tap(_ => {
+        // insertion point for restoration of reverse pointers
+        this.log(`posted cstructdb id=${cstructdb.ID}`)
+      }),
+      catchError(this.handleError<CstructDB>('postCstruct'))
+    );
   }
 
   /** DELETE: delete the cstructdb from the server */
@@ -96,7 +98,7 @@ export class CstructService {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
 
-    return this.http.put(url, cstructdb, this.httpOptions).pipe(
+    return this.http.put<CstructDB>(url, cstructdb, this.httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
         this.log(`updated cstructdb id=${cstructdb.ID}`)

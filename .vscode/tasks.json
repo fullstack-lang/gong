@@ -84,6 +84,16 @@
             "args": []
         },
         {
+            "label": "01 - gongc test2",
+            "type": "shell",
+            "options": {
+                "cwd": "${workspaceFolder}/test2/go/models"
+            },
+            "command": "gongc",
+            "group": "build",
+            "args": []
+        },
+        {
             "label": "01 - gongc gong",
             "type": "shell",
             "options": {

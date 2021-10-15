@@ -23,17 +23,17 @@ export class AstructPresentationComponent implements OnInit {
 
 	// insertion point for declarations
 	// fields from Duration1
-	Duration1_Hours: number
-	Duration1_Minutes: number
-	Duration1_Seconds: number
+	Duration1_Hours: number = 0
+	Duration1_Minutes: number = 0
+	Duration1_Seconds: number = 0
 
-	displayedColumns: string[] = [];
-	dataSource = ELEMENT_DATA;
+	displayedColumns: string[] = []
+	dataSource = ELEMENT_DATA
 
-	astruct: AstructDB;
+	astruct: AstructDB = new (AstructDB)
 
 	// front repo
-	frontRepo: FrontRepo
+	frontRepo: FrontRepo = new (FrontRepo)
  
 	constructor(
 		private astructService: AstructService,
@@ -60,12 +60,12 @@ export class AstructPresentationComponent implements OnInit {
 	}
 
 	getAstruct(): void {
-		const id = +this.route.snapshot.paramMap.get('id');
+		const id = +this.route.snapshot.paramMap.get('id')!
 		this.frontRepoService.pull().subscribe(
 			frontRepo => {
 				this.frontRepo = frontRepo
 
-				this.astruct = this.frontRepo.Astructs.get(id)
+				this.astruct = this.frontRepo.Astructs.get(id)!
 
 				// insertion point for recovery of durations
 				// computation of Hours, Minutes, Seconds for Duration1

@@ -2,67 +2,19 @@ basePath: /api/github.com/fullstack-lang/gong/test2/go/v1
 consumes:
 - application/json
 definitions:
-  Aclass:
-    description: Aclass demonstrate basic metabaron
+  Astruct:
+    description: Astruct demonstrate basic metabaron
     properties:
       Anarrayofa:
         items:
-          $ref: '#/definitions/Aclass'
+          $ref: '#/definitions/Astruct'
         type: array
-      Anotherbooleanfield:
-        type: boolean
-      Booleanfield:
-        type: boolean
-      Date:
-        format: date-time
-        type: string
-      Duration1:
-        $ref: '#/definitions/Duration'
-      Floatfield:
-        format: double
-        type: number
-      Intfield:
-        format: int64
-        type: integer
       Name:
         type: string
     type: object
     x-go-package: github.com/fullstack-lang/gong/test2/go/models
   DeletedAt:
     $ref: '#/definitions/NullTime'
-  Duration:
-    description: |-
-      A Duration represents the elapsed time between two instants
-      as an int64 nanosecond count. The representation limits the
-      largest representable duration to approximately 290 years.
-    format: int64
-    type: integer
-    x-go-package: time
-  NullBool:
-    description: |-
-      NullBool implements the Scanner interface so
-      it can be used as a scan destination, similar to NullString.
-    properties:
-      Bool:
-        type: boolean
-      Valid:
-        type: boolean
-    title: NullBool represents a bool that may be null.
-    type: object
-    x-go-package: database/sql
-  NullFloat64:
-    description: |-
-      NullFloat64 implements the Scanner interface so
-      it can be used as a scan destination, similar to NullString.
-    properties:
-      Float64:
-        format: double
-        type: number
-      Valid:
-        type: boolean
-    title: NullFloat64 represents a float64 that may be null.
-    type: object
-    x-go-package: database/sql
   NullInt64:
     description: |-
       NullInt64 implements the Scanner interface so
@@ -110,89 +62,62 @@ definitions:
     title: NullTime represents a time.Time that may be null.
     type: object
     x-go-package: database/sql
-  aclassAPI:
+  astructAPI:
     description: |-
       for POST, API, one needs the fields of the model as well as the fields
       from associations ("Has One" and "Has Many") that are generated to
       fullfill the ORM requirements for associations
     properties:
-      Aclass_AnarrayofaDBID:
-        $ref: '#/definitions/NullInt64'
-      Aclass_AnarrayofaDBID_Index:
-        $ref: '#/definitions/NullInt64'
       Anarrayofa:
         items:
-          $ref: '#/definitions/Aclass'
+          $ref: '#/definitions/Astruct'
         type: array
-      Anotherbooleanfield:
-        type: boolean
-      Booleanfield:
-        type: boolean
+      Astruct_AnarrayofaDBID:
+        $ref: '#/definitions/NullInt64'
+      Astruct_AnarrayofaDBID_Index:
+        $ref: '#/definitions/NullInt64'
       CreatedAt:
-        format: date-time
-        type: string
-      Date:
         format: date-time
         type: string
       DeletedAt:
         $ref: '#/definitions/DeletedAt'
-      Duration1:
-        $ref: '#/definitions/Duration'
-      Floatfield:
-        format: double
-        type: number
       ID:
         format: uint64
-        type: integer
-      Intfield:
-        format: int64
         type: integer
       Name:
         type: string
       UpdatedAt:
         format: date-time
         type: string
-    title: AclassAPI is the input in POST API
+    title: AstructAPI is the input in POST API
     type: object
-    x-go-name: AclassAPI
+    x-go-name: AstructAPI
     x-go-package: github.com/fullstack-lang/gong/test2/go/orm
-  aclassDB:
+  astructDB:
     description: |-
       It incorporates the GORM ID, basic fields from the model (because they can be serialized),
       the encoded version of pointers
     properties:
-      Aclass_AnarrayofaDBID:
+      Astruct_AnarrayofaDBID:
         $ref: '#/definitions/NullInt64'
-      Aclass_AnarrayofaDBID_Index:
+      Astruct_AnarrayofaDBID_Index:
         $ref: '#/definitions/NullInt64'
-      Anotherbooleanfield_Data:
-        $ref: '#/definitions/NullBool'
-      Booleanfield_Data:
-        $ref: '#/definitions/NullBool'
       CreatedAt:
         format: date-time
         type: string
-      Date_Data:
-        $ref: '#/definitions/NullTime'
       DeletedAt:
         $ref: '#/definitions/DeletedAt'
-      Duration1_Data:
-        $ref: '#/definitions/NullInt64'
-      Floatfield_Data:
-        $ref: '#/definitions/NullFloat64'
       ID:
         format: uint64
         type: integer
-      Intfield_Data:
-        $ref: '#/definitions/NullInt64'
       Name_Data:
         $ref: '#/definitions/NullString'
       UpdatedAt:
         format: date-time
         type: string
-    title: AclassDB describes a aclass in the database
+    title: AstructDB describes a astruct in the database
     type: object
-    x-go-name: AclassDB
+    x-go-name: AstructDB
     x-go-package: github.com/fullstack-lang/gong/test2/go/orm
 host: localhost:8080
 info:
@@ -200,39 +125,39 @@ info:
   title: test2 backend API
   version: "0.1"
 paths:
-  /aclasss:
+  /astructs:
     get:
-      description: Get all aclasss
-      operationId: getAclasss
+      description: Get all astructs
+      operationId: getAstructs
       responses:
         "200":
-          $ref: '#/responses/aclassDBsResponse'
+          $ref: '#/responses/astructDBsResponse'
         default:
           $ref: '#/responses/genericError'
       tags:
-      - aclasss
+      - astructs
     post:
       consumes:
       - application/json
-      description: Creates a aclass
-      operationId: postAclass
+      description: Creates a astruct
+      operationId: postAstruct
       parameters:
-      - description: The Aclass to submit or modify
+      - description: The Astruct to submit or modify
         in: body
-        name: Aclass
+        name: Astruct
         schema:
-          $ref: '#/definitions/aclassAPI'
+          $ref: '#/definitions/astructAPI'
       produces:
       - application/json
       responses:
         "200":
-          $ref: '#/responses/aclassDBResponse'
+          $ref: '#/responses/astructDBResponse'
       tags:
-      - aclasss
-  /aclasss/{ID}:
+      - astructs
+  /astructs/{ID}:
     delete:
-      description: Delete a aclass
-      operationId: deleteAclass
+      description: Delete a astruct
+      operationId: deleteAstruct
       parameters:
       - description: The ID of the order
         format: int64
@@ -244,9 +169,9 @@ paths:
         default:
           $ref: '#/responses/genericError'
       tags:
-      - aclasss
+      - astructs
     get:
-      operationId: getAclass
+      operationId: getAstruct
       parameters:
       - description: The ID of the order
         format: int64
@@ -256,15 +181,15 @@ paths:
         type: integer
       responses:
         "200":
-          $ref: '#/responses/aclassDBResponse'
+          $ref: '#/responses/astructDBResponse'
         default:
           $ref: '#/responses/genericError'
-      summary: Gets the details for a aclass.
+      summary: Gets the details for a astruct.
       tags:
-      - aclasss
+      - astructs
     patch:
-      description: Update a aclass
-      operationId: updateAclass
+      description: Update a astruct
+      operationId: updateAstruct
       parameters:
       - description: The ID of the order
         format: int64
@@ -272,18 +197,18 @@ paths:
         name: ID
         required: true
         type: integer
-      - description: The Aclass to submit or modify
+      - description: The Astruct to submit or modify
         in: body
-        name: Aclass
+        name: Astruct
         schema:
-          $ref: '#/definitions/aclassAPI'
+          $ref: '#/definitions/astructAPI'
       responses:
         "200":
-          $ref: '#/responses/aclassDBResponse'
+          $ref: '#/responses/astructDBResponse'
         default:
           $ref: '#/responses/genericError'
       tags:
-      - aclasss
+      - astructs
   /commitnb:
     get:
       operationId: GetLastCommitNb
@@ -297,52 +222,36 @@ paths:
 produces:
 - application/json
 responses:
-  aclassDBResponse:
-    description: AclassDBResponse provides response
+  astructDBResponse:
+    description: AstructDBResponse provides response
     headers:
-      Aclass_AnarrayofaDBID:
+      Astruct_AnarrayofaDBID:
         description: |-
           insertion for pointer fields encoding declaration
-          Implementation of a reverse ID for field Aclass{}.Anarrayofa []*Aclass
-      Aclass_AnarrayofaDBID_Index:
+          Implementation of a reverse ID for field Astruct{}.Anarrayofa []*Astruct
+      Astruct_AnarrayofaDBID_Index:
         description: implementation of the index of the withing the slice
-      Anotherbooleanfield_Data:
-        description: |-
-          Declation for basic field aclassDB.Anotherbooleanfield bool (to be completed)
-          provide the sql storage for the boolan
-      Booleanfield_Data:
-        description: |-
-          Declation for basic field aclassDB.Booleanfield bool (to be completed)
-          provide the sql storage for the boolan
       CreatedAt:
         format: date-time
         type: string
-      Date_Data:
-        description: Declation for basic field aclassDB.Date
       DeletedAt: {}
-      Duration1_Data:
-        description: Declation for basic field aclassDB.Duration1 {{BasicKind}} (to be completed)
-      Floatfield_Data:
-        description: Declation for basic field aclassDB.Floatfield {{BasicKind}} (to be completed)
       ID:
         format: uint64
         type: integer
-      Intfield_Data:
-        description: Declation for basic field aclassDB.Intfield {{BasicKind}} (to be completed)
       Name_Data:
         description: |-
           insertion for basic fields declaration
-          Declation for basic field aclassDB.Name {{BasicKind}} (to be completed)
+          Declation for basic field astructDB.Name {{BasicKind}} (to be completed)
       UpdatedAt:
         format: date-time
         type: string
     schema:
       $ref: '#/definitions/NullInt64'
-  aclassDBsResponse:
-    description: AclassDBs arrays aclassDBs
+  astructDBsResponse:
+    description: AstructDBs arrays astructDBs
     schema:
       items:
-        $ref: '#/definitions/aclassDB'
+        $ref: '#/definitions/astructDB'
       type: array
   genericError:
     description: |-

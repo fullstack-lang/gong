@@ -40,13 +40,13 @@ export class {{Structname}}PresentationComponent implements OnInit {
 
 	// insertion point for declarations{{` + string(rune(NgPresentationTsInsertionPerStructDeclarations)) + `}}
 
-	displayedColumns: string[] = [];
-	dataSource = ELEMENT_DATA;
+	displayedColumns: string[] = []
+	dataSource = ELEMENT_DATA
 
-	{{structname}}: {{Structname}}DB;
+	{{structname}}: {{Structname}}DB = new ({{Structname}}DB)
 
 	// front repo
-	frontRepo: FrontRepo
+	frontRepo: FrontRepo = new (FrontRepo)
  
 	constructor(
 		private {{structname}}Service: {{Structname}}Service,
@@ -73,12 +73,12 @@ export class {{Structname}}PresentationComponent implements OnInit {
 	}
 
 	get{{Structname}}(): void {
-		const id = +this.route.snapshot.paramMap.get('id');
+		const id = +this.route.snapshot.paramMap.get('id')!
 		this.frontRepoService.pull().subscribe(
 			frontRepo => {
 				this.frontRepo = frontRepo
 
-				this.{{structname}} = this.frontRepo.{{Structname}}s.get(id)
+				this.{{structname}} = this.frontRepo.{{Structname}}s.get(id)!
 
 				// insertion point for recovery of durations{{` + string(rune(NgPresentationTsInsertionPerStructRecoveries)) + `}}
 			}
@@ -125,9 +125,9 @@ var NgPresentationSubTemplateCode map[NgPresentationSubTemplate]string = map[NgP
 
 	NgPresentationTSTimeDurationDeclarations: `
 	// fields from {{FieldName}}
-	{{FieldName}}_Hours: number
-	{{FieldName}}_Minutes: number
-	{{FieldName}}_Seconds: number`,
+	{{FieldName}}_Hours: number = 0
+	{{FieldName}}_Minutes: number = 0
+	{{FieldName}}_Seconds: number = 0`,
 	NgPresentationTSTimeDurationRecoveries: `
 				// computation of Hours, Minutes, Seconds for {{FieldName}}
 				this.{{FieldName}}_Hours = Math.floor(this.{{structname}}.{{FieldName}} / (3600 * 1000 * 1000 * 1000))

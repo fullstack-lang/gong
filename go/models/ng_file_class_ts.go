@@ -17,12 +17,12 @@ const NgClassTmpl = `export class {{Structname}}API {
 const NgClassDBTmpl = `// insertion point for imports{{` + string(rune(NgClassTsInsertionPerStructImports)) + `}}
 
 // usefull for managing pointer ID values that can be nullable
-import { NullInt64 } from './front-repo.service'
+import { NullInt64 } from './null-int64'
 
 export class {{Structname}}DB {
-	CreatedAt?: string;
-	DeletedAt?: string;
-	ID?: number;
+	CreatedAt?: string
+	DeletedAt?: string
+	ID: number = 0
 
 	// insertion point for basic fields declarations{{` + string(rune(NgClassTsInsertionPerStructBasicFieldsDecl)) + `}}
 
@@ -66,23 +66,23 @@ var NgClassSubTemplateCode map[NgClassSubTemplate]string = map[NgClassSubTemplat
 import { {{AssocStructName}}DB } from './{{assocStructName}}-db'`,
 
 	NgClassTSBasicFieldDecls: `
-	{{FieldName}}?: {{TypeInput}}`,
+	{{FieldName}}: {{TypeInput}} = {{NullValue}}`,
 
 	NgClassTSTimeFieldDecls: `
-	{{FieldName}}?: Date`,
+	{{FieldName}}: Date = new Date`,
 
 	NgClassTSPointerToStructFieldsDecl: `
 	{{FieldName}}?: {{TypeInput}}DB
-	{{FieldName}}ID?: NullInt64
+	{{FieldName}}ID: NullInt64 = new NullInt64 // if pointer is null, {{FieldName}}.ID = 0
 `,
 
 	NgClassTSSliceOfPtrToStructFieldsDecl: `
 	{{FieldName}}?: Array<{{TypeInput}}DB>`,
 
 	NgClassTSSliceOfPtrToGongStructReverseID: `
-	{{AssocStructName}}_{{FieldName}}DBID?: NullInt64
-	{{AssocStructName}}_{{FieldName}}DBID_Index?: NullInt64 // store the index of the {{structname}} instance in {{AssocStructName}}.{{FieldName}}
-	{{AssocStructName}}_{{FieldName}}_reverse?: {{AssocStructName}}DB
+	{{AssocStructName}}_{{FieldName}}DBID: NullInt64 = new NullInt64
+	{{AssocStructName}}_{{FieldName}}DBID_Index: NullInt64  = new NullInt64 // store the index of the {{structname}} instance in {{AssocStructName}}.{{FieldName}}
+	{{AssocStructName}}_{{FieldName}}_reverse?: {{AssocStructName}}DB 
 `,
 
 	NgClassTSOtherDeclsTimeDuration: `
@@ -122,19 +122,27 @@ func MultiCodeGeneratorNgClass(
 
 				// conversion form go type to ts type
 				typeOfField := ""
+				nullValue := ""
 
 				// conversion form go type to ts type
 				switch field.basicKind {
 				case types.Int, types.Int64, types.Int32, types.Float64:
 					typeOfField = "number"
-				case types.String, types.Bool:
+					nullValue = "0"
+				case types.String:
 					typeOfField = "string"
+					nullValue = "\"\""
+				case types.Bool:
+					typeOfField = "boolean"
+					nullValue = "false"
 				}
 
-				TSinsertions[NgClassTsInsertionPerStructBasicFieldsDecl] += Replace2(
+				TSinsertions[NgClassTsInsertionPerStructBasicFieldsDecl] += Replace3(
 					NgClassSubTemplateCode[NgClassTSBasicFieldDecls],
 					"{{FieldName}}", field.Name,
-					"{{TypeInput}}", typeOfField)
+					"{{TypeInput}}", typeOfField,
+					"{{NullValue}}", nullValue,
+				)
 
 				if field.DeclaredType == "time.Duration" {
 					TSinsertions[NgClassTsInsertionPerStructOtherDecls] += Replace1(
