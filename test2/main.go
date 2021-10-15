@@ -14,6 +14,7 @@ import (
 	"github.com/gin-gonic/gin"
 
 	test2_controllers "github.com/fullstack-lang/gong/test2/go/controllers"
+	"github.com/fullstack-lang/gong/test2/go/models"
 	test2_orm "github.com/fullstack-lang/gong/test2/go/orm"
 
 	test_controllers "github.com/fullstack-lang/gong/test/go/controllers"
@@ -66,6 +67,20 @@ func main() {
 	} else {
 		test_orm.AutoMigrate(inMemoryDB)
 	}
+
+	astruct := new(models.Astruct).Stage()
+	astruct.Name = "Test2 Astruct instance #1"
+	// astruct.Date = time.Date(2020, time.January, 1, 10, 11, 12, 0, time.UTC)
+
+	// bstruct1 := new(models.Bstruct).Stage()
+	// bstruct1.Name = "Test2 Bstruct instance #1"
+	// bstruct2 := new(models.Bstruct).Stage()
+	// bstruct2.Name = "Test2 Bstruct instance #2"
+	// astruct.Associationtob = bstruct1
+	// astruct.Anarrayofb = append(astruct.Anarrayofb, bstruct1)
+	// astruct.Anarrayofb = append(astruct.Anarrayofb, bstruct2)
+
+	models.Stage.Commit()
 
 	test2_controllers.RegisterControllers(r)
 	test_controllers.RegisterControllers(r)

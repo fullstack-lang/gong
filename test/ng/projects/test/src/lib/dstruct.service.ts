@@ -13,6 +13,8 @@ import { catchError, map, tap } from 'rxjs/operators';
 
 import { DstructDB } from './dstruct-db';
 
+// insertion point for imports
+
 @Injectable({
   providedIn: 'root'
 })
@@ -35,14 +37,14 @@ export class DstructService {
   ) {
     // path to the service share the same origin with the path to the document
     // get the origin in the URL to the document
-	let origin = this.document.location.origin
-    
-	// if debugging with ng, replace 4200 with 8080
-	origin = origin.replace("4200", "8080")
+    let origin = this.document.location.origin
+
+    // if debugging with ng, replace 4200 with 8080
+    origin = origin.replace("4200", "8080")
 
     // compute path to the service
     this.dstructsUrl = origin + '/api/github.com/fullstack-lang/gong/test/go/v1/dstructs';
-   }
+  }
 
   /** GET dstructs from the server */
   getDstructs(): Observable<DstructDB[]> {
@@ -67,15 +69,15 @@ export class DstructService {
   /** POST: add a new dstruct to the server */
   postDstruct(dstructdb: DstructDB): Observable<DstructDB> {
 
-		// insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
+    // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
 
-		return this.http.post<DstructDB>(this.dstructsUrl, dstructdb, this.httpOptions).pipe(
-			tap(_ => {
-				// insertion point for restoration of reverse pointers
-				this.log(`posted dstructdb id=${dstructdb.ID}`)
-			}),
-			catchError(this.handleError<DstructDB>('postDstruct'))
-		);
+    return this.http.post<DstructDB>(this.dstructsUrl, dstructdb, this.httpOptions).pipe(
+      tap(_ => {
+        // insertion point for restoration of reverse pointers
+        this.log(`posted dstructdb id=${dstructdb.ID}`)
+      }),
+      catchError(this.handleError<DstructDB>('postDstruct'))
+    );
   }
 
   /** DELETE: delete the dstructdb from the server */
@@ -96,7 +98,7 @@ export class DstructService {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
 
-    return this.http.put(url, dstructdb, this.httpOptions).pipe(
+    return this.http.put<DstructDB>(url, dstructdb, this.httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
         this.log(`updated dstructdb id=${dstructdb.ID}`)

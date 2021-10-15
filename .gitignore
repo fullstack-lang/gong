@@ -1,5 +1,3 @@
-ng/*
-
 ./go/models/gong.go
 go/gongc/__debug_bin
 test/__debug_bin
@@ -11,3 +9,4 @@ docs/.DS_Store
 test/go/.DS_Store
 test/.DS_Store
 go/gongc/__debug_bin.exe
+test2/__debug_bin.exe

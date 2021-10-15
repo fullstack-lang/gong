@@ -23,13 +23,13 @@ export class AstructBstructUsePresentationComponent implements OnInit {
 
 	// insertion point for declarations
 
-	displayedColumns: string[] = [];
-	dataSource = ELEMENT_DATA;
+	displayedColumns: string[] = []
+	dataSource = ELEMENT_DATA
 
-	astructbstructuse: AstructBstructUseDB;
+	astructbstructuse: AstructBstructUseDB = new (AstructBstructUseDB)
 
 	// front repo
-	frontRepo: FrontRepo
+	frontRepo: FrontRepo = new (FrontRepo)
  
 	constructor(
 		private astructbstructuseService: AstructBstructUseService,
@@ -56,12 +56,12 @@ export class AstructBstructUsePresentationComponent implements OnInit {
 	}
 
 	getAstructBstructUse(): void {
-		const id = +this.route.snapshot.paramMap.get('id');
+		const id = +this.route.snapshot.paramMap.get('id')!
 		this.frontRepoService.pull().subscribe(
 			frontRepo => {
 				this.frontRepo = frontRepo
 
-				this.astructbstructuse = this.frontRepo.AstructBstructUses.get(id)
+				this.astructbstructuse = this.frontRepo.AstructBstructUses.get(id)!
 
 				// insertion point for recovery of durations
 			}

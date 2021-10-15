@@ -33,7 +33,7 @@ import { Router, RouterState, ActivatedRoute } from '@angular/router';
 
 import { MatDialog, MAT_DIALOG_DATA, MatDialogRef, MatDialogConfig } from '@angular/material/dialog';
 
-import { NullInt64 } from '../front-repo.service'
+import { NullInt64 } from '../null-int64'
 
 // {{Structname}}DetailComponent is initilizaed from different routes
 // {{Structname}}DetailComponentState detail different cases 
@@ -53,10 +53,10 @@ export class {{Structname}}DetailComponent implements OnInit {
 	// insertion point for declarations{{` + string(rune(NgDetailTsInsertionPerStructDeclarations)) + `}}
 
 	// the {{Structname}}DB of interest
-	{{structname}}: {{Structname}}DB;
+	{{structname}}: {{Structname}}DB = new {{Structname}}DB
 
 	// front repo
-	frontRepo: FrontRepo
+	frontRepo: FrontRepo = new FrontRepo
 
 	// this stores the information related to string fields
 	// if false, the field is inputed with an <input ...> form 
@@ -64,15 +64,15 @@ export class {{Structname}}DetailComponent implements OnInit {
 	mapFields_displayAsTextArea = new Map<string, boolean>()
 
 	// the state at initialization (CREATION, UPDATE or CREATE with one association set)
-	state: {{Structname}}DetailComponentState
+	state: {{Structname}}DetailComponentState = {{Structname}}DetailComponentState.CREATE_INSTANCE
 
 	// in UDPATE state, if is the id of the instance to update
 	// in CREATE state with one association set, this is the id of the associated instance
-	id: number
+	id: number = 0
 
 	// in CREATE state with one association set, this is the id of the associated instance
-	originStruct: string
-	originStructFieldName: string
+	originStruct: string = ""
+	originStructFieldName: string = ""
 
 	constructor(
 		private {{structname}}Service: {{Structname}}Service,
@@ -86,9 +86,9 @@ export class {{Structname}}DetailComponent implements OnInit {
 	ngOnInit(): void {
 
 		// compute state
-		this.id = +this.route.snapshot.paramMap.get('id');
-		this.originStruct = this.route.snapshot.paramMap.get('originStruct');
-		this.originStructFieldName = this.route.snapshot.paramMap.get('originStructFieldName');
+		this.id = +this.route.snapshot.paramMap.get('id')!;
+		this.originStruct = this.route.snapshot.paramMap.get('originStruct')!;
+		this.originStructFieldName = this.route.snapshot.paramMap.get('originStructFieldName')!;
 
 		const association = this.route.snapshot.paramMap.get('association');
 		if (this.id == 0) {
@@ -130,7 +130,9 @@ export class {{Structname}}DetailComponent implements OnInit {
 						this.{{structname}} = new ({{Structname}}DB)
 						break;
 					case {{Structname}}DetailComponentState.UPDATE_INSTANCE:
-						this.{{structname}} = frontRepo.{{Structname}}s.get(this.id)
+						let {{structname}} = frontRepo.{{Structname}}s.get(this.id)
+						console.assert({{structname}} != undefined, "missing {{structname}} with id:" + this.id)
+						this.{{structname}} = {{structname}}!
 						break;
 					// insertion point for init of association field{{` + string(rune(NgDetailTsInsertionPerStructCaseSetField)) + `}}
 					default:
@@ -165,7 +167,7 @@ export class {{Structname}}DetailComponent implements OnInit {
 			default:
 				this.{{structname}}Service.post{{Structname}}(this.{{structname}}).subscribe({{structname}} => {
 					this.{{structname}}Service.{{Structname}}ServiceChanged.next("post")
-					this.{{structname}} = {} // reset fields
+					this.{{structname}} = new ({{Structname}}DB) // reset fields
 				});
 		}
 	}
@@ -174,7 +176,7 @@ export class {{Structname}}DetailComponent implements OnInit {
 	// ONE-MANY association
 	// It uses the MapOfComponent provided by the front repo
 	openReverseSelection(AssociatedStruct: string, reverseField: string, selectionMode: string,
-		sourceField: string, intermediateStructField: string, nextAssociatedStruct: string ) {
+		sourceField: string, intermediateStructField: string, nextAssociatedStruct: string) {
 
 		console.log("mode " + selectionMode)
 
@@ -188,7 +190,7 @@ export class {{Structname}}DetailComponent implements OnInit {
 		dialogConfig.height = "50%"
 		if (selectionMode == SelectionMode.ONE_MANY_ASSOCIATION_MODE) {
 
-			dialogData.ID = this.{{structname}}.ID
+			dialogData.ID = this.{{structname}}.ID!
 			dialogData.ReversePointer = reverseField
 			dialogData.OrderingMode = false
 			dialogData.SelectionMode = selectionMode
@@ -204,7 +206,7 @@ export class {{Structname}}DetailComponent implements OnInit {
 			});
 		}
 		if (selectionMode == SelectionMode.MANY_MANY_ASSOCIATION_MODE) {
-			dialogData.ID = this.{{structname}}.ID
+			dialogData.ID = this.{{structname}}.ID!
 			dialogData.ReversePointer = reverseField
 			dialogData.OrderingMode = false
 			dialogData.SelectionMode = selectionMode
@@ -255,7 +257,7 @@ export class {{Structname}}DetailComponent implements OnInit {
 		});
 	}
 
-	fillUpNameIfEmpty(event) {
+	fillUpNameIfEmpty(event: { value: { Name: string; }; }) {
 		if (this.{{structname}}.Name == undefined) {
 			this.{{structname}}.Name = event.value.Name
 		}
@@ -272,7 +274,7 @@ export class {{Structname}}DetailComponent implements OnInit {
 
 	isATextArea(fieldName: string): boolean {
 		if (this.mapFields_displayAsTextArea.has(fieldName)) {
-			return this.mapFields_displayAsTextArea.get(fieldName)
+			return this.mapFields_displayAsTextArea.get(fieldName)!
 		} else {
 			return false
 		}
@@ -325,6 +327,7 @@ const (
 
 	NgDetailTSPointerToGongStructSaves
 
+	NgDetailTSReversePointerToSliceOfGongStructImports
 	NgDetailTSReversePointerToSliceOfGongStructStateEnumDeclaration
 	NgDetailTSReversePointerToSliceOfGongStructStateCaseComputation
 	NgDetailTSReversePointerToSliceOfGongStructStateCaseSetField
@@ -336,7 +339,7 @@ var NgDetailSubTemplateCode map[NgDetailSubTemplate]string = map[NgDetailSubTemp
 	NgDetailTSEnumImports: `
 import { {{EnumName}}Select, {{EnumName}}List } from '../{{EnumName}}'`,
 	NgDetailTSEnumDeclarations: `
-	{{EnumName}}List: {{EnumName}}Select[]`,
+	{{EnumName}}List: {{EnumName}}Select[] = []`,
 	NgDetailTSEnumInits: `
 		this.{{EnumName}}List = {{EnumName}}List`,
 
@@ -350,9 +353,9 @@ import { {{EnumName}}Select, {{EnumName}}List } from '../{{EnumName}}'`,
 		this.{{structname}}.{{FieldName}} = this.{{FieldName}}FormControl.value`,
 
 	NgDetailTSTimeDurationDeclarations: `
-	{{FieldName}}_Hours: number
-	{{FieldName}}_Minutes: number
-	{{FieldName}}_Seconds: number`,
+	{{FieldName}}_Hours: number = 0
+	{{FieldName}}_Minutes: number = 0
+	{{FieldName}}_Seconds: number = 0`,
 
 	NgDetailTSTimeDurationRecoveries: `
 				// computation of Hours, Minutes, Seconds for {{FieldName}}
@@ -378,19 +381,22 @@ import { {{EnumName}}Select, {{EnumName}}List } from '../{{EnumName}}'`,
 			this.{{structname}}.{{FieldName}}ID.Valid = true
 		}`,
 
+	NgDetailTSReversePointerToSliceOfGongStructImports: `
+import { {{AssocStructName}}DB } from '../{{assocStructName}}-db'`,
+
 	NgDetailTSReversePointerToSliceOfGongStructStateEnumDeclaration: `
 	CREATE_INSTANCE_WITH_ASSOCIATION_{{AssocStructName}}_{{FieldName}}_SET,`,
 
 	NgDetailTSReversePointerToSliceOfGongStructStateCaseComputation: `
 					case "{{FieldName}}":
-						console.log("{{Structname}}" + " is instanciated with back pointer to instance " + this.id + " {{AssocStructName}} association {{FieldName}}")
+						// console.log("{{Structname}}" + " is instanciated with back pointer to instance " + this.id + " {{AssocStructName}} association {{FieldName}}")
 						this.state = {{Structname}}DetailComponentState.CREATE_INSTANCE_WITH_ASSOCIATION_{{AssocStructName}}_{{FieldName}}_SET
 						break;`,
 
 	NgDetailTSReversePointerToSliceOfGongStructStateCaseSetField: `
 					case {{Structname}}DetailComponentState.CREATE_INSTANCE_WITH_ASSOCIATION_{{AssocStructName}}_{{FieldName}}_SET:
 						this.{{structname}} = new ({{Structname}}DB)
-						this.{{structname}}.{{AssocStructName}}_{{FieldName}}_reverse = frontRepo.{{AssocStructName}}s.get(this.id)
+						this.{{structname}}.{{AssocStructName}}_{{FieldName}}_reverse = frontRepo.{{AssocStructName}}s.get(this.id)!
 						break;`,
 
 	NgDetailTSReversePointerToSliceOfGongStructSavesWhenUpdate: `
@@ -404,7 +410,7 @@ import { {{EnumName}}Select, {{EnumName}}List } from '../{{EnumName}}'`,
 				this.{{structname}}.{{AssocStructName}}_{{FieldName}}DBID_Index = new NullInt64
 			}
 			this.{{structname}}.{{AssocStructName}}_{{FieldName}}DBID_Index.Valid = true
-			this.{{structname}}.{{AssocStructName}}_{{FieldName}}_reverse = undefined // very important, otherwise, circular JSON
+			this.{{structname}}.{{AssocStructName}}_{{FieldName}}_reverse = new {{AssocStructName}}DB // very important, otherwise, circular JSON
 		}`,
 }
 
@@ -645,6 +651,17 @@ func MultiCodeGeneratorNgDetail(
 				case *SliceOfPointerToGongStructField:
 
 					if field.GongStruct == _struct {
+						var importToInsert = Replace2(
+							NgDetailSubTemplateCode[NgDetailTSReversePointerToSliceOfGongStructImports],
+							"{{AssocStructName}}", __struct.Name,
+							"{{assocStructName}}", strings.ToLower(__struct.Name))
+
+						// cannot insert twice the same import and do not import the struct of interest
+						if !strings.Contains(TSinsertions[NgDetailTsInsertionPerStructImports], importToInsert) &&
+							__struct.Name != _struct.Name {
+							TSinsertions[NgDetailTsInsertionPerStructImports] += importToInsert
+						}
+
 						TSinsertions[NgDetailTsInsertionPerStructEnumFieldDeclarations] +=
 							Replace2(NgDetailSubTemplateCode[NgDetailTSReversePointerToSliceOfGongStructStateEnumDeclaration],
 								"{{FieldName}}", field.Name,

@@ -8,8 +8,8 @@ import { FrontRepoService, FrontRepo } from '../front-repo.service'
 import { CommitNbService } from '../commitnb.service'
 
 // insertion point for per struct import code
-import { AclassService } from '../aclass.service'
-import { getAclassUniqueID } from '../front-repo.service'
+import { AstructService } from '../astruct.service'
+import { getAstructUniqueID } from '../front-repo.service'
 
 /**
  * Types of a GongNode / GongFlatNode
@@ -26,7 +26,7 @@ export enum GongNodeType {
  */
 interface GongNode {
   name: string; // if STRUCT, the name of the struct, if INSTANCE the name of the instance
-  children?: GongNode[];
+  children: GongNode[];
   type: GongNodeType;
   structName: string;
   associationField: string;
@@ -133,8 +133,8 @@ export class SidebarComponent implements OnInit {
   hasChild = (_: number, node: GongFlatNode) => node.expandable;
 
   // front repo
-  frontRepo: FrontRepo
-  commitNb: number
+  frontRepo: FrontRepo = new (FrontRepo)
+  commitNb: number = 0
 
   // "data" tree that is constructed during NgInit and is passed to the mat-tree component
   gongNodeTree = new Array<GongNode>();
@@ -145,7 +145,7 @@ export class SidebarComponent implements OnInit {
     private commitNbService: CommitNbService,
 
     // insertion point for per struct service declaration
-    private aclassService: AclassService,
+    private astructService: AstructService,
   ) { }
 
   ngOnInit(): void {
@@ -153,7 +153,7 @@ export class SidebarComponent implements OnInit {
 
     // insertion point for per struct observable for refresh trigger
     // observable for changes in structs
-    this.aclassService.AclassServiceChanged.subscribe(
+    this.astructService.AstructServiceChanged.subscribe(
       message => {
         if (message == "post" || message == "update" || message == "delete") {
           this.refresh()
@@ -170,38 +170,37 @@ export class SidebarComponent implements OnInit {
       let memoryOfExpandedNodes = new Map<number, boolean>()
       let nonInstanceNodeId = 1
 
-      if (this.treeControl.dataNodes != undefined) {
-        this.treeControl.dataNodes.forEach(
-          node => {
-            if (this.treeControl.isExpanded(node)) {
-              memoryOfExpandedNodes[node.uniqueIdPerStack] = true
-            } else {
-              memoryOfExpandedNodes[node.uniqueIdPerStack] = false
-            }
+      this.treeControl.dataNodes?.forEach(
+        node => {
+          if (this.treeControl.isExpanded(node)) {
+            memoryOfExpandedNodes.set(node.uniqueIdPerStack, true)
+          } else {
+            memoryOfExpandedNodes.set(node.uniqueIdPerStack, false)
           }
-        )
-      }
+        }
+      )
 
+      // reset the gong node tree
       this.gongNodeTree = new Array<GongNode>();
-
+      
       // insertion point for per struct tree construction
       /**
-      * fill up the Aclass part of the mat tree
+      * fill up the Astruct part of the mat tree
       */
-      let aclassGongNodeStruct: GongNode = {
-        name: "Aclass",
+      let astructGongNodeStruct: GongNode = {
+        name: "Astruct",
         type: GongNodeType.STRUCT,
         id: 0,
         uniqueIdPerStack: 13 * nonInstanceNodeId,
-        structName: "Aclass",
+        structName: "Astruct",
         associationField: "",
         associatedStructName: "",
         children: new Array<GongNode>()
       }
       nonInstanceNodeId = nonInstanceNodeId + 1
-      this.gongNodeTree.push(aclassGongNodeStruct)
+      this.gongNodeTree.push(astructGongNodeStruct)
 
-      this.frontRepo.Aclasss_array.sort((t1, t2) => {
+      this.frontRepo.Astructs_array.sort((t1, t2) => {
         if (t1.Name > t2.Name) {
           return 1;
         }
@@ -211,51 +210,51 @@ export class SidebarComponent implements OnInit {
         return 0;
       });
 
-      this.frontRepo.Aclasss_array.forEach(
-        aclassDB => {
-          let aclassGongNodeInstance: GongNode = {
-            name: aclassDB.Name,
+      this.frontRepo.Astructs_array.forEach(
+        astructDB => {
+          let astructGongNodeInstance: GongNode = {
+            name: astructDB.Name,
             type: GongNodeType.INSTANCE,
-            id: aclassDB.ID,
-            uniqueIdPerStack: getAclassUniqueID(aclassDB.ID),
-            structName: "Aclass",
+            id: astructDB.ID,
+            uniqueIdPerStack: getAstructUniqueID(astructDB.ID),
+            structName: "Astruct",
             associationField: "",
             associatedStructName: "",
             children: new Array<GongNode>()
           }
-          aclassGongNodeStruct.children.push(aclassGongNodeInstance)
+          astructGongNodeStruct.children!.push(astructGongNodeInstance)
 
           // insertion point for per field code
           /**
           * let append a node for the slide of pointer Anarrayofa
           */
           let AnarrayofaGongNodeAssociation: GongNode = {
-            name: "(Aclass) Anarrayofa",
+            name: "(Astruct) Anarrayofa",
             type: GongNodeType.ONE__ZERO_MANY_ASSOCIATION,
-            id: aclassDB.ID,
+            id: astructDB.ID,
             uniqueIdPerStack: 19 * nonInstanceNodeId,
-            structName: "Aclass",
+            structName: "Astruct",
             associationField: "Anarrayofa",
-            associatedStructName: "Aclass",
+            associatedStructName: "Astruct",
             children: new Array<GongNode>()
           }
           nonInstanceNodeId = nonInstanceNodeId + 1
-          aclassGongNodeInstance.children.push(AnarrayofaGongNodeAssociation)
+          astructGongNodeInstance.children.push(AnarrayofaGongNodeAssociation)
 
-          aclassDB.Anarrayofa?.forEach(aclassDB => {
-            let aclassNode: GongNode = {
-              name: aclassDB.Name,
+          astructDB.Anarrayofa?.forEach(astructDB => {
+            let astructNode: GongNode = {
+              name: astructDB.Name,
               type: GongNodeType.INSTANCE,
-              id: aclassDB.ID,
+              id: astructDB.ID,
               uniqueIdPerStack: // godel numbering (thank you kurt)
-                7 * getAclassUniqueID(aclassDB.ID)
-                + 11 * getAclassUniqueID(aclassDB.ID),
-              structName: "Aclass",
+                7 * getAstructUniqueID(astructDB.ID)
+                + 11 * getAstructUniqueID(astructDB.ID),
+              structName: "Astruct",
               associationField: "",
               associatedStructName: "",
               children: new Array<GongNode>()
             }
-            AnarrayofaGongNodeAssociation.children.push(aclassNode)
+            AnarrayofaGongNodeAssociation.children.push(astructNode)
           })
 
         }
@@ -265,17 +264,13 @@ export class SidebarComponent implements OnInit {
       this.dataSource.data = this.gongNodeTree
 
       // expand nodes that were exapanded before
-      if (this.treeControl.dataNodes != undefined) {
-        this.treeControl.dataNodes.forEach(
-          node => {
-            if (memoryOfExpandedNodes[node.uniqueIdPerStack] != undefined) {
-              if (memoryOfExpandedNodes[node.uniqueIdPerStack]) {
-                this.treeControl.expand(node)
-              }
-            }
+      this.treeControl.dataNodes?.forEach(
+        node => {
+          if (memoryOfExpandedNodes.get(node.uniqueIdPerStack)) {
+            this.treeControl.expand(node)
           }
-        )
-      }
+        }
+      )
     });
 
     // fetch the number of commits
@@ -321,7 +316,7 @@ export class SidebarComponent implements OnInit {
     }
   }
 
-  setEditorRouterOutlet(path) {
+  setEditorRouterOutlet(path: string) {
     this.router.navigate([{
       outlets: {
         github_com_fullstack_lang_gong_test2_go_editor: ["github_com_fullstack_lang_gong_test2_go-" + path.toLowerCase()]
@@ -329,7 +324,7 @@ export class SidebarComponent implements OnInit {
     }]);
   }
 
-  setEditorSpecialRouterOutlet( node: GongFlatNode) {
+  setEditorSpecialRouterOutlet(node: GongFlatNode) {
     this.router.navigate([{
       outlets: {
         github_com_fullstack_lang_gong_test2_go_editor: ["github_com_fullstack_lang_gong_test2_go-" + node.associatedStructName.toLowerCase() + "-adder", node.id, node.structName, node.associationField]

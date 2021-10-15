@@ -23,13 +23,13 @@ export class DstructPresentationComponent implements OnInit {
 
 	// insertion point for declarations
 
-	displayedColumns: string[] = [];
-	dataSource = ELEMENT_DATA;
+	displayedColumns: string[] = []
+	dataSource = ELEMENT_DATA
 
-	dstruct: DstructDB;
+	dstruct: DstructDB = new (DstructDB)
 
 	// front repo
-	frontRepo: FrontRepo
+	frontRepo: FrontRepo = new (FrontRepo)
  
 	constructor(
 		private dstructService: DstructService,
@@ -56,12 +56,12 @@ export class DstructPresentationComponent implements OnInit {
 	}
 
 	getDstruct(): void {
-		const id = +this.route.snapshot.paramMap.get('id');
+		const id = +this.route.snapshot.paramMap.get('id')!
 		this.frontRepoService.pull().subscribe(
 			frontRepo => {
 				this.frontRepo = frontRepo
 
-				this.dstruct = this.frontRepo.Dstructs.get(id)
+				this.dstruct = this.frontRepo.Dstructs.get(id)!
 
 				// insertion point for recovery of durations
 			}
