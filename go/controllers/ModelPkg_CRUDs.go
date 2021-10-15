@@ -2,6 +2,7 @@
 package controllers
 
 import (
+	"log"
 	"net/http"
 	"time"
 
@@ -47,7 +48,7 @@ type ModelPkgInput struct {
 //        200: modelpkgDBsResponse
 func GetModelPkgs(c *gin.Context) {
 	db := orm.BackRepo.BackRepoModelPkg.GetDB()
-	
+
 	// source slice
 	var modelpkgDBs []orm.ModelPkgDB
 	query := db.Find(&modelpkgDBs)
@@ -55,6 +56,7 @@ func GetModelPkgs(c *gin.Context) {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = query.Error.Error()
+		log.Println(query.Error.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -102,6 +104,7 @@ func PostModelPkg(c *gin.Context) {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -116,6 +119,7 @@ func PostModelPkg(c *gin.Context) {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = query.Error.Error()
+		log.Println(query.Error.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -145,6 +149,7 @@ func GetModelPkg(c *gin.Context) {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -179,6 +184,7 @@ func UpdateModelPkg(c *gin.Context) {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = query.Error.Error()
+		log.Println(query.Error.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -186,6 +192,7 @@ func UpdateModelPkg(c *gin.Context) {
 	// Validate input
 	var input orm.ModelPkgAPI
 	if err := c.ShouldBindJSON(&input); err != nil {
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
@@ -199,6 +206,7 @@ func UpdateModelPkg(c *gin.Context) {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = query.Error.Error()
+		log.Println(query.Error.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -228,6 +236,7 @@ func DeleteModelPkg(c *gin.Context) {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}

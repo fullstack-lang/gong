@@ -5,7 +5,7 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { Test2Module } from 'test2'
-import { TestModule } from 'test'
+// import { TestModule } from 'test'
 
 import { AngularSplitModule, SplitComponent } from 'angular-split';
 
@@ -22,7 +22,7 @@ import { HttpClientModule } from '@angular/common/http';
 
     HttpClientModule,
     Test2Module,
-    TestModule,
+    // TestModule,
 
     AngularSplitModule
   ],

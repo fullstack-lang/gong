@@ -24,6 +24,8 @@ import { catchError, map, tap } from 'rxjs/operators';
 
 import { {{Structname}}DB } from './{{structname}}-db';
 
+// insertion point for imports{{` + string(rune(NgServiceTsInsertionImports)) + `}}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -46,14 +48,14 @@ export class {{Structname}}Service {
   ) {
     // path to the service share the same origin with the path to the document
     // get the origin in the URL to the document
-	let origin = this.document.location.origin
-    
-	// if debugging with ng, replace 4200 with 8080
-	origin = origin.replace("4200", "8080")
+    let origin = this.document.location.origin
+
+    // if debugging with ng, replace 4200 with 8080
+    origin = origin.replace("4200", "8080")
 
     // compute path to the service
     this.{{structname}}sUrl = origin + '/api/{{PkgPathRoot}}/v1/{{structname}}s';
-   }
+  }
 
   /** GET {{structname}}s from the server */
   get{{Structname}}s(): Observable<{{Structname}}DB[]> {
@@ -78,15 +80,15 @@ export class {{Structname}}Service {
   /** POST: add a new {{structname}} to the server */
   post{{Structname}}({{structname}}db: {{Structname}}DB): Observable<{{Structname}}DB> {
 
-		// insertion point for reset of pointers and reverse pointers (to avoid circular JSON){{` + string(rune(NgServiceTsInsertionPointerReset)) + `}}
+    // insertion point for reset of pointers and reverse pointers (to avoid circular JSON){{` + string(rune(NgServiceTsInsertionPointerReset)) + `}}
 
-		return this.http.post<{{Structname}}DB>(this.{{structname}}sUrl, {{structname}}db, this.httpOptions).pipe(
-			tap(_ => {
-				// insertion point for restoration of reverse pointers{{` + string(rune(NgServiceTsInsertionPointerRestore)) + `}}
-				this.log(` + "`" + `posted {{structname}}db id=${{{structname}}db.ID}` + "`" + `)
-			}),
-			catchError(this.handleError<{{Structname}}DB>('post{{Structname}}'))
-		);
+    return this.http.post<{{Structname}}DB>(this.{{structname}}sUrl, {{structname}}db, this.httpOptions).pipe(
+      tap(_ => {
+        // insertion point for restoration of reverse pointers{{` + string(rune(NgServiceTsInsertionPointerRestore)) + `}}
+        this.log(` + "`" + `posted {{structname}}db id=${{{structname}}db.ID}` + "`" + `)
+      }),
+      catchError(this.handleError<{{Structname}}DB>('post{{Structname}}'))
+    );
   }
 
   /** DELETE: delete the {{structname}}db from the server */
@@ -107,7 +109,7 @@ export class {{Structname}}Service {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON){{` + string(rune(NgServiceTsInsertionPointerReset)) + `}}
 
-    return this.http.put(url, {{structname}}db, this.httpOptions).pipe(
+    return this.http.put<{{Structname}}DB>(url, {{structname}}db, this.httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers{{` + string(rune(NgServiceTsInsertionPointerRestore)) + `}}
         this.log(` + "`" + `updated {{structname}}db id=${{{structname}}db.ID}` + "`" + `)
@@ -150,32 +152,44 @@ const (
 	NgServiceTsInsertionPointerReset NgServiceTsInsertionPoint = iota
 	NgServiceTsInsertionPointerRestore
 
+	NgServiceTsInsertionImports
+
 	NgServiceTsInsertionsNb
 )
 
 type NgServiceSubTemplate int
 
 const (
-	NgServiceTSPointerToGongStructReset NgServiceSubTemplate = iota
+	NgServiceTSPointerToGongStructImports NgServiceSubTemplate = iota
+	NgServiceTSPointerToGongStructReset
+
 	NgServiceTSSliceOfPointerToGongStructReset
 	NgServiceTSSliceOfPointerToGongStructReversePointerReset
 	NgServiceTSSliceOfPointerToGongStructReversePointerRestore
+
+	NgServiceTSReversePointerToSliceOfGongStructImports
 )
 
 var NgServiceSubTemplateCode map[NgServiceSubTemplate]string = map[NgServiceSubTemplate]string{
 
+	NgServiceTSPointerToGongStructImports: `
+import { {{AssocStructName}}DB } from './{{assocStructName}}-db'`,
+
 	NgServiceTSPointerToGongStructReset: `
-    {{structname}}db.{{FieldName}} = {}`,
+    {{structname}}db.{{FieldName}} = new {{AssocStructName}}DB`,
 
 	NgServiceTSSliceOfPointerToGongStructReset: `
     {{structname}}db.{{FieldName}} = []`,
 
 	NgServiceTSSliceOfPointerToGongStructReversePointerReset: `
     let _{{AssocStructName}}_{{FieldName}}_reverse = {{structname}}db.{{AssocStructName}}_{{FieldName}}_reverse
-    {{structname}}db.{{AssocStructName}}_{{FieldName}}_reverse = {}`,
+    {{structname}}db.{{AssocStructName}}_{{FieldName}}_reverse = new {{AssocStructName}}DB`,
 
 	NgServiceTSSliceOfPointerToGongStructReversePointerRestore: `
         {{structname}}db.{{AssocStructName}}_{{FieldName}}_reverse = _{{AssocStructName}}_{{FieldName}}_reverse`,
+
+	NgServiceTSReversePointerToSliceOfGongStructImports: `
+import { {{AssocStructName}}DB } from './{{assocStructName}}-db'`,
 }
 
 // MultiCodeGeneratorNgService generates the code for the
@@ -213,8 +227,18 @@ func MultiCodeGeneratorNgService(
 			case *PointerToGongStructField:
 
 				TSinsertions[NgServiceTsInsertionPointerReset] +=
-					Replace1(NgServiceSubTemplateCode[NgServiceTSPointerToGongStructReset],
-						"{{FieldName}}", field.Name)
+					Replace2(NgServiceSubTemplateCode[NgServiceTSPointerToGongStructReset],
+						"{{FieldName}}", field.Name,
+						"{{AssocStructName}}", field.GongStruct.Name)
+
+				var importToInsert = Replace2(NgServiceSubTemplateCode[NgServiceTSPointerToGongStructImports],
+					"{{AssocStructName}}", field.GongStruct.Name,
+					"{{assocStructName}}", strings.ToLower(field.GongStruct.Name))
+
+				// cannot insert twice the same import
+				if !strings.Contains(TSinsertions[NgServiceTsInsertionImports], importToInsert) {
+					TSinsertions[NgServiceTsInsertionImports] += importToInsert
+				}
 
 			case *SliceOfPointerToGongStructField:
 
@@ -244,6 +268,15 @@ func MultiCodeGeneratorNgService(
 								"{{FieldName}}", field.Name,
 								"{{AssocStructName}}", __struct.Name)
 
+						var importToInsert = Replace2(NgServiceSubTemplateCode[NgServiceTSReversePointerToSliceOfGongStructImports],
+							"{{AssocStructName}}", __struct.Name,
+							"{{assocStructName}}", strings.ToLower(__struct.Name))
+
+						// cannot insert twice the same import
+						if !strings.Contains(TSinsertions[NgServiceTsInsertionImports], importToInsert) &&
+							__struct.Name != _struct.Name {
+							TSinsertions[NgServiceTsInsertionImports] += importToInsert
+						}
 					}
 				}
 			}

@@ -2,6 +2,7 @@
 package controllers
 
 import (
+	"log"
 	"net/http"
 	"time"
 
@@ -47,7 +48,7 @@ type AstructBstructUseInput struct {
 //        200: astructbstructuseDBsResponse
 func GetAstructBstructUses(c *gin.Context) {
 	db := orm.BackRepo.BackRepoAstructBstructUse.GetDB()
-	
+
 	// source slice
 	var astructbstructuseDBs []orm.AstructBstructUseDB
 	query := db.Find(&astructbstructuseDBs)
@@ -55,6 +56,7 @@ func GetAstructBstructUses(c *gin.Context) {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = query.Error.Error()
+		log.Println(query.Error.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -102,6 +104,7 @@ func PostAstructBstructUse(c *gin.Context) {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -116,6 +119,7 @@ func PostAstructBstructUse(c *gin.Context) {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = query.Error.Error()
+		log.Println(query.Error.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -145,6 +149,7 @@ func GetAstructBstructUse(c *gin.Context) {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -179,6 +184,7 @@ func UpdateAstructBstructUse(c *gin.Context) {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = query.Error.Error()
+		log.Println(query.Error.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -186,6 +192,7 @@ func UpdateAstructBstructUse(c *gin.Context) {
 	// Validate input
 	var input orm.AstructBstructUseAPI
 	if err := c.ShouldBindJSON(&input); err != nil {
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
@@ -199,6 +206,7 @@ func UpdateAstructBstructUse(c *gin.Context) {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = query.Error.Error()
+		log.Println(query.Error.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
@@ -228,6 +236,7 @@ func DeleteAstructBstructUse(c *gin.Context) {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
+		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}

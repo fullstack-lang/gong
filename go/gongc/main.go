@@ -199,7 +199,7 @@ func main() {
 			}
 			{
 				cmd := exec.Command("npm", "install", "--save",
-					"angular-split", "material-design-icons", "typeface-open-sans", "typeface-roboto")
+					"angular-split", "material-design-icons", "typeface-open-sans", "typeface-roboto", "@angular-material-components/datetime-picker")
 				cmd.Dir = gong_models.NgWorkspacePath
 				log.Printf("Installing some packages\n")
 
@@ -347,6 +347,13 @@ func main() {
 		*addr)
 
 	gong_models.CodeGeneratorNgCommitNb(
+		&modelPkg,
+		gong_models.PkgName,
+		gong_models.MatTargetPath,
+		gong_models.PkgGoPath,
+		*addr)
+
+	gong_models.CodeGeneratorNgNullInt64(
 		&modelPkg,
 		gong_models.PkgName,
 		gong_models.MatTargetPath,

@@ -16,6 +16,7 @@
       "es2018",
       "dom"
     ],
+    "strict": true,
     "paths": {
       "test2": [
         "projects/test2/src/public-api.ts",

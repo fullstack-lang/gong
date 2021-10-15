@@ -7,7 +7,8 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatButton } from '@angular/material/button'
 
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog'
-import { DialogData, FrontRepoService, FrontRepo, NullInt64, SelectionMode } from '../front-repo.service'
+import { DialogData, FrontRepoService, FrontRepo, SelectionMode } from '../front-repo.service'
+import { NullInt64 } from '../null-int64'
 import { SelectionModel } from '@angular/cdk/collections';
 
 const allowMultiSelect = true;
@@ -33,26 +34,28 @@ enum TableComponentMode {
 export class AstructBstruct2UsesTableComponent implements OnInit {
 
   // mode at invocation
-  mode: TableComponentMode
+  mode: TableComponentMode = TableComponentMode.DISPLAY_MODE
 
   // used if the component is called as a selection component of AstructBstruct2Use instances
-  selection: SelectionModel<AstructBstruct2UseDB>;
-  initialSelection = new Array<AstructBstruct2UseDB>();
+  selection: SelectionModel<AstructBstruct2UseDB> = new (SelectionModel)
+  initialSelection = new Array<AstructBstruct2UseDB>()
 
   // the data source for the table
-  astructbstruct2uses: AstructBstruct2UseDB[];
-  matTableDataSource: MatTableDataSource<AstructBstruct2UseDB>
+  astructbstruct2uses: AstructBstruct2UseDB[] = []
+  matTableDataSource: MatTableDataSource<AstructBstruct2UseDB> = new (MatTableDataSource)
 
   // front repo, that will be referenced by this.astructbstruct2uses
-  frontRepo: FrontRepo
+  frontRepo: FrontRepo = new (FrontRepo)
 
   // displayedColumns is referenced by the MatTable component for specify what columns
   // have to be displayed and in what order
   displayedColumns: string[];
 
   // for sorting & pagination
-  @ViewChild(MatSort) sort: MatSort;
-  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort)
+  sort: MatSort | undefined
+  @ViewChild(MatPaginator)
+  paginator: MatPaginator | undefined;
 
   ngAfterViewInit() {
 
@@ -67,10 +70,11 @@ export class AstructBstruct2UsesTableComponent implements OnInit {
           return (astructbstruct2useDB.Bstrcut2 ? astructbstruct2useDB.Bstrcut2.Name : '');
 
         case 'Astruct_Anarrayofb2Use':
-          return this.frontRepo.Astructs.get(astructbstruct2useDB.Astruct_Anarrayofb2UseDBID.Int64)?.Name;
+          return this.frontRepo.Astructs.get(astructbstruct2useDB.Astruct_Anarrayofb2UseDBID.Int64)!.Name;
 
         default:
-          return AstructBstruct2UseDB[property];
+          console.assert(false, "Unknown field")
+          return "";
       }
     };
 
@@ -87,7 +91,7 @@ export class AstructBstruct2UsesTableComponent implements OnInit {
         mergedContent += astructbstruct2useDB.Bstrcut2.Name.toLowerCase()
       }
       if (astructbstruct2useDB.Astruct_Anarrayofb2UseDBID.Int64 != 0) {
-        mergedContent += this.frontRepo.Astructs.get(astructbstruct2useDB.Astruct_Anarrayofb2UseDBID.Int64)?.Name.toLowerCase()
+        mergedContent += this.frontRepo.Astructs.get(astructbstruct2useDB.Astruct_Anarrayofb2UseDBID.Int64)!.Name.toLowerCase()
       }
 
 
@@ -95,8 +99,8 @@ export class AstructBstruct2UsesTableComponent implements OnInit {
       return isSelected
     };
 
-    this.matTableDataSource.sort = this.sort;
-    this.matTableDataSource.paginator = this.paginator;
+    this.matTableDataSource.sort = this.sort!
+    this.matTableDataSource.paginator = this.paginator!
   }
 
   applyFilter(event: Event) {
@@ -174,7 +178,7 @@ export class AstructBstruct2UsesTableComponent implements OnInit {
           this.astructbstruct2uses.forEach(
             astructbstruct2use => {
               let ID = this.dialogData.ID
-              let revPointer = astructbstruct2use[this.dialogData.ReversePointer]
+              let revPointer = astructbstruct2use[this.dialogData.ReversePointer as keyof AstructBstruct2UseDB] as unknown as NullInt64
               if (revPointer.Int64 == ID) {
                 this.initialSelection.push(astructbstruct2use)
               }
@@ -185,15 +189,15 @@ export class AstructBstruct2UsesTableComponent implements OnInit {
 
         if (this.mode == TableComponentMode.MANY_MANY_ASSOCIATION_MODE) {
 
-          let mapOfSourceInstances = this.frontRepo[this.dialogData.SourceStruct + "s"]
-          let sourceInstance = mapOfSourceInstances.get(this.dialogData.ID)
+          let mapOfSourceInstances = this.frontRepo[this.dialogData.SourceStruct + "s" as keyof FrontRepo] as Map<number, AstructBstruct2UseDB>
+          let sourceInstance = mapOfSourceInstances.get(this.dialogData.ID)!
 
-          if (sourceInstance[this.dialogData.SourceField]) {
-            for (let associationInstance of sourceInstance[this.dialogData.SourceField]) {
-              let astructbstruct2use = associationInstance[this.dialogData.IntermediateStructField]
-              this.initialSelection.push(astructbstruct2use)
-            }
+          let sourceField = sourceInstance[this.dialogData.SourceField as keyof typeof sourceInstance]! as unknown as AstructBstruct2UseDB[]
+          for (let associationInstance of sourceField) {
+            let astructbstruct2use = associationInstance[this.dialogData.IntermediateStructField as keyof typeof associationInstance] as unknown as AstructBstruct2UseDB
+            this.initialSelection.push(astructbstruct2use)
           }
+
           this.selection = new SelectionModel<AstructBstruct2UseDB>(allowMultiSelect, this.initialSelection);
         }
 
@@ -269,8 +273,9 @@ export class AstructBstruct2UsesTableComponent implements OnInit {
       // reset all initial selection of astructbstruct2use that belong to astructbstruct2use
       this.initialSelection.forEach(
         astructbstruct2use => {
-          astructbstruct2use[this.dialogData.ReversePointer].Int64 = 0
-          astructbstruct2use[this.dialogData.ReversePointer].Valid = true
+          let index = astructbstruct2use[this.dialogData.ReversePointer as keyof AstructBstruct2UseDB] as unknown as NullInt64
+          index.Int64 = 0
+          index.Valid = true
           toUpdate.add(astructbstruct2use)
         }
       )
@@ -278,9 +283,9 @@ export class AstructBstruct2UsesTableComponent implements OnInit {
       // from selection, set astructbstruct2use that belong to astructbstruct2use
       this.selection.selected.forEach(
         astructbstruct2use => {
-          let ID = +this.dialogData.ID
-          astructbstruct2use[this.dialogData.ReversePointer].Int64 = ID
-          astructbstruct2use[this.dialogData.ReversePointer].Valid = true
+          let ID = this.dialogData.ID as number
+          let reversePointer = astructbstruct2use[this.dialogData.ReversePointer  as keyof AstructBstruct2UseDB] as unknown as NullInt64
+          reversePointer.Int64 = ID
           toUpdate.add(astructbstruct2use)
         }
       )
@@ -298,8 +303,9 @@ export class AstructBstruct2UsesTableComponent implements OnInit {
 
     if (this.mode == TableComponentMode.MANY_MANY_ASSOCIATION_MODE) {
 
-      let mapOfSourceInstances = this.frontRepo[this.dialogData.SourceStruct + "s"]
-      let sourceInstance = mapOfSourceInstances.get(this.dialogData.ID)
+      // get the source instance via the map of instances in the front repo
+      let mapOfSourceInstances = this.frontRepo[this.dialogData.SourceStruct + "s" as keyof FrontRepo] as Map<number, AstructBstruct2UseDB>
+      let sourceInstance = mapOfSourceInstances.get(this.dialogData.ID)!
 
       // First, parse all instance of the association struct and remove the instance
       // that have unselect
@@ -315,23 +321,21 @@ export class AstructBstruct2UsesTableComponent implements OnInit {
       }
 
       // delete the association instance
-      if (sourceInstance[this.dialogData.SourceField]) {
-        for (let associationInstance of sourceInstance[this.dialogData.SourceField]) {
-          let astructbstruct2use = associationInstance[this.dialogData.IntermediateStructField]
-          if (unselectedAstructBstruct2Use.has(astructbstruct2use.ID)) {
+      let associationInstance = sourceInstance[this.dialogData.SourceField as keyof typeof sourceInstance]
+      let astructbstruct2use = associationInstance![this.dialogData.IntermediateStructField as keyof typeof associationInstance] as unknown as AstructBstruct2UseDB
+      if (unselectedAstructBstruct2Use.has(astructbstruct2use.ID)) {
+        this.frontRepoService.deleteService(this.dialogData.IntermediateStruct, associationInstance)
 
-            this.frontRepoService.deleteService( this.dialogData.IntermediateStruct, associationInstance )
-          }
-        }
+
       }
 
-      // is the source array is emptyn create it
-      if (sourceInstance[this.dialogData.SourceField] == undefined) {
-        sourceInstance[this.dialogData.SourceField] = new Array<any>()
+      // is the source array is empty create it
+      if (sourceInstance[this.dialogData.SourceField as keyof typeof sourceInstance] == undefined) {
+        (sourceInstance[this.dialogData.SourceField as keyof typeof sourceInstance] as unknown as Array<AstructBstruct2UseDB>) = new Array<AstructBstruct2UseDB>()
       }
 
       // second, parse all instance of the selected
-      if (sourceInstance[this.dialogData.SourceField]) {
+      if (sourceInstance[this.dialogData.SourceField as keyof typeof sourceInstance]) {
         this.selection.selected.forEach(
           astructbstruct2use => {
             if (!this.initialSelection.includes(astructbstruct2use)) {
@@ -341,13 +345,11 @@ export class AstructBstruct2UsesTableComponent implements OnInit {
                 Name: sourceInstance["Name"] + "-" + astructbstruct2use.Name,
               }
 
-              associationInstance[this.dialogData.IntermediateStructField+"ID"] = new NullInt64
-              associationInstance[this.dialogData.IntermediateStructField+"ID"].Int64 = astructbstruct2use.ID
-              associationInstance[this.dialogData.IntermediateStructField+"ID"].Valid = true
+              let index = associationInstance[this.dialogData.IntermediateStructField+"ID" as keyof typeof associationInstance] as unknown as NullInt64
+              index.Int64 = astructbstruct2use.ID
 
-              associationInstance[this.dialogData.SourceStruct + "_" + this.dialogData.SourceField + "DBID"] = new NullInt64
-              associationInstance[this.dialogData.SourceStruct + "_" + this.dialogData.SourceField + "DBID"].Int64 = sourceInstance["ID"]
-              associationInstance[this.dialogData.SourceStruct + "_" + this.dialogData.SourceField + "DBID"].Valid = true
+              let indexDB = associationInstance[this.dialogData.IntermediateStructField+"DBID" as keyof typeof associationInstance] as unknown as NullInt64
+              indexDB.Int64 = astructbstruct2use.ID
 
               this.frontRepoService.postService( this.dialogData.IntermediateStruct, associationInstance )
 

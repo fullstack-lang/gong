@@ -13,7 +13,7 @@ import (
 const NgLibFrontRepoServiceTemplate = `import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
-import { Observable, combineLatest } from 'rxjs';
+import { Observable, combineLatest, BehaviorSubject } from 'rxjs';
 
 // insertion point sub template for services imports {{` + string(NgLibFrontRepoServiceImports) + `}}
 
@@ -26,12 +26,6 @@ export class FrontRepo { // insertion point sub template {{` + string(NgLibFront
 //
 export const FrontRepoSingloton = new (FrontRepo)
 
-// define the type of nullable Int64 in order to support back pointers IDs
-export class NullInt64 {
-  Int64: number
-  Valid: boolean
-}
-
 // the table component is called in different ways
 //
 // DISPLAY or ASSOCIATION MODE
@@ -41,15 +35,15 @@ export class NullInt64 {
 // DialogData define the interface for information that is forwarded from the calling instance to 
 // the select table
 export class DialogData {
-  ID: number; // ID of the calling instance
+  ID: number = 0 // ID of the calling instance
 
   // the reverse pointer is the name of the generated field on the destination
   // struct of the ONE-MANY association
-  ReversePointer: string; // field of {{Structname}} that serve as reverse pointer
-  OrderingMode: boolean; // if true, this is for ordering items
+  ReversePointer: string = "" // field of {{Structname}} that serve as reverse pointer
+  OrderingMode: boolean = false // if true, this is for ordering items
 
   // there are different selection mode : ONE_MANY or MANY_MANY
-  SelectionMode: SelectionMode;
+  SelectionMode: SelectionMode = SelectionMode.ONE_MANY_ASSOCIATION_MODE
 
   // used if SelectionMode is MANY_MANY_ASSOCIATION_MODE
   //
@@ -57,11 +51,11 @@ export class DialogData {
   // 
   // in the MANY_MANY_ASSOCIATION_MODE case, we need also the Struct and the FieldName that are
   // at the end of the ONE-MANY association
-  SourceStruct: string;  // The "Aclass"
-  SourceField: string; // the "AnarrayofbUse"
-  IntermediateStruct: string; // the "AclassBclassUse" 
-  IntermediateStructField: string; // the "Bclass" as field
-  NextAssociationStruct: string; // the "Bclass"
+  SourceStruct: string = ""  // The "Aclass"
+  SourceField: string = "" // the "AnarrayofbUse"
+  IntermediateStruct: string = "" // the "AclassBclassUse" 
+  IntermediateStructField: string = "" // the "Bclass" as field
+  NextAssociationStruct: string = "" // the "Bclass"
 }
 
 export enum SelectionMode {
@@ -87,20 +81,26 @@ export class FrontRepoService {
 
   // postService provides a post function for each struct name
   postService(structName: string, instanceToBePosted: any) {
-    let service = this[structName.toLowerCase() + "Service"]
-    service["post" + structName](instanceToBePosted).subscribe(
+    let service = this[structName.toLowerCase() + "Service" + "Service" as keyof FrontRepoService]
+    let servicePostFunction = service[("post" + structName) as keyof typeof service] as (instance: typeof instanceToBePosted) => Observable<typeof instanceToBePosted>
+
+    servicePostFunction(instanceToBePosted).subscribe(
       instance => {
-        service[structName + "ServiceChanged"].next("post")
+        let behaviorSubject = instanceToBePosted[(structName + "ServiceChanged") as keyof typeof instanceToBePosted] as unknown as BehaviorSubject<string>
+        behaviorSubject.next("post")
       }
     );
   }
 
   // deleteService provides a delete function for each struct name
   deleteService(structName: string, instanceToBeDeleted: any) {
-    let service = this[structName.toLowerCase() + "Service"]
-    service["delete" + structName](instanceToBeDeleted).subscribe(
+    let service = this[structName.toLowerCase() + "Service" as keyof FrontRepoService]
+    let serviceDeleteFunction = service["delete" + structName as keyof typeof service] as (instance: typeof instanceToBeDeleted) => Observable<typeof instanceToBeDeleted>
+
+    serviceDeleteFunction(instanceToBeDeleted).subscribe(
       instance => {
-        service[structName + "ServiceChanged"].next("delete")
+        let behaviorSubject = instanceToBeDeleted[(structName + "ServiceChanged") as keyof typeof instanceToBeDeleted] as unknown as BehaviorSubject<string>
+        behaviorSubject.next("delete")
       }
     );
   }
@@ -192,7 +192,7 @@ import { {{Structname}}Service } from './{{structname}}.service'
 
 	string(NgLibFrontRepoTypeCasting): `
             var {{structname}}s: {{Structname}}DB[]
-            {{structname}}s = {{structname}}s_`,
+            {{structname}}s = {{structname}}s_ as {{Structname}}DB[]`,
 
 	string(NgLibFrontRepoInitMapInstances): `
             // init the array

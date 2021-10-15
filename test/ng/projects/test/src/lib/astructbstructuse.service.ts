@@ -13,6 +13,10 @@ import { catchError, map, tap } from 'rxjs/operators';
 
 import { AstructBstructUseDB } from './astructbstructuse-db';
 
+// insertion point for imports
+import { BstructDB } from './bstruct-db'
+import { AstructDB } from './astruct-db'
+
 @Injectable({
   providedIn: 'root'
 })
@@ -35,14 +39,14 @@ export class AstructBstructUseService {
   ) {
     // path to the service share the same origin with the path to the document
     // get the origin in the URL to the document
-	let origin = this.document.location.origin
-    
-	// if debugging with ng, replace 4200 with 8080
-	origin = origin.replace("4200", "8080")
+    let origin = this.document.location.origin
+
+    // if debugging with ng, replace 4200 with 8080
+    origin = origin.replace("4200", "8080")
 
     // compute path to the service
     this.astructbstructusesUrl = origin + '/api/github.com/fullstack-lang/gong/test/go/v1/astructbstructuses';
-   }
+  }
 
   /** GET astructbstructuses from the server */
   getAstructBstructUses(): Observable<AstructBstructUseDB[]> {
@@ -67,19 +71,19 @@ export class AstructBstructUseService {
   /** POST: add a new astructbstructuse to the server */
   postAstructBstructUse(astructbstructusedb: AstructBstructUseDB): Observable<AstructBstructUseDB> {
 
-		// insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
-    astructbstructusedb.Bstruct2 = {}
+    // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
+    astructbstructusedb.Bstruct2 = new BstructDB
     let _Astruct_AnarrayofbUse_reverse = astructbstructusedb.Astruct_AnarrayofbUse_reverse
-    astructbstructusedb.Astruct_AnarrayofbUse_reverse = {}
+    astructbstructusedb.Astruct_AnarrayofbUse_reverse = new AstructDB
 
-		return this.http.post<AstructBstructUseDB>(this.astructbstructusesUrl, astructbstructusedb, this.httpOptions).pipe(
-			tap(_ => {
-				// insertion point for restoration of reverse pointers
+    return this.http.post<AstructBstructUseDB>(this.astructbstructusesUrl, astructbstructusedb, this.httpOptions).pipe(
+      tap(_ => {
+        // insertion point for restoration of reverse pointers
         astructbstructusedb.Astruct_AnarrayofbUse_reverse = _Astruct_AnarrayofbUse_reverse
-				this.log(`posted astructbstructusedb id=${astructbstructusedb.ID}`)
-			}),
-			catchError(this.handleError<AstructBstructUseDB>('postAstructBstructUse'))
-		);
+        this.log(`posted astructbstructusedb id=${astructbstructusedb.ID}`)
+      }),
+      catchError(this.handleError<AstructBstructUseDB>('postAstructBstructUse'))
+    );
   }
 
   /** DELETE: delete the astructbstructusedb from the server */
@@ -99,11 +103,11 @@ export class AstructBstructUseService {
     const url = `${this.astructbstructusesUrl}/${id}`;
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
-    astructbstructusedb.Bstruct2 = {}
+    astructbstructusedb.Bstruct2 = new BstructDB
     let _Astruct_AnarrayofbUse_reverse = astructbstructusedb.Astruct_AnarrayofbUse_reverse
-    astructbstructusedb.Astruct_AnarrayofbUse_reverse = {}
+    astructbstructusedb.Astruct_AnarrayofbUse_reverse = new AstructDB
 
-    return this.http.put(url, astructbstructusedb, this.httpOptions).pipe(
+    return this.http.put<AstructBstructUseDB>(url, astructbstructusedb, this.httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
         astructbstructusedb.Astruct_AnarrayofbUse_reverse = _Astruct_AnarrayofbUse_reverse

@@ -12,8 +12,8 @@ var __member __void
 // StageStruct enables storage of staged instances
 // swagger:ignore
 type StageStruct struct { // insertion point for definition of arrays registering instances
-	Aclasss           map[*Aclass]struct{}
-	Aclasss_mapString map[string]*Aclass
+	Astructs           map[*Astruct]struct{}
+	Astructs_mapString map[string]*Astruct
 
 	AllModelsStructCreateCallback AllModelsStructCreateInterface
 
@@ -37,16 +37,16 @@ type BackRepoInterface interface {
 	BackupXL(stage *StageStruct, dirPath string)
 	RestoreXL(stage *StageStruct, dirPath string)
 	// insertion point for Commit and Checkout signatures
-	CommitAclass(aclass *Aclass)
-	CheckoutAclass(aclass *Aclass)
+	CommitAstruct(astruct *Astruct)
+	CheckoutAstruct(astruct *Astruct)
 	GetLastCommitNb() uint
 	GetLastPushFromFrontNb() uint
 }
 
 // swagger:ignore instructs the gong compiler (gongc) to avoid this particular struct
 var Stage StageStruct = StageStruct{ // insertion point for array initiatialisation
-	Aclasss:           make(map[*Aclass]struct{}),
-	Aclasss_mapString: make(map[string]*Aclass),
+	Astructs:           make(map[*Astruct]struct{}),
+	Astructs_mapString: make(map[string]*Astruct),
 
 	// end of insertion point
 }
@@ -92,125 +92,125 @@ func (stage *StageStruct) RestoreXL(dirPath string) {
 }
 
 // insertion point for cumulative sub template with model space calls
-func (stage *StageStruct) getAclassOrderedStructWithNameField() []*Aclass {
+func (stage *StageStruct) getAstructOrderedStructWithNameField() []*Astruct {
 	// have alphabetical order generation
-	aclassOrdered := []*Aclass{}
-	for aclass := range stage.Aclasss {
-		aclassOrdered = append(aclassOrdered, aclass)
+	astructOrdered := []*Astruct{}
+	for astruct := range stage.Astructs {
+		astructOrdered = append(astructOrdered, astruct)
 	}
-	sort.Slice(aclassOrdered[:], func(i, j int) bool {
-		return aclassOrdered[i].Name < aclassOrdered[j].Name
+	sort.Slice(astructOrdered[:], func(i, j int) bool {
+		return astructOrdered[i].Name < astructOrdered[j].Name
 	})
-	return aclassOrdered
+	return astructOrdered
 }
 
-// Stage puts aclass to the model stage
-func (aclass *Aclass) Stage() *Aclass {
-	Stage.Aclasss[aclass] = __member
-	Stage.Aclasss_mapString[aclass.Name] = aclass
+// Stage puts astruct to the model stage
+func (astruct *Astruct) Stage() *Astruct {
+	Stage.Astructs[astruct] = __member
+	Stage.Astructs_mapString[astruct.Name] = astruct
 
-	return aclass
+	return astruct
 }
 
-// Unstage removes aclass off the model stage
-func (aclass *Aclass) Unstage() *Aclass {
-	delete(Stage.Aclasss, aclass)
-	delete(Stage.Aclasss_mapString, aclass.Name)
-	return aclass
+// Unstage removes astruct off the model stage
+func (astruct *Astruct) Unstage() *Astruct {
+	delete(Stage.Astructs, astruct)
+	delete(Stage.Astructs_mapString, astruct.Name)
+	return astruct
 }
 
-// commit aclass to the back repo (if it is already staged)
-func (aclass *Aclass) Commit() *Aclass {
-	if _, ok := Stage.Aclasss[aclass]; ok {
+// commit astruct to the back repo (if it is already staged)
+func (astruct *Astruct) Commit() *Astruct {
+	if _, ok := Stage.Astructs[astruct]; ok {
 		if Stage.BackRepo != nil {
-			Stage.BackRepo.CommitAclass(aclass)
+			Stage.BackRepo.CommitAstruct(astruct)
 		}
 	}
-	return aclass
+	return astruct
 }
 
-// Checkout aclass to the back repo (if it is already staged)
-func (aclass *Aclass) Checkout() *Aclass {
-	if _, ok := Stage.Aclasss[aclass]; ok {
+// Checkout astruct to the back repo (if it is already staged)
+func (astruct *Astruct) Checkout() *Astruct {
+	if _, ok := Stage.Astructs[astruct]; ok {
 		if Stage.BackRepo != nil {
-			Stage.BackRepo.CheckoutAclass(aclass)
+			Stage.BackRepo.CheckoutAstruct(astruct)
 		}
 	}
-	return aclass
+	return astruct
 }
 
 //
 // Legacy, to be deleted
 //
 
-// StageCopy appends a copy of aclass to the model stage
-func (aclass *Aclass) StageCopy() *Aclass {
-	_aclass := new(Aclass)
-	*_aclass = *aclass
-	_aclass.Stage()
-	return _aclass
+// StageCopy appends a copy of astruct to the model stage
+func (astruct *Astruct) StageCopy() *Astruct {
+	_astruct := new(Astruct)
+	*_astruct = *astruct
+	_astruct.Stage()
+	return _astruct
 }
 
-// StageAndCommit appends aclass to the model stage and commit to the orm repo
-func (aclass *Aclass) StageAndCommit() *Aclass {
-	aclass.Stage()
+// StageAndCommit appends astruct to the model stage and commit to the orm repo
+func (astruct *Astruct) StageAndCommit() *Astruct {
+	astruct.Stage()
 	if Stage.AllModelsStructCreateCallback != nil {
-		Stage.AllModelsStructCreateCallback.CreateORMAclass(aclass)
+		Stage.AllModelsStructCreateCallback.CreateORMAstruct(astruct)
 	}
-	return aclass
+	return astruct
 }
 
-// DeleteStageAndCommit appends aclass to the model stage and commit to the orm repo
-func (aclass *Aclass) DeleteStageAndCommit() *Aclass {
-	aclass.Unstage()
-	DeleteORMAclass(aclass)
-	return aclass
+// DeleteStageAndCommit appends astruct to the model stage and commit to the orm repo
+func (astruct *Astruct) DeleteStageAndCommit() *Astruct {
+	astruct.Unstage()
+	DeleteORMAstruct(astruct)
+	return astruct
 }
 
-// StageCopyAndCommit appends a copy of aclass to the model stage and commit to the orm repo
-func (aclass *Aclass) StageCopyAndCommit() *Aclass {
-	_aclass := new(Aclass)
-	*_aclass = *aclass
-	_aclass.Stage()
+// StageCopyAndCommit appends a copy of astruct to the model stage and commit to the orm repo
+func (astruct *Astruct) StageCopyAndCommit() *Astruct {
+	_astruct := new(Astruct)
+	*_astruct = *astruct
+	_astruct.Stage()
 	if Stage.AllModelsStructCreateCallback != nil {
-		Stage.AllModelsStructCreateCallback.CreateORMAclass(aclass)
+		Stage.AllModelsStructCreateCallback.CreateORMAstruct(astruct)
 	}
-	return _aclass
+	return _astruct
 }
 
-// CreateORMAclass enables dynamic staging of a Aclass instance
-func CreateORMAclass(aclass *Aclass) {
-	aclass.Stage()
+// CreateORMAstruct enables dynamic staging of a Astruct instance
+func CreateORMAstruct(astruct *Astruct) {
+	astruct.Stage()
 	if Stage.AllModelsStructCreateCallback != nil {
-		Stage.AllModelsStructCreateCallback.CreateORMAclass(aclass)
+		Stage.AllModelsStructCreateCallback.CreateORMAstruct(astruct)
 	}
 }
 
-// DeleteORMAclass enables dynamic staging of a Aclass instance
-func DeleteORMAclass(aclass *Aclass) {
-	aclass.Unstage()
+// DeleteORMAstruct enables dynamic staging of a Astruct instance
+func DeleteORMAstruct(astruct *Astruct) {
+	astruct.Unstage()
 	if Stage.AllModelsStructDeleteCallback != nil {
-		Stage.AllModelsStructDeleteCallback.DeleteORMAclass(aclass)
+		Stage.AllModelsStructDeleteCallback.DeleteORMAstruct(astruct)
 	}
 }
 
 // swagger:ignore
 type AllModelsStructCreateInterface interface { // insertion point for Callbacks on creation
-	CreateORMAclass(Aclass *Aclass)
+	CreateORMAstruct(Astruct *Astruct)
 }
 
 type AllModelsStructDeleteInterface interface { // insertion point for Callbacks on deletion
-	DeleteORMAclass(Aclass *Aclass)
+	DeleteORMAstruct(Astruct *Astruct)
 }
 
 func (stage *StageStruct) Reset() { // insertion point for array reset
-	stage.Aclasss = make(map[*Aclass]struct{})
-	stage.Aclasss_mapString = make(map[string]*Aclass)
+	stage.Astructs = make(map[*Astruct]struct{})
+	stage.Astructs_mapString = make(map[string]*Astruct)
 
 }
 
 func (stage *StageStruct) Nil() { // insertion point for array nil
-	stage.Aclasss = nil
-	stage.Aclasss_mapString = nil
+	stage.Astructs = nil
+	stage.Astructs_mapString = nil
 
 }

@@ -24,7 +24,8 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatButton } from '@angular/material/button'
 
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog'
-import { DialogData, FrontRepoService, FrontRepo, NullInt64, SelectionMode } from '../front-repo.service'
+import { DialogData, FrontRepoService, FrontRepo, SelectionMode } from '../front-repo.service'
+import { NullInt64 } from '../null-int64'
 import { SelectionModel } from '@angular/cdk/collections';
 
 const allowMultiSelect = true;
@@ -50,26 +51,28 @@ enum TableComponentMode {
 export class {{Structname}}sTableComponent implements OnInit {
 
   // mode at invocation
-  mode: TableComponentMode
+  mode: TableComponentMode = TableComponentMode.DISPLAY_MODE
 
   // used if the component is called as a selection component of {{Structname}} instances
-  selection: SelectionModel<{{Structname}}DB>;
-  initialSelection = new Array<{{Structname}}DB>();
+  selection: SelectionModel<{{Structname}}DB> = new (SelectionModel)
+  initialSelection = new Array<{{Structname}}DB>()
 
   // the data source for the table
-  {{structname}}s: {{Structname}}DB[];
-  matTableDataSource: MatTableDataSource<{{Structname}}DB>
+  {{structname}}s: {{Structname}}DB[] = []
+  matTableDataSource: MatTableDataSource<{{Structname}}DB> = new (MatTableDataSource)
 
   // front repo, that will be referenced by this.{{structname}}s
-  frontRepo: FrontRepo
+  frontRepo: FrontRepo = new (FrontRepo)
 
   // displayedColumns is referenced by the MatTable component for specify what columns
   // have to be displayed and in what order
   displayedColumns: string[];
 
   // for sorting & pagination
-  @ViewChild(MatSort) sort: MatSort;
-  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort)
+  sort: MatSort | undefined
+  @ViewChild(MatPaginator)
+  paginator: MatPaginator | undefined;
 
   ngAfterViewInit() {
 
@@ -78,7 +81,8 @@ export class {{Structname}}sTableComponent implements OnInit {
       switch (property) {
         // insertion point for specific sorting accessor{{` + string(rune(NgTableTsInsertionPerStructColumnsSorting)) + `}}
         default:
-          return {{Structname}}DB[property];
+          console.assert(false, "Unknown field")
+          return "";
       }
     };
 
@@ -95,8 +99,8 @@ export class {{Structname}}sTableComponent implements OnInit {
       return isSelected
     };
 
-    this.matTableDataSource.sort = this.sort;
-    this.matTableDataSource.paginator = this.paginator;
+    this.matTableDataSource.sort = this.sort!
+    this.matTableDataSource.paginator = this.paginator!
   }
 
   applyFilter(event: Event) {
@@ -168,7 +172,7 @@ export class {{Structname}}sTableComponent implements OnInit {
           this.{{structname}}s.forEach(
             {{structname}} => {
               let ID = this.dialogData.ID
-              let revPointer = {{structname}}[this.dialogData.ReversePointer]
+              let revPointer = {{structname}}[this.dialogData.ReversePointer as keyof {{Structname}}DB] as unknown as NullInt64
               if (revPointer.Int64 == ID) {
                 this.initialSelection.push({{structname}})
               }
@@ -179,15 +183,15 @@ export class {{Structname}}sTableComponent implements OnInit {
 
         if (this.mode == TableComponentMode.MANY_MANY_ASSOCIATION_MODE) {
 
-          let mapOfSourceInstances = this.frontRepo[this.dialogData.SourceStruct + "s"]
-          let sourceInstance = mapOfSourceInstances.get(this.dialogData.ID)
+          let mapOfSourceInstances = this.frontRepo[this.dialogData.SourceStruct + "s" as keyof FrontRepo] as Map<number, {{Structname}}DB>
+          let sourceInstance = mapOfSourceInstances.get(this.dialogData.ID)!
 
-          if (sourceInstance[this.dialogData.SourceField]) {
-            for (let associationInstance of sourceInstance[this.dialogData.SourceField]) {
-              let {{structname}} = associationInstance[this.dialogData.IntermediateStructField]
-              this.initialSelection.push({{structname}})
-            }
+          let sourceField = sourceInstance[this.dialogData.SourceField as keyof typeof sourceInstance]! as unknown as {{Structname}}DB[]
+          for (let associationInstance of sourceField) {
+            let {{structname}} = associationInstance[this.dialogData.IntermediateStructField as keyof typeof associationInstance] as unknown as {{Structname}}DB
+            this.initialSelection.push({{structname}})
           }
+
           this.selection = new SelectionModel<{{Structname}}DB>(allowMultiSelect, this.initialSelection);
         }
 
@@ -263,8 +267,9 @@ export class {{Structname}}sTableComponent implements OnInit {
       // reset all initial selection of {{structname}} that belong to {{structname}}
       this.initialSelection.forEach(
         {{structname}} => {
-          {{structname}}[this.dialogData.ReversePointer].Int64 = 0
-          {{structname}}[this.dialogData.ReversePointer].Valid = true
+          let index = {{structname}}[this.dialogData.ReversePointer as keyof {{Structname}}DB] as unknown as NullInt64
+          index.Int64 = 0
+          index.Valid = true
           toUpdate.add({{structname}})
         }
       )
@@ -272,9 +277,9 @@ export class {{Structname}}sTableComponent implements OnInit {
       // from selection, set {{structname}} that belong to {{structname}}
       this.selection.selected.forEach(
         {{structname}} => {
-          let ID = +this.dialogData.ID
-          {{structname}}[this.dialogData.ReversePointer].Int64 = ID
-          {{structname}}[this.dialogData.ReversePointer].Valid = true
+          let ID = this.dialogData.ID as number
+          let reversePointer = {{structname}}[this.dialogData.ReversePointer  as keyof {{Structname}}DB] as unknown as NullInt64
+          reversePointer.Int64 = ID
           toUpdate.add({{structname}})
         }
       )
@@ -292,8 +297,9 @@ export class {{Structname}}sTableComponent implements OnInit {
 
     if (this.mode == TableComponentMode.MANY_MANY_ASSOCIATION_MODE) {
 
-      let mapOfSourceInstances = this.frontRepo[this.dialogData.SourceStruct + "s"]
-      let sourceInstance = mapOfSourceInstances.get(this.dialogData.ID)
+      // get the source instance via the map of instances in the front repo
+      let mapOfSourceInstances = this.frontRepo[this.dialogData.SourceStruct + "s" as keyof FrontRepo] as Map<number, {{Structname}}DB>
+      let sourceInstance = mapOfSourceInstances.get(this.dialogData.ID)!
 
       // First, parse all instance of the association struct and remove the instance
       // that have unselect
@@ -309,23 +315,21 @@ export class {{Structname}}sTableComponent implements OnInit {
       }
 
       // delete the association instance
-      if (sourceInstance[this.dialogData.SourceField]) {
-        for (let associationInstance of sourceInstance[this.dialogData.SourceField]) {
-          let {{structname}} = associationInstance[this.dialogData.IntermediateStructField]
-          if (unselected{{Structname}}.has({{structname}}.ID)) {
+      let associationInstance = sourceInstance[this.dialogData.SourceField as keyof typeof sourceInstance]
+      let {{structname}} = associationInstance![this.dialogData.IntermediateStructField as keyof typeof associationInstance] as unknown as {{Structname}}DB
+      if (unselected{{Structname}}.has({{structname}}.ID)) {
+        this.frontRepoService.deleteService(this.dialogData.IntermediateStruct, associationInstance)
 
-            this.frontRepoService.deleteService( this.dialogData.IntermediateStruct, associationInstance )
-          }
-        }
+
       }
 
-      // is the source array is emptyn create it
-      if (sourceInstance[this.dialogData.SourceField] == undefined) {
-        sourceInstance[this.dialogData.SourceField] = new Array<any>()
+      // is the source array is empty create it
+      if (sourceInstance[this.dialogData.SourceField as keyof typeof sourceInstance] == undefined) {
+        (sourceInstance[this.dialogData.SourceField as keyof typeof sourceInstance] as unknown as Array<{{Structname}}DB>) = new Array<{{Structname}}DB>()
       }
 
       // second, parse all instance of the selected
-      if (sourceInstance[this.dialogData.SourceField]) {
+      if (sourceInstance[this.dialogData.SourceField as keyof typeof sourceInstance]) {
         this.selection.selected.forEach(
           {{structname}} => {
             if (!this.initialSelection.includes({{structname}})) {
@@ -335,13 +339,11 @@ export class {{Structname}}sTableComponent implements OnInit {
                 Name: sourceInstance["Name"] + "-" + {{structname}}.Name,
               }
 
-              associationInstance[this.dialogData.IntermediateStructField+"ID"] = new NullInt64
-              associationInstance[this.dialogData.IntermediateStructField+"ID"].Int64 = {{structname}}.ID
-              associationInstance[this.dialogData.IntermediateStructField+"ID"].Valid = true
+              let index = associationInstance[this.dialogData.IntermediateStructField+"ID" as keyof typeof associationInstance] as unknown as NullInt64
+              index.Int64 = {{structname}}.ID
 
-              associationInstance[this.dialogData.SourceStruct + "_" + this.dialogData.SourceField + "DBID"] = new NullInt64
-              associationInstance[this.dialogData.SourceStruct + "_" + this.dialogData.SourceField + "DBID"].Int64 = sourceInstance["ID"]
-              associationInstance[this.dialogData.SourceStruct + "_" + this.dialogData.SourceField + "DBID"].Valid = true
+              let indexDB = associationInstance[this.dialogData.IntermediateStructField+"DBID" as keyof typeof associationInstance] as unknown as NullInt64
+              indexDB.Int64 = {{structname}}.ID
 
               this.frontRepoService.postService( this.dialogData.IntermediateStruct, associationInstance )
 
@@ -406,11 +408,11 @@ var NgTablelSubTemplateCode map[NgTableSubTemplate]string = map[NgTableSubTempla
 
 	NgTableTSBasicFieldSorting: `
         case '{{FieldName}}':
-          return {{structname}}DB.{{FieldName}};
+          return {{structname}}DB.{{FieldName}}{{TranslationIntoString}};
 `,
 	NgTableTSTimeFieldSorting: `
         case '{{FieldName}}':
-          return {{structname}}DB.{{FieldName}};
+          return {{structname}}DB.{{FieldName}}.getDate();
 `,
 	NgTableTSPointerToStructSorting: `
         case '{{FieldName}}':
@@ -418,7 +420,7 @@ var NgTablelSubTemplateCode map[NgTableSubTemplate]string = map[NgTableSubTempla
 `,
 	NgTableTSSliceOfPointerToStructSorting: `
         case '{{AssocStructName}}_{{FieldName}}':
-          return this.frontRepo.{{AssocStructName}}s.get({{structname}}DB.{{AssocStructName}}_{{FieldName}}DBID.Int64)?.Name;
+          return this.frontRepo.{{AssocStructName}}s.get({{structname}}DB.{{AssocStructName}}_{{FieldName}}DBID.Int64)!.Name;
 `,
 
 	NgTableTSNonNumberFieldFiltering: `
@@ -433,7 +435,7 @@ var NgTablelSubTemplateCode map[NgTableSubTemplate]string = map[NgTableSubTempla
       }`,
 	NgTableTSSliceOfPointerToStructFiltering: `
       if ({{structname}}DB.{{AssocStructName}}_{{FieldName}}DBID.Int64 != 0) {
-        mergedContent += this.frontRepo.{{AssocStructName}}s.get({{structname}}DB.{{AssocStructName}}_{{FieldName}}DBID.Int64)?.Name.toLowerCase()
+        mergedContent += this.frontRepo.{{AssocStructName}}s.get({{structname}}DB.{{AssocStructName}}_{{FieldName}}DBID.Int64)!.Name.toLowerCase()
       }
 `,
 
@@ -551,9 +553,17 @@ func MultiCodeGeneratorNgTable(
 							"{{FieldName}}", field.Name)
 				}
 
+				// sorting requires a string translation for each field
+				// for boolean, one needs true or false
+				translationString := ""
+				if field.basicKind == types.Bool {
+					translationString = "?\"true\":\"false\""
+				}
+
 				TsInsertions[NgTableTsInsertionPerStructColumnsSorting] +=
-					Replace1(NgTablelSubTemplateCode[NgTableTSBasicFieldSorting],
-						"{{FieldName}}", field.Name)
+					Replace2(NgTablelSubTemplateCode[NgTableTSBasicFieldSorting],
+						"{{FieldName}}", field.Name,
+						"{{TranslationIntoString}}", translationString)
 
 			case *GongTimeField:
 
@@ -562,7 +572,7 @@ func MultiCodeGeneratorNgTable(
 						"{{FieldName}}", field.Name)
 
 				TsInsertions[NgTableTsInsertionPerStructColumnsSorting] +=
-					Replace1(NgTablelSubTemplateCode[NgTableTSBasicFieldSorting],
+					Replace1(NgTablelSubTemplateCode[NgTableTSTimeFieldSorting],
 						"{{FieldName}}", field.Name)
 
 				HtmlInsertions[NgTableHtmlInsertionColumn] += Replace1(NgTableHTMLSubTemplateCode[NgTableHTMLTimeField],

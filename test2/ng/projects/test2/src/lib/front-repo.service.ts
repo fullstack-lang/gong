@@ -1,30 +1,24 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
-import { Observable, combineLatest } from 'rxjs';
+import { Observable, combineLatest, BehaviorSubject } from 'rxjs';
 
 // insertion point sub template for services imports 
-import { AclassDB } from './aclass-db'
-import { AclassService } from './aclass.service'
+import { AstructDB } from './astruct-db'
+import { AstructService } from './astruct.service'
 
 
 // FrontRepo stores all instances in a front repository (design pattern repository)
 export class FrontRepo { // insertion point sub template 
-  Aclasss_array = new Array<AclassDB>(); // array of repo instances
-  Aclasss = new Map<number, AclassDB>(); // map of repo instances
-  Aclasss_batch = new Map<number, AclassDB>(); // same but only in last GET (for finding repo instances to delete)
+  Astructs_array = new Array<AstructDB>(); // array of repo instances
+  Astructs = new Map<number, AstructDB>(); // map of repo instances
+  Astructs_batch = new Map<number, AstructDB>(); // same but only in last GET (for finding repo instances to delete)
 }
 
 //
 // Store of all instances of the stack
 //
 export const FrontRepoSingloton = new (FrontRepo)
-
-// define the type of nullable Int64 in order to support back pointers IDs
-export class NullInt64 {
-  Int64: number
-  Valid: boolean
-}
 
 // the table component is called in different ways
 //
@@ -35,15 +29,15 @@ export class NullInt64 {
 // DialogData define the interface for information that is forwarded from the calling instance to 
 // the select table
 export class DialogData {
-  ID: number; // ID of the calling instance
+  ID: number = 0 // ID of the calling instance
 
   // the reverse pointer is the name of the generated field on the destination
   // struct of the ONE-MANY association
-  ReversePointer: string; // field of {{Structname}} that serve as reverse pointer
-  OrderingMode: boolean; // if true, this is for ordering items
+  ReversePointer: string = "" // field of {{Structname}} that serve as reverse pointer
+  OrderingMode: boolean = false // if true, this is for ordering items
 
   // there are different selection mode : ONE_MANY or MANY_MANY
-  SelectionMode: SelectionMode;
+  SelectionMode: SelectionMode = SelectionMode.ONE_MANY_ASSOCIATION_MODE
 
   // used if SelectionMode is MANY_MANY_ASSOCIATION_MODE
   //
@@ -51,11 +45,11 @@ export class DialogData {
   // 
   // in the MANY_MANY_ASSOCIATION_MODE case, we need also the Struct and the FieldName that are
   // at the end of the ONE-MANY association
-  SourceStruct: string;  // The "Aclass"
-  SourceField: string; // the "AnarrayofbUse"
-  IntermediateStruct: string; // the "AclassBclassUse" 
-  IntermediateStructField: string; // the "Bclass" as field
-  NextAssociationStruct: string; // the "Bclass"
+  SourceStruct: string = ""  // The "Aclass"
+  SourceField: string = "" // the "AnarrayofbUse"
+  IntermediateStruct: string = "" // the "AclassBclassUse" 
+  IntermediateStructField: string = "" // the "Bclass" as field
+  NextAssociationStruct: string = "" // the "Bclass"
 }
 
 export enum SelectionMode {
@@ -77,34 +71,40 @@ export class FrontRepoService {
 
   constructor(
     private http: HttpClient, // insertion point sub template 
-    private aclassService: AclassService,
+    private astructService: AstructService,
   ) { }
 
   // postService provides a post function for each struct name
   postService(structName: string, instanceToBePosted: any) {
-    let service = this[structName.toLowerCase() + "Service"]
-    service["post" + structName](instanceToBePosted).subscribe(
+    let service = this[structName.toLowerCase() + "Service" + "Service" as keyof FrontRepoService]
+    let servicePostFunction = service[("post" + structName) as keyof typeof service] as (instance: typeof instanceToBePosted) => Observable<typeof instanceToBePosted>
+
+    servicePostFunction(instanceToBePosted).subscribe(
       instance => {
-        service[structName + "ServiceChanged"].next("post")
+        let behaviorSubject = instanceToBePosted[(structName + "ServiceChanged") as keyof typeof instanceToBePosted] as unknown as BehaviorSubject<string>
+        behaviorSubject.next("post")
       }
     );
   }
 
   // deleteService provides a delete function for each struct name
   deleteService(structName: string, instanceToBeDeleted: any) {
-    let service = this[structName.toLowerCase() + "Service"]
-    service["delete" + structName](instanceToBeDeleted).subscribe(
+    let service = this[structName.toLowerCase() + "Service" as keyof FrontRepoService]
+    let serviceDeleteFunction = service["delete" + structName as keyof typeof service] as (instance: typeof instanceToBeDeleted) => Observable<typeof instanceToBeDeleted>
+
+    serviceDeleteFunction(instanceToBeDeleted).subscribe(
       instance => {
-        service[structName + "ServiceChanged"].next("delete")
+        let behaviorSubject = instanceToBeDeleted[(structName + "ServiceChanged") as keyof typeof instanceToBeDeleted] as unknown as BehaviorSubject<string>
+        behaviorSubject.next("delete")
       }
     );
   }
 
   // typing of observable can be messy in typescript. Therefore, one force the type
   observableFrontRepo: [ // insertion point sub template 
-    Observable<AclassDB[]>,
+    Observable<AstructDB[]>,
   ] = [ // insertion point sub template 
-      this.aclassService.getAclasss(),
+      this.astructService.getAstructs(),
     ];
 
   //
@@ -120,40 +120,40 @@ export class FrontRepoService {
           this.observableFrontRepo
         ).subscribe(
           ([ // insertion point sub template for declarations 
-            aclasss_,
+            astructs_,
           ]) => {
             // Typing can be messy with many items. Therefore, type casting is necessary here
             // insertion point sub template for type casting 
-            var aclasss: AclassDB[]
-            aclasss = aclasss_
+            var astructs: AstructDB[]
+            astructs = astructs_
 
             // 
             // First Step: init map of instances
             // insertion point sub template for init 
             // init the array
-            FrontRepoSingloton.Aclasss_array = aclasss
+            FrontRepoSingloton.Astructs_array = astructs
 
-            // clear the map that counts Aclass in the GET
-            FrontRepoSingloton.Aclasss_batch.clear()
+            // clear the map that counts Astruct in the GET
+            FrontRepoSingloton.Astructs_batch.clear()
 
-            aclasss.forEach(
-              aclass => {
-                FrontRepoSingloton.Aclasss.set(aclass.ID, aclass)
-                FrontRepoSingloton.Aclasss_batch.set(aclass.ID, aclass)
+            astructs.forEach(
+              astruct => {
+                FrontRepoSingloton.Astructs.set(astruct.ID, astruct)
+                FrontRepoSingloton.Astructs_batch.set(astruct.ID, astruct)
               }
             )
 
-            // clear aclasss that are absent from the batch
-            FrontRepoSingloton.Aclasss.forEach(
-              aclass => {
-                if (FrontRepoSingloton.Aclasss_batch.get(aclass.ID) == undefined) {
-                  FrontRepoSingloton.Aclasss.delete(aclass.ID)
+            // clear astructs that are absent from the batch
+            FrontRepoSingloton.Astructs.forEach(
+              astruct => {
+                if (FrontRepoSingloton.Astructs_batch.get(astruct.ID) == undefined) {
+                  FrontRepoSingloton.Astructs.delete(astruct.ID)
                 }
               }
             )
 
-            // sort Aclasss_array array
-            FrontRepoSingloton.Aclasss_array.sort((t1, t2) => {
+            // sort Astructs_array array
+            FrontRepoSingloton.Astructs_array.sort((t1, t2) => {
               if (t1.Name > t2.Name) {
                 return 1;
               }
@@ -167,21 +167,21 @@ export class FrontRepoService {
             // 
             // Second Step: redeem pointers between instances (thanks to maps in the First Step)
             // insertion point sub template for redeem 
-            aclasss.forEach(
-              aclass => {
+            astructs.forEach(
+              astruct => {
                 // insertion point sub sub template for ONE-/ZERO-ONE associations pointers redeeming
 
                 // insertion point for redeeming ONE-MANY associations
-                // insertion point for slice of pointer field Aclass.Anarrayofa redeeming
+                // insertion point for slice of pointer field Astruct.Anarrayofa redeeming
                 {
-                  let _aclass = FrontRepoSingloton.Aclasss.get(aclass.Aclass_AnarrayofaDBID.Int64)
-                  if (_aclass) {
-                    if (_aclass.Anarrayofa == undefined) {
-                      _aclass.Anarrayofa = new Array<AclassDB>()
+                  let _astruct = FrontRepoSingloton.Astructs.get(astruct.Astruct_AnarrayofaDBID.Int64)
+                  if (_astruct) {
+                    if (_astruct.Anarrayofa == undefined) {
+                      _astruct.Anarrayofa = new Array<AstructDB>()
                     }
-                    _aclass.Anarrayofa.push(aclass)
-                    if (aclass.Aclass_Anarrayofa_reverse == undefined) {
-                      aclass.Aclass_Anarrayofa_reverse = _aclass
+                    _astruct.Anarrayofa.push(astruct)
+                    if (astruct.Astruct_Anarrayofa_reverse == undefined) {
+                      astruct.Astruct_Anarrayofa_reverse = _astruct
                     }
                   }
                 }
@@ -198,54 +198,54 @@ export class FrontRepoService {
 
   // insertion point for pull per struct 
 
-  // AclassPull performs a GET on Aclass of the stack and redeem association pointers 
-  AclassPull(): Observable<FrontRepo> {
+  // AstructPull performs a GET on Astruct of the stack and redeem association pointers 
+  AstructPull(): Observable<FrontRepo> {
     return new Observable<FrontRepo>(
       (observer) => {
         combineLatest([
-          this.aclassService.getAclasss()
+          this.astructService.getAstructs()
         ]).subscribe(
           ([ // insertion point sub template 
-            aclasss,
+            astructs,
           ]) => {
             // init the array
-            FrontRepoSingloton.Aclasss_array = aclasss
+            FrontRepoSingloton.Astructs_array = astructs
 
-            // clear the map that counts Aclass in the GET
-            FrontRepoSingloton.Aclasss_batch.clear()
+            // clear the map that counts Astruct in the GET
+            FrontRepoSingloton.Astructs_batch.clear()
 
             // 
             // First Step: init map of instances
             // insertion point sub template 
-            aclasss.forEach(
-              aclass => {
-                FrontRepoSingloton.Aclasss.set(aclass.ID, aclass)
-                FrontRepoSingloton.Aclasss_batch.set(aclass.ID, aclass)
+            astructs.forEach(
+              astruct => {
+                FrontRepoSingloton.Astructs.set(astruct.ID, astruct)
+                FrontRepoSingloton.Astructs_batch.set(astruct.ID, astruct)
 
                 // insertion point for redeeming ONE/ZERO-ONE associations
 
                 // insertion point for redeeming ONE-MANY associations
-                // insertion point for slice of pointer field Aclass.Anarrayofa redeeming
+                // insertion point for slice of pointer field Astruct.Anarrayofa redeeming
                 {
-                  let _aclass = FrontRepoSingloton.Aclasss.get(aclass.Aclass_AnarrayofaDBID.Int64)
-                  if (_aclass) {
-                    if (_aclass.Anarrayofa == undefined) {
-                      _aclass.Anarrayofa = new Array<AclassDB>()
+                  let _astruct = FrontRepoSingloton.Astructs.get(astruct.Astruct_AnarrayofaDBID.Int64)
+                  if (_astruct) {
+                    if (_astruct.Anarrayofa == undefined) {
+                      _astruct.Anarrayofa = new Array<AstructDB>()
                     }
-                    _aclass.Anarrayofa.push(aclass)
-                    if (aclass.Aclass_Anarrayofa_reverse == undefined) {
-                      aclass.Aclass_Anarrayofa_reverse = _aclass
+                    _astruct.Anarrayofa.push(astruct)
+                    if (astruct.Astruct_Anarrayofa_reverse == undefined) {
+                      astruct.Astruct_Anarrayofa_reverse = _astruct
                     }
                   }
                 }
               }
             )
 
-            // clear aclasss that are absent from the GET
-            FrontRepoSingloton.Aclasss.forEach(
-              aclass => {
-                if (FrontRepoSingloton.Aclasss_batch.get(aclass.ID) == undefined) {
-                  FrontRepoSingloton.Aclasss.delete(aclass.ID)
+            // clear astructs that are absent from the GET
+            FrontRepoSingloton.Astructs.forEach(
+              astruct => {
+                if (FrontRepoSingloton.Astructs_batch.get(astruct.ID) == undefined) {
+                  FrontRepoSingloton.Astructs.delete(astruct.ID)
                 }
               }
             )
@@ -264,6 +264,6 @@ export class FrontRepoService {
 }
 
 // insertion point for get unique ID per struct 
-export function getAclassUniqueID(id: number): number {
+export function getAstructUniqueID(id: number): number {
   return 31 * id
 }
