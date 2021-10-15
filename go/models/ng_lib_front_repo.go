@@ -192,7 +192,7 @@ import { {{Structname}}Service } from './{{structname}}.service'
 
 	string(NgLibFrontRepoTypeCasting): `
             var {{structname}}s: {{Structname}}DB[]
-            {{structname}}s = {{structname}}s_`,
+            {{structname}}s = {{structname}}s_ as {{Structname}}DB[]`,
 
 	string(NgLibFrontRepoInitMapInstances): `
             // init the array
