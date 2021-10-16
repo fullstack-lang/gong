@@ -125,7 +125,7 @@ export class FrontRepoService {
             // Typing can be messy with many items. Therefore, type casting is necessary here
             // insertion point sub template for type casting 
             var astructs: AstructDB[]
-            astructs = astructs_
+            astructs = astructs_ as AstructDB[]
 
             // 
             // First Step: init map of instances
