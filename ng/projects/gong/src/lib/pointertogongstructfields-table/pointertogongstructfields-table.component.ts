@@ -181,16 +181,14 @@ export class PointerToGongStructFieldsTableComponent implements OnInit {
 
         // in case the component is called as a selection component
         if (this.mode == TableComponentMode.ONE_MANY_ASSOCIATION_MODE) {
-          this.pointertogongstructfields.forEach(
-            pointertogongstructfield => {
-              let ID = this.dialogData.ID
-              let revPointer = pointertogongstructfield[this.dialogData.ReversePointer as keyof PointerToGongStructFieldDB] as unknown as NullInt64
-              if (revPointer.Int64 == ID) {
-                this.initialSelection.push(pointertogongstructfield)
-              }
+          for (let pointertogongstructfield of this.pointertogongstructfields) {
+            let ID = this.dialogData.ID
+            let revPointer = pointertogongstructfield[this.dialogData.ReversePointer as keyof PointerToGongStructFieldDB] as unknown as NullInt64
+            if (revPointer.Int64 == ID) {
+              this.initialSelection.push(pointertogongstructfield)
             }
-          )
-          this.selection = new SelectionModel<PointerToGongStructFieldDB>(allowMultiSelect, this.initialSelection);
+            this.selection = new SelectionModel<PointerToGongStructFieldDB>(allowMultiSelect, this.initialSelection);
+          }
         }
 
         if (this.mode == TableComponentMode.MANY_MANY_ASSOCIATION_MODE) {
@@ -277,34 +275,31 @@ export class PointerToGongStructFieldsTableComponent implements OnInit {
       let toUpdate = new Set<PointerToGongStructFieldDB>()
 
       // reset all initial selection of pointertogongstructfield that belong to pointertogongstructfield
-      this.initialSelection.forEach(
-        pointertogongstructfield => {
-          let index = pointertogongstructfield[this.dialogData.ReversePointer as keyof PointerToGongStructFieldDB] as unknown as NullInt64
-          index.Int64 = 0
-          index.Valid = true
-          toUpdate.add(pointertogongstructfield)
-        }
-      )
+      for (let pointertogongstructfield of this.initialSelection) {
+        let index = pointertogongstructfield[this.dialogData.ReversePointer as keyof PointerToGongStructFieldDB] as unknown as NullInt64
+        index.Int64 = 0
+        index.Valid = true
+        toUpdate.add(pointertogongstructfield)
+
+      }
 
       // from selection, set pointertogongstructfield that belong to pointertogongstructfield
-      this.selection.selected.forEach(
-        pointertogongstructfield => {
-          let ID = this.dialogData.ID as number
-          let reversePointer = pointertogongstructfield[this.dialogData.ReversePointer  as keyof PointerToGongStructFieldDB] as unknown as NullInt64
-          reversePointer.Int64 = ID
-          toUpdate.add(pointertogongstructfield)
-        }
-      )
+      for (let pointertogongstructfield of this.selection.selected) {
+        let ID = this.dialogData.ID as number
+        let reversePointer = pointertogongstructfield[this.dialogData.ReversePointer as keyof PointerToGongStructFieldDB] as unknown as NullInt64
+        reversePointer.Int64 = ID
+        reversePointer.Valid = true
+        toUpdate.add(pointertogongstructfield)
+      }
+
 
       // update all pointertogongstructfield (only update selection & initial selection)
-      toUpdate.forEach(
-        pointertogongstructfield => {
-          this.pointertogongstructfieldService.updatePointerToGongStructField(pointertogongstructfield)
-            .subscribe(pointertogongstructfield => {
-              this.pointertogongstructfieldService.PointerToGongStructFieldServiceChanged.next("update")
-            });
-        }
-      )
+      for (let pointertogongstructfield of toUpdate) {
+        this.pointertogongstructfieldService.updatePointerToGongStructField(pointertogongstructfield)
+          .subscribe(pointertogongstructfield => {
+            this.pointertogongstructfieldService.PointerToGongStructFieldServiceChanged.next("update")
+          });
+      }
     }
 
     if (this.mode == TableComponentMode.MANY_MANY_ASSOCIATION_MODE) {
@@ -351,13 +346,15 @@ export class PointerToGongStructFieldsTableComponent implements OnInit {
                 Name: sourceInstance["Name"] + "-" + pointertogongstructfield.Name,
               }
 
-              let index = associationInstance[this.dialogData.IntermediateStructField+"ID" as keyof typeof associationInstance] as unknown as NullInt64
+              let index = associationInstance[this.dialogData.IntermediateStructField + "ID" as keyof typeof associationInstance] as unknown as NullInt64
               index.Int64 = pointertogongstructfield.ID
+              index.Valid = true
 
-              let indexDB = associationInstance[this.dialogData.IntermediateStructField+"DBID" as keyof typeof associationInstance] as unknown as NullInt64
+              let indexDB = associationInstance[this.dialogData.IntermediateStructField + "DBID" as keyof typeof associationInstance] as unknown as NullInt64
               indexDB.Int64 = pointertogongstructfield.ID
+              index.Valid = true
 
-              this.frontRepoService.postService( this.dialogData.IntermediateStruct, associationInstance )
+              this.frontRepoService.postService(this.dialogData.IntermediateStruct, associationInstance)
 
             } else {
               // console.log("pointertogongstructfield " + pointertogongstructfield.Name + " is still selected")

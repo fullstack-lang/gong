@@ -175,16 +175,14 @@ export class AstructBstruct2UsesTableComponent implements OnInit {
 
         // in case the component is called as a selection component
         if (this.mode == TableComponentMode.ONE_MANY_ASSOCIATION_MODE) {
-          this.astructbstruct2uses.forEach(
-            astructbstruct2use => {
-              let ID = this.dialogData.ID
-              let revPointer = astructbstruct2use[this.dialogData.ReversePointer as keyof AstructBstruct2UseDB] as unknown as NullInt64
-              if (revPointer.Int64 == ID) {
-                this.initialSelection.push(astructbstruct2use)
-              }
+          for (let astructbstruct2use of this.astructbstruct2uses) {
+            let ID = this.dialogData.ID
+            let revPointer = astructbstruct2use[this.dialogData.ReversePointer as keyof AstructBstruct2UseDB] as unknown as NullInt64
+            if (revPointer.Int64 == ID) {
+              this.initialSelection.push(astructbstruct2use)
             }
-          )
-          this.selection = new SelectionModel<AstructBstruct2UseDB>(allowMultiSelect, this.initialSelection);
+            this.selection = new SelectionModel<AstructBstruct2UseDB>(allowMultiSelect, this.initialSelection);
+          }
         }
 
         if (this.mode == TableComponentMode.MANY_MANY_ASSOCIATION_MODE) {
@@ -271,34 +269,31 @@ export class AstructBstruct2UsesTableComponent implements OnInit {
       let toUpdate = new Set<AstructBstruct2UseDB>()
 
       // reset all initial selection of astructbstruct2use that belong to astructbstruct2use
-      this.initialSelection.forEach(
-        astructbstruct2use => {
-          let index = astructbstruct2use[this.dialogData.ReversePointer as keyof AstructBstruct2UseDB] as unknown as NullInt64
-          index.Int64 = 0
-          index.Valid = true
-          toUpdate.add(astructbstruct2use)
-        }
-      )
+      for (let astructbstruct2use of this.initialSelection) {
+        let index = astructbstruct2use[this.dialogData.ReversePointer as keyof AstructBstruct2UseDB] as unknown as NullInt64
+        index.Int64 = 0
+        index.Valid = true
+        toUpdate.add(astructbstruct2use)
+
+      }
 
       // from selection, set astructbstruct2use that belong to astructbstruct2use
-      this.selection.selected.forEach(
-        astructbstruct2use => {
-          let ID = this.dialogData.ID as number
-          let reversePointer = astructbstruct2use[this.dialogData.ReversePointer  as keyof AstructBstruct2UseDB] as unknown as NullInt64
-          reversePointer.Int64 = ID
-          toUpdate.add(astructbstruct2use)
-        }
-      )
+      for (let astructbstruct2use of this.selection.selected) {
+        let ID = this.dialogData.ID as number
+        let reversePointer = astructbstruct2use[this.dialogData.ReversePointer as keyof AstructBstruct2UseDB] as unknown as NullInt64
+        reversePointer.Int64 = ID
+        reversePointer.Valid = true
+        toUpdate.add(astructbstruct2use)
+      }
+
 
       // update all astructbstruct2use (only update selection & initial selection)
-      toUpdate.forEach(
-        astructbstruct2use => {
-          this.astructbstruct2useService.updateAstructBstruct2Use(astructbstruct2use)
-            .subscribe(astructbstruct2use => {
-              this.astructbstruct2useService.AstructBstruct2UseServiceChanged.next("update")
-            });
-        }
-      )
+      for (let astructbstruct2use of toUpdate) {
+        this.astructbstruct2useService.updateAstructBstruct2Use(astructbstruct2use)
+          .subscribe(astructbstruct2use => {
+            this.astructbstruct2useService.AstructBstruct2UseServiceChanged.next("update")
+          });
+      }
     }
 
     if (this.mode == TableComponentMode.MANY_MANY_ASSOCIATION_MODE) {
@@ -345,13 +340,15 @@ export class AstructBstruct2UsesTableComponent implements OnInit {
                 Name: sourceInstance["Name"] + "-" + astructbstruct2use.Name,
               }
 
-              let index = associationInstance[this.dialogData.IntermediateStructField+"ID" as keyof typeof associationInstance] as unknown as NullInt64
+              let index = associationInstance[this.dialogData.IntermediateStructField + "ID" as keyof typeof associationInstance] as unknown as NullInt64
               index.Int64 = astructbstruct2use.ID
+              index.Valid = true
 
-              let indexDB = associationInstance[this.dialogData.IntermediateStructField+"DBID" as keyof typeof associationInstance] as unknown as NullInt64
+              let indexDB = associationInstance[this.dialogData.IntermediateStructField + "DBID" as keyof typeof associationInstance] as unknown as NullInt64
               indexDB.Int64 = astructbstruct2use.ID
+              index.Valid = true
 
-              this.frontRepoService.postService( this.dialogData.IntermediateStruct, associationInstance )
+              this.frontRepoService.postService(this.dialogData.IntermediateStruct, associationInstance)
 
             } else {
               // console.log("astructbstruct2use " + astructbstruct2use.Name + " is still selected")

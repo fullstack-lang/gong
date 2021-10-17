@@ -173,16 +173,14 @@ export class GongEnumValuesTableComponent implements OnInit {
 
         // in case the component is called as a selection component
         if (this.mode == TableComponentMode.ONE_MANY_ASSOCIATION_MODE) {
-          this.gongenumvalues.forEach(
-            gongenumvalue => {
-              let ID = this.dialogData.ID
-              let revPointer = gongenumvalue[this.dialogData.ReversePointer as keyof GongEnumValueDB] as unknown as NullInt64
-              if (revPointer.Int64 == ID) {
-                this.initialSelection.push(gongenumvalue)
-              }
+          for (let gongenumvalue of this.gongenumvalues) {
+            let ID = this.dialogData.ID
+            let revPointer = gongenumvalue[this.dialogData.ReversePointer as keyof GongEnumValueDB] as unknown as NullInt64
+            if (revPointer.Int64 == ID) {
+              this.initialSelection.push(gongenumvalue)
             }
-          )
-          this.selection = new SelectionModel<GongEnumValueDB>(allowMultiSelect, this.initialSelection);
+            this.selection = new SelectionModel<GongEnumValueDB>(allowMultiSelect, this.initialSelection);
+          }
         }
 
         if (this.mode == TableComponentMode.MANY_MANY_ASSOCIATION_MODE) {
@@ -269,34 +267,31 @@ export class GongEnumValuesTableComponent implements OnInit {
       let toUpdate = new Set<GongEnumValueDB>()
 
       // reset all initial selection of gongenumvalue that belong to gongenumvalue
-      this.initialSelection.forEach(
-        gongenumvalue => {
-          let index = gongenumvalue[this.dialogData.ReversePointer as keyof GongEnumValueDB] as unknown as NullInt64
-          index.Int64 = 0
-          index.Valid = true
-          toUpdate.add(gongenumvalue)
-        }
-      )
+      for (let gongenumvalue of this.initialSelection) {
+        let index = gongenumvalue[this.dialogData.ReversePointer as keyof GongEnumValueDB] as unknown as NullInt64
+        index.Int64 = 0
+        index.Valid = true
+        toUpdate.add(gongenumvalue)
+
+      }
 
       // from selection, set gongenumvalue that belong to gongenumvalue
-      this.selection.selected.forEach(
-        gongenumvalue => {
-          let ID = this.dialogData.ID as number
-          let reversePointer = gongenumvalue[this.dialogData.ReversePointer  as keyof GongEnumValueDB] as unknown as NullInt64
-          reversePointer.Int64 = ID
-          toUpdate.add(gongenumvalue)
-        }
-      )
+      for (let gongenumvalue of this.selection.selected) {
+        let ID = this.dialogData.ID as number
+        let reversePointer = gongenumvalue[this.dialogData.ReversePointer as keyof GongEnumValueDB] as unknown as NullInt64
+        reversePointer.Int64 = ID
+        reversePointer.Valid = true
+        toUpdate.add(gongenumvalue)
+      }
+
 
       // update all gongenumvalue (only update selection & initial selection)
-      toUpdate.forEach(
-        gongenumvalue => {
-          this.gongenumvalueService.updateGongEnumValue(gongenumvalue)
-            .subscribe(gongenumvalue => {
-              this.gongenumvalueService.GongEnumValueServiceChanged.next("update")
-            });
-        }
-      )
+      for (let gongenumvalue of toUpdate) {
+        this.gongenumvalueService.updateGongEnumValue(gongenumvalue)
+          .subscribe(gongenumvalue => {
+            this.gongenumvalueService.GongEnumValueServiceChanged.next("update")
+          });
+      }
     }
 
     if (this.mode == TableComponentMode.MANY_MANY_ASSOCIATION_MODE) {
@@ -343,13 +338,15 @@ export class GongEnumValuesTableComponent implements OnInit {
                 Name: sourceInstance["Name"] + "-" + gongenumvalue.Name,
               }
 
-              let index = associationInstance[this.dialogData.IntermediateStructField+"ID" as keyof typeof associationInstance] as unknown as NullInt64
+              let index = associationInstance[this.dialogData.IntermediateStructField + "ID" as keyof typeof associationInstance] as unknown as NullInt64
               index.Int64 = gongenumvalue.ID
+              index.Valid = true
 
-              let indexDB = associationInstance[this.dialogData.IntermediateStructField+"DBID" as keyof typeof associationInstance] as unknown as NullInt64
+              let indexDB = associationInstance[this.dialogData.IntermediateStructField + "DBID" as keyof typeof associationInstance] as unknown as NullInt64
               indexDB.Int64 = gongenumvalue.ID
+              index.Valid = true
 
-              this.frontRepoService.postService( this.dialogData.IntermediateStruct, associationInstance )
+              this.frontRepoService.postService(this.dialogData.IntermediateStruct, associationInstance)
 
             } else {
               // console.log("gongenumvalue " + gongenumvalue.Name + " is still selected")

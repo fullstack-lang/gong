@@ -252,6 +252,7 @@ func (backRepoSliceOfPointerToGongStructField *BackRepoSliceOfPointerToGongStruc
 		if sliceofpointertogongstructfield.GongStruct != nil {
 			if GongStructId, ok := (*backRepo.BackRepoGongStruct.Map_GongStructPtr_GongStructDBID)[sliceofpointertogongstructfield.GongStruct]; ok {
 				sliceofpointertogongstructfieldDB.GongStructID.Int64 = int64(GongStructId)
+				sliceofpointertogongstructfieldDB.GongStructID.Valid = true
 			}
 		}
 
@@ -543,6 +544,7 @@ func (backRepoSliceOfPointerToGongStructField *BackRepoSliceOfPointerToGongStruc
 		// reindexing GongStruct field
 		if sliceofpointertogongstructfieldDB.GongStructID.Int64 != 0 {
 			sliceofpointertogongstructfieldDB.GongStructID.Int64 = int64(BackRepoGongStructid_atBckpTime_newID[uint(sliceofpointertogongstructfieldDB.GongStructID.Int64)])
+			sliceofpointertogongstructfieldDB.GongStructID.Valid = true
 		}
 
 		// This reindex sliceofpointertogongstructfield.SliceOfPointerToGongStructFields
