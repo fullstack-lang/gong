@@ -164,16 +164,14 @@ export class ModelPkgsTableComponent implements OnInit {
 
         // in case the component is called as a selection component
         if (this.mode == TableComponentMode.ONE_MANY_ASSOCIATION_MODE) {
-          this.modelpkgs.forEach(
-            modelpkg => {
-              let ID = this.dialogData.ID
-              let revPointer = modelpkg[this.dialogData.ReversePointer as keyof ModelPkgDB] as unknown as NullInt64
-              if (revPointer.Int64 == ID) {
-                this.initialSelection.push(modelpkg)
-              }
+          for (let modelpkg of this.modelpkgs) {
+            let ID = this.dialogData.ID
+            let revPointer = modelpkg[this.dialogData.ReversePointer as keyof ModelPkgDB] as unknown as NullInt64
+            if (revPointer.Int64 == ID) {
+              this.initialSelection.push(modelpkg)
             }
-          )
-          this.selection = new SelectionModel<ModelPkgDB>(allowMultiSelect, this.initialSelection);
+            this.selection = new SelectionModel<ModelPkgDB>(allowMultiSelect, this.initialSelection);
+          }
         }
 
         if (this.mode == TableComponentMode.MANY_MANY_ASSOCIATION_MODE) {
@@ -260,34 +258,31 @@ export class ModelPkgsTableComponent implements OnInit {
       let toUpdate = new Set<ModelPkgDB>()
 
       // reset all initial selection of modelpkg that belong to modelpkg
-      this.initialSelection.forEach(
-        modelpkg => {
-          let index = modelpkg[this.dialogData.ReversePointer as keyof ModelPkgDB] as unknown as NullInt64
-          index.Int64 = 0
-          index.Valid = true
-          toUpdate.add(modelpkg)
-        }
-      )
+      for (let modelpkg of this.initialSelection) {
+        let index = modelpkg[this.dialogData.ReversePointer as keyof ModelPkgDB] as unknown as NullInt64
+        index.Int64 = 0
+        index.Valid = true
+        toUpdate.add(modelpkg)
+
+      }
 
       // from selection, set modelpkg that belong to modelpkg
-      this.selection.selected.forEach(
-        modelpkg => {
-          let ID = this.dialogData.ID as number
-          let reversePointer = modelpkg[this.dialogData.ReversePointer  as keyof ModelPkgDB] as unknown as NullInt64
-          reversePointer.Int64 = ID
-          toUpdate.add(modelpkg)
-        }
-      )
+      for (let modelpkg of this.selection.selected) {
+        let ID = this.dialogData.ID as number
+        let reversePointer = modelpkg[this.dialogData.ReversePointer as keyof ModelPkgDB] as unknown as NullInt64
+        reversePointer.Int64 = ID
+        reversePointer.Valid = true
+        toUpdate.add(modelpkg)
+      }
+
 
       // update all modelpkg (only update selection & initial selection)
-      toUpdate.forEach(
-        modelpkg => {
-          this.modelpkgService.updateModelPkg(modelpkg)
-            .subscribe(modelpkg => {
-              this.modelpkgService.ModelPkgServiceChanged.next("update")
-            });
-        }
-      )
+      for (let modelpkg of toUpdate) {
+        this.modelpkgService.updateModelPkg(modelpkg)
+          .subscribe(modelpkg => {
+            this.modelpkgService.ModelPkgServiceChanged.next("update")
+          });
+      }
     }
 
     if (this.mode == TableComponentMode.MANY_MANY_ASSOCIATION_MODE) {
@@ -334,13 +329,15 @@ export class ModelPkgsTableComponent implements OnInit {
                 Name: sourceInstance["Name"] + "-" + modelpkg.Name,
               }
 
-              let index = associationInstance[this.dialogData.IntermediateStructField+"ID" as keyof typeof associationInstance] as unknown as NullInt64
+              let index = associationInstance[this.dialogData.IntermediateStructField + "ID" as keyof typeof associationInstance] as unknown as NullInt64
               index.Int64 = modelpkg.ID
+              index.Valid = true
 
-              let indexDB = associationInstance[this.dialogData.IntermediateStructField+"DBID" as keyof typeof associationInstance] as unknown as NullInt64
+              let indexDB = associationInstance[this.dialogData.IntermediateStructField + "DBID" as keyof typeof associationInstance] as unknown as NullInt64
               indexDB.Int64 = modelpkg.ID
+              index.Valid = true
 
-              this.frontRepoService.postService( this.dialogData.IntermediateStruct, associationInstance )
+              this.frontRepoService.postService(this.dialogData.IntermediateStruct, associationInstance)
 
             } else {
               // console.log("modelpkg " + modelpkg.Name + " is still selected")

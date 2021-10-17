@@ -193,16 +193,14 @@ export class GongBasicFieldsTableComponent implements OnInit {
 
         // in case the component is called as a selection component
         if (this.mode == TableComponentMode.ONE_MANY_ASSOCIATION_MODE) {
-          this.gongbasicfields.forEach(
-            gongbasicfield => {
-              let ID = this.dialogData.ID
-              let revPointer = gongbasicfield[this.dialogData.ReversePointer as keyof GongBasicFieldDB] as unknown as NullInt64
-              if (revPointer.Int64 == ID) {
-                this.initialSelection.push(gongbasicfield)
-              }
+          for (let gongbasicfield of this.gongbasicfields) {
+            let ID = this.dialogData.ID
+            let revPointer = gongbasicfield[this.dialogData.ReversePointer as keyof GongBasicFieldDB] as unknown as NullInt64
+            if (revPointer.Int64 == ID) {
+              this.initialSelection.push(gongbasicfield)
             }
-          )
-          this.selection = new SelectionModel<GongBasicFieldDB>(allowMultiSelect, this.initialSelection);
+            this.selection = new SelectionModel<GongBasicFieldDB>(allowMultiSelect, this.initialSelection);
+          }
         }
 
         if (this.mode == TableComponentMode.MANY_MANY_ASSOCIATION_MODE) {
@@ -289,34 +287,31 @@ export class GongBasicFieldsTableComponent implements OnInit {
       let toUpdate = new Set<GongBasicFieldDB>()
 
       // reset all initial selection of gongbasicfield that belong to gongbasicfield
-      this.initialSelection.forEach(
-        gongbasicfield => {
-          let index = gongbasicfield[this.dialogData.ReversePointer as keyof GongBasicFieldDB] as unknown as NullInt64
-          index.Int64 = 0
-          index.Valid = true
-          toUpdate.add(gongbasicfield)
-        }
-      )
+      for (let gongbasicfield of this.initialSelection) {
+        let index = gongbasicfield[this.dialogData.ReversePointer as keyof GongBasicFieldDB] as unknown as NullInt64
+        index.Int64 = 0
+        index.Valid = true
+        toUpdate.add(gongbasicfield)
+
+      }
 
       // from selection, set gongbasicfield that belong to gongbasicfield
-      this.selection.selected.forEach(
-        gongbasicfield => {
-          let ID = this.dialogData.ID as number
-          let reversePointer = gongbasicfield[this.dialogData.ReversePointer  as keyof GongBasicFieldDB] as unknown as NullInt64
-          reversePointer.Int64 = ID
-          toUpdate.add(gongbasicfield)
-        }
-      )
+      for (let gongbasicfield of this.selection.selected) {
+        let ID = this.dialogData.ID as number
+        let reversePointer = gongbasicfield[this.dialogData.ReversePointer as keyof GongBasicFieldDB] as unknown as NullInt64
+        reversePointer.Int64 = ID
+        reversePointer.Valid = true
+        toUpdate.add(gongbasicfield)
+      }
+
 
       // update all gongbasicfield (only update selection & initial selection)
-      toUpdate.forEach(
-        gongbasicfield => {
-          this.gongbasicfieldService.updateGongBasicField(gongbasicfield)
-            .subscribe(gongbasicfield => {
-              this.gongbasicfieldService.GongBasicFieldServiceChanged.next("update")
-            });
-        }
-      )
+      for (let gongbasicfield of toUpdate) {
+        this.gongbasicfieldService.updateGongBasicField(gongbasicfield)
+          .subscribe(gongbasicfield => {
+            this.gongbasicfieldService.GongBasicFieldServiceChanged.next("update")
+          });
+      }
     }
 
     if (this.mode == TableComponentMode.MANY_MANY_ASSOCIATION_MODE) {
@@ -363,13 +358,15 @@ export class GongBasicFieldsTableComponent implements OnInit {
                 Name: sourceInstance["Name"] + "-" + gongbasicfield.Name,
               }
 
-              let index = associationInstance[this.dialogData.IntermediateStructField+"ID" as keyof typeof associationInstance] as unknown as NullInt64
+              let index = associationInstance[this.dialogData.IntermediateStructField + "ID" as keyof typeof associationInstance] as unknown as NullInt64
               index.Int64 = gongbasicfield.ID
+              index.Valid = true
 
-              let indexDB = associationInstance[this.dialogData.IntermediateStructField+"DBID" as keyof typeof associationInstance] as unknown as NullInt64
+              let indexDB = associationInstance[this.dialogData.IntermediateStructField + "DBID" as keyof typeof associationInstance] as unknown as NullInt64
               indexDB.Int64 = gongbasicfield.ID
+              index.Valid = true
 
-              this.frontRepoService.postService( this.dialogData.IntermediateStruct, associationInstance )
+              this.frontRepoService.postService(this.dialogData.IntermediateStruct, associationInstance)
 
             } else {
               // console.log("gongbasicfield " + gongbasicfield.Name + " is still selected")
