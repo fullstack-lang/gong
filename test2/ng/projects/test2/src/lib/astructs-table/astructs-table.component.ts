@@ -334,9 +334,11 @@ export class AstructsTableComponent implements OnInit {
 
               let index = associationInstance[this.dialogData.IntermediateStructField + "ID" as keyof typeof associationInstance] as unknown as NullInt64
               index.Int64 = astruct.ID
+              index.Valid = true
 
               let indexDB = associationInstance[this.dialogData.IntermediateStructField + "DBID" as keyof typeof associationInstance] as unknown as NullInt64
               indexDB.Int64 = astruct.ID
+              index.Valid = true
 
               this.frontRepoService.postService(this.dialogData.IntermediateStruct, associationInstance)
 
