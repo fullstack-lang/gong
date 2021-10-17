@@ -637,6 +637,7 @@ var BackRepoFieldSubTemplateCode map[BackRepoPerStructSubTemplate]string = map[B
 		if {{structname}}.{{FieldName}} != nil {
 			if {{FieldName}}Id, ok := (*backRepo.BackRepo{{AssociationStructName}}.Map_{{AssociationStructName}}Ptr_{{AssociationStructName}}DBID)[{{structname}}.{{FieldName}}]; ok {
 				{{structname}}DB.{{FieldName}}ID.Int64 = int64({{FieldName}}Id)
+				{{structname}}DB.{{FieldName}}ID.Valid = true
 			}
 		}
 `,
@@ -691,6 +692,7 @@ var BackRepoFieldSubTemplateCode map[BackRepoPerStructSubTemplate]string = map[B
 		// reindexing {{FieldName}} field
 		if {{structname}}DB.{{FieldName}}ID.Int64 != 0 {
 			{{structname}}DB.{{FieldName}}ID.Int64 = int64(BackRepo{{AssociationStructName}}id_atBckpTime_newID[uint({{structname}}DB.{{FieldName}}ID.Int64)])
+			{{structname}}DB.{{FieldName}}ID.Valid = true
 		}
 `,
 
