@@ -158,16 +158,14 @@ export class GongStructsTableComponent implements OnInit {
 
         // in case the component is called as a selection component
         if (this.mode == TableComponentMode.ONE_MANY_ASSOCIATION_MODE) {
-          this.gongstructs.forEach(
-            gongstruct => {
-              let ID = this.dialogData.ID
-              let revPointer = gongstruct[this.dialogData.ReversePointer as keyof GongStructDB] as unknown as NullInt64
-              if (revPointer.Int64 == ID) {
-                this.initialSelection.push(gongstruct)
-              }
+          for (let gongstruct of this.gongstructs) {
+            let ID = this.dialogData.ID
+            let revPointer = gongstruct[this.dialogData.ReversePointer as keyof GongStructDB] as unknown as NullInt64
+            if (revPointer.Int64 == ID) {
+              this.initialSelection.push(gongstruct)
             }
-          )
-          this.selection = new SelectionModel<GongStructDB>(allowMultiSelect, this.initialSelection);
+            this.selection = new SelectionModel<GongStructDB>(allowMultiSelect, this.initialSelection);
+          }
         }
 
         if (this.mode == TableComponentMode.MANY_MANY_ASSOCIATION_MODE) {
@@ -254,34 +252,31 @@ export class GongStructsTableComponent implements OnInit {
       let toUpdate = new Set<GongStructDB>()
 
       // reset all initial selection of gongstruct that belong to gongstruct
-      this.initialSelection.forEach(
-        gongstruct => {
-          let index = gongstruct[this.dialogData.ReversePointer as keyof GongStructDB] as unknown as NullInt64
-          index.Int64 = 0
-          index.Valid = true
-          toUpdate.add(gongstruct)
-        }
-      )
+      for (let gongstruct of this.initialSelection) {
+        let index = gongstruct[this.dialogData.ReversePointer as keyof GongStructDB] as unknown as NullInt64
+        index.Int64 = 0
+        index.Valid = true
+        toUpdate.add(gongstruct)
+
+      }
 
       // from selection, set gongstruct that belong to gongstruct
-      this.selection.selected.forEach(
-        gongstruct => {
-          let ID = this.dialogData.ID as number
-          let reversePointer = gongstruct[this.dialogData.ReversePointer  as keyof GongStructDB] as unknown as NullInt64
-          reversePointer.Int64 = ID
-          toUpdate.add(gongstruct)
-        }
-      )
+      for (let gongstruct of this.selection.selected) {
+        let ID = this.dialogData.ID as number
+        let reversePointer = gongstruct[this.dialogData.ReversePointer as keyof GongStructDB] as unknown as NullInt64
+        reversePointer.Int64 = ID
+        reversePointer.Valid = true
+        toUpdate.add(gongstruct)
+      }
+
 
       // update all gongstruct (only update selection & initial selection)
-      toUpdate.forEach(
-        gongstruct => {
-          this.gongstructService.updateGongStruct(gongstruct)
-            .subscribe(gongstruct => {
-              this.gongstructService.GongStructServiceChanged.next("update")
-            });
-        }
-      )
+      for (let gongstruct of toUpdate) {
+        this.gongstructService.updateGongStruct(gongstruct)
+          .subscribe(gongstruct => {
+            this.gongstructService.GongStructServiceChanged.next("update")
+          });
+      }
     }
 
     if (this.mode == TableComponentMode.MANY_MANY_ASSOCIATION_MODE) {
@@ -328,13 +323,15 @@ export class GongStructsTableComponent implements OnInit {
                 Name: sourceInstance["Name"] + "-" + gongstruct.Name,
               }
 
-              let index = associationInstance[this.dialogData.IntermediateStructField+"ID" as keyof typeof associationInstance] as unknown as NullInt64
+              let index = associationInstance[this.dialogData.IntermediateStructField + "ID" as keyof typeof associationInstance] as unknown as NullInt64
               index.Int64 = gongstruct.ID
+              index.Valid = true
 
-              let indexDB = associationInstance[this.dialogData.IntermediateStructField+"DBID" as keyof typeof associationInstance] as unknown as NullInt64
+              let indexDB = associationInstance[this.dialogData.IntermediateStructField + "DBID" as keyof typeof associationInstance] as unknown as NullInt64
               indexDB.Int64 = gongstruct.ID
+              index.Valid = true
 
-              this.frontRepoService.postService( this.dialogData.IntermediateStruct, associationInstance )
+              this.frontRepoService.postService(this.dialogData.IntermediateStruct, associationInstance)
 
             } else {
               // console.log("gongstruct " + gongstruct.Name + " is still selected")

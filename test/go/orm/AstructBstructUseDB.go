@@ -246,6 +246,7 @@ func (backRepoAstructBstructUse *BackRepoAstructBstructUseStruct) CommitPhaseTwo
 		if astructbstructuse.Bstruct2 != nil {
 			if Bstruct2Id, ok := (*backRepo.BackRepoBstruct.Map_BstructPtr_BstructDBID)[astructbstructuse.Bstruct2]; ok {
 				astructbstructuseDB.Bstruct2ID.Int64 = int64(Bstruct2Id)
+				astructbstructuseDB.Bstruct2ID.Valid = true
 			}
 		}
 
@@ -529,6 +530,7 @@ func (backRepoAstructBstructUse *BackRepoAstructBstructUseStruct) RestorePhaseTw
 		// reindexing Bstruct2 field
 		if astructbstructuseDB.Bstruct2ID.Int64 != 0 {
 			astructbstructuseDB.Bstruct2ID.Int64 = int64(BackRepoBstructid_atBckpTime_newID[uint(astructbstructuseDB.Bstruct2ID.Int64)])
+			astructbstructuseDB.Bstruct2ID.Valid = true
 		}
 
 		// This reindex astructbstructuse.AnarrayofbUse

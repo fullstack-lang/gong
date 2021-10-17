@@ -318,6 +318,7 @@ func (backRepoAstruct *BackRepoAstructStruct) CommitPhaseTwoInstance(backRepo *B
 		if astruct.Associationtob != nil {
 			if AssociationtobId, ok := (*backRepo.BackRepoBstruct.Map_BstructPtr_BstructDBID)[astruct.Associationtob]; ok {
 				astructDB.AssociationtobID.Int64 = int64(AssociationtobId)
+				astructDB.AssociationtobID.Valid = true
 			}
 		}
 
@@ -326,6 +327,7 @@ func (backRepoAstruct *BackRepoAstructStruct) CommitPhaseTwoInstance(backRepo *B
 		if astruct.Anotherassociationtob_2 != nil {
 			if Anotherassociationtob_2Id, ok := (*backRepo.BackRepoBstruct.Map_BstructPtr_BstructDBID)[astruct.Anotherassociationtob_2]; ok {
 				astructDB.Anotherassociationtob_2ID.Int64 = int64(Anotherassociationtob_2Id)
+				astructDB.Anotherassociationtob_2ID.Valid = true
 			}
 		}
 
@@ -931,11 +933,13 @@ func (backRepoAstruct *BackRepoAstructStruct) RestorePhaseTwo() {
 		// reindexing Associationtob field
 		if astructDB.AssociationtobID.Int64 != 0 {
 			astructDB.AssociationtobID.Int64 = int64(BackRepoBstructid_atBckpTime_newID[uint(astructDB.AssociationtobID.Int64)])
+			astructDB.AssociationtobID.Valid = true
 		}
 
 		// reindexing Anotherassociationtob_2 field
 		if astructDB.Anotherassociationtob_2ID.Int64 != 0 {
 			astructDB.Anotherassociationtob_2ID.Int64 = int64(BackRepoBstructid_atBckpTime_newID[uint(astructDB.Anotherassociationtob_2ID.Int64)])
+			astructDB.Anotherassociationtob_2ID.Valid = true
 		}
 
 		// This reindex astruct.Anarrayofa

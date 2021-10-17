@@ -158,16 +158,14 @@ export class DstructsTableComponent implements OnInit {
 
         // in case the component is called as a selection component
         if (this.mode == TableComponentMode.ONE_MANY_ASSOCIATION_MODE) {
-          this.dstructs.forEach(
-            dstruct => {
-              let ID = this.dialogData.ID
-              let revPointer = dstruct[this.dialogData.ReversePointer as keyof DstructDB] as unknown as NullInt64
-              if (revPointer.Int64 == ID) {
-                this.initialSelection.push(dstruct)
-              }
+          for (let dstruct of this.dstructs) {
+            let ID = this.dialogData.ID
+            let revPointer = dstruct[this.dialogData.ReversePointer as keyof DstructDB] as unknown as NullInt64
+            if (revPointer.Int64 == ID) {
+              this.initialSelection.push(dstruct)
             }
-          )
-          this.selection = new SelectionModel<DstructDB>(allowMultiSelect, this.initialSelection);
+            this.selection = new SelectionModel<DstructDB>(allowMultiSelect, this.initialSelection);
+          }
         }
 
         if (this.mode == TableComponentMode.MANY_MANY_ASSOCIATION_MODE) {
@@ -254,34 +252,31 @@ export class DstructsTableComponent implements OnInit {
       let toUpdate = new Set<DstructDB>()
 
       // reset all initial selection of dstruct that belong to dstruct
-      this.initialSelection.forEach(
-        dstruct => {
-          let index = dstruct[this.dialogData.ReversePointer as keyof DstructDB] as unknown as NullInt64
-          index.Int64 = 0
-          index.Valid = true
-          toUpdate.add(dstruct)
-        }
-      )
+      for (let dstruct of this.initialSelection) {
+        let index = dstruct[this.dialogData.ReversePointer as keyof DstructDB] as unknown as NullInt64
+        index.Int64 = 0
+        index.Valid = true
+        toUpdate.add(dstruct)
+
+      }
 
       // from selection, set dstruct that belong to dstruct
-      this.selection.selected.forEach(
-        dstruct => {
-          let ID = this.dialogData.ID as number
-          let reversePointer = dstruct[this.dialogData.ReversePointer  as keyof DstructDB] as unknown as NullInt64
-          reversePointer.Int64 = ID
-          toUpdate.add(dstruct)
-        }
-      )
+      for (let dstruct of this.selection.selected) {
+        let ID = this.dialogData.ID as number
+        let reversePointer = dstruct[this.dialogData.ReversePointer as keyof DstructDB] as unknown as NullInt64
+        reversePointer.Int64 = ID
+        reversePointer.Valid = true
+        toUpdate.add(dstruct)
+      }
+
 
       // update all dstruct (only update selection & initial selection)
-      toUpdate.forEach(
-        dstruct => {
-          this.dstructService.updateDstruct(dstruct)
-            .subscribe(dstruct => {
-              this.dstructService.DstructServiceChanged.next("update")
-            });
-        }
-      )
+      for (let dstruct of toUpdate) {
+        this.dstructService.updateDstruct(dstruct)
+          .subscribe(dstruct => {
+            this.dstructService.DstructServiceChanged.next("update")
+          });
+      }
     }
 
     if (this.mode == TableComponentMode.MANY_MANY_ASSOCIATION_MODE) {
@@ -328,13 +323,15 @@ export class DstructsTableComponent implements OnInit {
                 Name: sourceInstance["Name"] + "-" + dstruct.Name,
               }
 
-              let index = associationInstance[this.dialogData.IntermediateStructField+"ID" as keyof typeof associationInstance] as unknown as NullInt64
+              let index = associationInstance[this.dialogData.IntermediateStructField + "ID" as keyof typeof associationInstance] as unknown as NullInt64
               index.Int64 = dstruct.ID
+              index.Valid = true
 
-              let indexDB = associationInstance[this.dialogData.IntermediateStructField+"DBID" as keyof typeof associationInstance] as unknown as NullInt64
+              let indexDB = associationInstance[this.dialogData.IntermediateStructField + "DBID" as keyof typeof associationInstance] as unknown as NullInt64
               indexDB.Int64 = dstruct.ID
+              index.Valid = true
 
-              this.frontRepoService.postService( this.dialogData.IntermediateStruct, associationInstance )
+              this.frontRepoService.postService(this.dialogData.IntermediateStruct, associationInstance)
 
             } else {
               // console.log("dstruct " + dstruct.Name + " is still selected")

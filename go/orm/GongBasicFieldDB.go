@@ -264,6 +264,7 @@ func (backRepoGongBasicField *BackRepoGongBasicFieldStruct) CommitPhaseTwoInstan
 		if gongbasicfield.GongEnum != nil {
 			if GongEnumId, ok := (*backRepo.BackRepoGongEnum.Map_GongEnumPtr_GongEnumDBID)[gongbasicfield.GongEnum]; ok {
 				gongbasicfieldDB.GongEnumID.Int64 = int64(GongEnumId)
+				gongbasicfieldDB.GongEnumID.Valid = true
 			}
 		}
 
@@ -571,6 +572,7 @@ func (backRepoGongBasicField *BackRepoGongBasicFieldStruct) RestorePhaseTwo() {
 		// reindexing GongEnum field
 		if gongbasicfieldDB.GongEnumID.Int64 != 0 {
 			gongbasicfieldDB.GongEnumID.Int64 = int64(BackRepoGongEnumid_atBckpTime_newID[uint(gongbasicfieldDB.GongEnumID.Int64)])
+			gongbasicfieldDB.GongEnumID.Valid = true
 		}
 
 		// This reindex gongbasicfield.GongBasicFields
