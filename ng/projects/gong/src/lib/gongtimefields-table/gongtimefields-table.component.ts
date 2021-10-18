@@ -62,6 +62,9 @@ export class GongTimeFieldsTableComponent implements OnInit {
     // enable sorting on all fields (including pointers and reverse pointer)
     this.matTableDataSource.sortingDataAccessor = (gongtimefieldDB: GongTimeFieldDB, property: string) => {
       switch (property) {
+        case 'ID':
+          return gongtimefieldDB.ID
+
         // insertion point for specific sorting accessor
         case 'Name':
           return gongtimefieldDB.Name;

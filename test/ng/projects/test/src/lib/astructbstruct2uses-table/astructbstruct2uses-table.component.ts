@@ -62,6 +62,9 @@ export class AstructBstruct2UsesTableComponent implements OnInit {
     // enable sorting on all fields (including pointers and reverse pointer)
     this.matTableDataSource.sortingDataAccessor = (astructbstruct2useDB: AstructBstruct2UseDB, property: string) => {
       switch (property) {
+        case 'ID':
+          return astructbstruct2useDB.ID
+
         // insertion point for specific sorting accessor
         case 'Name':
           return astructbstruct2useDB.Name;

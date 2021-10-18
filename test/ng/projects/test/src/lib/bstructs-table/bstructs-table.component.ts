@@ -62,6 +62,9 @@ export class BstructsTableComponent implements OnInit {
     // enable sorting on all fields (including pointers and reverse pointer)
     this.matTableDataSource.sortingDataAccessor = (bstructDB: BstructDB, property: string) => {
       switch (property) {
+        case 'ID':
+          return bstructDB.ID
+
         // insertion point for specific sorting accessor
         case 'Name':
           return bstructDB.Name;

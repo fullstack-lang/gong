@@ -62,6 +62,9 @@ export class ModelPkgsTableComponent implements OnInit {
     // enable sorting on all fields (including pointers and reverse pointer)
     this.matTableDataSource.sortingDataAccessor = (modelpkgDB: ModelPkgDB, property: string) => {
       switch (property) {
+        case 'ID':
+          return modelpkgDB.ID
+
         // insertion point for specific sorting accessor
         case 'Name':
           return modelpkgDB.Name;

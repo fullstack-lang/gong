@@ -22,7 +22,7 @@ const NgTableTemplateHTML = `<div>
         <!-- insertion point for fields specific code -->{{` + string(rune(NgTableHtmlInsertionColumn)) + `}}
 
         <ng-container matColumnDef="ID" sticky>
-            <th mat-header-cell *matHeaderCellDef> ID. </th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> ID. </th>
             <td mat-cell *matCellDef="let {{Structname}}"> {{{{Structname}}.ID}} </td>
         </ng-container>
 
