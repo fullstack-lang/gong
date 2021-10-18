@@ -62,6 +62,9 @@ export class SliceOfPointerToGongStructFieldsTableComponent implements OnInit {
     // enable sorting on all fields (including pointers and reverse pointer)
     this.matTableDataSource.sortingDataAccessor = (sliceofpointertogongstructfieldDB: SliceOfPointerToGongStructFieldDB, property: string) => {
       switch (property) {
+        case 'ID':
+          return sliceofpointertogongstructfieldDB.ID
+
         // insertion point for specific sorting accessor
         case 'Name':
           return sliceofpointertogongstructfieldDB.Name;

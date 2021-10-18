@@ -62,6 +62,9 @@ export class GongEnumValuesTableComponent implements OnInit {
     // enable sorting on all fields (including pointers and reverse pointer)
     this.matTableDataSource.sortingDataAccessor = (gongenumvalueDB: GongEnumValueDB, property: string) => {
       switch (property) {
+        case 'ID':
+          return gongenumvalueDB.ID
+
         // insertion point for specific sorting accessor
         case 'Name':
           return gongenumvalueDB.Name;

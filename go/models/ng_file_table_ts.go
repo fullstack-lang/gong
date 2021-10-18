@@ -79,6 +79,9 @@ export class {{Structname}}sTableComponent implements OnInit {
     // enable sorting on all fields (including pointers and reverse pointer)
     this.matTableDataSource.sortingDataAccessor = ({{structname}}DB: {{Structname}}DB, property: string) => {
       switch (property) {
+        case 'ID':
+          return {{structname}}DB.ID
+
         // insertion point for specific sorting accessor{{` + string(rune(NgTableTsInsertionPerStructColumnsSorting)) + `}}
         default:
           console.assert(false, "Unknown field")

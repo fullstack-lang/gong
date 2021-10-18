@@ -62,6 +62,9 @@ export class GongBasicFieldsTableComponent implements OnInit {
     // enable sorting on all fields (including pointers and reverse pointer)
     this.matTableDataSource.sortingDataAccessor = (gongbasicfieldDB: GongBasicFieldDB, property: string) => {
       switch (property) {
+        case 'ID':
+          return gongbasicfieldDB.ID
+
         // insertion point for specific sorting accessor
         case 'Name':
           return gongbasicfieldDB.Name;
