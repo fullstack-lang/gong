@@ -62,6 +62,9 @@ export class DstructsTableComponent implements OnInit {
     // enable sorting on all fields (including pointers and reverse pointer)
     this.matTableDataSource.sortingDataAccessor = (dstructDB: DstructDB, property: string) => {
       switch (property) {
+        case 'ID':
+          return dstructDB.ID
+
         // insertion point for specific sorting accessor
         case 'Name':
           return dstructDB.Name;
