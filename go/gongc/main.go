@@ -67,32 +67,38 @@ func main() {
 		_, err := os.Stat(goModFilePath)
 		if os.IsNotExist(err) {
 
-			// compute name of package
-			abs, _ := filepath.Abs(filepath.Join(*pkgPath, "../.."))
-			log.Println("Abs is " + abs)
-			dirs := strings.Split(abs, "/")
-			pkgName := dirs[len(dirs)-1]
-			log.Println("PkgName is " + pkgName)
+			// check if it is not part of an overaching go module
+			goModFilePath := filepath.Join(*pkgPath, "../../../go.mod")
+			_, err2 := os.Stat(goModFilePath)
+			if os.IsNotExist(err2) {
 
-			if true {
+				// compute name of package
+				abs, _ := filepath.Abs(filepath.Join(*pkgPath, "../.."))
+				log.Println("Abs is " + abs)
+				dirs := strings.Split(abs, "/")
+				pkgName := dirs[len(dirs)-1]
+				log.Println("PkgName is " + pkgName)
 
-				cmd := exec.Command("go", "mod", "init", pkgName)
-				cmd.Dir, _ = filepath.Abs(filepath.Join(*pkgPath, "../.."))
-				log.Printf("Running %s command in directory %s and waiting for it to finish...\n", cmd.Args, cmd.Dir)
+				if true {
 
-				// https://stackoverflow.com/questions/48253268/print-the-stdout-from-exec-command-in-real-time-in-go
-				var stdBuffer bytes.Buffer
-				mw := io.MultiWriter(os.Stdout, &stdBuffer)
+					cmd := exec.Command("go", "mod", "init", pkgName)
+					cmd.Dir, _ = filepath.Abs(filepath.Join(*pkgPath, "../.."))
+					log.Printf("Running %s command in directory %s and waiting for it to finish...\n", cmd.Args, cmd.Dir)
 
-				cmd.Stdout = mw
-				cmd.Stderr = mw
+					// https://stackoverflow.com/questions/48253268/print-the-stdout-from-exec-command-in-real-time-in-go
+					var stdBuffer bytes.Buffer
+					mw := io.MultiWriter(os.Stdout, &stdBuffer)
 
-				log.Println(cmd.String())
-				log.Println(stdBuffer.String())
+					cmd.Stdout = mw
+					cmd.Stderr = mw
 
-				// Execute the command
-				if err := cmd.Run(); err != nil {
-					log.Panic(err)
+					log.Println(cmd.String())
+					log.Println(stdBuffer.String())
+
+					// Execute the command
+					if err := cmd.Run(); err != nil {
+						log.Panic(err)
+					}
 				}
 			}
 		} else {
@@ -215,7 +221,7 @@ func main() {
 
 			// generate ng workspace
 
-			cmd := exec.Command("ng", "new", "ng", "--defaults=true", "--minimal=true", "--skip-install")
+			cmd := exec.Command("ng", "new", "ng", "--defaults=true", "--minimal=true")
 			cmd.Dir = filepath.Dir(gong_models.NgWorkspacePath)
 			log.Printf("Creating angular workspace\n")
 
@@ -233,6 +239,53 @@ func main() {
 			if err := cmd.Run(); err != nil {
 				log.Panic(err)
 			}
+
+			// add the necessary libraries to gong applications
+			{
+				{
+					cmd := exec.Command("ng", "add", "@angular/material", "--defaults=true", "--skip-confirmation")
+					cmd.Dir = gong_models.NgWorkspacePath
+					log.Printf("Adding angular material\n")
+
+					// https://stackoverflow.com/questions/48253268/print-the-stdout-from-exec-command-in-real-time-in-go
+					var stdBuffer bytes.Buffer
+					mw := io.MultiWriter(os.Stdout, &stdBuffer)
+
+					cmd.Stdout = mw
+					cmd.Stderr = mw
+
+					log.Println(cmd.String())
+					log.Println(stdBuffer.String())
+
+					// Execute the command
+					if err := cmd.Run(); err != nil {
+						log.Panic(err)
+					}
+				}
+
+				{
+					cmd := exec.Command("npm", "install", "--save",
+						"angular-split", "material-design-icons", "typeface-open-sans", "typeface-roboto", "@angular-material-components/datetime-picker")
+					cmd.Dir = gong_models.NgWorkspacePath
+					log.Printf("Installing some packages\n")
+
+					// https://stackoverflow.com/questions/48253268/print-the-stdout-from-exec-command-in-real-time-in-go
+					var stdBuffer bytes.Buffer
+					mw := io.MultiWriter(os.Stdout, &stdBuffer)
+
+					cmd.Stdout = mw
+					cmd.Stderr = mw
+
+					log.Println(cmd.String())
+					log.Println(stdBuffer.String())
+
+					// Execute the command
+					if err := cmd.Run(); err != nil {
+						log.Panic(err)
+					}
+				}
+			}
+
 			// generate default app.component.ts, app.component.html and app.module.ts
 			{
 				gong_models.VerySimpleCodeGenerator(
@@ -546,52 +599,6 @@ func main() {
 		return
 	}
 
-	// add the necessary libraries to gong applications
-	{
-		{
-			cmd := exec.Command("ng", "add", "@angular/material", "--defaults=true", "--skip-confirmation")
-			cmd.Dir = gong_models.NgWorkspacePath
-			log.Printf("Adding angular material\n")
-
-			// https://stackoverflow.com/questions/48253268/print-the-stdout-from-exec-command-in-real-time-in-go
-			var stdBuffer bytes.Buffer
-			mw := io.MultiWriter(os.Stdout, &stdBuffer)
-
-			cmd.Stdout = mw
-			cmd.Stderr = mw
-
-			log.Println(cmd.String())
-			log.Println(stdBuffer.String())
-
-			// Execute the command
-			if err := cmd.Run(); err != nil {
-				log.Panic(err)
-			}
-		}
-
-		{
-			cmd := exec.Command("npm", "install", "--save",
-				"angular-split", "material-design-icons", "typeface-open-sans", "typeface-roboto", "@angular-material-components/datetime-picker")
-			cmd.Dir = gong_models.NgWorkspacePath
-			log.Printf("Installing some packages\n")
-
-			// https://stackoverflow.com/questions/48253268/print-the-stdout-from-exec-command-in-real-time-in-go
-			var stdBuffer bytes.Buffer
-			mw := io.MultiWriter(os.Stdout, &stdBuffer)
-
-			cmd.Stdout = mw
-			cmd.Stderr = mw
-
-			log.Println(cmd.String())
-			log.Println(stdBuffer.String())
-
-			// Execute the command
-			if err := cmd.Run(); err != nil {
-				log.Panic(err)
-			}
-		}
-	}
-
 	// npm install
 	if true {
 
@@ -639,10 +646,10 @@ func main() {
 		}
 	}
 
-	// go mod
+	// go get
 	if true {
 
-		cmd := exec.Command("go", "mod", "tidy")
+		cmd := exec.Command("go", "get")
 		cmd.Dir, _ = filepath.Abs(filepath.Join(*pkgPath, "../.."))
 		log.Printf("Running %s command in directory %s and waiting for it to finish...\n", cmd.Args, cmd.Dir)
 
