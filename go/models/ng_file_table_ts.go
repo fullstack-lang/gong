@@ -470,7 +470,7 @@ func MultiCodeGeneratorNgTable(
 
 		// create the component directory
 		dirPath := filepath.Join(matTargetPath, strings.ToLower(_struct.Name)+"s-table")
-		errd := os.Mkdir(dirPath, os.ModePerm)
+		errd := os.MkdirAll(dirPath, os.ModePerm)
 		if os.IsNotExist(errd) {
 			log.Println("creating directory : " + dirPath)
 		}

@@ -58,6 +58,48 @@ func main() {
 		*pkgPath = flag.Arg(0)
 	}
 
+	// TODO check version of go
+	// TODO check version of angular
+
+	// check existance of "go.mod" file
+	{
+		goModFilePath := filepath.Join(*pkgPath, "../../go.mod")
+		_, err := os.Stat(goModFilePath)
+		if os.IsNotExist(err) {
+
+			// compute name of package
+			abs, _ := filepath.Abs(filepath.Join(*pkgPath, "../.."))
+			log.Println("Abs is " + abs)
+			dirs := strings.Split(abs, "/")
+			pkgName := dirs[len(dirs)-1]
+			log.Println("PkgName is " + pkgName)
+
+			if true {
+
+				cmd := exec.Command("go", "mod", "init", pkgName)
+				cmd.Dir, _ = filepath.Abs(filepath.Join(*pkgPath, "../.."))
+				log.Printf("Running %s command in directory %s and waiting for it to finish...\n", cmd.Args, cmd.Dir)
+
+				// https://stackoverflow.com/questions/48253268/print-the-stdout-from-exec-command-in-real-time-in-go
+				var stdBuffer bytes.Buffer
+				mw := io.MultiWriter(os.Stdout, &stdBuffer)
+
+				cmd.Stdout = mw
+				cmd.Stderr = mw
+
+				log.Println(cmd.String())
+				log.Println(stdBuffer.String())
+
+				// Execute the command
+				if err := cmd.Run(); err != nil {
+					log.Panic(err)
+				}
+			}
+		} else {
+			log.Println("go.mod is already present ")
+		}
+	}
+
 	gong_models.ADDR = *addr
 
 	// parse package and generate code if flag set
@@ -96,6 +138,43 @@ func main() {
 		log.Println("backend target path " + gong_models.BackendTargetPath)
 	}
 
+	// check existance of .git directory. If absent, use "ngit init"
+	{
+
+		gitDirPath := filepath.Join(*pkgPath, "../../.git")
+
+		gitDirAbsPath, err := filepath.Abs(gitDirPath)
+		if err != nil {
+			log.Panic("Problem with frontend target path " + err.Error())
+		}
+		_, errStat := os.Stat(gitDirAbsPath)
+		log.Println("git directry abs path " + gitDirAbsPath)
+
+		if os.IsNotExist(errStat) {
+			log.Printf("git dir %s does not exist, hence gong is generating it with git init command", gitDirAbsPath)
+
+			// git init
+			cmd := exec.Command("git", "init")
+			cmd.Dir, _ = filepath.Abs(filepath.Join(*pkgPath, "../.."))
+
+			// https://stackoverflow.com/questions/48253268/print-the-stdout-from-exec-command-in-real-time-in-go
+			var stdBuffer bytes.Buffer
+			mw := io.MultiWriter(os.Stdout, &stdBuffer)
+
+			cmd.Stdout = mw
+			cmd.Stderr = mw
+
+			log.Println(cmd.String())
+			log.Println(stdBuffer.String())
+
+			// Execute the command
+			if err := cmd.Run(); err != nil {
+				log.Panic(err)
+			}
+		}
+	}
+
+	// generate main.go if absent
 	{
 		// check existance of "main.go" file and generate a default "main.go" if absent
 		mainFilePath := filepath.Join(*pkgPath, "../../main.go")
@@ -115,6 +194,8 @@ func main() {
 				gong_models.PackageMain)
 		}
 	}
+
+	// generate things in ng  lib directory
 	{
 		if *ngWorkspacePath == COMPUTED_FROM_PKG_PATH {
 			*ngWorkspacePath = filepath.Join(*pkgPath, "../../ng")
@@ -126,107 +207,47 @@ func main() {
 		}
 		gong_models.NgWorkspacePath = directory
 		log.Println("module target abs path " + gong_models.NgWorkspacePath)
-	}
 
-	// check existance of angular directory
-	{
-
+		// check existance of angular directory. If absent, use "ng new ng", then generate default app.component.html
 		_, errd := os.Stat(gong_models.NgWorkspacePath)
 		if os.IsNotExist(errd) {
-			log.Printf("ng directory %s does not exist", gong_models.NgWorkspacePath)
+			log.Printf("ng directory %s does not exist, hence gong is generating it with ng new ng command", gong_models.NgWorkspacePath)
 
 			// generate ng workspace
-			{
-				cmd := exec.Command("ng", "new", "ng", "--defaults=true")
-				cmd.Dir = filepath.Dir(gong_models.NgWorkspacePath)
-				log.Printf("Creating angular workspace\n")
 
-				// https://stackoverflow.com/questions/48253268/print-the-stdout-from-exec-command-in-real-time-in-go
-				var stdBuffer bytes.Buffer
-				mw := io.MultiWriter(os.Stdout, &stdBuffer)
+			cmd := exec.Command("ng", "new", "ng", "--defaults=true", "--minimal=true", "--skip-install")
+			cmd.Dir = filepath.Dir(gong_models.NgWorkspacePath)
+			log.Printf("Creating angular workspace\n")
 
-				cmd.Stdout = mw
-				cmd.Stderr = mw
+			// https://stackoverflow.com/questions/48253268/print-the-stdout-from-exec-command-in-real-time-in-go
+			var stdBuffer bytes.Buffer
+			mw := io.MultiWriter(os.Stdout, &stdBuffer)
 
-				log.Println(cmd.String())
-				log.Println(stdBuffer.String())
+			cmd.Stdout = mw
+			cmd.Stderr = mw
 
-				// Execute the command
-				if err := cmd.Run(); err != nil {
-					log.Panic(err)
-				}
-			}
-			// generate library project
-			{
-				cmd := exec.Command("ng", "generate", "library", gong_models.PkgName, "--defaults=true")
-				cmd.Dir = gong_models.NgWorkspacePath
-				log.Printf("Creating a library %s in the angular workspace\n", gong_models.PkgName)
+			log.Println(cmd.String())
+			log.Println(stdBuffer.String())
 
-				// https://stackoverflow.com/questions/48253268/print-the-stdout-from-exec-command-in-real-time-in-go
-				var stdBuffer bytes.Buffer
-				mw := io.MultiWriter(os.Stdout, &stdBuffer)
-
-				cmd.Stdout = mw
-				cmd.Stderr = mw
-
-				log.Println(cmd.String())
-				log.Println(stdBuffer.String())
-
-				// Execute the command
-				if err := cmd.Run(); err != nil {
-					log.Panic(err)
-				}
-			}
-			{
-				cmd := exec.Command("ng", "add", "@angular/material", "--defaults=true", "--skip-confirmation")
-				cmd.Dir = gong_models.NgWorkspacePath
-				log.Printf("Adding angular material\n")
-
-				// https://stackoverflow.com/questions/48253268/print-the-stdout-from-exec-command-in-real-time-in-go
-				var stdBuffer bytes.Buffer
-				mw := io.MultiWriter(os.Stdout, &stdBuffer)
-
-				cmd.Stdout = mw
-				cmd.Stderr = mw
-
-				log.Println(cmd.String())
-				log.Println(stdBuffer.String())
-
-				// Execute the command
-				if err := cmd.Run(); err != nil {
-					log.Panic(err)
-				}
-			}
-			{
-				cmd := exec.Command("npm", "install", "--save",
-					"angular-split", "material-design-icons", "typeface-open-sans", "typeface-roboto", "@angular-material-components/datetime-picker")
-				cmd.Dir = gong_models.NgWorkspacePath
-				log.Printf("Installing some packages\n")
-
-				// https://stackoverflow.com/questions/48253268/print-the-stdout-from-exec-command-in-real-time-in-go
-				var stdBuffer bytes.Buffer
-				mw := io.MultiWriter(os.Stdout, &stdBuffer)
-
-				cmd.Stdout = mw
-				cmd.Stderr = mw
-
-				log.Println(cmd.String())
-				log.Println(stdBuffer.String())
-
-				// Execute the command
-				if err := cmd.Run(); err != nil {
-					log.Panic(err)
-				}
+			// Execute the command
+			if err := cmd.Run(); err != nil {
+				log.Panic(err)
 			}
 			// generate default app.component.ts, app.component.html and app.module.ts
 			{
-
 				gong_models.VerySimpleCodeGenerator(
 					&modelPkg,
 					gong_models.PkgName,
 					gong_models.PkgGoPath,
 					filepath.Join(gong_models.NgWorkspacePath, "src/app/app.module.ts"),
 					gong_models.NgFileModule)
+				gong_models.VerySimpleCodeGenerator(
+					&modelPkg,
+					gong_models.PkgName,
+					gong_models.PkgGoPath,
+					filepath.Join(gong_models.NgWorkspacePath, "src/app/app.component.ts"),
+					gong_models.NgFileAppComponentTs)
+
 				filename := filepath.Join(gong_models.NgWorkspacePath, "src/app/app.component.html")
 
 				// we should use go generate
@@ -241,46 +262,67 @@ func main() {
 
 				fmt.Fprintf(f, "%s", res)
 			}
-
-			{
-				// patch tsconfig file in order to have the path to the public-api of the
-				// generated library (instead of the path to "dist")
-				filename := filepath.Join(gong_models.NgWorkspacePath, "tsconfig.json")
-				InsertStringToFile(filename, "        \"projects/"+modelPkg.Name+"/src/public-api.ts\",", modelPkg.Name+"\": [")
-			}
-
-		} else {
-			log.Printf("ng directory %s does exist", gong_models.NgWorkspacePath)
 		}
-
 	}
+
+	// check existance of generated angular library. If absent, use "ng generate libray <library>"
+	// and generate default app application
 	{
 		if *matTargetPath == COMPUTED_FROM_PKG_PATH {
 			*matTargetPath = filepath.Join(*pkgPath, fmt.Sprintf("../../ng/projects/%s/src/lib", gong_models.PkgName))
 		}
 
 		directory, err := filepath.Abs(*matTargetPath)
+		gong_models.MatTargetPath = directory
 		if err != nil {
 			log.Panic("Problem with frontend target path " + err.Error())
 		}
-		// check existance of path
-		fileInfo, err := os.Stat(directory)
-		if os.IsNotExist(err) {
-			log.Panicf("Folder %s does not exist.", directory)
-		}
-		if fileInfo.Mode().Perm()&(1<<(uint(7))) == 0 {
-			log.Panicf("Folder %s is not writtable", directory)
-		}
-		if !*backendOnly {
-			RemoveContents(*matTargetPath)
-		}
-		gong_models.MatTargetPath = directory
+		_, errStat := os.Stat(gong_models.MatTargetPath)
 		log.Println("module target abs path " + gong_models.MatTargetPath)
+
+		if os.IsNotExist(errStat) {
+			log.Printf("library directory %s does not exist, hence gong is generating it with ng generate library command", directory)
+
+			// generate library project
+			cmd := exec.Command("ng", "generate", "library", gong_models.PkgName, "--defaults=true", "--skip-install=true")
+			cmd.Dir = gong_models.NgWorkspacePath
+			log.Printf("Creating a library %s in the angular workspace\n", gong_models.PkgName)
+
+			// https://stackoverflow.com/questions/48253268/print-the-stdout-from-exec-command-in-real-time-in-go
+			var stdBuffer bytes.Buffer
+			mw := io.MultiWriter(os.Stdout, &stdBuffer)
+
+			cmd.Stdout = mw
+			cmd.Stderr = mw
+
+			log.Println(cmd.String())
+			log.Println(stdBuffer.String())
+
+			// Execute the command
+			if err := cmd.Run(); err != nil {
+				log.Panic(err)
+			}
+			{
+				// patch tsconfig file in order to have the path to the public-api of the
+				// generated library (instead of the path to "dist")
+				filename := filepath.Join(gong_models.NgWorkspacePath, "tsconfig.json")
+				InsertStringToFile(filename, "        \"projects/"+modelPkg.Name+"/src/public-api.ts\",", modelPkg.Name+"\": [")
+			}
+		}
 	}
 
+	// now replace the generated content in the library
+	{
+		if !*backendOnly {
+			log.Println("Removing all content of " + *matTargetPath)
+			RemoveContents(*matTargetPath)
+		}
+	}
+
+	// generates styles
 	{
 		directory, errForCreationOfStylesDir := filepath.Abs(*matTargetPath)
-		errForCreationOfStylesDir = os.Mkdir(filepath.Join(directory, "styles"), os.ModePerm)
+		errForCreationOfStylesDir = os.MkdirAll(filepath.Join(directory, "styles"), os.ModePerm)
 		if os.IsNotExist(errForCreationOfStylesDir) {
 			log.Println("creating directory : " + gong_models.OrmPkgGenPath)
 		}
@@ -293,7 +335,7 @@ func main() {
 	gong_models.OrmPkgGenPath = filepath.Join(gong_models.BackendTargetPath, "orm")
 
 	os.RemoveAll(gong_models.OrmPkgGenPath)
-	errd := os.Mkdir(gong_models.OrmPkgGenPath, os.ModePerm)
+	errd := os.MkdirAll(gong_models.OrmPkgGenPath, os.ModePerm)
 	if os.IsNotExist(errd) {
 		log.Println("creating directory : " + gong_models.OrmPkgGenPath)
 	}
@@ -307,7 +349,7 @@ func main() {
 	gong_models.ControllersPkgGenPath = filepath.Join(gong_models.BackendTargetPath, "controllers")
 
 	os.RemoveAll(gong_models.ControllersPkgGenPath)
-	errd = os.Mkdir(gong_models.ControllersPkgGenPath, os.ModePerm)
+	errd = os.MkdirAll(gong_models.ControllersPkgGenPath, os.ModePerm)
 	if os.IsNotExist(errd) {
 		log.Println("creating directory : " + gong_models.ControllersPkgGenPath)
 	}
@@ -504,6 +546,53 @@ func main() {
 		return
 	}
 
+	// add the necessary libraries to gong applications
+	{
+		{
+			cmd := exec.Command("ng", "add", "@angular/material", "--defaults=true", "--skip-confirmation")
+			cmd.Dir = gong_models.NgWorkspacePath
+			log.Printf("Adding angular material\n")
+
+			// https://stackoverflow.com/questions/48253268/print-the-stdout-from-exec-command-in-real-time-in-go
+			var stdBuffer bytes.Buffer
+			mw := io.MultiWriter(os.Stdout, &stdBuffer)
+
+			cmd.Stdout = mw
+			cmd.Stderr = mw
+
+			log.Println(cmd.String())
+			log.Println(stdBuffer.String())
+
+			// Execute the command
+			if err := cmd.Run(); err != nil {
+				log.Panic(err)
+			}
+		}
+
+		{
+			cmd := exec.Command("npm", "install", "--save",
+				"angular-split", "material-design-icons", "typeface-open-sans", "typeface-roboto", "@angular-material-components/datetime-picker")
+			cmd.Dir = gong_models.NgWorkspacePath
+			log.Printf("Installing some packages\n")
+
+			// https://stackoverflow.com/questions/48253268/print-the-stdout-from-exec-command-in-real-time-in-go
+			var stdBuffer bytes.Buffer
+			mw := io.MultiWriter(os.Stdout, &stdBuffer)
+
+			cmd.Stdout = mw
+			cmd.Stderr = mw
+
+			log.Println(cmd.String())
+			log.Println(stdBuffer.String())
+
+			// Execute the command
+			if err := cmd.Run(); err != nil {
+				log.Panic(err)
+			}
+		}
+	}
+
+	// npm install
 	if true {
 
 		cmd := exec.Command("npm", "i")
@@ -527,28 +616,7 @@ func main() {
 
 	}
 
-	if false { // this step is unnecessary since compilation is done with tsconfig dependencies
-		cmd := exec.Command("ng", "build", gong_models.PkgName)
-		cmd.Dir, _ = filepath.Abs(*ngWorkspacePath)
-		log.Printf("Running %s command in directory %s and waiting for it to finish...\n", cmd.Args, cmd.Dir)
-
-		// https://stackoverflow.com/questions/48253268/print-the-stdout-from-exec-command-in-real-time-in-go
-		var stdBuffer bytes.Buffer
-		mw := io.MultiWriter(os.Stdout, &stdBuffer)
-
-		cmd.Stdout = mw
-		cmd.Stderr = mw
-
-		log.Println(cmd.String())
-		log.Println(stdBuffer.String())
-
-		// Execute the command
-		if err := cmd.Run(); err != nil {
-			log.Panic(err)
-		}
-
-	}
-
+	// ng build
 	if true {
 
 		cmd := exec.Command("ng", "build")
@@ -569,15 +637,59 @@ func main() {
 		if err := cmd.Run(); err != nil {
 			log.Panic(err)
 		}
-
 	}
 
-	log.Printf("compilation over")
+	// go mod
+	if true {
 
-	if *run {
+		cmd := exec.Command("go", "mod", "tidy")
+		cmd.Dir, _ = filepath.Abs(filepath.Join(*pkgPath, "../.."))
+		log.Printf("Running %s command in directory %s and waiting for it to finish...\n", cmd.Args, cmd.Dir)
 
-		cmd := exec.Command("go", "run", "main.go")
-		cmd.Dir, _ = filepath.Abs(filepath.Join(*ngWorkspacePath, ".."))
+		// https://stackoverflow.com/questions/48253268/print-the-stdout-from-exec-command-in-real-time-in-go
+		var stdBuffer bytes.Buffer
+		mw := io.MultiWriter(os.Stdout, &stdBuffer)
+
+		cmd.Stdout = mw
+		cmd.Stderr = mw
+
+		log.Println(cmd.String())
+		log.Println(stdBuffer.String())
+
+		// Execute the command
+		if err := cmd.Run(); err != nil {
+			log.Panic(err)
+		}
+	}
+
+	// go get isatty
+	if true {
+		// path gin since isatty fails if v0.0.12 (patch version 0.0.14 is OK)
+		cmd := exec.Command("go", "get", "-d", "github.com/mattn/go-isatty")
+		cmd.Dir, _ = filepath.Abs(filepath.Join(*pkgPath, "../.."))
+		log.Printf("Running %s command in directory %s and waiting for it to finish...\n", cmd.Args, cmd.Dir)
+
+		// https://stackoverflow.com/questions/48253268/print-the-stdout-from-exec-command-in-real-time-in-go
+		var stdBuffer bytes.Buffer
+		mw := io.MultiWriter(os.Stdout, &stdBuffer)
+
+		cmd.Stdout = mw
+		cmd.Stderr = mw
+
+		log.Println(cmd.String())
+		log.Println(stdBuffer.String())
+
+		// Execute the command
+		if err := cmd.Run(); err != nil {
+			log.Panic(err)
+		}
+	}
+
+	// go build
+	if true {
+
+		cmd := exec.Command("go", "build")
+		cmd.Dir, _ = filepath.Abs(filepath.Join(*pkgPath, "../.."))
 		log.Printf("Running %s command in directory %s and waiting for it to finish...\n", cmd.Args, cmd.Dir)
 
 		// https://stackoverflow.com/questions/48253268/print-the-stdout-from-exec-command-in-real-time-in-go
@@ -596,23 +708,27 @@ func main() {
 		}
 
 	}
-}
+	log.Printf("compilation over")
 
-func RemoveContents(dir string) error {
-	d, err := os.Open(dir)
-	if err != nil {
-		return err
-	}
-	defer d.Close()
-	names, err := d.Readdirnames(-1)
-	if err != nil {
-		return err
-	}
-	for _, name := range names {
-		err = os.RemoveAll(filepath.Join(dir, name))
-		if err != nil {
-			return err
+	// run application
+	if *run {
+		cmd := exec.Command("go", "run", "main.go")
+		cmd.Dir, _ = filepath.Abs(filepath.Join(*ngWorkspacePath, ".."))
+		log.Printf("Running %s command in directory %s and waiting for it to finish...\n", cmd.Args, cmd.Dir)
+
+		// https://stackoverflow.com/questions/48253268/print-the-stdout-from-exec-command-in-real-time-in-go
+		var stdBuffer bytes.Buffer
+		mw := io.MultiWriter(os.Stdout, &stdBuffer)
+
+		cmd.Stdout = mw
+		cmd.Stderr = mw
+
+		log.Println(cmd.String())
+		log.Println(stdBuffer.String())
+
+		// Execute the command
+		if err := cmd.Run(); err != nil {
+			log.Panic(err)
 		}
 	}
-	return nil
 }

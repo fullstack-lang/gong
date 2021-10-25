@@ -5,7 +5,7 @@ import (
 	"os"
 	"path/filepath"
 
-  _ "embed"
+	_ "embed"
 )
 
 //go:embed ng_file_splitter.css
@@ -37,7 +37,7 @@ func CodeGeneratorNgSplitter(
 
 	// create the component directory
 	dirPath := filepath.Join(matTargetPath, "splitter")
-	errd := os.Mkdir(dirPath, os.ModePerm)
+	errd := os.MkdirAll(dirPath, os.ModePerm)
 	if os.IsNotExist(errd) {
 		log.Println("creating directory : " + dirPath)
 	}
