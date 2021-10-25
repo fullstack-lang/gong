@@ -152,7 +152,7 @@ func MultiCodeGeneratorNgSorting(
 
 		// create the component directory
 		dirPath := filepath.Join(matTargetPath, strings.ToLower(_struct.Name)+"-sorting")
-		errd := os.Mkdir(dirPath, os.ModePerm)
+		errd := os.MkdirAll(dirPath, os.ModePerm)
 		if os.IsNotExist(errd) {
 			log.Println("creating directory : " + dirPath)
 		}

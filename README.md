@@ -119,20 +119,16 @@ it is possible to generate a functionning stack in 5 minutes.
 In a terminal, below commands :
 
 - `mkdir` creates a `helloworld` directory
-- `go mod init` generates a go module `github.com/fullstack-lang/helloworld`
 - `mkdir` generates a sub directory `go/models`
 - `echo` commands generates 2 go structs in this subdirectory
   - `Hello` which stores a way to say hello
   - `Country` which stores a country and an association to the way to say hello in this country 
 - `gongc go/models` compiles the models
-- `go mod tidy` download needed go packages
-- `go build` generates the single binary `./helloworld`
 - `./helloworld` run the server
 
 ```bash
 mkdir helloworld
 cd helloworld
-go mod init github.com/fullstack-lang/helloworld
 mkdir go
 mkdir go/models
 echo "package models
@@ -145,8 +141,6 @@ Name string
 Hello *Hello
 }" > go/models/country.go
 gongc go/models
-go mod tidy
-go build
 ./helloworld
 ```
 

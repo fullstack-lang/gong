@@ -82,14 +82,14 @@ func GetLastPushFromFrontNb() uint {
 
 // Backup the BackRepoStruct
 func (backRepo *BackRepoStruct) Backup(stage *models.StageStruct, dirPath string) {
-	os.Mkdir(dirPath, os.ModePerm)
+	os.MkdirAll(dirPath, os.ModePerm)
 
 	// insertion point for per struct backup{{` + string(rune(BackRepoBackup)) + `}}
 }
 
 // Backup in XL the BackRepoStruct
 func (backRepo *BackRepoStruct) BackupXL(stage *models.StageStruct, dirPath string) {
-	os.Mkdir(dirPath, os.ModePerm)
+	os.MkdirAll(dirPath, os.ModePerm)
 
 	// open an existing file
 	file := xlsx.NewFile()
