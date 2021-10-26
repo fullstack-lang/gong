@@ -86,7 +86,7 @@ type {{Structname}}DBResponse struct {
 // {{Structname}}WOP is a {{Structname}} without pointers (WOP is an acronym for "Without Pointers")
 // it holds the same basic fields but pointers are encoded into uint
 type {{Structname}}WOP struct {
-	ID int
+	ID int{{` + string(rune(BackRepoWOPInitialIndex)) + `}}
 
 	// insertion for WOP basic fields{{` + string(rune(BackRepoBasicAndTimeFieldsWOPDeclaration)) + `}}
 	// insertion for WOP pointer fields{{` + string(rune(BackRepoPointerEncodingFieldsWOPDeclaration)) + `}}
@@ -452,6 +452,37 @@ func (backRepo{{Structname}} *BackRepo{{Structname}}Struct) BackupXL(file *xlsx.
 	}
 }
 
+// RestoreXL from the "{{Structname}}" sheet all {{Structname}}DB instances
+func (backRepo{{Structname}} *BackRepo{{Structname}}Struct) RestoreXLPhaseOne(file *xlsx.File) {
+
+	sh, ok := file.Sheet["{{Structname}}"]
+	_ = sh
+	if !ok {
+		log.Panic(errors.New("sheet not found"))
+	}
+
+	// log.Println("Max row is", sh.MaxRow)
+	err := sh.ForEachRow(rowVisitor{{Structname}})
+	if err != nil {
+		log.Panic("Err=", err)
+	}
+}
+
+func rowVisitor{{Structname}}(row *xlsx.Row) error {
+
+	log.Printf("row line %d\n", row.GetCoordinate())
+	log.Println(row)
+
+	// skip first line
+	if row.GetCoordinate() > 0 {
+		var {{structname}}WOP {{Structname}}WOP
+		row.ReadStruct(&{{structname}}WOP)
+
+		_ = {{structname}}WOP
+	}
+	return nil
+}
+
 // RestorePhaseOne read the file "{{Structname}}DB.json" in dirPath that stores an array
 // of {{Structname}}DB and stores it in the database
 // the map BackRepo{{Structname}}id_atBckpTime_newID is updated accordingly
@@ -522,6 +553,7 @@ type BackRepoInsertionPoint int
 const (
 	BackRepoBasicFieldsDeclaration BackRepoInsertionPoint = iota
 	BackRepoBasicAndTimeFieldsName
+	BackRepoWOPInitialIndex
 	BackRepoBasicAndTimeFieldsWOPDeclaration
 	BackRepoPointerEncodingFieldsDeclaration
 	BackRepoPointerEncodingFieldsWOPDeclaration
@@ -764,6 +796,10 @@ func MultiCodeGeneratorBackRepo(
 
 		insertions[BackRepoBasicAndTimeFieldsName] += "\n\t\"ID\","
 
+		// for xlsx unmarshall, each field is with a magic code `xlsx:"N"` where N the the field ID
+		insertions[BackRepoWOPInitialIndex] = " `xlsx:\"0\"`"
+		fieldWOPindex := 1
+
 		for _, field := range _struct.Fields {
 
 			switch field := field.(type) {
@@ -771,7 +807,8 @@ func MultiCodeGeneratorBackRepo(
 
 				insertions[BackRepoBasicAndTimeFieldsWOPDeclaration] +=
 					"\n\n\t" + field.Name + " " +
-						strings.ReplaceAll(field.DeclaredType, pkgGoPath+".", "models.")
+						strings.ReplaceAll(field.DeclaredType, pkgGoPath+".", "models.") + fmt.Sprintf(" `xlsx:\"%d\"`", fieldWOPindex)
+				fieldWOPindex = fieldWOPindex + 1
 
 				insertions[BackRepoBasicAndTimeFieldsName] += "\n\t\"" + field.Name + "\","
 
@@ -856,7 +893,8 @@ func MultiCodeGeneratorBackRepo(
 			case *GongTimeField:
 
 				insertions[BackRepoBasicAndTimeFieldsWOPDeclaration] +=
-					"\n\n\t" + field.Name + " " + "time.Time"
+					"\n\n\t" + field.Name + " " + "time.Time" + fmt.Sprintf(" `xlsx:\"%d\"`", fieldWOPindex)
+				fieldWOPindex = fieldWOPindex + 1
 
 				insertions[BackRepoBasicAndTimeFieldsName] += "\n\t\"" + field.Name + "\","
 
