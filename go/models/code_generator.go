@@ -72,6 +72,11 @@ func CodeGenerator(
 	forGongStructWithNameFieldOnly bool) {
 
 	file, err := os.Create(generatedFilePath)
+
+	if err != nil {
+		file, err = os.Create(generatedFilePath)
+	}
+
 	if err != nil {
 		log.Panic(err)
 	}
