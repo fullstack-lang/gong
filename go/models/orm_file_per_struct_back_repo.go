@@ -86,7 +86,7 @@ type {{Structname}}DBResponse struct {
 // {{Structname}}WOP is a {{Structname}} without pointers (WOP is an acronym for "Without Pointers")
 // it holds the same basic fields but pointers are encoded into uint
 type {{Structname}}WOP struct {
-	ID int
+	ID int{{` + string(rune(BackRepoWOPInitialIndex)) + `}}
 
 	// insertion for WOP basic fields{{` + string(rune(BackRepoBasicAndTimeFieldsWOPDeclaration)) + `}}
 	// insertion for WOP pointer fields{{` + string(rune(BackRepoPointerEncodingFieldsWOPDeclaration)) + `}}
@@ -452,6 +452,51 @@ func (backRepo{{Structname}} *BackRepo{{Structname}}Struct) BackupXL(file *xlsx.
 	}
 }
 
+// RestoreXL from the "{{Structname}}" sheet all {{Structname}}DB instances
+func (backRepo{{Structname}} *BackRepo{{Structname}}Struct) RestoreXLPhaseOne(file *xlsx.File) {
+
+	// resets the map
+	BackRepo{{Structname}}id_atBckpTime_newID = make(map[uint]uint)
+
+	sh, ok := file.Sheet["{{Structname}}"]
+	_ = sh
+	if !ok {
+		log.Panic(errors.New("sheet not found"))
+	}
+
+	// log.Println("Max row is", sh.MaxRow)
+	err := sh.ForEachRow(backRepo{{Structname}}.rowVisitor{{Structname}})
+	if err != nil {
+		log.Panic("Err=", err)
+	}
+}
+
+func (backRepo{{Structname}} *BackRepo{{Structname}}Struct) rowVisitor{{Structname}}(row *xlsx.Row) error {
+
+	log.Printf("row line %d\n", row.GetCoordinate())
+	log.Println(row)
+
+	// skip first line
+	if row.GetCoordinate() > 0 {
+		var {{structname}}WOP {{Structname}}WOP
+		row.ReadStruct(&{{structname}}WOP)
+
+		// add the unmarshalled struct to the stage
+		{{structname}}DB := new({{Structname}}DB)
+		{{structname}}DB.CopyBasicFieldsFrom{{Structname}}WOP(&{{structname}}WOP)
+
+		{{structname}}DB_ID_atBackupTime := {{structname}}DB.ID
+		{{structname}}DB.ID = 0
+		query := backRepo{{Structname}}.db.Create({{structname}}DB)
+		if query.Error != nil {
+			log.Panic(query.Error)
+		}
+		(*backRepo{{Structname}}.Map_{{Structname}}DBID_{{Structname}}DB)[{{structname}}DB.ID] = {{structname}}DB
+		BackRepo{{Structname}}id_atBckpTime_newID[{{structname}}DB_ID_atBackupTime] = {{structname}}DB.ID
+	}
+	return nil
+}
+
 // RestorePhaseOne read the file "{{Structname}}DB.json" in dirPath that stores an array
 // of {{Structname}}DB and stores it in the database
 // the map BackRepo{{Structname}}id_atBckpTime_newID is updated accordingly
@@ -522,6 +567,7 @@ type BackRepoInsertionPoint int
 const (
 	BackRepoBasicFieldsDeclaration BackRepoInsertionPoint = iota
 	BackRepoBasicAndTimeFieldsName
+	BackRepoWOPInitialIndex
 	BackRepoBasicAndTimeFieldsWOPDeclaration
 	BackRepoPointerEncodingFieldsDeclaration
 	BackRepoPointerEncodingFieldsWOPDeclaration
@@ -575,28 +621,29 @@ var BackRepoFieldSubTemplateCode map[BackRepoPerStructSubTemplate]string = map[B
 	//
 
 	BackRepoDeclarationBasicField: `
+
 	// Declation for basic field {{structname}}DB.{{FieldName}} {{BasicKind}} (to be completed)
-	{{FieldName}}_Data sql.{{SqlNullType}}
-`,
+	{{FieldName}}_Data sql.{{SqlNullType}}`,
 
 	BackRepoDeclarationTimeField: `
+
 	// Declation for basic field {{structname}}DB.{{FieldName}}
-	{{FieldName}}_Data sql.NullTime
-`,
+	{{FieldName}}_Data sql.NullTime`,
 
 	BackRepoDeclarationBasicBooleanField: `
+
 	// Declation for basic field {{structname}}DB.{{FieldName}} {{BasicKind}} (to be completed)
 	// provide the sql storage for the boolan
-	{{FieldName}}_Data sql.NullBool
-`,
+	{{FieldName}}_Data sql.NullBool`,
 
 	BackRepoDeclarationPointerToStructField: `
+
 	// field {{FieldName}} is a pointer to another Struct (optional or 0..1)
 	// This field is generated into another field to enable AS ONE association
-	{{FieldName}}ID sql.NullInt64
-`,
+	{{FieldName}}ID sql.NullInt64`,
 
 	BackRepoDeclarationSliceOfPointerToStructField: `
+
 	// Implementation of a reverse ID for field {{AssociationStructName}}{}.{{FieldName}} []*{{Structname}}
 	{{AssociationStructName}}_{{FieldName}}DBID sql.NullInt64
 
@@ -608,28 +655,29 @@ var BackRepoFieldSubTemplateCode map[BackRepoPerStructSubTemplate]string = map[B
 	//
 
 	BackRepoCommitBasicField: `
+
 	{{structname}}DB.{{FieldName}}_Data.{{SqlNullType}} = {{structname}}.{{FieldName}}
-	{{structname}}DB.{{FieldName}}_Data.Valid = true
-`,
+	{{structname}}DB.{{FieldName}}_Data.Valid = true`,
 
 	BackRepoCommitBasicFieldEnum: `
+
 	{{structname}}DB.{{FieldName}}_Data.String = string({{structname}}.{{FieldName}})
-	{{structname}}DB.{{FieldName}}_Data.Valid = true
-`,
+	{{structname}}DB.{{FieldName}}_Data.Valid = true`,
 
 	BackRepoCommitBasicFieldInt: `
+
 	{{structname}}DB.{{FieldName}}_Data.Int64 = int64({{structname}}.{{FieldName}})
-	{{structname}}DB.{{FieldName}}_Data.Valid = true
-`,
+	{{structname}}DB.{{FieldName}}_Data.Valid = true`,
+
 	BackRepoCommitTimeField: `
+
 	{{structname}}DB.{{FieldName}}_Data.Time = {{structname}}.{{FieldName}}
-	{{structname}}DB.{{FieldName}}_Data.Valid = true
-`,
+	{{structname}}DB.{{FieldName}}_Data.Valid = true`,
 
 	BackRepoCommitBasicBooleanField: `
+
 	{{structname}}DB.{{FieldName}}_Data.Bool = {{structname}}.{{FieldName}}
-	{{structname}}DB.{{FieldName}}_Data.Valid = true
-`,
+	{{structname}}DB.{{FieldName}}_Data.Valid = true`,
 
 	BackRepoCommitPointerToStructField: `
 		// commit pointer value {{structname}}.{{FieldName}} translates to updating the {{structname}}.{{FieldName}}ID
@@ -764,6 +812,10 @@ func MultiCodeGeneratorBackRepo(
 
 		insertions[BackRepoBasicAndTimeFieldsName] += "\n\t\"ID\","
 
+		// for xlsx unmarshall, each field is with a magic code `xlsx:"N"` where N the the field ID
+		insertions[BackRepoWOPInitialIndex] = " `xlsx:\"0\"`"
+		fieldWOPindex := 1
+
 		for _, field := range _struct.Fields {
 
 			switch field := field.(type) {
@@ -771,7 +823,8 @@ func MultiCodeGeneratorBackRepo(
 
 				insertions[BackRepoBasicAndTimeFieldsWOPDeclaration] +=
 					"\n\n\t" + field.Name + " " +
-						strings.ReplaceAll(field.DeclaredType, pkgGoPath+".", "models.")
+						strings.ReplaceAll(field.DeclaredType, pkgGoPath+".", "models.") + fmt.Sprintf(" `xlsx:\"%d\"`", fieldWOPindex)
+				fieldWOPindex = fieldWOPindex + 1
 
 				insertions[BackRepoBasicAndTimeFieldsName] += "\n\t\"" + field.Name + "\","
 
@@ -856,7 +909,8 @@ func MultiCodeGeneratorBackRepo(
 			case *GongTimeField:
 
 				insertions[BackRepoBasicAndTimeFieldsWOPDeclaration] +=
-					"\n\n\t" + field.Name + " " + "time.Time"
+					"\n\n\t" + field.Name + " " + "time.Time" + fmt.Sprintf(" `xlsx:\"%d\"`", fieldWOPindex)
+				fieldWOPindex = fieldWOPindex + 1
 
 				insertions[BackRepoBasicAndTimeFieldsName] += "\n\t\"" + field.Name + "\","
 

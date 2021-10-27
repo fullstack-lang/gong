@@ -131,6 +131,29 @@ func (backRepo *BackRepoStruct) Restore(stage *models.StageStruct, dirPath strin
 
 // Restore the database into the back repo
 func (backRepo *BackRepoStruct) RestoreXL(stage *models.StageStruct, dirPath string) {
+
+	// clean the stage
+	models.Stage.Reset()
+
+	// commit the cleaned stage
+	models.Stage.Commit()
+
+	// open an existing file
+	filename := filepath.Join(dirPath, "bckp.xlsx")
+	file, err := xlsx.OpenFile(filename)
+
+	if err != nil {
+		log.Panic("Cannot read the XL file", err.Error())
+	}
+
+	//
+	// restauration first phase (create DB instance with new IDs)
+	//
+
+	// insertion point for per struct backup{{` + string(rune(BackRepoRestoreXLPhaseOne)) + `}}
+
+	// commit the restored stage
+	models.Stage.Commit()
 }
 `
 
@@ -150,6 +173,7 @@ const (
 	BackRepoBackup
 	BackRepoBackupXL
 	BackRepoRestorePhaseOne
+	BackRepoRestoreXLPhaseOne
 	BackRepoRestorePhaseTwo
 )
 
@@ -223,6 +247,9 @@ map[string]string{
 
 	string(rune(BackRepoRestorePhaseOne)): `
 	backRepo.BackRepo{{Structname}}.RestorePhaseOne(dirPath)`,
+
+	string(rune(BackRepoRestoreXLPhaseOne)): `
+	backRepo.BackRepo{{Structname}}.RestoreXLPhaseOne(file)`,
 
 	string(rune(BackRepoRestorePhaseTwo)): `
 	backRepo.BackRepo{{Structname}}.RestorePhaseTwo()`,
