@@ -455,6 +455,9 @@ func (backRepo{{Structname}} *BackRepo{{Structname}}Struct) BackupXL(file *xlsx.
 // RestoreXL from the "{{Structname}}" sheet all {{Structname}}DB instances
 func (backRepo{{Structname}} *BackRepo{{Structname}}Struct) RestoreXLPhaseOne(file *xlsx.File) {
 
+	// resets the map
+	BackRepo{{Structname}}id_atBckpTime_newID = make(map[uint]uint)
+
 	sh, ok := file.Sheet["{{Structname}}"]
 	_ = sh
 	if !ok {
@@ -462,13 +465,13 @@ func (backRepo{{Structname}} *BackRepo{{Structname}}Struct) RestoreXLPhaseOne(fi
 	}
 
 	// log.Println("Max row is", sh.MaxRow)
-	err := sh.ForEachRow(rowVisitor{{Structname}})
+	err := sh.ForEachRow(backRepo{{Structname}}.rowVisitor{{Structname}})
 	if err != nil {
 		log.Panic("Err=", err)
 	}
 }
 
-func rowVisitor{{Structname}}(row *xlsx.Row) error {
+func (backRepo{{Structname}} *BackRepo{{Structname}}Struct) rowVisitor{{Structname}}(row *xlsx.Row) error {
 
 	log.Printf("row line %d\n", row.GetCoordinate())
 	log.Println(row)
@@ -478,7 +481,18 @@ func rowVisitor{{Structname}}(row *xlsx.Row) error {
 		var {{structname}}WOP {{Structname}}WOP
 		row.ReadStruct(&{{structname}}WOP)
 
-		_ = {{structname}}WOP
+		// add the unmarshalled struct to the stage
+		{{structname}}DB := new({{Structname}}DB)
+		{{structname}}DB.CopyBasicFieldsFrom{{Structname}}WOP(&{{structname}}WOP)
+
+		{{structname}}DB_ID_atBackupTime := {{structname}}DB.ID
+		{{structname}}DB.ID = 0
+		query := backRepo{{Structname}}.db.Create({{structname}}DB)
+		if query.Error != nil {
+			log.Panic(query.Error)
+		}
+		(*backRepo{{Structname}}.Map_{{Structname}}DBID_{{Structname}}DB)[{{structname}}DB.ID] = {{structname}}DB
+		BackRepo{{Structname}}id_atBckpTime_newID[{{structname}}DB_ID_atBackupTime] = {{structname}}DB.ID
 	}
 	return nil
 }
@@ -607,28 +621,29 @@ var BackRepoFieldSubTemplateCode map[BackRepoPerStructSubTemplate]string = map[B
 	//
 
 	BackRepoDeclarationBasicField: `
+
 	// Declation for basic field {{structname}}DB.{{FieldName}} {{BasicKind}} (to be completed)
-	{{FieldName}}_Data sql.{{SqlNullType}}
-`,
+	{{FieldName}}_Data sql.{{SqlNullType}}`,
 
 	BackRepoDeclarationTimeField: `
+
 	// Declation for basic field {{structname}}DB.{{FieldName}}
-	{{FieldName}}_Data sql.NullTime
-`,
+	{{FieldName}}_Data sql.NullTime`,
 
 	BackRepoDeclarationBasicBooleanField: `
+
 	// Declation for basic field {{structname}}DB.{{FieldName}} {{BasicKind}} (to be completed)
 	// provide the sql storage for the boolan
-	{{FieldName}}_Data sql.NullBool
-`,
+	{{FieldName}}_Data sql.NullBool`,
 
 	BackRepoDeclarationPointerToStructField: `
+
 	// field {{FieldName}} is a pointer to another Struct (optional or 0..1)
 	// This field is generated into another field to enable AS ONE association
-	{{FieldName}}ID sql.NullInt64
-`,
+	{{FieldName}}ID sql.NullInt64`,
 
 	BackRepoDeclarationSliceOfPointerToStructField: `
+
 	// Implementation of a reverse ID for field {{AssociationStructName}}{}.{{FieldName}} []*{{Structname}}
 	{{AssociationStructName}}_{{FieldName}}DBID sql.NullInt64
 
@@ -640,28 +655,29 @@ var BackRepoFieldSubTemplateCode map[BackRepoPerStructSubTemplate]string = map[B
 	//
 
 	BackRepoCommitBasicField: `
+
 	{{structname}}DB.{{FieldName}}_Data.{{SqlNullType}} = {{structname}}.{{FieldName}}
-	{{structname}}DB.{{FieldName}}_Data.Valid = true
-`,
+	{{structname}}DB.{{FieldName}}_Data.Valid = true`,
 
 	BackRepoCommitBasicFieldEnum: `
+
 	{{structname}}DB.{{FieldName}}_Data.String = string({{structname}}.{{FieldName}})
-	{{structname}}DB.{{FieldName}}_Data.Valid = true
-`,
+	{{structname}}DB.{{FieldName}}_Data.Valid = true`,
 
 	BackRepoCommitBasicFieldInt: `
+
 	{{structname}}DB.{{FieldName}}_Data.Int64 = int64({{structname}}.{{FieldName}})
-	{{structname}}DB.{{FieldName}}_Data.Valid = true
-`,
+	{{structname}}DB.{{FieldName}}_Data.Valid = true`,
+
 	BackRepoCommitTimeField: `
+
 	{{structname}}DB.{{FieldName}}_Data.Time = {{structname}}.{{FieldName}}
-	{{structname}}DB.{{FieldName}}_Data.Valid = true
-`,
+	{{structname}}DB.{{FieldName}}_Data.Valid = true`,
 
 	BackRepoCommitBasicBooleanField: `
+
 	{{structname}}DB.{{FieldName}}_Data.Bool = {{structname}}.{{FieldName}}
-	{{structname}}DB.{{FieldName}}_Data.Valid = true
-`,
+	{{structname}}DB.{{FieldName}}_Data.Valid = true`,
 
 	BackRepoCommitPointerToStructField: `
 		// commit pointer value {{structname}}.{{FieldName}} translates to updating the {{structname}}.{{FieldName}}ID
