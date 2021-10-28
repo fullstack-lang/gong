@@ -45,6 +45,7 @@ type GongBasicFieldAPI struct {
 // reverse pointers of slice of poitners to Struct
 type GongBasicFieldPointersEnconding struct {
 	// insertion for pointer fields encoding declaration
+
 	// field GongEnum is a pointer to another Struct (optional or 0..1)
 	// This field is generated into another field to enable AS ONE association
 	GongEnumID sql.NullInt64
@@ -66,6 +67,7 @@ type GongBasicFieldDB struct {
 	gorm.Model
 
 	// insertion for basic fields declaration
+
 	// Declation for basic field gongbasicfieldDB.Name {{BasicKind}} (to be completed)
 	Name_Data sql.NullString
 
@@ -77,7 +79,6 @@ type GongBasicFieldDB struct {
 
 	// Declation for basic field gongbasicfieldDB.Index {{BasicKind}} (to be completed)
 	Index_Data sql.NullInt64
-
 	// encoding of pointers
 	GongBasicFieldPointersEnconding
 }
@@ -95,17 +96,17 @@ type GongBasicFieldDBResponse struct {
 // GongBasicFieldWOP is a GongBasicField without pointers (WOP is an acronym for "Without Pointers")
 // it holds the same basic fields but pointers are encoded into uint
 type GongBasicFieldWOP struct {
-	ID int
+	ID int `xlsx:"0"`
 
 	// insertion for WOP basic fields
 
-	Name string
+	Name string `xlsx:"1"`
 
-	BasicKindName string
+	BasicKindName string `xlsx:"2"`
 
-	DeclaredType string
+	DeclaredType string `xlsx:"3"`
 
-	Index int
+	Index int `xlsx:"4"`
 	// insertion for WOP pointer fields
 }
 
@@ -409,6 +410,7 @@ func (backRepo *BackRepoStruct) CheckoutGongBasicField(gongbasicfield *models.Go
 // CopyBasicFieldsFromGongBasicField
 func (gongbasicfieldDB *GongBasicFieldDB) CopyBasicFieldsFromGongBasicField(gongbasicfield *models.GongBasicField) {
 	// insertion point for fields commit
+
 	gongbasicfieldDB.Name_Data.String = gongbasicfield.Name
 	gongbasicfieldDB.Name_Data.Valid = true
 
@@ -420,12 +422,12 @@ func (gongbasicfieldDB *GongBasicFieldDB) CopyBasicFieldsFromGongBasicField(gong
 
 	gongbasicfieldDB.Index_Data.Int64 = int64(gongbasicfield.Index)
 	gongbasicfieldDB.Index_Data.Valid = true
-
 }
 
 // CopyBasicFieldsFromGongBasicFieldWOP
 func (gongbasicfieldDB *GongBasicFieldDB) CopyBasicFieldsFromGongBasicFieldWOP(gongbasicfield *GongBasicFieldWOP) {
 	// insertion point for fields commit
+
 	gongbasicfieldDB.Name_Data.String = gongbasicfield.Name
 	gongbasicfieldDB.Name_Data.Valid = true
 
@@ -437,7 +439,6 @@ func (gongbasicfieldDB *GongBasicFieldDB) CopyBasicFieldsFromGongBasicFieldWOP(g
 
 	gongbasicfieldDB.Index_Data.Int64 = int64(gongbasicfield.Index)
 	gongbasicfieldDB.Index_Data.Valid = true
-
 }
 
 // CopyBasicFieldsToGongBasicField
@@ -517,6 +518,51 @@ func (backRepoGongBasicField *BackRepoGongBasicFieldStruct) BackupXL(file *xlsx.
 		row := sh.AddRow()
 		row.WriteStruct(&gongbasicfieldWOP, -1)
 	}
+}
+
+// RestoreXL from the "GongBasicField" sheet all GongBasicFieldDB instances
+func (backRepoGongBasicField *BackRepoGongBasicFieldStruct) RestoreXLPhaseOne(file *xlsx.File) {
+
+	// resets the map
+	BackRepoGongBasicFieldid_atBckpTime_newID = make(map[uint]uint)
+
+	sh, ok := file.Sheet["GongBasicField"]
+	_ = sh
+	if !ok {
+		log.Panic(errors.New("sheet not found"))
+	}
+
+	// log.Println("Max row is", sh.MaxRow)
+	err := sh.ForEachRow(backRepoGongBasicField.rowVisitorGongBasicField)
+	if err != nil {
+		log.Panic("Err=", err)
+	}
+}
+
+func (backRepoGongBasicField *BackRepoGongBasicFieldStruct) rowVisitorGongBasicField(row *xlsx.Row) error {
+
+	log.Printf("row line %d\n", row.GetCoordinate())
+	log.Println(row)
+
+	// skip first line
+	if row.GetCoordinate() > 0 {
+		var gongbasicfieldWOP GongBasicFieldWOP
+		row.ReadStruct(&gongbasicfieldWOP)
+
+		// add the unmarshalled struct to the stage
+		gongbasicfieldDB := new(GongBasicFieldDB)
+		gongbasicfieldDB.CopyBasicFieldsFromGongBasicFieldWOP(&gongbasicfieldWOP)
+
+		gongbasicfieldDB_ID_atBackupTime := gongbasicfieldDB.ID
+		gongbasicfieldDB.ID = 0
+		query := backRepoGongBasicField.db.Create(gongbasicfieldDB)
+		if query.Error != nil {
+			log.Panic(query.Error)
+		}
+		(*backRepoGongBasicField.Map_GongBasicFieldDBID_GongBasicFieldDB)[gongbasicfieldDB.ID] = gongbasicfieldDB
+		BackRepoGongBasicFieldid_atBckpTime_newID[gongbasicfieldDB_ID_atBackupTime] = gongbasicfieldDB.ID
+	}
+	return nil
 }
 
 // RestorePhaseOne read the file "GongBasicFieldDB.json" in dirPath that stores an array
