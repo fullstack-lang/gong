@@ -14,7 +14,8 @@ export enum BackRepoSubTemplateInsertion {
 	BackRepoPerStructPhaseTwoCheckouts = 5,
 	BackRepoPerStructPhaseTwoCommits = 3,
 	BackRepoRestorePhaseOne = 12,
-	BackRepoRestorePhaseTwo = 13,
+	BackRepoRestorePhaseTwo = 14,
+	BackRepoRestoreXLPhaseOne = 13,
 }
 
 export interface BackRepoSubTemplateInsertionSelect {
@@ -36,5 +37,6 @@ export const BackRepoSubTemplateInsertionList: BackRepoSubTemplateInsertionSelec
 	{ value: 'BackRepoPerStructPhaseTwoCheckouts', viewValue: '5' },
 	{ value: 'BackRepoPerStructPhaseTwoCommits', viewValue: '3' },
 	{ value: 'BackRepoRestorePhaseOne', viewValue: '12' },
-	{ value: 'BackRepoRestorePhaseTwo', viewValue: '13' },
+	{ value: 'BackRepoRestorePhaseTwo', viewValue: '14' },
+	{ value: 'BackRepoRestoreXLPhaseOne', viewValue: '13' },
 ];

@@ -45,6 +45,7 @@ type AstructAPI struct {
 // reverse pointers of slice of poitners to Struct
 type AstructPointersEnconding struct {
 	// insertion for pointer fields encoding declaration
+
 	// field Associationtob is a pointer to another Struct (optional or 0..1)
 	// This field is generated into another field to enable AS ONE association
 	AssociationtobID sql.NullInt64
@@ -70,6 +71,7 @@ type AstructDB struct {
 	gorm.Model
 
 	// insertion for basic fields declaration
+
 	// Declation for basic field astructDB.Name {{BasicKind}} (to be completed)
 	Name_Data sql.NullString
 
@@ -107,7 +109,6 @@ type AstructDB struct {
 
 	// Declation for basic field astructDB.Duration1 {{BasicKind}} (to be completed)
 	Duration1_Data sql.NullInt64
-
 	// encoding of pointers
 	AstructPointersEnconding
 }
@@ -125,33 +126,33 @@ type AstructDBResponse struct {
 // AstructWOP is a Astruct without pointers (WOP is an acronym for "Without Pointers")
 // it holds the same basic fields but pointers are encoded into uint
 type AstructWOP struct {
-	ID int
+	ID int `xlsx:"0"`
 
 	// insertion for WOP basic fields
 
-	Name string
+	Name string `xlsx:"1"`
 
-	Date time.Time
+	Date time.Time `xlsx:"2"`
 
-	Booleanfield bool
+	Booleanfield bool `xlsx:"3"`
 
-	Aenum models.AEnumType
+	Aenum models.AEnumType `xlsx:"4"`
 
-	Aenum_2 models.AEnumType
+	Aenum_2 models.AEnumType `xlsx:"5"`
 
-	Benum models.BEnumType
+	Benum models.BEnumType `xlsx:"6"`
 
-	CName string
+	CName string `xlsx:"7"`
 
-	CFloatfield float64
+	CFloatfield float64 `xlsx:"8"`
 
-	Floatfield float64
+	Floatfield float64 `xlsx:"9"`
 
-	Intfield int
+	Intfield int `xlsx:"10"`
 
-	Anotherbooleanfield bool
+	Anotherbooleanfield bool `xlsx:"11"`
 
-	Duration1 time.Duration
+	Duration1 time.Duration `xlsx:"12"`
 	// insertion for WOP pointer fields
 }
 
@@ -706,6 +707,7 @@ func (backRepo *BackRepoStruct) CheckoutAstruct(astruct *models.Astruct) {
 // CopyBasicFieldsFromAstruct
 func (astructDB *AstructDB) CopyBasicFieldsFromAstruct(astruct *models.Astruct) {
 	// insertion point for fields commit
+
 	astructDB.Name_Data.String = astruct.Name
 	astructDB.Name_Data.Valid = true
 
@@ -741,12 +743,12 @@ func (astructDB *AstructDB) CopyBasicFieldsFromAstruct(astruct *models.Astruct) 
 
 	astructDB.Duration1_Data.Int64 = int64(astruct.Duration1)
 	astructDB.Duration1_Data.Valid = true
-
 }
 
 // CopyBasicFieldsFromAstructWOP
 func (astructDB *AstructDB) CopyBasicFieldsFromAstructWOP(astruct *AstructWOP) {
 	// insertion point for fields commit
+
 	astructDB.Name_Data.String = astruct.Name
 	astructDB.Name_Data.Valid = true
 
@@ -782,7 +784,6 @@ func (astructDB *AstructDB) CopyBasicFieldsFromAstructWOP(astruct *AstructWOP) {
 
 	astructDB.Duration1_Data.Int64 = int64(astruct.Duration1)
 	astructDB.Duration1_Data.Valid = true
-
 }
 
 // CopyBasicFieldsToAstruct
@@ -878,6 +879,51 @@ func (backRepoAstruct *BackRepoAstructStruct) BackupXL(file *xlsx.File) {
 		row := sh.AddRow()
 		row.WriteStruct(&astructWOP, -1)
 	}
+}
+
+// RestoreXL from the "Astruct" sheet all AstructDB instances
+func (backRepoAstruct *BackRepoAstructStruct) RestoreXLPhaseOne(file *xlsx.File) {
+
+	// resets the map
+	BackRepoAstructid_atBckpTime_newID = make(map[uint]uint)
+
+	sh, ok := file.Sheet["Astruct"]
+	_ = sh
+	if !ok {
+		log.Panic(errors.New("sheet not found"))
+	}
+
+	// log.Println("Max row is", sh.MaxRow)
+	err := sh.ForEachRow(backRepoAstruct.rowVisitorAstruct)
+	if err != nil {
+		log.Panic("Err=", err)
+	}
+}
+
+func (backRepoAstruct *BackRepoAstructStruct) rowVisitorAstruct(row *xlsx.Row) error {
+
+	log.Printf("row line %d\n", row.GetCoordinate())
+	log.Println(row)
+
+	// skip first line
+	if row.GetCoordinate() > 0 {
+		var astructWOP AstructWOP
+		row.ReadStruct(&astructWOP)
+
+		// add the unmarshalled struct to the stage
+		astructDB := new(AstructDB)
+		astructDB.CopyBasicFieldsFromAstructWOP(&astructWOP)
+
+		astructDB_ID_atBackupTime := astructDB.ID
+		astructDB.ID = 0
+		query := backRepoAstruct.db.Create(astructDB)
+		if query.Error != nil {
+			log.Panic(query.Error)
+		}
+		(*backRepoAstruct.Map_AstructDBID_AstructDB)[astructDB.ID] = astructDB
+		BackRepoAstructid_atBckpTime_newID[astructDB_ID_atBackupTime] = astructDB.ID
+	}
+	return nil
 }
 
 // RestorePhaseOne read the file "AstructDB.json" in dirPath that stores an array

@@ -45,6 +45,7 @@ type AstructBstructUseAPI struct {
 // reverse pointers of slice of poitners to Struct
 type AstructBstructUsePointersEnconding struct {
 	// insertion for pointer fields encoding declaration
+
 	// field Bstruct2 is a pointer to another Struct (optional or 0..1)
 	// This field is generated into another field to enable AS ONE association
 	Bstruct2ID sql.NullInt64
@@ -66,9 +67,9 @@ type AstructBstructUseDB struct {
 	gorm.Model
 
 	// insertion for basic fields declaration
+
 	// Declation for basic field astructbstructuseDB.Name {{BasicKind}} (to be completed)
 	Name_Data sql.NullString
-
 	// encoding of pointers
 	AstructBstructUsePointersEnconding
 }
@@ -86,11 +87,11 @@ type AstructBstructUseDBResponse struct {
 // AstructBstructUseWOP is a AstructBstructUse without pointers (WOP is an acronym for "Without Pointers")
 // it holds the same basic fields but pointers are encoded into uint
 type AstructBstructUseWOP struct {
-	ID int
+	ID int `xlsx:"0"`
 
 	// insertion for WOP basic fields
 
-	Name string
+	Name string `xlsx:"1"`
 	// insertion for WOP pointer fields
 }
 
@@ -391,17 +392,17 @@ func (backRepo *BackRepoStruct) CheckoutAstructBstructUse(astructbstructuse *mod
 // CopyBasicFieldsFromAstructBstructUse
 func (astructbstructuseDB *AstructBstructUseDB) CopyBasicFieldsFromAstructBstructUse(astructbstructuse *models.AstructBstructUse) {
 	// insertion point for fields commit
+
 	astructbstructuseDB.Name_Data.String = astructbstructuse.Name
 	astructbstructuseDB.Name_Data.Valid = true
-
 }
 
 // CopyBasicFieldsFromAstructBstructUseWOP
 func (astructbstructuseDB *AstructBstructUseDB) CopyBasicFieldsFromAstructBstructUseWOP(astructbstructuse *AstructBstructUseWOP) {
 	// insertion point for fields commit
+
 	astructbstructuseDB.Name_Data.String = astructbstructuse.Name
 	astructbstructuseDB.Name_Data.Valid = true
-
 }
 
 // CopyBasicFieldsToAstructBstructUse
@@ -475,6 +476,51 @@ func (backRepoAstructBstructUse *BackRepoAstructBstructUseStruct) BackupXL(file 
 		row := sh.AddRow()
 		row.WriteStruct(&astructbstructuseWOP, -1)
 	}
+}
+
+// RestoreXL from the "AstructBstructUse" sheet all AstructBstructUseDB instances
+func (backRepoAstructBstructUse *BackRepoAstructBstructUseStruct) RestoreXLPhaseOne(file *xlsx.File) {
+
+	// resets the map
+	BackRepoAstructBstructUseid_atBckpTime_newID = make(map[uint]uint)
+
+	sh, ok := file.Sheet["AstructBstructUse"]
+	_ = sh
+	if !ok {
+		log.Panic(errors.New("sheet not found"))
+	}
+
+	// log.Println("Max row is", sh.MaxRow)
+	err := sh.ForEachRow(backRepoAstructBstructUse.rowVisitorAstructBstructUse)
+	if err != nil {
+		log.Panic("Err=", err)
+	}
+}
+
+func (backRepoAstructBstructUse *BackRepoAstructBstructUseStruct) rowVisitorAstructBstructUse(row *xlsx.Row) error {
+
+	log.Printf("row line %d\n", row.GetCoordinate())
+	log.Println(row)
+
+	// skip first line
+	if row.GetCoordinate() > 0 {
+		var astructbstructuseWOP AstructBstructUseWOP
+		row.ReadStruct(&astructbstructuseWOP)
+
+		// add the unmarshalled struct to the stage
+		astructbstructuseDB := new(AstructBstructUseDB)
+		astructbstructuseDB.CopyBasicFieldsFromAstructBstructUseWOP(&astructbstructuseWOP)
+
+		astructbstructuseDB_ID_atBackupTime := astructbstructuseDB.ID
+		astructbstructuseDB.ID = 0
+		query := backRepoAstructBstructUse.db.Create(astructbstructuseDB)
+		if query.Error != nil {
+			log.Panic(query.Error)
+		}
+		(*backRepoAstructBstructUse.Map_AstructBstructUseDBID_AstructBstructUseDB)[astructbstructuseDB.ID] = astructbstructuseDB
+		BackRepoAstructBstructUseid_atBckpTime_newID[astructbstructuseDB_ID_atBackupTime] = astructbstructuseDB.ID
+	}
+	return nil
 }
 
 // RestorePhaseOne read the file "AstructBstructUseDB.json" in dirPath that stores an array

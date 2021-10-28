@@ -57,9 +57,9 @@ type GongEnumDB struct {
 	gorm.Model
 
 	// insertion for basic fields declaration
+
 	// Declation for basic field gongenumDB.Name {{BasicKind}} (to be completed)
 	Name_Data sql.NullString
-
 	// encoding of pointers
 	GongEnumPointersEnconding
 }
@@ -77,11 +77,11 @@ type GongEnumDBResponse struct {
 // GongEnumWOP is a GongEnum without pointers (WOP is an acronym for "Without Pointers")
 // it holds the same basic fields but pointers are encoded into uint
 type GongEnumWOP struct {
-	ID int
+	ID int `xlsx:"0"`
 
 	// insertion for WOP basic fields
 
-	Name string
+	Name string `xlsx:"1"`
 	// insertion for WOP pointer fields
 }
 
@@ -415,17 +415,17 @@ func (backRepo *BackRepoStruct) CheckoutGongEnum(gongenum *models.GongEnum) {
 // CopyBasicFieldsFromGongEnum
 func (gongenumDB *GongEnumDB) CopyBasicFieldsFromGongEnum(gongenum *models.GongEnum) {
 	// insertion point for fields commit
+
 	gongenumDB.Name_Data.String = gongenum.Name
 	gongenumDB.Name_Data.Valid = true
-
 }
 
 // CopyBasicFieldsFromGongEnumWOP
 func (gongenumDB *GongEnumDB) CopyBasicFieldsFromGongEnumWOP(gongenum *GongEnumWOP) {
 	// insertion point for fields commit
+
 	gongenumDB.Name_Data.String = gongenum.Name
 	gongenumDB.Name_Data.Valid = true
-
 }
 
 // CopyBasicFieldsToGongEnum
@@ -499,6 +499,51 @@ func (backRepoGongEnum *BackRepoGongEnumStruct) BackupXL(file *xlsx.File) {
 		row := sh.AddRow()
 		row.WriteStruct(&gongenumWOP, -1)
 	}
+}
+
+// RestoreXL from the "GongEnum" sheet all GongEnumDB instances
+func (backRepoGongEnum *BackRepoGongEnumStruct) RestoreXLPhaseOne(file *xlsx.File) {
+
+	// resets the map
+	BackRepoGongEnumid_atBckpTime_newID = make(map[uint]uint)
+
+	sh, ok := file.Sheet["GongEnum"]
+	_ = sh
+	if !ok {
+		log.Panic(errors.New("sheet not found"))
+	}
+
+	// log.Println("Max row is", sh.MaxRow)
+	err := sh.ForEachRow(backRepoGongEnum.rowVisitorGongEnum)
+	if err != nil {
+		log.Panic("Err=", err)
+	}
+}
+
+func (backRepoGongEnum *BackRepoGongEnumStruct) rowVisitorGongEnum(row *xlsx.Row) error {
+
+	log.Printf("row line %d\n", row.GetCoordinate())
+	log.Println(row)
+
+	// skip first line
+	if row.GetCoordinate() > 0 {
+		var gongenumWOP GongEnumWOP
+		row.ReadStruct(&gongenumWOP)
+
+		// add the unmarshalled struct to the stage
+		gongenumDB := new(GongEnumDB)
+		gongenumDB.CopyBasicFieldsFromGongEnumWOP(&gongenumWOP)
+
+		gongenumDB_ID_atBackupTime := gongenumDB.ID
+		gongenumDB.ID = 0
+		query := backRepoGongEnum.db.Create(gongenumDB)
+		if query.Error != nil {
+			log.Panic(query.Error)
+		}
+		(*backRepoGongEnum.Map_GongEnumDBID_GongEnumDB)[gongenumDB.ID] = gongenumDB
+		BackRepoGongEnumid_atBckpTime_newID[gongenumDB_ID_atBackupTime] = gongenumDB.ID
+	}
+	return nil
 }
 
 // RestorePhaseOne read the file "GongEnumDB.json" in dirPath that stores an array

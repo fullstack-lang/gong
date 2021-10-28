@@ -45,11 +45,13 @@ type BstructAPI struct {
 // reverse pointers of slice of poitners to Struct
 type BstructPointersEnconding struct {
 	// insertion for pointer fields encoding declaration
+
 	// Implementation of a reverse ID for field Astruct{}.Anarrayofb []*Bstruct
 	Astruct_AnarrayofbDBID sql.NullInt64
 
 	// implementation of the index of the withing the slice
 	Astruct_AnarrayofbDBID_Index sql.NullInt64
+
 	// Implementation of a reverse ID for field Astruct{}.Anotherarrayofb []*Bstruct
 	Astruct_AnotherarrayofbDBID sql.NullInt64
 
@@ -67,6 +69,7 @@ type BstructDB struct {
 	gorm.Model
 
 	// insertion for basic fields declaration
+
 	// Declation for basic field bstructDB.Name {{BasicKind}} (to be completed)
 	Name_Data sql.NullString
 
@@ -75,7 +78,6 @@ type BstructDB struct {
 
 	// Declation for basic field bstructDB.Intfield {{BasicKind}} (to be completed)
 	Intfield_Data sql.NullInt64
-
 	// encoding of pointers
 	BstructPointersEnconding
 }
@@ -93,15 +95,15 @@ type BstructDBResponse struct {
 // BstructWOP is a Bstruct without pointers (WOP is an acronym for "Without Pointers")
 // it holds the same basic fields but pointers are encoded into uint
 type BstructWOP struct {
-	ID int
+	ID int `xlsx:"0"`
 
 	// insertion for WOP basic fields
 
-	Name string
+	Name string `xlsx:"1"`
 
-	Floatfield float64
+	Floatfield float64 `xlsx:"2"`
 
-	Intfield int
+	Intfield int `xlsx:"3"`
 	// insertion for WOP pointer fields
 }
 
@@ -391,6 +393,7 @@ func (backRepo *BackRepoStruct) CheckoutBstruct(bstruct *models.Bstruct) {
 // CopyBasicFieldsFromBstruct
 func (bstructDB *BstructDB) CopyBasicFieldsFromBstruct(bstruct *models.Bstruct) {
 	// insertion point for fields commit
+
 	bstructDB.Name_Data.String = bstruct.Name
 	bstructDB.Name_Data.Valid = true
 
@@ -399,12 +402,12 @@ func (bstructDB *BstructDB) CopyBasicFieldsFromBstruct(bstruct *models.Bstruct) 
 
 	bstructDB.Intfield_Data.Int64 = int64(bstruct.Intfield)
 	bstructDB.Intfield_Data.Valid = true
-
 }
 
 // CopyBasicFieldsFromBstructWOP
 func (bstructDB *BstructDB) CopyBasicFieldsFromBstructWOP(bstruct *BstructWOP) {
 	// insertion point for fields commit
+
 	bstructDB.Name_Data.String = bstruct.Name
 	bstructDB.Name_Data.Valid = true
 
@@ -413,7 +416,6 @@ func (bstructDB *BstructDB) CopyBasicFieldsFromBstructWOP(bstruct *BstructWOP) {
 
 	bstructDB.Intfield_Data.Int64 = int64(bstruct.Intfield)
 	bstructDB.Intfield_Data.Valid = true
-
 }
 
 // CopyBasicFieldsToBstruct
@@ -491,6 +493,51 @@ func (backRepoBstruct *BackRepoBstructStruct) BackupXL(file *xlsx.File) {
 		row := sh.AddRow()
 		row.WriteStruct(&bstructWOP, -1)
 	}
+}
+
+// RestoreXL from the "Bstruct" sheet all BstructDB instances
+func (backRepoBstruct *BackRepoBstructStruct) RestoreXLPhaseOne(file *xlsx.File) {
+
+	// resets the map
+	BackRepoBstructid_atBckpTime_newID = make(map[uint]uint)
+
+	sh, ok := file.Sheet["Bstruct"]
+	_ = sh
+	if !ok {
+		log.Panic(errors.New("sheet not found"))
+	}
+
+	// log.Println("Max row is", sh.MaxRow)
+	err := sh.ForEachRow(backRepoBstruct.rowVisitorBstruct)
+	if err != nil {
+		log.Panic("Err=", err)
+	}
+}
+
+func (backRepoBstruct *BackRepoBstructStruct) rowVisitorBstruct(row *xlsx.Row) error {
+
+	log.Printf("row line %d\n", row.GetCoordinate())
+	log.Println(row)
+
+	// skip first line
+	if row.GetCoordinate() > 0 {
+		var bstructWOP BstructWOP
+		row.ReadStruct(&bstructWOP)
+
+		// add the unmarshalled struct to the stage
+		bstructDB := new(BstructDB)
+		bstructDB.CopyBasicFieldsFromBstructWOP(&bstructWOP)
+
+		bstructDB_ID_atBackupTime := bstructDB.ID
+		bstructDB.ID = 0
+		query := backRepoBstruct.db.Create(bstructDB)
+		if query.Error != nil {
+			log.Panic(query.Error)
+		}
+		(*backRepoBstruct.Map_BstructDBID_BstructDB)[bstructDB.ID] = bstructDB
+		BackRepoBstructid_atBckpTime_newID[bstructDB_ID_atBackupTime] = bstructDB.ID
+	}
+	return nil
 }
 
 // RestorePhaseOne read the file "BstructDB.json" in dirPath that stores an array
