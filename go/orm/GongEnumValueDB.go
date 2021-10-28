@@ -45,6 +45,7 @@ type GongEnumValueAPI struct {
 // reverse pointers of slice of poitners to Struct
 type GongEnumValuePointersEnconding struct {
 	// insertion for pointer fields encoding declaration
+
 	// Implementation of a reverse ID for field GongEnum{}.GongEnumValues []*GongEnumValue
 	GongEnum_GongEnumValuesDBID sql.NullInt64
 
@@ -62,12 +63,12 @@ type GongEnumValueDB struct {
 	gorm.Model
 
 	// insertion for basic fields declaration
+
 	// Declation for basic field gongenumvalueDB.Name {{BasicKind}} (to be completed)
 	Name_Data sql.NullString
 
 	// Declation for basic field gongenumvalueDB.Value {{BasicKind}} (to be completed)
 	Value_Data sql.NullString
-
 	// encoding of pointers
 	GongEnumValuePointersEnconding
 }
@@ -85,13 +86,13 @@ type GongEnumValueDBResponse struct {
 // GongEnumValueWOP is a GongEnumValue without pointers (WOP is an acronym for "Without Pointers")
 // it holds the same basic fields but pointers are encoded into uint
 type GongEnumValueWOP struct {
-	ID int
+	ID int `xlsx:"0"`
 
 	// insertion for WOP basic fields
 
-	Name string
+	Name string `xlsx:"1"`
 
-	Value string
+	Value string `xlsx:"2"`
 	// insertion for WOP pointer fields
 }
 
@@ -380,23 +381,23 @@ func (backRepo *BackRepoStruct) CheckoutGongEnumValue(gongenumvalue *models.Gong
 // CopyBasicFieldsFromGongEnumValue
 func (gongenumvalueDB *GongEnumValueDB) CopyBasicFieldsFromGongEnumValue(gongenumvalue *models.GongEnumValue) {
 	// insertion point for fields commit
+
 	gongenumvalueDB.Name_Data.String = gongenumvalue.Name
 	gongenumvalueDB.Name_Data.Valid = true
 
 	gongenumvalueDB.Value_Data.String = gongenumvalue.Value
 	gongenumvalueDB.Value_Data.Valid = true
-
 }
 
 // CopyBasicFieldsFromGongEnumValueWOP
 func (gongenumvalueDB *GongEnumValueDB) CopyBasicFieldsFromGongEnumValueWOP(gongenumvalue *GongEnumValueWOP) {
 	// insertion point for fields commit
+
 	gongenumvalueDB.Name_Data.String = gongenumvalue.Name
 	gongenumvalueDB.Name_Data.Valid = true
 
 	gongenumvalueDB.Value_Data.String = gongenumvalue.Value
 	gongenumvalueDB.Value_Data.Valid = true
-
 }
 
 // CopyBasicFieldsToGongEnumValue
@@ -472,6 +473,51 @@ func (backRepoGongEnumValue *BackRepoGongEnumValueStruct) BackupXL(file *xlsx.Fi
 		row := sh.AddRow()
 		row.WriteStruct(&gongenumvalueWOP, -1)
 	}
+}
+
+// RestoreXL from the "GongEnumValue" sheet all GongEnumValueDB instances
+func (backRepoGongEnumValue *BackRepoGongEnumValueStruct) RestoreXLPhaseOne(file *xlsx.File) {
+
+	// resets the map
+	BackRepoGongEnumValueid_atBckpTime_newID = make(map[uint]uint)
+
+	sh, ok := file.Sheet["GongEnumValue"]
+	_ = sh
+	if !ok {
+		log.Panic(errors.New("sheet not found"))
+	}
+
+	// log.Println("Max row is", sh.MaxRow)
+	err := sh.ForEachRow(backRepoGongEnumValue.rowVisitorGongEnumValue)
+	if err != nil {
+		log.Panic("Err=", err)
+	}
+}
+
+func (backRepoGongEnumValue *BackRepoGongEnumValueStruct) rowVisitorGongEnumValue(row *xlsx.Row) error {
+
+	log.Printf("row line %d\n", row.GetCoordinate())
+	log.Println(row)
+
+	// skip first line
+	if row.GetCoordinate() > 0 {
+		var gongenumvalueWOP GongEnumValueWOP
+		row.ReadStruct(&gongenumvalueWOP)
+
+		// add the unmarshalled struct to the stage
+		gongenumvalueDB := new(GongEnumValueDB)
+		gongenumvalueDB.CopyBasicFieldsFromGongEnumValueWOP(&gongenumvalueWOP)
+
+		gongenumvalueDB_ID_atBackupTime := gongenumvalueDB.ID
+		gongenumvalueDB.ID = 0
+		query := backRepoGongEnumValue.db.Create(gongenumvalueDB)
+		if query.Error != nil {
+			log.Panic(query.Error)
+		}
+		(*backRepoGongEnumValue.Map_GongEnumValueDBID_GongEnumValueDB)[gongenumvalueDB.ID] = gongenumvalueDB
+		BackRepoGongEnumValueid_atBckpTime_newID[gongenumvalueDB_ID_atBackupTime] = gongenumvalueDB.ID
+	}
+	return nil
 }
 
 // RestorePhaseOne read the file "GongEnumValueDB.json" in dirPath that stores an array

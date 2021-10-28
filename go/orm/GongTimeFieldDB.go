@@ -45,6 +45,7 @@ type GongTimeFieldAPI struct {
 // reverse pointers of slice of poitners to Struct
 type GongTimeFieldPointersEnconding struct {
 	// insertion for pointer fields encoding declaration
+
 	// Implementation of a reverse ID for field GongStruct{}.GongTimeFields []*GongTimeField
 	GongStruct_GongTimeFieldsDBID sql.NullInt64
 
@@ -62,12 +63,12 @@ type GongTimeFieldDB struct {
 	gorm.Model
 
 	// insertion for basic fields declaration
+
 	// Declation for basic field gongtimefieldDB.Name {{BasicKind}} (to be completed)
 	Name_Data sql.NullString
 
 	// Declation for basic field gongtimefieldDB.Index {{BasicKind}} (to be completed)
 	Index_Data sql.NullInt64
-
 	// encoding of pointers
 	GongTimeFieldPointersEnconding
 }
@@ -85,13 +86,13 @@ type GongTimeFieldDBResponse struct {
 // GongTimeFieldWOP is a GongTimeField without pointers (WOP is an acronym for "Without Pointers")
 // it holds the same basic fields but pointers are encoded into uint
 type GongTimeFieldWOP struct {
-	ID int
+	ID int `xlsx:"0"`
 
 	// insertion for WOP basic fields
 
-	Name string
+	Name string `xlsx:"1"`
 
-	Index int
+	Index int `xlsx:"2"`
 	// insertion for WOP pointer fields
 }
 
@@ -380,23 +381,23 @@ func (backRepo *BackRepoStruct) CheckoutGongTimeField(gongtimefield *models.Gong
 // CopyBasicFieldsFromGongTimeField
 func (gongtimefieldDB *GongTimeFieldDB) CopyBasicFieldsFromGongTimeField(gongtimefield *models.GongTimeField) {
 	// insertion point for fields commit
+
 	gongtimefieldDB.Name_Data.String = gongtimefield.Name
 	gongtimefieldDB.Name_Data.Valid = true
 
 	gongtimefieldDB.Index_Data.Int64 = int64(gongtimefield.Index)
 	gongtimefieldDB.Index_Data.Valid = true
-
 }
 
 // CopyBasicFieldsFromGongTimeFieldWOP
 func (gongtimefieldDB *GongTimeFieldDB) CopyBasicFieldsFromGongTimeFieldWOP(gongtimefield *GongTimeFieldWOP) {
 	// insertion point for fields commit
+
 	gongtimefieldDB.Name_Data.String = gongtimefield.Name
 	gongtimefieldDB.Name_Data.Valid = true
 
 	gongtimefieldDB.Index_Data.Int64 = int64(gongtimefield.Index)
 	gongtimefieldDB.Index_Data.Valid = true
-
 }
 
 // CopyBasicFieldsToGongTimeField
@@ -472,6 +473,51 @@ func (backRepoGongTimeField *BackRepoGongTimeFieldStruct) BackupXL(file *xlsx.Fi
 		row := sh.AddRow()
 		row.WriteStruct(&gongtimefieldWOP, -1)
 	}
+}
+
+// RestoreXL from the "GongTimeField" sheet all GongTimeFieldDB instances
+func (backRepoGongTimeField *BackRepoGongTimeFieldStruct) RestoreXLPhaseOne(file *xlsx.File) {
+
+	// resets the map
+	BackRepoGongTimeFieldid_atBckpTime_newID = make(map[uint]uint)
+
+	sh, ok := file.Sheet["GongTimeField"]
+	_ = sh
+	if !ok {
+		log.Panic(errors.New("sheet not found"))
+	}
+
+	// log.Println("Max row is", sh.MaxRow)
+	err := sh.ForEachRow(backRepoGongTimeField.rowVisitorGongTimeField)
+	if err != nil {
+		log.Panic("Err=", err)
+	}
+}
+
+func (backRepoGongTimeField *BackRepoGongTimeFieldStruct) rowVisitorGongTimeField(row *xlsx.Row) error {
+
+	log.Printf("row line %d\n", row.GetCoordinate())
+	log.Println(row)
+
+	// skip first line
+	if row.GetCoordinate() > 0 {
+		var gongtimefieldWOP GongTimeFieldWOP
+		row.ReadStruct(&gongtimefieldWOP)
+
+		// add the unmarshalled struct to the stage
+		gongtimefieldDB := new(GongTimeFieldDB)
+		gongtimefieldDB.CopyBasicFieldsFromGongTimeFieldWOP(&gongtimefieldWOP)
+
+		gongtimefieldDB_ID_atBackupTime := gongtimefieldDB.ID
+		gongtimefieldDB.ID = 0
+		query := backRepoGongTimeField.db.Create(gongtimefieldDB)
+		if query.Error != nil {
+			log.Panic(query.Error)
+		}
+		(*backRepoGongTimeField.Map_GongTimeFieldDBID_GongTimeFieldDB)[gongtimefieldDB.ID] = gongtimefieldDB
+		BackRepoGongTimeFieldid_atBckpTime_newID[gongtimefieldDB_ID_atBackupTime] = gongtimefieldDB.ID
+	}
+	return nil
 }
 
 // RestorePhaseOne read the file "GongTimeFieldDB.json" in dirPath that stores an array

@@ -2,16 +2,17 @@
 export enum BackRepoInsertionPoint {
 	// insertion point	
 	BackRepoBasicAndTimeFieldsName = 1,
-	BackRepoBasicAndTimeFieldsWOPDeclaration = 2,
-	BackRepoBasicFieldsCheckout = 7,
-	BackRepoBasicFieldsCommit = 5,
+	BackRepoBasicAndTimeFieldsWOPDeclaration = 3,
+	BackRepoBasicFieldsCheckout = 8,
+	BackRepoBasicFieldsCommit = 6,
 	BackRepoBasicFieldsDeclaration = 0,
-	BackRepoNbInsertionPoints = 10,
-	BackRepoPointerEncodingFieldsCheckout = 8,
-	BackRepoPointerEncodingFieldsCommit = 6,
-	BackRepoPointerEncodingFieldsDeclaration = 3,
-	BackRepoPointerEncodingFieldsReindexing = 9,
-	BackRepoPointerEncodingFieldsWOPDeclaration = 4,
+	BackRepoNbInsertionPoints = 11,
+	BackRepoPointerEncodingFieldsCheckout = 9,
+	BackRepoPointerEncodingFieldsCommit = 7,
+	BackRepoPointerEncodingFieldsDeclaration = 4,
+	BackRepoPointerEncodingFieldsReindexing = 10,
+	BackRepoPointerEncodingFieldsWOPDeclaration = 5,
+	BackRepoWOPInitialIndex = 2,
 }
 
 export interface BackRepoInsertionPointSelect {
@@ -21,14 +22,15 @@ export interface BackRepoInsertionPointSelect {
 
 export const BackRepoInsertionPointList: BackRepoInsertionPointSelect[] = [ // insertion point	
 	{ value: 'BackRepoBasicAndTimeFieldsName', viewValue: '1' },
-	{ value: 'BackRepoBasicAndTimeFieldsWOPDeclaration', viewValue: '2' },
-	{ value: 'BackRepoBasicFieldsCheckout', viewValue: '7' },
-	{ value: 'BackRepoBasicFieldsCommit', viewValue: '5' },
+	{ value: 'BackRepoBasicAndTimeFieldsWOPDeclaration', viewValue: '3' },
+	{ value: 'BackRepoBasicFieldsCheckout', viewValue: '8' },
+	{ value: 'BackRepoBasicFieldsCommit', viewValue: '6' },
 	{ value: 'BackRepoBasicFieldsDeclaration', viewValue: '0' },
-	{ value: 'BackRepoNbInsertionPoints', viewValue: '10' },
-	{ value: 'BackRepoPointerEncodingFieldsCheckout', viewValue: '8' },
-	{ value: 'BackRepoPointerEncodingFieldsCommit', viewValue: '6' },
-	{ value: 'BackRepoPointerEncodingFieldsDeclaration', viewValue: '3' },
-	{ value: 'BackRepoPointerEncodingFieldsReindexing', viewValue: '9' },
-	{ value: 'BackRepoPointerEncodingFieldsWOPDeclaration', viewValue: '4' },
+	{ value: 'BackRepoNbInsertionPoints', viewValue: '11' },
+	{ value: 'BackRepoPointerEncodingFieldsCheckout', viewValue: '9' },
+	{ value: 'BackRepoPointerEncodingFieldsCommit', viewValue: '7' },
+	{ value: 'BackRepoPointerEncodingFieldsDeclaration', viewValue: '4' },
+	{ value: 'BackRepoPointerEncodingFieldsReindexing', viewValue: '10' },
+	{ value: 'BackRepoPointerEncodingFieldsWOPDeclaration', viewValue: '5' },
+	{ value: 'BackRepoWOPInitialIndex', viewValue: '2' },
 ];

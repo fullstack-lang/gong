@@ -57,12 +57,12 @@ type ModelPkgDB struct {
 	gorm.Model
 
 	// insertion for basic fields declaration
+
 	// Declation for basic field modelpkgDB.Name {{BasicKind}} (to be completed)
 	Name_Data sql.NullString
 
 	// Declation for basic field modelpkgDB.PkgPath {{BasicKind}} (to be completed)
 	PkgPath_Data sql.NullString
-
 	// encoding of pointers
 	ModelPkgPointersEnconding
 }
@@ -80,13 +80,13 @@ type ModelPkgDBResponse struct {
 // ModelPkgWOP is a ModelPkg without pointers (WOP is an acronym for "Without Pointers")
 // it holds the same basic fields but pointers are encoded into uint
 type ModelPkgWOP struct {
-	ID int
+	ID int `xlsx:"0"`
 
 	// insertion for WOP basic fields
 
-	Name string
+	Name string `xlsx:"1"`
 
-	PkgPath string
+	PkgPath string `xlsx:"2"`
 	// insertion for WOP pointer fields
 }
 
@@ -375,23 +375,23 @@ func (backRepo *BackRepoStruct) CheckoutModelPkg(modelpkg *models.ModelPkg) {
 // CopyBasicFieldsFromModelPkg
 func (modelpkgDB *ModelPkgDB) CopyBasicFieldsFromModelPkg(modelpkg *models.ModelPkg) {
 	// insertion point for fields commit
+
 	modelpkgDB.Name_Data.String = modelpkg.Name
 	modelpkgDB.Name_Data.Valid = true
 
 	modelpkgDB.PkgPath_Data.String = modelpkg.PkgPath
 	modelpkgDB.PkgPath_Data.Valid = true
-
 }
 
 // CopyBasicFieldsFromModelPkgWOP
 func (modelpkgDB *ModelPkgDB) CopyBasicFieldsFromModelPkgWOP(modelpkg *ModelPkgWOP) {
 	// insertion point for fields commit
+
 	modelpkgDB.Name_Data.String = modelpkg.Name
 	modelpkgDB.Name_Data.Valid = true
 
 	modelpkgDB.PkgPath_Data.String = modelpkg.PkgPath
 	modelpkgDB.PkgPath_Data.Valid = true
-
 }
 
 // CopyBasicFieldsToModelPkg
@@ -467,6 +467,51 @@ func (backRepoModelPkg *BackRepoModelPkgStruct) BackupXL(file *xlsx.File) {
 		row := sh.AddRow()
 		row.WriteStruct(&modelpkgWOP, -1)
 	}
+}
+
+// RestoreXL from the "ModelPkg" sheet all ModelPkgDB instances
+func (backRepoModelPkg *BackRepoModelPkgStruct) RestoreXLPhaseOne(file *xlsx.File) {
+
+	// resets the map
+	BackRepoModelPkgid_atBckpTime_newID = make(map[uint]uint)
+
+	sh, ok := file.Sheet["ModelPkg"]
+	_ = sh
+	if !ok {
+		log.Panic(errors.New("sheet not found"))
+	}
+
+	// log.Println("Max row is", sh.MaxRow)
+	err := sh.ForEachRow(backRepoModelPkg.rowVisitorModelPkg)
+	if err != nil {
+		log.Panic("Err=", err)
+	}
+}
+
+func (backRepoModelPkg *BackRepoModelPkgStruct) rowVisitorModelPkg(row *xlsx.Row) error {
+
+	log.Printf("row line %d\n", row.GetCoordinate())
+	log.Println(row)
+
+	// skip first line
+	if row.GetCoordinate() > 0 {
+		var modelpkgWOP ModelPkgWOP
+		row.ReadStruct(&modelpkgWOP)
+
+		// add the unmarshalled struct to the stage
+		modelpkgDB := new(ModelPkgDB)
+		modelpkgDB.CopyBasicFieldsFromModelPkgWOP(&modelpkgWOP)
+
+		modelpkgDB_ID_atBackupTime := modelpkgDB.ID
+		modelpkgDB.ID = 0
+		query := backRepoModelPkg.db.Create(modelpkgDB)
+		if query.Error != nil {
+			log.Panic(query.Error)
+		}
+		(*backRepoModelPkg.Map_ModelPkgDBID_ModelPkgDB)[modelpkgDB.ID] = modelpkgDB
+		BackRepoModelPkgid_atBckpTime_newID[modelpkgDB_ID_atBackupTime] = modelpkgDB.ID
+	}
+	return nil
 }
 
 // RestorePhaseOne read the file "ModelPkgDB.json" in dirPath that stores an array

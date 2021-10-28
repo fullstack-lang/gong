@@ -45,6 +45,7 @@ type PointerToGongStructFieldAPI struct {
 // reverse pointers of slice of poitners to Struct
 type PointerToGongStructFieldPointersEnconding struct {
 	// insertion for pointer fields encoding declaration
+
 	// field GongStruct is a pointer to another Struct (optional or 0..1)
 	// This field is generated into another field to enable AS ONE association
 	GongStructID sql.NullInt64
@@ -66,12 +67,12 @@ type PointerToGongStructFieldDB struct {
 	gorm.Model
 
 	// insertion for basic fields declaration
+
 	// Declation for basic field pointertogongstructfieldDB.Name {{BasicKind}} (to be completed)
 	Name_Data sql.NullString
 
 	// Declation for basic field pointertogongstructfieldDB.Index {{BasicKind}} (to be completed)
 	Index_Data sql.NullInt64
-
 	// encoding of pointers
 	PointerToGongStructFieldPointersEnconding
 }
@@ -89,13 +90,13 @@ type PointerToGongStructFieldDBResponse struct {
 // PointerToGongStructFieldWOP is a PointerToGongStructField without pointers (WOP is an acronym for "Without Pointers")
 // it holds the same basic fields but pointers are encoded into uint
 type PointerToGongStructFieldWOP struct {
-	ID int
+	ID int `xlsx:"0"`
 
 	// insertion for WOP basic fields
 
-	Name string
+	Name string `xlsx:"1"`
 
-	Index int
+	Index int `xlsx:"2"`
 	// insertion for WOP pointer fields
 }
 
@@ -397,23 +398,23 @@ func (backRepo *BackRepoStruct) CheckoutPointerToGongStructField(pointertogongst
 // CopyBasicFieldsFromPointerToGongStructField
 func (pointertogongstructfieldDB *PointerToGongStructFieldDB) CopyBasicFieldsFromPointerToGongStructField(pointertogongstructfield *models.PointerToGongStructField) {
 	// insertion point for fields commit
+
 	pointertogongstructfieldDB.Name_Data.String = pointertogongstructfield.Name
 	pointertogongstructfieldDB.Name_Data.Valid = true
 
 	pointertogongstructfieldDB.Index_Data.Int64 = int64(pointertogongstructfield.Index)
 	pointertogongstructfieldDB.Index_Data.Valid = true
-
 }
 
 // CopyBasicFieldsFromPointerToGongStructFieldWOP
 func (pointertogongstructfieldDB *PointerToGongStructFieldDB) CopyBasicFieldsFromPointerToGongStructFieldWOP(pointertogongstructfield *PointerToGongStructFieldWOP) {
 	// insertion point for fields commit
+
 	pointertogongstructfieldDB.Name_Data.String = pointertogongstructfield.Name
 	pointertogongstructfieldDB.Name_Data.Valid = true
 
 	pointertogongstructfieldDB.Index_Data.Int64 = int64(pointertogongstructfield.Index)
 	pointertogongstructfieldDB.Index_Data.Valid = true
-
 }
 
 // CopyBasicFieldsToPointerToGongStructField
@@ -489,6 +490,51 @@ func (backRepoPointerToGongStructField *BackRepoPointerToGongStructFieldStruct) 
 		row := sh.AddRow()
 		row.WriteStruct(&pointertogongstructfieldWOP, -1)
 	}
+}
+
+// RestoreXL from the "PointerToGongStructField" sheet all PointerToGongStructFieldDB instances
+func (backRepoPointerToGongStructField *BackRepoPointerToGongStructFieldStruct) RestoreXLPhaseOne(file *xlsx.File) {
+
+	// resets the map
+	BackRepoPointerToGongStructFieldid_atBckpTime_newID = make(map[uint]uint)
+
+	sh, ok := file.Sheet["PointerToGongStructField"]
+	_ = sh
+	if !ok {
+		log.Panic(errors.New("sheet not found"))
+	}
+
+	// log.Println("Max row is", sh.MaxRow)
+	err := sh.ForEachRow(backRepoPointerToGongStructField.rowVisitorPointerToGongStructField)
+	if err != nil {
+		log.Panic("Err=", err)
+	}
+}
+
+func (backRepoPointerToGongStructField *BackRepoPointerToGongStructFieldStruct) rowVisitorPointerToGongStructField(row *xlsx.Row) error {
+
+	log.Printf("row line %d\n", row.GetCoordinate())
+	log.Println(row)
+
+	// skip first line
+	if row.GetCoordinate() > 0 {
+		var pointertogongstructfieldWOP PointerToGongStructFieldWOP
+		row.ReadStruct(&pointertogongstructfieldWOP)
+
+		// add the unmarshalled struct to the stage
+		pointertogongstructfieldDB := new(PointerToGongStructFieldDB)
+		pointertogongstructfieldDB.CopyBasicFieldsFromPointerToGongStructFieldWOP(&pointertogongstructfieldWOP)
+
+		pointertogongstructfieldDB_ID_atBackupTime := pointertogongstructfieldDB.ID
+		pointertogongstructfieldDB.ID = 0
+		query := backRepoPointerToGongStructField.db.Create(pointertogongstructfieldDB)
+		if query.Error != nil {
+			log.Panic(query.Error)
+		}
+		(*backRepoPointerToGongStructField.Map_PointerToGongStructFieldDBID_PointerToGongStructFieldDB)[pointertogongstructfieldDB.ID] = pointertogongstructfieldDB
+		BackRepoPointerToGongStructFieldid_atBckpTime_newID[pointertogongstructfieldDB_ID_atBackupTime] = pointertogongstructfieldDB.ID
+	}
+	return nil
 }
 
 // RestorePhaseOne read the file "PointerToGongStructFieldDB.json" in dirPath that stores an array
