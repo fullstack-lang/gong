@@ -566,6 +566,12 @@ func main() {
 		gong_models.PkgGoPath, filepath.Join(gong_models.MatTargetPath, "app-routing.module.ts"),
 		gong_models.NgRoutingTemplate, gong_models.NgRoutingSubTemplateCode)
 
+	gong_models.VerySimpleCodeGenerator(
+		&modelPkg,
+		strings.Title(gong_models.PkgName),
+		gong_models.PkgGoPath, filepath.Join(gong_models.NgWorkspacePath, "projects.go"),
+		gong_models.GoProjectsGo)
+
 	gong_models.SimpleCodeGeneratorForGongStructWithNameField(
 		&modelPkg,
 		gong_models.PkgName,
