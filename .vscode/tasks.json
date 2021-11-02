@@ -117,7 +117,7 @@
                 "cwd": "${workspaceFolder}/.."
             },
             "group": "build",
-            "command": "find . -name gong.go -print -execdir gongc \\;"
+            "command": "find . -type d -name vendor -prune -o -name gong.go -print -execdir gongc \\;"
         },
         {
             "label": "Sequence - gongc all -backendOnly",
@@ -126,7 +126,7 @@
                 "cwd": "${workspaceFolder}/.."
             },
             "group": "build",
-            "command": "find . -name gong.go -print -execdir gongc -backendOnly\\;"
+            "command": "find . -type d -name vendor -prune -o -name gong.go -print -execdir gongc -backendOnly\\;"
         },
     ]
 }
