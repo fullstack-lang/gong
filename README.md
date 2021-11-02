@@ -4,6 +4,7 @@
     - [Go](#go)
     - [gcc](#gcc)
     - [go-swagger (optional)](#go-swagger-optional)
+    - [npm](#npm)
     - [Angular](#angular)
     - [Vscode (optional)](#vscode-optional)
   - [Developping a gong stack](#developping-a-gong-stack)
@@ -28,9 +29,20 @@ Gong (go + ng) is a framework for rapid web application development (a.k.a. full
 
 The unit of development in gong is the **gong stack** (a "stack" in the rest of this document). A stack can import other stacks (both the front end and the back end of a stack are integrated as a whole). The granularity of a stack is similar to an angular components. There are available stacks for [jointjs](https://www.jointjs.com/) and [leaflet](https://leafletjs.com/).
 
+The configuration of *both* back-end and front-end code of a stack is managed with the go `module`. For the go code, it is straighforward. For the angular/typescript/js code, it is done by using the go `embed` fearure that allows by using a simple go file 
+
+```go
+//go:embed projects
+var Projects embed.FS
+```
+
+the storage of the `ng/projects` directory code into the `go module`.
+
+Another (recent) go feature, the  `go mod vendor` feature, makes available the source code of a dependency in a `vendor` directory. If you import a stack, define your front-end dependency by using the `tsconfig.json` file and point it the to import path into the `vendor` directory (instead of using the installation by `npm install` of the imported front code module). you are therefore assured that your back-end code and front-end code belong to the same configuration. (see the https://github.com/fullstack-lang/gongproject/blob/master/ng/tsconfig.json for an example of tsconfig.json configuration).
+
 Gong is similar in intent to [lorca](https://github.com/zserge/lorca), [wails](https://github.com/wailsapp/wails) and [fyne](https://github.com/fyne-io/fyne). However, the gong framework approach is different because it includes gongc, a go data model compiler to generate front-end and back-end code. In this sense, it is similar to [ent](https://github.com/ent/ent) which includes a ("shema as code") approach.
 
-Also, gong's stated goal is narrower, it is the rapid development of web applications for system engineering (see [paper](https://www.researchgate.net/publication/354237095_GONG_an_open_source_MBSE_toolset/references#fullTextFileContent) for details on this goal)
+Also, gong's stated goal is narrower since it is the rapid development of web applications for system engineering (see [paper](https://www.researchgate.net/publication/354237095_GONG_an_open_source_MBSE_toolset/references#fullTextFileContent) for details on this goal)
 
 ## Prerequisite
 
@@ -45,6 +57,10 @@ A stack uses gorm for database access and sqlite as the default database. The sq
 ### go-swagger (optional)
 
 [go-swagger](https://github.com/go-swagger/go-swagger) is a go program is used after each `gongc` compilation to generate the project API in a `yml` file. *gongc* is robust to the absence of go-swagger but it is recommanded to use it if you need to document the API with yaml.
+
+### npm
+
+Gong uses npm version >= 6.14 (see https://nodejs.org)
 
 ### Angular
 
@@ -101,6 +117,8 @@ https://github.com/fullstack-lang/gongleaflet, a stack for developping applicati
 
 https://github.com/fullstack-lang/gongsvg, a stack for developping application with svg graphical components
 
+https://github.com/fullstack-lang/gongjointjs, a stack for developping application with jointjs interactive graphical component
+
 ## Examples
 
 https://github.com/fullstack-lang/helloworld is a recommanded starting point for understanding gong.
@@ -109,7 +127,10 @@ https://github.com/fullstack-lang/bookstore is a little more sophisticated examp
 
 https://github.com/fullstack-lang/laundromat, is a more sophisticated example. It is a simulation stack that reuses 3 other stacks (gong, gongsim, gongdoc)
 
-https://github.com/fullstack-lang/gongfly, An airplane simulation that reuses 4 stacks (gong, gongsim, gongdoc, gongleaflet)
+https://github.com/fullstack-lang/gongfly, an airplane simulation that reuses 4 stacks (gong, gongsim, gongdoc, gongleaflet)
+
+https://github.com/fullstack-lang/gongproject, a project management application that reuses 3 stacks (gong, gongjointjs, gongdoc)
+
 
 ## Generating a "hello world" stack in 5 minutes
 
