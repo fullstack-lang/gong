@@ -1,5 +1,7 @@
 - [Gong](#gong)
   - [About Gong](#about-gong)
+  - [Stack configuration management](#stack-configuration-management)
+  - [Gong is intended for system engineering tooling](#gong-is-intended-for-system-engineering-tooling)
   - [Prerequisite](#prerequisite)
     - [Go](#go)
     - [gcc](#gcc)
@@ -25,20 +27,38 @@ With gong, a web application is a set of stacks. Each stack, based on go and ang
 
 ## About Gong
 
-Gong (go + ng) is a framework for rapid web application development (a.k.a. full stack development) based on go for the back-end and angular for the front-end. Gong idea is to leverages best in class components. The back-end leverages the [gin](https://github.com/gin-gonic/gin) web framework and [gorm](https://gorm.io/index.html), the fantastic ORM. The front-end leverages and [angular material](https://material.angular.io/) and [angular split](https://github.com/angular-split/angular-split).
+Gong (go + ng) is a framework for rapid web application development (a.k.a. full stack development). It is based on two development langages: go for the back-end and angular for the front-end. Gong idea is to leverages best in class components. The back-end leverages [gin](https://github.com/gin-gonic/gin), a web framework and [gorm](https://gorm.io/index.html), an ORM. The front-end leverages [angular material](https://material.angular.io/), an library of angular components.
 
 The unit of development in gong is the **gong stack** (a "stack" in the rest of this document). A stack can import other stacks (both the front end and the back end of a stack are integrated as a whole). The granularity of a stack is similar to an angular components. There are available stacks for [jointjs](https://www.jointjs.com/) and [leaflet](https://leafletjs.com/).
 
-The configuration of *both* back-end and front-end code of a stack is managed with the go `module`. For the go code, it is straighforward. For the angular/typescript/js code, it is done by using the go `embed` fearure that allows by using a simple go file 
+## Stack configuration management
+
+The configuration of *both* back-end and front-end code of a stack is a single configuration item.
+
+This is done thank the go `module`. For the go code, it is the standard way of managing dependencies. For the angular/typescript/js code, it is done in four steps.
+
+First, gong uses the go `embed` fearure that allows, by using four lines of go in a file stored in the angular workspace to directory,
 
 ```go
+package ng
+import "embed"
 //go:embed projects
 var Projects embed.FS
 ```
 
-the storage of the `ng/projects` directory code into the `go module`.
+that the code in the angular workspace `projects` directory is stored into the `go module`.
 
-Another (recent) go feature, the  `go mod vendor` feature, makes available the source code of a dependency in a `vendor` directory. If you import a stack, define your front-end dependency by using the `tsconfig.json` file and point it the to import path into the `vendor` directory (instead of using the installation by `npm install` of the imported front code module). you are therefore assured that your back-end code and front-end code belong to the same configuration. (see the https://github.com/fullstack-lang/gongproject/blob/master/ng/tsconfig.json for an example of tsconfig.json configuration).
+The second step is to import the created `ng package` in the project that will use the stack. For instance, the following line makes avaible the `Project` directory to the project.
+
+```go
+	_ "github.com/fullstack-lang/gongjointjs/ng"
+  ```
+
+The third step is another go feature, the  `go mod vendor` command, that makes available the source code of all dependencies in a `vendor` directory simply by issuing the command. Then, the angular code is now in the directory `vendor/github.com/fullstack-lang/gongjointjs/ng`.
+
+The four step is to define your front-end dependency by using the `tsconfig.json` file and point it the to import path into the `vendor` directory (instead of using the installation by `npm install` of the imported front code module). you are therefore assured that your back-end code and front-end code belong to the same configuration. (see the https://github.com/fullstack-lang/gongproject/blob/master/ng/tsconfig.json for an example of tsconfig.json configuration).
+
+## Gong is intended for system engineering tooling
 
 Gong is similar in intent to [lorca](https://github.com/zserge/lorca), [wails](https://github.com/wailsapp/wails) and [fyne](https://github.com/fyne-io/fyne). However, the gong framework approach is different because it includes gongc, a go data model compiler to generate front-end and back-end code. In this sense, it is similar to [ent](https://github.com/ent/ent) which includes a ("shema as code") approach.
 
