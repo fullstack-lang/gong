@@ -36,7 +36,7 @@ var (
 			"(by convention, ../../ng relative to path to package for analysis)."+
 			" If not set, it is "+COMPUTED_FROM_PKG_PATH)
 
-	skipSwagger = flag.Bool("skipSwagger", false, "skip swagger")
+	skipSwagger = flag.Bool("skipSwagger", true, "skip swagger")
 
 	backendOnly = flag.Bool("backendOnly", false, "generates backendOnly")
 
