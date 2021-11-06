@@ -5,7 +5,7 @@
             "label": "00 - go install gongc",
             "type": "shell",
             "options": {
-                "cwd": "go/gongc"
+                "cwd": "go/cmd/gongc"
             },
             "command": "go",
             "args": [
