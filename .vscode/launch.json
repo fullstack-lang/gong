@@ -18,7 +18,7 @@
             "request": "launch",
             "mode": "debug",
             "cwd": "${workspaceFolder}/../laundromat/go/models",
-            "program": "${workspaceFolder}/go/gongc",
+            "program": "${workspaceFolder}/go/cmd/gongc",
             "args": []
         },
         {
@@ -27,7 +27,7 @@
             "request": "launch",
             "mode": "debug",
             "cwd": "${workspaceFolder}/../gongsvg/go/models",
-            "program": "${workspaceFolder}/go/gongc",
+            "program": "${workspaceFolder}/go/cmd/gongc",
             "args": []
         },
         {
@@ -36,7 +36,7 @@
             "request": "launch",
             "mode": "debug",
             "cwd": "${workspaceFolder}/../gongdoc/go/models",
-            "program": "${workspaceFolder}/go/gongc",
+            "program": "${workspaceFolder}/go/cmd/gongc",
             "args": []
         },
         {
@@ -45,7 +45,7 @@
             "request": "launch",
             "mode": "debug",
             "cwd": "${workspaceFolder}/test/go/models",
-            "program": "${workspaceFolder}/go/gongc",
+            "program": "${workspaceFolder}/go/cmd/gongc",
             "args": []
         },
         {
@@ -54,7 +54,7 @@
             "request": "launch",
             "mode": "debug",
             "cwd": "${workspaceFolder}/test2/go/models",
-            "program": "${workspaceFolder}/go/gongc",
+            "program": "${workspaceFolder}/go/cmd/gongc",
             "args": []
         },
         {
@@ -63,7 +63,7 @@
             "request": "launch",
             "mode": "debug",
             "cwd": "/tmp/helloworld/go/models",
-            "program": "${workspaceFolder}/go/gongc",
+            "program": "${workspaceFolder}/go/cmd/gongc",
             "args": []
         },
         {
@@ -72,7 +72,7 @@
             "request": "launch",
             "mode": "debug",
             "cwd": "${workspaceFolder}/test/go/models",
-            "program": "${workspaceFolder}/go/gongc",
+            "program": "${workspaceFolder}/go/cmd/gongc",
             "args": [
                 "-backendOnly"
             ]
@@ -83,7 +83,7 @@
             "request": "launch",
             "mode": "debug",
             "cwd": "${workspaceFolder}/test2/go/models",
-            "program": "${workspaceFolder}/go/gongc",
+            "program": "${workspaceFolder}/go/cmd/gongc",
             "args": [
                 "-backendOnly"
             ]
@@ -94,7 +94,7 @@
             "request": "launch",
             "mode": "debug",
             "cwd": "${workspaceFolder}/go/models",
-            "program": "${workspaceFolder}/go/gongc",
+            "program": "${workspaceFolder}/go/cmd/gongc",
             "args": [
                 "-backendOnly"
             ]
@@ -105,9 +105,8 @@
             "request": "launch",
             "mode": "debug",
             "cwd": "../../../r/DEV_COHERENCE/msspace/go/models",
-            "program": "${workspaceFolder}/go/gongc",
-            "args": [
-            ]
+            "program": "${workspaceFolder}/go/cmd/gongc",
+            "args": []
         },
         {
             "name": "go run test",
