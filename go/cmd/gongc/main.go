@@ -569,7 +569,7 @@ func main() {
 	gong_models.VerySimpleCodeGenerator(
 		&modelPkg,
 		strings.Title(gong_models.PkgName),
-		gong_models.PkgGoPath, filepath.Join(gong_models.NgWorkspacePath, "projects.go"),
+		gong_models.PkgGoPath, filepath.Join(gong_models.NgWorkspacePath, "embed.go"),
 		gong_models.GoProjectsGo)
 
 	gong_models.SimpleCodeGeneratorForGongStructWithNameField(
