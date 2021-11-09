@@ -72,16 +72,7 @@ func main() {
 			_, err2 := os.Stat(goModFilePath)
 			if os.IsNotExist(err2) {
 
-				// compute name of package
-				abs, _ := filepath.Abs(filepath.Join(*pkgPath, "../.."))
-				log.Println("Abs is " + abs)
-
-				// to slash to have standardized separators between unix and windows
-				abs = filepath.ToSlash(abs)
-
-				dirs := strings.Split(abs, "/")
-				pkgName := dirs[len(dirs)-1]
-				log.Println("PkgName is " + pkgName)
+				pkgName := computePkgName()
 
 				if true {
 
@@ -187,11 +178,22 @@ func main() {
 	// generate main.go if absent
 	{
 		// check existance of "main.go" file and generate a default "main.go" if absent
-		mainFilePath := filepath.Join(*pkgPath, "../../main.go")
+		mainFilePath := filepath.Join(*pkgPath, fmt.Sprintf("../%s/main.go", computePkgName()))
 
 		_, errd := os.Stat(mainFilePath)
 		if os.IsNotExist(errd) {
 			log.Printf("maing.go does not exist, gongc creates a default main.go")
+
+			mainFileDirPath := filepath.Dir(mainFilePath)
+			mainFileDirAbsPath, _ := filepath.Abs(mainFileDirPath)
+
+			errd := os.MkdirAll(mainFileDirAbsPath, os.ModePerm)
+			if os.IsNotExist(errd) {
+				log.Println("creating directory : " + mainFileDirAbsPath)
+			}
+			if os.IsExist(errd) {
+				log.Println("directory " + mainFileDirAbsPath + " allready exists")
+			}
 
 			// sometimes on windows, directory creation is not completed before creation of file/directory (this
 			// leads to non reproductible "access denied")
