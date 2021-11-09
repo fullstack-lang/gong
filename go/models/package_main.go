@@ -18,7 +18,7 @@ import (
 	"{{PkgPathRoot}}/controllers"
 	"{{PkgPathRoot}}/orm"
 
-	{{pkgname}} "{{pkgname}}"
+	{{pkgname}} "{{PkgPathAboveRoot}}"
 )
 
 var (
