@@ -17,6 +17,8 @@ import (
 
 	"{{PkgPathRoot}}/controllers"
 	"{{PkgPathRoot}}/orm"
+
+	{{pkgname}} "{{pkgname}}"
 )
 
 var (
@@ -46,7 +48,7 @@ func main() {
 	db := orm.SetupModels(*logDBFlag, "./test.db")
 	dbDB, err := db.DB()
 
-	// since gongsim is a multi threaded application. It is important to set up
+	// since the stack can be a multi threaded application. It is important to set up
 	// only one open connexion at a time
 	if err != nil {
 		panic("cannot access DB of db" + err.Error())
@@ -56,7 +58,7 @@ func main() {
 	controllers.RegisterControllers(r)
 
 	// provide the static route for the angular pages
-	r.Use(static.Serve("/", EmbedFolder(ng, "ng/dist/ng")))
+	r.Use(static.Serve("/", EmbedFolder({{pkgname}}.NgDistNg, "ng/dist/ng")))
 	r.NoRoute(func(c *gin.Context) {
 		fmt.Println(c.Request.URL.Path, "doesn't exists, redirect on /")
 		c.Redirect(http.StatusMovedPermanently, "/")
@@ -66,9 +68,6 @@ func main() {
 	log.Printf("Server ready serve on localhost:8080")
 	r.Run()
 }
-
-//go:embed ng/dist/ng
-var ng embed.FS
 
 type embedFileSystem struct {
 	http.FileSystem

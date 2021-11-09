@@ -182,7 +182,7 @@ Name string
 Hello *Hello
 }" > go/models/country.go
 gongc go/models
-./helloworld
+./go/cmd/helloworld/helloworld
 ```
 
 Then, browse to [localhost:8080](http://localhost:8080)

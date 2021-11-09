@@ -178,7 +178,7 @@ func main() {
 	// generate main.go if absent
 	{
 		// check existance of "main.go" file and generate a default "main.go" if absent
-		mainFilePath := filepath.Join(*pkgPath, fmt.Sprintf("../%s/main.go", computePkgName()))
+		mainFilePath := filepath.Join(*pkgPath, fmt.Sprintf("../cmd/%s/main.go", computePkgName()))
 
 		_, errd := os.Stat(mainFilePath)
 		if os.IsNotExist(errd) {
@@ -574,6 +574,12 @@ func main() {
 		gong_models.PkgGoPath, filepath.Join(gong_models.NgWorkspacePath, "embed.go"),
 		gong_models.GoProjectsGo)
 
+	gong_models.VerySimpleCodeGenerator(
+		&modelPkg,
+		strings.Title(gong_models.PkgName),
+		gong_models.PkgGoPath, filepath.Join(gong_models.NgWorkspacePath, "../embed.go"),
+		gong_models.EmebedNgDistNg)
+
 	gong_models.SimpleCodeGeneratorForGongStructWithNameField(
 		&modelPkg,
 		gong_models.PkgName,
@@ -662,7 +668,7 @@ func main() {
 	if true {
 
 		cmd := exec.Command("go", "get")
-		cmd.Dir, _ = filepath.Abs(filepath.Join(*pkgPath, "../.."))
+		cmd.Dir, _ = filepath.Abs(filepath.Join(*pkgPath, fmt.Sprintf("../../go/cmd/%s", computePkgName())))
 		log.Printf("Running %s command in directory %s and waiting for it to finish...\n", cmd.Args, cmd.Dir)
 
 		// https://stackoverflow.com/questions/48253268/print-the-stdout-from-exec-command-in-real-time-in-go
@@ -708,7 +714,7 @@ func main() {
 	if true {
 
 		cmd := exec.Command("go", "build")
-		cmd.Dir, _ = filepath.Abs(filepath.Join(*pkgPath, "../.."))
+		cmd.Dir, _ = filepath.Abs(filepath.Join(*pkgPath, fmt.Sprintf("../cmd/%s", computePkgName())))
 		log.Printf("Running %s command in directory %s and waiting for it to finish...\n", cmd.Args, cmd.Dir)
 
 		// https://stackoverflow.com/questions/48253268/print-the-stdout-from-exec-command-in-real-time-in-go
@@ -732,7 +738,7 @@ func main() {
 	// run application
 	if *run {
 		cmd := exec.Command("go", "run", "main.go")
-		cmd.Dir, _ = filepath.Abs(filepath.Join(*ngWorkspacePath, ".."))
+		cmd.Dir, _ = filepath.Abs(filepath.Join(*ngWorkspacePath, fmt.Sprintf("../go/cmd/%s", computePkgName())))
 		log.Printf("Running %s command in directory %s and waiting for it to finish...\n", cmd.Args, cmd.Dir)
 
 		// https://stackoverflow.com/questions/48253268/print-the-stdout-from-exec-command-in-real-time-in-go
