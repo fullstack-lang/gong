@@ -122,7 +122,7 @@
             "type": "go",
             "request": "launch",
             "mode": "auto",
-            "program": "${workspaceFolder}/test",
+            "program": "${workspaceFolder}/test/go/cmd/test",
             "args": []
         },
         {
@@ -130,7 +130,7 @@
             "type": "go",
             "request": "launch",
             "mode": "auto",
-            "program": "${workspaceFolder}/test2",
+            "program": "${workspaceFolder}/test2/go/cmd/test",
             "args": []
         },
         {

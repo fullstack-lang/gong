@@ -13,8 +13,9 @@ import (
 	"github.com/gin-contrib/static"
 	"github.com/gin-gonic/gin"
 
+	test2 "github.com/fullstack-lang/gong/test2"
 	test2_controllers "github.com/fullstack-lang/gong/test2/go/controllers"
-	"github.com/fullstack-lang/gong/test2/go/models"
+	test2_models "github.com/fullstack-lang/gong/test2/go/models"
 	test2_orm "github.com/fullstack-lang/gong/test2/go/orm"
 
 	test_controllers "github.com/fullstack-lang/gong/test/go/controllers"
@@ -68,7 +69,7 @@ func main() {
 		test_orm.AutoMigrate(inMemoryDB)
 	}
 
-	astruct := new(models.Astruct).Stage()
+	astruct := new(test2_models.Astruct).Stage()
 	astruct.Name = "Test2 Astruct instance #1"
 	// astruct.Date = time.Date(2020, time.January, 1, 10, 11, 12, 0, time.UTC)
 
@@ -80,13 +81,13 @@ func main() {
 	// astruct.Anarrayofb = append(astruct.Anarrayofb, bstruct1)
 	// astruct.Anarrayofb = append(astruct.Anarrayofb, bstruct2)
 
-	models.Stage.Commit()
+	test2_models.Stage.Commit()
 
 	test2_controllers.RegisterControllers(r)
 	test_controllers.RegisterControllers(r)
 
 	// provide the static route for the angular pages
-	r.Use(static.Serve("/", EmbedFolder(ng, "ng/dist/ng")))
+	r.Use(static.Serve("/", EmbedFolder(test2.NgDistNg, "ng/dist/ng")))
 	r.NoRoute(func(c *gin.Context) {
 		fmt.Println(c.Request.URL.Path, "doesn't exists, redirect on /")
 		c.Redirect(http.StatusMovedPermanently, "/")
@@ -96,9 +97,6 @@ func main() {
 	log.Printf("Server ready serve on localhost:8080")
 	r.Run()
 }
-
-//go:embed ng/dist/ng
-var ng embed.FS
 
 type embedFileSystem struct {
 	http.FileSystem
