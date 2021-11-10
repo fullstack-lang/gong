@@ -25,3 +25,5 @@ go/cmd/gongc/__debug_bin.exe
 test/go/cmd/test/test.exe
 test/go/cmd/test/__debug_bin.exe
 test2/go/cmd/test2/test2.exe
+test/go/cmd/test/test
+test2/go/cmd/test2/test2
