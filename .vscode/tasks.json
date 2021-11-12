@@ -17,7 +17,7 @@
             "label": "00 - go install gong",
             "type": "shell",
             "options": {
-                "cwd": "."
+                "cwd": "./go/cmd/gong"
             },
             "command": "go",
             "args": [
@@ -28,7 +28,14 @@
         {
             "label": "04 - go run test",
             "type": "shell",
-            "command": "cd test; go run main.go",
+            "options": {
+                "cwd": "./test/go/cmd/test"
+            },
+            "command": "go",
+            "args": [
+                "run",
+                "main.go"
+            ],
             "group": "build"
         },
         {

@@ -2,6 +2,7 @@ package main
 
 import (
 	"bytes"
+	"encoding/json"
 	"flag"
 	"fmt"
 	"io"
@@ -208,6 +209,7 @@ func main() {
 	}
 
 	// generate things in ng  lib directory
+	var ngNewWsPerformed bool
 	{
 		if *ngWorkspacePath == COMPUTED_FROM_PKG_PATH {
 			*ngWorkspacePath = filepath.Join(*pkgPath, "../../ng")
@@ -245,6 +247,7 @@ func main() {
 			if err := cmd.Run(); err != nil {
 				log.Panic(err)
 			}
+			ngNewWsPerformed = true
 
 			// add the necessary libraries to gong applications
 			{
@@ -322,6 +325,68 @@ func main() {
 				fmt.Fprintf(f, "%s", res)
 			}
 		}
+	}
+
+	// if ng new was performed, modify the angular json file
+	// for some configuration stuff
+	if ngNewWsPerformed {
+		angularJsonFile := filepath.Join(gong_models.NgWorkspacePath, "angular.json")
+
+		// Read the file
+		input, err := os.ReadFile(angularJsonFile)
+		if err != nil {
+			log.Fatalln(err)
+		}
+
+		var root interface{}
+		if err := json.Unmarshal(input, &root); err != nil {
+			log.Fatal(err)
+		}
+
+		// Walk down path to target object.
+		v := root
+		var path = []string{"projects",
+			"ng",
+			"architect",
+			"build",
+			"configurations",
+			"production",
+			"budgets"}
+		for i, k := range path {
+			m, ok := v.(map[string]interface{})
+			if !ok {
+				log.Fatalf("map not found at %s", strings.Join(path[:i+1], ", "))
+			}
+			v, ok = m[k]
+			if !ok {
+				log.Fatalf("value not found at %s", strings.Join(path[:i+1], ", "))
+			}
+		}
+
+		// Set value in the target object.
+		// budgets is a slice and it is the first one
+		slice, ok := v.([]interface{})
+		if !ok {
+			log.Fatalf("not slice found at %s", strings.Join(path, ", "))
+		}
+		v = slice[0]
+		m, ok := v.(map[string]interface{})
+		if !ok {
+			log.Fatalf("map not found at %s", strings.Join(path, ", "))
+		}
+		m["maximumError"] = "10mb"
+
+		// Marshal back to JSON. Variable d is []byte with the JSON
+		d, err := json.Marshal(root)
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		errWrite := os.WriteFile(angularJsonFile, d, os.ModePerm)
+		if errWrite != nil {
+			log.Fatal(errWrite)
+		}
+
 	}
 
 	// check existance of generated angular library. If absent, use "ng generate libray <library>"
