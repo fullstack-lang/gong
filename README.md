@@ -60,7 +60,7 @@ The four step is to define your front-end dependency by using the `tsconfig.json
 
 ## Gong is intended for system engineering tooling
 
-Gong fullstack approach was inspired by [Ruby on Rails](https://rubyonrails.org/) and the [conceptual compression concept](https://m.signalvnoise.com/conceptual-compression-means-beginners-dont-need-to-know-sql-hallelujah/).
+Gong fullstack approach was inspired by [Ruby on Rails](https://rubyonrails.org/) and a more generaly the idea that complexity facing the programmer should be carefuly managed, as it is described in [conceptual compression concept](https://m.signalvnoise.com/conceptual-compression-means-beginners-dont-need-to-know-sql-hallelujah/) and [Rob Pike's design of Go regarding complexity](https://www.dotconferences.com/2015/11/rob-pike-simplicity-is-complicated).
 
 Gong fullstack approach, with a backend in go, is similar in intent to [lorca](https://github.com/zserge/lorca), [wails](https://github.com/wailsapp/wails) and [fyne](https://github.com/fyne-io/fyne). However, the gong framework approach is different because it includes gongc, a go data model compiler to generate front-end and back-end code. In this sense, it is similar to [ent](https://github.com/ent/ent) which includes a ("shema as code") approach.
 
