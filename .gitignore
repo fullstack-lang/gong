@@ -3,9 +3,7 @@ go/gongc/__debug_bin
 test/__debug_bin
 test/go/tests/.DS_Store
 test2/__debug_bin
-docs/.DS_Store
 .DS_Store
-docs/.DS_Store
 test/go/.DS_Store
 test/.DS_Store
 go/gongc/__debug_bin.exe
@@ -27,3 +25,5 @@ test/go/cmd/test/__debug_bin.exe
 test2/go/cmd/test2/test2.exe
 test/go/cmd/test/test
 test2/go/cmd/test2/test2
+test/.DS_Store
+
