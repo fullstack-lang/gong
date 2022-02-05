@@ -95,6 +95,19 @@
             ]
         },
         {
+            "label": "01 - remove test main.go",
+            "type": "shell",
+            "options": {
+                "cwd": "${workspaceFolder}/test/go/cmd/test"
+            },
+            "command": "rm",
+            "group": "build",
+            "args": [
+                "-f",
+                "main.go"
+            ]
+        },
+        {
             "label": "01 - gongc test",
             "type": "shell",
             "options": {
