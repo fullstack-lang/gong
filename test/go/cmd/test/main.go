@@ -19,10 +19,16 @@ import (
 	test "github.com/fullstack-lang/gong/test"
 )
 
+const PersistanceCode = `package main
+
+var Stage models.StageStruct
+`
+
 var (
 	logDBFlag = flag.Bool("logDB", false, "log mode for db")
 	logGINFlag = flag.Bool("logGIN", false, "log mode for gin")
-	apiFlag   = flag.Bool("api", false, "it true, use api controllers instead of default controllers")
+	marshall = flag.Bool("marshall", false, "marshall data from models.StageReference")
+	unmarshall = flag.Bool("unmarshall", false, "unmarshall data from models.StageReference")
 )
 
 func main() {
@@ -45,6 +51,22 @@ func main() {
 	// setup GORM
 	db := orm.SetupModels(*logDBFlag, "./test.db")
 	dbDB, err := db.DB()
+
+	// reset stage and copy from models.StageReference
+	if *marshall {
+		file, err := os.Create("./stage.go")
+		if err != nil {
+			log.Fatal(err.Error())
+		}
+		defer file.Close()
+
+		fmt.Fprintf(file, PersistanceCode)
+	}
+
+	// reset stage and copy from models.StageReference
+	if *unmarshall {
+
+	}
 
 	// since the stack can be a multi threaded application. It is important to set up
 	// only one open connexion at a time
