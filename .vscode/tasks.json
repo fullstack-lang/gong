@@ -39,6 +39,20 @@
             "group": "build"
         },
         {
+            "label": "04 - go run test -unmarshall",
+            "type": "shell",
+            "options": {
+                "cwd": "./test/go/cmd/test"
+            },
+            "command": "go",
+            "args": [
+                "run",
+                "main.go",
+                "-unmarshall"
+            ],
+            "group": "build"
+        },
+        {
             "label": "04 - go run gong",
             "type": "shell",
             "command": "go run main.go",
@@ -69,7 +83,7 @@
             "group": "build"
         },
         {
-            "label": "01 - gongc test backendOnly",
+            "label": "01 - gongc test -backendOnly",
             "type": "shell",
             "options": {
                 "cwd": "${workspaceFolder}/test/go/models"
