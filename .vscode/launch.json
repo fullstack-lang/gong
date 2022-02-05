@@ -126,6 +126,16 @@
             "args": []
         },
         {
+            "name": "go run test -unmarshall",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/test/go/cmd/test",
+            "args": [
+                "-unmarshall"
+            ]
+        },
+        {
             "name": "go run test2",
             "type": "go",
             "request": "launch",
