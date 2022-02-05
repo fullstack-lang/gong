@@ -23,6 +23,9 @@ import (
 
 const PersistanceCode = ` + "`" + `package main
 
+import "{{PkgPathRoot}}/models"
+
+// this is generated code by generated code
 var Stage models.StageStruct
 ` + "`" + `
 

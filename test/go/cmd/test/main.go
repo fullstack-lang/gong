@@ -1,13 +1,13 @@
 package main
 
 import (
-	"flag"
-	"log"
-	"os"
-	"fmt"
 	"embed"
+	"flag"
+	"fmt"
 	"io/fs"
+	"log"
 	"net/http"
+	"os"
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-contrib/static"
@@ -21,22 +21,25 @@ import (
 
 const PersistanceCode = `package main
 
+import "github.com/fullstack-lang/gong/test/go/models"
+
 var Stage models.StageStruct
+
+
 `
 
 var (
-	logDBFlag = flag.Bool("logDB", false, "log mode for db")
+	logDBFlag  = flag.Bool("logDB", false, "log mode for db")
 	logGINFlag = flag.Bool("logGIN", false, "log mode for gin")
-	marshall = flag.Bool("marshall", false, "marshall data from models.StageReference")
+	marshall   = flag.Bool("marshall", false, "marshall data from models.StageReference")
 	unmarshall = flag.Bool("unmarshall", false, "unmarshall data from models.StageReference")
 )
 
 func main() {
 
-	
 	log.SetPrefix("test: ")
 	log.SetFlags(0)
-	
+
 	// parse program arguments
 	flag.Parse()
 
