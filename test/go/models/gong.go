@@ -705,7 +705,7 @@ func Unmarshall(stage *models.StageStruct) {
 
 	// map of identifiers{{Identifiers}}
 
-	// initializers of values{{Initializers}}
+	// initializers of values{{ValueInitializers}}
 
 	// initializers of pointers{{PointersInitializers}}
 
@@ -714,19 +714,20 @@ func Unmarshall(stage *models.StageStruct) {
 
 `
 
-const IdentifiersDeclsMaps = `
-	map_{{GeneratedStructName}}_Identifiers := make(map[*models.{{GeneratedStructName}}]string)
-	_ = map_{{GeneratedStructName}}_Identifiers`
-
 const IdentifiersDecls = `
-	var {{Identifier}} *models.{{GeneratedStructName}}
-	map_{{GeneratedStructName}}_Identifiers[{{Identifier}}] = "{{Identifier}}"`
+	var {{Identifier}} *models.{{GeneratedStructName}}`
 
 const StringInitStatement = `
 	{{Identifier}}.{{GeneratedFieldName}} = "{{GeneratedFieldNameValue}}"`
 
 const NumberInitStatement = `
 	{{Identifier}}.{{GeneratedFieldName}} = {{GeneratedFieldNameValue}}`
+
+const PointerFieldInitStatement = `
+	{{Identifier}}.{{GeneratedFieldName}} = {{GeneratedFieldNameValue}}`
+
+const SliceOfPointersFieldInitStatement = `
+	{{Identifier}}.{{GeneratedFieldName}} = append({{Identifier}}.{{GeneratedFieldName}}, {{GeneratedFieldNameValue}})`
 
 // Marshall marshall the stage content into the file as an instanciation into a stage
 func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName string) {
@@ -745,16 +746,18 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 	var idx int
 	identifiersDecl := ""
 	initializerStatements := ""
-	StageMapAstructIds := make(map[*Astruct]string, 0)
+	pointersInitializesStatements := ""
 
 	id := ""
 	decl := ""
-	set := ""
-	identifiersDecl += strings.ReplaceAll(IdentifiersDeclsMaps, "{{GeneratedStructName}}", "Astruct")
+	setValueField := ""
+
+	map_Astruct_Identifiers := make(map[*Astruct]string)
+	_ = map_Astruct_Identifiers
 	for astruct := range Stage.Astructs {
 
 		id = generatesIdentifier("Astruct", idx, astruct.Name)
-		StageMapAstructIds[astruct] = id
+		map_Astruct_Identifiers[astruct] = id
 		idx = idx + 1
 
 		decl = IdentifiersDecls
@@ -763,37 +766,29 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 
 		initializerStatements += fmt.Sprintf("\n\n	//Init Astruct %s", astruct.Name)
 
-		set = StringInitStatement
-		set = strings.ReplaceAll(set, "{{Identifier}}", id)
-		set = strings.ReplaceAll(set, "{{GeneratedFieldName}}", "Name")
-		set = strings.ReplaceAll(set, "{{GeneratedFieldNameValue}}", string(astruct.Name))
-		initializerStatements += set
+		setValueField = StringInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(astruct.Name))
+		initializerStatements += setValueField
 
-		set = StringInitStatement
-		set = strings.ReplaceAll(set, "{{Identifier}}", id)
-		set = strings.ReplaceAll(set, "{{GeneratedFieldName}}", "Aenum")
-		set = strings.ReplaceAll(set, "{{GeneratedFieldNameValue}}", string(astruct.Aenum))
-		initializerStatements += set
+		setValueField = StringInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Aenum")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(astruct.Aenum))
+		initializerStatements += setValueField
 
-		set = NumberInitStatement
-		set = strings.ReplaceAll(set, "{{Identifier}}", id)
-		set = strings.ReplaceAll(set, "{{GeneratedFieldName}}", "CFloatfield")
-		set = strings.ReplaceAll(set, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", astruct.CFloatfield))
-		initializerStatements += set
+		setValueField = NumberInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "CFloatfield")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", astruct.CFloatfield))
+		initializerStatements += setValueField
 
-		set = NumberInitStatement
-		set = strings.ReplaceAll(set, "{{Identifier}}", id)
-		set = strings.ReplaceAll(set, "{{GeneratedFieldName}}", "Intfield")
-		set = strings.ReplaceAll(set, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", astruct.Intfield))
-		initializerStatements += set
-
-		if astruct.Associationtob != nil {
-			// set = StringInitStatement
-			// set = strings.ReplaceAll(set, "{{Identifier}}", id)
-			// set = strings.ReplaceAll(set, "{{GeneratedFieldName}}", "Associationtob")
-			// set = strings.ReplaceAll(set, "{{GeneratedFieldNameValue}}", astruct.Associationtob)
-			// initializerStatements += set
-		}
+		setValueField = NumberInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Intfield")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", astruct.Intfield))
+		initializerStatements += setValueField
 
 		identifiersDecl += decl
 	}
@@ -801,31 +796,58 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 	identifiersDecl += "\n"
 	initializerStatements += "\n"
 
-	StageMapBstructIds := make(map[*Bstruct]string, 0)
-	identifiersDecl += strings.ReplaceAll(IdentifiersDeclsMaps, "{{GeneratedStructName}}", "Bstruct")
+	map_Bstruct_Identifiers := make(map[*Bstruct]string)
+	_ = map_Bstruct_Identifiers
 	for bstruct := range Stage.Bstructs {
 
 		id := generatesIdentifier("Bstruct", idx, bstruct.Name)
-		StageMapBstructIds[bstruct] = id
+		map_Bstruct_Identifiers[bstruct] = id
 		idx = idx + 1
 
 		decl := IdentifiersDecls
 		decl = strings.ReplaceAll(decl, "{{Identifier}}", id)
 		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Bstruct")
 
-		set = StringInitStatement
-		set = strings.ReplaceAll(set, "{{Identifier}}", id)
-		set = strings.ReplaceAll(set, "{{GeneratedFieldName}}", "Name")
-		set = strings.ReplaceAll(set, "{{GeneratedFieldNameValue}}", string(bstruct.Name))
-		initializerStatements += set
+		setValueField = StringInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(bstruct.Name))
+		initializerStatements += setValueField
 
 		identifiersDecl += decl
 	}
 
-	res = strings.ReplaceAll(res, "{{Identifiers}}", identifiersDecl)
-	res = strings.ReplaceAll(res, "{{Initializers}}", initializerStatements)
+	// setup pointer fields
+	setPointerField := ""
+	for astruct := range Stage.Astructs {
 
-	fmt.Fprintf(file, res)
+		id := map_Astruct_Identifiers[astruct]
+
+		if astruct.Associationtob != nil {
+			setPointerField = PointerFieldInitStatement
+			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "Associationtob")
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_Bstruct_Identifiers[astruct.Associationtob])
+		}
+		pointersInitializesStatements += setPointerField
+
+		for _, bstruct := range astruct.Anarrayofb {
+
+			bstructId := map_Bstruct_Identifiers[bstruct]
+			setPointerField = SliceOfPointersFieldInitStatement
+			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "Anarrayofb")
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", bstructId)
+			pointersInitializesStatements += setPointerField
+		}
+
+	}
+
+	res = strings.ReplaceAll(res, "{{Identifiers}}", identifiersDecl)
+	res = strings.ReplaceAll(res, "{{ValueInitializers}}", initializerStatements)
+	res = strings.ReplaceAll(res, "{{PointersInitializers}}", pointersInitializesStatements)
+
+	fmt.Fprintln(file, res)
 }
 
 // unique identifier per struct
