@@ -12,9 +12,9 @@ func Unmarshall(stage *models.StageStruct) {
 	var __Astruct__000000_A1 *models.Astruct
 	var __Astruct__000001_a2 *models.Astruct
 
-	var __Bstruct__000002_B3_with_a_very_long_long_long_long_long_long_long_long_long_long_long_long_long_long_long_long_long_long_long_long_long_long_long_long_long_long_long_long_long_long_name *models.Bstruct
-	var __Bstruct__000003_B1 *models.Bstruct
-	var __Bstruct__000004_B2 *models.Bstruct
+	var __Bstruct__000002_B1 *models.Bstruct
+	var __Bstruct__000003_B2 *models.Bstruct
+	var __Bstruct__000004_B3_with_a_very_long_long_long_long_long_long_long_long_long_long_long_long_long_long_long_long_long_long_long_long_long_long_long_long_long_long_long_long_long_long_name *models.Bstruct
 
 	// initializers of values
 
@@ -30,14 +30,14 @@ func Unmarshall(stage *models.StageStruct) {
 	__Astruct__000001_a2.CFloatfield = 0.200000
 	__Astruct__000001_a2.Intfield = 0
 
-	__Bstruct__000002_B3_with_a_very_long_long_long_long_long_long_long_long_long_long_long_long_long_long_long_long_long_long_long_long_long_long_long_long_long_long_long_long_long_long_name.Name = "B3 with a very long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long name"
-	__Bstruct__000003_B1.Name = "B1"
-	__Bstruct__000004_B2.Name = "B2"
+	__Bstruct__000002_B1.Name = "B1"
+	__Bstruct__000003_B2.Name = "B2"
+	__Bstruct__000004_B3_with_a_very_long_long_long_long_long_long_long_long_long_long_long_long_long_long_long_long_long_long_long_long_long_long_long_long_long_long_long_long_long_long_name.Name = "B3 with a very long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long name"
 
 	// initializers of pointers
-	__Astruct__000000_A1.Associationtob = __Bstruct__000003_B1
-	__Astruct__000000_A1.Anarrayofb = append(__Astruct__000000_A1.Anarrayofb, __Bstruct__000004_B2)
-	__Astruct__000000_A1.Anarrayofb = append(__Astruct__000000_A1.Anarrayofb, __Bstruct__000003_B1)
+	__Astruct__000000_A1.Associationtob = __Bstruct__000002_B1
+	__Astruct__000000_A1.Anarrayofb = append(__Astruct__000000_A1.Anarrayofb, __Bstruct__000003_B2)
+	__Astruct__000000_A1.Anarrayofb = append(__Astruct__000000_A1.Anarrayofb, __Bstruct__000002_B1)
 
 	return
 }
