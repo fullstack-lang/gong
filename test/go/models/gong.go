@@ -714,8 +714,13 @@ func Unmarshall(stage *models.StageStruct) {
 
 `
 
+const IdentifiersDeclsMaps = `
+	map_{{GeneratedStructName}}_Identifiers := make(map[*models.{{GeneratedStructName}}]string)
+	_ = map_{{GeneratedStructName}}_Identifiers`
+
 const IdentifiersDecls = `
-	var {{Identifier}} *{{GeneratedStructName}}`
+	var {{Identifier}} *models.{{GeneratedStructName}}
+	map_{{GeneratedStructName}}_Identifiers[{{Identifier}}] = "{{Identifier}}"`
 
 const StringInitStatement = `
 	{{Identifier}}.{{GeneratedFieldName}} = "{{GeneratedFieldNameValue}}"`
@@ -745,6 +750,7 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 	id := ""
 	decl := ""
 	set := ""
+	identifiersDecl += strings.ReplaceAll(IdentifiersDeclsMaps, "{{GeneratedStructName}}", "Astruct")
 	for astruct := range Stage.Astructs {
 
 		id = generatesIdentifier("Astruct", idx, astruct.Name)
@@ -753,7 +759,7 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 
 		decl = IdentifiersDecls
 		decl = strings.ReplaceAll(decl, "{{Identifier}}", id)
-		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "models.Astruct")
+		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Astruct")
 
 		initializerStatements += fmt.Sprintf("\n\n	//Init Astruct %s", astruct.Name)
 
@@ -781,6 +787,14 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 		set = strings.ReplaceAll(set, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", astruct.Intfield))
 		initializerStatements += set
 
+		if astruct.Associationtob != nil {
+			// set = StringInitStatement
+			// set = strings.ReplaceAll(set, "{{Identifier}}", id)
+			// set = strings.ReplaceAll(set, "{{GeneratedFieldName}}", "Associationtob")
+			// set = strings.ReplaceAll(set, "{{GeneratedFieldNameValue}}", astruct.Associationtob)
+			// initializerStatements += set
+		}
+
 		identifiersDecl += decl
 	}
 
@@ -788,6 +802,7 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 	initializerStatements += "\n"
 
 	StageMapBstructIds := make(map[*Bstruct]string, 0)
+	identifiersDecl += strings.ReplaceAll(IdentifiersDeclsMaps, "{{GeneratedStructName}}", "Bstruct")
 	for bstruct := range Stage.Bstructs {
 
 		id := generatesIdentifier("Bstruct", idx, bstruct.Name)
@@ -796,7 +811,7 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 
 		decl := IdentifiersDecls
 		decl = strings.ReplaceAll(decl, "{{Identifier}}", id)
-		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "models.Bstruct")
+		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Bstruct")
 
 		set = StringInitStatement
 		set = strings.ReplaceAll(set, "{{Identifier}}", id)
