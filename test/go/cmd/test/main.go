@@ -14,6 +14,7 @@ import (
 	"github.com/gin-gonic/gin"
 
 	"github.com/fullstack-lang/gong/test/go/controllers"
+	"github.com/fullstack-lang/gong/test/go/models"
 	"github.com/fullstack-lang/gong/test/go/orm"
 
 	test "github.com/fullstack-lang/gong/test"
@@ -63,7 +64,9 @@ func main() {
 		}
 		defer file.Close()
 
-		fmt.Fprintf(file, PersistanceCode)
+		models.Stage.Checkout()
+		models.Stage.Marshall(file, "github.com/fullstack-lang/gong/test/go/models", "main")
+		os.Exit(0)
 	}
 
 	// reset stage and copy from models.StageReference
