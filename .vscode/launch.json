@@ -132,13 +132,13 @@
             "args": []
         },
         {
-            "name": "go run test -unmarshall",
+            "name": "go run test -marshall",
             "type": "go",
             "request": "launch",
             "mode": "auto",
             "program": "${workspaceFolder}/test/go/cmd/test",
             "args": [
-                "-unmarshall"
+                "-marshall"
             ]
         },
         {
