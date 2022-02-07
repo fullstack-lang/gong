@@ -761,14 +761,24 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 		set = strings.ReplaceAll(set, "{{Identifier}}", id)
 		set = strings.ReplaceAll(set, "{{GeneratedFieldName}}", "Name")
 		set = strings.ReplaceAll(set, "{{GeneratedFieldNameValue}}", string(astruct.Name))
-
 		initializerStatements += set
 
 		set = StringInitStatement
 		set = strings.ReplaceAll(set, "{{Identifier}}", id)
 		set = strings.ReplaceAll(set, "{{GeneratedFieldName}}", "Aenum")
 		set = strings.ReplaceAll(set, "{{GeneratedFieldNameValue}}", string(astruct.Aenum))
+		initializerStatements += set
 
+		set = NumberInitStatement
+		set = strings.ReplaceAll(set, "{{Identifier}}", id)
+		set = strings.ReplaceAll(set, "{{GeneratedFieldName}}", "CFloatfield")
+		set = strings.ReplaceAll(set, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", astruct.CFloatfield))
+		initializerStatements += set
+
+		set = NumberInitStatement
+		set = strings.ReplaceAll(set, "{{Identifier}}", id)
+		set = strings.ReplaceAll(set, "{{GeneratedFieldName}}", "Intfield")
+		set = strings.ReplaceAll(set, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", astruct.Intfield))
 		initializerStatements += set
 
 		identifiersDecl += decl
@@ -792,7 +802,6 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 		set = strings.ReplaceAll(set, "{{Identifier}}", id)
 		set = strings.ReplaceAll(set, "{{GeneratedFieldName}}", "Name")
 		set = strings.ReplaceAll(set, "{{GeneratedFieldNameValue}}", string(bstruct.Name))
-
 		initializerStatements += set
 
 		identifiersDecl += decl
