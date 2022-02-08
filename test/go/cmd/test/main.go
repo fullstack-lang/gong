@@ -71,7 +71,10 @@ func main() {
 
 	// reset stage and copy from models.StageReference
 	if *unmarshall {
-
+		models.Stage.Reset()
+		Unmarshall(&models.Stage)
+		models.Stage.Commit()
+		os.Exit(0)
 	}
 
 	// since the stack can be a multi threaded application. It is important to set up

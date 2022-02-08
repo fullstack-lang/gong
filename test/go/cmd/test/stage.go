@@ -4,17 +4,15 @@ import "github.com/fullstack-lang/gong/test/go/models"
 
 var Stage models.StageStruct
 
-
-
 func Unmarshall(stage *models.StageStruct) {
 
 	// map of identifiers
-	var __Astruct__000000_A1 *models.Astruct
-	var __Astruct__000001_a2 *models.Astruct
+	__Astruct__000000_A1 := new(models.Astruct).Stage()
+	__Astruct__000001_a2 := new(models.Astruct).Stage()
 
-	var __Bstruct__000002_B1 *models.Bstruct
-	var __Bstruct__000003_B2 *models.Bstruct
-	var __Bstruct__000004_B3_with_a_very_long_long_long_long_long_long_long_long_long_long_long_long_long_long_long_long_long_long_long_long_long_long_long_long_long_long_long_long_long_long_name *models.Bstruct
+	__Bstruct__000002_B1 := new(models.Bstruct).Stage()
+	__Bstruct__000003_B2 := new(models.Bstruct).Stage()
+	__Bstruct__000004_B3_with_a_very_long_long_long_long_long_long_long_long_long_long_long_long_long_long_long_long_long_long_long_long_long_long_long_long_long_long_long_long_long_long_name := new(models.Bstruct).Stage()
 
 	// initializers of values
 
@@ -41,5 +39,3 @@ func Unmarshall(stage *models.StageStruct) {
 
 	return
 }
-
-

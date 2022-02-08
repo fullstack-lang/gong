@@ -715,7 +715,7 @@ func Unmarshall(stage *models.StageStruct) {
 `
 
 const IdentifiersDecls = `
-	var {{Identifier}} *models.{{GeneratedStructName}}`
+	{{Identifier}} := new(models.{{GeneratedStructName}}).Stage()`
 
 const StringInitStatement = `
 	{{Identifier}}.{{GeneratedFieldName}} = "{{GeneratedFieldNameValue}}"`
@@ -839,8 +839,6 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "Anarrayofb")
 			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", bstructId)
 			pointersInitializesStatements += setPointerField
-			log.Println("generation of pointers initializers " + setPointerField)
-			log.Println("cumulated pointers initializers " + pointersInitializesStatements)
 		}
 
 	}
