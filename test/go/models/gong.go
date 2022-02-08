@@ -695,11 +695,13 @@ func (stage *StageStruct) Nil() { // insertion point for array nil
 
 const marshallRes = `package {{PackageName}}
 
-import "{{ModelsPackageName}}"
+import (
+	"time"
+	
+	"{{ModelsPackageName}}"
+)
 
-var Stage models.StageStruct
-
-
+var __Dummy_time_variable time.Time
 
 func Unmarshall(stage *models.StageStruct) {
 
@@ -728,6 +730,9 @@ const PointerFieldInitStatement = `
 
 const SliceOfPointersFieldInitStatement = `
 	{{Identifier}}.{{GeneratedFieldName}} = append({{Identifier}}.{{GeneratedFieldName}}, {{GeneratedFieldNameValue}})`
+
+const TimeInitStatement = `
+	{{Identifier}}.{{GeneratedFieldName}}, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "{{GeneratedFieldNameValue}}")`
 
 // Marshall marshall the stage content into the file as an instanciation into a stage
 func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName string) {
@@ -788,6 +793,18 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
 		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Intfield")
 		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", astruct.Intfield))
+		initializerStatements += setValueField
+
+		setValueField = NumberInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Booleanfield")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", astruct.Booleanfield))
+		initializerStatements += setValueField
+
+		setValueField = TimeInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Date")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", astruct.Date.String())
 		initializerStatements += setValueField
 
 		identifiersDecl += decl
