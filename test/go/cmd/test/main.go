@@ -71,8 +71,12 @@ func main() {
 
 	// reset stage and copy from models.StageReference
 	if *unmarshall {
+		stage := models.Stage
+		_ = stage
+		models.Stage.Checkout()
 		models.Stage.Reset()
-		Unmarshall(&models.Stage)
+		models.Stage.Commit()
+		// Unmarshall(&models.Stage)
 		models.Stage.Commit()
 		os.Exit(0)
 	}
