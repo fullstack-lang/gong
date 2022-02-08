@@ -53,10 +53,7 @@
             "type": "go",
             "request": "launch",
             "mode": "debug",
-            "preLaunchTask": {
-                "task": "01 - remove test main.go",
-                "type": ""
-            },
+            "preLaunchTask": "01 - remove test main.go",
             "cwd": "${workspaceFolder}/test/go/models",
             "program": "${workspaceFolder}/go/cmd/gongc",
             "args": []
@@ -85,7 +82,7 @@
             "request": "launch",
             "mode": "debug",
             "preLaunchTask": "01 - remove test main.go",
-            "postDebugTask": "04 - go run test -marshall -unmarshall",
+            "postDebugTask": "04 - go run test -marshall",
             "cwd": "${workspaceFolder}/test/go/models",
             "program": "${workspaceFolder}/go/cmd/gongc",
             "args": [
