@@ -697,7 +697,7 @@ const marshallRes = `package {{PackageName}}
 
 import (
 	"time"
-	
+
 	"{{ModelsPackageName}}"
 )
 
@@ -747,8 +747,6 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 
 	// map of identifiers
 	// var StageMapDstructIds map[*Dstruct]string
-
-	var idx int
 	identifiersDecl := ""
 	initializerStatements := ""
 	pointersInitializesStatements := ""
@@ -759,11 +757,18 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 
 	map_Astruct_Identifiers := make(map[*Astruct]string)
 	_ = map_Astruct_Identifiers
-	for astruct := range Stage.Astructs {
+
+	astructOrdered := []*Astruct{}
+	for astruct := range stage.Astructs {
+		astructOrdered = append(astructOrdered, astruct)
+	}
+	sort.Slice(astructOrdered[:], func(i, j int) bool {
+		return astructOrdered[i].Name < astructOrdered[j].Name
+	})
+	for idx, astruct := range astructOrdered {
 
 		id = generatesIdentifier("Astruct", idx, astruct.Name)
 		map_Astruct_Identifiers[astruct] = id
-		idx = idx + 1
 
 		decl = IdentifiersDecls
 		decl = strings.ReplaceAll(decl, "{{Identifier}}", id)
@@ -815,11 +820,17 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 
 	map_Bstruct_Identifiers := make(map[*Bstruct]string)
 	_ = map_Bstruct_Identifiers
-	for bstruct := range Stage.Bstructs {
+	bstructOrdered := []*Bstruct{}
+	for bstruct := range stage.Bstructs {
+		bstructOrdered = append(bstructOrdered, bstruct)
+	}
+	sort.Slice(bstructOrdered[:], func(i, j int) bool {
+		return bstructOrdered[i].Name < bstructOrdered[j].Name
+	})
+	for idx, bstruct := range bstructOrdered {
 
 		id := generatesIdentifier("Bstruct", idx, bstruct.Name)
 		map_Bstruct_Identifiers[bstruct] = id
-		idx = idx + 1
 
 		decl := IdentifiersDecls
 		decl = strings.ReplaceAll(decl, "{{Identifier}}", id)
@@ -836,7 +847,7 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 
 	// setup pointer fields
 	setPointerField := ""
-	for astruct := range Stage.Astructs {
+	for _, astruct := range astructOrdered {
 
 		id := map_Astruct_Identifiers[astruct]
 
