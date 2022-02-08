@@ -3,45 +3,37 @@ package models
 const PackageMain = `package main
 
 import (
-	"flag"
-	"log"
-	"os"
-	"fmt"
 	"embed"
+	"flag"
+	"fmt"
 	"io/fs"
+	"log"
 	"net/http"
+	"os"
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-contrib/static"
 	"github.com/gin-gonic/gin"
 
 	"{{PkgPathRoot}}/controllers"
+	"{{PkgPathRoot}}/models"
 	"{{PkgPathRoot}}/orm"
 
 	{{pkgname}} "{{PkgPathAboveRoot}}"
 )
 
-const PersistanceCode = ` + "`" + `package main
-
-import "{{PkgPathRoot}}/models"
-
-// this is generated code by generated code
-var Stage models.StageStruct
-` + "`" + `
-
 var (
-	logDBFlag = flag.Bool("logDB", false, "log mode for db")
+	logDBFlag  = flag.Bool("logDB", false, "log mode for db")
 	logGINFlag = flag.Bool("logGIN", false, "log mode for gin")
-	marshall = flag.Bool("marshall", false, "marshall data from models.StageReference")
+	marshall   = flag.Bool("marshall", false, "marshall data from models.StageReference")
 	unmarshall = flag.Bool("unmarshall", false, "unmarshall data from models.StageReference")
 )
 
 func main() {
 
-	
 	log.SetPrefix("{{pkgname}}: ")
 	log.SetFlags(0)
-	
+
 	// parse program arguments
 	flag.Parse()
 
@@ -65,12 +57,19 @@ func main() {
 		}
 		defer file.Close()
 
-		fmt.Fprintf(file, PersistanceCode)
+		models.Stage.Checkout()
+		models.Stage.Marshall(file, "{{PkgPathAboveRoot}}/go/models", "main")
+		os.Exit(0)
 	}
 
 	// reset stage and copy from models.StageReference
 	if *unmarshall {
-
+		models.Stage.Checkout()
+		models.Stage.Reset()
+		models.Stage.Commit()
+		Unmarshall(&models.Stage)
+		models.Stage.Commit()
+		os.Exit(0)
 	}
 
 	// since the stack can be a multi threaded application. It is important to set up
