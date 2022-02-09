@@ -160,7 +160,7 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 
 	name := file.Name()
 
-	log.Println("marshall name is " + name)
+	log.Println("filename of marshall output  is " + name)
 
 	res := marshallRes
 	res = strings.ReplaceAll(res, "{{PackageName}}", packageName)
@@ -374,6 +374,7 @@ func DeleteORM{{Structname}}({{structname}} *{{Structname}}) {
 	sort.Slice({{structname}}Ordered[:], func(i, j int) bool {
 		return {{structname}}Ordered[i].Name < {{structname}}Ordered[j].Name
 	})
+	identifiersDecl += fmt.Sprintf("\n\n	// Declarations of staged instances of {{Structname}}")
 	for idx, {{structname}} := range {{structname}}Ordered {
 
 		id = generatesIdentifier("{{Structname}}", idx, {{structname}}.Name)
@@ -382,19 +383,15 @@ func DeleteORM{{Structname}}({{structname}} *{{Structname}}) {
 		decl = IdentifiersDecls
 		decl = strings.ReplaceAll(decl, "{{Identifier}}", id)
 		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "{{Structname}}")
+		identifiersDecl += decl
 
 		initializerStatements += fmt.Sprintf("\n\n	//Init {{Structname}} %s", {{structname}}.Name)
-
 		setValueField = StringInitStatement
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
 		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
 		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string({{structname}}.Name))
 		initializerStatements += setValueField
-		identifiersDecl += decl
 	}
-
-	identifiersDecl += "\n"
-	initializerStatements += "\n"
 `,
 }
 
