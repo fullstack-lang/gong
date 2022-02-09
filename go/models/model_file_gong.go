@@ -2,6 +2,7 @@ package models
 
 import (
 	"fmt"
+	"go/types"
 	"log"
 	"os"
 	"path/filepath"
@@ -176,7 +177,7 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 	decl := ""
 	setValueField := ""
 
-	// insertion point for array nil{{` + string(rune(ModelGongInsertionUnmarshallDeclarations)) + `}}
+	// insertion initialization of objects to stage{{` + string(rune(ModelGongInsertionUnmarshallDeclarations)) + `}}
 
 	res = strings.ReplaceAll(res, "{{Identifiers}}", identifiersDecl)
 	res = strings.ReplaceAll(res, "{{ValueInitializers}}", initializerStatements)
@@ -224,7 +225,7 @@ const (
 	ModelGongStructArrayInitialisation
 	ModelGongStructArrayReset
 	ModelGongStructArrayNil
-	ModelGongStructUnmarshallDeclarations
+	ModelGongStructUnmarshallStatements
 )
 
 var ModelGongSubTemplateCode map[ModelGongSubTemplate]string = // new line
@@ -363,7 +364,7 @@ func DeleteORM{{Structname}}({{structname}} *{{Structname}}) {
 	stage.{{Structname}}s_mapString = nil
 `,
 
-	ModelGongStructUnmarshallDeclarations: `
+	ModelGongStructUnmarshallStatements: `
 	map_{{Structname}}_Identifiers := make(map[*{{Structname}}]string)
 	_ = map_{{Structname}}_Identifiers
 
@@ -386,11 +387,7 @@ func DeleteORM{{Structname}}({{structname}} *{{Structname}}) {
 		identifiersDecl += decl
 
 		initializerStatements += fmt.Sprintf("\n\n	//Init {{Structname}} %s", {{structname}}.Name)
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string({{structname}}.Name))
-		initializerStatements += setValueField
+		// Initialisation of values{{ValuesInitialization}}
 	}
 `,
 }
@@ -432,9 +429,11 @@ map[GongFilePerStructSubTemplate]string{
 		}
 `,
 	GongFileFieldSubTmplSetBasicFieldInt: `
-		if {{structname}}.{{FieldName}}_Data.Valid {
-			{{structname}}.{{FieldName}} = {{FieldType}}({{structname}}.{{FieldName}}_Data.Int64)
-		}
+		setValueField = NumberInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "{{FieldName}}")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", {{structname}}.{{FieldName}}))
+		initializerStatements += setValueField
 `,
 	GongFileFieldSubTmplSetBasicFieldFloat64: `
 		if {{structname}}.{{FieldName}}_Data.Valid {
@@ -442,9 +441,11 @@ map[GongFilePerStructSubTemplate]string{
 		}
 `,
 	GongFileFieldSubTmplSetBasicFieldString: `
-		if {{structname}}.{{FieldName}}_Data.Valid {
-			{{structname}}.{{FieldName}} = {{structname}}.{{FieldName}}_Data.String
-		}
+		setValueField = StringInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "{{FieldName}}")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string({{structname}}.{{FieldName}}))
+		initializerStatements += setValueField
 `,
 
 	//
@@ -483,15 +484,47 @@ func CodeGeneratorModelGong(
 	sort.Slice(gongStructs[:], func(i, j int) bool {
 		return gongStructs[i].Name < gongStructs[j].Name
 	})
+
 	for _, gongStruct := range gongStructs {
 
-		if gongStruct.HasNameField() {
-			for subTemplate := range ModelGongSubTemplateCode {
-				subCodes[subTemplate] += Replace2(ModelGongSubTemplateCode[subTemplate],
-					"{{structname}}", strings.ToLower(gongStruct.Name),
-					"{{Structname}}", gongStruct.Name)
-			}
+		if !gongStruct.HasNameField() {
+			continue
 		}
+
+		for subTemplate := range ModelGongSubTemplateCode {
+
+			// replace {{ValuesInitialization}}
+			valInitCode := ""
+			for _, field := range gongStruct.Fields {
+				switch field := field.(type) {
+				case *GongBasicField:
+
+					switch field.basicKind {
+					case types.String:
+						valInitCode += Replace1(
+							GongFileFieldFieldSubTemplateCode[GongFileFieldSubTmplSetBasicFieldString],
+							"{{FieldName}}", field.Name)
+					case types.Int, types.Int64:
+						valInitCode += Replace1(
+							GongFileFieldFieldSubTemplateCode[GongFileFieldSubTmplSetBasicFieldInt],
+							"{{FieldName}}", field.Name)
+					default:
+					}
+				}
+			}
+
+			valInitCode = Replace2(valInitCode,
+				"{{structname}}", strings.ToLower(gongStruct.Name),
+				"{{Structname}}", gongStruct.Name)
+
+			generatedCodeFromSubTemplate := Replace3(ModelGongSubTemplateCode[subTemplate],
+				"{{structname}}", strings.ToLower(gongStruct.Name),
+				"{{Structname}}", gongStruct.Name,
+				"{{ValuesInitialization}}", valInitCode)
+
+			subCodes[subTemplate] += generatedCodeFromSubTemplate
+		}
+
 	}
 
 	// substitutes {{<<insertion points>>}} stuff with generated code
