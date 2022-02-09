@@ -20,15 +20,6 @@ import (
 	test "github.com/fullstack-lang/gong/test"
 )
 
-const PersistanceCode = `package main
-
-import "github.com/fullstack-lang/gong/test/go/models"
-
-var Stage models.StageStruct
-
-
-`
-
 var (
 	logDBFlag  = flag.Bool("logDB", false, "log mode for db")
 	logGINFlag = flag.Bool("logGIN", false, "log mode for gin")
@@ -71,13 +62,10 @@ func main() {
 
 	// reset stage and copy from models.StageReference
 	if *unmarshall {
-		stage := models.Stage
-		_ = stage
 		models.Stage.Checkout()
 		models.Stage.Reset()
 		models.Stage.Commit()
 		Unmarshall(&models.Stage)
-		stage = models.Stage
 		models.Stage.Commit()
 		os.Exit(0)
 	}
