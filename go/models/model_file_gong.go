@@ -176,13 +176,15 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 	decl := ""
 	setValueField := ""
 
+	// insertion point for array nil{{` + string(rune(ModelGongInsertionUnmarshallDeclarations)) + `}}
+
 	res = strings.ReplaceAll(res, "{{Identifiers}}", identifiersDecl)
 	res = strings.ReplaceAll(res, "{{ValueInitializers}}", initializerStatements)
 	res = strings.ReplaceAll(res, "{{PointersInitializers}}", pointersInitializesStatements)
 
 	fmt.Fprintln(file, res)
 }
-	
+
 // unique identifier per struct
 func generatesIdentifier(gongStructName string, idx int, instanceName string) (identifier string) {
 
@@ -207,6 +209,7 @@ const (
 	ModelGongInsertionArrayInitialisation
 	ModelGongInsertionArrayReset
 	ModelGongInsertionArrayNil
+	ModelGongInsertionUnmarshallDeclarations
 	ModelGongInsertionsNb
 )
 
@@ -221,6 +224,7 @@ const (
 	ModelGongStructArrayInitialisation
 	ModelGongStructArrayReset
 	ModelGongStructArrayNil
+	ModelGongStructUnmarshallDeclarations
 )
 
 var ModelGongSubTemplateCode map[ModelGongSubTemplate]string = // new line
@@ -357,6 +361,40 @@ func DeleteORM{{Structname}}({{structname}} *{{Structname}}) {
 	ModelGongStructArrayNil: `
 	stage.{{Structname}}s = nil
 	stage.{{Structname}}s_mapString = nil
+`,
+
+	ModelGongStructUnmarshallDeclarations: `
+	map_{{Structname}}_Identifiers := make(map[*{{Structname}}]string)
+	_ = map_{{Structname}}_Identifiers
+
+	{{structname}}Ordered := []*{{Structname}}{}
+	for {{structname}} := range stage.{{Structname}}s {
+		{{structname}}Ordered = append({{structname}}Ordered, {{structname}})
+	}
+	sort.Slice({{structname}}Ordered[:], func(i, j int) bool {
+		return {{structname}}Ordered[i].Name < {{structname}}Ordered[j].Name
+	})
+	for idx, {{structname}} := range {{structname}}Ordered {
+
+		id = generatesIdentifier("{{Structname}}", idx, {{structname}}.Name)
+		map_{{Structname}}_Identifiers[{{structname}}] = id
+
+		decl = IdentifiersDecls
+		decl = strings.ReplaceAll(decl, "{{Identifier}}", id)
+		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "{{Structname}}")
+
+		initializerStatements += fmt.Sprintf("\n\n	//Init {{Structname}} %s", {{structname}}.Name)
+
+		setValueField = StringInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string({{structname}}.Name))
+		initializerStatements += setValueField
+		identifiersDecl += decl
+	}
+
+	identifiersDecl += "\n"
+	initializerStatements += "\n"
 `,
 }
 
