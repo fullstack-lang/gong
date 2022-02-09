@@ -421,12 +421,19 @@ var GongFileFieldFieldSubTemplateCode map[GongFilePerStructSubTemplate]string = 
 map[GongFilePerStructSubTemplate]string{
 
 	GongFileFieldSubTmplSetBasicFieldBool: `
-		{{structname}}.{{FieldName}} = {{structname}}.{{FieldName}}_Data.Bool
+		setValueField = NumberInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "{{FieldName}}")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", {{structname}}.{{FieldName}}))
+		initializerStatements += setValueField
 `,
 	GongFileFieldSubTmplSetTimeField: `
-		if {{structname}}.{{FieldName}}_Data.Valid {
-			{{structname}}.{{FieldName}} = {{structname}}.{{FieldName}}_Data.Time
-		}
+		setValueField = TimeInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "{{FieldName}}")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", {{structname}}.{{FieldName}}.String())
+		initializerStatements += setValueField
+
 `,
 	GongFileFieldSubTmplSetBasicFieldInt: `
 		setValueField = NumberInitStatement
@@ -436,9 +443,11 @@ map[GongFilePerStructSubTemplate]string{
 		initializerStatements += setValueField
 `,
 	GongFileFieldSubTmplSetBasicFieldFloat64: `
-		if {{structname}}.{{FieldName}}_Data.Valid {
-			{{structname}}.{{FieldName}} = {{structname}}.{{FieldName}}_Data.Float64
-		}
+		setValueField = NumberInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "{{FieldName}}")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", {{structname}}.{{FieldName}}))
+		initializerStatements += setValueField
 `,
 	GongFileFieldSubTmplSetBasicFieldString: `
 		setValueField = StringInitStatement
@@ -504,12 +513,25 @@ func CodeGeneratorModelGong(
 						valInitCode += Replace1(
 							GongFileFieldFieldSubTemplateCode[GongFileFieldSubTmplSetBasicFieldString],
 							"{{FieldName}}", field.Name)
+					case types.Bool:
+						valInitCode += Replace1(
+							GongFileFieldFieldSubTemplateCode[GongFileFieldSubTmplSetBasicFieldBool],
+							"{{FieldName}}", field.Name)
+					case types.Float64:
+						valInitCode += Replace1(
+							GongFileFieldFieldSubTemplateCode[GongFileFieldSubTmplSetBasicFieldFloat64],
+							"{{FieldName}}", field.Name)
 					case types.Int, types.Int64:
 						valInitCode += Replace1(
 							GongFileFieldFieldSubTemplateCode[GongFileFieldSubTmplSetBasicFieldInt],
 							"{{FieldName}}", field.Name)
 					default:
 					}
+				case *GongTimeField:
+					valInitCode += Replace1(
+						GongFileFieldFieldSubTemplateCode[GongFileFieldSubTmplSetTimeField],
+						"{{FieldName}}", field.Name)
+				default:
 				}
 			}
 
