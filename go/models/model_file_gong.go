@@ -179,6 +179,8 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 
 	// insertion initialization of objects to stage{{` + string(rune(ModelGongInsertionUnmarshallDeclarations)) + `}}
 
+	// insertion initialization of objects to stage{{` + string(rune(ModelGongInsertionUnmarshallPointersInitializations)) + `}}
+
 	res = strings.ReplaceAll(res, "{{Identifiers}}", identifiersDecl)
 	res = strings.ReplaceAll(res, "{{ValueInitializers}}", initializerStatements)
 	res = strings.ReplaceAll(res, "{{PointersInitializers}}", pointersInitializesStatements)
@@ -211,6 +213,7 @@ const (
 	ModelGongInsertionArrayReset
 	ModelGongInsertionArrayNil
 	ModelGongInsertionUnmarshallDeclarations
+	ModelGongInsertionUnmarshallPointersInitializations
 	ModelGongInsertionsNb
 )
 
@@ -225,7 +228,8 @@ const (
 	ModelGongStructArrayInitialisation
 	ModelGongStructArrayReset
 	ModelGongStructArrayNil
-	ModelGongStructUnmarshallStatements
+	ModelGongStructUnmarshallStatementsStepValuesInit
+	ModelGongStructUnmarshallStatementsStepPointersInit
 )
 
 var ModelGongSubTemplateCode map[ModelGongSubTemplate]string = // new line
@@ -364,7 +368,7 @@ func DeleteORM{{Structname}}({{structname}} *{{Structname}}) {
 	stage.{{Structname}}s_mapString = nil
 `,
 
-	ModelGongStructUnmarshallStatements: `
+	ModelGongStructUnmarshallStatementsStepValuesInit: `
 	map_{{Structname}}_Identifiers := make(map[*{{Structname}}]string)
 	_ = map_{{Structname}}_Identifiers
 
@@ -386,8 +390,20 @@ func DeleteORM{{Structname}}({{structname}} *{{Structname}}) {
 		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "{{Structname}}")
 		identifiersDecl += decl
 
-		initializerStatements += fmt.Sprintf("\n\n	//Init {{Structname}} %s", {{structname}}.Name)
+		initializerStatements += fmt.Sprintf("\n\n	// Init {{Structname}} values %s", {{structname}}.Name)
 		// Initialisation of values{{ValuesInitialization}}
+	}
+`,
+
+	ModelGongStructUnmarshallStatementsStepPointersInit: `
+	for idx, {{structname}} := range {{structname}}Ordered {
+		var setPointerField string
+		_ = setPointerField
+
+		id = generatesIdentifier("{{Structname}}", idx, {{structname}}.Name)
+		map_{{Structname}}_Identifiers[{{structname}}] = id
+
+		// Initialisation of values{{PointersInitialization}}
 	}
 `,
 }
@@ -405,16 +421,13 @@ type GongFilePerStructSubTemplate int
 
 const (
 	GongFileFieldSubTmplSetBasicFieldBool GongFilePerStructSubTemplate = iota
-
 	GongFileFieldSubTmplSetBasicFieldInt
-
 	GongFileFieldSubTmplSetBasicFieldFloat64
-
 	GongFileFieldSubTmplSetBasicFieldString
-
 	GongFileFieldSubTmplSetTimeField
-
 	GongFileFieldSubTmplSetBasicFieldStringEnum
+	GongFileFieldSubTmplSetPointerField
+	GongFileFieldSubTmplSetSliceOfPointersField
 )
 
 var GongFileFieldFieldSubTemplateCode map[GongFilePerStructSubTemplate]string = // declaration of the sub templates
@@ -456,14 +469,22 @@ map[GongFilePerStructSubTemplate]string{
 		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string({{structname}}.{{FieldName}}))
 		initializerStatements += setValueField
 `,
-
-	//
-	// String Enum
-	//
-
-	GongFileFieldSubTmplSetBasicFieldStringEnum: `
-		if {{structname}}.{{FieldName}}_Data.Valid {
-			{{structname}}.{{FieldName}} = models.{{EnumType}}({{structname}}.{{FieldName}}_Data.String)
+	GongFileFieldSubTmplSetPointerField: `
+		if {{structname}}.{{FieldName}} != nil {
+			setPointerField = PointerFieldInitStatement
+			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "{{FieldName}}")
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_{{AssocStructName}}_Identifiers[{{structname}}.{{FieldName}}])
+			pointersInitializesStatements += setPointerField
+		}
+`,
+	GongFileFieldSubTmplSetSliceOfPointersField: `
+		for _, _{{assocstructname}} := range {{structname}}.{{FieldName}} {
+			setPointerField = SliceOfPointersFieldInitStatement
+			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "{{FieldName}}")
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_{{AssocStructName}}_Identifiers[_{{assocstructname}}])
+			pointersInitializesStatements += setPointerField
 		}
 `,
 }
@@ -504,6 +525,7 @@ func CodeGeneratorModelGong(
 
 			// replace {{ValuesInitialization}}
 			valInitCode := ""
+			pointerInitCode := ""
 			for _, field := range gongStruct.Fields {
 				switch field := field.(type) {
 				case *GongBasicField:
@@ -531,6 +553,17 @@ func CodeGeneratorModelGong(
 					valInitCode += Replace1(
 						GongFileFieldFieldSubTemplateCode[GongFileFieldSubTmplSetTimeField],
 						"{{FieldName}}", field.Name)
+				case *PointerToGongStructField:
+					pointerInitCode += Replace2(
+						GongFileFieldFieldSubTemplateCode[GongFileFieldSubTmplSetPointerField],
+						"{{FieldName}}", field.Name,
+						"{{AssocStructName}}", field.GongStruct.Name)
+				case *SliceOfPointerToGongStructField:
+					pointerInitCode += Replace3(
+						GongFileFieldFieldSubTemplateCode[GongFileFieldSubTmplSetSliceOfPointersField],
+						"{{FieldName}}", field.Name,
+						"{{AssocStructName}}", field.GongStruct.Name,
+						"{{assocstructname}}", strings.ToLower(field.GongStruct.Name))
 				default:
 				}
 			}
@@ -539,10 +572,16 @@ func CodeGeneratorModelGong(
 				"{{structname}}", strings.ToLower(gongStruct.Name),
 				"{{Structname}}", gongStruct.Name)
 
-			generatedCodeFromSubTemplate := Replace3(ModelGongSubTemplateCode[subTemplate],
+			pointerInitCode = Replace2(pointerInitCode,
+				"{{structname}}", strings.ToLower(gongStruct.Name),
+				"{{Structname}}", gongStruct.Name)
+
+			generatedCodeFromSubTemplate := Replace4(ModelGongSubTemplateCode[subTemplate],
 				"{{structname}}", strings.ToLower(gongStruct.Name),
 				"{{Structname}}", gongStruct.Name,
-				"{{ValuesInitialization}}", valInitCode)
+				"{{ValuesInitialization}}", valInitCode,
+				"{{PointersInitialization}}", pointerInitCode,
+			)
 
 			subCodes[subTemplate] += generatedCodeFromSubTemplate
 		}
