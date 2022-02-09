@@ -401,6 +401,63 @@ map[string]string{}
 var ModelGongSubSubToSubMap map[string]string = //
 map[string]string{}
 
+//
+// Sub Templates
+//
+type GongFilePerStructSubTemplate int
+
+const (
+	GongFileFieldSubTmplSetBasicFieldBool GongFilePerStructSubTemplate = iota
+
+	GongFileFieldSubTmplSetBasicFieldInt
+
+	GongFileFieldSubTmplSetBasicFieldFloat64
+
+	GongFileFieldSubTmplSetBasicFieldString
+
+	GongFileFieldSubTmplSetTimeField
+
+	GongFileFieldSubTmplSetBasicFieldStringEnum
+)
+
+var GongFileFieldFieldSubTemplateCode map[GongFilePerStructSubTemplate]string = // declaration of the sub templates
+map[GongFilePerStructSubTemplate]string{
+
+	GongFileFieldSubTmplSetBasicFieldBool: `
+		{{structname}}.{{FieldName}} = {{structname}}.{{FieldName}}_Data.Bool
+`,
+	GongFileFieldSubTmplSetTimeField: `
+		if {{structname}}.{{FieldName}}_Data.Valid {
+			{{structname}}.{{FieldName}} = {{structname}}.{{FieldName}}_Data.Time
+		}
+`,
+	GongFileFieldSubTmplSetBasicFieldInt: `
+		if {{structname}}.{{FieldName}}_Data.Valid {
+			{{structname}}.{{FieldName}} = {{FieldType}}({{structname}}.{{FieldName}}_Data.Int64)
+		}
+`,
+	GongFileFieldSubTmplSetBasicFieldFloat64: `
+		if {{structname}}.{{FieldName}}_Data.Valid {
+			{{structname}}.{{FieldName}} = {{structname}}.{{FieldName}}_Data.Float64
+		}
+`,
+	GongFileFieldSubTmplSetBasicFieldString: `
+		if {{structname}}.{{FieldName}}_Data.Valid {
+			{{structname}}.{{FieldName}} = {{structname}}.{{FieldName}}_Data.String
+		}
+`,
+
+	//
+	// String Enum
+	//
+
+	GongFileFieldSubTmplSetBasicFieldStringEnum: `
+		if {{structname}}.{{FieldName}}_Data.Valid {
+			{{structname}}.{{FieldName}} = models.{{EnumType}}({{structname}}.{{FieldName}}_Data.String)
+		}
+`,
+}
+
 func CodeGeneratorModelGong(
 	mdlPkg *ModelPkg,
 	pkgName string,
