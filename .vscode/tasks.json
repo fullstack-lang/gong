@@ -39,7 +39,7 @@
             "group": "build"
         },
         {
-            "label": "04 - go run test -marshall -unmarshall",
+            "label": "04 - go run test -marshall",
             "type": "shell",
             "options": {
                 "cwd": "./test/go/cmd/test"
@@ -48,8 +48,7 @@
             "args": [
                 "run",
                 "main.go",
-                "-marshall",
-                "-unmarshall"
+                "-marshall"
             ],
             "group": "build"
         },
