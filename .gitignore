@@ -27,3 +27,6 @@ test/go/cmd/test/test
 test2/go/cmd/test2/test2
 test/.DS_Store
 
+test/go/cmd/test/__debug_bin
+test/go/.DS_Store
+test/.DS_Store

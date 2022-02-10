@@ -39,6 +39,34 @@
             "group": "build"
         },
         {
+            "label": "Sleepdelay",
+            "type": "shell",
+            "command": "sleep 1",
+            "windows": {
+                "command": "ping 127.0.0.1 -n 1 > nul"
+            },
+            "group": "none",
+            "presentation": {
+                "reveal": "silent",
+                "panel": "new"
+            }
+        },
+        {
+            "label": "04 - go run test -marshall",
+            "type": "shell",
+            "options": {
+                "cwd": "./test/go/cmd/test"
+            },
+            "command": "go",
+            "args": [
+                "run",
+                "main.go",
+                "stage.go",
+                "-marshall"
+            ],
+            "group": "build"
+        },
+        {
             "label": "04 - go run gong",
             "type": "shell",
             "command": "go run main.go",
@@ -69,7 +97,7 @@
             "group": "build"
         },
         {
-            "label": "01 - gongc test backendOnly",
+            "label": "01 - gongc test -backendOnly",
             "type": "shell",
             "options": {
                 "cwd": "${workspaceFolder}/test/go/models"
@@ -78,6 +106,18 @@
             "group": "build",
             "args": [
                 "-backendOnly"
+            ]
+        },
+        {
+            "label": "01 - remove test main.go",
+            "type": "shell",
+            "options": {
+                "cwd": "${workspaceFolder}/test/go/cmd/test",
+            },
+            "command": "rm",
+            "group": "build",
+            "args": [
+                "main.go"
             ]
         },
         {

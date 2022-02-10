@@ -3,36 +3,52 @@ package models
 const PackageMain = `package main
 
 import (
-	"flag"
-	"log"
-	"os"
-	"fmt"
 	"embed"
+	"flag"
+	"fmt"
 	"io/fs"
+	"log"
 	"net/http"
+	"os"
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-contrib/static"
 	"github.com/gin-gonic/gin"
 
 	"{{PkgPathRoot}}/controllers"
+	"{{PkgPathRoot}}/models"
 	"{{PkgPathRoot}}/orm"
 
 	{{pkgname}} "{{PkgPathAboveRoot}}"
 )
 
 var (
-	logDBFlag = flag.Bool("logDB", false, "log mode for db")
+	logDBFlag  = flag.Bool("logDB", false, "log mode for db")
 	logGINFlag = flag.Bool("logGIN", false, "log mode for gin")
-	apiFlag   = flag.Bool("api", false, "it true, use api controllers instead of default controllers")
+	marshall   = flag.Bool("marshall", false, "marshall data from models.StageReference")
+	unmarshall = flag.Bool("unmarshall", false, "unmarshall data from models.StageReference")
 )
+
+// hook marhalling to stage
+type BeforeCommitImplementation struct {
+}
+
+func (impl *BeforeCommitImplementation) BeforeCommit(stage *models.StageStruct) {
+	file, err := os.Create("./stage.go")
+	if err != nil {
+		log.Fatal(err.Error())
+	}
+	defer file.Close()
+
+	models.Stage.Checkout()
+	models.Stage.Marshall(file, "{{PkgPathRoot}}/models", "main")
+}
 
 func main() {
 
-	
 	log.SetPrefix("{{pkgname}}: ")
 	log.SetFlags(0)
-	
+
 	// parse program arguments
 	flag.Parse()
 
@@ -47,6 +63,33 @@ func main() {
 	// setup GORM
 	db := orm.SetupModels(*logDBFlag, "./test.db")
 	dbDB, err := db.DB()
+
+	// hook automatic marshall to go code at every commit
+	hook := new(BeforeCommitImplementation)
+	models.Stage.OnInitCommitCallback = hook
+
+	// reset stage and copy from models.StageReference
+	if *marshall {
+		file, err := os.Create("./stage.go")
+		if err != nil {
+			log.Fatal(err.Error())
+		}
+		defer file.Close()
+
+		models.Stage.Checkout()
+		models.Stage.Marshall(file, "{{PkgPathAboveRoot}}/go/models", "main")
+		os.Exit(0)
+	}
+
+	// reset stage and copy from models.StageReference
+	if *unmarshall {
+		models.Stage.Checkout()
+		models.Stage.Reset()
+		models.Stage.Commit()
+		Unmarshall(&models.Stage)
+		models.Stage.Commit()
+		os.Exit(0)
+	}
 
 	// since the stack can be a multi threaded application. It is important to set up
 	// only one open connexion at a time
