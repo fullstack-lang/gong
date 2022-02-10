@@ -67,7 +67,7 @@ func main() {
 		models.Stage.Checkout()
 		models.Stage.Reset()
 		models.Stage.Commit()
-		// Unmarshall(&models.Stage)
+		Unmarshall(&models.Stage)
 		models.Stage.Commit()
 		os.Exit(0)
 	}
