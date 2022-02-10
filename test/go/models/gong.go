@@ -717,7 +717,7 @@ func Unmarshall(stage *models.StageStruct) {
 `
 
 const IdentifiersDecls = `
-	{{Identifier}} := new(models.{{GeneratedStructName}}).Stage()`
+	{{Identifier}} := (&models.{{GeneratedStructName}}{ Name : "{{GeneratedFieldNameValue}}"}).Stage()`
 
 const StringInitStatement = `
 	{{Identifier}}.{{GeneratedFieldName}} = "{{GeneratedFieldNameValue}}"`
@@ -775,6 +775,7 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 		decl = IdentifiersDecls
 		decl = strings.ReplaceAll(decl, "{{Identifier}}", id)
 		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Astruct")
+		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", astruct.Name)
 		identifiersDecl += decl
 
 		initializerStatements += fmt.Sprintf("\n\n	// Init Astruct values %s", astruct.Name)
@@ -873,6 +874,7 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 		decl = IdentifiersDecls
 		decl = strings.ReplaceAll(decl, "{{Identifier}}", id)
 		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "AstructBstruct2Use")
+		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", astructbstruct2use.Name)
 		identifiersDecl += decl
 
 		initializerStatements += fmt.Sprintf("\n\n	// Init AstructBstruct2Use values %s", astructbstruct2use.Name)
@@ -904,6 +906,7 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 		decl = IdentifiersDecls
 		decl = strings.ReplaceAll(decl, "{{Identifier}}", id)
 		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "AstructBstructUse")
+		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", astructbstructuse.Name)
 		identifiersDecl += decl
 
 		initializerStatements += fmt.Sprintf("\n\n	// Init AstructBstructUse values %s", astructbstructuse.Name)
@@ -935,6 +938,7 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 		decl = IdentifiersDecls
 		decl = strings.ReplaceAll(decl, "{{Identifier}}", id)
 		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Bstruct")
+		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", bstruct.Name)
 		identifiersDecl += decl
 
 		initializerStatements += fmt.Sprintf("\n\n	// Init Bstruct values %s", bstruct.Name)
@@ -978,6 +982,7 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 		decl = IdentifiersDecls
 		decl = strings.ReplaceAll(decl, "{{Identifier}}", id)
 		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Dstruct")
+		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", dstruct.Name)
 		identifiersDecl += decl
 
 		initializerStatements += fmt.Sprintf("\n\n	// Init Dstruct values %s", dstruct.Name)
