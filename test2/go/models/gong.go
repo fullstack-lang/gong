@@ -238,8 +238,6 @@ func Unmarshall(stage *models.StageStruct) {
 	// initializers of values{{ValueInitializers}}
 
 	// initializers of pointers{{PointersInitializers}}
-
-	return
 }
 
 `
