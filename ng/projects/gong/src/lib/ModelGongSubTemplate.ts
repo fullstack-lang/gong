@@ -9,6 +9,8 @@ export enum ModelGongSubTemplate {
 	ModelGongStructArrayReset = 6,
 	ModelGongStructCreateCallback = 2,
 	ModelGongStructDeleteCallback = 3,
+	ModelGongStructUnmarshallStatementsStepPointersInit = 9,
+	ModelGongStructUnmarshallStatementsStepValuesInit = 8,
 }
 
 export interface ModelGongSubTemplateSelect {
@@ -25,4 +27,6 @@ export const ModelGongSubTemplateList: ModelGongSubTemplateSelect[] = [ // inser
 	{ value: 'ModelGongStructArrayReset', viewValue: '6' },
 	{ value: 'ModelGongStructCreateCallback', viewValue: '2' },
 	{ value: 'ModelGongStructDeleteCallback', viewValue: '3' },
+	{ value: 'ModelGongStructUnmarshallStatementsStepPointersInit', viewValue: '9' },
+	{ value: 'ModelGongStructUnmarshallStatementsStepValuesInit', viewValue: '8' },
 ];
