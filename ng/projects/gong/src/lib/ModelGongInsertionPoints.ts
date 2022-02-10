@@ -9,7 +9,9 @@ export enum ModelGongInsertionPoints {
 	ModelGongInsertionCreateCallback = 2,
 	ModelGongInsertionDeleteCallback = 3,
 	ModelGongInsertionStageFunctions = 1,
-	ModelGongInsertionsNb = 8,
+	ModelGongInsertionUnmarshallDeclarations = 8,
+	ModelGongInsertionUnmarshallPointersInitializations = 9,
+	ModelGongInsertionsNb = 10,
 }
 
 export interface ModelGongInsertionPointsSelect {
@@ -26,5 +28,7 @@ export const ModelGongInsertionPointsList: ModelGongInsertionPointsSelect[] = [ 
 	{ value: 'ModelGongInsertionCreateCallback', viewValue: '2' },
 	{ value: 'ModelGongInsertionDeleteCallback', viewValue: '3' },
 	{ value: 'ModelGongInsertionStageFunctions', viewValue: '1' },
-	{ value: 'ModelGongInsertionsNb', viewValue: '8' },
+	{ value: 'ModelGongInsertionUnmarshallDeclarations', viewValue: '8' },
+	{ value: 'ModelGongInsertionUnmarshallPointersInitializations', viewValue: '9' },
+	{ value: 'ModelGongInsertionsNb', viewValue: '10' },
 ];
