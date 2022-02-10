@@ -27,6 +27,21 @@ var (
 	unmarshall = flag.Bool("unmarshall", false, "unmarshall data from models.StageReference")
 )
 
+// hook marhalling to stage
+type BeforeCommitImplementation struct {
+}
+
+func (impl *BeforeCommitImplementation) BeforeCommit(stage *models.StageStruct) {
+	file, err := os.Create("./stage.go")
+	if err != nil {
+		log.Fatal(err.Error())
+	}
+	defer file.Close()
+
+	models.Stage.Checkout()
+	models.Stage.Marshall(file, "github.com/fullstack-lang/gong/test/go/models", "main")
+}
+
 func main() {
 
 	log.SetPrefix("test: ")
@@ -46,6 +61,10 @@ func main() {
 	// setup GORM
 	db := orm.SetupModels(*logDBFlag, "./test.db")
 	dbDB, err := db.DB()
+
+	// hook automatic marshall to go code at every commit
+	hook := new(BeforeCommitImplementation)
+	models.Stage.OnInitCommitCallback = hook
 
 	// reset stage and copy from models.StageReference
 	if *marshall {

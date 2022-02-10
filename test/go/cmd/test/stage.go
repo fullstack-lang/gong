@@ -15,6 +15,7 @@ func Unmarshall(stage *models.StageStruct) {
 	// Declarations of staged instances of Astruct
 	__Astruct__000000_A1 := (&models.Astruct{ Name : "A1"}).Stage()
 	__Astruct__000001_A2 := (&models.Astruct{ Name : "A2"}).Stage()
+	__Astruct__000002_A3 := (&models.Astruct{ Name : "A3"}).Stage()
 
 	// Declarations of staged instances of AstructBstruct2Use
 	__AstructBstruct2Use__000000_ := (&models.AstructBstruct2Use{ Name : ""}).Stage()
@@ -28,6 +29,7 @@ func Unmarshall(stage *models.StageStruct) {
 	__Bstruct__000002_B3 := (&models.Bstruct{ Name : "B3"}).Stage()
 
 	// Declarations of staged instances of Dstruct
+	__Dstruct__000000_D1 := (&models.Dstruct{ Name : "D1"}).Stage()
 
 	// initializers of values
 
@@ -59,6 +61,20 @@ func Unmarshall(stage *models.StageStruct) {
 	__Astruct__000001_A2.Anotherbooleanfield = false
 	__Astruct__000001_A2.Duration1 = 0
 
+	// Init Astruct values A3
+	__Astruct__000002_A3.Name = "A3"
+	__Astruct__000002_A3.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2022-02-10 01:06:11.446 +0000 UTC")
+	__Astruct__000002_A3.Booleanfield = true
+	__Astruct__000002_A3.Aenum = "ENUM_VAL2"
+	__Astruct__000002_A3.Aenum_2 = "ENUM_VAL1"
+	__Astruct__000002_A3.Benum = "BENUM_VAL2"
+	__Astruct__000002_A3.CName = ""
+	__Astruct__000002_A3.CFloatfield = 4.900000
+	__Astruct__000002_A3.Floatfield = 0.000000
+	__Astruct__000002_A3.Intfield = 0
+	__Astruct__000002_A3.Anotherbooleanfield = false
+	__Astruct__000002_A3.Duration1 = 0
+
 	// Init AstructBstruct2Use values 
 	__AstructBstruct2Use__000000_.Name = ""
 
@@ -79,6 +95,9 @@ func Unmarshall(stage *models.StageStruct) {
 	__Bstruct__000002_B3.Name = "B3"
 	__Bstruct__000002_B3.Floatfield = 0.000000
 	__Bstruct__000002_B3.Intfield = 0
+
+	// Init Dstruct values D1
+	__Dstruct__000000_D1.Name = "D1"
 
 	// initializers of pointers
 	__Astruct__000000_A1.Associationtob = __Bstruct__000001_B2
