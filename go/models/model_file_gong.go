@@ -137,7 +137,7 @@ func Unmarshall(stage *models.StageStruct) {
 ` + "`" + `
 
 const IdentifiersDecls = ` + "`" + `
-	{{Identifier}} := (&models.{{GeneratedStructName}}{ Name : "{{GeneratedFieldNameValue}}"}).Stage()` + "`" + `
+	{{Identifier}} := (&models.{{GeneratedStructName}}{Name : "{{GeneratedFieldNameValue}}"}).Stage()` + "`" + `
 
 const StringInitStatement = ` + "`" + `
 	{{Identifier}}.{{GeneratedFieldName}} = "{{GeneratedFieldNameValue}}"` + "`" + `
@@ -389,7 +389,7 @@ func DeleteORM{{Structname}}({{structname}} *{{Structname}}) {
 		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", {{structname}}.Name)
 		identifiersDecl += decl
 
-		initializerStatements += fmt.Sprintf("\n\n	// Init {{Structname}} values %s", {{structname}}.Name)
+		initializerStatements += fmt.Sprintf("\n\n	// {{Structname}} %s values setup", {{structname}}.Name)
 		// Initialisation of values{{ValuesInitialization}}
 	}
 `,
