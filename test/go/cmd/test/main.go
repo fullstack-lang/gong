@@ -8,6 +8,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"strings"
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-contrib/static"
@@ -23,8 +24,8 @@ import (
 var (
 	logDBFlag  = flag.Bool("logDB", false, "log mode for db")
 	logGINFlag = flag.Bool("logGIN", false, "log mode for gin")
-	marshall   = flag.Bool("marshall", false, "marshall data from models.StageReference")
-	unmarshall = flag.Bool("unmarshall", false, "unmarshall data from models.StageReference")
+	marshall   = flag.String("marshall", "", "marshall staged data to a go file with the marshall name and '.go' (must be lowercased without spaces). If marshall arg is '', no marshalling")
+	unmarshall = flag.String("unmarshall", "", "unmarshall data from marshall name and '.go' (must be lowercased without spaces), If unmarshall arg is '', no unmarshalling")
 )
 
 // InjectionGateway is the singloton that stores all functions
@@ -36,16 +37,16 @@ var InjectionGateway = make(map[string](func()))
 type BeforeCommitImplementation struct {
 }
 
-func (impl *BeforeCommitImplementation) BeforeCommit(stage *models.StageStruct) {
-	file, err := os.Create("./stage.go")
-	if err != nil {
-		log.Fatal(err.Error())
-	}
-	defer file.Close()
+// func (impl *BeforeCommitImplementation) BeforeCommit(stage *models.StageStruct) {
+// 	file, err := os.Create("./stage.go")
+// 	if err != nil {
+// 		log.Fatal(err.Error())
+// 	}
+// 	defer file.Close()
 
-	models.Stage.Checkout()
-	models.Stage.Marshall(file, "github.com/fullstack-lang/gong/test/go/models", "main")
-}
+// 	models.Stage.Checkout()
+// 	models.Stage.Marshall(file, "github.com/fullstack-lang/gong/test/go/models", "main")
+// }
 
 func main() {
 
@@ -68,8 +69,16 @@ func main() {
 	dbDB, err := db.DB()
 
 	// reset stage and copy from models.StageReference
-	if *marshall {
-		file, err := os.Create("./stage.go")
+	if *marshall != "" {
+
+		if strings.Contains(*marshall, " ") {
+			log.Fatalln(*marshall + " must not contains blank spaces")
+		}
+		if strings.ToLower(*marshall) != *marshall {
+			log.Fatalln(*marshall + " must be lowercases")
+		}
+
+		file, err := os.Create(fmt.Sprintf("./%s.go", *marshall))
 		if err != nil {
 			log.Fatal(err.Error())
 		}
@@ -81,11 +90,11 @@ func main() {
 	}
 
 	// reset stage and copy from models.StageReference
-	if *unmarshall {
+	if *unmarshall == "" {
 		models.Stage.Checkout()
 		models.Stage.Reset()
 		models.Stage.Commit()
-		InjectionGateway["reference"]()
+		InjectionGateway[*unmarshall]()
 		models.Stage.Commit()
 	}
 
