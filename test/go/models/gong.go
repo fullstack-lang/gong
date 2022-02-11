@@ -703,7 +703,7 @@ import (
 
 var __Dummy_time_variable time.Time
 
-func Unmarshall(stage *models.StageStruct) {
+func {{UnmasrhallFunctionName}}(stage *models.StageStruct) {
 
 	// map of identifiers{{Identifiers}}
 
@@ -733,7 +733,7 @@ const TimeInitStatement = `
 	{{Identifier}}.{{GeneratedFieldName}}, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "{{GeneratedFieldNameValue}}")`
 
 // Marshall marshall the stage content into the file as an instanciation into a stage
-func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName string) {
+func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName string, unmarshallFunctionName string) {
 
 	name := file.Name()
 
@@ -789,7 +789,6 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Date")
 		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", astruct.Date.String())
 		initializerStatements += setValueField
-
 
 		setValueField = NumberInitStatement
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
@@ -993,7 +992,6 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 
 	}
 
-
 	// insertion initialization of objects to stage
 	for idx, astruct := range astructOrdered {
 		var setPointerField string
@@ -1117,7 +1115,7 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 		// Initialisation of values
 	}
 
-
+	res = strings.ReplaceAll(res, "{{UnmasrhallFunctionName}}", unmarshallFunctionName)
 	res = strings.ReplaceAll(res, "{{Identifiers}}", identifiersDecl)
 	res = strings.ReplaceAll(res, "{{ValueInitializers}}", initializerStatements)
 	res = strings.ReplaceAll(res, "{{PointersInitializers}}", pointersInitializesStatements)
