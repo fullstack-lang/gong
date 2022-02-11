@@ -68,7 +68,7 @@ func main() {
 	db := orm.SetupModels(*logDBFlag, "./test.db")
 	dbDB, err := db.DB()
 
-	// reset stage and copy from models.StageReference
+	// generate injection code from the stage
 	if *marshall != "" {
 
 		if strings.Contains(*marshall, " ") {
@@ -89,7 +89,7 @@ func main() {
 		os.Exit(0)
 	}
 
-	// reset stage and copy from models.StageReference
+	// setup the stage by injecting the code from code database
 	if *unmarshall == "" {
 		models.Stage.Checkout()
 		models.Stage.Reset()
