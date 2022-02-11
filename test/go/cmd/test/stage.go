@@ -112,3 +112,5 @@ func Unmarshall(stage *models.StageStruct) {
 	__AstructBstruct2Use__000000_.Bstrcut2 = __Bstruct__000000_B1
 	__AstructBstruct2Use__000001_.Bstrcut2 = __Bstruct__000000_B1
 }
+
+
