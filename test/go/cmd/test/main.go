@@ -27,6 +27,11 @@ var (
 	unmarshall = flag.Bool("unmarshall", false, "unmarshall data from models.StageReference")
 )
 
+// InjectionGateway is the singloton that stores all functions
+// that can set the objects the stage
+// InjectionGateway stores function as a map of names
+var InjectionGateway = make(map[string](func()))
+
 // hook marhalling to stage
 type BeforeCommitImplementation struct {
 }
@@ -62,10 +67,6 @@ func main() {
 	db := orm.SetupModels(*logDBFlag, "./test.db")
 	dbDB, err := db.DB()
 
-	// hook automatic marshall to go code at every commit
-	hook := new(BeforeCommitImplementation)
-	models.Stage.OnInitCommitCallback = hook
-
 	// reset stage and copy from models.StageReference
 	if *marshall {
 		file, err := os.Create("./stage.go")
@@ -84,10 +85,13 @@ func main() {
 		models.Stage.Checkout()
 		models.Stage.Reset()
 		models.Stage.Commit()
-		Unmarshall(&models.Stage)
+		InjectionGateway["reference"]()
 		models.Stage.Commit()
-		os.Exit(0)
 	}
+
+	// hook automatic marshall to go code at every commit
+	// hook := new(BeforeCommitImplementation)
+	// models.Stage.OnInitCommitCallback = hook
 
 	// since the stack can be a multi threaded application. It is important to set up
 	// only one open connexion at a time
