@@ -6,10 +6,13 @@ import (
 	"github.com/fullstack-lang/gong/test/go/models"
 )
 
-var __Dummy_time_variable time.Time
+func init() {
+	var __Dummy_time_variable time.Time
+	_ = __Dummy_time_variable
+	InjectionGateway["reference"] = referenceInjection
+}
 
-func Unmarshall(stage *models.StageStruct) {
-
+func referenceInjection() {
 	// map of identifiers
 
 	// Declarations of staged instances of Astruct
@@ -112,5 +115,3 @@ func Unmarshall(stage *models.StageStruct) {
 	__AstructBstruct2Use__000000_.Bstrcut2 = __Bstruct__000000_B1
 	__AstructBstruct2Use__000001_.Bstrcut2 = __Bstruct__000000_B1
 }
-
-
