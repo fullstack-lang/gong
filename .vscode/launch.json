@@ -82,7 +82,7 @@
             "request": "launch",
             "mode": "debug",
             "preLaunchTask": "01 - remove test main.go",
-            "postDebugTask": "04 - go run test -marshall",
+            "postDebugTask": "04 - go run test -marshallOnStartup=stage",
             "cwd": "${workspaceFolder}/test/go/models",
             "program": "${workspaceFolder}/go/cmd/gongc",
             "args": [
@@ -129,23 +129,43 @@
             "args": []
         },
         {
-            "name": "go run test -marshall",
+            "name": "go run test -marshallOnStartup=stage",
             "type": "go",
             "request": "launch",
             "mode": "auto",
             "program": "${workspaceFolder}/test/go/cmd/test",
             "args": [
-                "-marshall"
+                "-marshallOnStartup=stage"
             ]
         },
         {
-            "name": "go run test -unmarshall",
+            "name": "go run test -marshallOnStartup=alternate",
             "type": "go",
             "request": "launch",
             "mode": "auto",
             "program": "${workspaceFolder}/test/go/cmd/test",
             "args": [
-                "-unmarshall"
+                "-marshallOnStartup=alternate"
+            ]
+        },
+        {
+            "name": "go run test -unmarshall=stage",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/test/go/cmd/test",
+            "args": [
+                "-unmarshall=stage"
+            ]
+        },
+        {
+            "name": "go run test -marshallOnCommit=stage",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/test/go/cmd/test",
+            "args": [
+                "-marshallOnCommit=stage"
             ]
         },
         {
