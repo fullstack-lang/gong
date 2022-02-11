@@ -32,15 +32,17 @@ type BeforeCommitImplementation struct {
 }
 
 func (impl *BeforeCommitImplementation) BeforeCommit(stage *models.StageStruct) {
-	file, err := os.Create("./stage.go")
+	file, err := os.Create(fmt.Sprintf("./%s.go", UnmarshallFucntionName))
 	if err != nil {
 		log.Fatal(err.Error())
 	}
 	defer file.Close()
 
 	models.Stage.Checkout()
-	models.Stage.Marshall(file, "github.com/fullstack-lang/gong/test/go/models", "main")
+	models.Stage.Marshall(file, "github.com/fullstack-lang/gong/test/go/models", "main", UnmarshallFucntionName)
 }
+
+var UnmarshallFucntionName = "Unmarshall"
 
 func main() {
 
@@ -75,7 +77,7 @@ func main() {
 		defer file.Close()
 
 		models.Stage.Checkout()
-		models.Stage.Marshall(file, "github.com/fullstack-lang/gong/test/go/models", "main")
+		models.Stage.Marshall(file, "github.com/fullstack-lang/gong/test/go/models", "main", UnmarshallFucntionName)
 		os.Exit(0)
 	}
 

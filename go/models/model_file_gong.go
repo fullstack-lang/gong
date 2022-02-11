@@ -137,7 +137,7 @@ func Unmarshall(stage *models.StageStruct) {
 ` + "`" + `
 
 const IdentifiersDecls = ` + "`" + `
-	{{Identifier}} := (&models.{{GeneratedStructName}}{Name : "{{GeneratedFieldNameValue}}"}).Stage()` + "`" + `
+	{{Identifier}} := (&models.{{GeneratedStructName}}{Name: "{{GeneratedFieldNameValue}}"}).Stage()` + "`" + `
 
 const StringInitStatement = ` + "`" + `
 	{{Identifier}}.{{GeneratedFieldName}} = "{{GeneratedFieldNameValue}}"` + "`" + `
