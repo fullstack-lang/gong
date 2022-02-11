@@ -129,23 +129,23 @@
             "args": []
         },
         {
-            "name": "go run test -marshall=stage",
+            "name": "go run test -marshallOnStartup=stage",
             "type": "go",
             "request": "launch",
             "mode": "auto",
             "program": "${workspaceFolder}/test/go/cmd/test",
             "args": [
-                "-marshall=stage"
+                "-marshallOnStartup=stage"
             ]
         },
         {
-            "name": "go run test -marshall=alternate",
+            "name": "go run test -marshallOnStartup=alternate",
             "type": "go",
             "request": "launch",
             "mode": "auto",
             "program": "${workspaceFolder}/test/go/cmd/test",
             "args": [
-                "-marshall=alternate"
+                "-marshallOnStartup=alternate"
             ]
         },
         {
@@ -156,6 +156,16 @@
             "program": "${workspaceFolder}/test/go/cmd/test",
             "args": [
                 "-unmarshall=stage"
+            ]
+        },
+        {
+            "name": "go run test -marshallOnCommit=stage",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/test/go/cmd/test",
+            "args": [
+                "-marshallOnCommit=stage"
             ]
         },
         {
