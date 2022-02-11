@@ -9,11 +9,13 @@ import (
 func init() {
 	var __Dummy_time_variable time.Time
 	_ = __Dummy_time_variable
-	InjectionGateway["reference"] = referenceInjection
+	InjectionGateway["stage"] = stageInjection
 }
 
-func referenceInjection() {
-	// map of identifiers
+// stageInjection will stage objects of database "stage"
+func stageInjection() {
+
+	// Declaration of instances to stage
 
 	// Declarations of staged instances of Astruct
 	__Astruct__000000_A1 := (&models.Astruct{Name: "A1"}).Stage()
@@ -34,7 +36,7 @@ func referenceInjection() {
 	// Declarations of staged instances of Dstruct
 	__Dstruct__000000_D1 := (&models.Dstruct{Name: "D1"}).Stage()
 
-	// initializers of values
+	// Setup of values
 
 	// Astruct A1 values setup
 	__Astruct__000000_A1.Name = "A1"
@@ -102,7 +104,7 @@ func referenceInjection() {
 	// Dstruct D1 values setup
 	__Dstruct__000000_D1.Name = "D1"
 
-	// initializers of pointers
+	// Setup of pointers
 	__Astruct__000000_A1.Associationtob = __Bstruct__000001_B2
 	__Astruct__000000_A1.Anarrayofb = append(__Astruct__000000_A1.Anarrayofb, __Bstruct__000002_B3)
 	__Astruct__000000_A1.Anarrayofb = append(__Astruct__000000_A1.Anarrayofb, __Bstruct__000001_B2)
@@ -110,8 +112,9 @@ func referenceInjection() {
 	__Astruct__000000_A1.Anotherarrayofb = append(__Astruct__000000_A1.Anotherarrayofb, __Bstruct__000001_B2)
 	__Astruct__000000_A1.Anotherarrayofb = append(__Astruct__000000_A1.Anotherarrayofb, __Bstruct__000002_B3)
 	__Astruct__000000_A1.Anarrayofa = append(__Astruct__000000_A1.Anarrayofa, __Astruct__000000_A1)
-	__Astruct__000000_A1.Anarrayofb2Use = append(__Astruct__000000_A1.Anarrayofb2Use, __AstructBstruct2Use__000000_)
-	__Astruct__000001_A2.Anarrayofb2Use = append(__Astruct__000001_A2.Anarrayofb2Use, __AstructBstruct2Use__000001_)
+	__Astruct__000000_A1.Anarrayofb2Use = append(__Astruct__000000_A1.Anarrayofb2Use, __AstructBstruct2Use__000001_)
+	__Astruct__000001_A2.Anarrayofb2Use = append(__Astruct__000001_A2.Anarrayofb2Use, __AstructBstruct2Use__000000_)
 	__AstructBstruct2Use__000000_.Bstrcut2 = __Bstruct__000000_B1
 	__AstructBstruct2Use__000001_.Bstrcut2 = __Bstruct__000000_B1
 }
+
