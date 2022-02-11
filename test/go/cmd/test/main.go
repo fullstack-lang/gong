@@ -8,6 +8,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"strings"
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-contrib/static"
@@ -21,18 +22,24 @@ import (
 )
 
 var (
-	logDBFlag  = flag.Bool("logDB", false, "log mode for db")
-	logGINFlag = flag.Bool("logGIN", false, "log mode for gin")
-	marshall   = flag.Bool("marshall", false, "marshall data from models.StageReference")
-	unmarshall = flag.Bool("unmarshall", false, "unmarshall data from models.StageReference")
+	logDBFlag         = flag.Bool("logDB", false, "log mode for db")
+	logGINFlag        = flag.Bool("logGIN", false, "log mode for gin")
+	marshallOnStartup = flag.String("marshallOnStartup", "", "at startup, marshall staged data to a go file with the marshall name and '.go' (must be lowercased without spaces). If marshall arg is '', no marshalling")
+	unmarshall        = flag.String("unmarshall", "", "unmarshall data from marshall name and '.go' (must be lowercased without spaces), If unmarshall arg is '', no unmarshalling")
+	marshallOnCommit  = flag.String("marshallOnCommit", "", "on all commits, marshall staged data to a go file with the marshall name and '.go' (must be lowercased without spaces). If marshall arg is '', no marshalling")
 )
+
+// InjectionGateway is the singloton that stores all functions
+// that can set the objects the stage
+// InjectionGateway stores function as a map of names
+var InjectionGateway = make(map[string](func()))
 
 // hook marhalling to stage
 type BeforeCommitImplementation struct {
 }
 
 func (impl *BeforeCommitImplementation) BeforeCommit(stage *models.StageStruct) {
-	file, err := os.Create("./stage.go")
+	file, err := os.Create(fmt.Sprintf("./%s.go", *marshallOnCommit))
 	if err != nil {
 		log.Fatal(err.Error())
 	}
@@ -41,6 +48,7 @@ func (impl *BeforeCommitImplementation) BeforeCommit(stage *models.StageStruct) 
 	models.Stage.Checkout()
 	models.Stage.Marshall(file, "github.com/fullstack-lang/gong/test/go/models", "main")
 }
+
 
 func main() {
 
@@ -62,13 +70,17 @@ func main() {
 	db := orm.SetupModels(*logDBFlag, "./test.db")
 	dbDB, err := db.DB()
 
-	// hook automatic marshall to go code at every commit
-	hook := new(BeforeCommitImplementation)
-	models.Stage.OnInitCommitCallback = hook
+	// generate injection code from the stage
+	if *marshallOnStartup != "" {
 
-	// reset stage and copy from models.StageReference
-	if *marshall {
-		file, err := os.Create("./stage.go")
+		if strings.Contains(*marshallOnStartup, " ") {
+			log.Fatalln(*marshallOnStartup + " must not contains blank spaces")
+		}
+		if strings.ToLower(*marshallOnStartup) != *marshallOnStartup {
+			log.Fatalln(*marshallOnStartup + " must be lowercases")
+		}
+
+		file, err := os.Create(fmt.Sprintf("./%s.go", *marshallOnStartup))
 		if err != nil {
 			log.Fatal(err.Error())
 		}
@@ -79,14 +91,19 @@ func main() {
 		os.Exit(0)
 	}
 
-	// reset stage and copy from models.StageReference
-	if *unmarshall {
+	// setup the stage by injecting the code from code database
+	if *unmarshall != "" {
 		models.Stage.Checkout()
 		models.Stage.Reset()
 		models.Stage.Commit()
-		Unmarshall(&models.Stage)
+		InjectionGateway[*unmarshall]()
 		models.Stage.Commit()
-		os.Exit(0)
+	}
+
+	// hook automatic marshall to go code at every commit
+	if *marshallOnCommit != "" {
+		hook := new(BeforeCommitImplementation)
+		models.Stage.OnInitCommitCallback = hook
 	}
 
 	// since the stack can be a multi threaded application. It is important to set up
