@@ -206,34 +206,6 @@ func main() {
 				mainFilePath,
 				gong_models.PackageMain)
 		}
-		// check existance of "main.go" file and generate a default "main.go" if absent
-		stageFilePath := filepath.Join(*pkgPath, fmt.Sprintf("../cmd/%s/stage.go", computePkgName()))
-
-		_, errd = os.Stat(stageFilePath)
-		if os.IsNotExist(errd) {
-			log.Printf("stage.go does not exist, gongc creates a default stage.go")
-
-			stageFileDirPath := filepath.Dir(stageFilePath)
-			stageFileDirAbsPath, _ := filepath.Abs(stageFileDirPath)
-
-			errd := os.MkdirAll(stageFileDirAbsPath, os.ModePerm)
-			if os.IsNotExist(errd) {
-				log.Println("creating directory : " + stageFileDirAbsPath)
-			}
-			if os.IsExist(errd) {
-				log.Println("directory " + stageFileDirAbsPath + " allready exists")
-			}
-
-			// sometimes on windows, directory creation is not completed before creation of file/directory (this
-			// leads to non reproductible "access denied")
-			time.Sleep(1000 * time.Millisecond)
-			gong_models.VerySimpleCodeGenerator(
-				&modelPkg,
-				gong_models.PkgName,
-				gong_models.PkgGoPath,
-				stageFilePath,
-				gong_models.PackageStage)
-		}
 	}
 
 	// generate things in ng  lib directory

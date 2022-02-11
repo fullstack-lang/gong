@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"path"
 	"sort"
 	"strings"
 )
@@ -1055,21 +1056,26 @@ import (
 	"{{ModelsPackageName}}"
 )
 
-var __Dummy_time_variable time.Time
+func init() {
+	var __Dummy_time_variable time.Time
+	_ = __Dummy_time_variable
+	InjectionGateway["{{databaseName}}"] = {{databaseName}}Injection
+}
 
-func Unmarshall(stage *models.StageStruct) {
+// {{databaseName}}Injection will stage objects of database "{{databaseName}}"
+func {{databaseName}}Injection() {
 
-	// map of identifiers{{Identifiers}}
+	// Declaration of instances to stage{{Identifiers}}
 
-	// initializers of values{{ValueInitializers}}
+	// Setup of values{{ValueInitializers}}
 
-	// initializers of pointers{{PointersInitializers}}
+	// Setup of pointers{{PointersInitializers}}
 }
 
 `
 
 const IdentifiersDecls = `
-	{{Identifier}} := (&models.{{GeneratedStructName}}{ Name : "{{GeneratedFieldNameValue}}"}).Stage()`
+	{{Identifier}} := (&models.{{GeneratedStructName}}{Name: "{{GeneratedFieldNameValue}}"}).Stage()`
 
 const StringInitStatement = `
 	{{Identifier}}.{{GeneratedFieldName}} = "{{GeneratedFieldNameValue}}"`
@@ -1091,9 +1097,14 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 
 	name := file.Name()
 
+	if !strings.HasSuffix(name, ".go") {
+		log.Fatalln(name + " is not a go filename")
+	}
+
 	log.Println("filename of marshall output  is " + name)
 
 	res := marshallRes
+	res = strings.ReplaceAll(res, "{{databaseName}}", strings.ReplaceAll(path.Base(name), ".go", ""))
 	res = strings.ReplaceAll(res, "{{PackageName}}", packageName)
 	res = strings.ReplaceAll(res, "{{ModelsPackageName}}", modelsPackageName)
 
@@ -1130,7 +1141,7 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", gongbasicfield.Name)
 		identifiersDecl += decl
 
-		initializerStatements += fmt.Sprintf("\n\n	// Init GongBasicField values %s", gongbasicfield.Name)
+		initializerStatements += fmt.Sprintf("\n\n	// GongBasicField %s values setup", gongbasicfield.Name)
 		// Initialisation of values
 		setValueField = StringInitStatement
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
@@ -1180,7 +1191,7 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", gongenum.Name)
 		identifiersDecl += decl
 
-		initializerStatements += fmt.Sprintf("\n\n	// Init GongEnum values %s", gongenum.Name)
+		initializerStatements += fmt.Sprintf("\n\n	// GongEnum %s values setup", gongenum.Name)
 		// Initialisation of values
 		setValueField = StringInitStatement
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
@@ -1212,7 +1223,7 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", gongenumvalue.Name)
 		identifiersDecl += decl
 
-		initializerStatements += fmt.Sprintf("\n\n	// Init GongEnumValue values %s", gongenumvalue.Name)
+		initializerStatements += fmt.Sprintf("\n\n	// GongEnumValue %s values setup", gongenumvalue.Name)
 		// Initialisation of values
 		setValueField = StringInitStatement
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
@@ -1250,7 +1261,7 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", gongstruct.Name)
 		identifiersDecl += decl
 
-		initializerStatements += fmt.Sprintf("\n\n	// Init GongStruct values %s", gongstruct.Name)
+		initializerStatements += fmt.Sprintf("\n\n	// GongStruct %s values setup", gongstruct.Name)
 		// Initialisation of values
 		setValueField = StringInitStatement
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
@@ -1282,7 +1293,7 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", gongtimefield.Name)
 		identifiersDecl += decl
 
-		initializerStatements += fmt.Sprintf("\n\n	// Init GongTimeField values %s", gongtimefield.Name)
+		initializerStatements += fmt.Sprintf("\n\n	// GongTimeField %s values setup", gongtimefield.Name)
 		// Initialisation of values
 		setValueField = StringInitStatement
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
@@ -1320,7 +1331,7 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", modelpkg.Name)
 		identifiersDecl += decl
 
-		initializerStatements += fmt.Sprintf("\n\n	// Init ModelPkg values %s", modelpkg.Name)
+		initializerStatements += fmt.Sprintf("\n\n	// ModelPkg %s values setup", modelpkg.Name)
 		// Initialisation of values
 		setValueField = StringInitStatement
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
@@ -1358,7 +1369,7 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", pointertogongstructfield.Name)
 		identifiersDecl += decl
 
-		initializerStatements += fmt.Sprintf("\n\n	// Init PointerToGongStructField values %s", pointertogongstructfield.Name)
+		initializerStatements += fmt.Sprintf("\n\n	// PointerToGongStructField %s values setup", pointertogongstructfield.Name)
 		// Initialisation of values
 		setValueField = StringInitStatement
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
@@ -1396,7 +1407,7 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", sliceofpointertogongstructfield.Name)
 		identifiersDecl += decl
 
-		initializerStatements += fmt.Sprintf("\n\n	// Init SliceOfPointerToGongStructField values %s", sliceofpointertogongstructfield.Name)
+		initializerStatements += fmt.Sprintf("\n\n	// SliceOfPointerToGongStructField %s values setup", sliceofpointertogongstructfield.Name)
 		// Initialisation of values
 		setValueField = StringInitStatement
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
