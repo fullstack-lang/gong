@@ -52,7 +52,7 @@
             }
         },
         {
-            "label": "04 - go run test -marshall=stage",
+            "label": "04 - go run test -marshallOnStartup=stage",
             "type": "shell",
             "options": {
                 "cwd": "./test/go/cmd/test"
@@ -62,7 +62,7 @@
                 "run",
                 "main.go",
                 "stage.go",
-                "-marshall=stage"
+                "-marshallOnStartup=stage"
             ],
             "group": "build"
         },

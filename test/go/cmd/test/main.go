@@ -49,6 +49,7 @@ func (impl *BeforeCommitImplementation) BeforeCommit(stage *models.StageStruct) 
 	models.Stage.Marshall(file, "github.com/fullstack-lang/gong/test/go/models", "main")
 }
 
+
 func main() {
 
 	log.SetPrefix("test: ")
