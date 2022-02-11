@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"path"
 	"sort"
 	"strings"
 )
@@ -229,21 +230,26 @@ import (
 	"{{ModelsPackageName}}"
 )
 
-var __Dummy_time_variable time.Time
+func init() {
+	var __Dummy_time_variable time.Time
+	_ = __Dummy_time_variable
+	InjectionGateway["{{databaseName}}"] = {{databaseName}}Injection
+}
 
-func Unmarshall(stage *models.StageStruct) {
+// {{databaseName}}Injection will stage objects of database "{{databaseName}}"
+func {{databaseName}}Injection() {
 
-	// map of identifiers{{Identifiers}}
+	// Declaration of instances to stage{{Identifiers}}
 
-	// initializers of values{{ValueInitializers}}
+	// Setup of values{{ValueInitializers}}
 
-	// initializers of pointers{{PointersInitializers}}
+	// Setup of pointers{{PointersInitializers}}
 }
 
 `
 
 const IdentifiersDecls = `
-	{{Identifier}} := (&models.{{GeneratedStructName}}{ Name : "{{GeneratedFieldNameValue}}"}).Stage()`
+	{{Identifier}} := (&models.{{GeneratedStructName}}{Name: "{{GeneratedFieldNameValue}}"}).Stage()`
 
 const StringInitStatement = `
 	{{Identifier}}.{{GeneratedFieldName}} = "{{GeneratedFieldNameValue}}"`
@@ -265,9 +271,14 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 
 	name := file.Name()
 
+	if !strings.HasSuffix(name, ".go") {
+		log.Fatalln(name + " is not a go filename")
+	}
+
 	log.Println("filename of marshall output  is " + name)
 
 	res := marshallRes
+	res = strings.ReplaceAll(res, "{{databaseName}}", strings.ReplaceAll(path.Base(name), ".go", ""))
 	res = strings.ReplaceAll(res, "{{PackageName}}", packageName)
 	res = strings.ReplaceAll(res, "{{ModelsPackageName}}", modelsPackageName)
 
@@ -304,7 +315,7 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", astruct.Name)
 		identifiersDecl += decl
 
-		initializerStatements += fmt.Sprintf("\n\n	// Init Astruct values %s", astruct.Name)
+		initializerStatements += fmt.Sprintf("\n\n	// Astruct %s values setup", astruct.Name)
 		// Initialisation of values
 		setValueField = StringInitStatement
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
