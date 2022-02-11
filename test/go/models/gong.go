@@ -717,6 +717,7 @@ func {{databaseName}}Injection() {
 
 	// Setup of pointers{{PointersInitializers}}
 }
+
 `
 
 const IdentifiersDecls = `
@@ -799,6 +800,7 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Date")
 		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", astruct.Date.String())
 		initializerStatements += setValueField
+
 
 		setValueField = NumberInitStatement
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
@@ -1002,6 +1004,7 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 
 	}
 
+
 	// insertion initialization of objects to stage
 	for idx, astruct := range astructOrdered {
 		var setPointerField string
@@ -1124,6 +1127,7 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 
 		// Initialisation of values
 	}
+
 
 	res = strings.ReplaceAll(res, "{{Identifiers}}", identifiersDecl)
 	res = strings.ReplaceAll(res, "{{ValueInitializers}}", initializerStatements)

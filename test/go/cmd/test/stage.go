@@ -118,3 +118,4 @@ func stageInjection() {
 	__AstructBstruct2Use__000001_.Bstrcut2 = __Bstruct__000000_B1
 }
 
+
