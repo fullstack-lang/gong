@@ -48,7 +48,7 @@ func (impl *BeforeCommitImplementation) BeforeCommit(stage *models.StageStruct) 
 	defer file.Close()
 
 	models.Stage.Checkout()
-	models.Stage.Marshall(file, "github.com/fullstack-lang/gong/test/go/models", "main")
+	models.Stage.Marshall(file, "{{PkgPathRoot}}/models", "main")
 }
 
 
@@ -89,7 +89,7 @@ func main() {
 		defer file.Close()
 
 		models.Stage.Checkout()
-		models.Stage.Marshall(file, "github.com/fullstack-lang/gong/test/go/models", "main")
+		models.Stage.Marshall(file, "{{PkgPathRoot}}/models", "main")
 		os.Exit(0)
 	}
 
