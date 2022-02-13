@@ -1,23 +1,29 @@
-- [Gong](#gong)
-  - [About Gong](#about-gong)
-  - [Stack configuration management](#stack-configuration-management)
-  - [Gong is intended for system engineering tooling](#gong-is-intended-for-system-engineering-tooling)
-  - [Prerequisite](#prerequisite)
-    - [Go](#go)
-    - [gcc](#gcc)
-    - [go-swagger (optional)](#go-swagger-optional)
-    - [npm](#npm)
-    - [Angular](#angular)
-    - [Vscode (optional)](#vscode-optional)
-  - [Developping a gong stack](#developping-a-gong-stack)
-- [Using gong](#using-gong)
-  - [Running the gong test application](#running-the-gong-test-application)
-  - [Testing the generation of the code](#testing-the-generation-of-the-code)
-  - [Reusable stacks](#reusable-stacks)
-  - [Examples](#examples)
-  - [Generating a "hello world" stack in 5 minutes](#generating-a-hello-world-stack-in-5-minutes)
+- [1. Gong](#1-gong)
+  - [1.1. About Gong](#11-about-gong)
+  - [1.2. Stack configuration management](#12-stack-configuration-management)
+  - [1.3. Gong is intended for system engineering tooling](#13-gong-is-intended-for-system-engineering-tooling)
+  - [1.4. Prerequisite](#14-prerequisite)
+    - [1.4.1. Go](#141-go)
+    - [1.4.2. gcc](#142-gcc)
+    - [1.4.3. go-swagger (optional)](#143-go-swagger-optional)
+    - [1.4.4. npm](#144-npm)
+    - [1.4.5. Angular](#145-angular)
+    - [1.4.6. Vscode (optional)](#146-vscode-optional)
+  - [1.5. Developper Documentation](#15-developper-documentation)
+    - [1.5.1. Gong API](#151-gong-api)
+    - [1.5.2. Persistance as go code](#152-persistance-as-go-code)
+    - [1.5.3. Implementattion Details](#153-implementattion-details)
+- [2. Using gong](#2-using-gong)
+  - [2.1. Running the gong test application](#21-running-the-gong-test-application)
+  - [2.2. Testing the generation of the code](#22-testing-the-generation-of-the-code)
+  - [2.3. Reusable stacks](#23-reusable-stacks)
+  - [2.4. Examples](#24-examples)
+  - [2.5. A "hello world" stack in 5 minutes](#25-a-hello-world-stack-in-5-minutes)
+    - [2.5.1. Generating the code with the `gongc` command](#251-generating-the-code-with-the-gongc-command)
+    - [Performance of the `gongc` command](#performance-of-the-gongc-command)
+    - [2.5.2. Injecting Data via REST](#252-injecting-data-via-rest)
 
-# Gong
+# 1. Gong
 
 ![gong logo](docs/images/gong%20logo.svg)
 
@@ -25,13 +31,13 @@ With gong, a web application is a set of stacks. Each stack, based on go and ang
 
 *Gong is a work in progress. API of the framework is not yet stabilized/baselined*
 
-## About Gong
+## 1.1. About Gong
 
 Gong (go + ng) is a framework for rapid web application development (a.k.a. full stack development). It is based on two development langages: go for the back-end and angular for the front-end. Gong idea is to leverages best in class components. The back-end leverages [gin](https://github.com/gin-gonic/gin), a web framework and [gorm](https://gorm.io/index.html), an ORM. The front-end leverages [angular material](https://material.angular.io/), an library of angular components.
 
 The unit of development in gong is the **gong stack** (a "stack" in the rest of this document). A stack can import other stacks (both the front end and the back end of a stack are integrated as a whole). The granularity of a stack is similar to an angular components. There are available stacks for [jointjs](https://www.jointjs.com/) and [leaflet](https://leafletjs.com/).
 
-## Stack configuration management
+## 1.2. Stack configuration management
 
 The configuration of *both* back-end and front-end code of a stack is a single configuration item.
 
@@ -58,7 +64,7 @@ The third step is another go feature, the  `go mod vendor` command, that makes a
 
 The four step is to define your front-end dependency by using the `tsconfig.json` file and point it the to import path into the `vendor` directory (instead of using the installation by `npm install` of the imported front code module). you are therefore assured that your back-end code and front-end code belong to the same configuration. (see the https://github.com/fullstack-lang/gongproject/blob/master/ng/tsconfig.json for an example of tsconfig.json configuration).
 
-## Gong is intended for system engineering tooling
+## 1.3. Gong is intended for system engineering tooling
 
 Gong fullstack approach was inspired by [Ruby on Rails](https://rubyonrails.org/) and a more generaly the idea that complexity facing the programmer should be carefuly managed, as it is described in [conceptual compression concept](https://m.signalvnoise.com/conceptual-compression-means-beginners-dont-need-to-know-sql-hallelujah/) and [Rob Pike's design of Go regarding complexity](https://www.dotconferences.com/2015/11/rob-pike-simplicity-is-complicated).
 
@@ -66,40 +72,64 @@ Gong fullstack approach, with a backend in go, is similar in intent to [lorca](h
 
 Also, gong's stated goal is narrower since it is the rapid development of web applications for system engineering (see [paper](https://www.researchgate.net/publication/354237095_GONG_an_open_source_MBSE_toolset/references#fullTextFileContent) for details on this goal)
 
-## Prerequisite
+## 1.4. Prerequisite
 
-### Go
+### 1.4.1. Go
 
 go version equal or above 1.16 is mandatory (cf. use of `embed` package). See https://golang.org for installation.
 
-### gcc
+### 1.4.2. gcc
 
 A stack uses gorm for database access and sqlite as the default database. The sqlite driver requires cgo, which requires gcc.
 
-### go-swagger (optional)
+### 1.4.3. go-swagger (optional)
 
 [go-swagger](https://github.com/go-swagger/go-swagger) is a go program is used after each `gongc` compilation to generate the project API in a `yml` file. *gongc* is robust to the absence of go-swagger but it is recommanded to use it if you need to document the API with yaml.
 
-### npm
+### 1.4.4. npm
 
 Gong uses npm version >= 6.14 (see https://nodejs.org)
 
-### Angular
+### 1.4.5. Angular
 
 Gong uses angular version >= 11 (see https://angular.io for installation)
 
-### Vscode (optional)
+### 1.4.6. Vscode (optional)
 
 Vscode is usefull & handy because the tasks definitions and debug configuration related to gong are provided in the repository.
 
-## Developping a gong stack
+## 1.5. Developper Documentation
+
+### 1.5.1. Gong API
 
 See [gong back-end API](./docs/gong-go-api.md) for API details.
+
+### 1.5.2. Persistance as go code
+
+Gong's goal is to speed up development of full stack applications. Gong's goal is therefore to allow fast iterations of the database model and **content/database**.
+
+An iteration of the data model can include an addition or removal of a concept (a go´struct') or the addition or removal of a field of a concept. In this case, the 'gorm' tool takes care of the content/database migration.
+
+An iteration can also include a renaming of a field or the renaming of a struct. In this case, the code can be automatically changed by the use of the refactoring function of the ["go please" langage server](https://github.com/golang/tools/tree/master/gopls) for the backend and the [typescript language server](https://github.com/typescript-language-server/typescript-language-server) for the front end.
+
+Wihout gong, if one needs to refactor the name of a gongstruct or the name of a field of a gongstruct, the content/database of the application must be refactored by hand.
+
+For instance :
+ - via a json file
+ - via the sqlite table/column renaming
+ - via [gorm](https://gorm.io/docs/migration.html)
+
+With gong, data refactoring is automatic. Gong API provides a `Marshall()` function of the staged objects that generates an `Unmarshall()` function in go code (a persistance of the repository data as go code)
+
+when refactoring the code, the generated go code is refactored. Therefore, no need to manualy refactor the data.
+
+### 1.5.3. Implementattion Details
+
 See [gong back-end implementation](./docs/gong-go-impl.md) for implementation details.
 
-# Using gong
+# 2. Using gong
 
-## Running the gong test application
+## 2.1. Running the gong test application
 
 the `test` directory contains a stack wit the generated code.
 
@@ -115,7 +145,7 @@ Then, browse to [localhost:8080](http://localhost:8080)
 ![test web application](docs/images/test.png)
 *Example of a generated application with gong*
 
-## Testing the generation of the code
+## 2.2. Testing the generation of the code
 
 Installing The gong compiler.
 
@@ -127,7 +157,7 @@ Generating the code
 
 > cd test; gongc go/models
 
-## Reusable stacks
+## 2.3. Reusable stacks
 
 A gong application is a stack that can integrate other stacks. Below is a list of stacks that can be reused. 
 
@@ -141,7 +171,7 @@ https://github.com/fullstack-lang/gongsvg, a stack for developping application w
 
 https://github.com/fullstack-lang/gongjointjs, a stack for developping application with jointjs interactive graphical component
 
-## Examples
+## 2.4. Examples
 
 https://github.com/fullstack-lang/helloworld is a recommanded starting point for understanding gong.
 
@@ -154,10 +184,12 @@ https://github.com/fullstack-lang/gongfly, an airplane simulation that reuses 4 
 https://github.com/fullstack-lang/gongproject, a project management application that reuses 3 stacks (gong, gongjointjs, gongdoc)
 
 
-## Generating a "hello world" stack in 5 minutes
+## 2.5. A "hello world" stack in 5 minutes
 
 If prerequisite and gongc are installed, 
 it is possible to generate a functionning stack in 5 minutes. 
+
+### 2.5.1. Generating the code with the `gongc` command
 
 In a terminal, below commands :
 
@@ -184,12 +216,44 @@ Name string
 Hello *Hello
 }" > go/models/country.go
 gongc go/models
-./go/cmd/helloworld/helloworld
+cd go/cmd/helloworld
+./helloworld --unmarshall=stage -marshallOnCommit=stage 
 ```
 
-Then, browse to [localhost:8080](http://localhost:8080)
+Then, browse to [localhost:8080](http://localhost:8080) and add data manualy.
 
-All commands are executed fast (on an average computer) except `gongc go/models` which takes a few minutes. `gongc` can be long the first time it is executed for a stack because it perfoms `npm i` (installation of node packages) which requires the download of hundreds of megabytes.
+With the option `-marshallOnCommit=stage`, a `stage.go` file is generated as each save operation (along the default sqlite database `test.db`). When the application is restarted with the `--unmarshall=stage` , the data is injected from the `stage.go` file, not from the database.
 
-If `gongc` is performed again, it will take a few seconds.
+### Performance of the `gongc` command
 
+`gongc go/models` takes a few minutes the first time it is executed. `gongc` can be long the first time it is executed for a stack because it perfoms `npm i` which can be long if it is the first time (3'37'' on a macbook pro with a 2,6 GHz 6-Core Intel Core i7). 
+
+If `gongc` is performed again, it will take a few tens seconds (32'' on a macbook pro with a 2,6 GHz 6-Core Intel Core i7).
+
+### 2.5.2. Injecting Data via REST
+
+The backend of a gong application is a REST server (thanks to gin). You can interact with the server via REST calls.
+
+For instance, if you start from an empty database, the following commands will inject proprer data.
+
+```
+curl --request POST \
+  --url http://localhost:8080/api/helloworld/go/v1/hellos \
+  --header 'content-type: application/json' \
+  --data '{"Name": "Bonjour"}'
+
+curl --request POST \
+  --url http://localhost:8080/api/helloworld/go/v1/hellos \
+  --header 'content-type: application/json' \
+  --data '{"Name": "Bonjorno"}'
+
+curl --request POST \
+  --url http://localhost:8080/api/helloworld/go/v1/countrys \
+  --header 'content-type: application/json' \
+  --data '{"Name": "France","HelloID":{"Int64":1,"Valid":true}}'
+
+curl --request POST \
+  --url http://localhost:8080/api/helloworld/go/v1/countrys \
+  --header 'content-type: application/json' \
+  --data '{"Name": "Italy","HelloID":{"Int64":2,"Valid":true}}'
+  ```

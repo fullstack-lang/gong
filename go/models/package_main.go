@@ -98,7 +98,9 @@ func main() {
 		models.Stage.Checkout()
 		models.Stage.Reset()
 		models.Stage.Commit()
-		InjectionGateway[*unmarshall]()
+		if InjectionGateway[*unmarshall] != nil {
+			InjectionGateway[*unmarshall]()
+		}
 		models.Stage.Commit()
 	}
 
