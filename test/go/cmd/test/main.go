@@ -49,7 +49,6 @@ func (impl *BeforeCommitImplementation) BeforeCommit(stage *models.StageStruct) 
 	models.Stage.Marshall(file, "github.com/fullstack-lang/gong/test/go/models", "main")
 }
 
-
 func main() {
 
 	log.SetPrefix("test: ")
@@ -103,7 +102,7 @@ func main() {
 	// hook automatic marshall to go code at every commit
 	if *marshallOnCommit != "" {
 		hook := new(BeforeCommitImplementation)
-		models.Stage.OnInitCommitCallback = hook
+		models.Stage.OnInitCommitFromFrontCallback = hook
 	}
 
 	// since the stack can be a multi threaded application. It is important to set up

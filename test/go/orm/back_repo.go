@@ -46,6 +46,9 @@ func (backRepo *BackRepoStruct) IncrementCommitNb() uint {
 	if models.Stage.OnInitCommitCallback != nil {
 		models.Stage.OnInitCommitCallback.BeforeCommit(&models.Stage)
 	}
+	if models.Stage.OnInitCommitFromFrontCallback != nil {
+		models.Stage.OnInitCommitFromFrontCallback.BeforeCommit(&models.Stage)
+	}
 	backRepo.CommitNb = backRepo.CommitNb + 1
 	return backRepo.CommitNb
 }
@@ -53,6 +56,9 @@ func (backRepo *BackRepoStruct) IncrementCommitNb() uint {
 func (backRepo *BackRepoStruct) IncrementPushFromFrontNb() uint {
 	if models.Stage.OnInitCommitCallback != nil {
 		models.Stage.OnInitCommitCallback.BeforeCommit(&models.Stage)
+	}
+	if models.Stage.OnInitCommitFromFrontCallback != nil {
+		models.Stage.OnInitCommitFromFrontCallback.BeforeCommit(&models.Stage)
 	}
 	backRepo.PushFromFrontNb = backRepo.PushFromFrontNb + 1
 	return backRepo.CommitNb
