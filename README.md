@@ -18,10 +18,10 @@
   - [2.2. Testing the generation of the code](#22-testing-the-generation-of-the-code)
   - [2.3. Reusable stacks](#23-reusable-stacks)
   - [2.4. Examples](#24-examples)
-  - [2.5. A "hello world" stack in 5 minutes](#25-a-hello-world-stack-in-5-minutes)
-    - [2.5.1. Generating the code with the `gongc` command](#251-generating-the-code-with-the-gongc-command)
-    - [2.5.2. Performance of the `gongc` command](#252-performance-of-the-gongc-command)
-    - [2.5.3. Injecting Data via REST](#253-injecting-data-via-rest)
+- [2.5. A "hello world" stack in 5 minutes](#25-a-hello-world-stack-in-5-minutes)
+  - [2.5.1. Generating the code with the `gongc` command](#251-generating-the-code-with-the-gongc-command)
+  - [2.5.2. Timing of the `gongc` command](#252-timing-of-the-gongc-command)
+  - [2.5.3. Injecting Data via REST](#253-injecting-data-via-rest)
 
 # 1. Gong
 
@@ -186,12 +186,12 @@ https://github.com/fullstack-lang/gongfly, an airplane simulation that reuses 4 
 https://github.com/fullstack-lang/gongproject, a project management application that reuses 3 stacks (gong, gongjointjs, gongdoc)
 
 
-## 2.5. A "hello world" stack in 5 minutes
+# 2.5. A "hello world" stack in 5 minutes
 
 If prerequisite and gongc are installed, 
 it is possible to generate a functionning stack in 5 minutes. 
 
-### 2.5.1. Generating the code with the `gongc` command
+## 2.5.1. Generating the code with the `gongc` command
 
 In a terminal, below commands :
 
@@ -226,13 +226,13 @@ Then, browse to [localhost:8080](http://localhost:8080) and add data manualy.
 
 With the option `-marshallOnCommit=stage`, a `stage.go` file is generated as each save operation (along the default sqlite database `test.db`). When the application is restarted with the `--unmarshall=stage` , the data is injected from the `stage.go` file, not from the database.
 
-### 2.5.2. Performance of the `gongc` command
+## 2.5.2. Timing of the `gongc` command
 
 `gongc go/models` takes a few minutes the first time it is executed. `gongc` can be long the first time it is executed for a stack because it perfoms `npm i` which can be long if it is the first time (3'37'' on a macbook pro with a 2,6 GHz 6-Core Intel Core i7). 
 
-If `gongc` is performed again, it will take a few tens seconds (32'' on a macbook pro with a 2,6 GHz 6-Core Intel Core i7).
+If `gongc` is performed again, it will take a few tens seconds (32'' on a macbook pro with a 2,6 GHz 6-Core Intel Core i7, 1'16'' on a Core I7 windows PC).
 
-### 2.5.3. Injecting Data via REST
+## 2.5.3. Injecting Data via REST
 
 The backend of a gong application is a REST server (thanks to gin). You can interact with the server via REST calls.
 
