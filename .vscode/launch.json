@@ -82,7 +82,7 @@
             "request": "launch",
             "mode": "debug",
             "preLaunchTask": "01 - remove test main.go",
-            "postDebugTask": "04 - go run test -marshallOnStartup=stage",
+            "postDebugTask": "04 - go run test -marshallOnCommit=stage",
             "cwd": "${workspaceFolder}/test/go/models",
             "program": "${workspaceFolder}/go/cmd/gongc",
             "args": [

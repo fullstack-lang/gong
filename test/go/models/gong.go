@@ -41,9 +41,9 @@ type StageStruct struct { // insertion point for definition of arrays registerin
 	BackRepo BackRepoInterface
 
 	// if set will be called before each commit to the back repo
-	OnInitCommitCallback          OnInitCommitInterface
+	OnInitCommitCallback OnInitCommitInterface
 	OnInitCommitFromFrontCallback OnInitCommitInterface
-	OnInitCommitFromBackback      OnInitCommitInterface
+	OnInitCommitFromBackCallback  OnInitCommitInterface
 }
 
 type OnInitCommitInterface interface {
@@ -68,7 +68,7 @@ type BackRepoInterface interface {
 	CheckoutBstruct(bstruct *Bstruct)
 	CommitDstruct(dstruct *Dstruct)
 	CheckoutDstruct(dstruct *Dstruct)
-	GetLastCommitNb() uint
+	GetLastCommitFromBackNb() uint
 	GetLastPushFromFrontNb() uint
 }
 
@@ -803,6 +803,7 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", astruct.Date.String())
 		initializerStatements += setValueField
 
+
 		setValueField = NumberInitStatement
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
 		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Booleanfield")
@@ -1005,6 +1006,7 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 
 	}
 
+
 	// insertion initialization of objects to stage
 	for idx, astruct := range astructOrdered {
 		var setPointerField string
@@ -1127,6 +1129,7 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 
 		// Initialisation of values
 	}
+
 
 	res = strings.ReplaceAll(res, "{{Identifiers}}", identifiersDecl)
 	res = strings.ReplaceAll(res, "{{ValueInitializers}}", initializerStatements)
