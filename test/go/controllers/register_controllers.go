@@ -78,14 +78,14 @@ func RegisterControllers(r *gin.Engine) {
 		v1.PUT("/v1/dstructs/:id", UpdateDstruct)
 		v1.DELETE("/v1/dstructs/:id", DeleteDstruct)
 
-		v1.GET("/commitnb", GetLastCommitNb)
+		v1.GET("/commitfrombacknb", GetLastCommitFromBackNb)
 		v1.GET("/pushfromfrontnb", GetLastPushFromFrontNb)
 	}
 }
 
-// swagger:route GET /commitnb backrepo GetLastCommitNb
-func GetLastCommitNb(c *gin.Context) {
-	res := orm.GetLastCommitNb()
+// swagger:route GET /commitfrombacknb backrepo GetLastCommitFromBackNb
+func GetLastCommitFromBackNb(c *gin.Context) {
+	res := orm.GetLastCommitFromBackNb()
 
 	c.JSON(http.StatusOK, res)
 }

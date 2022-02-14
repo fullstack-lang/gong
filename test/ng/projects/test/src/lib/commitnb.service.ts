@@ -34,7 +34,7 @@ export class CommitNbService {
         origin = origin.replace("4200", "8080")
 
         // compute path to the service
-        this.commitNbUrl = origin + '/api/github.com/fullstack-lang/gong/test/go/commitnb';
+        this.commitNbUrl = origin + '/api/github.com/fullstack-lang/gong/test/go/commitfrombacknb';
     }
 
     // observable of the commit nb getter
