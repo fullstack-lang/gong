@@ -16,9 +16,10 @@
 - [3. Gong's Innovation](#3-gongs-innovation)
   - [3.1. Gong is a go sub langage for generating a full stack](#31-gong-is-a-go-sub-langage-for-generating-a-full-stack)
   - [3.2. Front stage, back stage and repository programming model](#32-front-stage-back-stage-and-repository-programming-model)
-  - [3.3. Stack configuration management](#33-stack-configuration-management)
-  - [3.4. Persistance as go code for enabling fast refactoring](#34-persistance-as-go-code-for-enabling-fast-refactoring)
-  - [3.5. Further documentation](#35-further-documentation)
+  - [3.3. UML Code documentation is in go](#33-uml-code-documentation-is-in-go)
+  - [3.4. Integrated Stack configuration management](#34-integrated-stack-configuration-management)
+  - [3.5. Persistance as go code for enabling fast refactoring](#35-persistance-as-go-code-for-enabling-fast-refactoring)
+  - [3.6. Further documentation](#36-further-documentation)
 - [4. A "hello world" stack in 5 minutes](#4-a-hello-world-stack-in-5-minutes)
   - [4.1. Generating the code with the `gongc` command](#41-generating-the-code-with-the-gongc-command)
   - [4.2. Timing of the `gongc` command](#42-timing-of-the-gongc-command)
@@ -138,9 +139,13 @@ https://github.com/fullstack-lang/gongproject, a project management application 
 *to be completed*
 
 ## 3.2. Front stage, back stage and repository programming model 
+
 *to be completed*
 
-## 3.3. Stack configuration management
+## 3.3. UML Code documentation is in go 
+
+*to be completed*
+## 3.4. Integrated Stack configuration management
 
 The configuration of *both* back-end and front-end code of a stack is a single configuration item.
 
@@ -167,7 +172,7 @@ The third step is another go feature, the  `go mod vendor` command, that makes a
 
 The four step is to define your front-end dependency by using the `tsconfig.json` file and point it the to import path into the `vendor` directory (instead of using the installation by `npm install` of the imported front code module). you are therefore assured that your back-end code and front-end code belong to the same configuration. (see the https://github.com/fullstack-lang/gongproject/blob/master/ng/tsconfig.json for an example of tsconfig.json configuration).
 
-## 3.4. Persistance as go code for enabling fast refactoring
+## 3.5. Persistance as go code for enabling fast refactoring
 
 Gong's goal is to speed up development of full stack applications. Gong's goal is therefore to allow fast iterations of the database model and **content/database**.
 
@@ -186,7 +191,7 @@ With gong, data refactoring is automatic. Gong API provides a `Marshall()` funct
 
 when refactoring the code, the generated go code is refactored. Therefore, no need to manualy refactor the data.
 
-## 3.5. Further documentation
+## 3.6. Further documentation
 
 See [gong back-end API](./docs/gong-go-api.md) for API details.
 
