@@ -42,6 +42,8 @@ type StageStruct struct { // insertion point for definition of arrays registerin
 
 	// if set will be called before each commit to the back repo
 	OnInitCommitCallback OnInitCommitInterface
+	OnInitCommitFromFrontCallback OnInitCommitInterface
+	OnInitCommitFromBackCallback  OnInitCommitInterface
 }
 
 type OnInitCommitInterface interface {
@@ -66,7 +68,7 @@ type BackRepoInterface interface {
 	CheckoutBstruct(bstruct *Bstruct)
 	CommitDstruct(dstruct *Dstruct)
 	CheckoutDstruct(dstruct *Dstruct)
-	GetLastCommitNb() uint
+	GetLastCommitFromBackNb() uint
 	GetLastPushFromFrontNb() uint
 }
 

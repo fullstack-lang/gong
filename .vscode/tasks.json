@@ -67,6 +67,21 @@
             "group": "build"
         },
         {
+            "label": "04 - go run test -marshallOnCommit=stage",
+            "type": "shell",
+            "options": {
+                "cwd": "./test/go/cmd/test"
+            },
+            "command": "go",
+            "args": [
+                "run",
+                "main.go",
+                "stage.go",
+                "-marshallOnCommit=stage"
+            ],
+            "group": "build"
+        },
+        {
             "label": "04 - go run gong",
             "type": "shell",
             "command": "go run main.go",

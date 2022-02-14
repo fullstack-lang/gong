@@ -30,6 +30,8 @@ type StageStruct struct { // insertion point for definition of arrays registerin
 
 	// if set will be called before each commit to the back repo
 	OnInitCommitCallback OnInitCommitInterface
+	OnInitCommitFromFrontCallback OnInitCommitInterface
+	OnInitCommitFromBackCallback  OnInitCommitInterface
 }
 
 type OnInitCommitInterface interface {
@@ -46,7 +48,7 @@ type BackRepoInterface interface {
 	// insertion point for Commit and Checkout signatures
 	CommitAstruct(astruct *Astruct)
 	CheckoutAstruct(astruct *Astruct)
-	GetLastCommitNb() uint
+	GetLastCommitFromBackNb() uint
 	GetLastPushFromFrontNb() uint
 }
 
@@ -356,10 +358,26 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 // unique identifier per struct
 func generatesIdentifier(gongStructName string, idx int, instanceName string) (identifier string) {
 
-	identifier = fmt.Sprintf("__%s__%06d_%s",
-		gongStructName,
-		idx,
-		strings.ReplaceAll(instanceName, " ", "_"))
+	identifier = instanceName
+	identifier = strings.ReplaceAll(identifier, " ", "_")
+	identifier = strings.ReplaceAll(identifier, "%", "_")
+	identifier = strings.ReplaceAll(identifier, ".", "_")
+	identifier = strings.ReplaceAll(identifier, "&", "_")
+	identifier = strings.ReplaceAll(identifier, "!", "_")
+	identifier = strings.ReplaceAll(identifier, "@", "_")
+	identifier = strings.ReplaceAll(identifier, "&", "_")
+	identifier = strings.ReplaceAll(identifier, "'", "_")
+	identifier = strings.ReplaceAll(identifier, "(", "_")
+	identifier = strings.ReplaceAll(identifier, ")", "_")
+	identifier = strings.ReplaceAll(identifier, "-", "_")
+	identifier = strings.ReplaceAll(identifier, "à", "_")
+	identifier = strings.ReplaceAll(identifier, "ç", "_")
+	identifier = strings.ReplaceAll(identifier, "è", "_")
+	identifier = strings.ReplaceAll(identifier, "é", "_")
+	identifier = strings.ReplaceAll(identifier, "§", "_")
+	identifier = strings.ReplaceAll(identifier, "\"", "_")
+
+	identifier = fmt.Sprintf("__%s__%06d_%s", gongStructName, idx, identifier)
 
 	return
 }
