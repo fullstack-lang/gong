@@ -29,28 +29,28 @@ type BackRepoStruct struct {
 
 	BackRepoDstruct BackRepoDstructStruct
 
-	CommitNb uint // this ng is updated at the BackRepo level but also at the BackRepo<GongStruct> level
+	CommitFromBackNb uint // this ng is updated at the BackRepo level but also at the BackRepo<GongStruct> level
 
 	PushFromFrontNb uint // records increments from push from front
 }
 
-func (backRepo *BackRepoStruct) GetLastCommitNb() uint {
-	return backRepo.CommitNb
+func (backRepo *BackRepoStruct) GetLastCommitFromBackNb() uint {
+	return backRepo.CommitFromBackNb
 }
 
 func (backRepo *BackRepoStruct) GetLastPushFromFrontNb() uint {
 	return backRepo.PushFromFrontNb
 }
 
-func (backRepo *BackRepoStruct) IncrementCommitNb() uint {
+func (backRepo *BackRepoStruct) IncrementCommitFromBackNb() uint {
 	if models.Stage.OnInitCommitCallback != nil {
 		models.Stage.OnInitCommitCallback.BeforeCommit(&models.Stage)
 	}
-	if models.Stage.OnInitCommitFromFrontCallback != nil {
-		models.Stage.OnInitCommitFromFrontCallback.BeforeCommit(&models.Stage)
+	if models.Stage.OnInitCommitFromBackCallback != nil {
+		models.Stage.OnInitCommitFromBackCallback.BeforeCommit(&models.Stage)
 	}
-	backRepo.CommitNb = backRepo.CommitNb + 1
-	return backRepo.CommitNb
+	backRepo.CommitFromBackNb = backRepo.CommitFromBackNb + 1
+	return backRepo.CommitFromBackNb
 }
 
 func (backRepo *BackRepoStruct) IncrementPushFromFrontNb() uint {
@@ -61,7 +61,7 @@ func (backRepo *BackRepoStruct) IncrementPushFromFrontNb() uint {
 		models.Stage.OnInitCommitFromFrontCallback.BeforeCommit(&models.Stage)
 	}
 	backRepo.PushFromFrontNb = backRepo.PushFromFrontNb + 1
-	return backRepo.CommitNb
+	return backRepo.CommitFromBackNb
 }
 
 // Init the BackRepoStruct inner variables and link to the database
@@ -92,7 +92,7 @@ func (backRepo *BackRepoStruct) Commit(stage *models.StageStruct) {
 	backRepo.BackRepoBstruct.CommitPhaseTwo(backRepo)
 	backRepo.BackRepoDstruct.CommitPhaseTwo(backRepo)
 
-	backRepo.IncrementCommitNb()
+	backRepo.IncrementCommitFromBackNb()
 }
 
 // Checkout the database into the stage
@@ -114,8 +114,8 @@ func (backRepo *BackRepoStruct) Checkout(stage *models.StageStruct) {
 
 var BackRepo BackRepoStruct
 
-func GetLastCommitNb() uint {
-	return BackRepo.GetLastCommitNb()
+func GetLastCommitFromBackNb() uint {
+	return BackRepo.GetLastCommitFromBackNb()
 }
 
 func GetLastPushFromFrontNb() uint {
