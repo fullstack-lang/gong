@@ -129,6 +129,14 @@
             "args": []
         },
         {
+            "name": "go run gong",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/go/cmd/gong",
+            "args": []
+        },
+        {
             "name": "go run test -marshallOnStartup=stage",
             "type": "go",
             "request": "launch",

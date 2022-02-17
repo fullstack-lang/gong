@@ -13,13 +13,17 @@
   - [2.2. Testing the generation of the code](#22-testing-the-generation-of-the-code)
   - [2.3. Reusable stacks](#23-reusable-stacks)
   - [2.4. Examples](#24-examples)
-- [3. Gong's Innovation](#3-gongs-innovation)
+- [3. Gong's Features](#3-gongs-features)
   - [3.1. Gong is a go sub langage for generating a full stack](#31-gong-is-a-go-sub-langage-for-generating-a-full-stack)
-  - [3.2. Front stage, back stage and repository programming model](#32-front-stage-back-stage-and-repository-programming-model)
-  - [3.3. UML Code documentation is in go](#33-uml-code-documentation-is-in-go)
-  - [3.4. Integrated Stack configuration management](#34-integrated-stack-configuration-management)
-  - [3.5. Persistance as go code for enabling fast refactoring](#35-persistance-as-go-code-for-enabling-fast-refactoring)
-  - [3.6. Further documentation](#36-further-documentation)
+  - [3.2. Back end SQL and go code from gong code](#32-back-end-sql-and-go-code-from-gong-code)
+  - [3.3. Controler go code from gong code](#33-controler-go-code-from-gong-code)
+  - [3.4. Front end angular code from gong code](#34-front-end-angular-code-from-gong-code)
+  - [3.5. Angular material code from gong code](#35-angular-material-code-from-gong-code)
+  - [3.6. Front stage, back stage and repository programming model](#36-front-stage-back-stage-and-repository-programming-model)
+  - [3.7. UML Code documentation as go code](#37-uml-code-documentation-as-go-code)
+  - [3.8. Integrated Stack configuration management](#38-integrated-stack-configuration-management)
+  - [3.9. Persistance as go code for enabling fast refactoring](#39-persistance-as-go-code-for-enabling-fast-refactoring)
+  - [3.10. Further documentation](#310-further-documentation)
 - [4. A "hello world" stack in 5 minutes](#4-a-hello-world-stack-in-5-minutes)
   - [4.1. Generating the code with the `gongc` command](#41-generating-the-code-with-the-gongc-command)
   - [4.2. Timing of the `gongc` command](#42-timing-of-the-gongc-command)
@@ -131,21 +135,54 @@ https://github.com/fullstack-lang/gongfly, an airplane simulation that reuses 4 
 
 https://github.com/fullstack-lang/gongproject, a project management application that reuses 3 stacks (gong, gongjointjs, gongdoc)
 
-# 3. Gong's Innovation
+# 3. Gong's Features
 
 
 ## 3.1. Gong is a go sub langage for generating a full stack
 
 *to be completed*
 
-## 3.2. Front stage, back stage and repository programming model 
+
+## 3.2. Back end SQL and go code from gong code
+
+The *gorm* framework is a go API for ORM (Object Realtionship Management). This means you do not need to code SQL to configure/migrate the database.
+
+gongc compiles the models (the `go/models` package) to generate the appropriate gorm code (in the `go/orm` package)
+
+## 3.3. Controler go code from gong code
+
+The *gin* framework is an API for programming the controllers that 
+implement the REST web service of the application.
+
+gongc compiles the models (the `go/models` package) to generate the appropriate gin code (in the `go/controllers` package)
+
+## 3.4. Front end angular code from gong code
+
+Angular framework is an API for programming front-end of the application.
+
+gongc compiles the models (the `go/models` package) to generate the appropriate angular code (in the `ng/projects/<name of the package>` angular workspace). This code provides an API to the front end code that
+follows the data models of the the `go/models` package.
+
+Each gongstruct/gongenum is compiled into an appropriate typescript code.
+
+## 3.5. Angular material code from gong code
+
+Angular Material is a set of front-end Angular components.
+
+gongc compiles the models (the `go/models` package) to generate the appropriate angular material code, in the `ng/projects/<name of the package>` angular workspace :
+
+- navigation tree between all gongstruct of the `go/models` package
+- table for each gongstruct of the `go/models` package
+- form for each gongstruct of the `go/models` package
+
+## 3.6. Front stage, back stage and repository programming model 
 
 *to be completed*
 
-## 3.3. UML Code documentation is in go 
+## 3.7. UML Code documentation as go code 
 
 *to be completed*
-## 3.4. Integrated Stack configuration management
+## 3.8. Integrated Stack configuration management
 
 The configuration of *both* back-end and front-end code of a stack is a single configuration item.
 
@@ -172,7 +209,7 @@ The third step is another go feature, the  `go mod vendor` command, that makes a
 
 The four step is to define your front-end dependency by using the `tsconfig.json` file and point it the to import path into the `vendor` directory (instead of using the installation by `npm install` of the imported front code module). you are therefore assured that your back-end code and front-end code belong to the same configuration. (see the https://github.com/fullstack-lang/gongproject/blob/master/ng/tsconfig.json for an example of tsconfig.json configuration).
 
-## 3.5. Persistance as go code for enabling fast refactoring
+## 3.9. Persistance as go code for enabling fast refactoring
 
 Gong's goal is to speed up development of full stack applications. Gong's goal is therefore to allow fast iterations of the database model and **content/database**.
 
@@ -191,7 +228,7 @@ With gong, data refactoring is automatic. Gong API provides a `Marshall()` funct
 
 when refactoring the code, the generated go code is refactored. Therefore, no need to manualy refactor the data.
 
-## 3.6. Further documentation
+## 3.10. Further documentation
 
 See [gong back-end API](./docs/gong-go-api.md) for API details.
 
