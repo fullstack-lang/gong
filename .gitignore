@@ -11,11 +11,11 @@ test2/__debug_bin.exe
 go/controllers/gongapi.yml
 test/test
 test2/test2
-gong
 test/go/controllers/testapi.yml
 test2/go/controllers/test2api.yml
 
-gong.exe
+go/cmd/gong/gong.exe
+go/cmd/gong/gong
 test2/test2.exe
 test/test.exe
 go/cmd/gongc/__debug_bin
