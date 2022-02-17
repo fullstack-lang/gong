@@ -14,6 +14,7 @@ import (
 	"github.com/gin-gonic/gin"
 
 	"github.com/fullstack-lang/gong/go/controllers"
+	"github.com/fullstack-lang/gong/go/models"
 	"github.com/fullstack-lang/gong/go/orm"
 
 	gong "github.com/fullstack-lang/gong"
@@ -46,7 +47,7 @@ func main() {
 	r.Use(cors.Default())
 
 	// setup GORM
-	db := orm.SetupModels(*logDBFlag, "./test.db")
+	db := orm.SetupModels(*logDBFlag, ":memory:")
 	dbDB, err := db.DB()
 
 	// since the stack can be a multi threaded application. It is important to set up
@@ -55,6 +56,12 @@ func main() {
 		panic("cannot access DB of db" + err.Error())
 	}
 	dbDB.SetMaxOpenConns(1)
+
+	// load package to analyse
+	modelPkg := &models.ModelPkg{}
+	models.Walk("../../models", modelPkg)
+	modelPkg.SerializeToStage()
+	models.Stage.Commit()
 
 	controllers.RegisterControllers(r)
 
