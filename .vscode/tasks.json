@@ -84,6 +84,9 @@
         {
             "label": "04 - go run gong",
             "type": "shell",
+            "options": {
+                "cwd": "./go/cmd/gong"
+            },
             "command": "go run main.go",
             "group": "build"
         },
