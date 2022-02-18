@@ -20,15 +20,31 @@ import (
 	"{{PkgPathRoot}}/models"
 	"{{PkgPathRoot}}/orm"
 
+	// gong stack for model analysis
+	gong_controllers "github.com/fullstack-lang/gong/go/controllers"
+	gong_models "github.com/fullstack-lang/gong/go/models"
+	gong_orm "github.com/fullstack-lang/gong/go/orm"
+	_ "github.com/fullstack-lang/gong/ng"
+
+	// for diagrams
+	gongdoc_controllers "github.com/fullstack-lang/gongdoc/go/controllers"
+	gongdoc_models "github.com/fullstack-lang/gongdoc/go/models"
+	gongdoc_orm "github.com/fullstack-lang/gongdoc/go/orm"
+	_ "github.com/fullstack-lang/gongdoc/ng"
+
 	{{pkgname}} "{{PkgPathAboveRoot}}"
 )
 
 var (
 	logDBFlag         = flag.Bool("logDB", false, "log mode for db")
 	logGINFlag        = flag.Bool("logGIN", false, "log mode for gin")
+
 	marshallOnStartup = flag.String("marshallOnStartup", "", "at startup, marshall staged data to a go file with the marshall name and '.go' (must be lowercased without spaces). If marshall arg is '', no marshalling")
 	unmarshall        = flag.String("unmarshall", "", "unmarshall data from marshall name and '.go' (must be lowercased without spaces), If unmarshall arg is '', no unmarshalling")
 	marshallOnCommit  = flag.String("marshallOnCommit", "", "on all commits, marshall staged data to a go file with the marshall name and '.go' (must be lowercased without spaces). If marshall arg is '', no marshalling")
+
+	diagrams = flag.Bool("diagrams", true, "parse/analysis go/models and go/diagrams (takes a few seconds)")
+
 )
 
 // InjectionGateway is the singloton that stores all functions
@@ -71,6 +87,24 @@ func main() {
 	// setup GORM
 	db := orm.SetupModels(*logDBFlag, "./test.db")
 	dbDB, err := db.DB()
+	
+	//
+	// gong and gongdoc databases do not need to be persisted.
+	// therefore, they are in memory
+	//
+	db_inMemory := gong_orm.SetupModels(*logDBFlag, ":memory:")
+
+	// since gongsim is a multi threaded application. It is important to set up
+	// only one open connexion at a time
+	dbDB_inMemory, err := db_inMemory.DB()
+	if err != nil {
+		panic("cannot access DB of db" + err.Error())
+	}
+	// it is mandatory to allow parallel access, otherwise, bizarre errors occurs
+	dbDB_inMemory.SetMaxOpenConns(1)
+
+	// add gongdocatabase
+	gongdoc_orm.AutoMigrate(db_inMemory)
 
 	// generate injection code from the stage
 	if *marshallOnStartup != "" {
@@ -117,7 +151,29 @@ func main() {
 	}
 	dbDB.SetMaxOpenConns(1)
 
+	// load package to analyse
+	modelPkg := &gong_models.ModelPkg{}
+	if *diagrams {
+		gong_models.Walk("../../models", modelPkg)
+		modelPkg.SerializeToStage()
+	}
+
+	// create the diagrams
+	// prepare the model views
+	pkgelt := new(gongdoc_models.Pkgelt)
+
+	// classdiagram can only be fully in memory when they are Unmarshalled
+	// for instance, the Name of diagrams or the Name of the Link
+	if *diagrams {
+		pkgelt.Unmarshall("../../diagrams")
+	}
+	pkgelt.SerializeToStage()
+
 	controllers.RegisterControllers(r)
+	gongdoc_controllers.RegisterControllers(r)
+	gong_controllers.RegisterControllers(r)
+	gongdoc_models.Stage.Commit()
+	gong_models.Stage.Commit()
 
 	// provide the static route for the angular pages
 	r.Use(static.Serve("/", EmbedFolder({{pkgname}}.NgDistNg, "ng/dist/ng")))
