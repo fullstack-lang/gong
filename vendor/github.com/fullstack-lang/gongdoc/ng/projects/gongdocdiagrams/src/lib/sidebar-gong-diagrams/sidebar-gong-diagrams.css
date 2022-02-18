@@ -1,0 +1,27 @@
+/*
+===================
+===== SIDEBAR =====
+===================
+*/
+
+.node-link:hover {
+    background-color: #F8F8F8;
+    cursor: pointer;
+}
+
+.node-link-icon {
+    font-size: 24px;
+}
+
+.node-link-icon:hover {
+    background-color: #F8F8F8;
+    cursor: pointer;
+}
+
+.cdk-drag-preview {
+    border: 1px solid grey;
+}
+
+.cdk-drag-placeholder {
+    opacity: .25;
+}
