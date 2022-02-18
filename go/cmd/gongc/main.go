@@ -800,6 +800,56 @@ func main() {
 	}
 	log.Printf("compilation over")
 
+	// go mod tidy to prepare for the compilation
+	if true {
+
+		cmd := exec.Command("go", "mod", "tidy")
+		cmd.Dir, _ = filepath.Abs(filepath.Join(*pkgPath, fmt.Sprintf("../cmd/%s", computePkgName())))
+		log.Printf("Running %s command in directory %s and waiting for it to finish...\n", cmd.Args, cmd.Dir)
+
+		// https://stackoverflow.com/questions/48253268/print-the-stdout-from-exec-command-in-real-time-in-go
+		var stdBuffer bytes.Buffer
+		mw := io.MultiWriter(os.Stdout, &stdBuffer)
+
+		cmd.Stdout = mw
+		cmd.Stderr = mw
+
+		log.Println(cmd.String())
+		log.Println(stdBuffer.String())
+
+		// Execute the command
+		if err := cmd.Run(); err != nil {
+			log.Panic(err)
+		}
+
+	}
+	log.Printf("compilation over")
+
+	// go mod vendor to get the ng code of dependant gong stacks
+	if true {
+
+		cmd := exec.Command("go", "mod", "vendor")
+		cmd.Dir, _ = filepath.Abs(filepath.Join(*pkgPath, fmt.Sprintf("../cmd/%s", computePkgName())))
+		log.Printf("Running %s command in directory %s and waiting for it to finish...\n", cmd.Args, cmd.Dir)
+
+		// https://stackoverflow.com/questions/48253268/print-the-stdout-from-exec-command-in-real-time-in-go
+		var stdBuffer bytes.Buffer
+		mw := io.MultiWriter(os.Stdout, &stdBuffer)
+
+		cmd.Stdout = mw
+		cmd.Stderr = mw
+
+		log.Println(cmd.String())
+		log.Println(stdBuffer.String())
+
+		// Execute the command
+		if err := cmd.Run(); err != nil {
+			log.Panic(err)
+		}
+
+	}
+	log.Printf("compilation over")
+
 	// run application
 	if *run {
 		cmd := exec.Command("go", "run", "main.go")
