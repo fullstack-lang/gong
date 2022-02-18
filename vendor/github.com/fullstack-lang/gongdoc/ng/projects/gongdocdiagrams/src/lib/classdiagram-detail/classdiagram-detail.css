@@ -1,0 +1,29 @@
+/*
+===================
+===== DETAILS =====
+===================
+*/
+
+.details {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}
+
+.details__title {
+    padding: 10px 0;
+    background: #ffffff;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+}
+
+.details__item {
+    padding: 2.5px 5px;
+}
+
+.details__save {
+    position: sticky;
+    bottom: 5px;
+    margin-top: 15px;
+}

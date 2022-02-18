@@ -13,6 +13,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/fullstack-lang/gong/go/models"
 	gong_models "github.com/fullstack-lang/gong/go/models"
 )
 
@@ -244,15 +245,22 @@ func main() {
 			log.Println(stdBuffer.String())
 
 			// Execute the command
+			start := time.Now()
 			if err := cmd.Run(); err != nil {
 				log.Panic(err)
 			}
+			log.Printf("ng new ng is over and took %s", time.Since(start))
 			ngNewWsPerformed = true
 
 			// add the necessary libraries to gong applications
 			{
 				{
-					cmd := exec.Command("ng", "add", "@angular/material", "--defaults=true", "--skip-confirmation")
+					start := time.Now()
+					//  --skip-confirmation is necessary when executing angular without user interaction
+					// otherwise, one meet the error
+					// "No terminal detected. '--skip-confirmation' can be used to bypass installation confirmation.
+					// Ensure package name is correct prior to '--skip-confirmation' option usage."
+					cmd := exec.Command("ng", "add", "@angular/material", "--skip-confirmation")
 					cmd.Dir = gong_models.NgWorkspacePath
 					log.Printf("Adding angular material\n")
 
@@ -270,9 +278,11 @@ func main() {
 					if err := cmd.Run(); err != nil {
 						log.Panic(err)
 					}
+					log.Printf("ng add is over and took %s", time.Since(start))
 				}
 
 				{
+					start := time.Now()
 					cmd := exec.Command("npm", "install", "--save",
 						"angular-split", "material-design-icons", "typeface-open-sans", "typeface-roboto", "@angular-material-components/datetime-picker@6.0.3")
 					cmd.Dir = gong_models.NgWorkspacePath
@@ -292,6 +302,7 @@ func main() {
 					if err := cmd.Run(); err != nil {
 						log.Panic(err)
 					}
+					log.Printf("npm install is over and took %s", time.Since(start))
 				}
 			}
 
@@ -329,6 +340,7 @@ func main() {
 
 	// if ng new was performed, modify the angular json file
 	// for some configuration stuff
+	// mostly
 	if ngNewWsPerformed {
 		angularJsonFile := filepath.Join(gong_models.NgWorkspacePath, "angular.json")
 
@@ -408,6 +420,7 @@ func main() {
 			log.Printf("library directory %s does not exist, hence gong is generating it with ng generate library command", directory)
 
 			// generate library project
+			start := time.Now()
 			cmd := exec.Command("ng", "generate", "library", gong_models.PkgName, "--defaults=true", "--skip-install=true")
 			cmd.Dir = gong_models.NgWorkspacePath
 			log.Printf("Creating a library %s in the angular workspace\n", gong_models.PkgName)
@@ -426,11 +439,15 @@ func main() {
 			if err := cmd.Run(); err != nil {
 				log.Panic(err)
 			}
+			log.Printf("ng generate library is over and took %s", time.Since(start))
 			{
 				// patch tsconfig file in order to have the path to the public-api of the
 				// generated library (instead of the path to "dist")
 				filename := filepath.Join(gong_models.NgWorkspacePath, "tsconfig.json")
-				InsertStringToFile(filename, "        \"projects/"+modelPkg.Name+"/src/public-api.ts\",", modelPkg.Name+"\": [")
+				models.InsertStringToFile(filename, "        \"projects/"+modelPkg.Name+"/src/public-api.ts\",", modelPkg.Name+"\": [")
+
+				models.InsertStringToFile(filename, models.TsConfigInsertForPaths, "\"paths\": {")
+
 			}
 		}
 	}
@@ -439,14 +456,14 @@ func main() {
 	{
 		if !*backendOnly {
 			log.Println("Removing all content of " + *matTargetPath)
-			RemoveContents(*matTargetPath)
+			models.RemoveContents(*matTargetPath)
 		}
 	}
 
 	// generates styles
 	{
-		directory, errForCreationOfStylesDir := filepath.Abs(*matTargetPath)
-		errForCreationOfStylesDir = os.MkdirAll(filepath.Join(directory, "styles"), os.ModePerm)
+		directory, _ := filepath.Abs(*matTargetPath)
+		errForCreationOfStylesDir := os.MkdirAll(filepath.Join(directory, "styles"), os.ModePerm)
 		if os.IsNotExist(errForCreationOfStylesDir) {
 			log.Println("creating directory : " + gong_models.OrmPkgGenPath)
 		}
@@ -485,6 +502,111 @@ func main() {
 	sourcePath, errd2 := filepath.Abs(*pkgPath)
 	if errd2 != nil {
 		log.Panic("Problem with source path " + errd2.Error())
+	}
+
+	gong_models.VerySimpleCodeGenerator(
+		&modelPkg,
+		strings.Title(gong_models.PkgName),
+		gong_models.PkgGoPath, filepath.Join(gong_models.NgWorkspacePath, "embed.go"),
+		gong_models.GoProjectsGo)
+
+	gong_models.VerySimpleCodeGenerator(
+		&modelPkg,
+		strings.Title(gong_models.PkgName),
+		gong_models.PkgGoPath, filepath.Join(gong_models.NgWorkspacePath, "../embed.go"),
+		gong_models.EmebedNgDistNg)
+	gong_models.CodeGeneratorModelGong(
+		&modelPkg,
+		gong_models.PkgName,
+		*pkgPath)
+
+	// generate files
+	gong_models.SimpleCodeGeneratorForGongStructWithNameField(
+		&modelPkg,
+		gong_models.PkgName,
+		gong_models.PkgGoPath,
+		filepath.Join(*pkgPath, "../orm/setup.go"),
+		gong_models.OrmFileSetupTemplate, gong_models.OrmSetupCumulSubTemplateCode)
+
+	gong_models.SimpleCodeGeneratorForGongStructWithNameField(
+		&modelPkg,
+		gong_models.PkgName,
+		gong_models.PkgGoPath,
+		filepath.Join(*pkgPath, "../orm/back_repo.go"),
+		gong_models.BackRepoTemplateCode, gong_models.BackRepoSubTemplate)
+
+	gong_models.SimpleCodeGeneratorForGongStructWithNameField(
+		&modelPkg,
+		gong_models.PkgName,
+		gong_models.PkgGoPath,
+		filepath.Join(*pkgPath, "../controllers/register_controllers.go"),
+		gong_models.ControllersRegisterTemplate, gong_models.ControllersRegistrationsSubTemplate)
+
+	gong_models.MultiCodeGeneratorBackRepo(
+		&modelPkg,
+		gong_models.PkgName,
+		gong_models.PkgGoPath,
+		gong_models.OrmPkgGenPath)
+
+	gong_models.MultiCodeGeneratorControllers(
+		&modelPkg,
+		gong_models.PkgName,
+		gong_models.PkgGoPath,
+		gong_models.ControllersPkgGenPath)
+
+	gong_models.VerySimpleCodeGenerator(
+		&modelPkg,
+		gong_models.PkgName,
+		gong_models.PkgGoPath,
+		filepath.Join(*pkgPath, "../docs.go"),
+		gong_models.RootFileDocsTemplate)
+
+	// go mod vendor to get the ng code of dependant gong stacks
+	if true {
+		start := time.Now()
+		cmd := exec.Command("go", "mod", "tidy")
+		cmd.Dir, _ = filepath.Abs(filepath.Join(*pkgPath, fmt.Sprintf("../cmd/%s", computePkgName())))
+		log.Printf("Running %s command in directory %s and waiting for it to finish...\n", cmd.Args, cmd.Dir)
+
+		// https://stackoverflow.com/questions/48253268/print-the-stdout-from-exec-command-in-real-time-in-go
+		var stdBuffer bytes.Buffer
+		mw := io.MultiWriter(os.Stdout, &stdBuffer)
+
+		cmd.Stdout = mw
+		cmd.Stderr = mw
+
+		log.Println(cmd.String())
+		log.Println(stdBuffer.String())
+
+		// Execute the command
+		if err := cmd.Run(); err != nil {
+			log.Panic(err)
+		}
+		log.Printf("go mod tidy is over and took %s", time.Since(start))
+	}
+
+	// go mod vendor to get the ng code of dependant gong stacks
+	if true {
+		start := time.Now()
+		cmd := exec.Command("go", "mod", "vendor")
+		cmd.Dir, _ = filepath.Abs(filepath.Join(*pkgPath, fmt.Sprintf("../cmd/%s", computePkgName())))
+		log.Printf("Running %s command in directory %s and waiting for it to finish...\n", cmd.Args, cmd.Dir)
+
+		// https://stackoverflow.com/questions/48253268/print-the-stdout-from-exec-command-in-real-time-in-go
+		var stdBuffer bytes.Buffer
+		mw := io.MultiWriter(os.Stdout, &stdBuffer)
+
+		cmd.Stdout = mw
+		cmd.Stderr = mw
+
+		log.Println(cmd.String())
+		log.Println(stdBuffer.String())
+
+		// Execute the command
+		if err := cmd.Run(); err != nil {
+			log.Panic(err)
+		}
+		log.Printf("go mod vendor is over and took %s", time.Since(start))
 	}
 
 	gong_models.MultiCodeGeneratorNgDetail(
@@ -545,52 +667,6 @@ func main() {
 		gong_models.MatTargetPath,
 		gong_models.PkgGoPath)
 
-	gong_models.CodeGeneratorModelGong(
-		&modelPkg,
-		gong_models.PkgName,
-		*pkgPath)
-
-	// generate files
-	gong_models.SimpleCodeGeneratorForGongStructWithNameField(
-		&modelPkg,
-		gong_models.PkgName,
-		gong_models.PkgGoPath,
-		filepath.Join(*pkgPath, "../orm/setup.go"),
-		gong_models.OrmFileSetupTemplate, gong_models.OrmSetupCumulSubTemplateCode)
-
-	gong_models.SimpleCodeGeneratorForGongStructWithNameField(
-		&modelPkg,
-		gong_models.PkgName,
-		gong_models.PkgGoPath,
-		filepath.Join(*pkgPath, "../orm/back_repo.go"),
-		gong_models.BackRepoTemplateCode, gong_models.BackRepoSubTemplate)
-
-	gong_models.SimpleCodeGeneratorForGongStructWithNameField(
-		&modelPkg,
-		gong_models.PkgName,
-		gong_models.PkgGoPath,
-		filepath.Join(*pkgPath, "../controllers/register_controllers.go"),
-		gong_models.ControllersRegisterTemplate, gong_models.ControllersRegistrationsSubTemplate)
-
-	gong_models.MultiCodeGeneratorBackRepo(
-		&modelPkg,
-		gong_models.PkgName,
-		gong_models.PkgGoPath,
-		gong_models.OrmPkgGenPath)
-
-	gong_models.MultiCodeGeneratorControllers(
-		&modelPkg,
-		gong_models.PkgName,
-		gong_models.PkgGoPath,
-		gong_models.ControllersPkgGenPath)
-
-	gong_models.VerySimpleCodeGenerator(
-		&modelPkg,
-		gong_models.PkgName,
-		gong_models.PkgGoPath,
-		filepath.Join(*pkgPath, "../docs.go"),
-		gong_models.RootFileDocsTemplate)
-
 	gong_models.CodeGeneratorNgFrontRepo(
 		&modelPkg,
 		gong_models.PkgName,
@@ -633,18 +709,6 @@ func main() {
 		gong_models.PkgGoPath, filepath.Join(gong_models.MatTargetPath, "app-routing.module.ts"),
 		gong_models.NgRoutingTemplate, gong_models.NgRoutingSubTemplateCode)
 
-	gong_models.VerySimpleCodeGenerator(
-		&modelPkg,
-		strings.Title(gong_models.PkgName),
-		gong_models.PkgGoPath, filepath.Join(gong_models.NgWorkspacePath, "embed.go"),
-		gong_models.GoProjectsGo)
-
-	gong_models.VerySimpleCodeGenerator(
-		&modelPkg,
-		strings.Title(gong_models.PkgName),
-		gong_models.PkgGoPath, filepath.Join(gong_models.NgWorkspacePath, "../embed.go"),
-		gong_models.EmebedNgDistNg)
-
 	gong_models.SimpleCodeGeneratorForGongStructWithNameField(
 		&modelPkg,
 		gong_models.PkgName,
@@ -684,7 +748,7 @@ func main() {
 
 	// npm install
 	if true {
-
+		start := time.Now()
 		cmd := exec.Command("npm", "i")
 		cmd.Dir, _ = filepath.Abs(*ngWorkspacePath)
 		log.Printf("Running %s command in directory %s and waiting for it to finish...\n", cmd.Args, cmd.Dir)
@@ -703,12 +767,12 @@ func main() {
 		if err := cmd.Run(); err != nil {
 			log.Panic(err)
 		}
-
+		log.Printf("npm i is over and took %s", time.Since(start))
 	}
 
 	// ng build
 	if true {
-
+		start := time.Now()
 		cmd := exec.Command("ng", "build")
 		cmd.Dir, _ = filepath.Abs(*ngWorkspacePath)
 		log.Printf("Running %s command in directory %s and waiting for it to finish...\n", cmd.Args, cmd.Dir)
@@ -727,11 +791,12 @@ func main() {
 		if err := cmd.Run(); err != nil {
 			log.Panic(err)
 		}
+		log.Printf("ng build is over and took %s", time.Since(start))
 	}
 
 	// go get
 	if true {
-
+		start := time.Now()
 		cmd := exec.Command("go", "get")
 		cmd.Dir, _ = filepath.Abs(filepath.Join(*pkgPath, fmt.Sprintf("../../go/cmd/%s", computePkgName())))
 		log.Printf("Running %s command in directory %s and waiting for it to finish...\n", cmd.Args, cmd.Dir)
@@ -750,10 +815,12 @@ func main() {
 		if err := cmd.Run(); err != nil {
 			log.Panic(err)
 		}
+		log.Printf("go get over and took %s", time.Since(start))
 	}
 
 	// go get isatty
 	if true {
+		start := time.Now()
 		// path gin since isatty fails if v0.0.12 (patch version 0.0.14 is OK)
 		cmd := exec.Command("go", "get", "-d", "github.com/mattn/go-isatty")
 		cmd.Dir, _ = filepath.Abs(filepath.Join(*pkgPath, "../.."))
@@ -773,11 +840,12 @@ func main() {
 		if err := cmd.Run(); err != nil {
 			log.Panic(err)
 		}
+		log.Printf("go get -d github.com/mattn/go-isatty over and took %s", time.Since(start))
 	}
 
 	// go build
 	if true {
-
+		start := time.Now()
 		cmd := exec.Command("go", "build")
 		cmd.Dir, _ = filepath.Abs(filepath.Join(*pkgPath, fmt.Sprintf("../cmd/%s", computePkgName())))
 		log.Printf("Running %s command in directory %s and waiting for it to finish...\n", cmd.Args, cmd.Dir)
@@ -796,59 +864,8 @@ func main() {
 		if err := cmd.Run(); err != nil {
 			log.Panic(err)
 		}
-
+		log.Printf("go build over and took %s", time.Since(start))
 	}
-	log.Printf("compilation over")
-
-	// go mod tidy to prepare for the compilation
-	if true {
-
-		cmd := exec.Command("go", "mod", "tidy")
-		cmd.Dir, _ = filepath.Abs(filepath.Join(*pkgPath, fmt.Sprintf("../cmd/%s", computePkgName())))
-		log.Printf("Running %s command in directory %s and waiting for it to finish...\n", cmd.Args, cmd.Dir)
-
-		// https://stackoverflow.com/questions/48253268/print-the-stdout-from-exec-command-in-real-time-in-go
-		var stdBuffer bytes.Buffer
-		mw := io.MultiWriter(os.Stdout, &stdBuffer)
-
-		cmd.Stdout = mw
-		cmd.Stderr = mw
-
-		log.Println(cmd.String())
-		log.Println(stdBuffer.String())
-
-		// Execute the command
-		if err := cmd.Run(); err != nil {
-			log.Panic(err)
-		}
-
-	}
-	log.Printf("compilation over")
-
-	// go mod vendor to get the ng code of dependant gong stacks
-	if true {
-
-		cmd := exec.Command("go", "mod", "vendor")
-		cmd.Dir, _ = filepath.Abs(filepath.Join(*pkgPath, fmt.Sprintf("../cmd/%s", computePkgName())))
-		log.Printf("Running %s command in directory %s and waiting for it to finish...\n", cmd.Args, cmd.Dir)
-
-		// https://stackoverflow.com/questions/48253268/print-the-stdout-from-exec-command-in-real-time-in-go
-		var stdBuffer bytes.Buffer
-		mw := io.MultiWriter(os.Stdout, &stdBuffer)
-
-		cmd.Stdout = mw
-		cmd.Stderr = mw
-
-		log.Println(cmd.String())
-		log.Println(stdBuffer.String())
-
-		// Execute the command
-		if err := cmd.Run(); err != nil {
-			log.Panic(err)
-		}
-
-	}
-	log.Printf("compilation over")
 
 	// run application
 	if *run {

@@ -1,0 +1,270 @@
+# github.com/ByteArena/poly2tri-go v0.0.0-20170716161910-d102ad91854f
+## explicit
+github.com/ByteArena/poly2tri-go
+# github.com/adrg/strutil v0.2.3
+## explicit; go 1.14
+github.com/adrg/strutil
+github.com/adrg/strutil/internal/util
+github.com/adrg/strutil/metrics
+# github.com/adrg/sysfont v0.1.2
+## explicit; go 1.14
+github.com/adrg/sysfont
+# github.com/adrg/xdg v0.3.4
+## explicit; go 1.14
+github.com/adrg/xdg
+# github.com/benoitkugler/textlayout v0.0.1
+## explicit; go 1.16
+github.com/benoitkugler/textlayout/fonts
+github.com/benoitkugler/textlayout/fonts/binaryreader
+github.com/benoitkugler/textlayout/fonts/glyphsnames
+github.com/benoitkugler/textlayout/fonts/psinterpreter
+github.com/benoitkugler/textlayout/fonts/simpleencodings
+github.com/benoitkugler/textlayout/fonts/truetype
+github.com/benoitkugler/textlayout/fonts/type1C
+github.com/benoitkugler/textlayout/fribidi
+github.com/benoitkugler/textlayout/graphite
+github.com/benoitkugler/textlayout/harfbuzz
+github.com/benoitkugler/textlayout/language
+github.com/benoitkugler/textlayout/unicodedata
+# github.com/dsnet/compress v0.0.1
+## explicit; go 1.9
+github.com/dsnet/compress/brotli
+github.com/dsnet/compress/internal
+github.com/dsnet/compress/internal/errors
+# github.com/frankban/quicktest v1.13.1
+## explicit; go 1.13
+github.com/frankban/quicktest
+# github.com/fullstack-lang/gongdoc v0.0.0-20220218011839-ad828d9f0878
+## explicit; go 1.17
+github.com/fullstack-lang/gongdoc/go/controllers
+github.com/fullstack-lang/gongdoc/go/models
+github.com/fullstack-lang/gongdoc/go/orm
+github.com/fullstack-lang/gongdoc/go/static
+github.com/fullstack-lang/gongdoc/go/walk
+github.com/fullstack-lang/gongdoc/ng
+# github.com/gin-contrib/cors v1.3.1
+## explicit; go 1.13
+github.com/gin-contrib/cors
+# github.com/gin-contrib/sse v0.1.0
+## explicit; go 1.12
+github.com/gin-contrib/sse
+# github.com/gin-contrib/static v0.0.1
+## explicit; go 1.15
+github.com/gin-contrib/static
+# github.com/gin-gonic/gin v1.7.4
+## explicit; go 1.13
+github.com/gin-gonic/gin
+github.com/gin-gonic/gin/binding
+github.com/gin-gonic/gin/internal/bytesconv
+github.com/gin-gonic/gin/internal/json
+github.com/gin-gonic/gin/render
+# github.com/go-latex/latex v0.0.0-20210823091927-c0d11ff05a81
+## explicit; go 1.16
+github.com/go-latex/latex
+github.com/go-latex/latex/ast
+github.com/go-latex/latex/drawtex
+github.com/go-latex/latex/font
+github.com/go-latex/latex/font/ttf
+github.com/go-latex/latex/internal/tex2unicode
+github.com/go-latex/latex/mtex
+github.com/go-latex/latex/mtex/symbols
+github.com/go-latex/latex/tex
+github.com/go-latex/latex/token
+# github.com/go-playground/locales v0.14.0
+## explicit; go 1.13
+github.com/go-playground/locales
+github.com/go-playground/locales/currency
+# github.com/go-playground/universal-translator v0.18.0
+## explicit; go 1.13
+github.com/go-playground/universal-translator
+# github.com/go-playground/validator/v10 v10.9.0
+## explicit; go 1.13
+github.com/go-playground/validator/v10
+# github.com/golang/freetype v0.0.0-20170609003504-e2365dfdc4a0
+## explicit
+github.com/golang/freetype/raster
+github.com/golang/freetype/truetype
+# github.com/golang/protobuf v1.5.2
+## explicit; go 1.9
+github.com/golang/protobuf/proto
+# github.com/google/btree v1.0.1
+## explicit; go 1.12
+github.com/google/btree
+# github.com/google/go-cmp v0.5.6
+## explicit; go 1.8
+github.com/google/go-cmp/cmp
+github.com/google/go-cmp/cmp/cmpopts
+github.com/google/go-cmp/cmp/internal/diff
+github.com/google/go-cmp/cmp/internal/flags
+github.com/google/go-cmp/cmp/internal/function
+github.com/google/go-cmp/cmp/internal/value
+# github.com/jinzhu/inflection v1.0.0
+## explicit
+github.com/jinzhu/inflection
+# github.com/jinzhu/now v1.1.2
+## explicit; go 1.12
+github.com/jinzhu/now
+# github.com/json-iterator/go v1.1.12
+## explicit; go 1.12
+github.com/json-iterator/go
+# github.com/kr/pretty v0.3.0
+## explicit; go 1.12
+github.com/kr/pretty
+# github.com/kr/text v0.2.0
+## explicit
+github.com/kr/text
+# github.com/leodido/go-urn v1.2.1
+## explicit; go 1.13
+github.com/leodido/go-urn
+# github.com/mattn/go-isatty v0.0.14
+## explicit; go 1.12
+github.com/mattn/go-isatty
+# github.com/mattn/go-sqlite3 v1.14.8
+## explicit; go 1.12
+github.com/mattn/go-sqlite3
+# github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd
+## explicit
+github.com/modern-go/concurrent
+# github.com/modern-go/reflect2 v1.0.2
+## explicit; go 1.12
+github.com/modern-go/reflect2
+# github.com/peterbourgon/diskv v2.0.1+incompatible
+## explicit
+github.com/peterbourgon/diskv
+# github.com/rogpeppe/fastuuid v1.2.0
+## explicit; go 1.12
+github.com/rogpeppe/fastuuid
+# github.com/rogpeppe/go-internal v1.8.0
+## explicit; go 1.11
+github.com/rogpeppe/go-internal/fmtsort
+# github.com/shabbyrobe/xmlwriter v0.0.0-20210324110748-440e98cf0c87
+## explicit; go 1.12
+github.com/shabbyrobe/xmlwriter
+# github.com/tdewolff/canvas v0.0.0-20210926234438-920f34634583
+## explicit; go 1.13
+github.com/tdewolff/canvas
+github.com/tdewolff/canvas/font
+github.com/tdewolff/canvas/renderers/rasterizer
+github.com/tdewolff/canvas/renderers/svg
+github.com/tdewolff/canvas/text
+# github.com/tdewolff/minify/v2 v2.9.22
+## explicit; go 1.13
+github.com/tdewolff/minify/v2
+# github.com/tdewolff/parse/v2 v2.5.22
+## explicit; go 1.13
+github.com/tdewolff/parse/v2
+github.com/tdewolff/parse/v2/buffer
+github.com/tdewolff/parse/v2/strconv
+github.com/tdewolff/parse/v2/xml
+# github.com/tealeg/xlsx/v3 v3.2.3
+## explicit; go 1.14
+github.com/tealeg/xlsx/v3
+# github.com/ugorji/go/codec v1.2.6
+## explicit; go 1.11
+github.com/ugorji/go/codec
+# golang.org/x/crypto v0.0.0-20210921155107-089bfa567519
+## explicit; go 1.17
+golang.org/x/crypto/sha3
+# golang.org/x/image v0.0.0-20210628002857-a66eb6448b8d
+## explicit; go 1.12
+golang.org/x/image/bmp
+golang.org/x/image/ccitt
+golang.org/x/image/draw
+golang.org/x/image/font
+golang.org/x/image/font/gofont/gobold
+golang.org/x/image/font/gofont/gobolditalic
+golang.org/x/image/font/gofont/goitalic
+golang.org/x/image/font/gofont/goregular
+golang.org/x/image/font/opentype
+golang.org/x/image/font/sfnt
+golang.org/x/image/math/f64
+golang.org/x/image/math/fixed
+golang.org/x/image/tiff
+golang.org/x/image/tiff/lzw
+golang.org/x/image/vector
+# golang.org/x/mod v0.5.1
+## explicit; go 1.17
+golang.org/x/mod/semver
+# golang.org/x/sys v0.0.0-20211015200801-69063c4bb744
+## explicit; go 1.17
+golang.org/x/sys/cpu
+golang.org/x/sys/execabs
+golang.org/x/sys/internal/unsafeheader
+golang.org/x/sys/unix
+# golang.org/x/text v0.3.7
+## explicit; go 1.17
+golang.org/x/text/encoding
+golang.org/x/text/encoding/charmap
+golang.org/x/text/encoding/internal
+golang.org/x/text/encoding/internal/identifier
+golang.org/x/text/encoding/unicode
+golang.org/x/text/internal/language
+golang.org/x/text/internal/language/compact
+golang.org/x/text/internal/tag
+golang.org/x/text/internal/utf8internal
+golang.org/x/text/language
+golang.org/x/text/runes
+golang.org/x/text/transform
+golang.org/x/text/unicode/bidi
+# golang.org/x/tools v0.1.7
+## explicit; go 1.17
+golang.org/x/tools/go/gcexportdata
+golang.org/x/tools/go/internal/gcimporter
+golang.org/x/tools/go/internal/packagesdriver
+golang.org/x/tools/go/packages
+golang.org/x/tools/internal/event
+golang.org/x/tools/internal/event/core
+golang.org/x/tools/internal/event/keys
+golang.org/x/tools/internal/event/label
+golang.org/x/tools/internal/gocommand
+golang.org/x/tools/internal/packagesinternal
+golang.org/x/tools/internal/typeparams
+golang.org/x/tools/internal/typesinternal
+# golang.org/x/xerrors v0.0.0-20200804184101-5ec99f83aff1
+## explicit; go 1.11
+golang.org/x/xerrors
+golang.org/x/xerrors/internal
+# google.golang.org/protobuf v1.27.1
+## explicit; go 1.9
+google.golang.org/protobuf/encoding/prototext
+google.golang.org/protobuf/encoding/protowire
+google.golang.org/protobuf/internal/descfmt
+google.golang.org/protobuf/internal/descopts
+google.golang.org/protobuf/internal/detrand
+google.golang.org/protobuf/internal/encoding/defval
+google.golang.org/protobuf/internal/encoding/messageset
+google.golang.org/protobuf/internal/encoding/tag
+google.golang.org/protobuf/internal/encoding/text
+google.golang.org/protobuf/internal/errors
+google.golang.org/protobuf/internal/filedesc
+google.golang.org/protobuf/internal/filetype
+google.golang.org/protobuf/internal/flags
+google.golang.org/protobuf/internal/genid
+google.golang.org/protobuf/internal/impl
+google.golang.org/protobuf/internal/order
+google.golang.org/protobuf/internal/pragma
+google.golang.org/protobuf/internal/set
+google.golang.org/protobuf/internal/strs
+google.golang.org/protobuf/internal/version
+google.golang.org/protobuf/proto
+google.golang.org/protobuf/reflect/protodesc
+google.golang.org/protobuf/reflect/protoreflect
+google.golang.org/protobuf/reflect/protoregistry
+google.golang.org/protobuf/runtime/protoiface
+google.golang.org/protobuf/runtime/protoimpl
+google.golang.org/protobuf/types/descriptorpb
+# gopkg.in/yaml.v2 v2.4.0
+## explicit; go 1.15
+gopkg.in/yaml.v2
+# gorm.io/driver/sqlite v1.1.6
+## explicit; go 1.14
+gorm.io/driver/sqlite
+# gorm.io/gorm v1.21.16
+## explicit; go 1.14
+gorm.io/gorm
+gorm.io/gorm/callbacks
+gorm.io/gorm/clause
+gorm.io/gorm/logger
+gorm.io/gorm/migrator
+gorm.io/gorm/schema
+gorm.io/gorm/utils
