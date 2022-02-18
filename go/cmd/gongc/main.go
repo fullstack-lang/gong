@@ -13,7 +13,6 @@ import (
 	"strings"
 	"time"
 
-	"github.com/fullstack-lang/gong/go/models"
 	gong_models "github.com/fullstack-lang/gong/go/models"
 )
 
@@ -444,11 +443,17 @@ func main() {
 				// patch tsconfig file in order to have the path to the public-api of the
 				// generated library (instead of the path to "dist")
 				filename := filepath.Join(gong_models.NgWorkspacePath, "tsconfig.json")
-				models.InsertStringToFile(filename, "        \"projects/"+modelPkg.Name+"/src/public-api.ts\",", modelPkg.Name+"\": [")
+				gong_models.InsertStringToFile(filename, "        \"projects/"+modelPkg.Name+"/src/public-api.ts\",", modelPkg.Name+"\": [")
 
-				models.InsertStringToFile(filename, models.TsConfigInsertForPaths, "\"paths\": {")
+				gong_models.InsertStringToFile(filename, gong_models.TsConfigInsertForPaths, "\"paths\": {")
 
 			}
+			{
+				// patch styles.css file in order have imports of css stuff and work offline
+				filename := filepath.Join(gong_models.NgWorkspacePath, "src", "styles.css")
+				gong_models.InsertStringToFile(filename, gong_models.StylesCssInsert, "/* You can add global styles to this file, and also import other style files */")
+			}
+
 		}
 	}
 
@@ -456,7 +461,7 @@ func main() {
 	{
 		if !*backendOnly {
 			log.Println("Removing all content of " + *matTargetPath)
-			models.RemoveContents(*matTargetPath)
+			gong_models.RemoveContents(*matTargetPath)
 		}
 	}
 
