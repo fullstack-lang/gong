@@ -1,6 +1,9 @@
-package models
+import { BrowserModule } from '@angular/platform-browser';
+import { NgModule } from '@angular/core';
 
-const AppModuleImport = `
+import { AppComponent } from './app.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 
 // for angular material
 import { MatSliderModule } from '@angular/material/slider';
@@ -28,15 +31,29 @@ import { GongdocModule } from 'gongdoc'
 import { GongdocdiagramsModule } from 'gongdocdiagrams'
 
 import { GongModule } from 'gong'
-`
-const AppModuleImport2 = `
+
+
+import { HelloworldModule } from 'helloworld'
+
+// mandatory
+import { HttpClientModule } from '@angular/common/http';
+
+@NgModule({
+    declarations: [
+        AppComponent
+    ],
+    imports: [
+        BrowserModule,
+        BrowserAnimationsModule,
+
+        HttpClientModule,
+
 
     MatSliderModule,
     MatSelectModule,
     MatFormFieldModule,
     MatInputModule,
     MatDatepickerModule,
-    MatListModule,
     MatTableModule,
     MatCheckboxModule,
     MatButtonModule,
@@ -57,4 +74,10 @@ const AppModuleImport2 = `
     GongdocModule,
     GongdocdiagramsModule,
 
-`
+
+        HelloworldModule
+    ],
+    providers: [],
+    bootstrap: [AppComponent]
+})
+export class AppModule { }
