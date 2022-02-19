@@ -303,6 +303,29 @@ func main() {
 					}
 					log.Printf("npm install is over and took %s", time.Since(start))
 				}
+				{
+					start := time.Now()
+					cmd := exec.Command("npm", "install", "--save",
+						"@types/backbone", "@types/jointjs", "@types/jquery", "@types/lodash", "@types/node", "@types/leaflet", "backbone", "codelyzer", "install", "jointjs", "jquery", "lodash")
+					cmd.Dir = gong_models.NgWorkspacePath
+					log.Printf("Installing some packages\n")
+
+					// https://stackoverflow.com/questions/48253268/print-the-stdout-from-exec-command-in-real-time-in-go
+					var stdBuffer bytes.Buffer
+					mw := io.MultiWriter(os.Stdout, &stdBuffer)
+
+					cmd.Stdout = mw
+					cmd.Stderr = mw
+
+					log.Println(cmd.String())
+					log.Println(stdBuffer.String())
+
+					// Execute the command
+					if err := cmd.Run(); err != nil {
+						log.Panic(err)
+					}
+					log.Printf("npm install is over and took %s", time.Since(start))
+				}
 			}
 
 			// generate default app.component.ts, app.component.html and app.module.ts
@@ -398,62 +421,96 @@ func main() {
 			log.Fatal(errWrite)
 		}
 
-	}
-
-	// check existance of generated angular library. If absent, use "ng generate libray <library>"
-	// and generate default app application
-	{
-		if *matTargetPath == COMPUTED_FROM_PKG_PATH {
-			*matTargetPath = filepath.Join(*pkgPath, fmt.Sprintf("../../ng/projects/%s/src/lib", gong_models.PkgName))
-		}
-
-		directory, err := filepath.Abs(*matTargetPath)
-		gong_models.MatTargetPath = directory
-		if err != nil {
-			log.Panic("Problem with frontend target path " + err.Error())
-		}
-		_, errStat := os.Stat(gong_models.MatTargetPath)
-		log.Println("module target abs path " + gong_models.MatTargetPath)
-
-		if os.IsNotExist(errStat) {
-			log.Printf("library directory %s does not exist, hence gong is generating it with ng generate library command", directory)
-
-			// generate library project
-			start := time.Now()
-			cmd := exec.Command("ng", "generate", "library", gong_models.PkgName, "--defaults=true", "--skip-install=true")
-			cmd.Dir = gong_models.NgWorkspacePath
-			log.Printf("Creating a library %s in the angular workspace\n", gong_models.PkgName)
-
-			// https://stackoverflow.com/questions/48253268/print-the-stdout-from-exec-command-in-real-time-in-go
-			var stdBuffer bytes.Buffer
-			mw := io.MultiWriter(os.Stdout, &stdBuffer)
-
-			cmd.Stdout = mw
-			cmd.Stderr = mw
-
-			log.Println(cmd.String())
-			log.Println(stdBuffer.String())
-
-			// Execute the command
-			if err := cmd.Run(); err != nil {
-				log.Panic(err)
-			}
-			log.Printf("ng generate library is over and took %s", time.Since(start))
-			{
-				// patch tsconfig file in order to have the path to the public-api of the
-				// generated library (instead of the path to "dist")
-				filename := filepath.Join(gong_models.NgWorkspacePath, "tsconfig.json")
-				gong_models.InsertStringToFile(filename, "        \"projects/"+modelPkg.Name+"/src/public-api.ts\",", modelPkg.Name+"\": [")
-
-				gong_models.InsertStringToFile(filename, gong_models.TsConfigInsertForPaths, "\"paths\": {")
-
-			}
-			{
-				// patch styles.css file in order have imports of css stuff and work offline
-				filename := filepath.Join(gong_models.NgWorkspacePath, "src", "styles.css")
-				gong_models.InsertStringToFile(filename, gong_models.StylesCssInsert, "/* You can add global styles to this file, and also import other style files */")
+		// check existance of generated angular library. If absent, use "ng generate libray <library>"
+		// and generate default app application
+		{
+			if *matTargetPath == COMPUTED_FROM_PKG_PATH {
+				*matTargetPath = filepath.Join(*pkgPath, fmt.Sprintf("../../ng/projects/%s/src/lib", gong_models.PkgName))
 			}
 
+			directory, err := filepath.Abs(*matTargetPath)
+			gong_models.MatTargetPath = directory
+			if err != nil {
+				log.Panic("Problem with frontend target path " + err.Error())
+			}
+			_, errStat := os.Stat(gong_models.MatTargetPath)
+			log.Println("module target abs path " + gong_models.MatTargetPath)
+
+			if os.IsNotExist(errStat) {
+				log.Printf("library directory %s does not exist, hence gong is generating it with ng generate library command", directory)
+
+				// generate library project
+				start := time.Now()
+				cmd := exec.Command("ng", "generate", "library", gong_models.PkgName, "--defaults=true", "--skip-install=true")
+				cmd.Dir = gong_models.NgWorkspacePath
+				log.Printf("Creating a library %s in the angular workspace\n", gong_models.PkgName)
+
+				// https://stackoverflow.com/questions/48253268/print-the-stdout-from-exec-command-in-real-time-in-go
+				var stdBuffer bytes.Buffer
+				mw := io.MultiWriter(os.Stdout, &stdBuffer)
+
+				cmd.Stdout = mw
+				cmd.Stderr = mw
+
+				log.Println(cmd.String())
+				log.Println(stdBuffer.String())
+
+				// Execute the command
+				if err := cmd.Run(); err != nil {
+					log.Panic(err)
+				}
+				log.Printf("ng generate library is over and took %s", time.Since(start))
+				{
+					// patch tsconfig file in order to have the path to the public-api of the
+					// generated library (instead of the path to "dist")
+					filename := filepath.Join(gong_models.NgWorkspacePath, "tsconfig.json")
+					gong_models.InsertStringToFile(filename, "        \"projects/"+modelPkg.Name+"/src/public-api.ts\",", modelPkg.Name+"\": [")
+
+					gong_models.InsertStringToFile(filename, gong_models.TsConfigInsertForPaths, "\"paths\": {")
+
+				}
+				{
+					// patch styles.css file in order have imports of css stuff and work offline
+					filename := filepath.Join(gong_models.NgWorkspacePath, "src", "styles.css")
+					gong_models.InsertStringToFile(filename, gong_models.StylesCssInsert, "/* You can add global styles to this file, and also import other style files */")
+				}
+				{
+					// patch app.module.ts file in order have imports of css stuff and work offline
+					filename := filepath.Join(gong_models.NgWorkspacePath, "src", "app", "app.module.ts")
+					gong_models.InsertStringToFile(filename,
+						gong_models.AppModuleImport,
+						"import { BrowserAnimationsModule } from '@angular/platform-browser/animations';")
+
+					gong_models.InsertStringToFile(filename,
+						gong_models.AppModuleImport2,
+						"        HttpClientModule,")
+				}
+
+			}
+
+			// npm install
+			if true {
+				start := time.Now()
+				cmd := exec.Command("npm", "i")
+				cmd.Dir, _ = filepath.Abs(*ngWorkspacePath)
+				log.Printf("Running %s command in directory %s and waiting for it to finish...\n", cmd.Args, cmd.Dir)
+
+				// https://stackoverflow.com/questions/48253268/print-the-stdout-from-exec-command-in-real-time-in-go
+				var stdBuffer bytes.Buffer
+				mw := io.MultiWriter(os.Stdout, &stdBuffer)
+
+				cmd.Stdout = mw
+				cmd.Stderr = mw
+
+				log.Println(cmd.String())
+				log.Println(stdBuffer.String())
+
+				// Execute the command
+				if err := cmd.Run(); err != nil {
+					log.Panic(err)
+				}
+				log.Printf("npm i is over and took %s", time.Since(start))
+			}
 		}
 	}
 
@@ -749,30 +806,6 @@ func main() {
 
 	if *backendOnly {
 		return
-	}
-
-	// npm install
-	if true {
-		start := time.Now()
-		cmd := exec.Command("npm", "i")
-		cmd.Dir, _ = filepath.Abs(*ngWorkspacePath)
-		log.Printf("Running %s command in directory %s and waiting for it to finish...\n", cmd.Args, cmd.Dir)
-
-		// https://stackoverflow.com/questions/48253268/print-the-stdout-from-exec-command-in-real-time-in-go
-		var stdBuffer bytes.Buffer
-		mw := io.MultiWriter(os.Stdout, &stdBuffer)
-
-		cmd.Stdout = mw
-		cmd.Stderr = mw
-
-		log.Println(cmd.String())
-		log.Println(stdBuffer.String())
-
-		// Execute the command
-		if err := cmd.Run(); err != nil {
-			log.Panic(err)
-		}
-		log.Printf("npm i is over and took %s", time.Since(start))
 	}
 
 	// ng build
