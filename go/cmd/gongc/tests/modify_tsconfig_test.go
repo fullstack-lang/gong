@@ -1,70 +1,14 @@
 package tests
 
 import (
+	"io"
+	"os"
 	"path/filepath"
 
 	"testing"
 
 	"github.com/fullstack-lang/gong/go/models"
 )
-
-const insert = `
-      // 
-      // https://angular.io/guide/creating-libraries#use-typescript-path-mapping-for-peer-dependencies
-      //
-      // Angular libraries should list any @angular/* 
-      // dependencies the library depends on as peer dependencies. This ensures that when modules ask for Angular, 
-      // they all get the exact same module. If a library lists @angular/core in dependencies instead of peerDependencies, 
-      // it might get a different Angular module instead, which would cause your application to break.
-      "@angular/*": [
-        "./node_modules/@angular/*"
-      ],
-      "rxjs/operators": [
-        "./node_modules/rxjs/operators"
-      ],
-      "rxjs": [
-        "./node_modules/rxjs"
-      ],
-      "@types/leaflet": [
-        "./node_modules/@types/leaflet"
-      ],
-      "@types/node": [
-        "./node_modules/@types/node"
-      ],
-      "@asymmetrik/ngx-leaflet": [
-        "./node_modules/@asymmetrik/ngx-leaflet"
-      ],
-      "leaflet": [
-        "./node_modules/leaflet"
-      ],
-      "leaflet-rotatedmarker": [
-        "./node_modules/leaflet-rotatedmarker"
-      ],
-      "jointjs": [
-        "./node_modules/jointjs"
-      ],
-      "@types/jointjs": [
-        "./node_modules/@types/jointjs"
-      ],
-      "@angular-material-components/datetime-picker": [
-        "./node_modules/@angular-material-components/datetime-picker"
-      ],
-      "angular-split": [
-        "./node_modules/angular-split"
-      ],
-      "tslib": [
-        "./node_modules/tslib"
-      ],
-      "gong": [
-      "../vendor/github.com/fullstack-lang/gong/ng/projects/gong/src/public-api.ts"
-      ],
-      "gongdoc": [
-      "../vendor/github.com/fullstack-lang/gongdoc/ng/projects/gongdoc/src/public-api.ts"
-      ],
-      "gongdocdiagrams": [
-      "../vendor/github.com/fullstack-lang/gongdoc/ng/projects/gongdocdiagrams/src/public-api.ts"
-      ],
-`
 
 func TestTSConfigModification(t *testing.T) {
 
@@ -77,6 +21,45 @@ func TestTSConfigModification(t *testing.T) {
 		pkgName+"\": [")
 
 	models.InsertStringToFile(filename,
-		insert,
+		models.TsConfigInsertForPaths,
 		"\"paths\": {")
+}
+
+func TestAppModuleModification(t *testing.T) {
+
+	filenameOrig := filepath.Join(".", "app.module.orig.txt")
+	filenameResult := filepath.Join(".", "app.module.result.txt")
+
+	Copy(filenameOrig, filenameResult)
+
+	models.InsertStringToFile(filenameResult,
+		models.AppModuleImport,
+		"import { BrowserAnimationsModule } from '@angular/platform-browser/animations';")
+
+	models.InsertStringToFile(filenameResult,
+		models.AppModuleImport2,
+		"        HttpClientModule,")
+
+}
+
+// Copy the src file to dst. Any existing file will be overwritten and will not
+// copy file attributes.
+func Copy(src, dst string) error {
+	in, err := os.Open(src)
+	if err != nil {
+		return err
+	}
+	defer in.Close()
+
+	out, err := os.Create(dst)
+	if err != nil {
+		return err
+	}
+	defer out.Close()
+
+	_, err = io.Copy(out, in)
+	if err != nil {
+		return err
+	}
+	return out.Close()
 }
