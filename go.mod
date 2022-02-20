@@ -26,10 +26,20 @@ require (
 	gorm.io/gorm v1.21.16
 )
 
+require github.com/fullstack-lang/gongdoc v0.0.0-20220218011839-ad828d9f0878
+
 require (
+	github.com/ByteArena/poly2tri-go v0.0.0-20170716161910-d102ad91854f // indirect
+	github.com/adrg/strutil v0.2.3 // indirect
+	github.com/adrg/sysfont v0.1.2 // indirect
+	github.com/adrg/xdg v0.3.4 // indirect
+	github.com/benoitkugler/textlayout v0.0.1 // indirect
+	github.com/dsnet/compress v0.0.1 // indirect
 	github.com/gin-contrib/sse v0.1.0 // indirect
+	github.com/go-latex/latex v0.0.0-20210823091927-c0d11ff05a81 // indirect
 	github.com/go-playground/locales v0.14.0 // indirect
 	github.com/go-playground/universal-translator v0.18.0 // indirect
+	github.com/golang/freetype v0.0.0-20170609003504-e2365dfdc4a0 // indirect
 	github.com/google/go-cmp v0.5.6 // indirect
 	github.com/jinzhu/inflection v1.0.0 // indirect
 	github.com/jinzhu/now v1.1.2 // indirect
@@ -41,6 +51,10 @@ require (
 	github.com/peterbourgon/diskv v2.0.1+incompatible // indirect
 	github.com/rogpeppe/fastuuid v1.2.0 // indirect
 	github.com/rogpeppe/go-internal v1.8.0 // indirect
+	github.com/tdewolff/canvas v0.0.0-20210926234438-920f34634583 // indirect
+	github.com/tdewolff/minify/v2 v2.9.22 // indirect
+	github.com/tdewolff/parse/v2 v2.5.22 // indirect
 	github.com/ugorji/go/codec v1.2.6 // indirect
+	golang.org/x/image v0.0.0-20210628002857-a66eb6448b8d // indirect
 	golang.org/x/xerrors v0.0.0-20200804184101-5ec99f83aff1 // indirect
 )
