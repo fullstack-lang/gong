@@ -27,19 +27,13 @@ func TestTSConfigModification(t *testing.T) {
 
 func TestAppModuleModification(t *testing.T) {
 
-	filenameOrig := filepath.Join(".", "app.module.orig.txt")
-	filenameResult := filepath.Join(".", "app.module.result.txt")
-
-	Copy(filenameOrig, filenameResult)
-
-	models.InsertStringToFile(filenameResult,
-		models.AppModuleImport,
-		"import { BrowserAnimationsModule } from '@angular/platform-browser/animations';")
-
-	models.InsertStringToFile(filenameResult,
-		models.AppModuleImport2,
-		"        HttpClientModule,")
-
+	pkg := new(models.ModelPkg)
+	models.VerySimpleCodeGenerator(
+		pkg,
+		"dummy",
+		"dummy",
+		"./app.component.html",
+		models.NgFileAppComponentHtml)
 }
 
 // Copy the src file to dst. Any existing file will be overwritten and will not

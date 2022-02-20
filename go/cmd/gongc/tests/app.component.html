@@ -1,7 +1,4 @@
-package models
-
-const NgFileAppComponentHtml = `<as-split *ngIf="view==view" direction="vertical">
-    <as-split-area [size]=05>
+<as-split *ngIf="view==view" direction="vertical">
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         <mat-radio-group aria-label="Select an option" [(ngModel)]="view">
             <mat-radio-button *ngFor="let view of views" [value]="view">
@@ -10,12 +7,11 @@ const NgFileAppComponentHtml = `<as-split *ngIf="view==view" direction="vertical
         </mat-radio-group>
     </as-split-area>
     <as-split-area [size]=95>
-	    <app-{{pkgname}}-splitter></app-{{pkgname}}-splitter>
+	    <app-dummy-splitter></app-dummy-splitter>
     </as-split-area>
 </as-split>
 
 <as-split *ngIf="view==meta" direction="vertical">
-    <as-split-area [size]=05>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         <mat-radio-group aria-label="Select an option" [(ngModel)]="view">
             <mat-radio-button *ngFor="let view of views" [value]="view">
@@ -44,4 +40,3 @@ const NgFileAppComponentHtml = `<as-split *ngIf="view==view" direction="vertical
 </as-split>
 
 
-`
