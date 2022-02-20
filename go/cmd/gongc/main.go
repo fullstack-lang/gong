@@ -336,6 +336,7 @@ func main() {
 					gong_models.PkgGoPath,
 					filepath.Join(gong_models.NgWorkspacePath, "src/app/app.module.ts"),
 					gong_models.NgFileModule)
+
 				gong_models.VerySimpleCodeGenerator(
 					&modelPkg,
 					gong_models.PkgName,
@@ -343,19 +344,13 @@ func main() {
 					filepath.Join(gong_models.NgWorkspacePath, "src/app/app.component.ts"),
 					gong_models.NgFileAppComponentTs)
 
-				filename := filepath.Join(gong_models.NgWorkspacePath, "src/app/app.component.html")
+				gong_models.VerySimpleCodeGenerator(
+					&modelPkg,
+					gong_models.PkgName,
+					gong_models.PkgGoPath,
+					filepath.Join(gong_models.NgWorkspacePath, "src/app/app.component.html"),
+					gong_models.NgFileAppComponentHtml)
 
-				// we should use go generate
-				log.Println("generating app component file: " + filename)
-
-				f, err := os.Create(filename)
-				if err != nil {
-					log.Panic(err)
-				}
-				defer f.Close()
-				res := fmt.Sprintf("<app-%s-splitter></app-%s-splitter>", gong_models.PkgName, gong_models.PkgName)
-
-				fmt.Fprintf(f, "%s", res)
 			}
 		}
 	}
@@ -474,18 +469,6 @@ func main() {
 					filename := filepath.Join(gong_models.NgWorkspacePath, "src", "styles.css")
 					gong_models.InsertStringToFile(filename, gong_models.StylesCssInsert, "/* You can add global styles to this file, and also import other style files */")
 				}
-				{
-					// patch app.module.ts file in order have imports of css stuff and work offline
-					filename := filepath.Join(gong_models.NgWorkspacePath, "src", "app", "app.module.ts")
-					gong_models.InsertStringToFile(filename,
-						gong_models.AppModuleImport,
-						"import { BrowserAnimationsModule } from '@angular/platform-browser/animations';")
-
-					gong_models.InsertStringToFile(filename,
-						gong_models.AppModuleImport2,
-						"        HttpClientModule,")
-				}
-
 			}
 
 			// npm install
