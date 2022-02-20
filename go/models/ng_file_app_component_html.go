@@ -1,6 +1,6 @@
 package models
 
-const NgFileAppComponentHtml = `<as-split *ngIf="view==view" direction="vertical">
+const NgFileAppComponentHtml = `<as-split *ngIf="view==default" direction="vertical">
     <as-split-area [size]=05>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         <mat-radio-group aria-label="Select an option" [(ngModel)]="view">
