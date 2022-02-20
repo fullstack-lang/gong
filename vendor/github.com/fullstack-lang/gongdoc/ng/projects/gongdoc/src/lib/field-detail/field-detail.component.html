@@ -1,0 +1,118 @@
+<form *ngIf="field" class="details">
+    <h2 class="details__title">field</h2>
+    <!-- insertion point for fields specific code -->
+    <mat-grid-list *ngIf='!isATextArea("Name")' cols="5" rowHeight="2:1">
+        <mat-grid-tile [colspan]="3">
+            <mat-form-field mat-form-field class="detail-full-width">
+                <mat-label>Name</mat-label>
+                <input name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="field.Name">
+            </mat-form-field>
+        </mat-grid-tile>
+        <mat-grid-tile>
+            <button mat-raised-button (click)="toggleTextArea('Name')">
+                <mat-icon>
+                    expand_more
+                </mat-icon>
+            </button>
+        </mat-grid-tile>
+    </mat-grid-list>
+    <mat-form-field *ngIf='isATextArea("Name")' mat-form-field class="detail-full-width">
+        <mat-label>Name</mat-label>
+        <textarea name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="field.Name"></textarea>
+    </mat-form-field>
+
+    <mat-grid-list *ngIf='!isATextArea("Fieldname")' cols="5" rowHeight="2:1">
+        <mat-grid-tile [colspan]="3">
+            <mat-form-field mat-form-field class="detail-full-width">
+                <mat-label>Fieldname</mat-label>
+                <input name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="field.Fieldname">
+            </mat-form-field>
+        </mat-grid-tile>
+        <mat-grid-tile>
+            <button mat-raised-button (click)="toggleTextArea('Fieldname')">
+                <mat-icon>
+                    expand_more
+                </mat-icon>
+            </button>
+        </mat-grid-tile>
+    </mat-grid-list>
+    <mat-form-field *ngIf='isATextArea("Fieldname")' mat-form-field class="detail-full-width">
+        <mat-label>Fieldname</mat-label>
+        <textarea name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="field.Fieldname"></textarea>
+    </mat-form-field>
+
+    <mat-grid-list *ngIf='!isATextArea("FieldTypeAsString")' cols="5" rowHeight="2:1">
+        <mat-grid-tile [colspan]="3">
+            <mat-form-field mat-form-field class="detail-full-width">
+                <mat-label>FieldTypeAsString</mat-label>
+                <input name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="field.FieldTypeAsString">
+            </mat-form-field>
+        </mat-grid-tile>
+        <mat-grid-tile>
+            <button mat-raised-button (click)="toggleTextArea('FieldTypeAsString')">
+                <mat-icon>
+                    expand_more
+                </mat-icon>
+            </button>
+        </mat-grid-tile>
+    </mat-grid-list>
+    <mat-form-field *ngIf='isATextArea("FieldTypeAsString")' mat-form-field class="detail-full-width">
+        <mat-label>FieldTypeAsString</mat-label>
+        <textarea name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="field.FieldTypeAsString"></textarea>
+    </mat-form-field>
+
+    <mat-grid-list *ngIf='!isATextArea("Structname")' cols="5" rowHeight="2:1">
+        <mat-grid-tile [colspan]="3">
+            <mat-form-field mat-form-field class="detail-full-width">
+                <mat-label>Structname</mat-label>
+                <input name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="field.Structname">
+            </mat-form-field>
+        </mat-grid-tile>
+        <mat-grid-tile>
+            <button mat-raised-button (click)="toggleTextArea('Structname')">
+                <mat-icon>
+                    expand_more
+                </mat-icon>
+            </button>
+        </mat-grid-tile>
+    </mat-grid-list>
+    <mat-form-field *ngIf='isATextArea("Structname")' mat-form-field class="detail-full-width">
+        <mat-label>Structname</mat-label>
+        <textarea name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="field.Structname"></textarea>
+    </mat-form-field>
+
+    <mat-grid-list *ngIf='!isATextArea("Fieldtypename")' cols="5" rowHeight="2:1">
+        <mat-grid-tile [colspan]="3">
+            <mat-form-field mat-form-field class="detail-full-width">
+                <mat-label>Fieldtypename</mat-label>
+                <input name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="field.Fieldtypename">
+            </mat-form-field>
+        </mat-grid-tile>
+        <mat-grid-tile>
+            <button mat-raised-button (click)="toggleTextArea('Fieldtypename')">
+                <mat-icon>
+                    expand_more
+                </mat-icon>
+            </button>
+        </mat-grid-tile>
+    </mat-grid-list>
+    <mat-form-field *ngIf='isATextArea("Fieldtypename")' mat-form-field class="detail-full-width">
+        <mat-label>Fieldtypename</mat-label>
+        <textarea name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="field.Fieldtypename"></textarea>
+    </mat-form-field>
+
+    <mat-form-field class="detail-full-width">
+        <mat-label>(Classshape) Fields</mat-label>
+        <mat-select [compareWith]="compareObjects" [(ngModel)]="field.Classshape_Fields_reverse" [ngModelOptions]="{standalone: true}">
+            <mat-option>None</mat-option>
+            <mat-option *ngFor="let classshape of frontRepo.Classshapes_array" [value]="classshape">
+                {{classshape.Name}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+    <div class="details__save">
+        <button mat-raised-button color="primary" (click)="save()">
+            Save field
+        </button>
+    </div>
+</form>

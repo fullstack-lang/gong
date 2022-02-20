@@ -7,6 +7,12 @@ const NgFileAppComponentTs = `import { Component } from '@angular/core';
   templateUrl: './app.component.html',
 })
 export class AppComponent {
-  title = 'ng';
+
+  // choices for the top radio button
+  view = 'Default view'
+  default = 'Default view'
+  diagrams = 'Diagrams view'
+  meta = 'Meta view'
+  views: string[] = [this.default, this.diagrams, this.meta];
 }
 `

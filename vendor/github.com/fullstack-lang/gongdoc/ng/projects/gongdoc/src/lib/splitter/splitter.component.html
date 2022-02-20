@@ -1,0 +1,28 @@
+<div style="width: 100%; height: 100%; background: grey(16);">
+    <as-split direction="horizontal">
+        <as-split-area [size]="20">
+            <as-split direction="vertical">
+                <as-split-area>
+                    <app-gongdoc-sidebar></app-gongdoc-sidebar>
+                </as-split-area>
+            </as-split>
+        </as-split-area>
+        <as-split-area [size]="80">
+            <as-split direction="vertical">
+                <as-split-area>
+                    <router-outlet name="github_com_fullstack_lang_gongdoc_go_table"></router-outlet>
+                </as-split-area>
+                <as-split-area [size]="20">
+                    <as-split direction="horizontal">
+                        <as-split-area>
+                            <router-outlet name="github_com_fullstack_lang_gongdoc_go_presentation"></router-outlet>
+                        </as-split-area>
+                        <as-split-area>
+                            <router-outlet name="github_com_fullstack_lang_gongdoc_go_editor"></router-outlet>
+                        </as-split-area>
+                    </as-split>
+                </as-split-area>
+            </as-split>
+        </as-split-area>
+    </as-split>
+</div>
