@@ -1,0 +1,20 @@
+/*
+===================
+===== SIDEBAR =====
+===================
+*/
+
+.node-link:hover {
+    background-color: #F8F8F8;
+    cursor: pointer;
+}
+
+.node-link-icon {
+    font-size: 24px;
+    background-color: #F8F8F8;
+}
+
+.node-link-icon:hover {
+    background-color: #F8F8F8;
+    cursor: pointer;
+}
