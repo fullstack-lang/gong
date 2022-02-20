@@ -208,6 +208,43 @@ func main() {
 		}
 	}
 
+	// check existance of .vscode directory. If absent, generates default vscode configurations
+	// that are usefull for development
+	{
+		vscodeDirFilePath := "../../.vscode"
+
+		_, errd := os.Stat(vscodeDirFilePath)
+		if os.IsNotExist(errd) {
+			log.Printf(".vscode directory does not exist, gongc creates a default .vscode directory and the debug and launch configs")
+
+			errd := os.MkdirAll(vscodeDirFilePath, os.ModePerm)
+			if os.IsNotExist(errd) {
+				log.Println("creating directory : " + vscodeDirFilePath)
+			}
+			if os.IsExist(errd) {
+				log.Fatal("directory " + vscodeDirFilePath + " should not allready exists")
+			}
+
+			// sometimes on windows, directory creation is not completed before creation of file/directory (this
+			// leads to non reproductible "access denied")
+			time.Sleep(1000 * time.Millisecond)
+			gong_models.VerySimpleCodeGenerator(
+				&modelPkg,
+				gong_models.PkgName,
+				gong_models.PkgGoPath,
+				filepath.Join(vscodeDirFilePath, "launch.json"),
+				gong_models.VsCodeLaunchConfig)
+
+			gong_models.VerySimpleCodeGenerator(
+				&modelPkg,
+				gong_models.PkgName,
+				gong_models.PkgGoPath,
+				filepath.Join(vscodeDirFilePath, "tasks.json"),
+				gong_models.VsCodeTasksConfig)
+		}
+
+	}
+
 	// generate things in ng  lib directory
 	var ngNewWsPerformed bool
 	{

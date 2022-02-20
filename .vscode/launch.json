@@ -68,7 +68,7 @@
             "args": []
         },
         {
-            "name": "gongc tmp/helloworld",
+            "name": "gongc /tmp/helloworld",
             "type": "go",
             "request": "launch",
             "mode": "debug",
