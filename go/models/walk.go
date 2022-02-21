@@ -18,8 +18,8 @@ var PkgGoPath string
 // PkgName is generated package name (for back) and generated project elements for front
 var PkgName string
 
-// BackendTargetPath for instance "/tmp"
-var BackendTargetPath string
+// PathToGoSubDirectory for instance "/tmp"
+var PathToGoSubDirectory string
 
 // OrmPkgGenPath is target path for orm package, for instance "/tmp/libraryorm"
 var OrmPkgGenPath string
