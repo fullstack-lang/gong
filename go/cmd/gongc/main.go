@@ -19,18 +19,13 @@ import (
 const COMPUTED_FROM_PKG_PATH string = "computed from pkgPath (path to package for analysis)"
 
 var (
-	pkgPath = flag.String("pkgPath", ".", "path to package for gongc compilation")
-
+	pkgPath     = flag.String("pkgPath", ".", "path to package for gongc compilation")
 	skipSwagger = flag.Bool("skipSwagger", true, "skip swagger")
-
 	backendOnly = flag.Bool("backendOnly", false, "generates backendOnly")
-
-	addr = flag.String("addr", "localhost:8080/api",
+	addr        = flag.String("addr", "localhost:8080/api",
 		"network address addr where the angular generated service will lookup the server")
-
-	run = flag.Bool("run", false, "run 'go run main.go' after compilation")
-
-	bypassGoModCommands = flag.Bool("bypassGoModCommands", false, "avoid calls to go mod init, tidy and vendor")
+	run               = flag.Bool("run", false, "run 'go run main.go' after compilation")
+	skipGoModCommands = flag.Bool("skipGoModCommands", false, "avoid calls to go mod init, tidy and vendor")
 )
 
 func main() {
@@ -49,7 +44,7 @@ func main() {
 	// TODO check version of angular
 
 	// check existance of "go.mod" file
-	if !*bypassGoModCommands {
+	if !*skipGoModCommands {
 		goModFilePath := filepath.Join(*pkgPath, "../../go.mod")
 		_, err := os.Stat(goModFilePath)
 		if os.IsNotExist(err) {
@@ -631,7 +626,7 @@ func main() {
 		gong_models.RootFileDocsTemplate)
 
 	// go mod vendor to get the ng code of dependant gong stacks
-	if !*bypassGoModCommands {
+	if !*skipGoModCommands {
 		start := time.Now()
 		cmd := exec.Command("go", "mod", "tidy")
 		cmd.Dir, _ = filepath.Abs(filepath.Join(*pkgPath, fmt.Sprintf("../cmd/%s", computePkgName())))
@@ -655,7 +650,7 @@ func main() {
 	}
 
 	// go mod vendor to get the ng code of dependant gong stacks
-	if !*bypassGoModCommands {
+	if !*skipGoModCommands {
 		start := time.Now()
 		cmd := exec.Command("go", "mod", "vendor")
 		cmd.Dir, _ = filepath.Abs(filepath.Join(*pkgPath, fmt.Sprintf("../cmd/%s", computePkgName())))
