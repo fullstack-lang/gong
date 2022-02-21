@@ -135,7 +135,6 @@
             "command": "rm",
             "group": "build",
             "args": [
-                "-f",
                 "main.go"
             ]
         },

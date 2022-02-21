@@ -1,13 +1,14 @@
 - [1. Gong](#1-gong)
   - [1.1. About Gong](#11-about-gong)
-  - [1.2. Gong is intended for system engineering tooling](#12-gong-is-intended-for-system-engineering-tooling)
-  - [1.3. Prerequisite](#13-prerequisite)
-    - [1.3.1. Go](#131-go)
-    - [1.3.2. gcc](#132-gcc)
-    - [1.3.3. go-swagger (optional)](#133-go-swagger-optional)
-    - [1.3.4. npm](#134-npm)
-    - [1.3.5. Angular](#135-angular)
-    - [1.3.6. Vscode (optional)](#136-vscode-optional)
+  - [1.2. Gong is inspired by similar fullstack frameworks](#12-gong-is-inspired-by-similar-fullstack-frameworks)
+  - [1.3. Gong is intended for system engineering tooling](#13-gong-is-intended-for-system-engineering-tooling)
+  - [1.4. Prerequisite](#14-prerequisite)
+    - [1.4.1. Go](#141-go)
+    - [1.4.2. gcc](#142-gcc)
+    - [1.4.3. go-swagger (optional)](#143-go-swagger-optional)
+    - [1.4.4. npm](#144-npm)
+    - [1.4.5. Angular](#145-angular)
+    - [1.4.6. Vscode (optional)](#146-vscode-optional)
 - [2. Using gong](#2-using-gong)
   - [2.1. Running the gong test application](#21-running-the-gong-test-application)
   - [2.2. Testing the generation of the code](#22-testing-the-generation-of-the-code)
@@ -44,37 +45,43 @@ Gong (go + ng) is a framework for rapid web application development (a.k.a. full
 The unit of development in gong is the **gong stack** (a "stack" in the rest of this document). A stack can import other stacks (both the front end and the back end of a stack are integrated as a whole). The granularity of a stack is similar to an angular components. There are available stacks for [jointjs](https://www.jointjs.com/) and [leaflet](https://leafletjs.com/).
 
 
-## 1.2. Gong is intended for system engineering tooling
+## 1.2. Gong is inspired by similar fullstack frameworks
 
 Gong fullstack approach was inspired by [Ruby on Rails](https://rubyonrails.org/) and a more generaly the idea that complexity facing the programmer should be carefuly managed, as it is described in [conceptual compression concept](https://m.signalvnoise.com/conceptual-compression-means-beginners-dont-need-to-know-sql-hallelujah/) and [Rob Pike's design of Go regarding complexity](https://www.dotconferences.com/2015/11/rob-pike-simplicity-is-complicated).
 
 Gong fullstack approach, with a backend in go, is similar in intent to [lorca](https://github.com/zserge/lorca), [wails](https://github.com/wailsapp/wails) and [fyne](https://github.com/fyne-io/fyne). However, the gong framework approach is different because it includes gongc, a go data model compiler to generate front-end and back-end code. In this sense, it is similar to [ent](https://github.com/ent/ent) which includes a ("shema as code") approach.
 
-Also, gong's stated goal is narrower since it is the rapid development of web applications for system engineering (see [paper](https://www.researchgate.net/publication/354237095_GONG_an_open_source_MBSE_toolset/references#fullTextFileContent) for details on this goal)
+## 1.3. Gong is intended for system engineering tooling
 
-## 1.3. Prerequisite
+Also, gong's stated goal is narrower than general full stack frameworks since it is the rapid development of web applications for system engineering.
 
-### 1.3.1. Go
+Mostly, gong  is for modeling and simulation, planning and project structuring developments. Those developments are made during 
+the developement of the system of interest, therefore the need for fast iterations 
+(see [paper](https://www.researchgate.net/publication/354237095_GONG_an_open_source_MBSE_toolset/references#fullTextFileContent) for details on this goal).
+
+## 1.4. Prerequisite
+
+### 1.4.1. Go
 
 go version equal or above 1.16 is mandatory (cf. use of `embed` package). See https://golang.org for installation.
 
-### 1.3.2. gcc
+### 1.4.2. gcc
 
 A stack uses gorm for database access and sqlite as the default database. The sqlite driver requires cgo, which requires gcc.
 
-### 1.3.3. go-swagger (optional)
+### 1.4.3. go-swagger (optional)
 
 [go-swagger](https://github.com/go-swagger/go-swagger) is a go program is used after each `gongc` compilation to generate the project API in a `yml` file. *gongc* is robust to the absence of go-swagger but it is recommanded to use it if you need to document the API with yaml.
 
-### 1.3.4. npm
+### 1.4.4. npm
 
 Gong uses npm version >= 6.14 (see https://nodejs.org)
 
-### 1.3.5. Angular
+### 1.4.5. Angular
 
 Gong uses angular version >= 11 (see https://angular.io for installation)
 
-### 1.3.6. Vscode (optional)
+### 1.4.6. Vscode (optional)
 
 Vscode is usefull & handy because the tasks definitions and debug configuration related to gong are provided in the repository.
 
