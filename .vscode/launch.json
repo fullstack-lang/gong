@@ -77,7 +77,7 @@
             "args": []
         },
         {
-            "name": "gongc test -backendOnly -bypassGoModCommands",
+            "name": "gongc test -backendOnly -skipGoModCommands",
             "type": "go",
             "request": "launch",
             "mode": "debug",
@@ -87,7 +87,7 @@
             "program": "${workspaceFolder}/go/cmd/gongc",
             "args": [
                 "-backendOnly",
-                "-bypassGoModCommands"
+                "-skipGoModCommands"
             ]
         },
         {
@@ -118,6 +118,15 @@
             "request": "launch",
             "mode": "debug",
             "cwd": "../../../r/DEV_COHERENCE/msspace/go/models",
+            "program": "${workspaceFolder}/go/cmd/gongc",
+            "args": []
+        },
+        {
+            "name": "gongc compareclaplannings",
+            "type": "go",
+            "request": "launch",
+            "mode": "debug",
+            "cwd": "../../../r/DEV_COHERENCE/compareclaplannings/go/models",
             "program": "${workspaceFolder}/go/cmd/gongc",
             "args": []
         },
