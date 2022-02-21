@@ -77,7 +77,7 @@
             "args": []
         },
         {
-            "name": "gongc test -backendOnly",
+            "name": "gongc test -backendOnly -bypassGoModCommands",
             "type": "go",
             "request": "launch",
             "mode": "debug",
@@ -86,7 +86,8 @@
             "cwd": "${workspaceFolder}/test/go/models",
             "program": "${workspaceFolder}/go/cmd/gongc",
             "args": [
-                "-backendOnly"
+                "-backendOnly",
+                "-bypassGoModCommands"
             ]
         },
         {
