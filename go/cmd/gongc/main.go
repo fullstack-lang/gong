@@ -21,22 +21,6 @@ const COMPUTED_FROM_PKG_PATH string = "computed from pkgPath (path to package fo
 var (
 	pkgPath = flag.String("pkgPath", ".", "path to package for gongc compilation")
 
-	backendTargetPath = flag.String("backendTargetPath", COMPUTED_FROM_PKG_PATH,
-		"relative path to the directory where orm & controllers packages are generated"+
-			" (by convention, one level above path to package for analysis)."+
-			" If not set, it is "+COMPUTED_FROM_PKG_PATH)
-
-	matTargetPath = flag.String("matTargetPath", COMPUTED_FROM_PKG_PATH, //
-		"path to the ng directory where material components are generated"+
-			"(by convention, relative to pkgPath, "+
-			"into ../../ng/projects/<pkgName>/src/lib)"+
-			" If not set, it is "+COMPUTED_FROM_PKG_PATH)
-
-	ngWorkspacePath = flag.String("ngWorkspacePath", COMPUTED_FROM_PKG_PATH, //
-		"path to the ng workspace directory (for performing npm isntall commands"+
-			"(by convention, ../../ng relative to path to package for analysis)."+
-			" If not set, it is "+COMPUTED_FROM_PKG_PATH)
-
 	skipSwagger = flag.Bool("skipSwagger", true, "skip swagger")
 
 	backendOnly = flag.Bool("backendOnly", false, "generates backendOnly")
@@ -45,6 +29,8 @@ var (
 		"network address addr where the angular generated service will lookup the server")
 
 	run = flag.Bool("run", false, "run 'go run main.go' after compilation")
+
+	bypassGoModCommands = flag.Bool("bypassGoModCommands", false, "avoid calls to go mod init, tidy and vendor")
 )
 
 func main() {
@@ -63,7 +49,7 @@ func main() {
 	// TODO check version of angular
 
 	// check existance of "go.mod" file
-	{
+	if !*bypassGoModCommands {
 		goModFilePath := filepath.Join(*pkgPath, "../../go.mod")
 		_, err := os.Stat(goModFilePath)
 		if os.IsNotExist(err) {
@@ -117,13 +103,12 @@ func main() {
 			"and it cannot be used for naming a typescript class (the generated module in this cause)")
 	}
 
-	// compute path to generation directory
+	//
+	// compute paths to generation directory
+	//
 	{
-		if *backendTargetPath == COMPUTED_FROM_PKG_PATH {
-			*backendTargetPath = filepath.Join(*pkgPath, "..")
-		}
 
-		directory, err := filepath.Abs(*backendTargetPath)
+		directory, err := filepath.Abs(filepath.Join(*pkgPath, ".."))
 		if err != nil {
 			log.Fatal("Problem with backend target path " + err.Error())
 		}
@@ -136,8 +121,19 @@ func main() {
 		if fileInfo.Mode().Perm()&(1<<(uint(7))) == 0 {
 			log.Panicf("Folder %s is not writtable", directory)
 		}
-		gong_models.BackendTargetPath = directory
-		log.Println("backend target path " + gong_models.BackendTargetPath)
+		gong_models.PathToGoSubDirectory = directory
+		log.Println("backend target path " + gong_models.PathToGoSubDirectory)
+	}
+	{
+
+		directory, err :=
+			filepath.Abs(
+				filepath.Join(*pkgPath,
+					fmt.Sprintf("../../ng/projects/%s/src/lib", gong_models.PkgName)))
+		gong_models.MatTargetPath = directory
+		if err != nil {
+			log.Panic("Problem with frontend target path " + err.Error())
+		}
 	}
 
 	// check existance of .git directory. If absent, use "ngit init"
@@ -248,11 +244,9 @@ func main() {
 	// generate things in ng  lib directory
 	var ngNewWsPerformed bool
 	{
-		if *ngWorkspacePath == COMPUTED_FROM_PKG_PATH {
-			*ngWorkspacePath = filepath.Join(*pkgPath, "../../ng")
-		}
 
-		directory, err := filepath.Abs(*ngWorkspacePath)
+		directory, err := filepath.Abs(
+			filepath.Join(*pkgPath, "../../ng"))
 		if err != nil {
 			log.Panic("Problem with frontend target path " + err.Error())
 		}
@@ -456,20 +450,12 @@ func main() {
 		// check existance of generated angular library. If absent, use "ng generate libray <library>"
 		// and generate default app application
 		{
-			if *matTargetPath == COMPUTED_FROM_PKG_PATH {
-				*matTargetPath = filepath.Join(*pkgPath, fmt.Sprintf("../../ng/projects/%s/src/lib", gong_models.PkgName))
-			}
-
-			directory, err := filepath.Abs(*matTargetPath)
-			gong_models.MatTargetPath = directory
-			if err != nil {
-				log.Panic("Problem with frontend target path " + err.Error())
-			}
 			_, errStat := os.Stat(gong_models.MatTargetPath)
 			log.Println("module target abs path " + gong_models.MatTargetPath)
 
 			if os.IsNotExist(errStat) {
-				log.Printf("library directory %s does not exist, hence gong is generating it with ng generate library command", directory)
+				log.Printf("library directory %s does not exist, hence gong is generating it with ng generate library command",
+					gong_models.MatTargetPath)
 
 				// generate library project
 				start := time.Now()
@@ -512,7 +498,7 @@ func main() {
 			if true {
 				start := time.Now()
 				cmd := exec.Command("npm", "i")
-				cmd.Dir, _ = filepath.Abs(*ngWorkspacePath)
+				cmd.Dir = gong_models.NgWorkspacePath
 				log.Printf("Running %s command in directory %s and waiting for it to finish...\n", cmd.Args, cmd.Dir)
 
 				// https://stackoverflow.com/questions/48253268/print-the-stdout-from-exec-command-in-real-time-in-go
@@ -537,14 +523,14 @@ func main() {
 	// now replace the generated content in the library
 	{
 		if !*backendOnly {
-			log.Println("Removing all content of " + *matTargetPath)
-			gong_models.RemoveContents(*matTargetPath)
+			log.Println("Removing all content of " + gong_models.MatTargetPath)
+			gong_models.RemoveContents(gong_models.MatTargetPath)
 		}
 	}
 
 	// generates styles
 	{
-		directory, _ := filepath.Abs(*matTargetPath)
+		directory, _ := filepath.Abs(gong_models.MatTargetPath)
 		errForCreationOfStylesDir := os.MkdirAll(filepath.Join(directory, "styles"), os.ModePerm)
 		if os.IsNotExist(errForCreationOfStylesDir) {
 			log.Println("creating directory : " + gong_models.OrmPkgGenPath)
@@ -555,7 +541,7 @@ func main() {
 	}
 
 	// generate directory for orm package
-	gong_models.OrmPkgGenPath = filepath.Join(gong_models.BackendTargetPath, "orm")
+	gong_models.OrmPkgGenPath = filepath.Join(gong_models.PathToGoSubDirectory, "orm")
 
 	os.RemoveAll(gong_models.OrmPkgGenPath)
 	errd := os.MkdirAll(gong_models.OrmPkgGenPath, os.ModePerm)
@@ -569,7 +555,7 @@ func main() {
 	}
 
 	// generate directory for controllers package
-	gong_models.ControllersPkgGenPath = filepath.Join(gong_models.BackendTargetPath, "controllers")
+	gong_models.ControllersPkgGenPath = filepath.Join(gong_models.PathToGoSubDirectory, "controllers")
 
 	os.RemoveAll(gong_models.ControllersPkgGenPath)
 	errd = os.MkdirAll(gong_models.ControllersPkgGenPath, os.ModePerm)
@@ -597,6 +583,7 @@ func main() {
 		strings.Title(gong_models.PkgName),
 		gong_models.PkgGoPath, filepath.Join(gong_models.NgWorkspacePath, "../embed.go"),
 		gong_models.EmebedNgDistNg)
+
 	gong_models.CodeGeneratorModelGong(
 		&modelPkg,
 		gong_models.PkgName,
@@ -644,7 +631,7 @@ func main() {
 		gong_models.RootFileDocsTemplate)
 
 	// go mod vendor to get the ng code of dependant gong stacks
-	if true {
+	if !*bypassGoModCommands {
 		start := time.Now()
 		cmd := exec.Command("go", "mod", "tidy")
 		cmd.Dir, _ = filepath.Abs(filepath.Join(*pkgPath, fmt.Sprintf("../cmd/%s", computePkgName())))
@@ -668,7 +655,7 @@ func main() {
 	}
 
 	// go mod vendor to get the ng code of dependant gong stacks
-	if true {
+	if !*bypassGoModCommands {
 		start := time.Now()
 		cmd := exec.Command("go", "mod", "vendor")
 		cmd.Dir, _ = filepath.Abs(filepath.Join(*pkgPath, fmt.Sprintf("../cmd/%s", computePkgName())))
@@ -832,7 +819,7 @@ func main() {
 	if true {
 		start := time.Now()
 		cmd := exec.Command("ng", "build")
-		cmd.Dir, _ = filepath.Abs(*ngWorkspacePath)
+		cmd.Dir = gong_models.NgWorkspacePath
 		log.Printf("Running %s command in directory %s and waiting for it to finish...\n", cmd.Args, cmd.Dir)
 
 		// https://stackoverflow.com/questions/48253268/print-the-stdout-from-exec-command-in-real-time-in-go
@@ -928,7 +915,7 @@ func main() {
 	// run application
 	if *run {
 		cmd := exec.Command("go", "run", "main.go")
-		cmd.Dir, _ = filepath.Abs(filepath.Join(*ngWorkspacePath, fmt.Sprintf("../go/cmd/%s", computePkgName())))
+		cmd.Dir, _ = filepath.Abs(filepath.Join(gong_models.NgWorkspacePath, fmt.Sprintf("../go/cmd/%s", computePkgName())))
 		log.Printf("Running %s command in directory %s and waiting for it to finish...\n", cmd.Args, cmd.Dir)
 
 		// https://stackoverflow.com/questions/48253268/print-the-stdout-from-exec-command-in-real-time-in-go
