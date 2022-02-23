@@ -18,6 +18,7 @@ import (
 	"log"
 	"os"
 	"path"
+	"regexp"
 	"sort"
 	"strings"
 )
@@ -203,25 +204,14 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 func generatesIdentifier(gongStructName string, idx int, instanceName string) (identifier string) {
 
 	identifier = instanceName
-	identifier = strings.ReplaceAll(identifier, " ", "_")
-	identifier = strings.ReplaceAll(identifier, "%", "_")
-	identifier = strings.ReplaceAll(identifier, ".", "_")
-	identifier = strings.ReplaceAll(identifier, "&", "_")
-	identifier = strings.ReplaceAll(identifier, "!", "_")
-	identifier = strings.ReplaceAll(identifier, "@", "_")
-	identifier = strings.ReplaceAll(identifier, "&", "_")
-	identifier = strings.ReplaceAll(identifier, "'", "_")
-	identifier = strings.ReplaceAll(identifier, "(", "_")
-	identifier = strings.ReplaceAll(identifier, ")", "_")
-	identifier = strings.ReplaceAll(identifier, "-", "_")
-	identifier = strings.ReplaceAll(identifier, "à", "_")
-	identifier = strings.ReplaceAll(identifier, "ç", "_")
-	identifier = strings.ReplaceAll(identifier, "è", "_")
-	identifier = strings.ReplaceAll(identifier, "é", "_")
-	identifier = strings.ReplaceAll(identifier, "§", "_")
-	identifier = strings.ReplaceAll(identifier, "\"", "_")
+	// Make a Regex to say we only want letters and numbers
+	reg, err := regexp.Compile("[^a-zA-Z0-9]+")
+	if err != nil {
+		log.Fatal(err)
+	}
+	processedString := reg.ReplaceAllString(instanceName, "_")
 
-	identifier = fmt.Sprintf("__%s__%06d_%s", gongStructName, idx, identifier)
+	identifier = fmt.Sprintf("__%s__%06d_%s", gongStructName, idx, processedString)
 
 	return
 }
