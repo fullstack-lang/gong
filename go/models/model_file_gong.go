@@ -39,9 +39,12 @@ type StageStruct struct { // insertion point for definition of arrays registerin
 	BackRepo BackRepoInterface
 
 	// if set will be called before each commit to the back repo
-	OnInitCommitCallback OnInitCommitInterface
+	OnInitCommitCallback          OnInitCommitInterface
 	OnInitCommitFromFrontCallback OnInitCommitInterface
 	OnInitCommitFromBackCallback  OnInitCommitInterface
+
+	// store the number of instance per gongstruct
+	Map_GongStructName_InstancesNb map[string]int
 }
 
 type OnInitCommitInterface interface {
@@ -63,12 +66,16 @@ type BackRepoInterface interface {
 // swagger:ignore instructs the gong compiler (gongc) to avoid this particular struct
 var Stage StageStruct = StageStruct{ // insertion point for array initiatialisation{{` + string(rune(ModelGongInsertionArrayInitialisation)) + `}}
 	// end of insertion point
+	Map_GongStructName_InstancesNb: make(map[string]int),
 }
 
 func (stage *StageStruct) Commit() {
 	if stage.BackRepo != nil {
 		stage.BackRepo.Commit(stage)
 	}
+
+	// insertion point for computing the map of number of instances per gongstruct{{` + string(rune(ModelGongInsertionComputeNbInstances)) + `}}
+
 }
 
 func (stage *StageStruct) Checkout() {
@@ -231,6 +238,7 @@ const (
 	ModelGongInsertionArrayNil
 	ModelGongInsertionUnmarshallDeclarations
 	ModelGongInsertionUnmarshallPointersInitializations
+	ModelGongInsertionComputeNbInstances
 	ModelGongInsertionsNb
 )
 
@@ -247,6 +255,7 @@ const (
 	ModelGongStructArrayNil
 	ModelGongStructUnmarshallStatementsStepValuesInit
 	ModelGongStructUnmarshallStatementsStepPointersInit
+	ModelGongStructComputeNbInstances
 )
 
 var ModelGongSubTemplateCode map[ModelGongSubTemplate]string = // new line
@@ -424,6 +433,9 @@ func DeleteORM{{Structname}}({{structname}} *{{Structname}}) {
 		// Initialisation of values{{PointersInitialization}}
 	}
 `,
+
+	ModelGongStructComputeNbInstances: `
+	stage.Map_GongStructName_InstancesNb["{{Structname}}"] = len(stage.{{Structname}}s)`,
 }
 
 var ModelGongSubSubTemplateCode map[string]string = // new line
