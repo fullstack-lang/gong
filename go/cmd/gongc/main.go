@@ -835,7 +835,7 @@ func main() {
 	}
 
 	// go get
-	if true {
+	if !*skipGoModCommands {
 		start := time.Now()
 		cmd := exec.Command("go", "get")
 		cmd.Dir, _ = filepath.Abs(filepath.Join(*pkgPath, fmt.Sprintf("../../go/cmd/%s", computePkgName())))
@@ -859,7 +859,7 @@ func main() {
 	}
 
 	// go get isatty
-	if true {
+	if !*skipGoModCommands {
 		start := time.Now()
 		// path gin since isatty fails if v0.0.12 (patch version 0.0.14 is OK)
 		cmd := exec.Command("go", "get", "-d", "github.com/mattn/go-isatty")
