@@ -26,7 +26,7 @@ require (
 	gorm.io/gorm v1.21.16
 )
 
-require github.com/fullstack-lang/gongdoc v0.0.0-20220218011839-ad828d9f0878
+require github.com/fullstack-lang/gongdoc v0.0.0-20220224062957-72a7cf7cda06
 
 require (
 	github.com/ByteArena/poly2tri-go v0.0.0-20170716161910-d102ad91854f // indirect
