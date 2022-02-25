@@ -75,6 +75,12 @@ export class ClassshapesTableComponent implements OnInit {
         case 'Structname':
           return classshapeDB.Structname;
 
+        case 'ShowNbInstances':
+          return classshapeDB.ShowNbInstances?"true":"false";
+
+        case 'NbInstances':
+          return classshapeDB.NbInstances;
+
         case 'Width':
           return classshapeDB.Width;
 
@@ -106,6 +112,7 @@ export class ClassshapesTableComponent implements OnInit {
         mergedContent += classshapeDB.Position.Name.toLowerCase()
       }
       mergedContent += classshapeDB.Structname.toLowerCase()
+      mergedContent += classshapeDB.NbInstances.toString()
       mergedContent += classshapeDB.Width.toString()
       mergedContent += classshapeDB.Heigth.toString()
       mergedContent += classshapeDB.ClassshapeTargetType.toLowerCase()
@@ -166,6 +173,8 @@ export class ClassshapesTableComponent implements OnInit {
         "Name",
         "Position",
         "Structname",
+        "ShowNbInstances",
+        "NbInstances",
         "Width",
         "Heigth",
         "ClassshapeTargetType",
@@ -176,6 +185,8 @@ export class ClassshapesTableComponent implements OnInit {
         "Name",
         "Position",
         "Structname",
+        "ShowNbInstances",
+        "NbInstances",
         "Width",
         "Heigth",
         "ClassshapeTargetType",

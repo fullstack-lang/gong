@@ -21,9 +21,15 @@ type Classshape struct {
 	// swagger:ignore
 	Position *Position
 
-	// swagger:ignore
+	// swagger:ignore, an "interface" field cannot be used by gong, therefore, one specifies
+	// both swagger and gorm ignore magic code
 	Struct     interface{} `gorm:"-"` // pointer to the struct of the model that it is diagramming
 	Structname string
+
+	// gongdoc can be integrated in a runtime application
+	// the application can then set up the number of instances of Struct
+	ShowNbInstances bool
+	NbInstances     int
 
 	// models of the composition of Field
 	Fields []*Field
