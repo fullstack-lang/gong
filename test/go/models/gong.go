@@ -42,9 +42,12 @@ type StageStruct struct { // insertion point for definition of arrays registerin
 	BackRepo BackRepoInterface
 
 	// if set will be called before each commit to the back repo
-	OnInitCommitCallback OnInitCommitInterface
+	OnInitCommitCallback          OnInitCommitInterface
 	OnInitCommitFromFrontCallback OnInitCommitInterface
 	OnInitCommitFromBackCallback  OnInitCommitInterface
+
+	// store the number of instance per gongstruct
+	Map_GongStructName_InstancesNb map[string]int
 }
 
 type OnInitCommitInterface interface {
@@ -91,12 +94,21 @@ var Stage StageStruct = StageStruct{ // insertion point for array initiatialisat
 	Dstructs_mapString: make(map[string]*Dstruct),
 
 	// end of insertion point
+	Map_GongStructName_InstancesNb: make(map[string]int),
 }
 
 func (stage *StageStruct) Commit() {
 	if stage.BackRepo != nil {
 		stage.BackRepo.Commit(stage)
 	}
+
+	// insertion point for computing the map of number of instances per gongstruct
+	stage.Map_GongStructName_InstancesNb["Astruct"] = len(stage.Astructs)
+	stage.Map_GongStructName_InstancesNb["AstructBstruct2Use"] = len(stage.AstructBstruct2Uses)
+	stage.Map_GongStructName_InstancesNb["AstructBstructUse"] = len(stage.AstructBstructUses)
+	stage.Map_GongStructName_InstancesNb["Bstruct"] = len(stage.Bstructs)
+	stage.Map_GongStructName_InstancesNb["Dstruct"] = len(stage.Dstructs)
+
 }
 
 func (stage *StageStruct) Checkout() {
@@ -804,7 +816,6 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", astruct.Date.String())
 		initializerStatements += setValueField
 
-
 		setValueField = NumberInitStatement
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
 		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Booleanfield")
@@ -1007,7 +1018,6 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 
 	}
 
-
 	// insertion initialization of objects to stage
 	for idx, astruct := range astructOrdered {
 		var setPointerField string
@@ -1130,7 +1140,6 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 
 		// Initialisation of values
 	}
-
 
 	res = strings.ReplaceAll(res, "{{Identifiers}}", identifiersDecl)
 	res = strings.ReplaceAll(res, "{{ValueInitializers}}", initializerStatements)
