@@ -51,6 +51,15 @@
         <textarea name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="classshape.Structname"></textarea>
     </mat-form-field>
 
+    <!-- -->
+    <mat-checkbox [formControl]="ShowNbInstancesFormControl">ShowNbInstances</mat-checkbox>
+
+    <!-- -->
+    <mat-form-field class="detail-full-width">
+        <mat-label>NbInstances</mat-label>
+        <input type="number" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="classshape.NbInstances" [ngModelOptions]="{standalone: true}">
+    </mat-form-field>
+
     <mat-grid-list cols="5" rowHeight="2:1">
         <mat-grid-tile [colspan]="3">
             <button mat-raised-button (click)="openReverseSelection('Field', 'Classshape_FieldsDBID', 'ONE_MANY_ASSOCIATION_MODE', '', '', '')">Fields</button>

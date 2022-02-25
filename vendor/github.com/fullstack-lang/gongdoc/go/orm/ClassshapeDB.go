@@ -74,6 +74,13 @@ type ClassshapeDB struct {
 	// Declation for basic field classshapeDB.Structname {{BasicKind}} (to be completed)
 	Structname_Data sql.NullString
 
+	// Declation for basic field classshapeDB.ShowNbInstances bool (to be completed)
+	// provide the sql storage for the boolan
+	ShowNbInstances_Data sql.NullBool
+
+	// Declation for basic field classshapeDB.NbInstances {{BasicKind}} (to be completed)
+	NbInstances_Data sql.NullInt64
+
 	// Declation for basic field classshapeDB.Width {{BasicKind}} (to be completed)
 	Width_Data sql.NullFloat64
 
@@ -107,11 +114,15 @@ type ClassshapeWOP struct {
 
 	Structname string `xlsx:"2"`
 
-	Width float64 `xlsx:"3"`
+	ShowNbInstances bool `xlsx:"3"`
 
-	Heigth float64 `xlsx:"4"`
+	NbInstances int `xlsx:"4"`
 
-	ClassshapeTargetType models.ClassshapeTargetType `xlsx:"5"`
+	Width float64 `xlsx:"5"`
+
+	Heigth float64 `xlsx:"6"`
+
+	ClassshapeTargetType models.ClassshapeTargetType `xlsx:"7"`
 	// insertion for WOP pointer fields
 }
 
@@ -120,6 +131,8 @@ var Classshape_Fields = []string{
 	"ID",
 	"Name",
 	"Structname",
+	"ShowNbInstances",
+	"NbInstances",
 	"Width",
 	"Heigth",
 	"ClassshapeTargetType",
@@ -515,6 +528,12 @@ func (classshapeDB *ClassshapeDB) CopyBasicFieldsFromClassshape(classshape *mode
 	classshapeDB.Structname_Data.String = classshape.Structname
 	classshapeDB.Structname_Data.Valid = true
 
+	classshapeDB.ShowNbInstances_Data.Bool = classshape.ShowNbInstances
+	classshapeDB.ShowNbInstances_Data.Valid = true
+
+	classshapeDB.NbInstances_Data.Int64 = int64(classshape.NbInstances)
+	classshapeDB.NbInstances_Data.Valid = true
+
 	classshapeDB.Width_Data.Float64 = classshape.Width
 	classshapeDB.Width_Data.Valid = true
 
@@ -535,6 +554,12 @@ func (classshapeDB *ClassshapeDB) CopyBasicFieldsFromClassshapeWOP(classshape *C
 	classshapeDB.Structname_Data.String = classshape.Structname
 	classshapeDB.Structname_Data.Valid = true
 
+	classshapeDB.ShowNbInstances_Data.Bool = classshape.ShowNbInstances
+	classshapeDB.ShowNbInstances_Data.Valid = true
+
+	classshapeDB.NbInstances_Data.Int64 = int64(classshape.NbInstances)
+	classshapeDB.NbInstances_Data.Valid = true
+
 	classshapeDB.Width_Data.Float64 = classshape.Width
 	classshapeDB.Width_Data.Valid = true
 
@@ -550,6 +575,8 @@ func (classshapeDB *ClassshapeDB) CopyBasicFieldsToClassshape(classshape *models
 	// insertion point for checkout of basic fields (back repo to stage)
 	classshape.Name = classshapeDB.Name_Data.String
 	classshape.Structname = classshapeDB.Structname_Data.String
+	classshape.ShowNbInstances = classshapeDB.ShowNbInstances_Data.Bool
+	classshape.NbInstances = int(classshapeDB.NbInstances_Data.Int64)
 	classshape.Width = classshapeDB.Width_Data.Float64
 	classshape.Heigth = classshapeDB.Heigth_Data.Float64
 	classshape.ClassshapeTargetType = models.ClassshapeTargetType(classshapeDB.ClassshapeTargetType_Data.String)
@@ -561,6 +588,8 @@ func (classshapeDB *ClassshapeDB) CopyBasicFieldsToClassshapeWOP(classshape *Cla
 	// insertion point for checkout of basic fields (back repo to stage)
 	classshape.Name = classshapeDB.Name_Data.String
 	classshape.Structname = classshapeDB.Structname_Data.String
+	classshape.ShowNbInstances = classshapeDB.ShowNbInstances_Data.Bool
+	classshape.NbInstances = int(classshapeDB.NbInstances_Data.Int64)
 	classshape.Width = classshapeDB.Width_Data.Float64
 	classshape.Heigth = classshapeDB.Heigth_Data.Float64
 	classshape.ClassshapeTargetType = models.ClassshapeTargetType(classshapeDB.ClassshapeTargetType_Data.String)

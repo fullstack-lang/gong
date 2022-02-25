@@ -13,6 +13,13 @@ export function newUmlClassShape(classshape: gongdoc.ClassshapeDB): joint.shapes
         }
     )
 
+    let classShapeTitle = classshape.Structname
+
+    // show nb of instances if necessary
+    if (classshape.ShowNbInstances) {
+        classShapeTitle += " ( " + classshape.NbInstances + " )"
+    }
+
     return new joint.shapes.uml.Class(
         {
             position: {
@@ -20,7 +27,7 @@ export function newUmlClassShape(classshape: gongdoc.ClassshapeDB): joint.shapes
                 y: classshape.Position!.Y
             },
             size: { width: classshape.Width, height: classshape.Heigth },
-            name: [classshape.Structname],
+            name: [classShapeTitle],
             attributes: attributes,
             methods: [],
             attrs: {
