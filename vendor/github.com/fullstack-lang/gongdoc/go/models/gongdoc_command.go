@@ -194,6 +194,14 @@ func init() {
 						classshape.ClassshapeTargetType = STRUCT
 						classshape.Width = 240
 						classshape.Heigth = 63
+
+						// attach GongStruct to classshape
+						gongStruct, ok := Stage.GongStructs_mapString[classshape.Structname]
+						if ok {
+							classshape.GongStruct = gongStruct
+							classshape.ShowNbInstances = true
+							classshape.NbInstances = gongStruct.NbInstances
+						}
 						classshape.Stage()
 
 						var position Position
