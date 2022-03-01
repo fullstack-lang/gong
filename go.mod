@@ -22,12 +22,11 @@ require (
 	golang.org/x/tools v0.1.7
 	google.golang.org/protobuf v1.27.1 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
-	gorm.io/driver/sqlite v1.1.6 // indirect
 	gorm.io/gorm v1.22.5
 )
 
 require (
-	github.com/fullstack-lang/gongdoc v0.0.0-20220224062957-72a7cf7cda06
+	github.com/fullstack-lang/gongdoc v0.0.0-20220301164556-7422c9fb2288
 	github.com/glebarez/sqlite v1.3.5
 )
 
@@ -51,7 +50,6 @@ require (
 	github.com/kr/pretty v0.3.0 // indirect
 	github.com/kr/text v0.2.0 // indirect
 	github.com/leodido/go-urn v1.2.1 // indirect
-	github.com/mattn/go-sqlite3 v1.14.10 // indirect
 	github.com/modern-go/reflect2 v1.0.2 // indirect
 	github.com/peterbourgon/diskv v2.0.1+incompatible // indirect
 	github.com/remyoudompheng/bigfft v0.0.0-20200410134404-eec4a21b6bb0 // indirect

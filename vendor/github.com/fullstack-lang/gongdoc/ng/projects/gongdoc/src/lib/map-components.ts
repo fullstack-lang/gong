@@ -5,6 +5,8 @@
   import { ClassshapeSortingComponent } from './classshape-sorting/classshape-sorting.component'
   import { FieldsTableComponent } from './fields-table/fields-table.component'
   import { FieldSortingComponent } from './field-sorting/field-sorting.component'
+  import { GongStructsTableComponent } from './gongstructs-table/gongstructs-table.component'
+  import { GongStructSortingComponent } from './gongstruct-sorting/gongstruct-sorting.component'
   import { GongdocCommandsTableComponent } from './gongdoccommands-table/gongdoccommands-table.component'
   import { GongdocCommandSortingComponent } from './gongdoccommand-sorting/gongdoccommand-sorting.component'
   import { GongdocStatussTableComponent } from './gongdocstatuss-table/gongdocstatuss-table.component'
@@ -29,6 +31,8 @@
   export const MapOfClassshapeSortingComponents: Map<string, any> = new Map([["ClassshapeSortingComponent", ClassshapeSortingComponent],])
   export const MapOfFieldsComponents: Map<string, any> = new Map([["FieldsTableComponent", FieldsTableComponent],])
   export const MapOfFieldSortingComponents: Map<string, any> = new Map([["FieldSortingComponent", FieldSortingComponent],])
+  export const MapOfGongStructsComponents: Map<string, any> = new Map([["GongStructsTableComponent", GongStructsTableComponent],])
+  export const MapOfGongStructSortingComponents: Map<string, any> = new Map([["GongStructSortingComponent", GongStructSortingComponent],])
   export const MapOfGongdocCommandsComponents: Map<string, any> = new Map([["GongdocCommandsTableComponent", GongdocCommandsTableComponent],])
   export const MapOfGongdocCommandSortingComponents: Map<string, any> = new Map([["GongdocCommandSortingComponent", GongdocCommandSortingComponent],])
   export const MapOfGongdocStatussComponents: Map<string, any> = new Map([["GongdocStatussTableComponent", GongdocStatussTableComponent],])
@@ -54,6 +58,7 @@ export const MapOfComponents: Map<string, any> =
       ["Classdiagram", MapOfClassdiagramsComponents],
       ["Classshape", MapOfClassshapesComponents],
       ["Field", MapOfFieldsComponents],
+      ["GongStruct", MapOfGongStructsComponents],
       ["GongdocCommand", MapOfGongdocCommandsComponents],
       ["GongdocStatus", MapOfGongdocStatussComponents],
       ["Link", MapOfLinksComponents],
@@ -73,6 +78,7 @@ export const MapOfSortingComponents: Map<string, any> =
       ["Classdiagram", MapOfClassdiagramSortingComponents],
       ["Classshape", MapOfClassshapeSortingComponents],
       ["Field", MapOfFieldSortingComponents],
+      ["GongStruct", MapOfGongStructSortingComponents],
       ["GongdocCommand", MapOfGongdocCommandSortingComponents],
       ["GongdocStatus", MapOfGongdocStatusSortingComponents],
       ["Link", MapOfLinkSortingComponents],
