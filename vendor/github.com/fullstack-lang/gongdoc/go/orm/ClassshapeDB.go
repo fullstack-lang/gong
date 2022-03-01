@@ -50,6 +50,10 @@ type ClassshapePointersEnconding struct {
 	// This field is generated into another field to enable AS ONE association
 	PositionID sql.NullInt64
 
+	// field GongStruct is a pointer to another Struct (optional or 0..1)
+	// This field is generated into another field to enable AS ONE association
+	GongStructID sql.NullInt64
+
 	// Implementation of a reverse ID for field Classdiagram{}.Classshapes []*Classshape
 	Classdiagram_ClassshapesDBID sql.NullInt64
 
@@ -288,6 +292,15 @@ func (backRepoClassshape *BackRepoClassshapeStruct) CommitPhaseTwoInstance(backR
 			}
 		}
 
+		// commit pointer value classshape.GongStruct translates to updating the classshape.GongStructID
+		classshapeDB.GongStructID.Valid = true // allow for a 0 value (nil association)
+		if classshape.GongStruct != nil {
+			if GongStructId, ok := (*backRepo.BackRepoGongStruct.Map_GongStructPtr_GongStructDBID)[classshape.GongStruct]; ok {
+				classshapeDB.GongStructID.Int64 = int64(GongStructId)
+				classshapeDB.GongStructID.Valid = true
+			}
+		}
+
 		// This loop encodes the slice of pointers classshape.Fields into the back repo.
 		// Each back repo instance at the end of the association encode the ID of the association start
 		// into a dedicated field for coding the association. The back repo instance is then saved to the db
@@ -434,6 +447,10 @@ func (backRepoClassshape *BackRepoClassshapeStruct) CheckoutPhaseTwoInstance(bac
 	// Position field
 	if classshapeDB.PositionID.Int64 != 0 {
 		classshape.Position = (*backRepo.BackRepoPosition.Map_PositionDBID_PositionPtr)[uint(classshapeDB.PositionID.Int64)]
+	}
+	// GongStruct field
+	if classshapeDB.GongStructID.Int64 != 0 {
+		classshape.GongStruct = (*backRepo.BackRepoGongStruct.Map_GongStructDBID_GongStructPtr)[uint(classshapeDB.GongStructID.Int64)]
 	}
 	// This loop redeem classshape.Fields in the stage from the encode in the back repo
 	// It parses all FieldDB in the back repo and if the reverse pointer encoding matches the back repo ID
@@ -754,6 +771,12 @@ func (backRepoClassshape *BackRepoClassshapeStruct) RestorePhaseTwo() {
 		if classshapeDB.PositionID.Int64 != 0 {
 			classshapeDB.PositionID.Int64 = int64(BackRepoPositionid_atBckpTime_newID[uint(classshapeDB.PositionID.Int64)])
 			classshapeDB.PositionID.Valid = true
+		}
+
+		// reindexing GongStruct field
+		if classshapeDB.GongStructID.Int64 != 0 {
+			classshapeDB.GongStructID.Int64 = int64(BackRepoGongStructid_atBckpTime_newID[uint(classshapeDB.GongStructID.Int64)])
+			classshapeDB.GongStructID.Valid = true
 		}
 
 		// This reindex classshape.Classshapes

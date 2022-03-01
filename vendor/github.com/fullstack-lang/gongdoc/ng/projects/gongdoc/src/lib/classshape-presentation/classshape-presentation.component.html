@@ -21,6 +21,10 @@
         <td class="mat-cell">{{classshape.Structname}}</td>
     </tr>
     <tr class="mat-row">
+        <td class="mat-cell">GongStruct</td>
+        <td class="mat-cell">{{classshape.GongStruct ? classshape.GongStruct.Name : ""}}</td>
+    </tr>
+    <tr class="mat-row">
         <td class="mat-cell">ShowNbInstances</td>
         <td class="mat-cell">
             <mat-checkbox [checked]="classshape.ShowNbInstances" disabled=true>

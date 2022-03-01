@@ -29,6 +29,9 @@ type StageStruct struct { // insertion point for definition of arrays registerin
 	Fields           map[*Field]struct{}
 	Fields_mapString map[string]*Field
 
+	GongStructs           map[*GongStruct]struct{}
+	GongStructs_mapString map[string]*GongStruct
+
 	GongdocCommands           map[*GongdocCommand]struct{}
 	GongdocCommands_mapString map[string]*GongdocCommand
 
@@ -60,9 +63,12 @@ type StageStruct struct { // insertion point for definition of arrays registerin
 	BackRepo BackRepoInterface
 
 	// if set will be called before each commit to the back repo
-	OnInitCommitCallback OnInitCommitInterface
+	OnInitCommitCallback          OnInitCommitInterface
 	OnInitCommitFromFrontCallback OnInitCommitInterface
 	OnInitCommitFromBackCallback  OnInitCommitInterface
+
+	// store the number of instance per gongstruct
+	Map_GongStructName_InstancesNb map[string]int
 }
 
 type OnInitCommitInterface interface {
@@ -83,6 +89,8 @@ type BackRepoInterface interface {
 	CheckoutClassshape(classshape *Classshape)
 	CommitField(field *Field)
 	CheckoutField(field *Field)
+	CommitGongStruct(gongstruct *GongStruct)
+	CheckoutGongStruct(gongstruct *GongStruct)
 	CommitGongdocCommand(gongdoccommand *GongdocCommand)
 	CheckoutGongdocCommand(gongdoccommand *GongdocCommand)
 	CommitGongdocStatus(gongdocstatus *GongdocStatus)
@@ -114,6 +122,9 @@ var Stage StageStruct = StageStruct{ // insertion point for array initiatialisat
 	Fields:           make(map[*Field]struct{}),
 	Fields_mapString: make(map[string]*Field),
 
+	GongStructs:           make(map[*GongStruct]struct{}),
+	GongStructs_mapString: make(map[string]*GongStruct),
+
 	GongdocCommands:           make(map[*GongdocCommand]struct{}),
 	GongdocCommands_mapString: make(map[string]*GongdocCommand),
 
@@ -139,12 +150,28 @@ var Stage StageStruct = StageStruct{ // insertion point for array initiatialisat
 	Vertices_mapString: make(map[string]*Vertice),
 
 	// end of insertion point
+	Map_GongStructName_InstancesNb: make(map[string]int),
 }
 
 func (stage *StageStruct) Commit() {
 	if stage.BackRepo != nil {
 		stage.BackRepo.Commit(stage)
 	}
+
+	// insertion point for computing the map of number of instances per gongstruct
+	stage.Map_GongStructName_InstancesNb["Classdiagram"] = len(stage.Classdiagrams)
+	stage.Map_GongStructName_InstancesNb["Classshape"] = len(stage.Classshapes)
+	stage.Map_GongStructName_InstancesNb["Field"] = len(stage.Fields)
+	stage.Map_GongStructName_InstancesNb["GongStruct"] = len(stage.GongStructs)
+	stage.Map_GongStructName_InstancesNb["GongdocCommand"] = len(stage.GongdocCommands)
+	stage.Map_GongStructName_InstancesNb["GongdocStatus"] = len(stage.GongdocStatuss)
+	stage.Map_GongStructName_InstancesNb["Link"] = len(stage.Links)
+	stage.Map_GongStructName_InstancesNb["Pkgelt"] = len(stage.Pkgelts)
+	stage.Map_GongStructName_InstancesNb["Position"] = len(stage.Positions)
+	stage.Map_GongStructName_InstancesNb["UmlState"] = len(stage.UmlStates)
+	stage.Map_GongStructName_InstancesNb["Umlsc"] = len(stage.Umlscs)
+	stage.Map_GongStructName_InstancesNb["Vertice"] = len(stage.Vertices)
+
 }
 
 func (stage *StageStruct) Checkout() {
@@ -485,6 +512,108 @@ func DeleteORMField(field *Field) {
 	field.Unstage()
 	if Stage.AllModelsStructDeleteCallback != nil {
 		Stage.AllModelsStructDeleteCallback.DeleteORMField(field)
+	}
+}
+
+func (stage *StageStruct) getGongStructOrderedStructWithNameField() []*GongStruct {
+	// have alphabetical order generation
+	gongstructOrdered := []*GongStruct{}
+	for gongstruct := range stage.GongStructs {
+		gongstructOrdered = append(gongstructOrdered, gongstruct)
+	}
+	sort.Slice(gongstructOrdered[:], func(i, j int) bool {
+		return gongstructOrdered[i].Name < gongstructOrdered[j].Name
+	})
+	return gongstructOrdered
+}
+
+// Stage puts gongstruct to the model stage
+func (gongstruct *GongStruct) Stage() *GongStruct {
+	Stage.GongStructs[gongstruct] = __member
+	Stage.GongStructs_mapString[gongstruct.Name] = gongstruct
+
+	return gongstruct
+}
+
+// Unstage removes gongstruct off the model stage
+func (gongstruct *GongStruct) Unstage() *GongStruct {
+	delete(Stage.GongStructs, gongstruct)
+	delete(Stage.GongStructs_mapString, gongstruct.Name)
+	return gongstruct
+}
+
+// commit gongstruct to the back repo (if it is already staged)
+func (gongstruct *GongStruct) Commit() *GongStruct {
+	if _, ok := Stage.GongStructs[gongstruct]; ok {
+		if Stage.BackRepo != nil {
+			Stage.BackRepo.CommitGongStruct(gongstruct)
+		}
+	}
+	return gongstruct
+}
+
+// Checkout gongstruct to the back repo (if it is already staged)
+func (gongstruct *GongStruct) Checkout() *GongStruct {
+	if _, ok := Stage.GongStructs[gongstruct]; ok {
+		if Stage.BackRepo != nil {
+			Stage.BackRepo.CheckoutGongStruct(gongstruct)
+		}
+	}
+	return gongstruct
+}
+
+//
+// Legacy, to be deleted
+//
+
+// StageCopy appends a copy of gongstruct to the model stage
+func (gongstruct *GongStruct) StageCopy() *GongStruct {
+	_gongstruct := new(GongStruct)
+	*_gongstruct = *gongstruct
+	_gongstruct.Stage()
+	return _gongstruct
+}
+
+// StageAndCommit appends gongstruct to the model stage and commit to the orm repo
+func (gongstruct *GongStruct) StageAndCommit() *GongStruct {
+	gongstruct.Stage()
+	if Stage.AllModelsStructCreateCallback != nil {
+		Stage.AllModelsStructCreateCallback.CreateORMGongStruct(gongstruct)
+	}
+	return gongstruct
+}
+
+// DeleteStageAndCommit appends gongstruct to the model stage and commit to the orm repo
+func (gongstruct *GongStruct) DeleteStageAndCommit() *GongStruct {
+	gongstruct.Unstage()
+	DeleteORMGongStruct(gongstruct)
+	return gongstruct
+}
+
+// StageCopyAndCommit appends a copy of gongstruct to the model stage and commit to the orm repo
+func (gongstruct *GongStruct) StageCopyAndCommit() *GongStruct {
+	_gongstruct := new(GongStruct)
+	*_gongstruct = *gongstruct
+	_gongstruct.Stage()
+	if Stage.AllModelsStructCreateCallback != nil {
+		Stage.AllModelsStructCreateCallback.CreateORMGongStruct(gongstruct)
+	}
+	return _gongstruct
+}
+
+// CreateORMGongStruct enables dynamic staging of a GongStruct instance
+func CreateORMGongStruct(gongstruct *GongStruct) {
+	gongstruct.Stage()
+	if Stage.AllModelsStructCreateCallback != nil {
+		Stage.AllModelsStructCreateCallback.CreateORMGongStruct(gongstruct)
+	}
+}
+
+// DeleteORMGongStruct enables dynamic staging of a GongStruct instance
+func DeleteORMGongStruct(gongstruct *GongStruct) {
+	gongstruct.Unstage()
+	if Stage.AllModelsStructDeleteCallback != nil {
+		Stage.AllModelsStructDeleteCallback.DeleteORMGongStruct(gongstruct)
 	}
 }
 
@@ -1309,6 +1438,7 @@ type AllModelsStructCreateInterface interface { // insertion point for Callbacks
 	CreateORMClassdiagram(Classdiagram *Classdiagram)
 	CreateORMClassshape(Classshape *Classshape)
 	CreateORMField(Field *Field)
+	CreateORMGongStruct(GongStruct *GongStruct)
 	CreateORMGongdocCommand(GongdocCommand *GongdocCommand)
 	CreateORMGongdocStatus(GongdocStatus *GongdocStatus)
 	CreateORMLink(Link *Link)
@@ -1323,6 +1453,7 @@ type AllModelsStructDeleteInterface interface { // insertion point for Callbacks
 	DeleteORMClassdiagram(Classdiagram *Classdiagram)
 	DeleteORMClassshape(Classshape *Classshape)
 	DeleteORMField(Field *Field)
+	DeleteORMGongStruct(GongStruct *GongStruct)
 	DeleteORMGongdocCommand(GongdocCommand *GongdocCommand)
 	DeleteORMGongdocStatus(GongdocStatus *GongdocStatus)
 	DeleteORMLink(Link *Link)
@@ -1342,6 +1473,9 @@ func (stage *StageStruct) Reset() { // insertion point for array reset
 
 	stage.Fields = make(map[*Field]struct{})
 	stage.Fields_mapString = make(map[string]*Field)
+
+	stage.GongStructs = make(map[*GongStruct]struct{})
+	stage.GongStructs_mapString = make(map[string]*GongStruct)
 
 	stage.GongdocCommands = make(map[*GongdocCommand]struct{})
 	stage.GongdocCommands_mapString = make(map[string]*GongdocCommand)
@@ -1378,6 +1512,9 @@ func (stage *StageStruct) Nil() { // insertion point for array nil
 
 	stage.Fields = nil
 	stage.Fields_mapString = nil
+
+	stage.GongStructs = nil
+	stage.GongStructs_mapString = nil
 
 	stage.GongdocCommands = nil
 	stage.GongdocCommands_mapString = nil
@@ -1628,6 +1765,44 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
 		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Fieldtypename")
 		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(field.Fieldtypename))
+		initializerStatements += setValueField
+
+	}
+
+	map_GongStruct_Identifiers := make(map[*GongStruct]string)
+	_ = map_GongStruct_Identifiers
+
+	gongstructOrdered := []*GongStruct{}
+	for gongstruct := range stage.GongStructs {
+		gongstructOrdered = append(gongstructOrdered, gongstruct)
+	}
+	sort.Slice(gongstructOrdered[:], func(i, j int) bool {
+		return gongstructOrdered[i].Name < gongstructOrdered[j].Name
+	})
+	identifiersDecl += fmt.Sprintf("\n\n	// Declarations of staged instances of GongStruct")
+	for idx, gongstruct := range gongstructOrdered {
+
+		id = generatesIdentifier("GongStruct", idx, gongstruct.Name)
+		map_GongStruct_Identifiers[gongstruct] = id
+
+		decl = IdentifiersDecls
+		decl = strings.ReplaceAll(decl, "{{Identifier}}", id)
+		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "GongStruct")
+		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", gongstruct.Name)
+		identifiersDecl += decl
+
+		initializerStatements += fmt.Sprintf("\n\n	// GongStruct %s values setup", gongstruct.Name)
+		// Initialisation of values
+		setValueField = StringInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(gongstruct.Name))
+		initializerStatements += setValueField
+
+		setValueField = NumberInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "NbInstances")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", gongstruct.NbInstances))
 		initializerStatements += setValueField
 
 	}
@@ -2062,6 +2237,14 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 			pointersInitializesStatements += setPointerField
 		}
 
+		if classshape.GongStruct != nil {
+			setPointerField = PointerFieldInitStatement
+			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "GongStruct")
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_GongStruct_Identifiers[classshape.GongStruct])
+			pointersInitializesStatements += setPointerField
+		}
+
 		for _, _field := range classshape.Fields {
 			setPointerField = SliceOfPointersFieldInitStatement
 			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
@@ -2086,6 +2269,16 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 
 		id = generatesIdentifier("Field", idx, field.Name)
 		map_Field_Identifiers[field] = id
+
+		// Initialisation of values
+	}
+
+	for idx, gongstruct := range gongstructOrdered {
+		var setPointerField string
+		_ = setPointerField
+
+		id = generatesIdentifier("GongStruct", idx, gongstruct.Name)
+		map_GongStruct_Identifiers[gongstruct] = id
 
 		// Initialisation of values
 	}
