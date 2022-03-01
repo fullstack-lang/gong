@@ -101,7 +101,7 @@ func (db *DB) Save(value interface{}) (tx *DB) {
 
 		if tx.Error == nil && tx.RowsAffected == 0 && !tx.DryRun && !selectedUpdate {
 			result := reflect.New(tx.Statement.Schema.ModelType).Interface()
-			if err := tx.Session(&Session{}).First(result).Error; errors.Is(err, ErrRecordNotFound) {
+			if err := tx.Session(&Session{}).Take(result).Error; errors.Is(err, ErrRecordNotFound) {
 				return tx.Create(value)
 			}
 		}
@@ -285,44 +285,44 @@ func (db *DB) FirstOrCreate(dest interface{}, conds ...interface{}) (tx *DB) {
 	queryTx := db.Limit(1).Order(clause.OrderByColumn{
 		Column: clause.Column{Table: clause.CurrentTable, Name: clause.PrimaryKey},
 	})
-
-	if tx = queryTx.Find(dest, conds...); queryTx.RowsAffected == 0 {
-		if c, ok := tx.Statement.Clauses["WHERE"]; ok {
-			if where, ok := c.Expression.(clause.Where); ok {
-				tx.assignInterfacesToValue(where.Exprs)
-			}
-		}
-
-		// initialize with attrs, conds
-		if len(tx.Statement.attrs) > 0 {
-			tx.assignInterfacesToValue(tx.Statement.attrs...)
-		}
-
-		// initialize with attrs, conds
-		if len(tx.Statement.assigns) > 0 {
-			tx.assignInterfacesToValue(tx.Statement.assigns...)
-		}
-
-		return tx.Create(dest)
-	} else if len(db.Statement.assigns) > 0 {
-		exprs := tx.Statement.BuildCondition(db.Statement.assigns[0], db.Statement.assigns[1:]...)
-		assigns := map[string]interface{}{}
-		for _, expr := range exprs {
-			if eq, ok := expr.(clause.Eq); ok {
-				switch column := eq.Column.(type) {
-				case string:
-					assigns[column] = eq.Value
-				case clause.Column:
-					assigns[column.Name] = eq.Value
-				default:
+	if tx = queryTx.Find(dest, conds...); tx.Error == nil {
+		if tx.RowsAffected == 0 {
+			if c, ok := tx.Statement.Clauses["WHERE"]; ok {
+				if where, ok := c.Expression.(clause.Where); ok {
+					tx.assignInterfacesToValue(where.Exprs)
 				}
 			}
+
+			// initialize with attrs, conds
+			if len(tx.Statement.attrs) > 0 {
+				tx.assignInterfacesToValue(tx.Statement.attrs...)
+			}
+
+			// initialize with attrs, conds
+			if len(tx.Statement.assigns) > 0 {
+				tx.assignInterfacesToValue(tx.Statement.assigns...)
+			}
+
+			return tx.Create(dest)
+		} else if len(db.Statement.assigns) > 0 {
+			exprs := tx.Statement.BuildCondition(db.Statement.assigns[0], db.Statement.assigns[1:]...)
+			assigns := map[string]interface{}{}
+			for _, expr := range exprs {
+				if eq, ok := expr.(clause.Eq); ok {
+					switch column := eq.Column.(type) {
+					case string:
+						assigns[column] = eq.Value
+					case clause.Column:
+						assigns[column.Name] = eq.Value
+					default:
+					}
+				}
+			}
+
+			return tx.Model(dest).Updates(assigns)
 		}
-
-		return tx.Model(dest).Updates(assigns)
 	}
-
-	return db
+	return tx
 }
 
 // Update update attributes with callbacks, refer: https://gorm.io/docs/update.html#Update-Changed-Fields
@@ -419,9 +419,11 @@ func (db *DB) Count(count *int64) (tx *DB) {
 
 	tx.Statement.Dest = count
 	tx = tx.callbacks.Query().Execute(tx)
-	if tx.RowsAffected != 1 {
+
+	if _, ok := db.Statement.Clauses["GROUP BY"]; ok || tx.RowsAffected != 1 {
 		*count = tx.RowsAffected
 	}
+
 	return
 }
 
@@ -454,15 +456,13 @@ func (db *DB) Scan(dest interface{}) (tx *DB) {
 	tx = db.getInstance()
 	tx.Config = &config
 
-	if rows, err := tx.Rows(); err != nil {
-		tx.AddError(err)
-	} else {
-		defer rows.Close()
+	if rows, err := tx.Rows(); err == nil {
 		if rows.Next() {
 			tx.ScanRows(rows, dest)
 		} else {
 			tx.RowsAffected = 0
 		}
+		tx.AddError(rows.Close())
 	}
 
 	currentLogger.Trace(tx.Statement.Context, newLogger.BeginAt, func() (string, int64) {
@@ -511,8 +511,30 @@ func (db *DB) ScanRows(rows *sql.Rows, dest interface{}) error {
 		}
 		tx.Statement.ReflectValue = elem
 	}
-	Scan(rows, tx, true)
+	Scan(rows, tx, ScanInitialized)
 	return tx.Error
+}
+
+// Connection  use a db conn to execute Multiple commands,this conn will put conn pool after it is executed.
+func (db *DB) Connection(fc func(tx *DB) error) (err error) {
+	if db.Error != nil {
+		return db.Error
+	}
+
+	tx := db.getInstance()
+	sqlDB, err := tx.DB()
+	if err != nil {
+		return
+	}
+
+	conn, err := sqlDB.Conn(tx.Statement.Context)
+	if err != nil {
+		return
+	}
+
+	defer conn.Close()
+	tx.Statement.ConnPool = conn
+	return fc(tx)
 }
 
 // Transaction start a transaction as a block, return error will rollback, otherwise to commit.
@@ -523,6 +545,10 @@ func (db *DB) Transaction(fc func(tx *DB) error, opts ...*sql.TxOptions) (err er
 		// nested transaction
 		if !db.DisableNestedTransaction {
 			err = db.SavePoint(fmt.Sprintf("sp%p", fc)).Error
+			if err != nil {
+				return
+			}
+
 			defer func() {
 				// Make sure to rollback when panic, Block error or Commit error
 				if panicked || err != nil {
@@ -531,11 +557,12 @@ func (db *DB) Transaction(fc func(tx *DB) error, opts ...*sql.TxOptions) (err er
 			}()
 		}
 
-		if err == nil {
-			err = fc(db.Session(&Session{}))
-		}
+		err = fc(db.Session(&Session{}))
 	} else {
 		tx := db.Begin(opts...)
+		if tx.Error != nil {
+			return tx.Error
+		}
 
 		defer func() {
 			// Make sure to rollback when panic, Block error or Commit error
@@ -544,12 +571,9 @@ func (db *DB) Transaction(fc func(tx *DB) error, opts ...*sql.TxOptions) (err er
 			}
 		}()
 
-		if err = tx.Error; err == nil {
-			err = fc(tx)
-		}
-
-		if err == nil {
-			err = tx.Commit().Error
+		if err = fc(tx); err == nil {
+			panicked = false
+			return tx.Commit().Error
 		}
 	}
 

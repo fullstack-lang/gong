@@ -35,6 +35,13 @@ export * from './lib/fields-table/fields-table.component'
 export * from './lib/field-db'
 export * from './lib/field.service'
 
+export * from './lib/gongstruct-detail/gongstruct-detail.component'
+export * from './lib/gongstruct-presentation/gongstruct-presentation.component'
+export * from './lib/gongstruct-sorting/gongstruct-sorting.component'
+export * from './lib/gongstructs-table/gongstructs-table.component'
+export * from './lib/gongstruct-db'
+export * from './lib/gongstruct.service'
+
 export * from './lib/gongdoccommand-detail/gongdoccommand-detail.component'
 export * from './lib/gongdoccommand-presentation/gongdoccommand-presentation.component'
 export * from './lib/gongdoccommand-sorting/gongdoccommand-sorting.component'

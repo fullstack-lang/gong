@@ -20,21 +20,20 @@ func Query(db *gorm.DB) {
 				db.AddError(err)
 				return
 			}
-			defer rows.Close()
-
-			gorm.Scan(rows, db, false)
+			gorm.Scan(rows, db, 0)
+			db.AddError(rows.Close())
 		}
 	}
 }
 
 func BuildQuerySQL(db *gorm.DB) {
-	if db.Statement.Schema != nil && !db.Statement.Unscoped {
+	if db.Statement.Schema != nil {
 		for _, c := range db.Statement.Schema.QueryClauses {
 			db.Statement.AddClause(c)
 		}
 	}
 
-	if db.Statement.SQL.String() == "" {
+	if db.Statement.SQL.Len() == 0 {
 		db.Statement.SQL.Grow(100)
 		clauseSelect := clause.Select{Distinct: db.Statement.Distinct}
 
@@ -221,7 +220,7 @@ func Preload(db *gorm.DB) {
 
 		for _, name := range preloadNames {
 			if rel := db.Statement.Schema.Relationships.Relations[name]; rel != nil {
-				preload(db, rel, db.Statement.Preloads[name], preloadMap[name])
+				preload(db, rel, append(db.Statement.Preloads[name], db.Statement.Preloads[clause.Associations]...), preloadMap[name])
 			} else {
 				db.AddError(fmt.Errorf("%s: %w for schema %s", name, gorm.ErrUnsupportedRelation, db.Statement.Schema.Name))
 			}
