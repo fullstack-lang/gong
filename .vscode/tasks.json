@@ -99,7 +99,7 @@
         {
             "label": "04 - go run test2",
             "type": "shell",
-            "command": "cd test2; go run main.go",
+            "command": "cd test2/go/cmd/test2; go run main.go",
             "group": "build"
         },
         {
