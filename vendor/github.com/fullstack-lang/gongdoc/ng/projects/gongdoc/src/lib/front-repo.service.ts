@@ -13,6 +13,9 @@ import { ClassshapeService } from './classshape.service'
 import { FieldDB } from './field-db'
 import { FieldService } from './field.service'
 
+import { GongStructDB } from './gongstruct-db'
+import { GongStructService } from './gongstruct.service'
+
 import { GongdocCommandDB } from './gongdoccommand-db'
 import { GongdocCommandService } from './gongdoccommand.service'
 
@@ -49,6 +52,9 @@ export class FrontRepo { // insertion point sub template
   Fields_array = new Array<FieldDB>(); // array of repo instances
   Fields = new Map<number, FieldDB>(); // map of repo instances
   Fields_batch = new Map<number, FieldDB>(); // same but only in last GET (for finding repo instances to delete)
+  GongStructs_array = new Array<GongStructDB>(); // array of repo instances
+  GongStructs = new Map<number, GongStructDB>(); // map of repo instances
+  GongStructs_batch = new Map<number, GongStructDB>(); // same but only in last GET (for finding repo instances to delete)
   GongdocCommands_array = new Array<GongdocCommandDB>(); // array of repo instances
   GongdocCommands = new Map<number, GongdocCommandDB>(); // map of repo instances
   GongdocCommands_batch = new Map<number, GongdocCommandDB>(); // same but only in last GET (for finding repo instances to delete)
@@ -134,6 +140,7 @@ export class FrontRepoService {
     private classdiagramService: ClassdiagramService,
     private classshapeService: ClassshapeService,
     private fieldService: FieldService,
+    private gongstructService: GongStructService,
     private gongdoccommandService: GongdocCommandService,
     private gongdocstatusService: GongdocStatusService,
     private linkService: LinkService,
@@ -175,6 +182,7 @@ export class FrontRepoService {
     Observable<ClassdiagramDB[]>,
     Observable<ClassshapeDB[]>,
     Observable<FieldDB[]>,
+    Observable<GongStructDB[]>,
     Observable<GongdocCommandDB[]>,
     Observable<GongdocStatusDB[]>,
     Observable<LinkDB[]>,
@@ -187,6 +195,7 @@ export class FrontRepoService {
       this.classdiagramService.getClassdiagrams(),
       this.classshapeService.getClassshapes(),
       this.fieldService.getFields(),
+      this.gongstructService.getGongStructs(),
       this.gongdoccommandService.getGongdocCommands(),
       this.gongdocstatusService.getGongdocStatuss(),
       this.linkService.getLinks(),
@@ -213,6 +222,7 @@ export class FrontRepoService {
             classdiagrams_,
             classshapes_,
             fields_,
+            gongstructs_,
             gongdoccommands_,
             gongdocstatuss_,
             links_,
@@ -230,6 +240,8 @@ export class FrontRepoService {
             classshapes = classshapes_ as ClassshapeDB[]
             var fields: FieldDB[]
             fields = fields_ as FieldDB[]
+            var gongstructs: GongStructDB[]
+            gongstructs = gongstructs_ as GongStructDB[]
             var gongdoccommands: GongdocCommandDB[]
             gongdoccommands = gongdoccommands_ as GongdocCommandDB[]
             var gongdocstatuss: GongdocStatusDB[]
@@ -340,6 +352,39 @@ export class FrontRepoService {
 
             // sort Fields_array array
             FrontRepoSingloton.Fields_array.sort((t1, t2) => {
+              if (t1.Name > t2.Name) {
+                return 1;
+              }
+              if (t1.Name < t2.Name) {
+                return -1;
+              }
+              return 0;
+            });
+
+            // init the array
+            FrontRepoSingloton.GongStructs_array = gongstructs
+
+            // clear the map that counts GongStruct in the GET
+            FrontRepoSingloton.GongStructs_batch.clear()
+
+            gongstructs.forEach(
+              gongstruct => {
+                FrontRepoSingloton.GongStructs.set(gongstruct.ID, gongstruct)
+                FrontRepoSingloton.GongStructs_batch.set(gongstruct.ID, gongstruct)
+              }
+            )
+
+            // clear gongstructs that are absent from the batch
+            FrontRepoSingloton.GongStructs.forEach(
+              gongstruct => {
+                if (FrontRepoSingloton.GongStructs_batch.get(gongstruct.ID) == undefined) {
+                  FrontRepoSingloton.GongStructs.delete(gongstruct.ID)
+                }
+              }
+            )
+
+            // sort GongStructs_array array
+            FrontRepoSingloton.GongStructs_array.sort((t1, t2) => {
               if (t1.Name > t2.Name) {
                 return 1;
               }
@@ -647,6 +692,13 @@ export class FrontRepoService {
                     classshape.Position = _position
                   }
                 }
+                // insertion point for pointer field GongStruct redeeming
+                {
+                  let _gongstruct = FrontRepoSingloton.GongStructs.get(classshape.GongStructID.Int64)
+                  if (_gongstruct) {
+                    classshape.GongStruct = _gongstruct
+                  }
+                }
 
                 // insertion point for redeeming ONE-MANY associations
                 // insertion point for slice of pointer field Classdiagram.Classshapes redeeming
@@ -682,6 +734,13 @@ export class FrontRepoService {
                     }
                   }
                 }
+              }
+            )
+            gongstructs.forEach(
+              gongstruct => {
+                // insertion point sub sub template for ONE-/ZERO-ONE associations pointers redeeming
+
+                // insertion point for redeeming ONE-MANY associations
               }
             )
             gongdoccommands.forEach(
@@ -893,6 +952,13 @@ export class FrontRepoService {
                     classshape.Position = _position
                   }
                 }
+                // insertion point for pointer field GongStruct redeeming
+                {
+                  let _gongstruct = FrontRepoSingloton.GongStructs.get(classshape.GongStructID.Int64)
+                  if (_gongstruct) {
+                    classshape.GongStruct = _gongstruct
+                  }
+                }
 
                 // insertion point for redeeming ONE-MANY associations
                 // insertion point for slice of pointer field Classdiagram.Classshapes redeeming
@@ -980,6 +1046,57 @@ export class FrontRepoService {
               field => {
                 if (FrontRepoSingloton.Fields_batch.get(field.ID) == undefined) {
                   FrontRepoSingloton.Fields.delete(field.ID)
+                }
+              }
+            )
+
+            // 
+            // Second Step: redeem pointers between instances (thanks to maps in the First Step)
+            // insertion point sub template 
+
+            // hand over control flow to observer
+            observer.next(FrontRepoSingloton)
+          }
+        )
+      }
+    )
+  }
+
+  // GongStructPull performs a GET on GongStruct of the stack and redeem association pointers 
+  GongStructPull(): Observable<FrontRepo> {
+    return new Observable<FrontRepo>(
+      (observer) => {
+        combineLatest([
+          this.gongstructService.getGongStructs()
+        ]).subscribe(
+          ([ // insertion point sub template 
+            gongstructs,
+          ]) => {
+            // init the array
+            FrontRepoSingloton.GongStructs_array = gongstructs
+
+            // clear the map that counts GongStruct in the GET
+            FrontRepoSingloton.GongStructs_batch.clear()
+
+            // 
+            // First Step: init map of instances
+            // insertion point sub template 
+            gongstructs.forEach(
+              gongstruct => {
+                FrontRepoSingloton.GongStructs.set(gongstruct.ID, gongstruct)
+                FrontRepoSingloton.GongStructs_batch.set(gongstruct.ID, gongstruct)
+
+                // insertion point for redeeming ONE/ZERO-ONE associations
+
+                // insertion point for redeeming ONE-MANY associations
+              }
+            )
+
+            // clear gongstructs that are absent from the GET
+            FrontRepoSingloton.GongStructs.forEach(
+              gongstruct => {
+                if (FrontRepoSingloton.GongStructs_batch.get(gongstruct.ID) == undefined) {
+                  FrontRepoSingloton.GongStructs.delete(gongstruct.ID)
                 }
               }
             )
@@ -1461,27 +1578,30 @@ export function getClassshapeUniqueID(id: number): number {
 export function getFieldUniqueID(id: number): number {
   return 41 * id
 }
-export function getGongdocCommandUniqueID(id: number): number {
+export function getGongStructUniqueID(id: number): number {
   return 43 * id
 }
-export function getGongdocStatusUniqueID(id: number): number {
+export function getGongdocCommandUniqueID(id: number): number {
   return 47 * id
 }
-export function getLinkUniqueID(id: number): number {
+export function getGongdocStatusUniqueID(id: number): number {
   return 53 * id
 }
-export function getPkgeltUniqueID(id: number): number {
+export function getLinkUniqueID(id: number): number {
   return 59 * id
 }
-export function getPositionUniqueID(id: number): number {
+export function getPkgeltUniqueID(id: number): number {
   return 61 * id
 }
-export function getUmlStateUniqueID(id: number): number {
+export function getPositionUniqueID(id: number): number {
   return 67 * id
 }
-export function getUmlscUniqueID(id: number): number {
+export function getUmlStateUniqueID(id: number): number {
   return 71 * id
 }
-export function getVerticeUniqueID(id: number): number {
+export function getUmlscUniqueID(id: number): number {
   return 73 * id
+}
+export function getVerticeUniqueID(id: number): number {
+  return 79 * id
 }

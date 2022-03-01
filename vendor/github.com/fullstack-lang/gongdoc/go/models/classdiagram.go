@@ -145,8 +145,7 @@ func (classdiagram *Classdiagram) Unmarshall(expr ast.Expr, fset *token.FileSet)
 									}
 								}
 							case *ast.CompositeLit: // this is a definition
-								var _classshape Classshape
-								classshape = &_classshape
+								classshape = new(Classshape)
 								classshape.Unmarshall(exp, fset)
 							default:
 								log.Panic("Value shoud be a composite lit or a unary" +

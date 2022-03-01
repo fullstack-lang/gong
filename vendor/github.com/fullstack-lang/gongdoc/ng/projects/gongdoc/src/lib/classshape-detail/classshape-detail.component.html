@@ -51,6 +51,16 @@
         <textarea name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="classshape.Structname"></textarea>
     </mat-form-field>
 
+    <mat-form-field class="detail-full-width">
+        <mat-label>GongStruct</mat-label>
+        <mat-select [compareWith]="compareObjects" [(value)]="classshape.GongStruct" (selectionChange)="fillUpNameIfEmpty($event)">
+            <mat-option>None</mat-option>
+            <mat-option *ngFor="let gongstruct of frontRepo.GongStructs_array" [value]="gongstruct">
+                {{gongstruct.Name}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+
     <!-- -->
     <mat-checkbox [formControl]="ShowNbInstancesFormControl">ShowNbInstances</mat-checkbox>
 

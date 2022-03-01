@@ -53,6 +53,11 @@ import { FieldSortingComponent } from './field-sorting/field-sorting.component'
 import { FieldDetailComponent } from './field-detail/field-detail.component'
 import { FieldPresentationComponent } from './field-presentation/field-presentation.component'
 
+import { GongStructsTableComponent } from './gongstructs-table/gongstructs-table.component'
+import { GongStructSortingComponent } from './gongstruct-sorting/gongstruct-sorting.component'
+import { GongStructDetailComponent } from './gongstruct-detail/gongstruct-detail.component'
+import { GongStructPresentationComponent } from './gongstruct-presentation/gongstruct-presentation.component'
+
 import { GongdocCommandsTableComponent } from './gongdoccommands-table/gongdoccommands-table.component'
 import { GongdocCommandSortingComponent } from './gongdoccommand-sorting/gongdoccommand-sorting.component'
 import { GongdocCommandDetailComponent } from './gongdoccommand-detail/gongdoccommand-detail.component'
@@ -111,6 +116,11 @@ import { VerticePresentationComponent } from './vertice-presentation/vertice-pre
 		FieldSortingComponent,
 		FieldDetailComponent,
 		FieldPresentationComponent,
+
+		GongStructsTableComponent,
+		GongStructSortingComponent,
+		GongStructDetailComponent,
+		GongStructPresentationComponent,
 
 		GongdocCommandsTableComponent,
 		GongdocCommandSortingComponent,
@@ -205,6 +215,11 @@ import { VerticePresentationComponent } from './vertice-presentation/vertice-pre
 		FieldSortingComponent,
 		FieldDetailComponent,
 		FieldPresentationComponent,
+
+		GongStructsTableComponent,
+		GongStructSortingComponent,
+		GongStructDetailComponent,
+		GongStructPresentationComponent,
 
 		GongdocCommandsTableComponent,
 		GongdocCommandSortingComponent,
