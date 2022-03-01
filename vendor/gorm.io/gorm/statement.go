@@ -173,7 +173,12 @@ func (stmt *Statement) AddVar(writer clause.Writer, vars ...interface{}) {
 		case clause.Column, clause.Table:
 			stmt.QuoteTo(writer, v)
 		case Valuer:
-			stmt.AddVar(writer, v.GormValue(stmt.Context, stmt.DB))
+			reflectValue := reflect.ValueOf(v)
+			if reflectValue.Kind() == reflect.Ptr && reflectValue.IsNil() {
+				stmt.AddVar(writer, nil)
+			} else {
+				stmt.AddVar(writer, v.GormValue(stmt.Context, stmt.DB))
+			}
 		case clause.Expr:
 			v.Build(stmt)
 		case *clause.Expr:
@@ -227,6 +232,9 @@ func (stmt *Statement) AddVar(writer clause.Writer, vars ...interface{}) {
 			case reflect.Slice, reflect.Array:
 				if rv.Len() == 0 {
 					writer.WriteString("(NULL)")
+				} else if rv.Type().Elem() == reflect.TypeOf(uint8(0)) {
+					stmt.Vars = append(stmt.Vars, v)
+					stmt.DB.Dialector.BindVarTo(writer, stmt, v)
 				} else {
 					writer.WriteByte('(')
 					for i := 0; i < rv.Len(); i++ {
@@ -284,6 +292,11 @@ func (stmt *Statement) BuildCondition(query interface{}, args ...interface{}) []
 				return []clause.Expression{clause.NamedExpr{SQL: s, Vars: args}}
 			}
 
+			if strings.Contains(strings.TrimSpace(s), " ") {
+				// looks like a where condition
+				return []clause.Expression{clause.Expr{SQL: s, Vars: args}}
+			}
+
 			if len(args) == 1 {
 				return []clause.Expression{clause.Eq{Column: s, Value: args[0]}}
 			}
@@ -318,7 +331,7 @@ func (stmt *Statement) BuildCondition(query interface{}, args ...interface{}) []
 				conds = append(conds, clause.Eq{Column: i, Value: j})
 			}
 		case map[string]string:
-			var keys = make([]string, 0, len(v))
+			keys := make([]string, 0, len(v))
 			for i := range v {
 				keys = append(keys, i)
 			}
@@ -328,7 +341,7 @@ func (stmt *Statement) BuildCondition(query interface{}, args ...interface{}) []
 				conds = append(conds, clause.Eq{Column: key, Value: v[key]})
 			}
 		case map[string]interface{}:
-			var keys = make([]string, 0, len(v))
+			keys := make([]string, 0, len(v))
 			for i := range v {
 				keys = append(keys, i)
 			}
@@ -456,7 +469,11 @@ func (stmt *Statement) Build(clauses ...string) {
 }
 
 func (stmt *Statement) Parse(value interface{}) (err error) {
-	if stmt.Schema, err = schema.Parse(value, stmt.DB.cacheStore, stmt.DB.NamingStrategy); err == nil && stmt.Table == "" {
+	return stmt.ParseWithSpecialTableName(value, "")
+}
+
+func (stmt *Statement) ParseWithSpecialTableName(value interface{}, specialTableName string) (err error) {
+	if stmt.Schema, err = schema.ParseWithSpecialTableName(value, stmt.DB.cacheStore, stmt.DB.NamingStrategy, specialTableName); err == nil && stmt.Table == "" {
 		if tables := strings.Split(stmt.Schema.Table, "."); len(tables) == 2 {
 			stmt.TableExpr = &clause.Expr{SQL: stmt.Quote(stmt.Schema.Table)}
 			stmt.Table = tables[1]
@@ -661,6 +678,10 @@ func (stmt *Statement) SelectAndOmitColumns(requireCreate, requireUpdate bool) (
 	for _, omit := range stmt.Omits {
 		if stmt.Schema == nil {
 			results[omit] = false
+		} else if omit == "*" {
+			for _, dbName := range stmt.Schema.DBNames {
+				results[dbName] = false
+			}
 		} else if omit == clause.Associations {
 			for _, rel := range stmt.Schema.Relationships.Relations {
 				results[rel.Name] = false

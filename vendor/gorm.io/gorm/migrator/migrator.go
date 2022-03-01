@@ -43,7 +43,7 @@ func (m Migrator) RunWithValue(value interface{}, fc func(*gorm.Statement) error
 
 	if table, ok := value.(string); ok {
 		stmt.Table = table
-	} else if err := stmt.Parse(value); err != nil {
+	} else if err := stmt.ParseWithSpecialTableName(value, stmt.Table); err != nil {
 		return err
 	}
 
@@ -97,11 +97,12 @@ func (m Migrator) AutoMigrate(values ...interface{}) error {
 			if err := m.RunWithValue(value, func(stmt *gorm.Statement) (errr error) {
 				columnTypes, _ := m.DB.Migrator().ColumnTypes(value)
 
-				for _, field := range stmt.Schema.FieldsByDBName {
+				for _, dbName := range stmt.Schema.DBNames {
+					field := stmt.Schema.FieldsByDBName[dbName]
 					var foundColumn gorm.ColumnType
 
 					for _, columnType := range columnTypes {
-						if columnType.Name() == field.DBName {
+						if columnType.Name() == dbName {
 							foundColumn = columnType
 							break
 						}
@@ -109,7 +110,7 @@ func (m Migrator) AutoMigrate(values ...interface{}) error {
 
 					if foundColumn == nil {
 						// not found, add column
-						if err := tx.Migrator().AddColumn(value, field.DBName); err != nil {
+						if err := tx.Migrator().AddColumn(value, dbName); err != nil {
 							return err
 						}
 					} else if err := m.DB.Migrator().MigrateColumn(value, field, foundColumn); err != nil {
@@ -153,6 +154,12 @@ func (m Migrator) AutoMigrate(values ...interface{}) error {
 	}
 
 	return nil
+}
+
+func (m Migrator) GetTables() (tableList []string, err error) {
+	err = m.DB.Raw("SELECT TABLE_NAME FROM information_schema.tables where TABLE_SCHEMA=?", m.CurrentDatabase()).
+		Scan(&tableList).Error
+	return
 }
 
 func (m Migrator) CreateTable(values ...interface{}) error {
@@ -384,7 +391,7 @@ func (m Migrator) MigrateColumn(value interface{}, field *schema.Field, columnTy
 	alterColumn := false
 
 	// check size
-	if length, _ := columnType.Length(); length != int64(field.Size) {
+	if length, ok := columnType.Length(); length != int64(field.Size) {
 		if length > 0 && field.Size > 0 {
 			alterColumn = true
 		} else {
@@ -393,7 +400,7 @@ func (m Migrator) MigrateColumn(value interface{}, field *schema.Field, columnTy
 			matches := regRealDataType.FindAllStringSubmatch(realDataType, -1)
 			matches2 := regFullDataType.FindAllStringSubmatch(fullDataType, -1)
 			if (len(matches) == 1 && matches[0][1] != fmt.Sprint(field.Size) || !field.PrimaryKey) &&
-				(len(matches2) == 1 && matches2[0][1] != fmt.Sprint(length)) {
+				(len(matches2) == 1 && matches2[0][1] != fmt.Sprint(length) && ok) {
 				alterColumn = true
 			}
 		}
@@ -424,13 +431,15 @@ func (m Migrator) MigrateColumn(value interface{}, field *schema.Field, columnTy
 // ColumnTypes return columnTypes []gorm.ColumnType and execErr error
 func (m Migrator) ColumnTypes(value interface{}) ([]gorm.ColumnType, error) {
 	columnTypes := make([]gorm.ColumnType, 0)
-	execErr := m.RunWithValue(value, func(stmt *gorm.Statement) error {
+	execErr := m.RunWithValue(value, func(stmt *gorm.Statement) (err error) {
 		rows, err := m.DB.Session(&gorm.Session{}).Table(stmt.Table).Limit(1).Rows()
 		if err != nil {
 			return err
 		}
 
-		defer rows.Close()
+		defer func() {
+			err = rows.Close()
+		}()
 
 		var rawColumnTypes []*sql.ColumnType
 		rawColumnTypes, err = rows.ColumnTypes()
@@ -442,7 +451,7 @@ func (m Migrator) ColumnTypes(value interface{}) ([]gorm.ColumnType, error) {
 			columnTypes = append(columnTypes, c)
 		}
 
-		return nil
+		return
 	})
 
 	return columnTypes, execErr
@@ -533,7 +542,7 @@ func (m Migrator) CreateConstraint(value interface{}, name string) error {
 		}
 
 		if constraint != nil {
-			var vars = []interface{}{clause.Table{Name: table}}
+			vars := []interface{}{clause.Table{Name: table}}
 			if stmt.TableExpr != nil {
 				vars[0] = stmt.TableExpr
 			}
