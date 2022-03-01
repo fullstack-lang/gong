@@ -24,8 +24,10 @@ type Pkgelt struct {
 
 	Path string
 
+	// Classdiagrams store UML Classdiagrams
 	Classdiagrams []*Classdiagram
 
+	// Umlscs stores UML State charts diagrams
 	Umlscs []*Umlsc
 }
 
