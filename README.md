@@ -4,11 +4,10 @@
   - [1.3. Gong is intended for system engineering tooling](#13-gong-is-intended-for-system-engineering-tooling)
   - [1.4. Prerequisite](#14-prerequisite)
     - [1.4.1. Go](#141-go)
-    - [1.4.2. gcc](#142-gcc)
-    - [1.4.3. go-swagger (optional)](#143-go-swagger-optional)
-    - [1.4.4. npm](#144-npm)
-    - [1.4.5. Angular](#145-angular)
-    - [1.4.6. Vscode (optional)](#146-vscode-optional)
+    - [1.4.2. go-swagger (optional)](#142-go-swagger-optional)
+    - [1.4.3. npm](#143-npm)
+    - [1.4.4. Angular](#144-angular)
+    - [1.4.5. Vscode (optional)](#145-vscode-optional)
 - [2. Using gong](#2-using-gong)
   - [2.1. Running the gong test application](#21-running-the-gong-test-application)
   - [2.2. Testing the generation of the code](#22-testing-the-generation-of-the-code)
@@ -65,23 +64,21 @@ the developement of the system of interest, therefore the need for fast iteratio
 
 go version equal or above 1.16 is mandatory (cf. use of `embed` package). See https://golang.org for installation.
 
-### 1.4.2. gcc
+Gong uses sqlite3 in a cgo free configuration.
 
-A stack uses gorm for database access and sqlite as the default database. The sqlite driver requires cgo, which requires gcc.
-
-### 1.4.3. go-swagger (optional)
+### 1.4.2. go-swagger (optional)
 
 [go-swagger](https://github.com/go-swagger/go-swagger) is a go program is used after each `gongc` compilation to generate the project API in a `yml` file. *gongc* is robust to the absence of go-swagger but it is recommanded to use it if you need to document the API with yaml.
 
-### 1.4.4. npm
+### 1.4.3. npm
 
 Gong uses npm version >= 6.14 (see https://nodejs.org)
 
-### 1.4.5. Angular
+### 1.4.4. Angular
 
 Gong uses angular version >= 11 (see https://angular.io for installation)
 
-### 1.4.6. Vscode (optional)
+### 1.4.5. Vscode (optional)
 
 Vscode is usefull & handy because the tasks definitions and debug configuration related to gong are provided in the repository.
 
