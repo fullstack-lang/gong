@@ -68,7 +68,7 @@ Gong uses sqlite3 in a cgo free configuration.
 
 ### 1.4.2. go-swagger (optional)
 
-[go-swagger](https://github.com/go-swagger/go-swagger) is a go program is used after each `gongc` compilation to generate the project API in a `yml` file. *gongc* is robust to the absence of go-swagger but it is recommanded to use it if you need to document the API with yaml.
+[go-swagger](https://github.com/go-swagger/go-swagger) is a go program that is used (as an option) after each `gongc` compilation to generate the project API in a `yml` file. *gongc* is robust to the absence of go-swagger but it is recommanded to use it if you need to document the back-end API with yaml.
 
 ### 1.4.3. npm
 
@@ -76,7 +76,7 @@ Gong uses npm version >= 6.14 (see https://nodejs.org)
 
 ### 1.4.4. Angular
 
-Gong uses angular version >= 11 (see https://angular.io for installation)
+Gong uses angular version >= 11 && <= 12 (see https://angular.io for installation)
 
 ### 1.4.5. Vscode (optional)
 
