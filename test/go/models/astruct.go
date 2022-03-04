@@ -4,9 +4,7 @@ import (
 	"time"
 )
 
-// Astruct demonstrate basic metabaron
-//
-// 		swagger:model Astruct
+// Astruct demonstrate basic gong features
 type Astruct struct {
 
 	// a "Name" field is necessary to generate a GongStruct
