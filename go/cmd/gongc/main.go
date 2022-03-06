@@ -202,7 +202,7 @@ func main() {
 	// check existance of .vscode directory. If absent, generates default vscode configurations
 	// that are usefull for development
 	{
-		vscodeDirFilePath := "../../.vscode"
+		vscodeDirFilePath := filepath.Join(*pkgPath, "../../.vscode")
 
 		_, errd := os.Stat(vscodeDirFilePath)
 		if os.IsNotExist(errd) {
