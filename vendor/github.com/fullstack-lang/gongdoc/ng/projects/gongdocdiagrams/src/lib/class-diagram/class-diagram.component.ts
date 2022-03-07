@@ -77,8 +77,8 @@ export class ClassDiagramComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private router: Router,
 
-    private PositionService: gongdoc.PositionService,
-    private VerticeService: gongdoc.VerticeService,
+    private positionService: gongdoc.PositionService,
+    private verticeService: gongdoc.VerticeService,
 
     private gongdocFrontRepoService: gongdoc.FrontRepoService,
     private GongdocCommandService: gongdoc.GongdocCommandService,
@@ -103,7 +103,7 @@ export class ClassDiagramComponent implements OnInit, OnDestroy {
 
   // neccessary to unsubscribe
   ngOnDestroy() {
-    console.log("on destroy")
+    // console.log("on destroy")
     this.checkGongdocCommitNbTimerSubscription.unsubscribe()
     this.gongdocCommitNbService_getCommitNb.unsubscribe()
   }
@@ -122,14 +122,14 @@ export class ClassDiagramComponent implements OnInit, OnDestroy {
 
             // console.log("last commit nb " + this.lastCommitNb + " new: " + commitNb)
             // console.log("last diagram id " + this.lastDiagramId + " new: " + id)
-            console.log("last drawn diagram id " + this.idOfDrawnClassDiagram + " new: " + id)
+            // console.log("last drawn diagram id " + this.idOfDrawnClassDiagram + " new: " + id)
 
             // condition for refresh
             if (this.lastCommitNb < commitNb || this.lastDiagramId != id || this.idOfDrawnClassDiagram != id) {
 
-              console.log("last commit nb " + this.lastCommitNb + " new: " + commitNb)
-              console.log("last diagram id " + this.lastDiagramId + " new: " + id)
-              console.log("last drawn diagram id " + this.idOfDrawnClassDiagram + " new: " + id)
+              // console.log("last commit nb " + this.lastCommitNb + " new: " + commitNb)
+              // console.log("last diagram id " + this.lastDiagramId + " new: " + id)
+              // console.log("last drawn diagram id " + this.idOfDrawnClassDiagram + " new: " + id)
               this.pullGongdocAndDrawDiagram()
               this.lastCommitNb = commitNb
               this.lastDiagramId = id
@@ -141,33 +141,63 @@ export class ClassDiagramComponent implements OnInit, OnDestroy {
     )
   }
 
+  // onMove is called each time the shape is moved
+  onClassshapeMove(umlClassShape: joint.shapes.uml.Class) {
+    // console.log(umlClassShape.id, ':', umlClassShape.get('position'));
+
+    let classhape = umlClassShape.attributes['classshape'] as gongdoc.ClassshapeDB
+    let positionService = umlClassShape.attributes['positionService'] as gongdoc.PositionService
+    let position = classhape.Position
+    position!.X = umlClassShape.get('position')!.x
+    position!.Y = umlClassShape.get('position')!.y
+
+    positionService.updatePosition(position!).subscribe(
+      position => {
+        // console.log("position updated")
+      }
+    )
+  }
+
+  // onMove is called each time the shape is moved
+  onLinkMove(standardLink: joint.shapes.standard.Link) {
+    // console.log(standardLink.id, ':', standardLink.get('vertices'));
+
+    let middleVertice = standardLink.attributes['middleVertice'] as gongdoc.VerticeDB
+    let verticeService = standardLink.attributes['verticeService'] as gongdoc.VerticeService
+
+    middleVertice!.X = standardLink.get('vertices')![0].x
+    middleVertice!.Y = standardLink.get('vertices')![0].y
+
+    verticeService.updateVertice(middleVertice!).subscribe(
+      middleVertice => {
+        // console.log("middleVertice updated")
+      }
+    )
+  }
+
   //
   // make a jointjs umlclass from a gong Classshape object
   //
-  addClassshapeToGraph(classshape: gongdoc.ClassshapeDB) {
+  addClassshapeToGraph(classshape: gongdoc.ClassshapeDB): joint.shapes.uml.Class {
     //
-    // Fetch fields 
+    // creates the UML shape
     //
-    const umlClassShape = newUmlClassShape(classshape)
+    let umlClassShape = newUmlClassShape(classshape, this.positionService)
 
     // structRectangle.attributes = ['firstName: String']
     umlClassShape.addTo(this.graph!);
 
-    // horrible hack because the TS compiles assets that umlclasshape.id is not a string but a 
-    // an attribute of type joint.dia.Dimension
-    var id: any;
-    id = umlClassShape.id;
-    var idstring: string
-    idstring = id;
-    this.Map_CellId_ClassshapeDB.set(idstring, classshape)
+    this.Map_CellId_ClassshapeDB.set(umlClassShape.id.toString(), classshape)
     this.Map_GongStructName_JointjsUMLClassShape.set(classshape.Structname, umlClassShape)
+
+    return umlClassShape
   }
 
   //
   // turn gong instances into a jointjs diagram
   //
   drawClassdiagram(): void {
-    console.log("draw diagram")
+    // console.log("draw diagram")
 
     const namespace = joint.shapes;
 
@@ -176,10 +206,10 @@ export class ClassDiagramComponent implements OnInit, OnDestroy {
     //
     // this is a work in progress
     //
-    let diagramWidth = 300
+    let diagramWidth = 600
     if (this.classdiagram != undefined) {
       if (this.classdiagram.Classshapes != undefined) {
-        diagramWidth = (this.classdiagram.Classshapes.length + 1) * 300
+        diagramWidth = (this.classdiagram.Classshapes.length + 2) * 300
 
         this.idOfDrawnClassDiagram = this.classdiagram.ID
       }
@@ -189,6 +219,8 @@ export class ClassDiagramComponent implements OnInit, OnDestroy {
     //
     // a jointjs diagram is a Graph instance with a Paper instance
     //
+    // the graph stores the logical elements
+    // the paper stores the SVG elements
     this.graph = new joint.dia.Graph(
       {},
       { cellNamespace: this.namespace } // critical piece of code. 
@@ -208,8 +240,12 @@ export class ClassDiagramComponent implements OnInit, OnDestroy {
     // draw class shapes from the gong classshapes
     if (this.classdiagram?.Classshapes != undefined) {
       for (let classshape of this.classdiagram.Classshapes) {
-        this.addClassshapeToGraph(classshape)
+        let umlClassShape = this.addClassshapeToGraph(classshape)
+
+        // add a backbone event handler to update the position
+        umlClassShape.on('change:position', this.onClassshapeMove)
       }
+
 
       // draw links of the diagram shapes
       for (let classshape of this.classdiagram.Classshapes) {
@@ -280,7 +316,14 @@ export class ClassDiagramComponent implements OnInit, OnDestroy {
                     }
                   }
                 ],
+                // store relevant attributes for working when callback are invoked
+                middleVertice: linkDB.Middlevertice,
+                verticeService: this.verticeService,
               })
+
+              // add a backbone event handler to update the position
+              link.on('change:vertices', this.onLinkMove)
+
               link.addTo(this.graph);
 
               // later, we need to save the diagram
@@ -291,14 +334,8 @@ export class ClassDiagramComponent implements OnInit, OnDestroy {
               //      find the original LinkDB and updates its position
               //
               // Because each cell has an unique id
-              // we create a map of cell id to LinkDB in order 
-              // horrible hack because the TS compiles assets that umlclasshape.id is not a string but a 
-              // an attribute of type joint.dia.Dimension
-              var id: any;
-              id = link.id;
-              var idstring: string
-              idstring = id;
-              this.Map_CellId_LinkDB.set(idstring, linkDB)
+              // we create a map of cell id to LinkDB
+              this.Map_CellId_LinkDB.set(link.id.toString(), linkDB)
             }
           }
         }
@@ -319,65 +356,7 @@ export class ClassDiagramComponent implements OnInit, OnDestroy {
    * the challenge is to update the positions of classshapes and vertices
    */
   saveClassdiagram(): void {
-    console.log("save diagram")
-
-    // parse shapes positions
-    var cells = this.graph!.getCells()
-    console.log(cells.length)
-
-    cells.forEach(
-      (cell: joint.dia.Cell) => {
-        // ugly hack because cell.id is considered a Dimension by the ts compiler
-        // vive golang
-        var classshapeDB: gongdoc.ClassshapeDB;
-        var cellId: any
-        cellId = cell.id;
-
-        // update position of classshapes
-        if (this.Map_CellId_ClassshapeDB.get(cellId) != undefined) {
-
-          // retrieve the shape.
-          let classshapeDB: ClassshapeDB = this.Map_CellId_ClassshapeDB.get(cellId) as ClassshapeDB
-
-          if (classshapeDB.Position == undefined) {
-            console.log("link position undefined")
-          }
-
-          classshapeDB.Position!.X = cell.attributes.position.x
-          classshapeDB.Position!.Y = cell.attributes.position.y
-
-          // update position to DB
-          this.PositionService.updatePosition(classshapeDB.Position!).subscribe(
-            position => {
-              console.log("position updated")
-            }
-          )
-        }
-
-        // update positions of links
-        if (this.Map_CellId_LinkDB.has(cellId)) {
-
-          // retrieve the shape.
-          var linkDB: LinkDB = this.Map_CellId_LinkDB.get(cellId) as LinkDB
-
-          if (linkDB.Middlevertice == undefined) {
-            console.log("link middle vertice undefined")
-          }
-
-          // fetch corresponding position and update
-          linkDB.Middlevertice!.X = cell.attributes.vertices[0].x
-          linkDB.Middlevertice!.Y = cell.attributes.vertices[0].y
-
-          // update position to DB
-          var verticeDB = linkDB.Middlevertice
-          this.VerticeService.updateVertice(verticeDB!).subscribe(
-            position => {
-              console.log("vertice updated")
-            }
-          )
-        }
-      }
-    )
+    // console.log("save diagram")
 
     // send a marshalling command to the backend via GongdocCommandSingloton
     let gongdocCommandSingloton: gongdoc.GongdocCommandDB
@@ -391,7 +370,7 @@ export class ClassDiagramComponent implements OnInit, OnDestroy {
 
         this.GongdocCommandService.updateGongdocCommand(gongdocCommandSingloton).subscribe(
           GongdocCommand => {
-            console.log("GongdocCommand updated")
+            // console.log("GongdocCommand updated")
           }
         )
       }
@@ -402,7 +381,7 @@ export class ClassDiagramComponent implements OnInit, OnDestroy {
     this.gongdocFrontRepoService.pull().subscribe(
       frontRepo => {
         this.gongdocFrontRepo = frontRepo
-        console.log("gongdoc front repo pull returned")
+        // console.log("gongdoc front repo pull returned")
 
         const id = +this.route.snapshot.paramMap.get('id')!;
         this.classdiagram = frontRepo.Classdiagrams.get(id)!
