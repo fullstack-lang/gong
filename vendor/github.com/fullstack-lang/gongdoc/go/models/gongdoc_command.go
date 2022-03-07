@@ -4,6 +4,8 @@ import (
 	"log"
 	"path/filepath"
 	"time"
+
+	gong_models "github.com/fullstack-lang/gong/go/models"
 )
 
 // GongdocCommand is the struct of the instance that is updated by the front for issuing commands
@@ -186,6 +188,7 @@ func init() {
 
 				case DIAGRAM_ELEMENT_CREATE:
 					log.Printf("Create command node type :%s", GongdocCommandSingloton.GongdocNodeType)
+
 					switch GongdocCommandSingloton.GongdocNodeType {
 					case GONG_STRUCT:
 						var classshape Classshape
@@ -242,7 +245,41 @@ func init() {
 						basicOrTimeField.Stage()
 
 						classshape.Heigth = classshape.Heigth + 15
-						classshape.Fields = append(classshape.Fields, &basicOrTimeField)
+
+						// construct ordered slice of fields
+						rankOfFieldsInTheOriginalGongStruct := make(map[gong_models.FieldInterface]int, 0)
+						nameOfFields := make(map[string]gong_models.FieldInterface, 0)
+
+						// what is the index of the field to insert in the gong struct ?
+						indexOfFieldToInsertInTheOriginalGongStruct := 0
+
+						// let's compute it by parsing the field of the gongstruct
+						gongStruct_ := gong_models.Stage.GongStructs_mapString[GongdocCommandSingloton.StructName]
+						for idx, gongField := range gongStruct_.Fields {
+
+							rankOfFieldsInTheOriginalGongStruct[gongField] = idx
+							nameOfFields[gongField.GetName()] = gongField
+
+							if gongField.GetName() == basicOrTimeField.Name {
+								indexOfFieldToInsertInTheOriginalGongStruct = idx
+							}
+						}
+
+						// compute indexOfFieldToInsertInTheGongStructToDisplay (index where to insert the field to display)
+						indexOfFieldToInsertInTheGongStructToDisplay := 0
+						for idx, field := range classshape.Fields {
+							gongField := nameOfFields[field.Fieldname]
+							rankInTheOriginalGoncStructOfField := rankOfFieldsInTheOriginalGongStruct[gongField]
+							if indexOfFieldToInsertInTheOriginalGongStruct > rankInTheOriginalGoncStructOfField {
+								indexOfFieldToInsertInTheOriginalGongStruct = idx + 1
+							}
+						}
+
+						// append the filed to display in the right index
+						classshape.Fields = append(classshape.Fields[:indexOfFieldToInsertInTheGongStructToDisplay+1],
+							classshape.Fields[indexOfFieldToInsertInTheGongStructToDisplay:]...)
+						classshape.Fields[indexOfFieldToInsertInTheGongStructToDisplay] = &basicOrTimeField
+
 						Stage.Commit()
 
 					case POINTER_TO_STRUCT, SLICE_OF_POINTER_TO_STRUCT:
