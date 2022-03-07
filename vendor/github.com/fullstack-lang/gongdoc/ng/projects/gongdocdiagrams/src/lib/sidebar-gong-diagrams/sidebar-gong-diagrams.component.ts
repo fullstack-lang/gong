@@ -122,15 +122,15 @@ export class SidebarGongDiagramsComponent implements OnInit {
     gongFlatNode.level = level
     gongFlatNode.type = node.type
     gongFlatNode.structName = node.structName
-    gongFlatNode.id = node.id,
-      gongFlatNode.uniqueIdPerStack = node.uniqueIdPerStack,
+    gongFlatNode.id = node.id
+    gongFlatNode.uniqueIdPerStack = node.uniqueIdPerStack
 
-      // specific to gongdoc
-      gongFlatNode.presentInDiagram = node.presentInDiagram
-    gongFlatNode.gongBasicField = node.gongBasicField,
-      gongFlatNode.gongPointerToGongStructField = node.gongPointerToGongStructField,
-      gongFlatNode.gongSliceOfPointerToGongStructField = node.gongSliceOfPointerToGongStructField,
-      gongFlatNode.canBeIncluded = node.canBeIncluded
+    // specific to gongdoc
+    gongFlatNode.presentInDiagram = node.presentInDiagram
+    gongFlatNode.gongBasicField = node.gongBasicField
+    gongFlatNode.gongPointerToGongStructField = node.gongPointerToGongStructField
+    gongFlatNode.gongSliceOfPointerToGongStructField = node.gongSliceOfPointerToGongStructField
+    gongFlatNode.canBeIncluded = node.canBeIncluded
 
     return gongFlatNode
   }

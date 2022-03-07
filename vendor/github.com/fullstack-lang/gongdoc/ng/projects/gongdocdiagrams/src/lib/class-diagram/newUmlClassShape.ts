@@ -1,17 +1,25 @@
 import * as joint from 'jointjs';
 import * as gongdoc from 'gongdoc'
+import { range } from 'lodash';
 
-export function newUmlClassShape(classshape: gongdoc.ClassshapeDB): joint.shapes.uml.Class {
+export function newUmlClassShape(classshape: gongdoc.ClassshapeDB, positionService: gongdoc.PositionService): joint.shapes.uml.Class {
 
     // fetch the fields, it must belong to the current diagram
     // and the type must match the classshape type
     var attributes = new Array<string>()
-    classshape.Fields?.forEach(
-        field => {
-            // console.log(field.Fieldname + " " + field.Structname + " " + field.Fieldtypename)
+    if (classshape.Fields) {
+
+        // sort fields according to the index
+        classshape.Fields.sort((fieldA: gongdoc.FieldDB, fieldB: gongdoc.FieldDB) => {
+            return fieldA.Classshape_FieldsDBID_Index.Int64 - fieldB.Classshape_FieldsDBID_Index.Int64
+        })
+
+        for (let idx = 0; idx < classshape.Fields!.length; idx++) {
+            let field = classshape.Fields![idx]
+            console.log("Adding " + field.Fieldname + " " + field.Structname + " " + field.Fieldtypename)
             attributes.push(field.Fieldname + " : " + field.Fieldtypename)
         }
-    )
+    }
 
     let classShapeTitle = classshape.Structname
 
@@ -57,7 +65,11 @@ export function newUmlClassShape(classshape: gongdoc.ClassshapeDB): joint.shapes
                     'y-alignment': 'top',
                     'font-family': 'Roboto'
                 }
-            }
+            },
+
+            // store relevant attributes for working when callback are invoked
+            classshape: classshape,
+            positionService: positionService,
         }
     )
 
