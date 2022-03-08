@@ -32,6 +32,12 @@ const TsConfigInsertForPaths = `
       "leaflet-rotatedmarker": [
         "./node_modules/leaflet-rotatedmarker"
       ],
+      "lodash": [
+        "./node_modules/lodash"
+      ],
+      "@types/loash": [
+        "./node_modules/@types/loash"
+      ],
       "jointjs": [
         "./node_modules/jointjs"
       ],
