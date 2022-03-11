@@ -5,7 +5,6 @@ package orm
 
 import (
 	"fmt"
-	"log"
 
 	"github.com/glebarez/sqlite"
 	"gorm.io/gorm"
