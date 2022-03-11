@@ -16,11 +16,11 @@ func GenerateFields(structName string, __struct *types.Struct, pkg *packages.Pac
 	modelPkg *ModelPkg) {
 
 	for fieldIndex := 0; fieldIndex < __struct.NumFields(); fieldIndex++ {
-		log.Printf("field #%d\n", fieldIndex)
+		// log.Printf("field #%d\n", fieldIndex)
 
 		_typesField := __struct.Field(fieldIndex)
-		log.Printf("field name %s\n", _typesField.Name())
-		log.Printf("field type name %s\n", _typesField.Type().String())
+		// log.Printf("field name %s\n", _typesField.Name())
+		// log.Printf("field type name %s\n", _typesField.Type().String())
 
 		// only deal with exported fields
 		if _typesField.Name() != strings.Title(_typesField.Name()) {
@@ -37,7 +37,7 @@ func GenerateFields(structName string, __struct *types.Struct, pkg *packages.Pac
 		switch t2 := fieldUnderlying.(type) {
 		case *types.Basic:
 			var kindAsString string
-			log.Printf("field is a basic pointer of type %s\n", t2.Underlying().String())
+			// log.Printf("field is a basic pointer of type %s\n", t2.Underlying().String())
 			switch t2.Kind() {
 			case types.Bool:
 				kindAsString = "bool"
@@ -74,7 +74,7 @@ func GenerateFields(structName string, __struct *types.Struct, pkg *packages.Pac
 			if typesBehindPointer == "bool" {
 				log.Fatal("Field is pointer to bool")
 			}
-			log.Printf("field is a pointer of type %s\n", typesBehindPointer)
+			// log.Printf("field is a pointer of type %s\n", typesBehindPointer)
 
 			__struct, ok := modelPkg.GongStructs[t2.Elem().String()]
 
@@ -102,7 +102,7 @@ func GenerateFields(structName string, __struct *types.Struct, pkg *packages.Pac
 			switch t3 := assocPtr.(type) {
 			case *types.Pointer:
 				assocLongName := t3.Elem().String()
-				log.Printf("field is a slice of type %s\n", assocLongName)
+				// log.Printf("field is a slice of type %s\n", assocLongName)
 
 				modelPkg.GongStructs[structName].Fields =
 					append(modelPkg.GongStructs[structName].Fields, //
@@ -114,7 +114,7 @@ func GenerateFields(structName string, __struct *types.Struct, pkg *packages.Pac
 					)
 
 			default:
-				log.Printf("unkown type in slice" + assocPtr.String())
+				// log.Printf("unkown type in slice" + assocPtr.String())
 			}
 
 		//
@@ -124,7 +124,8 @@ func GenerateFields(structName string, __struct *types.Struct, pkg *packages.Pac
 			compositeTypeStruct := fieldUnderlying.(*types.Struct)
 
 			compositeTypeStructName := _typesField.Type().String()
-			log.Printf("field is a composite struct of type %s\n", compositeTypeStructName)
+			_ = compositeTypeStructName
+			// log.Printf("field is a composite struct of type %s\n", compositeTypeStructName)
 
 			if _typesField.Type().String() == "time.Time" {
 				modelPkg.GongStructs[structName].Fields =
