@@ -49,7 +49,7 @@ func Walk(relativePathToModel string, modelPkg *ModelPkg) {
 	if err != nil {
 		log.Panic("Path does not exist %s ;" + directory)
 	}
-	log.Println("Loading package " + directory)
+	// log.Println("Loading package " + directory)
 
 	//
 	// prepare package load
