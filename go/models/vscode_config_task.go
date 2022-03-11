@@ -12,7 +12,7 @@ const VsCodeTasksConfig = `{
 		"command": "go",
 		"args": [
 		  "run",
-		  "main.go",
+		  ".",
 		  "-diagrams",
 		],
 		"group": "build"
@@ -26,7 +26,7 @@ const VsCodeTasksConfig = `{
 		"command": "go",
 		"args": [
 		  "run",
-		  "main.go",
+		  ".",
 		  "-diagrams=false"
 		],
 		"group": "build"
