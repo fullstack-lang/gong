@@ -11,6 +11,6 @@ export interface AEnumTypeSelect {
 }
 
 export const AEnumTypeList: AEnumTypeSelect[] = [ // insertion point	
-	{ value: "ENUM_VAL1_NOT_THE_SAME", viewValue: "ENUM_VAL1_NOT_THE_SAME" },
-	{ value: "ENUM_VAL2", viewValue: "ENUM_VAL2" },
+	{ value: AEnumType.ENUM_VAL1, viewValue: "ENUM_VAL1_NOT_THE_SAME" },
+	{ value: AEnumType.ENUM_VAL2, viewValue: "ENUM_VAL2" },
 ];
