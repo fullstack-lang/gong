@@ -31,7 +31,7 @@ var __member __void
 
 // StageStruct enables storage of staged instances
 // swagger:ignore
-type StageStruct struct { // insertion point for definition of arrays registering instances{{` + string(rune(ModelGongStructArrayDefintion)) + `}}
+type StageStruct struct { // insertion point for definition of arrays registering instances{{` + string(rune(ModelGongInsertionArrayDefintion)) + `}}
 	AllModelsStructCreateCallback AllModelsStructCreateInterface
 
 	AllModelsStructDeleteCallback AllModelsStructDeleteInterface
@@ -58,7 +58,7 @@ type BackRepoInterface interface {
 	Restore(stage *StageStruct, dirPath string)
 	BackupXL(stage *StageStruct, dirPath string)
 	RestoreXL(stage *StageStruct, dirPath string)
-	// insertion point for Commit and Checkout signatures{{` + string(rune(ModelGongInsertionCommitCheckoutSignature)) + `}}
+	// insertion point for Commit and Checkout signatures{{` + string(rune(ModelGongInsertionCommitCheckout)) + `}}
 	GetLastCommitFromBackNb() uint
 	GetLastPushFromFrontNb() uint
 }
@@ -199,9 +199,7 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 	setValueField := ""
 
 	// insertion initialization of objects to stage{{` + string(rune(ModelGongInsertionUnmarshallDeclarations)) + `}}
-
 	// insertion initialization of objects to stage{{` + string(rune(ModelGongInsertionUnmarshallPointersInitializations)) + `}}
-
 	res = strings.ReplaceAll(res, "{{Identifiers}}", identifiersDecl)
 	res = strings.ReplaceAll(res, "{{ValueInitializers}}", initializerStatements)
 	res = strings.ReplaceAll(res, "{{PointersInitializers}}", pointersInitializesStatements)
@@ -226,11 +224,13 @@ func generatesIdentifier(gongStructName string, idx int, instanceName string) (i
 }
 `
 
-// insertion points
-type ModelGongInsertionPoints int
+//
+// insertion points are places where the code is inserted into the above template
+//
+type ModelGongInsertionId int
 
 const (
-	ModelGongInsertionCommitCheckoutSignature ModelGongInsertionPoints = iota
+	ModelGongInsertionCommitCheckout ModelGongInsertionId = iota
 	ModelGongInsertionStageFunctions
 	ModelGongInsertionCreateCallback
 	ModelGongInsertionDeleteCallback
@@ -244,29 +244,13 @@ const (
 	ModelGongInsertionsNb
 )
 
-type ModelGongSubTemplate int
-
-const (
-	ModelGongCommitCheckout ModelGongSubTemplate = iota
-	ModelGongStageFunction
-	ModelGongStructCreateCallback
-	ModelGongStructDeleteCallback
-	ModelGongStructArrayDefintion
-	ModelGongStructArrayInitialisation
-	ModelGongStructArrayReset
-	ModelGongStructArrayNil
-	ModelGongStructUnmarshallStatementsStepValuesInit
-	ModelGongStructUnmarshallStatementsStepPointersInit
-	ModelGongStructComputeNbInstances
-)
-
-var ModelGongSubTemplateCode map[ModelGongSubTemplate]string = // new line
-map[ModelGongSubTemplate]string{
-	ModelGongCommitCheckout: `
+var ModelGongSubTemplateCode map[ModelGongInsertionId]string = // new line
+map[ModelGongInsertionId]string{
+	ModelGongInsertionCommitCheckout: `
 	Commit{{Structname}}({{structname}} *{{Structname}})
 	Checkout{{Structname}}({{structname}} *{{Structname}})`,
 
-	ModelGongStageFunction: `
+	ModelGongInsertionStageFunctions: `
 func (stage *StageStruct) get{{Structname}}OrderedStructWithNameField() []*{{Structname}} {
 	// have alphabetical order generation
 	{{structname}}Ordered := []*{{Structname}}{}
@@ -370,33 +354,33 @@ func DeleteORM{{Structname}}({{structname}} *{{Structname}}) {
 }
 `,
 
-	ModelGongStructCreateCallback: `
+	ModelGongInsertionCreateCallback: `
 	CreateORM{{Structname}}({{Structname}} *{{Structname}})`,
 
-	ModelGongStructDeleteCallback: `
+	ModelGongInsertionDeleteCallback: `
 	DeleteORM{{Structname}}({{Structname}} *{{Structname}})`,
 
-	ModelGongStructArrayDefintion: `
+	ModelGongInsertionArrayDefintion: `
 	{{Structname}}s           map[*{{Structname}}]struct{}
 	{{Structname}}s_mapString map[string]*{{Structname}}
 `,
 
-	ModelGongStructArrayInitialisation: `
+	ModelGongInsertionArrayInitialisation: `
 	{{Structname}}s:           make(map[*{{Structname}}]struct{}),
 	{{Structname}}s_mapString: make(map[string]*{{Structname}}),
 `,
 
-	ModelGongStructArrayReset: `
+	ModelGongInsertionArrayReset: `
 	stage.{{Structname}}s = make(map[*{{Structname}}]struct{})
 	stage.{{Structname}}s_mapString = make(map[string]*{{Structname}})
 `,
 
-	ModelGongStructArrayNil: `
+	ModelGongInsertionArrayNil: `
 	stage.{{Structname}}s = nil
 	stage.{{Structname}}s_mapString = nil
 `,
 
-	ModelGongStructUnmarshallStatementsStepValuesInit: `
+	ModelGongInsertionUnmarshallDeclarations: `
 	map_{{Structname}}_Identifiers := make(map[*{{Structname}}]string)
 	_ = map_{{Structname}}_Identifiers
 
@@ -424,7 +408,7 @@ func DeleteORM{{Structname}}({{structname}} *{{Structname}}) {
 	}
 `,
 
-	ModelGongStructUnmarshallStatementsStepPointersInit: `
+	ModelGongInsertionUnmarshallPointersInitializations: `
 	for idx, {{structname}} := range {{structname}}Ordered {
 		var setPointerField string
 		_ = setPointerField
@@ -436,23 +420,19 @@ func DeleteORM{{Structname}}({{structname}} *{{Structname}}) {
 	}
 `,
 
-	ModelGongStructComputeNbInstances: `
+	ModelGongInsertionComputeNbInstances: `
 	stage.Map_GongStructName_InstancesNb["{{Structname}}"] = len(stage.{{Structname}}s)`,
 }
 
-var ModelGongSubSubTemplateCode map[string]string = // new line
-map[string]string{}
-
-var ModelGongSubSubToSubMap map[string]string = //
-map[string]string{}
-
 //
-// Sub Templates
+// Sub Templates identifiers
 //
-type GongFilePerStructSubTemplate int
+// For each gongstruct, a code snippet will be generated from each sub template
+//
+type GongFilePerStructSubTemplateId int
 
 const (
-	GongFileFieldSubTmplSetBasicFieldBool GongFilePerStructSubTemplate = iota
+	GongFileFieldSubTmplSetBasicFieldBool GongFilePerStructSubTemplateId = iota
 	GongFileFieldSubTmplSetBasicFieldInt
 	GongFileFieldSubTmplSetBasicFieldFloat64
 	GongFileFieldSubTmplSetBasicFieldString
@@ -462,8 +442,11 @@ const (
 	GongFileFieldSubTmplSetSliceOfPointersField
 )
 
-var GongFileFieldFieldSubTemplateCode map[GongFilePerStructSubTemplate]string = // declaration of the sub templates
-map[GongFilePerStructSubTemplate]string{
+//
+// for each sub template code, there is the sub template code
+//
+var GongFileFieldFieldSubTemplateCode map[GongFilePerStructSubTemplateId]string = // declaration of the sub templates
+map[GongFilePerStructSubTemplateId]string{
 
 	GongFileFieldSubTmplSetBasicFieldBool: `
 		setValueField = NumberInitStatement
@@ -478,7 +461,6 @@ map[GongFilePerStructSubTemplate]string{
 		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "{{FieldName}}")
 		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", {{structname}}.{{FieldName}}.String())
 		initializerStatements += setValueField
-
 `,
 	GongFileFieldSubTmplSetBasicFieldInt: `
 		setValueField = NumberInitStatement
@@ -529,12 +511,7 @@ func CodeGeneratorModelGong(
 	// generate the typescript file
 	codeGO := ModelGongFileTemplate
 
-	insertions := make(map[ModelGongInsertionPoints]string)
-	for insertion := ModelGongInsertionPoints(0); insertion < ModelGongInsertionsNb; insertion++ {
-		insertions[insertion] = ""
-	}
-
-	subCodes := make(map[ModelGongSubTemplate]string)
+	subCodes := make(map[ModelGongInsertionId]string)
 	for subTemplate := range ModelGongSubTemplateCode {
 		subCodes[subTemplate] = ""
 	}
@@ -621,13 +598,9 @@ func CodeGeneratorModelGong(
 	}
 
 	// substitutes {{<<insertion points>>}} stuff with generated code
-	for insertion := ModelGongInsertionPoints(0); insertion < ModelGongInsertionsNb; insertion++ {
-
-		// compute insertion
-		insertions[insertion] = subCodes[ModelGongSubTemplate(insertion)]
-
+	for insertion := ModelGongInsertionId(0); insertion < ModelGongInsertionsNb; insertion++ {
 		toReplace := "{{" + string(rune(insertion)) + "}}"
-		codeGO = strings.ReplaceAll(codeGO, toReplace, insertions[insertion])
+		codeGO = strings.ReplaceAll(codeGO, toReplace, subCodes[insertion])
 	}
 
 	codeGO = Replace3(codeGO,
