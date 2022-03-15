@@ -11,6 +11,6 @@ export interface BEnumTypeSelect {
 }
 
 export const BEnumTypeList: BEnumTypeSelect[] = [ // insertion point	
-	{ value: 'BENUM_VAL1', viewValue: '"BENUM_VAL1_NOT_THE_SAME"' },
-	{ value: 'BENUM_VAL2', viewValue: '"BENUM_VAL2"' },
+	{ value: "BENUM_VAL1_NOT_THE_SAME", viewValue: "BENUM_VAL1_NOT_THE_SAME" },
+	{ value: "BENUM_VAL2", viewValue: "BENUM_VAL2" },
 ];

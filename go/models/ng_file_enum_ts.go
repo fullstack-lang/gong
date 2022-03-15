@@ -46,7 +46,7 @@ var NgEnumHtmlSubTemplateCode map[NgEnumSubTemplate]string = map[NgEnumSubTempla
 	{{ConstName}} = {{ConstValue}},`,
 
 	NgEnumDeclarationForPullDownSelect: `
-	{ value: '{{ConstName}}', viewValue: '{{ConstValue}}' },`,
+	{ value: {{ConstValue}}, viewValue: {{ConstValue}} },`,
 }
 
 // MultiCodeGeneratorNgEnum parses mdlPkg and generates the code for the
