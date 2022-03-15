@@ -31,7 +31,7 @@ var __member __void
 
 // StageStruct enables storage of staged instances
 // swagger:ignore
-type StageStruct struct { // insertion point for definition of arrays registering instances{{` + string(rune(ModelGongInsertionArrayDefintion)) + `}}
+type StageStruct struct { // insertion point for definition of arrays registering instances{{` + string(rune(ModelGongStructInsertionArrayDefintion)) + `}}
 	AllModelsStructCreateCallback AllModelsStructCreateInterface
 
 	AllModelsStructDeleteCallback AllModelsStructDeleteInterface
@@ -58,13 +58,13 @@ type BackRepoInterface interface {
 	Restore(stage *StageStruct, dirPath string)
 	BackupXL(stage *StageStruct, dirPath string)
 	RestoreXL(stage *StageStruct, dirPath string)
-	// insertion point for Commit and Checkout signatures{{` + string(rune(ModelGongInsertionCommitCheckout)) + `}}
+	// insertion point for Commit and Checkout signatures{{` + string(rune(ModelGongStructInsertionCommitCheckout)) + `}}
 	GetLastCommitFromBackNb() uint
 	GetLastPushFromFrontNb() uint
 }
 
 // swagger:ignore instructs the gong compiler (gongc) to avoid this particular struct
-var Stage StageStruct = StageStruct{ // insertion point for array initiatialisation{{` + string(rune(ModelGongInsertionArrayInitialisation)) + `}}
+var Stage StageStruct = StageStruct{ // insertion point for array initiatialisation{{` + string(rune(ModelGongStructInsertionArrayInitialisation)) + `}}
 	// end of insertion point
 	Map_GongStructName_InstancesNb: make(map[string]int),
 }
@@ -74,7 +74,7 @@ func (stage *StageStruct) Commit() {
 		stage.BackRepo.Commit(stage)
 	}
 
-	// insertion point for computing the map of number of instances per gongstruct{{` + string(rune(ModelGongInsertionComputeNbInstances)) + `}}
+	// insertion point for computing the map of number of instances per gongstruct{{` + string(rune(ModelGongStructInsertionComputeNbInstances)) + `}}
 
 }
 
@@ -112,18 +112,18 @@ func (stage *StageStruct) RestoreXL(dirPath string) {
 	}
 }
 
-// insertion point for cumulative sub template with model space calls{{` + string(rune(ModelGongInsertionStageFunctions)) + `}}
+// insertion point for cumulative sub template with model space calls{{` + string(rune(ModelGongStructInsertionStageFunctions)) + `}}
 // swagger:ignore
-type AllModelsStructCreateInterface interface { // insertion point for Callbacks on creation{{` + string(rune(ModelGongInsertionCreateCallback)) + `}}
+type AllModelsStructCreateInterface interface { // insertion point for Callbacks on creation{{` + string(rune(ModelGongStructInsertionCreateCallback)) + `}}
 }
 
-type AllModelsStructDeleteInterface interface { // insertion point for Callbacks on deletion{{` + string(rune(ModelGongInsertionDeleteCallback)) + `}}
+type AllModelsStructDeleteInterface interface { // insertion point for Callbacks on deletion{{` + string(rune(ModelGongStructInsertionDeleteCallback)) + `}}
 }
 
-func (stage *StageStruct) Reset() { // insertion point for array reset{{` + string(rune(ModelGongInsertionArrayReset)) + `}}
+func (stage *StageStruct) Reset() { // insertion point for array reset{{` + string(rune(ModelGongStructInsertionArrayReset)) + `}}
 }
 
-func (stage *StageStruct) Nil() { // insertion point for array nil{{` + string(rune(ModelGongInsertionArrayNil)) + `}}
+func (stage *StageStruct) Nil() { // insertion point for array nil{{` + string(rune(ModelGongStructInsertionArrayNil)) + `}}
 }
 
 const marshallRes = ` + "`" + `package {{PackageName}}
@@ -198,8 +198,8 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 	decl := ""
 	setValueField := ""
 
-	// insertion initialization of objects to stage{{` + string(rune(ModelGongInsertionUnmarshallDeclarations)) + `}}
-	// insertion initialization of objects to stage{{` + string(rune(ModelGongInsertionUnmarshallPointersInitializations)) + `}}
+	// insertion initialization of objects to stage{{` + string(rune(ModelGongStructInsertionUnmarshallDeclarations)) + `}}
+	// insertion initialization of objects to stage{{` + string(rune(ModelGongStructInsertionUnmarshallPointersInitializations)) + `}}
 	res = strings.ReplaceAll(res, "{{Identifiers}}", identifiersDecl)
 	res = strings.ReplaceAll(res, "{{ValueInitializers}}", initializerStatements)
 	res = strings.ReplaceAll(res, "{{PointersInitializers}}", pointersInitializesStatements)
@@ -225,32 +225,33 @@ func generatesIdentifier(gongStructName string, idx int, instanceName string) (i
 `
 
 //
-// insertion points are places where the code is inserted into the above template
+// insertion points are places where the code is
+// generated per gong struct
 //
-type ModelGongInsertionId int
+type ModelGongStructInsertionId int
 
 const (
-	ModelGongInsertionCommitCheckout ModelGongInsertionId = iota
-	ModelGongInsertionStageFunctions
-	ModelGongInsertionCreateCallback
-	ModelGongInsertionDeleteCallback
-	ModelGongInsertionArrayDefintion
-	ModelGongInsertionArrayInitialisation
-	ModelGongInsertionArrayReset
-	ModelGongInsertionArrayNil
-	ModelGongInsertionUnmarshallDeclarations
-	ModelGongInsertionUnmarshallPointersInitializations
-	ModelGongInsertionComputeNbInstances
-	ModelGongInsertionsNb
+	ModelGongStructInsertionCommitCheckout ModelGongStructInsertionId = iota
+	ModelGongStructInsertionStageFunctions
+	ModelGongStructInsertionCreateCallback
+	ModelGongStructInsertionDeleteCallback
+	ModelGongStructInsertionArrayDefintion
+	ModelGongStructInsertionArrayInitialisation
+	ModelGongStructInsertionArrayReset
+	ModelGongStructInsertionArrayNil
+	ModelGongStructInsertionUnmarshallDeclarations
+	ModelGongStructInsertionUnmarshallPointersInitializations
+	ModelGongStructInsertionComputeNbInstances
+	ModelGongStructInsertionsNb
 )
 
-var ModelGongSubTemplateCode map[ModelGongInsertionId]string = // new line
-map[ModelGongInsertionId]string{
-	ModelGongInsertionCommitCheckout: `
+var ModelGongSubTemplateCode map[ModelGongStructInsertionId]string = // new line
+map[ModelGongStructInsertionId]string{
+	ModelGongStructInsertionCommitCheckout: `
 	Commit{{Structname}}({{structname}} *{{Structname}})
 	Checkout{{Structname}}({{structname}} *{{Structname}})`,
 
-	ModelGongInsertionStageFunctions: `
+	ModelGongStructInsertionStageFunctions: `
 func (stage *StageStruct) get{{Structname}}OrderedStructWithNameField() []*{{Structname}} {
 	// have alphabetical order generation
 	{{structname}}Ordered := []*{{Structname}}{}
@@ -354,33 +355,33 @@ func DeleteORM{{Structname}}({{structname}} *{{Structname}}) {
 }
 `,
 
-	ModelGongInsertionCreateCallback: `
+	ModelGongStructInsertionCreateCallback: `
 	CreateORM{{Structname}}({{Structname}} *{{Structname}})`,
 
-	ModelGongInsertionDeleteCallback: `
+	ModelGongStructInsertionDeleteCallback: `
 	DeleteORM{{Structname}}({{Structname}} *{{Structname}})`,
 
-	ModelGongInsertionArrayDefintion: `
+	ModelGongStructInsertionArrayDefintion: `
 	{{Structname}}s           map[*{{Structname}}]struct{}
 	{{Structname}}s_mapString map[string]*{{Structname}}
 `,
 
-	ModelGongInsertionArrayInitialisation: `
+	ModelGongStructInsertionArrayInitialisation: `
 	{{Structname}}s:           make(map[*{{Structname}}]struct{}),
 	{{Structname}}s_mapString: make(map[string]*{{Structname}}),
 `,
 
-	ModelGongInsertionArrayReset: `
+	ModelGongStructInsertionArrayReset: `
 	stage.{{Structname}}s = make(map[*{{Structname}}]struct{})
 	stage.{{Structname}}s_mapString = make(map[string]*{{Structname}})
 `,
 
-	ModelGongInsertionArrayNil: `
+	ModelGongStructInsertionArrayNil: `
 	stage.{{Structname}}s = nil
 	stage.{{Structname}}s_mapString = nil
 `,
 
-	ModelGongInsertionUnmarshallDeclarations: `
+	ModelGongStructInsertionUnmarshallDeclarations: `
 	map_{{Structname}}_Identifiers := make(map[*{{Structname}}]string)
 	_ = map_{{Structname}}_Identifiers
 
@@ -408,7 +409,7 @@ func DeleteORM{{Structname}}({{structname}} *{{Structname}}) {
 	}
 `,
 
-	ModelGongInsertionUnmarshallPointersInitializations: `
+	ModelGongStructInsertionUnmarshallPointersInitializations: `
 	for idx, {{structname}} := range {{structname}}Ordered {
 		var setPointerField string
 		_ = setPointerField
@@ -420,7 +421,7 @@ func DeleteORM{{Structname}}({{structname}} *{{Structname}}) {
 	}
 `,
 
-	ModelGongInsertionComputeNbInstances: `
+	ModelGongStructInsertionComputeNbInstances: `
 	stage.Map_GongStructName_InstancesNb["{{Structname}}"] = len(stage.{{Structname}}s)`,
 }
 
@@ -511,7 +512,7 @@ func CodeGeneratorModelGong(
 	// generate the typescript file
 	codeGO := ModelGongFileTemplate
 
-	subCodes := make(map[ModelGongInsertionId]string)
+	subCodes := make(map[ModelGongStructInsertionId]string)
 	for subTemplate := range ModelGongSubTemplateCode {
 		subCodes[subTemplate] = ""
 	}
@@ -598,7 +599,7 @@ func CodeGeneratorModelGong(
 	}
 
 	// substitutes {{<<insertion points>>}} stuff with generated code
-	for insertion := ModelGongInsertionId(0); insertion < ModelGongInsertionsNb; insertion++ {
+	for insertion := ModelGongStructInsertionId(0); insertion < ModelGongStructInsertionsNb; insertion++ {
 		toReplace := "{{" + string(rune(insertion)) + "}}"
 		codeGO = strings.ReplaceAll(codeGO, toReplace, subCodes[insertion])
 	}
