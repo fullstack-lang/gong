@@ -35,7 +35,7 @@
     <mat-form-field appearance="fill" class="detail-full-width">
         <mat-label>Aenum</mat-label>
         <mat-select [(ngModel)]="astruct.Aenum" [ngModelOptions]="{standalone: true}">
-            <mat-option *ngFor="let enum of AEnumTypeList" [value]="enum.value">
+            <mat-option *ngFor="let enum of AEnumTypeList" [value]="enum.viewValue">
                 {{enum.viewValue}}
             </mat-option>
         </mat-select>
