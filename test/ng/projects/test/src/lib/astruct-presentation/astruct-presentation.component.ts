@@ -7,6 +7,7 @@ import { AstructService } from '../astruct.service'
 import { FrontRepoService, FrontRepo } from '../front-repo.service'
 
 import { Router, RouterState, ActivatedRoute } from '@angular/router';
+import { CEnumTypeIntList } from '../CEnumTypeInt';
 
 export interface astructDummyElement {
 }
@@ -26,6 +27,8 @@ export class AstructPresentationComponent implements OnInit {
 	Duration1_Hours: number = 0
 	Duration1_Minutes: number = 0
 	Duration1_Seconds: number = 0
+
+	CEnumValue : string = ""
 
 	displayedColumns: string[] = []
 	dataSource = ELEMENT_DATA
@@ -72,6 +75,9 @@ export class AstructPresentationComponent implements OnInit {
 				this.Duration1_Hours = Math.floor(this.astruct.Duration1 / (3600 * 1000 * 1000 * 1000))
 				this.Duration1_Minutes = Math.floor(this.astruct.Duration1 % (3600 * 1000 * 1000 * 1000) / (60 * 1000 * 1000 * 1000))
 				this.Duration1_Seconds = this.astruct.Duration1 % (60 * 1000 * 1000 * 1000) / (1000 * 1000 * 1000)
+
+				this.CEnumValue = CEnumTypeIntList[this.astruct.CEnum].viewValue
+
 			}
 		);
 	}
