@@ -42,7 +42,7 @@ var NgDetailHtmlSubTemplateCode map[NgDetailHtmlSubTemplate]string = map[NgDetai
     <mat-form-field appearance="fill" class="detail-full-width">
         <mat-label>{{FieldName}}</mat-label>
         <mat-select [(ngModel)]="{{structname}}.{{FieldName}}" [ngModelOptions]="{standalone: true}">
-            <mat-option *ngFor="let enum of {{EnumName}}List" [value]="enum.value">
+            <mat-option *ngFor="let enum of {{EnumName}}List" [value]="enum.viewValue">
                 {{enum.viewValue}}
             </mat-option>
         </mat-select>
