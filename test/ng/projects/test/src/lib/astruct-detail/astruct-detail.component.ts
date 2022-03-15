@@ -12,6 +12,7 @@ import { MapOfSortingComponents } from '../map-components'
 // insertion point for imports
 import { AEnumTypeSelect, AEnumTypeList } from '../AEnumType'
 import { BEnumTypeSelect, BEnumTypeList } from '../BEnumType'
+import { CEnumTypeIntSelect, CEnumTypeIntList } from '../CEnumTypeInt'
 
 import { Router, RouterState, ActivatedRoute } from '@angular/router';
 
@@ -39,6 +40,7 @@ export class AstructDetailComponent implements OnInit {
 	BooleanfieldFormControl = new FormControl(false);
 	AEnumTypeList: AEnumTypeSelect[] = []
 	BEnumTypeList: BEnumTypeSelect[] = []
+	CEnumTypeIntList: CEnumTypeIntSelect[] = []
 	AnotherbooleanfieldFormControl = new FormControl(false);
 	Duration1_Hours: number = 0
 	Duration1_Minutes: number = 0
@@ -115,6 +117,7 @@ export class AstructDetailComponent implements OnInit {
 		// insertion point for initialisation of enums list
 		this.AEnumTypeList = AEnumTypeList
 		this.BEnumTypeList = BEnumTypeList
+		this.CEnumTypeIntList = CEnumTypeIntList
 	}
 
 	getAstruct(): void {
