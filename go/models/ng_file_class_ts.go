@@ -58,6 +58,8 @@ const (
 	NgClassTSSliceOfPtrToGongStructReverseID
 
 	NgClassTSOtherDeclsTimeDuration
+
+	NgClassTSOtherDeclsEnumInt
 )
 
 var NgClassSubTemplateCode map[NgClassSubTemplate]string = map[NgClassSubTemplate]string{
@@ -86,6 +88,9 @@ import { {{AssocStructName}}DB } from './{{assocStructName}}-db'`,
 `,
 
 	NgClassTSOtherDeclsTimeDuration: `
+	{{FieldName}}_string?: string`,
+
+	NgClassTSOtherDeclsEnumInt: `
 	{{FieldName}}_string?: string`,
 }
 
@@ -147,6 +152,13 @@ func MultiCodeGeneratorNgClass(
 				if field.DeclaredType == "time.Duration" {
 					TSinsertions[NgClassTsInsertionPerStructOtherDecls] += Replace1(
 						NgClassSubTemplateCode[NgClassTSOtherDeclsTimeDuration],
+						"{{FieldName}}", field.Name)
+				}
+
+				if field.GongEnum != nil && field.basicKind == types.Int {
+
+					TSinsertions[NgClassTsInsertionPerStructOtherDecls] += Replace1(
+						NgClassSubTemplateCode[NgClassTSOtherDeclsEnumInt],
 						"{{FieldName}}", field.Name)
 				}
 			case *GongTimeField:
