@@ -222,6 +222,7 @@ func generatesIdentifier(gongStructName string, idx int, instanceName string) (i
 
 	return
 }
+
 // insertion point of enum utility functions{{` + string(rune(ModelGongEnumUtilityFunctions)) + `}}
 `
 
@@ -261,19 +262,21 @@ var ModelGongEnumSubTemplateCode map[ModelGongEnumInsertionId]string = // new li
 map[ModelGongEnumInsertionId]string{
 	ModelGongEnumUtilityFunctions: `
 // Utility function for {{EnumName}}
-func ({{enumName}} {{EnumName}}) ToString() (res string) {
+// if enum values are string, it is stored with the value
+// if enum values are int, they are stored with the code of the value
+func ({{enumName}} {{EnumName}}) To{{Type}}() (res {{type}}) {
 
 	// migration of former implementation of enum
 	switch {{enumName}} {
-	// insertion code per enum code {{ToStringPerCodeCode}}
+	// insertion code per enum code{{ToStringPerCodeCode}}
 	}
 	return
 }
 
-func ({{enumName}} *{{EnumName}}) FromString(input string) {
+func ({{enumName}} *{{EnumName}}) From{{Type}}(input {{type}}) {
 
 	switch input {
-	// insertion code per enum code {{FromStringPerCodeCode}}
+	// insertion code per enum code{{FromStringPerCodeCode}}
 	}
 }
 `,
@@ -693,9 +696,18 @@ func CodeGeneratorModelGong(
 				"{{ToStringPerCodeCode}}", codeToStringPerGongValue,
 				"{{FromStringPerCodeCode}}", codeFromStringPerGongValue)
 
-			generatedCodeFromSubTemplate = Replace2(generatedCodeFromSubTemplate,
+			var typeOfEnumAsString string
+			if gongEnum.Type == String {
+				typeOfEnumAsString = "String"
+			} else {
+				typeOfEnumAsString = "Int"
+			}
+
+			generatedCodeFromSubTemplate = Replace4(generatedCodeFromSubTemplate,
 				"{{enumName}}", strings.ToLower(gongEnum.Name),
-				"{{EnumName}}", gongEnum.Name)
+				"{{EnumName}}", gongEnum.Name,
+				"{{Type}}", typeOfEnumAsString,
+				"{{type}}", strings.ToLower(typeOfEnumAsString))
 
 			subEnumCodes[subEnumTemplate] += generatedCodeFromSubTemplate
 		}

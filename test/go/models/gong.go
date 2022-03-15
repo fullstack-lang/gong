@@ -1172,6 +1172,8 @@ func generatesIdentifier(gongStructName string, idx int, instanceName string) (i
 
 // insertion point of enum utility functions
 // Utility function for AEnumType
+// if enum values are string, it is stored with the value
+// if enum values are int, they are stored with the code of the value
 func (aenumtype AEnumType) ToString() (res string) {
 
 	// migration of former implementation of enum
@@ -1197,6 +1199,8 @@ func (aenumtype *AEnumType) FromString(input string) {
 }
 
 // Utility function for BEnumType
+// if enum values are string, it is stored with the value
+// if enum values are int, they are stored with the code of the value
 func (benumtype BEnumType) ToString() (res string) {
 
 	// migration of former implementation of enum
@@ -1222,6 +1226,8 @@ func (benumtype *BEnumType) FromString(input string) {
 }
 
 // Utility function for CEnumTypeInt
+// if enum values are string, it is stored with the value
+// if enum values are int, they are stored with the code of the value
 func (cenumtypeint CEnumTypeInt) ToInt() (res int) {
 
 	// migration of former implementation of enum
@@ -1245,3 +1251,4 @@ func (cenumtypeint *CEnumTypeInt) FromInt(input int) {
 		*cenumtypeint = CENUM_VAL2
 	}
 }
+
