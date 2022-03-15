@@ -1163,11 +1163,13 @@ func generatesIdentifier(gongStructName string, idx int, instanceName string) (i
 
 	return
 }
-
-func (aEnum AEnumType) ToString() (res string) {
+// insertion point of enum utility functions
+// Utility function for AEnumType
+func (aenumtype AEnumType) ToString() (res string) {
 
 	// migration of former implementation of enum
-	switch aEnum {
+	switch aenumtype {
+	// insertion code per enum code 
 	case ENUM_VAL1:
 		res = "ENUM_VAL1_NOT_THE_SAME"
 	case ENUM_VAL2:
@@ -1176,16 +1178,39 @@ func (aEnum AEnumType) ToString() (res string) {
 	return
 }
 
-func (aEnum *AEnumType) FromString(input string) {
+func (aenumtype *AEnumType) FromString(input string) {
 
 	switch input {
+	// insertion code per enum code 
 	case "ENUM_VAL1_NOT_THE_SAME":
-		*aEnum = ENUM_VAL1
+		*aenumtype = ENUM_VAL1
 	case "ENUM_VAL2":
-		*aEnum = ENUM_VAL2
-
-	// migration of former implementation of enum
-	case "ENUM_VAL1":
-		*aEnum = ENUM_VAL1
+		*aenumtype = ENUM_VAL2
 	}
 }
+
+// Utility function for BEnumType
+func (benumtype BEnumType) ToString() (res string) {
+
+	// migration of former implementation of enum
+	switch benumtype {
+	// insertion code per enum code 
+	case BENUM_VAL1:
+		res = "BENUM_VAL1_NOT_THE_SAME"
+	case BENUM_VAL2:
+		res = "BENUM_VAL2"
+	}
+	return
+}
+
+func (benumtype *BEnumType) FromString(input string) {
+
+	switch input {
+	// insertion code per enum code 
+	case "BENUM_VAL1_NOT_THE_SAME":
+		*benumtype = BENUM_VAL1
+	case "BENUM_VAL2":
+		*benumtype = BENUM_VAL2
+	}
+}
+
