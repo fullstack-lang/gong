@@ -717,7 +717,7 @@ func (astructDB *AstructDB) CopyBasicFieldsFromAstruct(astruct *models.Astruct) 
 	astructDB.Booleanfield_Data.Bool = astruct.Booleanfield
 	astructDB.Booleanfield_Data.Valid = true
 
-	astructDB.Aenum_Data.String = string(astruct.Aenum)
+	astructDB.Aenum_Data.String = astruct.Aenum.ToString()
 	astructDB.Aenum_Data.Valid = true
 
 	astructDB.Aenum_2_Data.String = string(astruct.Aenum_2)
@@ -758,7 +758,7 @@ func (astructDB *AstructDB) CopyBasicFieldsFromAstructWOP(astruct *AstructWOP) {
 	astructDB.Booleanfield_Data.Bool = astruct.Booleanfield
 	astructDB.Booleanfield_Data.Valid = true
 
-	astructDB.Aenum_Data.String = string(astruct.Aenum)
+	astructDB.Aenum_Data.String = astruct.Aenum.ToString()
 	astructDB.Aenum_Data.Valid = true
 
 	astructDB.Aenum_2_Data.String = string(astruct.Aenum_2)
@@ -792,7 +792,7 @@ func (astructDB *AstructDB) CopyBasicFieldsToAstruct(astruct *models.Astruct) {
 	astruct.Name = astructDB.Name_Data.String
 	astruct.Date = astructDB.Date_Data.Time
 	astruct.Booleanfield = astructDB.Booleanfield_Data.Bool
-	astruct.Aenum = models.AEnumType(astructDB.Aenum_Data.String)
+	astruct.Aenum.FromString(astructDB.Aenum_Data.String)
 	astruct.Aenum_2 = models.AEnumType(astructDB.Aenum_2_Data.String)
 	astruct.Benum = models.BEnumType(astructDB.Benum_Data.String)
 	astruct.CName = astructDB.CName_Data.String
@@ -810,7 +810,7 @@ func (astructDB *AstructDB) CopyBasicFieldsToAstructWOP(astruct *AstructWOP) {
 	astruct.Name = astructDB.Name_Data.String
 	astruct.Date = astructDB.Date_Data.Time
 	astruct.Booleanfield = astructDB.Booleanfield_Data.Bool
-	astruct.Aenum = models.AEnumType(astructDB.Aenum_Data.String)
+	astruct.Aenum.FromString(astructDB.Aenum_Data.String)
 	astruct.Aenum_2 = models.AEnumType(astructDB.Aenum_2_Data.String)
 	astruct.Benum = models.BEnumType(astructDB.Benum_Data.String)
 	astruct.CName = astructDB.CName_Data.String
