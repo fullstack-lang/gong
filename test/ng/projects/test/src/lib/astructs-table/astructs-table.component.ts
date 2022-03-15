@@ -16,6 +16,7 @@ const allowMultiSelect = true;
 import { Router, RouterState } from '@angular/router';
 import { AstructDB } from '../astruct-db'
 import { AstructService } from '../astruct.service'
+import { CEnumTypeIntList } from '../CEnumTypeInt';
 
 // TableComponent is initilizaed from different routes
 // TableComponentMode detail different cases 
@@ -129,6 +130,7 @@ export class AstructsTableComponent implements OnInit {
       mergedContent += astructDB.Aenum.toLowerCase()
       mergedContent += astructDB.Aenum_2.toLowerCase()
       mergedContent += astructDB.Benum.toLowerCase()
+      mergedContent += astructDB.CEnum.toString()
       mergedContent += astructDB.CName.toLowerCase()
       mergedContent += astructDB.CFloatfield.toString()
       mergedContent += astructDB.Floatfield.toString()
@@ -199,6 +201,7 @@ export class AstructsTableComponent implements OnInit {
         "Aenum",
         "Aenum_2",
         "Benum",
+        "CEnum",
         "CName",
         "CFloatfield",
         "Floatfield",
@@ -217,6 +220,7 @@ export class AstructsTableComponent implements OnInit {
         "Aenum",
         "Aenum_2",
         "Benum",
+        "CEnum",
         "CName",
         "CFloatfield",
         "Floatfield",
@@ -251,7 +255,10 @@ export class AstructsTableComponent implements OnInit {
             Math.floor(astruct.Duration1 / (3600 * 1000 * 1000 * 1000)) + "H " +
             Math.floor(astruct.Duration1 % (3600 * 1000 * 1000 * 1000) / (60 * 1000 * 1000 * 1000)) + "M " +
             astruct.Duration1 % (60 * 1000 * 1000 * 1000) / (1000 * 1000 * 1000) + "S"
-        }
+        
+            astruct.CEnum_string = CEnumTypeIntList[astruct.CEnum].viewValue
+          }
+
 
         // in case the component is called as a selection component
         if (this.mode == TableComponentMode.ONE_MANY_ASSOCIATION_MODE) {

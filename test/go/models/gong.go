@@ -840,6 +840,12 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(astruct.Benum))
 		initializerStatements += setValueField
 
+		setValueField = NumberInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "CEnum")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", astruct.CEnum))
+		initializerStatements += setValueField
+
 		setValueField = StringInitStatement
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
 		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "CName")
@@ -1163,13 +1169,14 @@ func generatesIdentifier(gongStructName string, idx int, instanceName string) (i
 
 	return
 }
+
 // insertion point of enum utility functions
 // Utility function for AEnumType
 func (aenumtype AEnumType) ToString() (res string) {
 
 	// migration of former implementation of enum
 	switch aenumtype {
-	// insertion code per enum code 
+	// insertion code per enum code
 	case ENUM_VAL1:
 		res = "ENUM_VAL1_NOT_THE_SAME"
 	case ENUM_VAL2:
@@ -1181,7 +1188,7 @@ func (aenumtype AEnumType) ToString() (res string) {
 func (aenumtype *AEnumType) FromString(input string) {
 
 	switch input {
-	// insertion code per enum code 
+	// insertion code per enum code
 	case "ENUM_VAL1_NOT_THE_SAME":
 		*aenumtype = ENUM_VAL1
 	case "ENUM_VAL2":
@@ -1194,7 +1201,7 @@ func (benumtype BEnumType) ToString() (res string) {
 
 	// migration of former implementation of enum
 	switch benumtype {
-	// insertion code per enum code 
+	// insertion code per enum code
 	case BENUM_VAL1:
 		res = "BENUM_VAL1_NOT_THE_SAME"
 	case BENUM_VAL2:
@@ -1206,7 +1213,7 @@ func (benumtype BEnumType) ToString() (res string) {
 func (benumtype *BEnumType) FromString(input string) {
 
 	switch input {
-	// insertion code per enum code 
+	// insertion code per enum code
 	case "BENUM_VAL1_NOT_THE_SAME":
 		*benumtype = BENUM_VAL1
 	case "BENUM_VAL2":
@@ -1214,3 +1221,27 @@ func (benumtype *BEnumType) FromString(input string) {
 	}
 }
 
+// Utility function for CEnumTypeInt
+func (cenumtypeint CEnumTypeInt) ToInt() (res int) {
+
+	// migration of former implementation of enum
+	switch cenumtypeint {
+	// insertion code per enum code
+	case CENUM_VAL1:
+		res = 0
+	case CENUM_VAL2:
+		res = 1
+	}
+	return
+}
+
+func (cenumtypeint *CEnumTypeInt) FromInt(input int) {
+
+	switch input {
+	// insertion code per enum code
+	case 0:
+		*cenumtypeint = CENUM_VAL1
+	case 1:
+		*cenumtypeint = CENUM_VAL2
+	}
+}
