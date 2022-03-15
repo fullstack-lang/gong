@@ -816,7 +816,6 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", astruct.Date.String())
 		initializerStatements += setValueField
 
-
 		setValueField = NumberInitStatement
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
 		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Booleanfield")
@@ -1019,7 +1018,6 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 
 	}
 
-
 	// insertion initialization of objects to stage
 	for idx, astruct := range astructOrdered {
 		var setPointerField string
@@ -1143,7 +1141,6 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 		// Initialisation of values
 	}
 
-
 	res = strings.ReplaceAll(res, "{{Identifiers}}", identifiersDecl)
 	res = strings.ReplaceAll(res, "{{ValueInitializers}}", initializerStatements)
 	res = strings.ReplaceAll(res, "{{PointersInitializers}}", pointersInitializesStatements)
@@ -1165,4 +1162,30 @@ func generatesIdentifier(gongStructName string, idx int, instanceName string) (i
 	identifier = fmt.Sprintf("__%s__%06d_%s", gongStructName, idx, processedString)
 
 	return
+}
+
+func (aEnum AEnumType) ToString() (res string) {
+
+	// migration of former implementation of enum
+	switch aEnum {
+	case ENUM_VAL1:
+		res = "ENUM_VAL1_NOT_THE_SAME"
+	case ENUM_VAL2:
+		res = "ENUM_VAL2"
+	}
+	return
+}
+
+func (aEnum *AEnumType) FromString(input string) {
+
+	switch input {
+	case "ENUM_VAL1_NOT_THE_SAME":
+		*aEnum = ENUM_VAL1
+	case "ENUM_VAL2":
+		*aEnum = ENUM_VAL2
+
+	// migration of former implementation of enum
+	case "ENUM_VAL1":
+		*aEnum = ENUM_VAL1
+	}
 }
