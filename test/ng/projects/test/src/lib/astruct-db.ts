@@ -27,8 +27,8 @@ export class AstructDB {
 	Duration1: number = 0
 
 	// insertion point for other declarations
-	Duration1_string?: string
 	CEnum_string?: string
+	Duration1_string?: string
 	Associationtob?: BstructDB
 	AssociationtobID: NullInt64 = new NullInt64 // if pointer is null, Associationtob.ID = 0
 
