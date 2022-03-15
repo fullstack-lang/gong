@@ -11,6 +11,6 @@ export interface CEnumTypeIntSelect {
 }
 
 export const CEnumTypeIntList: CEnumTypeIntSelect[] = [ // insertion point	
-	{ value: 0, viewValue: "toto" },
-	{ value: 1, viewValue: "titi" },
+	{ value: CEnumTypeInt.CENUM_VAL1, viewValue: "CENUM_VAL1" },
+	{ value: CEnumTypeInt.CENUM_VAL2, viewValue: "CENUM_VAL2" },
 ];

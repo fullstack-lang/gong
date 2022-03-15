@@ -14,7 +14,7 @@ export enum {{EnumName}} {
 }
 
 export interface {{EnumName}}Select {
-	value: string;
+	value: {{type}};
 	viewValue: string;
 }
 
@@ -46,7 +46,7 @@ var NgEnumHtmlSubTemplateCode map[NgEnumSubTemplate]string = map[NgEnumSubTempla
 	{{ConstName}} = {{ConstValue}},`,
 
 	NgEnumDeclarationForPullDownSelect: `
-	{ value: {{ConstValue}}, viewValue: {{ConstValue}} },`,
+	{ value: {{EnumName}}.{{ConstName}}, viewValue: {{ConstValue}} },`,
 }
 
 // MultiCodeGeneratorNgEnum parses mdlPkg and generates the code for the
@@ -57,7 +57,7 @@ func CodeGeneratorNgEnum(
 	matTargetPath string,
 	pkgGoPath string) {
 
-	for _, enum := range mdlPkg.GongEnums {
+	for _, gongEnum := range mdlPkg.GongEnums {
 
 		// generate the typescript file
 		codeTS := NgEnumTemplateTS
@@ -67,7 +67,14 @@ func CodeGeneratorNgEnum(
 			insertions[insertion] = ""
 		}
 
-		for _, value := range enum.GongEnumValues {
+		for _, value := range gongEnum.GongEnumValues {
+
+			var viewValueOfEnum string
+			if gongEnum.Type == String {
+				viewValueOfEnum = value.Value
+			} else {
+				viewValueOfEnum = fmt.Sprintf("\"%s\"", value.Name)
+			}
 
 			insertions[NgEnumInsertionPointEnumDeclaration] += Replace2(
 				NgEnumHtmlSubTemplateCode[NgEnumDeclaration],
@@ -77,7 +84,7 @@ func CodeGeneratorNgEnum(
 			insertions[NgEnumValuesInsertionPointDeclarationForPullDownSelect] += Replace2(
 				NgEnumHtmlSubTemplateCode[NgEnumDeclarationForPullDownSelect],
 				"{{ConstName}}", value.Name,
-				"{{ConstValue}}", value.Value)
+				"{{ConstValue}}", viewValueOfEnum)
 
 		}
 
@@ -87,15 +94,23 @@ func CodeGeneratorNgEnum(
 			codeTS = strings.ReplaceAll(codeTS, toReplace, insertions[insertion])
 		}
 
-		codeTS = Replace5(codeTS,
-			"{{EnumName}}", enum.Name,
+		var typeOfEnumAsString string
+		if gongEnum.Type == String {
+			typeOfEnumAsString = "string"
+		} else {
+			typeOfEnumAsString = "number"
+		}
+
+		codeTS = Replace6(codeTS,
+			"{{EnumName}}", gongEnum.Name,
 			"{{PkgName}}", pkgName,
 			"{{TitlePkgName}}", strings.Title(pkgName),
 			"{{pkgname}}", strings.ToLower(pkgName),
-			"{{PkgPathRoot}}", strings.ReplaceAll(pkgGoPath, "/models", ""))
+			"{{PkgPathRoot}}", strings.ReplaceAll(pkgGoPath, "/models", ""),
+			"{{type}}", typeOfEnumAsString)
 
 		{
-			file, err := os.Create(filepath.Join(matTargetPath, enum.Name+".ts"))
+			file, err := os.Create(filepath.Join(matTargetPath, gongEnum.Name+".ts"))
 			if err != nil {
 				log.Panic(err)
 			}
