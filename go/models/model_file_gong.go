@@ -222,6 +222,7 @@ func generatesIdentifier(gongStructName string, idx int, instanceName string) (i
 
 	return
 }
+// insertion point of enum utility functions{{` + string(rune(ModelGongEnumUtilityFunctions)) + `}}
 `
 
 //
@@ -245,7 +246,40 @@ const (
 	ModelGongStructInsertionsNb
 )
 
-var ModelGongSubTemplateCode map[ModelGongStructInsertionId]string = // new line
+//
+// insertion code for all enums
+//
+type ModelGongEnumInsertionId int
+
+const (
+	// iota + 40 is to separate the insertion code of gongstruct from insertion code of gongenum
+	ModelGongEnumUtilityFunctions ModelGongEnumInsertionId = iota + 40
+	ModelGongEnumInsertionsNb
+)
+
+var ModelGongEnumSubTemplateCode map[ModelGongEnumInsertionId]string = // new line
+map[ModelGongEnumInsertionId]string{
+	ModelGongEnumUtilityFunctions: `
+// Utility function for {{EnumName}}
+func ({{enumName}} {{EnumName}}) ToString() (res string) {
+
+	// migration of former implementation of enum
+	switch {{enumName}} {
+	// insertion code per enum code {{ToStringPerCodeCode}}
+	}
+	return
+}
+
+func ({{enumName}} *{{EnumName}}) FromString(input string) {
+
+	switch input {
+	// insertion code per enum code {{FromStringPerCodeCode}}
+	}
+}
+`,
+}
+
+var ModelGongStructSubTemplateCode map[ModelGongStructInsertionId]string = // new line
 map[ModelGongStructInsertionId]string{
 	ModelGongStructInsertionCommitCheckout: `
 	Commit{{Structname}}({{structname}} *{{Structname}})
@@ -426,7 +460,7 @@ func DeleteORM{{Structname}}({{structname}} *{{Structname}}) {
 }
 
 //
-// Sub Templates identifiers
+// Sub sub Templates identifiers per gong field
 //
 // For each gongstruct, a code snippet will be generated from each sub template
 //
@@ -504,6 +538,27 @@ map[GongFilePerStructSubTemplateId]string{
 `,
 }
 
+//
+// gongenum value template
+//
+type GongModelEnumValueSubTemplateId int
+
+const (
+	GongModelEnumValueFromString GongModelEnumValueSubTemplateId = iota
+	GongModelEnumValueToString
+)
+
+var GongModelEnumValueSubTemplateCode map[GongModelEnumValueSubTemplateId]string = // declaration of the sub templates
+map[GongModelEnumValueSubTemplateId]string{
+
+	GongModelEnumValueFromString: `
+	case {{GongEnumValue}}:
+		*{{enumName}} = {{GongEnumCode}}`,
+	GongModelEnumValueToString: `
+	case {{GongEnumCode}}:
+		res = {{GongEnumValue}}`,
+}
+
 func CodeGeneratorModelGong(
 	mdlPkg *ModelPkg,
 	pkgName string,
@@ -512,11 +567,12 @@ func CodeGeneratorModelGong(
 	// generate the typescript file
 	codeGO := ModelGongFileTemplate
 
-	subCodes := make(map[ModelGongStructInsertionId]string)
-	for subTemplate := range ModelGongSubTemplateCode {
-		subCodes[subTemplate] = ""
+	subStructCodes := make(map[ModelGongStructInsertionId]string)
+	for subStructTemplate := range ModelGongStructSubTemplateCode {
+		subStructCodes[subStructTemplate] = ""
 	}
 
+	// sort gong structs per name (for reproductibility)
 	gongStructs := []*GongStruct{}
 	for _, _struct := range mdlPkg.GongStructs {
 		gongStructs = append(gongStructs, _struct)
@@ -531,7 +587,7 @@ func CodeGeneratorModelGong(
 			continue
 		}
 
-		for subTemplate := range ModelGongSubTemplateCode {
+		for subStructTemplate := range ModelGongStructSubTemplateCode {
 
 			// replace {{ValuesInitialization}}
 			valInitCode := ""
@@ -586,22 +642,69 @@ func CodeGeneratorModelGong(
 				"{{structname}}", strings.ToLower(gongStruct.Name),
 				"{{Structname}}", gongStruct.Name)
 
-			generatedCodeFromSubTemplate := Replace4(ModelGongSubTemplateCode[subTemplate],
+			generatedCodeFromSubTemplate := Replace4(ModelGongStructSubTemplateCode[subStructTemplate],
 				"{{structname}}", strings.ToLower(gongStruct.Name),
 				"{{Structname}}", gongStruct.Name,
 				"{{ValuesInitialization}}", valInitCode,
 				"{{PointersInitialization}}", pointerInitCode,
 			)
 
-			subCodes[subTemplate] += generatedCodeFromSubTemplate
+			subStructCodes[subStructTemplate] += generatedCodeFromSubTemplate
 		}
-
 	}
 
-	// substitutes {{<<insertion points>>}} stuff with generated code
-	for insertion := ModelGongStructInsertionId(0); insertion < ModelGongStructInsertionsNb; insertion++ {
-		toReplace := "{{" + string(rune(insertion)) + "}}"
-		codeGO = strings.ReplaceAll(codeGO, toReplace, subCodes[insertion])
+	// substitutes {{<<insertionPerStructId points>>}} stuff with generated code
+	for insertionPerStructId := ModelGongStructInsertionId(0); insertionPerStructId < ModelGongStructInsertionsNb; insertionPerStructId++ {
+		toReplace := "{{" + string(rune(insertionPerStructId)) + "}}"
+		codeGO = strings.ReplaceAll(codeGO, toReplace, subStructCodes[insertionPerStructId])
+	}
+
+	subEnumCodes := make(map[ModelGongEnumInsertionId]string)
+	for subEnumTemplate := range ModelGongEnumSubTemplateCode {
+		subEnumCodes[subEnumTemplate] = ""
+	}
+
+	// sort gong enums per name (for reproductibility)
+	gongEnums := []*GongEnum{}
+	for _, _enum := range mdlPkg.GongEnums {
+		gongEnums = append(gongEnums, _enum)
+	}
+	sort.Slice(gongEnums[:], func(i, j int) bool {
+		return gongEnums[i].Name < gongEnums[j].Name
+	})
+
+	for _, gongEnum := range gongEnums {
+
+		for subEnumTemplate := range ModelGongEnumSubTemplateCode {
+
+			codeFromStringPerGongValue := ""
+			codeToStringPerGongValue := ""
+
+			for _, enumValue := range gongEnum.GongEnumValues {
+				codeFromStringPerGongValue += Replace2(GongModelEnumValueSubTemplateCode[GongModelEnumValueFromString],
+					"{{GongEnumValue}}", enumValue.Value,
+					"{{GongEnumCode}}", enumValue.Name)
+				codeToStringPerGongValue += Replace2(GongModelEnumValueSubTemplateCode[GongModelEnumValueToString],
+					"{{GongEnumValue}}", enumValue.Value,
+					"{{GongEnumCode}}", enumValue.Name)
+			}
+
+			generatedCodeFromSubTemplate := Replace2(ModelGongEnumSubTemplateCode[subEnumTemplate],
+				"{{ToStringPerCodeCode}}", codeToStringPerGongValue,
+				"{{FromStringPerCodeCode}}", codeFromStringPerGongValue)
+
+			generatedCodeFromSubTemplate = Replace2(generatedCodeFromSubTemplate,
+				"{{enumName}}", strings.ToLower(gongEnum.Name),
+				"{{EnumName}}", gongEnum.Name)
+
+			subEnumCodes[subEnumTemplate] += generatedCodeFromSubTemplate
+		}
+	}
+
+	// substitutes {{<<insertionPerEnumId points>>}} stuff with generated code
+	for insertionPerEnumId := ModelGongEnumInsertionId(0); insertionPerEnumId < ModelGongEnumInsertionsNb; insertionPerEnumId++ {
+		toReplace := "{{" + string(rune(insertionPerEnumId)) + "}}"
+		codeGO = strings.ReplaceAll(codeGO, toReplace, subEnumCodes[insertionPerEnumId])
 	}
 
 	codeGO = Replace3(codeGO,
