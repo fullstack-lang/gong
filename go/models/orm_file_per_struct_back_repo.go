@@ -661,7 +661,7 @@ var BackRepoFieldSubTemplateCode map[BackRepoPerStructSubTemplate]string = map[B
 
 	BackRepoCommitBasicFieldEnum: `
 
-	{{structname}}DB.{{FieldName}}_Data.String = string({{structname}}.{{FieldName}})
+	{{structname}}DB.{{FieldName}}_Data.String = {{structname}}.{{FieldName}}.ToString()
 	{{structname}}DB.{{FieldName}}_Data.Valid = true`,
 
 	BackRepoCommitBasicFieldInt: `
@@ -722,7 +722,7 @@ var BackRepoFieldSubTemplateCode map[BackRepoPerStructSubTemplate]string = map[B
 	{{structname}}.{{FieldName}} = {{structname}}DB.{{FieldName}}_Data.Time`,
 
 	BackRepoCheckoutBasicFieldEnum: `
-	{{structname}}.{{FieldName}} = models.{{EnumType}}({{structname}}DB.{{FieldName}}_Data.String)`,
+	{{structname}}.{{FieldName}}.FromString({{structname}}DB.{{FieldName}}_Data.String)`,
 
 	BackRepoCheckoutBasicFieldInt: `
 	{{structname}}.{{FieldName}} = {{FieldType}}({{structname}}DB.{{FieldName}}_Data.Int64)`,
