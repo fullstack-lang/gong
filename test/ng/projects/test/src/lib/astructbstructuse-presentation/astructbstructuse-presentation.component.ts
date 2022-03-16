@@ -8,6 +8,8 @@ import { FrontRepoService, FrontRepo } from '../front-repo.service'
 
 import { Router, RouterState, ActivatedRoute } from '@angular/router';
 
+// insertion point for additional imports
+
 export interface astructbstructuseDummyElement {
 }
 
@@ -21,7 +23,8 @@ const ELEMENT_DATA: astructbstructuseDummyElement[] = [
 })
 export class AstructBstructUsePresentationComponent implements OnInit {
 
-	// insertion point for declarations
+	// insertion point for additionnal time duration declarations
+	// insertion point for additionnal enum int field declarations
 
 	displayedColumns: string[] = []
 	dataSource = ELEMENT_DATA
@@ -64,6 +67,7 @@ export class AstructBstructUsePresentationComponent implements OnInit {
 				this.astructbstructuse = this.frontRepo.AstructBstructUses.get(id)!
 
 				// insertion point for recovery of durations
+				// insertion point for recovery of enum tint
 			}
 		);
 	}

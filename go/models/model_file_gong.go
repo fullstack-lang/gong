@@ -31,7 +31,7 @@ var __member __void
 
 // StageStruct enables storage of staged instances
 // swagger:ignore
-type StageStruct struct { // insertion point for definition of arrays registering instances{{` + string(rune(ModelGongStructArrayDefintion)) + `}}
+type StageStruct struct { // insertion point for definition of arrays registering instances{{` + string(rune(ModelGongStructInsertionArrayDefintion)) + `}}
 	AllModelsStructCreateCallback AllModelsStructCreateInterface
 
 	AllModelsStructDeleteCallback AllModelsStructDeleteInterface
@@ -58,13 +58,13 @@ type BackRepoInterface interface {
 	Restore(stage *StageStruct, dirPath string)
 	BackupXL(stage *StageStruct, dirPath string)
 	RestoreXL(stage *StageStruct, dirPath string)
-	// insertion point for Commit and Checkout signatures{{` + string(rune(ModelGongInsertionCommitCheckoutSignature)) + `}}
+	// insertion point for Commit and Checkout signatures{{` + string(rune(ModelGongStructInsertionCommitCheckout)) + `}}
 	GetLastCommitFromBackNb() uint
 	GetLastPushFromFrontNb() uint
 }
 
 // swagger:ignore instructs the gong compiler (gongc) to avoid this particular struct
-var Stage StageStruct = StageStruct{ // insertion point for array initiatialisation{{` + string(rune(ModelGongInsertionArrayInitialisation)) + `}}
+var Stage StageStruct = StageStruct{ // insertion point for array initiatialisation{{` + string(rune(ModelGongStructInsertionArrayInitialisation)) + `}}
 	// end of insertion point
 	Map_GongStructName_InstancesNb: make(map[string]int),
 }
@@ -74,7 +74,7 @@ func (stage *StageStruct) Commit() {
 		stage.BackRepo.Commit(stage)
 	}
 
-	// insertion point for computing the map of number of instances per gongstruct{{` + string(rune(ModelGongInsertionComputeNbInstances)) + `}}
+	// insertion point for computing the map of number of instances per gongstruct{{` + string(rune(ModelGongStructInsertionComputeNbInstances)) + `}}
 
 }
 
@@ -112,18 +112,18 @@ func (stage *StageStruct) RestoreXL(dirPath string) {
 	}
 }
 
-// insertion point for cumulative sub template with model space calls{{` + string(rune(ModelGongInsertionStageFunctions)) + `}}
+// insertion point for cumulative sub template with model space calls{{` + string(rune(ModelGongStructInsertionStageFunctions)) + `}}
 // swagger:ignore
-type AllModelsStructCreateInterface interface { // insertion point for Callbacks on creation{{` + string(rune(ModelGongInsertionCreateCallback)) + `}}
+type AllModelsStructCreateInterface interface { // insertion point for Callbacks on creation{{` + string(rune(ModelGongStructInsertionCreateCallback)) + `}}
 }
 
-type AllModelsStructDeleteInterface interface { // insertion point for Callbacks on deletion{{` + string(rune(ModelGongInsertionDeleteCallback)) + `}}
+type AllModelsStructDeleteInterface interface { // insertion point for Callbacks on deletion{{` + string(rune(ModelGongStructInsertionDeleteCallback)) + `}}
 }
 
-func (stage *StageStruct) Reset() { // insertion point for array reset{{` + string(rune(ModelGongInsertionArrayReset)) + `}}
+func (stage *StageStruct) Reset() { // insertion point for array reset{{` + string(rune(ModelGongStructInsertionArrayReset)) + `}}
 }
 
-func (stage *StageStruct) Nil() { // insertion point for array nil{{` + string(rune(ModelGongInsertionArrayNil)) + `}}
+func (stage *StageStruct) Nil() { // insertion point for array nil{{` + string(rune(ModelGongStructInsertionArrayNil)) + `}}
 }
 
 const marshallRes = ` + "`" + `package {{PackageName}}
@@ -198,10 +198,8 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 	decl := ""
 	setValueField := ""
 
-	// insertion initialization of objects to stage{{` + string(rune(ModelGongInsertionUnmarshallDeclarations)) + `}}
-
-	// insertion initialization of objects to stage{{` + string(rune(ModelGongInsertionUnmarshallPointersInitializations)) + `}}
-
+	// insertion initialization of objects to stage{{` + string(rune(ModelGongStructInsertionUnmarshallDeclarations)) + `}}
+	// insertion initialization of objects to stage{{` + string(rune(ModelGongStructInsertionUnmarshallPointersInitializations)) + `}}
 	res = strings.ReplaceAll(res, "{{Identifiers}}", identifiersDecl)
 	res = strings.ReplaceAll(res, "{{ValueInitializers}}", initializerStatements)
 	res = strings.ReplaceAll(res, "{{PointersInitializers}}", pointersInitializesStatements)
@@ -224,49 +222,73 @@ func generatesIdentifier(gongStructName string, idx int, instanceName string) (i
 
 	return
 }
+
+// insertion point of enum utility functions{{` + string(rune(ModelGongEnumUtilityFunctions)) + `}}
 `
 
-// insertion points
-type ModelGongInsertionPoints int
+//
+// insertion points are places where the code is
+// generated per gong struct
+//
+type ModelGongStructInsertionId int
 
 const (
-	ModelGongInsertionCommitCheckoutSignature ModelGongInsertionPoints = iota
-	ModelGongInsertionStageFunctions
-	ModelGongInsertionCreateCallback
-	ModelGongInsertionDeleteCallback
-	ModelGongInsertionArrayDefintion
-	ModelGongInsertionArrayInitialisation
-	ModelGongInsertionArrayReset
-	ModelGongInsertionArrayNil
-	ModelGongInsertionUnmarshallDeclarations
-	ModelGongInsertionUnmarshallPointersInitializations
-	ModelGongInsertionComputeNbInstances
-	ModelGongInsertionsNb
+	ModelGongStructInsertionCommitCheckout ModelGongStructInsertionId = iota
+	ModelGongStructInsertionStageFunctions
+	ModelGongStructInsertionCreateCallback
+	ModelGongStructInsertionDeleteCallback
+	ModelGongStructInsertionArrayDefintion
+	ModelGongStructInsertionArrayInitialisation
+	ModelGongStructInsertionArrayReset
+	ModelGongStructInsertionArrayNil
+	ModelGongStructInsertionUnmarshallDeclarations
+	ModelGongStructInsertionUnmarshallPointersInitializations
+	ModelGongStructInsertionComputeNbInstances
+	ModelGongStructInsertionsNb
 )
 
-type ModelGongSubTemplate int
+//
+// insertion code for all enums
+//
+type ModelGongEnumInsertionId int
 
 const (
-	ModelGongCommitCheckout ModelGongSubTemplate = iota
-	ModelGongStageFunction
-	ModelGongStructCreateCallback
-	ModelGongStructDeleteCallback
-	ModelGongStructArrayDefintion
-	ModelGongStructArrayInitialisation
-	ModelGongStructArrayReset
-	ModelGongStructArrayNil
-	ModelGongStructUnmarshallStatementsStepValuesInit
-	ModelGongStructUnmarshallStatementsStepPointersInit
-	ModelGongStructComputeNbInstances
+	// iota + 40 is to separate the insertion code of gongstruct from insertion code of gongenum
+	ModelGongEnumUtilityFunctions ModelGongEnumInsertionId = iota + 40
+	ModelGongEnumInsertionsNb
 )
 
-var ModelGongSubTemplateCode map[ModelGongSubTemplate]string = // new line
-map[ModelGongSubTemplate]string{
-	ModelGongCommitCheckout: `
+var ModelGongEnumSubTemplateCode map[ModelGongEnumInsertionId]string = // new line
+map[ModelGongEnumInsertionId]string{
+	ModelGongEnumUtilityFunctions: `
+// Utility function for {{EnumName}}
+// if enum values are string, it is stored with the value
+// if enum values are int, they are stored with the code of the value
+func ({{enumName}} {{EnumName}}) To{{Type}}() (res {{type}}) {
+
+	// migration of former implementation of enum
+	switch {{enumName}} {
+	// insertion code per enum code{{ToStringPerCodeCode}}
+	}
+	return
+}
+
+func ({{enumName}} *{{EnumName}}) From{{Type}}(input {{type}}) {
+
+	switch input {
+	// insertion code per enum code{{FromStringPerCodeCode}}
+	}
+}
+`,
+}
+
+var ModelGongStructSubTemplateCode map[ModelGongStructInsertionId]string = // new line
+map[ModelGongStructInsertionId]string{
+	ModelGongStructInsertionCommitCheckout: `
 	Commit{{Structname}}({{structname}} *{{Structname}})
 	Checkout{{Structname}}({{structname}} *{{Structname}})`,
 
-	ModelGongStageFunction: `
+	ModelGongStructInsertionStageFunctions: `
 func (stage *StageStruct) get{{Structname}}OrderedStructWithNameField() []*{{Structname}} {
 	// have alphabetical order generation
 	{{structname}}Ordered := []*{{Structname}}{}
@@ -370,33 +392,33 @@ func DeleteORM{{Structname}}({{structname}} *{{Structname}}) {
 }
 `,
 
-	ModelGongStructCreateCallback: `
+	ModelGongStructInsertionCreateCallback: `
 	CreateORM{{Structname}}({{Structname}} *{{Structname}})`,
 
-	ModelGongStructDeleteCallback: `
+	ModelGongStructInsertionDeleteCallback: `
 	DeleteORM{{Structname}}({{Structname}} *{{Structname}})`,
 
-	ModelGongStructArrayDefintion: `
+	ModelGongStructInsertionArrayDefintion: `
 	{{Structname}}s           map[*{{Structname}}]struct{}
 	{{Structname}}s_mapString map[string]*{{Structname}}
 `,
 
-	ModelGongStructArrayInitialisation: `
+	ModelGongStructInsertionArrayInitialisation: `
 	{{Structname}}s:           make(map[*{{Structname}}]struct{}),
 	{{Structname}}s_mapString: make(map[string]*{{Structname}}),
 `,
 
-	ModelGongStructArrayReset: `
+	ModelGongStructInsertionArrayReset: `
 	stage.{{Structname}}s = make(map[*{{Structname}}]struct{})
 	stage.{{Structname}}s_mapString = make(map[string]*{{Structname}})
 `,
 
-	ModelGongStructArrayNil: `
+	ModelGongStructInsertionArrayNil: `
 	stage.{{Structname}}s = nil
 	stage.{{Structname}}s_mapString = nil
 `,
 
-	ModelGongStructUnmarshallStatementsStepValuesInit: `
+	ModelGongStructInsertionUnmarshallDeclarations: `
 	map_{{Structname}}_Identifiers := make(map[*{{Structname}}]string)
 	_ = map_{{Structname}}_Identifiers
 
@@ -424,7 +446,7 @@ func DeleteORM{{Structname}}({{structname}} *{{Structname}}) {
 	}
 `,
 
-	ModelGongStructUnmarshallStatementsStepPointersInit: `
+	ModelGongStructInsertionUnmarshallPointersInitializations: `
 	for idx, {{structname}} := range {{structname}}Ordered {
 		var setPointerField string
 		_ = setPointerField
@@ -436,23 +458,19 @@ func DeleteORM{{Structname}}({{structname}} *{{Structname}}) {
 	}
 `,
 
-	ModelGongStructComputeNbInstances: `
+	ModelGongStructInsertionComputeNbInstances: `
 	stage.Map_GongStructName_InstancesNb["{{Structname}}"] = len(stage.{{Structname}}s)`,
 }
 
-var ModelGongSubSubTemplateCode map[string]string = // new line
-map[string]string{}
-
-var ModelGongSubSubToSubMap map[string]string = //
-map[string]string{}
-
 //
-// Sub Templates
+// Sub sub Templates identifiers per gong field
 //
-type GongFilePerStructSubTemplate int
+// For each gongstruct, a code snippet will be generated from each sub template
+//
+type GongFilePerStructSubTemplateId int
 
 const (
-	GongFileFieldSubTmplSetBasicFieldBool GongFilePerStructSubTemplate = iota
+	GongFileFieldSubTmplSetBasicFieldBool GongFilePerStructSubTemplateId = iota
 	GongFileFieldSubTmplSetBasicFieldInt
 	GongFileFieldSubTmplSetBasicFieldFloat64
 	GongFileFieldSubTmplSetBasicFieldString
@@ -462,8 +480,11 @@ const (
 	GongFileFieldSubTmplSetSliceOfPointersField
 )
 
-var GongFileFieldFieldSubTemplateCode map[GongFilePerStructSubTemplate]string = // declaration of the sub templates
-map[GongFilePerStructSubTemplate]string{
+//
+// for each sub template code, there is the sub template code
+//
+var GongFileFieldFieldSubTemplateCode map[GongFilePerStructSubTemplateId]string = // declaration of the sub templates
+map[GongFilePerStructSubTemplateId]string{
 
 	GongFileFieldSubTmplSetBasicFieldBool: `
 		setValueField = NumberInitStatement
@@ -478,7 +499,6 @@ map[GongFilePerStructSubTemplate]string{
 		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "{{FieldName}}")
 		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", {{structname}}.{{FieldName}}.String())
 		initializerStatements += setValueField
-
 `,
 	GongFileFieldSubTmplSetBasicFieldInt: `
 		setValueField = NumberInitStatement
@@ -521,6 +541,27 @@ map[GongFilePerStructSubTemplate]string{
 `,
 }
 
+//
+// gongenum value template
+//
+type GongModelEnumValueSubTemplateId int
+
+const (
+	GongModelEnumValueFromString GongModelEnumValueSubTemplateId = iota
+	GongModelEnumValueToString
+)
+
+var GongModelEnumValueSubTemplateCode map[GongModelEnumValueSubTemplateId]string = // declaration of the sub templates
+map[GongModelEnumValueSubTemplateId]string{
+
+	GongModelEnumValueFromString: `
+	case {{GongEnumValue}}:
+		*{{enumName}} = {{GongEnumCode}}`,
+	GongModelEnumValueToString: `
+	case {{GongEnumCode}}:
+		res = {{GongEnumValue}}`,
+}
+
 func CodeGeneratorModelGong(
 	mdlPkg *ModelPkg,
 	pkgName string,
@@ -529,16 +570,12 @@ func CodeGeneratorModelGong(
 	// generate the typescript file
 	codeGO := ModelGongFileTemplate
 
-	insertions := make(map[ModelGongInsertionPoints]string)
-	for insertion := ModelGongInsertionPoints(0); insertion < ModelGongInsertionsNb; insertion++ {
-		insertions[insertion] = ""
+	subStructCodes := make(map[ModelGongStructInsertionId]string)
+	for subStructTemplate := range ModelGongStructSubTemplateCode {
+		subStructCodes[subStructTemplate] = ""
 	}
 
-	subCodes := make(map[ModelGongSubTemplate]string)
-	for subTemplate := range ModelGongSubTemplateCode {
-		subCodes[subTemplate] = ""
-	}
-
+	// sort gong structs per name (for reproductibility)
 	gongStructs := []*GongStruct{}
 	for _, _struct := range mdlPkg.GongStructs {
 		gongStructs = append(gongStructs, _struct)
@@ -553,7 +590,7 @@ func CodeGeneratorModelGong(
 			continue
 		}
 
-		for subTemplate := range ModelGongSubTemplateCode {
+		for subStructTemplate := range ModelGongStructSubTemplateCode {
 
 			// replace {{ValuesInitialization}}
 			valInitCode := ""
@@ -608,26 +645,78 @@ func CodeGeneratorModelGong(
 				"{{structname}}", strings.ToLower(gongStruct.Name),
 				"{{Structname}}", gongStruct.Name)
 
-			generatedCodeFromSubTemplate := Replace4(ModelGongSubTemplateCode[subTemplate],
+			generatedCodeFromSubTemplate := Replace4(ModelGongStructSubTemplateCode[subStructTemplate],
 				"{{structname}}", strings.ToLower(gongStruct.Name),
 				"{{Structname}}", gongStruct.Name,
 				"{{ValuesInitialization}}", valInitCode,
 				"{{PointersInitialization}}", pointerInitCode,
 			)
 
-			subCodes[subTemplate] += generatedCodeFromSubTemplate
+			subStructCodes[subStructTemplate] += generatedCodeFromSubTemplate
 		}
-
 	}
 
-	// substitutes {{<<insertion points>>}} stuff with generated code
-	for insertion := ModelGongInsertionPoints(0); insertion < ModelGongInsertionsNb; insertion++ {
+	// substitutes {{<<insertionPerStructId points>>}} stuff with generated code
+	for insertionPerStructId := ModelGongStructInsertionId(0); insertionPerStructId < ModelGongStructInsertionsNb; insertionPerStructId++ {
+		toReplace := "{{" + string(rune(insertionPerStructId)) + "}}"
+		codeGO = strings.ReplaceAll(codeGO, toReplace, subStructCodes[insertionPerStructId])
+	}
 
-		// compute insertion
-		insertions[insertion] = subCodes[ModelGongSubTemplate(insertion)]
+	subEnumCodes := make(map[ModelGongEnumInsertionId]string)
+	for subEnumTemplate := range ModelGongEnumSubTemplateCode {
+		subEnumCodes[subEnumTemplate] = ""
+	}
 
-		toReplace := "{{" + string(rune(insertion)) + "}}"
-		codeGO = strings.ReplaceAll(codeGO, toReplace, insertions[insertion])
+	// sort gong enums per name (for reproductibility)
+	gongEnums := []*GongEnum{}
+	for _, _enum := range mdlPkg.GongEnums {
+		gongEnums = append(gongEnums, _enum)
+	}
+	sort.Slice(gongEnums[:], func(i, j int) bool {
+		return gongEnums[i].Name < gongEnums[j].Name
+	})
+
+	for _, gongEnum := range gongEnums {
+
+		for subEnumTemplate := range ModelGongEnumSubTemplateCode {
+
+			codeFromStringPerGongValue := ""
+			codeToStringPerGongValue := ""
+
+			for _, enumValue := range gongEnum.GongEnumValues {
+				codeFromStringPerGongValue += Replace2(GongModelEnumValueSubTemplateCode[GongModelEnumValueFromString],
+					"{{GongEnumValue}}", enumValue.Value,
+					"{{GongEnumCode}}", enumValue.Name)
+				codeToStringPerGongValue += Replace2(GongModelEnumValueSubTemplateCode[GongModelEnumValueToString],
+					"{{GongEnumValue}}", enumValue.Value,
+					"{{GongEnumCode}}", enumValue.Name)
+			}
+
+			generatedCodeFromSubTemplate := Replace2(ModelGongEnumSubTemplateCode[subEnumTemplate],
+				"{{ToStringPerCodeCode}}", codeToStringPerGongValue,
+				"{{FromStringPerCodeCode}}", codeFromStringPerGongValue)
+
+			var typeOfEnumAsString string
+			if gongEnum.Type == String {
+				typeOfEnumAsString = "String"
+			} else {
+				typeOfEnumAsString = "Int"
+			}
+
+			generatedCodeFromSubTemplate = Replace4(generatedCodeFromSubTemplate,
+				"{{enumName}}", strings.ToLower(gongEnum.Name),
+				"{{EnumName}}", gongEnum.Name,
+				"{{Type}}", typeOfEnumAsString,
+				"{{type}}", strings.ToLower(typeOfEnumAsString))
+
+			subEnumCodes[subEnumTemplate] += generatedCodeFromSubTemplate
+		}
+	}
+
+	// substitutes {{<<insertionPerEnumId points>>}} stuff with generated code
+	for insertionPerEnumId := ModelGongEnumInsertionId(0); insertionPerEnumId < ModelGongEnumInsertionsNb; insertionPerEnumId++ {
+		toReplace := "{{" + string(rune(insertionPerEnumId)) + "}}"
+		codeGO = strings.ReplaceAll(codeGO, toReplace, subEnumCodes[insertionPerEnumId])
 	}
 
 	codeGO = Replace3(codeGO,

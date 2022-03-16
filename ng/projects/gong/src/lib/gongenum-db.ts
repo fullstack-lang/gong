@@ -11,7 +11,9 @@ export class GongEnumDB {
 
 	// insertion point for basic fields declarations
 	Name: string = ""
+	Type: number = 0
 
 	// insertion point for other declarations
+	Type_string?: string
 	GongEnumValues?: Array<GongEnumValueDB>
 }

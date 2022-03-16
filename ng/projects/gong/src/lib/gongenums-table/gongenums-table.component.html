@@ -25,6 +25,13 @@
                 {{GongEnum.Name}}
             </td>
         </ng-container>
+        <!-- -->
+        <ng-container matColumnDef="Type">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Type </th>
+            <td mat-cell *matCellDef="let GongEnum">
+                {{GongEnum.Type_string}}
+            </td>
+        </ng-container>
 
         <ng-container matColumnDef="ID" sticky>
             <th mat-header-cell *matHeaderCellDef mat-sort-header> ID. </th>

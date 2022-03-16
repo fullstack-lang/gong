@@ -34,6 +34,8 @@ import { Router, RouterState } from '@angular/router';
 import { {{Structname}}DB } from '../{{structname}}-db'
 import { {{Structname}}Service } from '../{{structname}}.service'
 
+// insertion point for additional imports{{` + string(rune(NgTableTsInsertionPerStructImports)) + `}}
+
 // TableComponent is initilizaed from different routes
 // TableComponentMode detail different cases 
 enum TableComponentMode {
@@ -168,8 +170,9 @@ export class {{Structname}}sTableComponent implements OnInit {
 
         this.{{structname}}s = this.frontRepo.{{Structname}}s_array;
 
-        // insertion point for variables Recoveries{{` + string(rune(NgTableTsInsertionPerStructRecoveries)) + `}}
-
+        // insertion point for time duration Recoveries{{` + string(rune(NgTableTsInsertionPerStructTimeDurationRecoveries)) + `}}
+        // insertion point for enum int Recoveries{{` + string(rune(NgTableTsInsertionPerStructEnumIntRecoveries)) + `}}
+        
         // in case the component is called as a selection component
         if (this.mode == TableComponentMode.ONE_MANY_ASSOCIATION_MODE) {
           for (let {{structname}} of this.{{structname}}s) {
@@ -367,7 +370,9 @@ export class {{Structname}}sTableComponent implements OnInit {
 type NgTableTsInsertionPoint int
 
 const (
-	NgTableTsInsertionPerStructRecoveries NgTableTsInsertionPoint = iota
+	NgTableTsInsertionPerStructImports NgTableTsInsertionPoint = iota
+	NgTableTsInsertionPerStructTimeDurationRecoveries
+	NgTableTsInsertionPerStructEnumIntRecoveries
 	NgTableTsInsertionPerStructColumns
 	NgTableTsInsertionPerStructColumnsSorting
 	NgTableTsInsertionPerStructColumnsFiltering
@@ -377,9 +382,13 @@ const (
 type NgTableSubTemplate int
 
 const (
-	NgTableTSPerStructTimeDurationRecoveries NgTableSubTemplate = iota
+	NgTableTsInsertionPerStructImportsTpl NgTableSubTemplate = iota
+
+	NgTableTSPerStructEnumIntRecoveries
+	NgTableTSPerStructTimeDurationRecoveries
 
 	NgTableTSBasicFieldSorting
+
 	NgTableTSTimeFieldSorting
 
 	NgTableTSPointerToStructSorting
@@ -387,6 +396,7 @@ const (
 
 	NgTableTSNonNumberFieldFiltering
 	NgTableTSNumberFieldFiltering
+	NgTableTSEnumIntFiltering
 	NgTableTSTimeFieldFiltering
 	NgTableTSPointerToStructFiltering
 	NgTableTSSliceOfPointerToStructFiltering
@@ -396,6 +406,14 @@ const (
 )
 
 var NgTablelSubTemplateCode map[NgTableSubTemplate]string = map[NgTableSubTemplate]string{
+
+	NgTableTsInsertionPerStructImportsTpl: `
+import { {{EnumName}}List } from '../{{EnumName}}'`,
+
+	NgTableTSPerStructEnumIntRecoveries: `
+        for (let {{structname}} of this.{{structname}}s) {
+          {{structname}}.{{FieldName}}_string = {{EnumName}}List[{{structname}}.{{FieldName}}].viewValue
+        }`,
 
 	NgTableTSPerStructTimeDurationRecoveries: `
         // compute strings for durations
@@ -427,6 +445,8 @@ var NgTablelSubTemplateCode map[NgTableSubTemplate]string = map[NgTableSubTempla
       mergedContent += {{structname}}DB.{{FieldName}}.toLowerCase()`,
 	NgTableTSNumberFieldFiltering: `
       mergedContent += {{structname}}DB.{{FieldName}}.toString()`,
+	NgTableTSEnumIntFiltering: `
+      mergedContent += {{structname}}DB.{{FieldName}}_string!`,
 	NgTableTSTimeFieldFiltering: `
 `,
 	NgTableTSPointerToStructFiltering: `
@@ -497,7 +517,7 @@ func MultiCodeGeneratorNgTable(
 		}
 
 		codeHTML := NgTableTemplateHTML
-
+		map_ImportedEnums := make(map[*GongEnum]interface{})
 		for _, field := range _struct.Fields {
 			switch field := field.(type) {
 			case *GongBasicField:
@@ -520,11 +540,35 @@ func MultiCodeGeneratorNgTable(
 						"{{FieldName}}", field.Name)
 				case types.Int, types.Int64:
 					if field.DeclaredType != "time.Duration" {
-						HtmlInsertions[NgTableHtmlInsertionColumn] += Replace2(NgTableHTMLSubTemplateCode[NgTableHTMLBasicField],
-							"{{FieldName}}", field.Name,
-							"{{TypeInput}}", TypeInput)
-						TsInsertions[NgTableTsInsertionPerStructColumnsFiltering] += Replace1(NgTablelSubTemplateCode[NgTableTSNumberFieldFiltering],
-							"{{FieldName}}", field.Name)
+
+						if field.GongEnum == nil {
+							HtmlInsertions[NgTableHtmlInsertionColumn] += Replace2(NgTableHTMLSubTemplateCode[NgTableHTMLBasicField],
+								"{{FieldName}}", field.Name,
+								"{{TypeInput}}", TypeInput)
+							TsInsertions[NgTableTsInsertionPerStructColumnsFiltering] += Replace1(NgTablelSubTemplateCode[NgTableTSNumberFieldFiltering],
+								"{{FieldName}}", field.Name)
+						} else {
+							HtmlInsertions[NgTableHtmlInsertionColumn] += Replace2(NgTableHTMLSubTemplateCode[NgTableHTMLEnumIntField],
+								"{{FieldName}}", field.Name,
+								"{{TypeInput}}", TypeInput)
+
+							TsInsertions[NgTableTsInsertionPerStructEnumIntRecoveries] += Replace2(
+								NgTablelSubTemplateCode[NgTableTSPerStructEnumIntRecoveries],
+								"{{EnumName}}", field.GongEnum.Name,
+								"{{FieldName}}", field.Name)
+
+							TsInsertions[NgTableTsInsertionPerStructColumnsFiltering] += Replace2(
+								NgTablelSubTemplateCode[NgTableTSEnumIntFiltering],
+								"{{EnumName}}", field.GongEnum.Name,
+								"{{FieldName}}", field.Name)
+
+							_, isAlreadyPresent := map_ImportedEnums[field.GongEnum]
+							if !isAlreadyPresent {
+								map_ImportedEnums[field.GongEnum] = 0
+								TsInsertions[NgTableTsInsertionPerStructImports] += Replace1(NgTablelSubTemplateCode[NgTableTsInsertionPerStructImportsTpl],
+									"{{EnumName}}", field.GongEnum.Name)
+							}
+						}
 
 					} else {
 						HtmlInsertions[NgTableHtmlInsertionColumn] += Replace1(NgTableHTMLSubTemplateCode[NgTableHTMLBasicFieldTimeDuration],
@@ -548,7 +592,7 @@ func MultiCodeGeneratorNgTable(
 						"{{FieldName}}", field.Name)
 
 				if field.DeclaredType == "time.Duration" {
-					TsInsertions[NgTableTsInsertionPerStructRecoveries] +=
+					TsInsertions[NgTableTsInsertionPerStructTimeDurationRecoveries] +=
 						Replace1(NgTablelSubTemplateCode[NgTableTSPerStructTimeDurationRecoveries],
 							"{{FieldName}}", field.Name)
 				}
@@ -558,6 +602,9 @@ func MultiCodeGeneratorNgTable(
 				translationString := ""
 				if field.basicKind == types.Bool {
 					translationString = "?\"true\":\"false\""
+				}
+				if field.GongEnum != nil && field.GongEnum.Type == Int {
+					translationString = "_string!"
 				}
 
 				TsInsertions[NgTableTsInsertionPerStructColumnsSorting] +=

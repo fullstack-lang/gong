@@ -6,11 +6,11 @@ export enum NgSidebarHtmlInsertionPoint {
 }
 
 export interface NgSidebarHtmlInsertionPointSelect {
-	value: string;
+	value: number;
 	viewValue: string;
 }
 
 export const NgSidebarHtmlInsertionPointList: NgSidebarHtmlInsertionPointSelect[] = [ // insertion point	
-	{ value: 'NgSidebarHtmlNbInsertionPoints', viewValue: '1' },
-	{ value: 'NgSidebarHtmlStruct', viewValue: '0' },
+	{ value: NgSidebarHtmlInsertionPoint.NgSidebarHtmlNbInsertionPoints, viewValue: "NgSidebarHtmlNbInsertionPoints" },
+	{ value: NgSidebarHtmlInsertionPoint.NgSidebarHtmlStruct, viewValue: "NgSidebarHtmlStruct" },
 ];

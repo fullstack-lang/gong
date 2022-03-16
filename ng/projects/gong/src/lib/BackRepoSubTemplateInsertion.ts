@@ -19,24 +19,24 @@ export enum BackRepoSubTemplateInsertion {
 }
 
 export interface BackRepoSubTemplateInsertionSelect {
-	value: string;
+	value: number;
 	viewValue: string;
 }
 
 export const BackRepoSubTemplateInsertionList: BackRepoSubTemplateInsertionSelect[] = [ // insertion point	
-	{ value: 'BackRepoBackup', viewValue: '10' },
-	{ value: 'BackRepoBackupXL', viewValue: '11' },
-	{ value: 'BackRepoCheckout', viewValue: '9' },
-	{ value: 'BackRepoCommit', viewValue: '8' },
-	{ value: 'BackRepoInitAndCheckout', viewValue: '7' },
-	{ value: 'BackRepoInitAndCommit', viewValue: '6' },
-	{ value: 'BackRepoPerStructDeclarations', viewValue: '0' },
-	{ value: 'BackRepoPerStructInits', viewValue: '1' },
-	{ value: 'BackRepoPerStructPhaseOneCheckouts', viewValue: '4' },
-	{ value: 'BackRepoPerStructPhaseOneCommits', viewValue: '2' },
-	{ value: 'BackRepoPerStructPhaseTwoCheckouts', viewValue: '5' },
-	{ value: 'BackRepoPerStructPhaseTwoCommits', viewValue: '3' },
-	{ value: 'BackRepoRestorePhaseOne', viewValue: '12' },
-	{ value: 'BackRepoRestorePhaseTwo', viewValue: '14' },
-	{ value: 'BackRepoRestoreXLPhaseOne', viewValue: '13' },
+	{ value: BackRepoSubTemplateInsertion.BackRepoBackup, viewValue: "BackRepoBackup" },
+	{ value: BackRepoSubTemplateInsertion.BackRepoBackupXL, viewValue: "BackRepoBackupXL" },
+	{ value: BackRepoSubTemplateInsertion.BackRepoCheckout, viewValue: "BackRepoCheckout" },
+	{ value: BackRepoSubTemplateInsertion.BackRepoCommit, viewValue: "BackRepoCommit" },
+	{ value: BackRepoSubTemplateInsertion.BackRepoInitAndCheckout, viewValue: "BackRepoInitAndCheckout" },
+	{ value: BackRepoSubTemplateInsertion.BackRepoInitAndCommit, viewValue: "BackRepoInitAndCommit" },
+	{ value: BackRepoSubTemplateInsertion.BackRepoPerStructDeclarations, viewValue: "BackRepoPerStructDeclarations" },
+	{ value: BackRepoSubTemplateInsertion.BackRepoPerStructInits, viewValue: "BackRepoPerStructInits" },
+	{ value: BackRepoSubTemplateInsertion.BackRepoPerStructPhaseOneCheckouts, viewValue: "BackRepoPerStructPhaseOneCheckouts" },
+	{ value: BackRepoSubTemplateInsertion.BackRepoPerStructPhaseOneCommits, viewValue: "BackRepoPerStructPhaseOneCommits" },
+	{ value: BackRepoSubTemplateInsertion.BackRepoPerStructPhaseTwoCheckouts, viewValue: "BackRepoPerStructPhaseTwoCheckouts" },
+	{ value: BackRepoSubTemplateInsertion.BackRepoPerStructPhaseTwoCommits, viewValue: "BackRepoPerStructPhaseTwoCommits" },
+	{ value: BackRepoSubTemplateInsertion.BackRepoRestorePhaseOne, viewValue: "BackRepoRestorePhaseOne" },
+	{ value: BackRepoSubTemplateInsertion.BackRepoRestorePhaseTwo, viewValue: "BackRepoRestorePhaseTwo" },
+	{ value: BackRepoSubTemplateInsertion.BackRepoRestoreXLPhaseOne, viewValue: "BackRepoRestoreXLPhaseOne" },
 ];

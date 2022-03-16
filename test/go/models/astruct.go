@@ -20,6 +20,7 @@ type Astruct struct {
 	Aenum   AEnumType
 	Aenum_2 AEnumType
 	Benum   BEnumType
+	CEnum   CEnumTypeInt
 
 	// an embedded struct is supported (without a field name)
 	Cstruct
