@@ -35,7 +35,7 @@
     <mat-form-field appearance="fill" class="detail-full-width">
         <mat-label>Aenum</mat-label>
         <mat-select [(ngModel)]="astruct.Aenum" [ngModelOptions]="{standalone: true}">
-            <mat-option *ngFor="let enum of AEnumTypeList" [value]="enum.viewValue">
+            <mat-option *ngFor="let enum of AEnumTypeList" [value]="enum.value">
                 {{enum.viewValue}}
             </mat-option>
         </mat-select>
@@ -45,7 +45,7 @@
     <mat-form-field appearance="fill" class="detail-full-width">
         <mat-label>Aenum_2</mat-label>
         <mat-select [(ngModel)]="astruct.Aenum_2" [ngModelOptions]="{standalone: true}">
-            <mat-option *ngFor="let enum of AEnumTypeList" [value]="enum.viewValue">
+            <mat-option *ngFor="let enum of AEnumTypeList" [value]="enum.value">
                 {{enum.viewValue}}
             </mat-option>
         </mat-select>
@@ -55,7 +55,7 @@
     <mat-form-field appearance="fill" class="detail-full-width">
         <mat-label>Benum</mat-label>
         <mat-select [(ngModel)]="astruct.Benum" [ngModelOptions]="{standalone: true}">
-            <mat-option *ngFor="let enum of BEnumTypeList" [value]="enum.viewValue">
+            <mat-option *ngFor="let enum of BEnumTypeList" [value]="enum.value">
                 {{enum.viewValue}}
             </mat-option>
         </mat-select>
