@@ -2781,6 +2781,100 @@ func (nglibmoduleservicesubtemplate *NgLibModuleServiceSubTemplate) FromString(i
 	}
 }
 
+// Utility function for NgPresentationHtmlSubTemplateId
+// if enum values are string, it is stored with the value
+// if enum values are int, they are stored with the code of the value
+func (ngpresentationhtmlsubtemplateid NgPresentationHtmlSubTemplateId) ToInt() (res int) {
+
+	// migration of former implementation of enum
+	switch ngpresentationhtmlsubtemplateid {
+	// insertion code per enum code
+	case NgPresentationHtmlBasicField:
+		res = 3
+	case NgPresentationHtmlBasicFieldTimeDuration:
+		res = 5
+	case NgPresentationHtmlBool:
+		res = 6
+	case NgPresentationHtmlEnumInt:
+		res = 2
+	case NgPresentationHtmlEnumString:
+		res = 1
+	case NgPresentationHtmlField:
+		res = 0
+	case NgPresentationHtmlTimeField:
+		res = 4
+	case NgPresentationPointerToStructHtmlFormField:
+		res = 7
+	}
+	return
+}
+
+func (ngpresentationhtmlsubtemplateid *NgPresentationHtmlSubTemplateId) FromInt(input int) {
+
+	switch input {
+	// insertion code per enum code
+	case 3:
+		*ngpresentationhtmlsubtemplateid = NgPresentationHtmlBasicField
+	case 5:
+		*ngpresentationhtmlsubtemplateid = NgPresentationHtmlBasicFieldTimeDuration
+	case 6:
+		*ngpresentationhtmlsubtemplateid = NgPresentationHtmlBool
+	case 2:
+		*ngpresentationhtmlsubtemplateid = NgPresentationHtmlEnumInt
+	case 1:
+		*ngpresentationhtmlsubtemplateid = NgPresentationHtmlEnumString
+	case 0:
+		*ngpresentationhtmlsubtemplateid = NgPresentationHtmlField
+	case 4:
+		*ngpresentationhtmlsubtemplateid = NgPresentationHtmlTimeField
+	case 7:
+		*ngpresentationhtmlsubtemplateid = NgPresentationPointerToStructHtmlFormField
+	}
+}
+
+// Utility function for NgPresentationTsInsertionPointId
+// if enum values are string, it is stored with the value
+// if enum values are int, they are stored with the code of the value
+func (ngpresentationtsinsertionpointid NgPresentationTsInsertionPointId) ToInt() (res int) {
+
+	// migration of former implementation of enum
+	switch ngpresentationtsinsertionpointid {
+	// insertion code per enum code
+	case NgPresentationTsInsertionFieldPerStructEnumIntDeclarations:
+		res = 2
+	case NgPresentationTsInsertionPerStructEnumIntImports:
+		res = 0
+	case NgPresentationTsInsertionPerStructEnumIntRecoveries:
+		res = 4
+	case NgPresentationTsInsertionPerStructTimeDurationRecoveries:
+		res = 3
+	case NgPresentationTsInsertionTimeDurationFieldPerStructDeclarations:
+		res = 1
+	case NgPresentationTsInsertionsNb:
+		res = 5
+	}
+	return
+}
+
+func (ngpresentationtsinsertionpointid *NgPresentationTsInsertionPointId) FromInt(input int) {
+
+	switch input {
+	// insertion code per enum code
+	case 2:
+		*ngpresentationtsinsertionpointid = NgPresentationTsInsertionFieldPerStructEnumIntDeclarations
+	case 0:
+		*ngpresentationtsinsertionpointid = NgPresentationTsInsertionPerStructEnumIntImports
+	case 4:
+		*ngpresentationtsinsertionpointid = NgPresentationTsInsertionPerStructEnumIntRecoveries
+	case 3:
+		*ngpresentationtsinsertionpointid = NgPresentationTsInsertionPerStructTimeDurationRecoveries
+	case 1:
+		*ngpresentationtsinsertionpointid = NgPresentationTsInsertionTimeDurationFieldPerStructDeclarations
+	case 5:
+		*ngpresentationtsinsertionpointid = NgPresentationTsInsertionsNb
+	}
+}
+
 // Utility function for NgPublicApiInsertionPoint
 // if enum values are string, it is stored with the value
 // if enum values are int, they are stored with the code of the value
@@ -3133,17 +3227,19 @@ func (ngtablehtmlsubtemplate NgTableHTMLSubTemplate) ToInt() (res int) {
 	case NgTableHTMLBasicField:
 		res = 0
 	case NgTableHTMLBasicFieldTimeDuration:
-		res = 3
-	case NgTableHTMLBasicFloat64Field:
-		res = 2
-	case NgTableHTMLBool:
 		res = 4
-	case NgTableHTMLTimeField:
-		res = 1
-	case NgTablePointerToSliceOfGongStructHTMLFormField:
-		res = 6
-	case NgTablePointerToStructHTMLFormField:
+	case NgTableHTMLBasicFloat64Field:
+		res = 3
+	case NgTableHTMLBool:
 		res = 5
+	case NgTableHTMLEnumIntField:
+		res = 1
+	case NgTableHTMLTimeField:
+		res = 2
+	case NgTablePointerToSliceOfGongStructHTMLFormField:
+		res = 7
+	case NgTablePointerToStructHTMLFormField:
+		res = 6
 	}
 	return
 }
@@ -3154,17 +3250,19 @@ func (ngtablehtmlsubtemplate *NgTableHTMLSubTemplate) FromInt(input int) {
 	// insertion code per enum code
 	case 0:
 		*ngtablehtmlsubtemplate = NgTableHTMLBasicField
-	case 3:
-		*ngtablehtmlsubtemplate = NgTableHTMLBasicFieldTimeDuration
-	case 2:
-		*ngtablehtmlsubtemplate = NgTableHTMLBasicFloat64Field
 	case 4:
+		*ngtablehtmlsubtemplate = NgTableHTMLBasicFieldTimeDuration
+	case 3:
+		*ngtablehtmlsubtemplate = NgTableHTMLBasicFloat64Field
+	case 5:
 		*ngtablehtmlsubtemplate = NgTableHTMLBool
 	case 1:
+		*ngtablehtmlsubtemplate = NgTableHTMLEnumIntField
+	case 2:
 		*ngtablehtmlsubtemplate = NgTableHTMLTimeField
-	case 6:
+	case 7:
 		*ngtablehtmlsubtemplate = NgTablePointerToSliceOfGongStructHTMLFormField
-	case 5:
+	case 6:
 		*ngtablehtmlsubtemplate = NgTablePointerToStructHTMLFormField
 	}
 }
@@ -3205,29 +3303,35 @@ func (ngtablesubtemplate NgTableSubTemplate) ToInt() (res int) {
 	switch ngtablesubtemplate {
 	// insertion code per enum code
 	case NgTableTSBasicFieldSorting:
-		res = 1
-	case NgTableTSNonNumberFieldFiltering:
-		res = 5
-	case NgTableTSNumberFieldFiltering:
-		res = 6
-	case NgTableTSPerStructColumn:
-		res = 10
-	case NgTableTSPerStructTimeDurationRecoveries:
-		res = 0
-	case NgTableTSPointerToStructFiltering:
-		res = 8
-	case NgTableTSPointerToStructSorting:
 		res = 3
-	case NgTableTSSliceOfPointerToStructFiltering:
+	case NgTableTSEnumIntFiltering:
 		res = 9
-	case NgTableTSSliceOfPointerToStructPerStructColumn:
-		res = 11
-	case NgTableTSSliceOfPointerToStructSorting:
-		res = 4
-	case NgTableTSTimeFieldFiltering:
+	case NgTableTSNonNumberFieldFiltering:
 		res = 7
-	case NgTableTSTimeFieldSorting:
+	case NgTableTSNumberFieldFiltering:
+		res = 8
+	case NgTableTSPerStructColumn:
+		res = 13
+	case NgTableTSPerStructEnumIntRecoveries:
+		res = 1
+	case NgTableTSPerStructTimeDurationRecoveries:
 		res = 2
+	case NgTableTSPointerToStructFiltering:
+		res = 11
+	case NgTableTSPointerToStructSorting:
+		res = 5
+	case NgTableTSSliceOfPointerToStructFiltering:
+		res = 12
+	case NgTableTSSliceOfPointerToStructPerStructColumn:
+		res = 14
+	case NgTableTSSliceOfPointerToStructSorting:
+		res = 6
+	case NgTableTSTimeFieldFiltering:
+		res = 10
+	case NgTableTSTimeFieldSorting:
+		res = 4
+	case NgTableTsInsertionPerStructImportsTpl:
+		res = 0
 	}
 	return
 }
@@ -3236,30 +3340,36 @@ func (ngtablesubtemplate *NgTableSubTemplate) FromInt(input int) {
 
 	switch input {
 	// insertion code per enum code
-	case 1:
-		*ngtablesubtemplate = NgTableTSBasicFieldSorting
-	case 5:
-		*ngtablesubtemplate = NgTableTSNonNumberFieldFiltering
-	case 6:
-		*ngtablesubtemplate = NgTableTSNumberFieldFiltering
-	case 10:
-		*ngtablesubtemplate = NgTableTSPerStructColumn
-	case 0:
-		*ngtablesubtemplate = NgTableTSPerStructTimeDurationRecoveries
-	case 8:
-		*ngtablesubtemplate = NgTableTSPointerToStructFiltering
 	case 3:
-		*ngtablesubtemplate = NgTableTSPointerToStructSorting
+		*ngtablesubtemplate = NgTableTSBasicFieldSorting
 	case 9:
-		*ngtablesubtemplate = NgTableTSSliceOfPointerToStructFiltering
-	case 11:
-		*ngtablesubtemplate = NgTableTSSliceOfPointerToStructPerStructColumn
-	case 4:
-		*ngtablesubtemplate = NgTableTSSliceOfPointerToStructSorting
+		*ngtablesubtemplate = NgTableTSEnumIntFiltering
 	case 7:
-		*ngtablesubtemplate = NgTableTSTimeFieldFiltering
+		*ngtablesubtemplate = NgTableTSNonNumberFieldFiltering
+	case 8:
+		*ngtablesubtemplate = NgTableTSNumberFieldFiltering
+	case 13:
+		*ngtablesubtemplate = NgTableTSPerStructColumn
+	case 1:
+		*ngtablesubtemplate = NgTableTSPerStructEnumIntRecoveries
 	case 2:
+		*ngtablesubtemplate = NgTableTSPerStructTimeDurationRecoveries
+	case 11:
+		*ngtablesubtemplate = NgTableTSPointerToStructFiltering
+	case 5:
+		*ngtablesubtemplate = NgTableTSPointerToStructSorting
+	case 12:
+		*ngtablesubtemplate = NgTableTSSliceOfPointerToStructFiltering
+	case 14:
+		*ngtablesubtemplate = NgTableTSSliceOfPointerToStructPerStructColumn
+	case 6:
+		*ngtablesubtemplate = NgTableTSSliceOfPointerToStructSorting
+	case 10:
+		*ngtablesubtemplate = NgTableTSTimeFieldFiltering
+	case 4:
 		*ngtablesubtemplate = NgTableTSTimeFieldSorting
+	case 0:
+		*ngtablesubtemplate = NgTableTsInsertionPerStructImportsTpl
 	}
 }
 
@@ -3272,13 +3382,19 @@ func (ngtabletsinsertionpoint NgTableTsInsertionPoint) ToInt() (res int) {
 	switch ngtabletsinsertionpoint {
 	// insertion code per enum code
 	case NgTableTsInsertionPerStructColumns:
-		res = 1
-	case NgTableTsInsertionPerStructColumnsFiltering:
 		res = 3
+	case NgTableTsInsertionPerStructColumnsFiltering:
+		res = 5
 	case NgTableTsInsertionPerStructColumnsSorting:
-		res = 2
-	case NgTableTsInsertionsNb:
 		res = 4
+	case NgTableTsInsertionPerStructEnumIntRecoveries:
+		res = 2
+	case NgTableTsInsertionPerStructImports:
+		res = 0
+	case NgTableTsInsertionPerStructTimeDurationRecoveries:
+		res = 1
+	case NgTableTsInsertionsNb:
+		res = 6
 	}
 	return
 }
@@ -3287,13 +3403,19 @@ func (ngtabletsinsertionpoint *NgTableTsInsertionPoint) FromInt(input int) {
 
 	switch input {
 	// insertion code per enum code
-	case 1:
-		*ngtabletsinsertionpoint = NgTableTsInsertionPerStructColumns
 	case 3:
+		*ngtabletsinsertionpoint = NgTableTsInsertionPerStructColumns
+	case 5:
 		*ngtabletsinsertionpoint = NgTableTsInsertionPerStructColumnsFiltering
-	case 2:
-		*ngtabletsinsertionpoint = NgTableTsInsertionPerStructColumnsSorting
 	case 4:
+		*ngtabletsinsertionpoint = NgTableTsInsertionPerStructColumnsSorting
+	case 2:
+		*ngtabletsinsertionpoint = NgTableTsInsertionPerStructEnumIntRecoveries
+	case 0:
+		*ngtabletsinsertionpoint = NgTableTsInsertionPerStructImports
+	case 1:
+		*ngtabletsinsertionpoint = NgTableTsInsertionPerStructTimeDurationRecoveries
+	case 6:
 		*ngtabletsinsertionpoint = NgTableTsInsertionsNb
 	}
 }
@@ -3374,3 +3496,4 @@ func (ormsetupcumulsubtemplate *OrmSetupCumulSubTemplate) FromString(input strin
 		*ormsetupcumulsubtemplate = OrmSetupRefToStructDB
 	}
 }
+
