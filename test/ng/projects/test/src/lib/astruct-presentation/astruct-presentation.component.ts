@@ -7,7 +7,9 @@ import { AstructService } from '../astruct.service'
 import { FrontRepoService, FrontRepo } from '../front-repo.service'
 
 import { Router, RouterState, ActivatedRoute } from '@angular/router';
-import { CEnumTypeIntList } from '../CEnumTypeInt';
+
+// insertion point for additional imports
+import { CEnumTypeIntList } from '../CEnumTypeInt'
 
 export interface astructDummyElement {
 }
@@ -22,13 +24,13 @@ const ELEMENT_DATA: astructDummyElement[] = [
 })
 export class AstructPresentationComponent implements OnInit {
 
-	// insertion point for declarations
+	// insertion point for additionnal time duration declarations
 	// fields from Duration1
 	Duration1_Hours: number = 0
 	Duration1_Minutes: number = 0
 	Duration1_Seconds: number = 0
-
-	CEnumValue : string = ""
+	// insertion point for additionnal enum int field declarations
+	CEnum_Value : string = ""
 
 	displayedColumns: string[] = []
 	dataSource = ELEMENT_DATA
@@ -75,9 +77,8 @@ export class AstructPresentationComponent implements OnInit {
 				this.Duration1_Hours = Math.floor(this.astruct.Duration1 / (3600 * 1000 * 1000 * 1000))
 				this.Duration1_Minutes = Math.floor(this.astruct.Duration1 % (3600 * 1000 * 1000 * 1000) / (60 * 1000 * 1000 * 1000))
 				this.Duration1_Seconds = this.astruct.Duration1 % (60 * 1000 * 1000 * 1000) / (1000 * 1000 * 1000)
-
-				this.CEnumValue = CEnumTypeIntList[this.astruct.CEnum].viewValue
-
+				// insertion point for recovery of enum tint
+				this.CEnum_Value = CEnumTypeIntList[this.astruct.CEnum].viewValue
 			}
 		);
 	}
