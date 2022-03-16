@@ -11,6 +11,6 @@ export interface NgRoutingServiceSubTemplateSelect {
 }
 
 export const NgRoutingServiceSubTemplateList: NgRoutingServiceSubTemplateSelect[] = [ // insertion point	
-	{ value: 'NgRoutingDeclarations', viewValue: '"NgRoutingIndivDecls"' },
-	{ value: 'NgRoutingImports', viewValue: '"NgRoutingImports"' },
+	{ value: NgRoutingServiceSubTemplate.NgRoutingDeclarations, viewValue: "NgRoutingIndivDecls" },
+	{ value: NgRoutingServiceSubTemplate.NgRoutingImports, viewValue: "NgRoutingImports" },
 ];

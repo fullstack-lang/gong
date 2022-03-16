@@ -9,14 +9,14 @@ export enum ControllerFileInsertionPoint {
 }
 
 export interface ControllerFileInsertionPointSelect {
-	value: string;
+	value: number;
 	viewValue: string;
 }
 
 export const ControllerFileInsertionPointList: ControllerFileInsertionPointSelect[] = [ // insertion point	
-	{ value: 'ControllerFileGetInsertion', viewValue: '2' },
-	{ value: 'ControllerFileGetsInsertion', viewValue: '0' },
-	{ value: 'ControllerFileNbInsertionPoints', viewValue: '4' },
-	{ value: 'ControllerFilePostInsertion', viewValue: '1' },
-	{ value: 'ControllerFileUpdateInsertion', viewValue: '3' },
+	{ value: ControllerFileInsertionPoint.ControllerFileGetInsertion, viewValue: "ControllerFileGetInsertion" },
+	{ value: ControllerFileInsertionPoint.ControllerFileGetsInsertion, viewValue: "ControllerFileGetsInsertion" },
+	{ value: ControllerFileInsertionPoint.ControllerFileNbInsertionPoints, viewValue: "ControllerFileNbInsertionPoints" },
+	{ value: ControllerFileInsertionPoint.ControllerFilePostInsertion, viewValue: "ControllerFilePostInsertion" },
+	{ value: ControllerFileInsertionPoint.ControllerFileUpdateInsertion, viewValue: "ControllerFileUpdateInsertion" },
 ];

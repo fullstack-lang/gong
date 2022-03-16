@@ -6,11 +6,11 @@ export enum NgEnumSubTemplate {
 }
 
 export interface NgEnumSubTemplateSelect {
-	value: string;
+	value: number;
 	viewValue: string;
 }
 
 export const NgEnumSubTemplateList: NgEnumSubTemplateSelect[] = [ // insertion point	
-	{ value: 'NgEnumDeclaration', viewValue: '0' },
-	{ value: 'NgEnumDeclarationForPullDownSelect', viewValue: '1' },
+	{ value: NgEnumSubTemplate.NgEnumDeclaration, viewValue: "NgEnumDeclaration" },
+	{ value: NgEnumSubTemplate.NgEnumDeclarationForPullDownSelect, viewValue: "NgEnumDeclarationForPullDownSelect" },
 ];

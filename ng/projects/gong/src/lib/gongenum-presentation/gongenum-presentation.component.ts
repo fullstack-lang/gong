@@ -8,6 +8,9 @@ import { FrontRepoService, FrontRepo } from '../front-repo.service'
 
 import { Router, RouterState, ActivatedRoute } from '@angular/router';
 
+// insertion point for additional imports
+import { GongEnumTypeList } from '../GongEnumType'
+
 export interface gongenumDummyElement {
 }
 
@@ -21,7 +24,9 @@ const ELEMENT_DATA: gongenumDummyElement[] = [
 })
 export class GongEnumPresentationComponent implements OnInit {
 
-	// insertion point for declarations
+	// insertion point for additionnal time duration declarations
+	// insertion point for additionnal enum int field declarations
+	Type_Value : string = ""
 
 	displayedColumns: string[] = []
 	dataSource = ELEMENT_DATA
@@ -64,6 +69,8 @@ export class GongEnumPresentationComponent implements OnInit {
 				this.gongenum = this.frontRepo.GongEnums.get(id)!
 
 				// insertion point for recovery of durations
+				// insertion point for recovery of enum tint
+				this.Type_Value = GongEnumTypeList[this.gongenum.Type].viewValue
 			}
 		);
 	}

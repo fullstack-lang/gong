@@ -91,6 +91,9 @@ type AstructDB struct {
 	// Declation for basic field astructDB.Benum {{BasicKind}} (to be completed)
 	Benum_Data sql.NullString
 
+	// Declation for basic field astructDB.CEnum {{BasicKind}} (to be completed)
+	CEnum_Data sql.NullInt64
+
 	// Declation for basic field astructDB.CName {{BasicKind}} (to be completed)
 	CName_Data sql.NullString
 
@@ -142,17 +145,19 @@ type AstructWOP struct {
 
 	Benum models.BEnumType `xlsx:"6"`
 
-	CName string `xlsx:"7"`
+	CEnum models.CEnumTypeInt `xlsx:"7"`
 
-	CFloatfield float64 `xlsx:"8"`
+	CName string `xlsx:"8"`
 
-	Floatfield float64 `xlsx:"9"`
+	CFloatfield float64 `xlsx:"9"`
 
-	Intfield int `xlsx:"10"`
+	Floatfield float64 `xlsx:"10"`
 
-	Anotherbooleanfield bool `xlsx:"11"`
+	Intfield int `xlsx:"11"`
 
-	Duration1 time.Duration `xlsx:"12"`
+	Anotherbooleanfield bool `xlsx:"12"`
+
+	Duration1 time.Duration `xlsx:"13"`
 	// insertion for WOP pointer fields
 }
 
@@ -165,6 +170,7 @@ var Astruct_Fields = []string{
 	"Aenum",
 	"Aenum_2",
 	"Benum",
+	"CEnum",
 	"CName",
 	"CFloatfield",
 	"Floatfield",
@@ -717,14 +723,17 @@ func (astructDB *AstructDB) CopyBasicFieldsFromAstruct(astruct *models.Astruct) 
 	astructDB.Booleanfield_Data.Bool = astruct.Booleanfield
 	astructDB.Booleanfield_Data.Valid = true
 
-	astructDB.Aenum_Data.String = string(astruct.Aenum)
+	astructDB.Aenum_Data.String = astruct.Aenum.ToString()
 	astructDB.Aenum_Data.Valid = true
 
-	astructDB.Aenum_2_Data.String = string(astruct.Aenum_2)
+	astructDB.Aenum_2_Data.String = astruct.Aenum_2.ToString()
 	astructDB.Aenum_2_Data.Valid = true
 
-	astructDB.Benum_Data.String = string(astruct.Benum)
+	astructDB.Benum_Data.String = astruct.Benum.ToString()
 	astructDB.Benum_Data.Valid = true
+
+	astructDB.CEnum_Data.Int64 = int64(astruct.CEnum)
+	astructDB.CEnum_Data.Valid = true
 
 	astructDB.CName_Data.String = astruct.CName
 	astructDB.CName_Data.Valid = true
@@ -758,14 +767,17 @@ func (astructDB *AstructDB) CopyBasicFieldsFromAstructWOP(astruct *AstructWOP) {
 	astructDB.Booleanfield_Data.Bool = astruct.Booleanfield
 	astructDB.Booleanfield_Data.Valid = true
 
-	astructDB.Aenum_Data.String = string(astruct.Aenum)
+	astructDB.Aenum_Data.String = astruct.Aenum.ToString()
 	astructDB.Aenum_Data.Valid = true
 
-	astructDB.Aenum_2_Data.String = string(astruct.Aenum_2)
+	astructDB.Aenum_2_Data.String = astruct.Aenum_2.ToString()
 	astructDB.Aenum_2_Data.Valid = true
 
-	astructDB.Benum_Data.String = string(astruct.Benum)
+	astructDB.Benum_Data.String = astruct.Benum.ToString()
 	astructDB.Benum_Data.Valid = true
+
+	astructDB.CEnum_Data.Int64 = int64(astruct.CEnum)
+	astructDB.CEnum_Data.Valid = true
 
 	astructDB.CName_Data.String = astruct.CName
 	astructDB.CName_Data.Valid = true
@@ -792,9 +804,10 @@ func (astructDB *AstructDB) CopyBasicFieldsToAstruct(astruct *models.Astruct) {
 	astruct.Name = astructDB.Name_Data.String
 	astruct.Date = astructDB.Date_Data.Time
 	astruct.Booleanfield = astructDB.Booleanfield_Data.Bool
-	astruct.Aenum = models.AEnumType(astructDB.Aenum_Data.String)
-	astruct.Aenum_2 = models.AEnumType(astructDB.Aenum_2_Data.String)
-	astruct.Benum = models.BEnumType(astructDB.Benum_Data.String)
+	astruct.Aenum.FromString(astructDB.Aenum_Data.String)
+	astruct.Aenum_2.FromString(astructDB.Aenum_2_Data.String)
+	astruct.Benum.FromString(astructDB.Benum_Data.String)
+	astruct.CEnum = models.CEnumTypeInt(astructDB.CEnum_Data.Int64)
 	astruct.CName = astructDB.CName_Data.String
 	astruct.CFloatfield = astructDB.CFloatfield_Data.Float64
 	astruct.Floatfield = astructDB.Floatfield_Data.Float64
@@ -810,9 +823,10 @@ func (astructDB *AstructDB) CopyBasicFieldsToAstructWOP(astruct *AstructWOP) {
 	astruct.Name = astructDB.Name_Data.String
 	astruct.Date = astructDB.Date_Data.Time
 	astruct.Booleanfield = astructDB.Booleanfield_Data.Bool
-	astruct.Aenum = models.AEnumType(astructDB.Aenum_Data.String)
-	astruct.Aenum_2 = models.AEnumType(astructDB.Aenum_2_Data.String)
-	astruct.Benum = models.BEnumType(astructDB.Benum_Data.String)
+	astruct.Aenum.FromString(astructDB.Aenum_Data.String)
+	astruct.Aenum_2.FromString(astructDB.Aenum_2_Data.String)
+	astruct.Benum.FromString(astructDB.Benum_Data.String)
+	astruct.CEnum = models.CEnumTypeInt(astructDB.CEnum_Data.Int64)
 	astruct.CName = astructDB.CName_Data.String
 	astruct.CFloatfield = astructDB.CFloatfield_Data.Float64
 	astruct.Floatfield = astructDB.Floatfield_Data.Float64

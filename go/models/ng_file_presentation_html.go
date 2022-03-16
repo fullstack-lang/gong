@@ -9,7 +9,7 @@ const NgPresentationTemplateHTML = `
         <th class="mat-header-cell">Name</th>
         <th class="mat-header-cell">Value</th>
     </tr>
-    <!-- insertion point for fields specific code -->{{` + string(NgPresentationHtmlField) + `}}
+    <!-- insertion point for fields specific code -->{{` + string(rune(NgPresentationHtmlField)) + `}}
 </table>
 <!-- hack to force loading of mat table style an error is generated but it is a know angular issue https://github.com/angular/components/issues/10941 -->
 <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
@@ -21,53 +21,51 @@ const NgPresentationTemplateHTML = `
 //
 // Sub Templates
 //
-type NgPresentationHtmlSubTemplate string
+type NgPresentationHtmlSubTemplateId int
 
 const (
-	NgPresentationHtmlField                    NgPresentationHtmlSubTemplate = "NgPresentationHtmlField"
-	NgPresentationHtmlEnum                     NgPresentationHtmlSubTemplate = "NgPresentationHtmlEnum"
-	NgPresentationHtmlBasicField               NgPresentationHtmlSubTemplate = "NgPresentationHtmlBasicField"
-	NgPresentationHtmlTimeField                NgPresentationHtmlSubTemplate = "NgPresentationHtmlTimeField"
-	NgPresentationHtmlBasicFieldTimeDuration   NgPresentationHtmlSubTemplate = "NgPresentationHtmlBasicFieldTimeDuration"
-	NgPresentationHtmlBool                     NgPresentationHtmlSubTemplate = "NgPresentationHtmlBool"
-	NgPresentationPointerToStructHtmlFormField NgPresentationHtmlSubTemplate = "NgPresentationPointerToStructHtmlFormField"
-	// NgPresentationSliceOfPointerToStructHtml   NgPresentationHtmlSubTemplate = "NgPresentationSliceOfPointerToStructHtml"
+	NgPresentationHtmlField NgPresentationHtmlSubTemplateId = iota
+	NgPresentationHtmlEnumString
+	NgPresentationHtmlEnumInt
+	NgPresentationHtmlBasicField
+	NgPresentationHtmlTimeField
+	NgPresentationHtmlBasicFieldTimeDuration
+	NgPresentationHtmlBool
+	NgPresentationPointerToStructHtmlFormField
 )
 
-var NgPresentationEnumHtmlSubTemplateCode map[string]string = map[string]string{
-	string(NgPresentationHtmlEnum): `
+var NgPresentationEnumHtmlSubTemplateCode map[NgPresentationHtmlSubTemplateId]string = map[NgPresentationHtmlSubTemplateId]string{
+	NgPresentationHtmlEnumString: `
     <tr class="mat-row">
         <td class="mat-cell">{{FieldName}}</td>
         <td class="mat-cell">{{{{structname}}.{{FieldName}}}}</td>
     </tr>`,
-}
 
-var NgPresentationBasicFieldHtmlSubTemplateCode map[string]string = map[string]string{
-	string(NgPresentationHtmlBasicField): `
+	NgPresentationHtmlEnumInt: `
+    <tr class="mat-row">
+        <td class="mat-cell">{{FieldName}}</td>
+        <td class="mat-cell">{{{{FieldName}}_Value}}</td>
+    </tr>`,
+
+	NgPresentationHtmlBasicField: `
     <tr class="mat-row">
         <td class="mat-cell">{{FieldName}}</td>
         <td class="mat-cell">{{{{structname}}.{{FieldName}}}}</td>
     </tr>`,
-}
 
-var NgPresentationTimeFieldHtmlSubTemplateCode map[string]string = map[string]string{
-	string(NgPresentationHtmlTimeField): `
+	NgPresentationHtmlTimeField: `
     <tr class="mat-row">
         <td class="mat-cell">{{FieldName}}</td>
         <td class="mat-cell">{{{{structname}}.{{FieldName}}}}</td>
     </tr>`,
-}
 
-var NgPresentationBasicFieldTimeDurationHtmlSubTemplateCode map[string]string = map[string]string{
-	string(NgPresentationHtmlBasicFieldTimeDuration): `
+	NgPresentationHtmlBasicFieldTimeDuration: `
     <tr class="mat-row">
         <td class="mat-cell">{{FieldName}}</td>
         <td class="mat-cell">{{{{FieldName}}_Hours}}H {{{{FieldName}}_Minutes}}M {{{{FieldName}}_Seconds}}S</td>
     </tr>`,
-}
 
-var NgPresentationBoolHtmlSubTemplateCode map[string]string = map[string]string{
-	string(NgPresentationHtmlBool): `
+	NgPresentationHtmlBool: `
     <tr class="mat-row">
         <td class="mat-cell">{{FieldName}}</td>
         <td class="mat-cell">
@@ -75,19 +73,10 @@ var NgPresentationBoolHtmlSubTemplateCode map[string]string = map[string]string{
             </mat-checkbox>
         </td>
     </tr>`,
-}
 
-var NgPresentationPointerToStructHtmlSubTemplateCode map[string]string = map[string]string{
-	string(NgPresentationPointerToStructHtmlFormField): `
+	NgPresentationPointerToStructHtmlFormField: `
     <tr class="mat-row">
         <td class="mat-cell">{{FieldName}}</td>
         <td class="mat-cell">{{{{structname}}.{{FieldName}} ? {{structname}}.{{FieldName}}.Name : ""}}</td>
     </tr>`,
 }
-
-// var NgPresentationSliceOfPointerToStructHtmlSubTemplateCode map[string]string = map[string]string{
-//     string(NgPresentationSliceOfPointerToStructHtml): `
-//     <div class="mat-row">
-//         <button mat-raised-button (click)="openReverseSelection('{{AssocStructName}}', '{{Structname}}_{{FieldName}}DBID')">{{FieldName}}</button>
-//     </div>`,
-// }

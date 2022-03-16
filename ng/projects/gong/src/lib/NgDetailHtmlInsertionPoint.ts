@@ -7,12 +7,12 @@ export enum NgDetailHtmlInsertionPoint {
 }
 
 export interface NgDetailHtmlInsertionPointSelect {
-	value: string;
+	value: number;
 	viewValue: string;
 }
 
 export const NgDetailHtmlInsertionPointList: NgDetailHtmlInsertionPointSelect[] = [ // insertion point	
-	{ value: 'NgDetailHtmlInsertionPerStructFields', viewValue: '0' },
-	{ value: 'NgDetailHtmlInsertionPerStructFieldsManyMany', viewValue: '1' },
-	{ value: 'NgDetailHtmlInsertionsNb', viewValue: '2' },
+	{ value: NgDetailHtmlInsertionPoint.NgDetailHtmlInsertionPerStructFields, viewValue: "NgDetailHtmlInsertionPerStructFields" },
+	{ value: NgDetailHtmlInsertionPoint.NgDetailHtmlInsertionPerStructFieldsManyMany, viewValue: "NgDetailHtmlInsertionPerStructFieldsManyMany" },
+	{ value: NgDetailHtmlInsertionPoint.NgDetailHtmlInsertionsNb, viewValue: "NgDetailHtmlInsertionsNb" },
 ];

@@ -17,6 +17,8 @@ import { Router, RouterState } from '@angular/router';
 import { AstructBstruct2UseDB } from '../astructbstruct2use-db'
 import { AstructBstruct2UseService } from '../astructbstruct2use.service'
 
+// insertion point for additional imports
+
 // TableComponent is initilizaed from different routes
 // TableComponentMode detail different cases 
 enum TableComponentMode {
@@ -174,8 +176,9 @@ export class AstructBstruct2UsesTableComponent implements OnInit {
 
         this.astructbstruct2uses = this.frontRepo.AstructBstruct2Uses_array;
 
-        // insertion point for variables Recoveries
-
+        // insertion point for time duration Recoveries
+        // insertion point for enum int Recoveries
+        
         // in case the component is called as a selection component
         if (this.mode == TableComponentMode.ONE_MANY_ASSOCIATION_MODE) {
           for (let astructbstruct2use of this.astructbstruct2uses) {
