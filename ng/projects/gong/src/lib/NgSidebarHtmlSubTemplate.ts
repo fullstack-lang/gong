@@ -5,10 +5,10 @@ export enum NgSidebarHtmlSubTemplate {
 }
 
 export interface NgSidebarHtmlSubTemplateSelect {
-	value: string;
+	value: number;
 	viewValue: string;
 }
 
 export const NgSidebarHtmlSubTemplateList: NgSidebarHtmlSubTemplateSelect[] = [ // insertion point	
-	{ value: 'NgSidebarHtmlField', viewValue: '0' },
+	{ value: NgSidebarHtmlSubTemplate.NgSidebarHtmlField, viewValue: "NgSidebarHtmlField" },
 ];

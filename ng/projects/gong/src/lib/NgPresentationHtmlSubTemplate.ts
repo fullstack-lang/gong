@@ -16,11 +16,11 @@ export interface NgPresentationHtmlSubTemplateSelect {
 }
 
 export const NgPresentationHtmlSubTemplateList: NgPresentationHtmlSubTemplateSelect[] = [ // insertion point	
-	{ value: 'NgPresentationHtmlBasicField', viewValue: '"NgPresentationHtmlBasicField"' },
-	{ value: 'NgPresentationHtmlBasicFieldTimeDuration', viewValue: '"NgPresentationHtmlBasicFieldTimeDuration"' },
-	{ value: 'NgPresentationHtmlBool', viewValue: '"NgPresentationHtmlBool"' },
-	{ value: 'NgPresentationHtmlEnum', viewValue: '"NgPresentationHtmlEnum"' },
-	{ value: 'NgPresentationHtmlField', viewValue: '"NgPresentationHtmlField"' },
-	{ value: 'NgPresentationHtmlTimeField', viewValue: '"NgPresentationHtmlTimeField"' },
-	{ value: 'NgPresentationPointerToStructHtmlFormField', viewValue: '"NgPresentationPointerToStructHtmlFormField"' },
+	{ value: NgPresentationHtmlSubTemplate.NgPresentationHtmlBasicField, viewValue: "NgPresentationHtmlBasicField" },
+	{ value: NgPresentationHtmlSubTemplate.NgPresentationHtmlBasicFieldTimeDuration, viewValue: "NgPresentationHtmlBasicFieldTimeDuration" },
+	{ value: NgPresentationHtmlSubTemplate.NgPresentationHtmlBool, viewValue: "NgPresentationHtmlBool" },
+	{ value: NgPresentationHtmlSubTemplate.NgPresentationHtmlEnum, viewValue: "NgPresentationHtmlEnum" },
+	{ value: NgPresentationHtmlSubTemplate.NgPresentationHtmlField, viewValue: "NgPresentationHtmlField" },
+	{ value: NgPresentationHtmlSubTemplate.NgPresentationHtmlTimeField, viewValue: "NgPresentationHtmlTimeField" },
+	{ value: NgPresentationHtmlSubTemplate.NgPresentationPointerToStructHtmlFormField, viewValue: "NgPresentationPointerToStructHtmlFormField" },
 ];

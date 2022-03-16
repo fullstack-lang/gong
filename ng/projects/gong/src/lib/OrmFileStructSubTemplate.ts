@@ -10,5 +10,5 @@ export interface OrmFileStructSubTemplateSelect {
 }
 
 export const OrmFileStructSubTemplateList: OrmFileStructSubTemplateSelect[] = [ // insertion point	
-	{ value: 'OrmFileStructDeclarations', viewValue: '"OrmFileStructDeclarations"' },
+	{ value: OrmFileStructSubTemplate.OrmFileStructDeclarations, viewValue: "OrmFileStructDeclarations" },
 ];

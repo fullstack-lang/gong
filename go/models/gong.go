@@ -1096,7 +1096,7 @@ const IdentifiersDecls = `
 	{{Identifier}} := (&models.{{GeneratedStructName}}{Name: "{{GeneratedFieldNameValue}}"}).Stage()`
 
 const StringInitStatement = `
-	{{Identifier}}.{{GeneratedFieldName}} = "{{GeneratedFieldNameValue}}"`
+	{{Identifier}}.{{GeneratedFieldName}} = ` + "`" + `{{GeneratedFieldNameValue}}` + "`"
 
 const NumberInitStatement = `
 	{{Identifier}}.{{GeneratedFieldName}} = {{GeneratedFieldNameValue}}`
@@ -1215,6 +1215,12 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
 		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
 		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(gongenum.Name))
+		initializerStatements += setValueField
+
+		setValueField = NumberInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Type")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", gongenum.Type))
 		initializerStatements += setValueField
 
 	}
@@ -1441,7 +1447,6 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 
 	}
 
-
 	// insertion initialization of objects to stage
 	for idx, gongbasicfield := range gongbasicfieldOrdered {
 		var setPointerField string
@@ -1587,7 +1592,6 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 
 	}
 
-
 	res = strings.ReplaceAll(res, "{{Identifiers}}", identifiersDecl)
 	res = strings.ReplaceAll(res, "{{ValueInitializers}}", initializerStatements)
 	res = strings.ReplaceAll(res, "{{PointersInitializers}}", pointersInitializesStatements)
@@ -1610,3 +1614,1873 @@ func generatesIdentifier(gongStructName string, idx int, instanceName string) (i
 
 	return
 }
+
+// insertion point of enum utility functions
+// Utility function for BackRepoInsertionPoint
+// if enum values are string, it is stored with the value
+// if enum values are int, they are stored with the code of the value
+func (backrepoinsertionpoint BackRepoInsertionPoint) ToInt() (res int) {
+
+	// migration of former implementation of enum
+	switch backrepoinsertionpoint {
+	// insertion code per enum code
+	case BackRepoBasicAndTimeFieldsName:
+		res = 1
+	case BackRepoBasicAndTimeFieldsWOPDeclaration:
+		res = 3
+	case BackRepoBasicFieldsCheckout:
+		res = 8
+	case BackRepoBasicFieldsCommit:
+		res = 6
+	case BackRepoBasicFieldsDeclaration:
+		res = 0
+	case BackRepoNbInsertionPoints:
+		res = 11
+	case BackRepoPointerEncodingFieldsCheckout:
+		res = 9
+	case BackRepoPointerEncodingFieldsCommit:
+		res = 7
+	case BackRepoPointerEncodingFieldsDeclaration:
+		res = 4
+	case BackRepoPointerEncodingFieldsReindexing:
+		res = 10
+	case BackRepoPointerEncodingFieldsWOPDeclaration:
+		res = 5
+	case BackRepoWOPInitialIndex:
+		res = 2
+	}
+	return
+}
+
+func (backrepoinsertionpoint *BackRepoInsertionPoint) FromInt(input int) {
+
+	switch input {
+	// insertion code per enum code
+	case 1:
+		*backrepoinsertionpoint = BackRepoBasicAndTimeFieldsName
+	case 3:
+		*backrepoinsertionpoint = BackRepoBasicAndTimeFieldsWOPDeclaration
+	case 8:
+		*backrepoinsertionpoint = BackRepoBasicFieldsCheckout
+	case 6:
+		*backrepoinsertionpoint = BackRepoBasicFieldsCommit
+	case 0:
+		*backrepoinsertionpoint = BackRepoBasicFieldsDeclaration
+	case 11:
+		*backrepoinsertionpoint = BackRepoNbInsertionPoints
+	case 9:
+		*backrepoinsertionpoint = BackRepoPointerEncodingFieldsCheckout
+	case 7:
+		*backrepoinsertionpoint = BackRepoPointerEncodingFieldsCommit
+	case 4:
+		*backrepoinsertionpoint = BackRepoPointerEncodingFieldsDeclaration
+	case 10:
+		*backrepoinsertionpoint = BackRepoPointerEncodingFieldsReindexing
+	case 5:
+		*backrepoinsertionpoint = BackRepoPointerEncodingFieldsWOPDeclaration
+	case 2:
+		*backrepoinsertionpoint = BackRepoWOPInitialIndex
+	}
+}
+
+// Utility function for BackRepoPerStructSubTemplate
+// if enum values are string, it is stored with the value
+// if enum values are int, they are stored with the code of the value
+func (backrepoperstructsubtemplate BackRepoPerStructSubTemplate) ToInt() (res int) {
+
+	// migration of former implementation of enum
+	switch backrepoperstructsubtemplate {
+	// insertion code per enum code
+	case BackRepoCheckoutBasicField:
+		res = 2
+	case BackRepoCheckoutBasicFieldBoolean:
+		res = 13
+	case BackRepoCheckoutBasicFieldEnum:
+		res = 7
+	case BackRepoCheckoutBasicFieldInt:
+		res = 9
+	case BackRepoCheckoutBasicFieldIntEnum:
+		res = 10
+	case BackRepoCheckoutPointerToStructStageField:
+		res = 16
+	case BackRepoCheckoutSliceOfPointerToStructStageField:
+		res = 20
+	case BackRepoCheckoutTimeField:
+		res = 5
+	case BackRepoCommitBasicBooleanField:
+		res = 12
+	case BackRepoCommitBasicField:
+		res = 1
+	case BackRepoCommitBasicFieldEnum:
+		res = 6
+	case BackRepoCommitBasicFieldInt:
+		res = 8
+	case BackRepoCommitPointerToStructField:
+		res = 15
+	case BackRepoCommitSliceOfPointerToStructField:
+		res = 19
+	case BackRepoCommitTimeField:
+		res = 4
+	case BackRepoDeclarationBasicBooleanField:
+		res = 11
+	case BackRepoDeclarationBasicField:
+		res = 0
+	case BackRepoDeclarationPointerToStructField:
+		res = 14
+	case BackRepoDeclarationSliceOfPointerToStructField:
+		res = 18
+	case BackRepoDeclarationTimeField:
+		res = 3
+	case BackRepoReindexingPointerToStruct:
+		res = 17
+	case BackRepoReindexingSliceOfPointerToStruct:
+		res = 21
+	}
+	return
+}
+
+func (backrepoperstructsubtemplate *BackRepoPerStructSubTemplate) FromInt(input int) {
+
+	switch input {
+	// insertion code per enum code
+	case 2:
+		*backrepoperstructsubtemplate = BackRepoCheckoutBasicField
+	case 13:
+		*backrepoperstructsubtemplate = BackRepoCheckoutBasicFieldBoolean
+	case 7:
+		*backrepoperstructsubtemplate = BackRepoCheckoutBasicFieldEnum
+	case 9:
+		*backrepoperstructsubtemplate = BackRepoCheckoutBasicFieldInt
+	case 10:
+		*backrepoperstructsubtemplate = BackRepoCheckoutBasicFieldIntEnum
+	case 16:
+		*backrepoperstructsubtemplate = BackRepoCheckoutPointerToStructStageField
+	case 20:
+		*backrepoperstructsubtemplate = BackRepoCheckoutSliceOfPointerToStructStageField
+	case 5:
+		*backrepoperstructsubtemplate = BackRepoCheckoutTimeField
+	case 12:
+		*backrepoperstructsubtemplate = BackRepoCommitBasicBooleanField
+	case 1:
+		*backrepoperstructsubtemplate = BackRepoCommitBasicField
+	case 6:
+		*backrepoperstructsubtemplate = BackRepoCommitBasicFieldEnum
+	case 8:
+		*backrepoperstructsubtemplate = BackRepoCommitBasicFieldInt
+	case 15:
+		*backrepoperstructsubtemplate = BackRepoCommitPointerToStructField
+	case 19:
+		*backrepoperstructsubtemplate = BackRepoCommitSliceOfPointerToStructField
+	case 4:
+		*backrepoperstructsubtemplate = BackRepoCommitTimeField
+	case 11:
+		*backrepoperstructsubtemplate = BackRepoDeclarationBasicBooleanField
+	case 0:
+		*backrepoperstructsubtemplate = BackRepoDeclarationBasicField
+	case 14:
+		*backrepoperstructsubtemplate = BackRepoDeclarationPointerToStructField
+	case 18:
+		*backrepoperstructsubtemplate = BackRepoDeclarationSliceOfPointerToStructField
+	case 3:
+		*backrepoperstructsubtemplate = BackRepoDeclarationTimeField
+	case 17:
+		*backrepoperstructsubtemplate = BackRepoReindexingPointerToStruct
+	case 21:
+		*backrepoperstructsubtemplate = BackRepoReindexingSliceOfPointerToStruct
+	}
+}
+
+// Utility function for BackRepoSubTemplateInsertion
+// if enum values are string, it is stored with the value
+// if enum values are int, they are stored with the code of the value
+func (backreposubtemplateinsertion BackRepoSubTemplateInsertion) ToInt() (res int) {
+
+	// migration of former implementation of enum
+	switch backreposubtemplateinsertion {
+	// insertion code per enum code
+	case BackRepoBackup:
+		res = 10
+	case BackRepoBackupXL:
+		res = 11
+	case BackRepoCheckout:
+		res = 9
+	case BackRepoCommit:
+		res = 8
+	case BackRepoInitAndCheckout:
+		res = 7
+	case BackRepoInitAndCommit:
+		res = 6
+	case BackRepoPerStructDeclarations:
+		res = 0
+	case BackRepoPerStructInits:
+		res = 1
+	case BackRepoPerStructPhaseOneCheckouts:
+		res = 4
+	case BackRepoPerStructPhaseOneCommits:
+		res = 2
+	case BackRepoPerStructPhaseTwoCheckouts:
+		res = 5
+	case BackRepoPerStructPhaseTwoCommits:
+		res = 3
+	case BackRepoRestorePhaseOne:
+		res = 12
+	case BackRepoRestorePhaseTwo:
+		res = 14
+	case BackRepoRestoreXLPhaseOne:
+		res = 13
+	}
+	return
+}
+
+func (backreposubtemplateinsertion *BackRepoSubTemplateInsertion) FromInt(input int) {
+
+	switch input {
+	// insertion code per enum code
+	case 10:
+		*backreposubtemplateinsertion = BackRepoBackup
+	case 11:
+		*backreposubtemplateinsertion = BackRepoBackupXL
+	case 9:
+		*backreposubtemplateinsertion = BackRepoCheckout
+	case 8:
+		*backreposubtemplateinsertion = BackRepoCommit
+	case 7:
+		*backreposubtemplateinsertion = BackRepoInitAndCheckout
+	case 6:
+		*backreposubtemplateinsertion = BackRepoInitAndCommit
+	case 0:
+		*backreposubtemplateinsertion = BackRepoPerStructDeclarations
+	case 1:
+		*backreposubtemplateinsertion = BackRepoPerStructInits
+	case 4:
+		*backreposubtemplateinsertion = BackRepoPerStructPhaseOneCheckouts
+	case 2:
+		*backreposubtemplateinsertion = BackRepoPerStructPhaseOneCommits
+	case 5:
+		*backreposubtemplateinsertion = BackRepoPerStructPhaseTwoCheckouts
+	case 3:
+		*backreposubtemplateinsertion = BackRepoPerStructPhaseTwoCommits
+	case 12:
+		*backreposubtemplateinsertion = BackRepoRestorePhaseOne
+	case 14:
+		*backreposubtemplateinsertion = BackRepoRestorePhaseTwo
+	case 13:
+		*backreposubtemplateinsertion = BackRepoRestoreXLPhaseOne
+	}
+}
+
+// Utility function for ControllerFilPerStructSubTemplate
+// if enum values are string, it is stored with the value
+// if enum values are int, they are stored with the code of the value
+func (controllerfilperstructsubtemplate ControllerFilPerStructSubTemplate) ToInt() (res int) {
+
+	// migration of former implementation of enum
+	switch controllerfilperstructsubtemplate {
+	// insertion code per enum code
+	case ControllerFileFieldSubTmplGetBasicFieldBool:
+		res = 2
+	case ControllerFileFieldSubTmplGetBasicFieldFloat64:
+		res = 10
+	case ControllerFileFieldSubTmplGetBasicFieldInt:
+		res = 6
+	case ControllerFileFieldSubTmplGetBasicFieldString:
+		res = 14
+	case ControllerFileFieldSubTmplGetBasicFieldStringEnum:
+		res = 22
+	case ControllerFileFieldSubTmplGetTimeField:
+		res = 18
+	case ControllerFileFieldSubTmplGetsBasicFieldBool:
+		res = 0
+	case ControllerFileFieldSubTmplGetsBasicFieldFloat64:
+		res = 8
+	case ControllerFileFieldSubTmplGetsBasicFieldInt:
+		res = 4
+	case ControllerFileFieldSubTmplGetsBasicFieldString:
+		res = 12
+	case ControllerFileFieldSubTmplGetsBasicFieldStringEnum:
+		res = 20
+	case ControllerFileFieldSubTmplGetsTimeField:
+		res = 16
+	case ControllerFileFieldSubTmplPostBasicFieldBool:
+		res = 1
+	case ControllerFileFieldSubTmplPostBasicFieldFloat64:
+		res = 9
+	case ControllerFileFieldSubTmplPostBasicFieldInt:
+		res = 5
+	case ControllerFileFieldSubTmplPostBasicFieldString:
+		res = 13
+	case ControllerFileFieldSubTmplPostBasicFieldStringEnum:
+		res = 21
+	case ControllerFileFieldSubTmplPostTimeField:
+		res = 17
+	case ControllerFileFieldSubTmplUpdateBasicFieldBool:
+		res = 3
+	case ControllerFileFieldSubTmplUpdateBasicFieldFloat64:
+		res = 11
+	case ControllerFileFieldSubTmplUpdateBasicFieldInt:
+		res = 7
+	case ControllerFileFieldSubTmplUpdateBasicFieldString:
+		res = 15
+	case ControllerFileFieldSubTmplUpdateBasicFieldStringEnum:
+		res = 23
+	case ControllerFileFieldSubTmplUpdateTimeField:
+		res = 19
+	}
+	return
+}
+
+func (controllerfilperstructsubtemplate *ControllerFilPerStructSubTemplate) FromInt(input int) {
+
+	switch input {
+	// insertion code per enum code
+	case 2:
+		*controllerfilperstructsubtemplate = ControllerFileFieldSubTmplGetBasicFieldBool
+	case 10:
+		*controllerfilperstructsubtemplate = ControllerFileFieldSubTmplGetBasicFieldFloat64
+	case 6:
+		*controllerfilperstructsubtemplate = ControllerFileFieldSubTmplGetBasicFieldInt
+	case 14:
+		*controllerfilperstructsubtemplate = ControllerFileFieldSubTmplGetBasicFieldString
+	case 22:
+		*controllerfilperstructsubtemplate = ControllerFileFieldSubTmplGetBasicFieldStringEnum
+	case 18:
+		*controllerfilperstructsubtemplate = ControllerFileFieldSubTmplGetTimeField
+	case 0:
+		*controllerfilperstructsubtemplate = ControllerFileFieldSubTmplGetsBasicFieldBool
+	case 8:
+		*controllerfilperstructsubtemplate = ControllerFileFieldSubTmplGetsBasicFieldFloat64
+	case 4:
+		*controllerfilperstructsubtemplate = ControllerFileFieldSubTmplGetsBasicFieldInt
+	case 12:
+		*controllerfilperstructsubtemplate = ControllerFileFieldSubTmplGetsBasicFieldString
+	case 20:
+		*controllerfilperstructsubtemplate = ControllerFileFieldSubTmplGetsBasicFieldStringEnum
+	case 16:
+		*controllerfilperstructsubtemplate = ControllerFileFieldSubTmplGetsTimeField
+	case 1:
+		*controllerfilperstructsubtemplate = ControllerFileFieldSubTmplPostBasicFieldBool
+	case 9:
+		*controllerfilperstructsubtemplate = ControllerFileFieldSubTmplPostBasicFieldFloat64
+	case 5:
+		*controllerfilperstructsubtemplate = ControllerFileFieldSubTmplPostBasicFieldInt
+	case 13:
+		*controllerfilperstructsubtemplate = ControllerFileFieldSubTmplPostBasicFieldString
+	case 21:
+		*controllerfilperstructsubtemplate = ControllerFileFieldSubTmplPostBasicFieldStringEnum
+	case 17:
+		*controllerfilperstructsubtemplate = ControllerFileFieldSubTmplPostTimeField
+	case 3:
+		*controllerfilperstructsubtemplate = ControllerFileFieldSubTmplUpdateBasicFieldBool
+	case 11:
+		*controllerfilperstructsubtemplate = ControllerFileFieldSubTmplUpdateBasicFieldFloat64
+	case 7:
+		*controllerfilperstructsubtemplate = ControllerFileFieldSubTmplUpdateBasicFieldInt
+	case 15:
+		*controllerfilperstructsubtemplate = ControllerFileFieldSubTmplUpdateBasicFieldString
+	case 23:
+		*controllerfilperstructsubtemplate = ControllerFileFieldSubTmplUpdateBasicFieldStringEnum
+	case 19:
+		*controllerfilperstructsubtemplate = ControllerFileFieldSubTmplUpdateTimeField
+	}
+}
+
+// Utility function for ControllerFileInsertionPoint
+// if enum values are string, it is stored with the value
+// if enum values are int, they are stored with the code of the value
+func (controllerfileinsertionpoint ControllerFileInsertionPoint) ToInt() (res int) {
+
+	// migration of former implementation of enum
+	switch controllerfileinsertionpoint {
+	// insertion code per enum code
+	case ControllerFileGetInsertion:
+		res = 2
+	case ControllerFileGetsInsertion:
+		res = 0
+	case ControllerFileNbInsertionPoints:
+		res = 4
+	case ControllerFilePostInsertion:
+		res = 1
+	case ControllerFileUpdateInsertion:
+		res = 3
+	}
+	return
+}
+
+func (controllerfileinsertionpoint *ControllerFileInsertionPoint) FromInt(input int) {
+
+	switch input {
+	// insertion code per enum code
+	case 2:
+		*controllerfileinsertionpoint = ControllerFileGetInsertion
+	case 0:
+		*controllerfileinsertionpoint = ControllerFileGetsInsertion
+	case 4:
+		*controllerfileinsertionpoint = ControllerFileNbInsertionPoints
+	case 1:
+		*controllerfileinsertionpoint = ControllerFilePostInsertion
+	case 3:
+		*controllerfileinsertionpoint = ControllerFileUpdateInsertion
+	}
+}
+
+// Utility function for ControllersRegistrationsSubTemplateInsertions
+// if enum values are string, it is stored with the value
+// if enum values are int, they are stored with the code of the value
+func (controllersregistrationssubtemplateinsertions ControllersRegistrationsSubTemplateInsertions) ToInt() (res int) {
+
+	// migration of former implementation of enum
+	switch controllersregistrationssubtemplateinsertions {
+	// insertion code per enum code
+	case ControllersDeclaration:
+		res = 0
+	}
+	return
+}
+
+func (controllersregistrationssubtemplateinsertions *ControllersRegistrationsSubTemplateInsertions) FromInt(input int) {
+
+	switch input {
+	// insertion code per enum code
+	case 0:
+		*controllersregistrationssubtemplateinsertions = ControllersDeclaration
+	}
+}
+
+// Utility function for GongEnumType
+// if enum values are string, it is stored with the value
+// if enum values are int, they are stored with the code of the value
+func (gongenumtype GongEnumType) ToInt() (res int) {
+
+	// migration of former implementation of enum
+	switch gongenumtype {
+	// insertion code per enum code
+	case Int:
+		res = 0
+	case String:
+		res = 1
+	}
+	return
+}
+
+func (gongenumtype *GongEnumType) FromInt(input int) {
+
+	switch input {
+	// insertion code per enum code
+	case 0:
+		*gongenumtype = Int
+	case 1:
+		*gongenumtype = String
+	}
+}
+
+// Utility function for GongFilePerStructSubTemplateId
+// if enum values are string, it is stored with the value
+// if enum values are int, they are stored with the code of the value
+func (gongfileperstructsubtemplateid GongFilePerStructSubTemplateId) ToInt() (res int) {
+
+	// migration of former implementation of enum
+	switch gongfileperstructsubtemplateid {
+	// insertion code per enum code
+	case GongFileFieldSubTmplSetBasicFieldBool:
+		res = 0
+	case GongFileFieldSubTmplSetBasicFieldFloat64:
+		res = 2
+	case GongFileFieldSubTmplSetBasicFieldInt:
+		res = 1
+	case GongFileFieldSubTmplSetBasicFieldString:
+		res = 3
+	case GongFileFieldSubTmplSetBasicFieldStringEnum:
+		res = 5
+	case GongFileFieldSubTmplSetPointerField:
+		res = 6
+	case GongFileFieldSubTmplSetSliceOfPointersField:
+		res = 7
+	case GongFileFieldSubTmplSetTimeField:
+		res = 4
+	}
+	return
+}
+
+func (gongfileperstructsubtemplateid *GongFilePerStructSubTemplateId) FromInt(input int) {
+
+	switch input {
+	// insertion code per enum code
+	case 0:
+		*gongfileperstructsubtemplateid = GongFileFieldSubTmplSetBasicFieldBool
+	case 2:
+		*gongfileperstructsubtemplateid = GongFileFieldSubTmplSetBasicFieldFloat64
+	case 1:
+		*gongfileperstructsubtemplateid = GongFileFieldSubTmplSetBasicFieldInt
+	case 3:
+		*gongfileperstructsubtemplateid = GongFileFieldSubTmplSetBasicFieldString
+	case 5:
+		*gongfileperstructsubtemplateid = GongFileFieldSubTmplSetBasicFieldStringEnum
+	case 6:
+		*gongfileperstructsubtemplateid = GongFileFieldSubTmplSetPointerField
+	case 7:
+		*gongfileperstructsubtemplateid = GongFileFieldSubTmplSetSliceOfPointersField
+	case 4:
+		*gongfileperstructsubtemplateid = GongFileFieldSubTmplSetTimeField
+	}
+}
+
+// Utility function for GongModelEnumValueSubTemplateId
+// if enum values are string, it is stored with the value
+// if enum values are int, they are stored with the code of the value
+func (gongmodelenumvaluesubtemplateid GongModelEnumValueSubTemplateId) ToInt() (res int) {
+
+	// migration of former implementation of enum
+	switch gongmodelenumvaluesubtemplateid {
+	// insertion code per enum code
+	case GongModelEnumValueFromString:
+		res = 0
+	case GongModelEnumValueToString:
+		res = 1
+	}
+	return
+}
+
+func (gongmodelenumvaluesubtemplateid *GongModelEnumValueSubTemplateId) FromInt(input int) {
+
+	switch input {
+	// insertion code per enum code
+	case 0:
+		*gongmodelenumvaluesubtemplateid = GongModelEnumValueFromString
+	case 1:
+		*gongmodelenumvaluesubtemplateid = GongModelEnumValueToString
+	}
+}
+
+// Utility function for ModelGongEnumInsertionId
+// if enum values are string, it is stored with the value
+// if enum values are int, they are stored with the code of the value
+func (modelgongenuminsertionid ModelGongEnumInsertionId) ToInt() (res int) {
+
+	// migration of former implementation of enum
+	switch modelgongenuminsertionid {
+	// insertion code per enum code
+	case ModelGongEnumInsertionsNb:
+		res = 41
+	case ModelGongEnumUtilityFunctions:
+		res = 40
+	}
+	return
+}
+
+func (modelgongenuminsertionid *ModelGongEnumInsertionId) FromInt(input int) {
+
+	switch input {
+	// insertion code per enum code
+	case 41:
+		*modelgongenuminsertionid = ModelGongEnumInsertionsNb
+	case 40:
+		*modelgongenuminsertionid = ModelGongEnumUtilityFunctions
+	}
+}
+
+// Utility function for ModelGongStructInsertionId
+// if enum values are string, it is stored with the value
+// if enum values are int, they are stored with the code of the value
+func (modelgongstructinsertionid ModelGongStructInsertionId) ToInt() (res int) {
+
+	// migration of former implementation of enum
+	switch modelgongstructinsertionid {
+	// insertion code per enum code
+	case ModelGongStructInsertionArrayDefintion:
+		res = 4
+	case ModelGongStructInsertionArrayInitialisation:
+		res = 5
+	case ModelGongStructInsertionArrayNil:
+		res = 7
+	case ModelGongStructInsertionArrayReset:
+		res = 6
+	case ModelGongStructInsertionCommitCheckout:
+		res = 0
+	case ModelGongStructInsertionComputeNbInstances:
+		res = 10
+	case ModelGongStructInsertionCreateCallback:
+		res = 2
+	case ModelGongStructInsertionDeleteCallback:
+		res = 3
+	case ModelGongStructInsertionStageFunctions:
+		res = 1
+	case ModelGongStructInsertionUnmarshallDeclarations:
+		res = 8
+	case ModelGongStructInsertionUnmarshallPointersInitializations:
+		res = 9
+	case ModelGongStructInsertionsNb:
+		res = 11
+	}
+	return
+}
+
+func (modelgongstructinsertionid *ModelGongStructInsertionId) FromInt(input int) {
+
+	switch input {
+	// insertion code per enum code
+	case 4:
+		*modelgongstructinsertionid = ModelGongStructInsertionArrayDefintion
+	case 5:
+		*modelgongstructinsertionid = ModelGongStructInsertionArrayInitialisation
+	case 7:
+		*modelgongstructinsertionid = ModelGongStructInsertionArrayNil
+	case 6:
+		*modelgongstructinsertionid = ModelGongStructInsertionArrayReset
+	case 0:
+		*modelgongstructinsertionid = ModelGongStructInsertionCommitCheckout
+	case 10:
+		*modelgongstructinsertionid = ModelGongStructInsertionComputeNbInstances
+	case 2:
+		*modelgongstructinsertionid = ModelGongStructInsertionCreateCallback
+	case 3:
+		*modelgongstructinsertionid = ModelGongStructInsertionDeleteCallback
+	case 1:
+		*modelgongstructinsertionid = ModelGongStructInsertionStageFunctions
+	case 8:
+		*modelgongstructinsertionid = ModelGongStructInsertionUnmarshallDeclarations
+	case 9:
+		*modelgongstructinsertionid = ModelGongStructInsertionUnmarshallPointersInitializations
+	case 11:
+		*modelgongstructinsertionid = ModelGongStructInsertionsNb
+	}
+}
+
+// Utility function for NgClassSubTemplate
+// if enum values are string, it is stored with the value
+// if enum values are int, they are stored with the code of the value
+func (ngclasssubtemplate NgClassSubTemplate) ToInt() (res int) {
+
+	// migration of former implementation of enum
+	switch ngclasssubtemplate {
+	// insertion code per enum code
+	case NgClassTSBasicFieldDecls:
+		res = 1
+	case NgClassTSBasicFieldImports:
+		res = 0
+	case NgClassTSOtherDecls:
+		res = 3
+	case NgClassTSOtherDeclsEnumInt:
+		res = 8
+	case NgClassTSOtherDeclsTimeDuration:
+		res = 7
+	case NgClassTSPointerToStructFieldsDecl:
+		res = 4
+	case NgClassTSSliceOfPtrToGongStructReverseID:
+		res = 6
+	case NgClassTSSliceOfPtrToStructFieldsDecl:
+		res = 5
+	case NgClassTSTimeFieldDecls:
+		res = 2
+	}
+	return
+}
+
+func (ngclasssubtemplate *NgClassSubTemplate) FromInt(input int) {
+
+	switch input {
+	// insertion code per enum code
+	case 1:
+		*ngclasssubtemplate = NgClassTSBasicFieldDecls
+	case 0:
+		*ngclasssubtemplate = NgClassTSBasicFieldImports
+	case 3:
+		*ngclasssubtemplate = NgClassTSOtherDecls
+	case 8:
+		*ngclasssubtemplate = NgClassTSOtherDeclsEnumInt
+	case 7:
+		*ngclasssubtemplate = NgClassTSOtherDeclsTimeDuration
+	case 4:
+		*ngclasssubtemplate = NgClassTSPointerToStructFieldsDecl
+	case 6:
+		*ngclasssubtemplate = NgClassTSSliceOfPtrToGongStructReverseID
+	case 5:
+		*ngclasssubtemplate = NgClassTSSliceOfPtrToStructFieldsDecl
+	case 2:
+		*ngclasssubtemplate = NgClassTSTimeFieldDecls
+	}
+}
+
+// Utility function for NgClassTsInsertionPoint
+// if enum values are string, it is stored with the value
+// if enum values are int, they are stored with the code of the value
+func (ngclasstsinsertionpoint NgClassTsInsertionPoint) ToInt() (res int) {
+
+	// migration of former implementation of enum
+	switch ngclasstsinsertionpoint {
+	// insertion code per enum code
+	case NgClassTsInsertionPerStructBasicFieldsDecl:
+		res = 1
+	case NgClassTsInsertionPerStructImports:
+		res = 0
+	case NgClassTsInsertionPerStructOtherDecls:
+		res = 2
+	case NgClassTsInsertionsNb:
+		res = 3
+	}
+	return
+}
+
+func (ngclasstsinsertionpoint *NgClassTsInsertionPoint) FromInt(input int) {
+
+	switch input {
+	// insertion code per enum code
+	case 1:
+		*ngclasstsinsertionpoint = NgClassTsInsertionPerStructBasicFieldsDecl
+	case 0:
+		*ngclasstsinsertionpoint = NgClassTsInsertionPerStructImports
+	case 2:
+		*ngclasstsinsertionpoint = NgClassTsInsertionPerStructOtherDecls
+	case 3:
+		*ngclasstsinsertionpoint = NgClassTsInsertionsNb
+	}
+}
+
+// Utility function for NgDetailHtmlInsertionPoint
+// if enum values are string, it is stored with the value
+// if enum values are int, they are stored with the code of the value
+func (ngdetailhtmlinsertionpoint NgDetailHtmlInsertionPoint) ToInt() (res int) {
+
+	// migration of former implementation of enum
+	switch ngdetailhtmlinsertionpoint {
+	// insertion code per enum code
+	case NgDetailHtmlInsertionPerStructFields:
+		res = 0
+	case NgDetailHtmlInsertionPerStructFieldsManyMany:
+		res = 1
+	case NgDetailHtmlInsertionsNb:
+		res = 2
+	}
+	return
+}
+
+func (ngdetailhtmlinsertionpoint *NgDetailHtmlInsertionPoint) FromInt(input int) {
+
+	switch input {
+	// insertion code per enum code
+	case 0:
+		*ngdetailhtmlinsertionpoint = NgDetailHtmlInsertionPerStructFields
+	case 1:
+		*ngdetailhtmlinsertionpoint = NgDetailHtmlInsertionPerStructFieldsManyMany
+	case 2:
+		*ngdetailhtmlinsertionpoint = NgDetailHtmlInsertionsNb
+	}
+}
+
+// Utility function for NgDetailHtmlSubTemplate
+// if enum values are string, it is stored with the value
+// if enum values are int, they are stored with the code of the value
+func (ngdetailhtmlsubtemplate NgDetailHtmlSubTemplate) ToInt() (res int) {
+
+	// migration of former implementation of enum
+	switch ngdetailhtmlsubtemplate {
+	// insertion code per enum code
+	case NgDetailHtmlBasicField:
+		res = 1
+	case NgDetailHtmlBasicStringField:
+		res = 2
+	case NgDetailHtmlBool:
+		res = 4
+	case NgDetailHtmlEnum:
+		res = 0
+	case NgDetailHtmlTimeDuration:
+		res = 5
+	case NgDetailHtmlTimeField:
+		res = 3
+	case NgDetailPointerToStructHtmlFormField:
+		res = 6
+	case NgDetailSliceOfPointerToStructHtml:
+		res = 7
+	case NgDetailSliceOfPointerToStructManyManyHtml:
+		res = 8
+	case NgDetailSliceOfPointerToStructReverseHtml:
+		res = 9
+	}
+	return
+}
+
+func (ngdetailhtmlsubtemplate *NgDetailHtmlSubTemplate) FromInt(input int) {
+
+	switch input {
+	// insertion code per enum code
+	case 1:
+		*ngdetailhtmlsubtemplate = NgDetailHtmlBasicField
+	case 2:
+		*ngdetailhtmlsubtemplate = NgDetailHtmlBasicStringField
+	case 4:
+		*ngdetailhtmlsubtemplate = NgDetailHtmlBool
+	case 0:
+		*ngdetailhtmlsubtemplate = NgDetailHtmlEnum
+	case 5:
+		*ngdetailhtmlsubtemplate = NgDetailHtmlTimeDuration
+	case 3:
+		*ngdetailhtmlsubtemplate = NgDetailHtmlTimeField
+	case 6:
+		*ngdetailhtmlsubtemplate = NgDetailPointerToStructHtmlFormField
+	case 7:
+		*ngdetailhtmlsubtemplate = NgDetailSliceOfPointerToStructHtml
+	case 8:
+		*ngdetailhtmlsubtemplate = NgDetailSliceOfPointerToStructManyManyHtml
+	case 9:
+		*ngdetailhtmlsubtemplate = NgDetailSliceOfPointerToStructReverseHtml
+	}
+}
+
+// Utility function for NgDetailSubTemplate
+// if enum values are string, it is stored with the value
+// if enum values are int, they are stored with the code of the value
+func (ngdetailsubtemplate NgDetailSubTemplate) ToInt() (res int) {
+
+	// migration of former implementation of enum
+	switch ngdetailsubtemplate {
+	// insertion code per enum code
+	case NgDetailTSBooleanDeclarations:
+		res = 3
+	case NgDetailTSBooleanRecoveries:
+		res = 4
+	case NgDetailTSBooleanSaves:
+		res = 5
+	case NgDetailTSEnumDeclarations:
+		res = 1
+	case NgDetailTSEnumImports:
+		res = 0
+	case NgDetailTSEnumInits:
+		res = 2
+	case NgDetailTSPointerToGongStructSaves:
+		res = 9
+	case NgDetailTSReversePointerToSliceOfGongStructImports:
+		res = 10
+	case NgDetailTSReversePointerToSliceOfGongStructSavesWhenUpdate:
+		res = 14
+	case NgDetailTSReversePointerToSliceOfGongStructStateCaseComputation:
+		res = 12
+	case NgDetailTSReversePointerToSliceOfGongStructStateCaseSetField:
+		res = 13
+	case NgDetailTSReversePointerToSliceOfGongStructStateEnumDeclaration:
+		res = 11
+	case NgDetailTSTimeDurationDeclarations:
+		res = 6
+	case NgDetailTSTimeDurationRecoveries:
+		res = 7
+	case NgDetailTSTimeDurationSaves:
+		res = 8
+	}
+	return
+}
+
+func (ngdetailsubtemplate *NgDetailSubTemplate) FromInt(input int) {
+
+	switch input {
+	// insertion code per enum code
+	case 3:
+		*ngdetailsubtemplate = NgDetailTSBooleanDeclarations
+	case 4:
+		*ngdetailsubtemplate = NgDetailTSBooleanRecoveries
+	case 5:
+		*ngdetailsubtemplate = NgDetailTSBooleanSaves
+	case 1:
+		*ngdetailsubtemplate = NgDetailTSEnumDeclarations
+	case 0:
+		*ngdetailsubtemplate = NgDetailTSEnumImports
+	case 2:
+		*ngdetailsubtemplate = NgDetailTSEnumInits
+	case 9:
+		*ngdetailsubtemplate = NgDetailTSPointerToGongStructSaves
+	case 10:
+		*ngdetailsubtemplate = NgDetailTSReversePointerToSliceOfGongStructImports
+	case 14:
+		*ngdetailsubtemplate = NgDetailTSReversePointerToSliceOfGongStructSavesWhenUpdate
+	case 12:
+		*ngdetailsubtemplate = NgDetailTSReversePointerToSliceOfGongStructStateCaseComputation
+	case 13:
+		*ngdetailsubtemplate = NgDetailTSReversePointerToSliceOfGongStructStateCaseSetField
+	case 11:
+		*ngdetailsubtemplate = NgDetailTSReversePointerToSliceOfGongStructStateEnumDeclaration
+	case 6:
+		*ngdetailsubtemplate = NgDetailTSTimeDurationDeclarations
+	case 7:
+		*ngdetailsubtemplate = NgDetailTSTimeDurationRecoveries
+	case 8:
+		*ngdetailsubtemplate = NgDetailTSTimeDurationSaves
+	}
+}
+
+// Utility function for NgDetailTsInsertionPoint
+// if enum values are string, it is stored with the value
+// if enum values are int, they are stored with the code of the value
+func (ngdetailtsinsertionpoint NgDetailTsInsertionPoint) ToInt() (res int) {
+
+	// migration of former implementation of enum
+	switch ngdetailtsinsertionpoint {
+	// insertion code per enum code
+	case NgDetailTsInsertionPerStructCaseInitFieldDeclarations:
+		res = 3
+	case NgDetailTsInsertionPerStructCaseSetField:
+		res = 4
+	case NgDetailTsInsertionPerStructDeclarations:
+		res = 2
+	case NgDetailTsInsertionPerStructEnumFieldDeclarations:
+		res = 1
+	case NgDetailTsInsertionPerStructImports:
+		res = 0
+	case NgDetailTsInsertionPerStructInits:
+		res = 5
+	case NgDetailTsInsertionPerStructRecoveries:
+		res = 7
+	case NgDetailTsInsertionPerStructReversePointerSaveWhenCreateFromOwner:
+		res = 10
+	case NgDetailTsInsertionPerStructReversePointerSaveWhenUpdate:
+		res = 9
+	case NgDetailTsInsertionPerStructSaves:
+		res = 8
+	case NgDetailTsInsertionPerStructSorting:
+		res = 6
+	case NgDetailTsInsertionsNb:
+		res = 11
+	}
+	return
+}
+
+func (ngdetailtsinsertionpoint *NgDetailTsInsertionPoint) FromInt(input int) {
+
+	switch input {
+	// insertion code per enum code
+	case 3:
+		*ngdetailtsinsertionpoint = NgDetailTsInsertionPerStructCaseInitFieldDeclarations
+	case 4:
+		*ngdetailtsinsertionpoint = NgDetailTsInsertionPerStructCaseSetField
+	case 2:
+		*ngdetailtsinsertionpoint = NgDetailTsInsertionPerStructDeclarations
+	case 1:
+		*ngdetailtsinsertionpoint = NgDetailTsInsertionPerStructEnumFieldDeclarations
+	case 0:
+		*ngdetailtsinsertionpoint = NgDetailTsInsertionPerStructImports
+	case 5:
+		*ngdetailtsinsertionpoint = NgDetailTsInsertionPerStructInits
+	case 7:
+		*ngdetailtsinsertionpoint = NgDetailTsInsertionPerStructRecoveries
+	case 10:
+		*ngdetailtsinsertionpoint = NgDetailTsInsertionPerStructReversePointerSaveWhenCreateFromOwner
+	case 9:
+		*ngdetailtsinsertionpoint = NgDetailTsInsertionPerStructReversePointerSaveWhenUpdate
+	case 8:
+		*ngdetailtsinsertionpoint = NgDetailTsInsertionPerStructSaves
+	case 6:
+		*ngdetailtsinsertionpoint = NgDetailTsInsertionPerStructSorting
+	case 11:
+		*ngdetailtsinsertionpoint = NgDetailTsInsertionsNb
+	}
+}
+
+// Utility function for NgEnumInsertionPoint
+// if enum values are string, it is stored with the value
+// if enum values are int, they are stored with the code of the value
+func (ngenuminsertionpoint NgEnumInsertionPoint) ToInt() (res int) {
+
+	// migration of former implementation of enum
+	switch ngenuminsertionpoint {
+	// insertion code per enum code
+	case NgEnumInsertionPointEnumDeclaration:
+		res = 0
+	case NgEnumNbInsertionPoints:
+		res = 2
+	case NgEnumValuesInsertionPointDeclarationForPullDownSelect:
+		res = 1
+	}
+	return
+}
+
+func (ngenuminsertionpoint *NgEnumInsertionPoint) FromInt(input int) {
+
+	switch input {
+	// insertion code per enum code
+	case 0:
+		*ngenuminsertionpoint = NgEnumInsertionPointEnumDeclaration
+	case 2:
+		*ngenuminsertionpoint = NgEnumNbInsertionPoints
+	case 1:
+		*ngenuminsertionpoint = NgEnumValuesInsertionPointDeclarationForPullDownSelect
+	}
+}
+
+// Utility function for NgEnumSubTemplate
+// if enum values are string, it is stored with the value
+// if enum values are int, they are stored with the code of the value
+func (ngenumsubtemplate NgEnumSubTemplate) ToInt() (res int) {
+
+	// migration of former implementation of enum
+	switch ngenumsubtemplate {
+	// insertion code per enum code
+	case NgEnumDeclaration:
+		res = 0
+	case NgEnumDeclarationForPullDownSelect:
+		res = 1
+	}
+	return
+}
+
+func (ngenumsubtemplate *NgEnumSubTemplate) FromInt(input int) {
+
+	switch input {
+	// insertion code per enum code
+	case 0:
+		*ngenumsubtemplate = NgEnumDeclaration
+	case 1:
+		*ngenumsubtemplate = NgEnumDeclarationForPullDownSelect
+	}
+}
+
+// Utility function for NgLibFrontRepoServiceSubSubTemplate
+// if enum values are string, it is stored with the value
+// if enum values are int, they are stored with the code of the value
+func (nglibfrontreposervicesubsubtemplate NgLibFrontRepoServiceSubSubTemplate) ToString() (res string) {
+
+	// migration of former implementation of enum
+	switch nglibfrontreposervicesubsubtemplate {
+	// insertion code per enum code
+	case NgFrontRepoPtrToStructRedeeming:
+		res = "NgFrontRepoPtrToStructRedeeming"
+	case NgFrontRepoSliceOfPointerRedeeming:
+		res = "NgFrontRepoSliceOfPointerRedeeming"
+	}
+	return
+}
+
+func (nglibfrontreposervicesubsubtemplate *NgLibFrontRepoServiceSubSubTemplate) FromString(input string) {
+
+	switch input {
+	// insertion code per enum code
+	case "NgFrontRepoPtrToStructRedeeming":
+		*nglibfrontreposervicesubsubtemplate = NgFrontRepoPtrToStructRedeeming
+	case "NgFrontRepoSliceOfPointerRedeeming":
+		*nglibfrontreposervicesubsubtemplate = NgFrontRepoSliceOfPointerRedeeming
+	}
+}
+
+// Utility function for NgLibFrontRepoServiceSubTemplate
+// if enum values are string, it is stored with the value
+// if enum values are int, they are stored with the code of the value
+func (nglibfrontreposervicesubtemplate NgLibFrontRepoServiceSubTemplate) ToString() (res string) {
+
+	// migration of former implementation of enum
+	switch nglibfrontreposervicesubtemplate {
+	// insertion code per enum code
+	case NgLibFrontRepoArraysDecls:
+		res = "ArraysDecls"
+	case NgLibFrontRepoInitMapInstances:
+		res = "InitMapInstances"
+	case NgLibFrontRepoMapDecl:
+		res = "MapDecl"
+	case NgLibFrontRepoObservableArrayType:
+		res = "ObservableArrayType"
+	case NgLibFrontRepoObservableRefs:
+		res = "ObservableRefs"
+	case NgLibFrontRepoPerStructGetUniqueID:
+		res = "PerStructGetUniqueID"
+	case NgLibFrontRepoPerStructPull:
+		res = "PerStructPull"
+	case NgLibFrontRepoRedeemPointers:
+		res = "RedeemPointers"
+	case NgLibFrontRepoServiceDecl:
+		res = "ServiceDecl"
+	case NgLibFrontRepoServiceImports:
+		res = "ServiceImports"
+	case NgLibFrontRepoTypeCasting:
+		res = "TypeCasting"
+	}
+	return
+}
+
+func (nglibfrontreposervicesubtemplate *NgLibFrontRepoServiceSubTemplate) FromString(input string) {
+
+	switch input {
+	// insertion code per enum code
+	case "ArraysDecls":
+		*nglibfrontreposervicesubtemplate = NgLibFrontRepoArraysDecls
+	case "InitMapInstances":
+		*nglibfrontreposervicesubtemplate = NgLibFrontRepoInitMapInstances
+	case "MapDecl":
+		*nglibfrontreposervicesubtemplate = NgLibFrontRepoMapDecl
+	case "ObservableArrayType":
+		*nglibfrontreposervicesubtemplate = NgLibFrontRepoObservableArrayType
+	case "ObservableRefs":
+		*nglibfrontreposervicesubtemplate = NgLibFrontRepoObservableRefs
+	case "PerStructGetUniqueID":
+		*nglibfrontreposervicesubtemplate = NgLibFrontRepoPerStructGetUniqueID
+	case "PerStructPull":
+		*nglibfrontreposervicesubtemplate = NgLibFrontRepoPerStructPull
+	case "RedeemPointers":
+		*nglibfrontreposervicesubtemplate = NgLibFrontRepoRedeemPointers
+	case "ServiceDecl":
+		*nglibfrontreposervicesubtemplate = NgLibFrontRepoServiceDecl
+	case "ServiceImports":
+		*nglibfrontreposervicesubtemplate = NgLibFrontRepoServiceImports
+	case "TypeCasting":
+		*nglibfrontreposervicesubtemplate = NgLibFrontRepoTypeCasting
+	}
+}
+
+// Utility function for NgLibMapComponentsServiceSubTemplate
+// if enum values are string, it is stored with the value
+// if enum values are int, they are stored with the code of the value
+func (nglibmapcomponentsservicesubtemplate NgLibMapComponentsServiceSubTemplate) ToString() (res string) {
+
+	// migration of former implementation of enum
+	switch nglibmapcomponentsservicesubtemplate {
+	// insertion code per enum code
+	case NgLibMapComponentsDecls:
+		res = "NgLibMapComponentsDecls"
+	case NgLibMapComponentsImports:
+		res = "NgLibMapComponentsImports"
+	case NgLibMapComponentsIndivDecls:
+		res = "NgLibMapComponentsIndivDecls"
+	case NgLibMapSortingComponentsDecls:
+		res = "NgLibMapSortingComponentsDecls"
+	}
+	return
+}
+
+func (nglibmapcomponentsservicesubtemplate *NgLibMapComponentsServiceSubTemplate) FromString(input string) {
+
+	switch input {
+	// insertion code per enum code
+	case "NgLibMapComponentsDecls":
+		*nglibmapcomponentsservicesubtemplate = NgLibMapComponentsDecls
+	case "NgLibMapComponentsImports":
+		*nglibmapcomponentsservicesubtemplate = NgLibMapComponentsImports
+	case "NgLibMapComponentsIndivDecls":
+		*nglibmapcomponentsservicesubtemplate = NgLibMapComponentsIndivDecls
+	case "NgLibMapSortingComponentsDecls":
+		*nglibmapcomponentsservicesubtemplate = NgLibMapSortingComponentsDecls
+	}
+}
+
+// Utility function for NgLibModuleServiceSubTemplate
+// if enum values are string, it is stored with the value
+// if enum values are int, they are stored with the code of the value
+func (nglibmoduleservicesubtemplate NgLibModuleServiceSubTemplate) ToString() (res string) {
+
+	// migration of former implementation of enum
+	switch nglibmoduleservicesubtemplate {
+	// insertion code per enum code
+	case NgLibModuleDeclarations:
+		res = "NgLibModuleIndivDecls"
+	case NgLibModuleImports:
+		res = "NgLibModuleImports"
+	}
+	return
+}
+
+func (nglibmoduleservicesubtemplate *NgLibModuleServiceSubTemplate) FromString(input string) {
+
+	switch input {
+	// insertion code per enum code
+	case "NgLibModuleIndivDecls":
+		*nglibmoduleservicesubtemplate = NgLibModuleDeclarations
+	case "NgLibModuleImports":
+		*nglibmoduleservicesubtemplate = NgLibModuleImports
+	}
+}
+
+// Utility function for NgPresentationHtmlSubTemplate
+// if enum values are string, it is stored with the value
+// if enum values are int, they are stored with the code of the value
+func (ngpresentationhtmlsubtemplate NgPresentationHtmlSubTemplate) ToString() (res string) {
+
+	// migration of former implementation of enum
+	switch ngpresentationhtmlsubtemplate {
+	// insertion code per enum code
+	case NgPresentationHtmlBasicField:
+		res = "NgPresentationHtmlBasicField"
+	case NgPresentationHtmlBasicFieldTimeDuration:
+		res = "NgPresentationHtmlBasicFieldTimeDuration"
+	case NgPresentationHtmlBool:
+		res = "NgPresentationHtmlBool"
+	case NgPresentationHtmlEnum:
+		res = "NgPresentationHtmlEnum"
+	case NgPresentationHtmlField:
+		res = "NgPresentationHtmlField"
+	case NgPresentationHtmlTimeField:
+		res = "NgPresentationHtmlTimeField"
+	case NgPresentationPointerToStructHtmlFormField:
+		res = "NgPresentationPointerToStructHtmlFormField"
+	}
+	return
+}
+
+func (ngpresentationhtmlsubtemplate *NgPresentationHtmlSubTemplate) FromString(input string) {
+
+	switch input {
+	// insertion code per enum code
+	case "NgPresentationHtmlBasicField":
+		*ngpresentationhtmlsubtemplate = NgPresentationHtmlBasicField
+	case "NgPresentationHtmlBasicFieldTimeDuration":
+		*ngpresentationhtmlsubtemplate = NgPresentationHtmlBasicFieldTimeDuration
+	case "NgPresentationHtmlBool":
+		*ngpresentationhtmlsubtemplate = NgPresentationHtmlBool
+	case "NgPresentationHtmlEnum":
+		*ngpresentationhtmlsubtemplate = NgPresentationHtmlEnum
+	case "NgPresentationHtmlField":
+		*ngpresentationhtmlsubtemplate = NgPresentationHtmlField
+	case "NgPresentationHtmlTimeField":
+		*ngpresentationhtmlsubtemplate = NgPresentationHtmlTimeField
+	case "NgPresentationPointerToStructHtmlFormField":
+		*ngpresentationhtmlsubtemplate = NgPresentationPointerToStructHtmlFormField
+	}
+}
+
+// Utility function for NgPresentationSubTemplate
+// if enum values are string, it is stored with the value
+// if enum values are int, they are stored with the code of the value
+func (ngpresentationsubtemplate NgPresentationSubTemplate) ToInt() (res int) {
+
+	// migration of former implementation of enum
+	switch ngpresentationsubtemplate {
+	// insertion code per enum code
+	case NgPresentationTSTimeDurationDeclarations:
+		res = 0
+	case NgPresentationTSTimeDurationRecoveries:
+		res = 1
+	}
+	return
+}
+
+func (ngpresentationsubtemplate *NgPresentationSubTemplate) FromInt(input int) {
+
+	switch input {
+	// insertion code per enum code
+	case 0:
+		*ngpresentationsubtemplate = NgPresentationTSTimeDurationDeclarations
+	case 1:
+		*ngpresentationsubtemplate = NgPresentationTSTimeDurationRecoveries
+	}
+}
+
+// Utility function for NgPresentationTsInsertionPoint
+// if enum values are string, it is stored with the value
+// if enum values are int, they are stored with the code of the value
+func (ngpresentationtsinsertionpoint NgPresentationTsInsertionPoint) ToInt() (res int) {
+
+	// migration of former implementation of enum
+	switch ngpresentationtsinsertionpoint {
+	// insertion code per enum code
+	case NgPresentationTsInsertionPerStructDeclarations:
+		res = 0
+	case NgPresentationTsInsertionPerStructRecoveries:
+		res = 1
+	case NgPresentationTsInsertionsNb:
+		res = 2
+	}
+	return
+}
+
+func (ngpresentationtsinsertionpoint *NgPresentationTsInsertionPoint) FromInt(input int) {
+
+	switch input {
+	// insertion code per enum code
+	case 0:
+		*ngpresentationtsinsertionpoint = NgPresentationTsInsertionPerStructDeclarations
+	case 1:
+		*ngpresentationtsinsertionpoint = NgPresentationTsInsertionPerStructRecoveries
+	case 2:
+		*ngpresentationtsinsertionpoint = NgPresentationTsInsertionsNb
+	}
+}
+
+// Utility function for NgPublicApiInsertionPoint
+// if enum values are string, it is stored with the value
+// if enum values are int, they are stored with the code of the value
+func (ngpublicapiinsertionpoint NgPublicApiInsertionPoint) ToInt() (res int) {
+
+	// migration of former implementation of enum
+	switch ngpublicapiinsertionpoint {
+	// insertion code per enum code
+	case NgPublicApiInsertionEnumsExportDeclaration:
+		res = 1
+	case NgPublicApiInsertionStructComponentsExportDeclaration:
+		res = 0
+	case NgPublicApiNbInsertionPoints:
+		res = 2
+	}
+	return
+}
+
+func (ngpublicapiinsertionpoint *NgPublicApiInsertionPoint) FromInt(input int) {
+
+	switch input {
+	// insertion code per enum code
+	case 1:
+		*ngpublicapiinsertionpoint = NgPublicApiInsertionEnumsExportDeclaration
+	case 0:
+		*ngpublicapiinsertionpoint = NgPublicApiInsertionStructComponentsExportDeclaration
+	case 2:
+		*ngpublicapiinsertionpoint = NgPublicApiNbInsertionPoints
+	}
+}
+
+// Utility function for NgPublicApiSubTemplate
+// if enum values are string, it is stored with the value
+// if enum values are int, they are stored with the code of the value
+func (ngpublicapisubtemplate NgPublicApiSubTemplate) ToInt() (res int) {
+
+	// migration of former implementation of enum
+	switch ngpublicapisubtemplate {
+	// insertion code per enum code
+	case NgPublicApiDEnumsExportDeclaration:
+		res = 1
+	case NgPublicApiStructComponentsExportDeclaration:
+		res = 0
+	}
+	return
+}
+
+func (ngpublicapisubtemplate *NgPublicApiSubTemplate) FromInt(input int) {
+
+	switch input {
+	// insertion code per enum code
+	case 1:
+		*ngpublicapisubtemplate = NgPublicApiDEnumsExportDeclaration
+	case 0:
+		*ngpublicapisubtemplate = NgPublicApiStructComponentsExportDeclaration
+	}
+}
+
+// Utility function for NgRoutingServiceSubTemplate
+// if enum values are string, it is stored with the value
+// if enum values are int, they are stored with the code of the value
+func (ngroutingservicesubtemplate NgRoutingServiceSubTemplate) ToString() (res string) {
+
+	// migration of former implementation of enum
+	switch ngroutingservicesubtemplate {
+	// insertion code per enum code
+	case NgRoutingDeclarations:
+		res = "NgRoutingIndivDecls"
+	case NgRoutingImports:
+		res = "NgRoutingImports"
+	}
+	return
+}
+
+func (ngroutingservicesubtemplate *NgRoutingServiceSubTemplate) FromString(input string) {
+
+	switch input {
+	// insertion code per enum code
+	case "NgRoutingIndivDecls":
+		*ngroutingservicesubtemplate = NgRoutingDeclarations
+	case "NgRoutingImports":
+		*ngroutingservicesubtemplate = NgRoutingImports
+	}
+}
+
+// Utility function for NgServiceSubTemplate
+// if enum values are string, it is stored with the value
+// if enum values are int, they are stored with the code of the value
+func (ngservicesubtemplate NgServiceSubTemplate) ToInt() (res int) {
+
+	// migration of former implementation of enum
+	switch ngservicesubtemplate {
+	// insertion code per enum code
+	case NgServiceTSPointerToGongStructImports:
+		res = 0
+	case NgServiceTSPointerToGongStructReset:
+		res = 1
+	case NgServiceTSReversePointerToSliceOfGongStructImports:
+		res = 5
+	case NgServiceTSSliceOfPointerToGongStructReset:
+		res = 2
+	case NgServiceTSSliceOfPointerToGongStructReversePointerReset:
+		res = 3
+	case NgServiceTSSliceOfPointerToGongStructReversePointerRestore:
+		res = 4
+	}
+	return
+}
+
+func (ngservicesubtemplate *NgServiceSubTemplate) FromInt(input int) {
+
+	switch input {
+	// insertion code per enum code
+	case 0:
+		*ngservicesubtemplate = NgServiceTSPointerToGongStructImports
+	case 1:
+		*ngservicesubtemplate = NgServiceTSPointerToGongStructReset
+	case 5:
+		*ngservicesubtemplate = NgServiceTSReversePointerToSliceOfGongStructImports
+	case 2:
+		*ngservicesubtemplate = NgServiceTSSliceOfPointerToGongStructReset
+	case 3:
+		*ngservicesubtemplate = NgServiceTSSliceOfPointerToGongStructReversePointerReset
+	case 4:
+		*ngservicesubtemplate = NgServiceTSSliceOfPointerToGongStructReversePointerRestore
+	}
+}
+
+// Utility function for NgServiceTsInsertionPoint
+// if enum values are string, it is stored with the value
+// if enum values are int, they are stored with the code of the value
+func (ngservicetsinsertionpoint NgServiceTsInsertionPoint) ToInt() (res int) {
+
+	// migration of former implementation of enum
+	switch ngservicetsinsertionpoint {
+	// insertion code per enum code
+	case NgServiceTsInsertionImports:
+		res = 2
+	case NgServiceTsInsertionPointerReset:
+		res = 0
+	case NgServiceTsInsertionPointerRestore:
+		res = 1
+	case NgServiceTsInsertionsNb:
+		res = 3
+	}
+	return
+}
+
+func (ngservicetsinsertionpoint *NgServiceTsInsertionPoint) FromInt(input int) {
+
+	switch input {
+	// insertion code per enum code
+	case 2:
+		*ngservicetsinsertionpoint = NgServiceTsInsertionImports
+	case 0:
+		*ngservicetsinsertionpoint = NgServiceTsInsertionPointerReset
+	case 1:
+		*ngservicetsinsertionpoint = NgServiceTsInsertionPointerRestore
+	case 3:
+		*ngservicetsinsertionpoint = NgServiceTsInsertionsNb
+	}
+}
+
+// Utility function for NgSidebarHtmlInsertionPoint
+// if enum values are string, it is stored with the value
+// if enum values are int, they are stored with the code of the value
+func (ngsidebarhtmlinsertionpoint NgSidebarHtmlInsertionPoint) ToInt() (res int) {
+
+	// migration of former implementation of enum
+	switch ngsidebarhtmlinsertionpoint {
+	// insertion code per enum code
+	case NgSidebarHtmlNbInsertionPoints:
+		res = 1
+	case NgSidebarHtmlStruct:
+		res = 0
+	}
+	return
+}
+
+func (ngsidebarhtmlinsertionpoint *NgSidebarHtmlInsertionPoint) FromInt(input int) {
+
+	switch input {
+	// insertion code per enum code
+	case 1:
+		*ngsidebarhtmlinsertionpoint = NgSidebarHtmlNbInsertionPoints
+	case 0:
+		*ngsidebarhtmlinsertionpoint = NgSidebarHtmlStruct
+	}
+}
+
+// Utility function for NgSidebarHtmlSubTemplate
+// if enum values are string, it is stored with the value
+// if enum values are int, they are stored with the code of the value
+func (ngsidebarhtmlsubtemplate NgSidebarHtmlSubTemplate) ToInt() (res int) {
+
+	// migration of former implementation of enum
+	switch ngsidebarhtmlsubtemplate {
+	// insertion code per enum code
+	case NgSidebarHtmlField:
+		res = 0
+	}
+	return
+}
+
+func (ngsidebarhtmlsubtemplate *NgSidebarHtmlSubTemplate) FromInt(input int) {
+
+	switch input {
+	// insertion code per enum code
+	case 0:
+		*ngsidebarhtmlsubtemplate = NgSidebarHtmlField
+	}
+}
+
+// Utility function for NgSidebarTsInsertionPoint
+// if enum values are string, it is stored with the value
+// if enum values are int, they are stored with the code of the value
+func (ngsidebartsinsertionpoint NgSidebarTsInsertionPoint) ToInt() (res int) {
+
+	// migration of former implementation of enum
+	switch ngsidebartsinsertionpoint {
+	// insertion code per enum code
+	case NgSidebarTsInsertionPerStruct:
+		res = 0
+	case NgSidebarTsInsertionPerStructImports:
+		res = 1
+	case NgSidebarTsInsertionPerStructObservableForRefresh:
+		res = 3
+	case NgSidebarTsInsertionPerStructServiceDeclaration:
+		res = 2
+	case NgSidebarTsInsertionsNb:
+		res = 4
+	}
+	return
+}
+
+func (ngsidebartsinsertionpoint *NgSidebarTsInsertionPoint) FromInt(input int) {
+
+	switch input {
+	// insertion code per enum code
+	case 0:
+		*ngsidebartsinsertionpoint = NgSidebarTsInsertionPerStruct
+	case 1:
+		*ngsidebartsinsertionpoint = NgSidebarTsInsertionPerStructImports
+	case 3:
+		*ngsidebartsinsertionpoint = NgSidebarTsInsertionPerStructObservableForRefresh
+	case 2:
+		*ngsidebartsinsertionpoint = NgSidebarTsInsertionPerStructServiceDeclaration
+	case 4:
+		*ngsidebartsinsertionpoint = NgSidebarTsInsertionsNb
+	}
+}
+
+// Utility function for NgSidebarTsStructSubTemplate
+// if enum values are string, it is stored with the value
+// if enum values are int, they are stored with the code of the value
+func (ngsidebartsstructsubtemplate NgSidebarTsStructSubTemplate) ToInt() (res int) {
+
+	// migration of former implementation of enum
+	switch ngsidebartsstructsubtemplate {
+	// insertion code per enum code
+	case NgSidebarTsPerStructPointerToStructFieldTemplateNode:
+		res = 0
+	case NgSidebarTsPerStructSliceOfPointerToStructFieldTemplateNode:
+		res = 1
+	}
+	return
+}
+
+func (ngsidebartsstructsubtemplate *NgSidebarTsStructSubTemplate) FromInt(input int) {
+
+	switch input {
+	// insertion code per enum code
+	case 0:
+		*ngsidebartsstructsubtemplate = NgSidebarTsPerStructPointerToStructFieldTemplateNode
+	case 1:
+		*ngsidebartsstructsubtemplate = NgSidebarTsPerStructSliceOfPointerToStructFieldTemplateNode
+	}
+}
+
+// Utility function for NgSidebarTsSubInsertionPoint
+// if enum values are string, it is stored with the value
+// if enum values are int, they are stored with the code of the value
+func (ngsidebartssubinsertionpoint NgSidebarTsSubInsertionPoint) ToInt() (res int) {
+
+	// migration of former implementation of enum
+	switch ngsidebartssubinsertionpoint {
+	// insertion code per enum code
+	case NgSidebarTsSubInsertionPerField:
+		res = 0
+	case NgSidebarTsSubInsertionsNb:
+		res = 1
+	}
+	return
+}
+
+func (ngsidebartssubinsertionpoint *NgSidebarTsSubInsertionPoint) FromInt(input int) {
+
+	switch input {
+	// insertion code per enum code
+	case 0:
+		*ngsidebartssubinsertionpoint = NgSidebarTsSubInsertionPerField
+	case 1:
+		*ngsidebartssubinsertionpoint = NgSidebarTsSubInsertionsNb
+	}
+}
+
+// Utility function for NgSidebarTsSubTemplate
+// if enum values are string, it is stored with the value
+// if enum values are int, they are stored with the code of the value
+func (ngsidebartssubtemplate NgSidebarTsSubTemplate) ToInt() (res int) {
+
+	// migration of former implementation of enum
+	switch ngsidebartssubtemplate {
+	// insertion code per enum code
+	case NgSidebarTsPerStructNode:
+		res = 0
+	case NgSidebarTsPerStructNodeImports:
+		res = 1
+	case NgSidebarTsPerStructNodeObservableForRefresh:
+		res = 3
+	case NgSidebarTsPerStructNodeServiceDeclaration:
+		res = 2
+	}
+	return
+}
+
+func (ngsidebartssubtemplate *NgSidebarTsSubTemplate) FromInt(input int) {
+
+	switch input {
+	// insertion code per enum code
+	case 0:
+		*ngsidebartssubtemplate = NgSidebarTsPerStructNode
+	case 1:
+		*ngsidebartssubtemplate = NgSidebarTsPerStructNodeImports
+	case 3:
+		*ngsidebartssubtemplate = NgSidebarTsPerStructNodeObservableForRefresh
+	case 2:
+		*ngsidebartssubtemplate = NgSidebarTsPerStructNodeServiceDeclaration
+	}
+}
+
+// Utility function for NgTableHTMLSubTemplate
+// if enum values are string, it is stored with the value
+// if enum values are int, they are stored with the code of the value
+func (ngtablehtmlsubtemplate NgTableHTMLSubTemplate) ToInt() (res int) {
+
+	// migration of former implementation of enum
+	switch ngtablehtmlsubtemplate {
+	// insertion code per enum code
+	case NgTableHTMLBasicField:
+		res = 0
+	case NgTableHTMLBasicFieldTimeDuration:
+		res = 3
+	case NgTableHTMLBasicFloat64Field:
+		res = 2
+	case NgTableHTMLBool:
+		res = 4
+	case NgTableHTMLTimeField:
+		res = 1
+	case NgTablePointerToSliceOfGongStructHTMLFormField:
+		res = 6
+	case NgTablePointerToStructHTMLFormField:
+		res = 5
+	}
+	return
+}
+
+func (ngtablehtmlsubtemplate *NgTableHTMLSubTemplate) FromInt(input int) {
+
+	switch input {
+	// insertion code per enum code
+	case 0:
+		*ngtablehtmlsubtemplate = NgTableHTMLBasicField
+	case 3:
+		*ngtablehtmlsubtemplate = NgTableHTMLBasicFieldTimeDuration
+	case 2:
+		*ngtablehtmlsubtemplate = NgTableHTMLBasicFloat64Field
+	case 4:
+		*ngtablehtmlsubtemplate = NgTableHTMLBool
+	case 1:
+		*ngtablehtmlsubtemplate = NgTableHTMLTimeField
+	case 6:
+		*ngtablehtmlsubtemplate = NgTablePointerToSliceOfGongStructHTMLFormField
+	case 5:
+		*ngtablehtmlsubtemplate = NgTablePointerToStructHTMLFormField
+	}
+}
+
+// Utility function for NgTableHtmlInsertionPoint
+// if enum values are string, it is stored with the value
+// if enum values are int, they are stored with the code of the value
+func (ngtablehtmlinsertionpoint NgTableHtmlInsertionPoint) ToInt() (res int) {
+
+	// migration of former implementation of enum
+	switch ngtablehtmlinsertionpoint {
+	// insertion code per enum code
+	case NgTableHtmlInsertionColumn:
+		res = 0
+	case NgTableHtmlInsertionsNb:
+		res = 1
+	}
+	return
+}
+
+func (ngtablehtmlinsertionpoint *NgTableHtmlInsertionPoint) FromInt(input int) {
+
+	switch input {
+	// insertion code per enum code
+	case 0:
+		*ngtablehtmlinsertionpoint = NgTableHtmlInsertionColumn
+	case 1:
+		*ngtablehtmlinsertionpoint = NgTableHtmlInsertionsNb
+	}
+}
+
+// Utility function for NgTableSubTemplate
+// if enum values are string, it is stored with the value
+// if enum values are int, they are stored with the code of the value
+func (ngtablesubtemplate NgTableSubTemplate) ToInt() (res int) {
+
+	// migration of former implementation of enum
+	switch ngtablesubtemplate {
+	// insertion code per enum code
+	case NgTableTSBasicFieldSorting:
+		res = 1
+	case NgTableTSNonNumberFieldFiltering:
+		res = 5
+	case NgTableTSNumberFieldFiltering:
+		res = 6
+	case NgTableTSPerStructColumn:
+		res = 10
+	case NgTableTSPerStructTimeDurationRecoveries:
+		res = 0
+	case NgTableTSPointerToStructFiltering:
+		res = 8
+	case NgTableTSPointerToStructSorting:
+		res = 3
+	case NgTableTSSliceOfPointerToStructFiltering:
+		res = 9
+	case NgTableTSSliceOfPointerToStructPerStructColumn:
+		res = 11
+	case NgTableTSSliceOfPointerToStructSorting:
+		res = 4
+	case NgTableTSTimeFieldFiltering:
+		res = 7
+	case NgTableTSTimeFieldSorting:
+		res = 2
+	}
+	return
+}
+
+func (ngtablesubtemplate *NgTableSubTemplate) FromInt(input int) {
+
+	switch input {
+	// insertion code per enum code
+	case 1:
+		*ngtablesubtemplate = NgTableTSBasicFieldSorting
+	case 5:
+		*ngtablesubtemplate = NgTableTSNonNumberFieldFiltering
+	case 6:
+		*ngtablesubtemplate = NgTableTSNumberFieldFiltering
+	case 10:
+		*ngtablesubtemplate = NgTableTSPerStructColumn
+	case 0:
+		*ngtablesubtemplate = NgTableTSPerStructTimeDurationRecoveries
+	case 8:
+		*ngtablesubtemplate = NgTableTSPointerToStructFiltering
+	case 3:
+		*ngtablesubtemplate = NgTableTSPointerToStructSorting
+	case 9:
+		*ngtablesubtemplate = NgTableTSSliceOfPointerToStructFiltering
+	case 11:
+		*ngtablesubtemplate = NgTableTSSliceOfPointerToStructPerStructColumn
+	case 4:
+		*ngtablesubtemplate = NgTableTSSliceOfPointerToStructSorting
+	case 7:
+		*ngtablesubtemplate = NgTableTSTimeFieldFiltering
+	case 2:
+		*ngtablesubtemplate = NgTableTSTimeFieldSorting
+	}
+}
+
+// Utility function for NgTableTsInsertionPoint
+// if enum values are string, it is stored with the value
+// if enum values are int, they are stored with the code of the value
+func (ngtabletsinsertionpoint NgTableTsInsertionPoint) ToInt() (res int) {
+
+	// migration of former implementation of enum
+	switch ngtabletsinsertionpoint {
+	// insertion code per enum code
+	case NgTableTsInsertionPerStructColumns:
+		res = 1
+	case NgTableTsInsertionPerStructColumnsFiltering:
+		res = 3
+	case NgTableTsInsertionPerStructColumnsSorting:
+		res = 2
+	case NgTableTsInsertionPerStructRecoveries:
+		res = 0
+	case NgTableTsInsertionsNb:
+		res = 4
+	}
+	return
+}
+
+func (ngtabletsinsertionpoint *NgTableTsInsertionPoint) FromInt(input int) {
+
+	switch input {
+	// insertion code per enum code
+	case 1:
+		*ngtabletsinsertionpoint = NgTableTsInsertionPerStructColumns
+	case 3:
+		*ngtabletsinsertionpoint = NgTableTsInsertionPerStructColumnsFiltering
+	case 2:
+		*ngtabletsinsertionpoint = NgTableTsInsertionPerStructColumnsSorting
+	case 0:
+		*ngtabletsinsertionpoint = NgTableTsInsertionPerStructRecoveries
+	case 4:
+		*ngtabletsinsertionpoint = NgTableTsInsertionsNb
+	}
+}
+
+// Utility function for OrmFileStructSubSubTemplate
+// if enum values are string, it is stored with the value
+// if enum values are int, they are stored with the code of the value
+func (ormfilestructsubsubtemplate OrmFileStructSubSubTemplate) ToString() (res string) {
+
+	// migration of former implementation of enum
+	switch ormfilestructsubsubtemplate {
+	// insertion code per enum code
+	case OrmFileStructPtrToStructDecls:
+		res = "OrmFileStructPtrToStructDecls"
+	case OrmFileStructReversePtrToStructDecls:
+		res = "OrmFileStructReversePtrToStructDecls"
+	}
+	return
+}
+
+func (ormfilestructsubsubtemplate *OrmFileStructSubSubTemplate) FromString(input string) {
+
+	switch input {
+	// insertion code per enum code
+	case "OrmFileStructPtrToStructDecls":
+		*ormfilestructsubsubtemplate = OrmFileStructPtrToStructDecls
+	case "OrmFileStructReversePtrToStructDecls":
+		*ormfilestructsubsubtemplate = OrmFileStructReversePtrToStructDecls
+	}
+}
+
+// Utility function for OrmFileStructSubTemplate
+// if enum values are string, it is stored with the value
+// if enum values are int, they are stored with the code of the value
+func (ormfilestructsubtemplate OrmFileStructSubTemplate) ToString() (res string) {
+
+	// migration of former implementation of enum
+	switch ormfilestructsubtemplate {
+	// insertion code per enum code
+	case OrmFileStructDeclarations:
+		res = "OrmFileStructDeclarations"
+	}
+	return
+}
+
+func (ormfilestructsubtemplate *OrmFileStructSubTemplate) FromString(input string) {
+
+	switch input {
+	// insertion code per enum code
+	case "OrmFileStructDeclarations":
+		*ormfilestructsubtemplate = OrmFileStructDeclarations
+	}
+}
+
+// Utility function for OrmSetupCumulSubTemplate
+// if enum values are string, it is stored with the value
+// if enum values are int, they are stored with the code of the value
+func (ormsetupcumulsubtemplate OrmSetupCumulSubTemplate) ToString() (res string) {
+
+	// migration of former implementation of enum
+	switch ormsetupcumulsubtemplate {
+	// insertion code per enum code
+	case OrmSetupDelete:
+		res = "OrmSetupDelete"
+	case OrmSetupRefToStructDB:
+		res = "OrmSetupRefToStructDB"
+	}
+	return
+}
+
+func (ormsetupcumulsubtemplate *OrmSetupCumulSubTemplate) FromString(input string) {
+
+	switch input {
+	// insertion code per enum code
+	case "OrmSetupDelete":
+		*ormsetupcumulsubtemplate = OrmSetupDelete
+	case "OrmSetupRefToStructDB":
+		*ormsetupcumulsubtemplate = OrmSetupRefToStructDB
+	}
+}
+

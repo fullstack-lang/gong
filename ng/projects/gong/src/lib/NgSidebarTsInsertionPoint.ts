@@ -9,14 +9,14 @@ export enum NgSidebarTsInsertionPoint {
 }
 
 export interface NgSidebarTsInsertionPointSelect {
-	value: string;
+	value: number;
 	viewValue: string;
 }
 
 export const NgSidebarTsInsertionPointList: NgSidebarTsInsertionPointSelect[] = [ // insertion point	
-	{ value: 'NgSidebarTsInsertionPerStruct', viewValue: '0' },
-	{ value: 'NgSidebarTsInsertionPerStructImports', viewValue: '1' },
-	{ value: 'NgSidebarTsInsertionPerStructObservableForRefresh', viewValue: '3' },
-	{ value: 'NgSidebarTsInsertionPerStructServiceDeclaration', viewValue: '2' },
-	{ value: 'NgSidebarTsInsertionsNb', viewValue: '4' },
+	{ value: NgSidebarTsInsertionPoint.NgSidebarTsInsertionPerStruct, viewValue: "NgSidebarTsInsertionPerStruct" },
+	{ value: NgSidebarTsInsertionPoint.NgSidebarTsInsertionPerStructImports, viewValue: "NgSidebarTsInsertionPerStructImports" },
+	{ value: NgSidebarTsInsertionPoint.NgSidebarTsInsertionPerStructObservableForRefresh, viewValue: "NgSidebarTsInsertionPerStructObservableForRefresh" },
+	{ value: NgSidebarTsInsertionPoint.NgSidebarTsInsertionPerStructServiceDeclaration, viewValue: "NgSidebarTsInsertionPerStructServiceDeclaration" },
+	{ value: NgSidebarTsInsertionPoint.NgSidebarTsInsertionsNb, viewValue: "NgSidebarTsInsertionsNb" },
 ];

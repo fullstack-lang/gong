@@ -8,13 +8,13 @@ export enum NgClassTsInsertionPoint {
 }
 
 export interface NgClassTsInsertionPointSelect {
-	value: string;
+	value: number;
 	viewValue: string;
 }
 
 export const NgClassTsInsertionPointList: NgClassTsInsertionPointSelect[] = [ // insertion point	
-	{ value: 'NgClassTsInsertionPerStructBasicFieldsDecl', viewValue: '1' },
-	{ value: 'NgClassTsInsertionPerStructImports', viewValue: '0' },
-	{ value: 'NgClassTsInsertionPerStructOtherDecls', viewValue: '2' },
-	{ value: 'NgClassTsInsertionsNb', viewValue: '3' },
+	{ value: NgClassTsInsertionPoint.NgClassTsInsertionPerStructBasicFieldsDecl, viewValue: "NgClassTsInsertionPerStructBasicFieldsDecl" },
+	{ value: NgClassTsInsertionPoint.NgClassTsInsertionPerStructImports, viewValue: "NgClassTsInsertionPerStructImports" },
+	{ value: NgClassTsInsertionPoint.NgClassTsInsertionPerStructOtherDecls, viewValue: "NgClassTsInsertionPerStructOtherDecls" },
+	{ value: NgClassTsInsertionPoint.NgClassTsInsertionsNb, viewValue: "NgClassTsInsertionsNb" },
 ];

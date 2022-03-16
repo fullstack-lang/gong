@@ -6,11 +6,11 @@ export enum NgPresentationSubTemplate {
 }
 
 export interface NgPresentationSubTemplateSelect {
-	value: string;
+	value: number;
 	viewValue: string;
 }
 
 export const NgPresentationSubTemplateList: NgPresentationSubTemplateSelect[] = [ // insertion point	
-	{ value: 'NgPresentationTSTimeDurationDeclarations', viewValue: '0' },
-	{ value: 'NgPresentationTSTimeDurationRecoveries', viewValue: '1' },
+	{ value: NgPresentationSubTemplate.NgPresentationTSTimeDurationDeclarations, viewValue: "NgPresentationTSTimeDurationDeclarations" },
+	{ value: NgPresentationSubTemplate.NgPresentationTSTimeDurationRecoveries, viewValue: "NgPresentationTSTimeDurationRecoveries" },
 ];
