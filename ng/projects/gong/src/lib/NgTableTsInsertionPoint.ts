@@ -1,22 +1,26 @@
 // generated from ng_file_enum.ts.go
 export enum NgTableTsInsertionPoint {
 	// insertion point	
-	NgTableTsInsertionPerStructColumns = 1,
-	NgTableTsInsertionPerStructColumnsFiltering = 3,
-	NgTableTsInsertionPerStructColumnsSorting = 2,
-	NgTableTsInsertionPerStructRecoveries = 0,
-	NgTableTsInsertionsNb = 4,
+	NgTableTsInsertionPerStructColumns = 3,
+	NgTableTsInsertionPerStructColumnsFiltering = 5,
+	NgTableTsInsertionPerStructColumnsSorting = 4,
+	NgTableTsInsertionPerStructEnumIntRecoveries = 2,
+	NgTableTsInsertionPerStructImports = 0,
+	NgTableTsInsertionPerStructTimeDurationRecoveries = 1,
+	NgTableTsInsertionsNb = 6,
 }
 
 export interface NgTableTsInsertionPointSelect {
-	value: string;
+	value: number;
 	viewValue: string;
 }
 
 export const NgTableTsInsertionPointList: NgTableTsInsertionPointSelect[] = [ // insertion point	
-	{ value: 'NgTableTsInsertionPerStructColumns', viewValue: '1' },
-	{ value: 'NgTableTsInsertionPerStructColumnsFiltering', viewValue: '3' },
-	{ value: 'NgTableTsInsertionPerStructColumnsSorting', viewValue: '2' },
-	{ value: 'NgTableTsInsertionPerStructRecoveries', viewValue: '0' },
-	{ value: 'NgTableTsInsertionsNb', viewValue: '4' },
+	{ value: NgTableTsInsertionPoint.NgTableTsInsertionPerStructColumns, viewValue: "NgTableTsInsertionPerStructColumns" },
+	{ value: NgTableTsInsertionPoint.NgTableTsInsertionPerStructColumnsFiltering, viewValue: "NgTableTsInsertionPerStructColumnsFiltering" },
+	{ value: NgTableTsInsertionPoint.NgTableTsInsertionPerStructColumnsSorting, viewValue: "NgTableTsInsertionPerStructColumnsSorting" },
+	{ value: NgTableTsInsertionPoint.NgTableTsInsertionPerStructEnumIntRecoveries, viewValue: "NgTableTsInsertionPerStructEnumIntRecoveries" },
+	{ value: NgTableTsInsertionPoint.NgTableTsInsertionPerStructImports, viewValue: "NgTableTsInsertionPerStructImports" },
+	{ value: NgTableTsInsertionPoint.NgTableTsInsertionPerStructTimeDurationRecoveries, viewValue: "NgTableTsInsertionPerStructTimeDurationRecoveries" },
+	{ value: NgTableTsInsertionPoint.NgTableTsInsertionsNb, viewValue: "NgTableTsInsertionsNb" },
 ];

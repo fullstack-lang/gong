@@ -11,6 +11,6 @@ export interface OrmFileStructSubSubTemplateSelect {
 }
 
 export const OrmFileStructSubSubTemplateList: OrmFileStructSubSubTemplateSelect[] = [ // insertion point	
-	{ value: 'OrmFileStructPtrToStructDecls', viewValue: '"OrmFileStructPtrToStructDecls"' },
-	{ value: 'OrmFileStructReversePtrToStructDecls', viewValue: '"OrmFileStructReversePtrToStructDecls"' },
+	{ value: OrmFileStructSubSubTemplate.OrmFileStructPtrToStructDecls, viewValue: "OrmFileStructPtrToStructDecls" },
+	{ value: OrmFileStructSubSubTemplate.OrmFileStructReversePtrToStructDecls, viewValue: "OrmFileStructReversePtrToStructDecls" },
 ];

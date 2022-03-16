@@ -7,12 +7,12 @@ export enum NgEnumInsertionPoint {
 }
 
 export interface NgEnumInsertionPointSelect {
-	value: string;
+	value: number;
 	viewValue: string;
 }
 
 export const NgEnumInsertionPointList: NgEnumInsertionPointSelect[] = [ // insertion point	
-	{ value: 'NgEnumInsertionPointEnumDeclaration', viewValue: '0' },
-	{ value: 'NgEnumNbInsertionPoints', viewValue: '2' },
-	{ value: 'NgEnumValuesInsertionPointDeclarationForPullDownSelect', viewValue: '1' },
+	{ value: NgEnumInsertionPoint.NgEnumInsertionPointEnumDeclaration, viewValue: "NgEnumInsertionPointEnumDeclaration" },
+	{ value: NgEnumInsertionPoint.NgEnumNbInsertionPoints, viewValue: "NgEnumNbInsertionPoints" },
+	{ value: NgEnumInsertionPoint.NgEnumValuesInsertionPointDeclarationForPullDownSelect, viewValue: "NgEnumValuesInsertionPointDeclarationForPullDownSelect" },
 ];

@@ -4,6 +4,7 @@ export enum NgClassSubTemplate {
 	NgClassTSBasicFieldDecls = 1,
 	NgClassTSBasicFieldImports = 0,
 	NgClassTSOtherDecls = 3,
+	NgClassTSOtherDeclsEnumInt = 8,
 	NgClassTSOtherDeclsTimeDuration = 7,
 	NgClassTSPointerToStructFieldsDecl = 4,
 	NgClassTSSliceOfPtrToGongStructReverseID = 6,
@@ -12,17 +13,18 @@ export enum NgClassSubTemplate {
 }
 
 export interface NgClassSubTemplateSelect {
-	value: string;
+	value: number;
 	viewValue: string;
 }
 
 export const NgClassSubTemplateList: NgClassSubTemplateSelect[] = [ // insertion point	
-	{ value: 'NgClassTSBasicFieldDecls', viewValue: '1' },
-	{ value: 'NgClassTSBasicFieldImports', viewValue: '0' },
-	{ value: 'NgClassTSOtherDecls', viewValue: '3' },
-	{ value: 'NgClassTSOtherDeclsTimeDuration', viewValue: '7' },
-	{ value: 'NgClassTSPointerToStructFieldsDecl', viewValue: '4' },
-	{ value: 'NgClassTSSliceOfPtrToGongStructReverseID', viewValue: '6' },
-	{ value: 'NgClassTSSliceOfPtrToStructFieldsDecl', viewValue: '5' },
-	{ value: 'NgClassTSTimeFieldDecls', viewValue: '2' },
+	{ value: NgClassSubTemplate.NgClassTSBasicFieldDecls, viewValue: "NgClassTSBasicFieldDecls" },
+	{ value: NgClassSubTemplate.NgClassTSBasicFieldImports, viewValue: "NgClassTSBasicFieldImports" },
+	{ value: NgClassSubTemplate.NgClassTSOtherDecls, viewValue: "NgClassTSOtherDecls" },
+	{ value: NgClassSubTemplate.NgClassTSOtherDeclsEnumInt, viewValue: "NgClassTSOtherDeclsEnumInt" },
+	{ value: NgClassSubTemplate.NgClassTSOtherDeclsTimeDuration, viewValue: "NgClassTSOtherDeclsTimeDuration" },
+	{ value: NgClassSubTemplate.NgClassTSPointerToStructFieldsDecl, viewValue: "NgClassTSPointerToStructFieldsDecl" },
+	{ value: NgClassSubTemplate.NgClassTSSliceOfPtrToGongStructReverseID, viewValue: "NgClassTSSliceOfPtrToGongStructReverseID" },
+	{ value: NgClassSubTemplate.NgClassTSSliceOfPtrToStructFieldsDecl, viewValue: "NgClassTSSliceOfPtrToStructFieldsDecl" },
+	{ value: NgClassSubTemplate.NgClassTSTimeFieldDecls, viewValue: "NgClassTSTimeFieldDecls" },
 ];

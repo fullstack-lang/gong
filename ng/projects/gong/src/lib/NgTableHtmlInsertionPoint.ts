@@ -6,11 +6,11 @@ export enum NgTableHtmlInsertionPoint {
 }
 
 export interface NgTableHtmlInsertionPointSelect {
-	value: string;
+	value: number;
 	viewValue: string;
 }
 
 export const NgTableHtmlInsertionPointList: NgTableHtmlInsertionPointSelect[] = [ // insertion point	
-	{ value: 'NgTableHtmlInsertionColumn', viewValue: '0' },
-	{ value: 'NgTableHtmlInsertionsNb', viewValue: '1' },
+	{ value: NgTableHtmlInsertionPoint.NgTableHtmlInsertionColumn, viewValue: "NgTableHtmlInsertionColumn" },
+	{ value: NgTableHtmlInsertionPoint.NgTableHtmlInsertionsNb, viewValue: "NgTableHtmlInsertionsNb" },
 ];

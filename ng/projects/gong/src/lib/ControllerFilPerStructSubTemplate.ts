@@ -28,33 +28,33 @@ export enum ControllerFilPerStructSubTemplate {
 }
 
 export interface ControllerFilPerStructSubTemplateSelect {
-	value: string;
+	value: number;
 	viewValue: string;
 }
 
 export const ControllerFilPerStructSubTemplateList: ControllerFilPerStructSubTemplateSelect[] = [ // insertion point	
-	{ value: 'ControllerFileFieldSubTmplGetBasicFieldBool', viewValue: '2' },
-	{ value: 'ControllerFileFieldSubTmplGetBasicFieldFloat64', viewValue: '10' },
-	{ value: 'ControllerFileFieldSubTmplGetBasicFieldInt', viewValue: '6' },
-	{ value: 'ControllerFileFieldSubTmplGetBasicFieldString', viewValue: '14' },
-	{ value: 'ControllerFileFieldSubTmplGetBasicFieldStringEnum', viewValue: '22' },
-	{ value: 'ControllerFileFieldSubTmplGetTimeField', viewValue: '18' },
-	{ value: 'ControllerFileFieldSubTmplGetsBasicFieldBool', viewValue: '0' },
-	{ value: 'ControllerFileFieldSubTmplGetsBasicFieldFloat64', viewValue: '8' },
-	{ value: 'ControllerFileFieldSubTmplGetsBasicFieldInt', viewValue: '4' },
-	{ value: 'ControllerFileFieldSubTmplGetsBasicFieldString', viewValue: '12' },
-	{ value: 'ControllerFileFieldSubTmplGetsBasicFieldStringEnum', viewValue: '20' },
-	{ value: 'ControllerFileFieldSubTmplGetsTimeField', viewValue: '16' },
-	{ value: 'ControllerFileFieldSubTmplPostBasicFieldBool', viewValue: '1' },
-	{ value: 'ControllerFileFieldSubTmplPostBasicFieldFloat64', viewValue: '9' },
-	{ value: 'ControllerFileFieldSubTmplPostBasicFieldInt', viewValue: '5' },
-	{ value: 'ControllerFileFieldSubTmplPostBasicFieldString', viewValue: '13' },
-	{ value: 'ControllerFileFieldSubTmplPostBasicFieldStringEnum', viewValue: '21' },
-	{ value: 'ControllerFileFieldSubTmplPostTimeField', viewValue: '17' },
-	{ value: 'ControllerFileFieldSubTmplUpdateBasicFieldBool', viewValue: '3' },
-	{ value: 'ControllerFileFieldSubTmplUpdateBasicFieldFloat64', viewValue: '11' },
-	{ value: 'ControllerFileFieldSubTmplUpdateBasicFieldInt', viewValue: '7' },
-	{ value: 'ControllerFileFieldSubTmplUpdateBasicFieldString', viewValue: '15' },
-	{ value: 'ControllerFileFieldSubTmplUpdateBasicFieldStringEnum', viewValue: '23' },
-	{ value: 'ControllerFileFieldSubTmplUpdateTimeField', viewValue: '19' },
+	{ value: ControllerFilPerStructSubTemplate.ControllerFileFieldSubTmplGetBasicFieldBool, viewValue: "ControllerFileFieldSubTmplGetBasicFieldBool" },
+	{ value: ControllerFilPerStructSubTemplate.ControllerFileFieldSubTmplGetBasicFieldFloat64, viewValue: "ControllerFileFieldSubTmplGetBasicFieldFloat64" },
+	{ value: ControllerFilPerStructSubTemplate.ControllerFileFieldSubTmplGetBasicFieldInt, viewValue: "ControllerFileFieldSubTmplGetBasicFieldInt" },
+	{ value: ControllerFilPerStructSubTemplate.ControllerFileFieldSubTmplGetBasicFieldString, viewValue: "ControllerFileFieldSubTmplGetBasicFieldString" },
+	{ value: ControllerFilPerStructSubTemplate.ControllerFileFieldSubTmplGetBasicFieldStringEnum, viewValue: "ControllerFileFieldSubTmplGetBasicFieldStringEnum" },
+	{ value: ControllerFilPerStructSubTemplate.ControllerFileFieldSubTmplGetTimeField, viewValue: "ControllerFileFieldSubTmplGetTimeField" },
+	{ value: ControllerFilPerStructSubTemplate.ControllerFileFieldSubTmplGetsBasicFieldBool, viewValue: "ControllerFileFieldSubTmplGetsBasicFieldBool" },
+	{ value: ControllerFilPerStructSubTemplate.ControllerFileFieldSubTmplGetsBasicFieldFloat64, viewValue: "ControllerFileFieldSubTmplGetsBasicFieldFloat64" },
+	{ value: ControllerFilPerStructSubTemplate.ControllerFileFieldSubTmplGetsBasicFieldInt, viewValue: "ControllerFileFieldSubTmplGetsBasicFieldInt" },
+	{ value: ControllerFilPerStructSubTemplate.ControllerFileFieldSubTmplGetsBasicFieldString, viewValue: "ControllerFileFieldSubTmplGetsBasicFieldString" },
+	{ value: ControllerFilPerStructSubTemplate.ControllerFileFieldSubTmplGetsBasicFieldStringEnum, viewValue: "ControllerFileFieldSubTmplGetsBasicFieldStringEnum" },
+	{ value: ControllerFilPerStructSubTemplate.ControllerFileFieldSubTmplGetsTimeField, viewValue: "ControllerFileFieldSubTmplGetsTimeField" },
+	{ value: ControllerFilPerStructSubTemplate.ControllerFileFieldSubTmplPostBasicFieldBool, viewValue: "ControllerFileFieldSubTmplPostBasicFieldBool" },
+	{ value: ControllerFilPerStructSubTemplate.ControllerFileFieldSubTmplPostBasicFieldFloat64, viewValue: "ControllerFileFieldSubTmplPostBasicFieldFloat64" },
+	{ value: ControllerFilPerStructSubTemplate.ControllerFileFieldSubTmplPostBasicFieldInt, viewValue: "ControllerFileFieldSubTmplPostBasicFieldInt" },
+	{ value: ControllerFilPerStructSubTemplate.ControllerFileFieldSubTmplPostBasicFieldString, viewValue: "ControllerFileFieldSubTmplPostBasicFieldString" },
+	{ value: ControllerFilPerStructSubTemplate.ControllerFileFieldSubTmplPostBasicFieldStringEnum, viewValue: "ControllerFileFieldSubTmplPostBasicFieldStringEnum" },
+	{ value: ControllerFilPerStructSubTemplate.ControllerFileFieldSubTmplPostTimeField, viewValue: "ControllerFileFieldSubTmplPostTimeField" },
+	{ value: ControllerFilPerStructSubTemplate.ControllerFileFieldSubTmplUpdateBasicFieldBool, viewValue: "ControllerFileFieldSubTmplUpdateBasicFieldBool" },
+	{ value: ControllerFilPerStructSubTemplate.ControllerFileFieldSubTmplUpdateBasicFieldFloat64, viewValue: "ControllerFileFieldSubTmplUpdateBasicFieldFloat64" },
+	{ value: ControllerFilPerStructSubTemplate.ControllerFileFieldSubTmplUpdateBasicFieldInt, viewValue: "ControllerFileFieldSubTmplUpdateBasicFieldInt" },
+	{ value: ControllerFilPerStructSubTemplate.ControllerFileFieldSubTmplUpdateBasicFieldString, viewValue: "ControllerFileFieldSubTmplUpdateBasicFieldString" },
+	{ value: ControllerFilPerStructSubTemplate.ControllerFileFieldSubTmplUpdateBasicFieldStringEnum, viewValue: "ControllerFileFieldSubTmplUpdateBasicFieldStringEnum" },
+	{ value: ControllerFilPerStructSubTemplate.ControllerFileFieldSubTmplUpdateTimeField, viewValue: "ControllerFileFieldSubTmplUpdateTimeField" },
 ];

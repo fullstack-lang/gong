@@ -2,6 +2,7 @@ package models
 
 import (
 	"fmt"
+	"go/constant"
 	"go/types"
 	"log"
 	"path/filepath"
@@ -126,8 +127,17 @@ func Walk(relativePathToModel string, modelPkg *ModelPkg) {
 			// fetch the enum, if it does not exist, create it
 			var modelEnum *GongEnum
 			if modelEnum = modelPkg.GongEnums[modelPkg.PkgPath+"."+named.Obj().Name()]; modelEnum == nil {
+
+				var enumType GongEnumType
+				if cst.Val().Kind() == constant.Kind(constant.Int) {
+					enumType = Int
+				} else {
+					enumType = String
+				}
+
 				modelEnum = &GongEnum{
 					Name: named.Obj().Name(),
+					Type: enumType,
 				}
 				modelPkg.GongEnums[modelPkg.PkgPath+"."+named.Obj().Name()] = modelEnum
 			}

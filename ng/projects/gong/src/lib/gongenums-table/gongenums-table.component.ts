@@ -17,6 +17,9 @@ import { Router, RouterState } from '@angular/router';
 import { GongEnumDB } from '../gongenum-db'
 import { GongEnumService } from '../gongenum.service'
 
+// insertion point for additional imports
+import { GongEnumTypeList } from '../GongEnumType'
+
 // TableComponent is initilizaed from different routes
 // TableComponentMode detail different cases 
 enum TableComponentMode {
@@ -69,6 +72,9 @@ export class GongEnumsTableComponent implements OnInit {
         case 'Name':
           return gongenumDB.Name;
 
+        case 'Type':
+          return gongenumDB.Type_string!;
+
         default:
           console.assert(false, "Unknown field")
           return "";
@@ -84,6 +90,7 @@ export class GongEnumsTableComponent implements OnInit {
 
       // insertion point for merging of fields
       mergedContent += gongenumDB.Name.toLowerCase()
+      mergedContent += gongenumDB.Type_string!
 
       let isSelected = mergedContent.includes(filter.toLowerCase())
       return isSelected
@@ -135,10 +142,12 @@ export class GongEnumsTableComponent implements OnInit {
     if (this.mode == TableComponentMode.DISPLAY_MODE) {
       this.displayedColumns = ['ID', 'Edit', 'Delete', // insertion point for columns to display
         "Name",
+        "Type",
       ]
     } else {
       this.displayedColumns = ['select', 'ID', // insertion point for columns to display
         "Name",
+        "Type",
       ]
       this.selection = new SelectionModel<GongEnumDB>(allowMultiSelect, this.initialSelection);
     }
@@ -157,8 +166,12 @@ export class GongEnumsTableComponent implements OnInit {
 
         this.gongenums = this.frontRepo.GongEnums_array;
 
-        // insertion point for variables Recoveries
-
+        // insertion point for time duration Recoveries
+        // insertion point for enum int Recoveries
+        for (let gongenum of this.gongenums) {
+          gongenum.Type_string = GongEnumTypeList[gongenum.Type].viewValue
+        }
+        
         // in case the component is called as a selection component
         if (this.mode == TableComponentMode.ONE_MANY_ASSOCIATION_MODE) {
           for (let gongenum of this.gongenums) {

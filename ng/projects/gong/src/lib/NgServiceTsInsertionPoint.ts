@@ -8,13 +8,13 @@ export enum NgServiceTsInsertionPoint {
 }
 
 export interface NgServiceTsInsertionPointSelect {
-	value: string;
+	value: number;
 	viewValue: string;
 }
 
 export const NgServiceTsInsertionPointList: NgServiceTsInsertionPointSelect[] = [ // insertion point	
-	{ value: 'NgServiceTsInsertionImports', viewValue: '2' },
-	{ value: 'NgServiceTsInsertionPointerReset', viewValue: '0' },
-	{ value: 'NgServiceTsInsertionPointerRestore', viewValue: '1' },
-	{ value: 'NgServiceTsInsertionsNb', viewValue: '3' },
+	{ value: NgServiceTsInsertionPoint.NgServiceTsInsertionImports, viewValue: "NgServiceTsInsertionImports" },
+	{ value: NgServiceTsInsertionPoint.NgServiceTsInsertionPointerReset, viewValue: "NgServiceTsInsertionPointerReset" },
+	{ value: NgServiceTsInsertionPoint.NgServiceTsInsertionPointerRestore, viewValue: "NgServiceTsInsertionPointerRestore" },
+	{ value: NgServiceTsInsertionPoint.NgServiceTsInsertionsNb, viewValue: "NgServiceTsInsertionsNb" },
 ];

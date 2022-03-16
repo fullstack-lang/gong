@@ -61,6 +61,13 @@
             </td>
         </ng-container>
         <!-- -->
+        <ng-container matColumnDef="CEnum">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> CEnum </th>
+            <td mat-cell *matCellDef="let Astruct">
+                {{Astruct.CEnum_string}}
+            </td>
+        </ng-container>
+        <!-- -->
         <ng-container matColumnDef="CName">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> CName </th>
             <td mat-cell *matCellDef="let Astruct">

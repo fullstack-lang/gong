@@ -1,36 +1,42 @@
 // generated from ng_file_enum.ts.go
 export enum NgTableSubTemplate {
 	// insertion point	
-	NgTableTSBasicFieldSorting = 1,
-	NgTableTSNonNumberFieldFiltering = 5,
-	NgTableTSNumberFieldFiltering = 6,
-	NgTableTSPerStructColumn = 10,
-	NgTableTSPerStructTimeDurationRecoveries = 0,
-	NgTableTSPointerToStructFiltering = 8,
-	NgTableTSPointerToStructSorting = 3,
-	NgTableTSSliceOfPointerToStructFiltering = 9,
-	NgTableTSSliceOfPointerToStructPerStructColumn = 11,
-	NgTableTSSliceOfPointerToStructSorting = 4,
-	NgTableTSTimeFieldFiltering = 7,
-	NgTableTSTimeFieldSorting = 2,
+	NgTableTSBasicFieldSorting = 3,
+	NgTableTSEnumIntFiltering = 9,
+	NgTableTSNonNumberFieldFiltering = 7,
+	NgTableTSNumberFieldFiltering = 8,
+	NgTableTSPerStructColumn = 13,
+	NgTableTSPerStructEnumIntRecoveries = 1,
+	NgTableTSPerStructTimeDurationRecoveries = 2,
+	NgTableTSPointerToStructFiltering = 11,
+	NgTableTSPointerToStructSorting = 5,
+	NgTableTSSliceOfPointerToStructFiltering = 12,
+	NgTableTSSliceOfPointerToStructPerStructColumn = 14,
+	NgTableTSSliceOfPointerToStructSorting = 6,
+	NgTableTSTimeFieldFiltering = 10,
+	NgTableTSTimeFieldSorting = 4,
+	NgTableTsInsertionPerStructImportsTpl = 0,
 }
 
 export interface NgTableSubTemplateSelect {
-	value: string;
+	value: number;
 	viewValue: string;
 }
 
 export const NgTableSubTemplateList: NgTableSubTemplateSelect[] = [ // insertion point	
-	{ value: 'NgTableTSBasicFieldSorting', viewValue: '1' },
-	{ value: 'NgTableTSNonNumberFieldFiltering', viewValue: '5' },
-	{ value: 'NgTableTSNumberFieldFiltering', viewValue: '6' },
-	{ value: 'NgTableTSPerStructColumn', viewValue: '10' },
-	{ value: 'NgTableTSPerStructTimeDurationRecoveries', viewValue: '0' },
-	{ value: 'NgTableTSPointerToStructFiltering', viewValue: '8' },
-	{ value: 'NgTableTSPointerToStructSorting', viewValue: '3' },
-	{ value: 'NgTableTSSliceOfPointerToStructFiltering', viewValue: '9' },
-	{ value: 'NgTableTSSliceOfPointerToStructPerStructColumn', viewValue: '11' },
-	{ value: 'NgTableTSSliceOfPointerToStructSorting', viewValue: '4' },
-	{ value: 'NgTableTSTimeFieldFiltering', viewValue: '7' },
-	{ value: 'NgTableTSTimeFieldSorting', viewValue: '2' },
+	{ value: NgTableSubTemplate.NgTableTSBasicFieldSorting, viewValue: "NgTableTSBasicFieldSorting" },
+	{ value: NgTableSubTemplate.NgTableTSEnumIntFiltering, viewValue: "NgTableTSEnumIntFiltering" },
+	{ value: NgTableSubTemplate.NgTableTSNonNumberFieldFiltering, viewValue: "NgTableTSNonNumberFieldFiltering" },
+	{ value: NgTableSubTemplate.NgTableTSNumberFieldFiltering, viewValue: "NgTableTSNumberFieldFiltering" },
+	{ value: NgTableSubTemplate.NgTableTSPerStructColumn, viewValue: "NgTableTSPerStructColumn" },
+	{ value: NgTableSubTemplate.NgTableTSPerStructEnumIntRecoveries, viewValue: "NgTableTSPerStructEnumIntRecoveries" },
+	{ value: NgTableSubTemplate.NgTableTSPerStructTimeDurationRecoveries, viewValue: "NgTableTSPerStructTimeDurationRecoveries" },
+	{ value: NgTableSubTemplate.NgTableTSPointerToStructFiltering, viewValue: "NgTableTSPointerToStructFiltering" },
+	{ value: NgTableSubTemplate.NgTableTSPointerToStructSorting, viewValue: "NgTableTSPointerToStructSorting" },
+	{ value: NgTableSubTemplate.NgTableTSSliceOfPointerToStructFiltering, viewValue: "NgTableTSSliceOfPointerToStructFiltering" },
+	{ value: NgTableSubTemplate.NgTableTSSliceOfPointerToStructPerStructColumn, viewValue: "NgTableTSSliceOfPointerToStructPerStructColumn" },
+	{ value: NgTableSubTemplate.NgTableTSSliceOfPointerToStructSorting, viewValue: "NgTableTSSliceOfPointerToStructSorting" },
+	{ value: NgTableSubTemplate.NgTableTSTimeFieldFiltering, viewValue: "NgTableTSTimeFieldFiltering" },
+	{ value: NgTableSubTemplate.NgTableTSTimeFieldSorting, viewValue: "NgTableTSTimeFieldSorting" },
+	{ value: NgTableSubTemplate.NgTableTsInsertionPerStructImportsTpl, viewValue: "NgTableTsInsertionPerStructImportsTpl" },
 ];

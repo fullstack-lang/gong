@@ -61,6 +61,16 @@
         </mat-select>
     </mat-form-field>
 
+    <!-- -->
+    <mat-form-field appearance="fill" class="detail-full-width">
+        <mat-label>CEnum</mat-label>
+        <mat-select [(ngModel)]="astruct.CEnum" [ngModelOptions]="{standalone: true}">
+            <mat-option *ngFor="let enum of CEnumTypeIntList" [value]="enum.value">
+                {{enum.viewValue}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+
     <mat-grid-list *ngIf='!isATextArea("CName")' cols="5" rowHeight="2:1">
         <mat-grid-tile [colspan]="3">
             <mat-form-field mat-form-field class="detail-full-width">

@@ -17,6 +17,8 @@ import { Router, RouterState } from '@angular/router';
 import { ModelPkgDB } from '../modelpkg-db'
 import { ModelPkgService } from '../modelpkg.service'
 
+// insertion point for additional imports
+
 // TableComponent is initilizaed from different routes
 // TableComponentMode detail different cases 
 enum TableComponentMode {
@@ -163,8 +165,9 @@ export class ModelPkgsTableComponent implements OnInit {
 
         this.modelpkgs = this.frontRepo.ModelPkgs_array;
 
-        // insertion point for variables Recoveries
-
+        // insertion point for time duration Recoveries
+        // insertion point for enum int Recoveries
+        
         // in case the component is called as a selection component
         if (this.mode == TableComponentMode.ONE_MANY_ASSOCIATION_MODE) {
           for (let modelpkg of this.modelpkgs) {

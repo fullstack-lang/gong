@@ -52,3 +52,4 @@ export * from './lib/dstruct.service'
 
 export * from './lib/AEnumType'
 export * from './lib/BEnumType'
+export * from './lib/CEnumTypeInt'

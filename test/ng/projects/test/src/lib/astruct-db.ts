@@ -18,6 +18,7 @@ export class AstructDB {
 	Aenum: string = ""
 	Aenum_2: string = ""
 	Benum: string = ""
+	CEnum: number = 0
 	CName: string = ""
 	CFloatfield: number = 0
 	Floatfield: number = 0
@@ -26,6 +27,7 @@ export class AstructDB {
 	Duration1: number = 0
 
 	// insertion point for other declarations
+	CEnum_string?: string
 	Duration1_string?: string
 	Associationtob?: BstructDB
 	AssociationtobID: NullInt64 = new NullInt64 // if pointer is null, Associationtob.ID = 0

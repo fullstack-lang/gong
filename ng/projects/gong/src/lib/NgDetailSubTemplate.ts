@@ -19,24 +19,24 @@ export enum NgDetailSubTemplate {
 }
 
 export interface NgDetailSubTemplateSelect {
-	value: string;
+	value: number;
 	viewValue: string;
 }
 
 export const NgDetailSubTemplateList: NgDetailSubTemplateSelect[] = [ // insertion point	
-	{ value: 'NgDetailTSBooleanDeclarations', viewValue: '3' },
-	{ value: 'NgDetailTSBooleanRecoveries', viewValue: '4' },
-	{ value: 'NgDetailTSBooleanSaves', viewValue: '5' },
-	{ value: 'NgDetailTSEnumDeclarations', viewValue: '1' },
-	{ value: 'NgDetailTSEnumImports', viewValue: '0' },
-	{ value: 'NgDetailTSEnumInits', viewValue: '2' },
-	{ value: 'NgDetailTSPointerToGongStructSaves', viewValue: '9' },
-	{ value: 'NgDetailTSReversePointerToSliceOfGongStructImports', viewValue: '10' },
-	{ value: 'NgDetailTSReversePointerToSliceOfGongStructSavesWhenUpdate', viewValue: '14' },
-	{ value: 'NgDetailTSReversePointerToSliceOfGongStructStateCaseComputation', viewValue: '12' },
-	{ value: 'NgDetailTSReversePointerToSliceOfGongStructStateCaseSetField', viewValue: '13' },
-	{ value: 'NgDetailTSReversePointerToSliceOfGongStructStateEnumDeclaration', viewValue: '11' },
-	{ value: 'NgDetailTSTimeDurationDeclarations', viewValue: '6' },
-	{ value: 'NgDetailTSTimeDurationRecoveries', viewValue: '7' },
-	{ value: 'NgDetailTSTimeDurationSaves', viewValue: '8' },
+	{ value: NgDetailSubTemplate.NgDetailTSBooleanDeclarations, viewValue: "NgDetailTSBooleanDeclarations" },
+	{ value: NgDetailSubTemplate.NgDetailTSBooleanRecoveries, viewValue: "NgDetailTSBooleanRecoveries" },
+	{ value: NgDetailSubTemplate.NgDetailTSBooleanSaves, viewValue: "NgDetailTSBooleanSaves" },
+	{ value: NgDetailSubTemplate.NgDetailTSEnumDeclarations, viewValue: "NgDetailTSEnumDeclarations" },
+	{ value: NgDetailSubTemplate.NgDetailTSEnumImports, viewValue: "NgDetailTSEnumImports" },
+	{ value: NgDetailSubTemplate.NgDetailTSEnumInits, viewValue: "NgDetailTSEnumInits" },
+	{ value: NgDetailSubTemplate.NgDetailTSPointerToGongStructSaves, viewValue: "NgDetailTSPointerToGongStructSaves" },
+	{ value: NgDetailSubTemplate.NgDetailTSReversePointerToSliceOfGongStructImports, viewValue: "NgDetailTSReversePointerToSliceOfGongStructImports" },
+	{ value: NgDetailSubTemplate.NgDetailTSReversePointerToSliceOfGongStructSavesWhenUpdate, viewValue: "NgDetailTSReversePointerToSliceOfGongStructSavesWhenUpdate" },
+	{ value: NgDetailSubTemplate.NgDetailTSReversePointerToSliceOfGongStructStateCaseComputation, viewValue: "NgDetailTSReversePointerToSliceOfGongStructStateCaseComputation" },
+	{ value: NgDetailSubTemplate.NgDetailTSReversePointerToSliceOfGongStructStateCaseSetField, viewValue: "NgDetailTSReversePointerToSliceOfGongStructStateCaseSetField" },
+	{ value: NgDetailSubTemplate.NgDetailTSReversePointerToSliceOfGongStructStateEnumDeclaration, viewValue: "NgDetailTSReversePointerToSliceOfGongStructStateEnumDeclaration" },
+	{ value: NgDetailSubTemplate.NgDetailTSTimeDurationDeclarations, viewValue: "NgDetailTSTimeDurationDeclarations" },
+	{ value: NgDetailSubTemplate.NgDetailTSTimeDurationRecoveries, viewValue: "NgDetailTSTimeDurationRecoveries" },
+	{ value: NgDetailSubTemplate.NgDetailTSTimeDurationSaves, viewValue: "NgDetailTSTimeDurationSaves" },
 ];
