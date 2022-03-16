@@ -25,6 +25,8 @@ import { FrontRepoService, FrontRepo } from '../front-repo.service'
 
 import { Router, RouterState, ActivatedRoute } from '@angular/router';
 
+// insertion point for additional imports{{` + string(rune(NgPresentationTsInsertionPerStructEnumIntImports)) + `}}
+
 export interface {{structname}}DummyElement {
 }
 
@@ -38,7 +40,8 @@ const ELEMENT_DATA: {{structname}}DummyElement[] = [
 })
 export class {{Structname}}PresentationComponent implements OnInit {
 
-	// insertion point for declarations{{` + string(rune(NgPresentationTsInsertionPerStructDeclarations)) + `}}
+	// insertion point for additionnal time duration declarations{{` + string(rune(NgPresentationTsInsertionTimeDurationFieldPerStructDeclarations)) + `}}
+	// insertion point for additionnal enum int field declarations{{` + string(rune(NgPresentationTsInsertionFieldPerStructEnumIntDeclarations)) + `}}
 
 	displayedColumns: string[] = []
 	dataSource = ELEMENT_DATA
@@ -80,7 +83,8 @@ export class {{Structname}}PresentationComponent implements OnInit {
 
 				this.{{structname}} = this.frontRepo.{{Structname}}s.get(id)!
 
-				// insertion point for recovery of durations{{` + string(rune(NgPresentationTsInsertionPerStructRecoveries)) + `}}
+				// insertion point for recovery of durations{{` + string(rune(NgPresentationTsInsertionPerStructTimeDurationRecoveries)) + `}}
+				// insertion point for recovery of enum tint{{` + string(rune(NgPresentationTsInsertionPerStructEnumIntRecoveries)) + `}}
 			}
 		);
 	}
@@ -106,33 +110,36 @@ export class {{Structname}}PresentationComponent implements OnInit {
 `
 
 // Insertion points
-type NgPresentationTsInsertionPoint int
+type NgPresentationTsInsertionPointId int
 
 const (
-	NgPresentationTsInsertionPerStructDeclarations NgPresentationTsInsertionPoint = iota
-	NgPresentationTsInsertionPerStructRecoveries
+	NgPresentationTsInsertionPerStructEnumIntImports NgPresentationTsInsertionPointId = iota
+	NgPresentationTsInsertionTimeDurationFieldPerStructDeclarations
+	NgPresentationTsInsertionFieldPerStructEnumIntDeclarations
+	NgPresentationTsInsertionPerStructTimeDurationRecoveries
+	NgPresentationTsInsertionPerStructEnumIntRecoveries
 	NgPresentationTsInsertionsNb
 )
 
-type NgPresentationSubTemplate int
+var NgPresentationSubTemplateCode map[NgPresentationTsInsertionPointId]string = map[NgPresentationTsInsertionPointId]string{
 
-const (
-	NgPresentationTSTimeDurationDeclarations NgPresentationSubTemplate = iota
-	NgPresentationTSTimeDurationRecoveries
-)
-
-var NgPresentationSubTemplateCode map[NgPresentationSubTemplate]string = map[NgPresentationSubTemplate]string{
-
-	NgPresentationTSTimeDurationDeclarations: `
+	NgPresentationTsInsertionPerStructEnumIntImports: `
+import { {{EnumName}}List } from '../{{EnumName}}'`,
+	NgPresentationTsInsertionTimeDurationFieldPerStructDeclarations: `
 	// fields from {{FieldName}}
 	{{FieldName}}_Hours: number = 0
 	{{FieldName}}_Minutes: number = 0
 	{{FieldName}}_Seconds: number = 0`,
-	NgPresentationTSTimeDurationRecoveries: `
+	NgPresentationTsInsertionFieldPerStructEnumIntDeclarations: `
+	{{FieldName}}_Value : string = ""`,
+	NgPresentationTsInsertionPerStructTimeDurationRecoveries: `
 				// computation of Hours, Minutes, Seconds for {{FieldName}}
 				this.{{FieldName}}_Hours = Math.floor(this.{{structname}}.{{FieldName}} / (3600 * 1000 * 1000 * 1000))
 				this.{{FieldName}}_Minutes = Math.floor(this.{{structname}}.{{FieldName}} % (3600 * 1000 * 1000 * 1000) / (60 * 1000 * 1000 * 1000))
 				this.{{FieldName}}_Seconds = this.{{structname}}.{{FieldName}} % (60 * 1000 * 1000 * 1000) / (1000 * 1000 * 1000)`,
+
+	NgPresentationTsInsertionPerStructEnumIntRecoveries: `
+				this.{{FieldName}}_Value = {{EnumName}}List[this.{{structname}}.{{FieldName}}].viewValue`,
 }
 
 // MultiCodeGeneratorNgPresentation parses mdlPkg and generates the code for the
@@ -167,8 +174,8 @@ func MultiCodeGeneratorNgPresentation(
 		// generate the typescript file
 		codeTS := NgPresentationTemplateTS
 
-		TSinsertions := make(map[NgPresentationTsInsertionPoint]string)
-		for insertion := NgPresentationTsInsertionPoint(0); insertion < NgPresentationTsInsertionsNb; insertion++ {
+		TSinsertions := make(map[NgPresentationTsInsertionPointId]string)
+		for insertion := NgPresentationTsInsertionPointId(0); insertion < NgPresentationTsInsertionsNb; insertion++ {
 			TSinsertions[insertion] = ""
 		}
 
@@ -177,12 +184,12 @@ func MultiCodeGeneratorNgPresentation(
 			case *GongBasicField:
 
 				if field.DeclaredType == "time.Duration" {
-					TSinsertions[NgPresentationTsInsertionPerStructDeclarations] += Replace1(
-						NgPresentationSubTemplateCode[NgPresentationTSTimeDurationDeclarations],
+					TSinsertions[NgPresentationTsInsertionTimeDurationFieldPerStructDeclarations] += Replace1(
+						NgPresentationSubTemplateCode[NgPresentationTsInsertionTimeDurationFieldPerStructDeclarations],
 						"{{FieldName}}", field.Name)
 
-					TSinsertions[NgPresentationTsInsertionPerStructRecoveries] += Replace1(
-						NgPresentationSubTemplateCode[NgPresentationTSTimeDurationRecoveries],
+					TSinsertions[NgPresentationTsInsertionPerStructTimeDurationRecoveries] += Replace1(
+						NgPresentationSubTemplateCode[NgPresentationTsInsertionPerStructTimeDurationRecoveries],
 						"{{FieldName}}", field.Name)
 				}
 			}
@@ -198,12 +205,32 @@ func MultiCodeGeneratorNgPresentation(
 		// parse all fields. When a field is of type BasicField with a EnumType
 		// then retain the enum type
 		modelEnums := make(map[string]*GongEnum)
+		map_ImportedEnums := make(map[*GongEnum]interface{})
 		for _, field := range _struct.Fields {
 			switch field := field.(type) {
 			case *GongBasicField:
 
 				if field.GongEnum != nil {
 					modelEnums[field.GongEnum.Name] = field.GongEnum
+
+					_, isAlreadyPresent := map_ImportedEnums[field.GongEnum]
+					if field.GongEnum.Type == Int && !isAlreadyPresent {
+						map_ImportedEnums[field.GongEnum] = 0
+						TSinsertions[NgPresentationTsInsertionPerStructEnumIntImports] += Replace1(
+							NgPresentationSubTemplateCode[NgPresentationTsInsertionPerStructEnumIntImports],
+							"{{EnumName}}", field.GongEnum.Name)
+					}
+
+					if field.GongEnum.Type == Int {
+						TSinsertions[NgPresentationTsInsertionFieldPerStructEnumIntDeclarations] += Replace2(
+							NgPresentationSubTemplateCode[NgPresentationTsInsertionFieldPerStructEnumIntDeclarations],
+							"{{EnumName}}", field.GongEnum.Name,
+							"{{FieldName}}", field.Name)
+						TSinsertions[NgPresentationTsInsertionPerStructEnumIntRecoveries] += Replace2(
+							NgPresentationSubTemplateCode[NgPresentationTsInsertionPerStructEnumIntRecoveries],
+							"{{EnumName}}", field.GongEnum.Name,
+							"{{FieldName}}", field.Name)
+					}
 				}
 			}
 		}
@@ -282,7 +309,7 @@ func MultiCodeGeneratorNgPresentation(
 			codeHTML = strings.ReplaceAll(codeHTML, toReplace, subCodesHTML)
 		}
 
-		for insertion := NgPresentationTsInsertionPoint(0); insertion < NgPresentationTsInsertionsNb; insertion++ {
+		for insertion := NgPresentationTsInsertionPointId(0); insertion < NgPresentationTsInsertionsNb; insertion++ {
 			toReplace := "{{" + string(rune(insertion)) + "}}"
 			codeTS = strings.ReplaceAll(codeTS, toReplace, TSinsertions[insertion])
 		}
