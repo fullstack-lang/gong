@@ -16,7 +16,9 @@ const allowMultiSelect = true;
 import { Router, RouterState } from '@angular/router';
 import { AstructDB } from '../astruct-db'
 import { AstructService } from '../astruct.service'
-import { CEnumTypeIntList } from '../CEnumTypeInt';
+
+// insertion point for additional imports
+import { CEnumTypeIntList } from '../CEnumTypeInt'
 
 // TableComponent is initilizaed from different routes
 // TableComponentMode detail different cases 
@@ -85,6 +87,9 @@ export class AstructsTableComponent implements OnInit {
         case 'Benum':
           return astructDB.Benum;
 
+        case 'CEnum':
+          return astructDB.CEnum_string!;
+
         case 'CName':
           return astructDB.CName;
 
@@ -130,7 +135,7 @@ export class AstructsTableComponent implements OnInit {
       mergedContent += astructDB.Aenum.toLowerCase()
       mergedContent += astructDB.Aenum_2.toLowerCase()
       mergedContent += astructDB.Benum.toLowerCase()
-      mergedContent += astructDB.CEnum.toString()
+      mergedContent += astructDB.CEnum_string!
       mergedContent += astructDB.CName.toLowerCase()
       mergedContent += astructDB.CFloatfield.toString()
       mergedContent += astructDB.Floatfield.toString()
@@ -248,18 +253,19 @@ export class AstructsTableComponent implements OnInit {
 
         this.astructs = this.frontRepo.Astructs_array;
 
-        // insertion point for variables Recoveries
+        // insertion point for time duration Recoveries
         // compute strings for durations
         for (let astruct of this.astructs) {
           astruct.Duration1_string =
             Math.floor(astruct.Duration1 / (3600 * 1000 * 1000 * 1000)) + "H " +
             Math.floor(astruct.Duration1 % (3600 * 1000 * 1000 * 1000) / (60 * 1000 * 1000 * 1000)) + "M " +
             astruct.Duration1 % (60 * 1000 * 1000 * 1000) / (1000 * 1000 * 1000) + "S"
+        }
+        // insertion point for enum int Recoveries
+        for (let astruct of this.astructs) {
+          astruct.CEnum_string = CEnumTypeIntList[astruct.CEnum].viewValue
+        }
         
-            astruct.CEnum_string = CEnumTypeIntList[astruct.CEnum].viewValue
-          }
-
-
         // in case the component is called as a selection component
         if (this.mode == TableComponentMode.ONE_MANY_ASSOCIATION_MODE) {
           for (let astruct of this.astructs) {
