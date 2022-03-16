@@ -6,11 +6,11 @@ export enum NgSidebarTsStructSubTemplate {
 }
 
 export interface NgSidebarTsStructSubTemplateSelect {
-	value: string;
+	value: number;
 	viewValue: string;
 }
 
 export const NgSidebarTsStructSubTemplateList: NgSidebarTsStructSubTemplateSelect[] = [ // insertion point	
-	{ value: 'NgSidebarTsPerStructPointerToStructFieldTemplateNode', viewValue: '0' },
-	{ value: 'NgSidebarTsPerStructSliceOfPointerToStructFieldTemplateNode', viewValue: '1' },
+	{ value: NgSidebarTsStructSubTemplate.NgSidebarTsPerStructPointerToStructFieldTemplateNode, viewValue: "NgSidebarTsPerStructPointerToStructFieldTemplateNode" },
+	{ value: NgSidebarTsStructSubTemplate.NgSidebarTsPerStructSliceOfPointerToStructFieldTemplateNode, viewValue: "NgSidebarTsPerStructSliceOfPointerToStructFieldTemplateNode" },
 ];

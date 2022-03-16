@@ -13,8 +13,8 @@ export interface NgLibMapComponentsServiceSubTemplateSelect {
 }
 
 export const NgLibMapComponentsServiceSubTemplateList: NgLibMapComponentsServiceSubTemplateSelect[] = [ // insertion point	
-	{ value: 'NgLibMapComponentsDecls', viewValue: '"NgLibMapComponentsDecls"' },
-	{ value: 'NgLibMapComponentsImports', viewValue: '"NgLibMapComponentsImports"' },
-	{ value: 'NgLibMapComponentsIndivDecls', viewValue: '"NgLibMapComponentsIndivDecls"' },
-	{ value: 'NgLibMapSortingComponentsDecls', viewValue: '"NgLibMapSortingComponentsDecls"' },
+	{ value: NgLibMapComponentsServiceSubTemplate.NgLibMapComponentsDecls, viewValue: "NgLibMapComponentsDecls" },
+	{ value: NgLibMapComponentsServiceSubTemplate.NgLibMapComponentsImports, viewValue: "NgLibMapComponentsImports" },
+	{ value: NgLibMapComponentsServiceSubTemplate.NgLibMapComponentsIndivDecls, viewValue: "NgLibMapComponentsIndivDecls" },
+	{ value: NgLibMapComponentsServiceSubTemplate.NgLibMapSortingComponentsDecls, viewValue: "NgLibMapSortingComponentsDecls" },
 ];

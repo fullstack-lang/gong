@@ -11,6 +11,6 @@ export interface NgLibModuleServiceSubTemplateSelect {
 }
 
 export const NgLibModuleServiceSubTemplateList: NgLibModuleServiceSubTemplateSelect[] = [ // insertion point	
-	{ value: 'NgLibModuleDeclarations', viewValue: '"NgLibModuleIndivDecls"' },
-	{ value: 'NgLibModuleImports', viewValue: '"NgLibModuleImports"' },
+	{ value: NgLibModuleServiceSubTemplate.NgLibModuleDeclarations, viewValue: "NgLibModuleIndivDecls" },
+	{ value: NgLibModuleServiceSubTemplate.NgLibModuleImports, viewValue: "NgLibModuleImports" },
 ];

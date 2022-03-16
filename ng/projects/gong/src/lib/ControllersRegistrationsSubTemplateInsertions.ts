@@ -5,10 +5,10 @@ export enum ControllersRegistrationsSubTemplateInsertions {
 }
 
 export interface ControllersRegistrationsSubTemplateInsertionsSelect {
-	value: string;
+	value: number;
 	viewValue: string;
 }
 
 export const ControllersRegistrationsSubTemplateInsertionsList: ControllersRegistrationsSubTemplateInsertionsSelect[] = [ // insertion point	
-	{ value: 'ControllersDeclaration', viewValue: '0' },
+	{ value: ControllersRegistrationsSubTemplateInsertions.ControllersDeclaration, viewValue: "ControllersDeclaration" },
 ];

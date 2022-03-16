@@ -60,6 +60,9 @@ type GongEnumDB struct {
 
 	// Declation for basic field gongenumDB.Name {{BasicKind}} (to be completed)
 	Name_Data sql.NullString
+
+	// Declation for basic field gongenumDB.Type {{BasicKind}} (to be completed)
+	Type_Data sql.NullInt64
 	// encoding of pointers
 	GongEnumPointersEnconding
 }
@@ -82,6 +85,8 @@ type GongEnumWOP struct {
 	// insertion for WOP basic fields
 
 	Name string `xlsx:"1"`
+
+	Type models.GongEnumType `xlsx:"2"`
 	// insertion for WOP pointer fields
 }
 
@@ -89,6 +94,7 @@ var GongEnum_Fields = []string{
 	// insertion for WOP basic fields
 	"ID",
 	"Name",
+	"Type",
 }
 
 type BackRepoGongEnumStruct struct {
@@ -418,6 +424,9 @@ func (gongenumDB *GongEnumDB) CopyBasicFieldsFromGongEnum(gongenum *models.GongE
 
 	gongenumDB.Name_Data.String = gongenum.Name
 	gongenumDB.Name_Data.Valid = true
+
+	gongenumDB.Type_Data.Int64 = int64(gongenum.Type)
+	gongenumDB.Type_Data.Valid = true
 }
 
 // CopyBasicFieldsFromGongEnumWOP
@@ -426,12 +435,16 @@ func (gongenumDB *GongEnumDB) CopyBasicFieldsFromGongEnumWOP(gongenum *GongEnumW
 
 	gongenumDB.Name_Data.String = gongenum.Name
 	gongenumDB.Name_Data.Valid = true
+
+	gongenumDB.Type_Data.Int64 = int64(gongenum.Type)
+	gongenumDB.Type_Data.Valid = true
 }
 
 // CopyBasicFieldsToGongEnum
 func (gongenumDB *GongEnumDB) CopyBasicFieldsToGongEnum(gongenum *models.GongEnum) {
 	// insertion point for checkout of basic fields (back repo to stage)
 	gongenum.Name = gongenumDB.Name_Data.String
+	gongenum.Type = models.GongEnumType(gongenumDB.Type_Data.Int64)
 }
 
 // CopyBasicFieldsToGongEnumWOP
@@ -439,6 +452,7 @@ func (gongenumDB *GongEnumDB) CopyBasicFieldsToGongEnumWOP(gongenum *GongEnumWOP
 	gongenum.ID = int(gongenumDB.ID)
 	// insertion point for checkout of basic fields (back repo to stage)
 	gongenum.Name = gongenumDB.Name_Data.String
+	gongenum.Type = models.GongEnumType(gongenumDB.Type_Data.Int64)
 }
 
 // Backup generates a json file from a slice of all GongEnumDB instances in the backrepo

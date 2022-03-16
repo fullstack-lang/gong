@@ -69,6 +69,9 @@ export class GongEnumsTableComponent implements OnInit {
         case 'Name':
           return gongenumDB.Name;
 
+        case 'Type':
+          return gongenumDB.Type;
+
         default:
           console.assert(false, "Unknown field")
           return "";
@@ -84,6 +87,7 @@ export class GongEnumsTableComponent implements OnInit {
 
       // insertion point for merging of fields
       mergedContent += gongenumDB.Name.toLowerCase()
+      mergedContent += gongenumDB.Type.toString()
 
       let isSelected = mergedContent.includes(filter.toLowerCase())
       return isSelected
@@ -135,10 +139,12 @@ export class GongEnumsTableComponent implements OnInit {
     if (this.mode == TableComponentMode.DISPLAY_MODE) {
       this.displayedColumns = ['ID', 'Edit', 'Delete', // insertion point for columns to display
         "Name",
+        "Type",
       ]
     } else {
       this.displayedColumns = ['select', 'ID', // insertion point for columns to display
         "Name",
+        "Type",
       ]
       this.selection = new SelectionModel<GongEnumDB>(allowMultiSelect, this.initialSelection);
     }

@@ -16,21 +16,21 @@ export enum NgDetailTsInsertionPoint {
 }
 
 export interface NgDetailTsInsertionPointSelect {
-	value: string;
+	value: number;
 	viewValue: string;
 }
 
 export const NgDetailTsInsertionPointList: NgDetailTsInsertionPointSelect[] = [ // insertion point	
-	{ value: 'NgDetailTsInsertionPerStructCaseInitFieldDeclarations', viewValue: '3' },
-	{ value: 'NgDetailTsInsertionPerStructCaseSetField', viewValue: '4' },
-	{ value: 'NgDetailTsInsertionPerStructDeclarations', viewValue: '2' },
-	{ value: 'NgDetailTsInsertionPerStructEnumFieldDeclarations', viewValue: '1' },
-	{ value: 'NgDetailTsInsertionPerStructImports', viewValue: '0' },
-	{ value: 'NgDetailTsInsertionPerStructInits', viewValue: '5' },
-	{ value: 'NgDetailTsInsertionPerStructRecoveries', viewValue: '7' },
-	{ value: 'NgDetailTsInsertionPerStructReversePointerSaveWhenCreateFromOwner', viewValue: '10' },
-	{ value: 'NgDetailTsInsertionPerStructReversePointerSaveWhenUpdate', viewValue: '9' },
-	{ value: 'NgDetailTsInsertionPerStructSaves', viewValue: '8' },
-	{ value: 'NgDetailTsInsertionPerStructSorting', viewValue: '6' },
-	{ value: 'NgDetailTsInsertionsNb', viewValue: '11' },
+	{ value: NgDetailTsInsertionPoint.NgDetailTsInsertionPerStructCaseInitFieldDeclarations, viewValue: "NgDetailTsInsertionPerStructCaseInitFieldDeclarations" },
+	{ value: NgDetailTsInsertionPoint.NgDetailTsInsertionPerStructCaseSetField, viewValue: "NgDetailTsInsertionPerStructCaseSetField" },
+	{ value: NgDetailTsInsertionPoint.NgDetailTsInsertionPerStructDeclarations, viewValue: "NgDetailTsInsertionPerStructDeclarations" },
+	{ value: NgDetailTsInsertionPoint.NgDetailTsInsertionPerStructEnumFieldDeclarations, viewValue: "NgDetailTsInsertionPerStructEnumFieldDeclarations" },
+	{ value: NgDetailTsInsertionPoint.NgDetailTsInsertionPerStructImports, viewValue: "NgDetailTsInsertionPerStructImports" },
+	{ value: NgDetailTsInsertionPoint.NgDetailTsInsertionPerStructInits, viewValue: "NgDetailTsInsertionPerStructInits" },
+	{ value: NgDetailTsInsertionPoint.NgDetailTsInsertionPerStructRecoveries, viewValue: "NgDetailTsInsertionPerStructRecoveries" },
+	{ value: NgDetailTsInsertionPoint.NgDetailTsInsertionPerStructReversePointerSaveWhenCreateFromOwner, viewValue: "NgDetailTsInsertionPerStructReversePointerSaveWhenCreateFromOwner" },
+	{ value: NgDetailTsInsertionPoint.NgDetailTsInsertionPerStructReversePointerSaveWhenUpdate, viewValue: "NgDetailTsInsertionPerStructReversePointerSaveWhenUpdate" },
+	{ value: NgDetailTsInsertionPoint.NgDetailTsInsertionPerStructSaves, viewValue: "NgDetailTsInsertionPerStructSaves" },
+	{ value: NgDetailTsInsertionPoint.NgDetailTsInsertionPerStructSorting, viewValue: "NgDetailTsInsertionPerStructSorting" },
+	{ value: NgDetailTsInsertionPoint.NgDetailTsInsertionsNb, viewValue: "NgDetailTsInsertionsNb" },
 ];
