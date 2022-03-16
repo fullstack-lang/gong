@@ -14,19 +14,19 @@ export enum NgDetailHtmlSubTemplate {
 }
 
 export interface NgDetailHtmlSubTemplateSelect {
-	value: string;
+	value: number;
 	viewValue: string;
 }
 
 export const NgDetailHtmlSubTemplateList: NgDetailHtmlSubTemplateSelect[] = [ // insertion point	
-	{ value: 'NgDetailHtmlBasicField', viewValue: '1' },
-	{ value: 'NgDetailHtmlBasicStringField', viewValue: '2' },
-	{ value: 'NgDetailHtmlBool', viewValue: '4' },
-	{ value: 'NgDetailHtmlEnum', viewValue: '0' },
-	{ value: 'NgDetailHtmlTimeDuration', viewValue: '5' },
-	{ value: 'NgDetailHtmlTimeField', viewValue: '3' },
-	{ value: 'NgDetailPointerToStructHtmlFormField', viewValue: '6' },
-	{ value: 'NgDetailSliceOfPointerToStructHtml', viewValue: '7' },
-	{ value: 'NgDetailSliceOfPointerToStructManyManyHtml', viewValue: '8' },
-	{ value: 'NgDetailSliceOfPointerToStructReverseHtml', viewValue: '9' },
+	{ value: NgDetailHtmlSubTemplate.NgDetailHtmlBasicField, viewValue: "NgDetailHtmlBasicField" },
+	{ value: NgDetailHtmlSubTemplate.NgDetailHtmlBasicStringField, viewValue: "NgDetailHtmlBasicStringField" },
+	{ value: NgDetailHtmlSubTemplate.NgDetailHtmlBool, viewValue: "NgDetailHtmlBool" },
+	{ value: NgDetailHtmlSubTemplate.NgDetailHtmlEnum, viewValue: "NgDetailHtmlEnum" },
+	{ value: NgDetailHtmlSubTemplate.NgDetailHtmlTimeDuration, viewValue: "NgDetailHtmlTimeDuration" },
+	{ value: NgDetailHtmlSubTemplate.NgDetailHtmlTimeField, viewValue: "NgDetailHtmlTimeField" },
+	{ value: NgDetailHtmlSubTemplate.NgDetailPointerToStructHtmlFormField, viewValue: "NgDetailPointerToStructHtmlFormField" },
+	{ value: NgDetailHtmlSubTemplate.NgDetailSliceOfPointerToStructHtml, viewValue: "NgDetailSliceOfPointerToStructHtml" },
+	{ value: NgDetailHtmlSubTemplate.NgDetailSliceOfPointerToStructManyManyHtml, viewValue: "NgDetailSliceOfPointerToStructManyManyHtml" },
+	{ value: NgDetailHtmlSubTemplate.NgDetailSliceOfPointerToStructReverseHtml, viewValue: "NgDetailSliceOfPointerToStructReverseHtml" },
 ];

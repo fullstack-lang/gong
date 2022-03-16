@@ -11,6 +11,6 @@ export interface OrmSetupCumulSubTemplateSelect {
 }
 
 export const OrmSetupCumulSubTemplateList: OrmSetupCumulSubTemplateSelect[] = [ // insertion point	
-	{ value: 'OrmSetupDelete', viewValue: '"OrmSetupDelete"' },
-	{ value: 'OrmSetupRefToStructDB', viewValue: '"OrmSetupRefToStructDB"' },
+	{ value: OrmSetupCumulSubTemplate.OrmSetupDelete, viewValue: "OrmSetupDelete" },
+	{ value: OrmSetupCumulSubTemplate.OrmSetupRefToStructDB, viewValue: "OrmSetupRefToStructDB" },
 ];

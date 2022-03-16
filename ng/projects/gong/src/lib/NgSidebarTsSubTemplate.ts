@@ -8,13 +8,13 @@ export enum NgSidebarTsSubTemplate {
 }
 
 export interface NgSidebarTsSubTemplateSelect {
-	value: string;
+	value: number;
 	viewValue: string;
 }
 
 export const NgSidebarTsSubTemplateList: NgSidebarTsSubTemplateSelect[] = [ // insertion point	
-	{ value: 'NgSidebarTsPerStructNode', viewValue: '0' },
-	{ value: 'NgSidebarTsPerStructNodeImports', viewValue: '1' },
-	{ value: 'NgSidebarTsPerStructNodeObservableForRefresh', viewValue: '3' },
-	{ value: 'NgSidebarTsPerStructNodeServiceDeclaration', viewValue: '2' },
+	{ value: NgSidebarTsSubTemplate.NgSidebarTsPerStructNode, viewValue: "NgSidebarTsPerStructNode" },
+	{ value: NgSidebarTsSubTemplate.NgSidebarTsPerStructNodeImports, viewValue: "NgSidebarTsPerStructNodeImports" },
+	{ value: NgSidebarTsSubTemplate.NgSidebarTsPerStructNodeObservableForRefresh, viewValue: "NgSidebarTsPerStructNodeObservableForRefresh" },
+	{ value: NgSidebarTsSubTemplate.NgSidebarTsPerStructNodeServiceDeclaration, viewValue: "NgSidebarTsPerStructNodeServiceDeclaration" },
 ];

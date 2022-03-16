@@ -6,11 +6,11 @@ export enum NgSidebarTsSubInsertionPoint {
 }
 
 export interface NgSidebarTsSubInsertionPointSelect {
-	value: string;
+	value: number;
 	viewValue: string;
 }
 
 export const NgSidebarTsSubInsertionPointList: NgSidebarTsSubInsertionPointSelect[] = [ // insertion point	
-	{ value: 'NgSidebarTsSubInsertionPerField', viewValue: '0' },
-	{ value: 'NgSidebarTsSubInsertionsNb', viewValue: '1' },
+	{ value: NgSidebarTsSubInsertionPoint.NgSidebarTsSubInsertionPerField, viewValue: "NgSidebarTsSubInsertionPerField" },
+	{ value: NgSidebarTsSubInsertionPoint.NgSidebarTsSubInsertionsNb, viewValue: "NgSidebarTsSubInsertionsNb" },
 ];

@@ -6,11 +6,11 @@ export enum NgPublicApiSubTemplate {
 }
 
 export interface NgPublicApiSubTemplateSelect {
-	value: string;
+	value: number;
 	viewValue: string;
 }
 
 export const NgPublicApiSubTemplateList: NgPublicApiSubTemplateSelect[] = [ // insertion point	
-	{ value: 'NgPublicApiDEnumsExportDeclaration', viewValue: '1' },
-	{ value: 'NgPublicApiStructComponentsExportDeclaration', viewValue: '0' },
+	{ value: NgPublicApiSubTemplate.NgPublicApiDEnumsExportDeclaration, viewValue: "NgPublicApiDEnumsExportDeclaration" },
+	{ value: NgPublicApiSubTemplate.NgPublicApiStructComponentsExportDeclaration, viewValue: "NgPublicApiStructComponentsExportDeclaration" },
 ];

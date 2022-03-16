@@ -10,6 +10,7 @@ import { MapOfComponents } from '../map-components'
 import { MapOfSortingComponents } from '../map-components'
 
 // insertion point for imports
+import { GongEnumTypeSelect, GongEnumTypeList } from '../GongEnumType'
 
 import { Router, RouterState, ActivatedRoute } from '@angular/router';
 
@@ -33,6 +34,7 @@ enum GongEnumDetailComponentState {
 export class GongEnumDetailComponent implements OnInit {
 
 	// insertion point for declarations
+	GongEnumTypeList: GongEnumTypeSelect[] = []
 
 	// the GongEnumDB of interest
 	gongenum: GongEnumDB = new GongEnumDB
@@ -99,6 +101,7 @@ export class GongEnumDetailComponent implements OnInit {
 		)
 
 		// insertion point for initialisation of enums list
+		this.GongEnumTypeList = GongEnumTypeList
 	}
 
 	getGongEnum(): void {

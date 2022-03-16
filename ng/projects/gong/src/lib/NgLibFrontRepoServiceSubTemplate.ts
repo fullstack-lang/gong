@@ -20,15 +20,15 @@ export interface NgLibFrontRepoServiceSubTemplateSelect {
 }
 
 export const NgLibFrontRepoServiceSubTemplateList: NgLibFrontRepoServiceSubTemplateSelect[] = [ // insertion point	
-	{ value: 'NgLibFrontRepoArraysDecls', viewValue: '"ArraysDecls"' },
-	{ value: 'NgLibFrontRepoInitMapInstances', viewValue: '"InitMapInstances"' },
-	{ value: 'NgLibFrontRepoMapDecl', viewValue: '"MapDecl"' },
-	{ value: 'NgLibFrontRepoObservableArrayType', viewValue: '"ObservableArrayType"' },
-	{ value: 'NgLibFrontRepoObservableRefs', viewValue: '"ObservableRefs"' },
-	{ value: 'NgLibFrontRepoPerStructGetUniqueID', viewValue: '"PerStructGetUniqueID"' },
-	{ value: 'NgLibFrontRepoPerStructPull', viewValue: '"PerStructPull"' },
-	{ value: 'NgLibFrontRepoRedeemPointers', viewValue: '"RedeemPointers"' },
-	{ value: 'NgLibFrontRepoServiceDecl', viewValue: '"ServiceDecl"' },
-	{ value: 'NgLibFrontRepoServiceImports', viewValue: '"ServiceImports"' },
-	{ value: 'NgLibFrontRepoTypeCasting', viewValue: '"TypeCasting"' },
+	{ value: NgLibFrontRepoServiceSubTemplate.NgLibFrontRepoArraysDecls, viewValue: "ArraysDecls" },
+	{ value: NgLibFrontRepoServiceSubTemplate.NgLibFrontRepoInitMapInstances, viewValue: "InitMapInstances" },
+	{ value: NgLibFrontRepoServiceSubTemplate.NgLibFrontRepoMapDecl, viewValue: "MapDecl" },
+	{ value: NgLibFrontRepoServiceSubTemplate.NgLibFrontRepoObservableArrayType, viewValue: "ObservableArrayType" },
+	{ value: NgLibFrontRepoServiceSubTemplate.NgLibFrontRepoObservableRefs, viewValue: "ObservableRefs" },
+	{ value: NgLibFrontRepoServiceSubTemplate.NgLibFrontRepoPerStructGetUniqueID, viewValue: "PerStructGetUniqueID" },
+	{ value: NgLibFrontRepoServiceSubTemplate.NgLibFrontRepoPerStructPull, viewValue: "PerStructPull" },
+	{ value: NgLibFrontRepoServiceSubTemplate.NgLibFrontRepoRedeemPointers, viewValue: "RedeemPointers" },
+	{ value: NgLibFrontRepoServiceSubTemplate.NgLibFrontRepoServiceDecl, viewValue: "ServiceDecl" },
+	{ value: NgLibFrontRepoServiceSubTemplate.NgLibFrontRepoServiceImports, viewValue: "ServiceImports" },
+	{ value: NgLibFrontRepoServiceSubTemplate.NgLibFrontRepoTypeCasting, viewValue: "TypeCasting" },
 ];

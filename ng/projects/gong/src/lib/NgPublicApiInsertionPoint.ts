@@ -7,12 +7,12 @@ export enum NgPublicApiInsertionPoint {
 }
 
 export interface NgPublicApiInsertionPointSelect {
-	value: string;
+	value: number;
 	viewValue: string;
 }
 
 export const NgPublicApiInsertionPointList: NgPublicApiInsertionPointSelect[] = [ // insertion point	
-	{ value: 'NgPublicApiInsertionEnumsExportDeclaration', viewValue: '1' },
-	{ value: 'NgPublicApiInsertionStructComponentsExportDeclaration', viewValue: '0' },
-	{ value: 'NgPublicApiNbInsertionPoints', viewValue: '2' },
+	{ value: NgPublicApiInsertionPoint.NgPublicApiInsertionEnumsExportDeclaration, viewValue: "NgPublicApiInsertionEnumsExportDeclaration" },
+	{ value: NgPublicApiInsertionPoint.NgPublicApiInsertionStructComponentsExportDeclaration, viewValue: "NgPublicApiInsertionStructComponentsExportDeclaration" },
+	{ value: NgPublicApiInsertionPoint.NgPublicApiNbInsertionPoints, viewValue: "NgPublicApiNbInsertionPoints" },
 ];

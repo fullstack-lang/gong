@@ -9,14 +9,14 @@ export enum NgTableTsInsertionPoint {
 }
 
 export interface NgTableTsInsertionPointSelect {
-	value: string;
+	value: number;
 	viewValue: string;
 }
 
 export const NgTableTsInsertionPointList: NgTableTsInsertionPointSelect[] = [ // insertion point	
-	{ value: 'NgTableTsInsertionPerStructColumns', viewValue: '1' },
-	{ value: 'NgTableTsInsertionPerStructColumnsFiltering', viewValue: '3' },
-	{ value: 'NgTableTsInsertionPerStructColumnsSorting', viewValue: '2' },
-	{ value: 'NgTableTsInsertionPerStructRecoveries', viewValue: '0' },
-	{ value: 'NgTableTsInsertionsNb', viewValue: '4' },
+	{ value: NgTableTsInsertionPoint.NgTableTsInsertionPerStructColumns, viewValue: "NgTableTsInsertionPerStructColumns" },
+	{ value: NgTableTsInsertionPoint.NgTableTsInsertionPerStructColumnsFiltering, viewValue: "NgTableTsInsertionPerStructColumnsFiltering" },
+	{ value: NgTableTsInsertionPoint.NgTableTsInsertionPerStructColumnsSorting, viewValue: "NgTableTsInsertionPerStructColumnsSorting" },
+	{ value: NgTableTsInsertionPoint.NgTableTsInsertionPerStructRecoveries, viewValue: "NgTableTsInsertionPerStructRecoveries" },
+	{ value: NgTableTsInsertionPoint.NgTableTsInsertionsNb, viewValue: "NgTableTsInsertionsNb" },
 ];

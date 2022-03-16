@@ -10,15 +10,15 @@ export enum NgServiceSubTemplate {
 }
 
 export interface NgServiceSubTemplateSelect {
-	value: string;
+	value: number;
 	viewValue: string;
 }
 
 export const NgServiceSubTemplateList: NgServiceSubTemplateSelect[] = [ // insertion point	
-	{ value: 'NgServiceTSPointerToGongStructImports', viewValue: '0' },
-	{ value: 'NgServiceTSPointerToGongStructReset', viewValue: '1' },
-	{ value: 'NgServiceTSReversePointerToSliceOfGongStructImports', viewValue: '5' },
-	{ value: 'NgServiceTSSliceOfPointerToGongStructReset', viewValue: '2' },
-	{ value: 'NgServiceTSSliceOfPointerToGongStructReversePointerReset', viewValue: '3' },
-	{ value: 'NgServiceTSSliceOfPointerToGongStructReversePointerRestore', viewValue: '4' },
+	{ value: NgServiceSubTemplate.NgServiceTSPointerToGongStructImports, viewValue: "NgServiceTSPointerToGongStructImports" },
+	{ value: NgServiceSubTemplate.NgServiceTSPointerToGongStructReset, viewValue: "NgServiceTSPointerToGongStructReset" },
+	{ value: NgServiceSubTemplate.NgServiceTSReversePointerToSliceOfGongStructImports, viewValue: "NgServiceTSReversePointerToSliceOfGongStructImports" },
+	{ value: NgServiceSubTemplate.NgServiceTSSliceOfPointerToGongStructReset, viewValue: "NgServiceTSSliceOfPointerToGongStructReset" },
+	{ value: NgServiceSubTemplate.NgServiceTSSliceOfPointerToGongStructReversePointerReset, viewValue: "NgServiceTSSliceOfPointerToGongStructReversePointerReset" },
+	{ value: NgServiceSubTemplate.NgServiceTSSliceOfPointerToGongStructReversePointerRestore, viewValue: "NgServiceTSSliceOfPointerToGongStructReversePointerRestore" },
 ];

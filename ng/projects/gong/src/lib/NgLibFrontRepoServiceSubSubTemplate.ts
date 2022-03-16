@@ -11,6 +11,6 @@ export interface NgLibFrontRepoServiceSubSubTemplateSelect {
 }
 
 export const NgLibFrontRepoServiceSubSubTemplateList: NgLibFrontRepoServiceSubSubTemplateSelect[] = [ // insertion point	
-	{ value: 'NgFrontRepoPtrToStructRedeeming', viewValue: '"NgFrontRepoPtrToStructRedeeming"' },
-	{ value: 'NgFrontRepoSliceOfPointerRedeeming', viewValue: '"NgFrontRepoSliceOfPointerRedeeming"' },
+	{ value: NgLibFrontRepoServiceSubSubTemplate.NgFrontRepoPtrToStructRedeeming, viewValue: "NgFrontRepoPtrToStructRedeeming" },
+	{ value: NgLibFrontRepoServiceSubSubTemplate.NgFrontRepoSliceOfPointerRedeeming, viewValue: "NgFrontRepoSliceOfPointerRedeeming" },
 ];

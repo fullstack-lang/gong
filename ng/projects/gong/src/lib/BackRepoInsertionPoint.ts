@@ -16,21 +16,21 @@ export enum BackRepoInsertionPoint {
 }
 
 export interface BackRepoInsertionPointSelect {
-	value: string;
+	value: number;
 	viewValue: string;
 }
 
 export const BackRepoInsertionPointList: BackRepoInsertionPointSelect[] = [ // insertion point	
-	{ value: 'BackRepoBasicAndTimeFieldsName', viewValue: '1' },
-	{ value: 'BackRepoBasicAndTimeFieldsWOPDeclaration', viewValue: '3' },
-	{ value: 'BackRepoBasicFieldsCheckout', viewValue: '8' },
-	{ value: 'BackRepoBasicFieldsCommit', viewValue: '6' },
-	{ value: 'BackRepoBasicFieldsDeclaration', viewValue: '0' },
-	{ value: 'BackRepoNbInsertionPoints', viewValue: '11' },
-	{ value: 'BackRepoPointerEncodingFieldsCheckout', viewValue: '9' },
-	{ value: 'BackRepoPointerEncodingFieldsCommit', viewValue: '7' },
-	{ value: 'BackRepoPointerEncodingFieldsDeclaration', viewValue: '4' },
-	{ value: 'BackRepoPointerEncodingFieldsReindexing', viewValue: '10' },
-	{ value: 'BackRepoPointerEncodingFieldsWOPDeclaration', viewValue: '5' },
-	{ value: 'BackRepoWOPInitialIndex', viewValue: '2' },
+	{ value: BackRepoInsertionPoint.BackRepoBasicAndTimeFieldsName, viewValue: "BackRepoBasicAndTimeFieldsName" },
+	{ value: BackRepoInsertionPoint.BackRepoBasicAndTimeFieldsWOPDeclaration, viewValue: "BackRepoBasicAndTimeFieldsWOPDeclaration" },
+	{ value: BackRepoInsertionPoint.BackRepoBasicFieldsCheckout, viewValue: "BackRepoBasicFieldsCheckout" },
+	{ value: BackRepoInsertionPoint.BackRepoBasicFieldsCommit, viewValue: "BackRepoBasicFieldsCommit" },
+	{ value: BackRepoInsertionPoint.BackRepoBasicFieldsDeclaration, viewValue: "BackRepoBasicFieldsDeclaration" },
+	{ value: BackRepoInsertionPoint.BackRepoNbInsertionPoints, viewValue: "BackRepoNbInsertionPoints" },
+	{ value: BackRepoInsertionPoint.BackRepoPointerEncodingFieldsCheckout, viewValue: "BackRepoPointerEncodingFieldsCheckout" },
+	{ value: BackRepoInsertionPoint.BackRepoPointerEncodingFieldsCommit, viewValue: "BackRepoPointerEncodingFieldsCommit" },
+	{ value: BackRepoInsertionPoint.BackRepoPointerEncodingFieldsDeclaration, viewValue: "BackRepoPointerEncodingFieldsDeclaration" },
+	{ value: BackRepoInsertionPoint.BackRepoPointerEncodingFieldsReindexing, viewValue: "BackRepoPointerEncodingFieldsReindexing" },
+	{ value: BackRepoInsertionPoint.BackRepoPointerEncodingFieldsWOPDeclaration, viewValue: "BackRepoPointerEncodingFieldsWOPDeclaration" },
+	{ value: BackRepoInsertionPoint.BackRepoWOPInitialIndex, viewValue: "BackRepoWOPInitialIndex" },
 ];

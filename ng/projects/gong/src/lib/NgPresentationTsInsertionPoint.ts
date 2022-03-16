@@ -7,12 +7,12 @@ export enum NgPresentationTsInsertionPoint {
 }
 
 export interface NgPresentationTsInsertionPointSelect {
-	value: string;
+	value: number;
 	viewValue: string;
 }
 
 export const NgPresentationTsInsertionPointList: NgPresentationTsInsertionPointSelect[] = [ // insertion point	
-	{ value: 'NgPresentationTsInsertionPerStructDeclarations', viewValue: '0' },
-	{ value: 'NgPresentationTsInsertionPerStructRecoveries', viewValue: '1' },
-	{ value: 'NgPresentationTsInsertionsNb', viewValue: '2' },
+	{ value: NgPresentationTsInsertionPoint.NgPresentationTsInsertionPerStructDeclarations, viewValue: "NgPresentationTsInsertionPerStructDeclarations" },
+	{ value: NgPresentationTsInsertionPoint.NgPresentationTsInsertionPerStructRecoveries, viewValue: "NgPresentationTsInsertionPerStructRecoveries" },
+	{ value: NgPresentationTsInsertionPoint.NgPresentationTsInsertionsNb, viewValue: "NgPresentationTsInsertionsNb" },
 ];
