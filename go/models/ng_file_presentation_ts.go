@@ -253,15 +253,22 @@ func MultiCodeGeneratorNgPresentation(
 
 				// bais field (enum)
 				if field.GongEnum != nil {
-					subCodesHTML += Replace2(NgPresentationEnumHtmlSubTemplateCode[string(NgPresentationHtmlEnum)],
-						"{{FieldName}}", field.Name,
-						"{{EnumName}}", field.GongEnum.Name)
+					if field.GongEnum.Type == String {
+						subCodesHTML += Replace2(NgPresentationEnumHtmlSubTemplateCode[NgPresentationHtmlEnumString],
+							"{{FieldName}}", field.Name,
+							"{{EnumName}}", field.GongEnum.Name)
+					}
+					if field.GongEnum.Type == Int {
+						subCodesHTML += Replace2(NgPresentationEnumHtmlSubTemplateCode[NgPresentationHtmlEnumInt],
+							"{{FieldName}}", field.Name,
+							"{{EnumName}}", field.GongEnum.Name)
+					}
 
 				} else // basic field (not enum)
 				{
 					if field.basicKind == types.Bool {
 						subCodesHTML += Replace1(
-							NgPresentationBoolHtmlSubTemplateCode[string(NgPresentationHtmlBool)],
+							NgPresentationEnumHtmlSubTemplateCode[NgPresentationHtmlBool],
 							"{{FieldName}}", field.Name)
 					} else {
 
@@ -276,12 +283,12 @@ func MultiCodeGeneratorNgPresentation(
 								TypeInput = "name=\"\" [ngModelOptions]=\"{standalone: true}\" 	"
 							}
 							subCodesHTML += Replace2(
-								NgPresentationBasicFieldHtmlSubTemplateCode[string(NgPresentationHtmlBasicField)],
+								NgPresentationEnumHtmlSubTemplateCode[NgPresentationHtmlBasicField],
 								"{{FieldName}}", field.Name,
 								"{{TypeInput}}", TypeInput)
 						} else {
 							subCodesHTML += Replace1(
-								NgPresentationBasicFieldTimeDurationHtmlSubTemplateCode[string(NgPresentationHtmlBasicFieldTimeDuration)],
+								NgPresentationEnumHtmlSubTemplateCode[NgPresentationHtmlBasicFieldTimeDuration],
 								"{{FieldName}}", field.Name)
 						}
 
@@ -291,13 +298,13 @@ func MultiCodeGeneratorNgPresentation(
 			case *GongTimeField:
 
 				subCodesHTML +=
-					Replace1(NgPresentationTimeFieldHtmlSubTemplateCode[string(NgPresentationHtmlTimeField)],
+					Replace1(NgPresentationEnumHtmlSubTemplateCode[NgPresentationHtmlTimeField],
 						"{{FieldName}}", field.Name)
 
 			case *PointerToGongStructField:
 
 				subCodesHTML += Replace3(
-					NgPresentationPointerToStructHtmlSubTemplateCode[string(NgPresentationPointerToStructHtmlFormField)],
+					NgPresentationEnumHtmlSubTemplateCode[NgPresentationPointerToStructHtmlFormField],
 					"{{FieldName}}", field.Name,
 					"{{AssocStructName}}", field.GongStruct.Name,
 					"{{assocStructName}}", strings.ToLower(field.GongStruct.Name))
