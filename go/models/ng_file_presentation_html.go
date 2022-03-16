@@ -9,7 +9,7 @@ const NgPresentationTemplateHTML = `
         <th class="mat-header-cell">Name</th>
         <th class="mat-header-cell">Value</th>
     </tr>
-    <!-- insertion point for fields specific code -->{{` + string(NgPresentationHtmlField) + `}}
+    <!-- insertion point for fields specific code -->{{` + string(rune(NgPresentationHtmlField)) + `}}
 </table>
 <!-- hack to force loading of mat table style an error is generated but it is a know angular issue https://github.com/angular/components/issues/10941 -->
 <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
