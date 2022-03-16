@@ -548,6 +548,10 @@ func MultiCodeGeneratorNgTable(
 							TsInsertions[NgTableTsInsertionPerStructColumnsFiltering] += Replace1(NgTablelSubTemplateCode[NgTableTSNumberFieldFiltering],
 								"{{FieldName}}", field.Name)
 						} else {
+							HtmlInsertions[NgTableHtmlInsertionColumn] += Replace2(NgTableHTMLSubTemplateCode[NgTableHTMLEnumIntField],
+								"{{FieldName}}", field.Name,
+								"{{TypeInput}}", TypeInput)
+
 							TsInsertions[NgTableTsInsertionPerStructEnumIntRecoveries] += Replace2(
 								NgTablelSubTemplateCode[NgTableTSPerStructEnumIntRecoveries],
 								"{{EnumName}}", field.GongEnum.Name,
