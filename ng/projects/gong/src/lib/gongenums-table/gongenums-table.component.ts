@@ -17,6 +17,9 @@ import { Router, RouterState } from '@angular/router';
 import { GongEnumDB } from '../gongenum-db'
 import { GongEnumService } from '../gongenum.service'
 
+// insertion point for additional imports
+import { GongEnumTypeList } from '../GongEnumType'
+
 // TableComponent is initilizaed from different routes
 // TableComponentMode detail different cases 
 enum TableComponentMode {
@@ -70,7 +73,7 @@ export class GongEnumsTableComponent implements OnInit {
           return gongenumDB.Name;
 
         case 'Type':
-          return gongenumDB.Type;
+          return gongenumDB.Type_string!;
 
         default:
           console.assert(false, "Unknown field")
@@ -87,7 +90,7 @@ export class GongEnumsTableComponent implements OnInit {
 
       // insertion point for merging of fields
       mergedContent += gongenumDB.Name.toLowerCase()
-      mergedContent += gongenumDB.Type.toString()
+      mergedContent += gongenumDB.Type_string!
 
       let isSelected = mergedContent.includes(filter.toLowerCase())
       return isSelected
@@ -163,8 +166,12 @@ export class GongEnumsTableComponent implements OnInit {
 
         this.gongenums = this.frontRepo.GongEnums_array;
 
-        // insertion point for variables Recoveries
-
+        // insertion point for time duration Recoveries
+        // insertion point for enum int Recoveries
+        for (let gongenum of this.gongenums) {
+          gongenum.Type_string = GongEnumTypeList[gongenum.Type].viewValue
+        }
+        
         // in case the component is called as a selection component
         if (this.mode == TableComponentMode.ONE_MANY_ASSOCIATION_MODE) {
           for (let gongenum of this.gongenums) {

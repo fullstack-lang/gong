@@ -2,12 +2,13 @@
 export enum NgTableHTMLSubTemplate {
 	// insertion point	
 	NgTableHTMLBasicField = 0,
-	NgTableHTMLBasicFieldTimeDuration = 3,
-	NgTableHTMLBasicFloat64Field = 2,
-	NgTableHTMLBool = 4,
-	NgTableHTMLTimeField = 1,
-	NgTablePointerToSliceOfGongStructHTMLFormField = 6,
-	NgTablePointerToStructHTMLFormField = 5,
+	NgTableHTMLBasicFieldTimeDuration = 4,
+	NgTableHTMLBasicFloat64Field = 3,
+	NgTableHTMLBool = 5,
+	NgTableHTMLEnumIntField = 1,
+	NgTableHTMLTimeField = 2,
+	NgTablePointerToSliceOfGongStructHTMLFormField = 7,
+	NgTablePointerToStructHTMLFormField = 6,
 }
 
 export interface NgTableHTMLSubTemplateSelect {
@@ -20,6 +21,7 @@ export const NgTableHTMLSubTemplateList: NgTableHTMLSubTemplateSelect[] = [ // i
 	{ value: NgTableHTMLSubTemplate.NgTableHTMLBasicFieldTimeDuration, viewValue: "NgTableHTMLBasicFieldTimeDuration" },
 	{ value: NgTableHTMLSubTemplate.NgTableHTMLBasicFloat64Field, viewValue: "NgTableHTMLBasicFloat64Field" },
 	{ value: NgTableHTMLSubTemplate.NgTableHTMLBool, viewValue: "NgTableHTMLBool" },
+	{ value: NgTableHTMLSubTemplate.NgTableHTMLEnumIntField, viewValue: "NgTableHTMLEnumIntField" },
 	{ value: NgTableHTMLSubTemplate.NgTableHTMLTimeField, viewValue: "NgTableHTMLTimeField" },
 	{ value: NgTableHTMLSubTemplate.NgTablePointerToSliceOfGongStructHTMLFormField, viewValue: "NgTablePointerToSliceOfGongStructHTMLFormField" },
 	{ value: NgTableHTMLSubTemplate.NgTablePointerToStructHTMLFormField, viewValue: "NgTablePointerToStructHTMLFormField" },

@@ -1,11 +1,13 @@
 // generated from ng_file_enum.ts.go
 export enum NgTableTsInsertionPoint {
 	// insertion point	
-	NgTableTsInsertionPerStructColumns = 1,
-	NgTableTsInsertionPerStructColumnsFiltering = 3,
-	NgTableTsInsertionPerStructColumnsSorting = 2,
-	NgTableTsInsertionPerStructRecoveries = 0,
-	NgTableTsInsertionsNb = 4,
+	NgTableTsInsertionPerStructColumns = 3,
+	NgTableTsInsertionPerStructColumnsFiltering = 5,
+	NgTableTsInsertionPerStructColumnsSorting = 4,
+	NgTableTsInsertionPerStructEnumIntRecoveries = 2,
+	NgTableTsInsertionPerStructImports = 0,
+	NgTableTsInsertionPerStructTimeDurationRecoveries = 1,
+	NgTableTsInsertionsNb = 6,
 }
 
 export interface NgTableTsInsertionPointSelect {
@@ -17,6 +19,8 @@ export const NgTableTsInsertionPointList: NgTableTsInsertionPointSelect[] = [ //
 	{ value: NgTableTsInsertionPoint.NgTableTsInsertionPerStructColumns, viewValue: "NgTableTsInsertionPerStructColumns" },
 	{ value: NgTableTsInsertionPoint.NgTableTsInsertionPerStructColumnsFiltering, viewValue: "NgTableTsInsertionPerStructColumnsFiltering" },
 	{ value: NgTableTsInsertionPoint.NgTableTsInsertionPerStructColumnsSorting, viewValue: "NgTableTsInsertionPerStructColumnsSorting" },
-	{ value: NgTableTsInsertionPoint.NgTableTsInsertionPerStructRecoveries, viewValue: "NgTableTsInsertionPerStructRecoveries" },
+	{ value: NgTableTsInsertionPoint.NgTableTsInsertionPerStructEnumIntRecoveries, viewValue: "NgTableTsInsertionPerStructEnumIntRecoveries" },
+	{ value: NgTableTsInsertionPoint.NgTableTsInsertionPerStructImports, viewValue: "NgTableTsInsertionPerStructImports" },
+	{ value: NgTableTsInsertionPoint.NgTableTsInsertionPerStructTimeDurationRecoveries, viewValue: "NgTableTsInsertionPerStructTimeDurationRecoveries" },
 	{ value: NgTableTsInsertionPoint.NgTableTsInsertionsNb, viewValue: "NgTableTsInsertionsNb" },
 ];
