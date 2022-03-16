@@ -312,7 +312,7 @@ func MultiCodeGeneratorNgPresentation(
 		}
 
 		{
-			toReplace := "{{" + string(NgPresentationHtmlField) + "}}"
+			toReplace := "{{" + string(rune(NgPresentationHtmlField)) + "}}"
 			codeHTML = strings.ReplaceAll(codeHTML, toReplace, subCodesHTML)
 		}
 
