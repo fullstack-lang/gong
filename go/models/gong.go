@@ -3277,8 +3277,6 @@ func (ngtabletsinsertionpoint NgTableTsInsertionPoint) ToInt() (res int) {
 		res = 3
 	case NgTableTsInsertionPerStructColumnsSorting:
 		res = 2
-	case NgTableTsInsertionPerStructRecoveries:
-		res = 0
 	case NgTableTsInsertionsNb:
 		res = 4
 	}
@@ -3295,8 +3293,6 @@ func (ngtabletsinsertionpoint *NgTableTsInsertionPoint) FromInt(input int) {
 		*ngtabletsinsertionpoint = NgTableTsInsertionPerStructColumnsFiltering
 	case 2:
 		*ngtabletsinsertionpoint = NgTableTsInsertionPerStructColumnsSorting
-	case 0:
-		*ngtabletsinsertionpoint = NgTableTsInsertionPerStructRecoveries
 	case 4:
 		*ngtabletsinsertionpoint = NgTableTsInsertionsNb
 	}
