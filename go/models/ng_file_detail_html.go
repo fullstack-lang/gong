@@ -81,9 +81,10 @@ var NgDetailHtmlSubTemplateCode map[NgDetailHtmlSubTemplate]string = map[NgDetai
 	NgDetailHtmlTimeField: `
     <!-- -->
     <mat-form-field>
-        <input matInput [ngModelOptions]="{standalone: true}" [ngxMatDatetimePicker]="picker" [(ngModel)]="{{structname}}.{{FieldName}}">
-        <mat-datepicker-toggle matSuffix [for]="$any(picker)"></mat-datepicker-toggle>
-        <ngx-mat-datetime-picker [showSeconds]="true" #picker></ngx-mat-datetime-picker>
+        <mat-label>{{FieldName}}</mat-label>
+        <input matInput [ngModelOptions]="{standalone: true}" [ngxMatDatetimePicker]="picker{{FieldName}}" [(ngModel)]="{{structname}}.{{FieldName}}">
+        <mat-datepicker-toggle matSuffix [for]="$any(picker{{FieldName}})"></mat-datepicker-toggle>
+        <ngx-mat-datetime-picker [showSeconds]="true" #picker{{FieldName}}></ngx-mat-datetime-picker>
     </mat-form-field>
 `,
 
