@@ -23,9 +23,10 @@
 
     <!-- -->
     <mat-form-field>
-        <input matInput [ngModelOptions]="{standalone: true}" [ngxMatDatetimePicker]="picker" [(ngModel)]="astruct.Date">
-        <mat-datepicker-toggle matSuffix [for]="$any(picker)"></mat-datepicker-toggle>
-        <ngx-mat-datetime-picker [showSeconds]="true" #picker></ngx-mat-datetime-picker>
+        <mat-label>Date</mat-label>
+        <input matInput [ngModelOptions]="{standalone: true}" [ngxMatDatetimePicker]="pickerDate" [(ngModel)]="astruct.Date">
+        <mat-datepicker-toggle matSuffix [for]="$any(pickerDate)"></mat-datepicker-toggle>
+        <ngx-mat-datetime-picker [showSeconds]="true" #pickerDate></ngx-mat-datetime-picker>
     </mat-form-field>
 
     <!-- -->
