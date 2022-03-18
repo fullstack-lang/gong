@@ -309,7 +309,7 @@ func main() {
 				{
 					start := time.Now()
 					cmd := exec.Command("npm", "install", "--save",
-						"angular-split", "material-design-icons", "typeface-open-sans", "typeface-roboto", "@angular-material-components/datetime-picker@6.0.3")
+						"angular-split@13.2.0", "material-design-icons", "typeface-open-sans", "typeface-roboto", "@angular-material-components/datetime-picker@7")
 					cmd.Dir = gong_models.NgWorkspacePath
 					log.Printf("Installing some packages\n")
 
