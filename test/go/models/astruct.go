@@ -33,6 +33,9 @@ type Astruct struct {
 
 	Anotherbooleanfield bool
 
+	// gong:ignore
+	Afieldtoignore bool
+
 	Duration1 time.Duration
 
 	// ONE-ZERO/ONE association is a supported type of gong
