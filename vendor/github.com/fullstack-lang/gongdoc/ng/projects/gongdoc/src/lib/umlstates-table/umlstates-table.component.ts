@@ -17,6 +17,8 @@ import { Router, RouterState } from '@angular/router';
 import { UmlStateDB } from '../umlstate-db'
 import { UmlStateService } from '../umlstate.service'
 
+// insertion point for additional imports
+
 // TableComponent is initilizaed from different routes
 // TableComponentMode detail different cases 
 enum TableComponentMode {
@@ -178,8 +180,9 @@ export class UmlStatesTableComponent implements OnInit {
 
         this.umlstates = this.frontRepo.UmlStates_array;
 
-        // insertion point for variables Recoveries
-
+        // insertion point for time duration Recoveries
+        // insertion point for enum int Recoveries
+        
         // in case the component is called as a selection component
         if (this.mode == TableComponentMode.ONE_MANY_ASSOCIATION_MODE) {
           for (let umlstate of this.umlstates) {

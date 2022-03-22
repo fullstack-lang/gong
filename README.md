@@ -64,7 +64,7 @@ the developement of the system of interest, therefore the need for fast iteratio
 
 go version equal or above 1.16 is mandatory (cf. use of `embed` package). See https://golang.org for installation.
 
-Gong uses sqlite3 in a cgo free configuration.
+Gong uses sqlite3 in a cgo free configuration by default.
 
 ### 1.4.2. go-swagger (optional)
 
@@ -72,11 +72,11 @@ Gong uses sqlite3 in a cgo free configuration.
 
 ### 1.4.3. npm
 
-Gong uses npm version >= 6.14 (see https://nodejs.org)
+Gong uses npm version >= 8 (see https://nodejs.org)
 
 ### 1.4.4. Angular
 
-Gong uses angular version >= 11 && <= 12 (see https://angular.io for installation)
+Gong uses angular version 13 (see https://angular.io for installation)
 
 ### 1.4.5. Vscode (optional)
 

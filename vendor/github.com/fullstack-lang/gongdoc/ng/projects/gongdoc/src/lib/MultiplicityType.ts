@@ -12,7 +12,7 @@ export interface MultiplicityTypeSelect {
 }
 
 export const MultiplicityTypeList: MultiplicityTypeSelect[] = [ // insertion point	
-	{ value: 'MANY', viewValue: '"*"' },
-	{ value: 'ONE', viewValue: '"1"' },
-	{ value: 'ZERO_ONE', viewValue: '"0..1"' },
+	{ value: MultiplicityType.MANY, viewValue: "*" },
+	{ value: MultiplicityType.ONE, viewValue: "1" },
+	{ value: MultiplicityType.ZERO_ONE, viewValue: "0..1" },
 ];

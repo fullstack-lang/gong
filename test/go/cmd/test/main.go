@@ -149,23 +149,22 @@ func main() {
 	}
 	dbDB.SetMaxOpenConns(1)
 
-	// load package to analyse
-	modelPkg := &gong_models.ModelPkg{}
 	if *diagrams {
+		// load package to analyse
+		modelPkg := &gong_models.ModelPkg{}
+
 		gong_models.Walk("../../models", modelPkg)
 		modelPkg.SerializeToStage()
-	}
 
-	// create the diagrams
-	// prepare the model views
-	pkgelt := new(gongdoc_models.Pkgelt)
+		// create the diagrams
+		// prepare the model views
+		pkgelt := new(gongdoc_models.Pkgelt)
 
-	// classdiagram can only be fully in memory when they are Unmarshalled
-	// for instance, the Name of diagrams or the Name of the Link
-	if *diagrams {
-		pkgelt.Unmarshall("../../diagrams")
+		// classdiagram can only be fully in memory when they are Unmarshalled
+		// for instance, the Name of diagrams or the Name of the Link
+		pkgelt.Unmarshall(modelPkg.PkgPath, "../../diagrams")
+		pkgelt.SerializeToStage()
 	}
-	pkgelt.SerializeToStage()
 
 	controllers.RegisterControllers(r)
 	gongdoc_controllers.RegisterControllers(r)

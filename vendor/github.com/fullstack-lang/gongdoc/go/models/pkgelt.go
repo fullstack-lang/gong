@@ -17,12 +17,16 @@ import (
 	"golang.org/x/tools/go/packages"
 )
 
-// Pkgelt
+// Pkgelt stores all diagrams related to a gong package
 // swagger:model Pkgelt
 type Pkgelt struct {
 	Name string
 
+	// Path to the "diagrams" directory
 	Path string
+
+	// GongModelPath is the package path, e.g. "fullstack-lang/gongxlsx/go/models"
+	GongModelPath string
 
 	// Classdiagrams store UML Classdiagrams
 	Classdiagrams []*Classdiagram
@@ -77,7 +81,7 @@ func (pkgelt *Pkgelt) Marshall(pkgPath string) error {
 		prelude = strings.ReplaceAll(prelude, "{{ClassdiagramName}}", classdiagram.Name)
 		if len(classdiagram.Classshapes) > 0 {
 			prelude = strings.ReplaceAll(prelude, "{{Imports}}", "\n\t\""+
-				strings.ReplaceAll(pkgelt.Name, "diagrams", "models")+"\"")
+				pkgelt.GongModelPath+"\"")
 		} else {
 			prelude = strings.ReplaceAll(prelude, "{{Imports}}", "")
 		}
@@ -122,19 +126,21 @@ type PkgeltMap map[string]*Pkgelt
 var PkgeltStore PkgeltMap = make(map[string]*Pkgelt, 0)
 
 // Unmarshall parse the diagram package to get diagrams
-// it is "../diagrams" relative to the "models"
-func (pkgelt *Pkgelt) Unmarshall(DiagramPackagePath string) {
+// diagramPackagePath is "../diagrams" relative to the "models"
+// gongModelPackagePath is the model package path, e.g. "fullstack-lang/gongxlsx/go/models"
+func (pkgelt *Pkgelt) Unmarshall(gongModelPackagePath string, diagramPackagePath string) {
 
-	pkgelt.Path = DiagramPackagePath
+	pkgelt.Path = diagramPackagePath
+	pkgelt.GongModelPath = gongModelPackagePath
 
 	var directory string
 	var err error
-	if directory, err = filepath.Abs(DiagramPackagePath); err != nil {
+	if directory, err = filepath.Abs(diagramPackagePath); err != nil {
 		log.Panic("Diagram package path does not exist %s ;" + directory)
 	}
 	log.Println("Loading package " + directory)
 
-	pkgelt.FillUpMapExprComments(DiagramPackagePath)
+	pkgelt.FillUpMapExprComments(diagramPackagePath)
 	MapExpToType = make(map[string]string, 0)
 
 	var fset token.FileSet
@@ -148,19 +154,19 @@ func (pkgelt *Pkgelt) Unmarshall(DiagramPackagePath string) {
 
 	// if "diagrams" directory does not exists, creates it
 	// check existance of path
-	_, err = os.Stat(DiagramPackagePath)
+	_, err = os.Stat(diagramPackagePath)
 
 	// if directory does not exist, creates it
 	if os.IsNotExist(err) {
-		errd := os.Mkdir(DiagramPackagePath, os.ModePerm)
+		errd := os.Mkdir(diagramPackagePath, os.ModePerm)
 		if os.IsNotExist(errd) {
-			log.Println("creating directory : " + DiagramPackagePath)
+			log.Println("creating directory : " + diagramPackagePath)
 		}
 	}
 
 	var pkgs []*packages.Package
 	if pkgs, err = packages.Load(cfg, "./..."); err != nil {
-		s := fmt.Sprintf("cannot process package at path %s, err %s", DiagramPackagePath, err.Error())
+		s := fmt.Sprintf("cannot process package at path %s, err %s", diagramPackagePath, err.Error())
 		log.Panic(s)
 	}
 
