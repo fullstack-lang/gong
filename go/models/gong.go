@@ -2089,8 +2089,6 @@ func (gongfileperstructsubtemplateid GongFilePerStructSubTemplateId) ToInt() (re
 		res = 1
 	case GongFileFieldSubTmplSetBasicFieldString:
 		res = 3
-	case GongFileFieldSubTmplSetBasicFieldStringEnum:
-		res = 5
 	case GongFileFieldSubTmplSetPointerField:
 		res = 6
 	case GongFileFieldSubTmplSetSliceOfPointersField:
@@ -2113,8 +2111,6 @@ func (gongfileperstructsubtemplateid *GongFilePerStructSubTemplateId) FromInt(in
 		*gongfileperstructsubtemplateid = GongFileFieldSubTmplSetBasicFieldInt
 	case 3:
 		*gongfileperstructsubtemplateid = GongFileFieldSubTmplSetBasicFieldString
-	case 5:
-		*gongfileperstructsubtemplateid = GongFileFieldSubTmplSetBasicFieldStringEnum
 	case 6:
 		*gongfileperstructsubtemplateid = GongFileFieldSubTmplSetPointerField
 	case 7:
@@ -3496,4 +3492,3 @@ func (ormsetupcumulsubtemplate *OrmSetupCumulSubTemplate) FromString(input strin
 		*ormsetupcumulsubtemplate = OrmSetupRefToStructDB
 	}
 }
-
