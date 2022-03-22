@@ -32,6 +32,13 @@
                 {{Pkgelt.Path}}
             </td>
         </ng-container>
+        <!-- -->
+        <ng-container matColumnDef="GongModelPath">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> GongModelPath </th>
+            <td mat-cell *matCellDef="let Pkgelt">
+                {{Pkgelt.GongModelPath}}
+            </td>
+        </ng-container>
 
         <ng-container matColumnDef="ID" sticky>
             <th mat-header-cell *matHeaderCellDef mat-sort-header> ID. </th>

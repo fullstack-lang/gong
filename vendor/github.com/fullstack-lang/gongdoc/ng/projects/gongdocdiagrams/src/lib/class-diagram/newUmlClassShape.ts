@@ -1,6 +1,5 @@
 import * as joint from 'jointjs';
 import * as gongdoc from 'gongdoc'
-import { range } from 'lodash';
 
 export function newUmlClassShape(classshape: gongdoc.ClassshapeDB, positionService: gongdoc.PositionService): joint.shapes.uml.Class {
 

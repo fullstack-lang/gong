@@ -385,7 +385,7 @@ func (gongdocstatusDB *GongdocStatusDB) CopyBasicFieldsFromGongdocStatus(gongdoc
 	gongdocstatusDB.Name_Data.String = gongdocstatus.Name
 	gongdocstatusDB.Name_Data.Valid = true
 
-	gongdocstatusDB.Status_Data.String = string(gongdocstatus.Status)
+	gongdocstatusDB.Status_Data.String = gongdocstatus.Status.ToString()
 	gongdocstatusDB.Status_Data.Valid = true
 
 	gongdocstatusDB.CommandCompletionDate_Data.String = gongdocstatus.CommandCompletionDate
@@ -399,7 +399,7 @@ func (gongdocstatusDB *GongdocStatusDB) CopyBasicFieldsFromGongdocStatusWOP(gong
 	gongdocstatusDB.Name_Data.String = gongdocstatus.Name
 	gongdocstatusDB.Name_Data.Valid = true
 
-	gongdocstatusDB.Status_Data.String = string(gongdocstatus.Status)
+	gongdocstatusDB.Status_Data.String = gongdocstatus.Status.ToString()
 	gongdocstatusDB.Status_Data.Valid = true
 
 	gongdocstatusDB.CommandCompletionDate_Data.String = gongdocstatus.CommandCompletionDate
@@ -410,7 +410,7 @@ func (gongdocstatusDB *GongdocStatusDB) CopyBasicFieldsFromGongdocStatusWOP(gong
 func (gongdocstatusDB *GongdocStatusDB) CopyBasicFieldsToGongdocStatus(gongdocstatus *models.GongdocStatus) {
 	// insertion point for checkout of basic fields (back repo to stage)
 	gongdocstatus.Name = gongdocstatusDB.Name_Data.String
-	gongdocstatus.Status = models.GongdocCommandType(gongdocstatusDB.Status_Data.String)
+	gongdocstatus.Status.FromString(gongdocstatusDB.Status_Data.String)
 	gongdocstatus.CommandCompletionDate = gongdocstatusDB.CommandCompletionDate_Data.String
 }
 
@@ -419,7 +419,7 @@ func (gongdocstatusDB *GongdocStatusDB) CopyBasicFieldsToGongdocStatusWOP(gongdo
 	gongdocstatus.ID = int(gongdocstatusDB.ID)
 	// insertion point for checkout of basic fields (back repo to stage)
 	gongdocstatus.Name = gongdocstatusDB.Name_Data.String
-	gongdocstatus.Status = models.GongdocCommandType(gongdocstatusDB.Status_Data.String)
+	gongdocstatus.Status.FromString(gongdocstatusDB.Status_Data.String)
 	gongdocstatus.CommandCompletionDate = gongdocstatusDB.CommandCompletionDate_Data.String
 }
 

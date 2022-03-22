@@ -137,7 +137,7 @@ func GenGoDefaultDiagram(modelPkg *gong_models.ModelPkg, pkgPath string) {
 
 	// generates all diagrams
 	if !os.IsNotExist(err) {
-		pkgelt.Unmarshall(diagramPkgPath)
+		pkgelt.Unmarshall(modelPkg.PkgPath, diagramPkgPath)
 
 		for _, classDiagram := range pkgelt.Classdiagrams {
 			classDiagram.OutputSVG(diagramPkgPath)

@@ -271,14 +271,18 @@ func init() {
 							gongField := nameOfFields[field.Fieldname]
 							rankInTheOriginalGoncStructOfField := rankOfFieldsInTheOriginalGongStruct[gongField]
 							if indexOfFieldToInsertInTheOriginalGongStruct > rankInTheOriginalGoncStructOfField {
-								indexOfFieldToInsertInTheOriginalGongStruct = idx + 1
+								indexOfFieldToInsertInTheGongStructToDisplay = idx + 1
 							}
 						}
 
 						// append the filed to display in the right index
-						classshape.Fields = append(classshape.Fields[:indexOfFieldToInsertInTheGongStructToDisplay+1],
-							classshape.Fields[indexOfFieldToInsertInTheGongStructToDisplay:]...)
-						classshape.Fields[indexOfFieldToInsertInTheGongStructToDisplay] = &basicOrTimeField
+						if indexOfFieldToInsertInTheGongStructToDisplay == len(classshape.Fields) {
+							classshape.Fields = append(classshape.Fields, &basicOrTimeField)
+						} else {
+							classshape.Fields = append(classshape.Fields[:indexOfFieldToInsertInTheGongStructToDisplay+1],
+								classshape.Fields[indexOfFieldToInsertInTheGongStructToDisplay:]...)
+							classshape.Fields[indexOfFieldToInsertInTheGongStructToDisplay] = &basicOrTimeField
+						}
 
 						Stage.Commit()
 
