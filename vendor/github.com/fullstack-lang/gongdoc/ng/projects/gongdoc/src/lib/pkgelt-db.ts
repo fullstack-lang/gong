@@ -13,6 +13,7 @@ export class PkgeltDB {
 	// insertion point for basic fields declarations
 	Name: string = ""
 	Path: string = ""
+	GongModelPath: string = ""
 
 	// insertion point for other declarations
 	Classdiagrams?: Array<ClassdiagramDB>

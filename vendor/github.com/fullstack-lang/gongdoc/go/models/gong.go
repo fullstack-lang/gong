@@ -1572,7 +1572,7 @@ const IdentifiersDecls = `
 	{{Identifier}} := (&models.{{GeneratedStructName}}{Name: "{{GeneratedFieldNameValue}}"}).Stage()`
 
 const StringInitStatement = `
-	{{Identifier}}.{{GeneratedFieldName}} = "{{GeneratedFieldNameValue}}"`
+	{{Identifier}}.{{GeneratedFieldName}} = ` + "`" + `{{GeneratedFieldNameValue}}` + "`"
 
 const NumberInitStatement = `
 	{{Identifier}}.{{GeneratedFieldName}} = {{GeneratedFieldNameValue}}`
@@ -2029,6 +2029,12 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(pkgelt.Path))
 		initializerStatements += setValueField
 
+		setValueField = StringInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "GongModelPath")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(pkgelt.GongModelPath))
+		initializerStatements += setValueField
+
 	}
 
 	map_Position_Identifiers := make(map[*Position]string)
@@ -2200,7 +2206,6 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 		initializerStatements += setValueField
 
 	}
-
 
 	// insertion initialization of objects to stage
 	for idx, classdiagram := range classdiagramOrdered {
@@ -2395,7 +2400,6 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 		// Initialisation of values
 	}
 
-
 	res = strings.ReplaceAll(res, "{{Identifiers}}", identifiersDecl)
 	res = strings.ReplaceAll(res, "{{ValueInitializers}}", initializerStatements)
 	res = strings.ReplaceAll(res, "{{PointersInitializers}}", pointersInitializesStatements)
@@ -2418,3 +2422,189 @@ func generatesIdentifier(gongStructName string, idx int, instanceName string) (i
 
 	return
 }
+
+// insertion point of enum utility functions
+// Utility function for ClassshapeTargetType
+// if enum values are string, it is stored with the value
+// if enum values are int, they are stored with the code of the value
+func (classshapetargettype ClassshapeTargetType) ToString() (res string) {
+
+	// migration of former implementation of enum
+	switch classshapetargettype {
+	// insertion code per enum code
+	case ENUM:
+		res = "ENUM"
+	case STRUCT:
+		res = "STRUCT"
+	}
+	return
+}
+
+func (classshapetargettype *ClassshapeTargetType) FromString(input string) {
+
+	switch input {
+	// insertion code per enum code
+	case "ENUM":
+		*classshapetargettype = ENUM
+	case "STRUCT":
+		*classshapetargettype = STRUCT
+	}
+}
+
+// Utility function for GongdocCommandType
+// if enum values are string, it is stored with the value
+// if enum values are int, they are stored with the code of the value
+func (gongdoccommandtype GongdocCommandType) ToString() (res string) {
+
+	// migration of former implementation of enum
+	switch gongdoccommandtype {
+	// insertion code per enum code
+	case DIAGRAM_BASICFIELD_CREATE:
+		res = "DIAGRAM_BASICFIELD_CREATE"
+	case DIAGRAM_BASICFIELD_DELETE:
+		res = "DIAGRAM_BASICFIELD_DELETE"
+	case DIAGRAM_ELEMENT_CREATE:
+		res = "DIAGRAM_ELEMENT_CREATE"
+	case DIAGRAM_ELEMENT_DELETE:
+		res = "DIAGRAM_ELEMENT_DELETE"
+	case DIAGRAM_GONGSTRUCT_CREATE:
+		res = "DIAGRAM_GONGSTRUCT_CREATE"
+	case DIAGRAM_GONGSTRUCT_DELETE:
+		res = "DIAGRAM_GONGSTRUCT_DELETE"
+	case DIAGRAM_POINTER_TO_GONGSTRUCT_CREATE:
+		res = "DIAGRAM_POINTER_TO_GONGSTRUCT_CREATE"
+	case DIAGRAM_POINTER_TO_GONGSTRUCT_DELETE:
+		res = "DIAGRAM_POINTER_TO_GONGSTRUCT_DELETE"
+	case DIAGRAM_SLICE_OF_POINTERS_TO_GONGSTRUCT_CREATE:
+		res = "DIAGRAM_SLICE_OF_POINTERS_TO_GONGSTRUCT_CREATE"
+	case DIAGRAM_SLICE_OF_POINTERS_TO_GONGSTRUCT_DELETE:
+		res = "DIAGRAM_SLICE_OF_POINTERS_TO_GONGSTRUCT_DELETE"
+	case MARSHALL_DIAGRAM:
+		res = "MARSHALL_ALL_DIAGRAMS"
+	case PRINT_ALL_DOCUMENTS:
+		res = "PRINT_ALL_DOCUMENTS"
+	}
+	return
+}
+
+func (gongdoccommandtype *GongdocCommandType) FromString(input string) {
+
+	switch input {
+	// insertion code per enum code
+	case "DIAGRAM_BASICFIELD_CREATE":
+		*gongdoccommandtype = DIAGRAM_BASICFIELD_CREATE
+	case "DIAGRAM_BASICFIELD_DELETE":
+		*gongdoccommandtype = DIAGRAM_BASICFIELD_DELETE
+	case "DIAGRAM_ELEMENT_CREATE":
+		*gongdoccommandtype = DIAGRAM_ELEMENT_CREATE
+	case "DIAGRAM_ELEMENT_DELETE":
+		*gongdoccommandtype = DIAGRAM_ELEMENT_DELETE
+	case "DIAGRAM_GONGSTRUCT_CREATE":
+		*gongdoccommandtype = DIAGRAM_GONGSTRUCT_CREATE
+	case "DIAGRAM_GONGSTRUCT_DELETE":
+		*gongdoccommandtype = DIAGRAM_GONGSTRUCT_DELETE
+	case "DIAGRAM_POINTER_TO_GONGSTRUCT_CREATE":
+		*gongdoccommandtype = DIAGRAM_POINTER_TO_GONGSTRUCT_CREATE
+	case "DIAGRAM_POINTER_TO_GONGSTRUCT_DELETE":
+		*gongdoccommandtype = DIAGRAM_POINTER_TO_GONGSTRUCT_DELETE
+	case "DIAGRAM_SLICE_OF_POINTERS_TO_GONGSTRUCT_CREATE":
+		*gongdoccommandtype = DIAGRAM_SLICE_OF_POINTERS_TO_GONGSTRUCT_CREATE
+	case "DIAGRAM_SLICE_OF_POINTERS_TO_GONGSTRUCT_DELETE":
+		*gongdoccommandtype = DIAGRAM_SLICE_OF_POINTERS_TO_GONGSTRUCT_DELETE
+	case "MARSHALL_ALL_DIAGRAMS":
+		*gongdoccommandtype = MARSHALL_DIAGRAM
+	case "PRINT_ALL_DOCUMENTS":
+		*gongdoccommandtype = PRINT_ALL_DOCUMENTS
+	}
+}
+
+// Utility function for GongdocNodeType
+// if enum values are string, it is stored with the value
+// if enum values are int, they are stored with the code of the value
+func (gongdocnodetype GongdocNodeType) ToString() (res string) {
+
+	// migration of former implementation of enum
+	switch gongdocnodetype {
+	// insertion code per enum code
+	case BASIC_FIELD:
+		res = "BASIC_FIELD"
+	case GONG_STRUCT:
+		res = "GONG_STRUCT"
+	case POINTER_TO_STRUCT:
+		res = "POINTER_TO_STRUCT"
+	case ROOT_OF_BASIC_FIELDS:
+		res = "ROOT_OF_BASIC_FIELDS"
+	case ROOT_OF_GONG_STRUCTS:
+		res = "ROOT_OF_GONG_STRUCTS"
+	case ROOT_OF_POINTER_TO_STRUCT_FIELDS:
+		res = "ROOT_OF_POINTER_TO_STRUCT_FIELDS"
+	case ROOT_OF_SLICE_OF_POINTER_TO_GONG_STRUCT_FIELDS:
+		res = "ROOT_OF_SLICE_OF_POINTER_TO_GONG_STRUCT_FIELDS"
+	case ROOT_OF_TIME_FIELDS:
+		res = "ROOT_OF_TIME_FIELDS"
+	case SLICE_OF_POINTER_TO_STRUCT:
+		res = "SLICE_OF_POINTER_TO_STRUCT"
+	case TIME_FIELD:
+		res = "TIME_FIELD"
+	}
+	return
+}
+
+func (gongdocnodetype *GongdocNodeType) FromString(input string) {
+
+	switch input {
+	// insertion code per enum code
+	case "BASIC_FIELD":
+		*gongdocnodetype = BASIC_FIELD
+	case "GONG_STRUCT":
+		*gongdocnodetype = GONG_STRUCT
+	case "POINTER_TO_STRUCT":
+		*gongdocnodetype = POINTER_TO_STRUCT
+	case "ROOT_OF_BASIC_FIELDS":
+		*gongdocnodetype = ROOT_OF_BASIC_FIELDS
+	case "ROOT_OF_GONG_STRUCTS":
+		*gongdocnodetype = ROOT_OF_GONG_STRUCTS
+	case "ROOT_OF_POINTER_TO_STRUCT_FIELDS":
+		*gongdocnodetype = ROOT_OF_POINTER_TO_STRUCT_FIELDS
+	case "ROOT_OF_SLICE_OF_POINTER_TO_GONG_STRUCT_FIELDS":
+		*gongdocnodetype = ROOT_OF_SLICE_OF_POINTER_TO_GONG_STRUCT_FIELDS
+	case "ROOT_OF_TIME_FIELDS":
+		*gongdocnodetype = ROOT_OF_TIME_FIELDS
+	case "SLICE_OF_POINTER_TO_STRUCT":
+		*gongdocnodetype = SLICE_OF_POINTER_TO_STRUCT
+	case "TIME_FIELD":
+		*gongdocnodetype = TIME_FIELD
+	}
+}
+
+// Utility function for MultiplicityType
+// if enum values are string, it is stored with the value
+// if enum values are int, they are stored with the code of the value
+func (multiplicitytype MultiplicityType) ToString() (res string) {
+
+	// migration of former implementation of enum
+	switch multiplicitytype {
+	// insertion code per enum code
+	case MANY:
+		res = "*"
+	case ONE:
+		res = "1"
+	case ZERO_ONE:
+		res = "0..1"
+	}
+	return
+}
+
+func (multiplicitytype *MultiplicityType) FromString(input string) {
+
+	switch input {
+	// insertion code per enum code
+	case "*":
+		*multiplicitytype = MANY
+	case "1":
+		*multiplicitytype = ONE
+	case "0..1":
+		*multiplicitytype = ZERO_ONE
+	}
+}
+

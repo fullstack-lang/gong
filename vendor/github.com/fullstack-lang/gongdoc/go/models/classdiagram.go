@@ -335,8 +335,7 @@ func (classDiagram *Classdiagram) Marshall(pkgelt *Pkgelt, pkgPath string) error
 	prelude := strings.ReplaceAll(preludeRef, "{{filename}}", filename)
 	prelude = strings.ReplaceAll(prelude, "{{ClassdiagramName}}", classDiagram.Name)
 	if len(classDiagram.Classshapes) > 0 {
-		prelude = strings.ReplaceAll(prelude, "{{Imports}}", "\n\t\""+
-			strings.ReplaceAll(pkgelt.Name, "diagrams", "models")+"\"")
+		prelude = strings.ReplaceAll(prelude, "{{Imports}}", "\n\t\""+pkgelt.GongModelPath+"\"")
 	} else {
 		prelude = strings.ReplaceAll(prelude, "{{Imports}}", "")
 	}

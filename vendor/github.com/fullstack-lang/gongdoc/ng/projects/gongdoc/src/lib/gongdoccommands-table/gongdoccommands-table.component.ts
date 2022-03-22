@@ -17,6 +17,8 @@ import { Router, RouterState } from '@angular/router';
 import { GongdocCommandDB } from '../gongdoccommand-db'
 import { GongdocCommandService } from '../gongdoccommand.service'
 
+// insertion point for additional imports
+
 // TableComponent is initilizaed from different routes
 // TableComponentMode detail different cases 
 enum TableComponentMode {
@@ -211,8 +213,9 @@ export class GongdocCommandsTableComponent implements OnInit {
 
         this.gongdoccommands = this.frontRepo.GongdocCommands_array;
 
-        // insertion point for variables Recoveries
-
+        // insertion point for time duration Recoveries
+        // insertion point for enum int Recoveries
+        
         // in case the component is called as a selection component
         if (this.mode == TableComponentMode.ONE_MANY_ASSOCIATION_MODE) {
           for (let gongdoccommand of this.gongdoccommands) {
