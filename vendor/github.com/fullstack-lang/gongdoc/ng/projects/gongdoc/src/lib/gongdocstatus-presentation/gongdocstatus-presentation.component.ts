@@ -8,6 +8,8 @@ import { FrontRepoService, FrontRepo } from '../front-repo.service'
 
 import { Router, RouterState, ActivatedRoute } from '@angular/router';
 
+// insertion point for additional imports
+
 export interface gongdocstatusDummyElement {
 }
 
@@ -21,7 +23,8 @@ const ELEMENT_DATA: gongdocstatusDummyElement[] = [
 })
 export class GongdocStatusPresentationComponent implements OnInit {
 
-	// insertion point for declarations
+	// insertion point for additionnal time duration declarations
+	// insertion point for additionnal enum int field declarations
 
 	displayedColumns: string[] = []
 	dataSource = ELEMENT_DATA
@@ -64,6 +67,7 @@ export class GongdocStatusPresentationComponent implements OnInit {
 				this.gongdocstatus = this.frontRepo.GongdocStatuss.get(id)!
 
 				// insertion point for recovery of durations
+				// insertion point for recovery of enum tint
 			}
 		);
 	}

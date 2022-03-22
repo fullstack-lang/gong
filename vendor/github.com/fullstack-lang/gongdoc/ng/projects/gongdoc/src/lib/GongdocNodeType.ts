@@ -19,14 +19,14 @@ export interface GongdocNodeTypeSelect {
 }
 
 export const GongdocNodeTypeList: GongdocNodeTypeSelect[] = [ // insertion point	
-	{ value: 'BASIC_FIELD', viewValue: '"BASIC_FIELD"' },
-	{ value: 'GONG_STRUCT', viewValue: '"GONG_STRUCT"' },
-	{ value: 'POINTER_TO_STRUCT', viewValue: '"POINTER_TO_STRUCT"' },
-	{ value: 'ROOT_OF_BASIC_FIELDS', viewValue: '"ROOT_OF_BASIC_FIELDS"' },
-	{ value: 'ROOT_OF_GONG_STRUCTS', viewValue: '"ROOT_OF_GONG_STRUCTS"' },
-	{ value: 'ROOT_OF_POINTER_TO_STRUCT_FIELDS', viewValue: '"ROOT_OF_POINTER_TO_STRUCT_FIELDS"' },
-	{ value: 'ROOT_OF_SLICE_OF_POINTER_TO_GONG_STRUCT_FIELDS', viewValue: '"ROOT_OF_SLICE_OF_POINTER_TO_GONG_STRUCT_FIELDS"' },
-	{ value: 'ROOT_OF_TIME_FIELDS', viewValue: '"ROOT_OF_TIME_FIELDS"' },
-	{ value: 'SLICE_OF_POINTER_TO_STRUCT', viewValue: '"SLICE_OF_POINTER_TO_STRUCT"' },
-	{ value: 'TIME_FIELD', viewValue: '"TIME_FIELD"' },
+	{ value: GongdocNodeType.BASIC_FIELD, viewValue: "BASIC_FIELD" },
+	{ value: GongdocNodeType.GONG_STRUCT, viewValue: "GONG_STRUCT" },
+	{ value: GongdocNodeType.POINTER_TO_STRUCT, viewValue: "POINTER_TO_STRUCT" },
+	{ value: GongdocNodeType.ROOT_OF_BASIC_FIELDS, viewValue: "ROOT_OF_BASIC_FIELDS" },
+	{ value: GongdocNodeType.ROOT_OF_GONG_STRUCTS, viewValue: "ROOT_OF_GONG_STRUCTS" },
+	{ value: GongdocNodeType.ROOT_OF_POINTER_TO_STRUCT_FIELDS, viewValue: "ROOT_OF_POINTER_TO_STRUCT_FIELDS" },
+	{ value: GongdocNodeType.ROOT_OF_SLICE_OF_POINTER_TO_GONG_STRUCT_FIELDS, viewValue: "ROOT_OF_SLICE_OF_POINTER_TO_GONG_STRUCT_FIELDS" },
+	{ value: GongdocNodeType.ROOT_OF_TIME_FIELDS, viewValue: "ROOT_OF_TIME_FIELDS" },
+	{ value: GongdocNodeType.SLICE_OF_POINTER_TO_STRUCT, viewValue: "SLICE_OF_POINTER_TO_STRUCT" },
+	{ value: GongdocNodeType.TIME_FIELD, viewValue: "TIME_FIELD" },
 ];
