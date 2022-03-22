@@ -157,10 +157,23 @@ func main() {
 
 		gong_models.Walk("../../models", modelPkg)
 		modelPkg.SerializeToStage()
+		gong_models.Stage.Commit()
 
 		// create the diagrams
 		// prepare the model views
 		pkgelt := new(gongdoc_models.Pkgelt)
+
+		// first, get all gong struct in the model
+		for gongStruct := range gong_models.Stage.GongStructs {
+
+			// let create the gong struct in the gongdoc models
+			// and put the numbre of instances
+			gongStruct_ := (&gongdoc_models.GongStruct{Name: gongStruct.Name}).Stage()
+			nbInstances, ok := models.Stage.Map_GongStructName_InstancesNb[gongStruct.Name]
+			if ok {
+				gongStruct_.NbInstances = nbInstances
+			}
+		}
 
 		// classdiagram can only be fully in memory when they are Unmarshalled
 		// for instance, the Name of diagrams or the Name of the Link
