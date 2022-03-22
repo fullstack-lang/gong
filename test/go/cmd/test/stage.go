@@ -42,10 +42,12 @@ func stageInjection() {
 	__Astruct__000000_A1.Name = `A1`
 	__Astruct__000000_A1.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2022-11-14 03:08:21 +0000 +0000")
 	__Astruct__000000_A1.Booleanfield = false
-	__Astruct__000000_A1.Aenum = `ENUM_VAL2`
-	__Astruct__000000_A1.Aenum_2 = `ENUM_VAL2`
-	__Astruct__000000_A1.Benum = `BENUM_VAL2`
-	__Astruct__000000_A1.CName = ``
+	__Astruct__000000_A1.Aenum = models.ENUM_VAL1
+	__Astruct__000000_A1.Aenum_2 = models.ENUM_VAL2
+	__Astruct__000000_A1.Benum = models.BENUM_VAL2
+	__Astruct__000000_A1.CEnum = 1
+	__Astruct__000000_A1.CName = `CName1
+Second Line`
 	__Astruct__000000_A1.CFloatfield = 60.500000
 	__Astruct__000000_A1.Floatfield = 0.000000
 	__Astruct__000000_A1.Intfield = 3
@@ -56,9 +58,10 @@ func stageInjection() {
 	__Astruct__000001_A2.Name = `A2`
 	__Astruct__000001_A2.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2022-01-18 01:09:21 +0000 +0000")
 	__Astruct__000001_A2.Booleanfield = false
-	__Astruct__000001_A2.Aenum = `ENUM_VAL1_NOT_THE_SAME`
-	__Astruct__000001_A2.Aenum_2 = `ENUM_VAL2`
-	__Astruct__000001_A2.Benum = `BENUM_VAL1_NOT_THE_SAME`
+	__Astruct__000001_A2.Aenum = models.ENUM_VAL1
+	__Astruct__000001_A2.Aenum_2 = models.ENUM_VAL2
+	__Astruct__000001_A2.Benum = models.BENUM_VAL1
+	__Astruct__000001_A2.CEnum = 0
 	__Astruct__000001_A2.CName = ``
 	__Astruct__000001_A2.CFloatfield = 0.100000
 	__Astruct__000001_A2.Floatfield = 0.000000
@@ -70,9 +73,8 @@ func stageInjection() {
 	__Astruct__000002_A3.Name = `A3`
 	__Astruct__000002_A3.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2022-02-10 01:06:11.446 +0000 +0000")
 	__Astruct__000002_A3.Booleanfield = true
-	__Astruct__000002_A3.Aenum = ``
-	__Astruct__000002_A3.Aenum_2 = `ENUM_VAL1`
-	__Astruct__000002_A3.Benum = `BENUM_VAL2`
+	__Astruct__000002_A3.Benum = models.BENUM_VAL2
+	__Astruct__000002_A3.CEnum = 0
 	__Astruct__000002_A3.CName = ``
 	__Astruct__000002_A3.CFloatfield = 4.900000
 	__Astruct__000002_A3.Floatfield = 2.000000

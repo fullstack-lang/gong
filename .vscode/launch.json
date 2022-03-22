@@ -93,6 +93,18 @@
             ]
         },
         {
+            "name": "gongc bebop -skipGoModCommands -backendOnly",
+            "type": "go",
+            "request": "launch",
+            "mode": "debug",
+            "cwd": "../../../r/DEV_COHERENCE/bebop/go/models",
+            "program": "${workspaceFolder}/go/cmd/gongc",
+            "args": [
+                "-skipGoModCommands",
+                "-backendOnly"
+            ]
+        },
+        {
             "name": "gongc test2",
             "type": "go",
             "request": "launch",
