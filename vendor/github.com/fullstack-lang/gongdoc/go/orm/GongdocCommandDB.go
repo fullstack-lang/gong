@@ -427,7 +427,7 @@ func (gongdoccommandDB *GongdocCommandDB) CopyBasicFieldsFromGongdocCommand(gong
 	gongdoccommandDB.Name_Data.String = gongdoccommand.Name
 	gongdoccommandDB.Name_Data.Valid = true
 
-	gongdoccommandDB.Command_Data.String = string(gongdoccommand.Command)
+	gongdoccommandDB.Command_Data.String = gongdoccommand.Command.ToString()
 	gongdoccommandDB.Command_Data.Valid = true
 
 	gongdoccommandDB.DiagramName_Data.String = gongdoccommand.DiagramName
@@ -436,7 +436,7 @@ func (gongdoccommandDB *GongdocCommandDB) CopyBasicFieldsFromGongdocCommand(gong
 	gongdoccommandDB.Date_Data.String = gongdoccommand.Date
 	gongdoccommandDB.Date_Data.Valid = true
 
-	gongdoccommandDB.GongdocNodeType_Data.String = string(gongdoccommand.GongdocNodeType)
+	gongdoccommandDB.GongdocNodeType_Data.String = gongdoccommand.GongdocNodeType.ToString()
 	gongdoccommandDB.GongdocNodeType_Data.Valid = true
 
 	gongdoccommandDB.StructName_Data.String = gongdoccommand.StructName
@@ -462,7 +462,7 @@ func (gongdoccommandDB *GongdocCommandDB) CopyBasicFieldsFromGongdocCommandWOP(g
 	gongdoccommandDB.Name_Data.String = gongdoccommand.Name
 	gongdoccommandDB.Name_Data.Valid = true
 
-	gongdoccommandDB.Command_Data.String = string(gongdoccommand.Command)
+	gongdoccommandDB.Command_Data.String = gongdoccommand.Command.ToString()
 	gongdoccommandDB.Command_Data.Valid = true
 
 	gongdoccommandDB.DiagramName_Data.String = gongdoccommand.DiagramName
@@ -471,7 +471,7 @@ func (gongdoccommandDB *GongdocCommandDB) CopyBasicFieldsFromGongdocCommandWOP(g
 	gongdoccommandDB.Date_Data.String = gongdoccommand.Date
 	gongdoccommandDB.Date_Data.Valid = true
 
-	gongdoccommandDB.GongdocNodeType_Data.String = string(gongdoccommand.GongdocNodeType)
+	gongdoccommandDB.GongdocNodeType_Data.String = gongdoccommand.GongdocNodeType.ToString()
 	gongdoccommandDB.GongdocNodeType_Data.Valid = true
 
 	gongdoccommandDB.StructName_Data.String = gongdoccommand.StructName
@@ -494,10 +494,10 @@ func (gongdoccommandDB *GongdocCommandDB) CopyBasicFieldsFromGongdocCommandWOP(g
 func (gongdoccommandDB *GongdocCommandDB) CopyBasicFieldsToGongdocCommand(gongdoccommand *models.GongdocCommand) {
 	// insertion point for checkout of basic fields (back repo to stage)
 	gongdoccommand.Name = gongdoccommandDB.Name_Data.String
-	gongdoccommand.Command = models.GongdocCommandType(gongdoccommandDB.Command_Data.String)
+	gongdoccommand.Command.FromString(gongdoccommandDB.Command_Data.String)
 	gongdoccommand.DiagramName = gongdoccommandDB.DiagramName_Data.String
 	gongdoccommand.Date = gongdoccommandDB.Date_Data.String
-	gongdoccommand.GongdocNodeType = models.GongdocNodeType(gongdoccommandDB.GongdocNodeType_Data.String)
+	gongdoccommand.GongdocNodeType.FromString(gongdoccommandDB.GongdocNodeType_Data.String)
 	gongdoccommand.StructName = gongdoccommandDB.StructName_Data.String
 	gongdoccommand.FieldName = gongdoccommandDB.FieldName_Data.String
 	gongdoccommand.FieldTypeName = gongdoccommandDB.FieldTypeName_Data.String
@@ -510,10 +510,10 @@ func (gongdoccommandDB *GongdocCommandDB) CopyBasicFieldsToGongdocCommandWOP(gon
 	gongdoccommand.ID = int(gongdoccommandDB.ID)
 	// insertion point for checkout of basic fields (back repo to stage)
 	gongdoccommand.Name = gongdoccommandDB.Name_Data.String
-	gongdoccommand.Command = models.GongdocCommandType(gongdoccommandDB.Command_Data.String)
+	gongdoccommand.Command.FromString(gongdoccommandDB.Command_Data.String)
 	gongdoccommand.DiagramName = gongdoccommandDB.DiagramName_Data.String
 	gongdoccommand.Date = gongdoccommandDB.Date_Data.String
-	gongdoccommand.GongdocNodeType = models.GongdocNodeType(gongdoccommandDB.GongdocNodeType_Data.String)
+	gongdoccommand.GongdocNodeType.FromString(gongdoccommandDB.GongdocNodeType_Data.String)
 	gongdoccommand.StructName = gongdoccommandDB.StructName_Data.String
 	gongdoccommand.FieldName = gongdoccommandDB.FieldName_Data.String
 	gongdoccommand.FieldTypeName = gongdoccommandDB.FieldTypeName_Data.String

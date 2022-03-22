@@ -222,8 +222,10 @@ export class UmlscDiagramComponent implements OnInit {
           // retrieve the shape.
           var stateDB = this.MapJointjsIdsStates.get(cellId)
 
-          stateDB!.X = cell.attributes.position.x
-          stateDB!.Y = cell.attributes.position.y
+          let position = cell.attributes["position"]
+
+          stateDB!.X = position["x"]
+          stateDB!.Y = position["y"]
 
           // update position to DB
           this.UmlStateService.updateUmlState(stateDB!).subscribe(

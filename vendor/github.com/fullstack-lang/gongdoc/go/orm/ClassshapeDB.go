@@ -557,7 +557,7 @@ func (classshapeDB *ClassshapeDB) CopyBasicFieldsFromClassshape(classshape *mode
 	classshapeDB.Heigth_Data.Float64 = classshape.Heigth
 	classshapeDB.Heigth_Data.Valid = true
 
-	classshapeDB.ClassshapeTargetType_Data.String = string(classshape.ClassshapeTargetType)
+	classshapeDB.ClassshapeTargetType_Data.String = classshape.ClassshapeTargetType.ToString()
 	classshapeDB.ClassshapeTargetType_Data.Valid = true
 }
 
@@ -583,7 +583,7 @@ func (classshapeDB *ClassshapeDB) CopyBasicFieldsFromClassshapeWOP(classshape *C
 	classshapeDB.Heigth_Data.Float64 = classshape.Heigth
 	classshapeDB.Heigth_Data.Valid = true
 
-	classshapeDB.ClassshapeTargetType_Data.String = string(classshape.ClassshapeTargetType)
+	classshapeDB.ClassshapeTargetType_Data.String = classshape.ClassshapeTargetType.ToString()
 	classshapeDB.ClassshapeTargetType_Data.Valid = true
 }
 
@@ -596,7 +596,7 @@ func (classshapeDB *ClassshapeDB) CopyBasicFieldsToClassshape(classshape *models
 	classshape.NbInstances = int(classshapeDB.NbInstances_Data.Int64)
 	classshape.Width = classshapeDB.Width_Data.Float64
 	classshape.Heigth = classshapeDB.Heigth_Data.Float64
-	classshape.ClassshapeTargetType = models.ClassshapeTargetType(classshapeDB.ClassshapeTargetType_Data.String)
+	classshape.ClassshapeTargetType.FromString(classshapeDB.ClassshapeTargetType_Data.String)
 }
 
 // CopyBasicFieldsToClassshapeWOP
@@ -609,7 +609,7 @@ func (classshapeDB *ClassshapeDB) CopyBasicFieldsToClassshapeWOP(classshape *Cla
 	classshape.NbInstances = int(classshapeDB.NbInstances_Data.Int64)
 	classshape.Width = classshapeDB.Width_Data.Float64
 	classshape.Heigth = classshapeDB.Heigth_Data.Float64
-	classshape.ClassshapeTargetType = models.ClassshapeTargetType(classshapeDB.ClassshapeTargetType_Data.String)
+	classshape.ClassshapeTargetType.FromString(classshapeDB.ClassshapeTargetType_Data.String)
 }
 
 // Backup generates a json file from a slice of all ClassshapeDB instances in the backrepo

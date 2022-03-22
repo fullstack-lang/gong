@@ -17,6 +17,8 @@ import { Router, RouterState } from '@angular/router';
 import { PkgeltDB } from '../pkgelt-db'
 import { PkgeltService } from '../pkgelt.service'
 
+// insertion point for additional imports
+
 // TableComponent is initilizaed from different routes
 // TableComponentMode detail different cases 
 enum TableComponentMode {
@@ -72,6 +74,9 @@ export class PkgeltsTableComponent implements OnInit {
         case 'Path':
           return pkgeltDB.Path;
 
+        case 'GongModelPath':
+          return pkgeltDB.GongModelPath;
+
         default:
           console.assert(false, "Unknown field")
           return "";
@@ -88,6 +93,7 @@ export class PkgeltsTableComponent implements OnInit {
       // insertion point for merging of fields
       mergedContent += pkgeltDB.Name.toLowerCase()
       mergedContent += pkgeltDB.Path.toLowerCase()
+      mergedContent += pkgeltDB.GongModelPath.toLowerCase()
 
       let isSelected = mergedContent.includes(filter.toLowerCase())
       return isSelected
@@ -140,11 +146,13 @@ export class PkgeltsTableComponent implements OnInit {
       this.displayedColumns = ['ID', 'Edit', 'Delete', // insertion point for columns to display
         "Name",
         "Path",
+        "GongModelPath",
       ]
     } else {
       this.displayedColumns = ['select', 'ID', // insertion point for columns to display
         "Name",
         "Path",
+        "GongModelPath",
       ]
       this.selection = new SelectionModel<PkgeltDB>(allowMultiSelect, this.initialSelection);
     }
@@ -163,8 +171,9 @@ export class PkgeltsTableComponent implements OnInit {
 
         this.pkgelts = this.frontRepo.Pkgelts_array;
 
-        // insertion point for variables Recoveries
-
+        // insertion point for time duration Recoveries
+        // insertion point for enum int Recoveries
+        
         // in case the component is called as a selection component
         if (this.mode == TableComponentMode.ONE_MANY_ASSOCIATION_MODE) {
           for (let pkgelt of this.pkgelts) {

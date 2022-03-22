@@ -63,6 +63,9 @@ type PkgeltDB struct {
 
 	// Declation for basic field pkgeltDB.Path {{BasicKind}} (to be completed)
 	Path_Data sql.NullString
+
+	// Declation for basic field pkgeltDB.GongModelPath {{BasicKind}} (to be completed)
+	GongModelPath_Data sql.NullString
 	// encoding of pointers
 	PkgeltPointersEnconding
 }
@@ -87,6 +90,8 @@ type PkgeltWOP struct {
 	Name string `xlsx:"1"`
 
 	Path string `xlsx:"2"`
+
+	GongModelPath string `xlsx:"3"`
 	// insertion for WOP pointer fields
 }
 
@@ -95,6 +100,7 @@ var Pkgelt_Fields = []string{
 	"ID",
 	"Name",
 	"Path",
+	"GongModelPath",
 }
 
 type BackRepoPkgeltStruct struct {
@@ -473,6 +479,9 @@ func (pkgeltDB *PkgeltDB) CopyBasicFieldsFromPkgelt(pkgelt *models.Pkgelt) {
 
 	pkgeltDB.Path_Data.String = pkgelt.Path
 	pkgeltDB.Path_Data.Valid = true
+
+	pkgeltDB.GongModelPath_Data.String = pkgelt.GongModelPath
+	pkgeltDB.GongModelPath_Data.Valid = true
 }
 
 // CopyBasicFieldsFromPkgeltWOP
@@ -484,6 +493,9 @@ func (pkgeltDB *PkgeltDB) CopyBasicFieldsFromPkgeltWOP(pkgelt *PkgeltWOP) {
 
 	pkgeltDB.Path_Data.String = pkgelt.Path
 	pkgeltDB.Path_Data.Valid = true
+
+	pkgeltDB.GongModelPath_Data.String = pkgelt.GongModelPath
+	pkgeltDB.GongModelPath_Data.Valid = true
 }
 
 // CopyBasicFieldsToPkgelt
@@ -491,6 +503,7 @@ func (pkgeltDB *PkgeltDB) CopyBasicFieldsToPkgelt(pkgelt *models.Pkgelt) {
 	// insertion point for checkout of basic fields (back repo to stage)
 	pkgelt.Name = pkgeltDB.Name_Data.String
 	pkgelt.Path = pkgeltDB.Path_Data.String
+	pkgelt.GongModelPath = pkgeltDB.GongModelPath_Data.String
 }
 
 // CopyBasicFieldsToPkgeltWOP
@@ -499,6 +512,7 @@ func (pkgeltDB *PkgeltDB) CopyBasicFieldsToPkgeltWOP(pkgelt *PkgeltWOP) {
 	// insertion point for checkout of basic fields (back repo to stage)
 	pkgelt.Name = pkgeltDB.Name_Data.String
 	pkgelt.Path = pkgeltDB.Path_Data.String
+	pkgelt.GongModelPath = pkgeltDB.GongModelPath_Data.String
 }
 
 // Backup generates a json file from a slice of all PkgeltDB instances in the backrepo

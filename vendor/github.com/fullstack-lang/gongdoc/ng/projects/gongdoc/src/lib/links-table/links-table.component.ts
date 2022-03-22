@@ -17,6 +17,8 @@ import { Router, RouterState } from '@angular/router';
 import { LinkDB } from '../link-db'
 import { LinkService } from '../link.service'
 
+// insertion point for additional imports
+
 // TableComponent is initilizaed from different routes
 // TableComponentMode detail different cases 
 enum TableComponentMode {
@@ -198,8 +200,9 @@ export class LinksTableComponent implements OnInit {
 
         this.links = this.frontRepo.Links_array;
 
-        // insertion point for variables Recoveries
-
+        // insertion point for time duration Recoveries
+        // insertion point for enum int Recoveries
+        
         // in case the component is called as a selection component
         if (this.mode == TableComponentMode.ONE_MANY_ASSOCIATION_MODE) {
           for (let link of this.links) {
