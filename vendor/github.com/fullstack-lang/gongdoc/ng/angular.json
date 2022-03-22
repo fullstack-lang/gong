@@ -49,7 +49,6 @@
                             "optimization": true,
                             "outputHashing": "all",
                             "sourceMap": false,
-                            "extractCss": true,
                             "namedChunks": false,
                             "extractLicenses": true,
                             "vendorChunk": false,
@@ -73,12 +72,7 @@
                 "serve": {
                     "builder": "@angular-devkit/build-angular:dev-server",
                     "options": {
-                        "browserTarget": "ng:build",
-                        "sourceMap": {
-                            "scripts": true,
-                            "styles": true,
-                            "vendor": true
-                        }
+                        "browserTarget": "ng:build"
                     },
                     "configurations": {
                         "production": {
@@ -108,19 +102,6 @@
                             "src/styles.css"
                         ],
                         "scripts": []
-                    }
-                },
-                "lint": {
-                    "builder": "@angular-devkit/build-angular:tslint",
-                    "options": {
-                        "tsConfig": [
-                            "tsconfig.app.json",
-                            "tsconfig.spec.json",
-                            "e2e/tsconfig.json"
-                        ],
-                        "exclude": [
-                            "**/node_modules/**"
-                        ]
                     }
                 },
                 "e2e": {
@@ -170,18 +151,6 @@
                         "tsConfig": "projects/gongdoc/tsconfig.spec.json",
                         "karmaConfig": "projects/gongdoc/karma.conf.js"
                     }
-                },
-                "lint": {
-                    "builder": "@angular-devkit/build-angular:tslint",
-                    "options": {
-                        "tsConfig": [
-                            "projects/gongdoc/tsconfig.lib.json",
-                            "projects/gongdoc/tsconfig.spec.json"
-                        ],
-                        "exclude": [
-                            "**/node_modules/**"
-                        ]
-                    }
                 }
             }
         },
@@ -217,18 +186,6 @@
                         "main": "projects/gongdocdiagrams/src/test.ts",
                         "tsConfig": "projects/gongdocdiagrams/tsconfig.spec.json",
                         "karmaConfig": "projects/gongdocdiagrams/karma.conf.js"
-                    }
-                },
-                "lint": {
-                    "builder": "@angular-devkit/build-angular:tslint",
-                    "options": {
-                        "tsConfig": [
-                            "projects/gongdocdiagrams/tsconfig.lib.json",
-                            "projects/gongdocdiagrams/tsconfig.spec.json"
-                        ],
-                        "exclude": [
-                            "**/node_modules/**"
-                        ]
                     }
                 }
             }

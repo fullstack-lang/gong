@@ -8,6 +8,8 @@ import { FrontRepoService, FrontRepo } from '../front-repo.service'
 
 import { Router, RouterState, ActivatedRoute } from '@angular/router';
 
+// insertion point for additional imports
+
 export interface positionDummyElement {
 }
 
@@ -21,7 +23,8 @@ const ELEMENT_DATA: positionDummyElement[] = [
 })
 export class PositionPresentationComponent implements OnInit {
 
-	// insertion point for declarations
+	// insertion point for additionnal time duration declarations
+	// insertion point for additionnal enum int field declarations
 
 	displayedColumns: string[] = []
 	dataSource = ELEMENT_DATA
@@ -64,6 +67,7 @@ export class PositionPresentationComponent implements OnInit {
 				this.position = this.frontRepo.Positions.get(id)!
 
 				// insertion point for recovery of durations
+				// insertion point for recovery of enum tint
 			}
 		);
 	}

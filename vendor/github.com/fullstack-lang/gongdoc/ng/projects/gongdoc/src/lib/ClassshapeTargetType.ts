@@ -11,6 +11,6 @@ export interface ClassshapeTargetTypeSelect {
 }
 
 export const ClassshapeTargetTypeList: ClassshapeTargetTypeSelect[] = [ // insertion point	
-	{ value: 'ENUM', viewValue: '"ENUM"' },
-	{ value: 'STRUCT', viewValue: '"STRUCT"' },
+	{ value: ClassshapeTargetType.ENUM, viewValue: "ENUM" },
+	{ value: ClassshapeTargetType.STRUCT, viewValue: "STRUCT" },
 ];
