@@ -741,6 +741,9 @@ const IdentifiersDecls = `
 const StringInitStatement = `
 	{{Identifier}}.{{GeneratedFieldName}} = ` + "`" + `{{GeneratedFieldNameValue}}` + "`"
 
+const StringEnumInitStatement = `
+	{{Identifier}}.{{GeneratedFieldName}} = {{GeneratedFieldNameValue}}`
+
 const NumberInitStatement = `
 	{{Identifier}}.{{GeneratedFieldName}} = {{GeneratedFieldNameValue}}`
 
@@ -822,23 +825,29 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", astruct.Booleanfield))
 		initializerStatements += setValueField
 
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Aenum")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(astruct.Aenum))
-		initializerStatements += setValueField
+		if astruct.Aenum != "" {
+			setValueField = StringEnumInitStatement
+			setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+			setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Aenum")
+			setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", "models."+astruct.Aenum.ToCodeString())
+			initializerStatements += setValueField
+		}
 
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Aenum_2")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(astruct.Aenum_2))
-		initializerStatements += setValueField
+		if astruct.Aenum_2 != "" {
+			setValueField = StringEnumInitStatement
+			setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+			setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Aenum_2")
+			setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", "models."+astruct.Aenum_2.ToCodeString())
+			initializerStatements += setValueField
+		}
 
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Benum")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(astruct.Benum))
-		initializerStatements += setValueField
+		if astruct.Benum != "" {
+			setValueField = StringEnumInitStatement
+			setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+			setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Benum")
+			setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", "models."+astruct.Benum.ToCodeString())
+			initializerStatements += setValueField
+		}
 
 		setValueField = NumberInitStatement
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
@@ -1198,6 +1207,18 @@ func (aenumtype *AEnumType) FromString(input string) {
 	}
 }
 
+func (aenumtype *AEnumType) ToCodeString() (res string) {
+
+	switch *aenumtype {
+	// insertion code per enum code
+	case ENUM_VAL1:
+		res = "ENUM_VAL1"
+	case ENUM_VAL2:
+		res = "ENUM_VAL2"
+	}
+	return
+}
+
 // Utility function for BEnumType
 // if enum values are string, it is stored with the value
 // if enum values are int, they are stored with the code of the value
@@ -1225,6 +1246,18 @@ func (benumtype *BEnumType) FromString(input string) {
 	}
 }
 
+func (benumtype *BEnumType) ToCodeString() (res string) {
+
+	switch *benumtype {
+	// insertion code per enum code
+	case BENUM_VAL1:
+		res = "BENUM_VAL1"
+	case BENUM_VAL2:
+		res = "BENUM_VAL2"
+	}
+	return
+}
+
 // Utility function for CEnumTypeInt
 // if enum values are string, it is stored with the value
 // if enum values are int, they are stored with the code of the value
@@ -1250,5 +1283,13 @@ func (cenumtypeint *CEnumTypeInt) FromInt(input int) {
 	case 1:
 		*cenumtypeint = CENUM_VAL2
 	}
+}
+
+func (cenumtypeint *CEnumTypeInt) ToCodeInt() (res int) {
+
+	switch *cenumtypeint {
+	// insertion code per enum code
+	}
+	return
 }
 
