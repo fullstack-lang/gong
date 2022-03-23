@@ -283,7 +283,7 @@ func ({{enumName}} *{{EnumName}}) From{{Type}}(input {{type}}) {
 	}
 }
 
-func ({{enumName}} *{{EnumName}}) ToCode{{Type}}() (res {{type}}) {
+func ({{enumName}} *{{EnumName}}) ToCodeString() (res string) {
 
 	switch *{{enumName}} {
 	// insertion code per enum code{{ToCodeStringPerCodeCode}}
@@ -484,6 +484,7 @@ const (
 	GongFileFieldSubTmplSetBasicFieldBool GongFilePerStructSubTemplateId = iota
 	GongFileFieldSubTmplSetBasicFieldInt
 	GongFileFieldSubTmplSetBasicFieldEnumString
+	GongFileFieldSubTmplSetBasicFieldEnumInt
 	GongFileFieldSubTmplSetBasicFieldFloat64
 	GongFileFieldSubTmplSetBasicFieldString
 	GongFileFieldSubTmplSetTimeField
@@ -526,6 +527,13 @@ map[GongFilePerStructSubTemplateId]string{
 			setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", "models."+{{structname}}.{{FieldName}}.ToCodeString())
 			initializerStatements += setValueField
 		}
+`,
+	GongFileFieldSubTmplSetBasicFieldEnumInt: `
+		setValueField = NumberInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "{{FieldName}}")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", "models."+{{structname}}.{{FieldName}}.ToCodeString())
+		initializerStatements += setValueField
 `,
 	GongFileFieldSubTmplSetBasicFieldFloat64: `
 		setValueField = NumberInitStatement
@@ -643,9 +651,15 @@ func CodeGeneratorModelGong(
 							GongFileFieldFieldSubTemplateCode[GongFileFieldSubTmplSetBasicFieldFloat64],
 							"{{FieldName}}", field.Name)
 					case types.Int, types.Int64:
-						valInitCode += Replace1(
-							GongFileFieldFieldSubTemplateCode[GongFileFieldSubTmplSetBasicFieldInt],
-							"{{FieldName}}", field.Name)
+						if field.GongEnum == nil {
+							valInitCode += Replace1(
+								GongFileFieldFieldSubTemplateCode[GongFileFieldSubTmplSetBasicFieldInt],
+								"{{FieldName}}", field.Name)
+						} else {
+							valInitCode += Replace1(
+								GongFileFieldFieldSubTemplateCode[GongFileFieldSubTmplSetBasicFieldEnumInt],
+								"{{FieldName}}", field.Name)
+						}
 					default:
 					}
 				case *GongTimeField:
@@ -722,11 +736,9 @@ func CodeGeneratorModelGong(
 					"{{GongEnumValue}}", enumValue.Value,
 					"{{GongEnumCode}}", enumValue.Name)
 
-				if gongEnum.Type == String {
-					codeToCodeStringPerGongValue += Replace2(GongModelEnumValueSubTemplateCode[GongModelEnumValueToCodeString],
-						"{{GongEnumValue}}", enumValue.Value,
-						"{{GongEnumCode}}", enumValue.Name)
-				}
+				codeToCodeStringPerGongValue += Replace2(GongModelEnumValueSubTemplateCode[GongModelEnumValueToCodeString],
+					"{{GongEnumValue}}", enumValue.Value,
+					"{{GongEnumCode}}", enumValue.Name)
 			}
 
 			generatedCodeFromSubTemplate := Replace3(ModelGongEnumSubTemplateCode[subEnumTemplate],
