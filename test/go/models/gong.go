@@ -852,7 +852,7 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 		setValueField = NumberInitStatement
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
 		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "CEnum")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", astruct.CEnum))
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", "models."+astruct.CEnum.ToCodeString())
 		initializerStatements += setValueField
 
 		setValueField = StringInitStatement
@@ -1285,11 +1285,14 @@ func (cenumtypeint *CEnumTypeInt) FromInt(input int) {
 	}
 }
 
-func (cenumtypeint *CEnumTypeInt) ToCodeInt() (res int) {
+func (cenumtypeint *CEnumTypeInt) ToCodeString() (res string) {
 
 	switch *cenumtypeint {
 	// insertion code per enum code
+	case CENUM_VAL1:
+		res = "CENUM_VAL1"
+	case CENUM_VAL2:
+		res = "CENUM_VAL2"
 	}
 	return
 }
-
