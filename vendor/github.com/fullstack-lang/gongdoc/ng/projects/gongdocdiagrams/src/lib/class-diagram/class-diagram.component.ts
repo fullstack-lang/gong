@@ -261,8 +261,10 @@ export class ClassDiagramComponent implements OnInit, OnDestroy {
             var strockWidth = 2
             let LinkEndlabel = linkDB.Fieldname
             let distanceEndLabel = 0.75
-            let LinkMuliplicity = linkDB.Multiplicity
-            let distanceMultiplicity = 0.95
+            let linkTargetMuliplicity = linkDB.TargetMultiplicity
+            let distanceTargetMultiplicity = 0.95
+            let linkSourceMuliplicity = linkDB.SourceMultiplicity
+            let distanceSourceMultiplicity = 0.10
 
             if (toShape == undefined) {
               // the destination shape is not in the diagram
@@ -309,10 +311,17 @@ export class ClassDiagramComponent implements OnInit, OnDestroy {
                     }
                   },
                   {
-                    attrs: { text: { text: LinkMuliplicity } },
+                    attrs: { text: { text: linkTargetMuliplicity } },
                     position: {
                       offset: 15,
-                      distance: distanceMultiplicity
+                      distance: distanceTargetMultiplicity
+                    }
+                  },
+                  {
+                    attrs: { text: { text: linkSourceMuliplicity } },
+                    position: {
+                      offset: 15,
+                      distance: distanceSourceMultiplicity
                     }
                   }
                 ],

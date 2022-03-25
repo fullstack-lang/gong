@@ -80,8 +80,11 @@ type LinkDB struct {
 	// Declation for basic field linkDB.Fieldtypename {{BasicKind}} (to be completed)
 	Fieldtypename_Data sql.NullString
 
-	// Declation for basic field linkDB.Multiplicity {{BasicKind}} (to be completed)
-	Multiplicity_Data sql.NullString
+	// Declation for basic field linkDB.TargetMultiplicity {{BasicKind}} (to be completed)
+	TargetMultiplicity_Data sql.NullString
+
+	// Declation for basic field linkDB.SourceMultiplicity {{BasicKind}} (to be completed)
+	SourceMultiplicity_Data sql.NullString
 	// encoding of pointers
 	LinkPointersEnconding
 }
@@ -111,7 +114,9 @@ type LinkWOP struct {
 
 	Fieldtypename string `xlsx:"4"`
 
-	Multiplicity models.MultiplicityType `xlsx:"5"`
+	TargetMultiplicity models.MultiplicityType `xlsx:"5"`
+
+	SourceMultiplicity models.MultiplicityType `xlsx:"6"`
 	// insertion for WOP pointer fields
 }
 
@@ -122,7 +127,8 @@ var Link_Fields = []string{
 	"Fieldname",
 	"Structname",
 	"Fieldtypename",
-	"Multiplicity",
+	"TargetMultiplicity",
+	"SourceMultiplicity",
 }
 
 type BackRepoLinkStruct struct {
@@ -429,8 +435,11 @@ func (linkDB *LinkDB) CopyBasicFieldsFromLink(link *models.Link) {
 	linkDB.Fieldtypename_Data.String = link.Fieldtypename
 	linkDB.Fieldtypename_Data.Valid = true
 
-	linkDB.Multiplicity_Data.String = link.Multiplicity.ToString()
-	linkDB.Multiplicity_Data.Valid = true
+	linkDB.TargetMultiplicity_Data.String = link.TargetMultiplicity.ToString()
+	linkDB.TargetMultiplicity_Data.Valid = true
+
+	linkDB.SourceMultiplicity_Data.String = link.SourceMultiplicity.ToString()
+	linkDB.SourceMultiplicity_Data.Valid = true
 }
 
 // CopyBasicFieldsFromLinkWOP
@@ -449,8 +458,11 @@ func (linkDB *LinkDB) CopyBasicFieldsFromLinkWOP(link *LinkWOP) {
 	linkDB.Fieldtypename_Data.String = link.Fieldtypename
 	linkDB.Fieldtypename_Data.Valid = true
 
-	linkDB.Multiplicity_Data.String = link.Multiplicity.ToString()
-	linkDB.Multiplicity_Data.Valid = true
+	linkDB.TargetMultiplicity_Data.String = link.TargetMultiplicity.ToString()
+	linkDB.TargetMultiplicity_Data.Valid = true
+
+	linkDB.SourceMultiplicity_Data.String = link.SourceMultiplicity.ToString()
+	linkDB.SourceMultiplicity_Data.Valid = true
 }
 
 // CopyBasicFieldsToLink
@@ -460,7 +472,8 @@ func (linkDB *LinkDB) CopyBasicFieldsToLink(link *models.Link) {
 	link.Fieldname = linkDB.Fieldname_Data.String
 	link.Structname = linkDB.Structname_Data.String
 	link.Fieldtypename = linkDB.Fieldtypename_Data.String
-	link.Multiplicity.FromString(linkDB.Multiplicity_Data.String)
+	link.TargetMultiplicity.FromString(linkDB.TargetMultiplicity_Data.String)
+	link.SourceMultiplicity.FromString(linkDB.SourceMultiplicity_Data.String)
 }
 
 // CopyBasicFieldsToLinkWOP
@@ -471,7 +484,8 @@ func (linkDB *LinkDB) CopyBasicFieldsToLinkWOP(link *LinkWOP) {
 	link.Fieldname = linkDB.Fieldname_Data.String
 	link.Structname = linkDB.Structname_Data.String
 	link.Fieldtypename = linkDB.Fieldtypename_Data.String
-	link.Multiplicity.FromString(linkDB.Multiplicity_Data.String)
+	link.TargetMultiplicity.FromString(linkDB.TargetMultiplicity_Data.String)
+	link.SourceMultiplicity.FromString(linkDB.SourceMultiplicity_Data.String)
 }
 
 // Backup generates a json file from a slice of all LinkDB instances in the backrepo

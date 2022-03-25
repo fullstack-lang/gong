@@ -83,8 +83,18 @@
 
     <!-- -->
     <mat-form-field appearance="fill" class="detail-full-width">
-        <mat-label>Multiplicity</mat-label>
-        <mat-select [(ngModel)]="link.Multiplicity" [ngModelOptions]="{standalone: true}">
+        <mat-label>TargetMultiplicity</mat-label>
+        <mat-select [(ngModel)]="link.TargetMultiplicity" [ngModelOptions]="{standalone: true}">
+            <mat-option *ngFor="let enum of MultiplicityTypeList" [value]="enum.value">
+                {{enum.viewValue}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    <!-- -->
+    <mat-form-field appearance="fill" class="detail-full-width">
+        <mat-label>SourceMultiplicity</mat-label>
+        <mat-select [(ngModel)]="link.SourceMultiplicity" [ngModelOptions]="{standalone: true}">
             <mat-option *ngFor="let enum of MultiplicityTypeList" [value]="enum.value">
                 {{enum.viewValue}}
             </mat-option>
