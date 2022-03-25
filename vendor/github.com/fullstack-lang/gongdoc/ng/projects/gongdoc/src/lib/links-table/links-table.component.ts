@@ -80,8 +80,11 @@ export class LinksTableComponent implements OnInit {
         case 'Fieldtypename':
           return linkDB.Fieldtypename;
 
-        case 'Multiplicity':
-          return linkDB.Multiplicity;
+        case 'TargetMultiplicity':
+          return linkDB.TargetMultiplicity;
+
+        case 'SourceMultiplicity':
+          return linkDB.SourceMultiplicity;
 
         case 'Middlevertice':
           return (linkDB.Middlevertice ? linkDB.Middlevertice.Name : '');
@@ -107,7 +110,8 @@ export class LinksTableComponent implements OnInit {
       mergedContent += linkDB.Fieldname.toLowerCase()
       mergedContent += linkDB.Structname.toLowerCase()
       mergedContent += linkDB.Fieldtypename.toLowerCase()
-      mergedContent += linkDB.Multiplicity.toLowerCase()
+      mergedContent += linkDB.TargetMultiplicity.toLowerCase()
+      mergedContent += linkDB.SourceMultiplicity.toLowerCase()
       if (linkDB.Middlevertice) {
         mergedContent += linkDB.Middlevertice.Name.toLowerCase()
       }
@@ -169,7 +173,8 @@ export class LinksTableComponent implements OnInit {
         "Fieldname",
         "Structname",
         "Fieldtypename",
-        "Multiplicity",
+        "TargetMultiplicity",
+        "SourceMultiplicity",
         "Middlevertice",
         "Classshape_Links",
       ]
@@ -179,7 +184,8 @@ export class LinksTableComponent implements OnInit {
         "Fieldname",
         "Structname",
         "Fieldtypename",
-        "Multiplicity",
+        "TargetMultiplicity",
+        "SourceMultiplicity",
         "Middlevertice",
         "Classshape_Links",
       ]

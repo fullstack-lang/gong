@@ -1574,6 +1574,9 @@ const IdentifiersDecls = `
 const StringInitStatement = `
 	{{Identifier}}.{{GeneratedFieldName}} = ` + "`" + `{{GeneratedFieldNameValue}}` + "`"
 
+const StringEnumInitStatement = `
+	{{Identifier}}.{{GeneratedFieldName}} = {{GeneratedFieldNameValue}}`
+
 const NumberInitStatement = `
 	{{Identifier}}.{{GeneratedFieldName}} = {{GeneratedFieldNameValue}}`
 
@@ -1705,11 +1708,13 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", classshape.Heigth))
 		initializerStatements += setValueField
 
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "ClassshapeTargetType")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(classshape.ClassshapeTargetType))
-		initializerStatements += setValueField
+		if classshape.ClassshapeTargetType != "" {
+			setValueField = StringEnumInitStatement
+			setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+			setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "ClassshapeTargetType")
+			setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", "models."+classshape.ClassshapeTargetType.ToCodeString())
+			initializerStatements += setValueField
+		}
 
 	}
 
@@ -1837,11 +1842,13 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(gongdoccommand.Name))
 		initializerStatements += setValueField
 
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Command")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(gongdoccommand.Command))
-		initializerStatements += setValueField
+		if gongdoccommand.Command != "" {
+			setValueField = StringEnumInitStatement
+			setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+			setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Command")
+			setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", "models."+gongdoccommand.Command.ToCodeString())
+			initializerStatements += setValueField
+		}
 
 		setValueField = StringInitStatement
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
@@ -1855,11 +1862,13 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(gongdoccommand.Date))
 		initializerStatements += setValueField
 
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "GongdocNodeType")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(gongdoccommand.GongdocNodeType))
-		initializerStatements += setValueField
+		if gongdoccommand.GongdocNodeType != "" {
+			setValueField = StringEnumInitStatement
+			setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+			setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "GongdocNodeType")
+			setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", "models."+gongdoccommand.GongdocNodeType.ToCodeString())
+			initializerStatements += setValueField
+		}
 
 		setValueField = StringInitStatement
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
@@ -1923,11 +1932,13 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(gongdocstatus.Name))
 		initializerStatements += setValueField
 
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Status")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(gongdocstatus.Status))
-		initializerStatements += setValueField
+		if gongdocstatus.Status != "" {
+			setValueField = StringEnumInitStatement
+			setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+			setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Status")
+			setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", "models."+gongdocstatus.Status.ToCodeString())
+			initializerStatements += setValueField
+		}
 
 		setValueField = StringInitStatement
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
@@ -1985,11 +1996,21 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(link.Fieldtypename))
 		initializerStatements += setValueField
 
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Multiplicity")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(link.Multiplicity))
-		initializerStatements += setValueField
+		if link.TargetMultiplicity != "" {
+			setValueField = StringEnumInitStatement
+			setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+			setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "TargetMultiplicity")
+			setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", "models."+link.TargetMultiplicity.ToCodeString())
+			initializerStatements += setValueField
+		}
+
+		if link.SourceMultiplicity != "" {
+			setValueField = StringEnumInitStatement
+			setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+			setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "SourceMultiplicity")
+			setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", "models."+link.SourceMultiplicity.ToCodeString())
+			initializerStatements += setValueField
+		}
 
 	}
 
@@ -2451,6 +2472,18 @@ func (classshapetargettype *ClassshapeTargetType) FromString(input string) {
 	}
 }
 
+func (classshapetargettype *ClassshapeTargetType) ToCodeString() (res string) {
+
+	switch *classshapetargettype {
+	// insertion code per enum code
+	case ENUM:
+		res = "ENUM"
+	case STRUCT:
+		res = "STRUCT"
+	}
+	return
+}
+
 // Utility function for GongdocCommandType
 // if enum values are string, it is stored with the value
 // if enum values are int, they are stored with the code of the value
@@ -2518,6 +2551,38 @@ func (gongdoccommandtype *GongdocCommandType) FromString(input string) {
 	}
 }
 
+func (gongdoccommandtype *GongdocCommandType) ToCodeString() (res string) {
+
+	switch *gongdoccommandtype {
+	// insertion code per enum code
+	case DIAGRAM_BASICFIELD_CREATE:
+		res = "DIAGRAM_BASICFIELD_CREATE"
+	case DIAGRAM_BASICFIELD_DELETE:
+		res = "DIAGRAM_BASICFIELD_DELETE"
+	case DIAGRAM_ELEMENT_CREATE:
+		res = "DIAGRAM_ELEMENT_CREATE"
+	case DIAGRAM_ELEMENT_DELETE:
+		res = "DIAGRAM_ELEMENT_DELETE"
+	case DIAGRAM_GONGSTRUCT_CREATE:
+		res = "DIAGRAM_GONGSTRUCT_CREATE"
+	case DIAGRAM_GONGSTRUCT_DELETE:
+		res = "DIAGRAM_GONGSTRUCT_DELETE"
+	case DIAGRAM_POINTER_TO_GONGSTRUCT_CREATE:
+		res = "DIAGRAM_POINTER_TO_GONGSTRUCT_CREATE"
+	case DIAGRAM_POINTER_TO_GONGSTRUCT_DELETE:
+		res = "DIAGRAM_POINTER_TO_GONGSTRUCT_DELETE"
+	case DIAGRAM_SLICE_OF_POINTERS_TO_GONGSTRUCT_CREATE:
+		res = "DIAGRAM_SLICE_OF_POINTERS_TO_GONGSTRUCT_CREATE"
+	case DIAGRAM_SLICE_OF_POINTERS_TO_GONGSTRUCT_DELETE:
+		res = "DIAGRAM_SLICE_OF_POINTERS_TO_GONGSTRUCT_DELETE"
+	case MARSHALL_DIAGRAM:
+		res = "MARSHALL_DIAGRAM"
+	case PRINT_ALL_DOCUMENTS:
+		res = "PRINT_ALL_DOCUMENTS"
+	}
+	return
+}
+
 // Utility function for GongdocNodeType
 // if enum values are string, it is stored with the value
 // if enum values are int, they are stored with the code of the value
@@ -2577,6 +2642,34 @@ func (gongdocnodetype *GongdocNodeType) FromString(input string) {
 	}
 }
 
+func (gongdocnodetype *GongdocNodeType) ToCodeString() (res string) {
+
+	switch *gongdocnodetype {
+	// insertion code per enum code
+	case BASIC_FIELD:
+		res = "BASIC_FIELD"
+	case GONG_STRUCT:
+		res = "GONG_STRUCT"
+	case POINTER_TO_STRUCT:
+		res = "POINTER_TO_STRUCT"
+	case ROOT_OF_BASIC_FIELDS:
+		res = "ROOT_OF_BASIC_FIELDS"
+	case ROOT_OF_GONG_STRUCTS:
+		res = "ROOT_OF_GONG_STRUCTS"
+	case ROOT_OF_POINTER_TO_STRUCT_FIELDS:
+		res = "ROOT_OF_POINTER_TO_STRUCT_FIELDS"
+	case ROOT_OF_SLICE_OF_POINTER_TO_GONG_STRUCT_FIELDS:
+		res = "ROOT_OF_SLICE_OF_POINTER_TO_GONG_STRUCT_FIELDS"
+	case ROOT_OF_TIME_FIELDS:
+		res = "ROOT_OF_TIME_FIELDS"
+	case SLICE_OF_POINTER_TO_STRUCT:
+		res = "SLICE_OF_POINTER_TO_STRUCT"
+	case TIME_FIELD:
+		res = "TIME_FIELD"
+	}
+	return
+}
+
 // Utility function for MultiplicityType
 // if enum values are string, it is stored with the value
 // if enum values are int, they are stored with the code of the value
@@ -2606,5 +2699,19 @@ func (multiplicitytype *MultiplicityType) FromString(input string) {
 	case "0..1":
 		*multiplicitytype = ZERO_ONE
 	}
+}
+
+func (multiplicitytype *MultiplicityType) ToCodeString() (res string) {
+
+	switch *multiplicitytype {
+	// insertion code per enum code
+	case MANY:
+		res = "MANY"
+	case ONE:
+		res = "ONE"
+	case ZERO_ONE:
+		res = "ZERO_ONE"
+	}
+	return
 }
 
