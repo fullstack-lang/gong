@@ -15,7 +15,8 @@ export class LinkDB {
 	Fieldname: string = ""
 	Structname: string = ""
 	Fieldtypename: string = ""
-	Multiplicity: string = ""
+	TargetMultiplicity: string = ""
+	SourceMultiplicity: string = ""
 
 	// insertion point for other declarations
 	Middlevertice?: VerticeDB

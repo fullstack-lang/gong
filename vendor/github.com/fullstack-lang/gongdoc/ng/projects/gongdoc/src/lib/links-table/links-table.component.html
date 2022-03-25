@@ -47,10 +47,17 @@
             </td>
         </ng-container>
         <!-- -->
-        <ng-container matColumnDef="Multiplicity">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> Multiplicity </th>
+        <ng-container matColumnDef="TargetMultiplicity">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> TargetMultiplicity </th>
             <td mat-cell *matCellDef="let Link">
-                {{Link.Multiplicity}}
+                {{Link.TargetMultiplicity}}
+            </td>
+        </ng-container>
+        <!-- -->
+        <ng-container matColumnDef="SourceMultiplicity">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> SourceMultiplicity </th>
+            <td mat-cell *matCellDef="let Link">
+                {{Link.SourceMultiplicity}}
             </td>
         </ng-container>
         <!-- -->

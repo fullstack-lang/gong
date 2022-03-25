@@ -17,25 +17,17 @@ type Link struct {
 	Name string
 
 	// swagger:ignore
-	Field         interface{} `gorm:"-"` // field that is diagrammed
-	Fieldname     string
-	Structname    string
-	Fieldtypename string
-	Multiplicity  MultiplicityType
+	Field              interface{} `gorm:"-"` // field that is diagrammed
+	Fieldname          string
+	Structname         string
+	Fieldtypename      string
+	TargetMultiplicity MultiplicityType
+	SourceMultiplicity MultiplicityType
 
 	// Vertices at the middle
 	// swagger:ignore
 	Middlevertice *Vertice
 }
-
-type MultiplicityType string
-
-// values for EnumType
-const (
-	ZERO_ONE MultiplicityType = "0..1"
-	ONE      MultiplicityType = "1"
-	MANY     MultiplicityType = "*"
-)
 
 // Unmarshall
 func (link *Link) Unmarshall(expr ast.Expr, fset *token.FileSet) {
@@ -115,7 +107,7 @@ func (link *Link) Unmarshall(expr ast.Expr, fset *token.FileSet) {
 		case "Middlevertice":
 			link.Middlevertice = new(Vertice)
 			link.Middlevertice.Unmarshall(kve.Value, fset)
-		case "Multiplicity":
+		case "TargetMultiplicity":
 			var bl *ast.BasicLit
 			if bl, ok = kve.Value.(*ast.BasicLit); !ok {
 				// TODO deal with recursive Binary Expressions "titi"+"toto"+"tata"
@@ -123,11 +115,27 @@ func (link *Link) Unmarshall(expr ast.Expr, fset *token.FileSet) {
 			}
 			switch bl.Value {
 			case "\"" + string(ZERO_ONE) + "\"":
-				link.Multiplicity = ZERO_ONE
+				link.TargetMultiplicity = ZERO_ONE
 			case "\"" + string(MANY) + "\"":
-				link.Multiplicity = MANY
+				link.TargetMultiplicity = MANY
 			case "\"" + string(ONE) + "\"":
-				link.Multiplicity = ONE
+				link.TargetMultiplicity = ONE
+			default:
+				log.Panic("Unknown multiplicity " + fset.Position(kve.Pos()).String())
+			}
+		case "SourceMultiplicity":
+			var bl *ast.BasicLit
+			if bl, ok = kve.Value.(*ast.BasicLit); !ok {
+				// TODO deal with recursive Binary Expressions "titi"+"toto"+"tata"
+				log.Panic("Expecting a basic lit " + fset.Position(kve.Value.Pos()).String())
+			}
+			switch bl.Value {
+			case "\"" + string(ZERO_ONE) + "\"":
+				link.SourceMultiplicity = ZERO_ONE
+			case "\"" + string(MANY) + "\"":
+				link.SourceMultiplicity = MANY
+			case "\"" + string(ONE) + "\"":
+				link.SourceMultiplicity = ONE
 			default:
 				log.Panic("Unknown multiplicity " + fset.Position(kve.Pos()).String())
 			}
@@ -155,7 +163,8 @@ func (link *Link) Marshall(file *os.File, nbIndentation int) error {
 	// add multiplicity
 	{
 		indent(file, nbIndentation+1)
-		fmt.Fprintf(file, "Multiplicity: \"%s\",\n", link.Multiplicity)
+		fmt.Fprintf(file, "TargetMultiplicity: \"%s\",\n", link.TargetMultiplicity)
+		fmt.Fprintf(file, "\t\t\t\t\tSourceMultiplicity: \"%s\",\n", link.SourceMultiplicity)
 	}
 
 	indent(file, nbIndentation)
