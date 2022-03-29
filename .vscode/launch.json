@@ -49,6 +49,18 @@
             "args": []
         },
         {
+            "name": "gongc gongmarkdown -backendOnly -skipGoModCommands",
+            "type": "go",
+            "request": "launch",
+            "mode": "debug",
+            "cwd": "${workspaceFolder}/../gongmarkdown/go/models",
+            "program": "${workspaceFolder}/go/cmd/gongc",
+            "args": [
+                "-backendOnly",
+                "-skipGoModCommands"
+            ]
+        },
+        {
             "name": "gongc /tmp/helloworld/go/models",
             "type": "go",
             "request": "launch",
