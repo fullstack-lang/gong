@@ -29,6 +29,13 @@ type __void struct{}
 // needed for creating set of instances in the stage
 var __member __void
 
+// GetFieldsInterface is the interface met by GongStructs
+// It allows runtime reflexion of instances (without the hassle of the "reflect" package)
+type GetFieldsInterface interface {
+	GetFields() (res []string)
+	GetFieldStringValue(fieldName string) (res string)
+}
+
 // StageStruct enables storage of staged instances
 // swagger:ignore
 type StageStruct struct { // insertion point for definition of arrays registering instances{{` + string(rune(ModelGongStructInsertionArrayDefintion)) + `}}
@@ -237,6 +244,7 @@ type ModelGongStructInsertionId int
 
 const (
 	ModelGongStructInsertionCommitCheckout ModelGongStructInsertionId = iota
+	ModelGongStructInsertionGetFields
 	ModelGongStructInsertionStageFunctions
 	ModelGongStructInsertionCreateCallback
 	ModelGongStructInsertionDeleteCallback
@@ -299,6 +307,7 @@ map[ModelGongStructInsertionId]string{
 	Commit{{Structname}}({{structname}} *{{Structname}})
 	Checkout{{Structname}}({{structname}} *{{Structname}})`,
 
+	ModelGongStructInsertionGetFields: ``,
 	ModelGongStructInsertionStageFunctions: `
 func (stage *StageStruct) get{{Structname}}OrderedStructWithNameField() []*{{Structname}} {
 	// have alphabetical order generation
@@ -400,6 +409,20 @@ func DeleteORM{{Structname}}({{structname}} *{{Structname}}) {
 	if Stage.AllModelsStructDeleteCallback != nil {
 		Stage.AllModelsStructDeleteCallback.DeleteORM{{Structname}}({{structname}})
 	}
+}
+
+// for satisfaction of GetFields interface
+func ({{structname}} *{{Structname}}) GetFields() (res []string) {
+	// list of fields
+
+	return
+}
+
+func ({{structname}} *{{Structname}}) GetFieldStringValue(fieldName string) (res string) {
+	switch fieldName {
+	// list of fields
+	}
+	return
 }
 `,
 
