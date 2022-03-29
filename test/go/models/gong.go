@@ -17,6 +17,13 @@ type __void struct{}
 // needed for creating set of instances in the stage
 var __member __void
 
+// GetFieldsInterface is the interface met by GongStructs
+// It allows runtime reflexion of instances (without the hassle of the "reflect" package)
+type GetFieldsInterface interface {
+	GetFields() (res []string)
+	GetFieldStringValue(fieldName string) (res string)
+}
+
 // StageStruct enables storage of staged instances
 // swagger:ignore
 type StageStruct struct { // insertion point for definition of arrays registering instances
@@ -248,6 +255,54 @@ func DeleteORMAstruct(astruct *Astruct) {
 	}
 }
 
+// for satisfaction of GetFields interface
+func (astruct *Astruct) GetFields() (res []string) {
+	// list of fields 
+	res = []string{"Name", "Date", "Booleanfield", "Aenum", "Aenum_2", "Benum", "CEnum", "CName", "CFloatfield", "Floatfield", "Intfield", "Anotherbooleanfield", "Duration1", "Associationtob", "Anotherassociationtob_2", "Anarrayofb", "Anotherarrayofb", "Anarrayofa", "AnarrayofbUse", "Anarrayofb2Use",  }
+	return
+}
+
+func (astruct *Astruct) GetFieldStringValue(fieldName string) (res string) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res = astruct.Name
+	case "Date":
+		res = astruct.Date.String()
+	case "Booleanfield":
+		res = fmt.Sprintf("%t", astruct.Booleanfield)
+	case "Aenum":
+		res = astruct.Aenum.ToCodeString()
+	case "Aenum_2":
+		res = astruct.Aenum_2.ToCodeString()
+	case "Benum":
+		res = astruct.Benum.ToCodeString()
+	case "CEnum":
+		res = astruct.CEnum.ToCodeString()
+	case "CName":
+		res = astruct.CName
+	case "CFloatfield":
+		res = fmt.Sprintf("%f", astruct.CFloatfield)
+	case "Floatfield":
+		res = fmt.Sprintf("%f", astruct.Floatfield)
+	case "Intfield":
+		res = fmt.Sprintf("%d", astruct.Intfield)
+	case "Anotherbooleanfield":
+		res = fmt.Sprintf("%t", astruct.Anotherbooleanfield)
+	case "Duration1":
+		res = fmt.Sprintf("%d", astruct.Duration1)
+	case "Associationtob":
+		if astruct.Associationtob != nil {
+			res = astruct.Associationtob.Name
+		}
+	case "Anotherassociationtob_2":
+		if astruct.Anotherassociationtob_2 != nil {
+			res = astruct.Anotherassociationtob_2.Name
+		}
+	}
+	return
+}
+
 func (stage *StageStruct) getAstructBstruct2UseOrderedStructWithNameField() []*AstructBstruct2Use {
 	// have alphabetical order generation
 	astructbstruct2useOrdered := []*AstructBstruct2Use{}
@@ -348,6 +403,26 @@ func DeleteORMAstructBstruct2Use(astructbstruct2use *AstructBstruct2Use) {
 	if Stage.AllModelsStructDeleteCallback != nil {
 		Stage.AllModelsStructDeleteCallback.DeleteORMAstructBstruct2Use(astructbstruct2use)
 	}
+}
+
+// for satisfaction of GetFields interface
+func (astructbstruct2use *AstructBstruct2Use) GetFields() (res []string) {
+	// list of fields 
+	res = []string{"Name", "Bstrcut2",  }
+	return
+}
+
+func (astructbstruct2use *AstructBstruct2Use) GetFieldStringValue(fieldName string) (res string) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res = astructbstruct2use.Name
+	case "Bstrcut2":
+		if astructbstruct2use.Bstrcut2 != nil {
+			res = astructbstruct2use.Bstrcut2.Name
+		}
+	}
+	return
 }
 
 func (stage *StageStruct) getAstructBstructUseOrderedStructWithNameField() []*AstructBstructUse {
@@ -452,6 +527,26 @@ func DeleteORMAstructBstructUse(astructbstructuse *AstructBstructUse) {
 	}
 }
 
+// for satisfaction of GetFields interface
+func (astructbstructuse *AstructBstructUse) GetFields() (res []string) {
+	// list of fields 
+	res = []string{"Name", "Bstruct2",  }
+	return
+}
+
+func (astructbstructuse *AstructBstructUse) GetFieldStringValue(fieldName string) (res string) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res = astructbstructuse.Name
+	case "Bstruct2":
+		if astructbstructuse.Bstruct2 != nil {
+			res = astructbstructuse.Bstruct2.Name
+		}
+	}
+	return
+}
+
 func (stage *StageStruct) getBstructOrderedStructWithNameField() []*Bstruct {
 	// have alphabetical order generation
 	bstructOrdered := []*Bstruct{}
@@ -554,6 +649,26 @@ func DeleteORMBstruct(bstruct *Bstruct) {
 	}
 }
 
+// for satisfaction of GetFields interface
+func (bstruct *Bstruct) GetFields() (res []string) {
+	// list of fields 
+	res = []string{"Name", "Floatfield", "Intfield",  }
+	return
+}
+
+func (bstruct *Bstruct) GetFieldStringValue(fieldName string) (res string) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res = bstruct.Name
+	case "Floatfield":
+		res = fmt.Sprintf("%f", bstruct.Floatfield)
+	case "Intfield":
+		res = fmt.Sprintf("%d", bstruct.Intfield)
+	}
+	return
+}
+
 func (stage *StageStruct) getDstructOrderedStructWithNameField() []*Dstruct {
 	// have alphabetical order generation
 	dstructOrdered := []*Dstruct{}
@@ -654,6 +769,22 @@ func DeleteORMDstruct(dstruct *Dstruct) {
 	if Stage.AllModelsStructDeleteCallback != nil {
 		Stage.AllModelsStructDeleteCallback.DeleteORMDstruct(dstruct)
 	}
+}
+
+// for satisfaction of GetFields interface
+func (dstruct *Dstruct) GetFields() (res []string) {
+	// list of fields 
+	res = []string{"Name",  }
+	return
+}
+
+func (dstruct *Dstruct) GetFieldStringValue(fieldName string) (res string) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res = dstruct.Name
+	}
+	return
 }
 
 // swagger:ignore
@@ -1296,3 +1427,4 @@ func (cenumtypeint *CEnumTypeInt) ToCodeString() (res string) {
 	}
 	return
 }
+
