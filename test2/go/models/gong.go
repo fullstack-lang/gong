@@ -17,6 +17,13 @@ type __void struct{}
 // needed for creating set of instances in the stage
 var __member __void
 
+// GetFieldsInterface is the interface met by GongStructs
+// It allows runtime reflexion of instances (without the hassle of the "reflect" package)
+type GetFieldsInterface interface {
+	GetFields() (res []string)
+	GetFieldStringValue(fieldName string) (res string)
+}
+
 // StageStruct enables storage of staged instances
 // swagger:ignore
 type StageStruct struct { // insertion point for definition of arrays registering instances
@@ -212,6 +219,22 @@ func DeleteORMAstruct(astruct *Astruct) {
 	}
 }
 
+// for satisfaction of GetFields interface
+func (astruct *Astruct) GetFields() (res []string) {
+	// list of fields 
+	res = []string{"Name", "Anarrayofa",  }
+	return
+}
+
+func (astruct *Astruct) GetFieldStringValue(fieldName string) (res string) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res = astruct.Name
+	}
+	return
+}
+
 // swagger:ignore
 type AllModelsStructCreateInterface interface { // insertion point for Callbacks on creation
 	CreateORMAstruct(Astruct *Astruct)
@@ -264,6 +287,9 @@ const IdentifiersDecls = `
 
 const StringInitStatement = `
 	{{Identifier}}.{{GeneratedFieldName}} = ` + "`" + `{{GeneratedFieldNameValue}}` + "`"
+
+const StringEnumInitStatement = `
+	{{Identifier}}.{{GeneratedFieldName}} = {{GeneratedFieldNameValue}}`
 
 const NumberInitStatement = `
 	{{Identifier}}.{{GeneratedFieldName}} = {{GeneratedFieldNameValue}}`
