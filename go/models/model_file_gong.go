@@ -413,14 +413,13 @@ func DeleteORM{{Structname}}({{structname}} *{{Structname}}) {
 
 // for satisfaction of GetFields interface
 func ({{structname}} *{{Structname}}) GetFields() (res []string) {
-	// list of fields
-
+	// list of fields {{ListOfFieldsName}}
 	return
 }
 
 func ({{structname}} *{{Structname}}) GetFieldStringValue(fieldName string) (res string) {
 	switch fieldName {
-	// list of fields
+	// string value of fields{{StringValueOfFields}}
 	}
 	return
 }
@@ -513,6 +512,18 @@ const (
 	GongFileFieldSubTmplSetTimeField
 	GongFileFieldSubTmplSetPointerField
 	GongFileFieldSubTmplSetSliceOfPointersField
+
+	GongFileFieldSubTmplStringFieldName
+
+	GongFileFieldSubTmplStringValueBasicFieldBool
+	GongFileFieldSubTmplStringValueBasicFieldInt
+	GongFileFieldSubTmplStringValueBasicFieldEnumString
+	GongFileFieldSubTmplStringValueBasicFieldEnumInt
+	GongFileFieldSubTmplStringValueBasicFieldFloat64
+	GongFileFieldSubTmplStringValueBasicFieldString
+	GongFileFieldSubTmplStringValueTimeField
+	GongFileFieldSubTmplStringValuePointerField
+	GongFileFieldSubTmplStringValueSliceOfPointersField
 )
 
 //
@@ -590,6 +601,7 @@ map[GongFilePerStructSubTemplateId]string{
 			pointersInitializesStatements += setPointerField
 		}
 `,
+	GongFileFieldSubTmplStringFieldName: `"{{FieldName}} ", `,
 }
 
 //
@@ -650,7 +662,10 @@ func CodeGeneratorModelGong(
 			// replace {{ValuesInitialization}}
 			valInitCode := ""
 			pointerInitCode := ""
+			fieldNames := `
+	res = []string{`
 			for _, field := range gongStruct.Fields {
+
 				switch field := field.(type) {
 				case *GongBasicField:
 
@@ -702,6 +717,10 @@ func CodeGeneratorModelGong(
 						"{{assocstructname}}", strings.ToLower(field.GongStruct.Name))
 				default:
 				}
+
+				fieldNames += Replace1(
+					GongFileFieldFieldSubTemplateCode[GongFileFieldSubTmplStringFieldName],
+					"{{FieldName}}", field.GetName())
 			}
 
 			valInitCode = Replace2(valInitCode,
@@ -712,11 +731,13 @@ func CodeGeneratorModelGong(
 				"{{structname}}", strings.ToLower(gongStruct.Name),
 				"{{Structname}}", gongStruct.Name)
 
-			generatedCodeFromSubTemplate := Replace4(ModelGongStructSubTemplateCode[subStructTemplate],
+			fieldNames += ` }`
+			generatedCodeFromSubTemplate := Replace5(ModelGongStructSubTemplateCode[subStructTemplate],
 				"{{structname}}", strings.ToLower(gongStruct.Name),
 				"{{Structname}}", gongStruct.Name,
 				"{{ValuesInitialization}}", valInitCode,
 				"{{PointersInitialization}}", pointerInitCode,
+				"{{ListOfFieldsName}}", fieldNames,
 			)
 
 			subStructCodes[subStructTemplate] += generatedCodeFromSubTemplate
