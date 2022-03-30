@@ -155,6 +155,18 @@
             "args": []
         },
         {
+            "label": "01 - gongc test -skipGoModCommands",
+            "type": "shell",
+            "options": {
+                "cwd": "${workspaceFolder}/test/go/models"
+            },
+            "command": "gongc",
+            "group": "build",
+            "args": [
+                "-skipGoModCommands"
+            ]
+        },
+        {
             "label": "01 - gongc test2",
             "type": "shell",
             "options": {

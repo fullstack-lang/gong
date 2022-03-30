@@ -23,8 +23,6 @@
     "paths": {
       "test": [
         "projects/test/src/public-api.ts",
-        "dist/test/test",
-        "dist/test"
       ]
     }
   },
