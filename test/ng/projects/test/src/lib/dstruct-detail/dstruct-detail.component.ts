@@ -240,7 +240,7 @@ export class DstructDetailComponent implements OnInit {
 	}
 
 	fillUpNameIfEmpty(event: { value: { Name: string; }; }) {
-		if (this.dstruct.Name == undefined) {
+		if (this.dstruct.Name == "") {
 			this.dstruct.Name = event.value.Name
 		}
 	}

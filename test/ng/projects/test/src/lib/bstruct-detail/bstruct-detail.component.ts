@@ -283,7 +283,7 @@ export class BstructDetailComponent implements OnInit {
 	}
 
 	fillUpNameIfEmpty(event: { value: { Name: string; }; }) {
-		if (this.bstruct.Name == undefined) {
+		if (this.bstruct.Name == "") {
 			this.bstruct.Name = event.value.Name
 		}
 	}
