@@ -307,7 +307,7 @@ export class AstructDetailComponent implements OnInit {
 	}
 
 	fillUpNameIfEmpty(event: { value: { Name: string; }; }) {
-		if (this.astruct.Name == undefined) {
+		if (this.astruct.Name == "") {
 			this.astruct.Name = event.value.Name
 		}
 	}
