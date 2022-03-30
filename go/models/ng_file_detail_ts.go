@@ -258,7 +258,7 @@ export class {{Structname}}DetailComponent implements OnInit {
 	}
 
 	fillUpNameIfEmpty(event: { value: { Name: string; }; }) {
-		if (this.{{structname}}.Name == undefined) {
+		if (this.{{structname}}.Name == "") {
 			this.{{structname}}.Name = event.value.Name
 		}
 	}
