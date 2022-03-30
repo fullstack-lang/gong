@@ -636,7 +636,12 @@ map[GongFilePerStructSubTemplateId]string{
 		}`,
 	GongFileFieldSubTmplStringValueSliceOfPointersField: `
 	case "{{FieldName}}":
-`,
+		for idx, __instance__ := range {{structname}}.{{FieldName}} {
+			if idx > 0 {
+				res += "\n"
+			}
+			res += __instance__.Name
+		}`,
 }
 
 //
@@ -777,6 +782,9 @@ func CodeGeneratorModelGong(
 						"{{FieldName}}", field.Name,
 						"{{AssocStructName}}", field.GongStruct.Name,
 						"{{assocstructname}}", strings.ToLower(field.GongStruct.Name))
+					fieldStringValues += Replace1(
+						GongFileFieldFieldSubTemplateCode[GongFileFieldSubTmplStringValueSliceOfPointersField],
+						"{{FieldName}}", field.Name)
 				default:
 				}
 
