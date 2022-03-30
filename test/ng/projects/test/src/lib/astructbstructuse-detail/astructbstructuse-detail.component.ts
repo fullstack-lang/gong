@@ -272,7 +272,7 @@ export class AstructBstructUseDetailComponent implements OnInit {
 	}
 
 	fillUpNameIfEmpty(event: { value: { Name: string; }; }) {
-		if (this.astructbstructuse.Name == undefined) {
+		if (this.astructbstructuse.Name == "") {
 			this.astructbstructuse.Name = event.value.Name
 		}
 	}
