@@ -272,7 +272,7 @@ export class SliceOfPointerToGongStructFieldDetailComponent implements OnInit {
 	}
 
 	fillUpNameIfEmpty(event: { value: { Name: string; }; }) {
-		if (this.sliceofpointertogongstructfield.Name == undefined) {
+		if (this.sliceofpointertogongstructfield.Name == "") {
 			this.sliceofpointertogongstructfield.Name = event.value.Name
 		}
 	}

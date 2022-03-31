@@ -262,7 +262,7 @@ export class GongEnumValueDetailComponent implements OnInit {
 	}
 
 	fillUpNameIfEmpty(event: { value: { Name: string; }; }) {
-		if (this.gongenumvalue.Name == undefined) {
+		if (this.gongenumvalue.Name == "") {
 			this.gongenumvalue.Name = event.value.Name
 		}
 	}

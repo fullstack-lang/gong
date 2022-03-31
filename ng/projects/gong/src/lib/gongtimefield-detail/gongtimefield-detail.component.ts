@@ -262,7 +262,7 @@ export class GongTimeFieldDetailComponent implements OnInit {
 	}
 
 	fillUpNameIfEmpty(event: { value: { Name: string; }; }) {
-		if (this.gongtimefield.Name == undefined) {
+		if (this.gongtimefield.Name == "") {
 			this.gongtimefield.Name = event.value.Name
 		}
 	}
