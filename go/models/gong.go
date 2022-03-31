@@ -17,9 +17,10 @@ type __void struct{}
 // needed for creating set of instances in the stage
 var __member __void
 
-// GetFieldsInterface is the interface met by GongStructs
+// GongStructInterface is the interface met by GongStructs
 // It allows runtime reflexion of instances (without the hassle of the "reflect" package)
-type GetFieldsInterface interface {
+type GongStructInterface interface {
+	GetName() (res string)
 	GetFields() (res []string)
 	GetFieldStringValue(fieldName string) (res string)
 }
@@ -282,7 +283,11 @@ func DeleteORMGongBasicField(gongbasicfield *GongBasicField) {
 	}
 }
 
-// for satisfaction of GetFields interface
+// for satisfaction of GongStruct interface
+func (gongbasicfield *GongBasicField) GetName() (res string) {
+	return gongbasicfield.Name
+}
+
 func (gongbasicfield *GongBasicField) GetFields() (res []string) {
 	// list of fields 
 	res = []string{"Name", "BasicKindName", "GongEnum", "DeclaredType", "Index",  }
@@ -410,7 +415,11 @@ func DeleteORMGongEnum(gongenum *GongEnum) {
 	}
 }
 
-// for satisfaction of GetFields interface
+// for satisfaction of GongStruct interface
+func (gongenum *GongEnum) GetName() (res string) {
+	return gongenum.Name
+}
+
 func (gongenum *GongEnum) GetFields() (res []string) {
 	// list of fields 
 	res = []string{"Name", "Type", "GongEnumValues",  }
@@ -424,6 +433,13 @@ func (gongenum *GongEnum) GetFieldStringValue(fieldName string) (res string) {
 		res = gongenum.Name
 	case "Type":
 		res = gongenum.Type.ToCodeString()
+	case "GongEnumValues":
+		for idx, __instance__ := range gongenum.GongEnumValues {
+			if idx > 0 {
+				res += "\n"
+			}
+			res += __instance__.Name
+		}
 	}
 	return
 }
@@ -530,7 +546,11 @@ func DeleteORMGongEnumValue(gongenumvalue *GongEnumValue) {
 	}
 }
 
-// for satisfaction of GetFields interface
+// for satisfaction of GongStruct interface
+func (gongenumvalue *GongEnumValue) GetName() (res string) {
+	return gongenumvalue.Name
+}
+
 func (gongenumvalue *GongEnumValue) GetFields() (res []string) {
 	// list of fields 
 	res = []string{"Name", "Value",  }
@@ -650,7 +670,11 @@ func DeleteORMGongStruct(gongstruct *GongStruct) {
 	}
 }
 
-// for satisfaction of GetFields interface
+// for satisfaction of GongStruct interface
+func (gongstruct *GongStruct) GetName() (res string) {
+	return gongstruct.Name
+}
+
 func (gongstruct *GongStruct) GetFields() (res []string) {
 	// list of fields 
 	res = []string{"Name", "GongBasicFields", "GongTimeFields", "PointerToGongStructFields", "SliceOfPointerToGongStructFields",  }
@@ -662,6 +686,34 @@ func (gongstruct *GongStruct) GetFieldStringValue(fieldName string) (res string)
 	// string value of fields
 	case "Name":
 		res = gongstruct.Name
+	case "GongBasicFields":
+		for idx, __instance__ := range gongstruct.GongBasicFields {
+			if idx > 0 {
+				res += "\n"
+			}
+			res += __instance__.Name
+		}
+	case "GongTimeFields":
+		for idx, __instance__ := range gongstruct.GongTimeFields {
+			if idx > 0 {
+				res += "\n"
+			}
+			res += __instance__.Name
+		}
+	case "PointerToGongStructFields":
+		for idx, __instance__ := range gongstruct.PointerToGongStructFields {
+			if idx > 0 {
+				res += "\n"
+			}
+			res += __instance__.Name
+		}
+	case "SliceOfPointerToGongStructFields":
+		for idx, __instance__ := range gongstruct.SliceOfPointerToGongStructFields {
+			if idx > 0 {
+				res += "\n"
+			}
+			res += __instance__.Name
+		}
 	}
 	return
 }
@@ -768,7 +820,11 @@ func DeleteORMGongTimeField(gongtimefield *GongTimeField) {
 	}
 }
 
-// for satisfaction of GetFields interface
+// for satisfaction of GongStruct interface
+func (gongtimefield *GongTimeField) GetName() (res string) {
+	return gongtimefield.Name
+}
+
 func (gongtimefield *GongTimeField) GetFields() (res []string) {
 	// list of fields 
 	res = []string{"Name", "Index",  }
@@ -888,7 +944,11 @@ func DeleteORMModelPkg(modelpkg *ModelPkg) {
 	}
 }
 
-// for satisfaction of GetFields interface
+// for satisfaction of GongStruct interface
+func (modelpkg *ModelPkg) GetName() (res string) {
+	return modelpkg.Name
+}
+
 func (modelpkg *ModelPkg) GetFields() (res []string) {
 	// list of fields 
 	res = []string{"Name", "PkgPath",  }
@@ -1008,7 +1068,11 @@ func DeleteORMPointerToGongStructField(pointertogongstructfield *PointerToGongSt
 	}
 }
 
-// for satisfaction of GetFields interface
+// for satisfaction of GongStruct interface
+func (pointertogongstructfield *PointerToGongStructField) GetName() (res string) {
+	return pointertogongstructfield.Name
+}
+
 func (pointertogongstructfield *PointerToGongStructField) GetFields() (res []string) {
 	// list of fields 
 	res = []string{"Name", "GongStruct", "Index",  }
@@ -1132,7 +1196,11 @@ func DeleteORMSliceOfPointerToGongStructField(sliceofpointertogongstructfield *S
 	}
 }
 
-// for satisfaction of GetFields interface
+// for satisfaction of GongStruct interface
+func (sliceofpointertogongstructfield *SliceOfPointerToGongStructField) GetName() (res string) {
+	return sliceofpointertogongstructfield.Name
+}
+
 func (sliceofpointertogongstructfield *SliceOfPointerToGongStructField) GetFields() (res []string) {
 	// list of fields 
 	res = []string{"Name", "GongStruct", "Index",  }

@@ -240,7 +240,7 @@ export class ModelPkgDetailComponent implements OnInit {
 	}
 
 	fillUpNameIfEmpty(event: { value: { Name: string; }; }) {
-		if (this.modelpkg.Name == undefined) {
+		if (this.modelpkg.Name == "") {
 			this.modelpkg.Name = event.value.Name
 		}
 	}
