@@ -1,18 +1,19 @@
 // generated from ng_file_enum.ts.go
 export enum ModelGongStructInsertionId {
 	// insertion point	
-	ModelGongStructInsertionArrayDefintion = 4,
-	ModelGongStructInsertionArrayInitialisation = 5,
-	ModelGongStructInsertionArrayNil = 7,
-	ModelGongStructInsertionArrayReset = 6,
+	ModelGongStructInsertionArrayDefintion = 5,
+	ModelGongStructInsertionArrayInitialisation = 6,
+	ModelGongStructInsertionArrayNil = 8,
+	ModelGongStructInsertionArrayReset = 7,
 	ModelGongStructInsertionCommitCheckout = 0,
-	ModelGongStructInsertionComputeNbInstances = 10,
-	ModelGongStructInsertionCreateCallback = 2,
-	ModelGongStructInsertionDeleteCallback = 3,
-	ModelGongStructInsertionStageFunctions = 1,
-	ModelGongStructInsertionUnmarshallDeclarations = 8,
-	ModelGongStructInsertionUnmarshallPointersInitializations = 9,
-	ModelGongStructInsertionsNb = 11,
+	ModelGongStructInsertionComputeNbInstances = 11,
+	ModelGongStructInsertionCreateCallback = 3,
+	ModelGongStructInsertionDeleteCallback = 4,
+	ModelGongStructInsertionGetFields = 1,
+	ModelGongStructInsertionStageFunctions = 2,
+	ModelGongStructInsertionUnmarshallDeclarations = 9,
+	ModelGongStructInsertionUnmarshallPointersInitializations = 10,
+	ModelGongStructInsertionsNb = 12,
 }
 
 export interface ModelGongStructInsertionIdSelect {
@@ -29,6 +30,7 @@ export const ModelGongStructInsertionIdList: ModelGongStructInsertionIdSelect[] 
 	{ value: ModelGongStructInsertionId.ModelGongStructInsertionComputeNbInstances, viewValue: "ModelGongStructInsertionComputeNbInstances" },
 	{ value: ModelGongStructInsertionId.ModelGongStructInsertionCreateCallback, viewValue: "ModelGongStructInsertionCreateCallback" },
 	{ value: ModelGongStructInsertionId.ModelGongStructInsertionDeleteCallback, viewValue: "ModelGongStructInsertionDeleteCallback" },
+	{ value: ModelGongStructInsertionId.ModelGongStructInsertionGetFields, viewValue: "ModelGongStructInsertionGetFields" },
 	{ value: ModelGongStructInsertionId.ModelGongStructInsertionStageFunctions, viewValue: "ModelGongStructInsertionStageFunctions" },
 	{ value: ModelGongStructInsertionId.ModelGongStructInsertionUnmarshallDeclarations, viewValue: "ModelGongStructInsertionUnmarshallDeclarations" },
 	{ value: ModelGongStructInsertionId.ModelGongStructInsertionUnmarshallPointersInitializations, viewValue: "ModelGongStructInsertionUnmarshallPointersInitializations" },

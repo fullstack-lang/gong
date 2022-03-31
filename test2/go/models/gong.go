@@ -17,9 +17,10 @@ type __void struct{}
 // needed for creating set of instances in the stage
 var __member __void
 
-// GetFieldsInterface is the interface met by GongStructs
+// GongStructInterface is the interface met by GongStructs
 // It allows runtime reflexion of instances (without the hassle of the "reflect" package)
-type GetFieldsInterface interface {
+type GongStructInterface interface {
+	GetName() (res string)
 	GetFields() (res []string)
 	GetFieldStringValue(fieldName string) (res string)
 }
@@ -219,7 +220,11 @@ func DeleteORMAstruct(astruct *Astruct) {
 	}
 }
 
-// for satisfaction of GetFields interface
+// for satisfaction of GongStruct interface
+func (astruct *Astruct) GetName() (res string) {
+	return astruct.Name
+}
+
 func (astruct *Astruct) GetFields() (res []string) {
 	// list of fields 
 	res = []string{"Name", "Anarrayofa",  }
@@ -231,6 +236,13 @@ func (astruct *Astruct) GetFieldStringValue(fieldName string) (res string) {
 	// string value of fields
 	case "Name":
 		res = astruct.Name
+	case "Anarrayofa":
+		for idx, __instance__ := range astruct.Anarrayofa {
+			if idx > 0 {
+				res += "\n"
+			}
+			res += __instance__.Name
+		}
 	}
 	return
 }

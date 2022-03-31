@@ -240,7 +240,7 @@ export class GongStructDetailComponent implements OnInit {
 	}
 
 	fillUpNameIfEmpty(event: { value: { Name: string; }; }) {
-		if (this.gongstruct.Name == undefined) {
+		if (this.gongstruct.Name == "") {
 			this.gongstruct.Name = event.value.Name
 		}
 	}

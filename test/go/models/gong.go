@@ -17,9 +17,10 @@ type __void struct{}
 // needed for creating set of instances in the stage
 var __member __void
 
-// GetFieldsInterface is the interface met by GongStructs
+// GongStructInterface is the interface met by GongStructs
 // It allows runtime reflexion of instances (without the hassle of the "reflect" package)
-type GetFieldsInterface interface {
+type GongStructInterface interface {
+	GetName() (res string)
 	GetFields() (res []string)
 	GetFieldStringValue(fieldName string) (res string)
 }
@@ -255,7 +256,11 @@ func DeleteORMAstruct(astruct *Astruct) {
 	}
 }
 
-// for satisfaction of GetFields interface
+// for satisfaction of GongStruct interface
+func (astruct *Astruct) GetName() (res string) {
+	return astruct.Name
+}
+
 func (astruct *Astruct) GetFields() (res []string) {
 	// list of fields 
 	res = []string{"Name", "Date", "Booleanfield", "Aenum", "Aenum_2", "Benum", "CEnum", "CName", "CFloatfield", "Floatfield", "Intfield", "Anotherbooleanfield", "Duration1", "Associationtob", "Anotherassociationtob_2", "Anarrayofb", "Anotherarrayofb", "Anarrayofa", "AnarrayofbUse", "Anarrayofb2Use",  }
@@ -298,6 +303,41 @@ func (astruct *Astruct) GetFieldStringValue(fieldName string) (res string) {
 	case "Anotherassociationtob_2":
 		if astruct.Anotherassociationtob_2 != nil {
 			res = astruct.Anotherassociationtob_2.Name
+		}
+	case "Anarrayofb":
+		for idx, __instance__ := range astruct.Anarrayofb {
+			if idx > 0 {
+				res += "\n"
+			}
+			res += __instance__.Name
+		}
+	case "Anotherarrayofb":
+		for idx, __instance__ := range astruct.Anotherarrayofb {
+			if idx > 0 {
+				res += "\n"
+			}
+			res += __instance__.Name
+		}
+	case "Anarrayofa":
+		for idx, __instance__ := range astruct.Anarrayofa {
+			if idx > 0 {
+				res += "\n"
+			}
+			res += __instance__.Name
+		}
+	case "AnarrayofbUse":
+		for idx, __instance__ := range astruct.AnarrayofbUse {
+			if idx > 0 {
+				res += "\n"
+			}
+			res += __instance__.Name
+		}
+	case "Anarrayofb2Use":
+		for idx, __instance__ := range astruct.Anarrayofb2Use {
+			if idx > 0 {
+				res += "\n"
+			}
+			res += __instance__.Name
 		}
 	}
 	return
@@ -405,7 +445,11 @@ func DeleteORMAstructBstruct2Use(astructbstruct2use *AstructBstruct2Use) {
 	}
 }
 
-// for satisfaction of GetFields interface
+// for satisfaction of GongStruct interface
+func (astructbstruct2use *AstructBstruct2Use) GetName() (res string) {
+	return astructbstruct2use.Name
+}
+
 func (astructbstruct2use *AstructBstruct2Use) GetFields() (res []string) {
 	// list of fields 
 	res = []string{"Name", "Bstrcut2",  }
@@ -527,7 +571,11 @@ func DeleteORMAstructBstructUse(astructbstructuse *AstructBstructUse) {
 	}
 }
 
-// for satisfaction of GetFields interface
+// for satisfaction of GongStruct interface
+func (astructbstructuse *AstructBstructUse) GetName() (res string) {
+	return astructbstructuse.Name
+}
+
 func (astructbstructuse *AstructBstructUse) GetFields() (res []string) {
 	// list of fields 
 	res = []string{"Name", "Bstruct2",  }
@@ -649,7 +697,11 @@ func DeleteORMBstruct(bstruct *Bstruct) {
 	}
 }
 
-// for satisfaction of GetFields interface
+// for satisfaction of GongStruct interface
+func (bstruct *Bstruct) GetName() (res string) {
+	return bstruct.Name
+}
+
 func (bstruct *Bstruct) GetFields() (res []string) {
 	// list of fields 
 	res = []string{"Name", "Floatfield", "Intfield",  }
@@ -771,7 +823,11 @@ func DeleteORMDstruct(dstruct *Dstruct) {
 	}
 }
 
-// for satisfaction of GetFields interface
+// for satisfaction of GongStruct interface
+func (dstruct *Dstruct) GetName() (res string) {
+	return dstruct.Name
+}
+
 func (dstruct *Dstruct) GetFields() (res []string) {
 	// list of fields 
 	res = []string{"Name",  }

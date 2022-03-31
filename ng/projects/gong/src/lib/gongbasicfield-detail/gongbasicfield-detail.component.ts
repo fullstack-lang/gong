@@ -272,7 +272,7 @@ export class GongBasicFieldDetailComponent implements OnInit {
 	}
 
 	fillUpNameIfEmpty(event: { value: { Name: string; }; }) {
-		if (this.gongbasicfield.Name == undefined) {
+		if (this.gongbasicfield.Name == "") {
 			this.gongbasicfield.Name = event.value.Name
 		}
 	}
