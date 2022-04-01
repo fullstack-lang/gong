@@ -74,6 +74,31 @@ const VsCodeTasksConfig = `{
 		]
 	  },
 	  {
+		"label": "01 - gongc {{pkgname}} -skipGoModCommands",
+		"type": "shell",
+		"options": {
+		  "cwd": "${workspaceFolder}/go/models"
+		},
+		"command": "gongc",
+		"group": "build",
+		"args": [
+			"-skipGoModCommands"
+		]
+	  },
+	  {
+		"label": "01 - gongc {{pkgname}} -backendOnly -skipGoModCommands",
+		"type": "shell",
+		"options": {
+		  "cwd": "${workspaceFolder}/go/models"
+		},
+		"command": "gongc",
+		"group": "build",
+		"args": [
+		  "-backendOnly",
+		  " -skipGoModCommands"
+		]
+	  },
+	  {
 		"label": "00 - go mod vendor",
 		"type": "shell",
 		"group": "build",
