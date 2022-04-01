@@ -289,8 +289,8 @@ func (gongbasicfield *GongBasicField) GetName() (res string) {
 }
 
 func (gongbasicfield *GongBasicField) GetFields() (res []string) {
-	// list of fields 
-	res = []string{"Name", "BasicKindName", "GongEnum", "DeclaredType", "Index",  }
+	// list of fields
+	res = []string{"Name", "BasicKindName", "GongEnum", "DeclaredType", "Index"}
 	return
 }
 
@@ -421,8 +421,8 @@ func (gongenum *GongEnum) GetName() (res string) {
 }
 
 func (gongenum *GongEnum) GetFields() (res []string) {
-	// list of fields 
-	res = []string{"Name", "Type", "GongEnumValues",  }
+	// list of fields
+	res = []string{"Name", "Type", "GongEnumValues"}
 	return
 }
 
@@ -552,8 +552,8 @@ func (gongenumvalue *GongEnumValue) GetName() (res string) {
 }
 
 func (gongenumvalue *GongEnumValue) GetFields() (res []string) {
-	// list of fields 
-	res = []string{"Name", "Value",  }
+	// list of fields
+	res = []string{"Name", "Value"}
 	return
 }
 
@@ -676,8 +676,8 @@ func (gongstruct *GongStruct) GetName() (res string) {
 }
 
 func (gongstruct *GongStruct) GetFields() (res []string) {
-	// list of fields 
-	res = []string{"Name", "GongBasicFields", "GongTimeFields", "PointerToGongStructFields", "SliceOfPointerToGongStructFields",  }
+	// list of fields
+	res = []string{"Name", "GongBasicFields", "GongTimeFields", "PointerToGongStructFields", "SliceOfPointerToGongStructFields"}
 	return
 }
 
@@ -826,8 +826,8 @@ func (gongtimefield *GongTimeField) GetName() (res string) {
 }
 
 func (gongtimefield *GongTimeField) GetFields() (res []string) {
-	// list of fields 
-	res = []string{"Name", "Index",  }
+	// list of fields
+	res = []string{"Name", "Index"}
 	return
 }
 
@@ -950,8 +950,8 @@ func (modelpkg *ModelPkg) GetName() (res string) {
 }
 
 func (modelpkg *ModelPkg) GetFields() (res []string) {
-	// list of fields 
-	res = []string{"Name", "PkgPath",  }
+	// list of fields
+	res = []string{"Name", "PkgPath"}
 	return
 }
 
@@ -1068,14 +1068,9 @@ func DeleteORMPointerToGongStructField(pointertogongstructfield *PointerToGongSt
 	}
 }
 
-// for satisfaction of GongStruct interface
-func (pointertogongstructfield *PointerToGongStructField) GetName() (res string) {
-	return pointertogongstructfield.Name
-}
-
 func (pointertogongstructfield *PointerToGongStructField) GetFields() (res []string) {
-	// list of fields 
-	res = []string{"Name", "GongStruct", "Index",  }
+	// list of fields
+	res = []string{"Name", "GongStruct", "Index"}
 	return
 }
 
@@ -1202,8 +1197,8 @@ func (sliceofpointertogongstructfield *SliceOfPointerToGongStructField) GetName(
 }
 
 func (sliceofpointertogongstructfield *SliceOfPointerToGongStructField) GetFields() (res []string) {
-	// list of fields 
-	res = []string{"Name", "GongStruct", "Index",  }
+	// list of fields
+	res = []string{"Name", "GongStruct", "Index"}
 	return
 }
 
@@ -4686,4 +4681,3 @@ func (ormsetupcumulsubtemplate *OrmSetupCumulSubTemplate) ToCodeString() (res st
 	}
 	return
 }
-
