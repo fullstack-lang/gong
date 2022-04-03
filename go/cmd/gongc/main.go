@@ -489,6 +489,34 @@ func main() {
 				}
 			}
 
+			// generate the "specific" library that will contains stack specific stuff, that can be reused
+			if os.IsNotExist(errStat) {
+				log.Printf("library directory %sspecific does not exist, hence gong is generating it with ng generate library command",
+					gong_models.MatTargetPath)
+
+				// generate library project
+				start := time.Now()
+				cmd := exec.Command("ng", "generate", "library", gong_models.PkgName+"specific", "--defaults=true", "--skip-install=true")
+				cmd.Dir = gong_models.NgWorkspacePath
+				log.Printf("Creating a library %s in the angular workspace\n", gong_models.PkgName)
+
+				// https://stackoverflow.com/questions/48253268/print-the-stdout-from-exec-command-in-real-time-in-go
+				var stdBuffer bytes.Buffer
+				mw := io.MultiWriter(os.Stdout, &stdBuffer)
+
+				cmd.Stdout = mw
+				cmd.Stderr = mw
+
+				log.Println(cmd.String())
+				log.Println(stdBuffer.String())
+
+				// Execute the command
+				if err := cmd.Run(); err != nil {
+					log.Panic(err)
+				}
+				log.Printf("ng generate library is over and took %s", time.Since(start))
+			}
+
 			// npm install
 			if true {
 				start := time.Now()
