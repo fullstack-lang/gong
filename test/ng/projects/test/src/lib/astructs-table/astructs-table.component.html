@@ -124,6 +124,13 @@
             </td>
         </ng-container>
         <!-- -->
+        <ng-container matColumnDef="Itself">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Itself </th>
+            <td mat-cell *matCellDef="let Astruct">
+                {{ Astruct.Itself ? Astruct.Itself.Name : ''}}
+            </td>
+        </ng-container>
+        <!-- -->
         <ng-container matColumnDef="Astruct_Anarrayofa">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> <-- (Astruct) Anarrayofa </th>
             <td mat-cell *matCellDef="let astruct">
@@ -163,7 +170,7 @@
             <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
         </tr>
     </table>
-    <mat-paginator [pageSizeOptions]="[10, 20, 50, 100, 500, 1000]" showFirstLastButtons></mat-paginator>
+    <mat-paginator [pageSizeOptions]="[50, 100, 500, 1000]" showFirstLastButtons></mat-paginator>
 </div>
 <button class="table__save" color="primary" *ngIf="dialogData" mat-raised-button (click)="save()">
     Save

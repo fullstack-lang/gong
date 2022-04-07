@@ -237,6 +237,16 @@
         </mat-grid-tile>
     </mat-grid-list>
     <mat-form-field class="detail-full-width">
+        <mat-label>Itself</mat-label>
+        <mat-select [compareWith]="compareObjects" [(value)]="astruct.Itself" (selectionChange)="fillUpNameIfEmpty($event)">
+            <mat-option>None</mat-option>
+            <mat-option *ngFor="let astruct of frontRepo.Astructs_array" [value]="astruct">
+                {{astruct.Name}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    <mat-form-field class="detail-full-width">
         <mat-label>(Astruct) Anarrayofa</mat-label>
         <mat-select [compareWith]="compareObjects" [(ngModel)]="astruct.Astruct_Anarrayofa_reverse" [ngModelOptions]="{standalone: true}">
             <mat-option>None</mat-option>
