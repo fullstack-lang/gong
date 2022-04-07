@@ -52,4 +52,7 @@ type Astruct struct {
 	// MANY-MANY association, (because AclassBclassUse ends with "Use")
 	AnarrayofbUse  []*AstructBstructUse
 	Anarrayofb2Use []*AstructBstruct2Use
+
+	// pointer to itself
+	Itself *Astruct
 }
