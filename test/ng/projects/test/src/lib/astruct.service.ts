@@ -78,7 +78,7 @@ export class AstructService {
     astructdb.Anarrayofa = []
     astructdb.AnarrayofbUse = []
     astructdb.Anarrayofb2Use = []
-    astructdb.Itself = new AstructDB
+    astructdb.AnAstruct = new AstructDB
     let _Astruct_Anarrayofa_reverse = astructdb.Astruct_Anarrayofa_reverse
     astructdb.Astruct_Anarrayofa_reverse = new AstructDB
 
@@ -116,7 +116,7 @@ export class AstructService {
     astructdb.Anarrayofa = []
     astructdb.AnarrayofbUse = []
     astructdb.Anarrayofb2Use = []
-    astructdb.Itself = new AstructDB
+    astructdb.AnAstruct = new AstructDB
     let _Astruct_Anarrayofa_reverse = astructdb.Astruct_Anarrayofa_reverse
     astructdb.Astruct_Anarrayofa_reverse = new AstructDB
 

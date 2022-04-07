@@ -364,11 +364,11 @@ export class FrontRepoService {
                     astruct.Anotherassociationtob_2 = _bstruct
                   }
                 }
-                // insertion point for pointer field Itself redeeming
+                // insertion point for pointer field AnAstruct redeeming
                 {
-                  let _astruct = FrontRepoSingloton.Astructs.get(astruct.ItselfID.Int64)
+                  let _astruct = FrontRepoSingloton.Astructs.get(astruct.AnAstructID.Int64)
                   if (_astruct) {
-                    astruct.Itself = _astruct
+                    astruct.AnAstruct = _astruct
                   }
                 }
 
@@ -532,11 +532,11 @@ export class FrontRepoService {
                     astruct.Anotherassociationtob_2 = _bstruct
                   }
                 }
-                // insertion point for pointer field Itself redeeming
+                // insertion point for pointer field AnAstruct redeeming
                 {
-                  let _astruct = FrontRepoSingloton.Astructs.get(astruct.ItselfID.Int64)
+                  let _astruct = FrontRepoSingloton.Astructs.get(astruct.AnAstructID.Int64)
                   if (_astruct) {
-                    astruct.Itself = _astruct
+                    astruct.AnAstruct = _astruct
                   }
                 }
 

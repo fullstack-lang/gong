@@ -40,8 +40,8 @@ export class AstructDB {
 	Anarrayofa?: Array<AstructDB>
 	AnarrayofbUse?: Array<AstructBstructUseDB>
 	Anarrayofb2Use?: Array<AstructBstruct2UseDB>
-	Itself?: AstructDB
-	ItselfID: NullInt64 = new NullInt64 // if pointer is null, Itself.ID = 0
+	AnAstruct?: AstructDB
+	AnAstructID: NullInt64 = new NullInt64 // if pointer is null, AnAstruct.ID = 0
 
 	Astruct_AnarrayofaDBID: NullInt64 = new NullInt64
 	Astruct_AnarrayofaDBID_Index: NullInt64  = new NullInt64 // store the index of the astruct instance in Astruct.Anarrayofa
