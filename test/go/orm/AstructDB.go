@@ -54,6 +54,10 @@ type AstructPointersEnconding struct {
 	// This field is generated into another field to enable AS ONE association
 	Anotherassociationtob_2ID sql.NullInt64
 
+	// field AnAstruct is a pointer to another Struct (optional or 0..1)
+	// This field is generated into another field to enable AS ONE association
+	AnAstructID sql.NullInt64
+
 	// Implementation of a reverse ID for field Astruct{}.Anarrayofa []*Astruct
 	Astruct_AnarrayofaDBID sql.NullInt64
 
@@ -433,6 +437,15 @@ func (backRepoAstruct *BackRepoAstructStruct) CommitPhaseTwoInstance(backRepo *B
 			}
 		}
 
+		// commit pointer value astruct.AnAstruct translates to updating the astruct.AnAstructID
+		astructDB.AnAstructID.Valid = true // allow for a 0 value (nil association)
+		if astruct.AnAstruct != nil {
+			if AnAstructId, ok := (*backRepo.BackRepoAstruct.Map_AstructPtr_AstructDBID)[astruct.AnAstruct]; ok {
+				astructDB.AnAstructID.Int64 = int64(AnAstructId)
+				astructDB.AnAstructID.Valid = true
+			}
+		}
+
 		query := backRepoAstruct.db.Save(&astructDB)
 		if query.Error != nil {
 			return query.Error
@@ -681,6 +694,10 @@ func (backRepoAstruct *BackRepoAstructStruct) CheckoutPhaseTwoInstance(backRepo 
 		return astructbstruct2useDB_i.Astruct_Anarrayofb2UseDBID_Index.Int64 < astructbstruct2useDB_j.Astruct_Anarrayofb2UseDBID_Index.Int64
 	})
 
+	// AnAstruct field
+	if astructDB.AnAstructID.Int64 != 0 {
+		astruct.AnAstruct = (*backRepo.BackRepoAstruct.Map_AstructDBID_AstructPtr)[uint(astructDB.AnAstructID.Int64)]
+	}
 	return
 }
 
@@ -1000,6 +1017,12 @@ func (backRepoAstruct *BackRepoAstructStruct) RestorePhaseTwo() {
 		if astructDB.Anotherassociationtob_2ID.Int64 != 0 {
 			astructDB.Anotherassociationtob_2ID.Int64 = int64(BackRepoBstructid_atBckpTime_newID[uint(astructDB.Anotherassociationtob_2ID.Int64)])
 			astructDB.Anotherassociationtob_2ID.Valid = true
+		}
+
+		// reindexing AnAstruct field
+		if astructDB.AnAstructID.Int64 != 0 {
+			astructDB.AnAstructID.Int64 = int64(BackRepoAstructid_atBckpTime_newID[uint(astructDB.AnAstructID.Int64)])
+			astructDB.AnAstructID.Valid = true
 		}
 
 		// This reindex astruct.Anarrayofa
