@@ -54,5 +54,5 @@ type Astruct struct {
 	Anarrayofb2Use []*AstructBstruct2Use
 
 	// pointer to itself
-	Itself *Astruct
+	AnAstruct *Astruct
 }

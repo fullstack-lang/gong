@@ -189,15 +189,15 @@ export class AstructDetailComponent implements OnInit {
 			this.astruct.Anotherassociationtob_2ID.Int64 = 0
 			this.astruct.Anotherassociationtob_2ID.Valid = true
 		}
-		if (this.astruct.ItselfID == undefined) {
-			this.astruct.ItselfID = new NullInt64
+		if (this.astruct.AnAstructID == undefined) {
+			this.astruct.AnAstructID = new NullInt64
 		}
-		if (this.astruct.Itself != undefined) {
-			this.astruct.ItselfID.Int64 = this.astruct.Itself.ID
-			this.astruct.ItselfID.Valid = true
+		if (this.astruct.AnAstruct != undefined) {
+			this.astruct.AnAstructID.Int64 = this.astruct.AnAstruct.ID
+			this.astruct.AnAstructID.Valid = true
 		} else {
-			this.astruct.ItselfID.Int64 = 0
-			this.astruct.ItselfID.Valid = true
+			this.astruct.AnAstructID.Int64 = 0
+			this.astruct.AnAstructID.Valid = true
 		}
 
 		// save from the front pointer space to the non pointer space for serialization

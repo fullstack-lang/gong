@@ -54,9 +54,9 @@ type AstructPointersEnconding struct {
 	// This field is generated into another field to enable AS ONE association
 	Anotherassociationtob_2ID sql.NullInt64
 
-	// field Itself is a pointer to another Struct (optional or 0..1)
+	// field AnAstruct is a pointer to another Struct (optional or 0..1)
 	// This field is generated into another field to enable AS ONE association
-	ItselfID sql.NullInt64
+	AnAstructID sql.NullInt64
 
 	// Implementation of a reverse ID for field Astruct{}.Anarrayofa []*Astruct
 	Astruct_AnarrayofaDBID sql.NullInt64
@@ -437,12 +437,12 @@ func (backRepoAstruct *BackRepoAstructStruct) CommitPhaseTwoInstance(backRepo *B
 			}
 		}
 
-		// commit pointer value astruct.Itself translates to updating the astruct.ItselfID
-		astructDB.ItselfID.Valid = true // allow for a 0 value (nil association)
-		if astruct.Itself != nil {
-			if ItselfId, ok := (*backRepo.BackRepoAstruct.Map_AstructPtr_AstructDBID)[astruct.Itself]; ok {
-				astructDB.ItselfID.Int64 = int64(ItselfId)
-				astructDB.ItselfID.Valid = true
+		// commit pointer value astruct.AnAstruct translates to updating the astruct.AnAstructID
+		astructDB.AnAstructID.Valid = true // allow for a 0 value (nil association)
+		if astruct.AnAstruct != nil {
+			if AnAstructId, ok := (*backRepo.BackRepoAstruct.Map_AstructPtr_AstructDBID)[astruct.AnAstruct]; ok {
+				astructDB.AnAstructID.Int64 = int64(AnAstructId)
+				astructDB.AnAstructID.Valid = true
 			}
 		}
 
@@ -694,9 +694,9 @@ func (backRepoAstruct *BackRepoAstructStruct) CheckoutPhaseTwoInstance(backRepo 
 		return astructbstruct2useDB_i.Astruct_Anarrayofb2UseDBID_Index.Int64 < astructbstruct2useDB_j.Astruct_Anarrayofb2UseDBID_Index.Int64
 	})
 
-	// Itself field
-	if astructDB.ItselfID.Int64 != 0 {
-		astruct.Itself = (*backRepo.BackRepoAstruct.Map_AstructDBID_AstructPtr)[uint(astructDB.ItselfID.Int64)]
+	// AnAstruct field
+	if astructDB.AnAstructID.Int64 != 0 {
+		astruct.AnAstruct = (*backRepo.BackRepoAstruct.Map_AstructDBID_AstructPtr)[uint(astructDB.AnAstructID.Int64)]
 	}
 	return
 }
@@ -1019,10 +1019,10 @@ func (backRepoAstruct *BackRepoAstructStruct) RestorePhaseTwo() {
 			astructDB.Anotherassociationtob_2ID.Valid = true
 		}
 
-		// reindexing Itself field
-		if astructDB.ItselfID.Int64 != 0 {
-			astructDB.ItselfID.Int64 = int64(BackRepoAstructid_atBckpTime_newID[uint(astructDB.ItselfID.Int64)])
-			astructDB.ItselfID.Valid = true
+		// reindexing AnAstruct field
+		if astructDB.AnAstructID.Int64 != 0 {
+			astructDB.AnAstructID.Int64 = int64(BackRepoAstructid_atBckpTime_newID[uint(astructDB.AnAstructID.Int64)])
+			astructDB.AnAstructID.Valid = true
 		}
 
 		// This reindex astruct.Anarrayofa

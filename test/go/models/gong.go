@@ -263,7 +263,7 @@ func (astruct *Astruct) GetName() (res string) {
 
 func (astruct *Astruct) GetFields() (res []string) {
 	// list of fields 
-	res = []string{"Name", "Date", "Booleanfield", "Aenum", "Aenum_2", "Benum", "CEnum", "CName", "CFloatfield", "Floatfield", "Intfield", "Anotherbooleanfield", "Duration1", "Associationtob", "Anotherassociationtob_2", "Anarrayofb", "Anotherarrayofb", "Anarrayofa", "AnarrayofbUse", "Anarrayofb2Use", "Itself",  }
+	res = []string{"Name", "Date", "Booleanfield", "Aenum", "Aenum_2", "Benum", "CEnum", "CName", "CFloatfield", "Floatfield", "Intfield", "Anotherbooleanfield", "Duration1", "Associationtob", "Anotherassociationtob_2", "Anarrayofb", "Anotherarrayofb", "Anarrayofa", "AnarrayofbUse", "Anarrayofb2Use", "AnAstruct",  }
 	return
 }
 
@@ -339,9 +339,9 @@ func (astruct *Astruct) GetFieldStringValue(fieldName string) (res string) {
 			}
 			res += __instance__.Name
 		}
-	case "Itself":
-		if astruct.Itself != nil {
-			res = astruct.Itself.Name
+	case "AnAstruct":
+		if astruct.AnAstruct != nil {
+			res = astruct.AnAstruct.Name
 		}
 	}
 	return
@@ -1289,11 +1289,11 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 			pointersInitializesStatements += setPointerField
 		}
 
-		if astruct.Itself != nil {
+		if astruct.AnAstruct != nil {
 			setPointerField = PointerFieldInitStatement
 			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "Itself")
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_Astruct_Identifiers[astruct.Itself])
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "AnAstruct")
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_Astruct_Identifiers[astruct.AnAstruct])
 			pointersInitializesStatements += setPointerField
 		}
 
