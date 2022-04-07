@@ -499,6 +499,41 @@ export class SidebarComponent implements OnInit {
             Anarrayofb2UseGongNodeAssociation.children.push(astructbstruct2useNode)
           })
 
+          /**
+          * let append a node for the association Itself
+          */
+          let ItselfGongNodeAssociation: GongNode = {
+            name: "(Astruct) Itself",
+            type: GongNodeType.ONE__ZERO_ONE_ASSOCIATION,
+            id: astructDB.ID,
+            uniqueIdPerStack: 17 * nonInstanceNodeId,
+            structName: "Astruct",
+            associationField: "Itself",
+            associatedStructName: "Astruct",
+            children: new Array<GongNode>()
+          }
+          nonInstanceNodeId = nonInstanceNodeId + 1
+          astructGongNodeInstance.children!.push(ItselfGongNodeAssociation)
+
+          /**
+            * let append a node for the instance behind the asssociation Itself
+            */
+          if (astructDB.Itself != undefined) {
+            let astructGongNodeInstance_Itself: GongNode = {
+              name: astructDB.Itself.Name,
+              type: GongNodeType.INSTANCE,
+              id: astructDB.Itself.ID,
+              uniqueIdPerStack: // godel numbering (thank you kurt)
+                3 * getAstructUniqueID(astructDB.ID)
+                + 5 * getAstructUniqueID(astructDB.Itself.ID),
+              structName: "Astruct",
+              associationField: "",
+              associatedStructName: "",
+              children: new Array<GongNode>()
+            }
+            ItselfGongNodeAssociation.children.push(astructGongNodeInstance_Itself)
+          }
+
         }
       )
 
