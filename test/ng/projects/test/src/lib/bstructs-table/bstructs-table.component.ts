@@ -78,10 +78,18 @@ export class BstructsTableComponent implements OnInit {
           return bstructDB.Intfield;
 
         case 'Astruct_Anarrayofb':
-          return this.frontRepo.Astructs.get(bstructDB.Astruct_AnarrayofbDBID.Int64)!.Name;
+          if (this.frontRepo.Astructs.get(bstructDB.Astruct_AnarrayofbDBID.Int64) != undefined) {
+            return this.frontRepo.Astructs.get(bstructDB.Astruct_AnarrayofbDBID.Int64)!.Name
+          } else {
+            return ""
+          }
 
         case 'Astruct_Anotherarrayofb':
-          return this.frontRepo.Astructs.get(bstructDB.Astruct_AnotherarrayofbDBID.Int64)!.Name;
+          if (this.frontRepo.Astructs.get(bstructDB.Astruct_AnotherarrayofbDBID.Int64) != undefined) {
+            return this.frontRepo.Astructs.get(bstructDB.Astruct_AnotherarrayofbDBID.Int64)!.Name
+          } else {
+            return ""
+          }
 
         default:
           console.assert(false, "Unknown field")
