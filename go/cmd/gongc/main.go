@@ -914,7 +914,7 @@ func main() {
 	// go build
 	if true {
 		start := time.Now()
-		cmd := exec.Command("go", "build")
+		cmd := exec.Command("go", "build", "-buildvcs=false")
 		cmd.Dir, _ = filepath.Abs(filepath.Join(*pkgPath, fmt.Sprintf("../cmd/%s", computePkgName())))
 		log.Printf("Running %s command in directory %s and waiting for it to finish...\n", cmd.Args, cmd.Dir)
 

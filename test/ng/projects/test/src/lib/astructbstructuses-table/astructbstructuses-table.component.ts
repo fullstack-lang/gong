@@ -75,7 +75,11 @@ export class AstructBstructUsesTableComponent implements OnInit {
           return (astructbstructuseDB.Bstruct2 ? astructbstructuseDB.Bstruct2.Name : '');
 
         case 'Astruct_AnarrayofbUse':
-          return this.frontRepo.Astructs.get(astructbstructuseDB.Astruct_AnarrayofbUseDBID.Int64)!.Name;
+          if (this.frontRepo.Astructs.get(astructbstructuseDB.Astruct_AnarrayofbUseDBID.Int64) != undefined) {
+            return this.frontRepo.Astructs.get(astructbstructuseDB.Astruct_AnarrayofbUseDBID.Int64)!.Name
+          } else {
+            return ""
+          }
 
         default:
           console.assert(false, "Unknown field")
