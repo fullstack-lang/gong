@@ -73,7 +73,7 @@ export class AstructsTableComponent implements OnInit {
           return astructDB.Name;
 
         case 'Date':
-          return astructDB.Date.getDate();
+          return (new Date(astructDB.Date)).getTime()
 
         case 'Booleanfield':
           return astructDB.Booleanfield?"true":"false";
