@@ -430,7 +430,7 @@ import { {{EnumName}}List } from '../{{EnumName}}'`,
 `,
 	NgTableTSTimeFieldSorting: `
         case '{{FieldName}}':
-          return {{structname}}DB.{{FieldName}}.getDate();
+          return (new Date({{structname}}DB.{{FieldName}})).getTime()
 `,
 	NgTableTSPointerToStructSorting: `
         case '{{FieldName}}':
