@@ -144,6 +144,33 @@
                 "main.go"
             ]
         },
+        // remove .dir otherwise, gopls with fire a error "obtaining VCS status"
+        {
+            "label": "01 - remove .git dir in test",
+            "type": "shell",
+            "options": {
+                "cwd": "${workspaceFolder}/test/go/cmd/test",
+            },
+            "command": "rm",
+            "group": "build",
+            "args": [
+                "-rf",
+                ".git"
+            ]
+        },
+        {
+            "label": "01 - remove .git dir in test2",
+            "type": "shell",
+            "options": {
+                "cwd": "${workspaceFolder}/test/go/cmd/test2",
+            },
+            "command": "rm",
+            "group": "build",
+            "args": [
+                "-rf",
+                ".git"
+            ]
+        },
         {
             "label": "01 - gongc test",
             "type": "shell",
