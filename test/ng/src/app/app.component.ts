@@ -5,5 +5,11 @@ import { Component } from '@angular/core';
   templateUrl: './app.component.html',
 })
 export class AppComponent {
-  title = 'ng';
+
+  view = 'Default view'
+  default = 'Default view'
+  diagrams = 'Diagrams view'
+  meta = 'Meta view'
+
+  views: string[] = [this.default, this.diagrams, this.meta];
 }

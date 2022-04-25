@@ -262,7 +262,7 @@ export class UmlscDetailComponent implements OnInit {
 	}
 
 	fillUpNameIfEmpty(event: { value: { Name: string; }; }) {
-		if (this.umlsc.Name == undefined) {
+		if (this.umlsc.Name == "") {
 			this.umlsc.Name = event.value.Name
 		}
 	}
