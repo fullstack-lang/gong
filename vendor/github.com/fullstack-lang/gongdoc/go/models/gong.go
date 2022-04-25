@@ -17,6 +17,14 @@ type __void struct{}
 // needed for creating set of instances in the stage
 var __member __void
 
+// GongStructInterface is the interface met by GongStructs
+// It allows runtime reflexion of instances (without the hassle of the "reflect" package)
+type GongStructInterface interface {
+	GetName() (res string)
+	GetFields() (res []string)
+	GetFieldStringValue(fieldName string) (res string)
+}
+
 // StageStruct enables storage of staged instances
 // swagger:ignore
 type StageStruct struct { // insertion point for definition of arrays registering instances
@@ -311,6 +319,33 @@ func DeleteORMClassdiagram(classdiagram *Classdiagram) {
 	}
 }
 
+// for satisfaction of GongStruct interface
+func (classdiagram *Classdiagram) GetName() (res string) {
+	return classdiagram.Name
+}
+
+func (classdiagram *Classdiagram) GetFields() (res []string) {
+	// list of fields 
+	res = []string{"Name", "Classshapes",  }
+	return
+}
+
+func (classdiagram *Classdiagram) GetFieldStringValue(fieldName string) (res string) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res = classdiagram.Name
+	case "Classshapes":
+		for idx, __instance__ := range classdiagram.Classshapes {
+			if idx > 0 {
+				res += "\n"
+			}
+			res += __instance__.Name
+		}
+	}
+	return
+}
+
 func (stage *StageStruct) getClassshapeOrderedStructWithNameField() []*Classshape {
 	// have alphabetical order generation
 	classshapeOrdered := []*Classshape{}
@@ -411,6 +446,60 @@ func DeleteORMClassshape(classshape *Classshape) {
 	if Stage.AllModelsStructDeleteCallback != nil {
 		Stage.AllModelsStructDeleteCallback.DeleteORMClassshape(classshape)
 	}
+}
+
+// for satisfaction of GongStruct interface
+func (classshape *Classshape) GetName() (res string) {
+	return classshape.Name
+}
+
+func (classshape *Classshape) GetFields() (res []string) {
+	// list of fields 
+	res = []string{"Name", "Position", "Structname", "GongStruct", "ShowNbInstances", "NbInstances", "Fields", "Links", "Width", "Heigth", "ClassshapeTargetType",  }
+	return
+}
+
+func (classshape *Classshape) GetFieldStringValue(fieldName string) (res string) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res = classshape.Name
+	case "Position":
+		if classshape.Position != nil {
+			res = classshape.Position.Name
+		}
+	case "Structname":
+		res = classshape.Structname
+	case "GongStruct":
+		if classshape.GongStruct != nil {
+			res = classshape.GongStruct.Name
+		}
+	case "ShowNbInstances":
+		res = fmt.Sprintf("%t", classshape.ShowNbInstances)
+	case "NbInstances":
+		res = fmt.Sprintf("%d", classshape.NbInstances)
+	case "Fields":
+		for idx, __instance__ := range classshape.Fields {
+			if idx > 0 {
+				res += "\n"
+			}
+			res += __instance__.Name
+		}
+	case "Links":
+		for idx, __instance__ := range classshape.Links {
+			if idx > 0 {
+				res += "\n"
+			}
+			res += __instance__.Name
+		}
+	case "Width":
+		res = fmt.Sprintf("%f", classshape.Width)
+	case "Heigth":
+		res = fmt.Sprintf("%f", classshape.Heigth)
+	case "ClassshapeTargetType":
+		res = classshape.ClassshapeTargetType.ToCodeString()
+	}
+	return
 }
 
 func (stage *StageStruct) getFieldOrderedStructWithNameField() []*Field {
@@ -515,6 +604,34 @@ func DeleteORMField(field *Field) {
 	}
 }
 
+// for satisfaction of GongStruct interface
+func (field *Field) GetName() (res string) {
+	return field.Name
+}
+
+func (field *Field) GetFields() (res []string) {
+	// list of fields 
+	res = []string{"Name", "Fieldname", "FieldTypeAsString", "Structname", "Fieldtypename",  }
+	return
+}
+
+func (field *Field) GetFieldStringValue(fieldName string) (res string) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res = field.Name
+	case "Fieldname":
+		res = field.Fieldname
+	case "FieldTypeAsString":
+		res = field.FieldTypeAsString
+	case "Structname":
+		res = field.Structname
+	case "Fieldtypename":
+		res = field.Fieldtypename
+	}
+	return
+}
+
 func (stage *StageStruct) getGongStructOrderedStructWithNameField() []*GongStruct {
 	// have alphabetical order generation
 	gongstructOrdered := []*GongStruct{}
@@ -615,6 +732,28 @@ func DeleteORMGongStruct(gongstruct *GongStruct) {
 	if Stage.AllModelsStructDeleteCallback != nil {
 		Stage.AllModelsStructDeleteCallback.DeleteORMGongStruct(gongstruct)
 	}
+}
+
+// for satisfaction of GongStruct interface
+func (gongstruct *GongStruct) GetName() (res string) {
+	return gongstruct.Name
+}
+
+func (gongstruct *GongStruct) GetFields() (res []string) {
+	// list of fields 
+	res = []string{"Name", "NbInstances",  }
+	return
+}
+
+func (gongstruct *GongStruct) GetFieldStringValue(fieldName string) (res string) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res = gongstruct.Name
+	case "NbInstances":
+		res = fmt.Sprintf("%d", gongstruct.NbInstances)
+	}
+	return
 }
 
 func (stage *StageStruct) getGongdocCommandOrderedStructWithNameField() []*GongdocCommand {
@@ -719,6 +858,44 @@ func DeleteORMGongdocCommand(gongdoccommand *GongdocCommand) {
 	}
 }
 
+// for satisfaction of GongStruct interface
+func (gongdoccommand *GongdocCommand) GetName() (res string) {
+	return gongdoccommand.Name
+}
+
+func (gongdoccommand *GongdocCommand) GetFields() (res []string) {
+	// list of fields 
+	res = []string{"Name", "Command", "DiagramName", "Date", "GongdocNodeType", "StructName", "FieldName", "FieldTypeName", "PositionX", "PositionY",  }
+	return
+}
+
+func (gongdoccommand *GongdocCommand) GetFieldStringValue(fieldName string) (res string) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res = gongdoccommand.Name
+	case "Command":
+		res = gongdoccommand.Command.ToCodeString()
+	case "DiagramName":
+		res = gongdoccommand.DiagramName
+	case "Date":
+		res = gongdoccommand.Date
+	case "GongdocNodeType":
+		res = gongdoccommand.GongdocNodeType.ToCodeString()
+	case "StructName":
+		res = gongdoccommand.StructName
+	case "FieldName":
+		res = gongdoccommand.FieldName
+	case "FieldTypeName":
+		res = gongdoccommand.FieldTypeName
+	case "PositionX":
+		res = fmt.Sprintf("%d", gongdoccommand.PositionX)
+	case "PositionY":
+		res = fmt.Sprintf("%d", gongdoccommand.PositionY)
+	}
+	return
+}
+
 func (stage *StageStruct) getGongdocStatusOrderedStructWithNameField() []*GongdocStatus {
 	// have alphabetical order generation
 	gongdocstatusOrdered := []*GongdocStatus{}
@@ -819,6 +996,30 @@ func DeleteORMGongdocStatus(gongdocstatus *GongdocStatus) {
 	if Stage.AllModelsStructDeleteCallback != nil {
 		Stage.AllModelsStructDeleteCallback.DeleteORMGongdocStatus(gongdocstatus)
 	}
+}
+
+// for satisfaction of GongStruct interface
+func (gongdocstatus *GongdocStatus) GetName() (res string) {
+	return gongdocstatus.Name
+}
+
+func (gongdocstatus *GongdocStatus) GetFields() (res []string) {
+	// list of fields 
+	res = []string{"Name", "Status", "CommandCompletionDate",  }
+	return
+}
+
+func (gongdocstatus *GongdocStatus) GetFieldStringValue(fieldName string) (res string) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res = gongdocstatus.Name
+	case "Status":
+		res = gongdocstatus.Status.ToCodeString()
+	case "CommandCompletionDate":
+		res = gongdocstatus.CommandCompletionDate
+	}
+	return
 }
 
 func (stage *StageStruct) getLinkOrderedStructWithNameField() []*Link {
@@ -923,6 +1124,40 @@ func DeleteORMLink(link *Link) {
 	}
 }
 
+// for satisfaction of GongStruct interface
+func (link *Link) GetName() (res string) {
+	return link.Name
+}
+
+func (link *Link) GetFields() (res []string) {
+	// list of fields 
+	res = []string{"Name", "Fieldname", "Structname", "Fieldtypename", "TargetMultiplicity", "SourceMultiplicity", "Middlevertice",  }
+	return
+}
+
+func (link *Link) GetFieldStringValue(fieldName string) (res string) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res = link.Name
+	case "Fieldname":
+		res = link.Fieldname
+	case "Structname":
+		res = link.Structname
+	case "Fieldtypename":
+		res = link.Fieldtypename
+	case "TargetMultiplicity":
+		res = link.TargetMultiplicity.ToCodeString()
+	case "SourceMultiplicity":
+		res = link.SourceMultiplicity.ToCodeString()
+	case "Middlevertice":
+		if link.Middlevertice != nil {
+			res = link.Middlevertice.Name
+		}
+	}
+	return
+}
+
 func (stage *StageStruct) getPkgeltOrderedStructWithNameField() []*Pkgelt {
 	// have alphabetical order generation
 	pkgeltOrdered := []*Pkgelt{}
@@ -1023,6 +1258,44 @@ func DeleteORMPkgelt(pkgelt *Pkgelt) {
 	if Stage.AllModelsStructDeleteCallback != nil {
 		Stage.AllModelsStructDeleteCallback.DeleteORMPkgelt(pkgelt)
 	}
+}
+
+// for satisfaction of GongStruct interface
+func (pkgelt *Pkgelt) GetName() (res string) {
+	return pkgelt.Name
+}
+
+func (pkgelt *Pkgelt) GetFields() (res []string) {
+	// list of fields 
+	res = []string{"Name", "Path", "GongModelPath", "Classdiagrams", "Umlscs",  }
+	return
+}
+
+func (pkgelt *Pkgelt) GetFieldStringValue(fieldName string) (res string) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res = pkgelt.Name
+	case "Path":
+		res = pkgelt.Path
+	case "GongModelPath":
+		res = pkgelt.GongModelPath
+	case "Classdiagrams":
+		for idx, __instance__ := range pkgelt.Classdiagrams {
+			if idx > 0 {
+				res += "\n"
+			}
+			res += __instance__.Name
+		}
+	case "Umlscs":
+		for idx, __instance__ := range pkgelt.Umlscs {
+			if idx > 0 {
+				res += "\n"
+			}
+			res += __instance__.Name
+		}
+	}
+	return
 }
 
 func (stage *StageStruct) getPositionOrderedStructWithNameField() []*Position {
@@ -1127,6 +1400,30 @@ func DeleteORMPosition(position *Position) {
 	}
 }
 
+// for satisfaction of GongStruct interface
+func (position *Position) GetName() (res string) {
+	return position.Name
+}
+
+func (position *Position) GetFields() (res []string) {
+	// list of fields 
+	res = []string{"X", "Y", "Name",  }
+	return
+}
+
+func (position *Position) GetFieldStringValue(fieldName string) (res string) {
+	switch fieldName {
+	// string value of fields
+	case "X":
+		res = fmt.Sprintf("%f", position.X)
+	case "Y":
+		res = fmt.Sprintf("%f", position.Y)
+	case "Name":
+		res = position.Name
+	}
+	return
+}
+
 func (stage *StageStruct) getUmlStateOrderedStructWithNameField() []*UmlState {
 	// have alphabetical order generation
 	umlstateOrdered := []*UmlState{}
@@ -1227,6 +1524,30 @@ func DeleteORMUmlState(umlstate *UmlState) {
 	if Stage.AllModelsStructDeleteCallback != nil {
 		Stage.AllModelsStructDeleteCallback.DeleteORMUmlState(umlstate)
 	}
+}
+
+// for satisfaction of GongStruct interface
+func (umlstate *UmlState) GetName() (res string) {
+	return umlstate.Name
+}
+
+func (umlstate *UmlState) GetFields() (res []string) {
+	// list of fields 
+	res = []string{"Name", "X", "Y",  }
+	return
+}
+
+func (umlstate *UmlState) GetFieldStringValue(fieldName string) (res string) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res = umlstate.Name
+	case "X":
+		res = fmt.Sprintf("%f", umlstate.X)
+	case "Y":
+		res = fmt.Sprintf("%f", umlstate.Y)
+	}
+	return
 }
 
 func (stage *StageStruct) getUmlscOrderedStructWithNameField() []*Umlsc {
@@ -1331,6 +1652,35 @@ func DeleteORMUmlsc(umlsc *Umlsc) {
 	}
 }
 
+// for satisfaction of GongStruct interface
+func (umlsc *Umlsc) GetName() (res string) {
+	return umlsc.Name
+}
+
+func (umlsc *Umlsc) GetFields() (res []string) {
+	// list of fields 
+	res = []string{"Name", "States", "Activestate",  }
+	return
+}
+
+func (umlsc *Umlsc) GetFieldStringValue(fieldName string) (res string) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res = umlsc.Name
+	case "States":
+		for idx, __instance__ := range umlsc.States {
+			if idx > 0 {
+				res += "\n"
+			}
+			res += __instance__.Name
+		}
+	case "Activestate":
+		res = umlsc.Activestate
+	}
+	return
+}
+
 func (stage *StageStruct) getVerticeOrderedStructWithNameField() []*Vertice {
 	// have alphabetical order generation
 	verticeOrdered := []*Vertice{}
@@ -1431,6 +1781,30 @@ func DeleteORMVertice(vertice *Vertice) {
 	if Stage.AllModelsStructDeleteCallback != nil {
 		Stage.AllModelsStructDeleteCallback.DeleteORMVertice(vertice)
 	}
+}
+
+// for satisfaction of GongStruct interface
+func (vertice *Vertice) GetName() (res string) {
+	return vertice.Name
+}
+
+func (vertice *Vertice) GetFields() (res []string) {
+	// list of fields 
+	res = []string{"X", "Y", "Name",  }
+	return
+}
+
+func (vertice *Vertice) GetFieldStringValue(fieldName string) (res string) {
+	switch fieldName {
+	// string value of fields
+	case "X":
+		res = fmt.Sprintf("%f", vertice.X)
+	case "Y":
+		res = fmt.Sprintf("%f", vertice.Y)
+	case "Name":
+		res = vertice.Name
+	}
+	return
 }
 
 // swagger:ignore
@@ -2504,6 +2878,8 @@ func (gongdoccommandtype GongdocCommandType) ToString() (res string) {
 		res = "DIAGRAM_GONGSTRUCT_CREATE"
 	case DIAGRAM_GONGSTRUCT_DELETE:
 		res = "DIAGRAM_GONGSTRUCT_DELETE"
+	case DIAGRAM_GONGSTRUCT_SELECT:
+		res = "DIAGRAM_GONGSTRUCT_SELECT"
 	case DIAGRAM_POINTER_TO_GONGSTRUCT_CREATE:
 		res = "DIAGRAM_POINTER_TO_GONGSTRUCT_CREATE"
 	case DIAGRAM_POINTER_TO_GONGSTRUCT_DELETE:
@@ -2536,6 +2912,8 @@ func (gongdoccommandtype *GongdocCommandType) FromString(input string) {
 		*gongdoccommandtype = DIAGRAM_GONGSTRUCT_CREATE
 	case "DIAGRAM_GONGSTRUCT_DELETE":
 		*gongdoccommandtype = DIAGRAM_GONGSTRUCT_DELETE
+	case "DIAGRAM_GONGSTRUCT_SELECT":
+		*gongdoccommandtype = DIAGRAM_GONGSTRUCT_SELECT
 	case "DIAGRAM_POINTER_TO_GONGSTRUCT_CREATE":
 		*gongdoccommandtype = DIAGRAM_POINTER_TO_GONGSTRUCT_CREATE
 	case "DIAGRAM_POINTER_TO_GONGSTRUCT_DELETE":
@@ -2567,6 +2945,8 @@ func (gongdoccommandtype *GongdocCommandType) ToCodeString() (res string) {
 		res = "DIAGRAM_GONGSTRUCT_CREATE"
 	case DIAGRAM_GONGSTRUCT_DELETE:
 		res = "DIAGRAM_GONGSTRUCT_DELETE"
+	case DIAGRAM_GONGSTRUCT_SELECT:
+		res = "DIAGRAM_GONGSTRUCT_SELECT"
 	case DIAGRAM_POINTER_TO_GONGSTRUCT_CREATE:
 		res = "DIAGRAM_POINTER_TO_GONGSTRUCT_CREATE"
 	case DIAGRAM_POINTER_TO_GONGSTRUCT_DELETE:

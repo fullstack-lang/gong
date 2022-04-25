@@ -262,7 +262,7 @@ export class ClassdiagramDetailComponent implements OnInit {
 	}
 
 	fillUpNameIfEmpty(event: { value: { Name: string; }; }) {
-		if (this.classdiagram.Name == undefined) {
+		if (this.classdiagram.Name == "") {
 			this.classdiagram.Name = event.value.Name
 		}
 	}

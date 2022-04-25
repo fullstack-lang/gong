@@ -1,5 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Observable, Subscription, timer } from 'rxjs';
+
+// for slider
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ThemePalette } from '@angular/material/core';
+
 import * as joint from 'jointjs';
 
 import { ActivatedRoute, Router } from '@angular/router';
@@ -10,6 +15,7 @@ import * as gong from 'gong'
 import { newUmlClassShape } from './newUmlClassShape'
 import { ClassdiagramContextSubject, ClassdiagramContext } from '../diagram-displayed-gongstruct'
 import { ClassshapeDB, LinkDB } from 'gongdoc';
+import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 
 @Component({
   selector: 'lib-class-diagram',
@@ -37,6 +43,13 @@ export class ClassDiagramComponent implements OnInit, OnDestroy {
   namespace = joint.shapes;
   private paper?: joint.dia.Paper
   private graph?: joint.dia.Graph
+
+  /**
+   * slider management
+   */
+  public EditionModeBool = true;
+  public EditionMode: EditionModeEnum = EditionModeEnum.PROD
+  color: ThemePalette = 'primary';
 
   // the gong diagram of interest ot be drawn
   public classdiagram: gongdoc.ClassdiagramDB = new gongdoc.ClassdiagramDB
@@ -81,8 +94,10 @@ export class ClassDiagramComponent implements OnInit, OnDestroy {
     private verticeService: gongdoc.VerticeService,
 
     private gongdocFrontRepoService: gongdoc.FrontRepoService,
-    private GongdocCommandService: gongdoc.GongdocCommandService,
+    private gongdocCommandService: gongdoc.GongdocCommandService,
     private gongdocCommitNbService: gongdoc.CommitNbService,
+
+    formBuilder: FormBuilder,
   ) {
     // https://stackoverflow.com/questions/54627478/angular-7-routing-to-same-component-but-different-param-not-working
     // this is for routerLink on same component when only queryParameter changes
@@ -179,10 +194,19 @@ export class ClassDiagramComponent implements OnInit, OnDestroy {
   // make a jointjs umlclass from a gong Classshape object
   //
   addClassshapeToGraph(classshape: gongdoc.ClassshapeDB): joint.shapes.uml.Class {
+
     //
     // creates the UML shape
     //
-    let umlClassShape = newUmlClassShape(classshape, this.positionService)
+
+    // fetch the command singloton
+    let gongdocCommandSingloton: gongdoc.GongdocCommandDB
+    for (let gongdocCommand of this.gongdocFrontRepo.GongdocCommands_array) {
+      gongdocCommandSingloton = gongdocCommand
+    }
+
+    let umlClassShape = newUmlClassShape(classshape, this.positionService,
+      gongdocCommandSingloton!, this.gongdocCommandService)
 
     // structRectangle.attributes = ['firstName: String']
     umlClassShape.addTo(this.graph!);
@@ -236,6 +260,40 @@ export class ClassDiagramComponent implements OnInit, OnDestroy {
     paperOptions.cellViewNamespace = namespace
 
     this.paper = new joint.dia.Paper(paperOptions)
+
+    // intercept click on shapes when in production mode
+    this.paper.setInteractivity(false)
+    this.EditionMode = EditionModeEnum.PROD
+
+    this.paper.on('cell:pointerdown',
+      function (cellView, evt, x, y) {
+
+        console.log(cellView)
+
+        // if paper is interactive, this means we are in dev mode
+        // and we do not have to take click on shapes into account
+        if (cellView.paper?.options.interactive) {
+          return
+        }
+
+        let umlClassShape = cellView.model
+
+        let classhape = umlClassShape.attributes['classshape'] as gongdoc.ClassshapeDB
+        let gongdocCommandSingloton = umlClassShape.attributes['gongdocCommandSingloton'] as gongdoc.GongdocCommandDB
+        let gongdocCommandService = umlClassShape.attributes['gongdocCommandService'] as gongdoc.GongdocCommandService
+
+        gongdocCommandSingloton.Command = gongdoc.GongdocCommandType.DIAGRAM_GONGSTRUCT_SELECT
+        gongdocCommandSingloton.StructName = classhape.GongStruct!.Name
+        gongdocCommandSingloton.Date = Date.now().toString()
+
+        gongdocCommandService.updateGongdocCommand(gongdocCommandSingloton).subscribe(
+          gongdocCommandSingloton => {
+            console.log("gongdocCommandSingloton updated")
+          }
+        )
+        // alert('cell view ' + cellView.model.id + ' was clicked');
+      }
+    )
 
     // draw class shapes from the gong classshapes
     if (this.classdiagram?.Classshapes != undefined) {
@@ -377,7 +435,7 @@ export class ClassDiagramComponent implements OnInit, OnDestroy {
         gongdocCommandSingloton.DiagramName = this.classdiagram.Name
         gongdocCommandSingloton.Date = Date.now().toString()
 
-        this.GongdocCommandService.updateGongdocCommand(gongdocCommandSingloton).subscribe(
+        this.gongdocCommandService.updateGongdocCommand(gongdocCommandSingloton).subscribe(
           GongdocCommand => {
             // console.log("GongdocCommand updated")
           }
@@ -399,5 +457,24 @@ export class ClassDiagramComponent implements OnInit, OnDestroy {
       }
     )
   }
+
+  public toggle(event: MatSlideToggleChange) {
+    console.log('toggle', event.checked);
+
+    if (event.checked) {
+      this.EditionMode = EditionModeEnum.PROD
+      this.paper!.setInteractivity(false)
+    } else {
+      this.EditionMode = EditionModeEnum.DEV
+      this.paper!.setInteractivity(true)
+    }
+
+    this.EditionModeBool = event.checked;
+  }
+}
+
+export enum EditionModeEnum {
+  PROD = "prod",
+  DEV = "dev",
 }
 

@@ -10,6 +10,7 @@ import { GongModule } from 'gong'
 
 // for angular material
 import { MatSliderModule } from '@angular/material/slider';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle'
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select'
@@ -57,6 +58,7 @@ import { ClassdiagramDetailComponent } from './classdiagram-detail/classdiagram-
     AngularSplitModule,
 
     MatSliderModule,
+    MatSlideToggleModule,
     MatSelectModule,
     MatFormFieldModule,
     MatInputModule,

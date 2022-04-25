@@ -72,7 +72,11 @@ export class ClassdiagramsTableComponent implements OnInit {
           return classdiagramDB.Name;
 
         case 'Pkgelt_Classdiagrams':
-          return this.frontRepo.Pkgelts.get(classdiagramDB.Pkgelt_ClassdiagramsDBID.Int64)!.Name;
+          if (this.frontRepo.Pkgelts.get(classdiagramDB.Pkgelt_ClassdiagramsDBID.Int64) != undefined) {
+            return this.frontRepo.Pkgelts.get(classdiagramDB.Pkgelt_ClassdiagramsDBID.Int64)!.Name
+          } else {
+            return ""
+          }
 
         default:
           console.assert(false, "Unknown field")

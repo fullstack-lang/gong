@@ -246,7 +246,7 @@ export class GongdocCommandDetailComponent implements OnInit {
 	}
 
 	fillUpNameIfEmpty(event: { value: { Name: string; }; }) {
-		if (this.gongdoccommand.Name == undefined) {
+		if (this.gongdoccommand.Name == "") {
 			this.gongdoccommand.Name = event.value.Name
 		}
 	}
