@@ -240,7 +240,7 @@ export class PositionDetailComponent implements OnInit {
 	}
 
 	fillUpNameIfEmpty(event: { value: { Name: string; }; }) {
-		if (this.position.Name == undefined) {
+		if (this.position.Name == "") {
 			this.position.Name = event.value.Name
 		}
 	}

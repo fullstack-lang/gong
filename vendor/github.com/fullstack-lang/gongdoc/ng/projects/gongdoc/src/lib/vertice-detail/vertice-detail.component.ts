@@ -240,7 +240,7 @@ export class VerticeDetailComponent implements OnInit {
 	}
 
 	fillUpNameIfEmpty(event: { value: { Name: string; }; }) {
-		if (this.vertice.Name == undefined) {
+		if (this.vertice.Name == "") {
 			this.vertice.Name = event.value.Name
 		}
 	}

@@ -1,6 +1,15 @@
 <mat-toolbar>
-    <span>Class diagram editor {{classdiagram?.Name}} - commits {{lastCommitNb}}</span>
+    <span>Class diagram editor {{classdiagram?.Name}} -
+        commits {{lastCommitNb}}</span>
     <span class="example-spacer"></span>
+    <div class="details__save">
+        <mat-slide-toggle [(ngModel)]="EditionModeBool" [color]="color" (change)="toggle($event)">
+            {{EditionMode}}
+        </mat-slide-toggle>
+    </div>
+    <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    </div>
     <button mat-button (click)='saveClassdiagram()'>
         <mat-icon>
             save

@@ -2,11 +2,13 @@
     <div class="details__item">
         <form>
             <mat-form-field>
-                <mat-label>Name (golang variable)</mat-label>
+                <mat-label>Name (golang variable)
+                </mat-label>
                 <input name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="classdiagram.Name">
             </mat-form-field>
         </form>
     </div>
+
     <div class="details__save">
         <button mat-raised-button color="primary" (click)="save()">
             Save uml class diagram
