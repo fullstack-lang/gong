@@ -61,6 +61,8 @@ github.com/fullstack-lang/gongdoc v0.0.0-20220325104006-b061f982cca1 h1:w1ReHUoj
 github.com/fullstack-lang/gongdoc v0.0.0-20220325104006-b061f982cca1/go.mod h1:5pTk5iQ2nKMubviKAHqaTuo9rWZW7rqmi1tPQat+kMM=
 github.com/fullstack-lang/gongdoc v0.0.0-20220422054722-cbda2615c8d4 h1:woqdv+vmQtfFKyN0WibQJqfzqgDlAVtGL5s5udDAh1A=
 github.com/fullstack-lang/gongdoc v0.0.0-20220422054722-cbda2615c8d4/go.mod h1:5pTk5iQ2nKMubviKAHqaTuo9rWZW7rqmi1tPQat+kMM=
+github.com/fullstack-lang/gongdoc v0.0.0-20220428085212-dbdbcb623d31 h1:PcTlmSLQngLfY9eDhWRNV1IAAK1gdt30u8sJPwq8VJ0=
+github.com/fullstack-lang/gongdoc v0.0.0-20220428085212-dbdbcb623d31/go.mod h1:5pTk5iQ2nKMubviKAHqaTuo9rWZW7rqmi1tPQat+kMM=
 github.com/gin-contrib/cors v1.3.1 h1:doAsuITavI4IOcd0Y19U4B+O0dNWihRyX//nn4sEmgA=
 github.com/gin-contrib/cors v1.3.1/go.mod h1:jjEJ4268OPZUcU7k9Pm653S7lXUGcqMADzFA61xsmDk=
 github.com/gin-contrib/sse v0.1.0 h1:Y/yl/+YNO8GZSjAhjMsSuLt29uWRFHdHYUb5lYOV9qE=
