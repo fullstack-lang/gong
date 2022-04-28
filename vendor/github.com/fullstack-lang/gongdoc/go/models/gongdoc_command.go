@@ -29,7 +29,7 @@ type GongdocCommand struct {
 }
 
 type GongdocCommandCallback interface {
-	HasSelected(gongstruct *GongStruct)
+	HasSelected(gongstructName string)
 }
 
 var GongdocCommandSingloton = (&GongdocCommand{
@@ -352,7 +352,7 @@ func init() {
 					gongStruct, ok := Stage.GongStructs_mapString[GongdocCommandSingloton.StructName]
 					if ok {
 						if GongdocCommandSingloton.GongdocCommandCallback != nil {
-							GongdocCommandSingloton.GongdocCommandCallback.HasSelected(gongStruct)
+							GongdocCommandSingloton.GongdocCommandCallback.HasSelected(gongStruct.Name)
 						}
 					}
 				}

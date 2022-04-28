@@ -80,6 +80,7 @@ func RegisterControllers(r *gin.Engine) {
 
 		v1.GET("/commitfrombacknb", GetLastCommitFromBackNb)
 		v1.GET("/pushfromfrontnb", GetLastPushFromFrontNb)
+		v1.GET("/selectedclassshape", GetSelectedClassshape)
 	}
 }
 
@@ -93,6 +94,23 @@ func GetLastCommitFromBackNb(c *gin.Context) {
 // swagger:route GET /pushfromfrontnb backrepo GetLastPushFromFrontNb
 func GetLastPushFromFrontNb(c *gin.Context) {
 	res := orm.GetLastPushFromFrontNb()
+
+	c.JSON(http.StatusOK, res)
+}
+
+// Callback function if one UML shape selection
+type UMLShapeSelection struct {
+	SelectedClassshape string
+}
+
+var UMLShapeSelectionSingloton UMLShapeSelection
+
+func (uMLShapeSelection *UMLShapeSelection) HasSelected(gongstructName string) {
+	uMLShapeSelection.SelectedClassshape = gongstructName
+}
+
+func GetSelectedClassshape(c *gin.Context) {
+	res := UMLShapeSelectionSingloton.SelectedClassshape
 
 	c.JSON(http.StatusOK, res)
 }
