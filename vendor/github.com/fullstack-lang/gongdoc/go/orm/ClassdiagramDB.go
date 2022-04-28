@@ -66,6 +66,10 @@ type ClassdiagramDB struct {
 
 	// Declation for basic field classdiagramDB.Name {{BasicKind}} (to be completed)
 	Name_Data sql.NullString
+
+	// Declation for basic field classdiagramDB.IsEditable bool (to be completed)
+	// provide the sql storage for the boolan
+	IsEditable_Data sql.NullBool
 	// encoding of pointers
 	ClassdiagramPointersEnconding
 }
@@ -88,6 +92,8 @@ type ClassdiagramWOP struct {
 	// insertion for WOP basic fields
 
 	Name string `xlsx:"1"`
+
+	IsEditable bool `xlsx:"2"`
 	// insertion for WOP pointer fields
 }
 
@@ -95,6 +101,7 @@ var Classdiagram_Fields = []string{
 	// insertion for WOP basic fields
 	"ID",
 	"Name",
+	"IsEditable",
 }
 
 type BackRepoClassdiagramStruct struct {
@@ -424,6 +431,9 @@ func (classdiagramDB *ClassdiagramDB) CopyBasicFieldsFromClassdiagram(classdiagr
 
 	classdiagramDB.Name_Data.String = classdiagram.Name
 	classdiagramDB.Name_Data.Valid = true
+
+	classdiagramDB.IsEditable_Data.Bool = classdiagram.IsEditable
+	classdiagramDB.IsEditable_Data.Valid = true
 }
 
 // CopyBasicFieldsFromClassdiagramWOP
@@ -432,12 +442,16 @@ func (classdiagramDB *ClassdiagramDB) CopyBasicFieldsFromClassdiagramWOP(classdi
 
 	classdiagramDB.Name_Data.String = classdiagram.Name
 	classdiagramDB.Name_Data.Valid = true
+
+	classdiagramDB.IsEditable_Data.Bool = classdiagram.IsEditable
+	classdiagramDB.IsEditable_Data.Valid = true
 }
 
 // CopyBasicFieldsToClassdiagram
 func (classdiagramDB *ClassdiagramDB) CopyBasicFieldsToClassdiagram(classdiagram *models.Classdiagram) {
 	// insertion point for checkout of basic fields (back repo to stage)
 	classdiagram.Name = classdiagramDB.Name_Data.String
+	classdiagram.IsEditable = classdiagramDB.IsEditable_Data.Bool
 }
 
 // CopyBasicFieldsToClassdiagramWOP
@@ -445,6 +459,7 @@ func (classdiagramDB *ClassdiagramDB) CopyBasicFieldsToClassdiagramWOP(classdiag
 	classdiagram.ID = int(classdiagramDB.ID)
 	// insertion point for checkout of basic fields (back repo to stage)
 	classdiagram.Name = classdiagramDB.Name_Data.String
+	classdiagram.IsEditable = classdiagramDB.IsEditable_Data.Bool
 }
 
 // Backup generates a json file from a slice of all ClassdiagramDB instances in the backrepo
