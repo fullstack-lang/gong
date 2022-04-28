@@ -26,6 +26,13 @@
             </td>
         </ng-container>
         <!-- -->
+        <ng-container matColumnDef="IsEditable">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> IsEditable </th>
+            <td mat-cell *matCellDef="let Classdiagram">
+                <mat-checkbox [checked]="Classdiagram.IsEditable" disabled=true></mat-checkbox>
+            </td>
+        </ng-container>
+        <!-- -->
         <ng-container matColumnDef="Pkgelt_Classdiagrams">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> <-- (Pkgelt) Classdiagrams </th>
             <td mat-cell *matCellDef="let classdiagram">

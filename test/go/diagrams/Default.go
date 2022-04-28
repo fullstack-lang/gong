@@ -12,11 +12,11 @@ var Default uml.Classdiagram = uml.Classdiagram{
 		{
 			Struct: &(models.Astruct{}),
 			Position: &uml.Position{
-				X: 82.000000,
-				Y: 58.000000,
+				X: 70.000000,
+				Y: 60.000000,
 			},
 			Width:  240.000000,
-			Heigth: 63.000000,
+			Heigth: 48.000000,
 			Links: []*uml.Link{
 				{
 					Field: models.Astruct{}.AnAstruct,
@@ -45,7 +45,7 @@ var Default uml.Classdiagram = uml.Classdiagram{
 				Y: 287.000000,
 			},
 			Width:  240.000000,
-			Heigth: 63.000000,
+			Heigth: 48.000000,
 		},
 		{
 			Struct: &(models.AstructBstructUse{}),
@@ -54,7 +54,7 @@ var Default uml.Classdiagram = uml.Classdiagram{
 				Y: 190.000000,
 			},
 			Width:  240.000000,
-			Heigth: 63.000000,
+			Heigth: 48.000000,
 		},
 		{
 			Struct: &(models.Bstruct{}),
@@ -63,7 +63,7 @@ var Default uml.Classdiagram = uml.Classdiagram{
 				Y: 60.000000,
 			},
 			Width:  240.000000,
-			Heigth: 63.000000,
+			Heigth: 48.000000,
 		},
 		{
 			Struct: &(models.Cstruct{}),
@@ -72,7 +72,7 @@ var Default uml.Classdiagram = uml.Classdiagram{
 				Y: 191.000000,
 			},
 			Width:  240.000000,
-			Heigth: 63.000000,
+			Heigth: 48.000000,
 		},
 	},
 }
