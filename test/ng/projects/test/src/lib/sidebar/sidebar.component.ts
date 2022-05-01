@@ -1,13 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, RouterState } from '@angular/router';
 
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Subscription } from 'rxjs';
 
 import { FlatTreeControl } from '@angular/cdk/tree';
 import { MatTreeFlatDataSource, MatTreeFlattener } from '@angular/material/tree';
 
 import { FrontRepoService, FrontRepo } from '../front-repo.service'
 import { CommitNbService } from '../commitnb.service'
+import { GongstructSelectionService } from '../gongstruct-selection.service'
 
 // insertion point for per struct import code
 import { AstructService } from '../astruct.service'
@@ -153,10 +154,13 @@ export class SidebarComponent implements OnInit {
   // the selected gong struct whose table has to be displayed in the table outlet
   SelectedStructChanged: BehaviorSubject<string> = new BehaviorSubject("");
 
+  subscription: Subscription = new Subscription
+
   constructor(
     private router: Router,
     private frontRepoService: FrontRepoService,
     private commitNbService: CommitNbService,
+    private gongstructSelectionService: GongstructSelectionService,
 
     // insertion point for per struct service declaration
     private astructService: AstructService,
@@ -164,9 +168,22 @@ export class SidebarComponent implements OnInit {
     private astructbstructuseService: AstructBstructUseService,
     private bstructService: BstructService,
     private dstructService: DstructService,
-  ) { }
+  ) {
+
+  }
+
+  ngOnDestroy() {
+    // prevent memory leak when component destroyed
+    this.subscription.unsubscribe();
+  }
 
   ngOnInit(): void {
+
+    this.subscription = this.gongstructSelectionService.gongtructSelected$.subscribe(
+      gongstructName => {
+        console.log("sidebar gongstruct selected " + gongstructName)
+      });
+
     this.refresh()
 
     this.SelectedStructChanged.subscribe(
