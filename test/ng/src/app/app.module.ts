@@ -31,6 +31,7 @@ import { GongdocdiagramsModule } from 'gongdocdiagrams'
 
 import { GongModule } from 'gong'
 import { TestModule } from 'test'
+import { GongstructSelectionService } from 'test'
 
 // mandatory
 import { HttpClientModule } from '@angular/common/http';
@@ -68,7 +69,9 @@ import { HttpClientModule } from '@angular/common/http';
     HttpClientModule,
     TestModule
   ],
-  providers: [],
+  providers: [
+    GongstructSelectionService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

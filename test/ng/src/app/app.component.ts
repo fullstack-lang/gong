@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { Observable, combineLatest, timer } from 'rxjs'
 
 import * as gongdoc from 'gongdoc'
+import * as test from 'test'
 
 @Component({
   selector: 'app-root',
@@ -22,7 +23,9 @@ export class AppComponent implements OnInit {
   gongdocCommandSingloton: gongdoc.GongdocCommandDB = new gongdoc.GongdocCommandDB
   lastSelectionDate: string = ''
 
-  constructor(private gongdocCommandService: gongdoc.GongdocCommandService) {
+  constructor(private gongdocCommandService: gongdoc.GongdocCommandService,
+    private gongstructSelectionService: test.GongstructSelectionService
+  ) {
 
   }
 
@@ -43,6 +46,8 @@ export class AppComponent implements OnInit {
             if (this.gongdocCommandSingloton.Command == gongdoc.GongdocCommandType.DIAGRAM_GONGSTRUCT_SELECT) {
               if (this.lastSelectionDate != this.gongdocCommandSingloton.Date) {
                 console.log("New user selection of gongstruct " + this.gongdocCommandSingloton.StructName)
+
+                this.gongstructSelectionService.gongstructSelected(this.gongdocCommandSingloton.StructName)
                 this.lastSelectionDate = this.gongdocCommandSingloton.Date
               }
             }
