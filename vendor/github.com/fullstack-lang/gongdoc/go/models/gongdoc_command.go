@@ -24,12 +24,6 @@ type GongdocCommand struct {
 	FieldTypeName string // type of the field (if command is about a field)
 	PositionX     int
 	PositionY     int
-
-	GongdocCommandCallback GongdocCommandCallback
-}
-
-type GongdocCommandCallback interface {
-	HasSelected(gongstructName string)
 }
 
 var GongdocCommandSingloton = (&GongdocCommand{
@@ -349,12 +343,6 @@ func init() {
 					}
 				case DIAGRAM_GONGSTRUCT_SELECT:
 					log.Println("UML Shape selected ", GongdocCommandSingloton.StructName)
-					gongStruct, ok := Stage.GongStructs_mapString[GongdocCommandSingloton.StructName]
-					if ok {
-						if GongdocCommandSingloton.GongdocCommandCallback != nil {
-							GongdocCommandSingloton.GongdocCommandCallback.HasSelected(gongStruct.Name)
-						}
-					}
 				}
 			} // end of polling function
 		}

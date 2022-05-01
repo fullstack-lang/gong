@@ -183,10 +183,6 @@ func main() {
 	gongdoc_models.Stage.Commit()
 	gong_models.Stage.Commit()
 
-	// attach callback for shape selection
-	gongdoc_models.GongdocCommandSingloton.GongdocCommandCallback =
-		&controllers.UMLShapeSelectionSingloton
-
 	// provide the static route for the angular pages
 	r.Use(static.Serve("/", EmbedFolder(test.NgDistNg, "ng/dist/ng")))
 	r.NoRoute(func(c *gin.Context) {
