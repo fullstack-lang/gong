@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, RouterState } from '@angular/router';
 
+import { BehaviorSubject } from 'rxjs';
+
 import { FlatTreeControl } from '@angular/cdk/tree';
 import { MatTreeFlatDataSource, MatTreeFlattener } from '@angular/material/tree';
 
@@ -147,6 +149,10 @@ export class SidebarComponent implements OnInit {
   // "data" tree that is constructed during NgInit and is passed to the mat-tree component
   gongNodeTree = new Array<GongNode>();
 
+  // SelectedStructChanged is the behavior subject that will emit
+  // the selected gong struct whose table has to be displayed in the table outlet
+  SelectedStructChanged: BehaviorSubject<string> = new BehaviorSubject("");
+
   constructor(
     private router: Router,
     private frontRepoService: FrontRepoService,
@@ -162,6 +168,12 @@ export class SidebarComponent implements OnInit {
 
   ngOnInit(): void {
     this.refresh()
+
+    this.SelectedStructChanged.subscribe(
+      selectedStruct => {
+        this.setTableRouterOutlet(selectedStruct)
+      }
+    )
 
     // insertion point for per struct observable for refresh trigger
     // observable for changes in structs
@@ -226,7 +238,7 @@ export class SidebarComponent implements OnInit {
 
       // reset the gong node tree
       this.gongNodeTree = new Array<GongNode>();
-      
+
       // insertion point for per struct tree construction
       /**
       * fill up the Astruct part of the mat tree
