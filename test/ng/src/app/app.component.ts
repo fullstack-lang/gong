@@ -45,7 +45,7 @@ export class AppComponent implements OnInit {
             // check the type of command
             if (this.gongdocCommandSingloton.Command == gongdoc.GongdocCommandType.DIAGRAM_GONGSTRUCT_SELECT) {
               if (this.lastSelectionDate != this.gongdocCommandSingloton.Date) {
-                console.log("New user selection of gongstruct " + this.gongdocCommandSingloton.StructName)
+                // console.log("New user selection of gongstruct " + this.gongdocCommandSingloton.StructName)
 
                 this.gongstructSelectionService.gongstructSelected(this.gongdocCommandSingloton.StructName)
                 this.lastSelectionDate = this.gongdocCommandSingloton.Date

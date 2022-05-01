@@ -181,7 +181,9 @@ export class SidebarComponent implements OnInit {
 
     this.subscription = this.gongstructSelectionService.gongtructSelected$.subscribe(
       gongstructName => {
-        console.log("sidebar gongstruct selected " + gongstructName)
+        // console.log("sidebar gongstruct selected " + gongstructName)
+
+        this.setTableRouterOutlet(gongstructName.toLowerCase() + "s")
       });
 
     this.refresh()
