@@ -768,8 +768,14 @@ export class SidebarGongDiagramsComponent implements OnInit {
           gongdocCommandSingloton.StructName = gongFlatNode.structName
           gongdocCommandSingloton.DiagramName = this.currentClassdiagram.Name
           gongdocCommandSingloton.Date = Date.now().toString()
+
+          // does not work, put default position
           gongdocCommandSingloton.PositionX = dropOnPaperOffset.x
           gongdocCommandSingloton.PositionY = dropOnPaperOffset.y
+          // temporary
+          gongdocCommandSingloton.PositionX = 20
+          gongdocCommandSingloton.PositionY = 20
+
           gongdocCommandSingloton.GongdocNodeType = gongFlatNode.type
 
           switch (gongFlatNode.type) {

@@ -275,7 +275,7 @@ export class LinkDetailComponent implements OnInit {
 	}
 
 	fillUpNameIfEmpty(event: { value: { Name: string; }; }) {
-		if (this.link.Name == undefined) {
+		if (this.link.Name == "") {
 			this.link.Name = event.value.Name
 		}
 	}

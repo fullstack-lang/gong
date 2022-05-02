@@ -26,8 +26,11 @@ type Classdiagram struct {
 	Name string
 
 	// this is the memory model (and not the "memory motel" of the Rolling Stones)
-	// it is not ignored by swagger because it is used by the angular model
 	Classshapes []*Classshape
+
+	// IsEditable indicates the the drawing can be edited (in development mode)
+	// or not (in production mode)
+	IsEditable bool
 }
 
 const DiagramMarginX = 10.0

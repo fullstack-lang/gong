@@ -149,7 +149,7 @@
             "label": "01 - remove .git dir in test",
             "type": "shell",
             "options": {
-                "cwd": "${workspaceFolder}/test/go/cmd/test",
+                "cwd": "${workspaceFolder}/test",
             },
             "command": "rm",
             "group": "build",

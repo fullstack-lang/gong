@@ -243,7 +243,7 @@ export class GongdocStatusDetailComponent implements OnInit {
 	}
 
 	fillUpNameIfEmpty(event: { value: { Name: string; }; }) {
-		if (this.gongdocstatus.Name == undefined) {
+		if (this.gongdocstatus.Name == "") {
 			this.gongdocstatus.Name = event.value.Name
 		}
 	}

@@ -34,6 +34,9 @@
             </button>
         </mat-grid-tile>
     </mat-grid-list>
+    <!-- -->
+    <mat-checkbox [formControl]="IsEditableFormControl">IsEditable</mat-checkbox>
+
     <mat-form-field class="detail-full-width">
         <mat-label>(Pkgelt) Classdiagrams</mat-label>
         <mat-select [compareWith]="compareObjects" [(ngModel)]="classdiagram.Pkgelt_Classdiagrams_reverse" [ngModelOptions]="{standalone: true}">
