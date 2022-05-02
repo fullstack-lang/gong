@@ -168,9 +168,7 @@ export class SidebarComponent implements OnInit {
     private astructbstructuseService: AstructBstructUseService,
     private bstructService: BstructService,
     private dstructService: DstructService,
-  ) {
-
-  }
+  ) { }
 
   ngOnDestroy() {
     // prevent memory leak when component destroyed
