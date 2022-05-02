@@ -262,7 +262,7 @@ export class UmlStateDetailComponent implements OnInit {
 	}
 
 	fillUpNameIfEmpty(event: { value: { Name: string; }; }) {
-		if (this.umlstate.Name == undefined) {
+		if (this.umlstate.Name == "") {
 			this.umlstate.Name = event.value.Name
 		}
 	}

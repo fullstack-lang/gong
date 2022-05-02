@@ -96,7 +96,11 @@ export class ClassshapesTableComponent implements OnInit {
           return classshapeDB.ClassshapeTargetType;
 
         case 'Classdiagram_Classshapes':
-          return this.frontRepo.Classdiagrams.get(classshapeDB.Classdiagram_ClassshapesDBID.Int64)!.Name;
+          if (this.frontRepo.Classdiagrams.get(classshapeDB.Classdiagram_ClassshapesDBID.Int64) != undefined) {
+            return this.frontRepo.Classdiagrams.get(classshapeDB.Classdiagram_ClassshapesDBID.Int64)!.Name
+          } else {
+            return ""
+          }
 
         default:
           console.assert(false, "Unknown field")

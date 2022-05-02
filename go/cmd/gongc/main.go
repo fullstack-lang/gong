@@ -733,6 +733,13 @@ func main() {
 		gong_models.PkgGoPath,
 		*addr)
 
+	gong_models.CodeGeneratorNgGongselectionServiceTs(
+		&modelPkg,
+		gong_models.PkgName,
+		gong_models.MatTargetPath,
+		gong_models.PkgGoPath,
+		*addr)
+
 	gong_models.CodeGeneratorNgNullInt64(
 		&modelPkg,
 		gong_models.PkgName,

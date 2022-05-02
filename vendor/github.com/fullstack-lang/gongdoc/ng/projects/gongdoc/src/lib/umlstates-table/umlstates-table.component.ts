@@ -78,7 +78,11 @@ export class UmlStatesTableComponent implements OnInit {
           return umlstateDB.Y;
 
         case 'Umlsc_States':
-          return this.frontRepo.Umlscs.get(umlstateDB.Umlsc_StatesDBID.Int64)!.Name;
+          if (this.frontRepo.Umlscs.get(umlstateDB.Umlsc_StatesDBID.Int64) != undefined) {
+            return this.frontRepo.Umlscs.get(umlstateDB.Umlsc_StatesDBID.Int64)!.Name
+          } else {
+            return ""
+          }
 
         default:
           console.assert(false, "Unknown field")

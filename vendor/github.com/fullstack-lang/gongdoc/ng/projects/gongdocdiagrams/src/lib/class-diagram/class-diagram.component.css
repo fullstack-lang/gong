@@ -5,7 +5,7 @@
 
 .class-diagram__box {
     width: 100%;
-    height: calc(100% - 70px);
+    height: 100%;
     overflow-x: scroll;
     overflow-y: scroll;
 }
@@ -25,7 +25,7 @@ input {
 }
 
 button {
-    margin-top: 20px;
+    /* margin-top: 20px; */
     font-family: Arial;
     background-color: #eee;
     border: none;

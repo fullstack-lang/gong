@@ -100,6 +100,7 @@ export * from './lib/vertice.service'
 
 
 export * from './lib/ClassshapeTargetType'
+export * from './lib/EditionMode'
 export * from './lib/GongdocCommandType'
 export * from './lib/GongdocNodeType'
 export * from './lib/MultiplicityType'

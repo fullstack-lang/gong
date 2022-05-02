@@ -4,7 +4,7 @@
         <span class="example-spacer"></span>
     </mat-toolbar>
 
-    <mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
+    <mat-tree *ngIf="currentClassdiagram.IsEditable" [dataSource]="dataSource" [treeControl]="treeControl">
 
         <!-- This is the tree node template for leaf nodes -->
         <mat-tree-node class="node-link" *matTreeNodeDef="let node" matTreeNodePadding>
@@ -32,7 +32,8 @@
                 <!-- can this link be displayed at all ? -->
                 <div *ngIf="node.canBeIncluded == true">
                     <!-- if then else block to deal wether the object is present or not -->
-                    <div *ngIf="node.presentInDiagram; then leafPresentBlock else leafNotPresentBlock"></div>
+                    <div *ngIf="node.presentInDiagram; then leafPresentBlock else leafNotPresentBlock">
+                    </div>
 
                     <!-- if the element is present, display an icon to allow for the removal of the element -->
                     <ng-template #leafPresentBlock>
@@ -64,7 +65,8 @@
                 <div *ngIf="node.canBeIncluded == true">
 
                     <!-- if then else block to deal wether the object is present or not -->
-                    <div *ngIf="node.presentInDiagram; then leafPresentBlock else leafNotPresentBlock"></div>
+                    <div *ngIf="node.presentInDiagram; then leafPresentBlock else leafNotPresentBlock">
+                    </div>
 
                     <!-- if the element is present, display an icon to allow for the removal of the element -->
                     <ng-template #leafPresentBlock>
@@ -97,7 +99,8 @@
                     <button mat-icon-button disabled></button>
                     <span>{{node.name}} &nbsp;</span>
                     <!-- if then else block to deal wether the object is present or not -->
-                    <div *ngIf="node.presentInDiagram; then leafPresentBlock else leafNotPresentBlock"></div>
+                    <div *ngIf="node.presentInDiagram; then leafPresentBlock else leafNotPresentBlock">
+                    </div>
 
                     <!-- if the element is present, display an icon to allow for the removal of the element -->
                     <ng-template #leafPresentBlock>
@@ -124,7 +127,8 @@
                     <button mat-icon-button disabled></button>
                     <span>{{node.name}} &nbsp;</span>
                     <!-- if then else block to deal wether the object is present or not -->
-                    <div *ngIf="node.presentInDiagram; then leafPresentBlock else leafNotPresentBlock"></div>
+                    <div *ngIf="node.presentInDiagram; then leafPresentBlock else leafNotPresentBlock">
+                    </div>
 
                     <!-- if the element is present, display an icon to allow for the removal of the element -->
                     <ng-template #leafPresentBlock>
@@ -161,7 +165,8 @@
             </button>
 
             <!-- if then else block to deal with present / not present node -->
-            <div *ngIf="node.presentInDiagram; then blockForGongStructInstancePresentInDiagram else otherCases"></div>
+            <div *ngIf="node.presentInDiagram; then blockForGongStructInstancePresentInDiagram else otherCases">
+            </div>
 
             <!-- if the gong struct is present in the diagram, have a button to have it removed -->
             <ng-template #blockForGongStructInstancePresentInDiagram>

@@ -240,7 +240,7 @@ export class PkgeltDetailComponent implements OnInit {
 	}
 
 	fillUpNameIfEmpty(event: { value: { Name: string; }; }) {
-		if (this.pkgelt.Name == undefined) {
+		if (this.pkgelt.Name == "") {
 			this.pkgelt.Name = event.value.Name
 		}
 	}

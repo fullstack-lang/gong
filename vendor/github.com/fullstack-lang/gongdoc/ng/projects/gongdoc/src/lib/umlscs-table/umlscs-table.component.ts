@@ -75,7 +75,11 @@ export class UmlscsTableComponent implements OnInit {
           return umlscDB.Activestate;
 
         case 'Pkgelt_Umlscs':
-          return this.frontRepo.Pkgelts.get(umlscDB.Pkgelt_UmlscsDBID.Int64)!.Name;
+          if (this.frontRepo.Pkgelts.get(umlscDB.Pkgelt_UmlscsDBID.Int64) != undefined) {
+            return this.frontRepo.Pkgelts.get(umlscDB.Pkgelt_UmlscsDBID.Int64)!.Name
+          } else {
+            return ""
+          }
 
         default:
           console.assert(false, "Unknown field")

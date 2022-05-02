@@ -88,7 +88,7 @@ func init() {
 						classDiagram = _classDiagram
 					}
 				}
-				if classDiagram == nil {
+				if classDiagram == nil && GongdocCommandSingloton.Command != DIAGRAM_GONGSTRUCT_SELECT {
 					log.Panicf("Unknown class diagram %s", GongdocCommandSingloton.DiagramName)
 				}
 				switch GongdocCommandSingloton.Command {
@@ -341,6 +341,8 @@ func init() {
 							sourceClassshape.Heigth/2.0
 						Stage.Commit()
 					}
+				case DIAGRAM_GONGSTRUCT_SELECT:
+					log.Println("UML Shape selected ", GongdocCommandSingloton.StructName)
 				}
 			} // end of polling function
 		}
