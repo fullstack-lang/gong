@@ -262,7 +262,7 @@ export class FieldDetailComponent implements OnInit {
 	}
 
 	fillUpNameIfEmpty(event: { value: { Name: string; }; }) {
-		if (this.field.Name == undefined) {
+		if (this.field.Name == "") {
 			this.field.Name = event.value.Name
 		}
 	}

@@ -12,6 +12,13 @@
         <td class="mat-cell">Name</td>
         <td class="mat-cell">{{classdiagram.Name}}</td>
     </tr>
+    <tr class="mat-row">
+        <td class="mat-cell">IsEditable</td>
+        <td class="mat-cell">
+            <mat-checkbox [checked]="classdiagram.IsEditable" disabled=true>
+            </mat-checkbox>
+        </td>
+    </tr>
 </table>
 <!-- hack to force loading of mat table style an error is generated but it is a know angular issue https://github.com/angular/components/issues/10941 -->
 <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">

@@ -288,7 +288,7 @@ export class ClassshapeDetailComponent implements OnInit {
 	}
 
 	fillUpNameIfEmpty(event: { value: { Name: string; }; }) {
-		if (this.classshape.Name == undefined) {
+		if (this.classshape.Name == "") {
 			this.classshape.Name = event.value.Name
 		}
 	}

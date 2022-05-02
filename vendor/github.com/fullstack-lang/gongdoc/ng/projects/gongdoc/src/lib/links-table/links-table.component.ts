@@ -90,7 +90,11 @@ export class LinksTableComponent implements OnInit {
           return (linkDB.Middlevertice ? linkDB.Middlevertice.Name : '');
 
         case 'Classshape_Links':
-          return this.frontRepo.Classshapes.get(linkDB.Classshape_LinksDBID.Int64)!.Name;
+          if (this.frontRepo.Classshapes.get(linkDB.Classshape_LinksDBID.Int64) != undefined) {
+            return this.frontRepo.Classshapes.get(linkDB.Classshape_LinksDBID.Int64)!.Name
+          } else {
+            return ""
+          }
 
         default:
           console.assert(false, "Unknown field")

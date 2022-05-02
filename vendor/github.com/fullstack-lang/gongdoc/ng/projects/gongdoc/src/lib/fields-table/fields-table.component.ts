@@ -84,7 +84,11 @@ export class FieldsTableComponent implements OnInit {
           return fieldDB.Fieldtypename;
 
         case 'Classshape_Fields':
-          return this.frontRepo.Classshapes.get(fieldDB.Classshape_FieldsDBID.Int64)!.Name;
+          if (this.frontRepo.Classshapes.get(fieldDB.Classshape_FieldsDBID.Int64) != undefined) {
+            return this.frontRepo.Classshapes.get(fieldDB.Classshape_FieldsDBID.Int64)!.Name
+          } else {
+            return ""
+          }
 
         default:
           console.assert(false, "Unknown field")
