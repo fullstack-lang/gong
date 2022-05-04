@@ -78,7 +78,11 @@ export class PointerToGongStructFieldsTableComponent implements OnInit {
           return pointertogongstructfieldDB.Index;
 
         case 'GongStruct_PointerToGongStructFields':
-          return this.frontRepo.GongStructs.get(pointertogongstructfieldDB.GongStruct_PointerToGongStructFieldsDBID.Int64)!.Name;
+          if (this.frontRepo.GongStructs.get(pointertogongstructfieldDB.GongStruct_PointerToGongStructFieldsDBID.Int64) != undefined) {
+            return this.frontRepo.GongStructs.get(pointertogongstructfieldDB.GongStruct_PointerToGongStructFieldsDBID.Int64)!.Name
+          } else {
+            return ""
+          }
 
         default:
           console.assert(false, "Unknown field")

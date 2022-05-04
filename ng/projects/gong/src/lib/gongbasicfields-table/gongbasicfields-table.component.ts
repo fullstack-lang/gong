@@ -84,7 +84,11 @@ export class GongBasicFieldsTableComponent implements OnInit {
           return gongbasicfieldDB.Index;
 
         case 'GongStruct_GongBasicFields':
-          return this.frontRepo.GongStructs.get(gongbasicfieldDB.GongStruct_GongBasicFieldsDBID.Int64)!.Name;
+          if (this.frontRepo.GongStructs.get(gongbasicfieldDB.GongStruct_GongBasicFieldsDBID.Int64) != undefined) {
+            return this.frontRepo.GongStructs.get(gongbasicfieldDB.GongStruct_GongBasicFieldsDBID.Int64)!.Name
+          } else {
+            return ""
+          }
 
         default:
           console.assert(false, "Unknown field")

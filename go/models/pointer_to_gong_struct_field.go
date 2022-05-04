@@ -9,10 +9,6 @@ type PointerToGongStructField struct {
 	Index int
 }
 
-func (p *PointerToGongStructField) GetName() string {
-	return p.Name
-}
-
 func (pointerToGongStructField *PointerToGongStructField) GetIndex() int {
 	return pointerToGongStructField.Index
 }
