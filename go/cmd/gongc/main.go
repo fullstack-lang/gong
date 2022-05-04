@@ -131,20 +131,23 @@ func main() {
 		}
 	}
 
-	// check existance of .git directory. If absent, use "ngit init"
+	// check wether one is in a git managed directory. If absent, use "git init"
 	{
+		gitStatusCommand := exec.Command("git", "status")
 
-		gitDirPath := filepath.Join(*pkgPath, "../../.git")
+		var isGitActive bool
 
-		gitDirAbsPath, err := filepath.Abs(gitDirPath)
-		if err != nil {
-			log.Panic("Problem with frontend target path " + err.Error())
+		// Execute the command
+		if err := gitStatusCommand.Run(); err != nil {
+			isGitActive = false
+			log.Println("not a git directory")
+		} else {
+			isGitActive = true
+			log.Println("a git directory")
 		}
-		_, errStat := os.Stat(gitDirAbsPath)
-		log.Println("git directry abs path " + gitDirAbsPath)
 
-		if os.IsNotExist(errStat) {
-			log.Printf("git dir %s does not exist, hence gong is generating it with git init command", gitDirAbsPath)
+		if !isGitActive {
+			log.Printf("git is not active, hence gong is generating a git directory with git init command")
 
 			// git init
 			cmd := exec.Command("git", "init")
@@ -921,7 +924,7 @@ func main() {
 	// go build
 	if true {
 		start := time.Now()
-		cmd := exec.Command("go", "build", "-buildvcs=false")
+		cmd := exec.Command("go", "build")
 		cmd.Dir, _ = filepath.Abs(filepath.Join(*pkgPath, fmt.Sprintf("../cmd/%s", computePkgName())))
 		log.Printf("Running %s command in directory %s and waiting for it to finish...\n", cmd.Args, cmd.Dir)
 
