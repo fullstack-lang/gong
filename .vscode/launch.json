@@ -75,7 +75,6 @@
             "request": "launch",
             "mode": "debug",
             "preLaunchTask": "01 - remove test main.go",
-            "postDebugTask": "01 - remove .git dir in test",
             "cwd": "${workspaceFolder}/test/go/models",
             "program": "${workspaceFolder}/go/cmd/gongc",
             "args": []
@@ -86,7 +85,6 @@
             "request": "launch",
             "mode": "debug",
             "preLaunchTask": "01 - remove test main.go",
-            "postDebugTask": "01 - remove .git dir in test",
             "cwd": "${workspaceFolder}/test/go/models",
             "program": "${workspaceFolder}/go/cmd/gongc",
             "args": [
@@ -99,7 +97,6 @@
             "request": "launch",
             "mode": "debug",
             "preLaunchTask": "01 - remove test main.go",
-            "postDebugTask": "01 - remove .git dir in test",
             "cwd": "${workspaceFolder}/test/go/models",
             "program": "${workspaceFolder}/go/cmd/gongc",
             "args": [
@@ -126,7 +123,6 @@
             "mode": "debug",
             "cwd": "${workspaceFolder}/test2/go/models",
             "program": "${workspaceFolder}/go/cmd/gongc",
-            "postDebugTask": "01 - remove .git dir in test2",
             "args": []
         },
         {
@@ -155,7 +151,6 @@
             "request": "launch",
             "mode": "debug",
             "preLaunchTask": "01 - remove test main.go",
-            "postDebugTask": "01 - remove .git dir in test",
             "cwd": "${workspaceFolder}/test/go/models",
             "program": "${workspaceFolder}/go/cmd/gongc",
             "args": [
@@ -169,7 +164,6 @@
             "request": "launch",
             "mode": "debug",
             "cwd": "${workspaceFolder}/test2/go/models",
-            "postDebugTask": "01 - remove .git dir in test2",
             "program": "${workspaceFolder}/go/cmd/gongc",
             "args": [
                 "-backendOnly"
