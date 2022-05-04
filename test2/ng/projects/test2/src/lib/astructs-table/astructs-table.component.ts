@@ -72,7 +72,11 @@ export class AstructsTableComponent implements OnInit {
           return astructDB.Name;
 
         case 'Astruct_Anarrayofa':
-          return this.frontRepo.Astructs.get(astructDB.Astruct_AnarrayofaDBID.Int64)!.Name;
+          if (this.frontRepo.Astructs.get(astructDB.Astruct_AnarrayofaDBID.Int64) != undefined) {
+            return this.frontRepo.Astructs.get(astructDB.Astruct_AnarrayofaDBID.Int64)!.Name
+          } else {
+            return ""
+          }
 
         default:
           console.assert(false, "Unknown field")

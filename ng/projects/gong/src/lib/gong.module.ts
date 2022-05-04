@@ -36,6 +36,7 @@ import { AppRoutingModule } from './app-routing.module';
 
 import { SplitterComponent } from './splitter/splitter.component'
 import { SidebarComponent } from './sidebar/sidebar.component';
+import { GongstructSelectionService } from './gongstruct-selection.service'
 
 // insertion point for imports 
 import { GongBasicFieldsTableComponent } from './gongbasicfields-table/gongbasicfields-table.component'
@@ -207,6 +208,7 @@ import { SliceOfPointerToGongStructFieldPresentationComponent } from './sliceofp
 
 	],
 	providers: [
+		GongstructSelectionService,
 		{
 			provide: MatDialogRef,
 			useValue: {}
