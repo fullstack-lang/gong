@@ -75,7 +75,11 @@ export class GongTimeFieldsTableComponent implements OnInit {
           return gongtimefieldDB.Index;
 
         case 'GongStruct_GongTimeFields':
-          return this.frontRepo.GongStructs.get(gongtimefieldDB.GongStruct_GongTimeFieldsDBID.Int64)!.Name;
+          if (this.frontRepo.GongStructs.get(gongtimefieldDB.GongStruct_GongTimeFieldsDBID.Int64) != undefined) {
+            return this.frontRepo.GongStructs.get(gongtimefieldDB.GongStruct_GongTimeFieldsDBID.Int64)!.Name
+          } else {
+            return ""
+          }
 
         default:
           console.assert(false, "Unknown field")

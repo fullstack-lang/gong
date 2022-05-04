@@ -75,7 +75,11 @@ export class GongEnumValuesTableComponent implements OnInit {
           return gongenumvalueDB.Value;
 
         case 'GongEnum_GongEnumValues':
-          return this.frontRepo.GongEnums.get(gongenumvalueDB.GongEnum_GongEnumValuesDBID.Int64)!.Name;
+          if (this.frontRepo.GongEnums.get(gongenumvalueDB.GongEnum_GongEnumValuesDBID.Int64) != undefined) {
+            return this.frontRepo.GongEnums.get(gongenumvalueDB.GongEnum_GongEnumValuesDBID.Int64)!.Name
+          } else {
+            return ""
+          }
 
         default:
           console.assert(false, "Unknown field")
