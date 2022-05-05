@@ -262,8 +262,8 @@ func (astruct *Astruct) GetName() (res string) {
 }
 
 func (astruct *Astruct) GetFields() (res []string) {
-	// list of fields 
-	res = []string{"Name", "Date", "Booleanfield", "Aenum", "Aenum_2", "Benum", "CEnum", "CName", "CFloatfield", "Floatfield", "Intfield", "Anotherbooleanfield", "Duration1", "Associationtob", "Anotherassociationtob_2", "Anarrayofb", "Anotherarrayofb", "Anarrayofa", "AnarrayofbUse", "Anarrayofb2Use", "AnAstruct",  }
+	// list of fields
+	res = []string{"Name", "Date", "Booleanfield", "Aenum", "Aenum_2", "Benum", "CEnum", "CName", "CFloatfield", "Floatfield", "Intfield", "Anotherbooleanfield", "Duration1", "Associationtob", "Anotherassociationtob_2", "Anarrayofb", "Anotherarrayofb", "Anarrayofa", "AnarrayofbUse", "Anarrayofb2Use", "AnAstruct"}
 	return
 }
 
@@ -455,8 +455,8 @@ func (astructbstruct2use *AstructBstruct2Use) GetName() (res string) {
 }
 
 func (astructbstruct2use *AstructBstruct2Use) GetFields() (res []string) {
-	// list of fields 
-	res = []string{"Name", "Bstrcut2",  }
+	// list of fields
+	res = []string{"Name", "Bstrcut2"}
 	return
 }
 
@@ -581,8 +581,8 @@ func (astructbstructuse *AstructBstructUse) GetName() (res string) {
 }
 
 func (astructbstructuse *AstructBstructUse) GetFields() (res []string) {
-	// list of fields 
-	res = []string{"Name", "Bstruct2",  }
+	// list of fields
+	res = []string{"Name", "Bstruct2"}
 	return
 }
 
@@ -707,8 +707,8 @@ func (bstruct *Bstruct) GetName() (res string) {
 }
 
 func (bstruct *Bstruct) GetFields() (res []string) {
-	// list of fields 
-	res = []string{"Name", "Floatfield", "Intfield",  }
+	// list of fields
+	res = []string{"Name", "Floatfield", "Intfield"}
 	return
 }
 
@@ -833,8 +833,8 @@ func (dstruct *Dstruct) GetName() (res string) {
 }
 
 func (dstruct *Dstruct) GetFields() (res []string) {
-	// list of fields 
-	res = []string{"Name",  }
+	// list of fields
+	res = []string{"Name"}
 	return
 }
 
@@ -1496,3 +1496,35 @@ func (cenumtypeint *CEnumTypeInt) ToCodeString() (res string) {
 	return
 }
 
+func (stageStruct *StageStruct) CreateReverseMap_Astruct_Anarrayofb() (res map[*Bstruct]*Astruct) {
+	res = make(map[*Bstruct]*Astruct)
+
+	for astruct := range stageStruct.Astructs {
+		for _, bstruct := range astruct.Anarrayofb {
+			res[bstruct] = astruct
+		}
+	}
+
+	return
+}
+
+func (stageStruct *StageStruct) CreateReverseMap_Astruct_Associationtob() (res map[*Bstruct][]*Astruct) {
+	res = make(map[*Bstruct][]*Astruct)
+
+	for astruct := range stageStruct.Astructs {
+		if astruct.Associationtob != nil {
+			bstruct := astruct.Associationtob
+			var astructs []*Astruct
+			_, ok := res[bstruct]
+			if ok {
+				astructs = res[bstruct]
+			} else {
+				astructs = make([]*Astruct, 0)
+			}
+			astructs = append(astructs, astruct)
+			res[bstruct] = astructs
+		}
+	}
+
+	return
+}
