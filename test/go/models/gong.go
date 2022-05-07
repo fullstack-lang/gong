@@ -1378,6 +1378,178 @@ func generatesIdentifier(gongStructName string, idx int, instanceName string) (i
 	return
 }
 
+// insertion point of functions that provide maps for reverse associations
+// generate function for reverse association maps of Astruct
+func (stageStruct *StageStruct) CreateReverseMap_Astruct_Associationtob() (res map[*Bstruct][]*Astruct) {
+	res = make(map[*Bstruct][]*Astruct)
+
+	for astruct := range stageStruct.Astructs {
+		if astruct.Associationtob != nil {
+			bstruct_ := astruct.Associationtob
+			var astructs []*Astruct
+			_, ok := res[bstruct_]
+			if ok {
+				astructs = res[bstruct_]
+			} else {
+				astructs = make([]*Astruct, 0)
+			}
+			astructs = append(astructs, astruct)
+			res[bstruct_] = astructs
+		}
+	}
+
+	return
+}
+
+func (stageStruct *StageStruct) CreateReverseMap_Astruct_Anotherassociationtob_2() (res map[*Bstruct][]*Astruct) {
+	res = make(map[*Bstruct][]*Astruct)
+
+	for astruct := range stageStruct.Astructs {
+		if astruct.Anotherassociationtob_2 != nil {
+			bstruct_ := astruct.Anotherassociationtob_2
+			var astructs []*Astruct
+			_, ok := res[bstruct_]
+			if ok {
+				astructs = res[bstruct_]
+			} else {
+				astructs = make([]*Astruct, 0)
+			}
+			astructs = append(astructs, astruct)
+			res[bstruct_] = astructs
+		}
+	}
+
+	return
+}
+
+func (stageStruct *StageStruct) CreateReverseMap_Astruct_Anarrayofb() (res map[*Bstruct]*Astruct) {
+	res = make(map[*Bstruct]*Astruct)
+
+	for astruct := range stageStruct.Astructs {
+		for _, bstruct_ := range astruct.Anarrayofb {
+			res[bstruct_] = astruct
+		}
+	}
+
+	return
+}
+
+func (stageStruct *StageStruct) CreateReverseMap_Astruct_Anotherarrayofb() (res map[*Bstruct]*Astruct) {
+	res = make(map[*Bstruct]*Astruct)
+
+	for astruct := range stageStruct.Astructs {
+		for _, bstruct_ := range astruct.Anotherarrayofb {
+			res[bstruct_] = astruct
+		}
+	}
+
+	return
+}
+
+func (stageStruct *StageStruct) CreateReverseMap_Astruct_Anarrayofa() (res map[*Astruct]*Astruct) {
+	res = make(map[*Astruct]*Astruct)
+
+	for astruct := range stageStruct.Astructs {
+		for _, astruct_ := range astruct.Anarrayofa {
+			res[astruct_] = astruct
+		}
+	}
+
+	return
+}
+
+func (stageStruct *StageStruct) CreateReverseMap_Astruct_AnarrayofbUse() (res map[*AstructBstructUse]*Astruct) {
+	res = make(map[*AstructBstructUse]*Astruct)
+
+	for astruct := range stageStruct.Astructs {
+		for _, astructbstructuse_ := range astruct.AnarrayofbUse {
+			res[astructbstructuse_] = astruct
+		}
+	}
+
+	return
+}
+
+func (stageStruct *StageStruct) CreateReverseMap_Astruct_Anarrayofb2Use() (res map[*AstructBstruct2Use]*Astruct) {
+	res = make(map[*AstructBstruct2Use]*Astruct)
+
+	for astruct := range stageStruct.Astructs {
+		for _, astructbstruct2use_ := range astruct.Anarrayofb2Use {
+			res[astructbstruct2use_] = astruct
+		}
+	}
+
+	return
+}
+
+func (stageStruct *StageStruct) CreateReverseMap_Astruct_AnAstruct() (res map[*Astruct][]*Astruct) {
+	res = make(map[*Astruct][]*Astruct)
+
+	for astruct := range stageStruct.Astructs {
+		if astruct.AnAstruct != nil {
+			astruct_ := astruct.AnAstruct
+			var astructs []*Astruct
+			_, ok := res[astruct_]
+			if ok {
+				astructs = res[astruct_]
+			} else {
+				astructs = make([]*Astruct, 0)
+			}
+			astructs = append(astructs, astruct)
+			res[astruct_] = astructs
+		}
+	}
+
+	return
+}
+
+// generate function for reverse association maps of AstructBstruct2Use
+func (stageStruct *StageStruct) CreateReverseMap_AstructBstruct2Use_Bstrcut2() (res map[*Bstruct][]*AstructBstruct2Use) {
+	res = make(map[*Bstruct][]*AstructBstruct2Use)
+
+	for astructbstruct2use := range stageStruct.AstructBstruct2Uses {
+		if astructbstruct2use.Bstrcut2 != nil {
+			bstruct_ := astructbstruct2use.Bstrcut2
+			var astructbstruct2uses []*AstructBstruct2Use
+			_, ok := res[bstruct_]
+			if ok {
+				astructbstruct2uses = res[bstruct_]
+			} else {
+				astructbstruct2uses = make([]*AstructBstruct2Use, 0)
+			}
+			astructbstruct2uses = append(astructbstruct2uses, astructbstruct2use)
+			res[bstruct_] = astructbstruct2uses
+		}
+	}
+
+	return
+}
+
+// generate function for reverse association maps of AstructBstructUse
+func (stageStruct *StageStruct) CreateReverseMap_AstructBstructUse_Bstruct2() (res map[*Bstruct][]*AstructBstructUse) {
+	res = make(map[*Bstruct][]*AstructBstructUse)
+
+	for astructbstructuse := range stageStruct.AstructBstructUses {
+		if astructbstructuse.Bstruct2 != nil {
+			bstruct_ := astructbstructuse.Bstruct2
+			var astructbstructuses []*AstructBstructUse
+			_, ok := res[bstruct_]
+			if ok {
+				astructbstructuses = res[bstruct_]
+			} else {
+				astructbstructuses = make([]*AstructBstructUse, 0)
+			}
+			astructbstructuses = append(astructbstructuses, astructbstructuse)
+			res[bstruct_] = astructbstructuses
+		}
+	}
+
+	return
+}
+
+// generate function for reverse association maps of Bstruct
+// generate function for reverse association maps of Dstruct
+
 // insertion point of enum utility functions
 // Utility function for AEnumType
 // if enum values are string, it is stored with the value
@@ -1493,38 +1665,5 @@ func (cenumtypeint *CEnumTypeInt) ToCodeString() (res string) {
 	case CENUM_VAL2:
 		res = "CENUM_VAL2"
 	}
-	return
-}
-
-func (stageStruct *StageStruct) CreateReverseMap_Astruct_Anarrayofb() (res map[*Bstruct]*Astruct) {
-	res = make(map[*Bstruct]*Astruct)
-
-	for astruct := range stageStruct.Astructs {
-		for _, bstruct := range astruct.Anarrayofb {
-			res[bstruct] = astruct
-		}
-	}
-
-	return
-}
-
-func (stageStruct *StageStruct) CreateReverseMap_Astruct_Associationtob() (res map[*Bstruct][]*Astruct) {
-	res = make(map[*Bstruct][]*Astruct)
-
-	for astruct := range stageStruct.Astructs {
-		if astruct.Associationtob != nil {
-			bstruct := astruct.Associationtob
-			var astructs []*Astruct
-			_, ok := res[bstruct]
-			if ok {
-				astructs = res[bstruct]
-			} else {
-				astructs = make([]*Astruct, 0)
-			}
-			astructs = append(astructs, astruct)
-			res[bstruct] = astructs
-		}
-	}
-
 	return
 }
