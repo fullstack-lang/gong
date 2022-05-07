@@ -671,8 +671,7 @@ func (stageStruct *StageStruct) CreateReverseMap_{{Structname}}_{{FieldName}}() 
 	}
 
 	return
-}
-`,
+}`,
 	GongFileFieldSubTmplSliceOfPointersFieldAssociationMapFunction: `
 func (stageStruct *StageStruct) CreateReverseMap_{{Structname}}_{{FieldName}}() (res map[*{{AssocStructName}}]*{{Structname}}) {
 	res = make(map[*{{AssocStructName}}]*{{Structname}})
