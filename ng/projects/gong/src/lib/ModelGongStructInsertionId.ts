@@ -10,10 +10,11 @@ export enum ModelGongStructInsertionId {
 	ModelGongStructInsertionCreateCallback = 3,
 	ModelGongStructInsertionDeleteCallback = 4,
 	ModelGongStructInsertionGetFields = 1,
+	ModelGongStructInsertionReverseAssociationsMaps = 12,
 	ModelGongStructInsertionStageFunctions = 2,
 	ModelGongStructInsertionUnmarshallDeclarations = 9,
 	ModelGongStructInsertionUnmarshallPointersInitializations = 10,
-	ModelGongStructInsertionsNb = 12,
+	ModelGongStructInsertionsNb = 13,
 }
 
 export interface ModelGongStructInsertionIdSelect {
@@ -31,6 +32,7 @@ export const ModelGongStructInsertionIdList: ModelGongStructInsertionIdSelect[] 
 	{ value: ModelGongStructInsertionId.ModelGongStructInsertionCreateCallback, viewValue: "ModelGongStructInsertionCreateCallback" },
 	{ value: ModelGongStructInsertionId.ModelGongStructInsertionDeleteCallback, viewValue: "ModelGongStructInsertionDeleteCallback" },
 	{ value: ModelGongStructInsertionId.ModelGongStructInsertionGetFields, viewValue: "ModelGongStructInsertionGetFields" },
+	{ value: ModelGongStructInsertionId.ModelGongStructInsertionReverseAssociationsMaps, viewValue: "ModelGongStructInsertionReverseAssociationsMaps" },
 	{ value: ModelGongStructInsertionId.ModelGongStructInsertionStageFunctions, viewValue: "ModelGongStructInsertionStageFunctions" },
 	{ value: ModelGongStructInsertionId.ModelGongStructInsertionUnmarshallDeclarations, viewValue: "ModelGongStructInsertionUnmarshallDeclarations" },
 	{ value: ModelGongStructInsertionId.ModelGongStructInsertionUnmarshallPointersInitializations, viewValue: "ModelGongStructInsertionUnmarshallPointersInitializations" },
