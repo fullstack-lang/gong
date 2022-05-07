@@ -226,8 +226,8 @@ func (astruct *Astruct) GetName() (res string) {
 }
 
 func (astruct *Astruct) GetFields() (res []string) {
-	// list of fields 
-	res = []string{"Name", "Anarrayofa",  }
+	// list of fields
+	res = []string{"Name", "Anarrayofa"}
 	return
 }
 
@@ -415,5 +415,20 @@ func generatesIdentifier(gongStructName string, idx int, instanceName string) (i
 
 	return
 }
+
+// insertion point of functions that provide maps for reverse associations
+// generate function for reverse association maps of Astruct
+func (stageStruct *StageStruct) CreateReverseMap_Astruct_Anarrayofa() (res map[*Astruct]*Astruct) {
+	res = make(map[*Astruct]*Astruct)
+
+	for astruct := range stageStruct.Astructs {
+		for _, astruct_ := range astruct.Anarrayofa {
+			res[astruct_] = astruct
+		}
+	}
+
+	return
+}
+
 
 // insertion point of enum utility functions
