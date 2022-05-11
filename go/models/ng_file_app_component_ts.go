@@ -16,7 +16,7 @@ export class AppComponent implements OnInit {
   // choices for the top radio button
   view = 'Default view'
   default = 'Default view'
-  diagrams = 'Diagrams view'
+  diagrams = 'UML view'
   meta = 'Meta view'
   views: string[] = [this.default, this.diagrams, this.meta];
 
