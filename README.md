@@ -39,7 +39,7 @@ With gong, a web application is a set of stacks. Each stack, based on go and ang
 
 ## 1.1. About Gong
 
-Gong (go + ng) is a framework for rapid web application development (a.k.a. full stack development). It is based on two development langages: go for the back-end and angular for the front-end. Gong idea is to leverages best in class components. The back-end leverages [gin](https://github.com/gin-gonic/gin), a web framework and [gorm](https://gorm.io/index.html), an ORM. The front-end leverages [angular material](https://material.angular.io/), an library of angular components.
+Gong (go + ng) is a framework for rapid web application development (a.k.a. full stack development) based on go and angular. The go back-end is cgo free and uses [gin](https://github.com/gin-gonic/gin), a web framework and [gorm](https://gorm.io/index.html), an ORM with a sqlite DB. The angular front-end uses [angular material](https://material.angular.io/), an library of angular components.
 
 The unit of development in gong is the **gong stack** (a "stack" in the rest of this document). A stack can import other stacks (both the front end and the back end of a stack are integrated as a whole). The granularity of a stack is similar to an angular components. There are available stacks for [jointjs](https://www.jointjs.com/) and [leaflet](https://leafletjs.com/).
 
@@ -52,7 +52,7 @@ Gong fullstack approach, with a backend in go, is similar in intent to [lorca](h
 
 ## 1.3. Gong is intended for system engineering tooling
 
-Also, gong's stated goal is narrower than general full stack frameworks since it is the rapid development of web applications for system engineering.
+Gong's goal is the rapid development of web applications for system engineering, a go *low-code* alternative to Excel+visual basic.
 
 Mostly, gong  is for modeling and simulation, planning and project structuring developments. Those developments are made during 
 the developement of the system of interest, therefore the need for fast iterations 
@@ -401,3 +401,7 @@ curl --request POST \
   --header 'content-type: application/json' \
   --data '{"Name": "Italy","HelloID":{"Int64":2,"Valid":true}}'
   ```
+  
+  
+https://user-images.githubusercontent.com/10234087/168422064-3def90ef-e644-46d3-be5e-532be4a28ed2.mp4
+
