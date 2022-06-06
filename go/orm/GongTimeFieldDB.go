@@ -273,7 +273,7 @@ func (backRepoGongTimeField *BackRepoGongTimeFieldStruct) CheckoutPhaseOne() (Er
 
 	// list of instances to be removed
 	// start from the initial map on the stage and remove instances that have been checked out
-	gongtimefieldInstancesToBeRemovedFromTheStage := make(map[*models.GongTimeField]struct{})
+	gongtimefieldInstancesToBeRemovedFromTheStage := make(map[*models.GongTimeField]any)
 	for key, value := range models.Stage.GongTimeFields {
 		gongtimefieldInstancesToBeRemovedFromTheStage[key] = value
 	}

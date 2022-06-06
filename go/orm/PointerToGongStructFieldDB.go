@@ -286,7 +286,7 @@ func (backRepoPointerToGongStructField *BackRepoPointerToGongStructFieldStruct) 
 
 	// list of instances to be removed
 	// start from the initial map on the stage and remove instances that have been checked out
-	pointertogongstructfieldInstancesToBeRemovedFromTheStage := make(map[*models.PointerToGongStructField]struct{})
+	pointertogongstructfieldInstancesToBeRemovedFromTheStage := make(map[*models.PointerToGongStructField]any)
 	for key, value := range models.Stage.PointerToGongStructFields {
 		pointertogongstructfieldInstancesToBeRemovedFromTheStage[key] = value
 	}
