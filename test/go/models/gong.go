@@ -1379,6 +1379,7 @@ func generatesIdentifier(gongStructName string, idx int, instanceName string) (i
 }
 
 // insertion point of functions that provide maps for reverse associations
+
 // generate function for reverse association maps of Astruct
 func (stageStruct *StageStruct) CreateReverseMap_Astruct_Associationtob() (res map[*Bstruct][]*Astruct) {
 	res = make(map[*Bstruct][]*Astruct)
@@ -1400,7 +1401,6 @@ func (stageStruct *StageStruct) CreateReverseMap_Astruct_Associationtob() (res m
 
 	return
 }
-
 func (stageStruct *StageStruct) CreateReverseMap_Astruct_Anotherassociationtob_2() (res map[*Bstruct][]*Astruct) {
 	res = make(map[*Bstruct][]*Astruct)
 
@@ -1421,7 +1421,6 @@ func (stageStruct *StageStruct) CreateReverseMap_Astruct_Anotherassociationtob_2
 
 	return
 }
-
 func (stageStruct *StageStruct) CreateReverseMap_Astruct_Anarrayofb() (res map[*Bstruct]*Astruct) {
 	res = make(map[*Bstruct]*Astruct)
 
@@ -1548,39 +1547,70 @@ func (stageStruct *StageStruct) CreateReverseMap_AstructBstructUse_Bstruct2() (r
 }
 
 // generate function for reverse association maps of Bstruct
+
 // generate function for reverse association maps of Dstruct
 
-// insertion point of API for accessing set and maps of staged gongstruct instances
 type GongstructSet interface {
-	map[*Astruct]any | map[*Bstruct]any
+	map[any]any |
+		// insertion point for generic types
+		map[*Astruct]any |
+		map[*AstructBstruct2Use]any |
+		map[*AstructBstructUse]any |
+		map[*Bstruct]any |
+		map[*Dstruct]any |
+		map[*any]any // because go does not support an extra "|" at the end of type specifications
 }
+
 type GongstructMapString interface {
-	map[string]*Astruct | map[string]*Bstruct
+	map[any]any |
+		// insertion point for generic types
+		map[string]*Astruct |
+		map[string]*AstructBstruct2Use |
+		map[string]*AstructBstructUse |
+		map[string]*Bstruct |
+		map[string]*Dstruct |
+		map[*any]any // because go does not support an extra "|" at the end of type specifications
 }
 
 // GongGetSet returns the set staged GongstructType instances
+// it is usefull because it allows refactoring of gong struct identifier
 func GongGetSet[Type GongstructSet]() *Type {
 	var ret Type
 
 	switch any(ret).(type) {
+	// insertion point for generic get functions
 	case map[*Astruct]any:
 		return any(&Stage.Astructs).(*Type)
+	case map[*AstructBstruct2Use]any:
+		return any(&Stage.AstructBstruct2Uses).(*Type)
+	case map[*AstructBstructUse]any:
+		return any(&Stage.AstructBstructUses).(*Type)
 	case map[*Bstruct]any:
 		return any(&Stage.Bstructs).(*Type)
+	case map[*Dstruct]any:
+		return any(&Stage.Dstructs).(*Type)
 	default:
 		return nil
 	}
 }
 
-// GongGetMap returns the map of strings to staged GongstructType instances
+// GongGetMap returns the map of staged GongstructType instances
+// it is usefull because it allows refactoring of gong struct identifier
 func GongGetMap[Type GongstructMapString]() *Type {
 	var ret Type
 
 	switch any(ret).(type) {
+	// insertion point for generic get functions
 	case map[string]*Astruct:
 		return any(&Stage.Astructs_mapString).(*Type)
+	case map[string]*AstructBstruct2Use:
+		return any(&Stage.AstructBstruct2Uses_mapString).(*Type)
+	case map[string]*AstructBstructUse:
+		return any(&Stage.AstructBstructUses_mapString).(*Type)
 	case map[string]*Bstruct:
 		return any(&Stage.Bstructs_mapString).(*Type)
+	case map[string]*Dstruct:
+		return any(&Stage.Dstructs_mapString).(*Type)
 	default:
 		return nil
 	}
@@ -1703,3 +1733,4 @@ func (cenumtypeint *CEnumTypeInt) ToCodeString() (res string) {
 	}
 	return
 }
+
