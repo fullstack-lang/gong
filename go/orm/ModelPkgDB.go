@@ -267,7 +267,7 @@ func (backRepoModelPkg *BackRepoModelPkgStruct) CheckoutPhaseOne() (Error error)
 
 	// list of instances to be removed
 	// start from the initial map on the stage and remove instances that have been checked out
-	modelpkgInstancesToBeRemovedFromTheStage := make(map[*models.ModelPkg]struct{})
+	modelpkgInstancesToBeRemovedFromTheStage := make(map[*models.ModelPkg]any)
 	for key, value := range models.Stage.ModelPkgs {
 		modelpkgInstancesToBeRemovedFromTheStage[key] = value
 	}

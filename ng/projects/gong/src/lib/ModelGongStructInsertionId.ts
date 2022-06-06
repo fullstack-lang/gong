@@ -9,12 +9,16 @@ export enum ModelGongStructInsertionId {
 	ModelGongStructInsertionComputeNbInstances = 11,
 	ModelGongStructInsertionCreateCallback = 3,
 	ModelGongStructInsertionDeleteCallback = 4,
+	ModelGongStructInsertionGenericGetMapFunctions = 16,
+	ModelGongStructInsertionGenericGetSetFunctions = 15,
+	ModelGongStructInsertionGenericGongMapTypes = 14,
+	ModelGongStructInsertionGenericGongSetTypes = 13,
 	ModelGongStructInsertionGetFields = 1,
 	ModelGongStructInsertionReverseAssociationsMaps = 12,
 	ModelGongStructInsertionStageFunctions = 2,
 	ModelGongStructInsertionUnmarshallDeclarations = 9,
 	ModelGongStructInsertionUnmarshallPointersInitializations = 10,
-	ModelGongStructInsertionsNb = 13,
+	ModelGongStructInsertionsNb = 17,
 }
 
 export interface ModelGongStructInsertionIdSelect {
@@ -31,6 +35,10 @@ export const ModelGongStructInsertionIdList: ModelGongStructInsertionIdSelect[] 
 	{ value: ModelGongStructInsertionId.ModelGongStructInsertionComputeNbInstances, viewValue: "ModelGongStructInsertionComputeNbInstances" },
 	{ value: ModelGongStructInsertionId.ModelGongStructInsertionCreateCallback, viewValue: "ModelGongStructInsertionCreateCallback" },
 	{ value: ModelGongStructInsertionId.ModelGongStructInsertionDeleteCallback, viewValue: "ModelGongStructInsertionDeleteCallback" },
+	{ value: ModelGongStructInsertionId.ModelGongStructInsertionGenericGetMapFunctions, viewValue: "ModelGongStructInsertionGenericGetMapFunctions" },
+	{ value: ModelGongStructInsertionId.ModelGongStructInsertionGenericGetSetFunctions, viewValue: "ModelGongStructInsertionGenericGetSetFunctions" },
+	{ value: ModelGongStructInsertionId.ModelGongStructInsertionGenericGongMapTypes, viewValue: "ModelGongStructInsertionGenericGongMapTypes" },
+	{ value: ModelGongStructInsertionId.ModelGongStructInsertionGenericGongSetTypes, viewValue: "ModelGongStructInsertionGenericGongSetTypes" },
 	{ value: ModelGongStructInsertionId.ModelGongStructInsertionGetFields, viewValue: "ModelGongStructInsertionGetFields" },
 	{ value: ModelGongStructInsertionId.ModelGongStructInsertionReverseAssociationsMaps, viewValue: "ModelGongStructInsertionReverseAssociationsMaps" },
 	{ value: ModelGongStructInsertionId.ModelGongStructInsertionStageFunctions, viewValue: "ModelGongStructInsertionStageFunctions" },
