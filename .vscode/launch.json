@@ -286,13 +286,6 @@
             "request": "launch",
             "mode": "test",
             "program": "${workspaceFolder}/test/go/tests",
-            "dlvLoadConfig": {
-                "followPointers": true,
-                "maxVariableRecurse": 1,
-                "maxStringLen": 300,
-                "maxArrayValues": 64,
-                "maxStructFields": -1
-            },
             "args": [
                 "-test.run",
                 "BclassOrder"
@@ -304,13 +297,6 @@
             "request": "launch",
             "mode": "test",
             "program": "${workspaceFolder}/test/go/tests",
-            "dlvLoadConfig": {
-                "followPointers": true,
-                "maxVariableRecurse": 1,
-                "maxStringLen": 300,
-                "maxArrayValues": 64,
-                "maxStructFields": -1
-            },
             "args": [
                 "-test.run",
                 "TestBackup"
@@ -322,13 +308,6 @@
             "request": "launch",
             "mode": "test",
             "program": "${workspaceFolder}/test/go/tests",
-            "dlvLoadConfig": {
-                "followPointers": true,
-                "maxVariableRecurse": 1,
-                "maxStringLen": 300,
-                "maxArrayValues": 64,
-                "maxStructFields": -1
-            },
             "args": [
                 "-test.run",
                 "TestXLBackup"
@@ -340,16 +319,20 @@
             "request": "launch",
             "mode": "test",
             "program": "${workspaceFolder}/test/go/tests",
-            "dlvLoadConfig": {
-                "followPointers": true,
-                "maxVariableRecurse": 1,
-                "maxStringLen": 300,
-                "maxArrayValues": 64,
-                "maxStructFields": -1
-            },
             "args": [
                 "-test.run",
                 "TestRestore"
+            ]
+        },
+        {
+            "name": "go test TestStageCallBack",
+            "type": "go",
+            "request": "launch",
+            "mode": "test",
+            "program": "${workspaceFolder}/test/go/tests",
+            "args": [
+                "-test.run",
+                "TestStageCallBack"
             ]
         },
         {
