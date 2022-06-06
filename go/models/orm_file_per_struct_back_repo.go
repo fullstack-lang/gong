@@ -266,7 +266,7 @@ func (backRepo{{Structname}} *BackRepo{{Structname}}Struct) CheckoutPhaseOne() (
 
 	// list of instances to be removed
 	// start from the initial map on the stage and remove instances that have been checked out
-	{{structname}}InstancesToBeRemovedFromTheStage := make(map[*models.{{Structname}}]struct{})
+	{{structname}}InstancesToBeRemovedFromTheStage := make(map[*models.{{Structname}}]any)
 	for key, value := range models.Stage.{{Structname}}s {
 		{{structname}}InstancesToBeRemovedFromTheStage[key] = value
 	}
