@@ -285,7 +285,7 @@ func (backRepoBstruct *BackRepoBstructStruct) CheckoutPhaseOne() (Error error) {
 
 	// list of instances to be removed
 	// start from the initial map on the stage and remove instances that have been checked out
-	bstructInstancesToBeRemovedFromTheStage := make(map[*models.Bstruct]struct{})
+	bstructInstancesToBeRemovedFromTheStage := make(map[*models.Bstruct]any)
 	for key, value := range models.Stage.Bstructs {
 		bstructInstancesToBeRemovedFromTheStage[key] = value
 	}

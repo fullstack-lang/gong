@@ -12,7 +12,7 @@ import (
 )
 
 // swagger:ignore
-type __void struct{}
+type __void any
 
 // needed for creating set of instances in the stage
 var __member __void
@@ -28,7 +28,7 @@ type GongStructInterface interface {
 // StageStruct enables storage of staged instances
 // swagger:ignore
 type StageStruct struct { // insertion point for definition of arrays registering instances
-	Astructs           map[*Astruct]struct{}
+	Astructs           map[*Astruct]any
 	Astructs_mapString map[string]*Astruct
 
 	AllModelsStructCreateCallback AllModelsStructCreateInterface
@@ -66,7 +66,7 @@ type BackRepoInterface interface {
 
 // swagger:ignore instructs the gong compiler (gongc) to avoid this particular struct
 var Stage StageStruct = StageStruct{ // insertion point for array initiatialisation
-	Astructs:           make(map[*Astruct]struct{}),
+	Astructs:           make(map[*Astruct]any),
 	Astructs_mapString: make(map[string]*Astruct),
 
 	// end of insertion point
@@ -257,7 +257,7 @@ type AllModelsStructDeleteInterface interface { // insertion point for Callbacks
 }
 
 func (stage *StageStruct) Reset() { // insertion point for array reset
-	stage.Astructs = make(map[*Astruct]struct{})
+	stage.Astructs = make(map[*Astruct]any)
 	stage.Astructs_mapString = make(map[string]*Astruct)
 
 }
@@ -417,6 +417,7 @@ func generatesIdentifier(gongStructName string, idx int, instanceName string) (i
 }
 
 // insertion point of functions that provide maps for reverse associations
+
 // generate function for reverse association maps of Astruct
 func (stageStruct *StageStruct) CreateReverseMap_Astruct_Anarrayofa() (res map[*Astruct]*Astruct) {
 	res = make(map[*Astruct]*Astruct)
@@ -430,5 +431,47 @@ func (stageStruct *StageStruct) CreateReverseMap_Astruct_Anarrayofa() (res map[*
 	return
 }
 
+
+type GongstructSet interface {
+	map[any]any |
+		// insertion point for generic types
+		map[*Astruct]any |
+		map[*any]any // because go does not support an extra "|" at the end of type specifications
+}
+
+type GongstructMapString interface {
+	map[any]any |
+		// insertion point for generic types
+		map[string]*Astruct |
+		map[*any]any // because go does not support an extra "|" at the end of type specifications
+}
+
+// GongGetSet returns the set staged GongstructType instances
+// it is usefull because it allows refactoring of gong struct identifier
+func GongGetSet[Type GongstructSet]() *Type {
+	var ret Type
+
+	switch any(ret).(type) {
+	// insertion point for generic get functions
+	case map[*Astruct]any:
+		return any(&Stage.Astructs).(*Type)
+	default:
+		return nil
+	}
+}
+
+// GongGetMap returns the map of staged GongstructType instances
+// it is usefull because it allows refactoring of gong struct identifier
+func GongGetMap[Type GongstructMapString]() *Type {
+	var ret Type
+
+	switch any(ret).(type) {
+	// insertion point for generic get functions
+	case map[string]*Astruct:
+		return any(&Stage.Astructs_mapString).(*Type)
+	default:
+		return nil
+	}
+}
 
 // insertion point of enum utility functions

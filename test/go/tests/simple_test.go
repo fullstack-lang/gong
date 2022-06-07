@@ -46,6 +46,18 @@ func TestStageCallBack(t *testing.T) {
 
 	models.Stage.Commit()
 
+	mapOfAstruct := models.GongGetMap[map[string]*models.Astruct]()
+	for id, astruct := range *mapOfAstruct {
+		log.Println(id, " ", astruct.Name)
+	}
+
+	setOfAstruct := models.GongGetSet[map[*models.Astruct]any]()
+	for astruct := range *setOfAstruct {
+		log.Println(" ", astruct.Name)
+	}
+
+	log.Println()
+
 	want := 2
 	got := len(models.Stage.Astructs)
 
