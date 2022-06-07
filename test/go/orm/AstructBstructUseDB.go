@@ -280,7 +280,7 @@ func (backRepoAstructBstructUse *BackRepoAstructBstructUseStruct) CheckoutPhaseO
 
 	// list of instances to be removed
 	// start from the initial map on the stage and remove instances that have been checked out
-	astructbstructuseInstancesToBeRemovedFromTheStage := make(map[*models.AstructBstructUse]struct{})
+	astructbstructuseInstancesToBeRemovedFromTheStage := make(map[*models.AstructBstructUse]any)
 	for key, value := range models.Stage.AstructBstructUses {
 		astructbstructuseInstancesToBeRemovedFromTheStage[key] = value
 	}

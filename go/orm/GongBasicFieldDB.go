@@ -298,7 +298,7 @@ func (backRepoGongBasicField *BackRepoGongBasicFieldStruct) CheckoutPhaseOne() (
 
 	// list of instances to be removed
 	// start from the initial map on the stage and remove instances that have been checked out
-	gongbasicfieldInstancesToBeRemovedFromTheStage := make(map[*models.GongBasicField]struct{})
+	gongbasicfieldInstancesToBeRemovedFromTheStage := make(map[*models.GongBasicField]any)
 	for key, value := range models.Stage.GongBasicFields {
 		gongbasicfieldInstancesToBeRemovedFromTheStage[key] = value
 	}

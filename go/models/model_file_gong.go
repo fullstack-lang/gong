@@ -24,7 +24,7 @@ import (
 )
 
 // swagger:ignore
-type __void struct{}
+type __void any
 
 // needed for creating set of instances in the stage
 var __member __void
@@ -236,6 +236,42 @@ func generatesIdentifier(gongStructName string, idx int, instanceName string) (i
 
 // insertion point of functions that provide maps for reverse associations{{` + string(rune(ModelGongStructInsertionReverseAssociationsMaps)) + `}}
 
+type GongstructSet interface {
+	map[any]any |
+		// insertion point for generic types{{` + string(rune(ModelGongStructInsertionGenericGongSetTypes)) + `}}
+		map[*any]any // because go does not support an extra "|" at the end of type specifications
+}
+
+type GongstructMapString interface {
+	map[any]any |
+		// insertion point for generic types{{` + string(rune(ModelGongStructInsertionGenericGongMapTypes)) + `}}
+		map[*any]any // because go does not support an extra "|" at the end of type specifications
+}
+
+// GongGetSet returns the set staged GongstructType instances
+// it is usefull because it allows refactoring of gong struct identifier
+func GongGetSet[Type GongstructSet]() *Type {
+	var ret Type
+
+	switch any(ret).(type) {
+	// insertion point for generic get functions{{` + string(rune(ModelGongStructInsertionGenericGetSetFunctions)) + `}}
+	default:
+		return nil
+	}
+}
+
+// GongGetMap returns the map of staged GongstructType instances
+// it is usefull because it allows refactoring of gong struct identifier
+func GongGetMap[Type GongstructMapString]() *Type {
+	var ret Type
+
+	switch any(ret).(type) {
+	// insertion point for generic get functions{{` + string(rune(ModelGongStructInsertionGenericGetMapFunctions)) + `}}
+	default:
+		return nil
+	}
+}
+
 // insertion point of enum utility functions{{` + string(rune(ModelGongEnumUtilityFunctions)) + `}}
 `
 
@@ -259,6 +295,10 @@ const (
 	ModelGongStructInsertionUnmarshallPointersInitializations
 	ModelGongStructInsertionComputeNbInstances
 	ModelGongStructInsertionReverseAssociationsMaps
+	ModelGongStructInsertionGenericGongSetTypes
+	ModelGongStructInsertionGenericGongMapTypes
+	ModelGongStructInsertionGenericGetSetFunctions
+	ModelGongStructInsertionGenericGetMapFunctions
 	ModelGongStructInsertionsNb
 )
 
@@ -440,17 +480,17 @@ func ({{structname}} *{{Structname}}) GetFieldStringValue(fieldName string) (res
 	DeleteORM{{Structname}}({{Structname}} *{{Structname}})`,
 
 	ModelGongStructInsertionArrayDefintion: `
-	{{Structname}}s           map[*{{Structname}}]struct{}
+	{{Structname}}s           map[*{{Structname}}]any
 	{{Structname}}s_mapString map[string]*{{Structname}}
 `,
 
 	ModelGongStructInsertionArrayInitialisation: `
-	{{Structname}}s:           make(map[*{{Structname}}]struct{}),
+	{{Structname}}s:           make(map[*{{Structname}}]any),
 	{{Structname}}s_mapString: make(map[string]*{{Structname}}),
 `,
 
 	ModelGongStructInsertionArrayReset: `
-	stage.{{Structname}}s = make(map[*{{Structname}}]struct{})
+	stage.{{Structname}}s = make(map[*{{Structname}}]any)
 	stage.{{Structname}}s_mapString = make(map[string]*{{Structname}})
 `,
 
@@ -503,7 +543,22 @@ func ({{structname}} *{{Structname}}) GetFieldStringValue(fieldName string) (res
 	stage.Map_GongStructName_InstancesNb["{{Structname}}"] = len(stage.{{Structname}}s)`,
 
 	ModelGongStructInsertionReverseAssociationsMaps: `
+
 // generate function for reverse association maps of {{Structname}}{{ReverseAssociationMapFunctions}}`,
+
+	ModelGongStructInsertionGenericGongSetTypes: `
+		map[*{{Structname}}]any |`,
+
+	ModelGongStructInsertionGenericGongMapTypes: `
+		map[string]*{{Structname}} |`,
+
+	ModelGongStructInsertionGenericGetSetFunctions: `
+	case map[*{{Structname}}]any:
+		return any(&Stage.{{Structname}}s).(*Type)`,
+
+	ModelGongStructInsertionGenericGetMapFunctions: `
+	case map[string]*{{Structname}}:
+		return any(&Stage.{{Structname}}s_mapString).(*Type)`,
 }
 
 //
@@ -734,7 +789,7 @@ func CodeGeneratorModelGong(
 		return gongStructs[i].Name < gongStructs[j].Name
 	})
 
-	for _, gongStruct := range gongStructs {
+	for idx, gongStruct := range gongStructs {
 
 		if !gongStruct.HasNameField() {
 			continue
@@ -749,6 +804,7 @@ func CodeGeneratorModelGong(
 	res = []string{`
 			fieldStringValues := ``
 			fieldReverseAssociationMapCreationCode := ``
+			genericSetTypes := ``
 
 			for idx, field := range gongStruct.Fields {
 
@@ -866,8 +922,13 @@ func CodeGeneratorModelGong(
 				"{{structname}}", strings.ToLower(gongStruct.Name),
 				"{{Structname}}", gongStruct.Name)
 
+			if idx > 0 {
+				genericSetTypes += " | "
+			}
+			genericSetTypes += "map[*{{Structname}}]any"
+
 			fieldNames += `}`
-			generatedCodeFromSubTemplate := Replace7(ModelGongStructSubTemplateCode[subStructTemplate],
+			generatedCodeFromSubTemplate := Replace8(ModelGongStructSubTemplateCode[subStructTemplate],
 				"{{structname}}", strings.ToLower(gongStruct.Name),
 				"{{Structname}}", gongStruct.Name,
 				"{{ValuesInitialization}}", valInitCode,
@@ -875,6 +936,7 @@ func CodeGeneratorModelGong(
 				"{{ListOfFieldsName}}", fieldNames,
 				"{{StringValueOfFields}}", fieldStringValues,
 				"{{ReverseAssociationMapFunctions}}", fieldReverseAssociationMapCreationCode,
+				"{{genericSetTypes}}", genericSetTypes,
 			)
 
 			subStructCodes[subStructTemplate] += generatedCodeFromSubTemplate

@@ -475,7 +475,7 @@ func (backRepoAstruct *BackRepoAstructStruct) CheckoutPhaseOne() (Error error) {
 
 	// list of instances to be removed
 	// start from the initial map on the stage and remove instances that have been checked out
-	astructInstancesToBeRemovedFromTheStage := make(map[*models.Astruct]struct{})
+	astructInstancesToBeRemovedFromTheStage := make(map[*models.Astruct]any)
 	for key, value := range models.Stage.Astructs {
 		astructInstancesToBeRemovedFromTheStage[key] = value
 	}
