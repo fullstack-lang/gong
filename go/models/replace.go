@@ -80,6 +80,21 @@ func Replace7(template, match1, replace1, match2, replace2, match3, replace3, //
 	return res
 }
 
+func Replace8(template, match1, replace1, match2, replace2, match3, replace3, //
+	match4, replace4, match5, replace5, match6, replace6, match7, replace7, match8, replace8 string) string {
+	res := ""
+	res = strings.ReplaceAll(template, match1, replace1)
+	res = strings.ReplaceAll(res, match2, replace2)
+	res = strings.ReplaceAll(res, match3, replace3)
+	res = strings.ReplaceAll(res, match4, replace4)
+	res = strings.ReplaceAll(res, match5, replace5)
+	res = strings.ReplaceAll(res, match6, replace6)
+	res = strings.ReplaceAll(res, match7, replace7)
+	res = strings.ReplaceAll(res, match8, replace8)
+
+	return res
+}
+
 // func makeFirstLowerCase(s string) string {
 
 // 	if len(s) < 2 {

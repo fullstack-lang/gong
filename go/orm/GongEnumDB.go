@@ -286,7 +286,7 @@ func (backRepoGongEnum *BackRepoGongEnumStruct) CheckoutPhaseOne() (Error error)
 
 	// list of instances to be removed
 	// start from the initial map on the stage and remove instances that have been checked out
-	gongenumInstancesToBeRemovedFromTheStage := make(map[*models.GongEnum]struct{})
+	gongenumInstancesToBeRemovedFromTheStage := make(map[*models.GongEnum]any)
 	for key, value := range models.Stage.GongEnums {
 		gongenumInstancesToBeRemovedFromTheStage[key] = value
 	}

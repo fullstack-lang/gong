@@ -12,7 +12,7 @@ import (
 )
 
 // swagger:ignore
-type __void struct{}
+type __void any
 
 // needed for creating set of instances in the stage
 var __member __void
@@ -28,19 +28,19 @@ type GongStructInterface interface {
 // StageStruct enables storage of staged instances
 // swagger:ignore
 type StageStruct struct { // insertion point for definition of arrays registering instances
-	Astructs           map[*Astruct]struct{}
+	Astructs           map[*Astruct]any
 	Astructs_mapString map[string]*Astruct
 
-	AstructBstruct2Uses           map[*AstructBstruct2Use]struct{}
+	AstructBstruct2Uses           map[*AstructBstruct2Use]any
 	AstructBstruct2Uses_mapString map[string]*AstructBstruct2Use
 
-	AstructBstructUses           map[*AstructBstructUse]struct{}
+	AstructBstructUses           map[*AstructBstructUse]any
 	AstructBstructUses_mapString map[string]*AstructBstructUse
 
-	Bstructs           map[*Bstruct]struct{}
+	Bstructs           map[*Bstruct]any
 	Bstructs_mapString map[string]*Bstruct
 
-	Dstructs           map[*Dstruct]struct{}
+	Dstructs           map[*Dstruct]any
 	Dstructs_mapString map[string]*Dstruct
 
 	AllModelsStructCreateCallback AllModelsStructCreateInterface
@@ -86,19 +86,19 @@ type BackRepoInterface interface {
 
 // swagger:ignore instructs the gong compiler (gongc) to avoid this particular struct
 var Stage StageStruct = StageStruct{ // insertion point for array initiatialisation
-	Astructs:           make(map[*Astruct]struct{}),
+	Astructs:           make(map[*Astruct]any),
 	Astructs_mapString: make(map[string]*Astruct),
 
-	AstructBstruct2Uses:           make(map[*AstructBstruct2Use]struct{}),
+	AstructBstruct2Uses:           make(map[*AstructBstruct2Use]any),
 	AstructBstruct2Uses_mapString: make(map[string]*AstructBstruct2Use),
 
-	AstructBstructUses:           make(map[*AstructBstructUse]struct{}),
+	AstructBstructUses:           make(map[*AstructBstructUse]any),
 	AstructBstructUses_mapString: make(map[string]*AstructBstructUse),
 
-	Bstructs:           make(map[*Bstruct]struct{}),
+	Bstructs:           make(map[*Bstruct]any),
 	Bstructs_mapString: make(map[string]*Bstruct),
 
-	Dstructs:           make(map[*Dstruct]struct{}),
+	Dstructs:           make(map[*Dstruct]any),
 	Dstructs_mapString: make(map[string]*Dstruct),
 
 	// end of insertion point
@@ -865,19 +865,19 @@ type AllModelsStructDeleteInterface interface { // insertion point for Callbacks
 }
 
 func (stage *StageStruct) Reset() { // insertion point for array reset
-	stage.Astructs = make(map[*Astruct]struct{})
+	stage.Astructs = make(map[*Astruct]any)
 	stage.Astructs_mapString = make(map[string]*Astruct)
 
-	stage.AstructBstruct2Uses = make(map[*AstructBstruct2Use]struct{})
+	stage.AstructBstruct2Uses = make(map[*AstructBstruct2Use]any)
 	stage.AstructBstruct2Uses_mapString = make(map[string]*AstructBstruct2Use)
 
-	stage.AstructBstructUses = make(map[*AstructBstructUse]struct{})
+	stage.AstructBstructUses = make(map[*AstructBstructUse]any)
 	stage.AstructBstructUses_mapString = make(map[string]*AstructBstructUse)
 
-	stage.Bstructs = make(map[*Bstruct]struct{})
+	stage.Bstructs = make(map[*Bstruct]any)
 	stage.Bstructs_mapString = make(map[string]*Bstruct)
 
-	stage.Dstructs = make(map[*Dstruct]struct{})
+	stage.Dstructs = make(map[*Dstruct]any)
 	stage.Dstructs_mapString = make(map[string]*Dstruct)
 
 }
@@ -1379,6 +1379,7 @@ func generatesIdentifier(gongStructName string, idx int, instanceName string) (i
 }
 
 // insertion point of functions that provide maps for reverse associations
+
 // generate function for reverse association maps of Astruct
 func (stageStruct *StageStruct) CreateReverseMap_Astruct_Associationtob() (res map[*Bstruct][]*Astruct) {
 	res = make(map[*Bstruct][]*Astruct)
@@ -1400,7 +1401,6 @@ func (stageStruct *StageStruct) CreateReverseMap_Astruct_Associationtob() (res m
 
 	return
 }
-
 func (stageStruct *StageStruct) CreateReverseMap_Astruct_Anotherassociationtob_2() (res map[*Bstruct][]*Astruct) {
 	res = make(map[*Bstruct][]*Astruct)
 
@@ -1421,7 +1421,6 @@ func (stageStruct *StageStruct) CreateReverseMap_Astruct_Anotherassociationtob_2
 
 	return
 }
-
 func (stageStruct *StageStruct) CreateReverseMap_Astruct_Anarrayofb() (res map[*Bstruct]*Astruct) {
 	res = make(map[*Bstruct]*Astruct)
 
@@ -1548,7 +1547,74 @@ func (stageStruct *StageStruct) CreateReverseMap_AstructBstructUse_Bstruct2() (r
 }
 
 // generate function for reverse association maps of Bstruct
+
 // generate function for reverse association maps of Dstruct
+
+type GongstructSet interface {
+	map[any]any |
+		// insertion point for generic types
+		map[*Astruct]any |
+		map[*AstructBstruct2Use]any |
+		map[*AstructBstructUse]any |
+		map[*Bstruct]any |
+		map[*Dstruct]any |
+		map[*any]any // because go does not support an extra "|" at the end of type specifications
+}
+
+type GongstructMapString interface {
+	map[any]any |
+		// insertion point for generic types
+		map[string]*Astruct |
+		map[string]*AstructBstruct2Use |
+		map[string]*AstructBstructUse |
+		map[string]*Bstruct |
+		map[string]*Dstruct |
+		map[*any]any // because go does not support an extra "|" at the end of type specifications
+}
+
+// GongGetSet returns the set staged GongstructType instances
+// it is usefull because it allows refactoring of gong struct identifier
+func GongGetSet[Type GongstructSet]() *Type {
+	var ret Type
+
+	switch any(ret).(type) {
+	// insertion point for generic get functions
+	case map[*Astruct]any:
+		return any(&Stage.Astructs).(*Type)
+	case map[*AstructBstruct2Use]any:
+		return any(&Stage.AstructBstruct2Uses).(*Type)
+	case map[*AstructBstructUse]any:
+		return any(&Stage.AstructBstructUses).(*Type)
+	case map[*Bstruct]any:
+		return any(&Stage.Bstructs).(*Type)
+	case map[*Dstruct]any:
+		return any(&Stage.Dstructs).(*Type)
+	default:
+		return nil
+	}
+}
+
+// GongGetMap returns the map of staged GongstructType instances
+// it is usefull because it allows refactoring of gong struct identifier
+func GongGetMap[Type GongstructMapString]() *Type {
+	var ret Type
+
+	switch any(ret).(type) {
+	// insertion point for generic get functions
+	case map[string]*Astruct:
+		return any(&Stage.Astructs_mapString).(*Type)
+	case map[string]*AstructBstruct2Use:
+		return any(&Stage.AstructBstruct2Uses_mapString).(*Type)
+	case map[string]*AstructBstructUse:
+		return any(&Stage.AstructBstructUses_mapString).(*Type)
+	case map[string]*Bstruct:
+		return any(&Stage.Bstructs_mapString).(*Type)
+	case map[string]*Dstruct:
+		return any(&Stage.Dstructs_mapString).(*Type)
+	default:
+		return nil
+	}
+}
 
 // insertion point of enum utility functions
 // Utility function for AEnumType
@@ -1667,3 +1733,4 @@ func (cenumtypeint *CEnumTypeInt) ToCodeString() (res string) {
 	}
 	return
 }
+
