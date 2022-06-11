@@ -1550,7 +1550,7 @@ func (stageStruct *StageStruct) CreateReverseMap_AstructBstructUse_Bstruct2() (r
 
 // generate function for reverse association maps of Dstruct
 
-// Gongstruct is the type paramter for generated generic function that allows 
+// Gongstruct is the type paramter for generated generic function that allows
 // - access to staged instances
 // - navigation between staged instances by going backward association links between gongstruct
 // - full refactoring of Gongstruct identifiers / fields
@@ -1642,6 +1642,24 @@ func GetGongstructInstancesSet[Type Gongstruct]() *map[*Type]any {
 		return any(&Stage.Bstructs).(*map[*Type]any)
 	case Dstruct:
 		return any(&Stage.Dstructs).(*map[*Type]any)
+	default:
+		return nil
+	}
+}
+
+// GetFieldName
+func GetFieldName[Type Gongstruct]() *Type {
+	var ret Type
+
+	switch any(ret).(type) {
+	case Astruct:
+		return any(&Astruct{
+			Associationtob:          &Bstruct{Name: "Associationtob"},
+			Anotherassociationtob_2: &Bstruct{Name: "Anotherassociationtob_2"},
+			Anotherarrayofb:         []*Bstruct{{Name: "Anotherarrayofb"}},
+			Anarrayofb:              []*Bstruct{{Name: "Anarrayofb"}},
+			Anarrayofa:              []*Astruct{{Name: "Anarrayofa"}},
+		}).(*Type)
 	default:
 		return nil
 	}
@@ -1786,4 +1804,3 @@ func (cenumtypeint *CEnumTypeInt) ToCodeString() (res string) {
 	}
 	return
 }
-
