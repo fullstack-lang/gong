@@ -1989,6 +1989,15 @@ func (stageStruct *StageStruct) CreateReverseMap_SliceOfPointerToGongStructField
 	return
 }
 
+// Gongstruct is the type paramter for generated generic function that allows 
+// - access to staged instances
+// - navigation between staged instances by going backward association links between gongstruct
+// - full refactoring of Gongstruct identifiers / fields
+type Gongstruct interface {
+	// insertion point for generic types
+	GongBasicField | GongEnum | GongEnumValue | GongStruct | GongTimeField | ModelPkg | PointerToGongStructField | SliceOfPointerToGongStructField
+}
+
 type GongstructSet interface {
 	map[any]any |
 		// insertion point for generic types
@@ -2072,6 +2081,327 @@ func GongGetMap[Type GongstructMapString]() *Type {
 		return nil
 	}
 }
+
+// GetGongstructInstancesSet returns the set staged GongstructType instances
+// it is usefull because it allows refactoring of gongstruct identifier
+func GetGongstructInstancesSet[Type Gongstruct]() *map[*Type]any {
+	var ret Type
+
+	switch any(ret).(type) {
+	// insertion point for generic get functions
+	case GongBasicField:
+		return any(&Stage.GongBasicFields).(*map[*Type]any)
+	case GongEnum:
+		return any(&Stage.GongEnums).(*map[*Type]any)
+	case GongEnumValue:
+		return any(&Stage.GongEnumValues).(*map[*Type]any)
+	case GongStruct:
+		return any(&Stage.GongStructs).(*map[*Type]any)
+	case GongTimeField:
+		return any(&Stage.GongTimeFields).(*map[*Type]any)
+	case ModelPkg:
+		return any(&Stage.ModelPkgs).(*map[*Type]any)
+	case PointerToGongStructField:
+		return any(&Stage.PointerToGongStructFields).(*map[*Type]any)
+	case SliceOfPointerToGongStructField:
+		return any(&Stage.SliceOfPointerToGongStructFields).(*map[*Type]any)
+	default:
+		return nil
+	}
+}
+
+// GetGongstructInstancesMap returns the map of staged GongstructType instances
+// it is usefull because it allows refactoring of gong struct identifier
+func GetGongstructInstancesMap[Type Gongstruct]() *map[string]*Type {
+	var ret Type
+
+	switch any(ret).(type) {
+	// insertion point for generic get functions
+	case GongBasicField:
+		return any(&Stage.GongBasicFields_mapString).(*map[string]*Type)
+	case GongEnum:
+		return any(&Stage.GongEnums_mapString).(*map[string]*Type)
+	case GongEnumValue:
+		return any(&Stage.GongEnumValues_mapString).(*map[string]*Type)
+	case GongStruct:
+		return any(&Stage.GongStructs_mapString).(*map[string]*Type)
+	case GongTimeField:
+		return any(&Stage.GongTimeFields_mapString).(*map[string]*Type)
+	case ModelPkg:
+		return any(&Stage.ModelPkgs_mapString).(*map[string]*Type)
+	case PointerToGongStructField:
+		return any(&Stage.PointerToGongStructFields_mapString).(*map[string]*Type)
+	case SliceOfPointerToGongStructField:
+		return any(&Stage.SliceOfPointerToGongStructFields_mapString).(*map[string]*Type)
+	default:
+		return nil
+	}
+}
+
+// GetAssociationName is a generic function that returns an instance of Type
+// where each association is filled with an instance whose name is the name of the association
+//
+// This function can be handy for generating navigation function that are refactorable
+func GetAssociationName[Type Gongstruct]() *Type {
+	var ret Type
+
+	switch any(ret).(type) {
+	// insertion point for instance with special fields
+	case GongBasicField:
+		return any(&GongBasicField{
+			// Initialisation of associations
+			// field is initialized with an instance of GongEnum with the name of the field
+			GongEnum: &GongEnum{Name: "GongEnum"},
+		}).(*Type)
+	case GongEnum:
+		return any(&GongEnum{
+			// Initialisation of associations
+			// field is initialized with an instance of GongEnumValue with the name of the field
+			GongEnumValues: []*GongEnumValue{{Name: "GongEnumValues"}},
+		}).(*Type)
+	case GongEnumValue:
+		return any(&GongEnumValue{
+			// Initialisation of associations
+		}).(*Type)
+	case GongStruct:
+		return any(&GongStruct{
+			// Initialisation of associations
+			// field is initialized with an instance of GongBasicField with the name of the field
+			GongBasicFields: []*GongBasicField{{Name: "GongBasicFields"}},
+			// field is initialized with an instance of GongTimeField with the name of the field
+			GongTimeFields: []*GongTimeField{{Name: "GongTimeFields"}},
+			// field is initialized with an instance of PointerToGongStructField with the name of the field
+			PointerToGongStructFields: []*PointerToGongStructField{{Name: "PointerToGongStructFields"}},
+			// field is initialized with an instance of SliceOfPointerToGongStructField with the name of the field
+			SliceOfPointerToGongStructFields: []*SliceOfPointerToGongStructField{{Name: "SliceOfPointerToGongStructFields"}},
+		}).(*Type)
+	case GongTimeField:
+		return any(&GongTimeField{
+			// Initialisation of associations
+		}).(*Type)
+	case ModelPkg:
+		return any(&ModelPkg{
+			// Initialisation of associations
+		}).(*Type)
+	case PointerToGongStructField:
+		return any(&PointerToGongStructField{
+			// Initialisation of associations
+			// field is initialized with an instance of GongStruct with the name of the field
+			GongStruct: &GongStruct{Name: "GongStruct"},
+		}).(*Type)
+	case SliceOfPointerToGongStructField:
+		return any(&SliceOfPointerToGongStructField{
+			// Initialisation of associations
+			// field is initialized with an instance of GongStruct with the name of the field
+			GongStruct: &GongStruct{Name: "GongStruct"},
+		}).(*Type)
+	default:
+		return nil
+	}
+}
+
+// GetPointerReverseMap allows backtrack navigation of any Start.Fieldname
+// associations (0..1) that is a pointer from one staged Gongstruct (type Start)
+// instances to another (type End)
+//
+// The function provides a map with keys as instances of End and values to arrays of *Start
+// the map is construed by iterating over all Start instances and populationg keys with End instances
+// and values with slice of Start instances
+func GetPointerReverseMap[Start, End Gongstruct](fieldname string) map[*End][]*Start {
+	var ret Start
+
+	switch any(ret).(type) {
+	// insertion point of functions that provide maps for reverse associations
+	// reverse maps of direct associations of GongBasicField
+	case GongBasicField:
+		switch fieldname {
+		// insertion point for per direct association field
+		case "GongEnum":
+			res := make(map[*GongEnum][]*GongBasicField)
+			for gongbasicfield := range Stage.GongBasicFields {
+				if gongbasicfield.GongEnum != nil {
+					gongenum_ := gongbasicfield.GongEnum
+					var gongbasicfields []*GongBasicField
+					_, ok := res[gongenum_]
+					if ok {
+						gongbasicfields = res[gongenum_]
+					} else {
+						gongbasicfields = make([]*GongBasicField, 0)
+					}
+					gongbasicfields = append(gongbasicfields, gongbasicfield)
+					res[gongenum_] = gongbasicfields
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		}
+	// reverse maps of direct associations of GongEnum
+	case GongEnum:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of GongEnumValue
+	case GongEnumValue:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of GongStruct
+	case GongStruct:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of GongTimeField
+	case GongTimeField:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of ModelPkg
+	case ModelPkg:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of PointerToGongStructField
+	case PointerToGongStructField:
+		switch fieldname {
+		// insertion point for per direct association field
+		case "GongStruct":
+			res := make(map[*GongStruct][]*PointerToGongStructField)
+			for pointertogongstructfield := range Stage.PointerToGongStructFields {
+				if pointertogongstructfield.GongStruct != nil {
+					gongstruct_ := pointertogongstructfield.GongStruct
+					var pointertogongstructfields []*PointerToGongStructField
+					_, ok := res[gongstruct_]
+					if ok {
+						pointertogongstructfields = res[gongstruct_]
+					} else {
+						pointertogongstructfields = make([]*PointerToGongStructField, 0)
+					}
+					pointertogongstructfields = append(pointertogongstructfields, pointertogongstructfield)
+					res[gongstruct_] = pointertogongstructfields
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		}
+	// reverse maps of direct associations of SliceOfPointerToGongStructField
+	case SliceOfPointerToGongStructField:
+		switch fieldname {
+		// insertion point for per direct association field
+		case "GongStruct":
+			res := make(map[*GongStruct][]*SliceOfPointerToGongStructField)
+			for sliceofpointertogongstructfield := range Stage.SliceOfPointerToGongStructFields {
+				if sliceofpointertogongstructfield.GongStruct != nil {
+					gongstruct_ := sliceofpointertogongstructfield.GongStruct
+					var sliceofpointertogongstructfields []*SliceOfPointerToGongStructField
+					_, ok := res[gongstruct_]
+					if ok {
+						sliceofpointertogongstructfields = res[gongstruct_]
+					} else {
+						sliceofpointertogongstructfields = make([]*SliceOfPointerToGongStructField, 0)
+					}
+					sliceofpointertogongstructfields = append(sliceofpointertogongstructfields, sliceofpointertogongstructfield)
+					res[gongstruct_] = sliceofpointertogongstructfields
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		}
+	}
+	return nil
+}
+
+// GetSliceOfPointersReverseMap allows backtrack navigation of any Start.Fieldname
+// associations (0..N) between one staged Gongstruct instances and many others
+//
+// The function provides a map with keys as instances of End and values to *Start instances
+// the map is construed by iterating over all Start instances and populating keys with End instances
+// and values with the Start instances
+func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string) map[*End]*Start {
+	var ret Start
+
+	switch any(ret).(type) {
+	// insertion point of functions that provide maps for reverse associations
+	// reverse maps of direct associations of GongBasicField
+	case GongBasicField:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of GongEnum
+	case GongEnum:
+		switch fieldname {
+		// insertion point for per direct association field
+		case "GongEnumValues":
+			res := make(map[*GongEnumValue]*GongEnum)
+			for gongenum := range Stage.GongEnums {
+				for _, gongenumvalue_ := range gongenum.GongEnumValues {
+					res[gongenumvalue_] = gongenum
+				}
+			}
+			return any(res).(map[*End]*Start)
+		}
+	// reverse maps of direct associations of GongEnumValue
+	case GongEnumValue:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of GongStruct
+	case GongStruct:
+		switch fieldname {
+		// insertion point for per direct association field
+		case "GongBasicFields":
+			res := make(map[*GongBasicField]*GongStruct)
+			for gongstruct := range Stage.GongStructs {
+				for _, gongbasicfield_ := range gongstruct.GongBasicFields {
+					res[gongbasicfield_] = gongstruct
+				}
+			}
+			return any(res).(map[*End]*Start)
+		case "GongTimeFields":
+			res := make(map[*GongTimeField]*GongStruct)
+			for gongstruct := range Stage.GongStructs {
+				for _, gongtimefield_ := range gongstruct.GongTimeFields {
+					res[gongtimefield_] = gongstruct
+				}
+			}
+			return any(res).(map[*End]*Start)
+		case "PointerToGongStructFields":
+			res := make(map[*PointerToGongStructField]*GongStruct)
+			for gongstruct := range Stage.GongStructs {
+				for _, pointertogongstructfield_ := range gongstruct.PointerToGongStructFields {
+					res[pointertogongstructfield_] = gongstruct
+				}
+			}
+			return any(res).(map[*End]*Start)
+		case "SliceOfPointerToGongStructFields":
+			res := make(map[*SliceOfPointerToGongStructField]*GongStruct)
+			for gongstruct := range Stage.GongStructs {
+				for _, sliceofpointertogongstructfield_ := range gongstruct.SliceOfPointerToGongStructFields {
+					res[sliceofpointertogongstructfield_] = gongstruct
+				}
+			}
+			return any(res).(map[*End]*Start)
+		}
+	// reverse maps of direct associations of GongTimeField
+	case GongTimeField:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of ModelPkg
+	case ModelPkg:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of PointerToGongStructField
+	case PointerToGongStructField:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of SliceOfPointerToGongStructField
+	case SliceOfPointerToGongStructField:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	}
+	return nil
+}
+
 
 // insertion point of enum utility functions
 // Utility function for BackRepoInsertionPoint
@@ -2757,8 +3087,16 @@ func (gongfileperstructsubtemplateid GongFilePerStructSubTemplateId) ToInt() (re
 	// migration of former implementation of enum
 	switch gongfileperstructsubtemplateid {
 	// insertion code per enum code
-	case GongFileFieldSubTmplPointerFieldAssociationMapFunction:
+	case GongFileFieldSubTmplAssociationNamePointerField:
 		res = 19
+	case GongFileFieldSubTmplAssociationNameliceOfPointersField:
+		res = 20
+	case GongFileFieldSubTmplPointerFieldAssociationMapFunction:
+		res = 21
+	case GongFileFieldSubTmplPointerFieldPointerAssociationMapFunction:
+		res = 23
+	case GongFileFieldSubTmplPointerFieldSliceOfPointersAssociationMapFunction:
+		res = 24
 	case GongFileFieldSubTmplSetBasicFieldBool:
 		res = 0
 	case GongFileFieldSubTmplSetBasicFieldEnumInt:
@@ -2778,7 +3116,7 @@ func (gongfileperstructsubtemplateid GongFilePerStructSubTemplateId) ToInt() (re
 	case GongFileFieldSubTmplSetTimeField:
 		res = 6
 	case GongFileFieldSubTmplSliceOfPointersFieldAssociationMapFunction:
-		res = 20
+		res = 22
 	case GongFileFieldSubTmplStringFieldName:
 		res = 9
 	case GongFileFieldSubTmplStringValueBasicFieldBool:
@@ -2808,7 +3146,15 @@ func (gongfileperstructsubtemplateid *GongFilePerStructSubTemplateId) FromInt(in
 	switch input {
 	// insertion code per enum code
 	case 19:
+		*gongfileperstructsubtemplateid = GongFileFieldSubTmplAssociationNamePointerField
+	case 20:
+		*gongfileperstructsubtemplateid = GongFileFieldSubTmplAssociationNameliceOfPointersField
+	case 21:
 		*gongfileperstructsubtemplateid = GongFileFieldSubTmplPointerFieldAssociationMapFunction
+	case 23:
+		*gongfileperstructsubtemplateid = GongFileFieldSubTmplPointerFieldPointerAssociationMapFunction
+	case 24:
+		*gongfileperstructsubtemplateid = GongFileFieldSubTmplPointerFieldSliceOfPointersAssociationMapFunction
 	case 0:
 		*gongfileperstructsubtemplateid = GongFileFieldSubTmplSetBasicFieldBool
 	case 3:
@@ -2827,7 +3173,7 @@ func (gongfileperstructsubtemplateid *GongFilePerStructSubTemplateId) FromInt(in
 		*gongfileperstructsubtemplateid = GongFileFieldSubTmplSetSliceOfPointersField
 	case 6:
 		*gongfileperstructsubtemplateid = GongFileFieldSubTmplSetTimeField
-	case 20:
+	case 22:
 		*gongfileperstructsubtemplateid = GongFileFieldSubTmplSliceOfPointersFieldAssociationMapFunction
 	case 9:
 		*gongfileperstructsubtemplateid = GongFileFieldSubTmplStringFieldName
@@ -2856,8 +3202,16 @@ func (gongfileperstructsubtemplateid *GongFilePerStructSubTemplateId) ToCodeStri
 
 	switch *gongfileperstructsubtemplateid {
 	// insertion code per enum code
+	case GongFileFieldSubTmplAssociationNamePointerField:
+		res = "GongFileFieldSubTmplAssociationNamePointerField"
+	case GongFileFieldSubTmplAssociationNameliceOfPointersField:
+		res = "GongFileFieldSubTmplAssociationNameliceOfPointersField"
 	case GongFileFieldSubTmplPointerFieldAssociationMapFunction:
 		res = "GongFileFieldSubTmplPointerFieldAssociationMapFunction"
+	case GongFileFieldSubTmplPointerFieldPointerAssociationMapFunction:
+		res = "GongFileFieldSubTmplPointerFieldPointerAssociationMapFunction"
+	case GongFileFieldSubTmplPointerFieldSliceOfPointersAssociationMapFunction:
+		res = "GongFileFieldSubTmplPointerFieldSliceOfPointersAssociationMapFunction"
 	case GongFileFieldSubTmplSetBasicFieldBool:
 		res = "GongFileFieldSubTmplSetBasicFieldBool"
 	case GongFileFieldSubTmplSetBasicFieldEnumInt:
@@ -3010,14 +3364,26 @@ func (modelgongstructinsertionid ModelGongStructInsertionId) ToInt() (res int) {
 		res = 3
 	case ModelGongStructInsertionDeleteCallback:
 		res = 4
+	case ModelGongStructInsertionGenericGetAssociationNameFunctions:
+		res = 22
 	case ModelGongStructInsertionGenericGetMapFunctions:
-		res = 16
+		res = 19
 	case ModelGongStructInsertionGenericGetSetFunctions:
-		res = 15
+		res = 18
 	case ModelGongStructInsertionGenericGongMapTypes:
-		res = 14
+		res = 17
 	case ModelGongStructInsertionGenericGongSetTypes:
+		res = 16
+	case ModelGongStructInsertionGenericGongstructTypes:
+		res = 15
+	case ModelGongStructInsertionGenericInstancesMapFunctions:
+		res = 21
+	case ModelGongStructInsertionGenericInstancesSetFunctions:
+		res = 20
+	case ModelGongStructInsertionGenericReversePointerAssociationsMaps:
 		res = 13
+	case ModelGongStructInsertionGenericReverseSliceOfPointersAssociationsMaps:
+		res = 14
 	case ModelGongStructInsertionGetFields:
 		res = 1
 	case ModelGongStructInsertionReverseAssociationsMaps:
@@ -3029,7 +3395,7 @@ func (modelgongstructinsertionid ModelGongStructInsertionId) ToInt() (res int) {
 	case ModelGongStructInsertionUnmarshallPointersInitializations:
 		res = 10
 	case ModelGongStructInsertionsNb:
-		res = 17
+		res = 23
 	}
 	return
 }
@@ -3054,14 +3420,26 @@ func (modelgongstructinsertionid *ModelGongStructInsertionId) FromInt(input int)
 		*modelgongstructinsertionid = ModelGongStructInsertionCreateCallback
 	case 4:
 		*modelgongstructinsertionid = ModelGongStructInsertionDeleteCallback
-	case 16:
+	case 22:
+		*modelgongstructinsertionid = ModelGongStructInsertionGenericGetAssociationNameFunctions
+	case 19:
 		*modelgongstructinsertionid = ModelGongStructInsertionGenericGetMapFunctions
-	case 15:
+	case 18:
 		*modelgongstructinsertionid = ModelGongStructInsertionGenericGetSetFunctions
-	case 14:
+	case 17:
 		*modelgongstructinsertionid = ModelGongStructInsertionGenericGongMapTypes
-	case 13:
+	case 16:
 		*modelgongstructinsertionid = ModelGongStructInsertionGenericGongSetTypes
+	case 15:
+		*modelgongstructinsertionid = ModelGongStructInsertionGenericGongstructTypes
+	case 21:
+		*modelgongstructinsertionid = ModelGongStructInsertionGenericInstancesMapFunctions
+	case 20:
+		*modelgongstructinsertionid = ModelGongStructInsertionGenericInstancesSetFunctions
+	case 13:
+		*modelgongstructinsertionid = ModelGongStructInsertionGenericReversePointerAssociationsMaps
+	case 14:
+		*modelgongstructinsertionid = ModelGongStructInsertionGenericReverseSliceOfPointersAssociationsMaps
 	case 1:
 		*modelgongstructinsertionid = ModelGongStructInsertionGetFields
 	case 12:
@@ -3072,7 +3450,7 @@ func (modelgongstructinsertionid *ModelGongStructInsertionId) FromInt(input int)
 		*modelgongstructinsertionid = ModelGongStructInsertionUnmarshallDeclarations
 	case 10:
 		*modelgongstructinsertionid = ModelGongStructInsertionUnmarshallPointersInitializations
-	case 17:
+	case 23:
 		*modelgongstructinsertionid = ModelGongStructInsertionsNb
 	}
 }
@@ -3097,6 +3475,8 @@ func (modelgongstructinsertionid *ModelGongStructInsertionId) ToCodeString() (re
 		res = "ModelGongStructInsertionCreateCallback"
 	case ModelGongStructInsertionDeleteCallback:
 		res = "ModelGongStructInsertionDeleteCallback"
+	case ModelGongStructInsertionGenericGetAssociationNameFunctions:
+		res = "ModelGongStructInsertionGenericGetAssociationNameFunctions"
 	case ModelGongStructInsertionGenericGetMapFunctions:
 		res = "ModelGongStructInsertionGenericGetMapFunctions"
 	case ModelGongStructInsertionGenericGetSetFunctions:
@@ -3105,6 +3485,16 @@ func (modelgongstructinsertionid *ModelGongStructInsertionId) ToCodeString() (re
 		res = "ModelGongStructInsertionGenericGongMapTypes"
 	case ModelGongStructInsertionGenericGongSetTypes:
 		res = "ModelGongStructInsertionGenericGongSetTypes"
+	case ModelGongStructInsertionGenericGongstructTypes:
+		res = "ModelGongStructInsertionGenericGongstructTypes"
+	case ModelGongStructInsertionGenericInstancesMapFunctions:
+		res = "ModelGongStructInsertionGenericInstancesMapFunctions"
+	case ModelGongStructInsertionGenericInstancesSetFunctions:
+		res = "ModelGongStructInsertionGenericInstancesSetFunctions"
+	case ModelGongStructInsertionGenericReversePointerAssociationsMaps:
+		res = "ModelGongStructInsertionGenericReversePointerAssociationsMaps"
+	case ModelGongStructInsertionGenericReverseSliceOfPointersAssociationsMaps:
+		res = "ModelGongStructInsertionGenericReverseSliceOfPointersAssociationsMaps"
 	case ModelGongStructInsertionGetFields:
 		res = "ModelGongStructInsertionGetFields"
 	case ModelGongStructInsertionReverseAssociationsMaps:
