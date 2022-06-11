@@ -1550,7 +1550,7 @@ func (stageStruct *StageStruct) CreateReverseMap_AstructBstructUse_Bstruct2() (r
 
 // generate function for reverse association maps of Dstruct
 
-// Gongstruct is the type paramter for generated generic function that allows
+// Gongstruct is the type paramter for generated generic function that allows 
 // - access to staged instances
 // - navigation between staged instances by going backward association links between gongstruct
 // - full refactoring of Gongstruct identifiers / fields
@@ -1723,13 +1723,14 @@ func GetAssociationName[Type Gongstruct]() *Type {
 	}
 }
 
-// GetDirectAssociationReverseMap allows backtrack navigation of any Start.Fieldname
-// associations between staged Gongstruct instances
+// GetPointerReverseMap allows backtrack navigation of any Start.Fieldname
+// associations (0..1) that is a pointer from one staged Gongstruct (type Start)
+// instances to another (type End)
 //
 // The function provides a map with keys as instances of End and values to arrays of *Start
 // the map is construed by iterating over all Start instances and populationg keys with End instances
-// and values with the Start instances
-func GetDirectAssociationReverseMap[Start, End Gongstruct](fieldname string) map[*End][]*Start {
+// and values with slice of Start instances
+func GetPointerReverseMap[Start, End Gongstruct](fieldname string) map[*End][]*Start {
 	var ret Start
 
 	switch any(ret).(type) {
@@ -1740,7 +1741,6 @@ func GetDirectAssociationReverseMap[Start, End Gongstruct](fieldname string) map
 		// insertion point for per direct association field
 		case "Associationtob":
 			res := make(map[*Bstruct][]*Astruct)
-
 			for astruct := range Stage.Astructs {
 				if astruct.Associationtob != nil {
 					bstruct_ := astruct.Associationtob
@@ -1758,7 +1758,6 @@ func GetDirectAssociationReverseMap[Start, End Gongstruct](fieldname string) map
 			return any(res).(map[*End][]*Start)
 		case "Anotherassociationtob_2":
 			res := make(map[*Bstruct][]*Astruct)
-
 			for astruct := range Stage.Astructs {
 				if astruct.Anotherassociationtob_2 != nil {
 					bstruct_ := astruct.Anotherassociationtob_2
@@ -1776,7 +1775,6 @@ func GetDirectAssociationReverseMap[Start, End Gongstruct](fieldname string) map
 			return any(res).(map[*End][]*Start)
 		case "AnAstruct":
 			res := make(map[*Astruct][]*Astruct)
-
 			for astruct := range Stage.Astructs {
 				if astruct.AnAstruct != nil {
 					astruct_ := astruct.AnAstruct
@@ -1799,7 +1797,6 @@ func GetDirectAssociationReverseMap[Start, End Gongstruct](fieldname string) map
 		// insertion point for per direct association field
 		case "Bstrcut2":
 			res := make(map[*Bstruct][]*AstructBstruct2Use)
-
 			for astructbstruct2use := range Stage.AstructBstruct2Uses {
 				if astructbstruct2use.Bstrcut2 != nil {
 					bstruct_ := astructbstruct2use.Bstrcut2
@@ -1822,7 +1819,6 @@ func GetDirectAssociationReverseMap[Start, End Gongstruct](fieldname string) map
 		// insertion point for per direct association field
 		case "Bstruct2":
 			res := make(map[*Bstruct][]*AstructBstructUse)
-
 			for astructbstructuse := range Stage.AstructBstructUses {
 				if astructbstructuse.Bstruct2 != nil {
 					bstruct_ := astructbstructuse.Bstruct2
@@ -1852,6 +1848,87 @@ func GetDirectAssociationReverseMap[Start, End Gongstruct](fieldname string) map
 	}
 	return nil
 }
+
+// GetSliceOfPointersReverseMap allows backtrack navigation of any Start.Fieldname
+// associations (0..N) between one staged Gongstruct instances and many others
+//
+// The function provides a map with keys as instances of End and values to *Start instances
+// the map is construed by iterating over all Start instances and populating keys with End instances
+// and values with the Start instances
+func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string) map[*End]*Start {
+	var ret Start
+
+	switch any(ret).(type) {
+	// insertion point of functions that provide maps for reverse associations
+	// reverse maps of direct associations of Astruct
+	case Astruct:
+		switch fieldname {
+		// insertion point for per direct association field
+		case "Anarrayofb":
+			res := make(map[*Bstruct]*Astruct)
+			for astruct := range Stage.Astructs {
+				for _, bstruct_ := range astruct.Anarrayofb {
+					res[bstruct_] = astruct
+				}
+			}
+			return any(res).(map[*End]*Start)
+		case "Anotherarrayofb":
+			res := make(map[*Bstruct]*Astruct)
+			for astruct := range Stage.Astructs {
+				for _, bstruct_ := range astruct.Anotherarrayofb {
+					res[bstruct_] = astruct
+				}
+			}
+			return any(res).(map[*End]*Start)
+		case "Anarrayofa":
+			res := make(map[*Astruct]*Astruct)
+			for astruct := range Stage.Astructs {
+				for _, astruct_ := range astruct.Anarrayofa {
+					res[astruct_] = astruct
+				}
+			}
+			return any(res).(map[*End]*Start)
+		case "AnarrayofbUse":
+			res := make(map[*AstructBstructUse]*Astruct)
+			for astruct := range Stage.Astructs {
+				for _, astructbstructuse_ := range astruct.AnarrayofbUse {
+					res[astructbstructuse_] = astruct
+				}
+			}
+			return any(res).(map[*End]*Start)
+		case "Anarrayofb2Use":
+			res := make(map[*AstructBstruct2Use]*Astruct)
+			for astruct := range Stage.Astructs {
+				for _, astructbstruct2use_ := range astruct.Anarrayofb2Use {
+					res[astructbstruct2use_] = astruct
+				}
+			}
+			return any(res).(map[*End]*Start)
+		}
+	// reverse maps of direct associations of AstructBstruct2Use
+	case AstructBstruct2Use:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of AstructBstructUse
+	case AstructBstructUse:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of Bstruct
+	case Bstruct:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of Dstruct
+	case Dstruct:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	}
+	return nil
+}
+
 
 // insertion point of enum utility functions
 // Utility function for AEnumType
@@ -1970,3 +2047,4 @@ func (cenumtypeint *CEnumTypeInt) ToCodeString() (res string) {
 	}
 	return
 }
+
