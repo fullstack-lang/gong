@@ -1,7 +1,11 @@
 // generated from ng_file_enum.ts.go
 export enum GongFilePerStructSubTemplateId {
 	// insertion point	
-	GongFileFieldSubTmplPointerFieldAssociationMapFunction = 19,
+	GongFileFieldSubTmplAssociationNamePointerField = 19,
+	GongFileFieldSubTmplAssociationNameliceOfPointersField = 20,
+	GongFileFieldSubTmplPointerFieldAssociationMapFunction = 21,
+	GongFileFieldSubTmplPointerFieldPointerAssociationMapFunction = 23,
+	GongFileFieldSubTmplPointerFieldSliceOfPointersAssociationMapFunction = 24,
 	GongFileFieldSubTmplSetBasicFieldBool = 0,
 	GongFileFieldSubTmplSetBasicFieldEnumInt = 3,
 	GongFileFieldSubTmplSetBasicFieldEnumString = 2,
@@ -11,7 +15,7 @@ export enum GongFilePerStructSubTemplateId {
 	GongFileFieldSubTmplSetPointerField = 7,
 	GongFileFieldSubTmplSetSliceOfPointersField = 8,
 	GongFileFieldSubTmplSetTimeField = 6,
-	GongFileFieldSubTmplSliceOfPointersFieldAssociationMapFunction = 20,
+	GongFileFieldSubTmplSliceOfPointersFieldAssociationMapFunction = 22,
 	GongFileFieldSubTmplStringFieldName = 9,
 	GongFileFieldSubTmplStringValueBasicFieldBool = 10,
 	GongFileFieldSubTmplStringValueBasicFieldEnumInt = 13,
@@ -30,7 +34,11 @@ export interface GongFilePerStructSubTemplateIdSelect {
 }
 
 export const GongFilePerStructSubTemplateIdList: GongFilePerStructSubTemplateIdSelect[] = [ // insertion point	
+	{ value: GongFilePerStructSubTemplateId.GongFileFieldSubTmplAssociationNamePointerField, viewValue: "GongFileFieldSubTmplAssociationNamePointerField" },
+	{ value: GongFilePerStructSubTemplateId.GongFileFieldSubTmplAssociationNameliceOfPointersField, viewValue: "GongFileFieldSubTmplAssociationNameliceOfPointersField" },
 	{ value: GongFilePerStructSubTemplateId.GongFileFieldSubTmplPointerFieldAssociationMapFunction, viewValue: "GongFileFieldSubTmplPointerFieldAssociationMapFunction" },
+	{ value: GongFilePerStructSubTemplateId.GongFileFieldSubTmplPointerFieldPointerAssociationMapFunction, viewValue: "GongFileFieldSubTmplPointerFieldPointerAssociationMapFunction" },
+	{ value: GongFilePerStructSubTemplateId.GongFileFieldSubTmplPointerFieldSliceOfPointersAssociationMapFunction, viewValue: "GongFileFieldSubTmplPointerFieldSliceOfPointersAssociationMapFunction" },
 	{ value: GongFilePerStructSubTemplateId.GongFileFieldSubTmplSetBasicFieldBool, viewValue: "GongFileFieldSubTmplSetBasicFieldBool" },
 	{ value: GongFilePerStructSubTemplateId.GongFileFieldSubTmplSetBasicFieldEnumInt, viewValue: "GongFileFieldSubTmplSetBasicFieldEnumInt" },
 	{ value: GongFilePerStructSubTemplateId.GongFileFieldSubTmplSetBasicFieldEnumString, viewValue: "GongFileFieldSubTmplSetBasicFieldEnumString" },
