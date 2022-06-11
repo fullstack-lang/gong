@@ -56,6 +56,16 @@ func TestStageCallBack(t *testing.T) {
 		log.Println(" ", astruct.Name)
 	}
 
+	mapOfAstruct = models.GetGongstructInstancesMap[models.Astruct]()
+	for id, astruct := range *mapOfAstruct {
+		log.Println(id, " ", astruct.Name)
+	}
+
+	setOfAstruct = models.GetGongstructInstancesSet[models.Astruct]()
+	for astruct := range *setOfAstruct {
+		log.Println(" ", astruct.Name)
+	}
+
 	log.Println()
 
 	want := 2

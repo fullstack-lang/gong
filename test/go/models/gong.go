@@ -1550,6 +1550,15 @@ func (stageStruct *StageStruct) CreateReverseMap_AstructBstructUse_Bstruct2() (r
 
 // generate function for reverse association maps of Dstruct
 
+// Gongstruct is the type paramter for generated generic function that allows 
+// - access to staged instances
+// - navigation between staged instances by going backward association links between gongstruct
+// - full refactoring of Gongstruct identifiers / fields
+type Gongstruct interface {
+	// insertion point for generic types
+	Astruct | AstructBstruct2Use | AstructBstructUse | Bstruct | Dstruct
+}
+
 type GongstructSet interface {
 	map[any]any |
 		// insertion point for generic types
@@ -1611,6 +1620,50 @@ func GongGetMap[Type GongstructMapString]() *Type {
 		return any(&Stage.Bstructs_mapString).(*Type)
 	case map[string]*Dstruct:
 		return any(&Stage.Dstructs_mapString).(*Type)
+	default:
+		return nil
+	}
+}
+
+// GetGongstructInstancesSet returns the set staged GongstructType instances
+// it is usefull because it allows refactoring of gongstruct identifier
+func GetGongstructInstancesSet[Type Gongstruct]() *map[*Type]any {
+	var ret Type
+
+	switch any(ret).(type) {
+	// insertion point for generic get functions
+	case Astruct:
+		return any(&Stage.Astructs).(*map[*Type]any)
+	case AstructBstruct2Use:
+		return any(&Stage.AstructBstruct2Uses).(*map[*Type]any)
+	case AstructBstructUse:
+		return any(&Stage.AstructBstructUses).(*map[*Type]any)
+	case Bstruct:
+		return any(&Stage.Bstructs).(*map[*Type]any)
+	case Dstruct:
+		return any(&Stage.Dstructs).(*map[*Type]any)
+	default:
+		return nil
+	}
+}
+
+// GetGongstructInstancesMap returns the map of staged GongstructType instances
+// it is usefull because it allows refactoring of gong struct identifier
+func GetGongstructInstancesMap[Type Gongstruct]() *map[string]*Type {
+	var ret Type
+
+	switch any(ret).(type) {
+	// insertion point for generic get functions
+	case Astruct:
+		return any(&Stage.Astructs_mapString).(*map[string]*Type)
+	case AstructBstruct2Use:
+		return any(&Stage.AstructBstruct2Uses_mapString).(*map[string]*Type)
+	case AstructBstructUse:
+		return any(&Stage.AstructBstructUses_mapString).(*map[string]*Type)
+	case Bstruct:
+		return any(&Stage.Bstructs_mapString).(*map[string]*Type)
+	case Dstruct:
+		return any(&Stage.Dstructs_mapString).(*map[string]*Type)
 	default:
 		return nil
 	}
