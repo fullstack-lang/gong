@@ -1380,7 +1380,13 @@ func generatesIdentifier(gongStructName string, idx int, instanceName string) (i
 
 // insertion point of functions that provide maps for reverse associations
 
-func GetReverseMap[Start, End Gongstruct](fieldname string) map[*End][]*Start {
+// GetDirectAssociationReverseMap allows backtrack navigation of any Start.Fieldname
+// associations between staged Gongstruct instances
+//
+// The function provides a map with keys as instances of End and values to arrays of *Start
+// the map is construed by iterating over all Start instances and populationg keys with End instances
+// and values with the Start instances
+func GetDirectAssociationReverseMap[Start, End Gongstruct](fieldname string) map[*End][]*Start {
 	var ret Start
 
 	switch any(ret).(type) {
