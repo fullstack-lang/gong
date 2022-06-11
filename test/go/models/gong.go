@@ -1380,6 +1380,39 @@ func generatesIdentifier(gongStructName string, idx int, instanceName string) (i
 
 // insertion point of functions that provide maps for reverse associations
 
+func GetReverseMap[Start, End Gongstruct](fieldname string) (res map[*End][]*Start) {
+	var ret Start
+
+	switch any(ret).(type) {
+	// insertion point for generic get functions
+	case Astruct:
+		switch fieldname {
+		case "Associationtob":
+			res_ := make(map[*Bstruct][]*Astruct)
+
+			for astruct := range Stage.Astructs {
+				if astruct.Associationtob != nil {
+					bstruct_ := astruct.Associationtob
+					var astructs []*Astruct
+					_, ok := res_[bstruct_]
+					if ok {
+						astructs = res_[bstruct_]
+					} else {
+						astructs = make([]*Astruct, 0)
+					}
+					astructs = append(astructs, astruct)
+					res_[bstruct_] = astructs
+				}
+			}
+			return any(res_).(map[*End][]*Start)
+		default:
+			return nil
+		}
+	default:
+		return nil
+	}
+}
+
 // generate function for reverse association maps of Astruct
 func (stageStruct *StageStruct) CreateReverseMap_Astruct_Associationtob() (res map[*Bstruct][]*Astruct) {
 	res = make(map[*Bstruct][]*Astruct)

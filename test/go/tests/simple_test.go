@@ -71,6 +71,11 @@ func TestStageCallBack(t *testing.T) {
 	log.Println(models.GetAssociationName[models.Astruct]().Anarrayofb[0].Name)
 	log.Println(models.GetAssociationName[models.Astruct]().Anarrayofa[0].Name)
 
+	reverseMapAstruct_AssocationTob := models.GetReverseMap[models.Astruct, models.Bstruct](models.GetAssociationName[models.Astruct]().Associationtob.Name)
+	for _, astruct := range reverseMapAstruct_AssocationTob[bclass1] {
+		log.Println("astruct ", astruct.Name)
+	}
+
 	log.Println()
 
 	want := 2
