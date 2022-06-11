@@ -319,6 +319,21 @@ func GetAssociationName[Type Gongstruct]() *Type {
 	}
 }
 
+// GetDirectAssociationReverseMap allows backtrack navigation of any Start.Fieldname
+// associations between staged Gongstruct instances
+//
+// The function provides a map with keys as instances of End and values to arrays of *Start
+// the map is construed by iterating over all Start instances and populationg keys with End instances
+// and values with the Start instances
+func GetDirectAssociationReverseMap[Start, End Gongstruct](fieldname string) map[*End][]*Start {
+	var ret Start
+
+	switch any(ret).(type) {
+	// insertion point of functions that provide maps for reverse associations{{` + string(rune(ModelGongStructInsertionGenericReverseDirectAssociationsMaps)) + `}}
+	}
+	return nil
+}
+
 // insertion point of enum utility functions{{` + string(rune(ModelGongEnumUtilityFunctions)) + `}}
 `
 
@@ -342,6 +357,7 @@ const (
 	ModelGongStructInsertionUnmarshallPointersInitializations
 	ModelGongStructInsertionComputeNbInstances
 	ModelGongStructInsertionReverseAssociationsMaps
+	ModelGongStructInsertionGenericReverseDirectAssociationsMaps
 	ModelGongStructInsertionGenericGongstructTypes
 	ModelGongStructInsertionGenericGongSetTypes
 	ModelGongStructInsertionGenericGongMapTypes
@@ -597,6 +613,13 @@ func ({{structname}} *{{Structname}}) GetFieldStringValue(fieldName string) (res
 
 // generate function for reverse association maps of {{Structname}}{{ReverseAssociationMapFunctions}}`,
 
+	ModelGongStructInsertionGenericReverseDirectAssociationsMaps: `
+	// reverse maps of direct associations of {{Structname}}
+	case {{Structname}}:
+		switch fieldname {
+		// insertion point for per direct association field{{fieldReverseDirectAssociationMapCode}}
+		}`,
+
 	ModelGongStructInsertionGenericGongstructTypes: ` | {{Structname}}`,
 
 	ModelGongStructInsertionGenericGongSetTypes: `
@@ -663,6 +686,8 @@ const (
 
 	GongFileFieldSubTmplPointerFieldAssociationMapFunction
 	GongFileFieldSubTmplSliceOfPointersFieldAssociationMapFunction
+
+	GongFileFieldSubTmplPointerFieldDirectAssociationMapFunction
 )
 
 //
@@ -806,6 +831,26 @@ func (stageStruct *StageStruct) CreateReverseMap_{{Structname}}_{{FieldName}}() 
 
 	return
 }`,
+	GongFileFieldSubTmplPointerFieldDirectAssociationMapFunction: `
+		case "{{FieldName}}":
+			res := make(map[*{{AssocStructName}}][]*{{Structname}})
+
+			for {{structname}} := range Stage.{{Structname}}s {
+				if {{structname}}.{{FieldName}} != nil {
+					{{assocstructname}}_ := {{structname}}.{{FieldName}}
+					var {{structname}}s []*{{Structname}}
+					_, ok := res[{{assocstructname}}_]
+					if ok {
+						{{structname}}s = res[{{assocstructname}}_]
+					} else {
+						{{structname}}s = make([]*{{Structname}}, 0)
+					}
+					{{structname}}s = append({{structname}}s, {{structname}})
+					res[{{assocstructname}}_] = {{structname}}s
+				}
+			}
+			return any(res).(map[*End][]*Start)`,
+
 	GongFileFieldSubTmplSliceOfPointersFieldAssociationMapFunction: `
 func (stageStruct *StageStruct) CreateReverseMap_{{Structname}}_{{FieldName}}() (res map[*{{AssocStructName}}]*{{Structname}}) {
 	res = make(map[*{{AssocStructName}}]*{{Structname}})
@@ -883,6 +928,7 @@ func CodeGeneratorModelGong(
 	res = []string{`
 			fieldStringValues := ``
 			fieldReverseAssociationMapCreationCode := ``
+			fieldReverseDirectAssociationMapCode := ``
 			associationFieldInitialization := ``
 
 			for idx, field := range gongStruct.Fields {
@@ -960,6 +1006,11 @@ func CodeGeneratorModelGong(
 						"{{FieldName}}", field.Name,
 						"{{AssocStructName}}", field.GongStruct.Name,
 						"{{assocstructname}}", strings.ToLower(field.GongStruct.Name))
+					fieldReverseDirectAssociationMapCode += Replace3(
+						GongFileFieldFieldSubTemplateCode[GongFileFieldSubTmplPointerFieldDirectAssociationMapFunction],
+						"{{FieldName}}", field.Name,
+						"{{AssocStructName}}", field.GongStruct.Name,
+						"{{assocstructname}}", strings.ToLower(field.GongStruct.Name))
 					associationFieldInitialization += Replace3(
 						GongFileFieldFieldSubTemplateCode[GongFileFieldSubTmplAssociationNamePointerField],
 						"{{FieldName}}", field.Name,
@@ -1011,8 +1062,12 @@ func CodeGeneratorModelGong(
 				"{{structname}}", strings.ToLower(gongStruct.Name),
 				"{{Structname}}", gongStruct.Name)
 
+			fieldReverseDirectAssociationMapCode = Replace2(fieldReverseDirectAssociationMapCode,
+				"{{structname}}", strings.ToLower(gongStruct.Name),
+				"{{Structname}}", gongStruct.Name)
+
 			fieldNames += `}`
-			generatedCodeFromSubTemplate := Replace8(ModelGongStructSubTemplateCode[subStructTemplate],
+			generatedCodeFromSubTemplate := Replace9(ModelGongStructSubTemplateCode[subStructTemplate],
 				"{{structname}}", strings.ToLower(gongStruct.Name),
 				"{{Structname}}", gongStruct.Name,
 				"{{ValuesInitialization}}", valInitCode,
@@ -1020,6 +1075,7 @@ func CodeGeneratorModelGong(
 				"{{ListOfFieldsName}}", fieldNames,
 				"{{StringValueOfFields}}", fieldStringValues,
 				"{{ReverseAssociationMapFunctions}}", fieldReverseAssociationMapCreationCode,
+				"{{fieldReverseDirectAssociationMapCode}}", fieldReverseDirectAssociationMapCode,
 				"{{associationFieldInitialization}}", associationFieldInitialization,
 			)
 
