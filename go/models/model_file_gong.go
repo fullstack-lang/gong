@@ -236,6 +236,15 @@ func generatesIdentifier(gongStructName string, idx int, instanceName string) (i
 
 // insertion point of functions that provide maps for reverse associations{{` + string(rune(ModelGongStructInsertionReverseAssociationsMaps)) + `}}
 
+// Gongstruct is the type paramter for generated generic function that allows 
+// - access to staged instances
+// - navigation between staged instances by going backward association links between gongstruct
+// - full refactoring of Gongstruct identifiers / fields
+type Gongstruct interface {
+	// insertion point for generic types
+	{{` + string(rune(ModelGongStructInsertionGenericGongstructTypes)) + `}}
+}
+
 type GongstructSet interface {
 	map[any]any |
 		// insertion point for generic types{{` + string(rune(ModelGongStructInsertionGenericGongSetTypes)) + `}}
@@ -272,6 +281,30 @@ func GongGetMap[Type GongstructMapString]() *Type {
 	}
 }
 
+// GetGongstructInstancesSet returns the set staged GongstructType instances
+// it is usefull because it allows refactoring of gongstruct identifier
+func GetGongstructInstancesSet[Type Gongstruct]() *map[*Type]any {
+	var ret Type
+
+	switch any(ret).(type) {
+	// insertion point for generic get functions{{` + string(rune(ModelGongStructInsertionGenericInstancesSetFunctions)) + `}}
+	default:
+		return nil
+	}
+}
+
+// GetGongstructInstancesMap returns the map of staged GongstructType instances
+// it is usefull because it allows refactoring of gong struct identifier
+func GetGongstructInstancesMap[Type Gongstruct]() *map[string]*Type {
+	var ret Type
+
+	switch any(ret).(type) {
+	// insertion point for generic get functions{{` + string(rune(ModelGongStructInsertionGenericInstancesMapFunctions)) + `}}
+	default:
+		return nil
+	}
+}
+
 // insertion point of enum utility functions{{` + string(rune(ModelGongEnumUtilityFunctions)) + `}}
 `
 
@@ -295,10 +328,13 @@ const (
 	ModelGongStructInsertionUnmarshallPointersInitializations
 	ModelGongStructInsertionComputeNbInstances
 	ModelGongStructInsertionReverseAssociationsMaps
+	ModelGongStructInsertionGenericGongstructTypes
 	ModelGongStructInsertionGenericGongSetTypes
 	ModelGongStructInsertionGenericGongMapTypes
 	ModelGongStructInsertionGenericGetSetFunctions
 	ModelGongStructInsertionGenericGetMapFunctions
+	ModelGongStructInsertionGenericInstancesSetFunctions
+	ModelGongStructInsertionGenericInstancesMapFunctions
 	ModelGongStructInsertionsNb
 )
 
@@ -546,6 +582,8 @@ func ({{structname}} *{{Structname}}) GetFieldStringValue(fieldName string) (res
 
 // generate function for reverse association maps of {{Structname}}{{ReverseAssociationMapFunctions}}`,
 
+	ModelGongStructInsertionGenericGongstructTypes: ` | {{Structname}}`,
+
 	ModelGongStructInsertionGenericGongSetTypes: `
 		map[*{{Structname}}]any |`,
 
@@ -559,6 +597,14 @@ func ({{structname}} *{{Structname}}) GetFieldStringValue(fieldName string) (res
 	ModelGongStructInsertionGenericGetMapFunctions: `
 	case map[string]*{{Structname}}:
 		return any(&Stage.{{Structname}}s_mapString).(*Type)`,
+
+	ModelGongStructInsertionGenericInstancesSetFunctions: `
+	case {{Structname}}:
+		return any(&Stage.{{Structname}}s).(*map[*Type]any)`,
+
+	ModelGongStructInsertionGenericInstancesMapFunctions: `
+	case {{Structname}}:
+		return any(&Stage.{{Structname}}s_mapString).(*map[string]*Type)`,
 }
 
 //
@@ -1012,10 +1058,12 @@ func CodeGeneratorModelGong(
 		codeGO = strings.ReplaceAll(codeGO, toReplace, subEnumCodes[insertionPerEnumId])
 	}
 
-	codeGO = Replace3(codeGO,
+	codeGO = Replace4(codeGO,
 		"{{PkgName}}", pkgName,
 		"{{TitlePkgName}}", strings.Title(pkgName),
-		"{{pkgname}}", strings.ToLower(pkgName))
+		"{{pkgname}}", strings.ToLower(pkgName),
+		"	 | ", "	", // for the replacement of the of the first bar in the Gongstruct Type def
+	)
 
 	file, err := os.Create(filepath.Join(pkgPath, "gong.go"))
 	if err != nil {
