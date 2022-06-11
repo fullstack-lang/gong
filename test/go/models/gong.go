@@ -1549,9 +1549,14 @@ func (stageStruct *StageStruct) CreateReverseMap_AstructBstructUse_Bstruct2() (r
 // generate function for reverse association maps of Bstruct
 
 // generate function for reverse association maps of Dstruct
+type Gongstruct interface {
+	Astruct | AstructBstruct2Use | AstructBstructUse | Bstruct | Dstruct | map[*Astruct]any | map[*AstructBstruct2Use]any | map[*AstructBstructUse]any | map[*Bstruct]any | map[*Dstruct]any
+}
 
 type GongstructSet interface {
+	// fdksfdkfj
 	map[any]any |
+
 		// insertion point for generic types
 		map[*Astruct]any |
 		map[*AstructBstruct2Use]any |
@@ -1611,6 +1616,50 @@ func GongGetMap[Type GongstructMapString]() *Type {
 		return any(&Stage.Bstructs_mapString).(*Type)
 	case map[string]*Dstruct:
 		return any(&Stage.Dstructs_mapString).(*Type)
+	default:
+		return nil
+	}
+}
+
+// GetGongstructInstancesMap returns the map of staged GongstructType instances
+// it is usefull because it allows refactoring of gong struct identifier
+func GetGongstructInstancesMap[Type Gongstruct]() *map[string]*Type {
+	var ret Type
+
+	switch any(ret).(type) {
+	// insertion point for generic get functions
+	case Astruct:
+		return any(&Stage.Astructs_mapString).(*map[string]*Type)
+	case AstructBstruct2Use:
+		return any(&Stage.AstructBstruct2Uses_mapString).(*map[string]*Type)
+	case AstructBstructUse:
+		return any(&Stage.AstructBstructUses_mapString).(*map[string]*Type)
+	case Bstruct:
+		return any(&Stage.Bstructs_mapString).(*map[string]*Type)
+	case Dstruct:
+		return any(&Stage.Dstructs_mapString).(*map[string]*Type)
+	default:
+		return nil
+	}
+}
+
+// GetGongstructInstancesSet returns the set staged GongstructType instances
+// it is usefull because it allows refactoring of gong struct identifier
+func GetGongstructInstancesSet[Type Gongstruct]() *map[*Type]any {
+	var ret Type
+
+	switch any(ret).(type) {
+	// insertion point for generic get functions
+	case map[*Astruct]any:
+		return any(&Stage.Astructs).(*map[*Type]any)
+	case map[*AstructBstruct2Use]any:
+		return any(&Stage.AstructBstruct2Uses).(*map[*Type]any)
+	case map[*AstructBstructUse]any:
+		return any(&Stage.AstructBstructUses).(*map[*Type]any)
+	case map[*Bstruct]any:
+		return any(&Stage.Bstructs).(*map[*Type]any)
+	case map[*Dstruct]any:
+		return any(&Stage.Dstructs).(*map[*Type]any)
 	default:
 		return nil
 	}
@@ -1733,4 +1782,3 @@ func (cenumtypeint *CEnumTypeInt) ToCodeString() (res string) {
 	}
 	return
 }
-
