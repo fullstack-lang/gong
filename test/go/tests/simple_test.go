@@ -38,6 +38,7 @@ func TestStageCallBack(t *testing.T) {
 		Booleanfield:        true,
 		Anotherbooleanfield: true,
 		Associationtob:      bclass1,
+		AnAstruct:           aclass1,
 	})
 	aclass2.Stage()
 
@@ -71,9 +72,26 @@ func TestStageCallBack(t *testing.T) {
 	log.Println(models.GetAssociationName[models.Astruct]().Anarrayofb[0].Name)
 	log.Println(models.GetAssociationName[models.Astruct]().Anarrayofa[0].Name)
 
-	reverseMapAstruct_AssocationTob := models.GetDirectAssociationReverseMap[models.Astruct, models.Bstruct](models.GetAssociationName[models.Astruct]().Associationtob.Name)
+	reverseMapAstruct_AssocationTob :=
+		models.GetDirectAssociationReverseMap[
+			models.Astruct, models.Bstruct](
+			models.GetAssociationName[models.Astruct]().Associationtob.Name)
 	for _, astruct := range reverseMapAstruct_AssocationTob[bclass1] {
 		log.Println("astruct ", astruct.Name)
+	}
+	reverseMapAstruct_AnAstruct :=
+		models.GetDirectAssociationReverseMap[
+			models.Astruct, models.Astruct](
+			models.GetAssociationName[models.Astruct]().AnAstruct.Name)
+	for _, astruct := range reverseMapAstruct_AnAstruct[aclass2] {
+		log.Println("astruct from aclass2", astruct.Name)
+	}
+	reverseMapAstruct_AnAstruct2 :=
+		models.GetDirectAssociationReverseMap[
+			models.Astruct, models.Astruct](
+			models.GetAssociationName[models.Astruct]().AnAstruct.Name)
+	for _, astruct := range reverseMapAstruct_AnAstruct2[aclass1] {
+		log.Println("astruct from aclass1", astruct.Name)
 	}
 
 	log.Println()

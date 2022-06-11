@@ -1380,45 +1380,6 @@ func generatesIdentifier(gongStructName string, idx int, instanceName string) (i
 
 // insertion point of functions that provide maps for reverse associations
 
-// GetDirectAssociationReverseMap allows backtrack navigation of any Start.Fieldname
-// associations between staged Gongstruct instances
-//
-// The function provides a map with keys as instances of End and values to arrays of *Start
-// the map is construed by iterating over all Start instances and populationg keys with End instances
-// and values with the Start instances
-func GetDirectAssociationReverseMap[Start, End Gongstruct](fieldname string) map[*End][]*Start {
-	var ret Start
-
-	switch any(ret).(type) {
-	// insertion point for generic get functions
-	case Astruct:
-		switch fieldname {
-		case "Associationtob":
-			res := make(map[*Bstruct][]*Astruct)
-
-			for astruct := range Stage.Astructs {
-				if astruct.Associationtob != nil {
-					bstruct_ := astruct.Associationtob
-					var astructs []*Astruct
-					_, ok := res[bstruct_]
-					if ok {
-						astructs = res[bstruct_]
-					} else {
-						astructs = make([]*Astruct, 0)
-					}
-					astructs = append(astructs, astruct)
-					res[bstruct_] = astructs
-				}
-			}
-			return any(res).(map[*End][]*Start)
-		default:
-			return nil
-		}
-	default:
-		return nil
-	}
-}
-
 // generate function for reverse association maps of Astruct
 func (stageStruct *StageStruct) CreateReverseMap_Astruct_Associationtob() (res map[*Bstruct][]*Astruct) {
 	res = make(map[*Bstruct][]*Astruct)
@@ -1760,6 +1721,136 @@ func GetAssociationName[Type Gongstruct]() *Type {
 	default:
 		return nil
 	}
+}
+
+// GetDirectAssociationReverseMap allows backtrack navigation of any Start.Fieldname
+// associations between staged Gongstruct instances
+//
+// The function provides a map with keys as instances of End and values to arrays of *Start
+// the map is construed by iterating over all Start instances and populationg keys with End instances
+// and values with the Start instances
+func GetDirectAssociationReverseMap[Start, End Gongstruct](fieldname string) map[*End][]*Start {
+	var ret Start
+
+	switch any(ret).(type) {
+	// insertion point of functions that provide maps for reverse associations
+	// reverse maps of direct associations of Astruct
+	case Astruct:
+		switch fieldname {
+		// insertion point for per direct association field
+		case "Associationtob":
+			res := make(map[*Bstruct][]*Astruct)
+
+			for astruct := range Stage.Astructs {
+				if astruct.Associationtob != nil {
+					bstruct_ := astruct.Associationtob
+					var astructs []*Astruct
+					_, ok := res[bstruct_]
+					if ok {
+						astructs = res[bstruct_]
+					} else {
+						astructs = make([]*Astruct, 0)
+					}
+					astructs = append(astructs, astruct)
+					res[bstruct_] = astructs
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "Anotherassociationtob_2":
+			res := make(map[*Bstruct][]*Astruct)
+
+			for astruct := range Stage.Astructs {
+				if astruct.Anotherassociationtob_2 != nil {
+					bstruct_ := astruct.Anotherassociationtob_2
+					var astructs []*Astruct
+					_, ok := res[bstruct_]
+					if ok {
+						astructs = res[bstruct_]
+					} else {
+						astructs = make([]*Astruct, 0)
+					}
+					astructs = append(astructs, astruct)
+					res[bstruct_] = astructs
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "AnAstruct":
+			res := make(map[*Astruct][]*Astruct)
+
+			for astruct := range Stage.Astructs {
+				if astruct.AnAstruct != nil {
+					astruct_ := astruct.AnAstruct
+					var astructs []*Astruct
+					_, ok := res[astruct_]
+					if ok {
+						astructs = res[astruct_]
+					} else {
+						astructs = make([]*Astruct, 0)
+					}
+					astructs = append(astructs, astruct)
+					res[astruct_] = astructs
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		}
+	// reverse maps of direct associations of AstructBstruct2Use
+	case AstructBstruct2Use:
+		switch fieldname {
+		// insertion point for per direct association field
+		case "Bstrcut2":
+			res := make(map[*Bstruct][]*AstructBstruct2Use)
+
+			for astructbstruct2use := range Stage.AstructBstruct2Uses {
+				if astructbstruct2use.Bstrcut2 != nil {
+					bstruct_ := astructbstruct2use.Bstrcut2
+					var astructbstruct2uses []*AstructBstruct2Use
+					_, ok := res[bstruct_]
+					if ok {
+						astructbstruct2uses = res[bstruct_]
+					} else {
+						astructbstruct2uses = make([]*AstructBstruct2Use, 0)
+					}
+					astructbstruct2uses = append(astructbstruct2uses, astructbstruct2use)
+					res[bstruct_] = astructbstruct2uses
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		}
+	// reverse maps of direct associations of AstructBstructUse
+	case AstructBstructUse:
+		switch fieldname {
+		// insertion point for per direct association field
+		case "Bstruct2":
+			res := make(map[*Bstruct][]*AstructBstructUse)
+
+			for astructbstructuse := range Stage.AstructBstructUses {
+				if astructbstructuse.Bstruct2 != nil {
+					bstruct_ := astructbstructuse.Bstruct2
+					var astructbstructuses []*AstructBstructUse
+					_, ok := res[bstruct_]
+					if ok {
+						astructbstructuses = res[bstruct_]
+					} else {
+						astructbstructuses = make([]*AstructBstructUse, 0)
+					}
+					astructbstructuses = append(astructbstructuses, astructbstructuse)
+					res[bstruct_] = astructbstructuses
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		}
+	// reverse maps of direct associations of Bstruct
+	case Bstruct:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of Dstruct
+	case Dstruct:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	}
+	return nil
 }
 
 // insertion point of enum utility functions
