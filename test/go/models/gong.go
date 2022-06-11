@@ -1647,24 +1647,6 @@ func GetGongstructInstancesSet[Type Gongstruct]() *map[*Type]any {
 	}
 }
 
-// GetFieldName
-func GetFieldName[Type Gongstruct]() *Type {
-	var ret Type
-
-	switch any(ret).(type) {
-	case Astruct:
-		return any(&Astruct{
-			Associationtob:          &Bstruct{Name: "Associationtob"},
-			Anotherassociationtob_2: &Bstruct{Name: "Anotherassociationtob_2"},
-			Anotherarrayofb:         []*Bstruct{{Name: "Anotherarrayofb"}},
-			Anarrayofb:              []*Bstruct{{Name: "Anarrayofb"}},
-			Anarrayofa:              []*Astruct{{Name: "Anarrayofa"}},
-		}).(*Type)
-	default:
-		return nil
-	}
-}
-
 // GetGongstructInstancesMap returns the map of staged GongstructType instances
 // it is usefull because it allows refactoring of gong struct identifier
 func GetGongstructInstancesMap[Type Gongstruct]() *map[string]*Type {
@@ -1682,6 +1664,60 @@ func GetGongstructInstancesMap[Type Gongstruct]() *map[string]*Type {
 		return any(&Stage.Bstructs_mapString).(*map[string]*Type)
 	case Dstruct:
 		return any(&Stage.Dstructs_mapString).(*map[string]*Type)
+	default:
+		return nil
+	}
+}
+
+// GetAssociationName is a generic function that returns an instance of Type
+// where each association is filled with an instance whose name is the name of the association
+//
+// This function can be handy for generating navigation function that are refactorable
+func GetAssociationName[Type Gongstruct]() *Type {
+	var ret Type
+
+	switch any(ret).(type) {
+	// insertion point for instance with special fields
+	case Astruct:
+		return any(&Astruct{
+			// Initialisation of associations
+			// field is initialized with an instance of Bstruct with the name of the field
+			Associationtob: &Bstruct{Name: "Associationtob"},
+			// field is initialized with an instance of Bstruct with the name of the field
+			Anotherassociationtob_2: &Bstruct{Name: "Anotherassociationtob_2"},
+			// field is initialized with an instance of Bstruct with the name of the field
+			Anarrayofb: []*Bstruct{{Name: "Anarrayofb"}},
+			// field is initialized with an instance of Bstruct with the name of the field
+			Anotherarrayofb: []*Bstruct{{Name: "Anotherarrayofb"}},
+			// field is initialized with an instance of Astruct with the name of the field
+			Anarrayofa: []*Astruct{{Name: "Anarrayofa"}},
+			// field is initialized with an instance of AstructBstructUse with the name of the field
+			AnarrayofbUse: []*AstructBstructUse{{Name: "AnarrayofbUse"}},
+			// field is initialized with an instance of AstructBstruct2Use with the name of the field
+			Anarrayofb2Use: []*AstructBstruct2Use{{Name: "Anarrayofb2Use"}},
+			// field is initialized with an instance of Astruct with the name of the field
+			AnAstruct: &Astruct{Name: "AnAstruct"},
+		}).(*Type)
+	case AstructBstruct2Use:
+		return any(&AstructBstruct2Use{
+			// Initialisation of associations
+			// field is initialized with an instance of Bstruct with the name of the field
+			Bstrcut2: &Bstruct{Name: "Bstrcut2"},
+		}).(*Type)
+	case AstructBstructUse:
+		return any(&AstructBstructUse{
+			// Initialisation of associations
+			// field is initialized with an instance of Bstruct with the name of the field
+			Bstruct2: &Bstruct{Name: "Bstruct2"},
+		}).(*Type)
+	case Bstruct:
+		return any(&Bstruct{
+			// Initialisation of associations
+		}).(*Type)
+	case Dstruct:
+		return any(&Dstruct{
+			// Initialisation of associations
+		}).(*Type)
 	default:
 		return nil
 	}
