@@ -66,10 +66,10 @@ func TestStageCallBack(t *testing.T) {
 		log.Println(" ", astruct.Name)
 	}
 
-	log.Println(models.GetFieldName[models.Astruct]().Associationtob.Name)
-	log.Println(models.GetFieldName[models.Astruct]().Anotherassociationtob_2.Name)
-	log.Println(models.GetFieldName[models.Astruct]().Anarrayofb[0].Name)
-	log.Println(models.GetFieldName[models.Astruct]().Anarrayofa[0].Name)
+	log.Println(models.GetAssociationName[models.Astruct]().Associationtob.Name)
+	log.Println(models.GetAssociationName[models.Astruct]().Anotherassociationtob_2.Name)
+	log.Println(models.GetAssociationName[models.Astruct]().Anarrayofb[0].Name)
+	log.Println(models.GetAssociationName[models.Astruct]().Anarrayofa[0].Name)
 
 	log.Println()
 
