@@ -68,6 +68,7 @@ func TestStageCallBack(t *testing.T) {
 	}
 
 	log.Println(models.GetAssociationName[models.Astruct]().Associationtob.Name)
+	log.Println(models.GetAssociationName[models.Astruct]().Bstruct.Name)
 	log.Println(models.GetAssociationName[models.Astruct]().Anotherassociationtob_2.Name)
 	log.Println(models.GetAssociationName[models.Astruct]().Anarrayofb[0].Name)
 	log.Println(models.GetAssociationName[models.Astruct]().Anarrayofa[0].Name)
