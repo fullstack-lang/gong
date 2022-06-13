@@ -82,6 +82,13 @@
             </td>
         </ng-container>
         <!-- -->
+        <ng-container matColumnDef="Bstruct">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Bstruct </th>
+            <td mat-cell *matCellDef="let Astruct">
+                {{ Astruct.Bstruct ? Astruct.Bstruct.Name : ''}}
+            </td>
+        </ng-container>
+        <!-- -->
         <ng-container matColumnDef="Floatfield">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Floatfield </th>
             <td mat-cell *matCellDef="let Astruct">
