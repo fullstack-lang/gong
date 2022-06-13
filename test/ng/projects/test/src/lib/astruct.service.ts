@@ -71,6 +71,7 @@ export class AstructService {
   postAstruct(astructdb: AstructDB): Observable<AstructDB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
+    astructdb.Bstruct = new BstructDB
     astructdb.Associationtob = new BstructDB
     astructdb.Anotherassociationtob_2 = new BstructDB
     astructdb.Anarrayofb = []
@@ -109,6 +110,7 @@ export class AstructService {
     const url = `${this.astructsUrl}/${id}`;
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
+    astructdb.Bstruct = new BstructDB
     astructdb.Associationtob = new BstructDB
     astructdb.Anotherassociationtob_2 = new BstructDB
     astructdb.Anarrayofb = []

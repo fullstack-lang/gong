@@ -46,6 +46,10 @@ type AstructAPI struct {
 type AstructPointersEnconding struct {
 	// insertion for pointer fields encoding declaration
 
+	// field Bstruct is a pointer to another Struct (optional or 0..1)
+	// This field is generated into another field to enable AS ONE association
+	BstructID sql.NullInt64
+
 	// field Associationtob is a pointer to another Struct (optional or 0..1)
 	// This field is generated into another field to enable AS ONE association
 	AssociationtobID sql.NullInt64
@@ -324,6 +328,15 @@ func (backRepoAstruct *BackRepoAstructStruct) CommitPhaseTwoInstance(backRepo *B
 		astructDB.CopyBasicFieldsFromAstruct(astruct)
 
 		// insertion point for translating pointers encodings into actual pointers
+		// commit pointer value astruct.Bstruct translates to updating the astruct.BstructID
+		astructDB.BstructID.Valid = true // allow for a 0 value (nil association)
+		if astruct.Bstruct != nil {
+			if BstructId, ok := (*backRepo.BackRepoBstruct.Map_BstructPtr_BstructDBID)[astruct.Bstruct]; ok {
+				astructDB.BstructID.Int64 = int64(BstructId)
+				astructDB.BstructID.Valid = true
+			}
+		}
+
 		// commit pointer value astruct.Associationtob translates to updating the astruct.AssociationtobID
 		astructDB.AssociationtobID.Valid = true // allow for a 0 value (nil association)
 		if astruct.Associationtob != nil {
@@ -551,6 +564,10 @@ func (backRepoAstruct *BackRepoAstructStruct) CheckoutPhaseTwoInstance(backRepo 
 	_ = astruct // sometimes, there is no code generated. This lines voids the "unused variable" compilation error
 
 	// insertion point for checkout of pointer encoding
+	// Bstruct field
+	if astructDB.BstructID.Int64 != 0 {
+		astruct.Bstruct = (*backRepo.BackRepoBstruct.Map_BstructDBID_BstructPtr)[uint(astructDB.BstructID.Int64)]
+	}
 	// Associationtob field
 	if astructDB.AssociationtobID.Int64 != 0 {
 		astruct.Associationtob = (*backRepo.BackRepoBstruct.Map_BstructDBID_BstructPtr)[uint(astructDB.AssociationtobID.Int64)]
@@ -1007,6 +1024,12 @@ func (backRepoAstruct *BackRepoAstructStruct) RestorePhaseTwo() {
 		_ = astructDB
 
 		// insertion point for reindexing pointers encoding
+		// reindexing Bstruct field
+		if astructDB.BstructID.Int64 != 0 {
+			astructDB.BstructID.Int64 = int64(BackRepoBstructid_atBckpTime_newID[uint(astructDB.BstructID.Int64)])
+			astructDB.BstructID.Valid = true
+		}
+
 		// reindexing Associationtob field
 		if astructDB.AssociationtobID.Int64 != 0 {
 			astructDB.AssociationtobID.Int64 = int64(BackRepoBstructid_atBckpTime_newID[uint(astructDB.AssociationtobID.Int64)])
