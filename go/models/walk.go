@@ -235,7 +235,7 @@ func Walk(relativePathToModel string, modelPkg *ModelPkg) {
 			}
 
 			structName := obj.Type().String()
-			GenerateFields(structName, __struct, pkg, modelPkg)
+			GenerateFields(structName, __struct, pkg, modelPkg, false, "")
 
 		default:
 			_ = underlyingType

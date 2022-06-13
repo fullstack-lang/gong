@@ -708,7 +708,9 @@ const (
 	GongFileFieldSubTmplStringValueSliceOfPointersField
 
 	GongFileFieldSubTmplAssociationNamePointerField
-	GongFileFieldSubTmplAssociationNameliceOfPointersField
+	GongFileFieldSubTmplAssociationNameSliceOfPointersField
+	GongFileFieldSubTmplAssociationNameCompositePointerField
+	GongFileFieldSubTmplAssociationNameCompositeSliceOfPointersField
 
 	GongFileFieldSubTmplPointerFieldAssociationMapFunction
 	GongFileFieldSubTmplSliceOfPointersFieldAssociationMapFunction
@@ -833,9 +835,21 @@ map[GongFilePerStructSubTemplateId]string{
 			// field is initialized with an instance of {{AssocStructName}} with the name of the field
 			{{FieldName}}: &{{AssocStructName}}{Name: "{{FieldName}}"},`,
 
-	GongFileFieldSubTmplAssociationNameliceOfPointersField: `
+	GongFileFieldSubTmplAssociationNameSliceOfPointersField: `
 			// field is initialized with an instance of {{AssocStructName}} with the name of the field
 			{{FieldName}}: []*{{AssocStructName}}{{Name: "{{FieldName}}"}},`,
+
+	GongFileFieldSubTmplAssociationNameCompositePointerField: `
+			// field is initialized with an instance of {{AssocStructName}} ({{AssocCompositeStructName}} as it is a composite) with the name of the field
+			{{AssocCompositeStructName}}: {{AssocCompositeStructName}}{
+				{{FieldName}}: &{{AssocStructName}}{Name: "{{FieldName}}"},
+			},`,
+
+	GongFileFieldSubTmplAssociationNameCompositeSliceOfPointersField: `
+			// field is initialized with an instance of {{AssocStructName}} ({{AssocCompositeStructName}} as it is a composite) with the name of the field
+			{{AssocCompositeStructName}}: {{AssocCompositeStructName}}{
+				{{FieldName}}: []*{{AssocStructName}}{{Name: "{{FieldName}}"}},
+			},`,
 
 	GongFileFieldSubTmplPointerFieldAssociationMapFunction: `
 func (stageStruct *StageStruct) CreateReverseMap_{{Structname}}_{{FieldName}}() (res map[*{{AssocStructName}}][]*{{Structname}}) {
@@ -1048,11 +1062,20 @@ func CodeGeneratorModelGong(
 						"{{FieldName}}", field.Name,
 						"{{AssocStructName}}", field.GongStruct.Name,
 						"{{assocstructname}}", strings.ToLower(field.GongStruct.Name))
-					associationFieldInitialization += Replace3(
-						GongFileFieldFieldSubTemplateCode[GongFileFieldSubTmplAssociationNamePointerField],
-						"{{FieldName}}", field.Name,
-						"{{AssocStructName}}", field.GongStruct.Name,
-						"{{assocstructname}}", strings.ToLower(field.GongStruct.Name))
+					if field.CompositeStructName == "" {
+						associationFieldInitialization += Replace3(
+							GongFileFieldFieldSubTemplateCode[GongFileFieldSubTmplAssociationNamePointerField],
+							"{{FieldName}}", field.Name,
+							"{{AssocStructName}}", field.GongStruct.Name,
+							"{{assocstructname}}", strings.ToLower(field.GongStruct.Name))
+					} else {
+						associationFieldInitialization += Replace4(
+							GongFileFieldFieldSubTemplateCode[GongFileFieldSubTmplAssociationNameCompositePointerField],
+							"{{FieldName}}", field.Name,
+							"{{AssocStructName}}", field.GongStruct.Name,
+							"{{AssocCompositeStructName}}", field.CompositeStructName,
+							"{{assocstructname}}", strings.ToLower(field.GongStruct.Name))
+					}
 				case *SliceOfPointerToGongStructField:
 					pointerInitCode += Replace3(
 						GongFileFieldFieldSubTemplateCode[GongFileFieldSubTmplSetSliceOfPointersField],
@@ -1073,7 +1096,7 @@ func CodeGeneratorModelGong(
 						"{{AssocStructName}}", field.GongStruct.Name,
 						"{{assocstructname}}", strings.ToLower(field.GongStruct.Name))
 					associationFieldInitialization += Replace3(
-						GongFileFieldFieldSubTemplateCode[GongFileFieldSubTmplAssociationNameliceOfPointersField],
+						GongFileFieldFieldSubTemplateCode[GongFileFieldSubTmplAssociationNameSliceOfPointersField],
 						"{{FieldName}}", field.Name,
 						"{{AssocStructName}}", field.GongStruct.Name,
 						"{{assocstructname}}", strings.ToLower(field.GongStruct.Name))
