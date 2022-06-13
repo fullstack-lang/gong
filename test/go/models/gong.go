@@ -263,7 +263,7 @@ func (astruct *Astruct) GetName() (res string) {
 
 func (astruct *Astruct) GetFields() (res []string) {
 	// list of fields
-	res = []string{"Name", "Date", "Booleanfield", "Aenum", "Aenum_2", "Benum", "CEnum", "CName", "CFloatfield", "Floatfield", "Intfield", "Anotherbooleanfield", "Duration1", "Associationtob", "Anotherassociationtob_2", "Anarrayofb", "Anotherarrayofb", "Anarrayofa", "AnarrayofbUse", "Anarrayofb2Use", "AnAstruct"}
+	res = []string{"Name", "Date", "Booleanfield", "Aenum", "Aenum_2", "Benum", "CEnum", "CName", "CFloatfield", "Bstruct", "Floatfield", "Intfield", "Anotherbooleanfield", "Duration1", "Associationtob", "Anotherassociationtob_2", "Anarrayofb", "Anotherarrayofb", "Anarrayofa", "AnarrayofbUse", "Anarrayofb2Use", "AnAstruct"}
 	return
 }
 
@@ -288,6 +288,10 @@ func (astruct *Astruct) GetFieldStringValue(fieldName string) (res string) {
 		res = astruct.CName
 	case "CFloatfield":
 		res = fmt.Sprintf("%f", astruct.CFloatfield)
+	case "Bstruct":
+		if astruct.Bstruct != nil {
+			res = astruct.Bstruct.Name
+		}
 	case "Floatfield":
 		res = fmt.Sprintf("%f", astruct.Floatfield)
 	case "Intfield":
@@ -1233,6 +1237,14 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 		map_Astruct_Identifiers[astruct] = id
 
 		// Initialisation of values
+		if astruct.Bstruct != nil {
+			setPointerField = PointerFieldInitStatement
+			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "Bstruct")
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_Bstruct_Identifiers[astruct.Bstruct])
+			pointersInitializesStatements += setPointerField
+		}
+
 		if astruct.Associationtob != nil {
 			setPointerField = PointerFieldInitStatement
 			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
@@ -1381,6 +1393,26 @@ func generatesIdentifier(gongStructName string, idx int, instanceName string) (i
 // insertion point of functions that provide maps for reverse associations
 
 // generate function for reverse association maps of Astruct
+func (stageStruct *StageStruct) CreateReverseMap_Astruct_Bstruct() (res map[*Bstruct][]*Astruct) {
+	res = make(map[*Bstruct][]*Astruct)
+
+	for astruct := range stageStruct.Astructs {
+		if astruct.Bstruct != nil {
+			bstruct_ := astruct.Bstruct
+			var astructs []*Astruct
+			_, ok := res[bstruct_]
+			if ok {
+				astructs = res[bstruct_]
+			} else {
+				astructs = make([]*Astruct, 0)
+			}
+			astructs = append(astructs, astruct)
+			res[bstruct_] = astructs
+		}
+	}
+
+	return
+}
 func (stageStruct *StageStruct) CreateReverseMap_Astruct_Associationtob() (res map[*Bstruct][]*Astruct) {
 	res = make(map[*Bstruct][]*Astruct)
 
@@ -1550,7 +1582,7 @@ func (stageStruct *StageStruct) CreateReverseMap_AstructBstructUse_Bstruct2() (r
 
 // generate function for reverse association maps of Dstruct
 
-// Gongstruct is the type paramter for generated generic function that allows 
+// Gongstruct is the type paramter for generated generic function that allows
 // - access to staged instances
 // - navigation between staged instances by going backward association links between gongstruct
 // - full refactoring of Gongstruct identifiers / fields
@@ -1680,6 +1712,9 @@ func GetAssociationName[Type Gongstruct]() *Type {
 	// insertion point for instance with special fields
 	case Astruct:
 		return any(&Astruct{
+			Cstruct: Cstruct{
+				Bstruct: &Bstruct{Name: "Bstruct"},
+			},
 			// Initialisation of associations
 			// field is initialized with an instance of Bstruct with the name of the field
 			Associationtob: &Bstruct{Name: "Associationtob"},
@@ -1739,6 +1774,23 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string) map[*End][]*S
 	case Astruct:
 		switch fieldname {
 		// insertion point for per direct association field
+		case "Bstruct":
+			res := make(map[*Bstruct][]*Astruct)
+			for astruct := range Stage.Astructs {
+				if astruct.Bstruct != nil {
+					bstruct_ := astruct.Bstruct
+					var astructs []*Astruct
+					_, ok := res[bstruct_]
+					if ok {
+						astructs = res[bstruct_]
+					} else {
+						astructs = make([]*Astruct, 0)
+					}
+					astructs = append(astructs, astruct)
+					res[bstruct_] = astructs
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		case "Associationtob":
 			res := make(map[*Bstruct][]*Astruct)
 			for astruct := range Stage.Astructs {
@@ -1929,7 +1981,6 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string) map[*
 	return nil
 }
 
-
 // insertion point of enum utility functions
 // Utility function for AEnumType
 // if enum values are string, it is stored with the value
@@ -2047,4 +2098,3 @@ func (cenumtypeint *CEnumTypeInt) ToCodeString() (res string) {
 	}
 	return
 }
-
