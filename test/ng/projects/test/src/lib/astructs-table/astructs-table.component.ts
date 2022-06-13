@@ -96,6 +96,9 @@ export class AstructsTableComponent implements OnInit {
         case 'CFloatfield':
           return astructDB.CFloatfield;
 
+        case 'Bstruct':
+          return (astructDB.Bstruct ? astructDB.Bstruct.Name : '');
+
         case 'Floatfield':
           return astructDB.Floatfield;
 
@@ -145,6 +148,9 @@ export class AstructsTableComponent implements OnInit {
       mergedContent += astructDB.CEnum_string!
       mergedContent += astructDB.CName.toLowerCase()
       mergedContent += astructDB.CFloatfield.toString()
+      if (astructDB.Bstruct) {
+        mergedContent += astructDB.Bstruct.Name.toLowerCase()
+      }
       mergedContent += astructDB.Floatfield.toString()
       mergedContent += astructDB.Intfield.toString()
       if (astructDB.Associationtob) {
@@ -219,6 +225,7 @@ export class AstructsTableComponent implements OnInit {
         "CEnum",
         "CName",
         "CFloatfield",
+        "Bstruct",
         "Floatfield",
         "Intfield",
         "Anotherbooleanfield",
@@ -239,6 +246,7 @@ export class AstructsTableComponent implements OnInit {
         "CEnum",
         "CName",
         "CFloatfield",
+        "Bstruct",
         "Floatfield",
         "Intfield",
         "Anotherbooleanfield",

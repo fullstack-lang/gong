@@ -350,6 +350,13 @@ export class FrontRepoService {
             astructs.forEach(
               astruct => {
                 // insertion point sub sub template for ONE-/ZERO-ONE associations pointers redeeming
+                // insertion point for pointer field Bstruct redeeming
+                {
+                  let _bstruct = FrontRepoSingloton.Bstructs.get(astruct.BstructID.Int64)
+                  if (_bstruct) {
+                    astruct.Bstruct = _bstruct
+                  }
+                }
                 // insertion point for pointer field Associationtob redeeming
                 {
                   let _bstruct = FrontRepoSingloton.Bstructs.get(astruct.AssociationtobID.Int64)
@@ -518,6 +525,13 @@ export class FrontRepoService {
                 FrontRepoSingloton.Astructs_batch.set(astruct.ID, astruct)
 
                 // insertion point for redeeming ONE/ZERO-ONE associations
+                // insertion point for pointer field Bstruct redeeming
+                {
+                  let _bstruct = FrontRepoSingloton.Bstructs.get(astruct.BstructID.Int64)
+                  if (_bstruct) {
+                    astruct.Bstruct = _bstruct
+                  }
+                }
                 // insertion point for pointer field Associationtob redeeming
                 {
                   let _bstruct = FrontRepoSingloton.Bstructs.get(astruct.AssociationtobID.Int64)
