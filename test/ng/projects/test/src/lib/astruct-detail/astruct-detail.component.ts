@@ -164,6 +164,16 @@ export class AstructDetailComponent implements OnInit {
 
 		// insertion point for translation/nullation of each field
 		this.astruct.Booleanfield = this.BooleanfieldFormControl.value
+		if (this.astruct.BstructID == undefined) {
+			this.astruct.BstructID = new NullInt64
+		}
+		if (this.astruct.Bstruct != undefined) {
+			this.astruct.BstructID.Int64 = this.astruct.Bstruct.ID
+			this.astruct.BstructID.Valid = true
+		} else {
+			this.astruct.BstructID.Int64 = 0
+			this.astruct.BstructID.Valid = true
+		}
 		this.astruct.Anotherbooleanfield = this.AnotherbooleanfieldFormControl.value
 		this.astruct.Duration1 =
 			this.Duration1_Hours * (3600 * 1000 * 1000 * 1000) +

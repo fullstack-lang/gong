@@ -1888,7 +1888,6 @@ func (stageStruct *StageStruct) CreateReverseMap_GongEnum_GongEnumValues() (res 
 	return
 }
 
-
 // generate function for reverse association maps of GongEnumValue
 
 // generate function for reverse association maps of GongStruct
@@ -1940,7 +1939,6 @@ func (stageStruct *StageStruct) CreateReverseMap_GongStruct_SliceOfPointerToGong
 	return
 }
 
-
 // generate function for reverse association maps of GongTimeField
 
 // generate function for reverse association maps of ModelPkg
@@ -1989,7 +1987,7 @@ func (stageStruct *StageStruct) CreateReverseMap_SliceOfPointerToGongStructField
 	return
 }
 
-// Gongstruct is the type paramter for generated generic function that allows 
+// Gongstruct is the type paramter for generated generic function that allows
 // - access to staged instances
 // - navigation between staged instances by going backward association links between gongstruct
 // - full refactoring of Gongstruct identifiers / fields
@@ -2401,7 +2399,6 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string) map[*
 	}
 	return nil
 }
-
 
 // insertion point of enum utility functions
 // Utility function for BackRepoInsertionPoint
@@ -3089,7 +3086,7 @@ func (gongfileperstructsubtemplateid GongFilePerStructSubTemplateId) ToInt() (re
 	// insertion code per enum code
 	case GongFileFieldSubTmplAssociationNamePointerField:
 		res = 19
-	case GongFileFieldSubTmplAssociationNameliceOfPointersField:
+	case GongFileFieldSubTmplAssociationNameSliceOfPointersField:
 		res = 20
 	case GongFileFieldSubTmplPointerFieldAssociationMapFunction:
 		res = 21
@@ -3148,7 +3145,7 @@ func (gongfileperstructsubtemplateid *GongFilePerStructSubTemplateId) FromInt(in
 	case 19:
 		*gongfileperstructsubtemplateid = GongFileFieldSubTmplAssociationNamePointerField
 	case 20:
-		*gongfileperstructsubtemplateid = GongFileFieldSubTmplAssociationNameliceOfPointersField
+		*gongfileperstructsubtemplateid = GongFileFieldSubTmplAssociationNameSliceOfPointersField
 	case 21:
 		*gongfileperstructsubtemplateid = GongFileFieldSubTmplPointerFieldAssociationMapFunction
 	case 23:
@@ -3204,7 +3201,7 @@ func (gongfileperstructsubtemplateid *GongFilePerStructSubTemplateId) ToCodeStri
 	// insertion code per enum code
 	case GongFileFieldSubTmplAssociationNamePointerField:
 		res = "GongFileFieldSubTmplAssociationNamePointerField"
-	case GongFileFieldSubTmplAssociationNameliceOfPointersField:
+	case GongFileFieldSubTmplAssociationNameSliceOfPointersField:
 		res = "GongFileFieldSubTmplAssociationNameliceOfPointersField"
 	case GongFileFieldSubTmplPointerFieldAssociationMapFunction:
 		res = "GongFileFieldSubTmplPointerFieldAssociationMapFunction"
@@ -5340,4 +5337,3 @@ func (ormsetupcumulsubtemplate *OrmSetupCumulSubTemplate) ToCodeString() (res st
 	}
 	return
 }
-

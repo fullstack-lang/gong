@@ -299,6 +299,41 @@ export class SidebarComponent implements OnInit {
 
           // insertion point for per field code
           /**
+          * let append a node for the association Bstruct
+          */
+          let BstructGongNodeAssociation: GongNode = {
+            name: "(Bstruct) Bstruct",
+            type: GongNodeType.ONE__ZERO_ONE_ASSOCIATION,
+            id: astructDB.ID,
+            uniqueIdPerStack: 17 * nonInstanceNodeId,
+            structName: "Astruct",
+            associationField: "Bstruct",
+            associatedStructName: "Bstruct",
+            children: new Array<GongNode>()
+          }
+          nonInstanceNodeId = nonInstanceNodeId + 1
+          astructGongNodeInstance.children!.push(BstructGongNodeAssociation)
+
+          /**
+            * let append a node for the instance behind the asssociation Bstruct
+            */
+          if (astructDB.Bstruct != undefined) {
+            let astructGongNodeInstance_Bstruct: GongNode = {
+              name: astructDB.Bstruct.Name,
+              type: GongNodeType.INSTANCE,
+              id: astructDB.Bstruct.ID,
+              uniqueIdPerStack: // godel numbering (thank you kurt)
+                3 * getAstructUniqueID(astructDB.ID)
+                + 5 * getBstructUniqueID(astructDB.Bstruct.ID),
+              structName: "Bstruct",
+              associationField: "",
+              associatedStructName: "",
+              children: new Array<GongNode>()
+            }
+            BstructGongNodeAssociation.children.push(astructGongNodeInstance_Bstruct)
+          }
+
+          /**
           * let append a node for the association Associationtob
           */
           let AssociationtobGongNodeAssociation: GongNode = {
