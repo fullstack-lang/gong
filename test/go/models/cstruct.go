@@ -7,4 +7,6 @@ type Cstruct struct {
 	CName string
 
 	CFloatfield float64
+
+	Bstruct *Bstruct
 }

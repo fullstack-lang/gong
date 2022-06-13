@@ -14,6 +14,7 @@ import { catchError, map, tap } from 'rxjs/operators';
 import { CstructDB } from './cstruct-db';
 
 // insertion point for imports
+import { BstructDB } from './bstruct-db'
 
 @Injectable({
   providedIn: 'root'
@@ -70,6 +71,7 @@ export class CstructService {
   postCstruct(cstructdb: CstructDB): Observable<CstructDB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
+    cstructdb.Bstruct = new BstructDB
 
     return this.http.post<CstructDB>(this.cstructsUrl, cstructdb, this.httpOptions).pipe(
       tap(_ => {
@@ -97,6 +99,7 @@ export class CstructService {
     const url = `${this.cstructsUrl}/${id}`;
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
+    cstructdb.Bstruct = new BstructDB
 
     return this.http.put<CstructDB>(url, cstructdb, this.httpOptions).pipe(
       tap(_ => {
