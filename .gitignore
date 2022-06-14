@@ -30,3 +30,15 @@ test/.DS_Store
 test/go/cmd/test/__debug_bin
 test/go/.DS_Store
 test/.DS_Store
+test/go/tests/bckp-xl/~$bckp.xlsx
+test/go/tests/bckp/AstructBstruct2UseDB.json
+test/go/tests/bckp/AstructBstructUseDB.json
+test/go/tests/bckp/AstructDB.json
+test/go/tests/bckp/bckp.xlsx
+test/go/tests/bckp/BstructDB.json
+test/go/tests/bckp/DstructDB.json
+test/go/tests/.DS_Store
+test/go/tests/~$new_bckp.xlsx
+test/go/tests/new_bckp.xlsx
+test/go/.DS_Store
+test/test.db

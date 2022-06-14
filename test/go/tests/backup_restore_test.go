@@ -1,12 +1,18 @@
 package tests
 
 import (
+	"bufio"
+	"bytes"
+	"io/ioutil"
 	"log"
+	"path/filepath"
 	"testing"
 	"time"
 
 	"github.com/fullstack-lang/gong/test/go/models"
 	"github.com/fullstack-lang/gong/test/go/orm"
+
+	"github.com/tealeg/xlsx/v3"
 )
 
 func TestBackupTest(t *testing.T) {
@@ -29,7 +35,7 @@ func TestRestoreTest(t *testing.T) {
 	models.Stage.Commit()
 }
 
-func TestBackup(t *testing.T) {
+func CreateTestStage() {
 
 	// setup GORM
 	orm.SetupModels(false, ":memory:")
@@ -88,7 +94,14 @@ func TestBackup(t *testing.T) {
 		bclassDB.UpdatedAt = time.Time{}
 	}
 
+}
+
+func TestBackup(t *testing.T) {
+
+	CreateTestStage()
+
 	models.Stage.Backup("bckp")
+	models.Stage.BackupXL("bckp")
 }
 
 func TestRestore(t *testing.T) {
@@ -121,4 +134,33 @@ func TestRestore(t *testing.T) {
 	}
 
 	models.Stage.Backup("bckp-after-restore")
+}
+
+func TestNewXLBackup(t *testing.T) {
+
+	CreateTestStage()
+
+	bckpFile := xlsx.NewFile()
+
+	sheet, _ := bckpFile.AddSheet("Astruct")
+
+	row := sheet.AddRow()
+
+	set := models.GetGongstructInstancesSet[models.Astruct]()
+	for astruct := range *set {
+		cell := row.AddCell()
+		cell.Value = astruct.Name
+	}
+
+	var b bytes.Buffer
+	writer := bufio.NewWriter(&b)
+	bckpFile.Write(writer)
+	theBytes := b.Bytes()
+
+	filename := filepath.Join(".", "new_bckp.xlsx")
+	err := ioutil.WriteFile(filename, theBytes, 0644)
+	if err != nil {
+		log.Panic("Cannot write the XL file", err.Error())
+	}
+
 }
