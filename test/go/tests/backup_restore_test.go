@@ -39,6 +39,7 @@ func CreateTestStage() {
 
 	aclass1 := (&models.Astruct{
 		Name:                "A1",
+		Date:                time.Date(2010, time.December, 31, 0, 0, 0, 0, time.UTC),
 		Floatfield:          10.2,
 		Booleanfield:        true,
 		Anotherbooleanfield: true,
@@ -48,16 +49,18 @@ func CreateTestStage() {
 	// test renumbering
 	aclass1_bis := (&models.Astruct{
 		Name:                "A1_bis",
+		Date:                time.Date(2012, time.December, 31, 3, 2, 0, 0, time.UTC),
 		Floatfield:          10.2,
 		Booleanfield:        true,
 		Anotherbooleanfield: true,
 		Associationtob:      bclass1,
 	}).Stage().Commit()
 	_ = aclass1_bis
-	aclass1_bis.Unstage()
+	// aclass1_bis.Unstage()
 
 	aclass2 := (&models.Astruct{
 		Name:                "A2",
+		Date:                time.Date(2014, time.February, 23, 3, 2, 1, 0, time.UTC),
 		Floatfield:          10.77,
 		Booleanfield:        true,
 		Anotherbooleanfield: true,
@@ -75,19 +78,9 @@ func CreateTestStage() {
 	aclass1.Anarrayofa = append(aclass1.Anarrayofa, aclass1)
 	aclass1.Anarrayofa = append(aclass1.Anarrayofa, aclass2)
 
+	stage := models.Stage
+	_ = stage
 	models.Stage.Commit()
-
-	for aclass := range models.Stage.Astructs {
-		aclassDB := orm.BackRepo.BackRepoAstruct.GetAstructDBFromAstructPtr(aclass)
-		aclassDB.CreatedAt = time.Time{}
-		aclassDB.UpdatedAt = time.Time{}
-	}
-	for bclass := range models.Stage.Bstructs {
-		bclassDB := orm.BackRepo.BackRepoBstruct.GetBstructDBFromBstructPtr(bclass)
-		bclassDB.CreatedAt = time.Time{}
-		bclassDB.UpdatedAt = time.Time{}
-	}
-
 }
 
 func TestBackup(t *testing.T) {
