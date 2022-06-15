@@ -3381,8 +3381,6 @@ func (modelgongstructinsertionid ModelGongStructInsertionId) ToInt() (res int) {
 		res = 13
 	case ModelGongStructInsertionGenericReverseSliceOfPointersAssociationsMaps:
 		res = 14
-	case ModelGongStructInsertionGetFields:
-		res = 1
 	case ModelGongStructInsertionReverseAssociationsMaps:
 		res = 12
 	case ModelGongStructInsertionStageFunctions:
@@ -3437,8 +3435,6 @@ func (modelgongstructinsertionid *ModelGongStructInsertionId) FromInt(input int)
 		*modelgongstructinsertionid = ModelGongStructInsertionGenericReversePointerAssociationsMaps
 	case 14:
 		*modelgongstructinsertionid = ModelGongStructInsertionGenericReverseSliceOfPointersAssociationsMaps
-	case 1:
-		*modelgongstructinsertionid = ModelGongStructInsertionGetFields
 	case 12:
 		*modelgongstructinsertionid = ModelGongStructInsertionReverseAssociationsMaps
 	case 2:
@@ -3492,8 +3488,6 @@ func (modelgongstructinsertionid *ModelGongStructInsertionId) ToCodeString() (re
 		res = "ModelGongStructInsertionGenericReversePointerAssociationsMaps"
 	case ModelGongStructInsertionGenericReverseSliceOfPointersAssociationsMaps:
 		res = "ModelGongStructInsertionGenericReverseSliceOfPointersAssociationsMaps"
-	case ModelGongStructInsertionGetFields:
-		res = "ModelGongStructInsertionGetFields"
 	case ModelGongStructInsertionReverseAssociationsMaps:
 		res = "ModelGongStructInsertionReverseAssociationsMaps"
 	case ModelGongStructInsertionStageFunctions:
