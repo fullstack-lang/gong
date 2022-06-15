@@ -77,6 +77,9 @@ type GongBasicFieldDB struct {
 	// Declation for basic field gongbasicfieldDB.DeclaredType {{BasicKind}} (to be completed)
 	DeclaredType_Data sql.NullString
 
+	// Declation for basic field gongbasicfieldDB.CompositeStructName {{BasicKind}} (to be completed)
+	CompositeStructName_Data sql.NullString
+
 	// Declation for basic field gongbasicfieldDB.Index {{BasicKind}} (to be completed)
 	Index_Data sql.NullInt64
 	// encoding of pointers
@@ -106,7 +109,9 @@ type GongBasicFieldWOP struct {
 
 	DeclaredType string `xlsx:"3"`
 
-	Index int `xlsx:"4"`
+	CompositeStructName string `xlsx:"4"`
+
+	Index int `xlsx:"5"`
 	// insertion for WOP pointer fields
 }
 
@@ -116,6 +121,7 @@ var GongBasicField_Fields = []string{
 	"Name",
 	"BasicKindName",
 	"DeclaredType",
+	"CompositeStructName",
 	"Index",
 }
 
@@ -420,6 +426,9 @@ func (gongbasicfieldDB *GongBasicFieldDB) CopyBasicFieldsFromGongBasicField(gong
 	gongbasicfieldDB.DeclaredType_Data.String = gongbasicfield.DeclaredType
 	gongbasicfieldDB.DeclaredType_Data.Valid = true
 
+	gongbasicfieldDB.CompositeStructName_Data.String = gongbasicfield.CompositeStructName
+	gongbasicfieldDB.CompositeStructName_Data.Valid = true
+
 	gongbasicfieldDB.Index_Data.Int64 = int64(gongbasicfield.Index)
 	gongbasicfieldDB.Index_Data.Valid = true
 }
@@ -437,6 +446,9 @@ func (gongbasicfieldDB *GongBasicFieldDB) CopyBasicFieldsFromGongBasicFieldWOP(g
 	gongbasicfieldDB.DeclaredType_Data.String = gongbasicfield.DeclaredType
 	gongbasicfieldDB.DeclaredType_Data.Valid = true
 
+	gongbasicfieldDB.CompositeStructName_Data.String = gongbasicfield.CompositeStructName
+	gongbasicfieldDB.CompositeStructName_Data.Valid = true
+
 	gongbasicfieldDB.Index_Data.Int64 = int64(gongbasicfield.Index)
 	gongbasicfieldDB.Index_Data.Valid = true
 }
@@ -447,6 +459,7 @@ func (gongbasicfieldDB *GongBasicFieldDB) CopyBasicFieldsToGongBasicField(gongba
 	gongbasicfield.Name = gongbasicfieldDB.Name_Data.String
 	gongbasicfield.BasicKindName = gongbasicfieldDB.BasicKindName_Data.String
 	gongbasicfield.DeclaredType = gongbasicfieldDB.DeclaredType_Data.String
+	gongbasicfield.CompositeStructName = gongbasicfieldDB.CompositeStructName_Data.String
 	gongbasicfield.Index = int(gongbasicfieldDB.Index_Data.Int64)
 }
 
@@ -457,6 +470,7 @@ func (gongbasicfieldDB *GongBasicFieldDB) CopyBasicFieldsToGongBasicFieldWOP(gon
 	gongbasicfield.Name = gongbasicfieldDB.Name_Data.String
 	gongbasicfield.BasicKindName = gongbasicfieldDB.BasicKindName_Data.String
 	gongbasicfield.DeclaredType = gongbasicfieldDB.DeclaredType_Data.String
+	gongbasicfield.CompositeStructName = gongbasicfieldDB.CompositeStructName_Data.String
 	gongbasicfield.Index = int(gongbasicfieldDB.Index_Data.Int64)
 }
 

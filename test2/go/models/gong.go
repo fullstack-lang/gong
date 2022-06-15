@@ -225,28 +225,6 @@ func (astruct *Astruct) GetName() (res string) {
 	return astruct.Name
 }
 
-func (astruct *Astruct) GetFields() (res []string) {
-	// list of fields
-	res = []string{"Name", "Anarrayofa"}
-	return
-}
-
-func (astruct *Astruct) GetFieldStringValue(fieldName string) (res string) {
-	switch fieldName {
-	// string value of fields
-	case "Name":
-		res = astruct.Name
-	case "Anarrayofa":
-		for idx, __instance__ := range astruct.Anarrayofa {
-			if idx > 0 {
-				res += "\n"
-			}
-			res += __instance__.Name
-		}
-	}
-	return
-}
-
 // swagger:ignore
 type AllModelsStructCreateInterface interface { // insertion point for Callbacks on creation
 	CreateORMAstruct(Astruct *Astruct)
@@ -352,7 +330,7 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 	sort.Slice(astructOrdered[:], func(i, j int) bool {
 		return astructOrdered[i].Name < astructOrdered[j].Name
 	})
-	identifiersDecl += fmt.Sprintf("\n\n	// Declarations of staged instances of Astruct")
+	identifiersDecl += "\n\n	// Declarations of staged instances of Astruct"
 	for idx, astruct := range astructOrdered {
 
 		id = generatesIdentifier("Astruct", idx, astruct.Name)
@@ -432,7 +410,7 @@ func (stageStruct *StageStruct) CreateReverseMap_Astruct_Anarrayofa() (res map[*
 }
 
 
-// Gongstruct is the type paramter for generated generic function that allows 
+// Gongstruct is the type paramter for generated generic function that allows
 // - access to staged instances
 // - navigation between staged instances by going backward association links between gongstruct
 // - full refactoring of Gongstruct identifiers / fields
@@ -580,5 +558,53 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string) map[*
 	return nil
 }
 
+// GetGongstructName returns the name of the Gongstruct
+// this can be usefull if one want program robust to refactoring
+func GetGongstructName[Type Gongstruct]() (res string) {
+
+	var ret Type
+
+	switch any(ret).(type) {
+	// insertion point for generic get gongstruct name
+	case Astruct:
+		res = "Astruct"
+	}
+	return res
+}
+
+// GetFields return the array of the fields
+func GetFields[Type Gongstruct]() (res []string) {
+
+	var ret Type
+
+	switch any(ret).(type) {
+	// insertion point for generic get gongstruct name
+	case Astruct:
+		res = []string{"Name", "Anarrayofa"}
+	}
+	return
+}
+
+func GetFieldStringValue[Type Gongstruct](instance Type, fieldName string) (res string) {
+	var ret Type
+
+	switch any(ret).(type) {
+	// insertion point for generic get gongstruct field value
+	case Astruct:
+		switch fieldName {
+		// string value of fields
+		case "Name":
+			res = any(instance).(Astruct).Name
+		case "Anarrayofa":
+			for idx, __instance__ := range any(instance).(Astruct).Anarrayofa {
+				if idx > 0 {
+					res += "\n"
+				}
+				res += __instance__.Name
+			}
+		}
+	}
+	return
+}
 
 // insertion point of enum utility functions

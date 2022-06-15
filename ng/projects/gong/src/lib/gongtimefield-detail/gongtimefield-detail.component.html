@@ -27,6 +27,26 @@
         <input type="number" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="gongtimefield.Index" [ngModelOptions]="{standalone: true}">
     </mat-form-field>
 
+    <mat-grid-list *ngIf='!isATextArea("CompositeStructName")' cols="5" rowHeight="2:1">
+        <mat-grid-tile [colspan]="3">
+            <mat-form-field mat-form-field class="detail-full-width">
+                <mat-label>CompositeStructName</mat-label>
+                <input name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="gongtimefield.CompositeStructName">
+            </mat-form-field>
+        </mat-grid-tile>
+        <mat-grid-tile>
+            <button mat-raised-button (click)="toggleTextArea('CompositeStructName')">
+                <mat-icon>
+                    expand_more
+                </mat-icon>
+            </button>
+        </mat-grid-tile>
+    </mat-grid-list>
+    <mat-form-field *ngIf='isATextArea("CompositeStructName")' mat-form-field class="detail-full-width">
+        <mat-label>CompositeStructName</mat-label>
+        <textarea name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="gongtimefield.CompositeStructName"></textarea>
+    </mat-form-field>
+
     <mat-form-field class="detail-full-width">
         <mat-label>(GongStruct) GongTimeFields</mat-label>
         <mat-select [compareWith]="compareObjects" [(ngModel)]="gongtimefield.GongStruct_GongTimeFields_reverse" [ngModelOptions]="{standalone: true}">
