@@ -7,7 +7,21 @@ import (
 
 	"github.com/fullstack-lang/gong/test/go/models"
 	"github.com/xuri/excelize/v2"
+
+	"github.com/stretchr/testify/assert"
 )
+
+func IntToLetters(number int32) (letters string) {
+	number--
+	if firstLetter := number / 26; firstLetter > 0 {
+		letters += IntToLetters(firstLetter)
+		letters += string('A' + number%26)
+	} else {
+		letters += string('A' + number)
+	}
+
+	return
+}
 
 func TestNewBackup(t *testing.T) {
 
@@ -26,15 +40,21 @@ func TestNewBackup(t *testing.T) {
 	_ = stage
 
 	set := *models.GetGongstructInstancesSet[models.Astruct]()
-	line := 0
+	line := 1
+
+	// write headers
+	var _astruct models.Astruct
+	for index, fieldName := range _astruct.GetFields() {
+		assert.NoError(t, f.SetCellStr(astructSheetName, fmt.Sprintf("%s%d", IntToLetters(int32(index+1)), line), fieldName))
+	}
+
 	for astruct := range set {
 
 		line = line + 1
-		f.SetCellStr(astructSheetName, fmt.Sprintf("A%d", line), astruct.Name)
-		f.SetCellStr(astructSheetName, fmt.Sprintf("B%d", line), string(astruct.Aenum))
-		f.SetCellFloat(astructSheetName, fmt.Sprintf("C%d", line), astruct.Floatfield, 64, 64)
-		f.SetCellInt(astructSheetName, fmt.Sprintf("D%d", line), astruct.Intfield)
-		f.SetCellValue(astructSheetName, fmt.Sprintf("E%d", line), astruct.Date)
+
+		for index, fieldName := range _astruct.GetFields() {
+			assert.NoError(t, f.SetCellStr(astructSheetName, fmt.Sprintf("%s%d", IntToLetters(int32(index+1)), line), astruct.GetFieldStringValue(fieldName)))
+		}
 	}
 
 	// Set active sheet of the workbook.

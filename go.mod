@@ -28,6 +28,7 @@ require (
 require (
 	github.com/fullstack-lang/gongdoc v0.0.0-20220428092247-f6fefafc6d68
 	github.com/glebarez/sqlite v1.3.5
+	github.com/stretchr/testify v1.7.2
 	github.com/xuri/excelize/v2 v2.6.0
 )
 
@@ -37,6 +38,7 @@ require (
 	github.com/adrg/sysfont v0.1.2 // indirect
 	github.com/adrg/xdg v0.3.4 // indirect
 	github.com/benoitkugler/textlayout v0.0.1 // indirect
+	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/dsnet/compress v0.0.1 // indirect
 	github.com/gin-contrib/sse v0.1.0 // indirect
 	github.com/glebarez/go-sqlite v1.14.7 // indirect
@@ -54,6 +56,7 @@ require (
 	github.com/modern-go/reflect2 v1.0.2 // indirect
 	github.com/mohae/deepcopy v0.0.0-20170929034955-c48cc78d4826 // indirect
 	github.com/peterbourgon/diskv v2.0.1+incompatible // indirect
+	github.com/pmezard/go-difflib v1.0.0 // indirect
 	github.com/remyoudompheng/bigfft v0.0.0-20200410134404-eec4a21b6bb0 // indirect
 	github.com/richardlehane/mscfb v1.0.4 // indirect
 	github.com/richardlehane/msoleps v1.0.1 // indirect
@@ -68,6 +71,7 @@ require (
 	golang.org/x/image v0.0.0-20211028202545-6944b10bf410 // indirect
 	golang.org/x/net v0.0.0-20220407224826-aac1ed45d8e3 // indirect
 	golang.org/x/xerrors v0.0.0-20200804184101-5ec99f83aff1 // indirect
+	gopkg.in/yaml.v3 v3.0.1 // indirect
 	modernc.org/libc v1.14.3 // indirect
 	modernc.org/mathutil v1.4.1 // indirect
 	modernc.org/memory v1.0.5 // indirect

@@ -26,6 +26,9 @@ github.com/benoitkugler/textlayout/graphite
 github.com/benoitkugler/textlayout/harfbuzz
 github.com/benoitkugler/textlayout/language
 github.com/benoitkugler/textlayout/unicodedata
+# github.com/davecgh/go-spew v1.1.1
+## explicit
+github.com/davecgh/go-spew/spew
 # github.com/dsnet/compress v0.0.1
 ## explicit; go 1.9
 github.com/dsnet/compress/brotli
@@ -140,6 +143,9 @@ github.com/mohae/deepcopy
 # github.com/peterbourgon/diskv v2.0.1+incompatible
 ## explicit
 github.com/peterbourgon/diskv
+# github.com/pmezard/go-difflib v1.0.0
+## explicit
+github.com/pmezard/go-difflib/difflib
 # github.com/remyoudompheng/bigfft v0.0.0-20200410134404-eec4a21b6bb0
 ## explicit; go 1.12
 github.com/remyoudompheng/bigfft
@@ -158,6 +164,9 @@ github.com/rogpeppe/go-internal/fmtsort
 # github.com/shabbyrobe/xmlwriter v0.0.0-20210324110748-440e98cf0c87
 ## explicit; go 1.12
 github.com/shabbyrobe/xmlwriter
+# github.com/stretchr/testify v1.7.2
+## explicit; go 1.13
+github.com/stretchr/testify/assert
 # github.com/tdewolff/canvas v0.0.0-20210926234438-920f34634583
 ## explicit; go 1.13
 github.com/tdewolff/canvas
@@ -303,6 +312,9 @@ google.golang.org/protobuf/types/descriptorpb
 # gopkg.in/yaml.v2 v2.4.0
 ## explicit; go 1.15
 gopkg.in/yaml.v2
+# gopkg.in/yaml.v3 v3.0.1
+## explicit
+gopkg.in/yaml.v3
 # gorm.io/gorm v1.22.5
 ## explicit; go 1.14
 gorm.io/gorm
