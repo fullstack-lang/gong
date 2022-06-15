@@ -1982,6 +1982,28 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string) map[*
 	return nil
 }
 
+// GetGongstructName returns the name of the Gongstruct
+// this can be usefull if one want program robust to refactoring
+func GetGongstructName[Type Gongstruct]() string {
+
+	var ret Type
+
+	switch any(ret).(type) {
+	// insertion point for generic get gongstruct name
+	case Astruct:
+		return "Astruct"
+	case AstructBstruct2Use:
+		return "AstructBstruct2Use"
+	case AstructBstructUse:
+		return "AstructBstructUse"
+	case Bstruct:
+		return "Bstruct"
+	case Dstruct:
+		return "Dstruct"
+	}
+	return ""
+}
+
 
 // insertion point of enum utility functions
 // Utility function for AEnumType
