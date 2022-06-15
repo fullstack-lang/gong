@@ -450,7 +450,8 @@ map[ModelGongStructInsertionId]string{
 	Commit{{Structname}}({{structname}} *{{Structname}})
 	Checkout{{Structname}}({{structname}} *{{Structname}})`,
 
-	ModelGongStructInsertionGetFields: ``,
+	ModelGongStructInsertionGetFields: `
+	`,
 	ModelGongStructInsertionStageFunctions: `
 func (stage *StageStruct) get{{Structname}}OrderedStructWithNameField() []*{{Structname}} {
 	// have alphabetical order generation
