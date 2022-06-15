@@ -351,6 +351,18 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string) map[*
 	return nil
 }
 
+// GetGongstructName returns the name of the Gongstruct
+// this can be usefull if one want program robust to refactoring
+func GetGongstructName[Type Gongstruct]() string {
+
+	var ret Type
+
+	switch any(ret).(type) {
+	// insertion point for generic get gongstruct name{{` + string(rune(ModelGongStructInsertionGenericGongstructName)) + `}}
+	}
+	return ""
+}
+
 
 // insertion point of enum utility functions{{` + string(rune(ModelGongEnumUtilityFunctions)) + `}}
 `
@@ -379,6 +391,7 @@ const (
 	ModelGongStructInsertionGenericReverseSliceOfPointersAssociationsMaps
 	ModelGongStructInsertionGenericGongstructTypes
 	ModelGongStructInsertionGenericGongSetTypes
+	ModelGongStructInsertionGenericGongstructName
 	ModelGongStructInsertionGenericGongMapTypes
 	ModelGongStructInsertionGenericGetSetFunctions
 	ModelGongStructInsertionGenericGetMapFunctions
@@ -650,6 +663,10 @@ func ({{structname}} *{{Structname}}) GetFieldStringValue(fieldName string) (res
 
 	ModelGongStructInsertionGenericGongSetTypes: `
 		map[*{{Structname}}]any |`,
+
+	ModelGongStructInsertionGenericGongstructName: `
+	case {{Structname}}:
+		return "{{Structname}}"`,
 
 	ModelGongStructInsertionGenericGongMapTypes: `
 		map[string]*{{Structname}} |`,
