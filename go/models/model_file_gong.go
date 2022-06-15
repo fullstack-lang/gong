@@ -236,7 +236,7 @@ func generatesIdentifier(gongStructName string, idx int, instanceName string) (i
 
 // insertion point of functions that provide maps for reverse associations{{` + string(rune(ModelGongStructInsertionReverseAssociationsMaps)) + `}}
 
-// Gongstruct is the type paramter for generated generic function that allows 
+// Gongstruct is the type paramter for generated generic function that allows
 // - access to staged instances
 // - navigation between staged instances by going backward association links between gongstruct
 // - full refactoring of Gongstruct identifiers / fields
@@ -353,14 +353,14 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string) map[*
 
 // GetGongstructName returns the name of the Gongstruct
 // this can be usefull if one want program robust to refactoring
-func GetGongstructName[Type Gongstruct]() string {
+func GetGongstructName[Type Gongstruct]() (res string) {
 
 	var ret Type
 
 	switch any(ret).(type) {
 	// insertion point for generic get gongstruct name{{` + string(rune(ModelGongStructInsertionGenericGongstructName)) + `}}
 	}
-	return ""
+	return res
 }
 
 // GetFields return the array of the fields
@@ -369,9 +369,18 @@ func GetFields[Type Gongstruct]() (res []string) {
 	var ret Type
 
 	switch any(ret).(type) {
-	// insertion point for generic get gongstruct name{{` + string(rune(ModelGongStructInsertionGetFields)) + `}}
+	// insertion point for generic get gongstruct name{{` + string(rune(ModelGongStructInsertionGenericGetFields)) + `}}
 	}
-	return []string{}
+	return
+}
+
+func GetFieldStringValue[Type Gongstruct](instance Type, fieldName string) (res string) {
+	var ret Type
+
+	switch any(ret).(type) {
+	// insertion point for generic get gongstruct field value{{` + string(rune(ModelGongStructInsertionGenericGetFieldValues)) + `}}
+	}
+	return
 }
 
 // insertion point of enum utility functions{{` + string(rune(ModelGongEnumUtilityFunctions)) + `}}
@@ -385,7 +394,6 @@ type ModelGongStructInsertionId int
 
 const (
 	ModelGongStructInsertionCommitCheckout ModelGongStructInsertionId = iota
-	ModelGongStructInsertionGetFields
 	ModelGongStructInsertionStageFunctions
 	ModelGongStructInsertionCreateCallback
 	ModelGongStructInsertionDeleteCallback
@@ -397,6 +405,8 @@ const (
 	ModelGongStructInsertionUnmarshallPointersInitializations
 	ModelGongStructInsertionComputeNbInstances
 	ModelGongStructInsertionReverseAssociationsMaps
+	ModelGongStructInsertionGenericGetFields
+	ModelGongStructInsertionGenericGetFieldValues
 	ModelGongStructInsertionGenericReversePointerAssociationsMaps
 	ModelGongStructInsertionGenericReverseSliceOfPointersAssociationsMaps
 	ModelGongStructInsertionGenericGongstructTypes
@@ -460,8 +470,15 @@ map[ModelGongStructInsertionId]string{
 	Commit{{Structname}}({{structname}} *{{Structname}})
 	Checkout{{Structname}}({{structname}} *{{Structname}})`,
 
-	ModelGongStructInsertionGetFields: `
+	ModelGongStructInsertionGenericGetFields: `
 	case {{Structname}}:{{ListOfFieldsName}}`,
+
+	ModelGongStructInsertionGenericGetFieldValues: `
+	case {{Structname}}:
+		switch fieldName {
+		// string value of fields{{StringValueOfFields}}
+		}`,
+
 	ModelGongStructInsertionStageFunctions: `
 func (stage *StageStruct) get{{Structname}}OrderedStructWithNameField() []*{{Structname}} {
 	// have alphabetical order generation
@@ -569,13 +586,6 @@ func DeleteORM{{Structname}}({{structname}} *{{Structname}}) {
 func ({{structname}} *{{Structname}}) GetName() (res string) {
 	return {{structname}}.Name
 }
-
-func ({{structname}} *{{Structname}}) GetFieldStringValue(fieldName string) (res string) {
-	switch fieldName {
-	// string value of fields{{StringValueOfFields}}
-	}
-	return
-}
 `,
 
 	ModelGongStructInsertionCreateCallback: `
@@ -672,7 +682,7 @@ func ({{structname}} *{{Structname}}) GetFieldStringValue(fieldName string) (res
 
 	ModelGongStructInsertionGenericGongstructName: `
 	case {{Structname}}:
-		return "{{Structname}}"`,
+		res = "{{Structname}}"`,
 
 	ModelGongStructInsertionGenericGongMapTypes: `
 		map[string]*{{Structname}} |`,
@@ -820,39 +830,41 @@ map[GongFilePerStructSubTemplateId]string{
 	GongFileFieldSubTmplStringFieldName: `"{{FieldName}}"`,
 
 	GongFileFieldSubTmplStringValueBasicFieldBool: `
-	case "{{FieldName}}":
-		res = fmt.Sprintf("%t", {{structname}}.{{FieldName}})`,
+		case "{{FieldName}}":
+			res = fmt.Sprintf("%t", any(instance).({{Structname}}).{{FieldName}})`,
 	GongFileFieldSubTmplStringValueBasicFieldInt: `
-	case "{{FieldName}}":
-		res = fmt.Sprintf("%d", {{structname}}.{{FieldName}})`,
+		case "{{FieldName}}":
+			res = fmt.Sprintf("%d", any(instance).({{Structname}}).{{FieldName}})`,
 	GongFileFieldSubTmplStringValueBasicFieldEnumString: `
-	case "{{FieldName}}":
-		res = {{structname}}.{{FieldName}}.ToCodeString()`,
+		case "{{FieldName}}":
+			enum := any(instance).({{Structname}}).{{FieldName}}
+			res = enum.ToCodeString()`,
 	GongFileFieldSubTmplStringValueBasicFieldEnumInt: `
-	case "{{FieldName}}":
-		res = {{structname}}.{{FieldName}}.ToCodeString()`,
+		case "{{FieldName}}":
+			enum := any(instance).({{Structname}}).{{FieldName}}
+			res = enum.ToCodeString()`,
 	GongFileFieldSubTmplStringValueBasicFieldFloat64: `
-	case "{{FieldName}}":
-		res = fmt.Sprintf("%f", {{structname}}.{{FieldName}})`,
+		case "{{FieldName}}":
+			res = fmt.Sprintf("%f", any(instance).({{Structname}}).{{FieldName}})`,
 	GongFileFieldSubTmplStringValueBasicFieldString: `
-	case "{{FieldName}}":
-		res = {{structname}}.{{FieldName}}`,
+		case "{{FieldName}}":
+			res = any(instance).({{Structname}}).{{FieldName}}`,
 	GongFileFieldSubTmplStringValueTimeField: `
-	case "{{FieldName}}":
-		res = {{structname}}.{{FieldName}}.String()`,
+		case "{{FieldName}}":
+			res = any(instance).({{Structname}}).{{FieldName}}.String()`,
 	GongFileFieldSubTmplStringValuePointerField: `
-	case "{{FieldName}}":
-		if {{structname}}.{{FieldName}} != nil {
-			res = {{structname}}.{{FieldName}}.Name
-		}`,
+		case "{{FieldName}}":
+			if any(instance).({{Structname}}).{{FieldName}} != nil {
+				res = any(instance).({{Structname}}).{{FieldName}}.Name
+			}`,
 	GongFileFieldSubTmplStringValueSliceOfPointersField: `
-	case "{{FieldName}}":
-		for idx, __instance__ := range {{structname}}.{{FieldName}} {
-			if idx > 0 {
-				res += "\n"
-			}
-			res += __instance__.Name
-		}`,
+		case "{{FieldName}}":
+			for idx, __instance__ := range any(instance).({{Structname}}).{{FieldName}} {
+				if idx > 0 {
+					res += "\n"
+				}
+				res += __instance__.Name
+			}`,
 
 	GongFileFieldSubTmplAssociationNamePointerField: `
 			// field is initialized with an instance of {{AssocStructName}} with the name of the field

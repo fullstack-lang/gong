@@ -261,94 +261,6 @@ func (astruct *Astruct) GetName() (res string) {
 	return astruct.Name
 }
 
-func GetFieldStringValue[Type Gongstruct](fieldName string) (res string) {
-	return ""
-}
-
-func (astruct *Astruct) GetFieldStringValue(fieldName string) (res string) {
-	switch fieldName {
-	// string value of fields
-	case "Name":
-		res = astruct.Name
-	case "Date":
-		res = astruct.Date.String()
-	case "Booleanfield":
-		res = fmt.Sprintf("%t", astruct.Booleanfield)
-	case "Aenum":
-		res = astruct.Aenum.ToCodeString()
-	case "Aenum_2":
-		res = astruct.Aenum_2.ToCodeString()
-	case "Benum":
-		res = astruct.Benum.ToCodeString()
-	case "CEnum":
-		res = astruct.CEnum.ToCodeString()
-	case "CName":
-		res = astruct.CName
-	case "CFloatfield":
-		res = fmt.Sprintf("%f", astruct.CFloatfield)
-	case "Bstruct":
-		if astruct.Bstruct != nil {
-			res = astruct.Bstruct.Name
-		}
-	case "Floatfield":
-		res = fmt.Sprintf("%f", astruct.Floatfield)
-	case "Intfield":
-		res = fmt.Sprintf("%d", astruct.Intfield)
-	case "Anotherbooleanfield":
-		res = fmt.Sprintf("%t", astruct.Anotherbooleanfield)
-	case "Duration1":
-		res = fmt.Sprintf("%d", astruct.Duration1)
-	case "Associationtob":
-		if astruct.Associationtob != nil {
-			res = astruct.Associationtob.Name
-		}
-	case "Anotherassociationtob_2":
-		if astruct.Anotherassociationtob_2 != nil {
-			res = astruct.Anotherassociationtob_2.Name
-		}
-	case "Anarrayofb":
-		for idx, __instance__ := range astruct.Anarrayofb {
-			if idx > 0 {
-				res += "\n"
-			}
-			res += __instance__.Name
-		}
-	case "Anotherarrayofb":
-		for idx, __instance__ := range astruct.Anotherarrayofb {
-			if idx > 0 {
-				res += "\n"
-			}
-			res += __instance__.Name
-		}
-	case "Anarrayofa":
-		for idx, __instance__ := range astruct.Anarrayofa {
-			if idx > 0 {
-				res += "\n"
-			}
-			res += __instance__.Name
-		}
-	case "AnarrayofbUse":
-		for idx, __instance__ := range astruct.AnarrayofbUse {
-			if idx > 0 {
-				res += "\n"
-			}
-			res += __instance__.Name
-		}
-	case "Anarrayofb2Use":
-		for idx, __instance__ := range astruct.Anarrayofb2Use {
-			if idx > 0 {
-				res += "\n"
-			}
-			res += __instance__.Name
-		}
-	case "AnAstruct":
-		if astruct.AnAstruct != nil {
-			res = astruct.AnAstruct.Name
-		}
-	}
-	return
-}
-
 func (stage *StageStruct) getAstructBstruct2UseOrderedStructWithNameField() []*AstructBstruct2Use {
 	// have alphabetical order generation
 	astructbstruct2useOrdered := []*AstructBstruct2Use{}
@@ -454,19 +366,6 @@ func DeleteORMAstructBstruct2Use(astructbstruct2use *AstructBstruct2Use) {
 // for satisfaction of GongStruct interface
 func (astructbstruct2use *AstructBstruct2Use) GetName() (res string) {
 	return astructbstruct2use.Name
-}
-
-func (astructbstruct2use *AstructBstruct2Use) GetFieldStringValue(fieldName string) (res string) {
-	switch fieldName {
-	// string value of fields
-	case "Name":
-		res = astructbstruct2use.Name
-	case "Bstrcut2":
-		if astructbstruct2use.Bstrcut2 != nil {
-			res = astructbstruct2use.Bstrcut2.Name
-		}
-	}
-	return
 }
 
 func (stage *StageStruct) getAstructBstructUseOrderedStructWithNameField() []*AstructBstructUse {
@@ -576,19 +475,6 @@ func (astructbstructuse *AstructBstructUse) GetName() (res string) {
 	return astructbstructuse.Name
 }
 
-func (astructbstructuse *AstructBstructUse) GetFieldStringValue(fieldName string) (res string) {
-	switch fieldName {
-	// string value of fields
-	case "Name":
-		res = astructbstructuse.Name
-	case "Bstruct2":
-		if astructbstructuse.Bstruct2 != nil {
-			res = astructbstructuse.Bstruct2.Name
-		}
-	}
-	return
-}
-
 func (stage *StageStruct) getBstructOrderedStructWithNameField() []*Bstruct {
 	// have alphabetical order generation
 	bstructOrdered := []*Bstruct{}
@@ -696,19 +582,6 @@ func (bstruct *Bstruct) GetName() (res string) {
 	return bstruct.Name
 }
 
-func (bstruct *Bstruct) GetFieldStringValue(fieldName string) (res string) {
-	switch fieldName {
-	// string value of fields
-	case "Name":
-		res = bstruct.Name
-	case "Floatfield":
-		res = fmt.Sprintf("%f", bstruct.Floatfield)
-	case "Intfield":
-		res = fmt.Sprintf("%d", bstruct.Intfield)
-	}
-	return
-}
-
 func (stage *StageStruct) getDstructOrderedStructWithNameField() []*Dstruct {
 	// have alphabetical order generation
 	dstructOrdered := []*Dstruct{}
@@ -814,15 +687,6 @@ func DeleteORMDstruct(dstruct *Dstruct) {
 // for satisfaction of GongStruct interface
 func (dstruct *Dstruct) GetName() (res string) {
 	return dstruct.Name
-}
-
-func (dstruct *Dstruct) GetFieldStringValue(fieldName string) (res string) {
-	switch fieldName {
-	// string value of fields
-	case "Name":
-		res = dstruct.Name
-	}
-	return
 }
 
 // swagger:ignore
@@ -1958,24 +1822,24 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string) map[*
 
 // GetGongstructName returns the name of the Gongstruct
 // this can be usefull if one want program robust to refactoring
-func GetGongstructName[Type Gongstruct]() string {
+func GetGongstructName[Type Gongstruct]() (res string) {
 
 	var ret Type
 
 	switch any(ret).(type) {
 	// insertion point for generic get gongstruct name
 	case Astruct:
-		return "Astruct"
+		res = "Astruct"
 	case AstructBstruct2Use:
-		return "AstructBstruct2Use"
+		res = "AstructBstruct2Use"
 	case AstructBstructUse:
-		return "AstructBstructUse"
+		res = "AstructBstructUse"
 	case Bstruct:
-		return "Bstruct"
+		res = "Bstruct"
 	case Dstruct:
-		return "Dstruct"
+		res = "Dstruct"
 	}
-	return ""
+	return res
 }
 
 // GetFields return the array of the fields
@@ -1996,7 +1860,137 @@ func GetFields[Type Gongstruct]() (res []string) {
 	case Dstruct:
 		res = []string{"Name"}
 	}
-	return []string{}
+	return
+}
+
+func GetFieldStringValue[Type Gongstruct](instance Type, fieldName string) (res string) {
+	var ret Type
+
+	switch any(ret).(type) {
+	// insertion point for generic get gongstruct field value
+	case Astruct:
+		switch fieldName {
+		// string value of fields
+		case "Name":
+			res = any(instance).(Astruct).Name
+		case "Date":
+			res = any(instance).(Astruct).Date.String()
+		case "Booleanfield":
+			res = fmt.Sprintf("%t", any(instance).(Astruct).Booleanfield)
+		case "Aenum":
+			enum := any(instance).(Astruct).Aenum
+			res = enum.ToCodeString()
+		case "Aenum_2":
+			enum := any(instance).(Astruct).Aenum_2
+			res = enum.ToCodeString()
+		case "Benum":
+			enum := any(instance).(Astruct).Benum
+			res = enum.ToCodeString()
+		case "CEnum":
+			enum := any(instance).(Astruct).CEnum
+			res = enum.ToCodeString()
+		case "CName":
+			res = any(instance).(Astruct).CName
+		case "CFloatfield":
+			res = fmt.Sprintf("%f", any(instance).(Astruct).CFloatfield)
+		case "Bstruct":
+			if any(instance).(Astruct).Bstruct != nil {
+				res = any(instance).(Astruct).Bstruct.Name
+			}
+		case "Floatfield":
+			res = fmt.Sprintf("%f", any(instance).(Astruct).Floatfield)
+		case "Intfield":
+			res = fmt.Sprintf("%d", any(instance).(Astruct).Intfield)
+		case "Anotherbooleanfield":
+			res = fmt.Sprintf("%t", any(instance).(Astruct).Anotherbooleanfield)
+		case "Duration1":
+			res = fmt.Sprintf("%d", any(instance).(Astruct).Duration1)
+		case "Associationtob":
+			if any(instance).(Astruct).Associationtob != nil {
+				res = any(instance).(Astruct).Associationtob.Name
+			}
+		case "Anotherassociationtob_2":
+			if any(instance).(Astruct).Anotherassociationtob_2 != nil {
+				res = any(instance).(Astruct).Anotherassociationtob_2.Name
+			}
+		case "Anarrayofb":
+			for idx, __instance__ := range any(instance).(Astruct).Anarrayofb {
+				if idx > 0 {
+					res += "\n"
+				}
+				res += __instance__.Name
+			}
+		case "Anotherarrayofb":
+			for idx, __instance__ := range any(instance).(Astruct).Anotherarrayofb {
+				if idx > 0 {
+					res += "\n"
+				}
+				res += __instance__.Name
+			}
+		case "Anarrayofa":
+			for idx, __instance__ := range any(instance).(Astruct).Anarrayofa {
+				if idx > 0 {
+					res += "\n"
+				}
+				res += __instance__.Name
+			}
+		case "AnarrayofbUse":
+			for idx, __instance__ := range any(instance).(Astruct).AnarrayofbUse {
+				if idx > 0 {
+					res += "\n"
+				}
+				res += __instance__.Name
+			}
+		case "Anarrayofb2Use":
+			for idx, __instance__ := range any(instance).(Astruct).Anarrayofb2Use {
+				if idx > 0 {
+					res += "\n"
+				}
+				res += __instance__.Name
+			}
+		case "AnAstruct":
+			if any(instance).(Astruct).AnAstruct != nil {
+				res = any(instance).(Astruct).AnAstruct.Name
+			}
+		}
+	case AstructBstruct2Use:
+		switch fieldName {
+		// string value of fields
+		case "Name":
+			res = any(instance).(AstructBstruct2Use).Name
+		case "Bstrcut2":
+			if any(instance).(AstructBstruct2Use).Bstrcut2 != nil {
+				res = any(instance).(AstructBstruct2Use).Bstrcut2.Name
+			}
+		}
+	case AstructBstructUse:
+		switch fieldName {
+		// string value of fields
+		case "Name":
+			res = any(instance).(AstructBstructUse).Name
+		case "Bstruct2":
+			if any(instance).(AstructBstructUse).Bstruct2 != nil {
+				res = any(instance).(AstructBstructUse).Bstruct2.Name
+			}
+		}
+	case Bstruct:
+		switch fieldName {
+		// string value of fields
+		case "Name":
+			res = any(instance).(Bstruct).Name
+		case "Floatfield":
+			res = fmt.Sprintf("%f", any(instance).(Bstruct).Floatfield)
+		case "Intfield":
+			res = fmt.Sprintf("%d", any(instance).(Bstruct).Intfield)
+		}
+	case Dstruct:
+		switch fieldName {
+		// string value of fields
+		case "Name":
+			res = any(instance).(Dstruct).Name
+		}
+	}
+	return
 }
 
 // insertion point of enum utility functions
@@ -2116,3 +2110,4 @@ func (cenumtypeint *CEnumTypeInt) ToCodeString() (res string) {
 	}
 	return
 }
+
