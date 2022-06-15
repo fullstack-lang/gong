@@ -363,6 +363,16 @@ func GetGongstructName[Type Gongstruct]() string {
 	return ""
 }
 
+// GetFields return the array of the fields
+func GetFields[Type Gongstruct]() (res []string) {
+
+	var ret Type
+
+	switch any(ret).(type) {
+	// insertion point for generic get gongstruct name{{` + string(rune(ModelGongStructInsertionGetFields)) + `}}
+	}
+	return []string{}
+}
 
 // insertion point of enum utility functions{{` + string(rune(ModelGongEnumUtilityFunctions)) + `}}
 `
@@ -451,7 +461,7 @@ map[ModelGongStructInsertionId]string{
 	Checkout{{Structname}}({{structname}} *{{Structname}})`,
 
 	ModelGongStructInsertionGetFields: `
-	`,
+	case {{Structname}}:{{ListOfFieldsName}}`,
 	ModelGongStructInsertionStageFunctions: `
 func (stage *StageStruct) get{{Structname}}OrderedStructWithNameField() []*{{Structname}} {
 	// have alphabetical order generation
@@ -560,11 +570,6 @@ func ({{structname}} *{{Structname}}) GetName() (res string) {
 	return {{structname}}.Name
 }
 
-func ({{structname}} *{{Structname}}) GetFields() (res []string) {
-	// list of fields{{ListOfFieldsName}}
-	return
-}
-
 func ({{structname}} *{{Structname}}) GetFieldStringValue(fieldName string) (res string) {
 	switch fieldName {
 	// string value of fields{{StringValueOfFields}}
@@ -610,7 +615,7 @@ func ({{structname}} *{{Structname}}) GetFieldStringValue(fieldName string) (res
 	sort.Slice({{structname}}Ordered[:], func(i, j int) bool {
 		return {{structname}}Ordered[i].Name < {{structname}}Ordered[j].Name
 	})
-	identifiersDecl += fmt.Sprintf("\n\n	// Declarations of staged instances of {{Structname}}")
+	identifiersDecl += "\n\n	// Declarations of staged instances of {{Structname}}"
 	for idx, {{structname}} := range {{structname}}Ordered {
 
 		id = generatesIdentifier("{{Structname}}", idx, {{structname}}.Name)
@@ -993,7 +998,7 @@ func CodeGeneratorModelGong(
 			valInitCode := ""
 			pointerInitCode := ""
 			fieldNames := `
-	res = []string{`
+		res = []string{`
 			fieldStringValues := ``
 			fieldReverseAssociationMapCreationCode := ``
 			fieldReversePointerAssociationMapCode := ``
