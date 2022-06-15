@@ -73,6 +73,9 @@ type PointerToGongStructFieldDB struct {
 
 	// Declation for basic field pointertogongstructfieldDB.Index {{BasicKind}} (to be completed)
 	Index_Data sql.NullInt64
+
+	// Declation for basic field pointertogongstructfieldDB.CompositeStructName {{BasicKind}} (to be completed)
+	CompositeStructName_Data sql.NullString
 	// encoding of pointers
 	PointerToGongStructFieldPointersEnconding
 }
@@ -97,6 +100,8 @@ type PointerToGongStructFieldWOP struct {
 	Name string `xlsx:"1"`
 
 	Index int `xlsx:"2"`
+
+	CompositeStructName string `xlsx:"3"`
 	// insertion for WOP pointer fields
 }
 
@@ -105,6 +110,7 @@ var PointerToGongStructField_Fields = []string{
 	"ID",
 	"Name",
 	"Index",
+	"CompositeStructName",
 }
 
 type BackRepoPointerToGongStructFieldStruct struct {
@@ -404,6 +410,9 @@ func (pointertogongstructfieldDB *PointerToGongStructFieldDB) CopyBasicFieldsFro
 
 	pointertogongstructfieldDB.Index_Data.Int64 = int64(pointertogongstructfield.Index)
 	pointertogongstructfieldDB.Index_Data.Valid = true
+
+	pointertogongstructfieldDB.CompositeStructName_Data.String = pointertogongstructfield.CompositeStructName
+	pointertogongstructfieldDB.CompositeStructName_Data.Valid = true
 }
 
 // CopyBasicFieldsFromPointerToGongStructFieldWOP
@@ -415,6 +424,9 @@ func (pointertogongstructfieldDB *PointerToGongStructFieldDB) CopyBasicFieldsFro
 
 	pointertogongstructfieldDB.Index_Data.Int64 = int64(pointertogongstructfield.Index)
 	pointertogongstructfieldDB.Index_Data.Valid = true
+
+	pointertogongstructfieldDB.CompositeStructName_Data.String = pointertogongstructfield.CompositeStructName
+	pointertogongstructfieldDB.CompositeStructName_Data.Valid = true
 }
 
 // CopyBasicFieldsToPointerToGongStructField
@@ -422,6 +434,7 @@ func (pointertogongstructfieldDB *PointerToGongStructFieldDB) CopyBasicFieldsToP
 	// insertion point for checkout of basic fields (back repo to stage)
 	pointertogongstructfield.Name = pointertogongstructfieldDB.Name_Data.String
 	pointertogongstructfield.Index = int(pointertogongstructfieldDB.Index_Data.Int64)
+	pointertogongstructfield.CompositeStructName = pointertogongstructfieldDB.CompositeStructName_Data.String
 }
 
 // CopyBasicFieldsToPointerToGongStructFieldWOP
@@ -430,6 +443,7 @@ func (pointertogongstructfieldDB *PointerToGongStructFieldDB) CopyBasicFieldsToP
 	// insertion point for checkout of basic fields (back repo to stage)
 	pointertogongstructfield.Name = pointertogongstructfieldDB.Name_Data.String
 	pointertogongstructfield.Index = int(pointertogongstructfieldDB.Index_Data.Int64)
+	pointertogongstructfield.CompositeStructName = pointertogongstructfieldDB.CompositeStructName_Data.String
 }
 
 // Backup generates a json file from a slice of all PointerToGongStructFieldDB instances in the backrepo

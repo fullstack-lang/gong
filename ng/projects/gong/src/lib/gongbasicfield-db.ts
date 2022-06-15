@@ -14,6 +14,7 @@ export class GongBasicFieldDB {
 	Name: string = ""
 	BasicKindName: string = ""
 	DeclaredType: string = ""
+	CompositeStructName: string = ""
 	Index: number = 0
 
 	// insertion point for other declarations

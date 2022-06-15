@@ -66,7 +66,7 @@ the developement of the system of interest, therefore the need for fast iteratio
 
 ### 1.4.1. Go
 
-go version equal or above 1.16 is mandatory (cf. use of `embed` package). See https://golang.org for installation.
+go version equal or above 1.18 is mandatory (cf. use of `embed` package & generics). See https://golang.org for installation.
 
 Gong uses sqlite3 in a cgo free configuration by default.
 

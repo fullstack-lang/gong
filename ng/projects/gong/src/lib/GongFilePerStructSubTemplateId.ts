@@ -1,11 +1,13 @@
 // generated from ng_file_enum.ts.go
 export enum GongFilePerStructSubTemplateId {
 	// insertion point	
+	GongFileFieldSubTmplAssociationNameCompositePointerField = 21,
+	GongFileFieldSubTmplAssociationNameCompositeSliceOfPointersField = 22,
 	GongFileFieldSubTmplAssociationNamePointerField = 19,
-	GongFileFieldSubTmplAssociationNameliceOfPointersField = 20,
-	GongFileFieldSubTmplPointerFieldAssociationMapFunction = 21,
-	GongFileFieldSubTmplPointerFieldPointerAssociationMapFunction = 23,
-	GongFileFieldSubTmplPointerFieldSliceOfPointersAssociationMapFunction = 24,
+	GongFileFieldSubTmplAssociationNameSliceOfPointersField = 20,
+	GongFileFieldSubTmplPointerFieldAssociationMapFunction = 23,
+	GongFileFieldSubTmplPointerFieldPointerAssociationMapFunction = 25,
+	GongFileFieldSubTmplPointerFieldSliceOfPointersAssociationMapFunction = 26,
 	GongFileFieldSubTmplSetBasicFieldBool = 0,
 	GongFileFieldSubTmplSetBasicFieldEnumInt = 3,
 	GongFileFieldSubTmplSetBasicFieldEnumString = 2,
@@ -15,7 +17,7 @@ export enum GongFilePerStructSubTemplateId {
 	GongFileFieldSubTmplSetPointerField = 7,
 	GongFileFieldSubTmplSetSliceOfPointersField = 8,
 	GongFileFieldSubTmplSetTimeField = 6,
-	GongFileFieldSubTmplSliceOfPointersFieldAssociationMapFunction = 22,
+	GongFileFieldSubTmplSliceOfPointersFieldAssociationMapFunction = 24,
 	GongFileFieldSubTmplStringFieldName = 9,
 	GongFileFieldSubTmplStringValueBasicFieldBool = 10,
 	GongFileFieldSubTmplStringValueBasicFieldEnumInt = 13,
@@ -34,8 +36,10 @@ export interface GongFilePerStructSubTemplateIdSelect {
 }
 
 export const GongFilePerStructSubTemplateIdList: GongFilePerStructSubTemplateIdSelect[] = [ // insertion point	
+	{ value: GongFilePerStructSubTemplateId.GongFileFieldSubTmplAssociationNameCompositePointerField, viewValue: "GongFileFieldSubTmplAssociationNameCompositePointerField" },
+	{ value: GongFilePerStructSubTemplateId.GongFileFieldSubTmplAssociationNameCompositeSliceOfPointersField, viewValue: "GongFileFieldSubTmplAssociationNameCompositeSliceOfPointersField" },
 	{ value: GongFilePerStructSubTemplateId.GongFileFieldSubTmplAssociationNamePointerField, viewValue: "GongFileFieldSubTmplAssociationNamePointerField" },
-	{ value: GongFilePerStructSubTemplateId.GongFileFieldSubTmplAssociationNameliceOfPointersField, viewValue: "GongFileFieldSubTmplAssociationNameliceOfPointersField" },
+	{ value: GongFilePerStructSubTemplateId.GongFileFieldSubTmplAssociationNameSliceOfPointersField, viewValue: "GongFileFieldSubTmplAssociationNameSliceOfPointersField" },
 	{ value: GongFilePerStructSubTemplateId.GongFileFieldSubTmplPointerFieldAssociationMapFunction, viewValue: "GongFileFieldSubTmplPointerFieldAssociationMapFunction" },
 	{ value: GongFilePerStructSubTemplateId.GongFileFieldSubTmplPointerFieldPointerAssociationMapFunction, viewValue: "GongFileFieldSubTmplPointerFieldPointerAssociationMapFunction" },
 	{ value: GongFilePerStructSubTemplateId.GongFileFieldSubTmplPointerFieldSliceOfPointersAssociationMapFunction, viewValue: "GongFileFieldSubTmplPointerFieldSliceOfPointersAssociationMapFunction" },
