@@ -74,6 +74,9 @@ export class GongTimeFieldsTableComponent implements OnInit {
         case 'Index':
           return gongtimefieldDB.Index;
 
+        case 'CompositeStructName':
+          return gongtimefieldDB.CompositeStructName;
+
         case 'GongStruct_GongTimeFields':
           if (this.frontRepo.GongStructs.get(gongtimefieldDB.GongStruct_GongTimeFieldsDBID.Int64) != undefined) {
             return this.frontRepo.GongStructs.get(gongtimefieldDB.GongStruct_GongTimeFieldsDBID.Int64)!.Name
@@ -97,6 +100,7 @@ export class GongTimeFieldsTableComponent implements OnInit {
       // insertion point for merging of fields
       mergedContent += gongtimefieldDB.Name.toLowerCase()
       mergedContent += gongtimefieldDB.Index.toString()
+      mergedContent += gongtimefieldDB.CompositeStructName.toLowerCase()
       if (gongtimefieldDB.GongStruct_GongTimeFieldsDBID.Int64 != 0) {
         mergedContent += this.frontRepo.GongStructs.get(gongtimefieldDB.GongStruct_GongTimeFieldsDBID.Int64)!.Name.toLowerCase()
       }
@@ -153,12 +157,14 @@ export class GongTimeFieldsTableComponent implements OnInit {
       this.displayedColumns = ['ID', 'Edit', 'Delete', // insertion point for columns to display
         "Name",
         "Index",
+        "CompositeStructName",
         "GongStruct_GongTimeFields",
       ]
     } else {
       this.displayedColumns = ['select', 'ID', // insertion point for columns to display
         "Name",
         "Index",
+        "CompositeStructName",
         "GongStruct_GongTimeFields",
       ]
       this.selection = new SelectionModel<GongTimeFieldDB>(allowMultiSelect, this.initialSelection);

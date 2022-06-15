@@ -80,6 +80,9 @@ export class GongBasicFieldsTableComponent implements OnInit {
         case 'DeclaredType':
           return gongbasicfieldDB.DeclaredType;
 
+        case 'CompositeStructName':
+          return gongbasicfieldDB.CompositeStructName;
+
         case 'Index':
           return gongbasicfieldDB.Index;
 
@@ -110,6 +113,7 @@ export class GongBasicFieldsTableComponent implements OnInit {
         mergedContent += gongbasicfieldDB.GongEnum.Name.toLowerCase()
       }
       mergedContent += gongbasicfieldDB.DeclaredType.toLowerCase()
+      mergedContent += gongbasicfieldDB.CompositeStructName.toLowerCase()
       mergedContent += gongbasicfieldDB.Index.toString()
       if (gongbasicfieldDB.GongStruct_GongBasicFieldsDBID.Int64 != 0) {
         mergedContent += this.frontRepo.GongStructs.get(gongbasicfieldDB.GongStruct_GongBasicFieldsDBID.Int64)!.Name.toLowerCase()
@@ -169,6 +173,7 @@ export class GongBasicFieldsTableComponent implements OnInit {
         "BasicKindName",
         "GongEnum",
         "DeclaredType",
+        "CompositeStructName",
         "Index",
         "GongStruct_GongBasicFields",
       ]
@@ -178,6 +183,7 @@ export class GongBasicFieldsTableComponent implements OnInit {
         "BasicKindName",
         "GongEnum",
         "DeclaredType",
+        "CompositeStructName",
         "Index",
         "GongStruct_GongBasicFields",
       ]

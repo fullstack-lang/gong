@@ -77,6 +77,9 @@ export class PointerToGongStructFieldsTableComponent implements OnInit {
         case 'Index':
           return pointertogongstructfieldDB.Index;
 
+        case 'CompositeStructName':
+          return pointertogongstructfieldDB.CompositeStructName;
+
         case 'GongStruct_PointerToGongStructFields':
           if (this.frontRepo.GongStructs.get(pointertogongstructfieldDB.GongStruct_PointerToGongStructFieldsDBID.Int64) != undefined) {
             return this.frontRepo.GongStructs.get(pointertogongstructfieldDB.GongStruct_PointerToGongStructFieldsDBID.Int64)!.Name
@@ -103,6 +106,7 @@ export class PointerToGongStructFieldsTableComponent implements OnInit {
         mergedContent += pointertogongstructfieldDB.GongStruct.Name.toLowerCase()
       }
       mergedContent += pointertogongstructfieldDB.Index.toString()
+      mergedContent += pointertogongstructfieldDB.CompositeStructName.toLowerCase()
       if (pointertogongstructfieldDB.GongStruct_PointerToGongStructFieldsDBID.Int64 != 0) {
         mergedContent += this.frontRepo.GongStructs.get(pointertogongstructfieldDB.GongStruct_PointerToGongStructFieldsDBID.Int64)!.Name.toLowerCase()
       }
@@ -160,6 +164,7 @@ export class PointerToGongStructFieldsTableComponent implements OnInit {
         "Name",
         "GongStruct",
         "Index",
+        "CompositeStructName",
         "GongStruct_PointerToGongStructFields",
       ]
     } else {
@@ -167,6 +172,7 @@ export class PointerToGongStructFieldsTableComponent implements OnInit {
         "Name",
         "GongStruct",
         "Index",
+        "CompositeStructName",
         "GongStruct_PointerToGongStructFields",
       ]
       this.selection = new SelectionModel<PointerToGongStructFieldDB>(allowMultiSelect, this.initialSelection);

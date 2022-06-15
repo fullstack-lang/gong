@@ -69,6 +69,9 @@ type GongTimeFieldDB struct {
 
 	// Declation for basic field gongtimefieldDB.Index {{BasicKind}} (to be completed)
 	Index_Data sql.NullInt64
+
+	// Declation for basic field gongtimefieldDB.CompositeStructName {{BasicKind}} (to be completed)
+	CompositeStructName_Data sql.NullString
 	// encoding of pointers
 	GongTimeFieldPointersEnconding
 }
@@ -93,6 +96,8 @@ type GongTimeFieldWOP struct {
 	Name string `xlsx:"1"`
 
 	Index int `xlsx:"2"`
+
+	CompositeStructName string `xlsx:"3"`
 	// insertion for WOP pointer fields
 }
 
@@ -101,6 +106,7 @@ var GongTimeField_Fields = []string{
 	"ID",
 	"Name",
 	"Index",
+	"CompositeStructName",
 }
 
 type BackRepoGongTimeFieldStruct struct {
@@ -387,6 +393,9 @@ func (gongtimefieldDB *GongTimeFieldDB) CopyBasicFieldsFromGongTimeField(gongtim
 
 	gongtimefieldDB.Index_Data.Int64 = int64(gongtimefield.Index)
 	gongtimefieldDB.Index_Data.Valid = true
+
+	gongtimefieldDB.CompositeStructName_Data.String = gongtimefield.CompositeStructName
+	gongtimefieldDB.CompositeStructName_Data.Valid = true
 }
 
 // CopyBasicFieldsFromGongTimeFieldWOP
@@ -398,6 +407,9 @@ func (gongtimefieldDB *GongTimeFieldDB) CopyBasicFieldsFromGongTimeFieldWOP(gong
 
 	gongtimefieldDB.Index_Data.Int64 = int64(gongtimefield.Index)
 	gongtimefieldDB.Index_Data.Valid = true
+
+	gongtimefieldDB.CompositeStructName_Data.String = gongtimefield.CompositeStructName
+	gongtimefieldDB.CompositeStructName_Data.Valid = true
 }
 
 // CopyBasicFieldsToGongTimeField
@@ -405,6 +417,7 @@ func (gongtimefieldDB *GongTimeFieldDB) CopyBasicFieldsToGongTimeField(gongtimef
 	// insertion point for checkout of basic fields (back repo to stage)
 	gongtimefield.Name = gongtimefieldDB.Name_Data.String
 	gongtimefield.Index = int(gongtimefieldDB.Index_Data.Int64)
+	gongtimefield.CompositeStructName = gongtimefieldDB.CompositeStructName_Data.String
 }
 
 // CopyBasicFieldsToGongTimeFieldWOP
@@ -413,6 +426,7 @@ func (gongtimefieldDB *GongTimeFieldDB) CopyBasicFieldsToGongTimeFieldWOP(gongti
 	// insertion point for checkout of basic fields (back repo to stage)
 	gongtimefield.Name = gongtimefieldDB.Name_Data.String
 	gongtimefield.Index = int(gongtimefieldDB.Index_Data.Int64)
+	gongtimefield.CompositeStructName = gongtimefieldDB.CompositeStructName_Data.String
 }
 
 // Backup generates a json file from a slice of all GongTimeFieldDB instances in the backrepo

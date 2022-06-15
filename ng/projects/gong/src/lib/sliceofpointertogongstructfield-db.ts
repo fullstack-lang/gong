@@ -12,6 +12,7 @@ export class SliceOfPointerToGongStructFieldDB {
 	// insertion point for basic fields declarations
 	Name: string = ""
 	Index: number = 0
+	CompositeStructName: string = ""
 
 	// insertion point for other declarations
 	GongStruct?: GongStructDB

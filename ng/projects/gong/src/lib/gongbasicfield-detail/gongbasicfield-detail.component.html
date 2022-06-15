@@ -71,6 +71,26 @@
         <textarea name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="gongbasicfield.DeclaredType"></textarea>
     </mat-form-field>
 
+    <mat-grid-list *ngIf='!isATextArea("CompositeStructName")' cols="5" rowHeight="2:1">
+        <mat-grid-tile [colspan]="3">
+            <mat-form-field mat-form-field class="detail-full-width">
+                <mat-label>CompositeStructName</mat-label>
+                <input name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="gongbasicfield.CompositeStructName">
+            </mat-form-field>
+        </mat-grid-tile>
+        <mat-grid-tile>
+            <button mat-raised-button (click)="toggleTextArea('CompositeStructName')">
+                <mat-icon>
+                    expand_more
+                </mat-icon>
+            </button>
+        </mat-grid-tile>
+    </mat-grid-list>
+    <mat-form-field *ngIf='isATextArea("CompositeStructName")' mat-form-field class="detail-full-width">
+        <mat-label>CompositeStructName</mat-label>
+        <textarea name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="gongbasicfield.CompositeStructName"></textarea>
+    </mat-form-field>
+
     <!-- -->
     <mat-form-field class="detail-full-width">
         <mat-label>Index</mat-label>

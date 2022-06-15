@@ -40,6 +40,13 @@
             </td>
         </ng-container>
         <!-- -->
+        <ng-container matColumnDef="CompositeStructName">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> CompositeStructName </th>
+            <td mat-cell *matCellDef="let PointerToGongStructField">
+                {{PointerToGongStructField.CompositeStructName}}
+            </td>
+        </ng-container>
+        <!-- -->
         <ng-container matColumnDef="GongStruct_PointerToGongStructFields">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> <-- (GongStruct) PointerToGongStructFields </th>
             <td mat-cell *matCellDef="let pointertogongstructfield">
