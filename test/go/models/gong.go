@@ -261,10 +261,8 @@ func (astruct *Astruct) GetName() (res string) {
 	return astruct.Name
 }
 
-func (astruct *Astruct) GetFields() (res []string) {
-	// list of fields
-	res = []string{"Name", "Date", "Booleanfield", "Aenum", "Aenum_2", "Benum", "CEnum", "CName", "CFloatfield", "Bstruct", "Floatfield", "Intfield", "Anotherbooleanfield", "Duration1", "Associationtob", "Anotherassociationtob_2", "Anarrayofb", "Anotherarrayofb", "Anarrayofa", "AnarrayofbUse", "Anarrayofb2Use", "AnAstruct"}
-	return
+func GetFieldStringValue[Type Gongstruct](fieldName string) (res string) {
+	return ""
 }
 
 func (astruct *Astruct) GetFieldStringValue(fieldName string) (res string) {
@@ -458,12 +456,6 @@ func (astructbstruct2use *AstructBstruct2Use) GetName() (res string) {
 	return astructbstruct2use.Name
 }
 
-func (astructbstruct2use *AstructBstruct2Use) GetFields() (res []string) {
-	// list of fields
-	res = []string{"Name", "Bstrcut2"}
-	return
-}
-
 func (astructbstruct2use *AstructBstruct2Use) GetFieldStringValue(fieldName string) (res string) {
 	switch fieldName {
 	// string value of fields
@@ -582,12 +574,6 @@ func DeleteORMAstructBstructUse(astructbstructuse *AstructBstructUse) {
 // for satisfaction of GongStruct interface
 func (astructbstructuse *AstructBstructUse) GetName() (res string) {
 	return astructbstructuse.Name
-}
-
-func (astructbstructuse *AstructBstructUse) GetFields() (res []string) {
-	// list of fields
-	res = []string{"Name", "Bstruct2"}
-	return
 }
 
 func (astructbstructuse *AstructBstructUse) GetFieldStringValue(fieldName string) (res string) {
@@ -710,12 +696,6 @@ func (bstruct *Bstruct) GetName() (res string) {
 	return bstruct.Name
 }
 
-func (bstruct *Bstruct) GetFields() (res []string) {
-	// list of fields
-	res = []string{"Name", "Floatfield", "Intfield"}
-	return
-}
-
 func (bstruct *Bstruct) GetFieldStringValue(fieldName string) (res string) {
 	switch fieldName {
 	// string value of fields
@@ -834,12 +814,6 @@ func DeleteORMDstruct(dstruct *Dstruct) {
 // for satisfaction of GongStruct interface
 func (dstruct *Dstruct) GetName() (res string) {
 	return dstruct.Name
-}
-
-func (dstruct *Dstruct) GetFields() (res []string) {
-	// list of fields
-	res = []string{"Name"}
-	return
 }
 
 func (dstruct *Dstruct) GetFieldStringValue(fieldName string) (res string) {
@@ -988,7 +962,7 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 	sort.Slice(astructOrdered[:], func(i, j int) bool {
 		return astructOrdered[i].Name < astructOrdered[j].Name
 	})
-	identifiersDecl += fmt.Sprintf("\n\n	// Declarations of staged instances of Astruct")
+	identifiersDecl += "\n\n	// Declarations of staged instances of Astruct"
 	for idx, astruct := range astructOrdered {
 
 		id = generatesIdentifier("Astruct", idx, astruct.Name)
@@ -1098,7 +1072,7 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 	sort.Slice(astructbstruct2useOrdered[:], func(i, j int) bool {
 		return astructbstruct2useOrdered[i].Name < astructbstruct2useOrdered[j].Name
 	})
-	identifiersDecl += fmt.Sprintf("\n\n	// Declarations of staged instances of AstructBstruct2Use")
+	identifiersDecl += "\n\n	// Declarations of staged instances of AstructBstruct2Use"
 	for idx, astructbstruct2use := range astructbstruct2useOrdered {
 
 		id = generatesIdentifier("AstructBstruct2Use", idx, astructbstruct2use.Name)
@@ -1130,7 +1104,7 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 	sort.Slice(astructbstructuseOrdered[:], func(i, j int) bool {
 		return astructbstructuseOrdered[i].Name < astructbstructuseOrdered[j].Name
 	})
-	identifiersDecl += fmt.Sprintf("\n\n	// Declarations of staged instances of AstructBstructUse")
+	identifiersDecl += "\n\n	// Declarations of staged instances of AstructBstructUse"
 	for idx, astructbstructuse := range astructbstructuseOrdered {
 
 		id = generatesIdentifier("AstructBstructUse", idx, astructbstructuse.Name)
@@ -1162,7 +1136,7 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 	sort.Slice(bstructOrdered[:], func(i, j int) bool {
 		return bstructOrdered[i].Name < bstructOrdered[j].Name
 	})
-	identifiersDecl += fmt.Sprintf("\n\n	// Declarations of staged instances of Bstruct")
+	identifiersDecl += "\n\n	// Declarations of staged instances of Bstruct"
 	for idx, bstruct := range bstructOrdered {
 
 		id = generatesIdentifier("Bstruct", idx, bstruct.Name)
@@ -1206,7 +1180,7 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 	sort.Slice(dstructOrdered[:], func(i, j int) bool {
 		return dstructOrdered[i].Name < dstructOrdered[j].Name
 	})
-	identifiersDecl += fmt.Sprintf("\n\n	// Declarations of staged instances of Dstruct")
+	identifiersDecl += "\n\n	// Declarations of staged instances of Dstruct"
 	for idx, dstruct := range dstructOrdered {
 
 		id = generatesIdentifier("Dstruct", idx, dstruct.Name)
@@ -2005,13 +1979,22 @@ func GetGongstructName[Type Gongstruct]() string {
 }
 
 // GetFields return the array of the fields
-func GetFields[Type Gongstruct]() []string {
+func GetFields[Type Gongstruct]() (res []string) {
 
 	var ret Type
 
 	switch any(ret).(type) {
+	// insertion point for generic get gongstruct name
 	case Astruct:
-		return []string{}
+		res = []string{"Name", "Date", "Booleanfield", "Aenum", "Aenum_2", "Benum", "CEnum", "CName", "CFloatfield", "Bstruct", "Floatfield", "Intfield", "Anotherbooleanfield", "Duration1", "Associationtob", "Anotherassociationtob_2", "Anarrayofb", "Anotherarrayofb", "Anarrayofa", "AnarrayofbUse", "Anarrayofb2Use", "AnAstruct"}
+	case AstructBstruct2Use:
+		res = []string{"Name", "Bstrcut2"}
+	case AstructBstructUse:
+		res = []string{"Name", "Bstruct2"}
+	case Bstruct:
+		res = []string{"Name", "Floatfield", "Intfield"}
+	case Dstruct:
+		res = []string{"Name"}
 	}
 	return []string{}
 }
