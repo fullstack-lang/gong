@@ -1582,7 +1582,7 @@ func (stageStruct *StageStruct) CreateReverseMap_AstructBstructUse_Bstruct2() (r
 
 // generate function for reverse association maps of Dstruct
 
-// Gongstruct is the type paramter for generated generic function that allows
+// Gongstruct is the type paramter for generated generic function that allows 
 // - access to staged instances
 // - navigation between staged instances by going backward association links between gongstruct
 // - full refactoring of Gongstruct identifiers / fields
@@ -1982,6 +1982,8 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string) map[*
 	return nil
 }
 
+// GetGongstructName returns the name of the Gongstruct
+// this can be usefull if one want program robust to refactoring
 func GetGongstructName[Type Gongstruct]() string {
 
 	var ret Type
@@ -1990,9 +1992,18 @@ func GetGongstructName[Type Gongstruct]() string {
 	// insertion point for generic get gongstruct name
 	case Astruct:
 		return "Astruct"
+	case AstructBstruct2Use:
+		return "AstructBstruct2Use"
+	case AstructBstructUse:
+		return "AstructBstructUse"
+	case Bstruct:
+		return "Bstruct"
+	case Dstruct:
+		return "Dstruct"
 	}
 	return ""
 }
+
 
 // insertion point of enum utility functions
 // Utility function for AEnumType
@@ -2111,3 +2122,4 @@ func (cenumtypeint *CEnumTypeInt) ToCodeString() (res string) {
 	}
 	return
 }
+
