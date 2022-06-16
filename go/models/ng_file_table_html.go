@@ -1,6 +1,6 @@
 package models
 
-const NgTableTemplateHTML = `<div>
+const NgTableTemplateHTML = `<div style="height: 100%; width: 100%; overflow: hidden">
     <mat-form-field>
         <mat-label>Filter</mat-label>
         <input matInput (keyup)="applyFilter($event)" placeholder="Ex. ium" #input>
@@ -8,7 +8,7 @@ const NgTableTemplateHTML = `<div>
     <h1 *ngIf="dialogData">{{structname}}</h1>
     <table class="table" mat-table [dataSource]="matTableDataSource" matSort>
         <!-- Checkbox Column -->
-        <ng-container matColumnDef="select" sticky>
+        <ng-container matColumnDef="select">
             <th mat-header-cell *matHeaderCellDef>
                 <mat-checkbox (change)="$event ? masterToggle() : null" [checked]="selection.hasValue() && isAllSelected()" [indeterminate]="selection.hasValue() && !isAllSelected()">
                 </mat-checkbox>
@@ -21,7 +21,7 @@ const NgTableTemplateHTML = `<div>
 
         <!-- insertion point for fields specific code -->{{` + string(rune(NgTableHtmlInsertionColumn)) + `}}
 
-        <ng-container matColumnDef="ID" sticky>
+        <ng-container matColumnDef="ID">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> ID. </th>
             <td mat-cell *matCellDef="let {{Structname}}"> {{{{Structname}}.ID}} </td>
         </ng-container>
@@ -40,7 +40,7 @@ const NgTableTemplateHTML = `<div>
             </td>
         </ng-container>
 
-        <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns;"></tr>
 
         <tr mat-row *matRowDef="
         let row; 
