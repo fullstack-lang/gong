@@ -16,7 +16,7 @@ var Default uml.Classdiagram = uml.Classdiagram{
 				Y: 60.000000,
 			},
 			Width:  240.000000,
-			Heigth: 48.000000,
+			Heigth: 123.000000,
 			Links: []*uml.Link{
 				{
 					Field: models.Astruct{}.AnAstruct,
@@ -28,51 +28,59 @@ var Default uml.Classdiagram = uml.Classdiagram{
 					SourceMultiplicity: "*",
 				},
 				{
-					Field: models.Astruct{}.Associationtob,
+					Field: models.Astruct{}.Anarrayofb,
 					Middlevertice: &uml.Vertice{
-						X: 556.000000,
-						Y: 150.500000,
+						X: 550.000000,
+						Y: 161.500000,
 					},
-					TargetMultiplicity: "0..1",
-					SourceMultiplicity: "*",
+					TargetMultiplicity: "*",
+					SourceMultiplicity: "0..1",
+				},
+				{
+					Field: models.Astruct{}.Anarrayofb2Use,
+					Middlevertice: &uml.Vertice{
+						X: 410.000000,
+						Y: 331.500000,
+					},
+					TargetMultiplicity: "*",
+					SourceMultiplicity: "0..1",
+				},
+			},
+			Fields: []*uml.Field{
+				{
+					Field: models.Astruct{}.Aenum,
+				},
+				{
+					Field: models.Astruct{}.Anotherbooleanfield,
+				},
+				{
+					Field: models.Astruct{}.Benum,
+				},
+				{
+					Field: models.Astruct{}.Booleanfield,
+				},
+				{
+					Field: models.Astruct{}.CEnum,
 				},
 			},
 		},
 		{
 			Struct: &(models.AstructBstruct2Use{}),
 			Position: &uml.Position{
-				X: -395.000000,
-				Y: 287.000000,
+				X: 650.000000,
+				Y: 200.000000,
 			},
 			Width:  240.000000,
-			Heigth: 48.000000,
-		},
-		{
-			Struct: &(models.AstructBstructUse{}),
-			Position: &uml.Position{
-				X: 370.000000,
-				Y: 190.000000,
-			},
-			Width:  240.000000,
-			Heigth: 48.000000,
+			Heigth: 63.000000,
 		},
 		{
 			Struct: &(models.Bstruct{}),
 			Position: &uml.Position{
-				X: 770.000000,
+				X: 650.000000,
 				Y: 60.000000,
 			},
 			Width:  240.000000,
-			Heigth: 48.000000,
-		},
-		{
-			Struct: &(models.Cstruct{}),
-			Position: &uml.Position{
-				X: 72.000000,
-				Y: 191.000000,
-			},
-			Width:  240.000000,
-			Heigth: 48.000000,
+			Heigth: 63.000000,
 		},
 	},
 }
