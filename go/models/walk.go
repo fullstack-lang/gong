@@ -42,6 +42,9 @@ func Walk(relativePathToModel string, modelPkg *ModelPkg, useParse ...bool) {
 	}
 	// log.Println("Loading package " + directory)
 
+	// pkgParser
+	var pkgParser ModelPkg
+	_ = pkgParser
 	if useParser {
 		fset := token.NewFileSet()
 		startParser := time.Now()
@@ -54,6 +57,8 @@ func Walk(relativePathToModel string, modelPkg *ModelPkg, useParse ...bool) {
 		if len(pkgsParser) != 1 {
 			log.Panic("Unable to parser, wrong number of parsers ", len(pkgsParser))
 		}
+
+		WalkParser(pkgsParser, &pkgParser)
 	}
 
 	//
@@ -86,6 +91,16 @@ func Walk(relativePathToModel string, modelPkg *ModelPkg, useParse ...bool) {
 	modelPkg.PkgPath = pkg.PkgPath
 	modelPkg.GongEnums = make(map[string]*GongEnum)
 	modelPkg.GongStructs = make(map[string]*GongStruct)
+
+	if useParser {
+		if pkgParser.Name != modelPkg.Name {
+			log.Fatal("Parsing problem")
+		}
+		if pkgParser.PkgPath != modelPkg.PkgPath {
+			log.Fatal("Parsing problem")
+		}
+
+	}
 
 	// fetch all pkg names ...
 	scope := pkg.Types.Scope()
