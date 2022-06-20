@@ -3,6 +3,7 @@ package models
 import (
 	"fmt"
 	"go/ast"
+	"go/types"
 	"log"
 	"strings"
 	"unicode"
@@ -163,58 +164,147 @@ func WalkParser(parserPkgs map[string]*ast.Package, modelPkg *ModelPkg) {
 
 				var gongEnum *GongEnum
 
-				for enumValue, spec := range genDecl.Specs {
+				for enumIndex, _spec := range genDecl.Specs {
 
-					_ = spec
-					switch valueSpec := spec.(type) {
+					switch spec := _spec.(type) {
+					// values of a enum
 					case *ast.ValueSpec:
-						if len(valueSpec.Names) > 0 {
-							if len(valueSpec.Names) > 1 {
-								log.Fatal("To many Names for value spec ", valueSpec.Names[0].Name)
+						if len(spec.Names) > 0 {
+							if len(spec.Names) > 1 {
+								log.Fatal("To many Names for value spec ", spec.Names[0].Name)
 							}
 						}
 
 						// for an Enum, the type is only defined at the first element
-						switch _type := valueSpec.Type.(type) {
+						switch _type := spec.Type.(type) {
 						case *ast.Ident:
 							gongEnum, ok = modelPkg.GongEnums[modelPkg.PkgPath+"."+_type.Name]
 							if !ok {
 								log.Fatalln("Unkown GongEnum Type")
 							}
-							log.Println("Const ", valueSpec.Names[0].Name, " of type ", gongEnum.Name)
+							log.Println("Const ", spec.Names[0].Name, " of type ", gongEnum.Name)
 
 							if gongEnum.Type == Int {
 								gongEnumValue := (&GongEnumValue{
-									Name:  valueSpec.Names[0].Name,
-									Value: fmt.Sprintf("%d", enumValue)})
+									Name:  spec.Names[0].Name,
+									Value: fmt.Sprintf("%d", enumIndex)})
 								gongEnum.GongEnumValues = append(gongEnum.GongEnumValues, gongEnumValue)
 							} else { // string
 								// the value is in the BasicLit expression
-								if len(valueSpec.Values) != 1 {
-									log.Fatal("Wrong def of const ", valueSpec.Names[0].Name)
+								if len(spec.Values) != 1 {
+									log.Fatal("Wrong def of const ", spec.Names[0].Name)
 								}
-								_value := valueSpec.Values[0]
+								_value := spec.Values[0]
 
 								switch value := _value.(type) {
 								case *ast.BasicLit:
 									gongEnumValue := (&GongEnumValue{
-										Name:  valueSpec.Names[0].Name,
+										Name:  spec.Names[0].Name,
 										Value: value.Value})
 									gongEnum.GongEnumValues = append(gongEnum.GongEnumValues, gongEnumValue)
 								default:
-									log.Fatal("Wrong def of const ", valueSpec.Names[0].Name)
+									log.Fatal("Wrong def of const ", spec.Names[0].Name)
 								}
 							}
 						default:
 						}
 
 						// if gongEnum is nil, this is because of a non Gongstruct const
-						if valueSpec.Type == nil && gongEnum != nil {
+						if spec.Type == nil && gongEnum != nil {
 							gongEnumValue := (&GongEnumValue{
-								Name:  valueSpec.Names[0].Name,
-								Value: fmt.Sprintf("%d", enumValue)})
+								Name:  spec.Names[0].Name,
+								Value: fmt.Sprintf("%d", enumIndex)})
 							gongEnum.GongEnumValues = append(gongEnum.GongEnumValues, gongEnumValue)
 						}
+					case *ast.TypeSpec:
+
+						// TypeSpec is for declaration with the "type" keyword
+						// in gong, it can be either a GongStruct or a GongEnum
+						switch _type := spec.Type.(type) {
+						case *ast.StructType:
+
+							log.Println("Parsing fields of gongstruct ", spec.Name.Name)
+
+							// fetch the name of the Gongstruct by identifying if there is a field with name "Name"
+							var isGongStruct bool
+							for _, field := range _type.Fields.List {
+								if len(field.Names) > 0 && field.Names[0].Name == "Name" {
+									isGongStruct = true
+								}
+							}
+
+							if isGongStruct {
+								gongstruct, ok := modelPkg.GongStructs[modelPkg.PkgPath+"."+spec.Name.Name]
+								structName := spec.Name.Name
+								if !ok {
+									log.Fatalln("Unkown struct ", structName)
+								}
+								_ = gongstruct
+
+								for _, field := range _type.Fields.List {
+
+									if len(field.Names) > 1 {
+										log.Fatal("too many names for field", field.Names[0].Name)
+									}
+
+									if len(field.Names) == 0 {
+										// case for cinstructed field usch as
+										// Astrcuct {
+										//	Cstruct
+										// }
+										//
+										// to be worked
+										continue
+									}
+
+									fieldName := field.Names[0].Name
+
+									switch __fieldType := field.Type.(type) {
+									case *ast.Ident:
+										switch __fieldType.Name {
+										case "string":
+											gongField :=
+												&GongBasicField{
+													Name: fieldName,
+
+													// this field is only used for code generation
+													Type:          &types.Basic{},
+													basicKind:     types.String,
+													BasicKindName: "string",
+													GongEnum:      nil,
+													DeclaredType:  "",
+													Index:         len(gongstruct.Fields),
+												}
+											gongstruct.Fields = append(gongstruct.Fields, gongField)
+
+										case "int":
+											gongField :=
+												&GongBasicField{
+													Name:          fieldName,
+													Type:          &types.Basic{},
+													basicKind:     types.Int,
+													BasicKindName: "int",
+													GongEnum:      nil,
+													DeclaredType:  "",
+													Index:         len(gongstruct.Fields),
+												}
+											gongstruct.Fields = append(gongstruct.Fields, gongField)
+										case "time.Time":
+											gongField :=
+												&GongTimeField{
+													Name:  fieldName,
+													Index: len(gongstruct.Fields),
+												}
+											gongstruct.Fields = append(gongstruct.Fields, gongField)
+										default:
+											log.Println("Cannot parse field of type ", __fieldType.Name)
+										}
+									}
+
+								}
+							}
+						}
+
 					default:
 					}
 
