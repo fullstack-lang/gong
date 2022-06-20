@@ -3,54 +3,58 @@ package models
 import (
 	"fmt"
 	"go/constant"
+	"go/parser"
+	"go/token"
 	"go/types"
 	"log"
 	"path/filepath"
 	"strings"
+	"time"
 
 	"golang.org/x/tools/go/packages"
 )
 
 const pkgLoadMode = packages.NeedName | packages.NeedFiles | packages.NeedImports | packages.NeedDeps | packages.NeedTypes | packages.NeedSyntax | packages.NeedTypesInfo
 
-// PkgGoPath for generation
-var PkgGoPath string
+// Walk parses go files in the `models` directory pointed by relativePathToModel and
+// fills up modelPkg with its Gongstruct & Gongenum
+//
+// if useParse is used, Walk uses go/parser.Parser
+//
+// Walk leverages go Parser capabilities to fetch identifiers in go files
+//
+// The algo is in several steps:
+// - First pass gather Gongstruct & Gongenums identifiers
+// - Second pass parses fields and link them to other Gongstructs
+func Walk(relativePathToModel string, modelPkg *ModelPkg, useParse ...bool) {
 
-// PkgName is generated package name (for back) and generated project elements for front
-var PkgName string
-
-// PathToGoSubDirectory for instance "/tmp"
-var PathToGoSubDirectory string
-
-// OrmPkgGenPath is target path for orm package, for instance "/tmp/libraryorm"
-var OrmPkgGenPath string
-
-// ApiPkgGenPath is target path for api package
-var ApiPkgGenPath string
-
-// ControllersPkgGenPath is target path for controllers package, for instance "/tmp/librarycontrollers"
-var ControllersPkgGenPath string
-
-// // ModulesTargetPath is where ng modules are generated
-// var ModulesTargetPath string
-
-// MatTargetPath is where the ng components are generated
-var MatTargetPath string
-
-// NgWorkspacePath is the path to the Ng Workspace
-var NgWorkspacePath string
-
-// ADDR is the network address addr where the angular generated service will lookup the server
-var ADDR string
-
-// Walk parse structs
-func Walk(relativePathToModel string, modelPkg *ModelPkg) {
+	var useParser bool
+	if len(useParse) > 1 {
+		log.Fatal("Too many args to useParse")
+	}
+	if len(useParse) == 1 {
+		useParser = useParse[0]
+	}
 
 	directory, err := filepath.Abs(relativePathToModel)
 	if err != nil {
 		log.Panic("Path does not exist %s ;" + directory)
 	}
 	// log.Println("Loading package " + directory)
+
+	if useParser {
+		fset := token.NewFileSet()
+		startParser := time.Now()
+		pkgsParser, errParser := parser.ParseDir(fset, directory, nil, parser.ParseComments)
+		log.Printf("Parser took %s", time.Since(startParser))
+
+		if errParser != nil {
+			log.Panic("Unable to paser ")
+		}
+		if len(pkgsParser) != 1 {
+			log.Panic("Unable to parser, wrong number of parsers ", len(pkgsParser))
+		}
+	}
 
 	//
 	// prepare package load
@@ -60,7 +64,10 @@ func Walk(relativePathToModel string, modelPkg *ModelPkg) {
 		Mode:  pkgLoadMode,
 		Tests: false,
 	}
+	start := time.Now()
 	pkgs, err := packages.Load(cfg, "./...")
+	log.Printf("package Load took %s", time.Since(start))
+
 	if err != nil {
 		s := fmt.Sprintf("cannot process package at path %s, err %s", relativePathToModel, err.Error())
 		log.Panic(s)
