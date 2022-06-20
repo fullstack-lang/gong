@@ -26,6 +26,8 @@ var (
 		"network address addr where the angular generated service will lookup the server")
 	run               = flag.Bool("run", false, "run 'go run main.go' after compilation")
 	skipGoModCommands = flag.Bool("skipGoModCommands", false, "avoid calls to go mod init, tidy and vendor")
+
+	useParser = flag.Bool("useParser", false, "use go/parser.Parse instead of packages.Load (which requires go installled)")
 )
 
 func main() {
@@ -90,7 +92,8 @@ func main() {
 
 	// load package into database
 	var modelPkg gong_models.ModelPkg
-	gong_models.Walk(*pkgPath, &modelPkg)
+
+	gong_models.Walk(*pkgPath, &modelPkg, *useParser)
 
 	// check wether the package name follows gong naming convention
 	if strings.ContainsAny(modelPkg.Name, "-") {
