@@ -83,9 +83,9 @@ func WalkParser(parserPkgs map[string]*ast.Package, modelPkg *ModelPkg) {
 						// in gong, it can be either a GongStruct or a GongEnum
 
 						// we are only interested in exported symbols
-						caser := cases.Title(language.English)
+						titler := cases.Title(language.English)
 
-						if caser.Title(typeSpec.Name.Name) != typeSpec.Name.Name {
+						if titler.String(typeSpec.Name.Name) != typeSpec.Name.Name {
 							continue
 						}
 
