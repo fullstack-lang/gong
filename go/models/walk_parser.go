@@ -1,6 +1,7 @@
 package models
 
 import (
+	"fmt"
 	"go/ast"
 	"log"
 	"strings"
@@ -142,7 +143,7 @@ func WalkParser(parserPkgs map[string]*ast.Package, modelPkg *ModelPkg) {
 
 				var gongEnum *GongEnum
 
-				for _, spec := range genDecl.Specs {
+				for enumValue, spec := range genDecl.Specs {
 
 					_ = spec
 					switch valueSpec := spec.(type) {
@@ -164,7 +165,7 @@ func WalkParser(parserPkgs map[string]*ast.Package, modelPkg *ModelPkg) {
 
 							gongEnumValue := (&GongEnumValue{
 								Name:  valueSpec.Names[0].Name,
-								Value: valueSpec.Names[0].Name})
+								Value: fmt.Sprintf("%d", enumValue)})
 							gongEnum.GongEnumValues = append(gongEnum.GongEnumValues, gongEnumValue)
 						default:
 						}
@@ -172,7 +173,7 @@ func WalkParser(parserPkgs map[string]*ast.Package, modelPkg *ModelPkg) {
 						if valueSpec.Type == nil {
 							gongEnumValue := (&GongEnumValue{
 								Name:  valueSpec.Names[0].Name,
-								Value: valueSpec.Names[0].Name})
+								Value: fmt.Sprintf("%d", enumValue)})
 							gongEnum.GongEnumValues = append(gongEnum.GongEnumValues, gongEnumValue)
 						}
 					default:
