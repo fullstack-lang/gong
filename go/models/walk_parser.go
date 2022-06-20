@@ -50,6 +50,9 @@ func WalkParser(parserPkgs map[string]*ast.Package, modelPkg *ModelPkg) {
 		// if fileName != "astruct.go" {
 		// 	continue
 		// }
+		if fileName != "cenum_int.go" {
+			continue
+		}
 
 		log.Println("Parsing file ", fileName)
 
@@ -59,6 +62,7 @@ func WalkParser(parserPkgs map[string]*ast.Package, modelPkg *ModelPkg) {
 		// 	_ = scope
 		// }
 
+		// first pass for gathering the "type" definitions
 		for _, decl := range file.Decls {
 			_ = decl
 
@@ -104,7 +108,6 @@ func WalkParser(parserPkgs map[string]*ast.Package, modelPkg *ModelPkg) {
 
 							// If it is a GongStruct, the ast is a StructType
 						case *ast.StructType:
-							log.Println("Ng of fields is ", len(_type.Fields.List))
 
 							// fetch the name of the Gongstruct by identifying if there is a field with name "Name"
 							var isGongStruct bool
@@ -130,13 +133,57 @@ func WalkParser(parserPkgs map[string]*ast.Package, modelPkg *ModelPkg) {
 			}
 		}
 
-		// for _, decl := range file.Decls {
+		// pass for gathering the "const" definitions of enums
+		for _, decl := range file.Decls {
+			_ = decl
 
-		// 	switch decl2 := decl.(type) {
-		// 		case *D
-		// 	}
-		// }
+			switch genDecl := decl.(type) {
+			case *ast.GenDecl:
 
+				var gongEnum *GongEnum
+
+				for _, spec := range genDecl.Specs {
+
+					_ = spec
+					switch valueSpec := spec.(type) {
+					case *ast.ValueSpec:
+						if len(valueSpec.Names) > 0 {
+							if len(valueSpec.Names) > 1 {
+								log.Fatal("To many Names for value spec ", valueSpec.Names[0].Name)
+							}
+						}
+
+						// for an Enum, the type is only defined at the first element
+						switch _type := valueSpec.Type.(type) {
+						case *ast.Ident:
+							gongEnum, ok = modelPkg.GongEnums[modelPkg.PkgPath+"."+_type.Name]
+							if !ok {
+								log.Fatalln("Unkown GongEnum Type")
+							}
+							log.Println("Const ", valueSpec.Names[0].Name, " of type ", gongEnum.Name)
+
+							gongEnumValue := (&GongEnumValue{
+								Name:  valueSpec.Names[0].Name,
+								Value: valueSpec.Names[0].Name})
+							gongEnum.GongEnumValues = append(gongEnum.GongEnumValues, gongEnumValue)
+						default:
+						}
+
+						if valueSpec.Type == nil {
+							gongEnumValue := (&GongEnumValue{
+								Name:  valueSpec.Names[0].Name,
+								Value: valueSpec.Names[0].Name})
+							gongEnum.GongEnumValues = append(gongEnum.GongEnumValues, gongEnumValue)
+						}
+					default:
+					}
+
+				}
+
+			default:
+				continue
+			}
+		}
 	}
 
 }
