@@ -5,6 +5,9 @@ import (
 	"go/ast"
 	"log"
 	"strings"
+
+	"golang.org/x/text/cases"
+	"golang.org/x/text/language"
 )
 
 func WalkParser(parserPkgs map[string]*ast.Package, modelPkg *ModelPkg) {
@@ -48,9 +51,9 @@ func WalkParser(parserPkgs map[string]*ast.Package, modelPkg *ModelPkg) {
 		}
 
 		// for exploration
-		// if fileName != "astruct.go" {
-		// 	continue
-		// }
+		if fileName != "astruct.go" {
+			continue
+		}
 		// if fileName != "aenum.go" {
 		// 	continue
 		// }
@@ -80,7 +83,9 @@ func WalkParser(parserPkgs map[string]*ast.Package, modelPkg *ModelPkg) {
 						// in gong, it can be either a GongStruct or a GongEnum
 
 						// we are only interested in exported symbols
-						if strings.Title(typeSpec.Name.Name) != typeSpec.Name.Name {
+						caser := cases.Title(language.English)
+
+						if caser.Title(typeSpec.Name.Name) != typeSpec.Name.Name {
 							continue
 						}
 
