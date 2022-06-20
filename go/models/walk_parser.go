@@ -51,9 +51,9 @@ func WalkParser(parserPkgs map[string]*ast.Package, modelPkg *ModelPkg) {
 		// if fileName != "astruct.go" {
 		// 	continue
 		// }
-		if fileName != "cenum_int.go" {
-			continue
-		}
+		// if fileName != "aenum.go" {
+		// 	continue
+		// }
 
 		log.Println("Parsing file ", fileName)
 
@@ -163,14 +163,33 @@ func WalkParser(parserPkgs map[string]*ast.Package, modelPkg *ModelPkg) {
 							}
 							log.Println("Const ", valueSpec.Names[0].Name, " of type ", gongEnum.Name)
 
-							gongEnumValue := (&GongEnumValue{
-								Name:  valueSpec.Names[0].Name,
-								Value: fmt.Sprintf("%d", enumValue)})
-							gongEnum.GongEnumValues = append(gongEnum.GongEnumValues, gongEnumValue)
+							if gongEnum.Type == Int {
+								gongEnumValue := (&GongEnumValue{
+									Name:  valueSpec.Names[0].Name,
+									Value: fmt.Sprintf("%d", enumValue)})
+								gongEnum.GongEnumValues = append(gongEnum.GongEnumValues, gongEnumValue)
+							} else { // string
+								// the value is in the BasicLit expression
+								if len(valueSpec.Values) != 1 {
+									log.Fatal("Wrong def of const ", valueSpec.Names[0].Name)
+								}
+								_value := valueSpec.Values[0]
+
+								switch value := _value.(type) {
+								case *ast.BasicLit:
+									gongEnumValue := (&GongEnumValue{
+										Name:  valueSpec.Names[0].Name,
+										Value: value.Value})
+									gongEnum.GongEnumValues = append(gongEnum.GongEnumValues, gongEnumValue)
+								default:
+									log.Fatal("Wrong def of const ", valueSpec.Names[0].Name)
+								}
+							}
 						default:
 						}
 
-						if valueSpec.Type == nil {
+						// if gongEnum is nil, this is because of a non Gongstruct const
+						if valueSpec.Type == nil && gongEnum != nil {
 							gongEnumValue := (&GongEnumValue{
 								Name:  valueSpec.Names[0].Name,
 								Value: fmt.Sprintf("%d", enumValue)})
