@@ -1,6 +1,8 @@
 package models
 
 // ModelPkg is the go package where the gong source code is located
+//
+// It contains the list of GongStructs & GongEnum
 type ModelPkg struct {
 	Name    string // should be "models"
 	PkgPath string // for instance "github.com/.../models"
