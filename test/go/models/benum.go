@@ -1,6 +1,6 @@
 package models
 
-// swagger:enum AEnumType
+// swagger:enum BEnumType
 type BEnumType string
 
 // values for EnumType

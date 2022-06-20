@@ -5,9 +5,7 @@ import (
 	"go/ast"
 	"log"
 	"strings"
-
-	"golang.org/x/text/cases"
-	"golang.org/x/text/language"
+	"unicode"
 )
 
 func WalkParser(parserPkgs map[string]*ast.Package, modelPkg *ModelPkg) {
@@ -51,10 +49,10 @@ func WalkParser(parserPkgs map[string]*ast.Package, modelPkg *ModelPkg) {
 		}
 
 		// for exploration
-		if fileName != "astruct.go" {
-			continue
-		}
-		// if fileName != "aenum.go" {
+		// if fileName != "astruct.go" {
+		// 	continue
+		// }
+		// if fileName != "cenum_int.go" {
 		// 	continue
 		// }
 
@@ -83,9 +81,7 @@ func WalkParser(parserPkgs map[string]*ast.Package, modelPkg *ModelPkg) {
 						// in gong, it can be either a GongStruct or a GongEnum
 
 						// we are only interested in exported symbols
-						titler := cases.Title(language.English)
-
-						if titler.String(typeSpec.Name.Name) != typeSpec.Name.Name {
+						if !unicode.IsUpper(rune(typeSpec.Name.Name[0])) {
 							continue
 						}
 
@@ -94,7 +90,7 @@ func WalkParser(parserPkgs map[string]*ast.Package, modelPkg *ModelPkg) {
 						// If it is a GongEnum, the typeSpec Type is a int or a string
 						switch _type := typeSpec.Type.(type) {
 						case *ast.Ident:
-							log.Println("Type spec type is ", _type.Name)
+							// log.Println("Type spec type is ", _type.Name)
 
 							var enumType GongEnumType
 							switch _type.Name {
@@ -138,6 +134,25 @@ func WalkParser(parserPkgs map[string]*ast.Package, modelPkg *ModelPkg) {
 				continue
 			}
 		}
+
+	}
+
+	// second pass
+	for filePath, file := range pkg.Files {
+
+		var fileName string
+		if strings.Contains(filePath, "\\") {
+			fileNames := strings.Split(filePath, "\\")
+			fileName = fileNames[len(fileNames)-1]
+		}
+
+		if fileName == "gong.go" {
+			continue
+		}
+
+		// if fileName != "cenum_int.go" {
+		// 	continue
+		// }
 
 		// pass for gathering the "const" definitions of enums
 		for _, decl := range file.Decls {

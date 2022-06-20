@@ -49,7 +49,7 @@ func Walk(relativePathToModel string, modelPkg *ModelPkg, useParse ...bool) {
 		log.Printf("Parser took %s", time.Since(startParser))
 
 		if errParser != nil {
-			log.Panic("Unable to paser ")
+			log.Panic("Unable to parser ")
 		}
 		if len(pkgsParser) != 1 {
 			log.Panic("Unable to parser, wrong number of parsers ", len(pkgsParser))
