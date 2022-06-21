@@ -5,6 +5,7 @@ import (
 	"go/ast"
 	"go/types"
 	"log"
+	"os"
 	"strings"
 	"unicode"
 )
@@ -30,8 +31,9 @@ func WalkParser(parserPkgs map[string]*ast.Package, modelPkg *ModelPkg) {
 	for filePath, file := range pkg.Files {
 
 		var fileName string
-		if strings.Contains(filePath, "\\") {
-			fileNames := strings.Split(filePath, "\\")
+
+		if strings.Contains(filePath, string(os.PathSeparator)) {
+			fileNames := strings.Split(filePath, string(os.PathSeparator))
 			fileName = fileNames[len(fileNames)-1]
 
 			// package name is three steps behind
