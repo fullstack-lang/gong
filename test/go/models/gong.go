@@ -43,6 +43,9 @@ type StageStruct struct { // insertion point for definition of arrays registerin
 	Dstructs           map[*Dstruct]any
 	Dstructs_mapString map[string]*Dstruct
 
+	Estructs           map[*Estruct]any
+	Estructs_mapString map[string]*Estruct
+
 	AllModelsStructCreateCallback AllModelsStructCreateInterface
 
 	AllModelsStructDeleteCallback AllModelsStructDeleteInterface
@@ -80,6 +83,8 @@ type BackRepoInterface interface {
 	CheckoutBstruct(bstruct *Bstruct)
 	CommitDstruct(dstruct *Dstruct)
 	CheckoutDstruct(dstruct *Dstruct)
+	CommitEstruct(estruct *Estruct)
+	CheckoutEstruct(estruct *Estruct)
 	GetLastCommitFromBackNb() uint
 	GetLastPushFromFrontNb() uint
 }
@@ -101,6 +106,9 @@ var Stage StageStruct = StageStruct{ // insertion point for array initiatialisat
 	Dstructs:           make(map[*Dstruct]any),
 	Dstructs_mapString: make(map[string]*Dstruct),
 
+	Estructs:           make(map[*Estruct]any),
+	Estructs_mapString: make(map[string]*Estruct),
+
 	// end of insertion point
 	Map_GongStructName_InstancesNb: make(map[string]int),
 }
@@ -116,6 +124,7 @@ func (stage *StageStruct) Commit() {
 	stage.Map_GongStructName_InstancesNb["AstructBstructUse"] = len(stage.AstructBstructUses)
 	stage.Map_GongStructName_InstancesNb["Bstruct"] = len(stage.Bstructs)
 	stage.Map_GongStructName_InstancesNb["Dstruct"] = len(stage.Dstructs)
+	stage.Map_GongStructName_InstancesNb["Estruct"] = len(stage.Estructs)
 
 }
 
@@ -689,6 +698,113 @@ func (dstruct *Dstruct) GetName() (res string) {
 	return dstruct.Name
 }
 
+func (stage *StageStruct) getEstructOrderedStructWithNameField() []*Estruct {
+	// have alphabetical order generation
+	estructOrdered := []*Estruct{}
+	for estruct := range stage.Estructs {
+		estructOrdered = append(estructOrdered, estruct)
+	}
+	sort.Slice(estructOrdered[:], func(i, j int) bool {
+		return estructOrdered[i].Name < estructOrdered[j].Name
+	})
+	return estructOrdered
+}
+
+// Stage puts estruct to the model stage
+func (estruct *Estruct) Stage() *Estruct {
+	Stage.Estructs[estruct] = __member
+	Stage.Estructs_mapString[estruct.Name] = estruct
+
+	return estruct
+}
+
+// Unstage removes estruct off the model stage
+func (estruct *Estruct) Unstage() *Estruct {
+	delete(Stage.Estructs, estruct)
+	delete(Stage.Estructs_mapString, estruct.Name)
+	return estruct
+}
+
+// commit estruct to the back repo (if it is already staged)
+func (estruct *Estruct) Commit() *Estruct {
+	if _, ok := Stage.Estructs[estruct]; ok {
+		if Stage.BackRepo != nil {
+			Stage.BackRepo.CommitEstruct(estruct)
+		}
+	}
+	return estruct
+}
+
+// Checkout estruct to the back repo (if it is already staged)
+func (estruct *Estruct) Checkout() *Estruct {
+	if _, ok := Stage.Estructs[estruct]; ok {
+		if Stage.BackRepo != nil {
+			Stage.BackRepo.CheckoutEstruct(estruct)
+		}
+	}
+	return estruct
+}
+
+//
+// Legacy, to be deleted
+//
+
+// StageCopy appends a copy of estruct to the model stage
+func (estruct *Estruct) StageCopy() *Estruct {
+	_estruct := new(Estruct)
+	*_estruct = *estruct
+	_estruct.Stage()
+	return _estruct
+}
+
+// StageAndCommit appends estruct to the model stage and commit to the orm repo
+func (estruct *Estruct) StageAndCommit() *Estruct {
+	estruct.Stage()
+	if Stage.AllModelsStructCreateCallback != nil {
+		Stage.AllModelsStructCreateCallback.CreateORMEstruct(estruct)
+	}
+	return estruct
+}
+
+// DeleteStageAndCommit appends estruct to the model stage and commit to the orm repo
+func (estruct *Estruct) DeleteStageAndCommit() *Estruct {
+	estruct.Unstage()
+	DeleteORMEstruct(estruct)
+	return estruct
+}
+
+// StageCopyAndCommit appends a copy of estruct to the model stage and commit to the orm repo
+func (estruct *Estruct) StageCopyAndCommit() *Estruct {
+	_estruct := new(Estruct)
+	*_estruct = *estruct
+	_estruct.Stage()
+	if Stage.AllModelsStructCreateCallback != nil {
+		Stage.AllModelsStructCreateCallback.CreateORMEstruct(estruct)
+	}
+	return _estruct
+}
+
+// CreateORMEstruct enables dynamic staging of a Estruct instance
+func CreateORMEstruct(estruct *Estruct) {
+	estruct.Stage()
+	if Stage.AllModelsStructCreateCallback != nil {
+		Stage.AllModelsStructCreateCallback.CreateORMEstruct(estruct)
+	}
+}
+
+// DeleteORMEstruct enables dynamic staging of a Estruct instance
+func DeleteORMEstruct(estruct *Estruct) {
+	estruct.Unstage()
+	if Stage.AllModelsStructDeleteCallback != nil {
+		Stage.AllModelsStructDeleteCallback.DeleteORMEstruct(estruct)
+	}
+}
+
+// for satisfaction of GongStruct interface
+func (estruct *Estruct) GetName() (res string) {
+	return estruct.Name
+}
+
 // swagger:ignore
 type AllModelsStructCreateInterface interface { // insertion point for Callbacks on creation
 	CreateORMAstruct(Astruct *Astruct)
@@ -696,6 +812,7 @@ type AllModelsStructCreateInterface interface { // insertion point for Callbacks
 	CreateORMAstructBstructUse(AstructBstructUse *AstructBstructUse)
 	CreateORMBstruct(Bstruct *Bstruct)
 	CreateORMDstruct(Dstruct *Dstruct)
+	CreateORMEstruct(Estruct *Estruct)
 }
 
 type AllModelsStructDeleteInterface interface { // insertion point for Callbacks on deletion
@@ -704,6 +821,7 @@ type AllModelsStructDeleteInterface interface { // insertion point for Callbacks
 	DeleteORMAstructBstructUse(AstructBstructUse *AstructBstructUse)
 	DeleteORMBstruct(Bstruct *Bstruct)
 	DeleteORMDstruct(Dstruct *Dstruct)
+	DeleteORMEstruct(Estruct *Estruct)
 }
 
 func (stage *StageStruct) Reset() { // insertion point for array reset
@@ -722,6 +840,9 @@ func (stage *StageStruct) Reset() { // insertion point for array reset
 	stage.Dstructs = make(map[*Dstruct]any)
 	stage.Dstructs_mapString = make(map[string]*Dstruct)
 
+	stage.Estructs = make(map[*Estruct]any)
+	stage.Estructs_mapString = make(map[string]*Estruct)
+
 }
 
 func (stage *StageStruct) Nil() { // insertion point for array nil
@@ -739,6 +860,9 @@ func (stage *StageStruct) Nil() { // insertion point for array nil
 
 	stage.Dstructs = nil
 	stage.Dstructs_mapString = nil
+
+	stage.Estructs = nil
+	stage.Estructs_mapString = nil
 
 }
 
@@ -1066,6 +1190,38 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 
 	}
 
+	map_Estruct_Identifiers := make(map[*Estruct]string)
+	_ = map_Estruct_Identifiers
+
+	estructOrdered := []*Estruct{}
+	for estruct := range stage.Estructs {
+		estructOrdered = append(estructOrdered, estruct)
+	}
+	sort.Slice(estructOrdered[:], func(i, j int) bool {
+		return estructOrdered[i].Name < estructOrdered[j].Name
+	})
+	identifiersDecl += "\n\n	// Declarations of staged instances of Estruct"
+	for idx, estruct := range estructOrdered {
+
+		id = generatesIdentifier("Estruct", idx, estruct.Name)
+		map_Estruct_Identifiers[estruct] = id
+
+		decl = IdentifiersDecls
+		decl = strings.ReplaceAll(decl, "{{Identifier}}", id)
+		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Estruct")
+		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", estruct.Name)
+		identifiersDecl += decl
+
+		initializerStatements += fmt.Sprintf("\n\n	// Estruct %s values setup", estruct.Name)
+		// Initialisation of values
+		setValueField = StringInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(estruct.Name))
+		initializerStatements += setValueField
+
+	}
+
 	// insertion initialization of objects to stage
 	for idx, astruct := range astructOrdered {
 		var setPointerField string
@@ -1201,6 +1357,16 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 
 		id = generatesIdentifier("Dstruct", idx, dstruct.Name)
 		map_Dstruct_Identifiers[dstruct] = id
+
+		// Initialisation of values
+	}
+
+	for idx, estruct := range estructOrdered {
+		var setPointerField string
+		_ = setPointerField
+
+		id = generatesIdentifier("Estruct", idx, estruct.Name)
+		map_Estruct_Identifiers[estruct] = id
 
 		// Initialisation of values
 	}
@@ -1420,13 +1586,15 @@ func (stageStruct *StageStruct) CreateReverseMap_AstructBstructUse_Bstruct2() (r
 
 // generate function for reverse association maps of Dstruct
 
+// generate function for reverse association maps of Estruct
+
 // Gongstruct is the type paramter for generated generic function that allows
 // - access to staged instances
 // - navigation between staged instances by going backward association links between gongstruct
 // - full refactoring of Gongstruct identifiers / fields
 type Gongstruct interface {
 	// insertion point for generic types
-	Astruct | AstructBstruct2Use | AstructBstructUse | Bstruct | Dstruct
+	Astruct | AstructBstruct2Use | AstructBstructUse | Bstruct | Dstruct | Estruct
 }
 
 type GongstructSet interface {
@@ -1437,6 +1605,7 @@ type GongstructSet interface {
 		map[*AstructBstructUse]any |
 		map[*Bstruct]any |
 		map[*Dstruct]any |
+		map[*Estruct]any |
 		map[*any]any // because go does not support an extra "|" at the end of type specifications
 }
 
@@ -1448,6 +1617,7 @@ type GongstructMapString interface {
 		map[string]*AstructBstructUse |
 		map[string]*Bstruct |
 		map[string]*Dstruct |
+		map[string]*Estruct |
 		map[*any]any // because go does not support an extra "|" at the end of type specifications
 }
 
@@ -1468,6 +1638,8 @@ func GongGetSet[Type GongstructSet]() *Type {
 		return any(&Stage.Bstructs).(*Type)
 	case map[*Dstruct]any:
 		return any(&Stage.Dstructs).(*Type)
+	case map[*Estruct]any:
+		return any(&Stage.Estructs).(*Type)
 	default:
 		return nil
 	}
@@ -1490,6 +1662,8 @@ func GongGetMap[Type GongstructMapString]() *Type {
 		return any(&Stage.Bstructs_mapString).(*Type)
 	case map[string]*Dstruct:
 		return any(&Stage.Dstructs_mapString).(*Type)
+	case map[string]*Estruct:
+		return any(&Stage.Estructs_mapString).(*Type)
 	default:
 		return nil
 	}
@@ -1512,6 +1686,8 @@ func GetGongstructInstancesSet[Type Gongstruct]() *map[*Type]any {
 		return any(&Stage.Bstructs).(*map[*Type]any)
 	case Dstruct:
 		return any(&Stage.Dstructs).(*map[*Type]any)
+	case Estruct:
+		return any(&Stage.Estructs).(*map[*Type]any)
 	default:
 		return nil
 	}
@@ -1534,6 +1710,8 @@ func GetGongstructInstancesMap[Type Gongstruct]() *map[string]*Type {
 		return any(&Stage.Bstructs_mapString).(*map[string]*Type)
 	case Dstruct:
 		return any(&Stage.Dstructs_mapString).(*map[string]*Type)
+	case Estruct:
+		return any(&Stage.Estructs_mapString).(*map[string]*Type)
 	default:
 		return nil
 	}
@@ -1590,6 +1768,10 @@ func GetAssociationName[Type Gongstruct]() *Type {
 		}).(*Type)
 	case Dstruct:
 		return any(&Dstruct{
+			// Initialisation of associations
+		}).(*Type)
+	case Estruct:
+		return any(&Estruct{
 			// Initialisation of associations
 		}).(*Type)
 	default:
@@ -1736,6 +1918,11 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string) map[*End][]*S
 		switch fieldname {
 		// insertion point for per direct association field
 		}
+	// reverse maps of direct associations of Estruct
+	case Estruct:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
 	}
 	return nil
 }
@@ -1816,6 +2003,11 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string) map[*
 		switch fieldname {
 		// insertion point for per direct association field
 		}
+	// reverse maps of direct associations of Estruct
+	case Estruct:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
 	}
 	return nil
 }
@@ -1838,6 +2030,8 @@ func GetGongstructName[Type Gongstruct]() (res string) {
 		res = "Bstruct"
 	case Dstruct:
 		res = "Dstruct"
+	case Estruct:
+		res = "Estruct"
 	}
 	return res
 }
@@ -1858,6 +2052,8 @@ func GetFields[Type Gongstruct]() (res []string) {
 	case Bstruct:
 		res = []string{"Name", "Floatfield", "Intfield"}
 	case Dstruct:
+		res = []string{"Name"}
+	case Estruct:
 		res = []string{"Name"}
 	}
 	return
@@ -1988,6 +2184,12 @@ func GetFieldStringValue[Type Gongstruct](instance Type, fieldName string) (res 
 		// string value of fields
 		case "Name":
 			res = any(instance).(Dstruct).Name
+		}
+	case Estruct:
+		switch fieldName {
+		// string value of fields
+		case "Name":
+			res = any(instance).(Estruct).Name
 		}
 	}
 	return

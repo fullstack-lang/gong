@@ -237,14 +237,14 @@ export class AstructBstruct2UsesTableComponent implements OnInit {
 
   // display astructbstruct2use in router
   displayAstructBstruct2UseInRouter(astructbstruct2useID: number) {
-    this.router.navigate(["-" + "astructbstruct2use-display", astructbstruct2useID])
+    this.router.navigate(["github_com_fullstack_lang_gong_test_go-" + "astructbstruct2use-display", astructbstruct2useID])
   }
 
   // set editor outlet
   setEditorRouterOutlet(astructbstruct2useID: number) {
     this.router.navigate([{
       outlets: {
-        _editor: ["-" + "astructbstruct2use-detail", astructbstruct2useID]
+        github_com_fullstack_lang_gong_test_go_editor: ["github_com_fullstack_lang_gong_test_go-" + "astructbstruct2use-detail", astructbstruct2useID]
       }
     }]);
   }
@@ -253,7 +253,7 @@ export class AstructBstruct2UsesTableComponent implements OnInit {
   setPresentationRouterOutlet(astructbstruct2useID: number) {
     this.router.navigate([{
       outlets: {
-        _presentation: ["-" + "astructbstruct2use-presentation", astructbstruct2useID]
+        github_com_fullstack_lang_gong_test_go_presentation: ["github_com_fullstack_lang_gong_test_go-" + "astructbstruct2use-presentation", astructbstruct2useID]
       }
     }]);
   }

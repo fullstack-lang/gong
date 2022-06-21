@@ -1,9 +1,9 @@
 // generated from ng_file_public_api_ts.go
 /*
-* Public API Surface of 
+* Public API Surface of test
 */
 
-export * from './lib/.module'
+export * from './lib/test.module'
 
 export * from './lib/splitter/splitter.component'
 export * from './lib/sidebar/sidebar.component'
@@ -49,6 +49,13 @@ export * from './lib/dstruct-sorting/dstruct-sorting.component'
 export * from './lib/dstructs-table/dstructs-table.component'
 export * from './lib/dstruct-db'
 export * from './lib/dstruct.service'
+
+export * from './lib/estruct-detail/estruct-detail.component'
+export * from './lib/estruct-presentation/estruct-presentation.component'
+export * from './lib/estruct-sorting/estruct-sorting.component'
+export * from './lib/estructs-table/estructs-table.component'
+export * from './lib/estruct-db'
+export * from './lib/estruct.service'
 
 
 export * from './lib/AEnumType'

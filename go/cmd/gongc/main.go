@@ -127,7 +127,7 @@ func main() {
 		directory, err :=
 			filepath.Abs(
 				filepath.Join(*pkgPath,
-					fmt.Sprintf("../../ng/projects/%s/src/lib", gong_models.PkgName)))
+					fmt.Sprintf("../../ng/projects/%s/src/lib", modelPkg.Name)))
 		gong_models.MatTargetPath = directory
 		if err != nil {
 			log.Panic("Problem with frontend target path " + err.Error())
@@ -196,9 +196,10 @@ func main() {
 			// sometimes on windows, directory creation is not completed before creation of file/directory (this
 			// leads to non reproductible "access denied")
 			time.Sleep(1000 * time.Millisecond)
+			log.Println(modelPkg.Name)
 			gong_models.VerySimpleCodeGenerator(
 				modelPkg,
-				gong_models.PkgName,
+				modelPkg.Name,
 				modelPkg.PkgPath,
 				mainFilePath,
 				gong_models.PackageMain)
@@ -227,14 +228,14 @@ func main() {
 			time.Sleep(1000 * time.Millisecond)
 			gong_models.VerySimpleCodeGenerator(
 				modelPkg,
-				gong_models.PkgName,
+				modelPkg.Name,
 				modelPkg.PkgPath,
 				filepath.Join(vscodeDirFilePath, "launch.json"),
 				gong_models.VsCodeLaunchConfig)
 
 			gong_models.VerySimpleCodeGenerator(
 				modelPkg,
-				gong_models.PkgName,
+				modelPkg.Name,
 				modelPkg.PkgPath,
 				filepath.Join(vscodeDirFilePath, "tasks.json"),
 				gong_models.VsCodeTasksConfig)
@@ -364,21 +365,21 @@ func main() {
 			{
 				gong_models.VerySimpleCodeGenerator(
 					modelPkg,
-					gong_models.PkgName,
+					modelPkg.Name,
 					modelPkg.PkgPath,
 					filepath.Join(gong_models.NgWorkspacePath, "src/app/app.module.ts"),
 					gong_models.NgFileModule)
 
 				gong_models.VerySimpleCodeGenerator(
 					modelPkg,
-					gong_models.PkgName,
+					modelPkg.Name,
 					modelPkg.PkgPath,
 					filepath.Join(gong_models.NgWorkspacePath, "src/app/app.component.ts"),
 					gong_models.NgFileAppComponentTs)
 
 				gong_models.VerySimpleCodeGenerator(
 					modelPkg,
-					gong_models.PkgName,
+					modelPkg.Name,
 					modelPkg.PkgPath,
 					filepath.Join(gong_models.NgWorkspacePath, "src/app/app.component.html"),
 					gong_models.NgFileAppComponentHtml)
@@ -460,9 +461,9 @@ func main() {
 
 				// generate library project
 				start := time.Now()
-				cmd := exec.Command("ng", "generate", "library", gong_models.PkgName, "--defaults=true", "--skip-install=true")
+				cmd := exec.Command("ng", "generate", "library", modelPkg.Name, "--defaults=true", "--skip-install=true")
 				cmd.Dir = gong_models.NgWorkspacePath
-				log.Printf("Creating a library %s in the angular workspace\n", gong_models.PkgName)
+				log.Printf("Creating a library %s in the angular workspace\n", modelPkg.Name)
 
 				// https://stackoverflow.com/questions/48253268/print-the-stdout-from-exec-command-in-real-time-in-go
 				var stdBuffer bytes.Buffer
@@ -502,9 +503,9 @@ func main() {
 
 				// generate library project
 				start := time.Now()
-				cmd := exec.Command("ng", "generate", "library", gong_models.PkgName+"specific", "--defaults=true", "--skip-install=true")
+				cmd := exec.Command("ng", "generate", "library", modelPkg.Name+"specific", "--defaults=true", "--skip-install=true")
 				cmd.Dir = gong_models.NgWorkspacePath
-				log.Printf("Creating a library %s in the angular workspace\n", gong_models.PkgName)
+				log.Printf("Creating a library %s in the angular workspace\n", modelPkg.Name)
 
 				// https://stackoverflow.com/questions/48253268/print-the-stdout-from-exec-command-in-real-time-in-go
 				var stdBuffer bytes.Buffer
@@ -603,58 +604,58 @@ func main() {
 
 	gong_models.VerySimpleCodeGenerator(
 		modelPkg,
-		strings.Title(gong_models.PkgName),
+		strings.Title(modelPkg.Name),
 		modelPkg.PkgPath, filepath.Join(gong_models.NgWorkspacePath, "embed.go"),
 		gong_models.GoProjectsGo)
 
 	gong_models.VerySimpleCodeGenerator(
 		modelPkg,
-		strings.Title(gong_models.PkgName),
+		strings.Title(modelPkg.Name),
 		modelPkg.PkgPath, filepath.Join(gong_models.NgWorkspacePath, "../embed.go"),
 		gong_models.EmebedNgDistNg)
 
 	gong_models.CodeGeneratorModelGong(
 		modelPkg,
-		gong_models.PkgName,
+		modelPkg.Name,
 		*pkgPath)
 
 	// generate files
 	gong_models.SimpleCodeGeneratorForGongStructWithNameField(
 		modelPkg,
-		gong_models.PkgName,
+		modelPkg.Name,
 		modelPkg.PkgPath,
 		filepath.Join(*pkgPath, "../orm/setup.go"),
 		gong_models.OrmFileSetupTemplate, gong_models.OrmSetupCumulSubTemplateCode)
 
 	gong_models.SimpleCodeGeneratorForGongStructWithNameField(
 		modelPkg,
-		gong_models.PkgName,
+		modelPkg.Name,
 		modelPkg.PkgPath,
 		filepath.Join(*pkgPath, "../orm/back_repo.go"),
 		gong_models.BackRepoTemplateCode, gong_models.BackRepoSubTemplate)
 
 	gong_models.SimpleCodeGeneratorForGongStructWithNameField(
 		modelPkg,
-		gong_models.PkgName,
+		modelPkg.Name,
 		modelPkg.PkgPath,
 		filepath.Join(*pkgPath, "../controllers/register_controllers.go"),
 		gong_models.ControllersRegisterTemplate, gong_models.ControllersRegistrationsSubTemplate)
 
 	gong_models.MultiCodeGeneratorBackRepo(
 		modelPkg,
-		gong_models.PkgName,
+		modelPkg.Name,
 		modelPkg.PkgPath,
 		gong_models.OrmPkgGenPath)
 
 	gong_models.MultiCodeGeneratorControllers(
 		modelPkg,
-		gong_models.PkgName,
+		modelPkg.Name,
 		modelPkg.PkgPath,
 		gong_models.ControllersPkgGenPath)
 
 	gong_models.VerySimpleCodeGenerator(
 		modelPkg,
-		gong_models.PkgName,
+		modelPkg.Name,
 		modelPkg.PkgPath,
 		filepath.Join(*pkgPath, "../docs.go"),
 		gong_models.RootFileDocsTemplate)
@@ -709,118 +710,118 @@ func main() {
 
 	gong_models.MultiCodeGeneratorNgDetail(
 		modelPkg,
-		gong_models.PkgName,
+		modelPkg.Name,
 		gong_models.MatTargetPath,
 		modelPkg.PkgPath)
 
 	gong_models.MultiCodeGeneratorNgPresentation(
 		modelPkg,
-		gong_models.PkgName,
+		modelPkg.Name,
 		gong_models.MatTargetPath,
 		modelPkg.PkgPath)
 
 	gong_models.MultiCodeGeneratorNgClass(
 		modelPkg,
-		gong_models.PkgName,
+		modelPkg.Name,
 		gong_models.MatTargetPath,
 		modelPkg.PkgPath)
 
 	gong_models.MultiCodeGeneratorNgService(
 		modelPkg,
-		gong_models.PkgName,
+		modelPkg.Name,
 		gong_models.MatTargetPath,
 		modelPkg.PkgPath,
 		*addr)
 
 	gong_models.CodeGeneratorNgCommitNb(
 		modelPkg,
-		gong_models.PkgName,
+		modelPkg.Name,
 		gong_models.MatTargetPath,
 		modelPkg.PkgPath,
 		*addr)
 
 	gong_models.CodeGeneratorNgGongselectionServiceTs(
 		modelPkg,
-		gong_models.PkgName,
+		modelPkg.Name,
 		gong_models.MatTargetPath,
 		modelPkg.PkgPath,
 		*addr)
 
 	gong_models.CodeGeneratorNgNullInt64(
 		modelPkg,
-		gong_models.PkgName,
+		modelPkg.Name,
 		gong_models.MatTargetPath,
 		modelPkg.PkgPath,
 		*addr)
 
 	gong_models.CodeGeneratorNgPushFromFrontNb(
 		modelPkg,
-		gong_models.PkgName,
+		modelPkg.Name,
 		gong_models.MatTargetPath,
 		modelPkg.PkgPath,
 		*addr)
 
 	gong_models.MultiCodeGeneratorNgTable(
 		modelPkg,
-		gong_models.PkgName,
+		modelPkg.Name,
 		gong_models.MatTargetPath,
 		modelPkg.PkgPath)
 
 	gong_models.MultiCodeGeneratorNgSorting(
 		modelPkg,
-		gong_models.PkgName,
+		modelPkg.Name,
 		gong_models.MatTargetPath,
 		modelPkg.PkgPath)
 
 	gong_models.CodeGeneratorNgFrontRepo(
 		modelPkg,
-		gong_models.PkgName,
+		modelPkg.Name,
 		gong_models.MatTargetPath,
 		modelPkg.PkgPath)
 
 	gong_models.CodeGeneratorNgSidebar(
 		modelPkg,
-		gong_models.PkgName,
+		modelPkg.Name,
 		gong_models.MatTargetPath,
 		modelPkg.PkgPath)
 
 	gong_models.CodeGeneratorNgEnum(
 		modelPkg,
-		gong_models.PkgName,
+		modelPkg.Name,
 		gong_models.MatTargetPath,
 		modelPkg.PkgPath)
 
 	gong_models.CodeGeneratorNgPublicApi(
 		modelPkg,
-		gong_models.PkgName,
+		modelPkg.Name,
 		gong_models.MatTargetPath,
 		modelPkg.PkgPath)
 
 	gong_models.CodeGeneratorNgSplitter(
 		modelPkg,
-		gong_models.PkgName,
+		modelPkg.Name,
 		gong_models.MatTargetPath,
 		modelPkg.PkgPath)
 
 	gong_models.SimpleCodeGeneratorForGongStructWithNameField(
 		modelPkg,
-		strings.Title(gong_models.PkgName),
-		modelPkg.PkgPath, filepath.Join(gong_models.MatTargetPath, gong_models.PkgName+".module.ts"),
+		strings.Title(modelPkg.Name),
+		modelPkg.PkgPath, filepath.Join(gong_models.MatTargetPath, modelPkg.Name+".module.ts"),
 		gong_models.NgLibModuleTemplate, gong_models.NgLibModuleSubTemplateCode)
 
 	gong_models.SimpleCodeGeneratorForGongStructWithNameField(
 		modelPkg,
-		strings.Title(gong_models.PkgName),
+		strings.Title(modelPkg.Name),
 		modelPkg.PkgPath, filepath.Join(gong_models.MatTargetPath, "app-routing.module.ts"),
 		gong_models.NgRoutingTemplate, gong_models.NgRoutingSubTemplateCode)
 
 	gong_models.SimpleCodeGeneratorForGongStructWithNameField(
 		modelPkg,
-		gong_models.PkgName,
+		modelPkg.Name,
 		modelPkg.PkgPath, filepath.Join(gong_models.MatTargetPath, "map-components.ts"),
 		gong_models.NgLibMapComponentsServiceTemplate, gong_models.NgLibMapComponentsSubTemplateCode)
 
-	apiYamlFilePath := fmt.Sprintf("%s/%sapi.yml", gong_models.ControllersPkgGenPath, gong_models.PkgName)
+	apiYamlFilePath := fmt.Sprintf("%s/%sapi.yml", gong_models.ControllersPkgGenPath, modelPkg.Name)
 	if !*skipSwagger {
 
 		// generate open api specification with swagger

@@ -22,6 +22,10 @@ import { DstructsTableComponent } from './dstructs-table/dstructs-table.componen
 import { DstructDetailComponent } from './dstruct-detail/dstruct-detail.component'
 import { DstructPresentationComponent } from './dstruct-presentation/dstruct-presentation.component'
 
+import { EstructsTableComponent } from './estructs-table/estructs-table.component'
+import { EstructDetailComponent } from './estruct-detail/estruct-detail.component'
+import { EstructPresentationComponent } from './estruct-presentation/estruct-presentation.component'
+
 
 const routes: Routes = [ // insertion point for routes declarations
 	{ path: 'github_com_fullstack_lang_gong_test_go-astructs', component: AstructsTableComponent, outlet: 'github_com_fullstack_lang_gong_test_go_table' },
@@ -58,6 +62,13 @@ const routes: Routes = [ // insertion point for routes declarations
 	{ path: 'github_com_fullstack_lang_gong_test_go-dstruct-detail/:id', component: DstructDetailComponent, outlet: 'github_com_fullstack_lang_gong_test_go_editor' },
 	{ path: 'github_com_fullstack_lang_gong_test_go-dstruct-presentation/:id', component: DstructPresentationComponent, outlet: 'github_com_fullstack_lang_gong_test_go_presentation' },
 	{ path: 'github_com_fullstack_lang_gong_test_go-dstruct-presentation-special/:id', component: DstructPresentationComponent, outlet: 'github_com_fullstack_lang_gong_test_godstructpres' },
+
+	{ path: 'github_com_fullstack_lang_gong_test_go-estructs', component: EstructsTableComponent, outlet: 'github_com_fullstack_lang_gong_test_go_table' },
+	{ path: 'github_com_fullstack_lang_gong_test_go-estruct-adder', component: EstructDetailComponent, outlet: 'github_com_fullstack_lang_gong_test_go_editor' },
+	{ path: 'github_com_fullstack_lang_gong_test_go-estruct-adder/:id/:originStruct/:originStructFieldName', component: EstructDetailComponent, outlet: 'github_com_fullstack_lang_gong_test_go_editor' },
+	{ path: 'github_com_fullstack_lang_gong_test_go-estruct-detail/:id', component: EstructDetailComponent, outlet: 'github_com_fullstack_lang_gong_test_go_editor' },
+	{ path: 'github_com_fullstack_lang_gong_test_go-estruct-presentation/:id', component: EstructPresentationComponent, outlet: 'github_com_fullstack_lang_gong_test_go_presentation' },
+	{ path: 'github_com_fullstack_lang_gong_test_go-estruct-presentation-special/:id', component: EstructPresentationComponent, outlet: 'github_com_fullstack_lang_gong_test_goestructpres' },
 
 ];
 

@@ -254,14 +254,14 @@ export class BstructsTableComponent implements OnInit {
 
   // display bstruct in router
   displayBstructInRouter(bstructID: number) {
-    this.router.navigate(["-" + "bstruct-display", bstructID])
+    this.router.navigate(["github_com_fullstack_lang_gong_test_go-" + "bstruct-display", bstructID])
   }
 
   // set editor outlet
   setEditorRouterOutlet(bstructID: number) {
     this.router.navigate([{
       outlets: {
-        _editor: ["-" + "bstruct-detail", bstructID]
+        github_com_fullstack_lang_gong_test_go_editor: ["github_com_fullstack_lang_gong_test_go-" + "bstruct-detail", bstructID]
       }
     }]);
   }
@@ -270,7 +270,7 @@ export class BstructsTableComponent implements OnInit {
   setPresentationRouterOutlet(bstructID: number) {
     this.router.navigate([{
       outlets: {
-        _presentation: ["-" + "bstruct-presentation", bstructID]
+        github_com_fullstack_lang_gong_test_go_presentation: ["github_com_fullstack_lang_gong_test_go-" + "bstruct-presentation", bstructID]
       }
     }]);
   }

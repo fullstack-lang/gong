@@ -96,9 +96,9 @@ func CodeGeneratorNgCommitNb(
 
 	// final replacement
 	codeTS = Replace4(codeTS,
-		"{{PkgName}}", PkgName,
-		"{{TitlePkgName}}", strings.Title(PkgName),
-		"{{pkgname}}", strings.ToLower(PkgName),
+		"{{PkgName}}", mdlPkg.Name,
+		"{{TitlePkgName}}", strings.Title(mdlPkg.Name),
+		"{{pkgname}}", strings.ToLower(mdlPkg.Name),
 		"{{PkgPathRoot}}", strings.ReplaceAll(mdlPkg.PkgPath, "/models", ""))
 
 	file, err := os.Create(filepath.Join(matTargetPath, "commitnb.service.ts"))
