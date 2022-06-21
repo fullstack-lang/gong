@@ -144,8 +144,8 @@ func WalkParser(parserPkgs map[string]*ast.Package, modelPkg *ModelPkg) {
 	for filePath, file := range pkg.Files {
 
 		var fileName string
-		if strings.Contains(filePath, "\\") {
-			fileNames := strings.Split(filePath, "\\")
+		if strings.Contains(filePath, string(os.PathSeparator)) {
+			fileNames := strings.Split(filePath, string(os.PathSeparator))
 			fileName = fileNames[len(fileNames)-1]
 		}
 
@@ -153,9 +153,9 @@ func WalkParser(parserPkgs map[string]*ast.Package, modelPkg *ModelPkg) {
 			continue
 		}
 
-		// if fileName != "cenum_int.go" {
-		// 	continue
-		// }
+		if fileName != "astruct.go" {
+			continue
+		}
 
 		// pass for gathering the "const" definitions of enums
 		for _, decl := range file.Decls {
@@ -291,16 +291,41 @@ func WalkParser(parserPkgs map[string]*ast.Package, modelPkg *ModelPkg) {
 													Index:         len(gongstruct.Fields),
 												}
 											gongstruct.Fields = append(gongstruct.Fields, gongField)
-										case "time.Time":
-											gongField :=
-												&GongTimeField{
-													Name:  fieldName,
-													Index: len(gongstruct.Fields),
-												}
-											gongstruct.Fields = append(gongstruct.Fields, gongField)
 										default:
 											log.Println("Cannot parse field of type ", __fieldType.Name)
 										}
+									case *ast.SelectorExpr:
+										log.Println("Selector Type ", fieldName)
+										_ = __fieldType
+										// tries to match "time.Time" // "time.Duration"
+										switch __selX := __fieldType.X.(type) {
+										case *ast.Ident:
+											if __selX.Name == "time" {
+												switch __fieldType.Sel.Name {
+												case "Time":
+													gongField :=
+														&GongTimeField{
+															Name:  fieldName,
+															Index: len(gongstruct.Fields),
+														}
+													gongstruct.Fields = append(gongstruct.Fields, gongField)
+												case "Duration":
+													gongField :=
+														&GongBasicField{
+															Name:          fieldName,
+															Type:          &types.Basic{},
+															basicKind:     types.Int,
+															BasicKindName: "int",
+															GongEnum:      nil,
+															DeclaredType:  "time.Duration",
+															Index:         len(gongstruct.Fields),
+														}
+													gongstruct.Fields = append(gongstruct.Fields, gongField)
+												}
+											}
+										}
+									default:
+										log.Println("Cannot parse field named ", fieldName)
 									}
 
 								}
