@@ -370,6 +370,21 @@ func WalkParser(parserPkgs map[string]*ast.Package, modelPkg *ModelPkg) {
 												}
 											}
 										}
+
+										// for Pointer to struct or slice of pointers to struct
+									case *ast.StarExpr:
+										switch X := __fieldType.X.(type) {
+										case *ast.Ident:
+											if gongstruct, ok = modelPkg.GongStructs[modelPkg.PkgPath+"."+X.Name]; ok {
+												gongField :=
+													&PointerToGongStructField{
+														Name:       fieldName,
+														GongStruct: gongstruct,
+														Index:      len(gongstruct.Fields),
+													}
+												gongstruct.Fields = append(gongstruct.Fields, gongField)
+											}
+										}
 									default:
 										log.Println("Cannot parse field named ", fieldName)
 									}
