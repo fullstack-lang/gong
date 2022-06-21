@@ -153,9 +153,9 @@ func WalkParser(parserPkgs map[string]*ast.Package, modelPkg *ModelPkg) {
 			continue
 		}
 
-		if fileName != "astruct.go" {
-			continue
-		}
+		// if fileName != "astruct.go" {
+		// 	continue
+		// }
 
 		// pass for gathering the "const" definitions of enums
 		for _, decl := range file.Decls {
@@ -371,8 +371,8 @@ func WalkParser(parserPkgs map[string]*ast.Package, modelPkg *ModelPkg) {
 											}
 										}
 
-										// for Pointer to struct or slice of pointers to struct
 									case *ast.StarExpr:
+										// for Pointer to struct
 										switch X := __fieldType.X.(type) {
 										case *ast.Ident:
 											if gongstruct, ok = modelPkg.GongStructs[modelPkg.PkgPath+"."+X.Name]; ok {
@@ -383,6 +383,23 @@ func WalkParser(parserPkgs map[string]*ast.Package, modelPkg *ModelPkg) {
 														Index:      len(gongstruct.Fields),
 													}
 												gongstruct.Fields = append(gongstruct.Fields, gongField)
+											}
+										}
+									case *ast.ArrayType:
+										// for slice of pointers to struct
+										switch elt := __fieldType.Elt.(type) {
+										case *ast.StarExpr:
+											switch X := elt.X.(type) {
+											case *ast.Ident:
+												if gongstruct, ok = modelPkg.GongStructs[modelPkg.PkgPath+"."+X.Name]; ok {
+													gongField :=
+														&SliceOfPointerToGongStructField{
+															Name:       fieldName,
+															GongStruct: gongstruct,
+															Index:      len(gongstruct.Fields),
+														}
+													gongstruct.Fields = append(gongstruct.Fields, gongField)
+												}
 											}
 										}
 									default:
