@@ -1,8 +1,5 @@
 package models
 
-// PkgGoPath for generation
-var PkgGoPath string
-
 // PkgName is generated package name (for back) and generated project elements for front
 var PkgName string
 

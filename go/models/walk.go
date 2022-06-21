@@ -39,9 +39,6 @@ func Walk(relativePathToModel string, modelPkg *ModelPkg, useParse ...bool) {
 	}
 	// log.Println("Loading package " + directory)
 
-	// modelPkgParser
-	var modelPkgParser ModelPkg
-	_ = modelPkgParser
 	if useParser {
 		fset := token.NewFileSet()
 		startParser := time.Now()
@@ -55,40 +52,35 @@ func Walk(relativePathToModel string, modelPkg *ModelPkg, useParse ...bool) {
 			log.Panic("Unable to parser, wrong number of parsers ", len(pkgsParser))
 		}
 
-		WalkParser(pkgsParser, &modelPkgParser)
+		WalkParser(pkgsParser, modelPkg)
 	}
 
-	//
-	// prepare package load
-	//
-	cfg := &packages.Config{
-		Dir:   directory,
-		Mode:  pkgLoadMode,
-		Tests: false,
-	}
-	start := time.Now()
-	pkgs, err := packages.Load(cfg, "./...")
-	log.Printf("package Load took %s", time.Since(start))
-
-	if err != nil {
-		s := fmt.Sprintf("cannot process package at path %s, err %s", relativePathToModel, err.Error())
-		log.Panic(s)
-	}
-
-	if len(pkgs) != 1 {
-		log.Panicf("Expected 1 package to scope, found %d", len(pkgs))
-	}
-	pkg := pkgs[0]
-
-	WalkLoader(pkg, modelPkg)
-
-	if useParser {
-		if modelPkgParser.Name != modelPkg.Name {
-			log.Fatal("Parsing problem")
+	var refModelPkg ModelPkg
+	{
+		//
+		// prepare package load
+		//
+		cfg := &packages.Config{
+			Dir:   directory,
+			Mode:  pkgLoadMode,
+			Tests: false,
 		}
-		if modelPkgParser.PkgPath != modelPkg.PkgPath {
-			log.Fatal("Parsing problem")
+		start := time.Now()
+		pkgs, err := packages.Load(cfg, "./...")
+		log.Printf("package Load took %s", time.Since(start))
+
+		if err != nil {
+			s := fmt.Sprintf("cannot process package at path %s, err %s", relativePathToModel, err.Error())
+			log.Panic(s)
 		}
 
+		if len(pkgs) != 1 {
+			log.Panicf("Expected 1 package to scope, found %d", len(pkgs))
+		}
+		pkg := pkgs[0]
+
+		WalkLoader(pkg, &refModelPkg)
 	}
+
+	log.Println("Walk is over, nb of gongstruct ", len(modelPkg.GongStructs))
 }

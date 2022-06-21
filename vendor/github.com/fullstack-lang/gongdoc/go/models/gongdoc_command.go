@@ -146,6 +146,11 @@ func init() {
 							fromClassshape.Links = newSliceOfLinks
 						}
 
+						// remove fields of the classshape
+						for _, field := range classshape.Fields {
+							field.Unstage()
+						}
+
 						Stage.Commit()
 					case BASIC_FIELD, TIME_FIELD:
 						var basicField *Field
