@@ -39,7 +39,7 @@ func Walk(relativePathToModel string, modelPkg *ModelPkg, useParseSlice ...bool)
 	}
 	// log.Println("Loading package " + directory)
 
-	{
+	if useParser {
 		fset := token.NewFileSet()
 		startParser := time.Now()
 		pkgsParser, errParser := parser.ParseDir(fset, directory, nil, parser.ParseComments)
@@ -53,10 +53,7 @@ func Walk(relativePathToModel string, modelPkg *ModelPkg, useParseSlice ...bool)
 		}
 
 		WalkParser(pkgsParser, modelPkg)
-	}
-
-	var refModelPkg ModelPkg
-	{
+	} else {
 		//
 		// prepare package load
 		//
@@ -79,10 +76,8 @@ func Walk(relativePathToModel string, modelPkg *ModelPkg, useParseSlice ...bool)
 		}
 		pkg := pkgs[0]
 
-		WalkLoader(pkg, &refModelPkg)
+		WalkLoader(pkg, modelPkg)
 	}
 
-	if !useParser {
-		modelPkg = &refModelPkg
-	}
+	log.Println("lb of gongstruct :", len(modelPkg.GongStructs))
 }
