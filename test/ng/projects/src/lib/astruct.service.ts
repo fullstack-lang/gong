@@ -44,7 +44,7 @@ export class AstructService {
     origin = origin.replace("4200", "8080")
 
     // compute path to the service
-    this.astructsUrl = origin + '/api//v1/astructs';
+    this.astructsUrl = origin + '/api/github.com/fullstack-lang/gong/test/go/v1/astructs';
   }
 
   /** GET astructs from the server */

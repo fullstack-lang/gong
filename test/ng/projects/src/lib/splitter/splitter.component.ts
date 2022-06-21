@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app--splitter',
+  selector: 'app-test-splitter',
   templateUrl: './splitter.component.html',
   styleUrls: ['./splitter.component.css'],
 })

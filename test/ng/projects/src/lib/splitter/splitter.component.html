@@ -3,22 +3,22 @@
         <as-split-area [size]="20">
             <as-split direction="vertical">
                 <as-split-area>
-                    <app--sidebar></app--sidebar>
+                    <app-test-sidebar></app-test-sidebar>
                 </as-split-area>
             </as-split>
         </as-split-area>
         <as-split-area [size]="80">
             <as-split direction="vertical">
                 <as-split-area  style="overflow: hidden;">
-                    <router-outlet name="_table"></router-outlet>
+                    <router-outlet name="github_com_fullstack_lang_gong_test_go_table"></router-outlet>
                 </as-split-area>
                 <as-split-area [size]="20">
                     <as-split direction="horizontal">
                         <as-split-area>
-                            <router-outlet name="_presentation"></router-outlet>
+                            <router-outlet name="github_com_fullstack_lang_gong_test_go_presentation"></router-outlet>
                         </as-split-area>
                         <as-split-area>
-                            <router-outlet name="_editor"></router-outlet>
+                            <router-outlet name="github_com_fullstack_lang_gong_test_go_editor"></router-outlet>
                         </as-split-area>
                     </as-split>
                 </as-split-area>

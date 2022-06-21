@@ -216,14 +216,14 @@ export class DstructsTableComponent implements OnInit {
 
   // display dstruct in router
   displayDstructInRouter(dstructID: number) {
-    this.router.navigate(["-" + "dstruct-display", dstructID])
+    this.router.navigate(["github_com_fullstack_lang_gong_test_go-" + "dstruct-display", dstructID])
   }
 
   // set editor outlet
   setEditorRouterOutlet(dstructID: number) {
     this.router.navigate([{
       outlets: {
-        _editor: ["-" + "dstruct-detail", dstructID]
+        github_com_fullstack_lang_gong_test_go_editor: ["github_com_fullstack_lang_gong_test_go-" + "dstruct-detail", dstructID]
       }
     }]);
   }
@@ -232,7 +232,7 @@ export class DstructsTableComponent implements OnInit {
   setPresentationRouterOutlet(dstructID: number) {
     this.router.navigate([{
       outlets: {
-        _presentation: ["-" + "dstruct-presentation", dstructID]
+        github_com_fullstack_lang_gong_test_go_presentation: ["github_com_fullstack_lang_gong_test_go-" + "dstruct-presentation", dstructID]
       }
     }]);
   }
