@@ -6,7 +6,13 @@ import (
 	"log"
 )
 
-func GenerateFieldParser(fieldList *[]*ast.Field, owningGongstruct *GongStruct, modelPkg *ModelPkg) {
+// GenerateFieldParser generates Gongfields of owningGongstruct
+//
+// by using the map_Structname_fieldList for embedded struct fields
+// and modelPkg for access existing gongstructs and gongenums
+func GenerateFieldParser(fieldList *[]*ast.Field, owningGongstruct *GongStruct,
+	map_Structname_fieldList *map[string]*[]*ast.Field,
+	modelPkg *ModelPkg) {
 
 	for _, field := range *fieldList {
 
@@ -15,12 +21,13 @@ func GenerateFieldParser(fieldList *[]*ast.Field, owningGongstruct *GongStruct, 
 		}
 
 		if len(field.Names) == 0 {
-			// case for cinstructed field usch as
-			// Astrcuct {
-			//	Cstruct
-			// }
-			//
-			// to be worked
+			// This is the case for struct embeding
+			switch embedType := field.Type.(type) {
+			case *ast.Ident:
+				log.Println("processing embedded struct ", embedType.Name)
+				GenerateFieldParser((*map_Structname_fieldList)[embedType.Name], owningGongstruct, map_Structname_fieldList, modelPkg)
+			default:
+			}
 			continue
 		}
 
