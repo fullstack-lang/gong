@@ -23,14 +23,14 @@ const pkgLoadMode = packages.NeedName | packages.NeedFiles | packages.NeedImport
 // The algo is in several steps:
 // - First pass gather Gongstruct & Gongenums identifiers
 // - Second pass parses fields and link them to other Gongstructs
-func Walk(relativePathToModel string, modelPkg *ModelPkg, useParse ...bool) {
+func Walk(relativePathToModel string, modelPkg *ModelPkg, useParseSlice ...bool) {
 
 	var useParser bool
-	if len(useParse) > 1 {
+	if len(useParseSlice) > 1 {
 		log.Fatal("Too many args to useParse")
 	}
-	if len(useParse) == 1 {
-		useParser = useParse[0]
+	if len(useParseSlice) == 1 {
+		useParser = useParseSlice[0]
 	}
 
 	directory, err := filepath.Abs(relativePathToModel)
@@ -39,7 +39,7 @@ func Walk(relativePathToModel string, modelPkg *ModelPkg, useParse ...bool) {
 	}
 	// log.Println("Loading package " + directory)
 
-	if useParser {
+	{
 		fset := token.NewFileSet()
 		startParser := time.Now()
 		pkgsParser, errParser := parser.ParseDir(fset, directory, nil, parser.ParseComments)
@@ -82,5 +82,7 @@ func Walk(relativePathToModel string, modelPkg *ModelPkg, useParse ...bool) {
 		WalkLoader(pkg, &refModelPkg)
 	}
 
-	log.Println("Walk is over, nb of gongstruct ", len(modelPkg.GongStructs))
+	if !useParser {
+		modelPkg = &refModelPkg
+	}
 }
