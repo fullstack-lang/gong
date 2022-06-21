@@ -212,6 +212,10 @@ func MultiCodeGeneratorNgService(
 
 	for _, _struct := range structList {
 
+		if !_struct.HasNameField() {
+			continue
+		}
+
 		// generate the typescript file
 		codeTS := NgServiceTmpl
 
