@@ -12,7 +12,8 @@ import (
 // and modelPkg for access existing gongstructs and gongenums
 func GenerateFieldParser(fieldList *[]*ast.Field, owningGongstruct *GongStruct,
 	map_Structname_fieldList *map[string]*[]*ast.Field,
-	modelPkg *ModelPkg) {
+	modelPkg *ModelPkg,
+	compositeTypeStructName string) {
 
 	for _, field := range *fieldList {
 
@@ -25,7 +26,11 @@ func GenerateFieldParser(fieldList *[]*ast.Field, owningGongstruct *GongStruct,
 			switch embedType := field.Type.(type) {
 			case *ast.Ident:
 				log.Println("processing embedded struct ", embedType.Name)
-				GenerateFieldParser((*map_Structname_fieldList)[embedType.Name], owningGongstruct, map_Structname_fieldList, modelPkg)
+				GenerateFieldParser((*map_Structname_fieldList)[embedType.Name],
+					owningGongstruct,
+					map_Structname_fieldList,
+					modelPkg,
+					embedType.Name)
 			default:
 			}
 			continue
@@ -39,44 +44,46 @@ func GenerateFieldParser(fieldList *[]*ast.Field, owningGongstruct *GongStruct,
 			case "string":
 				gongField :=
 					&GongBasicField{
-						Name: fieldName,
-
-						// this field is only used for code generation
-						Type:          &types.Basic{},
-						basicKind:     types.String,
-						BasicKindName: "string",
-						Index:         len(owningGongstruct.Fields),
+						Name:                fieldName,
+						basicKind:           types.String,
+						BasicKindName:       "string",
+						DeclaredType:        "string",
+						Index:               len(owningGongstruct.Fields),
+						CompositeStructName: compositeTypeStructName,
 					}
 				owningGongstruct.Fields = append(owningGongstruct.Fields, gongField)
 
 			case "int":
 				gongField :=
 					&GongBasicField{
-						Name:          fieldName,
-						Type:          &types.Basic{},
-						basicKind:     types.Int,
-						BasicKindName: "int",
-						Index:         len(owningGongstruct.Fields),
+						Name:                fieldName,
+						basicKind:           types.Int,
+						BasicKindName:       "int",
+						DeclaredType:        "int",
+						Index:               len(owningGongstruct.Fields),
+						CompositeStructName: compositeTypeStructName,
 					}
 				owningGongstruct.Fields = append(owningGongstruct.Fields, gongField)
 			case "float64":
 				gongField :=
 					&GongBasicField{
-						Name:          fieldName,
-						Type:          &types.Basic{},
-						basicKind:     types.Float64,
-						BasicKindName: "float64",
-						Index:         len(owningGongstruct.Fields),
+						Name:                fieldName,
+						basicKind:           types.Float64,
+						BasicKindName:       "float64",
+						DeclaredType:        "float64",
+						Index:               len(owningGongstruct.Fields),
+						CompositeStructName: compositeTypeStructName,
 					}
 				owningGongstruct.Fields = append(owningGongstruct.Fields, gongField)
 			case "bool":
 				gongField :=
 					&GongBasicField{
-						Name:          fieldName,
-						Type:          &types.Basic{},
-						basicKind:     types.Bool,
-						BasicKindName: "bool",
-						Index:         len(owningGongstruct.Fields),
+						Name:                fieldName,
+						basicKind:           types.Bool,
+						BasicKindName:       "bool",
+						DeclaredType:        "bool",
+						Index:               len(owningGongstruct.Fields),
+						CompositeStructName: compositeTypeStructName,
 					}
 				owningGongstruct.Fields = append(owningGongstruct.Fields, gongField)
 			default:
@@ -85,26 +92,26 @@ func GenerateFieldParser(fieldList *[]*ast.Field, owningGongstruct *GongStruct,
 					if gongEnum.Type == Int {
 						gongField :=
 							&GongBasicField{
-								Name:          fieldName,
-								Type:          &types.Basic{},
-								basicKind:     types.Int,
-								BasicKindName: "int",
-								GongEnum:      gongEnum,
-								DeclaredType:  __fieldType.Name,
-								Index:         len(owningGongstruct.Fields),
+								Name:                fieldName,
+								basicKind:           types.Int,
+								BasicKindName:       "int",
+								GongEnum:            gongEnum,
+								DeclaredType:        modelPkg.PkgPath + "." + __fieldType.Name,
+								Index:               len(owningGongstruct.Fields),
+								CompositeStructName: compositeTypeStructName,
 							}
 						owningGongstruct.Fields = append(owningGongstruct.Fields, gongField)
 					}
 					if gongEnum.Type == String {
 						gongField :=
 							&GongBasicField{
-								Name:          fieldName,
-								Type:          &types.Basic{},
-								basicKind:     types.String,
-								BasicKindName: "string",
-								GongEnum:      gongEnum,
-								DeclaredType:  __fieldType.Name,
-								Index:         len(owningGongstruct.Fields),
+								Name:                fieldName,
+								basicKind:           types.String,
+								BasicKindName:       "string",
+								GongEnum:            gongEnum,
+								DeclaredType:        modelPkg.PkgPath + "." + __fieldType.Name,
+								Index:               len(owningGongstruct.Fields),
+								CompositeStructName: compositeTypeStructName,
 							}
 						owningGongstruct.Fields = append(owningGongstruct.Fields, gongField)
 					}
@@ -123,20 +130,21 @@ func GenerateFieldParser(fieldList *[]*ast.Field, owningGongstruct *GongStruct,
 					case "Time":
 						gongField :=
 							&GongTimeField{
-								Name:  fieldName,
-								Index: len(owningGongstruct.Fields),
+								Name:                fieldName,
+								Index:               len(owningGongstruct.Fields),
+								CompositeStructName: compositeTypeStructName,
 							}
 						owningGongstruct.Fields = append(owningGongstruct.Fields, gongField)
 					case "Duration":
 						gongField :=
 							&GongBasicField{
-								Name:          fieldName,
-								Type:          &types.Basic{},
-								basicKind:     types.Int,
-								BasicKindName: "int",
-								GongEnum:      nil,
-								DeclaredType:  "time.Duration",
-								Index:         len(owningGongstruct.Fields),
+								Name:                fieldName,
+								basicKind:           types.Int,
+								BasicKindName:       "int",
+								GongEnum:            nil,
+								DeclaredType:        "time.Duration",
+								Index:               len(owningGongstruct.Fields),
+								CompositeStructName: compositeTypeStructName,
 							}
 						owningGongstruct.Fields = append(owningGongstruct.Fields, gongField)
 					}
@@ -150,9 +158,10 @@ func GenerateFieldParser(fieldList *[]*ast.Field, owningGongstruct *GongStruct,
 				if targetGongstruct, ok := modelPkg.GongStructs[modelPkg.PkgPath+"."+X.Name]; ok {
 					gongField :=
 						&PointerToGongStructField{
-							Name:       fieldName,
-							GongStruct: targetGongstruct,
-							Index:      len(owningGongstruct.Fields),
+							Name:                fieldName,
+							GongStruct:          targetGongstruct,
+							Index:               len(owningGongstruct.Fields),
+							CompositeStructName: compositeTypeStructName,
 						}
 					owningGongstruct.Fields = append(owningGongstruct.Fields, gongField)
 				}
@@ -166,9 +175,10 @@ func GenerateFieldParser(fieldList *[]*ast.Field, owningGongstruct *GongStruct,
 					if targetGongstruct, ok := modelPkg.GongStructs[modelPkg.PkgPath+"."+X.Name]; ok {
 						gongField :=
 							&SliceOfPointerToGongStructField{
-								Name:       fieldName,
-								GongStruct: targetGongstruct,
-								Index:      len(owningGongstruct.Fields),
+								Name:                fieldName,
+								GongStruct:          targetGongstruct,
+								Index:               len(owningGongstruct.Fields),
+								CompositeStructName: compositeTypeStructName,
 							}
 						owningGongstruct.Fields = append(owningGongstruct.Fields, gongField)
 					}

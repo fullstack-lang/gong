@@ -1,0 +1,35 @@
+<mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
+
+    <!-- This is the tree node template for leaf nodes -->
+    <mat-tree-node class="node-link" *matTreeNodeDef="let node" matTreeNodePadding>
+        <!-- use a disabled button to provide padding for tree leaf -->
+        <button mat-icon-button disabled></button>
+        <span (click)="setTableRouterOutletFromTree( node.name + 's', node.type, node.structName, node.id)">{{node.name}} &nbsp;</span>
+        <mat-icon class="node-link-icon" *ngIf='node.level==0' (click)="setEditorRouterOutlet( node.name + '-adder' )">
+            add_circle_outline
+        </mat-icon>
+        <mat-icon class="node-link-icon" *ngIf='node.level==2 && node.type=="ONE__ZERO_MANY_ASSOCIATION"' (click)="setEditorSpecialRouterOutlet( node )" >
+            add_circle_outline
+        </mat-icon>
+    </mat-tree-node>
+
+    <!-- This is the tree node template for expandable nodes -->
+    <mat-tree-node class="node-link" *matTreeNodeDef="let node;when: hasChild" matTreeNodePadding>
+        <button mat-icon-button matTreeNodeToggle [attr.aria-label]="'Toggle ' + node.name">
+            <mat-icon class="mat-icon-rtl-mirror">
+                {{treeControl.isExpanded(node) ?
+                'expand_more' :
+                'chevron_right'
+                }}
+            </mat-icon>
+        </button>
+        <span (click)="setTableRouterOutletFromTree( node.name + 's', node.type, node.structName, node.id)">{{node.name}}  &nbsp;</span>
+        <mat-icon class="node-link-icon" *ngIf='node.level==0' (click)="setEditorRouterOutlet( node.name + '-adder' )">
+            add_circle_outline
+        </mat-icon>
+        <mat-icon class="node-link-icon" *ngIf='node.level==2 && node.type=="ONE__ZERO_MANY_ASSOCIATION"' (click)="setEditorSpecialRouterOutlet( node )" >
+            add_circle_outline
+        </mat-icon>
+    </mat-tree-node>
+</mat-tree>
+<h3>&nbsp;&nbsp;Nb commits:&nbsp; &nbsp;&nbsp;{{commitNb}}</h3>

@@ -247,7 +247,7 @@ func WalkParser(parserPkgs map[string]*ast.Package, modelPkg *ModelPkg) {
 								}
 								_ = gongstruct
 
-								GenerateFieldParser(&_type.Fields.List, gongstruct, &map_Structname_fieldList, modelPkg)
+								GenerateFieldParser(&_type.Fields.List, gongstruct, &map_Structname_fieldList, modelPkg, "")
 							}
 						}
 					default:

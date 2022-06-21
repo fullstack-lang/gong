@@ -368,7 +368,7 @@ func (backRepoClassshape *BackRepoClassshapeStruct) CheckoutPhaseOne() (Error er
 
 	// list of instances to be removed
 	// start from the initial map on the stage and remove instances that have been checked out
-	classshapeInstancesToBeRemovedFromTheStage := make(map[*models.Classshape]struct{})
+	classshapeInstancesToBeRemovedFromTheStage := make(map[*models.Classshape]any)
 	for key, value := range models.Stage.Classshapes {
 		classshapeInstancesToBeRemovedFromTheStage[key] = value
 	}

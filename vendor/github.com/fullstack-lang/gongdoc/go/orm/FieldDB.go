@@ -291,7 +291,7 @@ func (backRepoField *BackRepoFieldStruct) CheckoutPhaseOne() (Error error) {
 
 	// list of instances to be removed
 	// start from the initial map on the stage and remove instances that have been checked out
-	fieldInstancesToBeRemovedFromTheStage := make(map[*models.Field]struct{})
+	fieldInstancesToBeRemovedFromTheStage := make(map[*models.Field]any)
 	for key, value := range models.Stage.Fields {
 		fieldInstancesToBeRemovedFromTheStage[key] = value
 	}

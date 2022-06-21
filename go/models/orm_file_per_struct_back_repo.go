@@ -623,7 +623,7 @@ var BackRepoFieldSubTemplateCode map[BackRepoPerStructSubTemplate]string = map[B
 
 	BackRepoDeclarationBasicField: `
 
-	// Declation for basic field {{structname}}DB.{{FieldName}} {{BasicKind}} (to be completed)
+	// Declation for basic field {{structname}}DB.{{FieldName}}
 	{{FieldName}}_Data sql.{{SqlNullType}}`,
 
 	BackRepoDeclarationTimeField: `
@@ -633,7 +633,7 @@ var BackRepoFieldSubTemplateCode map[BackRepoPerStructSubTemplate]string = map[B
 
 	BackRepoDeclarationBasicBooleanField: `
 
-	// Declation for basic field {{structname}}DB.{{FieldName}} {{BasicKind}} (to be completed)
+	// Declation for basic field {{structname}}DB.{{FieldName}}
 	// provide the sql storage for the boolan
 	{{FieldName}}_Data sql.NullBool`,
 
@@ -834,10 +834,9 @@ func MultiCodeGeneratorBackRepo(
 
 				if field.basicKind == types.Bool {
 
-					insertions[BackRepoBasicFieldsDeclaration] += Replace2(
+					insertions[BackRepoBasicFieldsDeclaration] += Replace1(
 						BackRepoFieldSubTemplateCode[BackRepoDeclarationBasicBooleanField],
-						"{{FieldName}}", field.Name,
-						"{{BasicKind}}", field.Type.Underlying().String())
+						"{{FieldName}}", field.Name)
 
 					insertions[BackRepoBasicFieldsCommit] += Replace1(
 						BackRepoFieldSubTemplateCode[BackRepoCommitBasicBooleanField],
