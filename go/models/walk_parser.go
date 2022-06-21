@@ -273,8 +273,6 @@ func WalkParser(parserPkgs map[string]*ast.Package, modelPkg *ModelPkg) {
 													Type:          &types.Basic{},
 													basicKind:     types.String,
 													BasicKindName: "string",
-													GongEnum:      nil,
-													DeclaredType:  "",
 													Index:         len(gongstruct.Fields),
 												}
 											gongstruct.Fields = append(gongstruct.Fields, gongField)
@@ -286,17 +284,65 @@ func WalkParser(parserPkgs map[string]*ast.Package, modelPkg *ModelPkg) {
 													Type:          &types.Basic{},
 													basicKind:     types.Int,
 													BasicKindName: "int",
-													GongEnum:      nil,
-													DeclaredType:  "",
+													Index:         len(gongstruct.Fields),
+												}
+											gongstruct.Fields = append(gongstruct.Fields, gongField)
+										case "float64":
+											gongField :=
+												&GongBasicField{
+													Name:          fieldName,
+													Type:          &types.Basic{},
+													basicKind:     types.Float64,
+													BasicKindName: "float64",
+													Index:         len(gongstruct.Fields),
+												}
+											gongstruct.Fields = append(gongstruct.Fields, gongField)
+										case "bool":
+											gongField :=
+												&GongBasicField{
+													Name:          fieldName,
+													Type:          &types.Basic{},
+													basicKind:     types.Bool,
+													BasicKindName: "bool",
 													Index:         len(gongstruct.Fields),
 												}
 											gongstruct.Fields = append(gongstruct.Fields, gongField)
 										default:
-											log.Println("Cannot parse field of type ", __fieldType.Name)
+											// Check if type is an enum
+											if gongEnum, ok := modelPkg.GongEnums[modelPkg.PkgPath+"."+__fieldType.Name]; ok {
+												if gongEnum.Type == Int {
+													gongField :=
+														&GongBasicField{
+															Name:          fieldName,
+															Type:          &types.Basic{},
+															basicKind:     types.Int,
+															BasicKindName: "int",
+															GongEnum:      gongEnum,
+															DeclaredType:  __fieldType.Name,
+															Index:         len(gongstruct.Fields),
+														}
+													gongstruct.Fields = append(gongstruct.Fields, gongField)
+												}
+												if gongEnum.Type == String {
+													gongField :=
+														&GongBasicField{
+															Name:          fieldName,
+															Type:          &types.Basic{},
+															basicKind:     types.String,
+															BasicKindName: "string",
+															GongEnum:      gongEnum,
+															DeclaredType:  __fieldType.Name,
+															Index:         len(gongstruct.Fields),
+														}
+													gongstruct.Fields = append(gongstruct.Fields, gongField)
+												}
+
+											} else {
+												log.Println("Cannot parse field of type ", __fieldType.Name)
+											}
+
 										}
 									case *ast.SelectorExpr:
-										log.Println("Selector Type ", fieldName)
-										_ = __fieldType
 										// tries to match "time.Time" // "time.Duration"
 										switch __selX := __fieldType.X.(type) {
 										case *ast.Ident:
