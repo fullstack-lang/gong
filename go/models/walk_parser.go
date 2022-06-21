@@ -11,6 +11,10 @@ import (
 
 func WalkParser(parserPkgs map[string]*ast.Package, modelPkg *ModelPkg) {
 
+	// this is to store struct that are not gongstruct
+	// but that can be embedded
+	map_Structname_fieldList := make(map[string]*[]*ast.Field)
+
 	var pkg *ast.Package
 	var ok bool
 	if pkg, ok = parserPkgs["models"]; !ok {
@@ -121,9 +125,11 @@ func WalkParser(parserPkgs map[string]*ast.Package, modelPkg *ModelPkg) {
 								}
 							}
 
-							gongstruct := GongStruct{Name: typeSpec.Name.Name}
 							if isGongStruct {
-								modelPkg.GongStructs[modelPkg.PkgPath+"."+typeSpec.Name.Name] = &gongstruct
+								gongstruct := (&GongStruct{Name: typeSpec.Name.Name}).Stage()
+								modelPkg.GongStructs[modelPkg.PkgPath+"."+typeSpec.Name.Name] = gongstruct
+							} else {
+								map_Structname_fieldList[typeSpec.Name.Name] = &_type.Fields.List
 							}
 						default:
 						}
@@ -241,7 +247,7 @@ func WalkParser(parserPkgs map[string]*ast.Package, modelPkg *ModelPkg) {
 								}
 								_ = gongstruct
 
-								GenerateFieldParser(&_type.Fields.List, gongstruct, modelPkg)
+								GenerateFieldParser(&_type.Fields.List, gongstruct, &map_Structname_fieldList, modelPkg)
 							}
 						}
 					default:
