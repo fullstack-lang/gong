@@ -340,14 +340,14 @@ export class AstructsTableComponent implements OnInit {
 
   // display astruct in router
   displayAstructInRouter(astructID: number) {
-    this.router.navigate(["-" + "astruct-display", astructID])
+    this.router.navigate(["github_com_fullstack_lang_gong_test_go-" + "astruct-display", astructID])
   }
 
   // set editor outlet
   setEditorRouterOutlet(astructID: number) {
     this.router.navigate([{
       outlets: {
-        _editor: ["-" + "astruct-detail", astructID]
+        github_com_fullstack_lang_gong_test_go_editor: ["github_com_fullstack_lang_gong_test_go-" + "astruct-detail", astructID]
       }
     }]);
   }
@@ -356,7 +356,7 @@ export class AstructsTableComponent implements OnInit {
   setPresentationRouterOutlet(astructID: number) {
     this.router.navigate([{
       outlets: {
-        _presentation: ["-" + "astruct-presentation", astructID]
+        github_com_fullstack_lang_gong_test_go_presentation: ["github_com_fullstack_lang_gong_test_go-" + "astruct-presentation", astructID]
       }
     }]);
   }

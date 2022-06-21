@@ -21,6 +21,8 @@ import { BstructService } from '../bstruct.service'
 import { getBstructUniqueID } from '../front-repo.service'
 import { DstructService } from '../dstruct.service'
 import { getDstructUniqueID } from '../front-repo.service'
+import { EstructService } from '../estruct.service'
+import { getEstructUniqueID } from '../front-repo.service'
 
 /**
  * Types of a GongNode / GongFlatNode
@@ -64,7 +66,7 @@ interface GongFlatNode {
 
 
 @Component({
-  selector: 'app--sidebar',
+  selector: 'app-test-sidebar',
   templateUrl: './sidebar.component.html',
   styleUrls: ['./sidebar.component.css'],
 })
@@ -168,6 +170,7 @@ export class SidebarComponent implements OnInit {
     private astructbstructuseService: AstructBstructUseService,
     private bstructService: BstructService,
     private dstructService: DstructService,
+    private estructService: EstructService,
   ) { }
 
   ngOnDestroy() {
@@ -227,6 +230,14 @@ export class SidebarComponent implements OnInit {
     )
     // observable for changes in structs
     this.dstructService.DstructServiceChanged.subscribe(
+      message => {
+        if (message == "post" || message == "update" || message == "delete") {
+          this.refresh()
+        }
+      }
+    )
+    // observable for changes in structs
+    this.estructService.EstructServiceChanged.subscribe(
       message => {
         if (message == "post" || message == "update" || message == "delete") {
           this.refresh()
@@ -847,6 +858,50 @@ export class SidebarComponent implements OnInit {
         }
       )
 
+      /**
+      * fill up the Estruct part of the mat tree
+      */
+      let estructGongNodeStruct: GongNode = {
+        name: "Estruct",
+        type: GongNodeType.STRUCT,
+        id: 0,
+        uniqueIdPerStack: 13 * nonInstanceNodeId,
+        structName: "Estruct",
+        associationField: "",
+        associatedStructName: "",
+        children: new Array<GongNode>()
+      }
+      nonInstanceNodeId = nonInstanceNodeId + 1
+      this.gongNodeTree.push(estructGongNodeStruct)
+
+      this.frontRepo.Estructs_array.sort((t1, t2) => {
+        if (t1.Name > t2.Name) {
+          return 1;
+        }
+        if (t1.Name < t2.Name) {
+          return -1;
+        }
+        return 0;
+      });
+
+      this.frontRepo.Estructs_array.forEach(
+        estructDB => {
+          let estructGongNodeInstance: GongNode = {
+            name: estructDB.Name,
+            type: GongNodeType.INSTANCE,
+            id: estructDB.ID,
+            uniqueIdPerStack: getEstructUniqueID(estructDB.ID),
+            structName: "Estruct",
+            associationField: "",
+            associatedStructName: "",
+            children: new Array<GongNode>()
+          }
+          estructGongNodeStruct.children!.push(estructGongNodeInstance)
+
+          // insertion point for per field code
+        }
+      )
+
 
       this.dataSource.data = this.gongNodeTree
 
@@ -875,7 +930,7 @@ export class SidebarComponent implements OnInit {
   setTableRouterOutlet(path: string) {
     this.router.navigate([{
       outlets: {
-        _table: ["-" + path]
+        github_com_fullstack_lang_gong_test_go_table: ["github_com_fullstack_lang_gong_test_go-" + path]
       }
     }]);
   }
@@ -889,7 +944,7 @@ export class SidebarComponent implements OnInit {
     if (type == GongNodeType.STRUCT) {
       this.router.navigate([{
         outlets: {
-          _table: ["-" + path.toLowerCase()]
+          github_com_fullstack_lang_gong_test_go_table: ["github_com_fullstack_lang_gong_test_go-" + path.toLowerCase()]
         }
       }]);
     }
@@ -897,7 +952,7 @@ export class SidebarComponent implements OnInit {
     if (type == GongNodeType.INSTANCE) {
       this.router.navigate([{
         outlets: {
-          _presentation: ["-" + structName.toLowerCase() + "-presentation", id]
+          github_com_fullstack_lang_gong_test_go_presentation: ["github_com_fullstack_lang_gong_test_go-" + structName.toLowerCase() + "-presentation", id]
         }
       }]);
     }
@@ -906,7 +961,7 @@ export class SidebarComponent implements OnInit {
   setEditorRouterOutlet(path: string) {
     this.router.navigate([{
       outlets: {
-        _editor: ["-" + path.toLowerCase()]
+        github_com_fullstack_lang_gong_test_go_editor: ["github_com_fullstack_lang_gong_test_go-" + path.toLowerCase()]
       }
     }]);
   }
@@ -914,7 +969,7 @@ export class SidebarComponent implements OnInit {
   setEditorSpecialRouterOutlet(node: GongFlatNode) {
     this.router.navigate([{
       outlets: {
-        _editor: ["-" + node.associatedStructName.toLowerCase() + "-adder", node.id, node.structName, node.associationField]
+        github_com_fullstack_lang_gong_test_go_editor: ["github_com_fullstack_lang_gong_test_go-" + node.associatedStructName.toLowerCase() + "-adder", node.id, node.structName, node.associationField]
       }
     }]);
   }

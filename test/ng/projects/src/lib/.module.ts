@@ -64,6 +64,11 @@ import { DstructSortingComponent } from './dstruct-sorting/dstruct-sorting.compo
 import { DstructDetailComponent } from './dstruct-detail/dstruct-detail.component'
 import { DstructPresentationComponent } from './dstruct-presentation/dstruct-presentation.component'
 
+import { EstructsTableComponent } from './estructs-table/estructs-table.component'
+import { EstructSortingComponent } from './estruct-sorting/estruct-sorting.component'
+import { EstructDetailComponent } from './estruct-detail/estruct-detail.component'
+import { EstructPresentationComponent } from './estruct-presentation/estruct-presentation.component'
+
 
 @NgModule({
 	declarations: [
@@ -92,6 +97,11 @@ import { DstructPresentationComponent } from './dstruct-presentation/dstruct-pre
 		DstructSortingComponent,
 		DstructDetailComponent,
 		DstructPresentationComponent,
+
+		EstructsTableComponent,
+		EstructSortingComponent,
+		EstructDetailComponent,
+		EstructPresentationComponent,
 
 
 		SplitterComponent,
@@ -156,6 +166,11 @@ import { DstructPresentationComponent } from './dstruct-presentation/dstruct-pre
 		DstructSortingComponent,
 		DstructDetailComponent,
 		DstructPresentationComponent,
+
+		EstructsTableComponent,
+		EstructSortingComponent,
+		EstructDetailComponent,
+		EstructPresentationComponent,
 
 
 		SplitterComponent,

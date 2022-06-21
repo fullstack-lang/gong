@@ -22,42 +22,53 @@ import { DstructsTableComponent } from './dstructs-table/dstructs-table.componen
 import { DstructDetailComponent } from './dstruct-detail/dstruct-detail.component'
 import { DstructPresentationComponent } from './dstruct-presentation/dstruct-presentation.component'
 
+import { EstructsTableComponent } from './estructs-table/estructs-table.component'
+import { EstructDetailComponent } from './estruct-detail/estruct-detail.component'
+import { EstructPresentationComponent } from './estruct-presentation/estruct-presentation.component'
+
 
 const routes: Routes = [ // insertion point for routes declarations
-	{ path: '-astructs', component: AstructsTableComponent, outlet: '_table' },
-	{ path: '-astruct-adder', component: AstructDetailComponent, outlet: '_editor' },
-	{ path: '-astruct-adder/:id/:originStruct/:originStructFieldName', component: AstructDetailComponent, outlet: '_editor' },
-	{ path: '-astruct-detail/:id', component: AstructDetailComponent, outlet: '_editor' },
-	{ path: '-astruct-presentation/:id', component: AstructPresentationComponent, outlet: '_presentation' },
-	{ path: '-astruct-presentation-special/:id', component: AstructPresentationComponent, outlet: 'astructpres' },
+	{ path: 'github_com_fullstack_lang_gong_test_go-astructs', component: AstructsTableComponent, outlet: 'github_com_fullstack_lang_gong_test_go_table' },
+	{ path: 'github_com_fullstack_lang_gong_test_go-astruct-adder', component: AstructDetailComponent, outlet: 'github_com_fullstack_lang_gong_test_go_editor' },
+	{ path: 'github_com_fullstack_lang_gong_test_go-astruct-adder/:id/:originStruct/:originStructFieldName', component: AstructDetailComponent, outlet: 'github_com_fullstack_lang_gong_test_go_editor' },
+	{ path: 'github_com_fullstack_lang_gong_test_go-astruct-detail/:id', component: AstructDetailComponent, outlet: 'github_com_fullstack_lang_gong_test_go_editor' },
+	{ path: 'github_com_fullstack_lang_gong_test_go-astruct-presentation/:id', component: AstructPresentationComponent, outlet: 'github_com_fullstack_lang_gong_test_go_presentation' },
+	{ path: 'github_com_fullstack_lang_gong_test_go-astruct-presentation-special/:id', component: AstructPresentationComponent, outlet: 'github_com_fullstack_lang_gong_test_goastructpres' },
 
-	{ path: '-astructbstruct2uses', component: AstructBstruct2UsesTableComponent, outlet: '_table' },
-	{ path: '-astructbstruct2use-adder', component: AstructBstruct2UseDetailComponent, outlet: '_editor' },
-	{ path: '-astructbstruct2use-adder/:id/:originStruct/:originStructFieldName', component: AstructBstruct2UseDetailComponent, outlet: '_editor' },
-	{ path: '-astructbstruct2use-detail/:id', component: AstructBstruct2UseDetailComponent, outlet: '_editor' },
-	{ path: '-astructbstruct2use-presentation/:id', component: AstructBstruct2UsePresentationComponent, outlet: '_presentation' },
-	{ path: '-astructbstruct2use-presentation-special/:id', component: AstructBstruct2UsePresentationComponent, outlet: 'astructbstruct2usepres' },
+	{ path: 'github_com_fullstack_lang_gong_test_go-astructbstruct2uses', component: AstructBstruct2UsesTableComponent, outlet: 'github_com_fullstack_lang_gong_test_go_table' },
+	{ path: 'github_com_fullstack_lang_gong_test_go-astructbstruct2use-adder', component: AstructBstruct2UseDetailComponent, outlet: 'github_com_fullstack_lang_gong_test_go_editor' },
+	{ path: 'github_com_fullstack_lang_gong_test_go-astructbstruct2use-adder/:id/:originStruct/:originStructFieldName', component: AstructBstruct2UseDetailComponent, outlet: 'github_com_fullstack_lang_gong_test_go_editor' },
+	{ path: 'github_com_fullstack_lang_gong_test_go-astructbstruct2use-detail/:id', component: AstructBstruct2UseDetailComponent, outlet: 'github_com_fullstack_lang_gong_test_go_editor' },
+	{ path: 'github_com_fullstack_lang_gong_test_go-astructbstruct2use-presentation/:id', component: AstructBstruct2UsePresentationComponent, outlet: 'github_com_fullstack_lang_gong_test_go_presentation' },
+	{ path: 'github_com_fullstack_lang_gong_test_go-astructbstruct2use-presentation-special/:id', component: AstructBstruct2UsePresentationComponent, outlet: 'github_com_fullstack_lang_gong_test_goastructbstruct2usepres' },
 
-	{ path: '-astructbstructuses', component: AstructBstructUsesTableComponent, outlet: '_table' },
-	{ path: '-astructbstructuse-adder', component: AstructBstructUseDetailComponent, outlet: '_editor' },
-	{ path: '-astructbstructuse-adder/:id/:originStruct/:originStructFieldName', component: AstructBstructUseDetailComponent, outlet: '_editor' },
-	{ path: '-astructbstructuse-detail/:id', component: AstructBstructUseDetailComponent, outlet: '_editor' },
-	{ path: '-astructbstructuse-presentation/:id', component: AstructBstructUsePresentationComponent, outlet: '_presentation' },
-	{ path: '-astructbstructuse-presentation-special/:id', component: AstructBstructUsePresentationComponent, outlet: 'astructbstructusepres' },
+	{ path: 'github_com_fullstack_lang_gong_test_go-astructbstructuses', component: AstructBstructUsesTableComponent, outlet: 'github_com_fullstack_lang_gong_test_go_table' },
+	{ path: 'github_com_fullstack_lang_gong_test_go-astructbstructuse-adder', component: AstructBstructUseDetailComponent, outlet: 'github_com_fullstack_lang_gong_test_go_editor' },
+	{ path: 'github_com_fullstack_lang_gong_test_go-astructbstructuse-adder/:id/:originStruct/:originStructFieldName', component: AstructBstructUseDetailComponent, outlet: 'github_com_fullstack_lang_gong_test_go_editor' },
+	{ path: 'github_com_fullstack_lang_gong_test_go-astructbstructuse-detail/:id', component: AstructBstructUseDetailComponent, outlet: 'github_com_fullstack_lang_gong_test_go_editor' },
+	{ path: 'github_com_fullstack_lang_gong_test_go-astructbstructuse-presentation/:id', component: AstructBstructUsePresentationComponent, outlet: 'github_com_fullstack_lang_gong_test_go_presentation' },
+	{ path: 'github_com_fullstack_lang_gong_test_go-astructbstructuse-presentation-special/:id', component: AstructBstructUsePresentationComponent, outlet: 'github_com_fullstack_lang_gong_test_goastructbstructusepres' },
 
-	{ path: '-bstructs', component: BstructsTableComponent, outlet: '_table' },
-	{ path: '-bstruct-adder', component: BstructDetailComponent, outlet: '_editor' },
-	{ path: '-bstruct-adder/:id/:originStruct/:originStructFieldName', component: BstructDetailComponent, outlet: '_editor' },
-	{ path: '-bstruct-detail/:id', component: BstructDetailComponent, outlet: '_editor' },
-	{ path: '-bstruct-presentation/:id', component: BstructPresentationComponent, outlet: '_presentation' },
-	{ path: '-bstruct-presentation-special/:id', component: BstructPresentationComponent, outlet: 'bstructpres' },
+	{ path: 'github_com_fullstack_lang_gong_test_go-bstructs', component: BstructsTableComponent, outlet: 'github_com_fullstack_lang_gong_test_go_table' },
+	{ path: 'github_com_fullstack_lang_gong_test_go-bstruct-adder', component: BstructDetailComponent, outlet: 'github_com_fullstack_lang_gong_test_go_editor' },
+	{ path: 'github_com_fullstack_lang_gong_test_go-bstruct-adder/:id/:originStruct/:originStructFieldName', component: BstructDetailComponent, outlet: 'github_com_fullstack_lang_gong_test_go_editor' },
+	{ path: 'github_com_fullstack_lang_gong_test_go-bstruct-detail/:id', component: BstructDetailComponent, outlet: 'github_com_fullstack_lang_gong_test_go_editor' },
+	{ path: 'github_com_fullstack_lang_gong_test_go-bstruct-presentation/:id', component: BstructPresentationComponent, outlet: 'github_com_fullstack_lang_gong_test_go_presentation' },
+	{ path: 'github_com_fullstack_lang_gong_test_go-bstruct-presentation-special/:id', component: BstructPresentationComponent, outlet: 'github_com_fullstack_lang_gong_test_gobstructpres' },
 
-	{ path: '-dstructs', component: DstructsTableComponent, outlet: '_table' },
-	{ path: '-dstruct-adder', component: DstructDetailComponent, outlet: '_editor' },
-	{ path: '-dstruct-adder/:id/:originStruct/:originStructFieldName', component: DstructDetailComponent, outlet: '_editor' },
-	{ path: '-dstruct-detail/:id', component: DstructDetailComponent, outlet: '_editor' },
-	{ path: '-dstruct-presentation/:id', component: DstructPresentationComponent, outlet: '_presentation' },
-	{ path: '-dstruct-presentation-special/:id', component: DstructPresentationComponent, outlet: 'dstructpres' },
+	{ path: 'github_com_fullstack_lang_gong_test_go-dstructs', component: DstructsTableComponent, outlet: 'github_com_fullstack_lang_gong_test_go_table' },
+	{ path: 'github_com_fullstack_lang_gong_test_go-dstruct-adder', component: DstructDetailComponent, outlet: 'github_com_fullstack_lang_gong_test_go_editor' },
+	{ path: 'github_com_fullstack_lang_gong_test_go-dstruct-adder/:id/:originStruct/:originStructFieldName', component: DstructDetailComponent, outlet: 'github_com_fullstack_lang_gong_test_go_editor' },
+	{ path: 'github_com_fullstack_lang_gong_test_go-dstruct-detail/:id', component: DstructDetailComponent, outlet: 'github_com_fullstack_lang_gong_test_go_editor' },
+	{ path: 'github_com_fullstack_lang_gong_test_go-dstruct-presentation/:id', component: DstructPresentationComponent, outlet: 'github_com_fullstack_lang_gong_test_go_presentation' },
+	{ path: 'github_com_fullstack_lang_gong_test_go-dstruct-presentation-special/:id', component: DstructPresentationComponent, outlet: 'github_com_fullstack_lang_gong_test_godstructpres' },
+
+	{ path: 'github_com_fullstack_lang_gong_test_go-estructs', component: EstructsTableComponent, outlet: 'github_com_fullstack_lang_gong_test_go_table' },
+	{ path: 'github_com_fullstack_lang_gong_test_go-estruct-adder', component: EstructDetailComponent, outlet: 'github_com_fullstack_lang_gong_test_go_editor' },
+	{ path: 'github_com_fullstack_lang_gong_test_go-estruct-adder/:id/:originStruct/:originStructFieldName', component: EstructDetailComponent, outlet: 'github_com_fullstack_lang_gong_test_go_editor' },
+	{ path: 'github_com_fullstack_lang_gong_test_go-estruct-detail/:id', component: EstructDetailComponent, outlet: 'github_com_fullstack_lang_gong_test_go_editor' },
+	{ path: 'github_com_fullstack_lang_gong_test_go-estruct-presentation/:id', component: EstructPresentationComponent, outlet: 'github_com_fullstack_lang_gong_test_go_presentation' },
+	{ path: 'github_com_fullstack_lang_gong_test_go-estruct-presentation-special/:id', component: EstructPresentationComponent, outlet: 'github_com_fullstack_lang_gong_test_goestructpres' },
 
 ];
 

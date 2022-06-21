@@ -19,6 +19,9 @@ import { BstructService } from './bstruct.service'
 import { DstructDB } from './dstruct-db'
 import { DstructService } from './dstruct.service'
 
+import { EstructDB } from './estruct-db'
+import { EstructService } from './estruct.service'
+
 
 // FrontRepo stores all instances in a front repository (design pattern repository)
 export class FrontRepo { // insertion point sub template 
@@ -37,6 +40,9 @@ export class FrontRepo { // insertion point sub template
   Dstructs_array = new Array<DstructDB>(); // array of repo instances
   Dstructs = new Map<number, DstructDB>(); // map of repo instances
   Dstructs_batch = new Map<number, DstructDB>(); // same but only in last GET (for finding repo instances to delete)
+  Estructs_array = new Array<EstructDB>(); // array of repo instances
+  Estructs = new Map<number, EstructDB>(); // map of repo instances
+  Estructs_batch = new Map<number, EstructDB>(); // same but only in last GET (for finding repo instances to delete)
 }
 
 //
@@ -100,6 +106,7 @@ export class FrontRepoService {
     private astructbstructuseService: AstructBstructUseService,
     private bstructService: BstructService,
     private dstructService: DstructService,
+    private estructService: EstructService,
   ) { }
 
   // postService provides a post function for each struct name
@@ -135,12 +142,14 @@ export class FrontRepoService {
     Observable<AstructBstructUseDB[]>,
     Observable<BstructDB[]>,
     Observable<DstructDB[]>,
+    Observable<EstructDB[]>,
   ] = [ // insertion point sub template 
       this.astructService.getAstructs(),
       this.astructbstruct2useService.getAstructBstruct2Uses(),
       this.astructbstructuseService.getAstructBstructUses(),
       this.bstructService.getBstructs(),
       this.dstructService.getDstructs(),
+      this.estructService.getEstructs(),
     ];
 
   //
@@ -161,6 +170,7 @@ export class FrontRepoService {
             astructbstructuses_,
             bstructs_,
             dstructs_,
+            estructs_,
           ]) => {
             // Typing can be messy with many items. Therefore, type casting is necessary here
             // insertion point sub template for type casting 
@@ -174,6 +184,8 @@ export class FrontRepoService {
             bstructs = bstructs_ as BstructDB[]
             var dstructs: DstructDB[]
             dstructs = dstructs_ as DstructDB[]
+            var estructs: EstructDB[]
+            estructs = estructs_ as EstructDB[]
 
             // 
             // First Step: init map of instances
@@ -343,6 +355,39 @@ export class FrontRepoService {
               return 0;
             });
 
+            // init the array
+            FrontRepoSingloton.Estructs_array = estructs
+
+            // clear the map that counts Estruct in the GET
+            FrontRepoSingloton.Estructs_batch.clear()
+
+            estructs.forEach(
+              estruct => {
+                FrontRepoSingloton.Estructs.set(estruct.ID, estruct)
+                FrontRepoSingloton.Estructs_batch.set(estruct.ID, estruct)
+              }
+            )
+
+            // clear estructs that are absent from the batch
+            FrontRepoSingloton.Estructs.forEach(
+              estruct => {
+                if (FrontRepoSingloton.Estructs_batch.get(estruct.ID) == undefined) {
+                  FrontRepoSingloton.Estructs.delete(estruct.ID)
+                }
+              }
+            )
+
+            // sort Estructs_array array
+            FrontRepoSingloton.Estructs_array.sort((t1, t2) => {
+              if (t1.Name > t2.Name) {
+                return 1;
+              }
+              if (t1.Name < t2.Name) {
+                return -1;
+              }
+              return 0;
+            });
+
 
             // 
             // Second Step: redeem pointers between instances (thanks to maps in the First Step)
@@ -484,6 +529,13 @@ export class FrontRepoService {
             )
             dstructs.forEach(
               dstruct => {
+                // insertion point sub sub template for ONE-/ZERO-ONE associations pointers redeeming
+
+                // insertion point for redeeming ONE-MANY associations
+              }
+            )
+            estructs.forEach(
+              estruct => {
                 // insertion point sub sub template for ONE-/ZERO-ONE associations pointers redeeming
 
                 // insertion point for redeeming ONE-MANY associations
@@ -861,6 +913,57 @@ export class FrontRepoService {
       }
     )
   }
+
+  // EstructPull performs a GET on Estruct of the stack and redeem association pointers 
+  EstructPull(): Observable<FrontRepo> {
+    return new Observable<FrontRepo>(
+      (observer) => {
+        combineLatest([
+          this.estructService.getEstructs()
+        ]).subscribe(
+          ([ // insertion point sub template 
+            estructs,
+          ]) => {
+            // init the array
+            FrontRepoSingloton.Estructs_array = estructs
+
+            // clear the map that counts Estruct in the GET
+            FrontRepoSingloton.Estructs_batch.clear()
+
+            // 
+            // First Step: init map of instances
+            // insertion point sub template 
+            estructs.forEach(
+              estruct => {
+                FrontRepoSingloton.Estructs.set(estruct.ID, estruct)
+                FrontRepoSingloton.Estructs_batch.set(estruct.ID, estruct)
+
+                // insertion point for redeeming ONE/ZERO-ONE associations
+
+                // insertion point for redeeming ONE-MANY associations
+              }
+            )
+
+            // clear estructs that are absent from the GET
+            FrontRepoSingloton.Estructs.forEach(
+              estruct => {
+                if (FrontRepoSingloton.Estructs_batch.get(estruct.ID) == undefined) {
+                  FrontRepoSingloton.Estructs.delete(estruct.ID)
+                }
+              }
+            )
+
+            // 
+            // Second Step: redeem pointers between instances (thanks to maps in the First Step)
+            // insertion point sub template 
+
+            // hand over control flow to observer
+            observer.next(FrontRepoSingloton)
+          }
+        )
+      }
+    )
+  }
 }
 
 // insertion point for get unique ID per struct 
@@ -878,4 +981,7 @@ export function getBstructUniqueID(id: number): number {
 }
 export function getDstructUniqueID(id: number): number {
   return 47 * id
+}
+export function getEstructUniqueID(id: number): number {
+  return 53 * id
 }

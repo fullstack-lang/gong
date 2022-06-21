@@ -76,7 +76,7 @@ export class DstructPresentationComponent implements OnInit {
 	setPresentationRouterOutlet(structName: string, ID: number) {
 		this.router.navigate([{
 			outlets: {
-				_presentation: ["-" + structName + "-presentation", ID]
+				github_com_fullstack_lang_gong_test_go_presentation: ["github_com_fullstack_lang_gong_test_go-" + structName + "-presentation", ID]
 			}
 		}]);
 	}
@@ -85,7 +85,7 @@ export class DstructPresentationComponent implements OnInit {
 	setEditorRouterOutlet(ID: number) {
 		this.router.navigate([{
 			outlets: {
-				_editor: ["-" + "dstruct-detail", ID]
+				github_com_fullstack_lang_gong_test_go_editor: ["github_com_fullstack_lang_gong_test_go-" + "dstruct-detail", ID]
 			}
 		}]);
 	}
