@@ -12,7 +12,6 @@ import (
 func WalkLoader(pkg *packages.Package, modelPkg *ModelPkg) {
 
 	// compute root package path name
-	PkgGoPath = pkg.PkgPath
 	PkgName = filepath.Base(filepath.Join(pkg.PkgPath, "../.."))
 
 	modelPkg.Name = PkgName
@@ -60,7 +59,7 @@ func WalkLoader(pkg *packages.Package, modelPkg *ModelPkg) {
 			// log.Printf("%s is a Const declation with type %s of package path %s", cst.Name(), named.Obj().Name(), named.Obj().Pkg().Path())
 
 			// if type of the const is not a gong type (a type of the package), do not take into account
-			if named.Obj().Pkg().Path() != PkgGoPath {
+			if named.Obj().Pkg().Path() != modelPkg.PkgPath {
 				continue
 			}
 

@@ -70,13 +70,13 @@ type BstructDB struct {
 
 	// insertion for basic fields declaration
 
-	// Declation for basic field bstructDB.Name {{BasicKind}} (to be completed)
+	// Declation for basic field bstructDB.Name
 	Name_Data sql.NullString
 
-	// Declation for basic field bstructDB.Floatfield {{BasicKind}} (to be completed)
+	// Declation for basic field bstructDB.Floatfield
 	Floatfield_Data sql.NullFloat64
 
-	// Declation for basic field bstructDB.Intfield {{BasicKind}} (to be completed)
+	// Declation for basic field bstructDB.Intfield
 	Intfield_Data sql.NullInt64
 	// encoding of pointers
 	BstructPointersEnconding

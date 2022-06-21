@@ -199,7 +199,7 @@ func main() {
 			gong_models.VerySimpleCodeGenerator(
 				&modelPkg,
 				gong_models.PkgName,
-				gong_models.PkgGoPath,
+				modelPkg.PkgPath,
 				mainFilePath,
 				gong_models.PackageMain)
 		}
@@ -228,14 +228,14 @@ func main() {
 			gong_models.VerySimpleCodeGenerator(
 				&modelPkg,
 				gong_models.PkgName,
-				gong_models.PkgGoPath,
+				modelPkg.PkgPath,
 				filepath.Join(vscodeDirFilePath, "launch.json"),
 				gong_models.VsCodeLaunchConfig)
 
 			gong_models.VerySimpleCodeGenerator(
 				&modelPkg,
 				gong_models.PkgName,
-				gong_models.PkgGoPath,
+				modelPkg.PkgPath,
 				filepath.Join(vscodeDirFilePath, "tasks.json"),
 				gong_models.VsCodeTasksConfig)
 		}
@@ -365,21 +365,21 @@ func main() {
 				gong_models.VerySimpleCodeGenerator(
 					&modelPkg,
 					gong_models.PkgName,
-					gong_models.PkgGoPath,
+					modelPkg.PkgPath,
 					filepath.Join(gong_models.NgWorkspacePath, "src/app/app.module.ts"),
 					gong_models.NgFileModule)
 
 				gong_models.VerySimpleCodeGenerator(
 					&modelPkg,
 					gong_models.PkgName,
-					gong_models.PkgGoPath,
+					modelPkg.PkgPath,
 					filepath.Join(gong_models.NgWorkspacePath, "src/app/app.component.ts"),
 					gong_models.NgFileAppComponentTs)
 
 				gong_models.VerySimpleCodeGenerator(
 					&modelPkg,
 					gong_models.PkgName,
-					gong_models.PkgGoPath,
+					modelPkg.PkgPath,
 					filepath.Join(gong_models.NgWorkspacePath, "src/app/app.component.html"),
 					gong_models.NgFileAppComponentHtml)
 
@@ -604,13 +604,13 @@ func main() {
 	gong_models.VerySimpleCodeGenerator(
 		&modelPkg,
 		strings.Title(gong_models.PkgName),
-		gong_models.PkgGoPath, filepath.Join(gong_models.NgWorkspacePath, "embed.go"),
+		modelPkg.PkgPath, filepath.Join(gong_models.NgWorkspacePath, "embed.go"),
 		gong_models.GoProjectsGo)
 
 	gong_models.VerySimpleCodeGenerator(
 		&modelPkg,
 		strings.Title(gong_models.PkgName),
-		gong_models.PkgGoPath, filepath.Join(gong_models.NgWorkspacePath, "../embed.go"),
+		modelPkg.PkgPath, filepath.Join(gong_models.NgWorkspacePath, "../embed.go"),
 		gong_models.EmebedNgDistNg)
 
 	gong_models.CodeGeneratorModelGong(
@@ -622,40 +622,40 @@ func main() {
 	gong_models.SimpleCodeGeneratorForGongStructWithNameField(
 		&modelPkg,
 		gong_models.PkgName,
-		gong_models.PkgGoPath,
+		modelPkg.PkgPath,
 		filepath.Join(*pkgPath, "../orm/setup.go"),
 		gong_models.OrmFileSetupTemplate, gong_models.OrmSetupCumulSubTemplateCode)
 
 	gong_models.SimpleCodeGeneratorForGongStructWithNameField(
 		&modelPkg,
 		gong_models.PkgName,
-		gong_models.PkgGoPath,
+		modelPkg.PkgPath,
 		filepath.Join(*pkgPath, "../orm/back_repo.go"),
 		gong_models.BackRepoTemplateCode, gong_models.BackRepoSubTemplate)
 
 	gong_models.SimpleCodeGeneratorForGongStructWithNameField(
 		&modelPkg,
 		gong_models.PkgName,
-		gong_models.PkgGoPath,
+		modelPkg.PkgPath,
 		filepath.Join(*pkgPath, "../controllers/register_controllers.go"),
 		gong_models.ControllersRegisterTemplate, gong_models.ControllersRegistrationsSubTemplate)
 
 	gong_models.MultiCodeGeneratorBackRepo(
 		&modelPkg,
 		gong_models.PkgName,
-		gong_models.PkgGoPath,
+		modelPkg.PkgPath,
 		gong_models.OrmPkgGenPath)
 
 	gong_models.MultiCodeGeneratorControllers(
 		&modelPkg,
 		gong_models.PkgName,
-		gong_models.PkgGoPath,
+		modelPkg.PkgPath,
 		gong_models.ControllersPkgGenPath)
 
 	gong_models.VerySimpleCodeGenerator(
 		&modelPkg,
 		gong_models.PkgName,
-		gong_models.PkgGoPath,
+		modelPkg.PkgPath,
 		filepath.Join(*pkgPath, "../docs.go"),
 		gong_models.RootFileDocsTemplate)
 
@@ -711,113 +711,113 @@ func main() {
 		&modelPkg,
 		gong_models.PkgName,
 		gong_models.MatTargetPath,
-		gong_models.PkgGoPath)
+		modelPkg.PkgPath)
 
 	gong_models.MultiCodeGeneratorNgPresentation(
 		&modelPkg,
 		gong_models.PkgName,
 		gong_models.MatTargetPath,
-		gong_models.PkgGoPath)
+		modelPkg.PkgPath)
 
 	gong_models.MultiCodeGeneratorNgClass(
 		&modelPkg,
 		gong_models.PkgName,
 		gong_models.MatTargetPath,
-		gong_models.PkgGoPath)
+		modelPkg.PkgPath)
 
 	gong_models.MultiCodeGeneratorNgService(
 		&modelPkg,
 		gong_models.PkgName,
 		gong_models.MatTargetPath,
-		gong_models.PkgGoPath,
+		modelPkg.PkgPath,
 		*addr)
 
 	gong_models.CodeGeneratorNgCommitNb(
 		&modelPkg,
 		gong_models.PkgName,
 		gong_models.MatTargetPath,
-		gong_models.PkgGoPath,
+		modelPkg.PkgPath,
 		*addr)
 
 	gong_models.CodeGeneratorNgGongselectionServiceTs(
 		&modelPkg,
 		gong_models.PkgName,
 		gong_models.MatTargetPath,
-		gong_models.PkgGoPath,
+		modelPkg.PkgPath,
 		*addr)
 
 	gong_models.CodeGeneratorNgNullInt64(
 		&modelPkg,
 		gong_models.PkgName,
 		gong_models.MatTargetPath,
-		gong_models.PkgGoPath,
+		modelPkg.PkgPath,
 		*addr)
 
 	gong_models.CodeGeneratorNgPushFromFrontNb(
 		&modelPkg,
 		gong_models.PkgName,
 		gong_models.MatTargetPath,
-		gong_models.PkgGoPath,
+		modelPkg.PkgPath,
 		*addr)
 
 	gong_models.MultiCodeGeneratorNgTable(
 		&modelPkg,
 		gong_models.PkgName,
 		gong_models.MatTargetPath,
-		gong_models.PkgGoPath)
+		modelPkg.PkgPath)
 
 	gong_models.MultiCodeGeneratorNgSorting(
 		&modelPkg,
 		gong_models.PkgName,
 		gong_models.MatTargetPath,
-		gong_models.PkgGoPath)
+		modelPkg.PkgPath)
 
 	gong_models.CodeGeneratorNgFrontRepo(
 		&modelPkg,
 		gong_models.PkgName,
 		gong_models.MatTargetPath,
-		gong_models.PkgGoPath)
+		modelPkg.PkgPath)
 
 	gong_models.CodeGeneratorNgSidebar(
 		&modelPkg,
 		gong_models.PkgName,
 		gong_models.MatTargetPath,
-		gong_models.PkgGoPath)
+		modelPkg.PkgPath)
 
 	gong_models.CodeGeneratorNgEnum(
 		&modelPkg,
 		gong_models.PkgName,
 		gong_models.MatTargetPath,
-		gong_models.PkgGoPath)
+		modelPkg.PkgPath)
 
 	gong_models.CodeGeneratorNgPublicApi(
 		&modelPkg,
 		gong_models.PkgName,
 		gong_models.MatTargetPath,
-		gong_models.PkgGoPath)
+		modelPkg.PkgPath)
 
 	gong_models.CodeGeneratorNgSplitter(
 		&modelPkg,
 		gong_models.PkgName,
 		gong_models.MatTargetPath,
-		gong_models.PkgGoPath)
+		modelPkg.PkgPath)
 
 	gong_models.SimpleCodeGeneratorForGongStructWithNameField(
 		&modelPkg,
 		strings.Title(gong_models.PkgName),
-		gong_models.PkgGoPath, filepath.Join(gong_models.MatTargetPath, gong_models.PkgName+".module.ts"),
+		modelPkg.PkgPath, filepath.Join(gong_models.MatTargetPath, gong_models.PkgName+".module.ts"),
 		gong_models.NgLibModuleTemplate, gong_models.NgLibModuleSubTemplateCode)
 
 	gong_models.SimpleCodeGeneratorForGongStructWithNameField(
 		&modelPkg,
 		strings.Title(gong_models.PkgName),
-		gong_models.PkgGoPath, filepath.Join(gong_models.MatTargetPath, "app-routing.module.ts"),
+		modelPkg.PkgPath, filepath.Join(gong_models.MatTargetPath, "app-routing.module.ts"),
 		gong_models.NgRoutingTemplate, gong_models.NgRoutingSubTemplateCode)
 
 	gong_models.SimpleCodeGeneratorForGongStructWithNameField(
 		&modelPkg,
 		gong_models.PkgName,
-		gong_models.PkgGoPath, filepath.Join(gong_models.MatTargetPath, "map-components.ts"),
+		modelPkg.PkgPath, filepath.Join(gong_models.MatTargetPath, "map-components.ts"),
 		gong_models.NgLibMapComponentsServiceTemplate, gong_models.NgLibMapComponentsSubTemplateCode)
 
 	apiYamlFilePath := fmt.Sprintf("%s/%sapi.yml", gong_models.ControllersPkgGenPath, gong_models.PkgName)

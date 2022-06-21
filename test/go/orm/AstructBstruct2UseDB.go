@@ -68,7 +68,7 @@ type AstructBstruct2UseDB struct {
 
 	// insertion for basic fields declaration
 
-	// Declation for basic field astructbstruct2useDB.Name {{BasicKind}} (to be completed)
+	// Declation for basic field astructbstruct2useDB.Name
 	Name_Data sql.NullString
 	// encoding of pointers
 	AstructBstruct2UsePointersEnconding

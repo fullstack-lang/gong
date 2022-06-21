@@ -201,7 +201,7 @@ export class SidebarGongdocDiagramsComponent implements OnInit {
       this.frontRepo.Classdiagrams_array.forEach(
         (classdiagramDB: gongdoc.ClassdiagramDB) => {
           let classdiagramGongNodeInstance: GongNode = {
-            name: "var : " + classdiagramDB.Name,
+            name: classdiagramDB.Name,
             type: GongNodeType.CLASS_DIAGRAM_INSTANCE,
             id: 3 * classdiagramDB.ID,
             structName: "Classdiagram",
@@ -254,7 +254,7 @@ export class SidebarGongdocDiagramsComponent implements OnInit {
       this.frontRepo.Umlscs_array.forEach(
         (umlscDB: gongdoc.UmlscDB) => {
           let umlscGongNodeInstance: GongNode = {
-            name: "var : " + umlscDB.Name,
+            name: umlscDB.Name,
             type: GongNodeType.STATE_CHART_INSTANCE,
             id: 7 * umlscDB.ID,
             structName: "Umlsc",

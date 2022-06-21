@@ -98,7 +98,7 @@ func CodeGeneratorNgPushFromFrontNb(
 		"{{PkgName}}", PkgName,
 		"{{TitlePkgName}}", strings.Title(PkgName),
 		"{{pkgname}}", strings.ToLower(PkgName),
-		"{{PkgPathRoot}}", strings.ReplaceAll(PkgGoPath, "/models", ""))
+		"{{PkgPathRoot}}", strings.ReplaceAll(mdlPkg.PkgPath, "/models", ""))
 
 	file, err := os.Create(filepath.Join(matTargetPath, "push_from_front_nb.service.ts"))
 	if err != nil {
