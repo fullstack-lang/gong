@@ -6,9 +6,6 @@ var PathToGoSubDirectory string
 // OrmPkgGenPath is target path for orm package, for instance "/tmp/libraryorm"
 var OrmPkgGenPath string
 
-// ApiPkgGenPath is target path for api package
-var ApiPkgGenPath string
-
 // ControllersPkgGenPath is target path for controllers package, for instance "/tmp/librarycontrollers"
 var ControllersPkgGenPath string
 
