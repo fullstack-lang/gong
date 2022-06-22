@@ -9,8 +9,6 @@
   import { BstructSortingComponent } from './bstruct-sorting/bstruct-sorting.component'
   import { DstructsTableComponent } from './dstructs-table/dstructs-table.component'
   import { DstructSortingComponent } from './dstruct-sorting/dstruct-sorting.component'
-  import { EstructsTableComponent } from './estructs-table/estructs-table.component'
-  import { EstructSortingComponent } from './estruct-sorting/estruct-sorting.component'
 
 // insertion point sub template for map of components per struct 
   export const MapOfAstructsComponents: Map<string, any> = new Map([["AstructsTableComponent", AstructsTableComponent],])
@@ -23,8 +21,6 @@
   export const MapOfBstructSortingComponents: Map<string, any> = new Map([["BstructSortingComponent", BstructSortingComponent],])
   export const MapOfDstructsComponents: Map<string, any> = new Map([["DstructsTableComponent", DstructsTableComponent],])
   export const MapOfDstructSortingComponents: Map<string, any> = new Map([["DstructSortingComponent", DstructSortingComponent],])
-  export const MapOfEstructsComponents: Map<string, any> = new Map([["EstructsTableComponent", EstructsTableComponent],])
-  export const MapOfEstructSortingComponents: Map<string, any> = new Map([["EstructSortingComponent", EstructSortingComponent],])
 
 // map of all ng components of the stacks
 export const MapOfComponents: Map<string, any> =
@@ -36,7 +32,6 @@ export const MapOfComponents: Map<string, any> =
       ["AstructBstructUse", MapOfAstructBstructUsesComponents],
       ["Bstruct", MapOfBstructsComponents],
       ["Dstruct", MapOfDstructsComponents],
-      ["Estruct", MapOfEstructsComponents],
     ]
   )
 
@@ -50,6 +45,5 @@ export const MapOfSortingComponents: Map<string, any> =
       ["AstructBstructUse", MapOfAstructBstructUseSortingComponents],
       ["Bstruct", MapOfBstructSortingComponents],
       ["Dstruct", MapOfDstructSortingComponents],
-      ["Estruct", MapOfEstructSortingComponents],
     ]
   )

@@ -3,6 +3,7 @@ package models
 import (
 	"fmt"
 	"go/ast"
+	"go/doc"
 	"log"
 	"os"
 	"strings"
@@ -26,6 +27,13 @@ func WalkParser(parserPkgs map[string]*ast.Package, modelPkg *ModelPkg) {
 
 	if len(pkg.Files) == 0 {
 		log.Fatal("No go file to parse")
+	}
+
+	typeDocumentation := doc.New(pkg, "./", 0)
+
+	map_StructName_hasIgnoreStatement := make(map[string]bool)
+	for _, t := range typeDocumentation.Types {
+		map_StructName_hasIgnoreStatement[t.Name] = strings.Contains(t.Doc, "swagger:ignore")
 	}
 
 	// first pass : get "type" definition for enum & struct
@@ -55,7 +63,7 @@ func WalkParser(parserPkgs map[string]*ast.Package, modelPkg *ModelPkg) {
 		}
 
 		// for exploration
-		// if fileName != "astruct.go" {
+		// if fileName != "estruct.go" {
 		// 	continue
 		// }
 		// if fileName != "cenum_int.go" {
@@ -118,14 +126,15 @@ func WalkParser(parserPkgs map[string]*ast.Package, modelPkg *ModelPkg) {
 						case *ast.StructType:
 
 							// fetch the name of the Gongstruct by identifying if there is a field with name "Name"
-							var isGongStruct bool
+							var hasNameField bool
 							for _, field := range _type.Fields.List {
 								if len(field.Names) > 0 && field.Names[0].Name == "Name" {
-									isGongStruct = true
+									hasNameField = true
 								}
 							}
+							hasIgnoreStatement := map_StructName_hasIgnoreStatement[typeSpec.Name.Name]
 
-							if isGongStruct {
+							if hasNameField && !hasIgnoreStatement {
 								gongstruct := (&GongStruct{Name: typeSpec.Name.Name}).Stage()
 								modelPkg.GongStructs[modelPkg.PkgPath+"."+typeSpec.Name.Name] = gongstruct
 							} else {
@@ -238,8 +247,8 @@ func WalkParser(parserPkgs map[string]*ast.Package, modelPkg *ModelPkg) {
 									isGongStruct = true
 								}
 							}
-
-							if isGongStruct {
+							hasIgnoreStatement := map_StructName_hasIgnoreStatement[spec.Name.Name]
+							if isGongStruct && !hasIgnoreStatement {
 								gongstruct, ok := modelPkg.GongStructs[modelPkg.PkgPath+"."+spec.Name.Name]
 								structName := spec.Name.Name
 								if !ok {
