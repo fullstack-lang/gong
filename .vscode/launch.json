@@ -164,6 +164,17 @@
             ]
         },
         {
+            "name": "gongc /tmp/helloworld on windows",
+            "type": "go",
+            "request": "launch",
+            "mode": "debug",
+            "cwd": "../../../../../dev/helloworld",
+            "program": "${workspaceFolder}/go/cmd/gongc",
+            "args": [
+                "go/models"
+            ]
+        },
+        {
             "name": "gongc /tmp/helloworld in 'go/models' directory",
             "type": "go",
             "request": "launch",

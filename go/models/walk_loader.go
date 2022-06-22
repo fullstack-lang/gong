@@ -3,7 +3,6 @@ package models
 import (
 	"go/constant"
 	"go/types"
-	"path/filepath"
 	"strings"
 
 	"golang.org/x/tools/go/packages"
@@ -11,8 +10,6 @@ import (
 
 func WalkLoader(pkg *packages.Package, modelPkg *ModelPkg) {
 
-	modelPkg.Name = filepath.Base(filepath.Join(pkg.PkgPath, "../.."))
-	modelPkg.PkgPath = pkg.PkgPath
 	modelPkg.GongEnums = make(map[string]*GongEnum)
 	modelPkg.GongStructs = make(map[string]*GongStruct)
 
