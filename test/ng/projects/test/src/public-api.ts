@@ -50,13 +50,6 @@ export * from './lib/dstructs-table/dstructs-table.component'
 export * from './lib/dstruct-db'
 export * from './lib/dstruct.service'
 
-export * from './lib/estruct-detail/estruct-detail.component'
-export * from './lib/estruct-presentation/estruct-presentation.component'
-export * from './lib/estruct-sorting/estruct-sorting.component'
-export * from './lib/estructs-table/estructs-table.component'
-export * from './lib/estruct-db'
-export * from './lib/estruct.service'
-
 
 export * from './lib/AEnumType'
 export * from './lib/BEnumType'

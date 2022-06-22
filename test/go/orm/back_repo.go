@@ -29,8 +29,6 @@ type BackRepoStruct struct {
 
 	BackRepoDstruct BackRepoDstructStruct
 
-	BackRepoEstruct BackRepoEstructStruct
-
 	CommitFromBackNb uint // this ng is updated at the BackRepo level but also at the BackRepo<GongStruct> level
 
 	PushFromFrontNb uint // records increments from push from front
@@ -74,7 +72,6 @@ func (backRepo *BackRepoStruct) init(db *gorm.DB) {
 	backRepo.BackRepoAstructBstructUse.Init(db)
 	backRepo.BackRepoBstruct.Init(db)
 	backRepo.BackRepoDstruct.Init(db)
-	backRepo.BackRepoEstruct.Init(db)
 
 	models.Stage.BackRepo = backRepo
 }
@@ -87,7 +84,6 @@ func (backRepo *BackRepoStruct) Commit(stage *models.StageStruct) {
 	backRepo.BackRepoAstructBstructUse.CommitPhaseOne(stage)
 	backRepo.BackRepoBstruct.CommitPhaseOne(stage)
 	backRepo.BackRepoDstruct.CommitPhaseOne(stage)
-	backRepo.BackRepoEstruct.CommitPhaseOne(stage)
 
 	// insertion point for per struct back repo phase two commit
 	backRepo.BackRepoAstruct.CommitPhaseTwo(backRepo)
@@ -95,7 +91,6 @@ func (backRepo *BackRepoStruct) Commit(stage *models.StageStruct) {
 	backRepo.BackRepoAstructBstructUse.CommitPhaseTwo(backRepo)
 	backRepo.BackRepoBstruct.CommitPhaseTwo(backRepo)
 	backRepo.BackRepoDstruct.CommitPhaseTwo(backRepo)
-	backRepo.BackRepoEstruct.CommitPhaseTwo(backRepo)
 
 	backRepo.IncrementCommitFromBackNb()
 }
@@ -108,7 +103,6 @@ func (backRepo *BackRepoStruct) Checkout(stage *models.StageStruct) {
 	backRepo.BackRepoAstructBstructUse.CheckoutPhaseOne()
 	backRepo.BackRepoBstruct.CheckoutPhaseOne()
 	backRepo.BackRepoDstruct.CheckoutPhaseOne()
-	backRepo.BackRepoEstruct.CheckoutPhaseOne()
 
 	// insertion point for per struct back repo phase two commit
 	backRepo.BackRepoAstruct.CheckoutPhaseTwo(backRepo)
@@ -116,7 +110,6 @@ func (backRepo *BackRepoStruct) Checkout(stage *models.StageStruct) {
 	backRepo.BackRepoAstructBstructUse.CheckoutPhaseTwo(backRepo)
 	backRepo.BackRepoBstruct.CheckoutPhaseTwo(backRepo)
 	backRepo.BackRepoDstruct.CheckoutPhaseTwo(backRepo)
-	backRepo.BackRepoEstruct.CheckoutPhaseTwo(backRepo)
 }
 
 var BackRepo BackRepoStruct
@@ -139,7 +132,6 @@ func (backRepo *BackRepoStruct) Backup(stage *models.StageStruct, dirPath string
 	backRepo.BackRepoAstructBstructUse.Backup(dirPath)
 	backRepo.BackRepoBstruct.Backup(dirPath)
 	backRepo.BackRepoDstruct.Backup(dirPath)
-	backRepo.BackRepoEstruct.Backup(dirPath)
 }
 
 // Backup in XL the BackRepoStruct
@@ -155,7 +147,6 @@ func (backRepo *BackRepoStruct) BackupXL(stage *models.StageStruct, dirPath stri
 	backRepo.BackRepoAstructBstructUse.BackupXL(file)
 	backRepo.BackRepoBstruct.BackupXL(file)
 	backRepo.BackRepoDstruct.BackupXL(file)
-	backRepo.BackRepoEstruct.BackupXL(file)
 
 	var b bytes.Buffer
 	writer := bufio.NewWriter(&b)
@@ -185,7 +176,6 @@ func (backRepo *BackRepoStruct) Restore(stage *models.StageStruct, dirPath strin
 	backRepo.BackRepoAstructBstructUse.RestorePhaseOne(dirPath)
 	backRepo.BackRepoBstruct.RestorePhaseOne(dirPath)
 	backRepo.BackRepoDstruct.RestorePhaseOne(dirPath)
-	backRepo.BackRepoEstruct.RestorePhaseOne(dirPath)
 
 	//
 	// restauration second phase (reindex pointers with the new ID)
@@ -197,7 +187,6 @@ func (backRepo *BackRepoStruct) Restore(stage *models.StageStruct, dirPath strin
 	backRepo.BackRepoAstructBstructUse.RestorePhaseTwo()
 	backRepo.BackRepoBstruct.RestorePhaseTwo()
 	backRepo.BackRepoDstruct.RestorePhaseTwo()
-	backRepo.BackRepoEstruct.RestorePhaseTwo()
 
 	models.Stage.Checkout()
 }
@@ -229,7 +218,6 @@ func (backRepo *BackRepoStruct) RestoreXL(stage *models.StageStruct, dirPath str
 	backRepo.BackRepoAstructBstructUse.RestoreXLPhaseOne(file)
 	backRepo.BackRepoBstruct.RestoreXLPhaseOne(file)
 	backRepo.BackRepoDstruct.RestoreXLPhaseOne(file)
-	backRepo.BackRepoEstruct.RestoreXLPhaseOne(file)
 
 	// commit the restored stage
 	models.Stage.Commit()
