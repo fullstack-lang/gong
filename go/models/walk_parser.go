@@ -46,16 +46,6 @@ func WalkParser(parserPkgs map[string]*ast.Package, modelPkg *ModelPkg) {
 		if strings.Contains(filePath, string(os.PathSeparator)) {
 			fileNames := strings.Split(filePath, string(os.PathSeparator))
 			fileName = fileNames[len(fileNames)-1]
-
-			// package name is three steps behind
-			modelPkg.Name = fileNames[len(fileNames)-4]
-			modelPkg.PkgPath =
-				fileNames[len(fileNames)-7] + "/" +
-					fileNames[len(fileNames)-6] + "/" +
-					fileNames[len(fileNames)-5] + "/" +
-					fileNames[len(fileNames)-4] + "/" +
-					fileNames[len(fileNames)-3] + "/" +
-					fileNames[len(fileNames)-2]
 		}
 
 		if fileName == "gong.go" {
