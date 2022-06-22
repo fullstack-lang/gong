@@ -6,6 +6,7 @@ import (
 	"flag"
 	"fmt"
 	"io"
+	"io/ioutil"
 	"log"
 	"os"
 	"os/exec"
@@ -13,13 +14,15 @@ import (
 	"strings"
 	"time"
 
+	"golang.org/x/mod/modfile"
+
 	gong_models "github.com/fullstack-lang/gong/go/models"
 )
 
 const COMPUTED_FROM_PKG_PATH string = "computed from pkgPath (path to package for analysis)"
 
 var (
-	pkgPath     = flag.String("pkgPath", ".", "path to package for gongc compilation")
+	pkgPath     = flag.String("pkgPath", ".", "path to the models package to be compiled by gongc compilation")
 	skipSwagger = flag.Bool("skipSwagger", true, "skip swagger")
 	backendOnly = flag.Bool("backendOnly", false, "generates backendOnly")
 	addr        = flag.String("addr", "localhost:8080/api",
@@ -42,56 +45,110 @@ func main() {
 		*pkgPath = flag.Arg(0)
 	}
 
-	// TODO check version of go
-	// TODO check version of angular
+	// check existance of go.mod file in the path to the 'models' package
+	//
+	// if no go.mod file is found above the 'models' package, gongc fails
+	//
+	// if go.mod exists, it means the package path has been defined
+	// for instance "github.com/fullstack-lang/gongsvg"
+	//
+	// if go.mod does not exist, gongc can only infer the package name
+	// from the name of directory that is two levels above "go/models"
+	// it is up to the developper to change the module name after the first gong generation
+	//
+	//
 
-	// check existance of "go.mod" file
-	if !*skipGoModCommands {
-		goModFilePath := filepath.Join(*pkgPath, "../../go.mod")
-		_, err := os.Stat(goModFilePath)
-		if os.IsNotExist(err) {
+	// compute the number of steps to reach the
+	pathToTheModel, _ := filepath.Abs(*pkgPath)
+	_ = pathToTheModel
+	dirs := strings.Split(pathToTheModel, string(os.PathSeparator))
+	_ = dirs
 
-			// check if it is not part of an overaching go module
-			goModFilePath := filepath.Join(*pkgPath, "../../../go.mod")
-			_, err2 := os.Stat(goModFilePath)
-			if os.IsNotExist(err2) {
+	dirs = dirs[:len(dirs)-2]
+	log.Println(filepath.Join(dirs...))
 
-				pkgName := computePkgName()
+	// parse the above directories for find a go.mod file
+	var nbOfLevelBetweenPackageAndModule int
 
-				if true {
+	// if the package starts at the module level, then this path is empty
+	// for instance "gongsvg" and "github.com/fullstack-lang/gongsvg"
+	//
+	// if the package starts below the module level, then this path is not empty
+	// "test" and "github.com/fullstack-lang/gong" where "test" is in "github.com/fullstack-lang/gong/test"
+	var goModFileMissing = true
+	var goModFilePath string
 
-					cmd := exec.Command("go", "mod", "init", pkgName)
-					cmd.Dir, _ = filepath.Abs(filepath.Join(*pkgPath, "../.."))
-					log.Printf("Running %s command in directory %s and waiting for it to finish...\n", cmd.Args, cmd.Dir)
-
-					// https://stackoverflow.com/questions/48253268/print-the-stdout-from-exec-command-in-real-time-in-go
-					var stdBuffer bytes.Buffer
-					mw := io.MultiWriter(os.Stdout, &stdBuffer)
-
-					cmd.Stdout = mw
-					cmd.Stderr = mw
-
-					log.Println(cmd.String())
-					log.Println(stdBuffer.String())
-
-					// Execute the command
-					if err := cmd.Run(); err != nil {
-						log.Panic(err)
-					}
-				}
-			}
-		} else {
-			log.Println("go.mod is already present ")
+	// loop that search up for the "go.mod" file
+	for nbOfLevelBetweenPackageAndModule = 2; // start at 2 levels above the "models" package since the "go.mod" file closest place is 2 levels
+	nbOfLevelBetweenPackageAndModule < 5 &&   // cannot go above 5
+		goModFileMissing; // stop is go.mod file found
+	nbOfLevelBetweenPackageAndModule++ {
+		var pathBetweenPackageAndModule = "."
+		for i := 0; i < nbOfLevelBetweenPackageAndModule; i++ {
+			pathBetweenPackageAndModule = filepath.Join(pathBetweenPackageAndModule, "..")
 		}
+		goModFilePath = filepath.Join(*pkgPath, pathBetweenPackageAndModule, "go.mod")
+		_, errGoModFile := os.Stat(goModFilePath)
+		goModFileMissing = os.IsNotExist(errGoModFile)
 	}
+
+	pkgName := computePkgName()
+	if goModFileMissing {
+		cmd := exec.Command("go", "mod", "init", pkgName)
+		cmd.Dir, _ = filepath.Abs(filepath.Join(*pkgPath, "../.."))
+		log.Printf("Running %s command in directory %s and waiting for it to finish...\n", cmd.Args, cmd.Dir)
+
+		// https://stackoverflow.com/questions/48253268/print-the-stdout-from-exec-command-in-real-time-in-go
+		var stdBuffer bytes.Buffer
+		mw := io.MultiWriter(os.Stdout, &stdBuffer)
+
+		cmd.Stdout = mw
+		cmd.Stderr = mw
+
+		log.Println(cmd.String())
+		log.Println(stdBuffer.String())
+
+		// Execute the command
+		if err := cmd.Run(); err != nil {
+			log.Panic(err)
+		}
+		nbOfLevelBetweenPackageAndModule = 2
+		var pathBetweenPackageAndModule = "."
+		for i := 0; i < nbOfLevelBetweenPackageAndModule; i++ {
+			pathBetweenPackageAndModule = filepath.Join(pathBetweenPackageAndModule, "..")
+		}
+		goModFilePath = filepath.Join(*pkgPath, pathBetweenPackageAndModule, "go.mod")
+	}
+
+	// read the go.mod file
+	buf, err := ioutil.ReadFile(goModFilePath)
+	if err != nil {
+		log.Fatalln("Cannot read go.mod file at ", goModFilePath)
+	}
+	modFile, err := modfile.Parse(goModFilePath, buf, nil)
+	if err != nil {
+		panic(err)
+	}
+	log.Println("module path is ", modFile.Module.Mod.Path)
+	_ = modFile // now we have mod file
 
 	gong_models.ADDR = *addr
 
-	// parse package and generate code if flag set
-	gong_models.RemoveGoAllGongStruct(*pkgPath)
-
 	// load package into database
-	modelPkg := (&gong_models.ModelPkg{})
+	// module path + (if necessary) relative path to the package
+	// for instance "github.com/fullstack-lang/gongsvg" or
+	// for instance "github.com/fullstack-lang/gong/test" or
+	relPath := dirs[len(dirs)-nbOfLevelBetweenPackageAndModule+3:]
+	joinedPath := append([]string{modFile.Module.Mod.Path}, relPath...)
+
+	fullPkgPath := filepath.Join(joinedPath...)
+	fullPkgPath = filepath.Join(fullPkgPath, "go", "models")
+	// case for windows
+	fullPkgPath = strings.ReplaceAll(fullPkgPath, "\\", "/")
+	modelPkg := (&gong_models.ModelPkg{
+		Name:    pkgName,
+		PkgPath: fullPkgPath,
+	})
 
 	gong_models.Walk(*pkgPath, modelPkg, *useParser)
 
@@ -614,6 +671,8 @@ func main() {
 		modelPkg.PkgPath, filepath.Join(gong_models.NgWorkspacePath, "../embed.go"),
 		gong_models.EmebedNgDistNg)
 
+	// remove "gong.go" file
+	gong_models.RemoveGeneratedGongFile(*pkgPath)
 	gong_models.CodeGeneratorModelGong(
 		modelPkg,
 		modelPkg.Name,
