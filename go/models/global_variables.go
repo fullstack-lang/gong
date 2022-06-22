@@ -1,8 +1,5 @@
 package models
 
-// PkgName is generated package name (for back) and generated project elements for front
-var PkgName string
-
 // PathToGoSubDirectory for instance "/tmp"
 var PathToGoSubDirectory string
 
