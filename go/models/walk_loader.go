@@ -11,10 +11,7 @@ import (
 
 func WalkLoader(pkg *packages.Package, modelPkg *ModelPkg) {
 
-	// compute root package path name
-	PkgName = filepath.Base(filepath.Join(pkg.PkgPath, "../.."))
-
-	modelPkg.Name = PkgName
+	modelPkg.Name = filepath.Base(filepath.Join(pkg.PkgPath, "../.."))
 	modelPkg.PkgPath = pkg.PkgPath
 	modelPkg.GongEnums = make(map[string]*GongEnum)
 	modelPkg.GongStructs = make(map[string]*GongStruct)
