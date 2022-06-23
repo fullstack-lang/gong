@@ -1,14 +1,51 @@
 package models
 
 import (
+	"embed"
 	"fmt"
 	"go/ast"
 	"go/doc"
+	"go/parser"
+	"go/token"
+	"io/fs"
 	"log"
 	"os"
 	"strings"
 	"unicode"
 )
+
+func ParseEmbedModel(embeddedDir embed.FS, source string) map[string]*ast.Package {
+
+	pkg := new(ast.Package)
+	pkg.Files = make(map[string]*ast.File)
+	fs.WalkDir(embeddedDir, source, func(path string, d fs.DirEntry, err error) error {
+		if err != nil {
+			log.Fatal(err)
+		}
+		fmt.Println(path)
+
+		if d.IsDir() {
+			return nil
+		} else {
+			var data, err1 = embeddedDir.ReadFile(path)
+			if err1 != nil {
+				log.Fatalln(err.Error())
+			}
+			fset := token.NewFileSet()
+			astFile, errParser := parser.ParseFile(fset, path, data, parser.ParseComments)
+
+			pkg.Files[path] = astFile
+			if errParser != nil {
+				panic(errParser)
+			}
+			_ = astFile
+			return nil
+		}
+	})
+	pkgs := make(map[string]*ast.Package)
+	pkgs["models"] = pkg
+	return pkgs
+}
 
 func WalkParser(parserPkgs map[string]*ast.Package, modelPkg *ModelPkg) {
 
