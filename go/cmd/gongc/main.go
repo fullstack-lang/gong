@@ -92,7 +92,7 @@ func main() {
 		goModFileMissing = os.IsNotExist(errGoModFile)
 	}
 
-	pkgName := computePkgName()
+	pkgName := computePkgNameFromCurrentDir()
 	if goModFileMissing {
 		cmd := exec.Command("go", "mod", "init", pkgName)
 		cmd.Dir, _ = filepath.Abs(filepath.Join(*pkgPath, "../.."))
@@ -237,7 +237,7 @@ func main() {
 	// generate main.go if absent
 	{
 		// check existance of "main.go" file and generate a default "main.go" if absent
-		mainFilePath := filepath.Join(*pkgPath, fmt.Sprintf("../cmd/%s/main.go", computePkgName()))
+		mainFilePath := filepath.Join(*pkgPath, fmt.Sprintf("../cmd/%s/main.go", computePkgNameFromCurrentDir()))
 
 		_, errd := os.Stat(mainFilePath)
 		if os.IsNotExist(errd) {
@@ -726,7 +726,7 @@ func main() {
 	if !*skipGoModCommands {
 		start := time.Now()
 		cmd := exec.Command("go", "mod", "tidy")
-		cmd.Dir, _ = filepath.Abs(filepath.Join(*pkgPath, fmt.Sprintf("../cmd/%s", computePkgName())))
+		cmd.Dir, _ = filepath.Abs(filepath.Join(*pkgPath, fmt.Sprintf("../cmd/%s", computePkgNameFromCurrentDir())))
 		log.Printf("Running %s command in directory %s and waiting for it to finish...\n", cmd.Args, cmd.Dir)
 
 		// https://stackoverflow.com/questions/48253268/print-the-stdout-from-exec-command-in-real-time-in-go
@@ -750,7 +750,7 @@ func main() {
 	if !*skipGoModCommands {
 		start := time.Now()
 		cmd := exec.Command("go", "mod", "vendor")
-		cmd.Dir, _ = filepath.Abs(filepath.Join(*pkgPath, fmt.Sprintf("../cmd/%s", computePkgName())))
+		cmd.Dir, _ = filepath.Abs(filepath.Join(*pkgPath, fmt.Sprintf("../cmd/%s", computePkgNameFromCurrentDir())))
 		log.Printf("Running %s command in directory %s and waiting for it to finish...\n", cmd.Args, cmd.Dir)
 
 		// https://stackoverflow.com/questions/48253268/print-the-stdout-from-exec-command-in-real-time-in-go
@@ -942,7 +942,7 @@ func main() {
 	if !*skipGoModCommands {
 		start := time.Now()
 		cmd := exec.Command("go", "get")
-		cmd.Dir, _ = filepath.Abs(filepath.Join(*pkgPath, fmt.Sprintf("../../go/cmd/%s", computePkgName())))
+		cmd.Dir, _ = filepath.Abs(filepath.Join(*pkgPath, fmt.Sprintf("../../go/cmd/%s", computePkgNameFromCurrentDir())))
 		log.Printf("Running %s command in directory %s and waiting for it to finish...\n", cmd.Args, cmd.Dir)
 
 		// https://stackoverflow.com/questions/48253268/print-the-stdout-from-exec-command-in-real-time-in-go
@@ -991,7 +991,7 @@ func main() {
 	if true {
 		start := time.Now()
 		cmd := exec.Command("go", "build")
-		cmd.Dir, _ = filepath.Abs(filepath.Join(*pkgPath, fmt.Sprintf("../cmd/%s", computePkgName())))
+		cmd.Dir, _ = filepath.Abs(filepath.Join(*pkgPath, fmt.Sprintf("../cmd/%s", computePkgNameFromCurrentDir())))
 		log.Printf("Running %s command in directory %s and waiting for it to finish...\n", cmd.Args, cmd.Dir)
 
 		// https://stackoverflow.com/questions/48253268/print-the-stdout-from-exec-command-in-real-time-in-go
@@ -1014,7 +1014,7 @@ func main() {
 	// run application
 	if *run {
 		cmd := exec.Command("go", "run", "main.go")
-		cmd.Dir, _ = filepath.Abs(filepath.Join(gong_models.NgWorkspacePath, fmt.Sprintf("../go/cmd/%s", computePkgName())))
+		cmd.Dir, _ = filepath.Abs(filepath.Join(gong_models.NgWorkspacePath, fmt.Sprintf("../go/cmd/%s", computePkgNameFromCurrentDir())))
 		log.Printf("Running %s command in directory %s and waiting for it to finish...\n", cmd.Args, cmd.Dir)
 
 		// https://stackoverflow.com/questions/48253268/print-the-stdout-from-exec-command-in-real-time-in-go
