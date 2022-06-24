@@ -1,8 +1,8 @@
 // generated from ng_file_enum.ts.go
 export enum ModelGongEnumInsertionId {
 	// insertion point	
-	ModelGongEnumInsertionsNb = 41,
-	ModelGongEnumUtilityFunctions = 40,
+	ModelGongEnumUtilityFunctions = 0,
+	ModelGongEnumInsertionsNb = 1,
 }
 
 export interface ModelGongEnumInsertionIdSelect {
@@ -11,6 +11,6 @@ export interface ModelGongEnumInsertionIdSelect {
 }
 
 export const ModelGongEnumInsertionIdList: ModelGongEnumInsertionIdSelect[] = [ // insertion point	
-	{ value: ModelGongEnumInsertionId.ModelGongEnumInsertionsNb, viewValue: "ModelGongEnumInsertionsNb" },
 	{ value: ModelGongEnumInsertionId.ModelGongEnumUtilityFunctions, viewValue: "ModelGongEnumUtilityFunctions" },
+	{ value: ModelGongEnumInsertionId.ModelGongEnumInsertionsNb, viewValue: "ModelGongEnumInsertionsNb" },
 ];
