@@ -58,7 +58,7 @@ type GongStructDB struct {
 
 	// insertion for basic fields declaration
 
-	// Declation for basic field gongstructDB.Name {{BasicKind}} (to be completed)
+	// Declation for basic field gongstructDB.Name
 	Name_Data sql.NullString
 	// encoding of pointers
 	GongStructPointersEnconding
