@@ -36,7 +36,7 @@ func ComputePkgPathFromGoModFile(pkgPathArg string) (pkgName, fullPkgPath string
 
 	// loop that search up for the "go.mod" file
 	for nbOfLevelBetweenPackageAndModule = 2; // start at 2 levels above the "models" package since the "go.mod" file closest place is 2 levels
-	nbOfLevelBetweenPackageAndModule < 5 &&   // cannot go above 5
+	nbOfLevelBetweenPackageAndModule < 7 &&   // cannot go above 7
 		goModFileMissing; // stop is go.mod file found
 	nbOfLevelBetweenPackageAndModule++ {
 		var pathBetweenPackageAndModule = "."
