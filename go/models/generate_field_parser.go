@@ -35,7 +35,6 @@ func GenerateFieldParser(fieldList *[]*ast.Field, owningGongstruct *GongStruct,
 			}
 		}
 		if isIgnoredField {
-			log.Println("Field ", field.Names[0], " of struct ", owningGongstruct.Name, " is ignored")
 			continue
 		}
 
@@ -43,7 +42,7 @@ func GenerateFieldParser(fieldList *[]*ast.Field, owningGongstruct *GongStruct,
 			// This is the case for struct embeding
 			switch embedType := field.Type.(type) {
 			case *ast.Ident:
-				log.Println("processing embedded struct ", embedType.Name)
+				// log.Println("processing embedded struct ", embedType.Name)
 				GenerateFieldParser((*map_Structname_fieldList)[embedType.Name],
 					owningGongstruct,
 					map_Structname_fieldList,
