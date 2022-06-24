@@ -6,9 +6,6 @@ type GongBasicField struct {
 	Name string
 
 	// swagger:ignore
-	Type types.Type `gorm:"-"`
-
-	// swagger:ignore
 	basicKind     types.BasicKind
 	BasicKindName string
 

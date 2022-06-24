@@ -36,6 +36,7 @@ import { AppRoutingModule } from './app-routing.module';
 
 import { SplitterComponent } from './splitter/splitter.component'
 import { SidebarComponent } from './sidebar/sidebar.component';
+import { GongstructSelectionService } from './gongstruct-selection.service'
 
 // insertion point for imports 
 import { ClassdiagramsTableComponent } from './classdiagrams-table/classdiagrams-table.component'
@@ -267,6 +268,7 @@ import { VerticePresentationComponent } from './vertice-presentation/vertice-pre
 
 	],
 	providers: [
+		GongstructSelectionService,
 		{
 			provide: MatDialogRef,
 			useValue: {}

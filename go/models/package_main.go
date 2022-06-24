@@ -150,10 +150,15 @@ func main() {
 	dbDB.SetMaxOpenConns(1)
 
 	if *diagrams {
-		// load package to analyse
+
+		// Analyse package
 		modelPkg := &gong_models.ModelPkg{}
 
-		gong_models.Walk("../../models", modelPkg)
+		// since the source is embedded, one needs to
+		// compute the Abstract syntax tree in a special manner
+		pkgs := gong_models.ParseEmbedModel({{pkgname}}.GoDir, "go/models")
+
+		gong_models.WalkParser(pkgs, modelPkg)
 		modelPkg.SerializeToStage()
 		gong_models.Stage.Commit()
 

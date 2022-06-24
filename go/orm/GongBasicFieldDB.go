@@ -68,19 +68,19 @@ type GongBasicFieldDB struct {
 
 	// insertion for basic fields declaration
 
-	// Declation for basic field gongbasicfieldDB.Name {{BasicKind}} (to be completed)
+	// Declation for basic field gongbasicfieldDB.Name
 	Name_Data sql.NullString
 
-	// Declation for basic field gongbasicfieldDB.BasicKindName {{BasicKind}} (to be completed)
+	// Declation for basic field gongbasicfieldDB.BasicKindName
 	BasicKindName_Data sql.NullString
 
-	// Declation for basic field gongbasicfieldDB.DeclaredType {{BasicKind}} (to be completed)
+	// Declation for basic field gongbasicfieldDB.DeclaredType
 	DeclaredType_Data sql.NullString
 
-	// Declation for basic field gongbasicfieldDB.CompositeStructName {{BasicKind}} (to be completed)
+	// Declation for basic field gongbasicfieldDB.CompositeStructName
 	CompositeStructName_Data sql.NullString
 
-	// Declation for basic field gongbasicfieldDB.Index {{BasicKind}} (to be completed)
+	// Declation for basic field gongbasicfieldDB.Index
 	Index_Data sql.NullInt64
 	// encoding of pointers
 	GongBasicFieldPointersEnconding
