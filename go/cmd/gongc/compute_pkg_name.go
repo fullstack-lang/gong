@@ -6,7 +6,8 @@ import (
 	"strings"
 )
 
-func computePkgName() (pkgName string) {
+// computePkgNameFromCurrentDir computes the name of the package from the current working directory
+func computePkgNameFromCurrentDir() (pkgName string) {
 	// compute name of package
 	abs, _ := filepath.Abs(filepath.Join(*pkgPath, "../.."))
 	log.Println("Abs is " + abs)
