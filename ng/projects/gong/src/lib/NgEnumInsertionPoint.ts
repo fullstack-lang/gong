@@ -2,8 +2,8 @@
 export enum NgEnumInsertionPoint {
 	// insertion point	
 	NgEnumInsertionPointEnumDeclaration = 0,
-	NgEnumNbInsertionPoints = 2,
 	NgEnumValuesInsertionPointDeclarationForPullDownSelect = 1,
+	NgEnumNbInsertionPoints = 2,
 }
 
 export interface NgEnumInsertionPointSelect {
@@ -13,6 +13,6 @@ export interface NgEnumInsertionPointSelect {
 
 export const NgEnumInsertionPointList: NgEnumInsertionPointSelect[] = [ // insertion point	
 	{ value: NgEnumInsertionPoint.NgEnumInsertionPointEnumDeclaration, viewValue: "NgEnumInsertionPointEnumDeclaration" },
-	{ value: NgEnumInsertionPoint.NgEnumNbInsertionPoints, viewValue: "NgEnumNbInsertionPoints" },
 	{ value: NgEnumInsertionPoint.NgEnumValuesInsertionPointDeclarationForPullDownSelect, viewValue: "NgEnumValuesInsertionPointDeclarationForPullDownSelect" },
+	{ value: NgEnumInsertionPoint.NgEnumNbInsertionPoints, viewValue: "NgEnumNbInsertionPoints" },
 ];

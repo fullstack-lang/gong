@@ -1,11 +1,11 @@
 // generated from ng_file_enum.ts.go
 export enum ControllerFileInsertionPoint {
 	// insertion point	
-	ControllerFileGetInsertion = 2,
 	ControllerFileGetsInsertion = 0,
-	ControllerFileNbInsertionPoints = 4,
 	ControllerFilePostInsertion = 1,
+	ControllerFileGetInsertion = 2,
 	ControllerFileUpdateInsertion = 3,
+	ControllerFileNbInsertionPoints = 4,
 }
 
 export interface ControllerFileInsertionPointSelect {
@@ -14,9 +14,9 @@ export interface ControllerFileInsertionPointSelect {
 }
 
 export const ControllerFileInsertionPointList: ControllerFileInsertionPointSelect[] = [ // insertion point	
-	{ value: ControllerFileInsertionPoint.ControllerFileGetInsertion, viewValue: "ControllerFileGetInsertion" },
 	{ value: ControllerFileInsertionPoint.ControllerFileGetsInsertion, viewValue: "ControllerFileGetsInsertion" },
-	{ value: ControllerFileInsertionPoint.ControllerFileNbInsertionPoints, viewValue: "ControllerFileNbInsertionPoints" },
 	{ value: ControllerFileInsertionPoint.ControllerFilePostInsertion, viewValue: "ControllerFilePostInsertion" },
+	{ value: ControllerFileInsertionPoint.ControllerFileGetInsertion, viewValue: "ControllerFileGetInsertion" },
 	{ value: ControllerFileInsertionPoint.ControllerFileUpdateInsertion, viewValue: "ControllerFileUpdateInsertion" },
+	{ value: ControllerFileInsertionPoint.ControllerFileNbInsertionPoints, viewValue: "ControllerFileNbInsertionPoints" },
 ];
