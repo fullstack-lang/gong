@@ -17,6 +17,3 @@ var MatTargetPath string
 
 // NgWorkspacePath is the path to the Ng Workspace
 var NgWorkspacePath string
-
-// ADDR is the network address addr where the angular generated service will lookup the server
-var ADDR string

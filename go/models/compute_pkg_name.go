@@ -1,4 +1,4 @@
-package main
+package models
 
 import (
 	"log"
@@ -6,10 +6,10 @@ import (
 	"strings"
 )
 
-// computePkgNameFromCurrentDir computes the name of the package from the current working directory
-func computePkgNameFromCurrentDir() (pkgName string) {
+// ComputePkgNameFromPkgPath computes the name of the package from the current working directory
+func ComputePkgNameFromPkgPath(pkgPathArg string) (pkgName string) {
 	// compute name of package
-	abs, _ := filepath.Abs(filepath.Join(*pkgPath, "../.."))
+	abs, _ := filepath.Abs(filepath.Join(pkgPathArg, "../.."))
 	log.Println("Abs is " + abs)
 
 	// to slash to have standardized separators between unix and windows
