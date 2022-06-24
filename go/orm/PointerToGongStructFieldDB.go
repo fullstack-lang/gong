@@ -68,13 +68,13 @@ type PointerToGongStructFieldDB struct {
 
 	// insertion for basic fields declaration
 
-	// Declation for basic field pointertogongstructfieldDB.Name {{BasicKind}} (to be completed)
+	// Declation for basic field pointertogongstructfieldDB.Name
 	Name_Data sql.NullString
 
-	// Declation for basic field pointertogongstructfieldDB.Index {{BasicKind}} (to be completed)
+	// Declation for basic field pointertogongstructfieldDB.Index
 	Index_Data sql.NullInt64
 
-	// Declation for basic field pointertogongstructfieldDB.CompositeStructName {{BasicKind}} (to be completed)
+	// Declation for basic field pointertogongstructfieldDB.CompositeStructName
 	CompositeStructName_Data sql.NullString
 	// encoding of pointers
 	PointerToGongStructFieldPointersEnconding

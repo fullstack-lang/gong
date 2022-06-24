@@ -11,15 +11,14 @@ import { BehaviorSubject } from 'rxjs';
 import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 
-import { CstructDB } from './cstruct-db';
+import { EstructDB } from './estruct-db';
 
 // insertion point for imports
-import { BstructDB } from './bstruct-db'
 
 @Injectable({
   providedIn: 'root'
 })
-export class CstructService {
+export class EstructService {
 
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -27,9 +26,9 @@ export class CstructService {
 
   // Kamar Raïmo: Adding a way to communicate between components that share information
   // so that they are notified of a change.
-  CstructServiceChanged: BehaviorSubject<string> = new BehaviorSubject("");
+  EstructServiceChanged: BehaviorSubject<string> = new BehaviorSubject("");
 
-  private cstructsUrl: string
+  private estructsUrl: string
 
   constructor(
     private http: HttpClient,
@@ -44,69 +43,67 @@ export class CstructService {
     origin = origin.replace("4200", "8080")
 
     // compute path to the service
-    this.cstructsUrl = origin + '/api/github.com/fullstack-lang/gong/test/go/v1/cstructs';
+    this.estructsUrl = origin + '/api/github.com/fullstack-lang/gong/test/go/v1/estructs';
   }
 
-  /** GET cstructs from the server */
-  getCstructs(): Observable<CstructDB[]> {
-    return this.http.get<CstructDB[]>(this.cstructsUrl)
+  /** GET estructs from the server */
+  getEstructs(): Observable<EstructDB[]> {
+    return this.http.get<EstructDB[]>(this.estructsUrl)
       .pipe(
-        tap(_ => this.log('fetched cstructs')),
-        catchError(this.handleError<CstructDB[]>('getCstructs', []))
+        tap(_ => this.log('fetched estructs')),
+        catchError(this.handleError<EstructDB[]>('getEstructs', []))
       );
   }
 
-  /** GET cstruct by id. Will 404 if id not found */
-  getCstruct(id: number): Observable<CstructDB> {
-    const url = `${this.cstructsUrl}/${id}`;
-    return this.http.get<CstructDB>(url).pipe(
-      tap(_ => this.log(`fetched cstruct id=${id}`)),
-      catchError(this.handleError<CstructDB>(`getCstruct id=${id}`))
+  /** GET estruct by id. Will 404 if id not found */
+  getEstruct(id: number): Observable<EstructDB> {
+    const url = `${this.estructsUrl}/${id}`;
+    return this.http.get<EstructDB>(url).pipe(
+      tap(_ => this.log(`fetched estruct id=${id}`)),
+      catchError(this.handleError<EstructDB>(`getEstruct id=${id}`))
     );
   }
 
   //////// Save methods //////////
 
-  /** POST: add a new cstruct to the server */
-  postCstruct(cstructdb: CstructDB): Observable<CstructDB> {
+  /** POST: add a new estruct to the server */
+  postEstruct(estructdb: EstructDB): Observable<EstructDB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
-    cstructdb.Bstruct = new BstructDB
 
-    return this.http.post<CstructDB>(this.cstructsUrl, cstructdb, this.httpOptions).pipe(
+    return this.http.post<EstructDB>(this.estructsUrl, estructdb, this.httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
-        this.log(`posted cstructdb id=${cstructdb.ID}`)
+        this.log(`posted estructdb id=${estructdb.ID}`)
       }),
-      catchError(this.handleError<CstructDB>('postCstruct'))
+      catchError(this.handleError<EstructDB>('postEstruct'))
     );
   }
 
-  /** DELETE: delete the cstructdb from the server */
-  deleteCstruct(cstructdb: CstructDB | number): Observable<CstructDB> {
-    const id = typeof cstructdb === 'number' ? cstructdb : cstructdb.ID;
-    const url = `${this.cstructsUrl}/${id}`;
+  /** DELETE: delete the estructdb from the server */
+  deleteEstruct(estructdb: EstructDB | number): Observable<EstructDB> {
+    const id = typeof estructdb === 'number' ? estructdb : estructdb.ID;
+    const url = `${this.estructsUrl}/${id}`;
 
-    return this.http.delete<CstructDB>(url, this.httpOptions).pipe(
-      tap(_ => this.log(`deleted cstructdb id=${id}`)),
-      catchError(this.handleError<CstructDB>('deleteCstruct'))
+    return this.http.delete<EstructDB>(url, this.httpOptions).pipe(
+      tap(_ => this.log(`deleted estructdb id=${id}`)),
+      catchError(this.handleError<EstructDB>('deleteEstruct'))
     );
   }
 
-  /** PUT: update the cstructdb on the server */
-  updateCstruct(cstructdb: CstructDB): Observable<CstructDB> {
-    const id = typeof cstructdb === 'number' ? cstructdb : cstructdb.ID;
-    const url = `${this.cstructsUrl}/${id}`;
+  /** PUT: update the estructdb on the server */
+  updateEstruct(estructdb: EstructDB): Observable<EstructDB> {
+    const id = typeof estructdb === 'number' ? estructdb : estructdb.ID;
+    const url = `${this.estructsUrl}/${id}`;
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
-    cstructdb.Bstruct = new BstructDB
 
-    return this.http.put<CstructDB>(url, cstructdb, this.httpOptions).pipe(
+    return this.http.put<EstructDB>(url, estructdb, this.httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
-        this.log(`updated cstructdb id=${cstructdb.ID}`)
+        this.log(`updated estructdb id=${estructdb.ID}`)
       }),
-      catchError(this.handleError<CstructDB>('updateCstruct'))
+      catchError(this.handleError<EstructDB>('updateEstruct'))
     );
   }
 

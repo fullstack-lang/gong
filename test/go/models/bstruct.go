@@ -6,7 +6,13 @@ package models
 type Bstruct struct {
 	Name string
 
-	Floatfield float64
+	Floatfield, Floatfield2 float64
 
 	Intfield int
+
+	// swagger:ignore this field is ignored by gongc
+	Struct interface{} `gorm:"-"` // instruction for gorm ORM
+
+	// swagger:ignore
+	ToBeIgnored int
 }

@@ -290,7 +290,7 @@ export class ClassDiagramComponent implements OnInit, OnDestroy {
         let gongdocCommandService = umlClassShape.attributes['gongdocCommandService'] as gongdoc.GongdocCommandService
 
         gongdocCommandSingloton.Command = gongdoc.GongdocCommandType.DIAGRAM_GONGSTRUCT_SELECT
-        gongdocCommandSingloton.StructName = classhape.GongStruct!.Name
+        gongdocCommandSingloton.StructName = classhape.Structname
         gongdocCommandSingloton.Date = Date.now().toString()
 
         gongdocCommandService.updateGongdocCommand(gongdocCommandSingloton).subscribe(

@@ -258,8 +258,8 @@ func MultiCodeGenerator(
 	}
 }
 
-// RemoveGoAllGongStruct generates the setup file for the gorm
-func RemoveGoAllGongStruct(
+// RemoveGeneratedGongFile generates the setup file for the gorm
+func RemoveGeneratedGongFile(
 	RelativePkgPath string) {
 
 	// relative to the models package, swith to ./controlers package

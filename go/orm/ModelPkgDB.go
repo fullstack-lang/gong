@@ -58,10 +58,10 @@ type ModelPkgDB struct {
 
 	// insertion for basic fields declaration
 
-	// Declation for basic field modelpkgDB.Name {{BasicKind}} (to be completed)
+	// Declation for basic field modelpkgDB.Name
 	Name_Data sql.NullString
 
-	// Declation for basic field modelpkgDB.PkgPath {{BasicKind}} (to be completed)
+	// Declation for basic field modelpkgDB.PkgPath
 	PkgPath_Data sql.NullString
 	// encoding of pointers
 	ModelPkgPointersEnconding
