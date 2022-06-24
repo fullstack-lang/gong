@@ -64,10 +64,10 @@ type GongEnumValueDB struct {
 
 	// insertion for basic fields declaration
 
-	// Declation for basic field gongenumvalueDB.Name {{BasicKind}} (to be completed)
+	// Declation for basic field gongenumvalueDB.Name
 	Name_Data sql.NullString
 
-	// Declation for basic field gongenumvalueDB.Value {{BasicKind}} (to be completed)
+	// Declation for basic field gongenumvalueDB.Value
 	Value_Data sql.NullString
 	// encoding of pointers
 	GongEnumValuePointersEnconding

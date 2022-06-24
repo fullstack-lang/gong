@@ -64,13 +64,13 @@ type GongTimeFieldDB struct {
 
 	// insertion for basic fields declaration
 
-	// Declation for basic field gongtimefieldDB.Name {{BasicKind}} (to be completed)
+	// Declation for basic field gongtimefieldDB.Name
 	Name_Data sql.NullString
 
-	// Declation for basic field gongtimefieldDB.Index {{BasicKind}} (to be completed)
+	// Declation for basic field gongtimefieldDB.Index
 	Index_Data sql.NullInt64
 
-	// Declation for basic field gongtimefieldDB.CompositeStructName {{BasicKind}} (to be completed)
+	// Declation for basic field gongtimefieldDB.CompositeStructName
 	CompositeStructName_Data sql.NullString
 	// encoding of pointers
 	GongTimeFieldPointersEnconding
