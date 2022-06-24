@@ -1,8 +1,8 @@
 // generated from ng_file_enum.ts.go
 export enum OrmSetupCumulSubTemplate {
 	// insertion point	
-	OrmSetupDelete = "OrmSetupDelete",
 	OrmSetupRefToStructDB = "OrmSetupRefToStructDB",
+	OrmSetupDelete = "OrmSetupDelete",
 }
 
 export interface OrmSetupCumulSubTemplateSelect {
@@ -11,6 +11,6 @@ export interface OrmSetupCumulSubTemplateSelect {
 }
 
 export const OrmSetupCumulSubTemplateList: OrmSetupCumulSubTemplateSelect[] = [ // insertion point	
-	{ value: OrmSetupCumulSubTemplate.OrmSetupDelete, viewValue: "OrmSetupDelete" },
 	{ value: OrmSetupCumulSubTemplate.OrmSetupRefToStructDB, viewValue: "OrmSetupRefToStructDB" },
+	{ value: OrmSetupCumulSubTemplate.OrmSetupDelete, viewValue: "OrmSetupDelete" },
 ];
