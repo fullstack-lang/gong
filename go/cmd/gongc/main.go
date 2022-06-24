@@ -30,7 +30,7 @@ var (
 	run               = flag.Bool("run", false, "run 'go run main.go' after compilation")
 	skipGoModCommands = flag.Bool("skipGoModCommands", false, "avoid calls to go mod init, tidy and vendor")
 
-	useParser = flag.Bool("useParser", false, "use go/parser.Parse instead of packages.Load (which requires go installled)")
+	useParser = flag.Bool("useParser", true, "use go/parser.Parse instead of packages.Load (which requires go installled)")
 )
 
 func main() {
