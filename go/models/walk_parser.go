@@ -66,6 +66,7 @@ func WalkParser(parserPkgs map[string]*ast.Package, modelPkg *ModelPkg) {
 		log.Fatal("No go file to parse")
 	}
 
+	// parses all comments in the package
 	typeDocumentation := doc.New(pkg, "./", 0)
 
 	map_StructName_hasIgnoreStatement := make(map[string]bool)
@@ -97,7 +98,7 @@ func WalkParser(parserPkgs map[string]*ast.Package, modelPkg *ModelPkg) {
 		// 	continue
 		// }
 
-		log.Println("Parsing file ", fileName)
+		// log.Println("Parsing file ", fileName)
 
 		// for structName, scope := range file.Scope.Objects {
 
@@ -126,7 +127,7 @@ func WalkParser(parserPkgs map[string]*ast.Package, modelPkg *ModelPkg) {
 							continue
 						}
 
-						log.Println("Type spec name is ", typeSpec.Name.Name)
+						// log.Println("Type spec name is ", typeSpec.Name.Name)
 
 						// If it is a GongEnum, the typeSpec Type is a int or a string
 						switch _type := typeSpec.Type.(type) {
@@ -222,9 +223,10 @@ func WalkParser(parserPkgs map[string]*ast.Package, modelPkg *ModelPkg) {
 						case *ast.Ident:
 							gongEnum, ok = modelPkg.GongEnums[modelPkg.PkgPath+"."+_type.Name]
 							if !ok {
-								log.Fatalln("Unkown GongEnum Type")
+								log.Println("Constant ", spec.Names[0], "of Type", _type.Name, " not an enum")
+								continue
 							}
-							log.Println("Const ", spec.Names[0].Name, " of type ", gongEnum.Name)
+							// log.Println("Const ", spec.Names[0].Name, " of type ", gongEnum.Name)
 
 							if gongEnum.Type == Int {
 								gongEnumValue := (&GongEnumValue{
@@ -265,7 +267,7 @@ func WalkParser(parserPkgs map[string]*ast.Package, modelPkg *ModelPkg) {
 						switch _type := spec.Type.(type) {
 						case *ast.StructType:
 
-							log.Println("Parsing fields of gongstruct ", spec.Name.Name)
+							// log.Println("Parsing fields of gongstruct ", spec.Name.Name)
 
 							// fetch the name of the Gongstruct by identifying if there is a field with name "Name"
 							var isGongStruct bool
