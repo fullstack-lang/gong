@@ -156,7 +156,7 @@ func main() {
 
 		// since the source is embedded, one needs to
 		// compute the Abstract syntax tree in a special manner
-		pkgs := gong_models.ParseEmbedModel(test.GoDir, "go/models")
+		pkgs := gong_models.ParseEmbedModel({{pkgname}}.GoDir, "go/models")
 
 		gong_models.WalkParser(pkgs, modelPkg)
 		modelPkg.SerializeToStage()

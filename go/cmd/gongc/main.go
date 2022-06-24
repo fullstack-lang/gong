@@ -138,7 +138,11 @@ func main() {
 	// module path + (if necessary) relative path to the package
 	// for instance "github.com/fullstack-lang/gongsvg" or
 	// for instance "github.com/fullstack-lang/gong/test" or
-	relPath := dirs[len(dirs)-nbOfLevelBetweenPackageAndModule+3:]
+	pikPlace := len(dirs) - nbOfLevelBetweenPackageAndModule + 3
+	if pikPlace > len(dirs) {
+		pikPlace = len(dirs)
+	}
+	relPath := dirs[pikPlace:]
 	joinedPath := append([]string{modFile.Module.Mod.Path}, relPath...)
 
 	fullPkgPath := filepath.Join(joinedPath...)
