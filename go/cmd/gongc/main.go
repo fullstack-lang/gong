@@ -257,7 +257,6 @@ func main() {
 			// sometimes on windows, directory creation is not completed before creation of file/directory (this
 			// leads to non reproductible "access denied")
 			time.Sleep(1000 * time.Millisecond)
-			log.Println(modelPkg.Name)
 			gong_models.VerySimpleCodeGenerator(
 				modelPkg,
 				modelPkg.Name,

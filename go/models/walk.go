@@ -78,6 +78,5 @@ func Walk(relativePathToModel string, modelPkg *ModelPkg, useParseSlice ...bool)
 
 		WalkLoader(pkg, modelPkg)
 	}
-
-	log.Println("lb of gongstruct :", len(modelPkg.GongStructs))
+	// log.Println("len of gongstruct :", len(modelPkg.GongStructs))
 }

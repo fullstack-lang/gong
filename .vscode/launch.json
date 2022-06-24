@@ -40,6 +40,18 @@
             "args": []
         },
         {
+            "name": "gongc gongdoc -useParser -skipGoModCommands",
+            "type": "go",
+            "request": "launch",
+            "mode": "debug",
+            "cwd": "${workspaceFolder}/../gongdoc/go/models",
+            "program": "${workspaceFolder}/go/cmd/gongc",
+            "args": [
+                "-skipGoModCommands",
+                "-useParser"
+            ]
+        },
+        {
             "name": "gongc gongjointjs",
             "type": "go",
             "request": "launch",
