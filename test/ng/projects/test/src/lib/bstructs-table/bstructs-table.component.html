@@ -33,6 +33,13 @@
             </td>
         </ng-container>
         <!-- -->
+        <ng-container matColumnDef="Floatfield2">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Floatfield2 </th>
+            <td mat-cell *matCellDef="let Bstruct">
+                {{Bstruct.Floatfield2.toPrecision(5)}}
+            </td>
+        </ng-container>
+        <!-- -->
         <ng-container matColumnDef="Intfield">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Intfield </th>
             <td mat-cell *matCellDef="let Bstruct">

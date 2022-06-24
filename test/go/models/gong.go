@@ -1028,6 +1028,12 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 
 		setValueField = NumberInitStatement
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Floatfield2")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", bstruct.Floatfield2))
+		initializerStatements += setValueField
+
+		setValueField = NumberInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
 		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Intfield")
 		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", bstruct.Intfield))
 		initializerStatements += setValueField
@@ -1856,7 +1862,7 @@ func GetFields[Type Gongstruct]() (res []string) {
 	case AstructBstructUse:
 		res = []string{"Name", "Bstruct2"}
 	case Bstruct:
-		res = []string{"Name", "Floatfield", "Intfield"}
+		res = []string{"Name", "Floatfield", "Floatfield2", "Intfield"}
 	case Dstruct:
 		res = []string{"Name"}
 	}
@@ -1980,6 +1986,8 @@ func GetFieldStringValue[Type Gongstruct](instance Type, fieldName string) (res 
 			res = any(instance).(Bstruct).Name
 		case "Floatfield":
 			res = fmt.Sprintf("%f", any(instance).(Bstruct).Floatfield)
+		case "Floatfield2":
+			res = fmt.Sprintf("%f", any(instance).(Bstruct).Floatfield2)
 		case "Intfield":
 			res = fmt.Sprintf("%d", any(instance).(Bstruct).Intfield)
 		}

@@ -12,6 +12,7 @@ export class BstructDB {
 	// insertion point for basic fields declarations
 	Name: string = ""
 	Floatfield: number = 0
+	Floatfield2: number = 0
 	Intfield: number = 0
 
 	// insertion point for other declarations
