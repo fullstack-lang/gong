@@ -4,6 +4,7 @@ import (
 	"go/ast"
 	"go/types"
 	"log"
+	"strings"
 )
 
 // GenerateFieldParser generates Gongfields of owningGongstruct
@@ -16,6 +17,27 @@ func GenerateFieldParser(fieldList *[]*ast.Field, owningGongstruct *GongStruct,
 	compositeTypeStructName string) {
 
 	for _, field := range *fieldList {
+
+		// get the comment group and check wether it is "swagger:ignore"
+		var isIgnoredField bool
+		if field.Comment != nil {
+			for _, comment := range field.Comment.List {
+				if strings.Contains(comment.Text, "swagger:ignore") {
+					isIgnoredField = true
+				}
+			}
+		}
+		if field.Doc != nil {
+			for _, comment := range field.Doc.List {
+				if strings.Contains(comment.Text, "swagger:ignore") {
+					isIgnoredField = true
+				}
+			}
+		}
+		if isIgnoredField {
+			log.Println("Field ", field.Names[0], " of struct ", owningGongstruct.Name, " is ignored")
+			continue
+		}
 
 		if len(field.Names) > 1 {
 			log.Fatal("too many names for field", field.Names[0].Name)
@@ -185,7 +207,7 @@ func GenerateFieldParser(fieldList *[]*ast.Field, owningGongstruct *GongStruct,
 				}
 			}
 		default:
-			log.Println("Cannot parse field named ", fieldName)
+			log.Println("Field ", fieldName, " of struct ", owningGongstruct.Name, " is not a gong type")
 		}
 	}
 
