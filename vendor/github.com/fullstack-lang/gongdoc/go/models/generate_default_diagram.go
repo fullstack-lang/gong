@@ -31,7 +31,7 @@ func GenGoDefaultDiagram(modelPkg *gong_models.ModelPkg, pkgPath string) {
 	// generates default diagram
 	{
 		var pkgelt_default Pkgelt
-		pkgelt_default.Name = gong_models.PkgGoPath
+		pkgelt_default.Name = modelPkg.PkgPath
 
 		defaultClassDiagramm := new(Classdiagram)
 		defaultClassDiagramm.Name = "defaultDiagram"

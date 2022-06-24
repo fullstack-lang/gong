@@ -293,7 +293,7 @@ func (backRepoClassdiagram *BackRepoClassdiagramStruct) CheckoutPhaseOne() (Erro
 
 	// list of instances to be removed
 	// start from the initial map on the stage and remove instances that have been checked out
-	classdiagramInstancesToBeRemovedFromTheStage := make(map[*models.Classdiagram]struct{})
+	classdiagramInstancesToBeRemovedFromTheStage := make(map[*models.Classdiagram]any)
 	for key, value := range models.Stage.Classdiagrams {
 		classdiagramInstancesToBeRemovedFromTheStage[key] = value
 	}

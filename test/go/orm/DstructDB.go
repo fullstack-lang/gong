@@ -58,7 +58,7 @@ type DstructDB struct {
 
 	// insertion for basic fields declaration
 
-	// Declation for basic field dstructDB.Name {{BasicKind}} (to be completed)
+	// Declation for basic field dstructDB.Name
 	Name_Data sql.NullString
 	// encoding of pointers
 	DstructPointersEnconding

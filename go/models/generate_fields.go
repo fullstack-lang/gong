@@ -62,7 +62,6 @@ func GenerateFields(structName string, __struct *types.Struct, pkg *packages.Pac
 				append(modelPkg.GongStructs[structName].Fields, //
 					&GongBasicField{
 						Name:          _typesField.Name(),
-						Type:          t2,
 						basicKind:     t2.Kind(),
 						BasicKindName: kindAsString,
 						GongEnum:      gongEnum,

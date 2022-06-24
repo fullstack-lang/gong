@@ -34,8 +34,8 @@ github.com/dsnet/compress/internal/errors
 # github.com/frankban/quicktest v1.13.1
 ## explicit; go 1.13
 github.com/frankban/quicktest
-# github.com/fullstack-lang/gongdoc v0.0.0-20220428092247-f6fefafc6d68
-## explicit; go 1.17
+# github.com/fullstack-lang/gongdoc v0.0.0-20220621093433-572716039676
+## explicit; go 1.18
 github.com/fullstack-lang/gongdoc/go/controllers
 github.com/fullstack-lang/gongdoc/go/models
 github.com/fullstack-lang/gongdoc/go/orm
@@ -193,6 +193,9 @@ golang.org/x/image/tiff/lzw
 golang.org/x/image/vector
 # golang.org/x/mod v0.5.1
 ## explicit; go 1.17
+golang.org/x/mod/internal/lazyregexp
+golang.org/x/mod/modfile
+golang.org/x/mod/module
 golang.org/x/mod/semver
 # golang.org/x/sys v0.0.0-20211015200801-69063c4bb744
 ## explicit; go 1.17

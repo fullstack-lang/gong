@@ -80,45 +80,45 @@ type AstructDB struct {
 
 	// insertion for basic fields declaration
 
-	// Declation for basic field astructDB.Name {{BasicKind}} (to be completed)
+	// Declation for basic field astructDB.Name
 	Name_Data sql.NullString
 
 	// Declation for basic field astructDB.Date
 	Date_Data sql.NullTime
 
-	// Declation for basic field astructDB.Booleanfield bool (to be completed)
+	// Declation for basic field astructDB.Booleanfield
 	// provide the sql storage for the boolan
 	Booleanfield_Data sql.NullBool
 
-	// Declation for basic field astructDB.Aenum {{BasicKind}} (to be completed)
+	// Declation for basic field astructDB.Aenum
 	Aenum_Data sql.NullString
 
-	// Declation for basic field astructDB.Aenum_2 {{BasicKind}} (to be completed)
+	// Declation for basic field astructDB.Aenum_2
 	Aenum_2_Data sql.NullString
 
-	// Declation for basic field astructDB.Benum {{BasicKind}} (to be completed)
+	// Declation for basic field astructDB.Benum
 	Benum_Data sql.NullString
 
-	// Declation for basic field astructDB.CEnum {{BasicKind}} (to be completed)
+	// Declation for basic field astructDB.CEnum
 	CEnum_Data sql.NullInt64
 
-	// Declation for basic field astructDB.CName {{BasicKind}} (to be completed)
+	// Declation for basic field astructDB.CName
 	CName_Data sql.NullString
 
-	// Declation for basic field astructDB.CFloatfield {{BasicKind}} (to be completed)
+	// Declation for basic field astructDB.CFloatfield
 	CFloatfield_Data sql.NullFloat64
 
-	// Declation for basic field astructDB.Floatfield {{BasicKind}} (to be completed)
+	// Declation for basic field astructDB.Floatfield
 	Floatfield_Data sql.NullFloat64
 
-	// Declation for basic field astructDB.Intfield {{BasicKind}} (to be completed)
+	// Declation for basic field astructDB.Intfield
 	Intfield_Data sql.NullInt64
 
-	// Declation for basic field astructDB.Anotherbooleanfield bool (to be completed)
+	// Declation for basic field astructDB.Anotherbooleanfield
 	// provide the sql storage for the boolan
 	Anotherbooleanfield_Data sql.NullBool
 
-	// Declation for basic field astructDB.Duration1 {{BasicKind}} (to be completed)
+	// Declation for basic field astructDB.Duration1
 	Duration1_Data sql.NullInt64
 	// encoding of pointers
 	AstructPointersEnconding

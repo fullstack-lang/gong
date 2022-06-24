@@ -113,6 +113,10 @@ func MultiCodeGeneratorNgClass(
 
 	for _, _struct := range structList {
 
+		if !_struct.HasNameField() {
+			continue
+		}
+
 		// generate the typescript file
 		codeDBTS := NgClassDBTmpl
 

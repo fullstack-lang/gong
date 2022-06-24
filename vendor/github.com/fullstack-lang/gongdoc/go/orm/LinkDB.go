@@ -310,7 +310,7 @@ func (backRepoLink *BackRepoLinkStruct) CheckoutPhaseOne() (Error error) {
 
 	// list of instances to be removed
 	// start from the initial map on the stage and remove instances that have been checked out
-	linkInstancesToBeRemovedFromTheStage := make(map[*models.Link]struct{})
+	linkInstancesToBeRemovedFromTheStage := make(map[*models.Link]any)
 	for key, value := range models.Stage.Links {
 		linkInstancesToBeRemovedFromTheStage[key] = value
 	}
