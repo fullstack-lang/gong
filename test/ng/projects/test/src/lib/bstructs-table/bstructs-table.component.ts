@@ -74,6 +74,9 @@ export class BstructsTableComponent implements OnInit {
         case 'Floatfield':
           return bstructDB.Floatfield;
 
+        case 'Floatfield2':
+          return bstructDB.Floatfield2;
+
         case 'Intfield':
           return bstructDB.Intfield;
 
@@ -107,6 +110,7 @@ export class BstructsTableComponent implements OnInit {
       // insertion point for merging of fields
       mergedContent += bstructDB.Name.toLowerCase()
       mergedContent += bstructDB.Floatfield.toString()
+      mergedContent += bstructDB.Floatfield2.toString()
       mergedContent += bstructDB.Intfield.toString()
       if (bstructDB.Astruct_AnarrayofbDBID.Int64 != 0) {
         mergedContent += this.frontRepo.Astructs.get(bstructDB.Astruct_AnarrayofbDBID.Int64)!.Name.toLowerCase()
@@ -168,6 +172,7 @@ export class BstructsTableComponent implements OnInit {
       this.displayedColumns = ['ID', 'Edit', 'Delete', // insertion point for columns to display
         "Name",
         "Floatfield",
+        "Floatfield2",
         "Intfield",
         "Astruct_Anarrayofb",
         "Astruct_Anotherarrayofb",
@@ -176,6 +181,7 @@ export class BstructsTableComponent implements OnInit {
       this.displayedColumns = ['select', 'ID', // insertion point for columns to display
         "Name",
         "Floatfield",
+        "Floatfield2",
         "Intfield",
         "Astruct_Anarrayofb",
         "Astruct_Anotherarrayofb",

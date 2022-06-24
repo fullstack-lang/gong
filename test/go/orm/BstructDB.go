@@ -76,6 +76,9 @@ type BstructDB struct {
 	// Declation for basic field bstructDB.Floatfield
 	Floatfield_Data sql.NullFloat64
 
+	// Declation for basic field bstructDB.Floatfield2
+	Floatfield2_Data sql.NullFloat64
+
 	// Declation for basic field bstructDB.Intfield
 	Intfield_Data sql.NullInt64
 	// encoding of pointers
@@ -103,7 +106,9 @@ type BstructWOP struct {
 
 	Floatfield float64 `xlsx:"2"`
 
-	Intfield int `xlsx:"3"`
+	Floatfield2 float64 `xlsx:"3"`
+
+	Intfield int `xlsx:"4"`
 	// insertion for WOP pointer fields
 }
 
@@ -112,6 +117,7 @@ var Bstruct_Fields = []string{
 	"ID",
 	"Name",
 	"Floatfield",
+	"Floatfield2",
 	"Intfield",
 }
 
@@ -400,6 +406,9 @@ func (bstructDB *BstructDB) CopyBasicFieldsFromBstruct(bstruct *models.Bstruct) 
 	bstructDB.Floatfield_Data.Float64 = bstruct.Floatfield
 	bstructDB.Floatfield_Data.Valid = true
 
+	bstructDB.Floatfield2_Data.Float64 = bstruct.Floatfield2
+	bstructDB.Floatfield2_Data.Valid = true
+
 	bstructDB.Intfield_Data.Int64 = int64(bstruct.Intfield)
 	bstructDB.Intfield_Data.Valid = true
 }
@@ -414,6 +423,9 @@ func (bstructDB *BstructDB) CopyBasicFieldsFromBstructWOP(bstruct *BstructWOP) {
 	bstructDB.Floatfield_Data.Float64 = bstruct.Floatfield
 	bstructDB.Floatfield_Data.Valid = true
 
+	bstructDB.Floatfield2_Data.Float64 = bstruct.Floatfield2
+	bstructDB.Floatfield2_Data.Valid = true
+
 	bstructDB.Intfield_Data.Int64 = int64(bstruct.Intfield)
 	bstructDB.Intfield_Data.Valid = true
 }
@@ -423,6 +435,7 @@ func (bstructDB *BstructDB) CopyBasicFieldsToBstruct(bstruct *models.Bstruct) {
 	// insertion point for checkout of basic fields (back repo to stage)
 	bstruct.Name = bstructDB.Name_Data.String
 	bstruct.Floatfield = bstructDB.Floatfield_Data.Float64
+	bstruct.Floatfield2 = bstructDB.Floatfield2_Data.Float64
 	bstruct.Intfield = int(bstructDB.Intfield_Data.Int64)
 }
 
@@ -432,6 +445,7 @@ func (bstructDB *BstructDB) CopyBasicFieldsToBstructWOP(bstruct *BstructWOP) {
 	// insertion point for checkout of basic fields (back repo to stage)
 	bstruct.Name = bstructDB.Name_Data.String
 	bstruct.Floatfield = bstructDB.Floatfield_Data.Float64
+	bstruct.Floatfield2 = bstructDB.Floatfield2_Data.Float64
 	bstruct.Intfield = int(bstructDB.Intfield_Data.Int64)
 }
 

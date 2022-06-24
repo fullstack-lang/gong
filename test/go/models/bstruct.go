@@ -6,7 +6,7 @@ package models
 type Bstruct struct {
 	Name string
 
-	Floatfield float64
+	Floatfield, Floatfield2 float64
 
 	Intfield int
 
