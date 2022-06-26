@@ -8,6 +8,8 @@ import (
 	"os"
 	"reflect"
 	"strings"
+
+	gong_models "github.com/fullstack-lang/gong/go/models"
 )
 
 // Field represent the UML Field of a Class (a "struct" in go)
@@ -17,7 +19,8 @@ type Field struct {
 
 	// swagger:ignore
 	// actual go field in the models that is diagrammed, for instance "models.Point{}.X"
-	Field             interface{} `gorm:"-"`
+	Field interface{} `gorm:"-"`
+
 	Fieldname         string
 	FieldTypeAsString string
 	Structname        string
@@ -25,7 +28,7 @@ type Field struct {
 }
 
 // Unmarshall
-func (field *Field) Unmarshall(expr ast.Expr, fset *token.FileSet) {
+func (field *Field) Unmarshall(modelPkg *gong_models.ModelPkg, expr ast.Expr, fset *token.FileSet) {
 
 	var cl *ast.CompositeLit
 	var ok bool
@@ -73,20 +76,27 @@ func (field *Field) Unmarshall(expr ast.Expr, fset *token.FileSet) {
 				log.Panic("Expecting 1 selector " + fset.Position(cl.Pos()).String())
 			}
 
-			var ident2 *ast.Ident
-			if ident2, ok = se2.X.(*ast.Ident); !ok {
-				log.Panic("Expecting 1 ident " + fset.Position(se2.Pos()).String())
-			}
-
-			structnameWithX := ident2.Name + "." + se2.Sel.Name
 			field.Structname = se2.Sel.Name
 			field.Fieldname = se.Sel.Name
 			field.Name = field.Fieldname
 
-			// now, let's find the field target !!!
-			fieldname := fmt.Sprintf("%s{}.%s", structnameWithX, field.Fieldname)
-
-			fieldtypename := MapExpToType[fieldname]
+			// try to find the type of the field
+			var typename string
+			for _, _struct := range modelPkg.GongStructs {
+				if _struct.Name == field.Structname {
+					for _, _field := range _struct.GongBasicFields {
+						if _field.Name == field.Fieldname {
+							typename = _field.DeclaredType
+						}
+					}
+					for _, _field := range _struct.GongTimeFields {
+						if _field.Name == field.Fieldname {
+							typename = "time.Time"
+						}
+					}
+				}
+			}
+			fieldtypename := typename
 
 			// extract only the selector
 			words := strings.Split(fieldtypename, ".")

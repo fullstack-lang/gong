@@ -64,10 +64,10 @@ type ClassdiagramDB struct {
 
 	// insertion for basic fields declaration
 
-	// Declation for basic field classdiagramDB.Name {{BasicKind}} (to be completed)
+	// Declation for basic field classdiagramDB.Name
 	Name_Data sql.NullString
 
-	// Declation for basic field classdiagramDB.IsEditable bool (to be completed)
+	// Declation for basic field classdiagramDB.IsEditable
 	// provide the sql storage for the boolan
 	IsEditable_Data sql.NullBool
 	// encoding of pointers

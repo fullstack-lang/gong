@@ -58,34 +58,34 @@ type GongdocCommandDB struct {
 
 	// insertion for basic fields declaration
 
-	// Declation for basic field gongdoccommandDB.Name {{BasicKind}} (to be completed)
+	// Declation for basic field gongdoccommandDB.Name
 	Name_Data sql.NullString
 
-	// Declation for basic field gongdoccommandDB.Command {{BasicKind}} (to be completed)
+	// Declation for basic field gongdoccommandDB.Command
 	Command_Data sql.NullString
 
-	// Declation for basic field gongdoccommandDB.DiagramName {{BasicKind}} (to be completed)
+	// Declation for basic field gongdoccommandDB.DiagramName
 	DiagramName_Data sql.NullString
 
-	// Declation for basic field gongdoccommandDB.Date {{BasicKind}} (to be completed)
+	// Declation for basic field gongdoccommandDB.Date
 	Date_Data sql.NullString
 
-	// Declation for basic field gongdoccommandDB.GongdocNodeType {{BasicKind}} (to be completed)
+	// Declation for basic field gongdoccommandDB.GongdocNodeType
 	GongdocNodeType_Data sql.NullString
 
-	// Declation for basic field gongdoccommandDB.StructName {{BasicKind}} (to be completed)
+	// Declation for basic field gongdoccommandDB.StructName
 	StructName_Data sql.NullString
 
-	// Declation for basic field gongdoccommandDB.FieldName {{BasicKind}} (to be completed)
+	// Declation for basic field gongdoccommandDB.FieldName
 	FieldName_Data sql.NullString
 
-	// Declation for basic field gongdoccommandDB.FieldTypeName {{BasicKind}} (to be completed)
+	// Declation for basic field gongdoccommandDB.FieldTypeName
 	FieldTypeName_Data sql.NullString
 
-	// Declation for basic field gongdoccommandDB.PositionX {{BasicKind}} (to be completed)
+	// Declation for basic field gongdoccommandDB.PositionX
 	PositionX_Data sql.NullInt64
 
-	// Declation for basic field gongdoccommandDB.PositionY {{BasicKind}} (to be completed)
+	// Declation for basic field gongdoccommandDB.PositionY
 	PositionY_Data sql.NullInt64
 	// encoding of pointers
 	GongdocCommandPointersEnconding

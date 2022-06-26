@@ -1,8 +1,8 @@
 // generated from ng_file_enum.ts.go
 export enum ClassshapeTargetType {
 	// insertion point	
-	ENUM = "ENUM",
 	STRUCT = "STRUCT",
+	ENUM = "ENUM",
 }
 
 export interface ClassshapeTargetTypeSelect {
@@ -11,6 +11,6 @@ export interface ClassshapeTargetTypeSelect {
 }
 
 export const ClassshapeTargetTypeList: ClassshapeTargetTypeSelect[] = [ // insertion point	
-	{ value: ClassshapeTargetType.ENUM, viewValue: "ENUM" },
 	{ value: ClassshapeTargetType.STRUCT, viewValue: "STRUCT" },
+	{ value: ClassshapeTargetType.ENUM, viewValue: "ENUM" },
 ];

@@ -8,6 +8,8 @@ import (
 	"os"
 	"sort"
 	"strings"
+
+	gong_models "github.com/fullstack-lang/gong/go/models"
 )
 
 // Umlsc diagram struct store a class diagram
@@ -57,7 +59,7 @@ var UmlscStore UmlscMap = make(map[string]*Umlsc, 0)
 
 // Unmarshall updates a umlsc values from an ast.Epr
 // and appends it to the UmlscStore
-func (umlsc *Umlsc) Unmarshall(expr ast.Expr, fset *token.FileSet) {
+func (umlsc *Umlsc) Unmarshall(modelPkg *gong_models.ModelPkg, expr ast.Expr, fset *token.FileSet) {
 
 	// expression should be a composite literal expression
 	// "uml.Umlsc{
