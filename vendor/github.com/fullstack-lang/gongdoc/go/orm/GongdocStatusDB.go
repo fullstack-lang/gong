@@ -58,13 +58,13 @@ type GongdocStatusDB struct {
 
 	// insertion for basic fields declaration
 
-	// Declation for basic field gongdocstatusDB.Name {{BasicKind}} (to be completed)
+	// Declation for basic field gongdocstatusDB.Name
 	Name_Data sql.NullString
 
-	// Declation for basic field gongdocstatusDB.Status {{BasicKind}} (to be completed)
+	// Declation for basic field gongdocstatusDB.Status
 	Status_Data sql.NullString
 
-	// Declation for basic field gongdocstatusDB.CommandCompletionDate {{BasicKind}} (to be completed)
+	// Declation for basic field gongdocstatusDB.CommandCompletionDate
 	CommandCompletionDate_Data sql.NullString
 	// encoding of pointers
 	GongdocStatusPointersEnconding

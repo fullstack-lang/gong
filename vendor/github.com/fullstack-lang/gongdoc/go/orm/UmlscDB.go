@@ -64,10 +64,10 @@ type UmlscDB struct {
 
 	// insertion for basic fields declaration
 
-	// Declation for basic field umlscDB.Name {{BasicKind}} (to be completed)
+	// Declation for basic field umlscDB.Name
 	Name_Data sql.NullString
 
-	// Declation for basic field umlscDB.Activestate {{BasicKind}} (to be completed)
+	// Declation for basic field umlscDB.Activestate
 	Activestate_Data sql.NullString
 	// encoding of pointers
 	UmlscPointersEnconding
