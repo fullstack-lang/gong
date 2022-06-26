@@ -3490,10 +3490,10 @@ func (classshapetargettype ClassshapeTargetType) ToString() (res string) {
 	// migration of former implementation of enum
 	switch classshapetargettype {
 	// insertion code per enum code
-	case ENUM:
-		res = "ENUM"
 	case STRUCT:
 		res = "STRUCT"
+	case ENUM:
+		res = "ENUM"
 	}
 	return
 }
@@ -3502,10 +3502,10 @@ func (classshapetargettype *ClassshapeTargetType) FromString(input string) {
 
 	switch input {
 	// insertion code per enum code
-	case "ENUM":
-		*classshapetargettype = ENUM
 	case "STRUCT":
 		*classshapetargettype = STRUCT
+	case "ENUM":
+		*classshapetargettype = ENUM
 	}
 }
 
@@ -3513,10 +3513,10 @@ func (classshapetargettype *ClassshapeTargetType) ToCodeString() (res string) {
 
 	switch *classshapetargettype {
 	// insertion code per enum code
-	case ENUM:
-		res = "ENUM"
 	case STRUCT:
 		res = "STRUCT"
+	case ENUM:
+		res = "ENUM"
 	}
 	return
 }
@@ -3529,10 +3529,10 @@ func (editionmode EditionMode) ToString() (res string) {
 	// migration of former implementation of enum
 	switch editionmode {
 	// insertion code per enum code
-	case DEVELOPMENT_MODE:
-		res = "DEVELOPMENT_MODE"
 	case PRODUCTION_MODE:
 		res = "PRODUCTION_MODE"
+	case DEVELOPMENT_MODE:
+		res = "DEVELOPMENT_MODE"
 	}
 	return
 }
@@ -3541,10 +3541,10 @@ func (editionmode *EditionMode) FromString(input string) {
 
 	switch input {
 	// insertion code per enum code
-	case "DEVELOPMENT_MODE":
-		*editionmode = DEVELOPMENT_MODE
 	case "PRODUCTION_MODE":
 		*editionmode = PRODUCTION_MODE
+	case "DEVELOPMENT_MODE":
+		*editionmode = DEVELOPMENT_MODE
 	}
 }
 
@@ -3552,10 +3552,10 @@ func (editionmode *EditionMode) ToCodeString() (res string) {
 
 	switch *editionmode {
 	// insertion code per enum code
-	case DEVELOPMENT_MODE:
-		res = "DEVELOPMENT_MODE"
 	case PRODUCTION_MODE:
 		res = "PRODUCTION_MODE"
+	case DEVELOPMENT_MODE:
+		res = "DEVELOPMENT_MODE"
 	}
 	return
 }
@@ -3568,32 +3568,32 @@ func (gongdoccommandtype GongdocCommandType) ToString() (res string) {
 	// migration of former implementation of enum
 	switch gongdoccommandtype {
 	// insertion code per enum code
-	case DIAGRAM_BASICFIELD_CREATE:
-		res = "DIAGRAM_BASICFIELD_CREATE"
-	case DIAGRAM_BASICFIELD_DELETE:
-		res = "DIAGRAM_BASICFIELD_DELETE"
-	case DIAGRAM_ELEMENT_CREATE:
-		res = "DIAGRAM_ELEMENT_CREATE"
-	case DIAGRAM_ELEMENT_DELETE:
-		res = "DIAGRAM_ELEMENT_DELETE"
-	case DIAGRAM_GONGSTRUCT_CREATE:
-		res = "DIAGRAM_GONGSTRUCT_CREATE"
-	case DIAGRAM_GONGSTRUCT_DELETE:
-		res = "DIAGRAM_GONGSTRUCT_DELETE"
-	case DIAGRAM_GONGSTRUCT_SELECT:
-		res = "DIAGRAM_GONGSTRUCT_SELECT"
-	case DIAGRAM_POINTER_TO_GONGSTRUCT_CREATE:
-		res = "DIAGRAM_POINTER_TO_GONGSTRUCT_CREATE"
-	case DIAGRAM_POINTER_TO_GONGSTRUCT_DELETE:
-		res = "DIAGRAM_POINTER_TO_GONGSTRUCT_DELETE"
-	case DIAGRAM_SLICE_OF_POINTERS_TO_GONGSTRUCT_CREATE:
-		res = "DIAGRAM_SLICE_OF_POINTERS_TO_GONGSTRUCT_CREATE"
-	case DIAGRAM_SLICE_OF_POINTERS_TO_GONGSTRUCT_DELETE:
-		res = "DIAGRAM_SLICE_OF_POINTERS_TO_GONGSTRUCT_DELETE"
 	case MARSHALL_DIAGRAM:
 		res = "MARSHALL_ALL_DIAGRAMS"
 	case PRINT_ALL_DOCUMENTS:
 		res = "PRINT_ALL_DOCUMENTS"
+	case DIAGRAM_ELEMENT_DELETE:
+		res = "DIAGRAM_ELEMENT_DELETE"
+	case DIAGRAM_ELEMENT_CREATE:
+		res = "DIAGRAM_ELEMENT_CREATE"
+	case DIAGRAM_GONGSTRUCT_DELETE:
+		res = "DIAGRAM_GONGSTRUCT_DELETE"
+	case DIAGRAM_GONGSTRUCT_CREATE:
+		res = "DIAGRAM_GONGSTRUCT_CREATE"
+	case DIAGRAM_BASICFIELD_DELETE:
+		res = "DIAGRAM_BASICFIELD_DELETE"
+	case DIAGRAM_BASICFIELD_CREATE:
+		res = "DIAGRAM_BASICFIELD_CREATE"
+	case DIAGRAM_POINTER_TO_GONGSTRUCT_DELETE:
+		res = "DIAGRAM_POINTER_TO_GONGSTRUCT_DELETE"
+	case DIAGRAM_POINTER_TO_GONGSTRUCT_CREATE:
+		res = "DIAGRAM_POINTER_TO_GONGSTRUCT_CREATE"
+	case DIAGRAM_SLICE_OF_POINTERS_TO_GONGSTRUCT_DELETE:
+		res = "DIAGRAM_SLICE_OF_POINTERS_TO_GONGSTRUCT_DELETE"
+	case DIAGRAM_SLICE_OF_POINTERS_TO_GONGSTRUCT_CREATE:
+		res = "DIAGRAM_SLICE_OF_POINTERS_TO_GONGSTRUCT_CREATE"
+	case DIAGRAM_GONGSTRUCT_SELECT:
+		res = "DIAGRAM_GONGSTRUCT_SELECT"
 	}
 	return
 }
@@ -3602,32 +3602,32 @@ func (gongdoccommandtype *GongdocCommandType) FromString(input string) {
 
 	switch input {
 	// insertion code per enum code
-	case "DIAGRAM_BASICFIELD_CREATE":
-		*gongdoccommandtype = DIAGRAM_BASICFIELD_CREATE
-	case "DIAGRAM_BASICFIELD_DELETE":
-		*gongdoccommandtype = DIAGRAM_BASICFIELD_DELETE
-	case "DIAGRAM_ELEMENT_CREATE":
-		*gongdoccommandtype = DIAGRAM_ELEMENT_CREATE
-	case "DIAGRAM_ELEMENT_DELETE":
-		*gongdoccommandtype = DIAGRAM_ELEMENT_DELETE
-	case "DIAGRAM_GONGSTRUCT_CREATE":
-		*gongdoccommandtype = DIAGRAM_GONGSTRUCT_CREATE
-	case "DIAGRAM_GONGSTRUCT_DELETE":
-		*gongdoccommandtype = DIAGRAM_GONGSTRUCT_DELETE
-	case "DIAGRAM_GONGSTRUCT_SELECT":
-		*gongdoccommandtype = DIAGRAM_GONGSTRUCT_SELECT
-	case "DIAGRAM_POINTER_TO_GONGSTRUCT_CREATE":
-		*gongdoccommandtype = DIAGRAM_POINTER_TO_GONGSTRUCT_CREATE
-	case "DIAGRAM_POINTER_TO_GONGSTRUCT_DELETE":
-		*gongdoccommandtype = DIAGRAM_POINTER_TO_GONGSTRUCT_DELETE
-	case "DIAGRAM_SLICE_OF_POINTERS_TO_GONGSTRUCT_CREATE":
-		*gongdoccommandtype = DIAGRAM_SLICE_OF_POINTERS_TO_GONGSTRUCT_CREATE
-	case "DIAGRAM_SLICE_OF_POINTERS_TO_GONGSTRUCT_DELETE":
-		*gongdoccommandtype = DIAGRAM_SLICE_OF_POINTERS_TO_GONGSTRUCT_DELETE
 	case "MARSHALL_ALL_DIAGRAMS":
 		*gongdoccommandtype = MARSHALL_DIAGRAM
 	case "PRINT_ALL_DOCUMENTS":
 		*gongdoccommandtype = PRINT_ALL_DOCUMENTS
+	case "DIAGRAM_ELEMENT_DELETE":
+		*gongdoccommandtype = DIAGRAM_ELEMENT_DELETE
+	case "DIAGRAM_ELEMENT_CREATE":
+		*gongdoccommandtype = DIAGRAM_ELEMENT_CREATE
+	case "DIAGRAM_GONGSTRUCT_DELETE":
+		*gongdoccommandtype = DIAGRAM_GONGSTRUCT_DELETE
+	case "DIAGRAM_GONGSTRUCT_CREATE":
+		*gongdoccommandtype = DIAGRAM_GONGSTRUCT_CREATE
+	case "DIAGRAM_BASICFIELD_DELETE":
+		*gongdoccommandtype = DIAGRAM_BASICFIELD_DELETE
+	case "DIAGRAM_BASICFIELD_CREATE":
+		*gongdoccommandtype = DIAGRAM_BASICFIELD_CREATE
+	case "DIAGRAM_POINTER_TO_GONGSTRUCT_DELETE":
+		*gongdoccommandtype = DIAGRAM_POINTER_TO_GONGSTRUCT_DELETE
+	case "DIAGRAM_POINTER_TO_GONGSTRUCT_CREATE":
+		*gongdoccommandtype = DIAGRAM_POINTER_TO_GONGSTRUCT_CREATE
+	case "DIAGRAM_SLICE_OF_POINTERS_TO_GONGSTRUCT_DELETE":
+		*gongdoccommandtype = DIAGRAM_SLICE_OF_POINTERS_TO_GONGSTRUCT_DELETE
+	case "DIAGRAM_SLICE_OF_POINTERS_TO_GONGSTRUCT_CREATE":
+		*gongdoccommandtype = DIAGRAM_SLICE_OF_POINTERS_TO_GONGSTRUCT_CREATE
+	case "DIAGRAM_GONGSTRUCT_SELECT":
+		*gongdoccommandtype = DIAGRAM_GONGSTRUCT_SELECT
 	}
 }
 
@@ -3635,32 +3635,32 @@ func (gongdoccommandtype *GongdocCommandType) ToCodeString() (res string) {
 
 	switch *gongdoccommandtype {
 	// insertion code per enum code
-	case DIAGRAM_BASICFIELD_CREATE:
-		res = "DIAGRAM_BASICFIELD_CREATE"
-	case DIAGRAM_BASICFIELD_DELETE:
-		res = "DIAGRAM_BASICFIELD_DELETE"
-	case DIAGRAM_ELEMENT_CREATE:
-		res = "DIAGRAM_ELEMENT_CREATE"
-	case DIAGRAM_ELEMENT_DELETE:
-		res = "DIAGRAM_ELEMENT_DELETE"
-	case DIAGRAM_GONGSTRUCT_CREATE:
-		res = "DIAGRAM_GONGSTRUCT_CREATE"
-	case DIAGRAM_GONGSTRUCT_DELETE:
-		res = "DIAGRAM_GONGSTRUCT_DELETE"
-	case DIAGRAM_GONGSTRUCT_SELECT:
-		res = "DIAGRAM_GONGSTRUCT_SELECT"
-	case DIAGRAM_POINTER_TO_GONGSTRUCT_CREATE:
-		res = "DIAGRAM_POINTER_TO_GONGSTRUCT_CREATE"
-	case DIAGRAM_POINTER_TO_GONGSTRUCT_DELETE:
-		res = "DIAGRAM_POINTER_TO_GONGSTRUCT_DELETE"
-	case DIAGRAM_SLICE_OF_POINTERS_TO_GONGSTRUCT_CREATE:
-		res = "DIAGRAM_SLICE_OF_POINTERS_TO_GONGSTRUCT_CREATE"
-	case DIAGRAM_SLICE_OF_POINTERS_TO_GONGSTRUCT_DELETE:
-		res = "DIAGRAM_SLICE_OF_POINTERS_TO_GONGSTRUCT_DELETE"
 	case MARSHALL_DIAGRAM:
 		res = "MARSHALL_DIAGRAM"
 	case PRINT_ALL_DOCUMENTS:
 		res = "PRINT_ALL_DOCUMENTS"
+	case DIAGRAM_ELEMENT_DELETE:
+		res = "DIAGRAM_ELEMENT_DELETE"
+	case DIAGRAM_ELEMENT_CREATE:
+		res = "DIAGRAM_ELEMENT_CREATE"
+	case DIAGRAM_GONGSTRUCT_DELETE:
+		res = "DIAGRAM_GONGSTRUCT_DELETE"
+	case DIAGRAM_GONGSTRUCT_CREATE:
+		res = "DIAGRAM_GONGSTRUCT_CREATE"
+	case DIAGRAM_BASICFIELD_DELETE:
+		res = "DIAGRAM_BASICFIELD_DELETE"
+	case DIAGRAM_BASICFIELD_CREATE:
+		res = "DIAGRAM_BASICFIELD_CREATE"
+	case DIAGRAM_POINTER_TO_GONGSTRUCT_DELETE:
+		res = "DIAGRAM_POINTER_TO_GONGSTRUCT_DELETE"
+	case DIAGRAM_POINTER_TO_GONGSTRUCT_CREATE:
+		res = "DIAGRAM_POINTER_TO_GONGSTRUCT_CREATE"
+	case DIAGRAM_SLICE_OF_POINTERS_TO_GONGSTRUCT_DELETE:
+		res = "DIAGRAM_SLICE_OF_POINTERS_TO_GONGSTRUCT_DELETE"
+	case DIAGRAM_SLICE_OF_POINTERS_TO_GONGSTRUCT_CREATE:
+		res = "DIAGRAM_SLICE_OF_POINTERS_TO_GONGSTRUCT_CREATE"
+	case DIAGRAM_GONGSTRUCT_SELECT:
+		res = "DIAGRAM_GONGSTRUCT_SELECT"
 	}
 	return
 }
@@ -3673,26 +3673,26 @@ func (gongdocnodetype GongdocNodeType) ToString() (res string) {
 	// migration of former implementation of enum
 	switch gongdocnodetype {
 	// insertion code per enum code
-	case BASIC_FIELD:
-		res = "BASIC_FIELD"
-	case GONG_STRUCT:
-		res = "GONG_STRUCT"
-	case POINTER_TO_STRUCT:
-		res = "POINTER_TO_STRUCT"
-	case ROOT_OF_BASIC_FIELDS:
-		res = "ROOT_OF_BASIC_FIELDS"
 	case ROOT_OF_GONG_STRUCTS:
 		res = "ROOT_OF_GONG_STRUCTS"
-	case ROOT_OF_POINTER_TO_STRUCT_FIELDS:
-		res = "ROOT_OF_POINTER_TO_STRUCT_FIELDS"
-	case ROOT_OF_SLICE_OF_POINTER_TO_GONG_STRUCT_FIELDS:
-		res = "ROOT_OF_SLICE_OF_POINTER_TO_GONG_STRUCT_FIELDS"
+	case GONG_STRUCT:
+		res = "GONG_STRUCT"
+	case ROOT_OF_BASIC_FIELDS:
+		res = "ROOT_OF_BASIC_FIELDS"
+	case BASIC_FIELD:
+		res = "BASIC_FIELD"
 	case ROOT_OF_TIME_FIELDS:
 		res = "ROOT_OF_TIME_FIELDS"
-	case SLICE_OF_POINTER_TO_STRUCT:
-		res = "SLICE_OF_POINTER_TO_STRUCT"
 	case TIME_FIELD:
 		res = "TIME_FIELD"
+	case ROOT_OF_POINTER_TO_STRUCT_FIELDS:
+		res = "ROOT_OF_POINTER_TO_STRUCT_FIELDS"
+	case POINTER_TO_STRUCT:
+		res = "POINTER_TO_STRUCT"
+	case ROOT_OF_SLICE_OF_POINTER_TO_GONG_STRUCT_FIELDS:
+		res = "ROOT_OF_SLICE_OF_POINTER_TO_GONG_STRUCT_FIELDS"
+	case SLICE_OF_POINTER_TO_STRUCT:
+		res = "SLICE_OF_POINTER_TO_STRUCT"
 	}
 	return
 }
@@ -3701,26 +3701,26 @@ func (gongdocnodetype *GongdocNodeType) FromString(input string) {
 
 	switch input {
 	// insertion code per enum code
-	case "BASIC_FIELD":
-		*gongdocnodetype = BASIC_FIELD
-	case "GONG_STRUCT":
-		*gongdocnodetype = GONG_STRUCT
-	case "POINTER_TO_STRUCT":
-		*gongdocnodetype = POINTER_TO_STRUCT
-	case "ROOT_OF_BASIC_FIELDS":
-		*gongdocnodetype = ROOT_OF_BASIC_FIELDS
 	case "ROOT_OF_GONG_STRUCTS":
 		*gongdocnodetype = ROOT_OF_GONG_STRUCTS
-	case "ROOT_OF_POINTER_TO_STRUCT_FIELDS":
-		*gongdocnodetype = ROOT_OF_POINTER_TO_STRUCT_FIELDS
-	case "ROOT_OF_SLICE_OF_POINTER_TO_GONG_STRUCT_FIELDS":
-		*gongdocnodetype = ROOT_OF_SLICE_OF_POINTER_TO_GONG_STRUCT_FIELDS
+	case "GONG_STRUCT":
+		*gongdocnodetype = GONG_STRUCT
+	case "ROOT_OF_BASIC_FIELDS":
+		*gongdocnodetype = ROOT_OF_BASIC_FIELDS
+	case "BASIC_FIELD":
+		*gongdocnodetype = BASIC_FIELD
 	case "ROOT_OF_TIME_FIELDS":
 		*gongdocnodetype = ROOT_OF_TIME_FIELDS
-	case "SLICE_OF_POINTER_TO_STRUCT":
-		*gongdocnodetype = SLICE_OF_POINTER_TO_STRUCT
 	case "TIME_FIELD":
 		*gongdocnodetype = TIME_FIELD
+	case "ROOT_OF_POINTER_TO_STRUCT_FIELDS":
+		*gongdocnodetype = ROOT_OF_POINTER_TO_STRUCT_FIELDS
+	case "POINTER_TO_STRUCT":
+		*gongdocnodetype = POINTER_TO_STRUCT
+	case "ROOT_OF_SLICE_OF_POINTER_TO_GONG_STRUCT_FIELDS":
+		*gongdocnodetype = ROOT_OF_SLICE_OF_POINTER_TO_GONG_STRUCT_FIELDS
+	case "SLICE_OF_POINTER_TO_STRUCT":
+		*gongdocnodetype = SLICE_OF_POINTER_TO_STRUCT
 	}
 }
 
@@ -3728,26 +3728,26 @@ func (gongdocnodetype *GongdocNodeType) ToCodeString() (res string) {
 
 	switch *gongdocnodetype {
 	// insertion code per enum code
-	case BASIC_FIELD:
-		res = "BASIC_FIELD"
-	case GONG_STRUCT:
-		res = "GONG_STRUCT"
-	case POINTER_TO_STRUCT:
-		res = "POINTER_TO_STRUCT"
-	case ROOT_OF_BASIC_FIELDS:
-		res = "ROOT_OF_BASIC_FIELDS"
 	case ROOT_OF_GONG_STRUCTS:
 		res = "ROOT_OF_GONG_STRUCTS"
-	case ROOT_OF_POINTER_TO_STRUCT_FIELDS:
-		res = "ROOT_OF_POINTER_TO_STRUCT_FIELDS"
-	case ROOT_OF_SLICE_OF_POINTER_TO_GONG_STRUCT_FIELDS:
-		res = "ROOT_OF_SLICE_OF_POINTER_TO_GONG_STRUCT_FIELDS"
+	case GONG_STRUCT:
+		res = "GONG_STRUCT"
+	case ROOT_OF_BASIC_FIELDS:
+		res = "ROOT_OF_BASIC_FIELDS"
+	case BASIC_FIELD:
+		res = "BASIC_FIELD"
 	case ROOT_OF_TIME_FIELDS:
 		res = "ROOT_OF_TIME_FIELDS"
-	case SLICE_OF_POINTER_TO_STRUCT:
-		res = "SLICE_OF_POINTER_TO_STRUCT"
 	case TIME_FIELD:
 		res = "TIME_FIELD"
+	case ROOT_OF_POINTER_TO_STRUCT_FIELDS:
+		res = "ROOT_OF_POINTER_TO_STRUCT_FIELDS"
+	case POINTER_TO_STRUCT:
+		res = "POINTER_TO_STRUCT"
+	case ROOT_OF_SLICE_OF_POINTER_TO_GONG_STRUCT_FIELDS:
+		res = "ROOT_OF_SLICE_OF_POINTER_TO_GONG_STRUCT_FIELDS"
+	case SLICE_OF_POINTER_TO_STRUCT:
+		res = "SLICE_OF_POINTER_TO_STRUCT"
 	}
 	return
 }
@@ -3760,12 +3760,12 @@ func (multiplicitytype MultiplicityType) ToString() (res string) {
 	// migration of former implementation of enum
 	switch multiplicitytype {
 	// insertion code per enum code
-	case MANY:
-		res = "*"
-	case ONE:
-		res = "1"
 	case ZERO_ONE:
 		res = "0..1"
+	case ONE:
+		res = "1"
+	case MANY:
+		res = "*"
 	}
 	return
 }
@@ -3774,12 +3774,12 @@ func (multiplicitytype *MultiplicityType) FromString(input string) {
 
 	switch input {
 	// insertion code per enum code
-	case "*":
-		*multiplicitytype = MANY
-	case "1":
-		*multiplicitytype = ONE
 	case "0..1":
 		*multiplicitytype = ZERO_ONE
+	case "1":
+		*multiplicitytype = ONE
+	case "*":
+		*multiplicitytype = MANY
 	}
 }
 
@@ -3787,12 +3787,12 @@ func (multiplicitytype *MultiplicityType) ToCodeString() (res string) {
 
 	switch *multiplicitytype {
 	// insertion code per enum code
-	case MANY:
-		res = "MANY"
-	case ONE:
-		res = "ONE"
 	case ZERO_ONE:
 		res = "ZERO_ONE"
+	case ONE:
+		res = "ONE"
+	case MANY:
+		res = "MANY"
 	}
 	return
 }

@@ -72,26 +72,26 @@ type ClassshapeDB struct {
 
 	// insertion for basic fields declaration
 
-	// Declation for basic field classshapeDB.Name {{BasicKind}} (to be completed)
+	// Declation for basic field classshapeDB.Name
 	Name_Data sql.NullString
 
-	// Declation for basic field classshapeDB.Structname {{BasicKind}} (to be completed)
+	// Declation for basic field classshapeDB.Structname
 	Structname_Data sql.NullString
 
-	// Declation for basic field classshapeDB.ShowNbInstances bool (to be completed)
+	// Declation for basic field classshapeDB.ShowNbInstances
 	// provide the sql storage for the boolan
 	ShowNbInstances_Data sql.NullBool
 
-	// Declation for basic field classshapeDB.NbInstances {{BasicKind}} (to be completed)
+	// Declation for basic field classshapeDB.NbInstances
 	NbInstances_Data sql.NullInt64
 
-	// Declation for basic field classshapeDB.Width {{BasicKind}} (to be completed)
+	// Declation for basic field classshapeDB.Width
 	Width_Data sql.NullFloat64
 
-	// Declation for basic field classshapeDB.Heigth {{BasicKind}} (to be completed)
+	// Declation for basic field classshapeDB.Heigth
 	Heigth_Data sql.NullFloat64
 
-	// Declation for basic field classshapeDB.ClassshapeTargetType {{BasicKind}} (to be completed)
+	// Declation for basic field classshapeDB.ClassshapeTargetType
 	ClassshapeTargetType_Data sql.NullString
 	// encoding of pointers
 	ClassshapePointersEnconding

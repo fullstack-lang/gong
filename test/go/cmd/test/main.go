@@ -4,6 +4,7 @@ import (
 	"embed"
 	"flag"
 	"fmt"
+	"go/token"
 	"io/fs"
 	"log"
 	"net/http"
@@ -178,7 +179,14 @@ func main() {
 
 		// classdiagram can only be fully in memory when they are Unmarshalled
 		// for instance, the Name of diagrams or the Name of the Link
-		pkgelt.Unmarshall(modelPkg.PkgPath, "../../diagrams")
+		fset := new(token.FileSet)
+		pkgsParser := gong_models.ParseEmbedModel(test.GoDir, "go/diagrams")
+		if len(pkgsParser) != 1 {
+			log.Panic("Unable to parser, wrong number of parsers ", len(pkgsParser))
+		}
+		if pkgParser, ok := pkgsParser["diagrams"]; ok {
+			pkgelt.Unmarshall(modelPkg, pkgParser, fset, "../../diagrams")
+		}
 		pkgelt.SerializeToStage()
 	}
 

@@ -7,6 +7,8 @@ import (
 	"log"
 	"os"
 	"sort"
+
+	gong_models "github.com/fullstack-lang/gong/go/models"
 )
 
 const ClassshapeDefaultWidth = 240.0
@@ -18,7 +20,6 @@ type Classshape struct {
 	// for technical reasons
 	Name string
 
-	// swagger:ignore
 	Position *Position
 
 	// swagger:ignore, an "interface" field cannot be used by gong, therefore, one specifies
@@ -139,7 +140,7 @@ type ClassshapeMap map[string]*Classshape
 var ClassshapeStore ClassshapeMap = make(map[string]*Classshape, 0)
 
 // Unmarshall updates classshape values from an ast.Epr
-func (classshape *Classshape) Unmarshall(expr ast.Expr, fset *token.FileSet) {
+func (classshape *Classshape) Unmarshall(modelPkg *gong_models.ModelPkg, expr ast.Expr, fset *token.FileSet) {
 
 	// expression should be a composite literal expression
 	// models.Classshape{Position: uml.Position{X: 10, Y: 12}, Struct: &(models.Point{})}
@@ -248,7 +249,7 @@ func (classshape *Classshape) Unmarshall(expr ast.Expr, fset *token.FileSet) {
 					switch exp := expr.(type) {
 					case *ast.CompositeLit: // this is a definition
 						var link Link
-						link.Unmarshall(exp, fset)
+						link.Unmarshall(modelPkg, exp, fset)
 
 						classshape.Links = append(classshape.Links, &link)
 					default:
@@ -269,7 +270,7 @@ func (classshape *Classshape) Unmarshall(expr ast.Expr, fset *token.FileSet) {
 					switch exp := expr.(type) {
 					case *ast.CompositeLit: // this is a definition
 						var field Field
-						field.Unmarshall(exp, fset)
+						field.Unmarshall(modelPkg, exp, fset)
 
 						classshape.Fields = append(classshape.Fields, &field)
 					default:

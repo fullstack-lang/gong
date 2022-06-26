@@ -58,13 +58,13 @@ type PositionDB struct {
 
 	// insertion for basic fields declaration
 
-	// Declation for basic field positionDB.X {{BasicKind}} (to be completed)
+	// Declation for basic field positionDB.X
 	X_Data sql.NullFloat64
 
-	// Declation for basic field positionDB.Y {{BasicKind}} (to be completed)
+	// Declation for basic field positionDB.Y
 	Y_Data sql.NullFloat64
 
-	// Declation for basic field positionDB.Name {{BasicKind}} (to be completed)
+	// Declation for basic field positionDB.Name
 	Name_Data sql.NullString
 	// encoding of pointers
 	PositionPointersEnconding

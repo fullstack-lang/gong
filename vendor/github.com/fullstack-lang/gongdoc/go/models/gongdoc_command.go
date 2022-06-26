@@ -83,9 +83,15 @@ func init() {
 
 				// fetch the only package
 				var pkgelt *Pkgelt
-				for _pkgelt := range Stage.Pkgelts {
+				for _pkgelt := range *GetGongstructInstancesSet[Pkgelt]() {
 					pkgelt = _pkgelt
 				}
+
+				var gongPackage *gong_models.ModelPkg
+				for _modelPkg := range *gong_models.GetGongstructInstancesSet[gong_models.ModelPkg]() {
+					gongPackage = _modelPkg
+				}
+				log.Println("Fetched gong package: ", gongPackage.Name)
 
 				// fetch the classdiagram of interest
 				var classDiagram *Classdiagram

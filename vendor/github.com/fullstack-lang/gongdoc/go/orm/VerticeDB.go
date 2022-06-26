@@ -58,13 +58,13 @@ type VerticeDB struct {
 
 	// insertion for basic fields declaration
 
-	// Declation for basic field verticeDB.X {{BasicKind}} (to be completed)
+	// Declation for basic field verticeDB.X
 	X_Data sql.NullFloat64
 
-	// Declation for basic field verticeDB.Y {{BasicKind}} (to be completed)
+	// Declation for basic field verticeDB.Y
 	Y_Data sql.NullFloat64
 
-	// Declation for basic field verticeDB.Name {{BasicKind}} (to be completed)
+	// Declation for basic field verticeDB.Name
 	Name_Data sql.NullString
 	// encoding of pointers
 	VerticePointersEnconding

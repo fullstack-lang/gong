@@ -58,13 +58,13 @@ type PkgeltDB struct {
 
 	// insertion for basic fields declaration
 
-	// Declation for basic field pkgeltDB.Name {{BasicKind}} (to be completed)
+	// Declation for basic field pkgeltDB.Name
 	Name_Data sql.NullString
 
-	// Declation for basic field pkgeltDB.Path {{BasicKind}} (to be completed)
+	// Declation for basic field pkgeltDB.Path
 	Path_Data sql.NullString
 
-	// Declation for basic field pkgeltDB.GongModelPath {{BasicKind}} (to be completed)
+	// Declation for basic field pkgeltDB.GongModelPath
 	GongModelPath_Data sql.NullString
 	// encoding of pointers
 	PkgeltPointersEnconding
