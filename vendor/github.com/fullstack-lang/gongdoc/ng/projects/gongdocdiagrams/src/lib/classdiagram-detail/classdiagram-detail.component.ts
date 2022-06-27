@@ -94,9 +94,6 @@ export class ClassdiagramDetailComponent implements OnInit {
 
 		if (id != 0) {
 
-
-
-
 			this.classdiagramService.updateClassdiagram(this.classdiagram)
 				.subscribe(classdiagram => {
 					this.classdiagramService.ClassdiagramServiceChanged.next("update")
