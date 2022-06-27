@@ -135,10 +135,10 @@ func (pkgelt *Pkgelt) Unmarshall(modelPkg *gong_models.ModelPkg, astPkg *ast.Pac
 		switch x := n.(type) {
 		case *ast.GenDecl:
 			if len(x.Specs) > 0 {
-				log.Println("Found declaration ")
+				// log.Println("Found declaration ")
 				switch vs := x.Specs[0].(type) {
 				case *ast.ValueSpec:
-					log.Println("Found value spec ", vs.Names[0])
+					// log.Println("Found value spec ", vs.Names[0])
 
 					switch se := vs.Type.(type) {
 					case *ast.SelectorExpr:
