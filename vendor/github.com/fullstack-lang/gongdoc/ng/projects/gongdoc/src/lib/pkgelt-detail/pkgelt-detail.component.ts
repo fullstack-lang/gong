@@ -33,6 +33,7 @@ enum PkgeltDetailComponentState {
 export class PkgeltDetailComponent implements OnInit {
 
 	// insertion point for declarations
+	EditableFormControl = new FormControl(false);
 
 	// the PkgeltDB of interest
 	pkgelt: PkgeltDB = new PkgeltDB
@@ -122,6 +123,7 @@ export class PkgeltDetailComponent implements OnInit {
 				}
 
 				// insertion point for recovery of form controls value for bool fields
+				this.EditableFormControl.setValue(this.pkgelt.Editable)
 			}
 		)
 
@@ -134,6 +136,7 @@ export class PkgeltDetailComponent implements OnInit {
 		// pointers fields, after the translation, are nulled in order to perform serialization
 
 		// insertion point for translation/nullation of each field
+		this.pkgelt.Editable = this.EditableFormControl.value
 
 		// save from the front pointer space to the non pointer space for serialization
 

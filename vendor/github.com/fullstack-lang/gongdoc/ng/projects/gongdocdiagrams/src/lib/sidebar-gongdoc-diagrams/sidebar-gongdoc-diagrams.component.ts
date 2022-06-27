@@ -126,6 +126,9 @@ export class SidebarGongdocDiagramsComponent implements OnInit {
   // "data" tree that is constructed during NgInit and is passed to the mat-tree component
   gongNodeTree = new Array<GongNode>();
 
+  // the package can be editable or not
+  editable?: boolean
+
   constructor(
     private router: Router,
     private frontRepoService: gongdoc.FrontRepoService,
@@ -155,7 +158,7 @@ export class SidebarGongdocDiagramsComponent implements OnInit {
 
     // observable for changes in structs
     this.classdiagramService.ClassdiagramServiceChanged.subscribe(
-      (message:string) => {
+      (message: string) => {
         if (message == "post" || message == "update" || message == "delete") {
           this.refresh()
         }
@@ -164,8 +167,13 @@ export class SidebarGongdocDiagramsComponent implements OnInit {
 
   }
   refresh(): void {
-    this.frontRepoService.pull().subscribe( (frontRepo: gongdoc.FrontRepo) => {
+    this.frontRepoService.pull().subscribe((frontRepo: gongdoc.FrontRepo) => {
       this.frontRepo = frontRepo
+
+      this.frontRepo.Pkgelts_array.forEach(
+        pkgElt => {
+          this.editable = pkgElt.Editable
+        })
 
       // use of a Gödel number to uniquely identfy nodes : 2 * node.id + 3 * node.level
       let memoryOfExpandedNodes = new Map<number, boolean>()
@@ -338,7 +346,7 @@ export class SidebarGongdocDiagramsComponent implements OnInit {
     if (node.type == GongNodeType.CLASS_DIAGRAM_INSTANCE) {
       this.router.navigate([{
         outlets: {
-          diagrameditor: ["classdiagram-detail", node.bdId]
+          diagrameditor: ["classdiagram-detail", node.bdId, { editable: this.editable }]
         }
       }]).catch(
         reason => {
