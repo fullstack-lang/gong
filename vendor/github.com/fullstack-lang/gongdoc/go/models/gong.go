@@ -2130,6 +2130,12 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(pkgelt.GongModelPath))
 		initializerStatements += setValueField
 
+		setValueField = NumberInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Editable")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", pkgelt.Editable))
+		initializerStatements += setValueField
+
 	}
 
 	map_Position_Identifiers := make(map[*Position]string)
@@ -3253,7 +3259,7 @@ func GetFields[Type Gongstruct]() (res []string) {
 	case Link:
 		res = []string{"Name", "Fieldname", "Structname", "Fieldtypename", "TargetMultiplicity", "SourceMultiplicity", "Middlevertice"}
 	case Pkgelt:
-		res = []string{"Name", "Path", "GongModelPath", "Classdiagrams", "Umlscs"}
+		res = []string{"Name", "Path", "GongModelPath", "Classdiagrams", "Umlscs", "Editable"}
 	case Position:
 		res = []string{"X", "Y", "Name"}
 	case UmlState:
@@ -3431,6 +3437,8 @@ func GetFieldStringValue[Type Gongstruct](instance Type, fieldName string) (res 
 				}
 				res += __instance__.Name
 			}
+		case "Editable":
+			res = fmt.Sprintf("%t", any(instance).(Pkgelt).Editable)
 		}
 	case Position:
 		switch fieldName {

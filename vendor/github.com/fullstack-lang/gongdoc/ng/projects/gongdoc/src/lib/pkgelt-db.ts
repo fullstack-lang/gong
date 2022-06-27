@@ -14,6 +14,7 @@ export class PkgeltDB {
 	Name: string = ""
 	Path: string = ""
 	GongModelPath: string = ""
+	Editable: boolean = false
 
 	// insertion point for other declarations
 	Classdiagrams?: Array<ClassdiagramDB>

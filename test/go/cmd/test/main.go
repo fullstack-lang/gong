@@ -185,7 +185,7 @@ func main() {
 			log.Panic("Unable to parser, wrong number of parsers ", len(pkgsParser))
 		}
 		if pkgParser, ok := pkgsParser["diagrams"]; ok {
-			pkgelt.Unmarshall(modelPkg, pkgParser, fset, "../../diagrams")
+			pkgelt.Unmarshall(modelPkg, pkgParser, fset, "go/diagrams")
 		}
 		pkgelt.SerializeToStage()
 	}
