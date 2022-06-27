@@ -150,6 +150,17 @@ func (stage *StageStruct) Checkout() {
 	if stage.BackRepo != nil {
 		stage.BackRepo.Checkout(stage)
 	}
+
+	// insertion point for computing the map of number of instances per gongstruct
+	stage.Map_GongStructName_InstancesNb["GongBasicField"] = len(stage.GongBasicFields)
+	stage.Map_GongStructName_InstancesNb["GongEnum"] = len(stage.GongEnums)
+	stage.Map_GongStructName_InstancesNb["GongEnumValue"] = len(stage.GongEnumValues)
+	stage.Map_GongStructName_InstancesNb["GongStruct"] = len(stage.GongStructs)
+	stage.Map_GongStructName_InstancesNb["GongTimeField"] = len(stage.GongTimeFields)
+	stage.Map_GongStructName_InstancesNb["ModelPkg"] = len(stage.ModelPkgs)
+	stage.Map_GongStructName_InstancesNb["PointerToGongStructField"] = len(stage.PointerToGongStructFields)
+	stage.Map_GongStructName_InstancesNb["SliceOfPointerToGongStructField"] = len(stage.SliceOfPointerToGongStructFields)
+
 }
 
 // backup generates backup files in the dirPath
