@@ -77,6 +77,9 @@ export class PkgeltsTableComponent implements OnInit {
         case 'GongModelPath':
           return pkgeltDB.GongModelPath;
 
+        case 'Editable':
+          return pkgeltDB.Editable?"true":"false";
+
         default:
           console.assert(false, "Unknown field")
           return "";
@@ -147,12 +150,14 @@ export class PkgeltsTableComponent implements OnInit {
         "Name",
         "Path",
         "GongModelPath",
+        "Editable",
       ]
     } else {
       this.displayedColumns = ['select', 'ID', // insertion point for columns to display
         "Name",
         "Path",
         "GongModelPath",
+        "Editable",
       ]
       this.selection = new SelectionModel<PkgeltDB>(allowMultiSelect, this.initialSelection);
     }

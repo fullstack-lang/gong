@@ -43,7 +43,9 @@ func ParseEmbedModel(embeddedDir embed.FS, source string) map[string]*ast.Packag
 		}
 	})
 	pkgs := make(map[string]*ast.Package)
-	pkgs["models"] = pkg
+	sourcesElements := strings.Split(source, "/")
+	pkgName := sourcesElements[len(sourcesElements)-1]
+	pkgs[pkgName] = pkg
 	return pkgs
 }
 
