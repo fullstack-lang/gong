@@ -117,6 +117,18 @@
             ]
         },
         {
+            "name": "gongc ppstdb -skipGoModCommands -backendOnly",
+            "type": "go",
+            "request": "launch",
+            "mode": "debug",
+            "cwd": "../../../r/DEV_COHERENCE/ppstdb/go/models",
+            "program": "${workspaceFolder}/go/cmd/gongc",
+            "args": [
+                "-skipGoModCommands",
+                "-backendOnly"
+            ]
+        },
+        {
             "name": "gongc test2",
             "type": "go",
             "request": "launch",
@@ -347,7 +359,7 @@
             ]
         },
         {
-            "name": "Launch appv firefox localhost:4200",
+            "name": "Launch appv firefox localhost:4200 on test",
             "type": "firefox",
             "request": "launch",
             "reAttach": true,
@@ -356,12 +368,12 @@
             "firefoxExecutable": "C:/Users/peugeot/AppData/Local/Microsoft/AppV/Client/Integration/F8B22858-413B-4241-955C-7CDA2C0B6696/Root/VFS/ProgramFilesX64/Mozilla Firefox/firefox.exe",
             "pathMappings": [
                 {
-                    "url": "webpack:///projects",
-                    "path": "${workspaceFolder}/test/ng/projects"
+                    "url": "webpack:///vendor",
+                    "path": "${workspaceFolder}/vendor"
                 },
                 {
                     "url": "webpack:///projects",
-                    "path": "${workspaceFolder}/test/ng"
+                    "path": "${workspaceFolder}/test/ng/projects"
                 }
             ]
         },
@@ -388,6 +400,10 @@
             "url": "http://localhost:4200/",
             "webRoot": "${workspaceFolder}/test/ng",
             "pathMappings": [
+                {
+                    "url": "webpack:///vendor",
+                    "path": "${workspaceFolder}/vendor"
+                },
                 {
                     "url": "webpack:///projects",
                     "path": "${workspaceFolder}/test/ng/projects"
