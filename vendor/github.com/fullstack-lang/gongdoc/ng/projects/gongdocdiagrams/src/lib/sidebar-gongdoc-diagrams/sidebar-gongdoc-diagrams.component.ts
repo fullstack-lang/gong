@@ -127,7 +127,7 @@ export class SidebarGongdocDiagramsComponent implements OnInit {
   gongNodeTree = new Array<GongNode>();
 
   // the package can be editable or not
-  editable?: boolean
+  editable: boolean = false
 
   constructor(
     private router: Router,
