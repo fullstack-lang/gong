@@ -83,6 +83,9 @@ export class ClassDiagramComponent implements OnInit, OnDestroy {
   // one has to redraw the diagram by comparaison with the route
   public idOfDrawnClassDiagram: number = 0
 
+  // editable
+  editable: boolean = false
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -458,6 +461,7 @@ export class ClassDiagramComponent implements OnInit, OnDestroy {
         // console.log("gongdoc front repo pull returned")
 
         const id = +this.route.snapshot.paramMap.get('id')!;
+        this.editable = this.route.snapshot.paramMap.get('editable')! == "true";
         this.classdiagram = frontRepo.Classdiagrams.get(id)!
 
         this.drawClassdiagram();
