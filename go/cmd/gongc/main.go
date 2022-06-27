@@ -142,6 +142,32 @@ func main() {
 		}
 	}
 
+	// generate diagrams/docs.go is absent
+	{
+		diagramsDocFilePath := filepath.Join(*pkgPath, "../diagrams/docs.go")
+		_, errd := os.Stat(diagramsDocFilePath)
+		if os.IsNotExist(errd) {
+			log.Printf("../diagrams/docs.go does not exist, gongc creates a default one")
+
+			diagramsDocFileDirPath := filepath.Dir(diagramsDocFilePath)
+			diagramsDocFileDirAbsPath, _ := filepath.Abs(diagramsDocFileDirPath)
+
+			errd := os.MkdirAll(diagramsDocFileDirAbsPath, os.ModePerm)
+			if os.IsNotExist(errd) {
+				log.Println("creating directory : " + diagramsDocFileDirAbsPath)
+			}
+			if os.IsExist(errd) {
+				log.Println("directory " + diagramsDocFileDirAbsPath + " allready exists")
+			}
+			gong_models.VerySimpleCodeGenerator(
+				modelPkg,
+				modelPkg.Name,
+				modelPkg.PkgPath,
+				diagramsDocFilePath,
+				gong_models.DiagramsDocFile)
+		}
+	}
+
 	// generate main.go if absent
 	{
 		// check existance of "main.go" file and generate a default "main.go" if absent

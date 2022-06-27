@@ -9,6 +9,6 @@ import "embed"
 //go:embed ng/dist/ng
 var NgDistNg embed.FS
 
-//go:embed go
+//go:embed go/models go/diagrams
 var GoDir embed.FS
 `
