@@ -182,7 +182,7 @@ func main() {
 		// classdiagram can only be fully in memory when they are Unmarshalled
 		// for instance, the Name of diagrams or the Name of the Link
 		fset := new(token.FileSet)
-		pkgsParser := gong_models.ParseEmbedModel(test.GoDir, "go/diagrams")
+		pkgsParser := gong_models.ParseEmbedModel({{pkgname}}.GoDir, "go/diagrams")
 		if len(pkgsParser) != 1 {
 			log.Panic("Unable to parser, wrong number of parsers ", len(pkgsParser))
 		}
