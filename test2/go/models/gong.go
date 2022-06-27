@@ -87,6 +87,10 @@ func (stage *StageStruct) Checkout() {
 	if stage.BackRepo != nil {
 		stage.BackRepo.Checkout(stage)
 	}
+
+	// insertion point for computing the map of number of instances per gongstruct
+	stage.Map_GongStructName_InstancesNb["Astruct"] = len(stage.Astructs)
+
 }
 
 // backup generates backup files in the dirPath
