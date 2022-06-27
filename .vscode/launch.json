@@ -40,18 +40,6 @@
             "args": []
         },
         {
-            "name": "gongc gongdoc -useParser -skipGoModCommands",
-            "type": "go",
-            "request": "launch",
-            "mode": "debug",
-            "cwd": "${workspaceFolder}/../gongdoc/go/models",
-            "program": "${workspaceFolder}/go/cmd/gongc",
-            "args": [
-                "-skipGoModCommands",
-                "-useParser"
-            ]
-        },
-        {
             "name": "gongc gongjointjs",
             "type": "go",
             "request": "launch",
@@ -104,19 +92,6 @@
             ]
         },
         {
-            "name": "gongc test -skipGoModCommands  -useParser",
-            "type": "go",
-            "request": "launch",
-            "mode": "debug",
-            "preLaunchTask": "01 - remove test main.go",
-            "cwd": "${workspaceFolder}/test/go/models",
-            "program": "${workspaceFolder}/go/cmd/gongc",
-            "args": [
-                "-skipGoModCommands",
-                "-useParser",
-            ]
-        },
-        {
             "name": "gongc test -skipGoModCommands -backendOnly",
             "type": "go",
             "request": "launch",
@@ -127,20 +102,6 @@
             "args": [
                 "-skipGoModCommands",
                 "-backendOnly"
-            ]
-        },
-        {
-            "name": "gongc test -skipGoModCommands -backendOnly -useParser",
-            "type": "go",
-            "request": "launch",
-            "mode": "debug",
-            "preLaunchTask": "01 - remove test main.go",
-            "cwd": "${workspaceFolder}/test/go/models",
-            "program": "${workspaceFolder}/go/cmd/gongc",
-            "args": [
-                "-skipGoModCommands",
-                "-backendOnly",
-                "-useParser=true"
             ]
         },
         {
