@@ -133,6 +133,9 @@ func main() {
 			InjectionGateway[*unmarshall]()
 		}
 		models.Stage.Commit()
+	} else {
+		// in case the database is used, checkout the content to the stage
+		models.Stage.Checkout()
 	}
 
 	// hook automatic marshall to go code at every commit

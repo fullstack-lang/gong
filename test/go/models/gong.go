@@ -123,6 +123,14 @@ func (stage *StageStruct) Checkout() {
 	if stage.BackRepo != nil {
 		stage.BackRepo.Checkout(stage)
 	}
+
+	// insertion point for computing the map of number of instances per gongstruct
+	stage.Map_GongStructName_InstancesNb["Astruct"] = len(stage.Astructs)
+	stage.Map_GongStructName_InstancesNb["AstructBstruct2Use"] = len(stage.AstructBstruct2Uses)
+	stage.Map_GongStructName_InstancesNb["AstructBstructUse"] = len(stage.AstructBstructUses)
+	stage.Map_GongStructName_InstancesNb["Bstruct"] = len(stage.Bstructs)
+	stage.Map_GongStructName_InstancesNb["Dstruct"] = len(stage.Dstructs)
+
 }
 
 // backup generates backup files in the dirPath
@@ -2118,4 +2126,3 @@ func (cenumtypeint *CEnumTypeInt) ToCodeString() (res string) {
 	}
 	return
 }
-
