@@ -22,7 +22,6 @@ func ParseEmbedModel(embeddedDir embed.FS, source string) map[string]*ast.Packag
 		if err != nil {
 			log.Fatal(err)
 		}
-		fmt.Println(path)
 
 		if d.IsDir() {
 			return nil
@@ -225,7 +224,7 @@ func WalkParser(parserPkgs map[string]*ast.Package, modelPkg *ModelPkg) {
 						case *ast.Ident:
 							gongEnum, ok = modelPkg.GongEnums[modelPkg.PkgPath+"."+_type.Name]
 							if !ok {
-								log.Println("Constant ", spec.Names[0], "of Type", _type.Name, " not an enum")
+								// log.Println("Constant ", spec.Names[0], "of Type", _type.Name, " not an enum")
 								continue
 							}
 							// log.Println("Const ", spec.Names[0].Name, " of type ", gongEnum.Name)
