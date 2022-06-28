@@ -147,7 +147,7 @@ func (pkgelt *Pkgelt) Unmarshall(modelPkg *gong_models.ModelPkg, astPkg *ast.Pac
 							var classdiagram Classdiagram
 							classdiagram.Name = vs.Names[0].Name
 							_ = astPkg
-							log.Println("nb files ", len(astPkg.Files))
+							// log.Println("nb files ", len(astPkg.Files))
 							astNode := vs.Values[0]
 							classdiagram.Unmarshall(modelPkg, astNode, fset2)
 
