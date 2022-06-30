@@ -13,6 +13,9 @@ import { GongEnumService } from './gongenum.service'
 import { GongEnumValueDB } from './gongenumvalue-db'
 import { GongEnumValueService } from './gongenumvalue.service'
 
+import { GongNoteDB } from './gongnote-db'
+import { GongNoteService } from './gongnote.service'
+
 import { GongStructDB } from './gongstruct-db'
 import { GongStructService } from './gongstruct.service'
 
@@ -40,6 +43,9 @@ export class FrontRepo { // insertion point sub template
   GongEnumValues_array = new Array<GongEnumValueDB>(); // array of repo instances
   GongEnumValues = new Map<number, GongEnumValueDB>(); // map of repo instances
   GongEnumValues_batch = new Map<number, GongEnumValueDB>(); // same but only in last GET (for finding repo instances to delete)
+  GongNotes_array = new Array<GongNoteDB>(); // array of repo instances
+  GongNotes = new Map<number, GongNoteDB>(); // map of repo instances
+  GongNotes_batch = new Map<number, GongNoteDB>(); // same but only in last GET (for finding repo instances to delete)
   GongStructs_array = new Array<GongStructDB>(); // array of repo instances
   GongStructs = new Map<number, GongStructDB>(); // map of repo instances
   GongStructs_batch = new Map<number, GongStructDB>(); // same but only in last GET (for finding repo instances to delete)
@@ -116,6 +122,7 @@ export class FrontRepoService {
     private gongbasicfieldService: GongBasicFieldService,
     private gongenumService: GongEnumService,
     private gongenumvalueService: GongEnumValueService,
+    private gongnoteService: GongNoteService,
     private gongstructService: GongStructService,
     private gongtimefieldService: GongTimeFieldService,
     private modelpkgService: ModelPkgService,
@@ -154,6 +161,7 @@ export class FrontRepoService {
     Observable<GongBasicFieldDB[]>,
     Observable<GongEnumDB[]>,
     Observable<GongEnumValueDB[]>,
+    Observable<GongNoteDB[]>,
     Observable<GongStructDB[]>,
     Observable<GongTimeFieldDB[]>,
     Observable<ModelPkgDB[]>,
@@ -163,6 +171,7 @@ export class FrontRepoService {
       this.gongbasicfieldService.getGongBasicFields(),
       this.gongenumService.getGongEnums(),
       this.gongenumvalueService.getGongEnumValues(),
+      this.gongnoteService.getGongNotes(),
       this.gongstructService.getGongStructs(),
       this.gongtimefieldService.getGongTimeFields(),
       this.modelpkgService.getModelPkgs(),
@@ -186,6 +195,7 @@ export class FrontRepoService {
             gongbasicfields_,
             gongenums_,
             gongenumvalues_,
+            gongnotes_,
             gongstructs_,
             gongtimefields_,
             modelpkgs_,
@@ -200,6 +210,8 @@ export class FrontRepoService {
             gongenums = gongenums_ as GongEnumDB[]
             var gongenumvalues: GongEnumValueDB[]
             gongenumvalues = gongenumvalues_ as GongEnumValueDB[]
+            var gongnotes: GongNoteDB[]
+            gongnotes = gongnotes_ as GongNoteDB[]
             var gongstructs: GongStructDB[]
             gongstructs = gongstructs_ as GongStructDB[]
             var gongtimefields: GongTimeFieldDB[]
@@ -304,6 +316,39 @@ export class FrontRepoService {
 
             // sort GongEnumValues_array array
             FrontRepoSingloton.GongEnumValues_array.sort((t1, t2) => {
+              if (t1.Name > t2.Name) {
+                return 1;
+              }
+              if (t1.Name < t2.Name) {
+                return -1;
+              }
+              return 0;
+            });
+
+            // init the array
+            FrontRepoSingloton.GongNotes_array = gongnotes
+
+            // clear the map that counts GongNote in the GET
+            FrontRepoSingloton.GongNotes_batch.clear()
+
+            gongnotes.forEach(
+              gongnote => {
+                FrontRepoSingloton.GongNotes.set(gongnote.ID, gongnote)
+                FrontRepoSingloton.GongNotes_batch.set(gongnote.ID, gongnote)
+              }
+            )
+
+            // clear gongnotes that are absent from the batch
+            FrontRepoSingloton.GongNotes.forEach(
+              gongnote => {
+                if (FrontRepoSingloton.GongNotes_batch.get(gongnote.ID) == undefined) {
+                  FrontRepoSingloton.GongNotes.delete(gongnote.ID)
+                }
+              }
+            )
+
+            // sort GongNotes_array array
+            FrontRepoSingloton.GongNotes_array.sort((t1, t2) => {
               if (t1.Name > t2.Name) {
                 return 1;
               }
@@ -534,6 +579,13 @@ export class FrontRepoService {
                     }
                   }
                 }
+              }
+            )
+            gongnotes.forEach(
+              gongnote => {
+                // insertion point sub sub template for ONE-/ZERO-ONE associations pointers redeeming
+
+                // insertion point for redeeming ONE-MANY associations
               }
             )
             gongstructs.forEach(
@@ -805,6 +857,57 @@ export class FrontRepoService {
               gongenumvalue => {
                 if (FrontRepoSingloton.GongEnumValues_batch.get(gongenumvalue.ID) == undefined) {
                   FrontRepoSingloton.GongEnumValues.delete(gongenumvalue.ID)
+                }
+              }
+            )
+
+            // 
+            // Second Step: redeem pointers between instances (thanks to maps in the First Step)
+            // insertion point sub template 
+
+            // hand over control flow to observer
+            observer.next(FrontRepoSingloton)
+          }
+        )
+      }
+    )
+  }
+
+  // GongNotePull performs a GET on GongNote of the stack and redeem association pointers 
+  GongNotePull(): Observable<FrontRepo> {
+    return new Observable<FrontRepo>(
+      (observer) => {
+        combineLatest([
+          this.gongnoteService.getGongNotes()
+        ]).subscribe(
+          ([ // insertion point sub template 
+            gongnotes,
+          ]) => {
+            // init the array
+            FrontRepoSingloton.GongNotes_array = gongnotes
+
+            // clear the map that counts GongNote in the GET
+            FrontRepoSingloton.GongNotes_batch.clear()
+
+            // 
+            // First Step: init map of instances
+            // insertion point sub template 
+            gongnotes.forEach(
+              gongnote => {
+                FrontRepoSingloton.GongNotes.set(gongnote.ID, gongnote)
+                FrontRepoSingloton.GongNotes_batch.set(gongnote.ID, gongnote)
+
+                // insertion point for redeeming ONE/ZERO-ONE associations
+
+                // insertion point for redeeming ONE-MANY associations
+              }
+            )
+
+            // clear gongnotes that are absent from the GET
+            FrontRepoSingloton.GongNotes.forEach(
+              gongnote => {
+                if (FrontRepoSingloton.GongNotes_batch.get(gongnote.ID) == undefined) {
+                  FrontRepoSingloton.GongNotes.delete(gongnote.ID)
                 }
               }
             )
@@ -1140,18 +1243,21 @@ export function getGongEnumUniqueID(id: number): number {
 export function getGongEnumValueUniqueID(id: number): number {
   return 41 * id
 }
-export function getGongStructUniqueID(id: number): number {
+export function getGongNoteUniqueID(id: number): number {
   return 43 * id
 }
-export function getGongTimeFieldUniqueID(id: number): number {
+export function getGongStructUniqueID(id: number): number {
   return 47 * id
 }
-export function getModelPkgUniqueID(id: number): number {
+export function getGongTimeFieldUniqueID(id: number): number {
   return 53 * id
 }
-export function getPointerToGongStructFieldUniqueID(id: number): number {
+export function getModelPkgUniqueID(id: number): number {
   return 59 * id
 }
-export function getSliceOfPointerToGongStructFieldUniqueID(id: number): number {
+export function getPointerToGongStructFieldUniqueID(id: number): number {
   return 61 * id
+}
+export function getSliceOfPointerToGongStructFieldUniqueID(id: number): number {
+  return 67 * id
 }

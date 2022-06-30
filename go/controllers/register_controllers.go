@@ -64,6 +64,13 @@ func RegisterControllers(r *gin.Engine) {
 		v1.PUT("/v1/gongenumvalues/:id", UpdateGongEnumValue)
 		v1.DELETE("/v1/gongenumvalues/:id", DeleteGongEnumValue)
 
+		v1.GET("/v1/gongnotes", GetGongNotes)
+		v1.GET("/v1/gongnotes/:id", GetGongNote)
+		v1.POST("/v1/gongnotes", PostGongNote)
+		v1.PATCH("/v1/gongnotes/:id", UpdateGongNote)
+		v1.PUT("/v1/gongnotes/:id", UpdateGongNote)
+		v1.DELETE("/v1/gongnotes/:id", DeleteGongNote)
+
 		v1.GET("/v1/gongstructs", GetGongStructs)
 		v1.GET("/v1/gongstructs/:id", GetGongStruct)
 		v1.POST("/v1/gongstructs", PostGongStruct)
