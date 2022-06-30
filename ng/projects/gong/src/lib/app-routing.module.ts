@@ -14,6 +14,10 @@ import { GongEnumValuesTableComponent } from './gongenumvalues-table/gongenumval
 import { GongEnumValueDetailComponent } from './gongenumvalue-detail/gongenumvalue-detail.component'
 import { GongEnumValuePresentationComponent } from './gongenumvalue-presentation/gongenumvalue-presentation.component'
 
+import { GongNotesTableComponent } from './gongnotes-table/gongnotes-table.component'
+import { GongNoteDetailComponent } from './gongnote-detail/gongnote-detail.component'
+import { GongNotePresentationComponent } from './gongnote-presentation/gongnote-presentation.component'
+
 import { GongStructsTableComponent } from './gongstructs-table/gongstructs-table.component'
 import { GongStructDetailComponent } from './gongstruct-detail/gongstruct-detail.component'
 import { GongStructPresentationComponent } from './gongstruct-presentation/gongstruct-presentation.component'
@@ -56,6 +60,13 @@ const routes: Routes = [ // insertion point for routes declarations
 	{ path: 'github_com_fullstack_lang_gong_go-gongenumvalue-detail/:id', component: GongEnumValueDetailComponent, outlet: 'github_com_fullstack_lang_gong_go_editor' },
 	{ path: 'github_com_fullstack_lang_gong_go-gongenumvalue-presentation/:id', component: GongEnumValuePresentationComponent, outlet: 'github_com_fullstack_lang_gong_go_presentation' },
 	{ path: 'github_com_fullstack_lang_gong_go-gongenumvalue-presentation-special/:id', component: GongEnumValuePresentationComponent, outlet: 'github_com_fullstack_lang_gong_gogongenumvaluepres' },
+
+	{ path: 'github_com_fullstack_lang_gong_go-gongnotes', component: GongNotesTableComponent, outlet: 'github_com_fullstack_lang_gong_go_table' },
+	{ path: 'github_com_fullstack_lang_gong_go-gongnote-adder', component: GongNoteDetailComponent, outlet: 'github_com_fullstack_lang_gong_go_editor' },
+	{ path: 'github_com_fullstack_lang_gong_go-gongnote-adder/:id/:originStruct/:originStructFieldName', component: GongNoteDetailComponent, outlet: 'github_com_fullstack_lang_gong_go_editor' },
+	{ path: 'github_com_fullstack_lang_gong_go-gongnote-detail/:id', component: GongNoteDetailComponent, outlet: 'github_com_fullstack_lang_gong_go_editor' },
+	{ path: 'github_com_fullstack_lang_gong_go-gongnote-presentation/:id', component: GongNotePresentationComponent, outlet: 'github_com_fullstack_lang_gong_go_presentation' },
+	{ path: 'github_com_fullstack_lang_gong_go-gongnote-presentation-special/:id', component: GongNotePresentationComponent, outlet: 'github_com_fullstack_lang_gong_gogongnotepres' },
 
 	{ path: 'github_com_fullstack_lang_gong_go-gongstructs', component: GongStructsTableComponent, outlet: 'github_com_fullstack_lang_gong_go_table' },
 	{ path: 'github_com_fullstack_lang_gong_go-gongstruct-adder', component: GongStructDetailComponent, outlet: 'github_com_fullstack_lang_gong_go_editor' },

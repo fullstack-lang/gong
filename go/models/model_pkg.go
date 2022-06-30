@@ -9,6 +9,7 @@ type ModelPkg struct {
 
 	GongStructs map[string]*GongStruct `gorm:"-"` // sql3Lite does not support maps
 	GongEnums   map[string]*GongEnum   `gorm:"-"`
+	GongNotes   map[string]*GongNote   `gorm:"-"`
 }
 
 // SerializeToStage stages modelPkg and
