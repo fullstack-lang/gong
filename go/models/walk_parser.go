@@ -54,21 +54,23 @@ func WalkParser(parserPkgs map[string]*ast.Package, modelPkg *ModelPkg) {
 	// but that can be embedded
 	map_Structname_fieldList := make(map[string]*[]*ast.Field)
 
-	var pkg *ast.Package
+	var astPackage *ast.Package
 	var ok bool
-	if pkg, ok = parserPkgs["models"]; !ok {
+	if astPackage, ok = parserPkgs["models"]; !ok {
 		log.Fatal("No package models")
 	}
 
 	modelPkg.GongEnums = make(map[string]*GongEnum)
 	modelPkg.GongStructs = make(map[string]*GongStruct)
+	modelPkg.GongNotes = make(map[string]*GongNote)
 
-	if len(pkg.Files) == 0 {
+	if len(astPackage.Files) == 0 {
 		log.Fatal("No go file to parse")
 	}
 
 	// parses all comments in the package
-	typeDocumentation := doc.New(pkg, "./", 0)
+	typeDocumentation := doc.New(astPackage, "./", doc.PreserveAST)
+	modelPkg.GenerateDocs(typeDocumentation)
 
 	map_StructName_hasIgnoreStatement := make(map[string]bool)
 	for _, t := range typeDocumentation.Types {
@@ -78,7 +80,7 @@ func WalkParser(parserPkgs map[string]*ast.Package, modelPkg *ModelPkg) {
 	// first pass : get "type" definition for enum & struct
 	//
 	// search all files
-	for filePath, file := range pkg.Files {
+	for filePath, file := range astPackage.Files {
 
 		var fileName string
 
@@ -184,7 +186,7 @@ func WalkParser(parserPkgs map[string]*ast.Package, modelPkg *ModelPkg) {
 	}
 
 	// second pass
-	for filePath, file := range pkg.Files {
+	for filePath, file := range astPackage.Files {
 
 		var fileName string
 		if strings.Contains(filePath, string(os.PathSeparator)) {
