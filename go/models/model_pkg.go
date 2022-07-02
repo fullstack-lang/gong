@@ -49,5 +49,8 @@ func (modelPkg *ModelPkg) SerializeToStage() {
 			gongEnumValue.Stage()
 		}
 	}
+	for _, gongNote := range modelPkg.GongNotes {
+		gongNote.Stage()
+	}
 	Stage.Commit()
 }
