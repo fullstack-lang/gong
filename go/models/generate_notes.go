@@ -1,6 +1,7 @@
 package models
 
 import (
+	"bytes"
 	"go/doc"
 	"log"
 )
@@ -13,6 +14,10 @@ func (modelPkg *ModelPkg) GenerateDocs(docPackage *doc.Package) {
 		for _, note := range notes {
 			log.Println("note uid : ", note.UID)
 			log.Println("note : ", note.Body)
+			docBuf := bytes.Buffer{}
+			indent := "	"
+			indentedWidth := 1
+			doc.ToText(&docBuf, note.Body, "", indent, indentedWidth)
 			gongNote := (&GongNote{Name: note.UID,
 				Body: note.Body,
 			})
