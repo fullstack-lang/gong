@@ -92,8 +92,84 @@ func GongfieldName[Type Gongstruct, FieldType Gongfield](field FieldType) string
 	var t Type
 
 	switch any(t).(type) {
+	// insertion point for cases
+	case Astruct:
+		switch field := any(field).(type) {
+		case string:
+			// insertion point for field dependant name
+			if field == "0" {
+				return "Name"
+			}
+			if field == "3" {
+				return "Aenum"
+			}
+			if field == "4" {
+				return "Aenum_2"
+			}
+			if field == "5" {
+				return "Benum"
+			}
+			if field == "7" {
+				return "CName"
+			}
+		case int, int64:
+			// insertion point for field dependant name
+			if field == "6" {
+				return "CEnum"
+			}
+			if field == "11" {
+				return "Intfield"
+			}
+			if field == "13" {
+				return "Duration1"
+			}
+		}
+	case AstructBstruct2Use:
+		switch field := any(field).(type) {
+		case string:
+			// insertion point for field dependant name
+			if field == "0" {
+				return "Name"
+			}
+		case int, int64:
+			// insertion point for field dependant name
+		}
+	case AstructBstructUse:
+		switch field := any(field).(type) {
+		case string:
+			// insertion point for field dependant name
+			if field == "0" {
+				return "Name"
+			}
+		case int, int64:
+			// insertion point for field dependant name
+		}
+	case Bstruct:
+		switch field := any(field).(type) {
+		case string:
+			// insertion point for field dependant name
+			if field == "0" {
+				return "Name"
+			}
+		case int, int64:
+			// insertion point for field dependant name
+			if field == "3" {
+				return "Intfield"
+			}
+		}
+	case Dstruct:
+		switch field := any(field).(type) {
+		case string:
+			// insertion point for field dependant name
+			if field == "0" {
+				return "Name"
+			}
+		case int, int64:
+			// insertion point for field dependant name
+		}
 	default:
 		return ""
 	}
+	_ = field
 	return ""
 }
