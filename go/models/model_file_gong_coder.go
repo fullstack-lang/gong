@@ -35,9 +35,11 @@ func GongfieldName[Type Gongstruct, FieldType Gongfield](field FieldType) string
 	var t Type
 
 	switch any(t).(type) {
+	// insertion point for cases{{` + string(rune(ModelGongCoderGenericGongstructNamerString)) + `}}
 	default:
 		return ""
 	}
+	_ = field
 	return ""
 }
 `
@@ -51,6 +53,7 @@ type ModelGongCoderStructInsertionId int
 const (
 	ModelGongCoderGenericGongstructTypes ModelGongCoderStructInsertionId = iota
 	ModelGongCoderGenericGongstructCoder
+	ModelGongCoderGenericGongstructNamerString
 	ModelGongCoderStructInsertionsNb
 )
 
@@ -62,6 +65,14 @@ map[ModelGongCoderStructInsertionId]string{
 		fieldCoder := {{Structname}}{}
 		// insertion point for field dependant code{{FieldCode}}
 		return (any)(fieldCoder).(Type)`,
+	ModelGongCoderGenericGongstructNamerString: `
+	case {{Structname}}:
+		switch field := any(field).(type) {
+		case string:
+			// insertion point for field dependant name{{FieldNameString}}
+		case int, int64:
+			// insertion point for field dependant name{{FieldNameInt}}
+		}`,
 }
 
 type ModelGongCoderFieldInsertionId int
@@ -73,6 +84,12 @@ const (
 	ModelGongCoderFieldCodeDate
 	ModelGongCoderFieldCodePointerToStruct
 	ModelGongCoderFieldCodeSliceOfPointersToStruct
+	ModelGongCoderFieldNameString
+	ModelGongCoderFieldNameInt
+	ModelGongCoderFieldNameFloat64
+	ModelGongCoderFieldNameDate
+	ModelGongCoderFieldNamePointerToStruct
+	ModelGongCoderFieldNameSliceOfPointersToStruct
 	ModelGongCoderFieldInsertionsNb
 )
 
@@ -94,6 +111,14 @@ map[ModelGongCoderFieldInsertionId]string{
 				Name: "{{Value}}",
 			},
 		}`,
+	ModelGongCoderFieldNameString: `
+			if field == "{{Value}}" {
+				return "{{FieldName}}"
+			}`,
+	ModelGongCoderFieldNameInt: `
+			if field == {{Value}} {
+				return "{{FieldName}}"
+			}`,
 }
 
 func CodeGeneratorModelGongCoder(
@@ -126,6 +151,8 @@ func CodeGeneratorModelGongCoder(
 
 		for subStructTemplate := range ModelGongCoderStructSubTemplateCode {
 			fieldCode := ""
+			fieldNameString := ""
+			fieldNameInt := ""
 
 			for idx, field := range gongStruct.Fields {
 
@@ -137,9 +164,17 @@ func CodeGeneratorModelGongCoder(
 							ModelGongCoderFieldSubTemplateCode[ModelGongCoderFieldCodeString],
 							"{{FieldName}}", field.Name,
 							"{{Value}}", fmt.Sprintf("%d", idx))
+						fieldNameString += Replace2(
+							ModelGongCoderFieldSubTemplateCode[ModelGongCoderFieldNameString],
+							"{{FieldName}}", field.Name,
+							"{{Value}}", fmt.Sprintf("%d", idx))
 					case types.Int, types.Int64:
 						fieldCode += Replace2(
 							ModelGongCoderFieldSubTemplateCode[ModelGongCoderFieldCodeInt],
+							"{{FieldName}}", field.Name,
+							"{{Value}}", fmt.Sprintf("%d", idx))
+						fieldNameInt += Replace2(
+							ModelGongCoderFieldSubTemplateCode[ModelGongCoderFieldNameString],
 							"{{FieldName}}", field.Name,
 							"{{Value}}", fmt.Sprintf("%d", idx))
 					case types.Float64:
@@ -168,10 +203,12 @@ func CodeGeneratorModelGongCoder(
 				}
 			}
 
-			generatedCodeFromSubTemplate := Replace3(ModelGongCoderStructSubTemplateCode[subStructTemplate],
+			generatedCodeFromSubTemplate := Replace5(ModelGongCoderStructSubTemplateCode[subStructTemplate],
 				"{{structname}}", strings.ToLower(gongStruct.Name),
 				"{{Structname}}", gongStruct.Name,
 				"{{FieldCode}}", fieldCode,
+				"{{FieldNameString}}", fieldNameString,
+				"{{FieldNameInt}}", fieldNameInt,
 			)
 
 			subStructCodes[subStructTemplate] += generatedCodeFromSubTemplate
