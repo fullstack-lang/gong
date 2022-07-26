@@ -2049,55 +2049,6 @@ func (aenumtype *AEnumType) ToCodeString() (res string) {
 	return
 }
 
-// Exported struct
-type GongFieldNamer__Astruct struct {
-	Name   string
-	Afloat string
-	Body   string
-	Aint   string
-}
-
-type GongFieldNamer__Bstruct struct {
-	Name        string
-	Floatfield  string
-	Floatfield2 string
-	Intfield    string
-}
-
-type GongFieldNamer interface {
-	// insertion point for generic types
-	GongFieldNamer__Astruct | GongFieldNamer__Bstruct
-}
-
-type GongFiedNamerHost[TypeFieldNamer GongFieldNamer] struct {
-	Value TypeFieldNamer
-}
-
-func Toto[TypeFieldNamer GongFieldNamer](v TypeFieldNamer) GongFiedNamerHost[TypeFieldNamer] {
-	astructNamer := v
-	return GongFiedNamerHost[TypeFieldNamer]{Value: astructNamer}
-
-}
-
-func GongTextFieldNamer[Type Gongstruct, TypeFieldNamer GongFieldNamer]() GongFiedNamerHost[TypeFieldNamer] {
-	var t Type
-	var ret GongFiedNamerHost[TypeFieldNamer]
-
-	switch any(t).(type) {
-	case *Astruct:
-		fieldNamer := GongFieldNamer__Astruct{
-			Name:   "Name",
-			Body:   "Body",
-			Afloat: "Afloat",
-			Aint:   "Aint",
-		}
-		fieldNamer2 := Toto(fieldNamer)
-		return fieldNamer2
-	default:
-		return ret
-	}
-}
-
 // Utility function for BEnumType
 // if enum values are string, it is stored with the value
 // if enum values are int, they are stored with the code of the value
