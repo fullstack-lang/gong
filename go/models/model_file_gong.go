@@ -104,18 +104,6 @@ map[ModelGongStructInsertionId]string{
 		}`,
 
 	ModelGongStructInsertionStageFunctions: `
-func (stage *StageStruct) get{{Structname}}OrderedStructWithNameField() []*{{Structname}} {
-	// have alphabetical order generation
-	{{structname}}Ordered := []*{{Structname}}{}
-	for {{structname}} := range stage.{{Structname}}s {
-		{{structname}}Ordered = append({{structname}}Ordered, {{structname}})
-	}
-	sort.Slice({{structname}}Ordered[:], func(i, j int) bool {
-		return {{structname}}Ordered[i].Name < {{structname}}Ordered[j].Name
-	})
-	return {{structname}}Ordered
-}
-
 // Stage puts {{structname}} to the model stage
 func ({{structname}} *{{Structname}}) Stage() *{{Structname}} {
 	Stage.{{Structname}}s[{{structname}}] = __member
