@@ -609,7 +609,7 @@ func main() {
 		gong_models.EmebedNgDistNg)
 
 	// remove "gong.go" file
-	gong_models.RemoveGeneratedGongFile(*pkgPath)
+	gong_models.RemoveGeneratedGongFiles(*pkgPath)
 	gong_models.CodeGeneratorModelGong(
 		modelPkg,
 		modelPkg.Name,
