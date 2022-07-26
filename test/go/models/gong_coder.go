@@ -15,7 +15,7 @@ func GongfieldCoder[Type Gongstruct]() Type {
 }
 
 type Gongfield interface {
-	string | bool | int | float64 | time.Time | time.Duration
+	string | bool | int | float64 | time.Time | time.Duration | *Astruct | []*Astruct | *AstructBstruct2Use | []*AstructBstruct2Use | *AstructBstructUse | []*AstructBstructUse | *Bstruct | []*Bstruct | *Dstruct | []*Dstruct
 }
 
 func GongfieldName[Type Gongstruct, FieldType Gongfield](field FieldType) string {
