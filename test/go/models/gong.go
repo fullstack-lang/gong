@@ -2126,3 +2126,5 @@ func (cenumtypeint *CEnumTypeInt) ToCodeString() (res string) {
 	}
 	return
 }
+
+// Last line of the template
