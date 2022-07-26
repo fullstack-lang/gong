@@ -2,6 +2,7 @@ package models
 
 import (
 	"fmt"
+	"go/types"
 	"log"
 	"os"
 	"path/filepath"
@@ -20,6 +21,7 @@ func GongfieldCoder[Type Gongstruct]() Type {
 	var t Type
 
 	switch any(t).(type) {
+	// insertion point for cases{{` + string(rune(ModelGongCoderGenericGongstructCoder)) + `}}
 	default:
 		return t
 	}
@@ -33,6 +35,8 @@ func GongfieldName[Type Gongstruct, FieldType Gongfield](field FieldType) string
 	var t Type
 
 	switch any(t).(type) {
+	default:
+		return ""
 	}
 	return ""
 }
@@ -46,12 +50,50 @@ type ModelGongCoderStructInsertionId int
 
 const (
 	ModelGongCoderGenericGongstructTypes ModelGongCoderStructInsertionId = iota
+	ModelGongCoderGenericGongstructCoder
 	ModelGongCoderStructInsertionsNb
 )
 
 var ModelGongCoderStructSubTemplateCode map[ModelGongCoderStructInsertionId]string = // new line
 map[ModelGongCoderStructInsertionId]string{
 	ModelGongCoderGenericGongstructTypes: ` | *{{Structname}} | []*{{Structname}}`,
+	ModelGongCoderGenericGongstructCoder: `
+	case {{Structname}}:
+		fieldCoder := {{Structname}}{}
+		// insertion point for field dependant code{{FieldCode}}
+		return (any)(fieldCoder).(Type)`,
+}
+
+type ModelGongCoderFieldInsertionId int
+
+const (
+	ModelGongCoderFieldCodeString ModelGongCoderFieldInsertionId = iota
+	ModelGongCoderFieldCodeInt
+	ModelGongCoderFieldCodeFloat64
+	ModelGongCoderFieldCodeDate
+	ModelGongCoderFieldCodePointerToStruct
+	ModelGongCoderFieldCodeSliceOfPointersToStruct
+	ModelGongCoderFieldInsertionsNb
+)
+
+var ModelGongCoderFieldSubTemplateCode map[ModelGongCoderFieldInsertionId]string = // new line
+map[ModelGongCoderFieldInsertionId]string{
+	ModelGongCoderFieldCodeString: `
+		fieldCoder.{{FieldName}} = "{{Value}}"`,
+	ModelGongCoderFieldCodeInt: `
+		fieldCoder.{{FieldName}} = {{Value}}`,
+	ModelGongCoderFieldCodeFloat64: `
+		fieldCoder.{{FieldName}} = {{Value}}`,
+	ModelGongCoderFieldCodeDate: `
+		fieldCoder.{{FieldName}} = time.Date({{Value}}, time.January, 0, 0, 0, 0, 0, time.UTC)`,
+	ModelGongCoderFieldCodePointerToStruct: `
+		fieldCoder.{{FieldName}} = &{{AssocStructName}}{Name: "{{Value}}"}`,
+	ModelGongCoderFieldCodeSliceOfPointersToStruct: `
+		fieldCoder.{{FieldName}} = []*{{AssocStructName}}{
+			{
+				Name: "{{Value}}",
+			},
+		}`,
 }
 
 func CodeGeneratorModelGongCoder(
@@ -83,9 +125,53 @@ func CodeGeneratorModelGongCoder(
 		}
 
 		for subStructTemplate := range ModelGongCoderStructSubTemplateCode {
-			generatedCodeFromSubTemplate := Replace2(ModelGongCoderStructSubTemplateCode[subStructTemplate],
+			fieldCode := ""
+
+			for idx, field := range gongStruct.Fields {
+
+				switch field := field.(type) {
+				case *GongBasicField:
+					switch field.basicKind {
+					case types.String:
+						fieldCode += Replace2(
+							ModelGongCoderFieldSubTemplateCode[ModelGongCoderFieldCodeString],
+							"{{FieldName}}", field.Name,
+							"{{Value}}", fmt.Sprintf("%d", idx))
+					case types.Int, types.Int64:
+						fieldCode += Replace2(
+							ModelGongCoderFieldSubTemplateCode[ModelGongCoderFieldCodeInt],
+							"{{FieldName}}", field.Name,
+							"{{Value}}", fmt.Sprintf("%d", idx))
+					case types.Float64:
+						fieldCode += Replace2(
+							ModelGongCoderFieldSubTemplateCode[ModelGongCoderFieldCodeInt],
+							"{{FieldName}}", field.Name,
+							"{{Value}}", fmt.Sprintf("%f", float64(idx)))
+					}
+				case *GongTimeField:
+					fieldCode += Replace2(
+						ModelGongCoderFieldSubTemplateCode[ModelGongCoderFieldCodeDate],
+						"{{FieldName}}", field.Name,
+						"{{Value}}", fmt.Sprintf("%d", idx))
+				case *PointerToGongStructField:
+					fieldCode += Replace3(
+						ModelGongCoderFieldSubTemplateCode[ModelGongCoderFieldCodePointerToStruct],
+						"{{FieldName}}", field.Name,
+						"{{AssocStructName}}", field.GongStruct.Name,
+						"{{Value}}", fmt.Sprintf("%d", idx))
+				case *SliceOfPointerToGongStructField:
+					fieldCode += Replace3(
+						ModelGongCoderFieldSubTemplateCode[ModelGongCoderFieldCodeSliceOfPointersToStruct],
+						"{{FieldName}}", field.Name,
+						"{{AssocStructName}}", field.GongStruct.Name,
+						"{{Value}}", fmt.Sprintf("%d", idx))
+				}
+			}
+
+			generatedCodeFromSubTemplate := Replace3(ModelGongCoderStructSubTemplateCode[subStructTemplate],
 				"{{structname}}", strings.ToLower(gongStruct.Name),
 				"{{Structname}}", gongStruct.Name,
+				"{{FieldCode}}", fieldCode,
 			)
 
 			subStructCodes[subStructTemplate] += generatedCodeFromSubTemplate
