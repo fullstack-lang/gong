@@ -614,6 +614,10 @@ func main() {
 		modelPkg,
 		modelPkg.Name,
 		*pkgPath)
+	gong_models.CodeGeneratorModelGongCoder(
+		modelPkg,
+		modelPkg.Name,
+		*pkgPath)
 
 	// generate files
 	gong_models.SimpleCodeGeneratorForGongStructWithNameField(
