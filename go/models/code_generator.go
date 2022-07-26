@@ -258,19 +258,36 @@ func MultiCodeGenerator(
 	}
 }
 
-// RemoveGeneratedGongFile generates the setup file for the gorm
-func RemoveGeneratedGongFile(
+// RemoveGeneratedGongFiles generates the setup file for the gorm
+func RemoveGeneratedGongFiles(
 	RelativePkgPath string) {
 
-	// relative to the models package, swith to ./controlers package
-	filename := filepath.Join(RelativePkgPath, "gong.go")
+	{
+		// relative to the models package, swith to ./controlers package
+		filename := filepath.Join(RelativePkgPath, "gong.go")
 
-	// we should use go generate
-	log.Println("removing all models struct file : " + filename)
+		// we should use go generate
+		log.Println("removing file : " + filename)
 
-	if err := os.Remove(filename); err != nil {
-		if os.IsExist(err) {
-			log.Fatalf("Unable to remove %s", filename)
+		if err := os.Remove(filename); err != nil {
+			if os.IsExist(err) {
+				log.Fatalf("Unable to remove %s", filename)
+			}
 		}
 	}
+
+	{
+		// relative to the models package, swith to ./controlers package
+		filename := filepath.Join(RelativePkgPath, "gong_coder.go")
+
+		// we should use go generate
+		log.Println("removing file : " + filename)
+
+		if err := os.Remove(filename); err != nil {
+			if os.IsExist(err) {
+				log.Fatalf("Unable to remove %s", filename)
+			}
+		}
+	}
+
 }
