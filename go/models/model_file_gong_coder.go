@@ -31,7 +31,7 @@ type Gongfield interface {
 	string | bool | int | float64 | time.Time | time.Duration{{` + string(rune(ModelGongCoderGenericGongstructTypes)) + `}}
 }
 
-func GongfieldName[Type Gongstruct, FieldType Gongfield](field FieldType) string {
+func GongfieldName[Type Gongstruct, FieldType Gongfield, AssociationFieldType Gongstruct](field FieldType) string {
 	var t Type
 
 	switch any(t).(type) {
@@ -72,6 +72,10 @@ map[ModelGongCoderStructInsertionId]string{
 			// insertion point for field dependant name{{FieldNameString}}
 		case int, int64:
 			// insertion point for field dependant name{{FieldNameInt}}
+		case *AssociationFieldType:
+			// insertion point for field dependant name{{FieldNamePointerToStruct}}
+		case []*AssociationFieldType:
+			// insertion point for field dependant name{{FieldNamePointerToStruct}}
 		}`,
 }
 

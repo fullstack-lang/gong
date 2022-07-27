@@ -236,6 +236,7 @@ func generatesIdentifier(gongStructName string, idx int, instanceName string) (i
 type Gongstruct interface {
 	// insertion point for generic types
 	{{` + string(rune(ModelGongStructInsertionGenericGongstructTypes)) + `}}
+	GetName() string
 }
 
 type GongstructSet interface {
