@@ -21,50 +21,19 @@ func GongfieldCoder[Type Gongstruct]() Type {
 		fieldCoder.CEnum = 6
 		fieldCoder.CName = "7"
 		fieldCoder.CFloatfield = 8.000000
-		fieldCoder.Bstruct = &Bstruct{Name: "9"}
 		fieldCoder.Floatfield = 10.000000
 		fieldCoder.Intfield = 11
 		fieldCoder.Duration1 = 13
-		fieldCoder.Associationtob = &Bstruct{Name: "14"}
-		fieldCoder.Anotherassociationtob_2 = &Bstruct{Name: "15"}
-		fieldCoder.Anarrayofb = []*Bstruct{
-			{
-				Name: "16",
-			},
-		}
-		fieldCoder.Anotherarrayofb = []*Bstruct{
-			{
-				Name: "17",
-			},
-		}
-		fieldCoder.Anarrayofa = []*Astruct{
-			{
-				Name: "18",
-			},
-		}
-		fieldCoder.AnarrayofbUse = []*AstructBstructUse{
-			{
-				Name: "19",
-			},
-		}
-		fieldCoder.Anarrayofb2Use = []*AstructBstruct2Use{
-			{
-				Name: "20",
-			},
-		}
-		fieldCoder.AnAstruct = &Astruct{Name: "21"}
 		return (any)(fieldCoder).(Type)
 	case AstructBstruct2Use:
 		fieldCoder := AstructBstruct2Use{}
 		// insertion point for field dependant code
 		fieldCoder.Name = "0"
-		fieldCoder.Bstrcut2 = &Bstruct{Name: "1"}
 		return (any)(fieldCoder).(Type)
 	case AstructBstructUse:
 		fieldCoder := AstructBstructUse{}
 		// insertion point for field dependant code
 		fieldCoder.Name = "0"
-		fieldCoder.Bstruct2 = &Bstruct{Name: "1"}
 		return (any)(fieldCoder).(Type)
 	case Bstruct:
 		fieldCoder := Bstruct{}
@@ -138,35 +107,8 @@ func GongfieldName[Type PointerToGongstruct, FieldType Gongfield](field FieldTyp
 			}
 		case *Type:
 			// insertion point for field dependant name
-			if (*field).GetName() == "9" {
-				return "Bstruct"
-			}
-			if (*field).GetName() == "14" {
-				return "Associationtob"
-			}
-			if (*field).GetName() == "15" {
-				return "Anotherassociationtob_2"
-			}
-			if (*field).GetName() == "21" {
-				return "AnAstruct"
-			}
 		case []*Type:
 			// insertion point for field dependant name
-			if (*(field[0])).GetName() == "16" {
-				return "Anarrayofb"
-			}
-			if (*(field[0])).GetName() == "17" {
-				return "Anotherarrayofb"
-			}
-			if (*(field[0])).GetName() == "18" {
-				return "Anarrayofa"
-			}
-			if (*(field[0])).GetName() == "19" {
-				return "AnarrayofbUse"
-			}
-			if (*(field[0])).GetName() == "20" {
-				return "Anarrayofb2Use"
-			}
 		}
 	case *AstructBstruct2Use:
 		switch field := any(field).(type) {
@@ -183,9 +125,6 @@ func GongfieldName[Type PointerToGongstruct, FieldType Gongfield](field FieldTyp
 			// insertion point for field dependant name
 		case *Type:
 			// insertion point for field dependant name
-			if (*field).GetName() == "1" {
-				return "Bstrcut2"
-			}
 		case []*Type:
 			// insertion point for field dependant name
 		}
@@ -204,9 +143,6 @@ func GongfieldName[Type PointerToGongstruct, FieldType Gongfield](field FieldTyp
 			// insertion point for field dependant name
 		case *Type:
 			// insertion point for field dependant name
-			if (*field).GetName() == "1" {
-				return "Bstruct2"
-			}
 		case []*Type:
 			// insertion point for field dependant name
 		}
