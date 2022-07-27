@@ -14,9 +14,11 @@ const ModelGongCoderFileTemplate = `package models
 
 import "time"
 
-// GongfieldCoder return an instance of Type where each field
-// encodes the index of the field.
-// This allows for refactorable field name
+// GongfieldCoder return an instance of Type where each field 
+// encodes the index of the field
+//
+// This allows for refactorable field names
+// 
 func GongfieldCoder[Type Gongstruct]() Type {
 	var t Type
 
@@ -31,6 +33,20 @@ type Gongfield interface {
 	string | bool | int | float64 | time.Time | time.Duration{{` + string(rune(ModelGongCoderGenericGongstructTypes)) + `}}
 }
 
+// GongfieldName provides the name of the field by passing the instance of the coder to
+// the fonction.
+//
+// This allows for refactorable field name
+//
+// fieldCoder := models.GongfieldCoder[models.Astruct]()
+// log.Println( models.GongfieldName[*models.Astruct](fieldCoder.Name))
+// log.Println( models.GongfieldName[*models.Astruct](fieldCoder.Booleanfield))
+// log.Println( models.GongfieldName[*models.Astruct](fieldCoder.Intfield))
+// log.Println( models.GongfieldName[*models.Astruct](fieldCoder.Floatfield))
+// 
+// limitations:
+// 1. cannot encode boolean fields
+// 2. for associations (pointer to gongstruct or slice of pointer to gongstruct, uses GetAssociationName)
 func GongfieldName[Type PointerToGongstruct, FieldType Gongfield](field FieldType) string {
 	var t Type
 
@@ -76,10 +92,6 @@ map[ModelGongCoderStructInsertionId]string{
 			// insertion point for field dependant name{{FieldNameFloat64}}
 		case time.Time:
 			// insertion point for field dependant name{{FieldNameDate}}
-		case *Type:
-			// insertion point for field dependant name{{FieldNamePointerToStruct}}
-		case []*Type:
-			// insertion point for field dependant name{{FieldNameSliceOfPointersToStruct}}
 		}`,
 }
 
@@ -90,8 +102,6 @@ const (
 	ModelGongCoderFieldCodeInt
 	ModelGongCoderFieldCodeFloat64
 	ModelGongCoderFieldCodeDate
-	ModelGongCoderFieldCodePointerToStruct
-	ModelGongCoderFieldCodeSliceOfPointersToStruct
 	ModelGongCoderFieldNameString
 	ModelGongCoderFieldNameInt
 	ModelGongCoderFieldNameFloat64
@@ -159,10 +169,9 @@ func CodeGeneratorModelGongCoder(
 			fieldCode := ""
 			fieldNameString := ""
 			fieldNameInt := ""
+			// fieldNameBool := ""
 			fieldNameFloat64 := ""
 			fieldNameDate := ""
-			fieldNamePointerToStruct := ""
-			fieldNameSliceOfPointersToStruct := ""
 
 			for idx, field := range gongStruct.Fields {
 
@@ -189,7 +198,7 @@ func CodeGeneratorModelGongCoder(
 							"{{Value}}", fmt.Sprintf("%d", idx))
 					case types.Float64:
 						fieldCode += Replace2(
-							ModelGongCoderFieldSubTemplateCode[ModelGongCoderFieldCodeInt],
+							ModelGongCoderFieldSubTemplateCode[ModelGongCoderFieldCodeFloat64],
 							"{{FieldName}}", field.Name,
 							"{{Value}}", fmt.Sprintf("%f", float64(idx)))
 						fieldNameFloat64 += Replace2(
@@ -209,7 +218,7 @@ func CodeGeneratorModelGongCoder(
 				}
 			}
 
-			generatedCodeFromSubTemplate := Replace9(ModelGongCoderStructSubTemplateCode[subStructTemplate],
+			generatedCodeFromSubTemplate := Replace7(ModelGongCoderStructSubTemplateCode[subStructTemplate],
 				"{{structname}}", strings.ToLower(gongStruct.Name),
 				"{{Structname}}", gongStruct.Name,
 				"{{FieldCode}}", fieldCode,
@@ -217,8 +226,6 @@ func CodeGeneratorModelGongCoder(
 				"{{FieldNameInt}}", fieldNameInt,
 				"{{FieldNameFloat64}}", fieldNameFloat64,
 				"{{FieldNameDate}}", fieldNameDate,
-				"{{FieldNamePointerToStruct}}", fieldNamePointerToStruct,
-				"{{FieldNameSliceOfPointersToStruct}}", fieldNameSliceOfPointersToStruct,
 			)
 
 			subStructCodes[subStructTemplate] += generatedCodeFromSubTemplate
