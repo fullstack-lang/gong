@@ -88,7 +88,7 @@ type Gongfield interface {
 	string | bool | int | float64 | time.Time | time.Duration | *Astruct | []*Astruct | *AstructBstruct2Use | []*AstructBstruct2Use | *AstructBstructUse | []*AstructBstructUse | *Bstruct | []*Bstruct | *Dstruct | []*Dstruct
 }
 
-func GongfieldName[Type Gongstruct, FieldType Gongfield](field FieldType) string {
+func GongfieldName[Type Gongstruct, FieldType Gongfield, AssociationFieldType Gongstruct](field FieldType) string {
 	var t Type
 
 	switch any(t).(type) {
@@ -122,6 +122,14 @@ func GongfieldName[Type Gongstruct, FieldType Gongfield](field FieldType) string
 			}
 			if field == "13" {
 				return "Duration1"
+			}
+		case *AssociationFieldType:
+			if (*field).GetName() == "toto" {
+				return "Associationtob"
+			}
+		case []*AssociationFieldType:
+			if (*field[0]).GetName() == "toto" {
+				return "Associationtob"
 			}
 		}
 	case AstructBstruct2Use:
