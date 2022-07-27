@@ -202,7 +202,7 @@ func CodeGeneratorModelGongCoder(
 							"{{FieldName}}", field.Name,
 							"{{Value}}", fmt.Sprintf("%d", idx))
 						fieldNameInt += Replace2(
-							ModelGongCoderFieldSubTemplateCode[ModelGongCoderFieldNameString],
+							ModelGongCoderFieldSubTemplateCode[ModelGongCoderFieldNameInt],
 							"{{FieldName}}", field.Name,
 							"{{Value}}", fmt.Sprintf("%d", idx))
 					case types.Float64:
