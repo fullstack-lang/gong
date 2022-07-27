@@ -229,13 +229,22 @@ func generatesIdentifier(gongStructName string, idx int, instanceName string) (i
 
 // insertion point of functions that provide maps for reverse associations{{` + string(rune(ModelGongStructInsertionReverseAssociationsMaps)) + `}}
 
-// Gongstruct is the type paramter for generated generic function that allows
+// Gongstruct is the type parameter for generated generic function that allows
 // - access to staged instances
 // - navigation between staged instances by going backward association links between gongstruct
 // - full refactoring of Gongstruct identifiers / fields
 type Gongstruct interface {
 	// insertion point for generic types
 	{{` + string(rune(ModelGongStructInsertionGenericGongstructTypes)) + `}}
+}
+
+// Gongstruct is the type parameter for generated generic function that allows
+// - access to staged instances
+// - navigation between staged instances by going backward association links between gongstruct
+// - full refactoring of Gongstruct identifiers / fields
+type PointerToGongstruct interface {
+	// insertion point for generic types
+	{{` + string(rune(ModelGongStructInsertionGenericPointerToGongstructTypes)) + `}}
 	GetName() string
 }
 

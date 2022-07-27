@@ -34,6 +34,7 @@ const (
 	ModelGongStructInsertionGenericReversePointerAssociationsMaps
 	ModelGongStructInsertionGenericReverseSliceOfPointersAssociationsMaps
 	ModelGongStructInsertionGenericGongstructTypes
+	ModelGongStructInsertionGenericPointerToGongstructTypes
 	ModelGongStructInsertionGenericGongSetTypes
 	ModelGongStructInsertionGenericGongstructName
 	ModelGongStructInsertionGenericGongMapTypes
@@ -288,6 +289,8 @@ func ({{structname}} *{{Structname}}) GetName() (res string) {
 		}`,
 
 	ModelGongStructInsertionGenericGongstructTypes: ` | {{Structname}}`,
+
+	ModelGongStructInsertionGenericPointerToGongstructTypes: ` | *{{Structname}}`,
 
 	ModelGongStructInsertionGenericGongSetTypes: `
 		map[*{{Structname}}]any |`,
