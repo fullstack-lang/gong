@@ -96,8 +96,6 @@ const (
 	ModelGongCoderFieldNameInt
 	ModelGongCoderFieldNameFloat64
 	ModelGongCoderFieldNameDate
-	ModelGongCoderFieldNamePointerToStruct
-	ModelGongCoderFieldNameSliceOfPointersToStruct
 	ModelGongCoderFieldInsertionsNb
 )
 
@@ -111,14 +109,6 @@ map[ModelGongCoderFieldInsertionId]string{
 		fieldCoder.{{FieldName}} = {{Value}}`,
 	ModelGongCoderFieldCodeDate: `
 		fieldCoder.{{FieldName}} = time.Date({{Value}}, time.January, 0, 0, 0, 0, 0, time.UTC)`,
-	ModelGongCoderFieldCodePointerToStruct: `
-		fieldCoder.{{FieldName}} = &{{AssocStructName}}{Name: "{{Value}}"}`,
-	ModelGongCoderFieldCodeSliceOfPointersToStruct: `
-		fieldCoder.{{FieldName}} = []*{{AssocStructName}}{
-			{
-				Name: "{{Value}}",
-			},
-		}`,
 	ModelGongCoderFieldNameString: `
 			if field == "{{Value}}" {
 				return "{{FieldName}}"
@@ -133,14 +123,6 @@ map[ModelGongCoderFieldInsertionId]string{
 			}`,
 	ModelGongCoderFieldNameDate: `
 			if field == time.Date({{Value}}, time.January, 0, 0, 0, 0, 0, time.UTC) {
-				return "{{FieldName}}"
-			}`,
-	ModelGongCoderFieldNamePointerToStruct: `
-			if (*field).GetName() == "{{Value}}" {
-				return "{{FieldName}}"
-			}`,
-	ModelGongCoderFieldNameSliceOfPointersToStruct: `
-			if (*(field[0])).GetName() == "{{Value}}" {
 				return "{{FieldName}}"
 			}`,
 }
@@ -224,29 +206,6 @@ func CodeGeneratorModelGongCoder(
 						ModelGongCoderFieldSubTemplateCode[ModelGongCoderFieldNameDate],
 						"{{FieldName}}", field.Name,
 						"{{Value}}", fmt.Sprintf("%d", idx))
-				case *PointerToGongStructField:
-					fieldCode += Replace3(
-						ModelGongCoderFieldSubTemplateCode[ModelGongCoderFieldCodePointerToStruct],
-						"{{FieldName}}", field.Name,
-						"{{AssocStructName}}", field.GongStruct.Name,
-						"{{Value}}", fmt.Sprintf("%d", idx))
-					fieldNamePointerToStruct += Replace3(
-						ModelGongCoderFieldSubTemplateCode[ModelGongCoderFieldNamePointerToStruct],
-						"{{FieldName}}", field.Name,
-						"{{AssocStructName}}", field.GongStruct.Name,
-						"{{Value}}", fmt.Sprintf("%d", idx))
-				case *SliceOfPointerToGongStructField:
-					fieldCode += Replace3(
-						ModelGongCoderFieldSubTemplateCode[ModelGongCoderFieldCodeSliceOfPointersToStruct],
-						"{{FieldName}}", field.Name,
-						"{{AssocStructName}}", field.GongStruct.Name,
-						"{{Value}}", fmt.Sprintf("%d", idx))
-					fieldNameSliceOfPointersToStruct += Replace3(
-						ModelGongCoderFieldSubTemplateCode[ModelGongCoderFieldNameSliceOfPointersToStruct],
-						"{{FieldName}}", field.Name,
-						"{{AssocStructName}}", field.GongStruct.Name,
-						"{{Value}}", fmt.Sprintf("%d", idx))
-
 				}
 			}
 
