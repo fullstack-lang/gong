@@ -122,18 +122,6 @@ func (stage *StageStruct) RestoreXL(dirPath string) {
 }
 
 // insertion point for cumulative sub template with model space calls
-func (stage *StageStruct) getAstructOrderedStructWithNameField() []*Astruct {
-	// have alphabetical order generation
-	astructOrdered := []*Astruct{}
-	for astruct := range stage.Astructs {
-		astructOrdered = append(astructOrdered, astruct)
-	}
-	sort.Slice(astructOrdered[:], func(i, j int) bool {
-		return astructOrdered[i].Name < astructOrdered[j].Name
-	})
-	return astructOrdered
-}
-
 // Stage puts astruct to the model stage
 func (astruct *Astruct) Stage() *Astruct {
 	Stage.Astructs[astruct] = __member
@@ -414,13 +402,23 @@ func (stageStruct *StageStruct) CreateReverseMap_Astruct_Anarrayofa() (res map[*
 }
 
 
-// Gongstruct is the type paramter for generated generic function that allows
+// Gongstruct is the type parameter for generated generic function that allows
 // - access to staged instances
 // - navigation between staged instances by going backward association links between gongstruct
 // - full refactoring of Gongstruct identifiers / fields
 type Gongstruct interface {
 	// insertion point for generic types
 	Astruct
+}
+
+// Gongstruct is the type parameter for generated generic function that allows
+// - access to staged instances
+// - navigation between staged instances by going backward association links between gongstruct
+// - full refactoring of Gongstruct identifiers / fields
+type PointerToGongstruct interface {
+	// insertion point for generic types
+	*Astruct
+	GetName() string
 }
 
 type GongstructSet interface {
@@ -612,3 +610,4 @@ func GetFieldStringValue[Type Gongstruct](instance Type, fieldName string) (res 
 }
 
 // insertion point of enum utility functions
+// Last line of the template
