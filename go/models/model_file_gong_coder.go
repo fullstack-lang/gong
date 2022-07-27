@@ -31,7 +31,7 @@ type Gongfield interface {
 	string | bool | int | float64 | time.Time | time.Duration{{` + string(rune(ModelGongCoderGenericGongstructTypes)) + `}}
 }
 
-func GongfieldName[Type Gongstruct, FieldType Gongfield, AssociationFieldType Gongstruct](field FieldType) string {
+func GongfieldName[Type PointerToGongstruct, FieldType Gongfield](field FieldType) string {
 	var t Type
 
 	switch any(t).(type) {
@@ -66,7 +66,7 @@ map[ModelGongCoderStructInsertionId]string{
 		// insertion point for field dependant code{{FieldCode}}
 		return (any)(fieldCoder).(Type)`,
 	ModelGongCoderGenericGongstructNamerString: `
-	case {{Structname}}:
+	case *{{Structname}}:
 		switch field := any(field).(type) {
 		case string:
 			// insertion point for field dependant name{{FieldNameString}}
@@ -76,9 +76,9 @@ map[ModelGongCoderStructInsertionId]string{
 			// insertion point for field dependant name{{FieldNameFloat64}}
 		case time.Time:
 			// insertion point for field dependant name{{FieldNameDate}}
-		case *AssociationFieldType:
+		case *Type:
 			// insertion point for field dependant name{{FieldNamePointerToStruct}}
-		case []*AssociationFieldType:
+		case []*Type:
 			// insertion point for field dependant name{{FieldNameSliceOfPointersToStruct}}
 		}`,
 }
@@ -140,7 +140,7 @@ map[ModelGongCoderFieldInsertionId]string{
 				return "{{FieldName}}"
 			}`,
 	ModelGongCoderFieldNameSliceOfPointersToStruct: `
-			if (*field[0]).GetName() == "{{Value}}" {
+			if (*(field[0])).GetName() == "{{Value}}" {
 				return "{{FieldName}}"
 			}`,
 }
