@@ -1381,6 +1381,7 @@ func (stageStruct *StageStruct) CreateReverseMap_AstructBstructUse_Bstruct2() (r
 type Gongstruct interface {
 	// insertion point for generic types
 	Astruct | AstructBstruct2Use | AstructBstructUse | Bstruct | Dstruct
+	GetName() string
 }
 
 type GongstructSet interface {
