@@ -138,30 +138,30 @@ func GongfieldName[Type Gongstruct, FieldType Gongfield, AssociationFieldType Go
 			}
 		case *AssociationFieldType:
 			// insertion point for field dependant name
-			if (*field).GetName2() == "9" {
+			if (*field).GetName() == "9" {
 				return "Bstruct"
 			}
-			if (*field).GetName2() == "14" {
+			if (*field).GetName() == "14" {
 				return "Associationtob"
 			}
-			if (*field).GetName2() == "15" {
+			if (*field).GetName() == "15" {
 				return "Anotherassociationtob_2"
 			}
-			if (*field).GetName2() == "21" {
+			if (*field).GetName() == "21" {
 				return "AnAstruct"
 			}
 		case []*AssociationFieldType:
 			// insertion point for field dependant name
-			if (*field[0]).GetName2() == "16" {
+			if (*field[0]).GetName() == "16" {
 				return "Anarrayofb"
 			}
-			if (*field[0]).GetName2() == "17" {
+			if (*field[0]).GetName() == "17" {
 				return "Anotherarrayofb"
 			}
-			if (*field[0]).GetName2() == "18" {
+			if (*field[0]).GetName() == "18" {
 				return "Anarrayofa"
 			}
-			if (*field[0]).GetName2() == "19" {
+			if (*field[0]).GetName() == "19" {
 				return "AnarrayofbUse"
 			}
 			if (*field[0]).GetName() == "20" {
@@ -183,7 +183,7 @@ func GongfieldName[Type Gongstruct, FieldType Gongfield, AssociationFieldType Go
 			// insertion point for field dependant name
 		case *AssociationFieldType:
 			// insertion point for field dependant name
-			if (*field).GetName2() == "1" {
+			if (*field).GetName() == "1" {
 				return "Bstrcut2"
 			}
 		case []*AssociationFieldType:
