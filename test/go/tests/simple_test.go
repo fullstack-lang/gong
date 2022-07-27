@@ -198,10 +198,13 @@ func TestStageCallBack(t *testing.T) {
 	log.Println("Field namer name : ", models.GongfieldName[*models.Astruct](fieldCoder.Intfield))
 	log.Println("Field namer name : ", models.GongfieldName[*models.Astruct](fieldCoder.Floatfield))
 	log.Println("Field namer name : ", models.GongfieldName[*models.Astruct](fieldCoder.CFloatfield))
-	log.Println("Field namer name : ", models.GongfieldName[*models.Astruct](fieldCoder.Associationtob))
-	log.Println("Field namer name : ", models.GongfieldName[*models.Astruct](fieldCoder.Anotherassociationtob_2))
-	log.Println("Field namer name : ", models.GongfieldName[*models.Astruct](fieldCoder.Anarrayofb))
-	log.Println("Field namer name : ", models.GongfieldName[*models.Astruct](fieldCoder.Anotherarrayofb))
+	log.Println("Field namer name : ", models.GetAssociationName[models.Astruct]().Associationtob.Name)
+	log.Println("Field namer name : ", models.GetAssociationName[models.Astruct]().Anotherarrayofb[0].Name)
+
+	// log.Println("Field namer name : ", models.GongfieldName[*models.Astruct](fieldCoder.Associationtob))
+	// log.Println("Field namer name : ", models.GongfieldName[*models.Astruct](fieldCoder.Anotherassociationtob_2))
+	// log.Println("Field namer name : ", models.GongfieldName[*models.Astruct](fieldCoder.Anarrayofb))
+	// log.Println("Field namer name : ", models.GongfieldName[*models.Astruct](fieldCoder.Anotherarrayofb))
 	// log.Println("Field namer name : ", models.GongfieldName[*models.Astruct](fieldCoder.Aenum))
 	// log.Println("Field namer name : ", models.GongfieldName[*models.Astruct](fieldCoder.CEnum))
 }
