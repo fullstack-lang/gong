@@ -114,13 +114,13 @@ func GongfieldName[Type PointerToGongstruct, FieldType Gongfield](field FieldTyp
 			}
 		case int, int64:
 			// insertion point for field dependant name
-			if field == "6" {
+			if field == 6 {
 				return "CEnum"
 			}
-			if field == "11" {
+			if field == 11 {
 				return "Intfield"
 			}
-			if field == "13" {
+			if field == 13 {
 				return "Duration1"
 			}
 		case float64:
@@ -219,7 +219,7 @@ func GongfieldName[Type PointerToGongstruct, FieldType Gongfield](field FieldTyp
 			}
 		case int, int64:
 			// insertion point for field dependant name
-			if field == "3" {
+			if field == 3 {
 				return "Intfield"
 			}
 		case float64:
