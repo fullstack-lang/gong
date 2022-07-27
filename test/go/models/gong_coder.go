@@ -124,13 +124,9 @@ func GongfieldName[Type Gongstruct, FieldType Gongfield, AssociationFieldType Go
 				return "Duration1"
 			}
 		case *AssociationFieldType:
-			if (*field).GetName() == "toto" {
-				return "Associationtob"
-			}
+			// insertion point for field dependant name{{FieldNamePointerToStruct}}
 		case []*AssociationFieldType:
-			if (*field[0]).GetName() == "toto" {
-				return "Associationtob"
-			}
+			// insertion point for field dependant name{{FieldNamePointerToStruct}}
 		}
 	case AstructBstruct2Use:
 		switch field := any(field).(type) {
@@ -141,6 +137,10 @@ func GongfieldName[Type Gongstruct, FieldType Gongfield, AssociationFieldType Go
 			}
 		case int, int64:
 			// insertion point for field dependant name
+		case *AssociationFieldType:
+			// insertion point for field dependant name{{FieldNamePointerToStruct}}
+		case []*AssociationFieldType:
+			// insertion point for field dependant name{{FieldNamePointerToStruct}}
 		}
 	case AstructBstructUse:
 		switch field := any(field).(type) {
@@ -151,6 +151,10 @@ func GongfieldName[Type Gongstruct, FieldType Gongfield, AssociationFieldType Go
 			}
 		case int, int64:
 			// insertion point for field dependant name
+		case *AssociationFieldType:
+			// insertion point for field dependant name{{FieldNamePointerToStruct}}
+		case []*AssociationFieldType:
+			// insertion point for field dependant name{{FieldNamePointerToStruct}}
 		}
 	case Bstruct:
 		switch field := any(field).(type) {
@@ -164,6 +168,10 @@ func GongfieldName[Type Gongstruct, FieldType Gongfield, AssociationFieldType Go
 			if field == "3" {
 				return "Intfield"
 			}
+		case *AssociationFieldType:
+			// insertion point for field dependant name{{FieldNamePointerToStruct}}
+		case []*AssociationFieldType:
+			// insertion point for field dependant name{{FieldNamePointerToStruct}}
 		}
 	case Dstruct:
 		switch field := any(field).(type) {
@@ -174,6 +182,10 @@ func GongfieldName[Type Gongstruct, FieldType Gongfield, AssociationFieldType Go
 			}
 		case int, int64:
 			// insertion point for field dependant name
+		case *AssociationFieldType:
+			// insertion point for field dependant name{{FieldNamePointerToStruct}}
+		case []*AssociationFieldType:
+			// insertion point for field dependant name{{FieldNamePointerToStruct}}
 		}
 	default:
 		return ""
