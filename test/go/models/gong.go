@@ -256,6 +256,9 @@ func DeleteORMAstruct(astruct *Astruct) {
 func (astruct *Astruct) GetName() (res string) {
 	return astruct.Name
 }
+func (astruct Astruct) GetName2() (res string) {
+	return astruct.Name
+}
 
 // Stage puts astructbstruct2use to the model stage
 func (astructbstruct2use *AstructBstruct2Use) Stage() *AstructBstruct2Use {
@@ -1380,8 +1383,8 @@ func (stageStruct *StageStruct) CreateReverseMap_AstructBstructUse_Bstruct2() (r
 // - full refactoring of Gongstruct identifiers / fields
 type Gongstruct interface {
 	// insertion point for generic types
-	Astruct | AstructBstruct2Use | AstructBstructUse | Bstruct | Dstruct
-	GetName() string
+	*Astruct | *AstructBstruct2Use | *AstructBstructUse | *Bstruct | *Dstruct
+	GetName2() string
 }
 
 type GongstructSet interface {
