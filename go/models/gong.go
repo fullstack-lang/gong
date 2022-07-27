@@ -202,18 +202,6 @@ func (stage *StageStruct) RestoreXL(dirPath string) {
 }
 
 // insertion point for cumulative sub template with model space calls
-func (stage *StageStruct) getGongBasicFieldOrderedStructWithNameField() []*GongBasicField {
-	// have alphabetical order generation
-	gongbasicfieldOrdered := []*GongBasicField{}
-	for gongbasicfield := range stage.GongBasicFields {
-		gongbasicfieldOrdered = append(gongbasicfieldOrdered, gongbasicfield)
-	}
-	sort.Slice(gongbasicfieldOrdered[:], func(i, j int) bool {
-		return gongbasicfieldOrdered[i].Name < gongbasicfieldOrdered[j].Name
-	})
-	return gongbasicfieldOrdered
-}
-
 // Stage puts gongbasicfield to the model stage
 func (gongbasicfield *GongBasicField) Stage() *GongBasicField {
 	Stage.GongBasicFields[gongbasicfield] = __member
@@ -307,18 +295,6 @@ func DeleteORMGongBasicField(gongbasicfield *GongBasicField) {
 // for satisfaction of GongStruct interface
 func (gongbasicfield *GongBasicField) GetName() (res string) {
 	return gongbasicfield.Name
-}
-
-func (stage *StageStruct) getGongEnumOrderedStructWithNameField() []*GongEnum {
-	// have alphabetical order generation
-	gongenumOrdered := []*GongEnum{}
-	for gongenum := range stage.GongEnums {
-		gongenumOrdered = append(gongenumOrdered, gongenum)
-	}
-	sort.Slice(gongenumOrdered[:], func(i, j int) bool {
-		return gongenumOrdered[i].Name < gongenumOrdered[j].Name
-	})
-	return gongenumOrdered
 }
 
 // Stage puts gongenum to the model stage
@@ -416,18 +392,6 @@ func (gongenum *GongEnum) GetName() (res string) {
 	return gongenum.Name
 }
 
-func (stage *StageStruct) getGongEnumValueOrderedStructWithNameField() []*GongEnumValue {
-	// have alphabetical order generation
-	gongenumvalueOrdered := []*GongEnumValue{}
-	for gongenumvalue := range stage.GongEnumValues {
-		gongenumvalueOrdered = append(gongenumvalueOrdered, gongenumvalue)
-	}
-	sort.Slice(gongenumvalueOrdered[:], func(i, j int) bool {
-		return gongenumvalueOrdered[i].Name < gongenumvalueOrdered[j].Name
-	})
-	return gongenumvalueOrdered
-}
-
 // Stage puts gongenumvalue to the model stage
 func (gongenumvalue *GongEnumValue) Stage() *GongEnumValue {
 	Stage.GongEnumValues[gongenumvalue] = __member
@@ -521,18 +485,6 @@ func DeleteORMGongEnumValue(gongenumvalue *GongEnumValue) {
 // for satisfaction of GongStruct interface
 func (gongenumvalue *GongEnumValue) GetName() (res string) {
 	return gongenumvalue.Name
-}
-
-func (stage *StageStruct) getGongNoteOrderedStructWithNameField() []*GongNote {
-	// have alphabetical order generation
-	gongnoteOrdered := []*GongNote{}
-	for gongnote := range stage.GongNotes {
-		gongnoteOrdered = append(gongnoteOrdered, gongnote)
-	}
-	sort.Slice(gongnoteOrdered[:], func(i, j int) bool {
-		return gongnoteOrdered[i].Name < gongnoteOrdered[j].Name
-	})
-	return gongnoteOrdered
 }
 
 // Stage puts gongnote to the model stage
@@ -630,18 +582,6 @@ func (gongnote *GongNote) GetName() (res string) {
 	return gongnote.Name
 }
 
-func (stage *StageStruct) getGongStructOrderedStructWithNameField() []*GongStruct {
-	// have alphabetical order generation
-	gongstructOrdered := []*GongStruct{}
-	for gongstruct := range stage.GongStructs {
-		gongstructOrdered = append(gongstructOrdered, gongstruct)
-	}
-	sort.Slice(gongstructOrdered[:], func(i, j int) bool {
-		return gongstructOrdered[i].Name < gongstructOrdered[j].Name
-	})
-	return gongstructOrdered
-}
-
 // Stage puts gongstruct to the model stage
 func (gongstruct *GongStruct) Stage() *GongStruct {
 	Stage.GongStructs[gongstruct] = __member
@@ -735,18 +675,6 @@ func DeleteORMGongStruct(gongstruct *GongStruct) {
 // for satisfaction of GongStruct interface
 func (gongstruct *GongStruct) GetName() (res string) {
 	return gongstruct.Name
-}
-
-func (stage *StageStruct) getGongTimeFieldOrderedStructWithNameField() []*GongTimeField {
-	// have alphabetical order generation
-	gongtimefieldOrdered := []*GongTimeField{}
-	for gongtimefield := range stage.GongTimeFields {
-		gongtimefieldOrdered = append(gongtimefieldOrdered, gongtimefield)
-	}
-	sort.Slice(gongtimefieldOrdered[:], func(i, j int) bool {
-		return gongtimefieldOrdered[i].Name < gongtimefieldOrdered[j].Name
-	})
-	return gongtimefieldOrdered
 }
 
 // Stage puts gongtimefield to the model stage
@@ -844,18 +772,6 @@ func (gongtimefield *GongTimeField) GetName() (res string) {
 	return gongtimefield.Name
 }
 
-func (stage *StageStruct) getModelPkgOrderedStructWithNameField() []*ModelPkg {
-	// have alphabetical order generation
-	modelpkgOrdered := []*ModelPkg{}
-	for modelpkg := range stage.ModelPkgs {
-		modelpkgOrdered = append(modelpkgOrdered, modelpkg)
-	}
-	sort.Slice(modelpkgOrdered[:], func(i, j int) bool {
-		return modelpkgOrdered[i].Name < modelpkgOrdered[j].Name
-	})
-	return modelpkgOrdered
-}
-
 // Stage puts modelpkg to the model stage
 func (modelpkg *ModelPkg) Stage() *ModelPkg {
 	Stage.ModelPkgs[modelpkg] = __member
@@ -951,18 +867,6 @@ func (modelpkg *ModelPkg) GetName() (res string) {
 	return modelpkg.Name
 }
 
-func (stage *StageStruct) getPointerToGongStructFieldOrderedStructWithNameField() []*PointerToGongStructField {
-	// have alphabetical order generation
-	pointertogongstructfieldOrdered := []*PointerToGongStructField{}
-	for pointertogongstructfield := range stage.PointerToGongStructFields {
-		pointertogongstructfieldOrdered = append(pointertogongstructfieldOrdered, pointertogongstructfield)
-	}
-	sort.Slice(pointertogongstructfieldOrdered[:], func(i, j int) bool {
-		return pointertogongstructfieldOrdered[i].Name < pointertogongstructfieldOrdered[j].Name
-	})
-	return pointertogongstructfieldOrdered
-}
-
 // Stage puts pointertogongstructfield to the model stage
 func (pointertogongstructfield *PointerToGongStructField) Stage() *PointerToGongStructField {
 	Stage.PointerToGongStructFields[pointertogongstructfield] = __member
@@ -1056,18 +960,6 @@ func DeleteORMPointerToGongStructField(pointertogongstructfield *PointerToGongSt
 // for satisfaction of GongStruct interface
 func (pointertogongstructfield *PointerToGongStructField) GetName() (res string) {
 	return pointertogongstructfield.Name
-}
-
-func (stage *StageStruct) getSliceOfPointerToGongStructFieldOrderedStructWithNameField() []*SliceOfPointerToGongStructField {
-	// have alphabetical order generation
-	sliceofpointertogongstructfieldOrdered := []*SliceOfPointerToGongStructField{}
-	for sliceofpointertogongstructfield := range stage.SliceOfPointerToGongStructFields {
-		sliceofpointertogongstructfieldOrdered = append(sliceofpointertogongstructfieldOrdered, sliceofpointertogongstructfield)
-	}
-	sort.Slice(sliceofpointertogongstructfieldOrdered[:], func(i, j int) bool {
-		return sliceofpointertogongstructfieldOrdered[i].Name < sliceofpointertogongstructfieldOrdered[j].Name
-	})
-	return sliceofpointertogongstructfieldOrdered
 }
 
 // Stage puts sliceofpointertogongstructfield to the model stage
@@ -2014,13 +1906,23 @@ func (stageStruct *StageStruct) CreateReverseMap_SliceOfPointerToGongStructField
 	return
 }
 
-// Gongstruct is the type paramter for generated generic function that allows
+// Gongstruct is the type parameter for generated generic function that allows
 // - access to staged instances
 // - navigation between staged instances by going backward association links between gongstruct
 // - full refactoring of Gongstruct identifiers / fields
 type Gongstruct interface {
 	// insertion point for generic types
 	GongBasicField | GongEnum | GongEnumValue | GongNote | GongStruct | GongTimeField | ModelPkg | PointerToGongStructField | SliceOfPointerToGongStructField
+}
+
+// Gongstruct is the type parameter for generated generic function that allows
+// - access to staged instances
+// - navigation between staged instances by going backward association links between gongstruct
+// - full refactoring of Gongstruct identifiers / fields
+type PointerToGongstruct interface {
+	// insertion point for generic types
+	*GongBasicField | *GongEnum | *GongEnumValue | *GongNote | *GongStruct | *GongTimeField | *ModelPkg | *PointerToGongStructField | *SliceOfPointerToGongStructField
+	GetName() string
 }
 
 type GongstructSet interface {
@@ -3559,6 +3461,138 @@ func (gongmodelenumvaluesubtemplateid *GongModelEnumValueSubTemplateId) ToCodeSt
 	return
 }
 
+// Utility function for ModelGongCoderFieldInsertionId
+// if enum values are string, it is stored with the value
+// if enum values are int, they are stored with the code of the value
+func (modelgongcoderfieldinsertionid ModelGongCoderFieldInsertionId) ToInt() (res int) {
+
+	// migration of former implementation of enum
+	switch modelgongcoderfieldinsertionid {
+	// insertion code per enum code
+	case ModelGongCoderFieldCodeString:
+		res = 0
+	case ModelGongCoderFieldCodeInt:
+		res = 1
+	case ModelGongCoderFieldCodeFloat64:
+		res = 2
+	case ModelGongCoderFieldCodeDate:
+		res = 3
+	case ModelGongCoderFieldNameString:
+		res = 4
+	case ModelGongCoderFieldNameInt:
+		res = 5
+	case ModelGongCoderFieldNameFloat64:
+		res = 6
+	case ModelGongCoderFieldNameDate:
+		res = 7
+	case ModelGongCoderFieldInsertionsNb:
+		res = 8
+	}
+	return
+}
+
+func (modelgongcoderfieldinsertionid *ModelGongCoderFieldInsertionId) FromInt(input int) {
+
+	switch input {
+	// insertion code per enum code
+	case 0:
+		*modelgongcoderfieldinsertionid = ModelGongCoderFieldCodeString
+	case 1:
+		*modelgongcoderfieldinsertionid = ModelGongCoderFieldCodeInt
+	case 2:
+		*modelgongcoderfieldinsertionid = ModelGongCoderFieldCodeFloat64
+	case 3:
+		*modelgongcoderfieldinsertionid = ModelGongCoderFieldCodeDate
+	case 4:
+		*modelgongcoderfieldinsertionid = ModelGongCoderFieldNameString
+	case 5:
+		*modelgongcoderfieldinsertionid = ModelGongCoderFieldNameInt
+	case 6:
+		*modelgongcoderfieldinsertionid = ModelGongCoderFieldNameFloat64
+	case 7:
+		*modelgongcoderfieldinsertionid = ModelGongCoderFieldNameDate
+	case 8:
+		*modelgongcoderfieldinsertionid = ModelGongCoderFieldInsertionsNb
+	}
+}
+
+func (modelgongcoderfieldinsertionid *ModelGongCoderFieldInsertionId) ToCodeString() (res string) {
+
+	switch *modelgongcoderfieldinsertionid {
+	// insertion code per enum code
+	case ModelGongCoderFieldCodeString:
+		res = "ModelGongCoderFieldCodeString"
+	case ModelGongCoderFieldCodeInt:
+		res = "ModelGongCoderFieldCodeInt"
+	case ModelGongCoderFieldCodeFloat64:
+		res = "ModelGongCoderFieldCodeFloat64"
+	case ModelGongCoderFieldCodeDate:
+		res = "ModelGongCoderFieldCodeDate"
+	case ModelGongCoderFieldNameString:
+		res = "ModelGongCoderFieldNameString"
+	case ModelGongCoderFieldNameInt:
+		res = "ModelGongCoderFieldNameInt"
+	case ModelGongCoderFieldNameFloat64:
+		res = "ModelGongCoderFieldNameFloat64"
+	case ModelGongCoderFieldNameDate:
+		res = "ModelGongCoderFieldNameDate"
+	case ModelGongCoderFieldInsertionsNb:
+		res = "ModelGongCoderFieldInsertionsNb"
+	}
+	return
+}
+
+// Utility function for ModelGongCoderStructInsertionId
+// if enum values are string, it is stored with the value
+// if enum values are int, they are stored with the code of the value
+func (modelgongcoderstructinsertionid ModelGongCoderStructInsertionId) ToInt() (res int) {
+
+	// migration of former implementation of enum
+	switch modelgongcoderstructinsertionid {
+	// insertion code per enum code
+	case ModelGongCoderGenericGongstructTypes:
+		res = 0
+	case ModelGongCoderGenericGongstructCoder:
+		res = 1
+	case ModelGongCoderGenericGongstructNamerString:
+		res = 2
+	case ModelGongCoderStructInsertionsNb:
+		res = 3
+	}
+	return
+}
+
+func (modelgongcoderstructinsertionid *ModelGongCoderStructInsertionId) FromInt(input int) {
+
+	switch input {
+	// insertion code per enum code
+	case 0:
+		*modelgongcoderstructinsertionid = ModelGongCoderGenericGongstructTypes
+	case 1:
+		*modelgongcoderstructinsertionid = ModelGongCoderGenericGongstructCoder
+	case 2:
+		*modelgongcoderstructinsertionid = ModelGongCoderGenericGongstructNamerString
+	case 3:
+		*modelgongcoderstructinsertionid = ModelGongCoderStructInsertionsNb
+	}
+}
+
+func (modelgongcoderstructinsertionid *ModelGongCoderStructInsertionId) ToCodeString() (res string) {
+
+	switch *modelgongcoderstructinsertionid {
+	// insertion code per enum code
+	case ModelGongCoderGenericGongstructTypes:
+		res = "ModelGongCoderGenericGongstructTypes"
+	case ModelGongCoderGenericGongstructCoder:
+		res = "ModelGongCoderGenericGongstructCoder"
+	case ModelGongCoderGenericGongstructNamerString:
+		res = "ModelGongCoderGenericGongstructNamerString"
+	case ModelGongCoderStructInsertionsNb:
+		res = "ModelGongCoderStructInsertionsNb"
+	}
+	return
+}
+
 // Utility function for ModelGongEnumInsertionId
 // if enum values are string, it is stored with the value
 // if enum values are int, they are stored with the code of the value
@@ -3640,24 +3674,26 @@ func (modelgongstructinsertionid ModelGongStructInsertionId) ToInt() (res int) {
 		res = 15
 	case ModelGongStructInsertionGenericGongstructTypes:
 		res = 16
-	case ModelGongStructInsertionGenericGongSetTypes:
+	case ModelGongStructInsertionGenericPointerToGongstructTypes:
 		res = 17
-	case ModelGongStructInsertionGenericGongstructName:
+	case ModelGongStructInsertionGenericGongSetTypes:
 		res = 18
-	case ModelGongStructInsertionGenericGongMapTypes:
+	case ModelGongStructInsertionGenericGongstructName:
 		res = 19
-	case ModelGongStructInsertionGenericGetSetFunctions:
+	case ModelGongStructInsertionGenericGongMapTypes:
 		res = 20
-	case ModelGongStructInsertionGenericGetMapFunctions:
+	case ModelGongStructInsertionGenericGetSetFunctions:
 		res = 21
-	case ModelGongStructInsertionGenericInstancesSetFunctions:
+	case ModelGongStructInsertionGenericGetMapFunctions:
 		res = 22
-	case ModelGongStructInsertionGenericInstancesMapFunctions:
+	case ModelGongStructInsertionGenericInstancesSetFunctions:
 		res = 23
-	case ModelGongStructInsertionGenericGetAssociationNameFunctions:
+	case ModelGongStructInsertionGenericInstancesMapFunctions:
 		res = 24
-	case ModelGongStructInsertionsNb:
+	case ModelGongStructInsertionGenericGetAssociationNameFunctions:
 		res = 25
+	case ModelGongStructInsertionsNb:
+		res = 26
 	}
 	return
 }
@@ -3701,22 +3737,24 @@ func (modelgongstructinsertionid *ModelGongStructInsertionId) FromInt(input int)
 	case 16:
 		*modelgongstructinsertionid = ModelGongStructInsertionGenericGongstructTypes
 	case 17:
-		*modelgongstructinsertionid = ModelGongStructInsertionGenericGongSetTypes
+		*modelgongstructinsertionid = ModelGongStructInsertionGenericPointerToGongstructTypes
 	case 18:
-		*modelgongstructinsertionid = ModelGongStructInsertionGenericGongstructName
+		*modelgongstructinsertionid = ModelGongStructInsertionGenericGongSetTypes
 	case 19:
-		*modelgongstructinsertionid = ModelGongStructInsertionGenericGongMapTypes
+		*modelgongstructinsertionid = ModelGongStructInsertionGenericGongstructName
 	case 20:
-		*modelgongstructinsertionid = ModelGongStructInsertionGenericGetSetFunctions
+		*modelgongstructinsertionid = ModelGongStructInsertionGenericGongMapTypes
 	case 21:
-		*modelgongstructinsertionid = ModelGongStructInsertionGenericGetMapFunctions
+		*modelgongstructinsertionid = ModelGongStructInsertionGenericGetSetFunctions
 	case 22:
-		*modelgongstructinsertionid = ModelGongStructInsertionGenericInstancesSetFunctions
+		*modelgongstructinsertionid = ModelGongStructInsertionGenericGetMapFunctions
 	case 23:
-		*modelgongstructinsertionid = ModelGongStructInsertionGenericInstancesMapFunctions
+		*modelgongstructinsertionid = ModelGongStructInsertionGenericInstancesSetFunctions
 	case 24:
-		*modelgongstructinsertionid = ModelGongStructInsertionGenericGetAssociationNameFunctions
+		*modelgongstructinsertionid = ModelGongStructInsertionGenericInstancesMapFunctions
 	case 25:
+		*modelgongstructinsertionid = ModelGongStructInsertionGenericGetAssociationNameFunctions
+	case 26:
 		*modelgongstructinsertionid = ModelGongStructInsertionsNb
 	}
 }
@@ -3759,6 +3797,8 @@ func (modelgongstructinsertionid *ModelGongStructInsertionId) ToCodeString() (re
 		res = "ModelGongStructInsertionGenericReverseSliceOfPointersAssociationsMaps"
 	case ModelGongStructInsertionGenericGongstructTypes:
 		res = "ModelGongStructInsertionGenericGongstructTypes"
+	case ModelGongStructInsertionGenericPointerToGongstructTypes:
+		res = "ModelGongStructInsertionGenericPointerToGongstructTypes"
 	case ModelGongStructInsertionGenericGongSetTypes:
 		res = "ModelGongStructInsertionGenericGongSetTypes"
 	case ModelGongStructInsertionGenericGongstructName:
@@ -5611,3 +5651,4 @@ func (ormsetupcumulsubtemplate *OrmSetupCumulSubTemplate) ToCodeString() (res st
 	return
 }
 
+// Last line of the template
