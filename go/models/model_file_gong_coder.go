@@ -92,6 +92,8 @@ map[ModelGongCoderStructInsertionId]string{
 			// insertion point for field dependant name{{FieldNameFloat64}}
 		case time.Time:
 			// insertion point for field dependant name{{FieldNameDate}}
+		case bool:
+			// insertion point for field dependant name{{FieldNameBoolean}}
 		}`,
 }
 
@@ -102,10 +104,12 @@ const (
 	ModelGongCoderFieldCodeInt
 	ModelGongCoderFieldCodeFloat64
 	ModelGongCoderFieldCodeDate
+	ModelGongCoderFieldCodeBoolean
 	ModelGongCoderFieldNameString
 	ModelGongCoderFieldNameInt
 	ModelGongCoderFieldNameFloat64
 	ModelGongCoderFieldNameDate
+	ModelGongCoderFieldNameBoolean
 	ModelGongCoderFieldInsertionsNb
 )
 
@@ -119,6 +123,8 @@ map[ModelGongCoderFieldInsertionId]string{
 		fieldCoder.{{FieldName}} = {{Value}}`,
 	ModelGongCoderFieldCodeDate: `
 		fieldCoder.{{FieldName}} = time.Date({{Value}}, time.January, 0, 0, 0, 0, 0, time.UTC)`,
+	ModelGongCoderFieldCodeBoolean: `
+		fieldCoder.{{FieldName}} = {{Value}}`,
 	ModelGongCoderFieldNameString: `
 			if field == "{{Value}}" {
 				return "{{FieldName}}"
@@ -133,6 +139,10 @@ map[ModelGongCoderFieldInsertionId]string{
 			}`,
 	ModelGongCoderFieldNameDate: `
 			if field == time.Date({{Value}}, time.January, 0, 0, 0, 0, 0, time.UTC) {
+				return "{{FieldName}}"
+			}`,
+	ModelGongCoderFieldNameBoolean: `
+			if field == {{Value}} {
 				return "{{FieldName}}"
 			}`,
 }
@@ -169,10 +179,16 @@ func CodeGeneratorModelGongCoder(
 			fieldCode := ""
 			fieldNameString := ""
 			fieldNameInt := ""
-			// fieldNameBool := ""
+			fieldNameBool := ""
 			fieldNameFloat64 := ""
 			fieldNameDate := ""
 
+			// it is impossible to encode more than 2 values into
+			// a boolean
+			//
+			// Therefore, only the first two boolean field can be encoded
+			// boolFiedIndex is the index of the those boolean fields
+			boolFiedIndex := 0
 			for idx, field := range gongStruct.Fields {
 
 				switch field := field.(type) {
@@ -205,6 +221,22 @@ func CodeGeneratorModelGongCoder(
 							ModelGongCoderFieldSubTemplateCode[ModelGongCoderFieldNameFloat64],
 							"{{FieldName}}", field.Name,
 							"{{Value}}", fmt.Sprintf("%f", float64(idx)))
+					case types.Bool:
+						value := ""
+						if boolFiedIndex%2 == 0 {
+							value = "false"
+						} else {
+							value = "true"
+						}
+						boolFiedIndex++
+						fieldCode += Replace2(
+							ModelGongCoderFieldSubTemplateCode[ModelGongCoderFieldCodeBoolean],
+							"{{FieldName}}", field.Name,
+							"{{Value}}", value)
+						fieldNameBool += Replace2(
+							ModelGongCoderFieldSubTemplateCode[ModelGongCoderFieldNameBoolean],
+							"{{FieldName}}", field.Name,
+							"{{Value}}", value)
 					}
 				case *GongTimeField:
 					fieldCode += Replace2(
@@ -218,7 +250,7 @@ func CodeGeneratorModelGongCoder(
 				}
 			}
 
-			generatedCodeFromSubTemplate := Replace7(ModelGongCoderStructSubTemplateCode[subStructTemplate],
+			generatedCodeFromSubTemplate := Replace8(ModelGongCoderStructSubTemplateCode[subStructTemplate],
 				"{{structname}}", strings.ToLower(gongStruct.Name),
 				"{{Structname}}", gongStruct.Name,
 				"{{FieldCode}}", fieldCode,
@@ -226,6 +258,7 @@ func CodeGeneratorModelGongCoder(
 				"{{FieldNameInt}}", fieldNameInt,
 				"{{FieldNameFloat64}}", fieldNameFloat64,
 				"{{FieldNameDate}}", fieldNameDate,
+				"{{FieldNameBoolean}}", fieldNameBool,
 			)
 
 			subStructCodes[subStructTemplate] += generatedCodeFromSubTemplate

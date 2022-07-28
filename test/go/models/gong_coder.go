@@ -17,7 +17,7 @@ func GongfieldCoder[Type Gongstruct]() Type {
 		// insertion point for field dependant code
 		fieldCoder.Name = "0"
 		fieldCoder.Date = time.Date(1, time.January, 0, 0, 0, 0, 0, time.UTC)
-		fieldCoder.Booleanfield = (2 % 2) == 0
+		fieldCoder.Booleanfield = false
 		fieldCoder.Aenum = "3"
 		fieldCoder.Aenum_2 = "4"
 		fieldCoder.Benum = "5"
@@ -26,7 +26,7 @@ func GongfieldCoder[Type Gongstruct]() Type {
 		fieldCoder.CFloatfield = 8.000000
 		fieldCoder.Floatfield = 10.000000
 		fieldCoder.Intfield = 11
-		fieldCoder.Anotherbooleanfield = (12 % 2) == 0
+		fieldCoder.Anotherbooleanfield = true
 		fieldCoder.Duration1 = 13
 		return (any)(fieldCoder).(Type)
 	case AstructBstruct2Use:
@@ -73,7 +73,7 @@ type Gongfield interface {
 // log.Println( models.GongfieldName[*models.Astruct](fieldCoder.Floatfield))
 // 
 // limitations:
-// 1. for boolean fields, cannot encode more than 2 field names
+// 1. cannot encode boolean fields
 // 2. for associations (pointer to gongstruct or slice of pointer to gongstruct, uses GetAssociationName)
 func GongfieldName[Type PointerToGongstruct, FieldType Gongfield](field FieldType) string {
 	var t Type
@@ -123,6 +123,14 @@ func GongfieldName[Type PointerToGongstruct, FieldType Gongfield](field FieldTyp
 			if field == time.Date(1, time.January, 0, 0, 0, 0, 0, time.UTC) {
 				return "Date"
 			}
+		case bool:
+			// insertion point for field dependant name
+			if field == false {
+				return "Booleanfield"
+			}
+			if field == true {
+				return "Anotherbooleanfield"
+			}
 		}
 	case *AstructBstruct2Use:
 		switch field := any(field).(type) {
@@ -137,6 +145,8 @@ func GongfieldName[Type PointerToGongstruct, FieldType Gongfield](field FieldTyp
 			// insertion point for field dependant name
 		case time.Time:
 			// insertion point for field dependant name
+		case bool:
+			// insertion point for field dependant name
 		}
 	case *AstructBstructUse:
 		switch field := any(field).(type) {
@@ -150,6 +160,8 @@ func GongfieldName[Type PointerToGongstruct, FieldType Gongfield](field FieldTyp
 		case float64:
 			// insertion point for field dependant name
 		case time.Time:
+			// insertion point for field dependant name
+		case bool:
 			// insertion point for field dependant name
 		}
 	case *Bstruct:
@@ -174,6 +186,8 @@ func GongfieldName[Type PointerToGongstruct, FieldType Gongfield](field FieldTyp
 			}
 		case time.Time:
 			// insertion point for field dependant name
+		case bool:
+			// insertion point for field dependant name
 		}
 	case *Dstruct:
 		switch field := any(field).(type) {
@@ -187,6 +201,8 @@ func GongfieldName[Type PointerToGongstruct, FieldType Gongfield](field FieldTyp
 		case float64:
 			// insertion point for field dependant name
 		case time.Time:
+			// insertion point for field dependant name
+		case bool:
 			// insertion point for field dependant name
 		}
 	default:
