@@ -223,6 +223,10 @@ func CodeGeneratorModelGongCoder(
 							"{{Value}}", fmt.Sprintf("%f", float64(idx)))
 					case types.Bool:
 						value := ""
+						if boolFiedIndex > 1 {
+							log.Println("WARNING : encoding of more than 2 boolean field per struct is not possible. ",
+								gongStruct.Name)
+						}
 						if boolFiedIndex%2 == 0 {
 							value = "false"
 						} else {
