@@ -58,6 +58,8 @@ func GongfieldName[Type PointerToGongstruct, FieldType Gongfield](field FieldTyp
 			// insertion point for field dependant name
 		case time.Time:
 			// insertion point for field dependant name
+		case bool:
+			// insertion point for field dependant name
 		}
 	default:
 		return ""

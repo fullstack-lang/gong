@@ -200,16 +200,16 @@
                 "cwd": "${workspaceFolder}/.."
             },
             "group": "build",
-            "command": "find . -type d -name vendor -prune -o -name gong.go -print -execdir gongc \\;"
+            "command": "find . -type d -name vendor -prune -o -name gong.go -print -execdir gongc -skipGoModCommands \\;"
         },
         {
-            "label": "Sequence - gongc all -backendOnly",
+            "label": "Sequence - gongc all -backendOnly -skipGoModCommands",
             "type": "shell",
             "options": {
                 "cwd": "${workspaceFolder}/.."
             },
             "group": "build",
-            "command": "find . -type d -name vendor -prune -o -name gong.go -print -execdir gongc -backendOnly\\;"
+            "command": "find . -type d -name vendor -prune -o -name gong.go -print -execdir gongc -backendOnly -skipGoModCommands \\;"
         },
     ]
 }
