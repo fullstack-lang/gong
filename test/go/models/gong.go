@@ -162,18 +162,6 @@ func (stage *StageStruct) RestoreXL(dirPath string) {
 }
 
 // insertion point for cumulative sub template with model space calls
-func (stage *StageStruct) getAstructOrderedStructWithNameField() []*Astruct {
-	// have alphabetical order generation
-	astructOrdered := []*Astruct{}
-	for astruct := range stage.Astructs {
-		astructOrdered = append(astructOrdered, astruct)
-	}
-	sort.Slice(astructOrdered[:], func(i, j int) bool {
-		return astructOrdered[i].Name < astructOrdered[j].Name
-	})
-	return astructOrdered
-}
-
 // Stage puts astruct to the model stage
 func (astruct *Astruct) Stage() *Astruct {
 	Stage.Astructs[astruct] = __member
@@ -267,18 +255,6 @@ func DeleteORMAstruct(astruct *Astruct) {
 // for satisfaction of GongStruct interface
 func (astruct *Astruct) GetName() (res string) {
 	return astruct.Name
-}
-
-func (stage *StageStruct) getAstructBstruct2UseOrderedStructWithNameField() []*AstructBstruct2Use {
-	// have alphabetical order generation
-	astructbstruct2useOrdered := []*AstructBstruct2Use{}
-	for astructbstruct2use := range stage.AstructBstruct2Uses {
-		astructbstruct2useOrdered = append(astructbstruct2useOrdered, astructbstruct2use)
-	}
-	sort.Slice(astructbstruct2useOrdered[:], func(i, j int) bool {
-		return astructbstruct2useOrdered[i].Name < astructbstruct2useOrdered[j].Name
-	})
-	return astructbstruct2useOrdered
 }
 
 // Stage puts astructbstruct2use to the model stage
@@ -376,18 +352,6 @@ func (astructbstruct2use *AstructBstruct2Use) GetName() (res string) {
 	return astructbstruct2use.Name
 }
 
-func (stage *StageStruct) getAstructBstructUseOrderedStructWithNameField() []*AstructBstructUse {
-	// have alphabetical order generation
-	astructbstructuseOrdered := []*AstructBstructUse{}
-	for astructbstructuse := range stage.AstructBstructUses {
-		astructbstructuseOrdered = append(astructbstructuseOrdered, astructbstructuse)
-	}
-	sort.Slice(astructbstructuseOrdered[:], func(i, j int) bool {
-		return astructbstructuseOrdered[i].Name < astructbstructuseOrdered[j].Name
-	})
-	return astructbstructuseOrdered
-}
-
 // Stage puts astructbstructuse to the model stage
 func (astructbstructuse *AstructBstructUse) Stage() *AstructBstructUse {
 	Stage.AstructBstructUses[astructbstructuse] = __member
@@ -483,18 +447,6 @@ func (astructbstructuse *AstructBstructUse) GetName() (res string) {
 	return astructbstructuse.Name
 }
 
-func (stage *StageStruct) getBstructOrderedStructWithNameField() []*Bstruct {
-	// have alphabetical order generation
-	bstructOrdered := []*Bstruct{}
-	for bstruct := range stage.Bstructs {
-		bstructOrdered = append(bstructOrdered, bstruct)
-	}
-	sort.Slice(bstructOrdered[:], func(i, j int) bool {
-		return bstructOrdered[i].Name < bstructOrdered[j].Name
-	})
-	return bstructOrdered
-}
-
 // Stage puts bstruct to the model stage
 func (bstruct *Bstruct) Stage() *Bstruct {
 	Stage.Bstructs[bstruct] = __member
@@ -588,18 +540,6 @@ func DeleteORMBstruct(bstruct *Bstruct) {
 // for satisfaction of GongStruct interface
 func (bstruct *Bstruct) GetName() (res string) {
 	return bstruct.Name
-}
-
-func (stage *StageStruct) getDstructOrderedStructWithNameField() []*Dstruct {
-	// have alphabetical order generation
-	dstructOrdered := []*Dstruct{}
-	for dstruct := range stage.Dstructs {
-		dstructOrdered = append(dstructOrdered, dstruct)
-	}
-	sort.Slice(dstructOrdered[:], func(i, j int) bool {
-		return dstructOrdered[i].Name < dstructOrdered[j].Name
-	})
-	return dstructOrdered
 }
 
 // Stage puts dstruct to the model stage
@@ -1434,13 +1374,23 @@ func (stageStruct *StageStruct) CreateReverseMap_AstructBstructUse_Bstruct2() (r
 
 // generate function for reverse association maps of Dstruct
 
-// Gongstruct is the type paramter for generated generic function that allows
+// Gongstruct is the type parameter for generated generic function that allows
 // - access to staged instances
 // - navigation between staged instances by going backward association links between gongstruct
 // - full refactoring of Gongstruct identifiers / fields
 type Gongstruct interface {
 	// insertion point for generic types
 	Astruct | AstructBstruct2Use | AstructBstructUse | Bstruct | Dstruct
+}
+
+// Gongstruct is the type parameter for generated generic function that allows
+// - access to staged instances
+// - navigation between staged instances by going backward association links between gongstruct
+// - full refactoring of Gongstruct identifiers / fields
+type PointerToGongstruct interface {
+	// insertion point for generic types
+	*Astruct | *AstructBstruct2Use | *AstructBstructUse | *Bstruct | *Dstruct
+	GetName() string
 }
 
 type GongstructSet interface {
@@ -2127,3 +2077,4 @@ func (cenumtypeint *CEnumTypeInt) ToCodeString() (res string) {
 	return
 }
 
+// Last line of the template
