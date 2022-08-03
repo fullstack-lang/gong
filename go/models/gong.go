@@ -3477,16 +3477,20 @@ func (modelgongcoderfieldinsertionid ModelGongCoderFieldInsertionId) ToInt() (re
 		res = 2
 	case ModelGongCoderFieldCodeDate:
 		res = 3
-	case ModelGongCoderFieldNameString:
+	case ModelGongCoderFieldCodeBoolean:
 		res = 4
-	case ModelGongCoderFieldNameInt:
+	case ModelGongCoderFieldNameString:
 		res = 5
-	case ModelGongCoderFieldNameFloat64:
+	case ModelGongCoderFieldNameInt:
 		res = 6
-	case ModelGongCoderFieldNameDate:
+	case ModelGongCoderFieldNameFloat64:
 		res = 7
-	case ModelGongCoderFieldInsertionsNb:
+	case ModelGongCoderFieldNameDate:
 		res = 8
+	case ModelGongCoderFieldNameBoolean:
+		res = 9
+	case ModelGongCoderFieldInsertionsNb:
+		res = 10
 	}
 	return
 }
@@ -3504,14 +3508,18 @@ func (modelgongcoderfieldinsertionid *ModelGongCoderFieldInsertionId) FromInt(in
 	case 3:
 		*modelgongcoderfieldinsertionid = ModelGongCoderFieldCodeDate
 	case 4:
-		*modelgongcoderfieldinsertionid = ModelGongCoderFieldNameString
+		*modelgongcoderfieldinsertionid = ModelGongCoderFieldCodeBoolean
 	case 5:
-		*modelgongcoderfieldinsertionid = ModelGongCoderFieldNameInt
+		*modelgongcoderfieldinsertionid = ModelGongCoderFieldNameString
 	case 6:
-		*modelgongcoderfieldinsertionid = ModelGongCoderFieldNameFloat64
+		*modelgongcoderfieldinsertionid = ModelGongCoderFieldNameInt
 	case 7:
-		*modelgongcoderfieldinsertionid = ModelGongCoderFieldNameDate
+		*modelgongcoderfieldinsertionid = ModelGongCoderFieldNameFloat64
 	case 8:
+		*modelgongcoderfieldinsertionid = ModelGongCoderFieldNameDate
+	case 9:
+		*modelgongcoderfieldinsertionid = ModelGongCoderFieldNameBoolean
+	case 10:
 		*modelgongcoderfieldinsertionid = ModelGongCoderFieldInsertionsNb
 	}
 }
@@ -3528,6 +3536,8 @@ func (modelgongcoderfieldinsertionid *ModelGongCoderFieldInsertionId) ToCodeStri
 		res = "ModelGongCoderFieldCodeFloat64"
 	case ModelGongCoderFieldCodeDate:
 		res = "ModelGongCoderFieldCodeDate"
+	case ModelGongCoderFieldCodeBoolean:
+		res = "ModelGongCoderFieldCodeBoolean"
 	case ModelGongCoderFieldNameString:
 		res = "ModelGongCoderFieldNameString"
 	case ModelGongCoderFieldNameInt:
@@ -3536,6 +3546,8 @@ func (modelgongcoderfieldinsertionid *ModelGongCoderFieldInsertionId) ToCodeStri
 		res = "ModelGongCoderFieldNameFloat64"
 	case ModelGongCoderFieldNameDate:
 		res = "ModelGongCoderFieldNameDate"
+	case ModelGongCoderFieldNameBoolean:
+		res = "ModelGongCoderFieldNameBoolean"
 	case ModelGongCoderFieldInsertionsNb:
 		res = "ModelGongCoderFieldInsertionsNb"
 	}

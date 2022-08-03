@@ -124,6 +124,8 @@ func GongfieldName[Type PointerToGongstruct, FieldType Gongfield](field FieldTyp
 			// insertion point for field dependant name
 		case time.Time:
 			// insertion point for field dependant name
+		case bool:
+			// insertion point for field dependant name
 		}
 	case *GongEnum:
 		switch field := any(field).(type) {
@@ -140,6 +142,8 @@ func GongfieldName[Type PointerToGongstruct, FieldType Gongfield](field FieldTyp
 		case float64:
 			// insertion point for field dependant name
 		case time.Time:
+			// insertion point for field dependant name
+		case bool:
 			// insertion point for field dependant name
 		}
 	case *GongEnumValue:
@@ -158,6 +162,8 @@ func GongfieldName[Type PointerToGongstruct, FieldType Gongfield](field FieldTyp
 			// insertion point for field dependant name
 		case time.Time:
 			// insertion point for field dependant name
+		case bool:
+			// insertion point for field dependant name
 		}
 	case *GongNote:
 		switch field := any(field).(type) {
@@ -175,6 +181,8 @@ func GongfieldName[Type PointerToGongstruct, FieldType Gongfield](field FieldTyp
 			// insertion point for field dependant name
 		case time.Time:
 			// insertion point for field dependant name
+		case bool:
+			// insertion point for field dependant name
 		}
 	case *GongStruct:
 		switch field := any(field).(type) {
@@ -188,6 +196,8 @@ func GongfieldName[Type PointerToGongstruct, FieldType Gongfield](field FieldTyp
 		case float64:
 			// insertion point for field dependant name
 		case time.Time:
+			// insertion point for field dependant name
+		case bool:
 			// insertion point for field dependant name
 		}
 	case *GongTimeField:
@@ -209,6 +219,8 @@ func GongfieldName[Type PointerToGongstruct, FieldType Gongfield](field FieldTyp
 			// insertion point for field dependant name
 		case time.Time:
 			// insertion point for field dependant name
+		case bool:
+			// insertion point for field dependant name
 		}
 	case *ModelPkg:
 		switch field := any(field).(type) {
@@ -225,6 +237,8 @@ func GongfieldName[Type PointerToGongstruct, FieldType Gongfield](field FieldTyp
 		case float64:
 			// insertion point for field dependant name
 		case time.Time:
+			// insertion point for field dependant name
+		case bool:
 			// insertion point for field dependant name
 		}
 	case *PointerToGongStructField:
@@ -246,6 +260,8 @@ func GongfieldName[Type PointerToGongstruct, FieldType Gongfield](field FieldTyp
 			// insertion point for field dependant name
 		case time.Time:
 			// insertion point for field dependant name
+		case bool:
+			// insertion point for field dependant name
 		}
 	case *SliceOfPointerToGongStructField:
 		switch field := any(field).(type) {
@@ -265,6 +281,8 @@ func GongfieldName[Type PointerToGongstruct, FieldType Gongfield](field FieldTyp
 		case float64:
 			// insertion point for field dependant name
 		case time.Time:
+			// insertion point for field dependant name
+		case bool:
 			// insertion point for field dependant name
 		}
 	default:
