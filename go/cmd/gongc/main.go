@@ -62,7 +62,7 @@ func main() {
 		PkgPath: fullPkgPath,
 	})
 
-	gong_models.Walk(*pkgPath, modelPkg, *useParser)
+	gong_models.Walk(*pkgPath, modelPkg)
 
 	// check wether the package name follows gong naming convention
 	if strings.ContainsAny(modelPkg.Name, "-") {
