@@ -4,8 +4,6 @@ import (
 	"go/types"
 	"log"
 	"strings"
-
-	"golang.org/x/tools/go/packages"
 )
 
 //
@@ -14,7 +12,7 @@ import (
 // isCompositeField if it is a field from a composition with another struct
 // compositeTypeStructName is the name of the composite struct if it is the case
 //
-func GenerateFields(structName string, __struct *types.Struct, pkg *packages.Package,
+func GenerateFields(structName string, __struct *types.Struct,
 	modelPkg *ModelPkg,
 	isCompositeField bool,
 	compositeTypeStructName string) {
@@ -141,7 +139,7 @@ func GenerateFields(structName string, __struct *types.Struct, pkg *packages.Pac
 					)
 			} else {
 				localIdentifiers := strings.Split(compositeTypeStructName, ".")
-				GenerateFields(structName, compositeTypeStruct, pkg, modelPkg, true, localIdentifiers[len(localIdentifiers)-1])
+				GenerateFields(structName, compositeTypeStruct, modelPkg, true, localIdentifiers[len(localIdentifiers)-1])
 			}
 
 		default:
