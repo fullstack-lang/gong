@@ -26,8 +26,6 @@ var (
 		"network address addr where the angular generated service will lookup the server")
 	run               = flag.Bool("run", false, "run 'go run main.go' after compilation")
 	skipGoModCommands = flag.Bool("skipGoModCommands", false, "avoid calls to go mod init, tidy and vendor")
-
-	useParser = flag.Bool("useParser", true, "use go/parser.Parse instead of packages.Load (which requires go installled)")
 )
 
 func main() {
