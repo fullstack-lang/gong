@@ -899,7 +899,7 @@ func main() {
 	}
 
 	// go get isatty
-	if !*skipGoModCommands {
+	if false {
 		start := time.Now()
 		// path gin since isatty fails if v0.0.12 (patch version 0.0.14 is OK)
 		cmd := exec.Command("go", "get", "-d", "github.com/mattn/go-isatty")
