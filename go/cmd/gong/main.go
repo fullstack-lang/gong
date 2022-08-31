@@ -59,7 +59,12 @@ func main() {
 
 	// load package to analyse
 	modelPkg := &models.ModelPkg{}
-	models.Walk("../../models", modelPkg)
+
+	// since the source is embedded, one needs to
+	// compute the Abstract syntax tree in a special manner
+	pkgs := models.ParseEmbedModel(gong.GoDir, "go/models")
+
+	models.WalkParser(pkgs, modelPkg)
 	modelPkg.SerializeToStage()
 	models.Stage.Commit()
 
