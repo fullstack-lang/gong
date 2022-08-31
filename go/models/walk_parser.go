@@ -10,6 +10,7 @@ import (
 	"io/fs"
 	"log"
 	"os"
+	"path/filepath"
 	"strings"
 	"unicode"
 )
@@ -25,21 +26,26 @@ func ParseEmbedModel(embeddedDir embed.FS, source string) map[string]*ast.Packag
 
 		if d.IsDir() {
 			return nil
-		} else {
-			var data, err1 = embeddedDir.ReadFile(path)
-			if err1 != nil {
-				log.Fatalln(err.Error())
-			}
-			fset := token.NewFileSet()
-			astFile, errParser := parser.ParseFile(fset, path, data, parser.ParseComments)
+		}
 
-			pkg.Files[path] = astFile
-			if errParser != nil {
-				panic(errParser)
-			}
-			_ = astFile
+		if filepath.Ext(path) != ".go" {
 			return nil
 		}
+
+		var data, err1 = embeddedDir.ReadFile(path)
+		if err1 != nil {
+			log.Fatalln(err.Error())
+		}
+		fset := token.NewFileSet()
+		astFile, errParser := parser.ParseFile(fset, path, data, parser.ParseComments)
+
+		pkg.Files[path] = astFile
+		if errParser != nil {
+			panic(errParser)
+		}
+		_ = astFile
+		return nil
+
 	})
 	pkgs := make(map[string]*ast.Package)
 	sourcesElements := strings.Split(source, "/")
