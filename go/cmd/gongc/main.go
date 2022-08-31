@@ -898,31 +898,6 @@ func main() {
 		log.Printf("go get over and took %s", time.Since(start))
 	}
 
-	// go get isatty
-	if false {
-		start := time.Now()
-		// path gin since isatty fails if v0.0.12 (patch version 0.0.14 is OK)
-		cmd := exec.Command("go", "get", "-d", "github.com/mattn/go-isatty")
-		cmd.Dir, _ = filepath.Abs(filepath.Join(*pkgPath, "../.."))
-		log.Printf("Running %s command in directory %s and waiting for it to finish...\n", cmd.Args, cmd.Dir)
-
-		// https://stackoverflow.com/questions/48253268/print-the-stdout-from-exec-command-in-real-time-in-go
-		var stdBuffer bytes.Buffer
-		mw := io.MultiWriter(os.Stdout, &stdBuffer)
-
-		cmd.Stdout = mw
-		cmd.Stderr = mw
-
-		log.Println(cmd.String())
-		log.Println(stdBuffer.String())
-
-		// Execute the command
-		if err := cmd.Run(); err != nil {
-			log.Panic(err)
-		}
-		log.Printf("go get -d github.com/mattn/go-isatty over and took %s", time.Since(start))
-	}
-
 	// go build
 	if true {
 		start := time.Now()
