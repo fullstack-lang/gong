@@ -247,9 +247,9 @@ func ({{structname}} *{{Structname}}) GetName() (res string) {
 		map_{{Structname}}_Identifiers[{{structname}}] = id
 
 		decl = IdentifiersDecls
-		decl = strings.models.ReplaceAll(decl, "{{Identifier}}", id)
-		decl = strings.models.ReplaceAll(decl, "{{GeneratedStructName}}", "{{Structname}}")
-		decl = strings.models.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", {{structname}}.Name)
+		decl = strings.ReplaceAll(decl, "{{Identifier}}", id)
+		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "{{Structname}}")
+		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", {{structname}}.Name)
 		identifiersDecl += decl
 
 		initializerStatements += fmt.Sprintf("\n\n	// {{Structname}} %s values setup", {{structname}}.Name)
@@ -377,70 +377,70 @@ map[GongFilePerStructSubTemplateId]string{
 
 	GongFileFieldSubTmplSetBasicFieldBool: `
 		setValueField = NumberInitStatement
-		setValueField = strings.models.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.models.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "{{FieldName}}")
-		setValueField = strings.models.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", {{structname}}.{{FieldName}}))
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "{{FieldName}}")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", {{structname}}.{{FieldName}}))
 		initializerStatements += setValueField
 `,
 	GongFileFieldSubTmplSetTimeField: `
 		setValueField = TimeInitStatement
-		setValueField = strings.models.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.models.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "{{FieldName}}")
-		setValueField = strings.models.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", {{structname}}.{{FieldName}}.String())
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "{{FieldName}}")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", {{structname}}.{{FieldName}}.String())
 		initializerStatements += setValueField
 `,
 	GongFileFieldSubTmplSetBasicFieldInt: `
 		setValueField = NumberInitStatement
-		setValueField = strings.models.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.models.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "{{FieldName}}")
-		setValueField = strings.models.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", {{structname}}.{{FieldName}}))
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "{{FieldName}}")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", {{structname}}.{{FieldName}}))
 		initializerStatements += setValueField
 `,
 	GongFileFieldSubTmplSetBasicFieldEnumString: `
 		if {{structname}}.{{FieldName}} != "" {
 			setValueField = StringEnumInitStatement
-			setValueField = strings.models.ReplaceAll(setValueField, "{{Identifier}}", id)
-			setValueField = strings.models.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "{{FieldName}}")
-			setValueField = strings.models.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", "models."+{{structname}}.{{FieldName}}.ToCodeString())
+			setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+			setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "{{FieldName}}")
+			setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", "models."+{{structname}}.{{FieldName}}.ToCodeString())
 			initializerStatements += setValueField
 		}
 `,
 	GongFileFieldSubTmplSetBasicFieldEnumInt: `
 		setValueField = NumberInitStatement
-		setValueField = strings.models.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.models.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "{{FieldName}}")
-		setValueField = strings.models.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", "models."+{{structname}}.{{FieldName}}.ToCodeString())
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "{{FieldName}}")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", "models."+{{structname}}.{{FieldName}}.ToCodeString())
 		initializerStatements += setValueField
 `,
 	GongFileFieldSubTmplSetBasicFieldFloat64: `
 		setValueField = NumberInitStatement
-		setValueField = strings.models.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.models.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "{{FieldName}}")
-		setValueField = strings.models.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", {{structname}}.{{FieldName}}))
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "{{FieldName}}")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", {{structname}}.{{FieldName}}))
 		initializerStatements += setValueField
 `,
 	GongFileFieldSubTmplSetBasicFieldString: `
 		setValueField = StringInitStatement
-		setValueField = strings.models.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.models.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "{{FieldName}}")
-		setValueField = strings.models.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string({{structname}}.{{FieldName}}))
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "{{FieldName}}")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string({{structname}}.{{FieldName}}))
 		initializerStatements += setValueField
 `,
 	GongFileFieldSubTmplSetPointerField: `
 		if {{structname}}.{{FieldName}} != nil {
 			setPointerField = PointerFieldInitStatement
-			setPointerField = strings.models.ReplaceAll(setPointerField, "{{Identifier}}", id)
-			setPointerField = strings.models.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "{{FieldName}}")
-			setPointerField = strings.models.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_{{AssocStructName}}_Identifiers[{{structname}}.{{FieldName}}])
+			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "{{FieldName}}")
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_{{AssocStructName}}_Identifiers[{{structname}}.{{FieldName}}])
 			pointersInitializesStatements += setPointerField
 		}
 `,
 	GongFileFieldSubTmplSetSliceOfPointersField: `
 		for _, _{{assocstructname}} := range {{structname}}.{{FieldName}} {
 			setPointerField = SliceOfPointersFieldInitStatement
-			setPointerField = strings.models.ReplaceAll(setPointerField, "{{Identifier}}", id)
-			setPointerField = strings.models.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "{{FieldName}}")
-			setPointerField = strings.models.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_{{AssocStructName}}_Identifiers[_{{assocstructname}}])
+			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "{{FieldName}}")
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_{{AssocStructName}}_Identifiers[_{{assocstructname}}])
 			pointersInitializesStatements += setPointerField
 		}
 `,
