@@ -1,4 +1,4 @@
-package models
+package vscode
 
 const VsCodeLaunchConfig = `{
     "version": "0.2.0",

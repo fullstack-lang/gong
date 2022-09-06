@@ -1,4 +1,4 @@
-package models
+package golang
 
 const OrmFileStructTemplate = `// insertion point for per struct generated file {{` + string(OrmFileStructDeclarations) + `}}`
 

@@ -13,6 +13,12 @@ import (
 	"strings"
 	"time"
 
+	"golang.org/x/text/cases"
+	"golang.org/x/text/language"
+
+	"github.com/fullstack-lang/gong/go/golang"
+	"github.com/fullstack-lang/gong/go/vscode"
+
 	gong_models "github.com/fullstack-lang/gong/go/models"
 )
 
@@ -223,14 +229,14 @@ func main() {
 				modelPkg.Name,
 				modelPkg.PkgPath,
 				filepath.Join(vscodeDirFilePath, "launch.json"),
-				gong_models.VsCodeLaunchConfig)
+				vscode.VsCodeLaunchConfig)
 
 			gong_models.VerySimpleCodeGenerator(
 				modelPkg,
 				modelPkg.Name,
 				modelPkg.PkgPath,
 				filepath.Join(vscodeDirFilePath, "tasks.json"),
-				gong_models.VsCodeTasksConfig)
+				vscode.VsCodeTasksConfig)
 		}
 
 	}
@@ -594,25 +600,26 @@ func main() {
 		log.Panic("Problem with source path " + errd2.Error())
 	}
 
+	caserEnglish := cases.Title(language.English)
 	gong_models.VerySimpleCodeGenerator(
 		modelPkg,
-		strings.Title(modelPkg.Name),
+		caserEnglish.String(modelPkg.Name),
 		modelPkg.PkgPath, filepath.Join(gong_models.NgWorkspacePath, "embed.go"),
 		gong_models.GoProjectsGo)
 
 	gong_models.VerySimpleCodeGenerator(
 		modelPkg,
-		strings.Title(modelPkg.Name),
+		caserEnglish.String(modelPkg.Name),
 		modelPkg.PkgPath, filepath.Join(gong_models.NgWorkspacePath, "../embed.go"),
 		gong_models.EmebedNgDistNg)
 
 	// remove "gong.go" file
 	gong_models.RemoveGeneratedGongFiles(*pkgPath)
-	gong_models.CodeGeneratorModelGong(
+	golang.CodeGeneratorModelGong(
 		modelPkg,
 		modelPkg.Name,
 		*pkgPath)
-	gong_models.CodeGeneratorModelGongCoder(
+	golang.CodeGeneratorModelGongCoder(
 		modelPkg,
 		modelPkg.Name,
 		*pkgPath)
@@ -623,14 +630,14 @@ func main() {
 		modelPkg.Name,
 		modelPkg.PkgPath,
 		filepath.Join(*pkgPath, "../orm/setup.go"),
-		gong_models.OrmFileSetupTemplate, gong_models.OrmSetupCumulSubTemplateCode)
+		golang.OrmFileSetupTemplate, golang.OrmSetupCumulSubTemplateCode)
 
 	gong_models.SimpleCodeGeneratorForGongStructWithNameField(
 		modelPkg,
 		modelPkg.Name,
 		modelPkg.PkgPath,
 		filepath.Join(*pkgPath, "../orm/back_repo.go"),
-		gong_models.BackRepoTemplateCode, gong_models.BackRepoSubTemplate)
+		golang.BackRepoTemplateCode, golang.BackRepoSubTemplate)
 
 	gong_models.SimpleCodeGeneratorForGongStructWithNameField(
 		modelPkg,
@@ -639,7 +646,7 @@ func main() {
 		filepath.Join(*pkgPath, "../controllers/register_controllers.go"),
 		gong_models.ControllersRegisterTemplate, gong_models.ControllersRegistrationsSubTemplate)
 
-	gong_models.MultiCodeGeneratorBackRepo(
+	golang.MultiCodeGeneratorBackRepo(
 		modelPkg,
 		modelPkg.Name,
 		modelPkg.PkgPath,
@@ -803,13 +810,13 @@ func main() {
 
 	gong_models.SimpleCodeGeneratorForGongStructWithNameField(
 		modelPkg,
-		strings.Title(modelPkg.Name),
+		caserEnglish.String(modelPkg.Name),
 		modelPkg.PkgPath, filepath.Join(gong_models.MatTargetPath, modelPkg.Name+".module.ts"),
 		gong_models.NgLibModuleTemplate, gong_models.NgLibModuleSubTemplateCode)
 
 	gong_models.SimpleCodeGeneratorForGongStructWithNameField(
 		modelPkg,
-		strings.Title(modelPkg.Name),
+		caserEnglish.String(modelPkg.Name),
 		modelPkg.PkgPath, filepath.Join(gong_models.MatTargetPath, "app-routing.module.ts"),
 		gong_models.NgRoutingTemplate, gong_models.NgRoutingSubTemplateCode)
 
