@@ -749,9 +749,9 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 	log.Println("filename of marshall output  is " + name)
 
 	res := marshallRes
-	res = strings.models.ReplaceAll(res, "{{databaseName}}", strings.models.ReplaceAll(path.Base(name), ".go", ""))
-	res = strings.models.ReplaceAll(res, "{{PackageName}}", packageName)
-	res = strings.models.ReplaceAll(res, "{{ModelsPackageName}}", modelsPackageName)
+	res = strings.ReplaceAll(res, "{{databaseName}}", strings.ReplaceAll(path.Base(name), ".go", ""))
+	res = strings.ReplaceAll(res, "{{PackageName}}", packageName)
+	res = strings.ReplaceAll(res, "{{ModelsPackageName}}", modelsPackageName)
 
 	// map of identifiers
 	// var StageMapDstructIds map[*Dstruct]string
@@ -781,95 +781,95 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 		map_Astruct_Identifiers[astruct] = id
 
 		decl = IdentifiersDecls
-		decl = strings.models.ReplaceAll(decl, "{{Identifier}}", id)
-		decl = strings.models.ReplaceAll(decl, "{{GeneratedStructName}}", "Astruct")
-		decl = strings.models.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", astruct.Name)
+		decl = strings.ReplaceAll(decl, "{{Identifier}}", id)
+		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Astruct")
+		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", astruct.Name)
 		identifiersDecl += decl
 
 		initializerStatements += fmt.Sprintf("\n\n	// Astruct %s values setup", astruct.Name)
 		// Initialisation of values
 		setValueField = StringInitStatement
-		setValueField = strings.models.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.models.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
-		setValueField = strings.models.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(astruct.Name))
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(astruct.Name))
 		initializerStatements += setValueField
 
 		setValueField = TimeInitStatement
-		setValueField = strings.models.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.models.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Date")
-		setValueField = strings.models.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", astruct.Date.String())
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Date")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", astruct.Date.String())
 		initializerStatements += setValueField
 
 		setValueField = NumberInitStatement
-		setValueField = strings.models.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.models.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Booleanfield")
-		setValueField = strings.models.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", astruct.Booleanfield))
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Booleanfield")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", astruct.Booleanfield))
 		initializerStatements += setValueField
 
 		if astruct.Aenum != "" {
 			setValueField = StringEnumInitStatement
-			setValueField = strings.models.ReplaceAll(setValueField, "{{Identifier}}", id)
-			setValueField = strings.models.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Aenum")
-			setValueField = strings.models.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", "models."+astruct.Aenum.ToCodeString())
+			setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+			setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Aenum")
+			setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", "models."+astruct.Aenum.ToCodeString())
 			initializerStatements += setValueField
 		}
 
 		if astruct.Aenum_2 != "" {
 			setValueField = StringEnumInitStatement
-			setValueField = strings.models.ReplaceAll(setValueField, "{{Identifier}}", id)
-			setValueField = strings.models.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Aenum_2")
-			setValueField = strings.models.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", "models."+astruct.Aenum_2.ToCodeString())
+			setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+			setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Aenum_2")
+			setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", "models."+astruct.Aenum_2.ToCodeString())
 			initializerStatements += setValueField
 		}
 
 		if astruct.Benum != "" {
 			setValueField = StringEnumInitStatement
-			setValueField = strings.models.ReplaceAll(setValueField, "{{Identifier}}", id)
-			setValueField = strings.models.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Benum")
-			setValueField = strings.models.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", "models."+astruct.Benum.ToCodeString())
+			setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+			setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Benum")
+			setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", "models."+astruct.Benum.ToCodeString())
 			initializerStatements += setValueField
 		}
 
 		setValueField = NumberInitStatement
-		setValueField = strings.models.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.models.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "CEnum")
-		setValueField = strings.models.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", "models."+astruct.CEnum.ToCodeString())
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "CEnum")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", "models."+astruct.CEnum.ToCodeString())
 		initializerStatements += setValueField
 
 		setValueField = StringInitStatement
-		setValueField = strings.models.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.models.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "CName")
-		setValueField = strings.models.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(astruct.CName))
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "CName")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(astruct.CName))
 		initializerStatements += setValueField
 
 		setValueField = NumberInitStatement
-		setValueField = strings.models.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.models.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "CFloatfield")
-		setValueField = strings.models.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", astruct.CFloatfield))
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "CFloatfield")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", astruct.CFloatfield))
 		initializerStatements += setValueField
 
 		setValueField = NumberInitStatement
-		setValueField = strings.models.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.models.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Floatfield")
-		setValueField = strings.models.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", astruct.Floatfield))
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Floatfield")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", astruct.Floatfield))
 		initializerStatements += setValueField
 
 		setValueField = NumberInitStatement
-		setValueField = strings.models.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.models.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Intfield")
-		setValueField = strings.models.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", astruct.Intfield))
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Intfield")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", astruct.Intfield))
 		initializerStatements += setValueField
 
 		setValueField = NumberInitStatement
-		setValueField = strings.models.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.models.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Anotherbooleanfield")
-		setValueField = strings.models.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", astruct.Anotherbooleanfield))
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Anotherbooleanfield")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", astruct.Anotherbooleanfield))
 		initializerStatements += setValueField
 
 		setValueField = NumberInitStatement
-		setValueField = strings.models.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.models.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Duration1")
-		setValueField = strings.models.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", astruct.Duration1))
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Duration1")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", astruct.Duration1))
 		initializerStatements += setValueField
 
 	}
@@ -891,17 +891,17 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 		map_AstructBstruct2Use_Identifiers[astructbstruct2use] = id
 
 		decl = IdentifiersDecls
-		decl = strings.models.ReplaceAll(decl, "{{Identifier}}", id)
-		decl = strings.models.ReplaceAll(decl, "{{GeneratedStructName}}", "AstructBstruct2Use")
-		decl = strings.models.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", astructbstruct2use.Name)
+		decl = strings.ReplaceAll(decl, "{{Identifier}}", id)
+		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "AstructBstruct2Use")
+		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", astructbstruct2use.Name)
 		identifiersDecl += decl
 
 		initializerStatements += fmt.Sprintf("\n\n	// AstructBstruct2Use %s values setup", astructbstruct2use.Name)
 		// Initialisation of values
 		setValueField = StringInitStatement
-		setValueField = strings.models.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.models.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
-		setValueField = strings.models.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(astructbstruct2use.Name))
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(astructbstruct2use.Name))
 		initializerStatements += setValueField
 
 	}
@@ -923,17 +923,17 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 		map_AstructBstructUse_Identifiers[astructbstructuse] = id
 
 		decl = IdentifiersDecls
-		decl = strings.models.ReplaceAll(decl, "{{Identifier}}", id)
-		decl = strings.models.ReplaceAll(decl, "{{GeneratedStructName}}", "AstructBstructUse")
-		decl = strings.models.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", astructbstructuse.Name)
+		decl = strings.ReplaceAll(decl, "{{Identifier}}", id)
+		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "AstructBstructUse")
+		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", astructbstructuse.Name)
 		identifiersDecl += decl
 
 		initializerStatements += fmt.Sprintf("\n\n	// AstructBstructUse %s values setup", astructbstructuse.Name)
 		// Initialisation of values
 		setValueField = StringInitStatement
-		setValueField = strings.models.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.models.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
-		setValueField = strings.models.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(astructbstructuse.Name))
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(astructbstructuse.Name))
 		initializerStatements += setValueField
 
 	}
@@ -955,35 +955,35 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 		map_Bstruct_Identifiers[bstruct] = id
 
 		decl = IdentifiersDecls
-		decl = strings.models.ReplaceAll(decl, "{{Identifier}}", id)
-		decl = strings.models.ReplaceAll(decl, "{{GeneratedStructName}}", "Bstruct")
-		decl = strings.models.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", bstruct.Name)
+		decl = strings.ReplaceAll(decl, "{{Identifier}}", id)
+		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Bstruct")
+		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", bstruct.Name)
 		identifiersDecl += decl
 
 		initializerStatements += fmt.Sprintf("\n\n	// Bstruct %s values setup", bstruct.Name)
 		// Initialisation of values
 		setValueField = StringInitStatement
-		setValueField = strings.models.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.models.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
-		setValueField = strings.models.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(bstruct.Name))
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(bstruct.Name))
 		initializerStatements += setValueField
 
 		setValueField = NumberInitStatement
-		setValueField = strings.models.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.models.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Floatfield")
-		setValueField = strings.models.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", bstruct.Floatfield))
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Floatfield")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", bstruct.Floatfield))
 		initializerStatements += setValueField
 
 		setValueField = NumberInitStatement
-		setValueField = strings.models.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.models.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Floatfield2")
-		setValueField = strings.models.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", bstruct.Floatfield2))
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Floatfield2")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", bstruct.Floatfield2))
 		initializerStatements += setValueField
 
 		setValueField = NumberInitStatement
-		setValueField = strings.models.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.models.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Intfield")
-		setValueField = strings.models.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", bstruct.Intfield))
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Intfield")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", bstruct.Intfield))
 		initializerStatements += setValueField
 
 	}
@@ -1005,17 +1005,17 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 		map_Dstruct_Identifiers[dstruct] = id
 
 		decl = IdentifiersDecls
-		decl = strings.models.ReplaceAll(decl, "{{Identifier}}", id)
-		decl = strings.models.ReplaceAll(decl, "{{GeneratedStructName}}", "Dstruct")
-		decl = strings.models.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", dstruct.Name)
+		decl = strings.ReplaceAll(decl, "{{Identifier}}", id)
+		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Dstruct")
+		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", dstruct.Name)
 		identifiersDecl += decl
 
 		initializerStatements += fmt.Sprintf("\n\n	// Dstruct %s values setup", dstruct.Name)
 		// Initialisation of values
 		setValueField = StringInitStatement
-		setValueField = strings.models.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.models.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
-		setValueField = strings.models.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(dstruct.Name))
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(dstruct.Name))
 		initializerStatements += setValueField
 
 	}
@@ -1031,73 +1031,73 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 		// Initialisation of values
 		if astruct.Bstruct != nil {
 			setPointerField = PointerFieldInitStatement
-			setPointerField = strings.models.ReplaceAll(setPointerField, "{{Identifier}}", id)
-			setPointerField = strings.models.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "Bstruct")
-			setPointerField = strings.models.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_Bstruct_Identifiers[astruct.Bstruct])
+			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "Bstruct")
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_Bstruct_Identifiers[astruct.Bstruct])
 			pointersInitializesStatements += setPointerField
 		}
 
 		if astruct.Associationtob != nil {
 			setPointerField = PointerFieldInitStatement
-			setPointerField = strings.models.ReplaceAll(setPointerField, "{{Identifier}}", id)
-			setPointerField = strings.models.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "Associationtob")
-			setPointerField = strings.models.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_Bstruct_Identifiers[astruct.Associationtob])
+			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "Associationtob")
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_Bstruct_Identifiers[astruct.Associationtob])
 			pointersInitializesStatements += setPointerField
 		}
 
 		if astruct.Anotherassociationtob_2 != nil {
 			setPointerField = PointerFieldInitStatement
-			setPointerField = strings.models.ReplaceAll(setPointerField, "{{Identifier}}", id)
-			setPointerField = strings.models.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "Anotherassociationtob_2")
-			setPointerField = strings.models.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_Bstruct_Identifiers[astruct.Anotherassociationtob_2])
+			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "Anotherassociationtob_2")
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_Bstruct_Identifiers[astruct.Anotherassociationtob_2])
 			pointersInitializesStatements += setPointerField
 		}
 
 		for _, _bstruct := range astruct.Anarrayofb {
 			setPointerField = SliceOfPointersFieldInitStatement
-			setPointerField = strings.models.ReplaceAll(setPointerField, "{{Identifier}}", id)
-			setPointerField = strings.models.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "Anarrayofb")
-			setPointerField = strings.models.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_Bstruct_Identifiers[_bstruct])
+			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "Anarrayofb")
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_Bstruct_Identifiers[_bstruct])
 			pointersInitializesStatements += setPointerField
 		}
 
 		for _, _bstruct := range astruct.Anotherarrayofb {
 			setPointerField = SliceOfPointersFieldInitStatement
-			setPointerField = strings.models.ReplaceAll(setPointerField, "{{Identifier}}", id)
-			setPointerField = strings.models.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "Anotherarrayofb")
-			setPointerField = strings.models.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_Bstruct_Identifiers[_bstruct])
+			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "Anotherarrayofb")
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_Bstruct_Identifiers[_bstruct])
 			pointersInitializesStatements += setPointerField
 		}
 
 		for _, _astruct := range astruct.Anarrayofa {
 			setPointerField = SliceOfPointersFieldInitStatement
-			setPointerField = strings.models.ReplaceAll(setPointerField, "{{Identifier}}", id)
-			setPointerField = strings.models.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "Anarrayofa")
-			setPointerField = strings.models.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_Astruct_Identifiers[_astruct])
+			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "Anarrayofa")
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_Astruct_Identifiers[_astruct])
 			pointersInitializesStatements += setPointerField
 		}
 
 		for _, _astructbstructuse := range astruct.AnarrayofbUse {
 			setPointerField = SliceOfPointersFieldInitStatement
-			setPointerField = strings.models.ReplaceAll(setPointerField, "{{Identifier}}", id)
-			setPointerField = strings.models.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "AnarrayofbUse")
-			setPointerField = strings.models.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_AstructBstructUse_Identifiers[_astructbstructuse])
+			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "AnarrayofbUse")
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_AstructBstructUse_Identifiers[_astructbstructuse])
 			pointersInitializesStatements += setPointerField
 		}
 
 		for _, _astructbstruct2use := range astruct.Anarrayofb2Use {
 			setPointerField = SliceOfPointersFieldInitStatement
-			setPointerField = strings.models.ReplaceAll(setPointerField, "{{Identifier}}", id)
-			setPointerField = strings.models.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "Anarrayofb2Use")
-			setPointerField = strings.models.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_AstructBstruct2Use_Identifiers[_astructbstruct2use])
+			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "Anarrayofb2Use")
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_AstructBstruct2Use_Identifiers[_astructbstruct2use])
 			pointersInitializesStatements += setPointerField
 		}
 
 		if astruct.AnAstruct != nil {
 			setPointerField = PointerFieldInitStatement
-			setPointerField = strings.models.ReplaceAll(setPointerField, "{{Identifier}}", id)
-			setPointerField = strings.models.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "AnAstruct")
-			setPointerField = strings.models.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_Astruct_Identifiers[astruct.AnAstruct])
+			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "AnAstruct")
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_Astruct_Identifiers[astruct.AnAstruct])
 			pointersInitializesStatements += setPointerField
 		}
 
@@ -1113,9 +1113,9 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 		// Initialisation of values
 		if astructbstruct2use.Bstrcut2 != nil {
 			setPointerField = PointerFieldInitStatement
-			setPointerField = strings.models.ReplaceAll(setPointerField, "{{Identifier}}", id)
-			setPointerField = strings.models.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "Bstrcut2")
-			setPointerField = strings.models.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_Bstruct_Identifiers[astructbstruct2use.Bstrcut2])
+			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "Bstrcut2")
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_Bstruct_Identifiers[astructbstruct2use.Bstrcut2])
 			pointersInitializesStatements += setPointerField
 		}
 
@@ -1131,9 +1131,9 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 		// Initialisation of values
 		if astructbstructuse.Bstruct2 != nil {
 			setPointerField = PointerFieldInitStatement
-			setPointerField = strings.models.ReplaceAll(setPointerField, "{{Identifier}}", id)
-			setPointerField = strings.models.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "Bstruct2")
-			setPointerField = strings.models.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_Bstruct_Identifiers[astructbstructuse.Bstruct2])
+			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "Bstruct2")
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_Bstruct_Identifiers[astructbstructuse.Bstruct2])
 			pointersInitializesStatements += setPointerField
 		}
 
@@ -1159,9 +1159,9 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 		// Initialisation of values
 	}
 
-	res = strings.models.ReplaceAll(res, "{{Identifiers}}", identifiersDecl)
-	res = strings.models.ReplaceAll(res, "{{ValueInitializers}}", initializerStatements)
-	res = strings.models.ReplaceAll(res, "{{PointersInitializers}}", pointersInitializesStatements)
+	res = strings.ReplaceAll(res, "{{Identifiers}}", identifiersDecl)
+	res = strings.ReplaceAll(res, "{{ValueInitializers}}", initializerStatements)
+	res = strings.ReplaceAll(res, "{{PointersInitializers}}", pointersInitializesStatements)
 
 	fmt.Fprintln(file, res)
 }
@@ -1175,7 +1175,7 @@ func generatesIdentifier(gongStructName string, idx int, instanceName string) (i
 	if err != nil {
 		log.Fatal(err)
 	}
-	processedString := reg.models.ReplaceAllString(instanceName, "_")
+	processedString := reg.ReplaceAllString(instanceName, "_")
 
 	identifier = fmt.Sprintf("__%s__%06d_%s", gongStructName, idx, processedString)
 
