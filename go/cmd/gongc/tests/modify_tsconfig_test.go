@@ -7,6 +7,7 @@ import (
 
 	"testing"
 
+	"github.com/fullstack-lang/gong/go/angular"
 	"github.com/fullstack-lang/gong/go/models"
 )
 
@@ -21,7 +22,7 @@ func TestTSConfigModification(t *testing.T) {
 		pkgName+"\": [")
 
 	models.InsertStringToFile(filename,
-		models.TsConfigInsertForPaths,
+		angular.TsConfigInsertForPaths,
 		"\"paths\": {")
 }
 
@@ -33,7 +34,7 @@ func TestAppModuleModification(t *testing.T) {
 		"dummy",
 		"dummy",
 		"./app.component.html",
-		models.NgFileAppComponentHtml)
+		angular.NgFileAppComponentHtml)
 }
 
 // Copy the src file to dst. Any existing file will be overwritten and will not
