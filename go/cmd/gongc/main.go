@@ -16,6 +16,7 @@ import (
 	"golang.org/x/text/cases"
 	"golang.org/x/text/language"
 
+	"github.com/fullstack-lang/gong/go/angular"
 	"github.com/fullstack-lang/gong/go/golang"
 	"github.com/fullstack-lang/gong/go/vscode"
 
@@ -168,7 +169,7 @@ func main() {
 				modelPkg.Name,
 				modelPkg.PkgPath,
 				diagramsDocFilePath,
-				gong_models.DiagramsDocFile)
+				golang.DiagramsDocFile)
 		}
 	}
 
@@ -200,7 +201,7 @@ func main() {
 				modelPkg.Name,
 				modelPkg.PkgPath,
 				mainFilePath,
-				gong_models.PackageMain)
+				golang.PackageMain)
 		}
 	}
 
@@ -366,21 +367,21 @@ func main() {
 					modelPkg.Name,
 					modelPkg.PkgPath,
 					filepath.Join(gong_models.NgWorkspacePath, "src/app/app.module.ts"),
-					gong_models.NgFileModule)
+					angular.NgFileModule)
 
 				gong_models.VerySimpleCodeGenerator(
 					modelPkg,
 					modelPkg.Name,
 					modelPkg.PkgPath,
 					filepath.Join(gong_models.NgWorkspacePath, "src/app/app.component.ts"),
-					gong_models.NgFileAppComponentTs)
+					angular.NgFileAppComponentTs)
 
 				gong_models.VerySimpleCodeGenerator(
 					modelPkg,
 					modelPkg.Name,
 					modelPkg.PkgPath,
 					filepath.Join(gong_models.NgWorkspacePath, "src/app/app.component.html"),
-					gong_models.NgFileAppComponentHtml)
+					angular.NgFileAppComponentHtml)
 
 			}
 		}
@@ -484,13 +485,13 @@ func main() {
 					filename := filepath.Join(gong_models.NgWorkspacePath, "tsconfig.json")
 					gong_models.InsertStringToFile(filename, "        \"projects/"+modelPkg.Name+"/src/public-api.ts\",", modelPkg.Name+"\": [")
 
-					gong_models.InsertStringToFile(filename, gong_models.TsConfigInsertForPaths, "\"paths\": {")
+					gong_models.InsertStringToFile(filename, angular.TsConfigInsertForPaths, "\"paths\": {")
 
 				}
 				{
 					// patch styles.css file in order have imports of css stuff and work offline
 					filename := filepath.Join(gong_models.NgWorkspacePath, "src", "styles.css")
-					gong_models.InsertStringToFile(filename, gong_models.StylesCssInsert, "/* You can add global styles to this file, and also import other style files */")
+					gong_models.InsertStringToFile(filename, angular.StylesCssInsert, "/* You can add global styles to this file, and also import other style files */")
 				}
 			}
 
@@ -605,13 +606,13 @@ func main() {
 		modelPkg,
 		caserEnglish.String(modelPkg.Name),
 		modelPkg.PkgPath, filepath.Join(gong_models.NgWorkspacePath, "embed.go"),
-		gong_models.GoProjectsGo)
+		golang.GoProjectsGo)
 
 	gong_models.VerySimpleCodeGenerator(
 		modelPkg,
 		caserEnglish.String(modelPkg.Name),
 		modelPkg.PkgPath, filepath.Join(gong_models.NgWorkspacePath, "../embed.go"),
-		gong_models.EmebedNgDistNg)
+		golang.EmebedNgDistNg)
 
 	// remove "gong.go" file
 	gong_models.RemoveGeneratedGongFiles(*pkgPath)
@@ -644,7 +645,7 @@ func main() {
 		modelPkg.Name,
 		modelPkg.PkgPath,
 		filepath.Join(*pkgPath, "../controllers/register_controllers.go"),
-		gong_models.ControllersRegisterTemplate, gong_models.ControllersRegistrationsSubTemplate)
+		golang.ControllersRegisterTemplate, golang.ControllersRegistrationsSubTemplate)
 
 	golang.MultiCodeGeneratorBackRepo(
 		modelPkg,
@@ -652,7 +653,7 @@ func main() {
 		modelPkg.PkgPath,
 		gong_models.OrmPkgGenPath)
 
-	gong_models.MultiCodeGeneratorControllers(
+	golang.MultiCodeGeneratorControllers(
 		modelPkg,
 		modelPkg.Name,
 		modelPkg.PkgPath,
@@ -663,7 +664,7 @@ func main() {
 		modelPkg.Name,
 		modelPkg.PkgPath,
 		filepath.Join(*pkgPath, "../docs.go"),
-		gong_models.RootFileDocsTemplate)
+		golang.RootFileDocsTemplate)
 
 	// go mod vendor to get the ng code of dependant gong stacks
 	if !*skipGoModCommands {
@@ -713,96 +714,96 @@ func main() {
 		log.Printf("go mod vendor is over and took %s", time.Since(start))
 	}
 
-	gong_models.MultiCodeGeneratorNgDetail(
+	angular.MultiCodeGeneratorNgDetail(
 		modelPkg,
 		modelPkg.Name,
 		gong_models.MatTargetPath,
 		modelPkg.PkgPath)
 
-	gong_models.MultiCodeGeneratorNgPresentation(
+	angular.MultiCodeGeneratorNgPresentation(
 		modelPkg,
 		modelPkg.Name,
 		gong_models.MatTargetPath,
 		modelPkg.PkgPath)
 
-	gong_models.MultiCodeGeneratorNgClass(
+	angular.MultiCodeGeneratorNgClass(
 		modelPkg,
 		modelPkg.Name,
 		gong_models.MatTargetPath,
 		modelPkg.PkgPath)
 
-	gong_models.MultiCodeGeneratorNgService(
+	angular.MultiCodeGeneratorNgService(
 		modelPkg,
 		modelPkg.Name,
 		gong_models.MatTargetPath,
 		modelPkg.PkgPath,
 		*addr)
 
-	gong_models.CodeGeneratorNgCommitNb(
+	angular.CodeGeneratorNgCommitNb(
 		modelPkg,
 		modelPkg.Name,
 		gong_models.MatTargetPath,
 		modelPkg.PkgPath,
 		*addr)
 
-	gong_models.CodeGeneratorNgGongselectionServiceTs(
+	angular.CodeGeneratorNgGongselectionServiceTs(
 		modelPkg,
 		modelPkg.Name,
 		gong_models.MatTargetPath,
 		modelPkg.PkgPath,
 		*addr)
 
-	gong_models.CodeGeneratorNgNullInt64(
+	angular.CodeGeneratorNgNullInt64(
 		modelPkg,
 		modelPkg.Name,
 		gong_models.MatTargetPath,
 		modelPkg.PkgPath,
 		*addr)
 
-	gong_models.CodeGeneratorNgPushFromFrontNb(
+	angular.CodeGeneratorNgPushFromFrontNb(
 		modelPkg,
 		modelPkg.Name,
 		gong_models.MatTargetPath,
 		modelPkg.PkgPath,
 		*addr)
 
-	gong_models.MultiCodeGeneratorNgTable(
+	angular.MultiCodeGeneratorNgTable(
 		modelPkg,
 		modelPkg.Name,
 		gong_models.MatTargetPath,
 		modelPkg.PkgPath)
 
-	gong_models.MultiCodeGeneratorNgSorting(
+	angular.MultiCodeGeneratorNgSorting(
 		modelPkg,
 		modelPkg.Name,
 		gong_models.MatTargetPath,
 		modelPkg.PkgPath)
 
-	gong_models.CodeGeneratorNgFrontRepo(
+	angular.CodeGeneratorNgFrontRepo(
 		modelPkg,
 		modelPkg.Name,
 		gong_models.MatTargetPath,
 		modelPkg.PkgPath)
 
-	gong_models.CodeGeneratorNgSidebar(
+	angular.CodeGeneratorNgSidebar(
 		modelPkg,
 		modelPkg.Name,
 		gong_models.MatTargetPath,
 		modelPkg.PkgPath)
 
-	gong_models.CodeGeneratorNgEnum(
+	angular.CodeGeneratorNgEnum(
 		modelPkg,
 		modelPkg.Name,
 		gong_models.MatTargetPath,
 		modelPkg.PkgPath)
 
-	gong_models.CodeGeneratorNgPublicApi(
+	angular.CodeGeneratorNgPublicApi(
 		modelPkg,
 		modelPkg.Name,
 		gong_models.MatTargetPath,
 		modelPkg.PkgPath)
 
-	gong_models.CodeGeneratorNgSplitter(
+	angular.CodeGeneratorNgSplitter(
 		modelPkg,
 		modelPkg.Name,
 		gong_models.MatTargetPath,
@@ -812,19 +813,19 @@ func main() {
 		modelPkg,
 		caserEnglish.String(modelPkg.Name),
 		modelPkg.PkgPath, filepath.Join(gong_models.MatTargetPath, modelPkg.Name+".module.ts"),
-		gong_models.NgLibModuleTemplate, gong_models.NgLibModuleSubTemplateCode)
+		angular.NgLibModuleTemplate, angular.NgLibModuleSubTemplateCode)
 
 	gong_models.SimpleCodeGeneratorForGongStructWithNameField(
 		modelPkg,
 		caserEnglish.String(modelPkg.Name),
 		modelPkg.PkgPath, filepath.Join(gong_models.MatTargetPath, "app-routing.module.ts"),
-		gong_models.NgRoutingTemplate, gong_models.NgRoutingSubTemplateCode)
+		angular.NgRoutingTemplate, angular.NgRoutingSubTemplateCode)
 
 	gong_models.SimpleCodeGeneratorForGongStructWithNameField(
 		modelPkg,
 		modelPkg.Name,
 		modelPkg.PkgPath, filepath.Join(gong_models.MatTargetPath, "map-components.ts"),
-		gong_models.NgLibMapComponentsServiceTemplate, gong_models.NgLibMapComponentsSubTemplateCode)
+		angular.NgLibMapComponentsServiceTemplate, angular.NgLibMapComponentsSubTemplateCode)
 
 	apiYamlFilePath := fmt.Sprintf("%s/%sapi.yml", gong_models.ControllersPkgGenPath, modelPkg.Name)
 	if !*skipSwagger {
