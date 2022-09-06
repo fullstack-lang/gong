@@ -1,4 +1,4 @@
-package models
+package golang
 
 import (
 	"fmt"
@@ -8,6 +8,8 @@ import (
 	"path/filepath"
 	"sort"
 	"strings"
+
+	"github.com/fullstack-lang/gong/go/models"
 )
 
 const ModelGongCoderFileTemplate = `package models
@@ -148,7 +150,7 @@ map[ModelGongCoderFieldInsertionId]string{
 }
 
 func CodeGeneratorModelGongCoder(
-	mdlPkg *ModelPkg,
+	mdlPkg *models.ModelPkg,
 	pkgName string,
 	pkgPath string) {
 
@@ -161,7 +163,7 @@ func CodeGeneratorModelGongCoder(
 	}
 
 	// sort gong structs per name (for reproductibility)
-	gongStructs := []*GongStruct{}
+	gongStructs := []*models.GongStruct{}
 	for _, _struct := range mdlPkg.GongStructs {
 		gongStructs = append(gongStructs, _struct)
 	}
@@ -192,32 +194,32 @@ func CodeGeneratorModelGongCoder(
 			for idx, field := range gongStruct.Fields {
 
 				switch field := field.(type) {
-				case *GongBasicField:
-					switch field.basicKind {
+				case *models.GongBasicField:
+					switch field.GetBasicKind() {
 					case types.String:
-						fieldCode += Replace2(
+						fieldCode += models.Replace2(
 							ModelGongCoderFieldSubTemplateCode[ModelGongCoderFieldCodeString],
 							"{{FieldName}}", field.Name,
 							"{{Value}}", fmt.Sprintf("%d", idx))
-						fieldNameString += Replace2(
+						fieldNameString += models.Replace2(
 							ModelGongCoderFieldSubTemplateCode[ModelGongCoderFieldNameString],
 							"{{FieldName}}", field.Name,
 							"{{Value}}", fmt.Sprintf("%d", idx))
 					case types.Int, types.Int64:
-						fieldCode += Replace2(
+						fieldCode += models.Replace2(
 							ModelGongCoderFieldSubTemplateCode[ModelGongCoderFieldCodeInt],
 							"{{FieldName}}", field.Name,
 							"{{Value}}", fmt.Sprintf("%d", idx))
-						fieldNameInt += Replace2(
+						fieldNameInt += models.Replace2(
 							ModelGongCoderFieldSubTemplateCode[ModelGongCoderFieldNameInt],
 							"{{FieldName}}", field.Name,
 							"{{Value}}", fmt.Sprintf("%d", idx))
 					case types.Float64:
-						fieldCode += Replace2(
+						fieldCode += models.Replace2(
 							ModelGongCoderFieldSubTemplateCode[ModelGongCoderFieldCodeFloat64],
 							"{{FieldName}}", field.Name,
 							"{{Value}}", fmt.Sprintf("%f", float64(idx)))
-						fieldNameFloat64 += Replace2(
+						fieldNameFloat64 += models.Replace2(
 							ModelGongCoderFieldSubTemplateCode[ModelGongCoderFieldNameFloat64],
 							"{{FieldName}}", field.Name,
 							"{{Value}}", fmt.Sprintf("%f", float64(idx)))
@@ -233,28 +235,28 @@ func CodeGeneratorModelGongCoder(
 							value = "true"
 						}
 						boolFiedIndex++
-						fieldCode += Replace2(
+						fieldCode += models.Replace2(
 							ModelGongCoderFieldSubTemplateCode[ModelGongCoderFieldCodeBoolean],
 							"{{FieldName}}", field.Name,
 							"{{Value}}", value)
-						fieldNameBool += Replace2(
+						fieldNameBool += models.Replace2(
 							ModelGongCoderFieldSubTemplateCode[ModelGongCoderFieldNameBoolean],
 							"{{FieldName}}", field.Name,
 							"{{Value}}", value)
 					}
-				case *GongTimeField:
-					fieldCode += Replace2(
+				case *models.GongTimeField:
+					fieldCode += models.Replace2(
 						ModelGongCoderFieldSubTemplateCode[ModelGongCoderFieldCodeDate],
 						"{{FieldName}}", field.Name,
 						"{{Value}}", fmt.Sprintf("%d", idx))
-					fieldNameDate += Replace2(
+					fieldNameDate += models.Replace2(
 						ModelGongCoderFieldSubTemplateCode[ModelGongCoderFieldNameDate],
 						"{{FieldName}}", field.Name,
 						"{{Value}}", fmt.Sprintf("%d", idx))
 				}
 			}
 
-			generatedCodeFromSubTemplate := Replace8(ModelGongCoderStructSubTemplateCode[subStructTemplate],
+			generatedCodeFromSubTemplate := models.Replace8(ModelGongCoderStructSubTemplateCode[subStructTemplate],
 				"{{structname}}", strings.ToLower(gongStruct.Name),
 				"{{Structname}}", gongStruct.Name,
 				"{{FieldCode}}", fieldCode,
@@ -274,7 +276,7 @@ func CodeGeneratorModelGongCoder(
 		codeGO = strings.ReplaceAll(codeGO, toReplace, subStructCodes[insertionPerStructId])
 	}
 
-	codeGO = Replace4(codeGO,
+	codeGO = models.Replace4(codeGO,
 		"{{PkgName}}", pkgName,
 		"{{TitlePkgName}}", strings.Title(pkgName),
 		"{{pkgname}}", strings.ToLower(pkgName),
