@@ -10,6 +10,8 @@ import (
 	"strings"
 
 	"github.com/fullstack-lang/gong/go/models"
+	"golang.org/x/text/cases"
+	"golang.org/x/text/language"
 )
 
 //
@@ -874,9 +876,10 @@ func CodeGeneratorModelGong(
 		codeGO = strings.ReplaceAll(codeGO, toReplace, subEnumCodes[insertionPerEnumId])
 	}
 
+	caserEnglish := cases.Title(language.English)
 	codeGO = models.Replace4(codeGO,
 		"{{PkgName}}", pkgName,
-		"{{TitlePkgName}}", strings.Title(pkgName),
+		"{{TitlePkgName}}", caserEnglish.String(pkgName),
 		"{{pkgname}}", strings.ToLower(pkgName),
 		"	 | ", "	", // for the replacement of the of the first bar in the Gongstruct Type def
 	)
