@@ -188,9 +188,9 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 	log.Println("filename of marshall output  is " + name)
 
 	res := marshallRes
-	res = strings.models.ReplaceAll(res, "{{databaseName}}", strings.models.ReplaceAll(path.Base(name), ".go", ""))
-	res = strings.models.ReplaceAll(res, "{{PackageName}}", packageName)
-	res = strings.models.ReplaceAll(res, "{{ModelsPackageName}}", modelsPackageName)
+	res = strings.ReplaceAll(res, "{{databaseName}}", strings.ReplaceAll(path.Base(name), ".go", ""))
+	res = strings.ReplaceAll(res, "{{PackageName}}", packageName)
+	res = strings.ReplaceAll(res, "{{ModelsPackageName}}", modelsPackageName)
 
 	// map of identifiers
 	// var StageMapDstructIds map[*Dstruct]string
@@ -204,9 +204,9 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 
 	// insertion initialization of objects to stage{{` + string(rune(ModelGongStructInsertionUnmarshallDeclarations)) + `}}
 	// insertion initialization of objects to stage{{` + string(rune(ModelGongStructInsertionUnmarshallPointersInitializations)) + `}}
-	res = strings.models.ReplaceAll(res, "{{Identifiers}}", identifiersDecl)
-	res = strings.models.ReplaceAll(res, "{{ValueInitializers}}", initializerStatements)
-	res = strings.models.ReplaceAll(res, "{{PointersInitializers}}", pointersInitializesStatements)
+	res = strings.ReplaceAll(res, "{{Identifiers}}", identifiersDecl)
+	res = strings.ReplaceAll(res, "{{ValueInitializers}}", initializerStatements)
+	res = strings.ReplaceAll(res, "{{PointersInitializers}}", pointersInitializesStatements)
 
 	fmt.Fprintln(file, res)
 }
@@ -220,7 +220,7 @@ func generatesIdentifier(gongStructName string, idx int, instanceName string) (i
 	if err != nil {
 		log.Fatal(err)
 	}
-	processedString := reg.models.ReplaceAllString(instanceName, "_")
+	processedString := reg.ReplaceAllString(instanceName, "_")
 
 	identifier = fmt.Sprintf("__%s__%06d_%s", gongStructName, idx, processedString)
 
