@@ -187,6 +187,19 @@
             "args": []
         },
         {
+            "label": "01 - gongc gong -skipGoModCommands -backendOnly",
+            "type": "shell",
+            "options": {
+                "cwd": "${workspaceFolder}/go/models"
+            },
+            "command": "gongc",
+            "group": "build",
+            "args": [
+                "-skipGoModCommands",
+                "-backendOnly"
+            ]
+        },
+        {
             // you can check in go.mod, the timestamp is UTC
             "label": "00 go mod tidy",
             "type": "shell",
