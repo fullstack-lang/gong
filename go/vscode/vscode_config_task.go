@@ -1,4 +1,4 @@
-package models
+package vscode
 
 const VsCodeTasksConfig = `{
 	"version": "2.0.0",

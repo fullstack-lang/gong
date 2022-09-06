@@ -1,4 +1,4 @@
-package models
+package golang
 
 import (
 	"fmt"
@@ -8,6 +8,8 @@ import (
 	"path/filepath"
 	"sort"
 	"strings"
+
+	"github.com/fullstack-lang/gong/go/models"
 )
 
 //
@@ -245,9 +247,9 @@ func ({{structname}} *{{Structname}}) GetName() (res string) {
 		map_{{Structname}}_Identifiers[{{structname}}] = id
 
 		decl = IdentifiersDecls
-		decl = strings.ReplaceAll(decl, "{{Identifier}}", id)
-		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "{{Structname}}")
-		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", {{structname}}.Name)
+		decl = strings.models.ReplaceAll(decl, "{{Identifier}}", id)
+		decl = strings.models.ReplaceAll(decl, "{{GeneratedStructName}}", "{{Structname}}")
+		decl = strings.models.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", {{structname}}.Name)
 		identifiersDecl += decl
 
 		initializerStatements += fmt.Sprintf("\n\n	// {{Structname}} %s values setup", {{structname}}.Name)
@@ -375,70 +377,70 @@ map[GongFilePerStructSubTemplateId]string{
 
 	GongFileFieldSubTmplSetBasicFieldBool: `
 		setValueField = NumberInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "{{FieldName}}")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", {{structname}}.{{FieldName}}))
+		setValueField = strings.models.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.models.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "{{FieldName}}")
+		setValueField = strings.models.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", {{structname}}.{{FieldName}}))
 		initializerStatements += setValueField
 `,
 	GongFileFieldSubTmplSetTimeField: `
 		setValueField = TimeInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "{{FieldName}}")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", {{structname}}.{{FieldName}}.String())
+		setValueField = strings.models.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.models.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "{{FieldName}}")
+		setValueField = strings.models.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", {{structname}}.{{FieldName}}.String())
 		initializerStatements += setValueField
 `,
 	GongFileFieldSubTmplSetBasicFieldInt: `
 		setValueField = NumberInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "{{FieldName}}")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", {{structname}}.{{FieldName}}))
+		setValueField = strings.models.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.models.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "{{FieldName}}")
+		setValueField = strings.models.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", {{structname}}.{{FieldName}}))
 		initializerStatements += setValueField
 `,
 	GongFileFieldSubTmplSetBasicFieldEnumString: `
 		if {{structname}}.{{FieldName}} != "" {
 			setValueField = StringEnumInitStatement
-			setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-			setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "{{FieldName}}")
-			setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", "models."+{{structname}}.{{FieldName}}.ToCodeString())
+			setValueField = strings.models.ReplaceAll(setValueField, "{{Identifier}}", id)
+			setValueField = strings.models.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "{{FieldName}}")
+			setValueField = strings.models.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", "models."+{{structname}}.{{FieldName}}.ToCodeString())
 			initializerStatements += setValueField
 		}
 `,
 	GongFileFieldSubTmplSetBasicFieldEnumInt: `
 		setValueField = NumberInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "{{FieldName}}")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", "models."+{{structname}}.{{FieldName}}.ToCodeString())
+		setValueField = strings.models.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.models.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "{{FieldName}}")
+		setValueField = strings.models.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", "models."+{{structname}}.{{FieldName}}.ToCodeString())
 		initializerStatements += setValueField
 `,
 	GongFileFieldSubTmplSetBasicFieldFloat64: `
 		setValueField = NumberInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "{{FieldName}}")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", {{structname}}.{{FieldName}}))
+		setValueField = strings.models.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.models.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "{{FieldName}}")
+		setValueField = strings.models.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", {{structname}}.{{FieldName}}))
 		initializerStatements += setValueField
 `,
 	GongFileFieldSubTmplSetBasicFieldString: `
 		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "{{FieldName}}")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string({{structname}}.{{FieldName}}))
+		setValueField = strings.models.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.models.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "{{FieldName}}")
+		setValueField = strings.models.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string({{structname}}.{{FieldName}}))
 		initializerStatements += setValueField
 `,
 	GongFileFieldSubTmplSetPointerField: `
 		if {{structname}}.{{FieldName}} != nil {
 			setPointerField = PointerFieldInitStatement
-			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "{{FieldName}}")
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_{{AssocStructName}}_Identifiers[{{structname}}.{{FieldName}}])
+			setPointerField = strings.models.ReplaceAll(setPointerField, "{{Identifier}}", id)
+			setPointerField = strings.models.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "{{FieldName}}")
+			setPointerField = strings.models.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_{{AssocStructName}}_Identifiers[{{structname}}.{{FieldName}}])
 			pointersInitializesStatements += setPointerField
 		}
 `,
 	GongFileFieldSubTmplSetSliceOfPointersField: `
 		for _, _{{assocstructname}} := range {{structname}}.{{FieldName}} {
 			setPointerField = SliceOfPointersFieldInitStatement
-			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "{{FieldName}}")
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_{{AssocStructName}}_Identifiers[_{{assocstructname}}])
+			setPointerField = strings.models.ReplaceAll(setPointerField, "{{Identifier}}", id)
+			setPointerField = strings.models.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "{{FieldName}}")
+			setPointerField = strings.models.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_{{AssocStructName}}_Identifiers[_{{assocstructname}}])
 			pointersInitializesStatements += setPointerField
 		}
 `,
@@ -592,7 +594,7 @@ map[GongModelEnumValueSubTemplateId]string{
 }
 
 func CodeGeneratorModelGong(
-	mdlPkg *ModelPkg,
+	mdlPkg *models.ModelPkg,
 	pkgName string,
 	pkgPath string) {
 
@@ -605,7 +607,7 @@ func CodeGeneratorModelGong(
 	}
 
 	// sort gong structs per name (for reproductibility)
-	gongStructs := []*GongStruct{}
+	gongStructs := []*models.GongStruct{}
 	for _, _struct := range mdlPkg.GongStructs {
 		gongStructs = append(gongStructs, _struct)
 	}
@@ -635,117 +637,117 @@ func CodeGeneratorModelGong(
 			for idx, field := range gongStruct.Fields {
 
 				switch field := field.(type) {
-				case *GongBasicField:
+				case *models.GongBasicField:
 
-					switch field.basicKind {
+					switch field.GetBasicKind() {
 					case types.String:
 						if field.GongEnum == nil {
-							valInitCode += Replace1(
+							valInitCode += models.Replace1(
 								GongFileFieldFieldSubTemplateCode[GongFileFieldSubTmplSetBasicFieldString],
 								"{{FieldName}}", field.Name)
 
-							fieldStringValues += Replace1(
+							fieldStringValues += models.Replace1(
 								GongFileFieldFieldSubTemplateCode[GongFileFieldSubTmplStringValueBasicFieldString],
 								"{{FieldName}}", field.Name)
 						} else {
-							valInitCode += Replace1(
+							valInitCode += models.Replace1(
 								GongFileFieldFieldSubTemplateCode[GongFileFieldSubTmplSetBasicFieldEnumString],
 								"{{FieldName}}", field.Name)
-							fieldStringValues += Replace1(
+							fieldStringValues += models.Replace1(
 								GongFileFieldFieldSubTemplateCode[GongFileFieldSubTmplStringValueBasicFieldEnumString],
 								"{{FieldName}}", field.Name)
 						}
 					case types.Bool:
-						valInitCode += Replace1(
+						valInitCode += models.Replace1(
 							GongFileFieldFieldSubTemplateCode[GongFileFieldSubTmplSetBasicFieldBool],
 							"{{FieldName}}", field.Name)
-						fieldStringValues += Replace1(
+						fieldStringValues += models.Replace1(
 							GongFileFieldFieldSubTemplateCode[GongFileFieldSubTmplStringValueBasicFieldBool],
 							"{{FieldName}}", field.Name)
 					case types.Float64:
-						valInitCode += Replace1(
+						valInitCode += models.Replace1(
 							GongFileFieldFieldSubTemplateCode[GongFileFieldSubTmplSetBasicFieldFloat64],
 							"{{FieldName}}", field.Name)
-						fieldStringValues += Replace1(
+						fieldStringValues += models.Replace1(
 							GongFileFieldFieldSubTemplateCode[GongFileFieldSubTmplStringValueBasicFieldFloat64],
 							"{{FieldName}}", field.Name)
 					case types.Int, types.Int64:
 						if field.GongEnum == nil {
-							valInitCode += Replace1(
+							valInitCode += models.Replace1(
 								GongFileFieldFieldSubTemplateCode[GongFileFieldSubTmplSetBasicFieldInt],
 								"{{FieldName}}", field.Name)
-							fieldStringValues += Replace1(
+							fieldStringValues += models.Replace1(
 								GongFileFieldFieldSubTemplateCode[GongFileFieldSubTmplStringValueBasicFieldInt],
 								"{{FieldName}}", field.Name)
 						} else {
-							valInitCode += Replace1(
+							valInitCode += models.Replace1(
 								GongFileFieldFieldSubTemplateCode[GongFileFieldSubTmplSetBasicFieldEnumInt],
 								"{{FieldName}}", field.Name)
-							fieldStringValues += Replace1(
+							fieldStringValues += models.Replace1(
 								GongFileFieldFieldSubTemplateCode[GongFileFieldSubTmplStringValueBasicFieldEnumInt],
 								"{{FieldName}}", field.Name)
 						}
 					default:
 					}
-				case *GongTimeField:
-					valInitCode += Replace1(
+				case *models.GongTimeField:
+					valInitCode += models.Replace1(
 						GongFileFieldFieldSubTemplateCode[GongFileFieldSubTmplSetTimeField],
 						"{{FieldName}}", field.Name)
-					fieldStringValues += Replace1(
+					fieldStringValues += models.Replace1(
 						GongFileFieldFieldSubTemplateCode[GongFileFieldSubTmplStringValueTimeField],
 						"{{FieldName}}", field.Name)
-				case *PointerToGongStructField:
-					pointerInitCode += Replace2(
+				case *models.PointerToGongStructField:
+					pointerInitCode += models.Replace2(
 						GongFileFieldFieldSubTemplateCode[GongFileFieldSubTmplSetPointerField],
 						"{{FieldName}}", field.Name,
 						"{{AssocStructName}}", field.GongStruct.Name)
-					fieldStringValues += Replace1(
+					fieldStringValues += models.Replace1(
 						GongFileFieldFieldSubTemplateCode[GongFileFieldSubTmplStringValuePointerField],
 						"{{FieldName}}", field.Name)
-					fieldReverseAssociationMapCreationCode += Replace3(
+					fieldReverseAssociationMapCreationCode += models.Replace3(
 						GongFileFieldFieldSubTemplateCode[GongFileFieldSubTmplPointerFieldAssociationMapFunction],
 						"{{FieldName}}", field.Name,
 						"{{AssocStructName}}", field.GongStruct.Name,
 						"{{assocstructname}}", strings.ToLower(field.GongStruct.Name))
-					fieldReversePointerAssociationMapCode += Replace3(
+					fieldReversePointerAssociationMapCode += models.Replace3(
 						GongFileFieldFieldSubTemplateCode[GongFileFieldSubTmplPointerFieldPointerAssociationMapFunction],
 						"{{FieldName}}", field.Name,
 						"{{AssocStructName}}", field.GongStruct.Name,
 						"{{assocstructname}}", strings.ToLower(field.GongStruct.Name))
 					if field.CompositeStructName == "" {
-						associationFieldInitialization += Replace3(
+						associationFieldInitialization += models.Replace3(
 							GongFileFieldFieldSubTemplateCode[GongFileFieldSubTmplAssociationNamePointerField],
 							"{{FieldName}}", field.Name,
 							"{{AssocStructName}}", field.GongStruct.Name,
 							"{{assocstructname}}", strings.ToLower(field.GongStruct.Name))
 					} else {
-						associationFieldInitialization += Replace4(
+						associationFieldInitialization += models.Replace4(
 							GongFileFieldFieldSubTemplateCode[GongFileFieldSubTmplAssociationNameCompositePointerField],
 							"{{FieldName}}", field.Name,
 							"{{AssocStructName}}", field.GongStruct.Name,
 							"{{AssocCompositeStructName}}", field.CompositeStructName,
 							"{{assocstructname}}", strings.ToLower(field.GongStruct.Name))
 					}
-				case *SliceOfPointerToGongStructField:
-					pointerInitCode += Replace3(
+				case *models.SliceOfPointerToGongStructField:
+					pointerInitCode += models.Replace3(
 						GongFileFieldFieldSubTemplateCode[GongFileFieldSubTmplSetSliceOfPointersField],
 						"{{FieldName}}", field.Name,
 						"{{AssocStructName}}", field.GongStruct.Name,
 						"{{assocstructname}}", strings.ToLower(field.GongStruct.Name))
-					fieldStringValues += Replace1(
+					fieldStringValues += models.Replace1(
 						GongFileFieldFieldSubTemplateCode[GongFileFieldSubTmplStringValueSliceOfPointersField],
 						"{{FieldName}}", field.Name)
-					fieldReverseAssociationMapCreationCode += Replace3(
+					fieldReverseAssociationMapCreationCode += models.Replace3(
 						GongFileFieldFieldSubTemplateCode[GongFileFieldSubTmplSliceOfPointersFieldAssociationMapFunction],
 						"{{FieldName}}", field.Name,
 						"{{AssocStructName}}", field.GongStruct.Name,
 						"{{assocstructname}}", strings.ToLower(field.GongStruct.Name))
-					fieldReverseSliceOfPointersAssociationMapCode += Replace3(
+					fieldReverseSliceOfPointersAssociationMapCode += models.Replace3(
 						GongFileFieldFieldSubTemplateCode[GongFileFieldSubTmplPointerFieldSliceOfPointersAssociationMapFunction],
 						"{{FieldName}}", field.Name,
 						"{{AssocStructName}}", field.GongStruct.Name,
 						"{{assocstructname}}", strings.ToLower(field.GongStruct.Name))
-					associationFieldInitialization += Replace3(
+					associationFieldInitialization += models.Replace3(
 						GongFileFieldFieldSubTemplateCode[GongFileFieldSubTmplAssociationNameSliceOfPointersField],
 						"{{FieldName}}", field.Name,
 						"{{AssocStructName}}", field.GongStruct.Name,
@@ -756,37 +758,37 @@ func CodeGeneratorModelGong(
 				if idx > 0 {
 					fieldNames += ", "
 				}
-				fieldNames += Replace1(
+				fieldNames += models.Replace1(
 					GongFileFieldFieldSubTemplateCode[GongFileFieldSubTmplStringFieldName],
 					"{{FieldName}}", field.GetName())
 			}
 
-			valInitCode = Replace2(valInitCode,
+			valInitCode = models.Replace2(valInitCode,
 				"{{structname}}", strings.ToLower(gongStruct.Name),
 				"{{Structname}}", gongStruct.Name)
 
-			pointerInitCode = Replace2(pointerInitCode,
+			pointerInitCode = models.Replace2(pointerInitCode,
 				"{{structname}}", strings.ToLower(gongStruct.Name),
 				"{{Structname}}", gongStruct.Name)
 
-			fieldStringValues = Replace2(fieldStringValues,
+			fieldStringValues = models.Replace2(fieldStringValues,
 				"{{structname}}", strings.ToLower(gongStruct.Name),
 				"{{Structname}}", gongStruct.Name)
 
-			fieldReverseAssociationMapCreationCode = Replace2(fieldReverseAssociationMapCreationCode,
+			fieldReverseAssociationMapCreationCode = models.Replace2(fieldReverseAssociationMapCreationCode,
 				"{{structname}}", strings.ToLower(gongStruct.Name),
 				"{{Structname}}", gongStruct.Name)
 
-			fieldReversePointerAssociationMapCode = Replace2(fieldReversePointerAssociationMapCode,
+			fieldReversePointerAssociationMapCode = models.Replace2(fieldReversePointerAssociationMapCode,
 				"{{structname}}", strings.ToLower(gongStruct.Name),
 				"{{Structname}}", gongStruct.Name)
 
-			fieldReverseSliceOfPointersAssociationMapCode = Replace2(fieldReverseSliceOfPointersAssociationMapCode,
+			fieldReverseSliceOfPointersAssociationMapCode = models.Replace2(fieldReverseSliceOfPointersAssociationMapCode,
 				"{{structname}}", strings.ToLower(gongStruct.Name),
 				"{{Structname}}", gongStruct.Name)
 
 			fieldNames += `}`
-			generatedCodeFromSubTemplate := Replace10(ModelGongStructSubTemplateCode[subStructTemplate],
+			generatedCodeFromSubTemplate := models.Replace10(ModelGongStructSubTemplateCode[subStructTemplate],
 				"{{structname}}", strings.ToLower(gongStruct.Name),
 				"{{Structname}}", gongStruct.Name,
 				"{{ValuesInitialization}}", valInitCode,
@@ -815,7 +817,7 @@ func CodeGeneratorModelGong(
 	}
 
 	// sort gong enums per name (for reproductibility)
-	gongEnums := []*GongEnum{}
+	gongEnums := []*models.GongEnum{}
 	for _, _enum := range mdlPkg.GongEnums {
 		gongEnums = append(gongEnums, _enum)
 	}
@@ -832,31 +834,31 @@ func CodeGeneratorModelGong(
 			codeToCodeStringPerGongValue := ""
 
 			for _, enumValue := range gongEnum.GongEnumValues {
-				codeFromStringPerGongValue += Replace2(GongModelEnumValueSubTemplateCode[GongModelEnumValueFromString],
+				codeFromStringPerGongValue += models.Replace2(GongModelEnumValueSubTemplateCode[GongModelEnumValueFromString],
 					"{{GongEnumValue}}", enumValue.Value,
 					"{{GongEnumCode}}", enumValue.Name)
-				codeToStringPerGongValue += Replace2(GongModelEnumValueSubTemplateCode[GongModelEnumValueToString],
+				codeToStringPerGongValue += models.Replace2(GongModelEnumValueSubTemplateCode[GongModelEnumValueToString],
 					"{{GongEnumValue}}", enumValue.Value,
 					"{{GongEnumCode}}", enumValue.Name)
 
-				codeToCodeStringPerGongValue += Replace2(GongModelEnumValueSubTemplateCode[GongModelEnumValueToCodeString],
+				codeToCodeStringPerGongValue += models.Replace2(GongModelEnumValueSubTemplateCode[GongModelEnumValueToCodeString],
 					"{{GongEnumValue}}", enumValue.Value,
 					"{{GongEnumCode}}", enumValue.Name)
 			}
 
-			generatedCodeFromSubTemplate := Replace3(ModelGongEnumSubTemplateCode[subEnumTemplate],
+			generatedCodeFromSubTemplate := models.Replace3(ModelGongEnumSubTemplateCode[subEnumTemplate],
 				"{{ToStringPerCodeCode}}", codeToStringPerGongValue,
 				"{{FromStringPerCodeCode}}", codeFromStringPerGongValue,
 				"{{ToCodeStringPerCodeCode}}", codeToCodeStringPerGongValue)
 
 			var typeOfEnumAsString string
-			if gongEnum.Type == String {
+			if gongEnum.Type == models.String {
 				typeOfEnumAsString = "String"
 			} else {
 				typeOfEnumAsString = "Int"
 			}
 
-			generatedCodeFromSubTemplate = Replace4(generatedCodeFromSubTemplate,
+			generatedCodeFromSubTemplate = models.Replace4(generatedCodeFromSubTemplate,
 				"{{enumName}}", strings.ToLower(gongEnum.Name),
 				"{{EnumName}}", gongEnum.Name,
 				"{{Type}}", typeOfEnumAsString,
@@ -872,7 +874,7 @@ func CodeGeneratorModelGong(
 		codeGO = strings.ReplaceAll(codeGO, toReplace, subEnumCodes[insertionPerEnumId])
 	}
 
-	codeGO = Replace4(codeGO,
+	codeGO = models.Replace4(codeGO,
 		"{{PkgName}}", pkgName,
 		"{{TitlePkgName}}", strings.Title(pkgName),
 		"{{pkgname}}", strings.ToLower(pkgName),

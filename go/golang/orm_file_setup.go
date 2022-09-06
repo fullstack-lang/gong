@@ -1,4 +1,4 @@
-package models
+package golang
 
 const OrmFileSetupTemplate = `// generated from OrmFileSetupTemplate
 package orm
