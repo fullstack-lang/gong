@@ -28,7 +28,7 @@ const COMPUTED_FROM_PKG_PATH string = "computed from pkgPath (path to package fo
 var (
 	pkgPath     = flag.String("pkgPath", ".", "path to the models package to be compiled by gongc compilation")
 	skipSwagger = flag.Bool("skipSwagger", true, "skip swagger")
-	backendOnly = flag.Bool("backendOnly", false, "generates backendOnly")
+	skipNg      = flag.Bool("skipNg", false, "generates backendOnly")
 	addr        = flag.String("addr", "localhost:8080/api",
 		"network address addr where the angular generated service will lookup the server")
 	run               = flag.Bool("run", false, "run 'go run main.go' after compilation")
@@ -57,8 +57,6 @@ func main() {
 	// if go.mod does not exist, gongc can only infer the package name
 	// from the name of directory that is two levels above "go/models"
 	// it is up to the developper to change the module name after the first gong generation
-	//
-	//
 	pkgName, fullPkgPath := gong_models.ComputePkgPathFromGoModFile(*pkgPath)
 
 	// initiate model package
@@ -96,16 +94,9 @@ func main() {
 		gong_models.PathToGoSubDirectory = directory
 		log.Println("backend target path " + gong_models.PathToGoSubDirectory)
 	}
-	{
 
-		directory, err :=
-			filepath.Abs(
-				filepath.Join(*pkgPath,
-					fmt.Sprintf("../../ng/projects/%s/src/lib", modelPkg.Name)))
-		gong_models.MatTargetPath = directory
-		if err != nil {
-			log.Panic("Problem with frontend target path " + err.Error())
-		}
+	if !*skipNg {
+		genAngular(modelPkg)
 	}
 
 	// check wether one is in a git managed directory. If absent, use "git init"
@@ -551,7 +542,7 @@ func main() {
 
 	// now replace the generated content in the library
 	{
-		if !*backendOnly {
+		if !*skipNg {
 			log.Println("Removing all content of " + gong_models.MatTargetPath)
 			gong_models.RemoveContents(gong_models.MatTargetPath)
 		}
@@ -854,7 +845,7 @@ func main() {
 		}
 	}
 
-	if *backendOnly {
+	if *skipNg {
 		return
 	}
 
