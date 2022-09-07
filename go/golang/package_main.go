@@ -1,5 +1,14 @@
 package golang
 
+import (
+	"fmt"
+	"log"
+	"os"
+	"strings"
+
+	"github.com/fullstack-lang/gong/go/models"
+)
+
 const PackageMain = `package main
 
 import (
@@ -25,13 +34,13 @@ import (
 	gong_controllers "github.com/fullstack-lang/gong/go/controllers"
 	gong_models "github.com/fullstack-lang/gong/go/models"
 	gong_orm "github.com/fullstack-lang/gong/go/orm"
-	_ "github.com/fullstack-lang/gong/ng"
+	// insertion point for gong front end import{{gongNgImport}}
 
 	// for diagrams
 	gongdoc_controllers "github.com/fullstack-lang/gongdoc/go/controllers"
 	gongdoc_models "github.com/fullstack-lang/gongdoc/go/models"
 	gongdoc_orm "github.com/fullstack-lang/gongdoc/go/orm"
-	_ "github.com/fullstack-lang/gongdoc/ng"
+	// insertion point for gong front end import{{gongdocNgImport}}
 
 	{{pkgname}} "{{PkgPathAboveRoot}}"
 )
@@ -201,13 +210,7 @@ func main() {
 	gongdoc_models.Stage.Commit()
 	gong_models.Stage.Commit()
 
-	// provide the static route for the angular pages
-	r.Use(static.Serve("/", EmbedFolder({{pkgname}}.NgDistNg, "ng/dist/ng")))
-	r.NoRoute(func(c *gin.Context) {
-		fmt.Println(c.Request.URL.Path, "doesn't exists, redirect on /")
-		c.Redirect(http.StatusMovedPermanently, "/")
-		c.Abort()
-	})
+	// insertion point for serving the static file{{staticCodeServiceCode}}
 
 	log.Printf("Server ready serve on localhost:8080")
 	r.Run()
@@ -232,3 +235,50 @@ func EmbedFolder(fsEmbed embed.FS, targetPath string) static.ServeFileSystem {
 	}
 }
 `
+
+const gongNgEmbedDirImport = `
+	_ "github.com/fullstack-lang/gong/ng"`
+
+const gongdocNgEmbedDirImport = `
+	_ "github.com/fullstack-lang/gongdoc/ng"`
+
+const codeForNgStaticService = `
+	// provide the static route for the angular pages
+	r.Use(static.Serve("/", EmbedFolder({{pkgname}}.NgDistNg, "ng/dist/ng")))
+	r.NoRoute(func(c *gin.Context) {
+		fmt.Println(c.Request.URL.Path, "doesn't exists, redirect on /")
+		c.Redirect(http.StatusMovedPermanently, "/")
+		c.Abort()
+	})`
+
+func CodeGeneratorPackageMain(
+	mdlPkg *models.ModelPkg,
+	pkgName string,
+	pkgGoPath string,
+	mainFilePath string,
+	skipNg bool) {
+	{
+		codeGo := PackageMain
+
+		codeGo = models.Replace4(codeGo,
+			"{{PkgName}}", pkgName,
+			"{{TitlePkgName}}", strings.Title(pkgName),
+			"{{pkgname}}", strings.ToLower(pkgName),
+			"{{PkgPathRoot}}", strings.ReplaceAll(pkgGoPath, "/models", ""))
+		codeGo = strings.ReplaceAll(codeGo, "{{PkgPathAboveRoot}}",
+			strings.ReplaceAll(pkgGoPath, "/go/models", ""))
+
+		if !skipNg {
+			codeGo = strings.ReplaceAll(codeGo, "{{gongNgImport}}", gongNgEmbedDirImport)
+			codeGo = strings.ReplaceAll(codeGo, "{{gongdocNgImport}}", gongdocNgEmbedDirImport)
+			codeGo = strings.ReplaceAll(codeGo, "{{staticCodeServiceCode}}", codeForNgStaticService)
+		}
+
+		file, err := os.Create(mainFilePath)
+		if err != nil {
+			log.Panic(err)
+		}
+		defer file.Close()
+		fmt.Fprint(file, codeGo)
+	}
+}
