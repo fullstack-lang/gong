@@ -267,13 +267,13 @@ func main() {
 	gong_models.VerySimpleCodeGenerator(
 		modelPkg,
 		caserEnglish.String(modelPkg.Name),
-		modelPkg.PkgPath, filepath.Join(gong_models.NgWorkspacePath, "embed.go"),
+		modelPkg.PkgPath, filepath.Join(*pkgPath, "../../ng/embed.go"),
 		golang.GoProjectsGo)
 
 	gong_models.VerySimpleCodeGenerator(
 		modelPkg,
 		caserEnglish.String(modelPkg.Name),
-		modelPkg.PkgPath, filepath.Join(gong_models.NgWorkspacePath, "../embed.go"),
+		modelPkg.PkgPath, filepath.Join(*pkgPath, "../../embed.go"),
 		golang.EmebedNgDistNg)
 
 	// remove "gong.go" file
@@ -458,7 +458,8 @@ func main() {
 	// run application
 	if *run {
 		cmd := exec.Command("go", "run", "main.go")
-		cmd.Dir, _ = filepath.Abs(filepath.Join(gong_models.NgWorkspacePath, fmt.Sprintf("../go/cmd/%s", gong_models.ComputePkgNameFromPkgPath(*pkgPath))))
+		cmd.Dir, _ = filepath.Abs(filepath.Join(*pkgPath,
+			fmt.Sprintf("../../go/cmd/%s", gong_models.ComputePkgNameFromPkgPath(*pkgPath))))
 		log.Printf("Running %s command in directory %s and waiting for it to finish...\n", cmd.Args, cmd.Dir)
 
 		// https://stackoverflow.com/questions/48253268/print-the-stdout-from-exec-command-in-real-time-in-go
