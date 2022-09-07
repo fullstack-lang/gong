@@ -60,7 +60,7 @@
 		"args": []
 	  },
 	  {
-		"label": "01 - gongc test2 -backendOnly",
+		"label": "01 - gongc test2 -skipNg",
 		"type": "shell",
 		"options": {
 		  "cwd": "${workspaceFolder}/go/models"
@@ -68,7 +68,7 @@
 		"command": "gongc",
 		"group": "build",
 		"args": [
-		  "-backendOnly"
+		  "-skipNg"
 		]
 	  },
 	  {
