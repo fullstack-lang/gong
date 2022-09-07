@@ -13,6 +13,7 @@ import (
 	"time"
 
 	"github.com/fullstack-lang/gong/go/angular"
+	"github.com/fullstack-lang/gong/go/golang"
 	gong_models "github.com/fullstack-lang/gong/go/models"
 	"golang.org/x/text/cases"
 	"golang.org/x/text/language"
@@ -21,7 +22,6 @@ import (
 func genAngular(modelPkg *gong_models.ModelPkg) {
 
 	{
-
 		directory, err :=
 			filepath.Abs(
 				filepath.Join(*pkgPath,
@@ -491,4 +491,16 @@ func genAngular(modelPkg *gong_models.ModelPkg) {
 		}
 		log.Printf("ng build is over and took %s", time.Since(start))
 	}
+
+	gong_models.VerySimpleCodeGenerator(
+		modelPkg,
+		caserEnglish.String(modelPkg.Name),
+		modelPkg.PkgPath, filepath.Join(gong_models.NgWorkspacePath, "embed.go"),
+		golang.GoProjectsGo)
+
+	gong_models.VerySimpleCodeGenerator(
+		modelPkg,
+		caserEnglish.String(modelPkg.Name),
+		modelPkg.PkgPath, filepath.Join(gong_models.NgWorkspacePath, "../embed_ng_dist_ng.go"),
+		angular.EmebedNgDistNg)
 }
