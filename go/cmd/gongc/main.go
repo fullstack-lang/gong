@@ -264,17 +264,12 @@ func main() {
 	}
 
 	caserEnglish := cases.Title(language.English)
-	gong_models.VerySimpleCodeGenerator(
-		modelPkg,
-		caserEnglish.String(modelPkg.Name),
-		modelPkg.PkgPath, filepath.Join(*pkgPath, "../../ng/embed.go"),
-		golang.GoProjectsGo)
 
 	gong_models.VerySimpleCodeGenerator(
 		modelPkg,
 		caserEnglish.String(modelPkg.Name),
 		modelPkg.PkgPath, filepath.Join(*pkgPath, "../../embed.go"),
-		golang.EmebedNgDistNg)
+		golang.EmebedGoDirTemplate)
 
 	// remove "gong.go" file
 	gong_models.RemoveGeneratedGongFiles(*pkgPath)
