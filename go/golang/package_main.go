@@ -260,6 +260,12 @@ func CodeGeneratorPackageMain(
 	{
 		codeGo := PackageMain
 
+		if !skipNg {
+			codeGo = strings.ReplaceAll(codeGo, "{{gongNgImport}}", gongNgEmbedDirImport)
+			codeGo = strings.ReplaceAll(codeGo, "{{gongdocNgImport}}", gongdocNgEmbedDirImport)
+			codeGo = strings.ReplaceAll(codeGo, "{{staticCodeServiceCode}}", codeForNgStaticService)
+		}
+
 		codeGo = models.Replace4(codeGo,
 			"{{PkgName}}", pkgName,
 			"{{TitlePkgName}}", strings.Title(pkgName),
@@ -267,12 +273,6 @@ func CodeGeneratorPackageMain(
 			"{{PkgPathRoot}}", strings.ReplaceAll(pkgGoPath, "/models", ""))
 		codeGo = strings.ReplaceAll(codeGo, "{{PkgPathAboveRoot}}",
 			strings.ReplaceAll(pkgGoPath, "/go/models", ""))
-
-		if !skipNg {
-			codeGo = strings.ReplaceAll(codeGo, "{{gongNgImport}}", gongNgEmbedDirImport)
-			codeGo = strings.ReplaceAll(codeGo, "{{gongdocNgImport}}", gongdocNgEmbedDirImport)
-			codeGo = strings.ReplaceAll(codeGo, "{{staticCodeServiceCode}}", codeForNgStaticService)
-		}
 
 		file, err := os.Create(mainFilePath)
 		if err != nil {
