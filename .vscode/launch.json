@@ -49,14 +49,14 @@
             "args": []
         },
         {
-            "name": "gongc gongmarkdown -backendOnly -skipGoModCommands",
+            "name": "gongc gongmarkdown -skipNg -skipGoModCommands",
             "type": "go",
             "request": "launch",
             "mode": "debug",
             "cwd": "${workspaceFolder}/../gongmarkdown/go/models",
             "program": "${workspaceFolder}/go/cmd/gongc",
             "args": [
-                "-backendOnly",
+                "-skipNg",
                 "-skipGoModCommands"
             ]
         },
@@ -92,7 +92,7 @@
             ]
         },
         {
-            "name": "gongc test -skipGoModCommands -backendOnly",
+            "name": "gongc test -skipGoModCommands -skipNg",
             "type": "go",
             "request": "launch",
             "mode": "debug",
@@ -101,11 +101,11 @@
             "program": "${workspaceFolder}/go/cmd/gongc",
             "args": [
                 "-skipGoModCommands",
-                "-backendOnly"
+                "-skipNg"
             ]
         },
         {
-            "name": "gongc bebop -skipGoModCommands -backendOnly",
+            "name": "gongc bebop -skipGoModCommands -skipNg",
             "type": "go",
             "request": "launch",
             "mode": "debug",
@@ -113,11 +113,11 @@
             "program": "${workspaceFolder}/go/cmd/gongc",
             "args": [
                 "-skipGoModCommands",
-                "-backendOnly"
+                "-skipNg"
             ]
         },
         {
-            "name": "gongc ppstdb -skipGoModCommands -backendOnly",
+            "name": "gongc ppstdb -skipGoModCommands -skipNg",
             "type": "go",
             "request": "launch",
             "mode": "debug",
@@ -125,7 +125,7 @@
             "program": "${workspaceFolder}/go/cmd/gongc",
             "args": [
                 "-skipGoModCommands",
-                "-backendOnly"
+                "-skipNg"
             ]
         },
         {
@@ -160,6 +160,31 @@
             ]
         },
         {
+            "name": "gongc /tmp/helloworld on windows -skipNg -skipGoModCommands ",
+            "type": "go",
+            "request": "launch",
+            "mode": "debug",
+            "cwd": "../../../../../dev/helloworld",
+            "program": "${workspaceFolder}/go/cmd/gongc",
+            "args": [
+                "-skipNg",
+                "-skipGoModCommands",
+                "go/models"
+            ]
+        },
+        {
+            "name": "gongc /tmp/helloworld on windows -skipNg",
+            "type": "go",
+            "request": "launch",
+            "mode": "debug",
+            "cwd": "../../../../../dev/helloworld",
+            "program": "${workspaceFolder}/go/cmd/gongc",
+            "args": [
+                "-skipNg",
+                "go/models"
+            ]
+        },
+        {
             "name": "gongc /tmp/helloworld in 'go/models' directory",
             "type": "go",
             "request": "launch",
@@ -169,7 +194,7 @@
             "args": []
         },
         {
-            "name": "gongc test -backendOnly -skipGoModCommands",
+            "name": "gongc test -skipNg -skipGoModCommands",
             "type": "go",
             "request": "launch",
             "mode": "debug",
@@ -177,30 +202,30 @@
             "cwd": "${workspaceFolder}/test/go/models",
             "program": "${workspaceFolder}/go/cmd/gongc",
             "args": [
-                "-backendOnly",
+                "-skipNg",
                 "-skipGoModCommands"
             ]
         },
         {
-            "name": "gongc test2 -backendOnly",
+            "name": "gongc test2 -skipNg",
             "type": "go",
             "request": "launch",
             "mode": "debug",
             "cwd": "${workspaceFolder}/test2/go/models",
             "program": "${workspaceFolder}/go/cmd/gongc",
             "args": [
-                "-backendOnly"
+                "-skipNg"
             ]
         },
         {
-            "name": "gongc gong -backendOnly",
+            "name": "gongc gong -skipNg",
             "type": "go",
             "request": "launch",
             "mode": "debug",
             "cwd": "${workspaceFolder}/go/models",
             "program": "${workspaceFolder}/go/cmd/gongc",
             "args": [
-                "-backendOnly"
+                "-skipNg"
             ]
         },
         {

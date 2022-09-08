@@ -121,7 +121,7 @@
             "group": "build"
         },
         {
-            "label": "01 - gongc test -backendOnly",
+            "label": "01 - gongc test -skipNg",
             "type": "shell",
             "options": {
                 "cwd": "${workspaceFolder}/test/go/models"
@@ -129,7 +129,7 @@
             "command": "gongc",
             "group": "build",
             "args": [
-                "-backendOnly"
+                "-skipNg"
             ]
         },
         {
@@ -187,7 +187,7 @@
             "args": []
         },
         {
-            "label": "01 - gongc gong -skipGoModCommands -backendOnly",
+            "label": "01 - gongc gong -skipGoModCommands -skipNg",
             "type": "shell",
             "options": {
                 "cwd": "${workspaceFolder}/go/models"
@@ -196,7 +196,7 @@
             "group": "build",
             "args": [
                 "-skipGoModCommands",
-                "-backendOnly"
+                "-skipNg"
             ]
         },
         {
@@ -216,13 +216,13 @@
             "command": "find . -type d -name vendor -prune -o -name gong.go -print -execdir gongc -skipGoModCommands \\;"
         },
         {
-            "label": "Sequence - gongc all -backendOnly -skipGoModCommands",
+            "label": "Sequence - gongc all -skipNg -skipGoModCommands",
             "type": "shell",
             "options": {
                 "cwd": "${workspaceFolder}/.."
             },
             "group": "build",
-            "command": "find . -type d -name vendor -prune -o -name gong.go -print -execdir gongc -backendOnly -skipGoModCommands \\;"
+            "command": "find . -type d -name vendor -prune -o -name gong.go -print -execdir gongc -skipNg -skipGoModCommands \\;"
         },
     ]
 }
