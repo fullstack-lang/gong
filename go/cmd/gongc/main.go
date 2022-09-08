@@ -2,7 +2,6 @@ package main
 
 import (
 	"bytes"
-	"encoding/json"
 	"flag"
 	"fmt"
 	"io"
@@ -16,7 +15,6 @@ import (
 	"golang.org/x/text/cases"
 	"golang.org/x/text/language"
 
-	"github.com/fullstack-lang/gong/go/angular"
 	"github.com/fullstack-lang/gong/go/golang"
 	"github.com/fullstack-lang/gong/go/vscode"
 
@@ -28,7 +26,7 @@ const COMPUTED_FROM_PKG_PATH string = "computed from pkgPath (path to package fo
 var (
 	pkgPath     = flag.String("pkgPath", ".", "path to the models package to be compiled by gongc compilation")
 	skipSwagger = flag.Bool("skipSwagger", true, "skip swagger")
-	backendOnly = flag.Bool("backendOnly", false, "generates backendOnly")
+	skipNg      = flag.Bool("skipNg", false, "generates backendOnly")
 	addr        = flag.String("addr", "localhost:8080/api",
 		"network address addr where the angular generated service will lookup the server")
 	run               = flag.Bool("run", false, "run 'go run main.go' after compilation")
@@ -57,8 +55,6 @@ func main() {
 	// if go.mod does not exist, gongc can only infer the package name
 	// from the name of directory that is two levels above "go/models"
 	// it is up to the developper to change the module name after the first gong generation
-	//
-	//
 	pkgName, fullPkgPath := gong_models.ComputePkgPathFromGoModFile(*pkgPath)
 
 	// initiate model package
@@ -95,17 +91,6 @@ func main() {
 		}
 		gong_models.PathToGoSubDirectory = directory
 		log.Println("backend target path " + gong_models.PathToGoSubDirectory)
-	}
-	{
-
-		directory, err :=
-			filepath.Abs(
-				filepath.Join(*pkgPath,
-					fmt.Sprintf("../../ng/projects/%s/src/lib", modelPkg.Name)))
-		gong_models.MatTargetPath = directory
-		if err != nil {
-			log.Panic("Problem with frontend target path " + err.Error())
-		}
 	}
 
 	// check wether one is in a git managed directory. If absent, use "git init"
@@ -196,12 +181,12 @@ func main() {
 			// sometimes on windows, directory creation is not completed before creation of file/directory (this
 			// leads to non reproductible "access denied")
 			time.Sleep(1000 * time.Millisecond)
-			gong_models.VerySimpleCodeGenerator(
+			golang.CodeGeneratorPackageMain(
 				modelPkg,
 				modelPkg.Name,
 				modelPkg.PkgPath,
 				mainFilePath,
-				golang.PackageMain)
+				*skipNg)
 		}
 	}
 
@@ -242,331 +227,8 @@ func main() {
 
 	}
 
-	// generate things in ng  lib directory
-	var ngNewWsPerformed bool
-	{
-
-		directory, err := filepath.Abs(
-			filepath.Join(*pkgPath, "../../ng"))
-		if err != nil {
-			log.Panic("Problem with frontend target path " + err.Error())
-		}
-		gong_models.NgWorkspacePath = directory
-		log.Println("module target abs path " + gong_models.NgWorkspacePath)
-
-		// check existance of angular directory. If absent, use "ng new ng", then generate default app.component.html
-		_, errd := os.Stat(gong_models.NgWorkspacePath)
-		if os.IsNotExist(errd) {
-			log.Printf("ng directory %s does not exist, hence gong is generating it with ng new ng command", gong_models.NgWorkspacePath)
-
-			// generate ng workspace
-
-			cmd := exec.Command("ng", "new", "ng", "--defaults=true", "--minimal=true")
-			cmd.Dir = filepath.Dir(gong_models.NgWorkspacePath)
-			log.Printf("Creating angular workspace\n")
-
-			// https://stackoverflow.com/questions/48253268/print-the-stdout-from-exec-command-in-real-time-in-go
-			var stdBuffer bytes.Buffer
-			mw := io.MultiWriter(os.Stdout, &stdBuffer)
-
-			cmd.Stdout = mw
-			cmd.Stderr = mw
-
-			log.Println(cmd.String())
-			log.Println(stdBuffer.String())
-
-			// Execute the command
-			start := time.Now()
-			if err := cmd.Run(); err != nil {
-				log.Panic(err)
-			}
-			log.Printf("ng new ng is over and took %s", time.Since(start))
-			ngNewWsPerformed = true
-
-			// add the necessary libraries to gong applications
-			{
-				{
-					start := time.Now()
-					//  --skip-confirmation is necessary when executing angular without user interaction
-					// otherwise, one meet the error
-					// "No terminal detected. '--skip-confirmation' can be used to bypass installation confirmation.
-					// Ensure package name is correct prior to '--skip-confirmation' option usage."
-					cmd := exec.Command("ng", "add", "@angular/material", "--skip-confirmation")
-					cmd.Dir = gong_models.NgWorkspacePath
-					log.Printf("Adding angular material\n")
-
-					// https://stackoverflow.com/questions/48253268/print-the-stdout-from-exec-command-in-real-time-in-go
-					var stdBuffer bytes.Buffer
-					mw := io.MultiWriter(os.Stdout, &stdBuffer)
-
-					cmd.Stdout = mw
-					cmd.Stderr = mw
-
-					log.Println(cmd.String())
-					log.Println(stdBuffer.String())
-
-					// Execute the command
-					if err := cmd.Run(); err != nil {
-						log.Panic(err)
-					}
-					log.Printf("ng add is over and took %s", time.Since(start))
-				}
-
-				{
-					start := time.Now()
-					cmd := exec.Command("npm", "install", "--save",
-						"angular-split@13.2.0", "material-design-icons", "typeface-open-sans", "typeface-roboto", "@angular-material-components/datetime-picker@7")
-					cmd.Dir = gong_models.NgWorkspacePath
-					log.Printf("Installing some packages\n")
-
-					// https://stackoverflow.com/questions/48253268/print-the-stdout-from-exec-command-in-real-time-in-go
-					var stdBuffer bytes.Buffer
-					mw := io.MultiWriter(os.Stdout, &stdBuffer)
-
-					cmd.Stdout = mw
-					cmd.Stderr = mw
-
-					log.Println(cmd.String())
-					log.Println(stdBuffer.String())
-
-					// Execute the command
-					if err := cmd.Run(); err != nil {
-						log.Panic(err)
-					}
-					log.Printf("npm install is over and took %s", time.Since(start))
-				}
-				{
-					start := time.Now()
-					cmd := exec.Command("npm", "install", "--save",
-						"@types/backbone", "@types/jointjs", "@types/jquery", "@types/lodash", "@types/node", "@types/leaflet", "backbone", "codelyzer", "install", "jointjs", "jquery", "lodash")
-					cmd.Dir = gong_models.NgWorkspacePath
-					log.Printf("Installing some packages\n")
-
-					// https://stackoverflow.com/questions/48253268/print-the-stdout-from-exec-command-in-real-time-in-go
-					var stdBuffer bytes.Buffer
-					mw := io.MultiWriter(os.Stdout, &stdBuffer)
-
-					cmd.Stdout = mw
-					cmd.Stderr = mw
-
-					log.Println(cmd.String())
-					log.Println(stdBuffer.String())
-
-					// Execute the command
-					if err := cmd.Run(); err != nil {
-						log.Panic(err)
-					}
-					log.Printf("npm install is over and took %s", time.Since(start))
-				}
-			}
-
-			// generate default app.component.ts, app.component.html and app.module.ts
-			{
-				gong_models.VerySimpleCodeGenerator(
-					modelPkg,
-					modelPkg.Name,
-					modelPkg.PkgPath,
-					filepath.Join(gong_models.NgWorkspacePath, "src/app/app.module.ts"),
-					angular.NgFileModule)
-
-				gong_models.VerySimpleCodeGenerator(
-					modelPkg,
-					modelPkg.Name,
-					modelPkg.PkgPath,
-					filepath.Join(gong_models.NgWorkspacePath, "src/app/app.component.ts"),
-					angular.NgFileAppComponentTs)
-
-				gong_models.VerySimpleCodeGenerator(
-					modelPkg,
-					modelPkg.Name,
-					modelPkg.PkgPath,
-					filepath.Join(gong_models.NgWorkspacePath, "src/app/app.component.html"),
-					angular.NgFileAppComponentHtml)
-
-			}
-		}
-	}
-
-	// if ng new was performed, modify the angular json file
-	// for some configuration stuff
-	// mostly
-	if ngNewWsPerformed {
-		angularJsonFile := filepath.Join(gong_models.NgWorkspacePath, "angular.json")
-
-		// Read the file
-		input, err := os.ReadFile(angularJsonFile)
-		if err != nil {
-			log.Fatalln(err)
-		}
-
-		var root interface{}
-		if err := json.Unmarshal(input, &root); err != nil {
-			log.Fatal(err)
-		}
-
-		// Walk down path to target object.
-		v := root
-		var path = []string{"projects",
-			"ng",
-			"architect",
-			"build",
-			"configurations",
-			"production",
-			"budgets"}
-		for i, k := range path {
-			m, ok := v.(map[string]interface{})
-			if !ok {
-				log.Fatalf("map not found at %s", strings.Join(path[:i+1], ", "))
-			}
-			v, ok = m[k]
-			if !ok {
-				log.Fatalf("value not found at %s", strings.Join(path[:i+1], ", "))
-			}
-		}
-
-		// Set value in the target object.
-		// budgets is a slice and it is the first one
-		slice, ok := v.([]interface{})
-		if !ok {
-			log.Fatalf("not slice found at %s", strings.Join(path, ", "))
-		}
-		v = slice[0]
-		m, ok := v.(map[string]interface{})
-		if !ok {
-			log.Fatalf("map not found at %s", strings.Join(path, ", "))
-		}
-		m["maximumError"] = "10mb"
-
-		// Marshal back to JSON. Variable d is []byte with the JSON
-		d, err := json.Marshal(root)
-		if err != nil {
-			log.Fatal(err)
-		}
-
-		errWrite := os.WriteFile(angularJsonFile, d, os.ModePerm)
-		if errWrite != nil {
-			log.Fatal(errWrite)
-		}
-
-		// check existance of generated angular library. If absent, use "ng generate libray <library>"
-		// and generate default app application
-		{
-			_, errStat := os.Stat(gong_models.MatTargetPath)
-			log.Println("module target abs path " + gong_models.MatTargetPath)
-
-			if os.IsNotExist(errStat) {
-				log.Printf("library directory %s does not exist, hence gong is generating it with ng generate library command",
-					gong_models.MatTargetPath)
-
-				// generate library project
-				start := time.Now()
-				cmd := exec.Command("ng", "generate", "library", modelPkg.Name, "--defaults=true", "--skip-install=true")
-				cmd.Dir = gong_models.NgWorkspacePath
-				log.Printf("Creating a library %s in the angular workspace\n", modelPkg.Name)
-
-				// https://stackoverflow.com/questions/48253268/print-the-stdout-from-exec-command-in-real-time-in-go
-				var stdBuffer bytes.Buffer
-				mw := io.MultiWriter(os.Stdout, &stdBuffer)
-
-				cmd.Stdout = mw
-				cmd.Stderr = mw
-
-				log.Println(cmd.String())
-				log.Println(stdBuffer.String())
-
-				// Execute the command
-				if err := cmd.Run(); err != nil {
-					log.Panic(err)
-				}
-				log.Printf("ng generate library is over and took %s", time.Since(start))
-				{
-					// patch tsconfig file in order to have the path to the public-api of the
-					// generated library (instead of the path to "dist")
-					filename := filepath.Join(gong_models.NgWorkspacePath, "tsconfig.json")
-					gong_models.InsertStringToFile(filename, "        \"projects/"+modelPkg.Name+"/src/public-api.ts\",", modelPkg.Name+"\": [")
-
-					gong_models.InsertStringToFile(filename, angular.TsConfigInsertForPaths, "\"paths\": {")
-
-				}
-				{
-					// patch styles.css file in order have imports of css stuff and work offline
-					filename := filepath.Join(gong_models.NgWorkspacePath, "src", "styles.css")
-					gong_models.InsertStringToFile(filename, angular.StylesCssInsert, "/* You can add global styles to this file, and also import other style files */")
-				}
-			}
-
-			// generate the "specific" library that will contains stack specific stuff, that can be reused
-			if os.IsNotExist(errStat) {
-				log.Printf("library directory %sspecific does not exist, hence gong is generating it with ng generate library command",
-					gong_models.MatTargetPath)
-
-				// generate library project
-				start := time.Now()
-				cmd := exec.Command("ng", "generate", "library", modelPkg.Name+"specific", "--defaults=true", "--skip-install=true")
-				cmd.Dir = gong_models.NgWorkspacePath
-				log.Printf("Creating a library %s in the angular workspace\n", modelPkg.Name)
-
-				// https://stackoverflow.com/questions/48253268/print-the-stdout-from-exec-command-in-real-time-in-go
-				var stdBuffer bytes.Buffer
-				mw := io.MultiWriter(os.Stdout, &stdBuffer)
-
-				cmd.Stdout = mw
-				cmd.Stderr = mw
-
-				log.Println(cmd.String())
-				log.Println(stdBuffer.String())
-
-				// Execute the command
-				if err := cmd.Run(); err != nil {
-					log.Panic(err)
-				}
-				log.Printf("ng generate library is over and took %s", time.Since(start))
-			}
-
-			// npm install
-			if true {
-				start := time.Now()
-				cmd := exec.Command("npm", "i")
-				cmd.Dir = gong_models.NgWorkspacePath
-				log.Printf("Running %s command in directory %s and waiting for it to finish...\n", cmd.Args, cmd.Dir)
-
-				// https://stackoverflow.com/questions/48253268/print-the-stdout-from-exec-command-in-real-time-in-go
-				var stdBuffer bytes.Buffer
-				mw := io.MultiWriter(os.Stdout, &stdBuffer)
-
-				cmd.Stdout = mw
-				cmd.Stderr = mw
-
-				log.Println(cmd.String())
-				log.Println(stdBuffer.String())
-
-				// Execute the command
-				if err := cmd.Run(); err != nil {
-					log.Panic(err)
-				}
-				log.Printf("npm i is over and took %s", time.Since(start))
-			}
-		}
-	}
-
-	// now replace the generated content in the library
-	{
-		if !*backendOnly {
-			log.Println("Removing all content of " + gong_models.MatTargetPath)
-			gong_models.RemoveContents(gong_models.MatTargetPath)
-		}
-	}
-
-	// generates styles
-	{
-		directory, _ := filepath.Abs(gong_models.MatTargetPath)
-		errForCreationOfStylesDir := os.MkdirAll(filepath.Join(directory, "styles"), os.ModePerm)
-		if os.IsNotExist(errForCreationOfStylesDir) {
-			log.Println("creating directory : " + gong_models.OrmPkgGenPath)
-		}
-		if os.IsExist(errForCreationOfStylesDir) {
-			log.Println("directory " + gong_models.OrmPkgGenPath + " allready exists")
-		}
+	if !*skipNg {
+		genAngular(modelPkg)
 	}
 
 	// generate directory for orm package
@@ -602,17 +264,12 @@ func main() {
 	}
 
 	caserEnglish := cases.Title(language.English)
-	gong_models.VerySimpleCodeGenerator(
-		modelPkg,
-		caserEnglish.String(modelPkg.Name),
-		modelPkg.PkgPath, filepath.Join(gong_models.NgWorkspacePath, "embed.go"),
-		golang.GoProjectsGo)
 
 	gong_models.VerySimpleCodeGenerator(
 		modelPkg,
 		caserEnglish.String(modelPkg.Name),
-		modelPkg.PkgPath, filepath.Join(gong_models.NgWorkspacePath, "../embed.go"),
-		golang.EmebedNgDistNg)
+		modelPkg.PkgPath, filepath.Join(*pkgPath, "../../embed.go"),
+		golang.EmebedGoDirTemplate)
 
 	// remove "gong.go" file
 	gong_models.RemoveGeneratedGongFiles(*pkgPath)
@@ -714,119 +371,6 @@ func main() {
 		log.Printf("go mod vendor is over and took %s", time.Since(start))
 	}
 
-	angular.MultiCodeGeneratorNgDetail(
-		modelPkg,
-		modelPkg.Name,
-		gong_models.MatTargetPath,
-		modelPkg.PkgPath)
-
-	angular.MultiCodeGeneratorNgPresentation(
-		modelPkg,
-		modelPkg.Name,
-		gong_models.MatTargetPath,
-		modelPkg.PkgPath)
-
-	angular.MultiCodeGeneratorNgClass(
-		modelPkg,
-		modelPkg.Name,
-		gong_models.MatTargetPath,
-		modelPkg.PkgPath)
-
-	angular.MultiCodeGeneratorNgService(
-		modelPkg,
-		modelPkg.Name,
-		gong_models.MatTargetPath,
-		modelPkg.PkgPath,
-		*addr)
-
-	angular.CodeGeneratorNgCommitNb(
-		modelPkg,
-		modelPkg.Name,
-		gong_models.MatTargetPath,
-		modelPkg.PkgPath,
-		*addr)
-
-	angular.CodeGeneratorNgGongselectionServiceTs(
-		modelPkg,
-		modelPkg.Name,
-		gong_models.MatTargetPath,
-		modelPkg.PkgPath,
-		*addr)
-
-	angular.CodeGeneratorNgNullInt64(
-		modelPkg,
-		modelPkg.Name,
-		gong_models.MatTargetPath,
-		modelPkg.PkgPath,
-		*addr)
-
-	angular.CodeGeneratorNgPushFromFrontNb(
-		modelPkg,
-		modelPkg.Name,
-		gong_models.MatTargetPath,
-		modelPkg.PkgPath,
-		*addr)
-
-	angular.MultiCodeGeneratorNgTable(
-		modelPkg,
-		modelPkg.Name,
-		gong_models.MatTargetPath,
-		modelPkg.PkgPath)
-
-	angular.MultiCodeGeneratorNgSorting(
-		modelPkg,
-		modelPkg.Name,
-		gong_models.MatTargetPath,
-		modelPkg.PkgPath)
-
-	angular.CodeGeneratorNgFrontRepo(
-		modelPkg,
-		modelPkg.Name,
-		gong_models.MatTargetPath,
-		modelPkg.PkgPath)
-
-	angular.CodeGeneratorNgSidebar(
-		modelPkg,
-		modelPkg.Name,
-		gong_models.MatTargetPath,
-		modelPkg.PkgPath)
-
-	angular.CodeGeneratorNgEnum(
-		modelPkg,
-		modelPkg.Name,
-		gong_models.MatTargetPath,
-		modelPkg.PkgPath)
-
-	angular.CodeGeneratorNgPublicApi(
-		modelPkg,
-		modelPkg.Name,
-		gong_models.MatTargetPath,
-		modelPkg.PkgPath)
-
-	angular.CodeGeneratorNgSplitter(
-		modelPkg,
-		modelPkg.Name,
-		gong_models.MatTargetPath,
-		modelPkg.PkgPath)
-
-	gong_models.SimpleCodeGeneratorForGongStructWithNameField(
-		modelPkg,
-		caserEnglish.String(modelPkg.Name),
-		modelPkg.PkgPath, filepath.Join(gong_models.MatTargetPath, modelPkg.Name+".module.ts"),
-		angular.NgLibModuleTemplate, angular.NgLibModuleSubTemplateCode)
-
-	gong_models.SimpleCodeGeneratorForGongStructWithNameField(
-		modelPkg,
-		caserEnglish.String(modelPkg.Name),
-		modelPkg.PkgPath, filepath.Join(gong_models.MatTargetPath, "app-routing.module.ts"),
-		angular.NgRoutingTemplate, angular.NgRoutingSubTemplateCode)
-
-	gong_models.SimpleCodeGeneratorForGongStructWithNameField(
-		modelPkg,
-		modelPkg.Name,
-		modelPkg.PkgPath, filepath.Join(gong_models.MatTargetPath, "map-components.ts"),
-		angular.NgLibMapComponentsServiceTemplate, angular.NgLibMapComponentsSubTemplateCode)
-
 	apiYamlFilePath := fmt.Sprintf("%s/%sapi.yml", gong_models.ControllersPkgGenPath, modelPkg.Name)
 	if !*skipSwagger {
 
@@ -854,32 +398,8 @@ func main() {
 		}
 	}
 
-	if *backendOnly {
+	if *skipNg {
 		return
-	}
-
-	// ng build
-	if true {
-		start := time.Now()
-		cmd := exec.Command("ng", "build")
-		cmd.Dir = gong_models.NgWorkspacePath
-		log.Printf("Running %s command in directory %s and waiting for it to finish...\n", cmd.Args, cmd.Dir)
-
-		// https://stackoverflow.com/questions/48253268/print-the-stdout-from-exec-command-in-real-time-in-go
-		var stdBuffer bytes.Buffer
-		mw := io.MultiWriter(os.Stdout, &stdBuffer)
-
-		cmd.Stdout = mw
-		cmd.Stderr = mw
-
-		log.Println(cmd.String())
-		log.Println(stdBuffer.String())
-
-		// Execute the command
-		if err := cmd.Run(); err != nil {
-			log.Panic(err)
-		}
-		log.Printf("ng build is over and took %s", time.Since(start))
 	}
 
 	// go get
@@ -933,7 +453,8 @@ func main() {
 	// run application
 	if *run {
 		cmd := exec.Command("go", "run", "main.go")
-		cmd.Dir, _ = filepath.Abs(filepath.Join(gong_models.NgWorkspacePath, fmt.Sprintf("../go/cmd/%s", gong_models.ComputePkgNameFromPkgPath(*pkgPath))))
+		cmd.Dir, _ = filepath.Abs(filepath.Join(*pkgPath,
+			fmt.Sprintf("../../go/cmd/%s", gong_models.ComputePkgNameFromPkgPath(*pkgPath))))
 		log.Printf("Running %s command in directory %s and waiting for it to finish...\n", cmd.Args, cmd.Dir)
 
 		// https://stackoverflow.com/questions/48253268/print-the-stdout-from-exec-command-in-real-time-in-go
