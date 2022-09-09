@@ -27,6 +27,7 @@ var (
 	pkgPath     = flag.String("pkgPath", ".", "path to the models package to be compiled by gongc compilation")
 	skipSwagger = flag.Bool("skipSwagger", true, "skip swagger")
 	skipNg      = flag.Bool("skipNg", false, "generates backendOnly")
+	skipFlutter = flag.Bool("skipFlutter", true, "do not generate flutter front")
 	addr        = flag.String("addr", "localhost:8080/api",
 		"network address addr where the angular generated service will lookup the server")
 	run               = flag.Bool("run", false, "run 'go run main.go' after compilation")
@@ -229,6 +230,10 @@ func main() {
 
 	if !*skipNg {
 		genAngular(modelPkg)
+	}
+
+	if !*skipFlutter {
+		genFlutter(modelPkg)
 	}
 
 	// generate directory for orm package
