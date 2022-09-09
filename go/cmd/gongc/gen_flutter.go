@@ -62,11 +62,22 @@ func genFlutter(modelPkg *gong_models.ModelPkg) {
 		pathToMain := filepath.Join(flutterProjectDir, "lib", "main.dart")
 		flutter.GenerateDefaultMainFile(modelPkg, pathToMain)
 
-		// delete the test directory (temporary)
-		testDirectory := filepath.Join(flutterProjectDir, "test")
-		errd := os.RemoveAll(testDirectory)
-		if errd != nil {
-			log.Panic("Problem with flutter path " + errd.Error())
+		{
+			// delete the test directory (temporary)
+			testDirectory := filepath.Join(flutterProjectDir, "test")
+			errd := os.RemoveAll(testDirectory)
+			if errd != nil {
+				log.Panic("Problem with flutter path " + errd.Error())
+			}
+		}
+
+		{
+			// delete the iml file  (for intelli J)
+			inteliJfile := filepath.Join(flutterProjectDir, "flutter_project.iml")
+			errd := os.Remove(inteliJfile)
+			if errd != nil {
+				log.Panic("Problem with flutter path " + errd.Error())
+			}
 		}
 	}
 }
