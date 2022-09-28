@@ -28,7 +28,9 @@ var (
 	skipSwagger = flag.Bool("skipSwagger", true, "skip swagger")
 	skipNg      = flag.Bool("skipNg", false, "generates backendOnly")
 	skipFlutter = flag.Bool("skipFlutter", true, "do not generate flutter front")
-	addr        = flag.String("addr", "localhost:8080/api",
+	skipCoder   = flag.Bool("skipCoder", true, "do not generate coder file")
+
+	addr = flag.String("addr", "localhost:8080/api",
 		"network address addr where the angular generated service will lookup the server")
 	run               = flag.Bool("run", false, "run 'go run main.go' after compilation")
 	skipGoModCommands = flag.Bool("skipGoModCommands", false, "avoid calls to go mod init, tidy and vendor")
@@ -282,10 +284,13 @@ func main() {
 		modelPkg,
 		modelPkg.Name,
 		*pkgPath)
-	golang.CodeGeneratorModelGongCoder(
-		modelPkg,
-		modelPkg.Name,
-		*pkgPath)
+
+	if !*skipCoder {
+		golang.CodeGeneratorModelGongCoder(
+			modelPkg,
+			modelPkg.Name,
+			*pkgPath)
+	}
 
 	// generate files
 	gong_models.SimpleCodeGeneratorForGongStructWithNameField(
