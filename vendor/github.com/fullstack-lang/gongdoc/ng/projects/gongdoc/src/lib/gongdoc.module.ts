@@ -74,6 +74,11 @@ import { LinkSortingComponent } from './link-sorting/link-sorting.component'
 import { LinkDetailComponent } from './link-detail/link-detail.component'
 import { LinkPresentationComponent } from './link-presentation/link-presentation.component'
 
+import { NotesTableComponent } from './notes-table/notes-table.component'
+import { NoteSortingComponent } from './note-sorting/note-sorting.component'
+import { NoteDetailComponent } from './note-detail/note-detail.component'
+import { NotePresentationComponent } from './note-presentation/note-presentation.component'
+
 import { PkgeltsTableComponent } from './pkgelts-table/pkgelts-table.component'
 import { PkgeltSortingComponent } from './pkgelt-sorting/pkgelt-sorting.component'
 import { PkgeltDetailComponent } from './pkgelt-detail/pkgelt-detail.component'
@@ -137,6 +142,11 @@ import { VerticePresentationComponent } from './vertice-presentation/vertice-pre
 		LinkSortingComponent,
 		LinkDetailComponent,
 		LinkPresentationComponent,
+
+		NotesTableComponent,
+		NoteSortingComponent,
+		NoteDetailComponent,
+		NotePresentationComponent,
 
 		PkgeltsTableComponent,
 		PkgeltSortingComponent,
@@ -236,6 +246,11 @@ import { VerticePresentationComponent } from './vertice-presentation/vertice-pre
 		LinkSortingComponent,
 		LinkDetailComponent,
 		LinkPresentationComponent,
+
+		NotesTableComponent,
+		NoteSortingComponent,
+		NoteDetailComponent,
+		NotePresentationComponent,
 
 		PkgeltsTableComponent,
 		PkgeltSortingComponent,

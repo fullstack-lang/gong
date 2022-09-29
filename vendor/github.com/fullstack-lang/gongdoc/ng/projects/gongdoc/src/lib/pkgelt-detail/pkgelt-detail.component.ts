@@ -33,7 +33,7 @@ enum PkgeltDetailComponentState {
 export class PkgeltDetailComponent implements OnInit {
 
 	// insertion point for declarations
-	EditableFormControl = new FormControl(false);
+	EditableFormControl: FormControl = new FormControl(false);
 
 	// the PkgeltDB of interest
 	pkgelt: PkgeltDB = new PkgeltDB

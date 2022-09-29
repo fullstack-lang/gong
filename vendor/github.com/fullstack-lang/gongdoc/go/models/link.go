@@ -41,6 +41,13 @@ func (link *Link) Unmarshall(modelPkg *gong_models.ModelPkg, expr ast.Expr, fset
 			fset.Position(expr.Pos()).String())
 	}
 
+	// fieldType is the type of the field.
+	//
+	//  It is stored here in order to adjust it later if the type in the case of an N_M association field.
+	// in a N_M assciation field, the field is an slice of pointer to a type with a suffix "Use"
+	// and whose only pointer field is to the actual type
+	var fieldType *gong_models.GongStruct
+
 	// extract all elements
 	for _, elt := range cl.Elts {
 		var kve *ast.KeyValueExpr
@@ -54,7 +61,7 @@ func (link *Link) Unmarshall(modelPkg *gong_models.ModelPkg, expr ast.Expr, fset
 			log.Panic("Expecting 1 ident " + fset.Position(kve.Pos()).String())
 		}
 
-		// check Link Field is
+		// parse elements
 		switch ident.Name {
 		case "Field":
 			var kve *ast.KeyValueExpr
@@ -98,11 +105,13 @@ func (link *Link) Unmarshall(modelPkg *gong_models.ModelPkg, expr ast.Expr, fset
 					for _, _field := range _struct.PointerToGongStructFields {
 						if _field.Name == link.Fieldname {
 							typename = _field.GongStruct.Name
+							fieldType = _field.GongStruct
 						}
 					}
 					for _, _field := range _struct.SliceOfPointerToGongStructFields {
 						if _field.Name == link.Fieldname {
 							typename = _field.GongStruct.Name
+							fieldType = _field.GongStruct
 						}
 					}
 				}
@@ -154,6 +163,22 @@ func (link *Link) Unmarshall(modelPkg *gong_models.ModelPkg, expr ast.Expr, fset
 		default:
 			log.Panic("Expecting 1 Field Middlevertice " + fset.Position(ident.Pos()).String())
 		}
+	}
+
+	// process the special case of N_M association field
+	// if both source and end multiplicity are MANY, then the field is a N_M association field
+	if link.SourceMultiplicity == MANY && link.TargetMultiplicity == MANY {
+		// get the field of the the field type
+		if fieldType == nil {
+			log.Panic(" N_M association field, expecting a field type " + fset.Position(cl.Pos()).String())
+		}
+		if !strings.HasSuffix(fieldType.Name, "Use") {
+			log.Panic(" N_M association field, expecting a field type with a Use suffix" + fset.Position(cl.Pos()).String())
+		}
+		if len(fieldType.PointerToGongStructFields) != 1 {
+			log.Panic(" N_M association field, expecting a field type with a single field" + fset.Position(cl.Pos()).String())
+		}
+		link.Fieldtypename = fieldType.PointerToGongStructFields[0].GongStruct.Name
 	}
 }
 

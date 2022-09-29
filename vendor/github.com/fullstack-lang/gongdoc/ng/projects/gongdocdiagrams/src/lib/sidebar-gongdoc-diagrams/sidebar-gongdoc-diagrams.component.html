@@ -10,7 +10,7 @@
         <button mat-icon-button disabled></button>
         <span (click)="setEditorRouterOutletClassdiagram(node)">{{node.name}}
             &nbsp;</span>
-        <mat-icon class="node-link-icon" *ngIf='node.level==0' (click)="setEditorRouterOutlet( node.structName + '-adder' )">
+        <mat-icon class="node-link-icon" *ngIf='node.level==0 && editable' (click)="setEditorRouterOutlet( node.structName + '-adder' )">
             add_circle_outline
         </mat-icon>
     </mat-tree-node>

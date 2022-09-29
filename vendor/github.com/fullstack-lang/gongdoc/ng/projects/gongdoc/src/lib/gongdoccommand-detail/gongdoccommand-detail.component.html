@@ -153,6 +153,26 @@
         <input type="number" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="gongdoccommand.PositionY" [ngModelOptions]="{standalone: true}">
     </mat-form-field>
 
+    <mat-grid-list *ngIf='!isATextArea("NoteName")' cols="5" rowHeight="2:1">
+        <mat-grid-tile [colspan]="3">
+            <mat-form-field mat-form-field class="detail-full-width">
+                <mat-label>NoteName</mat-label>
+                <input name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="gongdoccommand.NoteName">
+            </mat-form-field>
+        </mat-grid-tile>
+        <mat-grid-tile>
+            <button mat-raised-button (click)="toggleTextArea('NoteName')">
+                <mat-icon>
+                    expand_more
+                </mat-icon>
+            </button>
+        </mat-grid-tile>
+    </mat-grid-list>
+    <mat-form-field *ngIf='isATextArea("NoteName")' mat-form-field class="detail-full-width">
+        <mat-label>NoteName</mat-label>
+        <textarea name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="gongdoccommand.NoteName"></textarea>
+    </mat-form-field>
+
     <div class="details__save">
         <button mat-raised-button color="primary" (click)="save()">
             Save gongdoccommand

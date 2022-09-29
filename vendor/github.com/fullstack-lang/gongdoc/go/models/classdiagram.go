@@ -26,8 +26,11 @@ import (
 type Classdiagram struct {
 	Name string
 
-	// this is the memory model (and not the "memory motel" of the Rolling Stones)
+	// list of classshapes in the diagram
 	Classshapes []*Classshape
+
+	// list of notes in the diagram
+	Notes []*Note
 
 	// IsEditable indicates the the drawing can be edited (in development mode)
 	// or not (in production mode)
@@ -82,6 +85,20 @@ func (classdiagram *Classdiagram) MarshallAsVariable(file *os.File) error {
 		})
 		for _, classshape := range classdiagram.Classshapes {
 			classshape.Marshall(file, 2)
+			fmt.Fprintf(file, ",\n")
+		}
+	}
+	fmt.Fprintf(file, "\t},\n")
+
+	fmt.Fprintf(file, "\tNotes: []*uml.Note{\n")
+
+	if len(classdiagram.Notes) > 0 {
+		// sort Notes
+		sort.Slice(classdiagram.Notes[:], func(i, j int) bool {
+			return classdiagram.Notes[i].Body < classdiagram.Notes[j].Body
+		})
+		for _, note := range classdiagram.Notes {
+			note.Marshall(file, 2)
 			fmt.Fprintf(file, ",\n")
 		}
 	}
@@ -158,7 +175,33 @@ func (classdiagram *Classdiagram) Unmarshall(modelPkg *gong_models.ModelPkg, exp
 
 							classdiagram.Classshapes = append(classdiagram.Classshapes, classshape)
 						}
+					case "Notes":
+						var cl *ast.CompositeLit
+						var ok bool
+						if cl, ok = structvaluekeyexpr.Value.(*ast.CompositeLit); !ok {
+							log.Panic("Value shoud be a composite lit" +
+								fset.Position(structvaluekeyexpr.Pos()).String())
+						}
+						for _, expr := range cl.Elts {
 
+							var note *Note
+							switch exp := expr.(type) {
+							case *ast.UnaryExpr: // this is a reference to a variable
+								if ident, ok := exp.X.(*ast.Ident); !ok {
+									log.Panic("" + fset.Position(exp.Pos()).String())
+								} else {
+									log.Printf("found %s", ident.Name)
+								}
+							case *ast.CompositeLit: // this is a definition
+								note = new(Note)
+								note.Unmarshall(modelPkg, exp, fset)
+							default:
+								log.Panic("Value shoud be a composite lit or a unary" +
+									fset.Position(structvaluekeyexpr.Pos()).String())
+							}
+
+							classdiagram.Notes = append(classdiagram.Notes, note)
+						}
 					case "Name":
 						// already initialized
 					default:
@@ -181,6 +224,9 @@ func (classdiagram *Classdiagram) SerializeToStage() {
 
 	for _, classshape := range classdiagram.Classshapes {
 		classshape.SerializeToStage()
+	}
+	for _, note := range classdiagram.Notes {
+		note.Stage()
 	}
 }
 

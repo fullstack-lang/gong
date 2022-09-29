@@ -37,11 +37,11 @@ enum AstructDetailComponentState {
 export class AstructDetailComponent implements OnInit {
 
 	// insertion point for declarations
-	BooleanfieldFormControl = new FormControl(false);
+	BooleanfieldFormControl: FormControl = new FormControl(false);
 	AEnumTypeList: AEnumTypeSelect[] = []
 	BEnumTypeList: BEnumTypeSelect[] = []
 	CEnumTypeIntList: CEnumTypeIntSelect[] = []
-	AnotherbooleanfieldFormControl = new FormControl(false);
+	AnotherbooleanfieldFormControl: FormControl = new FormControl(false);
 	Duration1_Hours: number = 0
 	Duration1_Minutes: number = 0
 	Duration1_Seconds: number = 0

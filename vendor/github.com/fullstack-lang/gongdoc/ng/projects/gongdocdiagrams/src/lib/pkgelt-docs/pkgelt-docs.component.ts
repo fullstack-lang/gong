@@ -15,13 +15,13 @@ export class PkgeltDocsComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.setEditorRouterOutlet(1)
+    // this.setEditorRouterOutlet(1)
   }
 
   // set editor outlet
   setEditorRouterOutlet(classdiagramID: number) {
 
-    console.log("setEditorRouterOutlet " + classdiagramID)
+    console.log("pkgElt setEditorRouterOutlet " + classdiagramID)
 
     this.router.navigate([{
       outlets: {

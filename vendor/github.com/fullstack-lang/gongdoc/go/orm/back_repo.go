@@ -33,6 +33,8 @@ type BackRepoStruct struct {
 
 	BackRepoLink BackRepoLinkStruct
 
+	BackRepoNote BackRepoNoteStruct
+
 	BackRepoPkgelt BackRepoPkgeltStruct
 
 	BackRepoPosition BackRepoPositionStruct
@@ -88,6 +90,7 @@ func (backRepo *BackRepoStruct) init(db *gorm.DB) {
 	backRepo.BackRepoGongdocCommand.Init(db)
 	backRepo.BackRepoGongdocStatus.Init(db)
 	backRepo.BackRepoLink.Init(db)
+	backRepo.BackRepoNote.Init(db)
 	backRepo.BackRepoPkgelt.Init(db)
 	backRepo.BackRepoPosition.Init(db)
 	backRepo.BackRepoUmlState.Init(db)
@@ -107,6 +110,7 @@ func (backRepo *BackRepoStruct) Commit(stage *models.StageStruct) {
 	backRepo.BackRepoGongdocCommand.CommitPhaseOne(stage)
 	backRepo.BackRepoGongdocStatus.CommitPhaseOne(stage)
 	backRepo.BackRepoLink.CommitPhaseOne(stage)
+	backRepo.BackRepoNote.CommitPhaseOne(stage)
 	backRepo.BackRepoPkgelt.CommitPhaseOne(stage)
 	backRepo.BackRepoPosition.CommitPhaseOne(stage)
 	backRepo.BackRepoUmlState.CommitPhaseOne(stage)
@@ -121,6 +125,7 @@ func (backRepo *BackRepoStruct) Commit(stage *models.StageStruct) {
 	backRepo.BackRepoGongdocCommand.CommitPhaseTwo(backRepo)
 	backRepo.BackRepoGongdocStatus.CommitPhaseTwo(backRepo)
 	backRepo.BackRepoLink.CommitPhaseTwo(backRepo)
+	backRepo.BackRepoNote.CommitPhaseTwo(backRepo)
 	backRepo.BackRepoPkgelt.CommitPhaseTwo(backRepo)
 	backRepo.BackRepoPosition.CommitPhaseTwo(backRepo)
 	backRepo.BackRepoUmlState.CommitPhaseTwo(backRepo)
@@ -140,6 +145,7 @@ func (backRepo *BackRepoStruct) Checkout(stage *models.StageStruct) {
 	backRepo.BackRepoGongdocCommand.CheckoutPhaseOne()
 	backRepo.BackRepoGongdocStatus.CheckoutPhaseOne()
 	backRepo.BackRepoLink.CheckoutPhaseOne()
+	backRepo.BackRepoNote.CheckoutPhaseOne()
 	backRepo.BackRepoPkgelt.CheckoutPhaseOne()
 	backRepo.BackRepoPosition.CheckoutPhaseOne()
 	backRepo.BackRepoUmlState.CheckoutPhaseOne()
@@ -154,6 +160,7 @@ func (backRepo *BackRepoStruct) Checkout(stage *models.StageStruct) {
 	backRepo.BackRepoGongdocCommand.CheckoutPhaseTwo(backRepo)
 	backRepo.BackRepoGongdocStatus.CheckoutPhaseTwo(backRepo)
 	backRepo.BackRepoLink.CheckoutPhaseTwo(backRepo)
+	backRepo.BackRepoNote.CheckoutPhaseTwo(backRepo)
 	backRepo.BackRepoPkgelt.CheckoutPhaseTwo(backRepo)
 	backRepo.BackRepoPosition.CheckoutPhaseTwo(backRepo)
 	backRepo.BackRepoUmlState.CheckoutPhaseTwo(backRepo)
@@ -183,6 +190,7 @@ func (backRepo *BackRepoStruct) Backup(stage *models.StageStruct, dirPath string
 	backRepo.BackRepoGongdocCommand.Backup(dirPath)
 	backRepo.BackRepoGongdocStatus.Backup(dirPath)
 	backRepo.BackRepoLink.Backup(dirPath)
+	backRepo.BackRepoNote.Backup(dirPath)
 	backRepo.BackRepoPkgelt.Backup(dirPath)
 	backRepo.BackRepoPosition.Backup(dirPath)
 	backRepo.BackRepoUmlState.Backup(dirPath)
@@ -205,6 +213,7 @@ func (backRepo *BackRepoStruct) BackupXL(stage *models.StageStruct, dirPath stri
 	backRepo.BackRepoGongdocCommand.BackupXL(file)
 	backRepo.BackRepoGongdocStatus.BackupXL(file)
 	backRepo.BackRepoLink.BackupXL(file)
+	backRepo.BackRepoNote.BackupXL(file)
 	backRepo.BackRepoPkgelt.BackupXL(file)
 	backRepo.BackRepoPosition.BackupXL(file)
 	backRepo.BackRepoUmlState.BackupXL(file)
@@ -241,6 +250,7 @@ func (backRepo *BackRepoStruct) Restore(stage *models.StageStruct, dirPath strin
 	backRepo.BackRepoGongdocCommand.RestorePhaseOne(dirPath)
 	backRepo.BackRepoGongdocStatus.RestorePhaseOne(dirPath)
 	backRepo.BackRepoLink.RestorePhaseOne(dirPath)
+	backRepo.BackRepoNote.RestorePhaseOne(dirPath)
 	backRepo.BackRepoPkgelt.RestorePhaseOne(dirPath)
 	backRepo.BackRepoPosition.RestorePhaseOne(dirPath)
 	backRepo.BackRepoUmlState.RestorePhaseOne(dirPath)
@@ -259,6 +269,7 @@ func (backRepo *BackRepoStruct) Restore(stage *models.StageStruct, dirPath strin
 	backRepo.BackRepoGongdocCommand.RestorePhaseTwo()
 	backRepo.BackRepoGongdocStatus.RestorePhaseTwo()
 	backRepo.BackRepoLink.RestorePhaseTwo()
+	backRepo.BackRepoNote.RestorePhaseTwo()
 	backRepo.BackRepoPkgelt.RestorePhaseTwo()
 	backRepo.BackRepoPosition.RestorePhaseTwo()
 	backRepo.BackRepoUmlState.RestorePhaseTwo()
@@ -297,6 +308,7 @@ func (backRepo *BackRepoStruct) RestoreXL(stage *models.StageStruct, dirPath str
 	backRepo.BackRepoGongdocCommand.RestoreXLPhaseOne(file)
 	backRepo.BackRepoGongdocStatus.RestoreXLPhaseOne(file)
 	backRepo.BackRepoLink.RestoreXLPhaseOne(file)
+	backRepo.BackRepoNote.RestoreXLPhaseOne(file)
 	backRepo.BackRepoPkgelt.RestoreXLPhaseOne(file)
 	backRepo.BackRepoPosition.RestoreXLPhaseOne(file)
 	backRepo.BackRepoUmlState.RestoreXLPhaseOne(file)

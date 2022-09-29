@@ -30,6 +30,10 @@ import { LinksTableComponent } from './links-table/links-table.component'
 import { LinkDetailComponent } from './link-detail/link-detail.component'
 import { LinkPresentationComponent } from './link-presentation/link-presentation.component'
 
+import { NotesTableComponent } from './notes-table/notes-table.component'
+import { NoteDetailComponent } from './note-detail/note-detail.component'
+import { NotePresentationComponent } from './note-presentation/note-presentation.component'
+
 import { PkgeltsTableComponent } from './pkgelts-table/pkgelts-table.component'
 import { PkgeltDetailComponent } from './pkgelt-detail/pkgelt-detail.component'
 import { PkgeltPresentationComponent } from './pkgelt-presentation/pkgelt-presentation.component'
@@ -100,6 +104,13 @@ const routes: Routes = [ // insertion point for routes declarations
 	{ path: 'github_com_fullstack_lang_gongdoc_go-link-detail/:id', component: LinkDetailComponent, outlet: 'github_com_fullstack_lang_gongdoc_go_editor' },
 	{ path: 'github_com_fullstack_lang_gongdoc_go-link-presentation/:id', component: LinkPresentationComponent, outlet: 'github_com_fullstack_lang_gongdoc_go_presentation' },
 	{ path: 'github_com_fullstack_lang_gongdoc_go-link-presentation-special/:id', component: LinkPresentationComponent, outlet: 'github_com_fullstack_lang_gongdoc_golinkpres' },
+
+	{ path: 'github_com_fullstack_lang_gongdoc_go-notes', component: NotesTableComponent, outlet: 'github_com_fullstack_lang_gongdoc_go_table' },
+	{ path: 'github_com_fullstack_lang_gongdoc_go-note-adder', component: NoteDetailComponent, outlet: 'github_com_fullstack_lang_gongdoc_go_editor' },
+	{ path: 'github_com_fullstack_lang_gongdoc_go-note-adder/:id/:originStruct/:originStructFieldName', component: NoteDetailComponent, outlet: 'github_com_fullstack_lang_gongdoc_go_editor' },
+	{ path: 'github_com_fullstack_lang_gongdoc_go-note-detail/:id', component: NoteDetailComponent, outlet: 'github_com_fullstack_lang_gongdoc_go_editor' },
+	{ path: 'github_com_fullstack_lang_gongdoc_go-note-presentation/:id', component: NotePresentationComponent, outlet: 'github_com_fullstack_lang_gongdoc_go_presentation' },
+	{ path: 'github_com_fullstack_lang_gongdoc_go-note-presentation-special/:id', component: NotePresentationComponent, outlet: 'github_com_fullstack_lang_gongdoc_gonotepres' },
 
 	{ path: 'github_com_fullstack_lang_gongdoc_go-pkgelts', component: PkgeltsTableComponent, outlet: 'github_com_fullstack_lang_gongdoc_go_table' },
 	{ path: 'github_com_fullstack_lang_gongdoc_go-pkgelt-adder', component: PkgeltDetailComponent, outlet: 'github_com_fullstack_lang_gongdoc_go_editor' },
