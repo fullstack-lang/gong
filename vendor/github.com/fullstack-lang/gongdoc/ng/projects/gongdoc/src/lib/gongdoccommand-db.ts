@@ -19,6 +19,7 @@ export class GongdocCommandDB {
 	FieldTypeName: string = ""
 	PositionX: number = 0
 	PositionY: number = 0
+	NoteName: string = ""
 
 	// insertion point for other declarations
 }

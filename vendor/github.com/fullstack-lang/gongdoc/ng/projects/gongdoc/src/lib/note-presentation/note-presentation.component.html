@@ -1,0 +1,41 @@
+
+<div class="presentation__header" (click)="setEditorRouterOutlet(note.ID)">
+    <h1>Note's fields <span class="material-icons">edit</span></h1>
+</div>
+<table *ngIf="note" class="presentation__table mat-table">
+    <tr class="mat-header-row">
+        <th class="mat-header-cell">Name</th>
+        <th class="mat-header-cell">Value</th>
+    </tr>
+    <!-- insertion point for fields specific code -->
+    <tr class="mat-row">
+        <td class="mat-cell">Name</td>
+        <td class="mat-cell">{{note.Name}}</td>
+    </tr>
+    <tr class="mat-row">
+        <td class="mat-cell">Body</td>
+        <td class="mat-cell">{{note.Body}}</td>
+    </tr>
+    <tr class="mat-row">
+        <td class="mat-cell">X</td>
+        <td class="mat-cell">{{note.X}}</td>
+    </tr>
+    <tr class="mat-row">
+        <td class="mat-cell">Y</td>
+        <td class="mat-cell">{{note.Y}}</td>
+    </tr>
+    <tr class="mat-row">
+        <td class="mat-cell">Width</td>
+        <td class="mat-cell">{{note.Width}}</td>
+    </tr>
+    <tr class="mat-row">
+        <td class="mat-cell">Heigth</td>
+        <td class="mat-cell">{{note.Heigth}}</td>
+    </tr>
+</table>
+<!-- hack to force loading of mat table style an error is generated but it is a know angular issue https://github.com/angular/components/issues/10941 -->
+<table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+    <!-- Position Column -->
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>

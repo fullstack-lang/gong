@@ -72,6 +72,7 @@ export class ClassdiagramService {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
     classdiagramdb.Classshapes = []
+    classdiagramdb.Notes = []
     let _Pkgelt_Classdiagrams_reverse = classdiagramdb.Pkgelt_Classdiagrams_reverse
     classdiagramdb.Pkgelt_Classdiagrams_reverse = new PkgeltDB
 
@@ -103,6 +104,7 @@ export class ClassdiagramService {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
     classdiagramdb.Classshapes = []
+    classdiagramdb.Notes = []
     let _Pkgelt_Classdiagrams_reverse = classdiagramdb.Pkgelt_Classdiagrams_reverse
     classdiagramdb.Pkgelt_Classdiagrams_reverse = new PkgeltDB
 

@@ -25,6 +25,9 @@ import { GongdocStatusService } from './gongdocstatus.service'
 import { LinkDB } from './link-db'
 import { LinkService } from './link.service'
 
+import { NoteDB } from './note-db'
+import { NoteService } from './note.service'
+
 import { PkgeltDB } from './pkgelt-db'
 import { PkgeltService } from './pkgelt.service'
 
@@ -64,6 +67,9 @@ export class FrontRepo { // insertion point sub template
   Links_array = new Array<LinkDB>(); // array of repo instances
   Links = new Map<number, LinkDB>(); // map of repo instances
   Links_batch = new Map<number, LinkDB>(); // same but only in last GET (for finding repo instances to delete)
+  Notes_array = new Array<NoteDB>(); // array of repo instances
+  Notes = new Map<number, NoteDB>(); // map of repo instances
+  Notes_batch = new Map<number, NoteDB>(); // same but only in last GET (for finding repo instances to delete)
   Pkgelts_array = new Array<PkgeltDB>(); // array of repo instances
   Pkgelts = new Map<number, PkgeltDB>(); // map of repo instances
   Pkgelts_batch = new Map<number, PkgeltDB>(); // same but only in last GET (for finding repo instances to delete)
@@ -144,6 +150,7 @@ export class FrontRepoService {
     private gongdoccommandService: GongdocCommandService,
     private gongdocstatusService: GongdocStatusService,
     private linkService: LinkService,
+    private noteService: NoteService,
     private pkgeltService: PkgeltService,
     private positionService: PositionService,
     private umlstateService: UmlStateService,
@@ -186,6 +193,7 @@ export class FrontRepoService {
     Observable<GongdocCommandDB[]>,
     Observable<GongdocStatusDB[]>,
     Observable<LinkDB[]>,
+    Observable<NoteDB[]>,
     Observable<PkgeltDB[]>,
     Observable<PositionDB[]>,
     Observable<UmlStateDB[]>,
@@ -199,6 +207,7 @@ export class FrontRepoService {
       this.gongdoccommandService.getGongdocCommands(),
       this.gongdocstatusService.getGongdocStatuss(),
       this.linkService.getLinks(),
+      this.noteService.getNotes(),
       this.pkgeltService.getPkgelts(),
       this.positionService.getPositions(),
       this.umlstateService.getUmlStates(),
@@ -226,6 +235,7 @@ export class FrontRepoService {
             gongdoccommands_,
             gongdocstatuss_,
             links_,
+            notes_,
             pkgelts_,
             positions_,
             umlstates_,
@@ -248,6 +258,8 @@ export class FrontRepoService {
             gongdocstatuss = gongdocstatuss_ as GongdocStatusDB[]
             var links: LinkDB[]
             links = links_ as LinkDB[]
+            var notes: NoteDB[]
+            notes = notes_ as NoteDB[]
             var pkgelts: PkgeltDB[]
             pkgelts = pkgelts_ as PkgeltDB[]
             var positions: PositionDB[]
@@ -484,6 +496,39 @@ export class FrontRepoService {
 
             // sort Links_array array
             FrontRepoSingloton.Links_array.sort((t1, t2) => {
+              if (t1.Name > t2.Name) {
+                return 1;
+              }
+              if (t1.Name < t2.Name) {
+                return -1;
+              }
+              return 0;
+            });
+
+            // init the array
+            FrontRepoSingloton.Notes_array = notes
+
+            // clear the map that counts Note in the GET
+            FrontRepoSingloton.Notes_batch.clear()
+
+            notes.forEach(
+              note => {
+                FrontRepoSingloton.Notes.set(note.ID, note)
+                FrontRepoSingloton.Notes_batch.set(note.ID, note)
+              }
+            )
+
+            // clear notes that are absent from the batch
+            FrontRepoSingloton.Notes.forEach(
+              note => {
+                if (FrontRepoSingloton.Notes_batch.get(note.ID) == undefined) {
+                  FrontRepoSingloton.Notes.delete(note.ID)
+                }
+              }
+            )
+
+            // sort Notes_array array
+            FrontRepoSingloton.Notes_array.sort((t1, t2) => {
               if (t1.Name > t2.Name) {
                 return 1;
               }
@@ -779,6 +824,26 @@ export class FrontRepoService {
                     _classshape.Links.push(link)
                     if (link.Classshape_Links_reverse == undefined) {
                       link.Classshape_Links_reverse = _classshape
+                    }
+                  }
+                }
+              }
+            )
+            notes.forEach(
+              note => {
+                // insertion point sub sub template for ONE-/ZERO-ONE associations pointers redeeming
+
+                // insertion point for redeeming ONE-MANY associations
+                // insertion point for slice of pointer field Classdiagram.Notes redeeming
+                {
+                  let _classdiagram = FrontRepoSingloton.Classdiagrams.get(note.Classdiagram_NotesDBID.Int64)
+                  if (_classdiagram) {
+                    if (_classdiagram.Notes == undefined) {
+                      _classdiagram.Notes = new Array<NoteDB>()
+                    }
+                    _classdiagram.Notes.push(note)
+                    if (note.Classdiagram_Notes_reverse == undefined) {
+                      note.Classdiagram_Notes_reverse = _classdiagram
                     }
                   }
                 }
@@ -1286,6 +1351,70 @@ export class FrontRepoService {
     )
   }
 
+  // NotePull performs a GET on Note of the stack and redeem association pointers 
+  NotePull(): Observable<FrontRepo> {
+    return new Observable<FrontRepo>(
+      (observer) => {
+        combineLatest([
+          this.noteService.getNotes()
+        ]).subscribe(
+          ([ // insertion point sub template 
+            notes,
+          ]) => {
+            // init the array
+            FrontRepoSingloton.Notes_array = notes
+
+            // clear the map that counts Note in the GET
+            FrontRepoSingloton.Notes_batch.clear()
+
+            // 
+            // First Step: init map of instances
+            // insertion point sub template 
+            notes.forEach(
+              note => {
+                FrontRepoSingloton.Notes.set(note.ID, note)
+                FrontRepoSingloton.Notes_batch.set(note.ID, note)
+
+                // insertion point for redeeming ONE/ZERO-ONE associations
+
+                // insertion point for redeeming ONE-MANY associations
+                // insertion point for slice of pointer field Classdiagram.Notes redeeming
+                {
+                  let _classdiagram = FrontRepoSingloton.Classdiagrams.get(note.Classdiagram_NotesDBID.Int64)
+                  if (_classdiagram) {
+                    if (_classdiagram.Notes == undefined) {
+                      _classdiagram.Notes = new Array<NoteDB>()
+                    }
+                    _classdiagram.Notes.push(note)
+                    if (note.Classdiagram_Notes_reverse == undefined) {
+                      note.Classdiagram_Notes_reverse = _classdiagram
+                    }
+                  }
+                }
+              }
+            )
+
+            // clear notes that are absent from the GET
+            FrontRepoSingloton.Notes.forEach(
+              note => {
+                if (FrontRepoSingloton.Notes_batch.get(note.ID) == undefined) {
+                  FrontRepoSingloton.Notes.delete(note.ID)
+                }
+              }
+            )
+
+            // 
+            // Second Step: redeem pointers between instances (thanks to maps in the First Step)
+            // insertion point sub template 
+
+            // hand over control flow to observer
+            observer.next(FrontRepoSingloton)
+          }
+        )
+      }
+    )
+  }
+
   // PkgeltPull performs a GET on Pkgelt of the stack and redeem association pointers 
   PkgeltPull(): Observable<FrontRepo> {
     return new Observable<FrontRepo>(
@@ -1590,18 +1719,21 @@ export function getGongdocStatusUniqueID(id: number): number {
 export function getLinkUniqueID(id: number): number {
   return 59 * id
 }
-export function getPkgeltUniqueID(id: number): number {
+export function getNoteUniqueID(id: number): number {
   return 61 * id
 }
-export function getPositionUniqueID(id: number): number {
+export function getPkgeltUniqueID(id: number): number {
   return 67 * id
 }
-export function getUmlStateUniqueID(id: number): number {
+export function getPositionUniqueID(id: number): number {
   return 71 * id
 }
-export function getUmlscUniqueID(id: number): number {
+export function getUmlStateUniqueID(id: number): number {
   return 73 * id
 }
-export function getVerticeUniqueID(id: number): number {
+export function getUmlscUniqueID(id: number): number {
   return 79 * id
+}
+export function getVerticeUniqueID(id: number): number {
+  return 83 * id
 }

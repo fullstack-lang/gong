@@ -98,6 +98,9 @@ export class GongdocCommandsTableComponent implements OnInit {
         case 'PositionY':
           return gongdoccommandDB.PositionY;
 
+        case 'NoteName':
+          return gongdoccommandDB.NoteName;
+
         default:
           console.assert(false, "Unknown field")
           return "";
@@ -122,6 +125,7 @@ export class GongdocCommandsTableComponent implements OnInit {
       mergedContent += gongdoccommandDB.FieldTypeName.toLowerCase()
       mergedContent += gongdoccommandDB.PositionX.toString()
       mergedContent += gongdoccommandDB.PositionY.toString()
+      mergedContent += gongdoccommandDB.NoteName.toLowerCase()
 
       let isSelected = mergedContent.includes(filter.toLowerCase())
       return isSelected
@@ -182,6 +186,7 @@ export class GongdocCommandsTableComponent implements OnInit {
         "FieldTypeName",
         "PositionX",
         "PositionY",
+        "NoteName",
       ]
     } else {
       this.displayedColumns = ['select', 'ID', // insertion point for columns to display
@@ -195,6 +200,7 @@ export class GongdocCommandsTableComponent implements OnInit {
         "FieldTypeName",
         "PositionX",
         "PositionY",
+        "NoteName",
       ]
       this.selection = new SelectionModel<GongdocCommandDB>(allowMultiSelect, this.initialSelection);
     }

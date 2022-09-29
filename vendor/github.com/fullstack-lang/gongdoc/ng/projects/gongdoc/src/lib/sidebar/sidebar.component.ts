@@ -25,6 +25,8 @@ import { GongdocStatusService } from '../gongdocstatus.service'
 import { getGongdocStatusUniqueID } from '../front-repo.service'
 import { LinkService } from '../link.service'
 import { getLinkUniqueID } from '../front-repo.service'
+import { NoteService } from '../note.service'
+import { getNoteUniqueID } from '../front-repo.service'
 import { PkgeltService } from '../pkgelt.service'
 import { getPkgeltUniqueID } from '../front-repo.service'
 import { PositionService } from '../position.service'
@@ -184,6 +186,7 @@ export class SidebarComponent implements OnInit {
     private gongdoccommandService: GongdocCommandService,
     private gongdocstatusService: GongdocStatusService,
     private linkService: LinkService,
+    private noteService: NoteService,
     private pkgeltService: PkgeltService,
     private positionService: PositionService,
     private umlstateService: UmlStateService,
@@ -264,6 +267,14 @@ export class SidebarComponent implements OnInit {
     )
     // observable for changes in structs
     this.linkService.LinkServiceChanged.subscribe(
+      message => {
+        if (message == "post" || message == "update" || message == "delete") {
+          this.refresh()
+        }
+      }
+    )
+    // observable for changes in structs
+    this.noteService.NoteServiceChanged.subscribe(
       message => {
         if (message == "post" || message == "update" || message == "delete") {
           this.refresh()
@@ -405,6 +416,38 @@ export class SidebarComponent implements OnInit {
               children: new Array<GongNode>()
             }
             ClassshapesGongNodeAssociation.children.push(classshapeNode)
+          })
+
+          /**
+          * let append a node for the slide of pointer Notes
+          */
+          let NotesGongNodeAssociation: GongNode = {
+            name: "(Note) Notes",
+            type: GongNodeType.ONE__ZERO_MANY_ASSOCIATION,
+            id: classdiagramDB.ID,
+            uniqueIdPerStack: 19 * nonInstanceNodeId,
+            structName: "Classdiagram",
+            associationField: "Notes",
+            associatedStructName: "Note",
+            children: new Array<GongNode>()
+          }
+          nonInstanceNodeId = nonInstanceNodeId + 1
+          classdiagramGongNodeInstance.children.push(NotesGongNodeAssociation)
+
+          classdiagramDB.Notes?.forEach(noteDB => {
+            let noteNode: GongNode = {
+              name: noteDB.Name,
+              type: GongNodeType.INSTANCE,
+              id: noteDB.ID,
+              uniqueIdPerStack: // godel numbering (thank you kurt)
+                7 * getClassdiagramUniqueID(classdiagramDB.ID)
+                + 11 * getNoteUniqueID(noteDB.ID),
+              structName: "Note",
+              associationField: "",
+              associatedStructName: "",
+              children: new Array<GongNode>()
+            }
+            NotesGongNodeAssociation.children.push(noteNode)
           })
 
         }
@@ -840,6 +883,50 @@ export class SidebarComponent implements OnInit {
             MiddleverticeGongNodeAssociation.children.push(linkGongNodeInstance_Middlevertice)
           }
 
+        }
+      )
+
+      /**
+      * fill up the Note part of the mat tree
+      */
+      let noteGongNodeStruct: GongNode = {
+        name: "Note",
+        type: GongNodeType.STRUCT,
+        id: 0,
+        uniqueIdPerStack: 13 * nonInstanceNodeId,
+        structName: "Note",
+        associationField: "",
+        associatedStructName: "",
+        children: new Array<GongNode>()
+      }
+      nonInstanceNodeId = nonInstanceNodeId + 1
+      this.gongNodeTree.push(noteGongNodeStruct)
+
+      this.frontRepo.Notes_array.sort((t1, t2) => {
+        if (t1.Name > t2.Name) {
+          return 1;
+        }
+        if (t1.Name < t2.Name) {
+          return -1;
+        }
+        return 0;
+      });
+
+      this.frontRepo.Notes_array.forEach(
+        noteDB => {
+          let noteGongNodeInstance: GongNode = {
+            name: noteDB.Name,
+            type: GongNodeType.INSTANCE,
+            id: noteDB.ID,
+            uniqueIdPerStack: getNoteUniqueID(noteDB.ID),
+            structName: "Note",
+            associationField: "",
+            associatedStructName: "",
+            children: new Array<GongNode>()
+          }
+          noteGongNodeStruct.children!.push(noteGongNodeInstance)
+
+          // insertion point for per field code
         }
       )
 

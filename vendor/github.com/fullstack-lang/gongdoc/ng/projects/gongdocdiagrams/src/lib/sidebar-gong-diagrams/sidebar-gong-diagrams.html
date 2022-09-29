@@ -28,6 +28,11 @@
                 <button mat-icon-button disabled></button>
                 <span>{{node.name}} &nbsp;</span>
             </div>
+            <div *ngIf="node.type == 'ROOT_OF_M_N_ASSOCIATION_FIELDS'">
+                <!-- use a disabled button to provide padding for tree leaf -->
+                <button mat-icon-button disabled></button>
+                <span>{{node.name}} &nbsp;</span>
+            </div>
             <div *ngIf="node.type == 'POINTER_TO_STRUCT'">
                 <!-- can this link be displayed at all ? -->
                 <div *ngIf="node.canBeIncluded == true">
@@ -93,6 +98,38 @@
                     <span>{{node.name}} &nbsp;</span>
                 </div>
             </div>
+            <div *ngIf="node.type == 'M_N_ASSOCIATION_FIELD'">
+                <div *ngIf="node.canBeIncluded == true">
+
+                    <!-- if then else block to deal wether the object is present or not -->
+                    <div *ngIf="node.presentInDiagram; then leafPresentBlock else leafNotPresentBlock">
+                    </div>
+
+                    <!-- if the element is present, display an icon to allow for the removal of the element -->
+                    <ng-template #leafPresentBlock>
+                        <!-- use a disabled button to provide padding for tree leaf -->
+                        <button mat-icon-button disabled></button>
+                        <span>{{node.name}} &nbsp;</span>
+                        <mat-icon class="node-link-icon" (click)="removeN_M_AssociationsFromDiagram(node)">
+                            visibility_off
+                        </mat-icon>
+                    </ng-template>
+
+                    <!-- -->
+                    <ng-template #leafNotPresentBlock>
+                        <!-- use a disabled button to provide padding for tree leaf -->
+                        <button mat-icon-button disabled></button>
+                        <span>{{node.name}} &nbsp;</span>
+                        <mat-icon class="node-link-icon" (click)="addN_M_AssociationsToDiagram(node)">
+                            visibility
+                        </mat-icon>
+                    </ng-template>
+                </div>
+                <div *ngIf="node.canBeIncluded == false">
+                    <button mat-icon-button disabled></button>
+                    <span>{{node.name}} &nbsp;</span>
+                </div>
+            </div>
             <div *ngIf="node.type == 'BASIC_FIELD'">
                 <div *ngIf="node.canBeIncluded == true">
                     <!-- use a disabled button to provide padding for tree leaf -->
@@ -149,7 +186,36 @@
                     <span>{{node.name}} &nbsp;</span>
                 </div>
             </div>
+            <div *ngIf="node.type == 'GONG_NOTE'">
+                <div *ngIf="node.canBeIncluded == true">
+                    <!-- use a disabled button to provide padding for tree leaf -->
+                    <button mat-icon-button disabled></button>
+                    <span>{{node.name}} &nbsp;</span>
+                    <!-- if then else block to deal wether the object is present or not -->
+                    <div *ngIf="node.presentInDiagram; then leafPresentBlock else leafNotPresentBlock">
+                    </div>
+
+                    <!-- if the element is present, display an icon to allow for the removal of the element -->
+                    <ng-template #leafPresentBlock>
+                        <mat-icon class="node-link-icon" (click)="removeNoteFromDiagram(node)">
+                            visibility_off
+                        </mat-icon>
+                    </ng-template>
+
+                    <!-- -->
+                    <ng-template #leafNotPresentBlock>
+                        <mat-icon class="node-link-icon" (click)="addNoteToDiagram(node)">
+                            visibility
+                        </mat-icon>
+                    </ng-template>
+                </div>
+                <div *ngIf="node.canBeIncluded == false">
+                    <button mat-icon-button disabled></button>
+                    <span>{{node.name}} &nbsp;</span>
+                </div>
+            </div>
         </mat-tree-node>
+
 
         <!-- This is the tree node template for expandable nodes -->
         <mat-tree-node class="node-link" *matTreeNodeDef="let node;when: hasChild" matTreeNodePadding>

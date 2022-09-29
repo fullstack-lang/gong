@@ -133,6 +133,8 @@ func (classshape *Classshape) MarshallAsVariable(file *os.File) error {
 // this unique name is used in different algorithm of metabaron
 var classshapeLastID uint
 
+var noteLastID uint
+
 // ClassshapeMap is a Map of all Classshape via their Name
 type ClassshapeMap map[string]*Classshape
 
