@@ -12,8 +12,6 @@ import (
 //
 // This test covers a a gong functionality where the Stage is updated
 // through a callback that is defined in the "models" package
-//
-//
 func TestStageCallBack(t *testing.T) {
 
 	// setup GORM
@@ -190,14 +188,14 @@ func TestStageCallBack(t *testing.T) {
 		t.Errorf("got = %d; want %d", got, want)
 	}
 
-	fieldCoder := models.GongfieldCoder[models.Astruct]()
-	log.Println("Field namer code : ", fieldCoder.Name)
-	log.Println("Field namer name : ", models.GongfieldName[*models.Astruct](fieldCoder.Name))
-	log.Println("Field namer name : ", models.GongfieldName[*models.Astruct](fieldCoder.Booleanfield))
-	log.Println("Field namer name : ", models.GongfieldName[*models.Astruct](fieldCoder.Anotherbooleanfield))
-	log.Println("Field namer name : ", models.GongfieldName[*models.Astruct](fieldCoder.Intfield))
-	log.Println("Field namer name : ", models.GongfieldName[*models.Astruct](fieldCoder.Floatfield))
-	log.Println("Field namer name : ", models.GongfieldName[*models.Astruct](fieldCoder.CFloatfield))
+	// fieldCoder := models.GongfieldCoder[models.Astruct]()
+	// log.Println("Field namer code : ", fieldCoder.Name)
+	// log.Println("Field namer name : ", models.GongfieldName[*models.Astruct](fieldCoder.Name))
+	// log.Println("Field namer name : ", models.GongfieldName[*models.Astruct](fieldCoder.Booleanfield))
+	// log.Println("Field namer name : ", models.GongfieldName[*models.Astruct](fieldCoder.Anotherbooleanfield))
+	// log.Println("Field namer name : ", models.GongfieldName[*models.Astruct](fieldCoder.Intfield))
+	// log.Println("Field namer name : ", models.GongfieldName[*models.Astruct](fieldCoder.Floatfield))
+	// log.Println("Field namer name : ", models.GongfieldName[*models.Astruct](fieldCoder.CFloatfield))
 	log.Println("Field namer name : ", models.GetAssociationName[models.Astruct]().Associationtob.Name)
 	log.Println("Field namer name : ", models.GetAssociationName[models.Astruct]().Anotherarrayofb[0].Name)
 

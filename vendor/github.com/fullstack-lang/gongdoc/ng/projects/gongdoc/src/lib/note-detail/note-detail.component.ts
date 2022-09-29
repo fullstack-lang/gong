@@ -2,15 +2,14 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 
-import { ClassshapeDB } from '../classshape-db'
-import { ClassshapeService } from '../classshape.service'
+import { NoteDB } from '../note-db'
+import { NoteService } from '../note.service'
 
 import { FrontRepoService, FrontRepo, SelectionMode, DialogData } from '../front-repo.service'
 import { MapOfComponents } from '../map-components'
 import { MapOfSortingComponents } from '../map-components'
 
 // insertion point for imports
-import { ClassshapeTargetTypeSelect, ClassshapeTargetTypeList } from '../ClassshapeTargetType'
 import { ClassdiagramDB } from '../classdiagram-db'
 
 import { Router, RouterState, ActivatedRoute } from '@angular/router';
@@ -19,28 +18,26 @@ import { MatDialog, MAT_DIALOG_DATA, MatDialogRef, MatDialogConfig } from '@angu
 
 import { NullInt64 } from '../null-int64'
 
-// ClassshapeDetailComponent is initilizaed from different routes
-// ClassshapeDetailComponentState detail different cases 
-enum ClassshapeDetailComponentState {
+// NoteDetailComponent is initilizaed from different routes
+// NoteDetailComponentState detail different cases 
+enum NoteDetailComponentState {
 	CREATE_INSTANCE,
 	UPDATE_INSTANCE,
 	// insertion point for declarations of enum values of state
-	CREATE_INSTANCE_WITH_ASSOCIATION_Classdiagram_Classshapes_SET,
+	CREATE_INSTANCE_WITH_ASSOCIATION_Classdiagram_Notes_SET,
 }
 
 @Component({
-	selector: 'app-classshape-detail',
-	templateUrl: './classshape-detail.component.html',
-	styleUrls: ['./classshape-detail.component.css'],
+	selector: 'app-note-detail',
+	templateUrl: './note-detail.component.html',
+	styleUrls: ['./note-detail.component.css'],
 })
-export class ClassshapeDetailComponent implements OnInit {
+export class NoteDetailComponent implements OnInit {
 
 	// insertion point for declarations
-	ShowNbInstancesFormControl: FormControl = new FormControl(false);
-	ClassshapeTargetTypeList: ClassshapeTargetTypeSelect[] = []
 
-	// the ClassshapeDB of interest
-	classshape: ClassshapeDB = new ClassshapeDB
+	// the NoteDB of interest
+	note: NoteDB = new NoteDB
 
 	// front repo
 	frontRepo: FrontRepo = new FrontRepo
@@ -51,7 +48,7 @@ export class ClassshapeDetailComponent implements OnInit {
 	mapFields_displayAsTextArea = new Map<string, boolean>()
 
 	// the state at initialization (CREATION, UPDATE or CREATE with one association set)
-	state: ClassshapeDetailComponentState = ClassshapeDetailComponentState.CREATE_INSTANCE
+	state: NoteDetailComponentState = NoteDetailComponentState.CREATE_INSTANCE
 
 	// in UDPATE state, if is the id of the instance to update
 	// in CREATE state with one association set, this is the id of the associated instance
@@ -62,7 +59,7 @@ export class ClassshapeDetailComponent implements OnInit {
 	originStructFieldName: string = ""
 
 	constructor(
-		private classshapeService: ClassshapeService,
+		private noteService: NoteService,
 		private frontRepoService: FrontRepoService,
 		public dialog: MatDialog,
 		private route: ActivatedRoute,
@@ -79,16 +76,16 @@ export class ClassshapeDetailComponent implements OnInit {
 
 		const association = this.route.snapshot.paramMap.get('association');
 		if (this.id == 0) {
-			this.state = ClassshapeDetailComponentState.CREATE_INSTANCE
+			this.state = NoteDetailComponentState.CREATE_INSTANCE
 		} else {
 			if (this.originStruct == undefined) {
-				this.state = ClassshapeDetailComponentState.UPDATE_INSTANCE
+				this.state = NoteDetailComponentState.UPDATE_INSTANCE
 			} else {
 				switch (this.originStructFieldName) {
 					// insertion point for state computation
-					case "Classshapes":
-						// console.log("Classshape" + " is instanciated with back pointer to instance " + this.id + " Classdiagram association Classshapes")
-						this.state = ClassshapeDetailComponentState.CREATE_INSTANCE_WITH_ASSOCIATION_Classdiagram_Classshapes_SET
+					case "Notes":
+						// console.log("Note" + " is instanciated with back pointer to instance " + this.id + " Classdiagram association Notes")
+						this.state = NoteDetailComponentState.CREATE_INSTANCE_WITH_ASSOCIATION_Classdiagram_Notes_SET
 						break;
 					default:
 						console.log(this.originStructFieldName + " is unkown association")
@@ -96,47 +93,45 @@ export class ClassshapeDetailComponent implements OnInit {
 			}
 		}
 
-		this.getClassshape()
+		this.getNote()
 
 		// observable for changes in structs
-		this.classshapeService.ClassshapeServiceChanged.subscribe(
+		this.noteService.NoteServiceChanged.subscribe(
 			message => {
 				if (message == "post" || message == "update" || message == "delete") {
-					this.getClassshape()
+					this.getNote()
 				}
 			}
 		)
 
 		// insertion point for initialisation of enums list
-		this.ClassshapeTargetTypeList = ClassshapeTargetTypeList
 	}
 
-	getClassshape(): void {
+	getNote(): void {
 
 		this.frontRepoService.pull().subscribe(
 			frontRepo => {
 				this.frontRepo = frontRepo
 
 				switch (this.state) {
-					case ClassshapeDetailComponentState.CREATE_INSTANCE:
-						this.classshape = new (ClassshapeDB)
+					case NoteDetailComponentState.CREATE_INSTANCE:
+						this.note = new (NoteDB)
 						break;
-					case ClassshapeDetailComponentState.UPDATE_INSTANCE:
-						let classshape = frontRepo.Classshapes.get(this.id)
-						console.assert(classshape != undefined, "missing classshape with id:" + this.id)
-						this.classshape = classshape!
+					case NoteDetailComponentState.UPDATE_INSTANCE:
+						let note = frontRepo.Notes.get(this.id)
+						console.assert(note != undefined, "missing note with id:" + this.id)
+						this.note = note!
 						break;
 					// insertion point for init of association field
-					case ClassshapeDetailComponentState.CREATE_INSTANCE_WITH_ASSOCIATION_Classdiagram_Classshapes_SET:
-						this.classshape = new (ClassshapeDB)
-						this.classshape.Classdiagram_Classshapes_reverse = frontRepo.Classdiagrams.get(this.id)!
+					case NoteDetailComponentState.CREATE_INSTANCE_WITH_ASSOCIATION_Classdiagram_Notes_SET:
+						this.note = new (NoteDB)
+						this.note.Classdiagram_Notes_reverse = frontRepo.Classdiagrams.get(this.id)!
 						break;
 					default:
 						console.log(this.state + " is unkown state")
 				}
 
 				// insertion point for recovery of form controls value for bool fields
-				this.ShowNbInstancesFormControl.setValue(this.classshape.ShowNbInstances)
 			}
 		)
 
@@ -149,55 +144,34 @@ export class ClassshapeDetailComponent implements OnInit {
 		// pointers fields, after the translation, are nulled in order to perform serialization
 
 		// insertion point for translation/nullation of each field
-		if (this.classshape.PositionID == undefined) {
-			this.classshape.PositionID = new NullInt64
-		}
-		if (this.classshape.Position != undefined) {
-			this.classshape.PositionID.Int64 = this.classshape.Position.ID
-			this.classshape.PositionID.Valid = true
-		} else {
-			this.classshape.PositionID.Int64 = 0
-			this.classshape.PositionID.Valid = true
-		}
-		if (this.classshape.GongStructID == undefined) {
-			this.classshape.GongStructID = new NullInt64
-		}
-		if (this.classshape.GongStruct != undefined) {
-			this.classshape.GongStructID.Int64 = this.classshape.GongStruct.ID
-			this.classshape.GongStructID.Valid = true
-		} else {
-			this.classshape.GongStructID.Int64 = 0
-			this.classshape.GongStructID.Valid = true
-		}
-		this.classshape.ShowNbInstances = this.ShowNbInstancesFormControl.value
 
 		// save from the front pointer space to the non pointer space for serialization
 
 		// insertion point for translation/nullation of each pointers
-		if (this.classshape.Classdiagram_Classshapes_reverse != undefined) {
-			if (this.classshape.Classdiagram_ClassshapesDBID == undefined) {
-				this.classshape.Classdiagram_ClassshapesDBID = new NullInt64
+		if (this.note.Classdiagram_Notes_reverse != undefined) {
+			if (this.note.Classdiagram_NotesDBID == undefined) {
+				this.note.Classdiagram_NotesDBID = new NullInt64
 			}
-			this.classshape.Classdiagram_ClassshapesDBID.Int64 = this.classshape.Classdiagram_Classshapes_reverse.ID
-			this.classshape.Classdiagram_ClassshapesDBID.Valid = true
-			if (this.classshape.Classdiagram_ClassshapesDBID_Index == undefined) {
-				this.classshape.Classdiagram_ClassshapesDBID_Index = new NullInt64
+			this.note.Classdiagram_NotesDBID.Int64 = this.note.Classdiagram_Notes_reverse.ID
+			this.note.Classdiagram_NotesDBID.Valid = true
+			if (this.note.Classdiagram_NotesDBID_Index == undefined) {
+				this.note.Classdiagram_NotesDBID_Index = new NullInt64
 			}
-			this.classshape.Classdiagram_ClassshapesDBID_Index.Valid = true
-			this.classshape.Classdiagram_Classshapes_reverse = new ClassdiagramDB // very important, otherwise, circular JSON
+			this.note.Classdiagram_NotesDBID_Index.Valid = true
+			this.note.Classdiagram_Notes_reverse = new ClassdiagramDB // very important, otherwise, circular JSON
 		}
 
 		switch (this.state) {
-			case ClassshapeDetailComponentState.UPDATE_INSTANCE:
-				this.classshapeService.updateClassshape(this.classshape)
-					.subscribe(classshape => {
-						this.classshapeService.ClassshapeServiceChanged.next("update")
+			case NoteDetailComponentState.UPDATE_INSTANCE:
+				this.noteService.updateNote(this.note)
+					.subscribe(note => {
+						this.noteService.NoteServiceChanged.next("update")
 					});
 				break;
 			default:
-				this.classshapeService.postClassshape(this.classshape).subscribe(classshape => {
-					this.classshapeService.ClassshapeServiceChanged.next("post")
-					this.classshape = new (ClassshapeDB) // reset fields
+				this.noteService.postNote(this.note).subscribe(note => {
+					this.noteService.NoteServiceChanged.next("post")
+					this.note = new (NoteDB) // reset fields
 				});
 		}
 	}
@@ -220,7 +194,7 @@ export class ClassshapeDetailComponent implements OnInit {
 		dialogConfig.height = "50%"
 		if (selectionMode == SelectionMode.ONE_MANY_ASSOCIATION_MODE) {
 
-			dialogData.ID = this.classshape.ID!
+			dialogData.ID = this.note.ID!
 			dialogData.ReversePointer = reverseField
 			dialogData.OrderingMode = false
 			dialogData.SelectionMode = selectionMode
@@ -236,13 +210,13 @@ export class ClassshapeDetailComponent implements OnInit {
 			});
 		}
 		if (selectionMode == SelectionMode.MANY_MANY_ASSOCIATION_MODE) {
-			dialogData.ID = this.classshape.ID!
+			dialogData.ID = this.note.ID!
 			dialogData.ReversePointer = reverseField
 			dialogData.OrderingMode = false
 			dialogData.SelectionMode = selectionMode
 
 			// set up the source
-			dialogData.SourceStruct = "Classshape"
+			dialogData.SourceStruct = "Note"
 			dialogData.SourceField = sourceField
 
 			// set up the intermediate struct
@@ -272,7 +246,7 @@ export class ClassshapeDetailComponent implements OnInit {
 		// dialogConfig.disableClose = true;
 		dialogConfig.autoFocus = true;
 		dialogConfig.data = {
-			ID: this.classshape.ID,
+			ID: this.note.ID,
 			ReversePointer: reverseField,
 			OrderingMode: true,
 		};
@@ -288,8 +262,8 @@ export class ClassshapeDetailComponent implements OnInit {
 	}
 
 	fillUpNameIfEmpty(event: { value: { Name: string; }; }) {
-		if (this.classshape.Name == "") {
-			this.classshape.Name = event.value.Name
+		if (this.note.Name == "") {
+			this.note.Name = event.value.Name
 		}
 	}
 

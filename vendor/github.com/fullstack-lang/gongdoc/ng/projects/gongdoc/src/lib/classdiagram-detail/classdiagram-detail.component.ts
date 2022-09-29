@@ -35,7 +35,7 @@ enum ClassdiagramDetailComponentState {
 export class ClassdiagramDetailComponent implements OnInit {
 
 	// insertion point for declarations
-	IsEditableFormControl = new FormControl(false);
+	IsEditableFormControl: FormControl = new FormControl(false);
 
 	// the ClassdiagramDB of interest
 	classdiagram: ClassdiagramDB = new ClassdiagramDB

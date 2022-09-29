@@ -87,6 +87,9 @@ type GongdocCommandDB struct {
 
 	// Declation for basic field gongdoccommandDB.PositionY
 	PositionY_Data sql.NullInt64
+
+	// Declation for basic field gongdoccommandDB.NoteName
+	NoteName_Data sql.NullString
 	// encoding of pointers
 	GongdocCommandPointersEnconding
 }
@@ -127,6 +130,8 @@ type GongdocCommandWOP struct {
 	PositionX int `xlsx:"9"`
 
 	PositionY int `xlsx:"10"`
+
+	NoteName string `xlsx:"11"`
 	// insertion for WOP pointer fields
 }
 
@@ -143,6 +148,7 @@ var GongdocCommand_Fields = []string{
 	"FieldTypeName",
 	"PositionX",
 	"PositionY",
+	"NoteName",
 }
 
 type BackRepoGongdocCommandStruct struct {
@@ -453,6 +459,9 @@ func (gongdoccommandDB *GongdocCommandDB) CopyBasicFieldsFromGongdocCommand(gong
 
 	gongdoccommandDB.PositionY_Data.Int64 = int64(gongdoccommand.PositionY)
 	gongdoccommandDB.PositionY_Data.Valid = true
+
+	gongdoccommandDB.NoteName_Data.String = gongdoccommand.NoteName
+	gongdoccommandDB.NoteName_Data.Valid = true
 }
 
 // CopyBasicFieldsFromGongdocCommandWOP
@@ -488,6 +497,9 @@ func (gongdoccommandDB *GongdocCommandDB) CopyBasicFieldsFromGongdocCommandWOP(g
 
 	gongdoccommandDB.PositionY_Data.Int64 = int64(gongdoccommand.PositionY)
 	gongdoccommandDB.PositionY_Data.Valid = true
+
+	gongdoccommandDB.NoteName_Data.String = gongdoccommand.NoteName
+	gongdoccommandDB.NoteName_Data.Valid = true
 }
 
 // CopyBasicFieldsToGongdocCommand
@@ -503,6 +515,7 @@ func (gongdoccommandDB *GongdocCommandDB) CopyBasicFieldsToGongdocCommand(gongdo
 	gongdoccommand.FieldTypeName = gongdoccommandDB.FieldTypeName_Data.String
 	gongdoccommand.PositionX = int(gongdoccommandDB.PositionX_Data.Int64)
 	gongdoccommand.PositionY = int(gongdoccommandDB.PositionY_Data.Int64)
+	gongdoccommand.NoteName = gongdoccommandDB.NoteName_Data.String
 }
 
 // CopyBasicFieldsToGongdocCommandWOP
@@ -519,6 +532,7 @@ func (gongdoccommandDB *GongdocCommandDB) CopyBasicFieldsToGongdocCommandWOP(gon
 	gongdoccommand.FieldTypeName = gongdoccommandDB.FieldTypeName_Data.String
 	gongdoccommand.PositionX = int(gongdoccommandDB.PositionX_Data.Int64)
 	gongdoccommand.PositionY = int(gongdoccommandDB.PositionY_Data.Int64)
+	gongdoccommand.NoteName = gongdoccommandDB.NoteName_Data.String
 }
 
 // Backup generates a json file from a slice of all GongdocCommandDB instances in the backrepo

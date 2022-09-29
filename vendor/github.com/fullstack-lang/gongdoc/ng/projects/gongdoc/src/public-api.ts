@@ -64,6 +64,13 @@ export * from './lib/links-table/links-table.component'
 export * from './lib/link-db'
 export * from './lib/link.service'
 
+export * from './lib/note-detail/note-detail.component'
+export * from './lib/note-presentation/note-presentation.component'
+export * from './lib/note-sorting/note-sorting.component'
+export * from './lib/notes-table/notes-table.component'
+export * from './lib/note-db'
+export * from './lib/note.service'
+
 export * from './lib/pkgelt-detail/pkgelt-detail.component'
 export * from './lib/pkgelt-presentation/pkgelt-presentation.component'
 export * from './lib/pkgelt-sorting/pkgelt-sorting.component'

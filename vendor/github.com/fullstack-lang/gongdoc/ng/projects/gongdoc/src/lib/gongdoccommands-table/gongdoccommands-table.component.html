@@ -88,6 +88,13 @@
                 {{GongdocCommand.PositionY}}
             </td>
         </ng-container>
+        <!-- -->
+        <ng-container matColumnDef="NoteName">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> NoteName </th>
+            <td mat-cell *matCellDef="let GongdocCommand">
+                {{GongdocCommand.NoteName}}
+            </td>
+        </ng-container>
 
         <ng-container matColumnDef="ID">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> ID. </th>
