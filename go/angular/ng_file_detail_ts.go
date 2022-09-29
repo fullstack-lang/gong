@@ -346,7 +346,7 @@ import { {{EnumName}}Select, {{EnumName}}List } from '../{{EnumName}}'`,
 		this.{{EnumName}}List = {{EnumName}}List`,
 
 	NgDetailTSBooleanDeclarations: `
-	{{FieldName}}FormControl = new FormControl(false);`,
+	{{FieldName}}FormControl: FormControl = new FormControl(false);`,
 
 	NgDetailTSBooleanRecoveries: `
 				this.{{FieldName}}FormControl.setValue(this.{{structname}}.{{FieldName}})`,
