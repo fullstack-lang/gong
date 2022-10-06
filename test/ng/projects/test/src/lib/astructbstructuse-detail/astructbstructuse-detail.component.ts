@@ -1,6 +1,6 @@
 // generated from NgDetailTemplateTS
 import { Component, OnInit } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 
 import { AstructBstructUseDB } from '../astructbstructuse-db'
 import { AstructBstructUseService } from '../astructbstructuse.service'
