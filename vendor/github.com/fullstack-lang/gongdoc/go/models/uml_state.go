@@ -72,10 +72,10 @@ func (state *UmlState) Unmarshall(expr ast.Expr, fset *token.FileSet) {
 	}
 
 	// parse the X value
-	Unmarshall(cl.Elts[0], fset, "X", &(state.X))
+	UnmarshallNumber(cl.Elts[0], fset, "X", &(state.X))
 
 	// parse the Y value
-	Unmarshall(cl.Elts[1], fset, "Y", &(state.Y))
+	UnmarshallNumber(cl.Elts[1], fset, "Y", &(state.Y))
 
 	// parse the Name
 	var kve *ast.KeyValueExpr

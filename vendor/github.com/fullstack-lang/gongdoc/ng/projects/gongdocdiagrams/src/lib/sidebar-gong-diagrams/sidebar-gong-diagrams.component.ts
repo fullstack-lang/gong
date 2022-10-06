@@ -297,7 +297,7 @@ export class SidebarGongDiagramsComponent implements OnInit {
           classshape?.Links?.forEach(
             link => {
               let key = classshape.Structname + "." + link.Fieldname + "-"+ link.Fieldtypename
-              console.log("key for set: " + key)
+              // console.log("key for set: " + key)
               arrayOfDisplayedLink.set(key, link)
             }
           )
@@ -442,7 +442,7 @@ export class SidebarGongDiagramsComponent implements OnInit {
             let key = gongstructDB.Name + 
             "." + pointerToGongstructFieldDB.Name +
             "-" + pointerToGongstructFieldDB.GongStruct!.Name
-            console.log("key for has, pointers: " + key)
+            // console.log("key for has, pointers: " + key)
             pointerFieldNode.presentInDiagram = arrayOfDisplayedLink.has(key)
             pointerFieldNode.canBeIncluded = canBeIncluded
 
@@ -488,7 +488,7 @@ export class SidebarGongDiagramsComponent implements OnInit {
               let canBeIncluded = sourceIsPresent && destinationIsPresent
               let key = gongstructDB.Name + "." + sliceOfPointerField.Name +
               "-"+ sliceOfPointerField.GongStruct!.Name
-              console.log("key for has, slice of pointers : " + key)
+              // console.log("key for has, slice of pointers : " + key)
               let presentInDiagram = arrayOfDisplayedLink.has(key)
   
               let sliceOfPointerFieldNode: GongNode = new GongNode
@@ -521,7 +521,7 @@ export class SidebarGongDiagramsComponent implements OnInit {
                   console.log("Problem with N-M association fiels, there should be only one pointer field")
                 } else {
                   var pointerField = assocStruc.PointerToGongStructFields![0]
-                  console.log("end part of association is " + pointerField.GongStruct!.Name)
+                  // console.log("end part of association is " + pointerField.GongStruct!.Name)
 
                   
                   let n_m_AssocNode: GongNode = new GongNode
@@ -540,7 +540,7 @@ export class SidebarGongDiagramsComponent implements OnInit {
                   let key = gongstructDB.Name + 
                   "." + sliceOfPointerField.Name +
                   "-" + pointerField.GongStruct!.Name
-                  console.log("key for has, N-M associations: " + key)
+                  // console.log("key for has, N-M associations: " + key)
                   let presentInDiagram = arrayOfDisplayedLink.has(key)
                   n_m_AssocNode.presentInDiagram = presentInDiagram
                   n_m_AssocNode.canBeIncluded = canBeIncluded
@@ -829,7 +829,7 @@ export class SidebarGongDiagramsComponent implements OnInit {
 
           var assocStruc = gongFlatNode.gongSliceOfPointerToGongStructField.GongStruct!
           var pointerField = assocStruc.PointerToGongStructFields![0]
-          console.log("end part of association is " + pointerField.GongStruct!.Name)
+          // console.log("end part of association is " + pointerField.GongStruct!.Name)
           gongdocCommandSingloton.FieldTypeName = pointerField.GongStruct!.Name
 
           this.gongdocCommandService.updateGongdocCommand(gongdocCommandSingloton).subscribe(
@@ -860,7 +860,7 @@ export class SidebarGongDiagramsComponent implements OnInit {
 
           var assocStruc = gongFlatNode.gongSliceOfPointerToGongStructField.GongStruct!
           var pointerField = assocStruc.PointerToGongStructFields![0]
-          console.log("end part of association is " + pointerField.GongStruct!.Name)
+          // console.log("end part of association is " + pointerField.GongStruct!.Name)
           gongdocCommandSingloton.FieldTypeName = pointerField.GongStruct!.Name
 
           this.gongdocCommandService.updateGongdocCommand(gongdocCommandSingloton).subscribe(

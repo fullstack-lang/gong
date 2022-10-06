@@ -1,6 +1,6 @@
 // generated from NgDetailTemplateTS
 import { Component, OnInit } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 
 import { ClassdiagramDB } from '../classdiagram-db'
 import { ClassdiagramService } from '../classdiagram.service'
@@ -35,7 +35,7 @@ enum ClassdiagramDetailComponentState {
 export class ClassdiagramDetailComponent implements OnInit {
 
 	// insertion point for declarations
-	IsEditableFormControl: FormControl = new FormControl(false);
+	IsEditableFormControl: UntypedFormControl = new UntypedFormControl(false);
 
 	// the ClassdiagramDB of interest
 	classdiagram: ClassdiagramDB = new ClassdiagramDB
