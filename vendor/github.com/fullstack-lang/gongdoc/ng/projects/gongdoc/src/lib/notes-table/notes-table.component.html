@@ -61,6 +61,13 @@
             </td>
         </ng-container>
         <!-- -->
+        <ng-container matColumnDef="Matched">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Matched </th>
+            <td mat-cell *matCellDef="let Note">
+                <mat-checkbox [checked]="Note.Matched" disabled=true></mat-checkbox>
+            </td>
+        </ng-container>
+        <!-- -->
         <ng-container matColumnDef="Classdiagram_Notes">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> <-- (Classdiagram) Notes </th>
             <td mat-cell *matCellDef="let note">

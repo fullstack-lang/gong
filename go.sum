@@ -53,6 +53,8 @@ github.com/fsnotify/fsnotify v1.4.9/go.mod h1:znqG4EE+3YCdAaPaxE2ZRY/06pZUdp0tY4
 github.com/fsnotify/fsnotify v1.5.1/go.mod h1:T3375wBYaZdLLcVNkcVbzGHY7f1l/uK5T5Ai1i3InKU=
 github.com/fullstack-lang/gongdoc v0.0.0-20220930060712-60b496a816cf h1:rI3BuNNyS3ROmIArF5Zirc0/k5TiQbLz72CPVxrk0qE=
 github.com/fullstack-lang/gongdoc v0.0.0-20220930060712-60b496a816cf/go.mod h1:Umb4s6y7L5vUCuM2W0sM2QouNtJkkQ4u4q5tPF2kw9I=
+github.com/fullstack-lang/gongdoc v0.0.0-20221006192736-652f930a70fc h1:+nFPCGfDHFgEGuTqizQhPcLnouvXrxcsdWmEF5ZtT/g=
+github.com/fullstack-lang/gongdoc v0.0.0-20221006192736-652f930a70fc/go.mod h1:RWP7Z32Xsks9Y4xq6ivGMzJntP6NeJUDP5Czx5QBJlE=
 github.com/gin-contrib/cors v1.4.0 h1:oJ6gwtUl3lqV0WEIwM/LxPF1QZ5qe2lGWdY2+bz7y0g=
 github.com/gin-contrib/cors v1.4.0/go.mod h1:bs9pNM0x/UsmHPBWT2xZz9ROh8xYjYkiURUfmBoMlcs=
 github.com/gin-contrib/sse v0.1.0 h1:Y/yl/+YNO8GZSjAhjMsSuLt29uWRFHdHYUb5lYOV9qE=

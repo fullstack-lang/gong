@@ -1,6 +1,6 @@
 // generated from NgDetailTemplateTS
 import { Component, OnInit } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 
 import { PkgeltDB } from '../pkgelt-db'
 import { PkgeltService } from '../pkgelt.service'
@@ -33,7 +33,7 @@ enum PkgeltDetailComponentState {
 export class PkgeltDetailComponent implements OnInit {
 
 	// insertion point for declarations
-	EditableFormControl: FormControl = new FormControl(false);
+	EditableFormControl: UntypedFormControl = new UntypedFormControl(false);
 
 	// the PkgeltDB of interest
 	pkgelt: PkgeltDB = new PkgeltDB
