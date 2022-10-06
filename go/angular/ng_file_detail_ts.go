@@ -20,7 +20,7 @@ var NgFileDetailCssTmpl string
 
 const NgDetailTemplateTS = `// generated from NgDetailTemplateTS
 import { Component, OnInit } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 
 import { {{Structname}}DB } from '../{{structname}}-db'
 import { {{Structname}}Service } from '../{{structname}}.service'
@@ -346,7 +346,7 @@ import { {{EnumName}}Select, {{EnumName}}List } from '../{{EnumName}}'`,
 		this.{{EnumName}}List = {{EnumName}}List`,
 
 	NgDetailTSBooleanDeclarations: `
-	{{FieldName}}FormControl: FormControl = new FormControl(false);`,
+	{{FieldName}}FormControl: UntypedFormControl = new UntypedFormControl(false);`,
 
 	NgDetailTSBooleanRecoveries: `
 				this.{{FieldName}}FormControl.setValue(this.{{structname}}.{{FieldName}})`,
