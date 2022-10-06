@@ -1,6 +1,6 @@
 // generated from NgDetailTemplateTS
 import { Component, OnInit } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 
 import { SliceOfPointerToGongStructFieldDB } from '../sliceofpointertogongstructfield-db'
 import { SliceOfPointerToGongStructFieldService } from '../sliceofpointertogongstructfield.service'
