@@ -1,6 +1,6 @@
 // generated from NgDetailTemplateTS
 import { Component, OnInit } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 
 import { AstructDB } from '../astruct-db'
 import { AstructService } from '../astruct.service'
@@ -37,11 +37,11 @@ enum AstructDetailComponentState {
 export class AstructDetailComponent implements OnInit {
 
 	// insertion point for declarations
-	BooleanfieldFormControl: FormControl = new FormControl(false);
+	BooleanfieldFormControl: UntypedFormControl = new UntypedFormControl(false);
 	AEnumTypeList: AEnumTypeSelect[] = []
 	BEnumTypeList: BEnumTypeSelect[] = []
 	CEnumTypeIntList: CEnumTypeIntSelect[] = []
-	AnotherbooleanfieldFormControl: FormControl = new FormControl(false);
+	AnotherbooleanfieldFormControl: UntypedFormControl = new UntypedFormControl(false);
 	Duration1_Hours: number = 0
 	Duration1_Minutes: number = 0
 	Duration1_Seconds: number = 0
