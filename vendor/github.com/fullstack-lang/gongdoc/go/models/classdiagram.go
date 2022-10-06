@@ -200,7 +200,10 @@ func (classdiagram *Classdiagram) Unmarshall(modelPkg *gong_models.ModelPkg, exp
 									fset.Position(structvaluekeyexpr.Pos()).String())
 							}
 
-							classdiagram.Notes = append(classdiagram.Notes, note)
+							// of the note is matched, add it to the diagram
+							if note.Matched {
+								classdiagram.Notes = append(classdiagram.Notes, note)
+							}
 						}
 					case "Name":
 						// already initialized
@@ -251,7 +254,6 @@ func ModelToSVGRectangleYOrigin(yModel, classshapeHeigth float64) (ySVG float64)
 	return ModelToSVGYCoord(yModel + classshapeHeigth)
 }
 
-//
 func (classdiagram *Classdiagram) OutputSVG(path string) {
 
 	var maxx, maxy float64

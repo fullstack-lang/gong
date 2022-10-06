@@ -18,6 +18,7 @@ type Note struct {
 	Body          string
 	X, Y          float64
 	Width, Heigth float64
+	Matched       bool // if a note with the same name has been found
 }
 
 // Marshall provides the element of note as declaration
@@ -122,8 +123,11 @@ func (note *Note) Unmarshall(modelPkg *gong_models.ModelPkg, expr ast.Expr, fset
 	}
 
 	// update the UML note Body from the note Body in the go code
+	// mark the not as not Matched if not such exists in the models
+	note.Matched = false
 	for _, gongNote := range modelPkg.GongNotes {
 		if gongNote.Name == note.Name {
+			note.Matched = true
 			note.Body = gongNote.Body
 		}
 	}

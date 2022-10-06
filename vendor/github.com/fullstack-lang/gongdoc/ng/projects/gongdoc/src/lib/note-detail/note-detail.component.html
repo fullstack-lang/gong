@@ -65,6 +65,9 @@
         <input type="number" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="note.Heigth" [ngModelOptions]="{standalone: true}">
     </mat-form-field>
 
+    <!-- -->
+    <mat-checkbox [formControl]="MatchedFormControl">Matched</mat-checkbox>
+
     <mat-form-field class="detail-full-width">
         <mat-label>(Classdiagram) Notes</mat-label>
         <mat-select [compareWith]="compareObjects" [(ngModel)]="note.Classdiagram_Notes_reverse" [ngModelOptions]="{standalone: true}">

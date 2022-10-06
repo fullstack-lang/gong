@@ -61,10 +61,10 @@ func (vertice *Vertice) Unmarshall(expr ast.Expr, fset *token.FileSet) {
 			}
 
 			// parse the X value
-			Unmarshall(cl.Elts[0], fset, "X", &(vertice.X))
+			UnmarshallNumber(cl.Elts[0], fset, "X", &(vertice.X))
 
 			// parse the Y value
-			Unmarshall(cl.Elts[1], fset, "Y", &(vertice.Y))
+			UnmarshallNumber(cl.Elts[1], fset, "Y", &(vertice.Y))
 
 		} else {
 			log.Panic("not a composite lit " + fset.Position(cl.Pos()).String())

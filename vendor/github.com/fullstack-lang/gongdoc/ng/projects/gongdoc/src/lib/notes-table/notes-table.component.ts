@@ -86,6 +86,9 @@ export class NotesTableComponent implements OnInit {
         case 'Heigth':
           return noteDB.Heigth;
 
+        case 'Matched':
+          return noteDB.Matched?"true":"false";
+
         case 'Classdiagram_Notes':
           if (this.frontRepo.Classdiagrams.get(noteDB.Classdiagram_NotesDBID.Int64) != undefined) {
             return this.frontRepo.Classdiagrams.get(noteDB.Classdiagram_NotesDBID.Int64)!.Name
@@ -173,6 +176,7 @@ export class NotesTableComponent implements OnInit {
         "Y",
         "Width",
         "Heigth",
+        "Matched",
         "Classdiagram_Notes",
       ]
     } else {
@@ -183,6 +187,7 @@ export class NotesTableComponent implements OnInit {
         "Y",
         "Width",
         "Heigth",
+        "Matched",
         "Classdiagram_Notes",
       ]
       this.selection = new SelectionModel<NoteDB>(allowMultiSelect, this.initialSelection);

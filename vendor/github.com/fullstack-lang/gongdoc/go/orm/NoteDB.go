@@ -81,6 +81,10 @@ type NoteDB struct {
 
 	// Declation for basic field noteDB.Heigth
 	Heigth_Data sql.NullFloat64
+
+	// Declation for basic field noteDB.Matched
+	// provide the sql storage for the boolan
+	Matched_Data sql.NullBool
 	// encoding of pointers
 	NotePointersEnconding
 }
@@ -113,6 +117,8 @@ type NoteWOP struct {
 	Width float64 `xlsx:"5"`
 
 	Heigth float64 `xlsx:"6"`
+
+	Matched bool `xlsx:"7"`
 	// insertion for WOP pointer fields
 }
 
@@ -125,6 +131,7 @@ var Note_Fields = []string{
 	"Y",
 	"Width",
 	"Heigth",
+	"Matched",
 }
 
 type BackRepoNoteStruct struct {
@@ -423,6 +430,9 @@ func (noteDB *NoteDB) CopyBasicFieldsFromNote(note *models.Note) {
 
 	noteDB.Heigth_Data.Float64 = note.Heigth
 	noteDB.Heigth_Data.Valid = true
+
+	noteDB.Matched_Data.Bool = note.Matched
+	noteDB.Matched_Data.Valid = true
 }
 
 // CopyBasicFieldsFromNoteWOP
@@ -446,6 +456,9 @@ func (noteDB *NoteDB) CopyBasicFieldsFromNoteWOP(note *NoteWOP) {
 
 	noteDB.Heigth_Data.Float64 = note.Heigth
 	noteDB.Heigth_Data.Valid = true
+
+	noteDB.Matched_Data.Bool = note.Matched
+	noteDB.Matched_Data.Valid = true
 }
 
 // CopyBasicFieldsToNote
@@ -457,6 +470,7 @@ func (noteDB *NoteDB) CopyBasicFieldsToNote(note *models.Note) {
 	note.Y = noteDB.Y_Data.Float64
 	note.Width = noteDB.Width_Data.Float64
 	note.Heigth = noteDB.Heigth_Data.Float64
+	note.Matched = noteDB.Matched_Data.Bool
 }
 
 // CopyBasicFieldsToNoteWOP
@@ -469,6 +483,7 @@ func (noteDB *NoteDB) CopyBasicFieldsToNoteWOP(note *NoteWOP) {
 	note.Y = noteDB.Y_Data.Float64
 	note.Width = noteDB.Width_Data.Float64
 	note.Heigth = noteDB.Heigth_Data.Float64
+	note.Matched = noteDB.Matched_Data.Bool
 }
 
 // Backup generates a json file from a slice of all NoteDB instances in the backrepo

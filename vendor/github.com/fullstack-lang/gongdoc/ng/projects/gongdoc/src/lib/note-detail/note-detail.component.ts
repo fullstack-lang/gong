@@ -1,6 +1,6 @@
 // generated from NgDetailTemplateTS
 import { Component, OnInit } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 
 import { NoteDB } from '../note-db'
 import { NoteService } from '../note.service'
@@ -35,6 +35,7 @@ enum NoteDetailComponentState {
 export class NoteDetailComponent implements OnInit {
 
 	// insertion point for declarations
+	MatchedFormControl: UntypedFormControl = new UntypedFormControl(false);
 
 	// the NoteDB of interest
 	note: NoteDB = new NoteDB
@@ -132,6 +133,7 @@ export class NoteDetailComponent implements OnInit {
 				}
 
 				// insertion point for recovery of form controls value for bool fields
+				this.MatchedFormControl.setValue(this.note.Matched)
 			}
 		)
 
@@ -144,6 +146,7 @@ export class NoteDetailComponent implements OnInit {
 		// pointers fields, after the translation, are nulled in order to perform serialization
 
 		// insertion point for translation/nullation of each field
+		this.note.Matched = this.MatchedFormControl.value
 
 		// save from the front pointer space to the non pointer space for serialization
 

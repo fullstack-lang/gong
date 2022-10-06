@@ -2138,6 +2138,12 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", note.Heigth))
 		initializerStatements += setValueField
 
+		setValueField = NumberInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Matched")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", note.Matched))
+		initializerStatements += setValueField
+
 	}
 
 	map_Pkgelt_Identifiers := make(map[*Pkgelt]string)
@@ -3389,7 +3395,7 @@ func GetFields[Type Gongstruct]() (res []string) {
 	case Link:
 		res = []string{"Name", "Fieldname", "Structname", "Fieldtypename", "TargetMultiplicity", "SourceMultiplicity", "Middlevertice"}
 	case Note:
-		res = []string{"Name", "Body", "X", "Y", "Width", "Heigth"}
+		res = []string{"Name", "Body", "X", "Y", "Width", "Heigth", "Matched"}
 	case Pkgelt:
 		res = []string{"Name", "Path", "GongModelPath", "Classdiagrams", "Umlscs", "Editable"}
 	case Position:
@@ -3570,6 +3576,8 @@ func GetFieldStringValue[Type Gongstruct](instance Type, fieldName string) (res 
 			res = fmt.Sprintf("%f", any(instance).(Note).Width)
 		case "Heigth":
 			res = fmt.Sprintf("%f", any(instance).(Note).Heigth)
+		case "Matched":
+			res = fmt.Sprintf("%t", any(instance).(Note).Matched)
 		}
 	case Pkgelt:
 		switch fieldName {

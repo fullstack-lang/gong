@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Observable, Subscription, timer } from 'rxjs';
 
 // for slider
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ThemePalette } from '@angular/material/core';
 
 import * as joint from 'jointjs';
@@ -101,7 +101,7 @@ export class ClassDiagramComponent implements OnInit, OnDestroy {
 
     private ClassdiagramService: gongdoc.ClassdiagramService,
 
-    formBuilder: FormBuilder,
+    formBuilder: UntypedFormBuilder,
   ) {
     // https://stackoverflow.com/questions/54627478/angular-7-routing-to-same-component-but-different-param-not-working
     // this is for routerLink on same component when only queryParameter changes

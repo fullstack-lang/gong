@@ -7,6 +7,7 @@ import (
 	"log"
 	"os"
 	"sort"
+	"strconv"
 
 	gong_models "github.com/fullstack-lang/gong/go/models"
 )
@@ -281,7 +282,31 @@ func (classshape *Classshape) Unmarshall(modelPkg *gong_models.ModelPkg, expr as
 					}
 				}
 			case "Width":
+				switch val := kve.Value.(type) {
+				case *ast.BasicLit:
+					if val.Kind != token.INT && val.Kind != token.FLOAT {
+						log.Panic("Width is not an INT or a FLOAT" +
+							fset.Position(val.Pos()).String())
+					}
+					X, err := strconv.ParseFloat(val.Value, 64)
+					if err != nil {
+						log.Panic("Problem parsing float" + fset.Position(val.Pos()).String())
+					}
+					classshape.Width = X
+				}
 			case "Heigth":
+				switch val := kve.Value.(type) {
+				case *ast.BasicLit:
+					if val.Kind != token.INT && val.Kind != token.FLOAT {
+						log.Panic("Width is not an INT or a FLOAT" +
+							fset.Position(val.Pos()).String())
+					}
+					X, err := strconv.ParseFloat(val.Value, 64)
+					if err != nil {
+						log.Panic("Problem parsing float" + fset.Position(val.Pos()).String())
+					}
+					classshape.Heigth = X
+				}
 			default:
 				log.Fatal("Key should be Position, Struct, Field or Link" +
 					fset.Position(kve.Pos()).String())

@@ -16,6 +16,7 @@ export class NoteDB {
 	Y: number = 0
 	Width: number = 0
 	Heigth: number = 0
+	Matched: boolean = false
 
 	// insertion point for other declarations
 	Classdiagram_NotesDBID: NullInt64 = new NullInt64

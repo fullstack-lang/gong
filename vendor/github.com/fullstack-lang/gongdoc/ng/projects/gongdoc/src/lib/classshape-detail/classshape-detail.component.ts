@@ -1,6 +1,6 @@
 // generated from NgDetailTemplateTS
 import { Component, OnInit } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 
 import { ClassshapeDB } from '../classshape-db'
 import { ClassshapeService } from '../classshape.service'
@@ -36,7 +36,7 @@ enum ClassshapeDetailComponentState {
 export class ClassshapeDetailComponent implements OnInit {
 
 	// insertion point for declarations
-	ShowNbInstancesFormControl: FormControl = new FormControl(false);
+	ShowNbInstancesFormControl: UntypedFormControl = new UntypedFormControl(false);
 	ClassshapeTargetTypeList: ClassshapeTargetTypeSelect[] = []
 
 	// the ClassshapeDB of interest

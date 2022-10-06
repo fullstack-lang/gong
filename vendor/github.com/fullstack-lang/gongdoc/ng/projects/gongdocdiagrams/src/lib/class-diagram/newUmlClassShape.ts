@@ -19,7 +19,7 @@ export function newUmlClassShape(classshape: gongdoc.ClassshapeDB,
 
         for (let idx = 0; idx < classshape.Fields!.length; idx++) {
             let field = classshape.Fields![idx]
-            console.log("Adding " + field.Fieldname + " " + field.Structname + " " + field.Fieldtypename)
+            // console.log("Adding " + field.Fieldname + " " + field.Structname + " " + field.Fieldtypename)
             attributes.push(field.Fieldname + " : " + field.Fieldtypename)
         }
     }

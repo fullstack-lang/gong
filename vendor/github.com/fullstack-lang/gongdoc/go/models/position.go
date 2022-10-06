@@ -63,10 +63,10 @@ func (position *Position) Unmarshall(expr ast.Expr, fset *token.FileSet) {
 			}
 
 			// parse the X value
-			Unmarshall(cl.Elts[0], fset, "X", &(position.X))
+			UnmarshallNumber(cl.Elts[0], fset, "X", &(position.X))
 
 			// parse the Y value
-			Unmarshall(cl.Elts[1], fset, "Y", &(position.Y))
+			UnmarshallNumber(cl.Elts[1], fset, "Y", &(position.Y))
 
 		} else {
 			log.Panic("not a composite lit " + fset.Position(cl.Pos()).String())
@@ -76,8 +76,8 @@ func (position *Position) Unmarshall(expr ast.Expr, fset *token.FileSet) {
 	PositionStore[position.Name] = position
 }
 
-// Unmarshall a float value
-func Unmarshall(expr ast.Expr, fset *token.FileSet, name string, x *float64) {
+// UnmarshallNumber a float value
+func UnmarshallNumber(expr ast.Expr, fset *token.FileSet, name string, x *float64) {
 	// parse the value
 	if xvaluekeyexpr, ok := expr.(*ast.KeyValueExpr); ok {
 
