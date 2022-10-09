@@ -191,7 +191,9 @@ export class SidebarComponent implements OnInit {
 
     this.SelectedStructChanged.subscribe(
       selectedStruct => {
-        this.setTableRouterOutlet(selectedStruct)
+        if (selectedStruct != "") {
+          this.setTableRouterOutlet(selectedStruct.toLowerCase() + "s")
+        }
       }
     )
 
@@ -305,9 +307,7 @@ const (
 	NgSidebarTsInsertionsNb
 )
 
-//
 // Sub Templates
-//
 type NgSidebarTsSubTemplate int
 
 const (
@@ -390,9 +390,7 @@ const (
 	NgSidebarTsSubInsertionsNb
 )
 
-//
 // Sub Templates
-//
 type NgSidebarTsStructSubTemplate int
 
 const (
