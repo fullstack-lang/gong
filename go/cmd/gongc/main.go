@@ -230,14 +230,6 @@ func main() {
 
 	}
 
-	if !*skipNg {
-		genAngular(modelPkg)
-	}
-
-	if !*skipFlutter {
-		genFlutter(modelPkg)
-	}
-
 	// generate directory for orm package
 	gong_models.OrmPkgGenPath = filepath.Join(gong_models.PathToGoSubDirectory, "orm")
 
@@ -381,6 +373,16 @@ func main() {
 		log.Printf("go mod vendor is over and took %s", time.Since(start))
 	}
 
+	// since go mod vendor brings angular dependencies into the vendor directory
+	// the go mod vendor command has to be issued before the ng build command
+	if !*skipNg {
+		genAngular(modelPkg)
+	}
+
+	if !*skipFlutter {
+		genFlutter(modelPkg)
+	}
+
 	apiYamlFilePath := fmt.Sprintf("%s/%sapi.yml", gong_models.ControllersPkgGenPath, modelPkg.Name)
 	if !*skipSwagger {
 
@@ -410,30 +412,6 @@ func main() {
 
 	if *skipNg {
 		return
-	}
-
-	// go get
-	if !*skipGoModCommands {
-		start := time.Now()
-		cmd := exec.Command("go", "get")
-		cmd.Dir, _ = filepath.Abs(filepath.Join(*pkgPath, fmt.Sprintf("../../go/cmd/%s", gong_models.ComputePkgNameFromPkgPath(*pkgPath))))
-		log.Printf("Running %s command in directory %s and waiting for it to finish...\n", cmd.Args, cmd.Dir)
-
-		// https://stackoverflow.com/questions/48253268/print-the-stdout-from-exec-command-in-real-time-in-go
-		var stdBuffer bytes.Buffer
-		mw := io.MultiWriter(os.Stdout, &stdBuffer)
-
-		cmd.Stdout = mw
-		cmd.Stderr = mw
-
-		log.Println(cmd.String())
-		log.Println(stdBuffer.String())
-
-		// Execute the command
-		if err := cmd.Run(); err != nil {
-			log.Panic(err)
-		}
-		log.Printf("go get over and took %s", time.Since(start))
 	}
 
 	// go build
