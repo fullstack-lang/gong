@@ -14,6 +14,8 @@ const VsCodeTasksConfig = `{
 		  "run",
 		  ".",
 		  "-diagrams",
+		  "--unmarshall=stage",
+		  "-marshallOnCommit=stage"
 		],
 		"group": "build"
 	  },
@@ -27,7 +29,9 @@ const VsCodeTasksConfig = `{
 		"args": [
 		  "run",
 		  ".",
-		  "-diagrams=false"
+		  "-diagrams=false",
+		  "--unmarshall=stage",
+		  "-marshallOnCommit=stage"
 		],
 		"group": "build"
 	  },

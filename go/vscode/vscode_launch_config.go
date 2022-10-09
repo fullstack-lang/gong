@@ -46,7 +46,9 @@ const VsCodeLaunchConfig = `{
             "mode": "debug",
             "program": "${workspaceFolder}/go/cmd/{{pkgname}}",
             "args": [
-                "-diagrams=false"
+                "-diagrams=false",
+                "--unmarshall=stage",
+                "-marshallOnCommit=stage"
             ]
         },
         {
@@ -56,6 +58,8 @@ const VsCodeLaunchConfig = `{
             "mode": "debug",
             "program": "${workspaceFolder}/go/cmd/{{pkgname}}",
             "args": [
+                "--unmarshall=stage",
+                "-marshallOnCommit=stage"
             ]
         },
     ]
