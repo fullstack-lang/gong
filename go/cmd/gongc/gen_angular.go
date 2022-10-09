@@ -105,7 +105,11 @@ func genAngular(modelPkg *gong_models.ModelPkg) {
 				{
 					start := time.Now()
 					cmd := exec.Command("npm", "install", "--save",
-						"angular-split@13.2.0", "material-design-icons", "typeface-open-sans", "typeface-roboto", "@angular-material-components/datetime-picker@7")
+						"angular-split@14.1",
+						"material-design-icons",
+						"typeface-open-sans",
+						"typeface-roboto",
+						"@angular-material-components/datetime-picker@8")
 					cmd.Dir = gong_models.NgWorkspacePath
 					log.Printf("Installing some packages\n")
 
