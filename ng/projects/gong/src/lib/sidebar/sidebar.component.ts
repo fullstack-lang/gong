@@ -200,7 +200,9 @@ export class SidebarComponent implements OnInit {
 
     this.SelectedStructChanged.subscribe(
       selectedStruct => {
-        this.setTableRouterOutlet(selectedStruct)
+        if (selectedStruct != "") {
+          this.setTableRouterOutlet(selectedStruct.toLowerCase() + "s")
+        }
       }
     )
 
