@@ -152,6 +152,7 @@ func genAngular(modelPkg *gong_models.ModelPkg) {
 					}
 					log.Printf("npm install is over and took %s", time.Since(start))
 				}
+
 			}
 
 			// generate default app.component.ts, app.component.html and app.module.ts
@@ -177,6 +178,31 @@ func genAngular(modelPkg *gong_models.ModelPkg) {
 					filepath.Join(gong_models.NgWorkspacePath, "src/app/app.component.html"),
 					angular.NgFileAppComponentHtml)
 
+			}
+		} else {
+			// if ng is already present, one might have to perform an installation
+			// for example, if the repo has been checkout and "node_modules" is empty
+			{
+				start := time.Now()
+				cmd := exec.Command("npm", "install")
+				cmd.Dir = gong_models.NgWorkspacePath
+				log.Printf("Performing default npm install\n")
+
+				// https://stackoverflow.com/questions/48253268/print-the-stdout-from-exec-command-in-real-time-in-go
+				var stdBuffer bytes.Buffer
+				mw := io.MultiWriter(os.Stdout, &stdBuffer)
+
+				cmd.Stdout = mw
+				cmd.Stderr = mw
+
+				log.Println(cmd.String())
+				log.Println(stdBuffer.String())
+
+				// Execute the command
+				if err := cmd.Run(); err != nil {
+					log.Panic(err)
+				}
+				log.Printf("npm install is over and took %s", time.Since(start))
 			}
 		}
 	}
