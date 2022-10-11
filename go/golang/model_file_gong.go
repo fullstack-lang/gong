@@ -14,10 +14,8 @@ import (
 	"golang.org/x/text/language"
 )
 
-//
 // insertion points are places where the code is
 // generated per gong struct
-//
 type ModelGongStructInsertionId int
 
 const (
@@ -50,9 +48,7 @@ const (
 	ModelGongStructInsertionsNb
 )
 
-//
 // insertion code for all enums
-//
 type ModelGongEnumInsertionId int
 
 const (
@@ -76,11 +72,14 @@ func ({{enumName}} {{EnumName}}) To{{Type}}() (res {{type}}) {
 	return
 }
 
-func ({{enumName}} *{{EnumName}}) From{{Type}}(input {{type}}) {
+func ({{enumName}} *{{EnumName}}) From{{Type}}(input {{type}}) (err error) {
 
 	switch input {
 	// insertion code per enum code{{FromStringPerCodeCode}}
+	default:
+		return errUnkownEnum
 	}
+	return
 }
 
 func ({{enumName}} *{{EnumName}}) ToCodeString() (res string) {
@@ -329,11 +328,9 @@ func ({{structname}} *{{Structname}}) GetName() (res string) {
 		}).(*Type)`,
 }
 
-//
 // Sub sub Templates identifiers per gong field
 //
 // For each gongstruct, a code snippet will be generated from each sub template
-//
 type GongFilePerStructSubTemplateId int
 
 const (
@@ -371,9 +368,7 @@ const (
 	GongFileFieldSubTmplPointerFieldSliceOfPointersAssociationMapFunction
 )
 
-//
 // for each sub template code, there is the sub template code
-//
 var GongFileFieldFieldSubTemplateCode map[GongFilePerStructSubTemplateId]string = // declaration of the sub templates
 map[GongFilePerStructSubTemplateId]string{
 
@@ -570,9 +565,7 @@ func (stageStruct *StageStruct) CreateReverseMap_{{Structname}}_{{FieldName}}() 
 `,
 }
 
-//
 // gongenum value template
-//
 type GongModelEnumValueSubTemplateId int
 
 const (
