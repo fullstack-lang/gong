@@ -30,3 +30,4 @@ test/.DS_Store
 test/go/cmd/test/__debug_bin
 test/go/.DS_Store
 test/.DS_Store
+go/cmd/gong/__debug_bin.exe
