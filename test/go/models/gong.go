@@ -2,6 +2,7 @@
 package models
 
 import (
+	"errors"
 	"fmt"
 	"log"
 	"os"
@@ -10,6 +11,9 @@ import (
 	"sort"
 	"strings"
 )
+
+// errUnkownEnum is returns when a value cannot match enum values
+var errUnkownEnum = errors.New("unkown enum")
 
 // swagger:ignore
 type __void any
@@ -1976,7 +1980,7 @@ func (aenumtype AEnumType) ToString() (res string) {
 	return
 }
 
-func (aenumtype *AEnumType) FromString(input string) {
+func (aenumtype *AEnumType) FromString(input string) (err error) {
 
 	switch input {
 	// insertion code per enum code
@@ -1984,7 +1988,10 @@ func (aenumtype *AEnumType) FromString(input string) {
 		*aenumtype = ENUM_VAL1
 	case "ENUM_VAL2":
 		*aenumtype = ENUM_VAL2
+	default:
+		return errUnkownEnum
 	}
+	return
 }
 
 func (aenumtype *AEnumType) ToCodeString() (res string) {
@@ -2015,7 +2022,7 @@ func (benumtype BEnumType) ToString() (res string) {
 	return
 }
 
-func (benumtype *BEnumType) FromString(input string) {
+func (benumtype *BEnumType) FromString(input string) (err error) {
 
 	switch input {
 	// insertion code per enum code
@@ -2023,7 +2030,10 @@ func (benumtype *BEnumType) FromString(input string) {
 		*benumtype = BENUM_VAL1
 	case "BENUM_VAL2":
 		*benumtype = BENUM_VAL2
+	default:
+		return errUnkownEnum
 	}
+	return
 }
 
 func (benumtype *BEnumType) ToCodeString() (res string) {
@@ -2054,7 +2064,7 @@ func (cenumtypeint CEnumTypeInt) ToInt() (res int) {
 	return
 }
 
-func (cenumtypeint *CEnumTypeInt) FromInt(input int) {
+func (cenumtypeint *CEnumTypeInt) FromInt(input int) (err error) {
 
 	switch input {
 	// insertion code per enum code
@@ -2062,7 +2072,10 @@ func (cenumtypeint *CEnumTypeInt) FromInt(input int) {
 		*cenumtypeint = CENUM_VAL1
 	case 1:
 		*cenumtypeint = CENUM_VAL2
+	default:
+		return errUnkownEnum
 	}
+	return
 }
 
 func (cenumtypeint *CEnumTypeInt) ToCodeString() (res string) {
