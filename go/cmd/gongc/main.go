@@ -284,6 +284,11 @@ func main() {
 			*pkgPath)
 	}
 
+	golang.CodeGeneratorModelGongCallbacks(
+		modelPkg,
+		modelPkg.Name,
+		*pkgPath)
+
 	// generate files
 	gong_models.SimpleCodeGeneratorForGongStructWithNameField(
 		modelPkg,
