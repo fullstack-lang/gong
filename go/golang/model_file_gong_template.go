@@ -53,6 +53,12 @@ type OnInitCommitInterface interface {
 	BeforeCommit(stage *StageStruct)
 }
 
+// OnAfterUpdateInterface callback when an instance is updated from the front
+type OnAfterUpdateInterface[Type Gongstruct] interface {
+	OnAfterUpdate(stage *StageStruct,
+		instance *Type)
+}
+
 type BackRepoInterface interface {
 	Commit(stage *StageStruct)
 	Checkout(stage *StageStruct)
