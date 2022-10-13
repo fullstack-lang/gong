@@ -213,8 +213,11 @@ func ({{structname}} *{{Structname}}) GetName() (res string) {
 	ModelGongStructInsertionArrayDefintion: `
 	{{Structname}}s           map[*{{Structname}}]any
 	{{Structname}}s_mapString map[string]*{{Structname}}
-	
+
+	OnAfter{{Structname}}CreateCallback OnAfterCreateInterface[{{Structname}}]
 	OnAfter{{Structname}}UpdateCallback OnAfterUpdateInterface[{{Structname}}]
+	OnAfter{{Structname}}DeleteCallback OnAfterDeleteInterface[{{Structname}}]
+	OnAfter{{Structname}}ReadCallback   OnAfterReadInterface[{{Structname}}]
 
 `,
 
