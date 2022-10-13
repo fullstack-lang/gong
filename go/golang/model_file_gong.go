@@ -213,6 +213,9 @@ func ({{structname}} *{{Structname}}) GetName() (res string) {
 	ModelGongStructInsertionArrayDefintion: `
 	{{Structname}}s           map[*{{Structname}}]any
 	{{Structname}}s_mapString map[string]*{{Structname}}
+	
+	OnAfter{{Structname}}UpdateCallback OnAfterUpdateInterface[{{Structname}}]
+
 `,
 
 	ModelGongStructInsertionArrayInitialisation: `
