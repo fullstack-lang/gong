@@ -61,6 +61,18 @@
             ]
         },
         {
+            "name": "gongc gongmattree -skipNg -skipGoModCommands",
+            "type": "go",
+            "request": "launch",
+            "mode": "debug",
+            "cwd": "${workspaceFolder}/../gongmattree/go/models",
+            "program": "${workspaceFolder}/go/cmd/gongc",
+            "args": [
+                "-skipNg",
+                "-skipGoModCommands"
+            ]
+        },
+        {
             "name": "gongc /tmp/helloworld/go/models",
             "type": "go",
             "request": "launch",
