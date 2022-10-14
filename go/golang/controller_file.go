@@ -144,7 +144,7 @@ func Post{{Structname}}(c *gin.Context) {
 
 	// get an instance (not staged) from DB instance, and call callback function
 	{{structname}} := new(models.{{Structname}})
-	{{structname}}DB.CopyBasicFieldsFrom{{Structname}}({{structname}})
+	{{structname}}DB.CopyBasicFieldsTo{{Structname}}({{structname}})
 
 	if {{structname}} != nil {
 		models.AfterCreateFromFront(&models.Stage, {{structname}})
@@ -239,15 +239,21 @@ func Update{{Structname}}(c *gin.Context) {
 		return
 	}
 
-	// an UPDATE generates a back repo commit increase
-	// (this will be improved with implementation of unit of work design pattern)
-	orm.BackRepo.IncrementPushFromFrontNb()
+	// get an instance (not staged) from DB instance, and call callback function
+	{{structname}}New := new(models.{{Structname}})
+	{{structname}}DB.CopyBasicFieldsTo{{Structname}}({{structname}}New)
 
 	// get stage instance from DB instance, and call callback function
-	{{structname}} := (*orm.BackRepo.BackRepo{{Structname}}.Map_{{Structname}}DBID_{{Structname}}Ptr)[{{structname}}DB.ID]
-	if {{structname}} != nil {
-		models.AfterUpdateFromFront(&models.Stage, {{structname}})
+	{{structname}}Old := (*orm.BackRepo.BackRepo{{Structname}}.Map_{{Structname}}DBID_{{Structname}}Ptr)[{{structname}}DB.ID]
+	if {{structname}}Old != nil {
+		models.AfterUpdateFromFront(&models.Stage, {{structname}}Old, {{structname}}New)
 	}
+
+	// an UPDATE generates a back repo commit increase
+	// (this will be improved with implementation of unit of work design pattern)
+	// in some cases, with the marshalling of the stage, this operation might
+	// generates a checkout
+	orm.BackRepo.IncrementPushFromFrontNb()
 
 	// return status OK with the marshalling of the the {{structname}}DB
 	c.JSON(http.StatusOK, {{structname}}DB)
