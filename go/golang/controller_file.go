@@ -102,14 +102,15 @@ func Get{{Structname}}s(c *gin.Context) {
 // swagger:route POST /{{structname}}s {{structname}}s post{{Structname}}
 //
 // Creates a {{structname}}
-//     Consumes:
-//     - application/json
 //
-//     Produces:
-//     - application/json
+//	Consumes:
+//	- application/json
 //
-//     Responses:
-//       200: {{structname}}DBResponse
+//	Produces:
+//	- application/json
+//
+//	Responses:
+//	  200: nodeDBResponse
 func Post{{Structname}}(c *gin.Context) {
 	db := orm.BackRepo.BackRepo{{Structname}}.GetDB()
 
@@ -148,7 +149,6 @@ func Post{{Structname}}(c *gin.Context) {
 	if {{structname}} != nil {
 		models.AfterCreateFromFront(&models.Stage, {{structname}})
 	}
-
 
 	// a POST is equivalent to a back repo commit increase
 	// (this will be improved with implementation of unit of work design pattern)
@@ -193,7 +193,7 @@ func Get{{Structname}}(c *gin.Context) {
 //
 // swagger:route PATCH /{{structname}}s/{ID} {{structname}}s update{{Structname}}
 //
-// Update a {{structname}}
+// # Update a {{structname}}
 //
 // Responses:
 // default: genericError
@@ -257,7 +257,7 @@ func Update{{Structname}}(c *gin.Context) {
 //
 // swagger:route DELETE /{{structname}}s/{ID} {{structname}}s delete{{Structname}}
 //
-// Delete a {{structname}}
+// # Delete a {{structname}}
 //
 // default: genericError
 //
