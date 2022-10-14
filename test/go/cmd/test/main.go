@@ -23,13 +23,15 @@ import (
 	gong_controllers "github.com/fullstack-lang/gong/go/controllers"
 	gong_models "github.com/fullstack-lang/gong/go/models"
 	gong_orm "github.com/fullstack-lang/gong/go/orm"
-	// insertion point for gong front end import{{gongNgImport}}
+	// insertion point for gong front end import
+	_ "github.com/fullstack-lang/gong/ng"
 
 	// for diagrams
 	gongdoc_controllers "github.com/fullstack-lang/gongdoc/go/controllers"
 	gongdoc_models "github.com/fullstack-lang/gongdoc/go/models"
 	gongdoc_orm "github.com/fullstack-lang/gongdoc/go/orm"
-	// insertion point for gong front end import{{gongdocNgImport}}
+	// insertion point for gong front end import
+	_ "github.com/fullstack-lang/gongdoc/ng"
 
 	test "github.com/fullstack-lang/gong/test"
 )
@@ -199,7 +201,14 @@ func main() {
 	gongdoc_models.Stage.Commit()
 	gong_models.Stage.Commit()
 
-	// insertion point for serving the static file{{staticCodeServiceCode}}
+	// insertion point for serving the static file
+	// provide the static route for the angular pages
+	r.Use(static.Serve("/", EmbedFolder(test.NgDistNg, "ng/dist/ng")))
+	r.NoRoute(func(c *gin.Context) {
+		fmt.Println(c.Request.URL.Path, "doesn't exists, redirect on /")
+		c.Redirect(http.StatusMovedPermanently, "/")
+		c.Abort()
+	})
 
 	log.Printf("Server ready serve on localhost:8080")
 	r.Run()
