@@ -41,11 +41,12 @@ type GongNoteInput struct {
 //
 // swagger:route GET /gongnotes gongnotes getGongNotes
 //
-// Get all gongnotes
+// # Get all gongnotes
 //
 // Responses:
-//    default: genericError
-//        200: gongnoteDBsResponse
+// default: genericError
+//
+//	200: gongnoteDBResponse
 func GetGongNotes(c *gin.Context) {
 	db := orm.BackRepo.BackRepoGongNote.GetDB()
 
@@ -85,14 +86,15 @@ func GetGongNotes(c *gin.Context) {
 // swagger:route POST /gongnotes gongnotes postGongNote
 //
 // Creates a gongnote
-//     Consumes:
-//     - application/json
 //
-//     Produces:
-//     - application/json
+//	Consumes:
+//	- application/json
 //
-//     Responses:
-//       200: gongnoteDBResponse
+//	Produces:
+//	- application/json
+//
+//	Responses:
+//	  200: nodeDBResponse
 func PostGongNote(c *gin.Context) {
 	db := orm.BackRepo.BackRepoGongNote.GetDB()
 
@@ -124,6 +126,14 @@ func PostGongNote(c *gin.Context) {
 		return
 	}
 
+	// get an instance (not staged) from DB instance, and call callback function
+	gongnote := new(models.GongNote)
+	gongnoteDB.CopyBasicFieldsToGongNote(gongnote)
+
+	if gongnote != nil {
+		models.AfterCreateFromFront(&models.Stage, gongnote)
+	}
+
 	// a POST is equivalent to a back repo commit increase
 	// (this will be improved with implementation of unit of work design pattern)
 	orm.BackRepo.IncrementPushFromFrontNb()
@@ -138,8 +148,9 @@ func PostGongNote(c *gin.Context) {
 // Gets the details for a gongnote.
 //
 // Responses:
-//    default: genericError
-//        200: gongnoteDBResponse
+// default: genericError
+//
+//	200: gongnoteDBResponse
 func GetGongNote(c *gin.Context) {
 	db := orm.BackRepo.BackRepoGongNote.GetDB()
 
@@ -166,11 +177,12 @@ func GetGongNote(c *gin.Context) {
 //
 // swagger:route PATCH /gongnotes/{ID} gongnotes updateGongNote
 //
-// Update a gongnote
+// # Update a gongnote
 //
 // Responses:
-//    default: genericError
-//        200: gongnoteDBResponse
+// default: genericError
+//
+//	200: gongnoteDBResponse
 func UpdateGongNote(c *gin.Context) {
 	db := orm.BackRepo.BackRepoGongNote.GetDB()
 
@@ -211,8 +223,20 @@ func UpdateGongNote(c *gin.Context) {
 		return
 	}
 
+	// get an instance (not staged) from DB instance, and call callback function
+	gongnoteNew := new(models.GongNote)
+	gongnoteDB.CopyBasicFieldsToGongNote(gongnoteNew)
+
+	// get stage instance from DB instance, and call callback function
+	gongnoteOld := (*orm.BackRepo.BackRepoGongNote.Map_GongNoteDBID_GongNotePtr)[gongnoteDB.ID]
+	if gongnoteOld != nil {
+		models.AfterUpdateFromFront(&models.Stage, gongnoteOld, gongnoteNew)
+	}
+
 	// an UPDATE generates a back repo commit increase
 	// (this will be improved with implementation of unit of work design pattern)
+	// in some cases, with the marshalling of the stage, this operation might
+	// generates a checkout
 	orm.BackRepo.IncrementPushFromFrontNb()
 
 	// return status OK with the marshalling of the the gongnoteDB
@@ -223,10 +247,11 @@ func UpdateGongNote(c *gin.Context) {
 //
 // swagger:route DELETE /gongnotes/{ID} gongnotes deleteGongNote
 //
-// Delete a gongnote
+// # Delete a gongnote
 //
-// Responses:
-//    default: genericError
+// default: genericError
+//
+//	200: gongnoteDBResponse
 func DeleteGongNote(c *gin.Context) {
 	db := orm.BackRepo.BackRepoGongNote.GetDB()
 
@@ -243,6 +268,12 @@ func DeleteGongNote(c *gin.Context) {
 
 	// with gorm.Model field, default delete is a soft delete. Unscoped() force delete
 	db.Unscoped().Delete(&gongnoteDB)
+
+	// get stage instance from DB instance, and call callback function
+	gongnote := (*orm.BackRepo.BackRepoGongNote.Map_GongNoteDBID_GongNotePtr)[gongnoteDB.ID]
+	if gongnote != nil {
+		models.AfterDeleteFromFront(&models.Stage, gongnote)
+	}
 
 	// a DELETE generates a back repo commit increase
 	// (this will be improved with implementation of unit of work design pattern)

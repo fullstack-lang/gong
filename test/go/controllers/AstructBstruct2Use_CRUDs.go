@@ -41,11 +41,12 @@ type AstructBstruct2UseInput struct {
 //
 // swagger:route GET /astructbstruct2uses astructbstruct2uses getAstructBstruct2Uses
 //
-// Get all astructbstruct2uses
+// # Get all astructbstruct2uses
 //
 // Responses:
-//    default: genericError
-//        200: astructbstruct2useDBsResponse
+// default: genericError
+//
+//	200: astructbstruct2useDBResponse
 func GetAstructBstruct2Uses(c *gin.Context) {
 	db := orm.BackRepo.BackRepoAstructBstruct2Use.GetDB()
 
@@ -85,14 +86,15 @@ func GetAstructBstruct2Uses(c *gin.Context) {
 // swagger:route POST /astructbstruct2uses astructbstruct2uses postAstructBstruct2Use
 //
 // Creates a astructbstruct2use
-//     Consumes:
-//     - application/json
 //
-//     Produces:
-//     - application/json
+//	Consumes:
+//	- application/json
 //
-//     Responses:
-//       200: astructbstruct2useDBResponse
+//	Produces:
+//	- application/json
+//
+//	Responses:
+//	  200: nodeDBResponse
 func PostAstructBstruct2Use(c *gin.Context) {
 	db := orm.BackRepo.BackRepoAstructBstruct2Use.GetDB()
 
@@ -124,6 +126,14 @@ func PostAstructBstruct2Use(c *gin.Context) {
 		return
 	}
 
+	// get an instance (not staged) from DB instance, and call callback function
+	astructbstruct2use := new(models.AstructBstruct2Use)
+	astructbstruct2useDB.CopyBasicFieldsToAstructBstruct2Use(astructbstruct2use)
+
+	if astructbstruct2use != nil {
+		models.AfterCreateFromFront(&models.Stage, astructbstruct2use)
+	}
+
 	// a POST is equivalent to a back repo commit increase
 	// (this will be improved with implementation of unit of work design pattern)
 	orm.BackRepo.IncrementPushFromFrontNb()
@@ -138,8 +148,9 @@ func PostAstructBstruct2Use(c *gin.Context) {
 // Gets the details for a astructbstruct2use.
 //
 // Responses:
-//    default: genericError
-//        200: astructbstruct2useDBResponse
+// default: genericError
+//
+//	200: astructbstruct2useDBResponse
 func GetAstructBstruct2Use(c *gin.Context) {
 	db := orm.BackRepo.BackRepoAstructBstruct2Use.GetDB()
 
@@ -166,11 +177,12 @@ func GetAstructBstruct2Use(c *gin.Context) {
 //
 // swagger:route PATCH /astructbstruct2uses/{ID} astructbstruct2uses updateAstructBstruct2Use
 //
-// Update a astructbstruct2use
+// # Update a astructbstruct2use
 //
 // Responses:
-//    default: genericError
-//        200: astructbstruct2useDBResponse
+// default: genericError
+//
+//	200: astructbstruct2useDBResponse
 func UpdateAstructBstruct2Use(c *gin.Context) {
 	db := orm.BackRepo.BackRepoAstructBstruct2Use.GetDB()
 
@@ -211,8 +223,20 @@ func UpdateAstructBstruct2Use(c *gin.Context) {
 		return
 	}
 
+	// get an instance (not staged) from DB instance, and call callback function
+	astructbstruct2useNew := new(models.AstructBstruct2Use)
+	astructbstruct2useDB.CopyBasicFieldsToAstructBstruct2Use(astructbstruct2useNew)
+
+	// get stage instance from DB instance, and call callback function
+	astructbstruct2useOld := (*orm.BackRepo.BackRepoAstructBstruct2Use.Map_AstructBstruct2UseDBID_AstructBstruct2UsePtr)[astructbstruct2useDB.ID]
+	if astructbstruct2useOld != nil {
+		models.AfterUpdateFromFront(&models.Stage, astructbstruct2useOld, astructbstruct2useNew)
+	}
+
 	// an UPDATE generates a back repo commit increase
 	// (this will be improved with implementation of unit of work design pattern)
+	// in some cases, with the marshalling of the stage, this operation might
+	// generates a checkout
 	orm.BackRepo.IncrementPushFromFrontNb()
 
 	// return status OK with the marshalling of the the astructbstruct2useDB
@@ -223,10 +247,11 @@ func UpdateAstructBstruct2Use(c *gin.Context) {
 //
 // swagger:route DELETE /astructbstruct2uses/{ID} astructbstruct2uses deleteAstructBstruct2Use
 //
-// Delete a astructbstruct2use
+// # Delete a astructbstruct2use
 //
-// Responses:
-//    default: genericError
+// default: genericError
+//
+//	200: astructbstruct2useDBResponse
 func DeleteAstructBstruct2Use(c *gin.Context) {
 	db := orm.BackRepo.BackRepoAstructBstruct2Use.GetDB()
 
@@ -243,6 +268,12 @@ func DeleteAstructBstruct2Use(c *gin.Context) {
 
 	// with gorm.Model field, default delete is a soft delete. Unscoped() force delete
 	db.Unscoped().Delete(&astructbstruct2useDB)
+
+	// get stage instance from DB instance, and call callback function
+	astructbstruct2use := (*orm.BackRepo.BackRepoAstructBstruct2Use.Map_AstructBstruct2UseDBID_AstructBstruct2UsePtr)[astructbstruct2useDB.ID]
+	if astructbstruct2use != nil {
+		models.AfterDeleteFromFront(&models.Stage, astructbstruct2use)
+	}
 
 	// a DELETE generates a back repo commit increase
 	// (this will be improved with implementation of unit of work design pattern)
