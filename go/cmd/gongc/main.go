@@ -34,6 +34,8 @@ var (
 		"network address addr where the angular generated service will lookup the server")
 	run               = flag.Bool("run", false, "run 'go run main.go' after compilation")
 	skipGoModCommands = flag.Bool("skipGoModCommands", false, "avoid calls to go mod init, tidy and vendor")
+
+	compileForDebug = flag.Bool("compileForDebug", false, "Delve can be slow to start (more than 60'). A workaround is to generate a go build with with '-N -l' options")
 )
 
 func main() {
@@ -424,7 +426,12 @@ func main() {
 	// go build
 	if true {
 		start := time.Now()
-		cmd := exec.Command("go", "build")
+		var cmd *exec.Cmd
+		if !*compileForDebug {
+			cmd = exec.Command("go", "build")
+		} else {
+			cmd = exec.Command("go", "build", "-gcFlags='-N -l")
+		}
 		cmd.Dir, _ = filepath.Abs(filepath.Join(*pkgPath, fmt.Sprintf("../cmd/%s", gong_models.ComputePkgNameFromPkgPath(*pkgPath))))
 		log.Printf("Running %s command in directory %s and waiting for it to finish...\n", cmd.Args, cmd.Dir)
 
