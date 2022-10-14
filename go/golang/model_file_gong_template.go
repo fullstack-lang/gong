@@ -67,8 +67,7 @@ type OnAfterReadInterface[Type Gongstruct] interface {
 
 // OnAfterUpdateInterface callback when an instance is updated from the front
 type OnAfterUpdateInterface[Type Gongstruct] interface {
-	OnAfterUpdate(stage *StageStruct,
-		instance *Type)
+	OnAfterUpdate(stage *StageStruct, old, new *Type)
 }
 
 // OnAfterDeleteInterface callback when an instance is updated from the front

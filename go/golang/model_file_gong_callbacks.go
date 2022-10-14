@@ -11,9 +11,9 @@ func AfterCreateFromFront[Type Gongstruct](stage *StageStruct, instance *Type) {
 }
 
 // AfterUpdateFromFront is called after a update from front
-func AfterUpdateFromFront[Type Gongstruct](stage *StageStruct, instance *Type) {
+func AfterUpdateFromFront[Type Gongstruct](stage *StageStruct, old, new *Type) {
 
-	switch target := any(instance).(type) {
+	switch oldTarget := any(old).(type) {
 	// insertion point{{` + string(rune(ModelGongCallbacksUpdate)) + `}}
 	}
 }
@@ -82,23 +82,24 @@ var ModelGongCallbacksStructSubTemplateCode map[string]string = // new line
 map[string]string{
 	string(rune(ModelGongCallbacksCreate)): `
 	case *{{Structname}}:
-		if stage.OnAfter{{Structname}}UpdateCallback != nil {
-			stage.OnAfter{{Structname}}UpdateCallback.OnAfterUpdate(stage, target)
+		if stage.OnAfter{{Structname}}CreateCallback != nil {
+			stage.OnAfter{{Structname}}CreateCallback.OnAfterCreate(stage, target)
 		}`,
 	string(rune(ModelGongCallbacksUpdate)): `
 	case *{{Structname}}:
+		newTarget := any(new).(*{{Structname}})
 		if stage.OnAfter{{Structname}}UpdateCallback != nil {
-			stage.OnAfter{{Structname}}UpdateCallback.OnAfterUpdate(stage, target)
+			stage.OnAfter{{Structname}}UpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}`,
 	string(rune(ModelGongCallbacksRead)): `
 	case *{{Structname}}:
-		if stage.OnAfter{{Structname}}UpdateCallback != nil {
-			stage.OnAfter{{Structname}}UpdateCallback.OnAfterUpdate(stage, target)
+		if stage.OnAfter{{Structname}}ReadCallback != nil {
+			stage.OnAfter{{Structname}}ReadCallback.OnAfterRead(stage, target)
 		}`,
 	string(rune(ModelGongCallbacksDelete)): `
 	case *{{Structname}}:
-		if stage.OnAfter{{Structname}}UpdateCallback != nil {
-			stage.OnAfter{{Structname}}UpdateCallback.OnAfterUpdate(stage, target)
+		if stage.OnAfter{{Structname}}DeleteCallback != nil {
+			stage.OnAfter{{Structname}}DeleteCallback.OnAfterDelete(stage, target)
 		}`,
 	string(rune(ModelGongCallbacksSetFuncCreate)): `
 	case *{{Structname}}:
