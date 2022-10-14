@@ -41,11 +41,12 @@ type GongEnumValueInput struct {
 //
 // swagger:route GET /gongenumvalues gongenumvalues getGongEnumValues
 //
-// Get all gongenumvalues
+// # Get all gongenumvalues
 //
 // Responses:
-//    default: genericError
-//        200: gongenumvalueDBsResponse
+// default: genericError
+//
+//	200: gongenumvalueDBResponse
 func GetGongEnumValues(c *gin.Context) {
 	db := orm.BackRepo.BackRepoGongEnumValue.GetDB()
 
@@ -85,14 +86,15 @@ func GetGongEnumValues(c *gin.Context) {
 // swagger:route POST /gongenumvalues gongenumvalues postGongEnumValue
 //
 // Creates a gongenumvalue
-//     Consumes:
-//     - application/json
 //
-//     Produces:
-//     - application/json
+//	Consumes:
+//	- application/json
 //
-//     Responses:
-//       200: gongenumvalueDBResponse
+//	Produces:
+//	- application/json
+//
+//	Responses:
+//	  200: nodeDBResponse
 func PostGongEnumValue(c *gin.Context) {
 	db := orm.BackRepo.BackRepoGongEnumValue.GetDB()
 
@@ -124,6 +126,14 @@ func PostGongEnumValue(c *gin.Context) {
 		return
 	}
 
+	// get an instance (not staged) from DB instance, and call callback function
+	gongenumvalue := new(models.GongEnumValue)
+	gongenumvalueDB.CopyBasicFieldsToGongEnumValue(gongenumvalue)
+
+	if gongenumvalue != nil {
+		models.AfterCreateFromFront(&models.Stage, gongenumvalue)
+	}
+
 	// a POST is equivalent to a back repo commit increase
 	// (this will be improved with implementation of unit of work design pattern)
 	orm.BackRepo.IncrementPushFromFrontNb()
@@ -138,8 +148,9 @@ func PostGongEnumValue(c *gin.Context) {
 // Gets the details for a gongenumvalue.
 //
 // Responses:
-//    default: genericError
-//        200: gongenumvalueDBResponse
+// default: genericError
+//
+//	200: gongenumvalueDBResponse
 func GetGongEnumValue(c *gin.Context) {
 	db := orm.BackRepo.BackRepoGongEnumValue.GetDB()
 
@@ -166,11 +177,12 @@ func GetGongEnumValue(c *gin.Context) {
 //
 // swagger:route PATCH /gongenumvalues/{ID} gongenumvalues updateGongEnumValue
 //
-// Update a gongenumvalue
+// # Update a gongenumvalue
 //
 // Responses:
-//    default: genericError
-//        200: gongenumvalueDBResponse
+// default: genericError
+//
+//	200: gongenumvalueDBResponse
 func UpdateGongEnumValue(c *gin.Context) {
 	db := orm.BackRepo.BackRepoGongEnumValue.GetDB()
 
@@ -211,8 +223,20 @@ func UpdateGongEnumValue(c *gin.Context) {
 		return
 	}
 
+	// get an instance (not staged) from DB instance, and call callback function
+	gongenumvalueNew := new(models.GongEnumValue)
+	gongenumvalueDB.CopyBasicFieldsToGongEnumValue(gongenumvalueNew)
+
+	// get stage instance from DB instance, and call callback function
+	gongenumvalueOld := (*orm.BackRepo.BackRepoGongEnumValue.Map_GongEnumValueDBID_GongEnumValuePtr)[gongenumvalueDB.ID]
+	if gongenumvalueOld != nil {
+		models.AfterUpdateFromFront(&models.Stage, gongenumvalueOld, gongenumvalueNew)
+	}
+
 	// an UPDATE generates a back repo commit increase
 	// (this will be improved with implementation of unit of work design pattern)
+	// in some cases, with the marshalling of the stage, this operation might
+	// generates a checkout
 	orm.BackRepo.IncrementPushFromFrontNb()
 
 	// return status OK with the marshalling of the the gongenumvalueDB
@@ -223,10 +247,11 @@ func UpdateGongEnumValue(c *gin.Context) {
 //
 // swagger:route DELETE /gongenumvalues/{ID} gongenumvalues deleteGongEnumValue
 //
-// Delete a gongenumvalue
+// # Delete a gongenumvalue
 //
-// Responses:
-//    default: genericError
+// default: genericError
+//
+//	200: gongenumvalueDBResponse
 func DeleteGongEnumValue(c *gin.Context) {
 	db := orm.BackRepo.BackRepoGongEnumValue.GetDB()
 
@@ -243,6 +268,12 @@ func DeleteGongEnumValue(c *gin.Context) {
 
 	// with gorm.Model field, default delete is a soft delete. Unscoped() force delete
 	db.Unscoped().Delete(&gongenumvalueDB)
+
+	// get stage instance from DB instance, and call callback function
+	gongenumvalue := (*orm.BackRepo.BackRepoGongEnumValue.Map_GongEnumValueDBID_GongEnumValuePtr)[gongenumvalueDB.ID]
+	if gongenumvalue != nil {
+		models.AfterDeleteFromFront(&models.Stage, gongenumvalue)
+	}
 
 	// a DELETE generates a back repo commit increase
 	// (this will be improved with implementation of unit of work design pattern)

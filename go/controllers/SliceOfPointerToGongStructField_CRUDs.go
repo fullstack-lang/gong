@@ -41,11 +41,12 @@ type SliceOfPointerToGongStructFieldInput struct {
 //
 // swagger:route GET /sliceofpointertogongstructfields sliceofpointertogongstructfields getSliceOfPointerToGongStructFields
 //
-// Get all sliceofpointertogongstructfields
+// # Get all sliceofpointertogongstructfields
 //
 // Responses:
-//    default: genericError
-//        200: sliceofpointertogongstructfieldDBsResponse
+// default: genericError
+//
+//	200: sliceofpointertogongstructfieldDBResponse
 func GetSliceOfPointerToGongStructFields(c *gin.Context) {
 	db := orm.BackRepo.BackRepoSliceOfPointerToGongStructField.GetDB()
 
@@ -85,14 +86,15 @@ func GetSliceOfPointerToGongStructFields(c *gin.Context) {
 // swagger:route POST /sliceofpointertogongstructfields sliceofpointertogongstructfields postSliceOfPointerToGongStructField
 //
 // Creates a sliceofpointertogongstructfield
-//     Consumes:
-//     - application/json
 //
-//     Produces:
-//     - application/json
+//	Consumes:
+//	- application/json
 //
-//     Responses:
-//       200: sliceofpointertogongstructfieldDBResponse
+//	Produces:
+//	- application/json
+//
+//	Responses:
+//	  200: nodeDBResponse
 func PostSliceOfPointerToGongStructField(c *gin.Context) {
 	db := orm.BackRepo.BackRepoSliceOfPointerToGongStructField.GetDB()
 
@@ -124,6 +126,14 @@ func PostSliceOfPointerToGongStructField(c *gin.Context) {
 		return
 	}
 
+	// get an instance (not staged) from DB instance, and call callback function
+	sliceofpointertogongstructfield := new(models.SliceOfPointerToGongStructField)
+	sliceofpointertogongstructfieldDB.CopyBasicFieldsToSliceOfPointerToGongStructField(sliceofpointertogongstructfield)
+
+	if sliceofpointertogongstructfield != nil {
+		models.AfterCreateFromFront(&models.Stage, sliceofpointertogongstructfield)
+	}
+
 	// a POST is equivalent to a back repo commit increase
 	// (this will be improved with implementation of unit of work design pattern)
 	orm.BackRepo.IncrementPushFromFrontNb()
@@ -138,8 +148,9 @@ func PostSliceOfPointerToGongStructField(c *gin.Context) {
 // Gets the details for a sliceofpointertogongstructfield.
 //
 // Responses:
-//    default: genericError
-//        200: sliceofpointertogongstructfieldDBResponse
+// default: genericError
+//
+//	200: sliceofpointertogongstructfieldDBResponse
 func GetSliceOfPointerToGongStructField(c *gin.Context) {
 	db := orm.BackRepo.BackRepoSliceOfPointerToGongStructField.GetDB()
 
@@ -166,11 +177,12 @@ func GetSliceOfPointerToGongStructField(c *gin.Context) {
 //
 // swagger:route PATCH /sliceofpointertogongstructfields/{ID} sliceofpointertogongstructfields updateSliceOfPointerToGongStructField
 //
-// Update a sliceofpointertogongstructfield
+// # Update a sliceofpointertogongstructfield
 //
 // Responses:
-//    default: genericError
-//        200: sliceofpointertogongstructfieldDBResponse
+// default: genericError
+//
+//	200: sliceofpointertogongstructfieldDBResponse
 func UpdateSliceOfPointerToGongStructField(c *gin.Context) {
 	db := orm.BackRepo.BackRepoSliceOfPointerToGongStructField.GetDB()
 
@@ -211,8 +223,20 @@ func UpdateSliceOfPointerToGongStructField(c *gin.Context) {
 		return
 	}
 
+	// get an instance (not staged) from DB instance, and call callback function
+	sliceofpointertogongstructfieldNew := new(models.SliceOfPointerToGongStructField)
+	sliceofpointertogongstructfieldDB.CopyBasicFieldsToSliceOfPointerToGongStructField(sliceofpointertogongstructfieldNew)
+
+	// get stage instance from DB instance, and call callback function
+	sliceofpointertogongstructfieldOld := (*orm.BackRepo.BackRepoSliceOfPointerToGongStructField.Map_SliceOfPointerToGongStructFieldDBID_SliceOfPointerToGongStructFieldPtr)[sliceofpointertogongstructfieldDB.ID]
+	if sliceofpointertogongstructfieldOld != nil {
+		models.AfterUpdateFromFront(&models.Stage, sliceofpointertogongstructfieldOld, sliceofpointertogongstructfieldNew)
+	}
+
 	// an UPDATE generates a back repo commit increase
 	// (this will be improved with implementation of unit of work design pattern)
+	// in some cases, with the marshalling of the stage, this operation might
+	// generates a checkout
 	orm.BackRepo.IncrementPushFromFrontNb()
 
 	// return status OK with the marshalling of the the sliceofpointertogongstructfieldDB
@@ -223,10 +247,11 @@ func UpdateSliceOfPointerToGongStructField(c *gin.Context) {
 //
 // swagger:route DELETE /sliceofpointertogongstructfields/{ID} sliceofpointertogongstructfields deleteSliceOfPointerToGongStructField
 //
-// Delete a sliceofpointertogongstructfield
+// # Delete a sliceofpointertogongstructfield
 //
-// Responses:
-//    default: genericError
+// default: genericError
+//
+//	200: sliceofpointertogongstructfieldDBResponse
 func DeleteSliceOfPointerToGongStructField(c *gin.Context) {
 	db := orm.BackRepo.BackRepoSliceOfPointerToGongStructField.GetDB()
 
@@ -243,6 +268,12 @@ func DeleteSliceOfPointerToGongStructField(c *gin.Context) {
 
 	// with gorm.Model field, default delete is a soft delete. Unscoped() force delete
 	db.Unscoped().Delete(&sliceofpointertogongstructfieldDB)
+
+	// get stage instance from DB instance, and call callback function
+	sliceofpointertogongstructfield := (*orm.BackRepo.BackRepoSliceOfPointerToGongStructField.Map_SliceOfPointerToGongStructFieldDBID_SliceOfPointerToGongStructFieldPtr)[sliceofpointertogongstructfieldDB.ID]
+	if sliceofpointertogongstructfield != nil {
+		models.AfterDeleteFromFront(&models.Stage, sliceofpointertogongstructfield)
+	}
 
 	// a DELETE generates a back repo commit increase
 	// (this will be improved with implementation of unit of work design pattern)

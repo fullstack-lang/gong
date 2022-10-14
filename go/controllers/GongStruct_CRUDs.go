@@ -41,11 +41,12 @@ type GongStructInput struct {
 //
 // swagger:route GET /gongstructs gongstructs getGongStructs
 //
-// Get all gongstructs
+// # Get all gongstructs
 //
 // Responses:
-//    default: genericError
-//        200: gongstructDBsResponse
+// default: genericError
+//
+//	200: gongstructDBResponse
 func GetGongStructs(c *gin.Context) {
 	db := orm.BackRepo.BackRepoGongStruct.GetDB()
 
@@ -85,14 +86,15 @@ func GetGongStructs(c *gin.Context) {
 // swagger:route POST /gongstructs gongstructs postGongStruct
 //
 // Creates a gongstruct
-//     Consumes:
-//     - application/json
 //
-//     Produces:
-//     - application/json
+//	Consumes:
+//	- application/json
 //
-//     Responses:
-//       200: gongstructDBResponse
+//	Produces:
+//	- application/json
+//
+//	Responses:
+//	  200: nodeDBResponse
 func PostGongStruct(c *gin.Context) {
 	db := orm.BackRepo.BackRepoGongStruct.GetDB()
 
@@ -124,6 +126,14 @@ func PostGongStruct(c *gin.Context) {
 		return
 	}
 
+	// get an instance (not staged) from DB instance, and call callback function
+	gongstruct := new(models.GongStruct)
+	gongstructDB.CopyBasicFieldsToGongStruct(gongstruct)
+
+	if gongstruct != nil {
+		models.AfterCreateFromFront(&models.Stage, gongstruct)
+	}
+
 	// a POST is equivalent to a back repo commit increase
 	// (this will be improved with implementation of unit of work design pattern)
 	orm.BackRepo.IncrementPushFromFrontNb()
@@ -138,8 +148,9 @@ func PostGongStruct(c *gin.Context) {
 // Gets the details for a gongstruct.
 //
 // Responses:
-//    default: genericError
-//        200: gongstructDBResponse
+// default: genericError
+//
+//	200: gongstructDBResponse
 func GetGongStruct(c *gin.Context) {
 	db := orm.BackRepo.BackRepoGongStruct.GetDB()
 
@@ -166,11 +177,12 @@ func GetGongStruct(c *gin.Context) {
 //
 // swagger:route PATCH /gongstructs/{ID} gongstructs updateGongStruct
 //
-// Update a gongstruct
+// # Update a gongstruct
 //
 // Responses:
-//    default: genericError
-//        200: gongstructDBResponse
+// default: genericError
+//
+//	200: gongstructDBResponse
 func UpdateGongStruct(c *gin.Context) {
 	db := orm.BackRepo.BackRepoGongStruct.GetDB()
 
@@ -211,8 +223,20 @@ func UpdateGongStruct(c *gin.Context) {
 		return
 	}
 
+	// get an instance (not staged) from DB instance, and call callback function
+	gongstructNew := new(models.GongStruct)
+	gongstructDB.CopyBasicFieldsToGongStruct(gongstructNew)
+
+	// get stage instance from DB instance, and call callback function
+	gongstructOld := (*orm.BackRepo.BackRepoGongStruct.Map_GongStructDBID_GongStructPtr)[gongstructDB.ID]
+	if gongstructOld != nil {
+		models.AfterUpdateFromFront(&models.Stage, gongstructOld, gongstructNew)
+	}
+
 	// an UPDATE generates a back repo commit increase
 	// (this will be improved with implementation of unit of work design pattern)
+	// in some cases, with the marshalling of the stage, this operation might
+	// generates a checkout
 	orm.BackRepo.IncrementPushFromFrontNb()
 
 	// return status OK with the marshalling of the the gongstructDB
@@ -223,10 +247,11 @@ func UpdateGongStruct(c *gin.Context) {
 //
 // swagger:route DELETE /gongstructs/{ID} gongstructs deleteGongStruct
 //
-// Delete a gongstruct
+// # Delete a gongstruct
 //
-// Responses:
-//    default: genericError
+// default: genericError
+//
+//	200: gongstructDBResponse
 func DeleteGongStruct(c *gin.Context) {
 	db := orm.BackRepo.BackRepoGongStruct.GetDB()
 
@@ -243,6 +268,12 @@ func DeleteGongStruct(c *gin.Context) {
 
 	// with gorm.Model field, default delete is a soft delete. Unscoped() force delete
 	db.Unscoped().Delete(&gongstructDB)
+
+	// get stage instance from DB instance, and call callback function
+	gongstruct := (*orm.BackRepo.BackRepoGongStruct.Map_GongStructDBID_GongStructPtr)[gongstructDB.ID]
+	if gongstruct != nil {
+		models.AfterDeleteFromFront(&models.Stage, gongstruct)
+	}
 
 	// a DELETE generates a back repo commit increase
 	// (this will be improved with implementation of unit of work design pattern)
