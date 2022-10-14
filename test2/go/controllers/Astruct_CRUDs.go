@@ -41,11 +41,12 @@ type AstructInput struct {
 //
 // swagger:route GET /astructs astructs getAstructs
 //
-// Get all astructs
+// # Get all astructs
 //
 // Responses:
-//    default: genericError
-//        200: astructDBsResponse
+// default: genericError
+//
+//	200: astructDBResponse
 func GetAstructs(c *gin.Context) {
 	db := orm.BackRepo.BackRepoAstruct.GetDB()
 
@@ -85,14 +86,15 @@ func GetAstructs(c *gin.Context) {
 // swagger:route POST /astructs astructs postAstruct
 //
 // Creates a astruct
-//     Consumes:
-//     - application/json
 //
-//     Produces:
-//     - application/json
+//	Consumes:
+//	- application/json
 //
-//     Responses:
-//       200: astructDBResponse
+//	Produces:
+//	- application/json
+//
+//	Responses:
+//	  200: nodeDBResponse
 func PostAstruct(c *gin.Context) {
 	db := orm.BackRepo.BackRepoAstruct.GetDB()
 
@@ -124,6 +126,14 @@ func PostAstruct(c *gin.Context) {
 		return
 	}
 
+	// get an instance (not staged) from DB instance, and call callback function
+	astruct := new(models.Astruct)
+	astructDB.CopyBasicFieldsToAstruct(astruct)
+
+	if astruct != nil {
+		models.AfterCreateFromFront(&models.Stage, astruct)
+	}
+
 	// a POST is equivalent to a back repo commit increase
 	// (this will be improved with implementation of unit of work design pattern)
 	orm.BackRepo.IncrementPushFromFrontNb()
@@ -138,8 +148,9 @@ func PostAstruct(c *gin.Context) {
 // Gets the details for a astruct.
 //
 // Responses:
-//    default: genericError
-//        200: astructDBResponse
+// default: genericError
+//
+//	200: astructDBResponse
 func GetAstruct(c *gin.Context) {
 	db := orm.BackRepo.BackRepoAstruct.GetDB()
 
@@ -166,11 +177,12 @@ func GetAstruct(c *gin.Context) {
 //
 // swagger:route PATCH /astructs/{ID} astructs updateAstruct
 //
-// Update a astruct
+// # Update a astruct
 //
 // Responses:
-//    default: genericError
-//        200: astructDBResponse
+// default: genericError
+//
+//	200: astructDBResponse
 func UpdateAstruct(c *gin.Context) {
 	db := orm.BackRepo.BackRepoAstruct.GetDB()
 
@@ -211,8 +223,20 @@ func UpdateAstruct(c *gin.Context) {
 		return
 	}
 
+	// get an instance (not staged) from DB instance, and call callback function
+	astructNew := new(models.Astruct)
+	astructDB.CopyBasicFieldsToAstruct(astructNew)
+
+	// get stage instance from DB instance, and call callback function
+	astructOld := (*orm.BackRepo.BackRepoAstruct.Map_AstructDBID_AstructPtr)[astructDB.ID]
+	if astructOld != nil {
+		models.AfterUpdateFromFront(&models.Stage, astructOld, astructNew)
+	}
+
 	// an UPDATE generates a back repo commit increase
 	// (this will be improved with implementation of unit of work design pattern)
+	// in some cases, with the marshalling of the stage, this operation might
+	// generates a checkout
 	orm.BackRepo.IncrementPushFromFrontNb()
 
 	// return status OK with the marshalling of the the astructDB
@@ -223,10 +247,11 @@ func UpdateAstruct(c *gin.Context) {
 //
 // swagger:route DELETE /astructs/{ID} astructs deleteAstruct
 //
-// Delete a astruct
+// # Delete a astruct
 //
-// Responses:
-//    default: genericError
+// default: genericError
+//
+//	200: astructDBResponse
 func DeleteAstruct(c *gin.Context) {
 	db := orm.BackRepo.BackRepoAstruct.GetDB()
 
@@ -243,6 +268,12 @@ func DeleteAstruct(c *gin.Context) {
 
 	// with gorm.Model field, default delete is a soft delete. Unscoped() force delete
 	db.Unscoped().Delete(&astructDB)
+
+	// get stage instance from DB instance, and call callback function
+	astruct := (*orm.BackRepo.BackRepoAstruct.Map_AstructDBID_AstructPtr)[astructDB.ID]
+	if astruct != nil {
+		models.AfterDeleteFromFront(&models.Stage, astruct)
+	}
 
 	// a DELETE generates a back repo commit increase
 	// (this will be improved with implementation of unit of work design pattern)

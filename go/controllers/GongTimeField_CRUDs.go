@@ -41,11 +41,12 @@ type GongTimeFieldInput struct {
 //
 // swagger:route GET /gongtimefields gongtimefields getGongTimeFields
 //
-// Get all gongtimefields
+// # Get all gongtimefields
 //
 // Responses:
-//    default: genericError
-//        200: gongtimefieldDBsResponse
+// default: genericError
+//
+//	200: gongtimefieldDBResponse
 func GetGongTimeFields(c *gin.Context) {
 	db := orm.BackRepo.BackRepoGongTimeField.GetDB()
 
@@ -85,14 +86,15 @@ func GetGongTimeFields(c *gin.Context) {
 // swagger:route POST /gongtimefields gongtimefields postGongTimeField
 //
 // Creates a gongtimefield
-//     Consumes:
-//     - application/json
 //
-//     Produces:
-//     - application/json
+//	Consumes:
+//	- application/json
 //
-//     Responses:
-//       200: gongtimefieldDBResponse
+//	Produces:
+//	- application/json
+//
+//	Responses:
+//	  200: nodeDBResponse
 func PostGongTimeField(c *gin.Context) {
 	db := orm.BackRepo.BackRepoGongTimeField.GetDB()
 
@@ -124,6 +126,14 @@ func PostGongTimeField(c *gin.Context) {
 		return
 	}
 
+	// get an instance (not staged) from DB instance, and call callback function
+	gongtimefield := new(models.GongTimeField)
+	gongtimefieldDB.CopyBasicFieldsToGongTimeField(gongtimefield)
+
+	if gongtimefield != nil {
+		models.AfterCreateFromFront(&models.Stage, gongtimefield)
+	}
+
 	// a POST is equivalent to a back repo commit increase
 	// (this will be improved with implementation of unit of work design pattern)
 	orm.BackRepo.IncrementPushFromFrontNb()
@@ -138,8 +148,9 @@ func PostGongTimeField(c *gin.Context) {
 // Gets the details for a gongtimefield.
 //
 // Responses:
-//    default: genericError
-//        200: gongtimefieldDBResponse
+// default: genericError
+//
+//	200: gongtimefieldDBResponse
 func GetGongTimeField(c *gin.Context) {
 	db := orm.BackRepo.BackRepoGongTimeField.GetDB()
 
@@ -166,11 +177,12 @@ func GetGongTimeField(c *gin.Context) {
 //
 // swagger:route PATCH /gongtimefields/{ID} gongtimefields updateGongTimeField
 //
-// Update a gongtimefield
+// # Update a gongtimefield
 //
 // Responses:
-//    default: genericError
-//        200: gongtimefieldDBResponse
+// default: genericError
+//
+//	200: gongtimefieldDBResponse
 func UpdateGongTimeField(c *gin.Context) {
 	db := orm.BackRepo.BackRepoGongTimeField.GetDB()
 
@@ -211,8 +223,20 @@ func UpdateGongTimeField(c *gin.Context) {
 		return
 	}
 
+	// get an instance (not staged) from DB instance, and call callback function
+	gongtimefieldNew := new(models.GongTimeField)
+	gongtimefieldDB.CopyBasicFieldsToGongTimeField(gongtimefieldNew)
+
+	// get stage instance from DB instance, and call callback function
+	gongtimefieldOld := (*orm.BackRepo.BackRepoGongTimeField.Map_GongTimeFieldDBID_GongTimeFieldPtr)[gongtimefieldDB.ID]
+	if gongtimefieldOld != nil {
+		models.AfterUpdateFromFront(&models.Stage, gongtimefieldOld, gongtimefieldNew)
+	}
+
 	// an UPDATE generates a back repo commit increase
 	// (this will be improved with implementation of unit of work design pattern)
+	// in some cases, with the marshalling of the stage, this operation might
+	// generates a checkout
 	orm.BackRepo.IncrementPushFromFrontNb()
 
 	// return status OK with the marshalling of the the gongtimefieldDB
@@ -223,10 +247,11 @@ func UpdateGongTimeField(c *gin.Context) {
 //
 // swagger:route DELETE /gongtimefields/{ID} gongtimefields deleteGongTimeField
 //
-// Delete a gongtimefield
+// # Delete a gongtimefield
 //
-// Responses:
-//    default: genericError
+// default: genericError
+//
+//	200: gongtimefieldDBResponse
 func DeleteGongTimeField(c *gin.Context) {
 	db := orm.BackRepo.BackRepoGongTimeField.GetDB()
 
@@ -243,6 +268,12 @@ func DeleteGongTimeField(c *gin.Context) {
 
 	// with gorm.Model field, default delete is a soft delete. Unscoped() force delete
 	db.Unscoped().Delete(&gongtimefieldDB)
+
+	// get stage instance from DB instance, and call callback function
+	gongtimefield := (*orm.BackRepo.BackRepoGongTimeField.Map_GongTimeFieldDBID_GongTimeFieldPtr)[gongtimefieldDB.ID]
+	if gongtimefield != nil {
+		models.AfterDeleteFromFront(&models.Stage, gongtimefield)
+	}
 
 	// a DELETE generates a back repo commit increase
 	// (this will be improved with implementation of unit of work design pattern)

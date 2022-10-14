@@ -2,6 +2,7 @@
 package models
 
 import (
+	"errors"
 	"fmt"
 	"log"
 	"os"
@@ -10,6 +11,9 @@ import (
 	"sort"
 	"strings"
 )
+
+// errUnkownEnum is returns when a value cannot match enum values
+var errUnkownEnum = errors.New("unkown enum")
 
 // swagger:ignore
 type __void any
@@ -31,29 +35,83 @@ type StageStruct struct { // insertion point for definition of arrays registerin
 	GongBasicFields           map[*GongBasicField]any
 	GongBasicFields_mapString map[string]*GongBasicField
 
+	OnAfterGongBasicFieldCreateCallback OnAfterCreateInterface[GongBasicField]
+	OnAfterGongBasicFieldUpdateCallback OnAfterUpdateInterface[GongBasicField]
+	OnAfterGongBasicFieldDeleteCallback OnAfterDeleteInterface[GongBasicField]
+	OnAfterGongBasicFieldReadCallback   OnAfterReadInterface[GongBasicField]
+
+
 	GongEnums           map[*GongEnum]any
 	GongEnums_mapString map[string]*GongEnum
+
+	OnAfterGongEnumCreateCallback OnAfterCreateInterface[GongEnum]
+	OnAfterGongEnumUpdateCallback OnAfterUpdateInterface[GongEnum]
+	OnAfterGongEnumDeleteCallback OnAfterDeleteInterface[GongEnum]
+	OnAfterGongEnumReadCallback   OnAfterReadInterface[GongEnum]
+
 
 	GongEnumValues           map[*GongEnumValue]any
 	GongEnumValues_mapString map[string]*GongEnumValue
 
+	OnAfterGongEnumValueCreateCallback OnAfterCreateInterface[GongEnumValue]
+	OnAfterGongEnumValueUpdateCallback OnAfterUpdateInterface[GongEnumValue]
+	OnAfterGongEnumValueDeleteCallback OnAfterDeleteInterface[GongEnumValue]
+	OnAfterGongEnumValueReadCallback   OnAfterReadInterface[GongEnumValue]
+
+
 	GongNotes           map[*GongNote]any
 	GongNotes_mapString map[string]*GongNote
+
+	OnAfterGongNoteCreateCallback OnAfterCreateInterface[GongNote]
+	OnAfterGongNoteUpdateCallback OnAfterUpdateInterface[GongNote]
+	OnAfterGongNoteDeleteCallback OnAfterDeleteInterface[GongNote]
+	OnAfterGongNoteReadCallback   OnAfterReadInterface[GongNote]
+
 
 	GongStructs           map[*GongStruct]any
 	GongStructs_mapString map[string]*GongStruct
 
+	OnAfterGongStructCreateCallback OnAfterCreateInterface[GongStruct]
+	OnAfterGongStructUpdateCallback OnAfterUpdateInterface[GongStruct]
+	OnAfterGongStructDeleteCallback OnAfterDeleteInterface[GongStruct]
+	OnAfterGongStructReadCallback   OnAfterReadInterface[GongStruct]
+
+
 	GongTimeFields           map[*GongTimeField]any
 	GongTimeFields_mapString map[string]*GongTimeField
+
+	OnAfterGongTimeFieldCreateCallback OnAfterCreateInterface[GongTimeField]
+	OnAfterGongTimeFieldUpdateCallback OnAfterUpdateInterface[GongTimeField]
+	OnAfterGongTimeFieldDeleteCallback OnAfterDeleteInterface[GongTimeField]
+	OnAfterGongTimeFieldReadCallback   OnAfterReadInterface[GongTimeField]
+
 
 	ModelPkgs           map[*ModelPkg]any
 	ModelPkgs_mapString map[string]*ModelPkg
 
+	OnAfterModelPkgCreateCallback OnAfterCreateInterface[ModelPkg]
+	OnAfterModelPkgUpdateCallback OnAfterUpdateInterface[ModelPkg]
+	OnAfterModelPkgDeleteCallback OnAfterDeleteInterface[ModelPkg]
+	OnAfterModelPkgReadCallback   OnAfterReadInterface[ModelPkg]
+
+
 	PointerToGongStructFields           map[*PointerToGongStructField]any
 	PointerToGongStructFields_mapString map[string]*PointerToGongStructField
 
+	OnAfterPointerToGongStructFieldCreateCallback OnAfterCreateInterface[PointerToGongStructField]
+	OnAfterPointerToGongStructFieldUpdateCallback OnAfterUpdateInterface[PointerToGongStructField]
+	OnAfterPointerToGongStructFieldDeleteCallback OnAfterDeleteInterface[PointerToGongStructField]
+	OnAfterPointerToGongStructFieldReadCallback   OnAfterReadInterface[PointerToGongStructField]
+
+
 	SliceOfPointerToGongStructFields           map[*SliceOfPointerToGongStructField]any
 	SliceOfPointerToGongStructFields_mapString map[string]*SliceOfPointerToGongStructField
+
+	OnAfterSliceOfPointerToGongStructFieldCreateCallback OnAfterCreateInterface[SliceOfPointerToGongStructField]
+	OnAfterSliceOfPointerToGongStructFieldUpdateCallback OnAfterUpdateInterface[SliceOfPointerToGongStructField]
+	OnAfterSliceOfPointerToGongStructFieldDeleteCallback OnAfterDeleteInterface[SliceOfPointerToGongStructField]
+	OnAfterSliceOfPointerToGongStructFieldReadCallback   OnAfterReadInterface[SliceOfPointerToGongStructField]
+
 
 	AllModelsStructCreateCallback AllModelsStructCreateInterface
 
@@ -72,6 +130,29 @@ type StageStruct struct { // insertion point for definition of arrays registerin
 
 type OnInitCommitInterface interface {
 	BeforeCommit(stage *StageStruct)
+}
+
+// OnAfterCreateInterface callback when an instance is updated from the front
+type OnAfterCreateInterface[Type Gongstruct] interface {
+	OnAfterCreate(stage *StageStruct,
+		instance *Type)
+}
+
+// OnAfterReadInterface callback when an instance is updated from the front
+type OnAfterReadInterface[Type Gongstruct] interface {
+	OnAfterRead(stage *StageStruct,
+		instance *Type)
+}
+
+// OnAfterUpdateInterface callback when an instance is updated from the front
+type OnAfterUpdateInterface[Type Gongstruct] interface {
+	OnAfterUpdate(stage *StageStruct, old, new *Type)
+}
+
+// OnAfterDeleteInterface callback when an instance is updated from the front
+type OnAfterDeleteInterface[Type Gongstruct] interface {
+	OnAfterDelete(stage *StageStruct,
+		instance *Type)
 }
 
 type BackRepoInterface interface {
@@ -2568,7 +2649,7 @@ func (gongenumtype GongEnumType) ToInt() (res int) {
 	return
 }
 
-func (gongenumtype *GongEnumType) FromInt(input int) {
+func (gongenumtype *GongEnumType) FromInt(input int) (err error) {
 
 	switch input {
 	// insertion code per enum code
@@ -2576,7 +2657,10 @@ func (gongenumtype *GongEnumType) FromInt(input int) {
 		*gongenumtype = Int
 	case 1:
 		*gongenumtype = String
+	default:
+		return errUnkownEnum
 	}
+	return
 }
 
 func (gongenumtype *GongEnumType) ToCodeString() (res string) {
