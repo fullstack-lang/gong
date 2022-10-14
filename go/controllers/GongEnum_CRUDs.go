@@ -41,11 +41,12 @@ type GongEnumInput struct {
 //
 // swagger:route GET /gongenums gongenums getGongEnums
 //
-// Get all gongenums
+// # Get all gongenums
 //
 // Responses:
-//    default: genericError
-//        200: gongenumDBsResponse
+// default: genericError
+//
+//	200: gongenumDBResponse
 func GetGongEnums(c *gin.Context) {
 	db := orm.BackRepo.BackRepoGongEnum.GetDB()
 
@@ -85,14 +86,15 @@ func GetGongEnums(c *gin.Context) {
 // swagger:route POST /gongenums gongenums postGongEnum
 //
 // Creates a gongenum
-//     Consumes:
-//     - application/json
 //
-//     Produces:
-//     - application/json
+//	Consumes:
+//	- application/json
 //
-//     Responses:
-//       200: gongenumDBResponse
+//	Produces:
+//	- application/json
+//
+//	Responses:
+//	  200: nodeDBResponse
 func PostGongEnum(c *gin.Context) {
 	db := orm.BackRepo.BackRepoGongEnum.GetDB()
 
@@ -124,6 +126,14 @@ func PostGongEnum(c *gin.Context) {
 		return
 	}
 
+	// get an instance (not staged) from DB instance, and call callback function
+	gongenum := new(models.GongEnum)
+	gongenumDB.CopyBasicFieldsToGongEnum(gongenum)
+
+	if gongenum != nil {
+		models.AfterCreateFromFront(&models.Stage, gongenum)
+	}
+
 	// a POST is equivalent to a back repo commit increase
 	// (this will be improved with implementation of unit of work design pattern)
 	orm.BackRepo.IncrementPushFromFrontNb()
@@ -138,8 +148,9 @@ func PostGongEnum(c *gin.Context) {
 // Gets the details for a gongenum.
 //
 // Responses:
-//    default: genericError
-//        200: gongenumDBResponse
+// default: genericError
+//
+//	200: gongenumDBResponse
 func GetGongEnum(c *gin.Context) {
 	db := orm.BackRepo.BackRepoGongEnum.GetDB()
 
@@ -166,11 +177,12 @@ func GetGongEnum(c *gin.Context) {
 //
 // swagger:route PATCH /gongenums/{ID} gongenums updateGongEnum
 //
-// Update a gongenum
+// # Update a gongenum
 //
 // Responses:
-//    default: genericError
-//        200: gongenumDBResponse
+// default: genericError
+//
+//	200: gongenumDBResponse
 func UpdateGongEnum(c *gin.Context) {
 	db := orm.BackRepo.BackRepoGongEnum.GetDB()
 
@@ -211,8 +223,20 @@ func UpdateGongEnum(c *gin.Context) {
 		return
 	}
 
+	// get an instance (not staged) from DB instance, and call callback function
+	gongenumNew := new(models.GongEnum)
+	gongenumDB.CopyBasicFieldsToGongEnum(gongenumNew)
+
+	// get stage instance from DB instance, and call callback function
+	gongenumOld := (*orm.BackRepo.BackRepoGongEnum.Map_GongEnumDBID_GongEnumPtr)[gongenumDB.ID]
+	if gongenumOld != nil {
+		models.AfterUpdateFromFront(&models.Stage, gongenumOld, gongenumNew)
+	}
+
 	// an UPDATE generates a back repo commit increase
 	// (this will be improved with implementation of unit of work design pattern)
+	// in some cases, with the marshalling of the stage, this operation might
+	// generates a checkout
 	orm.BackRepo.IncrementPushFromFrontNb()
 
 	// return status OK with the marshalling of the the gongenumDB
@@ -223,10 +247,11 @@ func UpdateGongEnum(c *gin.Context) {
 //
 // swagger:route DELETE /gongenums/{ID} gongenums deleteGongEnum
 //
-// Delete a gongenum
+// # Delete a gongenum
 //
-// Responses:
-//    default: genericError
+// default: genericError
+//
+//	200: gongenumDBResponse
 func DeleteGongEnum(c *gin.Context) {
 	db := orm.BackRepo.BackRepoGongEnum.GetDB()
 
@@ -243,6 +268,12 @@ func DeleteGongEnum(c *gin.Context) {
 
 	// with gorm.Model field, default delete is a soft delete. Unscoped() force delete
 	db.Unscoped().Delete(&gongenumDB)
+
+	// get stage instance from DB instance, and call callback function
+	gongenum := (*orm.BackRepo.BackRepoGongEnum.Map_GongEnumDBID_GongEnumPtr)[gongenumDB.ID]
+	if gongenum != nil {
+		models.AfterDeleteFromFront(&models.Stage, gongenum)
+	}
 
 	// a DELETE generates a back repo commit increase
 	// (this will be improved with implementation of unit of work design pattern)

@@ -583,9 +583,8 @@ const (
 	BackRepoNbInsertionPoints
 )
 
-//
 // Sub Templates
-//
+
 type BackRepoPerStructSubTemplate int
 
 const (

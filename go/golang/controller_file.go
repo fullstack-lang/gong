@@ -57,11 +57,12 @@ type {{Structname}}Input struct {
 //
 // swagger:route GET /{{structname}}s {{structname}}s get{{Structname}}s
 //
-// Get all {{structname}}s
+// # Get all {{structname}}s
 //
 // Responses:
-//    default: genericError
-//        200: {{structname}}DBsResponse
+// default: genericError
+//
+//	200: {{structname}}DBResponse
 func Get{{Structname}}s(c *gin.Context) {
 	db := orm.BackRepo.BackRepo{{Structname}}.GetDB()
 
@@ -101,14 +102,15 @@ func Get{{Structname}}s(c *gin.Context) {
 // swagger:route POST /{{structname}}s {{structname}}s post{{Structname}}
 //
 // Creates a {{structname}}
-//     Consumes:
-//     - application/json
 //
-//     Produces:
-//     - application/json
+//	Consumes:
+//	- application/json
 //
-//     Responses:
-//       200: {{structname}}DBResponse
+//	Produces:
+//	- application/json
+//
+//	Responses:
+//	  200: nodeDBResponse
 func Post{{Structname}}(c *gin.Context) {
 	db := orm.BackRepo.BackRepo{{Structname}}.GetDB()
 
@@ -140,6 +142,14 @@ func Post{{Structname}}(c *gin.Context) {
 		return
 	}
 
+	// get an instance (not staged) from DB instance, and call callback function
+	{{structname}} := new(models.{{Structname}})
+	{{structname}}DB.CopyBasicFieldsTo{{Structname}}({{structname}})
+
+	if {{structname}} != nil {
+		models.AfterCreateFromFront(&models.Stage, {{structname}})
+	}
+
 	// a POST is equivalent to a back repo commit increase
 	// (this will be improved with implementation of unit of work design pattern)
 	orm.BackRepo.IncrementPushFromFrontNb()
@@ -154,8 +164,9 @@ func Post{{Structname}}(c *gin.Context) {
 // Gets the details for a {{structname}}.
 //
 // Responses:
-//    default: genericError
-//        200: {{structname}}DBResponse
+// default: genericError
+//
+//	200: {{structname}}DBResponse
 func Get{{Structname}}(c *gin.Context) {
 	db := orm.BackRepo.BackRepo{{Structname}}.GetDB()
 
@@ -182,11 +193,12 @@ func Get{{Structname}}(c *gin.Context) {
 //
 // swagger:route PATCH /{{structname}}s/{ID} {{structname}}s update{{Structname}}
 //
-// Update a {{structname}}
+// # Update a {{structname}}
 //
 // Responses:
-//    default: genericError
-//        200: {{structname}}DBResponse
+// default: genericError
+//
+//	200: {{structname}}DBResponse
 func Update{{Structname}}(c *gin.Context) {
 	db := orm.BackRepo.BackRepo{{Structname}}.GetDB()
 
@@ -227,8 +239,20 @@ func Update{{Structname}}(c *gin.Context) {
 		return
 	}
 
+	// get an instance (not staged) from DB instance, and call callback function
+	{{structname}}New := new(models.{{Structname}})
+	{{structname}}DB.CopyBasicFieldsTo{{Structname}}({{structname}}New)
+
+	// get stage instance from DB instance, and call callback function
+	{{structname}}Old := (*orm.BackRepo.BackRepo{{Structname}}.Map_{{Structname}}DBID_{{Structname}}Ptr)[{{structname}}DB.ID]
+	if {{structname}}Old != nil {
+		models.AfterUpdateFromFront(&models.Stage, {{structname}}Old, {{structname}}New)
+	}
+
 	// an UPDATE generates a back repo commit increase
 	// (this will be improved with implementation of unit of work design pattern)
+	// in some cases, with the marshalling of the stage, this operation might
+	// generates a checkout
 	orm.BackRepo.IncrementPushFromFrontNb()
 
 	// return status OK with the marshalling of the the {{structname}}DB
@@ -239,10 +263,11 @@ func Update{{Structname}}(c *gin.Context) {
 //
 // swagger:route DELETE /{{structname}}s/{ID} {{structname}}s delete{{Structname}}
 //
-// Delete a {{structname}}
+// # Delete a {{structname}}
 //
-// Responses:
-//    default: genericError
+// default: genericError
+//
+//	200: {{structname}}DBResponse
 func Delete{{Structname}}(c *gin.Context) {
 	db := orm.BackRepo.BackRepo{{Structname}}.GetDB()
 
@@ -259,6 +284,12 @@ func Delete{{Structname}}(c *gin.Context) {
 
 	// with gorm.Model field, default delete is a soft delete. Unscoped() force delete
 	db.Unscoped().Delete(&{{structname}}DB)
+
+	// get stage instance from DB instance, and call callback function
+	{{structname}} := (*orm.BackRepo.BackRepo{{Structname}}.Map_{{Structname}}DBID_{{Structname}}Ptr)[{{structname}}DB.ID]
+	if {{structname}} != nil {
+		models.AfterDeleteFromFront(&models.Stage, {{structname}})
+	}
 
 	// a DELETE generates a back repo commit increase
 	// (this will be improved with implementation of unit of work design pattern)
@@ -279,9 +310,7 @@ const (
 	ControllerFileNbInsertionPoints
 )
 
-//
 // Sub Templates
-//
 type ControllerFilPerStructSubTemplate int
 
 const (

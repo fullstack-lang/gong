@@ -41,11 +41,12 @@ type GongBasicFieldInput struct {
 //
 // swagger:route GET /gongbasicfields gongbasicfields getGongBasicFields
 //
-// Get all gongbasicfields
+// # Get all gongbasicfields
 //
 // Responses:
-//    default: genericError
-//        200: gongbasicfieldDBsResponse
+// default: genericError
+//
+//	200: gongbasicfieldDBResponse
 func GetGongBasicFields(c *gin.Context) {
 	db := orm.BackRepo.BackRepoGongBasicField.GetDB()
 
@@ -85,14 +86,15 @@ func GetGongBasicFields(c *gin.Context) {
 // swagger:route POST /gongbasicfields gongbasicfields postGongBasicField
 //
 // Creates a gongbasicfield
-//     Consumes:
-//     - application/json
 //
-//     Produces:
-//     - application/json
+//	Consumes:
+//	- application/json
 //
-//     Responses:
-//       200: gongbasicfieldDBResponse
+//	Produces:
+//	- application/json
+//
+//	Responses:
+//	  200: nodeDBResponse
 func PostGongBasicField(c *gin.Context) {
 	db := orm.BackRepo.BackRepoGongBasicField.GetDB()
 
@@ -124,6 +126,14 @@ func PostGongBasicField(c *gin.Context) {
 		return
 	}
 
+	// get an instance (not staged) from DB instance, and call callback function
+	gongbasicfield := new(models.GongBasicField)
+	gongbasicfieldDB.CopyBasicFieldsToGongBasicField(gongbasicfield)
+
+	if gongbasicfield != nil {
+		models.AfterCreateFromFront(&models.Stage, gongbasicfield)
+	}
+
 	// a POST is equivalent to a back repo commit increase
 	// (this will be improved with implementation of unit of work design pattern)
 	orm.BackRepo.IncrementPushFromFrontNb()
@@ -138,8 +148,9 @@ func PostGongBasicField(c *gin.Context) {
 // Gets the details for a gongbasicfield.
 //
 // Responses:
-//    default: genericError
-//        200: gongbasicfieldDBResponse
+// default: genericError
+//
+//	200: gongbasicfieldDBResponse
 func GetGongBasicField(c *gin.Context) {
 	db := orm.BackRepo.BackRepoGongBasicField.GetDB()
 
@@ -166,11 +177,12 @@ func GetGongBasicField(c *gin.Context) {
 //
 // swagger:route PATCH /gongbasicfields/{ID} gongbasicfields updateGongBasicField
 //
-// Update a gongbasicfield
+// # Update a gongbasicfield
 //
 // Responses:
-//    default: genericError
-//        200: gongbasicfieldDBResponse
+// default: genericError
+//
+//	200: gongbasicfieldDBResponse
 func UpdateGongBasicField(c *gin.Context) {
 	db := orm.BackRepo.BackRepoGongBasicField.GetDB()
 
@@ -211,8 +223,20 @@ func UpdateGongBasicField(c *gin.Context) {
 		return
 	}
 
+	// get an instance (not staged) from DB instance, and call callback function
+	gongbasicfieldNew := new(models.GongBasicField)
+	gongbasicfieldDB.CopyBasicFieldsToGongBasicField(gongbasicfieldNew)
+
+	// get stage instance from DB instance, and call callback function
+	gongbasicfieldOld := (*orm.BackRepo.BackRepoGongBasicField.Map_GongBasicFieldDBID_GongBasicFieldPtr)[gongbasicfieldDB.ID]
+	if gongbasicfieldOld != nil {
+		models.AfterUpdateFromFront(&models.Stage, gongbasicfieldOld, gongbasicfieldNew)
+	}
+
 	// an UPDATE generates a back repo commit increase
 	// (this will be improved with implementation of unit of work design pattern)
+	// in some cases, with the marshalling of the stage, this operation might
+	// generates a checkout
 	orm.BackRepo.IncrementPushFromFrontNb()
 
 	// return status OK with the marshalling of the the gongbasicfieldDB
@@ -223,10 +247,11 @@ func UpdateGongBasicField(c *gin.Context) {
 //
 // swagger:route DELETE /gongbasicfields/{ID} gongbasicfields deleteGongBasicField
 //
-// Delete a gongbasicfield
+// # Delete a gongbasicfield
 //
-// Responses:
-//    default: genericError
+// default: genericError
+//
+//	200: gongbasicfieldDBResponse
 func DeleteGongBasicField(c *gin.Context) {
 	db := orm.BackRepo.BackRepoGongBasicField.GetDB()
 
@@ -243,6 +268,12 @@ func DeleteGongBasicField(c *gin.Context) {
 
 	// with gorm.Model field, default delete is a soft delete. Unscoped() force delete
 	db.Unscoped().Delete(&gongbasicfieldDB)
+
+	// get stage instance from DB instance, and call callback function
+	gongbasicfield := (*orm.BackRepo.BackRepoGongBasicField.Map_GongBasicFieldDBID_GongBasicFieldPtr)[gongbasicfieldDB.ID]
+	if gongbasicfield != nil {
+		models.AfterDeleteFromFront(&models.Stage, gongbasicfield)
+	}
 
 	// a DELETE generates a back repo commit increase
 	// (this will be improved with implementation of unit of work design pattern)
