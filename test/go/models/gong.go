@@ -35,17 +35,47 @@ type StageStruct struct { // insertion point for definition of arrays registerin
 	Astructs           map[*Astruct]any
 	Astructs_mapString map[string]*Astruct
 
+	OnAfterAstructCreateCallback OnAfterCreateInterface[Astruct]
+	OnAfterAstructUpdateCallback OnAfterUpdateInterface[Astruct]
+	OnAfterAstructDeleteCallback OnAfterDeleteInterface[Astruct]
+	OnAfterAstructReadCallback   OnAfterReadInterface[Astruct]
+
+
 	AstructBstruct2Uses           map[*AstructBstruct2Use]any
 	AstructBstruct2Uses_mapString map[string]*AstructBstruct2Use
+
+	OnAfterAstructBstruct2UseCreateCallback OnAfterCreateInterface[AstructBstruct2Use]
+	OnAfterAstructBstruct2UseUpdateCallback OnAfterUpdateInterface[AstructBstruct2Use]
+	OnAfterAstructBstruct2UseDeleteCallback OnAfterDeleteInterface[AstructBstruct2Use]
+	OnAfterAstructBstruct2UseReadCallback   OnAfterReadInterface[AstructBstruct2Use]
+
 
 	AstructBstructUses           map[*AstructBstructUse]any
 	AstructBstructUses_mapString map[string]*AstructBstructUse
 
+	OnAfterAstructBstructUseCreateCallback OnAfterCreateInterface[AstructBstructUse]
+	OnAfterAstructBstructUseUpdateCallback OnAfterUpdateInterface[AstructBstructUse]
+	OnAfterAstructBstructUseDeleteCallback OnAfterDeleteInterface[AstructBstructUse]
+	OnAfterAstructBstructUseReadCallback   OnAfterReadInterface[AstructBstructUse]
+
+
 	Bstructs           map[*Bstruct]any
 	Bstructs_mapString map[string]*Bstruct
 
+	OnAfterBstructCreateCallback OnAfterCreateInterface[Bstruct]
+	OnAfterBstructUpdateCallback OnAfterUpdateInterface[Bstruct]
+	OnAfterBstructDeleteCallback OnAfterDeleteInterface[Bstruct]
+	OnAfterBstructReadCallback   OnAfterReadInterface[Bstruct]
+
+
 	Dstructs           map[*Dstruct]any
 	Dstructs_mapString map[string]*Dstruct
+
+	OnAfterDstructCreateCallback OnAfterCreateInterface[Dstruct]
+	OnAfterDstructUpdateCallback OnAfterUpdateInterface[Dstruct]
+	OnAfterDstructDeleteCallback OnAfterDeleteInterface[Dstruct]
+	OnAfterDstructReadCallback   OnAfterReadInterface[Dstruct]
+
 
 	AllModelsStructCreateCallback AllModelsStructCreateInterface
 
@@ -64,6 +94,29 @@ type StageStruct struct { // insertion point for definition of arrays registerin
 
 type OnInitCommitInterface interface {
 	BeforeCommit(stage *StageStruct)
+}
+
+// OnAfterCreateInterface callback when an instance is updated from the front
+type OnAfterCreateInterface[Type Gongstruct] interface {
+	OnAfterCreate(stage *StageStruct,
+		instance *Type)
+}
+
+// OnAfterReadInterface callback when an instance is updated from the front
+type OnAfterReadInterface[Type Gongstruct] interface {
+	OnAfterRead(stage *StageStruct,
+		instance *Type)
+}
+
+// OnAfterUpdateInterface callback when an instance is updated from the front
+type OnAfterUpdateInterface[Type Gongstruct] interface {
+	OnAfterUpdate(stage *StageStruct, old, new *Type)
+}
+
+// OnAfterDeleteInterface callback when an instance is updated from the front
+type OnAfterDeleteInterface[Type Gongstruct] interface {
+	OnAfterDelete(stage *StageStruct,
+		instance *Type)
 }
 
 type BackRepoInterface interface {

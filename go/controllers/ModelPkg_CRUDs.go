@@ -41,11 +41,12 @@ type ModelPkgInput struct {
 //
 // swagger:route GET /modelpkgs modelpkgs getModelPkgs
 //
-// Get all modelpkgs
+// # Get all modelpkgs
 //
 // Responses:
-//    default: genericError
-//        200: modelpkgDBsResponse
+// default: genericError
+//
+//	200: modelpkgDBResponse
 func GetModelPkgs(c *gin.Context) {
 	db := orm.BackRepo.BackRepoModelPkg.GetDB()
 
@@ -85,14 +86,15 @@ func GetModelPkgs(c *gin.Context) {
 // swagger:route POST /modelpkgs modelpkgs postModelPkg
 //
 // Creates a modelpkg
-//     Consumes:
-//     - application/json
 //
-//     Produces:
-//     - application/json
+//	Consumes:
+//	- application/json
 //
-//     Responses:
-//       200: modelpkgDBResponse
+//	Produces:
+//	- application/json
+//
+//	Responses:
+//	  200: nodeDBResponse
 func PostModelPkg(c *gin.Context) {
 	db := orm.BackRepo.BackRepoModelPkg.GetDB()
 
@@ -124,6 +126,14 @@ func PostModelPkg(c *gin.Context) {
 		return
 	}
 
+	// get an instance (not staged) from DB instance, and call callback function
+	modelpkg := new(models.ModelPkg)
+	modelpkgDB.CopyBasicFieldsToModelPkg(modelpkg)
+
+	if modelpkg != nil {
+		models.AfterCreateFromFront(&models.Stage, modelpkg)
+	}
+
 	// a POST is equivalent to a back repo commit increase
 	// (this will be improved with implementation of unit of work design pattern)
 	orm.BackRepo.IncrementPushFromFrontNb()
@@ -138,8 +148,9 @@ func PostModelPkg(c *gin.Context) {
 // Gets the details for a modelpkg.
 //
 // Responses:
-//    default: genericError
-//        200: modelpkgDBResponse
+// default: genericError
+//
+//	200: modelpkgDBResponse
 func GetModelPkg(c *gin.Context) {
 	db := orm.BackRepo.BackRepoModelPkg.GetDB()
 
@@ -166,11 +177,12 @@ func GetModelPkg(c *gin.Context) {
 //
 // swagger:route PATCH /modelpkgs/{ID} modelpkgs updateModelPkg
 //
-// Update a modelpkg
+// # Update a modelpkg
 //
 // Responses:
-//    default: genericError
-//        200: modelpkgDBResponse
+// default: genericError
+//
+//	200: modelpkgDBResponse
 func UpdateModelPkg(c *gin.Context) {
 	db := orm.BackRepo.BackRepoModelPkg.GetDB()
 
@@ -211,8 +223,20 @@ func UpdateModelPkg(c *gin.Context) {
 		return
 	}
 
+	// get an instance (not staged) from DB instance, and call callback function
+	modelpkgNew := new(models.ModelPkg)
+	modelpkgDB.CopyBasicFieldsToModelPkg(modelpkgNew)
+
+	// get stage instance from DB instance, and call callback function
+	modelpkgOld := (*orm.BackRepo.BackRepoModelPkg.Map_ModelPkgDBID_ModelPkgPtr)[modelpkgDB.ID]
+	if modelpkgOld != nil {
+		models.AfterUpdateFromFront(&models.Stage, modelpkgOld, modelpkgNew)
+	}
+
 	// an UPDATE generates a back repo commit increase
 	// (this will be improved with implementation of unit of work design pattern)
+	// in some cases, with the marshalling of the stage, this operation might
+	// generates a checkout
 	orm.BackRepo.IncrementPushFromFrontNb()
 
 	// return status OK with the marshalling of the the modelpkgDB
@@ -223,10 +247,11 @@ func UpdateModelPkg(c *gin.Context) {
 //
 // swagger:route DELETE /modelpkgs/{ID} modelpkgs deleteModelPkg
 //
-// Delete a modelpkg
+// # Delete a modelpkg
 //
-// Responses:
-//    default: genericError
+// default: genericError
+//
+//	200: modelpkgDBResponse
 func DeleteModelPkg(c *gin.Context) {
 	db := orm.BackRepo.BackRepoModelPkg.GetDB()
 
@@ -243,6 +268,12 @@ func DeleteModelPkg(c *gin.Context) {
 
 	// with gorm.Model field, default delete is a soft delete. Unscoped() force delete
 	db.Unscoped().Delete(&modelpkgDB)
+
+	// get stage instance from DB instance, and call callback function
+	modelpkg := (*orm.BackRepo.BackRepoModelPkg.Map_ModelPkgDBID_ModelPkgPtr)[modelpkgDB.ID]
+	if modelpkg != nil {
+		models.AfterDeleteFromFront(&models.Stage, modelpkg)
+	}
 
 	// a DELETE generates a back repo commit increase
 	// (this will be improved with implementation of unit of work design pattern)

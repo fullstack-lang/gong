@@ -306,6 +306,13 @@ func main() {
 		filepath.Join(*pkgPath, "../controllers/register_controllers.go"),
 		golang.ControllersRegisterTemplate, golang.ControllersRegistrationsSubTemplate)
 
+	gong_models.SimpleCodeGeneratorForGongStructWithNameField(
+		modelPkg,
+		modelPkg.Name,
+		modelPkg.PkgPath,
+		filepath.Join(*pkgPath, "../models/gong_callbacks.go"),
+		golang.ModelGongCallbacksFileTemplate, golang.ModelGongCallbacksStructSubTemplateCode)
+
 	golang.MultiCodeGeneratorBackRepo(
 		modelPkg,
 		modelPkg.Name,
