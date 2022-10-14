@@ -430,7 +430,8 @@ func main() {
 		if !*compileForDebug {
 			cmd = exec.Command("go", "build")
 		} else {
-			cmd = exec.Command("go", "build", "-gcFlags='-N -l")
+			// gcFlags allows for speedup of delve
+			cmd = exec.Command("go", "build", "-gcFlags='-N -l'")
 		}
 		cmd.Dir, _ = filepath.Abs(filepath.Join(*pkgPath, fmt.Sprintf("../cmd/%s", gong_models.ComputePkgNameFromPkgPath(*pkgPath))))
 		log.Printf("Running %s command in directory %s and waiting for it to finish...\n", cmd.Args, cmd.Dir)
