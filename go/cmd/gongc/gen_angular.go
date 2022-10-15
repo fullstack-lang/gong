@@ -409,7 +409,7 @@ func genAngular(modelPkg *gong_models.ModelPkg) {
 		modelPkg.PkgPath,
 		*addr)
 
-	angular.CodeGeneratorNgCommitNb(
+	angular.CodeGeneratorNgCommitNbFromBack(
 		modelPkg,
 		modelPkg.Name,
 		gong_models.MatTargetPath,
