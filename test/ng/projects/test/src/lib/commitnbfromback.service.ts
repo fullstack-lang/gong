@@ -13,13 +13,13 @@ import { catchError, map, tap } from 'rxjs/operators';
 @Injectable({
     providedIn: 'root'
 })
-export class CommitNbService {
+export class CommitNbFromBackService {
 
     httpOptions = {
         headers: new HttpHeaders({ 'Content-Type': 'application/json' })
     };
 
-    private commitNbUrl: string
+    private commitNbFromBackUrl: string
 
     constructor(
         private http: HttpClient,
@@ -34,12 +34,12 @@ export class CommitNbService {
         origin = origin.replace("4200", "8080")
 
         // compute path to the service
-        this.commitNbUrl = origin + '/api/github.com/fullstack-lang/gong/test/go/commitfrombacknb';
+        this.commitNbFromBackUrl = origin + '/api/github.com/fullstack-lang/gong/test/go/commitfrombacknb';
     }
 
     // observable of the commit nb getter
-    public getCommitNb(): Observable<number> {
-        return this.http.get<number>(this.commitNbUrl)
+    public getCommitNbFromBack(): Observable<number> {
+        return this.http.get<number>(this.commitNbFromBackUrl)
             .pipe(
                 tap(_ => this.log('fetched commit nb')),
                 catchError(this.handleError<number>('getCommitNb', -1))
