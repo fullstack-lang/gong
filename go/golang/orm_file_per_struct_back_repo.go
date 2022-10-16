@@ -355,6 +355,7 @@ func (backRepo *BackRepoStruct) Commit{{Structname}}({{structname}} *models.{{St
 	if id, ok := (*backRepo.BackRepo{{Structname}}.Map_{{Structname}}Ptr_{{Structname}}DBID)[{{structname}}]; ok {
 		backRepo.BackRepo{{Structname}}.CommitPhaseTwoInstance(backRepo, id, {{structname}})
 	}
+	backRepo.CommitFromBackNb = backRepo.CommitFromBackNb + 1
 }
 
 // Commit{{Structname}} allows checkout of a single {{structname}} (if already staged and with a BackRepo id)

@@ -7,7 +7,7 @@ import { FlatTreeControl } from '@angular/cdk/tree';
 import { MatTreeFlatDataSource, MatTreeFlattener } from '@angular/material/tree';
 
 import { FrontRepoService, FrontRepo } from '../front-repo.service'
-import { CommitNbService } from '../commitnb.service'
+import { CommitNbFromBackService } from '../commitnbfromback.service'
 import { GongstructSelectionService } from '../gongstruct-selection.service'
 
 // insertion point for per struct import code
@@ -153,7 +153,7 @@ export class SidebarComponent implements OnInit {
 
   // front repo
   frontRepo: FrontRepo = new (FrontRepo)
-  commitNb: number = 0
+  commitNbFromBack: number = 0
 
   // "data" tree that is constructed during NgInit and is passed to the mat-tree component
   gongNodeTree = new Array<GongNode>();
@@ -167,7 +167,7 @@ export class SidebarComponent implements OnInit {
   constructor(
     private router: Router,
     private frontRepoService: FrontRepoService,
-    private commitNbService: CommitNbService,
+    private commitNbFromBackService: CommitNbFromBackService,
     private gongstructSelectionService: GongstructSelectionService,
 
     // insertion point for per struct service declaration
@@ -978,9 +978,9 @@ export class SidebarComponent implements OnInit {
     });
 
     // fetch the number of commits
-    this.commitNbService.getCommitNb().subscribe(
-      commitNb => {
-        this.commitNb = commitNb
+    this.commitNbFromBackService.getCommitNbFromBack().subscribe(
+      commitNbFromBack => {
+        this.commitNbFromBack = commitNbFromBack
       }
     )
   }
