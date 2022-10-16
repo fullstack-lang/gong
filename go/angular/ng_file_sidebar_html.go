@@ -34,7 +34,7 @@ const NgSidebarTemplateHTML = `<mat-tree [dataSource]="dataSource" [treeControl]
         </mat-icon>
     </mat-tree-node>
 </mat-tree>
-<h3>&nbsp;&nbsp;Nb commits:&nbsp; &nbsp;&nbsp;{{commitNb}}</h3>`
+<h3>&nbsp;&nbsp;Nb commits:&nbsp; &nbsp;&nbsp;{{commitNbFromBack}}</h3>`
 
 // insertion points
 type NgSidebarHtmlInsertionPoint int
@@ -44,9 +44,7 @@ const (
 	NgSidebarHtmlNbInsertionPoints
 )
 
-//
 // Sub Templates
-//
 type NgSidebarHtmlSubTemplate int
 
 const (
