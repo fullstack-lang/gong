@@ -1,4 +1,16 @@
-import { Injectable, Component, Inject } from '@angular/core';
+package angular
+
+import (
+	"fmt"
+	"log"
+	"os"
+	"path/filepath"
+	"strings"
+
+	"github.com/fullstack-lang/gong/go/models"
+)
+
+const NgCommitNbFromBackTemplateTS = `import { Injectable, Component, Inject } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { DOCUMENT, Location } from '@angular/common'
@@ -13,13 +25,13 @@ import { catchError, map, tap } from 'rxjs/operators';
 @Injectable({
     providedIn: 'root'
 })
-export class CommitNbService {
+export class CommitNbFromBackService {
 
     httpOptions = {
         headers: new HttpHeaders({ 'Content-Type': 'application/json' })
     };
 
-    private commitNbUrl: string
+    private commitNbFromBackUrl: string
 
     constructor(
         private http: HttpClient,
@@ -34,12 +46,12 @@ export class CommitNbService {
         origin = origin.replace("4200", "8080")
 
         // compute path to the service
-        this.commitNbUrl = origin + '/api/github.com/fullstack-lang/gong/test/go/commitfrombacknb';
+        this.commitNbFromBackUrl = origin + '/api/{{PkgPathRoot}}/commitfrombacknb';
     }
 
     // observable of the commit nb getter
-    public getCommitNb(): Observable<number> {
-        return this.http.get<number>(this.commitNbUrl)
+    public getCommitNbFromBack(): Observable<number> {
+        return this.http.get<number>(this.commitNbFromBackUrl)
             .pipe(
                 tap(_ => this.log('fetched commit nb')),
                 catchError(this.handleError<number>('getCommitNb', -1))
@@ -69,4 +81,33 @@ export class CommitNbService {
     private log(message: string) {
 
     }
+}
+`
+
+// MultiCodeGeneratorNgCommitNb parses mdlPkg and generates the code for the
+// CommitNb components
+func CodeGeneratorNgCommitNbFromBack(
+	mdlPkg *models.ModelPkg,
+	pkgName string,
+	matTargetPath string,
+	pkgGoPath string,
+	apiPath string) {
+
+	codeTS := NgCommitNbFromBackTemplateTS
+	codeTS = strings.ReplaceAll(codeTS, "{{addr}}", apiPath)
+
+	// final replacement
+	codeTS = models.Replace4(codeTS,
+		"{{PkgName}}", mdlPkg.Name,
+		"{{TitlePkgName}}", strings.Title(mdlPkg.Name),
+		"{{pkgname}}", strings.ToLower(mdlPkg.Name),
+		"{{PkgPathRoot}}", strings.ReplaceAll(mdlPkg.PkgPath, "/models", ""))
+
+	file, err := os.Create(filepath.Join(matTargetPath, "commitnbfromback.service.ts"))
+	if err != nil {
+		log.Panic(err)
+	}
+	defer file.Close()
+	fmt.Fprint(file, codeTS)
+
 }
