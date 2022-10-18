@@ -143,8 +143,8 @@ func Post{{Structname}}(c *gin.Context) {
 	}
 
 	// get an instance (not staged) from DB instance, and call callback function
-	{{structname}} := new(models.{{Structname}})
-	{{structname}}DB.CopyBasicFieldsTo{{Structname}}({{structname}})
+	orm.BackRepo.BackRepo{{Structname}}.CheckoutPhaseOneInstance(&{{structname}}DB)
+	{{structname}} := (*orm.BackRepo.BackRepo{{Structname}}.Map_{{Structname}}DBID_{{Structname}}Ptr)[{{structname}}DB.ID]
 
 	if {{structname}} != nil {
 		models.AfterCreateFromFront(&models.Stage, {{structname}})
