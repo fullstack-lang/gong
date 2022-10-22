@@ -369,6 +369,7 @@ func (backRepo *BackRepoStruct) CommitAstructBstructUse(astructbstructuse *model
 	if id, ok := (*backRepo.BackRepoAstructBstructUse.Map_AstructBstructUsePtr_AstructBstructUseDBID)[astructbstructuse]; ok {
 		backRepo.BackRepoAstructBstructUse.CommitPhaseTwoInstance(backRepo, id, astructbstructuse)
 	}
+	backRepo.CommitFromBackNb = backRepo.CommitFromBackNb + 1
 }
 
 // CommitAstructBstructUse allows checkout of a single astructbstructuse (if already staged and with a BackRepo id)

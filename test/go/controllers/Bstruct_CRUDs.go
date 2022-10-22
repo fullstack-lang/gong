@@ -127,8 +127,8 @@ func PostBstruct(c *gin.Context) {
 	}
 
 	// get an instance (not staged) from DB instance, and call callback function
-	bstruct := new(models.Bstruct)
-	bstructDB.CopyBasicFieldsToBstruct(bstruct)
+	orm.BackRepo.BackRepoBstruct.CheckoutPhaseOneInstance(&bstructDB)
+	bstruct := (*orm.BackRepo.BackRepoBstruct.Map_BstructDBID_BstructPtr)[bstructDB.ID]
 
 	if bstruct != nil {
 		models.AfterCreateFromFront(&models.Stage, bstruct)
@@ -269,10 +269,14 @@ func DeleteBstruct(c *gin.Context) {
 	// with gorm.Model field, default delete is a soft delete. Unscoped() force delete
 	db.Unscoped().Delete(&bstructDB)
 
+	// get an instance (not staged) from DB instance, and call callback function
+	bstructDeleted := new(models.Bstruct)
+	bstructDB.CopyBasicFieldsToBstruct(bstructDeleted)
+
 	// get stage instance from DB instance, and call callback function
-	bstruct := (*orm.BackRepo.BackRepoBstruct.Map_BstructDBID_BstructPtr)[bstructDB.ID]
-	if bstruct != nil {
-		models.AfterDeleteFromFront(&models.Stage, bstruct)
+	bstructStaged := (*orm.BackRepo.BackRepoBstruct.Map_BstructDBID_BstructPtr)[bstructDB.ID]
+	if bstructStaged != nil {
+		models.AfterDeleteFromFront(&models.Stage, bstructStaged, bstructDeleted)
 	}
 
 	// a DELETE generates a back repo commit increase
