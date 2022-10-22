@@ -73,7 +73,7 @@ type OnAfterUpdateInterface[Type Gongstruct] interface {
 // OnAfterDeleteInterface callback when an instance is updated from the front
 type OnAfterDeleteInterface[Type Gongstruct] interface {
 	OnAfterDelete(stage *StageStruct,
-		instance *Type)
+		staged, front *Type)
 }
 
 type BackRepoInterface interface {
