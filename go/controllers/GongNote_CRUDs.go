@@ -127,8 +127,8 @@ func PostGongNote(c *gin.Context) {
 	}
 
 	// get an instance (not staged) from DB instance, and call callback function
-	gongnote := new(models.GongNote)
-	gongnoteDB.CopyBasicFieldsToGongNote(gongnote)
+	orm.BackRepo.BackRepoGongNote.CheckoutPhaseOneInstance(&gongnoteDB)
+	gongnote := (*orm.BackRepo.BackRepoGongNote.Map_GongNoteDBID_GongNotePtr)[gongnoteDB.ID]
 
 	if gongnote != nil {
 		models.AfterCreateFromFront(&models.Stage, gongnote)
@@ -269,10 +269,14 @@ func DeleteGongNote(c *gin.Context) {
 	// with gorm.Model field, default delete is a soft delete. Unscoped() force delete
 	db.Unscoped().Delete(&gongnoteDB)
 
+	// get an instance (not staged) from DB instance, and call callback function
+	gongnoteDeleted := new(models.GongNote)
+	gongnoteDB.CopyBasicFieldsToGongNote(gongnoteDeleted)
+
 	// get stage instance from DB instance, and call callback function
-	gongnote := (*orm.BackRepo.BackRepoGongNote.Map_GongNoteDBID_GongNotePtr)[gongnoteDB.ID]
-	if gongnote != nil {
-		models.AfterDeleteFromFront(&models.Stage, gongnote)
+	gongnoteStaged := (*orm.BackRepo.BackRepoGongNote.Map_GongNoteDBID_GongNotePtr)[gongnoteDB.ID]
+	if gongnoteStaged != nil {
+		models.AfterDeleteFromFront(&models.Stage, gongnoteStaged, gongnoteDeleted)
 	}
 
 	// a DELETE generates a back repo commit increase

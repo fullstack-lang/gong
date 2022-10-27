@@ -398,6 +398,7 @@ func (backRepo *BackRepoStruct) CommitGongEnum(gongenum *models.GongEnum) {
 	if id, ok := (*backRepo.BackRepoGongEnum.Map_GongEnumPtr_GongEnumDBID)[gongenum]; ok {
 		backRepo.BackRepoGongEnum.CommitPhaseTwoInstance(backRepo, id, gongenum)
 	}
+	backRepo.CommitFromBackNb = backRepo.CommitFromBackNb + 1
 }
 
 // CommitGongEnum allows checkout of a single gongenum (if already staged and with a BackRepo id)
