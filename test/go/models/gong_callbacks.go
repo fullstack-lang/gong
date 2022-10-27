@@ -62,29 +62,34 @@ func AfterUpdateFromFront[Type Gongstruct](stage *StageStruct, old, new *Type) {
 }
 
 // AfterDeleteFromFront is called after a delete from front
-func AfterDeleteFromFront[Type Gongstruct](stage *StageStruct, instance *Type) {
+func AfterDeleteFromFront[Type Gongstruct](stage *StageStruct, staged, front *Type) {
 
-	switch target := any(instance).(type) {
+	switch front := any(front).(type) {
 	// insertion point
 	case *Astruct:
 		if stage.OnAfterAstructDeleteCallback != nil {
-			stage.OnAfterAstructDeleteCallback.OnAfterDelete(stage, target)
+			staged := any(staged).(*Astruct)
+			stage.OnAfterAstructDeleteCallback.OnAfterDelete(stage, staged, front)
 		}
 	case *AstructBstruct2Use:
 		if stage.OnAfterAstructBstruct2UseDeleteCallback != nil {
-			stage.OnAfterAstructBstruct2UseDeleteCallback.OnAfterDelete(stage, target)
+			staged := any(staged).(*AstructBstruct2Use)
+			stage.OnAfterAstructBstruct2UseDeleteCallback.OnAfterDelete(stage, staged, front)
 		}
 	case *AstructBstructUse:
 		if stage.OnAfterAstructBstructUseDeleteCallback != nil {
-			stage.OnAfterAstructBstructUseDeleteCallback.OnAfterDelete(stage, target)
+			staged := any(staged).(*AstructBstructUse)
+			stage.OnAfterAstructBstructUseDeleteCallback.OnAfterDelete(stage, staged, front)
 		}
 	case *Bstruct:
 		if stage.OnAfterBstructDeleteCallback != nil {
-			stage.OnAfterBstructDeleteCallback.OnAfterDelete(stage, target)
+			staged := any(staged).(*Bstruct)
+			stage.OnAfterBstructDeleteCallback.OnAfterDelete(stage, staged, front)
 		}
 	case *Dstruct:
 		if stage.OnAfterDstructDeleteCallback != nil {
-			stage.OnAfterDstructDeleteCallback.OnAfterDelete(stage, target)
+			staged := any(staged).(*Dstruct)
+			stage.OnAfterDstructDeleteCallback.OnAfterDelete(stage, staged, front)
 		}
 	}
 }

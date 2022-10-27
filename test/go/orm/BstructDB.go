@@ -376,6 +376,7 @@ func (backRepo *BackRepoStruct) CommitBstruct(bstruct *models.Bstruct) {
 	if id, ok := (*backRepo.BackRepoBstruct.Map_BstructPtr_BstructDBID)[bstruct]; ok {
 		backRepo.BackRepoBstruct.CommitPhaseTwoInstance(backRepo, id, bstruct)
 	}
+	backRepo.CommitFromBackNb = backRepo.CommitFromBackNb + 1
 }
 
 // CommitBstruct allows checkout of a single bstruct (if already staged and with a BackRepo id)

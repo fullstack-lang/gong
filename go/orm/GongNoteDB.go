@@ -352,6 +352,7 @@ func (backRepo *BackRepoStruct) CommitGongNote(gongnote *models.GongNote) {
 	if id, ok := (*backRepo.BackRepoGongNote.Map_GongNotePtr_GongNoteDBID)[gongnote]; ok {
 		backRepo.BackRepoGongNote.CommitPhaseTwoInstance(backRepo, id, gongnote)
 	}
+	backRepo.CommitFromBackNb = backRepo.CommitFromBackNb + 1
 }
 
 // CommitGongNote allows checkout of a single gongnote (if already staged and with a BackRepo id)

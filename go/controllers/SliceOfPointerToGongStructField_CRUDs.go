@@ -127,8 +127,8 @@ func PostSliceOfPointerToGongStructField(c *gin.Context) {
 	}
 
 	// get an instance (not staged) from DB instance, and call callback function
-	sliceofpointertogongstructfield := new(models.SliceOfPointerToGongStructField)
-	sliceofpointertogongstructfieldDB.CopyBasicFieldsToSliceOfPointerToGongStructField(sliceofpointertogongstructfield)
+	orm.BackRepo.BackRepoSliceOfPointerToGongStructField.CheckoutPhaseOneInstance(&sliceofpointertogongstructfieldDB)
+	sliceofpointertogongstructfield := (*orm.BackRepo.BackRepoSliceOfPointerToGongStructField.Map_SliceOfPointerToGongStructFieldDBID_SliceOfPointerToGongStructFieldPtr)[sliceofpointertogongstructfieldDB.ID]
 
 	if sliceofpointertogongstructfield != nil {
 		models.AfterCreateFromFront(&models.Stage, sliceofpointertogongstructfield)
@@ -269,10 +269,14 @@ func DeleteSliceOfPointerToGongStructField(c *gin.Context) {
 	// with gorm.Model field, default delete is a soft delete. Unscoped() force delete
 	db.Unscoped().Delete(&sliceofpointertogongstructfieldDB)
 
+	// get an instance (not staged) from DB instance, and call callback function
+	sliceofpointertogongstructfieldDeleted := new(models.SliceOfPointerToGongStructField)
+	sliceofpointertogongstructfieldDB.CopyBasicFieldsToSliceOfPointerToGongStructField(sliceofpointertogongstructfieldDeleted)
+
 	// get stage instance from DB instance, and call callback function
-	sliceofpointertogongstructfield := (*orm.BackRepo.BackRepoSliceOfPointerToGongStructField.Map_SliceOfPointerToGongStructFieldDBID_SliceOfPointerToGongStructFieldPtr)[sliceofpointertogongstructfieldDB.ID]
-	if sliceofpointertogongstructfield != nil {
-		models.AfterDeleteFromFront(&models.Stage, sliceofpointertogongstructfield)
+	sliceofpointertogongstructfieldStaged := (*orm.BackRepo.BackRepoSliceOfPointerToGongStructField.Map_SliceOfPointerToGongStructFieldDBID_SliceOfPointerToGongStructFieldPtr)[sliceofpointertogongstructfieldDB.ID]
+	if sliceofpointertogongstructfieldStaged != nil {
+		models.AfterDeleteFromFront(&models.Stage, sliceofpointertogongstructfieldStaged, sliceofpointertogongstructfieldDeleted)
 	}
 
 	// a DELETE generates a back repo commit increase
