@@ -1,4 +1,6 @@
-package models
+package golang
+
+const ModelGongSerializeFileTemplate = `package models
 
 import (
 	"fmt"
@@ -12,12 +14,7 @@ func SerializeStage(filename string) {
 
 	f := excelize.NewFile()
 	{
-		// insertion point
-		SerializeExcelize[Astruct](f)
-		SerializeExcelize[AstructBstruct2Use](f)
-		SerializeExcelize[AstructBstructUse](f)
-		SerializeExcelize[Bstruct](f)
-		SerializeExcelize[Dstruct](f)
+		// insertion point{{` + string(rune(ModelGongSerializeStruct)) + `}}
 	}
 
 	var tab ExcelizeTabulator
@@ -138,4 +135,17 @@ func IntToLetters(number int32) (letters string) {
 	}
 
 	return
+}
+`
+
+type ModelGongSerializeStructInsertionId int
+
+const (
+	ModelGongSerializeStruct ModelGongSerializeStructInsertionId = iota
+)
+
+var ModelGongSerializeStructSubTemplateCode map[string]string = // new line
+map[string]string{
+	string(rune(ModelGongSerializeStruct)): `
+		SerializeExcelize[{{Structname}}](f)`,
 }
