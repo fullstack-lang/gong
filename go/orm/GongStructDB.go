@@ -530,6 +530,7 @@ func (backRepo *BackRepoStruct) CommitGongStruct(gongstruct *models.GongStruct) 
 	if id, ok := (*backRepo.BackRepoGongStruct.Map_GongStructPtr_GongStructDBID)[gongstruct]; ok {
 		backRepo.BackRepoGongStruct.CommitPhaseTwoInstance(backRepo, id, gongstruct)
 	}
+	backRepo.CommitFromBackNb = backRepo.CommitFromBackNb + 1
 }
 
 // CommitGongStruct allows checkout of a single gongstruct (if already staged and with a BackRepo id)

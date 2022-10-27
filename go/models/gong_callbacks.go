@@ -98,45 +98,54 @@ func AfterUpdateFromFront[Type Gongstruct](stage *StageStruct, old, new *Type) {
 }
 
 // AfterDeleteFromFront is called after a delete from front
-func AfterDeleteFromFront[Type Gongstruct](stage *StageStruct, instance *Type) {
+func AfterDeleteFromFront[Type Gongstruct](stage *StageStruct, staged, front *Type) {
 
-	switch target := any(instance).(type) {
+	switch front := any(front).(type) {
 	// insertion point
 	case *GongBasicField:
 		if stage.OnAfterGongBasicFieldDeleteCallback != nil {
-			stage.OnAfterGongBasicFieldDeleteCallback.OnAfterDelete(stage, target)
+			staged := any(staged).(*GongBasicField)
+			stage.OnAfterGongBasicFieldDeleteCallback.OnAfterDelete(stage, staged, front)
 		}
 	case *GongEnum:
 		if stage.OnAfterGongEnumDeleteCallback != nil {
-			stage.OnAfterGongEnumDeleteCallback.OnAfterDelete(stage, target)
+			staged := any(staged).(*GongEnum)
+			stage.OnAfterGongEnumDeleteCallback.OnAfterDelete(stage, staged, front)
 		}
 	case *GongEnumValue:
 		if stage.OnAfterGongEnumValueDeleteCallback != nil {
-			stage.OnAfterGongEnumValueDeleteCallback.OnAfterDelete(stage, target)
+			staged := any(staged).(*GongEnumValue)
+			stage.OnAfterGongEnumValueDeleteCallback.OnAfterDelete(stage, staged, front)
 		}
 	case *GongNote:
 		if stage.OnAfterGongNoteDeleteCallback != nil {
-			stage.OnAfterGongNoteDeleteCallback.OnAfterDelete(stage, target)
+			staged := any(staged).(*GongNote)
+			stage.OnAfterGongNoteDeleteCallback.OnAfterDelete(stage, staged, front)
 		}
 	case *GongStruct:
 		if stage.OnAfterGongStructDeleteCallback != nil {
-			stage.OnAfterGongStructDeleteCallback.OnAfterDelete(stage, target)
+			staged := any(staged).(*GongStruct)
+			stage.OnAfterGongStructDeleteCallback.OnAfterDelete(stage, staged, front)
 		}
 	case *GongTimeField:
 		if stage.OnAfterGongTimeFieldDeleteCallback != nil {
-			stage.OnAfterGongTimeFieldDeleteCallback.OnAfterDelete(stage, target)
+			staged := any(staged).(*GongTimeField)
+			stage.OnAfterGongTimeFieldDeleteCallback.OnAfterDelete(stage, staged, front)
 		}
 	case *ModelPkg:
 		if stage.OnAfterModelPkgDeleteCallback != nil {
-			stage.OnAfterModelPkgDeleteCallback.OnAfterDelete(stage, target)
+			staged := any(staged).(*ModelPkg)
+			stage.OnAfterModelPkgDeleteCallback.OnAfterDelete(stage, staged, front)
 		}
 	case *PointerToGongStructField:
 		if stage.OnAfterPointerToGongStructFieldDeleteCallback != nil {
-			stage.OnAfterPointerToGongStructFieldDeleteCallback.OnAfterDelete(stage, target)
+			staged := any(staged).(*PointerToGongStructField)
+			stage.OnAfterPointerToGongStructFieldDeleteCallback.OnAfterDelete(stage, staged, front)
 		}
 	case *SliceOfPointerToGongStructField:
 		if stage.OnAfterSliceOfPointerToGongStructFieldDeleteCallback != nil {
-			stage.OnAfterSliceOfPointerToGongStructFieldDeleteCallback.OnAfterDelete(stage, target)
+			staged := any(staged).(*SliceOfPointerToGongStructField)
+			stage.OnAfterSliceOfPointerToGongStructFieldDeleteCallback.OnAfterDelete(stage, staged, front)
 		}
 	}
 }
