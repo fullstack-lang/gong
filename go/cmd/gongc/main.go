@@ -315,6 +315,13 @@ func main() {
 		filepath.Join(*pkgPath, "../models/gong_callbacks.go"),
 		golang.ModelGongCallbacksFileTemplate, golang.ModelGongCallbacksStructSubTemplateCode)
 
+	gong_models.SimpleCodeGeneratorForGongStructWithNameField(
+		modelPkg,
+		modelPkg.Name,
+		modelPkg.PkgPath,
+		filepath.Join(*pkgPath, "../models/gong_serialize.go"),
+		golang.ModelGongSerializeFileTemplate, golang.ModelGongSerializeStructSubTemplateCode)
+
 	golang.MultiCodeGeneratorBackRepo(
 		modelPkg,
 		modelPkg.Name,
