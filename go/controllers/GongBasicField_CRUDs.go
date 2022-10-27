@@ -127,8 +127,8 @@ func PostGongBasicField(c *gin.Context) {
 	}
 
 	// get an instance (not staged) from DB instance, and call callback function
-	gongbasicfield := new(models.GongBasicField)
-	gongbasicfieldDB.CopyBasicFieldsToGongBasicField(gongbasicfield)
+	orm.BackRepo.BackRepoGongBasicField.CheckoutPhaseOneInstance(&gongbasicfieldDB)
+	gongbasicfield := (*orm.BackRepo.BackRepoGongBasicField.Map_GongBasicFieldDBID_GongBasicFieldPtr)[gongbasicfieldDB.ID]
 
 	if gongbasicfield != nil {
 		models.AfterCreateFromFront(&models.Stage, gongbasicfield)
@@ -269,10 +269,14 @@ func DeleteGongBasicField(c *gin.Context) {
 	// with gorm.Model field, default delete is a soft delete. Unscoped() force delete
 	db.Unscoped().Delete(&gongbasicfieldDB)
 
+	// get an instance (not staged) from DB instance, and call callback function
+	gongbasicfieldDeleted := new(models.GongBasicField)
+	gongbasicfieldDB.CopyBasicFieldsToGongBasicField(gongbasicfieldDeleted)
+
 	// get stage instance from DB instance, and call callback function
-	gongbasicfield := (*orm.BackRepo.BackRepoGongBasicField.Map_GongBasicFieldDBID_GongBasicFieldPtr)[gongbasicfieldDB.ID]
-	if gongbasicfield != nil {
-		models.AfterDeleteFromFront(&models.Stage, gongbasicfield)
+	gongbasicfieldStaged := (*orm.BackRepo.BackRepoGongBasicField.Map_GongBasicFieldDBID_GongBasicFieldPtr)[gongbasicfieldDB.ID]
+	if gongbasicfieldStaged != nil {
+		models.AfterDeleteFromFront(&models.Stage, gongbasicfieldStaged, gongbasicfieldDeleted)
 	}
 
 	// a DELETE generates a back repo commit increase

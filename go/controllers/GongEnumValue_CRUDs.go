@@ -127,8 +127,8 @@ func PostGongEnumValue(c *gin.Context) {
 	}
 
 	// get an instance (not staged) from DB instance, and call callback function
-	gongenumvalue := new(models.GongEnumValue)
-	gongenumvalueDB.CopyBasicFieldsToGongEnumValue(gongenumvalue)
+	orm.BackRepo.BackRepoGongEnumValue.CheckoutPhaseOneInstance(&gongenumvalueDB)
+	gongenumvalue := (*orm.BackRepo.BackRepoGongEnumValue.Map_GongEnumValueDBID_GongEnumValuePtr)[gongenumvalueDB.ID]
 
 	if gongenumvalue != nil {
 		models.AfterCreateFromFront(&models.Stage, gongenumvalue)
@@ -269,10 +269,14 @@ func DeleteGongEnumValue(c *gin.Context) {
 	// with gorm.Model field, default delete is a soft delete. Unscoped() force delete
 	db.Unscoped().Delete(&gongenumvalueDB)
 
+	// get an instance (not staged) from DB instance, and call callback function
+	gongenumvalueDeleted := new(models.GongEnumValue)
+	gongenumvalueDB.CopyBasicFieldsToGongEnumValue(gongenumvalueDeleted)
+
 	// get stage instance from DB instance, and call callback function
-	gongenumvalue := (*orm.BackRepo.BackRepoGongEnumValue.Map_GongEnumValueDBID_GongEnumValuePtr)[gongenumvalueDB.ID]
-	if gongenumvalue != nil {
-		models.AfterDeleteFromFront(&models.Stage, gongenumvalue)
+	gongenumvalueStaged := (*orm.BackRepo.BackRepoGongEnumValue.Map_GongEnumValueDBID_GongEnumValuePtr)[gongenumvalueDB.ID]
+	if gongenumvalueStaged != nil {
+		models.AfterDeleteFromFront(&models.Stage, gongenumvalueStaged, gongenumvalueDeleted)
 	}
 
 	// a DELETE generates a back repo commit increase

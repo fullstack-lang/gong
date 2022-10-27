@@ -127,8 +127,8 @@ func PostPointerToGongStructField(c *gin.Context) {
 	}
 
 	// get an instance (not staged) from DB instance, and call callback function
-	pointertogongstructfield := new(models.PointerToGongStructField)
-	pointertogongstructfieldDB.CopyBasicFieldsToPointerToGongStructField(pointertogongstructfield)
+	orm.BackRepo.BackRepoPointerToGongStructField.CheckoutPhaseOneInstance(&pointertogongstructfieldDB)
+	pointertogongstructfield := (*orm.BackRepo.BackRepoPointerToGongStructField.Map_PointerToGongStructFieldDBID_PointerToGongStructFieldPtr)[pointertogongstructfieldDB.ID]
 
 	if pointertogongstructfield != nil {
 		models.AfterCreateFromFront(&models.Stage, pointertogongstructfield)
@@ -269,10 +269,14 @@ func DeletePointerToGongStructField(c *gin.Context) {
 	// with gorm.Model field, default delete is a soft delete. Unscoped() force delete
 	db.Unscoped().Delete(&pointertogongstructfieldDB)
 
+	// get an instance (not staged) from DB instance, and call callback function
+	pointertogongstructfieldDeleted := new(models.PointerToGongStructField)
+	pointertogongstructfieldDB.CopyBasicFieldsToPointerToGongStructField(pointertogongstructfieldDeleted)
+
 	// get stage instance from DB instance, and call callback function
-	pointertogongstructfield := (*orm.BackRepo.BackRepoPointerToGongStructField.Map_PointerToGongStructFieldDBID_PointerToGongStructFieldPtr)[pointertogongstructfieldDB.ID]
-	if pointertogongstructfield != nil {
-		models.AfterDeleteFromFront(&models.Stage, pointertogongstructfield)
+	pointertogongstructfieldStaged := (*orm.BackRepo.BackRepoPointerToGongStructField.Map_PointerToGongStructFieldDBID_PointerToGongStructFieldPtr)[pointertogongstructfieldDB.ID]
+	if pointertogongstructfieldStaged != nil {
+		models.AfterDeleteFromFront(&models.Stage, pointertogongstructfieldStaged, pointertogongstructfieldDeleted)
 	}
 
 	// a DELETE generates a back repo commit increase

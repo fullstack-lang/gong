@@ -381,6 +381,7 @@ func (backRepo *BackRepoStruct) CommitSliceOfPointerToGongStructField(sliceofpoi
 	if id, ok := (*backRepo.BackRepoSliceOfPointerToGongStructField.Map_SliceOfPointerToGongStructFieldPtr_SliceOfPointerToGongStructFieldDBID)[sliceofpointertogongstructfield]; ok {
 		backRepo.BackRepoSliceOfPointerToGongStructField.CommitPhaseTwoInstance(backRepo, id, sliceofpointertogongstructfield)
 	}
+	backRepo.CommitFromBackNb = backRepo.CommitFromBackNb + 1
 }
 
 // CommitSliceOfPointerToGongStructField allows checkout of a single sliceofpointertogongstructfield (if already staged and with a BackRepo id)

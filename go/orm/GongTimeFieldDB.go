@@ -364,6 +364,7 @@ func (backRepo *BackRepoStruct) CommitGongTimeField(gongtimefield *models.GongTi
 	if id, ok := (*backRepo.BackRepoGongTimeField.Map_GongTimeFieldPtr_GongTimeFieldDBID)[gongtimefield]; ok {
 		backRepo.BackRepoGongTimeField.CommitPhaseTwoInstance(backRepo, id, gongtimefield)
 	}
+	backRepo.CommitFromBackNb = backRepo.CommitFromBackNb + 1
 }
 
 // CommitGongTimeField allows checkout of a single gongtimefield (if already staged and with a BackRepo id)

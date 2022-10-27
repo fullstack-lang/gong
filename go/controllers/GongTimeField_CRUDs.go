@@ -127,8 +127,8 @@ func PostGongTimeField(c *gin.Context) {
 	}
 
 	// get an instance (not staged) from DB instance, and call callback function
-	gongtimefield := new(models.GongTimeField)
-	gongtimefieldDB.CopyBasicFieldsToGongTimeField(gongtimefield)
+	orm.BackRepo.BackRepoGongTimeField.CheckoutPhaseOneInstance(&gongtimefieldDB)
+	gongtimefield := (*orm.BackRepo.BackRepoGongTimeField.Map_GongTimeFieldDBID_GongTimeFieldPtr)[gongtimefieldDB.ID]
 
 	if gongtimefield != nil {
 		models.AfterCreateFromFront(&models.Stage, gongtimefield)
@@ -269,10 +269,14 @@ func DeleteGongTimeField(c *gin.Context) {
 	// with gorm.Model field, default delete is a soft delete. Unscoped() force delete
 	db.Unscoped().Delete(&gongtimefieldDB)
 
+	// get an instance (not staged) from DB instance, and call callback function
+	gongtimefieldDeleted := new(models.GongTimeField)
+	gongtimefieldDB.CopyBasicFieldsToGongTimeField(gongtimefieldDeleted)
+
 	// get stage instance from DB instance, and call callback function
-	gongtimefield := (*orm.BackRepo.BackRepoGongTimeField.Map_GongTimeFieldDBID_GongTimeFieldPtr)[gongtimefieldDB.ID]
-	if gongtimefield != nil {
-		models.AfterDeleteFromFront(&models.Stage, gongtimefield)
+	gongtimefieldStaged := (*orm.BackRepo.BackRepoGongTimeField.Map_GongTimeFieldDBID_GongTimeFieldPtr)[gongtimefieldDB.ID]
+	if gongtimefieldStaged != nil {
+		models.AfterDeleteFromFront(&models.Stage, gongtimefieldStaged, gongtimefieldDeleted)
 	}
 
 	// a DELETE generates a back repo commit increase
