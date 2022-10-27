@@ -393,6 +393,7 @@ func (backRepo *BackRepoStruct) CommitGongBasicField(gongbasicfield *models.Gong
 	if id, ok := (*backRepo.BackRepoGongBasicField.Map_GongBasicFieldPtr_GongBasicFieldDBID)[gongbasicfield]; ok {
 		backRepo.BackRepoGongBasicField.CommitPhaseTwoInstance(backRepo, id, gongbasicfield)
 	}
+	backRepo.CommitFromBackNb = backRepo.CommitFromBackNb + 1
 }
 
 // CommitGongBasicField allows checkout of a single gongbasicfield (if already staged and with a BackRepo id)

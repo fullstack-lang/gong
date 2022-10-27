@@ -26,13 +26,14 @@ func AfterUpdateFromFront[Type Gongstruct](stage *StageStruct, old, new *Type) {
 }
 
 // AfterDeleteFromFront is called after a delete from front
-func AfterDeleteFromFront[Type Gongstruct](stage *StageStruct, instance *Type) {
+func AfterDeleteFromFront[Type Gongstruct](stage *StageStruct, staged, front *Type) {
 
-	switch target := any(instance).(type) {
+	switch front := any(front).(type) {
 	// insertion point
 	case *Astruct:
 		if stage.OnAfterAstructDeleteCallback != nil {
-			stage.OnAfterAstructDeleteCallback.OnAfterDelete(stage, target)
+			staged := any(staged).(*Astruct)
+			stage.OnAfterAstructDeleteCallback.OnAfterDelete(stage, staged, front)
 		}
 	}
 }

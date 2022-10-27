@@ -127,8 +127,8 @@ func PostModelPkg(c *gin.Context) {
 	}
 
 	// get an instance (not staged) from DB instance, and call callback function
-	modelpkg := new(models.ModelPkg)
-	modelpkgDB.CopyBasicFieldsToModelPkg(modelpkg)
+	orm.BackRepo.BackRepoModelPkg.CheckoutPhaseOneInstance(&modelpkgDB)
+	modelpkg := (*orm.BackRepo.BackRepoModelPkg.Map_ModelPkgDBID_ModelPkgPtr)[modelpkgDB.ID]
 
 	if modelpkg != nil {
 		models.AfterCreateFromFront(&models.Stage, modelpkg)
@@ -269,10 +269,14 @@ func DeleteModelPkg(c *gin.Context) {
 	// with gorm.Model field, default delete is a soft delete. Unscoped() force delete
 	db.Unscoped().Delete(&modelpkgDB)
 
+	// get an instance (not staged) from DB instance, and call callback function
+	modelpkgDeleted := new(models.ModelPkg)
+	modelpkgDB.CopyBasicFieldsToModelPkg(modelpkgDeleted)
+
 	// get stage instance from DB instance, and call callback function
-	modelpkg := (*orm.BackRepo.BackRepoModelPkg.Map_ModelPkgDBID_ModelPkgPtr)[modelpkgDB.ID]
-	if modelpkg != nil {
-		models.AfterDeleteFromFront(&models.Stage, modelpkg)
+	modelpkgStaged := (*orm.BackRepo.BackRepoModelPkg.Map_ModelPkgDBID_ModelPkgPtr)[modelpkgDB.ID]
+	if modelpkgStaged != nil {
+		models.AfterDeleteFromFront(&models.Stage, modelpkgStaged, modelpkgDeleted)
 	}
 
 	// a DELETE generates a back repo commit increase

@@ -143,8 +143,8 @@ func Post{{Structname}}(c *gin.Context) {
 	}
 
 	// get an instance (not staged) from DB instance, and call callback function
-	{{structname}} := new(models.{{Structname}})
-	{{structname}}DB.CopyBasicFieldsTo{{Structname}}({{structname}})
+	orm.BackRepo.BackRepo{{Structname}}.CheckoutPhaseOneInstance(&{{structname}}DB)
+	{{structname}} := (*orm.BackRepo.BackRepo{{Structname}}.Map_{{Structname}}DBID_{{Structname}}Ptr)[{{structname}}DB.ID]
 
 	if {{structname}} != nil {
 		models.AfterCreateFromFront(&models.Stage, {{structname}})
@@ -285,10 +285,14 @@ func Delete{{Structname}}(c *gin.Context) {
 	// with gorm.Model field, default delete is a soft delete. Unscoped() force delete
 	db.Unscoped().Delete(&{{structname}}DB)
 
+	// get an instance (not staged) from DB instance, and call callback function
+	{{structname}}Deleted := new(models.{{Structname}})
+	{{structname}}DB.CopyBasicFieldsTo{{Structname}}({{structname}}Deleted)
+
 	// get stage instance from DB instance, and call callback function
-	{{structname}} := (*orm.BackRepo.BackRepo{{Structname}}.Map_{{Structname}}DBID_{{Structname}}Ptr)[{{structname}}DB.ID]
-	if {{structname}} != nil {
-		models.AfterDeleteFromFront(&models.Stage, {{structname}})
+	{{structname}}Staged := (*orm.BackRepo.BackRepo{{Structname}}.Map_{{Structname}}DBID_{{Structname}}Ptr)[{{structname}}DB.ID]
+	if {{structname}}Staged != nil {
+		models.AfterDeleteFromFront(&models.Stage, {{structname}}Staged, {{structname}}Deleted)
 	}
 
 	// a DELETE generates a back repo commit increase

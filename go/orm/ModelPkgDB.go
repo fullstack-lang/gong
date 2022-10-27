@@ -352,6 +352,7 @@ func (backRepo *BackRepoStruct) CommitModelPkg(modelpkg *models.ModelPkg) {
 	if id, ok := (*backRepo.BackRepoModelPkg.Map_ModelPkgPtr_ModelPkgDBID)[modelpkg]; ok {
 		backRepo.BackRepoModelPkg.CommitPhaseTwoInstance(backRepo, id, modelpkg)
 	}
+	backRepo.CommitFromBackNb = backRepo.CommitFromBackNb + 1
 }
 
 // CommitModelPkg allows checkout of a single modelpkg (if already staged and with a BackRepo id)

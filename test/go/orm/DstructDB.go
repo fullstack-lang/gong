@@ -346,6 +346,7 @@ func (backRepo *BackRepoStruct) CommitDstruct(dstruct *models.Dstruct) {
 	if id, ok := (*backRepo.BackRepoDstruct.Map_DstructPtr_DstructDBID)[dstruct]; ok {
 		backRepo.BackRepoDstruct.CommitPhaseTwoInstance(backRepo, id, dstruct)
 	}
+	backRepo.CommitFromBackNb = backRepo.CommitFromBackNb + 1
 }
 
 // CommitDstruct allows checkout of a single dstruct (if already staged and with a BackRepo id)
