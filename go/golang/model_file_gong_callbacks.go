@@ -19,9 +19,9 @@ func AfterUpdateFromFront[Type Gongstruct](stage *StageStruct, old, new *Type) {
 }
 
 // AfterDeleteFromFront is called after a delete from front
-func AfterDeleteFromFront[Type Gongstruct](stage *StageStruct, instance *Type) {
+func AfterDeleteFromFront[Type Gongstruct](stage *StageStruct, staged, front *Type) {
 
-	switch target := any(instance).(type) {
+	switch front := any(front).(type) {
 	// insertion point{{` + string(rune(ModelGongCallbacksDelete)) + `}}
 	}
 }
@@ -99,7 +99,8 @@ map[string]string{
 	string(rune(ModelGongCallbacksDelete)): `
 	case *{{Structname}}:
 		if stage.OnAfter{{Structname}}DeleteCallback != nil {
-			stage.OnAfter{{Structname}}DeleteCallback.OnAfterDelete(stage, target)
+			staged := any(staged).(*{{Structname}})
+			stage.OnAfter{{Structname}}DeleteCallback.OnAfterDelete(stage, staged, front)
 		}`,
 	string(rune(ModelGongCallbacksSetFuncCreate)): `
 	case *{{Structname}}:
