@@ -8,30 +8,30 @@ import { DialogData } from '../front-repo.service'
 import { SelectionModel } from '@angular/cdk/collections';
 
 import { Router, RouterState } from '@angular/router';
-import { NoteDB } from '../note-db'
-import { NoteService } from '../note.service'
+import { NoteShapeDB } from '../noteshape-db'
+import { NoteShapeService } from '../noteshape.service'
 
 import { FrontRepoService, FrontRepo } from '../front-repo.service'
 import { NullInt64 } from '../null-int64'
 
 @Component({
-  selector: 'lib-note-sorting',
-  templateUrl: './note-sorting.component.html',
-  styleUrls: ['./note-sorting.component.css']
+  selector: 'lib-noteshape-sorting',
+  templateUrl: './noteshape-sorting.component.html',
+  styleUrls: ['./noteshape-sorting.component.css']
 })
-export class NoteSortingComponent implements OnInit {
+export class NoteShapeSortingComponent implements OnInit {
 
   frontRepo: FrontRepo = new (FrontRepo)
 
-  // array of Note instances that are in the association
-  associatedNotes = new Array<NoteDB>();
+  // array of NoteShape instances that are in the association
+  associatedNoteShapes = new Array<NoteShapeDB>();
 
   constructor(
-    private noteService: NoteService,
+    private noteshapeService: NoteShapeService,
     private frontRepoService: FrontRepoService,
 
-    // not null if the component is called as a selection component of note instances
-    public dialogRef: MatDialogRef<NoteSortingComponent>,
+    // not null if the component is called as a selection component of noteshape instances
+    public dialogRef: MatDialogRef<NoteShapeSortingComponent>,
     @Optional() @Inject(MAT_DIALOG_DATA) public dialogData: DialogData,
 
     private router: Router,
@@ -42,31 +42,31 @@ export class NoteSortingComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getNotes()
+    this.getNoteShapes()
   }
 
-  getNotes(): void {
+  getNoteShapes(): void {
     this.frontRepoService.pull().subscribe(
       frontRepo => {
         this.frontRepo = frontRepo
 
         let index = 0
-        for (let note of this.frontRepo.Notes_array) {
+        for (let noteshape of this.frontRepo.NoteShapes_array) {
           let ID = this.dialogData.ID
-          let revPointerID = note[this.dialogData.ReversePointer as keyof NoteDB] as unknown as NullInt64
-          let revPointerID_Index = note[this.dialogData.ReversePointer + "_Index" as keyof NoteDB] as unknown as NullInt64
+          let revPointerID = noteshape[this.dialogData.ReversePointer as keyof NoteShapeDB] as unknown as NullInt64
+          let revPointerID_Index = noteshape[this.dialogData.ReversePointer + "_Index" as keyof NoteShapeDB] as unknown as NullInt64
           if (revPointerID.Int64 == ID) {
             if (revPointerID_Index == undefined) {
               revPointerID_Index = new NullInt64
               revPointerID_Index.Valid = true
               revPointerID_Index.Int64 = index++
             }
-            this.associatedNotes.push(note)
+            this.associatedNoteShapes.push(noteshape)
           }
         }
 
-        // sort associated note according to order
-        this.associatedNotes.sort((t1, t2) => {
+        // sort associated noteshape according to order
+        this.associatedNoteShapes.sort((t1, t2) => {
           let t1_revPointerID_Index = t1[this.dialogData.ReversePointer + "_Index" as keyof typeof t1] as unknown as NullInt64
           let t2_revPointerID_Index = t2[this.dialogData.ReversePointer + "_Index" as keyof typeof t2] as unknown as NullInt64
           if (t1_revPointerID_Index && t2_revPointerID_Index) {
@@ -84,13 +84,13 @@ export class NoteSortingComponent implements OnInit {
   }
 
   drop(event: CdkDragDrop<string[]>) {
-    moveItemInArray(this.associatedNotes, event.previousIndex, event.currentIndex);
+    moveItemInArray(this.associatedNoteShapes, event.previousIndex, event.currentIndex);
 
-    // set the order of Note instances
+    // set the order of NoteShape instances
     let index = 0
 
-    for (let note of this.associatedNotes) {
-      let revPointerID_Index = note[this.dialogData.ReversePointer + "_Index" as keyof NoteDB] as unknown as NullInt64
+    for (let noteshape of this.associatedNoteShapes) {
+      let revPointerID_Index = noteshape[this.dialogData.ReversePointer + "_Index" as keyof NoteShapeDB] as unknown as NullInt64
       revPointerID_Index.Valid = true
       revPointerID_Index.Int64 = index++
     }
@@ -98,11 +98,11 @@ export class NoteSortingComponent implements OnInit {
 
   save() {
 
-    this.associatedNotes.forEach(
-      note => {
-        this.noteService.updateNote(note)
-          .subscribe(note => {
-            this.noteService.NoteServiceChanged.next("update")
+    this.associatedNoteShapes.forEach(
+      noteshape => {
+        this.noteshapeService.updateNoteShape(noteshape)
+          .subscribe(noteshape => {
+            this.noteshapeService.NoteShapeServiceChanged.next("update")
           });
       }
     )

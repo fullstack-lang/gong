@@ -418,7 +418,7 @@ func (nodeCallbacksSingloton *NodeCallbacksSingloton) OnAfterUpdate(
 		if !stagedNode.IsChecked && frontNode.IsChecked {
 			stage.Checkout()
 
-			note := (&Note{Name: stagedNode.Name}).Stage()
+			note := (&NoteShape{Name: stagedNode.Name}).Stage()
 
 			mapOfGongNotes := *gong_models.GetGongstructInstancesMap[gong_models.GongNote]()
 
@@ -439,8 +439,8 @@ func (nodeCallbacksSingloton *NodeCallbacksSingloton) OnAfterUpdate(
 		if stagedNode.IsChecked && !frontNode.IsChecked {
 			stage.Checkout()
 			foundNote := false
-			var note *Note
-			var _note *Note
+			var note *NoteShape
+			var _note *NoteShape
 			for _, _note = range classdiagram.Notes {
 
 				// strange behavior when the note is removed within the loop

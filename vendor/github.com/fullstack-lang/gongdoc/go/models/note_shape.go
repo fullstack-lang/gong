@@ -12,8 +12,8 @@ import (
 	gong_models "github.com/fullstack-lang/gong/go/models"
 )
 
-// Note is a UML note in a class diagram
-type Note struct {
+// NoteShape is a UML note in a class diagram
+type NoteShape struct {
 	Name          string
 	Body          string
 	X, Y          float64
@@ -22,7 +22,7 @@ type Note struct {
 }
 
 // Marshall provides the element of note as declaration
-func (note *Note) Marshall(file *os.File, nbIndentation int) error {
+func (note *NoteShape) Marshall(file *os.File, nbIndentation int) error {
 	indent(file, nbIndentation)
 	fmt.Fprintf(file, "{\n")
 	{
@@ -59,7 +59,7 @@ func (note *Note) Marshall(file *os.File, nbIndentation int) error {
 }
 
 // Unmarshall updates note values from an ast.Epr
-func (note *Note) Unmarshall(modelPkg *gong_models.ModelPkg, expr ast.Expr, fset *token.FileSet) {
+func (note *NoteShape) Unmarshall(modelPkg *gong_models.ModelPkg, expr ast.Expr, fset *token.FileSet) {
 
 	// expression should be a composite literal expression
 	// models.Note{Position: uml.Position{X: 10, Y: 12}, ReferencedGong: &(models.Point{})}
