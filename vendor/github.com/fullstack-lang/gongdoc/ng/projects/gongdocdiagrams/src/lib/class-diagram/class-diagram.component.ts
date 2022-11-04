@@ -90,7 +90,7 @@ export class ClassDiagramComponent implements OnInit, OnDestroy {
     private router: Router,
 
     private positionService: gongdoc.PositionService,
-    private noteService: gongdoc.NoteService,
+    private noteService: gongdoc.NoteShapeService,
     private verticeService: gongdoc.VerticeService,
     private classshapeService: gongdoc.ClassshapeService, // for selection of the classshape
 
@@ -177,11 +177,11 @@ export class ClassDiagramComponent implements OnInit, OnDestroy {
   onNoteMove(umlNote: joint.shapes.standard.Rectangle) {
 
 
-    let note = umlNote.attributes['note'] as gongdoc.NoteDB
-    let noteService = umlNote.attributes['noteService'] as gongdoc.NoteService
+    let note = umlNote.attributes['note'] as gongdoc.NoteShapeDB
+    let noteService = umlNote.attributes['noteService'] as gongdoc.NoteShapeService
     note.X = umlNote.get('position')!.x
     note.Y = umlNote.get('position')!.y
-    noteService.updateNote(note!).subscribe(
+    noteService.updateNoteShape(note!).subscribe(
       note => {
 
       }
@@ -229,7 +229,7 @@ export class ClassDiagramComponent implements OnInit, OnDestroy {
   //
   // make a jointjs umlclass from a gong Note object
   //
-  addNoteToGraph(note: gongdoc.NoteDB): joint.shapes.basic.Rect {
+  addNoteToGraph(note: gongdoc.NoteShapeDB): joint.shapes.basic.Rect {
 
     //
     // creates the UML shape

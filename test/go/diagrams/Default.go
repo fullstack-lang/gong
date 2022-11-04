@@ -4,93 +4,25 @@ import (
 	uml "github.com/fullstack-lang/gongdoc/go/models"
 
 	// insertion points for import of the illustrated model
-	"github.com/fullstack-lang/gong/test/go/models"
 )
 
 var Default uml.Classdiagram = uml.Classdiagram{
 	Classshapes: []*uml.Classshape{
+	},
+	Notes: []*uml.Note{
 		{
-			ReferencedGong: new(models.AEnumType),
-			Position: &uml.Position{
-				X: 70.000000,
-				Y: 104.000000,
-			},
+			Name: `note on the organization between line and points`,
+			Body: `
+github.com/fullstack-lang/test/go/models is a model that showcases gong possibilites
+
+Astruct is associated with Bstruct via 2 kinds of association
+- a N-0..1 association (directly)
+- a N-M association via AstructBstructUse
+`,
+			X:      30.000000,
+			Y:      30.000000,
 			Width:  240.000000,
 			Heigth: 63.000000,
 		},
-		{
-			ReferencedGong: &(models.Astruct{}),
-			Position: &uml.Position{
-				X: 80.000000,
-				Y: 210.000000,
-			},
-			Width:  240.000000,
-			Heigth: 243.000000,
-			Links: []*uml.Link{
-				{
-					Field: models.Astruct{}.Associationtob,
-					Middlevertice: &uml.Vertice{
-						X: 605.000000,
-						Y: 141.500000,
-					},
-					TargetMultiplicity: "0..1",
-					SourceMultiplicity: "*",
-				},
-			},
-			Fields: []*uml.Field{
-				{
-					Field: models.Astruct{}.Aenum,
-				},
-				{
-					Field: models.Astruct{}.Aenum_2,
-				},
-				{
-					Field: models.Astruct{}.Anotherbooleanfield,
-				},
-				{
-					Field: models.Astruct{}.Benum,
-				},
-				{
-					Field: models.Astruct{}.Booleanfield,
-				},
-				{
-					Field: models.Astruct{}.CEnum,
-				},
-				{
-					Field: models.Astruct{}.CFloatfield,
-				},
-				{
-					Field: models.Astruct{}.CName,
-				},
-				{
-					Field: models.Astruct{}.Duration1,
-				},
-				{
-					Field: models.Astruct{}.Floatfield,
-				},
-				{
-					Field: models.Astruct{}.Intfield,
-				},
-				{
-					Field: models.Astruct{}.Name,
-				},
-			},
-		},
-		{
-			ReferencedGong: &(models.Bstruct{}),
-			Position: &uml.Position{
-				X: 630.000000,
-				Y: 300.000000,
-			},
-			Width:  240.000000,
-			Heigth: 78.000000,
-			Fields: []*uml.Field{
-				{
-					Field: models.Bstruct{}.Name,
-				},
-			},
-		},
-	},
-	Notes: []*uml.Note{
 	},
 }

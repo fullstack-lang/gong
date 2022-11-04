@@ -2,8 +2,8 @@
 import { Component, OnInit } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
 
-import { NoteDB } from '../note-db'
-import { NoteService } from '../note.service'
+import { NoteShapeDB } from '../noteshape-db'
+import { NoteShapeService } from '../noteshape.service'
 
 import { FrontRepoService, FrontRepo, SelectionMode, DialogData } from '../front-repo.service'
 import { MapOfComponents } from '../map-components'
@@ -18,9 +18,9 @@ import { MatDialog, MAT_DIALOG_DATA, MatDialogRef, MatDialogConfig } from '@angu
 
 import { NullInt64 } from '../null-int64'
 
-// NoteDetailComponent is initilizaed from different routes
-// NoteDetailComponentState detail different cases 
-enum NoteDetailComponentState {
+// NoteShapeDetailComponent is initilizaed from different routes
+// NoteShapeDetailComponentState detail different cases 
+enum NoteShapeDetailComponentState {
 	CREATE_INSTANCE,
 	UPDATE_INSTANCE,
 	// insertion point for declarations of enum values of state
@@ -28,17 +28,17 @@ enum NoteDetailComponentState {
 }
 
 @Component({
-	selector: 'app-note-detail',
-	templateUrl: './note-detail.component.html',
-	styleUrls: ['./note-detail.component.css'],
+	selector: 'app-noteshape-detail',
+	templateUrl: './noteshape-detail.component.html',
+	styleUrls: ['./noteshape-detail.component.css'],
 })
-export class NoteDetailComponent implements OnInit {
+export class NoteShapeDetailComponent implements OnInit {
 
 	// insertion point for declarations
 	MatchedFormControl: UntypedFormControl = new UntypedFormControl(false);
 
-	// the NoteDB of interest
-	note: NoteDB = new NoteDB
+	// the NoteShapeDB of interest
+	noteshape: NoteShapeDB = new NoteShapeDB
 
 	// front repo
 	frontRepo: FrontRepo = new FrontRepo
@@ -49,7 +49,7 @@ export class NoteDetailComponent implements OnInit {
 	mapFields_displayAsTextArea = new Map<string, boolean>()
 
 	// the state at initialization (CREATION, UPDATE or CREATE with one association set)
-	state: NoteDetailComponentState = NoteDetailComponentState.CREATE_INSTANCE
+	state: NoteShapeDetailComponentState = NoteShapeDetailComponentState.CREATE_INSTANCE
 
 	// in UDPATE state, if is the id of the instance to update
 	// in CREATE state with one association set, this is the id of the associated instance
@@ -60,7 +60,7 @@ export class NoteDetailComponent implements OnInit {
 	originStructFieldName: string = ""
 
 	constructor(
-		private noteService: NoteService,
+		private noteshapeService: NoteShapeService,
 		private frontRepoService: FrontRepoService,
 		public dialog: MatDialog,
 		private route: ActivatedRoute,
@@ -77,16 +77,16 @@ export class NoteDetailComponent implements OnInit {
 
 		const association = this.route.snapshot.paramMap.get('association');
 		if (this.id == 0) {
-			this.state = NoteDetailComponentState.CREATE_INSTANCE
+			this.state = NoteShapeDetailComponentState.CREATE_INSTANCE
 		} else {
 			if (this.originStruct == undefined) {
-				this.state = NoteDetailComponentState.UPDATE_INSTANCE
+				this.state = NoteShapeDetailComponentState.UPDATE_INSTANCE
 			} else {
 				switch (this.originStructFieldName) {
 					// insertion point for state computation
 					case "Notes":
-						// console.log("Note" + " is instanciated with back pointer to instance " + this.id + " Classdiagram association Notes")
-						this.state = NoteDetailComponentState.CREATE_INSTANCE_WITH_ASSOCIATION_Classdiagram_Notes_SET
+						// console.log("NoteShape" + " is instanciated with back pointer to instance " + this.id + " Classdiagram association Notes")
+						this.state = NoteShapeDetailComponentState.CREATE_INSTANCE_WITH_ASSOCIATION_Classdiagram_Notes_SET
 						break;
 					default:
 						console.log(this.originStructFieldName + " is unkown association")
@@ -94,13 +94,13 @@ export class NoteDetailComponent implements OnInit {
 			}
 		}
 
-		this.getNote()
+		this.getNoteShape()
 
 		// observable for changes in structs
-		this.noteService.NoteServiceChanged.subscribe(
+		this.noteshapeService.NoteShapeServiceChanged.subscribe(
 			message => {
 				if (message == "post" || message == "update" || message == "delete") {
-					this.getNote()
+					this.getNoteShape()
 				}
 			}
 		)
@@ -108,32 +108,32 @@ export class NoteDetailComponent implements OnInit {
 		// insertion point for initialisation of enums list
 	}
 
-	getNote(): void {
+	getNoteShape(): void {
 
 		this.frontRepoService.pull().subscribe(
 			frontRepo => {
 				this.frontRepo = frontRepo
 
 				switch (this.state) {
-					case NoteDetailComponentState.CREATE_INSTANCE:
-						this.note = new (NoteDB)
+					case NoteShapeDetailComponentState.CREATE_INSTANCE:
+						this.noteshape = new (NoteShapeDB)
 						break;
-					case NoteDetailComponentState.UPDATE_INSTANCE:
-						let note = frontRepo.Notes.get(this.id)
-						console.assert(note != undefined, "missing note with id:" + this.id)
-						this.note = note!
+					case NoteShapeDetailComponentState.UPDATE_INSTANCE:
+						let noteshape = frontRepo.NoteShapes.get(this.id)
+						console.assert(noteshape != undefined, "missing noteshape with id:" + this.id)
+						this.noteshape = noteshape!
 						break;
 					// insertion point for init of association field
-					case NoteDetailComponentState.CREATE_INSTANCE_WITH_ASSOCIATION_Classdiagram_Notes_SET:
-						this.note = new (NoteDB)
-						this.note.Classdiagram_Notes_reverse = frontRepo.Classdiagrams.get(this.id)!
+					case NoteShapeDetailComponentState.CREATE_INSTANCE_WITH_ASSOCIATION_Classdiagram_Notes_SET:
+						this.noteshape = new (NoteShapeDB)
+						this.noteshape.Classdiagram_Notes_reverse = frontRepo.Classdiagrams.get(this.id)!
 						break;
 					default:
 						console.log(this.state + " is unkown state")
 				}
 
 				// insertion point for recovery of form controls value for bool fields
-				this.MatchedFormControl.setValue(this.note.Matched)
+				this.MatchedFormControl.setValue(this.noteshape.Matched)
 			}
 		)
 
@@ -146,35 +146,35 @@ export class NoteDetailComponent implements OnInit {
 		// pointers fields, after the translation, are nulled in order to perform serialization
 
 		// insertion point for translation/nullation of each field
-		this.note.Matched = this.MatchedFormControl.value
+		this.noteshape.Matched = this.MatchedFormControl.value
 
 		// save from the front pointer space to the non pointer space for serialization
 
 		// insertion point for translation/nullation of each pointers
-		if (this.note.Classdiagram_Notes_reverse != undefined) {
-			if (this.note.Classdiagram_NotesDBID == undefined) {
-				this.note.Classdiagram_NotesDBID = new NullInt64
+		if (this.noteshape.Classdiagram_Notes_reverse != undefined) {
+			if (this.noteshape.Classdiagram_NotesDBID == undefined) {
+				this.noteshape.Classdiagram_NotesDBID = new NullInt64
 			}
-			this.note.Classdiagram_NotesDBID.Int64 = this.note.Classdiagram_Notes_reverse.ID
-			this.note.Classdiagram_NotesDBID.Valid = true
-			if (this.note.Classdiagram_NotesDBID_Index == undefined) {
-				this.note.Classdiagram_NotesDBID_Index = new NullInt64
+			this.noteshape.Classdiagram_NotesDBID.Int64 = this.noteshape.Classdiagram_Notes_reverse.ID
+			this.noteshape.Classdiagram_NotesDBID.Valid = true
+			if (this.noteshape.Classdiagram_NotesDBID_Index == undefined) {
+				this.noteshape.Classdiagram_NotesDBID_Index = new NullInt64
 			}
-			this.note.Classdiagram_NotesDBID_Index.Valid = true
-			this.note.Classdiagram_Notes_reverse = new ClassdiagramDB // very important, otherwise, circular JSON
+			this.noteshape.Classdiagram_NotesDBID_Index.Valid = true
+			this.noteshape.Classdiagram_Notes_reverse = new ClassdiagramDB // very important, otherwise, circular JSON
 		}
 
 		switch (this.state) {
-			case NoteDetailComponentState.UPDATE_INSTANCE:
-				this.noteService.updateNote(this.note)
-					.subscribe(note => {
-						this.noteService.NoteServiceChanged.next("update")
+			case NoteShapeDetailComponentState.UPDATE_INSTANCE:
+				this.noteshapeService.updateNoteShape(this.noteshape)
+					.subscribe(noteshape => {
+						this.noteshapeService.NoteShapeServiceChanged.next("update")
 					});
 				break;
 			default:
-				this.noteService.postNote(this.note).subscribe(note => {
-					this.noteService.NoteServiceChanged.next("post")
-					this.note = new (NoteDB) // reset fields
+				this.noteshapeService.postNoteShape(this.noteshape).subscribe(noteshape => {
+					this.noteshapeService.NoteShapeServiceChanged.next("post")
+					this.noteshape = new (NoteShapeDB) // reset fields
 				});
 		}
 	}
@@ -197,7 +197,7 @@ export class NoteDetailComponent implements OnInit {
 		dialogConfig.height = "50%"
 		if (selectionMode == SelectionMode.ONE_MANY_ASSOCIATION_MODE) {
 
-			dialogData.ID = this.note.ID!
+			dialogData.ID = this.noteshape.ID!
 			dialogData.ReversePointer = reverseField
 			dialogData.OrderingMode = false
 			dialogData.SelectionMode = selectionMode
@@ -213,13 +213,13 @@ export class NoteDetailComponent implements OnInit {
 			});
 		}
 		if (selectionMode == SelectionMode.MANY_MANY_ASSOCIATION_MODE) {
-			dialogData.ID = this.note.ID!
+			dialogData.ID = this.noteshape.ID!
 			dialogData.ReversePointer = reverseField
 			dialogData.OrderingMode = false
 			dialogData.SelectionMode = selectionMode
 
 			// set up the source
-			dialogData.SourceStruct = "Note"
+			dialogData.SourceStruct = "NoteShape"
 			dialogData.SourceField = sourceField
 
 			// set up the intermediate struct
@@ -249,7 +249,7 @@ export class NoteDetailComponent implements OnInit {
 		// dialogConfig.disableClose = true;
 		dialogConfig.autoFocus = true;
 		dialogConfig.data = {
-			ID: this.note.ID,
+			ID: this.noteshape.ID,
 			ReversePointer: reverseField,
 			OrderingMode: true,
 		};
@@ -265,8 +265,8 @@ export class NoteDetailComponent implements OnInit {
 	}
 
 	fillUpNameIfEmpty(event: { value: { Name: string; }; }) {
-		if (this.note.Name == "") {
-			this.note.Name = event.value.Name
+		if (this.noteshape.Name == "") {
+			this.noteshape.Name = event.value.Name
 		}
 	}
 

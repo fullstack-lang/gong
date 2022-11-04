@@ -22,8 +22,8 @@ import { LinkService } from './link.service'
 import { NodeDB } from './node-db'
 import { NodeService } from './node.service'
 
-import { NoteDB } from './note-db'
-import { NoteService } from './note.service'
+import { NoteShapeDB } from './noteshape-db'
+import { NoteShapeService } from './noteshape.service'
 
 import { PositionDB } from './position-db'
 import { PositionService } from './position.service'
@@ -64,9 +64,9 @@ export class FrontRepo { // insertion point sub template
   Nodes_array = new Array<NodeDB>(); // array of repo instances
   Nodes = new Map<number, NodeDB>(); // map of repo instances
   Nodes_batch = new Map<number, NodeDB>(); // same but only in last GET (for finding repo instances to delete)
-  Notes_array = new Array<NoteDB>(); // array of repo instances
-  Notes = new Map<number, NoteDB>(); // map of repo instances
-  Notes_batch = new Map<number, NoteDB>(); // same but only in last GET (for finding repo instances to delete)
+  NoteShapes_array = new Array<NoteShapeDB>(); // array of repo instances
+  NoteShapes = new Map<number, NoteShapeDB>(); // map of repo instances
+  NoteShapes_batch = new Map<number, NoteShapeDB>(); // same but only in last GET (for finding repo instances to delete)
   Positions_array = new Array<PositionDB>(); // array of repo instances
   Positions = new Map<number, PositionDB>(); // map of repo instances
   Positions_batch = new Map<number, PositionDB>(); // same but only in last GET (for finding repo instances to delete)
@@ -149,7 +149,7 @@ export class FrontRepoService {
     private fieldService: FieldService,
     private linkService: LinkService,
     private nodeService: NodeService,
-    private noteService: NoteService,
+    private noteshapeService: NoteShapeService,
     private positionService: PositionService,
     private referenceService: ReferenceService,
     private treeService: TreeService,
@@ -192,7 +192,7 @@ export class FrontRepoService {
     Observable<FieldDB[]>,
     Observable<LinkDB[]>,
     Observable<NodeDB[]>,
-    Observable<NoteDB[]>,
+    Observable<NoteShapeDB[]>,
     Observable<PositionDB[]>,
     Observable<ReferenceDB[]>,
     Observable<TreeDB[]>,
@@ -206,7 +206,7 @@ export class FrontRepoService {
       this.fieldService.getFields(),
       this.linkService.getLinks(),
       this.nodeService.getNodes(),
-      this.noteService.getNotes(),
+      this.noteshapeService.getNoteShapes(),
       this.positionService.getPositions(),
       this.referenceService.getReferences(),
       this.treeService.getTrees(),
@@ -234,7 +234,7 @@ export class FrontRepoService {
             fields_,
             links_,
             nodes_,
-            notes_,
+            noteshapes_,
             positions_,
             references_,
             trees_,
@@ -256,8 +256,8 @@ export class FrontRepoService {
             links = links_ as LinkDB[]
             var nodes: NodeDB[]
             nodes = nodes_ as NodeDB[]
-            var notes: NoteDB[]
-            notes = notes_ as NoteDB[]
+            var noteshapes: NoteShapeDB[]
+            noteshapes = noteshapes_ as NoteShapeDB[]
             var positions: PositionDB[]
             positions = positions_ as PositionDB[]
             var references: ReferenceDB[]
@@ -473,29 +473,29 @@ export class FrontRepoService {
             });
 
             // init the array
-            FrontRepoSingloton.Notes_array = notes
+            FrontRepoSingloton.NoteShapes_array = noteshapes
 
-            // clear the map that counts Note in the GET
-            FrontRepoSingloton.Notes_batch.clear()
+            // clear the map that counts NoteShape in the GET
+            FrontRepoSingloton.NoteShapes_batch.clear()
 
-            notes.forEach(
-              note => {
-                FrontRepoSingloton.Notes.set(note.ID, note)
-                FrontRepoSingloton.Notes_batch.set(note.ID, note)
+            noteshapes.forEach(
+              noteshape => {
+                FrontRepoSingloton.NoteShapes.set(noteshape.ID, noteshape)
+                FrontRepoSingloton.NoteShapes_batch.set(noteshape.ID, noteshape)
               }
             )
 
-            // clear notes that are absent from the batch
-            FrontRepoSingloton.Notes.forEach(
-              note => {
-                if (FrontRepoSingloton.Notes_batch.get(note.ID) == undefined) {
-                  FrontRepoSingloton.Notes.delete(note.ID)
+            // clear noteshapes that are absent from the batch
+            FrontRepoSingloton.NoteShapes.forEach(
+              noteshape => {
+                if (FrontRepoSingloton.NoteShapes_batch.get(noteshape.ID) == undefined) {
+                  FrontRepoSingloton.NoteShapes.delete(noteshape.ID)
                 }
               }
             )
 
-            // sort Notes_array array
-            FrontRepoSingloton.Notes_array.sort((t1, t2) => {
+            // sort NoteShapes_array array
+            FrontRepoSingloton.NoteShapes_array.sort((t1, t2) => {
               if (t1.Name > t2.Name) {
                 return 1;
               }
@@ -862,21 +862,21 @@ export class FrontRepoService {
                 }
               }
             )
-            notes.forEach(
-              note => {
+            noteshapes.forEach(
+              noteshape => {
                 // insertion point sub sub template for ONE-/ZERO-ONE associations pointers redeeming
 
                 // insertion point for redeeming ONE-MANY associations
                 // insertion point for slice of pointer field Classdiagram.Notes redeeming
                 {
-                  let _classdiagram = FrontRepoSingloton.Classdiagrams.get(note.Classdiagram_NotesDBID.Int64)
+                  let _classdiagram = FrontRepoSingloton.Classdiagrams.get(noteshape.Classdiagram_NotesDBID.Int64)
                   if (_classdiagram) {
                     if (_classdiagram.Notes == undefined) {
-                      _classdiagram.Notes = new Array<NoteDB>()
+                      _classdiagram.Notes = new Array<NoteShapeDB>()
                     }
-                    _classdiagram.Notes.push(note)
-                    if (note.Classdiagram_Notes_reverse == undefined) {
-                      note.Classdiagram_Notes_reverse = _classdiagram
+                    _classdiagram.Notes.push(noteshape)
+                    if (noteshape.Classdiagram_Notes_reverse == undefined) {
+                      noteshape.Classdiagram_Notes_reverse = _classdiagram
                     }
                   }
                 }
@@ -1380,54 +1380,54 @@ export class FrontRepoService {
     )
   }
 
-  // NotePull performs a GET on Note of the stack and redeem association pointers 
-  NotePull(): Observable<FrontRepo> {
+  // NoteShapePull performs a GET on NoteShape of the stack and redeem association pointers 
+  NoteShapePull(): Observable<FrontRepo> {
     return new Observable<FrontRepo>(
       (observer) => {
         combineLatest([
-          this.noteService.getNotes()
+          this.noteshapeService.getNoteShapes()
         ]).subscribe(
           ([ // insertion point sub template 
-            notes,
+            noteshapes,
           ]) => {
             // init the array
-            FrontRepoSingloton.Notes_array = notes
+            FrontRepoSingloton.NoteShapes_array = noteshapes
 
-            // clear the map that counts Note in the GET
-            FrontRepoSingloton.Notes_batch.clear()
+            // clear the map that counts NoteShape in the GET
+            FrontRepoSingloton.NoteShapes_batch.clear()
 
             // 
             // First Step: init map of instances
             // insertion point sub template 
-            notes.forEach(
-              note => {
-                FrontRepoSingloton.Notes.set(note.ID, note)
-                FrontRepoSingloton.Notes_batch.set(note.ID, note)
+            noteshapes.forEach(
+              noteshape => {
+                FrontRepoSingloton.NoteShapes.set(noteshape.ID, noteshape)
+                FrontRepoSingloton.NoteShapes_batch.set(noteshape.ID, noteshape)
 
                 // insertion point for redeeming ONE/ZERO-ONE associations
 
                 // insertion point for redeeming ONE-MANY associations
                 // insertion point for slice of pointer field Classdiagram.Notes redeeming
                 {
-                  let _classdiagram = FrontRepoSingloton.Classdiagrams.get(note.Classdiagram_NotesDBID.Int64)
+                  let _classdiagram = FrontRepoSingloton.Classdiagrams.get(noteshape.Classdiagram_NotesDBID.Int64)
                   if (_classdiagram) {
                     if (_classdiagram.Notes == undefined) {
-                      _classdiagram.Notes = new Array<NoteDB>()
+                      _classdiagram.Notes = new Array<NoteShapeDB>()
                     }
-                    _classdiagram.Notes.push(note)
-                    if (note.Classdiagram_Notes_reverse == undefined) {
-                      note.Classdiagram_Notes_reverse = _classdiagram
+                    _classdiagram.Notes.push(noteshape)
+                    if (noteshape.Classdiagram_Notes_reverse == undefined) {
+                      noteshape.Classdiagram_Notes_reverse = _classdiagram
                     }
                   }
                 }
               }
             )
 
-            // clear notes that are absent from the GET
-            FrontRepoSingloton.Notes.forEach(
-              note => {
-                if (FrontRepoSingloton.Notes_batch.get(note.ID) == undefined) {
-                  FrontRepoSingloton.Notes.delete(note.ID)
+            // clear noteshapes that are absent from the GET
+            FrontRepoSingloton.NoteShapes.forEach(
+              noteshape => {
+                if (FrontRepoSingloton.NoteShapes_batch.get(noteshape.ID) == undefined) {
+                  FrontRepoSingloton.NoteShapes.delete(noteshape.ID)
                 }
               }
             )
@@ -1796,7 +1796,7 @@ export function getLinkUniqueID(id: number): number {
 export function getNodeUniqueID(id: number): number {
   return 53 * id
 }
-export function getNoteUniqueID(id: number): number {
+export function getNoteShapeUniqueID(id: number): number {
   return 59 * id
 }
 export function getPositionUniqueID(id: number): number {

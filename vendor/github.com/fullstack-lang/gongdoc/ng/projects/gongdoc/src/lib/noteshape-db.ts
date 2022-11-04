@@ -4,7 +4,7 @@ import { ClassdiagramDB } from './classdiagram-db'
 // usefull for managing pointer ID values that can be nullable
 import { NullInt64 } from './null-int64'
 
-export class NoteDB {
+export class NoteShapeDB {
 	CreatedAt?: string
 	DeletedAt?: string
 	ID: number = 0
@@ -20,7 +20,7 @@ export class NoteDB {
 
 	// insertion point for other declarations
 	Classdiagram_NotesDBID: NullInt64 = new NullInt64
-	Classdiagram_NotesDBID_Index: NullInt64  = new NullInt64 // store the index of the note instance in Classdiagram.Notes
+	Classdiagram_NotesDBID_Index: NullInt64  = new NullInt64 // store the index of the noteshape instance in Classdiagram.Notes
 	Classdiagram_Notes_reverse?: ClassdiagramDB 
 
 }

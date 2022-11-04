@@ -24,7 +24,7 @@ require (
 )
 
 require (
-	github.com/fullstack-lang/gongdoc v0.0.0-20221104150401-529515244760
+	github.com/fullstack-lang/gongdoc v0.0.0-20221104174734-bf6fba64622c
 	github.com/glebarez/sqlite v1.3.5
 	github.com/xuri/excelize/v2 v2.6.1
 )
