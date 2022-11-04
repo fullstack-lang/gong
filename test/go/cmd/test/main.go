@@ -4,11 +4,13 @@ import (
 	"embed"
 	"flag"
 	"fmt"
+	"go/parser"
 	"go/token"
 	"io/fs"
 	"log"
 	"net/http"
 	"os"
+	"path/filepath"
 	"strings"
 
 	"github.com/gin-contrib/cors"
@@ -47,7 +49,7 @@ var (
 	marshallOnCommit  = flag.String("marshallOnCommit", "", "on all commits, marshall staged data to a go file with the marshall name and '.go' (must be lowercased without spaces). If marshall arg is '', no marshalling")
 
 	diagrams         = flag.Bool("diagrams", true, "parse go/models and go/diagrams to populate diagrams")
-	embeddedDiagrams = flag.Bool("embeddedDiagrams", true, "parse/analysis go/models and go/embeddedDiagrams (takes a few seconds)")
+	embeddedDiagrams = flag.Bool("embeddedDiagrams", false, "parse/analysis go/models and go/embeddedDiagrams (takes a few seconds)")
 )
 
 // InjectionGateway is the singloton that stores all functions
@@ -178,23 +180,44 @@ func main() {
 
 			// let create the gong struct in the gongdoc models
 			// and put the numbre of instances
-			gongStruct_ := (&gongdoc_models.Reference{Name: gongStruct.Name}).Stage()
+			reference := (&gongdoc_models.Reference{Name: gongStruct.Name}).Stage()
+			reference.Type = gongdoc_models.REFERENCE_GONG_STRUCT
 			nbInstances, ok := models.Stage.Map_GongStructName_InstancesNb[gongStruct.Name]
 			if ok {
-				gongStruct_.NbInstances = nbInstances
+				reference.NbInstances = nbInstances
 			}
 		}
 
 		// classdiagram can only be fully in memory when they are Unmarshalled
 		// for instance, the Name of diagrams or the Name of the Link
-		fset := new(token.FileSet)
-		pkgsParser := gong_models.ParseEmbedModel(test.GoDir, "go/diagrams")
-		if len(pkgsParser) != 1 {
-			log.Panic("Unable to parser, wrong number of parsers ", len(pkgsParser))
+
+		if *embeddedDiagrams {
+			fset := new(token.FileSet)
+			pkgsParser := gong_models.ParseEmbedModel(test.GoDir, "go/diagrams")
+			if len(pkgsParser) != 1 {
+				log.Panic("Unable to parser, wrong number of parsers ", len(pkgsParser))
+			}
+			if pkgParser, ok := pkgsParser["diagrams"]; ok {
+				diagramPackage.Unmarshall(modelPkg, pkgParser, fset, "go/diagrams")
+			}
+		} else {
+			fset := new(token.FileSet)
+			diagramPkgPath := filepath.Join("../../diagrams")
+
+			pkgsParser, errParser := parser.ParseDir(fset, diagramPkgPath, nil, parser.ParseComments)
+
+			if errParser != nil {
+				log.Panic("Unable to parser ", errParser.Error())
+			}
+			if len(pkgsParser) != 1 {
+				log.Println("Unable to parser, wrong number of parsers ", len(pkgsParser))
+			} else {
+				diagramPackage.Unmarshall(modelPkg, pkgsParser["diagrams"], fset, diagramPkgPath)
+				diagramPackage.IsEditable = true
+				diagramPackage.Path = "../../models"
+			}
 		}
-		if pkgParser, ok := pkgsParser["diagrams"]; ok {
-			diagramPackage.Unmarshall(modelPkg, pkgParser, fset, "go/diagrams")
-		}
+		diagramPackage.GongModelPath = "github.com/fullstack-lang/gong/test/go/models"
 		diagramPackage.SerializeToStage()
 		gongdoc_models.FillUpNodeTree(diagramPackage)
 	}
