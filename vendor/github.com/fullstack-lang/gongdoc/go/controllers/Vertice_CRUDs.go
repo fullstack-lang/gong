@@ -41,11 +41,12 @@ type VerticeInput struct {
 //
 // swagger:route GET /vertices vertices getVertices
 //
-// Get all vertices
+// # Get all vertices
 //
 // Responses:
-//    default: genericError
-//        200: verticeDBsResponse
+// default: genericError
+//
+//	200: verticeDBResponse
 func GetVertices(c *gin.Context) {
 	db := orm.BackRepo.BackRepoVertice.GetDB()
 
@@ -85,14 +86,15 @@ func GetVertices(c *gin.Context) {
 // swagger:route POST /vertices vertices postVertice
 //
 // Creates a vertice
-//     Consumes:
-//     - application/json
 //
-//     Produces:
-//     - application/json
+//	Consumes:
+//	- application/json
 //
-//     Responses:
-//       200: verticeDBResponse
+//	Produces:
+//	- application/json
+//
+//	Responses:
+//	  200: nodeDBResponse
 func PostVertice(c *gin.Context) {
 	db := orm.BackRepo.BackRepoVertice.GetDB()
 
@@ -124,6 +126,14 @@ func PostVertice(c *gin.Context) {
 		return
 	}
 
+	// get an instance (not staged) from DB instance, and call callback function
+	orm.BackRepo.BackRepoVertice.CheckoutPhaseOneInstance(&verticeDB)
+	vertice := (*orm.BackRepo.BackRepoVertice.Map_VerticeDBID_VerticePtr)[verticeDB.ID]
+
+	if vertice != nil {
+		models.AfterCreateFromFront(&models.Stage, vertice)
+	}
+
 	// a POST is equivalent to a back repo commit increase
 	// (this will be improved with implementation of unit of work design pattern)
 	orm.BackRepo.IncrementPushFromFrontNb()
@@ -138,8 +148,9 @@ func PostVertice(c *gin.Context) {
 // Gets the details for a vertice.
 //
 // Responses:
-//    default: genericError
-//        200: verticeDBResponse
+// default: genericError
+//
+//	200: verticeDBResponse
 func GetVertice(c *gin.Context) {
 	db := orm.BackRepo.BackRepoVertice.GetDB()
 
@@ -166,11 +177,12 @@ func GetVertice(c *gin.Context) {
 //
 // swagger:route PATCH /vertices/{ID} vertices updateVertice
 //
-// Update a vertice
+// # Update a vertice
 //
 // Responses:
-//    default: genericError
-//        200: verticeDBResponse
+// default: genericError
+//
+//	200: verticeDBResponse
 func UpdateVertice(c *gin.Context) {
 	db := orm.BackRepo.BackRepoVertice.GetDB()
 
@@ -211,8 +223,20 @@ func UpdateVertice(c *gin.Context) {
 		return
 	}
 
+	// get an instance (not staged) from DB instance, and call callback function
+	verticeNew := new(models.Vertice)
+	verticeDB.CopyBasicFieldsToVertice(verticeNew)
+
+	// get stage instance from DB instance, and call callback function
+	verticeOld := (*orm.BackRepo.BackRepoVertice.Map_VerticeDBID_VerticePtr)[verticeDB.ID]
+	if verticeOld != nil {
+		models.AfterUpdateFromFront(&models.Stage, verticeOld, verticeNew)
+	}
+
 	// an UPDATE generates a back repo commit increase
 	// (this will be improved with implementation of unit of work design pattern)
+	// in some cases, with the marshalling of the stage, this operation might
+	// generates a checkout
 	orm.BackRepo.IncrementPushFromFrontNb()
 
 	// return status OK with the marshalling of the the verticeDB
@@ -223,10 +247,11 @@ func UpdateVertice(c *gin.Context) {
 //
 // swagger:route DELETE /vertices/{ID} vertices deleteVertice
 //
-// Delete a vertice
+// # Delete a vertice
 //
-// Responses:
-//    default: genericError
+// default: genericError
+//
+//	200: verticeDBResponse
 func DeleteVertice(c *gin.Context) {
 	db := orm.BackRepo.BackRepoVertice.GetDB()
 
@@ -243,6 +268,16 @@ func DeleteVertice(c *gin.Context) {
 
 	// with gorm.Model field, default delete is a soft delete. Unscoped() force delete
 	db.Unscoped().Delete(&verticeDB)
+
+	// get an instance (not staged) from DB instance, and call callback function
+	verticeDeleted := new(models.Vertice)
+	verticeDB.CopyBasicFieldsToVertice(verticeDeleted)
+
+	// get stage instance from DB instance, and call callback function
+	verticeStaged := (*orm.BackRepo.BackRepoVertice.Map_VerticeDBID_VerticePtr)[verticeDB.ID]
+	if verticeStaged != nil {
+		models.AfterDeleteFromFront(&models.Stage, verticeStaged, verticeDeleted)
+	}
 
 	// a DELETE generates a back repo commit increase
 	// (this will be improved with implementation of unit of work design pattern)

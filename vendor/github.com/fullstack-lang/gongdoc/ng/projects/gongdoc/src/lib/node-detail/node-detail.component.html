@@ -1,0 +1,126 @@
+<form *ngIf="node" class="details">
+    <h2 class="details__title">node</h2>
+    <!-- insertion point for fields specific code -->
+    <mat-grid-list *ngIf='!isATextArea("Name")' cols="5" rowHeight="2:1">
+        <mat-grid-tile [colspan]="3">
+            <mat-form-field mat-form-field class="detail-full-width">
+                <mat-label>Name</mat-label>
+                <input name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="node.Name">
+            </mat-form-field>
+        </mat-grid-tile>
+        <mat-grid-tile>
+            <button mat-raised-button (click)="toggleTextArea('Name')">
+                <mat-icon>
+                    expand_more
+                </mat-icon>
+            </button>
+        </mat-grid-tile>
+    </mat-grid-list>
+    <mat-form-field *ngIf='isATextArea("Name")' mat-form-field class="detail-full-width">
+        <mat-label>Name</mat-label>
+        <textarea name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="node.Name"></textarea>
+    </mat-form-field>
+
+    <!-- -->
+    <mat-form-field appearance="fill" class="detail-full-width">
+        <mat-label>Type</mat-label>
+        <mat-select [(ngModel)]="node.Type" [ngModelOptions]="{standalone: true}">
+            <mat-option *ngFor="let enum of GongdocNodeTypeList" [value]="enum.value">
+                {{enum.viewValue}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    <mat-form-field class="detail-full-width">
+        <mat-label>Classdiagram</mat-label>
+        <mat-select [compareWith]="compareObjects" [(value)]="node.Classdiagram" (selectionChange)="fillUpNameIfEmpty($event)">
+            <mat-option>None</mat-option>
+            <mat-option *ngFor="let classdiagram of frontRepo.Classdiagrams_array" [value]="classdiagram">
+                {{classdiagram.Name}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    <mat-form-field class="detail-full-width">
+        <mat-label>Umlsc</mat-label>
+        <mat-select [compareWith]="compareObjects" [(value)]="node.Umlsc" (selectionChange)="fillUpNameIfEmpty($event)">
+            <mat-option>None</mat-option>
+            <mat-option *ngFor="let umlsc of frontRepo.Umlscs_array" [value]="umlsc">
+                {{umlsc.Name}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    <!-- -->
+    <mat-checkbox [formControl]="IsExpandedFormControl">IsExpanded</mat-checkbox>
+
+    <!-- -->
+    <mat-checkbox [formControl]="HasCheckboxButtonFormControl">HasCheckboxButton</mat-checkbox>
+
+    <!-- -->
+    <mat-checkbox [formControl]="IsCheckedFormControl">IsChecked</mat-checkbox>
+
+    <!-- -->
+    <mat-checkbox [formControl]="IsCheckboxDisabledFormControl">IsCheckboxDisabled</mat-checkbox>
+
+    <!-- -->
+    <mat-checkbox [formControl]="HasAddChildButtonFormControl">HasAddChildButton</mat-checkbox>
+
+    <!-- -->
+    <mat-checkbox [formControl]="HasEditButtonFormControl">HasEditButton</mat-checkbox>
+
+    <!-- -->
+    <mat-checkbox [formControl]="IsInEditModeFormControl">IsInEditMode</mat-checkbox>
+
+    <!-- -->
+    <mat-checkbox [formControl]="HasDrawButtonFormControl">HasDrawButton</mat-checkbox>
+
+    <!-- -->
+    <mat-checkbox [formControl]="HasDrawOffButtonFormControl">HasDrawOffButton</mat-checkbox>
+
+    <!-- -->
+    <mat-checkbox [formControl]="IsInDrawModeFormControl">IsInDrawMode</mat-checkbox>
+
+    <!-- -->
+    <mat-checkbox [formControl]="IsSavedFormControl">IsSaved</mat-checkbox>
+
+    <!-- -->
+    <mat-checkbox [formControl]="HasDeleteButtonFormControl">HasDeleteButton</mat-checkbox>
+
+    <mat-grid-list cols="5" rowHeight="2:1">
+        <mat-grid-tile [colspan]="3">
+            <button mat-raised-button (click)="openReverseSelection('Node', 'Node_ChildrenDBID', 'ONE_MANY_ASSOCIATION_MODE', '', '', '')">Children</button>
+        </mat-grid-tile>
+        <!-- insertion point for the button of the MANY_MANY association-->
+        <mat-grid-tile>
+            <button mat-raised-button (click)="openDragAndDropOrdering('Node', 'Node_ChildrenDBID')">
+                <mat-icon>
+                    shuffle
+                </mat-icon>
+            </button>
+        </mat-grid-tile>
+    </mat-grid-list>
+    <mat-form-field class="detail-full-width">
+        <mat-label>(Node) Children</mat-label>
+        <mat-select [compareWith]="compareObjects" [(ngModel)]="node.Node_Children_reverse" [ngModelOptions]="{standalone: true}">
+            <mat-option>None</mat-option>
+            <mat-option *ngFor="let node of frontRepo.Nodes_array" [value]="node">
+                {{node.Name}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+    <mat-form-field class="detail-full-width">
+        <mat-label>(Tree) RootNodes</mat-label>
+        <mat-select [compareWith]="compareObjects" [(ngModel)]="node.Tree_RootNodes_reverse" [ngModelOptions]="{standalone: true}">
+            <mat-option>None</mat-option>
+            <mat-option *ngFor="let tree of frontRepo.Trees_array" [value]="tree">
+                {{tree.Name}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+    <div class="details__save">
+        <button mat-raised-button color="primary" (click)="save()">
+            Save node
+        </button>
+    </div>
+</form>

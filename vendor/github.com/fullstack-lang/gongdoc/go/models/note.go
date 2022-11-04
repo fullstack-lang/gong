@@ -62,7 +62,7 @@ func (note *Note) Marshall(file *os.File, nbIndentation int) error {
 func (note *Note) Unmarshall(modelPkg *gong_models.ModelPkg, expr ast.Expr, fset *token.FileSet) {
 
 	// expression should be a composite literal expression
-	// models.Note{Position: uml.Position{X: 10, Y: 12}, Struct: &(models.Point{})}
+	// models.Note{Position: uml.Position{X: 10, Y: 12}, ReferencedGong: &(models.Point{})}
 	cl, ok := expr.(*ast.CompositeLit)
 	if !ok {
 		log.Fatal("Expecting a composite litteral " +

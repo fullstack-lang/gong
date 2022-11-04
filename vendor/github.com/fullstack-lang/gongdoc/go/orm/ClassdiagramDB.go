@@ -46,11 +46,11 @@ type ClassdiagramAPI struct {
 type ClassdiagramPointersEnconding struct {
 	// insertion for pointer fields encoding declaration
 
-	// Implementation of a reverse ID for field Pkgelt{}.Classdiagrams []*Classdiagram
-	Pkgelt_ClassdiagramsDBID sql.NullInt64
+	// Implementation of a reverse ID for field DiagramPackage{}.Classdiagrams []*Classdiagram
+	DiagramPackage_ClassdiagramsDBID sql.NullInt64
 
 	// implementation of the index of the withing the slice
-	Pkgelt_ClassdiagramsDBID_Index sql.NullInt64
+	DiagramPackage_ClassdiagramsDBID_Index sql.NullInt64
 }
 
 // ClassdiagramDB describes a classdiagram in the database
@@ -67,9 +67,9 @@ type ClassdiagramDB struct {
 	// Declation for basic field classdiagramDB.Name
 	Name_Data sql.NullString
 
-	// Declation for basic field classdiagramDB.IsEditable
+	// Declation for basic field classdiagramDB.IsInDrawMode
 	// provide the sql storage for the boolan
-	IsEditable_Data sql.NullBool
+	IsInDrawMode_Data sql.NullBool
 	// encoding of pointers
 	ClassdiagramPointersEnconding
 }
@@ -93,7 +93,7 @@ type ClassdiagramWOP struct {
 
 	Name string `xlsx:"1"`
 
-	IsEditable bool `xlsx:"2"`
+	IsInDrawMode bool `xlsx:"2"`
 	// insertion for WOP pointer fields
 }
 
@@ -101,7 +101,7 @@ var Classdiagram_Fields = []string{
 	// insertion for WOP basic fields
 	"ID",
 	"Name",
-	"IsEditable",
+	"IsInDrawMode",
 }
 
 type BackRepoClassdiagramStruct struct {
@@ -451,6 +451,7 @@ func (backRepo *BackRepoStruct) CommitClassdiagram(classdiagram *models.Classdia
 	if id, ok := (*backRepo.BackRepoClassdiagram.Map_ClassdiagramPtr_ClassdiagramDBID)[classdiagram]; ok {
 		backRepo.BackRepoClassdiagram.CommitPhaseTwoInstance(backRepo, id, classdiagram)
 	}
+	backRepo.CommitFromBackNb = backRepo.CommitFromBackNb + 1
 }
 
 // CommitClassdiagram allows checkout of a single classdiagram (if already staged and with a BackRepo id)
@@ -478,8 +479,8 @@ func (classdiagramDB *ClassdiagramDB) CopyBasicFieldsFromClassdiagram(classdiagr
 	classdiagramDB.Name_Data.String = classdiagram.Name
 	classdiagramDB.Name_Data.Valid = true
 
-	classdiagramDB.IsEditable_Data.Bool = classdiagram.IsEditable
-	classdiagramDB.IsEditable_Data.Valid = true
+	classdiagramDB.IsInDrawMode_Data.Bool = classdiagram.IsInDrawMode
+	classdiagramDB.IsInDrawMode_Data.Valid = true
 }
 
 // CopyBasicFieldsFromClassdiagramWOP
@@ -489,15 +490,15 @@ func (classdiagramDB *ClassdiagramDB) CopyBasicFieldsFromClassdiagramWOP(classdi
 	classdiagramDB.Name_Data.String = classdiagram.Name
 	classdiagramDB.Name_Data.Valid = true
 
-	classdiagramDB.IsEditable_Data.Bool = classdiagram.IsEditable
-	classdiagramDB.IsEditable_Data.Valid = true
+	classdiagramDB.IsInDrawMode_Data.Bool = classdiagram.IsInDrawMode
+	classdiagramDB.IsInDrawMode_Data.Valid = true
 }
 
 // CopyBasicFieldsToClassdiagram
 func (classdiagramDB *ClassdiagramDB) CopyBasicFieldsToClassdiagram(classdiagram *models.Classdiagram) {
 	// insertion point for checkout of basic fields (back repo to stage)
 	classdiagram.Name = classdiagramDB.Name_Data.String
-	classdiagram.IsEditable = classdiagramDB.IsEditable_Data.Bool
+	classdiagram.IsInDrawMode = classdiagramDB.IsInDrawMode_Data.Bool
 }
 
 // CopyBasicFieldsToClassdiagramWOP
@@ -505,7 +506,7 @@ func (classdiagramDB *ClassdiagramDB) CopyBasicFieldsToClassdiagramWOP(classdiag
 	classdiagram.ID = int(classdiagramDB.ID)
 	// insertion point for checkout of basic fields (back repo to stage)
 	classdiagram.Name = classdiagramDB.Name_Data.String
-	classdiagram.IsEditable = classdiagramDB.IsEditable_Data.Bool
+	classdiagram.IsInDrawMode = classdiagramDB.IsInDrawMode_Data.Bool
 }
 
 // Backup generates a json file from a slice of all ClassdiagramDB instances in the backrepo
@@ -664,9 +665,9 @@ func (backRepoClassdiagram *BackRepoClassdiagramStruct) RestorePhaseTwo() {
 
 		// insertion point for reindexing pointers encoding
 		// This reindex classdiagram.Classdiagrams
-		if classdiagramDB.Pkgelt_ClassdiagramsDBID.Int64 != 0 {
-			classdiagramDB.Pkgelt_ClassdiagramsDBID.Int64 =
-				int64(BackRepoPkgeltid_atBckpTime_newID[uint(classdiagramDB.Pkgelt_ClassdiagramsDBID.Int64)])
+		if classdiagramDB.DiagramPackage_ClassdiagramsDBID.Int64 != 0 {
+			classdiagramDB.DiagramPackage_ClassdiagramsDBID.Int64 =
+				int64(BackRepoDiagramPackageid_atBckpTime_newID[uint(classdiagramDB.DiagramPackage_ClassdiagramsDBID.Int64)])
 		}
 
 		// update databse with new index encoding

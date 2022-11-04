@@ -389,6 +389,7 @@ func (backRepo *BackRepoStruct) CommitNote(note *models.Note) {
 	if id, ok := (*backRepo.BackRepoNote.Map_NotePtr_NoteDBID)[note]; ok {
 		backRepo.BackRepoNote.CommitPhaseTwoInstance(backRepo, id, note)
 	}
+	backRepo.CommitFromBackNb = backRepo.CommitFromBackNb + 1
 }
 
 // CommitNote allows checkout of a single note (if already staged and with a BackRepo id)

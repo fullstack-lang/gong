@@ -48,14 +48,14 @@
         </mat-grid-tile>
     </mat-grid-list>
     <!-- -->
-    <mat-checkbox [formControl]="IsEditableFormControl">IsEditable</mat-checkbox>
+    <mat-checkbox [formControl]="IsInDrawModeFormControl">IsInDrawMode</mat-checkbox>
 
     <mat-form-field class="detail-full-width">
-        <mat-label>(Pkgelt) Classdiagrams</mat-label>
-        <mat-select [compareWith]="compareObjects" [(ngModel)]="classdiagram.Pkgelt_Classdiagrams_reverse" [ngModelOptions]="{standalone: true}">
+        <mat-label>(DiagramPackage) Classdiagrams</mat-label>
+        <mat-select [compareWith]="compareObjects" [(ngModel)]="classdiagram.DiagramPackage_Classdiagrams_reverse" [ngModelOptions]="{standalone: true}">
             <mat-option>None</mat-option>
-            <mat-option *ngFor="let pkgelt of frontRepo.Pkgelts_array" [value]="pkgelt">
-                {{pkgelt.Name}}
+            <mat-option *ngFor="let diagrampackage of frontRepo.DiagramPackages_array" [value]="diagrampackage">
+                {{diagrampackage.Name}}
             </mat-option>
         </mat-select>
     </mat-form-field>
