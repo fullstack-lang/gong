@@ -1,8 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Observable, Subscription, timer } from 'rxjs';
 
-// for slider
-import { UntypedFormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ThemePalette } from '@angular/material/core';
 
 import * as joint from 'jointjs';
@@ -29,11 +27,11 @@ export class ClassDiagramComponent implements OnInit, OnDestroy {
    * the class diagram component is refreshed both by direct input when the user moves vertices or positions
    * otherwise, modification are gotten from the back repo 
    * 
-   * the checkCommitNbTimer polls the commit number of the back repo
+   * the checkCommitNbFromBackTimer polls the commit number of the back repo
    * if the commit number has increased, it pulls the front repo and redraw the diagram
    */
-  checkGongdocCommitNbTimer: Observable<number> = timer(500, 500);
-  lastCommitNb = -1
+  checkGongdocCommitNbFromBackTimer: Observable<number> = timer(500, 500);
+  lastCommitNbFromBack = -1
   lastDiagramId = 0
   currTime: number = 0
 
@@ -94,14 +92,12 @@ export class ClassDiagramComponent implements OnInit, OnDestroy {
     private positionService: gongdoc.PositionService,
     private noteService: gongdoc.NoteService,
     private verticeService: gongdoc.VerticeService,
+    private classshapeService: gongdoc.ClassshapeService, // for selection of the classshape
 
     private gongdocFrontRepoService: gongdoc.FrontRepoService,
-    private gongdocCommandService: gongdoc.GongdocCommandService,
-    private gongdocCommitNbService: gongdoc.CommitNbService,
+    private gongdocCommitNbFromBackService: gongdoc.CommitNbFromBackService,
 
     private ClassdiagramService: gongdoc.ClassdiagramService,
-
-    formBuilder: UntypedFormBuilder,
   ) {
     // https://stackoverflow.com/questions/54627478/angular-7-routing-to-same-component-but-different-param-not-working
     // this is for routerLink on same component when only queryParameter changes
@@ -114,8 +110,8 @@ export class ClassDiagramComponent implements OnInit, OnDestroy {
   // instances of the diagram and each instance will stay alive. For instance,
   // the instance will be in the control flow if an observable the component subscribes to emits an event.
   // Therefore, it is mandatory to manage subscriptions in order to unscribe them on the ngOnDestroy hook
-  checkGongdocCommitNbTimerSubscription: Subscription = new Subscription
-  gongdocCommitNbService_getCommitNb: Subscription = new Subscription
+  checkGongdocCommitNbFromBackTimerSubscription: Subscription = new Subscription
+  gongdocCommitNbFromBackService_getCommitNbFromBack: Subscription = new Subscription
 
   subscriptionToDragAndDropEvent: Subscription = new Subscription
   subscriptionToRemoveFromDiagramEvent: Subscription = new Subscription
@@ -123,34 +119,34 @@ export class ClassDiagramComponent implements OnInit, OnDestroy {
   // neccessary to unsubscribe
   ngOnDestroy() {
     // console.log("on destroy")
-    this.checkGongdocCommitNbTimerSubscription.unsubscribe()
-    this.gongdocCommitNbService_getCommitNb.unsubscribe()
+    this.checkGongdocCommitNbFromBackTimerSubscription.unsubscribe()
+    this.gongdocCommitNbFromBackService_getCommitNbFromBack.unsubscribe()
   }
 
   ngOnInit(): void {
 
     // check loop for refresh from the back repo
-    this.checkGongdocCommitNbTimerSubscription = this.checkGongdocCommitNbTimer.subscribe(
+    this.checkGongdocCommitNbFromBackTimerSubscription = this.checkGongdocCommitNbFromBackTimer.subscribe(
       currTime => {
         this.currTime = currTime
 
-        this.gongdocCommitNbService_getCommitNb = this.gongdocCommitNbService.getCommitNb().subscribe(
-          commitNb => {
+        this.gongdocCommitNbFromBackService_getCommitNbFromBack = this.gongdocCommitNbFromBackService.getCommitNbFromBack().subscribe(
+          commitNbFromBack => {
 
             const id = +this.route.snapshot.paramMap.get('id')!;
 
-            // console.log("last commit nb " + this.lastCommitNb + " new: " + commitNb)
+            // console.log("last commit nb " + this.lastCommitNbFromBack + " new: " + commitNbFromBack)
             // console.log("last diagram id " + this.lastDiagramId + " new: " + id)
             // console.log("last drawn diagram id " + this.idOfDrawnClassDiagram + " new: " + id)
 
             // condition for refresh
-            if (this.lastCommitNb < commitNb || this.lastDiagramId != id || this.idOfDrawnClassDiagram != id) {
+            if (this.lastCommitNbFromBack < commitNbFromBack || this.lastDiagramId != id || this.idOfDrawnClassDiagram != id) {
 
-              // console.log("last commit nb " + this.lastCommitNb + " new: " + commitNb)
+              // console.log("last commit nb " + this.lastCommitNbFromBack + " new: " + commitNbFromBack)
               // console.log("last diagram id " + this.lastDiagramId + " new: " + id)
               // console.log("last drawn diagram id " + this.idOfDrawnClassDiagram + " new: " + id)
               this.pullGongdocAndDrawDiagram()
-              this.lastCommitNb = commitNb
+              this.lastCommitNbFromBack = commitNbFromBack
               this.lastDiagramId = id
               this.idOfDrawnClassDiagram = id
             }
@@ -215,29 +211,17 @@ export class ClassDiagramComponent implements OnInit, OnDestroy {
   //
   addClassshapeToGraph(classshape: gongdoc.ClassshapeDB): joint.shapes.uml.Class {
 
-    //
-    // creates the UML shape
-    //
-
-    // fetch the command singloton
-    let gongdocCommandSingloton: gongdoc.GongdocCommandDB
-    for (let gongdocCommand of this.gongdocFrontRepo.GongdocCommands_array) {
-      gongdocCommandSingloton = gongdocCommand
-    }
 
     // back pointers: 
     // stores  as an attribute in the jointjs uml class shape :
-    // - the position service
-    // - the command singloton
-    // - the command service
-    let umlClassShape = newUmlClassShape(classshape, this.positionService,
-      gongdocCommandSingloton!, this.gongdocCommandService)
+    // - the position service to be able to update the position
+    let umlClassShape = newUmlClassShape(classshape, this.positionService, this.classshapeService)
 
     // structRectangle.attributes = ['firstName: String']
     umlClassShape.addTo(this.graph!);
 
     this.Map_CellId_ClassshapeDB.set(umlClassShape.id.toString(), classshape)
-    this.Map_GongStructName_JointjsUMLClassShape.set(classshape.Structname, umlClassShape)
+    this.Map_GongStructName_JointjsUMLClassShape.set(classshape.ReferenceName, umlClassShape)
 
     return umlClassShape
   }
@@ -251,19 +235,10 @@ export class ClassDiagramComponent implements OnInit, OnDestroy {
     // creates the UML shape
     //
 
-    // fetch the command singloton
-    let gongdocCommandSingloton: gongdoc.GongdocCommandDB
-    for (let gongdocCommand of this.gongdocFrontRepo.GongdocCommands_array) {
-      gongdocCommandSingloton = gongdocCommand
-    }
-
     // back pointers: 
     // stores  as an attribute in the jointjs uml class shape :
     // - the position service
-    // - the command singloton
-    // - the command service
-    let umlNote = newUmlNote(note, this.noteService,
-      gongdocCommandSingloton!, this.gongdocCommandService)
+    let umlNote = newUmlNote(note, this.noteService)
 
     // structRectangle.attributes = ['firstName: String']
     umlNote.addTo(this.graph!);
@@ -317,8 +292,7 @@ export class ClassDiagramComponent implements OnInit, OnDestroy {
 
     this.paper = new joint.dia.Paper(paperOptions)
 
-    // intercept click on shapes when in production mode
-    if (this.classdiagram.IsEditable) {
+    if (this.classdiagram.IsInDrawMode) {
       this.paper.setInteractivity(true)
     } else {
       this.paper.setInteractivity(false)
@@ -338,26 +312,19 @@ export class ClassDiagramComponent implements OnInit, OnDestroy {
         let umlClassShape = cellView.model
 
         let classhape = umlClassShape.attributes['classshape'] as gongdoc.ClassshapeDB
+        let classshapeService = umlClassShape.attributes['classshapeService'] as gongdoc.ClassshapeService
 
         // if selected object is not a classshape, move on
         if (classhape == undefined) {
           return
         }
 
-
-        let gongdocCommandSingloton = umlClassShape.attributes['gongdocCommandSingloton'] as gongdoc.GongdocCommandDB
-        let gongdocCommandService = umlClassShape.attributes['gongdocCommandService'] as gongdoc.GongdocCommandService
-
-        gongdocCommandSingloton.Command = gongdoc.GongdocCommandType.DIAGRAM_GONGSTRUCT_SELECT
-        gongdocCommandSingloton.StructName = classhape.Structname
-        gongdocCommandSingloton.Date = Date.now().toString()
-
-        gongdocCommandService.updateGongdocCommand(gongdocCommandSingloton).subscribe(
-          gongdocCommandSingloton => {
-            console.log("gongdocCommandSingloton updated")
+        classhape.IsSelected = true
+        classshapeService.updateClassshape(classhape).subscribe(
+          classhape => {
+            console.log("classhape updated")
           }
         )
-        // alert('cell view ' + cellView.model.id + ' was clicked');
       }
     )
 
@@ -498,27 +465,6 @@ export class ClassDiagramComponent implements OnInit, OnDestroy {
    * 
    * the challenge is to update the positions of classshapes and vertices
    */
-  saveClassdiagram(): void {
-    // console.log("save diagram")
-
-    // send a marshalling command to the backend via GongdocCommandSingloton
-    let gongdocCommandSingloton: gongdoc.GongdocCommandDB
-    this.gongdocFrontRepo.GongdocCommands.forEach(
-      gongdocCommand => {
-        gongdocCommandSingloton = gongdocCommand
-
-        gongdocCommandSingloton.Command = gongdoc.GongdocCommandType.MARSHALL_DIAGRAM
-        gongdocCommandSingloton.DiagramName = this.classdiagram.Name
-        gongdocCommandSingloton.Date = Date.now().toString()
-
-        this.gongdocCommandService.updateGongdocCommand(gongdocCommandSingloton).subscribe(
-          GongdocCommand => {
-            // console.log("GongdocCommand updated")
-          }
-        )
-      }
-    )
-  }
 
   pullGongdocAndDrawDiagram() {
     this.gongdocFrontRepoService.pull().subscribe(
@@ -530,7 +476,15 @@ export class ClassDiagramComponent implements OnInit, OnDestroy {
         this.editable = this.route.snapshot.paramMap.get('editable')! == "true";
         this.classdiagram = frontRepo.Classdiagrams.get(id)!
 
-        this.drawClassdiagram();
+        // intercept click on shapes when in production mode
+        if (this.classdiagram == undefined) {
+          console.log("unkwnown classdiagram id : " + id)
+        } else {
+
+          this.drawClassdiagram();
+          this.paper!.setInteractivity(this.classdiagram.IsInDrawMode)
+
+        }
       }
     )
   }
@@ -540,7 +494,7 @@ export class ClassDiagramComponent implements OnInit, OnDestroy {
 
     if (!event.checked) {
       this.paper!.setInteractivity(false)
-      this.classdiagram.IsEditable = false
+      this.classdiagram.IsInDrawMode = false
       this.ClassdiagramService.updateClassdiagram(this.classdiagram).subscribe(
         classdiagram => {
           console.log("classdiagram edition mode set to PROD")
@@ -548,7 +502,7 @@ export class ClassDiagramComponent implements OnInit, OnDestroy {
       )
     } else {
       this.paper!.setInteractivity(true)
-      this.classdiagram.IsEditable = true
+      this.classdiagram.IsInDrawMode = true
       this.ClassdiagramService.updateClassdiagram(this.classdiagram).subscribe(
         classdiagram => {
           console.log("classdiagram edition mode set to DEV")

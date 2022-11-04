@@ -358,6 +358,7 @@ func (backRepo *BackRepoStruct) CommitPosition(position *models.Position) {
 	if id, ok := (*backRepo.BackRepoPosition.Map_PositionPtr_PositionDBID)[position]; ok {
 		backRepo.BackRepoPosition.CommitPhaseTwoInstance(backRepo, id, position)
 	}
+	backRepo.CommitFromBackNb = backRepo.CommitFromBackNb + 1
 }
 
 // CommitPosition allows checkout of a single position (if already staged and with a BackRepo id)

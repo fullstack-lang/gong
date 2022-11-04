@@ -33,10 +33,17 @@
             </td>
         </ng-container>
         <!-- -->
-        <ng-container matColumnDef="Pkgelt_Umlscs">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> <-- (Pkgelt) Umlscs </th>
+        <ng-container matColumnDef="IsInDrawMode">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> IsInDrawMode </th>
+            <td mat-cell *matCellDef="let Umlsc">
+                <mat-checkbox [checked]="Umlsc.IsInDrawMode" disabled=true></mat-checkbox>
+            </td>
+        </ng-container>
+        <!-- -->
+        <ng-container matColumnDef="DiagramPackage_Umlscs">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> <-- (DiagramPackage) Umlscs </th>
             <td mat-cell *matCellDef="let umlsc">
-                {{frontRepo.Pkgelts.get(umlsc.Pkgelt_UmlscsDBID.Int64)?.Name}}
+                {{frontRepo.DiagramPackages.get(umlsc.DiagramPackage_UmlscsDBID.Int64)?.Name}}
             </td>
         </ng-container>
 

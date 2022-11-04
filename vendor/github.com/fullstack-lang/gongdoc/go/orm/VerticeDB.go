@@ -358,6 +358,7 @@ func (backRepo *BackRepoStruct) CommitVertice(vertice *models.Vertice) {
 	if id, ok := (*backRepo.BackRepoVertice.Map_VerticePtr_VerticeDBID)[vertice]; ok {
 		backRepo.BackRepoVertice.CommitPhaseTwoInstance(backRepo, id, vertice)
 	}
+	backRepo.CommitFromBackNb = backRepo.CommitFromBackNb + 1
 }
 
 // CommitVertice allows checkout of a single vertice (if already staged and with a BackRepo id)

@@ -14,7 +14,7 @@ import { catchError, map, tap } from 'rxjs/operators';
 import { UmlscDB } from './umlsc-db';
 
 // insertion point for imports
-import { PkgeltDB } from './pkgelt-db'
+import { DiagramPackageDB } from './diagrampackage-db'
 
 @Injectable({
   providedIn: 'root'
@@ -72,13 +72,13 @@ export class UmlscService {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
     umlscdb.States = []
-    let _Pkgelt_Umlscs_reverse = umlscdb.Pkgelt_Umlscs_reverse
-    umlscdb.Pkgelt_Umlscs_reverse = new PkgeltDB
+    let _DiagramPackage_Umlscs_reverse = umlscdb.DiagramPackage_Umlscs_reverse
+    umlscdb.DiagramPackage_Umlscs_reverse = new DiagramPackageDB
 
     return this.http.post<UmlscDB>(this.umlscsUrl, umlscdb, this.httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
-        umlscdb.Pkgelt_Umlscs_reverse = _Pkgelt_Umlscs_reverse
+        umlscdb.DiagramPackage_Umlscs_reverse = _DiagramPackage_Umlscs_reverse
         this.log(`posted umlscdb id=${umlscdb.ID}`)
       }),
       catchError(this.handleError<UmlscDB>('postUmlsc'))
@@ -103,13 +103,13 @@ export class UmlscService {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
     umlscdb.States = []
-    let _Pkgelt_Umlscs_reverse = umlscdb.Pkgelt_Umlscs_reverse
-    umlscdb.Pkgelt_Umlscs_reverse = new PkgeltDB
+    let _DiagramPackage_Umlscs_reverse = umlscdb.DiagramPackage_Umlscs_reverse
+    umlscdb.DiagramPackage_Umlscs_reverse = new DiagramPackageDB
 
     return this.http.put<UmlscDB>(url, umlscdb, this.httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
-        umlscdb.Pkgelt_Umlscs_reverse = _Pkgelt_Umlscs_reverse
+        umlscdb.DiagramPackage_Umlscs_reverse = _DiagramPackage_Umlscs_reverse
         this.log(`updated umlscdb id=${umlscdb.ID}`)
       }),
       catchError(this.handleError<UmlscDB>('updateUmlsc'))

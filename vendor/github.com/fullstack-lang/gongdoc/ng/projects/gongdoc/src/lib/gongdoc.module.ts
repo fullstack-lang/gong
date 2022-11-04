@@ -49,45 +49,45 @@ import { ClassshapeSortingComponent } from './classshape-sorting/classshape-sort
 import { ClassshapeDetailComponent } from './classshape-detail/classshape-detail.component'
 import { ClassshapePresentationComponent } from './classshape-presentation/classshape-presentation.component'
 
+import { DiagramPackagesTableComponent } from './diagrampackages-table/diagrampackages-table.component'
+import { DiagramPackageSortingComponent } from './diagrampackage-sorting/diagrampackage-sorting.component'
+import { DiagramPackageDetailComponent } from './diagrampackage-detail/diagrampackage-detail.component'
+import { DiagramPackagePresentationComponent } from './diagrampackage-presentation/diagrampackage-presentation.component'
+
 import { FieldsTableComponent } from './fields-table/fields-table.component'
 import { FieldSortingComponent } from './field-sorting/field-sorting.component'
 import { FieldDetailComponent } from './field-detail/field-detail.component'
 import { FieldPresentationComponent } from './field-presentation/field-presentation.component'
-
-import { GongStructsTableComponent } from './gongstructs-table/gongstructs-table.component'
-import { GongStructSortingComponent } from './gongstruct-sorting/gongstruct-sorting.component'
-import { GongStructDetailComponent } from './gongstruct-detail/gongstruct-detail.component'
-import { GongStructPresentationComponent } from './gongstruct-presentation/gongstruct-presentation.component'
-
-import { GongdocCommandsTableComponent } from './gongdoccommands-table/gongdoccommands-table.component'
-import { GongdocCommandSortingComponent } from './gongdoccommand-sorting/gongdoccommand-sorting.component'
-import { GongdocCommandDetailComponent } from './gongdoccommand-detail/gongdoccommand-detail.component'
-import { GongdocCommandPresentationComponent } from './gongdoccommand-presentation/gongdoccommand-presentation.component'
-
-import { GongdocStatussTableComponent } from './gongdocstatuss-table/gongdocstatuss-table.component'
-import { GongdocStatusSortingComponent } from './gongdocstatus-sorting/gongdocstatus-sorting.component'
-import { GongdocStatusDetailComponent } from './gongdocstatus-detail/gongdocstatus-detail.component'
-import { GongdocStatusPresentationComponent } from './gongdocstatus-presentation/gongdocstatus-presentation.component'
 
 import { LinksTableComponent } from './links-table/links-table.component'
 import { LinkSortingComponent } from './link-sorting/link-sorting.component'
 import { LinkDetailComponent } from './link-detail/link-detail.component'
 import { LinkPresentationComponent } from './link-presentation/link-presentation.component'
 
+import { NodesTableComponent } from './nodes-table/nodes-table.component'
+import { NodeSortingComponent } from './node-sorting/node-sorting.component'
+import { NodeDetailComponent } from './node-detail/node-detail.component'
+import { NodePresentationComponent } from './node-presentation/node-presentation.component'
+
 import { NotesTableComponent } from './notes-table/notes-table.component'
 import { NoteSortingComponent } from './note-sorting/note-sorting.component'
 import { NoteDetailComponent } from './note-detail/note-detail.component'
 import { NotePresentationComponent } from './note-presentation/note-presentation.component'
 
-import { PkgeltsTableComponent } from './pkgelts-table/pkgelts-table.component'
-import { PkgeltSortingComponent } from './pkgelt-sorting/pkgelt-sorting.component'
-import { PkgeltDetailComponent } from './pkgelt-detail/pkgelt-detail.component'
-import { PkgeltPresentationComponent } from './pkgelt-presentation/pkgelt-presentation.component'
-
 import { PositionsTableComponent } from './positions-table/positions-table.component'
 import { PositionSortingComponent } from './position-sorting/position-sorting.component'
 import { PositionDetailComponent } from './position-detail/position-detail.component'
 import { PositionPresentationComponent } from './position-presentation/position-presentation.component'
+
+import { ReferencesTableComponent } from './references-table/references-table.component'
+import { ReferenceSortingComponent } from './reference-sorting/reference-sorting.component'
+import { ReferenceDetailComponent } from './reference-detail/reference-detail.component'
+import { ReferencePresentationComponent } from './reference-presentation/reference-presentation.component'
+
+import { TreesTableComponent } from './trees-table/trees-table.component'
+import { TreeSortingComponent } from './tree-sorting/tree-sorting.component'
+import { TreeDetailComponent } from './tree-detail/tree-detail.component'
+import { TreePresentationComponent } from './tree-presentation/tree-presentation.component'
 
 import { UmlStatesTableComponent } from './umlstates-table/umlstates-table.component'
 import { UmlStateSortingComponent } from './umlstate-sorting/umlstate-sorting.component'
@@ -118,45 +118,45 @@ import { VerticePresentationComponent } from './vertice-presentation/vertice-pre
 		ClassshapeDetailComponent,
 		ClassshapePresentationComponent,
 
+		DiagramPackagesTableComponent,
+		DiagramPackageSortingComponent,
+		DiagramPackageDetailComponent,
+		DiagramPackagePresentationComponent,
+
 		FieldsTableComponent,
 		FieldSortingComponent,
 		FieldDetailComponent,
 		FieldPresentationComponent,
-
-		GongStructsTableComponent,
-		GongStructSortingComponent,
-		GongStructDetailComponent,
-		GongStructPresentationComponent,
-
-		GongdocCommandsTableComponent,
-		GongdocCommandSortingComponent,
-		GongdocCommandDetailComponent,
-		GongdocCommandPresentationComponent,
-
-		GongdocStatussTableComponent,
-		GongdocStatusSortingComponent,
-		GongdocStatusDetailComponent,
-		GongdocStatusPresentationComponent,
 
 		LinksTableComponent,
 		LinkSortingComponent,
 		LinkDetailComponent,
 		LinkPresentationComponent,
 
+		NodesTableComponent,
+		NodeSortingComponent,
+		NodeDetailComponent,
+		NodePresentationComponent,
+
 		NotesTableComponent,
 		NoteSortingComponent,
 		NoteDetailComponent,
 		NotePresentationComponent,
 
-		PkgeltsTableComponent,
-		PkgeltSortingComponent,
-		PkgeltDetailComponent,
-		PkgeltPresentationComponent,
-
 		PositionsTableComponent,
 		PositionSortingComponent,
 		PositionDetailComponent,
 		PositionPresentationComponent,
+
+		ReferencesTableComponent,
+		ReferenceSortingComponent,
+		ReferenceDetailComponent,
+		ReferencePresentationComponent,
+
+		TreesTableComponent,
+		TreeSortingComponent,
+		TreeDetailComponent,
+		TreePresentationComponent,
 
 		UmlStatesTableComponent,
 		UmlStateSortingComponent,
@@ -222,45 +222,45 @@ import { VerticePresentationComponent } from './vertice-presentation/vertice-pre
 		ClassshapeDetailComponent,
 		ClassshapePresentationComponent,
 
+		DiagramPackagesTableComponent,
+		DiagramPackageSortingComponent,
+		DiagramPackageDetailComponent,
+		DiagramPackagePresentationComponent,
+
 		FieldsTableComponent,
 		FieldSortingComponent,
 		FieldDetailComponent,
 		FieldPresentationComponent,
-
-		GongStructsTableComponent,
-		GongStructSortingComponent,
-		GongStructDetailComponent,
-		GongStructPresentationComponent,
-
-		GongdocCommandsTableComponent,
-		GongdocCommandSortingComponent,
-		GongdocCommandDetailComponent,
-		GongdocCommandPresentationComponent,
-
-		GongdocStatussTableComponent,
-		GongdocStatusSortingComponent,
-		GongdocStatusDetailComponent,
-		GongdocStatusPresentationComponent,
 
 		LinksTableComponent,
 		LinkSortingComponent,
 		LinkDetailComponent,
 		LinkPresentationComponent,
 
+		NodesTableComponent,
+		NodeSortingComponent,
+		NodeDetailComponent,
+		NodePresentationComponent,
+
 		NotesTableComponent,
 		NoteSortingComponent,
 		NoteDetailComponent,
 		NotePresentationComponent,
 
-		PkgeltsTableComponent,
-		PkgeltSortingComponent,
-		PkgeltDetailComponent,
-		PkgeltPresentationComponent,
-
 		PositionsTableComponent,
 		PositionSortingComponent,
 		PositionDetailComponent,
 		PositionPresentationComponent,
+
+		ReferencesTableComponent,
+		ReferenceSortingComponent,
+		ReferenceDetailComponent,
+		ReferencePresentationComponent,
+
+		TreesTableComponent,
+		TreeSortingComponent,
+		TreeDetailComponent,
+		TreePresentationComponent,
 
 		UmlStatesTableComponent,
 		UmlStateSortingComponent,

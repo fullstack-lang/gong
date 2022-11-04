@@ -41,11 +41,12 @@ type FieldInput struct {
 //
 // swagger:route GET /fields fields getFields
 //
-// Get all fields
+// # Get all fields
 //
 // Responses:
-//    default: genericError
-//        200: fieldDBsResponse
+// default: genericError
+//
+//	200: fieldDBResponse
 func GetFields(c *gin.Context) {
 	db := orm.BackRepo.BackRepoField.GetDB()
 
@@ -85,14 +86,15 @@ func GetFields(c *gin.Context) {
 // swagger:route POST /fields fields postField
 //
 // Creates a field
-//     Consumes:
-//     - application/json
 //
-//     Produces:
-//     - application/json
+//	Consumes:
+//	- application/json
 //
-//     Responses:
-//       200: fieldDBResponse
+//	Produces:
+//	- application/json
+//
+//	Responses:
+//	  200: nodeDBResponse
 func PostField(c *gin.Context) {
 	db := orm.BackRepo.BackRepoField.GetDB()
 
@@ -124,6 +126,14 @@ func PostField(c *gin.Context) {
 		return
 	}
 
+	// get an instance (not staged) from DB instance, and call callback function
+	orm.BackRepo.BackRepoField.CheckoutPhaseOneInstance(&fieldDB)
+	field := (*orm.BackRepo.BackRepoField.Map_FieldDBID_FieldPtr)[fieldDB.ID]
+
+	if field != nil {
+		models.AfterCreateFromFront(&models.Stage, field)
+	}
+
 	// a POST is equivalent to a back repo commit increase
 	// (this will be improved with implementation of unit of work design pattern)
 	orm.BackRepo.IncrementPushFromFrontNb()
@@ -138,8 +148,9 @@ func PostField(c *gin.Context) {
 // Gets the details for a field.
 //
 // Responses:
-//    default: genericError
-//        200: fieldDBResponse
+// default: genericError
+//
+//	200: fieldDBResponse
 func GetField(c *gin.Context) {
 	db := orm.BackRepo.BackRepoField.GetDB()
 
@@ -166,11 +177,12 @@ func GetField(c *gin.Context) {
 //
 // swagger:route PATCH /fields/{ID} fields updateField
 //
-// Update a field
+// # Update a field
 //
 // Responses:
-//    default: genericError
-//        200: fieldDBResponse
+// default: genericError
+//
+//	200: fieldDBResponse
 func UpdateField(c *gin.Context) {
 	db := orm.BackRepo.BackRepoField.GetDB()
 
@@ -211,8 +223,20 @@ func UpdateField(c *gin.Context) {
 		return
 	}
 
+	// get an instance (not staged) from DB instance, and call callback function
+	fieldNew := new(models.Field)
+	fieldDB.CopyBasicFieldsToField(fieldNew)
+
+	// get stage instance from DB instance, and call callback function
+	fieldOld := (*orm.BackRepo.BackRepoField.Map_FieldDBID_FieldPtr)[fieldDB.ID]
+	if fieldOld != nil {
+		models.AfterUpdateFromFront(&models.Stage, fieldOld, fieldNew)
+	}
+
 	// an UPDATE generates a back repo commit increase
 	// (this will be improved with implementation of unit of work design pattern)
+	// in some cases, with the marshalling of the stage, this operation might
+	// generates a checkout
 	orm.BackRepo.IncrementPushFromFrontNb()
 
 	// return status OK with the marshalling of the the fieldDB
@@ -223,10 +247,11 @@ func UpdateField(c *gin.Context) {
 //
 // swagger:route DELETE /fields/{ID} fields deleteField
 //
-// Delete a field
+// # Delete a field
 //
-// Responses:
-//    default: genericError
+// default: genericError
+//
+//	200: fieldDBResponse
 func DeleteField(c *gin.Context) {
 	db := orm.BackRepo.BackRepoField.GetDB()
 
@@ -243,6 +268,16 @@ func DeleteField(c *gin.Context) {
 
 	// with gorm.Model field, default delete is a soft delete. Unscoped() force delete
 	db.Unscoped().Delete(&fieldDB)
+
+	// get an instance (not staged) from DB instance, and call callback function
+	fieldDeleted := new(models.Field)
+	fieldDB.CopyBasicFieldsToField(fieldDeleted)
+
+	// get stage instance from DB instance, and call callback function
+	fieldStaged := (*orm.BackRepo.BackRepoField.Map_FieldDBID_FieldPtr)[fieldDB.ID]
+	if fieldStaged != nil {
+		models.AfterDeleteFromFront(&models.Stage, fieldStaged, fieldDeleted)
+	}
 
 	// a DELETE generates a back repo commit increase
 	// (this will be improved with implementation of unit of work design pattern)

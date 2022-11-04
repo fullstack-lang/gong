@@ -10,29 +10,29 @@ import { ClassdiagramService } from './classdiagram.service'
 import { ClassshapeDB } from './classshape-db'
 import { ClassshapeService } from './classshape.service'
 
+import { DiagramPackageDB } from './diagrampackage-db'
+import { DiagramPackageService } from './diagrampackage.service'
+
 import { FieldDB } from './field-db'
 import { FieldService } from './field.service'
-
-import { GongStructDB } from './gongstruct-db'
-import { GongStructService } from './gongstruct.service'
-
-import { GongdocCommandDB } from './gongdoccommand-db'
-import { GongdocCommandService } from './gongdoccommand.service'
-
-import { GongdocStatusDB } from './gongdocstatus-db'
-import { GongdocStatusService } from './gongdocstatus.service'
 
 import { LinkDB } from './link-db'
 import { LinkService } from './link.service'
 
+import { NodeDB } from './node-db'
+import { NodeService } from './node.service'
+
 import { NoteDB } from './note-db'
 import { NoteService } from './note.service'
 
-import { PkgeltDB } from './pkgelt-db'
-import { PkgeltService } from './pkgelt.service'
-
 import { PositionDB } from './position-db'
 import { PositionService } from './position.service'
+
+import { ReferenceDB } from './reference-db'
+import { ReferenceService } from './reference.service'
+
+import { TreeDB } from './tree-db'
+import { TreeService } from './tree.service'
 
 import { UmlStateDB } from './umlstate-db'
 import { UmlStateService } from './umlstate.service'
@@ -52,30 +52,30 @@ export class FrontRepo { // insertion point sub template
   Classshapes_array = new Array<ClassshapeDB>(); // array of repo instances
   Classshapes = new Map<number, ClassshapeDB>(); // map of repo instances
   Classshapes_batch = new Map<number, ClassshapeDB>(); // same but only in last GET (for finding repo instances to delete)
+  DiagramPackages_array = new Array<DiagramPackageDB>(); // array of repo instances
+  DiagramPackages = new Map<number, DiagramPackageDB>(); // map of repo instances
+  DiagramPackages_batch = new Map<number, DiagramPackageDB>(); // same but only in last GET (for finding repo instances to delete)
   Fields_array = new Array<FieldDB>(); // array of repo instances
   Fields = new Map<number, FieldDB>(); // map of repo instances
   Fields_batch = new Map<number, FieldDB>(); // same but only in last GET (for finding repo instances to delete)
-  GongStructs_array = new Array<GongStructDB>(); // array of repo instances
-  GongStructs = new Map<number, GongStructDB>(); // map of repo instances
-  GongStructs_batch = new Map<number, GongStructDB>(); // same but only in last GET (for finding repo instances to delete)
-  GongdocCommands_array = new Array<GongdocCommandDB>(); // array of repo instances
-  GongdocCommands = new Map<number, GongdocCommandDB>(); // map of repo instances
-  GongdocCommands_batch = new Map<number, GongdocCommandDB>(); // same but only in last GET (for finding repo instances to delete)
-  GongdocStatuss_array = new Array<GongdocStatusDB>(); // array of repo instances
-  GongdocStatuss = new Map<number, GongdocStatusDB>(); // map of repo instances
-  GongdocStatuss_batch = new Map<number, GongdocStatusDB>(); // same but only in last GET (for finding repo instances to delete)
   Links_array = new Array<LinkDB>(); // array of repo instances
   Links = new Map<number, LinkDB>(); // map of repo instances
   Links_batch = new Map<number, LinkDB>(); // same but only in last GET (for finding repo instances to delete)
+  Nodes_array = new Array<NodeDB>(); // array of repo instances
+  Nodes = new Map<number, NodeDB>(); // map of repo instances
+  Nodes_batch = new Map<number, NodeDB>(); // same but only in last GET (for finding repo instances to delete)
   Notes_array = new Array<NoteDB>(); // array of repo instances
   Notes = new Map<number, NoteDB>(); // map of repo instances
   Notes_batch = new Map<number, NoteDB>(); // same but only in last GET (for finding repo instances to delete)
-  Pkgelts_array = new Array<PkgeltDB>(); // array of repo instances
-  Pkgelts = new Map<number, PkgeltDB>(); // map of repo instances
-  Pkgelts_batch = new Map<number, PkgeltDB>(); // same but only in last GET (for finding repo instances to delete)
   Positions_array = new Array<PositionDB>(); // array of repo instances
   Positions = new Map<number, PositionDB>(); // map of repo instances
   Positions_batch = new Map<number, PositionDB>(); // same but only in last GET (for finding repo instances to delete)
+  References_array = new Array<ReferenceDB>(); // array of repo instances
+  References = new Map<number, ReferenceDB>(); // map of repo instances
+  References_batch = new Map<number, ReferenceDB>(); // same but only in last GET (for finding repo instances to delete)
+  Trees_array = new Array<TreeDB>(); // array of repo instances
+  Trees = new Map<number, TreeDB>(); // map of repo instances
+  Trees_batch = new Map<number, TreeDB>(); // same but only in last GET (for finding repo instances to delete)
   UmlStates_array = new Array<UmlStateDB>(); // array of repo instances
   UmlStates = new Map<number, UmlStateDB>(); // map of repo instances
   UmlStates_batch = new Map<number, UmlStateDB>(); // same but only in last GET (for finding repo instances to delete)
@@ -145,14 +145,14 @@ export class FrontRepoService {
     private http: HttpClient, // insertion point sub template 
     private classdiagramService: ClassdiagramService,
     private classshapeService: ClassshapeService,
+    private diagrampackageService: DiagramPackageService,
     private fieldService: FieldService,
-    private gongstructService: GongStructService,
-    private gongdoccommandService: GongdocCommandService,
-    private gongdocstatusService: GongdocStatusService,
     private linkService: LinkService,
+    private nodeService: NodeService,
     private noteService: NoteService,
-    private pkgeltService: PkgeltService,
     private positionService: PositionService,
+    private referenceService: ReferenceService,
+    private treeService: TreeService,
     private umlstateService: UmlStateService,
     private umlscService: UmlscService,
     private verticeService: VerticeService,
@@ -188,28 +188,28 @@ export class FrontRepoService {
   observableFrontRepo: [ // insertion point sub template 
     Observable<ClassdiagramDB[]>,
     Observable<ClassshapeDB[]>,
+    Observable<DiagramPackageDB[]>,
     Observable<FieldDB[]>,
-    Observable<GongStructDB[]>,
-    Observable<GongdocCommandDB[]>,
-    Observable<GongdocStatusDB[]>,
     Observable<LinkDB[]>,
+    Observable<NodeDB[]>,
     Observable<NoteDB[]>,
-    Observable<PkgeltDB[]>,
     Observable<PositionDB[]>,
+    Observable<ReferenceDB[]>,
+    Observable<TreeDB[]>,
     Observable<UmlStateDB[]>,
     Observable<UmlscDB[]>,
     Observable<VerticeDB[]>,
   ] = [ // insertion point sub template 
       this.classdiagramService.getClassdiagrams(),
       this.classshapeService.getClassshapes(),
+      this.diagrampackageService.getDiagramPackages(),
       this.fieldService.getFields(),
-      this.gongstructService.getGongStructs(),
-      this.gongdoccommandService.getGongdocCommands(),
-      this.gongdocstatusService.getGongdocStatuss(),
       this.linkService.getLinks(),
+      this.nodeService.getNodes(),
       this.noteService.getNotes(),
-      this.pkgeltService.getPkgelts(),
       this.positionService.getPositions(),
+      this.referenceService.getReferences(),
+      this.treeService.getTrees(),
       this.umlstateService.getUmlStates(),
       this.umlscService.getUmlscs(),
       this.verticeService.getVertices(),
@@ -230,14 +230,14 @@ export class FrontRepoService {
           ([ // insertion point sub template for declarations 
             classdiagrams_,
             classshapes_,
+            diagrampackages_,
             fields_,
-            gongstructs_,
-            gongdoccommands_,
-            gongdocstatuss_,
             links_,
+            nodes_,
             notes_,
-            pkgelts_,
             positions_,
+            references_,
+            trees_,
             umlstates_,
             umlscs_,
             vertices_,
@@ -248,22 +248,22 @@ export class FrontRepoService {
             classdiagrams = classdiagrams_ as ClassdiagramDB[]
             var classshapes: ClassshapeDB[]
             classshapes = classshapes_ as ClassshapeDB[]
+            var diagrampackages: DiagramPackageDB[]
+            diagrampackages = diagrampackages_ as DiagramPackageDB[]
             var fields: FieldDB[]
             fields = fields_ as FieldDB[]
-            var gongstructs: GongStructDB[]
-            gongstructs = gongstructs_ as GongStructDB[]
-            var gongdoccommands: GongdocCommandDB[]
-            gongdoccommands = gongdoccommands_ as GongdocCommandDB[]
-            var gongdocstatuss: GongdocStatusDB[]
-            gongdocstatuss = gongdocstatuss_ as GongdocStatusDB[]
             var links: LinkDB[]
             links = links_ as LinkDB[]
+            var nodes: NodeDB[]
+            nodes = nodes_ as NodeDB[]
             var notes: NoteDB[]
             notes = notes_ as NoteDB[]
-            var pkgelts: PkgeltDB[]
-            pkgelts = pkgelts_ as PkgeltDB[]
             var positions: PositionDB[]
             positions = positions_ as PositionDB[]
+            var references: ReferenceDB[]
+            references = references_ as ReferenceDB[]
+            var trees: TreeDB[]
+            trees = trees_ as TreeDB[]
             var umlstates: UmlStateDB[]
             umlstates = umlstates_ as UmlStateDB[]
             var umlscs: UmlscDB[]
@@ -341,6 +341,39 @@ export class FrontRepoService {
             });
 
             // init the array
+            FrontRepoSingloton.DiagramPackages_array = diagrampackages
+
+            // clear the map that counts DiagramPackage in the GET
+            FrontRepoSingloton.DiagramPackages_batch.clear()
+
+            diagrampackages.forEach(
+              diagrampackage => {
+                FrontRepoSingloton.DiagramPackages.set(diagrampackage.ID, diagrampackage)
+                FrontRepoSingloton.DiagramPackages_batch.set(diagrampackage.ID, diagrampackage)
+              }
+            )
+
+            // clear diagrampackages that are absent from the batch
+            FrontRepoSingloton.DiagramPackages.forEach(
+              diagrampackage => {
+                if (FrontRepoSingloton.DiagramPackages_batch.get(diagrampackage.ID) == undefined) {
+                  FrontRepoSingloton.DiagramPackages.delete(diagrampackage.ID)
+                }
+              }
+            )
+
+            // sort DiagramPackages_array array
+            FrontRepoSingloton.DiagramPackages_array.sort((t1, t2) => {
+              if (t1.Name > t2.Name) {
+                return 1;
+              }
+              if (t1.Name < t2.Name) {
+                return -1;
+              }
+              return 0;
+            });
+
+            // init the array
             FrontRepoSingloton.Fields_array = fields
 
             // clear the map that counts Field in the GET
@@ -364,105 +397,6 @@ export class FrontRepoService {
 
             // sort Fields_array array
             FrontRepoSingloton.Fields_array.sort((t1, t2) => {
-              if (t1.Name > t2.Name) {
-                return 1;
-              }
-              if (t1.Name < t2.Name) {
-                return -1;
-              }
-              return 0;
-            });
-
-            // init the array
-            FrontRepoSingloton.GongStructs_array = gongstructs
-
-            // clear the map that counts GongStruct in the GET
-            FrontRepoSingloton.GongStructs_batch.clear()
-
-            gongstructs.forEach(
-              gongstruct => {
-                FrontRepoSingloton.GongStructs.set(gongstruct.ID, gongstruct)
-                FrontRepoSingloton.GongStructs_batch.set(gongstruct.ID, gongstruct)
-              }
-            )
-
-            // clear gongstructs that are absent from the batch
-            FrontRepoSingloton.GongStructs.forEach(
-              gongstruct => {
-                if (FrontRepoSingloton.GongStructs_batch.get(gongstruct.ID) == undefined) {
-                  FrontRepoSingloton.GongStructs.delete(gongstruct.ID)
-                }
-              }
-            )
-
-            // sort GongStructs_array array
-            FrontRepoSingloton.GongStructs_array.sort((t1, t2) => {
-              if (t1.Name > t2.Name) {
-                return 1;
-              }
-              if (t1.Name < t2.Name) {
-                return -1;
-              }
-              return 0;
-            });
-
-            // init the array
-            FrontRepoSingloton.GongdocCommands_array = gongdoccommands
-
-            // clear the map that counts GongdocCommand in the GET
-            FrontRepoSingloton.GongdocCommands_batch.clear()
-
-            gongdoccommands.forEach(
-              gongdoccommand => {
-                FrontRepoSingloton.GongdocCommands.set(gongdoccommand.ID, gongdoccommand)
-                FrontRepoSingloton.GongdocCommands_batch.set(gongdoccommand.ID, gongdoccommand)
-              }
-            )
-
-            // clear gongdoccommands that are absent from the batch
-            FrontRepoSingloton.GongdocCommands.forEach(
-              gongdoccommand => {
-                if (FrontRepoSingloton.GongdocCommands_batch.get(gongdoccommand.ID) == undefined) {
-                  FrontRepoSingloton.GongdocCommands.delete(gongdoccommand.ID)
-                }
-              }
-            )
-
-            // sort GongdocCommands_array array
-            FrontRepoSingloton.GongdocCommands_array.sort((t1, t2) => {
-              if (t1.Name > t2.Name) {
-                return 1;
-              }
-              if (t1.Name < t2.Name) {
-                return -1;
-              }
-              return 0;
-            });
-
-            // init the array
-            FrontRepoSingloton.GongdocStatuss_array = gongdocstatuss
-
-            // clear the map that counts GongdocStatus in the GET
-            FrontRepoSingloton.GongdocStatuss_batch.clear()
-
-            gongdocstatuss.forEach(
-              gongdocstatus => {
-                FrontRepoSingloton.GongdocStatuss.set(gongdocstatus.ID, gongdocstatus)
-                FrontRepoSingloton.GongdocStatuss_batch.set(gongdocstatus.ID, gongdocstatus)
-              }
-            )
-
-            // clear gongdocstatuss that are absent from the batch
-            FrontRepoSingloton.GongdocStatuss.forEach(
-              gongdocstatus => {
-                if (FrontRepoSingloton.GongdocStatuss_batch.get(gongdocstatus.ID) == undefined) {
-                  FrontRepoSingloton.GongdocStatuss.delete(gongdocstatus.ID)
-                }
-              }
-            )
-
-            // sort GongdocStatuss_array array
-            FrontRepoSingloton.GongdocStatuss_array.sort((t1, t2) => {
               if (t1.Name > t2.Name) {
                 return 1;
               }
@@ -506,6 +440,39 @@ export class FrontRepoService {
             });
 
             // init the array
+            FrontRepoSingloton.Nodes_array = nodes
+
+            // clear the map that counts Node in the GET
+            FrontRepoSingloton.Nodes_batch.clear()
+
+            nodes.forEach(
+              node => {
+                FrontRepoSingloton.Nodes.set(node.ID, node)
+                FrontRepoSingloton.Nodes_batch.set(node.ID, node)
+              }
+            )
+
+            // clear nodes that are absent from the batch
+            FrontRepoSingloton.Nodes.forEach(
+              node => {
+                if (FrontRepoSingloton.Nodes_batch.get(node.ID) == undefined) {
+                  FrontRepoSingloton.Nodes.delete(node.ID)
+                }
+              }
+            )
+
+            // sort Nodes_array array
+            FrontRepoSingloton.Nodes_array.sort((t1, t2) => {
+              if (t1.Name > t2.Name) {
+                return 1;
+              }
+              if (t1.Name < t2.Name) {
+                return -1;
+              }
+              return 0;
+            });
+
+            // init the array
             FrontRepoSingloton.Notes_array = notes
 
             // clear the map that counts Note in the GET
@@ -539,39 +506,6 @@ export class FrontRepoService {
             });
 
             // init the array
-            FrontRepoSingloton.Pkgelts_array = pkgelts
-
-            // clear the map that counts Pkgelt in the GET
-            FrontRepoSingloton.Pkgelts_batch.clear()
-
-            pkgelts.forEach(
-              pkgelt => {
-                FrontRepoSingloton.Pkgelts.set(pkgelt.ID, pkgelt)
-                FrontRepoSingloton.Pkgelts_batch.set(pkgelt.ID, pkgelt)
-              }
-            )
-
-            // clear pkgelts that are absent from the batch
-            FrontRepoSingloton.Pkgelts.forEach(
-              pkgelt => {
-                if (FrontRepoSingloton.Pkgelts_batch.get(pkgelt.ID) == undefined) {
-                  FrontRepoSingloton.Pkgelts.delete(pkgelt.ID)
-                }
-              }
-            )
-
-            // sort Pkgelts_array array
-            FrontRepoSingloton.Pkgelts_array.sort((t1, t2) => {
-              if (t1.Name > t2.Name) {
-                return 1;
-              }
-              if (t1.Name < t2.Name) {
-                return -1;
-              }
-              return 0;
-            });
-
-            // init the array
             FrontRepoSingloton.Positions_array = positions
 
             // clear the map that counts Position in the GET
@@ -595,6 +529,72 @@ export class FrontRepoService {
 
             // sort Positions_array array
             FrontRepoSingloton.Positions_array.sort((t1, t2) => {
+              if (t1.Name > t2.Name) {
+                return 1;
+              }
+              if (t1.Name < t2.Name) {
+                return -1;
+              }
+              return 0;
+            });
+
+            // init the array
+            FrontRepoSingloton.References_array = references
+
+            // clear the map that counts Reference in the GET
+            FrontRepoSingloton.References_batch.clear()
+
+            references.forEach(
+              reference => {
+                FrontRepoSingloton.References.set(reference.ID, reference)
+                FrontRepoSingloton.References_batch.set(reference.ID, reference)
+              }
+            )
+
+            // clear references that are absent from the batch
+            FrontRepoSingloton.References.forEach(
+              reference => {
+                if (FrontRepoSingloton.References_batch.get(reference.ID) == undefined) {
+                  FrontRepoSingloton.References.delete(reference.ID)
+                }
+              }
+            )
+
+            // sort References_array array
+            FrontRepoSingloton.References_array.sort((t1, t2) => {
+              if (t1.Name > t2.Name) {
+                return 1;
+              }
+              if (t1.Name < t2.Name) {
+                return -1;
+              }
+              return 0;
+            });
+
+            // init the array
+            FrontRepoSingloton.Trees_array = trees
+
+            // clear the map that counts Tree in the GET
+            FrontRepoSingloton.Trees_batch.clear()
+
+            trees.forEach(
+              tree => {
+                FrontRepoSingloton.Trees.set(tree.ID, tree)
+                FrontRepoSingloton.Trees_batch.set(tree.ID, tree)
+              }
+            )
+
+            // clear trees that are absent from the batch
+            FrontRepoSingloton.Trees.forEach(
+              tree => {
+                if (FrontRepoSingloton.Trees_batch.get(tree.ID) == undefined) {
+                  FrontRepoSingloton.Trees.delete(tree.ID)
+                }
+              }
+            )
+
+            // sort Trees_array array
+            FrontRepoSingloton.Trees_array.sort((t1, t2) => {
               if (t1.Name > t2.Name) {
                 return 1;
               }
@@ -712,16 +712,16 @@ export class FrontRepoService {
                 // insertion point sub sub template for ONE-/ZERO-ONE associations pointers redeeming
 
                 // insertion point for redeeming ONE-MANY associations
-                // insertion point for slice of pointer field Pkgelt.Classdiagrams redeeming
+                // insertion point for slice of pointer field DiagramPackage.Classdiagrams redeeming
                 {
-                  let _pkgelt = FrontRepoSingloton.Pkgelts.get(classdiagram.Pkgelt_ClassdiagramsDBID.Int64)
-                  if (_pkgelt) {
-                    if (_pkgelt.Classdiagrams == undefined) {
-                      _pkgelt.Classdiagrams = new Array<ClassdiagramDB>()
+                  let _diagrampackage = FrontRepoSingloton.DiagramPackages.get(classdiagram.DiagramPackage_ClassdiagramsDBID.Int64)
+                  if (_diagrampackage) {
+                    if (_diagrampackage.Classdiagrams == undefined) {
+                      _diagrampackage.Classdiagrams = new Array<ClassdiagramDB>()
                     }
-                    _pkgelt.Classdiagrams.push(classdiagram)
-                    if (classdiagram.Pkgelt_Classdiagrams_reverse == undefined) {
-                      classdiagram.Pkgelt_Classdiagrams_reverse = _pkgelt
+                    _diagrampackage.Classdiagrams.push(classdiagram)
+                    if (classdiagram.DiagramPackage_Classdiagrams_reverse == undefined) {
+                      classdiagram.DiagramPackage_Classdiagrams_reverse = _diagrampackage
                     }
                   }
                 }
@@ -737,11 +737,11 @@ export class FrontRepoService {
                     classshape.Position = _position
                   }
                 }
-                // insertion point for pointer field GongStruct redeeming
+                // insertion point for pointer field Reference redeeming
                 {
-                  let _gongstruct = FrontRepoSingloton.GongStructs.get(classshape.GongStructID.Int64)
-                  if (_gongstruct) {
-                    classshape.GongStruct = _gongstruct
+                  let _reference = FrontRepoSingloton.References.get(classshape.ReferenceID.Int64)
+                  if (_reference) {
+                    classshape.Reference = _reference
                   }
                 }
 
@@ -759,6 +759,13 @@ export class FrontRepoService {
                     }
                   }
                 }
+              }
+            )
+            diagrampackages.forEach(
+              diagrampackage => {
+                // insertion point sub sub template for ONE-/ZERO-ONE associations pointers redeeming
+
+                // insertion point for redeeming ONE-MANY associations
               }
             )
             fields.forEach(
@@ -779,27 +786,6 @@ export class FrontRepoService {
                     }
                   }
                 }
-              }
-            )
-            gongstructs.forEach(
-              gongstruct => {
-                // insertion point sub sub template for ONE-/ZERO-ONE associations pointers redeeming
-
-                // insertion point for redeeming ONE-MANY associations
-              }
-            )
-            gongdoccommands.forEach(
-              gongdoccommand => {
-                // insertion point sub sub template for ONE-/ZERO-ONE associations pointers redeeming
-
-                // insertion point for redeeming ONE-MANY associations
-              }
-            )
-            gongdocstatuss.forEach(
-              gongdocstatus => {
-                // insertion point sub sub template for ONE-/ZERO-ONE associations pointers redeeming
-
-                // insertion point for redeeming ONE-MANY associations
               }
             )
             links.forEach(
@@ -829,6 +815,53 @@ export class FrontRepoService {
                 }
               }
             )
+            nodes.forEach(
+              node => {
+                // insertion point sub sub template for ONE-/ZERO-ONE associations pointers redeeming
+                // insertion point for pointer field Classdiagram redeeming
+                {
+                  let _classdiagram = FrontRepoSingloton.Classdiagrams.get(node.ClassdiagramID.Int64)
+                  if (_classdiagram) {
+                    node.Classdiagram = _classdiagram
+                  }
+                }
+                // insertion point for pointer field Umlsc redeeming
+                {
+                  let _umlsc = FrontRepoSingloton.Umlscs.get(node.UmlscID.Int64)
+                  if (_umlsc) {
+                    node.Umlsc = _umlsc
+                  }
+                }
+
+                // insertion point for redeeming ONE-MANY associations
+                // insertion point for slice of pointer field Node.Children redeeming
+                {
+                  let _node = FrontRepoSingloton.Nodes.get(node.Node_ChildrenDBID.Int64)
+                  if (_node) {
+                    if (_node.Children == undefined) {
+                      _node.Children = new Array<NodeDB>()
+                    }
+                    _node.Children.push(node)
+                    if (node.Node_Children_reverse == undefined) {
+                      node.Node_Children_reverse = _node
+                    }
+                  }
+                }
+                // insertion point for slice of pointer field Tree.RootNodes redeeming
+                {
+                  let _tree = FrontRepoSingloton.Trees.get(node.Tree_RootNodesDBID.Int64)
+                  if (_tree) {
+                    if (_tree.RootNodes == undefined) {
+                      _tree.RootNodes = new Array<NodeDB>()
+                    }
+                    _tree.RootNodes.push(node)
+                    if (node.Tree_RootNodes_reverse == undefined) {
+                      node.Tree_RootNodes_reverse = _tree
+                    }
+                  }
+                }
+              }
+            )
             notes.forEach(
               note => {
                 // insertion point sub sub template for ONE-/ZERO-ONE associations pointers redeeming
@@ -849,15 +882,22 @@ export class FrontRepoService {
                 }
               }
             )
-            pkgelts.forEach(
-              pkgelt => {
+            positions.forEach(
+              position => {
                 // insertion point sub sub template for ONE-/ZERO-ONE associations pointers redeeming
 
                 // insertion point for redeeming ONE-MANY associations
               }
             )
-            positions.forEach(
-              position => {
+            references.forEach(
+              reference => {
+                // insertion point sub sub template for ONE-/ZERO-ONE associations pointers redeeming
+
+                // insertion point for redeeming ONE-MANY associations
+              }
+            )
+            trees.forEach(
+              tree => {
                 // insertion point sub sub template for ONE-/ZERO-ONE associations pointers redeeming
 
                 // insertion point for redeeming ONE-MANY associations
@@ -888,16 +928,16 @@ export class FrontRepoService {
                 // insertion point sub sub template for ONE-/ZERO-ONE associations pointers redeeming
 
                 // insertion point for redeeming ONE-MANY associations
-                // insertion point for slice of pointer field Pkgelt.Umlscs redeeming
+                // insertion point for slice of pointer field DiagramPackage.Umlscs redeeming
                 {
-                  let _pkgelt = FrontRepoSingloton.Pkgelts.get(umlsc.Pkgelt_UmlscsDBID.Int64)
-                  if (_pkgelt) {
-                    if (_pkgelt.Umlscs == undefined) {
-                      _pkgelt.Umlscs = new Array<UmlscDB>()
+                  let _diagrampackage = FrontRepoSingloton.DiagramPackages.get(umlsc.DiagramPackage_UmlscsDBID.Int64)
+                  if (_diagrampackage) {
+                    if (_diagrampackage.Umlscs == undefined) {
+                      _diagrampackage.Umlscs = new Array<UmlscDB>()
                     }
-                    _pkgelt.Umlscs.push(umlsc)
-                    if (umlsc.Pkgelt_Umlscs_reverse == undefined) {
-                      umlsc.Pkgelt_Umlscs_reverse = _pkgelt
+                    _diagrampackage.Umlscs.push(umlsc)
+                    if (umlsc.DiagramPackage_Umlscs_reverse == undefined) {
+                      umlsc.DiagramPackage_Umlscs_reverse = _diagrampackage
                     }
                   }
                 }
@@ -948,16 +988,16 @@ export class FrontRepoService {
                 // insertion point for redeeming ONE/ZERO-ONE associations
 
                 // insertion point for redeeming ONE-MANY associations
-                // insertion point for slice of pointer field Pkgelt.Classdiagrams redeeming
+                // insertion point for slice of pointer field DiagramPackage.Classdiagrams redeeming
                 {
-                  let _pkgelt = FrontRepoSingloton.Pkgelts.get(classdiagram.Pkgelt_ClassdiagramsDBID.Int64)
-                  if (_pkgelt) {
-                    if (_pkgelt.Classdiagrams == undefined) {
-                      _pkgelt.Classdiagrams = new Array<ClassdiagramDB>()
+                  let _diagrampackage = FrontRepoSingloton.DiagramPackages.get(classdiagram.DiagramPackage_ClassdiagramsDBID.Int64)
+                  if (_diagrampackage) {
+                    if (_diagrampackage.Classdiagrams == undefined) {
+                      _diagrampackage.Classdiagrams = new Array<ClassdiagramDB>()
                     }
-                    _pkgelt.Classdiagrams.push(classdiagram)
-                    if (classdiagram.Pkgelt_Classdiagrams_reverse == undefined) {
-                      classdiagram.Pkgelt_Classdiagrams_reverse = _pkgelt
+                    _diagrampackage.Classdiagrams.push(classdiagram)
+                    if (classdiagram.DiagramPackage_Classdiagrams_reverse == undefined) {
+                      classdiagram.DiagramPackage_Classdiagrams_reverse = _diagrampackage
                     }
                   }
                 }
@@ -1017,11 +1057,11 @@ export class FrontRepoService {
                     classshape.Position = _position
                   }
                 }
-                // insertion point for pointer field GongStruct redeeming
+                // insertion point for pointer field Reference redeeming
                 {
-                  let _gongstruct = FrontRepoSingloton.GongStructs.get(classshape.GongStructID.Int64)
-                  if (_gongstruct) {
-                    classshape.GongStruct = _gongstruct
+                  let _reference = FrontRepoSingloton.References.get(classshape.ReferenceID.Int64)
+                  if (_reference) {
+                    classshape.Reference = _reference
                   }
                 }
 
@@ -1047,6 +1087,57 @@ export class FrontRepoService {
               classshape => {
                 if (FrontRepoSingloton.Classshapes_batch.get(classshape.ID) == undefined) {
                   FrontRepoSingloton.Classshapes.delete(classshape.ID)
+                }
+              }
+            )
+
+            // 
+            // Second Step: redeem pointers between instances (thanks to maps in the First Step)
+            // insertion point sub template 
+
+            // hand over control flow to observer
+            observer.next(FrontRepoSingloton)
+          }
+        )
+      }
+    )
+  }
+
+  // DiagramPackagePull performs a GET on DiagramPackage of the stack and redeem association pointers 
+  DiagramPackagePull(): Observable<FrontRepo> {
+    return new Observable<FrontRepo>(
+      (observer) => {
+        combineLatest([
+          this.diagrampackageService.getDiagramPackages()
+        ]).subscribe(
+          ([ // insertion point sub template 
+            diagrampackages,
+          ]) => {
+            // init the array
+            FrontRepoSingloton.DiagramPackages_array = diagrampackages
+
+            // clear the map that counts DiagramPackage in the GET
+            FrontRepoSingloton.DiagramPackages_batch.clear()
+
+            // 
+            // First Step: init map of instances
+            // insertion point sub template 
+            diagrampackages.forEach(
+              diagrampackage => {
+                FrontRepoSingloton.DiagramPackages.set(diagrampackage.ID, diagrampackage)
+                FrontRepoSingloton.DiagramPackages_batch.set(diagrampackage.ID, diagrampackage)
+
+                // insertion point for redeeming ONE/ZERO-ONE associations
+
+                // insertion point for redeeming ONE-MANY associations
+              }
+            )
+
+            // clear diagrampackages that are absent from the GET
+            FrontRepoSingloton.DiagramPackages.forEach(
+              diagrampackage => {
+                if (FrontRepoSingloton.DiagramPackages_batch.get(diagrampackage.ID) == undefined) {
+                  FrontRepoSingloton.DiagramPackages.delete(diagrampackage.ID)
                 }
               }
             )
@@ -1111,159 +1202,6 @@ export class FrontRepoService {
               field => {
                 if (FrontRepoSingloton.Fields_batch.get(field.ID) == undefined) {
                   FrontRepoSingloton.Fields.delete(field.ID)
-                }
-              }
-            )
-
-            // 
-            // Second Step: redeem pointers between instances (thanks to maps in the First Step)
-            // insertion point sub template 
-
-            // hand over control flow to observer
-            observer.next(FrontRepoSingloton)
-          }
-        )
-      }
-    )
-  }
-
-  // GongStructPull performs a GET on GongStruct of the stack and redeem association pointers 
-  GongStructPull(): Observable<FrontRepo> {
-    return new Observable<FrontRepo>(
-      (observer) => {
-        combineLatest([
-          this.gongstructService.getGongStructs()
-        ]).subscribe(
-          ([ // insertion point sub template 
-            gongstructs,
-          ]) => {
-            // init the array
-            FrontRepoSingloton.GongStructs_array = gongstructs
-
-            // clear the map that counts GongStruct in the GET
-            FrontRepoSingloton.GongStructs_batch.clear()
-
-            // 
-            // First Step: init map of instances
-            // insertion point sub template 
-            gongstructs.forEach(
-              gongstruct => {
-                FrontRepoSingloton.GongStructs.set(gongstruct.ID, gongstruct)
-                FrontRepoSingloton.GongStructs_batch.set(gongstruct.ID, gongstruct)
-
-                // insertion point for redeeming ONE/ZERO-ONE associations
-
-                // insertion point for redeeming ONE-MANY associations
-              }
-            )
-
-            // clear gongstructs that are absent from the GET
-            FrontRepoSingloton.GongStructs.forEach(
-              gongstruct => {
-                if (FrontRepoSingloton.GongStructs_batch.get(gongstruct.ID) == undefined) {
-                  FrontRepoSingloton.GongStructs.delete(gongstruct.ID)
-                }
-              }
-            )
-
-            // 
-            // Second Step: redeem pointers between instances (thanks to maps in the First Step)
-            // insertion point sub template 
-
-            // hand over control flow to observer
-            observer.next(FrontRepoSingloton)
-          }
-        )
-      }
-    )
-  }
-
-  // GongdocCommandPull performs a GET on GongdocCommand of the stack and redeem association pointers 
-  GongdocCommandPull(): Observable<FrontRepo> {
-    return new Observable<FrontRepo>(
-      (observer) => {
-        combineLatest([
-          this.gongdoccommandService.getGongdocCommands()
-        ]).subscribe(
-          ([ // insertion point sub template 
-            gongdoccommands,
-          ]) => {
-            // init the array
-            FrontRepoSingloton.GongdocCommands_array = gongdoccommands
-
-            // clear the map that counts GongdocCommand in the GET
-            FrontRepoSingloton.GongdocCommands_batch.clear()
-
-            // 
-            // First Step: init map of instances
-            // insertion point sub template 
-            gongdoccommands.forEach(
-              gongdoccommand => {
-                FrontRepoSingloton.GongdocCommands.set(gongdoccommand.ID, gongdoccommand)
-                FrontRepoSingloton.GongdocCommands_batch.set(gongdoccommand.ID, gongdoccommand)
-
-                // insertion point for redeeming ONE/ZERO-ONE associations
-
-                // insertion point for redeeming ONE-MANY associations
-              }
-            )
-
-            // clear gongdoccommands that are absent from the GET
-            FrontRepoSingloton.GongdocCommands.forEach(
-              gongdoccommand => {
-                if (FrontRepoSingloton.GongdocCommands_batch.get(gongdoccommand.ID) == undefined) {
-                  FrontRepoSingloton.GongdocCommands.delete(gongdoccommand.ID)
-                }
-              }
-            )
-
-            // 
-            // Second Step: redeem pointers between instances (thanks to maps in the First Step)
-            // insertion point sub template 
-
-            // hand over control flow to observer
-            observer.next(FrontRepoSingloton)
-          }
-        )
-      }
-    )
-  }
-
-  // GongdocStatusPull performs a GET on GongdocStatus of the stack and redeem association pointers 
-  GongdocStatusPull(): Observable<FrontRepo> {
-    return new Observable<FrontRepo>(
-      (observer) => {
-        combineLatest([
-          this.gongdocstatusService.getGongdocStatuss()
-        ]).subscribe(
-          ([ // insertion point sub template 
-            gongdocstatuss,
-          ]) => {
-            // init the array
-            FrontRepoSingloton.GongdocStatuss_array = gongdocstatuss
-
-            // clear the map that counts GongdocStatus in the GET
-            FrontRepoSingloton.GongdocStatuss_batch.clear()
-
-            // 
-            // First Step: init map of instances
-            // insertion point sub template 
-            gongdocstatuss.forEach(
-              gongdocstatus => {
-                FrontRepoSingloton.GongdocStatuss.set(gongdocstatus.ID, gongdocstatus)
-                FrontRepoSingloton.GongdocStatuss_batch.set(gongdocstatus.ID, gongdocstatus)
-
-                // insertion point for redeeming ONE/ZERO-ONE associations
-
-                // insertion point for redeeming ONE-MANY associations
-              }
-            )
-
-            // clear gongdocstatuss that are absent from the GET
-            FrontRepoSingloton.GongdocStatuss.forEach(
-              gongdocstatus => {
-                if (FrontRepoSingloton.GongdocStatuss_batch.get(gongdocstatus.ID) == undefined) {
-                  FrontRepoSingloton.GongdocStatuss.delete(gongdocstatus.ID)
                 }
               }
             )
@@ -1351,6 +1289,97 @@ export class FrontRepoService {
     )
   }
 
+  // NodePull performs a GET on Node of the stack and redeem association pointers 
+  NodePull(): Observable<FrontRepo> {
+    return new Observable<FrontRepo>(
+      (observer) => {
+        combineLatest([
+          this.nodeService.getNodes()
+        ]).subscribe(
+          ([ // insertion point sub template 
+            nodes,
+          ]) => {
+            // init the array
+            FrontRepoSingloton.Nodes_array = nodes
+
+            // clear the map that counts Node in the GET
+            FrontRepoSingloton.Nodes_batch.clear()
+
+            // 
+            // First Step: init map of instances
+            // insertion point sub template 
+            nodes.forEach(
+              node => {
+                FrontRepoSingloton.Nodes.set(node.ID, node)
+                FrontRepoSingloton.Nodes_batch.set(node.ID, node)
+
+                // insertion point for redeeming ONE/ZERO-ONE associations
+                // insertion point for pointer field Classdiagram redeeming
+                {
+                  let _classdiagram = FrontRepoSingloton.Classdiagrams.get(node.ClassdiagramID.Int64)
+                  if (_classdiagram) {
+                    node.Classdiagram = _classdiagram
+                  }
+                }
+                // insertion point for pointer field Umlsc redeeming
+                {
+                  let _umlsc = FrontRepoSingloton.Umlscs.get(node.UmlscID.Int64)
+                  if (_umlsc) {
+                    node.Umlsc = _umlsc
+                  }
+                }
+
+                // insertion point for redeeming ONE-MANY associations
+                // insertion point for slice of pointer field Node.Children redeeming
+                {
+                  let _node = FrontRepoSingloton.Nodes.get(node.Node_ChildrenDBID.Int64)
+                  if (_node) {
+                    if (_node.Children == undefined) {
+                      _node.Children = new Array<NodeDB>()
+                    }
+                    _node.Children.push(node)
+                    if (node.Node_Children_reverse == undefined) {
+                      node.Node_Children_reverse = _node
+                    }
+                  }
+                }
+                // insertion point for slice of pointer field Tree.RootNodes redeeming
+                {
+                  let _tree = FrontRepoSingloton.Trees.get(node.Tree_RootNodesDBID.Int64)
+                  if (_tree) {
+                    if (_tree.RootNodes == undefined) {
+                      _tree.RootNodes = new Array<NodeDB>()
+                    }
+                    _tree.RootNodes.push(node)
+                    if (node.Tree_RootNodes_reverse == undefined) {
+                      node.Tree_RootNodes_reverse = _tree
+                    }
+                  }
+                }
+              }
+            )
+
+            // clear nodes that are absent from the GET
+            FrontRepoSingloton.Nodes.forEach(
+              node => {
+                if (FrontRepoSingloton.Nodes_batch.get(node.ID) == undefined) {
+                  FrontRepoSingloton.Nodes.delete(node.ID)
+                }
+              }
+            )
+
+            // 
+            // Second Step: redeem pointers between instances (thanks to maps in the First Step)
+            // insertion point sub template 
+
+            // hand over control flow to observer
+            observer.next(FrontRepoSingloton)
+          }
+        )
+      }
+    )
+  }
+
   // NotePull performs a GET on Note of the stack and redeem association pointers 
   NotePull(): Observable<FrontRepo> {
     return new Observable<FrontRepo>(
@@ -1415,57 +1444,6 @@ export class FrontRepoService {
     )
   }
 
-  // PkgeltPull performs a GET on Pkgelt of the stack and redeem association pointers 
-  PkgeltPull(): Observable<FrontRepo> {
-    return new Observable<FrontRepo>(
-      (observer) => {
-        combineLatest([
-          this.pkgeltService.getPkgelts()
-        ]).subscribe(
-          ([ // insertion point sub template 
-            pkgelts,
-          ]) => {
-            // init the array
-            FrontRepoSingloton.Pkgelts_array = pkgelts
-
-            // clear the map that counts Pkgelt in the GET
-            FrontRepoSingloton.Pkgelts_batch.clear()
-
-            // 
-            // First Step: init map of instances
-            // insertion point sub template 
-            pkgelts.forEach(
-              pkgelt => {
-                FrontRepoSingloton.Pkgelts.set(pkgelt.ID, pkgelt)
-                FrontRepoSingloton.Pkgelts_batch.set(pkgelt.ID, pkgelt)
-
-                // insertion point for redeeming ONE/ZERO-ONE associations
-
-                // insertion point for redeeming ONE-MANY associations
-              }
-            )
-
-            // clear pkgelts that are absent from the GET
-            FrontRepoSingloton.Pkgelts.forEach(
-              pkgelt => {
-                if (FrontRepoSingloton.Pkgelts_batch.get(pkgelt.ID) == undefined) {
-                  FrontRepoSingloton.Pkgelts.delete(pkgelt.ID)
-                }
-              }
-            )
-
-            // 
-            // Second Step: redeem pointers between instances (thanks to maps in the First Step)
-            // insertion point sub template 
-
-            // hand over control flow to observer
-            observer.next(FrontRepoSingloton)
-          }
-        )
-      }
-    )
-  }
-
   // PositionPull performs a GET on Position of the stack and redeem association pointers 
   PositionPull(): Observable<FrontRepo> {
     return new Observable<FrontRepo>(
@@ -1501,6 +1479,108 @@ export class FrontRepoService {
               position => {
                 if (FrontRepoSingloton.Positions_batch.get(position.ID) == undefined) {
                   FrontRepoSingloton.Positions.delete(position.ID)
+                }
+              }
+            )
+
+            // 
+            // Second Step: redeem pointers between instances (thanks to maps in the First Step)
+            // insertion point sub template 
+
+            // hand over control flow to observer
+            observer.next(FrontRepoSingloton)
+          }
+        )
+      }
+    )
+  }
+
+  // ReferencePull performs a GET on Reference of the stack and redeem association pointers 
+  ReferencePull(): Observable<FrontRepo> {
+    return new Observable<FrontRepo>(
+      (observer) => {
+        combineLatest([
+          this.referenceService.getReferences()
+        ]).subscribe(
+          ([ // insertion point sub template 
+            references,
+          ]) => {
+            // init the array
+            FrontRepoSingloton.References_array = references
+
+            // clear the map that counts Reference in the GET
+            FrontRepoSingloton.References_batch.clear()
+
+            // 
+            // First Step: init map of instances
+            // insertion point sub template 
+            references.forEach(
+              reference => {
+                FrontRepoSingloton.References.set(reference.ID, reference)
+                FrontRepoSingloton.References_batch.set(reference.ID, reference)
+
+                // insertion point for redeeming ONE/ZERO-ONE associations
+
+                // insertion point for redeeming ONE-MANY associations
+              }
+            )
+
+            // clear references that are absent from the GET
+            FrontRepoSingloton.References.forEach(
+              reference => {
+                if (FrontRepoSingloton.References_batch.get(reference.ID) == undefined) {
+                  FrontRepoSingloton.References.delete(reference.ID)
+                }
+              }
+            )
+
+            // 
+            // Second Step: redeem pointers between instances (thanks to maps in the First Step)
+            // insertion point sub template 
+
+            // hand over control flow to observer
+            observer.next(FrontRepoSingloton)
+          }
+        )
+      }
+    )
+  }
+
+  // TreePull performs a GET on Tree of the stack and redeem association pointers 
+  TreePull(): Observable<FrontRepo> {
+    return new Observable<FrontRepo>(
+      (observer) => {
+        combineLatest([
+          this.treeService.getTrees()
+        ]).subscribe(
+          ([ // insertion point sub template 
+            trees,
+          ]) => {
+            // init the array
+            FrontRepoSingloton.Trees_array = trees
+
+            // clear the map that counts Tree in the GET
+            FrontRepoSingloton.Trees_batch.clear()
+
+            // 
+            // First Step: init map of instances
+            // insertion point sub template 
+            trees.forEach(
+              tree => {
+                FrontRepoSingloton.Trees.set(tree.ID, tree)
+                FrontRepoSingloton.Trees_batch.set(tree.ID, tree)
+
+                // insertion point for redeeming ONE/ZERO-ONE associations
+
+                // insertion point for redeeming ONE-MANY associations
+              }
+            )
+
+            // clear trees that are absent from the GET
+            FrontRepoSingloton.Trees.forEach(
+              tree => {
+                if (FrontRepoSingloton.Trees_batch.get(tree.ID) == undefined) {
+                  FrontRepoSingloton.Trees.delete(tree.ID)
                 }
               }
             )
@@ -1608,16 +1688,16 @@ export class FrontRepoService {
                 // insertion point for redeeming ONE/ZERO-ONE associations
 
                 // insertion point for redeeming ONE-MANY associations
-                // insertion point for slice of pointer field Pkgelt.Umlscs redeeming
+                // insertion point for slice of pointer field DiagramPackage.Umlscs redeeming
                 {
-                  let _pkgelt = FrontRepoSingloton.Pkgelts.get(umlsc.Pkgelt_UmlscsDBID.Int64)
-                  if (_pkgelt) {
-                    if (_pkgelt.Umlscs == undefined) {
-                      _pkgelt.Umlscs = new Array<UmlscDB>()
+                  let _diagrampackage = FrontRepoSingloton.DiagramPackages.get(umlsc.DiagramPackage_UmlscsDBID.Int64)
+                  if (_diagrampackage) {
+                    if (_diagrampackage.Umlscs == undefined) {
+                      _diagrampackage.Umlscs = new Array<UmlscDB>()
                     }
-                    _pkgelt.Umlscs.push(umlsc)
-                    if (umlsc.Pkgelt_Umlscs_reverse == undefined) {
-                      umlsc.Pkgelt_Umlscs_reverse = _pkgelt
+                    _diagrampackage.Umlscs.push(umlsc)
+                    if (umlsc.DiagramPackage_Umlscs_reverse == undefined) {
+                      umlsc.DiagramPackage_Umlscs_reverse = _diagrampackage
                     }
                   }
                 }
@@ -1704,28 +1784,28 @@ export function getClassdiagramUniqueID(id: number): number {
 export function getClassshapeUniqueID(id: number): number {
   return 37 * id
 }
-export function getFieldUniqueID(id: number): number {
+export function getDiagramPackageUniqueID(id: number): number {
   return 41 * id
 }
-export function getGongStructUniqueID(id: number): number {
+export function getFieldUniqueID(id: number): number {
   return 43 * id
 }
-export function getGongdocCommandUniqueID(id: number): number {
+export function getLinkUniqueID(id: number): number {
   return 47 * id
 }
-export function getGongdocStatusUniqueID(id: number): number {
+export function getNodeUniqueID(id: number): number {
   return 53 * id
 }
-export function getLinkUniqueID(id: number): number {
+export function getNoteUniqueID(id: number): number {
   return 59 * id
 }
-export function getNoteUniqueID(id: number): number {
+export function getPositionUniqueID(id: number): number {
   return 61 * id
 }
-export function getPkgeltUniqueID(id: number): number {
+export function getReferenceUniqueID(id: number): number {
   return 67 * id
 }
-export function getPositionUniqueID(id: number): number {
+export function getTreeUniqueID(id: number): number {
   return 71 * id
 }
 export function getUmlStateUniqueID(id: number): number {

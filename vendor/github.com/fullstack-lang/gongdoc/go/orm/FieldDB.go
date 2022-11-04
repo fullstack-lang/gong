@@ -376,6 +376,7 @@ func (backRepo *BackRepoStruct) CommitField(field *models.Field) {
 	if id, ok := (*backRepo.BackRepoField.Map_FieldPtr_FieldDBID)[field]; ok {
 		backRepo.BackRepoField.CommitPhaseTwoInstance(backRepo, id, field)
 	}
+	backRepo.CommitFromBackNb = backRepo.CommitFromBackNb + 1
 }
 
 // CommitField allows checkout of a single field (if already staged and with a BackRepo id)

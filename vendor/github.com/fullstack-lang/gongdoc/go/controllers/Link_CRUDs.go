@@ -41,11 +41,12 @@ type LinkInput struct {
 //
 // swagger:route GET /links links getLinks
 //
-// Get all links
+// # Get all links
 //
 // Responses:
-//    default: genericError
-//        200: linkDBsResponse
+// default: genericError
+//
+//	200: linkDBResponse
 func GetLinks(c *gin.Context) {
 	db := orm.BackRepo.BackRepoLink.GetDB()
 
@@ -85,14 +86,15 @@ func GetLinks(c *gin.Context) {
 // swagger:route POST /links links postLink
 //
 // Creates a link
-//     Consumes:
-//     - application/json
 //
-//     Produces:
-//     - application/json
+//	Consumes:
+//	- application/json
 //
-//     Responses:
-//       200: linkDBResponse
+//	Produces:
+//	- application/json
+//
+//	Responses:
+//	  200: nodeDBResponse
 func PostLink(c *gin.Context) {
 	db := orm.BackRepo.BackRepoLink.GetDB()
 
@@ -124,6 +126,14 @@ func PostLink(c *gin.Context) {
 		return
 	}
 
+	// get an instance (not staged) from DB instance, and call callback function
+	orm.BackRepo.BackRepoLink.CheckoutPhaseOneInstance(&linkDB)
+	link := (*orm.BackRepo.BackRepoLink.Map_LinkDBID_LinkPtr)[linkDB.ID]
+
+	if link != nil {
+		models.AfterCreateFromFront(&models.Stage, link)
+	}
+
 	// a POST is equivalent to a back repo commit increase
 	// (this will be improved with implementation of unit of work design pattern)
 	orm.BackRepo.IncrementPushFromFrontNb()
@@ -138,8 +148,9 @@ func PostLink(c *gin.Context) {
 // Gets the details for a link.
 //
 // Responses:
-//    default: genericError
-//        200: linkDBResponse
+// default: genericError
+//
+//	200: linkDBResponse
 func GetLink(c *gin.Context) {
 	db := orm.BackRepo.BackRepoLink.GetDB()
 
@@ -166,11 +177,12 @@ func GetLink(c *gin.Context) {
 //
 // swagger:route PATCH /links/{ID} links updateLink
 //
-// Update a link
+// # Update a link
 //
 // Responses:
-//    default: genericError
-//        200: linkDBResponse
+// default: genericError
+//
+//	200: linkDBResponse
 func UpdateLink(c *gin.Context) {
 	db := orm.BackRepo.BackRepoLink.GetDB()
 
@@ -211,8 +223,20 @@ func UpdateLink(c *gin.Context) {
 		return
 	}
 
+	// get an instance (not staged) from DB instance, and call callback function
+	linkNew := new(models.Link)
+	linkDB.CopyBasicFieldsToLink(linkNew)
+
+	// get stage instance from DB instance, and call callback function
+	linkOld := (*orm.BackRepo.BackRepoLink.Map_LinkDBID_LinkPtr)[linkDB.ID]
+	if linkOld != nil {
+		models.AfterUpdateFromFront(&models.Stage, linkOld, linkNew)
+	}
+
 	// an UPDATE generates a back repo commit increase
 	// (this will be improved with implementation of unit of work design pattern)
+	// in some cases, with the marshalling of the stage, this operation might
+	// generates a checkout
 	orm.BackRepo.IncrementPushFromFrontNb()
 
 	// return status OK with the marshalling of the the linkDB
@@ -223,10 +247,11 @@ func UpdateLink(c *gin.Context) {
 //
 // swagger:route DELETE /links/{ID} links deleteLink
 //
-// Delete a link
+// # Delete a link
 //
-// Responses:
-//    default: genericError
+// default: genericError
+//
+//	200: linkDBResponse
 func DeleteLink(c *gin.Context) {
 	db := orm.BackRepo.BackRepoLink.GetDB()
 
@@ -243,6 +268,16 @@ func DeleteLink(c *gin.Context) {
 
 	// with gorm.Model field, default delete is a soft delete. Unscoped() force delete
 	db.Unscoped().Delete(&linkDB)
+
+	// get an instance (not staged) from DB instance, and call callback function
+	linkDeleted := new(models.Link)
+	linkDB.CopyBasicFieldsToLink(linkDeleted)
+
+	// get stage instance from DB instance, and call callback function
+	linkStaged := (*orm.BackRepo.BackRepoLink.Map_LinkDBID_LinkPtr)[linkDB.ID]
+	if linkStaged != nil {
+		models.AfterDeleteFromFront(&models.Stage, linkStaged, linkDeleted)
+	}
 
 	// a DELETE generates a back repo commit increase
 	// (this will be improved with implementation of unit of work design pattern)
