@@ -1,6 +1,6 @@
 package models
 
-func FillUpDiagramNodeTree(pkgelt *DiagramPackage, onNodeCallbackStruct *NodeCallbacksSingloton) {
+func FillUpDiagramNodeTree(diagramPackage *DiagramPackage, onNodeCallbackStruct *NodeCallbacksSingloton) {
 
 	// generate tree of diagrams
 	gongdocTree := (&Tree{Name: "gongdoc", Type: TREE_OF_DIAGRAMS}).Stage()
@@ -8,7 +8,7 @@ func FillUpDiagramNodeTree(pkgelt *DiagramPackage, onNodeCallbackStruct *NodeCal
 	// add the root of class diagrams
 	classdiagramsRootNode := (&Node{Name: "class diagrams", Type: ROOT_OF_CLASS_DIAGRAMS}).Stage()
 	classdiagramsRootNode.IsExpanded = true
-	classdiagramsRootNode.HasAddChildButton = true
+	classdiagramsRootNode.HasAddChildButton = diagramPackage.IsEditable
 	gongdocTree.RootNodes = append(gongdocTree.RootNodes, classdiagramsRootNode)
 
 	// add one node per class diagram

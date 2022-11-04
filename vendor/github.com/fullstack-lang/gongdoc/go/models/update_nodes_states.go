@@ -38,10 +38,10 @@ func updateNodesStates(stage *StageStruct, callbacksSingloton *NodeCallbacksSing
 		gognenumNode.IsChecked = false
 		mapIdentifiersNodes[gognenumNode.Name] = gognenumNode
 
-		for _, gongfieldNode := range gognenumNode.Children {
-			gongfieldNode.IsChecked = false
-			gongfieldNode.IsCheckboxDisabled = true
-			gongFieldIdentifiersdNodes[gognenumNode.Name+"."+gongfieldNode.Name] = gongfieldNode
+		for _, gongValueNode := range gognenumNode.Children {
+			gongValueNode.IsChecked = false
+			gongValueNode.IsCheckboxDisabled = true
+			gongFieldIdentifiersdNodes[gognenumNode.Name+"."+gongValueNode.Name] = gongValueNode
 		}
 	}
 	for _, gongnoteNode := range callbacksSingloton.GongnotesRootNode.Children {
@@ -91,8 +91,12 @@ func updateNodesStates(stage *StageStruct, callbacksSingloton *NodeCallbacksSing
 			}
 
 			for _, field := range classshape.Fields {
-				gongFieldIdentifiersdNodes[reference.Name+"."+field.Name].IsChecked = true
-				gongFieldIdentifiersdNodes[reference.Name+"."+field.Name].IsCheckboxDisabled = !classDiagram.IsInDrawMode
+				nodeId := reference.Name + "." + field.Fieldname
+				node, ok := gongFieldIdentifiersdNodes[nodeId]
+				if ok {
+					node.IsChecked = true
+					node.IsCheckboxDisabled = !classDiagram.IsInDrawMode
+				}
 			}
 
 			for _, link := range classshape.Links {
