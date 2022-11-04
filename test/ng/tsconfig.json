@@ -6,6 +6,8 @@
     "outDir": "./dist/out-tsc",
     "forceConsistentCasingInFileNames": true,
     "strict": true,
+    "noImplicitOverride": true,
+    "noPropertyAccessFromIndexSignature": true,
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
     "sourceMap": true,
@@ -17,10 +19,17 @@
     "target": "es2020",
     "module": "es2020",
     "lib": [
-      "es2018",
+      "es2020",
       "dom"
     ],
     "paths": {
+      // 
+      // https://angular.io/guide/creating-libraries#use-typescript-path-mapping-for-peer-dependencies
+      //
+      // Angular libraries should list any @angular/* 
+      // dependencies the library depends on as peer dependencies. This ensures that when modules ask for Angular, 
+      // they all get the exact same module. If a library lists @angular/core in dependencies instead of peerDependencies, 
+      // it might get a different Angular module instead, which would cause your application to break.
       "@angular/*": [
         "./node_modules/@angular/*"
       ],
@@ -57,10 +66,6 @@
       "@types/jointjs": [
         "./node_modules/@types/jointjs"
       ],
-      "helloworldspecific": [
-        "dist/helloworldspecific/helloworldspecific",
-        "dist/helloworldspecific"
-      ],
       "@angular-material-components/datetime-picker": [
         "./node_modules/@angular-material-components/datetime-picker"
       ],
@@ -79,8 +84,12 @@
       "gongdocdiagrams": [
         "../../vendor/github.com/fullstack-lang/gongdoc/ng/projects/gongdocdiagrams/src/public-api.ts"
       ],
+      "testspecific": [
+        "dist/testspecific"
+      ],
       "test": [
         "projects/test/src/public-api.ts",
+        "dist/test"
       ]
     }
   },

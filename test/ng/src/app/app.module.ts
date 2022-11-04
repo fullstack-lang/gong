@@ -4,6 +4,8 @@ import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
+
+// for angular material
 import { MatSliderModule } from '@angular/material/slider';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -20,7 +22,6 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
-
 import { FormsModule } from '@angular/forms';
 
 // to split the screen
@@ -30,6 +31,7 @@ import { GongdocModule } from 'gongdoc'
 import { GongdocdiagramsModule } from 'gongdocdiagrams'
 
 import { GongModule } from 'gong'
+
 import { TestModule } from 'test'
 import { GongstructSelectionService } from 'test'
 
@@ -43,6 +45,8 @@ import { HttpClientModule } from '@angular/common/http';
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
+
+    HttpClientModule,
 
     MatSliderModule,
     MatSelectModule,
@@ -59,14 +63,16 @@ import { HttpClientModule } from '@angular/common/http';
     MatRadioModule,
     MatSlideToggleModule,
     FormsModule,
-    GongdocModule,
-    GongdocdiagramsModule,
 
     AngularSplitModule,
 
+    // gong stack (for analysis of gong code in the current stack)
     GongModule,
 
-    HttpClientModule,
+    // gongdoc stack (for displaying UML diagrams of the gong code in the current stack)
+    GongdocModule,
+    GongdocdiagramsModule,
+
     TestModule
   ],
   providers: [
