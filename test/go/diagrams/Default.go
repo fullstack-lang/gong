@@ -10,10 +10,19 @@ import (
 var Default uml.Classdiagram = uml.Classdiagram{
 	Classshapes: []*uml.Classshape{
 		{
+			ReferencedGong: new(models.AEnumType),
+			Position: &uml.Position{
+				X: 70.000000,
+				Y: 104.000000,
+			},
+			Width:  240.000000,
+			Heigth: 63.000000,
+		},
+		{
 			ReferencedGong: &(models.Astruct{}),
 			Position: &uml.Position{
-				X: 20.000000,
-				Y: 20.000000,
+				X: 80.000000,
+				Y: 210.000000,
 			},
 			Width:  240.000000,
 			Heigth: 243.000000,
@@ -70,8 +79,8 @@ var Default uml.Classdiagram = uml.Classdiagram{
 		{
 			ReferencedGong: &(models.Bstruct{}),
 			Position: &uml.Position{
-				X: 470.000000,
-				Y: 20.000000,
+				X: 630.000000,
+				Y: 300.000000,
 			},
 			Width:  240.000000,
 			Heigth: 78.000000,
@@ -81,5 +90,7 @@ var Default uml.Classdiagram = uml.Classdiagram{
 				},
 			},
 		},
+	},
+	Notes: []*uml.Note{
 	},
 }
