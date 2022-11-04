@@ -41,11 +41,12 @@ type ClassshapeInput struct {
 //
 // swagger:route GET /classshapes classshapes getClassshapes
 //
-// Get all classshapes
+// # Get all classshapes
 //
 // Responses:
-//    default: genericError
-//        200: classshapeDBsResponse
+// default: genericError
+//
+//	200: classshapeDBResponse
 func GetClassshapes(c *gin.Context) {
 	db := orm.BackRepo.BackRepoClassshape.GetDB()
 
@@ -85,14 +86,15 @@ func GetClassshapes(c *gin.Context) {
 // swagger:route POST /classshapes classshapes postClassshape
 //
 // Creates a classshape
-//     Consumes:
-//     - application/json
 //
-//     Produces:
-//     - application/json
+//	Consumes:
+//	- application/json
 //
-//     Responses:
-//       200: classshapeDBResponse
+//	Produces:
+//	- application/json
+//
+//	Responses:
+//	  200: nodeDBResponse
 func PostClassshape(c *gin.Context) {
 	db := orm.BackRepo.BackRepoClassshape.GetDB()
 
@@ -124,6 +126,14 @@ func PostClassshape(c *gin.Context) {
 		return
 	}
 
+	// get an instance (not staged) from DB instance, and call callback function
+	orm.BackRepo.BackRepoClassshape.CheckoutPhaseOneInstance(&classshapeDB)
+	classshape := (*orm.BackRepo.BackRepoClassshape.Map_ClassshapeDBID_ClassshapePtr)[classshapeDB.ID]
+
+	if classshape != nil {
+		models.AfterCreateFromFront(&models.Stage, classshape)
+	}
+
 	// a POST is equivalent to a back repo commit increase
 	// (this will be improved with implementation of unit of work design pattern)
 	orm.BackRepo.IncrementPushFromFrontNb()
@@ -138,8 +148,9 @@ func PostClassshape(c *gin.Context) {
 // Gets the details for a classshape.
 //
 // Responses:
-//    default: genericError
-//        200: classshapeDBResponse
+// default: genericError
+//
+//	200: classshapeDBResponse
 func GetClassshape(c *gin.Context) {
 	db := orm.BackRepo.BackRepoClassshape.GetDB()
 
@@ -166,11 +177,12 @@ func GetClassshape(c *gin.Context) {
 //
 // swagger:route PATCH /classshapes/{ID} classshapes updateClassshape
 //
-// Update a classshape
+// # Update a classshape
 //
 // Responses:
-//    default: genericError
-//        200: classshapeDBResponse
+// default: genericError
+//
+//	200: classshapeDBResponse
 func UpdateClassshape(c *gin.Context) {
 	db := orm.BackRepo.BackRepoClassshape.GetDB()
 
@@ -211,8 +223,20 @@ func UpdateClassshape(c *gin.Context) {
 		return
 	}
 
+	// get an instance (not staged) from DB instance, and call callback function
+	classshapeNew := new(models.Classshape)
+	classshapeDB.CopyBasicFieldsToClassshape(classshapeNew)
+
+	// get stage instance from DB instance, and call callback function
+	classshapeOld := (*orm.BackRepo.BackRepoClassshape.Map_ClassshapeDBID_ClassshapePtr)[classshapeDB.ID]
+	if classshapeOld != nil {
+		models.AfterUpdateFromFront(&models.Stage, classshapeOld, classshapeNew)
+	}
+
 	// an UPDATE generates a back repo commit increase
 	// (this will be improved with implementation of unit of work design pattern)
+	// in some cases, with the marshalling of the stage, this operation might
+	// generates a checkout
 	orm.BackRepo.IncrementPushFromFrontNb()
 
 	// return status OK with the marshalling of the the classshapeDB
@@ -223,10 +247,11 @@ func UpdateClassshape(c *gin.Context) {
 //
 // swagger:route DELETE /classshapes/{ID} classshapes deleteClassshape
 //
-// Delete a classshape
+// # Delete a classshape
 //
-// Responses:
-//    default: genericError
+// default: genericError
+//
+//	200: classshapeDBResponse
 func DeleteClassshape(c *gin.Context) {
 	db := orm.BackRepo.BackRepoClassshape.GetDB()
 
@@ -243,6 +268,16 @@ func DeleteClassshape(c *gin.Context) {
 
 	// with gorm.Model field, default delete is a soft delete. Unscoped() force delete
 	db.Unscoped().Delete(&classshapeDB)
+
+	// get an instance (not staged) from DB instance, and call callback function
+	classshapeDeleted := new(models.Classshape)
+	classshapeDB.CopyBasicFieldsToClassshape(classshapeDeleted)
+
+	// get stage instance from DB instance, and call callback function
+	classshapeStaged := (*orm.BackRepo.BackRepoClassshape.Map_ClassshapeDBID_ClassshapePtr)[classshapeDB.ID]
+	if classshapeStaged != nil {
+		models.AfterDeleteFromFront(&models.Stage, classshapeStaged, classshapeDeleted)
+	}
 
 	// a DELETE generates a back repo commit increase
 	// (this will be improved with implementation of unit of work design pattern)

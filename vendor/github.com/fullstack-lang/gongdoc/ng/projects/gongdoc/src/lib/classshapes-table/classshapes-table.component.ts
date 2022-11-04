@@ -74,11 +74,11 @@ export class ClassshapesTableComponent implements OnInit {
         case 'Position':
           return (classshapeDB.Position ? classshapeDB.Position.Name : '');
 
-        case 'Structname':
-          return classshapeDB.Structname;
+        case 'ReferenceName':
+          return classshapeDB.ReferenceName;
 
-        case 'GongStruct':
-          return (classshapeDB.GongStruct ? classshapeDB.GongStruct.Name : '');
+        case 'Reference':
+          return (classshapeDB.Reference ? classshapeDB.Reference.Name : '');
 
         case 'ShowNbInstances':
           return classshapeDB.ShowNbInstances?"true":"false";
@@ -92,8 +92,8 @@ export class ClassshapesTableComponent implements OnInit {
         case 'Heigth':
           return classshapeDB.Heigth;
 
-        case 'ClassshapeTargetType':
-          return classshapeDB.ClassshapeTargetType;
+        case 'IsSelected':
+          return classshapeDB.IsSelected?"true":"false";
 
         case 'Classdiagram_Classshapes':
           if (this.frontRepo.Classdiagrams.get(classshapeDB.Classdiagram_ClassshapesDBID.Int64) != undefined) {
@@ -120,14 +120,13 @@ export class ClassshapesTableComponent implements OnInit {
       if (classshapeDB.Position) {
         mergedContent += classshapeDB.Position.Name.toLowerCase()
       }
-      mergedContent += classshapeDB.Structname.toLowerCase()
-      if (classshapeDB.GongStruct) {
-        mergedContent += classshapeDB.GongStruct.Name.toLowerCase()
+      mergedContent += classshapeDB.ReferenceName.toLowerCase()
+      if (classshapeDB.Reference) {
+        mergedContent += classshapeDB.Reference.Name.toLowerCase()
       }
       mergedContent += classshapeDB.NbInstances.toString()
       mergedContent += classshapeDB.Width.toString()
       mergedContent += classshapeDB.Heigth.toString()
-      mergedContent += classshapeDB.ClassshapeTargetType.toLowerCase()
       if (classshapeDB.Classdiagram_ClassshapesDBID.Int64 != 0) {
         mergedContent += this.frontRepo.Classdiagrams.get(classshapeDB.Classdiagram_ClassshapesDBID.Int64)!.Name.toLowerCase()
       }
@@ -184,26 +183,26 @@ export class ClassshapesTableComponent implements OnInit {
       this.displayedColumns = ['ID', 'Edit', 'Delete', // insertion point for columns to display
         "Name",
         "Position",
-        "Structname",
-        "GongStruct",
+        "ReferenceName",
+        "Reference",
         "ShowNbInstances",
         "NbInstances",
         "Width",
         "Heigth",
-        "ClassshapeTargetType",
+        "IsSelected",
         "Classdiagram_Classshapes",
       ]
     } else {
       this.displayedColumns = ['select', 'ID', // insertion point for columns to display
         "Name",
         "Position",
-        "Structname",
-        "GongStruct",
+        "ReferenceName",
+        "Reference",
         "ShowNbInstances",
         "NbInstances",
         "Width",
         "Heigth",
-        "ClassshapeTargetType",
+        "IsSelected",
         "Classdiagram_Classshapes",
       ]
       this.selection = new SelectionModel<ClassshapeDB>(allowMultiSelect, this.initialSelection);

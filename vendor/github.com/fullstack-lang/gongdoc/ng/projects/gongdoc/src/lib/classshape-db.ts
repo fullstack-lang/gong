@@ -1,6 +1,6 @@
 // insertion point for imports
 import { PositionDB } from './position-db'
-import { GongStructDB } from './gongstruct-db'
+import { ReferenceDB } from './reference-db'
 import { FieldDB } from './field-db'
 import { LinkDB } from './link-db'
 import { ClassdiagramDB } from './classdiagram-db'
@@ -15,19 +15,19 @@ export class ClassshapeDB {
 
 	// insertion point for basic fields declarations
 	Name: string = ""
-	Structname: string = ""
+	ReferenceName: string = ""
 	ShowNbInstances: boolean = false
 	NbInstances: number = 0
 	Width: number = 0
 	Heigth: number = 0
-	ClassshapeTargetType: string = ""
+	IsSelected: boolean = false
 
 	// insertion point for other declarations
 	Position?: PositionDB
 	PositionID: NullInt64 = new NullInt64 // if pointer is null, Position.ID = 0
 
-	GongStruct?: GongStructDB
-	GongStructID: NullInt64 = new NullInt64 // if pointer is null, GongStruct.ID = 0
+	Reference?: ReferenceDB
+	ReferenceID: NullInt64 = new NullInt64 // if pointer is null, Reference.ID = 0
 
 	Fields?: Array<FieldDB>
 	Links?: Array<LinkDB>

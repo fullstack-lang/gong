@@ -36,11 +36,11 @@
     </mat-grid-list>
     <mat-grid-list cols="5" rowHeight="2:1">
         <mat-grid-tile [colspan]="3">
-            <button mat-raised-button (click)="openReverseSelection('Note', 'Classdiagram_NotesDBID', 'ONE_MANY_ASSOCIATION_MODE', '', '', '')">Notes</button>
+            <button mat-raised-button (click)="openReverseSelection('NoteShape', 'Classdiagram_NotesDBID', 'ONE_MANY_ASSOCIATION_MODE', '', '', '')">Notes</button>
         </mat-grid-tile>
         <!-- insertion point for the button of the MANY_MANY association-->
         <mat-grid-tile>
-            <button mat-raised-button (click)="openDragAndDropOrdering('Note', 'Classdiagram_NotesDBID')">
+            <button mat-raised-button (click)="openDragAndDropOrdering('NoteShape', 'Classdiagram_NotesDBID')">
                 <mat-icon>
                     shuffle
                 </mat-icon>
@@ -48,14 +48,14 @@
         </mat-grid-tile>
     </mat-grid-list>
     <!-- -->
-    <mat-checkbox [formControl]="IsEditableFormControl">IsEditable</mat-checkbox>
+    <mat-checkbox [formControl]="IsInDrawModeFormControl">IsInDrawMode</mat-checkbox>
 
     <mat-form-field class="detail-full-width">
-        <mat-label>(Pkgelt) Classdiagrams</mat-label>
-        <mat-select [compareWith]="compareObjects" [(ngModel)]="classdiagram.Pkgelt_Classdiagrams_reverse" [ngModelOptions]="{standalone: true}">
+        <mat-label>(DiagramPackage) Classdiagrams</mat-label>
+        <mat-select [compareWith]="compareObjects" [(ngModel)]="classdiagram.DiagramPackage_Classdiagrams_reverse" [ngModelOptions]="{standalone: true}">
             <mat-option>None</mat-option>
-            <mat-option *ngFor="let pkgelt of frontRepo.Pkgelts_array" [value]="pkgelt">
-                {{pkgelt.Name}}
+            <mat-option *ngFor="let diagrampackage of frontRepo.DiagramPackages_array" [value]="diagrampackage">
+                {{diagrampackage.Name}}
             </mat-option>
         </mat-select>
     </mat-form-field>

@@ -1,0 +1,112 @@
+<mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
+    <!-- This is the tree node template for leaf nodes -->
+    <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding>
+        <!-- use a disabled button to provide padding for tree leaf -->
+        <button mat-icon-button disabled></button>
+        <mat-checkbox *ngIf="node.gongNode.HasCheckboxButton  && !node.gongNode.IsInEditMode" [disabled]="node.gongNode.IsCheckboxDisabled" [checked]="node.gongNode.IsChecked" (change)="toggleNodeCheckbox(node)"> > {{node.name}}
+        </mat-checkbox>
+        <div *ngIf="!node.gongNode.HasCheckboxButton  && !node.gongNode.IsInEditMode">
+            {{node.name}}
+        </div>
+        <mat-form-field *ngIf='node.gongNode.IsInEditMode' mat-form-field class="detail-full-width">
+            <mat-label>Name</mat-label>
+            <input name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="node.gongNode.Name">
+        </mat-form-field>
+        <button *ngIf='node.gongNode.IsInEditMode' mat-button (click)="update(node)">
+            <mat-icon
+                [ngStyle]="{'color':'rgba(0,0,0,.50)'}">save
+            </mat-icon>
+        </button>
+        <button *ngIf='node.gongNode.IsInEditMode' mat-button (click)="cancelEditMode(node)">
+            <mat-icon
+                [ngStyle]="{'color':'rgba(0,0,0,.50)'}">
+                edit_off
+            </mat-icon>
+        </button>
+        <button *ngIf='node.gongNode.IsInDrawMode' mat-button (click)="cancelDrawMode(node)">
+            <mat-icon
+                [ngStyle]="{'color':'rgba(0,0,0,.50)'}">
+                edit_off
+            </mat-icon>
+        </button>
+        <button *ngIf='node.gongNode.IsInDrawMode' mat-button (click)="updateDiagram(node)">
+            <mat-icon
+                [ngStyle]="{'color':'rgba(0,0,0,.50)'}">save
+            </mat-icon>
+        </button>
+        <button *ngIf="node.gongNode.HasEditButton" mat-icon-button (click)="setInEditMode(node)">
+            <mat-icon
+                [ngStyle]="{'color':'rgba(0,0,0,.50)'}">edit
+            </mat-icon>
+        </button>
+        <button mat-icon-button *ngIf="node.gongNode.HasAddChildButton" (click)="addNewItem(node)">
+            <mat-icon
+                [ngStyle]="{'color':'rgba(0,0,0,.50)'}">
+                add</mat-icon>
+        </button>
+        <button mat-icon-button *ngIf="node.gongNode.HasDeleteButton" (click)="deleteNode(node)">
+            <mat-icon
+                [ngStyle]="{'color':'rgba(0,0,0,.50)'}">
+                delete</mat-icon>
+        </button>
+        <button mat-icon-button *ngIf="node.gongNode.HasDrawButton" (click)="setInDrawMode(node)">
+            <mat-icon
+                [ngStyle]="{'color':'rgba(0,0,0,.50)'}">
+                draw</mat-icon>
+        </button>
+    </mat-tree-node>
+    <!-- This is the tree node template for expandable nodes -->
+    <mat-tree-node *matTreeNodeDef="let node;when: hasChild" matTreeNodePadding>
+        <button mat-icon-button matTreeNodeToggle [attr.aria-label]="'Toggle ' + node.name" (click)="toggleNodeExpansion(node)">
+            <mat-icon
+                [ngStyle]="{'color':'rgba(0,0,0,.50)'}"
+                class="mat-icon-rtl-mirror">
+                {{treeControl.isExpanded(node) ?
+                'expand_more' : 'chevron_right'}}
+            </mat-icon>
+        </button>
+        <mat-checkbox *ngIf="node.gongNode.HasCheckboxButton" [disabled]="node.gongNode.IsCheckboxDisabled" [checked]="node.gongNode.IsChecked" (change)="toggleNodeCheckbox(node)">
+            {{node.name}}
+        </mat-checkbox>
+        <div *ngIf="!node.gongNode.HasCheckboxButton && !node.gongNode.IsInEditMode">
+            {{node.name}}
+        </div>
+
+        <mat-form-field *ngIf='node.gongNode.IsInEditMode' mat-form-field class="detail-full-width">
+            <mat-label>Name</mat-label>
+            <input name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="node.gongNode.Name">
+        </mat-form-field>
+        <button *ngIf='node.gongNode.IsInEditMode' mat-button (click)="update(node)">
+            <mat-icon
+                [ngStyle]="{'color':'rgba(0,0,0,.50)'}">save
+            </mat-icon>
+        </button>
+        <button *ngIf='node.gongNode.IsInEditMode' mat-button (click)="cancelEditMode(node)">
+            <mat-icon
+                [ngStyle]="{'color':'rgba(0,0,0,.50)'}">
+                edit_off
+            </mat-icon>
+        </button>
+
+        <button *ngIf="node.gongNode.HasEditButton" mat-icon-button (click)="setInEditMode(node)">
+            <mat-icon
+                [ngStyle]="{'color':'rgba(0,0,0,.50)'}">edit
+            </mat-icon>
+        </button>
+        <button *ngIf="node.gongNode.HasAddChildButton" mat-icon-button (click)="addNewItem(node)">
+            <mat-icon
+                [ngStyle]="{'color':'rgba(0,0,0,.50)'}">add
+            </mat-icon>
+        </button>
+        <button mat-icon-button *ngIf="node.gongNode.HasDeleteButton" (click)="deleteNode(node)">
+            <mat-icon
+                [ngStyle]="{'color':'rgba(0,0,0,.50)'}">
+                delete</mat-icon>
+        </button>
+        <button mat-icon-button *ngIf="node.gongNode. HasDrawButton        " (click)="setInDrawMode(node)">
+            <mat-icon
+                [ngStyle]="{'color':'rgba(0,0,0,.50)'}">
+                draw</mat-icon>
+        </button>
+    </mat-tree-node>
+</mat-tree>

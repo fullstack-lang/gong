@@ -1,11 +1,9 @@
 import * as joint from 'jointjs';
 import * as gongdoc from 'gongdoc'
-import { GongdocCommandService } from 'gongdoc';
 
 export function newUmlClassShape(classshape: gongdoc.ClassshapeDB,
     positionService: gongdoc.PositionService,
-    gongdocCommandSingloton: gongdoc.GongdocCommandDB,
-    gongdocCommandService: gongdoc.GongdocCommandService): joint.shapes.uml.Class {
+    classshapeService: gongdoc.ClassshapeService): joint.shapes.uml.Class {
 
     // fetch the fields, it must belong to the current diagram
     // and the type must match the classshape type
@@ -24,7 +22,7 @@ export function newUmlClassShape(classshape: gongdoc.ClassshapeDB,
         }
     }
 
-    let classShapeTitle = classshape.Structname
+    let classShapeTitle = classshape.ReferenceName
 
     // show nb of instances if necessary
     if (classshape.ShowNbInstances) {
@@ -73,8 +71,7 @@ export function newUmlClassShape(classshape: gongdoc.ClassshapeDB,
             // store relevant attributes for working when callback are invoked
             classshape: classshape,
             positionService: positionService,
-            gongdocCommandSingloton: gongdocCommandSingloton,
-            gongdocCommandService: gongdocCommandService
+            classshapeService: classshapeService
         }
     )
 

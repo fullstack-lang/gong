@@ -113,12 +113,12 @@ func (field *Field) Unmarshall(modelPkg *gong_models.ModelPkg, expr ast.Expr, fs
 }
 
 // Marshall provides the element of field as declaration
-func (field *Field) Marshall(file *os.File, nbIndentation int, ClassshapeTargetType ClassshapeTargetType) error {
+func (field *Field) Marshall(file *os.File, nbIndentation int, referenceType ReferenceType) error {
 	indent(file, nbIndentation)
 	fmt.Fprintf(file, "{\n")
 
 	indent(file, nbIndentation)
-	if ClassshapeTargetType == STRUCT {
+	if referenceType == REFERENCE_GONG_STRUCT {
 		fmt.Fprintf(file, "\tField: models.%s{}.%s,\n", field.Structname, field.Fieldname)
 	} else {
 		fmt.Fprintf(file, "\tField: models.%s,\n", field.Fieldname)
