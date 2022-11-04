@@ -98,10 +98,35 @@ func updateNodesStates(stage *StageStruct, callbacksSingloton *NodeCallbacksSing
 					node.IsCheckboxDisabled = !classDiagram.IsInDrawMode
 				}
 			}
-
 			for _, link := range classshape.Links {
 				gongFieldIdentifiersdNodes[reference.Name+"."+link.Name].IsChecked = true
 				gongFieldIdentifiersdNodes[reference.Name+"."+link.Name].IsCheckboxDisabled = !classDiagram.IsInDrawMode
+			}
+		}
+
+		// disable checkbox field node that reference a gongstruct whose classshape is
+		// not present in the diagram
+		// first, construct map of all gongstructs present in the diagram
+		map_OfGongstruct := make(map[string]bool)
+		for _, classshape := range classDiagram.Classshapes {
+			map_OfGongstruct[classshape.ReferenceName] = true
+		}
+		// then iterate over all fields of all gongstructs node
+		for _, gognstructNode := range callbacksSingloton.GongstructsRootNode.Children {
+			for _, fieldNode := range gognstructNode.Children {
+				// then disable the checkbox
+				if fieldNode.Type == GONG_STRUCT_FIELD {
+					switch fieldWithRef := fieldNode.Gongfield.(type) {
+					case *gong_models.PointerToGongStructField:
+						if _, ok := map_OfGongstruct[fieldWithRef.GongStruct.Name]; !ok {
+							fieldNode.IsCheckboxDisabled = true
+						}
+					case *gong_models.SliceOfPointerToGongStructField:
+						if _, ok := map_OfGongstruct[fieldWithRef.GongStruct.Name]; !ok {
+							fieldNode.IsCheckboxDisabled = true
+						}
+					}
+				}
 			}
 		}
 
