@@ -1,0 +1,117 @@
+
+<div class="presentation__header" (click)="setEditorRouterOutlet(node.ID)">
+    <h1>Node's fields <span class="material-icons">edit</span></h1>
+</div>
+<table *ngIf="node" class="presentation__table mat-table">
+    <tr class="mat-header-row">
+        <th class="mat-header-cell">Name</th>
+        <th class="mat-header-cell">Value</th>
+    </tr>
+    <!-- insertion point for fields specific code -->
+    <tr class="mat-row">
+        <td class="mat-cell">Name</td>
+        <td class="mat-cell">{{node.Name}}</td>
+    </tr>
+    <tr class="mat-row">
+        <td class="mat-cell">Type</td>
+        <td class="mat-cell">{{node.Type}}</td>
+    </tr>
+    <tr class="mat-row">
+        <td class="mat-cell">Classdiagram</td>
+        <td class="mat-cell">{{node.Classdiagram ? node.Classdiagram.Name : ""}}</td>
+    </tr>
+    <tr class="mat-row">
+        <td class="mat-cell">Umlsc</td>
+        <td class="mat-cell">{{node.Umlsc ? node.Umlsc.Name : ""}}</td>
+    </tr>
+    <tr class="mat-row">
+        <td class="mat-cell">IsExpanded</td>
+        <td class="mat-cell">
+            <mat-checkbox [checked]="node.IsExpanded" disabled=true>
+            </mat-checkbox>
+        </td>
+    </tr>
+    <tr class="mat-row">
+        <td class="mat-cell">HasCheckboxButton</td>
+        <td class="mat-cell">
+            <mat-checkbox [checked]="node.HasCheckboxButton" disabled=true>
+            </mat-checkbox>
+        </td>
+    </tr>
+    <tr class="mat-row">
+        <td class="mat-cell">IsChecked</td>
+        <td class="mat-cell">
+            <mat-checkbox [checked]="node.IsChecked" disabled=true>
+            </mat-checkbox>
+        </td>
+    </tr>
+    <tr class="mat-row">
+        <td class="mat-cell">IsCheckboxDisabled</td>
+        <td class="mat-cell">
+            <mat-checkbox [checked]="node.IsCheckboxDisabled" disabled=true>
+            </mat-checkbox>
+        </td>
+    </tr>
+    <tr class="mat-row">
+        <td class="mat-cell">HasAddChildButton</td>
+        <td class="mat-cell">
+            <mat-checkbox [checked]="node.HasAddChildButton" disabled=true>
+            </mat-checkbox>
+        </td>
+    </tr>
+    <tr class="mat-row">
+        <td class="mat-cell">HasEditButton</td>
+        <td class="mat-cell">
+            <mat-checkbox [checked]="node.HasEditButton" disabled=true>
+            </mat-checkbox>
+        </td>
+    </tr>
+    <tr class="mat-row">
+        <td class="mat-cell">IsInEditMode</td>
+        <td class="mat-cell">
+            <mat-checkbox [checked]="node.IsInEditMode" disabled=true>
+            </mat-checkbox>
+        </td>
+    </tr>
+    <tr class="mat-row">
+        <td class="mat-cell">HasDrawButton</td>
+        <td class="mat-cell">
+            <mat-checkbox [checked]="node.HasDrawButton" disabled=true>
+            </mat-checkbox>
+        </td>
+    </tr>
+    <tr class="mat-row">
+        <td class="mat-cell">HasDrawOffButton</td>
+        <td class="mat-cell">
+            <mat-checkbox [checked]="node.HasDrawOffButton" disabled=true>
+            </mat-checkbox>
+        </td>
+    </tr>
+    <tr class="mat-row">
+        <td class="mat-cell">IsInDrawMode</td>
+        <td class="mat-cell">
+            <mat-checkbox [checked]="node.IsInDrawMode" disabled=true>
+            </mat-checkbox>
+        </td>
+    </tr>
+    <tr class="mat-row">
+        <td class="mat-cell">IsSaved</td>
+        <td class="mat-cell">
+            <mat-checkbox [checked]="node.IsSaved" disabled=true>
+            </mat-checkbox>
+        </td>
+    </tr>
+    <tr class="mat-row">
+        <td class="mat-cell">HasDeleteButton</td>
+        <td class="mat-cell">
+            <mat-checkbox [checked]="node.HasDeleteButton" disabled=true>
+            </mat-checkbox>
+        </td>
+    </tr>
+</table>
+<!-- hack to force loading of mat table style an error is generated but it is a know angular issue https://github.com/angular/components/issues/10941 -->
+<table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+    <!-- Position Column -->
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>

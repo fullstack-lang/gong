@@ -41,11 +41,12 @@ type ClassdiagramInput struct {
 //
 // swagger:route GET /classdiagrams classdiagrams getClassdiagrams
 //
-// Get all classdiagrams
+// # Get all classdiagrams
 //
 // Responses:
-//    default: genericError
-//        200: classdiagramDBsResponse
+// default: genericError
+//
+//	200: classdiagramDBResponse
 func GetClassdiagrams(c *gin.Context) {
 	db := orm.BackRepo.BackRepoClassdiagram.GetDB()
 
@@ -85,14 +86,15 @@ func GetClassdiagrams(c *gin.Context) {
 // swagger:route POST /classdiagrams classdiagrams postClassdiagram
 //
 // Creates a classdiagram
-//     Consumes:
-//     - application/json
 //
-//     Produces:
-//     - application/json
+//	Consumes:
+//	- application/json
 //
-//     Responses:
-//       200: classdiagramDBResponse
+//	Produces:
+//	- application/json
+//
+//	Responses:
+//	  200: nodeDBResponse
 func PostClassdiagram(c *gin.Context) {
 	db := orm.BackRepo.BackRepoClassdiagram.GetDB()
 
@@ -124,6 +126,14 @@ func PostClassdiagram(c *gin.Context) {
 		return
 	}
 
+	// get an instance (not staged) from DB instance, and call callback function
+	orm.BackRepo.BackRepoClassdiagram.CheckoutPhaseOneInstance(&classdiagramDB)
+	classdiagram := (*orm.BackRepo.BackRepoClassdiagram.Map_ClassdiagramDBID_ClassdiagramPtr)[classdiagramDB.ID]
+
+	if classdiagram != nil {
+		models.AfterCreateFromFront(&models.Stage, classdiagram)
+	}
+
 	// a POST is equivalent to a back repo commit increase
 	// (this will be improved with implementation of unit of work design pattern)
 	orm.BackRepo.IncrementPushFromFrontNb()
@@ -138,8 +148,9 @@ func PostClassdiagram(c *gin.Context) {
 // Gets the details for a classdiagram.
 //
 // Responses:
-//    default: genericError
-//        200: classdiagramDBResponse
+// default: genericError
+//
+//	200: classdiagramDBResponse
 func GetClassdiagram(c *gin.Context) {
 	db := orm.BackRepo.BackRepoClassdiagram.GetDB()
 
@@ -166,11 +177,12 @@ func GetClassdiagram(c *gin.Context) {
 //
 // swagger:route PATCH /classdiagrams/{ID} classdiagrams updateClassdiagram
 //
-// Update a classdiagram
+// # Update a classdiagram
 //
 // Responses:
-//    default: genericError
-//        200: classdiagramDBResponse
+// default: genericError
+//
+//	200: classdiagramDBResponse
 func UpdateClassdiagram(c *gin.Context) {
 	db := orm.BackRepo.BackRepoClassdiagram.GetDB()
 
@@ -211,8 +223,20 @@ func UpdateClassdiagram(c *gin.Context) {
 		return
 	}
 
+	// get an instance (not staged) from DB instance, and call callback function
+	classdiagramNew := new(models.Classdiagram)
+	classdiagramDB.CopyBasicFieldsToClassdiagram(classdiagramNew)
+
+	// get stage instance from DB instance, and call callback function
+	classdiagramOld := (*orm.BackRepo.BackRepoClassdiagram.Map_ClassdiagramDBID_ClassdiagramPtr)[classdiagramDB.ID]
+	if classdiagramOld != nil {
+		models.AfterUpdateFromFront(&models.Stage, classdiagramOld, classdiagramNew)
+	}
+
 	// an UPDATE generates a back repo commit increase
 	// (this will be improved with implementation of unit of work design pattern)
+	// in some cases, with the marshalling of the stage, this operation might
+	// generates a checkout
 	orm.BackRepo.IncrementPushFromFrontNb()
 
 	// return status OK with the marshalling of the the classdiagramDB
@@ -223,10 +247,11 @@ func UpdateClassdiagram(c *gin.Context) {
 //
 // swagger:route DELETE /classdiagrams/{ID} classdiagrams deleteClassdiagram
 //
-// Delete a classdiagram
+// # Delete a classdiagram
 //
-// Responses:
-//    default: genericError
+// default: genericError
+//
+//	200: classdiagramDBResponse
 func DeleteClassdiagram(c *gin.Context) {
 	db := orm.BackRepo.BackRepoClassdiagram.GetDB()
 
@@ -243,6 +268,16 @@ func DeleteClassdiagram(c *gin.Context) {
 
 	// with gorm.Model field, default delete is a soft delete. Unscoped() force delete
 	db.Unscoped().Delete(&classdiagramDB)
+
+	// get an instance (not staged) from DB instance, and call callback function
+	classdiagramDeleted := new(models.Classdiagram)
+	classdiagramDB.CopyBasicFieldsToClassdiagram(classdiagramDeleted)
+
+	// get stage instance from DB instance, and call callback function
+	classdiagramStaged := (*orm.BackRepo.BackRepoClassdiagram.Map_ClassdiagramDBID_ClassdiagramPtr)[classdiagramDB.ID]
+	if classdiagramStaged != nil {
+		models.AfterDeleteFromFront(&models.Stage, classdiagramStaged, classdiagramDeleted)
+	}
 
 	// a DELETE generates a back repo commit increase
 	// (this will be improved with implementation of unit of work design pattern)

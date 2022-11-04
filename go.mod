@@ -1,6 +1,6 @@
 module github.com/fullstack-lang/gong
 
-go 1.18
+go 1.19
 
 require (
 	github.com/frankban/quicktest v1.13.1 // indirect
@@ -24,7 +24,7 @@ require (
 )
 
 require (
-	github.com/fullstack-lang/gongdoc v0.0.0-20221006192736-652f930a70fc
+	github.com/fullstack-lang/gongdoc v0.0.0-20221104125906-c60f43cf4be0
 	github.com/glebarez/sqlite v1.3.5
 	github.com/xuri/excelize/v2 v2.6.1
 )

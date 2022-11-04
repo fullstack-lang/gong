@@ -14,7 +14,7 @@ import { catchError, map, tap } from 'rxjs/operators';
 import { ClassdiagramDB } from './classdiagram-db';
 
 // insertion point for imports
-import { PkgeltDB } from './pkgelt-db'
+import { DiagramPackageDB } from './diagrampackage-db'
 
 @Injectable({
   providedIn: 'root'
@@ -73,13 +73,13 @@ export class ClassdiagramService {
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
     classdiagramdb.Classshapes = []
     classdiagramdb.Notes = []
-    let _Pkgelt_Classdiagrams_reverse = classdiagramdb.Pkgelt_Classdiagrams_reverse
-    classdiagramdb.Pkgelt_Classdiagrams_reverse = new PkgeltDB
+    let _DiagramPackage_Classdiagrams_reverse = classdiagramdb.DiagramPackage_Classdiagrams_reverse
+    classdiagramdb.DiagramPackage_Classdiagrams_reverse = new DiagramPackageDB
 
     return this.http.post<ClassdiagramDB>(this.classdiagramsUrl, classdiagramdb, this.httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
-        classdiagramdb.Pkgelt_Classdiagrams_reverse = _Pkgelt_Classdiagrams_reverse
+        classdiagramdb.DiagramPackage_Classdiagrams_reverse = _DiagramPackage_Classdiagrams_reverse
         this.log(`posted classdiagramdb id=${classdiagramdb.ID}`)
       }),
       catchError(this.handleError<ClassdiagramDB>('postClassdiagram'))
@@ -105,13 +105,13 @@ export class ClassdiagramService {
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
     classdiagramdb.Classshapes = []
     classdiagramdb.Notes = []
-    let _Pkgelt_Classdiagrams_reverse = classdiagramdb.Pkgelt_Classdiagrams_reverse
-    classdiagramdb.Pkgelt_Classdiagrams_reverse = new PkgeltDB
+    let _DiagramPackage_Classdiagrams_reverse = classdiagramdb.DiagramPackage_Classdiagrams_reverse
+    classdiagramdb.DiagramPackage_Classdiagrams_reverse = new DiagramPackageDB
 
     return this.http.put<ClassdiagramDB>(url, classdiagramdb, this.httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
-        classdiagramdb.Pkgelt_Classdiagrams_reverse = _Pkgelt_Classdiagrams_reverse
+        classdiagramdb.DiagramPackage_Classdiagrams_reverse = _DiagramPackage_Classdiagrams_reverse
         this.log(`updated classdiagramdb id=${classdiagramdb.ID}`)
       }),
       catchError(this.handleError<ClassdiagramDB>('updateClassdiagram'))

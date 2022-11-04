@@ -364,6 +364,7 @@ func (backRepo *BackRepoStruct) CommitUmlState(umlstate *models.UmlState) {
 	if id, ok := (*backRepo.BackRepoUmlState.Map_UmlStatePtr_UmlStateDBID)[umlstate]; ok {
 		backRepo.BackRepoUmlState.CommitPhaseTwoInstance(backRepo, id, umlstate)
 	}
+	backRepo.CommitFromBackNb = backRepo.CommitFromBackNb + 1
 }
 
 // CommitUmlState allows checkout of a single umlstate (if already staged and with a BackRepo id)

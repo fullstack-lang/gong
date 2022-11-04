@@ -23,6 +23,7 @@ import (
 	gong_controllers "github.com/fullstack-lang/gong/go/controllers"
 	gong_models "github.com/fullstack-lang/gong/go/models"
 	gong_orm "github.com/fullstack-lang/gong/go/orm"
+
 	// insertion point for gong front end import
 	_ "github.com/fullstack-lang/gong/ng"
 
@@ -30,6 +31,7 @@ import (
 	gongdoc_controllers "github.com/fullstack-lang/gongdoc/go/controllers"
 	gongdoc_models "github.com/fullstack-lang/gongdoc/go/models"
 	gongdoc_orm "github.com/fullstack-lang/gongdoc/go/orm"
+
 	// insertion point for gong front end import
 	_ "github.com/fullstack-lang/gongdoc/ng"
 
@@ -44,7 +46,8 @@ var (
 	unmarshall        = flag.String("unmarshall", "", "unmarshall data from marshall name and '.go' (must be lowercased without spaces), If unmarshall arg is '', no unmarshalling")
 	marshallOnCommit  = flag.String("marshallOnCommit", "", "on all commits, marshall staged data to a go file with the marshall name and '.go' (must be lowercased without spaces). If marshall arg is '', no marshalling")
 
-	diagrams = flag.Bool("diagrams", true, "parse/analysis go/models and go/diagrams (takes a few seconds)")
+	diagrams         = flag.Bool("diagrams", true, "parse go/models and go/diagrams to populate diagrams")
+	embeddedDiagrams = flag.Bool("embeddedDiagrams", true, "parse/analysis go/models and go/embeddedDiagrams (takes a few seconds)")
 )
 
 // InjectionGateway is the singloton that stores all functions
@@ -168,14 +171,14 @@ func main() {
 
 		// create the diagrams
 		// prepare the model views
-		pkgelt := new(gongdoc_models.Pkgelt)
+		diagramPackage := new(gongdoc_models.DiagramPackage)
 
 		// first, get all gong struct in the model
 		for gongStruct := range gong_models.Stage.GongStructs {
 
 			// let create the gong struct in the gongdoc models
 			// and put the numbre of instances
-			gongStruct_ := (&gongdoc_models.GongStruct{Name: gongStruct.Name}).Stage()
+			gongStruct_ := (&gongdoc_models.Reference{Name: gongStruct.Name}).Stage()
 			nbInstances, ok := models.Stage.Map_GongStructName_InstancesNb[gongStruct.Name]
 			if ok {
 				gongStruct_.NbInstances = nbInstances
@@ -190,9 +193,10 @@ func main() {
 			log.Panic("Unable to parser, wrong number of parsers ", len(pkgsParser))
 		}
 		if pkgParser, ok := pkgsParser["diagrams"]; ok {
-			pkgelt.Unmarshall(modelPkg, pkgParser, fset, "go/diagrams")
+			diagramPackage.Unmarshall(modelPkg, pkgParser, fset, "go/diagrams")
 		}
-		pkgelt.SerializeToStage()
+		diagramPackage.SerializeToStage()
+		gongdoc_models.FillUpNodeTree(diagramPackage)
 	}
 
 	controllers.RegisterControllers(r)

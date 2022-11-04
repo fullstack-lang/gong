@@ -31,32 +31,32 @@
         </mat-select>
     </mat-form-field>
 
-    <mat-grid-list *ngIf='!isATextArea("Structname")' cols="5" rowHeight="2:1">
+    <mat-grid-list *ngIf='!isATextArea("ReferenceName")' cols="5" rowHeight="2:1">
         <mat-grid-tile [colspan]="3">
             <mat-form-field mat-form-field class="detail-full-width">
-                <mat-label>Structname</mat-label>
-                <input name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="classshape.Structname">
+                <mat-label>ReferenceName</mat-label>
+                <input name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="classshape.ReferenceName">
             </mat-form-field>
         </mat-grid-tile>
         <mat-grid-tile>
-            <button mat-raised-button (click)="toggleTextArea('Structname')">
+            <button mat-raised-button (click)="toggleTextArea('ReferenceName')">
                 <mat-icon>
                     expand_more
                 </mat-icon>
             </button>
         </mat-grid-tile>
     </mat-grid-list>
-    <mat-form-field *ngIf='isATextArea("Structname")' mat-form-field class="detail-full-width">
-        <mat-label>Structname</mat-label>
-        <textarea name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="classshape.Structname"></textarea>
+    <mat-form-field *ngIf='isATextArea("ReferenceName")' mat-form-field class="detail-full-width">
+        <mat-label>ReferenceName</mat-label>
+        <textarea name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="classshape.ReferenceName"></textarea>
     </mat-form-field>
 
     <mat-form-field class="detail-full-width">
-        <mat-label>GongStruct</mat-label>
-        <mat-select [compareWith]="compareObjects" [(value)]="classshape.GongStruct" (selectionChange)="fillUpNameIfEmpty($event)">
+        <mat-label>Reference</mat-label>
+        <mat-select [compareWith]="compareObjects" [(value)]="classshape.Reference" (selectionChange)="fillUpNameIfEmpty($event)">
             <mat-option>None</mat-option>
-            <mat-option *ngFor="let gongstruct of frontRepo.GongStructs_array" [value]="gongstruct">
-                {{gongstruct.Name}}
+            <mat-option *ngFor="let reference of frontRepo.References_array" [value]="reference">
+                {{reference.Name}}
             </mat-option>
         </mat-select>
     </mat-form-field>
@@ -109,14 +109,7 @@
     </mat-form-field>
 
     <!-- -->
-    <mat-form-field appearance="fill" class="detail-full-width">
-        <mat-label>ClassshapeTargetType</mat-label>
-        <mat-select [(ngModel)]="classshape.ClassshapeTargetType" [ngModelOptions]="{standalone: true}">
-            <mat-option *ngFor="let enum of ClassshapeTargetTypeList" [value]="enum.value">
-                {{enum.viewValue}}
-            </mat-option>
-        </mat-select>
-    </mat-form-field>
+    <mat-checkbox [formControl]="IsSelectedFormControl">IsSelected</mat-checkbox>
 
     <mat-form-field class="detail-full-width">
         <mat-label>(Classdiagram) Classshapes</mat-label>

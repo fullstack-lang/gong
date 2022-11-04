@@ -10,7 +10,7 @@ import (
 var Default uml.Classdiagram = uml.Classdiagram{
 	Classshapes: []*uml.Classshape{
 		{
-			Struct: &(models.Astruct{}),
+			ReferencedGong: &(models.Astruct{}),
 			Position: &uml.Position{
 				X: 20.000000,
 				Y: 20.000000,
@@ -68,7 +68,7 @@ var Default uml.Classdiagram = uml.Classdiagram{
 			},
 		},
 		{
-			Struct: &(models.Bstruct{}),
+			ReferencedGong: &(models.Bstruct{}),
 			Position: &uml.Position{
 				X: 470.000000,
 				Y: 20.000000,

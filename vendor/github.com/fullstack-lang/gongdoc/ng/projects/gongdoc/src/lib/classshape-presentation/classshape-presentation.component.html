@@ -17,12 +17,12 @@
         <td class="mat-cell">{{classshape.Position ? classshape.Position.Name : ""}}</td>
     </tr>
     <tr class="mat-row">
-        <td class="mat-cell">Structname</td>
-        <td class="mat-cell">{{classshape.Structname}}</td>
+        <td class="mat-cell">ReferenceName</td>
+        <td class="mat-cell">{{classshape.ReferenceName}}</td>
     </tr>
     <tr class="mat-row">
-        <td class="mat-cell">GongStruct</td>
-        <td class="mat-cell">{{classshape.GongStruct ? classshape.GongStruct.Name : ""}}</td>
+        <td class="mat-cell">Reference</td>
+        <td class="mat-cell">{{classshape.Reference ? classshape.Reference.Name : ""}}</td>
     </tr>
     <tr class="mat-row">
         <td class="mat-cell">ShowNbInstances</td>
@@ -44,8 +44,11 @@
         <td class="mat-cell">{{classshape.Heigth}}</td>
     </tr>
     <tr class="mat-row">
-        <td class="mat-cell">ClassshapeTargetType</td>
-        <td class="mat-cell">{{classshape.ClassshapeTargetType}}</td>
+        <td class="mat-cell">IsSelected</td>
+        <td class="mat-cell">
+            <mat-checkbox [checked]="classshape.IsSelected" disabled=true>
+            </mat-checkbox>
+        </td>
     </tr>
 </table>
 <!-- hack to force loading of mat table style an error is generated but it is a know angular issue https://github.com/angular/components/issues/10941 -->

@@ -41,11 +41,12 @@ type PositionInput struct {
 //
 // swagger:route GET /positions positions getPositions
 //
-// Get all positions
+// # Get all positions
 //
 // Responses:
-//    default: genericError
-//        200: positionDBsResponse
+// default: genericError
+//
+//	200: positionDBResponse
 func GetPositions(c *gin.Context) {
 	db := orm.BackRepo.BackRepoPosition.GetDB()
 
@@ -85,14 +86,15 @@ func GetPositions(c *gin.Context) {
 // swagger:route POST /positions positions postPosition
 //
 // Creates a position
-//     Consumes:
-//     - application/json
 //
-//     Produces:
-//     - application/json
+//	Consumes:
+//	- application/json
 //
-//     Responses:
-//       200: positionDBResponse
+//	Produces:
+//	- application/json
+//
+//	Responses:
+//	  200: nodeDBResponse
 func PostPosition(c *gin.Context) {
 	db := orm.BackRepo.BackRepoPosition.GetDB()
 
@@ -124,6 +126,14 @@ func PostPosition(c *gin.Context) {
 		return
 	}
 
+	// get an instance (not staged) from DB instance, and call callback function
+	orm.BackRepo.BackRepoPosition.CheckoutPhaseOneInstance(&positionDB)
+	position := (*orm.BackRepo.BackRepoPosition.Map_PositionDBID_PositionPtr)[positionDB.ID]
+
+	if position != nil {
+		models.AfterCreateFromFront(&models.Stage, position)
+	}
+
 	// a POST is equivalent to a back repo commit increase
 	// (this will be improved with implementation of unit of work design pattern)
 	orm.BackRepo.IncrementPushFromFrontNb()
@@ -138,8 +148,9 @@ func PostPosition(c *gin.Context) {
 // Gets the details for a position.
 //
 // Responses:
-//    default: genericError
-//        200: positionDBResponse
+// default: genericError
+//
+//	200: positionDBResponse
 func GetPosition(c *gin.Context) {
 	db := orm.BackRepo.BackRepoPosition.GetDB()
 
@@ -166,11 +177,12 @@ func GetPosition(c *gin.Context) {
 //
 // swagger:route PATCH /positions/{ID} positions updatePosition
 //
-// Update a position
+// # Update a position
 //
 // Responses:
-//    default: genericError
-//        200: positionDBResponse
+// default: genericError
+//
+//	200: positionDBResponse
 func UpdatePosition(c *gin.Context) {
 	db := orm.BackRepo.BackRepoPosition.GetDB()
 
@@ -211,8 +223,20 @@ func UpdatePosition(c *gin.Context) {
 		return
 	}
 
+	// get an instance (not staged) from DB instance, and call callback function
+	positionNew := new(models.Position)
+	positionDB.CopyBasicFieldsToPosition(positionNew)
+
+	// get stage instance from DB instance, and call callback function
+	positionOld := (*orm.BackRepo.BackRepoPosition.Map_PositionDBID_PositionPtr)[positionDB.ID]
+	if positionOld != nil {
+		models.AfterUpdateFromFront(&models.Stage, positionOld, positionNew)
+	}
+
 	// an UPDATE generates a back repo commit increase
 	// (this will be improved with implementation of unit of work design pattern)
+	// in some cases, with the marshalling of the stage, this operation might
+	// generates a checkout
 	orm.BackRepo.IncrementPushFromFrontNb()
 
 	// return status OK with the marshalling of the the positionDB
@@ -223,10 +247,11 @@ func UpdatePosition(c *gin.Context) {
 //
 // swagger:route DELETE /positions/{ID} positions deletePosition
 //
-// Delete a position
+// # Delete a position
 //
-// Responses:
-//    default: genericError
+// default: genericError
+//
+//	200: positionDBResponse
 func DeletePosition(c *gin.Context) {
 	db := orm.BackRepo.BackRepoPosition.GetDB()
 
@@ -243,6 +268,16 @@ func DeletePosition(c *gin.Context) {
 
 	// with gorm.Model field, default delete is a soft delete. Unscoped() force delete
 	db.Unscoped().Delete(&positionDB)
+
+	// get an instance (not staged) from DB instance, and call callback function
+	positionDeleted := new(models.Position)
+	positionDB.CopyBasicFieldsToPosition(positionDeleted)
+
+	// get stage instance from DB instance, and call callback function
+	positionStaged := (*orm.BackRepo.BackRepoPosition.Map_PositionDBID_PositionPtr)[positionDB.ID]
+	if positionStaged != nil {
+		models.AfterDeleteFromFront(&models.Stage, positionStaged, positionDeleted)
+	}
 
 	// a DELETE generates a back repo commit increase
 	// (this will be improved with implementation of unit of work design pattern)

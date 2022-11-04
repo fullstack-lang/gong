@@ -41,11 +41,12 @@ type NoteInput struct {
 //
 // swagger:route GET /notes notes getNotes
 //
-// Get all notes
+// # Get all notes
 //
 // Responses:
-//    default: genericError
-//        200: noteDBsResponse
+// default: genericError
+//
+//	200: noteDBResponse
 func GetNotes(c *gin.Context) {
 	db := orm.BackRepo.BackRepoNote.GetDB()
 
@@ -85,14 +86,15 @@ func GetNotes(c *gin.Context) {
 // swagger:route POST /notes notes postNote
 //
 // Creates a note
-//     Consumes:
-//     - application/json
 //
-//     Produces:
-//     - application/json
+//	Consumes:
+//	- application/json
 //
-//     Responses:
-//       200: noteDBResponse
+//	Produces:
+//	- application/json
+//
+//	Responses:
+//	  200: nodeDBResponse
 func PostNote(c *gin.Context) {
 	db := orm.BackRepo.BackRepoNote.GetDB()
 
@@ -124,6 +126,14 @@ func PostNote(c *gin.Context) {
 		return
 	}
 
+	// get an instance (not staged) from DB instance, and call callback function
+	orm.BackRepo.BackRepoNote.CheckoutPhaseOneInstance(&noteDB)
+	note := (*orm.BackRepo.BackRepoNote.Map_NoteDBID_NotePtr)[noteDB.ID]
+
+	if note != nil {
+		models.AfterCreateFromFront(&models.Stage, note)
+	}
+
 	// a POST is equivalent to a back repo commit increase
 	// (this will be improved with implementation of unit of work design pattern)
 	orm.BackRepo.IncrementPushFromFrontNb()
@@ -138,8 +148,9 @@ func PostNote(c *gin.Context) {
 // Gets the details for a note.
 //
 // Responses:
-//    default: genericError
-//        200: noteDBResponse
+// default: genericError
+//
+//	200: noteDBResponse
 func GetNote(c *gin.Context) {
 	db := orm.BackRepo.BackRepoNote.GetDB()
 
@@ -166,11 +177,12 @@ func GetNote(c *gin.Context) {
 //
 // swagger:route PATCH /notes/{ID} notes updateNote
 //
-// Update a note
+// # Update a note
 //
 // Responses:
-//    default: genericError
-//        200: noteDBResponse
+// default: genericError
+//
+//	200: noteDBResponse
 func UpdateNote(c *gin.Context) {
 	db := orm.BackRepo.BackRepoNote.GetDB()
 
@@ -211,8 +223,20 @@ func UpdateNote(c *gin.Context) {
 		return
 	}
 
+	// get an instance (not staged) from DB instance, and call callback function
+	noteNew := new(models.Note)
+	noteDB.CopyBasicFieldsToNote(noteNew)
+
+	// get stage instance from DB instance, and call callback function
+	noteOld := (*orm.BackRepo.BackRepoNote.Map_NoteDBID_NotePtr)[noteDB.ID]
+	if noteOld != nil {
+		models.AfterUpdateFromFront(&models.Stage, noteOld, noteNew)
+	}
+
 	// an UPDATE generates a back repo commit increase
 	// (this will be improved with implementation of unit of work design pattern)
+	// in some cases, with the marshalling of the stage, this operation might
+	// generates a checkout
 	orm.BackRepo.IncrementPushFromFrontNb()
 
 	// return status OK with the marshalling of the the noteDB
@@ -223,10 +247,11 @@ func UpdateNote(c *gin.Context) {
 //
 // swagger:route DELETE /notes/{ID} notes deleteNote
 //
-// Delete a note
+// # Delete a note
 //
-// Responses:
-//    default: genericError
+// default: genericError
+//
+//	200: noteDBResponse
 func DeleteNote(c *gin.Context) {
 	db := orm.BackRepo.BackRepoNote.GetDB()
 
@@ -243,6 +268,16 @@ func DeleteNote(c *gin.Context) {
 
 	// with gorm.Model field, default delete is a soft delete. Unscoped() force delete
 	db.Unscoped().Delete(&noteDB)
+
+	// get an instance (not staged) from DB instance, and call callback function
+	noteDeleted := new(models.Note)
+	noteDB.CopyBasicFieldsToNote(noteDeleted)
+
+	// get stage instance from DB instance, and call callback function
+	noteStaged := (*orm.BackRepo.BackRepoNote.Map_NoteDBID_NotePtr)[noteDB.ID]
+	if noteStaged != nil {
+		models.AfterDeleteFromFront(&models.Stage, noteStaged, noteDeleted)
+	}
 
 	// a DELETE generates a back repo commit increase
 	// (this will be improved with implementation of unit of work design pattern)

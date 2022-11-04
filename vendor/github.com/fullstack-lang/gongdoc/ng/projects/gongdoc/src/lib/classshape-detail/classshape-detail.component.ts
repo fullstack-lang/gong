@@ -10,7 +10,6 @@ import { MapOfComponents } from '../map-components'
 import { MapOfSortingComponents } from '../map-components'
 
 // insertion point for imports
-import { ClassshapeTargetTypeSelect, ClassshapeTargetTypeList } from '../ClassshapeTargetType'
 import { ClassdiagramDB } from '../classdiagram-db'
 
 import { Router, RouterState, ActivatedRoute } from '@angular/router';
@@ -37,7 +36,7 @@ export class ClassshapeDetailComponent implements OnInit {
 
 	// insertion point for declarations
 	ShowNbInstancesFormControl: UntypedFormControl = new UntypedFormControl(false);
-	ClassshapeTargetTypeList: ClassshapeTargetTypeSelect[] = []
+	IsSelectedFormControl: UntypedFormControl = new UntypedFormControl(false);
 
 	// the ClassshapeDB of interest
 	classshape: ClassshapeDB = new ClassshapeDB
@@ -108,7 +107,6 @@ export class ClassshapeDetailComponent implements OnInit {
 		)
 
 		// insertion point for initialisation of enums list
-		this.ClassshapeTargetTypeList = ClassshapeTargetTypeList
 	}
 
 	getClassshape(): void {
@@ -137,6 +135,7 @@ export class ClassshapeDetailComponent implements OnInit {
 
 				// insertion point for recovery of form controls value for bool fields
 				this.ShowNbInstancesFormControl.setValue(this.classshape.ShowNbInstances)
+				this.IsSelectedFormControl.setValue(this.classshape.IsSelected)
 			}
 		)
 
@@ -159,17 +158,18 @@ export class ClassshapeDetailComponent implements OnInit {
 			this.classshape.PositionID.Int64 = 0
 			this.classshape.PositionID.Valid = true
 		}
-		if (this.classshape.GongStructID == undefined) {
-			this.classshape.GongStructID = new NullInt64
+		if (this.classshape.ReferenceID == undefined) {
+			this.classshape.ReferenceID = new NullInt64
 		}
-		if (this.classshape.GongStruct != undefined) {
-			this.classshape.GongStructID.Int64 = this.classshape.GongStruct.ID
-			this.classshape.GongStructID.Valid = true
+		if (this.classshape.Reference != undefined) {
+			this.classshape.ReferenceID.Int64 = this.classshape.Reference.ID
+			this.classshape.ReferenceID.Valid = true
 		} else {
-			this.classshape.GongStructID.Int64 = 0
-			this.classshape.GongStructID.Valid = true
+			this.classshape.ReferenceID.Int64 = 0
+			this.classshape.ReferenceID.Valid = true
 		}
 		this.classshape.ShowNbInstances = this.ShowNbInstancesFormControl.value
+		this.classshape.IsSelected = this.IsSelectedFormControl.value
 
 		// save from the front pointer space to the non pointer space for serialization
 

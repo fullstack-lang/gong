@@ -20,11 +20,9 @@ export class AppComponent implements OnInit {
 
   // variable that enables pooling of selected gongstruct
   obsTimer: Observable<number> = timer(1000, 1000)
-  gongdocCommandSingloton: gongdoc.GongdocCommandDB = new gongdoc.GongdocCommandDB
   lastSelectionDate: string = ''
 
-  constructor(private gongdocCommandService: gongdoc.GongdocCommandService,
-    private gongstructSelectionService: test.GongstructSelectionService
+  constructor(
   ) {
 
   }
@@ -34,25 +32,6 @@ export class AppComponent implements OnInit {
     // pool the gongdoc command and check wether a gongstruct has been selected
     this.obsTimer.subscribe(
       currTime => {
-
-        // fetch the command singloton
-        this.gongdocCommandService.getGongdocCommands().subscribe(
-          gongdocCommands => {
-            for (let gongdocCommand_ of gongdocCommands) {
-              this.gongdocCommandSingloton = gongdocCommand_
-            }
-
-            // check the type of command
-            if (this.gongdocCommandSingloton.Command == gongdoc.GongdocCommandType.DIAGRAM_GONGSTRUCT_SELECT) {
-              if (this.lastSelectionDate != this.gongdocCommandSingloton.Date) {
-                // console.log("New user selection of gongstruct " + this.gongdocCommandSingloton.StructName)
-
-                this.gongstructSelectionService.gongstructSelected(this.gongdocCommandSingloton.StructName)
-                this.lastSelectionDate = this.gongdocCommandSingloton.Date
-              }
-            }
-          }
-        )
       }
     )
   }
