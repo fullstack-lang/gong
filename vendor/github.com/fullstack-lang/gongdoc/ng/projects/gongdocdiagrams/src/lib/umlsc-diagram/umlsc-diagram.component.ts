@@ -19,11 +19,11 @@ export class UmlscDiagramComponent implements OnInit {
    * the uml state diagram component is refreshed both by direct input when the user moves vertices or positions
    * otherwise, modification are gotten from the back repo 
    * 
-   * the checkCommitNbTimer polls the commit number of the back repo
+   * the checkCommitNbFromBackTimer polls the commit number of the back repo
    * if the commit number has increased, it pulls the front repo and redraw the diagram
    */
-  checkGongdocCommitNbTimer: Observable<number> = timer(500, 500);
-  lastCommitNb = -1
+  checkGongdocCommitNbFromBackTimer: Observable<number> = timer(500, 500);
+  lastCommitNbFromBack = -1
   lastDiagramId = 0
   currTime: number = 0
 
@@ -56,8 +56,7 @@ export class UmlscDiagramComponent implements OnInit {
     private UmlscService: gongdoc.UmlscService,
     private UmlStateService: gongdoc.UmlStateService,
     private gongdocFrontRepoService: gongdoc.FrontRepoService,
-    private GongdocCommandService: gongdoc.GongdocCommandService,
-    private gongdocCommitNbService: gongdoc.CommitNbService,
+    private gongdocCommitNbFromBackService: gongdoc.CommitNbFromBackService,
   ) {
     // https://stackoverflow.com/questions/54627478/angular-7-routing-to-same-component-but-different-param-not-working
     // this is for routerLink on same component when only queryParameter changes
@@ -96,20 +95,20 @@ export class UmlscDiagramComponent implements OnInit {
       }
     )
 
-    this.subscriptionToCheckCommitTimer = this.checkGongdocCommitNbTimer.subscribe(
+    this.subscriptionToCheckCommitTimer = this.checkGongdocCommitNbFromBackTimer.subscribe(
       currTime => {
         this.currTime = currTime
 
         const id = +this.route.snapshot.paramMap.get('id')!
 
-        this.gongdocCommitNbService.getCommitNb().subscribe(
-          commitNb => {
-            if (this.lastCommitNb < commitNb || this.lastDiagramId != id) {
+        this.gongdocCommitNbFromBackService.getCommitNbFromBack().subscribe(
+          commitNbFromBack => {
+            if (this.lastCommitNbFromBack < commitNbFromBack || this.lastDiagramId != id) {
 
-              console.log("id " + id + ": last commit nb " + this.lastCommitNb + " new: " + commitNb)
+              console.log("id " + id + ": last commit nb " + this.lastCommitNbFromBack + " new: " + commitNbFromBack)
               console.log("id " + id + ": last diagram id " + this.lastDiagramId + " new: " + id)
 
-              this.lastCommitNb = commitNb
+              this.lastCommitNbFromBack = commitNbFromBack
               this.lastDiagramId = id
               this.pullGongdocAndDrawDiagram()
             }
@@ -234,18 +233,6 @@ export class UmlscDiagramComponent implements OnInit {
             }
           )
         }
-      }
-    )
-
-    // get the GongdocCommandSingloton
-    let gongdocCommandSingloton = this.gongdocFrontRepo!.GongdocCommands.get(1)
-    gongdocCommandSingloton!.Command = gongdoc.GongdocCommandType.MARSHALL_DIAGRAM
-    gongdocCommandSingloton!.DiagramName = this.stateChartDiagram!.Name
-    gongdocCommandSingloton!.Date = Date.now().toString()
-
-    this.GongdocCommandService.updateGongdocCommand(gongdocCommandSingloton!).subscribe(
-      GongdocCommand => {
-        console.log("GongdocCommand updated")
       }
     )
   }

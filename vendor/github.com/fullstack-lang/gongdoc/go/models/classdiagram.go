@@ -6,6 +6,7 @@ import (
 	"go/token"
 	"image/color"
 	"log"
+	"math/rand"
 	"os"
 	"path/filepath"
 	"sort"
@@ -30,11 +31,11 @@ type Classdiagram struct {
 	Classshapes []*Classshape
 
 	// list of notes in the diagram
-	Notes []*Note
+	Notes []*NoteShape
 
-	// IsEditable indicates the the drawing can be edited (in development mode)
+	// IsInDrawMode indicates the the drawing can be edited (in development mode)
 	// or not (in production mode)
-	IsEditable bool
+	IsInDrawMode bool
 }
 
 const DiagramMarginX = 10.0
@@ -81,7 +82,7 @@ func (classdiagram *Classdiagram) MarshallAsVariable(file *os.File) error {
 	if len(classdiagram.Classshapes) > 0 {
 		// sort Classshapes
 		sort.Slice(classdiagram.Classshapes[:], func(i, j int) bool {
-			return classdiagram.Classshapes[i].Structname < classdiagram.Classshapes[j].Structname
+			return classdiagram.Classshapes[i].ReferenceName < classdiagram.Classshapes[j].ReferenceName
 		})
 		for _, classshape := range classdiagram.Classshapes {
 			classshape.Marshall(file, 2)
@@ -90,7 +91,7 @@ func (classdiagram *Classdiagram) MarshallAsVariable(file *os.File) error {
 	}
 	fmt.Fprintf(file, "\t},\n")
 
-	fmt.Fprintf(file, "\tNotes: []*uml.Note{\n")
+	fmt.Fprintf(file, "\tNotes: []*uml."+GetGongstructName[NoteShape]()+"{\n")
 
 	if len(classdiagram.Notes) > 0 {
 		// sort Notes
@@ -184,7 +185,7 @@ func (classdiagram *Classdiagram) Unmarshall(modelPkg *gong_models.ModelPkg, exp
 						}
 						for _, expr := range cl.Elts {
 
-							var note *Note
+							var note *NoteShape
 							switch exp := expr.(type) {
 							case *ast.UnaryExpr: // this is a reference to a variable
 								if ident, ok := exp.X.(*ast.Ident); !ok {
@@ -193,7 +194,7 @@ func (classdiagram *Classdiagram) Unmarshall(modelPkg *gong_models.ModelPkg, exp
 									log.Printf("found %s", ident.Name)
 								}
 							case *ast.CompositeLit: // this is a definition
-								note = new(Note)
+								note = new(NoteShape)
 								note.Unmarshall(modelPkg, exp, fset)
 							default:
 								log.Panic("Value shoud be a composite lit or a unary" +
@@ -267,7 +268,7 @@ func (classdiagram *Classdiagram) OutputSVG(path string) {
 
 	mapStringClassshape := make(map[string]*Classshape)
 	for _, classshape := range classdiagram.Classshapes {
-		mapStringClassshape[classshape.Structname] = classshape
+		mapStringClassshape[classshape.ReferenceName] = classshape
 	}
 
 	dejaVuSerif := canvas.NewFontFamily("dejavu-serif")
@@ -353,7 +354,7 @@ func (classdiagram *Classdiagram) OutputSVG(path string) {
 		bottomLeftX := classshape.Position.X
 		bottomLeftY := ModelToSVGRectangleYOrigin(classshape.Position.Y, classshape.Heigth)
 
-		text := canvas.NewTextLine(ff, classshape.Structname, canvas.TextAlign(canvas.Left)) // simple text line
+		text := canvas.NewTextLine(ff, classshape.ReferenceName, canvas.TextAlign(canvas.Left)) // simple text line
 		p := canvas.Rectangle(classshape.Width, classshape.Heigth)
 
 		// draw the line below the name of the class
@@ -376,7 +377,7 @@ func (classdiagram *Classdiagram) OutputSVG(path string) {
 	c.WriteFile(fmt.Sprintf(filepath.Join(path, "%s.svg"), classdiagram.Name), svg.Writer)
 }
 
-func (classDiagram *Classdiagram) Marshall(pkgelt *Pkgelt, pkgPath string) error {
+func (classDiagram *Classdiagram) Marshall(pkgelt *DiagramPackage, pkgPath string) error {
 
 	// open file
 
@@ -406,4 +407,87 @@ func (classDiagram *Classdiagram) Marshall(pkgelt *Pkgelt, pkgPath string) error
 	}
 
 	return err
+}
+
+func (classdiagram *Classdiagram) RemoveClassshape(classshapeName string) {
+
+	foundClassshape := false
+	var classshape *Classshape
+	for _, _classshape := range classdiagram.Classshapes {
+
+		// strange behavior when the classshape is remove within the loop
+		if _classshape.ReferenceName == classshapeName && !foundClassshape {
+			classshape = _classshape
+		}
+	}
+
+	classdiagram.Classshapes = remove(classdiagram.Classshapes, classshape)
+	classshape.Position.Unstage()
+	classshape.Unstage()
+
+	// remove links that go from this classshape
+	for _, link := range classshape.Links {
+		link.Middlevertice.Unstage()
+		link.Unstage()
+	}
+	classshape.Links = []*Link{}
+
+	// remove links that go to this classshape
+	for _, fromClassshape := range classdiagram.Classshapes {
+
+		newSliceOfLinks := make([]*Link, 0)
+		for _, link := range fromClassshape.Links {
+			if link.Fieldtypename == classshape.ReferenceName {
+				link.Middlevertice.Unstage()
+				link.Unstage()
+			} else {
+				newSliceOfLinks = append(newSliceOfLinks, link)
+			}
+		}
+		fromClassshape.Links = newSliceOfLinks
+	}
+
+	// remove fields of the classshape
+	for _, field := range classshape.Fields {
+		field.Unstage()
+	}
+
+	Stage.Commit()
+}
+
+func (classdiagram *Classdiagram) AddClassshape(classshapeName string, referenceType ReferenceType) {
+
+	var classshape Classshape
+	classshape.Name = classdiagram.Name + "-" + classshapeName
+	classshape.ReferenceName = classshapeName
+	classshape.Width = 240
+	classshape.Heigth = 63
+
+	// attach GongStruct to classshape
+	var reference *Reference
+	var ok bool
+	reference, ok = (*GetGongstructInstancesMap[Reference]())[classshape.ReferenceName]
+	if ok {
+		classshape.ShowNbInstances = true
+		classshape.NbInstances = reference.NbInstances
+	} else {
+		reference = (&Reference{Name: classshape.ReferenceName}).Stage()
+		reference.Type = referenceType
+	}
+	classshape.Reference = reference
+	classshape.Stage()
+
+	var position Position
+	position.Name = "Pos-" + classshape.Name
+	position.X = float64(int(rand.Float32()*100) + 10)
+	position.Y = float64(int(rand.Float32()*100) + 10)
+	classshape.Position = &position
+	position.Stage()
+
+	classdiagram.Classshapes = append(classdiagram.Classshapes, &classshape)
+	Stage.Commit()
+}
+
+func (classdiagram *Classdiagram) NodeUpdate() {
+
 }

@@ -10,7 +10,7 @@ import { MapOfComponents } from '../map-components'
 import { MapOfSortingComponents } from '../map-components'
 
 // insertion point for imports
-import { PkgeltDB } from '../pkgelt-db'
+import { DiagramPackageDB } from '../diagrampackage-db'
 
 import { Router, RouterState, ActivatedRoute } from '@angular/router';
 
@@ -24,7 +24,7 @@ enum UmlscDetailComponentState {
 	CREATE_INSTANCE,
 	UPDATE_INSTANCE,
 	// insertion point for declarations of enum values of state
-	CREATE_INSTANCE_WITH_ASSOCIATION_Pkgelt_Umlscs_SET,
+	CREATE_INSTANCE_WITH_ASSOCIATION_DiagramPackage_Umlscs_SET,
 }
 
 @Component({
@@ -35,6 +35,7 @@ enum UmlscDetailComponentState {
 export class UmlscDetailComponent implements OnInit {
 
 	// insertion point for declarations
+	IsInDrawModeFormControl: UntypedFormControl = new UntypedFormControl(false);
 
 	// the UmlscDB of interest
 	umlsc: UmlscDB = new UmlscDB
@@ -84,8 +85,8 @@ export class UmlscDetailComponent implements OnInit {
 				switch (this.originStructFieldName) {
 					// insertion point for state computation
 					case "Umlscs":
-						// console.log("Umlsc" + " is instanciated with back pointer to instance " + this.id + " Pkgelt association Umlscs")
-						this.state = UmlscDetailComponentState.CREATE_INSTANCE_WITH_ASSOCIATION_Pkgelt_Umlscs_SET
+						// console.log("Umlsc" + " is instanciated with back pointer to instance " + this.id + " DiagramPackage association Umlscs")
+						this.state = UmlscDetailComponentState.CREATE_INSTANCE_WITH_ASSOCIATION_DiagramPackage_Umlscs_SET
 						break;
 					default:
 						console.log(this.originStructFieldName + " is unkown association")
@@ -123,15 +124,16 @@ export class UmlscDetailComponent implements OnInit {
 						this.umlsc = umlsc!
 						break;
 					// insertion point for init of association field
-					case UmlscDetailComponentState.CREATE_INSTANCE_WITH_ASSOCIATION_Pkgelt_Umlscs_SET:
+					case UmlscDetailComponentState.CREATE_INSTANCE_WITH_ASSOCIATION_DiagramPackage_Umlscs_SET:
 						this.umlsc = new (UmlscDB)
-						this.umlsc.Pkgelt_Umlscs_reverse = frontRepo.Pkgelts.get(this.id)!
+						this.umlsc.DiagramPackage_Umlscs_reverse = frontRepo.DiagramPackages.get(this.id)!
 						break;
 					default:
 						console.log(this.state + " is unkown state")
 				}
 
 				// insertion point for recovery of form controls value for bool fields
+				this.IsInDrawModeFormControl.setValue(this.umlsc.IsInDrawMode)
 			}
 		)
 
@@ -144,21 +146,22 @@ export class UmlscDetailComponent implements OnInit {
 		// pointers fields, after the translation, are nulled in order to perform serialization
 
 		// insertion point for translation/nullation of each field
+		this.umlsc.IsInDrawMode = this.IsInDrawModeFormControl.value
 
 		// save from the front pointer space to the non pointer space for serialization
 
 		// insertion point for translation/nullation of each pointers
-		if (this.umlsc.Pkgelt_Umlscs_reverse != undefined) {
-			if (this.umlsc.Pkgelt_UmlscsDBID == undefined) {
-				this.umlsc.Pkgelt_UmlscsDBID = new NullInt64
+		if (this.umlsc.DiagramPackage_Umlscs_reverse != undefined) {
+			if (this.umlsc.DiagramPackage_UmlscsDBID == undefined) {
+				this.umlsc.DiagramPackage_UmlscsDBID = new NullInt64
 			}
-			this.umlsc.Pkgelt_UmlscsDBID.Int64 = this.umlsc.Pkgelt_Umlscs_reverse.ID
-			this.umlsc.Pkgelt_UmlscsDBID.Valid = true
-			if (this.umlsc.Pkgelt_UmlscsDBID_Index == undefined) {
-				this.umlsc.Pkgelt_UmlscsDBID_Index = new NullInt64
+			this.umlsc.DiagramPackage_UmlscsDBID.Int64 = this.umlsc.DiagramPackage_Umlscs_reverse.ID
+			this.umlsc.DiagramPackage_UmlscsDBID.Valid = true
+			if (this.umlsc.DiagramPackage_UmlscsDBID_Index == undefined) {
+				this.umlsc.DiagramPackage_UmlscsDBID_Index = new NullInt64
 			}
-			this.umlsc.Pkgelt_UmlscsDBID_Index.Valid = true
-			this.umlsc.Pkgelt_Umlscs_reverse = new PkgeltDB // very important, otherwise, circular JSON
+			this.umlsc.DiagramPackage_UmlscsDBID_Index.Valid = true
+			this.umlsc.DiagramPackage_Umlscs_reverse = new DiagramPackageDB // very important, otherwise, circular JSON
 		}
 
 		switch (this.state) {

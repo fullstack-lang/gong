@@ -33,17 +33,17 @@
             </td>
         </ng-container>
         <!-- -->
-        <ng-container matColumnDef="Structname">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> Structname </th>
+        <ng-container matColumnDef="ReferenceName">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> ReferenceName </th>
             <td mat-cell *matCellDef="let Classshape">
-                {{Classshape.Structname}}
+                {{Classshape.ReferenceName}}
             </td>
         </ng-container>
         <!-- -->
-        <ng-container matColumnDef="GongStruct">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> GongStruct </th>
+        <ng-container matColumnDef="Reference">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Reference </th>
             <td mat-cell *matCellDef="let Classshape">
-                {{ Classshape.GongStruct ? Classshape.GongStruct.Name : ''}}
+                {{ Classshape.Reference ? Classshape.Reference.Name : ''}}
             </td>
         </ng-container>
         <!-- -->
@@ -75,10 +75,10 @@
             </td>
         </ng-container>
         <!-- -->
-        <ng-container matColumnDef="ClassshapeTargetType">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> ClassshapeTargetType </th>
+        <ng-container matColumnDef="IsSelected">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> IsSelected </th>
             <td mat-cell *matCellDef="let Classshape">
-                {{Classshape.ClassshapeTargetType}}
+                <mat-checkbox [checked]="Classshape.IsSelected" disabled=true></mat-checkbox>
             </td>
         </ng-container>
         <!-- -->

@@ -5,8 +5,8 @@ import { FormControl } from '@angular/forms';
 import { ClassdiagramDB } from 'gongdoc'
 import { ClassdiagramService } from 'gongdoc'
 
-import { PkgeltDB } from 'gongdoc'
-import { PkgeltService } from 'gongdoc'
+import { DiagramPackageDB } from 'gongdoc'
+import { DiagramPackageService } from 'gongdoc'
 
 
 
@@ -39,7 +39,7 @@ export class ClassdiagramDetailComponent implements OnInit {
 	frontRepo: FrontRepo = new FrontRepo
 
 	constructor(
-		private pkgeltService: PkgeltService,
+		private diagramPackageService: DiagramPackageService,
 		private classdiagramService: ClassdiagramService,
 		private frontRepoService: FrontRepoService,
 		public dialog: MatDialog,
@@ -103,7 +103,7 @@ export class ClassdiagramDetailComponent implements OnInit {
 
 		} else {
 
-			let singlotonPkg = this.frontRepo.Pkgelts_array[0]
+			let singlotonPkg = this.frontRepo.DiagramPackages_array[0]
 			if (singlotonPkg == undefined) {
 				console.log("problem !")
 				return
@@ -112,9 +112,9 @@ export class ClassdiagramDetailComponent implements OnInit {
 				singlotonPkg.Classdiagrams = new Array<ClassdiagramDB>()
 			}
 			singlotonPkg.Classdiagrams.concat(this.classdiagram)
-			this.classdiagram.Pkgelt_ClassdiagramsDBID = new NullInt64
-			this.classdiagram.Pkgelt_ClassdiagramsDBID.Int64 = singlotonPkg.ID
-			this.classdiagram.Pkgelt_ClassdiagramsDBID.Valid = true
+			this.classdiagram.DiagramPackage_ClassdiagramsDBID = new NullInt64
+			this.classdiagram.DiagramPackage_ClassdiagramsDBID.Int64 = singlotonPkg.ID
+			this.classdiagram.DiagramPackage_ClassdiagramsDBID.Valid = true
 
 			this.classdiagramService.postClassdiagram(this.classdiagram)
 				.subscribe(classdiagram => {

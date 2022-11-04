@@ -399,6 +399,7 @@ func (backRepo *BackRepoStruct) CommitLink(link *models.Link) {
 	if id, ok := (*backRepo.BackRepoLink.Map_LinkPtr_LinkDBID)[link]; ok {
 		backRepo.BackRepoLink.CommitPhaseTwoInstance(backRepo, id, link)
 	}
+	backRepo.CommitFromBackNb = backRepo.CommitFromBackNb + 1
 }
 
 // CommitLink allows checkout of a single link (if already staged and with a BackRepo id)

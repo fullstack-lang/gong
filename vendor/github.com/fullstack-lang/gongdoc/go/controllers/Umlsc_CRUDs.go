@@ -41,11 +41,12 @@ type UmlscInput struct {
 //
 // swagger:route GET /umlscs umlscs getUmlscs
 //
-// Get all umlscs
+// # Get all umlscs
 //
 // Responses:
-//    default: genericError
-//        200: umlscDBsResponse
+// default: genericError
+//
+//	200: umlscDBResponse
 func GetUmlscs(c *gin.Context) {
 	db := orm.BackRepo.BackRepoUmlsc.GetDB()
 
@@ -85,14 +86,15 @@ func GetUmlscs(c *gin.Context) {
 // swagger:route POST /umlscs umlscs postUmlsc
 //
 // Creates a umlsc
-//     Consumes:
-//     - application/json
 //
-//     Produces:
-//     - application/json
+//	Consumes:
+//	- application/json
 //
-//     Responses:
-//       200: umlscDBResponse
+//	Produces:
+//	- application/json
+//
+//	Responses:
+//	  200: nodeDBResponse
 func PostUmlsc(c *gin.Context) {
 	db := orm.BackRepo.BackRepoUmlsc.GetDB()
 
@@ -124,6 +126,14 @@ func PostUmlsc(c *gin.Context) {
 		return
 	}
 
+	// get an instance (not staged) from DB instance, and call callback function
+	orm.BackRepo.BackRepoUmlsc.CheckoutPhaseOneInstance(&umlscDB)
+	umlsc := (*orm.BackRepo.BackRepoUmlsc.Map_UmlscDBID_UmlscPtr)[umlscDB.ID]
+
+	if umlsc != nil {
+		models.AfterCreateFromFront(&models.Stage, umlsc)
+	}
+
 	// a POST is equivalent to a back repo commit increase
 	// (this will be improved with implementation of unit of work design pattern)
 	orm.BackRepo.IncrementPushFromFrontNb()
@@ -138,8 +148,9 @@ func PostUmlsc(c *gin.Context) {
 // Gets the details for a umlsc.
 //
 // Responses:
-//    default: genericError
-//        200: umlscDBResponse
+// default: genericError
+//
+//	200: umlscDBResponse
 func GetUmlsc(c *gin.Context) {
 	db := orm.BackRepo.BackRepoUmlsc.GetDB()
 
@@ -166,11 +177,12 @@ func GetUmlsc(c *gin.Context) {
 //
 // swagger:route PATCH /umlscs/{ID} umlscs updateUmlsc
 //
-// Update a umlsc
+// # Update a umlsc
 //
 // Responses:
-//    default: genericError
-//        200: umlscDBResponse
+// default: genericError
+//
+//	200: umlscDBResponse
 func UpdateUmlsc(c *gin.Context) {
 	db := orm.BackRepo.BackRepoUmlsc.GetDB()
 
@@ -211,8 +223,20 @@ func UpdateUmlsc(c *gin.Context) {
 		return
 	}
 
+	// get an instance (not staged) from DB instance, and call callback function
+	umlscNew := new(models.Umlsc)
+	umlscDB.CopyBasicFieldsToUmlsc(umlscNew)
+
+	// get stage instance from DB instance, and call callback function
+	umlscOld := (*orm.BackRepo.BackRepoUmlsc.Map_UmlscDBID_UmlscPtr)[umlscDB.ID]
+	if umlscOld != nil {
+		models.AfterUpdateFromFront(&models.Stage, umlscOld, umlscNew)
+	}
+
 	// an UPDATE generates a back repo commit increase
 	// (this will be improved with implementation of unit of work design pattern)
+	// in some cases, with the marshalling of the stage, this operation might
+	// generates a checkout
 	orm.BackRepo.IncrementPushFromFrontNb()
 
 	// return status OK with the marshalling of the the umlscDB
@@ -223,10 +247,11 @@ func UpdateUmlsc(c *gin.Context) {
 //
 // swagger:route DELETE /umlscs/{ID} umlscs deleteUmlsc
 //
-// Delete a umlsc
+// # Delete a umlsc
 //
-// Responses:
-//    default: genericError
+// default: genericError
+//
+//	200: umlscDBResponse
 func DeleteUmlsc(c *gin.Context) {
 	db := orm.BackRepo.BackRepoUmlsc.GetDB()
 
@@ -243,6 +268,16 @@ func DeleteUmlsc(c *gin.Context) {
 
 	// with gorm.Model field, default delete is a soft delete. Unscoped() force delete
 	db.Unscoped().Delete(&umlscDB)
+
+	// get an instance (not staged) from DB instance, and call callback function
+	umlscDeleted := new(models.Umlsc)
+	umlscDB.CopyBasicFieldsToUmlsc(umlscDeleted)
+
+	// get stage instance from DB instance, and call callback function
+	umlscStaged := (*orm.BackRepo.BackRepoUmlsc.Map_UmlscDBID_UmlscPtr)[umlscDB.ID]
+	if umlscStaged != nil {
+		models.AfterDeleteFromFront(&models.Stage, umlscStaged, umlscDeleted)
+	}
 
 	// a DELETE generates a back repo commit increase
 	// (this will be improved with implementation of unit of work design pattern)

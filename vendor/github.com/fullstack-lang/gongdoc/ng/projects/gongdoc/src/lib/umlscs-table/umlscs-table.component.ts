@@ -74,9 +74,12 @@ export class UmlscsTableComponent implements OnInit {
         case 'Activestate':
           return umlscDB.Activestate;
 
-        case 'Pkgelt_Umlscs':
-          if (this.frontRepo.Pkgelts.get(umlscDB.Pkgelt_UmlscsDBID.Int64) != undefined) {
-            return this.frontRepo.Pkgelts.get(umlscDB.Pkgelt_UmlscsDBID.Int64)!.Name
+        case 'IsInDrawMode':
+          return umlscDB.IsInDrawMode?"true":"false";
+
+        case 'DiagramPackage_Umlscs':
+          if (this.frontRepo.DiagramPackages.get(umlscDB.DiagramPackage_UmlscsDBID.Int64) != undefined) {
+            return this.frontRepo.DiagramPackages.get(umlscDB.DiagramPackage_UmlscsDBID.Int64)!.Name
           } else {
             return ""
           }
@@ -97,8 +100,8 @@ export class UmlscsTableComponent implements OnInit {
       // insertion point for merging of fields
       mergedContent += umlscDB.Name.toLowerCase()
       mergedContent += umlscDB.Activestate.toLowerCase()
-      if (umlscDB.Pkgelt_UmlscsDBID.Int64 != 0) {
-        mergedContent += this.frontRepo.Pkgelts.get(umlscDB.Pkgelt_UmlscsDBID.Int64)!.Name.toLowerCase()
+      if (umlscDB.DiagramPackage_UmlscsDBID.Int64 != 0) {
+        mergedContent += this.frontRepo.DiagramPackages.get(umlscDB.DiagramPackage_UmlscsDBID.Int64)!.Name.toLowerCase()
       }
 
 
@@ -153,13 +156,15 @@ export class UmlscsTableComponent implements OnInit {
       this.displayedColumns = ['ID', 'Edit', 'Delete', // insertion point for columns to display
         "Name",
         "Activestate",
-        "Pkgelt_Umlscs",
+        "IsInDrawMode",
+        "DiagramPackage_Umlscs",
       ]
     } else {
       this.displayedColumns = ['select', 'ID', // insertion point for columns to display
         "Name",
         "Activestate",
-        "Pkgelt_Umlscs",
+        "IsInDrawMode",
+        "DiagramPackage_Umlscs",
       ]
       this.selection = new SelectionModel<UmlscDB>(allowMultiSelect, this.initialSelection);
     }
