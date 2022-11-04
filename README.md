@@ -1,6 +1,6 @@
 - [1. Gong](#1-gong)
   - [1.1. About Gong](#11-about-gong)
-  - [1.2. Gong is inspired by similar fullstack frameworks](#12-gong-is-inspired-by-similar-fullstack-frameworks)
+  - [1.2. Gong aims low complexity](#12-gong-aims-low-complexity)
   - [1.3. Gong is intended for system engineering tooling](#13-gong-is-intended-for-system-engineering-tooling)
   - [1.4. Prerequisite](#14-prerequisite)
     - [1.4.1. Go](#141-go)
@@ -33,22 +33,18 @@
 
 ![gong logo](docs/images/gong%20logo.svg)
 
-With gong, a web application is a set of stacks. Each stack, based on go and angular, has its own data model.
+With gong, a web application is a set of stacks. Each stack is based on go and angular. Each stack has its own data model.
 
 *Gong is a work in progress. API of the framework is not yet stabilized/baselined*
 
 ## 1.1. About Gong
 
-Gong (go + ng) is a framework for rapid web application development (a.k.a. full stack development) based on go and angular. The go back-end is cgo free and uses [gin](https://github.com/gin-gonic/gin), [gorm](https://gorm.io/index.html) and sqlite. The angular front-end uses [angular material](https://material.angular.io/).
-
-The video shows the generation of an hello world application with gong.
-
-https://user-images.githubusercontent.com/10234087/168422064-3def90ef-e644-46d3-be5e-532be4a28ed2.mp4
+Gong (go + ng) is a framework for rapid web application development (a.k.a. full stack development) based on go and angular. The go back-end uses [gin](https://github.com/gin-gonic/gin), [gorm](https://gorm.io/index.html) and sqlite (a pure go sqlite, no cgo needed). The angular front-end uses [angular material](https://material.angular.io/).
 
 The unit of development in gong is the **gong stack** (a "stack" in the rest of this document). A stack can import other stacks (both the front end and the back end of a stack are integrated as a whole). The granularity of a stack is similar to an angular components. There are available stacks for [jointjs](https://www.jointjs.com/) and [leaflet](https://leafletjs.com/).
 
 
-## 1.2. Gong is inspired by similar fullstack frameworks
+## 1.2. Gong aims low complexity
 
 Gong fullstack approach was inspired by [Ruby on Rails](https://rubyonrails.org/) and a more generaly the idea that complexity facing the programmer should be carefuly managed, as it is described in [conceptual compression concept](https://m.signalvnoise.com/conceptual-compression-means-beginners-dont-need-to-know-sql-hallelujah/) and [Rob Pike's design of Go regarding complexity](https://www.dotconferences.com/2015/11/rob-pike-simplicity-is-complicated).
 
@@ -66,7 +62,7 @@ the developement of the system of interest, therefore the need for fast iteratio
 
 ### 1.4.1. Go
 
-go version equal or above 1.18 is mandatory (cf. use of `embed` package & generics). See https://golang.org for installation.
+go version equal or above 1.19 is mandatory (cf. use of `embed` package & generics). See https://golang.org for installation.
 
 Gong uses sqlite3 in a cgo free configuration by default.
 

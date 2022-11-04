@@ -58,7 +58,7 @@ var StateStore StateMap = make(map[string]*UmlState, 0)
 func (state *UmlState) Unmarshall(expr ast.Expr, fset *token.FileSet) {
 
 	// expression should be a composite literal expression
-	// models.State{Position: uml.Position{X: 10, Y: 12}, Struct: &(models.Point{})}
+	// models.State{Position: uml.Position{X: 10, Y: 12}, ReferencedGong: &(models.Point{})}
 	var ok bool
 	var cl *ast.CompositeLit
 	if cl, ok = expr.(*ast.CompositeLit); !ok {

@@ -54,12 +54,15 @@
         <textarea name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="umlsc.Activestate"></textarea>
     </mat-form-field>
 
+    <!-- -->
+    <mat-checkbox [formControl]="IsInDrawModeFormControl">IsInDrawMode</mat-checkbox>
+
     <mat-form-field class="detail-full-width">
-        <mat-label>(Pkgelt) Umlscs</mat-label>
-        <mat-select [compareWith]="compareObjects" [(ngModel)]="umlsc.Pkgelt_Umlscs_reverse" [ngModelOptions]="{standalone: true}">
+        <mat-label>(DiagramPackage) Umlscs</mat-label>
+        <mat-select [compareWith]="compareObjects" [(ngModel)]="umlsc.DiagramPackage_Umlscs_reverse" [ngModelOptions]="{standalone: true}">
             <mat-option>None</mat-option>
-            <mat-option *ngFor="let pkgelt of frontRepo.Pkgelts_array" [value]="pkgelt">
-                {{pkgelt.Name}}
+            <mat-option *ngFor="let diagrampackage of frontRepo.DiagramPackages_array" [value]="diagrampackage">
+                {{diagrampackage.Name}}
             </mat-option>
         </mat-select>
     </mat-form-field>

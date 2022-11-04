@@ -46,11 +46,11 @@ type UmlscAPI struct {
 type UmlscPointersEnconding struct {
 	// insertion for pointer fields encoding declaration
 
-	// Implementation of a reverse ID for field Pkgelt{}.Umlscs []*Umlsc
-	Pkgelt_UmlscsDBID sql.NullInt64
+	// Implementation of a reverse ID for field DiagramPackage{}.Umlscs []*Umlsc
+	DiagramPackage_UmlscsDBID sql.NullInt64
 
 	// implementation of the index of the withing the slice
-	Pkgelt_UmlscsDBID_Index sql.NullInt64
+	DiagramPackage_UmlscsDBID_Index sql.NullInt64
 }
 
 // UmlscDB describes a umlsc in the database
@@ -69,6 +69,10 @@ type UmlscDB struct {
 
 	// Declation for basic field umlscDB.Activestate
 	Activestate_Data sql.NullString
+
+	// Declation for basic field umlscDB.IsInDrawMode
+	// provide the sql storage for the boolan
+	IsInDrawMode_Data sql.NullBool
 	// encoding of pointers
 	UmlscPointersEnconding
 }
@@ -93,6 +97,8 @@ type UmlscWOP struct {
 	Name string `xlsx:"1"`
 
 	Activestate string `xlsx:"2"`
+
+	IsInDrawMode bool `xlsx:"3"`
 	// insertion for WOP pointer fields
 }
 
@@ -101,6 +107,7 @@ var Umlsc_Fields = []string{
 	"ID",
 	"Name",
 	"Activestate",
+	"IsInDrawMode",
 }
 
 type BackRepoUmlscStruct struct {
@@ -404,6 +411,7 @@ func (backRepo *BackRepoStruct) CommitUmlsc(umlsc *models.Umlsc) {
 	if id, ok := (*backRepo.BackRepoUmlsc.Map_UmlscPtr_UmlscDBID)[umlsc]; ok {
 		backRepo.BackRepoUmlsc.CommitPhaseTwoInstance(backRepo, id, umlsc)
 	}
+	backRepo.CommitFromBackNb = backRepo.CommitFromBackNb + 1
 }
 
 // CommitUmlsc allows checkout of a single umlsc (if already staged and with a BackRepo id)
@@ -433,6 +441,9 @@ func (umlscDB *UmlscDB) CopyBasicFieldsFromUmlsc(umlsc *models.Umlsc) {
 
 	umlscDB.Activestate_Data.String = umlsc.Activestate
 	umlscDB.Activestate_Data.Valid = true
+
+	umlscDB.IsInDrawMode_Data.Bool = umlsc.IsInDrawMode
+	umlscDB.IsInDrawMode_Data.Valid = true
 }
 
 // CopyBasicFieldsFromUmlscWOP
@@ -444,6 +455,9 @@ func (umlscDB *UmlscDB) CopyBasicFieldsFromUmlscWOP(umlsc *UmlscWOP) {
 
 	umlscDB.Activestate_Data.String = umlsc.Activestate
 	umlscDB.Activestate_Data.Valid = true
+
+	umlscDB.IsInDrawMode_Data.Bool = umlsc.IsInDrawMode
+	umlscDB.IsInDrawMode_Data.Valid = true
 }
 
 // CopyBasicFieldsToUmlsc
@@ -451,6 +465,7 @@ func (umlscDB *UmlscDB) CopyBasicFieldsToUmlsc(umlsc *models.Umlsc) {
 	// insertion point for checkout of basic fields (back repo to stage)
 	umlsc.Name = umlscDB.Name_Data.String
 	umlsc.Activestate = umlscDB.Activestate_Data.String
+	umlsc.IsInDrawMode = umlscDB.IsInDrawMode_Data.Bool
 }
 
 // CopyBasicFieldsToUmlscWOP
@@ -459,6 +474,7 @@ func (umlscDB *UmlscDB) CopyBasicFieldsToUmlscWOP(umlsc *UmlscWOP) {
 	// insertion point for checkout of basic fields (back repo to stage)
 	umlsc.Name = umlscDB.Name_Data.String
 	umlsc.Activestate = umlscDB.Activestate_Data.String
+	umlsc.IsInDrawMode = umlscDB.IsInDrawMode_Data.Bool
 }
 
 // Backup generates a json file from a slice of all UmlscDB instances in the backrepo
@@ -617,9 +633,9 @@ func (backRepoUmlsc *BackRepoUmlscStruct) RestorePhaseTwo() {
 
 		// insertion point for reindexing pointers encoding
 		// This reindex umlsc.Umlscs
-		if umlscDB.Pkgelt_UmlscsDBID.Int64 != 0 {
-			umlscDB.Pkgelt_UmlscsDBID.Int64 =
-				int64(BackRepoPkgeltid_atBckpTime_newID[uint(umlscDB.Pkgelt_UmlscsDBID.Int64)])
+		if umlscDB.DiagramPackage_UmlscsDBID.Int64 != 0 {
+			umlscDB.DiagramPackage_UmlscsDBID.Int64 =
+				int64(BackRepoDiagramPackageid_atBckpTime_newID[uint(umlscDB.DiagramPackage_UmlscsDBID.Int64)])
 		}
 
 		// update databse with new index encoding

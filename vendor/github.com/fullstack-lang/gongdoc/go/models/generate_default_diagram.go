@@ -13,7 +13,7 @@ import (
 func GenGoDefaultDiagram(modelPkg *gong_models.ModelPkg, pkgPath string) {
 
 	// generate diagrams for documentation
-	var pkgelt Pkgelt
+	var pkgelt DiagramPackage
 	// parse the diagram package
 	diagramPkgPath := filepath.Join(pkgPath, "../diagrams")
 
@@ -30,7 +30,7 @@ func GenGoDefaultDiagram(modelPkg *gong_models.ModelPkg, pkgPath string) {
 
 	// generates default diagram
 	{
-		var pkgelt_default Pkgelt
+		var pkgelt_default DiagramPackage
 		pkgelt_default.Name = modelPkg.PkgPath
 
 		defaultClassDiagramm := new(Classdiagram)
@@ -40,11 +40,10 @@ func GenGoDefaultDiagram(modelPkg *gong_models.ModelPkg, pkgPath string) {
 		idx := 0.0
 		for _, _enum := range modelPkg.GongEnums {
 			classshape := new(Classshape)
-			classshape.ClassshapeTargetType = ENUM
 			classshape.Name = _enum.Name
 
 			classshape.Position = new(Position)
-			classshape.Structname = _enum.Name
+			classshape.ReferenceName = _enum.Name
 
 			classshape.Position.X = 40.0 + 300.0*idx
 			idx = idx + 1
@@ -64,12 +63,11 @@ func GenGoDefaultDiagram(modelPkg *gong_models.ModelPkg, pkgPath string) {
 		idx = 0.0
 		for _, _struct := range modelPkg.GongStructs {
 			classshape := new(Classshape)
-			classshape.ClassshapeTargetType = STRUCT
 
 			classshape.Name = _struct.Name
 
 			classshape.Position = new(Position)
-			classshape.Structname = _struct.Name
+			classshape.ReferenceName = _struct.Name
 
 			classshape.Position.X = 40.0 + 300.0*idx
 			idx = idx + 1.0

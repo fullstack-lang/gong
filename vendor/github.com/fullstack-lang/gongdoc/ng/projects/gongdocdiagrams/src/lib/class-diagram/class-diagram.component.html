@@ -1,27 +1,3 @@
-<mat-toolbar>
-    <span>Class diagram editor {{classdiagram.Name}} -
-        commits {{lastCommitNb}}</span>
-    <span class="example-spacer"></span>
-    <div *ngIf="editable">
-        Editable ?
-    </div>
-    <div>
-        &nbsp;
-    </div>
-    <div *ngIf="editable">
-        <mat-slide-toggle [(ngModel)]="classdiagram.IsEditable" [color]="color" (change)="toggle($event)">
-            {{classdiagram.IsEditable}}
-        </mat-slide-toggle>
-    </div>
-    <div>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    </div>
-    <button mat-button (click)='saveClassdiagram()' *ngIf="editable">
-        <mat-icon>
-            save
-        </mat-icon>
-    </button>
-</mat-toolbar>
 <div class="class-diagram__box">
     <div id="jointjs-holder"></div>
 </div>
