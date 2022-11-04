@@ -14,8 +14,8 @@ import { SelectionModel } from '@angular/cdk/collections';
 const allowMultiSelect = true;
 
 import { Router, RouterState } from '@angular/router';
-import { NoteDB } from '../note-db'
-import { NoteService } from '../note.service'
+import { NoteShapeDB } from '../noteshape-db'
+import { NoteShapeService } from '../noteshape.service'
 
 // insertion point for additional imports
 
@@ -29,24 +29,24 @@ enum TableComponentMode {
 
 // generated table component
 @Component({
-  selector: 'app-notestable',
-  templateUrl: './notes-table.component.html',
-  styleUrls: ['./notes-table.component.css'],
+  selector: 'app-noteshapestable',
+  templateUrl: './noteshapes-table.component.html',
+  styleUrls: ['./noteshapes-table.component.css'],
 })
-export class NotesTableComponent implements OnInit {
+export class NoteShapesTableComponent implements OnInit {
 
   // mode at invocation
   mode: TableComponentMode = TableComponentMode.DISPLAY_MODE
 
-  // used if the component is called as a selection component of Note instances
-  selection: SelectionModel<NoteDB> = new (SelectionModel)
-  initialSelection = new Array<NoteDB>()
+  // used if the component is called as a selection component of NoteShape instances
+  selection: SelectionModel<NoteShapeDB> = new (SelectionModel)
+  initialSelection = new Array<NoteShapeDB>()
 
   // the data source for the table
-  notes: NoteDB[] = []
-  matTableDataSource: MatTableDataSource<NoteDB> = new (MatTableDataSource)
+  noteshapes: NoteShapeDB[] = []
+  matTableDataSource: MatTableDataSource<NoteShapeDB> = new (MatTableDataSource)
 
-  // front repo, that will be referenced by this.notes
+  // front repo, that will be referenced by this.noteshapes
   frontRepo: FrontRepo = new (FrontRepo)
 
   // displayedColumns is referenced by the MatTable component for specify what columns
@@ -62,36 +62,36 @@ export class NotesTableComponent implements OnInit {
   ngAfterViewInit() {
 
     // enable sorting on all fields (including pointers and reverse pointer)
-    this.matTableDataSource.sortingDataAccessor = (noteDB: NoteDB, property: string) => {
+    this.matTableDataSource.sortingDataAccessor = (noteshapeDB: NoteShapeDB, property: string) => {
       switch (property) {
         case 'ID':
-          return noteDB.ID
+          return noteshapeDB.ID
 
         // insertion point for specific sorting accessor
         case 'Name':
-          return noteDB.Name;
+          return noteshapeDB.Name;
 
         case 'Body':
-          return noteDB.Body;
+          return noteshapeDB.Body;
 
         case 'X':
-          return noteDB.X;
+          return noteshapeDB.X;
 
         case 'Y':
-          return noteDB.Y;
+          return noteshapeDB.Y;
 
         case 'Width':
-          return noteDB.Width;
+          return noteshapeDB.Width;
 
         case 'Heigth':
-          return noteDB.Heigth;
+          return noteshapeDB.Heigth;
 
         case 'Matched':
-          return noteDB.Matched?"true":"false";
+          return noteshapeDB.Matched?"true":"false";
 
         case 'Classdiagram_Notes':
-          if (this.frontRepo.Classdiagrams.get(noteDB.Classdiagram_NotesDBID.Int64) != undefined) {
-            return this.frontRepo.Classdiagrams.get(noteDB.Classdiagram_NotesDBID.Int64)!.Name
+          if (this.frontRepo.Classdiagrams.get(noteshapeDB.Classdiagram_NotesDBID.Int64) != undefined) {
+            return this.frontRepo.Classdiagrams.get(noteshapeDB.Classdiagram_NotesDBID.Int64)!.Name
           } else {
             return ""
           }
@@ -103,21 +103,21 @@ export class NotesTableComponent implements OnInit {
     };
 
     // enable filtering on all fields (including pointers and reverse pointer, which is not done by default)
-    this.matTableDataSource.filterPredicate = (noteDB: NoteDB, filter: string) => {
+    this.matTableDataSource.filterPredicate = (noteshapeDB: NoteShapeDB, filter: string) => {
 
       // filtering is based on finding a lower case filter into a concatenated string
-      // the noteDB properties
+      // the noteshapeDB properties
       let mergedContent = ""
 
       // insertion point for merging of fields
-      mergedContent += noteDB.Name.toLowerCase()
-      mergedContent += noteDB.Body.toLowerCase()
-      mergedContent += noteDB.X.toString()
-      mergedContent += noteDB.Y.toString()
-      mergedContent += noteDB.Width.toString()
-      mergedContent += noteDB.Heigth.toString()
-      if (noteDB.Classdiagram_NotesDBID.Int64 != 0) {
-        mergedContent += this.frontRepo.Classdiagrams.get(noteDB.Classdiagram_NotesDBID.Int64)!.Name.toLowerCase()
+      mergedContent += noteshapeDB.Name.toLowerCase()
+      mergedContent += noteshapeDB.Body.toLowerCase()
+      mergedContent += noteshapeDB.X.toString()
+      mergedContent += noteshapeDB.Y.toString()
+      mergedContent += noteshapeDB.Width.toString()
+      mergedContent += noteshapeDB.Heigth.toString()
+      if (noteshapeDB.Classdiagram_NotesDBID.Int64 != 0) {
+        mergedContent += this.frontRepo.Classdiagrams.get(noteshapeDB.Classdiagram_NotesDBID.Int64)!.Name.toLowerCase()
       }
 
 
@@ -135,11 +135,11 @@ export class NotesTableComponent implements OnInit {
   }
 
   constructor(
-    private noteService: NoteService,
+    private noteshapeService: NoteShapeService,
     private frontRepoService: FrontRepoService,
 
-    // not null if the component is called as a selection component of note instances
-    public dialogRef: MatDialogRef<NotesTableComponent>,
+    // not null if the component is called as a selection component of noteshape instances
+    public dialogRef: MatDialogRef<NoteShapesTableComponent>,
     @Optional() @Inject(MAT_DIALOG_DATA) public dialogData: DialogData,
 
     private router: Router,
@@ -161,10 +161,10 @@ export class NotesTableComponent implements OnInit {
     }
 
     // observable for changes in structs
-    this.noteService.NoteServiceChanged.subscribe(
+    this.noteshapeService.NoteShapeServiceChanged.subscribe(
       message => {
         if (message == "post" || message == "update" || message == "delete") {
-          this.getNotes()
+          this.getNoteShapes()
         }
       }
     )
@@ -190,97 +190,97 @@ export class NotesTableComponent implements OnInit {
         "Matched",
         "Classdiagram_Notes",
       ]
-      this.selection = new SelectionModel<NoteDB>(allowMultiSelect, this.initialSelection);
+      this.selection = new SelectionModel<NoteShapeDB>(allowMultiSelect, this.initialSelection);
     }
 
   }
 
   ngOnInit(): void {
-    this.getNotes()
-    this.matTableDataSource = new MatTableDataSource(this.notes)
+    this.getNoteShapes()
+    this.matTableDataSource = new MatTableDataSource(this.noteshapes)
   }
 
-  getNotes(): void {
+  getNoteShapes(): void {
     this.frontRepoService.pull().subscribe(
       frontRepo => {
         this.frontRepo = frontRepo
 
-        this.notes = this.frontRepo.Notes_array;
+        this.noteshapes = this.frontRepo.NoteShapes_array;
 
         // insertion point for time duration Recoveries
         // insertion point for enum int Recoveries
         
         // in case the component is called as a selection component
         if (this.mode == TableComponentMode.ONE_MANY_ASSOCIATION_MODE) {
-          for (let note of this.notes) {
+          for (let noteshape of this.noteshapes) {
             let ID = this.dialogData.ID
-            let revPointer = note[this.dialogData.ReversePointer as keyof NoteDB] as unknown as NullInt64
+            let revPointer = noteshape[this.dialogData.ReversePointer as keyof NoteShapeDB] as unknown as NullInt64
             if (revPointer.Int64 == ID) {
-              this.initialSelection.push(note)
+              this.initialSelection.push(noteshape)
             }
-            this.selection = new SelectionModel<NoteDB>(allowMultiSelect, this.initialSelection);
+            this.selection = new SelectionModel<NoteShapeDB>(allowMultiSelect, this.initialSelection);
           }
         }
 
         if (this.mode == TableComponentMode.MANY_MANY_ASSOCIATION_MODE) {
 
-          let mapOfSourceInstances = this.frontRepo[this.dialogData.SourceStruct + "s" as keyof FrontRepo] as Map<number, NoteDB>
+          let mapOfSourceInstances = this.frontRepo[this.dialogData.SourceStruct + "s" as keyof FrontRepo] as Map<number, NoteShapeDB>
           let sourceInstance = mapOfSourceInstances.get(this.dialogData.ID)!
 
-          let sourceField = sourceInstance[this.dialogData.SourceField as keyof typeof sourceInstance]! as unknown as NoteDB[]
+          let sourceField = sourceInstance[this.dialogData.SourceField as keyof typeof sourceInstance]! as unknown as NoteShapeDB[]
           for (let associationInstance of sourceField) {
-            let note = associationInstance[this.dialogData.IntermediateStructField as keyof typeof associationInstance] as unknown as NoteDB
-            this.initialSelection.push(note)
+            let noteshape = associationInstance[this.dialogData.IntermediateStructField as keyof typeof associationInstance] as unknown as NoteShapeDB
+            this.initialSelection.push(noteshape)
           }
 
-          this.selection = new SelectionModel<NoteDB>(allowMultiSelect, this.initialSelection);
+          this.selection = new SelectionModel<NoteShapeDB>(allowMultiSelect, this.initialSelection);
         }
 
         // update the mat table data source
-        this.matTableDataSource.data = this.notes
+        this.matTableDataSource.data = this.noteshapes
       }
     )
   }
 
-  // newNote initiate a new note
-  // create a new Note objet
-  newNote() {
+  // newNoteShape initiate a new noteshape
+  // create a new NoteShape objet
+  newNoteShape() {
   }
 
-  deleteNote(noteID: number, note: NoteDB) {
-    // list of notes is truncated of note before the delete
-    this.notes = this.notes.filter(h => h !== note);
+  deleteNoteShape(noteshapeID: number, noteshape: NoteShapeDB) {
+    // list of noteshapes is truncated of noteshape before the delete
+    this.noteshapes = this.noteshapes.filter(h => h !== noteshape);
 
-    this.noteService.deleteNote(noteID).subscribe(
-      note => {
-        this.noteService.NoteServiceChanged.next("delete")
+    this.noteshapeService.deleteNoteShape(noteshapeID).subscribe(
+      noteshape => {
+        this.noteshapeService.NoteShapeServiceChanged.next("delete")
       }
     );
   }
 
-  editNote(noteID: number, note: NoteDB) {
+  editNoteShape(noteshapeID: number, noteshape: NoteShapeDB) {
 
   }
 
-  // display note in router
-  displayNoteInRouter(noteID: number) {
-    this.router.navigate(["github_com_fullstack_lang_gongdoc_go-" + "note-display", noteID])
+  // display noteshape in router
+  displayNoteShapeInRouter(noteshapeID: number) {
+    this.router.navigate(["github_com_fullstack_lang_gongdoc_go-" + "noteshape-display", noteshapeID])
   }
 
   // set editor outlet
-  setEditorRouterOutlet(noteID: number) {
+  setEditorRouterOutlet(noteshapeID: number) {
     this.router.navigate([{
       outlets: {
-        github_com_fullstack_lang_gongdoc_go_editor: ["github_com_fullstack_lang_gongdoc_go-" + "note-detail", noteID]
+        github_com_fullstack_lang_gongdoc_go_editor: ["github_com_fullstack_lang_gongdoc_go-" + "noteshape-detail", noteshapeID]
       }
     }]);
   }
 
   // set presentation outlet
-  setPresentationRouterOutlet(noteID: number) {
+  setPresentationRouterOutlet(noteshapeID: number) {
     this.router.navigate([{
       outlets: {
-        github_com_fullstack_lang_gongdoc_go_presentation: ["github_com_fullstack_lang_gongdoc_go-" + "note-presentation", noteID]
+        github_com_fullstack_lang_gongdoc_go_presentation: ["github_com_fullstack_lang_gongdoc_go-" + "noteshape-presentation", noteshapeID]
       }
     }]);
   }
@@ -288,7 +288,7 @@ export class NotesTableComponent implements OnInit {
   /** Whether the number of selected elements matches the total number of rows. */
   isAllSelected() {
     const numSelected = this.selection.selected.length;
-    const numRows = this.notes.length;
+    const numRows = this.noteshapes.length;
     return numSelected === numRows;
   }
 
@@ -296,39 +296,39 @@ export class NotesTableComponent implements OnInit {
   masterToggle() {
     this.isAllSelected() ?
       this.selection.clear() :
-      this.notes.forEach(row => this.selection.select(row));
+      this.noteshapes.forEach(row => this.selection.select(row));
   }
 
   save() {
 
     if (this.mode == TableComponentMode.ONE_MANY_ASSOCIATION_MODE) {
 
-      let toUpdate = new Set<NoteDB>()
+      let toUpdate = new Set<NoteShapeDB>()
 
-      // reset all initial selection of note that belong to note
-      for (let note of this.initialSelection) {
-        let index = note[this.dialogData.ReversePointer as keyof NoteDB] as unknown as NullInt64
+      // reset all initial selection of noteshape that belong to noteshape
+      for (let noteshape of this.initialSelection) {
+        let index = noteshape[this.dialogData.ReversePointer as keyof NoteShapeDB] as unknown as NullInt64
         index.Int64 = 0
         index.Valid = true
-        toUpdate.add(note)
+        toUpdate.add(noteshape)
 
       }
 
-      // from selection, set note that belong to note
-      for (let note of this.selection.selected) {
+      // from selection, set noteshape that belong to noteshape
+      for (let noteshape of this.selection.selected) {
         let ID = this.dialogData.ID as number
-        let reversePointer = note[this.dialogData.ReversePointer as keyof NoteDB] as unknown as NullInt64
+        let reversePointer = noteshape[this.dialogData.ReversePointer as keyof NoteShapeDB] as unknown as NullInt64
         reversePointer.Int64 = ID
         reversePointer.Valid = true
-        toUpdate.add(note)
+        toUpdate.add(noteshape)
       }
 
 
-      // update all note (only update selection & initial selection)
-      for (let note of toUpdate) {
-        this.noteService.updateNote(note)
-          .subscribe(note => {
-            this.noteService.NoteServiceChanged.next("update")
+      // update all noteshape (only update selection & initial selection)
+      for (let noteshape of toUpdate) {
+        this.noteshapeService.updateNoteShape(noteshape)
+          .subscribe(noteshape => {
+            this.noteshapeService.NoteShapeServiceChanged.next("update")
           });
       }
     }
@@ -336,26 +336,26 @@ export class NotesTableComponent implements OnInit {
     if (this.mode == TableComponentMode.MANY_MANY_ASSOCIATION_MODE) {
 
       // get the source instance via the map of instances in the front repo
-      let mapOfSourceInstances = this.frontRepo[this.dialogData.SourceStruct + "s" as keyof FrontRepo] as Map<number, NoteDB>
+      let mapOfSourceInstances = this.frontRepo[this.dialogData.SourceStruct + "s" as keyof FrontRepo] as Map<number, NoteShapeDB>
       let sourceInstance = mapOfSourceInstances.get(this.dialogData.ID)!
 
       // First, parse all instance of the association struct and remove the instance
       // that have unselect
-      let unselectedNote = new Set<number>()
-      for (let note of this.initialSelection) {
-        if (this.selection.selected.includes(note)) {
-          // console.log("note " + note.Name + " is still selected")
+      let unselectedNoteShape = new Set<number>()
+      for (let noteshape of this.initialSelection) {
+        if (this.selection.selected.includes(noteshape)) {
+          // console.log("noteshape " + noteshape.Name + " is still selected")
         } else {
-          console.log("note " + note.Name + " has been unselected")
-          unselectedNote.add(note.ID)
-          console.log("is unselected " + unselectedNote.has(note.ID))
+          console.log("noteshape " + noteshape.Name + " has been unselected")
+          unselectedNoteShape.add(noteshape.ID)
+          console.log("is unselected " + unselectedNoteShape.has(noteshape.ID))
         }
       }
 
       // delete the association instance
       let associationInstance = sourceInstance[this.dialogData.SourceField as keyof typeof sourceInstance]
-      let note = associationInstance![this.dialogData.IntermediateStructField as keyof typeof associationInstance] as unknown as NoteDB
-      if (unselectedNote.has(note.ID)) {
+      let noteshape = associationInstance![this.dialogData.IntermediateStructField as keyof typeof associationInstance] as unknown as NoteShapeDB
+      if (unselectedNoteShape.has(noteshape.ID)) {
         this.frontRepoService.deleteService(this.dialogData.IntermediateStruct, associationInstance)
 
 
@@ -363,38 +363,38 @@ export class NotesTableComponent implements OnInit {
 
       // is the source array is empty create it
       if (sourceInstance[this.dialogData.SourceField as keyof typeof sourceInstance] == undefined) {
-        (sourceInstance[this.dialogData.SourceField as keyof typeof sourceInstance] as unknown as Array<NoteDB>) = new Array<NoteDB>()
+        (sourceInstance[this.dialogData.SourceField as keyof typeof sourceInstance] as unknown as Array<NoteShapeDB>) = new Array<NoteShapeDB>()
       }
 
       // second, parse all instance of the selected
       if (sourceInstance[this.dialogData.SourceField as keyof typeof sourceInstance]) {
         this.selection.selected.forEach(
-          note => {
-            if (!this.initialSelection.includes(note)) {
-              // console.log("note " + note.Name + " has been added to the selection")
+          noteshape => {
+            if (!this.initialSelection.includes(noteshape)) {
+              // console.log("noteshape " + noteshape.Name + " has been added to the selection")
 
               let associationInstance = {
-                Name: sourceInstance["Name"] + "-" + note.Name,
+                Name: sourceInstance["Name"] + "-" + noteshape.Name,
               }
 
               let index = associationInstance[this.dialogData.IntermediateStructField + "ID" as keyof typeof associationInstance] as unknown as NullInt64
-              index.Int64 = note.ID
+              index.Int64 = noteshape.ID
               index.Valid = true
 
               let indexDB = associationInstance[this.dialogData.IntermediateStructField + "DBID" as keyof typeof associationInstance] as unknown as NullInt64
-              indexDB.Int64 = note.ID
+              indexDB.Int64 = noteshape.ID
               index.Valid = true
 
               this.frontRepoService.postService(this.dialogData.IntermediateStruct, associationInstance)
 
             } else {
-              // console.log("note " + note.Name + " is still selected")
+              // console.log("noteshape " + noteshape.Name + " is still selected")
             }
           }
         )
       }
 
-      // this.selection = new SelectionModel<NoteDB>(allowMultiSelect, this.initialSelection);
+      // this.selection = new SelectionModel<NoteShapeDB>(allowMultiSelect, this.initialSelection);
     }
 
     // why pizza ?

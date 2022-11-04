@@ -86,13 +86,13 @@ type StageStruct struct { // insertion point for definition of arrays registerin
 	OnAfterNodeReadCallback   OnAfterReadInterface[Node]
 
 
-	Notes           map[*Note]any
-	Notes_mapString map[string]*Note
+	NoteShapes           map[*NoteShape]any
+	NoteShapes_mapString map[string]*NoteShape
 
-	OnAfterNoteCreateCallback OnAfterCreateInterface[Note]
-	OnAfterNoteUpdateCallback OnAfterUpdateInterface[Note]
-	OnAfterNoteDeleteCallback OnAfterDeleteInterface[Note]
-	OnAfterNoteReadCallback   OnAfterReadInterface[Note]
+	OnAfterNoteShapeCreateCallback OnAfterCreateInterface[NoteShape]
+	OnAfterNoteShapeUpdateCallback OnAfterUpdateInterface[NoteShape]
+	OnAfterNoteShapeDeleteCallback OnAfterDeleteInterface[NoteShape]
+	OnAfterNoteShapeReadCallback   OnAfterReadInterface[NoteShape]
 
 
 	Positions           map[*Position]any
@@ -211,8 +211,8 @@ type BackRepoInterface interface {
 	CheckoutLink(link *Link)
 	CommitNode(node *Node)
 	CheckoutNode(node *Node)
-	CommitNote(note *Note)
-	CheckoutNote(note *Note)
+	CommitNoteShape(noteshape *NoteShape)
+	CheckoutNoteShape(noteshape *NoteShape)
 	CommitPosition(position *Position)
 	CheckoutPosition(position *Position)
 	CommitReference(reference *Reference)
@@ -249,8 +249,8 @@ var Stage StageStruct = StageStruct{ // insertion point for array initiatialisat
 	Nodes:           make(map[*Node]any),
 	Nodes_mapString: make(map[string]*Node),
 
-	Notes:           make(map[*Note]any),
-	Notes_mapString: make(map[string]*Note),
+	NoteShapes:           make(map[*NoteShape]any),
+	NoteShapes_mapString: make(map[string]*NoteShape),
 
 	Positions:           make(map[*Position]any),
 	Positions_mapString: make(map[string]*Position),
@@ -286,7 +286,7 @@ func (stage *StageStruct) Commit() {
 	stage.Map_GongStructName_InstancesNb["Field"] = len(stage.Fields)
 	stage.Map_GongStructName_InstancesNb["Link"] = len(stage.Links)
 	stage.Map_GongStructName_InstancesNb["Node"] = len(stage.Nodes)
-	stage.Map_GongStructName_InstancesNb["Note"] = len(stage.Notes)
+	stage.Map_GongStructName_InstancesNb["NoteShape"] = len(stage.NoteShapes)
 	stage.Map_GongStructName_InstancesNb["Position"] = len(stage.Positions)
 	stage.Map_GongStructName_InstancesNb["Reference"] = len(stage.References)
 	stage.Map_GongStructName_InstancesNb["Tree"] = len(stage.Trees)
@@ -308,7 +308,7 @@ func (stage *StageStruct) Checkout() {
 	stage.Map_GongStructName_InstancesNb["Field"] = len(stage.Fields)
 	stage.Map_GongStructName_InstancesNb["Link"] = len(stage.Links)
 	stage.Map_GongStructName_InstancesNb["Node"] = len(stage.Nodes)
-	stage.Map_GongStructName_InstancesNb["Note"] = len(stage.Notes)
+	stage.Map_GongStructName_InstancesNb["NoteShape"] = len(stage.NoteShapes)
 	stage.Map_GongStructName_InstancesNb["Position"] = len(stage.Positions)
 	stage.Map_GongStructName_InstancesNb["Reference"] = len(stage.References)
 	stage.Map_GongStructName_InstancesNb["Tree"] = len(stage.Trees)
@@ -917,99 +917,99 @@ func (node *Node) GetName() (res string) {
 	return node.Name
 }
 
-// Stage puts note to the model stage
-func (note *Note) Stage() *Note {
-	Stage.Notes[note] = __member
-	Stage.Notes_mapString[note.Name] = note
+// Stage puts noteshape to the model stage
+func (noteshape *NoteShape) Stage() *NoteShape {
+	Stage.NoteShapes[noteshape] = __member
+	Stage.NoteShapes_mapString[noteshape.Name] = noteshape
 
-	return note
+	return noteshape
 }
 
-// Unstage removes note off the model stage
-func (note *Note) Unstage() *Note {
-	delete(Stage.Notes, note)
-	delete(Stage.Notes_mapString, note.Name)
-	return note
+// Unstage removes noteshape off the model stage
+func (noteshape *NoteShape) Unstage() *NoteShape {
+	delete(Stage.NoteShapes, noteshape)
+	delete(Stage.NoteShapes_mapString, noteshape.Name)
+	return noteshape
 }
 
-// commit note to the back repo (if it is already staged)
-func (note *Note) Commit() *Note {
-	if _, ok := Stage.Notes[note]; ok {
+// commit noteshape to the back repo (if it is already staged)
+func (noteshape *NoteShape) Commit() *NoteShape {
+	if _, ok := Stage.NoteShapes[noteshape]; ok {
 		if Stage.BackRepo != nil {
-			Stage.BackRepo.CommitNote(note)
+			Stage.BackRepo.CommitNoteShape(noteshape)
 		}
 	}
-	return note
+	return noteshape
 }
 
-// Checkout note to the back repo (if it is already staged)
-func (note *Note) Checkout() *Note {
-	if _, ok := Stage.Notes[note]; ok {
+// Checkout noteshape to the back repo (if it is already staged)
+func (noteshape *NoteShape) Checkout() *NoteShape {
+	if _, ok := Stage.NoteShapes[noteshape]; ok {
 		if Stage.BackRepo != nil {
-			Stage.BackRepo.CheckoutNote(note)
+			Stage.BackRepo.CheckoutNoteShape(noteshape)
 		}
 	}
-	return note
+	return noteshape
 }
 
 //
 // Legacy, to be deleted
 //
 
-// StageCopy appends a copy of note to the model stage
-func (note *Note) StageCopy() *Note {
-	_note := new(Note)
-	*_note = *note
-	_note.Stage()
-	return _note
+// StageCopy appends a copy of noteshape to the model stage
+func (noteshape *NoteShape) StageCopy() *NoteShape {
+	_noteshape := new(NoteShape)
+	*_noteshape = *noteshape
+	_noteshape.Stage()
+	return _noteshape
 }
 
-// StageAndCommit appends note to the model stage and commit to the orm repo
-func (note *Note) StageAndCommit() *Note {
-	note.Stage()
+// StageAndCommit appends noteshape to the model stage and commit to the orm repo
+func (noteshape *NoteShape) StageAndCommit() *NoteShape {
+	noteshape.Stage()
 	if Stage.AllModelsStructCreateCallback != nil {
-		Stage.AllModelsStructCreateCallback.CreateORMNote(note)
+		Stage.AllModelsStructCreateCallback.CreateORMNoteShape(noteshape)
 	}
-	return note
+	return noteshape
 }
 
-// DeleteStageAndCommit appends note to the model stage and commit to the orm repo
-func (note *Note) DeleteStageAndCommit() *Note {
-	note.Unstage()
-	DeleteORMNote(note)
-	return note
+// DeleteStageAndCommit appends noteshape to the model stage and commit to the orm repo
+func (noteshape *NoteShape) DeleteStageAndCommit() *NoteShape {
+	noteshape.Unstage()
+	DeleteORMNoteShape(noteshape)
+	return noteshape
 }
 
-// StageCopyAndCommit appends a copy of note to the model stage and commit to the orm repo
-func (note *Note) StageCopyAndCommit() *Note {
-	_note := new(Note)
-	*_note = *note
-	_note.Stage()
+// StageCopyAndCommit appends a copy of noteshape to the model stage and commit to the orm repo
+func (noteshape *NoteShape) StageCopyAndCommit() *NoteShape {
+	_noteshape := new(NoteShape)
+	*_noteshape = *noteshape
+	_noteshape.Stage()
 	if Stage.AllModelsStructCreateCallback != nil {
-		Stage.AllModelsStructCreateCallback.CreateORMNote(note)
+		Stage.AllModelsStructCreateCallback.CreateORMNoteShape(noteshape)
 	}
-	return _note
+	return _noteshape
 }
 
-// CreateORMNote enables dynamic staging of a Note instance
-func CreateORMNote(note *Note) {
-	note.Stage()
+// CreateORMNoteShape enables dynamic staging of a NoteShape instance
+func CreateORMNoteShape(noteshape *NoteShape) {
+	noteshape.Stage()
 	if Stage.AllModelsStructCreateCallback != nil {
-		Stage.AllModelsStructCreateCallback.CreateORMNote(note)
+		Stage.AllModelsStructCreateCallback.CreateORMNoteShape(noteshape)
 	}
 }
 
-// DeleteORMNote enables dynamic staging of a Note instance
-func DeleteORMNote(note *Note) {
-	note.Unstage()
+// DeleteORMNoteShape enables dynamic staging of a NoteShape instance
+func DeleteORMNoteShape(noteshape *NoteShape) {
+	noteshape.Unstage()
 	if Stage.AllModelsStructDeleteCallback != nil {
-		Stage.AllModelsStructDeleteCallback.DeleteORMNote(note)
+		Stage.AllModelsStructDeleteCallback.DeleteORMNoteShape(noteshape)
 	}
 }
 
 // for satisfaction of GongStruct interface
-func (note *Note) GetName() (res string) {
-	return note.Name
+func (noteshape *NoteShape) GetName() (res string) {
+	return noteshape.Name
 }
 
 // Stage puts position to the model stage
@@ -1590,7 +1590,7 @@ type AllModelsStructCreateInterface interface { // insertion point for Callbacks
 	CreateORMField(Field *Field)
 	CreateORMLink(Link *Link)
 	CreateORMNode(Node *Node)
-	CreateORMNote(Note *Note)
+	CreateORMNoteShape(NoteShape *NoteShape)
 	CreateORMPosition(Position *Position)
 	CreateORMReference(Reference *Reference)
 	CreateORMTree(Tree *Tree)
@@ -1606,7 +1606,7 @@ type AllModelsStructDeleteInterface interface { // insertion point for Callbacks
 	DeleteORMField(Field *Field)
 	DeleteORMLink(Link *Link)
 	DeleteORMNode(Node *Node)
-	DeleteORMNote(Note *Note)
+	DeleteORMNoteShape(NoteShape *NoteShape)
 	DeleteORMPosition(Position *Position)
 	DeleteORMReference(Reference *Reference)
 	DeleteORMTree(Tree *Tree)
@@ -1634,8 +1634,8 @@ func (stage *StageStruct) Reset() { // insertion point for array reset
 	stage.Nodes = make(map[*Node]any)
 	stage.Nodes_mapString = make(map[string]*Node)
 
-	stage.Notes = make(map[*Note]any)
-	stage.Notes_mapString = make(map[string]*Note)
+	stage.NoteShapes = make(map[*NoteShape]any)
+	stage.NoteShapes_mapString = make(map[string]*NoteShape)
 
 	stage.Positions = make(map[*Position]any)
 	stage.Positions_mapString = make(map[string]*Position)
@@ -1676,8 +1676,8 @@ func (stage *StageStruct) Nil() { // insertion point for array nil
 	stage.Nodes = nil
 	stage.Nodes_mapString = nil
 
-	stage.Notes = nil
-	stage.Notes_mapString = nil
+	stage.NoteShapes = nil
+	stage.NoteShapes_mapString = nil
 
 	stage.Positions = nil
 	stage.Positions_mapString = nil
@@ -2163,70 +2163,70 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 
 	}
 
-	map_Note_Identifiers := make(map[*Note]string)
-	_ = map_Note_Identifiers
+	map_NoteShape_Identifiers := make(map[*NoteShape]string)
+	_ = map_NoteShape_Identifiers
 
-	noteOrdered := []*Note{}
-	for note := range stage.Notes {
-		noteOrdered = append(noteOrdered, note)
+	noteshapeOrdered := []*NoteShape{}
+	for noteshape := range stage.NoteShapes {
+		noteshapeOrdered = append(noteshapeOrdered, noteshape)
 	}
-	sort.Slice(noteOrdered[:], func(i, j int) bool {
-		return noteOrdered[i].Name < noteOrdered[j].Name
+	sort.Slice(noteshapeOrdered[:], func(i, j int) bool {
+		return noteshapeOrdered[i].Name < noteshapeOrdered[j].Name
 	})
-	identifiersDecl += "\n\n	// Declarations of staged instances of Note"
-	for idx, note := range noteOrdered {
+	identifiersDecl += "\n\n	// Declarations of staged instances of NoteShape"
+	for idx, noteshape := range noteshapeOrdered {
 
-		id = generatesIdentifier("Note", idx, note.Name)
-		map_Note_Identifiers[note] = id
+		id = generatesIdentifier("NoteShape", idx, noteshape.Name)
+		map_NoteShape_Identifiers[noteshape] = id
 
 		decl = IdentifiersDecls
 		decl = strings.ReplaceAll(decl, "{{Identifier}}", id)
-		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Note")
-		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", note.Name)
+		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "NoteShape")
+		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", noteshape.Name)
 		identifiersDecl += decl
 
-		initializerStatements += fmt.Sprintf("\n\n	// Note %s values setup", note.Name)
+		initializerStatements += fmt.Sprintf("\n\n	// NoteShape %s values setup", noteshape.Name)
 		// Initialisation of values
 		setValueField = StringInitStatement
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
 		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(note.Name))
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(noteshape.Name))
 		initializerStatements += setValueField
 
 		setValueField = StringInitStatement
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
 		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Body")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(note.Body))
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(noteshape.Body))
 		initializerStatements += setValueField
 
 		setValueField = NumberInitStatement
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
 		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "X")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", note.X))
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", noteshape.X))
 		initializerStatements += setValueField
 
 		setValueField = NumberInitStatement
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
 		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Y")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", note.Y))
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", noteshape.Y))
 		initializerStatements += setValueField
 
 		setValueField = NumberInitStatement
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
 		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Width")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", note.Width))
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", noteshape.Width))
 		initializerStatements += setValueField
 
 		setValueField = NumberInitStatement
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
 		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Heigth")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", note.Heigth))
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", noteshape.Heigth))
 		initializerStatements += setValueField
 
 		setValueField = NumberInitStatement
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
 		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Matched")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", note.Matched))
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", noteshape.Matched))
 		initializerStatements += setValueField
 
 	}
@@ -2510,11 +2510,11 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 			pointersInitializesStatements += setPointerField
 		}
 
-		for _, _note := range classdiagram.Notes {
+		for _, _noteshape := range classdiagram.Notes {
 			setPointerField = SliceOfPointersFieldInitStatement
 			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
 			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "Notes")
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_Note_Identifiers[_note])
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_NoteShape_Identifiers[_noteshape])
 			pointersInitializesStatements += setPointerField
 		}
 
@@ -2650,12 +2650,12 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 
 	}
 
-	for idx, note := range noteOrdered {
+	for idx, noteshape := range noteshapeOrdered {
 		var setPointerField string
 		_ = setPointerField
 
-		id = generatesIdentifier("Note", idx, note.Name)
-		map_Note_Identifiers[note] = id
+		id = generatesIdentifier("NoteShape", idx, noteshape.Name)
+		map_NoteShape_Identifiers[noteshape] = id
 
 		// Initialisation of values
 	}
@@ -2774,12 +2774,12 @@ func (stageStruct *StageStruct) CreateReverseMap_Classdiagram_Classshapes() (res
 	return
 }
 
-func (stageStruct *StageStruct) CreateReverseMap_Classdiagram_Notes() (res map[*Note]*Classdiagram) {
-	res = make(map[*Note]*Classdiagram)
+func (stageStruct *StageStruct) CreateReverseMap_Classdiagram_Notes() (res map[*NoteShape]*Classdiagram) {
+	res = make(map[*NoteShape]*Classdiagram)
 
 	for classdiagram := range stageStruct.Classdiagrams {
-		for _, note_ := range classdiagram.Notes {
-			res[note_] = classdiagram
+		for _, noteshape_ := range classdiagram.Notes {
+			res[noteshape_] = classdiagram
 		}
 	}
 
@@ -2957,7 +2957,7 @@ func (stageStruct *StageStruct) CreateReverseMap_Node_Children() (res map[*Node]
 }
 
 
-// generate function for reverse association maps of Note
+// generate function for reverse association maps of NoteShape
 
 // generate function for reverse association maps of Position
 
@@ -3001,7 +3001,7 @@ func (stageStruct *StageStruct) CreateReverseMap_Umlsc_States() (res map[*UmlSta
 // - full refactoring of Gongstruct identifiers / fields
 type Gongstruct interface {
 	// insertion point for generic types
-	Classdiagram | Classshape | DiagramPackage | Field | Link | Node | Note | Position | Reference | Tree | UmlState | Umlsc | Vertice
+	Classdiagram | Classshape | DiagramPackage | Field | Link | Node | NoteShape | Position | Reference | Tree | UmlState | Umlsc | Vertice
 }
 
 // Gongstruct is the type parameter for generated generic function that allows
@@ -3010,7 +3010,7 @@ type Gongstruct interface {
 // - full refactoring of Gongstruct identifiers / fields
 type PointerToGongstruct interface {
 	// insertion point for generic types
-	*Classdiagram | *Classshape | *DiagramPackage | *Field | *Link | *Node | *Note | *Position | *Reference | *Tree | *UmlState | *Umlsc | *Vertice
+	*Classdiagram | *Classshape | *DiagramPackage | *Field | *Link | *Node | *NoteShape | *Position | *Reference | *Tree | *UmlState | *Umlsc | *Vertice
 	GetName() string
 }
 
@@ -3023,7 +3023,7 @@ type GongstructSet interface {
 		map[*Field]any |
 		map[*Link]any |
 		map[*Node]any |
-		map[*Note]any |
+		map[*NoteShape]any |
 		map[*Position]any |
 		map[*Reference]any |
 		map[*Tree]any |
@@ -3042,7 +3042,7 @@ type GongstructMapString interface {
 		map[string]*Field |
 		map[string]*Link |
 		map[string]*Node |
-		map[string]*Note |
+		map[string]*NoteShape |
 		map[string]*Position |
 		map[string]*Reference |
 		map[string]*Tree |
@@ -3071,8 +3071,8 @@ func GongGetSet[Type GongstructSet]() *Type {
 		return any(&Stage.Links).(*Type)
 	case map[*Node]any:
 		return any(&Stage.Nodes).(*Type)
-	case map[*Note]any:
-		return any(&Stage.Notes).(*Type)
+	case map[*NoteShape]any:
+		return any(&Stage.NoteShapes).(*Type)
 	case map[*Position]any:
 		return any(&Stage.Positions).(*Type)
 	case map[*Reference]any:
@@ -3109,8 +3109,8 @@ func GongGetMap[Type GongstructMapString]() *Type {
 		return any(&Stage.Links_mapString).(*Type)
 	case map[string]*Node:
 		return any(&Stage.Nodes_mapString).(*Type)
-	case map[string]*Note:
-		return any(&Stage.Notes_mapString).(*Type)
+	case map[string]*NoteShape:
+		return any(&Stage.NoteShapes_mapString).(*Type)
 	case map[string]*Position:
 		return any(&Stage.Positions_mapString).(*Type)
 	case map[string]*Reference:
@@ -3147,8 +3147,8 @@ func GetGongstructInstancesSet[Type Gongstruct]() *map[*Type]any {
 		return any(&Stage.Links).(*map[*Type]any)
 	case Node:
 		return any(&Stage.Nodes).(*map[*Type]any)
-	case Note:
-		return any(&Stage.Notes).(*map[*Type]any)
+	case NoteShape:
+		return any(&Stage.NoteShapes).(*map[*Type]any)
 	case Position:
 		return any(&Stage.Positions).(*map[*Type]any)
 	case Reference:
@@ -3185,8 +3185,8 @@ func GetGongstructInstancesMap[Type Gongstruct]() *map[string]*Type {
 		return any(&Stage.Links_mapString).(*map[string]*Type)
 	case Node:
 		return any(&Stage.Nodes_mapString).(*map[string]*Type)
-	case Note:
-		return any(&Stage.Notes_mapString).(*map[string]*Type)
+	case NoteShape:
+		return any(&Stage.NoteShapes_mapString).(*map[string]*Type)
 	case Position:
 		return any(&Stage.Positions_mapString).(*map[string]*Type)
 	case Reference:
@@ -3218,8 +3218,8 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			// Initialisation of associations
 			// field is initialized with an instance of Classshape with the name of the field
 			Classshapes: []*Classshape{{Name: "Classshapes"}},
-			// field is initialized with an instance of Note with the name of the field
-			Notes: []*Note{{Name: "Notes"}},
+			// field is initialized with an instance of NoteShape with the name of the field
+			Notes: []*NoteShape{{Name: "Notes"}},
 		}).(*Type)
 	case Classshape:
 		return any(&Classshape{
@@ -3261,8 +3261,8 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			// field is initialized with an instance of Node with the name of the field
 			Children: []*Node{{Name: "Children"}},
 		}).(*Type)
-	case Note:
-		return any(&Note{
+	case NoteShape:
+		return any(&NoteShape{
 			// Initialisation of associations
 		}).(*Type)
 	case Position:
@@ -3425,8 +3425,8 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string) map[*End][]*S
 			}
 			return any(res).(map[*End][]*Start)
 		}
-	// reverse maps of direct associations of Note
-	case Note:
+	// reverse maps of direct associations of NoteShape
+	case NoteShape:
 		switch fieldname {
 		// insertion point for per direct association field
 		}
@@ -3488,10 +3488,10 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string) map[*
 			}
 			return any(res).(map[*End]*Start)
 		case "Notes":
-			res := make(map[*Note]*Classdiagram)
+			res := make(map[*NoteShape]*Classdiagram)
 			for classdiagram := range Stage.Classdiagrams {
-				for _, note_ := range classdiagram.Notes {
-					res[note_] = classdiagram
+				for _, noteshape_ := range classdiagram.Notes {
+					res[noteshape_] = classdiagram
 				}
 			}
 			return any(res).(map[*End]*Start)
@@ -3561,8 +3561,8 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string) map[*
 			}
 			return any(res).(map[*End]*Start)
 		}
-	// reverse maps of direct associations of Note
-	case Note:
+	// reverse maps of direct associations of NoteShape
+	case NoteShape:
 		switch fieldname {
 		// insertion point for per direct association field
 		}
@@ -3636,8 +3636,8 @@ func GetGongstructName[Type Gongstruct]() (res string) {
 		res = "Link"
 	case Node:
 		res = "Node"
-	case Note:
-		res = "Note"
+	case NoteShape:
+		res = "NoteShape"
 	case Position:
 		res = "Position"
 	case Reference:
@@ -3673,7 +3673,7 @@ func GetFields[Type Gongstruct]() (res []string) {
 		res = []string{"Name", "Fieldname", "Structname", "Fieldtypename", "TargetMultiplicity", "SourceMultiplicity", "Middlevertice"}
 	case Node:
 		res = []string{"Name", "Type", "Classdiagram", "Umlsc", "IsExpanded", "HasCheckboxButton", "IsChecked", "IsCheckboxDisabled", "HasAddChildButton", "HasEditButton", "IsInEditMode", "HasDrawButton", "HasDrawOffButton", "IsInDrawMode", "IsSaved", "HasDeleteButton", "Children"}
-	case Note:
+	case NoteShape:
 		res = []string{"Name", "Body", "X", "Y", "Width", "Heigth", "Matched"}
 	case Position:
 		res = []string{"X", "Y", "Name"}
@@ -3868,23 +3868,23 @@ func GetFieldStringValue[Type Gongstruct](instance Type, fieldName string) (res 
 				res += __instance__.Name
 			}
 		}
-	case Note:
+	case NoteShape:
 		switch fieldName {
 		// string value of fields
 		case "Name":
-			res = any(instance).(Note).Name
+			res = any(instance).(NoteShape).Name
 		case "Body":
-			res = any(instance).(Note).Body
+			res = any(instance).(NoteShape).Body
 		case "X":
-			res = fmt.Sprintf("%f", any(instance).(Note).X)
+			res = fmt.Sprintf("%f", any(instance).(NoteShape).X)
 		case "Y":
-			res = fmt.Sprintf("%f", any(instance).(Note).Y)
+			res = fmt.Sprintf("%f", any(instance).(NoteShape).Y)
 		case "Width":
-			res = fmt.Sprintf("%f", any(instance).(Note).Width)
+			res = fmt.Sprintf("%f", any(instance).(NoteShape).Width)
 		case "Heigth":
-			res = fmt.Sprintf("%f", any(instance).(Note).Heigth)
+			res = fmt.Sprintf("%f", any(instance).(NoteShape).Heigth)
 		case "Matched":
-			res = fmt.Sprintf("%t", any(instance).(Note).Matched)
+			res = fmt.Sprintf("%t", any(instance).(NoteShape).Matched)
 		}
 	case Position:
 		switch fieldName {

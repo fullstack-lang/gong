@@ -1,11 +1,11 @@
-<form *ngIf="note" class="details">
-    <h2 class="details__title">note</h2>
+<form *ngIf="noteshape" class="details">
+    <h2 class="details__title">noteshape</h2>
     <!-- insertion point for fields specific code -->
     <mat-grid-list *ngIf='!isATextArea("Name")' cols="5" rowHeight="2:1">
         <mat-grid-tile [colspan]="3">
             <mat-form-field mat-form-field class="detail-full-width">
                 <mat-label>Name</mat-label>
-                <input name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="note.Name">
+                <input name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="noteshape.Name">
             </mat-form-field>
         </mat-grid-tile>
         <mat-grid-tile>
@@ -18,14 +18,14 @@
     </mat-grid-list>
     <mat-form-field *ngIf='isATextArea("Name")' mat-form-field class="detail-full-width">
         <mat-label>Name</mat-label>
-        <textarea name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="note.Name"></textarea>
+        <textarea name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="noteshape.Name"></textarea>
     </mat-form-field>
 
     <mat-grid-list *ngIf='!isATextArea("Body")' cols="5" rowHeight="2:1">
         <mat-grid-tile [colspan]="3">
             <mat-form-field mat-form-field class="detail-full-width">
                 <mat-label>Body</mat-label>
-                <input name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="note.Body">
+                <input name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="noteshape.Body">
             </mat-form-field>
         </mat-grid-tile>
         <mat-grid-tile>
@@ -38,31 +38,31 @@
     </mat-grid-list>
     <mat-form-field *ngIf='isATextArea("Body")' mat-form-field class="detail-full-width">
         <mat-label>Body</mat-label>
-        <textarea name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="note.Body"></textarea>
+        <textarea name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="noteshape.Body"></textarea>
     </mat-form-field>
 
     <!-- -->
     <mat-form-field class="detail-full-width">
         <mat-label>X</mat-label>
-        <input type="number" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="note.X" [ngModelOptions]="{standalone: true}">
+        <input type="number" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="noteshape.X" [ngModelOptions]="{standalone: true}">
     </mat-form-field>
 
     <!-- -->
     <mat-form-field class="detail-full-width">
         <mat-label>Y</mat-label>
-        <input type="number" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="note.Y" [ngModelOptions]="{standalone: true}">
+        <input type="number" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="noteshape.Y" [ngModelOptions]="{standalone: true}">
     </mat-form-field>
 
     <!-- -->
     <mat-form-field class="detail-full-width">
         <mat-label>Width</mat-label>
-        <input type="number" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="note.Width" [ngModelOptions]="{standalone: true}">
+        <input type="number" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="noteshape.Width" [ngModelOptions]="{standalone: true}">
     </mat-form-field>
 
     <!-- -->
     <mat-form-field class="detail-full-width">
         <mat-label>Heigth</mat-label>
-        <input type="number" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="note.Heigth" [ngModelOptions]="{standalone: true}">
+        <input type="number" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="noteshape.Heigth" [ngModelOptions]="{standalone: true}">
     </mat-form-field>
 
     <!-- -->
@@ -70,7 +70,7 @@
 
     <mat-form-field class="detail-full-width">
         <mat-label>(Classdiagram) Notes</mat-label>
-        <mat-select [compareWith]="compareObjects" [(ngModel)]="note.Classdiagram_Notes_reverse" [ngModelOptions]="{standalone: true}">
+        <mat-select [compareWith]="compareObjects" [(ngModel)]="noteshape.Classdiagram_Notes_reverse" [ngModelOptions]="{standalone: true}">
             <mat-option>None</mat-option>
             <mat-option *ngFor="let classdiagram of frontRepo.Classdiagrams_array" [value]="classdiagram">
                 {{classdiagram.Name}}
@@ -79,7 +79,7 @@
     </mat-form-field>
     <div class="details__save">
         <button mat-raised-button color="primary" (click)="save()">
-            Save note
+            Save noteshape
         </button>
     </div>
 </form>

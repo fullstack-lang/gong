@@ -69,10 +69,10 @@ import { NodeSortingComponent } from './node-sorting/node-sorting.component'
 import { NodeDetailComponent } from './node-detail/node-detail.component'
 import { NodePresentationComponent } from './node-presentation/node-presentation.component'
 
-import { NotesTableComponent } from './notes-table/notes-table.component'
-import { NoteSortingComponent } from './note-sorting/note-sorting.component'
-import { NoteDetailComponent } from './note-detail/note-detail.component'
-import { NotePresentationComponent } from './note-presentation/note-presentation.component'
+import { NoteShapesTableComponent } from './noteshapes-table/noteshapes-table.component'
+import { NoteShapeSortingComponent } from './noteshape-sorting/noteshape-sorting.component'
+import { NoteShapeDetailComponent } from './noteshape-detail/noteshape-detail.component'
+import { NoteShapePresentationComponent } from './noteshape-presentation/noteshape-presentation.component'
 
 import { PositionsTableComponent } from './positions-table/positions-table.component'
 import { PositionSortingComponent } from './position-sorting/position-sorting.component'
@@ -138,10 +138,10 @@ import { VerticePresentationComponent } from './vertice-presentation/vertice-pre
 		NodeDetailComponent,
 		NodePresentationComponent,
 
-		NotesTableComponent,
-		NoteSortingComponent,
-		NoteDetailComponent,
-		NotePresentationComponent,
+		NoteShapesTableComponent,
+		NoteShapeSortingComponent,
+		NoteShapeDetailComponent,
+		NoteShapePresentationComponent,
 
 		PositionsTableComponent,
 		PositionSortingComponent,
@@ -242,10 +242,10 @@ import { VerticePresentationComponent } from './vertice-presentation/vertice-pre
 		NodeDetailComponent,
 		NodePresentationComponent,
 
-		NotesTableComponent,
-		NoteSortingComponent,
-		NoteDetailComponent,
-		NotePresentationComponent,
+		NoteShapesTableComponent,
+		NoteShapeSortingComponent,
+		NoteShapeDetailComponent,
+		NoteShapePresentationComponent,
 
 		PositionsTableComponent,
 		PositionSortingComponent,

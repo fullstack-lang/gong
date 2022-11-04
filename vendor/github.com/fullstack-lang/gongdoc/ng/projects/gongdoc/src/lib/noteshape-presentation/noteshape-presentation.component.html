@@ -1,8 +1,8 @@
 
-<div class="presentation__header" (click)="setEditorRouterOutlet(note.ID)">
-    <h1>Note's fields <span class="material-icons">edit</span></h1>
+<div class="presentation__header" (click)="setEditorRouterOutlet(noteshape.ID)">
+    <h1>NoteShape's fields <span class="material-icons">edit</span></h1>
 </div>
-<table *ngIf="note" class="presentation__table mat-table">
+<table *ngIf="noteshape" class="presentation__table mat-table">
     <tr class="mat-header-row">
         <th class="mat-header-cell">Name</th>
         <th class="mat-header-cell">Value</th>
@@ -10,32 +10,32 @@
     <!-- insertion point for fields specific code -->
     <tr class="mat-row">
         <td class="mat-cell">Name</td>
-        <td class="mat-cell">{{note.Name}}</td>
+        <td class="mat-cell">{{noteshape.Name}}</td>
     </tr>
     <tr class="mat-row">
         <td class="mat-cell">Body</td>
-        <td class="mat-cell">{{note.Body}}</td>
+        <td class="mat-cell">{{noteshape.Body}}</td>
     </tr>
     <tr class="mat-row">
         <td class="mat-cell">X</td>
-        <td class="mat-cell">{{note.X}}</td>
+        <td class="mat-cell">{{noteshape.X}}</td>
     </tr>
     <tr class="mat-row">
         <td class="mat-cell">Y</td>
-        <td class="mat-cell">{{note.Y}}</td>
+        <td class="mat-cell">{{noteshape.Y}}</td>
     </tr>
     <tr class="mat-row">
         <td class="mat-cell">Width</td>
-        <td class="mat-cell">{{note.Width}}</td>
+        <td class="mat-cell">{{noteshape.Width}}</td>
     </tr>
     <tr class="mat-row">
         <td class="mat-cell">Heigth</td>
-        <td class="mat-cell">{{note.Heigth}}</td>
+        <td class="mat-cell">{{noteshape.Heigth}}</td>
     </tr>
     <tr class="mat-row">
         <td class="mat-cell">Matched</td>
         <td class="mat-cell">
-            <mat-checkbox [checked]="note.Matched" disabled=true>
+            <mat-checkbox [checked]="noteshape.Matched" disabled=true>
             </mat-checkbox>
         </td>
     </tr>

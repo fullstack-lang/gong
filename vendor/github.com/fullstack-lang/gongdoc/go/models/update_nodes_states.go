@@ -105,8 +105,8 @@ func updateNodesStates(stage *StageStruct, callbacksSingloton *NodeCallbacksSing
 			}
 		}
 
-		for note := range *GetGongstructInstancesSet[Note]() {
-			mapIdentifiersNodes[note.Name].IsCheckboxDisabled = !classDiagram.IsInDrawMode
+		for gongNote := range *gong_models.GetGongstructInstancesSet[gong_models.GongNote]() {
+			mapIdentifiersNodes[gongNote.Name].IsCheckboxDisabled = !classDiagram.IsInDrawMode
 		}
 		for _, note := range classDiagram.Notes {
 			mapIdentifiersNodes[note.Name].IsChecked = true

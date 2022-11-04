@@ -31,7 +31,7 @@ type Classdiagram struct {
 	Classshapes []*Classshape
 
 	// list of notes in the diagram
-	Notes []*Note
+	Notes []*NoteShape
 
 	// IsInDrawMode indicates the the drawing can be edited (in development mode)
 	// or not (in production mode)
@@ -185,7 +185,7 @@ func (classdiagram *Classdiagram) Unmarshall(modelPkg *gong_models.ModelPkg, exp
 						}
 						for _, expr := range cl.Elts {
 
-							var note *Note
+							var note *NoteShape
 							switch exp := expr.(type) {
 							case *ast.UnaryExpr: // this is a reference to a variable
 								if ident, ok := exp.X.(*ast.Ident); !ok {
@@ -194,7 +194,7 @@ func (classdiagram *Classdiagram) Unmarshall(modelPkg *gong_models.ModelPkg, exp
 									log.Printf("found %s", ident.Name)
 								}
 							case *ast.CompositeLit: // this is a definition
-								note = new(Note)
+								note = new(NoteShape)
 								note.Unmarshall(modelPkg, exp, fset)
 							default:
 								log.Panic("Value shoud be a composite lit or a unary" +
