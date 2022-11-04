@@ -91,7 +91,7 @@ func (classdiagram *Classdiagram) MarshallAsVariable(file *os.File) error {
 	}
 	fmt.Fprintf(file, "\t},\n")
 
-	fmt.Fprintf(file, "\tNotes: []*uml.Note{\n")
+	fmt.Fprintf(file, "\tNotes: []*uml."+GetGongstructName[NoteShape]()+"{\n")
 
 	if len(classdiagram.Notes) > 0 {
 		// sort Notes
