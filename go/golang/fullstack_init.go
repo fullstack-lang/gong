@@ -1,16 +1,18 @@
-package fullstack
+package golang
+
+const FullstackInitTemplate = `package fullstack
 
 import (
-	// test stack for model analysis
+	// {{pkgname}} stack for model analysis
 
-	test_controllers "github.com/fullstack-lang/gong/test/go/controllers"
-	test_orm "github.com/fullstack-lang/gong/test/go/orm"
+	{{pkgname}}_controllers "{{PkgPathRoot}}/controllers"
+	{{pkgname}}_orm "{{PkgPathRoot}}/orm"
 	"github.com/gin-gonic/gin"
 
 	// this will import the angular front end source code directory (versionned with git) in the vendor directory
 	// this path will be included in the "tsconfig.json" front end compilation paths
 	// to include this stack front end code
-	_ "github.com/fullstack-lang/gong/test/ng"
+	_ "{{PkgPathAboveRoot}}/ng"
 )
 
 func Init(r *gin.Engine, filenames ...string) {
@@ -19,9 +21,9 @@ func Init(r *gin.Engine, filenames ...string) {
 		filenames = append(filenames, ":memory:")
 	}
 
-	db_inMemory := test_orm.SetupModels(false, filenames[0])
+	db_inMemory := {{pkgname}}_orm.SetupModels(false, filenames[0])
 
-	// since testsim is a multi threaded application. It is important to set up
+	// since {{pkgname}}sim is a multi threaded application. It is important to set up
 	// only one open connexion at a time
 	dbDB_inMemory, err := db_inMemory.DB()
 	if err != nil {
@@ -30,5 +32,6 @@ func Init(r *gin.Engine, filenames ...string) {
 	// it is mandatory to allow parallel access, otherwise, bizarre errors occurs
 	dbDB_inMemory.SetMaxOpenConns(1)
 
-	test_controllers.RegisterControllers(r)
+	{{pkgname}}_controllers.RegisterControllers(r)
 }
+`
