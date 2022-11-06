@@ -164,7 +164,8 @@ func main() {
 	if *diagrams {
 
 		// Analyse package
-		modelPkg, _ := gong_fullstack.LoadEmbedded(test.GoDir, r)
+		gong_fullstack.Init(r)
+		modelPkg, _ := gong_models.LoadEmbedded(test.GoDir)
 
 		// create the diagrams
 		// prepare the model views
