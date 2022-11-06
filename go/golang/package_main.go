@@ -33,11 +33,8 @@ import (
 	"{{PkgPathRoot}}/orm"
 
 	// gong stack for model analysis
-	gong_controllers "github.com/fullstack-lang/gong/go/controllers"
+	gong_fullstack "github.com/fullstack-lang/gong/go/fullstack"
 	gong_models "github.com/fullstack-lang/gong/go/models"
-	gong_orm "github.com/fullstack-lang/gong/go/orm"
-
-	// insertion point for gong front end import{{gongNgImport}}
 
 	// for diagrams
 	gongdoc_controllers "github.com/fullstack-lang/gongdoc/go/controllers"
@@ -105,7 +102,7 @@ func main() {
 	// gong and gongdoc databases do not need to be persisted.
 	// therefore, they are in memory
 	//
-	db_inMemory := gong_orm.SetupModels(*logDBFlag, ":memory:")
+	db_inMemory := gongdoc_orm.SetupModels(*logDBFlag, ":memory:")
 
 	// since gongsim is a multi threaded application. It is important to set up
 	// only one open connexion at a time
@@ -115,9 +112,6 @@ func main() {
 	}
 	// it is mandatory to allow parallel access, otherwise, bizarre errors occurs
 	dbDB_inMemory.SetMaxOpenConns(1)
-
-	// add gongdocatabase
-	gongdoc_orm.AutoMigrate(db_inMemory)
 
 	// generate injection code from the stage
 	if *marshallOnStartup != "" {
@@ -170,15 +164,8 @@ func main() {
 	if *diagrams {
 
 		// Analyse package
-		modelPkg := &gong_models.ModelPkg{}
-
-		// since the source is embedded, one needs to
-		// compute the Abstract syntax tree in a special manner
-		pkgs := gong_models.ParseEmbedModel({{pkgname}}.GoDir, "go/models")
-
-		gong_models.WalkParser(pkgs, modelPkg)
-		modelPkg.SerializeToStage()
-		gong_models.Stage.Commit()
+		gong_fullstack.Init(r)
+		modelPkg, _ := gong_models.LoadEmbedded(test.GoDir)
 
 		// create the diagrams
 		// prepare the model views
@@ -233,9 +220,7 @@ func main() {
 
 	controllers.RegisterControllers(r)
 	gongdoc_controllers.RegisterControllers(r)
-	gong_controllers.RegisterControllers(r)
 	gongdoc_models.Stage.Commit()
-	gong_models.Stage.Commit()
 
 	// insertion point for serving the static file{{staticCodeServiceCode}}
 
