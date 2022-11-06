@@ -258,6 +258,18 @@ func main() {
 		log.Println("directory " + gong_models.ControllersPkgGenPath + " allready exists")
 	}
 
+	// generate directory for fullstack package
+	gong_models.FullstackPkgGenPath = filepath.Join(gong_models.PathToGoSubDirectory, "fullstack")
+
+	os.RemoveAll(gong_models.FullstackPkgGenPath)
+	errd = os.MkdirAll(gong_models.FullstackPkgGenPath, os.ModePerm)
+	if os.IsNotExist(errd) {
+		log.Println("creating directory : " + gong_models.FullstackPkgGenPath)
+	}
+	if os.IsExist(errd) {
+		log.Println("directory " + gong_models.FullstackPkgGenPath + " allready exists")
+	}
+
 	// compute source path
 	sourcePath, errd2 := filepath.Abs(*pkgPath)
 	if errd2 != nil {
@@ -271,6 +283,12 @@ func main() {
 		caserEnglish.String(modelPkg.Name),
 		modelPkg.PkgPath, filepath.Join(*pkgPath, "../../embed.go"),
 		golang.EmebedGoDirTemplate)
+
+	gong_models.VerySimpleCodeGenerator(
+		modelPkg,
+		caserEnglish.String(modelPkg.Name),
+		modelPkg.PkgPath, filepath.Join(*pkgPath, "../fullstack/init.go"),
+		golang.FullstackInitTemplate)
 
 	// remove "gong.go" file
 	gong_models.RemoveGeneratedGongFiles(*pkgPath)
