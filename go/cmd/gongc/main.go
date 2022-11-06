@@ -50,25 +50,8 @@ func main() {
 		*pkgPath = flag.Arg(0)
 	}
 
-	// check existance of go.mod file in the path to the 'models' package
-	//
-	// if no go.mod file is found above the 'models' package, gongc fails
-	//
-	// if go.mod exists, it means the package path has been defined
-	// for instance "github.com/fullstack-lang/gongsvg"
-	//
-	// if go.mod does not exist, gongc can only infer the package name
-	// from the name of directory that is two levels above "go/models"
-	// it is up to the developper to change the module name after the first gong generation
-	pkgName, fullPkgPath := gong_models.ComputePkgPathFromGoModFile(*pkgPath)
-
 	// initiate model package
-	modelPkg := (&gong_models.ModelPkg{
-		Name:    pkgName,
-		PkgPath: fullPkgPath,
-	})
-
-	gong_models.Walk(*pkgPath, modelPkg)
+	modelPkg, _ := gong_models.LoadSource(*pkgPath)
 
 	// check wether the package name follows gong naming convention
 	if strings.ContainsAny(modelPkg.Name, "-") {
