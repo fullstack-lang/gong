@@ -54,6 +54,8 @@ func LoadSource(pkgPath string) (modelPkg *ModelPkg, err error) {
 
 	Walk(pkgPath, modelPkg)
 
+	modelPkg.SerializeToStage()
+
 	return modelPkg, nil
 }
 
