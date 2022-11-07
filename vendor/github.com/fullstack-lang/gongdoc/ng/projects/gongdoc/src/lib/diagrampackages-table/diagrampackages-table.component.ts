@@ -80,6 +80,9 @@ export class DiagramPackagesTableComponent implements OnInit {
         case 'IsEditable':
           return diagrampackageDB.IsEditable?"true":"false";
 
+        case 'IsReloaded':
+          return diagrampackageDB.IsReloaded?"true":"false";
+
         default:
           console.assert(false, "Unknown field")
           return "";
@@ -151,6 +154,7 @@ export class DiagramPackagesTableComponent implements OnInit {
         "Path",
         "GongModelPath",
         "IsEditable",
+        "IsReloaded",
       ]
     } else {
       this.displayedColumns = ['select', 'ID', // insertion point for columns to display
@@ -158,6 +162,7 @@ export class DiagramPackagesTableComponent implements OnInit {
         "Path",
         "GongModelPath",
         "IsEditable",
+        "IsReloaded",
       ]
       this.selection = new SelectionModel<DiagramPackageDB>(allowMultiSelect, this.initialSelection);
     }
