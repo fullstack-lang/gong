@@ -4,8 +4,6 @@ import (
 	"embed"
 	"flag"
 	"fmt"
-	"go/parser"
-	"go/token"
 	"io/fs"
 	"log"
 	"net/http"
@@ -17,9 +15,8 @@ import (
 	"github.com/gin-contrib/static"
 	"github.com/gin-gonic/gin"
 
-	"github.com/fullstack-lang/gong/test/go/controllers"
+	"github.com/fullstack-lang/gong/test/go/fullstack"
 	"github.com/fullstack-lang/gong/test/go/models"
-	"github.com/fullstack-lang/gong/test/go/orm"
 
 	// gong stack for model analysis
 	gong_fullstack "github.com/fullstack-lang/gong/go/fullstack"
@@ -84,14 +81,7 @@ func main() {
 	r.Use(cors.Default())
 
 	// setup GORM
-	db := orm.SetupModels(*logDBFlag, "./test.db")
-	dbDB, err := db.DB()
-	// since the stack can be a multi threaded application. It is important to set up
-	// only one open connexion at a time
-	if err != nil {
-		panic("cannot access DB of db" + err.Error())
-	}
-	dbDB.SetMaxOpenConns(1)
+	fullstack.Init(r, "./test.db")
 
 	// generate injection code from the stage
 	if *marshallOnStartup != "" {
@@ -139,11 +129,12 @@ func main() {
 		// Analyse package
 		gong_fullstack.Init(r)
 		gongdoc_fullstack.Init(r)
-		modelPkg, _ := gong_models.LoadEmbedded(test.GoDir)
+		modelPackage, _ := gong_models.LoadEmbedded(test.GoDir)
 
 		// create the diagrams
 		// prepare the model views
 		diagramPackage := new(gongdoc_models.DiagramPackage)
+		diagramPackage.GongModelPath = "github.com/fullstack-lang/gong/test/go/models"
 
 		// first, get all gong struct in the model
 		for gongStruct := range gong_models.Stage.GongStructs {
@@ -162,37 +153,12 @@ func main() {
 		// for instance, the Name of diagrams or the Name of the Link
 
 		if *embeddedDiagrams {
-			fset := new(token.FileSet)
-			pkgsParser := gong_models.ParseEmbedModel(test.GoDir, "go/diagrams")
-			if len(pkgsParser) != 1 {
-				log.Panic("Unable to parser, wrong number of parsers ", len(pkgsParser))
-			}
-			if pkgParser, ok := pkgsParser["diagrams"]; ok {
-				diagramPackage.Unmarshall(modelPkg, pkgParser, fset, "go/diagrams")
-			}
+			gongdoc_models.LoadEmbedded(test.GoDir, modelPackage)
 		} else {
-			fset := new(token.FileSet)
-			diagramPkgPath := filepath.Join("../../diagrams")
-
-			pkgsParser, errParser := parser.ParseDir(fset, diagramPkgPath, nil, parser.ParseComments)
-
-			if errParser != nil {
-				log.Panic("Unable to parser ", errParser.Error())
-			}
-			if len(pkgsParser) != 1 {
-				log.Println("Unable to parser, wrong number of parsers ", len(pkgsParser))
-			} else {
-				diagramPackage.Unmarshall(modelPkg, pkgsParser["diagrams"], fset, diagramPkgPath)
-				diagramPackage.IsEditable = true
-				diagramPackage.Path = "../../models"
-			}
+			gongdoc_models.Load(filepath.Join("../../diagrams"), modelPackage, true)
 		}
-		diagramPackage.GongModelPath = "github.com/fullstack-lang/gong/test/go/models"
-		diagramPackage.SerializeToStage()
 		gongdoc_models.FillUpNodeTree(diagramPackage)
 	}
-
-	controllers.RegisterControllers(r)
 
 	// insertion point for serving the static file
 	// provide the static route for the angular pages
