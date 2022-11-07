@@ -3,12 +3,14 @@ package models
 import (
 	"fmt"
 	"go/ast"
+	"go/parser"
 	"go/token"
 	"log"
 	"os"
 	"path/filepath"
 	"sort"
 	"strings"
+	"time"
 
 	gong_models "github.com/fullstack-lang/gong/go/models"
 
@@ -36,6 +38,99 @@ type DiagramPackage struct {
 	// When a diagram is used in production for navigation, the
 	// model is not IsEditable.
 	IsEditable bool
+
+	// IsReload indicates if a reload of the go definition of the diagram is rrequested
+	// from the end user.
+	// on the back stage, this value is allways false
+	// on the front stage, this value is set to true when the end user requests a reload
+	// after the checkout from the front, the value is set back to false
+	IsReloaded bool
+
+	// pointer to the model package
+	ModelPkg                     *gong_models.ModelPkg
+	AbsolutePathToDiagramPackage string
+}
+
+func Load(pkgPath string, modelPkg *gong_models.ModelPkg, editable bool) (diagramPackage *DiagramPackage, err error) {
+	diagramPackage = (&DiagramPackage{})
+	diagramPackage.IsEditable = editable
+	diagramPackage.ModelPkg = modelPkg
+
+	// parse the diagram package
+	diagramPkgPath := filepath.Join(pkgPath, "../diagrams")
+	diagramPackage.AbsolutePathToDiagramPackage, _ = filepath.Abs(diagramPkgPath)
+
+	// if diagrams directory does not exist create it
+	_, errd := os.Stat(diagramPkgPath)
+	if os.IsNotExist(errd) {
+		log.Printf(diagramPkgPath, " does not exist, gongdoc creates it")
+
+		errd := os.MkdirAll(diagramPkgPath, os.ModePerm)
+		if os.IsNotExist(errd) {
+			log.Println("creating directory : " + diagramPkgPath)
+		}
+		if os.IsExist(errd) {
+			log.Println("directory " + diagramPkgPath + " allready exists")
+		}
+	}
+
+	fset := token.NewFileSet()
+	startParser := time.Now()
+	pkgsParser, errParser := parser.ParseDir(fset, diagramPkgPath, nil, parser.ParseComments)
+	log.Printf("Parser took %s", time.Since(startParser))
+
+	if errParser != nil {
+		log.Panic("Unable to parser ")
+	}
+	if len(pkgsParser) != 1 {
+		log.Println("Unable to parser, wrong number of parsers ", len(pkgsParser))
+	} else {
+		diagramPackage.Unmarshall(modelPkg, pkgsParser["diagrams"], fset, diagramPkgPath)
+		diagramPackage.IsEditable = editable
+	}
+	diagramPackage.SerializeToStage()
+	FillUpNodeTree(diagramPackage)
+	return diagramPackage, nil
+}
+
+func (diagramPackage *DiagramPackage) Reload() {
+
+	gong_models.Stage.Checkout()
+	gong_models.Stage.Reset()
+	modelPkg, _ := gong_models.LoadSource(
+		filepath.Join(diagramPackage.AbsolutePathToDiagramPackage, "../models"))
+	gong_models.Stage.Commit()
+
+	Stage.Checkout()
+	Stage.Reset()
+	Stage.Commit()
+
+	diagramPackage.Classdiagrams = nil
+	diagramPackage.Umlscs = nil
+	diagramPackage.ModelPkg = modelPkg
+
+	fset := token.NewFileSet()
+	startParser := time.Now()
+	pkgsParser, errParser := parser.ParseDir(fset,
+		diagramPackage.AbsolutePathToDiagramPackage,
+		nil,
+		parser.ParseComments)
+	log.Printf("Parser took %s", time.Since(startParser))
+
+	if errParser != nil {
+		log.Panic("Unable to parser ")
+	}
+	if len(pkgsParser) != 1 {
+		log.Println("Unable to parser, wrong number of parsers ", len(pkgsParser))
+	} else {
+		diagramPackage.Unmarshall(
+			diagramPackage.ModelPkg,
+			pkgsParser["diagrams"],
+			fset, filepath.Join(diagramPackage.GongModelPath, "../diagrams"))
+	}
+	diagramPackage.SerializeToStage()
+	FillUpNodeTree(diagramPackage)
+	Stage.Commit()
 }
 
 func closeFile(f *os.File) {

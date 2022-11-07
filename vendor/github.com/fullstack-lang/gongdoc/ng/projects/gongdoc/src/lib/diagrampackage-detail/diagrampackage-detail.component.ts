@@ -34,6 +34,7 @@ export class DiagramPackageDetailComponent implements OnInit {
 
 	// insertion point for declarations
 	IsEditableFormControl: UntypedFormControl = new UntypedFormControl(false);
+	IsReloadedFormControl: UntypedFormControl = new UntypedFormControl(false);
 
 	// the DiagramPackageDB of interest
 	diagrampackage: DiagramPackageDB = new DiagramPackageDB
@@ -124,6 +125,7 @@ export class DiagramPackageDetailComponent implements OnInit {
 
 				// insertion point for recovery of form controls value for bool fields
 				this.IsEditableFormControl.setValue(this.diagrampackage.IsEditable)
+				this.IsReloadedFormControl.setValue(this.diagrampackage.IsReloaded)
 			}
 		)
 
@@ -137,6 +139,7 @@ export class DiagramPackageDetailComponent implements OnInit {
 
 		// insertion point for translation/nullation of each field
 		this.diagrampackage.IsEditable = this.IsEditableFormControl.value
+		this.diagrampackage.IsReloaded = this.IsReloadedFormControl.value
 
 		// save from the front pointer space to the non pointer space for serialization
 

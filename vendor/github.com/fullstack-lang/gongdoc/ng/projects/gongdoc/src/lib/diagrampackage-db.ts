@@ -15,6 +15,7 @@ export class DiagramPackageDB {
 	Path: string = ""
 	GongModelPath: string = ""
 	IsEditable: boolean = false
+	IsReloaded: boolean = false
 
 	// insertion point for other declarations
 	Classdiagrams?: Array<ClassdiagramDB>

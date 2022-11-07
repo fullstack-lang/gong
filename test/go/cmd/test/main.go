@@ -26,9 +26,8 @@ import (
 	gong_models "github.com/fullstack-lang/gong/go/models"
 
 	// for diagrams
-	gongdoc_controllers "github.com/fullstack-lang/gongdoc/go/controllers"
+	gongdoc_fullstack "github.com/fullstack-lang/gongdoc/go/fullstack"
 	gongdoc_models "github.com/fullstack-lang/gongdoc/go/models"
-	gongdoc_orm "github.com/fullstack-lang/gongdoc/go/orm"
 
 	// insertion point for gong front end import
 	_ "github.com/fullstack-lang/gongdoc/ng"
@@ -87,21 +86,12 @@ func main() {
 	// setup GORM
 	db := orm.SetupModels(*logDBFlag, "./test.db")
 	dbDB, err := db.DB()
-
-	//
-	// gong and gongdoc databases do not need to be persisted.
-	// therefore, they are in memory
-	//
-	db_inMemory := gongdoc_orm.SetupModels(*logDBFlag, ":memory:")
-
-	// since gongsim is a multi threaded application. It is important to set up
+	// since the stack can be a multi threaded application. It is important to set up
 	// only one open connexion at a time
-	dbDB_inMemory, err := db_inMemory.DB()
 	if err != nil {
 		panic("cannot access DB of db" + err.Error())
 	}
-	// it is mandatory to allow parallel access, otherwise, bizarre errors occurs
-	dbDB_inMemory.SetMaxOpenConns(1)
+	dbDB.SetMaxOpenConns(1)
 
 	// generate injection code from the stage
 	if *marshallOnStartup != "" {
@@ -144,17 +134,11 @@ func main() {
 		models.Stage.OnInitCommitFromFrontCallback = hook
 	}
 
-	// since the stack can be a multi threaded application. It is important to set up
-	// only one open connexion at a time
-	if err != nil {
-		panic("cannot access DB of db" + err.Error())
-	}
-	dbDB.SetMaxOpenConns(1)
-
 	if *diagrams {
 
 		// Analyse package
 		gong_fullstack.Init(r)
+		gongdoc_fullstack.Init(r)
 		modelPkg, _ := gong_models.LoadEmbedded(test.GoDir)
 
 		// create the diagrams
@@ -209,8 +193,6 @@ func main() {
 	}
 
 	controllers.RegisterControllers(r)
-	gongdoc_controllers.RegisterControllers(r)
-	gongdoc_models.Stage.Commit()
 
 	// insertion point for serving the static file
 	// provide the static route for the angular pages

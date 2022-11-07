@@ -5,7 +5,6 @@ import (
 	"log"
 	"os"
 	"path/filepath"
-	"strconv"
 	"strings"
 
 	gong_models "github.com/fullstack-lang/gong/go/models"
@@ -601,7 +600,7 @@ func (nodeCallbacksSingloton *NodeCallbacksSingloton) OnAfterUpdate(
 	}
 
 	if stagedNode.IsExpanded != frontNode.IsExpanded {
-		log.Println("Node " + stagedNode.Name + " is updated with value IsExpanded to " + strconv.FormatBool(frontNode.IsExpanded))
+		// editablelog.Println("Node " + stagedNode.Name + " is updated with value IsExpanded to " + strconv.FormatBool(frontNode.IsExpanded))
 
 		// setting the value of the staged node	to the new value
 		stagedNode.IsExpanded = frontNode.IsExpanded
