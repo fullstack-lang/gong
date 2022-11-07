@@ -1,6 +1,7 @@
 package models
 
 import (
+	"embed"
 	"fmt"
 	"go/ast"
 	"go/parser"
@@ -49,6 +50,24 @@ type DiagramPackage struct {
 	// pointer to the model package
 	ModelPkg                     *gong_models.ModelPkg
 	AbsolutePathToDiagramPackage string
+}
+
+func LoadEmbedded(fs embed.FS, modelPkg *gong_models.ModelPkg) (diagramPackage *DiagramPackage, err error) {
+	diagramPackage = (&DiagramPackage{})
+	diagramPackage.IsEditable = false
+	diagramPackage.ModelPkg = modelPkg
+	fset := new(token.FileSet)
+	pkgsParser := gong_models.ParseEmbedModel(fs, "go/diagrams")
+	if len(pkgsParser) != 1 {
+		log.Panic("Unable to parser, wrong number of parsers ", len(pkgsParser))
+	}
+	if pkgParser, ok := pkgsParser["diagrams"]; ok {
+		diagramPackage.Unmarshall(modelPkg, pkgParser, fset, "go/diagrams")
+	}
+
+	diagramPackage.SerializeToStage()
+	FillUpNodeTree(diagramPackage)
+	return diagramPackage, nil
 }
 
 func Load(pkgPath string, modelPkg *gong_models.ModelPkg, editable bool) (diagramPackage *DiagramPackage, err error) {
