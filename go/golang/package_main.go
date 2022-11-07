@@ -15,8 +15,6 @@ import (
 	"embed"
 	"flag"
 	"fmt"
-	"go/parser"
-	"go/token"
 	"io/fs"
 	"log"
 	"net/http"
@@ -28,18 +26,16 @@ import (
 	"github.com/gin-contrib/static"
 	"github.com/gin-gonic/gin"
 
-	"{{PkgPathRoot}}/controllers"
+	"{{PkgPathRoot}}/fullstack"
 	"{{PkgPathRoot}}/models"
-	"{{PkgPathRoot}}/orm"
 
 	// gong stack for model analysis
 	gong_fullstack "github.com/fullstack-lang/gong/go/fullstack"
 	gong_models "github.com/fullstack-lang/gong/go/models"
 
 	// for diagrams
-	gongdoc_controllers "github.com/fullstack-lang/gongdoc/go/controllers"
+	gongdoc_fullstack "github.com/fullstack-lang/gongdoc/go/fullstack"
 	gongdoc_models "github.com/fullstack-lang/gongdoc/go/models"
-	gongdoc_orm "github.com/fullstack-lang/gongdoc/go/orm"
 
 	// insertion point for gong front end import{{gongdocNgImport}}
 
@@ -94,24 +90,8 @@ func main() {
 	r := gin.Default()
 	r.Use(cors.Default())
 
-	// setup GORM
-	db := orm.SetupModels(*logDBFlag, "./test.db")
-	dbDB, err := db.DB()
-
-	//
-	// gong and gongdoc databases do not need to be persisted.
-	// therefore, they are in memory
-	//
-	db_inMemory := gongdoc_orm.SetupModels(*logDBFlag, ":memory:")
-
-	// since gongsim is a multi threaded application. It is important to set up
-	// only one open connexion at a time
-	dbDB_inMemory, err := db_inMemory.DB()
-	if err != nil {
-		panic("cannot access DB of db" + err.Error())
-	}
-	// it is mandatory to allow parallel access, otherwise, bizarre errors occurs
-	dbDB_inMemory.SetMaxOpenConns(1)
+	// setup stack
+	fullstack.Init(r, "./test.db")
 
 	// generate injection code from the stage
 	if *marshallOnStartup != "" {
@@ -154,18 +134,12 @@ func main() {
 		models.Stage.OnInitCommitFromFrontCallback = hook
 	}
 
-	// since the stack can be a multi threaded application. It is important to set up
-	// only one open connexion at a time
-	if err != nil {
-		panic("cannot access DB of db" + err.Error())
-	}
-	dbDB.SetMaxOpenConns(1)
-
 	if *diagrams {
 
 		// Analyse package
 		gong_fullstack.Init(r)
-		modelPkg, _ := gong_models.LoadEmbedded(test.GoDir)
+		gongdoc_fullstack.Init(r)
+		modelPackage, _ := gong_models.LoadEmbedded({{pkgname}}.GoDir)
 
 		// create the diagrams
 		// prepare the model views
@@ -184,43 +158,14 @@ func main() {
 			}
 		}
 
-		// classdiagram can only be fully in memory when they are Unmarshalled
-		// for instance, the Name of diagrams or the Name of the Link
-
 		if *embeddedDiagrams {
-			fset := new(token.FileSet)
-			pkgsParser := gong_models.ParseEmbedModel({{pkgname}}.GoDir, "go/diagrams")
-			if len(pkgsParser) != 1 {
-				log.Panic("Unable to parser, wrong number of parsers ", len(pkgsParser))
-			}
-			if pkgParser, ok := pkgsParser["diagrams"]; ok {
-				diagramPackage.Unmarshall(modelPkg, pkgParser, fset, "go/diagrams")
-			}
+			gongdoc_models.LoadEmbedded({{pkgname}}.GoDir, modelPackage)
 		} else {
-			fset := new(token.FileSet)
-			diagramPkgPath := filepath.Join("../../diagrams")
-
-			pkgsParser, errParser := parser.ParseDir(fset, diagramPkgPath, nil, parser.ParseComments)
-
-			if errParser != nil {
-				log.Panic("Unable to parser ", errParser.Error())
-			}
-			if len(pkgsParser) != 1 {
-				log.Println("Unable to parser, wrong number of parsers ", len(pkgsParser))
-			} else {
-				diagramPackage.Unmarshall(modelPkg, pkgsParser["diagrams"], fset, diagramPkgPath)
-				diagramPackage.IsEditable = true
-				diagramPackage.Path = "../../models"
-			}
+			gongdoc_models.Load(filepath.Join("../../diagrams"), modelPackage, true)
 		}
+		
 		diagramPackage.GongModelPath = "{{PkgPathRoot}}/models"
-		diagramPackage.SerializeToStage()
-		gongdoc_models.FillUpNodeTree(diagramPackage)
 	}
-
-	controllers.RegisterControllers(r)
-	gongdoc_controllers.RegisterControllers(r)
-	gongdoc_models.Stage.Commit()
 
 	// insertion point for serving the static file{{staticCodeServiceCode}}
 
