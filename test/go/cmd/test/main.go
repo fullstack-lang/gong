@@ -80,7 +80,7 @@ func main() {
 	r := gin.Default()
 	r.Use(cors.Default())
 
-	// setup GORM
+	// setup stack
 	fullstack.Init(r, "./test.db")
 
 	// generate injection code from the stage
@@ -134,7 +134,6 @@ func main() {
 		// create the diagrams
 		// prepare the model views
 		diagramPackage := new(gongdoc_models.DiagramPackage)
-		diagramPackage.GongModelPath = "github.com/fullstack-lang/gong/test/go/models"
 
 		// first, get all gong struct in the model
 		for gongStruct := range gong_models.Stage.GongStructs {
@@ -149,15 +148,13 @@ func main() {
 			}
 		}
 
-		// classdiagram can only be fully in memory when they are Unmarshalled
-		// for instance, the Name of diagrams or the Name of the Link
-
 		if *embeddedDiagrams {
 			gongdoc_models.LoadEmbedded(test.GoDir, modelPackage)
 		} else {
 			gongdoc_models.Load(filepath.Join("../../diagrams"), modelPackage, true)
 		}
-		gongdoc_models.FillUpNodeTree(diagramPackage)
+		
+		diagramPackage.GongModelPath = "github.com/fullstack-lang/gong/test/go/models"
 	}
 
 	// insertion point for serving the static file
