@@ -303,6 +303,16 @@
             "args": []
         },
         {
+            "name": "go run test -embeddedDiagrams",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/test/go/cmd/test",
+            "args": [
+                "-embeddedDiagrams"
+            ]
+        },
+        {
             "name": "go run gong",
             "type": "go",
             "request": "launch",

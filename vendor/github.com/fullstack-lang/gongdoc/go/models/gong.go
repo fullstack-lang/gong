@@ -1927,6 +1927,12 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", diagrampackage.IsEditable))
 		initializerStatements += setValueField
 
+		setValueField = NumberInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "IsReloaded")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", diagrampackage.IsReloaded))
+		initializerStatements += setValueField
+
 	}
 
 	map_Field_Identifiers := make(map[*Field]string)
@@ -3666,7 +3672,7 @@ func GetFields[Type Gongstruct]() (res []string) {
 	case Classshape:
 		res = []string{"Name", "Position", "ReferenceName", "Reference", "ShowNbInstances", "NbInstances", "Fields", "Links", "Width", "Heigth", "IsSelected"}
 	case DiagramPackage:
-		res = []string{"Name", "Path", "GongModelPath", "Classdiagrams", "Umlscs", "IsEditable"}
+		res = []string{"Name", "Path", "GongModelPath", "Classdiagrams", "Umlscs", "IsEditable", "IsReloaded"}
 	case Field:
 		res = []string{"Name", "Fieldname", "FieldTypeAsString", "Structname", "Fieldtypename"}
 	case Link:
@@ -3783,6 +3789,8 @@ func GetFieldStringValue[Type Gongstruct](instance Type, fieldName string) (res 
 			}
 		case "IsEditable":
 			res = fmt.Sprintf("%t", any(instance).(DiagramPackage).IsEditable)
+		case "IsReloaded":
+			res = fmt.Sprintf("%t", any(instance).(DiagramPackage).IsReloaded)
 		}
 	case Field:
 		switch fieldName {
