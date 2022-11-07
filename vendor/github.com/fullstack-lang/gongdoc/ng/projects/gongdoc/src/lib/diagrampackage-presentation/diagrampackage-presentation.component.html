@@ -27,6 +27,13 @@
             </mat-checkbox>
         </td>
     </tr>
+    <tr class="mat-row">
+        <td class="mat-cell">IsReloaded</td>
+        <td class="mat-cell">
+            <mat-checkbox [checked]="diagrampackage.IsReloaded" disabled=true>
+            </mat-checkbox>
+        </td>
+    </tr>
 </table>
 <!-- hack to force loading of mat table style an error is generated but it is a know angular issue https://github.com/angular/components/issues/10941 -->
 <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">

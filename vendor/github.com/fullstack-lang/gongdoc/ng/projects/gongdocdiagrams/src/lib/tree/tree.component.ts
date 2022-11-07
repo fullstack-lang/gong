@@ -164,7 +164,7 @@ export class TreeComponent implements OnInit {
                       this.classDiagram = childNodeDB.Classdiagram
                       this.router.navigate([{
                         outlets: {
-                          diagrameditor: ["classdiagram-detail", this.classDiagram.ID, { editable: this.editable }]
+                          diagrameditor: ["classdiagram-detail", this.classDiagram.ID]
                         }
                       }]).catch(
                         reason => {
