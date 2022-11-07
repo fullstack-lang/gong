@@ -472,8 +472,8 @@ export class ClassDiagramComponent implements OnInit, OnDestroy {
         this.gongdocFrontRepo = frontRepo
         // console.log("gongdoc front repo pull returned")
 
-        const id = +this.route.snapshot.paramMap.get('id')!;
-        this.editable = this.route.snapshot.paramMap.get('editable')! == "true";
+        const id = +this.route.snapshot.paramMap.get('id')!
+        this.editable = false
         this.classdiagram = frontRepo.Classdiagrams.get(id)!
 
         // intercept click on shapes when in production mode

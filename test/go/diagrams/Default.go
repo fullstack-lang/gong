@@ -46,7 +46,7 @@ var Default uml.Classdiagram = uml.Classdiagram{
 		{
 			ReferencedGong: &(models.Bstruct{}),
 			Position: &uml.Position{
-				X: 410.000000,
+				X: 460.000000,
 				Y: 130.000000,
 			},
 			Width:  240.000000,
