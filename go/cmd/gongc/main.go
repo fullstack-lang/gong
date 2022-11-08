@@ -35,7 +35,7 @@ var (
 	run               = flag.Bool("run", false, "run 'go run main.go' after compilation")
 	skipGoModCommands = flag.Bool("skipGoModCommands", false, "avoid calls to go mod init, tidy and vendor")
 
-	skipNpmInstall = = flag.Bool("skipNpmInstall", false, "skip the npm install command")
+	skipNpmInstall = flag.Bool("skipNpmInstall", false, "skip the npm install command")
 
 	compileForDebug = flag.Bool("compileForDebug", false, "Delve can be slow to start (more than 60'). A workaround is to generate a go build with with '-N -l' options")
 )
