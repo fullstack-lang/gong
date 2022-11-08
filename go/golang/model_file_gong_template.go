@@ -181,7 +181,9 @@ func {{databaseName}}Injection() {
 ` + "`" + `
 
 const IdentifiersDecls = ` + "`" + `
-	{{Identifier}} := (&models.{{GeneratedStructName}}{Name: "{{GeneratedFieldNameValue}}"}).Stage()` + "`" + `
+	{{Identifier}} := (&models.{{GeneratedStructName}}{Name: ` +
+	"`" + " + \"" + "`" + `"` + ` + ` + "`" +
+	`{{GeneratedFieldNameValue}}` + "`" + ` + "` + "`" + `"` + ` + ` + "`" + `}).Stage()` + "`" + `
 
 const StringInitStatement = ` + "`" + `
 	{{Identifier}}.{{GeneratedFieldName}} = ` +

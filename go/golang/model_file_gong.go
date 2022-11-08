@@ -218,7 +218,6 @@ func ({{structname}} *{{Structname}}) GetName() (res string) {
 	OnAfter{{Structname}}UpdateCallback OnAfterUpdateInterface[{{Structname}}]
 	OnAfter{{Structname}}DeleteCallback OnAfterDeleteInterface[{{Structname}}]
 	OnAfter{{Structname}}ReadCallback   OnAfterReadInterface[{{Structname}}]
-
 `,
 
 	ModelGongStructInsertionArrayInitialisation: `
@@ -259,7 +258,7 @@ func ({{structname}} *{{Structname}}) GetName() (res string) {
 		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", {{structname}}.Name)
 		identifiersDecl += decl
 
-		initializerStatements += fmt.Sprintf("\n\n	// {{Structname}} %s values setup", {{structname}}.Name)
+		initializerStatements += "\n\n	// {{Structname}} values setup"
 		// Initialisation of values{{ValuesInitialization}}
 	}
 `,
