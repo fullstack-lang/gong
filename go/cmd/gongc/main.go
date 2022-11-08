@@ -35,6 +35,8 @@ var (
 	run               = flag.Bool("run", false, "run 'go run main.go' after compilation")
 	skipGoModCommands = flag.Bool("skipGoModCommands", false, "avoid calls to go mod init, tidy and vendor")
 
+	skipNpmInstall = = flag.Bool("skipNpmInstall", false, "skip the npm install command")
+
 	compileForDebug = flag.Bool("compileForDebug", false, "Delve can be slow to start (more than 60'). A workaround is to generate a go build with with '-N -l' options")
 )
 
@@ -393,7 +395,7 @@ func main() {
 	// since go mod vendor brings angular dependencies into the vendor directory
 	// the go mod vendor command has to be issued before the ng build command
 	if !*skipNg {
-		genAngular(modelPkg)
+		genAngular(modelPkg, *skipNpmInstall)
 	}
 
 	if !*skipFlutter {
