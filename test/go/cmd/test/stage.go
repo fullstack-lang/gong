@@ -18,7 +18,7 @@ func stageInjection() {
 	// Declaration of instances to stage
 
 	// Declarations of staged instances of Astruct
-	__Astruct__000000_A1_with_another_line := (&models.Astruct{Name: `A1`}).Stage()
+	__Astruct__000000_A1 := (&models.Astruct{Name: `A1`}).Stage()
 	__Astruct__000001_A2 := (&models.Astruct{Name: `A2`}).Stage()
 	__Astruct__000002_A3 := (&models.Astruct{Name: `A3`}).Stage()
 
@@ -38,24 +38,23 @@ func stageInjection() {
 
 	// Setup of values
 
-	// Astruct A1 with another line values setup
-	__Astruct__000000_A1_with_another_line.Name = `A1
-with another line`
-	__Astruct__000000_A1_with_another_line.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2022-11-14 03:08:21 +0000 +0000")
-	__Astruct__000000_A1_with_another_line.Booleanfield = false
-	__Astruct__000000_A1_with_another_line.Aenum = models.ENUM_VAL1
-	__Astruct__000000_A1_with_another_line.Aenum_2 = models.ENUM_VAL2
-	__Astruct__000000_A1_with_another_line.Benum = models.BENUM_VAL2
-	__Astruct__000000_A1_with_another_line.CEnum = models.CENUM_VAL2
-	__Astruct__000000_A1_with_another_line.CName = `CName1
+	// Astruct values setup
+	__Astruct__000000_A1.Name = `A1`
+	__Astruct__000000_A1.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2022-11-14 03:08:21 +0000 +0000")
+	__Astruct__000000_A1.Booleanfield = false
+	__Astruct__000000_A1.Aenum = models.ENUM_VAL1
+	__Astruct__000000_A1.Aenum_2 = models.ENUM_VAL2
+	__Astruct__000000_A1.Benum = models.BENUM_VAL2
+	__Astruct__000000_A1.CEnum = models.CENUM_VAL2
+	__Astruct__000000_A1.CName = `CName1
 Second Line`
-	__Astruct__000000_A1_with_another_line.CFloatfield = 60.500000
-	__Astruct__000000_A1_with_another_line.Floatfield = 0.000000
-	__Astruct__000000_A1_with_another_line.Intfield = 3
-	__Astruct__000000_A1_with_another_line.Anotherbooleanfield = false
-	__Astruct__000000_A1_with_another_line.Duration1 = 79653000000000
+	__Astruct__000000_A1.CFloatfield = 60.500000
+	__Astruct__000000_A1.Floatfield = 0.000000
+	__Astruct__000000_A1.Intfield = 3
+	__Astruct__000000_A1.Anotherbooleanfield = false
+	__Astruct__000000_A1.Duration1 = 79653000000000
 
-	// Astruct A2 values setup
+	// Astruct values setup
 	__Astruct__000001_A2.Name = `A2`
 	__Astruct__000001_A2.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2022-01-18 01:09:21 +0000 +0000")
 	__Astruct__000001_A2.Booleanfield = false
@@ -70,7 +69,7 @@ Second Line`
 	__Astruct__000001_A2.Anotherbooleanfield = false
 	__Astruct__000001_A2.Duration1 = 0
 
-	// Astruct A3 values setup
+	// Astruct values setup
 	__Astruct__000002_A3.Name = `A3`
 	__Astruct__000002_A3.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2022-02-10 01:06:11.446 +0000 +0000")
 	__Astruct__000002_A3.Booleanfield = true
@@ -83,43 +82,45 @@ Second Line`
 	__Astruct__000002_A3.Anotherbooleanfield = false
 	__Astruct__000002_A3.Duration1 = 0
 
-	// AstructBstruct2Use  values setup
+	// AstructBstruct2Use values setup
 	__AstructBstruct2Use__000000_.Name = ``
 
-	// AstructBstruct2Use  values setup
+	// AstructBstruct2Use values setup
 	__AstructBstruct2Use__000001_.Name = ``
 
-	// Bstruct B1 values setup
+	// Bstruct values setup
 	__Bstruct__000000_B1.Name = `B1`
 	__Bstruct__000000_B1.Floatfield = 0.000000
 	__Bstruct__000000_B1.Floatfield2 = 0.000000
 	__Bstruct__000000_B1.Intfield = 0
 
-	// Bstruct B2 values setup
+	// Bstruct values setup
 	__Bstruct__000001_B2.Name = `B2`
 	__Bstruct__000001_B2.Floatfield = 0.000000
 	__Bstruct__000001_B2.Floatfield2 = 0.000000
 	__Bstruct__000001_B2.Intfield = 0
 
-	// Bstruct B3 values setup
+	// Bstruct values setup
 	__Bstruct__000002_B3.Name = `B3`
 	__Bstruct__000002_B3.Floatfield = 0.000000
 	__Bstruct__000002_B3.Floatfield2 = 0.000000
 	__Bstruct__000002_B3.Intfield = 0
 
-	// Dstruct D1 values setup
+	// Dstruct values setup
 	__Dstruct__000000_D1.Name = `D1`
 
 	// Setup of pointers
-	__Astruct__000000_A1_with_another_line.Associationtob = __Bstruct__000001_B2
-	__Astruct__000000_A1_with_another_line.Anarrayofb = append(__Astruct__000000_A1_with_another_line.Anarrayofb, __Bstruct__000002_B3)
-	__Astruct__000000_A1_with_another_line.Anarrayofb = append(__Astruct__000000_A1_with_another_line.Anarrayofb, __Bstruct__000001_B2)
-	__Astruct__000000_A1_with_another_line.Anarrayofb = append(__Astruct__000000_A1_with_another_line.Anarrayofb, __Bstruct__000000_B1)
-	__Astruct__000000_A1_with_another_line.Anotherarrayofb = append(__Astruct__000000_A1_with_another_line.Anotherarrayofb, __Bstruct__000001_B2)
-	__Astruct__000000_A1_with_another_line.Anotherarrayofb = append(__Astruct__000000_A1_with_another_line.Anotherarrayofb, __Bstruct__000002_B3)
-	__Astruct__000000_A1_with_another_line.Anarrayofa = append(__Astruct__000000_A1_with_another_line.Anarrayofa, __Astruct__000000_A1_with_another_line)
-	__Astruct__000000_A1_with_another_line.Anarrayofb2Use = append(__Astruct__000000_A1_with_another_line.Anarrayofb2Use, __AstructBstruct2Use__000001_)
-	__Astruct__000001_A2.Anarrayofb2Use = append(__Astruct__000001_A2.Anarrayofb2Use, __AstructBstruct2Use__000000_)
+	__Astruct__000000_A1.Associationtob = __Bstruct__000001_B2
+	__Astruct__000000_A1.Anarrayofb = append(__Astruct__000000_A1.Anarrayofb, __Bstruct__000002_B3)
+	__Astruct__000000_A1.Anarrayofb = append(__Astruct__000000_A1.Anarrayofb, __Bstruct__000001_B2)
+	__Astruct__000000_A1.Anarrayofb = append(__Astruct__000000_A1.Anarrayofb, __Bstruct__000000_B1)
+	__Astruct__000000_A1.Anotherarrayofb = append(__Astruct__000000_A1.Anotherarrayofb, __Bstruct__000001_B2)
+	__Astruct__000000_A1.Anotherarrayofb = append(__Astruct__000000_A1.Anotherarrayofb, __Bstruct__000002_B3)
+	__Astruct__000000_A1.Anarrayofa = append(__Astruct__000000_A1.Anarrayofa, __Astruct__000000_A1)
+	__Astruct__000000_A1.Anarrayofb2Use = append(__Astruct__000000_A1.Anarrayofb2Use, __AstructBstruct2Use__000000_)
+	__Astruct__000001_A2.Anarrayofb2Use = append(__Astruct__000001_A2.Anarrayofb2Use, __AstructBstruct2Use__000001_)
 	__AstructBstruct2Use__000000_.Bstrcut2 = __Bstruct__000000_B1
 	__AstructBstruct2Use__000001_.Bstrcut2 = __Bstruct__000000_B1
 }
+
+
