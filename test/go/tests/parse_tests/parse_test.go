@@ -49,41 +49,50 @@ func TestParseTest(t *testing.T) {
 		if !isOfInterest {
 			continue
 		}
-		log.Println("AST File: ", fileName)
+		astCoordinate := "File "
+		log.Println(astCoordinate)
 		for _, decl := range file.Decls {
 			switch decl := decl.(type) {
 			case *ast.FuncDecl:
 				funcDecl := decl
+				astCoordinate := astCoordinate + "\tFunction " + funcDecl.Name.Name
 				if name := funcDecl.Name; name != nil {
 					isOfInterest := strings.Contains(funcDecl.Name.Name, "stage")
 					if !isOfInterest {
 						continue
 					}
-					log.Println("\tAST FuncDecl: ", name.Name)
+					log.Println(astCoordinate)
 				}
 				if doc := funcDecl.Doc; doc != nil {
+					astCoordinate := astCoordinate + "\tDoc"
 					for _, comment := range doc.List {
-						log.Println("\t\tAST Comment: ", comment.Text)
+						astCoordinate := astCoordinate + "\tComment: " + comment.Text
+						log.Println(astCoordinate)
 					}
 				}
 				if body := funcDecl.Body; body != nil {
+					astCoordinate := astCoordinate + "\tBody: "
 					for _, stmt := range body.List {
 						switch stmt := stmt.(type) {
 						case *ast.ExprStmt:
 							exprStmt := stmt
+							astCoordinate := astCoordinate + "\tExprStmt: "
 							switch expr := exprStmt.X.(type) {
 							case *ast.CallExpr:
+								astCoordinate := astCoordinate + "\tCallExpr: "
 								callExpr := expr
 								switch fun := callExpr.Fun.(type) {
 								case *ast.Ident:
 									ident := fun
-									log.Println("\t\t\tAST CallExpr: ", ident.Name)
+									astCoordinate := astCoordinate + "\tIdent: " + ident.Name
+									log.Println(astCoordinate)
 								}
 							}
 						case *ast.AssignStmt:
-							log.Println("\t\t\tAST Assigment: ")
+							astCoordinate := astCoordinate + "\tAssignStmt: "
+							log.Println(astCoordinate)
 							assignStmt := stmt
-							instance, id := models.UnmarshallGongstructStaging[models.Astruct](assignStmt)
+							instance, id := models.UnmarshallGongstructStaging[models.Astruct](assignStmt, astCoordinate)
 							_ = instance
 							_ = id
 
