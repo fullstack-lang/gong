@@ -11,6 +11,7 @@ import (
 	"time"
 
 	"github.com/fullstack-lang/gong/test/go/fullstack"
+	"github.com/fullstack-lang/gong/test/go/models"
 	"github.com/gin-gonic/gin"
 )
 
@@ -82,67 +83,10 @@ func TestParseTest(t *testing.T) {
 						case *ast.AssignStmt:
 							log.Println("\t\t\tAST Assigment: ")
 							assignStmt := stmt
-							for _, expr := range assignStmt.Lhs {
-								switch expr := expr.(type) {
-								case *ast.CallExpr:
-									callExpr := expr
-									switch fun := callExpr.Fun.(type) {
-									case *ast.Ident:
-										ident := fun
-										log.Println("\t\t\tAST Lhs: ", ident.Name)
-									}
-								case *ast.Ident:
-									ident := expr
-									log.Println("\t\t\tAST Lhs: ", ident.Name)
-								}
-							}
-							for _, expr := range assignStmt.Rhs {
-								switch expr := expr.(type) {
-								case *ast.CallExpr:
-									callExpr := expr
-									switch fun := callExpr.Fun.(type) {
-									case *ast.Ident:
-										ident := fun
-										log.Println("\t\t\tAST Rhs Fun: ", ident.Name)
-									case *ast.SelectorExpr:
-										selectorExpr := fun
-										switch x := selectorExpr.X.(type) {
-										case *ast.Ident:
-											ident := x
-											log.Println("\t\t\tAST Rhs Fun Sel X: ", ident.Name)
-										case *ast.ParenExpr:
-											parenExpr := x
-											switch x := parenExpr.X.(type) {
-											case *ast.UnaryExpr:
-												unaryExpr := x
-												switch x := unaryExpr.X.(type) {
-												case *ast.CompositeLit:
-													compositeLit := x
-													for _, elt := range compositeLit.Elts {
-														switch elt := elt.(type) {
-														case *ast.KeyValueExpr:
-															keyValueExpr := elt
-															switch key := keyValueExpr.Key.(type) {
-															case *ast.Ident:
-																ident := key
-																log.Println("\t\t\t\tAST Rhs Fun Sel X: ", ident.Name)
-															}
-															switch value := keyValueExpr.Value.(type) {
-															case *ast.BasicLit:
-																basicLit := value
-																log.Println("\t\t\t\tAST Rhs Fun Sel X: ", basicLit.Value)
-															}
-														}
-													}
-												}
-											}
-										}
-										if sel := selectorExpr.Sel; sel != nil {
-											log.Println("\t\t\tAST Rhs Fun Sel Sel: ", sel.Name)
-										}
-									}
-								}
-							}
+							instance, id := models.UnmarshallGongstructStaging[models.Astruct](assignStmt)
+							_ = instance
+							_ = id
+
 						}
 					}
 				}
