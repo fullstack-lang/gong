@@ -6,72 +6,94 @@ import (
 )
 
 // UnmarshallGoStaging unmarshall a go assign statement
-func UnmarshallGongstructStaging[Type Gongstruct](assignStmt *ast.AssignStmt) (instance *Type, identifier string) {
-
+func UnmarshallGongstructStaging[Type Gongstruct](assignStmt *ast.AssignStmt, astCoordinate_ string) (instance *Type, identifier string) {
+	astCoordinate := "\tAssignStmt: "
 	for _, expr := range assignStmt.Lhs {
 		switch expr := expr.(type) {
 		case *ast.Ident:
+			// we are on a variable declaration
 			ident := expr
-			log.Println("\t\t\tAST Lhs: ", ident.Name)
+			astCoordinate := astCoordinate + "\tLhs" + "." + ident.Name
+			log.Println(astCoordinate)
 			identifier = ident.Name
+		case *ast.SelectorExpr:
+			// we are on a variable assignement
+			selectorExpr := expr
+			astCoordinate := astCoordinate + "\tLhs" + "." + selectorExpr.X.(*ast.Ident).Name + "." + selectorExpr.Sel.Name
+			log.Println(astCoordinate)
 		}
 	}
 	for _, expr := range assignStmt.Rhs {
+		astCoordinate := astCoordinate + "\tRhs"
 		switch expr := expr.(type) {
 		case *ast.CallExpr:
 			callExpr := expr
+			astCoordinate := astCoordinate + "\tFun"
 			switch fun := callExpr.Fun.(type) {
 			// the is Fun      Expr
 			// function expression xxx.Stage()
 			case *ast.SelectorExpr:
 				selectorExpr := fun
+				astCoordinate := astCoordinate + "\tSelectorExpr"
 				switch x := selectorExpr.X.(type) {
 				case *ast.ParenExpr:
 					// A ParenExpr node represents a parenthesized expression.
 					// the is the
 					//   { Name : "A1"}
+					astCoordinate := astCoordinate + "\tX"
 					parenExpr := x
 					switch x := parenExpr.X.(type) {
 					case *ast.UnaryExpr:
 						unaryExpr := x
+						astCoordinate := astCoordinate + "\tUnaryExpr"
 						switch x := unaryExpr.X.(type) {
 						case *ast.CompositeLit:
 							compositeLit := x
+							astCoordinate := astCoordinate + "\tX(CompositeLit)"
 							for _, elt := range compositeLit.Elts {
+								astCoordinate := astCoordinate + "\tElt"
 								switch elt := elt.(type) {
 								case *ast.KeyValueExpr:
 									// This is expression
 									//     Name: "A1"
 									keyValueExpr := elt
+									astCoordinate := astCoordinate + "\tKeyValueExpr"
 									switch key := keyValueExpr.Key.(type) {
 									case *ast.Ident:
 										ident := key
-										log.Println("\t\t\t\tAST Rhs Fun Sel X: ", ident.Name)
+										astCoordinate := astCoordinate + "\tKey" + "." + ident.Name
+										log.Println(astCoordinate)
 									}
 									switch value := keyValueExpr.Value.(type) {
 									case *ast.BasicLit:
 										basicLit := value
-										log.Println("\t\t\t\tAST Rhs Fun Sel X: ", basicLit.Value)
+										astCoordinate := astCoordinate + "\tBasicLit Value" + "." + basicLit.Value
+										log.Println(astCoordinate)
 									}
 								}
 							}
+							astCoordinate2 := astCoordinate + "\tType"
 							switch type_ := compositeLit.Type.(type) {
 							case *ast.SelectorExpr:
 								slcExpr := type_
+								astCoordinate := astCoordinate2 + "\tSelectorExpr"
 								switch X := slcExpr.X.(type) {
 								case *ast.Ident:
 									ident := X
-									log.Println("\t\t\tAST ------- X : ", ident)
+									astCoordinate := astCoordinate + "\tX" + "." + ident.Name
+									log.Println(astCoordinate)
 								}
 								if Sel := slcExpr.Sel; Sel != nil {
-									log.Println("\t\t\tAST ------- Sel : ", Sel.Name)
+									astCoordinate := astCoordinate + "\tSel" + "." + Sel.Name
+									log.Println(astCoordinate)
 								}
 							}
 						}
 					}
 				}
 				if sel := selectorExpr.Sel; sel != nil {
-					log.Println("\t\t\tAST Rhs Fun Sel Sel: ", sel.Name)
+					astCoordinate := astCoordinate + "\tSel" + "." + sel.Name
+					log.Println(astCoordinate)
 				}
 			}
 		}
