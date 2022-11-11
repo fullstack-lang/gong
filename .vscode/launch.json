@@ -431,6 +431,17 @@
             ]
         },
         {
+            "name": "go test Parse",
+            "type": "go",
+            "request": "launch",
+            "mode": "test",
+            "program": "${workspaceFolder}/test/go/tests/parse_tests",
+            "args": [
+                "-test.run",
+                "TestParseTest"
+            ]
+        },
+        {
             "name": "go test TestStageCallBack",
             "type": "go",
             "request": "launch",
