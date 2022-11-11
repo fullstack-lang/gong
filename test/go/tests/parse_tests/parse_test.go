@@ -103,16 +103,42 @@ func TestParseTest(t *testing.T) {
 									switch fun := callExpr.Fun.(type) {
 									case *ast.Ident:
 										ident := fun
-										log.Println("\t\t\tAST Rhs: ", ident.Name)
+										log.Println("\t\t\tAST Rhs Fun: ", ident.Name)
 									case *ast.SelectorExpr:
 										selectorExpr := fun
 										switch x := selectorExpr.X.(type) {
 										case *ast.Ident:
 											ident := x
-											log.Println("\t\t\tAST Rhs x: ", ident.Name)
+											log.Println("\t\t\tAST Rhs Fun Sel X: ", ident.Name)
+										case *ast.ParenExpr:
+											parenExpr := x
+											switch x := parenExpr.X.(type) {
+											case *ast.UnaryExpr:
+												unaryExpr := x
+												switch x := unaryExpr.X.(type) {
+												case *ast.CompositeLit:
+													compositeLit := x
+													for _, elt := range compositeLit.Elts {
+														switch elt := elt.(type) {
+														case *ast.KeyValueExpr:
+															keyValueExpr := elt
+															switch key := keyValueExpr.Key.(type) {
+															case *ast.Ident:
+																ident := key
+																log.Println("\t\t\t\tAST Rhs Fun Sel X: ", ident.Name)
+															}
+															switch value := keyValueExpr.Value.(type) {
+															case *ast.BasicLit:
+																basicLit := value
+																log.Println("\t\t\t\tAST Rhs Fun Sel X: ", basicLit.Value)
+															}
+														}
+													}
+												}
+											}
 										}
 										if sel := selectorExpr.Sel; sel != nil {
-											log.Println("\t\t\tAST Rhs Sel: ", sel.Name)
+											log.Println("\t\t\tAST Rhs Fun Sel Sel: ", sel.Name)
 										}
 									}
 								}
