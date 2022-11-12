@@ -1,10 +1,12 @@
 package parsetests_test
 
 import (
+	"fmt"
 	"go/ast"
 	"go/parser"
 	"go/token"
 	"log"
+	"os"
 	"path/filepath"
 	"strings"
 	"testing"
@@ -121,4 +123,12 @@ func TestParseTest(t *testing.T) {
 	}
 
 	log.Println()
+
+	// serialize into another file
+	file, err := os.Create(fmt.Sprintf("./out/%s.go", "out"))
+	if err != nil {
+		log.Fatal(err.Error())
+	}
+	defer file.Close()
+	models.Stage.Marshall(file, "github.com/fullstack-lang/gong/test/go/models", "out")
 }
