@@ -268,15 +268,33 @@ func UnmarshallGongstructStaging(assignStmt *ast.AssignStmt, astCoordinate_ stri
 				if !ok {
 					log.Fatalln("gongstructName not found for identifier", identifier)
 				}
+
+				// remove first and last char
+				enumValue := Sel.Name
 				switch gongstructName {
 				case "Astruct":
 					switch fieldName {
 					case "Aenum":
-						__gong__map_Astruct[identifier].Aenum = AEnumType(Sel.Name)
+						var val AEnumType
+						err := (&val).FromCodeString(enumValue)
+						if err != nil {
+							log.Fatalln(err)
+						}
+						__gong__map_Astruct[identifier].Aenum = AEnumType(val)
 					case "Aenum_2":
-						__gong__map_Astruct[identifier].Aenum_2 = AEnumType(Sel.Name)
+						var val AEnumType
+						err := (&val).FromCodeString(enumValue)
+						if err != nil {
+							log.Fatalln(err)
+						}
+						__gong__map_Astruct[identifier].Aenum_2 = AEnumType(val)
 					case "Benum":
-						__gong__map_Astruct[identifier].Benum = BEnumType(Sel.Name)
+						var val BEnumType
+						err := (&val).FromCodeString(enumValue)
+						if err != nil {
+							log.Fatalln(err)
+						}
+						__gong__map_Astruct[identifier].Benum = BEnumType(val)
 					}
 				}
 
