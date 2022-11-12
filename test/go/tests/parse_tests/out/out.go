@@ -36,6 +36,7 @@ func outInjection() {
 	__Bstruct__000002_B3 := (&models.Bstruct{Name: `B3`}).Stage()
 
 	// Declarations of staged instances of Dstruct
+	__Dstruct__000000_D1_ := (&models.Dstruct{Name: `D1 `}).Stage()
 
 	// Setup of values
 
@@ -101,7 +102,11 @@ Second Line`
 	__Bstruct__000002_B3.Floatfield2 = 0.000000
 	__Bstruct__000002_B3.Intfield = 0
 
+	// Dstruct D1  values setup
+	__Dstruct__000000_D1_.Name = `D1 `
+
 	// Setup of pointers
+	__Astruct__000000_A1.Associationtob = __Bstruct__000001_B2
 }
 
 
