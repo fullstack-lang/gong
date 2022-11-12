@@ -175,6 +175,46 @@ func UnmarshallGongstructStaging(assignStmt *ast.AssignStmt, astCoordinate_ stri
 				astCoordinate := astCoordinate + "\tIdent" + "." + ident.Name
 				log.Println(astCoordinate)
 			}
+			for _, arg := range callExpr.Args {
+				astCoordinate := astCoordinate + "\tArg"
+				switch arg := arg.(type) {
+				case *ast.Ident:
+					ident := arg
+					astCoordinate := astCoordinate + "\tIdent" + "." + ident.Name
+					log.Println(astCoordinate)
+					var ok bool
+					gongstructName, ok = __gong__map_Indentifiers_gongstructName[identifier]
+					if !ok {
+						log.Fatalln("gongstructName not found for identifier", identifier)
+					}
+
+					switch gongstructName {
+					case "Astruct":
+						switch fieldName {
+						case "Anarrayofb":
+							// remove first and last char
+							targetIdentifier := ident.Name
+							target := __gong__map_Bstruct[targetIdentifier]
+							__gong__map_Astruct[identifier].Anarrayofb =
+								append(__gong__map_Astruct[identifier].Anarrayofb, target)
+						}
+					}
+				case *ast.SelectorExpr:
+					slcExpr := arg
+					astCoordinate := astCoordinate + "\tSelectorExpr"
+					switch X := slcExpr.X.(type) {
+					case *ast.Ident:
+						ident := X
+						astCoordinate := astCoordinate + "\tX" + "." + ident.Name
+						log.Println(astCoordinate)
+
+					}
+					if Sel := slcExpr.Sel; Sel != nil {
+						astCoordinate := astCoordinate + "\tSel" + "." + Sel.Name
+						log.Println(astCoordinate)
+					}
+				}
+			}
 		case *ast.BasicLit:
 			// assignment to string field
 			basicLit := expr
