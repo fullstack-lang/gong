@@ -4,6 +4,7 @@ import (
 	"go/ast"
 	"log"
 	"strconv"
+	"time"
 )
 
 var __gong__map_Indentifiers_gongstructName = make(map[string]string)
@@ -18,7 +19,10 @@ func UnmarshallGongstructStaging(assignStmt *ast.AssignStmt, astCoordinate_ stri
 	gongstructName string,
 	fieldName string) {
 	astCoordinate := "\tAssignStmt: "
-	for _, expr := range assignStmt.Lhs {
+	for rank, expr := range assignStmt.Lhs {
+		if rank > 0 {
+			continue
+		}
 		switch expr := expr.(type) {
 		case *ast.Ident:
 			// we are on a variable declaration
@@ -127,13 +131,36 @@ func UnmarshallGongstructStaging(assignStmt *ast.AssignStmt, astCoordinate_ stri
 					astCoordinate := astCoordinate + "\tSel" + "." + sel.Name
 					log.Println(astCoordinate)
 				}
-				for _, arg := range callExpr.Args {
+				for iteration, arg := range callExpr.Args {
 					astCoordinate := astCoordinate + "\tArg"
 					switch arg := arg.(type) {
 					case *ast.BasicLit:
 						basicLit := arg
 						astCoordinate := astCoordinate + "\tBasicLit" + "." + basicLit.Value
 						log.Println(astCoordinate)
+
+						// first iteration should be ignored
+						if iteration == 0 {
+							continue
+						}
+
+						// remove first and last char
+						date := basicLit.Value[1 : len(basicLit.Value)-1]
+
+						var ok bool
+						gongstructName, ok = __gong__map_Indentifiers_gongstructName[identifier]
+						if !ok {
+							log.Fatalln("gongstructName not found for identifier", identifier)
+						}
+						switch gongstructName {
+						case "Astruct":
+							switch fieldName {
+							case "Date":
+								__gong__map_Astruct[identifier].Date, _ = time.Parse(
+									"2006-01-02 15:04:05.999999999 -0700 MST",
+									date)
+							}
+						}
 					}
 				}
 			case *ast.Ident:
@@ -177,6 +204,13 @@ func UnmarshallGongstructStaging(assignStmt *ast.AssignStmt, astCoordinate_ stri
 						log.Fatalln(err)
 					}
 					__gong__map_Astruct[identifier].Intfield = int(fielValue)
+				case "Duration1":
+					// conevert string to int
+					fielValue, err := strconv.ParseInt(basicLit.Value, 10, 64)
+					if err != nil {
+						log.Fatalln(err)
+					}
+					__gong__map_Astruct[identifier].Duration1 = time.Duration(fielValue)
 				}
 			case "Bstruct":
 				switch fieldName {
@@ -227,6 +261,25 @@ func UnmarshallGongstructStaging(assignStmt *ast.AssignStmt, astCoordinate_ stri
 			if Sel := selectorExpr.Sel; Sel != nil {
 				astCoordinate := astCoordinate + "\tSel" + "." + Sel.Name
 				log.Println(astCoordinate)
+
+				// enum field
+				var ok bool
+				gongstructName, ok = __gong__map_Indentifiers_gongstructName[identifier]
+				if !ok {
+					log.Fatalln("gongstructName not found for identifier", identifier)
+				}
+				switch gongstructName {
+				case "Astruct":
+					switch fieldName {
+					case "Aenum":
+						__gong__map_Astruct[identifier].Aenum = AEnumType(Sel.Name)
+					case "Aenum_2":
+						__gong__map_Astruct[identifier].Aenum_2 = AEnumType(Sel.Name)
+					case "Benum":
+						__gong__map_Astruct[identifier].Benum = BEnumType(Sel.Name)
+					}
+				}
+
 			}
 		}
 	}
