@@ -5,6 +5,9 @@ import (
 	"log"
 )
 
+var __gong__map_Astruct = make(map[string]*Astruct)
+var __gong__map_Bstruct = make(map[string]*Bstruct)
+
 // UnmarshallGoStaging unmarshall a go assign statement
 func UnmarshallGongstructStaging[Type Gongstruct](assignStmt *ast.AssignStmt, astCoordinate_ string) (instance *Type, identifier string) {
 	astCoordinate := "\tAssignStmt: "
@@ -48,6 +51,7 @@ func UnmarshallGongstructStaging[Type Gongstruct](assignStmt *ast.AssignStmt, as
 						astCoordinate := astCoordinate + "\tUnaryExpr"
 						switch x := unaryExpr.X.(type) {
 						case *ast.CompositeLit:
+							instanceName := "NoName yet"
 							compositeLit := x
 							astCoordinate := astCoordinate + "\tX(CompositeLit)"
 							for _, elt := range compositeLit.Elts {
@@ -69,6 +73,7 @@ func UnmarshallGongstructStaging[Type Gongstruct](assignStmt *ast.AssignStmt, as
 										basicLit := value
 										astCoordinate := astCoordinate + "\tBasicLit Value" + "." + basicLit.Value
 										log.Println(astCoordinate)
+										instanceName = basicLit.Value
 									}
 								}
 							}
@@ -86,6 +91,15 @@ func UnmarshallGongstructStaging[Type Gongstruct](assignStmt *ast.AssignStmt, as
 								if Sel := slcExpr.Sel; Sel != nil {
 									astCoordinate := astCoordinate + "\tSel" + "." + Sel.Name
 									log.Println(astCoordinate)
+
+									// this is the place where an instance is created
+									switch Sel.Name {
+									case "Astruct":
+										instanceAstruct := (&Astruct{Name: instanceName}).Stage()
+										instance = any(instanceAstruct).(*Type)
+										__gong__map_Astruct[instanceName] = instanceAstruct
+										return instance, identifier
+									}
 								}
 							}
 						}
