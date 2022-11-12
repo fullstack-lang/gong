@@ -32,3 +32,4 @@ test/go/.DS_Store
 test/.DS_Store
 go/cmd/gong/__debug_bin.exe
 test/go/tests/~$serialize_test.xlsx
+test/.DS_Store
