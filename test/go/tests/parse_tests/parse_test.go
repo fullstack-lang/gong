@@ -95,7 +95,6 @@ func TestParseTest(t *testing.T) {
 							instance, id := models.UnmarshallGongstructStaging[models.Astruct](assignStmt, astCoordinate)
 							_ = instance
 							_ = id
-
 						}
 					}
 				}

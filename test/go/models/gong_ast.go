@@ -95,6 +95,39 @@ func UnmarshallGongstructStaging[Type Gongstruct](assignStmt *ast.AssignStmt, as
 					astCoordinate := astCoordinate + "\tSel" + "." + sel.Name
 					log.Println(astCoordinate)
 				}
+				for _, arg := range callExpr.Args {
+					astCoordinate := astCoordinate + "\tArg"
+					switch arg := arg.(type) {
+					case *ast.BasicLit:
+						basicLit := arg
+						astCoordinate := astCoordinate + "\tBasicLit" + "." + basicLit.Value
+						log.Println(astCoordinate)
+					}
+				}
+			}
+		case *ast.BasicLit:
+			// assignment to string field
+			basicLit := expr
+			astCoordinate := astCoordinate + "\tBasicLit" + "." + basicLit.Value
+			log.Println(astCoordinate)
+		case *ast.Ident:
+			// assignment to boolean field ?
+			ident := expr
+			astCoordinate := astCoordinate + "\tIdent" + "." + ident.Name
+			log.Println(astCoordinate)
+		case *ast.SelectorExpr:
+			// assignment to enum field
+			selectorExpr := expr
+			astCoordinate := astCoordinate + "\tSelectorExpr"
+			switch X := selectorExpr.X.(type) {
+			case *ast.Ident:
+				ident := X
+				astCoordinate := astCoordinate + "\tX" + "." + ident.Name
+				log.Println(astCoordinate)
+			}
+			if Sel := selectorExpr.Sel; Sel != nil {
+				astCoordinate := astCoordinate + "\tSel" + "." + Sel.Name
+				log.Println(astCoordinate)
 			}
 		}
 	}
