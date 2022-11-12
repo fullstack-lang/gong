@@ -38,12 +38,14 @@ func outInjection() {
 	// Astruct A1 values setup
 	__Astruct__000000_A1.Name = `A1`
 	__Astruct__000000_A1.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
-	__Astruct__000000_A1.Booleanfield = false
+	__Astruct__000000_A1.Booleanfield = true
 	__Astruct__000000_A1.CEnum = models.CENUM_VAL1
-	__Astruct__000000_A1.CName = ``
-	__Astruct__000000_A1.CFloatfield = 0.000000
+	__Astruct__000000_A1.CName = `CName1
+	//
+	// Second Line`
+	__Astruct__000000_A1.CFloatfield = 60.500000
 	__Astruct__000000_A1.Floatfield = 0.000000
-	__Astruct__000000_A1.Intfield = 0
+	__Astruct__000000_A1.Intfield = 3
 	__Astruct__000000_A1.Anotherbooleanfield = false
 	__Astruct__000000_A1.Duration1 = 0
 

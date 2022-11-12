@@ -3,13 +3,20 @@ package models
 import (
 	"go/ast"
 	"log"
+	"strconv"
 )
+
+var __gong__map_Indentifiers_gongstructName = make(map[string]string)
 
 var __gong__map_Astruct = make(map[string]*Astruct)
 var __gong__map_Bstruct = make(map[string]*Bstruct)
 
 // UnmarshallGoStaging unmarshall a go assign statement
-func UnmarshallGongstructStaging(assignStmt *ast.AssignStmt, astCoordinate_ string) (instance any, identifier string) {
+func UnmarshallGongstructStaging(assignStmt *ast.AssignStmt, astCoordinate_ string) (
+	instance any,
+	identifier string,
+	gongstructName string,
+	fieldName string) {
 	astCoordinate := "\tAssignStmt: "
 	for _, expr := range assignStmt.Lhs {
 		switch expr := expr.(type) {
@@ -24,6 +31,8 @@ func UnmarshallGongstructStaging(assignStmt *ast.AssignStmt, astCoordinate_ stri
 			selectorExpr := expr
 			astCoordinate := astCoordinate + "\tLhs" + "." + selectorExpr.X.(*ast.Ident).Name + "." + selectorExpr.Sel.Name
 			log.Println(astCoordinate)
+			identifier = selectorExpr.X.(*ast.Ident).Name
+			fieldName = selectorExpr.Sel.Name
 		}
 	}
 	for _, expr := range assignStmt.Rhs {
@@ -95,19 +104,20 @@ func UnmarshallGongstructStaging(assignStmt *ast.AssignStmt, astCoordinate_ stri
 									astCoordinate := astCoordinate + "\tSel" + "." + Sel.Name
 									log.Println(astCoordinate)
 
+									gongstructName = Sel.Name
 									// this is the place where an instance is created
-									switch Sel.Name {
+									switch gongstructName {
 									case "Astruct":
 										instanceAstruct := (&Astruct{Name: instanceName}).Stage()
 										instance = any(instanceAstruct)
-										__gong__map_Astruct[instanceName] = instanceAstruct
-										return instance, identifier
+										__gong__map_Astruct[identifier] = instanceAstruct
 									case "Bstruct":
 										instanceBstruct := (&Bstruct{Name: instanceName}).Stage()
 										instance = any(instanceBstruct)
-										__gong__map_Bstruct[instanceName] = instanceBstruct
-										return instance, identifier
+										__gong__map_Bstruct[identifier] = instanceBstruct
 									}
+									__gong__map_Indentifiers_gongstructName[identifier] = gongstructName
+									return
 								}
 							}
 						}
@@ -127,7 +137,7 @@ func UnmarshallGongstructStaging(assignStmt *ast.AssignStmt, astCoordinate_ stri
 					}
 				}
 			case *ast.Ident:
-				// assignment to boolean field ?
+				// append function
 				ident := fun
 				astCoordinate := astCoordinate + "\tIdent" + "." + ident.Name
 				log.Println(astCoordinate)
@@ -137,11 +147,73 @@ func UnmarshallGongstructStaging(assignStmt *ast.AssignStmt, astCoordinate_ stri
 			basicLit := expr
 			astCoordinate := astCoordinate + "\tBasicLit" + "." + basicLit.Value
 			log.Println(astCoordinate)
+			var ok bool
+			gongstructName, ok = __gong__map_Indentifiers_gongstructName[identifier]
+			if !ok {
+				log.Fatalln("gongstructName not found for identifier", identifier)
+			}
+
+			switch gongstructName {
+			case "Astruct":
+				switch fieldName {
+				case "Name":
+					// remove first and last char
+					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
+					__gong__map_Astruct[identifier].Name = fielValue
+				case "CName":
+					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
+					__gong__map_Astruct[identifier].CName = fielValue
+				case "CFloatfield":
+					// conevert string to float
+					fielValue, err := strconv.ParseFloat(basicLit.Value, 64)
+					if err != nil {
+						log.Fatalln(err)
+					}
+					__gong__map_Astruct[identifier].CFloatfield = fielValue
+				case "Intfield":
+					// conevert string to int
+					fielValue, err := strconv.ParseInt(basicLit.Value, 10, 64)
+					if err != nil {
+						log.Fatalln(err)
+					}
+					__gong__map_Astruct[identifier].Intfield = int(fielValue)
+				}
+			case "Bstruct":
+				switch fieldName {
+				case "Name":
+					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
+					__gong__map_Bstruct[identifier].Name = fielValue
+				}
+			}
 		case *ast.Ident:
 			// assignment to boolean field ?
 			ident := expr
 			astCoordinate := astCoordinate + "\tIdent" + "." + ident.Name
 			log.Println(astCoordinate)
+			var ok bool
+			gongstructName, ok = __gong__map_Indentifiers_gongstructName[identifier]
+			if !ok {
+				log.Fatalln("gongstructName not found for identifier", identifier)
+			}
+			switch gongstructName {
+			case "Astruct":
+				switch fieldName {
+				case "Booleanfield":
+					// conevert string to bool
+					fielValue, err := strconv.ParseBool(ident.Name)
+					if err != nil {
+						log.Fatalln(err)
+					}
+					__gong__map_Astruct[identifier].Booleanfield = fielValue
+				case "Anotherbooleanfield":
+					// conevert string to bool
+					fielValue, err := strconv.ParseBool(ident.Name)
+					if err != nil {
+						log.Fatalln(err)
+					}
+					__gong__map_Astruct[identifier].Anotherbooleanfield = fielValue
+				}
+			}
 		case *ast.SelectorExpr:
 			// assignment to enum field
 			selectorExpr := expr
