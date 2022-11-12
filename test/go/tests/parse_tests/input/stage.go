@@ -19,6 +19,8 @@ func stageInjection() {
 
 	// Declarations of staged instances of Astruct
 	__Astruct__000000_A1 := (&models.Astruct{Name: "A1"}).Stage()
+	__Bstruct__000000_B1 := (&models.Bstruct{Name: "B1"}).Stage()
+
 	__Astruct__000000_A1.Name = `A1`
 	__Astruct__000000_A1.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2022-11-14 03:08:21 +0000 +0000")
 	__Astruct__000000_A1.Booleanfield = false
@@ -29,4 +31,7 @@ func stageInjection() {
 	__Astruct__000000_A1.CName = `CName1
 	//
 	// Second Line`
+
+	__Astruct__000000_A1.Anarrayofb = append(__Astruct__000000_A1.Anarrayofb, __Bstruct__000000_B1)
+
 }

@@ -104,6 +104,11 @@ func UnmarshallGongstructStaging[Type Gongstruct](assignStmt *ast.AssignStmt, as
 						log.Println(astCoordinate)
 					}
 				}
+			case *ast.Ident:
+				// assignment to boolean field ?
+				ident := fun
+				astCoordinate := astCoordinate + "\tIdent" + "." + ident.Name
+				log.Println(astCoordinate)
 			}
 		case *ast.BasicLit:
 			// assignment to string field
