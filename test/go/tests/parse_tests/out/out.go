@@ -22,29 +22,38 @@ func outInjection() {
 	// Declaration of instances to stage
 
 	// Declarations of staged instances of Astruct
-	__Astruct__000000__A1_ := (&models.Astruct{Name: "A1"}).Stage()
+	__Astruct__000000_A1 := (&models.Astruct{Name: `A1`}).Stage()
 
 	// Declarations of staged instances of AstructBstruct2Use
 
 	// Declarations of staged instances of AstructBstructUse
 
 	// Declarations of staged instances of Bstruct
+	__Bstruct__000000_B1 := (&models.Bstruct{Name: `B1`}).Stage()
 
 	// Declarations of staged instances of Dstruct
 
 	// Setup of values
 
-	// Astruct "A1" values setup
-	__Astruct__000000__A1_.Name = `"A1"`
-	__Astruct__000000__A1_.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
-	__Astruct__000000__A1_.Booleanfield = false
-	__Astruct__000000__A1_.CEnum = models.CENUM_VAL1
-	__Astruct__000000__A1_.CName = ``
-	__Astruct__000000__A1_.CFloatfield = 0.000000
-	__Astruct__000000__A1_.Floatfield = 0.000000
-	__Astruct__000000__A1_.Intfield = 0
-	__Astruct__000000__A1_.Anotherbooleanfield = false
-	__Astruct__000000__A1_.Duration1 = 0
+	// Astruct A1 values setup
+	__Astruct__000000_A1.Name = `A1`
+	__Astruct__000000_A1.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
+	__Astruct__000000_A1.Booleanfield = false
+	__Astruct__000000_A1.CEnum = models.CENUM_VAL1
+	__Astruct__000000_A1.CName = ``
+	__Astruct__000000_A1.CFloatfield = 0.000000
+	__Astruct__000000_A1.Floatfield = 0.000000
+	__Astruct__000000_A1.Intfield = 0
+	__Astruct__000000_A1.Anotherbooleanfield = false
+	__Astruct__000000_A1.Duration1 = 0
+
+	// Bstruct B1 values setup
+	__Bstruct__000000_B1.Name = `B1`
+	__Bstruct__000000_B1.Floatfield = 0.000000
+	__Bstruct__000000_B1.Floatfield2 = 0.000000
+	__Bstruct__000000_B1.Intfield = 0
 
 	// Setup of pointers
 }
+
+

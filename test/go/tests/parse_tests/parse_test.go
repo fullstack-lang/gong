@@ -94,7 +94,7 @@ func TestParseTest(t *testing.T) {
 							astCoordinate := astCoordinate + "\tAssignStmt: "
 							log.Println(astCoordinate)
 							assignStmt := stmt
-							instance, id := models.UnmarshallGongstructStaging[models.Astruct](assignStmt, astCoordinate)
+							instance, id := models.UnmarshallGongstructStaging(assignStmt, astCoordinate)
 							_ = instance
 							_ = id
 						}

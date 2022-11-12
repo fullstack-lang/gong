@@ -6,6 +6,10 @@ import (
 	"github.com/fullstack-lang/gong/test/go/models"
 )
 
+// generated in order to avoid error in the package import
+// if there are no elements in the stage to marshall
+var ___dummy__Stage models.StageStruct
+
 func init() {
 	var __Dummy_time_variable time.Time
 	_ = __Dummy_time_variable
@@ -18,23 +22,23 @@ func stageInjection() {
 	// Declaration of instances to stage
 
 	// Declarations of staged instances of Astruct
-	__Astruct__000000_A1 := (&models.Astruct{Name: "A1"}).Stage()
-	__Astruct__000001_A2 := (&models.Astruct{Name: "A2"}).Stage()
-	__Astruct__000002_A3 := (&models.Astruct{Name: "A3"}).Stage()
+	__Astruct__000000_A1 := (&models.Astruct{Name:  `A1 `}).Stage()
+	__Astruct__000001_A2 := (&models.Astruct{Name:  `A2 `}).Stage()
+	__Astruct__000002_A3 := (&models.Astruct{Name:  `A3 `}).Stage()
 
 	// Declarations of staged instances of AstructBstruct2Use
-	__AstructBstruct2Use__000000_ := (&models.AstructBstruct2Use{Name: ""}).Stage()
-	__AstructBstruct2Use__000001_ := (&models.AstructBstruct2Use{Name: ""}).Stage()
+	__AstructBstruct2Use__000000_ := (&models.AstructBstruct2Use{Name:  ` `}).Stage()
+	__AstructBstruct2Use__000001_ := (&models.AstructBstruct2Use{Name:  ` `}).Stage()
 
 	// Declarations of staged instances of AstructBstructUse
 
 	// Declarations of staged instances of Bstruct
-	__Bstruct__000000_B1 := (&models.Bstruct{Name: "B1"}).Stage()
-	__Bstruct__000001_B2 := (&models.Bstruct{Name: "B2"}).Stage()
-	__Bstruct__000002_B3 := (&models.Bstruct{Name: "B3"}).Stage()
+	__Bstruct__000000_B1 := (&models.Bstruct{Name:  `B1 `}).Stage()
+	__Bstruct__000001_B2 := (&models.Bstruct{Name:  `B2 `}).Stage()
+	__Bstruct__000002_B3 := (&models.Bstruct{Name:  `B3 `}).Stage()
 
 	// Declarations of staged instances of Dstruct
-	__Dstruct__000000_D1 := (&models.Dstruct{Name: "D1"}).Stage()
+	__Dstruct__000000_D1 := (&models.Dstruct{Name:  `D1 `}).Stage()
 
 	// Setup of values
 
@@ -91,16 +95,19 @@ Second Line`
 	// Bstruct B1 values setup
 	__Bstruct__000000_B1.Name = `B1`
 	__Bstruct__000000_B1.Floatfield = 0.000000
+	__Bstruct__000000_B1.Floatfield2 = 0.000000
 	__Bstruct__000000_B1.Intfield = 0
 
 	// Bstruct B2 values setup
 	__Bstruct__000001_B2.Name = `B2`
 	__Bstruct__000001_B2.Floatfield = 0.000000
+	__Bstruct__000001_B2.Floatfield2 = 0.000000
 	__Bstruct__000001_B2.Intfield = 0
 
 	// Bstruct B3 values setup
 	__Bstruct__000002_B3.Name = `B3`
 	__Bstruct__000002_B3.Floatfield = 0.000000
+	__Bstruct__000002_B3.Floatfield2 = 0.000000
 	__Bstruct__000002_B3.Intfield = 0
 
 	// Dstruct D1 values setup
@@ -119,3 +126,5 @@ Second Line`
 	__AstructBstruct2Use__000000_.Bstrcut2 = __Bstruct__000000_B1
 	__AstructBstruct2Use__000001_.Bstrcut2 = __Bstruct__000000_B1
 }
+
+
