@@ -11,6 +11,8 @@ var __gong__map_Indentifiers_gongstructName = make(map[string]string)
 
 var __gong__map_Astruct = make(map[string]*Astruct)
 var __gong__map_Bstruct = make(map[string]*Bstruct)
+var __gong__map_Cstruct = make(map[string]*Cstruct)
+var __gong__map_Dstruct = make(map[string]*Dstruct)
 
 // UnmarshallGoStaging unmarshall a go assign statement
 func UnmarshallGongstructStaging(assignStmt *ast.AssignStmt, astCoordinate_ string) (
@@ -119,6 +121,10 @@ func UnmarshallGongstructStaging(assignStmt *ast.AssignStmt, astCoordinate_ stri
 										instanceBstruct := (&Bstruct{Name: instanceName}).Stage()
 										instance = any(instanceBstruct)
 										__gong__map_Bstruct[identifier] = instanceBstruct
+									case "Dstruct":
+										instanceDstruct := (&Dstruct{Name: instanceName}).Stage()
+										instance = any(instanceDstruct)
+										__gong__map_Dstruct[identifier] = instanceDstruct
 									}
 									__gong__map_Indentifiers_gongstructName[identifier] = gongstructName
 									return
@@ -246,6 +252,12 @@ func UnmarshallGongstructStaging(assignStmt *ast.AssignStmt, astCoordinate_ stri
 						log.Fatalln(err)
 					}
 					__gong__map_Astruct[identifier].Anotherbooleanfield = fielValue
+				case "Associationtob":
+					targetIdentifier := ident.Name
+					__gong__map_Astruct[identifier].Associationtob = __gong__map_Bstruct[targetIdentifier]
+				case "Anotherassociationtob_2":
+					targetIdentifier := ident.Name
+					__gong__map_Astruct[identifier].Anotherassociationtob_2 = __gong__map_Bstruct[targetIdentifier]
 				}
 			}
 		case *ast.SelectorExpr:
