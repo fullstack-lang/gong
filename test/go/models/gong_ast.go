@@ -250,6 +250,20 @@ func UnmarshallGongstructStaging(assignStmt *ast.AssignStmt, astCoordinate_ stri
 					// remove first and last char
 					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
 					__gong__map_Astruct[identifier].CName = fielValue
+				case "Intfield":
+					// conevert string to int
+					fielValue, err := strconv.ParseInt(basicLit.Value, 10, 64)
+					if err != nil {
+						log.Fatalln(err)
+					}
+					__gong__map_Astruct[identifier].Intfield = int(fielValue)
+				case "Duration1":
+					// conevert string to int
+					fielValue, err := strconv.ParseInt(basicLit.Value, 10, 64)
+					if err != nil {
+						log.Fatalln(err)
+					}
+					__gong__map_Astruct[identifier].Duration1 = time.Duration(fielValue)
 				}
 			case "AstructBstruct2Use":
 				switch fieldName {
@@ -274,6 +288,13 @@ func UnmarshallGongstructStaging(assignStmt *ast.AssignStmt, astCoordinate_ stri
 					// remove first and last char
 					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
 					__gong__map_Bstruct[identifier].Name = fielValue
+				case "Intfield":
+					// conevert string to int
+					fielValue, err := strconv.ParseInt(basicLit.Value, 10, 64)
+					if err != nil {
+						log.Fatalln(err)
+					}
+					__gong__map_Astruct[identifier].Intfield = int(fielValue)
 				}
 			case "Dstruct":
 				switch fieldName {
