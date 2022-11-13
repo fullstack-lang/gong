@@ -22,6 +22,7 @@ const (
 	ModelGongAstGenericMaps ModelGongAstStructInsertionId = iota
 	ModelGongAstStageProcessing
 	ModelGongAstBasicLitAssignment
+	ModelGongAstIdentBooleanAndPointerAssignment
 	ModelGongAstStructInsertionsNb
 )
 
@@ -38,6 +39,11 @@ var __gong__map_{{Structname}} = make(map[string]*{{Structname}})`,
 			case "{{Structname}}":
 				switch fieldName {
 				// insertion point for field dependant code{{basicLitAssignCode}}
+				}`,
+	ModelGongAstIdentBooleanAndPointerAssignment: `
+			case "{{Structname}}":
+				switch fieldName {
+				// insertion point for field dependant code{{boolAndPointerAssignCode}}
 				}`,
 }
 
@@ -63,7 +69,7 @@ map[ModelGongAstFieldInsertionId]string{
 					__gong__map_{{Structname}}[identifier].{{FieldName}} = fielValue`,
 	ModelGongAstFieldAssignInt: `
 				case "{{FieldName}}":
-					// conevert string to int
+					// convert string to int
 					fielValue, err := strconv.ParseInt(basicLit.Value, 10, 64)
 					if err != nil {
 						log.Fatalln(err)
@@ -71,7 +77,7 @@ map[ModelGongAstFieldInsertionId]string{
 					__gong__map_{{Structname}}[identifier].{{FieldName}} = int(fielValue)`,
 	ModelGongAstFieldAssignDuration: `
 				case "{{FieldName}}":
-					// conevert string to int
+					// convert string to duration
 					fielValue, err := strconv.ParseInt(basicLit.Value, 10, 64)
 					if err != nil {
 						log.Fatalln(err)
@@ -79,8 +85,16 @@ map[ModelGongAstFieldInsertionId]string{
 					__gong__map_{{Structname}}[identifier].{{FieldName}} = time.Duration(fielValue)`,
 	ModelGongAstFieldAssignFloat64: `
 				case "{{FieldName}}":
-					// conevert string to int
+					// convert string to float64
 					fielValue, err := strconv.ParseFloat(basicLit.Value, 64)
+					if err != nil {
+						log.Fatalln(err)
+					}
+					__gong__map_{{Structname}}[identifier].{{FieldName}} = fielValue`,
+	ModelGongAstFieldAssignBoolean: `
+				case "{{FieldName}}":
+					// convert string to boolean
+					fielValue, err := strconv.ParseBool(ident.Name)
 					if err != nil {
 						log.Fatalln(err)
 					}
@@ -113,7 +127,7 @@ func GongAstGenerator(modelPkg *models.ModelPkg, pkgPath string) {
 
 		for subStructTemplate := range ModelGongAstStructSubTemplateCode {
 			basicLitAssignCode := ""
-			fieldNameString := ""
+			boolAndPointerAssignCode := ""
 			fieldNameInt := ""
 			fieldNameBool := ""
 			fieldNameFloat64 := ""
@@ -148,6 +162,10 @@ func GongAstGenerator(modelPkg *models.ModelPkg, pkgPath string) {
 						basicLitAssignCode += models.Replace1(
 							ModelGongAstFieldSubTemplateCode[ModelGongAstFieldAssignFloat64],
 							"{{FieldName}}", field.Name)
+					case types.Bool:
+						boolAndPointerAssignCode += models.Replace1(
+							ModelGongAstFieldSubTemplateCode[ModelGongAstFieldAssignBoolean],
+							"{{FieldName}}", field.Name)
 					}
 
 				}
@@ -157,7 +175,7 @@ func GongAstGenerator(modelPkg *models.ModelPkg, pkgPath string) {
 				"{{structname}}", strings.ToLower(gongStruct.Name),
 				"{{Structname}}", gongStruct.Name,
 				"{{basicLitAssignCode}}", basicLitAssignCode,
-				"{{FieldNameString}}", fieldNameString,
+				"{{boolAndPointerAssignCode}}", boolAndPointerAssignCode,
 				"{{FieldNameInt}}", fieldNameInt,
 				"{{FieldNameFloat64}}", fieldNameFloat64,
 				"{{FieldNameDate}}", fieldNameDate,
@@ -169,7 +187,7 @@ func GongAstGenerator(modelPkg *models.ModelPkg, pkgPath string) {
 				"{{structname}}", strings.ToLower(gongStruct.Name),
 				"{{Structname}}", gongStruct.Name,
 				"{{basicLitAssignCode}}", basicLitAssignCode,
-				"{{FieldNameString}}", fieldNameString,
+				"{{FieldNameString}}", boolAndPointerAssignCode,
 				"{{FieldNameInt}}", fieldNameInt,
 				"{{FieldNameFloat64}}", fieldNameFloat64,
 				"{{FieldNameDate}}", fieldNameDate,

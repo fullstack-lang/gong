@@ -251,28 +251,28 @@ func UnmarshallGongstructStaging(assignStmt *ast.AssignStmt, astCoordinate_ stri
 					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
 					__gong__map_Astruct[identifier].CName = fielValue
 				case "CFloatfield":
-					// conevert string to int
+					// convert string to float64
 					fielValue, err := strconv.ParseFloat(basicLit.Value, 64)
 					if err != nil {
 						log.Fatalln(err)
 					}
 					__gong__map_Astruct[identifier].CFloatfield = fielValue
 				case "Floatfield":
-					// conevert string to int
+					// convert string to float64
 					fielValue, err := strconv.ParseFloat(basicLit.Value, 64)
 					if err != nil {
 						log.Fatalln(err)
 					}
 					__gong__map_Astruct[identifier].Floatfield = fielValue
 				case "Intfield":
-					// conevert string to int
+					// convert string to int
 					fielValue, err := strconv.ParseInt(basicLit.Value, 10, 64)
 					if err != nil {
 						log.Fatalln(err)
 					}
 					__gong__map_Astruct[identifier].Intfield = int(fielValue)
 				case "Duration1":
-					// conevert string to int
+					// convert string to duration
 					fielValue, err := strconv.ParseInt(basicLit.Value, 10, 64)
 					if err != nil {
 						log.Fatalln(err)
@@ -303,21 +303,21 @@ func UnmarshallGongstructStaging(assignStmt *ast.AssignStmt, astCoordinate_ stri
 					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
 					__gong__map_Bstruct[identifier].Name = fielValue
 				case "Floatfield":
-					// conevert string to int
+					// convert string to float64
 					fielValue, err := strconv.ParseFloat(basicLit.Value, 64)
 					if err != nil {
 						log.Fatalln(err)
 					}
 					__gong__map_Bstruct[identifier].Floatfield = fielValue
 				case "Floatfield2":
-					// conevert string to int
+					// convert string to float64
 					fielValue, err := strconv.ParseFloat(basicLit.Value, 64)
 					if err != nil {
 						log.Fatalln(err)
 					}
 					__gong__map_Bstruct[identifier].Floatfield2 = fielValue
 				case "Intfield":
-					// conevert string to int
+					// convert string to int
 					fielValue, err := strconv.ParseInt(basicLit.Value, 10, 64)
 					if err != nil {
 						log.Fatalln(err)
@@ -342,6 +342,43 @@ func UnmarshallGongstructStaging(assignStmt *ast.AssignStmt, astCoordinate_ stri
 			gongstructName, ok = __gong__map_Indentifiers_gongstructName[identifier]
 			if !ok {
 				log.Fatalln("gongstructName not found for identifier", identifier)
+			}
+			switch gongstructName {
+			// insertion point for bool & pointers assignments
+			case "Astruct":
+				switch fieldName {
+				// insertion point for field dependant code
+				case "Booleanfield":
+					// convert string to boolean
+					fielValue, err := strconv.ParseBool(ident.Name)
+					if err != nil {
+						log.Fatalln(err)
+					}
+					__gong__map_Astruct[identifier].Booleanfield = fielValue
+				case "Anotherbooleanfield":
+					// convert string to boolean
+					fielValue, err := strconv.ParseBool(ident.Name)
+					if err != nil {
+						log.Fatalln(err)
+					}
+					__gong__map_Astruct[identifier].Anotherbooleanfield = fielValue
+				}
+			case "AstructBstruct2Use":
+				switch fieldName {
+				// insertion point for field dependant code
+				}
+			case "AstructBstructUse":
+				switch fieldName {
+				// insertion point for field dependant code
+				}
+			case "Bstruct":
+				switch fieldName {
+				// insertion point for field dependant code
+				}
+			case "Dstruct":
+				switch fieldName {
+				// insertion point for field dependant code
+				}
 			}
 			switch gongstructName {
 			case "Astruct":
