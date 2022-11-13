@@ -27,8 +27,8 @@ func outInjection() {
 	__Astruct__000002_A3 := (&models.Astruct{Name: "A3"}).Stage()
 
 	// Declarations of staged instances of AstructBstruct2Use
-	__AstructBstruct2Use__000000__ := (&models.AstructBstruct2Use{Name: " "}).Stage()
-	__AstructBstruct2Use__000001__ := (&models.AstructBstruct2Use{Name: " "}).Stage()
+	__AstructBstruct2Use__000000_ := (&models.AstructBstruct2Use{Name: ""}).Stage()
+	__AstructBstruct2Use__000001_ := (&models.AstructBstruct2Use{Name: ""}).Stage()
 
 	// Declarations of staged instances of AstructBstructUse
 
@@ -38,7 +38,7 @@ func outInjection() {
 	__Bstruct__000002_B3 := (&models.Bstruct{Name: "B3"}).Stage()
 
 	// Declarations of staged instances of Dstruct
-	__Dstruct__000000_D1_ := (&models.Dstruct{Name: "D1 "}).Stage()
+	__Dstruct__000000_D1 := (&models.Dstruct{Name: "D1"}).Stage()
 
 	// Setup of values
 
@@ -49,7 +49,7 @@ func outInjection() {
 	__Astruct__000000_A1.Aenum = models.ENUM_VAL1
 	__Astruct__000000_A1.Aenum_2 = models.ENUM_VAL2
 	__Astruct__000000_A1.Benum = models.BENUM_VAL2
-	__Astruct__000000_A1.CEnum = models.CENUM_VAL1
+	__Astruct__000000_A1.CEnum = models.CENUM_VAL2
 	__Astruct__000000_A1.CName = `CName1
 Second Line`
 	__Astruct__000000_A1.CFloatfield = 60.500000
@@ -81,16 +81,16 @@ Second Line`
 	__Astruct__000002_A3.CEnum = models.CENUM_VAL1
 	__Astruct__000002_A3.CName = ``
 	__Astruct__000002_A3.CFloatfield = 4.900000
-	__Astruct__000002_A3.Floatfield = 0.000000
+	__Astruct__000002_A3.Floatfield = 2.000000
 	__Astruct__000002_A3.Intfield = 0
 	__Astruct__000002_A3.Anotherbooleanfield = false
 	__Astruct__000002_A3.Duration1 = 0
 
-	// AstructBstruct2Use   values setup
-	__AstructBstruct2Use__000000__.Name = ` `
+	// AstructBstruct2Use  values setup
+	__AstructBstruct2Use__000000_.Name = ``
 
-	// AstructBstruct2Use   values setup
-	__AstructBstruct2Use__000001__.Name = ` `
+	// AstructBstruct2Use  values setup
+	__AstructBstruct2Use__000001_.Name = ``
 
 	// Bstruct B1 values setup
 	__Bstruct__000000_B1.Name = `B1`
@@ -110,14 +110,16 @@ Second Line`
 	__Bstruct__000002_B3.Floatfield2 = 0.000000
 	__Bstruct__000002_B3.Intfield = 0
 
-	// Dstruct D1  values setup
-	__Dstruct__000000_D1_.Name = `D1 `
+	// Dstruct D1 values setup
+	__Dstruct__000000_D1.Name = `D1`
 
 	// Setup of pointers
 	__Astruct__000000_A1.Associationtob = __Bstruct__000001_B2
 	__Astruct__000000_A1.Anarrayofb = append(__Astruct__000000_A1.Anarrayofb, __Bstruct__000002_B3)
 	__Astruct__000000_A1.Anarrayofb = append(__Astruct__000000_A1.Anarrayofb, __Bstruct__000001_B2)
 	__Astruct__000000_A1.Anarrayofb = append(__Astruct__000000_A1.Anarrayofb, __Bstruct__000000_B1)
+	__AstructBstruct2Use__000000_.Bstrcut2 = __Bstruct__000000_B1
+	__AstructBstruct2Use__000001_.Bstrcut2 = __Bstruct__000000_B1
 }
 
 
