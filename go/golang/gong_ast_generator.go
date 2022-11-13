@@ -56,6 +56,7 @@ const (
 	ModelGongAstFieldAssignDate
 	ModelGongAstFieldAssignDuration
 	ModelGongAstFieldAssignBoolean
+	ModelGongAstFieldAssignPointer
 
 	ModelGongAstFieldInsertionsNb
 )
@@ -99,6 +100,10 @@ map[ModelGongAstFieldInsertionId]string{
 						log.Fatalln(err)
 					}
 					__gong__map_{{Structname}}[identifier].{{FieldName}} = fielValue`,
+	ModelGongAstFieldAssignPointer: `
+				case "{{FieldName}}":
+					targetIdentifier := ident.Name
+					__gong__map_{{Structname}}[identifier].{{FieldName}} = __gong__map_{{AssociationStructName}}[targetIdentifier]`,
 }
 
 func GongAstGenerator(modelPkg *models.ModelPkg, pkgPath string) {
@@ -167,7 +172,11 @@ func GongAstGenerator(modelPkg *models.ModelPkg, pkgPath string) {
 							ModelGongAstFieldSubTemplateCode[ModelGongAstFieldAssignBoolean],
 							"{{FieldName}}", field.Name)
 					}
-
+				case *models.PointerToGongStructField:
+					boolAndPointerAssignCode += models.Replace2(
+						ModelGongAstFieldSubTemplateCode[ModelGongAstFieldAssignPointer],
+						"{{FieldName}}", field.Name,
+						"{{AssociationStructName}}", field.GongStruct.Name)
 				}
 			}
 
