@@ -250,6 +250,20 @@ func UnmarshallGongstructStaging(assignStmt *ast.AssignStmt, astCoordinate_ stri
 					// remove first and last char
 					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
 					__gong__map_Astruct[identifier].CName = fielValue
+				case "CFloatfield":
+					// conevert string to int
+					fielValue, err := strconv.ParseFloat(basicLit.Value, 64)
+					if err != nil {
+						log.Fatalln(err)
+					}
+					__gong__map_Astruct[identifier].CFloatfield = fielValue
+				case "Floatfield":
+					// conevert string to int
+					fielValue, err := strconv.ParseFloat(basicLit.Value, 64)
+					if err != nil {
+						log.Fatalln(err)
+					}
+					__gong__map_Astruct[identifier].Floatfield = fielValue
 				case "Intfield":
 					// conevert string to int
 					fielValue, err := strconv.ParseInt(basicLit.Value, 10, 64)
@@ -288,13 +302,27 @@ func UnmarshallGongstructStaging(assignStmt *ast.AssignStmt, astCoordinate_ stri
 					// remove first and last char
 					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
 					__gong__map_Bstruct[identifier].Name = fielValue
+				case "Floatfield":
+					// conevert string to int
+					fielValue, err := strconv.ParseFloat(basicLit.Value, 64)
+					if err != nil {
+						log.Fatalln(err)
+					}
+					__gong__map_Bstruct[identifier].Floatfield = fielValue
+				case "Floatfield2":
+					// conevert string to int
+					fielValue, err := strconv.ParseFloat(basicLit.Value, 64)
+					if err != nil {
+						log.Fatalln(err)
+					}
+					__gong__map_Bstruct[identifier].Floatfield2 = fielValue
 				case "Intfield":
 					// conevert string to int
 					fielValue, err := strconv.ParseInt(basicLit.Value, 10, 64)
 					if err != nil {
 						log.Fatalln(err)
 					}
-					__gong__map_Astruct[identifier].Intfield = int(fielValue)
+					__gong__map_Bstruct[identifier].Intfield = int(fielValue)
 				}
 			case "Dstruct":
 				switch fieldName {
@@ -303,45 +331,6 @@ func UnmarshallGongstructStaging(assignStmt *ast.AssignStmt, astCoordinate_ stri
 					// remove first and last char
 					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
 					__gong__map_Dstruct[identifier].Name = fielValue
-				}
-			}
-			switch gongstructName {
-			case "Astruct":
-				switch fieldName {
-				case "Name":
-					// remove first and last char
-					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
-					__gong__map_Astruct[identifier].Name = fielValue
-				case "CName":
-					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
-					__gong__map_Astruct[identifier].CName = fielValue
-				case "CFloatfield":
-					// conevert string to float
-					fielValue, err := strconv.ParseFloat(basicLit.Value, 64)
-					if err != nil {
-						log.Fatalln(err)
-					}
-					__gong__map_Astruct[identifier].CFloatfield = fielValue
-				case "Intfield":
-					// conevert string to int
-					fielValue, err := strconv.ParseInt(basicLit.Value, 10, 64)
-					if err != nil {
-						log.Fatalln(err)
-					}
-					__gong__map_Astruct[identifier].Intfield = int(fielValue)
-				case "Duration1":
-					// conevert string to int
-					fielValue, err := strconv.ParseInt(basicLit.Value, 10, 64)
-					if err != nil {
-						log.Fatalln(err)
-					}
-					__gong__map_Astruct[identifier].Duration1 = time.Duration(fielValue)
-				}
-			case "Bstruct":
-				switch fieldName {
-				case "Name":
-					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
-					__gong__map_Bstruct[identifier].Name = fielValue
 				}
 			}
 		case *ast.Ident:
