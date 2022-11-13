@@ -355,6 +355,9 @@ func UnmarshallGongstructStaging(assignStmt *ast.AssignStmt, astCoordinate_ stri
 						log.Fatalln(err)
 					}
 					__gong__map_Astruct[identifier].Booleanfield = fielValue
+				case "Bstruct":
+					targetIdentifier := ident.Name
+					__gong__map_Astruct[identifier].Bstruct = __gong__map_Bstruct[targetIdentifier]
 				case "Anotherbooleanfield":
 					// convert string to boolean
 					fielValue, err := strconv.ParseBool(ident.Name)
@@ -362,14 +365,29 @@ func UnmarshallGongstructStaging(assignStmt *ast.AssignStmt, astCoordinate_ stri
 						log.Fatalln(err)
 					}
 					__gong__map_Astruct[identifier].Anotherbooleanfield = fielValue
+				case "Associationtob":
+					targetIdentifier := ident.Name
+					__gong__map_Astruct[identifier].Associationtob = __gong__map_Bstruct[targetIdentifier]
+				case "Anotherassociationtob_2":
+					targetIdentifier := ident.Name
+					__gong__map_Astruct[identifier].Anotherassociationtob_2 = __gong__map_Bstruct[targetIdentifier]
+				case "AnAstruct":
+					targetIdentifier := ident.Name
+					__gong__map_Astruct[identifier].AnAstruct = __gong__map_Astruct[targetIdentifier]
 				}
 			case "AstructBstruct2Use":
 				switch fieldName {
 				// insertion point for field dependant code
+				case "Bstrcut2":
+					targetIdentifier := ident.Name
+					__gong__map_AstructBstruct2Use[identifier].Bstrcut2 = __gong__map_Bstruct[targetIdentifier]
 				}
 			case "AstructBstructUse":
 				switch fieldName {
 				// insertion point for field dependant code
+				case "Bstruct2":
+					targetIdentifier := ident.Name
+					__gong__map_AstructBstructUse[identifier].Bstruct2 = __gong__map_Bstruct[targetIdentifier]
 				}
 			case "Bstruct":
 				switch fieldName {
