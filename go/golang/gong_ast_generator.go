@@ -68,7 +68,7 @@ map[ModelGongAstFieldInsertionId]string{
 					if err != nil {
 						log.Fatalln(err)
 					}
-					__gong__map_Astruct[identifier].{{FieldName}} = int(fielValue)`,
+					__gong__map_{{Structname}}[identifier].{{FieldName}} = int(fielValue)`,
 	ModelGongAstFieldAssignDuration: `
 				case "{{FieldName}}":
 					// conevert string to int
@@ -76,7 +76,15 @@ map[ModelGongAstFieldInsertionId]string{
 					if err != nil {
 						log.Fatalln(err)
 					}
-					__gong__map_Astruct[identifier].{{FieldName}} = time.Duration(fielValue)`,
+					__gong__map_{{Structname}}[identifier].{{FieldName}} = time.Duration(fielValue)`,
+	ModelGongAstFieldAssignFloat64: `
+				case "{{FieldName}}":
+					// conevert string to int
+					fielValue, err := strconv.ParseFloat(basicLit.Value, 64)
+					if err != nil {
+						log.Fatalln(err)
+					}
+					__gong__map_{{Structname}}[identifier].{{FieldName}} = fielValue`,
 }
 
 func GongAstGenerator(modelPkg *models.ModelPkg, pkgPath string) {
@@ -135,6 +143,10 @@ func GongAstGenerator(modelPkg *models.ModelPkg, pkgPath string) {
 						}
 						basicLitAssignCode += models.Replace1(
 							ModelGongAstFieldSubTemplateCode[ModelGongAstFieldAssignInt],
+							"{{FieldName}}", field.Name)
+					case types.Float64:
+						basicLitAssignCode += models.Replace1(
+							ModelGongAstFieldSubTemplateCode[ModelGongAstFieldAssignFloat64],
 							"{{FieldName}}", field.Name)
 					}
 
