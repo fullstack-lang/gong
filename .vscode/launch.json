@@ -103,15 +103,15 @@
             "args": []
         },
         {
-            "name": "gongc test -skipGoModCommands",
+            "name": "gongc test -skipGoModCommands -skipNg whithout rm main.go",
             "type": "go",
             "request": "launch",
             "mode": "debug",
-            "preLaunchTask": "01 - remove test main.go",
             "cwd": "${workspaceFolder}/test/go/models",
             "program": "${workspaceFolder}/go/cmd/gongc",
             "args": [
-                "-skipGoModCommands"
+                "-skipGoModCommands",
+                "-skipNg"
             ]
         },
         {

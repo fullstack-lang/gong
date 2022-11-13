@@ -40,6 +40,7 @@ type StageStruct struct { // insertion point for definition of arrays registerin
 	OnAfterAstructDeleteCallback OnAfterDeleteInterface[Astruct]
 	OnAfterAstructReadCallback   OnAfterReadInterface[Astruct]
 
+
 	AstructBstruct2Uses           map[*AstructBstruct2Use]any
 	AstructBstruct2Uses_mapString map[string]*AstructBstruct2Use
 
@@ -47,6 +48,7 @@ type StageStruct struct { // insertion point for definition of arrays registerin
 	OnAfterAstructBstruct2UseUpdateCallback OnAfterUpdateInterface[AstructBstruct2Use]
 	OnAfterAstructBstruct2UseDeleteCallback OnAfterDeleteInterface[AstructBstruct2Use]
 	OnAfterAstructBstruct2UseReadCallback   OnAfterReadInterface[AstructBstruct2Use]
+
 
 	AstructBstructUses           map[*AstructBstructUse]any
 	AstructBstructUses_mapString map[string]*AstructBstructUse
@@ -56,6 +58,7 @@ type StageStruct struct { // insertion point for definition of arrays registerin
 	OnAfterAstructBstructUseDeleteCallback OnAfterDeleteInterface[AstructBstructUse]
 	OnAfterAstructBstructUseReadCallback   OnAfterReadInterface[AstructBstructUse]
 
+
 	Bstructs           map[*Bstruct]any
 	Bstructs_mapString map[string]*Bstruct
 
@@ -64,6 +67,7 @@ type StageStruct struct { // insertion point for definition of arrays registerin
 	OnAfterBstructDeleteCallback OnAfterDeleteInterface[Bstruct]
 	OnAfterBstructReadCallback   OnAfterReadInterface[Bstruct]
 
+
 	Dstructs           map[*Dstruct]any
 	Dstructs_mapString map[string]*Dstruct
 
@@ -71,6 +75,7 @@ type StageStruct struct { // insertion point for definition of arrays registerin
 	OnAfterDstructUpdateCallback OnAfterUpdateInterface[Dstruct]
 	OnAfterDstructDeleteCallback OnAfterDeleteInterface[Dstruct]
 	OnAfterDstructReadCallback   OnAfterReadInterface[Dstruct]
+
 
 	AllModelsStructCreateCallback AllModelsStructCreateInterface
 
@@ -773,7 +778,7 @@ func {{databaseName}}Injection() {
 `
 
 const IdentifiersDecls = `
-	{{Identifier}} := (&models.{{GeneratedStructName}}{Name: ` + "`" + `{{GeneratedFieldNameValue}}` + "`" + `}).Stage()`
+	{{Identifier}} := (&models.{{GeneratedStructName}}{Name: "{{GeneratedFieldNameValue}}"}).Stage()`
 
 const StringInitStatement = `
 	{{Identifier}}.{{GeneratedFieldName}} = ` + "`" + `{{GeneratedFieldNameValue}}` + "`"
