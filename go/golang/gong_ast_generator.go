@@ -23,6 +23,7 @@ const (
 	ModelGongAstStageProcessing
 	ModelGongAstBasicLitAssignment
 	ModelGongAstIdentBooleanAndPointerAssignment
+	ModelGongAstIdentEnumAssignment
 	ModelGongAstStructInsertionsNb
 )
 
@@ -45,6 +46,11 @@ var __gong__map_{{Structname}} = make(map[string]*{{Structname}})`,
 				switch fieldName {
 				// insertion point for field dependant code{{boolAndPointerAssignCode}}
 				}`,
+	ModelGongAstIdentEnumAssignment: `
+				case "{{Structname}}":
+					switch fieldName {
+					// insertion point for enum assign code{{enumAssignCode}}
+					}`,
 }
 
 type ModelGongAstFieldInsertionId int
@@ -57,6 +63,7 @@ const (
 	ModelGongAstFieldAssignDuration
 	ModelGongAstFieldAssignBoolean
 	ModelGongAstFieldAssignPointer
+	ModelGongAstFieldAssignEnum
 
 	ModelGongAstFieldInsertionsNb
 )
@@ -104,6 +111,14 @@ map[ModelGongAstFieldInsertionId]string{
 				case "{{FieldName}}":
 					targetIdentifier := ident.Name
 					__gong__map_{{Structname}}[identifier].{{FieldName}} = __gong__map_{{AssociationStructName}}[targetIdentifier]`,
+	ModelGongAstFieldAssignEnum: `
+					case "{{FieldName}}":
+						var val {{EnumType}}
+						err := (&val).FromCodeString(enumValue)
+						if err != nil {
+							log.Fatalln(err)
+						}
+						__gong__map_{{Structname}}[identifier].{{FieldName}} = {{EnumType}}(val)`,
 }
 
 func GongAstGenerator(modelPkg *models.ModelPkg, pkgPath string) {
@@ -133,7 +148,7 @@ func GongAstGenerator(modelPkg *models.ModelPkg, pkgPath string) {
 		for subStructTemplate := range ModelGongAstStructSubTemplateCode {
 			basicLitAssignCode := ""
 			boolAndPointerAssignCode := ""
-			fieldNameInt := ""
+			enumAssignCode := ""
 			fieldNameBool := ""
 			fieldNameFloat64 := ""
 			fieldNameDate := ""
@@ -145,6 +160,10 @@ func GongAstGenerator(modelPkg *models.ModelPkg, pkgPath string) {
 					switch field.GetBasicKind() {
 					case types.String:
 						if field.GongEnum != nil {
+							enumAssignCode += models.Replace2(
+								ModelGongAstFieldSubTemplateCode[ModelGongAstFieldAssignEnum],
+								"{{FieldName}}", field.Name,
+								"{{EnumType}}", field.GongEnum.Name)
 							continue
 						}
 						basicLitAssignCode += models.Replace1(
@@ -152,6 +171,10 @@ func GongAstGenerator(modelPkg *models.ModelPkg, pkgPath string) {
 							"{{FieldName}}", field.Name)
 					case types.Int, types.Int64:
 						if field.GongEnum != nil {
+							enumAssignCode += models.Replace2(
+								ModelGongAstFieldSubTemplateCode[ModelGongAstFieldAssignEnum],
+								"{{FieldName}}", field.Name,
+								"{{EnumType}}", field.GongEnum.Name)
 							continue
 						}
 						if field.DeclaredType == "time.Duration" {
@@ -185,7 +208,7 @@ func GongAstGenerator(modelPkg *models.ModelPkg, pkgPath string) {
 				"{{Structname}}", gongStruct.Name,
 				"{{basicLitAssignCode}}", basicLitAssignCode,
 				"{{boolAndPointerAssignCode}}", boolAndPointerAssignCode,
-				"{{FieldNameInt}}", fieldNameInt,
+				"{{enumAssignCode}}", enumAssignCode,
 				"{{FieldNameFloat64}}", fieldNameFloat64,
 				"{{FieldNameDate}}", fieldNameDate,
 				"{{FieldNameDuration}}", fieldNameDuration,
@@ -197,7 +220,7 @@ func GongAstGenerator(modelPkg *models.ModelPkg, pkgPath string) {
 				"{{Structname}}", gongStruct.Name,
 				"{{basicLitAssignCode}}", basicLitAssignCode,
 				"{{FieldNameString}}", boolAndPointerAssignCode,
-				"{{FieldNameInt}}", fieldNameInt,
+				"{{enumAssignCode}}", enumAssignCode,
 				"{{FieldNameFloat64}}", fieldNameFloat64,
 				"{{FieldNameDate}}", fieldNameDate,
 				"{{FieldNameBoolean}}", fieldNameBool,

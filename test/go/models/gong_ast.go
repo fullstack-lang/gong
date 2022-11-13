@@ -398,31 +398,6 @@ func UnmarshallGongstructStaging(assignStmt *ast.AssignStmt, astCoordinate_ stri
 				// insertion point for field dependant code
 				}
 			}
-			switch gongstructName {
-			case "Astruct":
-				switch fieldName {
-				case "Booleanfield":
-					// conevert string to bool
-					fielValue, err := strconv.ParseBool(ident.Name)
-					if err != nil {
-						log.Fatalln(err)
-					}
-					__gong__map_Astruct[identifier].Booleanfield = fielValue
-				case "Anotherbooleanfield":
-					// conevert string to bool
-					fielValue, err := strconv.ParseBool(ident.Name)
-					if err != nil {
-						log.Fatalln(err)
-					}
-					__gong__map_Astruct[identifier].Anotherbooleanfield = fielValue
-				case "Associationtob":
-					targetIdentifier := ident.Name
-					__gong__map_Astruct[identifier].Associationtob = __gong__map_Bstruct[targetIdentifier]
-				case "Anotherassociationtob_2":
-					targetIdentifier := ident.Name
-					__gong__map_Astruct[identifier].Anotherassociationtob_2 = __gong__map_Bstruct[targetIdentifier]
-				}
-			}
 		case *ast.SelectorExpr:
 			// assignment to enum field
 			selectorExpr := expr
@@ -446,6 +421,57 @@ func UnmarshallGongstructStaging(assignStmt *ast.AssignStmt, astCoordinate_ stri
 
 				// remove first and last char
 				enumValue := Sel.Name
+				switch gongstructName {
+				// insertion point for enums assignments
+				case "Astruct":
+					switch fieldName {
+					// insertion point for enum assign code
+					case "Aenum":
+						var val AEnumType
+						err := (&val).FromCodeString(enumValue)
+						if err != nil {
+							log.Fatalln(err)
+						}
+						__gong__map_Astruct[identifier].Aenum = AEnumType(val)
+					case "Aenum_2":
+						var val AEnumType
+						err := (&val).FromCodeString(enumValue)
+						if err != nil {
+							log.Fatalln(err)
+						}
+						__gong__map_Astruct[identifier].Aenum_2 = AEnumType(val)
+					case "Benum":
+						var val BEnumType
+						err := (&val).FromCodeString(enumValue)
+						if err != nil {
+							log.Fatalln(err)
+						}
+						__gong__map_Astruct[identifier].Benum = BEnumType(val)
+					case "CEnum":
+						var val CEnumTypeInt
+						err := (&val).FromCodeString(enumValue)
+						if err != nil {
+							log.Fatalln(err)
+						}
+						__gong__map_Astruct[identifier].CEnum = CEnumTypeInt(val)
+					}
+				case "AstructBstruct2Use":
+					switch fieldName {
+					// insertion point for enum assign code
+					}
+				case "AstructBstructUse":
+					switch fieldName {
+					// insertion point for enum assign code
+					}
+				case "Bstruct":
+					switch fieldName {
+					// insertion point for enum assign code
+					}
+				case "Dstruct":
+					switch fieldName {
+					// insertion point for enum assign code
+					}
+				}
 				switch gongstructName {
 				case "Astruct":
 					switch fieldName {
