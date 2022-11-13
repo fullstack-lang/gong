@@ -115,10 +115,19 @@ func UnmarshallGongstructStaging(assignStmt *ast.AssignStmt, astCoordinate_ stri
 									gongstructName = Sel.Name
 									// this is the place where an instance is created
 									switch gongstructName {
+									// insertion point for identifiers 
 									case "Astruct":
 										instanceAstruct := (&Astruct{Name: instanceName}).Stage()
 										instance = any(instanceAstruct)
 										__gong__map_Astruct[identifier] = instanceAstruct
+									case "AstructBstruct2Use":
+										instanceAstructBstruct2Use := (&AstructBstruct2Use{Name: instanceName}).Stage()
+										instance = any(instanceAstructBstruct2Use)
+										__gong__map_AstructBstruct2Use[identifier] = instanceAstructBstruct2Use
+									case "AstructBstructUse":
+										instanceAstructBstructUse := (&AstructBstructUse{Name: instanceName}).Stage()
+										instance = any(instanceAstructBstructUse)
+										__gong__map_AstructBstructUse[identifier] = instanceAstructBstructUse
 									case "Bstruct":
 										instanceBstruct := (&Bstruct{Name: instanceName}).Stage()
 										instance = any(instanceBstruct)
