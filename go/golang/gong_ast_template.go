@@ -228,6 +228,9 @@ func UnmarshallGongstructStaging(assignStmt *ast.AssignStmt, astCoordinate_ stri
 				log.Fatalln("gongstructName not found for identifier", identifier)
 			}
 			switch gongstructName {
+			// insertion point for bool & pointers assignments{{` + string(rune(ModelGongAstIdentBooleanAndPointerAssignment)) + `}}
+			}
+			switch gongstructName {
 			case "Astruct":
 				switch fieldName {
 				case "Booleanfield":
