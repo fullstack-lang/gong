@@ -11,10 +11,7 @@ import (
 
 var __gong__map_Indentifiers_gongstructName = make(map[string]string)
 
-var __gong__map_Astruct = make(map[string]*Astruct)
-var __gong__map_Bstruct = make(map[string]*Bstruct)
-var __gong__map_Cstruct = make(map[string]*Cstruct)
-var __gong__map_Dstruct = make(map[string]*Dstruct)
+// insertion point for identifiers maps{{` + string(rune(ModelGongAstGenericMaps)) + `}}
 
 // UnmarshallGoStaging unmarshall a go assign statement
 func UnmarshallGongstructStaging(assignStmt *ast.AssignStmt, astCoordinate_ string) (

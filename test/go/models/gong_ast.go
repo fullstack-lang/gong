@@ -9,9 +9,11 @@ import (
 
 var __gong__map_Indentifiers_gongstructName = make(map[string]string)
 
+// insertion point for identifiers maps
 var __gong__map_Astruct = make(map[string]*Astruct)
+var __gong__map_AstructBstruct2Use = make(map[string]*AstructBstruct2Use)
+var __gong__map_AstructBstructUse = make(map[string]*AstructBstructUse)
 var __gong__map_Bstruct = make(map[string]*Bstruct)
-var __gong__map_Cstruct = make(map[string]*Cstruct)
 var __gong__map_Dstruct = make(map[string]*Dstruct)
 
 // UnmarshallGoStaging unmarshall a go assign statement
