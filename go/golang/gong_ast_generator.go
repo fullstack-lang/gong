@@ -19,7 +19,7 @@ type ModelGongAstStructInsertionId int
 
 const (
 	ModelGongAstGenericMaps ModelGongAstStructInsertionId = iota
-	ModelGongAstGenericLhs
+	ModelGongAstLhsIdentifier
 	ModelGongAstStructInsertionsNb
 )
 
@@ -27,7 +27,7 @@ var ModelGongAstStructSubTemplateCode map[ModelGongAstStructInsertionId]string =
 map[ModelGongAstStructInsertionId]string{
 	ModelGongAstGenericMaps: `
 var __gong__map_{{Structname}} = make(map[string]*{{Structname}})`,
-	ModelGongAstGenericLhs: `
+	ModelGongAstLhsIdentifier: `
 									case "{{Structname}}":
 										instance{{Structname}} := (&{{Structname}}{Name: instanceName}).Stage()
 										instance = any(instance{{Structname}})
