@@ -2,6 +2,7 @@ package golang
 
 import (
 	"fmt"
+	"go/types"
 	"log"
 	"os"
 	"path/filepath"
@@ -19,7 +20,8 @@ type ModelGongAstStructInsertionId int
 
 const (
 	ModelGongAstGenericMaps ModelGongAstStructInsertionId = iota
-	ModelGongAstLhsIdentifier
+	ModelGongAstStageProcessing
+	ModelGongAstBasicLitAssignment
 	ModelGongAstStructInsertionsNb
 )
 
@@ -27,11 +29,37 @@ var ModelGongAstStructSubTemplateCode map[ModelGongAstStructInsertionId]string =
 map[ModelGongAstStructInsertionId]string{
 	ModelGongAstGenericMaps: `
 var __gong__map_{{Structname}} = make(map[string]*{{Structname}})`,
-	ModelGongAstLhsIdentifier: `
+	ModelGongAstStageProcessing: `
 									case "{{Structname}}":
 										instance{{Structname}} := (&{{Structname}}{Name: instanceName}).Stage()
 										instance = any(instance{{Structname}})
 										__gong__map_{{Structname}}[identifier] = instance{{Structname}}`,
+	ModelGongAstBasicLitAssignment: `
+			case "{{Structname}}":
+				switch fieldName {
+				// insertion point for field dependant code{{basicLitAssignCode}}
+				}`,
+}
+
+type ModelGongAstFieldInsertionId int
+
+const (
+	ModelGongAstFieldAssignString ModelGongAstFieldInsertionId = iota
+	ModelGongAstFieldAssignInt
+	ModelGongAstFieldAssignFloat64
+	ModelGongAstFieldAssignDate
+	ModelGongAstFieldAssignBoolean
+
+	ModelGongAstFieldInsertionsNb
+)
+
+var ModelGongAstFieldSubTemplateCode map[ModelGongAstFieldInsertionId]string = // new line
+map[ModelGongAstFieldInsertionId]string{
+	ModelGongAstFieldAssignString: `
+				case "{{FieldName}}":
+					// remove first and last char
+					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
+					__gong__map_{{Structname}}[identifier].{{FieldName}} = fielValue`,
 }
 
 func GongAstGenerator(modelPkg *models.ModelPkg, pkgPath string) {
@@ -59,17 +87,43 @@ func GongAstGenerator(modelPkg *models.ModelPkg, pkgPath string) {
 		}
 
 		for subStructTemplate := range ModelGongAstStructSubTemplateCode {
-			fieldCode := ""
+			basicLitAssignCode := ""
 			fieldNameString := ""
 			fieldNameInt := ""
 			fieldNameBool := ""
 			fieldNameFloat64 := ""
 			fieldNameDate := ""
 
+			for _, field := range gongStruct.Fields {
+				switch field := field.(type) {
+				case *models.GongBasicField:
+					switch field.GetBasicKind() {
+					case types.String:
+						if field.GongEnum != nil {
+							continue
+						}
+						basicLitAssignCode += models.Replace1(
+							ModelGongAstFieldSubTemplateCode[ModelGongAstFieldAssignString],
+							"{{FieldName}}", field.Name)
+					}
+				}
+			}
+
 			generatedCodeFromSubTemplate := models.Replace8(ModelGongAstStructSubTemplateCode[subStructTemplate],
 				"{{structname}}", strings.ToLower(gongStruct.Name),
 				"{{Structname}}", gongStruct.Name,
-				"{{FieldCode}}", fieldCode,
+				"{{basicLitAssignCode}}", basicLitAssignCode,
+				"{{FieldNameString}}", fieldNameString,
+				"{{FieldNameInt}}", fieldNameInt,
+				"{{FieldNameFloat64}}", fieldNameFloat64,
+				"{{FieldNameDate}}", fieldNameDate,
+				"{{FieldNameBoolean}}", fieldNameBool,
+			)
+
+			generatedCodeFromSubTemplate = models.Replace8(generatedCodeFromSubTemplate,
+				"{{structname}}", strings.ToLower(gongStruct.Name),
+				"{{Structname}}", gongStruct.Name,
+				"{{basicLitAssignCode}}", basicLitAssignCode,
 				"{{FieldNameString}}", fieldNameString,
 				"{{FieldNameInt}}", fieldNameInt,
 				"{{FieldNameFloat64}}", fieldNameFloat64,

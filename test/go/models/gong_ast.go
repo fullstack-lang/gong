@@ -238,6 +238,53 @@ func UnmarshallGongstructStaging(assignStmt *ast.AssignStmt, astCoordinate_ stri
 			}
 
 			switch gongstructName {
+			// insertion point for basic lit assignments
+			case "Astruct":
+				switch fieldName {
+				// insertion point for field dependant code
+				case "Name":
+					// remove first and last char
+					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
+					__gong__map_Astruct[identifier].Name = fielValue
+				case "CName":
+					// remove first and last char
+					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
+					__gong__map_Astruct[identifier].CName = fielValue
+				}
+			case "AstructBstruct2Use":
+				switch fieldName {
+				// insertion point for field dependant code
+				case "Name":
+					// remove first and last char
+					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
+					__gong__map_AstructBstruct2Use[identifier].Name = fielValue
+				}
+			case "AstructBstructUse":
+				switch fieldName {
+				// insertion point for field dependant code
+				case "Name":
+					// remove first and last char
+					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
+					__gong__map_AstructBstructUse[identifier].Name = fielValue
+				}
+			case "Bstruct":
+				switch fieldName {
+				// insertion point for field dependant code
+				case "Name":
+					// remove first and last char
+					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
+					__gong__map_Bstruct[identifier].Name = fielValue
+				}
+			case "Dstruct":
+				switch fieldName {
+				// insertion point for field dependant code
+				case "Name":
+					// remove first and last char
+					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
+					__gong__map_Dstruct[identifier].Name = fielValue
+				}
+			}
+			switch gongstructName {
 			case "Astruct":
 				switch fieldName {
 				case "Name":

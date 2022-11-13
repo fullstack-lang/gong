@@ -112,7 +112,7 @@ func UnmarshallGongstructStaging(assignStmt *ast.AssignStmt, astCoordinate_ stri
 									gongstructName = Sel.Name
 									// this is the place where an instance is created
 									switch gongstructName {
-									// insertion point for identifiers {{` + string(rune(ModelGongAstLhsIdentifier)) + `}}
+									// insertion point for identifiers {{` + string(rune(ModelGongAstStageProcessing)) + `}}
 									}
 									__gong__map_Indentifiers_gongstructName[identifier] = gongstructName
 									return
@@ -214,6 +214,9 @@ func UnmarshallGongstructStaging(assignStmt *ast.AssignStmt, astCoordinate_ stri
 				log.Fatalln("gongstructName not found for identifier", identifier)
 			}
 
+			switch gongstructName {
+			// insertion point for basic lit assignments{{` + string(rune(ModelGongAstBasicLitAssignment)) + `}}
+			}
 			switch gongstructName {
 			case "Astruct":
 				switch fieldName {
