@@ -48,6 +48,7 @@ const (
 	ModelGongAstFieldAssignInt
 	ModelGongAstFieldAssignFloat64
 	ModelGongAstFieldAssignDate
+	ModelGongAstFieldAssignDuration
 	ModelGongAstFieldAssignBoolean
 
 	ModelGongAstFieldInsertionsNb
@@ -60,6 +61,22 @@ map[ModelGongAstFieldInsertionId]string{
 					// remove first and last char
 					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
 					__gong__map_{{Structname}}[identifier].{{FieldName}} = fielValue`,
+	ModelGongAstFieldAssignInt: `
+				case "{{FieldName}}":
+					// conevert string to int
+					fielValue, err := strconv.ParseInt(basicLit.Value, 10, 64)
+					if err != nil {
+						log.Fatalln(err)
+					}
+					__gong__map_Astruct[identifier].{{FieldName}} = int(fielValue)`,
+	ModelGongAstFieldAssignDuration: `
+				case "{{FieldName}}":
+					// conevert string to int
+					fielValue, err := strconv.ParseInt(basicLit.Value, 10, 64)
+					if err != nil {
+						log.Fatalln(err)
+					}
+					__gong__map_Astruct[identifier].{{FieldName}} = time.Duration(fielValue)`,
 }
 
 func GongAstGenerator(modelPkg *models.ModelPkg, pkgPath string) {
@@ -93,6 +110,7 @@ func GongAstGenerator(modelPkg *models.ModelPkg, pkgPath string) {
 			fieldNameBool := ""
 			fieldNameFloat64 := ""
 			fieldNameDate := ""
+			fieldNameDuration := ""
 
 			for _, field := range gongStruct.Fields {
 				switch field := field.(type) {
@@ -105,11 +123,25 @@ func GongAstGenerator(modelPkg *models.ModelPkg, pkgPath string) {
 						basicLitAssignCode += models.Replace1(
 							ModelGongAstFieldSubTemplateCode[ModelGongAstFieldAssignString],
 							"{{FieldName}}", field.Name)
+					case types.Int, types.Int64:
+						if field.GongEnum != nil {
+							continue
+						}
+						if field.DeclaredType == "time.Duration" {
+							basicLitAssignCode += models.Replace1(
+								ModelGongAstFieldSubTemplateCode[ModelGongAstFieldAssignDuration],
+								"{{FieldName}}", field.Name)
+							continue
+						}
+						basicLitAssignCode += models.Replace1(
+							ModelGongAstFieldSubTemplateCode[ModelGongAstFieldAssignInt],
+							"{{FieldName}}", field.Name)
 					}
+
 				}
 			}
 
-			generatedCodeFromSubTemplate := models.Replace8(ModelGongAstStructSubTemplateCode[subStructTemplate],
+			generatedCodeFromSubTemplate := models.Replace9(ModelGongAstStructSubTemplateCode[subStructTemplate],
 				"{{structname}}", strings.ToLower(gongStruct.Name),
 				"{{Structname}}", gongStruct.Name,
 				"{{basicLitAssignCode}}", basicLitAssignCode,
@@ -117,6 +149,7 @@ func GongAstGenerator(modelPkg *models.ModelPkg, pkgPath string) {
 				"{{FieldNameInt}}", fieldNameInt,
 				"{{FieldNameFloat64}}", fieldNameFloat64,
 				"{{FieldNameDate}}", fieldNameDate,
+				"{{FieldNameDuration}}", fieldNameDuration,
 				"{{FieldNameBoolean}}", fieldNameBool,
 			)
 
