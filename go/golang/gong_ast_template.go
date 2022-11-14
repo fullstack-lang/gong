@@ -256,33 +256,6 @@ func UnmarshallGongstructStaging(assignStmt *ast.AssignStmt, astCoordinate_ stri
 				switch gongstructName {
 				// insertion point for enums assignments{{` + string(rune(ModelGongAstIdentEnumAssignment)) + `}}
 				}
-				switch gongstructName {
-				case "Astruct":
-					switch fieldName {
-					case "Aenum":
-						var val AEnumType
-						err := (&val).FromCodeString(enumValue)
-						if err != nil {
-							log.Fatalln(err)
-						}
-						__gong__map_Astruct[identifier].Aenum = AEnumType(val)
-					case "Aenum_2":
-						var val AEnumType
-						err := (&val).FromCodeString(enumValue)
-						if err != nil {
-							log.Fatalln(err)
-						}
-						__gong__map_Astruct[identifier].Aenum_2 = AEnumType(val)
-					case "Benum":
-						var val BEnumType
-						err := (&val).FromCodeString(enumValue)
-						if err != nil {
-							log.Fatalln(err)
-						}
-						__gong__map_Astruct[identifier].Benum = BEnumType(val)
-					}
-				}
-
 			}
 		}
 	}
