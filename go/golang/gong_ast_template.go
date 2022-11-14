@@ -147,13 +147,7 @@ func UnmarshallGongstructStaging(assignStmt *ast.AssignStmt, astCoordinate_ stri
 							log.Fatalln("gongstructName not found for identifier", identifier)
 						}
 						switch gongstructName {
-						case "Astruct":
-							switch fieldName {
-							case "Date":
-								__gong__map_Astruct[identifier].Date, _ = time.Parse(
-									"2006-01-02 15:04:05.999999999 -0700 MST",
-									date)
-							}
+						// insertion point for basic lit assignments{{` + string(rune(ModelGongAstDateAssignment)) + `}}					
 						}
 					}
 				}

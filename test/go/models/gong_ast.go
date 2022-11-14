@@ -170,13 +170,31 @@ func UnmarshallGongstructStaging(assignStmt *ast.AssignStmt, astCoordinate_ stri
 							log.Fatalln("gongstructName not found for identifier", identifier)
 						}
 						switch gongstructName {
+						// insertion point for basic lit assignments
 						case "Astruct":
 							switch fieldName {
+							// insertion point for date assign code
 							case "Date":
 								__gong__map_Astruct[identifier].Date, _ = time.Parse(
 									"2006-01-02 15:04:05.999999999 -0700 MST",
 									date)
 							}
+						case "AstructBstruct2Use":
+							switch fieldName {
+							// insertion point for date assign code
+							}
+						case "AstructBstructUse":
+							switch fieldName {
+							// insertion point for date assign code
+							}
+						case "Bstruct":
+							switch fieldName {
+							// insertion point for date assign code
+							}
+						case "Dstruct":
+							switch fieldName {
+							// insertion point for date assign code
+							}					
 						}
 					}
 				}
@@ -472,33 +490,6 @@ func UnmarshallGongstructStaging(assignStmt *ast.AssignStmt, astCoordinate_ stri
 					// insertion point for enum assign code
 					}
 				}
-				switch gongstructName {
-				case "Astruct":
-					switch fieldName {
-					case "Aenum":
-						var val AEnumType
-						err := (&val).FromCodeString(enumValue)
-						if err != nil {
-							log.Fatalln(err)
-						}
-						__gong__map_Astruct[identifier].Aenum = AEnumType(val)
-					case "Aenum_2":
-						var val AEnumType
-						err := (&val).FromCodeString(enumValue)
-						if err != nil {
-							log.Fatalln(err)
-						}
-						__gong__map_Astruct[identifier].Aenum_2 = AEnumType(val)
-					case "Benum":
-						var val BEnumType
-						err := (&val).FromCodeString(enumValue)
-						if err != nil {
-							log.Fatalln(err)
-						}
-						__gong__map_Astruct[identifier].Benum = BEnumType(val)
-					}
-				}
-
 			}
 		}
 	}
