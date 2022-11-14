@@ -25,6 +25,7 @@ const (
 	ModelGongAstIdentBooleanAndPointerAssignment
 	ModelGongAstIdentEnumAssignment
 	ModelGongAstDateAssignment
+	ModelGongAstSliceOfPointersAssignment
 	ModelGongAstStructInsertionsNb
 )
 
@@ -57,6 +58,11 @@ var __gong__map_{{Structname}} = make(map[string]*{{Structname}})`,
 							switch fieldName {
 							// insertion point for date assign code{{dateAssignCode}}
 							}`,
+	ModelGongAstSliceOfPointersAssignment: `
+					case "{{Structname}}":
+						switch fieldName {
+						// insertion point for slice of pointers assign code{{sliceOfPointersAssignCode}}
+						}`,
 }
 
 type ModelGongAstFieldInsertionId int
@@ -69,6 +75,7 @@ const (
 	ModelGongAstFieldAssignDuration
 	ModelGongAstFieldAssignBoolean
 	ModelGongAstFieldAssignPointer
+	ModelGongAstFieldAssignSliceOfPointers
 	ModelGongAstFieldAssignEnum
 
 	ModelGongAstFieldInsertionsNb
@@ -130,6 +137,13 @@ map[ModelGongAstFieldInsertionId]string{
 								__gong__map_{{Structname}}[identifier].Date, _ = time.Parse(
 									"2006-01-02 15:04:05.999999999 -0700 MST",
 									date)`,
+	ModelGongAstFieldAssignSliceOfPointers: `
+						case "{{FieldName}}":
+							// remove first and last char
+							targetIdentifier := ident.Name
+							target := __gong__map_{{AssociationStructName}}[targetIdentifier]
+							__gong__map_{{Structname}}[identifier].{{FieldName}} =
+								append(__gong__map_{{Structname}}[identifier].{{FieldName}}, target)`,
 }
 
 func GongAstGenerator(modelPkg *models.ModelPkg, pkgPath string) {
@@ -161,9 +175,7 @@ func GongAstGenerator(modelPkg *models.ModelPkg, pkgPath string) {
 			boolAndPointerAssignCode := ""
 			enumAssignCode := ""
 			dateAssignCode := ""
-			fieldNameFloat64 := ""
-			fieldNameDate := ""
-			fieldNameDuration := ""
+			sliceOfPointersAssignCode := ""
 
 			for _, field := range gongStruct.Fields {
 				switch field := field.(type) {
@@ -211,6 +223,11 @@ func GongAstGenerator(modelPkg *models.ModelPkg, pkgPath string) {
 						ModelGongAstFieldSubTemplateCode[ModelGongAstFieldAssignPointer],
 						"{{FieldName}}", field.Name,
 						"{{AssociationStructName}}", field.GongStruct.Name)
+				case *models.SliceOfPointerToGongStructField:
+					sliceOfPointersAssignCode += models.Replace2(
+						ModelGongAstFieldSubTemplateCode[ModelGongAstFieldAssignSliceOfPointers],
+						"{{FieldName}}", field.Name,
+						"{{AssociationStructName}}", field.GongStruct.Name)
 				case *models.GongTimeField:
 					dateAssignCode += models.Replace1(
 						ModelGongAstFieldSubTemplateCode[ModelGongAstFieldAssignDate],
@@ -218,26 +235,23 @@ func GongAstGenerator(modelPkg *models.ModelPkg, pkgPath string) {
 				}
 			}
 
-			generatedCodeFromSubTemplate := models.Replace9(ModelGongAstStructSubTemplateCode[subStructTemplate],
+			generatedCodeFromSubTemplate := models.Replace7(ModelGongAstStructSubTemplateCode[subStructTemplate],
 				"{{structname}}", strings.ToLower(gongStruct.Name),
 				"{{Structname}}", gongStruct.Name,
 				"{{basicLitAssignCode}}", basicLitAssignCode,
 				"{{boolAndPointerAssignCode}}", boolAndPointerAssignCode,
 				"{{enumAssignCode}}", enumAssignCode,
-				"{{FieldNameFloat64}}", fieldNameFloat64,
-				"{{FieldNameDate}}", fieldNameDate,
-				"{{FieldNameDuration}}", fieldNameDuration,
+				"{{sliceOfPointersAssignCode}}", sliceOfPointersAssignCode,
 				"{{dateAssignCode}}", dateAssignCode,
 			)
 
-			generatedCodeFromSubTemplate = models.Replace8(generatedCodeFromSubTemplate,
+			generatedCodeFromSubTemplate = models.Replace7(generatedCodeFromSubTemplate,
 				"{{structname}}", strings.ToLower(gongStruct.Name),
 				"{{Structname}}", gongStruct.Name,
 				"{{basicLitAssignCode}}", basicLitAssignCode,
 				"{{FieldNameString}}", boolAndPointerAssignCode,
 				"{{enumAssignCode}}", enumAssignCode,
-				"{{FieldNameFloat64}}", fieldNameFloat64,
-				"{{FieldNameDate}}", fieldNameDate,
+				"{{sliceOfPointersAssignCode}}", sliceOfPointersAssignCode,
 				"{{dateAssignCode}}", dateAssignCode,
 			)
 

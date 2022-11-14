@@ -169,7 +169,9 @@ func UnmarshallGongstructStaging(assignStmt *ast.AssignStmt, astCoordinate_ stri
 					if !ok {
 						log.Fatalln("gongstructName not found for identifier", identifier)
 					}
-
+					switch gongstructName {
+					// insertion point for slice of pointers assignments{{` + string(rune(ModelGongAstSliceOfPointersAssignment)) + `}}
+					}
 					switch gongstructName {
 					case "Astruct":
 						switch fieldName {
