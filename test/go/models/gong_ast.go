@@ -216,7 +216,59 @@ func UnmarshallGongstructStaging(assignStmt *ast.AssignStmt, astCoordinate_ stri
 					if !ok {
 						log.Fatalln("gongstructName not found for identifier", identifier)
 					}
-
+					switch gongstructName {
+					// insertion point for slice of pointers assignments
+					case "Astruct":
+						switch fieldName {
+						// insertion point for slice of pointers assign code
+						case "Anarrayofb":
+							// remove first and last char
+							targetIdentifier := ident.Name
+							target := __gong__map_Bstruct[targetIdentifier]
+							__gong__map_Astruct[identifier].Anarrayofb =
+								append(__gong__map_Astruct[identifier].Anarrayofb, target)
+						case "Anotherarrayofb":
+							// remove first and last char
+							targetIdentifier := ident.Name
+							target := __gong__map_Bstruct[targetIdentifier]
+							__gong__map_Astruct[identifier].Anotherarrayofb =
+								append(__gong__map_Astruct[identifier].Anotherarrayofb, target)
+						case "Anarrayofa":
+							// remove first and last char
+							targetIdentifier := ident.Name
+							target := __gong__map_Astruct[targetIdentifier]
+							__gong__map_Astruct[identifier].Anarrayofa =
+								append(__gong__map_Astruct[identifier].Anarrayofa, target)
+						case "AnarrayofbUse":
+							// remove first and last char
+							targetIdentifier := ident.Name
+							target := __gong__map_AstructBstructUse[targetIdentifier]
+							__gong__map_Astruct[identifier].AnarrayofbUse =
+								append(__gong__map_Astruct[identifier].AnarrayofbUse, target)
+						case "Anarrayofb2Use":
+							// remove first and last char
+							targetIdentifier := ident.Name
+							target := __gong__map_AstructBstruct2Use[targetIdentifier]
+							__gong__map_Astruct[identifier].Anarrayofb2Use =
+								append(__gong__map_Astruct[identifier].Anarrayofb2Use, target)
+						}
+					case "AstructBstruct2Use":
+						switch fieldName {
+						// insertion point for slice of pointers assign code
+						}
+					case "AstructBstructUse":
+						switch fieldName {
+						// insertion point for slice of pointers assign code
+						}
+					case "Bstruct":
+						switch fieldName {
+						// insertion point for slice of pointers assign code
+						}
+					case "Dstruct":
+						switch fieldName {
+						// insertion point for slice of pointers assign code
+						}
+					}
 					switch gongstructName {
 					case "Astruct":
 						switch fieldName {
