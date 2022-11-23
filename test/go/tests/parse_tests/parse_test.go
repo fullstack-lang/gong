@@ -45,7 +45,7 @@ func TestParseTest(t *testing.T) {
 			funcDecl := decl
 			// astCoordinate := // astCoordinate + "\tFunction " + funcDecl.Name.Name
 			if name := funcDecl.Name; name != nil {
-				isOfInterest := strings.Contains(funcDecl.Name.Name, "stage")
+				isOfInterest := strings.Contains(funcDecl.Name.Name, "Injection")
 				if !isOfInterest {
 					continue
 				}
