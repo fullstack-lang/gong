@@ -19,7 +19,7 @@ import (
 	"golang.org/x/text/language"
 )
 
-func genAngular(modelPkg *gong_models.ModelPkg) {
+func genAngular(modelPkg *gong_models.ModelPkg, skipNpmInstall bool) {
 
 	{
 		directory, err :=
@@ -182,7 +182,7 @@ func genAngular(modelPkg *gong_models.ModelPkg) {
 		} else {
 			// if ng is already present, one might have to perform an installation
 			// for example, if the repo has been checkout and "node_modules" is empty
-			{
+			if !skipNpmInstall {
 				start := time.Now()
 				cmd := exec.Command("npm", "install")
 				cmd.Dir = gong_models.NgWorkspacePath
