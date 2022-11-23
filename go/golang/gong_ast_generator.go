@@ -134,7 +134,7 @@ map[ModelGongAstFieldInsertionId]string{
 						__gong__map_{{Structname}}[identifier].{{FieldName}} = {{EnumType}}(val)`,
 	ModelGongAstFieldAssignDate: `
 							case "{{FieldName}}":
-								__gong__map_{{Structname}}[identifier].Date, _ = time.Parse(
+								__gong__map_{{Structname}}[identifier].{{FieldName}}, _ = time.Parse(
 									"2006-01-02 15:04:05.999999999 -0700 MST",
 									date)`,
 	ModelGongAstFieldAssignSliceOfPointers: `
