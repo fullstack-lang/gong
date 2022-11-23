@@ -42,7 +42,7 @@ func stageInjection() {
 
 	// Setup of values
 
-	// Astruct values setup
+	// Astruct A1 values setup
 	__Astruct__000000_A1.Name = `A1`
 	__Astruct__000000_A1.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2022-11-14 03:08:21 +0000 +0000")
 	__Astruct__000000_A1.Booleanfield = false
@@ -58,7 +58,7 @@ Second Line`
 	__Astruct__000000_A1.Anotherbooleanfield = false
 	__Astruct__000000_A1.Duration1 = 79653000000000
 
-	// Astruct values setup
+	// Astruct A2 values setup
 	__Astruct__000001_A2.Name = `A2`
 	__Astruct__000001_A2.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2022-01-18 01:09:21 +0000 +0000")
 	__Astruct__000001_A2.Booleanfield = false
@@ -73,7 +73,7 @@ Second Line`
 	__Astruct__000001_A2.Anotherbooleanfield = false
 	__Astruct__000001_A2.Duration1 = 0
 
-	// Astruct values setup
+	// Astruct A3 values setup
 	__Astruct__000002_A3.Name = `A3`
 	__Astruct__000002_A3.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2022-02-10 01:06:11.446 +0000 +0000")
 	__Astruct__000002_A3.Booleanfield = true
@@ -86,31 +86,31 @@ Second Line`
 	__Astruct__000002_A3.Anotherbooleanfield = false
 	__Astruct__000002_A3.Duration1 = 0
 
-	// AstructBstruct2Use values setup
+	// AstructBstruct2Use  values setup
 	__AstructBstruct2Use__000000_.Name = ``
 
-	// AstructBstruct2Use values setup
+	// AstructBstruct2Use  values setup
 	__AstructBstruct2Use__000001_.Name = ``
 
-	// Bstruct values setup
+	// Bstruct B1 values setup
 	__Bstruct__000000_B1.Name = `B1`
 	__Bstruct__000000_B1.Floatfield = 0.000000
 	__Bstruct__000000_B1.Floatfield2 = 0.000000
 	__Bstruct__000000_B1.Intfield = 0
 
-	// Bstruct values setup
+	// Bstruct B2 values setup
 	__Bstruct__000001_B2.Name = `B2`
 	__Bstruct__000001_B2.Floatfield = 0.000000
 	__Bstruct__000001_B2.Floatfield2 = 0.000000
 	__Bstruct__000001_B2.Intfield = 0
 
-	// Bstruct values setup
+	// Bstruct B3 values setup
 	__Bstruct__000002_B3.Name = `B3`
 	__Bstruct__000002_B3.Floatfield = 0.000000
 	__Bstruct__000002_B3.Floatfield2 = 0.000000
 	__Bstruct__000002_B3.Intfield = 0
 
-	// Dstruct values setup
+	// Dstruct D1 values setup
 	__Dstruct__000000_D1.Name = `D1`
 
 	// Setup of pointers
@@ -121,8 +121,8 @@ Second Line`
 	__Astruct__000000_A1.Anotherarrayofb = append(__Astruct__000000_A1.Anotherarrayofb, __Bstruct__000001_B2)
 	__Astruct__000000_A1.Anotherarrayofb = append(__Astruct__000000_A1.Anotherarrayofb, __Bstruct__000002_B3)
 	__Astruct__000000_A1.Anarrayofa = append(__Astruct__000000_A1.Anarrayofa, __Astruct__000000_A1)
-	__Astruct__000000_A1.Anarrayofb2Use = append(__Astruct__000000_A1.Anarrayofb2Use, __AstructBstruct2Use__000000_)
-	__Astruct__000001_A2.Anarrayofb2Use = append(__Astruct__000001_A2.Anarrayofb2Use, __AstructBstruct2Use__000001_)
+	__Astruct__000000_A1.Anarrayofb2Use = append(__Astruct__000000_A1.Anarrayofb2Use, __AstructBstruct2Use__000001_)
+	__Astruct__000001_A2.Anarrayofb2Use = append(__Astruct__000001_A2.Anarrayofb2Use, __AstructBstruct2Use__000000_)
 	__AstructBstruct2Use__000000_.Bstrcut2 = __Bstruct__000000_B1
 	__AstructBstruct2Use__000001_.Bstrcut2 = __Bstruct__000000_B1
 }

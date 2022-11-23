@@ -289,6 +289,8 @@ func main() {
 			*pkgPath)
 	}
 
+	golang.GongAstGenerator(modelPkg, *pkgPath)
+
 	// generate files
 	gong_models.SimpleCodeGeneratorForGongStructWithNameField(
 		modelPkg,
