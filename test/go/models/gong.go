@@ -750,6 +750,10 @@ import (
 	"{{ModelsPackageName}}"
 )
 
+// generated in order to avoid error in the package import
+// if there are no elements in the stage to marshall
+var ___dummy__Stage models.StageStruct
+
 func init() {
 	var __Dummy_time_variable time.Time
 	_ = __Dummy_time_variable
@@ -2042,6 +2046,20 @@ func (aenumtype *AEnumType) FromString(input string) (err error) {
 	return
 }
 
+func (aenumtype *AEnumType) FromCodeString(input string) (err error) {
+
+	switch input {
+	// insertion code per enum code
+	case "ENUM_VAL1":
+		*aenumtype = ENUM_VAL1
+	case "ENUM_VAL2":
+		*aenumtype = ENUM_VAL2
+	default:
+		return errUnkownEnum
+	}
+	return
+}
+
 func (aenumtype *AEnumType) ToCodeString() (res string) {
 
 	switch *aenumtype {
@@ -2075,6 +2093,20 @@ func (benumtype *BEnumType) FromString(input string) (err error) {
 	switch input {
 	// insertion code per enum code
 	case "BENUM_VAL1_NOT_THE_SAME":
+		*benumtype = BENUM_VAL1
+	case "BENUM_VAL2":
+		*benumtype = BENUM_VAL2
+	default:
+		return errUnkownEnum
+	}
+	return
+}
+
+func (benumtype *BEnumType) FromCodeString(input string) (err error) {
+
+	switch input {
+	// insertion code per enum code
+	case "BENUM_VAL1":
 		*benumtype = BENUM_VAL1
 	case "BENUM_VAL2":
 		*benumtype = BENUM_VAL2
@@ -2119,6 +2151,20 @@ func (cenumtypeint *CEnumTypeInt) FromInt(input int) (err error) {
 	case 0:
 		*cenumtypeint = CENUM_VAL1
 	case 1:
+		*cenumtypeint = CENUM_VAL2
+	default:
+		return errUnkownEnum
+	}
+	return
+}
+
+func (cenumtypeint *CEnumTypeInt) FromCodeString(input string) (err error) {
+
+	switch input {
+	// insertion code per enum code
+	case "CENUM_VAL1":
+		*cenumtypeint = CENUM_VAL1
+	case "CENUM_VAL2":
 		*cenumtypeint = CENUM_VAL2
 	default:
 		return errUnkownEnum
