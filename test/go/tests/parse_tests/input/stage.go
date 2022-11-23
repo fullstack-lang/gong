@@ -22,23 +22,23 @@ func stageInjection() {
 	// Declaration of instances to stage
 
 	// Declarations of staged instances of Astruct
-	__Astruct__000000_A1 := (&models.Astruct{Name: `A1 `}).Stage()
-	__Astruct__000001_A2 := (&models.Astruct{Name: `A2 `}).Stage()
-	__Astruct__000002_A3 := (&models.Astruct{Name: `A3 `}).Stage()
+	__Astruct__000000_A1 := (&models.Astruct{Name: `A1`}).Stage()
+	__Astruct__000001_A2 := (&models.Astruct{Name: `A2`}).Stage()
+	__Astruct__000002_A3 := (&models.Astruct{Name: `A3`}).Stage()
 
 	// Declarations of staged instances of AstructBstruct2Use
-	__AstructBstruct2Use__000000_ := (&models.AstructBstruct2Use{Name: ` `}).Stage()
-	__AstructBstruct2Use__000001_ := (&models.AstructBstruct2Use{Name: ` `}).Stage()
+	__AstructBstruct2Use__000000_ := (&models.AstructBstruct2Use{Name: ``}).Stage()
+	__AstructBstruct2Use__000001_ := (&models.AstructBstruct2Use{Name: ``}).Stage()
 
 	// Declarations of staged instances of AstructBstructUse
 
 	// Declarations of staged instances of Bstruct
-	__Bstruct__000000_B1 := (&models.Bstruct{Name: `B1 `}).Stage()
-	__Bstruct__000001_B2 := (&models.Bstruct{Name: `B2 `}).Stage()
-	__Bstruct__000002_B3 := (&models.Bstruct{Name: `B3 `}).Stage()
+	__Bstruct__000000_B1 := (&models.Bstruct{Name: `B1`}).Stage()
+	__Bstruct__000001_B2 := (&models.Bstruct{Name: `B2`}).Stage()
+	__Bstruct__000002_B3 := (&models.Bstruct{Name: `B3`}).Stage()
 
 	// Declarations of staged instances of Dstruct
-	__Dstruct__000000_D1 := (&models.Dstruct{Name: `D1 `}).Stage()
+	__Dstruct__000000_D1 := (&models.Dstruct{Name: `D1`}).Stage()
 
 	// Setup of values
 
