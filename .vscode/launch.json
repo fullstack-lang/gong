@@ -244,25 +244,27 @@
             ]
         },
         {
-            "name": "gongc test2 -skipNg",
+            "name": "gongc test2 -skipNg -skipGoModCommands",
             "type": "go",
             "request": "launch",
             "mode": "debug",
             "cwd": "${workspaceFolder}/test2/go/models",
             "program": "${workspaceFolder}/go/cmd/gongc",
             "args": [
-                "-skipNg"
+                "-skipNg",
+                "-skipGoModCommands"
             ]
         },
         {
-            "name": "gongc gong -skipNg",
+            "name": "gongc gong -skipNg -skipGoModCommands",
             "type": "go",
             "request": "launch",
             "mode": "debug",
             "cwd": "${workspaceFolder}/go/models",
             "program": "${workspaceFolder}/go/cmd/gongc",
             "args": [
-                "-skipNg"
+                "-skipNg",
+                "-skipGoModCommands"
             ]
         },
         {
