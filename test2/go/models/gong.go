@@ -40,7 +40,6 @@ type StageStruct struct { // insertion point for definition of arrays registerin
 	OnAfterAstructDeleteCallback OnAfterDeleteInterface[Astruct]
 	OnAfterAstructReadCallback   OnAfterReadInterface[Astruct]
 
-
 	AllModelsStructCreateCallback AllModelsStructCreateInterface
 
 	AllModelsStructDeleteCallback AllModelsStructDeleteInterface
@@ -279,6 +278,10 @@ import (
 	"{{ModelsPackageName}}"
 )
 
+// generated in order to avoid error in the package import
+// if there are no elements in the stage to marshall
+var ___dummy__Stage models.StageStruct
+
 func init() {
 	var __Dummy_time_variable time.Time
 	_ = __Dummy_time_variable
@@ -298,7 +301,7 @@ func {{databaseName}}Injection() {
 `
 
 const IdentifiersDecls = `
-	{{Identifier}} := (&models.{{GeneratedStructName}}{Name: "{{GeneratedFieldNameValue}}"}).Stage()`
+	{{Identifier}} := (&models.{{GeneratedStructName}}{Name: ` + "`" + `{{GeneratedFieldNameValue}}` + "`" + `}).Stage()`
 
 const StringInitStatement = `
 	{{Identifier}}.{{GeneratedFieldName}} = ` + "`" + `{{GeneratedFieldNameValue}}` + "`"
@@ -367,7 +370,7 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", astruct.Name)
 		identifiersDecl += decl
 
-		initializerStatements += fmt.Sprintf("\n\n	// Astruct %s values setup", astruct.Name)
+		initializerStatements += "\n\n	// Astruct values setup"
 		// Initialisation of values
 		setValueField = StringInitStatement
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)

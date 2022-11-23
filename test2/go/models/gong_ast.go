@@ -1,6 +1,4 @@
-package golang
-
-const GongAstTemplate = `package models
+package models
 
 import (
 	"go/ast"
@@ -111,7 +109,8 @@ func ParseAstFile(pathToFile string) {
 
 var __gong__map_Indentifiers_gongstructName = make(map[string]string)
 
-// insertion point for identifiers maps{{` + string(rune(ModelGongAstGenericMaps)) + `}}
+// insertion point for identifiers maps
+var __gong__map_Astruct = make(map[string]*Astruct)
 
 // UnmarshallGoStaging unmarshall a go assign statement
 func UnmarshallGongstructStaging(assignStmt *ast.AssignStmt, astCoordinate_ string) (
@@ -215,7 +214,11 @@ func UnmarshallGongstructStaging(assignStmt *ast.AssignStmt, astCoordinate_ stri
 									gongstructName = Sel.Name
 									// this is the place where an instance is created
 									switch gongstructName {
-									// insertion point for identifiers{{` + string(rune(ModelGongAstStageProcessing)) + `}}
+									// insertion point for identifiers
+									case "Astruct":
+										instanceAstruct := (&Astruct{Name: instanceName}).Stage()
+										instance = any(instanceAstruct)
+										__gong__map_Astruct[identifier] = instanceAstruct
 									}
 									__gong__map_Indentifiers_gongstructName[identifier] = gongstructName
 									return
@@ -251,7 +254,11 @@ func UnmarshallGongstructStaging(assignStmt *ast.AssignStmt, astCoordinate_ stri
 							log.Fatalln("gongstructName not found for identifier", identifier)
 						}
 						switch gongstructName {
-						// insertion point for basic lit assignments{{` + string(rune(ModelGongAstDateAssignment)) + `}}
+						// insertion point for basic lit assignments
+						case "Astruct":
+							switch fieldName {
+							// insertion point for date assign code
+							}
 						}
 					}
 				}
@@ -276,7 +283,17 @@ func UnmarshallGongstructStaging(assignStmt *ast.AssignStmt, astCoordinate_ stri
 						log.Fatalln("gongstructName not found for identifier", identifier)
 					}
 					switch gongstructName {
-					// insertion point for slice of pointers assignments{{` + string(rune(ModelGongAstSliceOfPointersAssignment)) + `}}
+					// insertion point for slice of pointers assignments
+					case "Astruct":
+						switch fieldName {
+						// insertion point for slice of pointers assign code
+						case "Anarrayofa":
+							// remove first and last char
+							targetIdentifier := ident.Name
+							target := __gong__map_Astruct[targetIdentifier]
+							__gong__map_Astruct[identifier].Anarrayofa =
+								append(__gong__map_Astruct[identifier].Anarrayofa, target)
+						}
 					}
 				case *ast.SelectorExpr:
 					slcExpr := arg
@@ -307,7 +324,15 @@ func UnmarshallGongstructStaging(assignStmt *ast.AssignStmt, astCoordinate_ stri
 			}
 
 			switch gongstructName {
-			// insertion point for basic lit assignments{{` + string(rune(ModelGongAstBasicLitAssignment)) + `}}
+			// insertion point for basic lit assignments
+			case "Astruct":
+				switch fieldName {
+				// insertion point for field dependant code
+				case "Name":
+					// remove first and last char
+					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
+					__gong__map_Astruct[identifier].Name = fielValue
+				}
 			}
 		case *ast.Ident:
 			// assignment to boolean field ?
@@ -321,7 +346,11 @@ func UnmarshallGongstructStaging(assignStmt *ast.AssignStmt, astCoordinate_ stri
 				log.Fatalln("gongstructName not found for identifier", identifier)
 			}
 			switch gongstructName {
-			// insertion point for bool & pointers assignments{{` + string(rune(ModelGongAstIdentBooleanAndPointerAssignment)) + `}}
+			// insertion point for bool & pointers assignments
+			case "Astruct":
+				switch fieldName {
+				// insertion point for field dependant code
+				}
 			}
 		case *ast.SelectorExpr:
 			// assignment to enum field
@@ -349,11 +378,14 @@ func UnmarshallGongstructStaging(assignStmt *ast.AssignStmt, astCoordinate_ stri
 				enumValue := Sel.Name
 				_ = enumValue
 				switch gongstructName {
-				// insertion point for enums assignments{{` + string(rune(ModelGongAstIdentEnumAssignment)) + `}}
+				// insertion point for enums assignments
+				case "Astruct":
+					switch fieldName {
+					// insertion point for enum assign code
+					}
 				}
 			}
 		}
 	}
 	return
 }
-`
