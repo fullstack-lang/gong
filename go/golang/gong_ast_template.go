@@ -4,10 +4,108 @@ const GongAstTemplate = `package models
 
 import (
 	"go/ast"
+	"go/parser"
+	"go/token"
 	"log"
+	"path/filepath"
 	"strconv"
+	"strings"
 	"time"
 )
+
+// ParseAstFile Parse pathToFile and stages all instances
+// declared in the file
+func ParseAstFile(pathToFile string) {
+
+	fileOfInterest, err := filepath.Abs(pathToFile)
+	if err != nil {
+		log.Panic("Path does not exist %s ;" + fileOfInterest)
+	}
+
+	fset := token.NewFileSet()
+	startParser := time.Now()
+	inFile, errParser := parser.ParseFile(fset, fileOfInterest, nil, parser.ParseComments)
+	log.Printf("Parser took %s", time.Since(startParser))
+
+	if errParser != nil {
+		log.Panic("Unable to parser ", errParser.Error())
+	}
+
+	// astCoordinate := "File "
+	// log.Println(// astCoordinate)
+	for _, decl := range inFile.Decls {
+		switch decl := decl.(type) {
+		case *ast.FuncDecl:
+			funcDecl := decl
+			// astCoordinate := // astCoordinate + "\tFunction " + funcDecl.Name.Name
+			if name := funcDecl.Name; name != nil {
+				isOfInterest := strings.Contains(funcDecl.Name.Name, "Injection")
+				if !isOfInterest {
+					continue
+				}
+				// log.Println(// astCoordinate)
+			}
+			if doc := funcDecl.Doc; doc != nil {
+				// astCoordinate := // astCoordinate + "\tDoc"
+				for _, comment := range doc.List {
+					_ = comment
+					// astCoordinate := // astCoordinate + "\tComment: " + comment.Text
+					// log.Println(// astCoordinate)
+				}
+			}
+			if body := funcDecl.Body; body != nil {
+				// astCoordinate := // astCoordinate + "\tBody: "
+				for _, stmt := range body.List {
+					switch stmt := stmt.(type) {
+					case *ast.ExprStmt:
+						exprStmt := stmt
+						// astCoordinate := // astCoordinate + "\tExprStmt: "
+						switch expr := exprStmt.X.(type) {
+						case *ast.CallExpr:
+							// astCoordinate := // astCoordinate + "\tCallExpr: "
+							callExpr := expr
+							switch fun := callExpr.Fun.(type) {
+							case *ast.Ident:
+								ident := fun
+								_ = ident
+								// astCoordinate := // astCoordinate + "\tIdent: " + ident.Name
+								// log.Println(// astCoordinate)
+							}
+						}
+					case *ast.AssignStmt:
+						astCoordinate := "\tAssignStmt: "
+						// log.Println(// astCoordinate)
+						assignStmt := stmt
+						instance, id, gongstruct, fieldName := UnmarshallGongstructStaging(assignStmt, astCoordinate)
+						_ = instance
+						_ = id
+						_ = gongstruct
+						_ = fieldName
+					}
+				}
+			}
+		case *ast.GenDecl:
+			genDecl := decl
+			// log.Println("\tAST GenDecl: ")
+			if doc := genDecl.Doc; doc != nil {
+				for _, comment := range doc.List {
+					_ = comment
+					// log.Println("\tAST Comment: ", comment.Text)
+				}
+			}
+			for _, spec := range genDecl.Specs {
+				switch spec := spec.(type) {
+				case *ast.ImportSpec:
+					importSpec := spec
+					if path := importSpec.Path; path != nil {
+						// log.Println("\t\tAST Path: ", path.Value)
+					}
+				}
+			}
+		}
+
+	}
+}
 
 var __gong__map_Indentifiers_gongstructName = make(map[string]string)
 
@@ -115,7 +213,7 @@ func UnmarshallGongstructStaging(assignStmt *ast.AssignStmt, astCoordinate_ stri
 									gongstructName = Sel.Name
 									// this is the place where an instance is created
 									switch gongstructName {
-									// insertion point for identifiers {{` + string(rune(ModelGongAstStageProcessing)) + `}}
+									// insertion point for identifiers{{` + string(rune(ModelGongAstStageProcessing)) + `}}
 									}
 									__gong__map_Indentifiers_gongstructName[identifier] = gongstructName
 									return
@@ -150,7 +248,7 @@ func UnmarshallGongstructStaging(assignStmt *ast.AssignStmt, astCoordinate_ stri
 							log.Fatalln("gongstructName not found for identifier", identifier)
 						}
 						switch gongstructName {
-						// insertion point for basic lit assignments{{` + string(rune(ModelGongAstDateAssignment)) + `}}					
+						// insertion point for basic lit assignments{{` + string(rune(ModelGongAstDateAssignment)) + `}}
 						}
 					}
 				}
