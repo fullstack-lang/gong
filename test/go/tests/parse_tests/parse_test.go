@@ -37,48 +37,50 @@ func TestParseTest(t *testing.T) {
 		log.Panic("Unable to parser ", errParser.Error())
 	}
 
-	astCoordinate := "File "
-	log.Println(astCoordinate)
+	// astCoordinate := "File "
+	// log.Println(// astCoordinate)
 	for _, decl := range inFile.Decls {
 		switch decl := decl.(type) {
 		case *ast.FuncDecl:
 			funcDecl := decl
-			astCoordinate := astCoordinate + "\tFunction " + funcDecl.Name.Name
+			// astCoordinate := // astCoordinate + "\tFunction " + funcDecl.Name.Name
 			if name := funcDecl.Name; name != nil {
 				isOfInterest := strings.Contains(funcDecl.Name.Name, "stage")
 				if !isOfInterest {
 					continue
 				}
-				log.Println(astCoordinate)
+				// log.Println(// astCoordinate)
 			}
 			if doc := funcDecl.Doc; doc != nil {
-				astCoordinate := astCoordinate + "\tDoc"
+				// astCoordinate := // astCoordinate + "\tDoc"
 				for _, comment := range doc.List {
-					astCoordinate := astCoordinate + "\tComment: " + comment.Text
-					log.Println(astCoordinate)
+					_ = comment
+					// astCoordinate := // astCoordinate + "\tComment: " + comment.Text
+					// log.Println(// astCoordinate)
 				}
 			}
 			if body := funcDecl.Body; body != nil {
-				astCoordinate := astCoordinate + "\tBody: "
+				// astCoordinate := // astCoordinate + "\tBody: "
 				for _, stmt := range body.List {
 					switch stmt := stmt.(type) {
 					case *ast.ExprStmt:
 						exprStmt := stmt
-						astCoordinate := astCoordinate + "\tExprStmt: "
+						// astCoordinate := // astCoordinate + "\tExprStmt: "
 						switch expr := exprStmt.X.(type) {
 						case *ast.CallExpr:
-							astCoordinate := astCoordinate + "\tCallExpr: "
+							// astCoordinate := // astCoordinate + "\tCallExpr: "
 							callExpr := expr
 							switch fun := callExpr.Fun.(type) {
 							case *ast.Ident:
 								ident := fun
-								astCoordinate := astCoordinate + "\tIdent: " + ident.Name
-								log.Println(astCoordinate)
+								_ = ident
+								// astCoordinate := // astCoordinate + "\tIdent: " + ident.Name
+								// log.Println(// astCoordinate)
 							}
 						}
 					case *ast.AssignStmt:
-						astCoordinate := astCoordinate + "\tAssignStmt: "
-						log.Println(astCoordinate)
+						astCoordinate := "\tAssignStmt: "
+						// log.Println(// astCoordinate)
 						assignStmt := stmt
 						instance, id, gongstruct, fieldName := models.UnmarshallGongstructStaging(assignStmt, astCoordinate)
 						_ = instance
@@ -90,10 +92,11 @@ func TestParseTest(t *testing.T) {
 			}
 		case *ast.GenDecl:
 			genDecl := decl
-			log.Println("\tAST GenDecl: ")
+			// log.Println("\tAST GenDecl: ")
 			if doc := genDecl.Doc; doc != nil {
 				for _, comment := range doc.List {
-					log.Println("\tAST Comment: ", comment.Text)
+					_ = comment
+					// log.Println("\tAST Comment: ", comment.Text)
 				}
 			}
 			for _, spec := range genDecl.Specs {
@@ -101,7 +104,7 @@ func TestParseTest(t *testing.T) {
 				case *ast.ImportSpec:
 					importSpec := spec
 					if path := importSpec.Path; path != nil {
-						log.Println("\t\tAST Path: ", path.Value)
+						// log.Println("\t\tAST Path: ", path.Value)
 					}
 				}
 			}
