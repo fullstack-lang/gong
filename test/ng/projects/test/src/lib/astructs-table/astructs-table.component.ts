@@ -99,6 +99,21 @@ export class AstructsTableComponent implements OnInit {
         case 'Bstruct':
           return (astructDB.Bstruct ? astructDB.Bstruct.Name : '');
 
+        case 'Bstruct2':
+          return (astructDB.Bstruct2 ? astructDB.Bstruct2.Name : '');
+
+        case 'Dstruct':
+          return (astructDB.Dstruct ? astructDB.Dstruct.Name : '');
+
+        case 'Dstruct2':
+          return (astructDB.Dstruct2 ? astructDB.Dstruct2.Name : '');
+
+        case 'Dstruct3':
+          return (astructDB.Dstruct3 ? astructDB.Dstruct3.Name : '');
+
+        case 'Dstruct4':
+          return (astructDB.Dstruct4 ? astructDB.Dstruct4.Name : '');
+
         case 'Floatfield':
           return astructDB.Floatfield;
 
@@ -150,6 +165,21 @@ export class AstructsTableComponent implements OnInit {
       mergedContent += astructDB.CFloatfield.toString()
       if (astructDB.Bstruct) {
         mergedContent += astructDB.Bstruct.Name.toLowerCase()
+      }
+      if (astructDB.Bstruct2) {
+        mergedContent += astructDB.Bstruct2.Name.toLowerCase()
+      }
+      if (astructDB.Dstruct) {
+        mergedContent += astructDB.Dstruct.Name.toLowerCase()
+      }
+      if (astructDB.Dstruct2) {
+        mergedContent += astructDB.Dstruct2.Name.toLowerCase()
+      }
+      if (astructDB.Dstruct3) {
+        mergedContent += astructDB.Dstruct3.Name.toLowerCase()
+      }
+      if (astructDB.Dstruct4) {
+        mergedContent += astructDB.Dstruct4.Name.toLowerCase()
       }
       mergedContent += astructDB.Floatfield.toString()
       mergedContent += astructDB.Intfield.toString()
@@ -226,6 +256,11 @@ export class AstructsTableComponent implements OnInit {
         "CName",
         "CFloatfield",
         "Bstruct",
+        "Bstruct2",
+        "Dstruct",
+        "Dstruct2",
+        "Dstruct3",
+        "Dstruct4",
         "Floatfield",
         "Intfield",
         "Anotherbooleanfield",
@@ -247,6 +282,11 @@ export class AstructsTableComponent implements OnInit {
         "CName",
         "CFloatfield",
         "Bstruct",
+        "Bstruct2",
+        "Dstruct",
+        "Dstruct2",
+        "Dstruct3",
+        "Dstruct4",
         "Floatfield",
         "Intfield",
         "Anotherbooleanfield",

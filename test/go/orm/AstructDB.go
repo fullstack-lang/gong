@@ -50,6 +50,26 @@ type AstructPointersEnconding struct {
 	// This field is generated into another field to enable AS ONE association
 	BstructID sql.NullInt64
 
+	// field Bstruct2 is a pointer to another Struct (optional or 0..1)
+	// This field is generated into another field to enable AS ONE association
+	Bstruct2ID sql.NullInt64
+
+	// field Dstruct is a pointer to another Struct (optional or 0..1)
+	// This field is generated into another field to enable AS ONE association
+	DstructID sql.NullInt64
+
+	// field Dstruct2 is a pointer to another Struct (optional or 0..1)
+	// This field is generated into another field to enable AS ONE association
+	Dstruct2ID sql.NullInt64
+
+	// field Dstruct3 is a pointer to another Struct (optional or 0..1)
+	// This field is generated into another field to enable AS ONE association
+	Dstruct3ID sql.NullInt64
+
+	// field Dstruct4 is a pointer to another Struct (optional or 0..1)
+	// This field is generated into another field to enable AS ONE association
+	Dstruct4ID sql.NullInt64
+
 	// field Associationtob is a pointer to another Struct (optional or 0..1)
 	// This field is generated into another field to enable AS ONE association
 	AssociationtobID sql.NullInt64
@@ -337,6 +357,51 @@ func (backRepoAstruct *BackRepoAstructStruct) CommitPhaseTwoInstance(backRepo *B
 			}
 		}
 
+		// commit pointer value astruct.Bstruct2 translates to updating the astruct.Bstruct2ID
+		astructDB.Bstruct2ID.Valid = true // allow for a 0 value (nil association)
+		if astruct.Bstruct2 != nil {
+			if Bstruct2Id, ok := (*backRepo.BackRepoBstruct.Map_BstructPtr_BstructDBID)[astruct.Bstruct2]; ok {
+				astructDB.Bstruct2ID.Int64 = int64(Bstruct2Id)
+				astructDB.Bstruct2ID.Valid = true
+			}
+		}
+
+		// commit pointer value astruct.Dstruct translates to updating the astruct.DstructID
+		astructDB.DstructID.Valid = true // allow for a 0 value (nil association)
+		if astruct.Dstruct != nil {
+			if DstructId, ok := (*backRepo.BackRepoDstruct.Map_DstructPtr_DstructDBID)[astruct.Dstruct]; ok {
+				astructDB.DstructID.Int64 = int64(DstructId)
+				astructDB.DstructID.Valid = true
+			}
+		}
+
+		// commit pointer value astruct.Dstruct2 translates to updating the astruct.Dstruct2ID
+		astructDB.Dstruct2ID.Valid = true // allow for a 0 value (nil association)
+		if astruct.Dstruct2 != nil {
+			if Dstruct2Id, ok := (*backRepo.BackRepoDstruct.Map_DstructPtr_DstructDBID)[astruct.Dstruct2]; ok {
+				astructDB.Dstruct2ID.Int64 = int64(Dstruct2Id)
+				astructDB.Dstruct2ID.Valid = true
+			}
+		}
+
+		// commit pointer value astruct.Dstruct3 translates to updating the astruct.Dstruct3ID
+		astructDB.Dstruct3ID.Valid = true // allow for a 0 value (nil association)
+		if astruct.Dstruct3 != nil {
+			if Dstruct3Id, ok := (*backRepo.BackRepoDstruct.Map_DstructPtr_DstructDBID)[astruct.Dstruct3]; ok {
+				astructDB.Dstruct3ID.Int64 = int64(Dstruct3Id)
+				astructDB.Dstruct3ID.Valid = true
+			}
+		}
+
+		// commit pointer value astruct.Dstruct4 translates to updating the astruct.Dstruct4ID
+		astructDB.Dstruct4ID.Valid = true // allow for a 0 value (nil association)
+		if astruct.Dstruct4 != nil {
+			if Dstruct4Id, ok := (*backRepo.BackRepoDstruct.Map_DstructPtr_DstructDBID)[astruct.Dstruct4]; ok {
+				astructDB.Dstruct4ID.Int64 = int64(Dstruct4Id)
+				astructDB.Dstruct4ID.Valid = true
+			}
+		}
+
 		// commit pointer value astruct.Associationtob translates to updating the astruct.AssociationtobID
 		astructDB.AssociationtobID.Valid = true // allow for a 0 value (nil association)
 		if astruct.Associationtob != nil {
@@ -567,6 +632,26 @@ func (backRepoAstruct *BackRepoAstructStruct) CheckoutPhaseTwoInstance(backRepo 
 	// Bstruct field
 	if astructDB.BstructID.Int64 != 0 {
 		astruct.Bstruct = (*backRepo.BackRepoBstruct.Map_BstructDBID_BstructPtr)[uint(astructDB.BstructID.Int64)]
+	}
+	// Bstruct2 field
+	if astructDB.Bstruct2ID.Int64 != 0 {
+		astruct.Bstruct2 = (*backRepo.BackRepoBstruct.Map_BstructDBID_BstructPtr)[uint(astructDB.Bstruct2ID.Int64)]
+	}
+	// Dstruct field
+	if astructDB.DstructID.Int64 != 0 {
+		astruct.Dstruct = (*backRepo.BackRepoDstruct.Map_DstructDBID_DstructPtr)[uint(astructDB.DstructID.Int64)]
+	}
+	// Dstruct2 field
+	if astructDB.Dstruct2ID.Int64 != 0 {
+		astruct.Dstruct2 = (*backRepo.BackRepoDstruct.Map_DstructDBID_DstructPtr)[uint(astructDB.Dstruct2ID.Int64)]
+	}
+	// Dstruct3 field
+	if astructDB.Dstruct3ID.Int64 != 0 {
+		astruct.Dstruct3 = (*backRepo.BackRepoDstruct.Map_DstructDBID_DstructPtr)[uint(astructDB.Dstruct3ID.Int64)]
+	}
+	// Dstruct4 field
+	if astructDB.Dstruct4ID.Int64 != 0 {
+		astruct.Dstruct4 = (*backRepo.BackRepoDstruct.Map_DstructDBID_DstructPtr)[uint(astructDB.Dstruct4ID.Int64)]
 	}
 	// Associationtob field
 	if astructDB.AssociationtobID.Int64 != 0 {
@@ -1029,6 +1114,36 @@ func (backRepoAstruct *BackRepoAstructStruct) RestorePhaseTwo() {
 		if astructDB.BstructID.Int64 != 0 {
 			astructDB.BstructID.Int64 = int64(BackRepoBstructid_atBckpTime_newID[uint(astructDB.BstructID.Int64)])
 			astructDB.BstructID.Valid = true
+		}
+
+		// reindexing Bstruct2 field
+		if astructDB.Bstruct2ID.Int64 != 0 {
+			astructDB.Bstruct2ID.Int64 = int64(BackRepoBstructid_atBckpTime_newID[uint(astructDB.Bstruct2ID.Int64)])
+			astructDB.Bstruct2ID.Valid = true
+		}
+
+		// reindexing Dstruct field
+		if astructDB.DstructID.Int64 != 0 {
+			astructDB.DstructID.Int64 = int64(BackRepoDstructid_atBckpTime_newID[uint(astructDB.DstructID.Int64)])
+			astructDB.DstructID.Valid = true
+		}
+
+		// reindexing Dstruct2 field
+		if astructDB.Dstruct2ID.Int64 != 0 {
+			astructDB.Dstruct2ID.Int64 = int64(BackRepoDstructid_atBckpTime_newID[uint(astructDB.Dstruct2ID.Int64)])
+			astructDB.Dstruct2ID.Valid = true
+		}
+
+		// reindexing Dstruct3 field
+		if astructDB.Dstruct3ID.Int64 != 0 {
+			astructDB.Dstruct3ID.Int64 = int64(BackRepoDstructid_atBckpTime_newID[uint(astructDB.Dstruct3ID.Int64)])
+			astructDB.Dstruct3ID.Valid = true
+		}
+
+		// reindexing Dstruct4 field
+		if astructDB.Dstruct4ID.Int64 != 0 {
+			astructDB.Dstruct4ID.Int64 = int64(BackRepoDstructid_atBckpTime_newID[uint(astructDB.Dstruct4ID.Int64)])
+			astructDB.Dstruct4ID.Valid = true
 		}
 
 		// reindexing Associationtob field
