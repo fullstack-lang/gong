@@ -174,6 +174,56 @@ export class AstructDetailComponent implements OnInit {
 			this.astruct.BstructID.Int64 = 0
 			this.astruct.BstructID.Valid = true
 		}
+		if (this.astruct.Bstruct2ID == undefined) {
+			this.astruct.Bstruct2ID = new NullInt64
+		}
+		if (this.astruct.Bstruct2 != undefined) {
+			this.astruct.Bstruct2ID.Int64 = this.astruct.Bstruct2.ID
+			this.astruct.Bstruct2ID.Valid = true
+		} else {
+			this.astruct.Bstruct2ID.Int64 = 0
+			this.astruct.Bstruct2ID.Valid = true
+		}
+		if (this.astruct.DstructID == undefined) {
+			this.astruct.DstructID = new NullInt64
+		}
+		if (this.astruct.Dstruct != undefined) {
+			this.astruct.DstructID.Int64 = this.astruct.Dstruct.ID
+			this.astruct.DstructID.Valid = true
+		} else {
+			this.astruct.DstructID.Int64 = 0
+			this.astruct.DstructID.Valid = true
+		}
+		if (this.astruct.Dstruct2ID == undefined) {
+			this.astruct.Dstruct2ID = new NullInt64
+		}
+		if (this.astruct.Dstruct2 != undefined) {
+			this.astruct.Dstruct2ID.Int64 = this.astruct.Dstruct2.ID
+			this.astruct.Dstruct2ID.Valid = true
+		} else {
+			this.astruct.Dstruct2ID.Int64 = 0
+			this.astruct.Dstruct2ID.Valid = true
+		}
+		if (this.astruct.Dstruct3ID == undefined) {
+			this.astruct.Dstruct3ID = new NullInt64
+		}
+		if (this.astruct.Dstruct3 != undefined) {
+			this.astruct.Dstruct3ID.Int64 = this.astruct.Dstruct3.ID
+			this.astruct.Dstruct3ID.Valid = true
+		} else {
+			this.astruct.Dstruct3ID.Int64 = 0
+			this.astruct.Dstruct3ID.Valid = true
+		}
+		if (this.astruct.Dstruct4ID == undefined) {
+			this.astruct.Dstruct4ID = new NullInt64
+		}
+		if (this.astruct.Dstruct4 != undefined) {
+			this.astruct.Dstruct4ID.Int64 = this.astruct.Dstruct4.ID
+			this.astruct.Dstruct4ID.Valid = true
+		} else {
+			this.astruct.Dstruct4ID.Int64 = 0
+			this.astruct.Dstruct4ID.Valid = true
+		}
 		this.astruct.Anotherbooleanfield = this.AnotherbooleanfieldFormControl.value
 		this.astruct.Duration1 =
 			this.Duration1_Hours * (3600 * 1000 * 1000 * 1000) +

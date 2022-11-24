@@ -1,5 +1,6 @@
 // insertion point for imports
 import { BstructDB } from './bstruct-db'
+import { DstructDB } from './dstruct-db'
 import { AstructBstructUseDB } from './astructbstructuse-db'
 import { AstructBstruct2UseDB } from './astructbstruct2use-db'
 
@@ -30,6 +31,21 @@ export class AstructDB {
 	CEnum_string?: string
 	Bstruct?: BstructDB
 	BstructID: NullInt64 = new NullInt64 // if pointer is null, Bstruct.ID = 0
+
+	Bstruct2?: BstructDB
+	Bstruct2ID: NullInt64 = new NullInt64 // if pointer is null, Bstruct2.ID = 0
+
+	Dstruct?: DstructDB
+	DstructID: NullInt64 = new NullInt64 // if pointer is null, Dstruct.ID = 0
+
+	Dstruct2?: DstructDB
+	Dstruct2ID: NullInt64 = new NullInt64 // if pointer is null, Dstruct2.ID = 0
+
+	Dstruct3?: DstructDB
+	Dstruct3ID: NullInt64 = new NullInt64 // if pointer is null, Dstruct3.ID = 0
+
+	Dstruct4?: DstructDB
+	Dstruct4ID: NullInt64 = new NullInt64 // if pointer is null, Dstruct4.ID = 0
 
 	Duration1_string?: string
 	Associationtob?: BstructDB

@@ -22,8 +22,10 @@ type Astruct struct {
 	Benum   BEnumType
 	CEnum   CEnumTypeInt
 
-	// an embedded struct is supported (without a field name)
+	// an embedded struct is supported (without field name)
 	Cstruct
+	// another embedded struct
+	Estruct
 
 	// float64 is a supported type of gong
 	Floatfield float64
