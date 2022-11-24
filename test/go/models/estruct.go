@@ -1,8 +1,7 @@
 package models
 
-// Estruct should not be generated
-//
-// swagger:ignore
+// Estruct is another embbeded struct
 type Estruct struct {
-	Name string
+	Dstruct3 *Dstruct
+	Dstruct4 *Dstruct
 }

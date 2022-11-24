@@ -357,6 +357,41 @@ export class FrontRepoService {
                     astruct.Bstruct = _bstruct
                   }
                 }
+                // insertion point for pointer field Bstruct2 redeeming
+                {
+                  let _bstruct = FrontRepoSingloton.Bstructs.get(astruct.Bstruct2ID.Int64)
+                  if (_bstruct) {
+                    astruct.Bstruct2 = _bstruct
+                  }
+                }
+                // insertion point for pointer field Dstruct redeeming
+                {
+                  let _dstruct = FrontRepoSingloton.Dstructs.get(astruct.DstructID.Int64)
+                  if (_dstruct) {
+                    astruct.Dstruct = _dstruct
+                  }
+                }
+                // insertion point for pointer field Dstruct2 redeeming
+                {
+                  let _dstruct = FrontRepoSingloton.Dstructs.get(astruct.Dstruct2ID.Int64)
+                  if (_dstruct) {
+                    astruct.Dstruct2 = _dstruct
+                  }
+                }
+                // insertion point for pointer field Dstruct3 redeeming
+                {
+                  let _dstruct = FrontRepoSingloton.Dstructs.get(astruct.Dstruct3ID.Int64)
+                  if (_dstruct) {
+                    astruct.Dstruct3 = _dstruct
+                  }
+                }
+                // insertion point for pointer field Dstruct4 redeeming
+                {
+                  let _dstruct = FrontRepoSingloton.Dstructs.get(astruct.Dstruct4ID.Int64)
+                  if (_dstruct) {
+                    astruct.Dstruct4 = _dstruct
+                  }
+                }
                 // insertion point for pointer field Associationtob redeeming
                 {
                   let _bstruct = FrontRepoSingloton.Bstructs.get(astruct.AssociationtobID.Int64)
@@ -530,6 +565,41 @@ export class FrontRepoService {
                   let _bstruct = FrontRepoSingloton.Bstructs.get(astruct.BstructID.Int64)
                   if (_bstruct) {
                     astruct.Bstruct = _bstruct
+                  }
+                }
+                // insertion point for pointer field Bstruct2 redeeming
+                {
+                  let _bstruct = FrontRepoSingloton.Bstructs.get(astruct.Bstruct2ID.Int64)
+                  if (_bstruct) {
+                    astruct.Bstruct2 = _bstruct
+                  }
+                }
+                // insertion point for pointer field Dstruct redeeming
+                {
+                  let _dstruct = FrontRepoSingloton.Dstructs.get(astruct.DstructID.Int64)
+                  if (_dstruct) {
+                    astruct.Dstruct = _dstruct
+                  }
+                }
+                // insertion point for pointer field Dstruct2 redeeming
+                {
+                  let _dstruct = FrontRepoSingloton.Dstructs.get(astruct.Dstruct2ID.Int64)
+                  if (_dstruct) {
+                    astruct.Dstruct2 = _dstruct
+                  }
+                }
+                // insertion point for pointer field Dstruct3 redeeming
+                {
+                  let _dstruct = FrontRepoSingloton.Dstructs.get(astruct.Dstruct3ID.Int64)
+                  if (_dstruct) {
+                    astruct.Dstruct3 = _dstruct
+                  }
+                }
+                // insertion point for pointer field Dstruct4 redeeming
+                {
+                  let _dstruct = FrontRepoSingloton.Dstructs.get(astruct.Dstruct4ID.Int64)
+                  if (_dstruct) {
+                    astruct.Dstruct4 = _dstruct
                   }
                 }
                 // insertion point for pointer field Associationtob redeeming

@@ -373,6 +373,7 @@ const (
 
 	GongFileFieldSubTmplAssociationNamePointerField
 	GongFileFieldSubTmplAssociationNameSliceOfPointersField
+	GongFileFieldSubTmplAssociationNameEnclosingCompositePointerField
 	GongFileFieldSubTmplAssociationNameCompositePointerField
 	GongFileFieldSubTmplAssociationNameCompositeSliceOfPointersField
 
@@ -503,11 +504,14 @@ map[GongFilePerStructSubTemplateId]string{
 			// field is initialized with an instance of {{AssocStructName}} with the name of the field
 			{{FieldName}}: []*{{AssocStructName}}{{Name: "{{FieldName}}"}},`,
 
-	GongFileFieldSubTmplAssociationNameCompositePointerField: `
-			// field is initialized with an instance of {{AssocStructName}} ({{AssocCompositeStructName}} as it is a composite) with the name of the field
+	GongFileFieldSubTmplAssociationNameEnclosingCompositePointerField: `
+			// field is initialized with {{AssocCompositeStructName}} as it is a composite
 			{{AssocCompositeStructName}}: {{AssocCompositeStructName}}{
-				{{FieldName}}: &{{AssocStructName}}{Name: "{{FieldName}}"},
+				// per field init{{PerCompositeFieldInit}}
 			},`,
+	GongFileFieldSubTmplAssociationNameCompositePointerField: `
+				//
+				{{FieldName}}: &{{AssocStructName}}{Name: "{{FieldName}}"},`,
 
 	GongFileFieldSubTmplAssociationNameCompositeSliceOfPointersField: `
 			// field is initialized with an instance of {{AssocStructName}} ({{AssocCompositeStructName}} as it is a composite) with the name of the field
@@ -648,6 +652,8 @@ func CodeGeneratorModelGong(
 			fieldReverseSliceOfPointersAssociationMapCode := ``
 			associationFieldInitialization := ``
 
+			associationFieldInitializationPerCompositeStruct := make(map[string]string, 0)
+
 			for idx, field := range gongStruct.Fields {
 
 				switch field := field.(type) {
@@ -735,7 +741,7 @@ func CodeGeneratorModelGong(
 							"{{AssocStructName}}", field.GongStruct.Name,
 							"{{assocstructname}}", strings.ToLower(field.GongStruct.Name))
 					} else {
-						associationFieldInitialization += models.Replace4(
+						associationFieldInitializationPerCompositeStruct[field.CompositeStructName] += models.Replace4(
 							GongFileFieldFieldSubTemplateCode[GongFileFieldSubTmplAssociationNameCompositePointerField],
 							"{{FieldName}}", field.Name,
 							"{{AssocStructName}}", field.GongStruct.Name,
@@ -802,6 +808,15 @@ func CodeGeneratorModelGong(
 				"{{Structname}}", gongStruct.Name)
 
 			fieldNames += `}`
+
+			// parse all composite structs and add initialization field per composite
+			for compositeStructName := range associationFieldInitializationPerCompositeStruct {
+				associationFieldInitialization += models.Replace2(
+					GongFileFieldFieldSubTemplateCode[GongFileFieldSubTmplAssociationNameEnclosingCompositePointerField],
+					"{{AssocCompositeStructName}}", compositeStructName,
+					"{{PerCompositeFieldInit}}", associationFieldInitializationPerCompositeStruct[compositeStructName])
+			}
+
 			generatedCodeFromSubTemplate := models.Replace10(ModelGongStructSubTemplateCode[subStructTemplate],
 				"{{structname}}", strings.ToLower(gongStruct.Name),
 				"{{Structname}}", gongStruct.Name,

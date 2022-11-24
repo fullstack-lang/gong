@@ -15,6 +15,7 @@ import { AstructDB } from './astruct-db';
 
 // insertion point for imports
 import { BstructDB } from './bstruct-db'
+import { DstructDB } from './dstruct-db'
 
 @Injectable({
   providedIn: 'root'
@@ -72,6 +73,11 @@ export class AstructService {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
     astructdb.Bstruct = new BstructDB
+    astructdb.Bstruct2 = new BstructDB
+    astructdb.Dstruct = new DstructDB
+    astructdb.Dstruct2 = new DstructDB
+    astructdb.Dstruct3 = new DstructDB
+    astructdb.Dstruct4 = new DstructDB
     astructdb.Associationtob = new BstructDB
     astructdb.Anotherassociationtob_2 = new BstructDB
     astructdb.Anarrayofb = []
@@ -111,6 +117,11 @@ export class AstructService {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
     astructdb.Bstruct = new BstructDB
+    astructdb.Bstruct2 = new BstructDB
+    astructdb.Dstruct = new DstructDB
+    astructdb.Dstruct2 = new DstructDB
+    astructdb.Dstruct3 = new DstructDB
+    astructdb.Dstruct4 = new DstructDB
     astructdb.Associationtob = new BstructDB
     astructdb.Anotherassociationtob_2 = new BstructDB
     astructdb.Anarrayofb = []
