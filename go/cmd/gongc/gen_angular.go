@@ -81,7 +81,7 @@ func genAngular(modelPkg *gong_models.ModelPkg, skipNpmInstall bool) {
 					// otherwise, one meet the error
 					// "No terminal detected. '--skip-confirmation' can be used to bypass installation confirmation.
 					// Ensure package name is correct prior to '--skip-confirmation' option usage."
-					cmd := exec.Command("ng", "add", "@angular/material", "--skip-confirmation")
+					cmd := exec.Command("ng", "add", "@angular/material@14", "--skip-confirmation")
 					cmd.Dir = gong_models.NgWorkspacePath
 					log.Printf("Adding angular material\n")
 
@@ -106,7 +106,7 @@ func genAngular(modelPkg *gong_models.ModelPkg, skipNpmInstall bool) {
 					start := time.Now()
 					cmd := exec.Command("npm", "install", "--save",
 						"angular-split@14.1",
-						"material-design-icons",
+						"material-icons",
 						"typeface-open-sans",
 						"typeface-roboto",
 						"@angular-material-components/datetime-picker@8")
