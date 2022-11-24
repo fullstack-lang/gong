@@ -336,6 +336,181 @@ export class SidebarComponent implements OnInit {
           }
 
           /**
+          * let append a node for the association Bstruct2
+          */
+          let Bstruct2GongNodeAssociation: GongNode = {
+            name: "(Bstruct) Bstruct2",
+            type: GongNodeType.ONE__ZERO_ONE_ASSOCIATION,
+            id: astructDB.ID,
+            uniqueIdPerStack: 17 * nonInstanceNodeId,
+            structName: "Astruct",
+            associationField: "Bstruct2",
+            associatedStructName: "Bstruct",
+            children: new Array<GongNode>()
+          }
+          nonInstanceNodeId = nonInstanceNodeId + 1
+          astructGongNodeInstance.children!.push(Bstruct2GongNodeAssociation)
+
+          /**
+            * let append a node for the instance behind the asssociation Bstruct2
+            */
+          if (astructDB.Bstruct2 != undefined) {
+            let astructGongNodeInstance_Bstruct2: GongNode = {
+              name: astructDB.Bstruct2.Name,
+              type: GongNodeType.INSTANCE,
+              id: astructDB.Bstruct2.ID,
+              uniqueIdPerStack: // godel numbering (thank you kurt)
+                3 * getAstructUniqueID(astructDB.ID)
+                + 5 * getBstructUniqueID(astructDB.Bstruct2.ID),
+              structName: "Bstruct",
+              associationField: "",
+              associatedStructName: "",
+              children: new Array<GongNode>()
+            }
+            Bstruct2GongNodeAssociation.children.push(astructGongNodeInstance_Bstruct2)
+          }
+
+          /**
+          * let append a node for the association Dstruct
+          */
+          let DstructGongNodeAssociation: GongNode = {
+            name: "(Dstruct) Dstruct",
+            type: GongNodeType.ONE__ZERO_ONE_ASSOCIATION,
+            id: astructDB.ID,
+            uniqueIdPerStack: 17 * nonInstanceNodeId,
+            structName: "Astruct",
+            associationField: "Dstruct",
+            associatedStructName: "Dstruct",
+            children: new Array<GongNode>()
+          }
+          nonInstanceNodeId = nonInstanceNodeId + 1
+          astructGongNodeInstance.children!.push(DstructGongNodeAssociation)
+
+          /**
+            * let append a node for the instance behind the asssociation Dstruct
+            */
+          if (astructDB.Dstruct != undefined) {
+            let astructGongNodeInstance_Dstruct: GongNode = {
+              name: astructDB.Dstruct.Name,
+              type: GongNodeType.INSTANCE,
+              id: astructDB.Dstruct.ID,
+              uniqueIdPerStack: // godel numbering (thank you kurt)
+                3 * getAstructUniqueID(astructDB.ID)
+                + 5 * getDstructUniqueID(astructDB.Dstruct.ID),
+              structName: "Dstruct",
+              associationField: "",
+              associatedStructName: "",
+              children: new Array<GongNode>()
+            }
+            DstructGongNodeAssociation.children.push(astructGongNodeInstance_Dstruct)
+          }
+
+          /**
+          * let append a node for the association Dstruct2
+          */
+          let Dstruct2GongNodeAssociation: GongNode = {
+            name: "(Dstruct) Dstruct2",
+            type: GongNodeType.ONE__ZERO_ONE_ASSOCIATION,
+            id: astructDB.ID,
+            uniqueIdPerStack: 17 * nonInstanceNodeId,
+            structName: "Astruct",
+            associationField: "Dstruct2",
+            associatedStructName: "Dstruct",
+            children: new Array<GongNode>()
+          }
+          nonInstanceNodeId = nonInstanceNodeId + 1
+          astructGongNodeInstance.children!.push(Dstruct2GongNodeAssociation)
+
+          /**
+            * let append a node for the instance behind the asssociation Dstruct2
+            */
+          if (astructDB.Dstruct2 != undefined) {
+            let astructGongNodeInstance_Dstruct2: GongNode = {
+              name: astructDB.Dstruct2.Name,
+              type: GongNodeType.INSTANCE,
+              id: astructDB.Dstruct2.ID,
+              uniqueIdPerStack: // godel numbering (thank you kurt)
+                3 * getAstructUniqueID(astructDB.ID)
+                + 5 * getDstructUniqueID(astructDB.Dstruct2.ID),
+              structName: "Dstruct",
+              associationField: "",
+              associatedStructName: "",
+              children: new Array<GongNode>()
+            }
+            Dstruct2GongNodeAssociation.children.push(astructGongNodeInstance_Dstruct2)
+          }
+
+          /**
+          * let append a node for the association Dstruct3
+          */
+          let Dstruct3GongNodeAssociation: GongNode = {
+            name: "(Dstruct) Dstruct3",
+            type: GongNodeType.ONE__ZERO_ONE_ASSOCIATION,
+            id: astructDB.ID,
+            uniqueIdPerStack: 17 * nonInstanceNodeId,
+            structName: "Astruct",
+            associationField: "Dstruct3",
+            associatedStructName: "Dstruct",
+            children: new Array<GongNode>()
+          }
+          nonInstanceNodeId = nonInstanceNodeId + 1
+          astructGongNodeInstance.children!.push(Dstruct3GongNodeAssociation)
+
+          /**
+            * let append a node for the instance behind the asssociation Dstruct3
+            */
+          if (astructDB.Dstruct3 != undefined) {
+            let astructGongNodeInstance_Dstruct3: GongNode = {
+              name: astructDB.Dstruct3.Name,
+              type: GongNodeType.INSTANCE,
+              id: astructDB.Dstruct3.ID,
+              uniqueIdPerStack: // godel numbering (thank you kurt)
+                3 * getAstructUniqueID(astructDB.ID)
+                + 5 * getDstructUniqueID(astructDB.Dstruct3.ID),
+              structName: "Dstruct",
+              associationField: "",
+              associatedStructName: "",
+              children: new Array<GongNode>()
+            }
+            Dstruct3GongNodeAssociation.children.push(astructGongNodeInstance_Dstruct3)
+          }
+
+          /**
+          * let append a node for the association Dstruct4
+          */
+          let Dstruct4GongNodeAssociation: GongNode = {
+            name: "(Dstruct) Dstruct4",
+            type: GongNodeType.ONE__ZERO_ONE_ASSOCIATION,
+            id: astructDB.ID,
+            uniqueIdPerStack: 17 * nonInstanceNodeId,
+            structName: "Astruct",
+            associationField: "Dstruct4",
+            associatedStructName: "Dstruct",
+            children: new Array<GongNode>()
+          }
+          nonInstanceNodeId = nonInstanceNodeId + 1
+          astructGongNodeInstance.children!.push(Dstruct4GongNodeAssociation)
+
+          /**
+            * let append a node for the instance behind the asssociation Dstruct4
+            */
+          if (astructDB.Dstruct4 != undefined) {
+            let astructGongNodeInstance_Dstruct4: GongNode = {
+              name: astructDB.Dstruct4.Name,
+              type: GongNodeType.INSTANCE,
+              id: astructDB.Dstruct4.ID,
+              uniqueIdPerStack: // godel numbering (thank you kurt)
+                3 * getAstructUniqueID(astructDB.ID)
+                + 5 * getDstructUniqueID(astructDB.Dstruct4.ID),
+              structName: "Dstruct",
+              associationField: "",
+              associatedStructName: "",
+              children: new Array<GongNode>()
+            }
+            Dstruct4GongNodeAssociation.children.push(astructGongNodeInstance_Dstruct4)
+          }
+
+          /**
           * let append a node for the association Associationtob
           */
           let AssociationtobGongNodeAssociation: GongNode = {

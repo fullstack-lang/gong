@@ -1,12 +1,15 @@
 package models
 
-// Cstruct demonstrate basic metabaron
-//
-// 		swagger:model Cstruct
+// Cstruct demonstrates embedded
+// structs
 type Cstruct struct {
 	CName string
 
 	CFloatfield float64
 
-	Bstruct *Bstruct
+	Bstruct  *Bstruct
+	Bstruct2 *Bstruct
+
+	Dstruct  *Dstruct
+	Dstruct2 *Dstruct
 }

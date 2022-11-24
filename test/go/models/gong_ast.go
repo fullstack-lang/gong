@@ -11,6 +11,8 @@ import (
 	"time"
 )
 
+var dummy_strconv_import strconv.NumError
+
 // ParseAstFile Parse pathToFile and stages all instances
 // declared in the file
 func ParseAstFile(pathToFile string) {
@@ -264,6 +266,7 @@ func UnmarshallGongstructStaging(assignStmt *ast.AssignStmt, astCoordinate_ stri
 
 						// remove first and last char
 						date := basicLit.Value[1 : len(basicLit.Value)-1]
+						_ = date
 
 						var ok bool
 						gongstructName, ok = __gong__map_Indentifiers_gongstructName[identifier]
@@ -522,6 +525,21 @@ func UnmarshallGongstructStaging(assignStmt *ast.AssignStmt, astCoordinate_ stri
 				case "Bstruct":
 					targetIdentifier := ident.Name
 					__gong__map_Astruct[identifier].Bstruct = __gong__map_Bstruct[targetIdentifier]
+				case "Bstruct2":
+					targetIdentifier := ident.Name
+					__gong__map_Astruct[identifier].Bstruct2 = __gong__map_Bstruct[targetIdentifier]
+				case "Dstruct":
+					targetIdentifier := ident.Name
+					__gong__map_Astruct[identifier].Dstruct = __gong__map_Dstruct[targetIdentifier]
+				case "Dstruct2":
+					targetIdentifier := ident.Name
+					__gong__map_Astruct[identifier].Dstruct2 = __gong__map_Dstruct[targetIdentifier]
+				case "Dstruct3":
+					targetIdentifier := ident.Name
+					__gong__map_Astruct[identifier].Dstruct3 = __gong__map_Dstruct[targetIdentifier]
+				case "Dstruct4":
+					targetIdentifier := ident.Name
+					__gong__map_Astruct[identifier].Dstruct4 = __gong__map_Dstruct[targetIdentifier]
 				case "Anotherbooleanfield":
 					// convert string to boolean
 					fielValue, err := strconv.ParseBool(ident.Name)
@@ -586,6 +604,7 @@ func UnmarshallGongstructStaging(assignStmt *ast.AssignStmt, astCoordinate_ stri
 
 				// remove first and last char
 				enumValue := Sel.Name
+				_ = enumValue
 				switch gongstructName {
 				// insertion point for enums assignments
 				case "Astruct":
