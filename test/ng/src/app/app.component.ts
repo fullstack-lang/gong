@@ -22,7 +22,8 @@ export class AppComponent implements OnInit {
   obsTimer: Observable<number> = timer(1000, 1000)
   lastSelectionDate: string = ''
 
-  constructor(
+  constructor(private gongdocClassshapeService: gongdoc.ClassshapeService,
+    private gongstructSelectionService: test.GongstructSelectionService
   ) {
 
   }
@@ -32,6 +33,24 @@ export class AppComponent implements OnInit {
     // pool the gongdoc command and check wether a gongstruct has been selected
     this.obsTimer.subscribe(
       currTime => {
+
+        // pool all classshapes and find which one is selected
+        this.gongdocClassshapeService.getClassshapes().subscribe(
+          classshapes => {
+            for (let classshape of classshapes) {
+              if (classshape.IsSelected) {
+                classshape.IsSelected = false
+                // console.log("classshape " + classshape.ReferenceName + " is selected")
+                this.gongdocClassshapeService.updateClassshape(classshape).subscribe(
+                  classshape2 => {
+                    // console.log("classshape has been unselected")
+                  }
+                )
+                this.gongstructSelectionService.gongstructSelected( classshape.ReferenceName)
+              }
+            }
+          }
+        )
       }
     )
   }
