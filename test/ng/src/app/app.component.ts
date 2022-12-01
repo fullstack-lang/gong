@@ -40,10 +40,10 @@ export class AppComponent implements OnInit {
             for (let classshape of classshapes) {
               if (classshape.IsSelected) {
                 classshape.IsSelected = false
-                console.log("classshape " + classshape.ReferenceName + " is selected")
+                // console.log("classshape " + classshape.ReferenceName + " is selected")
                 this.gongdocClassshapeService.updateClassshape(classshape).subscribe(
                   classshape2 => {
-                    console.log("classshape has been unselected")
+                    // console.log("classshape has been unselected")
                   }
                 )
                 this.gongstructSelectionService.gongstructSelected( classshape.ReferenceName)
