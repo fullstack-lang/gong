@@ -1,7 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
 
-@import '~typeface-roboto/index.css';
-@import '~typeface-open-sans/index.css';
+@import '@fontsource/roboto';
+@import '@fontsource/open-sans';
 @import 'material-icons/iconfont/material-icons.css';
 
 
