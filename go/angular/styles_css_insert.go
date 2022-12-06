@@ -1,7 +1,7 @@
 package angular
 
 const StylesCssInsert = `
-@import '~typeface-roboto/index.css';
-@import '~typeface-open-sans/index.css';
+@import '@fontsource/roboto';
+@import '@fontsource/open-sans';
 @import 'material-icons/iconfont/material-icons.css';
 `
