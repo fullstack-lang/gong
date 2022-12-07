@@ -1,6 +1,10 @@
 package models
 
-import gong_models "github.com/fullstack-lang/gong/go/models"
+import (
+	"log"
+
+	gong_models "github.com/fullstack-lang/gong/go/models"
+)
 
 // updateNodesStates updates the tree of symbols
 // according to the selected diagram
@@ -83,7 +87,14 @@ func updateNodesStates(stage *StageStruct, callbacksSingloton *NodeCallbacksSing
 		// get the referenced gongstructs
 		for _, classshape := range classDiagram.Classshapes {
 			reference := classshape.Reference
-			mapIdentifiersNodes[reference.Name].IsChecked = true
+
+			node, ok := mapIdentifiersNodes[reference.Name]
+
+			if !ok {
+				log.Println("Unknown node ", reference.Name)
+				continue
+			}
+			node.IsChecked = true
 
 			// disable checkbox of all children of the gongstruct
 			for _, gongfieldNode := range mapIdentifiersNodes[reference.Name].Children {
@@ -149,5 +160,8 @@ func updateNodesStates(stage *StageStruct, callbacksSingloton *NodeCallbacksSing
 		stateDiagramNode.HasDrawButton = pkglet.IsEditable && stateDiagramNode.IsChecked && !stateDiagramNode.IsInEditMode
 	}
 
+	// log.Println("UpdateNodeStates, before commit, nb ", stage.BackRepo.GetLastCommitFromBackNb())
 	stage.Commit()
+	// log.Println("UpdateNodeStates, after  commit, nb ", stage.BackRepo.GetLastCommitFromBackNb())
+
 }

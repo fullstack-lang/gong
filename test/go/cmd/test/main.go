@@ -26,8 +26,7 @@ import (
 	gongdoc_fullstack "github.com/fullstack-lang/gongdoc/go/fullstack"
 	gongdoc_models "github.com/fullstack-lang/gongdoc/go/models"
 
-	// insertion point for gong front end import
-	_ "github.com/fullstack-lang/gongdoc/ng"
+	// insertion point for gong front end import{{gongdocNgImport}}
 
 	test "github.com/fullstack-lang/gong/test"
 )

@@ -74,6 +74,9 @@ type DiagramPackageDB struct {
 	// Declation for basic field diagrampackageDB.IsReloaded
 	// provide the sql storage for the boolan
 	IsReloaded_Data sql.NullBool
+
+	// Declation for basic field diagrampackageDB.AbsolutePathToDiagramPackage
+	AbsolutePathToDiagramPackage_Data sql.NullString
 	// encoding of pointers
 	DiagramPackagePointersEnconding
 }
@@ -104,6 +107,8 @@ type DiagramPackageWOP struct {
 	IsEditable bool `xlsx:"4"`
 
 	IsReloaded bool `xlsx:"5"`
+
+	AbsolutePathToDiagramPackage string `xlsx:"6"`
 	// insertion for WOP pointer fields
 }
 
@@ -115,6 +120,7 @@ var DiagramPackage_Fields = []string{
 	"GongModelPath",
 	"IsEditable",
 	"IsReloaded",
+	"AbsolutePathToDiagramPackage",
 }
 
 type BackRepoDiagramPackageStruct struct {
@@ -503,6 +509,9 @@ func (diagrampackageDB *DiagramPackageDB) CopyBasicFieldsFromDiagramPackage(diag
 
 	diagrampackageDB.IsReloaded_Data.Bool = diagrampackage.IsReloaded
 	diagrampackageDB.IsReloaded_Data.Valid = true
+
+	diagrampackageDB.AbsolutePathToDiagramPackage_Data.String = diagrampackage.AbsolutePathToDiagramPackage
+	diagrampackageDB.AbsolutePathToDiagramPackage_Data.Valid = true
 }
 
 // CopyBasicFieldsFromDiagramPackageWOP
@@ -523,6 +532,9 @@ func (diagrampackageDB *DiagramPackageDB) CopyBasicFieldsFromDiagramPackageWOP(d
 
 	diagrampackageDB.IsReloaded_Data.Bool = diagrampackage.IsReloaded
 	diagrampackageDB.IsReloaded_Data.Valid = true
+
+	diagrampackageDB.AbsolutePathToDiagramPackage_Data.String = diagrampackage.AbsolutePathToDiagramPackage
+	diagrampackageDB.AbsolutePathToDiagramPackage_Data.Valid = true
 }
 
 // CopyBasicFieldsToDiagramPackage
@@ -533,6 +545,7 @@ func (diagrampackageDB *DiagramPackageDB) CopyBasicFieldsToDiagramPackage(diagra
 	diagrampackage.GongModelPath = diagrampackageDB.GongModelPath_Data.String
 	diagrampackage.IsEditable = diagrampackageDB.IsEditable_Data.Bool
 	diagrampackage.IsReloaded = diagrampackageDB.IsReloaded_Data.Bool
+	diagrampackage.AbsolutePathToDiagramPackage = diagrampackageDB.AbsolutePathToDiagramPackage_Data.String
 }
 
 // CopyBasicFieldsToDiagramPackageWOP
@@ -544,6 +557,7 @@ func (diagrampackageDB *DiagramPackageDB) CopyBasicFieldsToDiagramPackageWOP(dia
 	diagrampackage.GongModelPath = diagrampackageDB.GongModelPath_Data.String
 	diagrampackage.IsEditable = diagrampackageDB.IsEditable_Data.Bool
 	diagrampackage.IsReloaded = diagrampackageDB.IsReloaded_Data.Bool
+	diagrampackage.AbsolutePathToDiagramPackage = diagrampackageDB.AbsolutePathToDiagramPackage_Data.String
 }
 
 // Backup generates a json file from a slice of all DiagramPackageDB instances in the backrepo

@@ -26,9 +26,6 @@ import (
 	gongdoc_fullstack "github.com/fullstack-lang/gongdoc/go/fullstack"
 	gongdoc_models "github.com/fullstack-lang/gongdoc/go/models"
 
-	// insertion point for gong front end import
-	_ "github.com/fullstack-lang/gongdoc/ng"
-
 	test "github.com/fullstack-lang/gong/test"
 )
 
@@ -153,7 +150,7 @@ func main() {
 		} else {
 			gongdoc_models.Load(filepath.Join("../../diagrams"), modelPackage, true)
 		}
-		
+
 		diagramPackage.GongModelPath = "github.com/fullstack-lang/gong/test/go/models"
 	}
 
