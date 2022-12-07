@@ -107,8 +107,8 @@ func genAngular(modelPkg *gong_models.ModelPkg, skipNpmInstall bool) {
 					cmd := exec.Command("npm", "install", "--save",
 						"angular-split@14.1",
 						"material-icons",
-						"typeface-open-sans",
-						"typeface-roboto",
+						"@fontsource/open-sans",
+						"@fontsource/roboto",
 						"@angular-material-components/datetime-picker@8")
 					cmd.Dir = gong_models.NgWorkspacePath
 					log.Printf("Installing some packages\n")
@@ -132,7 +132,7 @@ func genAngular(modelPkg *gong_models.ModelPkg, skipNpmInstall bool) {
 				{
 					start := time.Now()
 					cmd := exec.Command("npm", "install", "--save",
-						"@types/backbone", "@types/jointjs", "@types/jquery", "@types/lodash", "@types/node", "@types/leaflet", "backbone", "codelyzer", "install", "jointjs", "jquery", "lodash")
+						"@types/backbone", "@types/jquery", "@types/lodash", "@types/node", "@types/leaflet", "backbone", "codelyzer", "install", "jointjs", "jquery", "lodash")
 					cmd.Dir = gong_models.NgWorkspacePath
 					log.Printf("Installing some packages\n")
 
@@ -163,6 +163,13 @@ func genAngular(modelPkg *gong_models.ModelPkg, skipNpmInstall bool) {
 					modelPkg.PkgPath,
 					filepath.Join(gong_models.NgWorkspacePath, "src/app/app.module.ts"),
 					angular.NgFileModule)
+
+				gong_models.VerySimpleCodeGenerator(
+					modelPkg,
+					modelPkg.Name,
+					modelPkg.PkgPath,
+					filepath.Join(gong_models.NgWorkspacePath, "src/index.html"),
+					angular.NgFileIndex)
 
 				gong_models.VerySimpleCodeGenerator(
 					modelPkg,

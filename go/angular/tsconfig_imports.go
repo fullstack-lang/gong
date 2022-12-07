@@ -41,9 +41,6 @@ const TsConfigInsertForPaths = `
       "jointjs": [
         "./node_modules/jointjs"
       ],
-      "@types/jointjs": [
-        "./node_modules/@types/jointjs"
-      ],
       "@angular-material-components/datetime-picker": [
         "./node_modules/@angular-material-components/datetime-picker"
       ],
