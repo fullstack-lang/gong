@@ -168,7 +168,7 @@ func genAngular(modelPkg *gong_models.ModelPkg, skipNpmInstall bool) {
 					modelPkg,
 					modelPkg.Name,
 					modelPkg.PkgPath,
-					filepath.Join(gong_models.NgWorkspacePath, "src/src/index.html"),
+					filepath.Join(gong_models.NgWorkspacePath, "src/index.html"),
 					angular.NgFileIndex)
 
 				gong_models.VerySimpleCodeGenerator(
