@@ -193,12 +193,6 @@ func EmbedFolder(fsEmbed embed.FS, targetPath string) static.ServeFileSystem {
 }
 `
 
-const gongNgEmbedDirImport = `
-	_ "github.com/fullstack-lang/gong/ng"`
-
-const gongdocNgEmbedDirImport = `
-	_ "github.com/fullstack-lang/gongdoc/ng"`
-
 const codeForNgStaticService = `
 	// provide the static route for the angular pages
 	r.Use(static.Serve("/", EmbedFolder({{pkgname}}.NgDistNg, "ng/dist/ng")))
@@ -218,8 +212,6 @@ func CodeGeneratorPackageMain(
 		codeGo := PackageMain
 
 		if !skipNg {
-			codeGo = strings.ReplaceAll(codeGo, "{{gongNgImport}}", gongNgEmbedDirImport)
-			codeGo = strings.ReplaceAll(codeGo, "{{gongdocNgImport}}", gongdocNgEmbedDirImport)
 			codeGo = strings.ReplaceAll(codeGo, "{{staticCodeServiceCode}}", codeForNgStaticService)
 		}
 

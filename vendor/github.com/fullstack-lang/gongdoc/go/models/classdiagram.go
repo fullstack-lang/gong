@@ -452,7 +452,9 @@ func (classdiagram *Classdiagram) RemoveClassshape(classshapeName string) {
 		field.Unstage()
 	}
 
+	// log.Println("RemoveClassshape, before commit, nb ", Stage.BackRepo.GetLastCommitFromBackNb())
 	Stage.Commit()
+	// log.Println("RemoveClassshape, after commit, nb ", Stage.BackRepo.GetLastCommitFromBackNb())
 }
 
 func (classdiagram *Classdiagram) AddClassshape(classshapeName string, referenceType ReferenceType) {
@@ -485,7 +487,11 @@ func (classdiagram *Classdiagram) AddClassshape(classshapeName string, reference
 	position.Stage()
 
 	classdiagram.Classshapes = append(classdiagram.Classshapes, &classshape)
+
+	// log.Println("AddClassshape, before commit, nb ", Stage.BackRepo.GetLastCommitFromBackNb())
 	Stage.Commit()
+	// log.Println("AddClassshape, after commit, nb ", Stage.BackRepo.GetLastCommitFromBackNb())
+
 }
 
 func (classdiagram *Classdiagram) NodeUpdate() {
