@@ -40,7 +40,6 @@ type StageStruct struct { // insertion point for definition of arrays registerin
 	OnAfterClassdiagramDeleteCallback OnAfterDeleteInterface[Classdiagram]
 	OnAfterClassdiagramReadCallback   OnAfterReadInterface[Classdiagram]
 
-
 	Classshapes           map[*Classshape]any
 	Classshapes_mapString map[string]*Classshape
 
@@ -48,7 +47,6 @@ type StageStruct struct { // insertion point for definition of arrays registerin
 	OnAfterClassshapeUpdateCallback OnAfterUpdateInterface[Classshape]
 	OnAfterClassshapeDeleteCallback OnAfterDeleteInterface[Classshape]
 	OnAfterClassshapeReadCallback   OnAfterReadInterface[Classshape]
-
 
 	DiagramPackages           map[*DiagramPackage]any
 	DiagramPackages_mapString map[string]*DiagramPackage
@@ -58,7 +56,6 @@ type StageStruct struct { // insertion point for definition of arrays registerin
 	OnAfterDiagramPackageDeleteCallback OnAfterDeleteInterface[DiagramPackage]
 	OnAfterDiagramPackageReadCallback   OnAfterReadInterface[DiagramPackage]
 
-
 	Fields           map[*Field]any
 	Fields_mapString map[string]*Field
 
@@ -66,7 +63,6 @@ type StageStruct struct { // insertion point for definition of arrays registerin
 	OnAfterFieldUpdateCallback OnAfterUpdateInterface[Field]
 	OnAfterFieldDeleteCallback OnAfterDeleteInterface[Field]
 	OnAfterFieldReadCallback   OnAfterReadInterface[Field]
-
 
 	Links           map[*Link]any
 	Links_mapString map[string]*Link
@@ -76,7 +72,6 @@ type StageStruct struct { // insertion point for definition of arrays registerin
 	OnAfterLinkDeleteCallback OnAfterDeleteInterface[Link]
 	OnAfterLinkReadCallback   OnAfterReadInterface[Link]
 
-
 	Nodes           map[*Node]any
 	Nodes_mapString map[string]*Node
 
@@ -84,7 +79,6 @@ type StageStruct struct { // insertion point for definition of arrays registerin
 	OnAfterNodeUpdateCallback OnAfterUpdateInterface[Node]
 	OnAfterNodeDeleteCallback OnAfterDeleteInterface[Node]
 	OnAfterNodeReadCallback   OnAfterReadInterface[Node]
-
 
 	NoteShapes           map[*NoteShape]any
 	NoteShapes_mapString map[string]*NoteShape
@@ -94,7 +88,6 @@ type StageStruct struct { // insertion point for definition of arrays registerin
 	OnAfterNoteShapeDeleteCallback OnAfterDeleteInterface[NoteShape]
 	OnAfterNoteShapeReadCallback   OnAfterReadInterface[NoteShape]
 
-
 	Positions           map[*Position]any
 	Positions_mapString map[string]*Position
 
@@ -102,7 +95,6 @@ type StageStruct struct { // insertion point for definition of arrays registerin
 	OnAfterPositionUpdateCallback OnAfterUpdateInterface[Position]
 	OnAfterPositionDeleteCallback OnAfterDeleteInterface[Position]
 	OnAfterPositionReadCallback   OnAfterReadInterface[Position]
-
 
 	References           map[*Reference]any
 	References_mapString map[string]*Reference
@@ -112,7 +104,6 @@ type StageStruct struct { // insertion point for definition of arrays registerin
 	OnAfterReferenceDeleteCallback OnAfterDeleteInterface[Reference]
 	OnAfterReferenceReadCallback   OnAfterReadInterface[Reference]
 
-
 	Trees           map[*Tree]any
 	Trees_mapString map[string]*Tree
 
@@ -120,7 +111,6 @@ type StageStruct struct { // insertion point for definition of arrays registerin
 	OnAfterTreeUpdateCallback OnAfterUpdateInterface[Tree]
 	OnAfterTreeDeleteCallback OnAfterDeleteInterface[Tree]
 	OnAfterTreeReadCallback   OnAfterReadInterface[Tree]
-
 
 	UmlStates           map[*UmlState]any
 	UmlStates_mapString map[string]*UmlState
@@ -130,7 +120,6 @@ type StageStruct struct { // insertion point for definition of arrays registerin
 	OnAfterUmlStateDeleteCallback OnAfterDeleteInterface[UmlState]
 	OnAfterUmlStateReadCallback   OnAfterReadInterface[UmlState]
 
-
 	Umlscs           map[*Umlsc]any
 	Umlscs_mapString map[string]*Umlsc
 
@@ -139,7 +128,6 @@ type StageStruct struct { // insertion point for definition of arrays registerin
 	OnAfterUmlscDeleteCallback OnAfterDeleteInterface[Umlsc]
 	OnAfterUmlscReadCallback   OnAfterReadInterface[Umlsc]
 
-
 	Vertices           map[*Vertice]any
 	Vertices_mapString map[string]*Vertice
 
@@ -147,7 +135,6 @@ type StageStruct struct { // insertion point for definition of arrays registerin
 	OnAfterVerticeUpdateCallback OnAfterUpdateInterface[Vertice]
 	OnAfterVerticeDeleteCallback OnAfterDeleteInterface[Vertice]
 	OnAfterVerticeReadCallback   OnAfterReadInterface[Vertice]
-
 
 	AllModelsStructCreateCallback AllModelsStructCreateInterface
 
@@ -1707,6 +1694,10 @@ import (
 	"{{ModelsPackageName}}"
 )
 
+// generated in order to avoid error in the package import
+// if there are no elements in the stage to marshall
+var ___dummy__Stage models.StageStruct
+
 func init() {
 	var __Dummy_time_variable time.Time
 	_ = __Dummy_time_variable
@@ -1726,7 +1717,7 @@ func {{databaseName}}Injection() {
 `
 
 const IdentifiersDecls = `
-	{{Identifier}} := (&models.{{GeneratedStructName}}{Name: "{{GeneratedFieldNameValue}}"}).Stage()`
+	{{Identifier}} := (&models.{{GeneratedStructName}}{Name: ` + "`" + `{{GeneratedFieldNameValue}}` + "`" + `}).Stage()`
 
 const StringInitStatement = `
 	{{Identifier}}.{{GeneratedFieldName}} = ` + "`" + `{{GeneratedFieldNameValue}}` + "`"
@@ -1795,7 +1786,7 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", classdiagram.Name)
 		identifiersDecl += decl
 
-		initializerStatements += fmt.Sprintf("\n\n	// Classdiagram %s values setup", classdiagram.Name)
+		initializerStatements += "\n\n	// Classdiagram values setup"
 		// Initialisation of values
 		setValueField = StringInitStatement
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
@@ -1833,7 +1824,7 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", classshape.Name)
 		identifiersDecl += decl
 
-		initializerStatements += fmt.Sprintf("\n\n	// Classshape %s values setup", classshape.Name)
+		initializerStatements += "\n\n	// Classshape values setup"
 		// Initialisation of values
 		setValueField = StringInitStatement
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
@@ -1901,7 +1892,7 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", diagrampackage.Name)
 		identifiersDecl += decl
 
-		initializerStatements += fmt.Sprintf("\n\n	// DiagramPackage %s values setup", diagrampackage.Name)
+		initializerStatements += "\n\n	// DiagramPackage values setup"
 		// Initialisation of values
 		setValueField = StringInitStatement
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
@@ -1933,6 +1924,12 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", diagrampackage.IsReloaded))
 		initializerStatements += setValueField
 
+		setValueField = StringInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "AbsolutePathToDiagramPackage")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(diagrampackage.AbsolutePathToDiagramPackage))
+		initializerStatements += setValueField
+
 	}
 
 	map_Field_Identifiers := make(map[*Field]string)
@@ -1957,7 +1954,7 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", field.Name)
 		identifiersDecl += decl
 
-		initializerStatements += fmt.Sprintf("\n\n	// Field %s values setup", field.Name)
+		initializerStatements += "\n\n	// Field values setup"
 		// Initialisation of values
 		setValueField = StringInitStatement
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
@@ -2013,7 +2010,7 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", link.Name)
 		identifiersDecl += decl
 
-		initializerStatements += fmt.Sprintf("\n\n	// Link %s values setup", link.Name)
+		initializerStatements += "\n\n	// Link values setup"
 		// Initialisation of values
 		setValueField = StringInitStatement
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
@@ -2079,7 +2076,7 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", node.Name)
 		identifiersDecl += decl
 
-		initializerStatements += fmt.Sprintf("\n\n	// Node %s values setup", node.Name)
+		initializerStatements += "\n\n	// Node values setup"
 		// Initialisation of values
 		setValueField = StringInitStatement
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
@@ -2191,7 +2188,7 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", noteshape.Name)
 		identifiersDecl += decl
 
-		initializerStatements += fmt.Sprintf("\n\n	// NoteShape %s values setup", noteshape.Name)
+		initializerStatements += "\n\n	// NoteShape values setup"
 		// Initialisation of values
 		setValueField = StringInitStatement
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
@@ -2259,7 +2256,7 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", position.Name)
 		identifiersDecl += decl
 
-		initializerStatements += fmt.Sprintf("\n\n	// Position %s values setup", position.Name)
+		initializerStatements += "\n\n	// Position values setup"
 		// Initialisation of values
 		setValueField = NumberInitStatement
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
@@ -2303,7 +2300,7 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", reference.Name)
 		identifiersDecl += decl
 
-		initializerStatements += fmt.Sprintf("\n\n	// Reference %s values setup", reference.Name)
+		initializerStatements += "\n\n	// Reference values setup"
 		// Initialisation of values
 		setValueField = StringInitStatement
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
@@ -2349,7 +2346,7 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", tree.Name)
 		identifiersDecl += decl
 
-		initializerStatements += fmt.Sprintf("\n\n	// Tree %s values setup", tree.Name)
+		initializerStatements += "\n\n	// Tree values setup"
 		// Initialisation of values
 		setValueField = StringInitStatement
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
@@ -2389,7 +2386,7 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", umlstate.Name)
 		identifiersDecl += decl
 
-		initializerStatements += fmt.Sprintf("\n\n	// UmlState %s values setup", umlstate.Name)
+		initializerStatements += "\n\n	// UmlState values setup"
 		// Initialisation of values
 		setValueField = StringInitStatement
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
@@ -2433,7 +2430,7 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", umlsc.Name)
 		identifiersDecl += decl
 
-		initializerStatements += fmt.Sprintf("\n\n	// Umlsc %s values setup", umlsc.Name)
+		initializerStatements += "\n\n	// Umlsc values setup"
 		// Initialisation of values
 		setValueField = StringInitStatement
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
@@ -2477,7 +2474,7 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", vertice.Name)
 		identifiersDecl += decl
 
-		initializerStatements += fmt.Sprintf("\n\n	// Vertice %s values setup", vertice.Name)
+		initializerStatements += "\n\n	// Vertice values setup"
 		// Initialisation of values
 		setValueField = NumberInitStatement
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
@@ -3672,7 +3669,7 @@ func GetFields[Type Gongstruct]() (res []string) {
 	case Classshape:
 		res = []string{"Name", "Position", "ReferenceName", "Reference", "ShowNbInstances", "NbInstances", "Fields", "Links", "Width", "Heigth", "IsSelected"}
 	case DiagramPackage:
-		res = []string{"Name", "Path", "GongModelPath", "Classdiagrams", "Umlscs", "IsEditable", "IsReloaded"}
+		res = []string{"Name", "Path", "GongModelPath", "Classdiagrams", "Umlscs", "IsEditable", "IsReloaded", "AbsolutePathToDiagramPackage"}
 	case Field:
 		res = []string{"Name", "Fieldname", "FieldTypeAsString", "Structname", "Fieldtypename"}
 	case Link:
@@ -3791,6 +3788,8 @@ func GetFieldStringValue[Type Gongstruct](instance Type, fieldName string) (res 
 			res = fmt.Sprintf("%t", any(instance).(DiagramPackage).IsEditable)
 		case "IsReloaded":
 			res = fmt.Sprintf("%t", any(instance).(DiagramPackage).IsReloaded)
+		case "AbsolutePathToDiagramPackage":
+			res = any(instance).(DiagramPackage).AbsolutePathToDiagramPackage
 		}
 	case Field:
 		switch fieldName {
@@ -4047,6 +4046,42 @@ func (gongdocnodetype *GongdocNodeType) FromString(input string) (err error) {
 	return
 }
 
+func (gongdocnodetype *GongdocNodeType) FromCodeString(input string) (err error) {
+
+	switch input {
+	// insertion code per enum code
+	case "ROOT_OF_DIAGRAMS":
+		*gongdocnodetype = ROOT_OF_DIAGRAMS
+	case "ROOT_OF_CLASS_DIAGRAMS":
+		*gongdocnodetype = ROOT_OF_CLASS_DIAGRAMS
+	case "ROOT_OF_STATE_DIAGRAMS":
+		*gongdocnodetype = ROOT_OF_STATE_DIAGRAMS
+	case "CLASS_DIAGRAM":
+		*gongdocnodetype = CLASS_DIAGRAM
+	case "STATE_DIAGRAM":
+		*gongdocnodetype = STATE_DIAGRAM
+	case "ROOT_OF_GONG_STRUCTS":
+		*gongdocnodetype = ROOT_OF_GONG_STRUCTS
+	case "GONG_STRUCT":
+		*gongdocnodetype = GONG_STRUCT
+	case "GONG_STRUCT_FIELD":
+		*gongdocnodetype = GONG_STRUCT_FIELD
+	case "ROOT_OF_GONG_ENUMS":
+		*gongdocnodetype = ROOT_OF_GONG_ENUMS
+	case "GONG_ENUM":
+		*gongdocnodetype = GONG_ENUM
+	case "GONG_ENUM_VALUE":
+		*gongdocnodetype = GONG_ENUM_VALUE
+	case "ROOT_OF_GONG_NOTES":
+		*gongdocnodetype = ROOT_OF_GONG_NOTES
+	case "GONG_NOTE":
+		*gongdocnodetype = GONG_NOTE
+	default:
+		return errUnkownEnum
+	}
+	return
+}
+
 func (gongdocnodetype *GongdocNodeType) ToCodeString() (res string) {
 
 	switch *gongdocnodetype {
@@ -4115,6 +4150,22 @@ func (multiplicitytype *MultiplicityType) FromString(input string) (err error) {
 	return
 }
 
+func (multiplicitytype *MultiplicityType) FromCodeString(input string) (err error) {
+
+	switch input {
+	// insertion code per enum code
+	case "ZERO_ONE":
+		*multiplicitytype = ZERO_ONE
+	case "ONE":
+		*multiplicitytype = ONE
+	case "MANY":
+		*multiplicitytype = MANY
+	default:
+		return errUnkownEnum
+	}
+	return
+}
+
 func (multiplicitytype *MultiplicityType) ToCodeString() (res string) {
 
 	switch *multiplicitytype {
@@ -4159,6 +4210,20 @@ func (referencetype *ReferenceType) FromString(input string) (err error) {
 	return
 }
 
+func (referencetype *ReferenceType) FromCodeString(input string) (err error) {
+
+	switch input {
+	// insertion code per enum code
+	case "REFERENCE_GONG_STRUCT":
+		*referencetype = REFERENCE_GONG_STRUCT
+	case "REFERENCE_GONG_ENUM":
+		*referencetype = REFERENCE_GONG_ENUM
+	default:
+		return errUnkownEnum
+	}
+	return
+}
+
 func (referencetype *ReferenceType) ToCodeString() (res string) {
 
 	switch *referencetype {
@@ -4188,6 +4253,20 @@ func (treetype TreeType) ToString() (res string) {
 }
 
 func (treetype *TreeType) FromString(input string) (err error) {
+
+	switch input {
+	// insertion code per enum code
+	case "TREE_OF_DIAGRAMS":
+		*treetype = TREE_OF_DIAGRAMS
+	case "TREE_OF_IDENTIFIERS":
+		*treetype = TREE_OF_IDENTIFIERS
+	default:
+		return errUnkownEnum
+	}
+	return
+}
+
+func (treetype *TreeType) FromCodeString(input string) (err error) {
 
 	switch input {
 	// insertion code per enum code
