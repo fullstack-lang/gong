@@ -132,7 +132,7 @@ func genAngular(modelPkg *gong_models.ModelPkg, skipNpmInstall bool) {
 				{
 					start := time.Now()
 					cmd := exec.Command("npm", "install", "--save",
-						"@types/backbone", "@types/jointjs", "@types/jquery", "@types/lodash", "@types/node", "@types/leaflet", "backbone", "codelyzer", "install", "jointjs", "jquery", "lodash")
+						"@types/backbone", "@types/jquery", "@types/lodash", "@types/node", "@types/leaflet", "backbone", "codelyzer", "install", "jointjs", "jquery", "lodash")
 					cmd.Dir = gong_models.NgWorkspacePath
 					log.Printf("Installing some packages\n")
 
