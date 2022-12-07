@@ -197,9 +197,8 @@ func (nodeCallbacksSingloton *NodeCallbacksSingloton) OnAfterUpdate(
 						}
 					}
 				}
-
-				updateNodesStates(stage, nodeCallbacksSingloton)
 			}
+			updateNodesStates(stage, nodeCallbacksSingloton)
 		}
 
 		// if node is checked, add classshape
@@ -214,9 +213,8 @@ func (nodeCallbacksSingloton *NodeCallbacksSingloton) OnAfterUpdate(
 					classDiagram := classdiagramNode.Classdiagram
 					classDiagram.AddClassshape(frontNode.Name, REFERENCE_GONG_STRUCT)
 				}
-
-				updateNodesStates(stage, nodeCallbacksSingloton)
 			}
+			updateNodesStates(stage, nodeCallbacksSingloton)
 		}
 
 	case GONG_STRUCT_FIELD:
@@ -476,9 +474,8 @@ func (nodeCallbacksSingloton *NodeCallbacksSingloton) OnAfterUpdate(
 						}
 					}
 				}
-
-				updateNodesStates(stage, nodeCallbacksSingloton)
 			}
+			updateNodesStates(stage, nodeCallbacksSingloton)
 		}
 
 		// if node is checked, add classshape
@@ -493,9 +490,8 @@ func (nodeCallbacksSingloton *NodeCallbacksSingloton) OnAfterUpdate(
 					classDiagram := classdiagramNode.Classdiagram
 					classDiagram.AddClassshape(frontNode.Name, REFERENCE_GONG_ENUM)
 				}
-
-				updateNodesStates(stage, nodeCallbacksSingloton)
 			}
+			updateNodesStates(stage, nodeCallbacksSingloton)
 		}
 	case GONG_ENUM_VALUE:
 		// find classdiagram
