@@ -46,9 +46,10 @@ var (
 	logDBFlag  = flag.Bool("logDB", false, "log mode for db")
 	logGINFlag = flag.Bool("logGIN", false, "log mode for gin")
 
-	marshallOnStartup = flag.String("marshallOnStartup", "", "at startup, marshall staged data to a go file with the marshall name and '.go' (must be lowercased without spaces). If marshall arg is '', no marshalling")
-	unmarshall        = flag.String("unmarshall", "", "unmarshall data from marshall name and '.go' (must be lowercased without spaces), If unmarshall arg is '', no unmarshalling")
-	marshallOnCommit  = flag.String("marshallOnCommit", "", "on all commits, marshall staged data to a go file with the marshall name and '.go' (must be lowercased without spaces). If marshall arg is '', no marshalling")
+	marshallOnStartup  = flag.String("marshallOnStartup", "", "at startup, marshall staged data to a go file with the marshall name and '.go' (must be lowercased without spaces). If marshall arg is '', no marshalling")
+	unmarshallFromCode = flag.String("unmarshallFromCode", "", "unmarshall data from go file and '.go' (must be lowercased without spaces), If unmarshallFromCode arg is '', no unmarshalling")
+	unmarshall         = flag.String("unmarshall", "", "unmarshall data from marshall name and '.go' (must be lowercased without spaces), If unmarshall arg is '', no unmarshalling")
+	marshallOnCommit   = flag.String("marshallOnCommit", "", "on all commits, marshall staged data to a go file with the marshall name and '.go' (must be lowercased without spaces). If marshall arg is '', no marshalling")
 
 	diagrams         = flag.Bool("diagrams", true, "parse/analysis go/models and go/diagrams")
 	embeddedDiagrams = flag.Bool("embeddedDiagrams", false, "parse/analysis go/models and go/embeddedDiagrams")
@@ -122,6 +123,18 @@ func main() {
 		if InjectionGateway[*unmarshall] != nil {
 			InjectionGateway[*unmarshall]()
 		}
+		models.Stage.Commit()
+	} else {
+		// in case the database is used, checkout the content to the stage
+		models.Stage.Checkout()
+	}
+
+	if *unmarshallFromCode != "" {
+		models.Stage.Checkout()
+		models.Stage.Reset()
+		models.Stage.Commit()
+		models.ParseAstFile(*unmarshallFromCode)
+
 		models.Stage.Commit()
 	} else {
 		// in case the database is used, checkout the content to the stage
