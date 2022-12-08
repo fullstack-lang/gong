@@ -361,7 +361,7 @@ Hello *Hello
 }" > go/models/country.go
 gongc go/models
 cd go/cmd/helloworld
-./helloworld --unmarshall=stage -marshallOnCommit=stage 
+./helloworld -unmarshallFromCode=stage.go -marshallOnCommit=stage 
 ```
 
 Then, browse to [localhost:8080](http://localhost:8080) and add data manualy.

@@ -133,7 +133,13 @@ func main() {
 		models.Stage.Checkout()
 		models.Stage.Reset()
 		models.Stage.Commit()
-		models.ParseAstFile(*unmarshallFromCode)
+		err := models.ParseAstFile(*unmarshallFromCode)
+
+		// if the application is run with -unmarshallFromCode=xxx.go -marshallOnCommit
+		// xxx.go might be absent the first time. However, this shall not be a show stopper.
+		if err != nil {
+			log.Println("no file to read " + err.Error())
+		}
 
 		models.Stage.Commit()
 	} else {
@@ -156,7 +162,7 @@ func main() {
 
 		// create the diagrams
 		// prepare the model views
-		diagramPackage := new(gongdoc_models.DiagramPackage)
+		var diagramPackage *gongdoc_models.DiagramPackage
 
 		// first, get all gong struct in the model
 		for gongStruct := range gong_models.Stage.GongStructs {
@@ -172,9 +178,9 @@ func main() {
 		}
 
 		if *embeddedDiagrams {
-			gongdoc_models.LoadEmbedded({{pkgname}}.GoDir, modelPackage)
+			diagramPackage, _ = gongdoc_models.LoadEmbedded({{pkgname}}.GoDir, modelPackage)
 		} else {
-			gongdoc_models.Load(filepath.Join("../../diagrams"), modelPackage, true)
+			diagramPackage, _ = gongdoc_models.Load(filepath.Join("../../diagrams"), modelPackage, true)
 		}
 		
 		diagramPackage.GongModelPath = "{{PkgPathRoot}}/models"

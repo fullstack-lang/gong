@@ -1,6 +1,7 @@
 package models
 
 import (
+	"errors"
 	"go/ast"
 	"go/parser"
 	"go/token"
@@ -15,11 +16,11 @@ var dummy_strconv_import strconv.NumError
 
 // ParseAstFile Parse pathToFile and stages all instances
 // declared in the file
-func ParseAstFile(pathToFile string) {
+func ParseAstFile(pathToFile string) error {
 
 	fileOfInterest, err := filepath.Abs(pathToFile)
 	if err != nil {
-		log.Panic("Path does not exist %s ;" + fileOfInterest)
+		return errors.New("Path does not exist %s ;" + fileOfInterest)
 	}
 
 	fset := token.NewFileSet()
@@ -28,7 +29,7 @@ func ParseAstFile(pathToFile string) {
 	log.Printf("Parser took %s", time.Since(startParser))
 
 	if errParser != nil {
-		log.Panic("Unable to parser ", errParser.Error())
+		return errors.New("Unable to parser " + errParser.Error())
 	}
 
 	// astCoordinate := "File "
@@ -105,6 +106,7 @@ func ParseAstFile(pathToFile string) {
 		}
 
 	}
+	return nil
 }
 
 var __gong__map_Indentifiers_gongstructName = make(map[string]string)
