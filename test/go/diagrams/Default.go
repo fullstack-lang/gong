@@ -63,7 +63,7 @@ Astruct is associated with Bstruct via 2 kinds of association
 - a N-0..1 association (directly)
 - a N-M association via AstructBstructUse
 `,
-			X:      130.000000,
+			X:      110.000000,
 			Y:      260.000000,
 			Width:  240.000000,
 			Heigth: 63.000000,
