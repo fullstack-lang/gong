@@ -171,7 +171,7 @@ func main() {
 		} else {
 			diagramPackage, _ = gongdoc_models.Load(filepath.Join("../../diagrams"), modelPackage, true)
 		}
-
+		
 		diagramPackage.GongModelPath = "github.com/fullstack-lang/gong/test/go/models"
 	}
 

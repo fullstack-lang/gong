@@ -29,7 +29,7 @@ func ParseAstFile(pathToFile string) error {
 	log.Printf("Parser took %s", time.Since(startParser))
 
 	if errParser != nil {
-		log.Panic("Unable to parser ", errParser.Error())
+		return errors.New("Unable to parser " + errParser.Error())
 	}
 
 	// astCoordinate := "File "
