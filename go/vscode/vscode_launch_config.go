@@ -40,25 +40,13 @@ const VsCodeLaunchConfig = `{
             ]
         },
         {
-            "name": "go server w/o diagrams",
+            "name": "go server -unmarshallFromCode=stage.go -marshallOnCommit=stage",
             "type": "go",
             "request": "launch",
             "mode": "debug",
-            "program": "${workspaceFolder}/go/cmd/{{pkgname}}",
+            "program": "${workspaceFolder}/go/cmd/helloworld",
             "args": [
-                "-diagrams=false",
-                "--unmarshall=stage",
-                "-marshallOnCommit=stage"
-            ]
-        },
-        {
-            "name": "go server with diagrams",
-            "type": "go",
-            "request": "launch",
-            "mode": "debug",
-            "program": "${workspaceFolder}/go/cmd/{{pkgname}}",
-            "args": [
-                "--unmarshall=stage",
+                "-unmarshallFromCode=stage.go",
                 "-marshallOnCommit=stage"
             ]
         },
