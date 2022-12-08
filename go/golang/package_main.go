@@ -133,7 +133,13 @@ func main() {
 		models.Stage.Checkout()
 		models.Stage.Reset()
 		models.Stage.Commit()
-		models.ParseAstFile(*unmarshallFromCode)
+		err := models.ParseAstFile(*unmarshallFromCode)
+
+		// if the application is run with -unmarshallFromCode=xxx.go -marshallOnCommit
+		// xxx.go might be absent the first time. However, this shall not be a show stopper.
+		if err != nil {
+			log.Println("no file to read " + err.Error())
+		}
 
 		models.Stage.Commit()
 	} else {
