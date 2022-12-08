@@ -165,12 +165,14 @@ import (
 // generated in order to avoid error in the package import
 // if there are no elements in the stage to marshall
 var ___dummy__Stage models.StageStruct
+var ___dummy__Time time.Time
 
-func init() {
-	var __Dummy_time_variable time.Time
-	_ = __Dummy_time_variable
-	InjectionGateway["{{databaseName}}"] = {{databaseName}}Injection
-}
+// init might be handy if one want to have the data embedded in the binary
+// but it has to properly reference the Injection gateway in the main package
+// func init() {
+// 	_ = __Dummy_time_variable
+// 	InjectionGateway["{{databaseName}}"] = {{databaseName}}Injection
+// }
 
 // {{databaseName}}Injection will stage objects of database "{{databaseName}}"
 func {{databaseName}}Injection() {
