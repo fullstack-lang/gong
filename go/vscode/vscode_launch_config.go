@@ -44,7 +44,7 @@ const VsCodeLaunchConfig = `{
             "type": "go",
             "request": "launch",
             "mode": "debug",
-            "program": "${workspaceFolder}/go/cmd/helloworld",
+            "program": "${workspaceFolder}/go/cmd/{{pkgname}}",
             "args": [
                 "-unmarshallFromCode=stage.go",
                 "-marshallOnCommit=stage"
