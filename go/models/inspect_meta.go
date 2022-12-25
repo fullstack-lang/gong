@@ -3,6 +3,7 @@ package models
 import (
 	"go/ast"
 	"log"
+	"strings"
 )
 
 // inspectMeta look for
@@ -45,7 +46,8 @@ func inspectMeta(astPackage *ast.Package) {
 						case *ast.KeyValueExpr:
 							switch bl := kv.Value.(type) {
 							case *ast.BasicLit:
-								meta.Text = bl.Value
+								meta.Text = strings.TrimPrefix(bl.Value, "`")
+								meta.Text = strings.TrimSuffix(meta.Text, "`")
 							}
 						}
 						switch kv := cl.Elts[1].(type) {
