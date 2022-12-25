@@ -22,6 +22,12 @@ import { GongStructService } from './gongstruct.service'
 import { GongTimeFieldDB } from './gongtimefield-db'
 import { GongTimeFieldService } from './gongtimefield.service'
 
+import { MetaDB } from './meta-db'
+import { MetaService } from './meta.service'
+
+import { MetaReferenceDB } from './metareference-db'
+import { MetaReferenceService } from './metareference.service'
+
 import { ModelPkgDB } from './modelpkg-db'
 import { ModelPkgService } from './modelpkg.service'
 
@@ -52,6 +58,12 @@ export class FrontRepo { // insertion point sub template
   GongTimeFields_array = new Array<GongTimeFieldDB>(); // array of repo instances
   GongTimeFields = new Map<number, GongTimeFieldDB>(); // map of repo instances
   GongTimeFields_batch = new Map<number, GongTimeFieldDB>(); // same but only in last GET (for finding repo instances to delete)
+  Metas_array = new Array<MetaDB>(); // array of repo instances
+  Metas = new Map<number, MetaDB>(); // map of repo instances
+  Metas_batch = new Map<number, MetaDB>(); // same but only in last GET (for finding repo instances to delete)
+  MetaReferences_array = new Array<MetaReferenceDB>(); // array of repo instances
+  MetaReferences = new Map<number, MetaReferenceDB>(); // map of repo instances
+  MetaReferences_batch = new Map<number, MetaReferenceDB>(); // same but only in last GET (for finding repo instances to delete)
   ModelPkgs_array = new Array<ModelPkgDB>(); // array of repo instances
   ModelPkgs = new Map<number, ModelPkgDB>(); // map of repo instances
   ModelPkgs_batch = new Map<number, ModelPkgDB>(); // same but only in last GET (for finding repo instances to delete)
@@ -125,6 +137,8 @@ export class FrontRepoService {
     private gongnoteService: GongNoteService,
     private gongstructService: GongStructService,
     private gongtimefieldService: GongTimeFieldService,
+    private metaService: MetaService,
+    private metareferenceService: MetaReferenceService,
     private modelpkgService: ModelPkgService,
     private pointertogongstructfieldService: PointerToGongStructFieldService,
     private sliceofpointertogongstructfieldService: SliceOfPointerToGongStructFieldService,
@@ -164,6 +178,8 @@ export class FrontRepoService {
     Observable<GongNoteDB[]>,
     Observable<GongStructDB[]>,
     Observable<GongTimeFieldDB[]>,
+    Observable<MetaDB[]>,
+    Observable<MetaReferenceDB[]>,
     Observable<ModelPkgDB[]>,
     Observable<PointerToGongStructFieldDB[]>,
     Observable<SliceOfPointerToGongStructFieldDB[]>,
@@ -174,6 +190,8 @@ export class FrontRepoService {
       this.gongnoteService.getGongNotes(),
       this.gongstructService.getGongStructs(),
       this.gongtimefieldService.getGongTimeFields(),
+      this.metaService.getMetas(),
+      this.metareferenceService.getMetaReferences(),
       this.modelpkgService.getModelPkgs(),
       this.pointertogongstructfieldService.getPointerToGongStructFields(),
       this.sliceofpointertogongstructfieldService.getSliceOfPointerToGongStructFields(),
@@ -198,6 +216,8 @@ export class FrontRepoService {
             gongnotes_,
             gongstructs_,
             gongtimefields_,
+            metas_,
+            metareferences_,
             modelpkgs_,
             pointertogongstructfields_,
             sliceofpointertogongstructfields_,
@@ -216,6 +236,10 @@ export class FrontRepoService {
             gongstructs = gongstructs_ as GongStructDB[]
             var gongtimefields: GongTimeFieldDB[]
             gongtimefields = gongtimefields_ as GongTimeFieldDB[]
+            var metas: MetaDB[]
+            metas = metas_ as MetaDB[]
+            var metareferences: MetaReferenceDB[]
+            metareferences = metareferences_ as MetaReferenceDB[]
             var modelpkgs: ModelPkgDB[]
             modelpkgs = modelpkgs_ as ModelPkgDB[]
             var pointertogongstructfields: PointerToGongStructFieldDB[]
@@ -425,6 +449,72 @@ export class FrontRepoService {
             });
 
             // init the array
+            FrontRepoSingloton.Metas_array = metas
+
+            // clear the map that counts Meta in the GET
+            FrontRepoSingloton.Metas_batch.clear()
+
+            metas.forEach(
+              meta => {
+                FrontRepoSingloton.Metas.set(meta.ID, meta)
+                FrontRepoSingloton.Metas_batch.set(meta.ID, meta)
+              }
+            )
+
+            // clear metas that are absent from the batch
+            FrontRepoSingloton.Metas.forEach(
+              meta => {
+                if (FrontRepoSingloton.Metas_batch.get(meta.ID) == undefined) {
+                  FrontRepoSingloton.Metas.delete(meta.ID)
+                }
+              }
+            )
+
+            // sort Metas_array array
+            FrontRepoSingloton.Metas_array.sort((t1, t2) => {
+              if (t1.Name > t2.Name) {
+                return 1;
+              }
+              if (t1.Name < t2.Name) {
+                return -1;
+              }
+              return 0;
+            });
+
+            // init the array
+            FrontRepoSingloton.MetaReferences_array = metareferences
+
+            // clear the map that counts MetaReference in the GET
+            FrontRepoSingloton.MetaReferences_batch.clear()
+
+            metareferences.forEach(
+              metareference => {
+                FrontRepoSingloton.MetaReferences.set(metareference.ID, metareference)
+                FrontRepoSingloton.MetaReferences_batch.set(metareference.ID, metareference)
+              }
+            )
+
+            // clear metareferences that are absent from the batch
+            FrontRepoSingloton.MetaReferences.forEach(
+              metareference => {
+                if (FrontRepoSingloton.MetaReferences_batch.get(metareference.ID) == undefined) {
+                  FrontRepoSingloton.MetaReferences.delete(metareference.ID)
+                }
+              }
+            )
+
+            // sort MetaReferences_array array
+            FrontRepoSingloton.MetaReferences_array.sort((t1, t2) => {
+              if (t1.Name > t2.Name) {
+                return 1;
+              }
+              if (t1.Name < t2.Name) {
+                return -1;
+              }
+              return 0;
+            });
+
+            // init the array
             FrontRepoSingloton.ModelPkgs_array = modelpkgs
 
             // clear the map that counts ModelPkg in the GET
@@ -610,6 +700,33 @@ export class FrontRepoService {
                     _gongstruct.GongTimeFields.push(gongtimefield)
                     if (gongtimefield.GongStruct_GongTimeFields_reverse == undefined) {
                       gongtimefield.GongStruct_GongTimeFields_reverse = _gongstruct
+                    }
+                  }
+                }
+              }
+            )
+            metas.forEach(
+              meta => {
+                // insertion point sub sub template for ONE-/ZERO-ONE associations pointers redeeming
+
+                // insertion point for redeeming ONE-MANY associations
+              }
+            )
+            metareferences.forEach(
+              metareference => {
+                // insertion point sub sub template for ONE-/ZERO-ONE associations pointers redeeming
+
+                // insertion point for redeeming ONE-MANY associations
+                // insertion point for slice of pointer field Meta.MetaReferences redeeming
+                {
+                  let _meta = FrontRepoSingloton.Metas.get(metareference.Meta_MetaReferencesDBID.Int64)
+                  if (_meta) {
+                    if (_meta.MetaReferences == undefined) {
+                      _meta.MetaReferences = new Array<MetaReferenceDB>()
+                    }
+                    _meta.MetaReferences.push(metareference)
+                    if (metareference.Meta_MetaReferences_reverse == undefined) {
+                      metareference.Meta_MetaReferences_reverse = _meta
                     }
                   }
                 }
@@ -1039,6 +1156,121 @@ export class FrontRepoService {
     )
   }
 
+  // MetaPull performs a GET on Meta of the stack and redeem association pointers 
+  MetaPull(): Observable<FrontRepo> {
+    return new Observable<FrontRepo>(
+      (observer) => {
+        combineLatest([
+          this.metaService.getMetas()
+        ]).subscribe(
+          ([ // insertion point sub template 
+            metas,
+          ]) => {
+            // init the array
+            FrontRepoSingloton.Metas_array = metas
+
+            // clear the map that counts Meta in the GET
+            FrontRepoSingloton.Metas_batch.clear()
+
+            // 
+            // First Step: init map of instances
+            // insertion point sub template 
+            metas.forEach(
+              meta => {
+                FrontRepoSingloton.Metas.set(meta.ID, meta)
+                FrontRepoSingloton.Metas_batch.set(meta.ID, meta)
+
+                // insertion point for redeeming ONE/ZERO-ONE associations
+
+                // insertion point for redeeming ONE-MANY associations
+              }
+            )
+
+            // clear metas that are absent from the GET
+            FrontRepoSingloton.Metas.forEach(
+              meta => {
+                if (FrontRepoSingloton.Metas_batch.get(meta.ID) == undefined) {
+                  FrontRepoSingloton.Metas.delete(meta.ID)
+                }
+              }
+            )
+
+            // 
+            // Second Step: redeem pointers between instances (thanks to maps in the First Step)
+            // insertion point sub template 
+
+            // hand over control flow to observer
+            observer.next(FrontRepoSingloton)
+          }
+        )
+      }
+    )
+  }
+
+  // MetaReferencePull performs a GET on MetaReference of the stack and redeem association pointers 
+  MetaReferencePull(): Observable<FrontRepo> {
+    return new Observable<FrontRepo>(
+      (observer) => {
+        combineLatest([
+          this.metareferenceService.getMetaReferences()
+        ]).subscribe(
+          ([ // insertion point sub template 
+            metareferences,
+          ]) => {
+            // init the array
+            FrontRepoSingloton.MetaReferences_array = metareferences
+
+            // clear the map that counts MetaReference in the GET
+            FrontRepoSingloton.MetaReferences_batch.clear()
+
+            // 
+            // First Step: init map of instances
+            // insertion point sub template 
+            metareferences.forEach(
+              metareference => {
+                FrontRepoSingloton.MetaReferences.set(metareference.ID, metareference)
+                FrontRepoSingloton.MetaReferences_batch.set(metareference.ID, metareference)
+
+                // insertion point for redeeming ONE/ZERO-ONE associations
+
+                // insertion point for redeeming ONE-MANY associations
+                // insertion point for slice of pointer field Meta.MetaReferences redeeming
+                {
+                  let _meta = FrontRepoSingloton.Metas.get(metareference.Meta_MetaReferencesDBID.Int64)
+                  if (_meta) {
+                    if (_meta.MetaReferences == undefined) {
+                      _meta.MetaReferences = new Array<MetaReferenceDB>()
+                    }
+                    _meta.MetaReferences.push(metareference)
+                    if (metareference.Meta_MetaReferences_reverse == undefined) {
+                      metareference.Meta_MetaReferences_reverse = _meta
+                    }
+                  }
+                }
+              }
+            )
+
+            // clear metareferences that are absent from the GET
+            FrontRepoSingloton.MetaReferences.forEach(
+              metareference => {
+                if (FrontRepoSingloton.MetaReferences_batch.get(metareference.ID) == undefined) {
+                  FrontRepoSingloton.MetaReferences.delete(metareference.ID)
+                }
+              }
+            )
+
+            // 
+            // Second Step: redeem pointers between instances (thanks to maps in the First Step)
+            // insertion point sub template 
+
+            // hand over control flow to observer
+            observer.next(FrontRepoSingloton)
+          }
+        )
+      }
+    )
+  }
+
   // ModelPkgPull performs a GET on ModelPkg of the stack and redeem association pointers 
   ModelPkgPull(): Observable<FrontRepo> {
     return new Observable<FrontRepo>(
@@ -1252,12 +1484,18 @@ export function getGongStructUniqueID(id: number): number {
 export function getGongTimeFieldUniqueID(id: number): number {
   return 53 * id
 }
-export function getModelPkgUniqueID(id: number): number {
+export function getMetaUniqueID(id: number): number {
   return 59 * id
 }
-export function getPointerToGongStructFieldUniqueID(id: number): number {
+export function getMetaReferenceUniqueID(id: number): number {
   return 61 * id
 }
-export function getSliceOfPointerToGongStructFieldUniqueID(id: number): number {
+export function getModelPkgUniqueID(id: number): number {
   return 67 * id
+}
+export function getPointerToGongStructFieldUniqueID(id: number): number {
+  return 71 * id
+}
+export function getSliceOfPointerToGongStructFieldUniqueID(id: number): number {
+  return 73 * id
 }

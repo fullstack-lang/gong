@@ -26,6 +26,9 @@ func LoadEmbedded(dir embed.FS) (modelPkg *ModelPkg, err error) {
 	pkgs := ParseEmbedModel(dir, "go/models")
 
 	WalkParser(pkgs, modelPkg)
+	// fetch meta information
+	inspectMeta(pkgs["models"])
+
 	modelPkg.SerializeToStage()
 	Stage.Commit()
 

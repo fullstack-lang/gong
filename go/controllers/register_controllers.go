@@ -85,6 +85,20 @@ func RegisterControllers(r *gin.Engine) {
 		v1.PUT("/v1/gongtimefields/:id", UpdateGongTimeField)
 		v1.DELETE("/v1/gongtimefields/:id", DeleteGongTimeField)
 
+		v1.GET("/v1/metas", GetMetas)
+		v1.GET("/v1/metas/:id", GetMeta)
+		v1.POST("/v1/metas", PostMeta)
+		v1.PATCH("/v1/metas/:id", UpdateMeta)
+		v1.PUT("/v1/metas/:id", UpdateMeta)
+		v1.DELETE("/v1/metas/:id", DeleteMeta)
+
+		v1.GET("/v1/metareferences", GetMetaReferences)
+		v1.GET("/v1/metareferences/:id", GetMetaReference)
+		v1.POST("/v1/metareferences", PostMetaReference)
+		v1.PATCH("/v1/metareferences/:id", UpdateMetaReference)
+		v1.PUT("/v1/metareferences/:id", UpdateMetaReference)
+		v1.DELETE("/v1/metareferences/:id", DeleteMetaReference)
+
 		v1.GET("/v1/modelpkgs", GetModelPkgs)
 		v1.GET("/v1/modelpkgs/:id", GetModelPkg)
 		v1.POST("/v1/modelpkgs", PostModelPkg)
