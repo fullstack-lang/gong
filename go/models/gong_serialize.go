@@ -19,6 +19,8 @@ func SerializeStage(filename string) {
 		SerializeExcelize[GongNote](f)
 		SerializeExcelize[GongStruct](f)
 		SerializeExcelize[GongTimeField](f)
+		SerializeExcelize[Meta](f)
+		SerializeExcelize[MetaReference](f)
 		SerializeExcelize[ModelPkg](f)
 		SerializeExcelize[PointerToGongStructField](f)
 		SerializeExcelize[SliceOfPointerToGongStructField](f)
