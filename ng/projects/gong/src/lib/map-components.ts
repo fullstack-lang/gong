@@ -11,6 +11,10 @@
   import { GongStructSortingComponent } from './gongstruct-sorting/gongstruct-sorting.component'
   import { GongTimeFieldsTableComponent } from './gongtimefields-table/gongtimefields-table.component'
   import { GongTimeFieldSortingComponent } from './gongtimefield-sorting/gongtimefield-sorting.component'
+  import { MetasTableComponent } from './metas-table/metas-table.component'
+  import { MetaSortingComponent } from './meta-sorting/meta-sorting.component'
+  import { MetaReferencesTableComponent } from './metareferences-table/metareferences-table.component'
+  import { MetaReferenceSortingComponent } from './metareference-sorting/metareference-sorting.component'
   import { ModelPkgsTableComponent } from './modelpkgs-table/modelpkgs-table.component'
   import { ModelPkgSortingComponent } from './modelpkg-sorting/modelpkg-sorting.component'
   import { PointerToGongStructFieldsTableComponent } from './pointertogongstructfields-table/pointertogongstructfields-table.component'
@@ -31,6 +35,10 @@
   export const MapOfGongStructSortingComponents: Map<string, any> = new Map([["GongStructSortingComponent", GongStructSortingComponent],])
   export const MapOfGongTimeFieldsComponents: Map<string, any> = new Map([["GongTimeFieldsTableComponent", GongTimeFieldsTableComponent],])
   export const MapOfGongTimeFieldSortingComponents: Map<string, any> = new Map([["GongTimeFieldSortingComponent", GongTimeFieldSortingComponent],])
+  export const MapOfMetasComponents: Map<string, any> = new Map([["MetasTableComponent", MetasTableComponent],])
+  export const MapOfMetaSortingComponents: Map<string, any> = new Map([["MetaSortingComponent", MetaSortingComponent],])
+  export const MapOfMetaReferencesComponents: Map<string, any> = new Map([["MetaReferencesTableComponent", MetaReferencesTableComponent],])
+  export const MapOfMetaReferenceSortingComponents: Map<string, any> = new Map([["MetaReferenceSortingComponent", MetaReferenceSortingComponent],])
   export const MapOfModelPkgsComponents: Map<string, any> = new Map([["ModelPkgsTableComponent", ModelPkgsTableComponent],])
   export const MapOfModelPkgSortingComponents: Map<string, any> = new Map([["ModelPkgSortingComponent", ModelPkgSortingComponent],])
   export const MapOfPointerToGongStructFieldsComponents: Map<string, any> = new Map([["PointerToGongStructFieldsTableComponent", PointerToGongStructFieldsTableComponent],])
@@ -49,6 +57,8 @@ export const MapOfComponents: Map<string, any> =
       ["GongNote", MapOfGongNotesComponents],
       ["GongStruct", MapOfGongStructsComponents],
       ["GongTimeField", MapOfGongTimeFieldsComponents],
+      ["Meta", MapOfMetasComponents],
+      ["MetaReference", MapOfMetaReferencesComponents],
       ["ModelPkg", MapOfModelPkgsComponents],
       ["PointerToGongStructField", MapOfPointerToGongStructFieldsComponents],
       ["SliceOfPointerToGongStructField", MapOfSliceOfPointerToGongStructFieldsComponents],
@@ -66,6 +76,8 @@ export const MapOfSortingComponents: Map<string, any> =
       ["GongNote", MapOfGongNoteSortingComponents],
       ["GongStruct", MapOfGongStructSortingComponents],
       ["GongTimeField", MapOfGongTimeFieldSortingComponents],
+      ["Meta", MapOfMetaSortingComponents],
+      ["MetaReference", MapOfMetaReferenceSortingComponents],
       ["ModelPkg", MapOfModelPkgSortingComponents],
       ["PointerToGongStructField", MapOfPointerToGongStructFieldSortingComponents],
       ["SliceOfPointerToGongStructField", MapOfSliceOfPointerToGongStructFieldSortingComponents],
