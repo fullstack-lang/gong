@@ -181,7 +181,6 @@ func WalkParser(parserPkgs map[string]*ast.Package, modelPkg *ModelPkg) {
 						}
 					default:
 					}
-
 				}
 
 			default:

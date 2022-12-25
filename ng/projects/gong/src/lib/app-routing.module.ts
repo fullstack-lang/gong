@@ -26,6 +26,14 @@ import { GongTimeFieldsTableComponent } from './gongtimefields-table/gongtimefie
 import { GongTimeFieldDetailComponent } from './gongtimefield-detail/gongtimefield-detail.component'
 import { GongTimeFieldPresentationComponent } from './gongtimefield-presentation/gongtimefield-presentation.component'
 
+import { MetasTableComponent } from './metas-table/metas-table.component'
+import { MetaDetailComponent } from './meta-detail/meta-detail.component'
+import { MetaPresentationComponent } from './meta-presentation/meta-presentation.component'
+
+import { MetaReferencesTableComponent } from './metareferences-table/metareferences-table.component'
+import { MetaReferenceDetailComponent } from './metareference-detail/metareference-detail.component'
+import { MetaReferencePresentationComponent } from './metareference-presentation/metareference-presentation.component'
+
 import { ModelPkgsTableComponent } from './modelpkgs-table/modelpkgs-table.component'
 import { ModelPkgDetailComponent } from './modelpkg-detail/modelpkg-detail.component'
 import { ModelPkgPresentationComponent } from './modelpkg-presentation/modelpkg-presentation.component'
@@ -81,6 +89,20 @@ const routes: Routes = [ // insertion point for routes declarations
 	{ path: 'github_com_fullstack_lang_gong_go-gongtimefield-detail/:id', component: GongTimeFieldDetailComponent, outlet: 'github_com_fullstack_lang_gong_go_editor' },
 	{ path: 'github_com_fullstack_lang_gong_go-gongtimefield-presentation/:id', component: GongTimeFieldPresentationComponent, outlet: 'github_com_fullstack_lang_gong_go_presentation' },
 	{ path: 'github_com_fullstack_lang_gong_go-gongtimefield-presentation-special/:id', component: GongTimeFieldPresentationComponent, outlet: 'github_com_fullstack_lang_gong_gogongtimefieldpres' },
+
+	{ path: 'github_com_fullstack_lang_gong_go-metas', component: MetasTableComponent, outlet: 'github_com_fullstack_lang_gong_go_table' },
+	{ path: 'github_com_fullstack_lang_gong_go-meta-adder', component: MetaDetailComponent, outlet: 'github_com_fullstack_lang_gong_go_editor' },
+	{ path: 'github_com_fullstack_lang_gong_go-meta-adder/:id/:originStruct/:originStructFieldName', component: MetaDetailComponent, outlet: 'github_com_fullstack_lang_gong_go_editor' },
+	{ path: 'github_com_fullstack_lang_gong_go-meta-detail/:id', component: MetaDetailComponent, outlet: 'github_com_fullstack_lang_gong_go_editor' },
+	{ path: 'github_com_fullstack_lang_gong_go-meta-presentation/:id', component: MetaPresentationComponent, outlet: 'github_com_fullstack_lang_gong_go_presentation' },
+	{ path: 'github_com_fullstack_lang_gong_go-meta-presentation-special/:id', component: MetaPresentationComponent, outlet: 'github_com_fullstack_lang_gong_gometapres' },
+
+	{ path: 'github_com_fullstack_lang_gong_go-metareferences', component: MetaReferencesTableComponent, outlet: 'github_com_fullstack_lang_gong_go_table' },
+	{ path: 'github_com_fullstack_lang_gong_go-metareference-adder', component: MetaReferenceDetailComponent, outlet: 'github_com_fullstack_lang_gong_go_editor' },
+	{ path: 'github_com_fullstack_lang_gong_go-metareference-adder/:id/:originStruct/:originStructFieldName', component: MetaReferenceDetailComponent, outlet: 'github_com_fullstack_lang_gong_go_editor' },
+	{ path: 'github_com_fullstack_lang_gong_go-metareference-detail/:id', component: MetaReferenceDetailComponent, outlet: 'github_com_fullstack_lang_gong_go_editor' },
+	{ path: 'github_com_fullstack_lang_gong_go-metareference-presentation/:id', component: MetaReferencePresentationComponent, outlet: 'github_com_fullstack_lang_gong_go_presentation' },
+	{ path: 'github_com_fullstack_lang_gong_go-metareference-presentation-special/:id', component: MetaReferencePresentationComponent, outlet: 'github_com_fullstack_lang_gong_gometareferencepres' },
 
 	{ path: 'github_com_fullstack_lang_gong_go-modelpkgs', component: ModelPkgsTableComponent, outlet: 'github_com_fullstack_lang_gong_go_table' },
 	{ path: 'github_com_fullstack_lang_gong_go-modelpkg-adder', component: ModelPkgDetailComponent, outlet: 'github_com_fullstack_lang_gong_go_editor' },
