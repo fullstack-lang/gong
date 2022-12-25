@@ -13,7 +13,7 @@ import (
 //
 // if useParse is used, Walk uses go/parser.Parser
 //
-// Walk leverages go Parser capabilities to fetch identifiers in go files
+// # Walk leverages go Parser capabilities to fetch identifiers in go files
 //
 // The algo is in several steps:
 // - First pass gather Gongstruct & Gongenums identifiers
@@ -38,4 +38,7 @@ func Walk(relativePathToModel string, modelPkg *ModelPkg) {
 	}
 
 	WalkParser(pkgsParser, modelPkg)
+
+	// fetch meta information
+	inspectMeta(pkgsParser["models"])
 }

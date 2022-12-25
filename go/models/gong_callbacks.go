@@ -29,6 +29,14 @@ func AfterCreateFromFront[Type Gongstruct](stage *StageStruct, instance *Type) {
 		if stage.OnAfterGongTimeFieldCreateCallback != nil {
 			stage.OnAfterGongTimeFieldCreateCallback.OnAfterCreate(stage, target)
 		}
+	case *Meta:
+		if stage.OnAfterMetaCreateCallback != nil {
+			stage.OnAfterMetaCreateCallback.OnAfterCreate(stage, target)
+		}
+	case *MetaReference:
+		if stage.OnAfterMetaReferenceCreateCallback != nil {
+			stage.OnAfterMetaReferenceCreateCallback.OnAfterCreate(stage, target)
+		}
 	case *ModelPkg:
 		if stage.OnAfterModelPkgCreateCallback != nil {
 			stage.OnAfterModelPkgCreateCallback.OnAfterCreate(stage, target)
@@ -78,6 +86,16 @@ func AfterUpdateFromFront[Type Gongstruct](stage *StageStruct, old, new *Type) {
 		newTarget := any(new).(*GongTimeField)
 		if stage.OnAfterGongTimeFieldUpdateCallback != nil {
 			stage.OnAfterGongTimeFieldUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
+	case *Meta:
+		newTarget := any(new).(*Meta)
+		if stage.OnAfterMetaUpdateCallback != nil {
+			stage.OnAfterMetaUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
+	case *MetaReference:
+		newTarget := any(new).(*MetaReference)
+		if stage.OnAfterMetaReferenceUpdateCallback != nil {
+			stage.OnAfterMetaReferenceUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
 	case *ModelPkg:
 		newTarget := any(new).(*ModelPkg)
@@ -132,6 +150,16 @@ func AfterDeleteFromFront[Type Gongstruct](stage *StageStruct, staged, front *Ty
 			staged := any(staged).(*GongTimeField)
 			stage.OnAfterGongTimeFieldDeleteCallback.OnAfterDelete(stage, staged, front)
 		}
+	case *Meta:
+		if stage.OnAfterMetaDeleteCallback != nil {
+			staged := any(staged).(*Meta)
+			stage.OnAfterMetaDeleteCallback.OnAfterDelete(stage, staged, front)
+		}
+	case *MetaReference:
+		if stage.OnAfterMetaReferenceDeleteCallback != nil {
+			staged := any(staged).(*MetaReference)
+			stage.OnAfterMetaReferenceDeleteCallback.OnAfterDelete(stage, staged, front)
+		}
 	case *ModelPkg:
 		if stage.OnAfterModelPkgDeleteCallback != nil {
 			staged := any(staged).(*ModelPkg)
@@ -179,6 +207,14 @@ func AfterReadFromFront[Type Gongstruct](stage *StageStruct, instance *Type) {
 		if stage.OnAfterGongTimeFieldReadCallback != nil {
 			stage.OnAfterGongTimeFieldReadCallback.OnAfterRead(stage, target)
 		}
+	case *Meta:
+		if stage.OnAfterMetaReadCallback != nil {
+			stage.OnAfterMetaReadCallback.OnAfterRead(stage, target)
+		}
+	case *MetaReference:
+		if stage.OnAfterMetaReferenceReadCallback != nil {
+			stage.OnAfterMetaReferenceReadCallback.OnAfterRead(stage, target)
+		}
 	case *ModelPkg:
 		if stage.OnAfterModelPkgReadCallback != nil {
 			stage.OnAfterModelPkgReadCallback.OnAfterRead(stage, target)
@@ -218,6 +254,12 @@ func SetCallbackAfterUpdateFromFront[Type Gongstruct](stage *StageStruct, callba
 	case *GongTimeField:
 		stage.OnAfterGongTimeFieldUpdateCallback = any(callback).(OnAfterUpdateInterface[GongTimeField])
 	
+	case *Meta:
+		stage.OnAfterMetaUpdateCallback = any(callback).(OnAfterUpdateInterface[Meta])
+	
+	case *MetaReference:
+		stage.OnAfterMetaReferenceUpdateCallback = any(callback).(OnAfterUpdateInterface[MetaReference])
+	
 	case *ModelPkg:
 		stage.OnAfterModelPkgUpdateCallback = any(callback).(OnAfterUpdateInterface[ModelPkg])
 	
@@ -251,6 +293,12 @@ func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *StageStruct, callba
 	
 	case *GongTimeField:
 		stage.OnAfterGongTimeFieldCreateCallback = any(callback).(OnAfterCreateInterface[GongTimeField])
+	
+	case *Meta:
+		stage.OnAfterMetaCreateCallback = any(callback).(OnAfterCreateInterface[Meta])
+	
+	case *MetaReference:
+		stage.OnAfterMetaReferenceCreateCallback = any(callback).(OnAfterCreateInterface[MetaReference])
 	
 	case *ModelPkg:
 		stage.OnAfterModelPkgCreateCallback = any(callback).(OnAfterCreateInterface[ModelPkg])
@@ -286,6 +334,12 @@ func SetCallbackAfterDeleteFromFront[Type Gongstruct](stage *StageStruct, callba
 	case *GongTimeField:
 		stage.OnAfterGongTimeFieldDeleteCallback = any(callback).(OnAfterDeleteInterface[GongTimeField])
 	
+	case *Meta:
+		stage.OnAfterMetaDeleteCallback = any(callback).(OnAfterDeleteInterface[Meta])
+	
+	case *MetaReference:
+		stage.OnAfterMetaReferenceDeleteCallback = any(callback).(OnAfterDeleteInterface[MetaReference])
+	
 	case *ModelPkg:
 		stage.OnAfterModelPkgDeleteCallback = any(callback).(OnAfterDeleteInterface[ModelPkg])
 	
@@ -319,6 +373,12 @@ func SetCallbackAfterReadFromFront[Type Gongstruct](stage *StageStruct, callback
 	
 	case *GongTimeField:
 		stage.OnAfterGongTimeFieldReadCallback = any(callback).(OnAfterReadInterface[GongTimeField])
+	
+	case *Meta:
+		stage.OnAfterMetaReadCallback = any(callback).(OnAfterReadInterface[Meta])
+	
+	case *MetaReference:
+		stage.OnAfterMetaReferenceReadCallback = any(callback).(OnAfterReadInterface[MetaReference])
 	
 	case *ModelPkg:
 		stage.OnAfterModelPkgReadCallback = any(callback).(OnAfterReadInterface[ModelPkg])

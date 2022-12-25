@@ -69,6 +69,16 @@ import { GongTimeFieldSortingComponent } from './gongtimefield-sorting/gongtimef
 import { GongTimeFieldDetailComponent } from './gongtimefield-detail/gongtimefield-detail.component'
 import { GongTimeFieldPresentationComponent } from './gongtimefield-presentation/gongtimefield-presentation.component'
 
+import { MetasTableComponent } from './metas-table/metas-table.component'
+import { MetaSortingComponent } from './meta-sorting/meta-sorting.component'
+import { MetaDetailComponent } from './meta-detail/meta-detail.component'
+import { MetaPresentationComponent } from './meta-presentation/meta-presentation.component'
+
+import { MetaReferencesTableComponent } from './metareferences-table/metareferences-table.component'
+import { MetaReferenceSortingComponent } from './metareference-sorting/metareference-sorting.component'
+import { MetaReferenceDetailComponent } from './metareference-detail/metareference-detail.component'
+import { MetaReferencePresentationComponent } from './metareference-presentation/metareference-presentation.component'
+
 import { ModelPkgsTableComponent } from './modelpkgs-table/modelpkgs-table.component'
 import { ModelPkgSortingComponent } from './modelpkg-sorting/modelpkg-sorting.component'
 import { ModelPkgDetailComponent } from './modelpkg-detail/modelpkg-detail.component'
@@ -117,6 +127,16 @@ import { SliceOfPointerToGongStructFieldPresentationComponent } from './sliceofp
 		GongTimeFieldSortingComponent,
 		GongTimeFieldDetailComponent,
 		GongTimeFieldPresentationComponent,
+
+		MetasTableComponent,
+		MetaSortingComponent,
+		MetaDetailComponent,
+		MetaPresentationComponent,
+
+		MetaReferencesTableComponent,
+		MetaReferenceSortingComponent,
+		MetaReferenceDetailComponent,
+		MetaReferencePresentationComponent,
 
 		ModelPkgsTableComponent,
 		ModelPkgSortingComponent,
@@ -201,6 +221,16 @@ import { SliceOfPointerToGongStructFieldPresentationComponent } from './sliceofp
 		GongTimeFieldSortingComponent,
 		GongTimeFieldDetailComponent,
 		GongTimeFieldPresentationComponent,
+
+		MetasTableComponent,
+		MetaSortingComponent,
+		MetaDetailComponent,
+		MetaPresentationComponent,
+
+		MetaReferencesTableComponent,
+		MetaReferenceSortingComponent,
+		MetaReferenceDetailComponent,
+		MetaReferencePresentationComponent,
 
 		ModelPkgsTableComponent,
 		ModelPkgSortingComponent,
