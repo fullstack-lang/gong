@@ -11,6 +11,7 @@ package models
 //
 // The comment can be standalone or attached to a declation/var
 type GongNote struct {
-	Name string
-	Body string
+	Name  string
+	Body  string
+	Links []*GongLink
 }

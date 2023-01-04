@@ -3,6 +3,7 @@ package models
 import (
 	"bytes"
 	"go/doc"
+	"go/doc/comment"
 	"log"
 )
 
@@ -22,6 +23,17 @@ func (modelPkg *ModelPkg) GenerateDocs(docPackage *doc.Package) {
 				Body: note.Body,
 			})
 			modelPkg.GongNotes[note.UID] = gongNote
+
+			// parse body to find doclinks
+			var p comment.Parser
+			doc := p.Parse(note.Body)
+
+			for _, docLink := range doc.Links {
+
+				link := (&GongLink{Name: docLink.Text})
+				gongNote.Links = append(gongNote.Links, link)
+			}
+
 		}
 		log.Println("documenting ", noteName)
 

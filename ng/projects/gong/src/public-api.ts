@@ -36,6 +36,13 @@ export * from './lib/gongenumvalues-table/gongenumvalues-table.component'
 export * from './lib/gongenumvalue-db'
 export * from './lib/gongenumvalue.service'
 
+export * from './lib/gonglink-detail/gonglink-detail.component'
+export * from './lib/gonglink-presentation/gonglink-presentation.component'
+export * from './lib/gonglink-sorting/gonglink-sorting.component'
+export * from './lib/gonglinks-table/gonglinks-table.component'
+export * from './lib/gonglink-db'
+export * from './lib/gonglink.service'
+
 export * from './lib/gongnote-detail/gongnote-detail.component'
 export * from './lib/gongnote-presentation/gongnote-presentation.component'
 export * from './lib/gongnote-sorting/gongnote-sorting.component'
