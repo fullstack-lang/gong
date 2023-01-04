@@ -70,6 +70,7 @@ export class GongNoteService {
   postGongNote(gongnotedb: GongNoteDB): Observable<GongNoteDB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
+    gongnotedb.Links = []
 
     return this.http.post<GongNoteDB>(this.gongnotesUrl, gongnotedb, this.httpOptions).pipe(
       tap(_ => {
@@ -97,6 +98,7 @@ export class GongNoteService {
     const url = `${this.gongnotesUrl}/${id}`;
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
+    gongnotedb.Links = []
 
     return this.http.put<GongNoteDB>(url, gongnotedb, this.httpOptions).pipe(
       tap(_ => {

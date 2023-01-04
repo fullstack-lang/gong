@@ -93,6 +93,26 @@
     <!-- -->
     <mat-checkbox [formControl]="IsReloadedFormControl">IsReloaded</mat-checkbox>
 
+    <mat-grid-list *ngIf='!isATextArea("AbsolutePathToDiagramPackage")' cols="5" rowHeight="2:1">
+        <mat-grid-tile [colspan]="3">
+            <mat-form-field mat-form-field class="detail-full-width">
+                <mat-label>AbsolutePathToDiagramPackage</mat-label>
+                <input name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="diagrampackage.AbsolutePathToDiagramPackage">
+            </mat-form-field>
+        </mat-grid-tile>
+        <mat-grid-tile>
+            <button mat-raised-button (click)="toggleTextArea('AbsolutePathToDiagramPackage')">
+                <mat-icon>
+                    expand_more
+                </mat-icon>
+            </button>
+        </mat-grid-tile>
+    </mat-grid-list>
+    <mat-form-field *ngIf='isATextArea("AbsolutePathToDiagramPackage")' mat-form-field class="detail-full-width">
+        <mat-label>AbsolutePathToDiagramPackage</mat-label>
+        <textarea name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="diagrampackage.AbsolutePathToDiagramPackage"></textarea>
+    </mat-form-field>
+
     <div class="details__save">
         <button mat-raised-button color="primary" (click)="save()">
             Save diagrampackage

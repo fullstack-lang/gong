@@ -56,6 +56,14 @@ type StageStruct struct { // insertion point for definition of arrays registerin
 	OnAfterGongEnumValueDeleteCallback OnAfterDeleteInterface[GongEnumValue]
 	OnAfterGongEnumValueReadCallback   OnAfterReadInterface[GongEnumValue]
 
+	GongLinks           map[*GongLink]any
+	GongLinks_mapString map[string]*GongLink
+
+	OnAfterGongLinkCreateCallback OnAfterCreateInterface[GongLink]
+	OnAfterGongLinkUpdateCallback OnAfterUpdateInterface[GongLink]
+	OnAfterGongLinkDeleteCallback OnAfterDeleteInterface[GongLink]
+	OnAfterGongLinkReadCallback   OnAfterReadInterface[GongLink]
+
 	GongNotes           map[*GongNote]any
 	GongNotes_mapString map[string]*GongNote
 
@@ -176,6 +184,8 @@ type BackRepoInterface interface {
 	CheckoutGongEnum(gongenum *GongEnum)
 	CommitGongEnumValue(gongenumvalue *GongEnumValue)
 	CheckoutGongEnumValue(gongenumvalue *GongEnumValue)
+	CommitGongLink(gonglink *GongLink)
+	CheckoutGongLink(gonglink *GongLink)
 	CommitGongNote(gongnote *GongNote)
 	CheckoutGongNote(gongnote *GongNote)
 	CommitGongStruct(gongstruct *GongStruct)
@@ -206,6 +216,9 @@ var Stage StageStruct = StageStruct{ // insertion point for array initiatialisat
 
 	GongEnumValues:           make(map[*GongEnumValue]any),
 	GongEnumValues_mapString: make(map[string]*GongEnumValue),
+
+	GongLinks:           make(map[*GongLink]any),
+	GongLinks_mapString: make(map[string]*GongLink),
 
 	GongNotes:           make(map[*GongNote]any),
 	GongNotes_mapString: make(map[string]*GongNote),
@@ -244,6 +257,7 @@ func (stage *StageStruct) Commit() {
 	stage.Map_GongStructName_InstancesNb["GongBasicField"] = len(stage.GongBasicFields)
 	stage.Map_GongStructName_InstancesNb["GongEnum"] = len(stage.GongEnums)
 	stage.Map_GongStructName_InstancesNb["GongEnumValue"] = len(stage.GongEnumValues)
+	stage.Map_GongStructName_InstancesNb["GongLink"] = len(stage.GongLinks)
 	stage.Map_GongStructName_InstancesNb["GongNote"] = len(stage.GongNotes)
 	stage.Map_GongStructName_InstancesNb["GongStruct"] = len(stage.GongStructs)
 	stage.Map_GongStructName_InstancesNb["GongTimeField"] = len(stage.GongTimeFields)
@@ -264,6 +278,7 @@ func (stage *StageStruct) Checkout() {
 	stage.Map_GongStructName_InstancesNb["GongBasicField"] = len(stage.GongBasicFields)
 	stage.Map_GongStructName_InstancesNb["GongEnum"] = len(stage.GongEnums)
 	stage.Map_GongStructName_InstancesNb["GongEnumValue"] = len(stage.GongEnumValues)
+	stage.Map_GongStructName_InstancesNb["GongLink"] = len(stage.GongLinks)
 	stage.Map_GongStructName_InstancesNb["GongNote"] = len(stage.GongNotes)
 	stage.Map_GongStructName_InstancesNb["GongStruct"] = len(stage.GongStructs)
 	stage.Map_GongStructName_InstancesNb["GongTimeField"] = len(stage.GongTimeFields)
@@ -587,6 +602,101 @@ func DeleteORMGongEnumValue(gongenumvalue *GongEnumValue) {
 // for satisfaction of GongStruct interface
 func (gongenumvalue *GongEnumValue) GetName() (res string) {
 	return gongenumvalue.Name
+}
+
+// Stage puts gonglink to the model stage
+func (gonglink *GongLink) Stage() *GongLink {
+	Stage.GongLinks[gonglink] = __member
+	Stage.GongLinks_mapString[gonglink.Name] = gonglink
+
+	return gonglink
+}
+
+// Unstage removes gonglink off the model stage
+func (gonglink *GongLink) Unstage() *GongLink {
+	delete(Stage.GongLinks, gonglink)
+	delete(Stage.GongLinks_mapString, gonglink.Name)
+	return gonglink
+}
+
+// commit gonglink to the back repo (if it is already staged)
+func (gonglink *GongLink) Commit() *GongLink {
+	if _, ok := Stage.GongLinks[gonglink]; ok {
+		if Stage.BackRepo != nil {
+			Stage.BackRepo.CommitGongLink(gonglink)
+		}
+	}
+	return gonglink
+}
+
+// Checkout gonglink to the back repo (if it is already staged)
+func (gonglink *GongLink) Checkout() *GongLink {
+	if _, ok := Stage.GongLinks[gonglink]; ok {
+		if Stage.BackRepo != nil {
+			Stage.BackRepo.CheckoutGongLink(gonglink)
+		}
+	}
+	return gonglink
+}
+
+//
+// Legacy, to be deleted
+//
+
+// StageCopy appends a copy of gonglink to the model stage
+func (gonglink *GongLink) StageCopy() *GongLink {
+	_gonglink := new(GongLink)
+	*_gonglink = *gonglink
+	_gonglink.Stage()
+	return _gonglink
+}
+
+// StageAndCommit appends gonglink to the model stage and commit to the orm repo
+func (gonglink *GongLink) StageAndCommit() *GongLink {
+	gonglink.Stage()
+	if Stage.AllModelsStructCreateCallback != nil {
+		Stage.AllModelsStructCreateCallback.CreateORMGongLink(gonglink)
+	}
+	return gonglink
+}
+
+// DeleteStageAndCommit appends gonglink to the model stage and commit to the orm repo
+func (gonglink *GongLink) DeleteStageAndCommit() *GongLink {
+	gonglink.Unstage()
+	DeleteORMGongLink(gonglink)
+	return gonglink
+}
+
+// StageCopyAndCommit appends a copy of gonglink to the model stage and commit to the orm repo
+func (gonglink *GongLink) StageCopyAndCommit() *GongLink {
+	_gonglink := new(GongLink)
+	*_gonglink = *gonglink
+	_gonglink.Stage()
+	if Stage.AllModelsStructCreateCallback != nil {
+		Stage.AllModelsStructCreateCallback.CreateORMGongLink(gonglink)
+	}
+	return _gonglink
+}
+
+// CreateORMGongLink enables dynamic staging of a GongLink instance
+func CreateORMGongLink(gonglink *GongLink) {
+	gonglink.Stage()
+	if Stage.AllModelsStructCreateCallback != nil {
+		Stage.AllModelsStructCreateCallback.CreateORMGongLink(gonglink)
+	}
+}
+
+// DeleteORMGongLink enables dynamic staging of a GongLink instance
+func DeleteORMGongLink(gonglink *GongLink) {
+	gonglink.Unstage()
+	if Stage.AllModelsStructDeleteCallback != nil {
+		Stage.AllModelsStructDeleteCallback.DeleteORMGongLink(gonglink)
+	}
+}
+
+// for satisfaction of GongStruct interface
+func (gonglink *GongLink) GetName() (res string) {
+	return gonglink.Name
 }
 
 // Stage puts gongnote to the model stage
@@ -1354,6 +1464,7 @@ type AllModelsStructCreateInterface interface { // insertion point for Callbacks
 	CreateORMGongBasicField(GongBasicField *GongBasicField)
 	CreateORMGongEnum(GongEnum *GongEnum)
 	CreateORMGongEnumValue(GongEnumValue *GongEnumValue)
+	CreateORMGongLink(GongLink *GongLink)
 	CreateORMGongNote(GongNote *GongNote)
 	CreateORMGongStruct(GongStruct *GongStruct)
 	CreateORMGongTimeField(GongTimeField *GongTimeField)
@@ -1368,6 +1479,7 @@ type AllModelsStructDeleteInterface interface { // insertion point for Callbacks
 	DeleteORMGongBasicField(GongBasicField *GongBasicField)
 	DeleteORMGongEnum(GongEnum *GongEnum)
 	DeleteORMGongEnumValue(GongEnumValue *GongEnumValue)
+	DeleteORMGongLink(GongLink *GongLink)
 	DeleteORMGongNote(GongNote *GongNote)
 	DeleteORMGongStruct(GongStruct *GongStruct)
 	DeleteORMGongTimeField(GongTimeField *GongTimeField)
@@ -1387,6 +1499,9 @@ func (stage *StageStruct) Reset() { // insertion point for array reset
 
 	stage.GongEnumValues = make(map[*GongEnumValue]any)
 	stage.GongEnumValues_mapString = make(map[string]*GongEnumValue)
+
+	stage.GongLinks = make(map[*GongLink]any)
+	stage.GongLinks_mapString = make(map[string]*GongLink)
 
 	stage.GongNotes = make(map[*GongNote]any)
 	stage.GongNotes_mapString = make(map[string]*GongNote)
@@ -1423,6 +1538,9 @@ func (stage *StageStruct) Nil() { // insertion point for array nil
 
 	stage.GongEnumValues = nil
 	stage.GongEnumValues_mapString = nil
+
+	stage.GongLinks = nil
+	stage.GongLinks_mapString = nil
 
 	stage.GongNotes = nil
 	stage.GongNotes_mapString = nil
@@ -1658,6 +1776,38 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
 		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Value")
 		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(gongenumvalue.Value))
+		initializerStatements += setValueField
+
+	}
+
+	map_GongLink_Identifiers := make(map[*GongLink]string)
+	_ = map_GongLink_Identifiers
+
+	gonglinkOrdered := []*GongLink{}
+	for gonglink := range stage.GongLinks {
+		gonglinkOrdered = append(gonglinkOrdered, gonglink)
+	}
+	sort.Slice(gonglinkOrdered[:], func(i, j int) bool {
+		return gonglinkOrdered[i].Name < gonglinkOrdered[j].Name
+	})
+	identifiersDecl += "\n\n	// Declarations of staged instances of GongLink"
+	for idx, gonglink := range gonglinkOrdered {
+
+		id = generatesIdentifier("GongLink", idx, gonglink.Name)
+		map_GongLink_Identifiers[gonglink] = id
+
+		decl = IdentifiersDecls
+		decl = strings.ReplaceAll(decl, "{{Identifier}}", id)
+		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "GongLink")
+		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", gonglink.Name)
+		identifiersDecl += decl
+
+		initializerStatements += "\n\n	// GongLink values setup"
+		// Initialisation of values
+		setValueField = StringInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(gonglink.Name))
 		initializerStatements += setValueField
 
 	}
@@ -2019,6 +2169,16 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 		// Initialisation of values
 	}
 
+	for idx, gonglink := range gonglinkOrdered {
+		var setPointerField string
+		_ = setPointerField
+
+		id = generatesIdentifier("GongLink", idx, gonglink.Name)
+		map_GongLink_Identifiers[gonglink] = id
+
+		// Initialisation of values
+	}
+
 	for idx, gongnote := range gongnoteOrdered {
 		var setPointerField string
 		_ = setPointerField
@@ -2027,6 +2187,14 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 		map_GongNote_Identifiers[gongnote] = id
 
 		// Initialisation of values
+		for _, _gonglink := range gongnote.Links {
+			setPointerField = SliceOfPointersFieldInitStatement
+			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "Links")
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_GongLink_Identifiers[_gonglink])
+			pointersInitializesStatements += setPointerField
+		}
+
 	}
 
 	for idx, gongstruct := range gongstructOrdered {
@@ -2218,7 +2386,21 @@ func (stageStruct *StageStruct) CreateReverseMap_GongEnum_GongEnumValues() (res 
 
 // generate function for reverse association maps of GongEnumValue
 
+// generate function for reverse association maps of GongLink
+
 // generate function for reverse association maps of GongNote
+func (stageStruct *StageStruct) CreateReverseMap_GongNote_Links() (res map[*GongLink]*GongNote) {
+	res = make(map[*GongLink]*GongNote)
+
+	for gongnote := range stageStruct.GongNotes {
+		for _, gonglink_ := range gongnote.Links {
+			res[gonglink_] = gongnote
+		}
+	}
+
+	return
+}
+
 
 // generate function for reverse association maps of GongStruct
 func (stageStruct *StageStruct) CreateReverseMap_GongStruct_GongBasicFields() (res map[*GongBasicField]*GongStruct) {
@@ -2340,7 +2522,7 @@ func (stageStruct *StageStruct) CreateReverseMap_SliceOfPointerToGongStructField
 // - full refactoring of Gongstruct identifiers / fields
 type Gongstruct interface {
 	// insertion point for generic types
-	GongBasicField | GongEnum | GongEnumValue | GongNote | GongStruct | GongTimeField | Meta | MetaReference | ModelPkg | PointerToGongStructField | SliceOfPointerToGongStructField
+	GongBasicField | GongEnum | GongEnumValue | GongLink | GongNote | GongStruct | GongTimeField | Meta | MetaReference | ModelPkg | PointerToGongStructField | SliceOfPointerToGongStructField
 }
 
 // Gongstruct is the type parameter for generated generic function that allows
@@ -2349,7 +2531,7 @@ type Gongstruct interface {
 // - full refactoring of Gongstruct identifiers / fields
 type PointerToGongstruct interface {
 	// insertion point for generic types
-	*GongBasicField | *GongEnum | *GongEnumValue | *GongNote | *GongStruct | *GongTimeField | *Meta | *MetaReference | *ModelPkg | *PointerToGongStructField | *SliceOfPointerToGongStructField
+	*GongBasicField | *GongEnum | *GongEnumValue | *GongLink | *GongNote | *GongStruct | *GongTimeField | *Meta | *MetaReference | *ModelPkg | *PointerToGongStructField | *SliceOfPointerToGongStructField
 	GetName() string
 }
 
@@ -2359,6 +2541,7 @@ type GongstructSet interface {
 		map[*GongBasicField]any |
 		map[*GongEnum]any |
 		map[*GongEnumValue]any |
+		map[*GongLink]any |
 		map[*GongNote]any |
 		map[*GongStruct]any |
 		map[*GongTimeField]any |
@@ -2376,6 +2559,7 @@ type GongstructMapString interface {
 		map[string]*GongBasicField |
 		map[string]*GongEnum |
 		map[string]*GongEnumValue |
+		map[string]*GongLink |
 		map[string]*GongNote |
 		map[string]*GongStruct |
 		map[string]*GongTimeField |
@@ -2400,6 +2584,8 @@ func GongGetSet[Type GongstructSet]() *Type {
 		return any(&Stage.GongEnums).(*Type)
 	case map[*GongEnumValue]any:
 		return any(&Stage.GongEnumValues).(*Type)
+	case map[*GongLink]any:
+		return any(&Stage.GongLinks).(*Type)
 	case map[*GongNote]any:
 		return any(&Stage.GongNotes).(*Type)
 	case map[*GongStruct]any:
@@ -2434,6 +2620,8 @@ func GongGetMap[Type GongstructMapString]() *Type {
 		return any(&Stage.GongEnums_mapString).(*Type)
 	case map[string]*GongEnumValue:
 		return any(&Stage.GongEnumValues_mapString).(*Type)
+	case map[string]*GongLink:
+		return any(&Stage.GongLinks_mapString).(*Type)
 	case map[string]*GongNote:
 		return any(&Stage.GongNotes_mapString).(*Type)
 	case map[string]*GongStruct:
@@ -2468,6 +2656,8 @@ func GetGongstructInstancesSet[Type Gongstruct]() *map[*Type]any {
 		return any(&Stage.GongEnums).(*map[*Type]any)
 	case GongEnumValue:
 		return any(&Stage.GongEnumValues).(*map[*Type]any)
+	case GongLink:
+		return any(&Stage.GongLinks).(*map[*Type]any)
 	case GongNote:
 		return any(&Stage.GongNotes).(*map[*Type]any)
 	case GongStruct:
@@ -2502,6 +2692,8 @@ func GetGongstructInstancesMap[Type Gongstruct]() *map[string]*Type {
 		return any(&Stage.GongEnums_mapString).(*map[string]*Type)
 	case GongEnumValue:
 		return any(&Stage.GongEnumValues_mapString).(*map[string]*Type)
+	case GongLink:
+		return any(&Stage.GongLinks_mapString).(*map[string]*Type)
 	case GongNote:
 		return any(&Stage.GongNotes_mapString).(*map[string]*Type)
 	case GongStruct:
@@ -2548,9 +2740,15 @@ func GetAssociationName[Type Gongstruct]() *Type {
 		return any(&GongEnumValue{
 			// Initialisation of associations
 		}).(*Type)
+	case GongLink:
+		return any(&GongLink{
+			// Initialisation of associations
+		}).(*Type)
 	case GongNote:
 		return any(&GongNote{
 			// Initialisation of associations
+			// field is initialized with an instance of GongLink with the name of the field
+			Links: []*GongLink{{Name: "Links"}},
 		}).(*Type)
 	case GongStruct:
 		return any(&GongStruct{
@@ -2640,6 +2838,11 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string) map[*End][]*S
 		}
 	// reverse maps of direct associations of GongEnumValue
 	case GongEnumValue:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of GongLink
+	case GongLink:
 		switch fieldname {
 		// insertion point for per direct association field
 		}
@@ -2755,10 +2958,23 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string) map[*
 		switch fieldname {
 		// insertion point for per direct association field
 		}
+	// reverse maps of direct associations of GongLink
+	case GongLink:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
 	// reverse maps of direct associations of GongNote
 	case GongNote:
 		switch fieldname {
 		// insertion point for per direct association field
+		case "Links":
+			res := make(map[*GongLink]*GongNote)
+			for gongnote := range Stage.GongNotes {
+				for _, gonglink_ := range gongnote.Links {
+					res[gonglink_] = gongnote
+				}
+			}
+			return any(res).(map[*End]*Start)
 		}
 	// reverse maps of direct associations of GongStruct
 	case GongStruct:
@@ -2853,6 +3069,8 @@ func GetGongstructName[Type Gongstruct]() (res string) {
 		res = "GongEnum"
 	case GongEnumValue:
 		res = "GongEnumValue"
+	case GongLink:
+		res = "GongLink"
 	case GongNote:
 		res = "GongNote"
 	case GongStruct:
@@ -2886,8 +3104,10 @@ func GetFields[Type Gongstruct]() (res []string) {
 		res = []string{"Name", "Type", "GongEnumValues"}
 	case GongEnumValue:
 		res = []string{"Name", "Value"}
+	case GongLink:
+		res = []string{"Name"}
 	case GongNote:
-		res = []string{"Name", "Body"}
+		res = []string{"Name", "Body", "Links"}
 	case GongStruct:
 		res = []string{"Name", "GongBasicFields", "GongTimeFields", "PointerToGongStructFields", "SliceOfPointerToGongStructFields"}
 	case GongTimeField:
@@ -2953,6 +3173,12 @@ func GetFieldStringValue[Type Gongstruct](instance Type, fieldName string) (res 
 		case "Value":
 			res = any(instance).(GongEnumValue).Value
 		}
+	case GongLink:
+		switch fieldName {
+		// string value of fields
+		case "Name":
+			res = any(instance).(GongLink).Name
+		}
 	case GongNote:
 		switch fieldName {
 		// string value of fields
@@ -2960,6 +3186,13 @@ func GetFieldStringValue[Type Gongstruct](instance Type, fieldName string) (res 
 			res = any(instance).(GongNote).Name
 		case "Body":
 			res = any(instance).(GongNote).Body
+		case "Links":
+			for idx, __instance__ := range any(instance).(GongNote).Links {
+				if idx > 0 {
+					res += "\n"
+				}
+				res += __instance__.Name
+			}
 		}
 	case GongStruct:
 		switch fieldName {

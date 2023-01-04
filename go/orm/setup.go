@@ -44,6 +44,7 @@ func AutoMigrate(db *gorm.DB) {
 		&GongBasicFieldDB{},
 		&GongEnumDB{},
 		&GongEnumValueDB{},
+		&GongLinkDB{},
 		&GongNoteDB{},
 		&GongStructDB{},
 		&GongTimeFieldDB{},
@@ -67,6 +68,7 @@ func ResetDB(db *gorm.DB) { // insertion point for reference to structs
 	db.Delete(&GongBasicFieldDB{})
 	db.Delete(&GongEnumDB{})
 	db.Delete(&GongEnumValueDB{})
+	db.Delete(&GongLinkDB{})
 	db.Delete(&GongNoteDB{})
 	db.Delete(&GongStructDB{})
 	db.Delete(&GongTimeFieldDB{})

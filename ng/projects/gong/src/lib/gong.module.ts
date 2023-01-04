@@ -54,6 +54,11 @@ import { GongEnumValueSortingComponent } from './gongenumvalue-sorting/gongenumv
 import { GongEnumValueDetailComponent } from './gongenumvalue-detail/gongenumvalue-detail.component'
 import { GongEnumValuePresentationComponent } from './gongenumvalue-presentation/gongenumvalue-presentation.component'
 
+import { GongLinksTableComponent } from './gonglinks-table/gonglinks-table.component'
+import { GongLinkSortingComponent } from './gonglink-sorting/gonglink-sorting.component'
+import { GongLinkDetailComponent } from './gonglink-detail/gonglink-detail.component'
+import { GongLinkPresentationComponent } from './gonglink-presentation/gonglink-presentation.component'
+
 import { GongNotesTableComponent } from './gongnotes-table/gongnotes-table.component'
 import { GongNoteSortingComponent } from './gongnote-sorting/gongnote-sorting.component'
 import { GongNoteDetailComponent } from './gongnote-detail/gongnote-detail.component'
@@ -112,6 +117,11 @@ import { SliceOfPointerToGongStructFieldPresentationComponent } from './sliceofp
 		GongEnumValueSortingComponent,
 		GongEnumValueDetailComponent,
 		GongEnumValuePresentationComponent,
+
+		GongLinksTableComponent,
+		GongLinkSortingComponent,
+		GongLinkDetailComponent,
+		GongLinkPresentationComponent,
 
 		GongNotesTableComponent,
 		GongNoteSortingComponent,
@@ -206,6 +216,11 @@ import { SliceOfPointerToGongStructFieldPresentationComponent } from './sliceofp
 		GongEnumValueSortingComponent,
 		GongEnumValueDetailComponent,
 		GongEnumValuePresentationComponent,
+
+		GongLinksTableComponent,
+		GongLinkSortingComponent,
+		GongLinkDetailComponent,
+		GongLinkPresentationComponent,
 
 		GongNotesTableComponent,
 		GongNoteSortingComponent,
