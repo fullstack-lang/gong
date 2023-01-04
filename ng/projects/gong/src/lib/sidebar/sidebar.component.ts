@@ -17,6 +17,8 @@ import { GongEnumService } from '../gongenum.service'
 import { getGongEnumUniqueID } from '../front-repo.service'
 import { GongEnumValueService } from '../gongenumvalue.service'
 import { getGongEnumValueUniqueID } from '../front-repo.service'
+import { GongLinkService } from '../gonglink.service'
+import { getGongLinkUniqueID } from '../front-repo.service'
 import { GongNoteService } from '../gongnote.service'
 import { getGongNoteUniqueID } from '../front-repo.service'
 import { GongStructService } from '../gongstruct.service'
@@ -178,6 +180,7 @@ export class SidebarComponent implements OnInit {
     private gongbasicfieldService: GongBasicFieldService,
     private gongenumService: GongEnumService,
     private gongenumvalueService: GongEnumValueService,
+    private gonglinkService: GongLinkService,
     private gongnoteService: GongNoteService,
     private gongstructService: GongStructService,
     private gongtimefieldService: GongTimeFieldService,
@@ -231,6 +234,14 @@ export class SidebarComponent implements OnInit {
     )
     // observable for changes in structs
     this.gongenumvalueService.GongEnumValueServiceChanged.subscribe(
+      message => {
+        if (message == "post" || message == "update" || message == "delete") {
+          this.refresh()
+        }
+      }
+    )
+    // observable for changes in structs
+    this.gonglinkService.GongLinkServiceChanged.subscribe(
       message => {
         if (message == "post" || message == "update" || message == "delete") {
           this.refresh()
@@ -525,6 +536,50 @@ export class SidebarComponent implements OnInit {
       )
 
       /**
+      * fill up the GongLink part of the mat tree
+      */
+      let gonglinkGongNodeStruct: GongNode = {
+        name: "GongLink",
+        type: GongNodeType.STRUCT,
+        id: 0,
+        uniqueIdPerStack: 13 * nonInstanceNodeId,
+        structName: "GongLink",
+        associationField: "",
+        associatedStructName: "",
+        children: new Array<GongNode>()
+      }
+      nonInstanceNodeId = nonInstanceNodeId + 1
+      this.gongNodeTree.push(gonglinkGongNodeStruct)
+
+      this.frontRepo.GongLinks_array.sort((t1, t2) => {
+        if (t1.Name > t2.Name) {
+          return 1;
+        }
+        if (t1.Name < t2.Name) {
+          return -1;
+        }
+        return 0;
+      });
+
+      this.frontRepo.GongLinks_array.forEach(
+        gonglinkDB => {
+          let gonglinkGongNodeInstance: GongNode = {
+            name: gonglinkDB.Name,
+            type: GongNodeType.INSTANCE,
+            id: gonglinkDB.ID,
+            uniqueIdPerStack: getGongLinkUniqueID(gonglinkDB.ID),
+            structName: "GongLink",
+            associationField: "",
+            associatedStructName: "",
+            children: new Array<GongNode>()
+          }
+          gonglinkGongNodeStruct.children!.push(gonglinkGongNodeInstance)
+
+          // insertion point for per field code
+        }
+      )
+
+      /**
       * fill up the GongNote part of the mat tree
       */
       let gongnoteGongNodeStruct: GongNode = {
@@ -565,6 +620,38 @@ export class SidebarComponent implements OnInit {
           gongnoteGongNodeStruct.children!.push(gongnoteGongNodeInstance)
 
           // insertion point for per field code
+          /**
+          * let append a node for the slide of pointer Links
+          */
+          let LinksGongNodeAssociation: GongNode = {
+            name: "(GongLink) Links",
+            type: GongNodeType.ONE__ZERO_MANY_ASSOCIATION,
+            id: gongnoteDB.ID,
+            uniqueIdPerStack: 19 * nonInstanceNodeId,
+            structName: "GongNote",
+            associationField: "Links",
+            associatedStructName: "GongLink",
+            children: new Array<GongNode>()
+          }
+          nonInstanceNodeId = nonInstanceNodeId + 1
+          gongnoteGongNodeInstance.children.push(LinksGongNodeAssociation)
+
+          gongnoteDB.Links?.forEach(gonglinkDB => {
+            let gonglinkNode: GongNode = {
+              name: gonglinkDB.Name,
+              type: GongNodeType.INSTANCE,
+              id: gonglinkDB.ID,
+              uniqueIdPerStack: // godel numbering (thank you kurt)
+                7 * getGongNoteUniqueID(gongnoteDB.ID)
+                + 11 * getGongLinkUniqueID(gonglinkDB.ID),
+              structName: "GongLink",
+              associationField: "",
+              associatedStructName: "",
+              children: new Array<GongNode>()
+            }
+            LinksGongNodeAssociation.children.push(gonglinkNode)
+          })
+
         }
       )
 

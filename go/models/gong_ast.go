@@ -115,6 +115,7 @@ var __gong__map_Indentifiers_gongstructName = make(map[string]string)
 var __gong__map_GongBasicField = make(map[string]*GongBasicField)
 var __gong__map_GongEnum = make(map[string]*GongEnum)
 var __gong__map_GongEnumValue = make(map[string]*GongEnumValue)
+var __gong__map_GongLink = make(map[string]*GongLink)
 var __gong__map_GongNote = make(map[string]*GongNote)
 var __gong__map_GongStruct = make(map[string]*GongStruct)
 var __gong__map_GongTimeField = make(map[string]*GongTimeField)
@@ -239,6 +240,10 @@ func UnmarshallGongstructStaging(assignStmt *ast.AssignStmt, astCoordinate_ stri
 										instanceGongEnumValue := (&GongEnumValue{Name: instanceName}).Stage()
 										instance = any(instanceGongEnumValue)
 										__gong__map_GongEnumValue[identifier] = instanceGongEnumValue
+									case "GongLink":
+										instanceGongLink := (&GongLink{Name: instanceName}).Stage()
+										instance = any(instanceGongLink)
+										__gong__map_GongLink[identifier] = instanceGongLink
 									case "GongNote":
 										instanceGongNote := (&GongNote{Name: instanceName}).Stage()
 										instance = any(instanceGongNote)
@@ -319,6 +324,10 @@ func UnmarshallGongstructStaging(assignStmt *ast.AssignStmt, astCoordinate_ stri
 							switch fieldName {
 							// insertion point for date assign code
 							}
+						case "GongLink":
+							switch fieldName {
+							// insertion point for date assign code
+							}
 						case "GongNote":
 							switch fieldName {
 							// insertion point for date assign code
@@ -394,9 +403,19 @@ func UnmarshallGongstructStaging(assignStmt *ast.AssignStmt, astCoordinate_ stri
 						switch fieldName {
 						// insertion point for slice of pointers assign code
 						}
+					case "GongLink":
+						switch fieldName {
+						// insertion point for slice of pointers assign code
+						}
 					case "GongNote":
 						switch fieldName {
 						// insertion point for slice of pointers assign code
+						case "Links":
+							// remove first and last char
+							targetIdentifier := ident.Name
+							target := __gong__map_GongLink[targetIdentifier]
+							__gong__map_GongNote[identifier].Links =
+								append(__gong__map_GongNote[identifier].Links, target)
 						}
 					case "GongStruct":
 						switch fieldName {
@@ -533,6 +552,14 @@ func UnmarshallGongstructStaging(assignStmt *ast.AssignStmt, astCoordinate_ stri
 					// remove first and last char
 					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
 					__gong__map_GongEnumValue[identifier].Value = fielValue
+				}
+			case "GongLink":
+				switch fieldName {
+				// insertion point for field dependant code
+				case "Name":
+					// remove first and last char
+					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
+					__gong__map_GongLink[identifier].Name = fielValue
 				}
 			case "GongNote":
 				switch fieldName {
@@ -672,6 +699,10 @@ func UnmarshallGongstructStaging(assignStmt *ast.AssignStmt, astCoordinate_ stri
 				switch fieldName {
 				// insertion point for field dependant code
 				}
+			case "GongLink":
+				switch fieldName {
+				// insertion point for field dependant code
+				}
 			case "GongNote":
 				switch fieldName {
 				// insertion point for field dependant code
@@ -754,6 +785,10 @@ func UnmarshallGongstructStaging(assignStmt *ast.AssignStmt, astCoordinate_ stri
 						__gong__map_GongEnum[identifier].Type = GongEnumType(val)
 					}
 				case "GongEnumValue":
+					switch fieldName {
+					// insertion point for enum assign code
+					}
+				case "GongLink":
 					switch fieldName {
 					// insertion point for enum assign code
 					}
