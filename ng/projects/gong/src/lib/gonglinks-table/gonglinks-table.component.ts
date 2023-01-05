@@ -71,6 +71,9 @@ export class GongLinksTableComponent implements OnInit {
         case 'Name':
           return gonglinkDB.Name;
 
+        case 'ImportPath':
+          return gonglinkDB.ImportPath;
+
         case 'GongNote_Links':
           if (this.frontRepo.GongNotes.get(gonglinkDB.GongNote_LinksDBID.Int64) != undefined) {
             return this.frontRepo.GongNotes.get(gonglinkDB.GongNote_LinksDBID.Int64)!.Name
@@ -93,6 +96,7 @@ export class GongLinksTableComponent implements OnInit {
 
       // insertion point for merging of fields
       mergedContent += gonglinkDB.Name.toLowerCase()
+      mergedContent += gonglinkDB.ImportPath.toLowerCase()
       if (gonglinkDB.GongNote_LinksDBID.Int64 != 0) {
         mergedContent += this.frontRepo.GongNotes.get(gonglinkDB.GongNote_LinksDBID.Int64)!.Name.toLowerCase()
       }
@@ -148,11 +152,13 @@ export class GongLinksTableComponent implements OnInit {
     if (this.mode == TableComponentMode.DISPLAY_MODE) {
       this.displayedColumns = ['ID', 'Edit', 'Delete', // insertion point for columns to display
         "Name",
+        "ImportPath",
         "GongNote_Links",
       ]
     } else {
       this.displayedColumns = ['select', 'ID', // insertion point for columns to display
         "Name",
+        "ImportPath",
         "GongNote_Links",
       ]
       this.selection = new SelectionModel<GongLinkDB>(allowMultiSelect, this.initialSelection);

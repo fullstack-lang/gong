@@ -26,6 +26,13 @@
             </td>
         </ng-container>
         <!-- -->
+        <ng-container matColumnDef="ImportPath">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> ImportPath </th>
+            <td mat-cell *matCellDef="let GongLink">
+                {{GongLink.ImportPath}}
+            </td>
+        </ng-container>
+        <!-- -->
         <ng-container matColumnDef="GongNote_Links">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> <-- (GongNote) Links </th>
             <td mat-cell *matCellDef="let gonglink">
