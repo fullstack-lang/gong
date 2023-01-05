@@ -3,7 +3,7 @@
         <mat-label>Filter</mat-label>
         <input matInput (keyup)="applyFilter($event)" placeholder="Ex. ium" #input>
     </mat-form-field>
-    <h1 *ngIf="dialogData">diagrampackage</h1>
+    <h1 *ngIf="dialogData">gonglink</h1>
     <table class="table" mat-table [dataSource]="matTableDataSource" matSort>
         <!-- Checkbox Column -->
         <ng-container matColumnDef="select">
@@ -21,62 +21,41 @@
         <!-- -->
         <ng-container matColumnDef="Name">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
-            <td mat-cell *matCellDef="let DiagramPackage">
-                {{DiagramPackage.Name}}
+            <td mat-cell *matCellDef="let GongLink">
+                {{GongLink.Name}}
             </td>
         </ng-container>
         <!-- -->
-        <ng-container matColumnDef="Path">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> Path </th>
-            <td mat-cell *matCellDef="let DiagramPackage">
-                {{DiagramPackage.Path}}
+        <ng-container matColumnDef="ImportPath">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> ImportPath </th>
+            <td mat-cell *matCellDef="let GongLink">
+                {{GongLink.ImportPath}}
             </td>
         </ng-container>
         <!-- -->
-        <ng-container matColumnDef="GongModelPath">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> GongModelPath </th>
-            <td mat-cell *matCellDef="let DiagramPackage">
-                {{DiagramPackage.GongModelPath}}
-            </td>
-        </ng-container>
-        <!-- -->
-        <ng-container matColumnDef="IsEditable">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> IsEditable </th>
-            <td mat-cell *matCellDef="let DiagramPackage">
-                <mat-checkbox [checked]="DiagramPackage.IsEditable" disabled=true></mat-checkbox>
-            </td>
-        </ng-container>
-        <!-- -->
-        <ng-container matColumnDef="IsReloaded">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> IsReloaded </th>
-            <td mat-cell *matCellDef="let DiagramPackage">
-                <mat-checkbox [checked]="DiagramPackage.IsReloaded" disabled=true></mat-checkbox>
-            </td>
-        </ng-container>
-        <!-- -->
-        <ng-container matColumnDef="AbsolutePathToDiagramPackage">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> AbsolutePathToDiagramPackage </th>
-            <td mat-cell *matCellDef="let DiagramPackage">
-                {{DiagramPackage.AbsolutePathToDiagramPackage}}
+        <ng-container matColumnDef="GongNote_Links">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> <-- (GongNote) Links </th>
+            <td mat-cell *matCellDef="let gonglink">
+                {{frontRepo.GongNotes.get(gonglink.GongNote_LinksDBID.Int64)?.Name}}
             </td>
         </ng-container>
 
         <ng-container matColumnDef="ID">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> ID. </th>
-            <td mat-cell *matCellDef="let DiagramPackage"> {{DiagramPackage.ID}} </td>
+            <td mat-cell *matCellDef="let GongLink"> {{GongLink.ID}} </td>
         </ng-container>
 
         <ng-container matColumnDef="Edit">
             <th mat-header-cell *matHeaderCellDef> Edit </th>
-            <td mat-cell *matCellDef="let diagrampackage;  let j = index;">
-                <i class="material-icons" [ngStyle]="{'color':'rgba(0,0,0,.50)'}" (click)="setEditorRouterOutlet(diagrampackage.ID)">edit</i>
+            <td mat-cell *matCellDef="let gonglink;  let j = index;">
+                <i class="material-icons" [ngStyle]="{'color':'rgba(0,0,0,.50)'}" (click)="setEditorRouterOutlet(gonglink.ID)">edit</i>
             </td>
         </ng-container>
 
         <ng-container matColumnDef="Delete">
             <th mat-header-cell *matHeaderCellDef> Delete </th>
-            <td mat-cell *matCellDef="let diagrampackage;  let j = index;">
-                <i class="material-icons" [ngStyle]="{'color':'rgba(0,0,0,.50)'}" (click)="deleteDiagramPackage(diagrampackage.ID, diagrampackage)">delete</i>
+            <td mat-cell *matCellDef="let gonglink;  let j = index;">
+                <i class="material-icons" [ngStyle]="{'color':'rgba(0,0,0,.50)'}" (click)="deleteGongLink(gonglink.ID, gonglink)">delete</i>
             </td>
         </ng-container>
 
