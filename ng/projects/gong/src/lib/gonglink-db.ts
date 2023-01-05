@@ -11,6 +11,7 @@ export class GongLinkDB {
 
 	// insertion point for basic fields declarations
 	Name: string = ""
+	ImportPath: string = ""
 
 	// insertion point for other declarations
 	GongNote_LinksDBID: NullInt64 = new NullInt64

@@ -560,6 +560,10 @@ func UnmarshallGongstructStaging(assignStmt *ast.AssignStmt, astCoordinate_ stri
 					// remove first and last char
 					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
 					__gong__map_GongLink[identifier].Name = fielValue
+				case "ImportPath":
+					// remove first and last char
+					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
+					__gong__map_GongLink[identifier].ImportPath = fielValue
 				}
 			case "GongNote":
 				switch fieldName {
