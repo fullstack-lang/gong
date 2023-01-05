@@ -8,7 +8,6 @@ import (
 	"log"
 	"net/http"
 	"os"
-	"path/filepath"
 	"strings"
 
 	"github.com/gin-contrib/cors"
@@ -18,15 +17,7 @@ import (
 	"github.com/fullstack-lang/gong/test/go/fullstack"
 	"github.com/fullstack-lang/gong/test/go/models"
 
-	// gong stack for model analysis
-	gong_fullstack "github.com/fullstack-lang/gong/go/fullstack"
-	gong_models "github.com/fullstack-lang/gong/go/models"
-
-	// for diagrams
-	gongdoc_fullstack "github.com/fullstack-lang/gongdoc/go/fullstack"
-	gongdoc_models "github.com/fullstack-lang/gongdoc/go/models"
-
-	// insertion point for gong front end import{{gongdocNgImport}}
+	gongdoc_load "github.com/fullstack-lang/gongdoc/go/load"
 
 	test "github.com/fullstack-lang/gong/test"
 )
@@ -142,38 +133,12 @@ func main() {
 		models.Stage.OnInitCommitFromFrontCallback = hook
 	}
 
-	if *diagrams {
-
-		// Analyse package
-		gong_fullstack.Init(r)
-		gongdoc_fullstack.Init(r)
-		modelPackage, _ := gong_models.LoadEmbedded(test.GoDir)
-
-		// create the diagrams
-		// prepare the model views
-		var diagramPackage *gongdoc_models.DiagramPackage
-
-		// first, get all gong struct in the model
-		for gongStruct := range gong_models.Stage.GongStructs {
-
-			// let create the gong struct in the gongdoc models
-			// and put the numbre of instances
-			reference := (&gongdoc_models.Reference{Name: gongStruct.Name}).Stage()
-			reference.Type = gongdoc_models.REFERENCE_GONG_STRUCT
-			nbInstances, ok := models.Stage.Map_GongStructName_InstancesNb[gongStruct.Name]
-			if ok {
-				reference.NbInstances = nbInstances
-			}
-		}
-
-		if *embeddedDiagrams {
-			diagramPackage, _ = gongdoc_models.LoadEmbedded(test.GoDir, modelPackage)
-		} else {
-			diagramPackage, _ = gongdoc_models.Load(filepath.Join("../../diagrams"), modelPackage, true)
-		}
-		
-		diagramPackage.GongModelPath = "github.com/fullstack-lang/gong/test/go/models"
-	}
+	gongdoc_load.Load(
+		"test",
+		test.GoDir,
+		r,
+		*embeddedDiagrams,
+		&models.Stage.Map_GongStructName_InstancesNb)
 
 	// insertion point for serving the static file
 	// provide the static route for the angular pages

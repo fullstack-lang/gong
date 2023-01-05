@@ -83,6 +83,9 @@ export class DiagramPackagesTableComponent implements OnInit {
         case 'IsReloaded':
           return diagrampackageDB.IsReloaded?"true":"false";
 
+        case 'AbsolutePathToDiagramPackage':
+          return diagrampackageDB.AbsolutePathToDiagramPackage;
+
         default:
           console.assert(false, "Unknown field")
           return "";
@@ -100,6 +103,7 @@ export class DiagramPackagesTableComponent implements OnInit {
       mergedContent += diagrampackageDB.Name.toLowerCase()
       mergedContent += diagrampackageDB.Path.toLowerCase()
       mergedContent += diagrampackageDB.GongModelPath.toLowerCase()
+      mergedContent += diagrampackageDB.AbsolutePathToDiagramPackage.toLowerCase()
 
       let isSelected = mergedContent.includes(filter.toLowerCase())
       return isSelected
@@ -155,6 +159,7 @@ export class DiagramPackagesTableComponent implements OnInit {
         "GongModelPath",
         "IsEditable",
         "IsReloaded",
+        "AbsolutePathToDiagramPackage",
       ]
     } else {
       this.displayedColumns = ['select', 'ID', // insertion point for columns to display
@@ -163,6 +168,7 @@ export class DiagramPackagesTableComponent implements OnInit {
         "GongModelPath",
         "IsEditable",
         "IsReloaded",
+        "AbsolutePathToDiagramPackage",
       ]
       this.selection = new SelectionModel<DiagramPackageDB>(allowMultiSelect, this.initialSelection);
     }
