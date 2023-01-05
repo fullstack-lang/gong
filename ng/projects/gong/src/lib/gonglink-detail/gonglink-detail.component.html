@@ -21,6 +21,26 @@
         <textarea name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="gonglink.Name"></textarea>
     </mat-form-field>
 
+    <mat-grid-list *ngIf='!isATextArea("ImportPath")' cols="5" rowHeight="2:1">
+        <mat-grid-tile [colspan]="3">
+            <mat-form-field mat-form-field class="detail-full-width">
+                <mat-label>ImportPath</mat-label>
+                <input name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="gonglink.ImportPath">
+            </mat-form-field>
+        </mat-grid-tile>
+        <mat-grid-tile>
+            <button mat-raised-button (click)="toggleTextArea('ImportPath')">
+                <mat-icon>
+                    expand_more
+                </mat-icon>
+            </button>
+        </mat-grid-tile>
+    </mat-grid-list>
+    <mat-form-field *ngIf='isATextArea("ImportPath")' mat-form-field class="detail-full-width">
+        <mat-label>ImportPath</mat-label>
+        <textarea name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="gonglink.ImportPath"></textarea>
+    </mat-form-field>
+
     <mat-form-field class="detail-full-width">
         <mat-label>(GongNote) Links</mat-label>
         <mat-select [compareWith]="compareObjects" [(ngModel)]="gonglink.GongNote_Links_reverse" [ngModelOptions]="{standalone: true}">

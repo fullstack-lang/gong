@@ -1810,6 +1810,12 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(gonglink.Name))
 		initializerStatements += setValueField
 
+		setValueField = StringInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "ImportPath")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(gonglink.ImportPath))
+		initializerStatements += setValueField
+
 	}
 
 	map_GongNote_Identifiers := make(map[*GongNote]string)
@@ -3105,7 +3111,7 @@ func GetFields[Type Gongstruct]() (res []string) {
 	case GongEnumValue:
 		res = []string{"Name", "Value"}
 	case GongLink:
-		res = []string{"Name"}
+		res = []string{"Name", "ImportPath"}
 	case GongNote:
 		res = []string{"Name", "Body", "Links"}
 	case GongStruct:
@@ -3178,6 +3184,8 @@ func GetFieldStringValue[Type Gongstruct](instance Type, fieldName string) (res 
 		// string value of fields
 		case "Name":
 			res = any(instance).(GongLink).Name
+		case "ImportPath":
+			res = any(instance).(GongLink).ImportPath
 		}
 	case GongNote:
 		switch fieldName {
