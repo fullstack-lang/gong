@@ -27,6 +27,23 @@ func (modelPkg *ModelPkg) GenerateDocs(docPackage *doc.Package) {
 			// parse body to find doclinks
 			var p comment.Parser
 
+			// Parser needs to be configured for having the [Name1.Name2] or [pkg.Name1] ...
+			// to be recognized as a proper identifier.
+			// While this was introduced in go 1.19, it is not yet implemented in
+			// gopls (see [issue](https://github.com/golang/go/issues/57559)
+			p.LookupPackage = func(name string) (importPath string, ok bool) {
+				if name == "models" {
+					return "models", true
+				}
+				return comment.DefaultLookupPackage(name)
+			}
+			p.LookupSym = func(recv, name string) (ok bool) {
+				if recv == "" {
+					return true
+				}
+				return false
+			}
+
 			doc := p.Parse(note.Body)
 
 			for _, block := range doc.Content {

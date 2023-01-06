@@ -1,7 +1,10 @@
 package models
 
-// GONGDOC([NoteOnOrganisation]):
-// and [github.com/fullstack-lang/gong/test/go/models.Bstruct],
-// and [github.com/fullstack-lang/gong/test/go/models.Astruct],
-// and [github.com/fullstack-lang/gong/test/go/models.Astruct.Associationtob],
+// GONGDOC(NoteOnOrganisation):
+// and [models.Bstruct],
+// and [models.Astruct],
+// and [models.Astruct.Associationtob],
+// having the following const exported identifier allows for
+// referencing the note from the UML note and allows for
+// renaming
 const NoteOnOrganisation = ""
