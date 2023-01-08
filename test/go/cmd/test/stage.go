@@ -4,11 +4,17 @@ import (
 	"time"
 
 	"github.com/fullstack-lang/gong/test/go/models"
+
+	// injection point for package import declaration
+	gongdoc_models "github.com/fullstack-lang/gongdoc/go/models"
 )
 
 // generated in order to avoid error in the package import
 // if there are no elements in the stage to marshall
 var ___dummy__Stage models.StageStruct
+
+// Injection point for meta package dummy declaration
+var ___dummy__gongdoc_Stage gongdoc_models.StageStruct
 
 func init() {
 	var __Dummy_time_variable time.Time
@@ -22,8 +28,12 @@ func stageInjection() {
 	// Declaration of instances to stage
 
 	// Declarations of staged instances of Astruct
+	// Injection point for meta struct link
+	// [gongdoc_models.Classshape]
 	__Astruct__000000_A1 := (&models.Astruct{Name: `A1`}).Stage()
+	// Injection point for meta struct link
 	__Astruct__000001_A2 := (&models.Astruct{Name: `A2`}).Stage()
+	// Injection point for meta struct link
 	__Astruct__000002_A3 := (&models.Astruct{Name: `A3`}).Stage()
 
 	// Declarations of staged instances of AstructBstruct2Use
