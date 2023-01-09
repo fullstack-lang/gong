@@ -32,6 +32,17 @@ func ParseAstFile(pathToFile string) error {
 		return errors.New("Unable to parser " + errParser.Error())
 	}
 
+	// if there is a meta package import, it is the third import
+	if len(inFile.Imports) > 3 {
+		log.Fatalln("Too many imports in file", fileOfInterest)
+	}
+	stage := &Stage
+	_ = stage
+	if len(inFile.Imports) == 3 {
+		Stage.MetaPackageImportAlias = inFile.Imports[2].Name.Name
+		Stage.MetaPackageImportPath = inFile.Imports[2].Path.Value
+	}
+
 	// astCoordinate := "File "
 	// log.Println(// astCoordinate)
 	for _, decl := range inFile.Decls {
