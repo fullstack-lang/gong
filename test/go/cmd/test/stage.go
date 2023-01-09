@@ -5,7 +5,7 @@ import (
 
 	"github.com/fullstack-lang/gong/test/go/models"
 
-	// injection point for package import declaration
+	// injection point for ident package import declaration
 	gongdoc_models "github.com/fullstack-lang/gongdoc/go/models"
 )
 
@@ -28,8 +28,7 @@ func stageInjection() {
 	// Declaration of instances to stage
 
 	// Declarations of staged instances of Astruct
-	// Injection point for meta struct link
-	// [gongdoc_models.Classshape]
+
 	__Astruct__000000_A1 := (&models.Astruct{Name: `A1`}).Stage()
 	// Injection point for meta struct link
 	__Astruct__000001_A2 := (&models.Astruct{Name: `A2`}).Stage()
@@ -60,6 +59,7 @@ func stageInjection() {
 	__Astruct__000000_A1.Aenum_2 = models.ENUM_VAL2
 	__Astruct__000000_A1.Benum = models.BENUM_VAL2
 	__Astruct__000000_A1.CEnum = models.CENUM_VAL2
+	// [gongdoc_models.Classshape] ident assignment
 	__Astruct__000000_A1.CName = `CName1
 Second Line`
 	__Astruct__000000_A1.CFloatfield = 60.500000

@@ -35,6 +35,9 @@ type StageStruct struct { // insertion point for definition of arrays registerin
 	Astructs           map[*Astruct]any
 	Astructs_mapString map[string]*Astruct
 
+	// stores meta information for each instance
+	Astruct_Map_Instance_Meta map[*Astruct]string
+
 	OnAfterAstructCreateCallback OnAfterCreateInterface[Astruct]
 	OnAfterAstructUpdateCallback OnAfterUpdateInterface[Astruct]
 	OnAfterAstructDeleteCallback OnAfterDeleteInterface[Astruct]
@@ -85,6 +88,10 @@ type StageStruct struct { // insertion point for definition of arrays registerin
 
 	// store the number of instance per gongstruct
 	Map_GongStructName_InstancesNb map[string]int
+
+	// store meta package import
+	MetaPackageImportPath  string
+	MetaPackageImportAlias string
 }
 
 type OnInitCommitInterface interface {
