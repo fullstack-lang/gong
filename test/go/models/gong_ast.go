@@ -7,6 +7,7 @@ import (
 	"go/token"
 	"log"
 	"path/filepath"
+	"regexp"
 	"strconv"
 	"strings"
 	"time"
@@ -85,10 +86,15 @@ func ParseAstFile(pathToFile string) error {
 							}
 						}
 					case *ast.AssignStmt:
+						// Create an ast.CommentMap from the ast.File's comments.
+						// This helps keeping the association between comments
+						// and AST nodes.
+						cmap := ast.NewCommentMap(fset, inFile, inFile.Comments)
+						_ = cmap
 						astCoordinate := "\tAssignStmt: "
 						// log.Println(// astCoordinate)
 						assignStmt := stmt
-						instance, id, gongstruct, fieldName := UnmarshallGongstructStaging(assignStmt, astCoordinate)
+						instance, id, gongstruct, fieldName := UnmarshallGongstructStaging(&cmap, assignStmt, astCoordinate)
 						_ = instance
 						_ = id
 						_ = gongstruct
@@ -130,12 +136,37 @@ var __gong__map_Bstruct = make(map[string]*Bstruct)
 var __gong__map_Dstruct = make(map[string]*Dstruct)
 
 // UnmarshallGoStaging unmarshall a go assign statement
-func UnmarshallGongstructStaging(assignStmt *ast.AssignStmt, astCoordinate_ string) (
+func UnmarshallGongstructStaging(cmap *ast.CommentMap, assignStmt *ast.AssignStmt, astCoordinate_ string) (
 	instance any,
 	identifier string,
 	gongstructName string,
 	fieldName string) {
 	astCoordinate := "\tAssignStmt: "
+
+	commentGroups := (*cmap)[assignStmt]
+
+	var hasIdentDirective bool
+	var ident string
+	for _, commentGroup := range commentGroups {
+		for _, comment := range commentGroup.List {
+			if strings.HasPrefix(comment.Text, "//gong:ident") {
+				hasIdentDirective = true
+
+				re := regexp.MustCompile(`\[([^\[\]]*)\]`)
+				submatchall := re.FindAllString(comment.Text, -1)
+
+				if len(submatchall) != 1 {
+					log.Fatalln("Badly formed ident directive comment: ", comment.Text)
+				}
+				element := submatchall[0]
+				element = strings.Trim(element, "[")
+				element = strings.Trim(element, "]")
+
+				ident = element
+			}
+		}
+	}
+
 	for rank, expr := range assignStmt.Lhs {
 		if rank > 0 {
 			continue
@@ -429,6 +460,9 @@ func UnmarshallGongstructStaging(assignStmt *ast.AssignStmt, astCoordinate_ stri
 					// remove first and last char
 					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
 					__gong__map_Astruct[identifier].CName = fielValue
+					if hasIdentDirective {
+						__gong__map_Astruct[identifier].CName = ident
+					}
 				case "CFloatfield":
 					// convert string to float64
 					fielValue, err := strconv.ParseFloat(basicLit.Value, 64)

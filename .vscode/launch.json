@@ -365,6 +365,16 @@
             ]
         },
         {
+            "name": "go run test -unmarshallFromCode=mini_stage.go",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/test/go/cmd/test",
+            "args": [
+                "-unmarshallFromCode=mini_stage.go"
+            ]
+        },
+        {
             "name": "go run test -marshallOnCommit=stage",
             "type": "go",
             "request": "launch",
