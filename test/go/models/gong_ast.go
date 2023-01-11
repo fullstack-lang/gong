@@ -3,11 +3,11 @@ package models
 import (
 	"errors"
 	"go/ast"
+	"go/doc/comment"
 	"go/parser"
 	"go/token"
 	"log"
 	"path/filepath"
-	"regexp"
 	"strconv"
 	"strings"
 	"time"
@@ -135,34 +135,68 @@ var __gong__map_AstructBstructUse = make(map[string]*AstructBstructUse)
 var __gong__map_Bstruct = make(map[string]*Bstruct)
 var __gong__map_Dstruct = make(map[string]*Dstruct)
 
+// Parser needs to be configured for having the [Name1.Name2] or [pkg.Name1] ...
+// to be recognized as a proper identifier.
+// While this was introduced in go 1.19, it is not yet implemented in
+// gopls (see [issue](https://github.com/golang/go/issues/57559)
+func lookupPackage(name string) (importPath string, ok bool) {
+	if name == "models" {
+		return "models", true
+	}
+	return comment.DefaultLookupPackage(name)
+}
+func lookupSym(recv, name string) (ok bool) {
+	if recv == "" {
+		return true
+	}
+	return false
+}
+
 // UnmarshallGoStaging unmarshall a go assign statement
 func UnmarshallGongstructStaging(cmap *ast.CommentMap, assignStmt *ast.AssignStmt, astCoordinate_ string) (
 	instance any,
 	identifier string,
 	gongstructName string,
 	fieldName string) {
-	astCoordinate := "\tAssignStmt: "
+	astCoordinate := "\tAssignStmt: " // used for debug purposes
 
+	//
+	// First parse all comment groups in the assignement
+	// if a comment "//gong:ident [DocLink]" is met and is followed by a string assignement.
+	// modify the following AST assignement to assigns the DocLink text to the string value
+	//
+
+	// get the comment group of the assigStmt
 	commentGroups := (*cmap)[assignStmt]
-
-	var hasIdentDirective bool
-	var ident string
+	// get the the prefix
+	var hasGongIdentDirective bool
+	var commentText string
+	var docLinkText string
 	for _, commentGroup := range commentGroups {
 		for _, comment := range commentGroup.List {
 			if strings.HasPrefix(comment.Text, "//gong:ident") {
-				hasIdentDirective = true
+				hasGongIdentDirective = true
+				commentText = comment.Text
+			}
+		}
+	}
+	if hasGongIdentDirective {
+		// parser configured to find doclinks
+		var docLinkFinder comment.Parser
+		docLinkFinder.LookupPackage = lookupPackage
+		docLinkFinder.LookupSym = lookupSym
+		doc := docLinkFinder.Parse(commentText)
 
-				re := regexp.MustCompile(`\[([^\[\]]*)\]`)
-				submatchall := re.FindAllString(comment.Text, -1)
-
-				if len(submatchall) != 1 {
-					log.Fatalln("Badly formed ident directive comment: ", comment.Text)
+		for _, block := range doc.Content {
+			switch paragraph := block.(type) {
+			case *comment.Paragraph:
+				_ = paragraph
+				for _, text := range paragraph.Text {
+					switch docLink := text.(type) {
+					case *comment.DocLink:
+						docLinkText = docLink.Name + "." + docLink.ImportPath
+					}
 				}
-				element := submatchall[0]
-				element = strings.Trim(element, "[")
-				element = strings.Trim(element, "]")
-
-				ident = element
 			}
 		}
 	}
@@ -447,6 +481,11 @@ func UnmarshallGongstructStaging(cmap *ast.CommentMap, assignStmt *ast.AssignStm
 				log.Fatalln("gongstructName not found for identifier", identifier)
 			}
 
+			// substitute the RHS part of the assignment if a //gong:ident directive is met
+			if hasGongIdentDirective {
+				basicLit.Value = "[" + docLinkText + "]"
+			}
+
 			switch gongstructName {
 			// insertion point for basic lit assignments
 			case "Astruct":
@@ -456,13 +495,14 @@ func UnmarshallGongstructStaging(cmap *ast.CommentMap, assignStmt *ast.AssignStm
 					// remove first and last char
 					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
 					__gong__map_Astruct[identifier].Name = fielValue
+				case "Ref":
+					// remove first and last char
+					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
+					__gong__map_Astruct[identifier].Ref = fielValue
 				case "CName":
 					// remove first and last char
 					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
 					__gong__map_Astruct[identifier].CName = fielValue
-					if hasIdentDirective {
-						__gong__map_Astruct[identifier].CName = ident
-					}
 				case "CFloatfield":
 					// convert string to float64
 					fielValue, err := strconv.ParseFloat(basicLit.Value, 64)

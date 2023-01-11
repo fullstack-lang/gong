@@ -59,7 +59,6 @@ func stageInjection() {
 	__Astruct__000000_A1.Aenum_2 = models.ENUM_VAL2
 	__Astruct__000000_A1.Benum = models.BENUM_VAL2
 	__Astruct__000000_A1.CEnum = models.CENUM_VAL2
-	//gong:ident [gongdoc_models.Classshape]
 	__Astruct__000000_A1.CName = `CName1
 Second Line`
 	__Astruct__000000_A1.CFloatfield = 60.500000
@@ -67,6 +66,8 @@ Second Line`
 	__Astruct__000000_A1.Intfield = 3
 	__Astruct__000000_A1.Anotherbooleanfield = false
 	__Astruct__000000_A1.Duration1 = 79653000000000
+	//gong:ident [gongdoc_models.Classshape]
+	__Astruct__000000_A1.Ref = ""
 
 	// Astruct values setup
 	__Astruct__000001_A2.Name = `A2`

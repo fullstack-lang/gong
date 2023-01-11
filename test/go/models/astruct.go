@@ -57,4 +57,9 @@ type Astruct struct {
 
 	// pointer to itself
 	AnAstruct *Astruct
+
+	// Ref is a string that can be set by a gong:ident directive followed by
+	// a doclink declaration such as [pkg.Name1]
+	//gong:ident
+	Ref string
 }
