@@ -67,7 +67,7 @@ Second Line`
 	__Astruct__000000_A1.Anotherbooleanfield = false
 	__Astruct__000000_A1.Duration1 = 79653000000000
 	//gong:ident [gongdoc_models.Classshape]
-	__Astruct__000000_A1.Ref = ""
+	__Astruct__000000_A1.StructRef = ""
 
 	// Astruct values setup
 	__Astruct__000001_A2.Name = `A2`

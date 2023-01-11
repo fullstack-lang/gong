@@ -19,6 +19,9 @@ var dummy_strconv_import strconv.NumError
 // declared in the file
 func ParseAstFile(pathToFile string) error {
 
+	map_DocLink_Renaming := make(map[string]string, 0)
+	_ = map_DocLink_Renaming
+
 	fileOfInterest, err := filepath.Abs(pathToFile)
 	if err != nil {
 		return errors.New("Path does not exist %s ;" + fileOfInterest)
@@ -117,6 +120,65 @@ func ParseAstFile(pathToFile string) error {
 					if path := importSpec.Path; path != nil {
 						// log.Println("\t\tAST Path: ", path.Value)
 					}
+				case *ast.ValueSpec:
+					ident := spec.Names[0]
+					_ = ident
+					if ident.Name == "map_DocLink_Identifier" {
+						log.Println("bingo")
+						switch compLit := spec.Values[0].(type) {
+						case *ast.CompositeLit:
+							var key string
+							_ = key
+							var value string
+							_ = value
+							for _, elt := range compLit.Elts {
+								_ = elt
+								var ok bool
+								var kve *ast.KeyValueExpr
+								if kve, ok = elt.(*ast.KeyValueExpr); !ok {
+									log.Fatal("Expression should be key value expression" +
+										fset.Position(kve.Pos()).String())
+								}
+
+								switch bl := kve.Key.(type) {
+								case *ast.BasicLit:
+									key = bl.Value
+								}
+
+								var ue *ast.UnaryExpr
+								if ue, ok = kve.Value.(*ast.UnaryExpr); !ok {
+									log.Fatal("Expression should be parenthese expression" +
+										fset.Position(ue.Pos()).String())
+								}
+
+								var pe *ast.ParenExpr
+								if pe, ok = ue.X.(*ast.ParenExpr); !ok {
+									log.Fatal("Expression should be parenthese expression" +
+										fset.Position(ue.Pos()).String())
+								}
+
+								// expect a Composite Litteral with no Element <type>{}
+								var cl *ast.CompositeLit
+								if cl, ok = pe.X.(*ast.CompositeLit); !ok {
+									log.Fatal("Expression should be a composite lit" +
+										fset.Position(cl.Pos()).String())
+								}
+
+								// get type models.xxxx
+								var se *ast.SelectorExpr
+								if se, ok = cl.Type.(*ast.SelectorExpr); !ok {
+									log.Fatal("Expression should be a selector" +
+										fset.Position(se.Pos()).String())
+								}
+								// switch kv := elt.
+							}
+						}
+
+					}
+					if ident.Name == "map_DocLink_Renaming_Map" {
+						log.Println("bingo")
+					}
+
 				}
 			}
 		}
@@ -528,10 +590,14 @@ func UnmarshallGongstructStaging(cmap *ast.CommentMap, assignStmt *ast.AssignStm
 						log.Fatalln(err)
 					}
 					__gong__map_Astruct[identifier].Duration1 = time.Duration(fielValue)
-				case "Ref":
+				case "StructRef":
 					// remove first and last char
 					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
-					__gong__map_Astruct[identifier].Ref = fielValue
+					__gong__map_Astruct[identifier].StructRef = fielValue
+				case "FieldRef":
+					// remove first and last char
+					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
+					__gong__map_Astruct[identifier].FieldRef = fielValue
 				}
 			case "AstructBstruct2Use":
 				switch fieldName {
