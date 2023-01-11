@@ -5,6 +5,7 @@ const GongAstTemplate = `package models
 import (
 	"errors"
 	"go/ast"
+	"go/doc/comment"
 	"go/parser"
 	"go/token"
 	"log"
@@ -32,6 +33,17 @@ func ParseAstFile(pathToFile string) error {
 
 	if errParser != nil {
 		return errors.New("Unable to parser " + errParser.Error())
+	}
+
+	// if there is a meta package import, it is the third import
+	if len(inFile.Imports) > 3 {
+		log.Fatalln("Too many imports in file", fileOfInterest)
+	}
+	stage := &Stage
+	_ = stage
+	if len(inFile.Imports) == 3 {
+		Stage.MetaPackageImportAlias = inFile.Imports[2].Name.Name
+		Stage.MetaPackageImportPath = inFile.Imports[2].Path.Value
 	}
 
 	// astCoordinate := "File "
@@ -76,10 +88,14 @@ func ParseAstFile(pathToFile string) error {
 							}
 						}
 					case *ast.AssignStmt:
+						// Create an ast.CommentMap from the ast.File's comments.
+						// This helps keeping the association between comments
+						// and AST nodes.
+						cmap := ast.NewCommentMap(fset, inFile, inFile.Comments)
 						astCoordinate := "\tAssignStmt: "
 						// log.Println(// astCoordinate)
 						assignStmt := stmt
-						instance, id, gongstruct, fieldName := UnmarshallGongstructStaging(assignStmt, astCoordinate)
+						instance, id, gongstruct, fieldName := UnmarshallGongstructStaging(&cmap, assignStmt, astCoordinate)
 						_ = instance
 						_ = id
 						_ = gongstruct
@@ -115,13 +131,74 @@ var __gong__map_Indentifiers_gongstructName = make(map[string]string)
 
 // insertion point for identifiers maps{{` + string(rune(ModelGongAstGenericMaps)) + `}}
 
+// Parser needs to be configured for having the [Name1.Name2] or [pkg.Name1] ...
+// to be recognized as a proper identifier.
+// While this was introduced in go 1.19, it is not yet implemented in
+// gopls (see [issue](https://github.com/golang/go/issues/57559)
+func lookupPackage(name string) (importPath string, ok bool) {
+	if name == Stage.MetaPackageImportAlias {
+		return Stage.MetaPackageImportAlias, true
+	}
+	return comment.DefaultLookupPackage(name)
+}
+func lookupSym(recv, name string) (ok bool) {
+	if recv == "" {
+		return true
+	}
+	return false
+}
+
 // UnmarshallGoStaging unmarshall a go assign statement
-func UnmarshallGongstructStaging(assignStmt *ast.AssignStmt, astCoordinate_ string) (
+func UnmarshallGongstructStaging(cmap *ast.CommentMap, assignStmt *ast.AssignStmt, astCoordinate_ string) (
 	instance any,
 	identifier string,
 	gongstructName string,
 	fieldName string) {
+
+	// used for debug purposes
 	astCoordinate := "\tAssignStmt: "
+
+	//
+	// First parse all comment groups in the assignement
+	// if a comment "//gong:ident [DocLink]" is met and is followed by a string assignement.
+	// modify the following AST assignement to assigns the DocLink text to the string value
+	//
+
+	// get the comment group of the assigStmt
+	commentGroups := (*cmap)[assignStmt]
+	// get the the prefix
+	var hasGongIdentDirective bool
+	var commentText string
+	var docLinkText string
+	for _, commentGroup := range commentGroups {
+		for _, comment := range commentGroup.List {
+			if strings.HasPrefix(comment.Text, "//gong:ident") {
+				hasGongIdentDirective = true
+				commentText = comment.Text
+			}
+		}
+	}
+	if hasGongIdentDirective {
+		// parser configured to find doclinks
+		var docLinkFinder comment.Parser
+		docLinkFinder.LookupPackage = lookupPackage
+		docLinkFinder.LookupSym = lookupSym
+		doc := docLinkFinder.Parse(commentText)
+
+		for _, block := range doc.Content {
+			switch paragraph := block.(type) {
+			case *comment.Paragraph:
+				_ = paragraph
+				for _, text := range paragraph.Text {
+					switch docLink := text.(type) {
+					case *comment.DocLink:
+						docLinkText = docLink.ImportPath + "." + docLink.Name
+					}
+				}
+			}
+		}
+	}
+
 	for rank, expr := range assignStmt.Lhs {
 		if rank > 0 {
 			continue
@@ -306,6 +383,11 @@ func UnmarshallGongstructStaging(assignStmt *ast.AssignStmt, astCoordinate_ stri
 			gongstructName, ok = __gong__map_Indentifiers_gongstructName[identifier]
 			if !ok {
 				log.Fatalln("gongstructName not found for identifier", identifier)
+			}
+
+			// substitute the RHS part of the assignment if a //gong:ident directive is met
+			if hasGongIdentDirective {
+				basicLit.Value = "[" + docLinkText + "]"
 			}
 
 			switch gongstructName {

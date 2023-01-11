@@ -140,6 +140,9 @@ type AstructDB struct {
 
 	// Declation for basic field astructDB.Duration1
 	Duration1_Data sql.NullInt64
+
+	// Declation for basic field astructDB.Ref
+	Ref_Data sql.NullString
 	// encoding of pointers
 	AstructPointersEnconding
 }
@@ -186,6 +189,8 @@ type AstructWOP struct {
 	Anotherbooleanfield bool `xlsx:"12"`
 
 	Duration1 time.Duration `xlsx:"13"`
+
+	Ref string `xlsx:"14"`
 	// insertion for WOP pointer fields
 }
 
@@ -205,6 +210,7 @@ var Astruct_Fields = []string{
 	"Intfield",
 	"Anotherbooleanfield",
 	"Duration1",
+	"Ref",
 }
 
 type BackRepoAstructStruct struct {
@@ -872,6 +878,9 @@ func (astructDB *AstructDB) CopyBasicFieldsFromAstruct(astruct *models.Astruct) 
 
 	astructDB.Duration1_Data.Int64 = int64(astruct.Duration1)
 	astructDB.Duration1_Data.Valid = true
+
+	astructDB.Ref_Data.String = astruct.Ref
+	astructDB.Ref_Data.Valid = true
 }
 
 // CopyBasicFieldsFromAstructWOP
@@ -916,6 +925,9 @@ func (astructDB *AstructDB) CopyBasicFieldsFromAstructWOP(astruct *AstructWOP) {
 
 	astructDB.Duration1_Data.Int64 = int64(astruct.Duration1)
 	astructDB.Duration1_Data.Valid = true
+
+	astructDB.Ref_Data.String = astruct.Ref
+	astructDB.Ref_Data.Valid = true
 }
 
 // CopyBasicFieldsToAstruct
@@ -934,6 +946,7 @@ func (astructDB *AstructDB) CopyBasicFieldsToAstruct(astruct *models.Astruct) {
 	astruct.Intfield = int(astructDB.Intfield_Data.Int64)
 	astruct.Anotherbooleanfield = astructDB.Anotherbooleanfield_Data.Bool
 	astruct.Duration1 = time.Duration(astructDB.Duration1_Data.Int64)
+	astruct.Ref = astructDB.Ref_Data.String
 }
 
 // CopyBasicFieldsToAstructWOP
@@ -953,6 +966,7 @@ func (astructDB *AstructDB) CopyBasicFieldsToAstructWOP(astruct *AstructWOP) {
 	astruct.Intfield = int(astructDB.Intfield_Data.Int64)
 	astruct.Anotherbooleanfield = astructDB.Anotherbooleanfield_Data.Bool
 	astruct.Duration1 = time.Duration(astructDB.Duration1_Data.Int64)
+	astruct.Ref = astructDB.Ref_Data.String
 }
 
 // Backup generates a json file from a slice of all AstructDB instances in the backrepo
