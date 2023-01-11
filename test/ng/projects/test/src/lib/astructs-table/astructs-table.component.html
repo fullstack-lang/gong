@@ -173,10 +173,17 @@
             </td>
         </ng-container>
         <!-- -->
-        <ng-container matColumnDef="Ref">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> Ref </th>
+        <ng-container matColumnDef="StructRef">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> StructRef </th>
             <td mat-cell *matCellDef="let Astruct">
-                {{Astruct.Ref}}
+                {{Astruct.StructRef}}
+            </td>
+        </ng-container>
+        <!-- -->
+        <ng-container matColumnDef="FieldRef">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> FieldRef </th>
+            <td mat-cell *matCellDef="let Astruct">
+                {{Astruct.FieldRef}}
             </td>
         </ng-container>
         <!-- -->

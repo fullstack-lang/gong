@@ -21,6 +21,10 @@ var dummy_strconv_import strconv.NumError
 // declared in the file
 func ParseAstFile(pathToFile string) error {
 
+	// map to store renaming docLink
+	// to be removed after fix of [issue](https://github.com/golang/go/issues/57559)
+	map_DocLink_Renaming := make(map[string]string, 0)
+
 	fileOfInterest, err := filepath.Abs(pathToFile)
 	if err != nil {
 		return errors.New("Path does not exist %s ;" + fileOfInterest)
@@ -95,7 +99,10 @@ func ParseAstFile(pathToFile string) error {
 						astCoordinate := "\tAssignStmt: "
 						// log.Println(// astCoordinate)
 						assignStmt := stmt
-						instance, id, gongstruct, fieldName := UnmarshallGongstructStaging(&cmap, assignStmt, astCoordinate)
+						instance, id, gongstruct, fieldName :=
+							UnmarshallGongstructStaging(
+								&map_DocLink_Renaming,
+								&cmap, assignStmt, astCoordinate)
 						_ = instance
 						_ = id
 						_ = gongstruct
@@ -118,6 +125,81 @@ func ParseAstFile(pathToFile string) error {
 					importSpec := spec
 					if path := importSpec.Path; path != nil {
 						// log.Println("\t\tAST Path: ", path.Value)
+					}
+				case *ast.ValueSpec:
+					ident := spec.Names[0]
+					_ = ident
+					if ident.Name != "map_DocLink_Identifier" {
+						continue
+					}
+					switch compLit := spec.Values[0].(type) {
+					case *ast.CompositeLit:
+						var key string
+						_ = key
+						var value string
+						_ = value
+						for _, elt := range compLit.Elts {
+							// each elt is an expression such as "dummy.Dummy": &(dummy.Dummy{})
+							// first node in the AST is a key value expression
+							var ok bool
+							var kve *ast.KeyValueExpr
+							if kve, ok = elt.(*ast.KeyValueExpr); !ok {
+								log.Fatal("Expression should be key value expression" +
+									fset.Position(kve.Pos()).String())
+							}
+
+							switch bl := kve.Key.(type) {
+							case *ast.BasicLit:
+								key = bl.Value // "\"dumm.Dummy\"" is the value
+
+								// one remove the ambracing double quotes
+								key = strings.TrimPrefix(key, "\"")
+								key = strings.TrimSuffix(key, "\"")
+							}
+
+							var ue *ast.UnaryExpr
+							if ue, ok = kve.Value.(*ast.UnaryExpr); !ok {
+								log.Fatal("Expression should be a indirection (&)" +
+									fset.Position(ue.Pos()).String())
+							}
+
+							var pe *ast.ParenExpr
+							if pe, ok = ue.X.(*ast.ParenExpr); !ok {
+								log.Fatal("Expression should be parenthese expression" +
+									fset.Position(ue.Pos()).String())
+							}
+
+							// expect a Composite Litteral with no Element <type>{}
+							var cl *ast.CompositeLit
+							if cl, ok = pe.X.(*ast.CompositeLit); !ok {
+								log.Fatal("Expression should be a composite lit" +
+									fset.Position(pe.Pos()).String())
+							}
+
+							var se *ast.SelectorExpr
+							if se, ok = cl.Type.(*ast.SelectorExpr); !ok {
+								log.Fatal("Expression should be a selector" +
+									fset.Position(cl.Pos()).String())
+							}
+
+							var id *ast.Ident
+							if id, ok = se.X.(*ast.Ident); !ok {
+								log.Fatal("Expression should be an ident" +
+									fset.Position(se.Pos()).String())
+							}
+							docLink := id.Name + "." + se.Sel.Name
+
+							// if map_DocLink_Identifier has the same ident, this means
+							// that no renaming has occured since the last processing of the
+							// file
+							if docLink == key {
+								continue
+							}
+
+							// otherwise, one stores the new ident (after renaming) in the
+							// renaming map
+							map_DocLink_Renaming[key] = docLink
+						}
 					}
 				}
 			}
@@ -149,7 +231,7 @@ func lookupSym(recv, name string) (ok bool) {
 }
 
 // UnmarshallGoStaging unmarshall a go assign statement
-func UnmarshallGongstructStaging(cmap *ast.CommentMap, assignStmt *ast.AssignStmt, astCoordinate_ string) (
+func UnmarshallGongstructStaging(map_DocLink_Renaming *map[string]string, cmap *ast.CommentMap, assignStmt *ast.AssignStmt, astCoordinate_ string) (
 	instance any,
 	identifier string,
 	gongstructName string,
@@ -193,6 +275,12 @@ func UnmarshallGongstructStaging(cmap *ast.CommentMap, assignStmt *ast.AssignStm
 					switch docLink := text.(type) {
 					case *comment.DocLink:
 						docLinkText = docLink.ImportPath + "." + docLink.Name
+
+						// we check wether the doc link has been renamed
+						// to be removed after fix of [issue](https://github.com/golang/go/issues/57559)
+						if renamed, ok := (*map_DocLink_Renaming)[docLinkText]; ok {
+							docLinkText = renamed
+						}
 					}
 				}
 			}
