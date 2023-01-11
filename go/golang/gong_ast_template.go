@@ -139,7 +139,16 @@ func ParseAstFile(pathToFile string) error {
 						var value string
 						_ = value
 						for _, elt := range compLit.Elts {
-							// each elt is an expression such as "dummy.Dummy": &(dummy.Dummy{})
+
+							// each elt is an expression for struct or for field such as
+							// for struct
+							//
+							//         "dummy.Dummy": &(dummy.Dummy{})
+							//
+							// or, for field
+							//
+							//          "dummy.Dummy.Name": (dummy.Dummy{}).Name,
+							//
 							// first node in the AST is a key value expression
 							var ok bool
 							var kve *ast.KeyValueExpr
@@ -157,16 +166,33 @@ func ParseAstFile(pathToFile string) error {
 								key = strings.TrimSuffix(key, "\"")
 							}
 
+							var isFieldEntry bool
+							var fieldName string
 							var ue *ast.UnaryExpr
 							if ue, ok = kve.Value.(*ast.UnaryExpr); !ok {
-								log.Fatal("Expression should be a indirection (&)" +
-									fset.Position(ue.Pos()).String())
+								isFieldEntry = true
+							}
+
+							var se2 *ast.SelectorExpr
+							if isFieldEntry {
+								if se2, ok = kve.Value.(*ast.SelectorExpr); !ok {
+									log.Fatal("Expression should be a selector expression" +
+										fset.Position(kve.Pos()).String())
+								}
+								fieldName = se2.Sel.Name
 							}
 
 							var pe *ast.ParenExpr
-							if pe, ok = ue.X.(*ast.ParenExpr); !ok {
-								log.Fatal("Expression should be parenthese expression" +
-									fset.Position(ue.Pos()).String())
+							if !isFieldEntry {
+								if pe, ok = ue.X.(*ast.ParenExpr); !ok {
+									log.Fatal("Expression should be parenthese expression" +
+										fset.Position(ue.Pos()).String())
+								}
+							} else {
+								if pe, ok = se2.X.(*ast.ParenExpr); !ok {
+									log.Fatal("Expression should be parenthese expression" +
+										fset.Position(ue.Pos()).String())
+								}
 							}
 
 							// expect a Composite Litteral with no Element <type>{}
@@ -188,6 +214,10 @@ func ParseAstFile(pathToFile string) error {
 									fset.Position(se.Pos()).String())
 							}
 							docLink := id.Name + "." + se.Sel.Name
+
+							if isFieldEntry {
+								docLink += "." + fieldName
+							}
 
 							// if map_DocLink_Identifier has the same ident, this means
 							// that no renaming has occured since the last processing of the
@@ -274,7 +304,11 @@ func UnmarshallGongstructStaging(map_DocLink_Renaming *map[string]string, cmap *
 				for _, text := range paragraph.Text {
 					switch docLink := text.(type) {
 					case *comment.DocLink:
-						docLinkText = docLink.ImportPath + "." + docLink.Name
+						if docLink.Recv == "" {
+							docLinkText = docLink.ImportPath + "." + docLink.Name
+						} else {
+							docLinkText = docLink.ImportPath + "." + docLink.Recv + "." + docLink.Name
+						}
 
 						// we check wether the doc link has been renamed
 						// to be removed after fix of [issue](https://github.com/golang/go/issues/57559)
