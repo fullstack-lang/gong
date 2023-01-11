@@ -306,6 +306,26 @@
         </mat-select>
     </mat-form-field>
 
+    <mat-grid-list *ngIf='!isATextArea("Ref")' cols="5" rowHeight="2:1">
+        <mat-grid-tile [colspan]="3">
+            <mat-form-field mat-form-field class="detail-full-width">
+                <mat-label>Ref</mat-label>
+                <input name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="astruct.Ref">
+            </mat-form-field>
+        </mat-grid-tile>
+        <mat-grid-tile>
+            <button mat-raised-button (click)="toggleTextArea('Ref')">
+                <mat-icon>
+                    expand_more
+                </mat-icon>
+            </button>
+        </mat-grid-tile>
+    </mat-grid-list>
+    <mat-form-field *ngIf='isATextArea("Ref")' mat-form-field class="detail-full-width">
+        <mat-label>Ref</mat-label>
+        <textarea name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="astruct.Ref"></textarea>
+    </mat-form-field>
+
     <mat-form-field class="detail-full-width">
         <mat-label>(Astruct) Anarrayofa</mat-label>
         <mat-select [compareWith]="compareObjects" [(ngModel)]="astruct.Astruct_Anarrayofa_reverse" [ngModelOptions]="{standalone: true}">

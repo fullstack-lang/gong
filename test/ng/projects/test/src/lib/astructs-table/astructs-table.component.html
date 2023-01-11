@@ -173,6 +173,13 @@
             </td>
         </ng-container>
         <!-- -->
+        <ng-container matColumnDef="Ref">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Ref </th>
+            <td mat-cell *matCellDef="let Astruct">
+                {{Astruct.Ref}}
+            </td>
+        </ng-container>
+        <!-- -->
         <ng-container matColumnDef="Astruct_Anarrayofa">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> <-- (Astruct) Anarrayofa </th>
             <td mat-cell *matCellDef="let astruct">
