@@ -1,0 +1,56 @@
+package main
+
+import (
+	"time"
+
+	"github.com/fullstack-lang/gong/test/go/models"
+)
+
+// generated in order to avoid error in the package import
+// if there are no elements in the stage to marshall
+var ___dummy__Stagemini_stage_out models.StageStruct
+var ___dummy__Timemini_stage_out time.Time
+
+// init might be handy if one want to have the data embedded in the binary
+// but it has to properly reference the Injection gateway in the main package
+// func init() {
+// 	_ = __Dummy_time_variable
+// 	InjectionGateway["mini_stage_out"] = mini_stage_outInjection
+// }
+
+// mini_stage_outInjection will stage objects of database "mini_stage_out"
+func mini_stage_outInjection() {
+
+	// Declaration of instances to stage
+
+	// Declarations of staged instances of Astruct
+	__Astruct__000000_Foo := (&models.Astruct{Name: `Foo`}).Stage()
+
+	// Declarations of staged instances of AstructBstruct2Use
+
+	// Declarations of staged instances of AstructBstructUse
+
+	// Declarations of staged instances of Bstruct
+
+	// Declarations of staged instances of Dstruct
+
+	// Setup of values
+
+	// Astruct values setup
+	__Astruct__000000_Foo.Name = `Foo`
+	__Astruct__000000_Foo.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 +0000")
+	__Astruct__000000_Foo.Booleanfield = false
+	__Astruct__000000_Foo.CEnum = models.CENUM_VAL1
+	__Astruct__000000_Foo.CName = ``
+	__Astruct__000000_Foo.CFloatfield = 0.000000
+	__Astruct__000000_Foo.Floatfield = 0.000000
+	__Astruct__000000_Foo.Intfield = 0
+	__Astruct__000000_Foo.Anotherbooleanfield = false
+	__Astruct__000000_Foo.Duration1 = 0
+	__Astruct__000000_Foo.StructRef = `dummy.Dummy2`
+	__Astruct__000000_Foo.FieldRef = `dummy.Dummy2.Name`
+
+	// Setup of pointers
+}
+
+
