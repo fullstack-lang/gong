@@ -1,6 +1,6 @@
 package dummy
 
-type Dummy struct {
+type Dummy2 struct {
 	Name string
 }
 
