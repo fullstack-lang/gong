@@ -90,7 +90,6 @@ func ParseAstFile(pathToFile string) error {
 						// This helps keeping the association between comments
 						// and AST nodes.
 						cmap := ast.NewCommentMap(fset, inFile, inFile.Comments)
-						_ = cmap
 						astCoordinate := "\tAssignStmt: "
 						// log.Println(// astCoordinate)
 						assignStmt := stmt
@@ -140,8 +139,8 @@ var __gong__map_Dstruct = make(map[string]*Dstruct)
 // While this was introduced in go 1.19, it is not yet implemented in
 // gopls (see [issue](https://github.com/golang/go/issues/57559)
 func lookupPackage(name string) (importPath string, ok bool) {
-	if name == "models" {
-		return "models", true
+	if name == Stage.MetaPackageImportAlias {
+		return Stage.MetaPackageImportAlias, true
 	}
 	return comment.DefaultLookupPackage(name)
 }
@@ -158,7 +157,9 @@ func UnmarshallGongstructStaging(cmap *ast.CommentMap, assignStmt *ast.AssignStm
 	identifier string,
 	gongstructName string,
 	fieldName string) {
-	astCoordinate := "\tAssignStmt: " // used for debug purposes
+
+	// used for debug purposes
+	astCoordinate := "\tAssignStmt: "
 
 	//
 	// First parse all comment groups in the assignement
@@ -194,7 +195,7 @@ func UnmarshallGongstructStaging(cmap *ast.CommentMap, assignStmt *ast.AssignStm
 				for _, text := range paragraph.Text {
 					switch docLink := text.(type) {
 					case *comment.DocLink:
-						docLinkText = docLink.Name + "." + docLink.ImportPath
+						docLinkText = docLink.ImportPath + "." + docLink.Name
 					}
 				}
 			}
@@ -495,10 +496,6 @@ func UnmarshallGongstructStaging(cmap *ast.CommentMap, assignStmt *ast.AssignStm
 					// remove first and last char
 					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
 					__gong__map_Astruct[identifier].Name = fielValue
-				case "Ref":
-					// remove first and last char
-					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
-					__gong__map_Astruct[identifier].Ref = fielValue
 				case "CName":
 					// remove first and last char
 					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
@@ -531,6 +528,10 @@ func UnmarshallGongstructStaging(cmap *ast.CommentMap, assignStmt *ast.AssignStm
 						log.Fatalln(err)
 					}
 					__gong__map_Astruct[identifier].Duration1 = time.Duration(fielValue)
+				case "Ref":
+					// remove first and last char
+					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
+					__gong__map_Astruct[identifier].Ref = fielValue
 				}
 			case "AstructBstruct2Use":
 				switch fieldName {
