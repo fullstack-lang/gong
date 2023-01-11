@@ -306,24 +306,44 @@
         </mat-select>
     </mat-form-field>
 
-    <mat-grid-list *ngIf='!isATextArea("Ref")' cols="5" rowHeight="2:1">
+    <mat-grid-list *ngIf='!isATextArea("StructRef")' cols="5" rowHeight="2:1">
         <mat-grid-tile [colspan]="3">
             <mat-form-field mat-form-field class="detail-full-width">
-                <mat-label>Ref</mat-label>
-                <input name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="astruct.Ref">
+                <mat-label>StructRef</mat-label>
+                <input name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="astruct.StructRef">
             </mat-form-field>
         </mat-grid-tile>
         <mat-grid-tile>
-            <button mat-raised-button (click)="toggleTextArea('Ref')">
+            <button mat-raised-button (click)="toggleTextArea('StructRef')">
                 <mat-icon>
                     expand_more
                 </mat-icon>
             </button>
         </mat-grid-tile>
     </mat-grid-list>
-    <mat-form-field *ngIf='isATextArea("Ref")' mat-form-field class="detail-full-width">
-        <mat-label>Ref</mat-label>
-        <textarea name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="astruct.Ref"></textarea>
+    <mat-form-field *ngIf='isATextArea("StructRef")' mat-form-field class="detail-full-width">
+        <mat-label>StructRef</mat-label>
+        <textarea name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="astruct.StructRef"></textarea>
+    </mat-form-field>
+
+    <mat-grid-list *ngIf='!isATextArea("FieldRef")' cols="5" rowHeight="2:1">
+        <mat-grid-tile [colspan]="3">
+            <mat-form-field mat-form-field class="detail-full-width">
+                <mat-label>FieldRef</mat-label>
+                <input name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="astruct.FieldRef">
+            </mat-form-field>
+        </mat-grid-tile>
+        <mat-grid-tile>
+            <button mat-raised-button (click)="toggleTextArea('FieldRef')">
+                <mat-icon>
+                    expand_more
+                </mat-icon>
+            </button>
+        </mat-grid-tile>
+    </mat-grid-list>
+    <mat-form-field *ngIf='isATextArea("FieldRef")' mat-form-field class="detail-full-width">
+        <mat-label>FieldRef</mat-label>
+        <textarea name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="astruct.FieldRef"></textarea>
     </mat-form-field>
 
     <mat-form-field class="detail-full-width">

@@ -135,8 +135,11 @@ export class AstructsTableComponent implements OnInit {
         case 'AnAstruct':
           return (astructDB.AnAstruct ? astructDB.AnAstruct.Name : '');
 
-        case 'Ref':
-          return astructDB.Ref;
+        case 'StructRef':
+          return astructDB.StructRef;
+
+        case 'FieldRef':
+          return astructDB.FieldRef;
 
         case 'Astruct_Anarrayofa':
           if (this.frontRepo.Astructs.get(astructDB.Astruct_AnarrayofaDBID.Int64) != undefined) {
@@ -195,7 +198,8 @@ export class AstructsTableComponent implements OnInit {
       if (astructDB.AnAstruct) {
         mergedContent += astructDB.AnAstruct.Name.toLowerCase()
       }
-      mergedContent += astructDB.Ref.toLowerCase()
+      mergedContent += astructDB.StructRef.toLowerCase()
+      mergedContent += astructDB.FieldRef.toLowerCase()
       if (astructDB.Astruct_AnarrayofaDBID.Int64 != 0) {
         mergedContent += this.frontRepo.Astructs.get(astructDB.Astruct_AnarrayofaDBID.Int64)!.Name.toLowerCase()
       }
@@ -272,7 +276,8 @@ export class AstructsTableComponent implements OnInit {
         "Associationtob",
         "Anotherassociationtob_2",
         "AnAstruct",
-        "Ref",
+        "StructRef",
+        "FieldRef",
         "Astruct_Anarrayofa",
       ]
     } else {
@@ -299,7 +304,8 @@ export class AstructsTableComponent implements OnInit {
         "Associationtob",
         "Anotherassociationtob_2",
         "AnAstruct",
-        "Ref",
+        "StructRef",
+        "FieldRef",
         "Astruct_Anarrayofa",
       ]
       this.selection = new SelectionModel<AstructDB>(allowMultiSelect, this.initialSelection);
