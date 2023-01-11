@@ -21,8 +21,9 @@ func stageInjection2() {
 	// Declarations of staged instances of Astruct
 	__Astruct__000000_A1 := (&models.Astruct{Name: `A1`}).Stage()
 
+	__Astruct__000000_A1.Name = "Foo"
+
 	//gong:ident [gongdoc_models.Classshape]
-	__Astruct__000000_A1.CName = `CName1
-Second Line`
+	__Astruct__000000_A1.Ref = ""
 
 }
