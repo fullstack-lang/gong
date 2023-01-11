@@ -290,4 +290,32 @@ func RemoveGeneratedGongFiles(
 		}
 	}
 
+	{
+		// relative to the models package, swith to ./controlers package
+		filename := filepath.Join(RelativePkgPath, "gong_ast.go")
+
+		// we should use go generate
+		log.Println("removing file : " + filename)
+
+		if err := os.Remove(filename); err != nil {
+			if os.IsExist(err) {
+				log.Fatalf("Unable to remove %s", filename)
+			}
+		}
+	}
+
+	{
+		// relative to the models package, swith to ./controlers package
+		filename := filepath.Join(RelativePkgPath, "gong_serialize.go")
+
+		// we should use go generate
+		log.Println("removing file : " + filename)
+
+		if err := os.Remove(filename); err != nil {
+			if os.IsExist(err) {
+				log.Fatalf("Unable to remove %s", filename)
+			}
+		}
+	}
+
 }

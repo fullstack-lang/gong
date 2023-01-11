@@ -756,8 +756,8 @@ import (
 
 // generated in order to avoid error in the package import
 // if there are no elements in the stage to marshall
-var ___dummy__Stage models.StageStruct
-var ___dummy__Time time.Time
+var ___dummy__Stage{{databaseName}} models.StageStruct
+var ___dummy__Time{{databaseName}} time.Time
 
 // init might be handy if one want to have the data embedded in the binary
 // but it has to properly reference the Injection gateway in the main package
