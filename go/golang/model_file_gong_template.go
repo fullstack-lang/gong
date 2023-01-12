@@ -310,7 +310,5 @@ func GetFieldStringValue[Type Gongstruct](instance Type, fieldName string) (res 
 	}
 	return
 }
-
-// insertion point of enum utility functions{{` + string(rune(ModelGongEnumUtilityFunctions)) + `}}
 // Last line of the template
 `
