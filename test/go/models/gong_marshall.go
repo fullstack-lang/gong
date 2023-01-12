@@ -215,12 +215,19 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 		initializerStatements += setValueField
 
 		setValueField = StringInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}",
+			fmt.Sprintf("\n\t// comment added to overcome the problem with the comment map association\n\n\t//gong:ident [%s]\n\t{{Identifier}}",
+				string(astruct.StructRef)))
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
 		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "StructRef")
 		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(astruct.StructRef))
+
 		initializerStatements += setValueField
 
 		setValueField = StringInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}",
+			fmt.Sprintf("\n\t// comment added to overcome the problem with the comment map association\n\n\t//gong:ident [%s]\n\t{{Identifier}}",
+				string(astruct.FieldRef)))
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
 		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "FieldRef")
 		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(astruct.FieldRef))
@@ -562,8 +569,10 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 			fmt.Sprintf("\n\t%s %s", stage.MetaPackageImportAlias, stage.MetaPackageImportPath))
 
 		res = strings.ReplaceAll(res, "{{ImportPackageDummyDeclaration}}",
-			fmt.Sprintf("\nvar ___dummy__%s %s.StageStruct",
-				stage.MetaPackageImportAlias, stage.MetaPackageImportAlias))
+			fmt.Sprintf("\nvar ___dummy__%s_%s %s.StageStruct",
+				stage.MetaPackageImportAlias,
+				strings.ReplaceAll(path.Base(name), ".go", ""),
+				stage.MetaPackageImportAlias))
 
 		var entries string
 		for key, value := range stage.Map_DocLink_Renaming {
@@ -573,7 +582,7 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 			nbPoints := strings.Count(value, ".")
 
 			if nbPoints == 1 {
-				entries += fmt.Sprintf("\n\t\"%s\": &(%s{}),\n", key, value)
+				entries += fmt.Sprintf("\n\t\"%s\": &(%s{}),", key, value)
 			}
 			if nbPoints == 2 {
 				// substitute the second point with "{})."
@@ -581,7 +590,7 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 				value = strings.Replace(value, ".", joker, 1)
 				value = strings.Replace(value, ".", "{}).", 1)
 				value = strings.Replace(value, joker, ".", 1)
-				entries += fmt.Sprintf("\n\t\"%s\": (%s,\n", key, value)
+				entries += fmt.Sprintf("\n\t\"%s\": (%s,", key, value)
 			}
 		}
 
