@@ -83,6 +83,7 @@ type StageStruct struct { // insertion point for definition of arrays registerin
 	// store meta package import
 	MetaPackageImportPath  string
 	MetaPackageImportAlias string
+	Map_DocLink_Renaming   map[string]string
 }
 
 type OnInitCommitInterface interface {
@@ -1741,4 +1742,5 @@ func GetFieldStringValue[Type Gongstruct](instance Type, fieldName string) (res 
 	}
 	return
 }
+
 // Last line of the template
