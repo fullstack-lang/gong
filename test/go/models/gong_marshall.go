@@ -17,12 +17,17 @@ import (
 	"time"
 
 	"{{ModelsPackageName}}"
+
+	// injection point for ident package import declaration{{ImportPackageDeclaration}}
 )
 
 // generated in order to avoid error in the package import
 // if there are no elements in the stage to marshall
 var ___dummy__Stage_{{databaseName}} models.StageStruct
 var ___dummy__Time_{{databaseName}} time.Time
+
+// Injection point for meta package dummy declaration{{ImportPackageDummyDeclaration}}
+
 
 // init might be handy if one want to have the data embedded in the binary
 // but it has to properly reference the Injection gateway in the main package
@@ -541,6 +546,15 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 	res = strings.ReplaceAll(res, "{{Identifiers}}", identifiersDecl)
 	res = strings.ReplaceAll(res, "{{ValueInitializers}}", initializerStatements)
 	res = strings.ReplaceAll(res, "{{PointersInitializers}}", pointersInitializesStatements)
+
+	if stage.MetaPackageImportAlias != "" {
+		res = strings.ReplaceAll(res, "{{ImportPackageDeclaration}}",
+			fmt.Sprintf("\n\t%s %s", stage.MetaPackageImportAlias, stage.MetaPackageImportPath))
+
+		res = strings.ReplaceAll(res, "{{ImportPackageDummyDeclaration}}",
+			fmt.Sprintf("\nvar ___dummy__%s %s.StageStruct",
+				stage.MetaPackageImportAlias, stage.MetaPackageImportAlias))
+	}
 
 	fmt.Fprintln(file, res)
 }
