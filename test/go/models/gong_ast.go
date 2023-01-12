@@ -21,7 +21,7 @@ func ParseAstFile(pathToFile string) error {
 
 	// map to store renaming docLink
 	// to be removed after fix of [issue](https://github.com/golang/go/issues/57559)
-	map_DocLink_Renaming := make(map[string]string, 0)
+	Stage.Map_DocLink_Renaming = make(map[string]string, 0)
 
 	fileOfInterest, err := filepath.Abs(pathToFile)
 	if err != nil {
@@ -99,7 +99,6 @@ func ParseAstFile(pathToFile string) error {
 						assignStmt := stmt
 						instance, id, gongstruct, fieldName :=
 							UnmarshallGongstructStaging(
-								&map_DocLink_Renaming,
 								&cmap, assignStmt, astCoordinate)
 						_ = instance
 						_ = id
@@ -127,7 +126,7 @@ func ParseAstFile(pathToFile string) error {
 				case *ast.ValueSpec:
 					ident := spec.Names[0]
 					_ = ident
-					if ident.Name != "map_DocLink_Identifier" {
+					if !strings.HasPrefix(ident.Name, "map_DocLink_Identifier") {
 						continue
 					}
 					switch compLit := spec.Values[0].(type) {
@@ -226,7 +225,7 @@ func ParseAstFile(pathToFile string) error {
 
 							// otherwise, one stores the new ident (after renaming) in the
 							// renaming map
-							map_DocLink_Renaming[key] = docLink
+							Stage.Map_DocLink_Renaming[key] = docLink
 						}
 					}
 				}
@@ -264,7 +263,7 @@ func lookupSym(recv, name string) (ok bool) {
 }
 
 // UnmarshallGoStaging unmarshall a go assign statement
-func UnmarshallGongstructStaging(map_DocLink_Renaming *map[string]string, cmap *ast.CommentMap, assignStmt *ast.AssignStmt, astCoordinate_ string) (
+func UnmarshallGongstructStaging(cmap *ast.CommentMap, assignStmt *ast.AssignStmt, astCoordinate_ string) (
 	instance any,
 	identifier string,
 	gongstructName string,
@@ -315,7 +314,7 @@ func UnmarshallGongstructStaging(map_DocLink_Renaming *map[string]string, cmap *
 
 						// we check wether the doc link has been renamed
 						// to be removed after fix of [issue](https://github.com/golang/go/issues/57559)
-						if renamed, ok := (*map_DocLink_Renaming)[docLinkText]; ok {
+						if renamed, ok := (Stage.Map_DocLink_Renaming)[docLinkText]; ok {
 							docLinkText = renamed
 						}
 					}
