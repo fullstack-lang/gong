@@ -365,13 +365,13 @@
             ]
         },
         {
-            "name": "go run test -unmarshallFromCode=mini_stage.go -marshallOnCommit=mini_stage_out",
+            "name": "go run test -unmarshallFromCode=mini_stage_in.go -marshallOnCommit=mini_stage_out",
             "type": "go",
             "request": "launch",
             "mode": "auto",
             "program": "${workspaceFolder}/test/go/cmd/test",
             "args": [
-                "-unmarshallFromCode=mini_stage.go",
+                "-unmarshallFromCode=mini_stage_in.go",
                 "-marshallOnCommit=mini_stage_out"
             ]
         },
