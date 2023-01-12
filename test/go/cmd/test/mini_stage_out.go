@@ -17,6 +17,19 @@ var ___dummy__Time_mini_stage_out time.Time
 // Injection point for meta package dummy declaration
 var ___dummy__dummy dummy.StageStruct
 
+// currently, DocLink renaming is not enabled in gopls
+// the following map are devised to overcome this limitation
+// those maps and the processing code will be eleminated when
+// DocLink renaming will be enabled in gopls
+// [Corresponding Issue](https://github.com/golang/go/issues/57559)
+//
+// When parsed, those maps will help with the renaming process
+var map_DocLink_Identifier_mini_stage_out map[string]any = map[string]any{
+	// injection point for docLink to identifiers
+	"dummy.Dummy.Name": (dummy.Dummy2{}).Name,
+
+	"dummy.Dummy": &(dummy.Dummy2{}),
+}
 
 // init might be handy if one want to have the data embedded in the binary
 // but it has to properly reference the Injection gateway in the main package
@@ -59,5 +72,3 @@ func mini_stage_outInjection() {
 
 	// Setup of pointers
 }
-
-
