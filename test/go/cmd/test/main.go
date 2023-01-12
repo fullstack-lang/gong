@@ -72,7 +72,7 @@ func main() {
 	r.Use(cors.Default())
 
 	// setup stack
-	fullstack.Init(r, "./test.db")
+	fullstack.Init(r)
 
 	// generate injection code from the stage
 	if *marshallOnStartup != "" {
@@ -131,6 +131,7 @@ func main() {
 	if *marshallOnCommit != "" {
 		hook := new(BeforeCommitImplementation)
 		models.Stage.OnInitCommitFromFrontCallback = hook
+		models.Stage.OnInitCommitFromBackCallback = hook
 	}
 
 	gongdoc_load.Load(
@@ -148,6 +149,8 @@ func main() {
 		c.Redirect(http.StatusMovedPermanently, "/")
 		c.Abort()
 	})
+
+	models.Stage.Commit()
 
 	log.Printf("Server ready serve on localhost:8080")
 	r.Run()

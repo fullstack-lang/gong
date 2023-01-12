@@ -4,12 +4,19 @@ import (
 	"time"
 
 	"github.com/fullstack-lang/gong/test/go/models"
+
+	// injection point for ident package import declaration
+	dummy "github.com/fullstack-lang/gong/test/go/dummy"
 )
 
 // generated in order to avoid error in the package import
 // if there are no elements in the stage to marshall
 var ___dummy__Stage_mini_stage_out models.StageStruct
 var ___dummy__Time_mini_stage_out time.Time
+
+// Injection point for meta package dummy declaration
+var ___dummy__dummy dummy.StageStruct
+
 
 // init might be handy if one want to have the data embedded in the binary
 // but it has to properly reference the Injection gateway in the main package
