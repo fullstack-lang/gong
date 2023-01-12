@@ -282,6 +282,11 @@ func main() {
 		modelPkg.Name,
 		*pkgPath)
 
+	golang.CodeGeneratorModelGongEnum(
+		modelPkg,
+		modelPkg.Name,
+		*pkgPath)
+
 	golang.CodeGeneratorModelGongMarshall(
 		modelPkg,
 		modelPkg.Name,
