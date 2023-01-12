@@ -60,6 +60,7 @@ type Astruct struct {
 
 	// StructRef is a string that can be set by a gong:ident directive followed by
 	// a doclink declaration such as [pkg.Name1]
+
 	//gong:ident
 	StructRef string
 
