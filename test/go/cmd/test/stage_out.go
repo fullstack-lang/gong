@@ -11,10 +11,11 @@ import (
 
 // generated in order to avoid error in the package import
 // if there are no elements in the stage to marshall
-var ___dummy__Stage models.StageStruct
+var ___dummy__Stage_stage_out models.StageStruct
+var ___dummy__Time_stage_out time.Time
 
 // Injection point for meta package dummy declaration
-var ___dummy__gongdoc_Stage gongdoc_models.StageStruct
+var ___dummy__gongdoc_models_stage_out gongdoc_models.StageStruct
 
 // currently, DocLink renaming is not enabled in gopls
 // the following map are devised to overcome this limitation
@@ -23,7 +24,7 @@ var ___dummy__gongdoc_Stage gongdoc_models.StageStruct
 // [Corresponding Issue](https://github.com/golang/go/issues/57559)
 //
 // When parsed, those maps will help with the renaming process
-var map_DocLink_Identifier_stage map[string]any = map[string]any{
+var map_DocLink_Identifier_stage_out map[string]any = map[string]any{
 	// injection point for docLink to identifiers
 
 	"gongdoc_models.Classshape": &(gongdoc_models.Classshape{}),
@@ -31,23 +32,21 @@ var map_DocLink_Identifier_stage map[string]any = map[string]any{
 	"gongdoc_models.Classshape.Name": (gongdoc_models.Classshape{}).Name,
 }
 
-func init() {
-	var __Dummy_time_variable time.Time
-	_ = __Dummy_time_variable
-	InjectionGateway["stage"] = stageInjection
-}
+// init might be handy if one want to have the data embedded in the binary
+// but it has to properly reference the Injection gateway in the main package
+// func init() {
+// 	_ = __Dummy_time_variable
+// 	InjectionGateway["stage_out"] = stage_outInjection
+// }
 
-// stageInjection will stage objects of database "stage"
-func stageInjection() {
+// stage_outInjection will stage objects of database "stage_out"
+func stage_outInjection() {
 
 	// Declaration of instances to stage
 
 	// Declarations of staged instances of Astruct
-
 	__Astruct__000000_A1 := (&models.Astruct{Name: `A1`}).Stage()
-	// Injection point for meta struct link
 	__Astruct__000001_A2 := (&models.Astruct{Name: `A2`}).Stage()
-	// Injection point for meta struct link
 	__Astruct__000002_A3 := (&models.Astruct{Name: `A3`}).Stage()
 
 	// Declarations of staged instances of AstructBstruct2Use
@@ -81,12 +80,12 @@ Second Line`
 	__Astruct__000000_A1.Intfield = 3
 	__Astruct__000000_A1.Anotherbooleanfield = false
 	__Astruct__000000_A1.Duration1 = 79653000000000
-
+	
 	// comment added to overcome the problem with the comment map association
 
 	//gong:ident [gongdoc_models.Classshape]
 	__Astruct__000000_A1.StructRef = `gongdoc_models.Classshape`
-
+	
 	// comment added to overcome the problem with the comment map association
 
 	//gong:ident [gongdoc_models.Classshape.Name]
@@ -106,6 +105,16 @@ Second Line`
 	__Astruct__000001_A2.Intfield = 0
 	__Astruct__000001_A2.Anotherbooleanfield = false
 	__Astruct__000001_A2.Duration1 = 0
+	
+	// comment added to overcome the problem with the comment map association
+
+	//gong:ident [gongdoc_models.Field]
+	__Astruct__000001_A2.StructRef = `gongdoc_models.Field`
+	
+	// comment added to overcome the problem with the comment map association
+
+	//gong:ident []
+	__Astruct__000001_A2.FieldRef = ``
 
 	// Astruct values setup
 	__Astruct__000002_A3.Name = `A3`
@@ -119,6 +128,16 @@ Second Line`
 	__Astruct__000002_A3.Intfield = 0
 	__Astruct__000002_A3.Anotherbooleanfield = false
 	__Astruct__000002_A3.Duration1 = 0
+	
+	// comment added to overcome the problem with the comment map association
+
+	//gong:ident []
+	__Astruct__000002_A3.StructRef = ``
+	
+	// comment added to overcome the problem with the comment map association
+
+	//gong:ident []
+	__Astruct__000002_A3.FieldRef = ``
 
 	// AstructBstruct2Use values setup
 	__AstructBstruct2Use__000000_.Name = ``
@@ -160,3 +179,5 @@ Second Line`
 	__AstructBstruct2Use__000000_.Bstrcut2 = __Bstruct__000000_B1
 	__AstructBstruct2Use__000001_.Bstrcut2 = __Bstruct__000000_B1
 }
+
+
