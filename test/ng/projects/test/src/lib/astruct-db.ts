@@ -26,6 +26,8 @@ export class AstructDB {
 	Intfield: number = 0
 	Anotherbooleanfield: boolean = false
 	Duration1: number = 0
+	StructRef: string = ""
+	FieldRef: string = ""
 
 	// insertion point for other declarations
 	CEnum_string?: string
