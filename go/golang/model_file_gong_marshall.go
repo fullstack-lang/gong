@@ -77,6 +77,7 @@ const (
 	GongMarshallFileFieldSubTmplSetBasicFieldEnumInt
 	GongMarshallFileFieldSubTmplSetBasicFieldFloat64
 	GongMarshallFileFieldSubTmplSetBasicFieldString
+	GongMarshallFileFieldSubTmplSetBasicFieldStringDocLink
 	GongMarshallFileFieldSubTmplSetTimeField
 	GongMarshallFileFieldSubTmplSetPointerField
 	GongMarshallFileFieldSubTmplSetSliceOfPointersField
@@ -131,6 +132,16 @@ map[GongMarshallFilePerStructSubTemplateId]string{
 `,
 	GongMarshallFileFieldSubTmplSetBasicFieldString: `
 		setValueField = StringInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "{{FieldName}}")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string({{structname}}.{{FieldName}}))
+		initializerStatements += setValueField
+`,
+	GongMarshallFileFieldSubTmplSetBasicFieldStringDocLink: `
+		setValueField = StringInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}",
+			fmt.Sprintf("\n\t// comment added to overcome the problem with the comment map association\n\n\t//gong:ident [%s]\n\t{{Identifier}}",
+				string({{structname}}.{{FieldName}})))
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
 		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "{{FieldName}}")
 		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string({{structname}}.{{FieldName}}))
@@ -197,9 +208,16 @@ func CodeGeneratorModelGongMarshall(
 					switch field.GetBasicKind() {
 					case types.String:
 						if field.GongEnum == nil {
-							valInitCode += models.Replace1(
-								GongMarshallFileFieldFieldSubTemplateCode[GongMarshallFileFieldSubTmplSetBasicFieldString],
-								"{{FieldName}}", field.Name)
+
+							if !field.IsDocLink {
+								valInitCode += models.Replace1(
+									GongMarshallFileFieldFieldSubTemplateCode[GongMarshallFileFieldSubTmplSetBasicFieldString],
+									"{{FieldName}}", field.Name)
+							} else {
+								valInitCode += models.Replace1(
+									GongMarshallFileFieldFieldSubTemplateCode[GongMarshallFileFieldSubTmplSetBasicFieldStringDocLink],
+									"{{FieldName}}", field.Name)
+							}
 
 						} else {
 							valInitCode += models.Replace1(
