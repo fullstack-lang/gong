@@ -22,8 +22,8 @@ var __Dummy_time_variable time.Time
 // When parsed, those maps will help with the renaming process
 var map_DocLink_Identifier map[string]any = map[string]any{
 	// injection point for docLink to identifiers
-	"dummy.Dummy":      &(dummy.Dummy2{}),
-	"dummy.Dummy.Name": (dummy.Dummy2{}).Name,
+	"dummy.Dummy":      &(dummy.Dummy{}),
+	"dummy.Dummy.Name": (dummy.Dummy{}).Name,
 }
 
 // stageInjection will stage objects of database "stage"
