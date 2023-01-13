@@ -19,12 +19,27 @@ import (
 	"time"
 
 	"{{ModelsPackageName}}"
+
+	// injection point for ident package import declaration{{ImportPackageDeclaration}}
 )
 
 // generated in order to avoid error in the package import
 // if there are no elements in the stage to marshall
 var ___dummy__Stage_{{databaseName}} models.StageStruct
 var ___dummy__Time_{{databaseName}} time.Time
+
+// Injection point for meta package dummy declaration{{ImportPackageDummyDeclaration}}
+
+// currently, DocLink renaming is not enabled in gopls
+// the following map are devised to overcome this limitation
+// those maps and the processing code will be eleminated when
+// DocLink renaming will be enabled in gopls
+// [Corresponding Issue](https://github.com/golang/go/issues/57559)
+//
+// When parsed, those maps will help with the renaming process
+var map_DocLink_Identifier_{{databaseName}} map[string]any = map[string]any{
+	// injection point for docLink to identifiers{{EntriesDocLinkStringDocLinkIdentifier}}
+}
 
 // init might be handy if one want to have the data embedded in the binary
 // but it has to properly reference the Injection gateway in the main package
@@ -101,6 +116,43 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 	res = strings.ReplaceAll(res, "{{Identifiers}}", identifiersDecl)
 	res = strings.ReplaceAll(res, "{{ValueInitializers}}", initializerStatements)
 	res = strings.ReplaceAll(res, "{{PointersInitializers}}", pointersInitializesStatements)
+
+	if stage.MetaPackageImportAlias != "" {
+		res = strings.ReplaceAll(res, "{{ImportPackageDeclaration}}",
+			fmt.Sprintf("\n\t%s %s", stage.MetaPackageImportAlias, stage.MetaPackageImportPath))
+
+		res = strings.ReplaceAll(res, "{{ImportPackageDummyDeclaration}}",
+			fmt.Sprintf("\nvar ___dummy__%s_%s %s.StageStruct",
+				stage.MetaPackageImportAlias,
+				strings.ReplaceAll(path.Base(name), ".go", ""),
+				stage.MetaPackageImportAlias))
+
+		var entries string
+
+		// regenerate the map of doc link renaming
+		// the key and value are set to the value because
+		// if it has been renamed, this is the new value that matters
+		for _, value := range stage.Map_DocLink_Renaming {
+
+			// get the number of points in the value to find if it is a field
+			// or a struct
+			nbPoints := strings.Count(value, ".")
+
+			if nbPoints == 1 {
+				entries += fmt.Sprintf("\n\n\t\"%s\": &(%s{}),", value, value)
+			}
+			if nbPoints == 2 {
+				// substitute the second point with "{})."
+				joker := "__substitute_for_first_point__"
+				valueIdentifier := strings.Replace(value, ".", joker, 1)
+				valueIdentifier = strings.Replace(valueIdentifier, ".", "{}).", 1)
+				valueIdentifier = strings.Replace(valueIdentifier, joker, ".", 1)
+				entries += fmt.Sprintf("\n\n\t\"%s\": (%s,", value, valueIdentifier)
+			}
+		}
+
+		res = strings.ReplaceAll(res, "{{EntriesDocLinkStringDocLinkIdentifier}}", entries)
+	}
 
 	fmt.Fprintln(file, res)
 }
