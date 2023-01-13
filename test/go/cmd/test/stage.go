@@ -75,6 +75,8 @@ func stageInjection() {
 	__Astruct__000000_A1.Benum = models.BENUM_VAL2
 	__Astruct__000000_A1.CEnum = models.CENUM_VAL2
 	__Astruct__000000_A1.CName = `CName1
+
+	\n"""" fdfsqjfhdqksfhqksf
 Second Line`
 	__Astruct__000000_A1.CFloatfield = 60.500000
 	__Astruct__000000_A1.Floatfield = 0.000000
