@@ -57,4 +57,14 @@ type Astruct struct {
 
 	// pointer to itself
 	AnAstruct *Astruct
+
+	// StructRef is a string that can be set by a gong:ident directive followed by
+	// a doclink declaration such as [pkg.Name1]
+
+	//gong:ident
+	StructRef string
+
+	// FieldRef for a field ref [pkg.Name1.Name2]
+	//gong:ident
+	FieldRef string
 }

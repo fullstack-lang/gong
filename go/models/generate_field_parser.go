@@ -73,6 +73,16 @@ func GenerateFieldParser(fieldList *[]*ast.Field, owningGongstruct *GongStruct,
 							Index:               len(owningGongstruct.Fields),
 							CompositeStructName: compositeTypeStructName,
 						}
+
+					if field.Doc != nil {
+						for _, comment := range field.Doc.List {
+							text := comment.Text
+							if strings.HasPrefix(text, "//gong:ident") {
+								gongField.IsDocLink = true
+							}
+						}
+					}
+
 					owningGongstruct.Fields = append(owningGongstruct.Fields, gongField)
 
 				case "int":

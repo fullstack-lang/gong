@@ -15,6 +15,10 @@ type GongBasicField struct {
 	CompositeStructName string
 
 	Index int
+
+	// IsDocLink is true if the field is a string field
+	// that is set at compile time by a DocLink directive //gong:ident
+	IsDocLink bool
 }
 
 func (gongBasicField *GongBasicField) GetIndex() int {
