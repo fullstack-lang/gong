@@ -594,7 +594,7 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 				valueIdentifier := strings.Replace(value, ".", joker, 1)
 				valueIdentifier = strings.Replace(valueIdentifier, ".", "{}).", 1)
 				valueIdentifier = strings.Replace(valueIdentifier, joker, ".", 1)
-				entries += fmt.Sprintf("\n\n\t\"%s\": (%s,\n", value, valueIdentifier)
+				entries += fmt.Sprintf("\n\n\t\"%s\": (%s,", value, valueIdentifier)
 			}
 		}
 

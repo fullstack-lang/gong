@@ -68,12 +68,12 @@ func mini_stage_outInjection() {
 	__Astruct__000000_Foo.Intfield = 0
 	__Astruct__000000_Foo.Anotherbooleanfield = false
 	__Astruct__000000_Foo.Duration1 = 0
-
+	
 	// comment added to overcome the problem with the comment map association
 
 	//gong:ident [dummy.Dummy]
 	__Astruct__000000_Foo.StructRef = `dummy.Dummy`
-
+	
 	// comment added to overcome the problem with the comment map association
 
 	//gong:ident [dummy.Dummy.Name]
@@ -81,3 +81,5 @@ func mini_stage_outInjection() {
 
 	// Setup of pointers
 }
+
+
