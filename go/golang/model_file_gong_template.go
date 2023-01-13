@@ -6,12 +6,6 @@ package models
 import (
 	"errors"
 	"fmt"
-	"log"
-	"os"
-	"path"
-	"regexp"
-	"sort"
-	"strings"
 )
 
 // errUnkownEnum is returns when a value cannot match enum values
@@ -47,6 +41,11 @@ type StageStruct struct { // insertion point for definition of arrays registerin
 
 	// store the number of instance per gongstruct
 	Map_GongStructName_InstancesNb map[string]int
+
+	// store meta package import
+	MetaPackageImportPath  string
+	MetaPackageImportAlias string
+	Map_DocLink_Renaming   map[string]string
 }
 
 type OnInitCommitInterface interface {
@@ -152,114 +151,6 @@ func (stage *StageStruct) Reset() { // insertion point for array reset{{` + stri
 }
 
 func (stage *StageStruct) Nil() { // insertion point for array nil{{` + string(rune(ModelGongStructInsertionArrayNil)) + `}}
-}
-
-const marshallRes = ` + "`" + `package {{PackageName}}
-
-import (
-	"time"
-
-	"{{ModelsPackageName}}"
-)
-
-// generated in order to avoid error in the package import
-// if there are no elements in the stage to marshall
-var ___dummy__Stage models.StageStruct
-var ___dummy__Time time.Time
-
-// init might be handy if one want to have the data embedded in the binary
-// but it has to properly reference the Injection gateway in the main package
-// func init() {
-// 	_ = __Dummy_time_variable
-// 	InjectionGateway["{{databaseName}}"] = {{databaseName}}Injection
-// }
-
-// {{databaseName}}Injection will stage objects of database "{{databaseName}}"
-func {{databaseName}}Injection() {
-
-	// Declaration of instances to stage{{Identifiers}}
-
-	// Setup of values{{ValueInitializers}}
-
-	// Setup of pointers{{PointersInitializers}}
-}
-
-` + "`" + `
-
-const IdentifiersDecls = ` + "`" + `
-	{{Identifier}} := (&models.{{GeneratedStructName}}{Name: ` +
-	"`" + " + \"" + "`" + `"` + ` + ` + "`" +
-	`{{GeneratedFieldNameValue}}` + "`" + ` + "` + "`" + `"` + ` + ` + "`" + `}).Stage()` + "`" + `
-
-const StringInitStatement = ` + "`" + `
-	{{Identifier}}.{{GeneratedFieldName}} = ` +
-	"`" + " + \"" + "`" + `"` + ` + ` + "`" +
-	`{{GeneratedFieldNameValue}}` + "`" + ` + "` + "`" + `"` + `
-
-const StringEnumInitStatement = ` + "`" + `
-	{{Identifier}}.{{GeneratedFieldName}} = {{GeneratedFieldNameValue}}` + "`" + `
-
-const NumberInitStatement = ` + "`" + `
-	{{Identifier}}.{{GeneratedFieldName}} = {{GeneratedFieldNameValue}}` + "`" + `
-
-const PointerFieldInitStatement = ` + "`" + `
-	{{Identifier}}.{{GeneratedFieldName}} = {{GeneratedFieldNameValue}}` + "`" + `
-
-const SliceOfPointersFieldInitStatement = ` + "`" + `
-	{{Identifier}}.{{GeneratedFieldName}} = append({{Identifier}}.{{GeneratedFieldName}}, {{GeneratedFieldNameValue}})` + "`" + `
-
-const TimeInitStatement = ` + "`" + `
-	{{Identifier}}.{{GeneratedFieldName}}, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "{{GeneratedFieldNameValue}}")` + "`" + `
-
-// Marshall marshall the stage content into the file as an instanciation into a stage
-func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName string) {
-
-	name := file.Name()
-
-	if !strings.HasSuffix(name, ".go") {
-		log.Fatalln(name + " is not a go filename")
-	}
-
-	log.Println("filename of marshall output  is " + name)
-
-	res := marshallRes
-	res = strings.ReplaceAll(res, "{{databaseName}}", strings.ReplaceAll(path.Base(name), ".go", ""))
-	res = strings.ReplaceAll(res, "{{PackageName}}", packageName)
-	res = strings.ReplaceAll(res, "{{ModelsPackageName}}", modelsPackageName)
-
-	// map of identifiers
-	// var StageMapDstructIds map[*Dstruct]string
-	identifiersDecl := ""
-	initializerStatements := ""
-	pointersInitializesStatements := ""
-
-	id := ""
-	decl := ""
-	setValueField := ""
-
-	// insertion initialization of objects to stage{{` + string(rune(ModelGongStructInsertionUnmarshallDeclarations)) + `}}
-	// insertion initialization of objects to stage{{` + string(rune(ModelGongStructInsertionUnmarshallPointersInitializations)) + `}}
-	res = strings.ReplaceAll(res, "{{Identifiers}}", identifiersDecl)
-	res = strings.ReplaceAll(res, "{{ValueInitializers}}", initializerStatements)
-	res = strings.ReplaceAll(res, "{{PointersInitializers}}", pointersInitializesStatements)
-
-	fmt.Fprintln(file, res)
-}
-
-// unique identifier per struct
-func generatesIdentifier(gongStructName string, idx int, instanceName string) (identifier string) {
-
-	identifier = instanceName
-	// Make a Regex to say we only want letters and numbers
-	reg, err := regexp.Compile("[^a-zA-Z0-9]+")
-	if err != nil {
-		log.Fatal(err)
-	}
-	processedString := reg.ReplaceAllString(instanceName, "_")
-
-	identifier = fmt.Sprintf("__%s__%06d_%s", gongStructName, idx, processedString)
-
-	return
 }
 
 // insertion point of functions that provide maps for reverse associations{{` + string(rune(ModelGongStructInsertionReverseAssociationsMaps)) + `}}
@@ -421,6 +312,5 @@ func GetFieldStringValue[Type Gongstruct](instance Type, fieldName string) (res 
 	return
 }
 
-// insertion point of enum utility functions{{` + string(rune(ModelGongEnumUtilityFunctions)) + `}}
 // Last line of the template
 `
