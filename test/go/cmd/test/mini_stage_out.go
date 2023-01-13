@@ -26,8 +26,10 @@ var ___dummy__dummy_mini_stage_out dummy.StageStruct
 // When parsed, those maps will help with the renaming process
 var map_DocLink_Identifier_mini_stage_out map[string]any = map[string]any{
 	// injection point for docLink to identifiers
-	"dummy.Dummy": &(dummy.Dummy2{}),
-	"dummy.Dummy.Name": (dummy.Dummy2{}).Name,
+	"dummy.Dummy2": &(dummy.Dummy2{}),
+
+	"dummy.Dummy2.Name": (dummy.Dummy2{}).Name,
+
 }
 
 // init might be handy if one want to have the data embedded in the binary

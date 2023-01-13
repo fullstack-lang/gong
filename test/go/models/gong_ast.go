@@ -218,9 +218,10 @@ func ParseAstFile(pathToFile string) error {
 
 							// if map_DocLink_Identifier has the same ident, this means
 							// that no renaming has occured since the last processing of the
-							// file
+							// file. But it is neccessary to keep it in memory for the
+							// marshalling
 							if docLink == key {
-								continue
+								// continue
 							}
 
 							// otherwise, one stores the new ident (after renaming) in the

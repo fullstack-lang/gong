@@ -575,22 +575,26 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 				stage.MetaPackageImportAlias))
 
 		var entries string
-		for key, value := range stage.Map_DocLink_Renaming {
+
+		// regenerate the map of doc link renaming
+		// the key and value are set to the value because
+		// if it has been renamed, this is the new value that matters
+		for _, value := range stage.Map_DocLink_Renaming {
 
 			// get the number of points in the value to find if it is a field
 			// or a struct
 			nbPoints := strings.Count(value, ".")
 
 			if nbPoints == 1 {
-				entries += fmt.Sprintf("\n\t\"%s\": &(%s{}),", key, value)
+				entries += fmt.Sprintf("\n\t\"%s\": &(%s{}),\n", value, value)
 			}
 			if nbPoints == 2 {
 				// substitute the second point with "{})."
 				joker := "__substitute_for_first_point__"
-				value = strings.Replace(value, ".", joker, 1)
-				value = strings.Replace(value, ".", "{}).", 1)
-				value = strings.Replace(value, joker, ".", 1)
-				entries += fmt.Sprintf("\n\t\"%s\": (%s,", key, value)
+				valueIdentifier := strings.Replace(value, ".", joker, 1)
+				valueIdentifier = strings.Replace(valueIdentifier, ".", "{}).", 1)
+				valueIdentifier = strings.Replace(valueIdentifier, joker, ".", 1)
+				entries += fmt.Sprintf("\n\t\"%s\": (%s,\n", value, valueIdentifier)
 			}
 		}
 
