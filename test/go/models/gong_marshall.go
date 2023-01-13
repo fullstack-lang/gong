@@ -586,7 +586,7 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 			nbPoints := strings.Count(value, ".")
 
 			if nbPoints == 1 {
-				entries += fmt.Sprintf("\n\t\"%s\": &(%s{}),\n", value, value)
+				entries += fmt.Sprintf("\n\n\t\"%s\": &(%s{}),", value, value)
 			}
 			if nbPoints == 2 {
 				// substitute the second point with "{})."
@@ -594,7 +594,7 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 				valueIdentifier := strings.Replace(value, ".", joker, 1)
 				valueIdentifier = strings.Replace(valueIdentifier, ".", "{}).", 1)
 				valueIdentifier = strings.Replace(valueIdentifier, joker, ".", 1)
-				entries += fmt.Sprintf("\n\t\"%s\": (%s,\n", value, valueIdentifier)
+				entries += fmt.Sprintf("\n\n\t\"%s\": (%s,\n", value, valueIdentifier)
 			}
 		}
 
