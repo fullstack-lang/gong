@@ -11,6 +11,9 @@ import (
 // errUnkownEnum is returns when a value cannot match enum values
 var errUnkownEnum = errors.New("unkown enum")
 
+// needed to avoid when fmt package is not needed by generated code
+var __dummy__fmt_variable fmt.Scanner
+
 // swagger:ignore
 type __void any
 

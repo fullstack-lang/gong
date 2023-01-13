@@ -82,6 +82,10 @@ type GongBasicFieldDB struct {
 
 	// Declation for basic field gongbasicfieldDB.Index
 	Index_Data sql.NullInt64
+
+	// Declation for basic field gongbasicfieldDB.IsDocLink
+	// provide the sql storage for the boolan
+	IsDocLink_Data sql.NullBool
 	// encoding of pointers
 	GongBasicFieldPointersEnconding
 }
@@ -112,6 +116,8 @@ type GongBasicFieldWOP struct {
 	CompositeStructName string `xlsx:"4"`
 
 	Index int `xlsx:"5"`
+
+	IsDocLink bool `xlsx:"6"`
 	// insertion for WOP pointer fields
 }
 
@@ -123,6 +129,7 @@ var GongBasicField_Fields = []string{
 	"DeclaredType",
 	"CompositeStructName",
 	"Index",
+	"IsDocLink",
 }
 
 type BackRepoGongBasicFieldStruct struct {
@@ -432,6 +439,9 @@ func (gongbasicfieldDB *GongBasicFieldDB) CopyBasicFieldsFromGongBasicField(gong
 
 	gongbasicfieldDB.Index_Data.Int64 = int64(gongbasicfield.Index)
 	gongbasicfieldDB.Index_Data.Valid = true
+
+	gongbasicfieldDB.IsDocLink_Data.Bool = gongbasicfield.IsDocLink
+	gongbasicfieldDB.IsDocLink_Data.Valid = true
 }
 
 // CopyBasicFieldsFromGongBasicFieldWOP
@@ -452,6 +462,9 @@ func (gongbasicfieldDB *GongBasicFieldDB) CopyBasicFieldsFromGongBasicFieldWOP(g
 
 	gongbasicfieldDB.Index_Data.Int64 = int64(gongbasicfield.Index)
 	gongbasicfieldDB.Index_Data.Valid = true
+
+	gongbasicfieldDB.IsDocLink_Data.Bool = gongbasicfield.IsDocLink
+	gongbasicfieldDB.IsDocLink_Data.Valid = true
 }
 
 // CopyBasicFieldsToGongBasicField
@@ -462,6 +475,7 @@ func (gongbasicfieldDB *GongBasicFieldDB) CopyBasicFieldsToGongBasicField(gongba
 	gongbasicfield.DeclaredType = gongbasicfieldDB.DeclaredType_Data.String
 	gongbasicfield.CompositeStructName = gongbasicfieldDB.CompositeStructName_Data.String
 	gongbasicfield.Index = int(gongbasicfieldDB.Index_Data.Int64)
+	gongbasicfield.IsDocLink = gongbasicfieldDB.IsDocLink_Data.Bool
 }
 
 // CopyBasicFieldsToGongBasicFieldWOP
@@ -473,6 +487,7 @@ func (gongbasicfieldDB *GongBasicFieldDB) CopyBasicFieldsToGongBasicFieldWOP(gon
 	gongbasicfield.DeclaredType = gongbasicfieldDB.DeclaredType_Data.String
 	gongbasicfield.CompositeStructName = gongbasicfieldDB.CompositeStructName_Data.String
 	gongbasicfield.Index = int(gongbasicfieldDB.Index_Data.Int64)
+	gongbasicfield.IsDocLink = gongbasicfieldDB.IsDocLink_Data.Bool
 }
 
 // Backup generates a json file from a slice of all GongBasicFieldDB instances in the backrepo

@@ -9,6 +9,8 @@ import (
 // errUnkownEnum is returns when a value cannot match enum values
 var errUnkownEnum = errors.New("unkown enum")
 
+var __dummy__fmt_variable fmt.Scanner
+
 // swagger:ignore
 type __void any
 

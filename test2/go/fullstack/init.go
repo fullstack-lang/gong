@@ -10,7 +10,7 @@ import (
 	// this will import the angular front end source code directory (versionned with git) in the vendor directory
 	// this path will be included in the "tsconfig.json" front end compilation paths
 	// to include this stack front end code
-	_ "github.com/fullstack-lang/gong/test2/ng"
+	_ "github.com/fullstack-lang/gong/test2/ng/projects"
 )
 
 func Init(r *gin.Engine, filenames ...string) {

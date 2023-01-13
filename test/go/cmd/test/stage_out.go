@@ -74,6 +74,9 @@ func stage_outInjection() {
 	__Astruct__000000_A1.Benum = models.BENUM_VAL2
 	__Astruct__000000_A1.CEnum = models.CENUM_VAL2
 	__Astruct__000000_A1.CName = `CName1
+
+`+ "`" + `
+
 Second Line`
 	__Astruct__000000_A1.CFloatfield = 60.500000
 	__Astruct__000000_A1.Floatfield = 0.000000
@@ -108,8 +111,8 @@ Second Line`
 	
 	// comment added to overcome the problem with the comment map association
 
-	//gong:ident [gongdoc_models.Field]
-	__Astruct__000001_A2.StructRef = `gongdoc_models.Field`
+	//gong:ident []
+	__Astruct__000001_A2.StructRef = ``
 	
 	// comment added to overcome the problem with the comment map association
 
