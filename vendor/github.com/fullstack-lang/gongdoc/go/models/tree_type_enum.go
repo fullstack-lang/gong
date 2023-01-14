@@ -22,4 +22,5 @@ const (
 
 	ROOT_OF_GONG_NOTES GongdocNodeType = "ROOT_OF_GONG_NOTES"
 	GONG_NOTE          GongdocNodeType = "GONG_NOTE"
+	GONG_NOTE_LINK     GongdocNodeType = "GONG_NOTE_LINK"
 )

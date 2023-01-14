@@ -69,6 +69,11 @@ import { NodeSortingComponent } from './node-sorting/node-sorting.component'
 import { NodeDetailComponent } from './node-detail/node-detail.component'
 import { NodePresentationComponent } from './node-presentation/node-presentation.component'
 
+import { NoteLinksTableComponent } from './notelinks-table/notelinks-table.component'
+import { NoteLinkSortingComponent } from './notelink-sorting/notelink-sorting.component'
+import { NoteLinkDetailComponent } from './notelink-detail/notelink-detail.component'
+import { NoteLinkPresentationComponent } from './notelink-presentation/notelink-presentation.component'
+
 import { NoteShapesTableComponent } from './noteshapes-table/noteshapes-table.component'
 import { NoteShapeSortingComponent } from './noteshape-sorting/noteshape-sorting.component'
 import { NoteShapeDetailComponent } from './noteshape-detail/noteshape-detail.component'
@@ -137,6 +142,11 @@ import { VerticePresentationComponent } from './vertice-presentation/vertice-pre
 		NodeSortingComponent,
 		NodeDetailComponent,
 		NodePresentationComponent,
+
+		NoteLinksTableComponent,
+		NoteLinkSortingComponent,
+		NoteLinkDetailComponent,
+		NoteLinkPresentationComponent,
 
 		NoteShapesTableComponent,
 		NoteShapeSortingComponent,
@@ -241,6 +251,11 @@ import { VerticePresentationComponent } from './vertice-presentation/vertice-pre
 		NodeSortingComponent,
 		NodeDetailComponent,
 		NodePresentationComponent,
+
+		NoteLinksTableComponent,
+		NoteLinkSortingComponent,
+		NoteLinkDetailComponent,
+		NoteLinkPresentationComponent,
 
 		NoteShapesTableComponent,
 		NoteShapeSortingComponent,

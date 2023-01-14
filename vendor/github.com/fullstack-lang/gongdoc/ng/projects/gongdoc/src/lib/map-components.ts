@@ -11,6 +11,8 @@
   import { LinkSortingComponent } from './link-sorting/link-sorting.component'
   import { NodesTableComponent } from './nodes-table/nodes-table.component'
   import { NodeSortingComponent } from './node-sorting/node-sorting.component'
+  import { NoteLinksTableComponent } from './notelinks-table/notelinks-table.component'
+  import { NoteLinkSortingComponent } from './notelink-sorting/notelink-sorting.component'
   import { NoteShapesTableComponent } from './noteshapes-table/noteshapes-table.component'
   import { NoteShapeSortingComponent } from './noteshape-sorting/noteshape-sorting.component'
   import { PositionsTableComponent } from './positions-table/positions-table.component'
@@ -39,6 +41,8 @@
   export const MapOfLinkSortingComponents: Map<string, any> = new Map([["LinkSortingComponent", LinkSortingComponent],])
   export const MapOfNodesComponents: Map<string, any> = new Map([["NodesTableComponent", NodesTableComponent],])
   export const MapOfNodeSortingComponents: Map<string, any> = new Map([["NodeSortingComponent", NodeSortingComponent],])
+  export const MapOfNoteLinksComponents: Map<string, any> = new Map([["NoteLinksTableComponent", NoteLinksTableComponent],])
+  export const MapOfNoteLinkSortingComponents: Map<string, any> = new Map([["NoteLinkSortingComponent", NoteLinkSortingComponent],])
   export const MapOfNoteShapesComponents: Map<string, any> = new Map([["NoteShapesTableComponent", NoteShapesTableComponent],])
   export const MapOfNoteShapeSortingComponents: Map<string, any> = new Map([["NoteShapeSortingComponent", NoteShapeSortingComponent],])
   export const MapOfPositionsComponents: Map<string, any> = new Map([["PositionsTableComponent", PositionsTableComponent],])
@@ -65,6 +69,7 @@ export const MapOfComponents: Map<string, any> =
       ["Field", MapOfFieldsComponents],
       ["Link", MapOfLinksComponents],
       ["Node", MapOfNodesComponents],
+      ["NoteLink", MapOfNoteLinksComponents],
       ["NoteShape", MapOfNoteShapesComponents],
       ["Position", MapOfPositionsComponents],
       ["Reference", MapOfReferencesComponents],
@@ -86,6 +91,7 @@ export const MapOfSortingComponents: Map<string, any> =
       ["Field", MapOfFieldSortingComponents],
       ["Link", MapOfLinkSortingComponents],
       ["Node", MapOfNodeSortingComponents],
+      ["NoteLink", MapOfNoteLinkSortingComponents],
       ["NoteShape", MapOfNoteShapeSortingComponents],
       ["Position", MapOfPositionSortingComponents],
       ["Reference", MapOfReferenceSortingComponents],

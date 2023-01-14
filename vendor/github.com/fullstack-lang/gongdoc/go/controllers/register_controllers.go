@@ -85,6 +85,13 @@ func RegisterControllers(r *gin.Engine) {
 		v1.PUT("/v1/nodes/:id", UpdateNode)
 		v1.DELETE("/v1/nodes/:id", DeleteNode)
 
+		v1.GET("/v1/notelinks", GetNoteLinks)
+		v1.GET("/v1/notelinks/:id", GetNoteLink)
+		v1.POST("/v1/notelinks", PostNoteLink)
+		v1.PATCH("/v1/notelinks/:id", UpdateNoteLink)
+		v1.PUT("/v1/notelinks/:id", UpdateNoteLink)
+		v1.DELETE("/v1/notelinks/:id", DeleteNoteLink)
+
 		v1.GET("/v1/noteshapes", GetNoteShapes)
 		v1.GET("/v1/noteshapes/:id", GetNoteShape)
 		v1.POST("/v1/noteshapes", PostNoteShape)
