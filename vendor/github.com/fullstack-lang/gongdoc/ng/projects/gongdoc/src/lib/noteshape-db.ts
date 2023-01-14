@@ -1,4 +1,5 @@
 // insertion point for imports
+import { NoteLinkDB } from './notelink-db'
 import { ClassdiagramDB } from './classdiagram-db'
 
 // usefull for managing pointer ID values that can be nullable
@@ -19,6 +20,7 @@ export class NoteShapeDB {
 	Matched: boolean = false
 
 	// insertion point for other declarations
+	NoteLinks?: Array<NoteLinkDB>
 	Classdiagram_NotesDBID: NullInt64 = new NullInt64
 	Classdiagram_NotesDBID_Index: NullInt64  = new NullInt64 // store the index of the noteshape instance in Classdiagram.Notes
 	Classdiagram_Notes_reverse?: ClassdiagramDB 

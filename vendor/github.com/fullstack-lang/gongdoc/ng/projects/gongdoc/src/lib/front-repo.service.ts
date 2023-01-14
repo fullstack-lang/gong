@@ -22,6 +22,9 @@ import { LinkService } from './link.service'
 import { NodeDB } from './node-db'
 import { NodeService } from './node.service'
 
+import { NoteLinkDB } from './notelink-db'
+import { NoteLinkService } from './notelink.service'
+
 import { NoteShapeDB } from './noteshape-db'
 import { NoteShapeService } from './noteshape.service'
 
@@ -64,6 +67,9 @@ export class FrontRepo { // insertion point sub template
   Nodes_array = new Array<NodeDB>(); // array of repo instances
   Nodes = new Map<number, NodeDB>(); // map of repo instances
   Nodes_batch = new Map<number, NodeDB>(); // same but only in last GET (for finding repo instances to delete)
+  NoteLinks_array = new Array<NoteLinkDB>(); // array of repo instances
+  NoteLinks = new Map<number, NoteLinkDB>(); // map of repo instances
+  NoteLinks_batch = new Map<number, NoteLinkDB>(); // same but only in last GET (for finding repo instances to delete)
   NoteShapes_array = new Array<NoteShapeDB>(); // array of repo instances
   NoteShapes = new Map<number, NoteShapeDB>(); // map of repo instances
   NoteShapes_batch = new Map<number, NoteShapeDB>(); // same but only in last GET (for finding repo instances to delete)
@@ -149,6 +155,7 @@ export class FrontRepoService {
     private fieldService: FieldService,
     private linkService: LinkService,
     private nodeService: NodeService,
+    private notelinkService: NoteLinkService,
     private noteshapeService: NoteShapeService,
     private positionService: PositionService,
     private referenceService: ReferenceService,
@@ -192,6 +199,7 @@ export class FrontRepoService {
     Observable<FieldDB[]>,
     Observable<LinkDB[]>,
     Observable<NodeDB[]>,
+    Observable<NoteLinkDB[]>,
     Observable<NoteShapeDB[]>,
     Observable<PositionDB[]>,
     Observable<ReferenceDB[]>,
@@ -206,6 +214,7 @@ export class FrontRepoService {
       this.fieldService.getFields(),
       this.linkService.getLinks(),
       this.nodeService.getNodes(),
+      this.notelinkService.getNoteLinks(),
       this.noteshapeService.getNoteShapes(),
       this.positionService.getPositions(),
       this.referenceService.getReferences(),
@@ -234,6 +243,7 @@ export class FrontRepoService {
             fields_,
             links_,
             nodes_,
+            notelinks_,
             noteshapes_,
             positions_,
             references_,
@@ -256,6 +266,8 @@ export class FrontRepoService {
             links = links_ as LinkDB[]
             var nodes: NodeDB[]
             nodes = nodes_ as NodeDB[]
+            var notelinks: NoteLinkDB[]
+            notelinks = notelinks_ as NoteLinkDB[]
             var noteshapes: NoteShapeDB[]
             noteshapes = noteshapes_ as NoteShapeDB[]
             var positions: PositionDB[]
@@ -463,6 +475,39 @@ export class FrontRepoService {
 
             // sort Nodes_array array
             FrontRepoSingloton.Nodes_array.sort((t1, t2) => {
+              if (t1.Name > t2.Name) {
+                return 1;
+              }
+              if (t1.Name < t2.Name) {
+                return -1;
+              }
+              return 0;
+            });
+
+            // init the array
+            FrontRepoSingloton.NoteLinks_array = notelinks
+
+            // clear the map that counts NoteLink in the GET
+            FrontRepoSingloton.NoteLinks_batch.clear()
+
+            notelinks.forEach(
+              notelink => {
+                FrontRepoSingloton.NoteLinks.set(notelink.ID, notelink)
+                FrontRepoSingloton.NoteLinks_batch.set(notelink.ID, notelink)
+              }
+            )
+
+            // clear notelinks that are absent from the batch
+            FrontRepoSingloton.NoteLinks.forEach(
+              notelink => {
+                if (FrontRepoSingloton.NoteLinks_batch.get(notelink.ID) == undefined) {
+                  FrontRepoSingloton.NoteLinks.delete(notelink.ID)
+                }
+              }
+            )
+
+            // sort NoteLinks_array array
+            FrontRepoSingloton.NoteLinks_array.sort((t1, t2) => {
               if (t1.Name > t2.Name) {
                 return 1;
               }
@@ -857,6 +902,47 @@ export class FrontRepoService {
                     _tree.RootNodes.push(node)
                     if (node.Tree_RootNodes_reverse == undefined) {
                       node.Tree_RootNodes_reverse = _tree
+                    }
+                  }
+                }
+              }
+            )
+            notelinks.forEach(
+              notelink => {
+                // insertion point sub sub template for ONE-/ZERO-ONE associations pointers redeeming
+                // insertion point for pointer field Classshape redeeming
+                {
+                  let _classshape = FrontRepoSingloton.Classshapes.get(notelink.ClassshapeID.Int64)
+                  if (_classshape) {
+                    notelink.Classshape = _classshape
+                  }
+                }
+                // insertion point for pointer field Link redeeming
+                {
+                  let _link = FrontRepoSingloton.Links.get(notelink.LinkID.Int64)
+                  if (_link) {
+                    notelink.Link = _link
+                  }
+                }
+                // insertion point for pointer field Middlevertice redeeming
+                {
+                  let _vertice = FrontRepoSingloton.Vertices.get(notelink.MiddleverticeID.Int64)
+                  if (_vertice) {
+                    notelink.Middlevertice = _vertice
+                  }
+                }
+
+                // insertion point for redeeming ONE-MANY associations
+                // insertion point for slice of pointer field NoteShape.NoteLinks redeeming
+                {
+                  let _noteshape = FrontRepoSingloton.NoteShapes.get(notelink.NoteShape_NoteLinksDBID.Int64)
+                  if (_noteshape) {
+                    if (_noteshape.NoteLinks == undefined) {
+                      _noteshape.NoteLinks = new Array<NoteLinkDB>()
+                    }
+                    _noteshape.NoteLinks.push(notelink)
+                    if (notelink.NoteShape_NoteLinks_reverse == undefined) {
+                      notelink.NoteShape_NoteLinks_reverse = _noteshape
                     }
                   }
                 }
@@ -1380,6 +1466,91 @@ export class FrontRepoService {
     )
   }
 
+  // NoteLinkPull performs a GET on NoteLink of the stack and redeem association pointers 
+  NoteLinkPull(): Observable<FrontRepo> {
+    return new Observable<FrontRepo>(
+      (observer) => {
+        combineLatest([
+          this.notelinkService.getNoteLinks()
+        ]).subscribe(
+          ([ // insertion point sub template 
+            notelinks,
+          ]) => {
+            // init the array
+            FrontRepoSingloton.NoteLinks_array = notelinks
+
+            // clear the map that counts NoteLink in the GET
+            FrontRepoSingloton.NoteLinks_batch.clear()
+
+            // 
+            // First Step: init map of instances
+            // insertion point sub template 
+            notelinks.forEach(
+              notelink => {
+                FrontRepoSingloton.NoteLinks.set(notelink.ID, notelink)
+                FrontRepoSingloton.NoteLinks_batch.set(notelink.ID, notelink)
+
+                // insertion point for redeeming ONE/ZERO-ONE associations
+                // insertion point for pointer field Classshape redeeming
+                {
+                  let _classshape = FrontRepoSingloton.Classshapes.get(notelink.ClassshapeID.Int64)
+                  if (_classshape) {
+                    notelink.Classshape = _classshape
+                  }
+                }
+                // insertion point for pointer field Link redeeming
+                {
+                  let _link = FrontRepoSingloton.Links.get(notelink.LinkID.Int64)
+                  if (_link) {
+                    notelink.Link = _link
+                  }
+                }
+                // insertion point for pointer field Middlevertice redeeming
+                {
+                  let _vertice = FrontRepoSingloton.Vertices.get(notelink.MiddleverticeID.Int64)
+                  if (_vertice) {
+                    notelink.Middlevertice = _vertice
+                  }
+                }
+
+                // insertion point for redeeming ONE-MANY associations
+                // insertion point for slice of pointer field NoteShape.NoteLinks redeeming
+                {
+                  let _noteshape = FrontRepoSingloton.NoteShapes.get(notelink.NoteShape_NoteLinksDBID.Int64)
+                  if (_noteshape) {
+                    if (_noteshape.NoteLinks == undefined) {
+                      _noteshape.NoteLinks = new Array<NoteLinkDB>()
+                    }
+                    _noteshape.NoteLinks.push(notelink)
+                    if (notelink.NoteShape_NoteLinks_reverse == undefined) {
+                      notelink.NoteShape_NoteLinks_reverse = _noteshape
+                    }
+                  }
+                }
+              }
+            )
+
+            // clear notelinks that are absent from the GET
+            FrontRepoSingloton.NoteLinks.forEach(
+              notelink => {
+                if (FrontRepoSingloton.NoteLinks_batch.get(notelink.ID) == undefined) {
+                  FrontRepoSingloton.NoteLinks.delete(notelink.ID)
+                }
+              }
+            )
+
+            // 
+            // Second Step: redeem pointers between instances (thanks to maps in the First Step)
+            // insertion point sub template 
+
+            // hand over control flow to observer
+            observer.next(FrontRepoSingloton)
+          }
+        )
+      }
+    )
+  }
+
   // NoteShapePull performs a GET on NoteShape of the stack and redeem association pointers 
   NoteShapePull(): Observable<FrontRepo> {
     return new Observable<FrontRepo>(
@@ -1796,24 +1967,27 @@ export function getLinkUniqueID(id: number): number {
 export function getNodeUniqueID(id: number): number {
   return 53 * id
 }
-export function getNoteShapeUniqueID(id: number): number {
+export function getNoteLinkUniqueID(id: number): number {
   return 59 * id
 }
-export function getPositionUniqueID(id: number): number {
+export function getNoteShapeUniqueID(id: number): number {
   return 61 * id
 }
-export function getReferenceUniqueID(id: number): number {
+export function getPositionUniqueID(id: number): number {
   return 67 * id
 }
-export function getTreeUniqueID(id: number): number {
+export function getReferenceUniqueID(id: number): number {
   return 71 * id
 }
-export function getUmlStateUniqueID(id: number): number {
+export function getTreeUniqueID(id: number): number {
   return 73 * id
 }
-export function getUmlscUniqueID(id: number): number {
+export function getUmlStateUniqueID(id: number): number {
   return 79 * id
 }
-export function getVerticeUniqueID(id: number): number {
+export function getUmlscUniqueID(id: number): number {
   return 83 * id
+}
+export function getVerticeUniqueID(id: number): number {
+  return 89 * id
 }

@@ -14,6 +14,7 @@ export enum GongdocNodeType {
 	GONG_ENUM_VALUE = "GONG_ENUM_VALUE",
 	ROOT_OF_GONG_NOTES = "ROOT_OF_GONG_NOTES",
 	GONG_NOTE = "GONG_NOTE",
+	GONG_NOTE_LINK = "GONG_NOTE_LINK",
 }
 
 export interface GongdocNodeTypeSelect {
@@ -35,4 +36,5 @@ export const GongdocNodeTypeList: GongdocNodeTypeSelect[] = [ // insertion point
 	{ value: GongdocNodeType.GONG_ENUM_VALUE, viewValue: "GONG_ENUM_VALUE" },
 	{ value: GongdocNodeType.ROOT_OF_GONG_NOTES, viewValue: "ROOT_OF_GONG_NOTES" },
 	{ value: GongdocNodeType.GONG_NOTE, viewValue: "GONG_NOTE" },
+	{ value: GongdocNodeType.GONG_NOTE_LINK, viewValue: "GONG_NOTE_LINK" },
 ];

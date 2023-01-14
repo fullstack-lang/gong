@@ -19,6 +19,8 @@ type NoteShape struct {
 	X, Y          float64
 	Width, Heigth float64
 	Matched       bool // if a note with the same name has been found
+
+	NoteLinks []*NoteLink
 }
 
 // Marshall provides the element of note as declaration

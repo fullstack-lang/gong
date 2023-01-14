@@ -8,55 +8,18 @@ import (
 
 // updateNodesStates updates the tree of symbols
 // according to the selected diagram
-func updateNodesStates(stage *StageStruct, callbacksSingloton *NodeCallbacksSingloton) {
+func updateNodesStates(stage *StageStruct, nodesCb *NodeCallbacksSingloton) {
 
-	// get the editable state of the package
+	// get the diagram package of interest
 	var pkglet *DiagramPackage
 	for _pkgelt := range *GetGongstructInstancesSet[DiagramPackage]() {
 		pkglet = _pkgelt
 	}
-
-	// map of gognstruct nodes according to their name
-	mapIdentifiersNodes := make(map[string]*Node)
-
-	// map of gong fields according to their name
-	gongFieldIdentifiersdNodes := make(map[string]*Node)
-
-	// unckeck nodes and construct the map
-	for _, gognstructNode := range callbacksSingloton.GongstructsRootNode.Children {
-
-		gognstructNode.IsCheckboxDisabled = true
-
-		gognstructNode.IsChecked = false
-		mapIdentifiersNodes[gognstructNode.Name] = gognstructNode
-
-		for _, gongfieldNode := range gognstructNode.Children {
-			gongfieldNode.IsChecked = false
-			gongfieldNode.IsCheckboxDisabled = true
-			gongFieldIdentifiersdNodes[gognstructNode.Name+"."+gongfieldNode.Name] = gongfieldNode
-		}
-	}
-	for _, gognenumNode := range callbacksSingloton.GongenumsRootNode.Children {
-
-		gognenumNode.IsCheckboxDisabled = true
-		gognenumNode.IsChecked = false
-		mapIdentifiersNodes[gognenumNode.Name] = gognenumNode
-
-		for _, gongValueNode := range gognenumNode.Children {
-			gongValueNode.IsChecked = false
-			gongValueNode.IsCheckboxDisabled = true
-			gongFieldIdentifiersdNodes[gognenumNode.Name+"."+gongValueNode.Name] = gongValueNode
-		}
-	}
-	for _, gongnoteNode := range callbacksSingloton.GongnotesRootNode.Children {
-		gongnoteNode.IsCheckboxDisabled = true
-		gongnoteNode.IsChecked = false
-		mapIdentifiersNodes[gongnoteNode.Name] = gongnoteNode
-	}
+	nodesCb.idTree.UncheckAndDisable()
 
 	// get the selected diagram and collect what are its referenced
 	// gongstructs
-	for _, classdiagramNode := range callbacksSingloton.ClassdiagramsRootNode.Children {
+	for _, classdiagramNode := range nodesCb.ClassdiagramsRootNode.Children {
 
 		classdiagramNode.HasEditButton = false
 		classdiagramNode.HasDeleteButton = false
@@ -69,49 +32,60 @@ func updateNodesStates(stage *StageStruct, callbacksSingloton *NodeCallbacksSing
 			continue
 		}
 
-		classdiagramNode.HasEditButton =
-			pkglet.IsEditable && !classdiagramNode.IsInEditMode && !classdiagramNode.IsInDrawMode
-		classdiagramNode.HasDeleteButton =
-			pkglet.IsEditable && !classdiagramNode.IsInEditMode && !classdiagramNode.IsInDrawMode
-		classdiagramNode.HasDrawButton =
-			pkglet.IsEditable && !classdiagramNode.IsInEditMode && !classdiagramNode.IsInDrawMode
+		editable := pkglet.IsEditable && !classdiagramNode.IsInEditMode && !classdiagramNode.IsInDrawMode
+
+		classdiagramNode.HasEditButton = editable
+		classdiagramNode.HasDeleteButton = editable
+		classdiagramNode.HasDrawButton = editable
 
 		// get the diagram
 		classDiagram := classdiagramNode.Classdiagram
 
-		// allow all gongstructs to be checked/unckecked
-		for _, gognstructNode := range callbacksSingloton.GongstructsRootNode.Children {
-			gognstructNode.IsCheckboxDisabled = !classDiagram.IsInDrawMode
+		// 1. allow all gongstructs node to be checked/unckecked
+		for gongStruct := range *gong_models.GetGongstructInstancesSet[gong_models.GongStruct]() {
+			nodesCb.idTree.nodeMap[gongStruct.Name].IsCheckboxDisabled = !classDiagram.IsInDrawMode
 		}
 
-		// get the referenced gongstructs
-		for _, classshape := range classDiagram.Classshapes {
-			reference := classshape.Reference
+		//
+		// Enum
+		//
+		// 1. for each enum of the model, enable the check button if the class diagram is in draw mode
+		for gongEnum := range *gong_models.GetGongstructInstancesSet[gong_models.GongEnum]() {
+			nodesCb.idTree.nodeMap[gongEnum.Name].IsCheckboxDisabled = !classDiagram.IsInDrawMode
+		}
 
-			node, ok := mapIdentifiersNodes[reference.Name]
+		// 2. get the all classshape and check the node of the
+		// referenced gongstructs if it is referenced by the classshape
+		for _, classshape := range classDiagram.Classshapes {
+			ref_GongStruct := classshape.Reference
+			node, ok := nodesCb.idTree.nodeMap[ref_GongStruct.Name]
 
 			if !ok {
-				log.Println("Unknown node ", reference.Name)
+				log.Println("Unknown node, diagram not synchro with model ", ref_GongStruct.Name)
 				continue
 			}
 			node.IsChecked = true
 
 			// disable checkbox of all children of the gongstruct
-			for _, gongfieldNode := range mapIdentifiersNodes[reference.Name].Children {
+			for _, gongfieldNode := range node.Children {
 				gongfieldNode.IsCheckboxDisabled = !classDiagram.IsInDrawMode
 			}
 
 			for _, field := range classshape.Fields {
-				nodeId := reference.Name + "." + field.Fieldname
-				node, ok := gongFieldIdentifiersdNodes[nodeId]
-				if ok {
-					node.IsChecked = true
-					node.IsCheckboxDisabled = !classDiagram.IsInDrawMode
-				}
+				nodeId := ref_GongStruct.Name + "." + field.Fieldname
+				// node, ok := map_FieldId_Node[nodeId]
+				node, _ := nodesCb.idTree.nodeMap[nodeId]
+
+				node.IsChecked = true
+				node.IsCheckboxDisabled = !classDiagram.IsInDrawMode
+
 			}
 			for _, link := range classshape.Links {
-				gongFieldIdentifiersdNodes[reference.Name+"."+link.Name].IsChecked = true
-				gongFieldIdentifiersdNodes[reference.Name+"."+link.Name].IsCheckboxDisabled = !classDiagram.IsInDrawMode
+				nodeId := ref_GongStruct.Name + "." + link.Fieldname
+				node, _ := nodesCb.idTree.nodeMap[nodeId]
+
+				node.IsChecked = true
+				node.IsCheckboxDisabled = !classDiagram.IsInDrawMode
 			}
 		}
 
@@ -123,7 +97,9 @@ func updateNodesStates(stage *StageStruct, callbacksSingloton *NodeCallbacksSing
 			map_OfGongstruct[classshape.ReferenceName] = true
 		}
 		// then iterate over all fields of all gongstructs node
-		for _, gognstructNode := range callbacksSingloton.GongstructsRootNode.Children {
+		for gongStruct := range *gong_models.GetGongstructInstancesSet[gong_models.GongStruct]() {
+			gognstructNode := nodesCb.idTree.nodeMap[gongStruct.Name]
+
 			for _, fieldNode := range gognstructNode.Children {
 				// then disable the checkbox
 				if fieldNode.Type == GONG_STRUCT_FIELD {
@@ -141,20 +117,25 @@ func updateNodesStates(stage *StageStruct, callbacksSingloton *NodeCallbacksSing
 			}
 		}
 
-		for gongNote := range *gong_models.GetGongstructInstancesSet[gong_models.GongNote]() {
-			mapIdentifiersNodes[gongNote.Name].IsCheckboxDisabled = !classDiagram.IsInDrawMode
+		//
+		// For notes
+		//
+		// 1. for each note of the model, enable the check button if the class diagram is in draw mode
+		for note := range *gong_models.GetGongstructInstancesSet[gong_models.GongNote]() {
+			nodesCb.idTree.nodeMap[note.Name].IsCheckboxDisabled = !classDiagram.IsInDrawMode
+
+			for _, link := range note.Links {
+				nodesCb.idTree.nodeMap[note.Name+"."+link.Name].IsCheckboxDisabled = !classDiagram.IsInDrawMode
+			}
 		}
+		// 2. for each note of the diagram, set the check button to true
 		for _, note := range classDiagram.Notes {
-			mapIdentifiersNodes[note.Name].IsChecked = true
-			mapIdentifiersNodes[note.Name].IsCheckboxDisabled = !classDiagram.IsInDrawMode
+			nodesCb.idTree.nodeMap[note.Name].IsChecked = true
 		}
 
-		for gongEnum := range *gong_models.GetGongstructInstancesSet[gong_models.GongEnum]() {
-			mapIdentifiersNodes[gongEnum.Name].IsCheckboxDisabled = !classDiagram.IsInDrawMode
-		}
 	}
 
-	for _, stateDiagramNode := range callbacksSingloton.StateDiagramsRootNode.Children {
+	for _, stateDiagramNode := range nodesCb.StateDiagramsRootNode.Children {
 		stateDiagramNode.HasEditButton = pkglet.IsEditable && stateDiagramNode.IsChecked && !stateDiagramNode.IsInEditMode
 		stateDiagramNode.HasDeleteButton = pkglet.IsEditable && stateDiagramNode.IsChecked && !stateDiagramNode.IsInEditMode
 		stateDiagramNode.HasDrawButton = pkglet.IsEditable && stateDiagramNode.IsChecked && !stateDiagramNode.IsInEditMode
