@@ -275,6 +275,25 @@ func (backRepoNoteShape *BackRepoNoteShapeStruct) CommitPhaseTwoInstance(backRep
 		noteshapeDB.CopyBasicFieldsFromNoteShape(noteshape)
 
 		// insertion point for translating pointers encodings into actual pointers
+		// This loop encodes the slice of pointers noteshape.NoteLinks into the back repo.
+		// Each back repo instance at the end of the association encode the ID of the association start
+		// into a dedicated field for coding the association. The back repo instance is then saved to the db
+		for idx, notelinkAssocEnd := range noteshape.NoteLinks {
+
+			// get the back repo instance at the association end
+			notelinkAssocEnd_DB :=
+				backRepo.BackRepoNoteLink.GetNoteLinkDBFromNoteLinkPtr(notelinkAssocEnd)
+
+			// encode reverse pointer in the association end back repo instance
+			notelinkAssocEnd_DB.NoteShape_NoteLinksDBID.Int64 = int64(noteshapeDB.ID)
+			notelinkAssocEnd_DB.NoteShape_NoteLinksDBID.Valid = true
+			notelinkAssocEnd_DB.NoteShape_NoteLinksDBID_Index.Int64 = int64(idx)
+			notelinkAssocEnd_DB.NoteShape_NoteLinksDBID_Index.Valid = true
+			if q := backRepoNoteShape.db.Save(notelinkAssocEnd_DB); q.Error != nil {
+				return q.Error
+			}
+		}
+
 		query := backRepoNoteShape.db.Save(&noteshapeDB)
 		if query.Error != nil {
 			return query.Error
@@ -380,6 +399,33 @@ func (backRepoNoteShape *BackRepoNoteShapeStruct) CheckoutPhaseTwoInstance(backR
 	_ = noteshape // sometimes, there is no code generated. This lines voids the "unused variable" compilation error
 
 	// insertion point for checkout of pointer encoding
+	// This loop redeem noteshape.NoteLinks in the stage from the encode in the back repo
+	// It parses all NoteLinkDB in the back repo and if the reverse pointer encoding matches the back repo ID
+	// it appends the stage instance
+	// 1. reset the slice
+	noteshape.NoteLinks = noteshape.NoteLinks[:0]
+	// 2. loop all instances in the type in the association end
+	for _, notelinkDB_AssocEnd := range *backRepo.BackRepoNoteLink.Map_NoteLinkDBID_NoteLinkDB {
+		// 3. Does the ID encoding at the end and the ID at the start matches ?
+		if notelinkDB_AssocEnd.NoteShape_NoteLinksDBID.Int64 == int64(noteshapeDB.ID) {
+			// 4. fetch the associated instance in the stage
+			notelink_AssocEnd := (*backRepo.BackRepoNoteLink.Map_NoteLinkDBID_NoteLinkPtr)[notelinkDB_AssocEnd.ID]
+			// 5. append it the association slice
+			noteshape.NoteLinks = append(noteshape.NoteLinks, notelink_AssocEnd)
+		}
+	}
+
+	// sort the array according to the order
+	sort.Slice(noteshape.NoteLinks, func(i, j int) bool {
+		notelinkDB_i_ID := (*backRepo.BackRepoNoteLink.Map_NoteLinkPtr_NoteLinkDBID)[noteshape.NoteLinks[i]]
+		notelinkDB_j_ID := (*backRepo.BackRepoNoteLink.Map_NoteLinkPtr_NoteLinkDBID)[noteshape.NoteLinks[j]]
+
+		notelinkDB_i := (*backRepo.BackRepoNoteLink.Map_NoteLinkDBID_NoteLinkDB)[notelinkDB_i_ID]
+		notelinkDB_j := (*backRepo.BackRepoNoteLink.Map_NoteLinkDBID_NoteLinkDB)[notelinkDB_j_ID]
+
+		return notelinkDB_i.NoteShape_NoteLinksDBID_Index.Int64 < notelinkDB_j.NoteShape_NoteLinksDBID_Index.Int64
+	})
+
 	return
 }
 

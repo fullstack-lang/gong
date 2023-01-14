@@ -19,6 +19,7 @@ func SerializeStage(filename string) {
 		SerializeExcelize[Field](f)
 		SerializeExcelize[Link](f)
 		SerializeExcelize[Node](f)
+		SerializeExcelize[NoteLink](f)
 		SerializeExcelize[NoteShape](f)
 		SerializeExcelize[Position](f)
 		SerializeExcelize[Reference](f)

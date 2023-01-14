@@ -4,16 +4,13 @@ package models
 import (
 	"errors"
 	"fmt"
-	"log"
-	"os"
-	"path"
-	"regexp"
-	"sort"
-	"strings"
 )
 
 // errUnkownEnum is returns when a value cannot match enum values
 var errUnkownEnum = errors.New("unkown enum")
+
+// needed to avoid when fmt package is not needed by generated code
+var __dummy__fmt_variable fmt.Scanner
 
 // swagger:ignore
 type __void any
@@ -79,6 +76,14 @@ type StageStruct struct { // insertion point for definition of arrays registerin
 	OnAfterNodeUpdateCallback OnAfterUpdateInterface[Node]
 	OnAfterNodeDeleteCallback OnAfterDeleteInterface[Node]
 	OnAfterNodeReadCallback   OnAfterReadInterface[Node]
+
+	NoteLinks           map[*NoteLink]any
+	NoteLinks_mapString map[string]*NoteLink
+
+	OnAfterNoteLinkCreateCallback OnAfterCreateInterface[NoteLink]
+	OnAfterNoteLinkUpdateCallback OnAfterUpdateInterface[NoteLink]
+	OnAfterNoteLinkDeleteCallback OnAfterDeleteInterface[NoteLink]
+	OnAfterNoteLinkReadCallback   OnAfterReadInterface[NoteLink]
 
 	NoteShapes           map[*NoteShape]any
 	NoteShapes_mapString map[string]*NoteShape
@@ -149,6 +154,11 @@ type StageStruct struct { // insertion point for definition of arrays registerin
 
 	// store the number of instance per gongstruct
 	Map_GongStructName_InstancesNb map[string]int
+
+	// store meta package import
+	MetaPackageImportPath  string
+	MetaPackageImportAlias string
+	Map_DocLink_Renaming   map[string]string
 }
 
 type OnInitCommitInterface interface {
@@ -198,6 +208,8 @@ type BackRepoInterface interface {
 	CheckoutLink(link *Link)
 	CommitNode(node *Node)
 	CheckoutNode(node *Node)
+	CommitNoteLink(notelink *NoteLink)
+	CheckoutNoteLink(notelink *NoteLink)
 	CommitNoteShape(noteshape *NoteShape)
 	CheckoutNoteShape(noteshape *NoteShape)
 	CommitPosition(position *Position)
@@ -236,6 +248,9 @@ var Stage StageStruct = StageStruct{ // insertion point for array initiatialisat
 	Nodes:           make(map[*Node]any),
 	Nodes_mapString: make(map[string]*Node),
 
+	NoteLinks:           make(map[*NoteLink]any),
+	NoteLinks_mapString: make(map[string]*NoteLink),
+
 	NoteShapes:           make(map[*NoteShape]any),
 	NoteShapes_mapString: make(map[string]*NoteShape),
 
@@ -273,6 +288,7 @@ func (stage *StageStruct) Commit() {
 	stage.Map_GongStructName_InstancesNb["Field"] = len(stage.Fields)
 	stage.Map_GongStructName_InstancesNb["Link"] = len(stage.Links)
 	stage.Map_GongStructName_InstancesNb["Node"] = len(stage.Nodes)
+	stage.Map_GongStructName_InstancesNb["NoteLink"] = len(stage.NoteLinks)
 	stage.Map_GongStructName_InstancesNb["NoteShape"] = len(stage.NoteShapes)
 	stage.Map_GongStructName_InstancesNb["Position"] = len(stage.Positions)
 	stage.Map_GongStructName_InstancesNb["Reference"] = len(stage.References)
@@ -295,6 +311,7 @@ func (stage *StageStruct) Checkout() {
 	stage.Map_GongStructName_InstancesNb["Field"] = len(stage.Fields)
 	stage.Map_GongStructName_InstancesNb["Link"] = len(stage.Links)
 	stage.Map_GongStructName_InstancesNb["Node"] = len(stage.Nodes)
+	stage.Map_GongStructName_InstancesNb["NoteLink"] = len(stage.NoteLinks)
 	stage.Map_GongStructName_InstancesNb["NoteShape"] = len(stage.NoteShapes)
 	stage.Map_GongStructName_InstancesNb["Position"] = len(stage.Positions)
 	stage.Map_GongStructName_InstancesNb["Reference"] = len(stage.References)
@@ -902,6 +919,101 @@ func DeleteORMNode(node *Node) {
 // for satisfaction of GongStruct interface
 func (node *Node) GetName() (res string) {
 	return node.Name
+}
+
+// Stage puts notelink to the model stage
+func (notelink *NoteLink) Stage() *NoteLink {
+	Stage.NoteLinks[notelink] = __member
+	Stage.NoteLinks_mapString[notelink.Name] = notelink
+
+	return notelink
+}
+
+// Unstage removes notelink off the model stage
+func (notelink *NoteLink) Unstage() *NoteLink {
+	delete(Stage.NoteLinks, notelink)
+	delete(Stage.NoteLinks_mapString, notelink.Name)
+	return notelink
+}
+
+// commit notelink to the back repo (if it is already staged)
+func (notelink *NoteLink) Commit() *NoteLink {
+	if _, ok := Stage.NoteLinks[notelink]; ok {
+		if Stage.BackRepo != nil {
+			Stage.BackRepo.CommitNoteLink(notelink)
+		}
+	}
+	return notelink
+}
+
+// Checkout notelink to the back repo (if it is already staged)
+func (notelink *NoteLink) Checkout() *NoteLink {
+	if _, ok := Stage.NoteLinks[notelink]; ok {
+		if Stage.BackRepo != nil {
+			Stage.BackRepo.CheckoutNoteLink(notelink)
+		}
+	}
+	return notelink
+}
+
+//
+// Legacy, to be deleted
+//
+
+// StageCopy appends a copy of notelink to the model stage
+func (notelink *NoteLink) StageCopy() *NoteLink {
+	_notelink := new(NoteLink)
+	*_notelink = *notelink
+	_notelink.Stage()
+	return _notelink
+}
+
+// StageAndCommit appends notelink to the model stage and commit to the orm repo
+func (notelink *NoteLink) StageAndCommit() *NoteLink {
+	notelink.Stage()
+	if Stage.AllModelsStructCreateCallback != nil {
+		Stage.AllModelsStructCreateCallback.CreateORMNoteLink(notelink)
+	}
+	return notelink
+}
+
+// DeleteStageAndCommit appends notelink to the model stage and commit to the orm repo
+func (notelink *NoteLink) DeleteStageAndCommit() *NoteLink {
+	notelink.Unstage()
+	DeleteORMNoteLink(notelink)
+	return notelink
+}
+
+// StageCopyAndCommit appends a copy of notelink to the model stage and commit to the orm repo
+func (notelink *NoteLink) StageCopyAndCommit() *NoteLink {
+	_notelink := new(NoteLink)
+	*_notelink = *notelink
+	_notelink.Stage()
+	if Stage.AllModelsStructCreateCallback != nil {
+		Stage.AllModelsStructCreateCallback.CreateORMNoteLink(notelink)
+	}
+	return _notelink
+}
+
+// CreateORMNoteLink enables dynamic staging of a NoteLink instance
+func CreateORMNoteLink(notelink *NoteLink) {
+	notelink.Stage()
+	if Stage.AllModelsStructCreateCallback != nil {
+		Stage.AllModelsStructCreateCallback.CreateORMNoteLink(notelink)
+	}
+}
+
+// DeleteORMNoteLink enables dynamic staging of a NoteLink instance
+func DeleteORMNoteLink(notelink *NoteLink) {
+	notelink.Unstage()
+	if Stage.AllModelsStructDeleteCallback != nil {
+		Stage.AllModelsStructDeleteCallback.DeleteORMNoteLink(notelink)
+	}
+}
+
+// for satisfaction of GongStruct interface
+func (notelink *NoteLink) GetName() (res string) {
+	return notelink.Name
 }
 
 // Stage puts noteshape to the model stage
@@ -1577,6 +1689,7 @@ type AllModelsStructCreateInterface interface { // insertion point for Callbacks
 	CreateORMField(Field *Field)
 	CreateORMLink(Link *Link)
 	CreateORMNode(Node *Node)
+	CreateORMNoteLink(NoteLink *NoteLink)
 	CreateORMNoteShape(NoteShape *NoteShape)
 	CreateORMPosition(Position *Position)
 	CreateORMReference(Reference *Reference)
@@ -1593,6 +1706,7 @@ type AllModelsStructDeleteInterface interface { // insertion point for Callbacks
 	DeleteORMField(Field *Field)
 	DeleteORMLink(Link *Link)
 	DeleteORMNode(Node *Node)
+	DeleteORMNoteLink(NoteLink *NoteLink)
 	DeleteORMNoteShape(NoteShape *NoteShape)
 	DeleteORMPosition(Position *Position)
 	DeleteORMReference(Reference *Reference)
@@ -1620,6 +1734,9 @@ func (stage *StageStruct) Reset() { // insertion point for array reset
 
 	stage.Nodes = make(map[*Node]any)
 	stage.Nodes_mapString = make(map[string]*Node)
+
+	stage.NoteLinks = make(map[*NoteLink]any)
+	stage.NoteLinks_mapString = make(map[string]*NoteLink)
 
 	stage.NoteShapes = make(map[*NoteShape]any)
 	stage.NoteShapes_mapString = make(map[string]*NoteShape)
@@ -1663,6 +1780,9 @@ func (stage *StageStruct) Nil() { // insertion point for array nil
 	stage.Nodes = nil
 	stage.Nodes_mapString = nil
 
+	stage.NoteLinks = nil
+	stage.NoteLinks_mapString = nil
+
 	stage.NoteShapes = nil
 	stage.NoteShapes_mapString = nil
 
@@ -1684,1082 +1804,6 @@ func (stage *StageStruct) Nil() { // insertion point for array nil
 	stage.Vertices = nil
 	stage.Vertices_mapString = nil
 
-}
-
-const marshallRes = `package {{PackageName}}
-
-import (
-	"time"
-
-	"{{ModelsPackageName}}"
-)
-
-// generated in order to avoid error in the package import
-// if there are no elements in the stage to marshall
-var ___dummy__Stage models.StageStruct
-
-func init() {
-	var __Dummy_time_variable time.Time
-	_ = __Dummy_time_variable
-	InjectionGateway["{{databaseName}}"] = {{databaseName}}Injection
-}
-
-// {{databaseName}}Injection will stage objects of database "{{databaseName}}"
-func {{databaseName}}Injection() {
-
-	// Declaration of instances to stage{{Identifiers}}
-
-	// Setup of values{{ValueInitializers}}
-
-	// Setup of pointers{{PointersInitializers}}
-}
-
-`
-
-const IdentifiersDecls = `
-	{{Identifier}} := (&models.{{GeneratedStructName}}{Name: ` + "`" + `{{GeneratedFieldNameValue}}` + "`" + `}).Stage()`
-
-const StringInitStatement = `
-	{{Identifier}}.{{GeneratedFieldName}} = ` + "`" + `{{GeneratedFieldNameValue}}` + "`"
-
-const StringEnumInitStatement = `
-	{{Identifier}}.{{GeneratedFieldName}} = {{GeneratedFieldNameValue}}`
-
-const NumberInitStatement = `
-	{{Identifier}}.{{GeneratedFieldName}} = {{GeneratedFieldNameValue}}`
-
-const PointerFieldInitStatement = `
-	{{Identifier}}.{{GeneratedFieldName}} = {{GeneratedFieldNameValue}}`
-
-const SliceOfPointersFieldInitStatement = `
-	{{Identifier}}.{{GeneratedFieldName}} = append({{Identifier}}.{{GeneratedFieldName}}, {{GeneratedFieldNameValue}})`
-
-const TimeInitStatement = `
-	{{Identifier}}.{{GeneratedFieldName}}, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "{{GeneratedFieldNameValue}}")`
-
-// Marshall marshall the stage content into the file as an instanciation into a stage
-func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName string) {
-
-	name := file.Name()
-
-	if !strings.HasSuffix(name, ".go") {
-		log.Fatalln(name + " is not a go filename")
-	}
-
-	log.Println("filename of marshall output  is " + name)
-
-	res := marshallRes
-	res = strings.ReplaceAll(res, "{{databaseName}}", strings.ReplaceAll(path.Base(name), ".go", ""))
-	res = strings.ReplaceAll(res, "{{PackageName}}", packageName)
-	res = strings.ReplaceAll(res, "{{ModelsPackageName}}", modelsPackageName)
-
-	// map of identifiers
-	// var StageMapDstructIds map[*Dstruct]string
-	identifiersDecl := ""
-	initializerStatements := ""
-	pointersInitializesStatements := ""
-
-	id := ""
-	decl := ""
-	setValueField := ""
-
-	// insertion initialization of objects to stage
-	map_Classdiagram_Identifiers := make(map[*Classdiagram]string)
-	_ = map_Classdiagram_Identifiers
-
-	classdiagramOrdered := []*Classdiagram{}
-	for classdiagram := range stage.Classdiagrams {
-		classdiagramOrdered = append(classdiagramOrdered, classdiagram)
-	}
-	sort.Slice(classdiagramOrdered[:], func(i, j int) bool {
-		return classdiagramOrdered[i].Name < classdiagramOrdered[j].Name
-	})
-	identifiersDecl += "\n\n	// Declarations of staged instances of Classdiagram"
-	for idx, classdiagram := range classdiagramOrdered {
-
-		id = generatesIdentifier("Classdiagram", idx, classdiagram.Name)
-		map_Classdiagram_Identifiers[classdiagram] = id
-
-		decl = IdentifiersDecls
-		decl = strings.ReplaceAll(decl, "{{Identifier}}", id)
-		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Classdiagram")
-		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", classdiagram.Name)
-		identifiersDecl += decl
-
-		initializerStatements += "\n\n	// Classdiagram values setup"
-		// Initialisation of values
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(classdiagram.Name))
-		initializerStatements += setValueField
-
-		setValueField = NumberInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "IsInDrawMode")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", classdiagram.IsInDrawMode))
-		initializerStatements += setValueField
-
-	}
-
-	map_Classshape_Identifiers := make(map[*Classshape]string)
-	_ = map_Classshape_Identifiers
-
-	classshapeOrdered := []*Classshape{}
-	for classshape := range stage.Classshapes {
-		classshapeOrdered = append(classshapeOrdered, classshape)
-	}
-	sort.Slice(classshapeOrdered[:], func(i, j int) bool {
-		return classshapeOrdered[i].Name < classshapeOrdered[j].Name
-	})
-	identifiersDecl += "\n\n	// Declarations of staged instances of Classshape"
-	for idx, classshape := range classshapeOrdered {
-
-		id = generatesIdentifier("Classshape", idx, classshape.Name)
-		map_Classshape_Identifiers[classshape] = id
-
-		decl = IdentifiersDecls
-		decl = strings.ReplaceAll(decl, "{{Identifier}}", id)
-		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Classshape")
-		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", classshape.Name)
-		identifiersDecl += decl
-
-		initializerStatements += "\n\n	// Classshape values setup"
-		// Initialisation of values
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(classshape.Name))
-		initializerStatements += setValueField
-
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "ReferenceName")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(classshape.ReferenceName))
-		initializerStatements += setValueField
-
-		setValueField = NumberInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "ShowNbInstances")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", classshape.ShowNbInstances))
-		initializerStatements += setValueField
-
-		setValueField = NumberInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "NbInstances")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", classshape.NbInstances))
-		initializerStatements += setValueField
-
-		setValueField = NumberInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Width")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", classshape.Width))
-		initializerStatements += setValueField
-
-		setValueField = NumberInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Heigth")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", classshape.Heigth))
-		initializerStatements += setValueField
-
-		setValueField = NumberInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "IsSelected")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", classshape.IsSelected))
-		initializerStatements += setValueField
-
-	}
-
-	map_DiagramPackage_Identifiers := make(map[*DiagramPackage]string)
-	_ = map_DiagramPackage_Identifiers
-
-	diagrampackageOrdered := []*DiagramPackage{}
-	for diagrampackage := range stage.DiagramPackages {
-		diagrampackageOrdered = append(diagrampackageOrdered, diagrampackage)
-	}
-	sort.Slice(diagrampackageOrdered[:], func(i, j int) bool {
-		return diagrampackageOrdered[i].Name < diagrampackageOrdered[j].Name
-	})
-	identifiersDecl += "\n\n	// Declarations of staged instances of DiagramPackage"
-	for idx, diagrampackage := range diagrampackageOrdered {
-
-		id = generatesIdentifier("DiagramPackage", idx, diagrampackage.Name)
-		map_DiagramPackage_Identifiers[diagrampackage] = id
-
-		decl = IdentifiersDecls
-		decl = strings.ReplaceAll(decl, "{{Identifier}}", id)
-		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "DiagramPackage")
-		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", diagrampackage.Name)
-		identifiersDecl += decl
-
-		initializerStatements += "\n\n	// DiagramPackage values setup"
-		// Initialisation of values
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(diagrampackage.Name))
-		initializerStatements += setValueField
-
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Path")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(diagrampackage.Path))
-		initializerStatements += setValueField
-
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "GongModelPath")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(diagrampackage.GongModelPath))
-		initializerStatements += setValueField
-
-		setValueField = NumberInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "IsEditable")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", diagrampackage.IsEditable))
-		initializerStatements += setValueField
-
-		setValueField = NumberInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "IsReloaded")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", diagrampackage.IsReloaded))
-		initializerStatements += setValueField
-
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "AbsolutePathToDiagramPackage")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(diagrampackage.AbsolutePathToDiagramPackage))
-		initializerStatements += setValueField
-
-	}
-
-	map_Field_Identifiers := make(map[*Field]string)
-	_ = map_Field_Identifiers
-
-	fieldOrdered := []*Field{}
-	for field := range stage.Fields {
-		fieldOrdered = append(fieldOrdered, field)
-	}
-	sort.Slice(fieldOrdered[:], func(i, j int) bool {
-		return fieldOrdered[i].Name < fieldOrdered[j].Name
-	})
-	identifiersDecl += "\n\n	// Declarations of staged instances of Field"
-	for idx, field := range fieldOrdered {
-
-		id = generatesIdentifier("Field", idx, field.Name)
-		map_Field_Identifiers[field] = id
-
-		decl = IdentifiersDecls
-		decl = strings.ReplaceAll(decl, "{{Identifier}}", id)
-		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Field")
-		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", field.Name)
-		identifiersDecl += decl
-
-		initializerStatements += "\n\n	// Field values setup"
-		// Initialisation of values
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(field.Name))
-		initializerStatements += setValueField
-
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Fieldname")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(field.Fieldname))
-		initializerStatements += setValueField
-
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "FieldTypeAsString")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(field.FieldTypeAsString))
-		initializerStatements += setValueField
-
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Structname")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(field.Structname))
-		initializerStatements += setValueField
-
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Fieldtypename")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(field.Fieldtypename))
-		initializerStatements += setValueField
-
-	}
-
-	map_Link_Identifiers := make(map[*Link]string)
-	_ = map_Link_Identifiers
-
-	linkOrdered := []*Link{}
-	for link := range stage.Links {
-		linkOrdered = append(linkOrdered, link)
-	}
-	sort.Slice(linkOrdered[:], func(i, j int) bool {
-		return linkOrdered[i].Name < linkOrdered[j].Name
-	})
-	identifiersDecl += "\n\n	// Declarations of staged instances of Link"
-	for idx, link := range linkOrdered {
-
-		id = generatesIdentifier("Link", idx, link.Name)
-		map_Link_Identifiers[link] = id
-
-		decl = IdentifiersDecls
-		decl = strings.ReplaceAll(decl, "{{Identifier}}", id)
-		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Link")
-		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", link.Name)
-		identifiersDecl += decl
-
-		initializerStatements += "\n\n	// Link values setup"
-		// Initialisation of values
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(link.Name))
-		initializerStatements += setValueField
-
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Fieldname")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(link.Fieldname))
-		initializerStatements += setValueField
-
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Structname")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(link.Structname))
-		initializerStatements += setValueField
-
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Fieldtypename")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(link.Fieldtypename))
-		initializerStatements += setValueField
-
-		if link.TargetMultiplicity != "" {
-			setValueField = StringEnumInitStatement
-			setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-			setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "TargetMultiplicity")
-			setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", "models."+link.TargetMultiplicity.ToCodeString())
-			initializerStatements += setValueField
-		}
-
-		if link.SourceMultiplicity != "" {
-			setValueField = StringEnumInitStatement
-			setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-			setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "SourceMultiplicity")
-			setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", "models."+link.SourceMultiplicity.ToCodeString())
-			initializerStatements += setValueField
-		}
-
-	}
-
-	map_Node_Identifiers := make(map[*Node]string)
-	_ = map_Node_Identifiers
-
-	nodeOrdered := []*Node{}
-	for node := range stage.Nodes {
-		nodeOrdered = append(nodeOrdered, node)
-	}
-	sort.Slice(nodeOrdered[:], func(i, j int) bool {
-		return nodeOrdered[i].Name < nodeOrdered[j].Name
-	})
-	identifiersDecl += "\n\n	// Declarations of staged instances of Node"
-	for idx, node := range nodeOrdered {
-
-		id = generatesIdentifier("Node", idx, node.Name)
-		map_Node_Identifiers[node] = id
-
-		decl = IdentifiersDecls
-		decl = strings.ReplaceAll(decl, "{{Identifier}}", id)
-		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Node")
-		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", node.Name)
-		identifiersDecl += decl
-
-		initializerStatements += "\n\n	// Node values setup"
-		// Initialisation of values
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(node.Name))
-		initializerStatements += setValueField
-
-		if node.Type != "" {
-			setValueField = StringEnumInitStatement
-			setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-			setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Type")
-			setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", "models."+node.Type.ToCodeString())
-			initializerStatements += setValueField
-		}
-
-		setValueField = NumberInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "IsExpanded")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", node.IsExpanded))
-		initializerStatements += setValueField
-
-		setValueField = NumberInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "HasCheckboxButton")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", node.HasCheckboxButton))
-		initializerStatements += setValueField
-
-		setValueField = NumberInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "IsChecked")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", node.IsChecked))
-		initializerStatements += setValueField
-
-		setValueField = NumberInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "IsCheckboxDisabled")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", node.IsCheckboxDisabled))
-		initializerStatements += setValueField
-
-		setValueField = NumberInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "HasAddChildButton")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", node.HasAddChildButton))
-		initializerStatements += setValueField
-
-		setValueField = NumberInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "HasEditButton")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", node.HasEditButton))
-		initializerStatements += setValueField
-
-		setValueField = NumberInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "IsInEditMode")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", node.IsInEditMode))
-		initializerStatements += setValueField
-
-		setValueField = NumberInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "HasDrawButton")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", node.HasDrawButton))
-		initializerStatements += setValueField
-
-		setValueField = NumberInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "HasDrawOffButton")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", node.HasDrawOffButton))
-		initializerStatements += setValueField
-
-		setValueField = NumberInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "IsInDrawMode")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", node.IsInDrawMode))
-		initializerStatements += setValueField
-
-		setValueField = NumberInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "IsSaved")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", node.IsSaved))
-		initializerStatements += setValueField
-
-		setValueField = NumberInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "HasDeleteButton")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", node.HasDeleteButton))
-		initializerStatements += setValueField
-
-	}
-
-	map_NoteShape_Identifiers := make(map[*NoteShape]string)
-	_ = map_NoteShape_Identifiers
-
-	noteshapeOrdered := []*NoteShape{}
-	for noteshape := range stage.NoteShapes {
-		noteshapeOrdered = append(noteshapeOrdered, noteshape)
-	}
-	sort.Slice(noteshapeOrdered[:], func(i, j int) bool {
-		return noteshapeOrdered[i].Name < noteshapeOrdered[j].Name
-	})
-	identifiersDecl += "\n\n	// Declarations of staged instances of NoteShape"
-	for idx, noteshape := range noteshapeOrdered {
-
-		id = generatesIdentifier("NoteShape", idx, noteshape.Name)
-		map_NoteShape_Identifiers[noteshape] = id
-
-		decl = IdentifiersDecls
-		decl = strings.ReplaceAll(decl, "{{Identifier}}", id)
-		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "NoteShape")
-		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", noteshape.Name)
-		identifiersDecl += decl
-
-		initializerStatements += "\n\n	// NoteShape values setup"
-		// Initialisation of values
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(noteshape.Name))
-		initializerStatements += setValueField
-
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Body")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(noteshape.Body))
-		initializerStatements += setValueField
-
-		setValueField = NumberInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "X")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", noteshape.X))
-		initializerStatements += setValueField
-
-		setValueField = NumberInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Y")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", noteshape.Y))
-		initializerStatements += setValueField
-
-		setValueField = NumberInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Width")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", noteshape.Width))
-		initializerStatements += setValueField
-
-		setValueField = NumberInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Heigth")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", noteshape.Heigth))
-		initializerStatements += setValueField
-
-		setValueField = NumberInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Matched")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", noteshape.Matched))
-		initializerStatements += setValueField
-
-	}
-
-	map_Position_Identifiers := make(map[*Position]string)
-	_ = map_Position_Identifiers
-
-	positionOrdered := []*Position{}
-	for position := range stage.Positions {
-		positionOrdered = append(positionOrdered, position)
-	}
-	sort.Slice(positionOrdered[:], func(i, j int) bool {
-		return positionOrdered[i].Name < positionOrdered[j].Name
-	})
-	identifiersDecl += "\n\n	// Declarations of staged instances of Position"
-	for idx, position := range positionOrdered {
-
-		id = generatesIdentifier("Position", idx, position.Name)
-		map_Position_Identifiers[position] = id
-
-		decl = IdentifiersDecls
-		decl = strings.ReplaceAll(decl, "{{Identifier}}", id)
-		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Position")
-		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", position.Name)
-		identifiersDecl += decl
-
-		initializerStatements += "\n\n	// Position values setup"
-		// Initialisation of values
-		setValueField = NumberInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "X")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", position.X))
-		initializerStatements += setValueField
-
-		setValueField = NumberInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Y")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", position.Y))
-		initializerStatements += setValueField
-
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(position.Name))
-		initializerStatements += setValueField
-
-	}
-
-	map_Reference_Identifiers := make(map[*Reference]string)
-	_ = map_Reference_Identifiers
-
-	referenceOrdered := []*Reference{}
-	for reference := range stage.References {
-		referenceOrdered = append(referenceOrdered, reference)
-	}
-	sort.Slice(referenceOrdered[:], func(i, j int) bool {
-		return referenceOrdered[i].Name < referenceOrdered[j].Name
-	})
-	identifiersDecl += "\n\n	// Declarations of staged instances of Reference"
-	for idx, reference := range referenceOrdered {
-
-		id = generatesIdentifier("Reference", idx, reference.Name)
-		map_Reference_Identifiers[reference] = id
-
-		decl = IdentifiersDecls
-		decl = strings.ReplaceAll(decl, "{{Identifier}}", id)
-		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Reference")
-		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", reference.Name)
-		identifiersDecl += decl
-
-		initializerStatements += "\n\n	// Reference values setup"
-		// Initialisation of values
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(reference.Name))
-		initializerStatements += setValueField
-
-		setValueField = NumberInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "NbInstances")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", reference.NbInstances))
-		initializerStatements += setValueField
-
-		if reference.Type != "" {
-			setValueField = StringEnumInitStatement
-			setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-			setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Type")
-			setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", "models."+reference.Type.ToCodeString())
-			initializerStatements += setValueField
-		}
-
-	}
-
-	map_Tree_Identifiers := make(map[*Tree]string)
-	_ = map_Tree_Identifiers
-
-	treeOrdered := []*Tree{}
-	for tree := range stage.Trees {
-		treeOrdered = append(treeOrdered, tree)
-	}
-	sort.Slice(treeOrdered[:], func(i, j int) bool {
-		return treeOrdered[i].Name < treeOrdered[j].Name
-	})
-	identifiersDecl += "\n\n	// Declarations of staged instances of Tree"
-	for idx, tree := range treeOrdered {
-
-		id = generatesIdentifier("Tree", idx, tree.Name)
-		map_Tree_Identifiers[tree] = id
-
-		decl = IdentifiersDecls
-		decl = strings.ReplaceAll(decl, "{{Identifier}}", id)
-		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Tree")
-		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", tree.Name)
-		identifiersDecl += decl
-
-		initializerStatements += "\n\n	// Tree values setup"
-		// Initialisation of values
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(tree.Name))
-		initializerStatements += setValueField
-
-		if tree.Type != "" {
-			setValueField = StringEnumInitStatement
-			setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-			setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Type")
-			setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", "models."+tree.Type.ToCodeString())
-			initializerStatements += setValueField
-		}
-
-	}
-
-	map_UmlState_Identifiers := make(map[*UmlState]string)
-	_ = map_UmlState_Identifiers
-
-	umlstateOrdered := []*UmlState{}
-	for umlstate := range stage.UmlStates {
-		umlstateOrdered = append(umlstateOrdered, umlstate)
-	}
-	sort.Slice(umlstateOrdered[:], func(i, j int) bool {
-		return umlstateOrdered[i].Name < umlstateOrdered[j].Name
-	})
-	identifiersDecl += "\n\n	// Declarations of staged instances of UmlState"
-	for idx, umlstate := range umlstateOrdered {
-
-		id = generatesIdentifier("UmlState", idx, umlstate.Name)
-		map_UmlState_Identifiers[umlstate] = id
-
-		decl = IdentifiersDecls
-		decl = strings.ReplaceAll(decl, "{{Identifier}}", id)
-		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "UmlState")
-		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", umlstate.Name)
-		identifiersDecl += decl
-
-		initializerStatements += "\n\n	// UmlState values setup"
-		// Initialisation of values
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(umlstate.Name))
-		initializerStatements += setValueField
-
-		setValueField = NumberInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "X")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", umlstate.X))
-		initializerStatements += setValueField
-
-		setValueField = NumberInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Y")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", umlstate.Y))
-		initializerStatements += setValueField
-
-	}
-
-	map_Umlsc_Identifiers := make(map[*Umlsc]string)
-	_ = map_Umlsc_Identifiers
-
-	umlscOrdered := []*Umlsc{}
-	for umlsc := range stage.Umlscs {
-		umlscOrdered = append(umlscOrdered, umlsc)
-	}
-	sort.Slice(umlscOrdered[:], func(i, j int) bool {
-		return umlscOrdered[i].Name < umlscOrdered[j].Name
-	})
-	identifiersDecl += "\n\n	// Declarations of staged instances of Umlsc"
-	for idx, umlsc := range umlscOrdered {
-
-		id = generatesIdentifier("Umlsc", idx, umlsc.Name)
-		map_Umlsc_Identifiers[umlsc] = id
-
-		decl = IdentifiersDecls
-		decl = strings.ReplaceAll(decl, "{{Identifier}}", id)
-		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Umlsc")
-		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", umlsc.Name)
-		identifiersDecl += decl
-
-		initializerStatements += "\n\n	// Umlsc values setup"
-		// Initialisation of values
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(umlsc.Name))
-		initializerStatements += setValueField
-
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Activestate")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(umlsc.Activestate))
-		initializerStatements += setValueField
-
-		setValueField = NumberInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "IsInDrawMode")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", umlsc.IsInDrawMode))
-		initializerStatements += setValueField
-
-	}
-
-	map_Vertice_Identifiers := make(map[*Vertice]string)
-	_ = map_Vertice_Identifiers
-
-	verticeOrdered := []*Vertice{}
-	for vertice := range stage.Vertices {
-		verticeOrdered = append(verticeOrdered, vertice)
-	}
-	sort.Slice(verticeOrdered[:], func(i, j int) bool {
-		return verticeOrdered[i].Name < verticeOrdered[j].Name
-	})
-	identifiersDecl += "\n\n	// Declarations of staged instances of Vertice"
-	for idx, vertice := range verticeOrdered {
-
-		id = generatesIdentifier("Vertice", idx, vertice.Name)
-		map_Vertice_Identifiers[vertice] = id
-
-		decl = IdentifiersDecls
-		decl = strings.ReplaceAll(decl, "{{Identifier}}", id)
-		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Vertice")
-		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", vertice.Name)
-		identifiersDecl += decl
-
-		initializerStatements += "\n\n	// Vertice values setup"
-		// Initialisation of values
-		setValueField = NumberInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "X")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", vertice.X))
-		initializerStatements += setValueField
-
-		setValueField = NumberInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Y")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", vertice.Y))
-		initializerStatements += setValueField
-
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(vertice.Name))
-		initializerStatements += setValueField
-
-	}
-
-	// insertion initialization of objects to stage
-	for idx, classdiagram := range classdiagramOrdered {
-		var setPointerField string
-		_ = setPointerField
-
-		id = generatesIdentifier("Classdiagram", idx, classdiagram.Name)
-		map_Classdiagram_Identifiers[classdiagram] = id
-
-		// Initialisation of values
-		for _, _classshape := range classdiagram.Classshapes {
-			setPointerField = SliceOfPointersFieldInitStatement
-			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "Classshapes")
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_Classshape_Identifiers[_classshape])
-			pointersInitializesStatements += setPointerField
-		}
-
-		for _, _noteshape := range classdiagram.Notes {
-			setPointerField = SliceOfPointersFieldInitStatement
-			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "Notes")
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_NoteShape_Identifiers[_noteshape])
-			pointersInitializesStatements += setPointerField
-		}
-
-	}
-
-	for idx, classshape := range classshapeOrdered {
-		var setPointerField string
-		_ = setPointerField
-
-		id = generatesIdentifier("Classshape", idx, classshape.Name)
-		map_Classshape_Identifiers[classshape] = id
-
-		// Initialisation of values
-		if classshape.Position != nil {
-			setPointerField = PointerFieldInitStatement
-			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "Position")
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_Position_Identifiers[classshape.Position])
-			pointersInitializesStatements += setPointerField
-		}
-
-		if classshape.Reference != nil {
-			setPointerField = PointerFieldInitStatement
-			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "Reference")
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_Reference_Identifiers[classshape.Reference])
-			pointersInitializesStatements += setPointerField
-		}
-
-		for _, _field := range classshape.Fields {
-			setPointerField = SliceOfPointersFieldInitStatement
-			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "Fields")
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_Field_Identifiers[_field])
-			pointersInitializesStatements += setPointerField
-		}
-
-		for _, _link := range classshape.Links {
-			setPointerField = SliceOfPointersFieldInitStatement
-			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "Links")
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_Link_Identifiers[_link])
-			pointersInitializesStatements += setPointerField
-		}
-
-	}
-
-	for idx, diagrampackage := range diagrampackageOrdered {
-		var setPointerField string
-		_ = setPointerField
-
-		id = generatesIdentifier("DiagramPackage", idx, diagrampackage.Name)
-		map_DiagramPackage_Identifiers[diagrampackage] = id
-
-		// Initialisation of values
-		for _, _classdiagram := range diagrampackage.Classdiagrams {
-			setPointerField = SliceOfPointersFieldInitStatement
-			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "Classdiagrams")
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_Classdiagram_Identifiers[_classdiagram])
-			pointersInitializesStatements += setPointerField
-		}
-
-		for _, _umlsc := range diagrampackage.Umlscs {
-			setPointerField = SliceOfPointersFieldInitStatement
-			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "Umlscs")
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_Umlsc_Identifiers[_umlsc])
-			pointersInitializesStatements += setPointerField
-		}
-
-	}
-
-	for idx, field := range fieldOrdered {
-		var setPointerField string
-		_ = setPointerField
-
-		id = generatesIdentifier("Field", idx, field.Name)
-		map_Field_Identifiers[field] = id
-
-		// Initialisation of values
-	}
-
-	for idx, link := range linkOrdered {
-		var setPointerField string
-		_ = setPointerField
-
-		id = generatesIdentifier("Link", idx, link.Name)
-		map_Link_Identifiers[link] = id
-
-		// Initialisation of values
-		if link.Middlevertice != nil {
-			setPointerField = PointerFieldInitStatement
-			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "Middlevertice")
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_Vertice_Identifiers[link.Middlevertice])
-			pointersInitializesStatements += setPointerField
-		}
-
-	}
-
-	for idx, node := range nodeOrdered {
-		var setPointerField string
-		_ = setPointerField
-
-		id = generatesIdentifier("Node", idx, node.Name)
-		map_Node_Identifiers[node] = id
-
-		// Initialisation of values
-		if node.Classdiagram != nil {
-			setPointerField = PointerFieldInitStatement
-			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "Classdiagram")
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_Classdiagram_Identifiers[node.Classdiagram])
-			pointersInitializesStatements += setPointerField
-		}
-
-		if node.Umlsc != nil {
-			setPointerField = PointerFieldInitStatement
-			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "Umlsc")
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_Umlsc_Identifiers[node.Umlsc])
-			pointersInitializesStatements += setPointerField
-		}
-
-		for _, _node := range node.Children {
-			setPointerField = SliceOfPointersFieldInitStatement
-			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "Children")
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_Node_Identifiers[_node])
-			pointersInitializesStatements += setPointerField
-		}
-
-	}
-
-	for idx, noteshape := range noteshapeOrdered {
-		var setPointerField string
-		_ = setPointerField
-
-		id = generatesIdentifier("NoteShape", idx, noteshape.Name)
-		map_NoteShape_Identifiers[noteshape] = id
-
-		// Initialisation of values
-	}
-
-	for idx, position := range positionOrdered {
-		var setPointerField string
-		_ = setPointerField
-
-		id = generatesIdentifier("Position", idx, position.Name)
-		map_Position_Identifiers[position] = id
-
-		// Initialisation of values
-	}
-
-	for idx, reference := range referenceOrdered {
-		var setPointerField string
-		_ = setPointerField
-
-		id = generatesIdentifier("Reference", idx, reference.Name)
-		map_Reference_Identifiers[reference] = id
-
-		// Initialisation of values
-	}
-
-	for idx, tree := range treeOrdered {
-		var setPointerField string
-		_ = setPointerField
-
-		id = generatesIdentifier("Tree", idx, tree.Name)
-		map_Tree_Identifiers[tree] = id
-
-		// Initialisation of values
-		for _, _node := range tree.RootNodes {
-			setPointerField = SliceOfPointersFieldInitStatement
-			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "RootNodes")
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_Node_Identifiers[_node])
-			pointersInitializesStatements += setPointerField
-		}
-
-	}
-
-	for idx, umlstate := range umlstateOrdered {
-		var setPointerField string
-		_ = setPointerField
-
-		id = generatesIdentifier("UmlState", idx, umlstate.Name)
-		map_UmlState_Identifiers[umlstate] = id
-
-		// Initialisation of values
-	}
-
-	for idx, umlsc := range umlscOrdered {
-		var setPointerField string
-		_ = setPointerField
-
-		id = generatesIdentifier("Umlsc", idx, umlsc.Name)
-		map_Umlsc_Identifiers[umlsc] = id
-
-		// Initialisation of values
-		for _, _umlstate := range umlsc.States {
-			setPointerField = SliceOfPointersFieldInitStatement
-			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "States")
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_UmlState_Identifiers[_umlstate])
-			pointersInitializesStatements += setPointerField
-		}
-
-	}
-
-	for idx, vertice := range verticeOrdered {
-		var setPointerField string
-		_ = setPointerField
-
-		id = generatesIdentifier("Vertice", idx, vertice.Name)
-		map_Vertice_Identifiers[vertice] = id
-
-		// Initialisation of values
-	}
-
-	res = strings.ReplaceAll(res, "{{Identifiers}}", identifiersDecl)
-	res = strings.ReplaceAll(res, "{{ValueInitializers}}", initializerStatements)
-	res = strings.ReplaceAll(res, "{{PointersInitializers}}", pointersInitializesStatements)
-
-	fmt.Fprintln(file, res)
-}
-
-// unique identifier per struct
-func generatesIdentifier(gongStructName string, idx int, instanceName string) (identifier string) {
-
-	identifier = instanceName
-	// Make a Regex to say we only want letters and numbers
-	reg, err := regexp.Compile("[^a-zA-Z0-9]+")
-	if err != nil {
-		log.Fatal(err)
-	}
-	processedString := reg.ReplaceAllString(instanceName, "_")
-
-	identifier = fmt.Sprintf("__%s__%06d_%s", gongStructName, idx, processedString)
-
-	return
 }
 
 // insertion point of functions that provide maps for reverse associations
@@ -2960,7 +2004,81 @@ func (stageStruct *StageStruct) CreateReverseMap_Node_Children() (res map[*Node]
 }
 
 
+// generate function for reverse association maps of NoteLink
+func (stageStruct *StageStruct) CreateReverseMap_NoteLink_Classshape() (res map[*Classshape][]*NoteLink) {
+	res = make(map[*Classshape][]*NoteLink)
+
+	for notelink := range stageStruct.NoteLinks {
+		if notelink.Classshape != nil {
+			classshape_ := notelink.Classshape
+			var notelinks []*NoteLink
+			_, ok := res[classshape_]
+			if ok {
+				notelinks = res[classshape_]
+			} else {
+				notelinks = make([]*NoteLink, 0)
+			}
+			notelinks = append(notelinks, notelink)
+			res[classshape_] = notelinks
+		}
+	}
+
+	return
+}
+func (stageStruct *StageStruct) CreateReverseMap_NoteLink_Link() (res map[*Link][]*NoteLink) {
+	res = make(map[*Link][]*NoteLink)
+
+	for notelink := range stageStruct.NoteLinks {
+		if notelink.Link != nil {
+			link_ := notelink.Link
+			var notelinks []*NoteLink
+			_, ok := res[link_]
+			if ok {
+				notelinks = res[link_]
+			} else {
+				notelinks = make([]*NoteLink, 0)
+			}
+			notelinks = append(notelinks, notelink)
+			res[link_] = notelinks
+		}
+	}
+
+	return
+}
+func (stageStruct *StageStruct) CreateReverseMap_NoteLink_Middlevertice() (res map[*Vertice][]*NoteLink) {
+	res = make(map[*Vertice][]*NoteLink)
+
+	for notelink := range stageStruct.NoteLinks {
+		if notelink.Middlevertice != nil {
+			vertice_ := notelink.Middlevertice
+			var notelinks []*NoteLink
+			_, ok := res[vertice_]
+			if ok {
+				notelinks = res[vertice_]
+			} else {
+				notelinks = make([]*NoteLink, 0)
+			}
+			notelinks = append(notelinks, notelink)
+			res[vertice_] = notelinks
+		}
+	}
+
+	return
+}
+
 // generate function for reverse association maps of NoteShape
+func (stageStruct *StageStruct) CreateReverseMap_NoteShape_NoteLinks() (res map[*NoteLink]*NoteShape) {
+	res = make(map[*NoteLink]*NoteShape)
+
+	for noteshape := range stageStruct.NoteShapes {
+		for _, notelink_ := range noteshape.NoteLinks {
+			res[notelink_] = noteshape
+		}
+	}
+
+	return
+}
+
 
 // generate function for reverse association maps of Position
 
@@ -3004,7 +2122,7 @@ func (stageStruct *StageStruct) CreateReverseMap_Umlsc_States() (res map[*UmlSta
 // - full refactoring of Gongstruct identifiers / fields
 type Gongstruct interface {
 	// insertion point for generic types
-	Classdiagram | Classshape | DiagramPackage | Field | Link | Node | NoteShape | Position | Reference | Tree | UmlState | Umlsc | Vertice
+	Classdiagram | Classshape | DiagramPackage | Field | Link | Node | NoteLink | NoteShape | Position | Reference | Tree | UmlState | Umlsc | Vertice
 }
 
 // Gongstruct is the type parameter for generated generic function that allows
@@ -3013,7 +2131,7 @@ type Gongstruct interface {
 // - full refactoring of Gongstruct identifiers / fields
 type PointerToGongstruct interface {
 	// insertion point for generic types
-	*Classdiagram | *Classshape | *DiagramPackage | *Field | *Link | *Node | *NoteShape | *Position | *Reference | *Tree | *UmlState | *Umlsc | *Vertice
+	*Classdiagram | *Classshape | *DiagramPackage | *Field | *Link | *Node | *NoteLink | *NoteShape | *Position | *Reference | *Tree | *UmlState | *Umlsc | *Vertice
 	GetName() string
 }
 
@@ -3026,6 +2144,7 @@ type GongstructSet interface {
 		map[*Field]any |
 		map[*Link]any |
 		map[*Node]any |
+		map[*NoteLink]any |
 		map[*NoteShape]any |
 		map[*Position]any |
 		map[*Reference]any |
@@ -3045,6 +2164,7 @@ type GongstructMapString interface {
 		map[string]*Field |
 		map[string]*Link |
 		map[string]*Node |
+		map[string]*NoteLink |
 		map[string]*NoteShape |
 		map[string]*Position |
 		map[string]*Reference |
@@ -3074,6 +2194,8 @@ func GongGetSet[Type GongstructSet]() *Type {
 		return any(&Stage.Links).(*Type)
 	case map[*Node]any:
 		return any(&Stage.Nodes).(*Type)
+	case map[*NoteLink]any:
+		return any(&Stage.NoteLinks).(*Type)
 	case map[*NoteShape]any:
 		return any(&Stage.NoteShapes).(*Type)
 	case map[*Position]any:
@@ -3112,6 +2234,8 @@ func GongGetMap[Type GongstructMapString]() *Type {
 		return any(&Stage.Links_mapString).(*Type)
 	case map[string]*Node:
 		return any(&Stage.Nodes_mapString).(*Type)
+	case map[string]*NoteLink:
+		return any(&Stage.NoteLinks_mapString).(*Type)
 	case map[string]*NoteShape:
 		return any(&Stage.NoteShapes_mapString).(*Type)
 	case map[string]*Position:
@@ -3150,6 +2274,8 @@ func GetGongstructInstancesSet[Type Gongstruct]() *map[*Type]any {
 		return any(&Stage.Links).(*map[*Type]any)
 	case Node:
 		return any(&Stage.Nodes).(*map[*Type]any)
+	case NoteLink:
+		return any(&Stage.NoteLinks).(*map[*Type]any)
 	case NoteShape:
 		return any(&Stage.NoteShapes).(*map[*Type]any)
 	case Position:
@@ -3188,6 +2314,8 @@ func GetGongstructInstancesMap[Type Gongstruct]() *map[string]*Type {
 		return any(&Stage.Links_mapString).(*map[string]*Type)
 	case Node:
 		return any(&Stage.Nodes_mapString).(*map[string]*Type)
+	case NoteLink:
+		return any(&Stage.NoteLinks_mapString).(*map[string]*Type)
 	case NoteShape:
 		return any(&Stage.NoteShapes_mapString).(*map[string]*Type)
 	case Position:
@@ -3264,9 +2392,21 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			// field is initialized with an instance of Node with the name of the field
 			Children: []*Node{{Name: "Children"}},
 		}).(*Type)
+	case NoteLink:
+		return any(&NoteLink{
+			// Initialisation of associations
+			// field is initialized with an instance of Classshape with the name of the field
+			Classshape: &Classshape{Name: "Classshape"},
+			// field is initialized with an instance of Link with the name of the field
+			Link: &Link{Name: "Link"},
+			// field is initialized with an instance of Vertice with the name of the field
+			Middlevertice: &Vertice{Name: "Middlevertice"},
+		}).(*Type)
 	case NoteShape:
 		return any(&NoteShape{
 			// Initialisation of associations
+			// field is initialized with an instance of NoteLink with the name of the field
+			NoteLinks: []*NoteLink{{Name: "NoteLinks"}},
 		}).(*Type)
 	case Position:
 		return any(&Position{
@@ -3428,6 +2568,62 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string) map[*End][]*S
 			}
 			return any(res).(map[*End][]*Start)
 		}
+	// reverse maps of direct associations of NoteLink
+	case NoteLink:
+		switch fieldname {
+		// insertion point for per direct association field
+		case "Classshape":
+			res := make(map[*Classshape][]*NoteLink)
+			for notelink := range Stage.NoteLinks {
+				if notelink.Classshape != nil {
+					classshape_ := notelink.Classshape
+					var notelinks []*NoteLink
+					_, ok := res[classshape_]
+					if ok {
+						notelinks = res[classshape_]
+					} else {
+						notelinks = make([]*NoteLink, 0)
+					}
+					notelinks = append(notelinks, notelink)
+					res[classshape_] = notelinks
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "Link":
+			res := make(map[*Link][]*NoteLink)
+			for notelink := range Stage.NoteLinks {
+				if notelink.Link != nil {
+					link_ := notelink.Link
+					var notelinks []*NoteLink
+					_, ok := res[link_]
+					if ok {
+						notelinks = res[link_]
+					} else {
+						notelinks = make([]*NoteLink, 0)
+					}
+					notelinks = append(notelinks, notelink)
+					res[link_] = notelinks
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "Middlevertice":
+			res := make(map[*Vertice][]*NoteLink)
+			for notelink := range Stage.NoteLinks {
+				if notelink.Middlevertice != nil {
+					vertice_ := notelink.Middlevertice
+					var notelinks []*NoteLink
+					_, ok := res[vertice_]
+					if ok {
+						notelinks = res[vertice_]
+					} else {
+						notelinks = make([]*NoteLink, 0)
+					}
+					notelinks = append(notelinks, notelink)
+					res[vertice_] = notelinks
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		}
 	// reverse maps of direct associations of NoteShape
 	case NoteShape:
 		switch fieldname {
@@ -3564,10 +2760,23 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string) map[*
 			}
 			return any(res).(map[*End]*Start)
 		}
+	// reverse maps of direct associations of NoteLink
+	case NoteLink:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
 	// reverse maps of direct associations of NoteShape
 	case NoteShape:
 		switch fieldname {
 		// insertion point for per direct association field
+		case "NoteLinks":
+			res := make(map[*NoteLink]*NoteShape)
+			for noteshape := range Stage.NoteShapes {
+				for _, notelink_ := range noteshape.NoteLinks {
+					res[notelink_] = noteshape
+				}
+			}
+			return any(res).(map[*End]*Start)
 		}
 	// reverse maps of direct associations of Position
 	case Position:
@@ -3639,6 +2848,8 @@ func GetGongstructName[Type Gongstruct]() (res string) {
 		res = "Link"
 	case Node:
 		res = "Node"
+	case NoteLink:
+		res = "NoteLink"
 	case NoteShape:
 		res = "NoteShape"
 	case Position:
@@ -3676,8 +2887,10 @@ func GetFields[Type Gongstruct]() (res []string) {
 		res = []string{"Name", "Fieldname", "Structname", "Fieldtypename", "TargetMultiplicity", "SourceMultiplicity", "Middlevertice"}
 	case Node:
 		res = []string{"Name", "Type", "Classdiagram", "Umlsc", "IsExpanded", "HasCheckboxButton", "IsChecked", "IsCheckboxDisabled", "HasAddChildButton", "HasEditButton", "IsInEditMode", "HasDrawButton", "HasDrawOffButton", "IsInDrawMode", "IsSaved", "HasDeleteButton", "Children"}
+	case NoteLink:
+		res = []string{"Name", "Type", "Classshape", "Link", "Middlevertice"}
 	case NoteShape:
-		res = []string{"Name", "Body", "X", "Y", "Width", "Heigth", "Matched"}
+		res = []string{"Name", "Body", "X", "Y", "Width", "Heigth", "Matched", "NoteLinks"}
 	case Position:
 		res = []string{"X", "Y", "Name"}
 	case Reference:
@@ -3875,6 +3088,27 @@ func GetFieldStringValue[Type Gongstruct](instance Type, fieldName string) (res 
 				res += __instance__.Name
 			}
 		}
+	case NoteLink:
+		switch fieldName {
+		// string value of fields
+		case "Name":
+			res = any(instance).(NoteLink).Name
+		case "Type":
+			enum := any(instance).(NoteLink).Type
+			res = enum.ToCodeString()
+		case "Classshape":
+			if any(instance).(NoteLink).Classshape != nil {
+				res = any(instance).(NoteLink).Classshape.Name
+			}
+		case "Link":
+			if any(instance).(NoteLink).Link != nil {
+				res = any(instance).(NoteLink).Link.Name
+			}
+		case "Middlevertice":
+			if any(instance).(NoteLink).Middlevertice != nil {
+				res = any(instance).(NoteLink).Middlevertice.Name
+			}
+		}
 	case NoteShape:
 		switch fieldName {
 		// string value of fields
@@ -3892,6 +3126,13 @@ func GetFieldStringValue[Type Gongstruct](instance Type, fieldName string) (res 
 			res = fmt.Sprintf("%f", any(instance).(NoteShape).Heigth)
 		case "Matched":
 			res = fmt.Sprintf("%t", any(instance).(NoteShape).Matched)
+		case "NoteLinks":
+			for idx, __instance__ := range any(instance).(NoteShape).NoteLinks {
+				if idx > 0 {
+					res += "\n"
+				}
+				res += __instance__.Name
+			}
 		}
 	case Position:
 		switch fieldName {
@@ -3967,327 +3208,6 @@ func GetFieldStringValue[Type Gongstruct](instance Type, fieldName string) (res 
 		case "Name":
 			res = any(instance).(Vertice).Name
 		}
-	}
-	return
-}
-
-// insertion point of enum utility functions
-// Utility function for GongdocNodeType
-// if enum values are string, it is stored with the value
-// if enum values are int, they are stored with the code of the value
-func (gongdocnodetype GongdocNodeType) ToString() (res string) {
-
-	// migration of former implementation of enum
-	switch gongdocnodetype {
-	// insertion code per enum code
-	case ROOT_OF_DIAGRAMS:
-		res = "ROOT_OF_DIAGRAMS"
-	case ROOT_OF_CLASS_DIAGRAMS:
-		res = "ROOT_OF_CLASS_DIAGRAMS"
-	case ROOT_OF_STATE_DIAGRAMS:
-		res = "ROOT_OF_STATE_DIAGRAMS"
-	case CLASS_DIAGRAM:
-		res = "CLASS_DIAGRAM"
-	case STATE_DIAGRAM:
-		res = "STATE_DIAGRAM"
-	case ROOT_OF_GONG_STRUCTS:
-		res = "ROOT_OF_GONG_STRUCTS"
-	case GONG_STRUCT:
-		res = "GONG_STRUCT"
-	case GONG_STRUCT_FIELD:
-		res = "GONG_STRUCT_FIELD"
-	case ROOT_OF_GONG_ENUMS:
-		res = "ROOT_OF_GONG_ENUMS"
-	case GONG_ENUM:
-		res = "GONG_ENUM"
-	case GONG_ENUM_VALUE:
-		res = "GONG_ENUM_VALUE"
-	case ROOT_OF_GONG_NOTES:
-		res = "ROOT_OF_GONG_NOTES"
-	case GONG_NOTE:
-		res = "GONG_NOTE"
-	}
-	return
-}
-
-func (gongdocnodetype *GongdocNodeType) FromString(input string) (err error) {
-
-	switch input {
-	// insertion code per enum code
-	case "ROOT_OF_DIAGRAMS":
-		*gongdocnodetype = ROOT_OF_DIAGRAMS
-	case "ROOT_OF_CLASS_DIAGRAMS":
-		*gongdocnodetype = ROOT_OF_CLASS_DIAGRAMS
-	case "ROOT_OF_STATE_DIAGRAMS":
-		*gongdocnodetype = ROOT_OF_STATE_DIAGRAMS
-	case "CLASS_DIAGRAM":
-		*gongdocnodetype = CLASS_DIAGRAM
-	case "STATE_DIAGRAM":
-		*gongdocnodetype = STATE_DIAGRAM
-	case "ROOT_OF_GONG_STRUCTS":
-		*gongdocnodetype = ROOT_OF_GONG_STRUCTS
-	case "GONG_STRUCT":
-		*gongdocnodetype = GONG_STRUCT
-	case "GONG_STRUCT_FIELD":
-		*gongdocnodetype = GONG_STRUCT_FIELD
-	case "ROOT_OF_GONG_ENUMS":
-		*gongdocnodetype = ROOT_OF_GONG_ENUMS
-	case "GONG_ENUM":
-		*gongdocnodetype = GONG_ENUM
-	case "GONG_ENUM_VALUE":
-		*gongdocnodetype = GONG_ENUM_VALUE
-	case "ROOT_OF_GONG_NOTES":
-		*gongdocnodetype = ROOT_OF_GONG_NOTES
-	case "GONG_NOTE":
-		*gongdocnodetype = GONG_NOTE
-	default:
-		return errUnkownEnum
-	}
-	return
-}
-
-func (gongdocnodetype *GongdocNodeType) FromCodeString(input string) (err error) {
-
-	switch input {
-	// insertion code per enum code
-	case "ROOT_OF_DIAGRAMS":
-		*gongdocnodetype = ROOT_OF_DIAGRAMS
-	case "ROOT_OF_CLASS_DIAGRAMS":
-		*gongdocnodetype = ROOT_OF_CLASS_DIAGRAMS
-	case "ROOT_OF_STATE_DIAGRAMS":
-		*gongdocnodetype = ROOT_OF_STATE_DIAGRAMS
-	case "CLASS_DIAGRAM":
-		*gongdocnodetype = CLASS_DIAGRAM
-	case "STATE_DIAGRAM":
-		*gongdocnodetype = STATE_DIAGRAM
-	case "ROOT_OF_GONG_STRUCTS":
-		*gongdocnodetype = ROOT_OF_GONG_STRUCTS
-	case "GONG_STRUCT":
-		*gongdocnodetype = GONG_STRUCT
-	case "GONG_STRUCT_FIELD":
-		*gongdocnodetype = GONG_STRUCT_FIELD
-	case "ROOT_OF_GONG_ENUMS":
-		*gongdocnodetype = ROOT_OF_GONG_ENUMS
-	case "GONG_ENUM":
-		*gongdocnodetype = GONG_ENUM
-	case "GONG_ENUM_VALUE":
-		*gongdocnodetype = GONG_ENUM_VALUE
-	case "ROOT_OF_GONG_NOTES":
-		*gongdocnodetype = ROOT_OF_GONG_NOTES
-	case "GONG_NOTE":
-		*gongdocnodetype = GONG_NOTE
-	default:
-		return errUnkownEnum
-	}
-	return
-}
-
-func (gongdocnodetype *GongdocNodeType) ToCodeString() (res string) {
-
-	switch *gongdocnodetype {
-	// insertion code per enum code
-	case ROOT_OF_DIAGRAMS:
-		res = "ROOT_OF_DIAGRAMS"
-	case ROOT_OF_CLASS_DIAGRAMS:
-		res = "ROOT_OF_CLASS_DIAGRAMS"
-	case ROOT_OF_STATE_DIAGRAMS:
-		res = "ROOT_OF_STATE_DIAGRAMS"
-	case CLASS_DIAGRAM:
-		res = "CLASS_DIAGRAM"
-	case STATE_DIAGRAM:
-		res = "STATE_DIAGRAM"
-	case ROOT_OF_GONG_STRUCTS:
-		res = "ROOT_OF_GONG_STRUCTS"
-	case GONG_STRUCT:
-		res = "GONG_STRUCT"
-	case GONG_STRUCT_FIELD:
-		res = "GONG_STRUCT_FIELD"
-	case ROOT_OF_GONG_ENUMS:
-		res = "ROOT_OF_GONG_ENUMS"
-	case GONG_ENUM:
-		res = "GONG_ENUM"
-	case GONG_ENUM_VALUE:
-		res = "GONG_ENUM_VALUE"
-	case ROOT_OF_GONG_NOTES:
-		res = "ROOT_OF_GONG_NOTES"
-	case GONG_NOTE:
-		res = "GONG_NOTE"
-	}
-	return
-}
-
-// Utility function for MultiplicityType
-// if enum values are string, it is stored with the value
-// if enum values are int, they are stored with the code of the value
-func (multiplicitytype MultiplicityType) ToString() (res string) {
-
-	// migration of former implementation of enum
-	switch multiplicitytype {
-	// insertion code per enum code
-	case ZERO_ONE:
-		res = "0..1"
-	case ONE:
-		res = "1"
-	case MANY:
-		res = "*"
-	}
-	return
-}
-
-func (multiplicitytype *MultiplicityType) FromString(input string) (err error) {
-
-	switch input {
-	// insertion code per enum code
-	case "0..1":
-		*multiplicitytype = ZERO_ONE
-	case "1":
-		*multiplicitytype = ONE
-	case "*":
-		*multiplicitytype = MANY
-	default:
-		return errUnkownEnum
-	}
-	return
-}
-
-func (multiplicitytype *MultiplicityType) FromCodeString(input string) (err error) {
-
-	switch input {
-	// insertion code per enum code
-	case "ZERO_ONE":
-		*multiplicitytype = ZERO_ONE
-	case "ONE":
-		*multiplicitytype = ONE
-	case "MANY":
-		*multiplicitytype = MANY
-	default:
-		return errUnkownEnum
-	}
-	return
-}
-
-func (multiplicitytype *MultiplicityType) ToCodeString() (res string) {
-
-	switch *multiplicitytype {
-	// insertion code per enum code
-	case ZERO_ONE:
-		res = "ZERO_ONE"
-	case ONE:
-		res = "ONE"
-	case MANY:
-		res = "MANY"
-	}
-	return
-}
-
-// Utility function for ReferenceType
-// if enum values are string, it is stored with the value
-// if enum values are int, they are stored with the code of the value
-func (referencetype ReferenceType) ToString() (res string) {
-
-	// migration of former implementation of enum
-	switch referencetype {
-	// insertion code per enum code
-	case REFERENCE_GONG_STRUCT:
-		res = "REFERENCE_GONG_STRUCT"
-	case REFERENCE_GONG_ENUM:
-		res = "REFERENCE_GONG_ENUM"
-	}
-	return
-}
-
-func (referencetype *ReferenceType) FromString(input string) (err error) {
-
-	switch input {
-	// insertion code per enum code
-	case "REFERENCE_GONG_STRUCT":
-		*referencetype = REFERENCE_GONG_STRUCT
-	case "REFERENCE_GONG_ENUM":
-		*referencetype = REFERENCE_GONG_ENUM
-	default:
-		return errUnkownEnum
-	}
-	return
-}
-
-func (referencetype *ReferenceType) FromCodeString(input string) (err error) {
-
-	switch input {
-	// insertion code per enum code
-	case "REFERENCE_GONG_STRUCT":
-		*referencetype = REFERENCE_GONG_STRUCT
-	case "REFERENCE_GONG_ENUM":
-		*referencetype = REFERENCE_GONG_ENUM
-	default:
-		return errUnkownEnum
-	}
-	return
-}
-
-func (referencetype *ReferenceType) ToCodeString() (res string) {
-
-	switch *referencetype {
-	// insertion code per enum code
-	case REFERENCE_GONG_STRUCT:
-		res = "REFERENCE_GONG_STRUCT"
-	case REFERENCE_GONG_ENUM:
-		res = "REFERENCE_GONG_ENUM"
-	}
-	return
-}
-
-// Utility function for TreeType
-// if enum values are string, it is stored with the value
-// if enum values are int, they are stored with the code of the value
-func (treetype TreeType) ToString() (res string) {
-
-	// migration of former implementation of enum
-	switch treetype {
-	// insertion code per enum code
-	case TREE_OF_DIAGRAMS:
-		res = "TREE_OF_DIAGRAMS"
-	case TREE_OF_IDENTIFIERS:
-		res = "TREE_OF_IDENTIFIERS"
-	}
-	return
-}
-
-func (treetype *TreeType) FromString(input string) (err error) {
-
-	switch input {
-	// insertion code per enum code
-	case "TREE_OF_DIAGRAMS":
-		*treetype = TREE_OF_DIAGRAMS
-	case "TREE_OF_IDENTIFIERS":
-		*treetype = TREE_OF_IDENTIFIERS
-	default:
-		return errUnkownEnum
-	}
-	return
-}
-
-func (treetype *TreeType) FromCodeString(input string) (err error) {
-
-	switch input {
-	// insertion code per enum code
-	case "TREE_OF_DIAGRAMS":
-		*treetype = TREE_OF_DIAGRAMS
-	case "TREE_OF_IDENTIFIERS":
-		*treetype = TREE_OF_IDENTIFIERS
-	default:
-		return errUnkownEnum
-	}
-	return
-}
-
-func (treetype *TreeType) ToCodeString() (res string) {
-
-	switch *treetype {
-	// insertion code per enum code
-	case TREE_OF_DIAGRAMS:
-		res = "TREE_OF_DIAGRAMS"
-	case TREE_OF_IDENTIFIERS:
-		res = "TREE_OF_IDENTIFIERS"
 	}
 	return
 }

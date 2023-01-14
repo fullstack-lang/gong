@@ -68,6 +68,19 @@
     <!-- -->
     <mat-checkbox [formControl]="MatchedFormControl">Matched</mat-checkbox>
 
+    <mat-grid-list cols="5" rowHeight="2:1">
+        <mat-grid-tile [colspan]="3">
+            <button mat-raised-button (click)="openReverseSelection('NoteLink', 'NoteShape_NoteLinksDBID', 'ONE_MANY_ASSOCIATION_MODE', '', '', '')">NoteLinks</button>
+        </mat-grid-tile>
+        <!-- insertion point for the button of the MANY_MANY association-->
+        <mat-grid-tile>
+            <button mat-raised-button (click)="openDragAndDropOrdering('NoteLink', 'NoteShape_NoteLinksDBID')">
+                <mat-icon>
+                    shuffle
+                </mat-icon>
+            </button>
+        </mat-grid-tile>
+    </mat-grid-list>
     <mat-form-field class="detail-full-width">
         <mat-label>(Classdiagram) Notes</mat-label>
         <mat-select [compareWith]="compareObjects" [(ngModel)]="noteshape.Classdiagram_Notes_reverse" [ngModelOptions]="{standalone: true}">
