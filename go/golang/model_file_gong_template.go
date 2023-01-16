@@ -156,6 +156,9 @@ func (stage *StageStruct) Reset() { // insertion point for array reset{{` + stri
 func (stage *StageStruct) Nil() { // insertion point for array nil{{` + string(rune(ModelGongStructInsertionArrayNil)) + `}}
 }
 
+func (stage *StageStruct) Unstage() { // insertion point for array nil{{` + string(rune(ModelGongStructInsertionArrayUnstage)) + `}}
+}
+
 // insertion point of functions that provide maps for reverse associations{{` + string(rune(ModelGongStructInsertionReverseAssociationsMaps)) + `}}
 
 // Gongstruct is the type parameter for generated generic function that allows

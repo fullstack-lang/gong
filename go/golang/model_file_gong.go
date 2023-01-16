@@ -27,6 +27,7 @@ const (
 	ModelGongStructInsertionArrayInitialisation
 	ModelGongStructInsertionArrayReset
 	ModelGongStructInsertionArrayNil
+	ModelGongStructInsertionArrayUnstage
 	ModelGongStructInsertionUnmarshallDeclarations
 	ModelGongStructInsertionUnmarshallPointersInitializations
 	ModelGongStructInsertionComputeNbInstances
@@ -190,7 +191,11 @@ func ({{structname}} *{{Structname}}) GetName() (res string) {
 	stage.{{Structname}}s = nil
 	stage.{{Structname}}s_mapString = nil
 `,
-
+	ModelGongStructInsertionArrayUnstage: `
+	for {{structname}} := range stage.{{Structname}}s {
+		{{structname}}.Unstage()
+	}
+`,
 	ModelGongStructInsertionUnmarshallDeclarations: `
 	map_{{Structname}}_Identifiers := make(map[*{{Structname}}]string)
 	_ = map_{{Structname}}_Identifiers
