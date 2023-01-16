@@ -97,6 +97,9 @@
         <input type="number" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="gongbasicfield.Index" [ngModelOptions]="{standalone: true}">
     </mat-form-field>
 
+    <!-- -->
+    <mat-checkbox [formControl]="IsDocLinkFormControl">IsDocLink</mat-checkbox>
+
     <mat-form-field class="detail-full-width">
         <mat-label>(GongStruct) GongBasicFields</mat-label>
         <mat-select [compareWith]="compareObjects" [(ngModel)]="gongbasicfield.GongStruct_GongBasicFields_reverse" [ngModelOptions]="{standalone: true}">

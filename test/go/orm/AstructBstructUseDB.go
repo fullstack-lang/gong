@@ -268,8 +268,7 @@ func (backRepoAstructBstructUse *BackRepoAstructBstructUseStruct) CommitPhaseTwo
 // BackRepoAstructBstructUse.CheckoutPhaseOne Checkouts all BackRepo instances to the Stage
 //
 // Phase One will result in having instances on the stage aligned with the back repo
-// pointers are not initialized yet (this is for pahse two)
-//
+// pointers are not initialized yet (this is for phase two)
 func (backRepoAstructBstructUse *BackRepoAstructBstructUseStruct) CheckoutPhaseOne() (Error error) {
 
 	astructbstructuseDBArray := make([]AstructBstructUseDB, 0)
@@ -327,6 +326,9 @@ func (backRepoAstructBstructUse *BackRepoAstructBstructUseStruct) CheckoutPhaseO
 		astructbstructuse.Stage()
 	}
 	astructbstructuseDB.CopyBasicFieldsToAstructBstructUse(astructbstructuse)
+
+	// in some cases, the instance might have been unstaged. It is necessary to stage it again
+	astructbstructuse.Stage()
 
 	// preserve pointer to astructbstructuseDB. Otherwise, pointer will is recycled and the map of pointers
 	// Map_AstructBstructUseDBID_AstructBstructUseDB)[astructbstructuseDB hold variable pointers

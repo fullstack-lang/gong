@@ -255,8 +255,7 @@ func (backRepoModelPkg *BackRepoModelPkgStruct) CommitPhaseTwoInstance(backRepo 
 // BackRepoModelPkg.CheckoutPhaseOne Checkouts all BackRepo instances to the Stage
 //
 // Phase One will result in having instances on the stage aligned with the back repo
-// pointers are not initialized yet (this is for pahse two)
-//
+// pointers are not initialized yet (this is for phase two)
 func (backRepoModelPkg *BackRepoModelPkgStruct) CheckoutPhaseOne() (Error error) {
 
 	modelpkgDBArray := make([]ModelPkgDB, 0)
@@ -314,6 +313,9 @@ func (backRepoModelPkg *BackRepoModelPkgStruct) CheckoutPhaseOneInstance(modelpk
 		modelpkg.Stage()
 	}
 	modelpkgDB.CopyBasicFieldsToModelPkg(modelpkg)
+
+	// in some cases, the instance might have been unstaged. It is necessary to stage it again
+	modelpkg.Stage()
 
 	// preserve pointer to modelpkgDB. Otherwise, pointer will is recycled and the map of pointers
 	// Map_ModelPkgDBID_ModelPkgDB)[modelpkgDB hold variable pointers

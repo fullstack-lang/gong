@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"log"
 	"os"
-	"path"
+	"path/filepath"
 	"regexp"
 	"sort"
 	"strings"
@@ -88,10 +88,11 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 		log.Fatalln(name + " is not a go filename")
 	}
 
-	log.Println("filename of marshall output  is " + name)
+	log.Println("filename of marshall output is " + name)
+	newBase := filepath.Base(file.Name())
 
 	res := marshallRes
-	res = strings.ReplaceAll(res, "{{databaseName}}", strings.ReplaceAll(path.Base(name), ".go", ""))
+	res = strings.ReplaceAll(res, "{{databaseName}}", strings.ReplaceAll(newBase, ".go", ""))
 	res = strings.ReplaceAll(res, "{{PackageName}}", packageName)
 	res = strings.ReplaceAll(res, "{{ModelsPackageName}}", modelsPackageName)
 
@@ -570,7 +571,7 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 		res = strings.ReplaceAll(res, "{{ImportPackageDummyDeclaration}}",
 			fmt.Sprintf("\nvar ___dummy__%s_%s %s.StageStruct",
 				stage.MetaPackageImportAlias,
-				strings.ReplaceAll(path.Base(name), ".go", ""),
+				strings.ReplaceAll(filepath.Base(name), ".go", ""),
 				stage.MetaPackageImportAlias))
 
 		var entries string
