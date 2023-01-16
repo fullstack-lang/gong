@@ -274,8 +274,7 @@ func (backRepoMeta *BackRepoMetaStruct) CommitPhaseTwoInstance(backRepo *BackRep
 // BackRepoMeta.CheckoutPhaseOne Checkouts all BackRepo instances to the Stage
 //
 // Phase One will result in having instances on the stage aligned with the back repo
-// pointers are not initialized yet (this is for pahse two)
-//
+// pointers are not initialized yet (this is for phase two)
 func (backRepoMeta *BackRepoMetaStruct) CheckoutPhaseOne() (Error error) {
 
 	metaDBArray := make([]MetaDB, 0)
@@ -333,6 +332,9 @@ func (backRepoMeta *BackRepoMetaStruct) CheckoutPhaseOneInstance(metaDB *MetaDB)
 		meta.Stage()
 	}
 	metaDB.CopyBasicFieldsToMeta(meta)
+
+	// in some cases, the instance might have been unstaged. It is necessary to stage it again
+	meta.Stage()
 
 	// preserve pointer to metaDB. Otherwise, pointer will is recycled and the map of pointers
 	// Map_MetaDBID_MetaDB)[metaDB hold variable pointers

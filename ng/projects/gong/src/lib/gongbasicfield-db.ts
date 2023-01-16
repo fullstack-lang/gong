@@ -16,6 +16,7 @@ export class GongBasicFieldDB {
 	DeclaredType: string = ""
 	CompositeStructName: string = ""
 	Index: number = 0
+	IsDocLink: boolean = false
 
 	// insertion point for other declarations
 	GongEnum?: GongEnumDB

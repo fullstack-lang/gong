@@ -86,6 +86,9 @@ export class GongBasicFieldsTableComponent implements OnInit {
         case 'Index':
           return gongbasicfieldDB.Index;
 
+        case 'IsDocLink':
+          return gongbasicfieldDB.IsDocLink?"true":"false";
+
         case 'GongStruct_GongBasicFields':
           if (this.frontRepo.GongStructs.get(gongbasicfieldDB.GongStruct_GongBasicFieldsDBID.Int64) != undefined) {
             return this.frontRepo.GongStructs.get(gongbasicfieldDB.GongStruct_GongBasicFieldsDBID.Int64)!.Name
@@ -175,6 +178,7 @@ export class GongBasicFieldsTableComponent implements OnInit {
         "DeclaredType",
         "CompositeStructName",
         "Index",
+        "IsDocLink",
         "GongStruct_GongBasicFields",
       ]
     } else {
@@ -185,6 +189,7 @@ export class GongBasicFieldsTableComponent implements OnInit {
         "DeclaredType",
         "CompositeStructName",
         "Index",
+        "IsDocLink",
         "GongStruct_GongBasicFields",
       ]
       this.selection = new SelectionModel<GongBasicFieldDB>(allowMultiSelect, this.initialSelection);
