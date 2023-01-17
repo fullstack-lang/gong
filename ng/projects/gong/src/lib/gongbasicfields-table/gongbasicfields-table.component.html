@@ -61,6 +61,13 @@
             </td>
         </ng-container>
         <!-- -->
+        <ng-container matColumnDef="IsDocLink">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> IsDocLink </th>
+            <td mat-cell *matCellDef="let GongBasicField">
+                <mat-checkbox [checked]="GongBasicField.IsDocLink" disabled=true></mat-checkbox>
+            </td>
+        </ng-container>
+        <!-- -->
         <ng-container matColumnDef="GongStruct_GongBasicFields">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> <-- (GongStruct) GongBasicFields </th>
             <td mat-cell *matCellDef="let gongbasicfield">

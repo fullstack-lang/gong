@@ -267,8 +267,7 @@ func (backRepoGongTimeField *BackRepoGongTimeFieldStruct) CommitPhaseTwoInstance
 // BackRepoGongTimeField.CheckoutPhaseOne Checkouts all BackRepo instances to the Stage
 //
 // Phase One will result in having instances on the stage aligned with the back repo
-// pointers are not initialized yet (this is for pahse two)
-//
+// pointers are not initialized yet (this is for phase two)
 func (backRepoGongTimeField *BackRepoGongTimeFieldStruct) CheckoutPhaseOne() (Error error) {
 
 	gongtimefieldDBArray := make([]GongTimeFieldDB, 0)
@@ -326,6 +325,9 @@ func (backRepoGongTimeField *BackRepoGongTimeFieldStruct) CheckoutPhaseOneInstan
 		gongtimefield.Stage()
 	}
 	gongtimefieldDB.CopyBasicFieldsToGongTimeField(gongtimefield)
+
+	// in some cases, the instance might have been unstaged. It is necessary to stage it again
+	gongtimefield.Stage()
 
 	// preserve pointer to gongtimefieldDB. Otherwise, pointer will is recycled and the map of pointers
 	// Map_GongTimeFieldDBID_GongTimeFieldDB)[gongtimefieldDB hold variable pointers

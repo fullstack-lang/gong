@@ -744,6 +744,29 @@ func (stage *StageStruct) Nil() { // insertion point for array nil
 
 }
 
+func (stage *StageStruct) Unstage() { // insertion point for array nil
+	for astruct := range stage.Astructs {
+		astruct.Unstage()
+	}
+
+	for astructbstruct2use := range stage.AstructBstruct2Uses {
+		astructbstruct2use.Unstage()
+	}
+
+	for astructbstructuse := range stage.AstructBstructUses {
+		astructbstructuse.Unstage()
+	}
+
+	for bstruct := range stage.Bstructs {
+		bstruct.Unstage()
+	}
+
+	for dstruct := range stage.Dstructs {
+		dstruct.Unstage()
+	}
+
+}
+
 // insertion point of functions that provide maps for reverse associations
 
 // generate function for reverse association maps of Astruct

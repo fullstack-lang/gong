@@ -261,8 +261,7 @@ func (backRepoGongLink *BackRepoGongLinkStruct) CommitPhaseTwoInstance(backRepo 
 // BackRepoGongLink.CheckoutPhaseOne Checkouts all BackRepo instances to the Stage
 //
 // Phase One will result in having instances on the stage aligned with the back repo
-// pointers are not initialized yet (this is for pahse two)
-//
+// pointers are not initialized yet (this is for phase two)
 func (backRepoGongLink *BackRepoGongLinkStruct) CheckoutPhaseOne() (Error error) {
 
 	gonglinkDBArray := make([]GongLinkDB, 0)
@@ -320,6 +319,9 @@ func (backRepoGongLink *BackRepoGongLinkStruct) CheckoutPhaseOneInstance(gonglin
 		gonglink.Stage()
 	}
 	gonglinkDB.CopyBasicFieldsToGongLink(gonglink)
+
+	// in some cases, the instance might have been unstaged. It is necessary to stage it again
+	gonglink.Stage()
 
 	// preserve pointer to gonglinkDB. Otherwise, pointer will is recycled and the map of pointers
 	// Map_GongLinkDBID_GongLinkDB)[gonglinkDB hold variable pointers
