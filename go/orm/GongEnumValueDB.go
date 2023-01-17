@@ -261,8 +261,7 @@ func (backRepoGongEnumValue *BackRepoGongEnumValueStruct) CommitPhaseTwoInstance
 // BackRepoGongEnumValue.CheckoutPhaseOne Checkouts all BackRepo instances to the Stage
 //
 // Phase One will result in having instances on the stage aligned with the back repo
-// pointers are not initialized yet (this is for pahse two)
-//
+// pointers are not initialized yet (this is for phase two)
 func (backRepoGongEnumValue *BackRepoGongEnumValueStruct) CheckoutPhaseOne() (Error error) {
 
 	gongenumvalueDBArray := make([]GongEnumValueDB, 0)
@@ -320,6 +319,9 @@ func (backRepoGongEnumValue *BackRepoGongEnumValueStruct) CheckoutPhaseOneInstan
 		gongenumvalue.Stage()
 	}
 	gongenumvalueDB.CopyBasicFieldsToGongEnumValue(gongenumvalue)
+
+	// in some cases, the instance might have been unstaged. It is necessary to stage it again
+	gongenumvalue.Stage()
 
 	// preserve pointer to gongenumvalueDB. Otherwise, pointer will is recycled and the map of pointers
 	// Map_GongEnumValueDBID_GongEnumValueDB)[gongenumvalueDB hold variable pointers
