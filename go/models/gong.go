@@ -1570,6 +1570,57 @@ func (stage *StageStruct) Nil() { // insertion point for array nil
 
 }
 
+func (stage *StageStruct) Unstage() { // insertion point for array nil
+	for gongbasicfield := range stage.GongBasicFields {
+		gongbasicfield.Unstage()
+	}
+
+	for gongenum := range stage.GongEnums {
+		gongenum.Unstage()
+	}
+
+	for gongenumvalue := range stage.GongEnumValues {
+		gongenumvalue.Unstage()
+	}
+
+	for gonglink := range stage.GongLinks {
+		gonglink.Unstage()
+	}
+
+	for gongnote := range stage.GongNotes {
+		gongnote.Unstage()
+	}
+
+	for gongstruct := range stage.GongStructs {
+		gongstruct.Unstage()
+	}
+
+	for gongtimefield := range stage.GongTimeFields {
+		gongtimefield.Unstage()
+	}
+
+	for meta := range stage.Metas {
+		meta.Unstage()
+	}
+
+	for metareference := range stage.MetaReferences {
+		metareference.Unstage()
+	}
+
+	for modelpkg := range stage.ModelPkgs {
+		modelpkg.Unstage()
+	}
+
+	for pointertogongstructfield := range stage.PointerToGongStructFields {
+		pointertogongstructfield.Unstage()
+	}
+
+	for sliceofpointertogongstructfield := range stage.SliceOfPointerToGongStructFields {
+		sliceofpointertogongstructfield.Unstage()
+	}
+
+}
+
 // insertion point of functions that provide maps for reverse associations
 
 // generate function for reverse association maps of GongBasicField

@@ -280,8 +280,7 @@ func (backRepoSliceOfPointerToGongStructField *BackRepoSliceOfPointerToGongStruc
 // BackRepoSliceOfPointerToGongStructField.CheckoutPhaseOne Checkouts all BackRepo instances to the Stage
 //
 // Phase One will result in having instances on the stage aligned with the back repo
-// pointers are not initialized yet (this is for pahse two)
-//
+// pointers are not initialized yet (this is for phase two)
 func (backRepoSliceOfPointerToGongStructField *BackRepoSliceOfPointerToGongStructFieldStruct) CheckoutPhaseOne() (Error error) {
 
 	sliceofpointertogongstructfieldDBArray := make([]SliceOfPointerToGongStructFieldDB, 0)
@@ -339,6 +338,9 @@ func (backRepoSliceOfPointerToGongStructField *BackRepoSliceOfPointerToGongStruc
 		sliceofpointertogongstructfield.Stage()
 	}
 	sliceofpointertogongstructfieldDB.CopyBasicFieldsToSliceOfPointerToGongStructField(sliceofpointertogongstructfield)
+
+	// in some cases, the instance might have been unstaged. It is necessary to stage it again
+	sliceofpointertogongstructfield.Stage()
 
 	// preserve pointer to sliceofpointertogongstructfieldDB. Otherwise, pointer will is recycled and the map of pointers
 	// Map_SliceOfPointerToGongStructFieldDBID_SliceOfPointerToGongStructFieldDB)[sliceofpointertogongstructfieldDB hold variable pointers

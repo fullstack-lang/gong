@@ -325,8 +325,7 @@ func (backRepoGongStruct *BackRepoGongStructStruct) CommitPhaseTwoInstance(backR
 // BackRepoGongStruct.CheckoutPhaseOne Checkouts all BackRepo instances to the Stage
 //
 // Phase One will result in having instances on the stage aligned with the back repo
-// pointers are not initialized yet (this is for pahse two)
-//
+// pointers are not initialized yet (this is for phase two)
 func (backRepoGongStruct *BackRepoGongStructStruct) CheckoutPhaseOne() (Error error) {
 
 	gongstructDBArray := make([]GongStructDB, 0)
@@ -384,6 +383,9 @@ func (backRepoGongStruct *BackRepoGongStructStruct) CheckoutPhaseOneInstance(gon
 		gongstruct.Stage()
 	}
 	gongstructDB.CopyBasicFieldsToGongStruct(gongstruct)
+
+	// in some cases, the instance might have been unstaged. It is necessary to stage it again
+	gongstruct.Stage()
 
 	// preserve pointer to gongstructDB. Otherwise, pointer will is recycled and the map of pointers
 	// Map_GongStructDBID_GongStructDB)[gongstructDB hold variable pointers

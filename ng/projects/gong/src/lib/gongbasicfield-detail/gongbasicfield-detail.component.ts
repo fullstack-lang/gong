@@ -35,6 +35,7 @@ enum GongBasicFieldDetailComponentState {
 export class GongBasicFieldDetailComponent implements OnInit {
 
 	// insertion point for declarations
+	IsDocLinkFormControl: UntypedFormControl = new UntypedFormControl(false);
 
 	// the GongBasicFieldDB of interest
 	gongbasicfield: GongBasicFieldDB = new GongBasicFieldDB
@@ -132,6 +133,7 @@ export class GongBasicFieldDetailComponent implements OnInit {
 				}
 
 				// insertion point for recovery of form controls value for bool fields
+				this.IsDocLinkFormControl.setValue(this.gongbasicfield.IsDocLink)
 			}
 		)
 
@@ -154,6 +156,7 @@ export class GongBasicFieldDetailComponent implements OnInit {
 			this.gongbasicfield.GongEnumID.Int64 = 0
 			this.gongbasicfield.GongEnumID.Valid = true
 		}
+		this.gongbasicfield.IsDocLink = this.IsDocLinkFormControl.value
 
 		// save from the front pointer space to the non pointer space for serialization
 
