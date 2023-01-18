@@ -274,8 +274,7 @@ func (backRepoTree *BackRepoTreeStruct) CommitPhaseTwoInstance(backRepo *BackRep
 // BackRepoTree.CheckoutPhaseOne Checkouts all BackRepo instances to the Stage
 //
 // Phase One will result in having instances on the stage aligned with the back repo
-// pointers are not initialized yet (this is for pahse two)
-//
+// pointers are not initialized yet (this is for phase two)
 func (backRepoTree *BackRepoTreeStruct) CheckoutPhaseOne() (Error error) {
 
 	treeDBArray := make([]TreeDB, 0)
@@ -333,6 +332,9 @@ func (backRepoTree *BackRepoTreeStruct) CheckoutPhaseOneInstance(treeDB *TreeDB)
 		tree.Stage()
 	}
 	treeDB.CopyBasicFieldsToTree(tree)
+
+	// in some cases, the instance might have been unstaged. It is necessary to stage it again
+	tree.Stage()
 
 	// preserve pointer to treeDB. Otherwise, pointer will is recycled and the map of pointers
 	// Map_TreeDBID_TreeDB)[treeDB hold variable pointers

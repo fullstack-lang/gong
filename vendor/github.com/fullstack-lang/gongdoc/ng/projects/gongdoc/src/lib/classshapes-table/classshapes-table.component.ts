@@ -80,6 +80,9 @@ export class ClassshapesTableComponent implements OnInit {
         case 'Reference':
           return (classshapeDB.Reference ? classshapeDB.Reference.Name : '');
 
+        case 'Identifier':
+          return classshapeDB.Identifier;
+
         case 'ShowNbInstances':
           return classshapeDB.ShowNbInstances?"true":"false";
 
@@ -124,6 +127,7 @@ export class ClassshapesTableComponent implements OnInit {
       if (classshapeDB.Reference) {
         mergedContent += classshapeDB.Reference.Name.toLowerCase()
       }
+      mergedContent += classshapeDB.Identifier.toLowerCase()
       mergedContent += classshapeDB.NbInstances.toString()
       mergedContent += classshapeDB.Width.toString()
       mergedContent += classshapeDB.Heigth.toString()
@@ -185,6 +189,7 @@ export class ClassshapesTableComponent implements OnInit {
         "Position",
         "ReferenceName",
         "Reference",
+        "Identifier",
         "ShowNbInstances",
         "NbInstances",
         "Width",
@@ -198,6 +203,7 @@ export class ClassshapesTableComponent implements OnInit {
         "Position",
         "ReferenceName",
         "Reference",
+        "Identifier",
         "ShowNbInstances",
         "NbInstances",
         "Width",

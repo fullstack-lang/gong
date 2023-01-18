@@ -15,7 +15,6 @@ import { NodeDB } from './node-db';
 
 // insertion point for imports
 import { ClassdiagramDB } from './classdiagram-db'
-import { UmlscDB } from './umlsc-db'
 import { TreeDB } from './tree-db'
 
 @Injectable({
@@ -74,7 +73,6 @@ export class NodeService {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
     nodedb.Classdiagram = new ClassdiagramDB
-    nodedb.Umlsc = new UmlscDB
     nodedb.Children = []
     let _Node_Children_reverse = nodedb.Node_Children_reverse
     nodedb.Node_Children_reverse = new NodeDB
@@ -110,7 +108,6 @@ export class NodeService {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
     nodedb.Classdiagram = new ClassdiagramDB
-    nodedb.Umlsc = new UmlscDB
     nodedb.Children = []
     let _Node_Children_reverse = nodedb.Node_Children_reverse
     nodedb.Node_Children_reverse = new NodeDB

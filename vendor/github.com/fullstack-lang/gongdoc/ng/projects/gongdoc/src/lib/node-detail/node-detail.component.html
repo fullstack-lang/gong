@@ -41,16 +41,6 @@
         </mat-select>
     </mat-form-field>
 
-    <mat-form-field class="detail-full-width">
-        <mat-label>Umlsc</mat-label>
-        <mat-select [compareWith]="compareObjects" [(value)]="node.Umlsc" (selectionChange)="fillUpNameIfEmpty($event)">
-            <mat-option>None</mat-option>
-            <mat-option *ngFor="let umlsc of frontRepo.Umlscs_array" [value]="umlsc">
-                {{umlsc.Name}}
-            </mat-option>
-        </mat-select>
-    </mat-form-field>
-
     <!-- -->
     <mat-checkbox [formControl]="IsExpandedFormControl">IsExpanded</mat-checkbox>
 

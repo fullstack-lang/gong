@@ -190,16 +190,6 @@ export class NodeDetailComponent implements OnInit {
 			this.node.ClassdiagramID.Int64 = 0
 			this.node.ClassdiagramID.Valid = true
 		}
-		if (this.node.UmlscID == undefined) {
-			this.node.UmlscID = new NullInt64
-		}
-		if (this.node.Umlsc != undefined) {
-			this.node.UmlscID.Int64 = this.node.Umlsc.ID
-			this.node.UmlscID.Valid = true
-		} else {
-			this.node.UmlscID.Int64 = 0
-			this.node.UmlscID.Valid = true
-		}
 		this.node.IsExpanded = this.IsExpandedFormControl.value
 		this.node.HasCheckboxButton = this.HasCheckboxButtonFormControl.value
 		this.node.IsChecked = this.IsCheckedFormControl.value

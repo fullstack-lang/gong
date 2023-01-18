@@ -50,10 +50,6 @@ type NodePointersEnconding struct {
 	// This field is generated into another field to enable AS ONE association
 	ClassdiagramID sql.NullInt64
 
-	// field Umlsc is a pointer to another Struct (optional or 0..1)
-	// This field is generated into another field to enable AS ONE association
-	UmlscID sql.NullInt64
-
 	// Implementation of a reverse ID for field Node{}.Children []*Node
 	Node_ChildrenDBID sql.NullInt64
 
@@ -351,15 +347,6 @@ func (backRepoNode *BackRepoNodeStruct) CommitPhaseTwoInstance(backRepo *BackRep
 			}
 		}
 
-		// commit pointer value node.Umlsc translates to updating the node.UmlscID
-		nodeDB.UmlscID.Valid = true // allow for a 0 value (nil association)
-		if node.Umlsc != nil {
-			if UmlscId, ok := (*backRepo.BackRepoUmlsc.Map_UmlscPtr_UmlscDBID)[node.Umlsc]; ok {
-				nodeDB.UmlscID.Int64 = int64(UmlscId)
-				nodeDB.UmlscID.Valid = true
-			}
-		}
-
 		// This loop encodes the slice of pointers node.Children into the back repo.
 		// Each back repo instance at the end of the association encode the ID of the association start
 		// into a dedicated field for coding the association. The back repo instance is then saved to the db
@@ -396,8 +383,7 @@ func (backRepoNode *BackRepoNodeStruct) CommitPhaseTwoInstance(backRepo *BackRep
 // BackRepoNode.CheckoutPhaseOne Checkouts all BackRepo instances to the Stage
 //
 // Phase One will result in having instances on the stage aligned with the back repo
-// pointers are not initialized yet (this is for pahse two)
-//
+// pointers are not initialized yet (this is for phase two)
 func (backRepoNode *BackRepoNodeStruct) CheckoutPhaseOne() (Error error) {
 
 	nodeDBArray := make([]NodeDB, 0)
@@ -456,6 +442,9 @@ func (backRepoNode *BackRepoNodeStruct) CheckoutPhaseOneInstance(nodeDB *NodeDB)
 	}
 	nodeDB.CopyBasicFieldsToNode(node)
 
+	// in some cases, the instance might have been unstaged. It is necessary to stage it again
+	node.Stage()
+
 	// preserve pointer to nodeDB. Otherwise, pointer will is recycled and the map of pointers
 	// Map_NodeDBID_NodeDB)[nodeDB hold variable pointers
 	nodeDB_Data := *nodeDB
@@ -487,10 +476,6 @@ func (backRepoNode *BackRepoNodeStruct) CheckoutPhaseTwoInstance(backRepo *BackR
 	// Classdiagram field
 	if nodeDB.ClassdiagramID.Int64 != 0 {
 		node.Classdiagram = (*backRepo.BackRepoClassdiagram.Map_ClassdiagramDBID_ClassdiagramPtr)[uint(nodeDB.ClassdiagramID.Int64)]
-	}
-	// Umlsc field
-	if nodeDB.UmlscID.Int64 != 0 {
-		node.Umlsc = (*backRepo.BackRepoUmlsc.Map_UmlscDBID_UmlscPtr)[uint(nodeDB.UmlscID.Int64)]
 	}
 	// This loop redeem node.Children in the stage from the encode in the back repo
 	// It parses all NodeDB in the back repo and if the reverse pointer encoding matches the back repo ID
@@ -841,12 +826,6 @@ func (backRepoNode *BackRepoNodeStruct) RestorePhaseTwo() {
 		if nodeDB.ClassdiagramID.Int64 != 0 {
 			nodeDB.ClassdiagramID.Int64 = int64(BackRepoClassdiagramid_atBckpTime_newID[uint(nodeDB.ClassdiagramID.Int64)])
 			nodeDB.ClassdiagramID.Valid = true
-		}
-
-		// reindexing Umlsc field
-		if nodeDB.UmlscID.Int64 != 0 {
-			nodeDB.UmlscID.Int64 = int64(BackRepoUmlscid_atBckpTime_newID[uint(nodeDB.UmlscID.Int64)])
-			nodeDB.UmlscID.Valid = true
 		}
 
 		// This reindex node.Children

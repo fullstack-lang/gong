@@ -773,6 +773,10 @@ func UnmarshallGongstructStaging(cmap *ast.CommentMap, assignStmt *ast.AssignStm
 					// remove first and last char
 					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
 					__gong__map_Classshape[identifier].ReferenceName = fielValue
+				case "Identifier":
+					// remove first and last char
+					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
+					__gong__map_Classshape[identifier].Identifier = fielValue
 				case "NbInstances":
 					// convert string to int
 					fielValue, err := strconv.ParseInt(basicLit.Value, 10, 64)
@@ -826,6 +830,10 @@ func UnmarshallGongstructStaging(cmap *ast.CommentMap, assignStmt *ast.AssignStm
 					// remove first and last char
 					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
 					__gong__map_Field[identifier].Fieldname = fielValue
+				case "Identifier":
+					// remove first and last char
+					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
+					__gong__map_Field[identifier].Identifier = fielValue
 				case "FieldTypeAsString":
 					// remove first and last char
 					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
@@ -854,6 +862,10 @@ func UnmarshallGongstructStaging(cmap *ast.CommentMap, assignStmt *ast.AssignStm
 					// remove first and last char
 					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
 					__gong__map_Link[identifier].Structname = fielValue
+				case "Identifier":
+					// remove first and last char
+					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
+					__gong__map_Link[identifier].Identifier = fielValue
 				case "Fieldtypename":
 					// remove first and last char
 					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
@@ -1100,9 +1112,6 @@ func UnmarshallGongstructStaging(cmap *ast.CommentMap, assignStmt *ast.AssignStm
 				case "Classdiagram":
 					targetIdentifier := ident.Name
 					__gong__map_Node[identifier].Classdiagram = __gong__map_Classdiagram[targetIdentifier]
-				case "Umlsc":
-					targetIdentifier := ident.Name
-					__gong__map_Node[identifier].Umlsc = __gong__map_Umlsc[targetIdentifier]
 				case "IsExpanded":
 					// convert string to boolean
 					fielValue, err := strconv.ParseBool(ident.Name)

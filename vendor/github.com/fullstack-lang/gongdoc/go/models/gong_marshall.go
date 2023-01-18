@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"log"
 	"os"
-	"path"
+	"path/filepath"
 	"regexp"
 	"sort"
 	"strings"
@@ -88,10 +88,11 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 		log.Fatalln(name + " is not a go filename")
 	}
 
-	log.Println("filename of marshall output  is " + name)
+	log.Println("filename of marshall output is " + name)
+	newBase := filepath.Base(file.Name())
 
 	res := marshallRes
-	res = strings.ReplaceAll(res, "{{databaseName}}", strings.ReplaceAll(path.Base(name), ".go", ""))
+	res = strings.ReplaceAll(res, "{{databaseName}}", strings.ReplaceAll(newBase, ".go", ""))
 	res = strings.ReplaceAll(res, "{{PackageName}}", packageName)
 	res = strings.ReplaceAll(res, "{{ModelsPackageName}}", modelsPackageName)
 
@@ -178,6 +179,15 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
 		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "ReferenceName")
 		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(classshape.ReferenceName))
+		initializerStatements += setValueField
+
+		setValueField = StringInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}",
+			fmt.Sprintf("\n\t// comment added to overcome the problem with the comment map association\n\n\t//gong:ident [%s]\n\t{{Identifier}}",
+				string(classshape.Identifier)))
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Identifier")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(classshape.Identifier))
 		initializerStatements += setValueField
 
 		setValueField = NumberInitStatement
@@ -311,6 +321,15 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 		initializerStatements += setValueField
 
 		setValueField = StringInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}",
+			fmt.Sprintf("\n\t// comment added to overcome the problem with the comment map association\n\n\t//gong:ident [%s]\n\t{{Identifier}}",
+				string(field.Identifier)))
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Identifier")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(field.Identifier))
+		initializerStatements += setValueField
+
+		setValueField = StringInitStatement
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
 		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "FieldTypeAsString")
 		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(field.FieldTypeAsString))
@@ -370,6 +389,15 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
 		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Structname")
 		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(link.Structname))
+		initializerStatements += setValueField
+
+		setValueField = StringInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}",
+			fmt.Sprintf("\n\t// comment added to overcome the problem with the comment map association\n\n\t//gong:ident [%s]\n\t{{Identifier}}",
+				string(link.Identifier)))
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Identifier")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(link.Identifier))
 		initializerStatements += setValueField
 
 		setValueField = StringInitStatement
@@ -1017,14 +1045,6 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 			pointersInitializesStatements += setPointerField
 		}
 
-		if node.Umlsc != nil {
-			setPointerField = PointerFieldInitStatement
-			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "Umlsc")
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_Umlsc_Identifiers[node.Umlsc])
-			pointersInitializesStatements += setPointerField
-		}
-
 		for _, _node := range node.Children {
 			setPointerField = SliceOfPointersFieldInitStatement
 			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
@@ -1174,7 +1194,7 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 		res = strings.ReplaceAll(res, "{{ImportPackageDummyDeclaration}}",
 			fmt.Sprintf("\nvar ___dummy__%s_%s %s.StageStruct",
 				stage.MetaPackageImportAlias,
-				strings.ReplaceAll(path.Base(name), ".go", ""),
+				strings.ReplaceAll(filepath.Base(name), ".go", ""),
 				stage.MetaPackageImportAlias))
 
 		var entries string

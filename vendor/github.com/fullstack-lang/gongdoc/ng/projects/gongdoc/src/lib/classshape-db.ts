@@ -16,6 +16,7 @@ export class ClassshapeDB {
 	// insertion point for basic fields declarations
 	Name: string = ""
 	ReferenceName: string = ""
+	Identifier: string = ""
 	ShowNbInstances: boolean = false
 	NbInstances: number = 0
 	Width: number = 0

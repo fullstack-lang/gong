@@ -300,8 +300,7 @@ func (backRepoNoteLink *BackRepoNoteLinkStruct) CommitPhaseTwoInstance(backRepo 
 // BackRepoNoteLink.CheckoutPhaseOne Checkouts all BackRepo instances to the Stage
 //
 // Phase One will result in having instances on the stage aligned with the back repo
-// pointers are not initialized yet (this is for pahse two)
-//
+// pointers are not initialized yet (this is for phase two)
 func (backRepoNoteLink *BackRepoNoteLinkStruct) CheckoutPhaseOne() (Error error) {
 
 	notelinkDBArray := make([]NoteLinkDB, 0)
@@ -359,6 +358,9 @@ func (backRepoNoteLink *BackRepoNoteLinkStruct) CheckoutPhaseOneInstance(notelin
 		notelink.Stage()
 	}
 	notelinkDB.CopyBasicFieldsToNoteLink(notelink)
+
+	// in some cases, the instance might have been unstaged. It is necessary to stage it again
+	notelink.Stage()
 
 	// preserve pointer to notelinkDB. Otherwise, pointer will is recycled and the map of pointers
 	// Map_NoteLinkDBID_NoteLinkDB)[notelinkDB hold variable pointers

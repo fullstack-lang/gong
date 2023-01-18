@@ -70,6 +70,9 @@ type FieldDB struct {
 	// Declation for basic field fieldDB.Fieldname
 	Fieldname_Data sql.NullString
 
+	// Declation for basic field fieldDB.Identifier
+	Identifier_Data sql.NullString
+
 	// Declation for basic field fieldDB.FieldTypeAsString
 	FieldTypeAsString_Data sql.NullString
 
@@ -103,11 +106,13 @@ type FieldWOP struct {
 
 	Fieldname string `xlsx:"2"`
 
-	FieldTypeAsString string `xlsx:"3"`
+	Identifier string `xlsx:"3"`
 
-	Structname string `xlsx:"4"`
+	FieldTypeAsString string `xlsx:"4"`
 
-	Fieldtypename string `xlsx:"5"`
+	Structname string `xlsx:"5"`
+
+	Fieldtypename string `xlsx:"6"`
 	// insertion for WOP pointer fields
 }
 
@@ -116,6 +121,7 @@ var Field_Fields = []string{
 	"ID",
 	"Name",
 	"Fieldname",
+	"Identifier",
 	"FieldTypeAsString",
 	"Structname",
 	"Fieldtypename",
@@ -279,8 +285,7 @@ func (backRepoField *BackRepoFieldStruct) CommitPhaseTwoInstance(backRepo *BackR
 // BackRepoField.CheckoutPhaseOne Checkouts all BackRepo instances to the Stage
 //
 // Phase One will result in having instances on the stage aligned with the back repo
-// pointers are not initialized yet (this is for pahse two)
-//
+// pointers are not initialized yet (this is for phase two)
 func (backRepoField *BackRepoFieldStruct) CheckoutPhaseOne() (Error error) {
 
 	fieldDBArray := make([]FieldDB, 0)
@@ -338,6 +343,9 @@ func (backRepoField *BackRepoFieldStruct) CheckoutPhaseOneInstance(fieldDB *Fiel
 		field.Stage()
 	}
 	fieldDB.CopyBasicFieldsToField(field)
+
+	// in some cases, the instance might have been unstaged. It is necessary to stage it again
+	field.Stage()
 
 	// preserve pointer to fieldDB. Otherwise, pointer will is recycled and the map of pointers
 	// Map_FieldDBID_FieldDB)[fieldDB hold variable pointers
@@ -407,6 +415,9 @@ func (fieldDB *FieldDB) CopyBasicFieldsFromField(field *models.Field) {
 	fieldDB.Fieldname_Data.String = field.Fieldname
 	fieldDB.Fieldname_Data.Valid = true
 
+	fieldDB.Identifier_Data.String = field.Identifier
+	fieldDB.Identifier_Data.Valid = true
+
 	fieldDB.FieldTypeAsString_Data.String = field.FieldTypeAsString
 	fieldDB.FieldTypeAsString_Data.Valid = true
 
@@ -427,6 +438,9 @@ func (fieldDB *FieldDB) CopyBasicFieldsFromFieldWOP(field *FieldWOP) {
 	fieldDB.Fieldname_Data.String = field.Fieldname
 	fieldDB.Fieldname_Data.Valid = true
 
+	fieldDB.Identifier_Data.String = field.Identifier
+	fieldDB.Identifier_Data.Valid = true
+
 	fieldDB.FieldTypeAsString_Data.String = field.FieldTypeAsString
 	fieldDB.FieldTypeAsString_Data.Valid = true
 
@@ -442,6 +456,7 @@ func (fieldDB *FieldDB) CopyBasicFieldsToField(field *models.Field) {
 	// insertion point for checkout of basic fields (back repo to stage)
 	field.Name = fieldDB.Name_Data.String
 	field.Fieldname = fieldDB.Fieldname_Data.String
+	field.Identifier = fieldDB.Identifier_Data.String
 	field.FieldTypeAsString = fieldDB.FieldTypeAsString_Data.String
 	field.Structname = fieldDB.Structname_Data.String
 	field.Fieldtypename = fieldDB.Fieldtypename_Data.String
@@ -453,6 +468,7 @@ func (fieldDB *FieldDB) CopyBasicFieldsToFieldWOP(field *FieldWOP) {
 	// insertion point for checkout of basic fields (back repo to stage)
 	field.Name = fieldDB.Name_Data.String
 	field.Fieldname = fieldDB.Fieldname_Data.String
+	field.Identifier = fieldDB.Identifier_Data.String
 	field.FieldTypeAsString = fieldDB.FieldTypeAsString_Data.String
 	field.Structname = fieldDB.Structname_Data.String
 	field.Fieldtypename = fieldDB.Fieldtypename_Data.String
