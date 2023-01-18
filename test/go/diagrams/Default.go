@@ -48,7 +48,6 @@ func DefaultInjection() {
 	__Classshape__000001_Classshape0001 := (&models.Classshape{Name: `Classshape0001`}).Stage()
 
 	// Declarations of staged instances of DiagramPackage
-	__DiagramPackage__000000_test_diagrams := (&models.DiagramPackage{Name: `test_diagrams`}).Stage()
 
 	// Declarations of staged instances of Field
 	__Field__000000_Name := (&models.Field{Name: `Name`}).Stage()
@@ -85,7 +84,7 @@ func DefaultInjection() {
 
 	// Classdiagram values setup
 	__Classdiagram__000000_Default.Name = `Default`
-	__Classdiagram__000000_Default.IsInDrawMode = false
+	__Classdiagram__000000_Default.IsInDrawMode = true
 
 	// Classshape values setup
 	__Classshape__000000_Classshape0000.Name = `Classshape0000`
@@ -114,14 +113,6 @@ func DefaultInjection() {
 	__Classshape__000001_Classshape0001.Width = 240.000000
 	__Classshape__000001_Classshape0001.Heigth = 63.000000
 	__Classshape__000001_Classshape0001.IsSelected = false
-
-	// DiagramPackage values setup
-	__DiagramPackage__000000_test_diagrams.Name = `test_diagrams`
-	__DiagramPackage__000000_test_diagrams.Path = `github.com/fullstack-lang/gong/test/go/models`
-	__DiagramPackage__000000_test_diagrams.GongModelPath = `github.com/fullstack-lang/gong/test/go/models`
-	__DiagramPackage__000000_test_diagrams.IsEditable = true
-	__DiagramPackage__000000_test_diagrams.IsReloaded = false
-	__DiagramPackage__000000_test_diagrams.AbsolutePathToDiagramPackage = `/Users/thomaspeugeot/go/src/github.com/fullstack-lang/gong/test/go/diagrams`
 
 	// Field values setup
 	__Field__000000_Name.Name = `Name`
@@ -201,7 +192,6 @@ func DefaultInjection() {
 	__Classshape__000000_Classshape0000.Links = append(__Classshape__000000_Classshape0000.Links, __Link__000001_Associationtob)
 	__Classshape__000001_Classshape0001.Position = __Position__000001_Position_0001
 	__Classshape__000001_Classshape0001.Reference = __Reference__000001_Bstruct
-	__DiagramPackage__000000_test_diagrams.Classdiagrams = append(__DiagramPackage__000000_test_diagrams.Classdiagrams, __Classdiagram__000000_Default)
 	__Link__000000_Anotherarrayofb.Middlevertice = __Vertice__000000_Vertice_0000
 	__Link__000001_Associationtob.Middlevertice = __Vertice__000001_Vertice_0001
 }
