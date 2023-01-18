@@ -952,41 +952,6 @@ export class SidebarComponent implements OnInit {
           }
 
           /**
-          * let append a node for the association Umlsc
-          */
-          let UmlscGongNodeAssociation: GongNode = {
-            name: "(Umlsc) Umlsc",
-            type: GongNodeType.ONE__ZERO_ONE_ASSOCIATION,
-            id: nodeDB.ID,
-            uniqueIdPerStack: 17 * nonInstanceNodeId,
-            structName: "Node",
-            associationField: "Umlsc",
-            associatedStructName: "Umlsc",
-            children: new Array<GongNode>()
-          }
-          nonInstanceNodeId = nonInstanceNodeId + 1
-          nodeGongNodeInstance.children!.push(UmlscGongNodeAssociation)
-
-          /**
-            * let append a node for the instance behind the asssociation Umlsc
-            */
-          if (nodeDB.Umlsc != undefined) {
-            let nodeGongNodeInstance_Umlsc: GongNode = {
-              name: nodeDB.Umlsc.Name,
-              type: GongNodeType.INSTANCE,
-              id: nodeDB.Umlsc.ID,
-              uniqueIdPerStack: // godel numbering (thank you kurt)
-                3 * getNodeUniqueID(nodeDB.ID)
-                + 5 * getUmlscUniqueID(nodeDB.Umlsc.ID),
-              structName: "Umlsc",
-              associationField: "",
-              associatedStructName: "",
-              children: new Array<GongNode>()
-            }
-            UmlscGongNodeAssociation.children.push(nodeGongNodeInstance_Umlsc)
-          }
-
-          /**
           * let append a node for the slide of pointer Children
           */
           let ChildrenGongNodeAssociation: GongNode = {

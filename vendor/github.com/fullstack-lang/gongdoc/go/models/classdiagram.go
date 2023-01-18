@@ -8,6 +8,7 @@ import (
 	"log"
 	"math/rand"
 	"os"
+	"path"
 	"path/filepath"
 	"sort"
 	"strings"
@@ -220,20 +221,6 @@ func (classdiagram *Classdiagram) Unmarshall(modelPkg *gong_models.ModelPkg, exp
 	}
 }
 
-// serialize the package and its elements to the Stage
-// this is used if one Umlsc is dynamicaly created
-func (classdiagram *Classdiagram) SerializeToStage() {
-
-	classdiagram.Stage()
-
-	for _, classshape := range classdiagram.Classshapes {
-		classshape.SerializeToStage()
-	}
-	for _, note := range classdiagram.Notes {
-		note.Stage()
-	}
-}
-
 // ModelSpaceToSVGPaperYCoord convert the Y coordinates from the model space
 // to the SVG space
 // in model space, Y coordinates are descending. In SVG, Y coordinates are
@@ -377,7 +364,7 @@ func (classdiagram *Classdiagram) OutputSVG(path string) {
 	c.WriteFile(fmt.Sprintf(filepath.Join(path, "%s.svg"), classdiagram.Name), svg.Writer)
 }
 
-func (classDiagram *Classdiagram) Marshall(pkgelt *DiagramPackage, pkgPath string) error {
+func (classDiagram *Classdiagram) Marshall(diagramPackage *DiagramPackage, pkgPath string) error {
 
 	// open file
 
@@ -387,7 +374,7 @@ func (classDiagram *Classdiagram) Marshall(pkgelt *DiagramPackage, pkgPath strin
 	prelude := strings.ReplaceAll(preludeRef, "{{filename}}", filename)
 	prelude = strings.ReplaceAll(prelude, "{{ClassdiagramName}}", classDiagram.Name)
 	if len(classDiagram.Classshapes) > 0 {
-		prelude = strings.ReplaceAll(prelude, "{{Imports}}", "\n\t\""+pkgelt.GongModelPath+"\"")
+		prelude = strings.ReplaceAll(prelude, "{{Imports}}", "\n\t\""+diagramPackage.GongModelPath+"\"")
 	} else {
 		prelude = strings.ReplaceAll(prelude, "{{Imports}}", "")
 	}
@@ -457,11 +444,12 @@ func (classdiagram *Classdiagram) RemoveClassshape(classshapeName string) {
 	// log.Println("RemoveClassshape, after commit, nb ", Stage.BackRepo.GetLastCommitFromBackNb())
 }
 
-func (classdiagram *Classdiagram) AddClassshape(classshapeName string, referenceType ReferenceType) {
+func (classdiagram *Classdiagram) AddClassshape(nodesCb *NodeCallbacksSingloton, classshapeName string, referenceType ReferenceType) {
 
 	var classshape Classshape
 	classshape.Name = classdiagram.Name + "-" + classshapeName
 	classshape.ReferenceName = classshapeName
+	classshape.Identifier = RefPrefixReferencedPackage + path.Base(nodesCb.diagramPackage.GongModelPath) + "." + classshapeName
 	classshape.Width = 240
 	classshape.Heigth = 63
 
@@ -496,4 +484,32 @@ func (classdiagram *Classdiagram) AddClassshape(classshapeName string, reference
 
 func (classdiagram *Classdiagram) NodeUpdate() {
 
+}
+
+// serialize the package and its elements to the Stage
+// this is used if one Umlsc is dynamicaly created
+func (classdiagram *Classdiagram) SerializeToStage() {
+
+	classdiagram.Stage()
+
+	for _, classshape := range classdiagram.Classshapes {
+		classshape.SerializeToStage()
+	}
+	for _, note := range classdiagram.Notes {
+		note.Stage()
+	}
+}
+
+// serialize the package and its elements to the Stage
+// this is used if one Umlsc is dynamicaly created
+func (classdiagram *Classdiagram) SerializeToUnstage() {
+
+	classdiagram.Unstage()
+
+	for _, classshape := range classdiagram.Classshapes {
+		classshape.SerializeToUnstage()
+	}
+	for _, note := range classdiagram.Notes {
+		note.Unstage()
+	}
 }

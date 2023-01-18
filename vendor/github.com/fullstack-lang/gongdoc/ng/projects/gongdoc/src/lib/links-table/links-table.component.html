@@ -40,6 +40,13 @@
             </td>
         </ng-container>
         <!-- -->
+        <ng-container matColumnDef="Identifier">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Identifier </th>
+            <td mat-cell *matCellDef="let Link">
+                {{Link.Identifier}}
+            </td>
+        </ng-container>
+        <!-- -->
         <ng-container matColumnDef="Fieldtypename">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Fieldtypename </th>
             <td mat-cell *matCellDef="let Link">

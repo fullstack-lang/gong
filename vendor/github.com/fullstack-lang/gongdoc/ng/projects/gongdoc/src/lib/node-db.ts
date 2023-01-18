@@ -1,6 +1,5 @@
 // insertion point for imports
 import { ClassdiagramDB } from './classdiagram-db'
-import { UmlscDB } from './umlsc-db'
 import { TreeDB } from './tree-db'
 
 // usefull for managing pointer ID values that can be nullable
@@ -30,9 +29,6 @@ export class NodeDB {
 	// insertion point for other declarations
 	Classdiagram?: ClassdiagramDB
 	ClassdiagramID: NullInt64 = new NullInt64 // if pointer is null, Classdiagram.ID = 0
-
-	Umlsc?: UmlscDB
-	UmlscID: NullInt64 = new NullInt64 // if pointer is null, Umlsc.ID = 0
 
 	Children?: Array<NodeDB>
 	Node_ChildrenDBID: NullInt64 = new NullInt64
