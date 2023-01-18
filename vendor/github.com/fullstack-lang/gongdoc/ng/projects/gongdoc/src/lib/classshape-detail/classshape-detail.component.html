@@ -61,6 +61,26 @@
         </mat-select>
     </mat-form-field>
 
+    <mat-grid-list *ngIf='!isATextArea("Identifier")' cols="5" rowHeight="2:1">
+        <mat-grid-tile [colspan]="3">
+            <mat-form-field mat-form-field class="detail-full-width">
+                <mat-label>Identifier</mat-label>
+                <input name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="classshape.Identifier">
+            </mat-form-field>
+        </mat-grid-tile>
+        <mat-grid-tile>
+            <button mat-raised-button (click)="toggleTextArea('Identifier')">
+                <mat-icon>
+                    expand_more
+                </mat-icon>
+            </button>
+        </mat-grid-tile>
+    </mat-grid-list>
+    <mat-form-field *ngIf='isATextArea("Identifier")' mat-form-field class="detail-full-width">
+        <mat-label>Identifier</mat-label>
+        <textarea name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="classshape.Identifier"></textarea>
+    </mat-form-field>
+
     <!-- -->
     <mat-checkbox [formControl]="ShowNbInstancesFormControl">ShowNbInstances</mat-checkbox>
 

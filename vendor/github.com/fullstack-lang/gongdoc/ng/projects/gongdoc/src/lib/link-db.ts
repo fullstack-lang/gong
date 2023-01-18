@@ -14,6 +14,7 @@ export class LinkDB {
 	Name: string = ""
 	Fieldname: string = ""
 	Structname: string = ""
+	Identifier: string = ""
 	Fieldtypename: string = ""
 	TargetMultiplicity: string = ""
 	SourceMultiplicity: string = ""

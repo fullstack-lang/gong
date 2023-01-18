@@ -77,9 +77,6 @@ export class NodesTableComponent implements OnInit {
         case 'Classdiagram':
           return (nodeDB.Classdiagram ? nodeDB.Classdiagram.Name : '');
 
-        case 'Umlsc':
-          return (nodeDB.Umlsc ? nodeDB.Umlsc.Name : '');
-
         case 'IsExpanded':
           return nodeDB.IsExpanded?"true":"false";
 
@@ -149,9 +146,6 @@ export class NodesTableComponent implements OnInit {
       if (nodeDB.Classdiagram) {
         mergedContent += nodeDB.Classdiagram.Name.toLowerCase()
       }
-      if (nodeDB.Umlsc) {
-        mergedContent += nodeDB.Umlsc.Name.toLowerCase()
-      }
       if (nodeDB.Node_ChildrenDBID.Int64 != 0) {
         mergedContent += this.frontRepo.Nodes.get(nodeDB.Node_ChildrenDBID.Int64)!.Name.toLowerCase()
       }
@@ -213,7 +207,6 @@ export class NodesTableComponent implements OnInit {
         "Name",
         "Type",
         "Classdiagram",
-        "Umlsc",
         "IsExpanded",
         "HasCheckboxButton",
         "IsChecked",
@@ -234,7 +227,6 @@ export class NodesTableComponent implements OnInit {
         "Name",
         "Type",
         "Classdiagram",
-        "Umlsc",
         "IsExpanded",
         "HasCheckboxButton",
         "IsChecked",

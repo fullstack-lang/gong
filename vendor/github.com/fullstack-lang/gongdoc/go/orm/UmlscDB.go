@@ -287,8 +287,7 @@ func (backRepoUmlsc *BackRepoUmlscStruct) CommitPhaseTwoInstance(backRepo *BackR
 // BackRepoUmlsc.CheckoutPhaseOne Checkouts all BackRepo instances to the Stage
 //
 // Phase One will result in having instances on the stage aligned with the back repo
-// pointers are not initialized yet (this is for pahse two)
-//
+// pointers are not initialized yet (this is for phase two)
 func (backRepoUmlsc *BackRepoUmlscStruct) CheckoutPhaseOne() (Error error) {
 
 	umlscDBArray := make([]UmlscDB, 0)
@@ -346,6 +345,9 @@ func (backRepoUmlsc *BackRepoUmlscStruct) CheckoutPhaseOneInstance(umlscDB *Umls
 		umlsc.Stage()
 	}
 	umlscDB.CopyBasicFieldsToUmlsc(umlsc)
+
+	// in some cases, the instance might have been unstaged. It is necessary to stage it again
+	umlsc.Stage()
 
 	// preserve pointer to umlscDB. Otherwise, pointer will is recycled and the map of pointers
 	// Map_UmlscDBID_UmlscDB)[umlscDB hold variable pointers

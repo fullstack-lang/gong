@@ -300,8 +300,7 @@ func (backRepoClassdiagram *BackRepoClassdiagramStruct) CommitPhaseTwoInstance(b
 // BackRepoClassdiagram.CheckoutPhaseOne Checkouts all BackRepo instances to the Stage
 //
 // Phase One will result in having instances on the stage aligned with the back repo
-// pointers are not initialized yet (this is for pahse two)
-//
+// pointers are not initialized yet (this is for phase two)
 func (backRepoClassdiagram *BackRepoClassdiagramStruct) CheckoutPhaseOne() (Error error) {
 
 	classdiagramDBArray := make([]ClassdiagramDB, 0)
@@ -359,6 +358,9 @@ func (backRepoClassdiagram *BackRepoClassdiagramStruct) CheckoutPhaseOneInstance
 		classdiagram.Stage()
 	}
 	classdiagramDB.CopyBasicFieldsToClassdiagram(classdiagram)
+
+	// in some cases, the instance might have been unstaged. It is necessary to stage it again
+	classdiagram.Stage()
 
 	// preserve pointer to classdiagramDB. Otherwise, pointer will is recycled and the map of pointers
 	// Map_ClassdiagramDBID_ClassdiagramDB)[classdiagramDB hold variable pointers

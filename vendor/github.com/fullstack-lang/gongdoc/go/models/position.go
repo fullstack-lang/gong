@@ -126,11 +126,3 @@ func UnmarshallNumber(expr ast.Expr, fset *token.FileSet, name string, x *float6
 		}
 	}
 }
-
-// serialize the package and its elements to the Stage
-// this is used if one Umlsc is dynamicaly created
-func (position *Position) SerializeToStage() {
-
-	position.Stage()
-
-}

@@ -267,8 +267,7 @@ func (backRepoUmlState *BackRepoUmlStateStruct) CommitPhaseTwoInstance(backRepo 
 // BackRepoUmlState.CheckoutPhaseOne Checkouts all BackRepo instances to the Stage
 //
 // Phase One will result in having instances on the stage aligned with the back repo
-// pointers are not initialized yet (this is for pahse two)
-//
+// pointers are not initialized yet (this is for phase two)
 func (backRepoUmlState *BackRepoUmlStateStruct) CheckoutPhaseOne() (Error error) {
 
 	umlstateDBArray := make([]UmlStateDB, 0)
@@ -326,6 +325,9 @@ func (backRepoUmlState *BackRepoUmlStateStruct) CheckoutPhaseOneInstance(umlstat
 		umlstate.Stage()
 	}
 	umlstateDB.CopyBasicFieldsToUmlState(umlstate)
+
+	// in some cases, the instance might have been unstaged. It is necessary to stage it again
+	umlstate.Stage()
 
 	// preserve pointer to umlstateDB. Otherwise, pointer will is recycled and the map of pointers
 	// Map_UmlStateDBID_UmlStateDB)[umlstateDB hold variable pointers

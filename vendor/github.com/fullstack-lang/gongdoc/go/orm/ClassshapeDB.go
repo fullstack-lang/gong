@@ -78,6 +78,9 @@ type ClassshapeDB struct {
 	// Declation for basic field classshapeDB.ReferenceName
 	ReferenceName_Data sql.NullString
 
+	// Declation for basic field classshapeDB.Identifier
+	Identifier_Data sql.NullString
+
 	// Declation for basic field classshapeDB.ShowNbInstances
 	// provide the sql storage for the boolan
 	ShowNbInstances_Data sql.NullBool
@@ -119,15 +122,17 @@ type ClassshapeWOP struct {
 
 	ReferenceName string `xlsx:"2"`
 
-	ShowNbInstances bool `xlsx:"3"`
+	Identifier string `xlsx:"3"`
 
-	NbInstances int `xlsx:"4"`
+	ShowNbInstances bool `xlsx:"4"`
 
-	Width float64 `xlsx:"5"`
+	NbInstances int `xlsx:"5"`
 
-	Heigth float64 `xlsx:"6"`
+	Width float64 `xlsx:"6"`
 
-	IsSelected bool `xlsx:"7"`
+	Heigth float64 `xlsx:"7"`
+
+	IsSelected bool `xlsx:"8"`
 	// insertion for WOP pointer fields
 }
 
@@ -136,6 +141,7 @@ var Classshape_Fields = []string{
 	"ID",
 	"Name",
 	"ReferenceName",
+	"Identifier",
 	"ShowNbInstances",
 	"NbInstances",
 	"Width",
@@ -357,8 +363,7 @@ func (backRepoClassshape *BackRepoClassshapeStruct) CommitPhaseTwoInstance(backR
 // BackRepoClassshape.CheckoutPhaseOne Checkouts all BackRepo instances to the Stage
 //
 // Phase One will result in having instances on the stage aligned with the back repo
-// pointers are not initialized yet (this is for pahse two)
-//
+// pointers are not initialized yet (this is for phase two)
 func (backRepoClassshape *BackRepoClassshapeStruct) CheckoutPhaseOne() (Error error) {
 
 	classshapeDBArray := make([]ClassshapeDB, 0)
@@ -416,6 +421,9 @@ func (backRepoClassshape *BackRepoClassshapeStruct) CheckoutPhaseOneInstance(cla
 		classshape.Stage()
 	}
 	classshapeDB.CopyBasicFieldsToClassshape(classshape)
+
+	// in some cases, the instance might have been unstaged. It is necessary to stage it again
+	classshape.Stage()
 
 	// preserve pointer to classshapeDB. Otherwise, pointer will is recycled and the map of pointers
 	// Map_ClassshapeDBID_ClassshapeDB)[classshapeDB hold variable pointers
@@ -547,6 +555,9 @@ func (classshapeDB *ClassshapeDB) CopyBasicFieldsFromClassshape(classshape *mode
 	classshapeDB.ReferenceName_Data.String = classshape.ReferenceName
 	classshapeDB.ReferenceName_Data.Valid = true
 
+	classshapeDB.Identifier_Data.String = classshape.Identifier
+	classshapeDB.Identifier_Data.Valid = true
+
 	classshapeDB.ShowNbInstances_Data.Bool = classshape.ShowNbInstances
 	classshapeDB.ShowNbInstances_Data.Valid = true
 
@@ -573,6 +584,9 @@ func (classshapeDB *ClassshapeDB) CopyBasicFieldsFromClassshapeWOP(classshape *C
 	classshapeDB.ReferenceName_Data.String = classshape.ReferenceName
 	classshapeDB.ReferenceName_Data.Valid = true
 
+	classshapeDB.Identifier_Data.String = classshape.Identifier
+	classshapeDB.Identifier_Data.Valid = true
+
 	classshapeDB.ShowNbInstances_Data.Bool = classshape.ShowNbInstances
 	classshapeDB.ShowNbInstances_Data.Valid = true
 
@@ -594,6 +608,7 @@ func (classshapeDB *ClassshapeDB) CopyBasicFieldsToClassshape(classshape *models
 	// insertion point for checkout of basic fields (back repo to stage)
 	classshape.Name = classshapeDB.Name_Data.String
 	classshape.ReferenceName = classshapeDB.ReferenceName_Data.String
+	classshape.Identifier = classshapeDB.Identifier_Data.String
 	classshape.ShowNbInstances = classshapeDB.ShowNbInstances_Data.Bool
 	classshape.NbInstances = int(classshapeDB.NbInstances_Data.Int64)
 	classshape.Width = classshapeDB.Width_Data.Float64
@@ -607,6 +622,7 @@ func (classshapeDB *ClassshapeDB) CopyBasicFieldsToClassshapeWOP(classshape *Cla
 	// insertion point for checkout of basic fields (back repo to stage)
 	classshape.Name = classshapeDB.Name_Data.String
 	classshape.ReferenceName = classshapeDB.ReferenceName_Data.String
+	classshape.Identifier = classshapeDB.Identifier_Data.String
 	classshape.ShowNbInstances = classshapeDB.ShowNbInstances_Data.Bool
 	classshape.NbInstances = int(classshapeDB.NbInstances_Data.Int64)
 	classshape.Width = classshapeDB.Width_Data.Float64

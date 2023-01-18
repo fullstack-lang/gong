@@ -261,8 +261,7 @@ func (backRepoReference *BackRepoReferenceStruct) CommitPhaseTwoInstance(backRep
 // BackRepoReference.CheckoutPhaseOne Checkouts all BackRepo instances to the Stage
 //
 // Phase One will result in having instances on the stage aligned with the back repo
-// pointers are not initialized yet (this is for pahse two)
-//
+// pointers are not initialized yet (this is for phase two)
 func (backRepoReference *BackRepoReferenceStruct) CheckoutPhaseOne() (Error error) {
 
 	referenceDBArray := make([]ReferenceDB, 0)
@@ -320,6 +319,9 @@ func (backRepoReference *BackRepoReferenceStruct) CheckoutPhaseOneInstance(refer
 		reference.Stage()
 	}
 	referenceDB.CopyBasicFieldsToReference(reference)
+
+	// in some cases, the instance might have been unstaged. It is necessary to stage it again
+	reference.Stage()
 
 	// preserve pointer to referenceDB. Otherwise, pointer will is recycled and the map of pointers
 	// Map_ReferenceDBID_ReferenceDB)[referenceDB hold variable pointers
