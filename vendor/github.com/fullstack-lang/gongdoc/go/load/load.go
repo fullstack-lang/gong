@@ -37,6 +37,9 @@ func Load(
 	// prepare the model views
 	var diagramPackage *gongdoc_models.DiagramPackage
 
+	gongStage := gong_models.Stage
+	_ = gongStage
+
 	// first, get all gong struct in the model
 	for gongStruct := range gong_models.Stage.GongStructs {
 		// let create the gong struct in the gongdoc models
@@ -50,9 +53,9 @@ func Load(
 		}
 	}
 	if embeddedDiagrams {
-		diagramPackage, _ = gongdoc_models.LoadEmbedded(goSourceDirectories, modelPackage)
+		diagramPackage, _ = gongdoc_models.LoadEmbeddedDiagramPackage(goSourceDirectories, modelPackage)
 	} else {
-		diagramPackage, _ = gongdoc_models.Load(filepath.Join("../../diagrams"), modelPackage, true)
+		diagramPackage, _ = gongdoc_models.LoadDiagramPackage(filepath.Join("../../diagrams"), modelPackage, true)
 	}
 	diagramPackage.GongModelPath = stackName + "/go/models"
 }

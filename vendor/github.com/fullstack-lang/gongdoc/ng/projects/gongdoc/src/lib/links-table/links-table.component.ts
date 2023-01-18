@@ -77,6 +77,9 @@ export class LinksTableComponent implements OnInit {
         case 'Structname':
           return linkDB.Structname;
 
+        case 'Identifier':
+          return linkDB.Identifier;
+
         case 'Fieldtypename':
           return linkDB.Fieldtypename;
 
@@ -113,6 +116,7 @@ export class LinksTableComponent implements OnInit {
       mergedContent += linkDB.Name.toLowerCase()
       mergedContent += linkDB.Fieldname.toLowerCase()
       mergedContent += linkDB.Structname.toLowerCase()
+      mergedContent += linkDB.Identifier.toLowerCase()
       mergedContent += linkDB.Fieldtypename.toLowerCase()
       mergedContent += linkDB.TargetMultiplicity.toLowerCase()
       mergedContent += linkDB.SourceMultiplicity.toLowerCase()
@@ -176,6 +180,7 @@ export class LinksTableComponent implements OnInit {
         "Name",
         "Fieldname",
         "Structname",
+        "Identifier",
         "Fieldtypename",
         "TargetMultiplicity",
         "SourceMultiplicity",
@@ -187,6 +192,7 @@ export class LinksTableComponent implements OnInit {
         "Name",
         "Fieldname",
         "Structname",
+        "Identifier",
         "Fieldtypename",
         "TargetMultiplicity",
         "SourceMultiplicity",

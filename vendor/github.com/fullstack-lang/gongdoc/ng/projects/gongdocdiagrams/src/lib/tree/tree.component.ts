@@ -89,11 +89,11 @@ export class TreeComponent implements OnInit {
   // the checkCommitNbFromBackTimer polls the commit number of the back repo
   // if the commit number has increased, it pulls the front repo and redraw the diagram
 
-  checkCommitNbFromBackTimer: Observable<number>|undefined // = timer(1000);
+  checkCommitNbFromBackTimer: Observable<number> | undefined // = timer(1000);
   lastCommitNbFromBack = -1
   lastPushFromFrontNb = -1
   currTime: number = 0
-  dateOfLastTimerEmission:Date = new Date
+  dateOfLastTimerEmission: Date = new Date
 
   subscribeInProgress: boolean = false
 
@@ -118,8 +118,8 @@ export class TreeComponent implements OnInit {
 
               if (this.lastCommitNbFromBack < commitNbFromBack) {
                 const d = new Date()
-                console.log("TreeComponent, " + d.toLocaleTimeString() + `.${d.getMilliseconds()}` + 
-                ", last commit increased nb " + this.lastCommitNbFromBack + " new: " + commitNbFromBack + " " + this.name )
+                console.log("TreeComponent, " + d.toLocaleTimeString() + `.${d.getMilliseconds()}` +
+                  ", last commit increased nb " + this.lastCommitNbFromBack + " new: " + commitNbFromBack + " " + this.name)
                 this.lastCommitNbFromBack = commitNbFromBack
                 this.refresh()
               }
@@ -181,27 +181,7 @@ export class TreeComponent implements OnInit {
                       );
                     }
                   }
-                  break
-                case gongdoc.GongdocNodeType.ROOT_OF_STATE_DIAGRAMS:
-                  for (var childNodeDB of nodeDB.Children) {
-                    if (childNodeDB.IsChecked) {
-                      if (childNodeDB.Umlsc == undefined) {
-                        console.log("Tree: State Chart diagram is undefined")
-                      } else {
-                        this.stateDiagram = childNodeDB.Umlsc
-                        this.router.navigate([{
-                          outlets: {
-                            diagrameditor: ["umlsc-detail", this.stateDiagram.ID]
-                          }
-                        }]).catch(
-                          reason => {
-                            console.log(reason)
-                          }
-                        );
-                      }
-                    }
 
-                  }
                   break
                 default:
                   console.log("Tree: unknown node type: " + nodeDB.Type)
@@ -280,12 +260,12 @@ export class TreeComponent implements OnInit {
   toggleNodeCheckbox(node: FlatNode): void {
 
     const d = new Date()
-    console.log("TreeComponent, toggleNodeCheckbox, " + d.toLocaleTimeString() + `.${d.getMilliseconds()}` + " " + this.name )
+    console.log("TreeComponent, toggleNodeCheckbox, " + d.toLocaleTimeString() + `.${d.getMilliseconds()}` + " " + this.name)
     node.gongNode.IsChecked = !node.gongNode.IsChecked
     this.gongdocNodeService.updateNode(node.gongNode).subscribe(
       gongdocNode => {
         const d = new Date()
-        console.log("toggleNodeCheckbox: updated node "+ d.toLocaleTimeString() + `.${d.getMilliseconds()}` + " " + this.name )
+        console.log("toggleNodeCheckbox: updated node " + d.toLocaleTimeString() + `.${d.getMilliseconds()}` + " " + this.name)
       }
     )
   }

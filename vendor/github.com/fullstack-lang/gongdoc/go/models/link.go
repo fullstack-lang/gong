@@ -6,6 +6,7 @@ import (
 	"go/token"
 	"log"
 	"os"
+	"path"
 	"strings"
 
 	gong_models "github.com/fullstack-lang/gong/go/models"
@@ -21,8 +22,14 @@ type Link struct {
 	// swagger:ignore
 	Field interface{} `gorm:"-"` // field that is diagrammed
 
-	Fieldname          string
-	Structname         string
+	Fieldname  string
+	Structname string
+
+	// Identifier is the identifier of the struct field referenced by the
+	// UML field of the classshape in the modeled package
+	//gong:ident
+	Identifier string
+
 	Fieldtypename      string
 	TargetMultiplicity MultiplicityType
 	SourceMultiplicity MultiplicityType
@@ -97,6 +104,7 @@ func (link *Link) Unmarshall(modelPkg *gong_models.ModelPkg, expr ast.Expr, fset
 			link.Structname = se2.Sel.Name
 			link.Fieldname = se.Sel.Name
 			link.Name = link.Fieldname
+			link.Identifier = RefPrefixReferencedPackage + path.Base(modelPkg.PkgPath) + "." + se2.Sel.Name + "." + se.Sel.Name
 
 			// try to find the type of the field
 			var typename string
@@ -217,5 +225,14 @@ func (link *Link) SerializeToStage() {
 
 	if link.Middlevertice != nil {
 		link.Middlevertice.Stage()
+	}
+}
+
+func (link *Link) SerializeToUnstage() {
+
+	link.Unstage()
+
+	if link.Middlevertice != nil {
+		link.Middlevertice.Unstage()
 	}
 }

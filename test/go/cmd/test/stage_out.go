@@ -75,7 +75,7 @@ func stage_outInjection() {
 	__Astruct__000000_A1.CEnum = models.CENUM_VAL2
 	__Astruct__000000_A1.CName = `CName1
 
-	\n"""" fdfsqsfhqksf
+	\n"""" fdfsqjfhdqksfhqksf
 Second Line`
 	__Astruct__000000_A1.CFloatfield = 60.500000
 	__Astruct__000000_A1.Floatfield = 0.000000
@@ -176,8 +176,8 @@ Second Line`
 	__Astruct__000000_A1.Anotherarrayofb = append(__Astruct__000000_A1.Anotherarrayofb, __Bstruct__000001_B2)
 	__Astruct__000000_A1.Anotherarrayofb = append(__Astruct__000000_A1.Anotherarrayofb, __Bstruct__000002_B3)
 	__Astruct__000000_A1.Anarrayofa = append(__Astruct__000000_A1.Anarrayofa, __Astruct__000000_A1)
-	__Astruct__000000_A1.Anarrayofb2Use = append(__Astruct__000000_A1.Anarrayofb2Use, __AstructBstruct2Use__000000_)
-	__Astruct__000001_A2.Anarrayofb2Use = append(__Astruct__000001_A2.Anarrayofb2Use, __AstructBstruct2Use__000001_)
+	__Astruct__000000_A1.Anarrayofb2Use = append(__Astruct__000000_A1.Anarrayofb2Use, __AstructBstruct2Use__000001_)
+	__Astruct__000001_A2.Anarrayofb2Use = append(__Astruct__000001_A2.Anarrayofb2Use, __AstructBstruct2Use__000000_)
 	__AstructBstruct2Use__000000_.Bstrcut2 = __Bstruct__000000_B1
 	__AstructBstruct2Use__000001_.Bstrcut2 = __Bstruct__000000_B1
 }

@@ -870,13 +870,6 @@ export class FrontRepoService {
                     node.Classdiagram = _classdiagram
                   }
                 }
-                // insertion point for pointer field Umlsc redeeming
-                {
-                  let _umlsc = FrontRepoSingloton.Umlscs.get(node.UmlscID.Int64)
-                  if (_umlsc) {
-                    node.Umlsc = _umlsc
-                  }
-                }
 
                 // insertion point for redeeming ONE-MANY associations
                 // insertion point for slice of pointer field Node.Children redeeming
@@ -1405,13 +1398,6 @@ export class FrontRepoService {
                   let _classdiagram = FrontRepoSingloton.Classdiagrams.get(node.ClassdiagramID.Int64)
                   if (_classdiagram) {
                     node.Classdiagram = _classdiagram
-                  }
-                }
-                // insertion point for pointer field Umlsc redeeming
-                {
-                  let _umlsc = FrontRepoSingloton.Umlscs.get(node.UmlscID.Int64)
-                  if (_umlsc) {
-                    node.Umlsc = _umlsc
                   }
                 }
 
