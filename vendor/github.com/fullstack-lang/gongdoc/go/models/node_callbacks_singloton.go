@@ -12,20 +12,31 @@ import (
 
 type NodeCallbacksSingloton struct {
 	ClassdiagramsRootNode *Node
-	StateDiagramsRootNode *Node
 
 	idTree *Tree
+
+	selectedClassdiagram *Classdiagram
+
+	// map to navigate from a children node to its parent
+	map_Children_Parent map[*Node]*Node
+
+	// map to navigate from identifiers in the package
+	// to nodes, and backforth
+	// identifiers are unique in a package (that's the point of identifiers)
+	map_Identifier_Node map[string]*Node
+	map_Node_Identifier map[*Node]string
+
+	diagramPackage *DiagramPackage
 }
 
 func (nodesCb *NodeCallbacksSingloton) GetSelectedClassdiagram() (classdiagram *Classdiagram) {
-	for _, classdiagramNode := range nodesCb.ClassdiagramsRootNode.Children {
-		if classdiagramNode.IsChecked {
-			// get the diagram
-			classdiagram = classdiagramNode.Classdiagram
-		}
-	}
+
+	classdiagram = nodesCb.selectedClassdiagram
+
 	return
 }
+
+const RefPrefixReferencedPackage = "ref_"
 
 // OnAfterUpdate is called each time the end user interacts
 // with any node. The front commit the state of the front node
@@ -71,11 +82,11 @@ func (nodesCb *NodeCallbacksSingloton) OnAfterUpdateDiagram(
 		// The front will detect that the backend has been commited
 		// It will refresh and fetch the node with checked value
 		stagedNode.IsChecked = true
+		nodesCb.selectedClassdiagram = stagedNode.Classdiagram
 
 		// uncheck all other diagram nodes
 		diagramNodes := append(
-			nodesCb.ClassdiagramsRootNode.Children,
-			nodesCb.StateDiagramsRootNode.Children...)
+			nodesCb.ClassdiagramsRootNode.Children)
 
 		for _, otherDiagramNode := range diagramNodes {
 			if otherDiagramNode == stagedNode {
@@ -126,12 +137,8 @@ func (nodesCb *NodeCallbacksSingloton) OnAfterUpdateDiagram(
 
 			// rename the diagram file if it exists
 			// remove the actual classdiagram file if it exsits
-			fieldName := GetAssociationName[DiagramPackage]().Classdiagrams[0].Name
-			mapReverse := GetSliceOfPointersReverseMap[DiagramPackage, Classdiagram](fieldName)
-			pkgelt := mapReverse[stagedNode.Classdiagram]
-
-			oldClassdiagramFilePath := filepath.Join(pkgelt.Path, "../diagrams", stagedNode.Classdiagram.Name) + ".go"
-			newClassdiagramFilePath := filepath.Join(pkgelt.Path, "../diagrams", frontNode.Name) + ".go"
+			oldClassdiagramFilePath := filepath.Join(nodesCb.diagramPackage.Path, "../diagrams", stagedNode.Classdiagram.Name) + ".go"
+			newClassdiagramFilePath := filepath.Join(nodesCb.diagramPackage.Path, "../diagrams", frontNode.Name) + ".go"
 
 			if _, err := os.Stat(oldClassdiagramFilePath); err == nil {
 				if err := os.Rename(oldClassdiagramFilePath, newClassdiagramFilePath); err != nil {
@@ -162,12 +169,6 @@ func (nodesCb *NodeCallbacksSingloton) OnAfterUpdateDiagram(
 					stagedNode.Classdiagram.Commit()
 				}
 			}
-
-		case STATE_DIAGRAM:
-
-			// to be done
-			stagedNode.Umlsc.Name = frontNode.Name
-			stagedNode.Umlsc.Commit()
 		}
 		switch stagedNode.Type {
 		case CLASS_DIAGRAM, STATE_DIAGRAM:
@@ -188,27 +189,37 @@ func (nodesCb *NodeCallbacksSingloton) OnAfterUpdateDiagram(
 		switch stagedNode.Type {
 		case CLASS_DIAGRAM:
 			stagedNode.Classdiagram.IsInDrawMode = frontNode.IsInDrawMode
-		case STATE_DIAGRAM:
-			stagedNode.Umlsc.IsInDrawMode = frontNode.IsInDrawMode
 		}
 		updateNodesStates(stage, nodesCb)
 	}
 
 	// marshall diagram to switch to saved state
 	if !stagedNode.IsSaved && frontNode.IsSaved {
-		// fetch the only package
-		var pkgelt *DiagramPackage
-		for _pkgelt := range *GetGongstructInstancesSet[DiagramPackage]() {
-			pkgelt = _pkgelt
-		}
 		switch stagedNode.Type {
 		case CLASS_DIAGRAM:
 
-			// checkout in order to get the latest version of the diagram before modifying it updated
-			// by the front
+			// checkout in order to get the latest version of the diagram before
+			// modifying it updated by the front
+			Stage.Checkout()
+
+			Stage.Unstage()
+			stagedNode.Classdiagram.SerializeToStage()
+
+			filepath := filepath.Join(
+				filepath.Join(nodesCb.diagramPackage.AbsolutePathToDiagramPackage,
+					"../diagrams"),
+				stagedNode.Classdiagram.Name) + ".go"
+			file, err := os.Create(filepath)
+			if err != nil {
+				log.Fatal("Cannot open diagram file" + err.Error())
+			}
+			defer file.Close()
+			Stage.Marshall(file, "github.com/fullstack-lang/gongdoc/go/models", "diagrams")
+
+			// restore the original stage
+			Stage.Unstage()
 			Stage.Checkout()
 			stagedNode.IsSaved = false
-			stagedNode.Classdiagram.Marshall(pkgelt, filepath.Join(pkgelt.Path, "../diagrams"))
 			stage.Commit()
 		case STATE_DIAGRAM:
 			// stagedNode.Umlsc = stagedNode.Umlsc.Saved
@@ -241,7 +252,7 @@ func (nodesCb *NodeCallbacksSingloton) OnAfterUpdateStruct(
 		stage.Checkout()
 
 		classDiagram := nodesCb.GetSelectedClassdiagram()
-		classDiagram.AddClassshape(frontNode.Name, REFERENCE_GONG_STRUCT)
+		classDiagram.AddClassshape(nodesCb, frontNode.Name, REFERENCE_GONG_STRUCT)
 
 		updateNodesStates(stage, nodesCb)
 	}
@@ -256,7 +267,7 @@ func (nodesCb *NodeCallbacksSingloton) OnAfterUpdateStructField(
 	// find the parent node to find the gongstruct to find the classshape
 	// the node is field, one needs to find the gongstruct that contains it
 	// get the parent node
-	parentNode := nodesCb.idTree.map_Children_Parent[stagedNode]
+	parentNode := nodesCb.map_Children_Parent[stagedNode]
 	gongStruct := parentNode.Gongstruct
 
 	// find the classhape in the classdiagram
@@ -315,6 +326,8 @@ func (nodesCb *NodeCallbacksSingloton) OnAfterUpdateStructField(
 			var field Field
 			field.Name = stagedNode.Name
 			field.Fieldname = stagedNode.Name
+			field.Identifier = RefPrefixReferencedPackage +
+				filepath.Base(nodesCb.diagramPackage.GongModelPath) + "." + stagedNode.Name
 
 			switch realField := stagedNode.Gongfield.(type) {
 			case *gong_models.GongBasicField:
@@ -409,6 +422,9 @@ func (nodesCb *NodeCallbacksSingloton) OnAfterUpdateStructField(
 			link.SourceMultiplicity = sourceMultiplicity
 			link.TargetMultiplicity = targetMultiplicity
 			link.Fieldname = stagedNode.Name
+			link.Identifier = RefPrefixReferencedPackage +
+				filepath.Base(nodesCb.diagramPackage.GongModelPath) + "." + stagedNode.Name
+
 			link.Structname = gongStruct.Name
 			link.Fieldtypename = targetStructName
 
@@ -505,7 +521,7 @@ func (nodesCb *NodeCallbacksSingloton) OnAfterUpdateEnum(
 		stage.Checkout()
 
 		classDiagram := nodesCb.GetSelectedClassdiagram()
-		classDiagram.AddClassshape(frontNode.Name, REFERENCE_GONG_ENUM)
+		classDiagram.AddClassshape(nodesCb, frontNode.Name, REFERENCE_GONG_ENUM)
 		updateNodesStates(stage, nodesCb)
 	}
 }
@@ -519,7 +535,7 @@ func (nodesCb *NodeCallbacksSingloton) OnAfterUpdateEnumValue(
 	// find the parent node to find the gongstruct to find the classshape
 	// the node is field, one needs to find the gongstruct that contains it
 	// get the parent node
-	parentNode := nodesCb.idTree.map_Children_Parent[stagedNode]
+	parentNode := nodesCb.map_Children_Parent[stagedNode]
 	gongEnum := parentNode.GongEnum
 
 	// find the classhape in the classdiagram
@@ -616,14 +632,8 @@ func (nodesCb *NodeCallbacksSingloton) OnAfterCreate(
 	case CLASS_DIAGRAM, STATE_DIAGRAM:
 		newDiagramNode.HasCheckboxButton = true
 
-		// fetch the only package
-		var pkgelt *DiagramPackage
-		for _pkgelt := range *GetGongstructInstancesSet[DiagramPackage]() {
-			pkgelt = _pkgelt
-		}
-
 		classdiagram := (&Classdiagram{Name: newDiagramNode.Name}).Stage()
-		pkgelt.Classdiagrams = append(pkgelt.Classdiagrams, classdiagram)
+		nodesCb.diagramPackage.Classdiagrams = append(nodesCb.diagramPackage.Classdiagrams, classdiagram)
 		newDiagramNode.Classdiagram = classdiagram
 		newDiagramNode.IsInEditMode = true
 		newDiagramNode.IsInDrawMode = false
@@ -640,7 +650,7 @@ func (nodesCb *NodeCallbacksSingloton) OnAfterCreate(
 // OnAfterDelete is called after a node is deleted
 // notice that the fontNode only have its basic fields updated
 // its pointers are not ok
-func (callbacksSingloton *NodeCallbacksSingloton) OnAfterDelete(
+func (nodesCb *NodeCallbacksSingloton) OnAfterDelete(
 	stage *StageStruct,
 	stagedNode, frontNode *Node) {
 
@@ -654,33 +664,14 @@ func (callbacksSingloton *NodeCallbacksSingloton) OnAfterDelete(
 	switch stagedNode.Type {
 	case CLASS_DIAGRAM:
 		// remove the classdiagram node from the pkg element node
-		fieldName := GetAssociationName[DiagramPackage]().Classdiagrams[0].Name
-		mapReverse := GetSliceOfPointersReverseMap[DiagramPackage, Classdiagram](fieldName)
-		pkgelt := mapReverse[stagedNode.Classdiagram]
-		pkgelt.Classdiagrams = remove(pkgelt.Classdiagrams, stagedNode.Classdiagram)
+		nodesCb.diagramPackage.Classdiagrams = remove(nodesCb.diagramPackage.Classdiagrams, stagedNode.Classdiagram)
 		stagedNode.Classdiagram.Unstage()
 
 		// remove the actual classdiagram file if it exsits
-		classdiagramFilePath := filepath.Join(pkgelt.Path, "../diagrams", stagedNode.Classdiagram.Name) + ".go"
+		classdiagramFilePath := filepath.Join(nodesCb.diagramPackage.Path, "../diagrams", stagedNode.Classdiagram.Name) + ".go"
 		if _, err := os.Stat(classdiagramFilePath); err == nil {
 			if err := os.Remove(classdiagramFilePath); err != nil {
 				log.Println("Error while deleting file " + classdiagramFilePath + " : " + err.Error())
-			}
-		}
-
-	case STATE_DIAGRAM:
-		// remove the umlsc node from the pkg element node
-		fieldName := GetAssociationName[DiagramPackage]().Umlscs[0].Name
-		mapReverse := GetSliceOfPointersReverseMap[DiagramPackage, Umlsc](fieldName)
-		pkgelt := mapReverse[stagedNode.Umlsc]
-		pkgelt.Umlscs = remove(pkgelt.Umlscs, stagedNode.Umlsc)
-		stagedNode.Umlsc.Unstage()
-
-		// remove the actual classdiagram file if it exsits
-		statediagramFilePath := filepath.Join(pkgelt.Path, "../diagrams", stagedNode.Umlsc.Name) + ".go"
-		if _, err := os.Stat(statediagramFilePath); err == nil {
-			if err := os.Remove(statediagramFilePath); err != nil {
-				log.Println("Error while deleting file " + statediagramFilePath + " : " + err.Error())
 			}
 		}
 	}

@@ -12,6 +12,7 @@ export class FieldDB {
 	// insertion point for basic fields declarations
 	Name: string = ""
 	Fieldname: string = ""
+	Identifier: string = ""
 	FieldTypeAsString: string = ""
 	Structname: string = ""
 	Fieldtypename: string = ""

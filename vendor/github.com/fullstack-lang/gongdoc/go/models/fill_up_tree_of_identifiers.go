@@ -6,8 +6,10 @@ func FillUpTreeOfIdentifiers(pkgelt *DiagramPackage, nodesCb *NodeCallbacksSingl
 
 	// set up the gongTree to display elements
 	gongTree := (&Tree{Name: "gong", Type: TREE_OF_IDENTIFIERS}).Stage()
-	gongTree.nodeMap = make(map[string]*Node)
 	nodesCb.idTree = gongTree
+
+	nodesCb.map_Identifier_Node = make(map[string]*Node)
+	nodesCb.map_Node_Identifier = make(map[*Node]string)
 
 	gongstructRootNode := (&Node{Name: "gongstructs"}).Stage()
 	gongstructRootNode.IsExpanded = true
@@ -22,7 +24,7 @@ func FillUpTreeOfIdentifiers(pkgelt *DiagramPackage, nodesCb *NodeCallbacksSingl
 
 		// append to the tree
 		gongstructRootNode.Children = append(gongstructRootNode.Children, node)
-		gongTree.nodeMap[gongStruct.Name] = node
+		nodesCb.map_Identifier_Node[gongStruct.Name] = node
 
 		for _, field := range gongStruct.Fields {
 			node2 := (&Node{Name: field.GetName()}).Stage()
@@ -32,7 +34,7 @@ func FillUpTreeOfIdentifiers(pkgelt *DiagramPackage, nodesCb *NodeCallbacksSingl
 
 			// append to tree
 			node.Children = append(node.Children, node2)
-			gongTree.nodeMap[gongStruct.Name+"."+field.GetName()] = node2
+			nodesCb.map_Identifier_Node[gongStruct.Name+"."+field.GetName()] = node2
 		}
 	}
 
@@ -49,7 +51,7 @@ func FillUpTreeOfIdentifiers(pkgelt *DiagramPackage, nodesCb *NodeCallbacksSingl
 
 		// append to tree
 		gongenumRootNode.Children = append(gongenumRootNode.Children, node)
-		gongTree.nodeMap[gongEnum.Name] = node
+		nodesCb.map_Identifier_Node[gongEnum.Name] = node
 
 		for _, value := range gongEnum.GongEnumValues {
 			node2 := (&Node{Name: value.GetName()}).Stage()
@@ -58,7 +60,7 @@ func FillUpTreeOfIdentifiers(pkgelt *DiagramPackage, nodesCb *NodeCallbacksSingl
 
 			// append to tree
 			node.Children = append(node.Children, node2)
-			gongTree.nodeMap[gongEnum.Name+"."+value.GetName()] = node2
+			nodesCb.map_Identifier_Node[gongEnum.Name+"."+value.GetName()] = node2
 		}
 	}
 
@@ -74,7 +76,7 @@ func FillUpTreeOfIdentifiers(pkgelt *DiagramPackage, nodesCb *NodeCallbacksSingl
 
 		// append to tree
 		gongNotesRootNode.Children = append(gongNotesRootNode.Children, node)
-		gongTree.nodeMap[gongNote.Name] = node
+		nodesCb.map_Identifier_Node[gongNote.Name] = node
 
 		for _, gongLink := range gongNote.Links {
 			node2 := (&Node{Name: gongLink.Name}).Stage()
@@ -83,11 +85,16 @@ func FillUpTreeOfIdentifiers(pkgelt *DiagramPackage, nodesCb *NodeCallbacksSingl
 
 			// append to tree
 			node.Children = append(node.Children, node2)
-			gongTree.nodeMap[gongNote.Name+"."+gongLink.Name] = node2
+			nodesCb.map_Identifier_Node[gongNote.Name+"."+gongLink.Name] = node2
 		}
 	}
 
 	// generate the map to navigate from children to parents
 	fieldName := GetAssociationName[Node]().Children[0].Name
-	gongTree.map_Children_Parent = GetSliceOfPointersReverseMap[Node, Node](fieldName)
+	nodesCb.map_Children_Parent = GetSliceOfPointersReverseMap[Node, Node](fieldName)
+
+	// create reverse map of identifiers nodes
+	for id, node := range nodesCb.map_Identifier_Node {
+		nodesCb.map_Node_Identifier[node] = id
+	}
 }

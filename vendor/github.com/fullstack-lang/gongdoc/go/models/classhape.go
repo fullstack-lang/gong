@@ -6,6 +6,7 @@ import (
 	"go/token"
 	"log"
 	"os"
+	"path"
 	"sort"
 	"strconv"
 
@@ -29,6 +30,10 @@ type Classshape struct {
 
 	// the related gong struct or gong enum
 	Reference *Reference
+
+	// Identifier is the identifier of the struct referenced by the shape in the modeled package
+	//gong:ident
+	Identifier string
 
 	// gongdoc can be integrated in a runtime application
 	// the application can then set up the number of instances of Struct
@@ -189,6 +194,7 @@ func (classshape *Classshape) Unmarshall(modelPkg *gong_models.ModelPkg, expr as
 					// assign Strut
 					classshape.ReferencedGong = se.Sel.Name
 					classshape.ReferenceName = se.Sel.Name
+					classshape.Identifier = RefPrefixReferencedPackage + path.Base(modelPkg.PkgPath) + "." + se.Sel.Name
 
 					// attach reference to classshape
 					var ok bool
@@ -225,6 +231,7 @@ func (classshape *Classshape) Unmarshall(modelPkg *gong_models.ModelPkg, expr as
 
 					classshape.ReferencedGong = se.Sel.Name
 					classshape.ReferenceName = se.Sel.Name
+					classshape.Identifier = RefPrefixReferencedPackage + path.Base(modelPkg.PkgPath) + "." + se.Sel.Name
 
 					var ok bool
 					var reference *Reference
@@ -334,7 +341,8 @@ func (classshape *Classshape) SerializeToStage() {
 
 	classshape.Stage()
 
-	classshape.Position.SerializeToStage()
+	classshape.Position.Stage()
+	classshape.Reference.Stage()
 
 	for _, link := range classshape.Links {
 		link.SerializeToStage()
@@ -342,5 +350,21 @@ func (classshape *Classshape) SerializeToStage() {
 
 	for _, field := range classshape.Fields {
 		field.SerializeToStage()
+	}
+}
+
+func (classshape *Classshape) SerializeToUnstage() {
+
+	classshape.Unstage()
+
+	classshape.Position.Unstage()
+	classshape.Reference.Unstage()
+
+	for _, link := range classshape.Links {
+		link.SerializeToUnstage()
+	}
+
+	for _, field := range classshape.Fields {
+		field.Unstage()
 	}
 }
