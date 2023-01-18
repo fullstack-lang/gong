@@ -311,8 +311,7 @@ func (backRepoNoteShape *BackRepoNoteShapeStruct) CommitPhaseTwoInstance(backRep
 // BackRepoNoteShape.CheckoutPhaseOne Checkouts all BackRepo instances to the Stage
 //
 // Phase One will result in having instances on the stage aligned with the back repo
-// pointers are not initialized yet (this is for pahse two)
-//
+// pointers are not initialized yet (this is for phase two)
 func (backRepoNoteShape *BackRepoNoteShapeStruct) CheckoutPhaseOne() (Error error) {
 
 	noteshapeDBArray := make([]NoteShapeDB, 0)
@@ -370,6 +369,9 @@ func (backRepoNoteShape *BackRepoNoteShapeStruct) CheckoutPhaseOneInstance(notes
 		noteshape.Stage()
 	}
 	noteshapeDB.CopyBasicFieldsToNoteShape(noteshape)
+
+	// in some cases, the instance might have been unstaged. It is necessary to stage it again
+	noteshape.Stage()
 
 	// preserve pointer to noteshapeDB. Otherwise, pointer will is recycled and the map of pointers
 	// Map_NoteShapeDBID_NoteShapeDB)[noteshapeDB hold variable pointers

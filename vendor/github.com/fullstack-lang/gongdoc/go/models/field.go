@@ -6,6 +6,7 @@ import (
 	"go/token"
 	"log"
 	"os"
+	"path"
 	"reflect"
 	"strings"
 
@@ -21,7 +22,13 @@ type Field struct {
 	// actual go field in the models that is diagrammed, for instance "models.Point{}.X"
 	Field interface{} `gorm:"-"`
 
-	Fieldname         string
+	Fieldname string
+
+	// Identifier is the identifier of the struct field referenced
+	// by the UML classshape in the modeled package
+	//gong:ident
+	Identifier string
+
 	FieldTypeAsString string
 	Structname        string
 	Fieldtypename     string
@@ -79,6 +86,7 @@ func (field *Field) Unmarshall(modelPkg *gong_models.ModelPkg, expr ast.Expr, fs
 			field.Structname = se2.Sel.Name
 			field.Fieldname = se.Sel.Name
 			field.Name = field.Fieldname
+			field.Identifier = RefPrefixReferencedPackage + path.Base(modelPkg.PkgPath) + "." + se2.Sel.Name + "." + se.Sel.Name
 
 			// try to find the type of the field
 			var typename string
@@ -107,8 +115,8 @@ func (field *Field) Unmarshall(modelPkg *gong_models.ModelPkg, expr ast.Expr, fs
 		if ident2, ok = se.X.(*ast.Ident); ok {
 			field.Structname = ident2.Name
 			field.Fieldname = se.Sel.Name
+			field.Identifier = RefPrefixReferencedPackage + path.Base(modelPkg.PkgPath) + "." + se.Sel.Name
 		}
-
 	}
 }
 

@@ -33,6 +33,13 @@
             </td>
         </ng-container>
         <!-- -->
+        <ng-container matColumnDef="Identifier">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Identifier </th>
+            <td mat-cell *matCellDef="let Field">
+                {{Field.Identifier}}
+            </td>
+        </ng-container>
+        <!-- -->
         <ng-container matColumnDef="FieldTypeAsString">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> FieldTypeAsString </th>
             <td mat-cell *matCellDef="let Field">
