@@ -72,7 +72,11 @@ func main() {
 	r.Use(cors.Default())
 
 	// setup stack
-	fullstack.Init(r)
+	if *marshallOnCommit != "" {
+		fullstack.Init(r)
+	} else {
+		fullstack.Init(r, "./test.db")
+	}
 
 	// generate injection code from the stage
 	if *marshallOnStartup != "" {
@@ -131,11 +135,11 @@ func main() {
 	if *marshallOnCommit != "" {
 		hook := new(BeforeCommitImplementation)
 		models.Stage.OnInitCommitFromFrontCallback = hook
-		models.Stage.OnInitCommitFromBackCallback = hook
 	}
 
 	gongdoc_load.Load(
 		"test",
+		"github.com/fullstack-lang/gong/test/go/models",
 		test.GoDir,
 		r,
 		*embeddedDiagrams,
@@ -149,8 +153,6 @@ func main() {
 		c.Redirect(http.StatusMovedPermanently, "/")
 		c.Abort()
 	})
-
-	models.Stage.Commit()
 
 	log.Printf("Server ready serve on localhost:8080")
 	r.Run()

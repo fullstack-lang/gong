@@ -16,7 +16,8 @@ import (
 
 // Load have gongdoc init itself and the gong stack as well
 // then parse the model source code in [goSourceDirectories]
-// of the gong stack [stackName]
+// [stackName], for instance "gongsvg"
+// of the gong stack [pathPath], for instance "github.com/fullstack-lang/gongsvg/go/models"
 // then parse the diagram.
 // the diagram  can be embedded if [embeddedDiagrams] is true (possible if
 // no edit is wished and if the binary need to be shipped as a standalone item)
@@ -24,6 +25,7 @@ import (
 // displayed. This is stored in the [map_StructName_InstanceNb] parameter
 func Load(
 	stackName string,
+	pkgPath string,
 	goSourceDirectories embed.FS,
 	r *gin.Engine,
 	embeddedDiagrams bool,
@@ -32,6 +34,8 @@ func Load(
 	gong_fullstack.Init(r)
 	gongdoc_fullstack.Init(r)
 	modelPackage, _ := gong_models.LoadEmbedded(goSourceDirectories)
+	modelPackage.Name = stackName
+	modelPackage.PkgPath = pkgPath
 
 	// create the diagrams
 	// prepare the model views
@@ -57,5 +61,5 @@ func Load(
 	} else {
 		diagramPackage, _ = gongdoc_models.LoadDiagramPackage(filepath.Join("../../diagrams"), modelPackage, true)
 	}
-	diagramPackage.GongModelPath = stackName + "/go/models"
+	diagramPackage.GongModelPath = pkgPath
 }
