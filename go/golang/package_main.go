@@ -146,6 +146,7 @@ func main() {
 
 	gongdoc_load.Load(
 		"{{pkgname}}",
+		"{{PkgPathRoot}}/models",
 		{{pkgname}}.GoDir,
 		r,
 		*embeddedDiagrams,
