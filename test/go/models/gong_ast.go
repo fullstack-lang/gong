@@ -15,10 +15,9 @@ import (
 
 var dummy_strconv_import strconv.NumError
 
-// ParseAstFile Parse pathToFile and stages all instances
+/// ParseAstFile Parse pathToFile and stages all instances
 // declared in the file
 func ParseAstFile(pathToFile string) error {
-
 	// map to store renaming docLink
 	// to be removed after fix of [issue](https://github.com/golang/go/issues/57559)
 	Stage.Map_DocLink_Renaming = make(map[string]string, 0)
@@ -37,9 +36,15 @@ func ParseAstFile(pathToFile string) error {
 		return errors.New("Unable to parser " + errParser.Error())
 	}
 
+	return ParseAstFileFromAst(inFile, fset)
+}
+
+// ParseAstFile Parse pathToFile and stages all instances
+// declared in the file
+func ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet) error {
 	// if there is a meta package import, it is the third import
 	if len(inFile.Imports) > 3 {
-		log.Fatalln("Too many imports in file", fileOfInterest)
+		log.Fatalln("Too many imports in file", inFile.Name)
 	}
 	stage := &Stage
 	_ = stage
