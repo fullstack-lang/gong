@@ -494,6 +494,17 @@
             ]
         },
         {
+            "name": "go test Stage Count",
+            "type": "go",
+            "request": "launch",
+            "mode": "test",
+            "program": "${workspaceFolder}/test/go/tests/stage_tests",
+            "args": [
+                "-test.run",
+                "TestStageCount"
+            ]
+        },
+        {
             "name": "go test TestStageCallBack",
             "type": "go",
             "request": "launch",
