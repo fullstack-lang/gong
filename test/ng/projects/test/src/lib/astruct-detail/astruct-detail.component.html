@@ -346,6 +346,86 @@
         <textarea name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="astruct.FieldRef"></textarea>
     </mat-form-field>
 
+    <mat-grid-list *ngIf='!isATextArea("EnumIntRef")' cols="5" rowHeight="2:1">
+        <mat-grid-tile [colspan]="3">
+            <mat-form-field mat-form-field class="detail-full-width">
+                <mat-label>EnumIntRef</mat-label>
+                <input name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="astruct.EnumIntRef">
+            </mat-form-field>
+        </mat-grid-tile>
+        <mat-grid-tile>
+            <button mat-raised-button (click)="toggleTextArea('EnumIntRef')">
+                <mat-icon>
+                    expand_more
+                </mat-icon>
+            </button>
+        </mat-grid-tile>
+    </mat-grid-list>
+    <mat-form-field *ngIf='isATextArea("EnumIntRef")' mat-form-field class="detail-full-width">
+        <mat-label>EnumIntRef</mat-label>
+        <textarea name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="astruct.EnumIntRef"></textarea>
+    </mat-form-field>
+
+    <mat-grid-list *ngIf='!isATextArea("EnumStringRef")' cols="5" rowHeight="2:1">
+        <mat-grid-tile [colspan]="3">
+            <mat-form-field mat-form-field class="detail-full-width">
+                <mat-label>EnumStringRef</mat-label>
+                <input name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="astruct.EnumStringRef">
+            </mat-form-field>
+        </mat-grid-tile>
+        <mat-grid-tile>
+            <button mat-raised-button (click)="toggleTextArea('EnumStringRef')">
+                <mat-icon>
+                    expand_more
+                </mat-icon>
+            </button>
+        </mat-grid-tile>
+    </mat-grid-list>
+    <mat-form-field *ngIf='isATextArea("EnumStringRef")' mat-form-field class="detail-full-width">
+        <mat-label>EnumStringRef</mat-label>
+        <textarea name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="astruct.EnumStringRef"></textarea>
+    </mat-form-field>
+
+    <mat-grid-list *ngIf='!isATextArea("EnumValue")' cols="5" rowHeight="2:1">
+        <mat-grid-tile [colspan]="3">
+            <mat-form-field mat-form-field class="detail-full-width">
+                <mat-label>EnumValue</mat-label>
+                <input name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="astruct.EnumValue">
+            </mat-form-field>
+        </mat-grid-tile>
+        <mat-grid-tile>
+            <button mat-raised-button (click)="toggleTextArea('EnumValue')">
+                <mat-icon>
+                    expand_more
+                </mat-icon>
+            </button>
+        </mat-grid-tile>
+    </mat-grid-list>
+    <mat-form-field *ngIf='isATextArea("EnumValue")' mat-form-field class="detail-full-width">
+        <mat-label>EnumValue</mat-label>
+        <textarea name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="astruct.EnumValue"></textarea>
+    </mat-form-field>
+
+    <mat-grid-list *ngIf='!isATextArea("ConstIdentifierValue")' cols="5" rowHeight="2:1">
+        <mat-grid-tile [colspan]="3">
+            <mat-form-field mat-form-field class="detail-full-width">
+                <mat-label>ConstIdentifierValue</mat-label>
+                <input name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="astruct.ConstIdentifierValue">
+            </mat-form-field>
+        </mat-grid-tile>
+        <mat-grid-tile>
+            <button mat-raised-button (click)="toggleTextArea('ConstIdentifierValue')">
+                <mat-icon>
+                    expand_more
+                </mat-icon>
+            </button>
+        </mat-grid-tile>
+    </mat-grid-list>
+    <mat-form-field *ngIf='isATextArea("ConstIdentifierValue")' mat-form-field class="detail-full-width">
+        <mat-label>ConstIdentifierValue</mat-label>
+        <textarea name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="astruct.ConstIdentifierValue"></textarea>
+    </mat-form-field>
+
     <mat-form-field class="detail-full-width">
         <mat-label>(Astruct) Anarrayofa</mat-label>
         <mat-select [compareWith]="compareObjects" [(ngModel)]="astruct.Astruct_Anarrayofa_reverse" [ngModelOptions]="{standalone: true}">

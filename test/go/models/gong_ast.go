@@ -663,6 +663,22 @@ func UnmarshallGongstructStaging(cmap *ast.CommentMap, assignStmt *ast.AssignStm
 					// remove first and last char
 					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
 					__gong__map_Astruct[identifier].FieldRef = fielValue
+				case "EnumIntRef":
+					// remove first and last char
+					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
+					__gong__map_Astruct[identifier].EnumIntRef = fielValue
+				case "EnumStringRef":
+					// remove first and last char
+					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
+					__gong__map_Astruct[identifier].EnumStringRef = fielValue
+				case "EnumValue":
+					// remove first and last char
+					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
+					__gong__map_Astruct[identifier].EnumValue = fielValue
+				case "ConstIdentifierValue":
+					// remove first and last char
+					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
+					__gong__map_Astruct[identifier].ConstIdentifierValue = fielValue
 				}
 			case "AstructBstruct2Use":
 				switch fieldName {

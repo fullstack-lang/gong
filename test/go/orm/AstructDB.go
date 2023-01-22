@@ -146,6 +146,18 @@ type AstructDB struct {
 
 	// Declation for basic field astructDB.FieldRef
 	FieldRef_Data sql.NullString
+
+	// Declation for basic field astructDB.EnumIntRef
+	EnumIntRef_Data sql.NullString
+
+	// Declation for basic field astructDB.EnumStringRef
+	EnumStringRef_Data sql.NullString
+
+	// Declation for basic field astructDB.EnumValue
+	EnumValue_Data sql.NullString
+
+	// Declation for basic field astructDB.ConstIdentifierValue
+	ConstIdentifierValue_Data sql.NullString
 	// encoding of pointers
 	AstructPointersEnconding
 }
@@ -196,6 +208,14 @@ type AstructWOP struct {
 	StructRef string `xlsx:"14"`
 
 	FieldRef string `xlsx:"15"`
+
+	EnumIntRef string `xlsx:"16"`
+
+	EnumStringRef string `xlsx:"17"`
+
+	EnumValue string `xlsx:"18"`
+
+	ConstIdentifierValue string `xlsx:"19"`
 	// insertion for WOP pointer fields
 }
 
@@ -217,6 +237,10 @@ var Astruct_Fields = []string{
 	"Duration1",
 	"StructRef",
 	"FieldRef",
+	"EnumIntRef",
+	"EnumStringRef",
+	"EnumValue",
+	"ConstIdentifierValue",
 }
 
 type BackRepoAstructStruct struct {
@@ -892,6 +916,18 @@ func (astructDB *AstructDB) CopyBasicFieldsFromAstruct(astruct *models.Astruct) 
 
 	astructDB.FieldRef_Data.String = astruct.FieldRef
 	astructDB.FieldRef_Data.Valid = true
+
+	astructDB.EnumIntRef_Data.String = astruct.EnumIntRef
+	astructDB.EnumIntRef_Data.Valid = true
+
+	astructDB.EnumStringRef_Data.String = astruct.EnumStringRef
+	astructDB.EnumStringRef_Data.Valid = true
+
+	astructDB.EnumValue_Data.String = astruct.EnumValue
+	astructDB.EnumValue_Data.Valid = true
+
+	astructDB.ConstIdentifierValue_Data.String = astruct.ConstIdentifierValue
+	astructDB.ConstIdentifierValue_Data.Valid = true
 }
 
 // CopyBasicFieldsFromAstructWOP
@@ -942,6 +978,18 @@ func (astructDB *AstructDB) CopyBasicFieldsFromAstructWOP(astruct *AstructWOP) {
 
 	astructDB.FieldRef_Data.String = astruct.FieldRef
 	astructDB.FieldRef_Data.Valid = true
+
+	astructDB.EnumIntRef_Data.String = astruct.EnumIntRef
+	astructDB.EnumIntRef_Data.Valid = true
+
+	astructDB.EnumStringRef_Data.String = astruct.EnumStringRef
+	astructDB.EnumStringRef_Data.Valid = true
+
+	astructDB.EnumValue_Data.String = astruct.EnumValue
+	astructDB.EnumValue_Data.Valid = true
+
+	astructDB.ConstIdentifierValue_Data.String = astruct.ConstIdentifierValue
+	astructDB.ConstIdentifierValue_Data.Valid = true
 }
 
 // CopyBasicFieldsToAstruct
@@ -962,6 +1010,10 @@ func (astructDB *AstructDB) CopyBasicFieldsToAstruct(astruct *models.Astruct) {
 	astruct.Duration1 = time.Duration(astructDB.Duration1_Data.Int64)
 	astruct.StructRef = astructDB.StructRef_Data.String
 	astruct.FieldRef = astructDB.FieldRef_Data.String
+	astruct.EnumIntRef = astructDB.EnumIntRef_Data.String
+	astruct.EnumStringRef = astructDB.EnumStringRef_Data.String
+	astruct.EnumValue = astructDB.EnumValue_Data.String
+	astruct.ConstIdentifierValue = astructDB.ConstIdentifierValue_Data.String
 }
 
 // CopyBasicFieldsToAstructWOP
@@ -983,6 +1035,10 @@ func (astructDB *AstructDB) CopyBasicFieldsToAstructWOP(astruct *AstructWOP) {
 	astruct.Duration1 = time.Duration(astructDB.Duration1_Data.Int64)
 	astruct.StructRef = astructDB.StructRef_Data.String
 	astruct.FieldRef = astructDB.FieldRef_Data.String
+	astruct.EnumIntRef = astructDB.EnumIntRef_Data.String
+	astruct.EnumStringRef = astructDB.EnumStringRef_Data.String
+	astruct.EnumValue = astructDB.EnumValue_Data.String
+	astruct.ConstIdentifierValue = astructDB.ConstIdentifierValue_Data.String
 }
 
 // Backup generates a json file from a slice of all AstructDB instances in the backrepo
