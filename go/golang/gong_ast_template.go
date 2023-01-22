@@ -17,7 +17,7 @@ import (
 
 var dummy_strconv_import strconv.NumError
 
-/// ParseAstFile Parse pathToFile and stages all instances
+// ParseAstFile Parse pathToFile and stages all instances
 // declared in the file
 func ParseAstFile(pathToFile string) error {
 	// map to store renaming docLink
@@ -170,56 +170,101 @@ func ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet) error {
 								key = strings.TrimSuffix(key, "\"")
 							}
 
-							var isFieldEntry bool
+							type ExpressionType string
+							const (
+								STRUCT_INSTANCE      ExpressionType = "STRUCT_INSTANCE"
+								FIELD_OR_CONST_VALUE ExpressionType = "FIELD_OR_CONST_VALUE"
+								FIELD_VALUE          ExpressionType = "FIELD_VALUE"
+								ENUM_CAST            ExpressionType = "ENUM_CAST"
+								IDENTIFIER_CONST     ExpressionType = "IDENTIFIER_CONST"
+							)
+							var expressionType ExpressionType = STRUCT_INSTANCE
+							var docLink string
+
 							var fieldName string
 							var ue *ast.UnaryExpr
 							if ue, ok = kve.Value.(*ast.UnaryExpr); !ok {
-								isFieldEntry = true
+								expressionType = FIELD_OR_CONST_VALUE
+							}
+
+							var callExpr *ast.CallExpr
+							if callExpr, ok = kve.Value.(*ast.CallExpr); ok {
+								expressionType = ENUM_CAST
+
+								var se *ast.SelectorExpr
+								if se, ok = callExpr.Fun.(*ast.SelectorExpr); !ok {
+									log.Fatal("Expression should be a selector expression" +
+										fset.Position(callExpr.Pos()).String())
+								}
+
+								var id *ast.Ident
+								if id, ok = se.X.(*ast.Ident); !ok {
+									log.Fatal("Expression should be an ident" +
+										fset.Position(se.Pos()).String())
+								}
+								docLink = id.Name + "." + se.Sel.Name
+								_ = callExpr
 							}
 
 							var se2 *ast.SelectorExpr
-							if isFieldEntry {
-								if se2, ok = kve.Value.(*ast.SelectorExpr); !ok {
-									log.Fatal("Expression should be a selector expression" +
-										fset.Position(kve.Pos()).String())
+							switch expressionType {
+							case FIELD_OR_CONST_VALUE:
+								if se2, ok = kve.Value.(*ast.SelectorExpr); ok {
+
+									var ident *ast.Ident
+									if _, ok = se2.X.(*ast.ParenExpr); ok {
+										expressionType = FIELD_VALUE
+										fieldName = se2.Sel.Name
+									} else if ident, ok = se2.X.(*ast.Ident); ok {
+										expressionType = IDENTIFIER_CONST
+										docLink = ident.Name + "." + se2.Sel.Name
+									} else {
+										log.Fatal("Expression should be a selector expression or an ident" +
+											fset.Position(kve.Pos()).String())
+									}
+								} else {
+
 								}
-								fieldName = se2.Sel.Name
 							}
 
 							var pe *ast.ParenExpr
-							if !isFieldEntry {
+							switch expressionType {
+							case STRUCT_INSTANCE:
 								if pe, ok = ue.X.(*ast.ParenExpr); !ok {
 									log.Fatal("Expression should be parenthese expression" +
 										fset.Position(ue.Pos()).String())
 								}
-							} else {
+							case FIELD_VALUE:
 								if pe, ok = se2.X.(*ast.ParenExpr); !ok {
 									log.Fatal("Expression should be parenthese expression" +
 										fset.Position(ue.Pos()).String())
 								}
 							}
+							switch expressionType {
+							case FIELD_VALUE, STRUCT_INSTANCE:
+								// expect a Composite Litteral with no Element <type>{}
+								var cl *ast.CompositeLit
+								if cl, ok = pe.X.(*ast.CompositeLit); !ok {
+									log.Fatal("Expression should be a composite lit" +
+										fset.Position(pe.Pos()).String())
+								}
 
-							// expect a Composite Litteral with no Element <type>{}
-							var cl *ast.CompositeLit
-							if cl, ok = pe.X.(*ast.CompositeLit); !ok {
-								log.Fatal("Expression should be a composite lit" +
-									fset.Position(pe.Pos()).String())
+								var se *ast.SelectorExpr
+								if se, ok = cl.Type.(*ast.SelectorExpr); !ok {
+									log.Fatal("Expression should be a selector" +
+										fset.Position(cl.Pos()).String())
+								}
+
+								var id *ast.Ident
+								if id, ok = se.X.(*ast.Ident); !ok {
+									log.Fatal("Expression should be an ident" +
+										fset.Position(se.Pos()).String())
+								}
+								docLink = id.Name + "." + se.Sel.Name
 							}
 
-							var se *ast.SelectorExpr
-							if se, ok = cl.Type.(*ast.SelectorExpr); !ok {
-								log.Fatal("Expression should be a selector" +
-									fset.Position(cl.Pos()).String())
-							}
-
-							var id *ast.Ident
-							if id, ok = se.X.(*ast.Ident); !ok {
-								log.Fatal("Expression should be an ident" +
-									fset.Position(se.Pos()).String())
-							}
-							docLink := id.Name + "." + se.Sel.Name
-
-							if isFieldEntry {
+							switch expressionType {
+							case FIELD_VALUE:
 								docLink += "." + fieldName
 							}
 
