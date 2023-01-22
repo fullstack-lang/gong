@@ -233,6 +233,42 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(astruct.FieldRef))
 		initializerStatements += setValueField
 
+		setValueField = StringInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}",
+			fmt.Sprintf("\n\t// comment added to overcome the problem with the comment map association\n\n\t//gong:ident [%s]\n\t{{Identifier}}",
+				string(astruct.EnumIntRef)))
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "EnumIntRef")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(astruct.EnumIntRef))
+		initializerStatements += setValueField
+
+		setValueField = StringInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}",
+			fmt.Sprintf("\n\t// comment added to overcome the problem with the comment map association\n\n\t//gong:ident [%s]\n\t{{Identifier}}",
+				string(astruct.EnumStringRef)))
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "EnumStringRef")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(astruct.EnumStringRef))
+		initializerStatements += setValueField
+
+		setValueField = StringInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}",
+			fmt.Sprintf("\n\t// comment added to overcome the problem with the comment map association\n\n\t//gong:ident [%s]\n\t{{Identifier}}",
+				string(astruct.EnumValue)))
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "EnumValue")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(astruct.EnumValue))
+		initializerStatements += setValueField
+
+		setValueField = StringInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}",
+			fmt.Sprintf("\n\t// comment added to overcome the problem with the comment map association\n\n\t//gong:ident [%s]\n\t{{Identifier}}",
+				string(astruct.ConstIdentifierValue)))
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "ConstIdentifierValue")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(astruct.ConstIdentifierValue))
+		initializerStatements += setValueField
+
 	}
 
 	map_AstructBstruct2Use_Identifiers := make(map[*AstructBstruct2Use]string)
@@ -579,7 +615,14 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 		// regenerate the map of doc link renaming
 		// the key and value are set to the value because
 		// if it has been renamed, this is the new value that matters
+		valuesOrdered := make([]string, 0)
 		for _, value := range stage.Map_DocLink_Renaming {
+			valuesOrdered = append(valuesOrdered, value)
+		}
+		sort.Slice(valuesOrdered[:], func(i, j int) bool {
+			return valuesOrdered[i] < valuesOrdered[j]
+		})
+		for _, value := range valuesOrdered {
 
 			// get the number of points in the value to find if it is a field
 			// or a struct
