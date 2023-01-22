@@ -170,10 +170,11 @@ func ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet) error {
 
 							type ExpressionType string
 							const (
-								STRUCT_INSTANCE  ExpressionType = "STRUCT_INSTANCE"
-								FIELD_VALUE      ExpressionType = "FIELD_VALUE"
-								ENUM_CAST        ExpressionType = "ENUM_CAST"
-								IDENTIFIER_CONST ExpressionType = "IDENTIFIER_CONST"
+								STRUCT_INSTANCE      ExpressionType = "STRUCT_INSTANCE"
+								FIELD_OR_CONST_VALUE ExpressionType = "FIELD_OR_CONST_VALUE"
+								FIELD_VALUE          ExpressionType = "FIELD_VALUE"
+								ENUM_CAST            ExpressionType = "ENUM_CAST"
+								IDENTIFIER_CONST     ExpressionType = "IDENTIFIER_CONST"
 							)
 							var expressionType ExpressionType = STRUCT_INSTANCE
 							var docLink string
@@ -181,7 +182,7 @@ func ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet) error {
 							var fieldName string
 							var ue *ast.UnaryExpr
 							if ue, ok = kve.Value.(*ast.UnaryExpr); !ok {
-								expressionType = FIELD_VALUE
+								expressionType = FIELD_OR_CONST_VALUE
 							}
 
 							var callExpr *ast.CallExpr
@@ -205,12 +206,23 @@ func ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet) error {
 
 							var se2 *ast.SelectorExpr
 							switch expressionType {
-							case FIELD_VALUE:
-								if se2, ok = kve.Value.(*ast.SelectorExpr); !ok {
-									log.Fatal("Expression should be a selector expression" +
-										fset.Position(kve.Pos()).String())
+							case FIELD_OR_CONST_VALUE:
+								if se2, ok = kve.Value.(*ast.SelectorExpr); ok {
+
+									var ident *ast.Ident
+									if _, ok = se2.X.(*ast.ParenExpr); ok {
+										expressionType = FIELD_VALUE
+										fieldName = se2.Sel.Name
+									} else if ident, ok = se2.X.(*ast.Ident); ok {
+										expressionType = IDENTIFIER_CONST
+										docLink = ident.Name + "." + se2.Sel.Name
+									} else {
+										log.Fatal("Expression should be a selector expression or an ident" +
+											fset.Position(kve.Pos()).String())
+									}
+								} else {
+
 								}
-								fieldName = se2.Sel.Name
 							}
 
 							var pe *ast.ParenExpr
