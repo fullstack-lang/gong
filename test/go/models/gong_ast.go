@@ -15,7 +15,7 @@ import (
 
 var dummy_strconv_import strconv.NumError
 
-// / ParseAstFile Parse pathToFile and stages all instances
+// ParseAstFile Parse pathToFile and stages all instances
 // declared in the file
 func ParseAstFile(pathToFile string) error {
 	// map to store renaming docLink
