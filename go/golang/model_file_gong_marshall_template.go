@@ -133,7 +133,14 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 		// regenerate the map of doc link renaming
 		// the key and value are set to the value because
 		// if it has been renamed, this is the new value that matters
+		valuesOrdered := make([]string, 0)
 		for _, value := range stage.Map_DocLink_Renaming {
+			valuesOrdered = append(valuesOrdered, value)
+		}
+		sort.Slice(valuesOrdered[:], func(i, j int) bool {
+			return valuesOrdered[i] < valuesOrdered[j]
+		})
+		for _, value := range valuesOrdered {
 
 			// get the number of points in the value to find if it is a field
 			// or a struct
