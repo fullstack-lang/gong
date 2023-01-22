@@ -17,12 +17,23 @@ import (
 
 var dummy_strconv_import strconv.NumError
 
+type __GONG__ExpressionType string
+
+const (
+	__GONG__STRUCT_INSTANCE      __GONG__ExpressionType = "STRUCT_INSTANCE"
+	__GONG__FIELD_OR_CONST_VALUE __GONG__ExpressionType = "FIELD_OR_CONST_VALUE"
+	__GONG__FIELD_VALUE          __GONG__ExpressionType = "FIELD_VALUE"
+	__GONG__ENUM_CAST_INT        __GONG__ExpressionType = "ENUM_CAST_INT"
+	__GONG__ENUM_CAST_STRING     __GONG__ExpressionType = "ENUM_CAST_STRING"
+	__GONG__IDENTIFIER_CONST     __GONG__ExpressionType = "IDENTIFIER_CONST"
+)
+
 // ParseAstFile Parse pathToFile and stages all instances
 // declared in the file
 func ParseAstFile(pathToFile string) error {
 	// map to store renaming docLink
 	// to be removed after fix of [issue](https://github.com/golang/go/issues/57559)
-	Stage.Map_DocLink_Renaming = make(map[string]string, 0)
+	Stage.Map_DocLink_Renaming = make(map[string]__GONG__Identifier, 0)
 
 	fileOfInterest, err := filepath.Abs(pathToFile)
 	if err != nil {
@@ -169,27 +180,17 @@ func ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet) error {
 								key = strings.TrimPrefix(key, "\"")
 								key = strings.TrimSuffix(key, "\"")
 							}
-
-							type ExpressionType string
-							const (
-								STRUCT_INSTANCE      ExpressionType = "STRUCT_INSTANCE"
-								FIELD_OR_CONST_VALUE ExpressionType = "FIELD_OR_CONST_VALUE"
-								FIELD_VALUE          ExpressionType = "FIELD_VALUE"
-								ENUM_CAST            ExpressionType = "ENUM_CAST"
-								IDENTIFIER_CONST     ExpressionType = "IDENTIFIER_CONST"
-							)
-							var expressionType ExpressionType = STRUCT_INSTANCE
-							var docLink string
+							var expressionType __GONG__ExpressionType = __GONG__STRUCT_INSTANCE
+							var docLink __GONG__Identifier
 
 							var fieldName string
 							var ue *ast.UnaryExpr
 							if ue, ok = kve.Value.(*ast.UnaryExpr); !ok {
-								expressionType = FIELD_OR_CONST_VALUE
+								expressionType = __GONG__FIELD_OR_CONST_VALUE
 							}
 
 							var callExpr *ast.CallExpr
 							if callExpr, ok = kve.Value.(*ast.CallExpr); ok {
-								expressionType = ENUM_CAST
 
 								var se *ast.SelectorExpr
 								if se, ok = callExpr.Fun.(*ast.SelectorExpr); !ok {
@@ -202,22 +203,37 @@ func ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet) error {
 									log.Fatal("Expression should be an ident" +
 										fset.Position(se.Pos()).String())
 								}
-								docLink = id.Name + "." + se.Sel.Name
+
+								// check the arg type to select wether this is a int or a string enum
+								var bl *ast.BasicLit
+								if bl, ok = callExpr.Args[0].(*ast.BasicLit); ok {
+									switch bl.Kind {
+									case token.STRING:
+										expressionType = __GONG__ENUM_CAST_STRING
+									case token.INT:
+										expressionType = __GONG__ENUM_CAST_INT
+									}
+								} else {
+									log.Fatal("Expression should be a basic lit" +
+										fset.Position(se.Pos()).String())
+								}
+
+								docLink.ident = id.Name + "." + se.Sel.Name
 								_ = callExpr
 							}
 
 							var se2 *ast.SelectorExpr
 							switch expressionType {
-							case FIELD_OR_CONST_VALUE:
+							case __GONG__FIELD_OR_CONST_VALUE:
 								if se2, ok = kve.Value.(*ast.SelectorExpr); ok {
 
 									var ident *ast.Ident
 									if _, ok = se2.X.(*ast.ParenExpr); ok {
-										expressionType = FIELD_VALUE
+										expressionType = __GONG__FIELD_VALUE
 										fieldName = se2.Sel.Name
 									} else if ident, ok = se2.X.(*ast.Ident); ok {
-										expressionType = IDENTIFIER_CONST
-										docLink = ident.Name + "." + se2.Sel.Name
+										expressionType = __GONG__IDENTIFIER_CONST
+										docLink.ident = ident.Name + "." + se2.Sel.Name
 									} else {
 										log.Fatal("Expression should be a selector expression or an ident" +
 											fset.Position(kve.Pos()).String())
@@ -229,19 +245,19 @@ func ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet) error {
 
 							var pe *ast.ParenExpr
 							switch expressionType {
-							case STRUCT_INSTANCE:
+							case __GONG__STRUCT_INSTANCE:
 								if pe, ok = ue.X.(*ast.ParenExpr); !ok {
 									log.Fatal("Expression should be parenthese expression" +
 										fset.Position(ue.Pos()).String())
 								}
-							case FIELD_VALUE:
+							case __GONG__FIELD_VALUE:
 								if pe, ok = se2.X.(*ast.ParenExpr); !ok {
 									log.Fatal("Expression should be parenthese expression" +
 										fset.Position(ue.Pos()).String())
 								}
 							}
 							switch expressionType {
-							case FIELD_VALUE, STRUCT_INSTANCE:
+							case __GONG__FIELD_VALUE, __GONG__STRUCT_INSTANCE:
 								// expect a Composite Litteral with no Element <type>{}
 								var cl *ast.CompositeLit
 								if cl, ok = pe.X.(*ast.CompositeLit); !ok {
@@ -260,24 +276,25 @@ func ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet) error {
 									log.Fatal("Expression should be an ident" +
 										fset.Position(se.Pos()).String())
 								}
-								docLink = id.Name + "." + se.Sel.Name
+								docLink.ident = id.Name + "." + se.Sel.Name
 							}
 
 							switch expressionType {
-							case FIELD_VALUE:
-								docLink += "." + fieldName
+							case __GONG__FIELD_VALUE:
+								docLink.ident += "." + fieldName
 							}
 
 							// if map_DocLink_Identifier has the same ident, this means
 							// that no renaming has occured since the last processing of the
 							// file. But it is neccessary to keep it in memory for the
 							// marshalling
-							if docLink == key {
+							if docLink.ident == key {
 								// continue
 							}
 
 							// otherwise, one stores the new ident (after renaming) in the
 							// renaming map
+							docLink.__GONG__ExpressionType = expressionType
 							Stage.Map_DocLink_Renaming[key] = docLink
 						}
 					}
@@ -363,7 +380,7 @@ func UnmarshallGongstructStaging(cmap *ast.CommentMap, assignStmt *ast.AssignStm
 						// we check wether the doc link has been renamed
 						// to be removed after fix of [issue](https://github.com/golang/go/issues/57559)
 						if renamed, ok := (Stage.Map_DocLink_Renaming)[docLinkText]; ok {
-							docLinkText = renamed
+							docLinkText = renamed.ident
 						}
 					}
 				}
