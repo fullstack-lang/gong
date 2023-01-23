@@ -187,6 +187,34 @@
             </td>
         </ng-container>
         <!-- -->
+        <ng-container matColumnDef="EnumIntRef">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> EnumIntRef </th>
+            <td mat-cell *matCellDef="let Astruct">
+                {{Astruct.EnumIntRef}}
+            </td>
+        </ng-container>
+        <!-- -->
+        <ng-container matColumnDef="EnumStringRef">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> EnumStringRef </th>
+            <td mat-cell *matCellDef="let Astruct">
+                {{Astruct.EnumStringRef}}
+            </td>
+        </ng-container>
+        <!-- -->
+        <ng-container matColumnDef="EnumValue">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> EnumValue </th>
+            <td mat-cell *matCellDef="let Astruct">
+                {{Astruct.EnumValue}}
+            </td>
+        </ng-container>
+        <!-- -->
+        <ng-container matColumnDef="ConstIdentifierValue">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> ConstIdentifierValue </th>
+            <td mat-cell *matCellDef="let Astruct">
+                {{Astruct.ConstIdentifierValue}}
+            </td>
+        </ng-container>
+        <!-- -->
         <ng-container matColumnDef="Astruct_Anarrayofa">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> <-- (Astruct) Anarrayofa </th>
             <td mat-cell *matCellDef="let astruct">

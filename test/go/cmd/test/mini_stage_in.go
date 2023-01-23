@@ -26,8 +26,15 @@ var ___dummy__dummy_mini_stage_in dummy.StageStruct
 // When parsed, those maps will help with the renaming process
 var map_DocLink_Identifier_mini_stage_in map[string]any = map[string]any{
 	// injection point for docLink to identifiers
-	"dummy.Dummy2":      &(dummy.Dummy{}),
-	"dummy.Dummy2.Name": (dummy.Dummy{}).Name,
+	"dummy.DummyTypeString": dummy.DummyTypeString(""),
+
+	"dummy.DummyTypeInt": dummy.DummyTypeInt(0),
+
+	"dummy.Dummy": &(dummy.Dummy{}),
+
+	"dummy.Dummy.Name": (dummy.Dummy{}).Name,
+
+	"dummy.A": dummy.A,
 }
 
 // init might be handy if one want to have the data embedded in the binary
@@ -76,6 +83,24 @@ func mini_stage_inInjection() {
 
 	//gong:ident [dummy.Dummy2.Name]
 	__Astruct__000000_Foo.FieldRef = `dummy.Dummy2.Name`
+
+	//gong:ident [dummy.DummyTypeInt]
+	__Astruct__000000_Foo.EnumIntRef = `dummy.DummyTypeInt`
+
+	// comment added to overcome the problem with the comment map association
+
+	//gong:ident [dummy.DummyTypeString]
+	__Astruct__000000_Foo.EnumStringRef = `dummy.DummyTypeString`
+
+	// comment added to overcome the problem with the comment map association
+
+	//gong:ident [dummy.A]
+	__Astruct__000000_Foo.EnumValue = `dummy.A`
+
+	// comment added to overcome the problem with the comment map association
+
+	//gong:ident []
+	__Astruct__000000_Foo.ConstIdentifierValue = ``
 
 	// Setup of pointers
 }

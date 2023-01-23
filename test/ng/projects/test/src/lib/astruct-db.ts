@@ -28,6 +28,10 @@ export class AstructDB {
 	Duration1: number = 0
 	StructRef: string = ""
 	FieldRef: string = ""
+	EnumIntRef: string = ""
+	EnumStringRef: string = ""
+	EnumValue: string = ""
+	ConstIdentifierValue: string = ""
 
 	// insertion point for other declarations
 	CEnum_string?: string
