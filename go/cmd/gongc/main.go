@@ -292,6 +292,11 @@ func main() {
 		modelPkg.Name,
 		*pkgPath)
 
+	golang.CodeGeneratorModelGongGraph(
+		modelPkg,
+		modelPkg.Name,
+		*pkgPath)
+
 	if !*skipCoder {
 		golang.CodeGeneratorModelGongCoder(
 			modelPkg,
