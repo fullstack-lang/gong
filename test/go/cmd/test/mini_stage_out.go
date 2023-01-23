@@ -68,18 +68,36 @@ func mini_stage_outInjection() {
 	__Astruct__000000_Foo.Intfield = 0
 	__Astruct__000000_Foo.Anotherbooleanfield = false
 	__Astruct__000000_Foo.Duration1 = 0
-	
+
 	// comment added to overcome the problem with the comment map association
 
 	//gong:ident [dummy.Dummy]
 	__Astruct__000000_Foo.StructRef = `dummy.Dummy`
-	
+
 	// comment added to overcome the problem with the comment map association
 
 	//gong:ident [dummy.Dummy.Name]
 	__Astruct__000000_Foo.FieldRef = `dummy.Dummy.Name`
 
+	// comment added to overcome the problem with the comment map association
+
+	//gong:ident []
+	__Astruct__000000_Foo.EnumIntRef = ``
+
+	// comment added to overcome the problem with the comment map association
+
+	//gong:ident []
+	__Astruct__000000_Foo.EnumStringRef = ``
+
+	// comment added to overcome the problem with the comment map association
+
+	//gong:ident []
+	__Astruct__000000_Foo.EnumValue = ``
+
+	// comment added to overcome the problem with the comment map association
+
+	//gong:ident []
+	__Astruct__000000_Foo.ConstIdentifierValue = ``
+
 	// Setup of pointers
 }
-
-
