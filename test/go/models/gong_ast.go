@@ -216,7 +216,7 @@ func ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet) error {
 										fset.Position(se.Pos()).String())
 								}
 
-								docLink.ident = id.Name + "." + se.Sel.Name
+								docLink.Ident = id.Name + "." + se.Sel.Name
 								_ = callExpr
 							}
 
@@ -231,7 +231,7 @@ func ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet) error {
 										fieldName = se2.Sel.Name
 									} else if ident, ok = se2.X.(*ast.Ident); ok {
 										expressionType = GONG__IDENTIFIER_CONST
-										docLink.ident = ident.Name + "." + se2.Sel.Name
+										docLink.Ident = ident.Name + "." + se2.Sel.Name
 									} else {
 										log.Fatal("Expression should be a selector expression or an ident" +
 											fset.Position(kve.Pos()).String())
@@ -274,25 +274,25 @@ func ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet) error {
 									log.Fatal("Expression should be an ident" +
 										fset.Position(se.Pos()).String())
 								}
-								docLink.ident = id.Name + "." + se.Sel.Name
+								docLink.Ident = id.Name + "." + se.Sel.Name
 							}
 
 							switch expressionType {
 							case GONG__FIELD_VALUE:
-								docLink.ident += "." + fieldName
+								docLink.Ident += "." + fieldName
 							}
 
 							// if map_DocLink_Identifier has the same ident, this means
 							// that no renaming has occured since the last processing of the
 							// file. But it is neccessary to keep it in memory for the
 							// marshalling
-							if docLink.ident == key {
+							if docLink.Ident == key {
 								// continue
 							}
 
 							// otherwise, one stores the new ident (after renaming) in the
 							// renaming map
-							docLink.GONG__ExpressionType = expressionType
+							docLink.Type = expressionType
 							Stage.Map_DocLink_Renaming[key] = docLink
 						}
 					}
@@ -383,7 +383,7 @@ func UnmarshallGongstructStaging(cmap *ast.CommentMap, assignStmt *ast.AssignStm
 						// we check wether the doc link has been renamed
 						// to be removed after fix of [issue](https://github.com/golang/go/issues/57559)
 						if renamed, ok := (Stage.Map_DocLink_Renaming)[docLinkText]; ok {
-							docLinkText = renamed.ident
+							docLinkText = renamed.Ident
 						}
 					}
 				}
