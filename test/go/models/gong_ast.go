@@ -15,15 +15,15 @@ import (
 
 var dummy_strconv_import strconv.NumError
 
-type __GONG__ExpressionType string
+type GONG__ExpressionType string
 
 const (
-	__GONG__STRUCT_INSTANCE      __GONG__ExpressionType = "STRUCT_INSTANCE"
-	__GONG__FIELD_OR_CONST_VALUE __GONG__ExpressionType = "FIELD_OR_CONST_VALUE"
-	__GONG__FIELD_VALUE          __GONG__ExpressionType = "FIELD_VALUE"
-	__GONG__ENUM_CAST_INT        __GONG__ExpressionType = "ENUM_CAST_INT"
-	__GONG__ENUM_CAST_STRING     __GONG__ExpressionType = "ENUM_CAST_STRING"
-	__GONG__IDENTIFIER_CONST     __GONG__ExpressionType = "IDENTIFIER_CONST"
+	GONG__STRUCT_INSTANCE      GONG__ExpressionType = "STRUCT_INSTANCE"
+	GONG__FIELD_OR_CONST_VALUE GONG__ExpressionType = "FIELD_OR_CONST_VALUE"
+	GONG__FIELD_VALUE          GONG__ExpressionType = "FIELD_VALUE"
+	GONG__ENUM_CAST_INT        GONG__ExpressionType = "ENUM_CAST_INT"
+	GONG__ENUM_CAST_STRING     GONG__ExpressionType = "ENUM_CAST_STRING"
+	GONG__IDENTIFIER_CONST     GONG__ExpressionType = "IDENTIFIER_CONST"
 )
 
 // ParseAstFile Parse pathToFile and stages all instances
@@ -31,7 +31,7 @@ const (
 func ParseAstFile(pathToFile string) error {
 	// map to store renaming docLink
 	// to be removed after fix of [issue](https://github.com/golang/go/issues/57559)
-	Stage.Map_DocLink_Renaming = make(map[string]__GONG__Identifier, 0)
+	Stage.Map_DocLink_Renaming = make(map[string]GONG__Identifier, 0)
 
 	fileOfInterest, err := filepath.Abs(pathToFile)
 	if err != nil {
@@ -178,13 +178,13 @@ func ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet) error {
 								key = strings.TrimPrefix(key, "\"")
 								key = strings.TrimSuffix(key, "\"")
 							}
-							var expressionType __GONG__ExpressionType = __GONG__STRUCT_INSTANCE
-							var docLink __GONG__Identifier
+							var expressionType GONG__ExpressionType = GONG__STRUCT_INSTANCE
+							var docLink GONG__Identifier
 
 							var fieldName string
 							var ue *ast.UnaryExpr
 							if ue, ok = kve.Value.(*ast.UnaryExpr); !ok {
-								expressionType = __GONG__FIELD_OR_CONST_VALUE
+								expressionType = GONG__FIELD_OR_CONST_VALUE
 							}
 
 							var callExpr *ast.CallExpr
@@ -207,9 +207,9 @@ func ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet) error {
 								if bl, ok = callExpr.Args[0].(*ast.BasicLit); ok {
 									switch bl.Kind {
 									case token.STRING:
-										expressionType = __GONG__ENUM_CAST_STRING
+										expressionType = GONG__ENUM_CAST_STRING
 									case token.INT:
-										expressionType = __GONG__ENUM_CAST_INT
+										expressionType = GONG__ENUM_CAST_INT
 									}
 								} else {
 									log.Fatal("Expression should be a basic lit" +
@@ -222,15 +222,15 @@ func ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet) error {
 
 							var se2 *ast.SelectorExpr
 							switch expressionType {
-							case __GONG__FIELD_OR_CONST_VALUE:
+							case GONG__FIELD_OR_CONST_VALUE:
 								if se2, ok = kve.Value.(*ast.SelectorExpr); ok {
 
 									var ident *ast.Ident
 									if _, ok = se2.X.(*ast.ParenExpr); ok {
-										expressionType = __GONG__FIELD_VALUE
+										expressionType = GONG__FIELD_VALUE
 										fieldName = se2.Sel.Name
 									} else if ident, ok = se2.X.(*ast.Ident); ok {
-										expressionType = __GONG__IDENTIFIER_CONST
+										expressionType = GONG__IDENTIFIER_CONST
 										docLink.ident = ident.Name + "." + se2.Sel.Name
 									} else {
 										log.Fatal("Expression should be a selector expression or an ident" +
@@ -243,19 +243,19 @@ func ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet) error {
 
 							var pe *ast.ParenExpr
 							switch expressionType {
-							case __GONG__STRUCT_INSTANCE:
+							case GONG__STRUCT_INSTANCE:
 								if pe, ok = ue.X.(*ast.ParenExpr); !ok {
 									log.Fatal("Expression should be parenthese expression" +
 										fset.Position(ue.Pos()).String())
 								}
-							case __GONG__FIELD_VALUE:
+							case GONG__FIELD_VALUE:
 								if pe, ok = se2.X.(*ast.ParenExpr); !ok {
 									log.Fatal("Expression should be parenthese expression" +
 										fset.Position(ue.Pos()).String())
 								}
 							}
 							switch expressionType {
-							case __GONG__FIELD_VALUE, __GONG__STRUCT_INSTANCE:
+							case GONG__FIELD_VALUE, GONG__STRUCT_INSTANCE:
 								// expect a Composite Litteral with no Element <type>{}
 								var cl *ast.CompositeLit
 								if cl, ok = pe.X.(*ast.CompositeLit); !ok {
@@ -278,7 +278,7 @@ func ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet) error {
 							}
 
 							switch expressionType {
-							case __GONG__FIELD_VALUE:
+							case GONG__FIELD_VALUE:
 								docLink.ident += "." + fieldName
 							}
 
@@ -292,7 +292,7 @@ func ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet) error {
 
 							// otherwise, one stores the new ident (after renaming) in the
 							// renaming map
-							docLink.__GONG__ExpressionType = expressionType
+							docLink.GONG__ExpressionType = expressionType
 							Stage.Map_DocLink_Renaming[key] = docLink
 						}
 					}

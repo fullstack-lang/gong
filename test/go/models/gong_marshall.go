@@ -615,7 +615,7 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 		// regenerate the map of doc link renaming
 		// the key and value are set to the value because
 		// if it has been renamed, this is the new value that matters
-		valuesOrdered := make([]__GONG__Identifier, 0)
+		valuesOrdered := make([]GONG__Identifier, 0)
 		for _, value := range stage.Map_DocLink_Renaming {
 			valuesOrdered = append(valuesOrdered, value)
 		}
@@ -627,21 +627,21 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 			// get the number of points in the value to find if it is a field
 			// or a struct
 
-			switch value.__GONG__ExpressionType {
-			case __GONG__ENUM_CAST_INT:
+			switch value.GONG__ExpressionType {
+			case GONG__ENUM_CAST_INT:
 				entries += fmt.Sprintf("\n\n\t\"%s\": %s(0),", value, value)
-			case __GONG__ENUM_CAST_STRING:
+			case GONG__ENUM_CAST_STRING:
 				entries += fmt.Sprintf("\n\n\t\"%s\": %s(\"\"),", value, value)
-			case __GONG__FIELD_VALUE:
+			case GONG__FIELD_VALUE:
 				// substitute the second point with "{})."
 				joker := "__substitute_for_first_point__"
 				valueIdentifier := strings.Replace(value.ident, ".", joker, 1)
 				valueIdentifier = strings.Replace(valueIdentifier, ".", "{}).", 1)
 				valueIdentifier = strings.Replace(valueIdentifier, joker, ".", 1)
 				entries += fmt.Sprintf("\n\n\t\"%s\": (%s,", value, valueIdentifier)
-			case __GONG__IDENTIFIER_CONST:
+			case GONG__IDENTIFIER_CONST:
 				entries += fmt.Sprintf("\n\n\t\"%s\": %s,", value, value)
-			case __GONG__STRUCT_INSTANCE:
+			case GONG__STRUCT_INSTANCE:
 				entries += fmt.Sprintf("\n\n\t\"%s\": &(%s{}),", value, value)
 			}
 		}
