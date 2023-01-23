@@ -48,12 +48,12 @@ type StageStruct struct { // insertion point for definition of arrays registerin
 	// store meta package import
 	MetaPackageImportPath  string
 	MetaPackageImportAlias string
-	Map_DocLink_Renaming   map[string]__GONG__Identifier
+	Map_DocLink_Renaming   map[string]GONG__Identifier
 }
 
-type __GONG__Identifier struct {
-	ident string
-	__GONG__ExpressionType
+type GONG__Identifier struct {
+	Ident string
+	Type  GONG__ExpressionType
 }
 
 type OnInitCommitInterface interface {
