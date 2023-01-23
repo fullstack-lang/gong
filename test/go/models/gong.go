@@ -89,9 +89,10 @@ type StageStruct struct { // insertion point for definition of arrays registerin
 	Map_DocLink_Renaming   map[string]GONG__Identifier
 }
 
+// swagger:ignore
 type GONG__Identifier struct {
-	ident string
-	GONG__ExpressionType
+	Ident string
+	Type  GONG__ExpressionType
 }
 
 type OnInitCommitInterface interface {

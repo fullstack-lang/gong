@@ -813,22 +813,34 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 		// regenerate the map of doc link renaming
 		// the key and value are set to the value because
 		// if it has been renamed, this is the new value that matters
+		valuesOrdered := make([]GONG__Identifier, 0)
 		for _, value := range stage.Map_DocLink_Renaming {
+			valuesOrdered = append(valuesOrdered, value)
+		}
+		sort.Slice(valuesOrdered[:], func(i, j int) bool {
+			return valuesOrdered[i].Ident < valuesOrdered[j].Ident
+		})
+		for _, value := range valuesOrdered {
 
 			// get the number of points in the value to find if it is a field
 			// or a struct
-			nbPoints := strings.Count(value, ".")
 
-			if nbPoints == 1 {
-				entries += fmt.Sprintf("\n\n\t\"%s\": &(%s{}),", value, value)
-			}
-			if nbPoints == 2 {
+			switch value.Type {
+			case GONG__ENUM_CAST_INT:
+				entries += fmt.Sprintf("\n\n\t\"%s\": %s(0),", value.Ident, value.Ident)
+			case GONG__ENUM_CAST_STRING:
+				entries += fmt.Sprintf("\n\n\t\"%s\": %s(\"\"),", value.Ident, value.Ident)
+			case GONG__FIELD_VALUE:
 				// substitute the second point with "{})."
 				joker := "__substitute_for_first_point__"
-				valueIdentifier := strings.Replace(value, ".", joker, 1)
+				valueIdentifier := strings.Replace(value.Ident, ".", joker, 1)
 				valueIdentifier = strings.Replace(valueIdentifier, ".", "{}).", 1)
 				valueIdentifier = strings.Replace(valueIdentifier, joker, ".", 1)
-				entries += fmt.Sprintf("\n\n\t\"%s\": (%s,", value, valueIdentifier)
+				entries += fmt.Sprintf("\n\n\t\"%s\": (%s,", value.Ident, valueIdentifier)
+			case GONG__IDENTIFIER_CONST:
+				entries += fmt.Sprintf("\n\n\t\"%s\": %s,", value.Ident, value.Ident)
+			case GONG__STRUCT_INSTANCE:
+				entries += fmt.Sprintf("\n\n\t\"%s\": &(%s{}),", value.Ident, value.Ident)
 			}
 		}
 
