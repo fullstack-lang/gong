@@ -164,8 +164,6 @@ func (stage *StageStruct) Nil() { // insertion point for array nil{{` + string(r
 func (stage *StageStruct) Unstage() { // insertion point for array nil{{` + string(rune(ModelGongStructInsertionArrayUnstage)) + `}}
 }
 
-// insertion point of functions that provide maps for reverse associations{{` + string(rune(ModelGongStructInsertionReverseAssociationsMaps)) + `}}
-
 // Gongstruct is the type parameter for generated generic function that allows
 // - access to staged instances
 // - navigation between staged instances by going backward association links between gongstruct
