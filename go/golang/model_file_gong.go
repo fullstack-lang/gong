@@ -317,9 +317,6 @@ const (
 	GongFileFieldSubTmplAssociationNameEnclosingCompositePointerField
 	GongFileFieldSubTmplAssociationNameCompositePointerField
 
-	GongFileFieldSubTmplPointerFieldAssociationMapFunction
-	GongFileFieldSubTmplSliceOfPointersFieldAssociationMapFunction
-
 	GongFileFieldSubTmplPointerFieldPointerAssociationMapFunction
 	GongFileFieldSubTmplPointerFieldSliceOfPointersAssociationMapFunction
 )
@@ -384,27 +381,6 @@ map[GongFilePerStructSubTemplateId]string{
 				//
 				{{FieldName}}: &{{AssocStructName}}{Name: "{{FieldName}}"},`,
 
-	GongFileFieldSubTmplPointerFieldAssociationMapFunction: `
-func (stageStruct *StageStruct) CreateReverseMap_{{Structname}}_{{FieldName}}() (res map[*{{AssocStructName}}][]*{{Structname}}) {
-	res = make(map[*{{AssocStructName}}][]*{{Structname}})
-
-	for {{structname}} := range stageStruct.{{Structname}}s {
-		if {{structname}}.{{FieldName}} != nil {
-			{{assocstructname}}_ := {{structname}}.{{FieldName}}
-			var {{structname}}s []*{{Structname}}
-			_, ok := res[{{assocstructname}}_]
-			if ok {
-				{{structname}}s = res[{{assocstructname}}_]
-			} else {
-				{{structname}}s = make([]*{{Structname}}, 0)
-			}
-			{{structname}}s = append({{structname}}s, {{structname}})
-			res[{{assocstructname}}_] = {{structname}}s
-		}
-	}
-
-	return
-}`,
 	GongFileFieldSubTmplPointerFieldPointerAssociationMapFunction: `
 		case "{{FieldName}}":
 			res := make(map[*{{AssocStructName}}][]*{{Structname}})
@@ -433,20 +409,6 @@ func (stageStruct *StageStruct) CreateReverseMap_{{Structname}}_{{FieldName}}() 
 				}
 			}
 			return any(res).(map[*End]*Start)`,
-
-	GongFileFieldSubTmplSliceOfPointersFieldAssociationMapFunction: `
-func (stageStruct *StageStruct) CreateReverseMap_{{Structname}}_{{FieldName}}() (res map[*{{AssocStructName}}]*{{Structname}}) {
-	res = make(map[*{{AssocStructName}}]*{{Structname}})
-
-	for {{structname}} := range stageStruct.{{Structname}}s {
-		for _, {{assocstructname}}_ := range {{structname}}.{{FieldName}} {
-			res[{{assocstructname}}_] = {{structname}}
-		}
-	}
-
-	return
-}
-`,
 }
 
 func CodeGeneratorModelGong(
@@ -483,7 +445,6 @@ func CodeGeneratorModelGong(
 			fieldNames := `
 		res = []string{`
 			fieldStringValues := ``
-			fieldReverseAssociationMapCreationCode := ``
 			fieldReversePointerAssociationMapCode := ``
 			fieldReverseSliceOfPointersAssociationMapCode := ``
 			associationFieldInitialization := ``
@@ -534,11 +495,6 @@ func CodeGeneratorModelGong(
 					fieldStringValues += models.Replace1(
 						GongFileFieldFieldSubTemplateCode[GongFileFieldSubTmplStringValuePointerField],
 						"{{FieldName}}", field.Name)
-					fieldReverseAssociationMapCreationCode += models.Replace3(
-						GongFileFieldFieldSubTemplateCode[GongFileFieldSubTmplPointerFieldAssociationMapFunction],
-						"{{FieldName}}", field.Name,
-						"{{AssocStructName}}", field.GongStruct.Name,
-						"{{assocstructname}}", strings.ToLower(field.GongStruct.Name))
 					fieldReversePointerAssociationMapCode += models.Replace3(
 						GongFileFieldFieldSubTemplateCode[GongFileFieldSubTmplPointerFieldPointerAssociationMapFunction],
 						"{{FieldName}}", field.Name,
@@ -562,11 +518,6 @@ func CodeGeneratorModelGong(
 					fieldStringValues += models.Replace1(
 						GongFileFieldFieldSubTemplateCode[GongFileFieldSubTmplStringValueSliceOfPointersField],
 						"{{FieldName}}", field.Name)
-					fieldReverseAssociationMapCreationCode += models.Replace3(
-						GongFileFieldFieldSubTemplateCode[GongFileFieldSubTmplSliceOfPointersFieldAssociationMapFunction],
-						"{{FieldName}}", field.Name,
-						"{{AssocStructName}}", field.GongStruct.Name,
-						"{{assocstructname}}", strings.ToLower(field.GongStruct.Name))
 					fieldReverseSliceOfPointersAssociationMapCode += models.Replace3(
 						GongFileFieldFieldSubTemplateCode[GongFileFieldSubTmplPointerFieldSliceOfPointersAssociationMapFunction],
 						"{{FieldName}}", field.Name,
@@ -592,10 +543,6 @@ func CodeGeneratorModelGong(
 				"{{structname}}", strings.ToLower(gongStruct.Name),
 				"{{Structname}}", gongStruct.Name)
 
-			fieldReverseAssociationMapCreationCode = models.Replace2(fieldReverseAssociationMapCreationCode,
-				"{{structname}}", strings.ToLower(gongStruct.Name),
-				"{{Structname}}", gongStruct.Name)
-
 			fieldReversePointerAssociationMapCode = models.Replace2(fieldReversePointerAssociationMapCode,
 				"{{structname}}", strings.ToLower(gongStruct.Name),
 				"{{Structname}}", gongStruct.Name)
@@ -614,12 +561,11 @@ func CodeGeneratorModelGong(
 					"{{PerCompositeFieldInit}}", associationFieldInitializationPerCompositeStruct[compositeStructName])
 			}
 
-			generatedCodeFromSubTemplate := models.Replace8(ModelGongStructSubTemplateCode[subStructTemplate],
+			generatedCodeFromSubTemplate := models.Replace7(ModelGongStructSubTemplateCode[subStructTemplate],
 				"{{structname}}", strings.ToLower(gongStruct.Name),
 				"{{Structname}}", gongStruct.Name,
 				"{{ListOfFieldsName}}", fieldNames,
 				"{{StringValueOfFields}}", fieldStringValues,
-				"{{ReverseAssociationMapFunctions}}", fieldReverseAssociationMapCreationCode,
 				"{{fieldReversePointerAssociationMapCode}}", fieldReversePointerAssociationMapCode,
 				"{{fieldReverseSliceOfPointersAssociationMapCode}}", fieldReverseSliceOfPointersAssociationMapCode,
 				"{{associationFieldInitialization}}", associationFieldInitialization,
