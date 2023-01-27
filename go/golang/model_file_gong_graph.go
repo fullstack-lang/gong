@@ -20,8 +20,10 @@ type ModelGongGraphStructInsertionId int
 const (
 	ModelGongGraphStructInsertionIsStaged ModelGongGraphStructInsertionId = iota
 	ModelGongGraphStructInsertionIsStagedPerStruct
-	ModelGongGraphStructInsertionIsStageBranch
-	ModelGongGraphStructInsertionIsStageBranchPerStruct
+	ModelGongGraphStructInsertionStageBranch
+	ModelGongGraphStructInsertionStageBranchPerStruct
+	ModelGongGraphStructInsertionUnstageBranch
+	ModelGongGraphStructInsertionUnstageBranchPerStruct
 	ModelGongGraphStructInsertionsNb
 )
 
@@ -40,11 +42,11 @@ map[ModelGongGraphStructInsertionId]string{
 		return
 	}
 `,
-	ModelGongGraphStructInsertionIsStageBranch: `
+	ModelGongGraphStructInsertionStageBranch: `
 	case *{{Structname}}:
 		stage.StageBranch{{Structname}}(target)
 `,
-	ModelGongGraphStructInsertionIsStageBranchPerStruct: `
+	ModelGongGraphStructInsertionStageBranchPerStruct: `
 func (stage *StageStruct) StageBranch{{Structname}}({{structname}} *{{Structname}}) {
 
 	// check if instance is already staged
@@ -60,25 +62,55 @@ func (stage *StageStruct) StageBranch{{Structname}}({{structname}} *{{Structname
 
 }
 `,
+	ModelGongGraphStructInsertionUnstageBranch: `
+	case *{{Structname}}:
+		stage.UnstageBranch{{Structname}}(target)
+`,
+	ModelGongGraphStructInsertionUnstageBranchPerStruct: `
+func (stage *StageStruct) UnstageBranch{{Structname}}({{structname}} *{{Structname}}) {
+
+	// check if instance is already staged
+	if ! IsStaged(stage, {{structname}}) {
+		return
+	}
+
+	{{structname}}.Unstage()
+
+	//insertion point for the staging of instances referenced by pointers{{UnstagingPointers}}
+
+	//insertion point for the staging of instances referenced by slice of pointers{{UnstagingSliceOfPointers}}
+
+}
+`,
 }
 
 type GongGraphFilePerStructSubTemplateId int
 
 const (
-	GongGraphFileFieldSubTmplSetPointerField GongGraphFilePerStructSubTemplateId = iota
-	GongGraphFileFieldSubTmplSetSliceOfPointersField
+	GongGraphFileFieldSubTmplStagePointerField GongGraphFilePerStructSubTemplateId = iota
+	GongGraphFileFieldSubTmplStageSliceOfPointersField
+	GongGraphFileFieldSubTmplUnstagePointerField
+	GongGraphFileFieldSubTmplUnstageSliceOfPointersField
 )
 
 var GongGraphFileFieldFieldSubTemplateCode map[GongGraphFilePerStructSubTemplateId]string = // declaration of the sub templates
 map[GongGraphFilePerStructSubTemplateId]string{
 
-	GongGraphFileFieldSubTmplSetPointerField: `
+	GongGraphFileFieldSubTmplStagePointerField: `
 	if {{structname}}.{{FieldName}} != nil {
 		StageBranch(stage, {{structname}}.{{FieldName}})
 	}`,
-	GongGraphFileFieldSubTmplSetSliceOfPointersField: `
+	GongGraphFileFieldSubTmplStageSliceOfPointersField: `
 	for _, _{{assocstructname}} := range {{structname}}.{{FieldName}} {
 		StageBranch(stage, _{{assocstructname}})
+	}`,
+	GongGraphFileFieldSubTmplUnstagePointerField: `
+	if {{structname}}.{{FieldName}} != nil {
+		UnstageBranch(stage, {{structname}}.{{FieldName}})
+	}`,
+	GongGraphFileFieldSubTmplUnstageSliceOfPointersField: `
+	for _, _{{assocstructname}} := range {{structname}}.{{FieldName}} {
+		UnstageBranch(stage, _{{assocstructname}})
 	}`,
 }
 
@@ -114,18 +146,29 @@ func CodeGeneratorModelGongGraph(
 
 			pointerStagingCode := ""
 			sliceOfPointerStagingCode := ""
+			pointerUnstagingCode := ""
+			sliceOfPointerUnstagingCode := ""
 
 			for _, field := range gongStruct.Fields {
 
 				switch field := field.(type) {
 				case *models.PointerToGongStructField:
 					pointerStagingCode += models.Replace2(
-						GongGraphFileFieldFieldSubTemplateCode[GongGraphFileFieldSubTmplSetPointerField],
+						GongGraphFileFieldFieldSubTemplateCode[GongGraphFileFieldSubTmplStagePointerField],
+						"{{FieldName}}", field.Name,
+						"{{AssocStructName}}", field.GongStruct.Name)
+					pointerUnstagingCode += models.Replace2(
+						GongGraphFileFieldFieldSubTemplateCode[GongGraphFileFieldSubTmplUnstagePointerField],
 						"{{FieldName}}", field.Name,
 						"{{AssocStructName}}", field.GongStruct.Name)
 				case *models.SliceOfPointerToGongStructField:
 					sliceOfPointerStagingCode += models.Replace3(
-						GongGraphFileFieldFieldSubTemplateCode[GongGraphFileFieldSubTmplSetSliceOfPointersField],
+						GongGraphFileFieldFieldSubTemplateCode[GongGraphFileFieldSubTmplStageSliceOfPointersField],
+						"{{FieldName}}", field.Name,
+						"{{AssocStructName}}", field.GongStruct.Name,
+						"{{assocstructname}}", strings.ToLower(field.GongStruct.Name))
+					sliceOfPointerUnstagingCode += models.Replace3(
+						GongGraphFileFieldFieldSubTemplateCode[GongGraphFileFieldSubTmplUnstageSliceOfPointersField],
 						"{{FieldName}}", field.Name,
 						"{{AssocStructName}}", field.GongStruct.Name,
 						"{{assocstructname}}", strings.ToLower(field.GongStruct.Name))
@@ -143,11 +186,21 @@ func CodeGeneratorModelGongGraph(
 				"{{structname}}", strings.ToLower(gongStruct.Name),
 				"{{Structname}}", gongStruct.Name)
 
-			generatedCodeFromSubTemplate := models.Replace4(ModelGongGraphStructSubTemplateCode[subStructTemplate],
+			sliceOfPointerUnstagingCode = models.Replace2(sliceOfPointerUnstagingCode,
+				"{{structname}}", strings.ToLower(gongStruct.Name),
+				"{{Structname}}", gongStruct.Name)
+
+			pointerUnstagingCode = models.Replace2(pointerUnstagingCode,
+				"{{structname}}", strings.ToLower(gongStruct.Name),
+				"{{Structname}}", gongStruct.Name)
+
+			generatedCodeFromSubTemplate := models.Replace6(ModelGongGraphStructSubTemplateCode[subStructTemplate],
 				"{{structname}}", strings.ToLower(gongStruct.Name),
 				"{{Structname}}", gongStruct.Name,
 				"{{StagingPointers}}", pointerStagingCode,
-				"{{StagingSliceOfPointers}}", sliceOfPointerStagingCode)
+				"{{StagingSliceOfPointers}}", sliceOfPointerStagingCode,
+				"{{UnstagingPointers}}", pointerUnstagingCode,
+				"{{UnstagingSliceOfPointers}}", sliceOfPointerUnstagingCode)
 
 			subStructCodes[subStructTemplate] += generatedCodeFromSubTemplate
 		}
