@@ -6,12 +6,12 @@ package models
 func IsStaged[Type Gongstruct](stage *StageStruct, instance *Type) (ok bool) {
 
 	switch target := any(instance).(type) {
-	// insertion stage{{` + string(rune(ModelGongGraphStructInsertionIsStaged)) + `}}
+	// insertion point for stage{{` + string(rune(ModelGongGraphStructInsertionIsStaged)) + `}}
 	}
 	return
 }
 
-// insertion stage per struct{{` + string(rune(ModelGongGraphStructInsertionIsStagedPerStruct)) + `}}
+// insertion point for stage per struct{{` + string(rune(ModelGongGraphStructInsertionIsStagedPerStruct)) + `}}
 
 // StageBranch stages instance and apply StageBranch on all gongstruct instances that are
 // referenced by pointers or slices of pointers of the insance
@@ -20,9 +20,22 @@ func IsStaged[Type Gongstruct](stage *StageStruct, instance *Type) (ok bool) {
 func StageBranch[Type Gongstruct](stage *StageStruct, instance *Type) {
 
 	switch target := any(instance).(type) {
-	// insertion stage branch{{` + string(rune(ModelGongGraphStructInsertionIsStageBranch)) + `}}
+	// insertion point for stage branch{{` + string(rune(ModelGongGraphStructInsertionStageBranch)) + `}}
 	}
 }
 
-// insertion stage branchper struct{{` + string(rune(ModelGongGraphStructInsertionIsStageBranchPerStruct)) + `}}
+// insertion point for stage branch per struct{{` + string(rune(ModelGongGraphStructInsertionStageBranchPerStruct)) + `}}
+
+// UnstageBranch stages instance and apply UnstageBranch on all gongstruct instances that are
+// referenced by pointers or slices of pointers of the insance
+//
+// the algorithm stops along the course of graph if a vertex is already staged
+func UnstageBranch[Type Gongstruct](stage *StageStruct, instance *Type) {
+
+	switch target := any(instance).(type) {
+	// insertion point for unstage branch{{` + string(rune(ModelGongGraphStructInsertionUnstageBranch)) + `}}
+	}
+}
+
+// insertion point for unstage branch per struct{{` + string(rune(ModelGongGraphStructInsertionUnstageBranchPerStruct)) + `}}
 `
