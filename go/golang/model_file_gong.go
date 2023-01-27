@@ -31,7 +31,6 @@ const (
 	ModelGongStructInsertionUnmarshallDeclarations
 	ModelGongStructInsertionUnmarshallPointersInitializations
 	ModelGongStructInsertionComputeNbInstances
-	ModelGongStructInsertionReverseAssociationsMaps
 	ModelGongStructInsertionGenericGetFields
 	ModelGongStructInsertionGenericGetFieldValues
 	ModelGongStructInsertionGenericReversePointerAssociationsMaps
@@ -238,10 +237,6 @@ func ({{structname}} *{{Structname}}) GetName() (res string) {
 
 	ModelGongStructInsertionComputeNbInstances: `
 	stage.Map_GongStructName_InstancesNb["{{Structname}}"] = len(stage.{{Structname}}s)`,
-
-	ModelGongStructInsertionReverseAssociationsMaps: `
-
-// generate function for reverse association maps of {{Structname}}{{ReverseAssociationMapFunctions}}`,
 
 	ModelGongStructInsertionGenericReversePointerAssociationsMaps: `
 	// reverse maps of direct associations of {{Structname}}
