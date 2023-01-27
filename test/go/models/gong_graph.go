@@ -4,7 +4,7 @@ package models
 func IsStaged[Type Gongstruct](stage *StageStruct, instance *Type) (ok bool) {
 
 	switch target := any(instance).(type) {
-	// insertion stage
+	// insertion point for stage
 	case *Astruct:
 		ok = stage.IsStagedAstruct(target)
 
@@ -24,7 +24,7 @@ func IsStaged[Type Gongstruct](stage *StageStruct, instance *Type) (ok bool) {
 	return
 }
 
-// insertion stage per struct
+// insertion point for stage per struct
 	func (stage *StageStruct) IsStagedAstruct(astruct *Astruct) (ok bool) {
 
 		_, ok = stage.Astructs[astruct]
@@ -68,7 +68,7 @@ func IsStaged[Type Gongstruct](stage *StageStruct, instance *Type) (ok bool) {
 func StageBranch[Type Gongstruct](stage *StageStruct, instance *Type) {
 
 	switch target := any(instance).(type) {
-	// insertion stage branch
+	// insertion point for stage branch
 	case *Astruct:
 		stage.StageBranchAstruct(target)
 
@@ -87,7 +87,7 @@ func StageBranch[Type Gongstruct](stage *StageStruct, instance *Type) {
 	}
 }
 
-// insertion stage branchper struct
+// insertion point for stage branch per struct
 func (stage *StageStruct) StageBranchAstruct(astruct *Astruct) {
 
 	// check if instance is already staged
@@ -204,6 +204,157 @@ func (stage *StageStruct) StageBranchDstruct(dstruct *Dstruct) {
 	}
 
 	dstruct.Stage()
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+
+// UnstageBranch stages instance and apply UnstageBranch on all gongstruct instances that are
+// referenced by pointers or slices of pointers of the insance
+//
+// the algorithm stops along the course of graph if a vertex is already staged
+func UnstageBranch[Type Gongstruct](stage *StageStruct, instance *Type) {
+
+	switch target := any(instance).(type) {
+	// insertion point for unstage branch
+	case *Astruct:
+		stage.UnstageBranchAstruct(target)
+
+	case *AstructBstruct2Use:
+		stage.UnstageBranchAstructBstruct2Use(target)
+
+	case *AstructBstructUse:
+		stage.UnstageBranchAstructBstructUse(target)
+
+	case *Bstruct:
+		stage.UnstageBranchBstruct(target)
+
+	case *Dstruct:
+		stage.UnstageBranchDstruct(target)
+
+	}
+}
+
+// insertion point for unstage branch per struct
+func (stage *StageStruct) UnstageBranchAstruct(astruct *Astruct) {
+
+	// check if instance is already staged
+	if ! IsStaged(stage, astruct) {
+		return
+	}
+
+	astruct.Unstage()
+
+	//insertion point for the staging of instances referenced by pointers
+	if astruct.Bstruct != nil {
+		UnstageBranch(stage, astruct.Bstruct)
+	}
+	if astruct.Bstruct2 != nil {
+		UnstageBranch(stage, astruct.Bstruct2)
+	}
+	if astruct.Dstruct != nil {
+		UnstageBranch(stage, astruct.Dstruct)
+	}
+	if astruct.Dstruct2 != nil {
+		UnstageBranch(stage, astruct.Dstruct2)
+	}
+	if astruct.Dstruct3 != nil {
+		UnstageBranch(stage, astruct.Dstruct3)
+	}
+	if astruct.Dstruct4 != nil {
+		UnstageBranch(stage, astruct.Dstruct4)
+	}
+	if astruct.Associationtob != nil {
+		UnstageBranch(stage, astruct.Associationtob)
+	}
+	if astruct.Anotherassociationtob_2 != nil {
+		UnstageBranch(stage, astruct.Anotherassociationtob_2)
+	}
+	if astruct.AnAstruct != nil {
+		UnstageBranch(stage, astruct.AnAstruct)
+	}
+
+	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _bstruct := range astruct.Anarrayofb {
+		UnstageBranch(stage, _bstruct)
+	}
+	for _, _bstruct := range astruct.Anotherarrayofb {
+		UnstageBranch(stage, _bstruct)
+	}
+	for _, _astruct := range astruct.Anarrayofa {
+		UnstageBranch(stage, _astruct)
+	}
+	for _, _astructbstructuse := range astruct.AnarrayofbUse {
+		UnstageBranch(stage, _astructbstructuse)
+	}
+	for _, _astructbstruct2use := range astruct.Anarrayofb2Use {
+		UnstageBranch(stage, _astructbstruct2use)
+	}
+
+}
+
+func (stage *StageStruct) UnstageBranchAstructBstruct2Use(astructbstruct2use *AstructBstruct2Use) {
+
+	// check if instance is already staged
+	if ! IsStaged(stage, astructbstruct2use) {
+		return
+	}
+
+	astructbstruct2use.Unstage()
+
+	//insertion point for the staging of instances referenced by pointers
+	if astructbstruct2use.Bstrcut2 != nil {
+		UnstageBranch(stage, astructbstruct2use.Bstrcut2)
+	}
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (stage *StageStruct) UnstageBranchAstructBstructUse(astructbstructuse *AstructBstructUse) {
+
+	// check if instance is already staged
+	if ! IsStaged(stage, astructbstructuse) {
+		return
+	}
+
+	astructbstructuse.Unstage()
+
+	//insertion point for the staging of instances referenced by pointers
+	if astructbstructuse.Bstruct2 != nil {
+		UnstageBranch(stage, astructbstructuse.Bstruct2)
+	}
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (stage *StageStruct) UnstageBranchBstruct(bstruct *Bstruct) {
+
+	// check if instance is already staged
+	if ! IsStaged(stage, bstruct) {
+		return
+	}
+
+	bstruct.Unstage()
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (stage *StageStruct) UnstageBranchDstruct(dstruct *Dstruct) {
+
+	// check if instance is already staged
+	if ! IsStaged(stage, dstruct) {
+		return
+	}
+
+	dstruct.Unstage()
 
 	//insertion point for the staging of instances referenced by pointers
 
