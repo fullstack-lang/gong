@@ -23,7 +23,6 @@ var __member __void
 type GongStructInterface interface {
 	GetName() (res string)
 	GetFields() (res []string)
-	GetFieldStringValue(fieldName string) (res string)
 }
 
 // StageStruct enables storage of staged instances
