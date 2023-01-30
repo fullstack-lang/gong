@@ -23,7 +23,6 @@ var __member __void
 type GongStructInterface interface {
 	GetName() (res string)
 	GetFields() (res []string)
-	GetFieldStringValue(fieldName string) (res string)
 }
 
 // StageStruct enables storage of staged instances
@@ -145,7 +144,6 @@ type StageStruct struct { // insertion point for definition of arrays registerin
 	Map_DocLink_Renaming   map[string]GONG__Identifier
 }
 
-// swagger:ignore
 type GONG__Identifier struct {
 	Ident string
 	Type  GONG__ExpressionType
@@ -1625,176 +1623,6 @@ func (stage *StageStruct) Unstage() { // insertion point for array nil
 		sliceofpointertogongstructfield.Unstage()
 	}
 
-}
-
-// insertion point of functions that provide maps for reverse associations
-
-// generate function for reverse association maps of GongBasicField
-func (stageStruct *StageStruct) CreateReverseMap_GongBasicField_GongEnum() (res map[*GongEnum][]*GongBasicField) {
-	res = make(map[*GongEnum][]*GongBasicField)
-
-	for gongbasicfield := range stageStruct.GongBasicFields {
-		if gongbasicfield.GongEnum != nil {
-			gongenum_ := gongbasicfield.GongEnum
-			var gongbasicfields []*GongBasicField
-			_, ok := res[gongenum_]
-			if ok {
-				gongbasicfields = res[gongenum_]
-			} else {
-				gongbasicfields = make([]*GongBasicField, 0)
-			}
-			gongbasicfields = append(gongbasicfields, gongbasicfield)
-			res[gongenum_] = gongbasicfields
-		}
-	}
-
-	return
-}
-
-// generate function for reverse association maps of GongEnum
-func (stageStruct *StageStruct) CreateReverseMap_GongEnum_GongEnumValues() (res map[*GongEnumValue]*GongEnum) {
-	res = make(map[*GongEnumValue]*GongEnum)
-
-	for gongenum := range stageStruct.GongEnums {
-		for _, gongenumvalue_ := range gongenum.GongEnumValues {
-			res[gongenumvalue_] = gongenum
-		}
-	}
-
-	return
-}
-
-
-// generate function for reverse association maps of GongEnumValue
-
-// generate function for reverse association maps of GongLink
-
-// generate function for reverse association maps of GongNote
-func (stageStruct *StageStruct) CreateReverseMap_GongNote_Links() (res map[*GongLink]*GongNote) {
-	res = make(map[*GongLink]*GongNote)
-
-	for gongnote := range stageStruct.GongNotes {
-		for _, gonglink_ := range gongnote.Links {
-			res[gonglink_] = gongnote
-		}
-	}
-
-	return
-}
-
-
-// generate function for reverse association maps of GongStruct
-func (stageStruct *StageStruct) CreateReverseMap_GongStruct_GongBasicFields() (res map[*GongBasicField]*GongStruct) {
-	res = make(map[*GongBasicField]*GongStruct)
-
-	for gongstruct := range stageStruct.GongStructs {
-		for _, gongbasicfield_ := range gongstruct.GongBasicFields {
-			res[gongbasicfield_] = gongstruct
-		}
-	}
-
-	return
-}
-
-func (stageStruct *StageStruct) CreateReverseMap_GongStruct_GongTimeFields() (res map[*GongTimeField]*GongStruct) {
-	res = make(map[*GongTimeField]*GongStruct)
-
-	for gongstruct := range stageStruct.GongStructs {
-		for _, gongtimefield_ := range gongstruct.GongTimeFields {
-			res[gongtimefield_] = gongstruct
-		}
-	}
-
-	return
-}
-
-func (stageStruct *StageStruct) CreateReverseMap_GongStruct_PointerToGongStructFields() (res map[*PointerToGongStructField]*GongStruct) {
-	res = make(map[*PointerToGongStructField]*GongStruct)
-
-	for gongstruct := range stageStruct.GongStructs {
-		for _, pointertogongstructfield_ := range gongstruct.PointerToGongStructFields {
-			res[pointertogongstructfield_] = gongstruct
-		}
-	}
-
-	return
-}
-
-func (stageStruct *StageStruct) CreateReverseMap_GongStruct_SliceOfPointerToGongStructFields() (res map[*SliceOfPointerToGongStructField]*GongStruct) {
-	res = make(map[*SliceOfPointerToGongStructField]*GongStruct)
-
-	for gongstruct := range stageStruct.GongStructs {
-		for _, sliceofpointertogongstructfield_ := range gongstruct.SliceOfPointerToGongStructFields {
-			res[sliceofpointertogongstructfield_] = gongstruct
-		}
-	}
-
-	return
-}
-
-
-// generate function for reverse association maps of GongTimeField
-
-// generate function for reverse association maps of Meta
-func (stageStruct *StageStruct) CreateReverseMap_Meta_MetaReferences() (res map[*MetaReference]*Meta) {
-	res = make(map[*MetaReference]*Meta)
-
-	for meta := range stageStruct.Metas {
-		for _, metareference_ := range meta.MetaReferences {
-			res[metareference_] = meta
-		}
-	}
-
-	return
-}
-
-
-// generate function for reverse association maps of MetaReference
-
-// generate function for reverse association maps of ModelPkg
-
-// generate function for reverse association maps of PointerToGongStructField
-func (stageStruct *StageStruct) CreateReverseMap_PointerToGongStructField_GongStruct() (res map[*GongStruct][]*PointerToGongStructField) {
-	res = make(map[*GongStruct][]*PointerToGongStructField)
-
-	for pointertogongstructfield := range stageStruct.PointerToGongStructFields {
-		if pointertogongstructfield.GongStruct != nil {
-			gongstruct_ := pointertogongstructfield.GongStruct
-			var pointertogongstructfields []*PointerToGongStructField
-			_, ok := res[gongstruct_]
-			if ok {
-				pointertogongstructfields = res[gongstruct_]
-			} else {
-				pointertogongstructfields = make([]*PointerToGongStructField, 0)
-			}
-			pointertogongstructfields = append(pointertogongstructfields, pointertogongstructfield)
-			res[gongstruct_] = pointertogongstructfields
-		}
-	}
-
-	return
-}
-
-// generate function for reverse association maps of SliceOfPointerToGongStructField
-func (stageStruct *StageStruct) CreateReverseMap_SliceOfPointerToGongStructField_GongStruct() (res map[*GongStruct][]*SliceOfPointerToGongStructField) {
-	res = make(map[*GongStruct][]*SliceOfPointerToGongStructField)
-
-	for sliceofpointertogongstructfield := range stageStruct.SliceOfPointerToGongStructFields {
-		if sliceofpointertogongstructfield.GongStruct != nil {
-			gongstruct_ := sliceofpointertogongstructfield.GongStruct
-			var sliceofpointertogongstructfields []*SliceOfPointerToGongStructField
-			_, ok := res[gongstruct_]
-			if ok {
-				sliceofpointertogongstructfields = res[gongstruct_]
-			} else {
-				sliceofpointertogongstructfields = make([]*SliceOfPointerToGongStructField, 0)
-			}
-			sliceofpointertogongstructfields = append(sliceofpointertogongstructfields, sliceofpointertogongstructfield)
-			res[gongstruct_] = sliceofpointertogongstructfields
-		}
-	}
-
-	return
 }
 
 // Gongstruct is the type parameter for generated generic function that allows
