@@ -85,6 +85,17 @@ type StageStruct struct { // insertion point for definition of arrays registerin
 	MetaPackageImportPath  string
 	MetaPackageImportAlias string
 	Map_DocLink_Renaming   map[string]GONG__Identifier
+
+	// map_Gongstruct_BackPointer is storage of back pointers
+	map_Gongstruct_BackPointer map[any]any
+}
+
+func SetBackPointer[T Gongstruct](stageStruct *StageStruct, instance T, backPointer any) {
+	stageStruct.map_Gongstruct_BackPointer[instance] = backPointer
+}
+func GetBackPointer[T Gongstruct](stageStruct *StageStruct, instance T) (backPointer any) {
+	backPointer, _ = stageStruct.map_Gongstruct_BackPointer[instance]
+	return
 }
 
 type GONG__Identifier struct {
@@ -160,6 +171,7 @@ var Stage StageStruct = StageStruct{ // insertion point for array initiatialisat
 
 	// end of insertion point
 	Map_GongStructName_InstancesNb: make(map[string]int),
+	map_Gongstruct_BackPointer:     make(map[any]any),
 }
 
 func (stage *StageStruct) Commit() {
@@ -770,18 +782,6 @@ func (stage *StageStruct) Unstage() { // insertion point for array nil
 
 }
 
-// insertion point of functions that provide maps for reverse associations
-
-// generate function for reverse association maps of Astruct{{ReverseAssociationMapFunctions}}
-
-// generate function for reverse association maps of AstructBstruct2Use{{ReverseAssociationMapFunctions}}
-
-// generate function for reverse association maps of AstructBstructUse{{ReverseAssociationMapFunctions}}
-
-// generate function for reverse association maps of Bstruct{{ReverseAssociationMapFunctions}}
-
-// generate function for reverse association maps of Dstruct{{ReverseAssociationMapFunctions}}
-
 // Gongstruct is the type parameter for generated generic function that allows
 // - access to staged instances
 // - navigation between staged instances by going backward association links between gongstruct
@@ -939,6 +939,14 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			Anarrayofb2Use: []*AstructBstruct2Use{{Name: "Anarrayofb2Use"}},
 			// field is initialized with an instance of Astruct with the name of the field
 			AnAstruct: &Astruct{Name: "AnAstruct"},
+			// field is initialized with Estruct as it is a composite
+			Estruct: Estruct{
+				// per field init
+				//
+				Dstruct3: &Dstruct{Name: "Dstruct3"},
+				//
+				Dstruct4: &Dstruct{Name: "Dstruct4"},
+			},
 			// field is initialized with Cstruct as it is a composite
 			Cstruct: Cstruct{
 				// per field init
@@ -950,14 +958,6 @@ func GetAssociationName[Type Gongstruct]() *Type {
 				Dstruct: &Dstruct{Name: "Dstruct"},
 				//
 				Dstruct2: &Dstruct{Name: "Dstruct2"},
-			},
-			// field is initialized with Estruct as it is a composite
-			Estruct: Estruct{
-				// per field init
-				//
-				Dstruct3: &Dstruct{Name: "Dstruct3"},
-				//
-				Dstruct4: &Dstruct{Name: "Dstruct4"},
 			},
 		}).(*Type)
 	case AstructBstruct2Use:
