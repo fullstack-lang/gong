@@ -54,10 +54,10 @@ type StageStruct struct { // insertion point for definition of arrays registerin
 	map_Gongstruct_BackPointer map[any]any
 }
 
-func SetBackPointer[T Gongstruct](stageStruct *StageStruct, instance T, backPointer any) {
+func SetBackPointer[T Gongstruct](stageStruct *StageStruct, instance *T, backPointer any) {
 	stageStruct.map_Gongstruct_BackPointer[instance] = backPointer
 }
-func GetBackPointer[T Gongstruct](stageStruct *StageStruct, instance T) (backPointer any) {
+func GetBackPointer[T Gongstruct](stageStruct *StageStruct, instance *T) (backPointer any) {
 	backPointer, _ = stageStruct.map_Gongstruct_BackPointer[instance]
 	return
 }
