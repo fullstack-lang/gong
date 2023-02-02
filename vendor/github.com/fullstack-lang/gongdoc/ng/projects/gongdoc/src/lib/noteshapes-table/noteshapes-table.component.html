@@ -26,6 +26,13 @@
             </td>
         </ng-container>
         <!-- -->
+        <ng-container matColumnDef="Identifier">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Identifier </th>
+            <td mat-cell *matCellDef="let NoteShape">
+                {{NoteShape.Identifier}}
+            </td>
+        </ng-container>
+        <!-- -->
         <ng-container matColumnDef="Body">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Body </th>
             <td mat-cell *matCellDef="let NoteShape">
@@ -68,10 +75,10 @@
             </td>
         </ng-container>
         <!-- -->
-        <ng-container matColumnDef="Classdiagram_Notes">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> <-- (Classdiagram) Notes </th>
+        <ng-container matColumnDef="Classdiagram_NoteShapes">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> <-- (Classdiagram) NoteShapes </th>
             <td mat-cell *matCellDef="let noteshape">
-                {{frontRepo.Classdiagrams.get(noteshape.Classdiagram_NotesDBID.Int64)?.Name}}
+                {{frontRepo.Classdiagrams.get(noteshape.Classdiagram_NoteShapesDBID.Int64)?.Name}}
             </td>
         </ng-container>
 

@@ -15,7 +15,7 @@ import { LinkDB } from './link-db';
 
 // insertion point for imports
 import { VerticeDB } from './vertice-db'
-import { ClassshapeDB } from './classshape-db'
+import { GongStructShapeDB } from './gongstructshape-db'
 
 @Injectable({
   providedIn: 'root'
@@ -73,13 +73,13 @@ export class LinkService {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
     linkdb.Middlevertice = new VerticeDB
-    let _Classshape_Links_reverse = linkdb.Classshape_Links_reverse
-    linkdb.Classshape_Links_reverse = new ClassshapeDB
+    let _GongStructShape_Links_reverse = linkdb.GongStructShape_Links_reverse
+    linkdb.GongStructShape_Links_reverse = new GongStructShapeDB
 
     return this.http.post<LinkDB>(this.linksUrl, linkdb, this.httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
-        linkdb.Classshape_Links_reverse = _Classshape_Links_reverse
+        linkdb.GongStructShape_Links_reverse = _GongStructShape_Links_reverse
         this.log(`posted linkdb id=${linkdb.ID}`)
       }),
       catchError(this.handleError<LinkDB>('postLink'))
@@ -104,13 +104,13 @@ export class LinkService {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
     linkdb.Middlevertice = new VerticeDB
-    let _Classshape_Links_reverse = linkdb.Classshape_Links_reverse
-    linkdb.Classshape_Links_reverse = new ClassshapeDB
+    let _GongStructShape_Links_reverse = linkdb.GongStructShape_Links_reverse
+    linkdb.GongStructShape_Links_reverse = new GongStructShapeDB
 
     return this.http.put<LinkDB>(url, linkdb, this.httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
-        linkdb.Classshape_Links_reverse = _Classshape_Links_reverse
+        linkdb.GongStructShape_Links_reverse = _GongStructShape_Links_reverse
         this.log(`updated linkdb id=${linkdb.ID}`)
       }),
       catchError(this.handleError<LinkDB>('updateLink'))

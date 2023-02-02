@@ -71,14 +71,14 @@ export class NoteShapeService {
   postNoteShape(noteshapedb: NoteShapeDB): Observable<NoteShapeDB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
-    noteshapedb.NoteLinks = []
-    let _Classdiagram_Notes_reverse = noteshapedb.Classdiagram_Notes_reverse
-    noteshapedb.Classdiagram_Notes_reverse = new ClassdiagramDB
+    noteshapedb.NoteShapeLinks = []
+    let _Classdiagram_NoteShapes_reverse = noteshapedb.Classdiagram_NoteShapes_reverse
+    noteshapedb.Classdiagram_NoteShapes_reverse = new ClassdiagramDB
 
     return this.http.post<NoteShapeDB>(this.noteshapesUrl, noteshapedb, this.httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
-        noteshapedb.Classdiagram_Notes_reverse = _Classdiagram_Notes_reverse
+        noteshapedb.Classdiagram_NoteShapes_reverse = _Classdiagram_NoteShapes_reverse
         this.log(`posted noteshapedb id=${noteshapedb.ID}`)
       }),
       catchError(this.handleError<NoteShapeDB>('postNoteShape'))
@@ -102,14 +102,14 @@ export class NoteShapeService {
     const url = `${this.noteshapesUrl}/${id}`;
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
-    noteshapedb.NoteLinks = []
-    let _Classdiagram_Notes_reverse = noteshapedb.Classdiagram_Notes_reverse
-    noteshapedb.Classdiagram_Notes_reverse = new ClassdiagramDB
+    noteshapedb.NoteShapeLinks = []
+    let _Classdiagram_NoteShapes_reverse = noteshapedb.Classdiagram_NoteShapes_reverse
+    noteshapedb.Classdiagram_NoteShapes_reverse = new ClassdiagramDB
 
     return this.http.put<NoteShapeDB>(url, noteshapedb, this.httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
-        noteshapedb.Classdiagram_Notes_reverse = _Classdiagram_Notes_reverse
+        noteshapedb.Classdiagram_NoteShapes_reverse = _Classdiagram_NoteShapes_reverse
         this.log(`updated noteshapedb id=${noteshapedb.ID}`)
       }),
       catchError(this.handleError<NoteShapeDB>('updateNoteShape'))

@@ -10,7 +10,7 @@ export function newUmlNote(note: gongdoc.NoteShapeDB,
     var attributes = new Array<string>()
 
 
-    let noteBody = note.Body
+    let noteBody = note.Body + "\n(" + note.Name + ")"
 
     var rect = new joint.shapes.standard.Rectangle(
         {

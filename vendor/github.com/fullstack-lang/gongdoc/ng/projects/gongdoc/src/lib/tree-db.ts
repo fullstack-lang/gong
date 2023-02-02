@@ -11,7 +11,6 @@ export class TreeDB {
 
 	// insertion point for basic fields declarations
 	Name: string = ""
-	Type: string = ""
 
 	// insertion point for other declarations
 	RootNodes?: Array<NodeDB>

@@ -14,7 +14,6 @@ import { catchError, map, tap } from 'rxjs/operators';
 import { NodeDB } from './node-db';
 
 // insertion point for imports
-import { ClassdiagramDB } from './classdiagram-db'
 import { TreeDB } from './tree-db'
 
 @Injectable({
@@ -72,7 +71,6 @@ export class NodeService {
   postNode(nodedb: NodeDB): Observable<NodeDB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
-    nodedb.Classdiagram = new ClassdiagramDB
     nodedb.Children = []
     let _Node_Children_reverse = nodedb.Node_Children_reverse
     nodedb.Node_Children_reverse = new NodeDB
@@ -107,7 +105,6 @@ export class NodeService {
     const url = `${this.nodesUrl}/${id}`;
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
-    nodedb.Classdiagram = new ClassdiagramDB
     nodedb.Children = []
     let _Node_Children_reverse = nodedb.Node_Children_reverse
     nodedb.Node_Children_reverse = new NodeDB

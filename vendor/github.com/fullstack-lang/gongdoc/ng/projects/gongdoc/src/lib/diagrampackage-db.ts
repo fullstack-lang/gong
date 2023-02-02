@@ -20,5 +20,8 @@ export class DiagramPackageDB {
 
 	// insertion point for other declarations
 	Classdiagrams?: Array<ClassdiagramDB>
+	SelectedClassdiagram?: ClassdiagramDB
+	SelectedClassdiagramID: NullInt64 = new NullInt64 // if pointer is null, SelectedClassdiagram.ID = 0
+
 	Umlscs?: Array<UmlscDB>
 }

@@ -71,9 +71,6 @@ export class FieldsTableComponent implements OnInit {
         case 'Name':
           return fieldDB.Name;
 
-        case 'Fieldname':
-          return fieldDB.Fieldname;
-
         case 'Identifier':
           return fieldDB.Identifier;
 
@@ -86,9 +83,16 @@ export class FieldsTableComponent implements OnInit {
         case 'Fieldtypename':
           return fieldDB.Fieldtypename;
 
-        case 'Classshape_Fields':
-          if (this.frontRepo.Classshapes.get(fieldDB.Classshape_FieldsDBID.Int64) != undefined) {
-            return this.frontRepo.Classshapes.get(fieldDB.Classshape_FieldsDBID.Int64)!.Name
+        case 'GongEnumShape_Fields':
+          if (this.frontRepo.GongEnumShapes.get(fieldDB.GongEnumShape_FieldsDBID.Int64) != undefined) {
+            return this.frontRepo.GongEnumShapes.get(fieldDB.GongEnumShape_FieldsDBID.Int64)!.Name
+          } else {
+            return ""
+          }
+
+        case 'GongStructShape_Fields':
+          if (this.frontRepo.GongStructShapes.get(fieldDB.GongStructShape_FieldsDBID.Int64) != undefined) {
+            return this.frontRepo.GongStructShapes.get(fieldDB.GongStructShape_FieldsDBID.Int64)!.Name
           } else {
             return ""
           }
@@ -108,13 +112,16 @@ export class FieldsTableComponent implements OnInit {
 
       // insertion point for merging of fields
       mergedContent += fieldDB.Name.toLowerCase()
-      mergedContent += fieldDB.Fieldname.toLowerCase()
       mergedContent += fieldDB.Identifier.toLowerCase()
       mergedContent += fieldDB.FieldTypeAsString.toLowerCase()
       mergedContent += fieldDB.Structname.toLowerCase()
       mergedContent += fieldDB.Fieldtypename.toLowerCase()
-      if (fieldDB.Classshape_FieldsDBID.Int64 != 0) {
-        mergedContent += this.frontRepo.Classshapes.get(fieldDB.Classshape_FieldsDBID.Int64)!.Name.toLowerCase()
+      if (fieldDB.GongEnumShape_FieldsDBID.Int64 != 0) {
+        mergedContent += this.frontRepo.GongEnumShapes.get(fieldDB.GongEnumShape_FieldsDBID.Int64)!.Name.toLowerCase()
+      }
+
+      if (fieldDB.GongStructShape_FieldsDBID.Int64 != 0) {
+        mergedContent += this.frontRepo.GongStructShapes.get(fieldDB.GongStructShape_FieldsDBID.Int64)!.Name.toLowerCase()
       }
 
 
@@ -168,22 +175,22 @@ export class FieldsTableComponent implements OnInit {
     if (this.mode == TableComponentMode.DISPLAY_MODE) {
       this.displayedColumns = ['ID', 'Edit', 'Delete', // insertion point for columns to display
         "Name",
-        "Fieldname",
         "Identifier",
         "FieldTypeAsString",
         "Structname",
         "Fieldtypename",
-        "Classshape_Fields",
+        "GongEnumShape_Fields",
+        "GongStructShape_Fields",
       ]
     } else {
       this.displayedColumns = ['select', 'ID', // insertion point for columns to display
         "Name",
-        "Fieldname",
         "Identifier",
         "FieldTypeAsString",
         "Structname",
         "Fieldtypename",
-        "Classshape_Fields",
+        "GongEnumShape_Fields",
+        "GongStructShape_Fields",
       ]
       this.selection = new SelectionModel<FieldDB>(allowMultiSelect, this.initialSelection);
     }

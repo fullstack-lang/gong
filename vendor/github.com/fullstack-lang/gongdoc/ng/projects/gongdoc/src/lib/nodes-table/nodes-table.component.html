@@ -26,20 +26,6 @@
             </td>
         </ng-container>
         <!-- -->
-        <ng-container matColumnDef="Type">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> Type </th>
-            <td mat-cell *matCellDef="let Node">
-                {{Node.Type}}
-            </td>
-        </ng-container>
-        <!-- -->
-        <ng-container matColumnDef="Classdiagram">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> Classdiagram </th>
-            <td mat-cell *matCellDef="let Node">
-                {{ Node.Classdiagram ? Node.Classdiagram.Name : ''}}
-            </td>
-        </ng-container>
-        <!-- -->
         <ng-container matColumnDef="IsExpanded">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> IsExpanded </th>
             <td mat-cell *matCellDef="let Node">

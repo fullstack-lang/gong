@@ -40,6 +40,13 @@
             </td>
         </ng-container>
         <!-- -->
+        <ng-container matColumnDef="SelectedClassdiagram">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> SelectedClassdiagram </th>
+            <td mat-cell *matCellDef="let DiagramPackage">
+                {{ DiagramPackage.SelectedClassdiagram ? DiagramPackage.SelectedClassdiagram.Name : ''}}
+            </td>
+        </ng-container>
+        <!-- -->
         <ng-container matColumnDef="IsEditable">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> IsEditable </th>
             <td mat-cell *matCellDef="let DiagramPackage">

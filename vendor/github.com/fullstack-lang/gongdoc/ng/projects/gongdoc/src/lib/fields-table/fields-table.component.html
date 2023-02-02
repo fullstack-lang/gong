@@ -26,13 +26,6 @@
             </td>
         </ng-container>
         <!-- -->
-        <ng-container matColumnDef="Fieldname">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> Fieldname </th>
-            <td mat-cell *matCellDef="let Field">
-                {{Field.Fieldname}}
-            </td>
-        </ng-container>
-        <!-- -->
         <ng-container matColumnDef="Identifier">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Identifier </th>
             <td mat-cell *matCellDef="let Field">
@@ -61,10 +54,17 @@
             </td>
         </ng-container>
         <!-- -->
-        <ng-container matColumnDef="Classshape_Fields">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> <-- (Classshape) Fields </th>
+        <ng-container matColumnDef="GongEnumShape_Fields">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> <-- (GongEnumShape) Fields </th>
             <td mat-cell *matCellDef="let field">
-                {{frontRepo.Classshapes.get(field.Classshape_FieldsDBID.Int64)?.Name}}
+                {{frontRepo.GongEnumShapes.get(field.GongEnumShape_FieldsDBID.Int64)?.Name}}
+            </td>
+        </ng-container>
+        <!-- -->
+        <ng-container matColumnDef="GongStructShape_Fields">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> <-- (GongStructShape) Fields </th>
+            <td mat-cell *matCellDef="let field">
+                {{frontRepo.GongStructShapes.get(field.GongStructShape_FieldsDBID.Int64)?.Name}}
             </td>
         </ng-container>
 
