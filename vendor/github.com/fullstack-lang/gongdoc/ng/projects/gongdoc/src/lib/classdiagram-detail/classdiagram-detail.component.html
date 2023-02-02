@@ -23,11 +23,11 @@
 
     <mat-grid-list cols="5" rowHeight="2:1">
         <mat-grid-tile [colspan]="3">
-            <button mat-raised-button (click)="openReverseSelection('Classshape', 'Classdiagram_ClassshapesDBID', 'ONE_MANY_ASSOCIATION_MODE', '', '', '')">Classshapes</button>
+            <button mat-raised-button (click)="openReverseSelection('GongStructShape', 'Classdiagram_GongStructShapesDBID', 'ONE_MANY_ASSOCIATION_MODE', '', '', '')">GongStructShapes</button>
         </mat-grid-tile>
         <!-- insertion point for the button of the MANY_MANY association-->
         <mat-grid-tile>
-            <button mat-raised-button (click)="openDragAndDropOrdering('Classshape', 'Classdiagram_ClassshapesDBID')">
+            <button mat-raised-button (click)="openDragAndDropOrdering('GongStructShape', 'Classdiagram_GongStructShapesDBID')">
                 <mat-icon>
                     shuffle
                 </mat-icon>
@@ -36,11 +36,24 @@
     </mat-grid-list>
     <mat-grid-list cols="5" rowHeight="2:1">
         <mat-grid-tile [colspan]="3">
-            <button mat-raised-button (click)="openReverseSelection('NoteShape', 'Classdiagram_NotesDBID', 'ONE_MANY_ASSOCIATION_MODE', '', '', '')">Notes</button>
+            <button mat-raised-button (click)="openReverseSelection('GongEnumShape', 'Classdiagram_GongEnumShapesDBID', 'ONE_MANY_ASSOCIATION_MODE', '', '', '')">GongEnumShapes</button>
         </mat-grid-tile>
         <!-- insertion point for the button of the MANY_MANY association-->
         <mat-grid-tile>
-            <button mat-raised-button (click)="openDragAndDropOrdering('NoteShape', 'Classdiagram_NotesDBID')">
+            <button mat-raised-button (click)="openDragAndDropOrdering('GongEnumShape', 'Classdiagram_GongEnumShapesDBID')">
+                <mat-icon>
+                    shuffle
+                </mat-icon>
+            </button>
+        </mat-grid-tile>
+    </mat-grid-list>
+    <mat-grid-list cols="5" rowHeight="2:1">
+        <mat-grid-tile [colspan]="3">
+            <button mat-raised-button (click)="openReverseSelection('NoteShape', 'Classdiagram_NoteShapesDBID', 'ONE_MANY_ASSOCIATION_MODE', '', '', '')">NoteShapes</button>
+        </mat-grid-tile>
+        <!-- insertion point for the button of the MANY_MANY association-->
+        <mat-grid-tile>
+            <button mat-raised-button (click)="openDragAndDropOrdering('NoteShape', 'Classdiagram_NoteShapesDBID')">
                 <mat-icon>
                     shuffle
                 </mat-icon>

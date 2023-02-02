@@ -14,15 +14,15 @@ func SerializeStage(filename string) {
 	{
 		// insertion point
 		SerializeExcelize[Classdiagram](f)
-		SerializeExcelize[Classshape](f)
 		SerializeExcelize[DiagramPackage](f)
 		SerializeExcelize[Field](f)
+		SerializeExcelize[GongEnumShape](f)
+		SerializeExcelize[GongStructShape](f)
 		SerializeExcelize[Link](f)
 		SerializeExcelize[Node](f)
-		SerializeExcelize[NoteLink](f)
 		SerializeExcelize[NoteShape](f)
+		SerializeExcelize[NoteShapeLink](f)
 		SerializeExcelize[Position](f)
-		SerializeExcelize[Reference](f)
 		SerializeExcelize[Tree](f)
 		SerializeExcelize[UmlState](f)
 		SerializeExcelize[Umlsc](f)

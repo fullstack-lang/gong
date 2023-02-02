@@ -11,7 +11,7 @@ import { MapOfSortingComponents } from '../map-components'
 
 // insertion point for imports
 import { MultiplicityTypeSelect, MultiplicityTypeList } from '../MultiplicityType'
-import { ClassshapeDB } from '../classshape-db'
+import { GongStructShapeDB } from '../gongstructshape-db'
 
 import { Router, RouterState, ActivatedRoute } from '@angular/router';
 
@@ -25,7 +25,7 @@ enum LinkDetailComponentState {
 	CREATE_INSTANCE,
 	UPDATE_INSTANCE,
 	// insertion point for declarations of enum values of state
-	CREATE_INSTANCE_WITH_ASSOCIATION_Classshape_Links_SET,
+	CREATE_INSTANCE_WITH_ASSOCIATION_GongStructShape_Links_SET,
 }
 
 @Component({
@@ -86,8 +86,8 @@ export class LinkDetailComponent implements OnInit {
 				switch (this.originStructFieldName) {
 					// insertion point for state computation
 					case "Links":
-						// console.log("Link" + " is instanciated with back pointer to instance " + this.id + " Classshape association Links")
-						this.state = LinkDetailComponentState.CREATE_INSTANCE_WITH_ASSOCIATION_Classshape_Links_SET
+						// console.log("Link" + " is instanciated with back pointer to instance " + this.id + " GongStructShape association Links")
+						this.state = LinkDetailComponentState.CREATE_INSTANCE_WITH_ASSOCIATION_GongStructShape_Links_SET
 						break;
 					default:
 						console.log(this.originStructFieldName + " is unkown association")
@@ -126,9 +126,9 @@ export class LinkDetailComponent implements OnInit {
 						this.link = link!
 						break;
 					// insertion point for init of association field
-					case LinkDetailComponentState.CREATE_INSTANCE_WITH_ASSOCIATION_Classshape_Links_SET:
+					case LinkDetailComponentState.CREATE_INSTANCE_WITH_ASSOCIATION_GongStructShape_Links_SET:
 						this.link = new (LinkDB)
-						this.link.Classshape_Links_reverse = frontRepo.Classshapes.get(this.id)!
+						this.link.GongStructShape_Links_reverse = frontRepo.GongStructShapes.get(this.id)!
 						break;
 					default:
 						console.log(this.state + " is unkown state")
@@ -161,17 +161,17 @@ export class LinkDetailComponent implements OnInit {
 		// save from the front pointer space to the non pointer space for serialization
 
 		// insertion point for translation/nullation of each pointers
-		if (this.link.Classshape_Links_reverse != undefined) {
-			if (this.link.Classshape_LinksDBID == undefined) {
-				this.link.Classshape_LinksDBID = new NullInt64
+		if (this.link.GongStructShape_Links_reverse != undefined) {
+			if (this.link.GongStructShape_LinksDBID == undefined) {
+				this.link.GongStructShape_LinksDBID = new NullInt64
 			}
-			this.link.Classshape_LinksDBID.Int64 = this.link.Classshape_Links_reverse.ID
-			this.link.Classshape_LinksDBID.Valid = true
-			if (this.link.Classshape_LinksDBID_Index == undefined) {
-				this.link.Classshape_LinksDBID_Index = new NullInt64
+			this.link.GongStructShape_LinksDBID.Int64 = this.link.GongStructShape_Links_reverse.ID
+			this.link.GongStructShape_LinksDBID.Valid = true
+			if (this.link.GongStructShape_LinksDBID_Index == undefined) {
+				this.link.GongStructShape_LinksDBID_Index = new NullInt64
 			}
-			this.link.Classshape_LinksDBID_Index.Valid = true
-			this.link.Classshape_Links_reverse = new ClassshapeDB // very important, otherwise, circular JSON
+			this.link.GongStructShape_LinksDBID_Index.Valid = true
+			this.link.GongStructShape_Links_reverse = new GongStructShapeDB // very important, otherwise, circular JSON
 		}
 
 		switch (this.state) {

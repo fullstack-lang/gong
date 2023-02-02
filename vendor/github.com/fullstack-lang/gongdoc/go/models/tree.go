@@ -4,14 +4,5 @@ package models
 type Tree struct {
 	Name string
 
-	Type TreeType
-
 	RootNodes []*Node
-}
-
-func (tree *Tree) UncheckAndDisable() {
-
-	for _, _node := range tree.RootNodes {
-		_node.UncheckAndDisableBranch()
-	}
 }

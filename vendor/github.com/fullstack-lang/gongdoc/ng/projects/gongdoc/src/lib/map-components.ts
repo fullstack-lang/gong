@@ -1,24 +1,24 @@
 // insertion point sub template for components imports 
   import { ClassdiagramsTableComponent } from './classdiagrams-table/classdiagrams-table.component'
   import { ClassdiagramSortingComponent } from './classdiagram-sorting/classdiagram-sorting.component'
-  import { ClassshapesTableComponent } from './classshapes-table/classshapes-table.component'
-  import { ClassshapeSortingComponent } from './classshape-sorting/classshape-sorting.component'
   import { DiagramPackagesTableComponent } from './diagrampackages-table/diagrampackages-table.component'
   import { DiagramPackageSortingComponent } from './diagrampackage-sorting/diagrampackage-sorting.component'
   import { FieldsTableComponent } from './fields-table/fields-table.component'
   import { FieldSortingComponent } from './field-sorting/field-sorting.component'
+  import { GongEnumShapesTableComponent } from './gongenumshapes-table/gongenumshapes-table.component'
+  import { GongEnumShapeSortingComponent } from './gongenumshape-sorting/gongenumshape-sorting.component'
+  import { GongStructShapesTableComponent } from './gongstructshapes-table/gongstructshapes-table.component'
+  import { GongStructShapeSortingComponent } from './gongstructshape-sorting/gongstructshape-sorting.component'
   import { LinksTableComponent } from './links-table/links-table.component'
   import { LinkSortingComponent } from './link-sorting/link-sorting.component'
   import { NodesTableComponent } from './nodes-table/nodes-table.component'
   import { NodeSortingComponent } from './node-sorting/node-sorting.component'
-  import { NoteLinksTableComponent } from './notelinks-table/notelinks-table.component'
-  import { NoteLinkSortingComponent } from './notelink-sorting/notelink-sorting.component'
   import { NoteShapesTableComponent } from './noteshapes-table/noteshapes-table.component'
   import { NoteShapeSortingComponent } from './noteshape-sorting/noteshape-sorting.component'
+  import { NoteShapeLinksTableComponent } from './noteshapelinks-table/noteshapelinks-table.component'
+  import { NoteShapeLinkSortingComponent } from './noteshapelink-sorting/noteshapelink-sorting.component'
   import { PositionsTableComponent } from './positions-table/positions-table.component'
   import { PositionSortingComponent } from './position-sorting/position-sorting.component'
-  import { ReferencesTableComponent } from './references-table/references-table.component'
-  import { ReferenceSortingComponent } from './reference-sorting/reference-sorting.component'
   import { TreesTableComponent } from './trees-table/trees-table.component'
   import { TreeSortingComponent } from './tree-sorting/tree-sorting.component'
   import { UmlStatesTableComponent } from './umlstates-table/umlstates-table.component'
@@ -31,24 +31,24 @@
 // insertion point sub template for map of components per struct 
   export const MapOfClassdiagramsComponents: Map<string, any> = new Map([["ClassdiagramsTableComponent", ClassdiagramsTableComponent],])
   export const MapOfClassdiagramSortingComponents: Map<string, any> = new Map([["ClassdiagramSortingComponent", ClassdiagramSortingComponent],])
-  export const MapOfClassshapesComponents: Map<string, any> = new Map([["ClassshapesTableComponent", ClassshapesTableComponent],])
-  export const MapOfClassshapeSortingComponents: Map<string, any> = new Map([["ClassshapeSortingComponent", ClassshapeSortingComponent],])
   export const MapOfDiagramPackagesComponents: Map<string, any> = new Map([["DiagramPackagesTableComponent", DiagramPackagesTableComponent],])
   export const MapOfDiagramPackageSortingComponents: Map<string, any> = new Map([["DiagramPackageSortingComponent", DiagramPackageSortingComponent],])
   export const MapOfFieldsComponents: Map<string, any> = new Map([["FieldsTableComponent", FieldsTableComponent],])
   export const MapOfFieldSortingComponents: Map<string, any> = new Map([["FieldSortingComponent", FieldSortingComponent],])
+  export const MapOfGongEnumShapesComponents: Map<string, any> = new Map([["GongEnumShapesTableComponent", GongEnumShapesTableComponent],])
+  export const MapOfGongEnumShapeSortingComponents: Map<string, any> = new Map([["GongEnumShapeSortingComponent", GongEnumShapeSortingComponent],])
+  export const MapOfGongStructShapesComponents: Map<string, any> = new Map([["GongStructShapesTableComponent", GongStructShapesTableComponent],])
+  export const MapOfGongStructShapeSortingComponents: Map<string, any> = new Map([["GongStructShapeSortingComponent", GongStructShapeSortingComponent],])
   export const MapOfLinksComponents: Map<string, any> = new Map([["LinksTableComponent", LinksTableComponent],])
   export const MapOfLinkSortingComponents: Map<string, any> = new Map([["LinkSortingComponent", LinkSortingComponent],])
   export const MapOfNodesComponents: Map<string, any> = new Map([["NodesTableComponent", NodesTableComponent],])
   export const MapOfNodeSortingComponents: Map<string, any> = new Map([["NodeSortingComponent", NodeSortingComponent],])
-  export const MapOfNoteLinksComponents: Map<string, any> = new Map([["NoteLinksTableComponent", NoteLinksTableComponent],])
-  export const MapOfNoteLinkSortingComponents: Map<string, any> = new Map([["NoteLinkSortingComponent", NoteLinkSortingComponent],])
   export const MapOfNoteShapesComponents: Map<string, any> = new Map([["NoteShapesTableComponent", NoteShapesTableComponent],])
   export const MapOfNoteShapeSortingComponents: Map<string, any> = new Map([["NoteShapeSortingComponent", NoteShapeSortingComponent],])
+  export const MapOfNoteShapeLinksComponents: Map<string, any> = new Map([["NoteShapeLinksTableComponent", NoteShapeLinksTableComponent],])
+  export const MapOfNoteShapeLinkSortingComponents: Map<string, any> = new Map([["NoteShapeLinkSortingComponent", NoteShapeLinkSortingComponent],])
   export const MapOfPositionsComponents: Map<string, any> = new Map([["PositionsTableComponent", PositionsTableComponent],])
   export const MapOfPositionSortingComponents: Map<string, any> = new Map([["PositionSortingComponent", PositionSortingComponent],])
-  export const MapOfReferencesComponents: Map<string, any> = new Map([["ReferencesTableComponent", ReferencesTableComponent],])
-  export const MapOfReferenceSortingComponents: Map<string, any> = new Map([["ReferenceSortingComponent", ReferenceSortingComponent],])
   export const MapOfTreesComponents: Map<string, any> = new Map([["TreesTableComponent", TreesTableComponent],])
   export const MapOfTreeSortingComponents: Map<string, any> = new Map([["TreeSortingComponent", TreeSortingComponent],])
   export const MapOfUmlStatesComponents: Map<string, any> = new Map([["UmlStatesTableComponent", UmlStatesTableComponent],])
@@ -64,15 +64,15 @@ export const MapOfComponents: Map<string, any> =
     [
       // insertion point sub template for map of components 
       ["Classdiagram", MapOfClassdiagramsComponents],
-      ["Classshape", MapOfClassshapesComponents],
       ["DiagramPackage", MapOfDiagramPackagesComponents],
       ["Field", MapOfFieldsComponents],
+      ["GongEnumShape", MapOfGongEnumShapesComponents],
+      ["GongStructShape", MapOfGongStructShapesComponents],
       ["Link", MapOfLinksComponents],
       ["Node", MapOfNodesComponents],
-      ["NoteLink", MapOfNoteLinksComponents],
       ["NoteShape", MapOfNoteShapesComponents],
+      ["NoteShapeLink", MapOfNoteShapeLinksComponents],
       ["Position", MapOfPositionsComponents],
-      ["Reference", MapOfReferencesComponents],
       ["Tree", MapOfTreesComponents],
       ["UmlState", MapOfUmlStatesComponents],
       ["Umlsc", MapOfUmlscsComponents],
@@ -86,15 +86,15 @@ export const MapOfSortingComponents: Map<string, any> =
     [
     // insertion point sub template for map of sorting components 
       ["Classdiagram", MapOfClassdiagramSortingComponents],
-      ["Classshape", MapOfClassshapeSortingComponents],
       ["DiagramPackage", MapOfDiagramPackageSortingComponents],
       ["Field", MapOfFieldSortingComponents],
+      ["GongEnumShape", MapOfGongEnumShapeSortingComponents],
+      ["GongStructShape", MapOfGongStructShapeSortingComponents],
       ["Link", MapOfLinkSortingComponents],
       ["Node", MapOfNodeSortingComponents],
-      ["NoteLink", MapOfNoteLinkSortingComponents],
       ["NoteShape", MapOfNoteShapeSortingComponents],
+      ["NoteShapeLink", MapOfNoteShapeLinkSortingComponents],
       ["Position", MapOfPositionSortingComponents],
-      ["Reference", MapOfReferenceSortingComponents],
       ["Tree", MapOfTreeSortingComponents],
       ["UmlState", MapOfUmlStateSortingComponents],
       ["Umlsc", MapOfUmlscSortingComponents],

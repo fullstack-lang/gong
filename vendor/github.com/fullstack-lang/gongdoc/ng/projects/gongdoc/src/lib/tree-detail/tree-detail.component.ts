@@ -10,7 +10,6 @@ import { MapOfComponents } from '../map-components'
 import { MapOfSortingComponents } from '../map-components'
 
 // insertion point for imports
-import { TreeTypeSelect, TreeTypeList } from '../TreeType'
 
 import { Router, RouterState, ActivatedRoute } from '@angular/router';
 
@@ -34,7 +33,6 @@ enum TreeDetailComponentState {
 export class TreeDetailComponent implements OnInit {
 
 	// insertion point for declarations
-	TreeTypeList: TreeTypeSelect[] = []
 
 	// the TreeDB of interest
 	tree: TreeDB = new TreeDB
@@ -101,7 +99,6 @@ export class TreeDetailComponent implements OnInit {
 		)
 
 		// insertion point for initialisation of enums list
-		this.TreeTypeList = TreeTypeList
 	}
 
 	getTree(): void {

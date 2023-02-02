@@ -71,6 +71,9 @@ export class NoteShapesTableComponent implements OnInit {
         case 'Name':
           return noteshapeDB.Name;
 
+        case 'Identifier':
+          return noteshapeDB.Identifier;
+
         case 'Body':
           return noteshapeDB.Body;
 
@@ -89,9 +92,9 @@ export class NoteShapesTableComponent implements OnInit {
         case 'Matched':
           return noteshapeDB.Matched?"true":"false";
 
-        case 'Classdiagram_Notes':
-          if (this.frontRepo.Classdiagrams.get(noteshapeDB.Classdiagram_NotesDBID.Int64) != undefined) {
-            return this.frontRepo.Classdiagrams.get(noteshapeDB.Classdiagram_NotesDBID.Int64)!.Name
+        case 'Classdiagram_NoteShapes':
+          if (this.frontRepo.Classdiagrams.get(noteshapeDB.Classdiagram_NoteShapesDBID.Int64) != undefined) {
+            return this.frontRepo.Classdiagrams.get(noteshapeDB.Classdiagram_NoteShapesDBID.Int64)!.Name
           } else {
             return ""
           }
@@ -111,13 +114,14 @@ export class NoteShapesTableComponent implements OnInit {
 
       // insertion point for merging of fields
       mergedContent += noteshapeDB.Name.toLowerCase()
+      mergedContent += noteshapeDB.Identifier.toLowerCase()
       mergedContent += noteshapeDB.Body.toLowerCase()
       mergedContent += noteshapeDB.X.toString()
       mergedContent += noteshapeDB.Y.toString()
       mergedContent += noteshapeDB.Width.toString()
       mergedContent += noteshapeDB.Heigth.toString()
-      if (noteshapeDB.Classdiagram_NotesDBID.Int64 != 0) {
-        mergedContent += this.frontRepo.Classdiagrams.get(noteshapeDB.Classdiagram_NotesDBID.Int64)!.Name.toLowerCase()
+      if (noteshapeDB.Classdiagram_NoteShapesDBID.Int64 != 0) {
+        mergedContent += this.frontRepo.Classdiagrams.get(noteshapeDB.Classdiagram_NoteShapesDBID.Int64)!.Name.toLowerCase()
       }
 
 
@@ -171,24 +175,26 @@ export class NoteShapesTableComponent implements OnInit {
     if (this.mode == TableComponentMode.DISPLAY_MODE) {
       this.displayedColumns = ['ID', 'Edit', 'Delete', // insertion point for columns to display
         "Name",
+        "Identifier",
         "Body",
         "X",
         "Y",
         "Width",
         "Heigth",
         "Matched",
-        "Classdiagram_Notes",
+        "Classdiagram_NoteShapes",
       ]
     } else {
       this.displayedColumns = ['select', 'ID', // insertion point for columns to display
         "Name",
+        "Identifier",
         "Body",
         "X",
         "Y",
         "Width",
         "Heigth",
         "Matched",
-        "Classdiagram_Notes",
+        "Classdiagram_NoteShapes",
       ]
       this.selection = new SelectionModel<NoteShapeDB>(allowMultiSelect, this.initialSelection);
     }

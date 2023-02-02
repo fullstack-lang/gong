@@ -14,6 +14,7 @@ import { catchError, map, tap } from 'rxjs/operators';
 import { DiagramPackageDB } from './diagrampackage-db';
 
 // insertion point for imports
+import { ClassdiagramDB } from './classdiagram-db'
 
 @Injectable({
   providedIn: 'root'
@@ -71,6 +72,7 @@ export class DiagramPackageService {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
     diagrampackagedb.Classdiagrams = []
+    diagrampackagedb.SelectedClassdiagram = new ClassdiagramDB
     diagrampackagedb.Umlscs = []
 
     return this.http.post<DiagramPackageDB>(this.diagrampackagesUrl, diagrampackagedb, this.httpOptions).pipe(
@@ -100,6 +102,7 @@ export class DiagramPackageService {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
     diagrampackagedb.Classdiagrams = []
+    diagrampackagedb.SelectedClassdiagram = new ClassdiagramDB
     diagrampackagedb.Umlscs = []
 
     return this.http.put<DiagramPackageDB>(url, diagrampackagedb, this.httpOptions).pipe(

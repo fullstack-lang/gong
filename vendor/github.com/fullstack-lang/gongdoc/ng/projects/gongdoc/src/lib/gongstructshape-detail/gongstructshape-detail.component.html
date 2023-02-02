@@ -1,0 +1,118 @@
+<form *ngIf="gongstructshape" class="details">
+    <h2 class="details__title">gongstructshape</h2>
+    <!-- insertion point for fields specific code -->
+    <mat-grid-list *ngIf='!isATextArea("Name")' cols="5" rowHeight="2:1">
+        <mat-grid-tile [colspan]="3">
+            <mat-form-field mat-form-field class="detail-full-width">
+                <mat-label>Name</mat-label>
+                <input name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="gongstructshape.Name">
+            </mat-form-field>
+        </mat-grid-tile>
+        <mat-grid-tile>
+            <button mat-raised-button (click)="toggleTextArea('Name')">
+                <mat-icon>
+                    expand_more
+                </mat-icon>
+            </button>
+        </mat-grid-tile>
+    </mat-grid-list>
+    <mat-form-field *ngIf='isATextArea("Name")' mat-form-field class="detail-full-width">
+        <mat-label>Name</mat-label>
+        <textarea name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="gongstructshape.Name"></textarea>
+    </mat-form-field>
+
+    <mat-form-field class="detail-full-width">
+        <mat-label>Position</mat-label>
+        <mat-select [compareWith]="compareObjects" [(value)]="gongstructshape.Position" (selectionChange)="fillUpNameIfEmpty($event)">
+            <mat-option>None</mat-option>
+            <mat-option *ngFor="let position of frontRepo.Positions_array" [value]="position">
+                {{position.Name}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    <mat-grid-list *ngIf='!isATextArea("Identifier")' cols="5" rowHeight="2:1">
+        <mat-grid-tile [colspan]="3">
+            <mat-form-field mat-form-field class="detail-full-width">
+                <mat-label>Identifier</mat-label>
+                <input name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="gongstructshape.Identifier">
+            </mat-form-field>
+        </mat-grid-tile>
+        <mat-grid-tile>
+            <button mat-raised-button (click)="toggleTextArea('Identifier')">
+                <mat-icon>
+                    expand_more
+                </mat-icon>
+            </button>
+        </mat-grid-tile>
+    </mat-grid-list>
+    <mat-form-field *ngIf='isATextArea("Identifier")' mat-form-field class="detail-full-width">
+        <mat-label>Identifier</mat-label>
+        <textarea name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="gongstructshape.Identifier"></textarea>
+    </mat-form-field>
+
+    <!-- -->
+    <mat-checkbox [formControl]="ShowNbInstancesFormControl">ShowNbInstances</mat-checkbox>
+
+    <!-- -->
+    <mat-form-field class="detail-full-width">
+        <mat-label>NbInstances</mat-label>
+        <input type="number" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="gongstructshape.NbInstances" [ngModelOptions]="{standalone: true}">
+    </mat-form-field>
+
+    <mat-grid-list cols="5" rowHeight="2:1">
+        <mat-grid-tile [colspan]="3">
+            <button mat-raised-button (click)="openReverseSelection('Field', 'GongStructShape_FieldsDBID', 'ONE_MANY_ASSOCIATION_MODE', '', '', '')">Fields</button>
+        </mat-grid-tile>
+        <!-- insertion point for the button of the MANY_MANY association-->
+        <mat-grid-tile>
+            <button mat-raised-button (click)="openDragAndDropOrdering('Field', 'GongStructShape_FieldsDBID')">
+                <mat-icon>
+                    shuffle
+                </mat-icon>
+            </button>
+        </mat-grid-tile>
+    </mat-grid-list>
+    <mat-grid-list cols="5" rowHeight="2:1">
+        <mat-grid-tile [colspan]="3">
+            <button mat-raised-button (click)="openReverseSelection('Link', 'GongStructShape_LinksDBID', 'ONE_MANY_ASSOCIATION_MODE', '', '', '')">Links</button>
+        </mat-grid-tile>
+        <!-- insertion point for the button of the MANY_MANY association-->
+        <mat-grid-tile>
+            <button mat-raised-button (click)="openDragAndDropOrdering('Link', 'GongStructShape_LinksDBID')">
+                <mat-icon>
+                    shuffle
+                </mat-icon>
+            </button>
+        </mat-grid-tile>
+    </mat-grid-list>
+    <!-- -->
+    <mat-form-field class="detail-full-width">
+        <mat-label>Width</mat-label>
+        <input type="number" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="gongstructshape.Width" [ngModelOptions]="{standalone: true}">
+    </mat-form-field>
+
+    <!-- -->
+    <mat-form-field class="detail-full-width">
+        <mat-label>Heigth</mat-label>
+        <input type="number" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="gongstructshape.Heigth" [ngModelOptions]="{standalone: true}">
+    </mat-form-field>
+
+    <!-- -->
+    <mat-checkbox [formControl]="IsSelectedFormControl">IsSelected</mat-checkbox>
+
+    <mat-form-field class="detail-full-width">
+        <mat-label>(Classdiagram) GongStructShapes</mat-label>
+        <mat-select [compareWith]="compareObjects" [(ngModel)]="gongstructshape.Classdiagram_GongStructShapes_reverse" [ngModelOptions]="{standalone: true}">
+            <mat-option>None</mat-option>
+            <mat-option *ngFor="let classdiagram of frontRepo.Classdiagrams_array" [value]="classdiagram">
+                {{classdiagram.Name}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+    <div class="details__save">
+        <button mat-raised-button color="primary" (click)="save()">
+            Save gongstructshape
+        </button>
+    </div>
+</form>

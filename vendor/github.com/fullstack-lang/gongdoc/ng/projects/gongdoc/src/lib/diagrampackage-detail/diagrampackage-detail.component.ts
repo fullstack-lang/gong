@@ -138,6 +138,16 @@ export class DiagramPackageDetailComponent implements OnInit {
 		// pointers fields, after the translation, are nulled in order to perform serialization
 
 		// insertion point for translation/nullation of each field
+		if (this.diagrampackage.SelectedClassdiagramID == undefined) {
+			this.diagrampackage.SelectedClassdiagramID = new NullInt64
+		}
+		if (this.diagrampackage.SelectedClassdiagram != undefined) {
+			this.diagrampackage.SelectedClassdiagramID.Int64 = this.diagrampackage.SelectedClassdiagram.ID
+			this.diagrampackage.SelectedClassdiagramID.Valid = true
+		} else {
+			this.diagrampackage.SelectedClassdiagramID.Int64 = 0
+			this.diagrampackage.SelectedClassdiagramID.Valid = true
+		}
 		this.diagrampackage.IsEditable = this.IsEditableFormControl.value
 		this.diagrampackage.IsReloaded = this.IsReloadedFormControl.value
 

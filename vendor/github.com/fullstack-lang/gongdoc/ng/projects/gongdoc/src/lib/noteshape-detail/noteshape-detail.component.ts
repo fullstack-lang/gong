@@ -24,7 +24,7 @@ enum NoteShapeDetailComponentState {
 	CREATE_INSTANCE,
 	UPDATE_INSTANCE,
 	// insertion point for declarations of enum values of state
-	CREATE_INSTANCE_WITH_ASSOCIATION_Classdiagram_Notes_SET,
+	CREATE_INSTANCE_WITH_ASSOCIATION_Classdiagram_NoteShapes_SET,
 }
 
 @Component({
@@ -84,9 +84,9 @@ export class NoteShapeDetailComponent implements OnInit {
 			} else {
 				switch (this.originStructFieldName) {
 					// insertion point for state computation
-					case "Notes":
-						// console.log("NoteShape" + " is instanciated with back pointer to instance " + this.id + " Classdiagram association Notes")
-						this.state = NoteShapeDetailComponentState.CREATE_INSTANCE_WITH_ASSOCIATION_Classdiagram_Notes_SET
+					case "NoteShapes":
+						// console.log("NoteShape" + " is instanciated with back pointer to instance " + this.id + " Classdiagram association NoteShapes")
+						this.state = NoteShapeDetailComponentState.CREATE_INSTANCE_WITH_ASSOCIATION_Classdiagram_NoteShapes_SET
 						break;
 					default:
 						console.log(this.originStructFieldName + " is unkown association")
@@ -124,9 +124,9 @@ export class NoteShapeDetailComponent implements OnInit {
 						this.noteshape = noteshape!
 						break;
 					// insertion point for init of association field
-					case NoteShapeDetailComponentState.CREATE_INSTANCE_WITH_ASSOCIATION_Classdiagram_Notes_SET:
+					case NoteShapeDetailComponentState.CREATE_INSTANCE_WITH_ASSOCIATION_Classdiagram_NoteShapes_SET:
 						this.noteshape = new (NoteShapeDB)
-						this.noteshape.Classdiagram_Notes_reverse = frontRepo.Classdiagrams.get(this.id)!
+						this.noteshape.Classdiagram_NoteShapes_reverse = frontRepo.Classdiagrams.get(this.id)!
 						break;
 					default:
 						console.log(this.state + " is unkown state")
@@ -151,17 +151,17 @@ export class NoteShapeDetailComponent implements OnInit {
 		// save from the front pointer space to the non pointer space for serialization
 
 		// insertion point for translation/nullation of each pointers
-		if (this.noteshape.Classdiagram_Notes_reverse != undefined) {
-			if (this.noteshape.Classdiagram_NotesDBID == undefined) {
-				this.noteshape.Classdiagram_NotesDBID = new NullInt64
+		if (this.noteshape.Classdiagram_NoteShapes_reverse != undefined) {
+			if (this.noteshape.Classdiagram_NoteShapesDBID == undefined) {
+				this.noteshape.Classdiagram_NoteShapesDBID = new NullInt64
 			}
-			this.noteshape.Classdiagram_NotesDBID.Int64 = this.noteshape.Classdiagram_Notes_reverse.ID
-			this.noteshape.Classdiagram_NotesDBID.Valid = true
-			if (this.noteshape.Classdiagram_NotesDBID_Index == undefined) {
-				this.noteshape.Classdiagram_NotesDBID_Index = new NullInt64
+			this.noteshape.Classdiagram_NoteShapesDBID.Int64 = this.noteshape.Classdiagram_NoteShapes_reverse.ID
+			this.noteshape.Classdiagram_NoteShapesDBID.Valid = true
+			if (this.noteshape.Classdiagram_NoteShapesDBID_Index == undefined) {
+				this.noteshape.Classdiagram_NoteShapesDBID_Index = new NullInt64
 			}
-			this.noteshape.Classdiagram_NotesDBID_Index.Valid = true
-			this.noteshape.Classdiagram_Notes_reverse = new ClassdiagramDB // very important, otherwise, circular JSON
+			this.noteshape.Classdiagram_NoteShapesDBID_Index.Valid = true
+			this.noteshape.Classdiagram_NoteShapes_reverse = new ClassdiagramDB // very important, otherwise, circular JSON
 		}
 
 		switch (this.state) {

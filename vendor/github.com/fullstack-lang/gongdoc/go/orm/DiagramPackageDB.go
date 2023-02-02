@@ -45,6 +45,10 @@ type DiagramPackageAPI struct {
 // reverse pointers of slice of poitners to Struct
 type DiagramPackagePointersEnconding struct {
 	// insertion for pointer fields encoding declaration
+
+	// field SelectedClassdiagram is a pointer to another Struct (optional or 0..1)
+	// This field is generated into another field to enable AS ONE association
+	SelectedClassdiagramID sql.NullInt64
 }
 
 // DiagramPackageDB describes a diagrampackage in the database
@@ -283,6 +287,15 @@ func (backRepoDiagramPackage *BackRepoDiagramPackageStruct) CommitPhaseTwoInstan
 			}
 		}
 
+		// commit pointer value diagrampackage.SelectedClassdiagram translates to updating the diagrampackage.SelectedClassdiagramID
+		diagrampackageDB.SelectedClassdiagramID.Valid = true // allow for a 0 value (nil association)
+		if diagrampackage.SelectedClassdiagram != nil {
+			if SelectedClassdiagramId, ok := (*backRepo.BackRepoClassdiagram.Map_ClassdiagramPtr_ClassdiagramDBID)[diagrampackage.SelectedClassdiagram]; ok {
+				diagrampackageDB.SelectedClassdiagramID.Int64 = int64(SelectedClassdiagramId)
+				diagrampackageDB.SelectedClassdiagramID.Valid = true
+			}
+		}
+
 		// This loop encodes the slice of pointers diagrampackage.Umlscs into the back repo.
 		// Each back repo instance at the end of the association encode the ID of the association start
 		// into a dedicated field for coding the association. The back repo instance is then saved to the db
@@ -436,6 +449,10 @@ func (backRepoDiagramPackage *BackRepoDiagramPackageStruct) CheckoutPhaseTwoInst
 		return classdiagramDB_i.DiagramPackage_ClassdiagramsDBID_Index.Int64 < classdiagramDB_j.DiagramPackage_ClassdiagramsDBID_Index.Int64
 	})
 
+	// SelectedClassdiagram field
+	if diagrampackageDB.SelectedClassdiagramID.Int64 != 0 {
+		diagrampackage.SelectedClassdiagram = (*backRepo.BackRepoClassdiagram.Map_ClassdiagramDBID_ClassdiagramPtr)[uint(diagrampackageDB.SelectedClassdiagramID.Int64)]
+	}
 	// This loop redeem diagrampackage.Umlscs in the stage from the encode in the back repo
 	// It parses all UmlscDB in the back repo and if the reverse pointer encoding matches the back repo ID
 	// it appends the stage instance
@@ -717,6 +734,12 @@ func (backRepoDiagramPackage *BackRepoDiagramPackageStruct) RestorePhaseTwo() {
 		_ = diagrampackageDB
 
 		// insertion point for reindexing pointers encoding
+		// reindexing SelectedClassdiagram field
+		if diagrampackageDB.SelectedClassdiagramID.Int64 != 0 {
+			diagrampackageDB.SelectedClassdiagramID.Int64 = int64(BackRepoClassdiagramid_atBckpTime_newID[uint(diagrampackageDB.SelectedClassdiagramID.Int64)])
+			diagrampackageDB.SelectedClassdiagramID.Valid = true
+		}
+
 		// update databse with new index encoding
 		query := backRepoDiagramPackage.db.Model(diagrampackageDB).Updates(*diagrampackageDB)
 		if query.Error != nil {

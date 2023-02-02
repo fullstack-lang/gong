@@ -71,9 +71,6 @@ export class LinksTableComponent implements OnInit {
         case 'Name':
           return linkDB.Name;
 
-        case 'Fieldname':
-          return linkDB.Fieldname;
-
         case 'Structname':
           return linkDB.Structname;
 
@@ -92,9 +89,9 @@ export class LinksTableComponent implements OnInit {
         case 'Middlevertice':
           return (linkDB.Middlevertice ? linkDB.Middlevertice.Name : '');
 
-        case 'Classshape_Links':
-          if (this.frontRepo.Classshapes.get(linkDB.Classshape_LinksDBID.Int64) != undefined) {
-            return this.frontRepo.Classshapes.get(linkDB.Classshape_LinksDBID.Int64)!.Name
+        case 'GongStructShape_Links':
+          if (this.frontRepo.GongStructShapes.get(linkDB.GongStructShape_LinksDBID.Int64) != undefined) {
+            return this.frontRepo.GongStructShapes.get(linkDB.GongStructShape_LinksDBID.Int64)!.Name
           } else {
             return ""
           }
@@ -114,7 +111,6 @@ export class LinksTableComponent implements OnInit {
 
       // insertion point for merging of fields
       mergedContent += linkDB.Name.toLowerCase()
-      mergedContent += linkDB.Fieldname.toLowerCase()
       mergedContent += linkDB.Structname.toLowerCase()
       mergedContent += linkDB.Identifier.toLowerCase()
       mergedContent += linkDB.Fieldtypename.toLowerCase()
@@ -123,8 +119,8 @@ export class LinksTableComponent implements OnInit {
       if (linkDB.Middlevertice) {
         mergedContent += linkDB.Middlevertice.Name.toLowerCase()
       }
-      if (linkDB.Classshape_LinksDBID.Int64 != 0) {
-        mergedContent += this.frontRepo.Classshapes.get(linkDB.Classshape_LinksDBID.Int64)!.Name.toLowerCase()
+      if (linkDB.GongStructShape_LinksDBID.Int64 != 0) {
+        mergedContent += this.frontRepo.GongStructShapes.get(linkDB.GongStructShape_LinksDBID.Int64)!.Name.toLowerCase()
       }
 
 
@@ -178,26 +174,24 @@ export class LinksTableComponent implements OnInit {
     if (this.mode == TableComponentMode.DISPLAY_MODE) {
       this.displayedColumns = ['ID', 'Edit', 'Delete', // insertion point for columns to display
         "Name",
-        "Fieldname",
         "Structname",
         "Identifier",
         "Fieldtypename",
         "TargetMultiplicity",
         "SourceMultiplicity",
         "Middlevertice",
-        "Classshape_Links",
+        "GongStructShape_Links",
       ]
     } else {
       this.displayedColumns = ['select', 'ID', // insertion point for columns to display
         "Name",
-        "Fieldname",
         "Structname",
         "Identifier",
         "Fieldtypename",
         "TargetMultiplicity",
         "SourceMultiplicity",
         "Middlevertice",
-        "Classshape_Links",
+        "GongStructShape_Links",
       ]
       this.selection = new SelectionModel<LinkDB>(allowMultiSelect, this.initialSelection);
     }

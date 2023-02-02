@@ -22,6 +22,8 @@ var __member __void
 // It allows runtime reflexion of instances (without the hassle of the "reflect" package)
 type GongStructInterface interface {
 	GetName() (res string)
+	GetFields() (res []string)
+	GetFieldStringValue(fieldName string) (res string)
 }
 
 // StageStruct enables storage of staged instances
@@ -90,10 +92,10 @@ type StageStruct struct { // insertion point for definition of arrays registerin
 	map_Gongstruct_BackPointer map[any]any
 }
 
-func SetBackPointer[T Gongstruct](stageStruct *StageStruct, instance T, backPointer any) {
+func SetBackPointer[T Gongstruct](stageStruct *StageStruct, instance *T, backPointer any) {
 	stageStruct.map_Gongstruct_BackPointer[instance] = backPointer
 }
-func GetBackPointer[T Gongstruct](stageStruct *StageStruct, instance T) (backPointer any) {
+func GetBackPointer[T Gongstruct](stageStruct *StageStruct, instance *T) (backPointer any) {
 	backPointer, _ = stageStruct.map_Gongstruct_BackPointer[instance]
 	return
 }
@@ -939,14 +941,6 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			Anarrayofb2Use: []*AstructBstruct2Use{{Name: "Anarrayofb2Use"}},
 			// field is initialized with an instance of Astruct with the name of the field
 			AnAstruct: &Astruct{Name: "AnAstruct"},
-			// field is initialized with Estruct as it is a composite
-			Estruct: Estruct{
-				// per field init
-				//
-				Dstruct3: &Dstruct{Name: "Dstruct3"},
-				//
-				Dstruct4: &Dstruct{Name: "Dstruct4"},
-			},
 			// field is initialized with Cstruct as it is a composite
 			Cstruct: Cstruct{
 				// per field init
@@ -958,6 +952,14 @@ func GetAssociationName[Type Gongstruct]() *Type {
 				Dstruct: &Dstruct{Name: "Dstruct"},
 				//
 				Dstruct2: &Dstruct{Name: "Dstruct2"},
+			},
+			// field is initialized with Estruct as it is a composite
+			Estruct: Estruct{
+				// per field init
+				//
+				Dstruct3: &Dstruct{Name: "Dstruct3"},
+				//
+				Dstruct4: &Dstruct{Name: "Dstruct4"},
 			},
 		}).(*Type)
 	case AstructBstruct2Use:

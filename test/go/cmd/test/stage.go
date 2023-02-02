@@ -26,9 +26,9 @@ var ___dummy__gongdoc_Stage gongdoc_models.StageStruct
 var map_DocLink_Identifier_stage map[string]any = map[string]any{
 	// injection point for docLink to identifiers
 
-	"gongdoc_models.Classshape": &(gongdoc_models.Classshape{}),
+	"gongdoc_models.GongStructShape": &(gongdoc_models.GongStructShape{}),
 
-	"gongdoc_models.Classshape.Name": (gongdoc_models.Classshape{}).Name,
+	"gongdoc_models.GongStructShape.Name": (gongdoc_models.GongStructShape{}).Name,
 }
 
 func init() {
@@ -86,13 +86,13 @@ Second Line`
 
 	// comment added to overcome the problem with the comment map association
 
-	//gong:ident [gongdoc_models.Classshape]
-	__Astruct__000000_A1.StructRef = `gongdoc_models.Classshape`
+	//gong:ident [gongdoc_models.GongStructShape]
+	__Astruct__000000_A1.StructRef = `gongdoc_models.GongStructShape`
 
 	// comment added to overcome the problem with the comment map association
 
-	//gong:ident [gongdoc_models.Classshape.Name]
-	__Astruct__000000_A1.FieldRef = `gongdoc_models.Classshape.Name`
+	//gong:ident [gongdoc_models.GongStructShape.Name]
+	__Astruct__000000_A1.FieldRef = `gongdoc_models.GongStructShape.Name`
 
 	// Astruct values setup
 	__Astruct__000001_A2.Name = `A2`
