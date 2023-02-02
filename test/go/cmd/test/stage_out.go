@@ -27,9 +27,9 @@ var ___dummy__gongdoc_models_stage_out gongdoc_models.StageStruct
 var map_DocLink_Identifier_stage_out map[string]any = map[string]any{
 	// injection point for docLink to identifiers
 
-	"gongdoc_models.Classshape": &(gongdoc_models.Classshape{}),
+	"gongdoc_models.GongStructShape": &(gongdoc_models.GongStructShape{}),
 
-	"gongdoc_models.Classshape.Name": (gongdoc_models.Classshape{}).Name,
+	"gongdoc_models.GongStructShape.Name": (gongdoc_models.GongStructShape{}).Name,
 }
 
 // init might be handy if one want to have the data embedded in the binary
@@ -82,16 +82,16 @@ Second Line`
 	__Astruct__000000_A1.Intfield = 3
 	__Astruct__000000_A1.Anotherbooleanfield = false
 	__Astruct__000000_A1.Duration1 = 79653000000000
-	
+
 	// comment added to overcome the problem with the comment map association
 
-	//gong:ident [gongdoc_models.Classshape]
-	__Astruct__000000_A1.StructRef = `gongdoc_models.Classshape`
-	
+	//gong:ident [gongdoc_models.GongStructShape]
+	__Astruct__000000_A1.StructRef = `gongdoc_models.GongStructShape`
+
 	// comment added to overcome the problem with the comment map association
 
-	//gong:ident [gongdoc_models.Classshape.Name]
-	__Astruct__000000_A1.FieldRef = `gongdoc_models.Classshape.Name`
+	//gong:ident [gongdoc_models.GongStructShape.Name]
+	__Astruct__000000_A1.FieldRef = `gongdoc_models.GongStructShape.Name`
 
 	// Astruct values setup
 	__Astruct__000001_A2.Name = `A2`
@@ -107,12 +107,12 @@ Second Line`
 	__Astruct__000001_A2.Intfield = 0
 	__Astruct__000001_A2.Anotherbooleanfield = false
 	__Astruct__000001_A2.Duration1 = 0
-	
+
 	// comment added to overcome the problem with the comment map association
 
 	//gong:ident []
 	__Astruct__000001_A2.StructRef = ``
-	
+
 	// comment added to overcome the problem with the comment map association
 
 	//gong:ident []
@@ -130,12 +130,12 @@ Second Line`
 	__Astruct__000002_A3.Intfield = 0
 	__Astruct__000002_A3.Anotherbooleanfield = false
 	__Astruct__000002_A3.Duration1 = 0
-	
+
 	// comment added to overcome the problem with the comment map association
 
 	//gong:ident []
 	__Astruct__000002_A3.StructRef = ``
-	
+
 	// comment added to overcome the problem with the comment map association
 
 	//gong:ident []
@@ -181,5 +181,3 @@ Second Line`
 	__AstructBstruct2Use__000000_.Bstrcut2 = __Bstruct__000000_B1
 	__AstructBstruct2Use__000001_.Bstrcut2 = __Bstruct__000000_B1
 }
-
-

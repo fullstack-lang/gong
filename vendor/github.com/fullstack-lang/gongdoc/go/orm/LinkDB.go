@@ -50,11 +50,11 @@ type LinkPointersEnconding struct {
 	// This field is generated into another field to enable AS ONE association
 	MiddleverticeID sql.NullInt64
 
-	// Implementation of a reverse ID for field Classshape{}.Links []*Link
-	Classshape_LinksDBID sql.NullInt64
+	// Implementation of a reverse ID for field GongStructShape{}.Links []*Link
+	GongStructShape_LinksDBID sql.NullInt64
 
 	// implementation of the index of the withing the slice
-	Classshape_LinksDBID_Index sql.NullInt64
+	GongStructShape_LinksDBID_Index sql.NullInt64
 }
 
 // LinkDB describes a link in the database
@@ -70,9 +70,6 @@ type LinkDB struct {
 
 	// Declation for basic field linkDB.Name
 	Name_Data sql.NullString
-
-	// Declation for basic field linkDB.Fieldname
-	Fieldname_Data sql.NullString
 
 	// Declation for basic field linkDB.Structname
 	Structname_Data sql.NullString
@@ -111,17 +108,15 @@ type LinkWOP struct {
 
 	Name string `xlsx:"1"`
 
-	Fieldname string `xlsx:"2"`
+	Structname string `xlsx:"2"`
 
-	Structname string `xlsx:"3"`
+	Identifier string `xlsx:"3"`
 
-	Identifier string `xlsx:"4"`
+	Fieldtypename string `xlsx:"4"`
 
-	Fieldtypename string `xlsx:"5"`
+	TargetMultiplicity models.MultiplicityType `xlsx:"5"`
 
-	TargetMultiplicity models.MultiplicityType `xlsx:"6"`
-
-	SourceMultiplicity models.MultiplicityType `xlsx:"7"`
+	SourceMultiplicity models.MultiplicityType `xlsx:"6"`
 	// insertion for WOP pointer fields
 }
 
@@ -129,7 +124,6 @@ var Link_Fields = []string{
 	// insertion for WOP basic fields
 	"ID",
 	"Name",
-	"Fieldname",
 	"Structname",
 	"Identifier",
 	"Fieldtypename",
@@ -435,9 +429,6 @@ func (linkDB *LinkDB) CopyBasicFieldsFromLink(link *models.Link) {
 	linkDB.Name_Data.String = link.Name
 	linkDB.Name_Data.Valid = true
 
-	linkDB.Fieldname_Data.String = link.Fieldname
-	linkDB.Fieldname_Data.Valid = true
-
 	linkDB.Structname_Data.String = link.Structname
 	linkDB.Structname_Data.Valid = true
 
@@ -461,9 +452,6 @@ func (linkDB *LinkDB) CopyBasicFieldsFromLinkWOP(link *LinkWOP) {
 	linkDB.Name_Data.String = link.Name
 	linkDB.Name_Data.Valid = true
 
-	linkDB.Fieldname_Data.String = link.Fieldname
-	linkDB.Fieldname_Data.Valid = true
-
 	linkDB.Structname_Data.String = link.Structname
 	linkDB.Structname_Data.Valid = true
 
@@ -484,7 +472,6 @@ func (linkDB *LinkDB) CopyBasicFieldsFromLinkWOP(link *LinkWOP) {
 func (linkDB *LinkDB) CopyBasicFieldsToLink(link *models.Link) {
 	// insertion point for checkout of basic fields (back repo to stage)
 	link.Name = linkDB.Name_Data.String
-	link.Fieldname = linkDB.Fieldname_Data.String
 	link.Structname = linkDB.Structname_Data.String
 	link.Identifier = linkDB.Identifier_Data.String
 	link.Fieldtypename = linkDB.Fieldtypename_Data.String
@@ -497,7 +484,6 @@ func (linkDB *LinkDB) CopyBasicFieldsToLinkWOP(link *LinkWOP) {
 	link.ID = int(linkDB.ID)
 	// insertion point for checkout of basic fields (back repo to stage)
 	link.Name = linkDB.Name_Data.String
-	link.Fieldname = linkDB.Fieldname_Data.String
 	link.Structname = linkDB.Structname_Data.String
 	link.Identifier = linkDB.Identifier_Data.String
 	link.Fieldtypename = linkDB.Fieldtypename_Data.String
@@ -667,9 +653,9 @@ func (backRepoLink *BackRepoLinkStruct) RestorePhaseTwo() {
 		}
 
 		// This reindex link.Links
-		if linkDB.Classshape_LinksDBID.Int64 != 0 {
-			linkDB.Classshape_LinksDBID.Int64 =
-				int64(BackRepoClassshapeid_atBckpTime_newID[uint(linkDB.Classshape_LinksDBID.Int64)])
+		if linkDB.GongStructShape_LinksDBID.Int64 != 0 {
+			linkDB.GongStructShape_LinksDBID.Int64 =
+				int64(BackRepoGongStructShapeid_atBckpTime_newID[uint(linkDB.GongStructShape_LinksDBID.Int64)])
 		}
 
 		// update databse with new index encoding

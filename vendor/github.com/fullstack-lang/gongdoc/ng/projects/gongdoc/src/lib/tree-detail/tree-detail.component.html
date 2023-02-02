@@ -21,16 +21,6 @@
         <textarea name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="tree.Name"></textarea>
     </mat-form-field>
 
-    <!-- -->
-    <mat-form-field appearance="fill" class="detail-full-width">
-        <mat-label>Type</mat-label>
-        <mat-select [(ngModel)]="tree.Type" [ngModelOptions]="{standalone: true}">
-            <mat-option *ngFor="let enum of TreeTypeList" [value]="enum.value">
-                {{enum.viewValue}}
-            </mat-option>
-        </mat-select>
-    </mat-form-field>
-
     <mat-grid-list cols="5" rowHeight="2:1">
         <mat-grid-tile [colspan]="3">
             <button mat-raised-button (click)="openReverseSelection('Node', 'Tree_RootNodesDBID', 'ONE_MANY_ASSOCIATION_MODE', '', '', '')">RootNodes</button>

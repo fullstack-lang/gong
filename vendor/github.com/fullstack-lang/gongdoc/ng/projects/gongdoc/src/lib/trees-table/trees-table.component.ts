@@ -71,9 +71,6 @@ export class TreesTableComponent implements OnInit {
         case 'Name':
           return treeDB.Name;
 
-        case 'Type':
-          return treeDB.Type;
-
         default:
           console.assert(false, "Unknown field")
           return "";
@@ -89,7 +86,6 @@ export class TreesTableComponent implements OnInit {
 
       // insertion point for merging of fields
       mergedContent += treeDB.Name.toLowerCase()
-      mergedContent += treeDB.Type.toLowerCase()
 
       let isSelected = mergedContent.includes(filter.toLowerCase())
       return isSelected
@@ -141,12 +137,10 @@ export class TreesTableComponent implements OnInit {
     if (this.mode == TableComponentMode.DISPLAY_MODE) {
       this.displayedColumns = ['ID', 'Edit', 'Delete', // insertion point for columns to display
         "Name",
-        "Type",
       ]
     } else {
       this.displayedColumns = ['select', 'ID', // insertion point for columns to display
         "Name",
-        "Type",
       ]
       this.selection = new SelectionModel<TreeDB>(allowMultiSelect, this.initialSelection);
     }

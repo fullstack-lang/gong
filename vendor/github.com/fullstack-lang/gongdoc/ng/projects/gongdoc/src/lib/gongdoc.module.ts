@@ -44,11 +44,6 @@ import { ClassdiagramSortingComponent } from './classdiagram-sorting/classdiagra
 import { ClassdiagramDetailComponent } from './classdiagram-detail/classdiagram-detail.component'
 import { ClassdiagramPresentationComponent } from './classdiagram-presentation/classdiagram-presentation.component'
 
-import { ClassshapesTableComponent } from './classshapes-table/classshapes-table.component'
-import { ClassshapeSortingComponent } from './classshape-sorting/classshape-sorting.component'
-import { ClassshapeDetailComponent } from './classshape-detail/classshape-detail.component'
-import { ClassshapePresentationComponent } from './classshape-presentation/classshape-presentation.component'
-
 import { DiagramPackagesTableComponent } from './diagrampackages-table/diagrampackages-table.component'
 import { DiagramPackageSortingComponent } from './diagrampackage-sorting/diagrampackage-sorting.component'
 import { DiagramPackageDetailComponent } from './diagrampackage-detail/diagrampackage-detail.component'
@@ -58,6 +53,16 @@ import { FieldsTableComponent } from './fields-table/fields-table.component'
 import { FieldSortingComponent } from './field-sorting/field-sorting.component'
 import { FieldDetailComponent } from './field-detail/field-detail.component'
 import { FieldPresentationComponent } from './field-presentation/field-presentation.component'
+
+import { GongEnumShapesTableComponent } from './gongenumshapes-table/gongenumshapes-table.component'
+import { GongEnumShapeSortingComponent } from './gongenumshape-sorting/gongenumshape-sorting.component'
+import { GongEnumShapeDetailComponent } from './gongenumshape-detail/gongenumshape-detail.component'
+import { GongEnumShapePresentationComponent } from './gongenumshape-presentation/gongenumshape-presentation.component'
+
+import { GongStructShapesTableComponent } from './gongstructshapes-table/gongstructshapes-table.component'
+import { GongStructShapeSortingComponent } from './gongstructshape-sorting/gongstructshape-sorting.component'
+import { GongStructShapeDetailComponent } from './gongstructshape-detail/gongstructshape-detail.component'
+import { GongStructShapePresentationComponent } from './gongstructshape-presentation/gongstructshape-presentation.component'
 
 import { LinksTableComponent } from './links-table/links-table.component'
 import { LinkSortingComponent } from './link-sorting/link-sorting.component'
@@ -69,25 +74,20 @@ import { NodeSortingComponent } from './node-sorting/node-sorting.component'
 import { NodeDetailComponent } from './node-detail/node-detail.component'
 import { NodePresentationComponent } from './node-presentation/node-presentation.component'
 
-import { NoteLinksTableComponent } from './notelinks-table/notelinks-table.component'
-import { NoteLinkSortingComponent } from './notelink-sorting/notelink-sorting.component'
-import { NoteLinkDetailComponent } from './notelink-detail/notelink-detail.component'
-import { NoteLinkPresentationComponent } from './notelink-presentation/notelink-presentation.component'
-
 import { NoteShapesTableComponent } from './noteshapes-table/noteshapes-table.component'
 import { NoteShapeSortingComponent } from './noteshape-sorting/noteshape-sorting.component'
 import { NoteShapeDetailComponent } from './noteshape-detail/noteshape-detail.component'
 import { NoteShapePresentationComponent } from './noteshape-presentation/noteshape-presentation.component'
 
+import { NoteShapeLinksTableComponent } from './noteshapelinks-table/noteshapelinks-table.component'
+import { NoteShapeLinkSortingComponent } from './noteshapelink-sorting/noteshapelink-sorting.component'
+import { NoteShapeLinkDetailComponent } from './noteshapelink-detail/noteshapelink-detail.component'
+import { NoteShapeLinkPresentationComponent } from './noteshapelink-presentation/noteshapelink-presentation.component'
+
 import { PositionsTableComponent } from './positions-table/positions-table.component'
 import { PositionSortingComponent } from './position-sorting/position-sorting.component'
 import { PositionDetailComponent } from './position-detail/position-detail.component'
 import { PositionPresentationComponent } from './position-presentation/position-presentation.component'
-
-import { ReferencesTableComponent } from './references-table/references-table.component'
-import { ReferenceSortingComponent } from './reference-sorting/reference-sorting.component'
-import { ReferenceDetailComponent } from './reference-detail/reference-detail.component'
-import { ReferencePresentationComponent } from './reference-presentation/reference-presentation.component'
 
 import { TreesTableComponent } from './trees-table/trees-table.component'
 import { TreeSortingComponent } from './tree-sorting/tree-sorting.component'
@@ -118,11 +118,6 @@ import { VerticePresentationComponent } from './vertice-presentation/vertice-pre
 		ClassdiagramDetailComponent,
 		ClassdiagramPresentationComponent,
 
-		ClassshapesTableComponent,
-		ClassshapeSortingComponent,
-		ClassshapeDetailComponent,
-		ClassshapePresentationComponent,
-
 		DiagramPackagesTableComponent,
 		DiagramPackageSortingComponent,
 		DiagramPackageDetailComponent,
@@ -132,6 +127,16 @@ import { VerticePresentationComponent } from './vertice-presentation/vertice-pre
 		FieldSortingComponent,
 		FieldDetailComponent,
 		FieldPresentationComponent,
+
+		GongEnumShapesTableComponent,
+		GongEnumShapeSortingComponent,
+		GongEnumShapeDetailComponent,
+		GongEnumShapePresentationComponent,
+
+		GongStructShapesTableComponent,
+		GongStructShapeSortingComponent,
+		GongStructShapeDetailComponent,
+		GongStructShapePresentationComponent,
 
 		LinksTableComponent,
 		LinkSortingComponent,
@@ -143,25 +148,20 @@ import { VerticePresentationComponent } from './vertice-presentation/vertice-pre
 		NodeDetailComponent,
 		NodePresentationComponent,
 
-		NoteLinksTableComponent,
-		NoteLinkSortingComponent,
-		NoteLinkDetailComponent,
-		NoteLinkPresentationComponent,
-
 		NoteShapesTableComponent,
 		NoteShapeSortingComponent,
 		NoteShapeDetailComponent,
 		NoteShapePresentationComponent,
 
+		NoteShapeLinksTableComponent,
+		NoteShapeLinkSortingComponent,
+		NoteShapeLinkDetailComponent,
+		NoteShapeLinkPresentationComponent,
+
 		PositionsTableComponent,
 		PositionSortingComponent,
 		PositionDetailComponent,
 		PositionPresentationComponent,
-
-		ReferencesTableComponent,
-		ReferenceSortingComponent,
-		ReferenceDetailComponent,
-		ReferencePresentationComponent,
 
 		TreesTableComponent,
 		TreeSortingComponent,
@@ -227,11 +227,6 @@ import { VerticePresentationComponent } from './vertice-presentation/vertice-pre
 		ClassdiagramDetailComponent,
 		ClassdiagramPresentationComponent,
 
-		ClassshapesTableComponent,
-		ClassshapeSortingComponent,
-		ClassshapeDetailComponent,
-		ClassshapePresentationComponent,
-
 		DiagramPackagesTableComponent,
 		DiagramPackageSortingComponent,
 		DiagramPackageDetailComponent,
@@ -241,6 +236,16 @@ import { VerticePresentationComponent } from './vertice-presentation/vertice-pre
 		FieldSortingComponent,
 		FieldDetailComponent,
 		FieldPresentationComponent,
+
+		GongEnumShapesTableComponent,
+		GongEnumShapeSortingComponent,
+		GongEnumShapeDetailComponent,
+		GongEnumShapePresentationComponent,
+
+		GongStructShapesTableComponent,
+		GongStructShapeSortingComponent,
+		GongStructShapeDetailComponent,
+		GongStructShapePresentationComponent,
 
 		LinksTableComponent,
 		LinkSortingComponent,
@@ -252,25 +257,20 @@ import { VerticePresentationComponent } from './vertice-presentation/vertice-pre
 		NodeDetailComponent,
 		NodePresentationComponent,
 
-		NoteLinksTableComponent,
-		NoteLinkSortingComponent,
-		NoteLinkDetailComponent,
-		NoteLinkPresentationComponent,
-
 		NoteShapesTableComponent,
 		NoteShapeSortingComponent,
 		NoteShapeDetailComponent,
 		NoteShapePresentationComponent,
 
+		NoteShapeLinksTableComponent,
+		NoteShapeLinkSortingComponent,
+		NoteShapeLinkDetailComponent,
+		NoteShapeLinkPresentationComponent,
+
 		PositionsTableComponent,
 		PositionSortingComponent,
 		PositionDetailComponent,
 		PositionPresentationComponent,
-
-		ReferencesTableComponent,
-		ReferenceSortingComponent,
-		ReferenceDetailComponent,
-		ReferencePresentationComponent,
 
 		TreesTableComponent,
 		TreeSortingComponent,

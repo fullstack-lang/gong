@@ -13,24 +13,24 @@ import { GongstructSelectionService } from '../gongstruct-selection.service'
 // insertion point for per struct import code
 import { ClassdiagramService } from '../classdiagram.service'
 import { getClassdiagramUniqueID } from '../front-repo.service'
-import { ClassshapeService } from '../classshape.service'
-import { getClassshapeUniqueID } from '../front-repo.service'
 import { DiagramPackageService } from '../diagrampackage.service'
 import { getDiagramPackageUniqueID } from '../front-repo.service'
 import { FieldService } from '../field.service'
 import { getFieldUniqueID } from '../front-repo.service'
+import { GongEnumShapeService } from '../gongenumshape.service'
+import { getGongEnumShapeUniqueID } from '../front-repo.service'
+import { GongStructShapeService } from '../gongstructshape.service'
+import { getGongStructShapeUniqueID } from '../front-repo.service'
 import { LinkService } from '../link.service'
 import { getLinkUniqueID } from '../front-repo.service'
 import { NodeService } from '../node.service'
 import { getNodeUniqueID } from '../front-repo.service'
-import { NoteLinkService } from '../notelink.service'
-import { getNoteLinkUniqueID } from '../front-repo.service'
 import { NoteShapeService } from '../noteshape.service'
 import { getNoteShapeUniqueID } from '../front-repo.service'
+import { NoteShapeLinkService } from '../noteshapelink.service'
+import { getNoteShapeLinkUniqueID } from '../front-repo.service'
 import { PositionService } from '../position.service'
 import { getPositionUniqueID } from '../front-repo.service'
-import { ReferenceService } from '../reference.service'
-import { getReferenceUniqueID } from '../front-repo.service'
 import { TreeService } from '../tree.service'
 import { getTreeUniqueID } from '../front-repo.service'
 import { UmlStateService } from '../umlstate.service'
@@ -182,15 +182,15 @@ export class SidebarComponent implements OnInit {
 
     // insertion point for per struct service declaration
     private classdiagramService: ClassdiagramService,
-    private classshapeService: ClassshapeService,
     private diagrampackageService: DiagramPackageService,
     private fieldService: FieldService,
+    private gongenumshapeService: GongEnumShapeService,
+    private gongstructshapeService: GongStructShapeService,
     private linkService: LinkService,
     private nodeService: NodeService,
-    private notelinkService: NoteLinkService,
     private noteshapeService: NoteShapeService,
+    private noteshapelinkService: NoteShapeLinkService,
     private positionService: PositionService,
-    private referenceService: ReferenceService,
     private treeService: TreeService,
     private umlstateService: UmlStateService,
     private umlscService: UmlscService,
@@ -231,14 +231,6 @@ export class SidebarComponent implements OnInit {
       }
     )
     // observable for changes in structs
-    this.classshapeService.ClassshapeServiceChanged.subscribe(
-      message => {
-        if (message == "post" || message == "update" || message == "delete") {
-          this.refresh()
-        }
-      }
-    )
-    // observable for changes in structs
     this.diagrampackageService.DiagramPackageServiceChanged.subscribe(
       message => {
         if (message == "post" || message == "update" || message == "delete") {
@@ -248,6 +240,22 @@ export class SidebarComponent implements OnInit {
     )
     // observable for changes in structs
     this.fieldService.FieldServiceChanged.subscribe(
+      message => {
+        if (message == "post" || message == "update" || message == "delete") {
+          this.refresh()
+        }
+      }
+    )
+    // observable for changes in structs
+    this.gongenumshapeService.GongEnumShapeServiceChanged.subscribe(
+      message => {
+        if (message == "post" || message == "update" || message == "delete") {
+          this.refresh()
+        }
+      }
+    )
+    // observable for changes in structs
+    this.gongstructshapeService.GongStructShapeServiceChanged.subscribe(
       message => {
         if (message == "post" || message == "update" || message == "delete") {
           this.refresh()
@@ -271,14 +279,6 @@ export class SidebarComponent implements OnInit {
       }
     )
     // observable for changes in structs
-    this.notelinkService.NoteLinkServiceChanged.subscribe(
-      message => {
-        if (message == "post" || message == "update" || message == "delete") {
-          this.refresh()
-        }
-      }
-    )
-    // observable for changes in structs
     this.noteshapeService.NoteShapeServiceChanged.subscribe(
       message => {
         if (message == "post" || message == "update" || message == "delete") {
@@ -287,7 +287,7 @@ export class SidebarComponent implements OnInit {
       }
     )
     // observable for changes in structs
-    this.positionService.PositionServiceChanged.subscribe(
+    this.noteshapelinkService.NoteShapeLinkServiceChanged.subscribe(
       message => {
         if (message == "post" || message == "update" || message == "delete") {
           this.refresh()
@@ -295,7 +295,7 @@ export class SidebarComponent implements OnInit {
       }
     )
     // observable for changes in structs
-    this.referenceService.ReferenceServiceChanged.subscribe(
+    this.positionService.PositionServiceChanged.subscribe(
       message => {
         if (message == "post" || message == "update" || message == "delete") {
           this.refresh()
@@ -400,54 +400,86 @@ export class SidebarComponent implements OnInit {
 
           // insertion point for per field code
           /**
-          * let append a node for the slide of pointer Classshapes
+          * let append a node for the slide of pointer GongStructShapes
           */
-          let ClassshapesGongNodeAssociation: GongNode = {
-            name: "(Classshape) Classshapes",
+          let GongStructShapesGongNodeAssociation: GongNode = {
+            name: "(GongStructShape) GongStructShapes",
             type: GongNodeType.ONE__ZERO_MANY_ASSOCIATION,
             id: classdiagramDB.ID,
             uniqueIdPerStack: 19 * nonInstanceNodeId,
             structName: "Classdiagram",
-            associationField: "Classshapes",
-            associatedStructName: "Classshape",
+            associationField: "GongStructShapes",
+            associatedStructName: "GongStructShape",
             children: new Array<GongNode>()
           }
           nonInstanceNodeId = nonInstanceNodeId + 1
-          classdiagramGongNodeInstance.children.push(ClassshapesGongNodeAssociation)
+          classdiagramGongNodeInstance.children.push(GongStructShapesGongNodeAssociation)
 
-          classdiagramDB.Classshapes?.forEach(classshapeDB => {
-            let classshapeNode: GongNode = {
-              name: classshapeDB.Name,
+          classdiagramDB.GongStructShapes?.forEach(gongstructshapeDB => {
+            let gongstructshapeNode: GongNode = {
+              name: gongstructshapeDB.Name,
               type: GongNodeType.INSTANCE,
-              id: classshapeDB.ID,
+              id: gongstructshapeDB.ID,
               uniqueIdPerStack: // godel numbering (thank you kurt)
                 7 * getClassdiagramUniqueID(classdiagramDB.ID)
-                + 11 * getClassshapeUniqueID(classshapeDB.ID),
-              structName: "Classshape",
+                + 11 * getGongStructShapeUniqueID(gongstructshapeDB.ID),
+              structName: "GongStructShape",
               associationField: "",
               associatedStructName: "",
               children: new Array<GongNode>()
             }
-            ClassshapesGongNodeAssociation.children.push(classshapeNode)
+            GongStructShapesGongNodeAssociation.children.push(gongstructshapeNode)
           })
 
           /**
-          * let append a node for the slide of pointer Notes
+          * let append a node for the slide of pointer GongEnumShapes
           */
-          let NotesGongNodeAssociation: GongNode = {
-            name: "(NoteShape) Notes",
+          let GongEnumShapesGongNodeAssociation: GongNode = {
+            name: "(GongEnumShape) GongEnumShapes",
             type: GongNodeType.ONE__ZERO_MANY_ASSOCIATION,
             id: classdiagramDB.ID,
             uniqueIdPerStack: 19 * nonInstanceNodeId,
             structName: "Classdiagram",
-            associationField: "Notes",
+            associationField: "GongEnumShapes",
+            associatedStructName: "GongEnumShape",
+            children: new Array<GongNode>()
+          }
+          nonInstanceNodeId = nonInstanceNodeId + 1
+          classdiagramGongNodeInstance.children.push(GongEnumShapesGongNodeAssociation)
+
+          classdiagramDB.GongEnumShapes?.forEach(gongenumshapeDB => {
+            let gongenumshapeNode: GongNode = {
+              name: gongenumshapeDB.Name,
+              type: GongNodeType.INSTANCE,
+              id: gongenumshapeDB.ID,
+              uniqueIdPerStack: // godel numbering (thank you kurt)
+                7 * getClassdiagramUniqueID(classdiagramDB.ID)
+                + 11 * getGongEnumShapeUniqueID(gongenumshapeDB.ID),
+              structName: "GongEnumShape",
+              associationField: "",
+              associatedStructName: "",
+              children: new Array<GongNode>()
+            }
+            GongEnumShapesGongNodeAssociation.children.push(gongenumshapeNode)
+          })
+
+          /**
+          * let append a node for the slide of pointer NoteShapes
+          */
+          let NoteShapesGongNodeAssociation: GongNode = {
+            name: "(NoteShape) NoteShapes",
+            type: GongNodeType.ONE__ZERO_MANY_ASSOCIATION,
+            id: classdiagramDB.ID,
+            uniqueIdPerStack: 19 * nonInstanceNodeId,
+            structName: "Classdiagram",
+            associationField: "NoteShapes",
             associatedStructName: "NoteShape",
             children: new Array<GongNode>()
           }
           nonInstanceNodeId = nonInstanceNodeId + 1
-          classdiagramGongNodeInstance.children.push(NotesGongNodeAssociation)
+          classdiagramGongNodeInstance.children.push(NoteShapesGongNodeAssociation)
 
-          classdiagramDB.Notes?.forEach(noteshapeDB => {
+          classdiagramDB.NoteShapes?.forEach(noteshapeDB => {
             let noteshapeNode: GongNode = {
               name: noteshapeDB.Name,
               type: GongNodeType.INSTANCE,
@@ -460,185 +492,7 @@ export class SidebarComponent implements OnInit {
               associatedStructName: "",
               children: new Array<GongNode>()
             }
-            NotesGongNodeAssociation.children.push(noteshapeNode)
-          })
-
-        }
-      )
-
-      /**
-      * fill up the Classshape part of the mat tree
-      */
-      let classshapeGongNodeStruct: GongNode = {
-        name: "Classshape",
-        type: GongNodeType.STRUCT,
-        id: 0,
-        uniqueIdPerStack: 13 * nonInstanceNodeId,
-        structName: "Classshape",
-        associationField: "",
-        associatedStructName: "",
-        children: new Array<GongNode>()
-      }
-      nonInstanceNodeId = nonInstanceNodeId + 1
-      this.gongNodeTree.push(classshapeGongNodeStruct)
-
-      this.frontRepo.Classshapes_array.sort((t1, t2) => {
-        if (t1.Name > t2.Name) {
-          return 1;
-        }
-        if (t1.Name < t2.Name) {
-          return -1;
-        }
-        return 0;
-      });
-
-      this.frontRepo.Classshapes_array.forEach(
-        classshapeDB => {
-          let classshapeGongNodeInstance: GongNode = {
-            name: classshapeDB.Name,
-            type: GongNodeType.INSTANCE,
-            id: classshapeDB.ID,
-            uniqueIdPerStack: getClassshapeUniqueID(classshapeDB.ID),
-            structName: "Classshape",
-            associationField: "",
-            associatedStructName: "",
-            children: new Array<GongNode>()
-          }
-          classshapeGongNodeStruct.children!.push(classshapeGongNodeInstance)
-
-          // insertion point for per field code
-          /**
-          * let append a node for the association Position
-          */
-          let PositionGongNodeAssociation: GongNode = {
-            name: "(Position) Position",
-            type: GongNodeType.ONE__ZERO_ONE_ASSOCIATION,
-            id: classshapeDB.ID,
-            uniqueIdPerStack: 17 * nonInstanceNodeId,
-            structName: "Classshape",
-            associationField: "Position",
-            associatedStructName: "Position",
-            children: new Array<GongNode>()
-          }
-          nonInstanceNodeId = nonInstanceNodeId + 1
-          classshapeGongNodeInstance.children!.push(PositionGongNodeAssociation)
-
-          /**
-            * let append a node for the instance behind the asssociation Position
-            */
-          if (classshapeDB.Position != undefined) {
-            let classshapeGongNodeInstance_Position: GongNode = {
-              name: classshapeDB.Position.Name,
-              type: GongNodeType.INSTANCE,
-              id: classshapeDB.Position.ID,
-              uniqueIdPerStack: // godel numbering (thank you kurt)
-                3 * getClassshapeUniqueID(classshapeDB.ID)
-                + 5 * getPositionUniqueID(classshapeDB.Position.ID),
-              structName: "Position",
-              associationField: "",
-              associatedStructName: "",
-              children: new Array<GongNode>()
-            }
-            PositionGongNodeAssociation.children.push(classshapeGongNodeInstance_Position)
-          }
-
-          /**
-          * let append a node for the association Reference
-          */
-          let ReferenceGongNodeAssociation: GongNode = {
-            name: "(Reference) Reference",
-            type: GongNodeType.ONE__ZERO_ONE_ASSOCIATION,
-            id: classshapeDB.ID,
-            uniqueIdPerStack: 17 * nonInstanceNodeId,
-            structName: "Classshape",
-            associationField: "Reference",
-            associatedStructName: "Reference",
-            children: new Array<GongNode>()
-          }
-          nonInstanceNodeId = nonInstanceNodeId + 1
-          classshapeGongNodeInstance.children!.push(ReferenceGongNodeAssociation)
-
-          /**
-            * let append a node for the instance behind the asssociation Reference
-            */
-          if (classshapeDB.Reference != undefined) {
-            let classshapeGongNodeInstance_Reference: GongNode = {
-              name: classshapeDB.Reference.Name,
-              type: GongNodeType.INSTANCE,
-              id: classshapeDB.Reference.ID,
-              uniqueIdPerStack: // godel numbering (thank you kurt)
-                3 * getClassshapeUniqueID(classshapeDB.ID)
-                + 5 * getReferenceUniqueID(classshapeDB.Reference.ID),
-              structName: "Reference",
-              associationField: "",
-              associatedStructName: "",
-              children: new Array<GongNode>()
-            }
-            ReferenceGongNodeAssociation.children.push(classshapeGongNodeInstance_Reference)
-          }
-
-          /**
-          * let append a node for the slide of pointer Fields
-          */
-          let FieldsGongNodeAssociation: GongNode = {
-            name: "(Field) Fields",
-            type: GongNodeType.ONE__ZERO_MANY_ASSOCIATION,
-            id: classshapeDB.ID,
-            uniqueIdPerStack: 19 * nonInstanceNodeId,
-            structName: "Classshape",
-            associationField: "Fields",
-            associatedStructName: "Field",
-            children: new Array<GongNode>()
-          }
-          nonInstanceNodeId = nonInstanceNodeId + 1
-          classshapeGongNodeInstance.children.push(FieldsGongNodeAssociation)
-
-          classshapeDB.Fields?.forEach(fieldDB => {
-            let fieldNode: GongNode = {
-              name: fieldDB.Name,
-              type: GongNodeType.INSTANCE,
-              id: fieldDB.ID,
-              uniqueIdPerStack: // godel numbering (thank you kurt)
-                7 * getClassshapeUniqueID(classshapeDB.ID)
-                + 11 * getFieldUniqueID(fieldDB.ID),
-              structName: "Field",
-              associationField: "",
-              associatedStructName: "",
-              children: new Array<GongNode>()
-            }
-            FieldsGongNodeAssociation.children.push(fieldNode)
-          })
-
-          /**
-          * let append a node for the slide of pointer Links
-          */
-          let LinksGongNodeAssociation: GongNode = {
-            name: "(Link) Links",
-            type: GongNodeType.ONE__ZERO_MANY_ASSOCIATION,
-            id: classshapeDB.ID,
-            uniqueIdPerStack: 19 * nonInstanceNodeId,
-            structName: "Classshape",
-            associationField: "Links",
-            associatedStructName: "Link",
-            children: new Array<GongNode>()
-          }
-          nonInstanceNodeId = nonInstanceNodeId + 1
-          classshapeGongNodeInstance.children.push(LinksGongNodeAssociation)
-
-          classshapeDB.Links?.forEach(linkDB => {
-            let linkNode: GongNode = {
-              name: linkDB.Name,
-              type: GongNodeType.INSTANCE,
-              id: linkDB.ID,
-              uniqueIdPerStack: // godel numbering (thank you kurt)
-                7 * getClassshapeUniqueID(classshapeDB.ID)
-                + 11 * getLinkUniqueID(linkDB.ID),
-              structName: "Link",
-              associationField: "",
-              associatedStructName: "",
-              children: new Array<GongNode>()
-            }
-            LinksGongNodeAssociation.children.push(linkNode)
+            NoteShapesGongNodeAssociation.children.push(noteshapeNode)
           })
 
         }
@@ -718,6 +572,41 @@ export class SidebarComponent implements OnInit {
           })
 
           /**
+          * let append a node for the association SelectedClassdiagram
+          */
+          let SelectedClassdiagramGongNodeAssociation: GongNode = {
+            name: "(Classdiagram) SelectedClassdiagram",
+            type: GongNodeType.ONE__ZERO_ONE_ASSOCIATION,
+            id: diagrampackageDB.ID,
+            uniqueIdPerStack: 17 * nonInstanceNodeId,
+            structName: "DiagramPackage",
+            associationField: "SelectedClassdiagram",
+            associatedStructName: "Classdiagram",
+            children: new Array<GongNode>()
+          }
+          nonInstanceNodeId = nonInstanceNodeId + 1
+          diagrampackageGongNodeInstance.children!.push(SelectedClassdiagramGongNodeAssociation)
+
+          /**
+            * let append a node for the instance behind the asssociation SelectedClassdiagram
+            */
+          if (diagrampackageDB.SelectedClassdiagram != undefined) {
+            let diagrampackageGongNodeInstance_SelectedClassdiagram: GongNode = {
+              name: diagrampackageDB.SelectedClassdiagram.Name,
+              type: GongNodeType.INSTANCE,
+              id: diagrampackageDB.SelectedClassdiagram.ID,
+              uniqueIdPerStack: // godel numbering (thank you kurt)
+                3 * getDiagramPackageUniqueID(diagrampackageDB.ID)
+                + 5 * getClassdiagramUniqueID(diagrampackageDB.SelectedClassdiagram.ID),
+              structName: "Classdiagram",
+              associationField: "",
+              associatedStructName: "",
+              children: new Array<GongNode>()
+            }
+            SelectedClassdiagramGongNodeAssociation.children.push(diagrampackageGongNodeInstance_SelectedClassdiagram)
+          }
+
+          /**
           * let append a node for the slide of pointer Umlscs
           */
           let UmlscsGongNodeAssociation: GongNode = {
@@ -793,6 +682,260 @@ export class SidebarComponent implements OnInit {
           fieldGongNodeStruct.children!.push(fieldGongNodeInstance)
 
           // insertion point for per field code
+        }
+      )
+
+      /**
+      * fill up the GongEnumShape part of the mat tree
+      */
+      let gongenumshapeGongNodeStruct: GongNode = {
+        name: "GongEnumShape",
+        type: GongNodeType.STRUCT,
+        id: 0,
+        uniqueIdPerStack: 13 * nonInstanceNodeId,
+        structName: "GongEnumShape",
+        associationField: "",
+        associatedStructName: "",
+        children: new Array<GongNode>()
+      }
+      nonInstanceNodeId = nonInstanceNodeId + 1
+      this.gongNodeTree.push(gongenumshapeGongNodeStruct)
+
+      this.frontRepo.GongEnumShapes_array.sort((t1, t2) => {
+        if (t1.Name > t2.Name) {
+          return 1;
+        }
+        if (t1.Name < t2.Name) {
+          return -1;
+        }
+        return 0;
+      });
+
+      this.frontRepo.GongEnumShapes_array.forEach(
+        gongenumshapeDB => {
+          let gongenumshapeGongNodeInstance: GongNode = {
+            name: gongenumshapeDB.Name,
+            type: GongNodeType.INSTANCE,
+            id: gongenumshapeDB.ID,
+            uniqueIdPerStack: getGongEnumShapeUniqueID(gongenumshapeDB.ID),
+            structName: "GongEnumShape",
+            associationField: "",
+            associatedStructName: "",
+            children: new Array<GongNode>()
+          }
+          gongenumshapeGongNodeStruct.children!.push(gongenumshapeGongNodeInstance)
+
+          // insertion point for per field code
+          /**
+          * let append a node for the association Position
+          */
+          let PositionGongNodeAssociation: GongNode = {
+            name: "(Position) Position",
+            type: GongNodeType.ONE__ZERO_ONE_ASSOCIATION,
+            id: gongenumshapeDB.ID,
+            uniqueIdPerStack: 17 * nonInstanceNodeId,
+            structName: "GongEnumShape",
+            associationField: "Position",
+            associatedStructName: "Position",
+            children: new Array<GongNode>()
+          }
+          nonInstanceNodeId = nonInstanceNodeId + 1
+          gongenumshapeGongNodeInstance.children!.push(PositionGongNodeAssociation)
+
+          /**
+            * let append a node for the instance behind the asssociation Position
+            */
+          if (gongenumshapeDB.Position != undefined) {
+            let gongenumshapeGongNodeInstance_Position: GongNode = {
+              name: gongenumshapeDB.Position.Name,
+              type: GongNodeType.INSTANCE,
+              id: gongenumshapeDB.Position.ID,
+              uniqueIdPerStack: // godel numbering (thank you kurt)
+                3 * getGongEnumShapeUniqueID(gongenumshapeDB.ID)
+                + 5 * getPositionUniqueID(gongenumshapeDB.Position.ID),
+              structName: "Position",
+              associationField: "",
+              associatedStructName: "",
+              children: new Array<GongNode>()
+            }
+            PositionGongNodeAssociation.children.push(gongenumshapeGongNodeInstance_Position)
+          }
+
+          /**
+          * let append a node for the slide of pointer Fields
+          */
+          let FieldsGongNodeAssociation: GongNode = {
+            name: "(Field) Fields",
+            type: GongNodeType.ONE__ZERO_MANY_ASSOCIATION,
+            id: gongenumshapeDB.ID,
+            uniqueIdPerStack: 19 * nonInstanceNodeId,
+            structName: "GongEnumShape",
+            associationField: "Fields",
+            associatedStructName: "Field",
+            children: new Array<GongNode>()
+          }
+          nonInstanceNodeId = nonInstanceNodeId + 1
+          gongenumshapeGongNodeInstance.children.push(FieldsGongNodeAssociation)
+
+          gongenumshapeDB.Fields?.forEach(fieldDB => {
+            let fieldNode: GongNode = {
+              name: fieldDB.Name,
+              type: GongNodeType.INSTANCE,
+              id: fieldDB.ID,
+              uniqueIdPerStack: // godel numbering (thank you kurt)
+                7 * getGongEnumShapeUniqueID(gongenumshapeDB.ID)
+                + 11 * getFieldUniqueID(fieldDB.ID),
+              structName: "Field",
+              associationField: "",
+              associatedStructName: "",
+              children: new Array<GongNode>()
+            }
+            FieldsGongNodeAssociation.children.push(fieldNode)
+          })
+
+        }
+      )
+
+      /**
+      * fill up the GongStructShape part of the mat tree
+      */
+      let gongstructshapeGongNodeStruct: GongNode = {
+        name: "GongStructShape",
+        type: GongNodeType.STRUCT,
+        id: 0,
+        uniqueIdPerStack: 13 * nonInstanceNodeId,
+        structName: "GongStructShape",
+        associationField: "",
+        associatedStructName: "",
+        children: new Array<GongNode>()
+      }
+      nonInstanceNodeId = nonInstanceNodeId + 1
+      this.gongNodeTree.push(gongstructshapeGongNodeStruct)
+
+      this.frontRepo.GongStructShapes_array.sort((t1, t2) => {
+        if (t1.Name > t2.Name) {
+          return 1;
+        }
+        if (t1.Name < t2.Name) {
+          return -1;
+        }
+        return 0;
+      });
+
+      this.frontRepo.GongStructShapes_array.forEach(
+        gongstructshapeDB => {
+          let gongstructshapeGongNodeInstance: GongNode = {
+            name: gongstructshapeDB.Name,
+            type: GongNodeType.INSTANCE,
+            id: gongstructshapeDB.ID,
+            uniqueIdPerStack: getGongStructShapeUniqueID(gongstructshapeDB.ID),
+            structName: "GongStructShape",
+            associationField: "",
+            associatedStructName: "",
+            children: new Array<GongNode>()
+          }
+          gongstructshapeGongNodeStruct.children!.push(gongstructshapeGongNodeInstance)
+
+          // insertion point for per field code
+          /**
+          * let append a node for the association Position
+          */
+          let PositionGongNodeAssociation: GongNode = {
+            name: "(Position) Position",
+            type: GongNodeType.ONE__ZERO_ONE_ASSOCIATION,
+            id: gongstructshapeDB.ID,
+            uniqueIdPerStack: 17 * nonInstanceNodeId,
+            structName: "GongStructShape",
+            associationField: "Position",
+            associatedStructName: "Position",
+            children: new Array<GongNode>()
+          }
+          nonInstanceNodeId = nonInstanceNodeId + 1
+          gongstructshapeGongNodeInstance.children!.push(PositionGongNodeAssociation)
+
+          /**
+            * let append a node for the instance behind the asssociation Position
+            */
+          if (gongstructshapeDB.Position != undefined) {
+            let gongstructshapeGongNodeInstance_Position: GongNode = {
+              name: gongstructshapeDB.Position.Name,
+              type: GongNodeType.INSTANCE,
+              id: gongstructshapeDB.Position.ID,
+              uniqueIdPerStack: // godel numbering (thank you kurt)
+                3 * getGongStructShapeUniqueID(gongstructshapeDB.ID)
+                + 5 * getPositionUniqueID(gongstructshapeDB.Position.ID),
+              structName: "Position",
+              associationField: "",
+              associatedStructName: "",
+              children: new Array<GongNode>()
+            }
+            PositionGongNodeAssociation.children.push(gongstructshapeGongNodeInstance_Position)
+          }
+
+          /**
+          * let append a node for the slide of pointer Fields
+          */
+          let FieldsGongNodeAssociation: GongNode = {
+            name: "(Field) Fields",
+            type: GongNodeType.ONE__ZERO_MANY_ASSOCIATION,
+            id: gongstructshapeDB.ID,
+            uniqueIdPerStack: 19 * nonInstanceNodeId,
+            structName: "GongStructShape",
+            associationField: "Fields",
+            associatedStructName: "Field",
+            children: new Array<GongNode>()
+          }
+          nonInstanceNodeId = nonInstanceNodeId + 1
+          gongstructshapeGongNodeInstance.children.push(FieldsGongNodeAssociation)
+
+          gongstructshapeDB.Fields?.forEach(fieldDB => {
+            let fieldNode: GongNode = {
+              name: fieldDB.Name,
+              type: GongNodeType.INSTANCE,
+              id: fieldDB.ID,
+              uniqueIdPerStack: // godel numbering (thank you kurt)
+                7 * getGongStructShapeUniqueID(gongstructshapeDB.ID)
+                + 11 * getFieldUniqueID(fieldDB.ID),
+              structName: "Field",
+              associationField: "",
+              associatedStructName: "",
+              children: new Array<GongNode>()
+            }
+            FieldsGongNodeAssociation.children.push(fieldNode)
+          })
+
+          /**
+          * let append a node for the slide of pointer Links
+          */
+          let LinksGongNodeAssociation: GongNode = {
+            name: "(Link) Links",
+            type: GongNodeType.ONE__ZERO_MANY_ASSOCIATION,
+            id: gongstructshapeDB.ID,
+            uniqueIdPerStack: 19 * nonInstanceNodeId,
+            structName: "GongStructShape",
+            associationField: "Links",
+            associatedStructName: "Link",
+            children: new Array<GongNode>()
+          }
+          nonInstanceNodeId = nonInstanceNodeId + 1
+          gongstructshapeGongNodeInstance.children.push(LinksGongNodeAssociation)
+
+          gongstructshapeDB.Links?.forEach(linkDB => {
+            let linkNode: GongNode = {
+              name: linkDB.Name,
+              type: GongNodeType.INSTANCE,
+              id: linkDB.ID,
+              uniqueIdPerStack: // godel numbering (thank you kurt)
+                7 * getGongStructShapeUniqueID(gongstructshapeDB.ID)
+                + 11 * getLinkUniqueID(linkDB.ID),
+              structName: "Link",
+              associationField: "",
+              associatedStructName: "",
+              children: new Array<GongNode>()
+            }
+            LinksGongNodeAssociation.children.push(linkNode)
+          })
+
         }
       )
 
@@ -917,41 +1060,6 @@ export class SidebarComponent implements OnInit {
 
           // insertion point for per field code
           /**
-          * let append a node for the association Classdiagram
-          */
-          let ClassdiagramGongNodeAssociation: GongNode = {
-            name: "(Classdiagram) Classdiagram",
-            type: GongNodeType.ONE__ZERO_ONE_ASSOCIATION,
-            id: nodeDB.ID,
-            uniqueIdPerStack: 17 * nonInstanceNodeId,
-            structName: "Node",
-            associationField: "Classdiagram",
-            associatedStructName: "Classdiagram",
-            children: new Array<GongNode>()
-          }
-          nonInstanceNodeId = nonInstanceNodeId + 1
-          nodeGongNodeInstance.children!.push(ClassdiagramGongNodeAssociation)
-
-          /**
-            * let append a node for the instance behind the asssociation Classdiagram
-            */
-          if (nodeDB.Classdiagram != undefined) {
-            let nodeGongNodeInstance_Classdiagram: GongNode = {
-              name: nodeDB.Classdiagram.Name,
-              type: GongNodeType.INSTANCE,
-              id: nodeDB.Classdiagram.ID,
-              uniqueIdPerStack: // godel numbering (thank you kurt)
-                3 * getNodeUniqueID(nodeDB.ID)
-                + 5 * getClassdiagramUniqueID(nodeDB.Classdiagram.ID),
-              structName: "Classdiagram",
-              associationField: "",
-              associatedStructName: "",
-              children: new Array<GongNode>()
-            }
-            ClassdiagramGongNodeAssociation.children.push(nodeGongNodeInstance_Classdiagram)
-          }
-
-          /**
           * let append a node for the slide of pointer Children
           */
           let ChildrenGongNodeAssociation: GongNode = {
@@ -982,155 +1090,6 @@ export class SidebarComponent implements OnInit {
             }
             ChildrenGongNodeAssociation.children.push(nodeNode)
           })
-
-        }
-      )
-
-      /**
-      * fill up the NoteLink part of the mat tree
-      */
-      let notelinkGongNodeStruct: GongNode = {
-        name: "NoteLink",
-        type: GongNodeType.STRUCT,
-        id: 0,
-        uniqueIdPerStack: 13 * nonInstanceNodeId,
-        structName: "NoteLink",
-        associationField: "",
-        associatedStructName: "",
-        children: new Array<GongNode>()
-      }
-      nonInstanceNodeId = nonInstanceNodeId + 1
-      this.gongNodeTree.push(notelinkGongNodeStruct)
-
-      this.frontRepo.NoteLinks_array.sort((t1, t2) => {
-        if (t1.Name > t2.Name) {
-          return 1;
-        }
-        if (t1.Name < t2.Name) {
-          return -1;
-        }
-        return 0;
-      });
-
-      this.frontRepo.NoteLinks_array.forEach(
-        notelinkDB => {
-          let notelinkGongNodeInstance: GongNode = {
-            name: notelinkDB.Name,
-            type: GongNodeType.INSTANCE,
-            id: notelinkDB.ID,
-            uniqueIdPerStack: getNoteLinkUniqueID(notelinkDB.ID),
-            structName: "NoteLink",
-            associationField: "",
-            associatedStructName: "",
-            children: new Array<GongNode>()
-          }
-          notelinkGongNodeStruct.children!.push(notelinkGongNodeInstance)
-
-          // insertion point for per field code
-          /**
-          * let append a node for the association Classshape
-          */
-          let ClassshapeGongNodeAssociation: GongNode = {
-            name: "(Classshape) Classshape",
-            type: GongNodeType.ONE__ZERO_ONE_ASSOCIATION,
-            id: notelinkDB.ID,
-            uniqueIdPerStack: 17 * nonInstanceNodeId,
-            structName: "NoteLink",
-            associationField: "Classshape",
-            associatedStructName: "Classshape",
-            children: new Array<GongNode>()
-          }
-          nonInstanceNodeId = nonInstanceNodeId + 1
-          notelinkGongNodeInstance.children!.push(ClassshapeGongNodeAssociation)
-
-          /**
-            * let append a node for the instance behind the asssociation Classshape
-            */
-          if (notelinkDB.Classshape != undefined) {
-            let notelinkGongNodeInstance_Classshape: GongNode = {
-              name: notelinkDB.Classshape.Name,
-              type: GongNodeType.INSTANCE,
-              id: notelinkDB.Classshape.ID,
-              uniqueIdPerStack: // godel numbering (thank you kurt)
-                3 * getNoteLinkUniqueID(notelinkDB.ID)
-                + 5 * getClassshapeUniqueID(notelinkDB.Classshape.ID),
-              structName: "Classshape",
-              associationField: "",
-              associatedStructName: "",
-              children: new Array<GongNode>()
-            }
-            ClassshapeGongNodeAssociation.children.push(notelinkGongNodeInstance_Classshape)
-          }
-
-          /**
-          * let append a node for the association Link
-          */
-          let LinkGongNodeAssociation: GongNode = {
-            name: "(Link) Link",
-            type: GongNodeType.ONE__ZERO_ONE_ASSOCIATION,
-            id: notelinkDB.ID,
-            uniqueIdPerStack: 17 * nonInstanceNodeId,
-            structName: "NoteLink",
-            associationField: "Link",
-            associatedStructName: "Link",
-            children: new Array<GongNode>()
-          }
-          nonInstanceNodeId = nonInstanceNodeId + 1
-          notelinkGongNodeInstance.children!.push(LinkGongNodeAssociation)
-
-          /**
-            * let append a node for the instance behind the asssociation Link
-            */
-          if (notelinkDB.Link != undefined) {
-            let notelinkGongNodeInstance_Link: GongNode = {
-              name: notelinkDB.Link.Name,
-              type: GongNodeType.INSTANCE,
-              id: notelinkDB.Link.ID,
-              uniqueIdPerStack: // godel numbering (thank you kurt)
-                3 * getNoteLinkUniqueID(notelinkDB.ID)
-                + 5 * getLinkUniqueID(notelinkDB.Link.ID),
-              structName: "Link",
-              associationField: "",
-              associatedStructName: "",
-              children: new Array<GongNode>()
-            }
-            LinkGongNodeAssociation.children.push(notelinkGongNodeInstance_Link)
-          }
-
-          /**
-          * let append a node for the association Middlevertice
-          */
-          let MiddleverticeGongNodeAssociation: GongNode = {
-            name: "(Vertice) Middlevertice",
-            type: GongNodeType.ONE__ZERO_ONE_ASSOCIATION,
-            id: notelinkDB.ID,
-            uniqueIdPerStack: 17 * nonInstanceNodeId,
-            structName: "NoteLink",
-            associationField: "Middlevertice",
-            associatedStructName: "Vertice",
-            children: new Array<GongNode>()
-          }
-          nonInstanceNodeId = nonInstanceNodeId + 1
-          notelinkGongNodeInstance.children!.push(MiddleverticeGongNodeAssociation)
-
-          /**
-            * let append a node for the instance behind the asssociation Middlevertice
-            */
-          if (notelinkDB.Middlevertice != undefined) {
-            let notelinkGongNodeInstance_Middlevertice: GongNode = {
-              name: notelinkDB.Middlevertice.Name,
-              type: GongNodeType.INSTANCE,
-              id: notelinkDB.Middlevertice.ID,
-              uniqueIdPerStack: // godel numbering (thank you kurt)
-                3 * getNoteLinkUniqueID(notelinkDB.ID)
-                + 5 * getVerticeUniqueID(notelinkDB.Middlevertice.ID),
-              structName: "Vertice",
-              associationField: "",
-              associatedStructName: "",
-              children: new Array<GongNode>()
-            }
-            MiddleverticeGongNodeAssociation.children.push(notelinkGongNodeInstance_Middlevertice)
-          }
 
         }
       )
@@ -1177,36 +1136,185 @@ export class SidebarComponent implements OnInit {
 
           // insertion point for per field code
           /**
-          * let append a node for the slide of pointer NoteLinks
+          * let append a node for the slide of pointer NoteShapeLinks
           */
-          let NoteLinksGongNodeAssociation: GongNode = {
-            name: "(NoteLink) NoteLinks",
+          let NoteShapeLinksGongNodeAssociation: GongNode = {
+            name: "(NoteShapeLink) NoteShapeLinks",
             type: GongNodeType.ONE__ZERO_MANY_ASSOCIATION,
             id: noteshapeDB.ID,
             uniqueIdPerStack: 19 * nonInstanceNodeId,
             structName: "NoteShape",
-            associationField: "NoteLinks",
-            associatedStructName: "NoteLink",
+            associationField: "NoteShapeLinks",
+            associatedStructName: "NoteShapeLink",
             children: new Array<GongNode>()
           }
           nonInstanceNodeId = nonInstanceNodeId + 1
-          noteshapeGongNodeInstance.children.push(NoteLinksGongNodeAssociation)
+          noteshapeGongNodeInstance.children.push(NoteShapeLinksGongNodeAssociation)
 
-          noteshapeDB.NoteLinks?.forEach(notelinkDB => {
-            let notelinkNode: GongNode = {
-              name: notelinkDB.Name,
+          noteshapeDB.NoteShapeLinks?.forEach(noteshapelinkDB => {
+            let noteshapelinkNode: GongNode = {
+              name: noteshapelinkDB.Name,
               type: GongNodeType.INSTANCE,
-              id: notelinkDB.ID,
+              id: noteshapelinkDB.ID,
               uniqueIdPerStack: // godel numbering (thank you kurt)
                 7 * getNoteShapeUniqueID(noteshapeDB.ID)
-                + 11 * getNoteLinkUniqueID(notelinkDB.ID),
-              structName: "NoteLink",
+                + 11 * getNoteShapeLinkUniqueID(noteshapelinkDB.ID),
+              structName: "NoteShapeLink",
               associationField: "",
               associatedStructName: "",
               children: new Array<GongNode>()
             }
-            NoteLinksGongNodeAssociation.children.push(notelinkNode)
+            NoteShapeLinksGongNodeAssociation.children.push(noteshapelinkNode)
           })
+
+        }
+      )
+
+      /**
+      * fill up the NoteShapeLink part of the mat tree
+      */
+      let noteshapelinkGongNodeStruct: GongNode = {
+        name: "NoteShapeLink",
+        type: GongNodeType.STRUCT,
+        id: 0,
+        uniqueIdPerStack: 13 * nonInstanceNodeId,
+        structName: "NoteShapeLink",
+        associationField: "",
+        associatedStructName: "",
+        children: new Array<GongNode>()
+      }
+      nonInstanceNodeId = nonInstanceNodeId + 1
+      this.gongNodeTree.push(noteshapelinkGongNodeStruct)
+
+      this.frontRepo.NoteShapeLinks_array.sort((t1, t2) => {
+        if (t1.Name > t2.Name) {
+          return 1;
+        }
+        if (t1.Name < t2.Name) {
+          return -1;
+        }
+        return 0;
+      });
+
+      this.frontRepo.NoteShapeLinks_array.forEach(
+        noteshapelinkDB => {
+          let noteshapelinkGongNodeInstance: GongNode = {
+            name: noteshapelinkDB.Name,
+            type: GongNodeType.INSTANCE,
+            id: noteshapelinkDB.ID,
+            uniqueIdPerStack: getNoteShapeLinkUniqueID(noteshapelinkDB.ID),
+            structName: "NoteShapeLink",
+            associationField: "",
+            associatedStructName: "",
+            children: new Array<GongNode>()
+          }
+          noteshapelinkGongNodeStruct.children!.push(noteshapelinkGongNodeInstance)
+
+          // insertion point for per field code
+          /**
+          * let append a node for the association Classshape
+          */
+          let ClassshapeGongNodeAssociation: GongNode = {
+            name: "(GongStructShape) Classshape",
+            type: GongNodeType.ONE__ZERO_ONE_ASSOCIATION,
+            id: noteshapelinkDB.ID,
+            uniqueIdPerStack: 17 * nonInstanceNodeId,
+            structName: "NoteShapeLink",
+            associationField: "Classshape",
+            associatedStructName: "GongStructShape",
+            children: new Array<GongNode>()
+          }
+          nonInstanceNodeId = nonInstanceNodeId + 1
+          noteshapelinkGongNodeInstance.children!.push(ClassshapeGongNodeAssociation)
+
+          /**
+            * let append a node for the instance behind the asssociation Classshape
+            */
+          if (noteshapelinkDB.Classshape != undefined) {
+            let noteshapelinkGongNodeInstance_Classshape: GongNode = {
+              name: noteshapelinkDB.Classshape.Name,
+              type: GongNodeType.INSTANCE,
+              id: noteshapelinkDB.Classshape.ID,
+              uniqueIdPerStack: // godel numbering (thank you kurt)
+                3 * getNoteShapeLinkUniqueID(noteshapelinkDB.ID)
+                + 5 * getGongStructShapeUniqueID(noteshapelinkDB.Classshape.ID),
+              structName: "GongStructShape",
+              associationField: "",
+              associatedStructName: "",
+              children: new Array<GongNode>()
+            }
+            ClassshapeGongNodeAssociation.children.push(noteshapelinkGongNodeInstance_Classshape)
+          }
+
+          /**
+          * let append a node for the association Link
+          */
+          let LinkGongNodeAssociation: GongNode = {
+            name: "(Link) Link",
+            type: GongNodeType.ONE__ZERO_ONE_ASSOCIATION,
+            id: noteshapelinkDB.ID,
+            uniqueIdPerStack: 17 * nonInstanceNodeId,
+            structName: "NoteShapeLink",
+            associationField: "Link",
+            associatedStructName: "Link",
+            children: new Array<GongNode>()
+          }
+          nonInstanceNodeId = nonInstanceNodeId + 1
+          noteshapelinkGongNodeInstance.children!.push(LinkGongNodeAssociation)
+
+          /**
+            * let append a node for the instance behind the asssociation Link
+            */
+          if (noteshapelinkDB.Link != undefined) {
+            let noteshapelinkGongNodeInstance_Link: GongNode = {
+              name: noteshapelinkDB.Link.Name,
+              type: GongNodeType.INSTANCE,
+              id: noteshapelinkDB.Link.ID,
+              uniqueIdPerStack: // godel numbering (thank you kurt)
+                3 * getNoteShapeLinkUniqueID(noteshapelinkDB.ID)
+                + 5 * getLinkUniqueID(noteshapelinkDB.Link.ID),
+              structName: "Link",
+              associationField: "",
+              associatedStructName: "",
+              children: new Array<GongNode>()
+            }
+            LinkGongNodeAssociation.children.push(noteshapelinkGongNodeInstance_Link)
+          }
+
+          /**
+          * let append a node for the association Middlevertice
+          */
+          let MiddleverticeGongNodeAssociation: GongNode = {
+            name: "(Vertice) Middlevertice",
+            type: GongNodeType.ONE__ZERO_ONE_ASSOCIATION,
+            id: noteshapelinkDB.ID,
+            uniqueIdPerStack: 17 * nonInstanceNodeId,
+            structName: "NoteShapeLink",
+            associationField: "Middlevertice",
+            associatedStructName: "Vertice",
+            children: new Array<GongNode>()
+          }
+          nonInstanceNodeId = nonInstanceNodeId + 1
+          noteshapelinkGongNodeInstance.children!.push(MiddleverticeGongNodeAssociation)
+
+          /**
+            * let append a node for the instance behind the asssociation Middlevertice
+            */
+          if (noteshapelinkDB.Middlevertice != undefined) {
+            let noteshapelinkGongNodeInstance_Middlevertice: GongNode = {
+              name: noteshapelinkDB.Middlevertice.Name,
+              type: GongNodeType.INSTANCE,
+              id: noteshapelinkDB.Middlevertice.ID,
+              uniqueIdPerStack: // godel numbering (thank you kurt)
+                3 * getNoteShapeLinkUniqueID(noteshapelinkDB.ID)
+                + 5 * getVerticeUniqueID(noteshapelinkDB.Middlevertice.ID),
+              structName: "Vertice",
+              associationField: "",
+              associatedStructName: "",
+              children: new Array<GongNode>()
+            }
+            MiddleverticeGongNodeAssociation.children.push(noteshapelinkGongNodeInstance_Middlevertice)
+          }
 
         }
       )
@@ -1250,50 +1358,6 @@ export class SidebarComponent implements OnInit {
             children: new Array<GongNode>()
           }
           positionGongNodeStruct.children!.push(positionGongNodeInstance)
-
-          // insertion point for per field code
-        }
-      )
-
-      /**
-      * fill up the Reference part of the mat tree
-      */
-      let referenceGongNodeStruct: GongNode = {
-        name: "Reference",
-        type: GongNodeType.STRUCT,
-        id: 0,
-        uniqueIdPerStack: 13 * nonInstanceNodeId,
-        structName: "Reference",
-        associationField: "",
-        associatedStructName: "",
-        children: new Array<GongNode>()
-      }
-      nonInstanceNodeId = nonInstanceNodeId + 1
-      this.gongNodeTree.push(referenceGongNodeStruct)
-
-      this.frontRepo.References_array.sort((t1, t2) => {
-        if (t1.Name > t2.Name) {
-          return 1;
-        }
-        if (t1.Name < t2.Name) {
-          return -1;
-        }
-        return 0;
-      });
-
-      this.frontRepo.References_array.forEach(
-        referenceDB => {
-          let referenceGongNodeInstance: GongNode = {
-            name: referenceDB.Name,
-            type: GongNodeType.INSTANCE,
-            id: referenceDB.ID,
-            uniqueIdPerStack: getReferenceUniqueID(referenceDB.ID),
-            structName: "Reference",
-            associationField: "",
-            associatedStructName: "",
-            children: new Array<GongNode>()
-          }
-          referenceGongNodeStruct.children!.push(referenceGongNodeInstance)
 
           // insertion point for per field code
         }

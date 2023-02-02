@@ -74,6 +74,16 @@
             </button>
         </mat-grid-tile>
     </mat-grid-list>
+    <mat-form-field class="detail-full-width">
+        <mat-label>SelectedClassdiagram</mat-label>
+        <mat-select [compareWith]="compareObjects" [(value)]="diagrampackage.SelectedClassdiagram" (selectionChange)="fillUpNameIfEmpty($event)">
+            <mat-option>None</mat-option>
+            <mat-option *ngFor="let classdiagram of frontRepo.Classdiagrams_array" [value]="classdiagram">
+                {{classdiagram.Name}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+
     <mat-grid-list cols="5" rowHeight="2:1">
         <mat-grid-tile [colspan]="3">
             <button mat-raised-button (click)="openReverseSelection('Umlsc', 'DiagramPackage_UmlscsDBID', 'ONE_MANY_ASSOCIATION_MODE', '', '', '')">Umlscs</button>

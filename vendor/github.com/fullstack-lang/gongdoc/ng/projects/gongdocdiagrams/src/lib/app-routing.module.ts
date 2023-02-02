@@ -9,7 +9,7 @@ import { ClassdiagramPresentationComponent } from 'gongdoc'
 
 const routes: Routes = [
 
-  { path: 'classdiagram-detail/:id', component: ClassDiagramComponent, outlet: 'diagrameditor' },
+  { path: 'classdiagram-detail', component: ClassDiagramComponent, outlet: 'diagrameditor' },
   { path: 'umlsc-detail/:id', component: UmlscDiagramComponent, outlet: 'diagrameditor' },
   { path: 'github_com_fullstack_lang_gongdoc_go-classdiagram-adder', component: ClassdiagramDetailComponent, outlet: 'elementeditor' },
   { path: 'classdiagram-detail/:id', component: ClassdiagramDetailComponent, outlet: 'elementeditor' },

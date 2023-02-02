@@ -77,6 +77,9 @@ export class DiagramPackagesTableComponent implements OnInit {
         case 'GongModelPath':
           return diagrampackageDB.GongModelPath;
 
+        case 'SelectedClassdiagram':
+          return (diagrampackageDB.SelectedClassdiagram ? diagrampackageDB.SelectedClassdiagram.Name : '');
+
         case 'IsEditable':
           return diagrampackageDB.IsEditable?"true":"false";
 
@@ -103,6 +106,9 @@ export class DiagramPackagesTableComponent implements OnInit {
       mergedContent += diagrampackageDB.Name.toLowerCase()
       mergedContent += diagrampackageDB.Path.toLowerCase()
       mergedContent += diagrampackageDB.GongModelPath.toLowerCase()
+      if (diagrampackageDB.SelectedClassdiagram) {
+        mergedContent += diagrampackageDB.SelectedClassdiagram.Name.toLowerCase()
+      }
       mergedContent += diagrampackageDB.AbsolutePathToDiagramPackage.toLowerCase()
 
       let isSelected = mergedContent.includes(filter.toLowerCase())
@@ -157,6 +163,7 @@ export class DiagramPackagesTableComponent implements OnInit {
         "Name",
         "Path",
         "GongModelPath",
+        "SelectedClassdiagram",
         "IsEditable",
         "IsReloaded",
         "AbsolutePathToDiagramPackage",
@@ -166,6 +173,7 @@ export class DiagramPackagesTableComponent implements OnInit {
         "Name",
         "Path",
         "GongModelPath",
+        "SelectedClassdiagram",
         "IsEditable",
         "IsReloaded",
         "AbsolutePathToDiagramPackage",

@@ -153,42 +153,6 @@ export class TreeComponent implements OnInit {
           }
         )
 
-        // get the diagram id from the node that is selected (if it is selected)
-        for (var treeDB of this.gongdocFrontRepo.Trees_array) {
-          if (treeDB.Type == gongdoc.TreeType.TREE_OF_DIAGRAMS) {
-            // console.log("Tree: " + treeDB.Name)
-            for (var nodeDB of treeDB.RootNodes!) {
-              if (nodeDB.Children == undefined) {
-                continue
-              }
-              switch (nodeDB.Type) {
-                case gongdoc.GongdocNodeType.ROOT_OF_CLASS_DIAGRAMS:
-                  for (var childNodeDB of nodeDB.Children) {
-                    if (childNodeDB.IsChecked) {
-                      if (childNodeDB.Classdiagram == undefined) {
-                        console.log("Tree: classdiagram is undefined")
-                        continue
-                      }
-                      this.classDiagram = childNodeDB.Classdiagram
-                      this.router.navigate([{
-                        outlets: {
-                          diagrameditor: ["classdiagram-detail", this.classDiagram.ID]
-                        }
-                      }]).catch(
-                        reason => {
-                          console.log(reason)
-                        }
-                      );
-                    }
-                  }
-
-                  break
-                default:
-                  console.log("Tree: unknown node type: " + nodeDB.Type)
-              }
-            }
-          }
-        }
         var treeSingloton: gongdoc.TreeDB = new (gongdoc.TreeDB)
         var selected: boolean = false
         for (var tree of this.gongdocFrontRepo.Trees_array) {
@@ -272,28 +236,25 @@ export class TreeComponent implements OnInit {
 
   addNewItem(node: FlatNode) {
 
-    switch (node.gongNode.Type) {
-      case gongdoc.GongdocNodeType.ROOT_OF_CLASS_DIAGRAMS:
-        var gongNode: gongdoc.NodeDB = new (gongdoc.NodeDB)
-        gongNode.Name = "NewDiagram"
-        gongNode.Type = gongdoc.GongdocNodeType.CLASS_DIAGRAM
-        gongNode.HasEditButton = true
-        gongNode.IsInEditMode = true
-        gongNode.Node_ChildrenDBID.Valid = true
-        gongNode.Node_ChildrenDBID.Int64 = node.gongNode.ID
-        this.gongdocNodeService.postNode(gongNode).subscribe(
-          gongdocNode => {
-            console.log("post node")
-          }
-        )
+    var gongNode: gongdoc.NodeDB = new (gongdoc.NodeDB)
+    gongNode.Name = "NewDiagram"
+    gongNode.HasEditButton = true
+    gongNode.IsInEditMode = true
+    gongNode.Node_ChildrenDBID.Valid = true
+    gongNode.Node_ChildrenDBID.Int64 = node.gongNode.ID
+    this.gongdocNodeService.postNode(gongNode).subscribe(
+      gongdocNode => {
+        console.log("post node")
+      }
+    )
 
-        node.gongNode.IsExpanded = true
-        this.gongdocNodeService.updateNode(node.gongNode).subscribe(
-          gongdocNode => {
-            console.log("node.gongNode.IsExpanded updated node")
-          }
-        )
-    }
+    node.gongNode.IsExpanded = true
+    this.gongdocNodeService.updateNode(node.gongNode).subscribe(
+      gongdocNode => {
+        console.log("node.gongNode.IsExpanded updated node")
+      }
+    )
+
 
   }
 

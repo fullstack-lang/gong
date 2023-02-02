@@ -1,6 +1,6 @@
 // insertion point for imports
 import { VerticeDB } from './vertice-db'
-import { ClassshapeDB } from './classshape-db'
+import { GongStructShapeDB } from './gongstructshape-db'
 
 // usefull for managing pointer ID values that can be nullable
 import { NullInt64 } from './null-int64'
@@ -12,7 +12,6 @@ export class LinkDB {
 
 	// insertion point for basic fields declarations
 	Name: string = ""
-	Fieldname: string = ""
 	Structname: string = ""
 	Identifier: string = ""
 	Fieldtypename: string = ""
@@ -23,8 +22,8 @@ export class LinkDB {
 	Middlevertice?: VerticeDB
 	MiddleverticeID: NullInt64 = new NullInt64 // if pointer is null, Middlevertice.ID = 0
 
-	Classshape_LinksDBID: NullInt64 = new NullInt64
-	Classshape_LinksDBID_Index: NullInt64  = new NullInt64 // store the index of the link instance in Classshape.Links
-	Classshape_Links_reverse?: ClassshapeDB 
+	GongStructShape_LinksDBID: NullInt64 = new NullInt64
+	GongStructShape_LinksDBID_Index: NullInt64  = new NullInt64 // store the index of the link instance in GongStructShape.Links
+	GongStructShape_Links_reverse?: GongStructShapeDB 
 
 }

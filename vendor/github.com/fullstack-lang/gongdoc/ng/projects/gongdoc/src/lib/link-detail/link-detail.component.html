@@ -21,26 +21,6 @@
         <textarea name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="link.Name"></textarea>
     </mat-form-field>
 
-    <mat-grid-list *ngIf='!isATextArea("Fieldname")' cols="5" rowHeight="2:1">
-        <mat-grid-tile [colspan]="3">
-            <mat-form-field mat-form-field class="detail-full-width">
-                <mat-label>Fieldname</mat-label>
-                <input name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="link.Fieldname">
-            </mat-form-field>
-        </mat-grid-tile>
-        <mat-grid-tile>
-            <button mat-raised-button (click)="toggleTextArea('Fieldname')">
-                <mat-icon>
-                    expand_more
-                </mat-icon>
-            </button>
-        </mat-grid-tile>
-    </mat-grid-list>
-    <mat-form-field *ngIf='isATextArea("Fieldname")' mat-form-field class="detail-full-width">
-        <mat-label>Fieldname</mat-label>
-        <textarea name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="link.Fieldname"></textarea>
-    </mat-form-field>
-
     <mat-grid-list *ngIf='!isATextArea("Structname")' cols="5" rowHeight="2:1">
         <mat-grid-tile [colspan]="3">
             <mat-form-field mat-form-field class="detail-full-width">
@@ -132,11 +112,11 @@
     </mat-form-field>
 
     <mat-form-field class="detail-full-width">
-        <mat-label>(Classshape) Links</mat-label>
-        <mat-select [compareWith]="compareObjects" [(ngModel)]="link.Classshape_Links_reverse" [ngModelOptions]="{standalone: true}">
+        <mat-label>(GongStructShape) Links</mat-label>
+        <mat-select [compareWith]="compareObjects" [(ngModel)]="link.GongStructShape_Links_reverse" [ngModelOptions]="{standalone: true}">
             <mat-option>None</mat-option>
-            <mat-option *ngFor="let classshape of frontRepo.Classshapes_array" [value]="classshape">
-                {{classshape.Name}}
+            <mat-option *ngFor="let gongstructshape of frontRepo.GongStructShapes_array" [value]="gongstructshape">
+                {{gongstructshape.Name}}
             </mat-option>
         </mat-select>
     </mat-form-field>

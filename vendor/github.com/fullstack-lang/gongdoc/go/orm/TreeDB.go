@@ -60,9 +60,6 @@ type TreeDB struct {
 
 	// Declation for basic field treeDB.Name
 	Name_Data sql.NullString
-
-	// Declation for basic field treeDB.Type
-	Type_Data sql.NullString
 	// encoding of pointers
 	TreePointersEnconding
 }
@@ -85,8 +82,6 @@ type TreeWOP struct {
 	// insertion for WOP basic fields
 
 	Name string `xlsx:"1"`
-
-	Type models.TreeType `xlsx:"2"`
 	// insertion for WOP pointer fields
 }
 
@@ -94,7 +89,6 @@ var Tree_Fields = []string{
 	// insertion for WOP basic fields
 	"ID",
 	"Name",
-	"Type",
 }
 
 type BackRepoTreeStruct struct {
@@ -427,9 +421,6 @@ func (treeDB *TreeDB) CopyBasicFieldsFromTree(tree *models.Tree) {
 
 	treeDB.Name_Data.String = tree.Name
 	treeDB.Name_Data.Valid = true
-
-	treeDB.Type_Data.String = tree.Type.ToString()
-	treeDB.Type_Data.Valid = true
 }
 
 // CopyBasicFieldsFromTreeWOP
@@ -438,16 +429,12 @@ func (treeDB *TreeDB) CopyBasicFieldsFromTreeWOP(tree *TreeWOP) {
 
 	treeDB.Name_Data.String = tree.Name
 	treeDB.Name_Data.Valid = true
-
-	treeDB.Type_Data.String = tree.Type.ToString()
-	treeDB.Type_Data.Valid = true
 }
 
 // CopyBasicFieldsToTree
 func (treeDB *TreeDB) CopyBasicFieldsToTree(tree *models.Tree) {
 	// insertion point for checkout of basic fields (back repo to stage)
 	tree.Name = treeDB.Name_Data.String
-	tree.Type.FromString(treeDB.Type_Data.String)
 }
 
 // CopyBasicFieldsToTreeWOP
@@ -455,7 +442,6 @@ func (treeDB *TreeDB) CopyBasicFieldsToTreeWOP(tree *TreeWOP) {
 	tree.ID = int(treeDB.ID)
 	// insertion point for checkout of basic fields (back repo to stage)
 	tree.Name = treeDB.Name_Data.String
-	tree.Type.FromString(treeDB.Type_Data.String)
 }
 
 // Backup generates a json file from a slice of all TreeDB instances in the backrepo

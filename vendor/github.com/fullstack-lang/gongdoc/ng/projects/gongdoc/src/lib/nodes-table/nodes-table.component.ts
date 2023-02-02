@@ -71,12 +71,6 @@ export class NodesTableComponent implements OnInit {
         case 'Name':
           return nodeDB.Name;
 
-        case 'Type':
-          return nodeDB.Type;
-
-        case 'Classdiagram':
-          return (nodeDB.Classdiagram ? nodeDB.Classdiagram.Name : '');
-
         case 'IsExpanded':
           return nodeDB.IsExpanded?"true":"false";
 
@@ -142,10 +136,6 @@ export class NodesTableComponent implements OnInit {
 
       // insertion point for merging of fields
       mergedContent += nodeDB.Name.toLowerCase()
-      mergedContent += nodeDB.Type.toLowerCase()
-      if (nodeDB.Classdiagram) {
-        mergedContent += nodeDB.Classdiagram.Name.toLowerCase()
-      }
       if (nodeDB.Node_ChildrenDBID.Int64 != 0) {
         mergedContent += this.frontRepo.Nodes.get(nodeDB.Node_ChildrenDBID.Int64)!.Name.toLowerCase()
       }
@@ -205,8 +195,6 @@ export class NodesTableComponent implements OnInit {
     if (this.mode == TableComponentMode.DISPLAY_MODE) {
       this.displayedColumns = ['ID', 'Edit', 'Delete', // insertion point for columns to display
         "Name",
-        "Type",
-        "Classdiagram",
         "IsExpanded",
         "HasCheckboxButton",
         "IsChecked",
@@ -225,8 +213,6 @@ export class NodesTableComponent implements OnInit {
     } else {
       this.displayedColumns = ['select', 'ID', // insertion point for columns to display
         "Name",
-        "Type",
-        "Classdiagram",
         "IsExpanded",
         "HasCheckboxButton",
         "IsChecked",

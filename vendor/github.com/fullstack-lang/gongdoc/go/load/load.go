@@ -44,22 +44,47 @@ func Load(
 	gongStage := gong_models.Stage
 	_ = gongStage
 
+	gongdoc_models.Stage.MetaPackageImportAlias = stackName
+	gongdoc_models.Stage.MetaPackageImportPath = pkgPath
+
 	// first, get all gong struct in the model
 	for gongStruct := range gong_models.Stage.GongStructs {
-		// let create the gong struct in the gongdoc models
-		// and put the numbre of instances
-		reference := (&gongdoc_models.Reference{Name: gongStruct.Name}).Stage()
-		reference.Type = gongdoc_models.REFERENCE_GONG_STRUCT
-
 		nbInstances, ok := (*map_StructName_InstanceNb)[gongStruct.Name]
 		if ok {
-			reference.NbInstances = nbInstances
+			gongdoc_models.Map_Identifier_NbInstances[gongStruct.Name] = nbInstances
 		}
 	}
 	if embeddedDiagrams {
-		diagramPackage, _ = gongdoc_models.LoadEmbeddedDiagramPackage(goSourceDirectories, modelPackage)
+		diagramPackage, _ = LoadEmbeddedDiagramPackage(goSourceDirectories, modelPackage)
 	} else {
-		diagramPackage, _ = gongdoc_models.LoadDiagramPackage(filepath.Join("../../diagrams"), modelPackage, true)
+		diagramPackage, _ = LoadDiagramPackage(filepath.Join("../../diagrams"), modelPackage, true)
 	}
 	diagramPackage.GongModelPath = pkgPath
+
+	// to be removed after fix of [issue](https://github.com/golang/go/issues/57559)
+	gongdoc_models.SetupMapDocLinkRenaming()
+	// end of the be removed
+
+	// set up the number of instance per classshape
+	if map_StructName_InstanceNb != nil {
+
+		for gongStruct := range *gong_models.GetGongstructInstancesSet[gong_models.GongStruct]() {
+			gongdoc_models.Map_Identifier_NbInstances[gongStruct.Name] =
+				(*map_StructName_InstanceNb)[gongStruct.Name]
+
+		}
+
+		for _, classdiagram := range diagramPackage.Classdiagrams {
+			for _, classshape := range classdiagram.GongStructShapes {
+
+				gongStructName := gongdoc_models.IdentifierToGongStructName(classshape.Identifier)
+				nbInstances, ok := gongdoc_models.Map_Identifier_NbInstances[gongStructName]
+
+				if ok {
+					classshape.ShowNbInstances = true
+					classshape.NbInstances = nbInstances
+				}
+			}
+		}
+	}
 }

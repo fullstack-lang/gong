@@ -1,22 +1,11 @@
 package models
 
-import gong_models "github.com/fullstack-lang/gong/go/models"
-
 // Node is a node in the tree for selecting items to display
 type Node struct {
 	Name string
 
-	Type GongdocNodeType
-
-	// pointer to the related instance (depends on type)
-	Classdiagram *Classdiagram
-
-	// the node behavioral interface
-	impl NodeImplInterface
-
-	Gongstruct *gong_models.GongStruct
-	Gongfield  gong_models.FieldInterface
-	GongEnum   *gong_models.GongEnum
+	// Impl is the pointer to the implementation of the node in the models of interest
+	Impl NodeImplInterface
 
 	IsExpanded bool
 
@@ -40,19 +29,4 @@ type Node struct {
 	HasDeleteButton bool
 
 	Children []*Node
-}
-
-func (node *Node) UncheckAndDisableBranch() {
-
-	node.UncheckAndDisable()
-
-	for _, _node := range node.Children {
-		_node.UncheckAndDisableBranch()
-	}
-}
-
-func (node *Node) UncheckAndDisable() {
-
-	node.IsCheckboxDisabled = true
-	node.IsChecked = false
 }

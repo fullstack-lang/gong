@@ -2,154 +2,90 @@
 package models
 
 // insertion point of enum utility functions
-// Utility function for GongdocNodeType
+// Utility function for GONG__ExpressionType
 // if enum values are string, it is stored with the value
 // if enum values are int, they are stored with the code of the value
-func (gongdocnodetype GongdocNodeType) ToString() (res string) {
+func (gong__expressiontype GONG__ExpressionType) ToString() (res string) {
 
 	// migration of former implementation of enum
-	switch gongdocnodetype {
+	switch gong__expressiontype {
 	// insertion code per enum code
-	case ROOT_OF_DIAGRAMS:
-		res = "ROOT_OF_DIAGRAMS"
-	case ROOT_OF_CLASS_DIAGRAMS:
-		res = "ROOT_OF_CLASS_DIAGRAMS"
-	case ROOT_OF_STATE_DIAGRAMS:
-		res = "ROOT_OF_STATE_DIAGRAMS"
-	case CLASS_DIAGRAM:
-		res = "CLASS_DIAGRAM"
-	case STATE_DIAGRAM:
-		res = "STATE_DIAGRAM"
-	case ROOT_OF_GONG_STRUCTS:
-		res = "ROOT_OF_GONG_STRUCTS"
-	case GONG_STRUCT:
-		res = "GONG_STRUCT"
-	case GONG_STRUCT_FIELD:
-		res = "GONG_STRUCT_FIELD"
-	case ROOT_OF_GONG_ENUMS:
-		res = "ROOT_OF_GONG_ENUMS"
-	case GONG_ENUM:
-		res = "GONG_ENUM"
-	case GONG_ENUM_VALUE:
-		res = "GONG_ENUM_VALUE"
-	case ROOT_OF_GONG_NOTES:
-		res = "ROOT_OF_GONG_NOTES"
-	case GONG_NOTE:
-		res = "GONG_NOTE"
-	case GONG_NOTE_LINK:
-		res = "GONG_NOTE_LINK"
+	case GONG__STRUCT_INSTANCE:
+		res = "STRUCT_INSTANCE"
+	case GONG__FIELD_OR_CONST_VALUE:
+		res = "FIELD_OR_CONST_VALUE"
+	case GONG__FIELD_VALUE:
+		res = "FIELD_VALUE"
+	case GONG__ENUM_CAST_INT:
+		res = "ENUM_CAST_INT"
+	case GONG__ENUM_CAST_STRING:
+		res = "ENUM_CAST_STRING"
+	case GONG__IDENTIFIER_CONST:
+		res = "IDENTIFIER_CONST"
 	}
 	return
 }
 
-func (gongdocnodetype *GongdocNodeType) FromString(input string) (err error) {
+func (gong__expressiontype *GONG__ExpressionType) FromString(input string) (err error) {
 
 	switch input {
 	// insertion code per enum code
-	case "ROOT_OF_DIAGRAMS":
-		*gongdocnodetype = ROOT_OF_DIAGRAMS
-	case "ROOT_OF_CLASS_DIAGRAMS":
-		*gongdocnodetype = ROOT_OF_CLASS_DIAGRAMS
-	case "ROOT_OF_STATE_DIAGRAMS":
-		*gongdocnodetype = ROOT_OF_STATE_DIAGRAMS
-	case "CLASS_DIAGRAM":
-		*gongdocnodetype = CLASS_DIAGRAM
-	case "STATE_DIAGRAM":
-		*gongdocnodetype = STATE_DIAGRAM
-	case "ROOT_OF_GONG_STRUCTS":
-		*gongdocnodetype = ROOT_OF_GONG_STRUCTS
-	case "GONG_STRUCT":
-		*gongdocnodetype = GONG_STRUCT
-	case "GONG_STRUCT_FIELD":
-		*gongdocnodetype = GONG_STRUCT_FIELD
-	case "ROOT_OF_GONG_ENUMS":
-		*gongdocnodetype = ROOT_OF_GONG_ENUMS
-	case "GONG_ENUM":
-		*gongdocnodetype = GONG_ENUM
-	case "GONG_ENUM_VALUE":
-		*gongdocnodetype = GONG_ENUM_VALUE
-	case "ROOT_OF_GONG_NOTES":
-		*gongdocnodetype = ROOT_OF_GONG_NOTES
-	case "GONG_NOTE":
-		*gongdocnodetype = GONG_NOTE
-	case "GONG_NOTE_LINK":
-		*gongdocnodetype = GONG_NOTE_LINK
+	case "STRUCT_INSTANCE":
+		*gong__expressiontype = GONG__STRUCT_INSTANCE
+	case "FIELD_OR_CONST_VALUE":
+		*gong__expressiontype = GONG__FIELD_OR_CONST_VALUE
+	case "FIELD_VALUE":
+		*gong__expressiontype = GONG__FIELD_VALUE
+	case "ENUM_CAST_INT":
+		*gong__expressiontype = GONG__ENUM_CAST_INT
+	case "ENUM_CAST_STRING":
+		*gong__expressiontype = GONG__ENUM_CAST_STRING
+	case "IDENTIFIER_CONST":
+		*gong__expressiontype = GONG__IDENTIFIER_CONST
 	default:
 		return errUnkownEnum
 	}
 	return
 }
 
-func (gongdocnodetype *GongdocNodeType) FromCodeString(input string) (err error) {
+func (gong__expressiontype *GONG__ExpressionType) FromCodeString(input string) (err error) {
 
 	switch input {
 	// insertion code per enum code
-	case "ROOT_OF_DIAGRAMS":
-		*gongdocnodetype = ROOT_OF_DIAGRAMS
-	case "ROOT_OF_CLASS_DIAGRAMS":
-		*gongdocnodetype = ROOT_OF_CLASS_DIAGRAMS
-	case "ROOT_OF_STATE_DIAGRAMS":
-		*gongdocnodetype = ROOT_OF_STATE_DIAGRAMS
-	case "CLASS_DIAGRAM":
-		*gongdocnodetype = CLASS_DIAGRAM
-	case "STATE_DIAGRAM":
-		*gongdocnodetype = STATE_DIAGRAM
-	case "ROOT_OF_GONG_STRUCTS":
-		*gongdocnodetype = ROOT_OF_GONG_STRUCTS
-	case "GONG_STRUCT":
-		*gongdocnodetype = GONG_STRUCT
-	case "GONG_STRUCT_FIELD":
-		*gongdocnodetype = GONG_STRUCT_FIELD
-	case "ROOT_OF_GONG_ENUMS":
-		*gongdocnodetype = ROOT_OF_GONG_ENUMS
-	case "GONG_ENUM":
-		*gongdocnodetype = GONG_ENUM
-	case "GONG_ENUM_VALUE":
-		*gongdocnodetype = GONG_ENUM_VALUE
-	case "ROOT_OF_GONG_NOTES":
-		*gongdocnodetype = ROOT_OF_GONG_NOTES
-	case "GONG_NOTE":
-		*gongdocnodetype = GONG_NOTE
-	case "GONG_NOTE_LINK":
-		*gongdocnodetype = GONG_NOTE_LINK
+	case "GONG__STRUCT_INSTANCE":
+		*gong__expressiontype = GONG__STRUCT_INSTANCE
+	case "GONG__FIELD_OR_CONST_VALUE":
+		*gong__expressiontype = GONG__FIELD_OR_CONST_VALUE
+	case "GONG__FIELD_VALUE":
+		*gong__expressiontype = GONG__FIELD_VALUE
+	case "GONG__ENUM_CAST_INT":
+		*gong__expressiontype = GONG__ENUM_CAST_INT
+	case "GONG__ENUM_CAST_STRING":
+		*gong__expressiontype = GONG__ENUM_CAST_STRING
+	case "GONG__IDENTIFIER_CONST":
+		*gong__expressiontype = GONG__IDENTIFIER_CONST
 	default:
 		return errUnkownEnum
 	}
 	return
 }
 
-func (gongdocnodetype *GongdocNodeType) ToCodeString() (res string) {
+func (gong__expressiontype *GONG__ExpressionType) ToCodeString() (res string) {
 
-	switch *gongdocnodetype {
+	switch *gong__expressiontype {
 	// insertion code per enum code
-	case ROOT_OF_DIAGRAMS:
-		res = "ROOT_OF_DIAGRAMS"
-	case ROOT_OF_CLASS_DIAGRAMS:
-		res = "ROOT_OF_CLASS_DIAGRAMS"
-	case ROOT_OF_STATE_DIAGRAMS:
-		res = "ROOT_OF_STATE_DIAGRAMS"
-	case CLASS_DIAGRAM:
-		res = "CLASS_DIAGRAM"
-	case STATE_DIAGRAM:
-		res = "STATE_DIAGRAM"
-	case ROOT_OF_GONG_STRUCTS:
-		res = "ROOT_OF_GONG_STRUCTS"
-	case GONG_STRUCT:
-		res = "GONG_STRUCT"
-	case GONG_STRUCT_FIELD:
-		res = "GONG_STRUCT_FIELD"
-	case ROOT_OF_GONG_ENUMS:
-		res = "ROOT_OF_GONG_ENUMS"
-	case GONG_ENUM:
-		res = "GONG_ENUM"
-	case GONG_ENUM_VALUE:
-		res = "GONG_ENUM_VALUE"
-	case ROOT_OF_GONG_NOTES:
-		res = "ROOT_OF_GONG_NOTES"
-	case GONG_NOTE:
-		res = "GONG_NOTE"
-	case GONG_NOTE_LINK:
-		res = "GONG_NOTE_LINK"
+	case GONG__STRUCT_INSTANCE:
+		res = "GONG__STRUCT_INSTANCE"
+	case GONG__FIELD_OR_CONST_VALUE:
+		res = "GONG__FIELD_OR_CONST_VALUE"
+	case GONG__FIELD_VALUE:
+		res = "GONG__FIELD_VALUE"
+	case GONG__ENUM_CAST_INT:
+		res = "GONG__ENUM_CAST_INT"
+	case GONG__ENUM_CAST_STRING:
+		res = "GONG__ENUM_CAST_STRING"
+	case GONG__IDENTIFIER_CONST:
+		res = "GONG__IDENTIFIER_CONST"
 	}
 	return
 }
@@ -214,174 +150,6 @@ func (multiplicitytype *MultiplicityType) ToCodeString() (res string) {
 		res = "ONE"
 	case MANY:
 		res = "MANY"
-	}
-	return
-}
-
-// Utility function for NoteLinkType
-// if enum values are string, it is stored with the value
-// if enum values are int, they are stored with the code of the value
-func (notelinktype NoteLinkType) ToString() (res string) {
-
-	// migration of former implementation of enum
-	switch notelinktype {
-	// insertion code per enum code
-	case NOTE_LINK_TO_A_CLASSSHAPE:
-		res = "NOTE_LINK_TO_A_CLASSSHAPE"
-	case NOTE_LINK_TO_A_LINK:
-		res = "NOTE_LINK_TO_A_LINK"
-	}
-	return
-}
-
-func (notelinktype *NoteLinkType) FromString(input string) (err error) {
-
-	switch input {
-	// insertion code per enum code
-	case "NOTE_LINK_TO_A_CLASSSHAPE":
-		*notelinktype = NOTE_LINK_TO_A_CLASSSHAPE
-	case "NOTE_LINK_TO_A_LINK":
-		*notelinktype = NOTE_LINK_TO_A_LINK
-	default:
-		return errUnkownEnum
-	}
-	return
-}
-
-func (notelinktype *NoteLinkType) FromCodeString(input string) (err error) {
-
-	switch input {
-	// insertion code per enum code
-	case "NOTE_LINK_TO_A_CLASSSHAPE":
-		*notelinktype = NOTE_LINK_TO_A_CLASSSHAPE
-	case "NOTE_LINK_TO_A_LINK":
-		*notelinktype = NOTE_LINK_TO_A_LINK
-	default:
-		return errUnkownEnum
-	}
-	return
-}
-
-func (notelinktype *NoteLinkType) ToCodeString() (res string) {
-
-	switch *notelinktype {
-	// insertion code per enum code
-	case NOTE_LINK_TO_A_CLASSSHAPE:
-		res = "NOTE_LINK_TO_A_CLASSSHAPE"
-	case NOTE_LINK_TO_A_LINK:
-		res = "NOTE_LINK_TO_A_LINK"
-	}
-	return
-}
-
-// Utility function for ReferenceType
-// if enum values are string, it is stored with the value
-// if enum values are int, they are stored with the code of the value
-func (referencetype ReferenceType) ToString() (res string) {
-
-	// migration of former implementation of enum
-	switch referencetype {
-	// insertion code per enum code
-	case REFERENCE_GONG_STRUCT:
-		res = "REFERENCE_GONG_STRUCT"
-	case REFERENCE_GONG_ENUM:
-		res = "REFERENCE_GONG_ENUM"
-	}
-	return
-}
-
-func (referencetype *ReferenceType) FromString(input string) (err error) {
-
-	switch input {
-	// insertion code per enum code
-	case "REFERENCE_GONG_STRUCT":
-		*referencetype = REFERENCE_GONG_STRUCT
-	case "REFERENCE_GONG_ENUM":
-		*referencetype = REFERENCE_GONG_ENUM
-	default:
-		return errUnkownEnum
-	}
-	return
-}
-
-func (referencetype *ReferenceType) FromCodeString(input string) (err error) {
-
-	switch input {
-	// insertion code per enum code
-	case "REFERENCE_GONG_STRUCT":
-		*referencetype = REFERENCE_GONG_STRUCT
-	case "REFERENCE_GONG_ENUM":
-		*referencetype = REFERENCE_GONG_ENUM
-	default:
-		return errUnkownEnum
-	}
-	return
-}
-
-func (referencetype *ReferenceType) ToCodeString() (res string) {
-
-	switch *referencetype {
-	// insertion code per enum code
-	case REFERENCE_GONG_STRUCT:
-		res = "REFERENCE_GONG_STRUCT"
-	case REFERENCE_GONG_ENUM:
-		res = "REFERENCE_GONG_ENUM"
-	}
-	return
-}
-
-// Utility function for TreeType
-// if enum values are string, it is stored with the value
-// if enum values are int, they are stored with the code of the value
-func (treetype TreeType) ToString() (res string) {
-
-	// migration of former implementation of enum
-	switch treetype {
-	// insertion code per enum code
-	case TREE_OF_DIAGRAMS:
-		res = "TREE_OF_DIAGRAMS"
-	case TREE_OF_IDENTIFIERS:
-		res = "TREE_OF_IDENTIFIERS"
-	}
-	return
-}
-
-func (treetype *TreeType) FromString(input string) (err error) {
-
-	switch input {
-	// insertion code per enum code
-	case "TREE_OF_DIAGRAMS":
-		*treetype = TREE_OF_DIAGRAMS
-	case "TREE_OF_IDENTIFIERS":
-		*treetype = TREE_OF_IDENTIFIERS
-	default:
-		return errUnkownEnum
-	}
-	return
-}
-
-func (treetype *TreeType) FromCodeString(input string) (err error) {
-
-	switch input {
-	// insertion code per enum code
-	case "TREE_OF_DIAGRAMS":
-		*treetype = TREE_OF_DIAGRAMS
-	case "TREE_OF_IDENTIFIERS":
-		*treetype = TREE_OF_IDENTIFIERS
-	default:
-		return errUnkownEnum
-	}
-	return
-}
-
-func (treetype *TreeType) ToCodeString() (res string) {
-
-	switch *treetype {
-	// insertion code per enum code
-	case TREE_OF_DIAGRAMS:
-		res = "TREE_OF_DIAGRAMS"
-	case TREE_OF_IDENTIFIERS:
-		res = "TREE_OF_IDENTIFIERS"
 	}
 	return
 }
