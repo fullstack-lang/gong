@@ -23,3 +23,4 @@ export * from './lib/astruct-db'
 export * from './lib/astruct.service'
 
 
+export * from './lib/GONG__ExpressionType'
