@@ -55,9 +55,19 @@ type StageStruct struct { // insertion point for definition of arrays registerin
 	MetaPackageImportPath  string
 	MetaPackageImportAlias string
 	Map_DocLink_Renaming   map[string]GONG__Identifier
+
+	// map_Gongstruct_BackPointer is storage of back pointers
+	map_Gongstruct_BackPointer map[any]any
 }
 
-// swagger:ignore
+func SetBackPointer[T Gongstruct](stageStruct *StageStruct, instance *T, backPointer any) {
+	stageStruct.map_Gongstruct_BackPointer[instance] = backPointer
+}
+func GetBackPointer[T Gongstruct](stageStruct *StageStruct, instance *T) (backPointer any) {
+	backPointer, _ = stageStruct.map_Gongstruct_BackPointer[instance]
+	return
+}
+
 type GONG__Identifier struct {
 	Ident string
 	Type  GONG__ExpressionType
@@ -111,6 +121,7 @@ var Stage StageStruct = StageStruct{ // insertion point for array initiatialisat
 
 	// end of insertion point
 	Map_GongStructName_InstancesNb: make(map[string]int),
+	map_Gongstruct_BackPointer:     make(map[any]any),
 }
 
 func (stage *StageStruct) Commit() {
@@ -284,22 +295,6 @@ func (stage *StageStruct) Unstage() { // insertion point for array nil
 	}
 
 }
-
-// insertion point of functions that provide maps for reverse associations
-
-// generate function for reverse association maps of Astruct
-func (stageStruct *StageStruct) CreateReverseMap_Astruct_Anarrayofa() (res map[*Astruct]*Astruct) {
-	res = make(map[*Astruct]*Astruct)
-
-	for astruct := range stageStruct.Astructs {
-		for _, astruct_ := range astruct.Anarrayofa {
-			res[astruct_] = astruct
-		}
-	}
-
-	return
-}
-
 
 // Gongstruct is the type parameter for generated generic function that allows
 // - access to staged instances
