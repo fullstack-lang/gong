@@ -548,9 +548,14 @@ func MultiCodeGeneratorNgTable(
 					if field.DeclaredType != "time.Duration" {
 
 						if field.GongEnum == nil {
-							HtmlInsertions[NgTableHtmlInsertionColumn] += models.Replace2(NgTableHTMLSubTemplateCode[NgTableHTMLBasicField],
+							sticky := ""
+							if field.Name == "Name" {
+								sticky = " sticky"
+							}
+							HtmlInsertions[NgTableHtmlInsertionColumn] += models.Replace3(NgTableHTMLSubTemplateCode[NgTableHTMLBasicField],
 								"{{FieldName}}", field.Name,
-								"{{TypeInput}}", TypeInput)
+								"{{TypeInput}}", TypeInput,
+								"{{sticky}}", sticky)
 							TsInsertions[NgTableTsInsertionPerStructColumnsFiltering] += models.Replace1(NgTablelSubTemplateCode[NgTableTSNumberFieldFiltering],
 								"{{FieldName}}", field.Name)
 						} else {
@@ -586,9 +591,13 @@ func MultiCodeGeneratorNgTable(
 						"{{FieldName}}", field.Name,
 						"{{TypeInput}}", TypeInput)
 				default:
-
-					HtmlInsertions[NgTableHtmlInsertionColumn] += models.Replace1(NgTableHTMLSubTemplateCode[NgTableHTMLBasicField],
-						"{{FieldName}}", field.Name)
+					sticky := ""
+					if field.Name == "Name" {
+						sticky = " sticky"
+					}
+					HtmlInsertions[NgTableHtmlInsertionColumn] += models.Replace2(NgTableHTMLSubTemplateCode[NgTableHTMLBasicField],
+						"{{FieldName}}", field.Name,
+						"{{sticky}}", sticky)
 					TsInsertions[NgTableTsInsertionPerStructColumnsFiltering] += models.Replace1(NgTablelSubTemplateCode[NgTableTSNonNumberFieldFiltering],
 						"{{FieldName}}", field.Name)
 
