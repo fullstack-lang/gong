@@ -21,8 +21,8 @@ h1::first-letter {
 ========================
 */
 
-th.mat-mdc-header-cell,
-td.mat-mdc-cell {
+th.mat-header-cell,
+td.mat-cell {
     padding: 0 15px !important;
 }
 
