@@ -73,7 +73,7 @@
             "group": "build"
         },
         {
-            "label": "04 - go run test -marshallOnCommit=stage",
+            "label": "04 - go run test -unmarshallFromCode=stage.go -marshallOnCommit=stage",
             "type": "shell",
             "options": {
                 "cwd": "./test/go/cmd/test"
@@ -82,8 +82,8 @@
             "args": [
                 "run",
                 "main.go",
-                "stage.go",
-                "-marshallOnCommit=stage"
+                "-marshallOnCommit=stage",
+                "-unmarshallFromCode=stage.go",
             ],
             "group": "build"
         },
