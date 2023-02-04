@@ -1,6 +1,6 @@
 package angular
 
-const NgTableTemplateHTML = `<div style="height: 100%; width: 100%; overflow: hidden">
+const NgTableTemplateHTML = `<section class="container mat-elevation-z8" tabindex="0">
     <mat-form-field>
         <mat-label>Filter</mat-label>
         <input matInput (keyup)="applyFilter($event)" placeholder="Ex. ium" #input>
@@ -21,19 +21,19 @@ const NgTableTemplateHTML = `<div style="height: 100%; width: 100%; overflow: hi
 
         <!-- insertion point for fields specific code -->{{` + string(rune(NgTableHtmlInsertionColumn)) + `}}
 
-        <ng-container matColumnDef="ID">
+        <ng-container matColumnDef="ID" sticky>
             <th mat-header-cell *matHeaderCellDef mat-sort-header> ID. </th>
             <td mat-cell *matCellDef="let {{Structname}}"> {{{{Structname}}.ID}} </td>
         </ng-container>
 
-        <ng-container matColumnDef="Edit">
+        <ng-container matColumnDef="Edit" sticky>
             <th mat-header-cell *matHeaderCellDef> Edit </th>
             <td mat-cell *matCellDef="let {{structname}};  let j = index;">
                 <i class="material-icons" [ngStyle]="{'color':'rgba(0,0,0,.50)'}" (click)="setEditorRouterOutlet({{structname}}.ID)">edit</i>
             </td>
         </ng-container>
 
-        <ng-container matColumnDef="Delete">
+        <ng-container matColumnDef="Delete" sticky>
             <th mat-header-cell *matHeaderCellDef> Delete </th>
             <td mat-cell *matCellDef="let {{structname}};  let j = index;">
                 <i class="material-icons" [ngStyle]="{'color':'rgba(0,0,0,.50)'}" (click)="delete{{Structname}}({{structname}}.ID, {{structname}})">delete</i>
@@ -54,10 +54,7 @@ const NgTableTemplateHTML = `<div style="height: 100%; width: 100%; overflow: hi
         </tr>
     </table>
     <mat-paginator [pageSizeOptions]="[50, 100, 500, 1000]" showFirstLastButtons></mat-paginator>
-</div>
-<button class="table__save" color="primary" *ngIf="dialogData" mat-raised-button (click)="save()">
-    Save
-</button>`
+</section>`
 
 // insertion points in the main template
 type NgTableHtmlInsertionPoint int
@@ -84,7 +81,7 @@ var NgTableHTMLSubTemplateCode map[NgTableHTMLSubTemplate]string = map[NgTableHT
 
 	NgTableHTMLBasicField: `
         <!-- -->
-        <ng-container matColumnDef="{{FieldName}}">
+        <ng-container matColumnDef="{{FieldName}}"{{sticky}}>
             <th mat-header-cell *matHeaderCellDef mat-sort-header> {{FieldName}} </th>
             <td mat-cell *matCellDef="let {{Structname}}">
                 {{{{Structname}}.{{FieldName}}}}
