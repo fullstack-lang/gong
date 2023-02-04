@@ -26,6 +26,7 @@ require (
 require (
 	github.com/fullstack-lang/gongdoc v0.0.0-20230131172006-9e0c39591134
 	github.com/glebarez/sqlite v1.3.5
+	github.com/tidwall/sjson v1.2.5
 	github.com/xuri/excelize/v2 v2.6.1
 )
 
@@ -62,6 +63,9 @@ require (
 	github.com/tdewolff/canvas v0.0.0-20210926234438-920f34634583 // indirect
 	github.com/tdewolff/minify/v2 v2.9.22 // indirect
 	github.com/tdewolff/parse/v2 v2.5.22 // indirect
+	github.com/tidwall/gjson v1.14.2 // indirect
+	github.com/tidwall/match v1.1.1 // indirect
+	github.com/tidwall/pretty v1.2.0 // indirect
 	github.com/ugorji/go/codec v1.2.7 // indirect
 	github.com/xuri/efp v0.0.0-20220603152613-6918739fd470 // indirect
 	github.com/xuri/nfp v0.0.0-20220409054826-5e722a1d9e22 // indirect

@@ -32,7 +32,7 @@ th{
     background-color: white;
 }
 
-.mat-paginator {
+.mat-mdc-paginator {
     display: flex;
     justify-content: left;
 } 
@@ -45,20 +45,20 @@ th{
     margin-top: 15px !important;
 }
 
-.mat-row {
+.mat-mdc-row {
     background-color: white;
 }
 
-.table .mat-row:hover {
+.table .mat-mdc-row:hover {
     background-color: #F8F8F8;
     cursor: pointer;
 }
 
 /* Space between columns in the material table */
-th.mat-header-cell, td.mat-cell {
+th.mat-mdc-header-cell, td.mat-mdc-cell {
     padding: 0 15px !important;
 }
 
-.mat-table-sticky-border-elem-left {
+.mat-mdc-table-sticky-border-elem-left {
     border-right: 1px solid #e0e0e0;
 }
