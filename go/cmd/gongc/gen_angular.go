@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
+	"io/ioutil"
 	"log"
 	"os"
 	"os/exec"
@@ -17,6 +18,8 @@ import (
 	gong_models "github.com/fullstack-lang/gong/go/models"
 	"golang.org/x/text/cases"
 	"golang.org/x/text/language"
+
+	"github.com/tidwall/sjson"
 )
 
 func genAngular(modelPkg *gong_models.ModelPkg, skipNpmInstall bool) {
@@ -81,7 +84,7 @@ func genAngular(modelPkg *gong_models.ModelPkg, skipNpmInstall bool) {
 					// otherwise, one meet the error
 					// "No terminal detected. '--skip-confirmation' can be used to bypass installation confirmation.
 					// Ensure package name is correct prior to '--skip-confirmation' option usage."
-					cmd := exec.Command("ng", "add", "@angular/material@14", "--skip-confirmation")
+					cmd := exec.Command("ng", "add", "@angular/material@15", "--skip-confirmation")
 					cmd.Dir = gong_models.NgWorkspacePath
 					log.Printf("Adding angular material\n")
 
@@ -109,7 +112,7 @@ func genAngular(modelPkg *gong_models.ModelPkg, skipNpmInstall bool) {
 						"material-icons",
 						"@fontsource/open-sans",
 						"@fontsource/roboto",
-						"@angular-material-components/datetime-picker@8")
+						"@angular-material-components/datetime-picker@9")
 					cmd.Dir = gong_models.NgWorkspacePath
 					log.Printf("Installing some packages\n")
 
@@ -372,6 +375,31 @@ func genAngular(modelPkg *gong_models.ModelPkg, skipNpmInstall bool) {
 					log.Panic(err)
 				}
 				log.Printf("npm i is over and took %s", time.Since(start))
+			}
+			if true {
+
+				// needed till fix of https://github.com/clientIO/joint/issues/2018
+				tsConfigFile := filepath.Join(gong_models.NgWorkspacePath, "tsconfig.json")
+				// Read the contents of the tsconfig.json file
+				file, err := ioutil.ReadFile(tsConfigFile)
+				if err != nil {
+					log.Fatalln(err)
+					return
+				}
+
+				// Modify the skipLibCheck field
+				file, err = sjson.SetBytes(file, "compilerOptions.skipLibCheck", true)
+				if err != nil {
+					log.Fatalln(err)
+					return
+				}
+
+				// Write the updated JSON back to the tsconfig.json file
+				err = ioutil.WriteFile(tsConfigFile, file, 0644)
+				if err != nil {
+					log.Fatalln(err)
+					return
+				}
 			}
 		}
 	}
