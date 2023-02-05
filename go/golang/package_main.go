@@ -83,7 +83,11 @@ func main() {
 	r.Use(cors.Default())
 
 	// setup stack
-	fullstack.Init(r, "./test.db")
+	if *marshallOnCommit != "" {
+		fullstack.Init(r)
+	} else {
+		fullstack.Init(r, "./test.db")
+	}
 
 	// generate injection code from the stage
 	if *marshallOnStartup != "" {
