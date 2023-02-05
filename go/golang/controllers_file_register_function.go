@@ -45,8 +45,8 @@ type ValidationError struct {
 func RegisterControllers(r *gin.Engine) {
 	v1 := r.Group("/api/{{PkgPathRoot}}")
 	{ // insertion point for registrations{{` + string(rune(ControllersDeclaration)) + `}}
-		v1.GET("/commitfrombacknb", GetLastCommitFromBackNb)
-		v1.GET("/pushfromfrontnb", GetLastPushFromFrontNb)
+		v1.GET("/v1/commitfrombacknb", GetLastCommitFromBackNb)
+		v1.GET("/v1/pushfromfrontnb", GetLastPushFromFrontNb)
 	}
 }
 

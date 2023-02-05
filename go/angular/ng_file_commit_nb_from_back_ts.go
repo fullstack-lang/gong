@@ -46,7 +46,7 @@ export class CommitNbFromBackService {
         origin = origin.replace("4200", "8080")
 
         // compute path to the service
-        this.commitNbFromBackUrl = origin + '/api/{{PkgPathRoot}}/commitfrombacknb';
+        this.commitNbFromBackUrl = origin + '/api/{{PkgPathRoot}}/v1/commitfrombacknb';
     }
 
     // observable of the commit nb getter
