@@ -154,7 +154,7 @@ export class GongTimeFieldsTableComponent implements OnInit {
       }
     )
     if (this.mode == TableComponentMode.DISPLAY_MODE) {
-      this.displayedColumns = ['ID', 'Edit', 'Delete', // insertion point for columns to display
+      this.displayedColumns = ['ID', 'Delete', // insertion point for columns to display
         "Name",
         "Index",
         "CompositeStructName",
@@ -249,15 +249,6 @@ export class GongTimeFieldsTableComponent implements OnInit {
     this.router.navigate([{
       outlets: {
         github_com_fullstack_lang_gong_go_editor: ["github_com_fullstack_lang_gong_go-" + "gongtimefield-detail", gongtimefieldID]
-      }
-    }]);
-  }
-
-  // set presentation outlet
-  setPresentationRouterOutlet(gongtimefieldID: number) {
-    this.router.navigate([{
-      outlets: {
-        github_com_fullstack_lang_gong_go_presentation: ["github_com_fullstack_lang_gong_go-" + "gongtimefield-presentation", gongtimefieldID]
       }
     }]);
   }

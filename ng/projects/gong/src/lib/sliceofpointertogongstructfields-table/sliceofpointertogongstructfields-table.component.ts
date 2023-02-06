@@ -160,7 +160,7 @@ export class SliceOfPointerToGongStructFieldsTableComponent implements OnInit {
       }
     )
     if (this.mode == TableComponentMode.DISPLAY_MODE) {
-      this.displayedColumns = ['ID', 'Edit', 'Delete', // insertion point for columns to display
+      this.displayedColumns = ['ID', 'Delete', // insertion point for columns to display
         "Name",
         "GongStruct",
         "Index",
@@ -257,15 +257,6 @@ export class SliceOfPointerToGongStructFieldsTableComponent implements OnInit {
     this.router.navigate([{
       outlets: {
         github_com_fullstack_lang_gong_go_editor: ["github_com_fullstack_lang_gong_go-" + "sliceofpointertogongstructfield-detail", sliceofpointertogongstructfieldID]
-      }
-    }]);
-  }
-
-  // set presentation outlet
-  setPresentationRouterOutlet(sliceofpointertogongstructfieldID: number) {
-    this.router.navigate([{
-      outlets: {
-        github_com_fullstack_lang_gong_go_presentation: ["github_com_fullstack_lang_gong_go-" + "sliceofpointertogongstructfield-presentation", sliceofpointertogongstructfieldID]
       }
     }]);
   }

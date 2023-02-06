@@ -1,7 +1,7 @@
 <form *ngIf="pointertogongstructfield" class="details">
     <h2 class="details__title">pointertogongstructfield</h2>
     <!-- insertion point for fields specific code -->
-    <mat-grid-list *ngIf='!isATextArea("Name")' cols="5" rowHeight="2:1">
+    <mat-grid-list *ngIf='!isATextArea("Name")' cols="5" rowHeight="1:1">
         <mat-grid-tile [colspan]="3">
             <mat-form-field mat-form-field class="detail-full-width">
                 <mat-label>Name</mat-label>
@@ -37,7 +37,7 @@
         <input type="number" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="pointertogongstructfield.Index" [ngModelOptions]="{standalone: true}">
     </mat-form-field>
 
-    <mat-grid-list *ngIf='!isATextArea("CompositeStructName")' cols="5" rowHeight="2:1">
+    <mat-grid-list *ngIf='!isATextArea("CompositeStructName")' cols="5" rowHeight="1:1">
         <mat-grid-tile [colspan]="3">
             <mat-form-field mat-form-field class="detail-full-width">
                 <mat-label>CompositeStructName</mat-label>
