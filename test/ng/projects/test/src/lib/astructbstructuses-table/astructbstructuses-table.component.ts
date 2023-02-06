@@ -152,7 +152,7 @@ export class AstructBstructUsesTableComponent implements OnInit {
       }
     )
     if (this.mode == TableComponentMode.DISPLAY_MODE) {
-      this.displayedColumns = ['ID', 'Edit', 'Delete', // insertion point for columns to display
+      this.displayedColumns = ['ID', 'Delete', // insertion point for columns to display
         "Name",
         "Bstruct2",
         "Astruct_AnarrayofbUse",
@@ -245,15 +245,6 @@ export class AstructBstructUsesTableComponent implements OnInit {
     this.router.navigate([{
       outlets: {
         github_com_fullstack_lang_gong_test_go_editor: ["github_com_fullstack_lang_gong_test_go-" + "astructbstructuse-detail", astructbstructuseID]
-      }
-    }]);
-  }
-
-  // set presentation outlet
-  setPresentationRouterOutlet(astructbstructuseID: number) {
-    this.router.navigate([{
-      outlets: {
-        github_com_fullstack_lang_gong_test_go_presentation: ["github_com_fullstack_lang_gong_test_go-" + "astructbstructuse-presentation", astructbstructuseID]
       }
     }]);
   }

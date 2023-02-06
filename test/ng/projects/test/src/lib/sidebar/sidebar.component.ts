@@ -1074,7 +1074,7 @@ export class SidebarComponent implements OnInit {
     if (type == GongNodeType.INSTANCE) {
       this.router.navigate([{
         outlets: {
-          github_com_fullstack_lang_gong_test_go_presentation: ["github_com_fullstack_lang_gong_test_go-" + structName.toLowerCase() + "-presentation", id]
+          github_com_fullstack_lang_gong_test_go_editor: ["github_com_fullstack_lang_gong_test_go-" + structName.toLowerCase() + "-detail", id]
         }
       }]);
     }

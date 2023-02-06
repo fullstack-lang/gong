@@ -28,7 +28,6 @@ map[string]string{
 	string(NgRoutingImports): `
 import { {{Structname}}sTableComponent } from './{{structname}}s-table/{{structname}}s-table.component'
 import { {{Structname}}DetailComponent } from './{{structname}}-detail/{{structname}}-detail.component'
-import { {{Structname}}PresentationComponent } from './{{structname}}-presentation/{{structname}}-presentation.component'
 `,
 
 	string(NgRoutingDeclarations): `
@@ -36,7 +35,5 @@ import { {{Structname}}PresentationComponent } from './{{structname}}-presentati
 	{ path: '{{PkgPathRootWithoutSlashes}}-{{structname}}-adder', component: {{Structname}}DetailComponent, outlet: '{{PkgPathRootWithoutSlashes}}_editor' },
 	{ path: '{{PkgPathRootWithoutSlashes}}-{{structname}}-adder/:id/:originStruct/:originStructFieldName', component: {{Structname}}DetailComponent, outlet: '{{PkgPathRootWithoutSlashes}}_editor' },
 	{ path: '{{PkgPathRootWithoutSlashes}}-{{structname}}-detail/:id', component: {{Structname}}DetailComponent, outlet: '{{PkgPathRootWithoutSlashes}}_editor' },
-	{ path: '{{PkgPathRootWithoutSlashes}}-{{structname}}-presentation/:id', component: {{Structname}}PresentationComponent, outlet: '{{PkgPathRootWithoutSlashes}}_presentation' },
-	{ path: '{{PkgPathRootWithoutSlashes}}-{{structname}}-presentation-special/:id', component: {{Structname}}PresentationComponent, outlet: '{{PkgPathRootWithoutSlashes}}{{structname}}pres' },
 `,
 }

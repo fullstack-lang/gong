@@ -42,27 +42,22 @@ import { GongstructSelectionService } from './gongstruct-selection.service'
 import { AstructsTableComponent } from './astructs-table/astructs-table.component'
 import { AstructSortingComponent } from './astruct-sorting/astruct-sorting.component'
 import { AstructDetailComponent } from './astruct-detail/astruct-detail.component'
-import { AstructPresentationComponent } from './astruct-presentation/astruct-presentation.component'
 
 import { AstructBstruct2UsesTableComponent } from './astructbstruct2uses-table/astructbstruct2uses-table.component'
 import { AstructBstruct2UseSortingComponent } from './astructbstruct2use-sorting/astructbstruct2use-sorting.component'
 import { AstructBstruct2UseDetailComponent } from './astructbstruct2use-detail/astructbstruct2use-detail.component'
-import { AstructBstruct2UsePresentationComponent } from './astructbstruct2use-presentation/astructbstruct2use-presentation.component'
 
 import { AstructBstructUsesTableComponent } from './astructbstructuses-table/astructbstructuses-table.component'
 import { AstructBstructUseSortingComponent } from './astructbstructuse-sorting/astructbstructuse-sorting.component'
 import { AstructBstructUseDetailComponent } from './astructbstructuse-detail/astructbstructuse-detail.component'
-import { AstructBstructUsePresentationComponent } from './astructbstructuse-presentation/astructbstructuse-presentation.component'
 
 import { BstructsTableComponent } from './bstructs-table/bstructs-table.component'
 import { BstructSortingComponent } from './bstruct-sorting/bstruct-sorting.component'
 import { BstructDetailComponent } from './bstruct-detail/bstruct-detail.component'
-import { BstructPresentationComponent } from './bstruct-presentation/bstruct-presentation.component'
 
 import { DstructsTableComponent } from './dstructs-table/dstructs-table.component'
 import { DstructSortingComponent } from './dstruct-sorting/dstruct-sorting.component'
 import { DstructDetailComponent } from './dstruct-detail/dstruct-detail.component'
-import { DstructPresentationComponent } from './dstruct-presentation/dstruct-presentation.component'
 
 
 @NgModule({
@@ -71,27 +66,22 @@ import { DstructPresentationComponent } from './dstruct-presentation/dstruct-pre
 		AstructsTableComponent,
 		AstructSortingComponent,
 		AstructDetailComponent,
-		AstructPresentationComponent,
 
 		AstructBstruct2UsesTableComponent,
 		AstructBstruct2UseSortingComponent,
 		AstructBstruct2UseDetailComponent,
-		AstructBstruct2UsePresentationComponent,
 
 		AstructBstructUsesTableComponent,
 		AstructBstructUseSortingComponent,
 		AstructBstructUseDetailComponent,
-		AstructBstructUsePresentationComponent,
 
 		BstructsTableComponent,
 		BstructSortingComponent,
 		BstructDetailComponent,
-		BstructPresentationComponent,
 
 		DstructsTableComponent,
 		DstructSortingComponent,
 		DstructDetailComponent,
-		DstructPresentationComponent,
 
 
 		SplitterComponent,
@@ -135,27 +125,22 @@ import { DstructPresentationComponent } from './dstruct-presentation/dstruct-pre
 		AstructsTableComponent,
 		AstructSortingComponent,
 		AstructDetailComponent,
-		AstructPresentationComponent,
 
 		AstructBstruct2UsesTableComponent,
 		AstructBstruct2UseSortingComponent,
 		AstructBstruct2UseDetailComponent,
-		AstructBstruct2UsePresentationComponent,
 
 		AstructBstructUsesTableComponent,
 		AstructBstructUseSortingComponent,
 		AstructBstructUseDetailComponent,
-		AstructBstructUsePresentationComponent,
 
 		BstructsTableComponent,
 		BstructSortingComponent,
 		BstructDetailComponent,
-		BstructPresentationComponent,
 
 		DstructsTableComponent,
 		DstructSortingComponent,
 		DstructDetailComponent,
-		DstructPresentationComponent,
 
 
 		SplitterComponent,

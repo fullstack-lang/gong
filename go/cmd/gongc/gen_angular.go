@@ -425,12 +425,6 @@ func genAngular(modelPkg *gong_models.ModelPkg, skipNpmInstall bool) {
 		gong_models.MatTargetPath,
 		modelPkg.PkgPath)
 
-	angular.MultiCodeGeneratorNgPresentation(
-		modelPkg,
-		modelPkg.Name,
-		gong_models.MatTargetPath,
-		modelPkg.PkgPath)
-
 	angular.MultiCodeGeneratorNgClass(
 		modelPkg,
 		modelPkg.Name,
