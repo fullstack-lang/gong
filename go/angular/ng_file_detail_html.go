@@ -150,7 +150,8 @@ var NgDetailHtmlSubTemplateCode map[NgDetailHtmlSubTemplate]string = map[NgDetai
                     list
                 </mat-icon>
             </button>
-        </mat-grid-tile> <!-- end of insertion `,
+        </mat-grid-tile>
+        <!-- end of insertion `,
 
 	NgDetailSliceOfPointerToStructReverseHtml: `
     <mat-form-field class="detail-full-width">

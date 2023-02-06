@@ -152,7 +152,7 @@ export class AstructBstruct2UsesTableComponent implements OnInit {
       }
     )
     if (this.mode == TableComponentMode.DISPLAY_MODE) {
-      this.displayedColumns = ['ID', 'Edit', 'Delete', // insertion point for columns to display
+      this.displayedColumns = ['ID', 'Delete', // insertion point for columns to display
         "Name",
         "Bstrcut2",
         "Astruct_Anarrayofb2Use",
