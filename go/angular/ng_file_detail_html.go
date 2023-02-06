@@ -18,9 +18,7 @@ const (
 	NgDetailHtmlInsertionsNb
 )
 
-//
 // Sub Templates
-//
 type NgDetailHtmlSubTemplate int
 
 const (
@@ -58,7 +56,7 @@ var NgDetailHtmlSubTemplateCode map[NgDetailHtmlSubTemplate]string = map[NgDetai
 `,
 
 	NgDetailHtmlBasicStringField: `
-    <mat-grid-list *ngIf='!isATextArea("{{FieldName}}")' cols="5" rowHeight="2:1">
+    <mat-grid-list *ngIf='!isATextArea("{{FieldName}}")' cols="5" rowHeight="1:1">
         <mat-grid-tile [colspan]="3">
             <mat-form-field mat-form-field class="detail-full-width">
                 <mat-label>{{FieldName}}</mat-label>
@@ -95,22 +93,22 @@ var NgDetailHtmlSubTemplateCode map[NgDetailHtmlSubTemplate]string = map[NgDetai
 
 	NgDetailHtmlTimeDuration: `
     <!-- -->
-    <mat-grid-list cols="3" rowHeight="4:1">
+    <mat-grid-list cols="3" rowHeight="1:1">
         <mat-grid-tile>
             <mat-form-field class="details_hours_width">
-                <mat-label>{{FieldName}} Hours</mat-label>
+                <mat-label>Hrs. {{FieldName}}</mat-label>
                 <input type="number" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="{{FieldName}}_Hours">
             </mat-form-field>
         </mat-grid-tile>
         <mat-grid-tile>
             <mat-form-field class="details_minutes_width">
-                <mat-label>{{FieldName}} Minutes</mat-label>
+                <mat-label>Min. {{FieldName}}</mat-label>
                 <input type="number" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="{{FieldName}}_Minutes">
             </mat-form-field>
         </mat-grid-tile>
         <mat-grid-tile>
             <mat-form-field class="details_seconds_width">
-                <mat-label>{{FieldName}} Seconds</mat-label>
+                <mat-label>Sec. {{FieldName}}</mat-label>
                 <input type="number" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="{{FieldName}}_Seconds">
             </mat-form-field>
         </mat-grid-tile>
