@@ -42,62 +42,50 @@ import { GongstructSelectionService } from './gongstruct-selection.service'
 import { GongBasicFieldsTableComponent } from './gongbasicfields-table/gongbasicfields-table.component'
 import { GongBasicFieldSortingComponent } from './gongbasicfield-sorting/gongbasicfield-sorting.component'
 import { GongBasicFieldDetailComponent } from './gongbasicfield-detail/gongbasicfield-detail.component'
-import { GongBasicFieldPresentationComponent } from './gongbasicfield-presentation/gongbasicfield-presentation.component'
 
 import { GongEnumsTableComponent } from './gongenums-table/gongenums-table.component'
 import { GongEnumSortingComponent } from './gongenum-sorting/gongenum-sorting.component'
 import { GongEnumDetailComponent } from './gongenum-detail/gongenum-detail.component'
-import { GongEnumPresentationComponent } from './gongenum-presentation/gongenum-presentation.component'
 
 import { GongEnumValuesTableComponent } from './gongenumvalues-table/gongenumvalues-table.component'
 import { GongEnumValueSortingComponent } from './gongenumvalue-sorting/gongenumvalue-sorting.component'
 import { GongEnumValueDetailComponent } from './gongenumvalue-detail/gongenumvalue-detail.component'
-import { GongEnumValuePresentationComponent } from './gongenumvalue-presentation/gongenumvalue-presentation.component'
 
 import { GongLinksTableComponent } from './gonglinks-table/gonglinks-table.component'
 import { GongLinkSortingComponent } from './gonglink-sorting/gonglink-sorting.component'
 import { GongLinkDetailComponent } from './gonglink-detail/gonglink-detail.component'
-import { GongLinkPresentationComponent } from './gonglink-presentation/gonglink-presentation.component'
 
 import { GongNotesTableComponent } from './gongnotes-table/gongnotes-table.component'
 import { GongNoteSortingComponent } from './gongnote-sorting/gongnote-sorting.component'
 import { GongNoteDetailComponent } from './gongnote-detail/gongnote-detail.component'
-import { GongNotePresentationComponent } from './gongnote-presentation/gongnote-presentation.component'
 
 import { GongStructsTableComponent } from './gongstructs-table/gongstructs-table.component'
 import { GongStructSortingComponent } from './gongstruct-sorting/gongstruct-sorting.component'
 import { GongStructDetailComponent } from './gongstruct-detail/gongstruct-detail.component'
-import { GongStructPresentationComponent } from './gongstruct-presentation/gongstruct-presentation.component'
 
 import { GongTimeFieldsTableComponent } from './gongtimefields-table/gongtimefields-table.component'
 import { GongTimeFieldSortingComponent } from './gongtimefield-sorting/gongtimefield-sorting.component'
 import { GongTimeFieldDetailComponent } from './gongtimefield-detail/gongtimefield-detail.component'
-import { GongTimeFieldPresentationComponent } from './gongtimefield-presentation/gongtimefield-presentation.component'
 
 import { MetasTableComponent } from './metas-table/metas-table.component'
 import { MetaSortingComponent } from './meta-sorting/meta-sorting.component'
 import { MetaDetailComponent } from './meta-detail/meta-detail.component'
-import { MetaPresentationComponent } from './meta-presentation/meta-presentation.component'
 
 import { MetaReferencesTableComponent } from './metareferences-table/metareferences-table.component'
 import { MetaReferenceSortingComponent } from './metareference-sorting/metareference-sorting.component'
 import { MetaReferenceDetailComponent } from './metareference-detail/metareference-detail.component'
-import { MetaReferencePresentationComponent } from './metareference-presentation/metareference-presentation.component'
 
 import { ModelPkgsTableComponent } from './modelpkgs-table/modelpkgs-table.component'
 import { ModelPkgSortingComponent } from './modelpkg-sorting/modelpkg-sorting.component'
 import { ModelPkgDetailComponent } from './modelpkg-detail/modelpkg-detail.component'
-import { ModelPkgPresentationComponent } from './modelpkg-presentation/modelpkg-presentation.component'
 
 import { PointerToGongStructFieldsTableComponent } from './pointertogongstructfields-table/pointertogongstructfields-table.component'
 import { PointerToGongStructFieldSortingComponent } from './pointertogongstructfield-sorting/pointertogongstructfield-sorting.component'
 import { PointerToGongStructFieldDetailComponent } from './pointertogongstructfield-detail/pointertogongstructfield-detail.component'
-import { PointerToGongStructFieldPresentationComponent } from './pointertogongstructfield-presentation/pointertogongstructfield-presentation.component'
 
 import { SliceOfPointerToGongStructFieldsTableComponent } from './sliceofpointertogongstructfields-table/sliceofpointertogongstructfields-table.component'
 import { SliceOfPointerToGongStructFieldSortingComponent } from './sliceofpointertogongstructfield-sorting/sliceofpointertogongstructfield-sorting.component'
 import { SliceOfPointerToGongStructFieldDetailComponent } from './sliceofpointertogongstructfield-detail/sliceofpointertogongstructfield-detail.component'
-import { SliceOfPointerToGongStructFieldPresentationComponent } from './sliceofpointertogongstructfield-presentation/sliceofpointertogongstructfield-presentation.component'
 
 
 @NgModule({
@@ -106,62 +94,50 @@ import { SliceOfPointerToGongStructFieldPresentationComponent } from './sliceofp
 		GongBasicFieldsTableComponent,
 		GongBasicFieldSortingComponent,
 		GongBasicFieldDetailComponent,
-		GongBasicFieldPresentationComponent,
 
 		GongEnumsTableComponent,
 		GongEnumSortingComponent,
 		GongEnumDetailComponent,
-		GongEnumPresentationComponent,
 
 		GongEnumValuesTableComponent,
 		GongEnumValueSortingComponent,
 		GongEnumValueDetailComponent,
-		GongEnumValuePresentationComponent,
 
 		GongLinksTableComponent,
 		GongLinkSortingComponent,
 		GongLinkDetailComponent,
-		GongLinkPresentationComponent,
 
 		GongNotesTableComponent,
 		GongNoteSortingComponent,
 		GongNoteDetailComponent,
-		GongNotePresentationComponent,
 
 		GongStructsTableComponent,
 		GongStructSortingComponent,
 		GongStructDetailComponent,
-		GongStructPresentationComponent,
 
 		GongTimeFieldsTableComponent,
 		GongTimeFieldSortingComponent,
 		GongTimeFieldDetailComponent,
-		GongTimeFieldPresentationComponent,
 
 		MetasTableComponent,
 		MetaSortingComponent,
 		MetaDetailComponent,
-		MetaPresentationComponent,
 
 		MetaReferencesTableComponent,
 		MetaReferenceSortingComponent,
 		MetaReferenceDetailComponent,
-		MetaReferencePresentationComponent,
 
 		ModelPkgsTableComponent,
 		ModelPkgSortingComponent,
 		ModelPkgDetailComponent,
-		ModelPkgPresentationComponent,
 
 		PointerToGongStructFieldsTableComponent,
 		PointerToGongStructFieldSortingComponent,
 		PointerToGongStructFieldDetailComponent,
-		PointerToGongStructFieldPresentationComponent,
 
 		SliceOfPointerToGongStructFieldsTableComponent,
 		SliceOfPointerToGongStructFieldSortingComponent,
 		SliceOfPointerToGongStructFieldDetailComponent,
-		SliceOfPointerToGongStructFieldPresentationComponent,
 
 
 		SplitterComponent,
@@ -205,62 +181,50 @@ import { SliceOfPointerToGongStructFieldPresentationComponent } from './sliceofp
 		GongBasicFieldsTableComponent,
 		GongBasicFieldSortingComponent,
 		GongBasicFieldDetailComponent,
-		GongBasicFieldPresentationComponent,
 
 		GongEnumsTableComponent,
 		GongEnumSortingComponent,
 		GongEnumDetailComponent,
-		GongEnumPresentationComponent,
 
 		GongEnumValuesTableComponent,
 		GongEnumValueSortingComponent,
 		GongEnumValueDetailComponent,
-		GongEnumValuePresentationComponent,
 
 		GongLinksTableComponent,
 		GongLinkSortingComponent,
 		GongLinkDetailComponent,
-		GongLinkPresentationComponent,
 
 		GongNotesTableComponent,
 		GongNoteSortingComponent,
 		GongNoteDetailComponent,
-		GongNotePresentationComponent,
 
 		GongStructsTableComponent,
 		GongStructSortingComponent,
 		GongStructDetailComponent,
-		GongStructPresentationComponent,
 
 		GongTimeFieldsTableComponent,
 		GongTimeFieldSortingComponent,
 		GongTimeFieldDetailComponent,
-		GongTimeFieldPresentationComponent,
 
 		MetasTableComponent,
 		MetaSortingComponent,
 		MetaDetailComponent,
-		MetaPresentationComponent,
 
 		MetaReferencesTableComponent,
 		MetaReferenceSortingComponent,
 		MetaReferenceDetailComponent,
-		MetaReferencePresentationComponent,
 
 		ModelPkgsTableComponent,
 		ModelPkgSortingComponent,
 		ModelPkgDetailComponent,
-		ModelPkgPresentationComponent,
 
 		PointerToGongStructFieldsTableComponent,
 		PointerToGongStructFieldSortingComponent,
 		PointerToGongStructFieldDetailComponent,
-		PointerToGongStructFieldPresentationComponent,
 
 		SliceOfPointerToGongStructFieldsTableComponent,
 		SliceOfPointerToGongStructFieldSortingComponent,
 		SliceOfPointerToGongStructFieldDetailComponent,
-		SliceOfPointerToGongStructFieldPresentationComponent,
 
 
 		SplitterComponent,

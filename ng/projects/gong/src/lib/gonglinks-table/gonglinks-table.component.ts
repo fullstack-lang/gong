@@ -150,7 +150,7 @@ export class GongLinksTableComponent implements OnInit {
       }
     )
     if (this.mode == TableComponentMode.DISPLAY_MODE) {
-      this.displayedColumns = ['ID', 'Edit', 'Delete', // insertion point for columns to display
+      this.displayedColumns = ['ID', 'Delete', // insertion point for columns to display
         "Name",
         "ImportPath",
         "GongNote_Links",
@@ -243,15 +243,6 @@ export class GongLinksTableComponent implements OnInit {
     this.router.navigate([{
       outlets: {
         github_com_fullstack_lang_gong_go_editor: ["github_com_fullstack_lang_gong_go-" + "gonglink-detail", gonglinkID]
-      }
-    }]);
-  }
-
-  // set presentation outlet
-  setPresentationRouterOutlet(gonglinkID: number) {
-    this.router.navigate([{
-      outlets: {
-        github_com_fullstack_lang_gong_go_presentation: ["github_com_fullstack_lang_gong_go-" + "gonglink-presentation", gonglinkID]
       }
     }]);
   }

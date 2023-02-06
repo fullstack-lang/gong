@@ -8,19 +8,12 @@
             </as-split>
         </as-split-area>
         <as-split-area [size]="80">
-            <as-split direction="vertical">
-                <as-split-area  style="overflow: hidden;">
+            <as-split direction="horizontal">
+                <as-split-area [size]="60">
                     <router-outlet name="github_com_fullstack_lang_gong_go_table"></router-outlet>
                 </as-split-area>
-                <as-split-area [size]="20">
-                    <as-split direction="horizontal">
-                        <as-split-area>
-                            <router-outlet name="github_com_fullstack_lang_gong_go_presentation"></router-outlet>
-                        </as-split-area>
-                        <as-split-area>
-                            <router-outlet name="github_com_fullstack_lang_gong_go_editor"></router-outlet>
-                        </as-split-area>
-                    </as-split>
+                <as-split-area [size]="40">
+                    <router-outlet name="github_com_fullstack_lang_gong_go_editor"></router-outlet>
                 </as-split-area>
             </as-split>
         </as-split-area>

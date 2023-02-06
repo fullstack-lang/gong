@@ -1,7 +1,7 @@
 <form *ngIf="gongnote" class="details">
     <h2 class="details__title">gongnote</h2>
     <!-- insertion point for fields specific code -->
-    <mat-grid-list *ngIf='!isATextArea("Name")' cols="5" rowHeight="2:1">
+    <mat-grid-list *ngIf='!isATextArea("Name")' cols="5" rowHeight="1:1">
         <mat-grid-tile [colspan]="3">
             <mat-form-field mat-form-field class="detail-full-width">
                 <mat-label>Name</mat-label>
@@ -21,7 +21,7 @@
         <textarea name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="gongnote.Name"></textarea>
     </mat-form-field>
 
-    <mat-grid-list *ngIf='!isATextArea("Body")' cols="5" rowHeight="2:1">
+    <mat-grid-list *ngIf='!isATextArea("Body")' cols="5" rowHeight="1:1">
         <mat-grid-tile [colspan]="3">
             <mat-form-field mat-form-field class="detail-full-width">
                 <mat-label>Body</mat-label>
