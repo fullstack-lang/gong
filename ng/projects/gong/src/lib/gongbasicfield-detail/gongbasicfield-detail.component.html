@@ -1,7 +1,7 @@
 <form *ngIf="gongbasicfield" class="details">
     <h2 class="details__title">gongbasicfield</h2>
     <!-- insertion point for fields specific code -->
-    <mat-grid-list *ngIf='!isATextArea("Name")' cols="5" rowHeight="2:1">
+    <mat-grid-list *ngIf='!isATextArea("Name")' cols="5" rowHeight="1:1">
         <mat-grid-tile [colspan]="3">
             <mat-form-field mat-form-field class="detail-full-width">
                 <mat-label>Name</mat-label>
@@ -21,7 +21,7 @@
         <textarea name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="gongbasicfield.Name"></textarea>
     </mat-form-field>
 
-    <mat-grid-list *ngIf='!isATextArea("BasicKindName")' cols="5" rowHeight="2:1">
+    <mat-grid-list *ngIf='!isATextArea("BasicKindName")' cols="5" rowHeight="1:1">
         <mat-grid-tile [colspan]="3">
             <mat-form-field mat-form-field class="detail-full-width">
                 <mat-label>BasicKindName</mat-label>
@@ -51,7 +51,7 @@
         </mat-select>
     </mat-form-field>
 
-    <mat-grid-list *ngIf='!isATextArea("DeclaredType")' cols="5" rowHeight="2:1">
+    <mat-grid-list *ngIf='!isATextArea("DeclaredType")' cols="5" rowHeight="1:1">
         <mat-grid-tile [colspan]="3">
             <mat-form-field mat-form-field class="detail-full-width">
                 <mat-label>DeclaredType</mat-label>
@@ -71,7 +71,7 @@
         <textarea name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="gongbasicfield.DeclaredType"></textarea>
     </mat-form-field>
 
-    <mat-grid-list *ngIf='!isATextArea("CompositeStructName")' cols="5" rowHeight="2:1">
+    <mat-grid-list *ngIf='!isATextArea("CompositeStructName")' cols="5" rowHeight="1:1">
         <mat-grid-tile [colspan]="3">
             <mat-form-field mat-form-field class="detail-full-width">
                 <mat-label>CompositeStructName</mat-label>
