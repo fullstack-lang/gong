@@ -7,7 +7,7 @@ const NgTableTemplateHTML = `<section class="container mat-elevation-z8" tabinde
     </mat-form-field>
     <h1 *ngIf="dialogData">{{structname}}</h1>
     <table class="table" mat-table [dataSource]="matTableDataSource" matSort>
-        <!-- Checkbox Column -->
+        <!-- Checkbox Column, only used when the component is used to select items for a field that is a slice of pointers -->
         <ng-container matColumnDef="select">
             <th mat-header-cell *matHeaderCellDef>
                 <mat-checkbox (change)="$event ? masterToggle() : null" [checked]="selection.hasValue() && isAllSelected()" [indeterminate]="selection.hasValue() && !isAllSelected()">
@@ -26,13 +26,6 @@ const NgTableTemplateHTML = `<section class="container mat-elevation-z8" tabinde
             <td mat-cell *matCellDef="let {{Structname}}"> {{{{Structname}}.ID}} </td>
         </ng-container>
 
-        <ng-container matColumnDef="Edit" sticky>
-            <th mat-header-cell *matHeaderCellDef> Edit </th>
-            <td mat-cell *matCellDef="let {{structname}};  let j = index;">
-                <i class="material-icons" [ngStyle]="{'color':'rgba(0,0,0,.50)'}" (click)="setEditorRouterOutlet({{structname}}.ID)">edit</i>
-            </td>
-        </ng-container>
-
         <ng-container matColumnDef="Delete" sticky>
             <th mat-header-cell *matHeaderCellDef> Delete </th>
             <td mat-cell *matCellDef="let {{structname}};  let j = index;">
@@ -45,7 +38,7 @@ const NgTableTemplateHTML = `<section class="container mat-elevation-z8" tabinde
         <tr mat-row *matRowDef="
         let row; 
         columns: displayedColumns;
-        " (click)="setPresentationRouterOutlet( row.ID ) " class="row-link">
+        " (click)="setEditorRouterOutlet( row.ID ) " class="row-link">
         </tr>
 
         <!-- Row shown when there is no matching data. -->

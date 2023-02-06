@@ -150,7 +150,7 @@ export class {{Structname}}sTableComponent implements OnInit {
       }
     )
     if (this.mode == TableComponentMode.DISPLAY_MODE) {
-      this.displayedColumns = ['ID', 'Edit', 'Delete', // insertion point for columns to display{{` + string(rune(NgTableTsInsertionPerStructColumns)) + `}}
+      this.displayedColumns = ['ID', 'Delete', // insertion point for columns to display{{` + string(rune(NgTableTsInsertionPerStructColumns)) + `}}
       ]
     } else {
       this.displayedColumns = ['select', 'ID', // insertion point for columns to display{{` + string(rune(NgTableTsInsertionPerStructColumns)) + `}}
@@ -237,15 +237,6 @@ export class {{Structname}}sTableComponent implements OnInit {
     this.router.navigate([{
       outlets: {
         {{PkgPathRootWithoutSlashes}}_editor: ["{{PkgPathRootWithoutSlashes}}-" + "{{structname}}-detail", {{structname}}ID]
-      }
-    }]);
-  }
-
-  // set presentation outlet
-  setPresentationRouterOutlet({{structname}}ID: number) {
-    this.router.navigate([{
-      outlets: {
-        {{PkgPathRootWithoutSlashes}}_presentation: ["{{PkgPathRootWithoutSlashes}}-" + "{{structname}}-presentation", {{structname}}ID]
       }
     }]);
   }

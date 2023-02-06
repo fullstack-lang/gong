@@ -1,7 +1,7 @@
 <form *ngIf="astruct" class="details">
     <h2 class="details__title">astruct</h2>
     <!-- insertion point for fields specific code -->
-    <mat-grid-list *ngIf='!isATextArea("Name")' cols="5" rowHeight="2:1">
+    <mat-grid-list *ngIf='!isATextArea("Name")' cols="5" rowHeight="1:1">
         <mat-grid-tile [colspan]="3">
             <mat-form-field mat-form-field class="detail-full-width">
                 <mat-label>Name</mat-label>
@@ -72,7 +72,7 @@
         </mat-select>
     </mat-form-field>
 
-    <mat-grid-list *ngIf='!isATextArea("CName")' cols="5" rowHeight="2:1">
+    <mat-grid-list *ngIf='!isATextArea("CName")' cols="5" rowHeight="1:1">
         <mat-grid-tile [colspan]="3">
             <mat-form-field mat-form-field class="detail-full-width">
                 <mat-label>CName</mat-label>
@@ -174,22 +174,22 @@
     <mat-checkbox [formControl]="AnotherbooleanfieldFormControl">Anotherbooleanfield</mat-checkbox>
 
     <!-- -->
-    <mat-grid-list cols="3" rowHeight="4:1">
+    <mat-grid-list cols="3" rowHeight="1:1">
         <mat-grid-tile>
             <mat-form-field class="details_hours_width">
-                <mat-label>Duration1 Hours</mat-label>
+                <mat-label>Hrs. Duration1</mat-label>
                 <input type="number" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="Duration1_Hours">
             </mat-form-field>
         </mat-grid-tile>
         <mat-grid-tile>
             <mat-form-field class="details_minutes_width">
-                <mat-label>Duration1 Minutes</mat-label>
+                <mat-label>Min. Duration1</mat-label>
                 <input type="number" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="Duration1_Minutes">
             </mat-form-field>
         </mat-grid-tile>
         <mat-grid-tile>
             <mat-form-field class="details_seconds_width">
-                <mat-label>Duration1 Seconds</mat-label>
+                <mat-label>Sec. Duration1</mat-label>
                 <input type="number" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="Duration1_Seconds">
             </mat-form-field>
         </mat-grid-tile>
@@ -266,7 +266,8 @@
                     list
                 </mat-icon>
             </button>
-        </mat-grid-tile> <!-- end of insertion -->
+        </mat-grid-tile>
+        <!-- end of insertion -->
         <mat-grid-tile>
             <button mat-raised-button (click)="openDragAndDropOrdering('AstructBstructUse', 'Astruct_AnarrayofbUseDBID')">
                 <mat-icon>
@@ -287,7 +288,8 @@
                     list
                 </mat-icon>
             </button>
-        </mat-grid-tile> <!-- end of insertion -->
+        </mat-grid-tile>
+        <!-- end of insertion -->
         <mat-grid-tile>
             <button mat-raised-button (click)="openDragAndDropOrdering('AstructBstruct2Use', 'Astruct_Anarrayofb2UseDBID')">
                 <mat-icon>
@@ -306,7 +308,7 @@
         </mat-select>
     </mat-form-field>
 
-    <mat-grid-list *ngIf='!isATextArea("StructRef")' cols="5" rowHeight="2:1">
+    <mat-grid-list *ngIf='!isATextArea("StructRef")' cols="5" rowHeight="1:1">
         <mat-grid-tile [colspan]="3">
             <mat-form-field mat-form-field class="detail-full-width">
                 <mat-label>StructRef</mat-label>
@@ -326,7 +328,7 @@
         <textarea name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="astruct.StructRef"></textarea>
     </mat-form-field>
 
-    <mat-grid-list *ngIf='!isATextArea("FieldRef")' cols="5" rowHeight="2:1">
+    <mat-grid-list *ngIf='!isATextArea("FieldRef")' cols="5" rowHeight="1:1">
         <mat-grid-tile [colspan]="3">
             <mat-form-field mat-form-field class="detail-full-width">
                 <mat-label>FieldRef</mat-label>
@@ -346,7 +348,7 @@
         <textarea name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="astruct.FieldRef"></textarea>
     </mat-form-field>
 
-    <mat-grid-list *ngIf='!isATextArea("EnumIntRef")' cols="5" rowHeight="2:1">
+    <mat-grid-list *ngIf='!isATextArea("EnumIntRef")' cols="5" rowHeight="1:1">
         <mat-grid-tile [colspan]="3">
             <mat-form-field mat-form-field class="detail-full-width">
                 <mat-label>EnumIntRef</mat-label>
@@ -366,7 +368,7 @@
         <textarea name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="astruct.EnumIntRef"></textarea>
     </mat-form-field>
 
-    <mat-grid-list *ngIf='!isATextArea("EnumStringRef")' cols="5" rowHeight="2:1">
+    <mat-grid-list *ngIf='!isATextArea("EnumStringRef")' cols="5" rowHeight="1:1">
         <mat-grid-tile [colspan]="3">
             <mat-form-field mat-form-field class="detail-full-width">
                 <mat-label>EnumStringRef</mat-label>
@@ -386,7 +388,7 @@
         <textarea name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="astruct.EnumStringRef"></textarea>
     </mat-form-field>
 
-    <mat-grid-list *ngIf='!isATextArea("EnumValue")' cols="5" rowHeight="2:1">
+    <mat-grid-list *ngIf='!isATextArea("EnumValue")' cols="5" rowHeight="1:1">
         <mat-grid-tile [colspan]="3">
             <mat-form-field mat-form-field class="detail-full-width">
                 <mat-label>EnumValue</mat-label>
@@ -406,7 +408,7 @@
         <textarea name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="astruct.EnumValue"></textarea>
     </mat-form-field>
 
-    <mat-grid-list *ngIf='!isATextArea("ConstIdentifierValue")' cols="5" rowHeight="2:1">
+    <mat-grid-list *ngIf='!isATextArea("ConstIdentifierValue")' cols="5" rowHeight="1:1">
         <mat-grid-tile [colspan]="3">
             <mat-form-field mat-form-field class="detail-full-width">
                 <mat-label>ConstIdentifierValue</mat-label>
