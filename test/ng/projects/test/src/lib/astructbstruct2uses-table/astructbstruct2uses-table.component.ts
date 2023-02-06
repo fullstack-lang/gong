@@ -249,15 +249,6 @@ export class AstructBstruct2UsesTableComponent implements OnInit {
     }]);
   }
 
-  // set presentation outlet
-  setPresentationRouterOutlet(astructbstruct2useID: number) {
-    this.router.navigate([{
-      outlets: {
-        github_com_fullstack_lang_gong_test_go_presentation: ["github_com_fullstack_lang_gong_test_go-" + "astructbstruct2use-presentation", astructbstruct2useID]
-      }
-    }]);
-  }
-
   /** Whether the number of selected elements matches the total number of rows. */
   isAllSelected() {
     const numSelected = this.selection.selected.length;

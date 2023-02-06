@@ -428,15 +428,6 @@ export class AstructsTableComponent implements OnInit {
     }]);
   }
 
-  // set presentation outlet
-  setPresentationRouterOutlet(astructID: number) {
-    this.router.navigate([{
-      outlets: {
-        github_com_fullstack_lang_gong_test_go_presentation: ["github_com_fullstack_lang_gong_test_go-" + "astruct-presentation", astructID]
-      }
-    }]);
-  }
-
   /** Whether the number of selected elements matches the total number of rows. */
   isAllSelected() {
     const numSelected = this.selection.selected.length;

@@ -272,15 +272,6 @@ export class BstructsTableComponent implements OnInit {
     }]);
   }
 
-  // set presentation outlet
-  setPresentationRouterOutlet(bstructID: number) {
-    this.router.navigate([{
-      outlets: {
-        github_com_fullstack_lang_gong_test_go_presentation: ["github_com_fullstack_lang_gong_test_go-" + "bstruct-presentation", bstructID]
-      }
-    }]);
-  }
-
   /** Whether the number of selected elements matches the total number of rows. */
   isAllSelected() {
     const numSelected = this.selection.selected.length;
