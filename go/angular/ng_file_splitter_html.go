@@ -17,9 +17,6 @@ const NgSplitterTemplateHTML = `<div style="width: 100%; height: 100%; backgroun
                 <as-split-area [size]="20">
                     <as-split direction="horizontal">
                         <as-split-area>
-                            <router-outlet name="{{PkgPathRootWithoutSlashes}}_presentation"></router-outlet>
-                        </as-split-area>
-                        <as-split-area>
                             <router-outlet name="{{PkgPathRootWithoutSlashes}}_editor"></router-outlet>
                         </as-split-area>
                     </as-split>
