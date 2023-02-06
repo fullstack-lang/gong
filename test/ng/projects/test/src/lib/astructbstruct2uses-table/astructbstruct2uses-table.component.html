@@ -45,13 +45,6 @@
             <td mat-cell *matCellDef="let AstructBstruct2Use"> {{AstructBstruct2Use.ID}} </td>
         </ng-container>
 
-        <ng-container matColumnDef="Edit" sticky>
-            <th mat-header-cell *matHeaderCellDef> Edit </th>
-            <td mat-cell *matCellDef="let astructbstruct2use;  let j = index;">
-                <i class="material-icons" [ngStyle]="{'color':'rgba(0,0,0,.50)'}" (click)="setEditorRouterOutlet(astructbstruct2use.ID)">edit</i>
-            </td>
-        </ng-container>
-
         <ng-container matColumnDef="Delete" sticky>
             <th mat-header-cell *matHeaderCellDef> Delete </th>
             <td mat-cell *matCellDef="let astructbstruct2use;  let j = index;">

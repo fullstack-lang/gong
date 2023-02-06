@@ -26,13 +26,6 @@ const NgTableTemplateHTML = `<section class="container mat-elevation-z8" tabinde
             <td mat-cell *matCellDef="let {{Structname}}"> {{{{Structname}}.ID}} </td>
         </ng-container>
 
-        <ng-container matColumnDef="Edit" sticky>
-            <th mat-header-cell *matHeaderCellDef> Edit </th>
-            <td mat-cell *matCellDef="let {{structname}};  let j = index;">
-                <i class="material-icons" [ngStyle]="{'color':'rgba(0,0,0,.50)'}" (click)="setEditorRouterOutlet({{structname}}.ID)">edit</i>
-            </td>
-        </ng-container>
-
         <ng-container matColumnDef="Delete" sticky>
             <th mat-header-cell *matHeaderCellDef> Delete </th>
             <td mat-cell *matCellDef="let {{structname}};  let j = index;">
