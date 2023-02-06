@@ -114,13 +114,11 @@ map[string]string{
 import { {{Structname}}sTableComponent } from './{{structname}}s-table/{{structname}}s-table.component'
 import { {{Structname}}SortingComponent } from './{{structname}}-sorting/{{structname}}-sorting.component'
 import { {{Structname}}DetailComponent } from './{{structname}}-detail/{{structname}}-detail.component'
-import { {{Structname}}PresentationComponent } from './{{structname}}-presentation/{{structname}}-presentation.component'
 `,
 
 	string(NgLibModuleDeclarations): `
 		{{Structname}}sTableComponent,
 		{{Structname}}SortingComponent,
 		{{Structname}}DetailComponent,
-		{{Structname}}PresentationComponent,
 `,
 }

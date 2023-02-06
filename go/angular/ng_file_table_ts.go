@@ -241,15 +241,6 @@ export class {{Structname}}sTableComponent implements OnInit {
     }]);
   }
 
-  // set presentation outlet
-  setPresentationRouterOutlet({{structname}}ID: number) {
-    this.router.navigate([{
-      outlets: {
-        {{PkgPathRootWithoutSlashes}}_presentation: ["{{PkgPathRootWithoutSlashes}}-" + "{{structname}}-presentation", {{structname}}ID]
-      }
-    }]);
-  }
-
   /** Whether the number of selected elements matches the total number of rows. */
   isAllSelected() {
     const numSelected = this.selection.selected.length;
