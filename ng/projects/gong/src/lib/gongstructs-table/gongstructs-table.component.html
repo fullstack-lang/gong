@@ -52,4 +52,7 @@
         </tr>
     </table>
     <mat-paginator [pageSizeOptions]="[50, 100, 500, 1000]" showFirstLastButtons></mat-paginator>
+    <button class="table__save" color="primary" *ngIf="dialogData" mat-raised-button (click)="save()">
+        Save
+    </button>
 </section>
