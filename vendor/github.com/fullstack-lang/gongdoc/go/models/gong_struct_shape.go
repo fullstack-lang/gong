@@ -34,6 +34,4 @@ type GongStructShape struct {
 	IsSelected bool
 }
 
-var Map_Identifier_NbInstances = make(map[string]int)
-
 func (gongStructShape *GongStructShape) diagramElt() {}

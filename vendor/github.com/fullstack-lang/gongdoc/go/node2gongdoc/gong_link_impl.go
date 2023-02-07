@@ -16,7 +16,7 @@ func (gongLinkImpl *GongLinkImpl) OnAfterUpdate(
 
 	classdiagram := gongLinkImpl.nodeCb.GetSelectedClassdiagram()
 
-	// find the parent node to find the gongstruct to find the classshape
+	// find the parent node to find the gongstruct to find the gongstructshape
 	// the node is field, one needs to find the gongstruct that contains it
 	// get the parent node
 	parentNode := gongLinkImpl.nodeCb.map_Children_Parent[stagedNode]
@@ -30,8 +30,8 @@ func (gongLinkImpl *GongLinkImpl) OnAfterUpdate(
 	_ = noteshape
 
 	for _, _noteshape := range classdiagram.NoteShapes {
-		// strange behavior when the classshape is remove within the loop
-		if gongdoc_models.IdentifierToGongStructName(_noteshape.Identifier) ==
+		// strange behavior when the gongstructshape is remove within the loop
+		if gongdoc_models.IdentifierToGongObjectName(_noteshape.Identifier) ==
 			gongNote.Name && !foundNoteshape {
 			noteshape = _noteshape
 		}

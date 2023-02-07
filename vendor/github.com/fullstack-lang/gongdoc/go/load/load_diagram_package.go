@@ -21,6 +21,7 @@ func LoadDiagramPackage(pkgPath string, modelPkg *gong_models.ModelPkg, editable
 	_ = gongdocStage
 
 	diagramPackage = (&gongdoc_models.DiagramPackage{}).Stage()
+	diagramPackage.Map_Identifier_NbInstances = make(map[string]int)
 	diagramPackage.IsEditable = editable
 	diagramPackage.ModelPkg = modelPkg
 	diagramPackage.Name = modelPkg.Name + "_diagrams"

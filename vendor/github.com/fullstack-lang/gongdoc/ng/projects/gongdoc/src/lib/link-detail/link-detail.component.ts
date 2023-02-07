@@ -13,7 +13,7 @@ import { MapOfSortingComponents } from '../map-components'
 import { MultiplicityTypeSelect, MultiplicityTypeList } from '../MultiplicityType'
 import { GongStructShapeDB } from '../gongstructshape-db'
 
-import { Router, RouterState, ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
 import { MatDialog, MAT_DIALOG_DATA, MatDialogRef, MatDialogConfig } from '@angular/material/dialog';
 
@@ -64,19 +64,24 @@ export class LinkDetailComponent implements OnInit {
 		private linkService: LinkService,
 		private frontRepoService: FrontRepoService,
 		public dialog: MatDialog,
-		private route: ActivatedRoute,
+		private activatedRoute: ActivatedRoute,
 		private router: Router,
 	) {
 	}
 
 	ngOnInit(): void {
+		this.activatedRoute.params.subscribe(params => {
+			this.onChangedActivatedRoute()
+		});
+	}
+	onChangedActivatedRoute(): void {
 
 		// compute state
-		this.id = +this.route.snapshot.paramMap.get('id')!;
-		this.originStruct = this.route.snapshot.paramMap.get('originStruct')!;
-		this.originStructFieldName = this.route.snapshot.paramMap.get('originStructFieldName')!;
+		this.id = +this.activatedRoute.snapshot.paramMap.get('id')!;
+		this.originStruct = this.activatedRoute.snapshot.paramMap.get('originStruct')!;
+		this.originStructFieldName = this.activatedRoute.snapshot.paramMap.get('originStructFieldName')!;
 
-		const association = this.route.snapshot.paramMap.get('association');
+		const association = this.activatedRoute.snapshot.paramMap.get('association');
 		if (this.id == 0) {
 			this.state = LinkDetailComponentState.CREATE_INSTANCE
 		} else {

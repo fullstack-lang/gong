@@ -17,7 +17,7 @@ func (enumValueImpl *GongEnumValueImpl) OnAfterUpdate(
 	// find classdiagram
 	classdiagram := enumValueImpl.nodeCb.GetSelectedClassdiagram()
 
-	// find the parent node to find the gongenum to find the classshape
+	// find the parent node to find the gongenum to find the gongstructshape
 	// the node is field, one needs to find the gongenum that contains it
 	// get the parent node
 	parentNode := enumValueImpl.nodeCb.map_Children_Parent[stagedNode]
@@ -26,14 +26,14 @@ func (enumValueImpl *GongEnumValueImpl) OnAfterUpdate(
 	gongEnum := gongEnumImpl.gongEnum
 
 	// find the classhape in the classdiagram
-	foundClassshape := false
-	var classshape *gongdoc_models.GongEnumShape
-	for _, _classshape := range classdiagram.GongEnumShapes {
-		if gongdoc_models.IdentifierToGongStructName(_classshape.Identifier) == gongEnum.Name && !foundClassshape {
-			classshape = _classshape
+	foundGongEnumShape := false
+	var gongEnumShape *gongdoc_models.GongEnumShape
+	for _, _gongstructshape := range classdiagram.GongEnumShapes {
+		if gongdoc_models.IdentifierToGongObjectName(_gongstructshape.Identifier) == gongEnum.Name && !foundGongEnumShape {
+			gongEnumShape = _gongstructshape
 		}
 	}
-	_ = classshape
+	_ = gongEnumShape
 
 	// insert the value at the correct spot in the classhape
 	map_Value_rankInEnum := make(map[gong_models.GongEnumValue]int, 0)
@@ -47,25 +47,25 @@ func (enumValueImpl *GongEnumValueImpl) OnAfterUpdate(
 		// get the latest version of the diagram before modifying it
 		stage.Checkout()
 
-		classshape.Heigth = classshape.Heigth + 15
+		gongEnumShape.Heigth = gongEnumShape.Heigth + 15
 
-		var field gongdoc_models.Field
-		field.Name = stagedNode.Name
-		field.Identifier = gongdoc_models.GongstructAndFieldnameToFieldIdentifier(gongEnum.Name, stagedNode.Name)
+		var gongEnumValueEntry gongdoc_models.GongEnumValueEntry
+		gongEnumValueEntry.Name = stagedNode.Name
+		gongEnumValueEntry.Identifier = gongdoc_models.GongstructAndFieldnameToFieldIdentifier(gongEnum.Name, stagedNode.Name)
 
 		for idx, gongEnum := range gongEnum.GongEnumValues {
 
 			map_Value_rankInEnum[*gongEnum] = idx
 			map_ValueName_Value[gongEnum.GetName()] = *gongEnum
 
-			if gongEnum.GetName() == field.Name {
+			if gongEnum.GetName() == gongEnumValueEntry.Name {
 				rankkInEnum = idx
 			}
 		}
 
 		// compute insertionIndex (index where to insert the field to display)
 		insertionIndex := 0
-		for idx, field := range classshape.Fields {
+		for idx, field := range gongEnumShape.GongEnumValueEntrys {
 			value := map_ValueName_Value[gongdoc_models.IdentifierToFieldName(field.Identifier)]
 			_rankInEnum := map_Value_rankInEnum[value]
 			if rankkInEnum > _rankInEnum {
@@ -74,14 +74,14 @@ func (enumValueImpl *GongEnumValueImpl) OnAfterUpdate(
 		}
 
 		// append the filed to display in the right index
-		if insertionIndex == len(classshape.Fields) {
-			classshape.Fields = append(classshape.Fields, &field)
+		if insertionIndex == len(gongEnumShape.GongEnumValueEntrys) {
+			gongEnumShape.GongEnumValueEntrys = append(gongEnumShape.GongEnumValueEntrys, &gongEnumValueEntry)
 		} else {
-			classshape.Fields = append(classshape.Fields[:insertionIndex+1],
-				classshape.Fields[insertionIndex:]...)
-			classshape.Fields[insertionIndex] = &field
+			gongEnumShape.GongEnumValueEntrys = append(gongEnumShape.GongEnumValueEntrys[:insertionIndex+1],
+				gongEnumShape.GongEnumValueEntrys[insertionIndex:]...)
+			gongEnumShape.GongEnumValueEntrys[insertionIndex] = &gongEnumValueEntry
 		}
-		field.Stage()
+		gongEnumValueEntry.Stage()
 		gongdoc_models.Stage.Commit()
 
 	}
@@ -91,17 +91,17 @@ func (enumValueImpl *GongEnumValueImpl) OnAfterUpdate(
 		stage.Checkout()
 
 		{
-			var field *gongdoc_models.Field
+			var gongEnumValueEntry *gongdoc_models.GongEnumValueEntry
 
-			for _, _field := range classshape.Fields {
+			for _, _field := range gongEnumShape.GongEnumValueEntrys {
 				if gongdoc_models.IdentifierToFieldName(_field.Identifier) == stagedNode.Name {
-					field = _field
+					gongEnumValueEntry = _field
 				}
 			}
-			if field != nil {
-				classshape.Fields = remove(classshape.Fields, field)
-				classshape.Heigth = classshape.Heigth - 15
-				field.Unstage()
+			if gongEnumValueEntry != nil {
+				gongEnumShape.GongEnumValueEntrys = remove(gongEnumShape.GongEnumValueEntrys, gongEnumValueEntry)
+				gongEnumShape.Heigth = gongEnumShape.Heigth - 15
+				gongEnumValueEntry.Unstage()
 			}
 		}
 

@@ -1,0 +1,58 @@
+<form *ngIf="gongenumvalueentry" class="details">
+    <h2 class="details__title">gongenumvalueentry</h2>
+    <!-- insertion point for fields specific code -->
+    <mat-grid-list *ngIf='!isATextArea("Name")' cols="5" rowHeight="1:1">
+        <mat-grid-tile [colspan]="3">
+            <mat-form-field mat-form-field class="detail-full-width">
+                <mat-label>Name</mat-label>
+                <input name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="gongenumvalueentry.Name">
+            </mat-form-field>
+        </mat-grid-tile>
+        <mat-grid-tile>
+            <button mat-raised-button (click)="toggleTextArea('Name')">
+                <mat-icon>
+                    expand_more
+                </mat-icon>
+            </button>
+        </mat-grid-tile>
+    </mat-grid-list>
+    <mat-form-field *ngIf='isATextArea("Name")' mat-form-field class="detail-full-width">
+        <mat-label>Name</mat-label>
+        <textarea name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="gongenumvalueentry.Name"></textarea>
+    </mat-form-field>
+
+    <mat-grid-list *ngIf='!isATextArea("Identifier")' cols="5" rowHeight="1:1">
+        <mat-grid-tile [colspan]="3">
+            <mat-form-field mat-form-field class="detail-full-width">
+                <mat-label>Identifier</mat-label>
+                <input name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="gongenumvalueentry.Identifier">
+            </mat-form-field>
+        </mat-grid-tile>
+        <mat-grid-tile>
+            <button mat-raised-button (click)="toggleTextArea('Identifier')">
+                <mat-icon>
+                    expand_more
+                </mat-icon>
+            </button>
+        </mat-grid-tile>
+    </mat-grid-list>
+    <mat-form-field *ngIf='isATextArea("Identifier")' mat-form-field class="detail-full-width">
+        <mat-label>Identifier</mat-label>
+        <textarea name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="gongenumvalueentry.Identifier"></textarea>
+    </mat-form-field>
+
+    <mat-form-field class="detail-full-width">
+        <mat-label>(GongEnumShape) GongEnumValueEntrys</mat-label>
+        <mat-select [compareWith]="compareObjects" [(ngModel)]="gongenumvalueentry.GongEnumShape_GongEnumValueEntrys_reverse" [ngModelOptions]="{standalone: true}">
+            <mat-option>None</mat-option>
+            <mat-option *ngFor="let gongenumshape of frontRepo.GongEnumShapes_array" [value]="gongenumshape">
+                {{gongenumshape.Name}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+    <div class="details__save">
+        <button mat-raised-button color="primary" (click)="save()">
+            Save gongenumvalueentry
+        </button>
+    </div>
+</form>

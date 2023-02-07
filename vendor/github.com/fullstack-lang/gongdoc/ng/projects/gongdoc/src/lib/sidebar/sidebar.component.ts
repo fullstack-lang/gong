@@ -19,6 +19,8 @@ import { FieldService } from '../field.service'
 import { getFieldUniqueID } from '../front-repo.service'
 import { GongEnumShapeService } from '../gongenumshape.service'
 import { getGongEnumShapeUniqueID } from '../front-repo.service'
+import { GongEnumValueEntryService } from '../gongenumvalueentry.service'
+import { getGongEnumValueEntryUniqueID } from '../front-repo.service'
 import { GongStructShapeService } from '../gongstructshape.service'
 import { getGongStructShapeUniqueID } from '../front-repo.service'
 import { LinkService } from '../link.service'
@@ -185,6 +187,7 @@ export class SidebarComponent implements OnInit {
     private diagrampackageService: DiagramPackageService,
     private fieldService: FieldService,
     private gongenumshapeService: GongEnumShapeService,
+    private gongenumvalueentryService: GongEnumValueEntryService,
     private gongstructshapeService: GongStructShapeService,
     private linkService: LinkService,
     private nodeService: NodeService,
@@ -248,6 +251,14 @@ export class SidebarComponent implements OnInit {
     )
     // observable for changes in structs
     this.gongenumshapeService.GongEnumShapeServiceChanged.subscribe(
+      message => {
+        if (message == "post" || message == "update" || message == "delete") {
+          this.refresh()
+        }
+      }
+    )
+    // observable for changes in structs
+    this.gongenumvalueentryService.GongEnumValueEntryServiceChanged.subscribe(
       message => {
         if (message == "post" || message == "update" || message == "delete") {
           this.refresh()
@@ -762,37 +773,81 @@ export class SidebarComponent implements OnInit {
           }
 
           /**
-          * let append a node for the slide of pointer Fields
+          * let append a node for the slide of pointer GongEnumValueEntrys
           */
-          let FieldsGongNodeAssociation: GongNode = {
-            name: "(Field) Fields",
+          let GongEnumValueEntrysGongNodeAssociation: GongNode = {
+            name: "(GongEnumValueEntry) GongEnumValueEntrys",
             type: GongNodeType.ONE__ZERO_MANY_ASSOCIATION,
             id: gongenumshapeDB.ID,
             uniqueIdPerStack: 19 * nonInstanceNodeId,
             structName: "GongEnumShape",
-            associationField: "Fields",
-            associatedStructName: "Field",
+            associationField: "GongEnumValueEntrys",
+            associatedStructName: "GongEnumValueEntry",
             children: new Array<GongNode>()
           }
           nonInstanceNodeId = nonInstanceNodeId + 1
-          gongenumshapeGongNodeInstance.children.push(FieldsGongNodeAssociation)
+          gongenumshapeGongNodeInstance.children.push(GongEnumValueEntrysGongNodeAssociation)
 
-          gongenumshapeDB.Fields?.forEach(fieldDB => {
-            let fieldNode: GongNode = {
-              name: fieldDB.Name,
+          gongenumshapeDB.GongEnumValueEntrys?.forEach(gongenumvalueentryDB => {
+            let gongenumvalueentryNode: GongNode = {
+              name: gongenumvalueentryDB.Name,
               type: GongNodeType.INSTANCE,
-              id: fieldDB.ID,
+              id: gongenumvalueentryDB.ID,
               uniqueIdPerStack: // godel numbering (thank you kurt)
                 7 * getGongEnumShapeUniqueID(gongenumshapeDB.ID)
-                + 11 * getFieldUniqueID(fieldDB.ID),
-              structName: "Field",
+                + 11 * getGongEnumValueEntryUniqueID(gongenumvalueentryDB.ID),
+              structName: "GongEnumValueEntry",
               associationField: "",
               associatedStructName: "",
               children: new Array<GongNode>()
             }
-            FieldsGongNodeAssociation.children.push(fieldNode)
+            GongEnumValueEntrysGongNodeAssociation.children.push(gongenumvalueentryNode)
           })
 
+        }
+      )
+
+      /**
+      * fill up the GongEnumValueEntry part of the mat tree
+      */
+      let gongenumvalueentryGongNodeStruct: GongNode = {
+        name: "GongEnumValueEntry",
+        type: GongNodeType.STRUCT,
+        id: 0,
+        uniqueIdPerStack: 13 * nonInstanceNodeId,
+        structName: "GongEnumValueEntry",
+        associationField: "",
+        associatedStructName: "",
+        children: new Array<GongNode>()
+      }
+      nonInstanceNodeId = nonInstanceNodeId + 1
+      this.gongNodeTree.push(gongenumvalueentryGongNodeStruct)
+
+      this.frontRepo.GongEnumValueEntrys_array.sort((t1, t2) => {
+        if (t1.Name > t2.Name) {
+          return 1;
+        }
+        if (t1.Name < t2.Name) {
+          return -1;
+        }
+        return 0;
+      });
+
+      this.frontRepo.GongEnumValueEntrys_array.forEach(
+        gongenumvalueentryDB => {
+          let gongenumvalueentryGongNodeInstance: GongNode = {
+            name: gongenumvalueentryDB.Name,
+            type: GongNodeType.INSTANCE,
+            id: gongenumvalueentryDB.ID,
+            uniqueIdPerStack: getGongEnumValueEntryUniqueID(gongenumvalueentryDB.ID),
+            structName: "GongEnumValueEntry",
+            associationField: "",
+            associatedStructName: "",
+            children: new Array<GongNode>()
+          }
+          gongenumvalueentryGongNodeStruct.children!.push(gongenumvalueentryGongNodeInstance)
+
+          // insertion point for per field code
         }
       )
 
@@ -1653,7 +1708,7 @@ export class SidebarComponent implements OnInit {
     if (type == GongNodeType.INSTANCE) {
       this.router.navigate([{
         outlets: {
-          github_com_fullstack_lang_gongdoc_go_presentation: ["github_com_fullstack_lang_gongdoc_go-" + structName.toLowerCase() + "-presentation", id]
+          github_com_fullstack_lang_gongdoc_go_editor: ["github_com_fullstack_lang_gongdoc_go-" + structName.toLowerCase() + "-detail", id]
         }
       }]);
     }
