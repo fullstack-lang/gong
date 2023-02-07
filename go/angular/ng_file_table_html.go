@@ -47,7 +47,11 @@ const NgTableTemplateHTML = `<section class="container mat-elevation-z8" tabinde
         </tr>
     </table>
     <mat-paginator [pageSizeOptions]="[50, 100, 500, 1000]" showFirstLastButtons></mat-paginator>
-</section>`
+    <button class="table__save" color="primary" *ngIf="dialogData" mat-raised-button (click)="save()">
+        Save
+    </button>
+</section>
+`
 
 // insertion points in the main template
 type NgTableHtmlInsertionPoint int

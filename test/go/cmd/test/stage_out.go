@@ -82,16 +82,36 @@ Second Line`
 	__Astruct__000000_A1.Intfield = 3
 	__Astruct__000000_A1.Anotherbooleanfield = false
 	__Astruct__000000_A1.Duration1 = 79653000000000
-
+	
 	// comment added to overcome the problem with the comment map association
 
 	//gong:ident [gongdoc_models.GongStructShape]
 	__Astruct__000000_A1.StructRef = `gongdoc_models.GongStructShape`
-
+	
 	// comment added to overcome the problem with the comment map association
 
 	//gong:ident [gongdoc_models.GongStructShape.Name]
 	__Astruct__000000_A1.FieldRef = `gongdoc_models.GongStructShape.Name`
+	
+	// comment added to overcome the problem with the comment map association
+
+	//gong:ident [.]
+	__Astruct__000000_A1.EnumIntRef = `.`
+	
+	// comment added to overcome the problem with the comment map association
+
+	//gong:ident [.]
+	__Astruct__000000_A1.EnumStringRef = `.`
+	
+	// comment added to overcome the problem with the comment map association
+
+	//gong:ident [.]
+	__Astruct__000000_A1.EnumValue = `.`
+	
+	// comment added to overcome the problem with the comment map association
+
+	//gong:ident [.]
+	__Astruct__000000_A1.ConstIdentifierValue = `.`
 
 	// Astruct values setup
 	__Astruct__000001_A2.Name = `A2`
@@ -107,16 +127,36 @@ Second Line`
 	__Astruct__000001_A2.Intfield = 0
 	__Astruct__000001_A2.Anotherbooleanfield = false
 	__Astruct__000001_A2.Duration1 = 0
-
+	
 	// comment added to overcome the problem with the comment map association
 
-	//gong:ident []
-	__Astruct__000001_A2.StructRef = ``
-
+	//gong:ident [.]
+	__Astruct__000001_A2.StructRef = `.`
+	
 	// comment added to overcome the problem with the comment map association
 
-	//gong:ident []
-	__Astruct__000001_A2.FieldRef = ``
+	//gong:ident [.]
+	__Astruct__000001_A2.FieldRef = `.`
+	
+	// comment added to overcome the problem with the comment map association
+
+	//gong:ident [.]
+	__Astruct__000001_A2.EnumIntRef = `.`
+	
+	// comment added to overcome the problem with the comment map association
+
+	//gong:ident [.]
+	__Astruct__000001_A2.EnumStringRef = `.`
+	
+	// comment added to overcome the problem with the comment map association
+
+	//gong:ident [.]
+	__Astruct__000001_A2.EnumValue = `.`
+	
+	// comment added to overcome the problem with the comment map association
+
+	//gong:ident [.]
+	__Astruct__000001_A2.ConstIdentifierValue = `.`
 
 	// Astruct values setup
 	__Astruct__000002_A3.Name = `A3`
@@ -130,16 +170,36 @@ Second Line`
 	__Astruct__000002_A3.Intfield = 0
 	__Astruct__000002_A3.Anotherbooleanfield = false
 	__Astruct__000002_A3.Duration1 = 0
-
+	
 	// comment added to overcome the problem with the comment map association
 
-	//gong:ident []
-	__Astruct__000002_A3.StructRef = ``
-
+	//gong:ident [.]
+	__Astruct__000002_A3.StructRef = `.`
+	
 	// comment added to overcome the problem with the comment map association
 
-	//gong:ident []
-	__Astruct__000002_A3.FieldRef = ``
+	//gong:ident [.]
+	__Astruct__000002_A3.FieldRef = `.`
+	
+	// comment added to overcome the problem with the comment map association
+
+	//gong:ident [.]
+	__Astruct__000002_A3.EnumIntRef = `.`
+	
+	// comment added to overcome the problem with the comment map association
+
+	//gong:ident [.]
+	__Astruct__000002_A3.EnumStringRef = `.`
+	
+	// comment added to overcome the problem with the comment map association
+
+	//gong:ident [.]
+	__Astruct__000002_A3.EnumValue = `.`
+	
+	// comment added to overcome the problem with the comment map association
+
+	//gong:ident [.]
+	__Astruct__000002_A3.ConstIdentifierValue = `.`
 
 	// AstructBstruct2Use values setup
 	__AstructBstruct2Use__000000_.Name = ``
@@ -176,8 +236,10 @@ Second Line`
 	__Astruct__000000_A1.Anotherarrayofb = append(__Astruct__000000_A1.Anotherarrayofb, __Bstruct__000001_B2)
 	__Astruct__000000_A1.Anotherarrayofb = append(__Astruct__000000_A1.Anotherarrayofb, __Bstruct__000002_B3)
 	__Astruct__000000_A1.Anarrayofa = append(__Astruct__000000_A1.Anarrayofa, __Astruct__000000_A1)
-	__Astruct__000000_A1.Anarrayofb2Use = append(__Astruct__000000_A1.Anarrayofb2Use, __AstructBstruct2Use__000001_)
-	__Astruct__000001_A2.Anarrayofb2Use = append(__Astruct__000001_A2.Anarrayofb2Use, __AstructBstruct2Use__000000_)
+	__Astruct__000000_A1.Anarrayofb2Use = append(__Astruct__000000_A1.Anarrayofb2Use, __AstructBstruct2Use__000000_)
+	__Astruct__000001_A2.Anarrayofb2Use = append(__Astruct__000001_A2.Anarrayofb2Use, __AstructBstruct2Use__000001_)
 	__AstructBstruct2Use__000000_.Bstrcut2 = __Bstruct__000000_B1
 	__AstructBstruct2Use__000001_.Bstrcut2 = __Bstruct__000000_B1
 }
+
+
