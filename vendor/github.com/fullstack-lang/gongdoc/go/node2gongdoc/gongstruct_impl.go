@@ -19,20 +19,20 @@ func (gongStructImpl *GongStructImpl) OnAfterUpdate(
 		// get the latest version of the diagram before modifying it
 		stage.Checkout()
 
-		// remove the classshape from the selected diagram
+		// remove the gongstructshape from the selected diagram
 		classDiagram := gongStructImpl.nodeCb.GetSelectedClassdiagram()
-		classDiagram.RemoveClassshape(stagedNode.Name)
+		classDiagram.RemoveGongStructShape(stagedNode.Name)
 
 	}
 
-	// if node is checked, add classshape
+	// if node is checked, add gongstructshape
 	if !stagedNode.IsChecked && frontNode.IsChecked {
 
 		// get the latest version of the diagram before modifying it
 		stage.Checkout()
 
 		classDiagram := gongStructImpl.nodeCb.GetSelectedClassdiagram()
-		classDiagram.AddClassshape(frontNode.Name)
+		classDiagram.AddGongStructShape(gongStructImpl.nodeCb.diagramPackage, frontNode.Name)
 
 	}
 }

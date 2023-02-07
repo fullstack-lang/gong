@@ -37,9 +37,9 @@ func GongstructAndFieldnameToFieldIdentifier(structName string, fieldName string
 	return
 }
 
-// IdentifierToGongStructName take an ident in the forms
+// IdentifierToGongObjectName take an ident in the forms
 // "ref_models.Foo" and returns "Foo"
-func IdentifierToGongStructName(structIdentifier string) (structName string) {
+func IdentifierToGongObjectName(structIdentifier string) (structName string) {
 
 	structName = strings.TrimPrefix(structIdentifier, RefPrefixReferencedPackage+"models.")
 

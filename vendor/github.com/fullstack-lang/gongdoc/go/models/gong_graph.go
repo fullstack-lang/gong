@@ -17,6 +17,9 @@ func IsStaged[Type Gongstruct](stage *StageStruct, instance *Type) (ok bool) {
 	case *GongEnumShape:
 		ok = stage.IsStagedGongEnumShape(target)
 
+	case *GongEnumValueEntry:
+		ok = stage.IsStagedGongEnumValueEntry(target)
+
 	case *GongStructShape:
 		ok = stage.IsStagedGongStructShape(target)
 
@@ -76,6 +79,13 @@ func IsStaged[Type Gongstruct](stage *StageStruct, instance *Type) (ok bool) {
 	func (stage *StageStruct) IsStagedGongEnumShape(gongenumshape *GongEnumShape) (ok bool) {
 
 		_, ok = stage.GongEnumShapes[gongenumshape]
+	
+		return
+	}
+
+	func (stage *StageStruct) IsStagedGongEnumValueEntry(gongenumvalueentry *GongEnumValueEntry) (ok bool) {
+
+		_, ok = stage.GongEnumValueEntrys[gongenumvalueentry]
 	
 		return
 	}
@@ -170,6 +180,9 @@ func StageBranch[Type Gongstruct](stage *StageStruct, instance *Type) {
 
 	case *GongEnumShape:
 		stage.StageBranchGongEnumShape(target)
+
+	case *GongEnumValueEntry:
+		stage.StageBranchGongEnumValueEntry(target)
 
 	case *GongStructShape:
 		stage.StageBranchGongStructShape(target)
@@ -283,9 +296,24 @@ func (stage *StageStruct) StageBranchGongEnumShape(gongenumshape *GongEnumShape)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
-	for _, _field := range gongenumshape.Fields {
-		StageBranch(stage, _field)
+	for _, _gongenumvalueentry := range gongenumshape.GongEnumValueEntrys {
+		StageBranch(stage, _gongenumvalueentry)
 	}
+
+}
+
+func (stage *StageStruct) StageBranchGongEnumValueEntry(gongenumvalueentry *GongEnumValueEntry) {
+
+	// check if instance is already staged
+	if IsStaged(stage, gongenumvalueentry) {
+		return
+	}
+
+	gongenumvalueentry.Stage()
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
 
 }
 
@@ -493,6 +521,9 @@ func UnstageBranch[Type Gongstruct](stage *StageStruct, instance *Type) {
 	case *GongEnumShape:
 		stage.UnstageBranchGongEnumShape(target)
 
+	case *GongEnumValueEntry:
+		stage.UnstageBranchGongEnumValueEntry(target)
+
 	case *GongStructShape:
 		stage.UnstageBranchGongStructShape(target)
 
@@ -605,9 +636,24 @@ func (stage *StageStruct) UnstageBranchGongEnumShape(gongenumshape *GongEnumShap
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
-	for _, _field := range gongenumshape.Fields {
-		UnstageBranch(stage, _field)
+	for _, _gongenumvalueentry := range gongenumshape.GongEnumValueEntrys {
+		UnstageBranch(stage, _gongenumvalueentry)
 	}
+
+}
+
+func (stage *StageStruct) UnstageBranchGongEnumValueEntry(gongenumvalueentry *GongEnumValueEntry) {
+
+	// check if instance is already staged
+	if ! IsStaged(stage, gongenumvalueentry) {
+		return
+	}
+
+	gongenumvalueentry.Unstage()
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
 
 }
 

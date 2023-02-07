@@ -87,7 +87,7 @@ func (classdiagram *Classdiagram) OutputSVG(path string) {
 
 	mapStringClassshape := make(map[string]*GongStructShape)
 	for _, classshape := range classdiagram.GongStructShapes {
-		mapStringClassshape[IdentifierToGongStructName(classshape.Identifier)] = classshape
+		mapStringClassshape[IdentifierToGongObjectName(classshape.Identifier)] = classshape
 	}
 
 	dejaVuSerif := canvas.NewFontFamily("dejavu-serif")
@@ -174,7 +174,7 @@ func (classdiagram *Classdiagram) OutputSVG(path string) {
 		bottomLeftY := ModelToSVGRectangleYOrigin(classshape.Position.Y, classshape.Heigth)
 
 		text := canvas.NewTextLine(ff,
-			IdentifierToGongStructName(classshape.Identifier),
+			IdentifierToGongObjectName(classshape.Identifier),
 			canvas.TextAlign(canvas.Left)) // simple text line
 		p := canvas.Rectangle(classshape.Width, classshape.Heigth)
 

@@ -1,6 +1,6 @@
 // insertion point for imports
 import { PositionDB } from './position-db'
-import { FieldDB } from './field-db'
+import { GongEnumValueEntryDB } from './gongenumvalueentry-db'
 import { ClassdiagramDB } from './classdiagram-db'
 
 // usefull for managing pointer ID values that can be nullable
@@ -21,7 +21,7 @@ export class GongEnumShapeDB {
 	Position?: PositionDB
 	PositionID: NullInt64 = new NullInt64 // if pointer is null, Position.ID = 0
 
-	Fields?: Array<FieldDB>
+	GongEnumValueEntrys?: Array<GongEnumValueEntryDB>
 	Classdiagram_GongEnumShapesDBID: NullInt64 = new NullInt64
 	Classdiagram_GongEnumShapesDBID_Index: NullInt64  = new NullInt64 // store the index of the gongenumshape instance in Classdiagram.GongEnumShapes
 	Classdiagram_GongEnumShapes_reverse?: ClassdiagramDB 

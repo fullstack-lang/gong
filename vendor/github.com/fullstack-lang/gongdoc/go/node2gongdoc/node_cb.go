@@ -156,6 +156,10 @@ func SetNodeBackPointer[T1 gong_models.Gongstruct](gong_instance *T1, backPointe
 func GetNodeBackPointer[T1 gong_models.Gongstruct](gong_instance *T1) (backPointer gongdoc_models.NodeImplInterface) {
 	tmp := gong_models.GetBackPointer(&gong_models.Stage, gong_instance)
 
+	if tmp == nil {
+		log.Fatal("backPointer is nil", gong_instance)
+	}
+
 	backPointer = tmp.(gongdoc_models.NodeImplInterface)
 
 	return
@@ -222,19 +226,18 @@ func (nodeCb *NodeCB) FillUpTreeOfGongObjects() {
 	gongTree.RootNodes = append(gongTree.RootNodes, gongenumRootNode)
 	for gongEnum := range *gong_models.GetGongstructInstancesSet[gong_models.GongEnum]() {
 
-		node := (&gongdoc_models.Node{Name: gongEnum.Name}).Stage()
-		node.HasCheckboxButton = true
-		node.IsExpanded = false
+		nodeGongEnum := (&gongdoc_models.Node{Name: gongEnum.Name}).Stage()
+		nodeGongEnum.HasCheckboxButton = true
+		nodeGongEnum.IsExpanded = false
 
 		gongEnumImpl := new(GongEnumImpl)
-		gongEnumImpl.node = node
+		gongEnumImpl.node = nodeGongEnum
 		gongEnumImpl.gongEnum = gongEnum
 		gongEnumImpl.nodeCb = nodeCb
-		node.Impl = gongEnumImpl
+		nodeGongEnum.Impl = gongEnumImpl
 
 		// append to tree
-		gongenumRootNode.Children = append(gongenumRootNode.Children, node)
-
+		gongenumRootNode.Children = append(gongenumRootNode.Children, nodeGongEnum)
 		SetNodeBackPointer(gongEnum, gongEnumImpl)
 
 		for _, gongEnumValue := range gongEnum.GongEnumValues {
@@ -243,14 +246,13 @@ func (nodeCb *NodeCB) FillUpTreeOfGongObjects() {
 			nodeGongEnumValue.HasCheckboxButton = true
 
 			gongEnumValueImpl := new(GongEnumValueImpl)
-			gongEnumValueImpl.node = node
+			gongEnumValueImpl.node = nodeGongEnum
 			gongEnumValueImpl.gongEnumValue = gongEnumValue
 			gongEnumValueImpl.nodeCb = nodeCb
 			nodeGongEnumValue.Impl = gongEnumValueImpl
 
 			// append to tree
-			node.Children = append(node.Children, nodeGongEnumValue)
-
+			nodeGongEnum.Children = append(nodeGongEnum.Children, nodeGongEnumValue)
 			SetNodeBackPointer(gongEnumValue, gongEnumValueImpl)
 		}
 	}
@@ -273,6 +275,8 @@ func (nodeCb *NodeCB) FillUpTreeOfGongObjects() {
 
 		// append to tree
 		gongNotesRootNode.Children = append(gongNotesRootNode.Children, node)
+
+		SetNodeBackPointer(gongNote, gongNoteImpl)
 
 		for _, gongLink := range gongNote.Links {
 			nodeGongLink := (&gongdoc_models.Node{Name: gongLink.Name}).Stage()
@@ -300,8 +304,14 @@ func (nodeCb *NodeCB) updateNodesStates(stage *gongdoc_models.StageStruct) {
 
 	nodeCb.updateDiagramsNodes(stage)
 
+	// now manage object nodes accordign to the selected diagram
+
 	// get the the selected diagram
 	classdiagram := nodeCb.diagramPackage.SelectedClassdiagram
+
+	for _, _node := range nodeCb.treeOfGongObjects.RootNodes {
+		UncheckAndDisable(_node, classdiagram)
+	}
 
 	// no selected diagram yet
 	if classdiagram == nil {
@@ -351,155 +361,5 @@ func (nodesCb *NodeCB) updateDiagramsNodes(stage *gongdoc_models.StageStruct) {
 		classdiagramNode.HasEditButton = editable
 		classdiagramNode.HasDeleteButton = editable
 		classdiagramNode.HasDrawButton = editable
-	}
-}
-
-func (nodeCb *NodeCB) updateGongObjectsNodes(stage *gongdoc_models.StageStruct, classdiagram *gongdoc_models.Classdiagram) {
-
-	for _, _node := range nodeCb.treeOfGongObjects.RootNodes {
-		UncheckAndDisable(_node, classdiagram)
-	}
-
-	listOfGongStructShapes := make(map[string]bool)
-	for _, gongStructShape := range classdiagram.GongStructShapes {
-		gongStructName := gongdoc_models.IdentifierToGongStructName(gongStructShape.Identifier)
-		listOfGongStructShapes[gongStructName] = true
-	}
-
-	// disable some nodes
-	for gongStruct := range *gong_models.GetGongstructInstancesSet[gong_models.GongStruct]() {
-		for _, gongField := range gongStruct.Fields {
-			switch fieldReal := gongField.(type) {
-			case *gong_models.PointerToGongStructField:
-				impl := GetNodeBackPointer(fieldReal)
-				if ok := listOfGongStructShapes[fieldReal.GongStruct.Name]; !ok {
-					impl.SetHasToBeDisabledValue(true)
-				}
-			case *gong_models.SliceOfPointerToGongStructField:
-				impl := GetNodeBackPointer(fieldReal)
-				if ok := listOfGongStructShapes[fieldReal.GongStruct.Name]; !ok {
-					impl.SetHasToBeDisabledValue(true)
-				}
-			default:
-			}
-		}
-	}
-
-	for gongNote := range *gong_models.GetGongstructInstancesSet[gong_models.GongNote]() {
-		for _, gongLink := range gongNote.Links {
-			impl := GetNodeBackPointer(gongLink)
-			if ok := listOfGongStructShapes[gongLink.Name]; !ok {
-				impl.SetHasToBeDisabledValue(true)
-			}
-		}
-	}
-
-	// parse the tree of diagram elements and
-	// get the corresponding gong object
-	// and from the gong object, go to its node implementation and
-	// set up that it has a diagram element and that is has to be checked
-	for _, gongStructShape := range classdiagram.GongStructShapes {
-
-		// get the gong struct related to the gong struct, and set t
-		gongStructName := gongdoc_models.IdentifierToGongStructName(gongStructShape.Identifier)
-		gongStruct := (*gong_models.GetGongstructInstancesMap[gong_models.GongStruct]())[gongStructName]
-		gongStructImpl := GetNodeBackPointer(gongStruct)
-		gongStructImpl.SetHasToBeCheckedValue(true)
-
-		for _, field := range gongStructShape.Fields {
-			_ = field
-			fieldName := gongdoc_models.IdentifierToFieldName(field.Identifier)
-
-			// range over gongStruct fields (to be redone)
-			for _, gongField := range gongStruct.Fields {
-				if gongField.GetName() == fieldName {
-					switch fieldReal := gongField.(type) {
-					case *gong_models.GongBasicField:
-						GetNodeBackPointer(fieldReal).SetHasToBeCheckedValue(true)
-					case *gong_models.GongTimeField:
-						GetNodeBackPointer(fieldReal).SetHasToBeCheckedValue(true)
-					default:
-					}
-					continue
-				}
-			}
-		}
-		for _, link := range gongStructShape.Links {
-			_ = link
-			linkName := gongdoc_models.IdentifierToFieldName(link.Identifier)
-
-			// range over gongStruct fields (to be redone)
-			for _, gongField := range gongStruct.Fields {
-				if gongField.GetName() == linkName {
-					switch fieldReal := gongField.(type) {
-					case *gong_models.PointerToGongStructField:
-						impl := GetNodeBackPointer(fieldReal)
-						impl.SetHasToBeCheckedValue(true)
-					case *gong_models.SliceOfPointerToGongStructField:
-						impl := GetNodeBackPointer(fieldReal)
-						impl.SetHasToBeCheckedValue(true)
-					default:
-					}
-				}
-				// compute if the node for pointer or slice of pointer has to be disabled
-			}
-		}
-	}
-	for _, gongEnumShape := range classdiagram.GongEnumShapes {
-
-		// get the gong struct related to the gong struct, and set t
-		gongEnumName := gongdoc_models.IdentifierToGongStructName(gongEnumShape.Identifier)
-		gongEnum := (*gong_models.GetGongstructInstancesMap[gong_models.GongEnum]())[gongEnumName]
-		gongEnumImpl := GetNodeBackPointer(gongEnum)
-		gongEnumImpl.SetHasToBeCheckedValue(true)
-
-		for _, enumValue := range gongEnumShape.Fields {
-			_ = enumValue
-			fieldName := gongdoc_models.IdentifierToFieldName(enumValue.Identifier)
-
-			// range over gongStruct fields (to be redone)
-			for _, gongEnumValue := range gongEnum.GongEnumValues {
-				if gongEnumValue.GetName() == fieldName {
-					GetNodeBackPointer(gongEnumValue).SetHasToBeCheckedValue(true)
-				}
-				continue
-			}
-		}
-	}
-	for _, noteShape := range classdiagram.NoteShapes {
-
-		// get the gong struct related to the gong struct, and set t
-		noteShapeName := gongdoc_models.IdentifierToGongStructName(noteShape.Identifier)
-		gongNote := (*gong_models.GetGongstructInstancesMap[gong_models.GongNote]())[noteShapeName]
-		gongNodeImpl := GetNodeBackPointer(gongNote)
-		gongNodeImpl.SetHasToBeCheckedValue(true)
-
-		for _, nodeShapeLink := range noteShape.NoteShapeLinks {
-			_ = nodeShapeLink
-			fieldName := gongdoc_models.IdentifierToFieldName(nodeShapeLink.Identifier)
-
-			// range over gongStruct fields (to be redone)
-			for _, link := range gongNote.Links {
-				if link.GetName() == fieldName {
-					impl := GetNodeBackPointer(link)
-					impl.SetHasToBeCheckedValue(true)
-				}
-				continue
-			}
-		}
-	}
-
-	// now, parse again the tree of nodes and set the IsChecked according to the
-	// the node implementation
-	for _, rootNode := range nodeCb.treeOfGongObjects.RootNodes {
-		for _, node := range rootNode.Children {
-			node.IsCheckboxDisabled = node.Impl.HasToBeDisabled()
-			node.IsChecked = node.Impl.HasToBeChecked()
-
-			for _, node := range node.Children {
-				node.IsCheckboxDisabled = node.Impl.HasToBeDisabled()
-				node.IsChecked = node.Impl.HasToBeChecked()
-			}
-		}
 	}
 }

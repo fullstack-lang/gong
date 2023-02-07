@@ -1,5 +1,4 @@
 // insertion point for imports
-import { GongEnumShapeDB } from './gongenumshape-db'
 import { GongStructShapeDB } from './gongstructshape-db'
 
 // usefull for managing pointer ID values that can be nullable
@@ -18,10 +17,6 @@ export class FieldDB {
 	Fieldtypename: string = ""
 
 	// insertion point for other declarations
-	GongEnumShape_FieldsDBID: NullInt64 = new NullInt64
-	GongEnumShape_FieldsDBID_Index: NullInt64  = new NullInt64 // store the index of the field instance in GongEnumShape.Fields
-	GongEnumShape_Fields_reverse?: GongEnumShapeDB 
-
 	GongStructShape_FieldsDBID: NullInt64 = new NullInt64
 	GongStructShape_FieldsDBID_Index: NullInt64  = new NullInt64 // store the index of the field instance in GongStructShape.Fields
 	GongStructShape_Fields_reverse?: GongStructShapeDB 

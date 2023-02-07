@@ -52,7 +52,7 @@ func (gongNoteImpl *GongNoteImpl) OnAfterUpdate(
 		for _, _noteShape = range classdiagram.NoteShapes {
 
 			// strange behavior when the note is removed within the loop
-			if gongdoc_models.IdentifierToGongStructName(_noteShape.Identifier) == stagedNode.Name && !foundNote {
+			if gongdoc_models.IdentifierToGongObjectName(_noteShape.Identifier) == stagedNode.Name && !foundNote {
 				foundNote = true
 				noteShape = _noteShape
 			}

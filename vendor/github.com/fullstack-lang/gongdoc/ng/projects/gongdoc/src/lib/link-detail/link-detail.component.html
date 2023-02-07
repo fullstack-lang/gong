@@ -1,7 +1,7 @@
 <form *ngIf="link" class="details">
     <h2 class="details__title">link</h2>
     <!-- insertion point for fields specific code -->
-    <mat-grid-list *ngIf='!isATextArea("Name")' cols="5" rowHeight="2:1">
+    <mat-grid-list *ngIf='!isATextArea("Name")' cols="5" rowHeight="1:1">
         <mat-grid-tile [colspan]="3">
             <mat-form-field mat-form-field class="detail-full-width">
                 <mat-label>Name</mat-label>
@@ -21,7 +21,7 @@
         <textarea name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="link.Name"></textarea>
     </mat-form-field>
 
-    <mat-grid-list *ngIf='!isATextArea("Structname")' cols="5" rowHeight="2:1">
+    <mat-grid-list *ngIf='!isATextArea("Structname")' cols="5" rowHeight="1:1">
         <mat-grid-tile [colspan]="3">
             <mat-form-field mat-form-field class="detail-full-width">
                 <mat-label>Structname</mat-label>
@@ -41,7 +41,7 @@
         <textarea name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="link.Structname"></textarea>
     </mat-form-field>
 
-    <mat-grid-list *ngIf='!isATextArea("Identifier")' cols="5" rowHeight="2:1">
+    <mat-grid-list *ngIf='!isATextArea("Identifier")' cols="5" rowHeight="1:1">
         <mat-grid-tile [colspan]="3">
             <mat-form-field mat-form-field class="detail-full-width">
                 <mat-label>Identifier</mat-label>
@@ -61,7 +61,7 @@
         <textarea name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="link.Identifier"></textarea>
     </mat-form-field>
 
-    <mat-grid-list *ngIf='!isATextArea("Fieldtypename")' cols="5" rowHeight="2:1">
+    <mat-grid-list *ngIf='!isATextArea("Fieldtypename")' cols="5" rowHeight="1:1">
         <mat-grid-tile [colspan]="3">
             <mat-form-field mat-form-field class="detail-full-width">
                 <mat-label>Fieldtypename</mat-label>

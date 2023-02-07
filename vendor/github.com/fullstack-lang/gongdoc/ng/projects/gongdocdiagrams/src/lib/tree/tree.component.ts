@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Observable, timer } from 'rxjs';
+import { Observable, Subscription, timer } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 
 import { FlatTreeControl } from '@angular/cdk/tree';
@@ -97,11 +97,24 @@ export class TreeComponent implements OnInit {
 
   subscribeInProgress: boolean = false
 
+    // Since this component is not reused when a new diagram is selected, there can be many
+  // instances of the diagram and each instance will stay alive. For instance,
+  // the instance will be in the control flow if an observable the component subscribes to emits an event.
+  // Therefore, it is mandatory to manage subscriptions in order to unscribe them on the ngOnDestroy hook
+  checkGongdocCommitNbFromBackTimerSubscription: Subscription = new Subscription
+  gongdocCommitNbFromBackService_getCommitNbFromBack: Subscription = new Subscription
+
+  ngOnDestroy() {
+    // console.log("on destroy")
+    this.checkGongdocCommitNbFromBackTimerSubscription.unsubscribe()
+    this.gongdocCommitNbFromBackService_getCommitNbFromBack.unsubscribe()
+  }
+
   ngOnInit(): void {
 
     this.checkCommitNbFromBackTimer = timer(500, 500);
 
-    this.checkCommitNbFromBackTimer?.subscribe(
+    this.checkGongdocCommitNbFromBackTimerSubscription = this.checkCommitNbFromBackTimer?.subscribe(
       currTime => {
         this.currTime = currTime
         this.dateOfLastTimerEmission = new Date

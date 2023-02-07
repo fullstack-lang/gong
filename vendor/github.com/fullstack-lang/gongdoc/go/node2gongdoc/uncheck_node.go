@@ -9,9 +9,14 @@ func UncheckAndDisable(node *gongdoc_models.Node, classdiagram *gongdoc_models.C
 
 	nodeImpl := node.Impl
 
+	hasToBeDisabledValue := true
+	if classdiagram != nil {
+		hasToBeDisabledValue = !classdiagram.IsInDrawMode
+	}
+
 	if nodeImpl != nil {
 		nodeImpl.SetHasToBeCheckedValue(false)
-		nodeImpl.SetHasToBeDisabledValue(!classdiagram.IsInDrawMode)
+		nodeImpl.SetHasToBeDisabledValue(hasToBeDisabledValue)
 	}
 
 	for _, _node := range node.Children {

@@ -73,7 +73,7 @@ export class GongEnumShapeService {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
     gongenumshapedb.Position = new PositionDB
-    gongenumshapedb.Fields = []
+    gongenumshapedb.GongEnumValueEntrys = []
     let _Classdiagram_GongEnumShapes_reverse = gongenumshapedb.Classdiagram_GongEnumShapes_reverse
     gongenumshapedb.Classdiagram_GongEnumShapes_reverse = new ClassdiagramDB
 
@@ -105,7 +105,7 @@ export class GongEnumShapeService {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
     gongenumshapedb.Position = new PositionDB
-    gongenumshapedb.Fields = []
+    gongenumshapedb.GongEnumValueEntrys = []
     let _Classdiagram_GongEnumShapes_reverse = gongenumshapedb.Classdiagram_GongEnumShapes_reverse
     gongenumshapedb.Classdiagram_GongEnumShapes_reverse = new ClassdiagramDB
 

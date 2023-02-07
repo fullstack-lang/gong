@@ -1,11 +1,11 @@
-<div style="height: 100%; width: 100%; overflow: hidden">
+<section class="container mat-elevation-z8" tabindex="0">
     <mat-form-field>
         <mat-label>Filter</mat-label>
         <input matInput (keyup)="applyFilter($event)" placeholder="Ex. ium" #input>
     </mat-form-field>
     <h1 *ngIf="dialogData">umlstate</h1>
     <table class="table" mat-table [dataSource]="matTableDataSource" matSort>
-        <!-- Checkbox Column -->
+        <!-- Checkbox Column, only used when the component is used to select items for a field that is a slice of pointers -->
         <ng-container matColumnDef="select">
             <th mat-header-cell *matHeaderCellDef>
                 <mat-checkbox (change)="$event ? masterToggle() : null" [checked]="selection.hasValue() && isAllSelected()" [indeterminate]="selection.hasValue() && !isAllSelected()">
@@ -19,7 +19,7 @@
 
         <!-- insertion point for fields specific code -->
         <!-- -->
-        <ng-container matColumnDef="Name">
+        <ng-container matColumnDef="Name" sticky>
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
             <td mat-cell *matCellDef="let UmlState">
                 {{UmlState.Name}}
@@ -47,19 +47,12 @@
             </td>
         </ng-container>
 
-        <ng-container matColumnDef="ID">
+        <ng-container matColumnDef="ID" sticky>
             <th mat-header-cell *matHeaderCellDef mat-sort-header> ID. </th>
             <td mat-cell *matCellDef="let UmlState"> {{UmlState.ID}} </td>
         </ng-container>
 
-        <ng-container matColumnDef="Edit">
-            <th mat-header-cell *matHeaderCellDef> Edit </th>
-            <td mat-cell *matCellDef="let umlstate;  let j = index;">
-                <i class="material-icons" [ngStyle]="{'color':'rgba(0,0,0,.50)'}" (click)="setEditorRouterOutlet(umlstate.ID)">edit</i>
-            </td>
-        </ng-container>
-
-        <ng-container matColumnDef="Delete">
+        <ng-container matColumnDef="Delete" sticky>
             <th mat-header-cell *matHeaderCellDef> Delete </th>
             <td mat-cell *matCellDef="let umlstate;  let j = index;">
                 <i class="material-icons" [ngStyle]="{'color':'rgba(0,0,0,.50)'}" (click)="deleteUmlState(umlstate.ID, umlstate)">delete</i>
@@ -71,7 +64,7 @@
         <tr mat-row *matRowDef="
         let row; 
         columns: displayedColumns;
-        " (click)="setPresentationRouterOutlet( row.ID ) " class="row-link">
+        " (click)="setEditorRouterOutlet( row.ID ) " class="row-link">
         </tr>
 
         <!-- Row shown when there is no matching data. -->
@@ -80,7 +73,7 @@
         </tr>
     </table>
     <mat-paginator [pageSizeOptions]="[50, 100, 500, 1000]" showFirstLastButtons></mat-paginator>
-</div>
-<button class="table__save" color="primary" *ngIf="dialogData" mat-raised-button (click)="save()">
-    Save
-</button>
+    <button class="table__save" color="primary" *ngIf="dialogData" mat-raised-button (click)="save()">
+        Save
+    </button>
+</section>
