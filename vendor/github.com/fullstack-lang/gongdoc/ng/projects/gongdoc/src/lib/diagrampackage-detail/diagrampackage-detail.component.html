@@ -1,7 +1,7 @@
 <form *ngIf="diagrampackage" class="details">
     <h2 class="details__title">diagrampackage</h2>
     <!-- insertion point for fields specific code -->
-    <mat-grid-list *ngIf='!isATextArea("Name")' cols="5" rowHeight="2:1">
+    <mat-grid-list *ngIf='!isATextArea("Name")' cols="5" rowHeight="1:1">
         <mat-grid-tile [colspan]="3">
             <mat-form-field mat-form-field class="detail-full-width">
                 <mat-label>Name</mat-label>
@@ -21,7 +21,7 @@
         <textarea name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="diagrampackage.Name"></textarea>
     </mat-form-field>
 
-    <mat-grid-list *ngIf='!isATextArea("Path")' cols="5" rowHeight="2:1">
+    <mat-grid-list *ngIf='!isATextArea("Path")' cols="5" rowHeight="1:1">
         <mat-grid-tile [colspan]="3">
             <mat-form-field mat-form-field class="detail-full-width">
                 <mat-label>Path</mat-label>
@@ -41,7 +41,7 @@
         <textarea name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="diagrampackage.Path"></textarea>
     </mat-form-field>
 
-    <mat-grid-list *ngIf='!isATextArea("GongModelPath")' cols="5" rowHeight="2:1">
+    <mat-grid-list *ngIf='!isATextArea("GongModelPath")' cols="5" rowHeight="1:1">
         <mat-grid-tile [colspan]="3">
             <mat-form-field mat-form-field class="detail-full-width">
                 <mat-label>GongModelPath</mat-label>
@@ -103,7 +103,7 @@
     <!-- -->
     <mat-checkbox [formControl]="IsReloadedFormControl">IsReloaded</mat-checkbox>
 
-    <mat-grid-list *ngIf='!isATextArea("AbsolutePathToDiagramPackage")' cols="5" rowHeight="2:1">
+    <mat-grid-list *ngIf='!isATextArea("AbsolutePathToDiagramPackage")' cols="5" rowHeight="1:1">
         <mat-grid-tile [colspan]="3">
             <mat-form-field mat-form-field class="detail-full-width">
                 <mat-label>AbsolutePathToDiagramPackage</mat-label>

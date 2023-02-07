@@ -14,8 +14,7 @@ type GongEnumShape struct {
 	//gong:ident
 	Identifier string
 
-	// models of the composition of Field
-	Fields []*Field
+	GongEnumValueEntrys []*GongEnumValueEntry
 
 	// with and height of the shape when they are rendered on SVG or with jointjs
 	// They are optional fields. they can be computed when empty

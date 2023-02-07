@@ -168,7 +168,7 @@ export class NoteShapeLinksTableComponent implements OnInit {
       }
     )
     if (this.mode == TableComponentMode.DISPLAY_MODE) {
-      this.displayedColumns = ['ID', 'Edit', 'Delete', // insertion point for columns to display
+      this.displayedColumns = ['ID', 'Delete', // insertion point for columns to display
         "Name",
         "Identifier",
         "Classshape",
@@ -267,15 +267,6 @@ export class NoteShapeLinksTableComponent implements OnInit {
     this.router.navigate([{
       outlets: {
         github_com_fullstack_lang_gongdoc_go_editor: ["github_com_fullstack_lang_gongdoc_go-" + "noteshapelink-detail", noteshapelinkID]
-      }
-    }]);
-  }
-
-  // set presentation outlet
-  setPresentationRouterOutlet(noteshapelinkID: number) {
-    this.router.navigate([{
-      outlets: {
-        github_com_fullstack_lang_gongdoc_go_presentation: ["github_com_fullstack_lang_gongdoc_go-" + "noteshapelink-presentation", noteshapelinkID]
       }
     }]);
   }

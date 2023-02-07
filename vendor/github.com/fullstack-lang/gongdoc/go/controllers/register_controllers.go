@@ -71,6 +71,13 @@ func RegisterControllers(r *gin.Engine) {
 		v1.PUT("/v1/gongenumshapes/:id", UpdateGongEnumShape)
 		v1.DELETE("/v1/gongenumshapes/:id", DeleteGongEnumShape)
 
+		v1.GET("/v1/gongenumvalueentrys", GetGongEnumValueEntrys)
+		v1.GET("/v1/gongenumvalueentrys/:id", GetGongEnumValueEntry)
+		v1.POST("/v1/gongenumvalueentrys", PostGongEnumValueEntry)
+		v1.PATCH("/v1/gongenumvalueentrys/:id", UpdateGongEnumValueEntry)
+		v1.PUT("/v1/gongenumvalueentrys/:id", UpdateGongEnumValueEntry)
+		v1.DELETE("/v1/gongenumvalueentrys/:id", DeleteGongEnumValueEntry)
+
 		v1.GET("/v1/gongstructshapes", GetGongStructShapes)
 		v1.GET("/v1/gongstructshapes/:id", GetGongStructShape)
 		v1.POST("/v1/gongstructshapes", PostGongStructShape)
@@ -141,8 +148,8 @@ func RegisterControllers(r *gin.Engine) {
 		v1.PUT("/v1/vertices/:id", UpdateVertice)
 		v1.DELETE("/v1/vertices/:id", DeleteVertice)
 
-		v1.GET("/commitfrombacknb", GetLastCommitFromBackNb)
-		v1.GET("/pushfromfrontnb", GetLastPushFromFrontNb)
+		v1.GET("/v1/commitfrombacknb", GetLastCommitFromBackNb)
+		v1.GET("/v1/pushfromfrontnb", GetLastPushFromFrontNb)
 	}
 }
 

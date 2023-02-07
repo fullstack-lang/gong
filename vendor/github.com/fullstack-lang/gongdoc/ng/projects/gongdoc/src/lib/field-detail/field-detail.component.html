@@ -1,7 +1,7 @@
 <form *ngIf="field" class="details">
     <h2 class="details__title">field</h2>
     <!-- insertion point for fields specific code -->
-    <mat-grid-list *ngIf='!isATextArea("Name")' cols="5" rowHeight="2:1">
+    <mat-grid-list *ngIf='!isATextArea("Name")' cols="5" rowHeight="1:1">
         <mat-grid-tile [colspan]="3">
             <mat-form-field mat-form-field class="detail-full-width">
                 <mat-label>Name</mat-label>
@@ -21,7 +21,7 @@
         <textarea name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="field.Name"></textarea>
     </mat-form-field>
 
-    <mat-grid-list *ngIf='!isATextArea("Identifier")' cols="5" rowHeight="2:1">
+    <mat-grid-list *ngIf='!isATextArea("Identifier")' cols="5" rowHeight="1:1">
         <mat-grid-tile [colspan]="3">
             <mat-form-field mat-form-field class="detail-full-width">
                 <mat-label>Identifier</mat-label>
@@ -41,7 +41,7 @@
         <textarea name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="field.Identifier"></textarea>
     </mat-form-field>
 
-    <mat-grid-list *ngIf='!isATextArea("FieldTypeAsString")' cols="5" rowHeight="2:1">
+    <mat-grid-list *ngIf='!isATextArea("FieldTypeAsString")' cols="5" rowHeight="1:1">
         <mat-grid-tile [colspan]="3">
             <mat-form-field mat-form-field class="detail-full-width">
                 <mat-label>FieldTypeAsString</mat-label>
@@ -61,7 +61,7 @@
         <textarea name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="field.FieldTypeAsString"></textarea>
     </mat-form-field>
 
-    <mat-grid-list *ngIf='!isATextArea("Structname")' cols="5" rowHeight="2:1">
+    <mat-grid-list *ngIf='!isATextArea("Structname")' cols="5" rowHeight="1:1">
         <mat-grid-tile [colspan]="3">
             <mat-form-field mat-form-field class="detail-full-width">
                 <mat-label>Structname</mat-label>
@@ -81,7 +81,7 @@
         <textarea name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="field.Structname"></textarea>
     </mat-form-field>
 
-    <mat-grid-list *ngIf='!isATextArea("Fieldtypename")' cols="5" rowHeight="2:1">
+    <mat-grid-list *ngIf='!isATextArea("Fieldtypename")' cols="5" rowHeight="1:1">
         <mat-grid-tile [colspan]="3">
             <mat-form-field mat-form-field class="detail-full-width">
                 <mat-label>Fieldtypename</mat-label>
@@ -101,15 +101,6 @@
         <textarea name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="field.Fieldtypename"></textarea>
     </mat-form-field>
 
-    <mat-form-field class="detail-full-width">
-        <mat-label>(GongEnumShape) Fields</mat-label>
-        <mat-select [compareWith]="compareObjects" [(ngModel)]="field.GongEnumShape_Fields_reverse" [ngModelOptions]="{standalone: true}">
-            <mat-option>None</mat-option>
-            <mat-option *ngFor="let gongenumshape of frontRepo.GongEnumShapes_array" [value]="gongenumshape">
-                {{gongenumshape.Name}}
-            </mat-option>
-        </mat-select>
-    </mat-form-field>
     <mat-form-field class="detail-full-width">
         <mat-label>(GongStructShape) Fields</mat-label>
         <mat-select [compareWith]="compareObjects" [(ngModel)]="field.GongStructShape_Fields_reverse" [ngModelOptions]="{standalone: true}">

@@ -83,13 +83,6 @@ export class FieldsTableComponent implements OnInit {
         case 'Fieldtypename':
           return fieldDB.Fieldtypename;
 
-        case 'GongEnumShape_Fields':
-          if (this.frontRepo.GongEnumShapes.get(fieldDB.GongEnumShape_FieldsDBID.Int64) != undefined) {
-            return this.frontRepo.GongEnumShapes.get(fieldDB.GongEnumShape_FieldsDBID.Int64)!.Name
-          } else {
-            return ""
-          }
-
         case 'GongStructShape_Fields':
           if (this.frontRepo.GongStructShapes.get(fieldDB.GongStructShape_FieldsDBID.Int64) != undefined) {
             return this.frontRepo.GongStructShapes.get(fieldDB.GongStructShape_FieldsDBID.Int64)!.Name
@@ -116,10 +109,6 @@ export class FieldsTableComponent implements OnInit {
       mergedContent += fieldDB.FieldTypeAsString.toLowerCase()
       mergedContent += fieldDB.Structname.toLowerCase()
       mergedContent += fieldDB.Fieldtypename.toLowerCase()
-      if (fieldDB.GongEnumShape_FieldsDBID.Int64 != 0) {
-        mergedContent += this.frontRepo.GongEnumShapes.get(fieldDB.GongEnumShape_FieldsDBID.Int64)!.Name.toLowerCase()
-      }
-
       if (fieldDB.GongStructShape_FieldsDBID.Int64 != 0) {
         mergedContent += this.frontRepo.GongStructShapes.get(fieldDB.GongStructShape_FieldsDBID.Int64)!.Name.toLowerCase()
       }
@@ -173,13 +162,12 @@ export class FieldsTableComponent implements OnInit {
       }
     )
     if (this.mode == TableComponentMode.DISPLAY_MODE) {
-      this.displayedColumns = ['ID', 'Edit', 'Delete', // insertion point for columns to display
+      this.displayedColumns = ['ID', 'Delete', // insertion point for columns to display
         "Name",
         "Identifier",
         "FieldTypeAsString",
         "Structname",
         "Fieldtypename",
-        "GongEnumShape_Fields",
         "GongStructShape_Fields",
       ]
     } else {
@@ -189,7 +177,6 @@ export class FieldsTableComponent implements OnInit {
         "FieldTypeAsString",
         "Structname",
         "Fieldtypename",
-        "GongEnumShape_Fields",
         "GongStructShape_Fields",
       ]
       this.selection = new SelectionModel<FieldDB>(allowMultiSelect, this.initialSelection);
@@ -274,15 +261,6 @@ export class FieldsTableComponent implements OnInit {
     this.router.navigate([{
       outlets: {
         github_com_fullstack_lang_gongdoc_go_editor: ["github_com_fullstack_lang_gongdoc_go-" + "field-detail", fieldID]
-      }
-    }]);
-  }
-
-  // set presentation outlet
-  setPresentationRouterOutlet(fieldID: number) {
-    this.router.navigate([{
-      outlets: {
-        github_com_fullstack_lang_gongdoc_go_presentation: ["github_com_fullstack_lang_gongdoc_go-" + "field-presentation", fieldID]
       }
     }]);
   }

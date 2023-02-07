@@ -154,7 +154,7 @@ export class UmlStatesTableComponent implements OnInit {
       }
     )
     if (this.mode == TableComponentMode.DISPLAY_MODE) {
-      this.displayedColumns = ['ID', 'Edit', 'Delete', // insertion point for columns to display
+      this.displayedColumns = ['ID', 'Delete', // insertion point for columns to display
         "Name",
         "X",
         "Y",
@@ -249,15 +249,6 @@ export class UmlStatesTableComponent implements OnInit {
     this.router.navigate([{
       outlets: {
         github_com_fullstack_lang_gongdoc_go_editor: ["github_com_fullstack_lang_gongdoc_go-" + "umlstate-detail", umlstateID]
-      }
-    }]);
-  }
-
-  // set presentation outlet
-  setPresentationRouterOutlet(umlstateID: number) {
-    this.router.navigate([{
-      outlets: {
-        github_com_fullstack_lang_gongdoc_go_presentation: ["github_com_fullstack_lang_gongdoc_go-" + "umlstate-presentation", umlstateID]
       }
     }]);
   }

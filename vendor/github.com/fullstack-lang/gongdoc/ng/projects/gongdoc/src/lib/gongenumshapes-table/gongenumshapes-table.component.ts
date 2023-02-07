@@ -164,7 +164,7 @@ export class GongEnumShapesTableComponent implements OnInit {
       }
     )
     if (this.mode == TableComponentMode.DISPLAY_MODE) {
-      this.displayedColumns = ['ID', 'Edit', 'Delete', // insertion point for columns to display
+      this.displayedColumns = ['ID', 'Delete', // insertion point for columns to display
         "Name",
         "Position",
         "Identifier",
@@ -263,15 +263,6 @@ export class GongEnumShapesTableComponent implements OnInit {
     this.router.navigate([{
       outlets: {
         github_com_fullstack_lang_gongdoc_go_editor: ["github_com_fullstack_lang_gongdoc_go-" + "gongenumshape-detail", gongenumshapeID]
-      }
-    }]);
-  }
-
-  // set presentation outlet
-  setPresentationRouterOutlet(gongenumshapeID: number) {
-    this.router.navigate([{
-      outlets: {
-        github_com_fullstack_lang_gongdoc_go_presentation: ["github_com_fullstack_lang_gongdoc_go-" + "gongenumshape-presentation", gongenumshapeID]
       }
     }]);
   }

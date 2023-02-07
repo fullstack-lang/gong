@@ -47,19 +47,20 @@ func Load(
 	gongdoc_models.Stage.MetaPackageImportAlias = stackName
 	gongdoc_models.Stage.MetaPackageImportPath = pkgPath
 
-	// first, get all gong struct in the model
-	for gongStruct := range gong_models.Stage.GongStructs {
-		nbInstances, ok := (*map_StructName_InstanceNb)[gongStruct.Name]
-		if ok {
-			gongdoc_models.Map_Identifier_NbInstances[gongStruct.Name] = nbInstances
-		}
-	}
 	if embeddedDiagrams {
 		diagramPackage, _ = LoadEmbeddedDiagramPackage(goSourceDirectories, modelPackage)
 	} else {
 		diagramPackage, _ = LoadDiagramPackage(filepath.Join("../../diagrams"), modelPackage, true)
 	}
 	diagramPackage.GongModelPath = pkgPath
+
+	// first, get all gong struct in the model
+	for gongStruct := range gong_models.Stage.GongStructs {
+		nbInstances, ok := (*map_StructName_InstanceNb)[gongStruct.Name]
+		if ok {
+			diagramPackage.Map_Identifier_NbInstances[gongStruct.Name] = nbInstances
+		}
+	}
 
 	// to be removed after fix of [issue](https://github.com/golang/go/issues/57559)
 	gongdoc_models.SetupMapDocLinkRenaming()
@@ -69,7 +70,7 @@ func Load(
 	if map_StructName_InstanceNb != nil {
 
 		for gongStruct := range *gong_models.GetGongstructInstancesSet[gong_models.GongStruct]() {
-			gongdoc_models.Map_Identifier_NbInstances[gongStruct.Name] =
+			diagramPackage.Map_Identifier_NbInstances[gongStruct.Name] =
 				(*map_StructName_InstanceNb)[gongStruct.Name]
 
 		}
@@ -77,8 +78,8 @@ func Load(
 		for _, classdiagram := range diagramPackage.Classdiagrams {
 			for _, classshape := range classdiagram.GongStructShapes {
 
-				gongStructName := gongdoc_models.IdentifierToGongStructName(classshape.Identifier)
-				nbInstances, ok := gongdoc_models.Map_Identifier_NbInstances[gongStructName]
+				gongStructName := gongdoc_models.IdentifierToGongObjectName(classshape.Identifier)
+				nbInstances, ok := diagramPackage.Map_Identifier_NbInstances[gongStructName]
 
 				if ok {
 					classshape.ShowNbInstances = true

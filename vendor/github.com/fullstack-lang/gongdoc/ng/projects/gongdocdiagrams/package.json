@@ -2,12 +2,7 @@
     "name": "gongdocdiagrams",
     "version": "0.0.1",
     "peerDependencies": {
-        "@angular/common": "^9.1.12",
-        "@angular/core": "^9.1.12",
-        "@types/jointjs": "^2.0.0"
     },
     "dependencies": {
-        "jointjs": "^3.2.0",
-        "tslib": "^2.0.0"
     }
 }
