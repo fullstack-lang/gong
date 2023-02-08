@@ -54,8 +54,10 @@ func (modelPkg *ModelPkg) GenerateDocs(docPackage *doc.Package) {
 					for _, text := range paragraph.Text {
 						switch docLink := text.(type) {
 						case *comment.DocLink:
+
 							link := (&GongLink{
 								Name:       docLink.Name,
+								Recv:       docLink.Recv,
 								ImportPath: docLink.ImportPath,
 							}).Stage()
 

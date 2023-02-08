@@ -67,6 +67,9 @@ type GongLinkDB struct {
 	// Declation for basic field gonglinkDB.Name
 	Name_Data sql.NullString
 
+	// Declation for basic field gonglinkDB.Recv
+	Recv_Data sql.NullString
+
 	// Declation for basic field gonglinkDB.ImportPath
 	ImportPath_Data sql.NullString
 	// encoding of pointers
@@ -92,7 +95,9 @@ type GongLinkWOP struct {
 
 	Name string `xlsx:"1"`
 
-	ImportPath string `xlsx:"2"`
+	Recv string `xlsx:"2"`
+
+	ImportPath string `xlsx:"3"`
 	// insertion for WOP pointer fields
 }
 
@@ -100,6 +105,7 @@ var GongLink_Fields = []string{
 	// insertion for WOP basic fields
 	"ID",
 	"Name",
+	"Recv",
 	"ImportPath",
 }
 
@@ -388,6 +394,9 @@ func (gonglinkDB *GongLinkDB) CopyBasicFieldsFromGongLink(gonglink *models.GongL
 	gonglinkDB.Name_Data.String = gonglink.Name
 	gonglinkDB.Name_Data.Valid = true
 
+	gonglinkDB.Recv_Data.String = gonglink.Recv
+	gonglinkDB.Recv_Data.Valid = true
+
 	gonglinkDB.ImportPath_Data.String = gonglink.ImportPath
 	gonglinkDB.ImportPath_Data.Valid = true
 }
@@ -399,6 +408,9 @@ func (gonglinkDB *GongLinkDB) CopyBasicFieldsFromGongLinkWOP(gonglink *GongLinkW
 	gonglinkDB.Name_Data.String = gonglink.Name
 	gonglinkDB.Name_Data.Valid = true
 
+	gonglinkDB.Recv_Data.String = gonglink.Recv
+	gonglinkDB.Recv_Data.Valid = true
+
 	gonglinkDB.ImportPath_Data.String = gonglink.ImportPath
 	gonglinkDB.ImportPath_Data.Valid = true
 }
@@ -407,6 +419,7 @@ func (gonglinkDB *GongLinkDB) CopyBasicFieldsFromGongLinkWOP(gonglink *GongLinkW
 func (gonglinkDB *GongLinkDB) CopyBasicFieldsToGongLink(gonglink *models.GongLink) {
 	// insertion point for checkout of basic fields (back repo to stage)
 	gonglink.Name = gonglinkDB.Name_Data.String
+	gonglink.Recv = gonglinkDB.Recv_Data.String
 	gonglink.ImportPath = gonglinkDB.ImportPath_Data.String
 }
 
@@ -415,6 +428,7 @@ func (gonglinkDB *GongLinkDB) CopyBasicFieldsToGongLinkWOP(gonglink *GongLinkWOP
 	gonglink.ID = int(gonglinkDB.ID)
 	// insertion point for checkout of basic fields (back repo to stage)
 	gonglink.Name = gonglinkDB.Name_Data.String
+	gonglink.Recv = gonglinkDB.Recv_Data.String
 	gonglink.ImportPath = gonglinkDB.ImportPath_Data.String
 }
 

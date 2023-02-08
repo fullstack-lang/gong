@@ -26,6 +26,13 @@
             </td>
         </ng-container>
         <!-- -->
+        <ng-container matColumnDef="Recv">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Recv </th>
+            <td mat-cell *matCellDef="let GongLink">
+                {{GongLink.Recv}}
+            </td>
+        </ng-container>
+        <!-- -->
         <ng-container matColumnDef="ImportPath">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> ImportPath </th>
             <td mat-cell *matCellDef="let GongLink">
