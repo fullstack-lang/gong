@@ -71,6 +71,9 @@ export class GongLinksTableComponent implements OnInit {
         case 'Name':
           return gonglinkDB.Name;
 
+        case 'Recv':
+          return gonglinkDB.Recv;
+
         case 'ImportPath':
           return gonglinkDB.ImportPath;
 
@@ -96,6 +99,7 @@ export class GongLinksTableComponent implements OnInit {
 
       // insertion point for merging of fields
       mergedContent += gonglinkDB.Name.toLowerCase()
+      mergedContent += gonglinkDB.Recv.toLowerCase()
       mergedContent += gonglinkDB.ImportPath.toLowerCase()
       if (gonglinkDB.GongNote_LinksDBID.Int64 != 0) {
         mergedContent += this.frontRepo.GongNotes.get(gonglinkDB.GongNote_LinksDBID.Int64)!.Name.toLowerCase()
@@ -152,12 +156,14 @@ export class GongLinksTableComponent implements OnInit {
     if (this.mode == TableComponentMode.DISPLAY_MODE) {
       this.displayedColumns = ['ID', 'Delete', // insertion point for columns to display
         "Name",
+        "Recv",
         "ImportPath",
         "GongNote_Links",
       ]
     } else {
       this.displayedColumns = ['select', 'ID', // insertion point for columns to display
         "Name",
+        "Recv",
         "ImportPath",
         "GongNote_Links",
       ]

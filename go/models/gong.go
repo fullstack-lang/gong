@@ -2227,7 +2227,7 @@ func GetFields[Type Gongstruct]() (res []string) {
 	case GongEnumValue:
 		res = []string{"Name", "Value"}
 	case GongLink:
-		res = []string{"Name", "ImportPath"}
+		res = []string{"Name", "Recv", "ImportPath"}
 	case GongNote:
 		res = []string{"Name", "Body", "Links"}
 	case GongStruct:
@@ -2302,6 +2302,8 @@ func GetFieldStringValue[Type Gongstruct](instance Type, fieldName string) (res 
 		// string value of fields
 		case "Name":
 			res = any(instance).(GongLink).Name
+		case "Recv":
+			res = any(instance).(GongLink).Recv
 		case "ImportPath":
 			res = any(instance).(GongLink).ImportPath
 		}

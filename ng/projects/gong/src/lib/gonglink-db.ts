@@ -11,6 +11,7 @@ export class GongLinkDB {
 
 	// insertion point for basic fields declarations
 	Name: string = ""
+	Recv: string = ""
 	ImportPath: string = ""
 
 	// insertion point for other declarations
