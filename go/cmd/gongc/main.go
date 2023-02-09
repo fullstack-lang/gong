@@ -385,58 +385,10 @@ func main() {
 		log.Printf("go get github.com/xuri/excelize/v2@v2.6.1 is over and took %s", time.Since(start))
 	}
 
-	// go mod vendor to get the ng code of dependant gong stacks
-	if !*skipGoModCommands {
-		start := time.Now()
-		cmd := exec.Command("go", "mod", "tidy")
-		cmd.Dir, _ = filepath.Abs(filepath.Join(*pkgPath, fmt.Sprintf("../cmd/%s", gong_models.ComputePkgNameFromPkgPath(*pkgPath))))
-		log.Printf("Running %s command in directory %s and waiting for it to finish...\n", cmd.Args, cmd.Dir)
-
-		// https://stackoverflow.com/questions/48253268/print-the-stdout-from-exec-command-in-real-time-in-go
-		var stdBuffer bytes.Buffer
-		mw := io.MultiWriter(os.Stdout, &stdBuffer)
-
-		cmd.Stdout = mw
-		cmd.Stderr = mw
-
-		log.Println(cmd.String())
-		log.Println(stdBuffer.String())
-
-		// Execute the command
-		if err := cmd.Run(); err != nil {
-			log.Panic(err)
-		}
-		log.Printf("go mod tidy is over and took %s", time.Since(start))
-	}
-
-	// go mod vendor to get the ng code of dependant gong stacks
-	if !*skipGoModCommands {
-		start := time.Now()
-		cmd := exec.Command("go", "mod", "vendor")
-		cmd.Dir, _ = filepath.Abs(filepath.Join(*pkgPath, fmt.Sprintf("../cmd/%s", gong_models.ComputePkgNameFromPkgPath(*pkgPath))))
-		log.Printf("Running %s command in directory %s and waiting for it to finish...\n", cmd.Args, cmd.Dir)
-
-		// https://stackoverflow.com/questions/48253268/print-the-stdout-from-exec-command-in-real-time-in-go
-		var stdBuffer bytes.Buffer
-		mw := io.MultiWriter(os.Stdout, &stdBuffer)
-
-		cmd.Stdout = mw
-		cmd.Stderr = mw
-
-		log.Println(cmd.String())
-		log.Println(stdBuffer.String())
-
-		// Execute the command
-		if err := cmd.Run(); err != nil {
-			log.Panic(err)
-		}
-		log.Printf("go mod vendor is over and took %s", time.Since(start))
-	}
-
 	// since go mod vendor brings angular dependencies into the vendor directory
 	// the go mod vendor command has to be issued before the ng build command
 	if !*skipNg {
-		genAngular(modelPkg, *skipNpmInstall)
+		genAngular(modelPkg, *skipNpmInstall, *skipGoModCommands)
 	}
 
 	if !*skipFlutter {
