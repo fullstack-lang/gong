@@ -22,7 +22,7 @@ import (
 	"github.com/tidwall/sjson"
 )
 
-func genAngular(modelPkg *gong_models.ModelPkg, skipNpmInstall bool) {
+func genAngular(modelPkg *gong_models.ModelPkg, skipNpmInstall bool, skipGoModCommands bool) {
 
 	{
 		directory, err :=
@@ -527,6 +527,67 @@ func genAngular(modelPkg *gong_models.ModelPkg, skipNpmInstall bool) {
 		modelPkg.PkgPath, filepath.Join(gong_models.MatTargetPath, "map-components.ts"),
 		angular.NgLibMapComponentsServiceTemplate, angular.NgLibMapComponentsSubTemplateCode)
 
+	gong_models.VerySimpleCodeGenerator(
+		modelPkg,
+		caserEnglish.String(modelPkg.Name),
+		modelPkg.PkgPath, filepath.Join(gong_models.NgWorkspacePath, "projects/embed.go"),
+		golang.GoProjectsGo)
+
+	gong_models.VerySimpleCodeGenerator(
+		modelPkg,
+		caserEnglish.String(modelPkg.Name),
+		modelPkg.PkgPath, filepath.Join(gong_models.NgWorkspacePath, "../embed_ng_dist_ng.go"),
+		angular.EmebedNgDistNg)
+
+	// go mod tidy to get the new dependencies
+	if !skipGoModCommands {
+		start := time.Now()
+		cmd := exec.Command("go", "mod", "tidy")
+		cmd.Dir, _ = filepath.Abs(filepath.Join(*pkgPath, fmt.Sprintf("../cmd/%s", gong_models.ComputePkgNameFromPkgPath(*pkgPath))))
+		log.Printf("Running %s command in directory %s and waiting for it to finish...\n", cmd.Args, cmd.Dir)
+
+		// https://stackoverflow.com/questions/48253268/print-the-stdout-from-exec-command-in-real-time-in-go
+		var stdBuffer bytes.Buffer
+		mw := io.MultiWriter(os.Stdout, &stdBuffer)
+
+		cmd.Stdout = mw
+		cmd.Stderr = mw
+
+		log.Println(cmd.String())
+		log.Println(stdBuffer.String())
+
+		// Execute the command
+		if err := cmd.Run(); err != nil {
+			log.Panic(err)
+		}
+		log.Printf("go mod tidy is over and took %s", time.Since(start))
+	}
+
+	// go mod vendor to get the ng code of dependant gong stacks
+	// it has to be done after the go mod tidy and ust before the ng build
+	if !skipGoModCommands {
+		start := time.Now()
+		cmd := exec.Command("go", "mod", "vendor")
+		cmd.Dir, _ = filepath.Abs(filepath.Join(*pkgPath, fmt.Sprintf("../cmd/%s", gong_models.ComputePkgNameFromPkgPath(*pkgPath))))
+		log.Printf("Running %s command in directory %s and waiting for it to finish...\n", cmd.Args, cmd.Dir)
+
+		// https://stackoverflow.com/questions/48253268/print-the-stdout-from-exec-command-in-real-time-in-go
+		var stdBuffer bytes.Buffer
+		mw := io.MultiWriter(os.Stdout, &stdBuffer)
+
+		cmd.Stdout = mw
+		cmd.Stderr = mw
+
+		log.Println(cmd.String())
+		log.Println(stdBuffer.String())
+
+		// Execute the command
+		if err := cmd.Run(); err != nil {
+			log.Panic(err)
+		}
+		log.Printf("go mod vendor is over and took %s", time.Since(start))
+	}
+
 	// ng build
 	{
 		start := time.Now()
@@ -550,16 +611,4 @@ func genAngular(modelPkg *gong_models.ModelPkg, skipNpmInstall bool) {
 		}
 		log.Printf("ng build is over and took %s", time.Since(start))
 	}
-
-	gong_models.VerySimpleCodeGenerator(
-		modelPkg,
-		caserEnglish.String(modelPkg.Name),
-		modelPkg.PkgPath, filepath.Join(gong_models.NgWorkspacePath, "projects/embed.go"),
-		golang.GoProjectsGo)
-
-	gong_models.VerySimpleCodeGenerator(
-		modelPkg,
-		caserEnglish.String(modelPkg.Name),
-		modelPkg.PkgPath, filepath.Join(gong_models.NgWorkspacePath, "../embed_ng_dist_ng.go"),
-		angular.EmebedNgDistNg)
 }
