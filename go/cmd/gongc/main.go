@@ -52,6 +52,9 @@ func main() {
 		*pkgPath = flag.Arg(0)
 	}
 
+	// remove gong generated files
+	gong_models.RemoveGeneratedGongFiles(*pkgPath)
+
 	// initiate model package
 	modelPkg, _ := gong_models.LoadSource(*pkgPath)
 
@@ -275,8 +278,6 @@ func main() {
 		modelPkg.PkgPath, filepath.Join(*pkgPath, "../fullstack/init.go"),
 		golang.FullstackInitTemplate)
 
-	// remove "gong.go" file
-	gong_models.RemoveGeneratedGongFiles(*pkgPath)
 	golang.CodeGeneratorModelGong(
 		modelPkg,
 		modelPkg.Name,
