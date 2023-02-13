@@ -73,6 +73,15 @@
             "args": []
         },
         {
+            "name": "gongc gonggantt",
+            "type": "go",
+            "request": "launch",
+            "mode": "debug",
+            "cwd": "${workspaceFolder}/../gonggantt/go/models",
+            "program": "${workspaceFolder}/go/cmd/gongc",
+            "args": []
+        },
+        {
             "name": "gongc gongmarkdown -skipNg -skipGoModCommands",
             "type": "go",
             "request": "launch",
