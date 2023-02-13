@@ -52,6 +52,19 @@ func GetDstructs(c *gin.Context) {
 
 	// source slice
 	var dstructDBs []orm.DstructDB
+
+	// type Values map[string][]string
+	values := c.Request.URL.Query()
+	if len(values) == 1 {
+		value := values["stack"]
+		if len(value) == 1 {
+			// we have a single parameter
+			// we assume it is the stack
+			stackParam := value[0]
+			log.Println("GET all params", stackParam)
+		}
+	}
+
 	query := db.Find(&dstructDBs)
 	if query.Error != nil {
 		var returnError GenericError
@@ -96,7 +109,6 @@ func GetDstructs(c *gin.Context) {
 //	Responses:
 //	  200: nodeDBResponse
 func PostDstruct(c *gin.Context) {
-	db := orm.BackRepo.BackRepoDstruct.GetDB()
 
 	// Validate input
 	var input orm.DstructAPI
@@ -116,6 +128,7 @@ func PostDstruct(c *gin.Context) {
 	dstructDB.DstructPointersEnconding = input.DstructPointersEnconding
 	dstructDB.CopyBasicFieldsFromDstruct(&input.Dstruct)
 
+	db := orm.BackRepo.BackRepoDstruct.GetDB()
 	query := db.Create(&dstructDB)
 	if query.Error != nil {
 		var returnError GenericError
@@ -152,6 +165,19 @@ func PostDstruct(c *gin.Context) {
 //
 //	200: dstructDBResponse
 func GetDstruct(c *gin.Context) {
+
+	// type Values map[string][]string
+	values := c.Request.URL.Query()
+	if len(values) == 1 {
+		value := values["stack"]
+		if len(value) == 1 {
+			// we have a single parameter
+			// we assume it is the stack
+			stackParam := value[0]
+			log.Println("GET params", stackParam)
+		}
+	}
+
 	db := orm.BackRepo.BackRepoDstruct.GetDB()
 
 	// Get dstructDB in DB
@@ -184,6 +210,15 @@ func GetDstruct(c *gin.Context) {
 //
 //	200: dstructDBResponse
 func UpdateDstruct(c *gin.Context) {
+
+	// Validate input
+	var input orm.DstructAPI
+	if err := c.ShouldBindJSON(&input); err != nil {
+		log.Println(err.Error())
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	
 	db := orm.BackRepo.BackRepoDstruct.GetDB()
 
 	// Get model if exist
@@ -198,14 +233,6 @@ func UpdateDstruct(c *gin.Context) {
 		returnError.Body.Message = query.Error.Error()
 		log.Println(query.Error.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
-		return
-	}
-
-	// Validate input
-	var input orm.DstructAPI
-	if err := c.ShouldBindJSON(&input); err != nil {
-		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 

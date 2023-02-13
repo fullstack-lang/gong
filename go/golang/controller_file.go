@@ -68,6 +68,19 @@ func Get{{Structname}}s(c *gin.Context) {
 
 	// source slice
 	var {{structname}}DBs []orm.{{Structname}}DB
+
+	// type Values map[string][]string
+	values := c.Request.URL.Query()
+	if len(values) == 1 {
+		value := values["stack"]
+		if len(value) == 1 {
+			// we have a single parameter
+			// we assume it is the stack
+			stackParam := value[0]
+			log.Println("GET all params", stackParam)
+		}
+	}
+
 	query := db.Find(&{{structname}}DBs)
 	if query.Error != nil {
 		var returnError GenericError
@@ -112,7 +125,6 @@ func Get{{Structname}}s(c *gin.Context) {
 //	Responses:
 //	  200: nodeDBResponse
 func Post{{Structname}}(c *gin.Context) {
-	db := orm.BackRepo.BackRepo{{Structname}}.GetDB()
 
 	// Validate input
 	var input orm.{{Structname}}API
@@ -132,6 +144,7 @@ func Post{{Structname}}(c *gin.Context) {
 	{{structname}}DB.{{Structname}}PointersEnconding = input.{{Structname}}PointersEnconding
 	{{structname}}DB.CopyBasicFieldsFrom{{Structname}}(&input.{{Structname}})
 
+	db := orm.BackRepo.BackRepo{{Structname}}.GetDB()
 	query := db.Create(&{{structname}}DB)
 	if query.Error != nil {
 		var returnError GenericError
@@ -168,6 +181,19 @@ func Post{{Structname}}(c *gin.Context) {
 //
 //	200: {{structname}}DBResponse
 func Get{{Structname}}(c *gin.Context) {
+
+	// type Values map[string][]string
+	values := c.Request.URL.Query()
+	if len(values) == 1 {
+		value := values["stack"]
+		if len(value) == 1 {
+			// we have a single parameter
+			// we assume it is the stack
+			stackParam := value[0]
+			log.Println("GET params", stackParam)
+		}
+	}
+
 	db := orm.BackRepo.BackRepo{{Structname}}.GetDB()
 
 	// Get {{structname}}DB in DB
@@ -200,6 +226,15 @@ func Get{{Structname}}(c *gin.Context) {
 //
 //	200: {{structname}}DBResponse
 func Update{{Structname}}(c *gin.Context) {
+
+	// Validate input
+	var input orm.{{Structname}}API
+	if err := c.ShouldBindJSON(&input); err != nil {
+		log.Println(err.Error())
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	
 	db := orm.BackRepo.BackRepo{{Structname}}.GetDB()
 
 	// Get model if exist
@@ -214,14 +249,6 @@ func Update{{Structname}}(c *gin.Context) {
 		returnError.Body.Message = query.Error.Error()
 		log.Println(query.Error.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
-		return
-	}
-
-	// Validate input
-	var input orm.{{Structname}}API
-	if err := c.ShouldBindJSON(&input); err != nil {
-		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
