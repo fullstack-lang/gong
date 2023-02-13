@@ -123,14 +123,12 @@ func PostAstruct(c *gin.Context) {
 		return
 	}
 
-	log.Println("POST stack", input.Stack)
-	db := orm.BackRepo.BackRepoAstruct.GetDB()
-
 	// Create astruct
 	astructDB := orm.AstructDB{}
 	astructDB.AstructPointersEnconding = input.AstructPointersEnconding
 	astructDB.CopyBasicFieldsFromAstruct(&input.Astruct)
 
+	db := orm.BackRepo.BackRepoAstruct.GetDB()
 	query := db.Create(&astructDB)
 	if query.Error != nil {
 		var returnError GenericError
@@ -167,7 +165,6 @@ func PostAstruct(c *gin.Context) {
 //
 //	200: astructDBResponse
 func GetAstruct(c *gin.Context) {
-	db := orm.BackRepo.BackRepoAstruct.GetDB()
 
 	// type Values map[string][]string
 	values := c.Request.URL.Query()
@@ -180,6 +177,8 @@ func GetAstruct(c *gin.Context) {
 			log.Println("GET params", stackParam)
 		}
 	}
+
+	db := orm.BackRepo.BackRepoAstruct.GetDB()
 
 	// Get astructDB in DB
 	var astructDB orm.AstructDB
@@ -219,7 +218,7 @@ func UpdateAstruct(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	log.Println("UPDATE stack", input.Stack)
+	
 	db := orm.BackRepo.BackRepoAstruct.GetDB()
 
 	// Get model if exist
@@ -236,6 +235,7 @@ func UpdateAstruct(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, returnError.Body)
 		return
 	}
+
 	// update
 	astructDB.CopyBasicFieldsFromAstruct(&input.Astruct)
 	astructDB.AstructPointersEnconding = input.AstructPointersEnconding
@@ -281,18 +281,6 @@ func UpdateAstruct(c *gin.Context) {
 //	200: astructDBResponse
 func DeleteAstruct(c *gin.Context) {
 	db := orm.BackRepo.BackRepoAstruct.GetDB()
-
-	// type Values map[string][]string
-	values := c.Request.URL.Query()
-	if len(values) == 1 {
-		value := values["stack"]
-		if len(value) == 1 {
-			// we have a single parameter
-			// we assume it is the stack
-			stackParam := value[0]
-			log.Println("DELETE params", stackParam)
-		}
-	}
 
 	// Get model if exist
 	var astructDB orm.AstructDB

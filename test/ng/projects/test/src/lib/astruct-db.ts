@@ -11,7 +11,6 @@ export class AstructDB {
 	CreatedAt?: string
 	DeletedAt?: string
 	ID: number = 0
-	Stack: string = ""
 
 	// insertion point for basic fields declarations
 	Name: string = ""
@@ -70,7 +69,7 @@ export class AstructDB {
 	AnAstructID: NullInt64 = new NullInt64 // if pointer is null, AnAstruct.ID = 0
 
 	Astruct_AnarrayofaDBID: NullInt64 = new NullInt64
-	Astruct_AnarrayofaDBID_Index: NullInt64 = new NullInt64 // store the index of the astruct instance in Astruct.Anarrayofa
-	Astruct_Anarrayofa_reverse?: AstructDB
+	Astruct_AnarrayofaDBID_Index: NullInt64  = new NullInt64 // store the index of the astruct instance in Astruct.Anarrayofa
+	Astruct_Anarrayofa_reverse?: AstructDB 
 
 }
