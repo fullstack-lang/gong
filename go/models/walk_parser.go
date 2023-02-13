@@ -153,6 +153,11 @@ func WalkParser(parserPkgs map[string]*ast.Package, modelPkg *ModelPkg) {
 								log.Fatal("Invalid definition of a Gongstruct ", typeSpec.Name.Name, " type ", _type.Name)
 							}
 
+							hasIgnoreStatement := map_StructName_hasIgnoreStatement[typeSpec.Name.Name]
+							if hasIgnoreStatement {
+								continue
+							}
+
 							modelEnum := &GongEnum{
 								Name: typeSpec.Name.Name,
 								Type: enumType,
