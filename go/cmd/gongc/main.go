@@ -53,7 +53,7 @@ func main() {
 	}
 
 	// remove gong generated files
-	gong_models.RemoveGeneratedGongFiles(*pkgPath)
+	golang.RemoveGeneratedGongFiles(*pkgPath)
 
 	// initiate model package
 	modelPkg, _ := gong_models.LoadSource(*pkgPath)
