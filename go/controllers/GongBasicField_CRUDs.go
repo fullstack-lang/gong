@@ -52,6 +52,19 @@ func GetGongBasicFields(c *gin.Context) {
 
 	// source slice
 	var gongbasicfieldDBs []orm.GongBasicFieldDB
+
+	// type Values map[string][]string
+	values := c.Request.URL.Query()
+	if len(values) == 1 {
+		value := values["stack"]
+		if len(value) == 1 {
+			// we have a single parameter
+			// we assume it is the stack
+			stackParam := value[0]
+			log.Println("GET all params", stackParam)
+		}
+	}
+
 	query := db.Find(&gongbasicfieldDBs)
 	if query.Error != nil {
 		var returnError GenericError
@@ -96,7 +109,6 @@ func GetGongBasicFields(c *gin.Context) {
 //	Responses:
 //	  200: nodeDBResponse
 func PostGongBasicField(c *gin.Context) {
-	db := orm.BackRepo.BackRepoGongBasicField.GetDB()
 
 	// Validate input
 	var input orm.GongBasicFieldAPI
@@ -116,6 +128,7 @@ func PostGongBasicField(c *gin.Context) {
 	gongbasicfieldDB.GongBasicFieldPointersEnconding = input.GongBasicFieldPointersEnconding
 	gongbasicfieldDB.CopyBasicFieldsFromGongBasicField(&input.GongBasicField)
 
+	db := orm.BackRepo.BackRepoGongBasicField.GetDB()
 	query := db.Create(&gongbasicfieldDB)
 	if query.Error != nil {
 		var returnError GenericError
@@ -152,6 +165,19 @@ func PostGongBasicField(c *gin.Context) {
 //
 //	200: gongbasicfieldDBResponse
 func GetGongBasicField(c *gin.Context) {
+
+	// type Values map[string][]string
+	values := c.Request.URL.Query()
+	if len(values) == 1 {
+		value := values["stack"]
+		if len(value) == 1 {
+			// we have a single parameter
+			// we assume it is the stack
+			stackParam := value[0]
+			log.Println("GET params", stackParam)
+		}
+	}
+
 	db := orm.BackRepo.BackRepoGongBasicField.GetDB()
 
 	// Get gongbasicfieldDB in DB
@@ -184,6 +210,15 @@ func GetGongBasicField(c *gin.Context) {
 //
 //	200: gongbasicfieldDBResponse
 func UpdateGongBasicField(c *gin.Context) {
+
+	// Validate input
+	var input orm.GongBasicFieldAPI
+	if err := c.ShouldBindJSON(&input); err != nil {
+		log.Println(err.Error())
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	
 	db := orm.BackRepo.BackRepoGongBasicField.GetDB()
 
 	// Get model if exist
@@ -198,14 +233,6 @@ func UpdateGongBasicField(c *gin.Context) {
 		returnError.Body.Message = query.Error.Error()
 		log.Println(query.Error.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
-		return
-	}
-
-	// Validate input
-	var input orm.GongBasicFieldAPI
-	if err := c.ShouldBindJSON(&input); err != nil {
-		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 

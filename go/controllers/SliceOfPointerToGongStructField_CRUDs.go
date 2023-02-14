@@ -52,6 +52,19 @@ func GetSliceOfPointerToGongStructFields(c *gin.Context) {
 
 	// source slice
 	var sliceofpointertogongstructfieldDBs []orm.SliceOfPointerToGongStructFieldDB
+
+	// type Values map[string][]string
+	values := c.Request.URL.Query()
+	if len(values) == 1 {
+		value := values["stack"]
+		if len(value) == 1 {
+			// we have a single parameter
+			// we assume it is the stack
+			stackParam := value[0]
+			log.Println("GET all params", stackParam)
+		}
+	}
+
 	query := db.Find(&sliceofpointertogongstructfieldDBs)
 	if query.Error != nil {
 		var returnError GenericError
@@ -96,7 +109,6 @@ func GetSliceOfPointerToGongStructFields(c *gin.Context) {
 //	Responses:
 //	  200: nodeDBResponse
 func PostSliceOfPointerToGongStructField(c *gin.Context) {
-	db := orm.BackRepo.BackRepoSliceOfPointerToGongStructField.GetDB()
 
 	// Validate input
 	var input orm.SliceOfPointerToGongStructFieldAPI
@@ -116,6 +128,7 @@ func PostSliceOfPointerToGongStructField(c *gin.Context) {
 	sliceofpointertogongstructfieldDB.SliceOfPointerToGongStructFieldPointersEnconding = input.SliceOfPointerToGongStructFieldPointersEnconding
 	sliceofpointertogongstructfieldDB.CopyBasicFieldsFromSliceOfPointerToGongStructField(&input.SliceOfPointerToGongStructField)
 
+	db := orm.BackRepo.BackRepoSliceOfPointerToGongStructField.GetDB()
 	query := db.Create(&sliceofpointertogongstructfieldDB)
 	if query.Error != nil {
 		var returnError GenericError
@@ -152,6 +165,19 @@ func PostSliceOfPointerToGongStructField(c *gin.Context) {
 //
 //	200: sliceofpointertogongstructfieldDBResponse
 func GetSliceOfPointerToGongStructField(c *gin.Context) {
+
+	// type Values map[string][]string
+	values := c.Request.URL.Query()
+	if len(values) == 1 {
+		value := values["stack"]
+		if len(value) == 1 {
+			// we have a single parameter
+			// we assume it is the stack
+			stackParam := value[0]
+			log.Println("GET params", stackParam)
+		}
+	}
+
 	db := orm.BackRepo.BackRepoSliceOfPointerToGongStructField.GetDB()
 
 	// Get sliceofpointertogongstructfieldDB in DB
@@ -184,6 +210,15 @@ func GetSliceOfPointerToGongStructField(c *gin.Context) {
 //
 //	200: sliceofpointertogongstructfieldDBResponse
 func UpdateSliceOfPointerToGongStructField(c *gin.Context) {
+
+	// Validate input
+	var input orm.SliceOfPointerToGongStructFieldAPI
+	if err := c.ShouldBindJSON(&input); err != nil {
+		log.Println(err.Error())
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	
 	db := orm.BackRepo.BackRepoSliceOfPointerToGongStructField.GetDB()
 
 	// Get model if exist
@@ -198,14 +233,6 @@ func UpdateSliceOfPointerToGongStructField(c *gin.Context) {
 		returnError.Body.Message = query.Error.Error()
 		log.Println(query.Error.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
-		return
-	}
-
-	// Validate input
-	var input orm.SliceOfPointerToGongStructFieldAPI
-	if err := c.ShouldBindJSON(&input); err != nil {
-		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 

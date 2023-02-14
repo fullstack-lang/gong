@@ -46,6 +46,9 @@ func (modelPkg *ModelPkg) GenerateDocs(docPackage *doc.Package) {
 
 			doc := p.Parse(note.Body)
 
+			var pr comment.Printer
+			gongNote.BodyHTML = string(pr.HTML(doc))
+
 			for _, block := range doc.Content {
 
 				switch paragraph := block.(type) {

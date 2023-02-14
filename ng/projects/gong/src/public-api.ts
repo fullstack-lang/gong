@@ -88,5 +88,4 @@ export * from './lib/sliceofpointertogongstructfield-db'
 export * from './lib/sliceofpointertogongstructfield.service'
 
 
-export * from './lib/GONG__ExpressionType'
 export * from './lib/GongEnumType'

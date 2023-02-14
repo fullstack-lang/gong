@@ -52,6 +52,19 @@ func GetModelPkgs(c *gin.Context) {
 
 	// source slice
 	var modelpkgDBs []orm.ModelPkgDB
+
+	// type Values map[string][]string
+	values := c.Request.URL.Query()
+	if len(values) == 1 {
+		value := values["stack"]
+		if len(value) == 1 {
+			// we have a single parameter
+			// we assume it is the stack
+			stackParam := value[0]
+			log.Println("GET all params", stackParam)
+		}
+	}
+
 	query := db.Find(&modelpkgDBs)
 	if query.Error != nil {
 		var returnError GenericError
@@ -96,7 +109,6 @@ func GetModelPkgs(c *gin.Context) {
 //	Responses:
 //	  200: nodeDBResponse
 func PostModelPkg(c *gin.Context) {
-	db := orm.BackRepo.BackRepoModelPkg.GetDB()
 
 	// Validate input
 	var input orm.ModelPkgAPI
@@ -116,6 +128,7 @@ func PostModelPkg(c *gin.Context) {
 	modelpkgDB.ModelPkgPointersEnconding = input.ModelPkgPointersEnconding
 	modelpkgDB.CopyBasicFieldsFromModelPkg(&input.ModelPkg)
 
+	db := orm.BackRepo.BackRepoModelPkg.GetDB()
 	query := db.Create(&modelpkgDB)
 	if query.Error != nil {
 		var returnError GenericError
@@ -152,6 +165,19 @@ func PostModelPkg(c *gin.Context) {
 //
 //	200: modelpkgDBResponse
 func GetModelPkg(c *gin.Context) {
+
+	// type Values map[string][]string
+	values := c.Request.URL.Query()
+	if len(values) == 1 {
+		value := values["stack"]
+		if len(value) == 1 {
+			// we have a single parameter
+			// we assume it is the stack
+			stackParam := value[0]
+			log.Println("GET params", stackParam)
+		}
+	}
+
 	db := orm.BackRepo.BackRepoModelPkg.GetDB()
 
 	// Get modelpkgDB in DB
@@ -184,6 +210,15 @@ func GetModelPkg(c *gin.Context) {
 //
 //	200: modelpkgDBResponse
 func UpdateModelPkg(c *gin.Context) {
+
+	// Validate input
+	var input orm.ModelPkgAPI
+	if err := c.ShouldBindJSON(&input); err != nil {
+		log.Println(err.Error())
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	
 	db := orm.BackRepo.BackRepoModelPkg.GetDB()
 
 	// Get model if exist
@@ -198,14 +233,6 @@ func UpdateModelPkg(c *gin.Context) {
 		returnError.Body.Message = query.Error.Error()
 		log.Println(query.Error.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
-		return
-	}
-
-	// Validate input
-	var input orm.ModelPkgAPI
-	if err := c.ShouldBindJSON(&input); err != nil {
-		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
