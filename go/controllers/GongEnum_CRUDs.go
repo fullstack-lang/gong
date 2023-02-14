@@ -52,6 +52,19 @@ func GetGongEnums(c *gin.Context) {
 
 	// source slice
 	var gongenumDBs []orm.GongEnumDB
+
+	// type Values map[string][]string
+	values := c.Request.URL.Query()
+	if len(values) == 1 {
+		value := values["stack"]
+		if len(value) == 1 {
+			// we have a single parameter
+			// we assume it is the stack
+			stackParam := value[0]
+			log.Println("GET all params", stackParam)
+		}
+	}
+
 	query := db.Find(&gongenumDBs)
 	if query.Error != nil {
 		var returnError GenericError
@@ -96,7 +109,6 @@ func GetGongEnums(c *gin.Context) {
 //	Responses:
 //	  200: nodeDBResponse
 func PostGongEnum(c *gin.Context) {
-	db := orm.BackRepo.BackRepoGongEnum.GetDB()
 
 	// Validate input
 	var input orm.GongEnumAPI
@@ -116,6 +128,7 @@ func PostGongEnum(c *gin.Context) {
 	gongenumDB.GongEnumPointersEnconding = input.GongEnumPointersEnconding
 	gongenumDB.CopyBasicFieldsFromGongEnum(&input.GongEnum)
 
+	db := orm.BackRepo.BackRepoGongEnum.GetDB()
 	query := db.Create(&gongenumDB)
 	if query.Error != nil {
 		var returnError GenericError
@@ -152,6 +165,19 @@ func PostGongEnum(c *gin.Context) {
 //
 //	200: gongenumDBResponse
 func GetGongEnum(c *gin.Context) {
+
+	// type Values map[string][]string
+	values := c.Request.URL.Query()
+	if len(values) == 1 {
+		value := values["stack"]
+		if len(value) == 1 {
+			// we have a single parameter
+			// we assume it is the stack
+			stackParam := value[0]
+			log.Println("GET params", stackParam)
+		}
+	}
+
 	db := orm.BackRepo.BackRepoGongEnum.GetDB()
 
 	// Get gongenumDB in DB
@@ -184,6 +210,15 @@ func GetGongEnum(c *gin.Context) {
 //
 //	200: gongenumDBResponse
 func UpdateGongEnum(c *gin.Context) {
+
+	// Validate input
+	var input orm.GongEnumAPI
+	if err := c.ShouldBindJSON(&input); err != nil {
+		log.Println(err.Error())
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	
 	db := orm.BackRepo.BackRepoGongEnum.GetDB()
 
 	// Get model if exist
@@ -198,14 +233,6 @@ func UpdateGongEnum(c *gin.Context) {
 		returnError.Body.Message = query.Error.Error()
 		log.Println(query.Error.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
-		return
-	}
-
-	// Validate input
-	var input orm.GongEnumAPI
-	if err := c.ShouldBindJSON(&input); err != nil {
-		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 

@@ -32,6 +32,13 @@
                 {{GongNote.Body}}
             </td>
         </ng-container>
+        <!-- -->
+        <ng-container matColumnDef="BodyHTML">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> BodyHTML </th>
+            <td mat-cell *matCellDef="let GongNote">
+                {{GongNote.BodyHTML}}
+            </td>
+        </ng-container>
 
         <ng-container matColumnDef="ID" sticky>
             <th mat-header-cell *matHeaderCellDef mat-sort-header> ID. </th>

@@ -52,6 +52,19 @@ func GetMetaReferences(c *gin.Context) {
 
 	// source slice
 	var metareferenceDBs []orm.MetaReferenceDB
+
+	// type Values map[string][]string
+	values := c.Request.URL.Query()
+	if len(values) == 1 {
+		value := values["stack"]
+		if len(value) == 1 {
+			// we have a single parameter
+			// we assume it is the stack
+			stackParam := value[0]
+			log.Println("GET all params", stackParam)
+		}
+	}
+
 	query := db.Find(&metareferenceDBs)
 	if query.Error != nil {
 		var returnError GenericError
@@ -96,7 +109,6 @@ func GetMetaReferences(c *gin.Context) {
 //	Responses:
 //	  200: nodeDBResponse
 func PostMetaReference(c *gin.Context) {
-	db := orm.BackRepo.BackRepoMetaReference.GetDB()
 
 	// Validate input
 	var input orm.MetaReferenceAPI
@@ -116,6 +128,7 @@ func PostMetaReference(c *gin.Context) {
 	metareferenceDB.MetaReferencePointersEnconding = input.MetaReferencePointersEnconding
 	metareferenceDB.CopyBasicFieldsFromMetaReference(&input.MetaReference)
 
+	db := orm.BackRepo.BackRepoMetaReference.GetDB()
 	query := db.Create(&metareferenceDB)
 	if query.Error != nil {
 		var returnError GenericError
@@ -152,6 +165,19 @@ func PostMetaReference(c *gin.Context) {
 //
 //	200: metareferenceDBResponse
 func GetMetaReference(c *gin.Context) {
+
+	// type Values map[string][]string
+	values := c.Request.URL.Query()
+	if len(values) == 1 {
+		value := values["stack"]
+		if len(value) == 1 {
+			// we have a single parameter
+			// we assume it is the stack
+			stackParam := value[0]
+			log.Println("GET params", stackParam)
+		}
+	}
+
 	db := orm.BackRepo.BackRepoMetaReference.GetDB()
 
 	// Get metareferenceDB in DB
@@ -184,6 +210,15 @@ func GetMetaReference(c *gin.Context) {
 //
 //	200: metareferenceDBResponse
 func UpdateMetaReference(c *gin.Context) {
+
+	// Validate input
+	var input orm.MetaReferenceAPI
+	if err := c.ShouldBindJSON(&input); err != nil {
+		log.Println(err.Error())
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	
 	db := orm.BackRepo.BackRepoMetaReference.GetDB()
 
 	// Get model if exist
@@ -198,14 +233,6 @@ func UpdateMetaReference(c *gin.Context) {
 		returnError.Body.Message = query.Error.Error()
 		log.Println(query.Error.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
-		return
-	}
-
-	// Validate input
-	var input orm.MetaReferenceAPI
-	if err := c.ShouldBindJSON(&input); err != nil {
-		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 

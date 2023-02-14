@@ -2229,7 +2229,7 @@ func GetFields[Type Gongstruct]() (res []string) {
 	case GongLink:
 		res = []string{"Name", "Recv", "ImportPath"}
 	case GongNote:
-		res = []string{"Name", "Body", "Links"}
+		res = []string{"Name", "Body", "BodyHTML", "Links"}
 	case GongStruct:
 		res = []string{"Name", "GongBasicFields", "GongTimeFields", "PointerToGongStructFields", "SliceOfPointerToGongStructFields"}
 	case GongTimeField:
@@ -2314,6 +2314,8 @@ func GetFieldStringValue[Type Gongstruct](instance Type, fieldName string) (res 
 			res = any(instance).(GongNote).Name
 		case "Body":
 			res = any(instance).(GongNote).Body
+		case "BodyHTML":
+			res = any(instance).(GongNote).BodyHTML
 		case "Links":
 			for idx, __instance__ := range any(instance).(GongNote).Links {
 				if idx > 0 {

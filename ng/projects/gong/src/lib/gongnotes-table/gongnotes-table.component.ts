@@ -74,6 +74,9 @@ export class GongNotesTableComponent implements OnInit {
         case 'Body':
           return gongnoteDB.Body;
 
+        case 'BodyHTML':
+          return gongnoteDB.BodyHTML;
+
         default:
           console.assert(false, "Unknown field")
           return "";
@@ -90,6 +93,7 @@ export class GongNotesTableComponent implements OnInit {
       // insertion point for merging of fields
       mergedContent += gongnoteDB.Name.toLowerCase()
       mergedContent += gongnoteDB.Body.toLowerCase()
+      mergedContent += gongnoteDB.BodyHTML.toLowerCase()
 
       let isSelected = mergedContent.includes(filter.toLowerCase())
       return isSelected
@@ -142,11 +146,13 @@ export class GongNotesTableComponent implements OnInit {
       this.displayedColumns = ['ID', 'Delete', // insertion point for columns to display
         "Name",
         "Body",
+        "BodyHTML",
       ]
     } else {
       this.displayedColumns = ['select', 'ID', // insertion point for columns to display
         "Name",
         "Body",
+        "BodyHTML",
       ]
       this.selection = new SelectionModel<GongNoteDB>(allowMultiSelect, this.initialSelection);
     }
