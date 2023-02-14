@@ -12,6 +12,7 @@ export class GongNoteDB {
 	// insertion point for basic fields declarations
 	Name: string = ""
 	Body: string = ""
+	BodyHTML: string = ""
 
 	// insertion point for other declarations
 	Links?: Array<GongLinkDB>

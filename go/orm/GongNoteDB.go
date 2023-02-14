@@ -63,6 +63,9 @@ type GongNoteDB struct {
 
 	// Declation for basic field gongnoteDB.Body
 	Body_Data sql.NullString
+
+	// Declation for basic field gongnoteDB.BodyHTML
+	BodyHTML_Data sql.NullString
 	// encoding of pointers
 	GongNotePointersEnconding
 }
@@ -87,6 +90,8 @@ type GongNoteWOP struct {
 	Name string `xlsx:"1"`
 
 	Body string `xlsx:"2"`
+
+	BodyHTML string `xlsx:"3"`
 	// insertion for WOP pointer fields
 }
 
@@ -95,6 +100,7 @@ var GongNote_Fields = []string{
 	"ID",
 	"Name",
 	"Body",
+	"BodyHTML",
 }
 
 type BackRepoGongNoteStruct struct {
@@ -430,6 +436,9 @@ func (gongnoteDB *GongNoteDB) CopyBasicFieldsFromGongNote(gongnote *models.GongN
 
 	gongnoteDB.Body_Data.String = gongnote.Body
 	gongnoteDB.Body_Data.Valid = true
+
+	gongnoteDB.BodyHTML_Data.String = gongnote.BodyHTML
+	gongnoteDB.BodyHTML_Data.Valid = true
 }
 
 // CopyBasicFieldsFromGongNoteWOP
@@ -441,6 +450,9 @@ func (gongnoteDB *GongNoteDB) CopyBasicFieldsFromGongNoteWOP(gongnote *GongNoteW
 
 	gongnoteDB.Body_Data.String = gongnote.Body
 	gongnoteDB.Body_Data.Valid = true
+
+	gongnoteDB.BodyHTML_Data.String = gongnote.BodyHTML
+	gongnoteDB.BodyHTML_Data.Valid = true
 }
 
 // CopyBasicFieldsToGongNote
@@ -448,6 +460,7 @@ func (gongnoteDB *GongNoteDB) CopyBasicFieldsToGongNote(gongnote *models.GongNot
 	// insertion point for checkout of basic fields (back repo to stage)
 	gongnote.Name = gongnoteDB.Name_Data.String
 	gongnote.Body = gongnoteDB.Body_Data.String
+	gongnote.BodyHTML = gongnoteDB.BodyHTML_Data.String
 }
 
 // CopyBasicFieldsToGongNoteWOP
@@ -456,6 +469,7 @@ func (gongnoteDB *GongNoteDB) CopyBasicFieldsToGongNoteWOP(gongnote *GongNoteWOP
 	// insertion point for checkout of basic fields (back repo to stage)
 	gongnote.Name = gongnoteDB.Name_Data.String
 	gongnote.Body = gongnoteDB.Body_Data.String
+	gongnote.BodyHTML = gongnoteDB.BodyHTML_Data.String
 }
 
 // Backup generates a json file from a slice of all GongNoteDB instances in the backrepo

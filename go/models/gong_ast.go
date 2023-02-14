@@ -15,6 +15,7 @@ import (
 
 var dummy_strconv_import strconv.NumError
 
+// swagger:ignore
 type GONG__ExpressionType string
 
 const (
@@ -851,6 +852,10 @@ func UnmarshallGongstructStaging(cmap *ast.CommentMap, assignStmt *ast.AssignStm
 					// remove first and last char
 					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
 					__gong__map_GongNote[identifier].Body = fielValue
+				case "BodyHTML":
+					// remove first and last char
+					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
+					__gong__map_GongNote[identifier].BodyHTML = fielValue
 				}
 			case "GongStruct":
 				switch fieldName {
