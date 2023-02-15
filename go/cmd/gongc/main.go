@@ -26,7 +26,7 @@ const COMPUTED_FROM_PKG_PATH string = "computed from pkgPath (path to package fo
 var (
 	pkgPath     = flag.String("pkgPath", ".", "path to the models package to be compiled by gongc compilation")
 	skipSwagger = flag.Bool("skipSwagger", true, "skip swagger")
-	skipNg      = flag.Bool("skipNg", false, "generates backendOnly")
+	skipNg      = flag.Bool("skipNg", false, "generates skipNg")
 	skipFlutter = flag.Bool("skipFlutter", true, "do not generate flutter front")
 	skipCoder   = flag.Bool("skipCoder", true, "do not generate coder file")
 

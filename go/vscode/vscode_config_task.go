@@ -66,7 +66,7 @@ const VsCodeTasksConfig = `{
 		"args": []
 	  },
 	  {
-		"label": "01 - gongc {{pkgname}} -backendOnly",
+		"label": "01 - gongc {{pkgname}} -skipNg",
 		"type": "shell",
 		"options": {
 		  "cwd": "${workspaceFolder}/go/models"
@@ -74,7 +74,7 @@ const VsCodeTasksConfig = `{
 		"command": "gongc",
 		"group": "build",
 		"args": [
-		  "-backendOnly"
+		  "-skipNg"
 		]
 	  },
 	  {
@@ -90,7 +90,7 @@ const VsCodeTasksConfig = `{
 		]
 	  },
 	  {
-		"label": "01 - gongc {{pkgname}} -backendOnly -skipGoModCommands",
+		"label": "01 - gongc {{pkgname}} -skipNg -skipGoModCommands",
 		"type": "shell",
 		"options": {
 		  "cwd": "${workspaceFolder}/go/models"
@@ -98,7 +98,7 @@ const VsCodeTasksConfig = `{
 		"command": "gongc",
 		"group": "build",
 		"args": [
-		  "-backendOnly",
+		  "-skipNg",
 		  " -skipGoModCommands"
 		]
 	  },
