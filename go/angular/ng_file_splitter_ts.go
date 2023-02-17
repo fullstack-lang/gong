@@ -13,7 +13,7 @@ import (
 //go:embed ng_file_splitter.css
 var NgFileSplitterCssTmpl string
 
-const NgSplitterTemplateTS = `import { Component, OnInit } from '@angular/core';
+const NgSplitterTemplateTS = `import { Component, Injectable, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-{{pkgname}}-splitter',
@@ -22,9 +22,12 @@ const NgSplitterTemplateTS = `import { Component, OnInit } from '@angular/core';
 })
 export class SplitterComponent implements OnInit {
 
+  @Input() GONG__StackPath: string = ""
+
   constructor() { }
 
   ngOnInit(): void {
+    console.log("Splitter: " + this.GONG__StackPath)
   }
 }
 `
