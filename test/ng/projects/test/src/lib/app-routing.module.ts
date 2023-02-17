@@ -20,8 +20,11 @@ import { DstructDetailComponent } from './dstruct-detail/dstruct-detail.componen
 
 const routes: Routes = [ // insertion point for routes declarations
 	{ path: 'github_com_fullstack_lang_gong_test_go-astructs', component: AstructsTableComponent, outlet: 'github_com_fullstack_lang_gong_test_go_table' },
+	{ path: 'github_com_fullstack_lang_gong_test_go-astructs/:GONG__StackPath', component: AstructsTableComponent, outlet: 'github_com_fullstack_lang_gong_test_go_table' },
 	{ path: 'github_com_fullstack_lang_gong_test_go-astruct-adder', component: AstructDetailComponent, outlet: 'github_com_fullstack_lang_gong_test_go_editor' },
+	{ path: 'github_com_fullstack_lang_gong_test_go-astruct-adder/:GONG__StackPath', component: AstructDetailComponent, outlet: 'github_com_fullstack_lang_gong_test_go_editor' },
 	{ path: 'github_com_fullstack_lang_gong_test_go-astruct-adder/:id/:originStruct/:originStructFieldName', component: AstructDetailComponent, outlet: 'github_com_fullstack_lang_gong_test_go_editor' },
+	{ path: 'github_com_fullstack_lang_gong_test_go-astruct-adder/:id/:originStruct/:originStructFieldName/:GONG__StackPath', component: AstructDetailComponent, outlet: 'github_com_fullstack_lang_gong_test_go_editor' },
 	{ path: 'github_com_fullstack_lang_gong_test_go-astruct-detail/:id', component: AstructDetailComponent, outlet: 'github_com_fullstack_lang_gong_test_go_editor' },
 
 	{ path: 'github_com_fullstack_lang_gong_test_go-astructbstruct2uses', component: AstructBstruct2UsesTableComponent, outlet: 'github_com_fullstack_lang_gong_test_go_table' },
