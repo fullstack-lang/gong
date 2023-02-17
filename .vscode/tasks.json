@@ -105,13 +105,17 @@
             "group": "build"
         },
         {
-            "label": "03 - ng serve test",
+            "label": "03 - ng serve test --host=127.0.0.1",
             "type": "shell",
             "options": {
                 "cwd": "test/ng"
             },
-            "command": "ng serve",
-            "group": "build"
+            "command": "ng",
+            "group": "build",
+            "args": [
+                "serve",
+                "--host=127.0.0.1"
+            ]
         },
         {
             "label": "03 - ng serve test2",
