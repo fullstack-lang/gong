@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Router, RouterState } from '@angular/router';
 
 import { BehaviorSubject, Subscription } from 'rxjs';
@@ -156,6 +156,8 @@ export class SidebarComponent implements OnInit {
 
   subscription: Subscription = new Subscription
 
+  @Input() GONG__StackPath: string = ""
+
   constructor(
     private router: Router,
     private frontRepoService: FrontRepoService,
@@ -168,7 +170,9 @@ export class SidebarComponent implements OnInit {
     private astructbstructuseService: AstructBstructUseService,
     private bstructService: BstructService,
     private dstructService: DstructService,
-  ) { }
+  ) {
+
+  }
 
   ngOnDestroy() {
     // prevent memory leak when component destroyed
@@ -176,6 +180,8 @@ export class SidebarComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
+    console.log("Sidebar init: " + this.GONG__StackPath)
 
     this.subscription = this.gongstructSelectionService.gongtructSelected$.subscribe(
       gongstructName => {
@@ -1066,7 +1072,7 @@ export class SidebarComponent implements OnInit {
     if (type == GongNodeType.STRUCT) {
       this.router.navigate([{
         outlets: {
-          github_com_fullstack_lang_gong_test_go_table: ["github_com_fullstack_lang_gong_test_go-" + path.toLowerCase()]
+          github_com_fullstack_lang_gong_test_go_table: ["github_com_fullstack_lang_gong_test_go-" + path.toLowerCase(), this.GONG__StackPath]
         }
       }]);
     }
@@ -1083,7 +1089,7 @@ export class SidebarComponent implements OnInit {
   setEditorRouterOutlet(path: string) {
     this.router.navigate([{
       outlets: {
-        github_com_fullstack_lang_gong_test_go_editor: ["github_com_fullstack_lang_gong_test_go-" + path.toLowerCase()]
+        github_com_fullstack_lang_gong_test_go_editor: ["github_com_fullstack_lang_gong_test_go-" + path.toLowerCase(), this.GONG__StackPath]
       }
     }]);
   }
