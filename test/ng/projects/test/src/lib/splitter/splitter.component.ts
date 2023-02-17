@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Injectable, Input, OnInit } from '@angular/core';
+
 
 @Component({
   selector: 'app-test-splitter',
@@ -7,8 +8,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SplitterComponent implements OnInit {
 
-  constructor() { }
+  @Input() GONG__StackPath: string = ""
+  constructor(
+  ) { }
 
   ngOnInit(): void {
+    console.log("Splitter: " + this.GONG__StackPath)
   }
 }
