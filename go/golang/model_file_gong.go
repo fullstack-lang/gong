@@ -548,8 +548,17 @@ func CodeGeneratorModelGong(
 
 			fieldNames += `}`
 
-			// parse all composite structs and add initialization field per composite
-			for compositeStructName := range associationFieldInitializationPerCompositeStruct {
+			// The generation has to be be reproductible, therefore the map
+			// associationFieldInitializationPerCompositeStruct has to be ordered
+			keys := make([]string, 0)
+			for k := range associationFieldInitializationPerCompositeStruct {
+				keys = append(keys, k)
+			}
+
+			// sort the keys in alphabetical order
+			sort.Strings(keys)
+
+			for _, compositeStructName := range keys {
 				associationFieldInitialization += models.Replace2(
 					GongFileFieldFieldSubTemplateCode[GongFileFieldSubTmplAssociationNameEnclosingCompositePointerField],
 					"{{AssocCompositeStructName}}", compositeStructName,
