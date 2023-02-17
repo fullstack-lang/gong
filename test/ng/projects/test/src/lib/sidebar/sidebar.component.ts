@@ -170,9 +170,7 @@ export class SidebarComponent implements OnInit {
     private astructbstructuseService: AstructBstructUseService,
     private bstructService: BstructService,
     private dstructService: DstructService,
-  ) {
-
-  }
+  ) { }
 
   ngOnDestroy() {
     // prevent memory leak when component destroyed
@@ -1097,7 +1095,7 @@ export class SidebarComponent implements OnInit {
   setEditorSpecialRouterOutlet(node: GongFlatNode) {
     this.router.navigate([{
       outlets: {
-        github_com_fullstack_lang_gong_test_go_editor: ["github_com_fullstack_lang_gong_test_go-" + node.associatedStructName.toLowerCase() + "-adder", node.id, node.structName, node.associationField]
+        github_com_fullstack_lang_gong_test_go_editor: ["github_com_fullstack_lang_gong_test_go-" + node.associatedStructName.toLowerCase() + "-adder", node.id, node.structName, node.associationField, this.GONG__StackPath]
       }
     }]);
   }
