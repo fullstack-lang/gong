@@ -15,6 +15,7 @@ import (
 
 var dummy_strconv_import strconv.NumError
 
+// swagger:ignore
 type GONG__ExpressionType string
 
 const (

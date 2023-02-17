@@ -31,9 +31,9 @@ import { {{Structname}}DetailComponent } from './{{structname}}-detail/{{structn
 `,
 
 	string(NgRoutingDeclarations): `
-	{ path: '{{PkgPathRootWithoutSlashes}}-{{structname}}s', component: {{Structname}}sTableComponent, outlet: '{{PkgPathRootWithoutSlashes}}_table' },
-	{ path: '{{PkgPathRootWithoutSlashes}}-{{structname}}-adder', component: {{Structname}}DetailComponent, outlet: '{{PkgPathRootWithoutSlashes}}_editor' },
-	{ path: '{{PkgPathRootWithoutSlashes}}-{{structname}}-adder/:id/:originStruct/:originStructFieldName', component: {{Structname}}DetailComponent, outlet: '{{PkgPathRootWithoutSlashes}}_editor' },
+	{ path: '{{PkgPathRootWithoutSlashes}}-{{structname}}s/:GONG__StackPath', component: {{Structname}}sTableComponent, outlet: '{{PkgPathRootWithoutSlashes}}_table' },
+	{ path: '{{PkgPathRootWithoutSlashes}}-{{structname}}-adder/:GONG__StackPath', component: {{Structname}}DetailComponent, outlet: '{{PkgPathRootWithoutSlashes}}_editor' },
+	{ path: '{{PkgPathRootWithoutSlashes}}-{{structname}}-adder/:id/:originStruct/:originStructFieldName/:GONG__StackPath', component: {{Structname}}DetailComponent, outlet: '{{PkgPathRootWithoutSlashes}}_editor' },
 	{ path: '{{PkgPathRootWithoutSlashes}}-{{structname}}-detail/:id', component: {{Structname}}DetailComponent, outlet: '{{PkgPathRootWithoutSlashes}}_editor' },
 `,
 }
