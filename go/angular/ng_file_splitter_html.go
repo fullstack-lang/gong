@@ -5,7 +5,7 @@ const NgSplitterTemplateHTML = `<div style="width: 100%; height: 100%; backgroun
         <as-split-area [size]="20">
             <as-split direction="vertical">
                 <as-split-area>
-                    <app-{{pkgname}}-sidebar></app-{{pkgname}}-sidebar>
+                    <app-{{pkgname}}-sidebar [GONG__StackPath]="GONG__StackPath"></app-{{pkgname}}-sidebar>
                 </as-split-area>
             </as-split>
         </as-split-area>
