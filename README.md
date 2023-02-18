@@ -144,7 +144,7 @@ https://github.com/fullstack-lang/gongproject, a project management application 
 
 ## 3.1. Gong is a go sub langage for generating a full stack
 
-Gong is a sublangage of go. It is comprised of one or many *gongstruct* and *gongenum*. The *gongc* compiler is based on the *go* compiler.
+Gong is a sublangage of go (stereotyped go). It is comprised of one or many *gongstruct* and *gongenum*. The *gongc* compiler is based on the *go* compiler.
 
 A gong project is a go module with a unique name (for instance `github.com/fullstack-lang/gongdoc`). *gongstruct* and *gongenum* have to be present in the `go/models` sub package.
 
