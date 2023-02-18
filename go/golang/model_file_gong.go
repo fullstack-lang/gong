@@ -268,19 +268,19 @@ func ({{structname}} *{{Structname}}) GetName() (res string) {
 
 	ModelGongStructInsertionGenericGetSetFunctions: `
 	case map[*{{Structname}}]any:
-		return any(&Stage.{{Structname}}s).(*Type)`,
+		return any(stage.{{Structname}}s).(*Type)`,
 
 	ModelGongStructInsertionGenericGetMapFunctions: `
 	case map[string]*{{Structname}}:
-		return any(&Stage.{{Structname}}s_mapString).(*Type)`,
+		return any(stage.{{Structname}}s_mapString).(*Type)`,
 
 	ModelGongStructInsertionGenericInstancesSetFunctions: `
 	case {{Structname}}:
-		return any(&Stage.{{Structname}}s).(*map[*Type]any)`,
+		return any(stage.{{Structname}}s).(*map[*Type]any)`,
 
 	ModelGongStructInsertionGenericInstancesMapFunctions: `
 	case {{Structname}}:
-		return any(&Stage.{{Structname}}s_mapString).(*map[string]*Type)`,
+		return any(stage.{{Structname}}s_mapString).(*map[string]*Type)`,
 
 	ModelGongStructInsertionGenericGetAssociationNameFunctions: `
 	case {{Structname}}:
