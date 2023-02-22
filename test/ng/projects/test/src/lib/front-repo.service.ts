@@ -139,12 +139,12 @@ export class FrontRepoService {
     Observable<AstructBstructUseDB[]>,
     Observable<BstructDB[]>,
     Observable<DstructDB[]>,
-  ] = [ // insertion point sub template 
+  ] = [ // insertion point sub template
       this.astructService.getAstructs(this.GONG__StackPath),
-      this.astructbstruct2useService.getAstructBstruct2Uses(),
-      this.astructbstructuseService.getAstructBstructUses(),
-      this.bstructService.getBstructs(),
-      this.dstructService.getDstructs(),
+      this.astructbstruct2useService.getAstructBstruct2Uses(this.GONG__StackPath),
+      this.astructbstructuseService.getAstructBstructUses(this.GONG__StackPath),
+      this.bstructService.getBstructs(this.GONG__StackPath),
+      this.dstructService.getDstructs(this.GONG__StackPath),
     ];
 
   //
@@ -156,12 +156,13 @@ export class FrontRepoService {
   pull(GONG__StackPath: string = ""): Observable<FrontRepo> {
 
     this.GONG__StackPath = GONG__StackPath
-    this.observableFrontRepo = [ // insertion point sub template 
+
+    this.observableFrontRepo = [ // insertion point sub template
       this.astructService.getAstructs(this.GONG__StackPath),
-      this.astructbstruct2useService.getAstructBstruct2Uses(),
-      this.astructbstructuseService.getAstructBstructUses(),
-      this.bstructService.getBstructs(),
-      this.dstructService.getDstructs(),
+      this.astructbstruct2useService.getAstructBstruct2Uses(this.GONG__StackPath),
+      this.astructbstructuseService.getAstructBstructUses(this.GONG__StackPath),
+      this.bstructService.getBstructs(this.GONG__StackPath),
+      this.dstructService.getDstructs(this.GONG__StackPath),
     ]
 
     return new Observable<FrontRepo>(
