@@ -242,7 +242,7 @@ export class SidebarComponent implements OnInit {
   }
 
   refresh(): void {
-    this.frontRepoService.pull().subscribe(frontRepo => {
+    this.frontRepoService.pull(this.GONG__StackPath).subscribe(frontRepo => {
       this.frontRepo = frontRepo
 
       // use of a Gödel number to uniquely identfy nodes : 2 * node.id + 3 * node.level
