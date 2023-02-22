@@ -74,6 +74,8 @@ export class DialogData {
   IntermediateStruct: string = "" // the "AclassBclassUse" 
   IntermediateStructField: string = "" // the "Bclass" as field
   NextAssociationStruct: string = "" // the "Bclass"
+
+  GONG__StackPath: string = ""
 }
 
 export enum SelectionMode {
@@ -88,6 +90,8 @@ export enum SelectionMode {
   providedIn: 'root'
 })
 export class FrontRepoService {
+
+  GONG__StackPath: string = ""
 
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -135,12 +139,12 @@ export class FrontRepoService {
     Observable<AstructBstructUseDB[]>,
     Observable<BstructDB[]>,
     Observable<DstructDB[]>,
-  ] = [ // insertion point sub template 
-      this.astructService.getAstructs(),
-      this.astructbstruct2useService.getAstructBstruct2Uses(),
-      this.astructbstructuseService.getAstructBstructUses(),
-      this.bstructService.getBstructs(),
-      this.dstructService.getDstructs(),
+  ] = [ // insertion point sub template
+      this.astructService.getAstructs(this.GONG__StackPath),
+      this.astructbstruct2useService.getAstructBstruct2Uses(this.GONG__StackPath),
+      this.astructbstructuseService.getAstructBstructUses(this.GONG__StackPath),
+      this.bstructService.getBstructs(this.GONG__StackPath),
+      this.dstructService.getDstructs(this.GONG__StackPath),
     ];
 
   //
@@ -149,7 +153,18 @@ export class FrontRepoService {
   // This is an observable. Therefore, the control flow forks with
   // - pull() return immediatly the observable
   // - the observable observer, if it subscribe, is called when all GET calls are performs
-  pull(): Observable<FrontRepo> {
+  pull(GONG__StackPath: string = ""): Observable<FrontRepo> {
+
+    this.GONG__StackPath = GONG__StackPath
+
+    this.observableFrontRepo = [ // insertion point sub template
+      this.astructService.getAstructs(this.GONG__StackPath),
+      this.astructbstruct2useService.getAstructBstruct2Uses(this.GONG__StackPath),
+      this.astructbstructuseService.getAstructBstructUses(this.GONG__StackPath),
+      this.bstructService.getBstructs(this.GONG__StackPath),
+      this.dstructService.getDstructs(this.GONG__StackPath),
+    ]
+
     return new Observable<FrontRepo>(
       (observer) => {
         combineLatest(
