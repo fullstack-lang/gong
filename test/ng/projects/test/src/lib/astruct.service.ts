@@ -51,8 +51,7 @@ export class AstructService {
   /** GET astructs from the server */
   getAstructs(GONG__StackPath: string = ""): Observable<AstructDB[]> {
 
-
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+	let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
     return this.http.get<AstructDB[]>(this.astructsUrl, { params: params })
       .pipe(
