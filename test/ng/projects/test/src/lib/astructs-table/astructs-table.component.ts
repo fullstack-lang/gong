@@ -429,7 +429,7 @@ export class AstructsTableComponent implements OnInit {
   setEditorRouterOutlet(astructID: number) {
     this.router.navigate([{
       outlets: {
-        github_com_fullstack_lang_gong_test_go_editor: ["github_com_fullstack_lang_gong_test_go-" + "astruct-detail", astructID]
+        github_com_fullstack_lang_gong_test_go_editor: ["github_com_fullstack_lang_gong_test_go-" + "astruct-detail", astructID, this.GONG__StackPath]
       }
     }]);
   }

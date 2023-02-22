@@ -74,6 +74,8 @@ export class DialogData {
   IntermediateStruct: string = "" // the "AclassBclassUse" 
   IntermediateStructField: string = "" // the "Bclass" as field
   NextAssociationStruct: string = "" // the "Bclass"
+
+  GONG__StackPath: string = ""
 }
 
 export enum SelectionMode {
