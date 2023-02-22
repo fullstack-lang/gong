@@ -203,7 +203,7 @@ export class BstructsTableComponent implements OnInit {
   }
 
   getBstructs(): void {
-    this.frontRepoService.pull().subscribe(
+    this.frontRepoService.pull(this.GONG__StackPath).subscribe(
       frontRepo => {
         this.frontRepo = frontRepo
 
@@ -273,7 +273,7 @@ export class BstructsTableComponent implements OnInit {
   setEditorRouterOutlet(bstructID: number) {
     this.router.navigate([{
       outlets: {
-        github_com_fullstack_lang_gong_test_go_editor: ["github_com_fullstack_lang_gong_test_go-" + "bstruct-detail", bstructID]
+        github_com_fullstack_lang_gong_test_go_editor: ["github_com_fullstack_lang_gong_test_go-" + "bstruct-detail", bstructID, this.GONG__StackPath]
       }
     }]);
   }

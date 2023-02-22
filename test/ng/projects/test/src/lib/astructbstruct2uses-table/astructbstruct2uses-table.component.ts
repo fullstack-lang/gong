@@ -180,7 +180,7 @@ export class AstructBstruct2UsesTableComponent implements OnInit {
   }
 
   getAstructBstruct2Uses(): void {
-    this.frontRepoService.pull().subscribe(
+    this.frontRepoService.pull(this.GONG__StackPath).subscribe(
       frontRepo => {
         this.frontRepo = frontRepo
 
@@ -250,7 +250,7 @@ export class AstructBstruct2UsesTableComponent implements OnInit {
   setEditorRouterOutlet(astructbstruct2useID: number) {
     this.router.navigate([{
       outlets: {
-        github_com_fullstack_lang_gong_test_go_editor: ["github_com_fullstack_lang_gong_test_go-" + "astructbstruct2use-detail", astructbstruct2useID]
+        github_com_fullstack_lang_gong_test_go_editor: ["github_com_fullstack_lang_gong_test_go-" + "astructbstruct2use-detail", astructbstruct2useID, this.GONG__StackPath]
       }
     }]);
   }

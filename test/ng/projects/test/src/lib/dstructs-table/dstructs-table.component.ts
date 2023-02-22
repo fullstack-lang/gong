@@ -159,7 +159,7 @@ export class DstructsTableComponent implements OnInit {
   }
 
   getDstructs(): void {
-    this.frontRepoService.pull().subscribe(
+    this.frontRepoService.pull(this.GONG__StackPath).subscribe(
       frontRepo => {
         this.frontRepo = frontRepo
 
@@ -229,7 +229,7 @@ export class DstructsTableComponent implements OnInit {
   setEditorRouterOutlet(dstructID: number) {
     this.router.navigate([{
       outlets: {
-        github_com_fullstack_lang_gong_test_go_editor: ["github_com_fullstack_lang_gong_test_go-" + "dstruct-detail", dstructID]
+        github_com_fullstack_lang_gong_test_go_editor: ["github_com_fullstack_lang_gong_test_go-" + "dstruct-detail", dstructID, this.GONG__StackPath]
       }
     }]);
   }
