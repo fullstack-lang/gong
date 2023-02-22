@@ -252,6 +252,7 @@ export class AstructsTableComponent implements OnInit {
     if (dialogData == undefined) {
       this.mode = TableComponentMode.DISPLAY_MODE
     } else {
+      this.GONG__StackPath = dialogData.GONG__StackPath
       switch (dialogData.SelectionMode) {
         case SelectionMode.ONE_MANY_ASSOCIATION_MODE:
           this.mode = TableComponentMode.ONE_MANY_ASSOCIATION_MODE
