@@ -172,7 +172,7 @@ export class {{Structname}}sTableComponent implements OnInit {
   }
 
   get{{Structname}}s(): void {
-    this.frontRepoService.pull().subscribe(
+    this.frontRepoService.pull(this.GONG__StackPath).subscribe(
       frontRepo => {
         this.frontRepo = frontRepo
 
@@ -242,7 +242,7 @@ export class {{Structname}}sTableComponent implements OnInit {
   setEditorRouterOutlet({{structname}}ID: number) {
     this.router.navigate([{
       outlets: {
-        {{PkgPathRootWithoutSlashes}}_editor: ["{{PkgPathRootWithoutSlashes}}-" + "{{structname}}-detail", {{structname}}ID]
+        {{PkgPathRootWithoutSlashes}}_editor: ["{{PkgPathRootWithoutSlashes}}-" + "{{structname}}-detail", {{structname}}ID, this.GONG__StackPath]
       }
     }]);
   }
