@@ -58,6 +58,8 @@ export class DialogData {
   IntermediateStruct: string = "" // the "AclassBclassUse" 
   IntermediateStructField: string = "" // the "Bclass" as field
   NextAssociationStruct: string = "" // the "Bclass"
+
+  GONG__StackPath: string = ""
 }
 
 export enum SelectionMode {
@@ -72,6 +74,8 @@ export enum SelectionMode {
   providedIn: 'root'
 })
 export class FrontRepoService {
+
+  GONG__StackPath: string = ""
 
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -109,7 +113,7 @@ export class FrontRepoService {
 
   // typing of observable can be messy in typescript. Therefore, one force the type
   observableFrontRepo: [ // insertion point sub template {{` + string(NgLibFrontRepoObservableArrayType) + `}}
-  ] = [ // insertion point sub template {{` + string(NgLibFrontRepoObservableRefs) + `}}
+  ] = [ // insertion point sub template{{` + string(NgLibFrontRepoObservableRefs) + `}}
     ];
 
   //
@@ -118,7 +122,13 @@ export class FrontRepoService {
   // This is an observable. Therefore, the control flow forks with
   // - pull() return immediatly the observable
   // - the observable observer, if it subscribe, is called when all GET calls are performs
-  pull(): Observable<FrontRepo> {
+  pull(GONG__StackPath: string = ""): Observable<FrontRepo> {
+
+    this.GONG__StackPath = GONG__StackPath
+
+    this.observableFrontRepo = [ // insertion point sub template{{` + string(NgLibFrontRepoObservableRefs) + `}}
+    ]
+
     return new Observable<FrontRepo>(
       (observer) => {
         combineLatest(
@@ -187,7 +197,7 @@ import { {{Structname}}Service } from './{{structname}}.service'
     private {{structname}}Service: {{Structname}}Service,`,
 
 	string(NgLibFrontRepoObservableRefs): `
-      this.{{structname}}Service.get{{Structname}}s(),`,
+      this.{{structname}}Service.get{{Structname}}s(this.GONG__StackPath),`,
 
 	string(NgLibFrontRepoArraysDecls): `
             {{structname}}s_,`,

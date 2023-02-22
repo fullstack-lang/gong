@@ -34,6 +34,6 @@ import { {{Structname}}DetailComponent } from './{{structname}}-detail/{{structn
 	{ path: '{{PkgPathRootWithoutSlashes}}-{{structname}}s/:GONG__StackPath', component: {{Structname}}sTableComponent, outlet: '{{PkgPathRootWithoutSlashes}}_table' },
 	{ path: '{{PkgPathRootWithoutSlashes}}-{{structname}}-adder/:GONG__StackPath', component: {{Structname}}DetailComponent, outlet: '{{PkgPathRootWithoutSlashes}}_editor' },
 	{ path: '{{PkgPathRootWithoutSlashes}}-{{structname}}-adder/:id/:originStruct/:originStructFieldName/:GONG__StackPath', component: {{Structname}}DetailComponent, outlet: '{{PkgPathRootWithoutSlashes}}_editor' },
-	{ path: '{{PkgPathRootWithoutSlashes}}-{{structname}}-detail/:id', component: {{Structname}}DetailComponent, outlet: '{{PkgPathRootWithoutSlashes}}_editor' },
+	{ path: '{{PkgPathRootWithoutSlashes}}-{{structname}}-detail/:id/:GONG__StackPath', component: {{Structname}}DetailComponent, outlet: '{{PkgPathRootWithoutSlashes}}_editor' },
 `,
 }
