@@ -342,7 +342,10 @@ export class AstructsTableComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.GONG__StackPath = this.activatedRoute.snapshot.paramMap.get('GONG__StackPath')!;
+    let stackPath = this.activatedRoute.snapshot.paramMap.get('GONG__StackPath')
+    if ( stackPath != undefined) {
+      this.GONG__StackPath = stackPath
+    }
 
     this.getAstructs()
 
