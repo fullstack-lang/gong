@@ -46,7 +46,7 @@ export class GongTimeFieldSortingComponent implements OnInit {
   }
 
   getGongTimeFields(): void {
-    this.frontRepoService.pull().subscribe(
+    this.frontRepoService.pull(this.dialogData.GONG__StackPath).subscribe(
       frontRepo => {
         this.frontRepo = frontRepo
 
@@ -107,6 +107,6 @@ export class GongTimeFieldSortingComponent implements OnInit {
       }
     )
 
-    this.dialogRef.close('Sorting of ' + this.dialogData.ReversePointer +' done');
+    this.dialogRef.close('Sorting of ' + this.dialogData.ReversePointer + ' done');
   }
 }
