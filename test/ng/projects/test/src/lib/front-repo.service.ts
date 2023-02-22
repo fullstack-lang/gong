@@ -89,6 +89,8 @@ export enum SelectionMode {
 })
 export class FrontRepoService {
 
+  GONG__StackPath: string = ""
+
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
   };
@@ -136,7 +138,7 @@ export class FrontRepoService {
     Observable<BstructDB[]>,
     Observable<DstructDB[]>,
   ] = [ // insertion point sub template 
-      this.astructService.getAstructs(),
+      this.astructService.getAstructs(this.GONG__StackPath),
       this.astructbstruct2useService.getAstructBstruct2Uses(),
       this.astructbstructuseService.getAstructBstructUses(),
       this.bstructService.getBstructs(),
@@ -149,7 +151,17 @@ export class FrontRepoService {
   // This is an observable. Therefore, the control flow forks with
   // - pull() return immediatly the observable
   // - the observable observer, if it subscribe, is called when all GET calls are performs
-  pull(): Observable<FrontRepo> {
+  pull(GONG__StackPath: string = ""): Observable<FrontRepo> {
+
+    this.GONG__StackPath = GONG__StackPath
+    this.observableFrontRepo = [ // insertion point sub template 
+      this.astructService.getAstructs(this.GONG__StackPath),
+      this.astructbstruct2useService.getAstructBstruct2Uses(),
+      this.astructbstructuseService.getAstructBstructUses(),
+      this.bstructService.getBstructs(),
+      this.dstructService.getDstructs(),
+    ]
+
     return new Observable<FrontRepo>(
       (observer) => {
         combineLatest(

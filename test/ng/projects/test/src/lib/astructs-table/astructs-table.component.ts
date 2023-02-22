@@ -349,7 +349,7 @@ export class AstructsTableComponent implements OnInit {
   }
 
   getAstructs(): void {
-    this.frontRepoService.pull().subscribe(
+    this.frontRepoService.pull(this.GONG__StackPath).subscribe(
       frontRepo => {
         this.frontRepo = frontRepo
 
