@@ -72,12 +72,12 @@ func Get{{Structname}}s(c *gin.Context) {
 	// type Values map[string][]string
 	values := c.Request.URL.Query()
 	if len(values) == 1 {
-		value := values["stack"]
+		value := values["GONG__StackPath"]
 		if len(value) == 1 {
 			// we have a single parameter
 			// we assume it is the stack
 			stackParam := value[0]
-			log.Println("GET all params", stackParam)
+			log.Println("GONG__StackPath", stackParam)
 		}
 	}
 
@@ -234,7 +234,7 @@ func Update{{Structname}}(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	
+
 	db := orm.BackRepo.BackRepo{{Structname}}.GetDB()
 
 	// Get model if exist
