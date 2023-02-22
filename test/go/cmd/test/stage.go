@@ -95,23 +95,23 @@ Second Line`
 	
 	// comment added to overcome the problem with the comment map association
 
-	//gong:ident [.]
-	__Astruct__000000_A1.EnumIntRef = `.`
+	//gong:ident []
+	__Astruct__000000_A1.EnumIntRef = ``
 	
 	// comment added to overcome the problem with the comment map association
 
-	//gong:ident [.]
-	__Astruct__000000_A1.EnumStringRef = `.`
+	//gong:ident []
+	__Astruct__000000_A1.EnumStringRef = ``
 	
 	// comment added to overcome the problem with the comment map association
 
-	//gong:ident [.]
-	__Astruct__000000_A1.EnumValue = `.`
+	//gong:ident []
+	__Astruct__000000_A1.EnumValue = ``
 	
 	// comment added to overcome the problem with the comment map association
 
-	//gong:ident [.]
-	__Astruct__000000_A1.ConstIdentifierValue = `.`
+	//gong:ident []
+	__Astruct__000000_A1.ConstIdentifierValue = ``
 
 	// Astruct values setup
 	__Astruct__000001_A2.Name = `A2`
@@ -130,33 +130,33 @@ Second Line`
 	
 	// comment added to overcome the problem with the comment map association
 
-	//gong:ident [.]
-	__Astruct__000001_A2.StructRef = `.`
+	//gong:ident []
+	__Astruct__000001_A2.StructRef = ``
 	
 	// comment added to overcome the problem with the comment map association
 
-	//gong:ident [.]
-	__Astruct__000001_A2.FieldRef = `.`
+	//gong:ident []
+	__Astruct__000001_A2.FieldRef = ``
 	
 	// comment added to overcome the problem with the comment map association
 
-	//gong:ident [.]
-	__Astruct__000001_A2.EnumIntRef = `.`
+	//gong:ident []
+	__Astruct__000001_A2.EnumIntRef = ``
 	
 	// comment added to overcome the problem with the comment map association
 
-	//gong:ident [.]
-	__Astruct__000001_A2.EnumStringRef = `.`
+	//gong:ident []
+	__Astruct__000001_A2.EnumStringRef = ``
 	
 	// comment added to overcome the problem with the comment map association
 
-	//gong:ident [.]
-	__Astruct__000001_A2.EnumValue = `.`
+	//gong:ident []
+	__Astruct__000001_A2.EnumValue = ``
 	
 	// comment added to overcome the problem with the comment map association
 
-	//gong:ident [.]
-	__Astruct__000001_A2.ConstIdentifierValue = `.`
+	//gong:ident []
+	__Astruct__000001_A2.ConstIdentifierValue = ``
 
 	// Astruct values setup
 	__Astruct__000002_A3.Name = `A3`
@@ -173,33 +173,33 @@ Second Line`
 	
 	// comment added to overcome the problem with the comment map association
 
-	//gong:ident [.]
-	__Astruct__000002_A3.StructRef = `.`
+	//gong:ident []
+	__Astruct__000002_A3.StructRef = ``
 	
 	// comment added to overcome the problem with the comment map association
 
-	//gong:ident [.]
-	__Astruct__000002_A3.FieldRef = `.`
+	//gong:ident []
+	__Astruct__000002_A3.FieldRef = ``
 	
 	// comment added to overcome the problem with the comment map association
 
-	//gong:ident [.]
-	__Astruct__000002_A3.EnumIntRef = `.`
+	//gong:ident []
+	__Astruct__000002_A3.EnumIntRef = ``
 	
 	// comment added to overcome the problem with the comment map association
 
-	//gong:ident [.]
-	__Astruct__000002_A3.EnumStringRef = `.`
+	//gong:ident []
+	__Astruct__000002_A3.EnumStringRef = ``
 	
 	// comment added to overcome the problem with the comment map association
 
-	//gong:ident [.]
-	__Astruct__000002_A3.EnumValue = `.`
+	//gong:ident []
+	__Astruct__000002_A3.EnumValue = ``
 	
 	// comment added to overcome the problem with the comment map association
 
-	//gong:ident [.]
-	__Astruct__000002_A3.ConstIdentifierValue = `.`
+	//gong:ident []
+	__Astruct__000002_A3.ConstIdentifierValue = ``
 
 	// AstructBstruct2Use values setup
 	__AstructBstruct2Use__000000_.Name = ``

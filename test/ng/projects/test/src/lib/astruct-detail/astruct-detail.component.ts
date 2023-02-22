@@ -133,7 +133,7 @@ export class AstructDetailComponent implements OnInit {
 
 	getAstruct(): void {
 
-		this.frontRepoService.pull().subscribe(
+		this.frontRepoService.pull(this.GONG__StackPath).subscribe(
 			frontRepo => {
 				this.frontRepo = frontRepo
 
@@ -324,6 +324,7 @@ export class AstructDetailComponent implements OnInit {
 			dialogData.ReversePointer = reverseField
 			dialogData.OrderingMode = false
 			dialogData.SelectionMode = selectionMode
+			dialogData.GONG__StackPath = this.GONG__StackPath
 
 			dialogConfig.data = dialogData
 			const dialogRef: MatDialogRef<string, any> = this.dialog.open(
@@ -340,6 +341,7 @@ export class AstructDetailComponent implements OnInit {
 			dialogData.ReversePointer = reverseField
 			dialogData.OrderingMode = false
 			dialogData.SelectionMode = selectionMode
+			dialogData.GONG__StackPath = this.GONG__StackPath
 
 			// set up the source
 			dialogData.SourceStruct = "Astruct"
