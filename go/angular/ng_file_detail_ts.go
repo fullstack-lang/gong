@@ -172,14 +172,13 @@ export class {{Structname}}DetailComponent implements OnInit {
 
 		switch (this.state) {
 			case {{Structname}}DetailComponentState.UPDATE_INSTANCE:
-				this.{{structname}}Service.update{{Structname}}(this.{{structname}})
+				this.{{structname}}Service.update{{Structname}}(this.{{structname}}, this.GONG__StackPath)
 					.subscribe({{structname}} => {
 						this.{{structname}}Service.{{Structname}}ServiceChanged.next("update")
 					});
 				break;
 			default:
-				this.{{structname}}.GONG__StackPath = this.GONG__StackPath
-				this.{{structname}}Service.post{{Structname}}(this.{{structname}}).subscribe({{structname}} => {
+				this.{{structname}}Service.post{{Structname}}(this.{{structname}}, this.GONG__StackPath).subscribe({{structname}} => {
 					this.{{structname}}Service.{{Structname}}ServiceChanged.next("post")
 					this.{{structname}} = new ({{Structname}}DB) // reset fields
 				});

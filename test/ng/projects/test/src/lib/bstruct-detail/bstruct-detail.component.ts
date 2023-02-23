@@ -195,14 +195,13 @@ export class BstructDetailComponent implements OnInit {
 
 		switch (this.state) {
 			case BstructDetailComponentState.UPDATE_INSTANCE:
-				this.bstructService.updateBstruct(this.bstruct)
+				this.bstructService.updateBstruct(this.bstruct, this.GONG__StackPath)
 					.subscribe(bstruct => {
 						this.bstructService.BstructServiceChanged.next("update")
 					});
 				break;
 			default:
-				this.bstruct.GONG__StackPath = this.GONG__StackPath
-				this.bstructService.postBstruct(this.bstruct).subscribe(bstruct => {
+				this.bstructService.postBstruct(this.bstruct, this.GONG__StackPath).subscribe(bstruct => {
 					this.bstructService.BstructServiceChanged.next("post")
 					this.bstruct = new (BstructDB) // reset fields
 				});

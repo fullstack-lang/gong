@@ -152,14 +152,13 @@ export class DstructDetailComponent implements OnInit {
 
 		switch (this.state) {
 			case DstructDetailComponentState.UPDATE_INSTANCE:
-				this.dstructService.updateDstruct(this.dstruct)
+				this.dstructService.updateDstruct(this.dstruct, this.GONG__StackPath)
 					.subscribe(dstruct => {
 						this.dstructService.DstructServiceChanged.next("update")
 					});
 				break;
 			default:
-				this.dstruct.GONG__StackPath = this.GONG__StackPath
-				this.dstructService.postDstruct(this.dstruct).subscribe(dstruct => {
+				this.dstructService.postDstruct(this.dstruct, this.GONG__StackPath).subscribe(dstruct => {
 					this.dstructService.DstructServiceChanged.next("post")
 					this.dstruct = new (DstructDB) // reset fields
 				});
