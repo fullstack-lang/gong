@@ -295,6 +295,7 @@ export class AstructDetailComponent implements OnInit {
 					});
 				break;
 			default:
+				this.astruct.GONG__StackPath = this.GONG__StackPath
 				this.astructService.postAstruct(this.astruct).subscribe(astruct => {
 					this.astructService.AstructServiceChanged.next("post")
 					this.astruct = new (AstructDB) // reset fields
