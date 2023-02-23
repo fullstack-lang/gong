@@ -22,10 +22,6 @@ import { DstructDB } from './dstruct-db'
 })
 export class AstructService {
 
-  httpOptions = {
-    headers: new HttpHeaders({ 'Content-Type': 'application/json' })
-  };
-
   // Kamar Raïmo: Adding a way to communicate between components that share information
   // so that they are notified of a change.
   AstructServiceChanged: BehaviorSubject<string> = new BehaviorSubject("");
@@ -34,7 +30,6 @@ export class AstructService {
 
   constructor(
     private http: HttpClient,
-    private location: Location,
     @Inject(DOCUMENT) private document: Document
   ) {
     // path to the service share the same origin with the path to the document
@@ -51,7 +46,7 @@ export class AstructService {
   /** GET astructs from the server */
   getAstructs(GONG__StackPath: string = ""): Observable<AstructDB[]> {
 
-	let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
     return this.http.get<AstructDB[]>(this.astructsUrl, { params: params })
       .pipe(
@@ -72,7 +67,7 @@ export class AstructService {
   //////// Save methods //////////
 
   /** POST: add a new astruct to the server */
-  postAstruct(astructdb: AstructDB): Observable<AstructDB> {
+  postAstruct(astructdb: AstructDB, GONG__StackPath: string): Observable<AstructDB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
     astructdb.Bstruct = new BstructDB
@@ -92,7 +87,13 @@ export class AstructService {
     let _Astruct_Anarrayofa_reverse = astructdb.Astruct_Anarrayofa_reverse
     astructdb.Astruct_Anarrayofa_reverse = new AstructDB
 
-    return this.http.post<AstructDB>(this.astructsUrl, astructdb, this.httpOptions).pipe(
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    };
+
+    return this.http.post<AstructDB>(this.astructsUrl, astructdb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
         astructdb.Astruct_Anarrayofa_reverse = _Astruct_Anarrayofa_reverse
@@ -103,18 +104,24 @@ export class AstructService {
   }
 
   /** DELETE: delete the astructdb from the server */
-  deleteAstruct(astructdb: AstructDB | number): Observable<AstructDB> {
+  deleteAstruct(astructdb: AstructDB | number, GONG__StackPath: string): Observable<AstructDB> {
     const id = typeof astructdb === 'number' ? astructdb : astructdb.ID;
     const url = `${this.astructsUrl}/${id}`;
 
-    return this.http.delete<AstructDB>(url, this.httpOptions).pipe(
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    };
+
+    return this.http.delete<AstructDB>(url, httpOptions).pipe(
       tap(_ => this.log(`deleted astructdb id=${id}`)),
       catchError(this.handleError<AstructDB>('deleteAstruct'))
     );
   }
 
   /** PUT: update the astructdb on the server */
-  updateAstruct(astructdb: AstructDB): Observable<AstructDB> {
+  updateAstruct(astructdb: AstructDB, GONG__StackPath: string): Observable<AstructDB> {
     const id = typeof astructdb === 'number' ? astructdb : astructdb.ID;
     const url = `${this.astructsUrl}/${id}`;
 
@@ -136,7 +143,13 @@ export class AstructService {
     let _Astruct_Anarrayofa_reverse = astructdb.Astruct_Anarrayofa_reverse
     astructdb.Astruct_Anarrayofa_reverse = new AstructDB
 
-    return this.http.put<AstructDB>(url, astructdb, this.httpOptions).pipe(
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    };
+
+    return this.http.put<AstructDB>(url, astructdb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
         astructdb.Astruct_Anarrayofa_reverse = _Astruct_Anarrayofa_reverse

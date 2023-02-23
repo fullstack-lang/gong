@@ -208,7 +208,7 @@ Second Line`
 	__Astruct__000003_A4.Booleanfield = false
 	__Astruct__000003_A4.CEnum = models.CENUM_VAL1
 	__Astruct__000003_A4.CName = ``
-	__Astruct__000003_A4.CFloatfield = 0.000000
+	__Astruct__000003_A4.CFloatfield = 4.000000
 	__Astruct__000003_A4.Floatfield = 0.000000
 	__Astruct__000003_A4.Intfield = 0
 	__Astruct__000003_A4.Anotherbooleanfield = false
