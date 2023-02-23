@@ -21,10 +21,6 @@ import { AstructDB } from './astruct-db'
 })
 export class BstructService {
 
-  httpOptions = {
-    headers: new HttpHeaders({ 'Content-Type': 'application/json' })
-  };
-
   // Kamar Raïmo: Adding a way to communicate between components that share information
   // so that they are notified of a change.
   BstructServiceChanged: BehaviorSubject<string> = new BehaviorSubject("");
@@ -33,7 +29,6 @@ export class BstructService {
 
   constructor(
     private http: HttpClient,
-    private location: Location,
     @Inject(DOCUMENT) private document: Document
   ) {
     // path to the service share the same origin with the path to the document
@@ -68,10 +63,8 @@ export class BstructService {
     );
   }
 
-  //////// Save methods //////////
-
   /** POST: add a new bstruct to the server */
-  postBstruct(bstructdb: BstructDB): Observable<BstructDB> {
+  postBstruct(bstructdb: BstructDB, GONG__StackPath: string): Observable<BstructDB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
     let _Astruct_Anarrayofb_reverse = bstructdb.Astruct_Anarrayofb_reverse
@@ -79,7 +72,13 @@ export class BstructService {
     let _Astruct_Anotherarrayofb_reverse = bstructdb.Astruct_Anotherarrayofb_reverse
     bstructdb.Astruct_Anotherarrayofb_reverse = new AstructDB
 
-    return this.http.post<BstructDB>(this.bstructsUrl, bstructdb, this.httpOptions).pipe(
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+	return this.http.post<BstructDB>(this.bstructsUrl, bstructdb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
         bstructdb.Astruct_Anarrayofb_reverse = _Astruct_Anarrayofb_reverse
@@ -91,18 +90,24 @@ export class BstructService {
   }
 
   /** DELETE: delete the bstructdb from the server */
-  deleteBstruct(bstructdb: BstructDB | number): Observable<BstructDB> {
+  deleteBstruct(bstructdb: BstructDB | number, GONG__StackPath: string): Observable<BstructDB> {
     const id = typeof bstructdb === 'number' ? bstructdb : bstructdb.ID;
     const url = `${this.bstructsUrl}/${id}`;
 
-    return this.http.delete<BstructDB>(url, this.httpOptions).pipe(
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    };
+
+    return this.http.delete<BstructDB>(url, httpOptions).pipe(
       tap(_ => this.log(`deleted bstructdb id=${id}`)),
       catchError(this.handleError<BstructDB>('deleteBstruct'))
     );
   }
 
   /** PUT: update the bstructdb on the server */
-  updateBstruct(bstructdb: BstructDB): Observable<BstructDB> {
+  updateBstruct(bstructdb: BstructDB, GONG__StackPath: string): Observable<BstructDB> {
     const id = typeof bstructdb === 'number' ? bstructdb : bstructdb.ID;
     const url = `${this.bstructsUrl}/${id}`;
 
@@ -112,7 +117,13 @@ export class BstructService {
     let _Astruct_Anotherarrayofb_reverse = bstructdb.Astruct_Anotherarrayofb_reverse
     bstructdb.Astruct_Anotherarrayofb_reverse = new AstructDB
 
-    return this.http.put<BstructDB>(url, bstructdb, this.httpOptions).pipe(
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    };
+
+    return this.http.put<BstructDB>(url, bstructdb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
         bstructdb.Astruct_Anarrayofb_reverse = _Astruct_Anarrayofb_reverse

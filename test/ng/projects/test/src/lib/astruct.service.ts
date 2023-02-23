@@ -46,7 +46,7 @@ export class AstructService {
   /** GET astructs from the server */
   getAstructs(GONG__StackPath: string = ""): Observable<AstructDB[]> {
 
-    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+	let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
     return this.http.get<AstructDB[]>(this.astructsUrl, { params: params })
       .pipe(
@@ -63,8 +63,6 @@ export class AstructService {
       catchError(this.handleError<AstructDB>(`getAstruct id=${id}`))
     );
   }
-
-  //////// Save methods //////////
 
   /** POST: add a new astruct to the server */
   postAstruct(astructdb: AstructDB, GONG__StackPath: string): Observable<AstructDB> {
@@ -91,9 +89,9 @@ export class AstructService {
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
-    };
+    }
 
-    return this.http.post<AstructDB>(this.astructsUrl, astructdb, httpOptions).pipe(
+	return this.http.post<AstructDB>(this.astructsUrl, astructdb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
         astructdb.Astruct_Anarrayofa_reverse = _Astruct_Anarrayofa_reverse
