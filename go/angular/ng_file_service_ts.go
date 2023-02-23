@@ -33,10 +33,6 @@ import { {{Structname}}DB } from './{{structname}}-db';
 })
 export class {{Structname}}Service {
 
-  httpOptions = {
-    headers: new HttpHeaders({ 'Content-Type': 'application/json' })
-  };
-
   // Kamar Raïmo: Adding a way to communicate between components that share information
   // so that they are notified of a change.
   {{Structname}}ServiceChanged: BehaviorSubject<string> = new BehaviorSubject("");
@@ -45,7 +41,6 @@ export class {{Structname}}Service {
 
   constructor(
     private http: HttpClient,
-    private location: Location,
     @Inject(DOCUMENT) private document: Document
   ) {
     // path to the service share the same origin with the path to the document
@@ -80,14 +75,18 @@ export class {{Structname}}Service {
     );
   }
 
-  //////// Save methods //////////
-
   /** POST: add a new {{structname}} to the server */
-  post{{Structname}}({{structname}}db: {{Structname}}DB): Observable<{{Structname}}DB> {
+  post{{Structname}}({{structname}}db: {{Structname}}DB, GONG__StackPath: string): Observable<{{Structname}}DB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON){{` + string(rune(NgServiceTsInsertionPointerReset)) + `}}
 
-    return this.http.post<{{Structname}}DB>(this.{{structname}}sUrl, {{structname}}db, this.httpOptions).pipe(
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+	return this.http.post<{{Structname}}DB>(this.{{structname}}sUrl, {{structname}}db, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers{{` + string(rune(NgServiceTsInsertionPointerRestore)) + `}}
         this.log(` + "`" + `posted {{structname}}db id=${{{structname}}db.ID}` + "`" + `)
@@ -97,24 +96,36 @@ export class {{Structname}}Service {
   }
 
   /** DELETE: delete the {{structname}}db from the server */
-  delete{{Structname}}({{structname}}db: {{Structname}}DB | number): Observable<{{Structname}}DB> {
+  delete{{Structname}}({{structname}}db: {{Structname}}DB | number, GONG__StackPath: string): Observable<{{Structname}}DB> {
     const id = typeof {{structname}}db === 'number' ? {{structname}}db : {{structname}}db.ID;
     const url = ` + "`" + `${this.{{structname}}sUrl}/${id}` + "`" + `;
 
-    return this.http.delete<{{Structname}}DB>(url, this.httpOptions).pipe(
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    };
+
+    return this.http.delete<{{Structname}}DB>(url, httpOptions).pipe(
       tap(_ => this.log(` + "`" + `deleted {{structname}}db id=${id}` + "`" + `)),
       catchError(this.handleError<{{Structname}}DB>('delete{{Structname}}'))
     );
   }
 
   /** PUT: update the {{structname}}db on the server */
-  update{{Structname}}({{structname}}db: {{Structname}}DB): Observable<{{Structname}}DB> {
+  update{{Structname}}({{structname}}db: {{Structname}}DB, GONG__StackPath: string): Observable<{{Structname}}DB> {
     const id = typeof {{structname}}db === 'number' ? {{structname}}db : {{structname}}db.ID;
     const url = ` + "`" + `${this.{{structname}}sUrl}/${id}` + "`" + `;
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON){{` + string(rune(NgServiceTsInsertionPointerReset)) + `}}
 
-    return this.http.put<{{Structname}}DB>(url, {{structname}}db, this.httpOptions).pipe(
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    };
+
+    return this.http.put<{{Structname}}DB>(url, {{structname}}db, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers{{` + string(rune(NgServiceTsInsertionPointerRestore)) + `}}
         this.log(` + "`" + `updated {{structname}}db id=${{{structname}}db.ID}` + "`" + `)
