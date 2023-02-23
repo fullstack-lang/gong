@@ -158,6 +158,7 @@ export class DstructDetailComponent implements OnInit {
 					});
 				break;
 			default:
+				this.dstruct.GONG__StackPath = this.GONG__StackPath
 				this.dstructService.postDstruct(this.dstruct).subscribe(dstruct => {
 					this.dstructService.DstructServiceChanged.next("post")
 					this.dstruct = new (DstructDB) // reset fields
