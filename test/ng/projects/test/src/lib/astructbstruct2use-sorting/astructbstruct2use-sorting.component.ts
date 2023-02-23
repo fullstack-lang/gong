@@ -100,7 +100,7 @@ export class AstructBstruct2UseSortingComponent implements OnInit {
 
     this.associatedAstructBstruct2Uses.forEach(
       astructbstruct2use => {
-        this.astructbstruct2useService.updateAstructBstruct2Use(astructbstruct2use)
+        this.astructbstruct2useService.updateAstructBstruct2Use(astructbstruct2use, this.dialogData.GONG__StackPath)
           .subscribe(astructbstruct2use => {
             this.astructbstruct2useService.AstructBstruct2UseServiceChanged.next("update")
           });
