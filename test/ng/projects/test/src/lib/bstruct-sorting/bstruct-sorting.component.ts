@@ -100,7 +100,7 @@ export class BstructSortingComponent implements OnInit {
 
     this.associatedBstructs.forEach(
       bstruct => {
-        this.bstructService.updateBstruct(bstruct)
+        this.bstructService.updateBstruct(bstruct, this.dialogData.GONG__StackPath)
           .subscribe(bstruct => {
             this.bstructService.BstructServiceChanged.next("update")
           });
