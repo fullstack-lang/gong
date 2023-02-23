@@ -174,7 +174,7 @@ export class AstructBstructUsesTableComponent implements OnInit {
 
   ngOnInit(): void {
     let stackPath = this.activatedRoute.snapshot.paramMap.get('GONG__StackPath')
-    if ( stackPath != undefined) {
+    if (stackPath != undefined) {
       this.GONG__StackPath = stackPath
     }
 
@@ -234,7 +234,7 @@ export class AstructBstructUsesTableComponent implements OnInit {
     // list of astructbstructuses is truncated of astructbstructuse before the delete
     this.astructbstructuses = this.astructbstructuses.filter(h => h !== astructbstructuse);
 
-    this.astructbstructuseService.deleteAstructBstructUse(astructbstructuseID).subscribe(
+    this.astructbstructuseService.deleteAstructBstructUse(astructbstructuseID, this.dialogData.GONG__StackPath).subscribe(
       astructbstructuse => {
         this.astructbstructuseService.AstructBstructUseServiceChanged.next("delete")
       }
@@ -300,7 +300,7 @@ export class AstructBstructUsesTableComponent implements OnInit {
 
       // update all astructbstructuse (only update selection & initial selection)
       for (let astructbstructuse of toUpdate) {
-        this.astructbstructuseService.updateAstructBstructUse(astructbstructuse)
+        this.astructbstructuseService.updateAstructBstructUse(astructbstructuse, this.GONG__StackPath)
           .subscribe(astructbstructuse => {
             this.astructbstructuseService.AstructBstructUseServiceChanged.next("update")
           });
