@@ -190,6 +190,7 @@ export class AstructBstructUseDetailComponent implements OnInit {
 					});
 				break;
 			default:
+				this.astructbstructuse.GONG__StackPath = this.GONG__StackPath
 				this.astructbstructuseService.postAstructBstructUse(this.astructbstructuse).subscribe(astructbstructuse => {
 					this.astructbstructuseService.AstructBstructUseServiceChanged.next("post")
 					this.astructbstructuse = new (AstructBstructUseDB) // reset fields
