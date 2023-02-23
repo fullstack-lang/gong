@@ -20,10 +20,6 @@ import { DstructDB } from './dstruct-db';
 })
 export class DstructService {
 
-  httpOptions = {
-    headers: new HttpHeaders({ 'Content-Type': 'application/json' })
-  };
-
   // Kamar Raïmo: Adding a way to communicate between components that share information
   // so that they are notified of a change.
   DstructServiceChanged: BehaviorSubject<string> = new BehaviorSubject("");
@@ -32,7 +28,6 @@ export class DstructService {
 
   constructor(
     private http: HttpClient,
-    private location: Location,
     @Inject(DOCUMENT) private document: Document
   ) {
     // path to the service share the same origin with the path to the document
@@ -67,14 +62,18 @@ export class DstructService {
     );
   }
 
-  //////// Save methods //////////
-
   /** POST: add a new dstruct to the server */
-  postDstruct(dstructdb: DstructDB): Observable<DstructDB> {
+  postDstruct(dstructdb: DstructDB, GONG__StackPath: string): Observable<DstructDB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
 
-    return this.http.post<DstructDB>(this.dstructsUrl, dstructdb, this.httpOptions).pipe(
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+	return this.http.post<DstructDB>(this.dstructsUrl, dstructdb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
         this.log(`posted dstructdb id=${dstructdb.ID}`)
@@ -84,24 +83,36 @@ export class DstructService {
   }
 
   /** DELETE: delete the dstructdb from the server */
-  deleteDstruct(dstructdb: DstructDB | number): Observable<DstructDB> {
+  deleteDstruct(dstructdb: DstructDB | number, GONG__StackPath: string): Observable<DstructDB> {
     const id = typeof dstructdb === 'number' ? dstructdb : dstructdb.ID;
     const url = `${this.dstructsUrl}/${id}`;
 
-    return this.http.delete<DstructDB>(url, this.httpOptions).pipe(
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    };
+
+    return this.http.delete<DstructDB>(url, httpOptions).pipe(
       tap(_ => this.log(`deleted dstructdb id=${id}`)),
       catchError(this.handleError<DstructDB>('deleteDstruct'))
     );
   }
 
   /** PUT: update the dstructdb on the server */
-  updateDstruct(dstructdb: DstructDB): Observable<DstructDB> {
+  updateDstruct(dstructdb: DstructDB, GONG__StackPath: string): Observable<DstructDB> {
     const id = typeof dstructdb === 'number' ? dstructdb : dstructdb.ID;
     const url = `${this.dstructsUrl}/${id}`;
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
 
-    return this.http.put<DstructDB>(url, dstructdb, this.httpOptions).pipe(
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    };
+
+    return this.http.put<DstructDB>(url, dstructdb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
         this.log(`updated dstructdb id=${dstructdb.ID}`)

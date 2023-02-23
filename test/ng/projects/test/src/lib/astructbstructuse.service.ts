@@ -22,10 +22,6 @@ import { AstructDB } from './astruct-db'
 })
 export class AstructBstructUseService {
 
-  httpOptions = {
-    headers: new HttpHeaders({ 'Content-Type': 'application/json' })
-  };
-
   // Kamar Raïmo: Adding a way to communicate between components that share information
   // so that they are notified of a change.
   AstructBstructUseServiceChanged: BehaviorSubject<string> = new BehaviorSubject("");
@@ -34,7 +30,6 @@ export class AstructBstructUseService {
 
   constructor(
     private http: HttpClient,
-    private location: Location,
     @Inject(DOCUMENT) private document: Document
   ) {
     // path to the service share the same origin with the path to the document
@@ -69,17 +64,21 @@ export class AstructBstructUseService {
     );
   }
 
-  //////// Save methods //////////
-
   /** POST: add a new astructbstructuse to the server */
-  postAstructBstructUse(astructbstructusedb: AstructBstructUseDB): Observable<AstructBstructUseDB> {
+  postAstructBstructUse(astructbstructusedb: AstructBstructUseDB, GONG__StackPath: string): Observable<AstructBstructUseDB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
     astructbstructusedb.Bstruct2 = new BstructDB
     let _Astruct_AnarrayofbUse_reverse = astructbstructusedb.Astruct_AnarrayofbUse_reverse
     astructbstructusedb.Astruct_AnarrayofbUse_reverse = new AstructDB
 
-    return this.http.post<AstructBstructUseDB>(this.astructbstructusesUrl, astructbstructusedb, this.httpOptions).pipe(
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+	return this.http.post<AstructBstructUseDB>(this.astructbstructusesUrl, astructbstructusedb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
         astructbstructusedb.Astruct_AnarrayofbUse_reverse = _Astruct_AnarrayofbUse_reverse
@@ -90,18 +89,24 @@ export class AstructBstructUseService {
   }
 
   /** DELETE: delete the astructbstructusedb from the server */
-  deleteAstructBstructUse(astructbstructusedb: AstructBstructUseDB | number): Observable<AstructBstructUseDB> {
+  deleteAstructBstructUse(astructbstructusedb: AstructBstructUseDB | number, GONG__StackPath: string): Observable<AstructBstructUseDB> {
     const id = typeof astructbstructusedb === 'number' ? astructbstructusedb : astructbstructusedb.ID;
     const url = `${this.astructbstructusesUrl}/${id}`;
 
-    return this.http.delete<AstructBstructUseDB>(url, this.httpOptions).pipe(
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    };
+
+    return this.http.delete<AstructBstructUseDB>(url, httpOptions).pipe(
       tap(_ => this.log(`deleted astructbstructusedb id=${id}`)),
       catchError(this.handleError<AstructBstructUseDB>('deleteAstructBstructUse'))
     );
   }
 
   /** PUT: update the astructbstructusedb on the server */
-  updateAstructBstructUse(astructbstructusedb: AstructBstructUseDB): Observable<AstructBstructUseDB> {
+  updateAstructBstructUse(astructbstructusedb: AstructBstructUseDB, GONG__StackPath: string): Observable<AstructBstructUseDB> {
     const id = typeof astructbstructusedb === 'number' ? astructbstructusedb : astructbstructusedb.ID;
     const url = `${this.astructbstructusesUrl}/${id}`;
 
@@ -110,7 +115,13 @@ export class AstructBstructUseService {
     let _Astruct_AnarrayofbUse_reverse = astructbstructusedb.Astruct_AnarrayofbUse_reverse
     astructbstructusedb.Astruct_AnarrayofbUse_reverse = new AstructDB
 
-    return this.http.put<AstructBstructUseDB>(url, astructbstructusedb, this.httpOptions).pipe(
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    };
+
+    return this.http.put<AstructBstructUseDB>(url, astructbstructusedb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
         astructbstructusedb.Astruct_AnarrayofbUse_reverse = _Astruct_AnarrayofbUse_reverse
