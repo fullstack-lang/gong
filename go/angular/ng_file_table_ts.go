@@ -166,7 +166,7 @@ export class {{Structname}}sTableComponent implements OnInit {
 
   ngOnInit(): void {
     let stackPath = this.activatedRoute.snapshot.paramMap.get('GONG__StackPath')
-    if ( stackPath != undefined) {
+    if (stackPath != undefined) {
       this.GONG__StackPath = stackPath
     }
 
@@ -226,7 +226,7 @@ export class {{Structname}}sTableComponent implements OnInit {
     // list of {{structname}}s is truncated of {{structname}} before the delete
     this.{{structname}}s = this.{{structname}}s.filter(h => h !== {{structname}});
 
-    this.{{structname}}Service.delete{{Structname}}({{structname}}ID).subscribe(
+    this.{{structname}}Service.delete{{Structname}}({{structname}}ID, this.dialogData.GONG__StackPath).subscribe(
       {{structname}} => {
         this.{{structname}}Service.{{Structname}}ServiceChanged.next("delete")
       }
@@ -292,7 +292,7 @@ export class {{Structname}}sTableComponent implements OnInit {
 
       // update all {{structname}} (only update selection & initial selection)
       for (let {{structname}} of toUpdate) {
-        this.{{structname}}Service.update{{Structname}}({{structname}})
+        this.{{structname}}Service.update{{Structname}}({{structname}}, this.GONG__StackPath)
           .subscribe({{structname}} => {
             this.{{structname}}Service.{{Structname}}ServiceChanged.next("update")
           });

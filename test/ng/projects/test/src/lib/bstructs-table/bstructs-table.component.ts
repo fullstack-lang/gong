@@ -197,7 +197,7 @@ export class BstructsTableComponent implements OnInit {
 
   ngOnInit(): void {
     let stackPath = this.activatedRoute.snapshot.paramMap.get('GONG__StackPath')
-    if ( stackPath != undefined) {
+    if (stackPath != undefined) {
       this.GONG__StackPath = stackPath
     }
 
@@ -257,7 +257,7 @@ export class BstructsTableComponent implements OnInit {
     // list of bstructs is truncated of bstruct before the delete
     this.bstructs = this.bstructs.filter(h => h !== bstruct);
 
-    this.bstructService.deleteBstruct(bstructID).subscribe(
+    this.bstructService.deleteBstruct(bstructID, this.dialogData.GONG__StackPath).subscribe(
       bstruct => {
         this.bstructService.BstructServiceChanged.next("delete")
       }
@@ -323,7 +323,7 @@ export class BstructsTableComponent implements OnInit {
 
       // update all bstruct (only update selection & initial selection)
       for (let bstruct of toUpdate) {
-        this.bstructService.updateBstruct(bstruct)
+        this.bstructService.updateBstruct(bstruct, this.GONG__StackPath)
           .subscribe(bstruct => {
             this.bstructService.BstructServiceChanged.next("update")
           });
