@@ -184,14 +184,13 @@ export class AstructBstructUseDetailComponent implements OnInit {
 
 		switch (this.state) {
 			case AstructBstructUseDetailComponentState.UPDATE_INSTANCE:
-				this.astructbstructuseService.updateAstructBstructUse(this.astructbstructuse)
+				this.astructbstructuseService.updateAstructBstructUse(this.astructbstructuse, this.GONG__StackPath)
 					.subscribe(astructbstructuse => {
 						this.astructbstructuseService.AstructBstructUseServiceChanged.next("update")
 					});
 				break;
 			default:
-				this.astructbstructuse.GONG__StackPath = this.GONG__StackPath
-				this.astructbstructuseService.postAstructBstructUse(this.astructbstructuse).subscribe(astructbstructuse => {
+				this.astructbstructuseService.postAstructBstructUse(this.astructbstructuse, this.GONG__StackPath).subscribe(astructbstructuse => {
 					this.astructbstructuseService.AstructBstructUseServiceChanged.next("post")
 					this.astructbstructuse = new (AstructBstructUseDB) // reset fields
 				});
