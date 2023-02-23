@@ -118,7 +118,7 @@ export class {{Structname}}SortingComponent implements OnInit {
 
     this.associated{{Structname}}s.forEach(
       {{structname}} => {
-        this.{{structname}}Service.update{{Structname}}({{structname}})
+        this.{{structname}}Service.update{{Structname}}({{structname}}, this.dialogData.GONG__StackPath)
           .subscribe({{structname}} => {
             this.{{structname}}Service.{{Structname}}ServiceChanged.next("update")
           });

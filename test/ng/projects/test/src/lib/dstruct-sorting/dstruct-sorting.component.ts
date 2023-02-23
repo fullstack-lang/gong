@@ -100,7 +100,7 @@ export class DstructSortingComponent implements OnInit {
 
     this.associatedDstructs.forEach(
       dstruct => {
-        this.dstructService.updateDstruct(dstruct)
+        this.dstructService.updateDstruct(dstruct, this.dialogData.GONG__StackPath)
           .subscribe(dstruct => {
             this.dstructService.DstructServiceChanged.next("update")
           });
