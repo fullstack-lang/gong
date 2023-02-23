@@ -153,7 +153,7 @@ export class DstructsTableComponent implements OnInit {
 
   ngOnInit(): void {
     let stackPath = this.activatedRoute.snapshot.paramMap.get('GONG__StackPath')
-    if ( stackPath != undefined) {
+    if (stackPath != undefined) {
       this.GONG__StackPath = stackPath
     }
 
@@ -213,7 +213,7 @@ export class DstructsTableComponent implements OnInit {
     // list of dstructs is truncated of dstruct before the delete
     this.dstructs = this.dstructs.filter(h => h !== dstruct);
 
-    this.dstructService.deleteDstruct(dstructID).subscribe(
+    this.dstructService.deleteDstruct(dstructID, this.dialogData.GONG__StackPath).subscribe(
       dstruct => {
         this.dstructService.DstructServiceChanged.next("delete")
       }
@@ -279,7 +279,7 @@ export class DstructsTableComponent implements OnInit {
 
       // update all dstruct (only update selection & initial selection)
       for (let dstruct of toUpdate) {
-        this.dstructService.updateDstruct(dstruct)
+        this.dstructService.updateDstruct(dstruct, this.GONG__StackPath)
           .subscribe(dstruct => {
             this.dstructService.DstructServiceChanged.next("update")
           });
