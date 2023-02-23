@@ -53,15 +53,12 @@ func GetBstructs(c *gin.Context) {
 	// source slice
 	var bstructDBs []orm.BstructDB
 
-	// type Values map[string][]string
 	values := c.Request.URL.Query()
 	if len(values) == 1 {
 		value := values["GONG__StackPath"]
 		if len(value) == 1 {
-			// we have a single parameter
-			// we assume it is the stack
 			stackParam := value[0]
-			log.Println("GONG__StackPath", stackParam)
+			log.Println("GetBstructs", "GONG__StackPath", stackParam)
 		}
 	}
 
@@ -109,6 +106,15 @@ func GetBstructs(c *gin.Context) {
 //	Responses:
 //	  200: nodeDBResponse
 func PostBstruct(c *gin.Context) {
+
+	values := c.Request.URL.Query()
+	if len(values) == 1 {
+		value := values["GONG__StackPath"]
+		if len(value) == 1 {
+			stackParam := value[0]
+			log.Println("PostBstructs", "GONG__StackPath", stackParam)
+		}
+	}
 
 	// Validate input
 	var input orm.BstructAPI
@@ -166,15 +172,12 @@ func PostBstruct(c *gin.Context) {
 //	200: bstructDBResponse
 func GetBstruct(c *gin.Context) {
 
-	// type Values map[string][]string
 	values := c.Request.URL.Query()
 	if len(values) == 1 {
-		value := values["stack"]
+		value := values["GONG__StackPath"]
 		if len(value) == 1 {
-			// we have a single parameter
-			// we assume it is the stack
 			stackParam := value[0]
-			log.Println("GET params", stackParam)
+			log.Println("GetBstruct", "GONG__StackPath", stackParam)
 		}
 	}
 
@@ -210,6 +213,15 @@ func GetBstruct(c *gin.Context) {
 //
 //	200: bstructDBResponse
 func UpdateBstruct(c *gin.Context) {
+
+	values := c.Request.URL.Query()
+	if len(values) == 1 {
+		value := values["GONG__StackPath"]
+		if len(value) == 1 {
+			stackParam := value[0]
+			log.Println("UpdateBstruct", "GONG__StackPath", stackParam)
+		}
+	}
 
 	// Validate input
 	var input orm.BstructAPI
@@ -280,6 +292,16 @@ func UpdateBstruct(c *gin.Context) {
 //
 //	200: bstructDBResponse
 func DeleteBstruct(c *gin.Context) {
+
+	values := c.Request.URL.Query()
+	if len(values) == 1 {
+		value := values["GONG__StackPath"]
+		if len(value) == 1 {
+			stackParam := value[0]
+			log.Println("DeleteBstruct", "GONG__StackPath", stackParam)
+		}
+	}
+
 	db := orm.BackRepo.BackRepoBstruct.GetDB()
 
 	// Get model if exist

@@ -53,15 +53,12 @@ func GetAstructBstructUses(c *gin.Context) {
 	// source slice
 	var astructbstructuseDBs []orm.AstructBstructUseDB
 
-	// type Values map[string][]string
 	values := c.Request.URL.Query()
 	if len(values) == 1 {
 		value := values["GONG__StackPath"]
 		if len(value) == 1 {
-			// we have a single parameter
-			// we assume it is the stack
 			stackParam := value[0]
-			log.Println("GONG__StackPath", stackParam)
+			log.Println("GetAstructBstructUses", "GONG__StackPath", stackParam)
 		}
 	}
 
@@ -109,6 +106,15 @@ func GetAstructBstructUses(c *gin.Context) {
 //	Responses:
 //	  200: nodeDBResponse
 func PostAstructBstructUse(c *gin.Context) {
+
+	values := c.Request.URL.Query()
+	if len(values) == 1 {
+		value := values["GONG__StackPath"]
+		if len(value) == 1 {
+			stackParam := value[0]
+			log.Println("PostAstructBstructUses", "GONG__StackPath", stackParam)
+		}
+	}
 
 	// Validate input
 	var input orm.AstructBstructUseAPI
@@ -166,15 +172,12 @@ func PostAstructBstructUse(c *gin.Context) {
 //	200: astructbstructuseDBResponse
 func GetAstructBstructUse(c *gin.Context) {
 
-	// type Values map[string][]string
 	values := c.Request.URL.Query()
 	if len(values) == 1 {
-		value := values["stack"]
+		value := values["GONG__StackPath"]
 		if len(value) == 1 {
-			// we have a single parameter
-			// we assume it is the stack
 			stackParam := value[0]
-			log.Println("GET params", stackParam)
+			log.Println("GetAstructBstructUse", "GONG__StackPath", stackParam)
 		}
 	}
 
@@ -210,6 +213,15 @@ func GetAstructBstructUse(c *gin.Context) {
 //
 //	200: astructbstructuseDBResponse
 func UpdateAstructBstructUse(c *gin.Context) {
+
+	values := c.Request.URL.Query()
+	if len(values) == 1 {
+		value := values["GONG__StackPath"]
+		if len(value) == 1 {
+			stackParam := value[0]
+			log.Println("UpdateAstructBstructUse", "GONG__StackPath", stackParam)
+		}
+	}
 
 	// Validate input
 	var input orm.AstructBstructUseAPI
@@ -280,6 +292,16 @@ func UpdateAstructBstructUse(c *gin.Context) {
 //
 //	200: astructbstructuseDBResponse
 func DeleteAstructBstructUse(c *gin.Context) {
+
+	values := c.Request.URL.Query()
+	if len(values) == 1 {
+		value := values["GONG__StackPath"]
+		if len(value) == 1 {
+			stackParam := value[0]
+			log.Println("DeleteAstructBstructUse", "GONG__StackPath", stackParam)
+		}
+	}
+
 	db := orm.BackRepo.BackRepoAstructBstructUse.GetDB()
 
 	// Get model if exist

@@ -53,15 +53,12 @@ func GetDstructs(c *gin.Context) {
 	// source slice
 	var dstructDBs []orm.DstructDB
 
-	// type Values map[string][]string
 	values := c.Request.URL.Query()
 	if len(values) == 1 {
 		value := values["GONG__StackPath"]
 		if len(value) == 1 {
-			// we have a single parameter
-			// we assume it is the stack
 			stackParam := value[0]
-			log.Println("GONG__StackPath", stackParam)
+			log.Println("GetDstructs", "GONG__StackPath", stackParam)
 		}
 	}
 
@@ -109,6 +106,15 @@ func GetDstructs(c *gin.Context) {
 //	Responses:
 //	  200: nodeDBResponse
 func PostDstruct(c *gin.Context) {
+
+	values := c.Request.URL.Query()
+	if len(values) == 1 {
+		value := values["GONG__StackPath"]
+		if len(value) == 1 {
+			stackParam := value[0]
+			log.Println("PostDstructs", "GONG__StackPath", stackParam)
+		}
+	}
 
 	// Validate input
 	var input orm.DstructAPI
@@ -166,15 +172,12 @@ func PostDstruct(c *gin.Context) {
 //	200: dstructDBResponse
 func GetDstruct(c *gin.Context) {
 
-	// type Values map[string][]string
 	values := c.Request.URL.Query()
 	if len(values) == 1 {
-		value := values["stack"]
+		value := values["GONG__StackPath"]
 		if len(value) == 1 {
-			// we have a single parameter
-			// we assume it is the stack
 			stackParam := value[0]
-			log.Println("GET params", stackParam)
+			log.Println("GetDstruct", "GONG__StackPath", stackParam)
 		}
 	}
 
@@ -210,6 +213,15 @@ func GetDstruct(c *gin.Context) {
 //
 //	200: dstructDBResponse
 func UpdateDstruct(c *gin.Context) {
+
+	values := c.Request.URL.Query()
+	if len(values) == 1 {
+		value := values["GONG__StackPath"]
+		if len(value) == 1 {
+			stackParam := value[0]
+			log.Println("UpdateDstruct", "GONG__StackPath", stackParam)
+		}
+	}
 
 	// Validate input
 	var input orm.DstructAPI
@@ -280,6 +292,16 @@ func UpdateDstruct(c *gin.Context) {
 //
 //	200: dstructDBResponse
 func DeleteDstruct(c *gin.Context) {
+
+	values := c.Request.URL.Query()
+	if len(values) == 1 {
+		value := values["GONG__StackPath"]
+		if len(value) == 1 {
+			stackParam := value[0]
+			log.Println("DeleteDstruct", "GONG__StackPath", stackParam)
+		}
+	}
+
 	db := orm.BackRepo.BackRepoDstruct.GetDB()
 
 	// Get model if exist
