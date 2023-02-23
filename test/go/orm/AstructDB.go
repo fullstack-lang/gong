@@ -35,6 +35,10 @@ var dummy_Astruct_sort sort.Float64Slice
 type AstructAPI struct {
 	gorm.Model
 
+	// GONG__StackPath is set up by the front during the POST of the instance
+	// with gorm.Model.ID, it set up the unique identifier of the instance
+	GONG__StackPath string
+
 	models.Astruct
 
 	// encoding of pointers

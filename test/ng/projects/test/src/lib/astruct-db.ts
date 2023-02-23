@@ -11,10 +11,7 @@ export class AstructDB {
 	CreatedAt?: string
 	DeletedAt?: string
 
-	// With the multiple stacks, each sack has its own DB, therefore, 
-	// the unique identifier of an instance is a combination of the ID and the stack path
 	ID: number = 0
-	GONG__StackPath: string = ""
 
 	// insertion point for basic fields declarations
 	Name: string = ""
@@ -73,7 +70,7 @@ export class AstructDB {
 	AnAstructID: NullInt64 = new NullInt64 // if pointer is null, AnAstruct.ID = 0
 
 	Astruct_AnarrayofaDBID: NullInt64 = new NullInt64
-	Astruct_AnarrayofaDBID_Index: NullInt64  = new NullInt64 // store the index of the astruct instance in Astruct.Anarrayofa
-	Astruct_Anarrayofa_reverse?: AstructDB 
+	Astruct_AnarrayofaDBID_Index: NullInt64 = new NullInt64 // store the index of the astruct instance in Astruct.Anarrayofa
+	Astruct_Anarrayofa_reverse?: AstructDB
 
 }
