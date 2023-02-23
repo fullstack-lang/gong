@@ -53,13 +53,10 @@ func GetAstructs(c *gin.Context) {
 	// source slice
 	var astructDBs []orm.AstructDB
 
-	// type Values map[string][]string
 	values := c.Request.URL.Query()
 	if len(values) == 1 {
 		value := values["GONG__StackPath"]
 		if len(value) == 1 {
-			// we have a single parameter
-			// we assume it is the stack
 			stackParam := value[0]
 			log.Println("GetAstructs", "GONG__StackPath", stackParam)
 		}
@@ -110,20 +107,17 @@ func GetAstructs(c *gin.Context) {
 //	  200: nodeDBResponse
 func PostAstruct(c *gin.Context) {
 
-	// Validate input
-	var input orm.AstructAPI
-
-	// type Values map[string][]string
 	values := c.Request.URL.Query()
 	if len(values) == 1 {
 		value := values["GONG__StackPath"]
 		if len(value) == 1 {
-			// we have a single parameter
-			// we assume it is the stack
 			stackParam := value[0]
-			log.Println("PostAstruct", "GONG__StackPath", stackParam)
+			log.Println("PostAstructs", "GONG__StackPath", stackParam)
 		}
 	}
+
+	// Validate input
+	var input orm.AstructAPI
 
 	err := c.ShouldBindJSON(&input)
 	if err != nil {
@@ -178,15 +172,12 @@ func PostAstruct(c *gin.Context) {
 //	200: astructDBResponse
 func GetAstruct(c *gin.Context) {
 
-	// type Values map[string][]string
 	values := c.Request.URL.Query()
 	if len(values) == 1 {
 		value := values["GONG__StackPath"]
 		if len(value) == 1 {
-			// we have a single parameter
-			// we assume it is the stack
 			stackParam := value[0]
-			log.Println("GetAstruct", "GET params", stackParam)
+			log.Println("GetAstruct", "GONG__StackPath", stackParam)
 		}
 	}
 
@@ -227,8 +218,6 @@ func UpdateAstruct(c *gin.Context) {
 	if len(values) == 1 {
 		value := values["GONG__StackPath"]
 		if len(value) == 1 {
-			// we have a single parameter
-			// we assume it is the stack
 			stackParam := value[0]
 			log.Println("UpdateAstruct", "GONG__StackPath", stackParam)
 		}
@@ -308,8 +297,6 @@ func DeleteAstruct(c *gin.Context) {
 	if len(values) == 1 {
 		value := values["GONG__StackPath"]
 		if len(value) == 1 {
-			// we have a single parameter
-			// we assume it is the stack
 			stackParam := value[0]
 			log.Println("DeleteAstruct", "GONG__StackPath", stackParam)
 		}
