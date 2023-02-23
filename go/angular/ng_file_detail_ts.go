@@ -178,6 +178,7 @@ export class {{Structname}}DetailComponent implements OnInit {
 					});
 				break;
 			default:
+				this.{{structname}}.GONG__StackPath = this.GONG__StackPath
 				this.{{structname}}Service.post{{Structname}}(this.{{structname}}).subscribe({{structname}} => {
 					this.{{structname}}Service.{{Structname}}ServiceChanged.next("post")
 					this.{{structname}} = new ({{Structname}}DB) // reset fields

@@ -201,6 +201,7 @@ export class BstructDetailComponent implements OnInit {
 					});
 				break;
 			default:
+				this.bstruct.GONG__StackPath = this.GONG__StackPath
 				this.bstructService.postBstruct(this.bstruct).subscribe(bstruct => {
 					this.bstructService.BstructServiceChanged.next("post")
 					this.bstruct = new (BstructDB) // reset fields
