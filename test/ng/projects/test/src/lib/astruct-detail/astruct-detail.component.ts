@@ -289,14 +289,13 @@ export class AstructDetailComponent implements OnInit {
 
 		switch (this.state) {
 			case AstructDetailComponentState.UPDATE_INSTANCE:
-				this.astructService.updateAstruct(this.astruct)
+				this.astructService.updateAstruct(this.astruct, this.GONG__StackPath)
 					.subscribe(astruct => {
 						this.astructService.AstructServiceChanged.next("update")
 					});
 				break;
 			default:
-				this.astruct.GONG__StackPath = this.GONG__StackPath
-				this.astructService.postAstruct(this.astruct).subscribe(astruct => {
+				this.astructService.postAstruct(this.astruct, this.GONG__StackPath).subscribe(astruct => {
 					this.astructService.AstructServiceChanged.next("post")
 					this.astruct = new (AstructDB) // reset fields
 				});

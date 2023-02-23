@@ -343,7 +343,7 @@ export class AstructsTableComponent implements OnInit {
 
   ngOnInit(): void {
     let stackPath = this.activatedRoute.snapshot.paramMap.get('GONG__StackPath')
-    if ( stackPath != undefined) {
+    if (stackPath != undefined) {
       this.GONG__StackPath = stackPath
     }
 
@@ -413,7 +413,7 @@ export class AstructsTableComponent implements OnInit {
     // list of astructs is truncated of astruct before the delete
     this.astructs = this.astructs.filter(h => h !== astruct);
 
-    this.astructService.deleteAstruct(astructID).subscribe(
+    this.astructService.deleteAstruct(astructID, this.dialogData.GONG__StackPath).subscribe(
       astruct => {
         this.astructService.AstructServiceChanged.next("delete")
       }
@@ -479,7 +479,7 @@ export class AstructsTableComponent implements OnInit {
 
       // update all astruct (only update selection & initial selection)
       for (let astruct of toUpdate) {
-        this.astructService.updateAstruct(astruct)
+        this.astructService.updateAstruct(astruct, this.GONG__StackPath)
           .subscribe(astruct => {
             this.astructService.AstructServiceChanged.next("update")
           });
