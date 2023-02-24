@@ -202,10 +202,14 @@ export class {{Structname}}sTableComponent implements OnInit {
           let mapOfSourceInstances = this.frontRepo[this.dialogData.SourceStruct + "s" as keyof FrontRepo] as Map<number, {{Structname}}DB>
           let sourceInstance = mapOfSourceInstances.get(this.dialogData.ID)!
 
-          let sourceField = sourceInstance[this.dialogData.SourceField as keyof typeof sourceInstance]! as unknown as {{Structname}}DB[]
-          for (let associationInstance of sourceField) {
-            let {{structname}} = associationInstance[this.dialogData.IntermediateStructField as keyof typeof associationInstance] as unknown as {{Structname}}DB
-            this.initialSelection.push({{structname}})
+          // we associates on sourceInstance of type SourceStruct with a MANY MANY associations to Bstructs
+          // the field name is sourceField
+          let sourceFieldArray = sourceInstance[this.dialogData.SourceField as keyof typeof sourceInstance]! as unknown as {{Structname}}DB[]
+          if (sourceFieldArray != null) {
+            for (let associationInstance of sourceFieldArray) {
+              let {{structname}} = associationInstance[this.dialogData.IntermediateStructField as keyof typeof associationInstance] as unknown as {{Structname}}DB
+              this.initialSelection.push({{structname}})
+            }
           }
 
           this.selection = new SelectionModel<{{Structname}}DB>(allowMultiSelect, this.initialSelection);
@@ -226,7 +230,7 @@ export class {{Structname}}sTableComponent implements OnInit {
     // list of {{structname}}s is truncated of {{structname}} before the delete
     this.{{structname}}s = this.{{structname}}s.filter(h => h !== {{structname}});
 
-    this.{{structname}}Service.delete{{Structname}}({{structname}}ID, this.dialogData.GONG__StackPath).subscribe(
+    this.{{structname}}Service.delete{{Structname}}({{structname}}ID, this.GONG__StackPath).subscribe(
       {{structname}} => {
         this.{{structname}}Service.{{Structname}}ServiceChanged.next("delete")
       }

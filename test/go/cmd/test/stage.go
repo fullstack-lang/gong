@@ -48,7 +48,6 @@ func stageInjection() {
 	__Astruct__000000_A1 := (&models.Astruct{Name: `A1`}).Stage()
 	__Astruct__000001_A2 := (&models.Astruct{Name: `A2`}).Stage()
 	__Astruct__000002_A3 := (&models.Astruct{Name: `A3`}).Stage()
-	__Astruct__000003_A4 := (&models.Astruct{Name: `A4`}).Stage()
 
 	// Declarations of staged instances of AstructBstruct2Use
 	__AstructBstruct2Use__000000_ := (&models.AstructBstruct2Use{Name: ``}).Stage()
@@ -96,23 +95,23 @@ Second Line`
 	
 	// comment added to overcome the problem with the comment map association
 
-	//gong:ident []
-	__Astruct__000000_A1.EnumIntRef = ``
+	//gong:ident [.]
+	__Astruct__000000_A1.EnumIntRef = `.`
 	
 	// comment added to overcome the problem with the comment map association
 
-	//gong:ident []
-	__Astruct__000000_A1.EnumStringRef = ``
+	//gong:ident [.]
+	__Astruct__000000_A1.EnumStringRef = `.`
 	
 	// comment added to overcome the problem with the comment map association
 
-	//gong:ident []
-	__Astruct__000000_A1.EnumValue = ``
+	//gong:ident [.]
+	__Astruct__000000_A1.EnumValue = `.`
 	
 	// comment added to overcome the problem with the comment map association
 
-	//gong:ident []
-	__Astruct__000000_A1.ConstIdentifierValue = ``
+	//gong:ident [.]
+	__Astruct__000000_A1.ConstIdentifierValue = `.`
 
 	// Astruct values setup
 	__Astruct__000001_A2.Name = `A2`
@@ -131,33 +130,33 @@ Second Line`
 	
 	// comment added to overcome the problem with the comment map association
 
-	//gong:ident []
-	__Astruct__000001_A2.StructRef = ``
+	//gong:ident [.]
+	__Astruct__000001_A2.StructRef = `.`
 	
 	// comment added to overcome the problem with the comment map association
 
-	//gong:ident []
-	__Astruct__000001_A2.FieldRef = ``
+	//gong:ident [.]
+	__Astruct__000001_A2.FieldRef = `.`
 	
 	// comment added to overcome the problem with the comment map association
 
-	//gong:ident []
-	__Astruct__000001_A2.EnumIntRef = ``
+	//gong:ident [.]
+	__Astruct__000001_A2.EnumIntRef = `.`
 	
 	// comment added to overcome the problem with the comment map association
 
-	//gong:ident []
-	__Astruct__000001_A2.EnumStringRef = ``
+	//gong:ident [.]
+	__Astruct__000001_A2.EnumStringRef = `.`
 	
 	// comment added to overcome the problem with the comment map association
 
-	//gong:ident []
-	__Astruct__000001_A2.EnumValue = ``
+	//gong:ident [.]
+	__Astruct__000001_A2.EnumValue = `.`
 	
 	// comment added to overcome the problem with the comment map association
 
-	//gong:ident []
-	__Astruct__000001_A2.ConstIdentifierValue = ``
+	//gong:ident [.]
+	__Astruct__000001_A2.ConstIdentifierValue = `.`
 
 	// Astruct values setup
 	__Astruct__000002_A3.Name = `A3`
@@ -174,75 +173,33 @@ Second Line`
 	
 	// comment added to overcome the problem with the comment map association
 
-	//gong:ident []
-	__Astruct__000002_A3.StructRef = ``
-	
-	// comment added to overcome the problem with the comment map association
-
-	//gong:ident []
-	__Astruct__000002_A3.FieldRef = ``
-	
-	// comment added to overcome the problem with the comment map association
-
-	//gong:ident []
-	__Astruct__000002_A3.EnumIntRef = ``
-	
-	// comment added to overcome the problem with the comment map association
-
-	//gong:ident []
-	__Astruct__000002_A3.EnumStringRef = ``
-	
-	// comment added to overcome the problem with the comment map association
-
-	//gong:ident []
-	__Astruct__000002_A3.EnumValue = ``
-	
-	// comment added to overcome the problem with the comment map association
-
-	//gong:ident []
-	__Astruct__000002_A3.ConstIdentifierValue = ``
-
-	// Astruct values setup
-	__Astruct__000003_A4.Name = `A4`
-	__Astruct__000003_A4.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2023-02-23 11:39:15.221 +0000 +0000")
-	__Astruct__000003_A4.Booleanfield = false
-	__Astruct__000003_A4.CEnum = models.CENUM_VAL1
-	__Astruct__000003_A4.CName = ``
-	__Astruct__000003_A4.CFloatfield = 4.000000
-	__Astruct__000003_A4.Floatfield = 0.000000
-	__Astruct__000003_A4.Intfield = 0
-	__Astruct__000003_A4.Anotherbooleanfield = false
-	__Astruct__000003_A4.Duration1 = 0
+	//gong:ident [.]
+	__Astruct__000002_A3.StructRef = `.`
 	
 	// comment added to overcome the problem with the comment map association
 
 	//gong:ident [.]
-	__Astruct__000003_A4.StructRef = `.`
+	__Astruct__000002_A3.FieldRef = `.`
 	
 	// comment added to overcome the problem with the comment map association
 
 	//gong:ident [.]
-	__Astruct__000003_A4.FieldRef = `.`
+	__Astruct__000002_A3.EnumIntRef = `.`
 	
 	// comment added to overcome the problem with the comment map association
 
 	//gong:ident [.]
-	__Astruct__000003_A4.EnumIntRef = `.`
+	__Astruct__000002_A3.EnumStringRef = `.`
 	
 	// comment added to overcome the problem with the comment map association
 
 	//gong:ident [.]
-	__Astruct__000003_A4.EnumStringRef = `.`
+	__Astruct__000002_A3.EnumValue = `.`
 	
 	// comment added to overcome the problem with the comment map association
 
 	//gong:ident [.]
-	__Astruct__000003_A4.EnumValue = `.`
-	
-	// comment added to overcome the problem with the comment map association
-
-	//gong:ident [.]
-	__Astruct__000003_A4.ConstIdentifierValue = `.`
+	__Astruct__000002_A3.ConstIdentifierValue = `.`
 
 	// AstructBstruct2Use values setup
 	__AstructBstruct2Use__000000_.Name = ``
@@ -273,15 +230,13 @@ Second Line`
 
 	// Setup of pointers
 	__Astruct__000000_A1.Associationtob = __Bstruct__000001_B2
-	__Astruct__000000_A1.Anarrayofb = append(__Astruct__000000_A1.Anarrayofb, __Bstruct__000002_B3)
 	__Astruct__000000_A1.Anarrayofb = append(__Astruct__000000_A1.Anarrayofb, __Bstruct__000000_B1)
+	__Astruct__000000_A1.Anarrayofb = append(__Astruct__000000_A1.Anarrayofb, __Bstruct__000002_B3)
 	__Astruct__000000_A1.Anotherarrayofb = append(__Astruct__000000_A1.Anotherarrayofb, __Bstruct__000001_B2)
 	__Astruct__000000_A1.Anotherarrayofb = append(__Astruct__000000_A1.Anotherarrayofb, __Bstruct__000002_B3)
 	__Astruct__000000_A1.Anarrayofa = append(__Astruct__000000_A1.Anarrayofa, __Astruct__000000_A1)
 	__Astruct__000000_A1.Anarrayofb2Use = append(__Astruct__000000_A1.Anarrayofb2Use, __AstructBstruct2Use__000000_)
 	__Astruct__000001_A2.Anarrayofb2Use = append(__Astruct__000001_A2.Anarrayofb2Use, __AstructBstruct2Use__000001_)
-	__Astruct__000003_A4.Bstruct = __Bstruct__000000_B1
-	__Astruct__000003_A4.Dstruct = __Dstruct__000000_D1
 	__AstructBstruct2Use__000000_.Bstrcut2 = __Bstruct__000000_B1
 	__AstructBstruct2Use__000001_.Bstrcut2 = __Bstruct__000000_B1
 }
