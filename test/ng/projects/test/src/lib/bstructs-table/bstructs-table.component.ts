@@ -233,10 +233,14 @@ export class BstructsTableComponent implements OnInit {
           let mapOfSourceInstances = this.frontRepo[this.dialogData.SourceStruct + "s" as keyof FrontRepo] as Map<number, BstructDB>
           let sourceInstance = mapOfSourceInstances.get(this.dialogData.ID)!
 
-          let sourceField = sourceInstance[this.dialogData.SourceField as keyof typeof sourceInstance]! as unknown as BstructDB[]
-          for (let associationInstance of sourceField) {
-            let bstruct = associationInstance[this.dialogData.IntermediateStructField as keyof typeof associationInstance] as unknown as BstructDB
-            this.initialSelection.push(bstruct)
+          // we associates on sourceInstance of type SourceStruct with a MANY MANY associations to Bstructs
+          // the field name is sourceField
+          let sourceFieldArray = sourceInstance[this.dialogData.SourceField as keyof typeof sourceInstance]! as unknown as BstructDB[]
+          if (sourceFieldArray != null) {
+            for (let associationInstance of sourceFieldArray) {
+              let bstruct = associationInstance[this.dialogData.IntermediateStructField as keyof typeof associationInstance] as unknown as BstructDB
+              this.initialSelection.push(bstruct)
+            }
           }
 
           this.selection = new SelectionModel<BstructDB>(allowMultiSelect, this.initialSelection);
@@ -257,7 +261,7 @@ export class BstructsTableComponent implements OnInit {
     // list of bstructs is truncated of bstruct before the delete
     this.bstructs = this.bstructs.filter(h => h !== bstruct);
 
-    this.bstructService.deleteBstruct(bstructID, this.dialogData.GONG__StackPath).subscribe(
+    this.bstructService.deleteBstruct(bstructID, this.GONG__StackPath).subscribe(
       bstruct => {
         this.bstructService.BstructServiceChanged.next("delete")
       }
