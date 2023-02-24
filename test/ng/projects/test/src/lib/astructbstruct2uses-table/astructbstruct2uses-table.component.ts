@@ -210,10 +210,14 @@ export class AstructBstruct2UsesTableComponent implements OnInit {
           let mapOfSourceInstances = this.frontRepo[this.dialogData.SourceStruct + "s" as keyof FrontRepo] as Map<number, AstructBstruct2UseDB>
           let sourceInstance = mapOfSourceInstances.get(this.dialogData.ID)!
 
-          let sourceField = sourceInstance[this.dialogData.SourceField as keyof typeof sourceInstance]! as unknown as AstructBstruct2UseDB[]
-          for (let associationInstance of sourceField) {
-            let astructbstruct2use = associationInstance[this.dialogData.IntermediateStructField as keyof typeof associationInstance] as unknown as AstructBstruct2UseDB
-            this.initialSelection.push(astructbstruct2use)
+          // we associates on sourceInstance of type SourceStruct with a MANY MANY associations to Bstructs
+          // the field name is sourceField
+          let sourceFieldArray = sourceInstance[this.dialogData.SourceField as keyof typeof sourceInstance]! as unknown as AstructBstruct2UseDB[]
+          if (sourceFieldArray != null) {
+            for (let associationInstance of sourceFieldArray) {
+              let astructbstruct2use = associationInstance[this.dialogData.IntermediateStructField as keyof typeof associationInstance] as unknown as AstructBstruct2UseDB
+              this.initialSelection.push(astructbstruct2use)
+            }
           }
 
           this.selection = new SelectionModel<AstructBstruct2UseDB>(allowMultiSelect, this.initialSelection);
@@ -234,7 +238,7 @@ export class AstructBstruct2UsesTableComponent implements OnInit {
     // list of astructbstruct2uses is truncated of astructbstruct2use before the delete
     this.astructbstruct2uses = this.astructbstruct2uses.filter(h => h !== astructbstruct2use);
 
-    this.astructbstruct2useService.deleteAstructBstruct2Use(astructbstruct2useID, this.dialogData.GONG__StackPath).subscribe(
+    this.astructbstruct2useService.deleteAstructBstruct2Use(astructbstruct2useID, this.GONG__StackPath).subscribe(
       astructbstruct2use => {
         this.astructbstruct2useService.AstructBstruct2UseServiceChanged.next("delete")
       }

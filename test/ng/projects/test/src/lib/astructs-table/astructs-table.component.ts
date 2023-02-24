@@ -389,10 +389,14 @@ export class AstructsTableComponent implements OnInit {
           let mapOfSourceInstances = this.frontRepo[this.dialogData.SourceStruct + "s" as keyof FrontRepo] as Map<number, AstructDB>
           let sourceInstance = mapOfSourceInstances.get(this.dialogData.ID)!
 
-          let sourceField = sourceInstance[this.dialogData.SourceField as keyof typeof sourceInstance]! as unknown as AstructDB[]
-          for (let associationInstance of sourceField) {
-            let astruct = associationInstance[this.dialogData.IntermediateStructField as keyof typeof associationInstance] as unknown as AstructDB
-            this.initialSelection.push(astruct)
+          // we associates on sourceInstance of type SourceStruct with a MANY MANY associations to Bstructs
+          // the field name is sourceField
+          let sourceFieldArray = sourceInstance[this.dialogData.SourceField as keyof typeof sourceInstance]! as unknown as AstructDB[]
+          if (sourceFieldArray != null) {
+            for (let associationInstance of sourceFieldArray) {
+              let astruct = associationInstance[this.dialogData.IntermediateStructField as keyof typeof associationInstance] as unknown as AstructDB
+              this.initialSelection.push(astruct)
+            }
           }
 
           this.selection = new SelectionModel<AstructDB>(allowMultiSelect, this.initialSelection);
@@ -413,7 +417,7 @@ export class AstructsTableComponent implements OnInit {
     // list of astructs is truncated of astruct before the delete
     this.astructs = this.astructs.filter(h => h !== astruct);
 
-    this.astructService.deleteAstruct(astructID, this.dialogData.GONG__StackPath).subscribe(
+    this.astructService.deleteAstruct(astructID, this.GONG__StackPath).subscribe(
       astruct => {
         this.astructService.AstructServiceChanged.next("delete")
       }

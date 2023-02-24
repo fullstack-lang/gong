@@ -69,7 +69,7 @@
         <ng-container matColumnDef="Delete" sticky>
             <th mat-header-cell *matHeaderCellDef> Delete </th>
             <td mat-cell *matCellDef="let bstruct;  let j = index;">
-                <i class="material-icons" [ngStyle]="{'color':'rgba(0,0,0,.50)'}" (click)="deleteBstruct(bstruct.ID, bstruct)">delete</i>
+                <i class="material-icons" [ngStyle]="{'color':'rgba(0,0,0,.50)'}" (click)="deleteBstruct(bstruct.ID, bstruct); $event.stopPropagation()">delete</i>
             </td>
         </ng-container>
 
