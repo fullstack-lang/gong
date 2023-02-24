@@ -29,7 +29,7 @@ const NgTableTemplateHTML = `<section class="container mat-elevation-z8" tabinde
         <ng-container matColumnDef="Delete" sticky>
             <th mat-header-cell *matHeaderCellDef> Delete </th>
             <td mat-cell *matCellDef="let {{structname}};  let j = index;">
-                <i class="material-icons" [ngStyle]="{'color':'rgba(0,0,0,.50)'}" (click)="delete{{Structname}}({{structname}}.ID, {{structname}}); $event.stopPropagation()">delete</i>
+                <i class="material-icons my-delete-button" [ngStyle]="{'color':'rgba(0,0,0,.50)'}" (click)="delete{{Structname}}({{structname}}.ID, {{structname}}); $event.stopPropagation()">delete</i>
             </td>
         </ng-container>
 

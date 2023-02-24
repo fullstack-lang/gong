@@ -210,7 +210,7 @@ export class AstructBstruct2UsesTableComponent implements OnInit {
           let mapOfSourceInstances = this.frontRepo[this.dialogData.SourceStruct + "s" as keyof FrontRepo] as Map<number, AstructBstruct2UseDB>
           let sourceInstance = mapOfSourceInstances.get(this.dialogData.ID)!
 
-          // we associates on sourceInstance of type SourceStruct with a MANY MANY associations to Bstructs
+          // we associates on sourceInstance of type SourceStruct with a MANY MANY associations to AstructBstruct2UseDB
           // the field name is sourceField
           let sourceFieldArray = sourceInstance[this.dialogData.SourceField as keyof typeof sourceInstance]! as unknown as AstructBstruct2UseDB[]
           if (sourceFieldArray != null) {

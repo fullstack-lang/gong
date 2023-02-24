@@ -48,3 +48,19 @@ td.mat-mdc-cell {
 .mat-mdc-table-sticky-border-elem-left {
     border-right: 1px solid #e0e0e0;
 }
+
+.my-delete-button:hover {
+    animation: pulse 0.5s ease-in-out;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.2);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
