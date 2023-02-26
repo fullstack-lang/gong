@@ -70,14 +70,13 @@ func (backRepo *BackRepoStruct) IncrementPushFromFrontNb() uint {
 func (backRepo *BackRepoStruct) init(stage *models.StageStruct, db *gorm.DB) {
 	// insertion point for per struct back repo declarations
 	backRepo.BackRepoAstruct.Init(stage, db)
-	backRepo.BackRepoAstructBstruct2Use.Init(db)
-	backRepo.BackRepoAstructBstructUse.Init(db)
-	backRepo.BackRepoBstruct.Init(db)
-	backRepo.BackRepoDstruct.Init(db)
+	backRepo.BackRepoAstructBstruct2Use.Init(stage, db)
+	backRepo.BackRepoAstructBstructUse.Init(stage, db)
+	backRepo.BackRepoBstruct.Init(stage, db)
+	backRepo.BackRepoDstruct.Init(stage, db)
 
 	stage.BackRepo = backRepo
 	backRepo.stage = stage
-
 }
 
 // Commit the BackRepoStruct inner variables and link to the database
