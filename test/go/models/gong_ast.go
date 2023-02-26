@@ -317,10 +317,7 @@ var __gong__map_Dstruct = make(map[string]*Dstruct)
 // While this was introduced in go 1.19, it is not yet implemented in
 // gopls (see [issue](https://github.com/golang/go/issues/57559)
 func lookupPackage(name string) (importPath string, ok bool) {
-	if name == Stage.MetaPackageImportAlias {
-		return Stage.MetaPackageImportAlias, true
-	}
-	return comment.DefaultLookupPackage(name)
+	return name, true
 }
 func lookupSym(recv, name string) (ok bool) {
 	if recv == "" {
