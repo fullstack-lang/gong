@@ -5,34 +5,14 @@ import (
 	"testing"
 	"time"
 
+	"github.com/fullstack-lang/gong/go/fullstack"
 	"github.com/fullstack-lang/gong/test/go/models"
 	"github.com/fullstack-lang/gong/test/go/orm"
 )
 
-func TestBackupTest(t *testing.T) {
-
-	// setup GORM
-	orm.SetupModels(false, "../../../test/test.db")
-
-	models.Stage.Checkout()
-
-	models.Stage.Backup("bckp-test")
-}
-
-func TestRestoreTest(t *testing.T) {
-
-	// setup GORM
-	orm.SetupModels(false, "../../../test/test.db")
-
-	models.Stage.Restore("bckp-test")
-
-	models.Stage.Commit()
-}
-
 func TestBackup(t *testing.T) {
 
-	// setup GORM
-	orm.SetupModels(false, ":memory:")
+	fullstack.Init(nil)
 
 	bclass1 := (&models.Bstruct{Name: "B1"}).Stage().Commit()
 	bclass2 := (&models.Bstruct{Name: "B2"}).Stage().Commit()
@@ -94,7 +74,7 @@ func TestBackup(t *testing.T) {
 func TestRestore(t *testing.T) {
 
 	// setup GORM
-	orm.SetupModels(false, ":memory:")
+	fullstack.Init(nil)
 
 	models.Stage.Restore("bckp")
 
