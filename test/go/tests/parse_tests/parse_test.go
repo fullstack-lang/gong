@@ -17,7 +17,7 @@ func TestParseTest(t *testing.T) {
 	r := gin.Default()
 	fullstack.Init(r)
 
-	models.ParseAstFile("./input/stage.go")
+	models.ParseAstFile(&models.Stage, "./input/stage.go")
 
 	// serialize into another file
 	out_file, err := os.Create(fmt.Sprintf("./out/%s.go", "out"))
