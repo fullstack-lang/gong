@@ -112,6 +112,8 @@ type BackRepoAstructBstructUseStruct struct {
 	Map_AstructBstructUseDBID_AstructBstructUsePtr *map[uint]*models.AstructBstructUse
 
 	db *gorm.DB
+
+	stage *models.StageStruct
 }
 
 func (backRepoAstructBstructUse *BackRepoAstructBstructUseStruct) GetDB() *gorm.DB {
@@ -126,7 +128,7 @@ func (backRepoAstructBstructUse *BackRepoAstructBstructUseStruct) GetAstructBstr
 }
 
 // BackRepoAstructBstructUse.Init set up the BackRepo of the AstructBstructUse
-func (backRepoAstructBstructUse *BackRepoAstructBstructUseStruct) Init(db *gorm.DB) (Error error) {
+func (backRepoAstructBstructUse *BackRepoAstructBstructUseStruct) Init(stage *models.StageStruct, db *gorm.DB) (Error error) {
 
 	if backRepoAstructBstructUse.Map_AstructBstructUseDBID_AstructBstructUsePtr != nil {
 		err := errors.New("In Init, backRepoAstructBstructUse.Map_AstructBstructUseDBID_AstructBstructUsePtr should be nil")
@@ -153,6 +155,7 @@ func (backRepoAstructBstructUse *BackRepoAstructBstructUseStruct) Init(db *gorm.
 	backRepoAstructBstructUse.Map_AstructBstructUsePtr_AstructBstructUseDBID = &tmpID
 
 	backRepoAstructBstructUse.db = db
+	backRepoAstructBstructUse.stage = stage
 	return
 }
 
@@ -280,7 +283,7 @@ func (backRepoAstructBstructUse *BackRepoAstructBstructUseStruct) CheckoutPhaseO
 	// list of instances to be removed
 	// start from the initial map on the stage and remove instances that have been checked out
 	astructbstructuseInstancesToBeRemovedFromTheStage := make(map[*models.AstructBstructUse]any)
-	for key, value := range models.Stage.AstructBstructUses {
+	for key, value := range backRepoAstructBstructUse.stage.AstructBstructUses {
 		astructbstructuseInstancesToBeRemovedFromTheStage[key] = value
 	}
 
