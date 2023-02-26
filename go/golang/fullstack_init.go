@@ -6,6 +6,7 @@ import (
 	// {{pkgname}} stack for model analysis
 
 	{{pkgname}}_controllers "{{PkgPathRoot}}/controllers"
+	{{pkgname}}_models "{{PkgPathRoot}}/models"
 	{{pkgname}}_orm "{{PkgPathRoot}}/orm"
 	"github.com/gin-gonic/gin"
 
@@ -21,7 +22,7 @@ func Init(r *gin.Engine, filenames ...string) {
 		filenames = append(filenames, ":memory:")
 	}
 
-	db_inMemory := {{pkgname}}_orm.SetupModels(false, filenames[0])
+	db_inMemory := {{pkgname}}_orm.SetupModels(&{{pkgname}}_models.Stage, false, filenames[0])
 
 	// since {{pkgname}}sim is a multi threaded application. It is important to set up
 	// only one open connexion at a time

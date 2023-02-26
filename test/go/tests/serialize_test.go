@@ -3,13 +3,13 @@ package tests
 import (
 	"testing"
 
+	"github.com/fullstack-lang/gong/go/fullstack"
 	"github.com/fullstack-lang/gong/test/go/models"
-	"github.com/fullstack-lang/gong/test/go/orm"
 )
 
 func TestSerialize(t *testing.T) {
 
-	orm.SetupModels(false, ":memory:")
+	fullstack.Init(nil)
 
 	bclass1 := (&models.Bstruct{Name: "B1"}).Stage().Commit()
 	bclass2 := (&models.Bstruct{Name: "B2"}).Stage().Commit()
