@@ -102,6 +102,8 @@ type BackRepoDstructStruct struct {
 	Map_DstructDBID_DstructPtr *map[uint]*models.Dstruct
 
 	db *gorm.DB
+
+	stage *models.StageStruct
 }
 
 func (backRepoDstruct *BackRepoDstructStruct) GetDB() *gorm.DB {
@@ -116,7 +118,7 @@ func (backRepoDstruct *BackRepoDstructStruct) GetDstructDBFromDstructPtr(dstruct
 }
 
 // BackRepoDstruct.Init set up the BackRepo of the Dstruct
-func (backRepoDstruct *BackRepoDstructStruct) Init(db *gorm.DB) (Error error) {
+func (backRepoDstruct *BackRepoDstructStruct) Init(stage *models.StageStruct, db *gorm.DB) (Error error) {
 
 	if backRepoDstruct.Map_DstructDBID_DstructPtr != nil {
 		err := errors.New("In Init, backRepoDstruct.Map_DstructDBID_DstructPtr should be nil")
@@ -143,6 +145,7 @@ func (backRepoDstruct *BackRepoDstructStruct) Init(db *gorm.DB) (Error error) {
 	backRepoDstruct.Map_DstructPtr_DstructDBID = &tmpID
 
 	backRepoDstruct.db = db
+	backRepoDstruct.stage = stage
 	return
 }
 
@@ -261,7 +264,7 @@ func (backRepoDstruct *BackRepoDstructStruct) CheckoutPhaseOne() (Error error) {
 	// list of instances to be removed
 	// start from the initial map on the stage and remove instances that have been checked out
 	dstructInstancesToBeRemovedFromTheStage := make(map[*models.Dstruct]any)
-	for key, value := range models.Stage.Dstructs {
+	for key, value := range backRepoDstruct.stage.Dstructs {
 		dstructInstancesToBeRemovedFromTheStage[key] = value
 	}
 
