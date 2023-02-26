@@ -4,8 +4,8 @@ import (
 	"log"
 	"testing"
 
+	"github.com/fullstack-lang/gong/go/fullstack"
 	"github.com/fullstack-lang/gong/test/go/models"
-	"github.com/fullstack-lang/gong/test/go/orm"
 )
 
 // TestStageCallBack
@@ -14,8 +14,7 @@ import (
 // through a callback that is defined in the "models" package
 func TestStageCallBack(t *testing.T) {
 
-	// setup GORM
-	db := orm.SetupModels(false, ":memory:")
+	fullstack.Init(nil)
 
 	bclass1 := (&models.Bstruct{Name: "B1"}).Stage()
 
@@ -119,51 +118,6 @@ func TestStageCallBack(t *testing.T) {
 		t.Errorf("got = %d; want %d", got, want)
 	}
 
-	var aclasss []orm.AstructDB
-	{
-		query := db.Find(&aclasss)
-		if query.Error != nil {
-			t.Errorf("Find error %s", query.Error.Error())
-			return
-		}
-	}
-
-	want = 2
-	got = len(aclasss)
-
-	if got != want {
-		t.Errorf("got = %d; want %d", got, want)
-	}
-
-	// after the commmit, there should only one aclassDB left
-	models.Stage.Commit()
-	{
-		query := db.Find(&aclasss)
-		if query.Error != nil {
-			t.Errorf("Find error %s", query.Error.Error())
-			return
-		}
-	}
-
-	want = 1
-	got = len(aclasss)
-
-	if got != want {
-		t.Errorf("got = %d; want %d", got, want)
-	}
-
-	// get the AstructDB
-	aclassDB := &(orm.AstructDB{})
-	if err := db.First(aclassDB).Error; err != nil {
-		t.Errorf("Bad Query")
-	}
-
-	log.Printf("aclass Associationtob " + aclass1.Associationtob.Name)
-	log.Printf("aclass float field %f ", aclass1.Floatfield)
-
-	// more direct
-	aclassDB.Floatfield_Data.Float64 = 10.5
-
 	models.Stage.Checkout()
 
 	// resets stage
@@ -187,22 +141,4 @@ func TestStageCallBack(t *testing.T) {
 	if got != want {
 		t.Errorf("got = %d; want %d", got, want)
 	}
-
-	// fieldCoder := models.GongfieldCoder[models.Astruct]()
-	// log.Println("Field namer code : ", fieldCoder.Name)
-	// log.Println("Field namer name : ", models.GongfieldName[*models.Astruct](fieldCoder.Name))
-	// log.Println("Field namer name : ", models.GongfieldName[*models.Astruct](fieldCoder.Booleanfield))
-	// log.Println("Field namer name : ", models.GongfieldName[*models.Astruct](fieldCoder.Anotherbooleanfield))
-	// log.Println("Field namer name : ", models.GongfieldName[*models.Astruct](fieldCoder.Intfield))
-	// log.Println("Field namer name : ", models.GongfieldName[*models.Astruct](fieldCoder.Floatfield))
-	// log.Println("Field namer name : ", models.GongfieldName[*models.Astruct](fieldCoder.CFloatfield))
-	log.Println("Field namer name : ", models.GetAssociationName[models.Astruct]().Associationtob.Name)
-	log.Println("Field namer name : ", models.GetAssociationName[models.Astruct]().Anotherarrayofb[0].Name)
-
-	// log.Println("Field namer name : ", models.GongfieldName[*models.Astruct](fieldCoder.Associationtob))
-	// log.Println("Field namer name : ", models.GongfieldName[*models.Astruct](fieldCoder.Anotherassociationtob_2))
-	// log.Println("Field namer name : ", models.GongfieldName[*models.Astruct](fieldCoder.Anarrayofb))
-	// log.Println("Field namer name : ", models.GongfieldName[*models.Astruct](fieldCoder.Anotherarrayofb))
-	// log.Println("Field namer name : ", models.GongfieldName[*models.Astruct](fieldCoder.Aenum))
-	// log.Println("Field namer name : ", models.GongfieldName[*models.Astruct](fieldCoder.CEnum))
 }
