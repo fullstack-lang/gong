@@ -19,7 +19,6 @@ import (
 	test2_orm "github.com/fullstack-lang/gong/test2/go/orm"
 
 	test_controllers "github.com/fullstack-lang/gong/test/go/controllers"
-	test_orm "github.com/fullstack-lang/gong/test/go/orm"
 )
 
 var (
@@ -53,33 +52,8 @@ func main() {
 	}
 	inMemoryDBSqlDB.SetMaxOpenConns(1)
 
-	var bothStackShareTheSameDB = true
-
-	if !bothStackShareTheSameDB {
-		// setup GORM
-		inFileDB := test_orm.SetupModels(*logDBFlag, "./test.db")
-
-		// mandatory, otherwise, bizarre errors occurs
-		inFileDBSqlDB, err := inFileDB.DB()
-		if err != nil {
-			log.Panic("Cannot access to DB of database")
-		}
-		inFileDBSqlDB.SetMaxOpenConns(1)
-	} else {
-		test_orm.AutoMigrate(inMemoryDB)
-	}
-
 	astruct := new(test2_models.Astruct).Stage()
 	astruct.Name = "Test2 Astruct instance #1"
-	// astruct.Date = time.Date(2020, time.January, 1, 10, 11, 12, 0, time.UTC)
-
-	// bstruct1 := new(models.Bstruct).Stage()
-	// bstruct1.Name = "Test2 Bstruct instance #1"
-	// bstruct2 := new(models.Bstruct).Stage()
-	// bstruct2.Name = "Test2 Bstruct instance #2"
-	// astruct.Associationtob = bstruct1
-	// astruct.Anarrayofb = append(astruct.Anarrayofb, bstruct1)
-	// astruct.Anarrayofb = append(astruct.Anarrayofb, bstruct2)
 
 	test2_models.Stage.Commit()
 
