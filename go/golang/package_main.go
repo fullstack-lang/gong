@@ -7,6 +7,8 @@ import (
 	"strings"
 
 	"github.com/fullstack-lang/gong/go/models"
+	"golang.org/x/text/cases"
+	"golang.org/x/text/language"
 )
 
 const PackageMain = `package main
@@ -204,9 +206,10 @@ func CodeGeneratorPackageMain(
 			codeGo = strings.ReplaceAll(codeGo, "{{staticCodeServiceCode}}", codeForNgStaticService)
 		}
 
+		caserEnglish := cases.Title(language.English)
 		codeGo = models.Replace4(codeGo,
 			"{{PkgName}}", pkgName,
-			"{{TitlePkgName}}", strings.Title(pkgName),
+			"{{TitlePkgName}}", caserEnglish.String(pkgName),
 			"{{pkgname}}", strings.ToLower(pkgName),
 			"{{PkgPathRoot}}", strings.ReplaceAll(pkgGoPath, "/models", ""))
 		codeGo = strings.ReplaceAll(codeGo, "{{PkgPathAboveRoot}}",
