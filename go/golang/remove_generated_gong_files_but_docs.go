@@ -1,14 +1,31 @@
 package golang
 
 import (
+	"fmt"
 	"log"
 	"os"
 	"path/filepath"
 )
 
-// RemoveGeneratedGongFiles generates the setup file for the gorm
-func RemoveGeneratedGongFiles(
+// RemoveGeneratedGongFilesButDocs generates the setup file for the gorm
+func RemoveGeneratedGongFilesButDocs(
 	RelativePkgPath string) {
+
+	{
+		filename := filepath.Join(RelativePkgPath, "docs.go")
+		file, err := os.Create(filename)
+
+		if err != nil {
+			file, err = os.Create(filename)
+		}
+
+		if err != nil {
+			log.Panic(err)
+		}
+		defer file.Close()
+		fmt.Fprint(file, DefaultModelDocsTemplate)
+
+	}
 
 	{
 		// relative to the models package, swith to ./controlers package

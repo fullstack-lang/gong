@@ -4,11 +4,10 @@ const ControllersRegisterTemplate = `package controllers
 
 import (
 	"fmt"
+	"log"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-
-	"{{PkgPathRoot}}/orm"
 )
 
 // genQuery return the name of the column
@@ -45,21 +44,41 @@ type ValidationError struct {
 func RegisterControllers(r *gin.Engine) {
 	v1 := r.Group("/api/{{PkgPathRoot}}")
 	{ // insertion point for registrations{{` + string(rune(ControllersDeclaration)) + `}}
-		v1.GET("/v1/commitfrombacknb", GetLastCommitFromBackNb)
-		v1.GET("/v1/pushfromfrontnb", GetLastPushFromFrontNb)
+		v1.GET("/v1/commitfrombacknb", GetController().GetLastCommitFromBackNb)
+		v1.GET("/v1/pushfromfrontnb", GetController().GetLastPushFromFrontNb)
 	}
 }
 
 // swagger:route GET /commitfrombacknb backrepo GetLastCommitFromBackNb
-func GetLastCommitFromBackNb(c *gin.Context) {
-	res := orm.GetLastCommitFromBackNb()
+func (controller *Controller) GetLastCommitFromBackNb(c *gin.Context) {
+	values := c.Request.URL.Query()
+	stackPath := ""
+	if len(values) == 1 {
+		value := values["GONG__StackPath"]
+		if len(value) == 1 {
+			stackPath = value[0]
+			log.Println("GetLastCommitFromBackNb", "GONG__StackPath", stackPath)
+		}
+	}
+	backRepo := controller.Map_BackRepos[stackPath]
+	res := backRepo.GetLastCommitFromBackNb()
 
 	c.JSON(http.StatusOK, res)
 }
 
 // swagger:route GET /pushfromfrontnb backrepo GetLastPushFromFrontNb
-func GetLastPushFromFrontNb(c *gin.Context) {
-	res := orm.GetLastPushFromFrontNb()
+func(controller *Controller) GetLastPushFromFrontNb(c *gin.Context) {
+	values := c.Request.URL.Query()
+	stackPath := ""
+	if len(values) == 1 {
+		value := values["GONG__StackPath"]
+		if len(value) == 1 {
+			stackPath = value[0]
+			log.Println("GetLastPushFromFrontNb", "GONG__StackPath", stackPath)
+		}
+	}
+	backRepo := controller.Map_BackRepos[stackPath]
+	res := backRepo.GetLastPushFromFrontNb()
 
 	c.JSON(http.StatusOK, res)
 }
@@ -75,11 +94,11 @@ var ControllersRegistrationsSubTemplate map[string]string = // new line
 map[string]string{
 
 	string(rune(ControllersDeclaration)): `
-		v1.GET("/v1/{{structname}}s", Get{{Structname}}s)
-		v1.GET("/v1/{{structname}}s/:id", Get{{Structname}})
-		v1.POST("/v1/{{structname}}s", Post{{Structname}})
-		v1.PATCH("/v1/{{structname}}s/:id", Update{{Structname}})
-		v1.PUT("/v1/{{structname}}s/:id", Update{{Structname}})
-		v1.DELETE("/v1/{{structname}}s/:id", Delete{{Structname}})
+		v1.GET("/v1/{{structname}}s", GetController().Get{{Structname}}s)
+		v1.GET("/v1/{{structname}}s/:id", GetController().Get{{Structname}})
+		v1.POST("/v1/{{structname}}s", GetController().Post{{Structname}})
+		v1.PATCH("/v1/{{structname}}s/:id", GetController().Update{{Structname}})
+		v1.PUT("/v1/{{structname}}s/:id", GetController().Update{{Structname}})
+		v1.DELETE("/v1/{{structname}}s/:id", GetController().Delete{{Structname}})
 `,
 }

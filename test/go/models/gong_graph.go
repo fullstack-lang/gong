@@ -20,6 +20,8 @@ func IsStaged[Type Gongstruct](stage *StageStruct, instance *Type) (ok bool) {
 	case *Dstruct:
 		ok = stage.IsStagedDstruct(target)
 
+	default:
+		_ = target
 	}
 	return
 }
@@ -84,6 +86,8 @@ func StageBranch[Type Gongstruct](stage *StageStruct, instance *Type) {
 	case *Dstruct:
 		stage.StageBranchDstruct(target)
 
+	default:
+		_ = target
 	}
 }
 
@@ -235,6 +239,8 @@ func UnstageBranch[Type Gongstruct](stage *StageStruct, instance *Type) {
 	case *Dstruct:
 		stage.UnstageBranchDstruct(target)
 
+	default:
+		_ = target
 	}
 }
 

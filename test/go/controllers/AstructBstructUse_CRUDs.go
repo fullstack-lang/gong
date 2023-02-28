@@ -47,20 +47,22 @@ type AstructBstructUseInput struct {
 // default: genericError
 //
 //	200: astructbstructuseDBResponse
-func GetAstructBstructUses(c *gin.Context) {
-	db := orm.BackRepo.BackRepoAstructBstructUse.GetDB()
+func (controller *Controller) GetAstructBstructUses(c *gin.Context) {
 
 	// source slice
 	var astructbstructuseDBs []orm.AstructBstructUseDB
 
 	values := c.Request.URL.Query()
+	stackPath := ""
 	if len(values) == 1 {
 		value := values["GONG__StackPath"]
 		if len(value) == 1 {
-			stackParam := value[0]
-			log.Println("GetAstructBstructUses", "GONG__StackPath", stackParam)
+			stackPath = value[0]
+			log.Println("GetAstructBstructUses", "GONG__StackPath", stackPath)
 		}
 	}
+	backRepo := controller.Map_BackRepos[stackPath]
+	db := backRepo.BackRepoAstructBstructUse.GetDB()
 
 	query := db.Find(&astructbstructuseDBs)
 	if query.Error != nil {
@@ -105,16 +107,19 @@ func GetAstructBstructUses(c *gin.Context) {
 //
 //	Responses:
 //	  200: nodeDBResponse
-func PostAstructBstructUse(c *gin.Context) {
+func (controller *Controller) PostAstructBstructUse(c *gin.Context) {
 
 	values := c.Request.URL.Query()
+	stackPath := ""
 	if len(values) == 1 {
 		value := values["GONG__StackPath"]
 		if len(value) == 1 {
-			stackParam := value[0]
-			log.Println("PostAstructBstructUses", "GONG__StackPath", stackParam)
+			stackPath = value[0]
+			log.Println("PostAstructBstructUses", "GONG__StackPath", stackPath)
 		}
 	}
+	backRepo := controller.Map_BackRepos[stackPath]
+	db := backRepo.BackRepoAstructBstructUse.GetDB()
 
 	// Validate input
 	var input orm.AstructBstructUseAPI
@@ -134,7 +139,6 @@ func PostAstructBstructUse(c *gin.Context) {
 	astructbstructuseDB.AstructBstructUsePointersEnconding = input.AstructBstructUsePointersEnconding
 	astructbstructuseDB.CopyBasicFieldsFromAstructBstructUse(&input.AstructBstructUse)
 
-	db := orm.BackRepo.BackRepoAstructBstructUse.GetDB()
 	query := db.Create(&astructbstructuseDB)
 	if query.Error != nil {
 		var returnError GenericError
@@ -146,8 +150,8 @@ func PostAstructBstructUse(c *gin.Context) {
 	}
 
 	// get an instance (not staged) from DB instance, and call callback function
-	orm.BackRepo.BackRepoAstructBstructUse.CheckoutPhaseOneInstance(&astructbstructuseDB)
-	astructbstructuse := (*orm.BackRepo.BackRepoAstructBstructUse.Map_AstructBstructUseDBID_AstructBstructUsePtr)[astructbstructuseDB.ID]
+	backRepo.BackRepoAstructBstructUse.CheckoutPhaseOneInstance(&astructbstructuseDB)
+	astructbstructuse := (*backRepo.BackRepoAstructBstructUse.Map_AstructBstructUseDBID_AstructBstructUsePtr)[astructbstructuseDB.ID]
 
 	if astructbstructuse != nil {
 		models.AfterCreateFromFront(&models.Stage, astructbstructuse)
@@ -155,7 +159,7 @@ func PostAstructBstructUse(c *gin.Context) {
 
 	// a POST is equivalent to a back repo commit increase
 	// (this will be improved with implementation of unit of work design pattern)
-	orm.BackRepo.IncrementPushFromFrontNb()
+	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, astructbstructuseDB)
 }
@@ -170,18 +174,19 @@ func PostAstructBstructUse(c *gin.Context) {
 // default: genericError
 //
 //	200: astructbstructuseDBResponse
-func GetAstructBstructUse(c *gin.Context) {
+func (controller *Controller) GetAstructBstructUse(c *gin.Context) {
 
 	values := c.Request.URL.Query()
+	stackPath := ""
 	if len(values) == 1 {
 		value := values["GONG__StackPath"]
 		if len(value) == 1 {
-			stackParam := value[0]
-			log.Println("GetAstructBstructUse", "GONG__StackPath", stackParam)
+			stackPath = value[0]
+			log.Println("GetAstructBstructUse", "GONG__StackPath", stackPath)
 		}
 	}
-
-	db := orm.BackRepo.BackRepoAstructBstructUse.GetDB()
+	backRepo := controller.Map_BackRepos[stackPath]
+	db := backRepo.BackRepoAstructBstructUse.GetDB()
 
 	// Get astructbstructuseDB in DB
 	var astructbstructuseDB orm.AstructBstructUseDB
@@ -212,16 +217,19 @@ func GetAstructBstructUse(c *gin.Context) {
 // default: genericError
 //
 //	200: astructbstructuseDBResponse
-func UpdateAstructBstructUse(c *gin.Context) {
+func (controller *Controller) UpdateAstructBstructUse(c *gin.Context) {
 
 	values := c.Request.URL.Query()
+	stackPath := ""
 	if len(values) == 1 {
 		value := values["GONG__StackPath"]
 		if len(value) == 1 {
-			stackParam := value[0]
-			log.Println("UpdateAstructBstructUse", "GONG__StackPath", stackParam)
+			stackPath = value[0]
+			log.Println("UpdateAstructBstructUse", "GONG__StackPath", stackPath)
 		}
 	}
+	backRepo := controller.Map_BackRepos[stackPath]
+	db := backRepo.BackRepoAstructBstructUse.GetDB()
 
 	// Validate input
 	var input orm.AstructBstructUseAPI
@@ -230,8 +238,6 @@ func UpdateAstructBstructUse(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-
-	db := orm.BackRepo.BackRepoAstructBstructUse.GetDB()
 
 	// Get model if exist
 	var astructbstructuseDB orm.AstructBstructUseDB
@@ -267,7 +273,7 @@ func UpdateAstructBstructUse(c *gin.Context) {
 	astructbstructuseDB.CopyBasicFieldsToAstructBstructUse(astructbstructuseNew)
 
 	// get stage instance from DB instance, and call callback function
-	astructbstructuseOld := (*orm.BackRepo.BackRepoAstructBstructUse.Map_AstructBstructUseDBID_AstructBstructUsePtr)[astructbstructuseDB.ID]
+	astructbstructuseOld := (*backRepo.BackRepoAstructBstructUse.Map_AstructBstructUseDBID_AstructBstructUsePtr)[astructbstructuseDB.ID]
 	if astructbstructuseOld != nil {
 		models.AfterUpdateFromFront(&models.Stage, astructbstructuseOld, astructbstructuseNew)
 	}
@@ -276,7 +282,7 @@ func UpdateAstructBstructUse(c *gin.Context) {
 	// (this will be improved with implementation of unit of work design pattern)
 	// in some cases, with the marshalling of the stage, this operation might
 	// generates a checkout
-	orm.BackRepo.IncrementPushFromFrontNb()
+	backRepo.IncrementPushFromFrontNb()
 
 	// return status OK with the marshalling of the the astructbstructuseDB
 	c.JSON(http.StatusOK, astructbstructuseDB)
@@ -291,18 +297,19 @@ func UpdateAstructBstructUse(c *gin.Context) {
 // default: genericError
 //
 //	200: astructbstructuseDBResponse
-func DeleteAstructBstructUse(c *gin.Context) {
+func (controller *Controller) DeleteAstructBstructUse(c *gin.Context) {
 
 	values := c.Request.URL.Query()
+	stackPath := ""
 	if len(values) == 1 {
 		value := values["GONG__StackPath"]
 		if len(value) == 1 {
-			stackParam := value[0]
-			log.Println("DeleteAstructBstructUse", "GONG__StackPath", stackParam)
+			stackPath = value[0]
+			log.Println("DeleteAstructBstructUse", "GONG__StackPath", stackPath)
 		}
 	}
-
-	db := orm.BackRepo.BackRepoAstructBstructUse.GetDB()
+	backRepo := controller.Map_BackRepos[stackPath]
+	db := backRepo.BackRepoAstructBstructUse.GetDB()
 
 	// Get model if exist
 	var astructbstructuseDB orm.AstructBstructUseDB
@@ -323,14 +330,14 @@ func DeleteAstructBstructUse(c *gin.Context) {
 	astructbstructuseDB.CopyBasicFieldsToAstructBstructUse(astructbstructuseDeleted)
 
 	// get stage instance from DB instance, and call callback function
-	astructbstructuseStaged := (*orm.BackRepo.BackRepoAstructBstructUse.Map_AstructBstructUseDBID_AstructBstructUsePtr)[astructbstructuseDB.ID]
+	astructbstructuseStaged := (*backRepo.BackRepoAstructBstructUse.Map_AstructBstructUseDBID_AstructBstructUsePtr)[astructbstructuseDB.ID]
 	if astructbstructuseStaged != nil {
 		models.AfterDeleteFromFront(&models.Stage, astructbstructuseStaged, astructbstructuseDeleted)
 	}
 
 	// a DELETE generates a back repo commit increase
 	// (this will be improved with implementation of unit of work design pattern)
-	orm.BackRepo.IncrementPushFromFrontNb()
+	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, gin.H{"data": true})
 }

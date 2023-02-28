@@ -103,61 +103,14 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 	pointersInitializesStatements := ""
 
 	id := ""
+	_ = id
 	decl := ""
+	_ = decl
 	setValueField := ""
+	_ = setValueField 
 
 	// insertion initialization of objects to stage
-	map_Astruct_Identifiers := make(map[*Astruct]string)
-	_ = map_Astruct_Identifiers
-
-	astructOrdered := []*Astruct{}
-	for astruct := range stage.Astructs {
-		astructOrdered = append(astructOrdered, astruct)
-	}
-	sort.Slice(astructOrdered[:], func(i, j int) bool {
-		return astructOrdered[i].Name < astructOrdered[j].Name
-	})
-	identifiersDecl += "\n\n	// Declarations of staged instances of Astruct"
-	for idx, astruct := range astructOrdered {
-
-		id = generatesIdentifier("Astruct", idx, astruct.Name)
-		map_Astruct_Identifiers[astruct] = id
-
-		decl = IdentifiersDecls
-		decl = strings.ReplaceAll(decl, "{{Identifier}}", id)
-		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Astruct")
-		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", astruct.Name)
-		identifiersDecl += decl
-
-		initializerStatements += "\n\n	// Astruct values setup"
-		// Initialisation of values
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(astruct.Name))
-		initializerStatements += setValueField
-
-	}
-
 	// insertion initialization of objects to stage
-	for idx, astruct := range astructOrdered {
-		var setPointerField string
-		_ = setPointerField
-
-		id = generatesIdentifier("Astruct", idx, astruct.Name)
-		map_Astruct_Identifiers[astruct] = id
-
-		// Initialisation of values
-		for _, _astruct := range astruct.Anarrayofa {
-			setPointerField = SliceOfPointersFieldInitStatement
-			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "Anarrayofa")
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_Astruct_Identifiers[_astruct])
-			pointersInitializesStatements += setPointerField
-		}
-
-	}
-
 	res = strings.ReplaceAll(res, "{{Identifiers}}", identifiersDecl)
 	res = strings.ReplaceAll(res, "{{ValueInitializers}}", initializerStatements)
 	res = strings.ReplaceAll(res, "{{PointersInitializers}}", pointersInitializesStatements)

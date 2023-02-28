@@ -47,20 +47,22 @@ type BstructInput struct {
 // default: genericError
 //
 //	200: bstructDBResponse
-func GetBstructs(c *gin.Context) {
-	db := orm.BackRepo.BackRepoBstruct.GetDB()
+func (controller *Controller) GetBstructs(c *gin.Context) {
 
 	// source slice
 	var bstructDBs []orm.BstructDB
 
 	values := c.Request.URL.Query()
+	stackPath := ""
 	if len(values) == 1 {
 		value := values["GONG__StackPath"]
 		if len(value) == 1 {
-			stackParam := value[0]
-			log.Println("GetBstructs", "GONG__StackPath", stackParam)
+			stackPath = value[0]
+			log.Println("GetBstructs", "GONG__StackPath", stackPath)
 		}
 	}
+	backRepo := controller.Map_BackRepos[stackPath]
+	db := backRepo.BackRepoBstruct.GetDB()
 
 	query := db.Find(&bstructDBs)
 	if query.Error != nil {
@@ -105,16 +107,19 @@ func GetBstructs(c *gin.Context) {
 //
 //	Responses:
 //	  200: nodeDBResponse
-func PostBstruct(c *gin.Context) {
+func (controller *Controller) PostBstruct(c *gin.Context) {
 
 	values := c.Request.URL.Query()
+	stackPath := ""
 	if len(values) == 1 {
 		value := values["GONG__StackPath"]
 		if len(value) == 1 {
-			stackParam := value[0]
-			log.Println("PostBstructs", "GONG__StackPath", stackParam)
+			stackPath = value[0]
+			log.Println("PostBstructs", "GONG__StackPath", stackPath)
 		}
 	}
+	backRepo := controller.Map_BackRepos[stackPath]
+	db := backRepo.BackRepoBstruct.GetDB()
 
 	// Validate input
 	var input orm.BstructAPI
@@ -134,7 +139,6 @@ func PostBstruct(c *gin.Context) {
 	bstructDB.BstructPointersEnconding = input.BstructPointersEnconding
 	bstructDB.CopyBasicFieldsFromBstruct(&input.Bstruct)
 
-	db := orm.BackRepo.BackRepoBstruct.GetDB()
 	query := db.Create(&bstructDB)
 	if query.Error != nil {
 		var returnError GenericError
@@ -146,8 +150,8 @@ func PostBstruct(c *gin.Context) {
 	}
 
 	// get an instance (not staged) from DB instance, and call callback function
-	orm.BackRepo.BackRepoBstruct.CheckoutPhaseOneInstance(&bstructDB)
-	bstruct := (*orm.BackRepo.BackRepoBstruct.Map_BstructDBID_BstructPtr)[bstructDB.ID]
+	backRepo.BackRepoBstruct.CheckoutPhaseOneInstance(&bstructDB)
+	bstruct := (*backRepo.BackRepoBstruct.Map_BstructDBID_BstructPtr)[bstructDB.ID]
 
 	if bstruct != nil {
 		models.AfterCreateFromFront(&models.Stage, bstruct)
@@ -155,7 +159,7 @@ func PostBstruct(c *gin.Context) {
 
 	// a POST is equivalent to a back repo commit increase
 	// (this will be improved with implementation of unit of work design pattern)
-	orm.BackRepo.IncrementPushFromFrontNb()
+	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, bstructDB)
 }
@@ -170,18 +174,19 @@ func PostBstruct(c *gin.Context) {
 // default: genericError
 //
 //	200: bstructDBResponse
-func GetBstruct(c *gin.Context) {
+func (controller *Controller) GetBstruct(c *gin.Context) {
 
 	values := c.Request.URL.Query()
+	stackPath := ""
 	if len(values) == 1 {
 		value := values["GONG__StackPath"]
 		if len(value) == 1 {
-			stackParam := value[0]
-			log.Println("GetBstruct", "GONG__StackPath", stackParam)
+			stackPath = value[0]
+			log.Println("GetBstruct", "GONG__StackPath", stackPath)
 		}
 	}
-
-	db := orm.BackRepo.BackRepoBstruct.GetDB()
+	backRepo := controller.Map_BackRepos[stackPath]
+	db := backRepo.BackRepoBstruct.GetDB()
 
 	// Get bstructDB in DB
 	var bstructDB orm.BstructDB
@@ -212,16 +217,19 @@ func GetBstruct(c *gin.Context) {
 // default: genericError
 //
 //	200: bstructDBResponse
-func UpdateBstruct(c *gin.Context) {
+func (controller *Controller) UpdateBstruct(c *gin.Context) {
 
 	values := c.Request.URL.Query()
+	stackPath := ""
 	if len(values) == 1 {
 		value := values["GONG__StackPath"]
 		if len(value) == 1 {
-			stackParam := value[0]
-			log.Println("UpdateBstruct", "GONG__StackPath", stackParam)
+			stackPath = value[0]
+			log.Println("UpdateBstruct", "GONG__StackPath", stackPath)
 		}
 	}
+	backRepo := controller.Map_BackRepos[stackPath]
+	db := backRepo.BackRepoBstruct.GetDB()
 
 	// Validate input
 	var input orm.BstructAPI
@@ -230,8 +238,6 @@ func UpdateBstruct(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-
-	db := orm.BackRepo.BackRepoBstruct.GetDB()
 
 	// Get model if exist
 	var bstructDB orm.BstructDB
@@ -267,7 +273,7 @@ func UpdateBstruct(c *gin.Context) {
 	bstructDB.CopyBasicFieldsToBstruct(bstructNew)
 
 	// get stage instance from DB instance, and call callback function
-	bstructOld := (*orm.BackRepo.BackRepoBstruct.Map_BstructDBID_BstructPtr)[bstructDB.ID]
+	bstructOld := (*backRepo.BackRepoBstruct.Map_BstructDBID_BstructPtr)[bstructDB.ID]
 	if bstructOld != nil {
 		models.AfterUpdateFromFront(&models.Stage, bstructOld, bstructNew)
 	}
@@ -276,7 +282,7 @@ func UpdateBstruct(c *gin.Context) {
 	// (this will be improved with implementation of unit of work design pattern)
 	// in some cases, with the marshalling of the stage, this operation might
 	// generates a checkout
-	orm.BackRepo.IncrementPushFromFrontNb()
+	backRepo.IncrementPushFromFrontNb()
 
 	// return status OK with the marshalling of the the bstructDB
 	c.JSON(http.StatusOK, bstructDB)
@@ -291,18 +297,19 @@ func UpdateBstruct(c *gin.Context) {
 // default: genericError
 //
 //	200: bstructDBResponse
-func DeleteBstruct(c *gin.Context) {
+func (controller *Controller) DeleteBstruct(c *gin.Context) {
 
 	values := c.Request.URL.Query()
+	stackPath := ""
 	if len(values) == 1 {
 		value := values["GONG__StackPath"]
 		if len(value) == 1 {
-			stackParam := value[0]
-			log.Println("DeleteBstruct", "GONG__StackPath", stackParam)
+			stackPath = value[0]
+			log.Println("DeleteBstruct", "GONG__StackPath", stackPath)
 		}
 	}
-
-	db := orm.BackRepo.BackRepoBstruct.GetDB()
+	backRepo := controller.Map_BackRepos[stackPath]
+	db := backRepo.BackRepoBstruct.GetDB()
 
 	// Get model if exist
 	var bstructDB orm.BstructDB
@@ -323,14 +330,14 @@ func DeleteBstruct(c *gin.Context) {
 	bstructDB.CopyBasicFieldsToBstruct(bstructDeleted)
 
 	// get stage instance from DB instance, and call callback function
-	bstructStaged := (*orm.BackRepo.BackRepoBstruct.Map_BstructDBID_BstructPtr)[bstructDB.ID]
+	bstructStaged := (*backRepo.BackRepoBstruct.Map_BstructDBID_BstructPtr)[bstructDB.ID]
 	if bstructStaged != nil {
 		models.AfterDeleteFromFront(&models.Stage, bstructStaged, bstructDeleted)
 	}
 
 	// a DELETE generates a back repo commit increase
 	// (this will be improved with implementation of unit of work design pattern)
-	orm.BackRepo.IncrementPushFromFrontNb()
+	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, gin.H{"data": true})
 }

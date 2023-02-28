@@ -103,8 +103,11 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 	pointersInitializesStatements := ""
 
 	id := ""
+	_ = id
 	decl := ""
+	_ = decl
 	setValueField := ""
+	_ = setValueField 
 
 	// insertion initialization of objects to stage
 	map_Astruct_Identifiers := make(map[*Astruct]string)

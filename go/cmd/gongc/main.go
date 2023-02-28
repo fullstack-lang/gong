@@ -53,7 +53,7 @@ func main() {
 	}
 
 	// remove gong generated files
-	golang.RemoveGeneratedGongFiles(*pkgPath)
+	golang.RemoveGeneratedGongFilesButDocs(*pkgPath)
 
 	// initiate model package
 	modelPkg, _ := gong_models.LoadSource(*pkgPath)
@@ -328,6 +328,12 @@ func main() {
 		modelPkg.PkgPath,
 		filepath.Join(*pkgPath, "../controllers/register_controllers.go"),
 		golang.ControllersRegisterTemplate, golang.ControllersRegistrationsSubTemplate)
+
+	gong_models.VerySimpleCodeGenerator(
+		modelPkg,
+		caserEnglish.String(modelPkg.Name),
+		modelPkg.PkgPath, filepath.Join(*pkgPath, "../controllers/controller.go"),
+		golang.ControllerTemplate)
 
 	gong_models.SimpleCodeGeneratorForGongStructWithNameField(
 		modelPkg,
