@@ -4,6 +4,7 @@ import (
 	// test2 stack for model analysis
 
 	test2_controllers "github.com/fullstack-lang/gong/test2/go/controllers"
+	test2_models "github.com/fullstack-lang/gong/test2/go/models"
 	test2_orm "github.com/fullstack-lang/gong/test2/go/orm"
 	"github.com/gin-gonic/gin"
 
@@ -19,7 +20,7 @@ func Init(r *gin.Engine, filenames ...string) {
 		filenames = append(filenames, ":memory:")
 	}
 
-	db_inMemory := test2_orm.SetupModels(false, filenames[0])
+	db_inMemory := test2_orm.SetupModels(&test2_models.Stage, false, filenames[0])
 
 	// since test2sim is a multi threaded application. It is important to set up
 	// only one open connexion at a time

@@ -153,6 +153,7 @@ func (backRepo *BackRepoStruct) RestoreXL(stage *models.StageStruct, dirPath str
 	// open an existing file
 	filename := filepath.Join(dirPath, "bckp.xlsx")
 	file, err := xlsx.OpenFile(filename)
+	_ = file
 
 	if err != nil {
 		log.Panic("Cannot read the XL file", err.Error())

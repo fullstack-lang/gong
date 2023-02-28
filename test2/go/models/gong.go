@@ -29,14 +29,6 @@ type GongStructInterface interface {
 // StageStruct enables storage of staged instances
 // swagger:ignore
 type StageStruct struct { // insertion point for definition of arrays registering instances
-	Astructs           map[*Astruct]any
-	Astructs_mapString map[string]*Astruct
-
-	OnAfterAstructCreateCallback OnAfterCreateInterface[Astruct]
-	OnAfterAstructUpdateCallback OnAfterUpdateInterface[Astruct]
-	OnAfterAstructDeleteCallback OnAfterDeleteInterface[Astruct]
-	OnAfterAstructReadCallback   OnAfterReadInterface[Astruct]
-
 	AllModelsStructCreateCallback AllModelsStructCreateInterface
 
 	AllModelsStructDeleteCallback AllModelsStructDeleteInterface
@@ -108,17 +100,12 @@ type BackRepoInterface interface {
 	BackupXL(stage *StageStruct, dirPath string)
 	RestoreXL(stage *StageStruct, dirPath string)
 	// insertion point for Commit and Checkout signatures
-	CommitAstruct(astruct *Astruct)
-	CheckoutAstruct(astruct *Astruct)
 	GetLastCommitFromBackNb() uint
 	GetLastPushFromFrontNb() uint
 }
 
 // swagger:ignore instructs the gong compiler (gongc) to avoid this particular struct
 var Stage StageStruct = StageStruct{ // insertion point for array initiatialisation
-	Astructs:           make(map[*Astruct]any),
-	Astructs_mapString: make(map[string]*Astruct),
-
 	// end of insertion point
 	Map_GongStructName_InstancesNb: make(map[string]int),
 	map_Gongstruct_BackPointer:     make(map[any]any),
@@ -130,7 +117,6 @@ func (stage *StageStruct) Commit() {
 	}
 
 	// insertion point for computing the map of number of instances per gongstruct
-	stage.Map_GongStructName_InstancesNb["Astruct"] = len(stage.Astructs)
 
 }
 
@@ -140,7 +126,6 @@ func (stage *StageStruct) Checkout() {
 	}
 
 	// insertion point for computing the map of number of instances per gongstruct
-	stage.Map_GongStructName_InstancesNb["Astruct"] = len(stage.Astructs)
 
 }
 
@@ -173,127 +158,20 @@ func (stage *StageStruct) RestoreXL(dirPath string) {
 }
 
 // insertion point for cumulative sub template with model space calls
-// Stage puts astruct to the model stage
-func (astruct *Astruct) Stage() *Astruct {
-	Stage.Astructs[astruct] = __member
-	Stage.Astructs_mapString[astruct.Name] = astruct
-
-	return astruct
-}
-
-// Unstage removes astruct off the model stage
-func (astruct *Astruct) Unstage() *Astruct {
-	delete(Stage.Astructs, astruct)
-	delete(Stage.Astructs_mapString, astruct.Name)
-	return astruct
-}
-
-// commit astruct to the back repo (if it is already staged)
-func (astruct *Astruct) Commit() *Astruct {
-	if _, ok := Stage.Astructs[astruct]; ok {
-		if Stage.BackRepo != nil {
-			Stage.BackRepo.CommitAstruct(astruct)
-		}
-	}
-	return astruct
-}
-
-// Checkout astruct to the back repo (if it is already staged)
-func (astruct *Astruct) Checkout() *Astruct {
-	if _, ok := Stage.Astructs[astruct]; ok {
-		if Stage.BackRepo != nil {
-			Stage.BackRepo.CheckoutAstruct(astruct)
-		}
-	}
-	return astruct
-}
-
-//
-// Legacy, to be deleted
-//
-
-// StageCopy appends a copy of astruct to the model stage
-func (astruct *Astruct) StageCopy() *Astruct {
-	_astruct := new(Astruct)
-	*_astruct = *astruct
-	_astruct.Stage()
-	return _astruct
-}
-
-// StageAndCommit appends astruct to the model stage and commit to the orm repo
-func (astruct *Astruct) StageAndCommit() *Astruct {
-	astruct.Stage()
-	if Stage.AllModelsStructCreateCallback != nil {
-		Stage.AllModelsStructCreateCallback.CreateORMAstruct(astruct)
-	}
-	return astruct
-}
-
-// DeleteStageAndCommit appends astruct to the model stage and commit to the orm repo
-func (astruct *Astruct) DeleteStageAndCommit() *Astruct {
-	astruct.Unstage()
-	DeleteORMAstruct(astruct)
-	return astruct
-}
-
-// StageCopyAndCommit appends a copy of astruct to the model stage and commit to the orm repo
-func (astruct *Astruct) StageCopyAndCommit() *Astruct {
-	_astruct := new(Astruct)
-	*_astruct = *astruct
-	_astruct.Stage()
-	if Stage.AllModelsStructCreateCallback != nil {
-		Stage.AllModelsStructCreateCallback.CreateORMAstruct(astruct)
-	}
-	return _astruct
-}
-
-// CreateORMAstruct enables dynamic staging of a Astruct instance
-func CreateORMAstruct(astruct *Astruct) {
-	astruct.Stage()
-	if Stage.AllModelsStructCreateCallback != nil {
-		Stage.AllModelsStructCreateCallback.CreateORMAstruct(astruct)
-	}
-}
-
-// DeleteORMAstruct enables dynamic staging of a Astruct instance
-func DeleteORMAstruct(astruct *Astruct) {
-	astruct.Unstage()
-	if Stage.AllModelsStructDeleteCallback != nil {
-		Stage.AllModelsStructDeleteCallback.DeleteORMAstruct(astruct)
-	}
-}
-
-// for satisfaction of GongStruct interface
-func (astruct *Astruct) GetName() (res string) {
-	return astruct.Name
-}
-
 // swagger:ignore
 type AllModelsStructCreateInterface interface { // insertion point for Callbacks on creation
-	CreateORMAstruct(Astruct *Astruct)
 }
 
 type AllModelsStructDeleteInterface interface { // insertion point for Callbacks on deletion
-	DeleteORMAstruct(Astruct *Astruct)
 }
 
 func (stage *StageStruct) Reset() { // insertion point for array reset
-	stage.Astructs = make(map[*Astruct]any)
-	stage.Astructs_mapString = make(map[string]*Astruct)
-
 }
 
 func (stage *StageStruct) Nil() { // insertion point for array nil
-	stage.Astructs = nil
-	stage.Astructs_mapString = nil
-
 }
 
 func (stage *StageStruct) Unstage() { // insertion point for array nil
-	for astruct := range stage.Astructs {
-		astruct.Unstage()
-	}
-
 }
 
 // Gongstruct is the type parameter for generated generic function that allows
@@ -302,7 +180,7 @@ func (stage *StageStruct) Unstage() { // insertion point for array nil
 // - full refactoring of Gongstruct identifiers / fields
 type Gongstruct interface {
 	// insertion point for generic types
-	Astruct
+	
 }
 
 // Gongstruct is the type parameter for generated generic function that allows
@@ -311,33 +189,37 @@ type Gongstruct interface {
 // - full refactoring of Gongstruct identifiers / fields
 type PointerToGongstruct interface {
 	// insertion point for generic types
-	*Astruct
+	
 	GetName() string
 }
 
 type GongstructSet interface {
 	map[any]any |
 		// insertion point for generic types
-		map[*Astruct]any |
 		map[*any]any // because go does not support an extra "|" at the end of type specifications
 }
 
 type GongstructMapString interface {
 	map[any]any |
 		// insertion point for generic types
-		map[string]*Astruct |
 		map[*any]any // because go does not support an extra "|" at the end of type specifications
 }
 
 // GongGetSet returns the set staged GongstructType instances
 // it is usefull because it allows refactoring of gong struct identifier
-func GongGetSet[Type GongstructSet]() *Type {
+func GongGetSet[Type GongstructSet](stages ...*StageStruct) *Type {
 	var ret Type
+
+	var stage *StageStruct
+	_ = stage
+	if len(stages) > 0 {
+		stage = stages[0]
+	} else {
+		stage = &Stage
+	}
 
 	switch any(ret).(type) {
 	// insertion point for generic get functions
-	case map[*Astruct]any:
-		return any(&Stage.Astructs).(*Type)
 	default:
 		return nil
 	}
@@ -345,13 +227,19 @@ func GongGetSet[Type GongstructSet]() *Type {
 
 // GongGetMap returns the map of staged GongstructType instances
 // it is usefull because it allows refactoring of gong struct identifier
-func GongGetMap[Type GongstructMapString]() *Type {
+func GongGetMap[Type GongstructMapString](stages ...*StageStruct) *Type {
 	var ret Type
+
+	var stage *StageStruct
+	_ = stage
+	if len(stages) > 0 {
+		stage = stages[0]
+	} else {
+		stage = &Stage
+	}
 
 	switch any(ret).(type) {
 	// insertion point for generic get functions
-	case map[string]*Astruct:
-		return any(&Stage.Astructs_mapString).(*Type)
 	default:
 		return nil
 	}
@@ -359,13 +247,19 @@ func GongGetMap[Type GongstructMapString]() *Type {
 
 // GetGongstructInstancesSet returns the set staged GongstructType instances
 // it is usefull because it allows refactoring of gongstruct identifier
-func GetGongstructInstancesSet[Type Gongstruct]() *map[*Type]any {
+func GetGongstructInstancesSet[Type Gongstruct](stages ...*StageStruct) *map[*Type]any {
 	var ret Type
+
+	var stage *StageStruct
+	_ = stage
+	if len(stages) > 0 {
+		stage = stages[0]
+	} else {
+		stage = &Stage
+	}
 
 	switch any(ret).(type) {
 	// insertion point for generic get functions
-	case Astruct:
-		return any(&Stage.Astructs).(*map[*Type]any)
 	default:
 		return nil
 	}
@@ -373,13 +267,19 @@ func GetGongstructInstancesSet[Type Gongstruct]() *map[*Type]any {
 
 // GetGongstructInstancesMap returns the map of staged GongstructType instances
 // it is usefull because it allows refactoring of gong struct identifier
-func GetGongstructInstancesMap[Type Gongstruct]() *map[string]*Type {
+func GetGongstructInstancesMap[Type Gongstruct](stages ...*StageStruct) *map[string]*Type {
 	var ret Type
+
+	var stage *StageStruct
+	_ = stage
+	if len(stages) > 0 {
+		stage = stages[0]
+	} else {
+		stage = &Stage
+	}
 
 	switch any(ret).(type) {
 	// insertion point for generic get functions
-	case Astruct:
-		return any(&Stage.Astructs_mapString).(*map[string]*Type)
 	default:
 		return nil
 	}
@@ -394,12 +294,6 @@ func GetAssociationName[Type Gongstruct]() *Type {
 
 	switch any(ret).(type) {
 	// insertion point for instance with special fields
-	case Astruct:
-		return any(&Astruct{
-			// Initialisation of associations
-			// field is initialized with an instance of Astruct with the name of the field
-			Anarrayofa: []*Astruct{{Name: "Anarrayofa"}},
-		}).(*Type)
 	default:
 		return nil
 	}
@@ -417,11 +311,6 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string) map[*End][]*S
 
 	switch any(ret).(type) {
 	// insertion point of functions that provide maps for reverse associations
-	// reverse maps of direct associations of Astruct
-	case Astruct:
-		switch fieldname {
-		// insertion point for per direct association field
-		}
 	}
 	return nil
 }
@@ -437,19 +326,6 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string) map[*
 
 	switch any(ret).(type) {
 	// insertion point of functions that provide maps for reverse associations
-	// reverse maps of direct associations of Astruct
-	case Astruct:
-		switch fieldname {
-		// insertion point for per direct association field
-		case "Anarrayofa":
-			res := make(map[*Astruct]*Astruct)
-			for astruct := range Stage.Astructs {
-				for _, astruct_ := range astruct.Anarrayofa {
-					res[astruct_] = astruct
-				}
-			}
-			return any(res).(map[*End]*Start)
-		}
 	}
 	return nil
 }
@@ -462,8 +338,6 @@ func GetGongstructName[Type Gongstruct]() (res string) {
 
 	switch any(ret).(type) {
 	// insertion point for generic get gongstruct name
-	case Astruct:
-		res = "Astruct"
 	}
 	return res
 }
@@ -475,8 +349,6 @@ func GetFields[Type Gongstruct]() (res []string) {
 
 	switch any(ret).(type) {
 	// insertion point for generic get gongstruct name
-	case Astruct:
-		res = []string{"Name", "Anarrayofa"}
 	}
 	return
 }
@@ -486,19 +358,6 @@ func GetFieldStringValue[Type Gongstruct](instance Type, fieldName string) (res 
 
 	switch any(ret).(type) {
 	// insertion point for generic get gongstruct field value
-	case Astruct:
-		switch fieldName {
-		// string value of fields
-		case "Name":
-			res = any(instance).(Astruct).Name
-		case "Anarrayofa":
-			for idx, __instance__ := range any(instance).(Astruct).Anarrayofa {
-				if idx > 0 {
-					res += "\n"
-				}
-				res += __instance__.Name
-			}
-		}
 	}
 	return
 }

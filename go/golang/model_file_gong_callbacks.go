@@ -7,6 +7,8 @@ func AfterCreateFromFront[Type Gongstruct](stage *StageStruct, instance *Type) {
 
 	switch target := any(instance).(type) {
 	// insertion point{{` + string(rune(ModelGongCallbacksCreate)) + `}}
+	default:
+		_ = target
 	}
 }
 
@@ -15,6 +17,8 @@ func AfterUpdateFromFront[Type Gongstruct](stage *StageStruct, old, new *Type) {
 
 	switch oldTarget := any(old).(type) {
 	// insertion point{{` + string(rune(ModelGongCallbacksUpdate)) + `}}
+	default:
+		_ = oldTarget
 	}
 }
 
@@ -23,6 +27,8 @@ func AfterDeleteFromFront[Type Gongstruct](stage *StageStruct, staged, front *Ty
 
 	switch front := any(front).(type) {
 	// insertion point{{` + string(rune(ModelGongCallbacksDelete)) + `}}
+	default:
+		_ = front
 	}
 }
 
@@ -31,6 +37,8 @@ func AfterReadFromFront[Type Gongstruct](stage *StageStruct, instance *Type) {
 
 	switch target := any(instance).(type) {
 	// insertion point{{` + string(rune(ModelGongCallbacksRead)) + `}}
+	default:
+		_ = target
 	}
 }
 
