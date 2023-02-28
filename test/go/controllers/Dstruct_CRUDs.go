@@ -47,20 +47,22 @@ type DstructInput struct {
 // default: genericError
 //
 //	200: dstructDBResponse
-func GetDstructs(c *gin.Context) {
-	db := orm.BackRepo.BackRepoDstruct.GetDB()
+func (controller *Controller) GetDstructs(c *gin.Context) {
 
 	// source slice
 	var dstructDBs []orm.DstructDB
 
 	values := c.Request.URL.Query()
+	stackPath := ""
 	if len(values) == 1 {
 		value := values["GONG__StackPath"]
 		if len(value) == 1 {
-			stackParam := value[0]
-			log.Println("GetDstructs", "GONG__StackPath", stackParam)
+			stackPath = value[0]
+			log.Println("GetDstructs", "GONG__StackPath", stackPath)
 		}
 	}
+	backRepo := controller.Map_BackRepos[stackPath]
+	db := backRepo.BackRepoDstruct.GetDB()
 
 	query := db.Find(&dstructDBs)
 	if query.Error != nil {
@@ -105,16 +107,19 @@ func GetDstructs(c *gin.Context) {
 //
 //	Responses:
 //	  200: nodeDBResponse
-func PostDstruct(c *gin.Context) {
+func (controller *Controller) PostDstruct(c *gin.Context) {
 
 	values := c.Request.URL.Query()
+	stackPath := ""
 	if len(values) == 1 {
 		value := values["GONG__StackPath"]
 		if len(value) == 1 {
-			stackParam := value[0]
-			log.Println("PostDstructs", "GONG__StackPath", stackParam)
+			stackPath = value[0]
+			log.Println("PostDstructs", "GONG__StackPath", stackPath)
 		}
 	}
+	backRepo := controller.Map_BackRepos[stackPath]
+	db := backRepo.BackRepoDstruct.GetDB()
 
 	// Validate input
 	var input orm.DstructAPI
@@ -134,7 +139,6 @@ func PostDstruct(c *gin.Context) {
 	dstructDB.DstructPointersEnconding = input.DstructPointersEnconding
 	dstructDB.CopyBasicFieldsFromDstruct(&input.Dstruct)
 
-	db := orm.BackRepo.BackRepoDstruct.GetDB()
 	query := db.Create(&dstructDB)
 	if query.Error != nil {
 		var returnError GenericError
@@ -146,8 +150,8 @@ func PostDstruct(c *gin.Context) {
 	}
 
 	// get an instance (not staged) from DB instance, and call callback function
-	orm.BackRepo.BackRepoDstruct.CheckoutPhaseOneInstance(&dstructDB)
-	dstruct := (*orm.BackRepo.BackRepoDstruct.Map_DstructDBID_DstructPtr)[dstructDB.ID]
+	backRepo.BackRepoDstruct.CheckoutPhaseOneInstance(&dstructDB)
+	dstruct := (*backRepo.BackRepoDstruct.Map_DstructDBID_DstructPtr)[dstructDB.ID]
 
 	if dstruct != nil {
 		models.AfterCreateFromFront(&models.Stage, dstruct)
@@ -155,7 +159,7 @@ func PostDstruct(c *gin.Context) {
 
 	// a POST is equivalent to a back repo commit increase
 	// (this will be improved with implementation of unit of work design pattern)
-	orm.BackRepo.IncrementPushFromFrontNb()
+	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, dstructDB)
 }
@@ -170,18 +174,19 @@ func PostDstruct(c *gin.Context) {
 // default: genericError
 //
 //	200: dstructDBResponse
-func GetDstruct(c *gin.Context) {
+func (controller *Controller) GetDstruct(c *gin.Context) {
 
 	values := c.Request.URL.Query()
+	stackPath := ""
 	if len(values) == 1 {
 		value := values["GONG__StackPath"]
 		if len(value) == 1 {
-			stackParam := value[0]
-			log.Println("GetDstruct", "GONG__StackPath", stackParam)
+			stackPath = value[0]
+			log.Println("GetDstruct", "GONG__StackPath", stackPath)
 		}
 	}
-
-	db := orm.BackRepo.BackRepoDstruct.GetDB()
+	backRepo := controller.Map_BackRepos[stackPath]
+	db := backRepo.BackRepoDstruct.GetDB()
 
 	// Get dstructDB in DB
 	var dstructDB orm.DstructDB
@@ -212,16 +217,19 @@ func GetDstruct(c *gin.Context) {
 // default: genericError
 //
 //	200: dstructDBResponse
-func UpdateDstruct(c *gin.Context) {
+func (controller *Controller) UpdateDstruct(c *gin.Context) {
 
 	values := c.Request.URL.Query()
+	stackPath := ""
 	if len(values) == 1 {
 		value := values["GONG__StackPath"]
 		if len(value) == 1 {
-			stackParam := value[0]
-			log.Println("UpdateDstruct", "GONG__StackPath", stackParam)
+			stackPath = value[0]
+			log.Println("UpdateDstruct", "GONG__StackPath", stackPath)
 		}
 	}
+	backRepo := controller.Map_BackRepos[stackPath]
+	db := backRepo.BackRepoDstruct.GetDB()
 
 	// Validate input
 	var input orm.DstructAPI
@@ -230,8 +238,6 @@ func UpdateDstruct(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-
-	db := orm.BackRepo.BackRepoDstruct.GetDB()
 
 	// Get model if exist
 	var dstructDB orm.DstructDB
@@ -267,7 +273,7 @@ func UpdateDstruct(c *gin.Context) {
 	dstructDB.CopyBasicFieldsToDstruct(dstructNew)
 
 	// get stage instance from DB instance, and call callback function
-	dstructOld := (*orm.BackRepo.BackRepoDstruct.Map_DstructDBID_DstructPtr)[dstructDB.ID]
+	dstructOld := (*backRepo.BackRepoDstruct.Map_DstructDBID_DstructPtr)[dstructDB.ID]
 	if dstructOld != nil {
 		models.AfterUpdateFromFront(&models.Stage, dstructOld, dstructNew)
 	}
@@ -276,7 +282,7 @@ func UpdateDstruct(c *gin.Context) {
 	// (this will be improved with implementation of unit of work design pattern)
 	// in some cases, with the marshalling of the stage, this operation might
 	// generates a checkout
-	orm.BackRepo.IncrementPushFromFrontNb()
+	backRepo.IncrementPushFromFrontNb()
 
 	// return status OK with the marshalling of the the dstructDB
 	c.JSON(http.StatusOK, dstructDB)
@@ -291,18 +297,19 @@ func UpdateDstruct(c *gin.Context) {
 // default: genericError
 //
 //	200: dstructDBResponse
-func DeleteDstruct(c *gin.Context) {
+func (controller *Controller) DeleteDstruct(c *gin.Context) {
 
 	values := c.Request.URL.Query()
+	stackPath := ""
 	if len(values) == 1 {
 		value := values["GONG__StackPath"]
 		if len(value) == 1 {
-			stackParam := value[0]
-			log.Println("DeleteDstruct", "GONG__StackPath", stackParam)
+			stackPath = value[0]
+			log.Println("DeleteDstruct", "GONG__StackPath", stackPath)
 		}
 	}
-
-	db := orm.BackRepo.BackRepoDstruct.GetDB()
+	backRepo := controller.Map_BackRepos[stackPath]
+	db := backRepo.BackRepoDstruct.GetDB()
 
 	// Get model if exist
 	var dstructDB orm.DstructDB
@@ -323,14 +330,14 @@ func DeleteDstruct(c *gin.Context) {
 	dstructDB.CopyBasicFieldsToDstruct(dstructDeleted)
 
 	// get stage instance from DB instance, and call callback function
-	dstructStaged := (*orm.BackRepo.BackRepoDstruct.Map_DstructDBID_DstructPtr)[dstructDB.ID]
+	dstructStaged := (*backRepo.BackRepoDstruct.Map_DstructDBID_DstructPtr)[dstructDB.ID]
 	if dstructStaged != nil {
 		models.AfterDeleteFromFront(&models.Stage, dstructStaged, dstructDeleted)
 	}
 
 	// a DELETE generates a back repo commit increase
 	// (this will be improved with implementation of unit of work design pattern)
-	orm.BackRepo.IncrementPushFromFrontNb()
+	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, gin.H{"data": true})
 }

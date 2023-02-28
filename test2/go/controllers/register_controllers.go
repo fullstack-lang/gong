@@ -43,15 +43,8 @@ type ValidationError struct {
 func RegisterControllers(r *gin.Engine) {
 	v1 := r.Group("/api/github.com/fullstack-lang/gong/test2/go")
 	{ // insertion point for registrations
-		v1.GET("/v1/astructs", GetAstructs)
-		v1.GET("/v1/astructs/:id", GetAstruct)
-		v1.POST("/v1/astructs", PostAstruct)
-		v1.PATCH("/v1/astructs/:id", UpdateAstruct)
-		v1.PUT("/v1/astructs/:id", UpdateAstruct)
-		v1.DELETE("/v1/astructs/:id", DeleteAstruct)
-
-		v1.GET("/commitfrombacknb", GetLastCommitFromBackNb)
-		v1.GET("/pushfromfrontnb", GetLastPushFromFrontNb)
+		v1.GET("/v1/commitfrombacknb", GetLastCommitFromBackNb)
+		v1.GET("/v1/pushfromfrontnb", GetLastPushFromFrontNb)
 	}
 }
 

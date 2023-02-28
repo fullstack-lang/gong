@@ -13,7 +13,6 @@ func SerializeStage(filename string) {
 	f := excelize.NewFile()
 	{
 		// insertion point
-		SerializeExcelize[Astruct](f)
 	}
 
 	var tab ExcelizeTabulator
