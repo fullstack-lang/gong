@@ -1,9 +1,11 @@
-package controllers
+package golang
+
+const ControllerTemplate = `package controllers
 
 import (
 	"sync"
 
-	test_orm "github.com/fullstack-lang/gong/test/go/orm"
+	{{pkgname}}_orm "{{PkgPathRoot}}/orm"
 
 	"github.com/gin-gonic/gin"
 )
@@ -14,7 +16,7 @@ import (
 type Controller struct {
 
 	// Map_BackRepos is the map to the backRepo instance according to the stack instance path
-	Map_BackRepos map[string]*test_orm.BackRepoStruct
+	Map_BackRepos map[string]*{{pkgname}}_orm.BackRepoStruct
 }
 
 var instance *Controller
@@ -29,8 +31,9 @@ func Register(r *gin.Engine) {
 func GetController() *Controller {
 	once.Do(func() {
 		instance = &Controller{
-			Map_BackRepos: make(map[string]*test_orm.BackRepoStruct),
+			Map_BackRepos: make(map[string]*{{pkgname}}_orm.BackRepoStruct),
 		}
 	})
 	return instance
 }
+`
