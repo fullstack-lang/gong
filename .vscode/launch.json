@@ -304,6 +304,31 @@
             ]
         },
         {
+            "name": "gongc test2 -skipGoModCommands -skipNpmInstall",
+            "type": "go",
+            "request": "launch",
+            "mode": "debug",
+            "cwd": "${workspaceFolder}/test2/go/models",
+            "program": "${workspaceFolder}/go/cmd/gongc",
+            "args": [
+                "-skipGoModCommands",
+                "-skipNpmInstall"
+            ]
+        },
+        {
+            "name": "gongc test2 -skipGoModCommands -skipNpmInstall -skipNg",
+            "type": "go",
+            "request": "launch",
+            "mode": "debug",
+            "cwd": "${workspaceFolder}/test2/go/models",
+            "program": "${workspaceFolder}/go/cmd/gongc",
+            "args": [
+                "-skipGoModCommands",
+                "-skipNpmInstall",
+                "-skipNg"
+            ]
+        },
+        {
             "name": "gongc gong -skipNg -skipGoModCommands",
             "type": "go",
             "request": "launch",
@@ -447,7 +472,7 @@
             "type": "go",
             "request": "launch",
             "mode": "auto",
-            "program": "${workspaceFolder}/test2/go/cmd/test",
+            "program": "${workspaceFolder}/test2/go/cmd/test2",
             "args": []
         },
         {

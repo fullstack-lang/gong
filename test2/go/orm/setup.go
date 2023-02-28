@@ -4,6 +4,8 @@ package orm
 import (
 	"fmt"
 
+	"github.com/fullstack-lang/gong/test2/go/models"
+
 	"github.com/glebarez/sqlite"
 	"gorm.io/gorm"
 	"gorm.io/gorm/schema"
@@ -15,7 +17,7 @@ func genQuery(columnName string) string {
 }
 
 // SetupModels connects to the sqlite database
-func SetupModels(logMode bool, filepath string) *gorm.DB {
+func SetupModels(stage *models.StageStruct, logMode bool, filepath string) *gorm.DB {
 	// adjust naming strategy to the stack
 	gormConfig := &gorm.Config{
 		NamingStrategy: schema.NamingStrategy{
@@ -28,20 +30,19 @@ func SetupModels(logMode bool, filepath string) *gorm.DB {
 		panic("Failed to connect to database!")
 	}
 
-	AutoMigrate(db)
+	AutoMigrate(stage, db)
 
 	return db
 }
 
 // AutoMigrate migrates db with with orm Struct
-func AutoMigrate(db *gorm.DB) {
+func AutoMigrate(stage *models.StageStruct, db *gorm.DB) {
 	// adjust naming strategy to the stack
 	db.Config.NamingStrategy = &schema.NamingStrategy{
 		TablePrefix: "github_com_fullstack_lang_gong_test2_go_", // table name prefix
 	}
 
 	err := db.AutoMigrate( // insertion point for reference to structs
-		&AstructDB{},
 	)
 
 	if err != nil {
@@ -50,9 +51,8 @@ func AutoMigrate(db *gorm.DB) {
 	}
 	// log.Printf("Database Migration of package github.com/fullstack-lang/gong/test2/go is OK")
 
-	BackRepo.init(db)
+	BackRepo.init(stage, db)
 }
 
 func ResetDB(db *gorm.DB) { // insertion point for reference to structs
-	db.Delete(&AstructDB{})
 }

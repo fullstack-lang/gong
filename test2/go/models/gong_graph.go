@@ -5,21 +5,13 @@ func IsStaged[Type Gongstruct](stage *StageStruct, instance *Type) (ok bool) {
 
 	switch target := any(instance).(type) {
 	// insertion point for stage
-	case *Astruct:
-		ok = stage.IsStagedAstruct(target)
-
+	default:
+		_ = target
 	}
 	return
 }
 
 // insertion point for stage per struct
-	func (stage *StageStruct) IsStagedAstruct(astruct *Astruct) (ok bool) {
-
-		_, ok = stage.Astructs[astruct]
-	
-		return
-	}
-
 
 // StageBranch stages instance and apply StageBranch on all gongstruct instances that are
 // referenced by pointers or slices of pointers of the insance
@@ -29,31 +21,12 @@ func StageBranch[Type Gongstruct](stage *StageStruct, instance *Type) {
 
 	switch target := any(instance).(type) {
 	// insertion point for stage branch
-	case *Astruct:
-		stage.StageBranchAstruct(target)
-
+	default:
+		_ = target
 	}
 }
 
 // insertion point for stage branch per struct
-func (stage *StageStruct) StageBranchAstruct(astruct *Astruct) {
-
-	// check if instance is already staged
-	if IsStaged(stage, astruct) {
-		return
-	}
-
-	astruct.Stage()
-
-	//insertion point for the staging of instances referenced by pointers
-
-	//insertion point for the staging of instances referenced by slice of pointers
-	for _, _astruct := range astruct.Anarrayofa {
-		StageBranch(stage, _astruct)
-	}
-
-}
-
 
 // UnstageBranch stages instance and apply UnstageBranch on all gongstruct instances that are
 // referenced by pointers or slices of pointers of the insance
@@ -63,28 +36,9 @@ func UnstageBranch[Type Gongstruct](stage *StageStruct, instance *Type) {
 
 	switch target := any(instance).(type) {
 	// insertion point for unstage branch
-	case *Astruct:
-		stage.UnstageBranchAstruct(target)
-
+	default:
+		_ = target
 	}
 }
 
 // insertion point for unstage branch per struct
-func (stage *StageStruct) UnstageBranchAstruct(astruct *Astruct) {
-
-	// check if instance is already staged
-	if ! IsStaged(stage, astruct) {
-		return
-	}
-
-	astruct.Unstage()
-
-	//insertion point for the staging of instances referenced by pointers
-
-	//insertion point for the staging of instances referenced by slice of pointers
-	for _, _astruct := range astruct.Anarrayofa {
-		UnstageBranch(stage, _astruct)
-	}
-
-}
-

@@ -7,6 +7,8 @@ func IsStaged[Type Gongstruct](stage *StageStruct, instance *Type) (ok bool) {
 
 	switch target := any(instance).(type) {
 	// insertion point for stage{{` + string(rune(ModelGongGraphStructInsertionIsStaged)) + `}}
+	default:
+		_ = target
 	}
 	return
 }
@@ -21,6 +23,8 @@ func StageBranch[Type Gongstruct](stage *StageStruct, instance *Type) {
 
 	switch target := any(instance).(type) {
 	// insertion point for stage branch{{` + string(rune(ModelGongGraphStructInsertionStageBranch)) + `}}
+	default:
+		_ = target
 	}
 }
 
@@ -34,6 +38,8 @@ func UnstageBranch[Type Gongstruct](stage *StageStruct, instance *Type) {
 
 	switch target := any(instance).(type) {
 	// insertion point for unstage branch{{` + string(rune(ModelGongGraphStructInsertionUnstageBranch)) + `}}
+	default:
+		_ = target
 	}
 }
 

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Router, RouterState } from '@angular/router';
 
 import { BehaviorSubject, Subscription } from 'rxjs';
@@ -11,8 +11,6 @@ import { CommitNbFromBackService } from '../commitnbfromback.service'
 import { GongstructSelectionService } from '../gongstruct-selection.service'
 
 // insertion point for per struct import code
-import { AstructService } from '../astruct.service'
-import { getAstructUniqueID } from '../front-repo.service'
 
 /**
  * Types of a GongNode / GongFlatNode
@@ -148,6 +146,8 @@ export class SidebarComponent implements OnInit {
 
   subscription: Subscription = new Subscription
 
+  @Input() GONG__StackPath: string = ""
+
   constructor(
     private router: Router,
     private frontRepoService: FrontRepoService,
@@ -155,7 +155,6 @@ export class SidebarComponent implements OnInit {
     private gongstructSelectionService: GongstructSelectionService,
 
     // insertion point for per struct service declaration
-    private astructService: AstructService,
   ) { }
 
   ngOnDestroy() {
@@ -164,6 +163,8 @@ export class SidebarComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
+    console.log("Sidebar init: " + this.GONG__StackPath)
 
     this.subscription = this.gongstructSelectionService.gongtructSelected$.subscribe(
       gongstructName => {
@@ -183,18 +184,10 @@ export class SidebarComponent implements OnInit {
     )
 
     // insertion point for per struct observable for refresh trigger
-    // observable for changes in structs
-    this.astructService.AstructServiceChanged.subscribe(
-      message => {
-        if (message == "post" || message == "update" || message == "delete") {
-          this.refresh()
-        }
-      }
-    )
   }
 
   refresh(): void {
-    this.frontRepoService.pull().subscribe(frontRepo => {
+    this.frontRepoService.pull(this.GONG__StackPath).subscribe(frontRepo => {
       this.frontRepo = frontRepo
 
       // use of a Gödel number to uniquely identfy nodes : 2 * node.id + 3 * node.level
@@ -215,82 +208,6 @@ export class SidebarComponent implements OnInit {
       this.gongNodeTree = new Array<GongNode>();
 
       // insertion point for per struct tree construction
-      /**
-      * fill up the Astruct part of the mat tree
-      */
-      let astructGongNodeStruct: GongNode = {
-        name: "Astruct",
-        type: GongNodeType.STRUCT,
-        id: 0,
-        uniqueIdPerStack: 13 * nonInstanceNodeId,
-        structName: "Astruct",
-        associationField: "",
-        associatedStructName: "",
-        children: new Array<GongNode>()
-      }
-      nonInstanceNodeId = nonInstanceNodeId + 1
-      this.gongNodeTree.push(astructGongNodeStruct)
-
-      this.frontRepo.Astructs_array.sort((t1, t2) => {
-        if (t1.Name > t2.Name) {
-          return 1;
-        }
-        if (t1.Name < t2.Name) {
-          return -1;
-        }
-        return 0;
-      });
-
-      this.frontRepo.Astructs_array.forEach(
-        astructDB => {
-          let astructGongNodeInstance: GongNode = {
-            name: astructDB.Name,
-            type: GongNodeType.INSTANCE,
-            id: astructDB.ID,
-            uniqueIdPerStack: getAstructUniqueID(astructDB.ID),
-            structName: "Astruct",
-            associationField: "",
-            associatedStructName: "",
-            children: new Array<GongNode>()
-          }
-          astructGongNodeStruct.children!.push(astructGongNodeInstance)
-
-          // insertion point for per field code
-          /**
-          * let append a node for the slide of pointer Anarrayofa
-          */
-          let AnarrayofaGongNodeAssociation: GongNode = {
-            name: "(Astruct) Anarrayofa",
-            type: GongNodeType.ONE__ZERO_MANY_ASSOCIATION,
-            id: astructDB.ID,
-            uniqueIdPerStack: 19 * nonInstanceNodeId,
-            structName: "Astruct",
-            associationField: "Anarrayofa",
-            associatedStructName: "Astruct",
-            children: new Array<GongNode>()
-          }
-          nonInstanceNodeId = nonInstanceNodeId + 1
-          astructGongNodeInstance.children.push(AnarrayofaGongNodeAssociation)
-
-          astructDB.Anarrayofa?.forEach(astructDB => {
-            let astructNode: GongNode = {
-              name: astructDB.Name,
-              type: GongNodeType.INSTANCE,
-              id: astructDB.ID,
-              uniqueIdPerStack: // godel numbering (thank you kurt)
-                7 * getAstructUniqueID(astructDB.ID)
-                + 11 * getAstructUniqueID(astructDB.ID),
-              structName: "Astruct",
-              associationField: "",
-              associatedStructName: "",
-              children: new Array<GongNode>()
-            }
-            AnarrayofaGongNodeAssociation.children.push(astructNode)
-          })
-
-        }
-      )
-
 
       this.dataSource.data = this.gongNodeTree
 
@@ -333,7 +250,7 @@ export class SidebarComponent implements OnInit {
     if (type == GongNodeType.STRUCT) {
       this.router.navigate([{
         outlets: {
-          github_com_fullstack_lang_gong_test2_go_table: ["github_com_fullstack_lang_gong_test2_go-" + path.toLowerCase()]
+          github_com_fullstack_lang_gong_test2_go_table: ["github_com_fullstack_lang_gong_test2_go-" + path.toLowerCase(), this.GONG__StackPath]
         }
       }]);
     }
@@ -341,7 +258,7 @@ export class SidebarComponent implements OnInit {
     if (type == GongNodeType.INSTANCE) {
       this.router.navigate([{
         outlets: {
-          github_com_fullstack_lang_gong_test2_go_presentation: ["github_com_fullstack_lang_gong_test2_go-" + structName.toLowerCase() + "-presentation", id]
+          github_com_fullstack_lang_gong_test2_go_editor: ["github_com_fullstack_lang_gong_test2_go-" + structName.toLowerCase() + "-detail", id]
         }
       }]);
     }
@@ -350,7 +267,7 @@ export class SidebarComponent implements OnInit {
   setEditorRouterOutlet(path: string) {
     this.router.navigate([{
       outlets: {
-        github_com_fullstack_lang_gong_test2_go_editor: ["github_com_fullstack_lang_gong_test2_go-" + path.toLowerCase()]
+        github_com_fullstack_lang_gong_test2_go_editor: ["github_com_fullstack_lang_gong_test2_go-" + path.toLowerCase(), this.GONG__StackPath]
       }
     }]);
   }
@@ -358,7 +275,7 @@ export class SidebarComponent implements OnInit {
   setEditorSpecialRouterOutlet(node: GongFlatNode) {
     this.router.navigate([{
       outlets: {
-        github_com_fullstack_lang_gong_test2_go_editor: ["github_com_fullstack_lang_gong_test2_go-" + node.associatedStructName.toLowerCase() + "-adder", node.id, node.structName, node.associationField]
+        github_com_fullstack_lang_gong_test2_go_editor: ["github_com_fullstack_lang_gong_test2_go-" + node.associatedStructName.toLowerCase() + "-adder", node.id, node.structName, node.associationField, this.GONG__StackPath]
       }
     }]);
   }

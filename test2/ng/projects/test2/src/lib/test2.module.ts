@@ -39,20 +39,10 @@ import { SidebarComponent } from './sidebar/sidebar.component';
 import { GongstructSelectionService } from './gongstruct-selection.service'
 
 // insertion point for imports 
-import { AstructsTableComponent } from './astructs-table/astructs-table.component'
-import { AstructSortingComponent } from './astruct-sorting/astruct-sorting.component'
-import { AstructDetailComponent } from './astruct-detail/astruct-detail.component'
-import { AstructPresentationComponent } from './astruct-presentation/astruct-presentation.component'
-
 
 @NgModule({
 	declarations: [
 		// insertion point for declarations 
-		AstructsTableComponent,
-		AstructSortingComponent,
-		AstructDetailComponent,
-		AstructPresentationComponent,
-
 
 		SplitterComponent,
 		SidebarComponent
@@ -92,11 +82,6 @@ import { AstructPresentationComponent } from './astruct-presentation/astruct-pre
 	],
 	exports: [
 		// insertion point for declarations 
-		AstructsTableComponent,
-		AstructSortingComponent,
-		AstructDetailComponent,
-		AstructPresentationComponent,
-
 
 		SplitterComponent,
 		SidebarComponent,
