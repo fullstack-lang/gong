@@ -33,6 +33,7 @@ func GetController() *Controller {
 		instance = &Controller{
 			Map_BackRepos: make(map[string]*{{pkgname}}_orm.BackRepoStruct),
 		}
+		instance.Map_BackRepos[""] = &{{pkgname}}_orm.BackRepo
 	})
 	return instance
 }

@@ -61,10 +61,10 @@ func (controller *Controller) GetAstructs(c *gin.Context) {
 			log.Println("GetAstructs", "GONG__StackPath", stackPath)
 		}
 	}
-
 	backRepo := controller.Map_BackRepos[stackPath]
+	db := backRepo.BackRepoAstruct.GetDB()
 
-	query := backRepo.BackRepoAstruct.GetDB().Find(&astructDBs)
+	query := db.Find(&astructDBs)
 	if query.Error != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
@@ -118,8 +118,8 @@ func (controller *Controller) PostAstruct(c *gin.Context) {
 			log.Println("PostAstructs", "GONG__StackPath", stackPath)
 		}
 	}
-
 	backRepo := controller.Map_BackRepos[stackPath]
+	db := backRepo.BackRepoAstruct.GetDB()
 
 	// Validate input
 	var input orm.AstructAPI
@@ -139,7 +139,6 @@ func (controller *Controller) PostAstruct(c *gin.Context) {
 	astructDB.AstructPointersEnconding = input.AstructPointersEnconding
 	astructDB.CopyBasicFieldsFromAstruct(&input.Astruct)
 
-	db := backRepo.BackRepoAstruct.GetDB()
 	query := db.Create(&astructDB)
 	if query.Error != nil {
 		var returnError GenericError
@@ -186,7 +185,6 @@ func (controller *Controller) GetAstruct(c *gin.Context) {
 			log.Println("GetAstruct", "GONG__StackPath", stackPath)
 		}
 	}
-
 	backRepo := controller.Map_BackRepos[stackPath]
 	db := backRepo.BackRepoAstruct.GetDB()
 
@@ -230,7 +228,6 @@ func (controller *Controller) UpdateAstruct(c *gin.Context) {
 			log.Println("UpdateAstruct", "GONG__StackPath", stackPath)
 		}
 	}
-
 	backRepo := controller.Map_BackRepos[stackPath]
 	db := backRepo.BackRepoAstruct.GetDB()
 
@@ -311,7 +308,6 @@ func (controller *Controller) DeleteAstruct(c *gin.Context) {
 			log.Println("DeleteAstruct", "GONG__StackPath", stackPath)
 		}
 	}
-
 	backRepo := controller.Map_BackRepos[stackPath]
 	db := backRepo.BackRepoAstruct.GetDB()
 

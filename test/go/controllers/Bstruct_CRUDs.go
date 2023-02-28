@@ -48,19 +48,21 @@ type BstructInput struct {
 //
 //	200: bstructDBResponse
 func (controller *Controller) GetBstructs(c *gin.Context) {
-	db := orm.BackRepo.BackRepoBstruct.GetDB()
 
 	// source slice
 	var bstructDBs []orm.BstructDB
 
 	values := c.Request.URL.Query()
+	stackPath := ""
 	if len(values) == 1 {
 		value := values["GONG__StackPath"]
 		if len(value) == 1 {
-			stackParam := value[0]
-			log.Println("GetBstructs", "GONG__StackPath", stackParam)
+			stackPath = value[0]
+			log.Println("GetBstructs", "GONG__StackPath", stackPath)
 		}
 	}
+	backRepo := controller.Map_BackRepos[stackPath]
+	db := backRepo.BackRepoBstruct.GetDB()
 
 	query := db.Find(&bstructDBs)
 	if query.Error != nil {
@@ -108,13 +110,16 @@ func (controller *Controller) GetBstructs(c *gin.Context) {
 func (controller *Controller) PostBstruct(c *gin.Context) {
 
 	values := c.Request.URL.Query()
+	stackPath := ""
 	if len(values) == 1 {
 		value := values["GONG__StackPath"]
 		if len(value) == 1 {
-			stackParam := value[0]
-			log.Println("PostBstructs", "GONG__StackPath", stackParam)
+			stackPath = value[0]
+			log.Println("PostBstructs", "GONG__StackPath", stackPath)
 		}
 	}
+	backRepo := controller.Map_BackRepos[stackPath]
+	db := backRepo.BackRepoBstruct.GetDB()
 
 	// Validate input
 	var input orm.BstructAPI
@@ -134,7 +139,6 @@ func (controller *Controller) PostBstruct(c *gin.Context) {
 	bstructDB.BstructPointersEnconding = input.BstructPointersEnconding
 	bstructDB.CopyBasicFieldsFromBstruct(&input.Bstruct)
 
-	db := orm.BackRepo.BackRepoBstruct.GetDB()
 	query := db.Create(&bstructDB)
 	if query.Error != nil {
 		var returnError GenericError
@@ -173,15 +177,16 @@ func (controller *Controller) PostBstruct(c *gin.Context) {
 func (controller *Controller) GetBstruct(c *gin.Context) {
 
 	values := c.Request.URL.Query()
+	stackPath := ""
 	if len(values) == 1 {
 		value := values["GONG__StackPath"]
 		if len(value) == 1 {
-			stackParam := value[0]
-			log.Println("GetBstruct", "GONG__StackPath", stackParam)
+			stackPath = value[0]
+			log.Println("GetBstruct", "GONG__StackPath", stackPath)
 		}
 	}
-
-	db := orm.BackRepo.BackRepoBstruct.GetDB()
+	backRepo := controller.Map_BackRepos[stackPath]
+	db := backRepo.BackRepoBstruct.GetDB()
 
 	// Get bstructDB in DB
 	var bstructDB orm.BstructDB
@@ -215,13 +220,16 @@ func (controller *Controller) GetBstruct(c *gin.Context) {
 func (controller *Controller) UpdateBstruct(c *gin.Context) {
 
 	values := c.Request.URL.Query()
+	stackPath := ""
 	if len(values) == 1 {
 		value := values["GONG__StackPath"]
 		if len(value) == 1 {
-			stackParam := value[0]
-			log.Println("UpdateBstruct", "GONG__StackPath", stackParam)
+			stackPath = value[0]
+			log.Println("UpdateBstruct", "GONG__StackPath", stackPath)
 		}
 	}
+	backRepo := controller.Map_BackRepos[stackPath]
+	db := backRepo.BackRepoBstruct.GetDB()
 
 	// Validate input
 	var input orm.BstructAPI
@@ -230,8 +238,6 @@ func (controller *Controller) UpdateBstruct(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-
-	db := orm.BackRepo.BackRepoBstruct.GetDB()
 
 	// Get model if exist
 	var bstructDB orm.BstructDB
@@ -294,15 +300,16 @@ func (controller *Controller) UpdateBstruct(c *gin.Context) {
 func (controller *Controller) DeleteBstruct(c *gin.Context) {
 
 	values := c.Request.URL.Query()
+	stackPath := ""
 	if len(values) == 1 {
 		value := values["GONG__StackPath"]
 		if len(value) == 1 {
-			stackParam := value[0]
-			log.Println("DeleteBstruct", "GONG__StackPath", stackParam)
+			stackPath = value[0]
+			log.Println("DeleteBstruct", "GONG__StackPath", stackPath)
 		}
 	}
-
-	db := orm.BackRepo.BackRepoBstruct.GetDB()
+	backRepo := controller.Map_BackRepos[stackPath]
+	db := backRepo.BackRepoBstruct.GetDB()
 
 	// Get model if exist
 	var bstructDB orm.BstructDB

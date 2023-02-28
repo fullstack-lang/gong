@@ -48,19 +48,21 @@ type AstructBstruct2UseInput struct {
 //
 //	200: astructbstruct2useDBResponse
 func (controller *Controller) GetAstructBstruct2Uses(c *gin.Context) {
-	db := orm.BackRepo.BackRepoAstructBstruct2Use.GetDB()
 
 	// source slice
 	var astructbstruct2useDBs []orm.AstructBstruct2UseDB
 
 	values := c.Request.URL.Query()
+	stackPath := ""
 	if len(values) == 1 {
 		value := values["GONG__StackPath"]
 		if len(value) == 1 {
-			stackParam := value[0]
-			log.Println("GetAstructBstruct2Uses", "GONG__StackPath", stackParam)
+			stackPath = value[0]
+			log.Println("GetAstructBstruct2Uses", "GONG__StackPath", stackPath)
 		}
 	}
+	backRepo := controller.Map_BackRepos[stackPath]
+	db := backRepo.BackRepoAstructBstruct2Use.GetDB()
 
 	query := db.Find(&astructbstruct2useDBs)
 	if query.Error != nil {
@@ -108,13 +110,16 @@ func (controller *Controller) GetAstructBstruct2Uses(c *gin.Context) {
 func (controller *Controller) PostAstructBstruct2Use(c *gin.Context) {
 
 	values := c.Request.URL.Query()
+	stackPath := ""
 	if len(values) == 1 {
 		value := values["GONG__StackPath"]
 		if len(value) == 1 {
-			stackParam := value[0]
-			log.Println("PostAstructBstruct2Uses", "GONG__StackPath", stackParam)
+			stackPath = value[0]
+			log.Println("PostAstructBstruct2Uses", "GONG__StackPath", stackPath)
 		}
 	}
+	backRepo := controller.Map_BackRepos[stackPath]
+	db := backRepo.BackRepoAstructBstruct2Use.GetDB()
 
 	// Validate input
 	var input orm.AstructBstruct2UseAPI
@@ -134,7 +139,6 @@ func (controller *Controller) PostAstructBstruct2Use(c *gin.Context) {
 	astructbstruct2useDB.AstructBstruct2UsePointersEnconding = input.AstructBstruct2UsePointersEnconding
 	astructbstruct2useDB.CopyBasicFieldsFromAstructBstruct2Use(&input.AstructBstruct2Use)
 
-	db := orm.BackRepo.BackRepoAstructBstruct2Use.GetDB()
 	query := db.Create(&astructbstruct2useDB)
 	if query.Error != nil {
 		var returnError GenericError
@@ -173,15 +177,16 @@ func (controller *Controller) PostAstructBstruct2Use(c *gin.Context) {
 func (controller *Controller) GetAstructBstruct2Use(c *gin.Context) {
 
 	values := c.Request.URL.Query()
+	stackPath := ""
 	if len(values) == 1 {
 		value := values["GONG__StackPath"]
 		if len(value) == 1 {
-			stackParam := value[0]
-			log.Println("GetAstructBstruct2Use", "GONG__StackPath", stackParam)
+			stackPath = value[0]
+			log.Println("GetAstructBstruct2Use", "GONG__StackPath", stackPath)
 		}
 	}
-
-	db := orm.BackRepo.BackRepoAstructBstruct2Use.GetDB()
+	backRepo := controller.Map_BackRepos[stackPath]
+	db := backRepo.BackRepoAstructBstruct2Use.GetDB()
 
 	// Get astructbstruct2useDB in DB
 	var astructbstruct2useDB orm.AstructBstruct2UseDB
@@ -215,13 +220,16 @@ func (controller *Controller) GetAstructBstruct2Use(c *gin.Context) {
 func (controller *Controller) UpdateAstructBstruct2Use(c *gin.Context) {
 
 	values := c.Request.URL.Query()
+	stackPath := ""
 	if len(values) == 1 {
 		value := values["GONG__StackPath"]
 		if len(value) == 1 {
-			stackParam := value[0]
-			log.Println("UpdateAstructBstruct2Use", "GONG__StackPath", stackParam)
+			stackPath = value[0]
+			log.Println("UpdateAstructBstruct2Use", "GONG__StackPath", stackPath)
 		}
 	}
+	backRepo := controller.Map_BackRepos[stackPath]
+	db := backRepo.BackRepoAstructBstruct2Use.GetDB()
 
 	// Validate input
 	var input orm.AstructBstruct2UseAPI
@@ -230,8 +238,6 @@ func (controller *Controller) UpdateAstructBstruct2Use(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-
-	db := orm.BackRepo.BackRepoAstructBstruct2Use.GetDB()
 
 	// Get model if exist
 	var astructbstruct2useDB orm.AstructBstruct2UseDB
@@ -294,15 +300,16 @@ func (controller *Controller) UpdateAstructBstruct2Use(c *gin.Context) {
 func (controller *Controller) DeleteAstructBstruct2Use(c *gin.Context) {
 
 	values := c.Request.URL.Query()
+	stackPath := ""
 	if len(values) == 1 {
 		value := values["GONG__StackPath"]
 		if len(value) == 1 {
-			stackParam := value[0]
-			log.Println("DeleteAstructBstruct2Use", "GONG__StackPath", stackParam)
+			stackPath = value[0]
+			log.Println("DeleteAstructBstruct2Use", "GONG__StackPath", stackPath)
 		}
 	}
-
-	db := orm.BackRepo.BackRepoAstructBstruct2Use.GetDB()
+	backRepo := controller.Map_BackRepos[stackPath]
+	db := backRepo.BackRepoAstructBstruct2Use.GetDB()
 
 	// Get model if exist
 	var astructbstruct2useDB orm.AstructBstruct2UseDB
