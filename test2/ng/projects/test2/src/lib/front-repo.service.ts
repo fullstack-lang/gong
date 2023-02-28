@@ -4,15 +4,9 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, combineLatest, BehaviorSubject } from 'rxjs';
 
 // insertion point sub template for services imports 
-import { AstructDB } from './astruct-db'
-import { AstructService } from './astruct.service'
-
 
 // FrontRepo stores all instances in a front repository (design pattern repository)
 export class FrontRepo { // insertion point sub template 
-  Astructs_array = new Array<AstructDB>(); // array of repo instances
-  Astructs = new Map<number, AstructDB>(); // map of repo instances
-  Astructs_batch = new Map<number, AstructDB>(); // same but only in last GET (for finding repo instances to delete)
 }
 
 //
@@ -50,6 +44,8 @@ export class DialogData {
   IntermediateStruct: string = "" // the "AclassBclassUse" 
   IntermediateStructField: string = "" // the "Bclass" as field
   NextAssociationStruct: string = "" // the "Bclass"
+
+  GONG__StackPath: string = ""
 }
 
 export enum SelectionMode {
@@ -65,13 +61,14 @@ export enum SelectionMode {
 })
 export class FrontRepoService {
 
+  GONG__StackPath: string = ""
+
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
   };
 
   constructor(
     private http: HttpClient, // insertion point sub template 
-    private astructService: AstructService,
   ) { }
 
   // postService provides a post function for each struct name
@@ -102,9 +99,7 @@ export class FrontRepoService {
 
   // typing of observable can be messy in typescript. Therefore, one force the type
   observableFrontRepo: [ // insertion point sub template 
-    Observable<AstructDB[]>,
-  ] = [ // insertion point sub template 
-      this.astructService.getAstructs(),
+  ] = [ // insertion point sub template
     ];
 
   //
@@ -113,80 +108,30 @@ export class FrontRepoService {
   // This is an observable. Therefore, the control flow forks with
   // - pull() return immediatly the observable
   // - the observable observer, if it subscribe, is called when all GET calls are performs
-  pull(): Observable<FrontRepo> {
+  pull(GONG__StackPath: string = ""): Observable<FrontRepo> {
+
+    this.GONG__StackPath = GONG__StackPath
+
+    this.observableFrontRepo = [ // insertion point sub template
+    ]
+
     return new Observable<FrontRepo>(
       (observer) => {
         combineLatest(
           this.observableFrontRepo
         ).subscribe(
           ([ // insertion point sub template for declarations 
-            astructs_,
           ]) => {
             // Typing can be messy with many items. Therefore, type casting is necessary here
             // insertion point sub template for type casting 
-            var astructs: AstructDB[]
-            astructs = astructs_ as AstructDB[]
 
             // 
             // First Step: init map of instances
             // insertion point sub template for init 
-            // init the array
-            FrontRepoSingloton.Astructs_array = astructs
-
-            // clear the map that counts Astruct in the GET
-            FrontRepoSingloton.Astructs_batch.clear()
-
-            astructs.forEach(
-              astruct => {
-                FrontRepoSingloton.Astructs.set(astruct.ID, astruct)
-                FrontRepoSingloton.Astructs_batch.set(astruct.ID, astruct)
-              }
-            )
-
-            // clear astructs that are absent from the batch
-            FrontRepoSingloton.Astructs.forEach(
-              astruct => {
-                if (FrontRepoSingloton.Astructs_batch.get(astruct.ID) == undefined) {
-                  FrontRepoSingloton.Astructs.delete(astruct.ID)
-                }
-              }
-            )
-
-            // sort Astructs_array array
-            FrontRepoSingloton.Astructs_array.sort((t1, t2) => {
-              if (t1.Name > t2.Name) {
-                return 1;
-              }
-              if (t1.Name < t2.Name) {
-                return -1;
-              }
-              return 0;
-            });
-
 
             // 
             // Second Step: redeem pointers between instances (thanks to maps in the First Step)
             // insertion point sub template for redeem 
-            astructs.forEach(
-              astruct => {
-                // insertion point sub sub template for ONE-/ZERO-ONE associations pointers redeeming
-
-                // insertion point for redeeming ONE-MANY associations
-                // insertion point for slice of pointer field Astruct.Anarrayofa redeeming
-                {
-                  let _astruct = FrontRepoSingloton.Astructs.get(astruct.Astruct_AnarrayofaDBID.Int64)
-                  if (_astruct) {
-                    if (_astruct.Anarrayofa == undefined) {
-                      _astruct.Anarrayofa = new Array<AstructDB>()
-                    }
-                    _astruct.Anarrayofa.push(astruct)
-                    if (astruct.Astruct_Anarrayofa_reverse == undefined) {
-                      astruct.Astruct_Anarrayofa_reverse = _astruct
-                    }
-                  }
-                }
-              }
-            )
 
             // hand over control flow to observer
             observer.next(FrontRepoSingloton)
@@ -197,73 +142,6 @@ export class FrontRepoService {
   }
 
   // insertion point for pull per struct 
-
-  // AstructPull performs a GET on Astruct of the stack and redeem association pointers 
-  AstructPull(): Observable<FrontRepo> {
-    return new Observable<FrontRepo>(
-      (observer) => {
-        combineLatest([
-          this.astructService.getAstructs()
-        ]).subscribe(
-          ([ // insertion point sub template 
-            astructs,
-          ]) => {
-            // init the array
-            FrontRepoSingloton.Astructs_array = astructs
-
-            // clear the map that counts Astruct in the GET
-            FrontRepoSingloton.Astructs_batch.clear()
-
-            // 
-            // First Step: init map of instances
-            // insertion point sub template 
-            astructs.forEach(
-              astruct => {
-                FrontRepoSingloton.Astructs.set(astruct.ID, astruct)
-                FrontRepoSingloton.Astructs_batch.set(astruct.ID, astruct)
-
-                // insertion point for redeeming ONE/ZERO-ONE associations
-
-                // insertion point for redeeming ONE-MANY associations
-                // insertion point for slice of pointer field Astruct.Anarrayofa redeeming
-                {
-                  let _astruct = FrontRepoSingloton.Astructs.get(astruct.Astruct_AnarrayofaDBID.Int64)
-                  if (_astruct) {
-                    if (_astruct.Anarrayofa == undefined) {
-                      _astruct.Anarrayofa = new Array<AstructDB>()
-                    }
-                    _astruct.Anarrayofa.push(astruct)
-                    if (astruct.Astruct_Anarrayofa_reverse == undefined) {
-                      astruct.Astruct_Anarrayofa_reverse = _astruct
-                    }
-                  }
-                }
-              }
-            )
-
-            // clear astructs that are absent from the GET
-            FrontRepoSingloton.Astructs.forEach(
-              astruct => {
-                if (FrontRepoSingloton.Astructs_batch.get(astruct.ID) == undefined) {
-                  FrontRepoSingloton.Astructs.delete(astruct.ID)
-                }
-              }
-            )
-
-            // 
-            // Second Step: redeem pointers between instances (thanks to maps in the First Step)
-            // insertion point sub template 
-
-            // hand over control flow to observer
-            observer.next(FrontRepoSingloton)
-          }
-        )
-      }
-    )
-  }
 }
 
 // insertion point for get unique ID per struct 
-export function getAstructUniqueID(id: number): number {
-  return 31 * id
-}

@@ -13,12 +13,9 @@ import (
 	"github.com/gin-contrib/static"
 	"github.com/gin-gonic/gin"
 
+	test_fullstack "github.com/fullstack-lang/gong/test/go/fullstack"
 	test2 "github.com/fullstack-lang/gong/test2"
-	test2_controllers "github.com/fullstack-lang/gong/test2/go/controllers"
-	test2_models "github.com/fullstack-lang/gong/test2/go/models"
-	test2_orm "github.com/fullstack-lang/gong/test2/go/orm"
-
-	test_controllers "github.com/fullstack-lang/gong/test/go/controllers"
+	test2_fullstack "github.com/fullstack-lang/gong/test2/go/fullstack"
 )
 
 var (
@@ -43,22 +40,8 @@ func main() {
 	r := gin.Default()
 	r.Use(cors.Default())
 
-	// setup GORM
-	inMemoryDB := test2_orm.SetupModels(*logDBFlag, ":memory:")
-	// mandatory, otherwise, bizarre errors occurs
-	inMemoryDBSqlDB, err := inMemoryDB.DB()
-	if err != nil {
-		log.Panic("Cannot access to DB of database")
-	}
-	inMemoryDBSqlDB.SetMaxOpenConns(1)
-
-	astruct := new(test2_models.Astruct).Stage()
-	astruct.Name = "Test2 Astruct instance #1"
-
-	test2_models.Stage.Commit()
-
-	test2_controllers.RegisterControllers(r)
-	test_controllers.RegisterControllers(r)
+	test2_fullstack.Init(r)
+	test_fullstack.Init(r)
 
 	// provide the static route for the angular pages
 	r.Use(static.Serve("/", EmbedFolder(test2.NgDistNg, "ng/dist/ng")))
