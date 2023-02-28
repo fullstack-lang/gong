@@ -48,19 +48,21 @@ type DstructInput struct {
 //
 //	200: dstructDBResponse
 func (controller *Controller) GetDstructs(c *gin.Context) {
-	db := orm.BackRepo.BackRepoDstruct.GetDB()
 
 	// source slice
 	var dstructDBs []orm.DstructDB
 
 	values := c.Request.URL.Query()
+	stackPath := ""
 	if len(values) == 1 {
 		value := values["GONG__StackPath"]
 		if len(value) == 1 {
-			stackParam := value[0]
-			log.Println("GetDstructs", "GONG__StackPath", stackParam)
+			stackPath = value[0]
+			log.Println("GetDstructs", "GONG__StackPath", stackPath)
 		}
 	}
+	backRepo := controller.Map_BackRepos[stackPath]
+	db := backRepo.BackRepoDstruct.GetDB()
 
 	query := db.Find(&dstructDBs)
 	if query.Error != nil {
@@ -108,13 +110,16 @@ func (controller *Controller) GetDstructs(c *gin.Context) {
 func (controller *Controller) PostDstruct(c *gin.Context) {
 
 	values := c.Request.URL.Query()
+	stackPath := ""
 	if len(values) == 1 {
 		value := values["GONG__StackPath"]
 		if len(value) == 1 {
-			stackParam := value[0]
-			log.Println("PostDstructs", "GONG__StackPath", stackParam)
+			stackPath = value[0]
+			log.Println("PostDstructs", "GONG__StackPath", stackPath)
 		}
 	}
+	backRepo := controller.Map_BackRepos[stackPath]
+	db := backRepo.BackRepoDstruct.GetDB()
 
 	// Validate input
 	var input orm.DstructAPI
@@ -134,7 +139,6 @@ func (controller *Controller) PostDstruct(c *gin.Context) {
 	dstructDB.DstructPointersEnconding = input.DstructPointersEnconding
 	dstructDB.CopyBasicFieldsFromDstruct(&input.Dstruct)
 
-	db := orm.BackRepo.BackRepoDstruct.GetDB()
 	query := db.Create(&dstructDB)
 	if query.Error != nil {
 		var returnError GenericError
@@ -173,15 +177,16 @@ func (controller *Controller) PostDstruct(c *gin.Context) {
 func (controller *Controller) GetDstruct(c *gin.Context) {
 
 	values := c.Request.URL.Query()
+	stackPath := ""
 	if len(values) == 1 {
 		value := values["GONG__StackPath"]
 		if len(value) == 1 {
-			stackParam := value[0]
-			log.Println("GetDstruct", "GONG__StackPath", stackParam)
+			stackPath = value[0]
+			log.Println("GetDstruct", "GONG__StackPath", stackPath)
 		}
 	}
-
-	db := orm.BackRepo.BackRepoDstruct.GetDB()
+	backRepo := controller.Map_BackRepos[stackPath]
+	db := backRepo.BackRepoDstruct.GetDB()
 
 	// Get dstructDB in DB
 	var dstructDB orm.DstructDB
@@ -215,13 +220,16 @@ func (controller *Controller) GetDstruct(c *gin.Context) {
 func (controller *Controller) UpdateDstruct(c *gin.Context) {
 
 	values := c.Request.URL.Query()
+	stackPath := ""
 	if len(values) == 1 {
 		value := values["GONG__StackPath"]
 		if len(value) == 1 {
-			stackParam := value[0]
-			log.Println("UpdateDstruct", "GONG__StackPath", stackParam)
+			stackPath = value[0]
+			log.Println("UpdateDstruct", "GONG__StackPath", stackPath)
 		}
 	}
+	backRepo := controller.Map_BackRepos[stackPath]
+	db := backRepo.BackRepoDstruct.GetDB()
 
 	// Validate input
 	var input orm.DstructAPI
@@ -230,8 +238,6 @@ func (controller *Controller) UpdateDstruct(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-
-	db := orm.BackRepo.BackRepoDstruct.GetDB()
 
 	// Get model if exist
 	var dstructDB orm.DstructDB
@@ -294,15 +300,16 @@ func (controller *Controller) UpdateDstruct(c *gin.Context) {
 func (controller *Controller) DeleteDstruct(c *gin.Context) {
 
 	values := c.Request.URL.Query()
+	stackPath := ""
 	if len(values) == 1 {
 		value := values["GONG__StackPath"]
 		if len(value) == 1 {
-			stackParam := value[0]
-			log.Println("DeleteDstruct", "GONG__StackPath", stackParam)
+			stackPath = value[0]
+			log.Println("DeleteDstruct", "GONG__StackPath", stackPath)
 		}
 	}
-
-	db := orm.BackRepo.BackRepoDstruct.GetDB()
+	backRepo := controller.Map_BackRepos[stackPath]
+	db := backRepo.BackRepoDstruct.GetDB()
 
 	// Get model if exist
 	var dstructDB orm.DstructDB
