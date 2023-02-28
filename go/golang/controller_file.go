@@ -166,8 +166,8 @@ func (controller *Controller) Post{{Structname}}(c *gin.Context) {
 	}
 
 	// get an instance (not staged) from DB instance, and call callback function
-	orm.BackRepo.BackRepo{{Structname}}.CheckoutPhaseOneInstance(&{{structname}}DB)
-	{{structname}} := (*orm.BackRepo.BackRepo{{Structname}}.Map_{{Structname}}DBID_{{Structname}}Ptr)[{{structname}}DB.ID]
+	backRepo.BackRepo{{Structname}}.CheckoutPhaseOneInstance(&{{structname}}DB)
+	{{structname}} := (*backRepo.BackRepo{{Structname}}.Map_{{Structname}}DBID_{{Structname}}Ptr)[{{structname}}DB.ID]
 
 	if {{structname}} != nil {
 		models.AfterCreateFromFront(&models.Stage, {{structname}})
@@ -175,7 +175,7 @@ func (controller *Controller) Post{{Structname}}(c *gin.Context) {
 
 	// a POST is equivalent to a back repo commit increase
 	// (this will be improved with implementation of unit of work design pattern)
-	orm.BackRepo.IncrementPushFromFrontNb()
+	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, {{structname}}DB)
 }
@@ -289,7 +289,7 @@ func (controller *Controller) Update{{Structname}}(c *gin.Context) {
 	{{structname}}DB.CopyBasicFieldsTo{{Structname}}({{structname}}New)
 
 	// get stage instance from DB instance, and call callback function
-	{{structname}}Old := (*orm.BackRepo.BackRepo{{Structname}}.Map_{{Structname}}DBID_{{Structname}}Ptr)[{{structname}}DB.ID]
+	{{structname}}Old := (*backRepo.BackRepo{{Structname}}.Map_{{Structname}}DBID_{{Structname}}Ptr)[{{structname}}DB.ID]
 	if {{structname}}Old != nil {
 		models.AfterUpdateFromFront(&models.Stage, {{structname}}Old, {{structname}}New)
 	}
@@ -298,7 +298,7 @@ func (controller *Controller) Update{{Structname}}(c *gin.Context) {
 	// (this will be improved with implementation of unit of work design pattern)
 	// in some cases, with the marshalling of the stage, this operation might
 	// generates a checkout
-	orm.BackRepo.IncrementPushFromFrontNb()
+	backRepo.IncrementPushFromFrontNb()
 
 	// return status OK with the marshalling of the the {{structname}}DB
 	c.JSON(http.StatusOK, {{structname}}DB)
@@ -346,14 +346,14 @@ func (controller *Controller) Delete{{Structname}}(c *gin.Context) {
 	{{structname}}DB.CopyBasicFieldsTo{{Structname}}({{structname}}Deleted)
 
 	// get stage instance from DB instance, and call callback function
-	{{structname}}Staged := (*orm.BackRepo.BackRepo{{Structname}}.Map_{{Structname}}DBID_{{Structname}}Ptr)[{{structname}}DB.ID]
+	{{structname}}Staged := (*backRepo.BackRepo{{Structname}}.Map_{{Structname}}DBID_{{Structname}}Ptr)[{{structname}}DB.ID]
 	if {{structname}}Staged != nil {
 		models.AfterDeleteFromFront(&models.Stage, {{structname}}Staged, {{structname}}Deleted)
 	}
 
 	// a DELETE generates a back repo commit increase
 	// (this will be improved with implementation of unit of work design pattern)
-	orm.BackRepo.IncrementPushFromFrontNb()
+	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, gin.H{"data": true})
 }
