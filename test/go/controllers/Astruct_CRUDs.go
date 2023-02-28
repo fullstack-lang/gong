@@ -47,7 +47,7 @@ type AstructInput struct {
 // default: genericError
 //
 //	200: astructDBResponse
-func GetAstructs(c *gin.Context) {
+func (controller *Controller) GetAstructs(c *gin.Context) {
 	db := orm.BackRepo.BackRepoAstruct.GetDB()
 
 	// source slice

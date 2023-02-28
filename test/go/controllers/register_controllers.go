@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"fmt"
+	"log"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -43,7 +44,7 @@ type ValidationError struct {
 func RegisterControllers(r *gin.Engine) {
 	v1 := r.Group("/api/github.com/fullstack-lang/gong/test/go")
 	{ // insertion point for registrations
-		v1.GET("/v1/astructs", GetAstructs)
+		v1.GET("/v1/astructs", GetController().GetAstructs)
 		v1.GET("/v1/astructs/:id", GetAstruct)
 		v1.POST("/v1/astructs", PostAstruct)
 		v1.PATCH("/v1/astructs/:id", UpdateAstruct)
@@ -78,20 +79,40 @@ func RegisterControllers(r *gin.Engine) {
 		v1.PUT("/v1/dstructs/:id", UpdateDstruct)
 		v1.DELETE("/v1/dstructs/:id", DeleteDstruct)
 
-		v1.GET("/v1/commitfrombacknb", GetLastCommitFromBackNb)
-		v1.GET("/v1/pushfromfrontnb", GetLastPushFromFrontNb)
+		v1.GET("/v1/commitfrombacknb", GetController().GetLastCommitFromBackNb)
+		v1.GET("/v1/pushfromfrontnb", GetController().GetLastPushFromFrontNb)
 	}
 }
 
 // swagger:route GET /commitfrombacknb backrepo GetLastCommitFromBackNb
-func GetLastCommitFromBackNb(c *gin.Context) {
+func (controller *Controller) GetLastCommitFromBackNb(c *gin.Context) {
+
+	values := c.Request.URL.Query()
+	if len(values) == 1 {
+		value := values["GONG__StackPath"]
+		if len(value) == 1 {
+			stackParam := value[0]
+			log.Println("GetLastCommitFromBackNb", "GONG__StackPath", stackParam)
+		}
+	}
+
 	res := orm.GetLastCommitFromBackNb()
 
 	c.JSON(http.StatusOK, res)
 }
 
 // swagger:route GET /pushfromfrontnb backrepo GetLastPushFromFrontNb
-func GetLastPushFromFrontNb(c *gin.Context) {
+func (controller *Controller) GetLastPushFromFrontNb(c *gin.Context) {
+
+	values := c.Request.URL.Query()
+	if len(values) == 1 {
+		value := values["GONG__StackPath"]
+		if len(value) == 1 {
+			stackParam := value[0]
+			log.Println("GetLastCommitFromBackNb", "GONG__StackPath", stackParam)
+		}
+	}
+
 	res := orm.GetLastPushFromFrontNb()
 
 	c.JSON(http.StatusOK, res)
