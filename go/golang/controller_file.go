@@ -64,19 +64,21 @@ type {{Structname}}Input struct {
 //
 //	200: {{structname}}DBResponse
 func (controller *Controller) Get{{Structname}}s(c *gin.Context) {
-	db := orm.BackRepo.BackRepo{{Structname}}.GetDB()
 
 	// source slice
 	var {{structname}}DBs []orm.{{Structname}}DB
 
 	values := c.Request.URL.Query()
+	stackPath := ""
 	if len(values) == 1 {
 		value := values["GONG__StackPath"]
 		if len(value) == 1 {
-			stackParam := value[0]
-			log.Println("Get{{Structname}}s", "GONG__StackPath", stackParam)
+			stackPath = value[0]
+			log.Println("Get{{Structname}}s", "GONG__StackPath", stackPath)
 		}
 	}
+	backRepo := controller.Map_BackRepos[stackPath]
+	db := backRepo.BackRepo{{Structname}}.GetDB()
 
 	query := db.Find(&{{structname}}DBs)
 	if query.Error != nil {
@@ -124,13 +126,16 @@ func (controller *Controller) Get{{Structname}}s(c *gin.Context) {
 func (controller *Controller) Post{{Structname}}(c *gin.Context) {
 
 	values := c.Request.URL.Query()
+	stackPath := ""
 	if len(values) == 1 {
 		value := values["GONG__StackPath"]
 		if len(value) == 1 {
-			stackParam := value[0]
-			log.Println("Post{{Structname}}s", "GONG__StackPath", stackParam)
+			stackPath = value[0]
+			log.Println("Post{{Structname}}s", "GONG__StackPath", stackPath)
 		}
 	}
+	backRepo := controller.Map_BackRepos[stackPath]
+	db := backRepo.BackRepo{{Structname}}.GetDB()
 
 	// Validate input
 	var input orm.{{Structname}}API
@@ -150,7 +155,6 @@ func (controller *Controller) Post{{Structname}}(c *gin.Context) {
 	{{structname}}DB.{{Structname}}PointersEnconding = input.{{Structname}}PointersEnconding
 	{{structname}}DB.CopyBasicFieldsFrom{{Structname}}(&input.{{Structname}})
 
-	db := orm.BackRepo.BackRepo{{Structname}}.GetDB()
 	query := db.Create(&{{structname}}DB)
 	if query.Error != nil {
 		var returnError GenericError
@@ -189,15 +193,16 @@ func (controller *Controller) Post{{Structname}}(c *gin.Context) {
 func (controller *Controller) Get{{Structname}}(c *gin.Context) {
 
 	values := c.Request.URL.Query()
+	stackPath := ""
 	if len(values) == 1 {
 		value := values["GONG__StackPath"]
 		if len(value) == 1 {
-			stackParam := value[0]
-			log.Println("Get{{Structname}}", "GONG__StackPath", stackParam)
+			stackPath = value[0]
+			log.Println("Get{{Structname}}", "GONG__StackPath", stackPath)
 		}
 	}
-
-	db := orm.BackRepo.BackRepo{{Structname}}.GetDB()
+	backRepo := controller.Map_BackRepos[stackPath]
+	db := backRepo.BackRepo{{Structname}}.GetDB()
 
 	// Get {{structname}}DB in DB
 	var {{structname}}DB orm.{{Structname}}DB
@@ -231,13 +236,16 @@ func (controller *Controller) Get{{Structname}}(c *gin.Context) {
 func (controller *Controller) Update{{Structname}}(c *gin.Context) {
 
 	values := c.Request.URL.Query()
+	stackPath := ""
 	if len(values) == 1 {
 		value := values["GONG__StackPath"]
 		if len(value) == 1 {
-			stackParam := value[0]
-			log.Println("Update{{Structname}}", "GONG__StackPath", stackParam)
+			stackPath = value[0]
+			log.Println("Update{{Structname}}", "GONG__StackPath", stackPath)
 		}
 	}
+	backRepo := controller.Map_BackRepos[stackPath]
+	db := backRepo.BackRepo{{Structname}}.GetDB()
 
 	// Validate input
 	var input orm.{{Structname}}API
@@ -246,8 +254,6 @@ func (controller *Controller) Update{{Structname}}(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-
-	db := orm.BackRepo.BackRepo{{Structname}}.GetDB()
 
 	// Get model if exist
 	var {{structname}}DB orm.{{Structname}}DB
@@ -310,15 +316,16 @@ func (controller *Controller) Update{{Structname}}(c *gin.Context) {
 func (controller *Controller) Delete{{Structname}}(c *gin.Context) {
 
 	values := c.Request.URL.Query()
+	stackPath := ""
 	if len(values) == 1 {
 		value := values["GONG__StackPath"]
 		if len(value) == 1 {
-			stackParam := value[0]
-			log.Println("Delete{{Structname}}", "GONG__StackPath", stackParam)
+			stackPath = value[0]
+			log.Println("Delete{{Structname}}", "GONG__StackPath", stackPath)
 		}
 	}
-
-	db := orm.BackRepo.BackRepo{{Structname}}.GetDB()
+	backRepo := controller.Map_BackRepos[stackPath]
+	db := backRepo.BackRepo{{Structname}}.GetDB()
 
 	// Get model if exist
 	var {{structname}}DB orm.{{Structname}}DB
