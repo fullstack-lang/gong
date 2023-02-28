@@ -47,7 +47,7 @@ type AstructBstruct2UseInput struct {
 // default: genericError
 //
 //	200: astructbstruct2useDBResponse
-func GetAstructBstruct2Uses(c *gin.Context) {
+func (controller *Controller) GetAstructBstruct2Uses(c *gin.Context) {
 	db := orm.BackRepo.BackRepoAstructBstruct2Use.GetDB()
 
 	// source slice
@@ -105,7 +105,7 @@ func GetAstructBstruct2Uses(c *gin.Context) {
 //
 //	Responses:
 //	  200: nodeDBResponse
-func PostAstructBstruct2Use(c *gin.Context) {
+func (controller *Controller) PostAstructBstruct2Use(c *gin.Context) {
 
 	values := c.Request.URL.Query()
 	if len(values) == 1 {
@@ -170,7 +170,7 @@ func PostAstructBstruct2Use(c *gin.Context) {
 // default: genericError
 //
 //	200: astructbstruct2useDBResponse
-func GetAstructBstruct2Use(c *gin.Context) {
+func (controller *Controller) GetAstructBstruct2Use(c *gin.Context) {
 
 	values := c.Request.URL.Query()
 	if len(values) == 1 {
@@ -212,7 +212,7 @@ func GetAstructBstruct2Use(c *gin.Context) {
 // default: genericError
 //
 //	200: astructbstruct2useDBResponse
-func UpdateAstructBstruct2Use(c *gin.Context) {
+func (controller *Controller) UpdateAstructBstruct2Use(c *gin.Context) {
 
 	values := c.Request.URL.Query()
 	if len(values) == 1 {
@@ -291,7 +291,7 @@ func UpdateAstructBstruct2Use(c *gin.Context) {
 // default: genericError
 //
 //	200: astructbstruct2useDBResponse
-func DeleteAstructBstruct2Use(c *gin.Context) {
+func (controller *Controller) DeleteAstructBstruct2Use(c *gin.Context) {
 
 	values := c.Request.URL.Query()
 	if len(values) == 1 {
