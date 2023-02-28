@@ -47,7 +47,7 @@ type BstructInput struct {
 // default: genericError
 //
 //	200: bstructDBResponse
-func GetBstructs(c *gin.Context) {
+func (controller *Controller) GetBstructs(c *gin.Context) {
 	db := orm.BackRepo.BackRepoBstruct.GetDB()
 
 	// source slice
@@ -105,7 +105,7 @@ func GetBstructs(c *gin.Context) {
 //
 //	Responses:
 //	  200: nodeDBResponse
-func PostBstruct(c *gin.Context) {
+func (controller *Controller) PostBstruct(c *gin.Context) {
 
 	values := c.Request.URL.Query()
 	if len(values) == 1 {
@@ -170,7 +170,7 @@ func PostBstruct(c *gin.Context) {
 // default: genericError
 //
 //	200: bstructDBResponse
-func GetBstruct(c *gin.Context) {
+func (controller *Controller) GetBstruct(c *gin.Context) {
 
 	values := c.Request.URL.Query()
 	if len(values) == 1 {
@@ -212,7 +212,7 @@ func GetBstruct(c *gin.Context) {
 // default: genericError
 //
 //	200: bstructDBResponse
-func UpdateBstruct(c *gin.Context) {
+func (controller *Controller) UpdateBstruct(c *gin.Context) {
 
 	values := c.Request.URL.Query()
 	if len(values) == 1 {
@@ -291,7 +291,7 @@ func UpdateBstruct(c *gin.Context) {
 // default: genericError
 //
 //	200: bstructDBResponse
-func DeleteBstruct(c *gin.Context) {
+func (controller *Controller) DeleteBstruct(c *gin.Context) {
 
 	values := c.Request.URL.Query()
 	if len(values) == 1 {

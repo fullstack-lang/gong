@@ -47,7 +47,7 @@ type DstructInput struct {
 // default: genericError
 //
 //	200: dstructDBResponse
-func GetDstructs(c *gin.Context) {
+func (controller *Controller) GetDstructs(c *gin.Context) {
 	db := orm.BackRepo.BackRepoDstruct.GetDB()
 
 	// source slice
@@ -105,7 +105,7 @@ func GetDstructs(c *gin.Context) {
 //
 //	Responses:
 //	  200: nodeDBResponse
-func PostDstruct(c *gin.Context) {
+func (controller *Controller) PostDstruct(c *gin.Context) {
 
 	values := c.Request.URL.Query()
 	if len(values) == 1 {
@@ -170,7 +170,7 @@ func PostDstruct(c *gin.Context) {
 // default: genericError
 //
 //	200: dstructDBResponse
-func GetDstruct(c *gin.Context) {
+func (controller *Controller) GetDstruct(c *gin.Context) {
 
 	values := c.Request.URL.Query()
 	if len(values) == 1 {
@@ -212,7 +212,7 @@ func GetDstruct(c *gin.Context) {
 // default: genericError
 //
 //	200: dstructDBResponse
-func UpdateDstruct(c *gin.Context) {
+func (controller *Controller) UpdateDstruct(c *gin.Context) {
 
 	values := c.Request.URL.Query()
 	if len(values) == 1 {
@@ -291,7 +291,7 @@ func UpdateDstruct(c *gin.Context) {
 // default: genericError
 //
 //	200: dstructDBResponse
-func DeleteDstruct(c *gin.Context) {
+func (controller *Controller) DeleteDstruct(c *gin.Context) {
 
 	values := c.Request.URL.Query()
 	if len(values) == 1 {

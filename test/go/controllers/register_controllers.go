@@ -2,7 +2,6 @@ package controllers
 
 import (
 	"fmt"
-	"log"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -45,39 +44,39 @@ func RegisterControllers(r *gin.Engine) {
 	v1 := r.Group("/api/github.com/fullstack-lang/gong/test/go")
 	{ // insertion point for registrations
 		v1.GET("/v1/astructs", GetController().GetAstructs)
-		v1.GET("/v1/astructs/:id", GetAstruct)
-		v1.POST("/v1/astructs", PostAstruct)
-		v1.PATCH("/v1/astructs/:id", UpdateAstruct)
-		v1.PUT("/v1/astructs/:id", UpdateAstruct)
-		v1.DELETE("/v1/astructs/:id", DeleteAstruct)
+		v1.GET("/v1/astructs/:id", GetController().GetAstruct)
+		v1.POST("/v1/astructs", GetController().PostAstruct)
+		v1.PATCH("/v1/astructs/:id", GetController().UpdateAstruct)
+		v1.PUT("/v1/astructs/:id", GetController().UpdateAstruct)
+		v1.DELETE("/v1/astructs/:id", GetController().DeleteAstruct)
 
-		v1.GET("/v1/astructbstruct2uses", GetAstructBstruct2Uses)
-		v1.GET("/v1/astructbstruct2uses/:id", GetAstructBstruct2Use)
-		v1.POST("/v1/astructbstruct2uses", PostAstructBstruct2Use)
-		v1.PATCH("/v1/astructbstruct2uses/:id", UpdateAstructBstruct2Use)
-		v1.PUT("/v1/astructbstruct2uses/:id", UpdateAstructBstruct2Use)
-		v1.DELETE("/v1/astructbstruct2uses/:id", DeleteAstructBstruct2Use)
+		v1.GET("/v1/astructbstruct2uses", GetController().GetAstructBstruct2Uses)
+		v1.GET("/v1/astructbstruct2uses/:id", GetController().GetAstructBstruct2Use)
+		v1.POST("/v1/astructbstruct2uses", GetController().PostAstructBstruct2Use)
+		v1.PATCH("/v1/astructbstruct2uses/:id", GetController().UpdateAstructBstruct2Use)
+		v1.PUT("/v1/astructbstruct2uses/:id", GetController().UpdateAstructBstruct2Use)
+		v1.DELETE("/v1/astructbstruct2uses/:id", GetController().DeleteAstructBstruct2Use)
 
-		v1.GET("/v1/astructbstructuses", GetAstructBstructUses)
-		v1.GET("/v1/astructbstructuses/:id", GetAstructBstructUse)
-		v1.POST("/v1/astructbstructuses", PostAstructBstructUse)
-		v1.PATCH("/v1/astructbstructuses/:id", UpdateAstructBstructUse)
-		v1.PUT("/v1/astructbstructuses/:id", UpdateAstructBstructUse)
-		v1.DELETE("/v1/astructbstructuses/:id", DeleteAstructBstructUse)
+		v1.GET("/v1/astructbstructuses", GetController().GetAstructBstructUses)
+		v1.GET("/v1/astructbstructuses/:id", GetController().GetAstructBstructUse)
+		v1.POST("/v1/astructbstructuses", GetController().PostAstructBstructUse)
+		v1.PATCH("/v1/astructbstructuses/:id", GetController().UpdateAstructBstructUse)
+		v1.PUT("/v1/astructbstructuses/:id", GetController().UpdateAstructBstructUse)
+		v1.DELETE("/v1/astructbstructuses/:id", GetController().DeleteAstructBstructUse)
 
-		v1.GET("/v1/bstructs", GetBstructs)
-		v1.GET("/v1/bstructs/:id", GetBstruct)
-		v1.POST("/v1/bstructs", PostBstruct)
-		v1.PATCH("/v1/bstructs/:id", UpdateBstruct)
-		v1.PUT("/v1/bstructs/:id", UpdateBstruct)
-		v1.DELETE("/v1/bstructs/:id", DeleteBstruct)
+		v1.GET("/v1/bstructs", GetController().GetBstructs)
+		v1.GET("/v1/bstructs/:id", GetController().GetBstruct)
+		v1.POST("/v1/bstructs", GetController().PostBstruct)
+		v1.PATCH("/v1/bstructs/:id", GetController().UpdateBstruct)
+		v1.PUT("/v1/bstructs/:id", GetController().UpdateBstruct)
+		v1.DELETE("/v1/bstructs/:id", GetController().DeleteBstruct)
 
-		v1.GET("/v1/dstructs", GetDstructs)
-		v1.GET("/v1/dstructs/:id", GetDstruct)
-		v1.POST("/v1/dstructs", PostDstruct)
-		v1.PATCH("/v1/dstructs/:id", UpdateDstruct)
-		v1.PUT("/v1/dstructs/:id", UpdateDstruct)
-		v1.DELETE("/v1/dstructs/:id", DeleteDstruct)
+		v1.GET("/v1/dstructs", GetController().GetDstructs)
+		v1.GET("/v1/dstructs/:id", GetController().GetDstruct)
+		v1.POST("/v1/dstructs", GetController().PostDstruct)
+		v1.PATCH("/v1/dstructs/:id", GetController().UpdateDstruct)
+		v1.PUT("/v1/dstructs/:id", GetController().UpdateDstruct)
+		v1.DELETE("/v1/dstructs/:id", GetController().DeleteDstruct)
 
 		v1.GET("/v1/commitfrombacknb", GetController().GetLastCommitFromBackNb)
 		v1.GET("/v1/pushfromfrontnb", GetController().GetLastPushFromFrontNb)
@@ -86,33 +85,13 @@ func RegisterControllers(r *gin.Engine) {
 
 // swagger:route GET /commitfrombacknb backrepo GetLastCommitFromBackNb
 func (controller *Controller) GetLastCommitFromBackNb(c *gin.Context) {
-
-	values := c.Request.URL.Query()
-	if len(values) == 1 {
-		value := values["GONG__StackPath"]
-		if len(value) == 1 {
-			stackParam := value[0]
-			log.Println("GetLastCommitFromBackNb", "GONG__StackPath", stackParam)
-		}
-	}
-
 	res := orm.GetLastCommitFromBackNb()
 
 	c.JSON(http.StatusOK, res)
 }
 
 // swagger:route GET /pushfromfrontnb backrepo GetLastPushFromFrontNb
-func (controller *Controller) GetLastPushFromFrontNb(c *gin.Context) {
-
-	values := c.Request.URL.Query()
-	if len(values) == 1 {
-		value := values["GONG__StackPath"]
-		if len(value) == 1 {
-			stackParam := value[0]
-			log.Println("GetLastCommitFromBackNb", "GONG__StackPath", stackParam)
-		}
-	}
-
+func(controller *Controller) GetLastPushFromFrontNb(c *gin.Context) {
 	res := orm.GetLastPushFromFrontNb()
 
 	c.JSON(http.StatusOK, res)

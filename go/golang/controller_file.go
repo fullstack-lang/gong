@@ -63,7 +63,7 @@ type {{Structname}}Input struct {
 // default: genericError
 //
 //	200: {{structname}}DBResponse
-func Get{{Structname}}s(c *gin.Context) {
+func (controller *Controller) Get{{Structname}}s(c *gin.Context) {
 	db := orm.BackRepo.BackRepo{{Structname}}.GetDB()
 
 	// source slice
@@ -121,7 +121,7 @@ func Get{{Structname}}s(c *gin.Context) {
 //
 //	Responses:
 //	  200: nodeDBResponse
-func Post{{Structname}}(c *gin.Context) {
+func (controller *Controller) Post{{Structname}}(c *gin.Context) {
 
 	values := c.Request.URL.Query()
 	if len(values) == 1 {
@@ -186,7 +186,7 @@ func Post{{Structname}}(c *gin.Context) {
 // default: genericError
 //
 //	200: {{structname}}DBResponse
-func Get{{Structname}}(c *gin.Context) {
+func (controller *Controller) Get{{Structname}}(c *gin.Context) {
 
 	values := c.Request.URL.Query()
 	if len(values) == 1 {
@@ -228,7 +228,7 @@ func Get{{Structname}}(c *gin.Context) {
 // default: genericError
 //
 //	200: {{structname}}DBResponse
-func Update{{Structname}}(c *gin.Context) {
+func (controller *Controller) Update{{Structname}}(c *gin.Context) {
 
 	values := c.Request.URL.Query()
 	if len(values) == 1 {
@@ -307,7 +307,7 @@ func Update{{Structname}}(c *gin.Context) {
 // default: genericError
 //
 //	200: {{structname}}DBResponse
-func Delete{{Structname}}(c *gin.Context) {
+func (controller *Controller) Delete{{Structname}}(c *gin.Context) {
 
 	values := c.Request.URL.Query()
 	if len(values) == 1 {

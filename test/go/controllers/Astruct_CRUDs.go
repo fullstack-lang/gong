@@ -105,7 +105,7 @@ func (controller *Controller) GetAstructs(c *gin.Context) {
 //
 //	Responses:
 //	  200: nodeDBResponse
-func PostAstruct(c *gin.Context) {
+func (controller *Controller) PostAstruct(c *gin.Context) {
 
 	values := c.Request.URL.Query()
 	if len(values) == 1 {
@@ -170,7 +170,7 @@ func PostAstruct(c *gin.Context) {
 // default: genericError
 //
 //	200: astructDBResponse
-func GetAstruct(c *gin.Context) {
+func (controller *Controller) GetAstruct(c *gin.Context) {
 
 	values := c.Request.URL.Query()
 	if len(values) == 1 {
@@ -212,7 +212,7 @@ func GetAstruct(c *gin.Context) {
 // default: genericError
 //
 //	200: astructDBResponse
-func UpdateAstruct(c *gin.Context) {
+func (controller *Controller) UpdateAstruct(c *gin.Context) {
 
 	values := c.Request.URL.Query()
 	if len(values) == 1 {
@@ -291,7 +291,7 @@ func UpdateAstruct(c *gin.Context) {
 // default: genericError
 //
 //	200: astructDBResponse
-func DeleteAstruct(c *gin.Context) {
+func (controller *Controller) DeleteAstruct(c *gin.Context) {
 
 	values := c.Request.URL.Query()
 	if len(values) == 1 {
