@@ -1,5 +1,6 @@
 package golang
 
-const DefaultModelDocsTemplate = `// Models package of {{PkgName}}
+const DefaultModelDocsTemplate = `// Default generated models package docs
+// (at least one file is necessary in a models package)
 package models
 `

@@ -329,6 +329,12 @@ func main() {
 		filepath.Join(*pkgPath, "../controllers/register_controllers.go"),
 		golang.ControllersRegisterTemplate, golang.ControllersRegistrationsSubTemplate)
 
+	gong_models.VerySimpleCodeGenerator(
+		modelPkg,
+		caserEnglish.String(modelPkg.Name),
+		modelPkg.PkgPath, filepath.Join(*pkgPath, "../controllers/controller.go"),
+		golang.ControllerTemplate)
+
 	gong_models.SimpleCodeGeneratorForGongStructWithNameField(
 		modelPkg,
 		modelPkg.Name,
