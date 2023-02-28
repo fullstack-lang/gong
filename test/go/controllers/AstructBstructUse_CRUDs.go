@@ -150,8 +150,8 @@ func (controller *Controller) PostAstructBstructUse(c *gin.Context) {
 	}
 
 	// get an instance (not staged) from DB instance, and call callback function
-	orm.BackRepo.BackRepoAstructBstructUse.CheckoutPhaseOneInstance(&astructbstructuseDB)
-	astructbstructuse := (*orm.BackRepo.BackRepoAstructBstructUse.Map_AstructBstructUseDBID_AstructBstructUsePtr)[astructbstructuseDB.ID]
+	backRepo.BackRepoAstructBstructUse.CheckoutPhaseOneInstance(&astructbstructuseDB)
+	astructbstructuse := (*backRepo.BackRepoAstructBstructUse.Map_AstructBstructUseDBID_AstructBstructUsePtr)[astructbstructuseDB.ID]
 
 	if astructbstructuse != nil {
 		models.AfterCreateFromFront(&models.Stage, astructbstructuse)
@@ -159,7 +159,7 @@ func (controller *Controller) PostAstructBstructUse(c *gin.Context) {
 
 	// a POST is equivalent to a back repo commit increase
 	// (this will be improved with implementation of unit of work design pattern)
-	orm.BackRepo.IncrementPushFromFrontNb()
+	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, astructbstructuseDB)
 }
@@ -273,7 +273,7 @@ func (controller *Controller) UpdateAstructBstructUse(c *gin.Context) {
 	astructbstructuseDB.CopyBasicFieldsToAstructBstructUse(astructbstructuseNew)
 
 	// get stage instance from DB instance, and call callback function
-	astructbstructuseOld := (*orm.BackRepo.BackRepoAstructBstructUse.Map_AstructBstructUseDBID_AstructBstructUsePtr)[astructbstructuseDB.ID]
+	astructbstructuseOld := (*backRepo.BackRepoAstructBstructUse.Map_AstructBstructUseDBID_AstructBstructUsePtr)[astructbstructuseDB.ID]
 	if astructbstructuseOld != nil {
 		models.AfterUpdateFromFront(&models.Stage, astructbstructuseOld, astructbstructuseNew)
 	}
@@ -282,7 +282,7 @@ func (controller *Controller) UpdateAstructBstructUse(c *gin.Context) {
 	// (this will be improved with implementation of unit of work design pattern)
 	// in some cases, with the marshalling of the stage, this operation might
 	// generates a checkout
-	orm.BackRepo.IncrementPushFromFrontNb()
+	backRepo.IncrementPushFromFrontNb()
 
 	// return status OK with the marshalling of the the astructbstructuseDB
 	c.JSON(http.StatusOK, astructbstructuseDB)
@@ -330,14 +330,14 @@ func (controller *Controller) DeleteAstructBstructUse(c *gin.Context) {
 	astructbstructuseDB.CopyBasicFieldsToAstructBstructUse(astructbstructuseDeleted)
 
 	// get stage instance from DB instance, and call callback function
-	astructbstructuseStaged := (*orm.BackRepo.BackRepoAstructBstructUse.Map_AstructBstructUseDBID_AstructBstructUsePtr)[astructbstructuseDB.ID]
+	astructbstructuseStaged := (*backRepo.BackRepoAstructBstructUse.Map_AstructBstructUseDBID_AstructBstructUsePtr)[astructbstructuseDB.ID]
 	if astructbstructuseStaged != nil {
 		models.AfterDeleteFromFront(&models.Stage, astructbstructuseStaged, astructbstructuseDeleted)
 	}
 
 	// a DELETE generates a back repo commit increase
 	// (this will be improved with implementation of unit of work design pattern)
-	orm.BackRepo.IncrementPushFromFrontNb()
+	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, gin.H{"data": true})
 }

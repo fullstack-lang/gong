@@ -4,11 +4,10 @@ const ControllersRegisterTemplate = `package controllers
 
 import (
 	"fmt"
+	"log"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-
-	"{{PkgPathRoot}}/orm"
 )
 
 // genQuery return the name of the column
@@ -52,14 +51,34 @@ func RegisterControllers(r *gin.Engine) {
 
 // swagger:route GET /commitfrombacknb backrepo GetLastCommitFromBackNb
 func (controller *Controller) GetLastCommitFromBackNb(c *gin.Context) {
-	res := orm.GetLastCommitFromBackNb()
+	values := c.Request.URL.Query()
+	stackPath := ""
+	if len(values) == 1 {
+		value := values["GONG__StackPath"]
+		if len(value) == 1 {
+			stackPath = value[0]
+			log.Println("GetLastCommitFromBackNb", "GONG__StackPath", stackPath)
+		}
+	}
+	backRepo := controller.Map_BackRepos[stackPath]
+	res := backRepo.GetLastCommitFromBackNb()
 
 	c.JSON(http.StatusOK, res)
 }
 
 // swagger:route GET /pushfromfrontnb backrepo GetLastPushFromFrontNb
 func(controller *Controller) GetLastPushFromFrontNb(c *gin.Context) {
-	res := orm.GetLastPushFromFrontNb()
+	values := c.Request.URL.Query()
+	stackPath := ""
+	if len(values) == 1 {
+		value := values["GONG__StackPath"]
+		if len(value) == 1 {
+			stackPath = value[0]
+			log.Println("GetLastPushFromFrontNb", "GONG__StackPath", stackPath)
+		}
+	}
+	backRepo := controller.Map_BackRepos[stackPath]
+	res := backRepo.GetLastPushFromFrontNb()
 
 	c.JSON(http.StatusOK, res)
 }
