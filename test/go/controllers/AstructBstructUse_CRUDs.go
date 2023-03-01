@@ -154,7 +154,7 @@ func (controller *Controller) PostAstructBstructUse(c *gin.Context) {
 	astructbstructuse := (*backRepo.BackRepoAstructBstructUse.Map_AstructBstructUseDBID_AstructBstructUsePtr)[astructbstructuseDB.ID]
 
 	if astructbstructuse != nil {
-		models.AfterCreateFromFront(&models.Stage, astructbstructuse)
+		models.AfterCreateFromFront(backRepo.GetStage(), astructbstructuse)
 	}
 
 	// a POST is equivalent to a back repo commit increase
@@ -275,7 +275,7 @@ func (controller *Controller) UpdateAstructBstructUse(c *gin.Context) {
 	// get stage instance from DB instance, and call callback function
 	astructbstructuseOld := (*backRepo.BackRepoAstructBstructUse.Map_AstructBstructUseDBID_AstructBstructUsePtr)[astructbstructuseDB.ID]
 	if astructbstructuseOld != nil {
-		models.AfterUpdateFromFront(&models.Stage, astructbstructuseOld, astructbstructuseNew)
+		models.AfterUpdateFromFront(backRepo.GetStage(), astructbstructuseOld, astructbstructuseNew)
 	}
 
 	// an UPDATE generates a back repo commit increase
@@ -332,7 +332,7 @@ func (controller *Controller) DeleteAstructBstructUse(c *gin.Context) {
 	// get stage instance from DB instance, and call callback function
 	astructbstructuseStaged := (*backRepo.BackRepoAstructBstructUse.Map_AstructBstructUseDBID_AstructBstructUsePtr)[astructbstructuseDB.ID]
 	if astructbstructuseStaged != nil {
-		models.AfterDeleteFromFront(&models.Stage, astructbstructuseStaged, astructbstructuseDeleted)
+		models.AfterDeleteFromFront(backRepo.GetStage(), astructbstructuseStaged, astructbstructuseDeleted)
 	}
 
 	// a DELETE generates a back repo commit increase
