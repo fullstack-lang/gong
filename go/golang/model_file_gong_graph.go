@@ -54,7 +54,7 @@ func (stage *StageStruct) StageBranch{{Structname}}({{structname}} *{{Structname
 		return
 	}
 
-	{{structname}}.Stage()
+	{{structname}}.Stage(stage)
 
 	//insertion point for the staging of instances referenced by pointers{{StagingPointers}}
 
@@ -74,7 +74,7 @@ func (stage *StageStruct) UnstageBranch{{Structname}}({{structname}} *{{Structna
 		return
 	}
 
-	{{structname}}.Unstage()
+	{{structname}}.Unstage(stage)
 
 	//insertion point for the staging of instances referenced by pointers{{UnstagingPointers}}
 
