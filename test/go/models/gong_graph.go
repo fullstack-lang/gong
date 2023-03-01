@@ -99,7 +99,7 @@ func (stage *StageStruct) StageBranchAstruct(astruct *Astruct) {
 		return
 	}
 
-	astruct.Stage()
+	astruct.Stage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
 	if astruct.Bstruct != nil {
@@ -156,7 +156,7 @@ func (stage *StageStruct) StageBranchAstructBstruct2Use(astructbstruct2use *Astr
 		return
 	}
 
-	astructbstruct2use.Stage()
+	astructbstruct2use.Stage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
 	if astructbstruct2use.Bstrcut2 != nil {
@@ -174,7 +174,7 @@ func (stage *StageStruct) StageBranchAstructBstructUse(astructbstructuse *Astruc
 		return
 	}
 
-	astructbstructuse.Stage()
+	astructbstructuse.Stage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
 	if astructbstructuse.Bstruct2 != nil {
@@ -192,7 +192,7 @@ func (stage *StageStruct) StageBranchBstruct(bstruct *Bstruct) {
 		return
 	}
 
-	bstruct.Stage()
+	bstruct.Stage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -207,7 +207,7 @@ func (stage *StageStruct) StageBranchDstruct(dstruct *Dstruct) {
 		return
 	}
 
-	dstruct.Stage()
+	dstruct.Stage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -252,7 +252,7 @@ func (stage *StageStruct) UnstageBranchAstruct(astruct *Astruct) {
 		return
 	}
 
-	astruct.Unstage()
+	astruct.Unstage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
 	if astruct.Bstruct != nil {
@@ -309,7 +309,7 @@ func (stage *StageStruct) UnstageBranchAstructBstruct2Use(astructbstruct2use *As
 		return
 	}
 
-	astructbstruct2use.Unstage()
+	astructbstruct2use.Unstage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
 	if astructbstruct2use.Bstrcut2 != nil {
@@ -327,7 +327,7 @@ func (stage *StageStruct) UnstageBranchAstructBstructUse(astructbstructuse *Astr
 		return
 	}
 
-	astructbstructuse.Unstage()
+	astructbstructuse.Unstage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
 	if astructbstructuse.Bstruct2 != nil {
@@ -345,7 +345,7 @@ func (stage *StageStruct) UnstageBranchBstruct(bstruct *Bstruct) {
 		return
 	}
 
-	bstruct.Unstage()
+	bstruct.Unstage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -360,7 +360,7 @@ func (stage *StageStruct) UnstageBranchDstruct(dstruct *Dstruct) {
 		return
 	}
 
-	dstruct.Unstage()
+	dstruct.Unstage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
 

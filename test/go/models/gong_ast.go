@@ -484,23 +484,23 @@ func UnmarshallGongstructStaging(stage *StageStruct, cmap *ast.CommentMap, assig
 									switch gongstructName {
 									// insertion point for identifiers
 									case "Astruct":
-										instanceAstruct := (&Astruct{Name: instanceName}).Stage()
+										instanceAstruct := (&Astruct{Name: instanceName}).Stage(stage)
 										instance = any(instanceAstruct)
 										__gong__map_Astruct[identifier] = instanceAstruct
 									case "AstructBstruct2Use":
-										instanceAstructBstruct2Use := (&AstructBstruct2Use{Name: instanceName}).Stage()
+										instanceAstructBstruct2Use := (&AstructBstruct2Use{Name: instanceName}).Stage(stage)
 										instance = any(instanceAstructBstruct2Use)
 										__gong__map_AstructBstruct2Use[identifier] = instanceAstructBstruct2Use
 									case "AstructBstructUse":
-										instanceAstructBstructUse := (&AstructBstructUse{Name: instanceName}).Stage()
+										instanceAstructBstructUse := (&AstructBstructUse{Name: instanceName}).Stage(stage)
 										instance = any(instanceAstructBstructUse)
 										__gong__map_AstructBstructUse[identifier] = instanceAstructBstructUse
 									case "Bstruct":
-										instanceBstruct := (&Bstruct{Name: instanceName}).Stage()
+										instanceBstruct := (&Bstruct{Name: instanceName}).Stage(stage)
 										instance = any(instanceBstruct)
 										__gong__map_Bstruct[identifier] = instanceBstruct
 									case "Dstruct":
-										instanceDstruct := (&Dstruct{Name: instanceName}).Stage()
+										instanceDstruct := (&Dstruct{Name: instanceName}).Stage(stage)
 										instance = any(instanceDstruct)
 										__gong__map_Dstruct[identifier] = instanceDstruct
 									}

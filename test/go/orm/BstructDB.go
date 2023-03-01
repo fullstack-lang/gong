@@ -136,6 +136,11 @@ type BackRepoBstructStruct struct {
 	stage *models.StageStruct
 }
 
+func (backRepoBstruct *BackRepoBstructStruct) GetStage() (stage *models.StageStruct) {
+	stage = backRepoBstruct.stage
+	return
+}
+
 func (backRepoBstruct *BackRepoBstructStruct) GetDB() *gorm.DB {
 	return backRepoBstruct.db
 }
@@ -312,7 +317,7 @@ func (backRepoBstruct *BackRepoBstructStruct) CheckoutPhaseOne() (Error error) {
 
 	// remove from stage and back repo's 3 maps all bstructs that are not in the checkout
 	for bstruct := range bstructInstancesToBeRemovedFromTheStage {
-		bstruct.Unstage()
+		bstruct.Unstage(backRepoBstruct.GetStage())
 
 		// remove instance from the back repo 3 maps
 		bstructID := (*backRepoBstruct.Map_BstructPtr_BstructDBID)[bstruct]
@@ -337,12 +342,12 @@ func (backRepoBstruct *BackRepoBstructStruct) CheckoutPhaseOneInstance(bstructDB
 
 		// append model store with the new element
 		bstruct.Name = bstructDB.Name_Data.String
-		bstruct.Stage()
+		bstruct.Stage(backRepoBstruct.GetStage())
 	}
 	bstructDB.CopyBasicFieldsToBstruct(bstruct)
 
 	// in some cases, the instance might have been unstaged. It is necessary to stage it again
-	bstruct.Stage()
+	bstruct.Stage(backRepoBstruct.GetStage())
 
 	// preserve pointer to bstructDB. Otherwise, pointer will is recycled and the map of pointers
 	// Map_BstructDBID_BstructDB)[bstructDB hold variable pointers
