@@ -170,7 +170,7 @@ func (controller *Controller) Post{{Structname}}(c *gin.Context) {
 	{{structname}} := (*backRepo.BackRepo{{Structname}}.Map_{{Structname}}DBID_{{Structname}}Ptr)[{{structname}}DB.ID]
 
 	if {{structname}} != nil {
-		models.AfterCreateFromFront(&models.Stage, {{structname}})
+		models.AfterCreateFromFront(backRepo.GetStage(), {{structname}})
 	}
 
 	// a POST is equivalent to a back repo commit increase
@@ -291,7 +291,7 @@ func (controller *Controller) Update{{Structname}}(c *gin.Context) {
 	// get stage instance from DB instance, and call callback function
 	{{structname}}Old := (*backRepo.BackRepo{{Structname}}.Map_{{Structname}}DBID_{{Structname}}Ptr)[{{structname}}DB.ID]
 	if {{structname}}Old != nil {
-		models.AfterUpdateFromFront(&models.Stage, {{structname}}Old, {{structname}}New)
+		models.AfterUpdateFromFront(backRepo.GetStage(), {{structname}}Old, {{structname}}New)
 	}
 
 	// an UPDATE generates a back repo commit increase
@@ -348,7 +348,7 @@ func (controller *Controller) Delete{{Structname}}(c *gin.Context) {
 	// get stage instance from DB instance, and call callback function
 	{{structname}}Staged := (*backRepo.BackRepo{{Structname}}.Map_{{Structname}}DBID_{{Structname}}Ptr)[{{structname}}DB.ID]
 	if {{structname}}Staged != nil {
-		models.AfterDeleteFromFront(&models.Stage, {{structname}}Staged, {{structname}}Deleted)
+		models.AfterDeleteFromFront(backRepo.GetStage(), {{structname}}Staged, {{structname}}Deleted)
 	}
 
 	// a DELETE generates a back repo commit increase
