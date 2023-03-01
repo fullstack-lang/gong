@@ -65,93 +65,38 @@ map[ModelGongStructInsertionId]string{
 
 	ModelGongStructInsertionStageFunctions: `
 // Stage puts {{structname}} to the model stage
-func ({{structname}} *{{Structname}}) Stage() *{{Structname}} {
-	Stage.{{Structname}}s[{{structname}}] = __member
-	Stage.{{Structname}}s_mapString[{{structname}}.Name] = {{structname}}
+func ({{structname}} *{{Structname}}) Stage(stage *StageStruct) *{{Structname}} {
+	stage.{{Structname}}s[{{structname}}] = __member
+	stage.{{Structname}}s_mapString[{{structname}}.Name] = {{structname}}
 
 	return {{structname}}
 }
 
 // Unstage removes {{structname}} off the model stage
-func ({{structname}} *{{Structname}}) Unstage() *{{Structname}} {
-	delete(Stage.{{Structname}}s, {{structname}})
-	delete(Stage.{{Structname}}s_mapString, {{structname}}.Name)
+func ({{structname}} *{{Structname}}) Unstage(stage *StageStruct) *{{Structname}} {
+	delete(stage.{{Structname}}s, {{structname}})
+	delete(stage.{{Structname}}s_mapString, {{structname}}.Name)
 	return {{structname}}
 }
 
 // commit {{structname}} to the back repo (if it is already staged)
-func ({{structname}} *{{Structname}}) Commit() *{{Structname}} {
-	if _, ok := Stage.{{Structname}}s[{{structname}}]; ok {
-		if Stage.BackRepo != nil {
-			Stage.BackRepo.Commit{{Structname}}({{structname}})
+func ({{structname}} *{{Structname}}) Commit(stage *StageStruct) *{{Structname}} {
+	if _, ok := stage.{{Structname}}s[{{structname}}]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.Commit{{Structname}}({{structname}})
 		}
 	}
 	return {{structname}}
 }
 
 // Checkout {{structname}} to the back repo (if it is already staged)
-func ({{structname}} *{{Structname}}) Checkout() *{{Structname}} {
+func ({{structname}} *{{Structname}}) Checkout(stage *StageStruct) *{{Structname}} {
 	if _, ok := Stage.{{Structname}}s[{{structname}}]; ok {
-		if Stage.BackRepo != nil {
-			Stage.BackRepo.Checkout{{Structname}}({{structname}})
+		if stage.BackRepo != nil {
+			stage.BackRepo.Checkout{{Structname}}({{structname}})
 		}
 	}
 	return {{structname}}
-}
-
-//
-// Legacy, to be deleted
-//
-
-// StageCopy appends a copy of {{structname}} to the model stage
-func ({{structname}} *{{Structname}}) StageCopy() *{{Structname}} {
-	_{{structname}} := new({{Structname}})
-	*_{{structname}} = *{{structname}}
-	_{{structname}}.Stage()
-	return _{{structname}}
-}
-
-// StageAndCommit appends {{structname}} to the model stage and commit to the orm repo
-func ({{structname}} *{{Structname}}) StageAndCommit() *{{Structname}} {
-	{{structname}}.Stage()
-	if Stage.AllModelsStructCreateCallback != nil {
-		Stage.AllModelsStructCreateCallback.CreateORM{{Structname}}({{structname}})
-	}
-	return {{structname}}
-}
-
-// DeleteStageAndCommit appends {{structname}} to the model stage and commit to the orm repo
-func ({{structname}} *{{Structname}}) DeleteStageAndCommit() *{{Structname}} {
-	{{structname}}.Unstage()
-	DeleteORM{{Structname}}({{structname}})
-	return {{structname}}
-}
-
-// StageCopyAndCommit appends a copy of {{structname}} to the model stage and commit to the orm repo
-func ({{structname}} *{{Structname}}) StageCopyAndCommit() *{{Structname}} {
-	_{{structname}} := new({{Structname}})
-	*_{{structname}} = *{{structname}}
-	_{{structname}}.Stage()
-	if Stage.AllModelsStructCreateCallback != nil {
-		Stage.AllModelsStructCreateCallback.CreateORM{{Structname}}({{structname}})
-	}
-	return _{{structname}}
-}
-
-// CreateORM{{Structname}} enables dynamic staging of a {{Structname}} instance
-func CreateORM{{Structname}}({{structname}} *{{Structname}}) {
-	{{structname}}.Stage()
-	if Stage.AllModelsStructCreateCallback != nil {
-		Stage.AllModelsStructCreateCallback.CreateORM{{Structname}}({{structname}})
-	}
-}
-
-// DeleteORM{{Structname}} enables dynamic staging of a {{Structname}} instance
-func DeleteORM{{Structname}}({{structname}} *{{Structname}}) {
-	{{structname}}.Unstage()
-	if Stage.AllModelsStructDeleteCallback != nil {
-		Stage.AllModelsStructDeleteCallback.DeleteORM{{Structname}}({{structname}})
-	}
 }
 
 // for satisfaction of GongStruct interface
@@ -192,7 +137,7 @@ func ({{structname}} *{{Structname}}) GetName() (res string) {
 `,
 	ModelGongStructInsertionArrayUnstage: `
 	for {{structname}} := range stage.{{Structname}}s {
-		{{structname}}.Unstage()
+		{{structname}}.Unstage(stage)
 	}
 `,
 	ModelGongStructInsertionUnmarshallDeclarations: `
