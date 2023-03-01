@@ -45,9 +45,10 @@ func stage_outInjection(stage *models.StageStruct) {
 	// Declaration of instances to stage
 
 	// Declarations of staged instances of Astruct
-	__Astruct__000000_A1 := (&models.Astruct{Name: `A1`}).Stage(stage)
-	__Astruct__000001_A2 := (&models.Astruct{Name: `A2`}).Stage(stage)
-	__Astruct__000002_A3 := (&models.Astruct{Name: `A3`}).Stage(stage)
+	__Astruct__000000_ := (&models.Astruct{Name: ``}).Stage(stage)
+	__Astruct__000001_A1 := (&models.Astruct{Name: `A1`}).Stage(stage)
+	__Astruct__000002_A2 := (&models.Astruct{Name: `A2`}).Stage(stage)
+	__Astruct__000003_A3 := (&models.Astruct{Name: `A3`}).Stage(stage)
 
 	// Declarations of staged instances of AstructBstruct2Use
 	__AstructBstruct2Use__000000_ := (&models.AstructBstruct2Use{Name: ``}).Stage(stage)
@@ -66,140 +67,182 @@ func stage_outInjection(stage *models.StageStruct) {
 	// Setup of values
 
 	// Astruct values setup
-	__Astruct__000000_A1.Name = `A1`
-	__Astruct__000000_A1.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2022-11-14 03:08:21 +0000 +0000")
-	__Astruct__000000_A1.Booleanfield = false
-	__Astruct__000000_A1.Aenum = models.ENUM_VAL1
-	__Astruct__000000_A1.Aenum_2 = models.ENUM_VAL2
-	__Astruct__000000_A1.Benum = models.BENUM_VAL2
-	__Astruct__000000_A1.CEnum = models.CENUM_VAL2
-	__Astruct__000000_A1.CName = `CName1
+	__Astruct__000000_.Name = ``
+	__Astruct__000000_.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2023-03-01 18:46:11.271 +0000 +0000")
+	__Astruct__000000_.Booleanfield = false
+	__Astruct__000000_.CEnum = models.CENUM_VAL1
+	__Astruct__000000_.CName = ``
+	__Astruct__000000_.CFloatfield = 0.000000
+	__Astruct__000000_.Floatfield = 0.000000
+	__Astruct__000000_.Intfield = 0
+	__Astruct__000000_.Anotherbooleanfield = false
+	__Astruct__000000_.Duration1 = 0
+
+	// comment added to overcome the problem with the comment map association
+
+	//gong:ident []
+	__Astruct__000000_.StructRef = ``
+
+	// comment added to overcome the problem with the comment map association
+
+	//gong:ident []
+	__Astruct__000000_.FieldRef = ``
+
+	// comment added to overcome the problem with the comment map association
+
+	//gong:ident []
+	__Astruct__000000_.EnumIntRef = ``
+
+	// comment added to overcome the problem with the comment map association
+
+	//gong:ident []
+	__Astruct__000000_.EnumStringRef = ``
+
+	// comment added to overcome the problem with the comment map association
+
+	//gong:ident []
+	__Astruct__000000_.EnumValue = ``
+
+	// comment added to overcome the problem with the comment map association
+
+	//gong:ident []
+	__Astruct__000000_.ConstIdentifierValue = ``
+
+	// Astruct values setup
+	__Astruct__000001_A1.Name = `A1`
+	__Astruct__000001_A1.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2022-11-14 03:08:21 +0000 +0000")
+	__Astruct__000001_A1.Booleanfield = false
+	__Astruct__000001_A1.Aenum = models.ENUM_VAL1
+	__Astruct__000001_A1.Aenum_2 = models.ENUM_VAL2
+	__Astruct__000001_A1.Benum = models.BENUM_VAL2
+	__Astruct__000001_A1.CEnum = models.CENUM_VAL2
+	__Astruct__000001_A1.CName = `CName1
 
 	\n"""" fdfsqjfhdqksfhqksf
 Second Line`
-	__Astruct__000000_A1.CFloatfield = 60.500000
-	__Astruct__000000_A1.Floatfield = 0.000000
-	__Astruct__000000_A1.Intfield = 3
-	__Astruct__000000_A1.Anotherbooleanfield = false
-	__Astruct__000000_A1.Duration1 = 79653000000000
+	__Astruct__000001_A1.CFloatfield = 60.500000
+	__Astruct__000001_A1.Floatfield = 0.000000
+	__Astruct__000001_A1.Intfield = 3
+	__Astruct__000001_A1.Anotherbooleanfield = false
+	__Astruct__000001_A1.Duration1 = 79653000000000
 
 	// comment added to overcome the problem with the comment map association
 
 	//gong:ident [gongdoc_models.GongStructShape]
-	__Astruct__000000_A1.StructRef = `gongdoc_models.GongStructShape`
+	__Astruct__000001_A1.StructRef = `gongdoc_models.GongStructShape`
 
 	// comment added to overcome the problem with the comment map association
 
 	//gong:ident [gongdoc_models.GongStructShape.Name]
-	__Astruct__000000_A1.FieldRef = `gongdoc_models.GongStructShape.Name`
+	__Astruct__000001_A1.FieldRef = `gongdoc_models.GongStructShape.Name`
 
 	// comment added to overcome the problem with the comment map association
 
 	//gong:ident [..]
-	__Astruct__000000_A1.EnumIntRef = `..`
+	__Astruct__000001_A1.EnumIntRef = `..`
 
 	// comment added to overcome the problem with the comment map association
 
 	//gong:ident [..]
-	__Astruct__000000_A1.EnumStringRef = `..`
+	__Astruct__000001_A1.EnumStringRef = `..`
 
 	// comment added to overcome the problem with the comment map association
 
 	//gong:ident [..]
-	__Astruct__000000_A1.EnumValue = `..`
+	__Astruct__000001_A1.EnumValue = `..`
 
 	// comment added to overcome the problem with the comment map association
 
 	//gong:ident [..]
-	__Astruct__000000_A1.ConstIdentifierValue = `..`
+	__Astruct__000001_A1.ConstIdentifierValue = `..`
 
 	// Astruct values setup
-	__Astruct__000001_A2.Name = `A2`
-	__Astruct__000001_A2.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2022-01-18 01:09:21 +0000 +0000")
-	__Astruct__000001_A2.Booleanfield = false
-	__Astruct__000001_A2.Aenum = models.ENUM_VAL1
-	__Astruct__000001_A2.Aenum_2 = models.ENUM_VAL2
-	__Astruct__000001_A2.Benum = models.BENUM_VAL1
-	__Astruct__000001_A2.CEnum = models.CENUM_VAL1
-	__Astruct__000001_A2.CName = ``
-	__Astruct__000001_A2.CFloatfield = 0.100000
-	__Astruct__000001_A2.Floatfield = 0.000000
-	__Astruct__000001_A2.Intfield = 0
-	__Astruct__000001_A2.Anotherbooleanfield = false
-	__Astruct__000001_A2.Duration1 = 0
+	__Astruct__000002_A2.Name = `A2`
+	__Astruct__000002_A2.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2022-01-18 01:09:21 +0000 +0000")
+	__Astruct__000002_A2.Booleanfield = false
+	__Astruct__000002_A2.Aenum = models.ENUM_VAL1
+	__Astruct__000002_A2.Aenum_2 = models.ENUM_VAL2
+	__Astruct__000002_A2.Benum = models.BENUM_VAL1
+	__Astruct__000002_A2.CEnum = models.CENUM_VAL1
+	__Astruct__000002_A2.CName = ``
+	__Astruct__000002_A2.CFloatfield = 0.100000
+	__Astruct__000002_A2.Floatfield = 0.000000
+	__Astruct__000002_A2.Intfield = 0
+	__Astruct__000002_A2.Anotherbooleanfield = false
+	__Astruct__000002_A2.Duration1 = 0
 
 	// comment added to overcome the problem with the comment map association
 
 	//gong:ident [..]
-	__Astruct__000001_A2.StructRef = `..`
+	__Astruct__000002_A2.StructRef = `..`
 
 	// comment added to overcome the problem with the comment map association
 
 	//gong:ident [..]
-	__Astruct__000001_A2.FieldRef = `..`
+	__Astruct__000002_A2.FieldRef = `..`
 
 	// comment added to overcome the problem with the comment map association
 
 	//gong:ident [..]
-	__Astruct__000001_A2.EnumIntRef = `..`
+	__Astruct__000002_A2.EnumIntRef = `..`
 
 	// comment added to overcome the problem with the comment map association
 
 	//gong:ident [..]
-	__Astruct__000001_A2.EnumStringRef = `..`
+	__Astruct__000002_A2.EnumStringRef = `..`
 
 	// comment added to overcome the problem with the comment map association
 
 	//gong:ident [..]
-	__Astruct__000001_A2.EnumValue = `..`
+	__Astruct__000002_A2.EnumValue = `..`
 
 	// comment added to overcome the problem with the comment map association
 
 	//gong:ident [..]
-	__Astruct__000001_A2.ConstIdentifierValue = `..`
+	__Astruct__000002_A2.ConstIdentifierValue = `..`
 
 	// Astruct values setup
-	__Astruct__000002_A3.Name = `A3`
-	__Astruct__000002_A3.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2022-02-10 01:06:11.446 +0000 +0000")
-	__Astruct__000002_A3.Booleanfield = true
-	__Astruct__000002_A3.Benum = models.BENUM_VAL2
-	__Astruct__000002_A3.CEnum = models.CENUM_VAL1
-	__Astruct__000002_A3.CName = ``
-	__Astruct__000002_A3.CFloatfield = 4.900000
-	__Astruct__000002_A3.Floatfield = 2.000000
-	__Astruct__000002_A3.Intfield = 0
-	__Astruct__000002_A3.Anotherbooleanfield = false
-	__Astruct__000002_A3.Duration1 = 0
+	__Astruct__000003_A3.Name = `A3`
+	__Astruct__000003_A3.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2022-02-10 01:06:11.446 +0000 +0000")
+	__Astruct__000003_A3.Booleanfield = true
+	__Astruct__000003_A3.Benum = models.BENUM_VAL2
+	__Astruct__000003_A3.CEnum = models.CENUM_VAL1
+	__Astruct__000003_A3.CName = ``
+	__Astruct__000003_A3.CFloatfield = 4.900000
+	__Astruct__000003_A3.Floatfield = 2.000000
+	__Astruct__000003_A3.Intfield = 0
+	__Astruct__000003_A3.Anotherbooleanfield = false
+	__Astruct__000003_A3.Duration1 = 0
 
 	// comment added to overcome the problem with the comment map association
 
 	//gong:ident [..]
-	__Astruct__000002_A3.StructRef = `..`
+	__Astruct__000003_A3.StructRef = `..`
 
 	// comment added to overcome the problem with the comment map association
 
 	//gong:ident [..]
-	__Astruct__000002_A3.FieldRef = `..`
+	__Astruct__000003_A3.FieldRef = `..`
 
 	// comment added to overcome the problem with the comment map association
 
 	//gong:ident [..]
-	__Astruct__000002_A3.EnumIntRef = `..`
+	__Astruct__000003_A3.EnumIntRef = `..`
 
 	// comment added to overcome the problem with the comment map association
 
 	//gong:ident [..]
-	__Astruct__000002_A3.EnumStringRef = `..`
+	__Astruct__000003_A3.EnumStringRef = `..`
 
 	// comment added to overcome the problem with the comment map association
 
 	//gong:ident [..]
-	__Astruct__000002_A3.EnumValue = `..`
+	__Astruct__000003_A3.EnumValue = `..`
 
 	// comment added to overcome the problem with the comment map association
 
 	//gong:ident [..]
-	__Astruct__000002_A3.ConstIdentifierValue = `..`
+	__Astruct__000003_A3.ConstIdentifierValue = `..`
 
 	// AstructBstruct2Use values setup
 	__AstructBstruct2Use__000000_.Name = ``
@@ -229,14 +272,16 @@ Second Line`
 	__Dstruct__000000_D1.Name = `D1`
 
 	// Setup of pointers
-	__Astruct__000000_A1.Associationtob = __Bstruct__000001_B2
-	__Astruct__000000_A1.Anarrayofb = append(__Astruct__000000_A1.Anarrayofb, __Bstruct__000000_B1)
-	__Astruct__000000_A1.Anarrayofb = append(__Astruct__000000_A1.Anarrayofb, __Bstruct__000002_B3)
-	__Astruct__000000_A1.Anotherarrayofb = append(__Astruct__000000_A1.Anotherarrayofb, __Bstruct__000001_B2)
-	__Astruct__000000_A1.Anotherarrayofb = append(__Astruct__000000_A1.Anotherarrayofb, __Bstruct__000002_B3)
-	__Astruct__000000_A1.Anarrayofa = append(__Astruct__000000_A1.Anarrayofa, __Astruct__000000_A1)
-	__Astruct__000000_A1.Anarrayofb2Use = append(__Astruct__000000_A1.Anarrayofb2Use, __AstructBstruct2Use__000000_)
-	__Astruct__000001_A2.Anarrayofb2Use = append(__Astruct__000001_A2.Anarrayofb2Use, __AstructBstruct2Use__000001_)
+	__Astruct__000001_A1.Associationtob = __Bstruct__000001_B2
+	__Astruct__000001_A1.Anarrayofb = append(__Astruct__000001_A1.Anarrayofb, __Bstruct__000000_B1)
+	__Astruct__000001_A1.Anarrayofb = append(__Astruct__000001_A1.Anarrayofb, __Bstruct__000002_B3)
+	__Astruct__000001_A1.Anotherarrayofb = append(__Astruct__000001_A1.Anotherarrayofb, __Bstruct__000001_B2)
+	__Astruct__000001_A1.Anotherarrayofb = append(__Astruct__000001_A1.Anotherarrayofb, __Bstruct__000002_B3)
+	__Astruct__000001_A1.Anarrayofa = append(__Astruct__000001_A1.Anarrayofa, __Astruct__000001_A1)
+	__Astruct__000001_A1.Anarrayofb2Use = append(__Astruct__000001_A1.Anarrayofb2Use, __AstructBstruct2Use__000000_)
+	__Astruct__000002_A2.Anarrayofb2Use = append(__Astruct__000002_A2.Anarrayofb2Use, __AstructBstruct2Use__000001_)
 	__AstructBstruct2Use__000000_.Bstrcut2 = __Bstruct__000000_B1
 	__AstructBstruct2Use__000001_.Bstrcut2 = __Bstruct__000000_B1
 }
+
+
