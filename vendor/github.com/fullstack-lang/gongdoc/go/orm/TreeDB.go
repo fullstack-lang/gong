@@ -102,6 +102,13 @@ type BackRepoTreeStruct struct {
 	Map_TreeDBID_TreePtr *map[uint]*models.Tree
 
 	db *gorm.DB
+
+	stage *models.StageStruct
+}
+
+func (backRepoTree *BackRepoTreeStruct) GetStage() (stage *models.StageStruct) {
+	stage = backRepoTree.stage
+	return
 }
 
 func (backRepoTree *BackRepoTreeStruct) GetDB() *gorm.DB {
@@ -116,7 +123,7 @@ func (backRepoTree *BackRepoTreeStruct) GetTreeDBFromTreePtr(tree *models.Tree) 
 }
 
 // BackRepoTree.Init set up the BackRepo of the Tree
-func (backRepoTree *BackRepoTreeStruct) Init(db *gorm.DB) (Error error) {
+func (backRepoTree *BackRepoTreeStruct) Init(stage *models.StageStruct, db *gorm.DB) (Error error) {
 
 	if backRepoTree.Map_TreeDBID_TreePtr != nil {
 		err := errors.New("In Init, backRepoTree.Map_TreeDBID_TreePtr should be nil")
@@ -143,6 +150,7 @@ func (backRepoTree *BackRepoTreeStruct) Init(db *gorm.DB) (Error error) {
 	backRepoTree.Map_TreePtr_TreeDBID = &tmpID
 
 	backRepoTree.db = db
+	backRepoTree.stage = stage
 	return
 }
 
@@ -280,7 +288,7 @@ func (backRepoTree *BackRepoTreeStruct) CheckoutPhaseOne() (Error error) {
 	// list of instances to be removed
 	// start from the initial map on the stage and remove instances that have been checked out
 	treeInstancesToBeRemovedFromTheStage := make(map[*models.Tree]any)
-	for key, value := range models.Stage.Trees {
+	for key, value := range backRepoTree.stage.Trees {
 		treeInstancesToBeRemovedFromTheStage[key] = value
 	}
 
@@ -298,7 +306,7 @@ func (backRepoTree *BackRepoTreeStruct) CheckoutPhaseOne() (Error error) {
 
 	// remove from stage and back repo's 3 maps all trees that are not in the checkout
 	for tree := range treeInstancesToBeRemovedFromTheStage {
-		tree.Unstage()
+		tree.Unstage(backRepoTree.GetStage())
 
 		// remove instance from the back repo 3 maps
 		treeID := (*backRepoTree.Map_TreePtr_TreeDBID)[tree]
@@ -323,12 +331,12 @@ func (backRepoTree *BackRepoTreeStruct) CheckoutPhaseOneInstance(treeDB *TreeDB)
 
 		// append model store with the new element
 		tree.Name = treeDB.Name_Data.String
-		tree.Stage()
+		tree.Stage(backRepoTree.GetStage())
 	}
 	treeDB.CopyBasicFieldsToTree(tree)
 
 	// in some cases, the instance might have been unstaged. It is necessary to stage it again
-	tree.Stage()
+	tree.Stage(backRepoTree.GetStage())
 
 	// preserve pointer to treeDB. Otherwise, pointer will is recycled and the map of pointers
 	// Map_TreeDBID_TreeDB)[treeDB hold variable pointers

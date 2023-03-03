@@ -47,11 +47,23 @@ type NoteShapeLinkInput struct {
 // default: genericError
 //
 //	200: noteshapelinkDBResponse
-func GetNoteShapeLinks(c *gin.Context) {
-	db := orm.BackRepo.BackRepoNoteShapeLink.GetDB()
+func (controller *Controller) GetNoteShapeLinks(c *gin.Context) {
 
 	// source slice
 	var noteshapelinkDBs []orm.NoteShapeLinkDB
+
+	values := c.Request.URL.Query()
+	stackPath := ""
+	if len(values) == 1 {
+		value := values["GONG__StackPath"]
+		if len(value) == 1 {
+			stackPath = value[0]
+			log.Println("GetNoteShapeLinks", "GONG__StackPath", stackPath)
+		}
+	}
+	backRepo := controller.Map_BackRepos[stackPath]
+	db := backRepo.BackRepoNoteShapeLink.GetDB()
+
 	query := db.Find(&noteshapelinkDBs)
 	if query.Error != nil {
 		var returnError GenericError
@@ -95,8 +107,19 @@ func GetNoteShapeLinks(c *gin.Context) {
 //
 //	Responses:
 //	  200: nodeDBResponse
-func PostNoteShapeLink(c *gin.Context) {
-	db := orm.BackRepo.BackRepoNoteShapeLink.GetDB()
+func (controller *Controller) PostNoteShapeLink(c *gin.Context) {
+
+	values := c.Request.URL.Query()
+	stackPath := ""
+	if len(values) == 1 {
+		value := values["GONG__StackPath"]
+		if len(value) == 1 {
+			stackPath = value[0]
+			log.Println("PostNoteShapeLinks", "GONG__StackPath", stackPath)
+		}
+	}
+	backRepo := controller.Map_BackRepos[stackPath]
+	db := backRepo.BackRepoNoteShapeLink.GetDB()
 
 	// Validate input
 	var input orm.NoteShapeLinkAPI
@@ -127,16 +150,16 @@ func PostNoteShapeLink(c *gin.Context) {
 	}
 
 	// get an instance (not staged) from DB instance, and call callback function
-	orm.BackRepo.BackRepoNoteShapeLink.CheckoutPhaseOneInstance(&noteshapelinkDB)
-	noteshapelink := (*orm.BackRepo.BackRepoNoteShapeLink.Map_NoteShapeLinkDBID_NoteShapeLinkPtr)[noteshapelinkDB.ID]
+	backRepo.BackRepoNoteShapeLink.CheckoutPhaseOneInstance(&noteshapelinkDB)
+	noteshapelink := (*backRepo.BackRepoNoteShapeLink.Map_NoteShapeLinkDBID_NoteShapeLinkPtr)[noteshapelinkDB.ID]
 
 	if noteshapelink != nil {
-		models.AfterCreateFromFront(&models.Stage, noteshapelink)
+		models.AfterCreateFromFront(backRepo.GetStage(), noteshapelink)
 	}
 
 	// a POST is equivalent to a back repo commit increase
 	// (this will be improved with implementation of unit of work design pattern)
-	orm.BackRepo.IncrementPushFromFrontNb()
+	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, noteshapelinkDB)
 }
@@ -151,8 +174,19 @@ func PostNoteShapeLink(c *gin.Context) {
 // default: genericError
 //
 //	200: noteshapelinkDBResponse
-func GetNoteShapeLink(c *gin.Context) {
-	db := orm.BackRepo.BackRepoNoteShapeLink.GetDB()
+func (controller *Controller) GetNoteShapeLink(c *gin.Context) {
+
+	values := c.Request.URL.Query()
+	stackPath := ""
+	if len(values) == 1 {
+		value := values["GONG__StackPath"]
+		if len(value) == 1 {
+			stackPath = value[0]
+			log.Println("GetNoteShapeLink", "GONG__StackPath", stackPath)
+		}
+	}
+	backRepo := controller.Map_BackRepos[stackPath]
+	db := backRepo.BackRepoNoteShapeLink.GetDB()
 
 	// Get noteshapelinkDB in DB
 	var noteshapelinkDB orm.NoteShapeLinkDB
@@ -183,8 +217,27 @@ func GetNoteShapeLink(c *gin.Context) {
 // default: genericError
 //
 //	200: noteshapelinkDBResponse
-func UpdateNoteShapeLink(c *gin.Context) {
-	db := orm.BackRepo.BackRepoNoteShapeLink.GetDB()
+func (controller *Controller) UpdateNoteShapeLink(c *gin.Context) {
+
+	values := c.Request.URL.Query()
+	stackPath := ""
+	if len(values) == 1 {
+		value := values["GONG__StackPath"]
+		if len(value) == 1 {
+			stackPath = value[0]
+			log.Println("UpdateNoteShapeLink", "GONG__StackPath", stackPath)
+		}
+	}
+	backRepo := controller.Map_BackRepos[stackPath]
+	db := backRepo.BackRepoNoteShapeLink.GetDB()
+
+	// Validate input
+	var input orm.NoteShapeLinkAPI
+	if err := c.ShouldBindJSON(&input); err != nil {
+		log.Println(err.Error())
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
 
 	// Get model if exist
 	var noteshapelinkDB orm.NoteShapeLinkDB
@@ -198,14 +251,6 @@ func UpdateNoteShapeLink(c *gin.Context) {
 		returnError.Body.Message = query.Error.Error()
 		log.Println(query.Error.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
-		return
-	}
-
-	// Validate input
-	var input orm.NoteShapeLinkAPI
-	if err := c.ShouldBindJSON(&input); err != nil {
-		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
@@ -228,16 +273,16 @@ func UpdateNoteShapeLink(c *gin.Context) {
 	noteshapelinkDB.CopyBasicFieldsToNoteShapeLink(noteshapelinkNew)
 
 	// get stage instance from DB instance, and call callback function
-	noteshapelinkOld := (*orm.BackRepo.BackRepoNoteShapeLink.Map_NoteShapeLinkDBID_NoteShapeLinkPtr)[noteshapelinkDB.ID]
+	noteshapelinkOld := (*backRepo.BackRepoNoteShapeLink.Map_NoteShapeLinkDBID_NoteShapeLinkPtr)[noteshapelinkDB.ID]
 	if noteshapelinkOld != nil {
-		models.AfterUpdateFromFront(&models.Stage, noteshapelinkOld, noteshapelinkNew)
+		models.AfterUpdateFromFront(backRepo.GetStage(), noteshapelinkOld, noteshapelinkNew)
 	}
 
 	// an UPDATE generates a back repo commit increase
 	// (this will be improved with implementation of unit of work design pattern)
 	// in some cases, with the marshalling of the stage, this operation might
 	// generates a checkout
-	orm.BackRepo.IncrementPushFromFrontNb()
+	backRepo.IncrementPushFromFrontNb()
 
 	// return status OK with the marshalling of the the noteshapelinkDB
 	c.JSON(http.StatusOK, noteshapelinkDB)
@@ -252,8 +297,19 @@ func UpdateNoteShapeLink(c *gin.Context) {
 // default: genericError
 //
 //	200: noteshapelinkDBResponse
-func DeleteNoteShapeLink(c *gin.Context) {
-	db := orm.BackRepo.BackRepoNoteShapeLink.GetDB()
+func (controller *Controller) DeleteNoteShapeLink(c *gin.Context) {
+
+	values := c.Request.URL.Query()
+	stackPath := ""
+	if len(values) == 1 {
+		value := values["GONG__StackPath"]
+		if len(value) == 1 {
+			stackPath = value[0]
+			log.Println("DeleteNoteShapeLink", "GONG__StackPath", stackPath)
+		}
+	}
+	backRepo := controller.Map_BackRepos[stackPath]
+	db := backRepo.BackRepoNoteShapeLink.GetDB()
 
 	// Get model if exist
 	var noteshapelinkDB orm.NoteShapeLinkDB
@@ -274,14 +330,14 @@ func DeleteNoteShapeLink(c *gin.Context) {
 	noteshapelinkDB.CopyBasicFieldsToNoteShapeLink(noteshapelinkDeleted)
 
 	// get stage instance from DB instance, and call callback function
-	noteshapelinkStaged := (*orm.BackRepo.BackRepoNoteShapeLink.Map_NoteShapeLinkDBID_NoteShapeLinkPtr)[noteshapelinkDB.ID]
+	noteshapelinkStaged := (*backRepo.BackRepoNoteShapeLink.Map_NoteShapeLinkDBID_NoteShapeLinkPtr)[noteshapelinkDB.ID]
 	if noteshapelinkStaged != nil {
-		models.AfterDeleteFromFront(&models.Stage, noteshapelinkStaged, noteshapelinkDeleted)
+		models.AfterDeleteFromFront(backRepo.GetStage(), noteshapelinkStaged, noteshapelinkDeleted)
 	}
 
 	// a DELETE generates a back repo commit increase
 	// (this will be improved with implementation of unit of work design pattern)
-	orm.BackRepo.IncrementPushFromFrontNb()
+	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, gin.H{"data": true})
 }

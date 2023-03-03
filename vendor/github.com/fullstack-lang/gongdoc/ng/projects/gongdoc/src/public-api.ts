@@ -106,5 +106,6 @@ export * from './lib/vertice-db'
 export * from './lib/vertice.service'
 
 
-export * from './lib/GONG__ExpressionType'
+export * from './lib/GongEnumShapeType'
 export * from './lib/MultiplicityType'
+export * from './lib/NoteShapeLinkType'

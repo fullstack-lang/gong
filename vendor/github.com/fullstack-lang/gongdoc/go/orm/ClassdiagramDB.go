@@ -115,6 +115,13 @@ type BackRepoClassdiagramStruct struct {
 	Map_ClassdiagramDBID_ClassdiagramPtr *map[uint]*models.Classdiagram
 
 	db *gorm.DB
+
+	stage *models.StageStruct
+}
+
+func (backRepoClassdiagram *BackRepoClassdiagramStruct) GetStage() (stage *models.StageStruct) {
+	stage = backRepoClassdiagram.stage
+	return
 }
 
 func (backRepoClassdiagram *BackRepoClassdiagramStruct) GetDB() *gorm.DB {
@@ -129,7 +136,7 @@ func (backRepoClassdiagram *BackRepoClassdiagramStruct) GetClassdiagramDBFromCla
 }
 
 // BackRepoClassdiagram.Init set up the BackRepo of the Classdiagram
-func (backRepoClassdiagram *BackRepoClassdiagramStruct) Init(db *gorm.DB) (Error error) {
+func (backRepoClassdiagram *BackRepoClassdiagramStruct) Init(stage *models.StageStruct, db *gorm.DB) (Error error) {
 
 	if backRepoClassdiagram.Map_ClassdiagramDBID_ClassdiagramPtr != nil {
 		err := errors.New("In Init, backRepoClassdiagram.Map_ClassdiagramDBID_ClassdiagramPtr should be nil")
@@ -156,6 +163,7 @@ func (backRepoClassdiagram *BackRepoClassdiagramStruct) Init(db *gorm.DB) (Error
 	backRepoClassdiagram.Map_ClassdiagramPtr_ClassdiagramDBID = &tmpID
 
 	backRepoClassdiagram.db = db
+	backRepoClassdiagram.stage = stage
 	return
 }
 
@@ -331,7 +339,7 @@ func (backRepoClassdiagram *BackRepoClassdiagramStruct) CheckoutPhaseOne() (Erro
 	// list of instances to be removed
 	// start from the initial map on the stage and remove instances that have been checked out
 	classdiagramInstancesToBeRemovedFromTheStage := make(map[*models.Classdiagram]any)
-	for key, value := range models.Stage.Classdiagrams {
+	for key, value := range backRepoClassdiagram.stage.Classdiagrams {
 		classdiagramInstancesToBeRemovedFromTheStage[key] = value
 	}
 
@@ -349,7 +357,7 @@ func (backRepoClassdiagram *BackRepoClassdiagramStruct) CheckoutPhaseOne() (Erro
 
 	// remove from stage and back repo's 3 maps all classdiagrams that are not in the checkout
 	for classdiagram := range classdiagramInstancesToBeRemovedFromTheStage {
-		classdiagram.Unstage()
+		classdiagram.Unstage(backRepoClassdiagram.GetStage())
 
 		// remove instance from the back repo 3 maps
 		classdiagramID := (*backRepoClassdiagram.Map_ClassdiagramPtr_ClassdiagramDBID)[classdiagram]
@@ -374,12 +382,12 @@ func (backRepoClassdiagram *BackRepoClassdiagramStruct) CheckoutPhaseOneInstance
 
 		// append model store with the new element
 		classdiagram.Name = classdiagramDB.Name_Data.String
-		classdiagram.Stage()
+		classdiagram.Stage(backRepoClassdiagram.GetStage())
 	}
 	classdiagramDB.CopyBasicFieldsToClassdiagram(classdiagram)
 
 	// in some cases, the instance might have been unstaged. It is necessary to stage it again
-	classdiagram.Stage()
+	classdiagram.Stage(backRepoClassdiagram.GetStage())
 
 	// preserve pointer to classdiagramDB. Otherwise, pointer will is recycled and the map of pointers
 	// Map_ClassdiagramDBID_ClassdiagramDB)[classdiagramDB hold variable pointers

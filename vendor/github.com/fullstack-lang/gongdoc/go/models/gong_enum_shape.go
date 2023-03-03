@@ -20,3 +20,10 @@ type GongEnumShape struct {
 	// They are optional fields. they can be computed when empty
 	Width, Heigth float64
 }
+
+type GongEnumShapeType int
+
+const (
+	Int GongEnumShapeType = iota
+	String
+)

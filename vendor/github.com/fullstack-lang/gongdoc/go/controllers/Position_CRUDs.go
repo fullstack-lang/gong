@@ -47,11 +47,23 @@ type PositionInput struct {
 // default: genericError
 //
 //	200: positionDBResponse
-func GetPositions(c *gin.Context) {
-	db := orm.BackRepo.BackRepoPosition.GetDB()
+func (controller *Controller) GetPositions(c *gin.Context) {
 
 	// source slice
 	var positionDBs []orm.PositionDB
+
+	values := c.Request.URL.Query()
+	stackPath := ""
+	if len(values) == 1 {
+		value := values["GONG__StackPath"]
+		if len(value) == 1 {
+			stackPath = value[0]
+			log.Println("GetPositions", "GONG__StackPath", stackPath)
+		}
+	}
+	backRepo := controller.Map_BackRepos[stackPath]
+	db := backRepo.BackRepoPosition.GetDB()
+
 	query := db.Find(&positionDBs)
 	if query.Error != nil {
 		var returnError GenericError
@@ -95,8 +107,19 @@ func GetPositions(c *gin.Context) {
 //
 //	Responses:
 //	  200: nodeDBResponse
-func PostPosition(c *gin.Context) {
-	db := orm.BackRepo.BackRepoPosition.GetDB()
+func (controller *Controller) PostPosition(c *gin.Context) {
+
+	values := c.Request.URL.Query()
+	stackPath := ""
+	if len(values) == 1 {
+		value := values["GONG__StackPath"]
+		if len(value) == 1 {
+			stackPath = value[0]
+			log.Println("PostPositions", "GONG__StackPath", stackPath)
+		}
+	}
+	backRepo := controller.Map_BackRepos[stackPath]
+	db := backRepo.BackRepoPosition.GetDB()
 
 	// Validate input
 	var input orm.PositionAPI
@@ -127,16 +150,16 @@ func PostPosition(c *gin.Context) {
 	}
 
 	// get an instance (not staged) from DB instance, and call callback function
-	orm.BackRepo.BackRepoPosition.CheckoutPhaseOneInstance(&positionDB)
-	position := (*orm.BackRepo.BackRepoPosition.Map_PositionDBID_PositionPtr)[positionDB.ID]
+	backRepo.BackRepoPosition.CheckoutPhaseOneInstance(&positionDB)
+	position := (*backRepo.BackRepoPosition.Map_PositionDBID_PositionPtr)[positionDB.ID]
 
 	if position != nil {
-		models.AfterCreateFromFront(&models.Stage, position)
+		models.AfterCreateFromFront(backRepo.GetStage(), position)
 	}
 
 	// a POST is equivalent to a back repo commit increase
 	// (this will be improved with implementation of unit of work design pattern)
-	orm.BackRepo.IncrementPushFromFrontNb()
+	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, positionDB)
 }
@@ -151,8 +174,19 @@ func PostPosition(c *gin.Context) {
 // default: genericError
 //
 //	200: positionDBResponse
-func GetPosition(c *gin.Context) {
-	db := orm.BackRepo.BackRepoPosition.GetDB()
+func (controller *Controller) GetPosition(c *gin.Context) {
+
+	values := c.Request.URL.Query()
+	stackPath := ""
+	if len(values) == 1 {
+		value := values["GONG__StackPath"]
+		if len(value) == 1 {
+			stackPath = value[0]
+			log.Println("GetPosition", "GONG__StackPath", stackPath)
+		}
+	}
+	backRepo := controller.Map_BackRepos[stackPath]
+	db := backRepo.BackRepoPosition.GetDB()
 
 	// Get positionDB in DB
 	var positionDB orm.PositionDB
@@ -183,8 +217,27 @@ func GetPosition(c *gin.Context) {
 // default: genericError
 //
 //	200: positionDBResponse
-func UpdatePosition(c *gin.Context) {
-	db := orm.BackRepo.BackRepoPosition.GetDB()
+func (controller *Controller) UpdatePosition(c *gin.Context) {
+
+	values := c.Request.URL.Query()
+	stackPath := ""
+	if len(values) == 1 {
+		value := values["GONG__StackPath"]
+		if len(value) == 1 {
+			stackPath = value[0]
+			log.Println("UpdatePosition", "GONG__StackPath", stackPath)
+		}
+	}
+	backRepo := controller.Map_BackRepos[stackPath]
+	db := backRepo.BackRepoPosition.GetDB()
+
+	// Validate input
+	var input orm.PositionAPI
+	if err := c.ShouldBindJSON(&input); err != nil {
+		log.Println(err.Error())
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
 
 	// Get model if exist
 	var positionDB orm.PositionDB
@@ -198,14 +251,6 @@ func UpdatePosition(c *gin.Context) {
 		returnError.Body.Message = query.Error.Error()
 		log.Println(query.Error.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
-		return
-	}
-
-	// Validate input
-	var input orm.PositionAPI
-	if err := c.ShouldBindJSON(&input); err != nil {
-		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
@@ -228,16 +273,16 @@ func UpdatePosition(c *gin.Context) {
 	positionDB.CopyBasicFieldsToPosition(positionNew)
 
 	// get stage instance from DB instance, and call callback function
-	positionOld := (*orm.BackRepo.BackRepoPosition.Map_PositionDBID_PositionPtr)[positionDB.ID]
+	positionOld := (*backRepo.BackRepoPosition.Map_PositionDBID_PositionPtr)[positionDB.ID]
 	if positionOld != nil {
-		models.AfterUpdateFromFront(&models.Stage, positionOld, positionNew)
+		models.AfterUpdateFromFront(backRepo.GetStage(), positionOld, positionNew)
 	}
 
 	// an UPDATE generates a back repo commit increase
 	// (this will be improved with implementation of unit of work design pattern)
 	// in some cases, with the marshalling of the stage, this operation might
 	// generates a checkout
-	orm.BackRepo.IncrementPushFromFrontNb()
+	backRepo.IncrementPushFromFrontNb()
 
 	// return status OK with the marshalling of the the positionDB
 	c.JSON(http.StatusOK, positionDB)
@@ -252,8 +297,19 @@ func UpdatePosition(c *gin.Context) {
 // default: genericError
 //
 //	200: positionDBResponse
-func DeletePosition(c *gin.Context) {
-	db := orm.BackRepo.BackRepoPosition.GetDB()
+func (controller *Controller) DeletePosition(c *gin.Context) {
+
+	values := c.Request.URL.Query()
+	stackPath := ""
+	if len(values) == 1 {
+		value := values["GONG__StackPath"]
+		if len(value) == 1 {
+			stackPath = value[0]
+			log.Println("DeletePosition", "GONG__StackPath", stackPath)
+		}
+	}
+	backRepo := controller.Map_BackRepos[stackPath]
+	db := backRepo.BackRepoPosition.GetDB()
 
 	// Get model if exist
 	var positionDB orm.PositionDB
@@ -274,14 +330,14 @@ func DeletePosition(c *gin.Context) {
 	positionDB.CopyBasicFieldsToPosition(positionDeleted)
 
 	// get stage instance from DB instance, and call callback function
-	positionStaged := (*orm.BackRepo.BackRepoPosition.Map_PositionDBID_PositionPtr)[positionDB.ID]
+	positionStaged := (*backRepo.BackRepoPosition.Map_PositionDBID_PositionPtr)[positionDB.ID]
 	if positionStaged != nil {
-		models.AfterDeleteFromFront(&models.Stage, positionStaged, positionDeleted)
+		models.AfterDeleteFromFront(backRepo.GetStage(), positionStaged, positionDeleted)
 	}
 
 	// a DELETE generates a back repo commit increase
 	// (this will be improved with implementation of unit of work design pattern)
-	orm.BackRepo.IncrementPushFromFrontNb()
+	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, gin.H{"data": true})
 }

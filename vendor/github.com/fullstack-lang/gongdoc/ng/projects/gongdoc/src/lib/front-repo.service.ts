@@ -134,6 +134,8 @@ export class DialogData {
   IntermediateStruct: string = "" // the "AclassBclassUse" 
   IntermediateStructField: string = "" // the "Bclass" as field
   NextAssociationStruct: string = "" // the "Bclass"
+
+  GONG__StackPath: string = ""
 }
 
 export enum SelectionMode {
@@ -148,6 +150,8 @@ export enum SelectionMode {
   providedIn: 'root'
 })
 export class FrontRepoService {
+
+  GONG__StackPath: string = ""
 
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -215,22 +219,22 @@ export class FrontRepoService {
     Observable<UmlStateDB[]>,
     Observable<UmlscDB[]>,
     Observable<VerticeDB[]>,
-  ] = [ // insertion point sub template 
-      this.classdiagramService.getClassdiagrams(),
-      this.diagrampackageService.getDiagramPackages(),
-      this.fieldService.getFields(),
-      this.gongenumshapeService.getGongEnumShapes(),
-      this.gongenumvalueentryService.getGongEnumValueEntrys(),
-      this.gongstructshapeService.getGongStructShapes(),
-      this.linkService.getLinks(),
-      this.nodeService.getNodes(),
-      this.noteshapeService.getNoteShapes(),
-      this.noteshapelinkService.getNoteShapeLinks(),
-      this.positionService.getPositions(),
-      this.treeService.getTrees(),
-      this.umlstateService.getUmlStates(),
-      this.umlscService.getUmlscs(),
-      this.verticeService.getVertices(),
+  ] = [ // insertion point sub template
+      this.classdiagramService.getClassdiagrams(this.GONG__StackPath),
+      this.diagrampackageService.getDiagramPackages(this.GONG__StackPath),
+      this.fieldService.getFields(this.GONG__StackPath),
+      this.gongenumshapeService.getGongEnumShapes(this.GONG__StackPath),
+      this.gongenumvalueentryService.getGongEnumValueEntrys(this.GONG__StackPath),
+      this.gongstructshapeService.getGongStructShapes(this.GONG__StackPath),
+      this.linkService.getLinks(this.GONG__StackPath),
+      this.nodeService.getNodes(this.GONG__StackPath),
+      this.noteshapeService.getNoteShapes(this.GONG__StackPath),
+      this.noteshapelinkService.getNoteShapeLinks(this.GONG__StackPath),
+      this.positionService.getPositions(this.GONG__StackPath),
+      this.treeService.getTrees(this.GONG__StackPath),
+      this.umlstateService.getUmlStates(this.GONG__StackPath),
+      this.umlscService.getUmlscs(this.GONG__StackPath),
+      this.verticeService.getVertices(this.GONG__StackPath),
     ];
 
   //
@@ -239,7 +243,28 @@ export class FrontRepoService {
   // This is an observable. Therefore, the control flow forks with
   // - pull() return immediatly the observable
   // - the observable observer, if it subscribe, is called when all GET calls are performs
-  pull(): Observable<FrontRepo> {
+  pull(GONG__StackPath: string = ""): Observable<FrontRepo> {
+
+    this.GONG__StackPath = GONG__StackPath
+
+    this.observableFrontRepo = [ // insertion point sub template
+      this.classdiagramService.getClassdiagrams(this.GONG__StackPath),
+      this.diagrampackageService.getDiagramPackages(this.GONG__StackPath),
+      this.fieldService.getFields(this.GONG__StackPath),
+      this.gongenumshapeService.getGongEnumShapes(this.GONG__StackPath),
+      this.gongenumvalueentryService.getGongEnumValueEntrys(this.GONG__StackPath),
+      this.gongstructshapeService.getGongStructShapes(this.GONG__StackPath),
+      this.linkService.getLinks(this.GONG__StackPath),
+      this.nodeService.getNodes(this.GONG__StackPath),
+      this.noteshapeService.getNoteShapes(this.GONG__StackPath),
+      this.noteshapelinkService.getNoteShapeLinks(this.GONG__StackPath),
+      this.positionService.getPositions(this.GONG__StackPath),
+      this.treeService.getTrees(this.GONG__StackPath),
+      this.umlstateService.getUmlStates(this.GONG__StackPath),
+      this.umlscService.getUmlscs(this.GONG__StackPath),
+      this.verticeService.getVertices(this.GONG__StackPath),
+    ]
+
     return new Observable<FrontRepo>(
       (observer) => {
         combineLatest(
@@ -1008,27 +1033,6 @@ export class FrontRepoService {
             noteshapelinks.forEach(
               noteshapelink => {
                 // insertion point sub sub template for ONE-/ZERO-ONE associations pointers redeeming
-                // insertion point for pointer field Classshape redeeming
-                {
-                  let _gongstructshape = FrontRepoSingloton.GongStructShapes.get(noteshapelink.ClassshapeID.Int64)
-                  if (_gongstructshape) {
-                    noteshapelink.Classshape = _gongstructshape
-                  }
-                }
-                // insertion point for pointer field Link redeeming
-                {
-                  let _link = FrontRepoSingloton.Links.get(noteshapelink.LinkID.Int64)
-                  if (_link) {
-                    noteshapelink.Link = _link
-                  }
-                }
-                // insertion point for pointer field Middlevertice redeeming
-                {
-                  let _vertice = FrontRepoSingloton.Vertices.get(noteshapelink.MiddleverticeID.Int64)
-                  if (_vertice) {
-                    noteshapelink.Middlevertice = _vertice
-                  }
-                }
 
                 // insertion point for redeeming ONE-MANY associations
                 // insertion point for slice of pointer field NoteShape.NoteShapeLinks redeeming
@@ -1747,27 +1751,6 @@ export class FrontRepoService {
                 FrontRepoSingloton.NoteShapeLinks_batch.set(noteshapelink.ID, noteshapelink)
 
                 // insertion point for redeeming ONE/ZERO-ONE associations
-                // insertion point for pointer field Classshape redeeming
-                {
-                  let _gongstructshape = FrontRepoSingloton.GongStructShapes.get(noteshapelink.ClassshapeID.Int64)
-                  if (_gongstructshape) {
-                    noteshapelink.Classshape = _gongstructshape
-                  }
-                }
-                // insertion point for pointer field Link redeeming
-                {
-                  let _link = FrontRepoSingloton.Links.get(noteshapelink.LinkID.Int64)
-                  if (_link) {
-                    noteshapelink.Link = _link
-                  }
-                }
-                // insertion point for pointer field Middlevertice redeeming
-                {
-                  let _vertice = FrontRepoSingloton.Vertices.get(noteshapelink.MiddleverticeID.Int64)
-                  if (_vertice) {
-                    noteshapelink.Middlevertice = _vertice
-                  }
-                }
 
                 // insertion point for redeeming ONE-MANY associations
                 // insertion point for slice of pointer field NoteShape.NoteShapeLinks redeeming

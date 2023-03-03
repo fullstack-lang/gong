@@ -25,7 +25,10 @@ type NoteShape struct {
 	//gong:ident
 	Identifier string
 
-	Body          string
+	Body string
+
+	BodyHTML string
+
 	X, Y          float64
 	Width, Heigth float64
 	Matched       bool // if a note with the same name has been found

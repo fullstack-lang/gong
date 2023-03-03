@@ -17,9 +17,9 @@ func (diagramPackageCallbacksSingloton *DiagramPackageCallbacksSingloton) OnAfte
 	if stagedDiagramPackage.IsReloaded != frontDiagramPackage.IsReloaded {
 
 		// reset the IsReloaded to false
-		stagedDiagramPackage.Checkout()
+		stagedDiagramPackage.Checkout(stage)
 		stagedDiagramPackage.IsReloaded = false
-		stagedDiagramPackage.Commit()
+		stagedDiagramPackage.Commit(stage)
 
 		log.Println("Reload requested")
 		if stagedDiagramPackage.IsEditable {

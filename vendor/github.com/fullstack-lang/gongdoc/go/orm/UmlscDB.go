@@ -121,6 +121,13 @@ type BackRepoUmlscStruct struct {
 	Map_UmlscDBID_UmlscPtr *map[uint]*models.Umlsc
 
 	db *gorm.DB
+
+	stage *models.StageStruct
+}
+
+func (backRepoUmlsc *BackRepoUmlscStruct) GetStage() (stage *models.StageStruct) {
+	stage = backRepoUmlsc.stage
+	return
 }
 
 func (backRepoUmlsc *BackRepoUmlscStruct) GetDB() *gorm.DB {
@@ -135,7 +142,7 @@ func (backRepoUmlsc *BackRepoUmlscStruct) GetUmlscDBFromUmlscPtr(umlsc *models.U
 }
 
 // BackRepoUmlsc.Init set up the BackRepo of the Umlsc
-func (backRepoUmlsc *BackRepoUmlscStruct) Init(db *gorm.DB) (Error error) {
+func (backRepoUmlsc *BackRepoUmlscStruct) Init(stage *models.StageStruct, db *gorm.DB) (Error error) {
 
 	if backRepoUmlsc.Map_UmlscDBID_UmlscPtr != nil {
 		err := errors.New("In Init, backRepoUmlsc.Map_UmlscDBID_UmlscPtr should be nil")
@@ -162,6 +169,7 @@ func (backRepoUmlsc *BackRepoUmlscStruct) Init(db *gorm.DB) (Error error) {
 	backRepoUmlsc.Map_UmlscPtr_UmlscDBID = &tmpID
 
 	backRepoUmlsc.db = db
+	backRepoUmlsc.stage = stage
 	return
 }
 
@@ -299,7 +307,7 @@ func (backRepoUmlsc *BackRepoUmlscStruct) CheckoutPhaseOne() (Error error) {
 	// list of instances to be removed
 	// start from the initial map on the stage and remove instances that have been checked out
 	umlscInstancesToBeRemovedFromTheStage := make(map[*models.Umlsc]any)
-	for key, value := range models.Stage.Umlscs {
+	for key, value := range backRepoUmlsc.stage.Umlscs {
 		umlscInstancesToBeRemovedFromTheStage[key] = value
 	}
 
@@ -317,7 +325,7 @@ func (backRepoUmlsc *BackRepoUmlscStruct) CheckoutPhaseOne() (Error error) {
 
 	// remove from stage and back repo's 3 maps all umlscs that are not in the checkout
 	for umlsc := range umlscInstancesToBeRemovedFromTheStage {
-		umlsc.Unstage()
+		umlsc.Unstage(backRepoUmlsc.GetStage())
 
 		// remove instance from the back repo 3 maps
 		umlscID := (*backRepoUmlsc.Map_UmlscPtr_UmlscDBID)[umlsc]
@@ -342,12 +350,12 @@ func (backRepoUmlsc *BackRepoUmlscStruct) CheckoutPhaseOneInstance(umlscDB *Umls
 
 		// append model store with the new element
 		umlsc.Name = umlscDB.Name_Data.String
-		umlsc.Stage()
+		umlsc.Stage(backRepoUmlsc.GetStage())
 	}
 	umlscDB.CopyBasicFieldsToUmlsc(umlsc)
 
 	// in some cases, the instance might have been unstaged. It is necessary to stage it again
-	umlsc.Stage()
+	umlsc.Stage(backRepoUmlsc.GetStage())
 
 	// preserve pointer to umlscDB. Otherwise, pointer will is recycled and the map of pointers
 	// Map_UmlscDBID_UmlscDB)[umlscDB hold variable pointers
