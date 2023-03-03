@@ -47,23 +47,22 @@ type GongTimeFieldInput struct {
 // default: genericError
 //
 //	200: gongtimefieldDBResponse
-func GetGongTimeFields(c *gin.Context) {
-	db := orm.BackRepo.BackRepoGongTimeField.GetDB()
+func (controller *Controller) GetGongTimeFields(c *gin.Context) {
 
 	// source slice
 	var gongtimefieldDBs []orm.GongTimeFieldDB
 
-	// type Values map[string][]string
 	values := c.Request.URL.Query()
+	stackPath := ""
 	if len(values) == 1 {
 		value := values["GONG__StackPath"]
 		if len(value) == 1 {
-			// we have a single parameter
-			// we assume it is the stack
-			stackParam := value[0]
-			log.Println("GONG__StackPath", stackParam)
+			stackPath = value[0]
+			log.Println("GetGongTimeFields", "GONG__StackPath", stackPath)
 		}
 	}
+	backRepo := controller.Map_BackRepos[stackPath]
+	db := backRepo.BackRepoGongTimeField.GetDB()
 
 	query := db.Find(&gongtimefieldDBs)
 	if query.Error != nil {
@@ -108,7 +107,19 @@ func GetGongTimeFields(c *gin.Context) {
 //
 //	Responses:
 //	  200: nodeDBResponse
-func PostGongTimeField(c *gin.Context) {
+func (controller *Controller) PostGongTimeField(c *gin.Context) {
+
+	values := c.Request.URL.Query()
+	stackPath := ""
+	if len(values) == 1 {
+		value := values["GONG__StackPath"]
+		if len(value) == 1 {
+			stackPath = value[0]
+			log.Println("PostGongTimeFields", "GONG__StackPath", stackPath)
+		}
+	}
+	backRepo := controller.Map_BackRepos[stackPath]
+	db := backRepo.BackRepoGongTimeField.GetDB()
 
 	// Validate input
 	var input orm.GongTimeFieldAPI
@@ -128,7 +139,6 @@ func PostGongTimeField(c *gin.Context) {
 	gongtimefieldDB.GongTimeFieldPointersEnconding = input.GongTimeFieldPointersEnconding
 	gongtimefieldDB.CopyBasicFieldsFromGongTimeField(&input.GongTimeField)
 
-	db := orm.BackRepo.BackRepoGongTimeField.GetDB()
 	query := db.Create(&gongtimefieldDB)
 	if query.Error != nil {
 		var returnError GenericError
@@ -140,16 +150,16 @@ func PostGongTimeField(c *gin.Context) {
 	}
 
 	// get an instance (not staged) from DB instance, and call callback function
-	orm.BackRepo.BackRepoGongTimeField.CheckoutPhaseOneInstance(&gongtimefieldDB)
-	gongtimefield := (*orm.BackRepo.BackRepoGongTimeField.Map_GongTimeFieldDBID_GongTimeFieldPtr)[gongtimefieldDB.ID]
+	backRepo.BackRepoGongTimeField.CheckoutPhaseOneInstance(&gongtimefieldDB)
+	gongtimefield := (*backRepo.BackRepoGongTimeField.Map_GongTimeFieldDBID_GongTimeFieldPtr)[gongtimefieldDB.ID]
 
 	if gongtimefield != nil {
-		models.AfterCreateFromFront(&models.Stage, gongtimefield)
+		models.AfterCreateFromFront(backRepo.GetStage(), gongtimefield)
 	}
 
 	// a POST is equivalent to a back repo commit increase
 	// (this will be improved with implementation of unit of work design pattern)
-	orm.BackRepo.IncrementPushFromFrontNb()
+	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, gongtimefieldDB)
 }
@@ -164,21 +174,19 @@ func PostGongTimeField(c *gin.Context) {
 // default: genericError
 //
 //	200: gongtimefieldDBResponse
-func GetGongTimeField(c *gin.Context) {
+func (controller *Controller) GetGongTimeField(c *gin.Context) {
 
-	// type Values map[string][]string
 	values := c.Request.URL.Query()
+	stackPath := ""
 	if len(values) == 1 {
-		value := values["stack"]
+		value := values["GONG__StackPath"]
 		if len(value) == 1 {
-			// we have a single parameter
-			// we assume it is the stack
-			stackParam := value[0]
-			log.Println("GET params", stackParam)
+			stackPath = value[0]
+			log.Println("GetGongTimeField", "GONG__StackPath", stackPath)
 		}
 	}
-
-	db := orm.BackRepo.BackRepoGongTimeField.GetDB()
+	backRepo := controller.Map_BackRepos[stackPath]
+	db := backRepo.BackRepoGongTimeField.GetDB()
 
 	// Get gongtimefieldDB in DB
 	var gongtimefieldDB orm.GongTimeFieldDB
@@ -209,7 +217,19 @@ func GetGongTimeField(c *gin.Context) {
 // default: genericError
 //
 //	200: gongtimefieldDBResponse
-func UpdateGongTimeField(c *gin.Context) {
+func (controller *Controller) UpdateGongTimeField(c *gin.Context) {
+
+	values := c.Request.URL.Query()
+	stackPath := ""
+	if len(values) == 1 {
+		value := values["GONG__StackPath"]
+		if len(value) == 1 {
+			stackPath = value[0]
+			log.Println("UpdateGongTimeField", "GONG__StackPath", stackPath)
+		}
+	}
+	backRepo := controller.Map_BackRepos[stackPath]
+	db := backRepo.BackRepoGongTimeField.GetDB()
 
 	// Validate input
 	var input orm.GongTimeFieldAPI
@@ -218,8 +238,6 @@ func UpdateGongTimeField(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-
-	db := orm.BackRepo.BackRepoGongTimeField.GetDB()
 
 	// Get model if exist
 	var gongtimefieldDB orm.GongTimeFieldDB
@@ -255,16 +273,16 @@ func UpdateGongTimeField(c *gin.Context) {
 	gongtimefieldDB.CopyBasicFieldsToGongTimeField(gongtimefieldNew)
 
 	// get stage instance from DB instance, and call callback function
-	gongtimefieldOld := (*orm.BackRepo.BackRepoGongTimeField.Map_GongTimeFieldDBID_GongTimeFieldPtr)[gongtimefieldDB.ID]
+	gongtimefieldOld := (*backRepo.BackRepoGongTimeField.Map_GongTimeFieldDBID_GongTimeFieldPtr)[gongtimefieldDB.ID]
 	if gongtimefieldOld != nil {
-		models.AfterUpdateFromFront(&models.Stage, gongtimefieldOld, gongtimefieldNew)
+		models.AfterUpdateFromFront(backRepo.GetStage(), gongtimefieldOld, gongtimefieldNew)
 	}
 
 	// an UPDATE generates a back repo commit increase
 	// (this will be improved with implementation of unit of work design pattern)
 	// in some cases, with the marshalling of the stage, this operation might
 	// generates a checkout
-	orm.BackRepo.IncrementPushFromFrontNb()
+	backRepo.IncrementPushFromFrontNb()
 
 	// return status OK with the marshalling of the the gongtimefieldDB
 	c.JSON(http.StatusOK, gongtimefieldDB)
@@ -279,8 +297,19 @@ func UpdateGongTimeField(c *gin.Context) {
 // default: genericError
 //
 //	200: gongtimefieldDBResponse
-func DeleteGongTimeField(c *gin.Context) {
-	db := orm.BackRepo.BackRepoGongTimeField.GetDB()
+func (controller *Controller) DeleteGongTimeField(c *gin.Context) {
+
+	values := c.Request.URL.Query()
+	stackPath := ""
+	if len(values) == 1 {
+		value := values["GONG__StackPath"]
+		if len(value) == 1 {
+			stackPath = value[0]
+			log.Println("DeleteGongTimeField", "GONG__StackPath", stackPath)
+		}
+	}
+	backRepo := controller.Map_BackRepos[stackPath]
+	db := backRepo.BackRepoGongTimeField.GetDB()
 
 	// Get model if exist
 	var gongtimefieldDB orm.GongTimeFieldDB
@@ -301,14 +330,14 @@ func DeleteGongTimeField(c *gin.Context) {
 	gongtimefieldDB.CopyBasicFieldsToGongTimeField(gongtimefieldDeleted)
 
 	// get stage instance from DB instance, and call callback function
-	gongtimefieldStaged := (*orm.BackRepo.BackRepoGongTimeField.Map_GongTimeFieldDBID_GongTimeFieldPtr)[gongtimefieldDB.ID]
+	gongtimefieldStaged := (*backRepo.BackRepoGongTimeField.Map_GongTimeFieldDBID_GongTimeFieldPtr)[gongtimefieldDB.ID]
 	if gongtimefieldStaged != nil {
-		models.AfterDeleteFromFront(&models.Stage, gongtimefieldStaged, gongtimefieldDeleted)
+		models.AfterDeleteFromFront(backRepo.GetStage(), gongtimefieldStaged, gongtimefieldDeleted)
 	}
 
 	// a DELETE generates a back repo commit increase
 	// (this will be improved with implementation of unit of work design pattern)
-	orm.BackRepo.IncrementPushFromFrontNb()
+	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, gin.H{"data": true})
 }

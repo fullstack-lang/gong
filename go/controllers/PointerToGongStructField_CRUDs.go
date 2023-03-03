@@ -47,23 +47,22 @@ type PointerToGongStructFieldInput struct {
 // default: genericError
 //
 //	200: pointertogongstructfieldDBResponse
-func GetPointerToGongStructFields(c *gin.Context) {
-	db := orm.BackRepo.BackRepoPointerToGongStructField.GetDB()
+func (controller *Controller) GetPointerToGongStructFields(c *gin.Context) {
 
 	// source slice
 	var pointertogongstructfieldDBs []orm.PointerToGongStructFieldDB
 
-	// type Values map[string][]string
 	values := c.Request.URL.Query()
+	stackPath := ""
 	if len(values) == 1 {
 		value := values["GONG__StackPath"]
 		if len(value) == 1 {
-			// we have a single parameter
-			// we assume it is the stack
-			stackParam := value[0]
-			log.Println("GONG__StackPath", stackParam)
+			stackPath = value[0]
+			log.Println("GetPointerToGongStructFields", "GONG__StackPath", stackPath)
 		}
 	}
+	backRepo := controller.Map_BackRepos[stackPath]
+	db := backRepo.BackRepoPointerToGongStructField.GetDB()
 
 	query := db.Find(&pointertogongstructfieldDBs)
 	if query.Error != nil {
@@ -108,7 +107,19 @@ func GetPointerToGongStructFields(c *gin.Context) {
 //
 //	Responses:
 //	  200: nodeDBResponse
-func PostPointerToGongStructField(c *gin.Context) {
+func (controller *Controller) PostPointerToGongStructField(c *gin.Context) {
+
+	values := c.Request.URL.Query()
+	stackPath := ""
+	if len(values) == 1 {
+		value := values["GONG__StackPath"]
+		if len(value) == 1 {
+			stackPath = value[0]
+			log.Println("PostPointerToGongStructFields", "GONG__StackPath", stackPath)
+		}
+	}
+	backRepo := controller.Map_BackRepos[stackPath]
+	db := backRepo.BackRepoPointerToGongStructField.GetDB()
 
 	// Validate input
 	var input orm.PointerToGongStructFieldAPI
@@ -128,7 +139,6 @@ func PostPointerToGongStructField(c *gin.Context) {
 	pointertogongstructfieldDB.PointerToGongStructFieldPointersEnconding = input.PointerToGongStructFieldPointersEnconding
 	pointertogongstructfieldDB.CopyBasicFieldsFromPointerToGongStructField(&input.PointerToGongStructField)
 
-	db := orm.BackRepo.BackRepoPointerToGongStructField.GetDB()
 	query := db.Create(&pointertogongstructfieldDB)
 	if query.Error != nil {
 		var returnError GenericError
@@ -140,16 +150,16 @@ func PostPointerToGongStructField(c *gin.Context) {
 	}
 
 	// get an instance (not staged) from DB instance, and call callback function
-	orm.BackRepo.BackRepoPointerToGongStructField.CheckoutPhaseOneInstance(&pointertogongstructfieldDB)
-	pointertogongstructfield := (*orm.BackRepo.BackRepoPointerToGongStructField.Map_PointerToGongStructFieldDBID_PointerToGongStructFieldPtr)[pointertogongstructfieldDB.ID]
+	backRepo.BackRepoPointerToGongStructField.CheckoutPhaseOneInstance(&pointertogongstructfieldDB)
+	pointertogongstructfield := (*backRepo.BackRepoPointerToGongStructField.Map_PointerToGongStructFieldDBID_PointerToGongStructFieldPtr)[pointertogongstructfieldDB.ID]
 
 	if pointertogongstructfield != nil {
-		models.AfterCreateFromFront(&models.Stage, pointertogongstructfield)
+		models.AfterCreateFromFront(backRepo.GetStage(), pointertogongstructfield)
 	}
 
 	// a POST is equivalent to a back repo commit increase
 	// (this will be improved with implementation of unit of work design pattern)
-	orm.BackRepo.IncrementPushFromFrontNb()
+	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, pointertogongstructfieldDB)
 }
@@ -164,21 +174,19 @@ func PostPointerToGongStructField(c *gin.Context) {
 // default: genericError
 //
 //	200: pointertogongstructfieldDBResponse
-func GetPointerToGongStructField(c *gin.Context) {
+func (controller *Controller) GetPointerToGongStructField(c *gin.Context) {
 
-	// type Values map[string][]string
 	values := c.Request.URL.Query()
+	stackPath := ""
 	if len(values) == 1 {
-		value := values["stack"]
+		value := values["GONG__StackPath"]
 		if len(value) == 1 {
-			// we have a single parameter
-			// we assume it is the stack
-			stackParam := value[0]
-			log.Println("GET params", stackParam)
+			stackPath = value[0]
+			log.Println("GetPointerToGongStructField", "GONG__StackPath", stackPath)
 		}
 	}
-
-	db := orm.BackRepo.BackRepoPointerToGongStructField.GetDB()
+	backRepo := controller.Map_BackRepos[stackPath]
+	db := backRepo.BackRepoPointerToGongStructField.GetDB()
 
 	// Get pointertogongstructfieldDB in DB
 	var pointertogongstructfieldDB orm.PointerToGongStructFieldDB
@@ -209,7 +217,19 @@ func GetPointerToGongStructField(c *gin.Context) {
 // default: genericError
 //
 //	200: pointertogongstructfieldDBResponse
-func UpdatePointerToGongStructField(c *gin.Context) {
+func (controller *Controller) UpdatePointerToGongStructField(c *gin.Context) {
+
+	values := c.Request.URL.Query()
+	stackPath := ""
+	if len(values) == 1 {
+		value := values["GONG__StackPath"]
+		if len(value) == 1 {
+			stackPath = value[0]
+			log.Println("UpdatePointerToGongStructField", "GONG__StackPath", stackPath)
+		}
+	}
+	backRepo := controller.Map_BackRepos[stackPath]
+	db := backRepo.BackRepoPointerToGongStructField.GetDB()
 
 	// Validate input
 	var input orm.PointerToGongStructFieldAPI
@@ -218,8 +238,6 @@ func UpdatePointerToGongStructField(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-
-	db := orm.BackRepo.BackRepoPointerToGongStructField.GetDB()
 
 	// Get model if exist
 	var pointertogongstructfieldDB orm.PointerToGongStructFieldDB
@@ -255,16 +273,16 @@ func UpdatePointerToGongStructField(c *gin.Context) {
 	pointertogongstructfieldDB.CopyBasicFieldsToPointerToGongStructField(pointertogongstructfieldNew)
 
 	// get stage instance from DB instance, and call callback function
-	pointertogongstructfieldOld := (*orm.BackRepo.BackRepoPointerToGongStructField.Map_PointerToGongStructFieldDBID_PointerToGongStructFieldPtr)[pointertogongstructfieldDB.ID]
+	pointertogongstructfieldOld := (*backRepo.BackRepoPointerToGongStructField.Map_PointerToGongStructFieldDBID_PointerToGongStructFieldPtr)[pointertogongstructfieldDB.ID]
 	if pointertogongstructfieldOld != nil {
-		models.AfterUpdateFromFront(&models.Stage, pointertogongstructfieldOld, pointertogongstructfieldNew)
+		models.AfterUpdateFromFront(backRepo.GetStage(), pointertogongstructfieldOld, pointertogongstructfieldNew)
 	}
 
 	// an UPDATE generates a back repo commit increase
 	// (this will be improved with implementation of unit of work design pattern)
 	// in some cases, with the marshalling of the stage, this operation might
 	// generates a checkout
-	orm.BackRepo.IncrementPushFromFrontNb()
+	backRepo.IncrementPushFromFrontNb()
 
 	// return status OK with the marshalling of the the pointertogongstructfieldDB
 	c.JSON(http.StatusOK, pointertogongstructfieldDB)
@@ -279,8 +297,19 @@ func UpdatePointerToGongStructField(c *gin.Context) {
 // default: genericError
 //
 //	200: pointertogongstructfieldDBResponse
-func DeletePointerToGongStructField(c *gin.Context) {
-	db := orm.BackRepo.BackRepoPointerToGongStructField.GetDB()
+func (controller *Controller) DeletePointerToGongStructField(c *gin.Context) {
+
+	values := c.Request.URL.Query()
+	stackPath := ""
+	if len(values) == 1 {
+		value := values["GONG__StackPath"]
+		if len(value) == 1 {
+			stackPath = value[0]
+			log.Println("DeletePointerToGongStructField", "GONG__StackPath", stackPath)
+		}
+	}
+	backRepo := controller.Map_BackRepos[stackPath]
+	db := backRepo.BackRepoPointerToGongStructField.GetDB()
 
 	// Get model if exist
 	var pointertogongstructfieldDB orm.PointerToGongStructFieldDB
@@ -301,14 +330,14 @@ func DeletePointerToGongStructField(c *gin.Context) {
 	pointertogongstructfieldDB.CopyBasicFieldsToPointerToGongStructField(pointertogongstructfieldDeleted)
 
 	// get stage instance from DB instance, and call callback function
-	pointertogongstructfieldStaged := (*orm.BackRepo.BackRepoPointerToGongStructField.Map_PointerToGongStructFieldDBID_PointerToGongStructFieldPtr)[pointertogongstructfieldDB.ID]
+	pointertogongstructfieldStaged := (*backRepo.BackRepoPointerToGongStructField.Map_PointerToGongStructFieldDBID_PointerToGongStructFieldPtr)[pointertogongstructfieldDB.ID]
 	if pointertogongstructfieldStaged != nil {
-		models.AfterDeleteFromFront(&models.Stage, pointertogongstructfieldStaged, pointertogongstructfieldDeleted)
+		models.AfterDeleteFromFront(backRepo.GetStage(), pointertogongstructfieldStaged, pointertogongstructfieldDeleted)
 	}
 
 	// a DELETE generates a back repo commit increase
 	// (this will be improved with implementation of unit of work design pattern)
-	orm.BackRepo.IncrementPushFromFrontNb()
+	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, gin.H{"data": true})
 }

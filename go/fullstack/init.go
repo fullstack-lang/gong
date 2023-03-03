@@ -4,6 +4,7 @@ import (
 	// gong stack for model analysis
 
 	gong_controllers "github.com/fullstack-lang/gong/go/controllers"
+	gong_models "github.com/fullstack-lang/gong/go/models"
 	gong_orm "github.com/fullstack-lang/gong/go/orm"
 	"github.com/gin-gonic/gin"
 
@@ -19,7 +20,7 @@ func Init(r *gin.Engine, filenames ...string) {
 		filenames = append(filenames, ":memory:")
 	}
 
-	db_inMemory := gong_orm.SetupModels(false, filenames[0])
+	db_inMemory := gong_orm.SetupModels(&gong_models.Stage, false, filenames[0])
 
 	// since gongsim is a multi threaded application. It is important to set up
 	// only one open connexion at a time

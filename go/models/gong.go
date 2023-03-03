@@ -339,93 +339,38 @@ func (stage *StageStruct) RestoreXL(dirPath string) {
 
 // insertion point for cumulative sub template with model space calls
 // Stage puts gongbasicfield to the model stage
-func (gongbasicfield *GongBasicField) Stage() *GongBasicField {
-	Stage.GongBasicFields[gongbasicfield] = __member
-	Stage.GongBasicFields_mapString[gongbasicfield.Name] = gongbasicfield
+func (gongbasicfield *GongBasicField) Stage(stage *StageStruct) *GongBasicField {
+	stage.GongBasicFields[gongbasicfield] = __member
+	stage.GongBasicFields_mapString[gongbasicfield.Name] = gongbasicfield
 
 	return gongbasicfield
 }
 
 // Unstage removes gongbasicfield off the model stage
-func (gongbasicfield *GongBasicField) Unstage() *GongBasicField {
-	delete(Stage.GongBasicFields, gongbasicfield)
-	delete(Stage.GongBasicFields_mapString, gongbasicfield.Name)
+func (gongbasicfield *GongBasicField) Unstage(stage *StageStruct) *GongBasicField {
+	delete(stage.GongBasicFields, gongbasicfield)
+	delete(stage.GongBasicFields_mapString, gongbasicfield.Name)
 	return gongbasicfield
 }
 
 // commit gongbasicfield to the back repo (if it is already staged)
-func (gongbasicfield *GongBasicField) Commit() *GongBasicField {
-	if _, ok := Stage.GongBasicFields[gongbasicfield]; ok {
-		if Stage.BackRepo != nil {
-			Stage.BackRepo.CommitGongBasicField(gongbasicfield)
+func (gongbasicfield *GongBasicField) Commit(stage *StageStruct) *GongBasicField {
+	if _, ok := stage.GongBasicFields[gongbasicfield]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitGongBasicField(gongbasicfield)
 		}
 	}
 	return gongbasicfield
 }
 
 // Checkout gongbasicfield to the back repo (if it is already staged)
-func (gongbasicfield *GongBasicField) Checkout() *GongBasicField {
+func (gongbasicfield *GongBasicField) Checkout(stage *StageStruct) *GongBasicField {
 	if _, ok := Stage.GongBasicFields[gongbasicfield]; ok {
-		if Stage.BackRepo != nil {
-			Stage.BackRepo.CheckoutGongBasicField(gongbasicfield)
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutGongBasicField(gongbasicfield)
 		}
 	}
 	return gongbasicfield
-}
-
-//
-// Legacy, to be deleted
-//
-
-// StageCopy appends a copy of gongbasicfield to the model stage
-func (gongbasicfield *GongBasicField) StageCopy() *GongBasicField {
-	_gongbasicfield := new(GongBasicField)
-	*_gongbasicfield = *gongbasicfield
-	_gongbasicfield.Stage()
-	return _gongbasicfield
-}
-
-// StageAndCommit appends gongbasicfield to the model stage and commit to the orm repo
-func (gongbasicfield *GongBasicField) StageAndCommit() *GongBasicField {
-	gongbasicfield.Stage()
-	if Stage.AllModelsStructCreateCallback != nil {
-		Stage.AllModelsStructCreateCallback.CreateORMGongBasicField(gongbasicfield)
-	}
-	return gongbasicfield
-}
-
-// DeleteStageAndCommit appends gongbasicfield to the model stage and commit to the orm repo
-func (gongbasicfield *GongBasicField) DeleteStageAndCommit() *GongBasicField {
-	gongbasicfield.Unstage()
-	DeleteORMGongBasicField(gongbasicfield)
-	return gongbasicfield
-}
-
-// StageCopyAndCommit appends a copy of gongbasicfield to the model stage and commit to the orm repo
-func (gongbasicfield *GongBasicField) StageCopyAndCommit() *GongBasicField {
-	_gongbasicfield := new(GongBasicField)
-	*_gongbasicfield = *gongbasicfield
-	_gongbasicfield.Stage()
-	if Stage.AllModelsStructCreateCallback != nil {
-		Stage.AllModelsStructCreateCallback.CreateORMGongBasicField(gongbasicfield)
-	}
-	return _gongbasicfield
-}
-
-// CreateORMGongBasicField enables dynamic staging of a GongBasicField instance
-func CreateORMGongBasicField(gongbasicfield *GongBasicField) {
-	gongbasicfield.Stage()
-	if Stage.AllModelsStructCreateCallback != nil {
-		Stage.AllModelsStructCreateCallback.CreateORMGongBasicField(gongbasicfield)
-	}
-}
-
-// DeleteORMGongBasicField enables dynamic staging of a GongBasicField instance
-func DeleteORMGongBasicField(gongbasicfield *GongBasicField) {
-	gongbasicfield.Unstage()
-	if Stage.AllModelsStructDeleteCallback != nil {
-		Stage.AllModelsStructDeleteCallback.DeleteORMGongBasicField(gongbasicfield)
-	}
 }
 
 // for satisfaction of GongStruct interface
@@ -434,93 +379,38 @@ func (gongbasicfield *GongBasicField) GetName() (res string) {
 }
 
 // Stage puts gongenum to the model stage
-func (gongenum *GongEnum) Stage() *GongEnum {
-	Stage.GongEnums[gongenum] = __member
-	Stage.GongEnums_mapString[gongenum.Name] = gongenum
+func (gongenum *GongEnum) Stage(stage *StageStruct) *GongEnum {
+	stage.GongEnums[gongenum] = __member
+	stage.GongEnums_mapString[gongenum.Name] = gongenum
 
 	return gongenum
 }
 
 // Unstage removes gongenum off the model stage
-func (gongenum *GongEnum) Unstage() *GongEnum {
-	delete(Stage.GongEnums, gongenum)
-	delete(Stage.GongEnums_mapString, gongenum.Name)
+func (gongenum *GongEnum) Unstage(stage *StageStruct) *GongEnum {
+	delete(stage.GongEnums, gongenum)
+	delete(stage.GongEnums_mapString, gongenum.Name)
 	return gongenum
 }
 
 // commit gongenum to the back repo (if it is already staged)
-func (gongenum *GongEnum) Commit() *GongEnum {
-	if _, ok := Stage.GongEnums[gongenum]; ok {
-		if Stage.BackRepo != nil {
-			Stage.BackRepo.CommitGongEnum(gongenum)
+func (gongenum *GongEnum) Commit(stage *StageStruct) *GongEnum {
+	if _, ok := stage.GongEnums[gongenum]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitGongEnum(gongenum)
 		}
 	}
 	return gongenum
 }
 
 // Checkout gongenum to the back repo (if it is already staged)
-func (gongenum *GongEnum) Checkout() *GongEnum {
+func (gongenum *GongEnum) Checkout(stage *StageStruct) *GongEnum {
 	if _, ok := Stage.GongEnums[gongenum]; ok {
-		if Stage.BackRepo != nil {
-			Stage.BackRepo.CheckoutGongEnum(gongenum)
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutGongEnum(gongenum)
 		}
 	}
 	return gongenum
-}
-
-//
-// Legacy, to be deleted
-//
-
-// StageCopy appends a copy of gongenum to the model stage
-func (gongenum *GongEnum) StageCopy() *GongEnum {
-	_gongenum := new(GongEnum)
-	*_gongenum = *gongenum
-	_gongenum.Stage()
-	return _gongenum
-}
-
-// StageAndCommit appends gongenum to the model stage and commit to the orm repo
-func (gongenum *GongEnum) StageAndCommit() *GongEnum {
-	gongenum.Stage()
-	if Stage.AllModelsStructCreateCallback != nil {
-		Stage.AllModelsStructCreateCallback.CreateORMGongEnum(gongenum)
-	}
-	return gongenum
-}
-
-// DeleteStageAndCommit appends gongenum to the model stage and commit to the orm repo
-func (gongenum *GongEnum) DeleteStageAndCommit() *GongEnum {
-	gongenum.Unstage()
-	DeleteORMGongEnum(gongenum)
-	return gongenum
-}
-
-// StageCopyAndCommit appends a copy of gongenum to the model stage and commit to the orm repo
-func (gongenum *GongEnum) StageCopyAndCommit() *GongEnum {
-	_gongenum := new(GongEnum)
-	*_gongenum = *gongenum
-	_gongenum.Stage()
-	if Stage.AllModelsStructCreateCallback != nil {
-		Stage.AllModelsStructCreateCallback.CreateORMGongEnum(gongenum)
-	}
-	return _gongenum
-}
-
-// CreateORMGongEnum enables dynamic staging of a GongEnum instance
-func CreateORMGongEnum(gongenum *GongEnum) {
-	gongenum.Stage()
-	if Stage.AllModelsStructCreateCallback != nil {
-		Stage.AllModelsStructCreateCallback.CreateORMGongEnum(gongenum)
-	}
-}
-
-// DeleteORMGongEnum enables dynamic staging of a GongEnum instance
-func DeleteORMGongEnum(gongenum *GongEnum) {
-	gongenum.Unstage()
-	if Stage.AllModelsStructDeleteCallback != nil {
-		Stage.AllModelsStructDeleteCallback.DeleteORMGongEnum(gongenum)
-	}
 }
 
 // for satisfaction of GongStruct interface
@@ -529,93 +419,38 @@ func (gongenum *GongEnum) GetName() (res string) {
 }
 
 // Stage puts gongenumvalue to the model stage
-func (gongenumvalue *GongEnumValue) Stage() *GongEnumValue {
-	Stage.GongEnumValues[gongenumvalue] = __member
-	Stage.GongEnumValues_mapString[gongenumvalue.Name] = gongenumvalue
+func (gongenumvalue *GongEnumValue) Stage(stage *StageStruct) *GongEnumValue {
+	stage.GongEnumValues[gongenumvalue] = __member
+	stage.GongEnumValues_mapString[gongenumvalue.Name] = gongenumvalue
 
 	return gongenumvalue
 }
 
 // Unstage removes gongenumvalue off the model stage
-func (gongenumvalue *GongEnumValue) Unstage() *GongEnumValue {
-	delete(Stage.GongEnumValues, gongenumvalue)
-	delete(Stage.GongEnumValues_mapString, gongenumvalue.Name)
+func (gongenumvalue *GongEnumValue) Unstage(stage *StageStruct) *GongEnumValue {
+	delete(stage.GongEnumValues, gongenumvalue)
+	delete(stage.GongEnumValues_mapString, gongenumvalue.Name)
 	return gongenumvalue
 }
 
 // commit gongenumvalue to the back repo (if it is already staged)
-func (gongenumvalue *GongEnumValue) Commit() *GongEnumValue {
-	if _, ok := Stage.GongEnumValues[gongenumvalue]; ok {
-		if Stage.BackRepo != nil {
-			Stage.BackRepo.CommitGongEnumValue(gongenumvalue)
+func (gongenumvalue *GongEnumValue) Commit(stage *StageStruct) *GongEnumValue {
+	if _, ok := stage.GongEnumValues[gongenumvalue]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitGongEnumValue(gongenumvalue)
 		}
 	}
 	return gongenumvalue
 }
 
 // Checkout gongenumvalue to the back repo (if it is already staged)
-func (gongenumvalue *GongEnumValue) Checkout() *GongEnumValue {
+func (gongenumvalue *GongEnumValue) Checkout(stage *StageStruct) *GongEnumValue {
 	if _, ok := Stage.GongEnumValues[gongenumvalue]; ok {
-		if Stage.BackRepo != nil {
-			Stage.BackRepo.CheckoutGongEnumValue(gongenumvalue)
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutGongEnumValue(gongenumvalue)
 		}
 	}
 	return gongenumvalue
-}
-
-//
-// Legacy, to be deleted
-//
-
-// StageCopy appends a copy of gongenumvalue to the model stage
-func (gongenumvalue *GongEnumValue) StageCopy() *GongEnumValue {
-	_gongenumvalue := new(GongEnumValue)
-	*_gongenumvalue = *gongenumvalue
-	_gongenumvalue.Stage()
-	return _gongenumvalue
-}
-
-// StageAndCommit appends gongenumvalue to the model stage and commit to the orm repo
-func (gongenumvalue *GongEnumValue) StageAndCommit() *GongEnumValue {
-	gongenumvalue.Stage()
-	if Stage.AllModelsStructCreateCallback != nil {
-		Stage.AllModelsStructCreateCallback.CreateORMGongEnumValue(gongenumvalue)
-	}
-	return gongenumvalue
-}
-
-// DeleteStageAndCommit appends gongenumvalue to the model stage and commit to the orm repo
-func (gongenumvalue *GongEnumValue) DeleteStageAndCommit() *GongEnumValue {
-	gongenumvalue.Unstage()
-	DeleteORMGongEnumValue(gongenumvalue)
-	return gongenumvalue
-}
-
-// StageCopyAndCommit appends a copy of gongenumvalue to the model stage and commit to the orm repo
-func (gongenumvalue *GongEnumValue) StageCopyAndCommit() *GongEnumValue {
-	_gongenumvalue := new(GongEnumValue)
-	*_gongenumvalue = *gongenumvalue
-	_gongenumvalue.Stage()
-	if Stage.AllModelsStructCreateCallback != nil {
-		Stage.AllModelsStructCreateCallback.CreateORMGongEnumValue(gongenumvalue)
-	}
-	return _gongenumvalue
-}
-
-// CreateORMGongEnumValue enables dynamic staging of a GongEnumValue instance
-func CreateORMGongEnumValue(gongenumvalue *GongEnumValue) {
-	gongenumvalue.Stage()
-	if Stage.AllModelsStructCreateCallback != nil {
-		Stage.AllModelsStructCreateCallback.CreateORMGongEnumValue(gongenumvalue)
-	}
-}
-
-// DeleteORMGongEnumValue enables dynamic staging of a GongEnumValue instance
-func DeleteORMGongEnumValue(gongenumvalue *GongEnumValue) {
-	gongenumvalue.Unstage()
-	if Stage.AllModelsStructDeleteCallback != nil {
-		Stage.AllModelsStructDeleteCallback.DeleteORMGongEnumValue(gongenumvalue)
-	}
 }
 
 // for satisfaction of GongStruct interface
@@ -624,93 +459,38 @@ func (gongenumvalue *GongEnumValue) GetName() (res string) {
 }
 
 // Stage puts gonglink to the model stage
-func (gonglink *GongLink) Stage() *GongLink {
-	Stage.GongLinks[gonglink] = __member
-	Stage.GongLinks_mapString[gonglink.Name] = gonglink
+func (gonglink *GongLink) Stage(stage *StageStruct) *GongLink {
+	stage.GongLinks[gonglink] = __member
+	stage.GongLinks_mapString[gonglink.Name] = gonglink
 
 	return gonglink
 }
 
 // Unstage removes gonglink off the model stage
-func (gonglink *GongLink) Unstage() *GongLink {
-	delete(Stage.GongLinks, gonglink)
-	delete(Stage.GongLinks_mapString, gonglink.Name)
+func (gonglink *GongLink) Unstage(stage *StageStruct) *GongLink {
+	delete(stage.GongLinks, gonglink)
+	delete(stage.GongLinks_mapString, gonglink.Name)
 	return gonglink
 }
 
 // commit gonglink to the back repo (if it is already staged)
-func (gonglink *GongLink) Commit() *GongLink {
-	if _, ok := Stage.GongLinks[gonglink]; ok {
-		if Stage.BackRepo != nil {
-			Stage.BackRepo.CommitGongLink(gonglink)
+func (gonglink *GongLink) Commit(stage *StageStruct) *GongLink {
+	if _, ok := stage.GongLinks[gonglink]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitGongLink(gonglink)
 		}
 	}
 	return gonglink
 }
 
 // Checkout gonglink to the back repo (if it is already staged)
-func (gonglink *GongLink) Checkout() *GongLink {
+func (gonglink *GongLink) Checkout(stage *StageStruct) *GongLink {
 	if _, ok := Stage.GongLinks[gonglink]; ok {
-		if Stage.BackRepo != nil {
-			Stage.BackRepo.CheckoutGongLink(gonglink)
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutGongLink(gonglink)
 		}
 	}
 	return gonglink
-}
-
-//
-// Legacy, to be deleted
-//
-
-// StageCopy appends a copy of gonglink to the model stage
-func (gonglink *GongLink) StageCopy() *GongLink {
-	_gonglink := new(GongLink)
-	*_gonglink = *gonglink
-	_gonglink.Stage()
-	return _gonglink
-}
-
-// StageAndCommit appends gonglink to the model stage and commit to the orm repo
-func (gonglink *GongLink) StageAndCommit() *GongLink {
-	gonglink.Stage()
-	if Stage.AllModelsStructCreateCallback != nil {
-		Stage.AllModelsStructCreateCallback.CreateORMGongLink(gonglink)
-	}
-	return gonglink
-}
-
-// DeleteStageAndCommit appends gonglink to the model stage and commit to the orm repo
-func (gonglink *GongLink) DeleteStageAndCommit() *GongLink {
-	gonglink.Unstage()
-	DeleteORMGongLink(gonglink)
-	return gonglink
-}
-
-// StageCopyAndCommit appends a copy of gonglink to the model stage and commit to the orm repo
-func (gonglink *GongLink) StageCopyAndCommit() *GongLink {
-	_gonglink := new(GongLink)
-	*_gonglink = *gonglink
-	_gonglink.Stage()
-	if Stage.AllModelsStructCreateCallback != nil {
-		Stage.AllModelsStructCreateCallback.CreateORMGongLink(gonglink)
-	}
-	return _gonglink
-}
-
-// CreateORMGongLink enables dynamic staging of a GongLink instance
-func CreateORMGongLink(gonglink *GongLink) {
-	gonglink.Stage()
-	if Stage.AllModelsStructCreateCallback != nil {
-		Stage.AllModelsStructCreateCallback.CreateORMGongLink(gonglink)
-	}
-}
-
-// DeleteORMGongLink enables dynamic staging of a GongLink instance
-func DeleteORMGongLink(gonglink *GongLink) {
-	gonglink.Unstage()
-	if Stage.AllModelsStructDeleteCallback != nil {
-		Stage.AllModelsStructDeleteCallback.DeleteORMGongLink(gonglink)
-	}
 }
 
 // for satisfaction of GongStruct interface
@@ -719,93 +499,38 @@ func (gonglink *GongLink) GetName() (res string) {
 }
 
 // Stage puts gongnote to the model stage
-func (gongnote *GongNote) Stage() *GongNote {
-	Stage.GongNotes[gongnote] = __member
-	Stage.GongNotes_mapString[gongnote.Name] = gongnote
+func (gongnote *GongNote) Stage(stage *StageStruct) *GongNote {
+	stage.GongNotes[gongnote] = __member
+	stage.GongNotes_mapString[gongnote.Name] = gongnote
 
 	return gongnote
 }
 
 // Unstage removes gongnote off the model stage
-func (gongnote *GongNote) Unstage() *GongNote {
-	delete(Stage.GongNotes, gongnote)
-	delete(Stage.GongNotes_mapString, gongnote.Name)
+func (gongnote *GongNote) Unstage(stage *StageStruct) *GongNote {
+	delete(stage.GongNotes, gongnote)
+	delete(stage.GongNotes_mapString, gongnote.Name)
 	return gongnote
 }
 
 // commit gongnote to the back repo (if it is already staged)
-func (gongnote *GongNote) Commit() *GongNote {
-	if _, ok := Stage.GongNotes[gongnote]; ok {
-		if Stage.BackRepo != nil {
-			Stage.BackRepo.CommitGongNote(gongnote)
+func (gongnote *GongNote) Commit(stage *StageStruct) *GongNote {
+	if _, ok := stage.GongNotes[gongnote]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitGongNote(gongnote)
 		}
 	}
 	return gongnote
 }
 
 // Checkout gongnote to the back repo (if it is already staged)
-func (gongnote *GongNote) Checkout() *GongNote {
+func (gongnote *GongNote) Checkout(stage *StageStruct) *GongNote {
 	if _, ok := Stage.GongNotes[gongnote]; ok {
-		if Stage.BackRepo != nil {
-			Stage.BackRepo.CheckoutGongNote(gongnote)
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutGongNote(gongnote)
 		}
 	}
 	return gongnote
-}
-
-//
-// Legacy, to be deleted
-//
-
-// StageCopy appends a copy of gongnote to the model stage
-func (gongnote *GongNote) StageCopy() *GongNote {
-	_gongnote := new(GongNote)
-	*_gongnote = *gongnote
-	_gongnote.Stage()
-	return _gongnote
-}
-
-// StageAndCommit appends gongnote to the model stage and commit to the orm repo
-func (gongnote *GongNote) StageAndCommit() *GongNote {
-	gongnote.Stage()
-	if Stage.AllModelsStructCreateCallback != nil {
-		Stage.AllModelsStructCreateCallback.CreateORMGongNote(gongnote)
-	}
-	return gongnote
-}
-
-// DeleteStageAndCommit appends gongnote to the model stage and commit to the orm repo
-func (gongnote *GongNote) DeleteStageAndCommit() *GongNote {
-	gongnote.Unstage()
-	DeleteORMGongNote(gongnote)
-	return gongnote
-}
-
-// StageCopyAndCommit appends a copy of gongnote to the model stage and commit to the orm repo
-func (gongnote *GongNote) StageCopyAndCommit() *GongNote {
-	_gongnote := new(GongNote)
-	*_gongnote = *gongnote
-	_gongnote.Stage()
-	if Stage.AllModelsStructCreateCallback != nil {
-		Stage.AllModelsStructCreateCallback.CreateORMGongNote(gongnote)
-	}
-	return _gongnote
-}
-
-// CreateORMGongNote enables dynamic staging of a GongNote instance
-func CreateORMGongNote(gongnote *GongNote) {
-	gongnote.Stage()
-	if Stage.AllModelsStructCreateCallback != nil {
-		Stage.AllModelsStructCreateCallback.CreateORMGongNote(gongnote)
-	}
-}
-
-// DeleteORMGongNote enables dynamic staging of a GongNote instance
-func DeleteORMGongNote(gongnote *GongNote) {
-	gongnote.Unstage()
-	if Stage.AllModelsStructDeleteCallback != nil {
-		Stage.AllModelsStructDeleteCallback.DeleteORMGongNote(gongnote)
-	}
 }
 
 // for satisfaction of GongStruct interface
@@ -814,93 +539,38 @@ func (gongnote *GongNote) GetName() (res string) {
 }
 
 // Stage puts gongstruct to the model stage
-func (gongstruct *GongStruct) Stage() *GongStruct {
-	Stage.GongStructs[gongstruct] = __member
-	Stage.GongStructs_mapString[gongstruct.Name] = gongstruct
+func (gongstruct *GongStruct) Stage(stage *StageStruct) *GongStruct {
+	stage.GongStructs[gongstruct] = __member
+	stage.GongStructs_mapString[gongstruct.Name] = gongstruct
 
 	return gongstruct
 }
 
 // Unstage removes gongstruct off the model stage
-func (gongstruct *GongStruct) Unstage() *GongStruct {
-	delete(Stage.GongStructs, gongstruct)
-	delete(Stage.GongStructs_mapString, gongstruct.Name)
+func (gongstruct *GongStruct) Unstage(stage *StageStruct) *GongStruct {
+	delete(stage.GongStructs, gongstruct)
+	delete(stage.GongStructs_mapString, gongstruct.Name)
 	return gongstruct
 }
 
 // commit gongstruct to the back repo (if it is already staged)
-func (gongstruct *GongStruct) Commit() *GongStruct {
-	if _, ok := Stage.GongStructs[gongstruct]; ok {
-		if Stage.BackRepo != nil {
-			Stage.BackRepo.CommitGongStruct(gongstruct)
+func (gongstruct *GongStruct) Commit(stage *StageStruct) *GongStruct {
+	if _, ok := stage.GongStructs[gongstruct]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitGongStruct(gongstruct)
 		}
 	}
 	return gongstruct
 }
 
 // Checkout gongstruct to the back repo (if it is already staged)
-func (gongstruct *GongStruct) Checkout() *GongStruct {
+func (gongstruct *GongStruct) Checkout(stage *StageStruct) *GongStruct {
 	if _, ok := Stage.GongStructs[gongstruct]; ok {
-		if Stage.BackRepo != nil {
-			Stage.BackRepo.CheckoutGongStruct(gongstruct)
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutGongStruct(gongstruct)
 		}
 	}
 	return gongstruct
-}
-
-//
-// Legacy, to be deleted
-//
-
-// StageCopy appends a copy of gongstruct to the model stage
-func (gongstruct *GongStruct) StageCopy() *GongStruct {
-	_gongstruct := new(GongStruct)
-	*_gongstruct = *gongstruct
-	_gongstruct.Stage()
-	return _gongstruct
-}
-
-// StageAndCommit appends gongstruct to the model stage and commit to the orm repo
-func (gongstruct *GongStruct) StageAndCommit() *GongStruct {
-	gongstruct.Stage()
-	if Stage.AllModelsStructCreateCallback != nil {
-		Stage.AllModelsStructCreateCallback.CreateORMGongStruct(gongstruct)
-	}
-	return gongstruct
-}
-
-// DeleteStageAndCommit appends gongstruct to the model stage and commit to the orm repo
-func (gongstruct *GongStruct) DeleteStageAndCommit() *GongStruct {
-	gongstruct.Unstage()
-	DeleteORMGongStruct(gongstruct)
-	return gongstruct
-}
-
-// StageCopyAndCommit appends a copy of gongstruct to the model stage and commit to the orm repo
-func (gongstruct *GongStruct) StageCopyAndCommit() *GongStruct {
-	_gongstruct := new(GongStruct)
-	*_gongstruct = *gongstruct
-	_gongstruct.Stage()
-	if Stage.AllModelsStructCreateCallback != nil {
-		Stage.AllModelsStructCreateCallback.CreateORMGongStruct(gongstruct)
-	}
-	return _gongstruct
-}
-
-// CreateORMGongStruct enables dynamic staging of a GongStruct instance
-func CreateORMGongStruct(gongstruct *GongStruct) {
-	gongstruct.Stage()
-	if Stage.AllModelsStructCreateCallback != nil {
-		Stage.AllModelsStructCreateCallback.CreateORMGongStruct(gongstruct)
-	}
-}
-
-// DeleteORMGongStruct enables dynamic staging of a GongStruct instance
-func DeleteORMGongStruct(gongstruct *GongStruct) {
-	gongstruct.Unstage()
-	if Stage.AllModelsStructDeleteCallback != nil {
-		Stage.AllModelsStructDeleteCallback.DeleteORMGongStruct(gongstruct)
-	}
 }
 
 // for satisfaction of GongStruct interface
@@ -909,93 +579,38 @@ func (gongstruct *GongStruct) GetName() (res string) {
 }
 
 // Stage puts gongtimefield to the model stage
-func (gongtimefield *GongTimeField) Stage() *GongTimeField {
-	Stage.GongTimeFields[gongtimefield] = __member
-	Stage.GongTimeFields_mapString[gongtimefield.Name] = gongtimefield
+func (gongtimefield *GongTimeField) Stage(stage *StageStruct) *GongTimeField {
+	stage.GongTimeFields[gongtimefield] = __member
+	stage.GongTimeFields_mapString[gongtimefield.Name] = gongtimefield
 
 	return gongtimefield
 }
 
 // Unstage removes gongtimefield off the model stage
-func (gongtimefield *GongTimeField) Unstage() *GongTimeField {
-	delete(Stage.GongTimeFields, gongtimefield)
-	delete(Stage.GongTimeFields_mapString, gongtimefield.Name)
+func (gongtimefield *GongTimeField) Unstage(stage *StageStruct) *GongTimeField {
+	delete(stage.GongTimeFields, gongtimefield)
+	delete(stage.GongTimeFields_mapString, gongtimefield.Name)
 	return gongtimefield
 }
 
 // commit gongtimefield to the back repo (if it is already staged)
-func (gongtimefield *GongTimeField) Commit() *GongTimeField {
-	if _, ok := Stage.GongTimeFields[gongtimefield]; ok {
-		if Stage.BackRepo != nil {
-			Stage.BackRepo.CommitGongTimeField(gongtimefield)
+func (gongtimefield *GongTimeField) Commit(stage *StageStruct) *GongTimeField {
+	if _, ok := stage.GongTimeFields[gongtimefield]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitGongTimeField(gongtimefield)
 		}
 	}
 	return gongtimefield
 }
 
 // Checkout gongtimefield to the back repo (if it is already staged)
-func (gongtimefield *GongTimeField) Checkout() *GongTimeField {
+func (gongtimefield *GongTimeField) Checkout(stage *StageStruct) *GongTimeField {
 	if _, ok := Stage.GongTimeFields[gongtimefield]; ok {
-		if Stage.BackRepo != nil {
-			Stage.BackRepo.CheckoutGongTimeField(gongtimefield)
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutGongTimeField(gongtimefield)
 		}
 	}
 	return gongtimefield
-}
-
-//
-// Legacy, to be deleted
-//
-
-// StageCopy appends a copy of gongtimefield to the model stage
-func (gongtimefield *GongTimeField) StageCopy() *GongTimeField {
-	_gongtimefield := new(GongTimeField)
-	*_gongtimefield = *gongtimefield
-	_gongtimefield.Stage()
-	return _gongtimefield
-}
-
-// StageAndCommit appends gongtimefield to the model stage and commit to the orm repo
-func (gongtimefield *GongTimeField) StageAndCommit() *GongTimeField {
-	gongtimefield.Stage()
-	if Stage.AllModelsStructCreateCallback != nil {
-		Stage.AllModelsStructCreateCallback.CreateORMGongTimeField(gongtimefield)
-	}
-	return gongtimefield
-}
-
-// DeleteStageAndCommit appends gongtimefield to the model stage and commit to the orm repo
-func (gongtimefield *GongTimeField) DeleteStageAndCommit() *GongTimeField {
-	gongtimefield.Unstage()
-	DeleteORMGongTimeField(gongtimefield)
-	return gongtimefield
-}
-
-// StageCopyAndCommit appends a copy of gongtimefield to the model stage and commit to the orm repo
-func (gongtimefield *GongTimeField) StageCopyAndCommit() *GongTimeField {
-	_gongtimefield := new(GongTimeField)
-	*_gongtimefield = *gongtimefield
-	_gongtimefield.Stage()
-	if Stage.AllModelsStructCreateCallback != nil {
-		Stage.AllModelsStructCreateCallback.CreateORMGongTimeField(gongtimefield)
-	}
-	return _gongtimefield
-}
-
-// CreateORMGongTimeField enables dynamic staging of a GongTimeField instance
-func CreateORMGongTimeField(gongtimefield *GongTimeField) {
-	gongtimefield.Stage()
-	if Stage.AllModelsStructCreateCallback != nil {
-		Stage.AllModelsStructCreateCallback.CreateORMGongTimeField(gongtimefield)
-	}
-}
-
-// DeleteORMGongTimeField enables dynamic staging of a GongTimeField instance
-func DeleteORMGongTimeField(gongtimefield *GongTimeField) {
-	gongtimefield.Unstage()
-	if Stage.AllModelsStructDeleteCallback != nil {
-		Stage.AllModelsStructDeleteCallback.DeleteORMGongTimeField(gongtimefield)
-	}
 }
 
 // for satisfaction of GongStruct interface
@@ -1004,93 +619,38 @@ func (gongtimefield *GongTimeField) GetName() (res string) {
 }
 
 // Stage puts meta to the model stage
-func (meta *Meta) Stage() *Meta {
-	Stage.Metas[meta] = __member
-	Stage.Metas_mapString[meta.Name] = meta
+func (meta *Meta) Stage(stage *StageStruct) *Meta {
+	stage.Metas[meta] = __member
+	stage.Metas_mapString[meta.Name] = meta
 
 	return meta
 }
 
 // Unstage removes meta off the model stage
-func (meta *Meta) Unstage() *Meta {
-	delete(Stage.Metas, meta)
-	delete(Stage.Metas_mapString, meta.Name)
+func (meta *Meta) Unstage(stage *StageStruct) *Meta {
+	delete(stage.Metas, meta)
+	delete(stage.Metas_mapString, meta.Name)
 	return meta
 }
 
 // commit meta to the back repo (if it is already staged)
-func (meta *Meta) Commit() *Meta {
-	if _, ok := Stage.Metas[meta]; ok {
-		if Stage.BackRepo != nil {
-			Stage.BackRepo.CommitMeta(meta)
+func (meta *Meta) Commit(stage *StageStruct) *Meta {
+	if _, ok := stage.Metas[meta]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitMeta(meta)
 		}
 	}
 	return meta
 }
 
 // Checkout meta to the back repo (if it is already staged)
-func (meta *Meta) Checkout() *Meta {
+func (meta *Meta) Checkout(stage *StageStruct) *Meta {
 	if _, ok := Stage.Metas[meta]; ok {
-		if Stage.BackRepo != nil {
-			Stage.BackRepo.CheckoutMeta(meta)
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutMeta(meta)
 		}
 	}
 	return meta
-}
-
-//
-// Legacy, to be deleted
-//
-
-// StageCopy appends a copy of meta to the model stage
-func (meta *Meta) StageCopy() *Meta {
-	_meta := new(Meta)
-	*_meta = *meta
-	_meta.Stage()
-	return _meta
-}
-
-// StageAndCommit appends meta to the model stage and commit to the orm repo
-func (meta *Meta) StageAndCommit() *Meta {
-	meta.Stage()
-	if Stage.AllModelsStructCreateCallback != nil {
-		Stage.AllModelsStructCreateCallback.CreateORMMeta(meta)
-	}
-	return meta
-}
-
-// DeleteStageAndCommit appends meta to the model stage and commit to the orm repo
-func (meta *Meta) DeleteStageAndCommit() *Meta {
-	meta.Unstage()
-	DeleteORMMeta(meta)
-	return meta
-}
-
-// StageCopyAndCommit appends a copy of meta to the model stage and commit to the orm repo
-func (meta *Meta) StageCopyAndCommit() *Meta {
-	_meta := new(Meta)
-	*_meta = *meta
-	_meta.Stage()
-	if Stage.AllModelsStructCreateCallback != nil {
-		Stage.AllModelsStructCreateCallback.CreateORMMeta(meta)
-	}
-	return _meta
-}
-
-// CreateORMMeta enables dynamic staging of a Meta instance
-func CreateORMMeta(meta *Meta) {
-	meta.Stage()
-	if Stage.AllModelsStructCreateCallback != nil {
-		Stage.AllModelsStructCreateCallback.CreateORMMeta(meta)
-	}
-}
-
-// DeleteORMMeta enables dynamic staging of a Meta instance
-func DeleteORMMeta(meta *Meta) {
-	meta.Unstage()
-	if Stage.AllModelsStructDeleteCallback != nil {
-		Stage.AllModelsStructDeleteCallback.DeleteORMMeta(meta)
-	}
 }
 
 // for satisfaction of GongStruct interface
@@ -1099,93 +659,38 @@ func (meta *Meta) GetName() (res string) {
 }
 
 // Stage puts metareference to the model stage
-func (metareference *MetaReference) Stage() *MetaReference {
-	Stage.MetaReferences[metareference] = __member
-	Stage.MetaReferences_mapString[metareference.Name] = metareference
+func (metareference *MetaReference) Stage(stage *StageStruct) *MetaReference {
+	stage.MetaReferences[metareference] = __member
+	stage.MetaReferences_mapString[metareference.Name] = metareference
 
 	return metareference
 }
 
 // Unstage removes metareference off the model stage
-func (metareference *MetaReference) Unstage() *MetaReference {
-	delete(Stage.MetaReferences, metareference)
-	delete(Stage.MetaReferences_mapString, metareference.Name)
+func (metareference *MetaReference) Unstage(stage *StageStruct) *MetaReference {
+	delete(stage.MetaReferences, metareference)
+	delete(stage.MetaReferences_mapString, metareference.Name)
 	return metareference
 }
 
 // commit metareference to the back repo (if it is already staged)
-func (metareference *MetaReference) Commit() *MetaReference {
-	if _, ok := Stage.MetaReferences[metareference]; ok {
-		if Stage.BackRepo != nil {
-			Stage.BackRepo.CommitMetaReference(metareference)
+func (metareference *MetaReference) Commit(stage *StageStruct) *MetaReference {
+	if _, ok := stage.MetaReferences[metareference]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitMetaReference(metareference)
 		}
 	}
 	return metareference
 }
 
 // Checkout metareference to the back repo (if it is already staged)
-func (metareference *MetaReference) Checkout() *MetaReference {
+func (metareference *MetaReference) Checkout(stage *StageStruct) *MetaReference {
 	if _, ok := Stage.MetaReferences[metareference]; ok {
-		if Stage.BackRepo != nil {
-			Stage.BackRepo.CheckoutMetaReference(metareference)
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutMetaReference(metareference)
 		}
 	}
 	return metareference
-}
-
-//
-// Legacy, to be deleted
-//
-
-// StageCopy appends a copy of metareference to the model stage
-func (metareference *MetaReference) StageCopy() *MetaReference {
-	_metareference := new(MetaReference)
-	*_metareference = *metareference
-	_metareference.Stage()
-	return _metareference
-}
-
-// StageAndCommit appends metareference to the model stage and commit to the orm repo
-func (metareference *MetaReference) StageAndCommit() *MetaReference {
-	metareference.Stage()
-	if Stage.AllModelsStructCreateCallback != nil {
-		Stage.AllModelsStructCreateCallback.CreateORMMetaReference(metareference)
-	}
-	return metareference
-}
-
-// DeleteStageAndCommit appends metareference to the model stage and commit to the orm repo
-func (metareference *MetaReference) DeleteStageAndCommit() *MetaReference {
-	metareference.Unstage()
-	DeleteORMMetaReference(metareference)
-	return metareference
-}
-
-// StageCopyAndCommit appends a copy of metareference to the model stage and commit to the orm repo
-func (metareference *MetaReference) StageCopyAndCommit() *MetaReference {
-	_metareference := new(MetaReference)
-	*_metareference = *metareference
-	_metareference.Stage()
-	if Stage.AllModelsStructCreateCallback != nil {
-		Stage.AllModelsStructCreateCallback.CreateORMMetaReference(metareference)
-	}
-	return _metareference
-}
-
-// CreateORMMetaReference enables dynamic staging of a MetaReference instance
-func CreateORMMetaReference(metareference *MetaReference) {
-	metareference.Stage()
-	if Stage.AllModelsStructCreateCallback != nil {
-		Stage.AllModelsStructCreateCallback.CreateORMMetaReference(metareference)
-	}
-}
-
-// DeleteORMMetaReference enables dynamic staging of a MetaReference instance
-func DeleteORMMetaReference(metareference *MetaReference) {
-	metareference.Unstage()
-	if Stage.AllModelsStructDeleteCallback != nil {
-		Stage.AllModelsStructDeleteCallback.DeleteORMMetaReference(metareference)
-	}
 }
 
 // for satisfaction of GongStruct interface
@@ -1194,93 +699,38 @@ func (metareference *MetaReference) GetName() (res string) {
 }
 
 // Stage puts modelpkg to the model stage
-func (modelpkg *ModelPkg) Stage() *ModelPkg {
-	Stage.ModelPkgs[modelpkg] = __member
-	Stage.ModelPkgs_mapString[modelpkg.Name] = modelpkg
+func (modelpkg *ModelPkg) Stage(stage *StageStruct) *ModelPkg {
+	stage.ModelPkgs[modelpkg] = __member
+	stage.ModelPkgs_mapString[modelpkg.Name] = modelpkg
 
 	return modelpkg
 }
 
 // Unstage removes modelpkg off the model stage
-func (modelpkg *ModelPkg) Unstage() *ModelPkg {
-	delete(Stage.ModelPkgs, modelpkg)
-	delete(Stage.ModelPkgs_mapString, modelpkg.Name)
+func (modelpkg *ModelPkg) Unstage(stage *StageStruct) *ModelPkg {
+	delete(stage.ModelPkgs, modelpkg)
+	delete(stage.ModelPkgs_mapString, modelpkg.Name)
 	return modelpkg
 }
 
 // commit modelpkg to the back repo (if it is already staged)
-func (modelpkg *ModelPkg) Commit() *ModelPkg {
-	if _, ok := Stage.ModelPkgs[modelpkg]; ok {
-		if Stage.BackRepo != nil {
-			Stage.BackRepo.CommitModelPkg(modelpkg)
+func (modelpkg *ModelPkg) Commit(stage *StageStruct) *ModelPkg {
+	if _, ok := stage.ModelPkgs[modelpkg]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitModelPkg(modelpkg)
 		}
 	}
 	return modelpkg
 }
 
 // Checkout modelpkg to the back repo (if it is already staged)
-func (modelpkg *ModelPkg) Checkout() *ModelPkg {
+func (modelpkg *ModelPkg) Checkout(stage *StageStruct) *ModelPkg {
 	if _, ok := Stage.ModelPkgs[modelpkg]; ok {
-		if Stage.BackRepo != nil {
-			Stage.BackRepo.CheckoutModelPkg(modelpkg)
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutModelPkg(modelpkg)
 		}
 	}
 	return modelpkg
-}
-
-//
-// Legacy, to be deleted
-//
-
-// StageCopy appends a copy of modelpkg to the model stage
-func (modelpkg *ModelPkg) StageCopy() *ModelPkg {
-	_modelpkg := new(ModelPkg)
-	*_modelpkg = *modelpkg
-	_modelpkg.Stage()
-	return _modelpkg
-}
-
-// StageAndCommit appends modelpkg to the model stage and commit to the orm repo
-func (modelpkg *ModelPkg) StageAndCommit() *ModelPkg {
-	modelpkg.Stage()
-	if Stage.AllModelsStructCreateCallback != nil {
-		Stage.AllModelsStructCreateCallback.CreateORMModelPkg(modelpkg)
-	}
-	return modelpkg
-}
-
-// DeleteStageAndCommit appends modelpkg to the model stage and commit to the orm repo
-func (modelpkg *ModelPkg) DeleteStageAndCommit() *ModelPkg {
-	modelpkg.Unstage()
-	DeleteORMModelPkg(modelpkg)
-	return modelpkg
-}
-
-// StageCopyAndCommit appends a copy of modelpkg to the model stage and commit to the orm repo
-func (modelpkg *ModelPkg) StageCopyAndCommit() *ModelPkg {
-	_modelpkg := new(ModelPkg)
-	*_modelpkg = *modelpkg
-	_modelpkg.Stage()
-	if Stage.AllModelsStructCreateCallback != nil {
-		Stage.AllModelsStructCreateCallback.CreateORMModelPkg(modelpkg)
-	}
-	return _modelpkg
-}
-
-// CreateORMModelPkg enables dynamic staging of a ModelPkg instance
-func CreateORMModelPkg(modelpkg *ModelPkg) {
-	modelpkg.Stage()
-	if Stage.AllModelsStructCreateCallback != nil {
-		Stage.AllModelsStructCreateCallback.CreateORMModelPkg(modelpkg)
-	}
-}
-
-// DeleteORMModelPkg enables dynamic staging of a ModelPkg instance
-func DeleteORMModelPkg(modelpkg *ModelPkg) {
-	modelpkg.Unstage()
-	if Stage.AllModelsStructDeleteCallback != nil {
-		Stage.AllModelsStructDeleteCallback.DeleteORMModelPkg(modelpkg)
-	}
 }
 
 // for satisfaction of GongStruct interface
@@ -1289,93 +739,38 @@ func (modelpkg *ModelPkg) GetName() (res string) {
 }
 
 // Stage puts pointertogongstructfield to the model stage
-func (pointertogongstructfield *PointerToGongStructField) Stage() *PointerToGongStructField {
-	Stage.PointerToGongStructFields[pointertogongstructfield] = __member
-	Stage.PointerToGongStructFields_mapString[pointertogongstructfield.Name] = pointertogongstructfield
+func (pointertogongstructfield *PointerToGongStructField) Stage(stage *StageStruct) *PointerToGongStructField {
+	stage.PointerToGongStructFields[pointertogongstructfield] = __member
+	stage.PointerToGongStructFields_mapString[pointertogongstructfield.Name] = pointertogongstructfield
 
 	return pointertogongstructfield
 }
 
 // Unstage removes pointertogongstructfield off the model stage
-func (pointertogongstructfield *PointerToGongStructField) Unstage() *PointerToGongStructField {
-	delete(Stage.PointerToGongStructFields, pointertogongstructfield)
-	delete(Stage.PointerToGongStructFields_mapString, pointertogongstructfield.Name)
+func (pointertogongstructfield *PointerToGongStructField) Unstage(stage *StageStruct) *PointerToGongStructField {
+	delete(stage.PointerToGongStructFields, pointertogongstructfield)
+	delete(stage.PointerToGongStructFields_mapString, pointertogongstructfield.Name)
 	return pointertogongstructfield
 }
 
 // commit pointertogongstructfield to the back repo (if it is already staged)
-func (pointertogongstructfield *PointerToGongStructField) Commit() *PointerToGongStructField {
-	if _, ok := Stage.PointerToGongStructFields[pointertogongstructfield]; ok {
-		if Stage.BackRepo != nil {
-			Stage.BackRepo.CommitPointerToGongStructField(pointertogongstructfield)
+func (pointertogongstructfield *PointerToGongStructField) Commit(stage *StageStruct) *PointerToGongStructField {
+	if _, ok := stage.PointerToGongStructFields[pointertogongstructfield]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitPointerToGongStructField(pointertogongstructfield)
 		}
 	}
 	return pointertogongstructfield
 }
 
 // Checkout pointertogongstructfield to the back repo (if it is already staged)
-func (pointertogongstructfield *PointerToGongStructField) Checkout() *PointerToGongStructField {
+func (pointertogongstructfield *PointerToGongStructField) Checkout(stage *StageStruct) *PointerToGongStructField {
 	if _, ok := Stage.PointerToGongStructFields[pointertogongstructfield]; ok {
-		if Stage.BackRepo != nil {
-			Stage.BackRepo.CheckoutPointerToGongStructField(pointertogongstructfield)
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutPointerToGongStructField(pointertogongstructfield)
 		}
 	}
 	return pointertogongstructfield
-}
-
-//
-// Legacy, to be deleted
-//
-
-// StageCopy appends a copy of pointertogongstructfield to the model stage
-func (pointertogongstructfield *PointerToGongStructField) StageCopy() *PointerToGongStructField {
-	_pointertogongstructfield := new(PointerToGongStructField)
-	*_pointertogongstructfield = *pointertogongstructfield
-	_pointertogongstructfield.Stage()
-	return _pointertogongstructfield
-}
-
-// StageAndCommit appends pointertogongstructfield to the model stage and commit to the orm repo
-func (pointertogongstructfield *PointerToGongStructField) StageAndCommit() *PointerToGongStructField {
-	pointertogongstructfield.Stage()
-	if Stage.AllModelsStructCreateCallback != nil {
-		Stage.AllModelsStructCreateCallback.CreateORMPointerToGongStructField(pointertogongstructfield)
-	}
-	return pointertogongstructfield
-}
-
-// DeleteStageAndCommit appends pointertogongstructfield to the model stage and commit to the orm repo
-func (pointertogongstructfield *PointerToGongStructField) DeleteStageAndCommit() *PointerToGongStructField {
-	pointertogongstructfield.Unstage()
-	DeleteORMPointerToGongStructField(pointertogongstructfield)
-	return pointertogongstructfield
-}
-
-// StageCopyAndCommit appends a copy of pointertogongstructfield to the model stage and commit to the orm repo
-func (pointertogongstructfield *PointerToGongStructField) StageCopyAndCommit() *PointerToGongStructField {
-	_pointertogongstructfield := new(PointerToGongStructField)
-	*_pointertogongstructfield = *pointertogongstructfield
-	_pointertogongstructfield.Stage()
-	if Stage.AllModelsStructCreateCallback != nil {
-		Stage.AllModelsStructCreateCallback.CreateORMPointerToGongStructField(pointertogongstructfield)
-	}
-	return _pointertogongstructfield
-}
-
-// CreateORMPointerToGongStructField enables dynamic staging of a PointerToGongStructField instance
-func CreateORMPointerToGongStructField(pointertogongstructfield *PointerToGongStructField) {
-	pointertogongstructfield.Stage()
-	if Stage.AllModelsStructCreateCallback != nil {
-		Stage.AllModelsStructCreateCallback.CreateORMPointerToGongStructField(pointertogongstructfield)
-	}
-}
-
-// DeleteORMPointerToGongStructField enables dynamic staging of a PointerToGongStructField instance
-func DeleteORMPointerToGongStructField(pointertogongstructfield *PointerToGongStructField) {
-	pointertogongstructfield.Unstage()
-	if Stage.AllModelsStructDeleteCallback != nil {
-		Stage.AllModelsStructDeleteCallback.DeleteORMPointerToGongStructField(pointertogongstructfield)
-	}
 }
 
 // for satisfaction of GongStruct interface
@@ -1384,93 +779,38 @@ func (pointertogongstructfield *PointerToGongStructField) GetName() (res string)
 }
 
 // Stage puts sliceofpointertogongstructfield to the model stage
-func (sliceofpointertogongstructfield *SliceOfPointerToGongStructField) Stage() *SliceOfPointerToGongStructField {
-	Stage.SliceOfPointerToGongStructFields[sliceofpointertogongstructfield] = __member
-	Stage.SliceOfPointerToGongStructFields_mapString[sliceofpointertogongstructfield.Name] = sliceofpointertogongstructfield
+func (sliceofpointertogongstructfield *SliceOfPointerToGongStructField) Stage(stage *StageStruct) *SliceOfPointerToGongStructField {
+	stage.SliceOfPointerToGongStructFields[sliceofpointertogongstructfield] = __member
+	stage.SliceOfPointerToGongStructFields_mapString[sliceofpointertogongstructfield.Name] = sliceofpointertogongstructfield
 
 	return sliceofpointertogongstructfield
 }
 
 // Unstage removes sliceofpointertogongstructfield off the model stage
-func (sliceofpointertogongstructfield *SliceOfPointerToGongStructField) Unstage() *SliceOfPointerToGongStructField {
-	delete(Stage.SliceOfPointerToGongStructFields, sliceofpointertogongstructfield)
-	delete(Stage.SliceOfPointerToGongStructFields_mapString, sliceofpointertogongstructfield.Name)
+func (sliceofpointertogongstructfield *SliceOfPointerToGongStructField) Unstage(stage *StageStruct) *SliceOfPointerToGongStructField {
+	delete(stage.SliceOfPointerToGongStructFields, sliceofpointertogongstructfield)
+	delete(stage.SliceOfPointerToGongStructFields_mapString, sliceofpointertogongstructfield.Name)
 	return sliceofpointertogongstructfield
 }
 
 // commit sliceofpointertogongstructfield to the back repo (if it is already staged)
-func (sliceofpointertogongstructfield *SliceOfPointerToGongStructField) Commit() *SliceOfPointerToGongStructField {
-	if _, ok := Stage.SliceOfPointerToGongStructFields[sliceofpointertogongstructfield]; ok {
-		if Stage.BackRepo != nil {
-			Stage.BackRepo.CommitSliceOfPointerToGongStructField(sliceofpointertogongstructfield)
+func (sliceofpointertogongstructfield *SliceOfPointerToGongStructField) Commit(stage *StageStruct) *SliceOfPointerToGongStructField {
+	if _, ok := stage.SliceOfPointerToGongStructFields[sliceofpointertogongstructfield]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitSliceOfPointerToGongStructField(sliceofpointertogongstructfield)
 		}
 	}
 	return sliceofpointertogongstructfield
 }
 
 // Checkout sliceofpointertogongstructfield to the back repo (if it is already staged)
-func (sliceofpointertogongstructfield *SliceOfPointerToGongStructField) Checkout() *SliceOfPointerToGongStructField {
+func (sliceofpointertogongstructfield *SliceOfPointerToGongStructField) Checkout(stage *StageStruct) *SliceOfPointerToGongStructField {
 	if _, ok := Stage.SliceOfPointerToGongStructFields[sliceofpointertogongstructfield]; ok {
-		if Stage.BackRepo != nil {
-			Stage.BackRepo.CheckoutSliceOfPointerToGongStructField(sliceofpointertogongstructfield)
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutSliceOfPointerToGongStructField(sliceofpointertogongstructfield)
 		}
 	}
 	return sliceofpointertogongstructfield
-}
-
-//
-// Legacy, to be deleted
-//
-
-// StageCopy appends a copy of sliceofpointertogongstructfield to the model stage
-func (sliceofpointertogongstructfield *SliceOfPointerToGongStructField) StageCopy() *SliceOfPointerToGongStructField {
-	_sliceofpointertogongstructfield := new(SliceOfPointerToGongStructField)
-	*_sliceofpointertogongstructfield = *sliceofpointertogongstructfield
-	_sliceofpointertogongstructfield.Stage()
-	return _sliceofpointertogongstructfield
-}
-
-// StageAndCommit appends sliceofpointertogongstructfield to the model stage and commit to the orm repo
-func (sliceofpointertogongstructfield *SliceOfPointerToGongStructField) StageAndCommit() *SliceOfPointerToGongStructField {
-	sliceofpointertogongstructfield.Stage()
-	if Stage.AllModelsStructCreateCallback != nil {
-		Stage.AllModelsStructCreateCallback.CreateORMSliceOfPointerToGongStructField(sliceofpointertogongstructfield)
-	}
-	return sliceofpointertogongstructfield
-}
-
-// DeleteStageAndCommit appends sliceofpointertogongstructfield to the model stage and commit to the orm repo
-func (sliceofpointertogongstructfield *SliceOfPointerToGongStructField) DeleteStageAndCommit() *SliceOfPointerToGongStructField {
-	sliceofpointertogongstructfield.Unstage()
-	DeleteORMSliceOfPointerToGongStructField(sliceofpointertogongstructfield)
-	return sliceofpointertogongstructfield
-}
-
-// StageCopyAndCommit appends a copy of sliceofpointertogongstructfield to the model stage and commit to the orm repo
-func (sliceofpointertogongstructfield *SliceOfPointerToGongStructField) StageCopyAndCommit() *SliceOfPointerToGongStructField {
-	_sliceofpointertogongstructfield := new(SliceOfPointerToGongStructField)
-	*_sliceofpointertogongstructfield = *sliceofpointertogongstructfield
-	_sliceofpointertogongstructfield.Stage()
-	if Stage.AllModelsStructCreateCallback != nil {
-		Stage.AllModelsStructCreateCallback.CreateORMSliceOfPointerToGongStructField(sliceofpointertogongstructfield)
-	}
-	return _sliceofpointertogongstructfield
-}
-
-// CreateORMSliceOfPointerToGongStructField enables dynamic staging of a SliceOfPointerToGongStructField instance
-func CreateORMSliceOfPointerToGongStructField(sliceofpointertogongstructfield *SliceOfPointerToGongStructField) {
-	sliceofpointertogongstructfield.Stage()
-	if Stage.AllModelsStructCreateCallback != nil {
-		Stage.AllModelsStructCreateCallback.CreateORMSliceOfPointerToGongStructField(sliceofpointertogongstructfield)
-	}
-}
-
-// DeleteORMSliceOfPointerToGongStructField enables dynamic staging of a SliceOfPointerToGongStructField instance
-func DeleteORMSliceOfPointerToGongStructField(sliceofpointertogongstructfield *SliceOfPointerToGongStructField) {
-	sliceofpointertogongstructfield.Unstage()
-	if Stage.AllModelsStructDeleteCallback != nil {
-		Stage.AllModelsStructDeleteCallback.DeleteORMSliceOfPointerToGongStructField(sliceofpointertogongstructfield)
-	}
 }
 
 // for satisfaction of GongStruct interface
@@ -1589,51 +929,51 @@ func (stage *StageStruct) Nil() { // insertion point for array nil
 
 func (stage *StageStruct) Unstage() { // insertion point for array nil
 	for gongbasicfield := range stage.GongBasicFields {
-		gongbasicfield.Unstage()
+		gongbasicfield.Unstage(stage)
 	}
 
 	for gongenum := range stage.GongEnums {
-		gongenum.Unstage()
+		gongenum.Unstage(stage)
 	}
 
 	for gongenumvalue := range stage.GongEnumValues {
-		gongenumvalue.Unstage()
+		gongenumvalue.Unstage(stage)
 	}
 
 	for gonglink := range stage.GongLinks {
-		gonglink.Unstage()
+		gonglink.Unstage(stage)
 	}
 
 	for gongnote := range stage.GongNotes {
-		gongnote.Unstage()
+		gongnote.Unstage(stage)
 	}
 
 	for gongstruct := range stage.GongStructs {
-		gongstruct.Unstage()
+		gongstruct.Unstage(stage)
 	}
 
 	for gongtimefield := range stage.GongTimeFields {
-		gongtimefield.Unstage()
+		gongtimefield.Unstage(stage)
 	}
 
 	for meta := range stage.Metas {
-		meta.Unstage()
+		meta.Unstage(stage)
 	}
 
 	for metareference := range stage.MetaReferences {
-		metareference.Unstage()
+		metareference.Unstage(stage)
 	}
 
 	for modelpkg := range stage.ModelPkgs {
-		modelpkg.Unstage()
+		modelpkg.Unstage(stage)
 	}
 
 	for pointertogongstructfield := range stage.PointerToGongStructFields {
-		pointertogongstructfield.Unstage()
+		pointertogongstructfield.Unstage(stage)
 	}
 
 	for sliceofpointertogongstructfield := range stage.SliceOfPointerToGongStructFields {
-		sliceofpointertogongstructfield.Unstage()
+		sliceofpointertogongstructfield.Unstage(stage)
 	}
 
 }
@@ -1699,6 +1039,7 @@ func GongGetSet[Type GongstructSet](stages ...*StageStruct) *Type {
 	var ret Type
 
 	var stage *StageStruct
+	_ = stage
 	if len(stages) > 0 {
 		stage = stages[0]
 	} else {
@@ -1742,6 +1083,7 @@ func GongGetMap[Type GongstructMapString](stages ...*StageStruct) *Type {
 	var ret Type
 
 	var stage *StageStruct
+	_ = stage
 	if len(stages) > 0 {
 		stage = stages[0]
 	} else {
@@ -1785,6 +1127,7 @@ func GetGongstructInstancesSet[Type Gongstruct](stages ...*StageStruct) *map[*Ty
 	var ret Type
 
 	var stage *StageStruct
+	_ = stage
 	if len(stages) > 0 {
 		stage = stages[0]
 	} else {
@@ -1828,6 +1171,7 @@ func GetGongstructInstancesMap[Type Gongstruct](stages ...*StageStruct) *map[str
 	var ret Type
 
 	var stage *StageStruct
+	_ = stage
 	if len(stages) > 0 {
 		stage = stages[0]
 	} else {

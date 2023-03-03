@@ -108,6 +108,13 @@ type BackRepoMetaStruct struct {
 	Map_MetaDBID_MetaPtr *map[uint]*models.Meta
 
 	db *gorm.DB
+
+	stage *models.StageStruct
+}
+
+func (backRepoMeta *BackRepoMetaStruct) GetStage() (stage *models.StageStruct) {
+	stage = backRepoMeta.stage
+	return
 }
 
 func (backRepoMeta *BackRepoMetaStruct) GetDB() *gorm.DB {
@@ -122,7 +129,7 @@ func (backRepoMeta *BackRepoMetaStruct) GetMetaDBFromMetaPtr(meta *models.Meta) 
 }
 
 // BackRepoMeta.Init set up the BackRepo of the Meta
-func (backRepoMeta *BackRepoMetaStruct) Init(db *gorm.DB) (Error error) {
+func (backRepoMeta *BackRepoMetaStruct) Init(stage *models.StageStruct, db *gorm.DB) (Error error) {
 
 	if backRepoMeta.Map_MetaDBID_MetaPtr != nil {
 		err := errors.New("In Init, backRepoMeta.Map_MetaDBID_MetaPtr should be nil")
@@ -149,6 +156,7 @@ func (backRepoMeta *BackRepoMetaStruct) Init(db *gorm.DB) (Error error) {
 	backRepoMeta.Map_MetaPtr_MetaDBID = &tmpID
 
 	backRepoMeta.db = db
+	backRepoMeta.stage = stage
 	return
 }
 
@@ -286,7 +294,7 @@ func (backRepoMeta *BackRepoMetaStruct) CheckoutPhaseOne() (Error error) {
 	// list of instances to be removed
 	// start from the initial map on the stage and remove instances that have been checked out
 	metaInstancesToBeRemovedFromTheStage := make(map[*models.Meta]any)
-	for key, value := range models.Stage.Metas {
+	for key, value := range backRepoMeta.stage.Metas {
 		metaInstancesToBeRemovedFromTheStage[key] = value
 	}
 
@@ -304,7 +312,7 @@ func (backRepoMeta *BackRepoMetaStruct) CheckoutPhaseOne() (Error error) {
 
 	// remove from stage and back repo's 3 maps all metas that are not in the checkout
 	for meta := range metaInstancesToBeRemovedFromTheStage {
-		meta.Unstage()
+		meta.Unstage(backRepoMeta.GetStage())
 
 		// remove instance from the back repo 3 maps
 		metaID := (*backRepoMeta.Map_MetaPtr_MetaDBID)[meta]
@@ -329,12 +337,12 @@ func (backRepoMeta *BackRepoMetaStruct) CheckoutPhaseOneInstance(metaDB *MetaDB)
 
 		// append model store with the new element
 		meta.Name = metaDB.Name_Data.String
-		meta.Stage()
+		meta.Stage(backRepoMeta.GetStage())
 	}
 	metaDB.CopyBasicFieldsToMeta(meta)
 
 	// in some cases, the instance might have been unstaged. It is necessary to stage it again
-	meta.Stage()
+	meta.Stage(backRepoMeta.GetStage())
 
 	// preserve pointer to metaDB. Otherwise, pointer will is recycled and the map of pointers
 	// Map_MetaDBID_MetaDB)[metaDB hold variable pointers
