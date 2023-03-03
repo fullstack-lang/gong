@@ -17,7 +17,7 @@ type ModelPkg struct {
 // dir, initialized with a //go:embed directive, is the root
 // the embedded source code
 // usualy, it embeds go/models go/diagrams
-func LoadEmbedded(dir embed.FS) (modelPkg *ModelPkg, err error) {
+func LoadEmbedded(stage *StageStruct, dir embed.FS) (modelPkg *ModelPkg, err error) {
 
 	modelPkg = &ModelPkg{}
 
@@ -30,7 +30,7 @@ func LoadEmbedded(dir embed.FS) (modelPkg *ModelPkg, err error) {
 	inspectMeta(pkgs["models"])
 
 	modelPkg.SerializeToStage()
-	Stage.Commit()
+	stage.Commit()
 
 	return modelPkg, nil
 }
