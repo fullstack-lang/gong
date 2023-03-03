@@ -174,13 +174,13 @@ export class FieldDetailComponent implements OnInit {
 
 		switch (this.state) {
 			case FieldDetailComponentState.UPDATE_INSTANCE:
-				this.fieldService.updateField(this.field)
+				this.fieldService.updateField(this.field, this.GONG__StackPath)
 					.subscribe(field => {
 						this.fieldService.FieldServiceChanged.next("update")
 					});
 				break;
 			default:
-				this.fieldService.postField(this.field).subscribe(field => {
+				this.fieldService.postField(this.field, this.GONG__StackPath).subscribe(field => {
 					this.fieldService.FieldServiceChanged.next("post")
 					this.field = new (FieldDB) // reset fields
 				});

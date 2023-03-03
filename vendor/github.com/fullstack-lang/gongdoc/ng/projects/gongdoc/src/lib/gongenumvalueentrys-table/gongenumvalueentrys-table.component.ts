@@ -172,7 +172,7 @@ export class GongEnumValueEntrysTableComponent implements OnInit {
 
   ngOnInit(): void {
     let stackPath = this.activatedRoute.snapshot.paramMap.get('GONG__StackPath')
-    if ( stackPath != undefined) {
+    if (stackPath != undefined) {
       this.GONG__StackPath = stackPath
     }
 
@@ -208,10 +208,14 @@ export class GongEnumValueEntrysTableComponent implements OnInit {
           let mapOfSourceInstances = this.frontRepo[this.dialogData.SourceStruct + "s" as keyof FrontRepo] as Map<number, GongEnumValueEntryDB>
           let sourceInstance = mapOfSourceInstances.get(this.dialogData.ID)!
 
-          let sourceField = sourceInstance[this.dialogData.SourceField as keyof typeof sourceInstance]! as unknown as GongEnumValueEntryDB[]
-          for (let associationInstance of sourceField) {
-            let gongenumvalueentry = associationInstance[this.dialogData.IntermediateStructField as keyof typeof associationInstance] as unknown as GongEnumValueEntryDB
-            this.initialSelection.push(gongenumvalueentry)
+          // we associates on sourceInstance of type SourceStruct with a MANY MANY associations to GongEnumValueEntryDB
+          // the field name is sourceField
+          let sourceFieldArray = sourceInstance[this.dialogData.SourceField as keyof typeof sourceInstance]! as unknown as GongEnumValueEntryDB[]
+          if (sourceFieldArray != null) {
+            for (let associationInstance of sourceFieldArray) {
+              let gongenumvalueentry = associationInstance[this.dialogData.IntermediateStructField as keyof typeof associationInstance] as unknown as GongEnumValueEntryDB
+              this.initialSelection.push(gongenumvalueentry)
+            }
           }
 
           this.selection = new SelectionModel<GongEnumValueEntryDB>(allowMultiSelect, this.initialSelection);
@@ -232,7 +236,7 @@ export class GongEnumValueEntrysTableComponent implements OnInit {
     // list of gongenumvalueentrys is truncated of gongenumvalueentry before the delete
     this.gongenumvalueentrys = this.gongenumvalueentrys.filter(h => h !== gongenumvalueentry);
 
-    this.gongenumvalueentryService.deleteGongEnumValueEntry(gongenumvalueentryID).subscribe(
+    this.gongenumvalueentryService.deleteGongEnumValueEntry(gongenumvalueentryID, this.GONG__StackPath).subscribe(
       gongenumvalueentry => {
         this.gongenumvalueentryService.GongEnumValueEntryServiceChanged.next("delete")
       }
@@ -298,7 +302,7 @@ export class GongEnumValueEntrysTableComponent implements OnInit {
 
       // update all gongenumvalueentry (only update selection & initial selection)
       for (let gongenumvalueentry of toUpdate) {
-        this.gongenumvalueentryService.updateGongEnumValueEntry(gongenumvalueentry)
+        this.gongenumvalueentryService.updateGongEnumValueEntry(gongenumvalueentry, this.GONG__StackPath)
           .subscribe(gongenumvalueentry => {
             this.gongenumvalueentryService.GongEnumValueEntryServiceChanged.next("update")
           });

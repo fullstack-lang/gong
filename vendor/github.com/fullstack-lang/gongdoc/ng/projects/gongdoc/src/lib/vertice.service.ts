@@ -20,10 +20,6 @@ import { VerticeDB } from './vertice-db';
 })
 export class VerticeService {
 
-  httpOptions = {
-    headers: new HttpHeaders({ 'Content-Type': 'application/json' })
-  };
-
   // Kamar Raïmo: Adding a way to communicate between components that share information
   // so that they are notified of a change.
   VerticeServiceChanged: BehaviorSubject<string> = new BehaviorSubject("");
@@ -32,7 +28,6 @@ export class VerticeService {
 
   constructor(
     private http: HttpClient,
-    private location: Location,
     @Inject(DOCUMENT) private document: Document
   ) {
     // path to the service share the same origin with the path to the document
@@ -67,14 +62,18 @@ export class VerticeService {
     );
   }
 
-  //////// Save methods //////////
-
   /** POST: add a new vertice to the server */
-  postVertice(verticedb: VerticeDB): Observable<VerticeDB> {
+  postVertice(verticedb: VerticeDB, GONG__StackPath: string): Observable<VerticeDB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
 
-    return this.http.post<VerticeDB>(this.verticesUrl, verticedb, this.httpOptions).pipe(
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+	return this.http.post<VerticeDB>(this.verticesUrl, verticedb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
         this.log(`posted verticedb id=${verticedb.ID}`)
@@ -84,24 +83,36 @@ export class VerticeService {
   }
 
   /** DELETE: delete the verticedb from the server */
-  deleteVertice(verticedb: VerticeDB | number): Observable<VerticeDB> {
+  deleteVertice(verticedb: VerticeDB | number, GONG__StackPath: string): Observable<VerticeDB> {
     const id = typeof verticedb === 'number' ? verticedb : verticedb.ID;
     const url = `${this.verticesUrl}/${id}`;
 
-    return this.http.delete<VerticeDB>(url, this.httpOptions).pipe(
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    };
+
+    return this.http.delete<VerticeDB>(url, httpOptions).pipe(
       tap(_ => this.log(`deleted verticedb id=${id}`)),
       catchError(this.handleError<VerticeDB>('deleteVertice'))
     );
   }
 
   /** PUT: update the verticedb on the server */
-  updateVertice(verticedb: VerticeDB): Observable<VerticeDB> {
+  updateVertice(verticedb: VerticeDB, GONG__StackPath: string): Observable<VerticeDB> {
     const id = typeof verticedb === 'number' ? verticedb : verticedb.ID;
     const url = `${this.verticesUrl}/${id}`;
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
 
-    return this.http.put<VerticeDB>(url, verticedb, this.httpOptions).pipe(
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    };
+
+    return this.http.put<VerticeDB>(url, verticedb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
         this.log(`updated verticedb id=${verticedb.ID}`)

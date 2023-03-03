@@ -174,13 +174,13 @@ export class UmlStateDetailComponent implements OnInit {
 
 		switch (this.state) {
 			case UmlStateDetailComponentState.UPDATE_INSTANCE:
-				this.umlstateService.updateUmlState(this.umlstate)
+				this.umlstateService.updateUmlState(this.umlstate, this.GONG__StackPath)
 					.subscribe(umlstate => {
 						this.umlstateService.UmlStateServiceChanged.next("update")
 					});
 				break;
 			default:
-				this.umlstateService.postUmlState(this.umlstate).subscribe(umlstate => {
+				this.umlstateService.postUmlState(this.umlstate, this.GONG__StackPath).subscribe(umlstate => {
 					this.umlstateService.UmlStateServiceChanged.next("post")
 					this.umlstate = new (UmlStateDB) // reset fields
 				});

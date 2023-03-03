@@ -100,7 +100,7 @@ export class VerticeSortingComponent implements OnInit {
 
     this.associatedVertices.forEach(
       vertice => {
-        this.verticeService.updateVertice(vertice)
+        this.verticeService.updateVertice(vertice, this.dialogData.GONG__StackPath)
           .subscribe(vertice => {
             this.verticeService.VerticeServiceChanged.next("update")
           });

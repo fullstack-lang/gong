@@ -100,7 +100,7 @@ export class NoteShapeSortingComponent implements OnInit {
 
     this.associatedNoteShapes.forEach(
       noteshape => {
-        this.noteshapeService.updateNoteShape(noteshape)
+        this.noteshapeService.updateNoteShape(noteshape, this.dialogData.GONG__StackPath)
           .subscribe(noteshape => {
             this.noteshapeService.NoteShapeServiceChanged.next("update")
           });

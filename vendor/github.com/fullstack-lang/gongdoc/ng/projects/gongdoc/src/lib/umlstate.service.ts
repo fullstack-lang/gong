@@ -21,10 +21,6 @@ import { UmlscDB } from './umlsc-db'
 })
 export class UmlStateService {
 
-  httpOptions = {
-    headers: new HttpHeaders({ 'Content-Type': 'application/json' })
-  };
-
   // Kamar Raïmo: Adding a way to communicate between components that share information
   // so that they are notified of a change.
   UmlStateServiceChanged: BehaviorSubject<string> = new BehaviorSubject("");
@@ -33,7 +29,6 @@ export class UmlStateService {
 
   constructor(
     private http: HttpClient,
-    private location: Location,
     @Inject(DOCUMENT) private document: Document
   ) {
     // path to the service share the same origin with the path to the document
@@ -68,16 +63,20 @@ export class UmlStateService {
     );
   }
 
-  //////// Save methods //////////
-
   /** POST: add a new umlstate to the server */
-  postUmlState(umlstatedb: UmlStateDB): Observable<UmlStateDB> {
+  postUmlState(umlstatedb: UmlStateDB, GONG__StackPath: string): Observable<UmlStateDB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
     let _Umlsc_States_reverse = umlstatedb.Umlsc_States_reverse
     umlstatedb.Umlsc_States_reverse = new UmlscDB
 
-    return this.http.post<UmlStateDB>(this.umlstatesUrl, umlstatedb, this.httpOptions).pipe(
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+	return this.http.post<UmlStateDB>(this.umlstatesUrl, umlstatedb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
         umlstatedb.Umlsc_States_reverse = _Umlsc_States_reverse
@@ -88,18 +87,24 @@ export class UmlStateService {
   }
 
   /** DELETE: delete the umlstatedb from the server */
-  deleteUmlState(umlstatedb: UmlStateDB | number): Observable<UmlStateDB> {
+  deleteUmlState(umlstatedb: UmlStateDB | number, GONG__StackPath: string): Observable<UmlStateDB> {
     const id = typeof umlstatedb === 'number' ? umlstatedb : umlstatedb.ID;
     const url = `${this.umlstatesUrl}/${id}`;
 
-    return this.http.delete<UmlStateDB>(url, this.httpOptions).pipe(
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    };
+
+    return this.http.delete<UmlStateDB>(url, httpOptions).pipe(
       tap(_ => this.log(`deleted umlstatedb id=${id}`)),
       catchError(this.handleError<UmlStateDB>('deleteUmlState'))
     );
   }
 
   /** PUT: update the umlstatedb on the server */
-  updateUmlState(umlstatedb: UmlStateDB): Observable<UmlStateDB> {
+  updateUmlState(umlstatedb: UmlStateDB, GONG__StackPath: string): Observable<UmlStateDB> {
     const id = typeof umlstatedb === 'number' ? umlstatedb : umlstatedb.ID;
     const url = `${this.umlstatesUrl}/${id}`;
 
@@ -107,7 +112,13 @@ export class UmlStateService {
     let _Umlsc_States_reverse = umlstatedb.Umlsc_States_reverse
     umlstatedb.Umlsc_States_reverse = new UmlscDB
 
-    return this.http.put<UmlStateDB>(url, umlstatedb, this.httpOptions).pipe(
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    };
+
+    return this.http.put<UmlStateDB>(url, umlstatedb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
         umlstatedb.Umlsc_States_reverse = _Umlsc_States_reverse

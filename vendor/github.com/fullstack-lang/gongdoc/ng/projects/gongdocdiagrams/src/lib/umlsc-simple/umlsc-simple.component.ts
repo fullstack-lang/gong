@@ -79,7 +79,7 @@ export class UmlscSimpleTableComponent implements OnInit {
     // de mettre à jour l'IHM
     this.umlscs = this.umlscs.filter(h => h !== umlsc);
 
-    this.umlscService.deleteUmlsc(umlscID).subscribe();
+    this.umlscService.deleteUmlsc(umlscID, "").subscribe();
   }
 
   editUmlsc(umlscID: number, umlsc: UmlscDB) {
@@ -112,7 +112,7 @@ export class UmlscSimpleTableComponent implements OnInit {
           if (this.umlsc!.Activestate != state.Name && !activeStateChanged) {
             this.umlsc!.Activestate = state.Name
             activeStateChanged = true
-            this.umlscService.updateUmlsc(this.umlsc!).subscribe(
+            this.umlscService.updateUmlsc(this.umlsc!, "").subscribe(
               umlsc => {
                 console.log("state diagram updated")
               }

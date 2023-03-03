@@ -190,7 +190,7 @@ export class FieldsTableComponent implements OnInit {
 
   ngOnInit(): void {
     let stackPath = this.activatedRoute.snapshot.paramMap.get('GONG__StackPath')
-    if ( stackPath != undefined) {
+    if (stackPath != undefined) {
       this.GONG__StackPath = stackPath
     }
 
@@ -226,10 +226,14 @@ export class FieldsTableComponent implements OnInit {
           let mapOfSourceInstances = this.frontRepo[this.dialogData.SourceStruct + "s" as keyof FrontRepo] as Map<number, FieldDB>
           let sourceInstance = mapOfSourceInstances.get(this.dialogData.ID)!
 
-          let sourceField = sourceInstance[this.dialogData.SourceField as keyof typeof sourceInstance]! as unknown as FieldDB[]
-          for (let associationInstance of sourceField) {
-            let field = associationInstance[this.dialogData.IntermediateStructField as keyof typeof associationInstance] as unknown as FieldDB
-            this.initialSelection.push(field)
+          // we associates on sourceInstance of type SourceStruct with a MANY MANY associations to FieldDB
+          // the field name is sourceField
+          let sourceFieldArray = sourceInstance[this.dialogData.SourceField as keyof typeof sourceInstance]! as unknown as FieldDB[]
+          if (sourceFieldArray != null) {
+            for (let associationInstance of sourceFieldArray) {
+              let field = associationInstance[this.dialogData.IntermediateStructField as keyof typeof associationInstance] as unknown as FieldDB
+              this.initialSelection.push(field)
+            }
           }
 
           this.selection = new SelectionModel<FieldDB>(allowMultiSelect, this.initialSelection);
@@ -250,7 +254,7 @@ export class FieldsTableComponent implements OnInit {
     // list of fields is truncated of field before the delete
     this.fields = this.fields.filter(h => h !== field);
 
-    this.fieldService.deleteField(fieldID).subscribe(
+    this.fieldService.deleteField(fieldID, this.GONG__StackPath).subscribe(
       field => {
         this.fieldService.FieldServiceChanged.next("delete")
       }
@@ -316,7 +320,7 @@ export class FieldsTableComponent implements OnInit {
 
       // update all field (only update selection & initial selection)
       for (let field of toUpdate) {
-        this.fieldService.updateField(field)
+        this.fieldService.updateField(field, this.GONG__StackPath)
           .subscribe(field => {
             this.fieldService.FieldServiceChanged.next("update")
           });

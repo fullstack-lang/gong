@@ -190,13 +190,13 @@ export class GongStructShapeDetailComponent implements OnInit {
 
 		switch (this.state) {
 			case GongStructShapeDetailComponentState.UPDATE_INSTANCE:
-				this.gongstructshapeService.updateGongStructShape(this.gongstructshape)
+				this.gongstructshapeService.updateGongStructShape(this.gongstructshape, this.GONG__StackPath)
 					.subscribe(gongstructshape => {
 						this.gongstructshapeService.GongStructShapeServiceChanged.next("update")
 					});
 				break;
 			default:
-				this.gongstructshapeService.postGongStructShape(this.gongstructshape).subscribe(gongstructshape => {
+				this.gongstructshapeService.postGongStructShape(this.gongstructshape, this.GONG__StackPath).subscribe(gongstructshape => {
 					this.gongstructshapeService.GongStructShapeServiceChanged.next("post")
 					this.gongstructshape = new (GongStructShapeDB) // reset fields
 				});

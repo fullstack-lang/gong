@@ -100,7 +100,7 @@ export class NoteShapeLinkSortingComponent implements OnInit {
 
     this.associatedNoteShapeLinks.forEach(
       noteshapelink => {
-        this.noteshapelinkService.updateNoteShapeLink(noteshapelink)
+        this.noteshapelinkService.updateNoteShapeLink(noteshapelink, this.dialogData.GONG__StackPath)
           .subscribe(noteshapelink => {
             this.noteshapelinkService.NoteShapeLinkServiceChanged.next("update")
           });

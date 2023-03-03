@@ -152,13 +152,13 @@ export class VerticeDetailComponent implements OnInit {
 
 		switch (this.state) {
 			case VerticeDetailComponentState.UPDATE_INSTANCE:
-				this.verticeService.updateVertice(this.vertice)
+				this.verticeService.updateVertice(this.vertice, this.GONG__StackPath)
 					.subscribe(vertice => {
 						this.verticeService.VerticeServiceChanged.next("update")
 					});
 				break;
 			default:
-				this.verticeService.postVertice(this.vertice).subscribe(vertice => {
+				this.verticeService.postVertice(this.vertice, this.GONG__StackPath).subscribe(vertice => {
 					this.verticeService.VerticeServiceChanged.next("post")
 					this.vertice = new (VerticeDB) // reset fields
 				});

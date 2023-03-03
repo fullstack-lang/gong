@@ -22,10 +22,6 @@ import { ClassdiagramDB } from './classdiagram-db'
 })
 export class GongStructShapeService {
 
-  httpOptions = {
-    headers: new HttpHeaders({ 'Content-Type': 'application/json' })
-  };
-
   // Kamar Raïmo: Adding a way to communicate between components that share information
   // so that they are notified of a change.
   GongStructShapeServiceChanged: BehaviorSubject<string> = new BehaviorSubject("");
@@ -34,7 +30,6 @@ export class GongStructShapeService {
 
   constructor(
     private http: HttpClient,
-    private location: Location,
     @Inject(DOCUMENT) private document: Document
   ) {
     // path to the service share the same origin with the path to the document
@@ -69,10 +64,8 @@ export class GongStructShapeService {
     );
   }
 
-  //////// Save methods //////////
-
   /** POST: add a new gongstructshape to the server */
-  postGongStructShape(gongstructshapedb: GongStructShapeDB): Observable<GongStructShapeDB> {
+  postGongStructShape(gongstructshapedb: GongStructShapeDB, GONG__StackPath: string): Observable<GongStructShapeDB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
     gongstructshapedb.Position = new PositionDB
@@ -81,7 +74,13 @@ export class GongStructShapeService {
     let _Classdiagram_GongStructShapes_reverse = gongstructshapedb.Classdiagram_GongStructShapes_reverse
     gongstructshapedb.Classdiagram_GongStructShapes_reverse = new ClassdiagramDB
 
-    return this.http.post<GongStructShapeDB>(this.gongstructshapesUrl, gongstructshapedb, this.httpOptions).pipe(
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+	return this.http.post<GongStructShapeDB>(this.gongstructshapesUrl, gongstructshapedb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
         gongstructshapedb.Classdiagram_GongStructShapes_reverse = _Classdiagram_GongStructShapes_reverse
@@ -92,18 +91,24 @@ export class GongStructShapeService {
   }
 
   /** DELETE: delete the gongstructshapedb from the server */
-  deleteGongStructShape(gongstructshapedb: GongStructShapeDB | number): Observable<GongStructShapeDB> {
+  deleteGongStructShape(gongstructshapedb: GongStructShapeDB | number, GONG__StackPath: string): Observable<GongStructShapeDB> {
     const id = typeof gongstructshapedb === 'number' ? gongstructshapedb : gongstructshapedb.ID;
     const url = `${this.gongstructshapesUrl}/${id}`;
 
-    return this.http.delete<GongStructShapeDB>(url, this.httpOptions).pipe(
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    };
+
+    return this.http.delete<GongStructShapeDB>(url, httpOptions).pipe(
       tap(_ => this.log(`deleted gongstructshapedb id=${id}`)),
       catchError(this.handleError<GongStructShapeDB>('deleteGongStructShape'))
     );
   }
 
   /** PUT: update the gongstructshapedb on the server */
-  updateGongStructShape(gongstructshapedb: GongStructShapeDB): Observable<GongStructShapeDB> {
+  updateGongStructShape(gongstructshapedb: GongStructShapeDB, GONG__StackPath: string): Observable<GongStructShapeDB> {
     const id = typeof gongstructshapedb === 'number' ? gongstructshapedb : gongstructshapedb.ID;
     const url = `${this.gongstructshapesUrl}/${id}`;
 
@@ -114,7 +119,13 @@ export class GongStructShapeService {
     let _Classdiagram_GongStructShapes_reverse = gongstructshapedb.Classdiagram_GongStructShapes_reverse
     gongstructshapedb.Classdiagram_GongStructShapes_reverse = new ClassdiagramDB
 
-    return this.http.put<GongStructShapeDB>(url, gongstructshapedb, this.httpOptions).pipe(
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    };
+
+    return this.http.put<GongStructShapeDB>(url, gongstructshapedb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
         gongstructshapedb.Classdiagram_GongStructShapes_reverse = _Classdiagram_GongStructShapes_reverse
