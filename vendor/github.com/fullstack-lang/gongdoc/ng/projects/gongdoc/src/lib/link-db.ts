@@ -12,7 +12,6 @@ export class LinkDB {
 
 	// insertion point for basic fields declarations
 	Name: string = ""
-	Structname: string = ""
 	Identifier: string = ""
 	Fieldtypename: string = ""
 	TargetMultiplicity: string = ""

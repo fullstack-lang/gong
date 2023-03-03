@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Router, RouterState } from '@angular/router';
 
 import { BehaviorSubject, Subscription } from 'rxjs';
@@ -176,6 +176,8 @@ export class SidebarComponent implements OnInit {
 
   subscription: Subscription = new Subscription
 
+  @Input() GONG__StackPath: string = ""
+
   constructor(
     private router: Router,
     private frontRepoService: FrontRepoService,
@@ -206,6 +208,8 @@ export class SidebarComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
+    console.log("Sidebar init: " + this.GONG__StackPath)
 
     this.subscription = this.gongstructSelectionService.gongtructSelected$.subscribe(
       gongstructName => {
@@ -348,7 +352,7 @@ export class SidebarComponent implements OnInit {
   }
 
   refresh(): void {
-    this.frontRepoService.pull().subscribe(frontRepo => {
+    this.frontRepoService.pull(this.GONG__StackPath).subscribe(frontRepo => {
       this.frontRepo = frontRepo
 
       // use of a Gödel number to uniquely identfy nodes : 2 * node.id + 3 * node.level
@@ -1266,111 +1270,6 @@ export class SidebarComponent implements OnInit {
           noteshapelinkGongNodeStruct.children!.push(noteshapelinkGongNodeInstance)
 
           // insertion point for per field code
-          /**
-          * let append a node for the association Classshape
-          */
-          let ClassshapeGongNodeAssociation: GongNode = {
-            name: "(GongStructShape) Classshape",
-            type: GongNodeType.ONE__ZERO_ONE_ASSOCIATION,
-            id: noteshapelinkDB.ID,
-            uniqueIdPerStack: 17 * nonInstanceNodeId,
-            structName: "NoteShapeLink",
-            associationField: "Classshape",
-            associatedStructName: "GongStructShape",
-            children: new Array<GongNode>()
-          }
-          nonInstanceNodeId = nonInstanceNodeId + 1
-          noteshapelinkGongNodeInstance.children!.push(ClassshapeGongNodeAssociation)
-
-          /**
-            * let append a node for the instance behind the asssociation Classshape
-            */
-          if (noteshapelinkDB.Classshape != undefined) {
-            let noteshapelinkGongNodeInstance_Classshape: GongNode = {
-              name: noteshapelinkDB.Classshape.Name,
-              type: GongNodeType.INSTANCE,
-              id: noteshapelinkDB.Classshape.ID,
-              uniqueIdPerStack: // godel numbering (thank you kurt)
-                3 * getNoteShapeLinkUniqueID(noteshapelinkDB.ID)
-                + 5 * getGongStructShapeUniqueID(noteshapelinkDB.Classshape.ID),
-              structName: "GongStructShape",
-              associationField: "",
-              associatedStructName: "",
-              children: new Array<GongNode>()
-            }
-            ClassshapeGongNodeAssociation.children.push(noteshapelinkGongNodeInstance_Classshape)
-          }
-
-          /**
-          * let append a node for the association Link
-          */
-          let LinkGongNodeAssociation: GongNode = {
-            name: "(Link) Link",
-            type: GongNodeType.ONE__ZERO_ONE_ASSOCIATION,
-            id: noteshapelinkDB.ID,
-            uniqueIdPerStack: 17 * nonInstanceNodeId,
-            structName: "NoteShapeLink",
-            associationField: "Link",
-            associatedStructName: "Link",
-            children: new Array<GongNode>()
-          }
-          nonInstanceNodeId = nonInstanceNodeId + 1
-          noteshapelinkGongNodeInstance.children!.push(LinkGongNodeAssociation)
-
-          /**
-            * let append a node for the instance behind the asssociation Link
-            */
-          if (noteshapelinkDB.Link != undefined) {
-            let noteshapelinkGongNodeInstance_Link: GongNode = {
-              name: noteshapelinkDB.Link.Name,
-              type: GongNodeType.INSTANCE,
-              id: noteshapelinkDB.Link.ID,
-              uniqueIdPerStack: // godel numbering (thank you kurt)
-                3 * getNoteShapeLinkUniqueID(noteshapelinkDB.ID)
-                + 5 * getLinkUniqueID(noteshapelinkDB.Link.ID),
-              structName: "Link",
-              associationField: "",
-              associatedStructName: "",
-              children: new Array<GongNode>()
-            }
-            LinkGongNodeAssociation.children.push(noteshapelinkGongNodeInstance_Link)
-          }
-
-          /**
-          * let append a node for the association Middlevertice
-          */
-          let MiddleverticeGongNodeAssociation: GongNode = {
-            name: "(Vertice) Middlevertice",
-            type: GongNodeType.ONE__ZERO_ONE_ASSOCIATION,
-            id: noteshapelinkDB.ID,
-            uniqueIdPerStack: 17 * nonInstanceNodeId,
-            structName: "NoteShapeLink",
-            associationField: "Middlevertice",
-            associatedStructName: "Vertice",
-            children: new Array<GongNode>()
-          }
-          nonInstanceNodeId = nonInstanceNodeId + 1
-          noteshapelinkGongNodeInstance.children!.push(MiddleverticeGongNodeAssociation)
-
-          /**
-            * let append a node for the instance behind the asssociation Middlevertice
-            */
-          if (noteshapelinkDB.Middlevertice != undefined) {
-            let noteshapelinkGongNodeInstance_Middlevertice: GongNode = {
-              name: noteshapelinkDB.Middlevertice.Name,
-              type: GongNodeType.INSTANCE,
-              id: noteshapelinkDB.Middlevertice.ID,
-              uniqueIdPerStack: // godel numbering (thank you kurt)
-                3 * getNoteShapeLinkUniqueID(noteshapelinkDB.ID)
-                + 5 * getVerticeUniqueID(noteshapelinkDB.Middlevertice.ID),
-              structName: "Vertice",
-              associationField: "",
-              associatedStructName: "",
-              children: new Array<GongNode>()
-            }
-            MiddleverticeGongNodeAssociation.children.push(noteshapelinkGongNodeInstance_Middlevertice)
-          }
-
         }
       )
 
@@ -1700,7 +1599,7 @@ export class SidebarComponent implements OnInit {
     if (type == GongNodeType.STRUCT) {
       this.router.navigate([{
         outlets: {
-          github_com_fullstack_lang_gongdoc_go_table: ["github_com_fullstack_lang_gongdoc_go-" + path.toLowerCase()]
+          github_com_fullstack_lang_gongdoc_go_table: ["github_com_fullstack_lang_gongdoc_go-" + path.toLowerCase(), this.GONG__StackPath]
         }
       }]);
     }
@@ -1717,7 +1616,7 @@ export class SidebarComponent implements OnInit {
   setEditorRouterOutlet(path: string) {
     this.router.navigate([{
       outlets: {
-        github_com_fullstack_lang_gongdoc_go_editor: ["github_com_fullstack_lang_gongdoc_go-" + path.toLowerCase()]
+        github_com_fullstack_lang_gongdoc_go_editor: ["github_com_fullstack_lang_gongdoc_go-" + path.toLowerCase(), this.GONG__StackPath]
       }
     }]);
   }
@@ -1725,7 +1624,7 @@ export class SidebarComponent implements OnInit {
   setEditorSpecialRouterOutlet(node: GongFlatNode) {
     this.router.navigate([{
       outlets: {
-        github_com_fullstack_lang_gongdoc_go_editor: ["github_com_fullstack_lang_gongdoc_go-" + node.associatedStructName.toLowerCase() + "-adder", node.id, node.structName, node.associationField]
+        github_com_fullstack_lang_gongdoc_go_editor: ["github_com_fullstack_lang_gongdoc_go-" + node.associatedStructName.toLowerCase() + "-adder", node.id, node.structName, node.associationField, this.GONG__StackPath]
       }
     }]);
   }

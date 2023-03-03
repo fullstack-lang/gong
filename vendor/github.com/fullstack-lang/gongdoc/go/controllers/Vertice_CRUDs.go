@@ -47,11 +47,23 @@ type VerticeInput struct {
 // default: genericError
 //
 //	200: verticeDBResponse
-func GetVertices(c *gin.Context) {
-	db := orm.BackRepo.BackRepoVertice.GetDB()
+func (controller *Controller) GetVertices(c *gin.Context) {
 
 	// source slice
 	var verticeDBs []orm.VerticeDB
+
+	values := c.Request.URL.Query()
+	stackPath := ""
+	if len(values) == 1 {
+		value := values["GONG__StackPath"]
+		if len(value) == 1 {
+			stackPath = value[0]
+			log.Println("GetVertices", "GONG__StackPath", stackPath)
+		}
+	}
+	backRepo := controller.Map_BackRepos[stackPath]
+	db := backRepo.BackRepoVertice.GetDB()
+
 	query := db.Find(&verticeDBs)
 	if query.Error != nil {
 		var returnError GenericError
@@ -95,8 +107,19 @@ func GetVertices(c *gin.Context) {
 //
 //	Responses:
 //	  200: nodeDBResponse
-func PostVertice(c *gin.Context) {
-	db := orm.BackRepo.BackRepoVertice.GetDB()
+func (controller *Controller) PostVertice(c *gin.Context) {
+
+	values := c.Request.URL.Query()
+	stackPath := ""
+	if len(values) == 1 {
+		value := values["GONG__StackPath"]
+		if len(value) == 1 {
+			stackPath = value[0]
+			log.Println("PostVertices", "GONG__StackPath", stackPath)
+		}
+	}
+	backRepo := controller.Map_BackRepos[stackPath]
+	db := backRepo.BackRepoVertice.GetDB()
 
 	// Validate input
 	var input orm.VerticeAPI
@@ -127,16 +150,16 @@ func PostVertice(c *gin.Context) {
 	}
 
 	// get an instance (not staged) from DB instance, and call callback function
-	orm.BackRepo.BackRepoVertice.CheckoutPhaseOneInstance(&verticeDB)
-	vertice := (*orm.BackRepo.BackRepoVertice.Map_VerticeDBID_VerticePtr)[verticeDB.ID]
+	backRepo.BackRepoVertice.CheckoutPhaseOneInstance(&verticeDB)
+	vertice := (*backRepo.BackRepoVertice.Map_VerticeDBID_VerticePtr)[verticeDB.ID]
 
 	if vertice != nil {
-		models.AfterCreateFromFront(&models.Stage, vertice)
+		models.AfterCreateFromFront(backRepo.GetStage(), vertice)
 	}
 
 	// a POST is equivalent to a back repo commit increase
 	// (this will be improved with implementation of unit of work design pattern)
-	orm.BackRepo.IncrementPushFromFrontNb()
+	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, verticeDB)
 }
@@ -151,8 +174,19 @@ func PostVertice(c *gin.Context) {
 // default: genericError
 //
 //	200: verticeDBResponse
-func GetVertice(c *gin.Context) {
-	db := orm.BackRepo.BackRepoVertice.GetDB()
+func (controller *Controller) GetVertice(c *gin.Context) {
+
+	values := c.Request.URL.Query()
+	stackPath := ""
+	if len(values) == 1 {
+		value := values["GONG__StackPath"]
+		if len(value) == 1 {
+			stackPath = value[0]
+			log.Println("GetVertice", "GONG__StackPath", stackPath)
+		}
+	}
+	backRepo := controller.Map_BackRepos[stackPath]
+	db := backRepo.BackRepoVertice.GetDB()
 
 	// Get verticeDB in DB
 	var verticeDB orm.VerticeDB
@@ -183,8 +217,27 @@ func GetVertice(c *gin.Context) {
 // default: genericError
 //
 //	200: verticeDBResponse
-func UpdateVertice(c *gin.Context) {
-	db := orm.BackRepo.BackRepoVertice.GetDB()
+func (controller *Controller) UpdateVertice(c *gin.Context) {
+
+	values := c.Request.URL.Query()
+	stackPath := ""
+	if len(values) == 1 {
+		value := values["GONG__StackPath"]
+		if len(value) == 1 {
+			stackPath = value[0]
+			log.Println("UpdateVertice", "GONG__StackPath", stackPath)
+		}
+	}
+	backRepo := controller.Map_BackRepos[stackPath]
+	db := backRepo.BackRepoVertice.GetDB()
+
+	// Validate input
+	var input orm.VerticeAPI
+	if err := c.ShouldBindJSON(&input); err != nil {
+		log.Println(err.Error())
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
 
 	// Get model if exist
 	var verticeDB orm.VerticeDB
@@ -198,14 +251,6 @@ func UpdateVertice(c *gin.Context) {
 		returnError.Body.Message = query.Error.Error()
 		log.Println(query.Error.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
-		return
-	}
-
-	// Validate input
-	var input orm.VerticeAPI
-	if err := c.ShouldBindJSON(&input); err != nil {
-		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
@@ -228,16 +273,16 @@ func UpdateVertice(c *gin.Context) {
 	verticeDB.CopyBasicFieldsToVertice(verticeNew)
 
 	// get stage instance from DB instance, and call callback function
-	verticeOld := (*orm.BackRepo.BackRepoVertice.Map_VerticeDBID_VerticePtr)[verticeDB.ID]
+	verticeOld := (*backRepo.BackRepoVertice.Map_VerticeDBID_VerticePtr)[verticeDB.ID]
 	if verticeOld != nil {
-		models.AfterUpdateFromFront(&models.Stage, verticeOld, verticeNew)
+		models.AfterUpdateFromFront(backRepo.GetStage(), verticeOld, verticeNew)
 	}
 
 	// an UPDATE generates a back repo commit increase
 	// (this will be improved with implementation of unit of work design pattern)
 	// in some cases, with the marshalling of the stage, this operation might
 	// generates a checkout
-	orm.BackRepo.IncrementPushFromFrontNb()
+	backRepo.IncrementPushFromFrontNb()
 
 	// return status OK with the marshalling of the the verticeDB
 	c.JSON(http.StatusOK, verticeDB)
@@ -252,8 +297,19 @@ func UpdateVertice(c *gin.Context) {
 // default: genericError
 //
 //	200: verticeDBResponse
-func DeleteVertice(c *gin.Context) {
-	db := orm.BackRepo.BackRepoVertice.GetDB()
+func (controller *Controller) DeleteVertice(c *gin.Context) {
+
+	values := c.Request.URL.Query()
+	stackPath := ""
+	if len(values) == 1 {
+		value := values["GONG__StackPath"]
+		if len(value) == 1 {
+			stackPath = value[0]
+			log.Println("DeleteVertice", "GONG__StackPath", stackPath)
+		}
+	}
+	backRepo := controller.Map_BackRepos[stackPath]
+	db := backRepo.BackRepoVertice.GetDB()
 
 	// Get model if exist
 	var verticeDB orm.VerticeDB
@@ -274,14 +330,14 @@ func DeleteVertice(c *gin.Context) {
 	verticeDB.CopyBasicFieldsToVertice(verticeDeleted)
 
 	// get stage instance from DB instance, and call callback function
-	verticeStaged := (*orm.BackRepo.BackRepoVertice.Map_VerticeDBID_VerticePtr)[verticeDB.ID]
+	verticeStaged := (*backRepo.BackRepoVertice.Map_VerticeDBID_VerticePtr)[verticeDB.ID]
 	if verticeStaged != nil {
-		models.AfterDeleteFromFront(&models.Stage, verticeStaged, verticeDeleted)
+		models.AfterDeleteFromFront(backRepo.GetStage(), verticeStaged, verticeDeleted)
 	}
 
 	// a DELETE generates a back repo commit increase
 	// (this will be improved with implementation of unit of work design pattern)
-	orm.BackRepo.IncrementPushFromFrontNb()
+	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, gin.H{"data": true})
 }

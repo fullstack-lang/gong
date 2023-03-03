@@ -114,6 +114,13 @@ type BackRepoPositionStruct struct {
 	Map_PositionDBID_PositionPtr *map[uint]*models.Position
 
 	db *gorm.DB
+
+	stage *models.StageStruct
+}
+
+func (backRepoPosition *BackRepoPositionStruct) GetStage() (stage *models.StageStruct) {
+	stage = backRepoPosition.stage
+	return
 }
 
 func (backRepoPosition *BackRepoPositionStruct) GetDB() *gorm.DB {
@@ -128,7 +135,7 @@ func (backRepoPosition *BackRepoPositionStruct) GetPositionDBFromPositionPtr(pos
 }
 
 // BackRepoPosition.Init set up the BackRepo of the Position
-func (backRepoPosition *BackRepoPositionStruct) Init(db *gorm.DB) (Error error) {
+func (backRepoPosition *BackRepoPositionStruct) Init(stage *models.StageStruct, db *gorm.DB) (Error error) {
 
 	if backRepoPosition.Map_PositionDBID_PositionPtr != nil {
 		err := errors.New("In Init, backRepoPosition.Map_PositionDBID_PositionPtr should be nil")
@@ -155,6 +162,7 @@ func (backRepoPosition *BackRepoPositionStruct) Init(db *gorm.DB) (Error error) 
 	backRepoPosition.Map_PositionPtr_PositionDBID = &tmpID
 
 	backRepoPosition.db = db
+	backRepoPosition.stage = stage
 	return
 }
 
@@ -273,7 +281,7 @@ func (backRepoPosition *BackRepoPositionStruct) CheckoutPhaseOne() (Error error)
 	// list of instances to be removed
 	// start from the initial map on the stage and remove instances that have been checked out
 	positionInstancesToBeRemovedFromTheStage := make(map[*models.Position]any)
-	for key, value := range models.Stage.Positions {
+	for key, value := range backRepoPosition.stage.Positions {
 		positionInstancesToBeRemovedFromTheStage[key] = value
 	}
 
@@ -291,7 +299,7 @@ func (backRepoPosition *BackRepoPositionStruct) CheckoutPhaseOne() (Error error)
 
 	// remove from stage and back repo's 3 maps all positions that are not in the checkout
 	for position := range positionInstancesToBeRemovedFromTheStage {
-		position.Unstage()
+		position.Unstage(backRepoPosition.GetStage())
 
 		// remove instance from the back repo 3 maps
 		positionID := (*backRepoPosition.Map_PositionPtr_PositionDBID)[position]
@@ -316,12 +324,12 @@ func (backRepoPosition *BackRepoPositionStruct) CheckoutPhaseOneInstance(positio
 
 		// append model store with the new element
 		position.Name = positionDB.Name_Data.String
-		position.Stage()
+		position.Stage(backRepoPosition.GetStage())
 	}
 	positionDB.CopyBasicFieldsToPosition(position)
 
 	// in some cases, the instance might have been unstaged. It is necessary to stage it again
-	position.Stage()
+	position.Stage(backRepoPosition.GetStage())
 
 	// preserve pointer to positionDB. Otherwise, pointer will is recycled and the map of pointers
 	// Map_PositionDBID_PositionDB)[positionDB hold variable pointers

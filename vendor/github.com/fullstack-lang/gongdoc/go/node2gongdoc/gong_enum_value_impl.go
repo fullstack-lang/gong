@@ -11,7 +11,7 @@ type GongEnumValueImpl struct {
 }
 
 func (enumValueImpl *GongEnumValueImpl) OnAfterUpdate(
-	stage *gongdoc_models.StageStruct,
+	gongdocStage *gongdoc_models.StageStruct,
 	stagedNode, frontNode *gongdoc_models.Node) {
 
 	// find classdiagram
@@ -45,7 +45,7 @@ func (enumValueImpl *GongEnumValueImpl) OnAfterUpdate(
 	if !stagedNode.IsChecked && frontNode.IsChecked {
 
 		// get the latest version of the diagram before modifying it
-		stage.Checkout()
+		gongdocStage.Checkout()
 
 		gongEnumShape.Heigth = gongEnumShape.Heigth + 15
 
@@ -81,14 +81,14 @@ func (enumValueImpl *GongEnumValueImpl) OnAfterUpdate(
 				gongEnumShape.GongEnumValueEntrys[insertionIndex:]...)
 			gongEnumShape.GongEnumValueEntrys[insertionIndex] = &gongEnumValueEntry
 		}
-		gongEnumValueEntry.Stage()
-		gongdoc_models.Stage.Commit()
+		gongEnumValueEntry.Stage(gongdocStage)
+		gongdocStage.Commit()
 
 	}
 	if stagedNode.IsChecked && !frontNode.IsChecked {
 
 		// get the latest version of the diagram before modifying it
-		stage.Checkout()
+		gongdocStage.Checkout()
 
 		{
 			var gongEnumValueEntry *gongdoc_models.GongEnumValueEntry
@@ -101,11 +101,11 @@ func (enumValueImpl *GongEnumValueImpl) OnAfterUpdate(
 			if gongEnumValueEntry != nil {
 				gongEnumShape.GongEnumValueEntrys = remove(gongEnumShape.GongEnumValueEntrys, gongEnumValueEntry)
 				gongEnumShape.Heigth = gongEnumShape.Heigth - 15
-				gongEnumValueEntry.Unstage()
+				gongEnumValueEntry.Unstage(gongdocStage)
 			}
 		}
 
-		gongdoc_models.Stage.Commit()
+		gongdocStage.Commit()
 	}
 }
 

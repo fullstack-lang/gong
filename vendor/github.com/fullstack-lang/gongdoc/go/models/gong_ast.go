@@ -15,6 +15,7 @@ import (
 
 var dummy_strconv_import strconv.NumError
 
+// swagger:ignore
 type GONG__ExpressionType string
 
 const (
@@ -28,10 +29,10 @@ const (
 
 // ParseAstFile Parse pathToFile and stages all instances
 // declared in the file
-func ParseAstFile(pathToFile string) error {
+func ParseAstFile(stage *StageStruct, pathToFile string) error {
 	// map to store renaming docLink
 	// to be removed after fix of [issue](https://github.com/golang/go/issues/57559)
-	Stage.Map_DocLink_Renaming = make(map[string]GONG__Identifier, 0)
+	stage.Map_DocLink_Renaming = make(map[string]GONG__Identifier, 0)
 
 	fileOfInterest, err := filepath.Abs(pathToFile)
 	if err != nil {
@@ -47,21 +48,19 @@ func ParseAstFile(pathToFile string) error {
 		return errors.New("Unable to parser " + errParser.Error())
 	}
 
-	return ParseAstFileFromAst(inFile, fset)
+	return ParseAstFileFromAst(stage, inFile, fset)
 }
 
 // ParseAstFile Parse pathToFile and stages all instances
 // declared in the file
-func ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet) error {
+func ParseAstFileFromAst(stage *StageStruct, inFile *ast.File, fset *token.FileSet) error {
 	// if there is a meta package import, it is the third import
 	if len(inFile.Imports) > 3 {
 		log.Fatalln("Too many imports in file", inFile.Name)
 	}
-	stage := &Stage
-	_ = stage
 	if len(inFile.Imports) == 3 {
-		Stage.MetaPackageImportAlias = inFile.Imports[2].Name.Name
-		Stage.MetaPackageImportPath = inFile.Imports[2].Path.Value
+		stage.MetaPackageImportAlias = inFile.Imports[2].Name.Name
+		stage.MetaPackageImportPath = inFile.Imports[2].Path.Value
 	}
 
 	// astCoordinate := "File "
@@ -115,7 +114,7 @@ func ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet) error {
 						assignStmt := stmt
 						instance, id, gongstruct, fieldName :=
 							UnmarshallGongstructStaging(
-								&cmap, assignStmt, astCoordinate)
+								stage, &cmap, assignStmt, astCoordinate)
 						_ = instance
 						_ = id
 						_ = gongstruct
@@ -293,7 +292,7 @@ func ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet) error {
 							// otherwise, one stores the new ident (after renaming) in the
 							// renaming map
 							docLink.Type = expressionType
-							Stage.Map_DocLink_Renaming[key] = docLink
+							stage.Map_DocLink_Renaming[key] = docLink
 						}
 					}
 				}
@@ -328,10 +327,7 @@ var __gong__map_Vertice = make(map[string]*Vertice)
 // While this was introduced in go 1.19, it is not yet implemented in
 // gopls (see [issue](https://github.com/golang/go/issues/57559)
 func lookupPackage(name string) (importPath string, ok bool) {
-	if name == Stage.MetaPackageImportAlias {
-		return Stage.MetaPackageImportAlias, true
-	}
-	return comment.DefaultLookupPackage(name)
+	return name, true
 }
 func lookupSym(recv, name string) (ok bool) {
 	if recv == "" {
@@ -341,7 +337,7 @@ func lookupSym(recv, name string) (ok bool) {
 }
 
 // UnmarshallGoStaging unmarshall a go assign statement
-func UnmarshallGongstructStaging(cmap *ast.CommentMap, assignStmt *ast.AssignStmt, astCoordinate_ string) (
+func UnmarshallGongstructStaging(stage *StageStruct, cmap *ast.CommentMap, assignStmt *ast.AssignStmt, astCoordinate_ string) (
 	instance any,
 	identifier string,
 	gongstructName string,
@@ -392,7 +388,7 @@ func UnmarshallGongstructStaging(cmap *ast.CommentMap, assignStmt *ast.AssignStm
 
 						// we check wether the doc link has been renamed
 						// to be removed after fix of [issue](https://github.com/golang/go/issues/57559)
-						if renamed, ok := (Stage.Map_DocLink_Renaming)[docLinkText]; ok {
+						if renamed, ok := (stage.Map_DocLink_Renaming)[docLinkText]; ok {
 							docLinkText = renamed.Ident
 						}
 					}
@@ -498,63 +494,63 @@ func UnmarshallGongstructStaging(cmap *ast.CommentMap, assignStmt *ast.AssignStm
 									switch gongstructName {
 									// insertion point for identifiers
 									case "Classdiagram":
-										instanceClassdiagram := (&Classdiagram{Name: instanceName}).Stage()
+										instanceClassdiagram := (&Classdiagram{Name: instanceName}).Stage(stage)
 										instance = any(instanceClassdiagram)
 										__gong__map_Classdiagram[identifier] = instanceClassdiagram
 									case "DiagramPackage":
-										instanceDiagramPackage := (&DiagramPackage{Name: instanceName}).Stage()
+										instanceDiagramPackage := (&DiagramPackage{Name: instanceName}).Stage(stage)
 										instance = any(instanceDiagramPackage)
 										__gong__map_DiagramPackage[identifier] = instanceDiagramPackage
 									case "Field":
-										instanceField := (&Field{Name: instanceName}).Stage()
+										instanceField := (&Field{Name: instanceName}).Stage(stage)
 										instance = any(instanceField)
 										__gong__map_Field[identifier] = instanceField
 									case "GongEnumShape":
-										instanceGongEnumShape := (&GongEnumShape{Name: instanceName}).Stage()
+										instanceGongEnumShape := (&GongEnumShape{Name: instanceName}).Stage(stage)
 										instance = any(instanceGongEnumShape)
 										__gong__map_GongEnumShape[identifier] = instanceGongEnumShape
 									case "GongEnumValueEntry":
-										instanceGongEnumValueEntry := (&GongEnumValueEntry{Name: instanceName}).Stage()
+										instanceGongEnumValueEntry := (&GongEnumValueEntry{Name: instanceName}).Stage(stage)
 										instance = any(instanceGongEnumValueEntry)
 										__gong__map_GongEnumValueEntry[identifier] = instanceGongEnumValueEntry
 									case "GongStructShape":
-										instanceGongStructShape := (&GongStructShape{Name: instanceName}).Stage()
+										instanceGongStructShape := (&GongStructShape{Name: instanceName}).Stage(stage)
 										instance = any(instanceGongStructShape)
 										__gong__map_GongStructShape[identifier] = instanceGongStructShape
 									case "Link":
-										instanceLink := (&Link{Name: instanceName}).Stage()
+										instanceLink := (&Link{Name: instanceName}).Stage(stage)
 										instance = any(instanceLink)
 										__gong__map_Link[identifier] = instanceLink
 									case "Node":
-										instanceNode := (&Node{Name: instanceName}).Stage()
+										instanceNode := (&Node{Name: instanceName}).Stage(stage)
 										instance = any(instanceNode)
 										__gong__map_Node[identifier] = instanceNode
 									case "NoteShape":
-										instanceNoteShape := (&NoteShape{Name: instanceName}).Stage()
+										instanceNoteShape := (&NoteShape{Name: instanceName}).Stage(stage)
 										instance = any(instanceNoteShape)
 										__gong__map_NoteShape[identifier] = instanceNoteShape
 									case "NoteShapeLink":
-										instanceNoteShapeLink := (&NoteShapeLink{Name: instanceName}).Stage()
+										instanceNoteShapeLink := (&NoteShapeLink{Name: instanceName}).Stage(stage)
 										instance = any(instanceNoteShapeLink)
 										__gong__map_NoteShapeLink[identifier] = instanceNoteShapeLink
 									case "Position":
-										instancePosition := (&Position{Name: instanceName}).Stage()
+										instancePosition := (&Position{Name: instanceName}).Stage(stage)
 										instance = any(instancePosition)
 										__gong__map_Position[identifier] = instancePosition
 									case "Tree":
-										instanceTree := (&Tree{Name: instanceName}).Stage()
+										instanceTree := (&Tree{Name: instanceName}).Stage(stage)
 										instance = any(instanceTree)
 										__gong__map_Tree[identifier] = instanceTree
 									case "UmlState":
-										instanceUmlState := (&UmlState{Name: instanceName}).Stage()
+										instanceUmlState := (&UmlState{Name: instanceName}).Stage(stage)
 										instance = any(instanceUmlState)
 										__gong__map_UmlState[identifier] = instanceUmlState
 									case "Umlsc":
-										instanceUmlsc := (&Umlsc{Name: instanceName}).Stage()
+										instanceUmlsc := (&Umlsc{Name: instanceName}).Stage(stage)
 										instance = any(instanceUmlsc)
 										__gong__map_Umlsc[identifier] = instanceUmlsc
 									case "Vertice":
-										instanceVertice := (&Vertice{Name: instanceName}).Stage()
+										instanceVertice := (&Vertice{Name: instanceName}).Stage(stage)
 										instance = any(instanceVertice)
 										__gong__map_Vertice[identifier] = instanceVertice
 									}
@@ -976,10 +972,6 @@ func UnmarshallGongstructStaging(cmap *ast.CommentMap, assignStmt *ast.AssignStm
 					// remove first and last char
 					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
 					__gong__map_Link[identifier].Name = fielValue
-				case "Structname":
-					// remove first and last char
-					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
-					__gong__map_Link[identifier].Structname = fielValue
 				case "Identifier":
 					// remove first and last char
 					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
@@ -1012,6 +1004,10 @@ func UnmarshallGongstructStaging(cmap *ast.CommentMap, assignStmt *ast.AssignStm
 					// remove first and last char
 					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
 					__gong__map_NoteShape[identifier].Body = fielValue
+				case "BodyHTML":
+					// remove first and last char
+					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
+					__gong__map_NoteShape[identifier].BodyHTML = fielValue
 				case "X":
 					// convert string to float64
 					fielValue, err := strconv.ParseFloat(basicLit.Value, 64)
@@ -1330,15 +1326,6 @@ func UnmarshallGongstructStaging(cmap *ast.CommentMap, assignStmt *ast.AssignStm
 			case "NoteShapeLink":
 				switch fieldName {
 				// insertion point for field dependant code
-				case "Classshape":
-					targetIdentifier := ident.Name
-					__gong__map_NoteShapeLink[identifier].Classshape = __gong__map_GongStructShape[targetIdentifier]
-				case "Link":
-					targetIdentifier := ident.Name
-					__gong__map_NoteShapeLink[identifier].Link = __gong__map_Link[targetIdentifier]
-				case "Middlevertice":
-					targetIdentifier := ident.Name
-					__gong__map_NoteShapeLink[identifier].Middlevertice = __gong__map_Vertice[targetIdentifier]
 				}
 			case "Position":
 				switch fieldName {
@@ -1448,6 +1435,13 @@ func UnmarshallGongstructStaging(cmap *ast.CommentMap, assignStmt *ast.AssignStm
 				case "NoteShapeLink":
 					switch fieldName {
 					// insertion point for enum assign code
+					case "Type":
+						var val NoteShapeLinkType
+						err := (&val).FromCodeString(enumValue)
+						if err != nil {
+							log.Fatalln(err)
+						}
+						__gong__map_NoteShapeLink[identifier].Type = NoteShapeLinkType(val)
 					}
 				case "Position":
 					switch fieldName {

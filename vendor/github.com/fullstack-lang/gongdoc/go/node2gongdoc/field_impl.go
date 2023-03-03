@@ -14,7 +14,7 @@ type FieldImpl struct {
 }
 
 func (fieldImpl *FieldImpl) OnAfterUpdate(
-	stage *gongdoc_models.StageStruct,
+	gongdocStage *gongdoc_models.StageStruct,
 	stagedNode, frontNode *gongdoc_models.Node) {
 
 	classdiagram := fieldImpl.nodeCb.GetSelectedClassdiagram()
@@ -41,7 +41,7 @@ func (fieldImpl *FieldImpl) OnAfterUpdate(
 	if stagedNode.IsChecked && !frontNode.IsChecked {
 
 		// get the latest version of the diagram before modifying it
-		stage.Checkout()
+		gongdocStage.Checkout()
 
 		{
 			var field *gongdoc_models.Field
@@ -54,7 +54,7 @@ func (fieldImpl *FieldImpl) OnAfterUpdate(
 			if field != nil {
 				gongStructShape.Fields = remove(gongStructShape.Fields, field)
 				gongStructShape.Heigth = gongStructShape.Heigth - 15
-				field.Unstage()
+				field.Unstage(gongdocStage)
 			}
 		}
 		{
@@ -67,7 +67,7 @@ func (fieldImpl *FieldImpl) OnAfterUpdate(
 			}
 			if link != nil {
 				gongStructShape.Links = remove(gongStructShape.Links, link)
-				link.Unstage()
+				link.Unstage(gongdocStage)
 			}
 		}
 
@@ -76,7 +76,7 @@ func (fieldImpl *FieldImpl) OnAfterUpdate(
 	if !stagedNode.IsChecked && frontNode.IsChecked {
 
 		// get the latest version of the diagram before modifying it
-		stage.Checkout()
+		gongdocStage.Checkout()
 
 		switch fieldImpl.field.(type) {
 		case *gong_models.GongBasicField, *gong_models.GongTimeField:
@@ -100,7 +100,7 @@ func (fieldImpl *FieldImpl) OnAfterUpdate(
 			}
 
 			field.Structname = gongdoc_models.IdentifierToGongObjectName(gongStructShape.Identifier)
-			field.Stage()
+			field.Stage(gongdocStage)
 
 			gongStructShape.Heigth = gongStructShape.Heigth + 15
 
@@ -173,18 +173,16 @@ func (fieldImpl *FieldImpl) OnAfterUpdate(
 			}
 			_ = targetGongStructShape
 
-			link := new(gongdoc_models.Link).Stage()
+			link := new(gongdoc_models.Link).Stage(gongdocStage)
 			link.Name = stagedNode.Name
 			link.SourceMultiplicity = sourceMultiplicity
 			link.TargetMultiplicity = targetMultiplicity
 			link.Identifier =
 				gongdoc_models.GongstructAndFieldnameToFieldIdentifier(gongStruct.Name, stagedNode.Name)
-
-			link.Structname = gongStruct.Name
-			link.Fieldtypename = targetStructName
+			link.Fieldtypename = gongdoc_models.GongStructNameToIdentifier(targetStructName)
 
 			gongStructShape.Links = append(gongStructShape.Links, link)
-			link.Middlevertice = new(gongdoc_models.Vertice).Stage()
+			link.Middlevertice = new(gongdoc_models.Vertice).Stage(gongdocStage)
 			link.Middlevertice.Name = "Verticle in class diagram " + classdiagram.Name +
 				" in middle between " + gongStructShape.Name + " and " + targetGongStructShape.Name
 			link.Middlevertice.X = (gongStructShape.Position.X+targetGongStructShape.Position.X)/2.0 +

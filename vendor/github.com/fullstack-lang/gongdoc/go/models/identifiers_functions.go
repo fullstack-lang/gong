@@ -13,17 +13,36 @@ const RefPackagePlusPeriod = "models."
 func IdentifierToFieldName(fieldIdentifier string) (fieldName string) {
 
 	if !strings.Contains(fieldIdentifier, RefPackagePlusPeriod) {
-		log.Fatalln("ToFieldName: missing", RefPackagePlusPeriod, "in", fieldIdentifier)
+		log.Fatalln("IdentifierToFieldName: missing", RefPackagePlusPeriod, "in", fieldIdentifier)
 	}
 
 	structNameWithFieldName := strings.TrimPrefix(fieldIdentifier, RefPrefixReferencedPackage+RefPackagePlusPeriod)
 
 	subStrings := strings.Split(structNameWithFieldName, ".")
 	if len(subStrings) != 2 {
-		log.Fatalln("ToFieldName: wrong number of substrings in ", structNameWithFieldName)
+		log.Fatalln("IdentifierToFieldName: wrong number of substrings in ", structNameWithFieldName)
 	}
 
 	fieldName = subStrings[1]
+
+	return
+}
+
+func IdentifierToReceiverAndFieldName(fieldIdentifier string) (receiver, fieldName string) {
+
+	if !strings.Contains(fieldIdentifier, RefPackagePlusPeriod) {
+		log.Fatalln("IdentifierToReceiverAndFieldName: missing", RefPackagePlusPeriod, "in", fieldIdentifier)
+	}
+
+	structNameWithFieldName := strings.TrimPrefix(fieldIdentifier, RefPrefixReferencedPackage+RefPackagePlusPeriod)
+
+	subStrings := strings.Split(structNameWithFieldName, ".")
+	if len(subStrings) != 2 {
+		log.Fatalln("IdentifierToReceiverAndFieldName: wrong number of substrings in ", structNameWithFieldName)
+	}
+
+	fieldName = subStrings[1]
+	receiver = subStrings[0]
 
 	return
 }

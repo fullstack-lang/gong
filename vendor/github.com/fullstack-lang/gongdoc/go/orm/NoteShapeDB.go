@@ -73,6 +73,9 @@ type NoteShapeDB struct {
 	// Declation for basic field noteshapeDB.Body
 	Body_Data sql.NullString
 
+	// Declation for basic field noteshapeDB.BodyHTML
+	BodyHTML_Data sql.NullString
+
 	// Declation for basic field noteshapeDB.X
 	X_Data sql.NullFloat64
 
@@ -115,15 +118,17 @@ type NoteShapeWOP struct {
 
 	Body string `xlsx:"3"`
 
-	X float64 `xlsx:"4"`
+	BodyHTML string `xlsx:"4"`
 
-	Y float64 `xlsx:"5"`
+	X float64 `xlsx:"5"`
 
-	Width float64 `xlsx:"6"`
+	Y float64 `xlsx:"6"`
 
-	Heigth float64 `xlsx:"7"`
+	Width float64 `xlsx:"7"`
 
-	Matched bool `xlsx:"8"`
+	Heigth float64 `xlsx:"8"`
+
+	Matched bool `xlsx:"9"`
 	// insertion for WOP pointer fields
 }
 
@@ -133,6 +138,7 @@ var NoteShape_Fields = []string{
 	"Name",
 	"Identifier",
 	"Body",
+	"BodyHTML",
 	"X",
 	"Y",
 	"Width",
@@ -151,6 +157,13 @@ type BackRepoNoteShapeStruct struct {
 	Map_NoteShapeDBID_NoteShapePtr *map[uint]*models.NoteShape
 
 	db *gorm.DB
+
+	stage *models.StageStruct
+}
+
+func (backRepoNoteShape *BackRepoNoteShapeStruct) GetStage() (stage *models.StageStruct) {
+	stage = backRepoNoteShape.stage
+	return
 }
 
 func (backRepoNoteShape *BackRepoNoteShapeStruct) GetDB() *gorm.DB {
@@ -165,7 +178,7 @@ func (backRepoNoteShape *BackRepoNoteShapeStruct) GetNoteShapeDBFromNoteShapePtr
 }
 
 // BackRepoNoteShape.Init set up the BackRepo of the NoteShape
-func (backRepoNoteShape *BackRepoNoteShapeStruct) Init(db *gorm.DB) (Error error) {
+func (backRepoNoteShape *BackRepoNoteShapeStruct) Init(stage *models.StageStruct, db *gorm.DB) (Error error) {
 
 	if backRepoNoteShape.Map_NoteShapeDBID_NoteShapePtr != nil {
 		err := errors.New("In Init, backRepoNoteShape.Map_NoteShapeDBID_NoteShapePtr should be nil")
@@ -192,6 +205,7 @@ func (backRepoNoteShape *BackRepoNoteShapeStruct) Init(db *gorm.DB) (Error error
 	backRepoNoteShape.Map_NoteShapePtr_NoteShapeDBID = &tmpID
 
 	backRepoNoteShape.db = db
+	backRepoNoteShape.stage = stage
 	return
 }
 
@@ -329,7 +343,7 @@ func (backRepoNoteShape *BackRepoNoteShapeStruct) CheckoutPhaseOne() (Error erro
 	// list of instances to be removed
 	// start from the initial map on the stage and remove instances that have been checked out
 	noteshapeInstancesToBeRemovedFromTheStage := make(map[*models.NoteShape]any)
-	for key, value := range models.Stage.NoteShapes {
+	for key, value := range backRepoNoteShape.stage.NoteShapes {
 		noteshapeInstancesToBeRemovedFromTheStage[key] = value
 	}
 
@@ -347,7 +361,7 @@ func (backRepoNoteShape *BackRepoNoteShapeStruct) CheckoutPhaseOne() (Error erro
 
 	// remove from stage and back repo's 3 maps all noteshapes that are not in the checkout
 	for noteshape := range noteshapeInstancesToBeRemovedFromTheStage {
-		noteshape.Unstage()
+		noteshape.Unstage(backRepoNoteShape.GetStage())
 
 		// remove instance from the back repo 3 maps
 		noteshapeID := (*backRepoNoteShape.Map_NoteShapePtr_NoteShapeDBID)[noteshape]
@@ -372,12 +386,12 @@ func (backRepoNoteShape *BackRepoNoteShapeStruct) CheckoutPhaseOneInstance(notes
 
 		// append model store with the new element
 		noteshape.Name = noteshapeDB.Name_Data.String
-		noteshape.Stage()
+		noteshape.Stage(backRepoNoteShape.GetStage())
 	}
 	noteshapeDB.CopyBasicFieldsToNoteShape(noteshape)
 
 	// in some cases, the instance might have been unstaged. It is necessary to stage it again
-	noteshape.Stage()
+	noteshape.Stage(backRepoNoteShape.GetStage())
 
 	// preserve pointer to noteshapeDB. Otherwise, pointer will is recycled and the map of pointers
 	// Map_NoteShapeDBID_NoteShapeDB)[noteshapeDB hold variable pointers
@@ -477,6 +491,9 @@ func (noteshapeDB *NoteShapeDB) CopyBasicFieldsFromNoteShape(noteshape *models.N
 	noteshapeDB.Body_Data.String = noteshape.Body
 	noteshapeDB.Body_Data.Valid = true
 
+	noteshapeDB.BodyHTML_Data.String = noteshape.BodyHTML
+	noteshapeDB.BodyHTML_Data.Valid = true
+
 	noteshapeDB.X_Data.Float64 = noteshape.X
 	noteshapeDB.X_Data.Valid = true
 
@@ -506,6 +523,9 @@ func (noteshapeDB *NoteShapeDB) CopyBasicFieldsFromNoteShapeWOP(noteshape *NoteS
 	noteshapeDB.Body_Data.String = noteshape.Body
 	noteshapeDB.Body_Data.Valid = true
 
+	noteshapeDB.BodyHTML_Data.String = noteshape.BodyHTML
+	noteshapeDB.BodyHTML_Data.Valid = true
+
 	noteshapeDB.X_Data.Float64 = noteshape.X
 	noteshapeDB.X_Data.Valid = true
 
@@ -528,6 +548,7 @@ func (noteshapeDB *NoteShapeDB) CopyBasicFieldsToNoteShape(noteshape *models.Not
 	noteshape.Name = noteshapeDB.Name_Data.String
 	noteshape.Identifier = noteshapeDB.Identifier_Data.String
 	noteshape.Body = noteshapeDB.Body_Data.String
+	noteshape.BodyHTML = noteshapeDB.BodyHTML_Data.String
 	noteshape.X = noteshapeDB.X_Data.Float64
 	noteshape.Y = noteshapeDB.Y_Data.Float64
 	noteshape.Width = noteshapeDB.Width_Data.Float64
@@ -542,6 +563,7 @@ func (noteshapeDB *NoteShapeDB) CopyBasicFieldsToNoteShapeWOP(noteshape *NoteSha
 	noteshape.Name = noteshapeDB.Name_Data.String
 	noteshape.Identifier = noteshapeDB.Identifier_Data.String
 	noteshape.Body = noteshapeDB.Body_Data.String
+	noteshape.BodyHTML = noteshapeDB.BodyHTML_Data.String
 	noteshape.X = noteshapeDB.X_Data.Float64
 	noteshape.Y = noteshapeDB.Y_Data.Float64
 	noteshape.Width = noteshapeDB.Width_Data.Float64
