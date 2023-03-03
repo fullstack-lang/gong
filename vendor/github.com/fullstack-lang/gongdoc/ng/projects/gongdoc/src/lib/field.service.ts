@@ -21,10 +21,6 @@ import { GongStructShapeDB } from './gongstructshape-db'
 })
 export class FieldService {
 
-  httpOptions = {
-    headers: new HttpHeaders({ 'Content-Type': 'application/json' })
-  };
-
   // Kamar Raïmo: Adding a way to communicate between components that share information
   // so that they are notified of a change.
   FieldServiceChanged: BehaviorSubject<string> = new BehaviorSubject("");
@@ -33,7 +29,6 @@ export class FieldService {
 
   constructor(
     private http: HttpClient,
-    private location: Location,
     @Inject(DOCUMENT) private document: Document
   ) {
     // path to the service share the same origin with the path to the document
@@ -68,16 +63,20 @@ export class FieldService {
     );
   }
 
-  //////// Save methods //////////
-
   /** POST: add a new field to the server */
-  postField(fielddb: FieldDB): Observable<FieldDB> {
+  postField(fielddb: FieldDB, GONG__StackPath: string): Observable<FieldDB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
     let _GongStructShape_Fields_reverse = fielddb.GongStructShape_Fields_reverse
     fielddb.GongStructShape_Fields_reverse = new GongStructShapeDB
 
-    return this.http.post<FieldDB>(this.fieldsUrl, fielddb, this.httpOptions).pipe(
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+	return this.http.post<FieldDB>(this.fieldsUrl, fielddb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
         fielddb.GongStructShape_Fields_reverse = _GongStructShape_Fields_reverse
@@ -88,18 +87,24 @@ export class FieldService {
   }
 
   /** DELETE: delete the fielddb from the server */
-  deleteField(fielddb: FieldDB | number): Observable<FieldDB> {
+  deleteField(fielddb: FieldDB | number, GONG__StackPath: string): Observable<FieldDB> {
     const id = typeof fielddb === 'number' ? fielddb : fielddb.ID;
     const url = `${this.fieldsUrl}/${id}`;
 
-    return this.http.delete<FieldDB>(url, this.httpOptions).pipe(
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    };
+
+    return this.http.delete<FieldDB>(url, httpOptions).pipe(
       tap(_ => this.log(`deleted fielddb id=${id}`)),
       catchError(this.handleError<FieldDB>('deleteField'))
     );
   }
 
   /** PUT: update the fielddb on the server */
-  updateField(fielddb: FieldDB): Observable<FieldDB> {
+  updateField(fielddb: FieldDB, GONG__StackPath: string): Observable<FieldDB> {
     const id = typeof fielddb === 'number' ? fielddb : fielddb.ID;
     const url = `${this.fieldsUrl}/${id}`;
 
@@ -107,7 +112,13 @@ export class FieldService {
     let _GongStructShape_Fields_reverse = fielddb.GongStructShape_Fields_reverse
     fielddb.GongStructShape_Fields_reverse = new GongStructShapeDB
 
-    return this.http.put<FieldDB>(url, fielddb, this.httpOptions).pipe(
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    };
+
+    return this.http.put<FieldDB>(url, fielddb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
         fielddb.GongStructShape_Fields_reverse = _GongStructShape_Fields_reverse

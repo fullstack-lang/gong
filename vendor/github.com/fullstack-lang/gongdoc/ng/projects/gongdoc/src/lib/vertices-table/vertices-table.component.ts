@@ -165,7 +165,7 @@ export class VerticesTableComponent implements OnInit {
 
   ngOnInit(): void {
     let stackPath = this.activatedRoute.snapshot.paramMap.get('GONG__StackPath')
-    if ( stackPath != undefined) {
+    if (stackPath != undefined) {
       this.GONG__StackPath = stackPath
     }
 
@@ -201,10 +201,14 @@ export class VerticesTableComponent implements OnInit {
           let mapOfSourceInstances = this.frontRepo[this.dialogData.SourceStruct + "s" as keyof FrontRepo] as Map<number, VerticeDB>
           let sourceInstance = mapOfSourceInstances.get(this.dialogData.ID)!
 
-          let sourceField = sourceInstance[this.dialogData.SourceField as keyof typeof sourceInstance]! as unknown as VerticeDB[]
-          for (let associationInstance of sourceField) {
-            let vertice = associationInstance[this.dialogData.IntermediateStructField as keyof typeof associationInstance] as unknown as VerticeDB
-            this.initialSelection.push(vertice)
+          // we associates on sourceInstance of type SourceStruct with a MANY MANY associations to VerticeDB
+          // the field name is sourceField
+          let sourceFieldArray = sourceInstance[this.dialogData.SourceField as keyof typeof sourceInstance]! as unknown as VerticeDB[]
+          if (sourceFieldArray != null) {
+            for (let associationInstance of sourceFieldArray) {
+              let vertice = associationInstance[this.dialogData.IntermediateStructField as keyof typeof associationInstance] as unknown as VerticeDB
+              this.initialSelection.push(vertice)
+            }
           }
 
           this.selection = new SelectionModel<VerticeDB>(allowMultiSelect, this.initialSelection);
@@ -225,7 +229,7 @@ export class VerticesTableComponent implements OnInit {
     // list of vertices is truncated of vertice before the delete
     this.vertices = this.vertices.filter(h => h !== vertice);
 
-    this.verticeService.deleteVertice(verticeID).subscribe(
+    this.verticeService.deleteVertice(verticeID, this.GONG__StackPath).subscribe(
       vertice => {
         this.verticeService.VerticeServiceChanged.next("delete")
       }
@@ -291,7 +295,7 @@ export class VerticesTableComponent implements OnInit {
 
       // update all vertice (only update selection & initial selection)
       for (let vertice of toUpdate) {
-        this.verticeService.updateVertice(vertice)
+        this.verticeService.updateVertice(vertice, this.GONG__StackPath)
           .subscribe(vertice => {
             this.verticeService.VerticeServiceChanged.next("update")
           });

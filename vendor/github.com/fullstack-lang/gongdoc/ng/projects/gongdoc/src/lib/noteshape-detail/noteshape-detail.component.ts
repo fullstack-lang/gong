@@ -177,13 +177,13 @@ export class NoteShapeDetailComponent implements OnInit {
 
 		switch (this.state) {
 			case NoteShapeDetailComponentState.UPDATE_INSTANCE:
-				this.noteshapeService.updateNoteShape(this.noteshape)
+				this.noteshapeService.updateNoteShape(this.noteshape, this.GONG__StackPath)
 					.subscribe(noteshape => {
 						this.noteshapeService.NoteShapeServiceChanged.next("update")
 					});
 				break;
 			default:
-				this.noteshapeService.postNoteShape(this.noteshape).subscribe(noteshape => {
+				this.noteshapeService.postNoteShape(this.noteshape, this.GONG__StackPath).subscribe(noteshape => {
 					this.noteshapeService.NoteShapeServiceChanged.next("post")
 					this.noteshape = new (NoteShapeDB) // reset fields
 				});

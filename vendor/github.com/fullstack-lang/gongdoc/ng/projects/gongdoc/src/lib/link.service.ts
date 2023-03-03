@@ -22,10 +22,6 @@ import { GongStructShapeDB } from './gongstructshape-db'
 })
 export class LinkService {
 
-  httpOptions = {
-    headers: new HttpHeaders({ 'Content-Type': 'application/json' })
-  };
-
   // Kamar Raïmo: Adding a way to communicate between components that share information
   // so that they are notified of a change.
   LinkServiceChanged: BehaviorSubject<string> = new BehaviorSubject("");
@@ -34,7 +30,6 @@ export class LinkService {
 
   constructor(
     private http: HttpClient,
-    private location: Location,
     @Inject(DOCUMENT) private document: Document
   ) {
     // path to the service share the same origin with the path to the document
@@ -69,17 +64,21 @@ export class LinkService {
     );
   }
 
-  //////// Save methods //////////
-
   /** POST: add a new link to the server */
-  postLink(linkdb: LinkDB): Observable<LinkDB> {
+  postLink(linkdb: LinkDB, GONG__StackPath: string): Observable<LinkDB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
     linkdb.Middlevertice = new VerticeDB
     let _GongStructShape_Links_reverse = linkdb.GongStructShape_Links_reverse
     linkdb.GongStructShape_Links_reverse = new GongStructShapeDB
 
-    return this.http.post<LinkDB>(this.linksUrl, linkdb, this.httpOptions).pipe(
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+	return this.http.post<LinkDB>(this.linksUrl, linkdb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
         linkdb.GongStructShape_Links_reverse = _GongStructShape_Links_reverse
@@ -90,18 +89,24 @@ export class LinkService {
   }
 
   /** DELETE: delete the linkdb from the server */
-  deleteLink(linkdb: LinkDB | number): Observable<LinkDB> {
+  deleteLink(linkdb: LinkDB | number, GONG__StackPath: string): Observable<LinkDB> {
     const id = typeof linkdb === 'number' ? linkdb : linkdb.ID;
     const url = `${this.linksUrl}/${id}`;
 
-    return this.http.delete<LinkDB>(url, this.httpOptions).pipe(
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    };
+
+    return this.http.delete<LinkDB>(url, httpOptions).pipe(
       tap(_ => this.log(`deleted linkdb id=${id}`)),
       catchError(this.handleError<LinkDB>('deleteLink'))
     );
   }
 
   /** PUT: update the linkdb on the server */
-  updateLink(linkdb: LinkDB): Observable<LinkDB> {
+  updateLink(linkdb: LinkDB, GONG__StackPath: string): Observable<LinkDB> {
     const id = typeof linkdb === 'number' ? linkdb : linkdb.ID;
     const url = `${this.linksUrl}/${id}`;
 
@@ -110,7 +115,13 @@ export class LinkService {
     let _GongStructShape_Links_reverse = linkdb.GongStructShape_Links_reverse
     linkdb.GongStructShape_Links_reverse = new GongStructShapeDB
 
-    return this.http.put<LinkDB>(url, linkdb, this.httpOptions).pipe(
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    };
+
+    return this.http.put<LinkDB>(url, linkdb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
         linkdb.GongStructShape_Links_reverse = _GongStructShape_Links_reverse

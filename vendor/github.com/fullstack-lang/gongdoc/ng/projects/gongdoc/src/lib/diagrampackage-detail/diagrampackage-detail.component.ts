@@ -168,13 +168,13 @@ export class DiagramPackageDetailComponent implements OnInit {
 
 		switch (this.state) {
 			case DiagramPackageDetailComponentState.UPDATE_INSTANCE:
-				this.diagrampackageService.updateDiagramPackage(this.diagrampackage)
+				this.diagrampackageService.updateDiagramPackage(this.diagrampackage, this.GONG__StackPath)
 					.subscribe(diagrampackage => {
 						this.diagrampackageService.DiagramPackageServiceChanged.next("update")
 					});
 				break;
 			default:
-				this.diagrampackageService.postDiagramPackage(this.diagrampackage).subscribe(diagrampackage => {
+				this.diagrampackageService.postDiagramPackage(this.diagrampackage, this.GONG__StackPath).subscribe(diagrampackage => {
 					this.diagrampackageService.DiagramPackageServiceChanged.next("post")
 					this.diagrampackage = new (DiagramPackageDB) // reset fields
 				});

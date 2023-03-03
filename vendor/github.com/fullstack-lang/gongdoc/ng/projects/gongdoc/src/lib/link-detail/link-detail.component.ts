@@ -187,13 +187,13 @@ export class LinkDetailComponent implements OnInit {
 
 		switch (this.state) {
 			case LinkDetailComponentState.UPDATE_INSTANCE:
-				this.linkService.updateLink(this.link)
+				this.linkService.updateLink(this.link, this.GONG__StackPath)
 					.subscribe(link => {
 						this.linkService.LinkServiceChanged.next("update")
 					});
 				break;
 			default:
-				this.linkService.postLink(this.link).subscribe(link => {
+				this.linkService.postLink(this.link, this.GONG__StackPath).subscribe(link => {
 					this.linkService.LinkServiceChanged.next("post")
 					this.link = new (LinkDB) // reset fields
 				});

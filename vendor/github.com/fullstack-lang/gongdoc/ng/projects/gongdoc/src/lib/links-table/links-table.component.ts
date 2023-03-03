@@ -198,7 +198,7 @@ export class LinksTableComponent implements OnInit {
 
   ngOnInit(): void {
     let stackPath = this.activatedRoute.snapshot.paramMap.get('GONG__StackPath')
-    if ( stackPath != undefined) {
+    if (stackPath != undefined) {
       this.GONG__StackPath = stackPath
     }
 
@@ -234,10 +234,14 @@ export class LinksTableComponent implements OnInit {
           let mapOfSourceInstances = this.frontRepo[this.dialogData.SourceStruct + "s" as keyof FrontRepo] as Map<number, LinkDB>
           let sourceInstance = mapOfSourceInstances.get(this.dialogData.ID)!
 
-          let sourceField = sourceInstance[this.dialogData.SourceField as keyof typeof sourceInstance]! as unknown as LinkDB[]
-          for (let associationInstance of sourceField) {
-            let link = associationInstance[this.dialogData.IntermediateStructField as keyof typeof associationInstance] as unknown as LinkDB
-            this.initialSelection.push(link)
+          // we associates on sourceInstance of type SourceStruct with a MANY MANY associations to LinkDB
+          // the field name is sourceField
+          let sourceFieldArray = sourceInstance[this.dialogData.SourceField as keyof typeof sourceInstance]! as unknown as LinkDB[]
+          if (sourceFieldArray != null) {
+            for (let associationInstance of sourceFieldArray) {
+              let link = associationInstance[this.dialogData.IntermediateStructField as keyof typeof associationInstance] as unknown as LinkDB
+              this.initialSelection.push(link)
+            }
           }
 
           this.selection = new SelectionModel<LinkDB>(allowMultiSelect, this.initialSelection);
@@ -258,7 +262,7 @@ export class LinksTableComponent implements OnInit {
     // list of links is truncated of link before the delete
     this.links = this.links.filter(h => h !== link);
 
-    this.linkService.deleteLink(linkID).subscribe(
+    this.linkService.deleteLink(linkID, this.GONG__StackPath).subscribe(
       link => {
         this.linkService.LinkServiceChanged.next("delete")
       }
@@ -324,7 +328,7 @@ export class LinksTableComponent implements OnInit {
 
       // update all link (only update selection & initial selection)
       for (let link of toUpdate) {
-        this.linkService.updateLink(link)
+        this.linkService.updateLink(link, this.GONG__StackPath)
           .subscribe(link => {
             this.linkService.LinkServiceChanged.next("update")
           });

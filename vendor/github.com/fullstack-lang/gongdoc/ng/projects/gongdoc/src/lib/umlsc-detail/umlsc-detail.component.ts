@@ -177,13 +177,13 @@ export class UmlscDetailComponent implements OnInit {
 
 		switch (this.state) {
 			case UmlscDetailComponentState.UPDATE_INSTANCE:
-				this.umlscService.updateUmlsc(this.umlsc)
+				this.umlscService.updateUmlsc(this.umlsc, this.GONG__StackPath)
 					.subscribe(umlsc => {
 						this.umlscService.UmlscServiceChanged.next("update")
 					});
 				break;
 			default:
-				this.umlscService.postUmlsc(this.umlsc).subscribe(umlsc => {
+				this.umlscService.postUmlsc(this.umlsc, this.GONG__StackPath).subscribe(umlsc => {
 					this.umlscService.UmlscServiceChanged.next("post")
 					this.umlsc = new (UmlscDB) // reset fields
 				});

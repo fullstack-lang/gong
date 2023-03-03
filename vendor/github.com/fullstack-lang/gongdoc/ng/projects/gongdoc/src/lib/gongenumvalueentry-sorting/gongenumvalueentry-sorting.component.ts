@@ -100,7 +100,7 @@ export class GongEnumValueEntrySortingComponent implements OnInit {
 
     this.associatedGongEnumValueEntrys.forEach(
       gongenumvalueentry => {
-        this.gongenumvalueentryService.updateGongEnumValueEntry(gongenumvalueentry)
+        this.gongenumvalueentryService.updateGongEnumValueEntry(gongenumvalueentry, this.dialogData.GONG__StackPath)
           .subscribe(gongenumvalueentry => {
             this.gongenumvalueentryService.GongEnumValueEntryServiceChanged.next("update")
           });

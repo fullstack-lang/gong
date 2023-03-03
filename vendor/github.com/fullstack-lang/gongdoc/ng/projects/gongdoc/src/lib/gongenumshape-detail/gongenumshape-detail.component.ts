@@ -184,13 +184,13 @@ export class GongEnumShapeDetailComponent implements OnInit {
 
 		switch (this.state) {
 			case GongEnumShapeDetailComponentState.UPDATE_INSTANCE:
-				this.gongenumshapeService.updateGongEnumShape(this.gongenumshape)
+				this.gongenumshapeService.updateGongEnumShape(this.gongenumshape, this.GONG__StackPath)
 					.subscribe(gongenumshape => {
 						this.gongenumshapeService.GongEnumShapeServiceChanged.next("update")
 					});
 				break;
 			default:
-				this.gongenumshapeService.postGongEnumShape(this.gongenumshape).subscribe(gongenumshape => {
+				this.gongenumshapeService.postGongEnumShape(this.gongenumshape, this.GONG__StackPath).subscribe(gongenumshape => {
 					this.gongenumshapeService.GongEnumShapeServiceChanged.next("post")
 					this.gongenumshape = new (GongEnumShapeDB) // reset fields
 				});

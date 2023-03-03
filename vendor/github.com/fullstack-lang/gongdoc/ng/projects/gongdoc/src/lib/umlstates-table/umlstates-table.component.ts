@@ -178,7 +178,7 @@ export class UmlStatesTableComponent implements OnInit {
 
   ngOnInit(): void {
     let stackPath = this.activatedRoute.snapshot.paramMap.get('GONG__StackPath')
-    if ( stackPath != undefined) {
+    if (stackPath != undefined) {
       this.GONG__StackPath = stackPath
     }
 
@@ -214,10 +214,14 @@ export class UmlStatesTableComponent implements OnInit {
           let mapOfSourceInstances = this.frontRepo[this.dialogData.SourceStruct + "s" as keyof FrontRepo] as Map<number, UmlStateDB>
           let sourceInstance = mapOfSourceInstances.get(this.dialogData.ID)!
 
-          let sourceField = sourceInstance[this.dialogData.SourceField as keyof typeof sourceInstance]! as unknown as UmlStateDB[]
-          for (let associationInstance of sourceField) {
-            let umlstate = associationInstance[this.dialogData.IntermediateStructField as keyof typeof associationInstance] as unknown as UmlStateDB
-            this.initialSelection.push(umlstate)
+          // we associates on sourceInstance of type SourceStruct with a MANY MANY associations to UmlStateDB
+          // the field name is sourceField
+          let sourceFieldArray = sourceInstance[this.dialogData.SourceField as keyof typeof sourceInstance]! as unknown as UmlStateDB[]
+          if (sourceFieldArray != null) {
+            for (let associationInstance of sourceFieldArray) {
+              let umlstate = associationInstance[this.dialogData.IntermediateStructField as keyof typeof associationInstance] as unknown as UmlStateDB
+              this.initialSelection.push(umlstate)
+            }
           }
 
           this.selection = new SelectionModel<UmlStateDB>(allowMultiSelect, this.initialSelection);
@@ -238,7 +242,7 @@ export class UmlStatesTableComponent implements OnInit {
     // list of umlstates is truncated of umlstate before the delete
     this.umlstates = this.umlstates.filter(h => h !== umlstate);
 
-    this.umlstateService.deleteUmlState(umlstateID).subscribe(
+    this.umlstateService.deleteUmlState(umlstateID, this.GONG__StackPath).subscribe(
       umlstate => {
         this.umlstateService.UmlStateServiceChanged.next("delete")
       }
@@ -304,7 +308,7 @@ export class UmlStatesTableComponent implements OnInit {
 
       // update all umlstate (only update selection & initial selection)
       for (let umlstate of toUpdate) {
-        this.umlstateService.updateUmlState(umlstate)
+        this.umlstateService.updateUmlState(umlstate, this.GONG__StackPath)
           .subscribe(umlstate => {
             this.umlstateService.UmlStateServiceChanged.next("update")
           });

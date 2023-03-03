@@ -177,13 +177,13 @@ export class ClassdiagramDetailComponent implements OnInit {
 
 		switch (this.state) {
 			case ClassdiagramDetailComponentState.UPDATE_INSTANCE:
-				this.classdiagramService.updateClassdiagram(this.classdiagram)
+				this.classdiagramService.updateClassdiagram(this.classdiagram, this.GONG__StackPath)
 					.subscribe(classdiagram => {
 						this.classdiagramService.ClassdiagramServiceChanged.next("update")
 					});
 				break;
 			default:
-				this.classdiagramService.postClassdiagram(this.classdiagram).subscribe(classdiagram => {
+				this.classdiagramService.postClassdiagram(this.classdiagram, this.GONG__StackPath).subscribe(classdiagram => {
 					this.classdiagramService.ClassdiagramServiceChanged.next("post")
 					this.classdiagram = new (ClassdiagramDB) // reset fields
 				});

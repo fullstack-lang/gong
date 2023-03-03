@@ -94,7 +94,7 @@ export class ClassdiagramDetailComponent implements OnInit {
 
 		if (id != 0) {
 
-			this.classdiagramService.updateClassdiagram(this.classdiagram)
+			this.classdiagramService.updateClassdiagram(this.classdiagram, "")
 				.subscribe(classdiagram => {
 					this.classdiagramService.ClassdiagramServiceChanged.next("update")
 
@@ -116,7 +116,7 @@ export class ClassdiagramDetailComponent implements OnInit {
 			this.classdiagram.DiagramPackage_ClassdiagramsDBID.Int64 = singlotonPkg.ID
 			this.classdiagram.DiagramPackage_ClassdiagramsDBID.Valid = true
 
-			this.classdiagramService.postClassdiagram(this.classdiagram)
+			this.classdiagramService.postClassdiagram(this.classdiagram, "")
 				.subscribe(classdiagram => {
 					this.classdiagramService.ClassdiagramServiceChanged.next("post")
 

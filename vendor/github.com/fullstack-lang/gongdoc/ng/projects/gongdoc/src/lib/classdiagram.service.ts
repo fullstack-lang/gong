@@ -21,10 +21,6 @@ import { DiagramPackageDB } from './diagrampackage-db'
 })
 export class ClassdiagramService {
 
-  httpOptions = {
-    headers: new HttpHeaders({ 'Content-Type': 'application/json' })
-  };
-
   // Kamar Raïmo: Adding a way to communicate between components that share information
   // so that they are notified of a change.
   ClassdiagramServiceChanged: BehaviorSubject<string> = new BehaviorSubject("");
@@ -33,7 +29,6 @@ export class ClassdiagramService {
 
   constructor(
     private http: HttpClient,
-    private location: Location,
     @Inject(DOCUMENT) private document: Document
   ) {
     // path to the service share the same origin with the path to the document
@@ -68,10 +63,8 @@ export class ClassdiagramService {
     );
   }
 
-  //////// Save methods //////////
-
   /** POST: add a new classdiagram to the server */
-  postClassdiagram(classdiagramdb: ClassdiagramDB): Observable<ClassdiagramDB> {
+  postClassdiagram(classdiagramdb: ClassdiagramDB, GONG__StackPath: string): Observable<ClassdiagramDB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
     classdiagramdb.GongStructShapes = []
@@ -80,7 +73,13 @@ export class ClassdiagramService {
     let _DiagramPackage_Classdiagrams_reverse = classdiagramdb.DiagramPackage_Classdiagrams_reverse
     classdiagramdb.DiagramPackage_Classdiagrams_reverse = new DiagramPackageDB
 
-    return this.http.post<ClassdiagramDB>(this.classdiagramsUrl, classdiagramdb, this.httpOptions).pipe(
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+	return this.http.post<ClassdiagramDB>(this.classdiagramsUrl, classdiagramdb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
         classdiagramdb.DiagramPackage_Classdiagrams_reverse = _DiagramPackage_Classdiagrams_reverse
@@ -91,18 +90,24 @@ export class ClassdiagramService {
   }
 
   /** DELETE: delete the classdiagramdb from the server */
-  deleteClassdiagram(classdiagramdb: ClassdiagramDB | number): Observable<ClassdiagramDB> {
+  deleteClassdiagram(classdiagramdb: ClassdiagramDB | number, GONG__StackPath: string): Observable<ClassdiagramDB> {
     const id = typeof classdiagramdb === 'number' ? classdiagramdb : classdiagramdb.ID;
     const url = `${this.classdiagramsUrl}/${id}`;
 
-    return this.http.delete<ClassdiagramDB>(url, this.httpOptions).pipe(
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    };
+
+    return this.http.delete<ClassdiagramDB>(url, httpOptions).pipe(
       tap(_ => this.log(`deleted classdiagramdb id=${id}`)),
       catchError(this.handleError<ClassdiagramDB>('deleteClassdiagram'))
     );
   }
 
   /** PUT: update the classdiagramdb on the server */
-  updateClassdiagram(classdiagramdb: ClassdiagramDB): Observable<ClassdiagramDB> {
+  updateClassdiagram(classdiagramdb: ClassdiagramDB, GONG__StackPath: string): Observable<ClassdiagramDB> {
     const id = typeof classdiagramdb === 'number' ? classdiagramdb : classdiagramdb.ID;
     const url = `${this.classdiagramsUrl}/${id}`;
 
@@ -113,7 +118,13 @@ export class ClassdiagramService {
     let _DiagramPackage_Classdiagrams_reverse = classdiagramdb.DiagramPackage_Classdiagrams_reverse
     classdiagramdb.DiagramPackage_Classdiagrams_reverse = new DiagramPackageDB
 
-    return this.http.put<ClassdiagramDB>(url, classdiagramdb, this.httpOptions).pipe(
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    };
+
+    return this.http.put<ClassdiagramDB>(url, classdiagramdb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
         classdiagramdb.DiagramPackage_Classdiagrams_reverse = _DiagramPackage_Classdiagrams_reverse

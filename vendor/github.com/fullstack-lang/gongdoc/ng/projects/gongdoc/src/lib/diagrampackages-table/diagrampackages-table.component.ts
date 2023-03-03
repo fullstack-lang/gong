@@ -189,7 +189,7 @@ export class DiagramPackagesTableComponent implements OnInit {
 
   ngOnInit(): void {
     let stackPath = this.activatedRoute.snapshot.paramMap.get('GONG__StackPath')
-    if ( stackPath != undefined) {
+    if (stackPath != undefined) {
       this.GONG__StackPath = stackPath
     }
 
@@ -225,10 +225,14 @@ export class DiagramPackagesTableComponent implements OnInit {
           let mapOfSourceInstances = this.frontRepo[this.dialogData.SourceStruct + "s" as keyof FrontRepo] as Map<number, DiagramPackageDB>
           let sourceInstance = mapOfSourceInstances.get(this.dialogData.ID)!
 
-          let sourceField = sourceInstance[this.dialogData.SourceField as keyof typeof sourceInstance]! as unknown as DiagramPackageDB[]
-          for (let associationInstance of sourceField) {
-            let diagrampackage = associationInstance[this.dialogData.IntermediateStructField as keyof typeof associationInstance] as unknown as DiagramPackageDB
-            this.initialSelection.push(diagrampackage)
+          // we associates on sourceInstance of type SourceStruct with a MANY MANY associations to DiagramPackageDB
+          // the field name is sourceField
+          let sourceFieldArray = sourceInstance[this.dialogData.SourceField as keyof typeof sourceInstance]! as unknown as DiagramPackageDB[]
+          if (sourceFieldArray != null) {
+            for (let associationInstance of sourceFieldArray) {
+              let diagrampackage = associationInstance[this.dialogData.IntermediateStructField as keyof typeof associationInstance] as unknown as DiagramPackageDB
+              this.initialSelection.push(diagrampackage)
+            }
           }
 
           this.selection = new SelectionModel<DiagramPackageDB>(allowMultiSelect, this.initialSelection);
@@ -249,7 +253,7 @@ export class DiagramPackagesTableComponent implements OnInit {
     // list of diagrampackages is truncated of diagrampackage before the delete
     this.diagrampackages = this.diagrampackages.filter(h => h !== diagrampackage);
 
-    this.diagrampackageService.deleteDiagramPackage(diagrampackageID).subscribe(
+    this.diagrampackageService.deleteDiagramPackage(diagrampackageID, this.GONG__StackPath).subscribe(
       diagrampackage => {
         this.diagrampackageService.DiagramPackageServiceChanged.next("delete")
       }
@@ -315,7 +319,7 @@ export class DiagramPackagesTableComponent implements OnInit {
 
       // update all diagrampackage (only update selection & initial selection)
       for (let diagrampackage of toUpdate) {
-        this.diagrampackageService.updateDiagramPackage(diagrampackage)
+        this.diagrampackageService.updateDiagramPackage(diagrampackage, this.GONG__StackPath)
           .subscribe(diagrampackage => {
             this.diagrampackageService.DiagramPackageServiceChanged.next("update")
           });

@@ -178,7 +178,7 @@ export class NoteShapeLinksTableComponent implements OnInit {
 
   ngOnInit(): void {
     let stackPath = this.activatedRoute.snapshot.paramMap.get('GONG__StackPath')
-    if ( stackPath != undefined) {
+    if (stackPath != undefined) {
       this.GONG__StackPath = stackPath
     }
 
@@ -214,10 +214,14 @@ export class NoteShapeLinksTableComponent implements OnInit {
           let mapOfSourceInstances = this.frontRepo[this.dialogData.SourceStruct + "s" as keyof FrontRepo] as Map<number, NoteShapeLinkDB>
           let sourceInstance = mapOfSourceInstances.get(this.dialogData.ID)!
 
-          let sourceField = sourceInstance[this.dialogData.SourceField as keyof typeof sourceInstance]! as unknown as NoteShapeLinkDB[]
-          for (let associationInstance of sourceField) {
-            let noteshapelink = associationInstance[this.dialogData.IntermediateStructField as keyof typeof associationInstance] as unknown as NoteShapeLinkDB
-            this.initialSelection.push(noteshapelink)
+          // we associates on sourceInstance of type SourceStruct with a MANY MANY associations to NoteShapeLinkDB
+          // the field name is sourceField
+          let sourceFieldArray = sourceInstance[this.dialogData.SourceField as keyof typeof sourceInstance]! as unknown as NoteShapeLinkDB[]
+          if (sourceFieldArray != null) {
+            for (let associationInstance of sourceFieldArray) {
+              let noteshapelink = associationInstance[this.dialogData.IntermediateStructField as keyof typeof associationInstance] as unknown as NoteShapeLinkDB
+              this.initialSelection.push(noteshapelink)
+            }
           }
 
           this.selection = new SelectionModel<NoteShapeLinkDB>(allowMultiSelect, this.initialSelection);
@@ -238,7 +242,7 @@ export class NoteShapeLinksTableComponent implements OnInit {
     // list of noteshapelinks is truncated of noteshapelink before the delete
     this.noteshapelinks = this.noteshapelinks.filter(h => h !== noteshapelink);
 
-    this.noteshapelinkService.deleteNoteShapeLink(noteshapelinkID).subscribe(
+    this.noteshapelinkService.deleteNoteShapeLink(noteshapelinkID, this.GONG__StackPath).subscribe(
       noteshapelink => {
         this.noteshapelinkService.NoteShapeLinkServiceChanged.next("delete")
       }
@@ -304,7 +308,7 @@ export class NoteShapeLinksTableComponent implements OnInit {
 
       // update all noteshapelink (only update selection & initial selection)
       for (let noteshapelink of toUpdate) {
-        this.noteshapelinkService.updateNoteShapeLink(noteshapelink)
+        this.noteshapelinkService.updateNoteShapeLink(noteshapelink, this.GONG__StackPath)
           .subscribe(noteshapelink => {
             this.noteshapelinkService.NoteShapeLinkServiceChanged.next("update")
           });

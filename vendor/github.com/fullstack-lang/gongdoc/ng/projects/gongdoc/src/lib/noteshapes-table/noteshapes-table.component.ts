@@ -213,7 +213,7 @@ export class NoteShapesTableComponent implements OnInit {
 
   ngOnInit(): void {
     let stackPath = this.activatedRoute.snapshot.paramMap.get('GONG__StackPath')
-    if ( stackPath != undefined) {
+    if (stackPath != undefined) {
       this.GONG__StackPath = stackPath
     }
 
@@ -249,10 +249,14 @@ export class NoteShapesTableComponent implements OnInit {
           let mapOfSourceInstances = this.frontRepo[this.dialogData.SourceStruct + "s" as keyof FrontRepo] as Map<number, NoteShapeDB>
           let sourceInstance = mapOfSourceInstances.get(this.dialogData.ID)!
 
-          let sourceField = sourceInstance[this.dialogData.SourceField as keyof typeof sourceInstance]! as unknown as NoteShapeDB[]
-          for (let associationInstance of sourceField) {
-            let noteshape = associationInstance[this.dialogData.IntermediateStructField as keyof typeof associationInstance] as unknown as NoteShapeDB
-            this.initialSelection.push(noteshape)
+          // we associates on sourceInstance of type SourceStruct with a MANY MANY associations to NoteShapeDB
+          // the field name is sourceField
+          let sourceFieldArray = sourceInstance[this.dialogData.SourceField as keyof typeof sourceInstance]! as unknown as NoteShapeDB[]
+          if (sourceFieldArray != null) {
+            for (let associationInstance of sourceFieldArray) {
+              let noteshape = associationInstance[this.dialogData.IntermediateStructField as keyof typeof associationInstance] as unknown as NoteShapeDB
+              this.initialSelection.push(noteshape)
+            }
           }
 
           this.selection = new SelectionModel<NoteShapeDB>(allowMultiSelect, this.initialSelection);
@@ -273,7 +277,7 @@ export class NoteShapesTableComponent implements OnInit {
     // list of noteshapes is truncated of noteshape before the delete
     this.noteshapes = this.noteshapes.filter(h => h !== noteshape);
 
-    this.noteshapeService.deleteNoteShape(noteshapeID).subscribe(
+    this.noteshapeService.deleteNoteShape(noteshapeID, this.GONG__StackPath).subscribe(
       noteshape => {
         this.noteshapeService.NoteShapeServiceChanged.next("delete")
       }
@@ -339,7 +343,7 @@ export class NoteShapesTableComponent implements OnInit {
 
       // update all noteshape (only update selection & initial selection)
       for (let noteshape of toUpdate) {
-        this.noteshapeService.updateNoteShape(noteshape)
+        this.noteshapeService.updateNoteShape(noteshape, this.GONG__StackPath)
           .subscribe(noteshape => {
             this.noteshapeService.NoteShapeServiceChanged.next("update")
           });

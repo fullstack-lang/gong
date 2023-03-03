@@ -100,7 +100,7 @@ export class UmlStateSortingComponent implements OnInit {
 
     this.associatedUmlStates.forEach(
       umlstate => {
-        this.umlstateService.updateUmlState(umlstate)
+        this.umlstateService.updateUmlState(umlstate, this.dialogData.GONG__StackPath)
           .subscribe(umlstate => {
             this.umlstateService.UmlStateServiceChanged.next("update")
           });

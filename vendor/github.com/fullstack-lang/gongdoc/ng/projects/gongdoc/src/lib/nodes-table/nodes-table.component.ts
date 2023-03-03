@@ -239,7 +239,7 @@ export class NodesTableComponent implements OnInit {
 
   ngOnInit(): void {
     let stackPath = this.activatedRoute.snapshot.paramMap.get('GONG__StackPath')
-    if ( stackPath != undefined) {
+    if (stackPath != undefined) {
       this.GONG__StackPath = stackPath
     }
 
@@ -275,10 +275,14 @@ export class NodesTableComponent implements OnInit {
           let mapOfSourceInstances = this.frontRepo[this.dialogData.SourceStruct + "s" as keyof FrontRepo] as Map<number, NodeDB>
           let sourceInstance = mapOfSourceInstances.get(this.dialogData.ID)!
 
-          let sourceField = sourceInstance[this.dialogData.SourceField as keyof typeof sourceInstance]! as unknown as NodeDB[]
-          for (let associationInstance of sourceField) {
-            let node = associationInstance[this.dialogData.IntermediateStructField as keyof typeof associationInstance] as unknown as NodeDB
-            this.initialSelection.push(node)
+          // we associates on sourceInstance of type SourceStruct with a MANY MANY associations to NodeDB
+          // the field name is sourceField
+          let sourceFieldArray = sourceInstance[this.dialogData.SourceField as keyof typeof sourceInstance]! as unknown as NodeDB[]
+          if (sourceFieldArray != null) {
+            for (let associationInstance of sourceFieldArray) {
+              let node = associationInstance[this.dialogData.IntermediateStructField as keyof typeof associationInstance] as unknown as NodeDB
+              this.initialSelection.push(node)
+            }
           }
 
           this.selection = new SelectionModel<NodeDB>(allowMultiSelect, this.initialSelection);
@@ -299,7 +303,7 @@ export class NodesTableComponent implements OnInit {
     // list of nodes is truncated of node before the delete
     this.nodes = this.nodes.filter(h => h !== node);
 
-    this.nodeService.deleteNode(nodeID).subscribe(
+    this.nodeService.deleteNode(nodeID, this.GONG__StackPath).subscribe(
       node => {
         this.nodeService.NodeServiceChanged.next("delete")
       }
@@ -365,7 +369,7 @@ export class NodesTableComponent implements OnInit {
 
       // update all node (only update selection & initial selection)
       for (let node of toUpdate) {
-        this.nodeService.updateNode(node)
+        this.nodeService.updateNode(node, this.GONG__StackPath)
           .subscribe(node => {
             this.nodeService.NodeServiceChanged.next("update")
           });

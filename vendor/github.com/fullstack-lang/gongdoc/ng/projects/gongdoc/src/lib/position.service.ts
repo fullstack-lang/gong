@@ -20,10 +20,6 @@ import { PositionDB } from './position-db';
 })
 export class PositionService {
 
-  httpOptions = {
-    headers: new HttpHeaders({ 'Content-Type': 'application/json' })
-  };
-
   // Kamar Raïmo: Adding a way to communicate between components that share information
   // so that they are notified of a change.
   PositionServiceChanged: BehaviorSubject<string> = new BehaviorSubject("");
@@ -32,7 +28,6 @@ export class PositionService {
 
   constructor(
     private http: HttpClient,
-    private location: Location,
     @Inject(DOCUMENT) private document: Document
   ) {
     // path to the service share the same origin with the path to the document
@@ -67,14 +62,18 @@ export class PositionService {
     );
   }
 
-  //////// Save methods //////////
-
   /** POST: add a new position to the server */
-  postPosition(positiondb: PositionDB): Observable<PositionDB> {
+  postPosition(positiondb: PositionDB, GONG__StackPath: string): Observable<PositionDB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
 
-    return this.http.post<PositionDB>(this.positionsUrl, positiondb, this.httpOptions).pipe(
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+	return this.http.post<PositionDB>(this.positionsUrl, positiondb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
         this.log(`posted positiondb id=${positiondb.ID}`)
@@ -84,24 +83,36 @@ export class PositionService {
   }
 
   /** DELETE: delete the positiondb from the server */
-  deletePosition(positiondb: PositionDB | number): Observable<PositionDB> {
+  deletePosition(positiondb: PositionDB | number, GONG__StackPath: string): Observable<PositionDB> {
     const id = typeof positiondb === 'number' ? positiondb : positiondb.ID;
     const url = `${this.positionsUrl}/${id}`;
 
-    return this.http.delete<PositionDB>(url, this.httpOptions).pipe(
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    };
+
+    return this.http.delete<PositionDB>(url, httpOptions).pipe(
       tap(_ => this.log(`deleted positiondb id=${id}`)),
       catchError(this.handleError<PositionDB>('deletePosition'))
     );
   }
 
   /** PUT: update the positiondb on the server */
-  updatePosition(positiondb: PositionDB): Observable<PositionDB> {
+  updatePosition(positiondb: PositionDB, GONG__StackPath: string): Observable<PositionDB> {
     const id = typeof positiondb === 'number' ? positiondb : positiondb.ID;
     const url = `${this.positionsUrl}/${id}`;
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
 
-    return this.http.put<PositionDB>(url, positiondb, this.httpOptions).pipe(
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    };
+
+    return this.http.put<PositionDB>(url, positiondb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
         this.log(`updated positiondb id=${positiondb.ID}`)

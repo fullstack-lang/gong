@@ -21,10 +21,6 @@ import { ClassdiagramDB } from './classdiagram-db'
 })
 export class NoteShapeService {
 
-  httpOptions = {
-    headers: new HttpHeaders({ 'Content-Type': 'application/json' })
-  };
-
   // Kamar Raïmo: Adding a way to communicate between components that share information
   // so that they are notified of a change.
   NoteShapeServiceChanged: BehaviorSubject<string> = new BehaviorSubject("");
@@ -33,7 +29,6 @@ export class NoteShapeService {
 
   constructor(
     private http: HttpClient,
-    private location: Location,
     @Inject(DOCUMENT) private document: Document
   ) {
     // path to the service share the same origin with the path to the document
@@ -68,17 +63,21 @@ export class NoteShapeService {
     );
   }
 
-  //////// Save methods //////////
-
   /** POST: add a new noteshape to the server */
-  postNoteShape(noteshapedb: NoteShapeDB): Observable<NoteShapeDB> {
+  postNoteShape(noteshapedb: NoteShapeDB, GONG__StackPath: string): Observable<NoteShapeDB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
     noteshapedb.NoteShapeLinks = []
     let _Classdiagram_NoteShapes_reverse = noteshapedb.Classdiagram_NoteShapes_reverse
     noteshapedb.Classdiagram_NoteShapes_reverse = new ClassdiagramDB
 
-    return this.http.post<NoteShapeDB>(this.noteshapesUrl, noteshapedb, this.httpOptions).pipe(
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+	return this.http.post<NoteShapeDB>(this.noteshapesUrl, noteshapedb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
         noteshapedb.Classdiagram_NoteShapes_reverse = _Classdiagram_NoteShapes_reverse
@@ -89,18 +88,24 @@ export class NoteShapeService {
   }
 
   /** DELETE: delete the noteshapedb from the server */
-  deleteNoteShape(noteshapedb: NoteShapeDB | number): Observable<NoteShapeDB> {
+  deleteNoteShape(noteshapedb: NoteShapeDB | number, GONG__StackPath: string): Observable<NoteShapeDB> {
     const id = typeof noteshapedb === 'number' ? noteshapedb : noteshapedb.ID;
     const url = `${this.noteshapesUrl}/${id}`;
 
-    return this.http.delete<NoteShapeDB>(url, this.httpOptions).pipe(
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    };
+
+    return this.http.delete<NoteShapeDB>(url, httpOptions).pipe(
       tap(_ => this.log(`deleted noteshapedb id=${id}`)),
       catchError(this.handleError<NoteShapeDB>('deleteNoteShape'))
     );
   }
 
   /** PUT: update the noteshapedb on the server */
-  updateNoteShape(noteshapedb: NoteShapeDB): Observable<NoteShapeDB> {
+  updateNoteShape(noteshapedb: NoteShapeDB, GONG__StackPath: string): Observable<NoteShapeDB> {
     const id = typeof noteshapedb === 'number' ? noteshapedb : noteshapedb.ID;
     const url = `${this.noteshapesUrl}/${id}`;
 
@@ -109,7 +114,13 @@ export class NoteShapeService {
     let _Classdiagram_NoteShapes_reverse = noteshapedb.Classdiagram_NoteShapes_reverse
     noteshapedb.Classdiagram_NoteShapes_reverse = new ClassdiagramDB
 
-    return this.http.put<NoteShapeDB>(url, noteshapedb, this.httpOptions).pipe(
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    };
+
+    return this.http.put<NoteShapeDB>(url, noteshapedb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
         noteshapedb.Classdiagram_NoteShapes_reverse = _Classdiagram_NoteShapes_reverse

@@ -231,13 +231,13 @@ export class NodeDetailComponent implements OnInit {
 
 		switch (this.state) {
 			case NodeDetailComponentState.UPDATE_INSTANCE:
-				this.nodeService.updateNode(this.node)
+				this.nodeService.updateNode(this.node, this.GONG__StackPath)
 					.subscribe(node => {
 						this.nodeService.NodeServiceChanged.next("update")
 					});
 				break;
 			default:
-				this.nodeService.postNode(this.node).subscribe(node => {
+				this.nodeService.postNode(this.node, this.GONG__StackPath).subscribe(node => {
 					this.nodeService.NodeServiceChanged.next("post")
 					this.node = new (NodeDB) // reset fields
 				});

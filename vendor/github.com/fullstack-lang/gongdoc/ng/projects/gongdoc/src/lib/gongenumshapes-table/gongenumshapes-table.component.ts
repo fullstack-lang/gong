@@ -192,7 +192,7 @@ export class GongEnumShapesTableComponent implements OnInit {
 
   ngOnInit(): void {
     let stackPath = this.activatedRoute.snapshot.paramMap.get('GONG__StackPath')
-    if ( stackPath != undefined) {
+    if (stackPath != undefined) {
       this.GONG__StackPath = stackPath
     }
 
@@ -228,10 +228,14 @@ export class GongEnumShapesTableComponent implements OnInit {
           let mapOfSourceInstances = this.frontRepo[this.dialogData.SourceStruct + "s" as keyof FrontRepo] as Map<number, GongEnumShapeDB>
           let sourceInstance = mapOfSourceInstances.get(this.dialogData.ID)!
 
-          let sourceField = sourceInstance[this.dialogData.SourceField as keyof typeof sourceInstance]! as unknown as GongEnumShapeDB[]
-          for (let associationInstance of sourceField) {
-            let gongenumshape = associationInstance[this.dialogData.IntermediateStructField as keyof typeof associationInstance] as unknown as GongEnumShapeDB
-            this.initialSelection.push(gongenumshape)
+          // we associates on sourceInstance of type SourceStruct with a MANY MANY associations to GongEnumShapeDB
+          // the field name is sourceField
+          let sourceFieldArray = sourceInstance[this.dialogData.SourceField as keyof typeof sourceInstance]! as unknown as GongEnumShapeDB[]
+          if (sourceFieldArray != null) {
+            for (let associationInstance of sourceFieldArray) {
+              let gongenumshape = associationInstance[this.dialogData.IntermediateStructField as keyof typeof associationInstance] as unknown as GongEnumShapeDB
+              this.initialSelection.push(gongenumshape)
+            }
           }
 
           this.selection = new SelectionModel<GongEnumShapeDB>(allowMultiSelect, this.initialSelection);
@@ -252,7 +256,7 @@ export class GongEnumShapesTableComponent implements OnInit {
     // list of gongenumshapes is truncated of gongenumshape before the delete
     this.gongenumshapes = this.gongenumshapes.filter(h => h !== gongenumshape);
 
-    this.gongenumshapeService.deleteGongEnumShape(gongenumshapeID).subscribe(
+    this.gongenumshapeService.deleteGongEnumShape(gongenumshapeID, this.GONG__StackPath).subscribe(
       gongenumshape => {
         this.gongenumshapeService.GongEnumShapeServiceChanged.next("delete")
       }
@@ -318,7 +322,7 @@ export class GongEnumShapesTableComponent implements OnInit {
 
       // update all gongenumshape (only update selection & initial selection)
       for (let gongenumshape of toUpdate) {
-        this.gongenumshapeService.updateGongEnumShape(gongenumshape)
+        this.gongenumshapeService.updateGongEnumShape(gongenumshape, this.GONG__StackPath)
           .subscribe(gongenumshape => {
             this.gongenumshapeService.GongEnumShapeServiceChanged.next("update")
           });

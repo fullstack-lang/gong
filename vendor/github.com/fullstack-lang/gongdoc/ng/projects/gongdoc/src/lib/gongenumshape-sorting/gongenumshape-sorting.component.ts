@@ -100,7 +100,7 @@ export class GongEnumShapeSortingComponent implements OnInit {
 
     this.associatedGongEnumShapes.forEach(
       gongenumshape => {
-        this.gongenumshapeService.updateGongEnumShape(gongenumshape)
+        this.gongenumshapeService.updateGongEnumShape(gongenumshape, this.dialogData.GONG__StackPath)
           .subscribe(gongenumshape => {
             this.gongenumshapeService.GongEnumShapeServiceChanged.next("update")
           });

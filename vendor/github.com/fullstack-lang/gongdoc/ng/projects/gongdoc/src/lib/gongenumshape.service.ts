@@ -22,10 +22,6 @@ import { ClassdiagramDB } from './classdiagram-db'
 })
 export class GongEnumShapeService {
 
-  httpOptions = {
-    headers: new HttpHeaders({ 'Content-Type': 'application/json' })
-  };
-
   // Kamar Raïmo: Adding a way to communicate between components that share information
   // so that they are notified of a change.
   GongEnumShapeServiceChanged: BehaviorSubject<string> = new BehaviorSubject("");
@@ -34,7 +30,6 @@ export class GongEnumShapeService {
 
   constructor(
     private http: HttpClient,
-    private location: Location,
     @Inject(DOCUMENT) private document: Document
   ) {
     // path to the service share the same origin with the path to the document
@@ -69,10 +64,8 @@ export class GongEnumShapeService {
     );
   }
 
-  //////// Save methods //////////
-
   /** POST: add a new gongenumshape to the server */
-  postGongEnumShape(gongenumshapedb: GongEnumShapeDB): Observable<GongEnumShapeDB> {
+  postGongEnumShape(gongenumshapedb: GongEnumShapeDB, GONG__StackPath: string): Observable<GongEnumShapeDB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
     gongenumshapedb.Position = new PositionDB
@@ -80,7 +73,13 @@ export class GongEnumShapeService {
     let _Classdiagram_GongEnumShapes_reverse = gongenumshapedb.Classdiagram_GongEnumShapes_reverse
     gongenumshapedb.Classdiagram_GongEnumShapes_reverse = new ClassdiagramDB
 
-    return this.http.post<GongEnumShapeDB>(this.gongenumshapesUrl, gongenumshapedb, this.httpOptions).pipe(
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+	return this.http.post<GongEnumShapeDB>(this.gongenumshapesUrl, gongenumshapedb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
         gongenumshapedb.Classdiagram_GongEnumShapes_reverse = _Classdiagram_GongEnumShapes_reverse
@@ -91,18 +90,24 @@ export class GongEnumShapeService {
   }
 
   /** DELETE: delete the gongenumshapedb from the server */
-  deleteGongEnumShape(gongenumshapedb: GongEnumShapeDB | number): Observable<GongEnumShapeDB> {
+  deleteGongEnumShape(gongenumshapedb: GongEnumShapeDB | number, GONG__StackPath: string): Observable<GongEnumShapeDB> {
     const id = typeof gongenumshapedb === 'number' ? gongenumshapedb : gongenumshapedb.ID;
     const url = `${this.gongenumshapesUrl}/${id}`;
 
-    return this.http.delete<GongEnumShapeDB>(url, this.httpOptions).pipe(
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    };
+
+    return this.http.delete<GongEnumShapeDB>(url, httpOptions).pipe(
       tap(_ => this.log(`deleted gongenumshapedb id=${id}`)),
       catchError(this.handleError<GongEnumShapeDB>('deleteGongEnumShape'))
     );
   }
 
   /** PUT: update the gongenumshapedb on the server */
-  updateGongEnumShape(gongenumshapedb: GongEnumShapeDB): Observable<GongEnumShapeDB> {
+  updateGongEnumShape(gongenumshapedb: GongEnumShapeDB, GONG__StackPath: string): Observable<GongEnumShapeDB> {
     const id = typeof gongenumshapedb === 'number' ? gongenumshapedb : gongenumshapedb.ID;
     const url = `${this.gongenumshapesUrl}/${id}`;
 
@@ -112,7 +117,13 @@ export class GongEnumShapeService {
     let _Classdiagram_GongEnumShapes_reverse = gongenumshapedb.Classdiagram_GongEnumShapes_reverse
     gongenumshapedb.Classdiagram_GongEnumShapes_reverse = new ClassdiagramDB
 
-    return this.http.put<GongEnumShapeDB>(url, gongenumshapedb, this.httpOptions).pipe(
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    };
+
+    return this.http.put<GongEnumShapeDB>(url, gongenumshapedb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
         gongenumshapedb.Classdiagram_GongEnumShapes_reverse = _Classdiagram_GongEnumShapes_reverse

@@ -57,6 +57,8 @@ github.com/fullstack-lang/gongdoc v0.0.0-20230303082212-9b42052b06ad h1:lCAlqqs6
 github.com/fullstack-lang/gongdoc v0.0.0-20230303082212-9b42052b06ad/go.mod h1:y8ggv7YwbhxVsZOxzVBiwy1fG3FNgpB2n0desTsf5gY=
 github.com/fullstack-lang/gongdoc v0.0.0-20230303104907-eb9ec2df7532 h1:dCoqViBdWJ1VwPNYw5rzsX/2kF7JY0fTretPvLaHDHA=
 github.com/fullstack-lang/gongdoc v0.0.0-20230303104907-eb9ec2df7532/go.mod h1:y8ggv7YwbhxVsZOxzVBiwy1fG3FNgpB2n0desTsf5gY=
+github.com/fullstack-lang/gongdoc v0.0.0-20230303143128-f4848c4a328a h1:bFfDITWuPZNLYHOkD8N4chKVDlPMVhrITzTLwubtMqg=
+github.com/fullstack-lang/gongdoc v0.0.0-20230303143128-f4848c4a328a/go.mod h1:li6aD/yrP9i5ICozs2qMjUSQdgAlCByRrGqLh40gNOQ=
 github.com/gin-contrib/cors v1.4.0 h1:oJ6gwtUl3lqV0WEIwM/LxPF1QZ5qe2lGWdY2+bz7y0g=
 github.com/gin-contrib/cors v1.4.0/go.mod h1:bs9pNM0x/UsmHPBWT2xZz9ROh8xYjYkiURUfmBoMlcs=
 github.com/gin-contrib/sse v0.1.0 h1:Y/yl/+YNO8GZSjAhjMsSuLt29uWRFHdHYUb5lYOV9qE=

@@ -13,7 +13,7 @@ export function informBackEndOfSelection(cellView: joint.dia.CellView) {
     }
 
     gongStructShape.IsSelected = true
-    gongStructShapeService.updateGongStructShape(gongStructShape).subscribe(
+    gongStructShapeService.updateGongStructShape(gongStructShape, "").subscribe(
         classhape => {
             console.log("gongStructShape updated")
         }

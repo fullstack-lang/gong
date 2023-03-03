@@ -100,7 +100,7 @@ export class TreeSortingComponent implements OnInit {
 
     this.associatedTrees.forEach(
       tree => {
-        this.treeService.updateTree(tree)
+        this.treeService.updateTree(tree, this.dialogData.GONG__StackPath)
           .subscribe(tree => {
             this.treeService.TreeServiceChanged.next("update")
           });

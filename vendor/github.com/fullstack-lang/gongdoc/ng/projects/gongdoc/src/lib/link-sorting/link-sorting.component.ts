@@ -100,7 +100,7 @@ export class LinkSortingComponent implements OnInit {
 
     this.associatedLinks.forEach(
       link => {
-        this.linkService.updateLink(link)
+        this.linkService.updateLink(link, this.dialogData.GONG__StackPath)
           .subscribe(link => {
             this.linkService.LinkServiceChanged.next("update")
           });

@@ -171,7 +171,7 @@ export class ClassdiagramsTableComponent implements OnInit {
 
   ngOnInit(): void {
     let stackPath = this.activatedRoute.snapshot.paramMap.get('GONG__StackPath')
-    if ( stackPath != undefined) {
+    if (stackPath != undefined) {
       this.GONG__StackPath = stackPath
     }
 
@@ -207,10 +207,14 @@ export class ClassdiagramsTableComponent implements OnInit {
           let mapOfSourceInstances = this.frontRepo[this.dialogData.SourceStruct + "s" as keyof FrontRepo] as Map<number, ClassdiagramDB>
           let sourceInstance = mapOfSourceInstances.get(this.dialogData.ID)!
 
-          let sourceField = sourceInstance[this.dialogData.SourceField as keyof typeof sourceInstance]! as unknown as ClassdiagramDB[]
-          for (let associationInstance of sourceField) {
-            let classdiagram = associationInstance[this.dialogData.IntermediateStructField as keyof typeof associationInstance] as unknown as ClassdiagramDB
-            this.initialSelection.push(classdiagram)
+          // we associates on sourceInstance of type SourceStruct with a MANY MANY associations to ClassdiagramDB
+          // the field name is sourceField
+          let sourceFieldArray = sourceInstance[this.dialogData.SourceField as keyof typeof sourceInstance]! as unknown as ClassdiagramDB[]
+          if (sourceFieldArray != null) {
+            for (let associationInstance of sourceFieldArray) {
+              let classdiagram = associationInstance[this.dialogData.IntermediateStructField as keyof typeof associationInstance] as unknown as ClassdiagramDB
+              this.initialSelection.push(classdiagram)
+            }
           }
 
           this.selection = new SelectionModel<ClassdiagramDB>(allowMultiSelect, this.initialSelection);
@@ -231,7 +235,7 @@ export class ClassdiagramsTableComponent implements OnInit {
     // list of classdiagrams is truncated of classdiagram before the delete
     this.classdiagrams = this.classdiagrams.filter(h => h !== classdiagram);
 
-    this.classdiagramService.deleteClassdiagram(classdiagramID).subscribe(
+    this.classdiagramService.deleteClassdiagram(classdiagramID, this.GONG__StackPath).subscribe(
       classdiagram => {
         this.classdiagramService.ClassdiagramServiceChanged.next("delete")
       }
@@ -297,7 +301,7 @@ export class ClassdiagramsTableComponent implements OnInit {
 
       // update all classdiagram (only update selection & initial selection)
       for (let classdiagram of toUpdate) {
-        this.classdiagramService.updateClassdiagram(classdiagram)
+        this.classdiagramService.updateClassdiagram(classdiagram, this.GONG__StackPath)
           .subscribe(classdiagram => {
             this.classdiagramService.ClassdiagramServiceChanged.next("update")
           });

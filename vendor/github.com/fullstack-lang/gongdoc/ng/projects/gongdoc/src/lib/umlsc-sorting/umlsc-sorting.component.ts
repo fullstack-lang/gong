@@ -100,7 +100,7 @@ export class UmlscSortingComponent implements OnInit {
 
     this.associatedUmlscs.forEach(
       umlsc => {
-        this.umlscService.updateUmlsc(umlsc)
+        this.umlscService.updateUmlsc(umlsc, this.dialogData.GONG__StackPath)
           .subscribe(umlsc => {
             this.umlscService.UmlscServiceChanged.next("update")
           });

@@ -100,7 +100,7 @@ export class DiagramPackageSortingComponent implements OnInit {
 
     this.associatedDiagramPackages.forEach(
       diagrampackage => {
-        this.diagrampackageService.updateDiagramPackage(diagrampackage)
+        this.diagrampackageService.updateDiagramPackage(diagrampackage, this.dialogData.GONG__StackPath)
           .subscribe(diagrampackage => {
             this.diagrampackageService.DiagramPackageServiceChanged.next("update")
           });

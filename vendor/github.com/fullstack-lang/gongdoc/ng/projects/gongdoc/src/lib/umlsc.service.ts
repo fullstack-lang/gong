@@ -21,10 +21,6 @@ import { DiagramPackageDB } from './diagrampackage-db'
 })
 export class UmlscService {
 
-  httpOptions = {
-    headers: new HttpHeaders({ 'Content-Type': 'application/json' })
-  };
-
   // Kamar Raïmo: Adding a way to communicate between components that share information
   // so that they are notified of a change.
   UmlscServiceChanged: BehaviorSubject<string> = new BehaviorSubject("");
@@ -33,7 +29,6 @@ export class UmlscService {
 
   constructor(
     private http: HttpClient,
-    private location: Location,
     @Inject(DOCUMENT) private document: Document
   ) {
     // path to the service share the same origin with the path to the document
@@ -68,17 +63,21 @@ export class UmlscService {
     );
   }
 
-  //////// Save methods //////////
-
   /** POST: add a new umlsc to the server */
-  postUmlsc(umlscdb: UmlscDB): Observable<UmlscDB> {
+  postUmlsc(umlscdb: UmlscDB, GONG__StackPath: string): Observable<UmlscDB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
     umlscdb.States = []
     let _DiagramPackage_Umlscs_reverse = umlscdb.DiagramPackage_Umlscs_reverse
     umlscdb.DiagramPackage_Umlscs_reverse = new DiagramPackageDB
 
-    return this.http.post<UmlscDB>(this.umlscsUrl, umlscdb, this.httpOptions).pipe(
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+	return this.http.post<UmlscDB>(this.umlscsUrl, umlscdb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
         umlscdb.DiagramPackage_Umlscs_reverse = _DiagramPackage_Umlscs_reverse
@@ -89,18 +88,24 @@ export class UmlscService {
   }
 
   /** DELETE: delete the umlscdb from the server */
-  deleteUmlsc(umlscdb: UmlscDB | number): Observable<UmlscDB> {
+  deleteUmlsc(umlscdb: UmlscDB | number, GONG__StackPath: string): Observable<UmlscDB> {
     const id = typeof umlscdb === 'number' ? umlscdb : umlscdb.ID;
     const url = `${this.umlscsUrl}/${id}`;
 
-    return this.http.delete<UmlscDB>(url, this.httpOptions).pipe(
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    };
+
+    return this.http.delete<UmlscDB>(url, httpOptions).pipe(
       tap(_ => this.log(`deleted umlscdb id=${id}`)),
       catchError(this.handleError<UmlscDB>('deleteUmlsc'))
     );
   }
 
   /** PUT: update the umlscdb on the server */
-  updateUmlsc(umlscdb: UmlscDB): Observable<UmlscDB> {
+  updateUmlsc(umlscdb: UmlscDB, GONG__StackPath: string): Observable<UmlscDB> {
     const id = typeof umlscdb === 'number' ? umlscdb : umlscdb.ID;
     const url = `${this.umlscsUrl}/${id}`;
 
@@ -109,7 +114,13 @@ export class UmlscService {
     let _DiagramPackage_Umlscs_reverse = umlscdb.DiagramPackage_Umlscs_reverse
     umlscdb.DiagramPackage_Umlscs_reverse = new DiagramPackageDB
 
-    return this.http.put<UmlscDB>(url, umlscdb, this.httpOptions).pipe(
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    };
+
+    return this.http.put<UmlscDB>(url, umlscdb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
         umlscdb.DiagramPackage_Umlscs_reverse = _DiagramPackage_Umlscs_reverse

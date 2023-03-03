@@ -100,7 +100,7 @@ export class ClassdiagramSortingComponent implements OnInit {
 
     this.associatedClassdiagrams.forEach(
       classdiagram => {
-        this.classdiagramService.updateClassdiagram(classdiagram)
+        this.classdiagramService.updateClassdiagram(classdiagram, this.dialogData.GONG__StackPath)
           .subscribe(classdiagram => {
             this.classdiagramService.ClassdiagramServiceChanged.next("update")
           });

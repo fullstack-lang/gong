@@ -208,7 +208,7 @@ export class GongStructShapesTableComponent implements OnInit {
 
   ngOnInit(): void {
     let stackPath = this.activatedRoute.snapshot.paramMap.get('GONG__StackPath')
-    if ( stackPath != undefined) {
+    if (stackPath != undefined) {
       this.GONG__StackPath = stackPath
     }
 
@@ -244,10 +244,14 @@ export class GongStructShapesTableComponent implements OnInit {
           let mapOfSourceInstances = this.frontRepo[this.dialogData.SourceStruct + "s" as keyof FrontRepo] as Map<number, GongStructShapeDB>
           let sourceInstance = mapOfSourceInstances.get(this.dialogData.ID)!
 
-          let sourceField = sourceInstance[this.dialogData.SourceField as keyof typeof sourceInstance]! as unknown as GongStructShapeDB[]
-          for (let associationInstance of sourceField) {
-            let gongstructshape = associationInstance[this.dialogData.IntermediateStructField as keyof typeof associationInstance] as unknown as GongStructShapeDB
-            this.initialSelection.push(gongstructshape)
+          // we associates on sourceInstance of type SourceStruct with a MANY MANY associations to GongStructShapeDB
+          // the field name is sourceField
+          let sourceFieldArray = sourceInstance[this.dialogData.SourceField as keyof typeof sourceInstance]! as unknown as GongStructShapeDB[]
+          if (sourceFieldArray != null) {
+            for (let associationInstance of sourceFieldArray) {
+              let gongstructshape = associationInstance[this.dialogData.IntermediateStructField as keyof typeof associationInstance] as unknown as GongStructShapeDB
+              this.initialSelection.push(gongstructshape)
+            }
           }
 
           this.selection = new SelectionModel<GongStructShapeDB>(allowMultiSelect, this.initialSelection);
@@ -268,7 +272,7 @@ export class GongStructShapesTableComponent implements OnInit {
     // list of gongstructshapes is truncated of gongstructshape before the delete
     this.gongstructshapes = this.gongstructshapes.filter(h => h !== gongstructshape);
 
-    this.gongstructshapeService.deleteGongStructShape(gongstructshapeID).subscribe(
+    this.gongstructshapeService.deleteGongStructShape(gongstructshapeID, this.GONG__StackPath).subscribe(
       gongstructshape => {
         this.gongstructshapeService.GongStructShapeServiceChanged.next("delete")
       }
@@ -334,7 +338,7 @@ export class GongStructShapesTableComponent implements OnInit {
 
       // update all gongstructshape (only update selection & initial selection)
       for (let gongstructshape of toUpdate) {
-        this.gongstructshapeService.updateGongStructShape(gongstructshape)
+        this.gongstructshapeService.updateGongStructShape(gongstructshape, this.GONG__StackPath)
           .subscribe(gongstructshape => {
             this.gongstructshapeService.GongStructShapeServiceChanged.next("update")
           });

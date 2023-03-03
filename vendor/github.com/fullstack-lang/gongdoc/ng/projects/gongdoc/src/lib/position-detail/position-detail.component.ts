@@ -152,13 +152,13 @@ export class PositionDetailComponent implements OnInit {
 
 		switch (this.state) {
 			case PositionDetailComponentState.UPDATE_INSTANCE:
-				this.positionService.updatePosition(this.position)
+				this.positionService.updatePosition(this.position, this.GONG__StackPath)
 					.subscribe(position => {
 						this.positionService.PositionServiceChanged.next("update")
 					});
 				break;
 			default:
-				this.positionService.postPosition(this.position).subscribe(position => {
+				this.positionService.postPosition(this.position, this.GONG__StackPath).subscribe(position => {
 					this.positionService.PositionServiceChanged.next("post")
 					this.position = new (PositionDB) // reset fields
 				});
