@@ -55,30 +55,30 @@ func TestBackup(t *testing.T) {
 	aclass1.Anarrayofa = append(aclass1.Anarrayofa, aclass1)
 	aclass1.Anarrayofa = append(aclass1.Anarrayofa, aclass2)
 
-	models.Stage.Commit()
+	stage.Commit()
 
-	for aclass := range models.Stage.Astructs {
+	for aclass := range stage.Astructs {
 		aclassDB := orm.BackRepo.BackRepoAstruct.GetAstructDBFromAstructPtr(aclass)
 		aclassDB.CreatedAt = time.Time{}
 		aclassDB.UpdatedAt = time.Time{}
 	}
-	for bclass := range models.Stage.Bstructs {
+	for bclass := range stage.Bstructs {
 		bclassDB := orm.BackRepo.BackRepoBstruct.GetBstructDBFromBstructPtr(bclass)
 		bclassDB.CreatedAt = time.Time{}
 		bclassDB.UpdatedAt = time.Time{}
 	}
 
-	models.Stage.Backup("bckp")
+	stage.Backup("bckp")
 }
 
 func TestRestore(t *testing.T) {
 
 	// setup GORM
-	fullstack.Init(nil)
+	stage, _ := fullstack.NewStackInstance(nil, "")
 
-	models.Stage.Restore("bckp")
+	stage.Restore("bckp")
 
-	for aclass := range models.Stage.Astructs {
+	for aclass := range stage.Astructs {
 		if aclass.Name == "A1" {
 			log.Print("aclass.Anarrayofb[0].Name of b : ", aclass.Anarrayofb[0].Name)
 			log.Print("aclass.Anarrayofb[1].Name of b : ", aclass.Anarrayofb[1].Name)
@@ -87,18 +87,18 @@ func TestRestore(t *testing.T) {
 		}
 	}
 
-	models.Stage.Commit()
+	stage.Commit()
 
-	for aclass := range models.Stage.Astructs {
+	for aclass := range stage.Astructs {
 		aclassDB := orm.BackRepo.BackRepoAstruct.GetAstructDBFromAstructPtr(aclass)
 		aclassDB.CreatedAt = time.Time{}
 		aclassDB.UpdatedAt = time.Time{}
 	}
-	for bclass := range models.Stage.Bstructs {
+	for bclass := range stage.Bstructs {
 		bclassDB := orm.BackRepo.BackRepoBstruct.GetBstructDBFromBstructPtr(bclass)
 		bclassDB.CreatedAt = time.Time{}
 		bclassDB.UpdatedAt = time.Time{}
 	}
 
-	models.Stage.Backup("bckp-after-restore")
+	stage.Backup("bckp-after-restore")
 }

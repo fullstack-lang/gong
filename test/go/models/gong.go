@@ -260,7 +260,7 @@ func (astruct *Astruct) Commit(stage *StageStruct) *Astruct {
 
 // Checkout astruct to the back repo (if it is already staged)
 func (astruct *Astruct) Checkout(stage *StageStruct) *Astruct {
-	if _, ok := Stage.Astructs[astruct]; ok {
+	if _, ok := stage.Astructs[astruct]; ok {
 		if stage.BackRepo != nil {
 			stage.BackRepo.CheckoutAstruct(astruct)
 		}
@@ -300,7 +300,7 @@ func (astructbstruct2use *AstructBstruct2Use) Commit(stage *StageStruct) *Astruc
 
 // Checkout astructbstruct2use to the back repo (if it is already staged)
 func (astructbstruct2use *AstructBstruct2Use) Checkout(stage *StageStruct) *AstructBstruct2Use {
-	if _, ok := Stage.AstructBstruct2Uses[astructbstruct2use]; ok {
+	if _, ok := stage.AstructBstruct2Uses[astructbstruct2use]; ok {
 		if stage.BackRepo != nil {
 			stage.BackRepo.CheckoutAstructBstruct2Use(astructbstruct2use)
 		}
@@ -340,7 +340,7 @@ func (astructbstructuse *AstructBstructUse) Commit(stage *StageStruct) *AstructB
 
 // Checkout astructbstructuse to the back repo (if it is already staged)
 func (astructbstructuse *AstructBstructUse) Checkout(stage *StageStruct) *AstructBstructUse {
-	if _, ok := Stage.AstructBstructUses[astructbstructuse]; ok {
+	if _, ok := stage.AstructBstructUses[astructbstructuse]; ok {
 		if stage.BackRepo != nil {
 			stage.BackRepo.CheckoutAstructBstructUse(astructbstructuse)
 		}
@@ -380,7 +380,7 @@ func (bstruct *Bstruct) Commit(stage *StageStruct) *Bstruct {
 
 // Checkout bstruct to the back repo (if it is already staged)
 func (bstruct *Bstruct) Checkout(stage *StageStruct) *Bstruct {
-	if _, ok := Stage.Bstructs[bstruct]; ok {
+	if _, ok := stage.Bstructs[bstruct]; ok {
 		if stage.BackRepo != nil {
 			stage.BackRepo.CheckoutBstruct(bstruct)
 		}
@@ -420,7 +420,7 @@ func (dstruct *Dstruct) Commit(stage *StageStruct) *Dstruct {
 
 // Checkout dstruct to the back repo (if it is already staged)
 func (dstruct *Dstruct) Checkout(stage *StageStruct) *Dstruct {
-	if _, ok := Stage.Dstructs[dstruct]; ok {
+	if _, ok := stage.Dstructs[dstruct]; ok {
 		if stage.BackRepo != nil {
 			stage.BackRepo.CheckoutDstruct(dstruct)
 		}
@@ -751,7 +751,16 @@ func GetAssociationName[Type Gongstruct]() *Type {
 // The function provides a map with keys as instances of End and values to arrays of *Start
 // the map is construed by iterating over all Start instances and populationg keys with End instances
 // and values with slice of Start instances
-func GetPointerReverseMap[Start, End Gongstruct](fieldname string) map[*End][]*Start {
+func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stages ...*StageStruct) map[*End][]*Start {
+
+	var stage *StageStruct
+	_ = stage
+	if len(stages) > 0 {
+		stage = stages[0]
+	} else {
+		stage = &Stage
+	}
+
 	var ret Start
 
 	switch any(ret).(type) {
@@ -762,7 +771,7 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string) map[*End][]*S
 		// insertion point for per direct association field
 		case "Bstruct":
 			res := make(map[*Bstruct][]*Astruct)
-			for astruct := range Stage.Astructs {
+			for astruct := range stage.Astructs {
 				if astruct.Bstruct != nil {
 					bstruct_ := astruct.Bstruct
 					var astructs []*Astruct
@@ -779,7 +788,7 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string) map[*End][]*S
 			return any(res).(map[*End][]*Start)
 		case "Bstruct2":
 			res := make(map[*Bstruct][]*Astruct)
-			for astruct := range Stage.Astructs {
+			for astruct := range stage.Astructs {
 				if astruct.Bstruct2 != nil {
 					bstruct_ := astruct.Bstruct2
 					var astructs []*Astruct
@@ -796,7 +805,7 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string) map[*End][]*S
 			return any(res).(map[*End][]*Start)
 		case "Dstruct":
 			res := make(map[*Dstruct][]*Astruct)
-			for astruct := range Stage.Astructs {
+			for astruct := range stage.Astructs {
 				if astruct.Dstruct != nil {
 					dstruct_ := astruct.Dstruct
 					var astructs []*Astruct
@@ -813,7 +822,7 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string) map[*End][]*S
 			return any(res).(map[*End][]*Start)
 		case "Dstruct2":
 			res := make(map[*Dstruct][]*Astruct)
-			for astruct := range Stage.Astructs {
+			for astruct := range stage.Astructs {
 				if astruct.Dstruct2 != nil {
 					dstruct_ := astruct.Dstruct2
 					var astructs []*Astruct
@@ -830,7 +839,7 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string) map[*End][]*S
 			return any(res).(map[*End][]*Start)
 		case "Dstruct3":
 			res := make(map[*Dstruct][]*Astruct)
-			for astruct := range Stage.Astructs {
+			for astruct := range stage.Astructs {
 				if astruct.Dstruct3 != nil {
 					dstruct_ := astruct.Dstruct3
 					var astructs []*Astruct
@@ -847,7 +856,7 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string) map[*End][]*S
 			return any(res).(map[*End][]*Start)
 		case "Dstruct4":
 			res := make(map[*Dstruct][]*Astruct)
-			for astruct := range Stage.Astructs {
+			for astruct := range stage.Astructs {
 				if astruct.Dstruct4 != nil {
 					dstruct_ := astruct.Dstruct4
 					var astructs []*Astruct
@@ -864,7 +873,7 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string) map[*End][]*S
 			return any(res).(map[*End][]*Start)
 		case "Associationtob":
 			res := make(map[*Bstruct][]*Astruct)
-			for astruct := range Stage.Astructs {
+			for astruct := range stage.Astructs {
 				if astruct.Associationtob != nil {
 					bstruct_ := astruct.Associationtob
 					var astructs []*Astruct
@@ -881,7 +890,7 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string) map[*End][]*S
 			return any(res).(map[*End][]*Start)
 		case "Anotherassociationtob_2":
 			res := make(map[*Bstruct][]*Astruct)
-			for astruct := range Stage.Astructs {
+			for astruct := range stage.Astructs {
 				if astruct.Anotherassociationtob_2 != nil {
 					bstruct_ := astruct.Anotherassociationtob_2
 					var astructs []*Astruct
@@ -898,7 +907,7 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string) map[*End][]*S
 			return any(res).(map[*End][]*Start)
 		case "AnAstruct":
 			res := make(map[*Astruct][]*Astruct)
-			for astruct := range Stage.Astructs {
+			for astruct := range stage.Astructs {
 				if astruct.AnAstruct != nil {
 					astruct_ := astruct.AnAstruct
 					var astructs []*Astruct
@@ -920,7 +929,7 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string) map[*End][]*S
 		// insertion point for per direct association field
 		case "Bstrcut2":
 			res := make(map[*Bstruct][]*AstructBstruct2Use)
-			for astructbstruct2use := range Stage.AstructBstruct2Uses {
+			for astructbstruct2use := range stage.AstructBstruct2Uses {
 				if astructbstruct2use.Bstrcut2 != nil {
 					bstruct_ := astructbstruct2use.Bstrcut2
 					var astructbstruct2uses []*AstructBstruct2Use
@@ -942,7 +951,7 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string) map[*End][]*S
 		// insertion point for per direct association field
 		case "Bstruct2":
 			res := make(map[*Bstruct][]*AstructBstructUse)
-			for astructbstructuse := range Stage.AstructBstructUses {
+			for astructbstructuse := range stage.AstructBstructUses {
 				if astructbstructuse.Bstruct2 != nil {
 					bstruct_ := astructbstructuse.Bstruct2
 					var astructbstructuses []*AstructBstructUse
@@ -978,7 +987,16 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string) map[*End][]*S
 // The function provides a map with keys as instances of End and values to *Start instances
 // the map is construed by iterating over all Start instances and populating keys with End instances
 // and values with the Start instances
-func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string) map[*End]*Start {
+func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stages ...*StageStruct) map[*End]*Start {
+
+	var stage *StageStruct
+	_ = stage
+	if len(stages) > 0 {
+		stage = stages[0]
+	} else {
+		stage = &Stage
+	}
+
 	var ret Start
 
 	switch any(ret).(type) {
@@ -989,7 +1007,7 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string) map[*
 		// insertion point for per direct association field
 		case "Anarrayofb":
 			res := make(map[*Bstruct]*Astruct)
-			for astruct := range Stage.Astructs {
+			for astruct := range stage.Astructs {
 				for _, bstruct_ := range astruct.Anarrayofb {
 					res[bstruct_] = astruct
 				}
@@ -997,7 +1015,7 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string) map[*
 			return any(res).(map[*End]*Start)
 		case "Anotherarrayofb":
 			res := make(map[*Bstruct]*Astruct)
-			for astruct := range Stage.Astructs {
+			for astruct := range stage.Astructs {
 				for _, bstruct_ := range astruct.Anotherarrayofb {
 					res[bstruct_] = astruct
 				}
@@ -1005,7 +1023,7 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string) map[*
 			return any(res).(map[*End]*Start)
 		case "Anarrayofa":
 			res := make(map[*Astruct]*Astruct)
-			for astruct := range Stage.Astructs {
+			for astruct := range stage.Astructs {
 				for _, astruct_ := range astruct.Anarrayofa {
 					res[astruct_] = astruct
 				}
@@ -1013,7 +1031,7 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string) map[*
 			return any(res).(map[*End]*Start)
 		case "AnarrayofbUse":
 			res := make(map[*AstructBstructUse]*Astruct)
-			for astruct := range Stage.Astructs {
+			for astruct := range stage.Astructs {
 				for _, astructbstructuse_ := range astruct.AnarrayofbUse {
 					res[astructbstructuse_] = astruct
 				}
@@ -1021,7 +1039,7 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string) map[*
 			return any(res).(map[*End]*Start)
 		case "Anarrayofb2Use":
 			res := make(map[*AstructBstruct2Use]*Astruct)
-			for astruct := range Stage.Astructs {
+			for astruct := range stage.Astructs {
 				for _, astructbstruct2use_ := range astruct.Anarrayofb2Use {
 					res[astructbstruct2use_] = astruct
 				}
