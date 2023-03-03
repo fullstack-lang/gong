@@ -42,7 +42,7 @@ func TestStageCallBack(t *testing.T) {
 	bclass2 := (&models.Bstruct{Name: "B2"}).Stage(stage)
 	_ = bclass2
 
-	models.Stage.Commit()
+	stage.Commit()
 
 	mapOfAstruct := models.GongGetMap[map[string]*models.Astruct]()
 	for id, astruct := range *mapOfAstruct {
@@ -101,35 +101,35 @@ func TestStageCallBack(t *testing.T) {
 	log.Println()
 
 	want := 2
-	got := len(models.Stage.Astructs)
+	got := len(stage.Astructs)
 
 	if got != want {
 		t.Errorf("got = %d; want %d", got, want)
 	}
 
-	log.Printf("After models.Stage reset, ng of aclass instance %d", len(models.Stage.Astructs))
+	log.Printf("After stage reset, ng of aclass instance %d", len(stage.Astructs))
 
 	aclass2.Unstage(stage)
 
 	want = 1
-	got = len(models.Stage.Astructs)
+	got = len(stage.Astructs)
 
 	if got != want {
 		t.Errorf("got = %d; want %d", got, want)
 	}
 
-	models.Stage.Checkout()
+	stage.Checkout()
 
 	// resets stage
-	models.Stage.Reset()
-	log.Printf("After models.Stage reset, ng of aclass instance %d", len(models.Stage.Astructs))
+	stage.Reset()
+	log.Printf("After stage reset, ng of aclass instance %d", len(stage.Astructs))
 
-	models.Stage.Checkout()
-	log.Printf("After models.Stage checkout, ng of aclass instance %d", len(models.Stage.Astructs))
-	log.Printf("After models.Stage checkout, ng of bclass instance %d", len(models.Stage.Bstructs))
+	stage.Checkout()
+	log.Printf("After stage checkout, ng of aclass instance %d", len(stage.Astructs))
+	log.Printf("After stage checkout, ng of bclass instance %d", len(stage.Bstructs))
 
-	for aclass := range models.Stage.Astructs {
-		log.Printf("After models.Stage checkout, aclass Floatfield value %f", aclass.Floatfield)
+	for aclass := range stage.Astructs {
+		log.Printf("After stage checkout, aclass Floatfield value %f", aclass.Floatfield)
 	}
 
 	// modify association to b on the stage
