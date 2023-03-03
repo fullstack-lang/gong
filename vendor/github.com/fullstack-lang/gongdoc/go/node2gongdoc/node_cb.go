@@ -3,6 +3,8 @@ package node2gongdoc
 import (
 	"fmt"
 	"log"
+	"os"
+	"path/filepath"
 
 	gong_models "github.com/fullstack-lang/gong/go/models"
 	gongdoc_models "github.com/fullstack-lang/gongdoc/go/models"
@@ -58,7 +60,7 @@ func (nodeCb *NodeCB) OnAfterUpdate(
 
 // OnAfterCreate is another callback
 func (nodeCb *NodeCB) OnAfterCreate(
-	stage *gongdoc_models.StageStruct,
+	gongdocStage *gongdoc_models.StageStruct,
 	node *gongdoc_models.Node) {
 
 	log.Println("Node " + node.Name + " is created")
@@ -84,7 +86,7 @@ func (nodeCb *NodeCB) OnAfterCreate(
 		}
 	}
 
-	classdiagram := (&gongdoc_models.Classdiagram{Name: node.Name}).Stage()
+	classdiagram := (&gongdoc_models.Classdiagram{Name: node.Name}).Stage(nodeCb.diagramPackage.Stage_)
 	nodeCb.diagramPackage.Classdiagrams = append(nodeCb.diagramPackage.Classdiagrams, classdiagram)
 	node.IsInEditMode = false
 	node.IsInDrawMode = false
@@ -99,7 +101,34 @@ func (nodeCb *NodeCB) OnAfterCreate(
 	classdiagramImpl.nodeCb = nodeCb
 	node.Impl = classdiagramImpl
 
-	nodeCb.updateNodesStates(stage)
+	filepath := filepath.Join(
+		filepath.Join(classdiagramImpl.nodeCb.diagramPackage.AbsolutePathToDiagramPackage,
+			"../diagrams"),
+		classdiagramImpl.classdiagram.Name) + ".go"
+	file, err := os.Create(filepath)
+	if err != nil {
+		log.Fatal("Cannot open diagram file" + err.Error())
+	}
+	defer file.Close()
+
+	// save the diagram
+	// checkout in order to get the latest version of the diagram before
+	// modifying it updated by the front
+	nodeCb.updateNodesStates(gongdocStage)
+	gongdocStage.Commit()
+
+	// now save the diagram
+	gongdocStage.Checkout()
+	gongdocStage.Unstage()
+	gongdoc_models.StageBranch(gongdocStage, classdiagramImpl.classdiagram)
+
+	gongdoc_models.SetupMapDocLinkRenamingNew(gongdocStage, nodeCb.diagramPackage)
+
+	gongdocStage.Marshall(file, "github.com/fullstack-lang/gongdoc/go/models", "diagrams")
+
+	// restore the original stage
+	gongdocStage.Unstage()
+	gongdocStage.Checkout()
 
 }
 
@@ -121,17 +150,17 @@ func (nodeCb *NodeCB) OnAfterDelete(
 func (nodeCb *NodeCB) FillUpDiagramNodeTree(diagramPackage *gongdoc_models.DiagramPackage) {
 
 	// generate tree of diagrams
-	gongdocTree := (&gongdoc_models.Tree{Name: "gongdoc"}).Stage()
+	gongdocTree := (&gongdoc_models.Tree{Name: "gongdoc"}).Stage(nodeCb.diagramPackage.Stage_)
 
 	// add the root of class diagrams
-	diagramPackageNode := (&gongdoc_models.Node{Name: "class diagrams"}).Stage()
+	diagramPackageNode := (&gongdoc_models.Node{Name: "class diagrams"}).Stage(nodeCb.diagramPackage.Stage_)
 	diagramPackageNode.IsExpanded = true
 	diagramPackageNode.HasAddChildButton = diagramPackage.IsEditable
 	gongdocTree.RootNodes = append(gongdocTree.RootNodes, diagramPackageNode)
 
 	// add one node per class diagram
 	for classdiagram := range *gongdoc_models.GetGongstructInstancesSet[gongdoc_models.Classdiagram]() {
-		node := (&gongdoc_models.Node{Name: classdiagram.Name}).Stage()
+		node := (&gongdoc_models.Node{Name: classdiagram.Name}).Stage(nodeCb.diagramPackage.Stage_)
 
 		node.HasCheckboxButton = true
 		node.HasDeleteButton = true
@@ -163,141 +192,6 @@ func GetNodeBackPointer[T1 gong_models.Gongstruct](gong_instance *T1) (backPoint
 	backPointer = tmp.(gongdoc_models.NodeImplInterface)
 
 	return
-}
-
-func (nodeCb *NodeCB) FillUpTreeOfGongObjects() {
-
-	// set up the gongTree to display elements
-	gongTree := (&gongdoc_models.Tree{Name: "gong"}).Stage()
-	nodeCb.treeOfGongObjects = gongTree
-
-	gongstructRootNode := (&gongdoc_models.Node{Name: "gongstructs"}).Stage()
-	gongstructRootNode.IsExpanded = true
-	gongTree.RootNodes = append(gongTree.RootNodes, gongstructRootNode)
-	for gongStruct := range *gong_models.GetGongstructInstancesSet[gong_models.GongStruct]() {
-
-		nodeGongstruct := (&gongdoc_models.Node{Name: gongStruct.Name}).Stage()
-
-		nodeGongstruct.HasCheckboxButton = true
-		nodeGongstruct.IsExpanded = false
-
-		// set up the back pointer from the shape to the node
-		gongStructImpl := new(GongStructImpl)
-		gongStructImpl.node = nodeGongstruct
-		gongStructImpl.gongStruct = gongStruct
-		gongStructImpl.nodeCb = nodeCb
-		nodeGongstruct.Impl = gongStructImpl
-
-		// append to the tree
-		gongstructRootNode.Children = append(gongstructRootNode.Children, nodeGongstruct)
-
-		SetNodeBackPointer(gongStruct, gongStructImpl)
-
-		for _, field := range gongStruct.Fields {
-			nodeGongField := (&gongdoc_models.Node{Name: field.GetName()}).Stage()
-
-			nodeGongField.HasCheckboxButton = true
-
-			fieldImpl := new(FieldImpl)
-			fieldImpl.node = nodeGongstruct
-			fieldImpl.field = field
-			fieldImpl.nodeCb = nodeCb
-			nodeGongField.Impl = fieldImpl
-
-			// append to tree
-			nodeGongstruct.Children = append(nodeGongstruct.Children, nodeGongField)
-
-			switch fieldReal := field.(type) {
-			case *gong_models.GongBasicField:
-				SetNodeBackPointer(fieldReal, fieldImpl)
-			case *gong_models.GongTimeField:
-				SetNodeBackPointer(fieldReal, fieldImpl)
-			case *gong_models.PointerToGongStructField:
-				SetNodeBackPointer(fieldReal, fieldImpl)
-			case *gong_models.SliceOfPointerToGongStructField:
-				SetNodeBackPointer(fieldReal, fieldImpl)
-			default:
-			}
-		}
-	}
-
-	gongenumRootNode := (&gongdoc_models.Node{Name: "gongenums"}).Stage()
-	gongenumRootNode.IsExpanded = true
-	gongTree.RootNodes = append(gongTree.RootNodes, gongenumRootNode)
-	for gongEnum := range *gong_models.GetGongstructInstancesSet[gong_models.GongEnum]() {
-
-		nodeGongEnum := (&gongdoc_models.Node{Name: gongEnum.Name}).Stage()
-		nodeGongEnum.HasCheckboxButton = true
-		nodeGongEnum.IsExpanded = false
-
-		gongEnumImpl := new(GongEnumImpl)
-		gongEnumImpl.node = nodeGongEnum
-		gongEnumImpl.gongEnum = gongEnum
-		gongEnumImpl.nodeCb = nodeCb
-		nodeGongEnum.Impl = gongEnumImpl
-
-		// append to tree
-		gongenumRootNode.Children = append(gongenumRootNode.Children, nodeGongEnum)
-		SetNodeBackPointer(gongEnum, gongEnumImpl)
-
-		for _, gongEnumValue := range gongEnum.GongEnumValues {
-			nodeGongEnumValue := (&gongdoc_models.Node{Name: gongEnumValue.GetName()}).Stage()
-
-			nodeGongEnumValue.HasCheckboxButton = true
-
-			gongEnumValueImpl := new(GongEnumValueImpl)
-			gongEnumValueImpl.node = nodeGongEnum
-			gongEnumValueImpl.gongEnumValue = gongEnumValue
-			gongEnumValueImpl.nodeCb = nodeCb
-			nodeGongEnumValue.Impl = gongEnumValueImpl
-
-			// append to tree
-			nodeGongEnum.Children = append(nodeGongEnum.Children, nodeGongEnumValue)
-			SetNodeBackPointer(gongEnumValue, gongEnumValueImpl)
-		}
-	}
-
-	gongNotesRootNode := (&gongdoc_models.Node{Name: "notes"}).Stage()
-	gongNotesRootNode.IsExpanded = true
-	gongTree.RootNodes = append(gongTree.RootNodes, gongNotesRootNode)
-	for gongNote := range *gong_models.GetGongstructInstancesSet[gong_models.GongNote]() {
-
-		node := (&gongdoc_models.Node{Name: gongNote.Name}).Stage()
-		node.HasCheckboxButton = true
-
-		node.IsExpanded = true
-
-		gongNoteImpl := new(GongNoteImpl)
-		gongNoteImpl.node = node
-		gongNoteImpl.gongNote = gongNote
-		gongNoteImpl.nodeCb = nodeCb
-		node.Impl = gongNoteImpl
-
-		// append to tree
-		gongNotesRootNode.Children = append(gongNotesRootNode.Children, node)
-
-		SetNodeBackPointer(gongNote, gongNoteImpl)
-
-		for _, gongLink := range gongNote.Links {
-			nodeGongLink := (&gongdoc_models.Node{Name: gongLink.Name}).Stage()
-			nodeGongLink.HasCheckboxButton = true
-
-			gongLinkImpl := new(GongLinkImpl)
-			gongLinkImpl.node = node
-			gongLinkImpl.gongLink = gongLink
-			gongLinkImpl.nodeCb = nodeCb
-			nodeGongLink.Impl = gongLinkImpl
-
-			// append to tree
-			node.Children = append(node.Children, nodeGongLink)
-
-			SetNodeBackPointer(gongLink, gongLinkImpl)
-		}
-	}
-
-	// generate the map to navigate from children to parents
-	fieldName := gongdoc_models.GetAssociationName[gongdoc_models.Node]().Children[0].Name
-	nodeCb.map_Children_Parent = gongdoc_models.GetSliceOfPointersReverseMap[gongdoc_models.Node, gongdoc_models.Node](fieldName)
 }
 
 func (nodeCb *NodeCB) updateNodesStates(stage *gongdoc_models.StageStruct) {

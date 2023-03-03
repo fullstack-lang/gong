@@ -47,11 +47,23 @@ type GongEnumShapeInput struct {
 // default: genericError
 //
 //	200: gongenumshapeDBResponse
-func GetGongEnumShapes(c *gin.Context) {
-	db := orm.BackRepo.BackRepoGongEnumShape.GetDB()
+func (controller *Controller) GetGongEnumShapes(c *gin.Context) {
 
 	// source slice
 	var gongenumshapeDBs []orm.GongEnumShapeDB
+
+	values := c.Request.URL.Query()
+	stackPath := ""
+	if len(values) == 1 {
+		value := values["GONG__StackPath"]
+		if len(value) == 1 {
+			stackPath = value[0]
+			log.Println("GetGongEnumShapes", "GONG__StackPath", stackPath)
+		}
+	}
+	backRepo := controller.Map_BackRepos[stackPath]
+	db := backRepo.BackRepoGongEnumShape.GetDB()
+
 	query := db.Find(&gongenumshapeDBs)
 	if query.Error != nil {
 		var returnError GenericError
@@ -95,8 +107,19 @@ func GetGongEnumShapes(c *gin.Context) {
 //
 //	Responses:
 //	  200: nodeDBResponse
-func PostGongEnumShape(c *gin.Context) {
-	db := orm.BackRepo.BackRepoGongEnumShape.GetDB()
+func (controller *Controller) PostGongEnumShape(c *gin.Context) {
+
+	values := c.Request.URL.Query()
+	stackPath := ""
+	if len(values) == 1 {
+		value := values["GONG__StackPath"]
+		if len(value) == 1 {
+			stackPath = value[0]
+			log.Println("PostGongEnumShapes", "GONG__StackPath", stackPath)
+		}
+	}
+	backRepo := controller.Map_BackRepos[stackPath]
+	db := backRepo.BackRepoGongEnumShape.GetDB()
 
 	// Validate input
 	var input orm.GongEnumShapeAPI
@@ -127,16 +150,16 @@ func PostGongEnumShape(c *gin.Context) {
 	}
 
 	// get an instance (not staged) from DB instance, and call callback function
-	orm.BackRepo.BackRepoGongEnumShape.CheckoutPhaseOneInstance(&gongenumshapeDB)
-	gongenumshape := (*orm.BackRepo.BackRepoGongEnumShape.Map_GongEnumShapeDBID_GongEnumShapePtr)[gongenumshapeDB.ID]
+	backRepo.BackRepoGongEnumShape.CheckoutPhaseOneInstance(&gongenumshapeDB)
+	gongenumshape := (*backRepo.BackRepoGongEnumShape.Map_GongEnumShapeDBID_GongEnumShapePtr)[gongenumshapeDB.ID]
 
 	if gongenumshape != nil {
-		models.AfterCreateFromFront(&models.Stage, gongenumshape)
+		models.AfterCreateFromFront(backRepo.GetStage(), gongenumshape)
 	}
 
 	// a POST is equivalent to a back repo commit increase
 	// (this will be improved with implementation of unit of work design pattern)
-	orm.BackRepo.IncrementPushFromFrontNb()
+	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, gongenumshapeDB)
 }
@@ -151,8 +174,19 @@ func PostGongEnumShape(c *gin.Context) {
 // default: genericError
 //
 //	200: gongenumshapeDBResponse
-func GetGongEnumShape(c *gin.Context) {
-	db := orm.BackRepo.BackRepoGongEnumShape.GetDB()
+func (controller *Controller) GetGongEnumShape(c *gin.Context) {
+
+	values := c.Request.URL.Query()
+	stackPath := ""
+	if len(values) == 1 {
+		value := values["GONG__StackPath"]
+		if len(value) == 1 {
+			stackPath = value[0]
+			log.Println("GetGongEnumShape", "GONG__StackPath", stackPath)
+		}
+	}
+	backRepo := controller.Map_BackRepos[stackPath]
+	db := backRepo.BackRepoGongEnumShape.GetDB()
 
 	// Get gongenumshapeDB in DB
 	var gongenumshapeDB orm.GongEnumShapeDB
@@ -183,8 +217,27 @@ func GetGongEnumShape(c *gin.Context) {
 // default: genericError
 //
 //	200: gongenumshapeDBResponse
-func UpdateGongEnumShape(c *gin.Context) {
-	db := orm.BackRepo.BackRepoGongEnumShape.GetDB()
+func (controller *Controller) UpdateGongEnumShape(c *gin.Context) {
+
+	values := c.Request.URL.Query()
+	stackPath := ""
+	if len(values) == 1 {
+		value := values["GONG__StackPath"]
+		if len(value) == 1 {
+			stackPath = value[0]
+			log.Println("UpdateGongEnumShape", "GONG__StackPath", stackPath)
+		}
+	}
+	backRepo := controller.Map_BackRepos[stackPath]
+	db := backRepo.BackRepoGongEnumShape.GetDB()
+
+	// Validate input
+	var input orm.GongEnumShapeAPI
+	if err := c.ShouldBindJSON(&input); err != nil {
+		log.Println(err.Error())
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
 
 	// Get model if exist
 	var gongenumshapeDB orm.GongEnumShapeDB
@@ -198,14 +251,6 @@ func UpdateGongEnumShape(c *gin.Context) {
 		returnError.Body.Message = query.Error.Error()
 		log.Println(query.Error.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
-		return
-	}
-
-	// Validate input
-	var input orm.GongEnumShapeAPI
-	if err := c.ShouldBindJSON(&input); err != nil {
-		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
@@ -228,16 +273,16 @@ func UpdateGongEnumShape(c *gin.Context) {
 	gongenumshapeDB.CopyBasicFieldsToGongEnumShape(gongenumshapeNew)
 
 	// get stage instance from DB instance, and call callback function
-	gongenumshapeOld := (*orm.BackRepo.BackRepoGongEnumShape.Map_GongEnumShapeDBID_GongEnumShapePtr)[gongenumshapeDB.ID]
+	gongenumshapeOld := (*backRepo.BackRepoGongEnumShape.Map_GongEnumShapeDBID_GongEnumShapePtr)[gongenumshapeDB.ID]
 	if gongenumshapeOld != nil {
-		models.AfterUpdateFromFront(&models.Stage, gongenumshapeOld, gongenumshapeNew)
+		models.AfterUpdateFromFront(backRepo.GetStage(), gongenumshapeOld, gongenumshapeNew)
 	}
 
 	// an UPDATE generates a back repo commit increase
 	// (this will be improved with implementation of unit of work design pattern)
 	// in some cases, with the marshalling of the stage, this operation might
 	// generates a checkout
-	orm.BackRepo.IncrementPushFromFrontNb()
+	backRepo.IncrementPushFromFrontNb()
 
 	// return status OK with the marshalling of the the gongenumshapeDB
 	c.JSON(http.StatusOK, gongenumshapeDB)
@@ -252,8 +297,19 @@ func UpdateGongEnumShape(c *gin.Context) {
 // default: genericError
 //
 //	200: gongenumshapeDBResponse
-func DeleteGongEnumShape(c *gin.Context) {
-	db := orm.BackRepo.BackRepoGongEnumShape.GetDB()
+func (controller *Controller) DeleteGongEnumShape(c *gin.Context) {
+
+	values := c.Request.URL.Query()
+	stackPath := ""
+	if len(values) == 1 {
+		value := values["GONG__StackPath"]
+		if len(value) == 1 {
+			stackPath = value[0]
+			log.Println("DeleteGongEnumShape", "GONG__StackPath", stackPath)
+		}
+	}
+	backRepo := controller.Map_BackRepos[stackPath]
+	db := backRepo.BackRepoGongEnumShape.GetDB()
 
 	// Get model if exist
 	var gongenumshapeDB orm.GongEnumShapeDB
@@ -274,14 +330,14 @@ func DeleteGongEnumShape(c *gin.Context) {
 	gongenumshapeDB.CopyBasicFieldsToGongEnumShape(gongenumshapeDeleted)
 
 	// get stage instance from DB instance, and call callback function
-	gongenumshapeStaged := (*orm.BackRepo.BackRepoGongEnumShape.Map_GongEnumShapeDBID_GongEnumShapePtr)[gongenumshapeDB.ID]
+	gongenumshapeStaged := (*backRepo.BackRepoGongEnumShape.Map_GongEnumShapeDBID_GongEnumShapePtr)[gongenumshapeDB.ID]
 	if gongenumshapeStaged != nil {
-		models.AfterDeleteFromFront(&models.Stage, gongenumshapeStaged, gongenumshapeDeleted)
+		models.AfterDeleteFromFront(backRepo.GetStage(), gongenumshapeStaged, gongenumshapeDeleted)
 	}
 
 	// a DELETE generates a back repo commit increase
 	// (this will be improved with implementation of unit of work design pattern)
-	orm.BackRepo.IncrementPushFromFrontNb()
+	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, gin.H{"data": true})
 }

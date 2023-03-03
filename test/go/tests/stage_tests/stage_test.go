@@ -3,6 +3,7 @@ package stage_test
 import (
 	"testing"
 
+	"github.com/fullstack-lang/gong/test/go/fullstack"
 	"github.com/fullstack-lang/gong/test/go/models"
 )
 
@@ -12,7 +13,9 @@ import (
 // through a callback that is defined in the "models" package
 func TestStageCount(t *testing.T) {
 
-	bclass1 := (&models.Bstruct{Name: "B1"}).Stage()
+	stage, _ := fullstack.NewStackInstance(nil, "")
+
+	bclass1 := (&models.Bstruct{Name: "B1"}).Stage(stage)
 
 	aclass1 := (&models.Astruct{
 		Name:                "A1",
@@ -26,9 +29,6 @@ func TestStageCount(t *testing.T) {
 	})
 	_ = aclass1
 
-	stage := models.Stage
-	_ = stage
-
 	// empty stage
 	want := 0
 	got := len(stage.Astructs)
@@ -37,7 +37,7 @@ func TestStageCount(t *testing.T) {
 	}
 
 	// stage one instance
-	aclass1.Stage()
+	aclass1.Stage(stage)
 
 	want = 1
 	got = len(stage.Astructs)
@@ -46,7 +46,7 @@ func TestStageCount(t *testing.T) {
 	}
 
 	// stage it again
-	aclass1.Stage()
+	aclass1.Stage(stage)
 
 	want = 1
 	got = len(stage.Astructs)
@@ -55,7 +55,7 @@ func TestStageCount(t *testing.T) {
 	}
 
 	// unstage it
-	aclass1.Unstage()
+	aclass1.Unstage(stage)
 
 	want = 0
 	got = len(stage.Astructs)
@@ -64,7 +64,7 @@ func TestStageCount(t *testing.T) {
 	}
 
 	// stage it again
-	aclass1.Stage()
+	aclass1.Stage(stage)
 
 	want = 1
 	got = len(stage.Astructs)

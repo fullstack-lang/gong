@@ -11,15 +11,15 @@ type GongStructShapeCallbacksSingloton struct {
 }
 
 func (gongStructShapeCallbacksSingloton *GongStructShapeCallbacksSingloton) OnAfterUpdate(
-	stage *gongdoc_models.StageStruct,
+	gongdocStage *gongdoc_models.StageStruct,
 	stagedGongStructShape, frontGongStructShape *gongdoc_models.GongStructShape) {
 
 	if stagedGongStructShape.IsSelected != frontGongStructShape.IsSelected {
 
 		// reset the IsSelected to false
-		stagedGongStructShape.Checkout()
+		stagedGongStructShape.Checkout(gongdocStage)
 		stagedGongStructShape.IsSelected = false
-		stagedGongStructShape.Commit()
+		stagedGongStructShape.Commit(gongdocStage)
 
 		log.Println("UML Shape selected ", stagedGongStructShape.Identifier)
 		if gongStructShapeCallbacksSingloton.GongStructShapeCallback != nil {

@@ -5,18 +5,17 @@ import (
 	"testing"
 	"time"
 
-	"github.com/fullstack-lang/gong/go/fullstack"
+	"github.com/fullstack-lang/gong/test/go/fullstack"
 	"github.com/fullstack-lang/gong/test/go/models"
 	"github.com/fullstack-lang/gong/test/go/orm"
 )
 
 func TestXLBackup(t *testing.T) {
 
-	// setup GORM
-	fullstack.Init(nil)
+	stage, _ := fullstack.NewStackInstance(nil, "")
 
-	bclass1 := (&models.Bstruct{Name: "B1"}).Stage().Commit()
-	bclass2 := (&models.Bstruct{Name: "B2"}).Stage().Commit()
+	bclass1 := (&models.Bstruct{Name: "B1"}).Stage(stage).Commit(stage)
+	bclass2 := (&models.Bstruct{Name: "B2"}).Stage(stage).Commit(stage)
 
 	aclass1 := (&models.Astruct{
 		Name:                "A1",
@@ -28,7 +27,7 @@ func TestXLBackup(t *testing.T) {
 		Booleanfield:        true,
 		Anotherbooleanfield: true,
 		Associationtob:      bclass1,
-	}).Stage().Commit()
+	}).Stage(stage).Commit(stage)
 
 	// test renumbering
 	aclass1_bis := (&models.Astruct{
@@ -39,9 +38,9 @@ func TestXLBackup(t *testing.T) {
 		Booleanfield:        true,
 		Anotherbooleanfield: true,
 		Associationtob:      bclass1,
-	}).Stage().Commit()
+	}).Stage(stage).Commit(stage)
 	_ = aclass1_bis
-	aclass1_bis.Unstage()
+	aclass1_bis.Unstage(stage)
 
 	aclass2 := (&models.Astruct{
 		Name:                "A2",
@@ -50,7 +49,7 @@ func TestXLBackup(t *testing.T) {
 		Anotherbooleanfield: true,
 		Associationtob:      bclass1,
 	})
-	aclass2.Stage().Commit()
+	aclass2.Stage(stage).Commit(stage)
 
 	// order is important, since it is stored in the index
 	aclass1.Anarrayofb = append(aclass1.Anarrayofb, bclass2)

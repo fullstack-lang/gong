@@ -139,8 +139,8 @@ map[GongMarshallFilePerStructSubTemplateId]string{
 `,
 	GongMarshallFileFieldSubTmplSetBasicFieldStringDocLink: `
 		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}",
-			fmt.Sprintf("\n\t// comment added to overcome the problem with the comment map association\n\n\t//gong:ident [%s]\n\t{{Identifier}}",
+		setValueField = strings.ReplaceAll(setValueField, "\n\t{{Identifier}}",
+			fmt.Sprintf("\n\n\t// comment added to overcome the problem with the comment map association\n\n\t//gong:ident [%s]\n\t{{Identifier}}",
 				string({{structname}}.{{FieldName}})))
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
 		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "{{FieldName}}")

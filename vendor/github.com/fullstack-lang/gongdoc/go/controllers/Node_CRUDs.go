@@ -47,11 +47,23 @@ type NodeInput struct {
 // default: genericError
 //
 //	200: nodeDBResponse
-func GetNodes(c *gin.Context) {
-	db := orm.BackRepo.BackRepoNode.GetDB()
+func (controller *Controller) GetNodes(c *gin.Context) {
 
 	// source slice
 	var nodeDBs []orm.NodeDB
+
+	values := c.Request.URL.Query()
+	stackPath := ""
+	if len(values) == 1 {
+		value := values["GONG__StackPath"]
+		if len(value) == 1 {
+			stackPath = value[0]
+			log.Println("GetNodes", "GONG__StackPath", stackPath)
+		}
+	}
+	backRepo := controller.Map_BackRepos[stackPath]
+	db := backRepo.BackRepoNode.GetDB()
+
 	query := db.Find(&nodeDBs)
 	if query.Error != nil {
 		var returnError GenericError
@@ -95,8 +107,19 @@ func GetNodes(c *gin.Context) {
 //
 //	Responses:
 //	  200: nodeDBResponse
-func PostNode(c *gin.Context) {
-	db := orm.BackRepo.BackRepoNode.GetDB()
+func (controller *Controller) PostNode(c *gin.Context) {
+
+	values := c.Request.URL.Query()
+	stackPath := ""
+	if len(values) == 1 {
+		value := values["GONG__StackPath"]
+		if len(value) == 1 {
+			stackPath = value[0]
+			log.Println("PostNodes", "GONG__StackPath", stackPath)
+		}
+	}
+	backRepo := controller.Map_BackRepos[stackPath]
+	db := backRepo.BackRepoNode.GetDB()
 
 	// Validate input
 	var input orm.NodeAPI
@@ -127,16 +150,16 @@ func PostNode(c *gin.Context) {
 	}
 
 	// get an instance (not staged) from DB instance, and call callback function
-	orm.BackRepo.BackRepoNode.CheckoutPhaseOneInstance(&nodeDB)
-	node := (*orm.BackRepo.BackRepoNode.Map_NodeDBID_NodePtr)[nodeDB.ID]
+	backRepo.BackRepoNode.CheckoutPhaseOneInstance(&nodeDB)
+	node := (*backRepo.BackRepoNode.Map_NodeDBID_NodePtr)[nodeDB.ID]
 
 	if node != nil {
-		models.AfterCreateFromFront(&models.Stage, node)
+		models.AfterCreateFromFront(backRepo.GetStage(), node)
 	}
 
 	// a POST is equivalent to a back repo commit increase
 	// (this will be improved with implementation of unit of work design pattern)
-	orm.BackRepo.IncrementPushFromFrontNb()
+	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, nodeDB)
 }
@@ -151,8 +174,19 @@ func PostNode(c *gin.Context) {
 // default: genericError
 //
 //	200: nodeDBResponse
-func GetNode(c *gin.Context) {
-	db := orm.BackRepo.BackRepoNode.GetDB()
+func (controller *Controller) GetNode(c *gin.Context) {
+
+	values := c.Request.URL.Query()
+	stackPath := ""
+	if len(values) == 1 {
+		value := values["GONG__StackPath"]
+		if len(value) == 1 {
+			stackPath = value[0]
+			log.Println("GetNode", "GONG__StackPath", stackPath)
+		}
+	}
+	backRepo := controller.Map_BackRepos[stackPath]
+	db := backRepo.BackRepoNode.GetDB()
 
 	// Get nodeDB in DB
 	var nodeDB orm.NodeDB
@@ -183,8 +217,27 @@ func GetNode(c *gin.Context) {
 // default: genericError
 //
 //	200: nodeDBResponse
-func UpdateNode(c *gin.Context) {
-	db := orm.BackRepo.BackRepoNode.GetDB()
+func (controller *Controller) UpdateNode(c *gin.Context) {
+
+	values := c.Request.URL.Query()
+	stackPath := ""
+	if len(values) == 1 {
+		value := values["GONG__StackPath"]
+		if len(value) == 1 {
+			stackPath = value[0]
+			log.Println("UpdateNode", "GONG__StackPath", stackPath)
+		}
+	}
+	backRepo := controller.Map_BackRepos[stackPath]
+	db := backRepo.BackRepoNode.GetDB()
+
+	// Validate input
+	var input orm.NodeAPI
+	if err := c.ShouldBindJSON(&input); err != nil {
+		log.Println(err.Error())
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
 
 	// Get model if exist
 	var nodeDB orm.NodeDB
@@ -198,14 +251,6 @@ func UpdateNode(c *gin.Context) {
 		returnError.Body.Message = query.Error.Error()
 		log.Println(query.Error.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
-		return
-	}
-
-	// Validate input
-	var input orm.NodeAPI
-	if err := c.ShouldBindJSON(&input); err != nil {
-		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
@@ -228,16 +273,16 @@ func UpdateNode(c *gin.Context) {
 	nodeDB.CopyBasicFieldsToNode(nodeNew)
 
 	// get stage instance from DB instance, and call callback function
-	nodeOld := (*orm.BackRepo.BackRepoNode.Map_NodeDBID_NodePtr)[nodeDB.ID]
+	nodeOld := (*backRepo.BackRepoNode.Map_NodeDBID_NodePtr)[nodeDB.ID]
 	if nodeOld != nil {
-		models.AfterUpdateFromFront(&models.Stage, nodeOld, nodeNew)
+		models.AfterUpdateFromFront(backRepo.GetStage(), nodeOld, nodeNew)
 	}
 
 	// an UPDATE generates a back repo commit increase
 	// (this will be improved with implementation of unit of work design pattern)
 	// in some cases, with the marshalling of the stage, this operation might
 	// generates a checkout
-	orm.BackRepo.IncrementPushFromFrontNb()
+	backRepo.IncrementPushFromFrontNb()
 
 	// return status OK with the marshalling of the the nodeDB
 	c.JSON(http.StatusOK, nodeDB)
@@ -252,8 +297,19 @@ func UpdateNode(c *gin.Context) {
 // default: genericError
 //
 //	200: nodeDBResponse
-func DeleteNode(c *gin.Context) {
-	db := orm.BackRepo.BackRepoNode.GetDB()
+func (controller *Controller) DeleteNode(c *gin.Context) {
+
+	values := c.Request.URL.Query()
+	stackPath := ""
+	if len(values) == 1 {
+		value := values["GONG__StackPath"]
+		if len(value) == 1 {
+			stackPath = value[0]
+			log.Println("DeleteNode", "GONG__StackPath", stackPath)
+		}
+	}
+	backRepo := controller.Map_BackRepos[stackPath]
+	db := backRepo.BackRepoNode.GetDB()
 
 	// Get model if exist
 	var nodeDB orm.NodeDB
@@ -274,14 +330,14 @@ func DeleteNode(c *gin.Context) {
 	nodeDB.CopyBasicFieldsToNode(nodeDeleted)
 
 	// get stage instance from DB instance, and call callback function
-	nodeStaged := (*orm.BackRepo.BackRepoNode.Map_NodeDBID_NodePtr)[nodeDB.ID]
+	nodeStaged := (*backRepo.BackRepoNode.Map_NodeDBID_NodePtr)[nodeDB.ID]
 	if nodeStaged != nil {
-		models.AfterDeleteFromFront(&models.Stage, nodeStaged, nodeDeleted)
+		models.AfterDeleteFromFront(backRepo.GetStage(), nodeStaged, nodeDeleted)
 	}
 
 	// a DELETE generates a back repo commit increase
 	// (this will be improved with implementation of unit of work design pattern)
-	orm.BackRepo.IncrementPushFromFrontNb()
+	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, gin.H{"data": true})
 }

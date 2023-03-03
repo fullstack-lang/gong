@@ -108,6 +108,13 @@ type BackRepoModelPkgStruct struct {
 	Map_ModelPkgDBID_ModelPkgPtr *map[uint]*models.ModelPkg
 
 	db *gorm.DB
+
+	stage *models.StageStruct
+}
+
+func (backRepoModelPkg *BackRepoModelPkgStruct) GetStage() (stage *models.StageStruct) {
+	stage = backRepoModelPkg.stage
+	return
 }
 
 func (backRepoModelPkg *BackRepoModelPkgStruct) GetDB() *gorm.DB {
@@ -122,7 +129,7 @@ func (backRepoModelPkg *BackRepoModelPkgStruct) GetModelPkgDBFromModelPkgPtr(mod
 }
 
 // BackRepoModelPkg.Init set up the BackRepo of the ModelPkg
-func (backRepoModelPkg *BackRepoModelPkgStruct) Init(db *gorm.DB) (Error error) {
+func (backRepoModelPkg *BackRepoModelPkgStruct) Init(stage *models.StageStruct, db *gorm.DB) (Error error) {
 
 	if backRepoModelPkg.Map_ModelPkgDBID_ModelPkgPtr != nil {
 		err := errors.New("In Init, backRepoModelPkg.Map_ModelPkgDBID_ModelPkgPtr should be nil")
@@ -149,6 +156,7 @@ func (backRepoModelPkg *BackRepoModelPkgStruct) Init(db *gorm.DB) (Error error) 
 	backRepoModelPkg.Map_ModelPkgPtr_ModelPkgDBID = &tmpID
 
 	backRepoModelPkg.db = db
+	backRepoModelPkg.stage = stage
 	return
 }
 
@@ -267,7 +275,7 @@ func (backRepoModelPkg *BackRepoModelPkgStruct) CheckoutPhaseOne() (Error error)
 	// list of instances to be removed
 	// start from the initial map on the stage and remove instances that have been checked out
 	modelpkgInstancesToBeRemovedFromTheStage := make(map[*models.ModelPkg]any)
-	for key, value := range models.Stage.ModelPkgs {
+	for key, value := range backRepoModelPkg.stage.ModelPkgs {
 		modelpkgInstancesToBeRemovedFromTheStage[key] = value
 	}
 
@@ -285,7 +293,7 @@ func (backRepoModelPkg *BackRepoModelPkgStruct) CheckoutPhaseOne() (Error error)
 
 	// remove from stage and back repo's 3 maps all modelpkgs that are not in the checkout
 	for modelpkg := range modelpkgInstancesToBeRemovedFromTheStage {
-		modelpkg.Unstage()
+		modelpkg.Unstage(backRepoModelPkg.GetStage())
 
 		// remove instance from the back repo 3 maps
 		modelpkgID := (*backRepoModelPkg.Map_ModelPkgPtr_ModelPkgDBID)[modelpkg]
@@ -310,12 +318,12 @@ func (backRepoModelPkg *BackRepoModelPkgStruct) CheckoutPhaseOneInstance(modelpk
 
 		// append model store with the new element
 		modelpkg.Name = modelpkgDB.Name_Data.String
-		modelpkg.Stage()
+		modelpkg.Stage(backRepoModelPkg.GetStage())
 	}
 	modelpkgDB.CopyBasicFieldsToModelPkg(modelpkg)
 
 	// in some cases, the instance might have been unstaged. It is necessary to stage it again
-	modelpkg.Stage()
+	modelpkg.Stage(backRepoModelPkg.GetStage())
 
 	// preserve pointer to modelpkgDB. Otherwise, pointer will is recycled and the map of pointers
 	// Map_ModelPkgDBID_ModelPkgDB)[modelpkgDB hold variable pointers

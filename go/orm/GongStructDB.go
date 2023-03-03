@@ -102,6 +102,13 @@ type BackRepoGongStructStruct struct {
 	Map_GongStructDBID_GongStructPtr *map[uint]*models.GongStruct
 
 	db *gorm.DB
+
+	stage *models.StageStruct
+}
+
+func (backRepoGongStruct *BackRepoGongStructStruct) GetStage() (stage *models.StageStruct) {
+	stage = backRepoGongStruct.stage
+	return
 }
 
 func (backRepoGongStruct *BackRepoGongStructStruct) GetDB() *gorm.DB {
@@ -116,7 +123,7 @@ func (backRepoGongStruct *BackRepoGongStructStruct) GetGongStructDBFromGongStruc
 }
 
 // BackRepoGongStruct.Init set up the BackRepo of the GongStruct
-func (backRepoGongStruct *BackRepoGongStructStruct) Init(db *gorm.DB) (Error error) {
+func (backRepoGongStruct *BackRepoGongStructStruct) Init(stage *models.StageStruct, db *gorm.DB) (Error error) {
 
 	if backRepoGongStruct.Map_GongStructDBID_GongStructPtr != nil {
 		err := errors.New("In Init, backRepoGongStruct.Map_GongStructDBID_GongStructPtr should be nil")
@@ -143,6 +150,7 @@ func (backRepoGongStruct *BackRepoGongStructStruct) Init(db *gorm.DB) (Error err
 	backRepoGongStruct.Map_GongStructPtr_GongStructDBID = &tmpID
 
 	backRepoGongStruct.db = db
+	backRepoGongStruct.stage = stage
 	return
 }
 
@@ -337,7 +345,7 @@ func (backRepoGongStruct *BackRepoGongStructStruct) CheckoutPhaseOne() (Error er
 	// list of instances to be removed
 	// start from the initial map on the stage and remove instances that have been checked out
 	gongstructInstancesToBeRemovedFromTheStage := make(map[*models.GongStruct]any)
-	for key, value := range models.Stage.GongStructs {
+	for key, value := range backRepoGongStruct.stage.GongStructs {
 		gongstructInstancesToBeRemovedFromTheStage[key] = value
 	}
 
@@ -355,7 +363,7 @@ func (backRepoGongStruct *BackRepoGongStructStruct) CheckoutPhaseOne() (Error er
 
 	// remove from stage and back repo's 3 maps all gongstructs that are not in the checkout
 	for gongstruct := range gongstructInstancesToBeRemovedFromTheStage {
-		gongstruct.Unstage()
+		gongstruct.Unstage(backRepoGongStruct.GetStage())
 
 		// remove instance from the back repo 3 maps
 		gongstructID := (*backRepoGongStruct.Map_GongStructPtr_GongStructDBID)[gongstruct]
@@ -380,12 +388,12 @@ func (backRepoGongStruct *BackRepoGongStructStruct) CheckoutPhaseOneInstance(gon
 
 		// append model store with the new element
 		gongstruct.Name = gongstructDB.Name_Data.String
-		gongstruct.Stage()
+		gongstruct.Stage(backRepoGongStruct.GetStage())
 	}
 	gongstructDB.CopyBasicFieldsToGongStruct(gongstruct)
 
 	// in some cases, the instance might have been unstaged. It is necessary to stage it again
-	gongstruct.Stage()
+	gongstruct.Stage(backRepoGongStruct.GetStage())
 
 	// preserve pointer to gongstructDB. Otherwise, pointer will is recycled and the map of pointers
 	// Map_GongStructDBID_GongStructDB)[gongstructDB hold variable pointers

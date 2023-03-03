@@ -41,6 +41,8 @@ func IsStaged[Type Gongstruct](stage *StageStruct, instance *Type) (ok bool) {
 	case *SliceOfPointerToGongStructField:
 		ok = stage.IsStagedSliceOfPointerToGongStructField(target)
 
+	default:
+		_ = target
 	}
 	return
 }
@@ -175,6 +177,8 @@ func StageBranch[Type Gongstruct](stage *StageStruct, instance *Type) {
 	case *SliceOfPointerToGongStructField:
 		stage.StageBranchSliceOfPointerToGongStructField(target)
 
+	default:
+		_ = target
 	}
 }
 
@@ -186,7 +190,7 @@ func (stage *StageStruct) StageBranchGongBasicField(gongbasicfield *GongBasicFie
 		return
 	}
 
-	gongbasicfield.Stage()
+	gongbasicfield.Stage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
 	if gongbasicfield.GongEnum != nil {
@@ -204,7 +208,7 @@ func (stage *StageStruct) StageBranchGongEnum(gongenum *GongEnum) {
 		return
 	}
 
-	gongenum.Stage()
+	gongenum.Stage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -222,7 +226,7 @@ func (stage *StageStruct) StageBranchGongEnumValue(gongenumvalue *GongEnumValue)
 		return
 	}
 
-	gongenumvalue.Stage()
+	gongenumvalue.Stage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -237,7 +241,7 @@ func (stage *StageStruct) StageBranchGongLink(gonglink *GongLink) {
 		return
 	}
 
-	gonglink.Stage()
+	gonglink.Stage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -252,7 +256,7 @@ func (stage *StageStruct) StageBranchGongNote(gongnote *GongNote) {
 		return
 	}
 
-	gongnote.Stage()
+	gongnote.Stage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -270,7 +274,7 @@ func (stage *StageStruct) StageBranchGongStruct(gongstruct *GongStruct) {
 		return
 	}
 
-	gongstruct.Stage()
+	gongstruct.Stage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -297,7 +301,7 @@ func (stage *StageStruct) StageBranchGongTimeField(gongtimefield *GongTimeField)
 		return
 	}
 
-	gongtimefield.Stage()
+	gongtimefield.Stage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -312,7 +316,7 @@ func (stage *StageStruct) StageBranchMeta(meta *Meta) {
 		return
 	}
 
-	meta.Stage()
+	meta.Stage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -330,7 +334,7 @@ func (stage *StageStruct) StageBranchMetaReference(metareference *MetaReference)
 		return
 	}
 
-	metareference.Stage()
+	metareference.Stage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -345,7 +349,7 @@ func (stage *StageStruct) StageBranchModelPkg(modelpkg *ModelPkg) {
 		return
 	}
 
-	modelpkg.Stage()
+	modelpkg.Stage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -360,7 +364,7 @@ func (stage *StageStruct) StageBranchPointerToGongStructField(pointertogongstruc
 		return
 	}
 
-	pointertogongstructfield.Stage()
+	pointertogongstructfield.Stage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
 	if pointertogongstructfield.GongStruct != nil {
@@ -378,7 +382,7 @@ func (stage *StageStruct) StageBranchSliceOfPointerToGongStructField(sliceofpoin
 		return
 	}
 
-	sliceofpointertogongstructfield.Stage()
+	sliceofpointertogongstructfield.Stage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
 	if sliceofpointertogongstructfield.GongStruct != nil {
@@ -434,6 +438,8 @@ func UnstageBranch[Type Gongstruct](stage *StageStruct, instance *Type) {
 	case *SliceOfPointerToGongStructField:
 		stage.UnstageBranchSliceOfPointerToGongStructField(target)
 
+	default:
+		_ = target
 	}
 }
 
@@ -445,7 +451,7 @@ func (stage *StageStruct) UnstageBranchGongBasicField(gongbasicfield *GongBasicF
 		return
 	}
 
-	gongbasicfield.Unstage()
+	gongbasicfield.Unstage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
 	if gongbasicfield.GongEnum != nil {
@@ -463,7 +469,7 @@ func (stage *StageStruct) UnstageBranchGongEnum(gongenum *GongEnum) {
 		return
 	}
 
-	gongenum.Unstage()
+	gongenum.Unstage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -481,7 +487,7 @@ func (stage *StageStruct) UnstageBranchGongEnumValue(gongenumvalue *GongEnumValu
 		return
 	}
 
-	gongenumvalue.Unstage()
+	gongenumvalue.Unstage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -496,7 +502,7 @@ func (stage *StageStruct) UnstageBranchGongLink(gonglink *GongLink) {
 		return
 	}
 
-	gonglink.Unstage()
+	gonglink.Unstage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -511,7 +517,7 @@ func (stage *StageStruct) UnstageBranchGongNote(gongnote *GongNote) {
 		return
 	}
 
-	gongnote.Unstage()
+	gongnote.Unstage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -529,7 +535,7 @@ func (stage *StageStruct) UnstageBranchGongStruct(gongstruct *GongStruct) {
 		return
 	}
 
-	gongstruct.Unstage()
+	gongstruct.Unstage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -556,7 +562,7 @@ func (stage *StageStruct) UnstageBranchGongTimeField(gongtimefield *GongTimeFiel
 		return
 	}
 
-	gongtimefield.Unstage()
+	gongtimefield.Unstage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -571,7 +577,7 @@ func (stage *StageStruct) UnstageBranchMeta(meta *Meta) {
 		return
 	}
 
-	meta.Unstage()
+	meta.Unstage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -589,7 +595,7 @@ func (stage *StageStruct) UnstageBranchMetaReference(metareference *MetaReferenc
 		return
 	}
 
-	metareference.Unstage()
+	metareference.Unstage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -604,7 +610,7 @@ func (stage *StageStruct) UnstageBranchModelPkg(modelpkg *ModelPkg) {
 		return
 	}
 
-	modelpkg.Unstage()
+	modelpkg.Unstage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -619,7 +625,7 @@ func (stage *StageStruct) UnstageBranchPointerToGongStructField(pointertogongstr
 		return
 	}
 
-	pointertogongstructfield.Unstage()
+	pointertogongstructfield.Unstage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
 	if pointertogongstructfield.GongStruct != nil {
@@ -637,7 +643,7 @@ func (stage *StageStruct) UnstageBranchSliceOfPointerToGongStructField(sliceofpo
 		return
 	}
 
-	sliceofpointertogongstructfield.Unstage()
+	sliceofpointertogongstructfield.Unstage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
 	if sliceofpointertogongstructfield.GongStruct != nil {

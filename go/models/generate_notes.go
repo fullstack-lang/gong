@@ -62,7 +62,7 @@ func (modelPkg *ModelPkg) GenerateDocs(docPackage *doc.Package) {
 								Name:       docLink.Name,
 								Recv:       docLink.Recv,
 								ImportPath: docLink.ImportPath,
-							}).Stage()
+							}).Stage(modelPkg.Stage_)
 
 							gongNote.Links = append(gongNote.Links, link)
 						}

@@ -27,10 +27,10 @@ var map_DocLink_Identifier map[string]any = map[string]any{
 }
 
 // stageInjection will stage objects of database "stage"
-func stageInjection2() {
+func stageInjection2(stage *models.StageStruct) {
 
 	// Declarations of staged instances of Astruct
-	__Astruct__000000_A1 := (&models.Astruct{Name: `A1`}).Stage()
+	__Astruct__000000_A1 := (&models.Astruct{Name: `A1`}).Stage(stage)
 
 	__Astruct__000000_A1.Name = "Foo"
 

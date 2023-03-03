@@ -132,6 +132,13 @@ type BackRepoFieldStruct struct {
 	Map_FieldDBID_FieldPtr *map[uint]*models.Field
 
 	db *gorm.DB
+
+	stage *models.StageStruct
+}
+
+func (backRepoField *BackRepoFieldStruct) GetStage() (stage *models.StageStruct) {
+	stage = backRepoField.stage
+	return
 }
 
 func (backRepoField *BackRepoFieldStruct) GetDB() *gorm.DB {
@@ -146,7 +153,7 @@ func (backRepoField *BackRepoFieldStruct) GetFieldDBFromFieldPtr(field *models.F
 }
 
 // BackRepoField.Init set up the BackRepo of the Field
-func (backRepoField *BackRepoFieldStruct) Init(db *gorm.DB) (Error error) {
+func (backRepoField *BackRepoFieldStruct) Init(stage *models.StageStruct, db *gorm.DB) (Error error) {
 
 	if backRepoField.Map_FieldDBID_FieldPtr != nil {
 		err := errors.New("In Init, backRepoField.Map_FieldDBID_FieldPtr should be nil")
@@ -173,6 +180,7 @@ func (backRepoField *BackRepoFieldStruct) Init(db *gorm.DB) (Error error) {
 	backRepoField.Map_FieldPtr_FieldDBID = &tmpID
 
 	backRepoField.db = db
+	backRepoField.stage = stage
 	return
 }
 
@@ -291,7 +299,7 @@ func (backRepoField *BackRepoFieldStruct) CheckoutPhaseOne() (Error error) {
 	// list of instances to be removed
 	// start from the initial map on the stage and remove instances that have been checked out
 	fieldInstancesToBeRemovedFromTheStage := make(map[*models.Field]any)
-	for key, value := range models.Stage.Fields {
+	for key, value := range backRepoField.stage.Fields {
 		fieldInstancesToBeRemovedFromTheStage[key] = value
 	}
 
@@ -309,7 +317,7 @@ func (backRepoField *BackRepoFieldStruct) CheckoutPhaseOne() (Error error) {
 
 	// remove from stage and back repo's 3 maps all fields that are not in the checkout
 	for field := range fieldInstancesToBeRemovedFromTheStage {
-		field.Unstage()
+		field.Unstage(backRepoField.GetStage())
 
 		// remove instance from the back repo 3 maps
 		fieldID := (*backRepoField.Map_FieldPtr_FieldDBID)[field]
@@ -334,12 +342,12 @@ func (backRepoField *BackRepoFieldStruct) CheckoutPhaseOneInstance(fieldDB *Fiel
 
 		// append model store with the new element
 		field.Name = fieldDB.Name_Data.String
-		field.Stage()
+		field.Stage(backRepoField.GetStage())
 	}
 	fieldDB.CopyBasicFieldsToField(field)
 
 	// in some cases, the instance might have been unstaged. It is necessary to stage it again
-	field.Stage()
+	field.Stage(backRepoField.GetStage())
 
 	// preserve pointer to fieldDB. Otherwise, pointer will is recycled and the map of pointers
 	// Map_FieldDBID_FieldDB)[fieldDB hold variable pointers

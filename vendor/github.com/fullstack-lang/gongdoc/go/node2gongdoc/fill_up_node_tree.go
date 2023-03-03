@@ -1,8 +1,6 @@
 package node2gongdoc
 
 import (
-	"log"
-
 	gongdoc_models "github.com/fullstack-lang/gongdoc/go/models"
 )
 
@@ -21,6 +19,4 @@ func FillUpNodeTree(diagramPackage *gongdoc_models.DiagramPackage) {
 	gongdoc_models.Stage.OnAfterNodeUpdateCallback = nodeCb
 	gongdoc_models.Stage.OnAfterNodeCreateCallback = nodeCb
 	gongdoc_models.Stage.OnAfterNodeDeleteCallback = nodeCb
-
-	log.Printf("Parse found %d diagrams\n", len(diagramPackage.Classdiagrams))
 }

@@ -13,16 +13,16 @@ type GongNoteImpl struct {
 }
 
 func (gongNoteImpl *GongNoteImpl) OnAfterUpdate(
-	stage *gongdoc_models.StageStruct,
+	gongdocStage *gongdoc_models.StageStruct,
 	stagedNode, frontNode *gongdoc_models.Node) {
 
 	classdiagram := gongNoteImpl.nodeCb.GetSelectedClassdiagram()
 
 	// adding a note shape
 	if !stagedNode.IsChecked && frontNode.IsChecked {
-		stage.Checkout()
+		gongdocStage.Checkout()
 
-		noteShape := (&gongdoc_models.NoteShape{Name: stagedNode.Name}).Stage()
+		noteShape := (&gongdoc_models.NoteShape{Name: stagedNode.Name}).Stage(gongdocStage)
 
 		mapOfGongNotes := *gong_models.GetGongstructInstancesMap[gong_models.GongNote]()
 
@@ -45,7 +45,7 @@ func (gongNoteImpl *GongNoteImpl) OnAfterUpdate(
 
 	// suppression a note
 	if stagedNode.IsChecked && !frontNode.IsChecked {
-		stage.Checkout()
+		gongdocStage.Checkout()
 		foundNote := false
 		var noteShape *gongdoc_models.NoteShape
 		var _noteShape *gongdoc_models.NoteShape
@@ -63,11 +63,11 @@ func (gongNoteImpl *GongNoteImpl) OnAfterUpdate(
 
 		// remove the links of the note shape
 		for _, noteLink := range noteShape.NoteShapeLinks {
-			noteLink.Unstage()
+			noteLink.Unstage(gongdocStage)
 			noteShape.NoteShapeLinks = remove(noteShape.NoteShapeLinks, noteLink)
 		}
 		classdiagram.NoteShapes = remove(classdiagram.NoteShapes, noteShape)
-		noteShape.Unstage()
+		noteShape.Unstage(gongdocStage)
 
 	}
 

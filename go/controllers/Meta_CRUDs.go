@@ -47,23 +47,22 @@ type MetaInput struct {
 // default: genericError
 //
 //	200: metaDBResponse
-func GetMetas(c *gin.Context) {
-	db := orm.BackRepo.BackRepoMeta.GetDB()
+func (controller *Controller) GetMetas(c *gin.Context) {
 
 	// source slice
 	var metaDBs []orm.MetaDB
 
-	// type Values map[string][]string
 	values := c.Request.URL.Query()
+	stackPath := ""
 	if len(values) == 1 {
 		value := values["GONG__StackPath"]
 		if len(value) == 1 {
-			// we have a single parameter
-			// we assume it is the stack
-			stackParam := value[0]
-			log.Println("GONG__StackPath", stackParam)
+			stackPath = value[0]
+			log.Println("GetMetas", "GONG__StackPath", stackPath)
 		}
 	}
+	backRepo := controller.Map_BackRepos[stackPath]
+	db := backRepo.BackRepoMeta.GetDB()
 
 	query := db.Find(&metaDBs)
 	if query.Error != nil {
@@ -108,7 +107,19 @@ func GetMetas(c *gin.Context) {
 //
 //	Responses:
 //	  200: nodeDBResponse
-func PostMeta(c *gin.Context) {
+func (controller *Controller) PostMeta(c *gin.Context) {
+
+	values := c.Request.URL.Query()
+	stackPath := ""
+	if len(values) == 1 {
+		value := values["GONG__StackPath"]
+		if len(value) == 1 {
+			stackPath = value[0]
+			log.Println("PostMetas", "GONG__StackPath", stackPath)
+		}
+	}
+	backRepo := controller.Map_BackRepos[stackPath]
+	db := backRepo.BackRepoMeta.GetDB()
 
 	// Validate input
 	var input orm.MetaAPI
@@ -128,7 +139,6 @@ func PostMeta(c *gin.Context) {
 	metaDB.MetaPointersEnconding = input.MetaPointersEnconding
 	metaDB.CopyBasicFieldsFromMeta(&input.Meta)
 
-	db := orm.BackRepo.BackRepoMeta.GetDB()
 	query := db.Create(&metaDB)
 	if query.Error != nil {
 		var returnError GenericError
@@ -140,16 +150,16 @@ func PostMeta(c *gin.Context) {
 	}
 
 	// get an instance (not staged) from DB instance, and call callback function
-	orm.BackRepo.BackRepoMeta.CheckoutPhaseOneInstance(&metaDB)
-	meta := (*orm.BackRepo.BackRepoMeta.Map_MetaDBID_MetaPtr)[metaDB.ID]
+	backRepo.BackRepoMeta.CheckoutPhaseOneInstance(&metaDB)
+	meta := (*backRepo.BackRepoMeta.Map_MetaDBID_MetaPtr)[metaDB.ID]
 
 	if meta != nil {
-		models.AfterCreateFromFront(&models.Stage, meta)
+		models.AfterCreateFromFront(backRepo.GetStage(), meta)
 	}
 
 	// a POST is equivalent to a back repo commit increase
 	// (this will be improved with implementation of unit of work design pattern)
-	orm.BackRepo.IncrementPushFromFrontNb()
+	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, metaDB)
 }
@@ -164,21 +174,19 @@ func PostMeta(c *gin.Context) {
 // default: genericError
 //
 //	200: metaDBResponse
-func GetMeta(c *gin.Context) {
+func (controller *Controller) GetMeta(c *gin.Context) {
 
-	// type Values map[string][]string
 	values := c.Request.URL.Query()
+	stackPath := ""
 	if len(values) == 1 {
-		value := values["stack"]
+		value := values["GONG__StackPath"]
 		if len(value) == 1 {
-			// we have a single parameter
-			// we assume it is the stack
-			stackParam := value[0]
-			log.Println("GET params", stackParam)
+			stackPath = value[0]
+			log.Println("GetMeta", "GONG__StackPath", stackPath)
 		}
 	}
-
-	db := orm.BackRepo.BackRepoMeta.GetDB()
+	backRepo := controller.Map_BackRepos[stackPath]
+	db := backRepo.BackRepoMeta.GetDB()
 
 	// Get metaDB in DB
 	var metaDB orm.MetaDB
@@ -209,7 +217,19 @@ func GetMeta(c *gin.Context) {
 // default: genericError
 //
 //	200: metaDBResponse
-func UpdateMeta(c *gin.Context) {
+func (controller *Controller) UpdateMeta(c *gin.Context) {
+
+	values := c.Request.URL.Query()
+	stackPath := ""
+	if len(values) == 1 {
+		value := values["GONG__StackPath"]
+		if len(value) == 1 {
+			stackPath = value[0]
+			log.Println("UpdateMeta", "GONG__StackPath", stackPath)
+		}
+	}
+	backRepo := controller.Map_BackRepos[stackPath]
+	db := backRepo.BackRepoMeta.GetDB()
 
 	// Validate input
 	var input orm.MetaAPI
@@ -218,8 +238,6 @@ func UpdateMeta(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-
-	db := orm.BackRepo.BackRepoMeta.GetDB()
 
 	// Get model if exist
 	var metaDB orm.MetaDB
@@ -255,16 +273,16 @@ func UpdateMeta(c *gin.Context) {
 	metaDB.CopyBasicFieldsToMeta(metaNew)
 
 	// get stage instance from DB instance, and call callback function
-	metaOld := (*orm.BackRepo.BackRepoMeta.Map_MetaDBID_MetaPtr)[metaDB.ID]
+	metaOld := (*backRepo.BackRepoMeta.Map_MetaDBID_MetaPtr)[metaDB.ID]
 	if metaOld != nil {
-		models.AfterUpdateFromFront(&models.Stage, metaOld, metaNew)
+		models.AfterUpdateFromFront(backRepo.GetStage(), metaOld, metaNew)
 	}
 
 	// an UPDATE generates a back repo commit increase
 	// (this will be improved with implementation of unit of work design pattern)
 	// in some cases, with the marshalling of the stage, this operation might
 	// generates a checkout
-	orm.BackRepo.IncrementPushFromFrontNb()
+	backRepo.IncrementPushFromFrontNb()
 
 	// return status OK with the marshalling of the the metaDB
 	c.JSON(http.StatusOK, metaDB)
@@ -279,8 +297,19 @@ func UpdateMeta(c *gin.Context) {
 // default: genericError
 //
 //	200: metaDBResponse
-func DeleteMeta(c *gin.Context) {
-	db := orm.BackRepo.BackRepoMeta.GetDB()
+func (controller *Controller) DeleteMeta(c *gin.Context) {
+
+	values := c.Request.URL.Query()
+	stackPath := ""
+	if len(values) == 1 {
+		value := values["GONG__StackPath"]
+		if len(value) == 1 {
+			stackPath = value[0]
+			log.Println("DeleteMeta", "GONG__StackPath", stackPath)
+		}
+	}
+	backRepo := controller.Map_BackRepos[stackPath]
+	db := backRepo.BackRepoMeta.GetDB()
 
 	// Get model if exist
 	var metaDB orm.MetaDB
@@ -301,14 +330,14 @@ func DeleteMeta(c *gin.Context) {
 	metaDB.CopyBasicFieldsToMeta(metaDeleted)
 
 	// get stage instance from DB instance, and call callback function
-	metaStaged := (*orm.BackRepo.BackRepoMeta.Map_MetaDBID_MetaPtr)[metaDB.ID]
+	metaStaged := (*backRepo.BackRepoMeta.Map_MetaDBID_MetaPtr)[metaDB.ID]
 	if metaStaged != nil {
-		models.AfterDeleteFromFront(&models.Stage, metaStaged, metaDeleted)
+		models.AfterDeleteFromFront(backRepo.GetStage(), metaStaged, metaDeleted)
 	}
 
 	// a DELETE generates a back repo commit increase
 	// (this will be improved with implementation of unit of work design pattern)
-	orm.BackRepo.IncrementPushFromFrontNb()
+	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, gin.H{"data": true})
 }

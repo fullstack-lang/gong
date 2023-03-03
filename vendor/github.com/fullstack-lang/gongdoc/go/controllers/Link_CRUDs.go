@@ -47,11 +47,23 @@ type LinkInput struct {
 // default: genericError
 //
 //	200: linkDBResponse
-func GetLinks(c *gin.Context) {
-	db := orm.BackRepo.BackRepoLink.GetDB()
+func (controller *Controller) GetLinks(c *gin.Context) {
 
 	// source slice
 	var linkDBs []orm.LinkDB
+
+	values := c.Request.URL.Query()
+	stackPath := ""
+	if len(values) == 1 {
+		value := values["GONG__StackPath"]
+		if len(value) == 1 {
+			stackPath = value[0]
+			log.Println("GetLinks", "GONG__StackPath", stackPath)
+		}
+	}
+	backRepo := controller.Map_BackRepos[stackPath]
+	db := backRepo.BackRepoLink.GetDB()
+
 	query := db.Find(&linkDBs)
 	if query.Error != nil {
 		var returnError GenericError
@@ -95,8 +107,19 @@ func GetLinks(c *gin.Context) {
 //
 //	Responses:
 //	  200: nodeDBResponse
-func PostLink(c *gin.Context) {
-	db := orm.BackRepo.BackRepoLink.GetDB()
+func (controller *Controller) PostLink(c *gin.Context) {
+
+	values := c.Request.URL.Query()
+	stackPath := ""
+	if len(values) == 1 {
+		value := values["GONG__StackPath"]
+		if len(value) == 1 {
+			stackPath = value[0]
+			log.Println("PostLinks", "GONG__StackPath", stackPath)
+		}
+	}
+	backRepo := controller.Map_BackRepos[stackPath]
+	db := backRepo.BackRepoLink.GetDB()
 
 	// Validate input
 	var input orm.LinkAPI
@@ -127,16 +150,16 @@ func PostLink(c *gin.Context) {
 	}
 
 	// get an instance (not staged) from DB instance, and call callback function
-	orm.BackRepo.BackRepoLink.CheckoutPhaseOneInstance(&linkDB)
-	link := (*orm.BackRepo.BackRepoLink.Map_LinkDBID_LinkPtr)[linkDB.ID]
+	backRepo.BackRepoLink.CheckoutPhaseOneInstance(&linkDB)
+	link := (*backRepo.BackRepoLink.Map_LinkDBID_LinkPtr)[linkDB.ID]
 
 	if link != nil {
-		models.AfterCreateFromFront(&models.Stage, link)
+		models.AfterCreateFromFront(backRepo.GetStage(), link)
 	}
 
 	// a POST is equivalent to a back repo commit increase
 	// (this will be improved with implementation of unit of work design pattern)
-	orm.BackRepo.IncrementPushFromFrontNb()
+	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, linkDB)
 }
@@ -151,8 +174,19 @@ func PostLink(c *gin.Context) {
 // default: genericError
 //
 //	200: linkDBResponse
-func GetLink(c *gin.Context) {
-	db := orm.BackRepo.BackRepoLink.GetDB()
+func (controller *Controller) GetLink(c *gin.Context) {
+
+	values := c.Request.URL.Query()
+	stackPath := ""
+	if len(values) == 1 {
+		value := values["GONG__StackPath"]
+		if len(value) == 1 {
+			stackPath = value[0]
+			log.Println("GetLink", "GONG__StackPath", stackPath)
+		}
+	}
+	backRepo := controller.Map_BackRepos[stackPath]
+	db := backRepo.BackRepoLink.GetDB()
 
 	// Get linkDB in DB
 	var linkDB orm.LinkDB
@@ -183,8 +217,27 @@ func GetLink(c *gin.Context) {
 // default: genericError
 //
 //	200: linkDBResponse
-func UpdateLink(c *gin.Context) {
-	db := orm.BackRepo.BackRepoLink.GetDB()
+func (controller *Controller) UpdateLink(c *gin.Context) {
+
+	values := c.Request.URL.Query()
+	stackPath := ""
+	if len(values) == 1 {
+		value := values["GONG__StackPath"]
+		if len(value) == 1 {
+			stackPath = value[0]
+			log.Println("UpdateLink", "GONG__StackPath", stackPath)
+		}
+	}
+	backRepo := controller.Map_BackRepos[stackPath]
+	db := backRepo.BackRepoLink.GetDB()
+
+	// Validate input
+	var input orm.LinkAPI
+	if err := c.ShouldBindJSON(&input); err != nil {
+		log.Println(err.Error())
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
 
 	// Get model if exist
 	var linkDB orm.LinkDB
@@ -198,14 +251,6 @@ func UpdateLink(c *gin.Context) {
 		returnError.Body.Message = query.Error.Error()
 		log.Println(query.Error.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
-		return
-	}
-
-	// Validate input
-	var input orm.LinkAPI
-	if err := c.ShouldBindJSON(&input); err != nil {
-		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
@@ -228,16 +273,16 @@ func UpdateLink(c *gin.Context) {
 	linkDB.CopyBasicFieldsToLink(linkNew)
 
 	// get stage instance from DB instance, and call callback function
-	linkOld := (*orm.BackRepo.BackRepoLink.Map_LinkDBID_LinkPtr)[linkDB.ID]
+	linkOld := (*backRepo.BackRepoLink.Map_LinkDBID_LinkPtr)[linkDB.ID]
 	if linkOld != nil {
-		models.AfterUpdateFromFront(&models.Stage, linkOld, linkNew)
+		models.AfterUpdateFromFront(backRepo.GetStage(), linkOld, linkNew)
 	}
 
 	// an UPDATE generates a back repo commit increase
 	// (this will be improved with implementation of unit of work design pattern)
 	// in some cases, with the marshalling of the stage, this operation might
 	// generates a checkout
-	orm.BackRepo.IncrementPushFromFrontNb()
+	backRepo.IncrementPushFromFrontNb()
 
 	// return status OK with the marshalling of the the linkDB
 	c.JSON(http.StatusOK, linkDB)
@@ -252,8 +297,19 @@ func UpdateLink(c *gin.Context) {
 // default: genericError
 //
 //	200: linkDBResponse
-func DeleteLink(c *gin.Context) {
-	db := orm.BackRepo.BackRepoLink.GetDB()
+func (controller *Controller) DeleteLink(c *gin.Context) {
+
+	values := c.Request.URL.Query()
+	stackPath := ""
+	if len(values) == 1 {
+		value := values["GONG__StackPath"]
+		if len(value) == 1 {
+			stackPath = value[0]
+			log.Println("DeleteLink", "GONG__StackPath", stackPath)
+		}
+	}
+	backRepo := controller.Map_BackRepos[stackPath]
+	db := backRepo.BackRepoLink.GetDB()
 
 	// Get model if exist
 	var linkDB orm.LinkDB
@@ -274,14 +330,14 @@ func DeleteLink(c *gin.Context) {
 	linkDB.CopyBasicFieldsToLink(linkDeleted)
 
 	// get stage instance from DB instance, and call callback function
-	linkStaged := (*orm.BackRepo.BackRepoLink.Map_LinkDBID_LinkPtr)[linkDB.ID]
+	linkStaged := (*backRepo.BackRepoLink.Map_LinkDBID_LinkPtr)[linkDB.ID]
 	if linkStaged != nil {
-		models.AfterDeleteFromFront(&models.Stage, linkStaged, linkDeleted)
+		models.AfterDeleteFromFront(backRepo.GetStage(), linkStaged, linkDeleted)
 	}
 
 	// a DELETE generates a back repo commit increase
 	// (this will be improved with implementation of unit of work design pattern)
-	orm.BackRepo.IncrementPushFromFrontNb()
+	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, gin.H{"data": true})
 }

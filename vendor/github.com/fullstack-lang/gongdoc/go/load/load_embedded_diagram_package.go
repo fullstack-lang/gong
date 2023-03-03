@@ -14,7 +14,7 @@ import (
 
 func LoadEmbeddedDiagramPackage(fs embed.FS, modelPkg *gong_models.ModelPkg) (diagramPackage *gongdoc_models.DiagramPackage, err error) {
 
-	diagramPackage = (&gongdoc_models.DiagramPackage{}).Stage()
+	diagramPackage = (&gongdoc_models.DiagramPackage{}).Stage(diagramPackage.Stage_)
 	diagramPackage.Map_Identifier_NbInstances = make(map[string]int)
 	diagramPackage.IsEditable = false
 	diagramPackage.ModelPkg = modelPkg
@@ -42,7 +42,7 @@ func LoadEmbeddedDiagramPackage(fs embed.FS, modelPkg *gong_models.ModelPkg) (di
 	for diagramName, inFile := range diagramPackageAst.Files {
 
 		diagramName := strings.TrimSuffix(filepath.Base(diagramName), ".go")
-		diagramPackage.UnmarshallOneDiagram(diagramName, inFile, fset)
+		diagramPackage.UnmarshallOneDiagram(&gongdoc_models.Stage, diagramName, inFile, fset)
 	}
 
 	gongdoc_node2gongdoc.FillUpNodeTree(diagramPackage)
