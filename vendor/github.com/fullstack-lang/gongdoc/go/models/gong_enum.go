@@ -2,90 +2,58 @@
 package models
 
 // insertion point of enum utility functions
-// Utility function for GONG__ExpressionType
+// Utility function for GongEnumShapeType
 // if enum values are string, it is stored with the value
 // if enum values are int, they are stored with the code of the value
-func (gong__expressiontype GONG__ExpressionType) ToString() (res string) {
+func (gongenumshapetype GongEnumShapeType) ToInt() (res int) {
 
 	// migration of former implementation of enum
-	switch gong__expressiontype {
+	switch gongenumshapetype {
 	// insertion code per enum code
-	case GONG__STRUCT_INSTANCE:
-		res = "STRUCT_INSTANCE"
-	case GONG__FIELD_OR_CONST_VALUE:
-		res = "FIELD_OR_CONST_VALUE"
-	case GONG__FIELD_VALUE:
-		res = "FIELD_VALUE"
-	case GONG__ENUM_CAST_INT:
-		res = "ENUM_CAST_INT"
-	case GONG__ENUM_CAST_STRING:
-		res = "ENUM_CAST_STRING"
-	case GONG__IDENTIFIER_CONST:
-		res = "IDENTIFIER_CONST"
+	case Int:
+		res = 0
+	case String:
+		res = 1
 	}
 	return
 }
 
-func (gong__expressiontype *GONG__ExpressionType) FromString(input string) (err error) {
+func (gongenumshapetype *GongEnumShapeType) FromInt(input int) (err error) {
 
 	switch input {
 	// insertion code per enum code
-	case "STRUCT_INSTANCE":
-		*gong__expressiontype = GONG__STRUCT_INSTANCE
-	case "FIELD_OR_CONST_VALUE":
-		*gong__expressiontype = GONG__FIELD_OR_CONST_VALUE
-	case "FIELD_VALUE":
-		*gong__expressiontype = GONG__FIELD_VALUE
-	case "ENUM_CAST_INT":
-		*gong__expressiontype = GONG__ENUM_CAST_INT
-	case "ENUM_CAST_STRING":
-		*gong__expressiontype = GONG__ENUM_CAST_STRING
-	case "IDENTIFIER_CONST":
-		*gong__expressiontype = GONG__IDENTIFIER_CONST
+	case 0:
+		*gongenumshapetype = Int
+	case 1:
+		*gongenumshapetype = String
 	default:
 		return errUnkownEnum
 	}
 	return
 }
 
-func (gong__expressiontype *GONG__ExpressionType) FromCodeString(input string) (err error) {
+func (gongenumshapetype *GongEnumShapeType) FromCodeString(input string) (err error) {
 
 	switch input {
 	// insertion code per enum code
-	case "GONG__STRUCT_INSTANCE":
-		*gong__expressiontype = GONG__STRUCT_INSTANCE
-	case "GONG__FIELD_OR_CONST_VALUE":
-		*gong__expressiontype = GONG__FIELD_OR_CONST_VALUE
-	case "GONG__FIELD_VALUE":
-		*gong__expressiontype = GONG__FIELD_VALUE
-	case "GONG__ENUM_CAST_INT":
-		*gong__expressiontype = GONG__ENUM_CAST_INT
-	case "GONG__ENUM_CAST_STRING":
-		*gong__expressiontype = GONG__ENUM_CAST_STRING
-	case "GONG__IDENTIFIER_CONST":
-		*gong__expressiontype = GONG__IDENTIFIER_CONST
+	case "Int":
+		*gongenumshapetype = Int
+	case "String":
+		*gongenumshapetype = String
 	default:
 		return errUnkownEnum
 	}
 	return
 }
 
-func (gong__expressiontype *GONG__ExpressionType) ToCodeString() (res string) {
+func (gongenumshapetype *GongEnumShapeType) ToCodeString() (res string) {
 
-	switch *gong__expressiontype {
+	switch *gongenumshapetype {
 	// insertion code per enum code
-	case GONG__STRUCT_INSTANCE:
-		res = "GONG__STRUCT_INSTANCE"
-	case GONG__FIELD_OR_CONST_VALUE:
-		res = "GONG__FIELD_OR_CONST_VALUE"
-	case GONG__FIELD_VALUE:
-		res = "GONG__FIELD_VALUE"
-	case GONG__ENUM_CAST_INT:
-		res = "GONG__ENUM_CAST_INT"
-	case GONG__ENUM_CAST_STRING:
-		res = "GONG__ENUM_CAST_STRING"
-	case GONG__IDENTIFIER_CONST:
-		res = "GONG__IDENTIFIER_CONST"
+	case Int:
+		res = "Int"
+	case String:
+		res = "String"
 	}
 	return
 }
@@ -150,6 +118,62 @@ func (multiplicitytype *MultiplicityType) ToCodeString() (res string) {
 		res = "ONE"
 	case MANY:
 		res = "MANY"
+	}
+	return
+}
+
+// Utility function for NoteShapeLinkType
+// if enum values are string, it is stored with the value
+// if enum values are int, they are stored with the code of the value
+func (noteshapelinktype NoteShapeLinkType) ToString() (res string) {
+
+	// migration of former implementation of enum
+	switch noteshapelinktype {
+	// insertion code per enum code
+	case NOTE_SHAPE_LINK_TO_GONG_STRUCT_OR_ENUM_SHAPE:
+		res = "NOTE_SHAPE_LINK_TO_GONG_STRUCT_OR_ENUM_SHAPE"
+	case NOTE_SHAPE_LINK_TO_GONG_FIELD:
+		res = "NOTE_SHAPE_LINK_TO_GONG_FIELD"
+	}
+	return
+}
+
+func (noteshapelinktype *NoteShapeLinkType) FromString(input string) (err error) {
+
+	switch input {
+	// insertion code per enum code
+	case "NOTE_SHAPE_LINK_TO_GONG_STRUCT_OR_ENUM_SHAPE":
+		*noteshapelinktype = NOTE_SHAPE_LINK_TO_GONG_STRUCT_OR_ENUM_SHAPE
+	case "NOTE_SHAPE_LINK_TO_GONG_FIELD":
+		*noteshapelinktype = NOTE_SHAPE_LINK_TO_GONG_FIELD
+	default:
+		return errUnkownEnum
+	}
+	return
+}
+
+func (noteshapelinktype *NoteShapeLinkType) FromCodeString(input string) (err error) {
+
+	switch input {
+	// insertion code per enum code
+	case "NOTE_SHAPE_LINK_TO_GONG_STRUCT_OR_ENUM_SHAPE":
+		*noteshapelinktype = NOTE_SHAPE_LINK_TO_GONG_STRUCT_OR_ENUM_SHAPE
+	case "NOTE_SHAPE_LINK_TO_GONG_FIELD":
+		*noteshapelinktype = NOTE_SHAPE_LINK_TO_GONG_FIELD
+	default:
+		return errUnkownEnum
+	}
+	return
+}
+
+func (noteshapelinktype *NoteShapeLinkType) ToCodeString() (res string) {
+
+	switch *noteshapelinktype {
+	// insertion code per enum code
+	case NOTE_SHAPE_LINK_TO_GONG_STRUCT_OR_ENUM_SHAPE:
+		res = "NOTE_SHAPE_LINK_TO_GONG_STRUCT_OR_ENUM_SHAPE"
+	case NOTE_SHAPE_LINK_TO_GONG_FIELD:
+		res = "NOTE_SHAPE_LINK_TO_GONG_FIELD"
 	}
 	return
 }

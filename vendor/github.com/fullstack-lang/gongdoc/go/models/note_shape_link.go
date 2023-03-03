@@ -16,9 +16,6 @@ type NoteShapeLink struct {
 	//gong:ident
 	Identifier string
 
-	Classshape *GongStructShape
-	Link       *Link
-
-	// Vertices at the middle
-	Middlevertice *Vertice
+	// Type of the target shape / link of the note link
+	Type NoteShapeLinkType
 }

@@ -45,12 +45,12 @@ var map_DocLink_Identifier_mini_stage_in map[string]any = map[string]any{
 // }
 
 // mini_stage_outInjection will stage objects of database "mini_stage_out"
-func mini_stage_inInjection() {
+func mini_stage_inInjection(stage *models.StageStruct) {
 
 	// Declaration of instances to stage
 
 	// Declarations of staged instances of Astruct
-	__Astruct__000000_Foo := (&models.Astruct{Name: `Foo`}).Stage()
+	__Astruct__000000_Foo := (&models.Astruct{Name: `Foo`}).Stage(stage)
 
 	// Declarations of staged instances of AstructBstruct2Use
 

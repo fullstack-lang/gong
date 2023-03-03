@@ -108,6 +108,13 @@ type BackRepoMetaReferenceStruct struct {
 	Map_MetaReferenceDBID_MetaReferencePtr *map[uint]*models.MetaReference
 
 	db *gorm.DB
+
+	stage *models.StageStruct
+}
+
+func (backRepoMetaReference *BackRepoMetaReferenceStruct) GetStage() (stage *models.StageStruct) {
+	stage = backRepoMetaReference.stage
+	return
 }
 
 func (backRepoMetaReference *BackRepoMetaReferenceStruct) GetDB() *gorm.DB {
@@ -122,7 +129,7 @@ func (backRepoMetaReference *BackRepoMetaReferenceStruct) GetMetaReferenceDBFrom
 }
 
 // BackRepoMetaReference.Init set up the BackRepo of the MetaReference
-func (backRepoMetaReference *BackRepoMetaReferenceStruct) Init(db *gorm.DB) (Error error) {
+func (backRepoMetaReference *BackRepoMetaReferenceStruct) Init(stage *models.StageStruct, db *gorm.DB) (Error error) {
 
 	if backRepoMetaReference.Map_MetaReferenceDBID_MetaReferencePtr != nil {
 		err := errors.New("In Init, backRepoMetaReference.Map_MetaReferenceDBID_MetaReferencePtr should be nil")
@@ -149,6 +156,7 @@ func (backRepoMetaReference *BackRepoMetaReferenceStruct) Init(db *gorm.DB) (Err
 	backRepoMetaReference.Map_MetaReferencePtr_MetaReferenceDBID = &tmpID
 
 	backRepoMetaReference.db = db
+	backRepoMetaReference.stage = stage
 	return
 }
 
@@ -267,7 +275,7 @@ func (backRepoMetaReference *BackRepoMetaReferenceStruct) CheckoutPhaseOne() (Er
 	// list of instances to be removed
 	// start from the initial map on the stage and remove instances that have been checked out
 	metareferenceInstancesToBeRemovedFromTheStage := make(map[*models.MetaReference]any)
-	for key, value := range models.Stage.MetaReferences {
+	for key, value := range backRepoMetaReference.stage.MetaReferences {
 		metareferenceInstancesToBeRemovedFromTheStage[key] = value
 	}
 
@@ -285,7 +293,7 @@ func (backRepoMetaReference *BackRepoMetaReferenceStruct) CheckoutPhaseOne() (Er
 
 	// remove from stage and back repo's 3 maps all metareferences that are not in the checkout
 	for metareference := range metareferenceInstancesToBeRemovedFromTheStage {
-		metareference.Unstage()
+		metareference.Unstage(backRepoMetaReference.GetStage())
 
 		// remove instance from the back repo 3 maps
 		metareferenceID := (*backRepoMetaReference.Map_MetaReferencePtr_MetaReferenceDBID)[metareference]
@@ -310,12 +318,12 @@ func (backRepoMetaReference *BackRepoMetaReferenceStruct) CheckoutPhaseOneInstan
 
 		// append model store with the new element
 		metareference.Name = metareferenceDB.Name_Data.String
-		metareference.Stage()
+		metareference.Stage(backRepoMetaReference.GetStage())
 	}
 	metareferenceDB.CopyBasicFieldsToMetaReference(metareference)
 
 	// in some cases, the instance might have been unstaged. It is necessary to stage it again
-	metareference.Stage()
+	metareference.Stage(backRepoMetaReference.GetStage())
 
 	// preserve pointer to metareferenceDB. Otherwise, pointer will is recycled and the map of pointers
 	// Map_MetaReferenceDBID_MetaReferenceDB)[metareferenceDB hold variable pointers

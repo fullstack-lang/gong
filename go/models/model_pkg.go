@@ -9,6 +9,9 @@ type ModelPkg struct {
 	Name    string // should be "models"
 	PkgPath string // for instance "github.com/.../models"
 
+	// Stage_ is where the ModelPkg lives
+	Stage_ *StageStruct
+
 	GongStructs map[string]*GongStruct `gorm:"-"` // sql3Lite does not support maps
 	GongEnums   map[string]*GongEnum   `gorm:"-"`
 	GongNotes   map[string]*GongNote   `gorm:"-"`
@@ -17,9 +20,11 @@ type ModelPkg struct {
 // dir, initialized with a //go:embed directive, is the root
 // the embedded source code
 // usualy, it embeds go/models go/diagrams
-func LoadEmbedded(dir embed.FS) (modelPkg *ModelPkg, err error) {
+func LoadEmbedded(stage *StageStruct, dir embed.FS) (modelPkg *ModelPkg, err error) {
 
-	modelPkg = &ModelPkg{}
+	modelPkg = &ModelPkg{
+		Stage_: stage,
+	}
 
 	// since the source is embedded, one needs to
 	// compute the Abstract syntax tree in a special manner
@@ -27,10 +32,10 @@ func LoadEmbedded(dir embed.FS) (modelPkg *ModelPkg, err error) {
 
 	WalkParser(pkgs, modelPkg)
 	// fetch meta information
-	inspectMeta(pkgs["models"])
+	inspectMeta(stage, pkgs["models"])
 
 	modelPkg.SerializeToStage()
-	Stage.Commit()
+	stage.Commit()
 
 	return modelPkg, nil
 }
@@ -53,6 +58,7 @@ func LoadSource(pkgPath string) (modelPkg *ModelPkg, err error) {
 	modelPkg = (&ModelPkg{
 		Name:    pkgName,
 		PkgPath: fullPkgPath,
+		Stage_:  &Stage,
 	})
 
 	Walk(pkgPath, modelPkg)
@@ -65,27 +71,27 @@ func LoadSource(pkgPath string) (modelPkg *ModelPkg, err error) {
 // SerializeToStage stages modelPkg and
 // recursively stage all structs and all fields of all structs
 func (modelPkg *ModelPkg) SerializeToStage() {
-	modelPkg.Stage()
+	modelPkg.Stage(modelPkg.Stage_)
 	for _, gongStruct := range modelPkg.GongStructs {
-		gongStruct.Stage()
+		gongStruct.Stage(modelPkg.Stage_)
 
 		for _, field := range gongStruct.Fields {
 			switch field := field.(type) {
 			case *GongBasicField:
 
-				field.Stage()
+				field.Stage(modelPkg.Stage_)
 				gongStruct.GongBasicFields = append(gongStruct.GongBasicFields, field)
 
 			case *GongTimeField:
-				field.Stage()
+				field.Stage(modelPkg.Stage_)
 				gongStruct.GongTimeFields = append(gongStruct.GongTimeFields, field)
 
 			case *PointerToGongStructField:
-				field.Stage()
+				field.Stage(modelPkg.Stage_)
 				gongStruct.PointerToGongStructFields = append(gongStruct.PointerToGongStructFields, field)
 
 			case *SliceOfPointerToGongStructField:
-				field.Stage()
+				field.Stage(modelPkg.Stage_)
 				gongStruct.SliceOfPointerToGongStructFields = append(gongStruct.SliceOfPointerToGongStructFields,
 					field)
 			}
@@ -93,14 +99,14 @@ func (modelPkg *ModelPkg) SerializeToStage() {
 
 	}
 	for _, gongEnum := range modelPkg.GongEnums {
-		gongEnum.Stage()
+		gongEnum.Stage(modelPkg.Stage_)
 
 		for _, gongEnumValue := range gongEnum.GongEnumValues {
-			gongEnumValue.Stage()
+			gongEnumValue.Stage(modelPkg.Stage_)
 		}
 	}
 	for _, gongNote := range modelPkg.GongNotes {
-		gongNote.Stage()
+		gongNote.Stage(modelPkg.Stage_)
 	}
 	Stage.Commit()
 }

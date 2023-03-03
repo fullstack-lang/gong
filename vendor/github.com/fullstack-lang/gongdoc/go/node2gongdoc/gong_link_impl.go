@@ -1,6 +1,8 @@
 package node2gongdoc
 
 import (
+	"strings"
+
 	gong_models "github.com/fullstack-lang/gong/go/models"
 	gongdoc_models "github.com/fullstack-lang/gongdoc/go/models"
 )
@@ -11,7 +13,7 @@ type GongLinkImpl struct {
 }
 
 func (gongLinkImpl *GongLinkImpl) OnAfterUpdate(
-	stage *gongdoc_models.StageStruct,
+	gongdocStage *gongdoc_models.StageStruct,
 	stagedNode, frontNode *gongdoc_models.Node) {
 
 	classdiagram := gongLinkImpl.nodeCb.GetSelectedClassdiagram()
@@ -39,31 +41,52 @@ func (gongLinkImpl *GongLinkImpl) OnAfterUpdate(
 
 	// adding a note link
 	if !stagedNode.IsChecked && frontNode.IsChecked {
-		stage.Checkout()
+		gongdocStage.Checkout()
 
-		noteShapeLink := (&gongdoc_models.NoteShapeLink{Name: stagedNode.GetName()}).Stage()
-		noteShapeLink.Identifier =
-			gongdoc_models.GongstructAndFieldnameToFieldIdentifier(gongNote.Name, stagedNode.Name)
+		noteShapeLink := (&gongdoc_models.NoteShapeLink{Name: stagedNode.GetName()}).Stage(gongdocStage)
+
+		if strings.ContainsAny(stagedNode.Name, ".") {
+
+			subStrings := strings.Split(stagedNode.Name, ".")
+
+			noteShapeLink.Type = gongdoc_models.NOTE_SHAPE_LINK_TO_GONG_FIELD
+			noteShapeLink.Identifier =
+				gongdoc_models.GongstructAndFieldnameToFieldIdentifier(subStrings[0], subStrings[1])
+
+		} else {
+			noteShapeLink.Type = gongdoc_models.NOTE_SHAPE_LINK_TO_GONG_STRUCT_OR_ENUM_SHAPE
+			noteShapeLink.Identifier =
+				gongdoc_models.GongStructNameToIdentifier(stagedNode.Name)
+
+		}
 
 		noteshape.NoteShapeLinks = append(noteshape.NoteShapeLinks, noteShapeLink)
-
 	}
 
 	// removing a note link
 	if stagedNode.IsChecked && !frontNode.IsChecked {
-		stage.Checkout()
+		gongdocStage.Checkout()
 
 		// get the relevant gong note link
-		var noteLink *gongdoc_models.NoteShapeLink
-		for _, _noteLink := range noteshape.NoteShapeLinks {
-			if gongdoc_models.IdentifierToFieldName(_noteLink.Identifier) ==
-				stagedNode.Name {
-				noteLink = _noteLink
+		var noteShapeLink *gongdoc_models.NoteShapeLink
+		for _, _noteShapeLink := range noteshape.NoteShapeLinks {
+
+			switch _noteShapeLink.Type {
+			case gongdoc_models.NOTE_SHAPE_LINK_TO_GONG_STRUCT_OR_ENUM_SHAPE:
+				if gongdoc_models.IdentifierToGongObjectName(_noteShapeLink.Identifier) == stagedNode.Name {
+					noteShapeLink = _noteShapeLink
+				}
+			case gongdoc_models.NOTE_SHAPE_LINK_TO_GONG_FIELD:
+				receiver, fieldName := gongdoc_models.IdentifierToReceiverAndFieldName(_noteShapeLink.Identifier)
+
+				if receiver+"."+fieldName == stagedNode.Name {
+					noteShapeLink = _noteShapeLink
+				}
 			}
 		}
 
-		noteLink.Unstage()
-		noteshape.NoteShapeLinks = remove(noteshape.NoteShapeLinks, noteLink)
+		noteShapeLink.Unstage(gongdocStage)
+		noteshape.NoteShapeLinks = remove(noteshape.NoteShapeLinks, noteShapeLink)
 
 	}
 

@@ -47,11 +47,23 @@ type GongStructShapeInput struct {
 // default: genericError
 //
 //	200: gongstructshapeDBResponse
-func GetGongStructShapes(c *gin.Context) {
-	db := orm.BackRepo.BackRepoGongStructShape.GetDB()
+func (controller *Controller) GetGongStructShapes(c *gin.Context) {
 
 	// source slice
 	var gongstructshapeDBs []orm.GongStructShapeDB
+
+	values := c.Request.URL.Query()
+	stackPath := ""
+	if len(values) == 1 {
+		value := values["GONG__StackPath"]
+		if len(value) == 1 {
+			stackPath = value[0]
+			log.Println("GetGongStructShapes", "GONG__StackPath", stackPath)
+		}
+	}
+	backRepo := controller.Map_BackRepos[stackPath]
+	db := backRepo.BackRepoGongStructShape.GetDB()
+
 	query := db.Find(&gongstructshapeDBs)
 	if query.Error != nil {
 		var returnError GenericError
@@ -95,8 +107,19 @@ func GetGongStructShapes(c *gin.Context) {
 //
 //	Responses:
 //	  200: nodeDBResponse
-func PostGongStructShape(c *gin.Context) {
-	db := orm.BackRepo.BackRepoGongStructShape.GetDB()
+func (controller *Controller) PostGongStructShape(c *gin.Context) {
+
+	values := c.Request.URL.Query()
+	stackPath := ""
+	if len(values) == 1 {
+		value := values["GONG__StackPath"]
+		if len(value) == 1 {
+			stackPath = value[0]
+			log.Println("PostGongStructShapes", "GONG__StackPath", stackPath)
+		}
+	}
+	backRepo := controller.Map_BackRepos[stackPath]
+	db := backRepo.BackRepoGongStructShape.GetDB()
 
 	// Validate input
 	var input orm.GongStructShapeAPI
@@ -127,16 +150,16 @@ func PostGongStructShape(c *gin.Context) {
 	}
 
 	// get an instance (not staged) from DB instance, and call callback function
-	orm.BackRepo.BackRepoGongStructShape.CheckoutPhaseOneInstance(&gongstructshapeDB)
-	gongstructshape := (*orm.BackRepo.BackRepoGongStructShape.Map_GongStructShapeDBID_GongStructShapePtr)[gongstructshapeDB.ID]
+	backRepo.BackRepoGongStructShape.CheckoutPhaseOneInstance(&gongstructshapeDB)
+	gongstructshape := (*backRepo.BackRepoGongStructShape.Map_GongStructShapeDBID_GongStructShapePtr)[gongstructshapeDB.ID]
 
 	if gongstructshape != nil {
-		models.AfterCreateFromFront(&models.Stage, gongstructshape)
+		models.AfterCreateFromFront(backRepo.GetStage(), gongstructshape)
 	}
 
 	// a POST is equivalent to a back repo commit increase
 	// (this will be improved with implementation of unit of work design pattern)
-	orm.BackRepo.IncrementPushFromFrontNb()
+	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, gongstructshapeDB)
 }
@@ -151,8 +174,19 @@ func PostGongStructShape(c *gin.Context) {
 // default: genericError
 //
 //	200: gongstructshapeDBResponse
-func GetGongStructShape(c *gin.Context) {
-	db := orm.BackRepo.BackRepoGongStructShape.GetDB()
+func (controller *Controller) GetGongStructShape(c *gin.Context) {
+
+	values := c.Request.URL.Query()
+	stackPath := ""
+	if len(values) == 1 {
+		value := values["GONG__StackPath"]
+		if len(value) == 1 {
+			stackPath = value[0]
+			log.Println("GetGongStructShape", "GONG__StackPath", stackPath)
+		}
+	}
+	backRepo := controller.Map_BackRepos[stackPath]
+	db := backRepo.BackRepoGongStructShape.GetDB()
 
 	// Get gongstructshapeDB in DB
 	var gongstructshapeDB orm.GongStructShapeDB
@@ -183,8 +217,27 @@ func GetGongStructShape(c *gin.Context) {
 // default: genericError
 //
 //	200: gongstructshapeDBResponse
-func UpdateGongStructShape(c *gin.Context) {
-	db := orm.BackRepo.BackRepoGongStructShape.GetDB()
+func (controller *Controller) UpdateGongStructShape(c *gin.Context) {
+
+	values := c.Request.URL.Query()
+	stackPath := ""
+	if len(values) == 1 {
+		value := values["GONG__StackPath"]
+		if len(value) == 1 {
+			stackPath = value[0]
+			log.Println("UpdateGongStructShape", "GONG__StackPath", stackPath)
+		}
+	}
+	backRepo := controller.Map_BackRepos[stackPath]
+	db := backRepo.BackRepoGongStructShape.GetDB()
+
+	// Validate input
+	var input orm.GongStructShapeAPI
+	if err := c.ShouldBindJSON(&input); err != nil {
+		log.Println(err.Error())
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
 
 	// Get model if exist
 	var gongstructshapeDB orm.GongStructShapeDB
@@ -198,14 +251,6 @@ func UpdateGongStructShape(c *gin.Context) {
 		returnError.Body.Message = query.Error.Error()
 		log.Println(query.Error.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
-		return
-	}
-
-	// Validate input
-	var input orm.GongStructShapeAPI
-	if err := c.ShouldBindJSON(&input); err != nil {
-		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
@@ -228,16 +273,16 @@ func UpdateGongStructShape(c *gin.Context) {
 	gongstructshapeDB.CopyBasicFieldsToGongStructShape(gongstructshapeNew)
 
 	// get stage instance from DB instance, and call callback function
-	gongstructshapeOld := (*orm.BackRepo.BackRepoGongStructShape.Map_GongStructShapeDBID_GongStructShapePtr)[gongstructshapeDB.ID]
+	gongstructshapeOld := (*backRepo.BackRepoGongStructShape.Map_GongStructShapeDBID_GongStructShapePtr)[gongstructshapeDB.ID]
 	if gongstructshapeOld != nil {
-		models.AfterUpdateFromFront(&models.Stage, gongstructshapeOld, gongstructshapeNew)
+		models.AfterUpdateFromFront(backRepo.GetStage(), gongstructshapeOld, gongstructshapeNew)
 	}
 
 	// an UPDATE generates a back repo commit increase
 	// (this will be improved with implementation of unit of work design pattern)
 	// in some cases, with the marshalling of the stage, this operation might
 	// generates a checkout
-	orm.BackRepo.IncrementPushFromFrontNb()
+	backRepo.IncrementPushFromFrontNb()
 
 	// return status OK with the marshalling of the the gongstructshapeDB
 	c.JSON(http.StatusOK, gongstructshapeDB)
@@ -252,8 +297,19 @@ func UpdateGongStructShape(c *gin.Context) {
 // default: genericError
 //
 //	200: gongstructshapeDBResponse
-func DeleteGongStructShape(c *gin.Context) {
-	db := orm.BackRepo.BackRepoGongStructShape.GetDB()
+func (controller *Controller) DeleteGongStructShape(c *gin.Context) {
+
+	values := c.Request.URL.Query()
+	stackPath := ""
+	if len(values) == 1 {
+		value := values["GONG__StackPath"]
+		if len(value) == 1 {
+			stackPath = value[0]
+			log.Println("DeleteGongStructShape", "GONG__StackPath", stackPath)
+		}
+	}
+	backRepo := controller.Map_BackRepos[stackPath]
+	db := backRepo.BackRepoGongStructShape.GetDB()
 
 	// Get model if exist
 	var gongstructshapeDB orm.GongStructShapeDB
@@ -274,14 +330,14 @@ func DeleteGongStructShape(c *gin.Context) {
 	gongstructshapeDB.CopyBasicFieldsToGongStructShape(gongstructshapeDeleted)
 
 	// get stage instance from DB instance, and call callback function
-	gongstructshapeStaged := (*orm.BackRepo.BackRepoGongStructShape.Map_GongStructShapeDBID_GongStructShapePtr)[gongstructshapeDB.ID]
+	gongstructshapeStaged := (*backRepo.BackRepoGongStructShape.Map_GongStructShapeDBID_GongStructShapePtr)[gongstructshapeDB.ID]
 	if gongstructshapeStaged != nil {
-		models.AfterDeleteFromFront(&models.Stage, gongstructshapeStaged, gongstructshapeDeleted)
+		models.AfterDeleteFromFront(backRepo.GetStage(), gongstructshapeStaged, gongstructshapeDeleted)
 	}
 
 	// a DELETE generates a back repo commit increase
 	// (this will be improved with implementation of unit of work design pattern)
-	orm.BackRepo.IncrementPushFromFrontNb()
+	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, gin.H{"data": true})
 }

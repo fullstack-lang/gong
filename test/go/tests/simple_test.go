@@ -4,7 +4,7 @@ import (
 	"log"
 	"testing"
 
-	"github.com/fullstack-lang/gong/go/fullstack"
+	"github.com/fullstack-lang/gong/test/go/fullstack"
 	"github.com/fullstack-lang/gong/test/go/models"
 )
 
@@ -14,9 +14,9 @@ import (
 // through a callback that is defined in the "models" package
 func TestStageCallBack(t *testing.T) {
 
-	fullstack.Init(nil)
+	stage, _ := fullstack.NewStackInstance(nil, "")
 
-	bclass1 := (&models.Bstruct{Name: "B1"}).Stage()
+	bclass1 := (&models.Bstruct{Name: "B1"}).Stage(stage)
 
 	aclass1 := (&models.Astruct{
 		Name:                "A1",
@@ -27,7 +27,7 @@ func TestStageCallBack(t *testing.T) {
 		Anarrayofb: []*models.Bstruct{
 			bclass1,
 		},
-	}).Stage()
+	}).Stage(stage)
 
 	aclass2 := (&models.Astruct{
 		Name:                "A2",
@@ -37,9 +37,9 @@ func TestStageCallBack(t *testing.T) {
 		Associationtob:      bclass1,
 		AnAstruct:           aclass1,
 	})
-	aclass2.Stage()
+	aclass2.Stage(stage)
 
-	bclass2 := (&models.Bstruct{Name: "B2"}).Stage()
+	bclass2 := (&models.Bstruct{Name: "B2"}).Stage(stage)
 	_ = bclass2
 
 	models.Stage.Commit()
@@ -109,7 +109,7 @@ func TestStageCallBack(t *testing.T) {
 
 	log.Printf("After models.Stage reset, ng of aclass instance %d", len(models.Stage.Astructs))
 
-	aclass2.Unstage()
+	aclass2.Unstage(stage)
 
 	want = 1
 	got = len(models.Stage.Astructs)

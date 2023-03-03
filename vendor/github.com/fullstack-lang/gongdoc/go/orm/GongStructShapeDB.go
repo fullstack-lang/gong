@@ -150,6 +150,13 @@ type BackRepoGongStructShapeStruct struct {
 	Map_GongStructShapeDBID_GongStructShapePtr *map[uint]*models.GongStructShape
 
 	db *gorm.DB
+
+	stage *models.StageStruct
+}
+
+func (backRepoGongStructShape *BackRepoGongStructShapeStruct) GetStage() (stage *models.StageStruct) {
+	stage = backRepoGongStructShape.stage
+	return
 }
 
 func (backRepoGongStructShape *BackRepoGongStructShapeStruct) GetDB() *gorm.DB {
@@ -164,7 +171,7 @@ func (backRepoGongStructShape *BackRepoGongStructShapeStruct) GetGongStructShape
 }
 
 // BackRepoGongStructShape.Init set up the BackRepo of the GongStructShape
-func (backRepoGongStructShape *BackRepoGongStructShapeStruct) Init(db *gorm.DB) (Error error) {
+func (backRepoGongStructShape *BackRepoGongStructShapeStruct) Init(stage *models.StageStruct, db *gorm.DB) (Error error) {
 
 	if backRepoGongStructShape.Map_GongStructShapeDBID_GongStructShapePtr != nil {
 		err := errors.New("In Init, backRepoGongStructShape.Map_GongStructShapeDBID_GongStructShapePtr should be nil")
@@ -191,6 +198,7 @@ func (backRepoGongStructShape *BackRepoGongStructShapeStruct) Init(db *gorm.DB) 
 	backRepoGongStructShape.Map_GongStructShapePtr_GongStructShapeDBID = &tmpID
 
 	backRepoGongStructShape.db = db
+	backRepoGongStructShape.stage = stage
 	return
 }
 
@@ -356,7 +364,7 @@ func (backRepoGongStructShape *BackRepoGongStructShapeStruct) CheckoutPhaseOne()
 	// list of instances to be removed
 	// start from the initial map on the stage and remove instances that have been checked out
 	gongstructshapeInstancesToBeRemovedFromTheStage := make(map[*models.GongStructShape]any)
-	for key, value := range models.Stage.GongStructShapes {
+	for key, value := range backRepoGongStructShape.stage.GongStructShapes {
 		gongstructshapeInstancesToBeRemovedFromTheStage[key] = value
 	}
 
@@ -374,7 +382,7 @@ func (backRepoGongStructShape *BackRepoGongStructShapeStruct) CheckoutPhaseOne()
 
 	// remove from stage and back repo's 3 maps all gongstructshapes that are not in the checkout
 	for gongstructshape := range gongstructshapeInstancesToBeRemovedFromTheStage {
-		gongstructshape.Unstage()
+		gongstructshape.Unstage(backRepoGongStructShape.GetStage())
 
 		// remove instance from the back repo 3 maps
 		gongstructshapeID := (*backRepoGongStructShape.Map_GongStructShapePtr_GongStructShapeDBID)[gongstructshape]
@@ -399,12 +407,12 @@ func (backRepoGongStructShape *BackRepoGongStructShapeStruct) CheckoutPhaseOneIn
 
 		// append model store with the new element
 		gongstructshape.Name = gongstructshapeDB.Name_Data.String
-		gongstructshape.Stage()
+		gongstructshape.Stage(backRepoGongStructShape.GetStage())
 	}
 	gongstructshapeDB.CopyBasicFieldsToGongStructShape(gongstructshape)
 
 	// in some cases, the instance might have been unstaged. It is necessary to stage it again
-	gongstructshape.Stage()
+	gongstructshape.Stage(backRepoGongStructShape.GetStage())
 
 	// preserve pointer to gongstructshapeDB. Otherwise, pointer will is recycled and the map of pointers
 	// Map_GongStructShapeDBID_GongStructShapeDB)[gongstructshapeDB hold variable pointers

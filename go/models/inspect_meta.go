@@ -12,7 +12,7 @@ import (
 //
 // That is a General Declaration (because it is exported)
 // The Type in the Value Specification of the declaration must be "Meta"
-func inspectMeta(astPackage *ast.Package) {
+func inspectMeta(stage *StageStruct, astPackage *ast.Package) {
 
 	ast.Inspect(astPackage, func(n ast.Node) bool {
 		switch x := n.(type) {
@@ -33,7 +33,7 @@ func inspectMeta(astPackage *ast.Package) {
 						if ident.Name != "Meta" {
 							break
 						}
-						meta := (&Meta{Name: vs.Names[0].Name}).Stage()
+						meta := (&Meta{Name: vs.Names[0].Name}).Stage(stage)
 						_ = meta
 						log.Println("A Meta declaration ", meta.Name)
 						// parse both elements
@@ -60,10 +60,10 @@ func inspectMeta(astPackage *ast.Package) {
 										switch i := x.Type.(type) {
 										case *ast.Ident:
 											meta.MetaReferences = append(meta.MetaReferences,
-												(&MetaReference{Name: i.Name}).Stage())
+												(&MetaReference{Name: i.Name}).Stage(stage))
 										}
 									case *ast.SelectorExpr:
-										metaRef := (&MetaReference{Name: "tmp"}).Stage()
+										metaRef := (&MetaReference{Name: "tmp"}).Stage(stage)
 										meta.MetaReferences = append(meta.MetaReferences,
 											metaRef)
 										switch cl := x.X.(type) {

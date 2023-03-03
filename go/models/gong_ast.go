@@ -29,10 +29,10 @@ const (
 
 // ParseAstFile Parse pathToFile and stages all instances
 // declared in the file
-func ParseAstFile(pathToFile string) error {
+func ParseAstFile(stage *StageStruct, pathToFile string) error {
 	// map to store renaming docLink
 	// to be removed after fix of [issue](https://github.com/golang/go/issues/57559)
-	Stage.Map_DocLink_Renaming = make(map[string]GONG__Identifier, 0)
+	stage.Map_DocLink_Renaming = make(map[string]GONG__Identifier, 0)
 
 	fileOfInterest, err := filepath.Abs(pathToFile)
 	if err != nil {
@@ -48,21 +48,19 @@ func ParseAstFile(pathToFile string) error {
 		return errors.New("Unable to parser " + errParser.Error())
 	}
 
-	return ParseAstFileFromAst(inFile, fset)
+	return ParseAstFileFromAst(stage, inFile, fset)
 }
 
 // ParseAstFile Parse pathToFile and stages all instances
 // declared in the file
-func ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet) error {
+func ParseAstFileFromAst(stage *StageStruct, inFile *ast.File, fset *token.FileSet) error {
 	// if there is a meta package import, it is the third import
 	if len(inFile.Imports) > 3 {
 		log.Fatalln("Too many imports in file", inFile.Name)
 	}
-	stage := &Stage
-	_ = stage
 	if len(inFile.Imports) == 3 {
-		Stage.MetaPackageImportAlias = inFile.Imports[2].Name.Name
-		Stage.MetaPackageImportPath = inFile.Imports[2].Path.Value
+		stage.MetaPackageImportAlias = inFile.Imports[2].Name.Name
+		stage.MetaPackageImportPath = inFile.Imports[2].Path.Value
 	}
 
 	// astCoordinate := "File "
@@ -116,7 +114,7 @@ func ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet) error {
 						assignStmt := stmt
 						instance, id, gongstruct, fieldName :=
 							UnmarshallGongstructStaging(
-								&cmap, assignStmt, astCoordinate)
+								stage, &cmap, assignStmt, astCoordinate)
 						_ = instance
 						_ = id
 						_ = gongstruct
@@ -294,7 +292,7 @@ func ParseAstFileFromAst(inFile *ast.File, fset *token.FileSet) error {
 							// otherwise, one stores the new ident (after renaming) in the
 							// renaming map
 							docLink.Type = expressionType
-							Stage.Map_DocLink_Renaming[key] = docLink
+							stage.Map_DocLink_Renaming[key] = docLink
 						}
 					}
 				}
@@ -326,10 +324,7 @@ var __gong__map_SliceOfPointerToGongStructField = make(map[string]*SliceOfPointe
 // While this was introduced in go 1.19, it is not yet implemented in
 // gopls (see [issue](https://github.com/golang/go/issues/57559)
 func lookupPackage(name string) (importPath string, ok bool) {
-	if name == Stage.MetaPackageImportAlias {
-		return Stage.MetaPackageImportAlias, true
-	}
-	return comment.DefaultLookupPackage(name)
+	return name, true
 }
 func lookupSym(recv, name string) (ok bool) {
 	if recv == "" {
@@ -339,7 +334,7 @@ func lookupSym(recv, name string) (ok bool) {
 }
 
 // UnmarshallGoStaging unmarshall a go assign statement
-func UnmarshallGongstructStaging(cmap *ast.CommentMap, assignStmt *ast.AssignStmt, astCoordinate_ string) (
+func UnmarshallGongstructStaging(stage *StageStruct, cmap *ast.CommentMap, assignStmt *ast.AssignStmt, astCoordinate_ string) (
 	instance any,
 	identifier string,
 	gongstructName string,
@@ -390,7 +385,7 @@ func UnmarshallGongstructStaging(cmap *ast.CommentMap, assignStmt *ast.AssignStm
 
 						// we check wether the doc link has been renamed
 						// to be removed after fix of [issue](https://github.com/golang/go/issues/57559)
-						if renamed, ok := (Stage.Map_DocLink_Renaming)[docLinkText]; ok {
+						if renamed, ok := (stage.Map_DocLink_Renaming)[docLinkText]; ok {
 							docLinkText = renamed.Ident
 						}
 					}
@@ -496,51 +491,51 @@ func UnmarshallGongstructStaging(cmap *ast.CommentMap, assignStmt *ast.AssignStm
 									switch gongstructName {
 									// insertion point for identifiers
 									case "GongBasicField":
-										instanceGongBasicField := (&GongBasicField{Name: instanceName}).Stage()
+										instanceGongBasicField := (&GongBasicField{Name: instanceName}).Stage(stage)
 										instance = any(instanceGongBasicField)
 										__gong__map_GongBasicField[identifier] = instanceGongBasicField
 									case "GongEnum":
-										instanceGongEnum := (&GongEnum{Name: instanceName}).Stage()
+										instanceGongEnum := (&GongEnum{Name: instanceName}).Stage(stage)
 										instance = any(instanceGongEnum)
 										__gong__map_GongEnum[identifier] = instanceGongEnum
 									case "GongEnumValue":
-										instanceGongEnumValue := (&GongEnumValue{Name: instanceName}).Stage()
+										instanceGongEnumValue := (&GongEnumValue{Name: instanceName}).Stage(stage)
 										instance = any(instanceGongEnumValue)
 										__gong__map_GongEnumValue[identifier] = instanceGongEnumValue
 									case "GongLink":
-										instanceGongLink := (&GongLink{Name: instanceName}).Stage()
+										instanceGongLink := (&GongLink{Name: instanceName}).Stage(stage)
 										instance = any(instanceGongLink)
 										__gong__map_GongLink[identifier] = instanceGongLink
 									case "GongNote":
-										instanceGongNote := (&GongNote{Name: instanceName}).Stage()
+										instanceGongNote := (&GongNote{Name: instanceName}).Stage(stage)
 										instance = any(instanceGongNote)
 										__gong__map_GongNote[identifier] = instanceGongNote
 									case "GongStruct":
-										instanceGongStruct := (&GongStruct{Name: instanceName}).Stage()
+										instanceGongStruct := (&GongStruct{Name: instanceName}).Stage(stage)
 										instance = any(instanceGongStruct)
 										__gong__map_GongStruct[identifier] = instanceGongStruct
 									case "GongTimeField":
-										instanceGongTimeField := (&GongTimeField{Name: instanceName}).Stage()
+										instanceGongTimeField := (&GongTimeField{Name: instanceName}).Stage(stage)
 										instance = any(instanceGongTimeField)
 										__gong__map_GongTimeField[identifier] = instanceGongTimeField
 									case "Meta":
-										instanceMeta := (&Meta{Name: instanceName}).Stage()
+										instanceMeta := (&Meta{Name: instanceName}).Stage(stage)
 										instance = any(instanceMeta)
 										__gong__map_Meta[identifier] = instanceMeta
 									case "MetaReference":
-										instanceMetaReference := (&MetaReference{Name: instanceName}).Stage()
+										instanceMetaReference := (&MetaReference{Name: instanceName}).Stage(stage)
 										instance = any(instanceMetaReference)
 										__gong__map_MetaReference[identifier] = instanceMetaReference
 									case "ModelPkg":
-										instanceModelPkg := (&ModelPkg{Name: instanceName}).Stage()
+										instanceModelPkg := (&ModelPkg{Name: instanceName}).Stage(stage)
 										instance = any(instanceModelPkg)
 										__gong__map_ModelPkg[identifier] = instanceModelPkg
 									case "PointerToGongStructField":
-										instancePointerToGongStructField := (&PointerToGongStructField{Name: instanceName}).Stage()
+										instancePointerToGongStructField := (&PointerToGongStructField{Name: instanceName}).Stage(stage)
 										instance = any(instancePointerToGongStructField)
 										__gong__map_PointerToGongStructField[identifier] = instancePointerToGongStructField
 									case "SliceOfPointerToGongStructField":
-										instanceSliceOfPointerToGongStructField := (&SliceOfPointerToGongStructField{Name: instanceName}).Stage()
+										instanceSliceOfPointerToGongStructField := (&SliceOfPointerToGongStructField{Name: instanceName}).Stage(stage)
 										instance = any(instanceSliceOfPointerToGongStructField)
 										__gong__map_SliceOfPointerToGongStructField[identifier] = instanceSliceOfPointerToGongStructField
 									}

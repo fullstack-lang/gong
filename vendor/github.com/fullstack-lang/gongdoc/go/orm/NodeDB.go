@@ -198,6 +198,13 @@ type BackRepoNodeStruct struct {
 	Map_NodeDBID_NodePtr *map[uint]*models.Node
 
 	db *gorm.DB
+
+	stage *models.StageStruct
+}
+
+func (backRepoNode *BackRepoNodeStruct) GetStage() (stage *models.StageStruct) {
+	stage = backRepoNode.stage
+	return
 }
 
 func (backRepoNode *BackRepoNodeStruct) GetDB() *gorm.DB {
@@ -212,7 +219,7 @@ func (backRepoNode *BackRepoNodeStruct) GetNodeDBFromNodePtr(node *models.Node) 
 }
 
 // BackRepoNode.Init set up the BackRepo of the Node
-func (backRepoNode *BackRepoNodeStruct) Init(db *gorm.DB) (Error error) {
+func (backRepoNode *BackRepoNodeStruct) Init(stage *models.StageStruct, db *gorm.DB) (Error error) {
 
 	if backRepoNode.Map_NodeDBID_NodePtr != nil {
 		err := errors.New("In Init, backRepoNode.Map_NodeDBID_NodePtr should be nil")
@@ -239,6 +246,7 @@ func (backRepoNode *BackRepoNodeStruct) Init(db *gorm.DB) (Error error) {
 	backRepoNode.Map_NodePtr_NodeDBID = &tmpID
 
 	backRepoNode.db = db
+	backRepoNode.stage = stage
 	return
 }
 
@@ -376,7 +384,7 @@ func (backRepoNode *BackRepoNodeStruct) CheckoutPhaseOne() (Error error) {
 	// list of instances to be removed
 	// start from the initial map on the stage and remove instances that have been checked out
 	nodeInstancesToBeRemovedFromTheStage := make(map[*models.Node]any)
-	for key, value := range models.Stage.Nodes {
+	for key, value := range backRepoNode.stage.Nodes {
 		nodeInstancesToBeRemovedFromTheStage[key] = value
 	}
 
@@ -394,7 +402,7 @@ func (backRepoNode *BackRepoNodeStruct) CheckoutPhaseOne() (Error error) {
 
 	// remove from stage and back repo's 3 maps all nodes that are not in the checkout
 	for node := range nodeInstancesToBeRemovedFromTheStage {
-		node.Unstage()
+		node.Unstage(backRepoNode.GetStage())
 
 		// remove instance from the back repo 3 maps
 		nodeID := (*backRepoNode.Map_NodePtr_NodeDBID)[node]
@@ -419,12 +427,12 @@ func (backRepoNode *BackRepoNodeStruct) CheckoutPhaseOneInstance(nodeDB *NodeDB)
 
 		// append model store with the new element
 		node.Name = nodeDB.Name_Data.String
-		node.Stage()
+		node.Stage(backRepoNode.GetStage())
 	}
 	nodeDB.CopyBasicFieldsToNode(node)
 
 	// in some cases, the instance might have been unstaged. It is necessary to stage it again
-	node.Stage()
+	node.Stage(backRepoNode.GetStage())
 
 	// preserve pointer to nodeDB. Otherwise, pointer will is recycled and the map of pointers
 	// Map_NodeDBID_NodeDB)[nodeDB hold variable pointers

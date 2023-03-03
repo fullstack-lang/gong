@@ -14,6 +14,7 @@ export class NoteShapeDB {
 	Name: string = ""
 	Identifier: string = ""
 	Body: string = ""
+	BodyHTML: string = ""
 	X: number = 0
 	Y: number = 0
 	Width: number = 0

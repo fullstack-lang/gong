@@ -234,93 +234,38 @@ func (stage *StageStruct) RestoreXL(dirPath string) {
 
 // insertion point for cumulative sub template with model space calls
 // Stage puts astruct to the model stage
-func (astruct *Astruct) Stage() *Astruct {
-	Stage.Astructs[astruct] = __member
-	Stage.Astructs_mapString[astruct.Name] = astruct
+func (astruct *Astruct) Stage(stage *StageStruct) *Astruct {
+	stage.Astructs[astruct] = __member
+	stage.Astructs_mapString[astruct.Name] = astruct
 
 	return astruct
 }
 
 // Unstage removes astruct off the model stage
-func (astruct *Astruct) Unstage() *Astruct {
-	delete(Stage.Astructs, astruct)
-	delete(Stage.Astructs_mapString, astruct.Name)
+func (astruct *Astruct) Unstage(stage *StageStruct) *Astruct {
+	delete(stage.Astructs, astruct)
+	delete(stage.Astructs_mapString, astruct.Name)
 	return astruct
 }
 
 // commit astruct to the back repo (if it is already staged)
-func (astruct *Astruct) Commit() *Astruct {
-	if _, ok := Stage.Astructs[astruct]; ok {
-		if Stage.BackRepo != nil {
-			Stage.BackRepo.CommitAstruct(astruct)
+func (astruct *Astruct) Commit(stage *StageStruct) *Astruct {
+	if _, ok := stage.Astructs[astruct]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitAstruct(astruct)
 		}
 	}
 	return astruct
 }
 
 // Checkout astruct to the back repo (if it is already staged)
-func (astruct *Astruct) Checkout() *Astruct {
+func (astruct *Astruct) Checkout(stage *StageStruct) *Astruct {
 	if _, ok := Stage.Astructs[astruct]; ok {
-		if Stage.BackRepo != nil {
-			Stage.BackRepo.CheckoutAstruct(astruct)
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutAstruct(astruct)
 		}
 	}
 	return astruct
-}
-
-//
-// Legacy, to be deleted
-//
-
-// StageCopy appends a copy of astruct to the model stage
-func (astruct *Astruct) StageCopy() *Astruct {
-	_astruct := new(Astruct)
-	*_astruct = *astruct
-	_astruct.Stage()
-	return _astruct
-}
-
-// StageAndCommit appends astruct to the model stage and commit to the orm repo
-func (astruct *Astruct) StageAndCommit() *Astruct {
-	astruct.Stage()
-	if Stage.AllModelsStructCreateCallback != nil {
-		Stage.AllModelsStructCreateCallback.CreateORMAstruct(astruct)
-	}
-	return astruct
-}
-
-// DeleteStageAndCommit appends astruct to the model stage and commit to the orm repo
-func (astruct *Astruct) DeleteStageAndCommit() *Astruct {
-	astruct.Unstage()
-	DeleteORMAstruct(astruct)
-	return astruct
-}
-
-// StageCopyAndCommit appends a copy of astruct to the model stage and commit to the orm repo
-func (astruct *Astruct) StageCopyAndCommit() *Astruct {
-	_astruct := new(Astruct)
-	*_astruct = *astruct
-	_astruct.Stage()
-	if Stage.AllModelsStructCreateCallback != nil {
-		Stage.AllModelsStructCreateCallback.CreateORMAstruct(astruct)
-	}
-	return _astruct
-}
-
-// CreateORMAstruct enables dynamic staging of a Astruct instance
-func CreateORMAstruct(astruct *Astruct) {
-	astruct.Stage()
-	if Stage.AllModelsStructCreateCallback != nil {
-		Stage.AllModelsStructCreateCallback.CreateORMAstruct(astruct)
-	}
-}
-
-// DeleteORMAstruct enables dynamic staging of a Astruct instance
-func DeleteORMAstruct(astruct *Astruct) {
-	astruct.Unstage()
-	if Stage.AllModelsStructDeleteCallback != nil {
-		Stage.AllModelsStructDeleteCallback.DeleteORMAstruct(astruct)
-	}
 }
 
 // for satisfaction of GongStruct interface
@@ -329,93 +274,38 @@ func (astruct *Astruct) GetName() (res string) {
 }
 
 // Stage puts astructbstruct2use to the model stage
-func (astructbstruct2use *AstructBstruct2Use) Stage() *AstructBstruct2Use {
-	Stage.AstructBstruct2Uses[astructbstruct2use] = __member
-	Stage.AstructBstruct2Uses_mapString[astructbstruct2use.Name] = astructbstruct2use
+func (astructbstruct2use *AstructBstruct2Use) Stage(stage *StageStruct) *AstructBstruct2Use {
+	stage.AstructBstruct2Uses[astructbstruct2use] = __member
+	stage.AstructBstruct2Uses_mapString[astructbstruct2use.Name] = astructbstruct2use
 
 	return astructbstruct2use
 }
 
 // Unstage removes astructbstruct2use off the model stage
-func (astructbstruct2use *AstructBstruct2Use) Unstage() *AstructBstruct2Use {
-	delete(Stage.AstructBstruct2Uses, astructbstruct2use)
-	delete(Stage.AstructBstruct2Uses_mapString, astructbstruct2use.Name)
+func (astructbstruct2use *AstructBstruct2Use) Unstage(stage *StageStruct) *AstructBstruct2Use {
+	delete(stage.AstructBstruct2Uses, astructbstruct2use)
+	delete(stage.AstructBstruct2Uses_mapString, astructbstruct2use.Name)
 	return astructbstruct2use
 }
 
 // commit astructbstruct2use to the back repo (if it is already staged)
-func (astructbstruct2use *AstructBstruct2Use) Commit() *AstructBstruct2Use {
-	if _, ok := Stage.AstructBstruct2Uses[astructbstruct2use]; ok {
-		if Stage.BackRepo != nil {
-			Stage.BackRepo.CommitAstructBstruct2Use(astructbstruct2use)
+func (astructbstruct2use *AstructBstruct2Use) Commit(stage *StageStruct) *AstructBstruct2Use {
+	if _, ok := stage.AstructBstruct2Uses[astructbstruct2use]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitAstructBstruct2Use(astructbstruct2use)
 		}
 	}
 	return astructbstruct2use
 }
 
 // Checkout astructbstruct2use to the back repo (if it is already staged)
-func (astructbstruct2use *AstructBstruct2Use) Checkout() *AstructBstruct2Use {
+func (astructbstruct2use *AstructBstruct2Use) Checkout(stage *StageStruct) *AstructBstruct2Use {
 	if _, ok := Stage.AstructBstruct2Uses[astructbstruct2use]; ok {
-		if Stage.BackRepo != nil {
-			Stage.BackRepo.CheckoutAstructBstruct2Use(astructbstruct2use)
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutAstructBstruct2Use(astructbstruct2use)
 		}
 	}
 	return astructbstruct2use
-}
-
-//
-// Legacy, to be deleted
-//
-
-// StageCopy appends a copy of astructbstruct2use to the model stage
-func (astructbstruct2use *AstructBstruct2Use) StageCopy() *AstructBstruct2Use {
-	_astructbstruct2use := new(AstructBstruct2Use)
-	*_astructbstruct2use = *astructbstruct2use
-	_astructbstruct2use.Stage()
-	return _astructbstruct2use
-}
-
-// StageAndCommit appends astructbstruct2use to the model stage and commit to the orm repo
-func (astructbstruct2use *AstructBstruct2Use) StageAndCommit() *AstructBstruct2Use {
-	astructbstruct2use.Stage()
-	if Stage.AllModelsStructCreateCallback != nil {
-		Stage.AllModelsStructCreateCallback.CreateORMAstructBstruct2Use(astructbstruct2use)
-	}
-	return astructbstruct2use
-}
-
-// DeleteStageAndCommit appends astructbstruct2use to the model stage and commit to the orm repo
-func (astructbstruct2use *AstructBstruct2Use) DeleteStageAndCommit() *AstructBstruct2Use {
-	astructbstruct2use.Unstage()
-	DeleteORMAstructBstruct2Use(astructbstruct2use)
-	return astructbstruct2use
-}
-
-// StageCopyAndCommit appends a copy of astructbstruct2use to the model stage and commit to the orm repo
-func (astructbstruct2use *AstructBstruct2Use) StageCopyAndCommit() *AstructBstruct2Use {
-	_astructbstruct2use := new(AstructBstruct2Use)
-	*_astructbstruct2use = *astructbstruct2use
-	_astructbstruct2use.Stage()
-	if Stage.AllModelsStructCreateCallback != nil {
-		Stage.AllModelsStructCreateCallback.CreateORMAstructBstruct2Use(astructbstruct2use)
-	}
-	return _astructbstruct2use
-}
-
-// CreateORMAstructBstruct2Use enables dynamic staging of a AstructBstruct2Use instance
-func CreateORMAstructBstruct2Use(astructbstruct2use *AstructBstruct2Use) {
-	astructbstruct2use.Stage()
-	if Stage.AllModelsStructCreateCallback != nil {
-		Stage.AllModelsStructCreateCallback.CreateORMAstructBstruct2Use(astructbstruct2use)
-	}
-}
-
-// DeleteORMAstructBstruct2Use enables dynamic staging of a AstructBstruct2Use instance
-func DeleteORMAstructBstruct2Use(astructbstruct2use *AstructBstruct2Use) {
-	astructbstruct2use.Unstage()
-	if Stage.AllModelsStructDeleteCallback != nil {
-		Stage.AllModelsStructDeleteCallback.DeleteORMAstructBstruct2Use(astructbstruct2use)
-	}
 }
 
 // for satisfaction of GongStruct interface
@@ -424,93 +314,38 @@ func (astructbstruct2use *AstructBstruct2Use) GetName() (res string) {
 }
 
 // Stage puts astructbstructuse to the model stage
-func (astructbstructuse *AstructBstructUse) Stage() *AstructBstructUse {
-	Stage.AstructBstructUses[astructbstructuse] = __member
-	Stage.AstructBstructUses_mapString[astructbstructuse.Name] = astructbstructuse
+func (astructbstructuse *AstructBstructUse) Stage(stage *StageStruct) *AstructBstructUse {
+	stage.AstructBstructUses[astructbstructuse] = __member
+	stage.AstructBstructUses_mapString[astructbstructuse.Name] = astructbstructuse
 
 	return astructbstructuse
 }
 
 // Unstage removes astructbstructuse off the model stage
-func (astructbstructuse *AstructBstructUse) Unstage() *AstructBstructUse {
-	delete(Stage.AstructBstructUses, astructbstructuse)
-	delete(Stage.AstructBstructUses_mapString, astructbstructuse.Name)
+func (astructbstructuse *AstructBstructUse) Unstage(stage *StageStruct) *AstructBstructUse {
+	delete(stage.AstructBstructUses, astructbstructuse)
+	delete(stage.AstructBstructUses_mapString, astructbstructuse.Name)
 	return astructbstructuse
 }
 
 // commit astructbstructuse to the back repo (if it is already staged)
-func (astructbstructuse *AstructBstructUse) Commit() *AstructBstructUse {
-	if _, ok := Stage.AstructBstructUses[astructbstructuse]; ok {
-		if Stage.BackRepo != nil {
-			Stage.BackRepo.CommitAstructBstructUse(astructbstructuse)
+func (astructbstructuse *AstructBstructUse) Commit(stage *StageStruct) *AstructBstructUse {
+	if _, ok := stage.AstructBstructUses[astructbstructuse]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitAstructBstructUse(astructbstructuse)
 		}
 	}
 	return astructbstructuse
 }
 
 // Checkout astructbstructuse to the back repo (if it is already staged)
-func (astructbstructuse *AstructBstructUse) Checkout() *AstructBstructUse {
+func (astructbstructuse *AstructBstructUse) Checkout(stage *StageStruct) *AstructBstructUse {
 	if _, ok := Stage.AstructBstructUses[astructbstructuse]; ok {
-		if Stage.BackRepo != nil {
-			Stage.BackRepo.CheckoutAstructBstructUse(astructbstructuse)
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutAstructBstructUse(astructbstructuse)
 		}
 	}
 	return astructbstructuse
-}
-
-//
-// Legacy, to be deleted
-//
-
-// StageCopy appends a copy of astructbstructuse to the model stage
-func (astructbstructuse *AstructBstructUse) StageCopy() *AstructBstructUse {
-	_astructbstructuse := new(AstructBstructUse)
-	*_astructbstructuse = *astructbstructuse
-	_astructbstructuse.Stage()
-	return _astructbstructuse
-}
-
-// StageAndCommit appends astructbstructuse to the model stage and commit to the orm repo
-func (astructbstructuse *AstructBstructUse) StageAndCommit() *AstructBstructUse {
-	astructbstructuse.Stage()
-	if Stage.AllModelsStructCreateCallback != nil {
-		Stage.AllModelsStructCreateCallback.CreateORMAstructBstructUse(astructbstructuse)
-	}
-	return astructbstructuse
-}
-
-// DeleteStageAndCommit appends astructbstructuse to the model stage and commit to the orm repo
-func (astructbstructuse *AstructBstructUse) DeleteStageAndCommit() *AstructBstructUse {
-	astructbstructuse.Unstage()
-	DeleteORMAstructBstructUse(astructbstructuse)
-	return astructbstructuse
-}
-
-// StageCopyAndCommit appends a copy of astructbstructuse to the model stage and commit to the orm repo
-func (astructbstructuse *AstructBstructUse) StageCopyAndCommit() *AstructBstructUse {
-	_astructbstructuse := new(AstructBstructUse)
-	*_astructbstructuse = *astructbstructuse
-	_astructbstructuse.Stage()
-	if Stage.AllModelsStructCreateCallback != nil {
-		Stage.AllModelsStructCreateCallback.CreateORMAstructBstructUse(astructbstructuse)
-	}
-	return _astructbstructuse
-}
-
-// CreateORMAstructBstructUse enables dynamic staging of a AstructBstructUse instance
-func CreateORMAstructBstructUse(astructbstructuse *AstructBstructUse) {
-	astructbstructuse.Stage()
-	if Stage.AllModelsStructCreateCallback != nil {
-		Stage.AllModelsStructCreateCallback.CreateORMAstructBstructUse(astructbstructuse)
-	}
-}
-
-// DeleteORMAstructBstructUse enables dynamic staging of a AstructBstructUse instance
-func DeleteORMAstructBstructUse(astructbstructuse *AstructBstructUse) {
-	astructbstructuse.Unstage()
-	if Stage.AllModelsStructDeleteCallback != nil {
-		Stage.AllModelsStructDeleteCallback.DeleteORMAstructBstructUse(astructbstructuse)
-	}
 }
 
 // for satisfaction of GongStruct interface
@@ -519,93 +354,38 @@ func (astructbstructuse *AstructBstructUse) GetName() (res string) {
 }
 
 // Stage puts bstruct to the model stage
-func (bstruct *Bstruct) Stage() *Bstruct {
-	Stage.Bstructs[bstruct] = __member
-	Stage.Bstructs_mapString[bstruct.Name] = bstruct
+func (bstruct *Bstruct) Stage(stage *StageStruct) *Bstruct {
+	stage.Bstructs[bstruct] = __member
+	stage.Bstructs_mapString[bstruct.Name] = bstruct
 
 	return bstruct
 }
 
 // Unstage removes bstruct off the model stage
-func (bstruct *Bstruct) Unstage() *Bstruct {
-	delete(Stage.Bstructs, bstruct)
-	delete(Stage.Bstructs_mapString, bstruct.Name)
+func (bstruct *Bstruct) Unstage(stage *StageStruct) *Bstruct {
+	delete(stage.Bstructs, bstruct)
+	delete(stage.Bstructs_mapString, bstruct.Name)
 	return bstruct
 }
 
 // commit bstruct to the back repo (if it is already staged)
-func (bstruct *Bstruct) Commit() *Bstruct {
-	if _, ok := Stage.Bstructs[bstruct]; ok {
-		if Stage.BackRepo != nil {
-			Stage.BackRepo.CommitBstruct(bstruct)
+func (bstruct *Bstruct) Commit(stage *StageStruct) *Bstruct {
+	if _, ok := stage.Bstructs[bstruct]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitBstruct(bstruct)
 		}
 	}
 	return bstruct
 }
 
 // Checkout bstruct to the back repo (if it is already staged)
-func (bstruct *Bstruct) Checkout() *Bstruct {
+func (bstruct *Bstruct) Checkout(stage *StageStruct) *Bstruct {
 	if _, ok := Stage.Bstructs[bstruct]; ok {
-		if Stage.BackRepo != nil {
-			Stage.BackRepo.CheckoutBstruct(bstruct)
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutBstruct(bstruct)
 		}
 	}
 	return bstruct
-}
-
-//
-// Legacy, to be deleted
-//
-
-// StageCopy appends a copy of bstruct to the model stage
-func (bstruct *Bstruct) StageCopy() *Bstruct {
-	_bstruct := new(Bstruct)
-	*_bstruct = *bstruct
-	_bstruct.Stage()
-	return _bstruct
-}
-
-// StageAndCommit appends bstruct to the model stage and commit to the orm repo
-func (bstruct *Bstruct) StageAndCommit() *Bstruct {
-	bstruct.Stage()
-	if Stage.AllModelsStructCreateCallback != nil {
-		Stage.AllModelsStructCreateCallback.CreateORMBstruct(bstruct)
-	}
-	return bstruct
-}
-
-// DeleteStageAndCommit appends bstruct to the model stage and commit to the orm repo
-func (bstruct *Bstruct) DeleteStageAndCommit() *Bstruct {
-	bstruct.Unstage()
-	DeleteORMBstruct(bstruct)
-	return bstruct
-}
-
-// StageCopyAndCommit appends a copy of bstruct to the model stage and commit to the orm repo
-func (bstruct *Bstruct) StageCopyAndCommit() *Bstruct {
-	_bstruct := new(Bstruct)
-	*_bstruct = *bstruct
-	_bstruct.Stage()
-	if Stage.AllModelsStructCreateCallback != nil {
-		Stage.AllModelsStructCreateCallback.CreateORMBstruct(bstruct)
-	}
-	return _bstruct
-}
-
-// CreateORMBstruct enables dynamic staging of a Bstruct instance
-func CreateORMBstruct(bstruct *Bstruct) {
-	bstruct.Stage()
-	if Stage.AllModelsStructCreateCallback != nil {
-		Stage.AllModelsStructCreateCallback.CreateORMBstruct(bstruct)
-	}
-}
-
-// DeleteORMBstruct enables dynamic staging of a Bstruct instance
-func DeleteORMBstruct(bstruct *Bstruct) {
-	bstruct.Unstage()
-	if Stage.AllModelsStructDeleteCallback != nil {
-		Stage.AllModelsStructDeleteCallback.DeleteORMBstruct(bstruct)
-	}
 }
 
 // for satisfaction of GongStruct interface
@@ -614,93 +394,38 @@ func (bstruct *Bstruct) GetName() (res string) {
 }
 
 // Stage puts dstruct to the model stage
-func (dstruct *Dstruct) Stage() *Dstruct {
-	Stage.Dstructs[dstruct] = __member
-	Stage.Dstructs_mapString[dstruct.Name] = dstruct
+func (dstruct *Dstruct) Stage(stage *StageStruct) *Dstruct {
+	stage.Dstructs[dstruct] = __member
+	stage.Dstructs_mapString[dstruct.Name] = dstruct
 
 	return dstruct
 }
 
 // Unstage removes dstruct off the model stage
-func (dstruct *Dstruct) Unstage() *Dstruct {
-	delete(Stage.Dstructs, dstruct)
-	delete(Stage.Dstructs_mapString, dstruct.Name)
+func (dstruct *Dstruct) Unstage(stage *StageStruct) *Dstruct {
+	delete(stage.Dstructs, dstruct)
+	delete(stage.Dstructs_mapString, dstruct.Name)
 	return dstruct
 }
 
 // commit dstruct to the back repo (if it is already staged)
-func (dstruct *Dstruct) Commit() *Dstruct {
-	if _, ok := Stage.Dstructs[dstruct]; ok {
-		if Stage.BackRepo != nil {
-			Stage.BackRepo.CommitDstruct(dstruct)
+func (dstruct *Dstruct) Commit(stage *StageStruct) *Dstruct {
+	if _, ok := stage.Dstructs[dstruct]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitDstruct(dstruct)
 		}
 	}
 	return dstruct
 }
 
 // Checkout dstruct to the back repo (if it is already staged)
-func (dstruct *Dstruct) Checkout() *Dstruct {
+func (dstruct *Dstruct) Checkout(stage *StageStruct) *Dstruct {
 	if _, ok := Stage.Dstructs[dstruct]; ok {
-		if Stage.BackRepo != nil {
-			Stage.BackRepo.CheckoutDstruct(dstruct)
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutDstruct(dstruct)
 		}
 	}
 	return dstruct
-}
-
-//
-// Legacy, to be deleted
-//
-
-// StageCopy appends a copy of dstruct to the model stage
-func (dstruct *Dstruct) StageCopy() *Dstruct {
-	_dstruct := new(Dstruct)
-	*_dstruct = *dstruct
-	_dstruct.Stage()
-	return _dstruct
-}
-
-// StageAndCommit appends dstruct to the model stage and commit to the orm repo
-func (dstruct *Dstruct) StageAndCommit() *Dstruct {
-	dstruct.Stage()
-	if Stage.AllModelsStructCreateCallback != nil {
-		Stage.AllModelsStructCreateCallback.CreateORMDstruct(dstruct)
-	}
-	return dstruct
-}
-
-// DeleteStageAndCommit appends dstruct to the model stage and commit to the orm repo
-func (dstruct *Dstruct) DeleteStageAndCommit() *Dstruct {
-	dstruct.Unstage()
-	DeleteORMDstruct(dstruct)
-	return dstruct
-}
-
-// StageCopyAndCommit appends a copy of dstruct to the model stage and commit to the orm repo
-func (dstruct *Dstruct) StageCopyAndCommit() *Dstruct {
-	_dstruct := new(Dstruct)
-	*_dstruct = *dstruct
-	_dstruct.Stage()
-	if Stage.AllModelsStructCreateCallback != nil {
-		Stage.AllModelsStructCreateCallback.CreateORMDstruct(dstruct)
-	}
-	return _dstruct
-}
-
-// CreateORMDstruct enables dynamic staging of a Dstruct instance
-func CreateORMDstruct(dstruct *Dstruct) {
-	dstruct.Stage()
-	if Stage.AllModelsStructCreateCallback != nil {
-		Stage.AllModelsStructCreateCallback.CreateORMDstruct(dstruct)
-	}
-}
-
-// DeleteORMDstruct enables dynamic staging of a Dstruct instance
-func DeleteORMDstruct(dstruct *Dstruct) {
-	dstruct.Unstage()
-	if Stage.AllModelsStructDeleteCallback != nil {
-		Stage.AllModelsStructDeleteCallback.DeleteORMDstruct(dstruct)
-	}
 }
 
 // for satisfaction of GongStruct interface
@@ -763,23 +488,23 @@ func (stage *StageStruct) Nil() { // insertion point for array nil
 
 func (stage *StageStruct) Unstage() { // insertion point for array nil
 	for astruct := range stage.Astructs {
-		astruct.Unstage()
+		astruct.Unstage(stage)
 	}
 
 	for astructbstruct2use := range stage.AstructBstruct2Uses {
-		astructbstruct2use.Unstage()
+		astructbstruct2use.Unstage(stage)
 	}
 
 	for astructbstructuse := range stage.AstructBstructUses {
-		astructbstructuse.Unstage()
+		astructbstructuse.Unstage(stage)
 	}
 
 	for bstruct := range stage.Bstructs {
-		bstruct.Unstage()
+		bstruct.Unstage(stage)
 	}
 
 	for dstruct := range stage.Dstructs {
-		dstruct.Unstage()
+		dstruct.Unstage(stage)
 	}
 
 }

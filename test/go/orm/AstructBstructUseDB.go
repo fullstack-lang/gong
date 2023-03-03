@@ -116,6 +116,11 @@ type BackRepoAstructBstructUseStruct struct {
 	stage *models.StageStruct
 }
 
+func (backRepoAstructBstructUse *BackRepoAstructBstructUseStruct) GetStage() (stage *models.StageStruct) {
+	stage = backRepoAstructBstructUse.stage
+	return
+}
+
 func (backRepoAstructBstructUse *BackRepoAstructBstructUseStruct) GetDB() *gorm.DB {
 	return backRepoAstructBstructUse.db
 }
@@ -301,7 +306,7 @@ func (backRepoAstructBstructUse *BackRepoAstructBstructUseStruct) CheckoutPhaseO
 
 	// remove from stage and back repo's 3 maps all astructbstructuses that are not in the checkout
 	for astructbstructuse := range astructbstructuseInstancesToBeRemovedFromTheStage {
-		astructbstructuse.Unstage()
+		astructbstructuse.Unstage(backRepoAstructBstructUse.GetStage())
 
 		// remove instance from the back repo 3 maps
 		astructbstructuseID := (*backRepoAstructBstructUse.Map_AstructBstructUsePtr_AstructBstructUseDBID)[astructbstructuse]
@@ -326,12 +331,12 @@ func (backRepoAstructBstructUse *BackRepoAstructBstructUseStruct) CheckoutPhaseO
 
 		// append model store with the new element
 		astructbstructuse.Name = astructbstructuseDB.Name_Data.String
-		astructbstructuse.Stage()
+		astructbstructuse.Stage(backRepoAstructBstructUse.GetStage())
 	}
 	astructbstructuseDB.CopyBasicFieldsToAstructBstructUse(astructbstructuse)
 
 	// in some cases, the instance might have been unstaged. It is necessary to stage it again
-	astructbstructuse.Stage()
+	astructbstructuse.Stage(backRepoAstructBstructUse.GetStage())
 
 	// preserve pointer to astructbstructuseDB. Otherwise, pointer will is recycled and the map of pointers
 	// Map_AstructBstructUseDBID_AstructBstructUseDB)[astructbstructuseDB hold variable pointers
