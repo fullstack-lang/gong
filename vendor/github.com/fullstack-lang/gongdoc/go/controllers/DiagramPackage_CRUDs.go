@@ -47,11 +47,23 @@ type DiagramPackageInput struct {
 // default: genericError
 //
 //	200: diagrampackageDBResponse
-func GetDiagramPackages(c *gin.Context) {
-	db := orm.BackRepo.BackRepoDiagramPackage.GetDB()
+func (controller *Controller) GetDiagramPackages(c *gin.Context) {
 
 	// source slice
 	var diagrampackageDBs []orm.DiagramPackageDB
+
+	values := c.Request.URL.Query()
+	stackPath := ""
+	if len(values) == 1 {
+		value := values["GONG__StackPath"]
+		if len(value) == 1 {
+			stackPath = value[0]
+			log.Println("GetDiagramPackages", "GONG__StackPath", stackPath)
+		}
+	}
+	backRepo := controller.Map_BackRepos[stackPath]
+	db := backRepo.BackRepoDiagramPackage.GetDB()
+
 	query := db.Find(&diagrampackageDBs)
 	if query.Error != nil {
 		var returnError GenericError
@@ -95,8 +107,19 @@ func GetDiagramPackages(c *gin.Context) {
 //
 //	Responses:
 //	  200: nodeDBResponse
-func PostDiagramPackage(c *gin.Context) {
-	db := orm.BackRepo.BackRepoDiagramPackage.GetDB()
+func (controller *Controller) PostDiagramPackage(c *gin.Context) {
+
+	values := c.Request.URL.Query()
+	stackPath := ""
+	if len(values) == 1 {
+		value := values["GONG__StackPath"]
+		if len(value) == 1 {
+			stackPath = value[0]
+			log.Println("PostDiagramPackages", "GONG__StackPath", stackPath)
+		}
+	}
+	backRepo := controller.Map_BackRepos[stackPath]
+	db := backRepo.BackRepoDiagramPackage.GetDB()
 
 	// Validate input
 	var input orm.DiagramPackageAPI
@@ -127,16 +150,16 @@ func PostDiagramPackage(c *gin.Context) {
 	}
 
 	// get an instance (not staged) from DB instance, and call callback function
-	orm.BackRepo.BackRepoDiagramPackage.CheckoutPhaseOneInstance(&diagrampackageDB)
-	diagrampackage := (*orm.BackRepo.BackRepoDiagramPackage.Map_DiagramPackageDBID_DiagramPackagePtr)[diagrampackageDB.ID]
+	backRepo.BackRepoDiagramPackage.CheckoutPhaseOneInstance(&diagrampackageDB)
+	diagrampackage := (*backRepo.BackRepoDiagramPackage.Map_DiagramPackageDBID_DiagramPackagePtr)[diagrampackageDB.ID]
 
 	if diagrampackage != nil {
-		models.AfterCreateFromFront(&models.Stage, diagrampackage)
+		models.AfterCreateFromFront(backRepo.GetStage(), diagrampackage)
 	}
 
 	// a POST is equivalent to a back repo commit increase
 	// (this will be improved with implementation of unit of work design pattern)
-	orm.BackRepo.IncrementPushFromFrontNb()
+	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, diagrampackageDB)
 }
@@ -151,8 +174,19 @@ func PostDiagramPackage(c *gin.Context) {
 // default: genericError
 //
 //	200: diagrampackageDBResponse
-func GetDiagramPackage(c *gin.Context) {
-	db := orm.BackRepo.BackRepoDiagramPackage.GetDB()
+func (controller *Controller) GetDiagramPackage(c *gin.Context) {
+
+	values := c.Request.URL.Query()
+	stackPath := ""
+	if len(values) == 1 {
+		value := values["GONG__StackPath"]
+		if len(value) == 1 {
+			stackPath = value[0]
+			log.Println("GetDiagramPackage", "GONG__StackPath", stackPath)
+		}
+	}
+	backRepo := controller.Map_BackRepos[stackPath]
+	db := backRepo.BackRepoDiagramPackage.GetDB()
 
 	// Get diagrampackageDB in DB
 	var diagrampackageDB orm.DiagramPackageDB
@@ -183,8 +217,27 @@ func GetDiagramPackage(c *gin.Context) {
 // default: genericError
 //
 //	200: diagrampackageDBResponse
-func UpdateDiagramPackage(c *gin.Context) {
-	db := orm.BackRepo.BackRepoDiagramPackage.GetDB()
+func (controller *Controller) UpdateDiagramPackage(c *gin.Context) {
+
+	values := c.Request.URL.Query()
+	stackPath := ""
+	if len(values) == 1 {
+		value := values["GONG__StackPath"]
+		if len(value) == 1 {
+			stackPath = value[0]
+			log.Println("UpdateDiagramPackage", "GONG__StackPath", stackPath)
+		}
+	}
+	backRepo := controller.Map_BackRepos[stackPath]
+	db := backRepo.BackRepoDiagramPackage.GetDB()
+
+	// Validate input
+	var input orm.DiagramPackageAPI
+	if err := c.ShouldBindJSON(&input); err != nil {
+		log.Println(err.Error())
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
 
 	// Get model if exist
 	var diagrampackageDB orm.DiagramPackageDB
@@ -198,14 +251,6 @@ func UpdateDiagramPackage(c *gin.Context) {
 		returnError.Body.Message = query.Error.Error()
 		log.Println(query.Error.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
-		return
-	}
-
-	// Validate input
-	var input orm.DiagramPackageAPI
-	if err := c.ShouldBindJSON(&input); err != nil {
-		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
@@ -228,16 +273,16 @@ func UpdateDiagramPackage(c *gin.Context) {
 	diagrampackageDB.CopyBasicFieldsToDiagramPackage(diagrampackageNew)
 
 	// get stage instance from DB instance, and call callback function
-	diagrampackageOld := (*orm.BackRepo.BackRepoDiagramPackage.Map_DiagramPackageDBID_DiagramPackagePtr)[diagrampackageDB.ID]
+	diagrampackageOld := (*backRepo.BackRepoDiagramPackage.Map_DiagramPackageDBID_DiagramPackagePtr)[diagrampackageDB.ID]
 	if diagrampackageOld != nil {
-		models.AfterUpdateFromFront(&models.Stage, diagrampackageOld, diagrampackageNew)
+		models.AfterUpdateFromFront(backRepo.GetStage(), diagrampackageOld, diagrampackageNew)
 	}
 
 	// an UPDATE generates a back repo commit increase
 	// (this will be improved with implementation of unit of work design pattern)
 	// in some cases, with the marshalling of the stage, this operation might
 	// generates a checkout
-	orm.BackRepo.IncrementPushFromFrontNb()
+	backRepo.IncrementPushFromFrontNb()
 
 	// return status OK with the marshalling of the the diagrampackageDB
 	c.JSON(http.StatusOK, diagrampackageDB)
@@ -252,8 +297,19 @@ func UpdateDiagramPackage(c *gin.Context) {
 // default: genericError
 //
 //	200: diagrampackageDBResponse
-func DeleteDiagramPackage(c *gin.Context) {
-	db := orm.BackRepo.BackRepoDiagramPackage.GetDB()
+func (controller *Controller) DeleteDiagramPackage(c *gin.Context) {
+
+	values := c.Request.URL.Query()
+	stackPath := ""
+	if len(values) == 1 {
+		value := values["GONG__StackPath"]
+		if len(value) == 1 {
+			stackPath = value[0]
+			log.Println("DeleteDiagramPackage", "GONG__StackPath", stackPath)
+		}
+	}
+	backRepo := controller.Map_BackRepos[stackPath]
+	db := backRepo.BackRepoDiagramPackage.GetDB()
 
 	// Get model if exist
 	var diagrampackageDB orm.DiagramPackageDB
@@ -274,14 +330,14 @@ func DeleteDiagramPackage(c *gin.Context) {
 	diagrampackageDB.CopyBasicFieldsToDiagramPackage(diagrampackageDeleted)
 
 	// get stage instance from DB instance, and call callback function
-	diagrampackageStaged := (*orm.BackRepo.BackRepoDiagramPackage.Map_DiagramPackageDBID_DiagramPackagePtr)[diagrampackageDB.ID]
+	diagrampackageStaged := (*backRepo.BackRepoDiagramPackage.Map_DiagramPackageDBID_DiagramPackagePtr)[diagrampackageDB.ID]
 	if diagrampackageStaged != nil {
-		models.AfterDeleteFromFront(&models.Stage, diagrampackageStaged, diagrampackageDeleted)
+		models.AfterDeleteFromFront(backRepo.GetStage(), diagrampackageStaged, diagrampackageDeleted)
 	}
 
 	// a DELETE generates a back repo commit increase
 	// (this will be improved with implementation of unit of work design pattern)
-	orm.BackRepo.IncrementPushFromFrontNb()
+	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, gin.H{"data": true})
 }

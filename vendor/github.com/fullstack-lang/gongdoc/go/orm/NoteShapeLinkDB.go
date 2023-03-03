@@ -46,18 +46,6 @@ type NoteShapeLinkAPI struct {
 type NoteShapeLinkPointersEnconding struct {
 	// insertion for pointer fields encoding declaration
 
-	// field Classshape is a pointer to another Struct (optional or 0..1)
-	// This field is generated into another field to enable AS ONE association
-	ClassshapeID sql.NullInt64
-
-	// field Link is a pointer to another Struct (optional or 0..1)
-	// This field is generated into another field to enable AS ONE association
-	LinkID sql.NullInt64
-
-	// field Middlevertice is a pointer to another Struct (optional or 0..1)
-	// This field is generated into another field to enable AS ONE association
-	MiddleverticeID sql.NullInt64
-
 	// Implementation of a reverse ID for field NoteShape{}.NoteShapeLinks []*NoteShapeLink
 	NoteShape_NoteShapeLinksDBID sql.NullInt64
 
@@ -81,6 +69,9 @@ type NoteShapeLinkDB struct {
 
 	// Declation for basic field noteshapelinkDB.Identifier
 	Identifier_Data sql.NullString
+
+	// Declation for basic field noteshapelinkDB.Type
+	Type_Data sql.NullString
 	// encoding of pointers
 	NoteShapeLinkPointersEnconding
 }
@@ -105,6 +96,8 @@ type NoteShapeLinkWOP struct {
 	Name string `xlsx:"1"`
 
 	Identifier string `xlsx:"2"`
+
+	Type models.NoteShapeLinkType `xlsx:"3"`
 	// insertion for WOP pointer fields
 }
 
@@ -113,6 +106,7 @@ var NoteShapeLink_Fields = []string{
 	"ID",
 	"Name",
 	"Identifier",
+	"Type",
 }
 
 type BackRepoNoteShapeLinkStruct struct {
@@ -126,6 +120,13 @@ type BackRepoNoteShapeLinkStruct struct {
 	Map_NoteShapeLinkDBID_NoteShapeLinkPtr *map[uint]*models.NoteShapeLink
 
 	db *gorm.DB
+
+	stage *models.StageStruct
+}
+
+func (backRepoNoteShapeLink *BackRepoNoteShapeLinkStruct) GetStage() (stage *models.StageStruct) {
+	stage = backRepoNoteShapeLink.stage
+	return
 }
 
 func (backRepoNoteShapeLink *BackRepoNoteShapeLinkStruct) GetDB() *gorm.DB {
@@ -140,7 +141,7 @@ func (backRepoNoteShapeLink *BackRepoNoteShapeLinkStruct) GetNoteShapeLinkDBFrom
 }
 
 // BackRepoNoteShapeLink.Init set up the BackRepo of the NoteShapeLink
-func (backRepoNoteShapeLink *BackRepoNoteShapeLinkStruct) Init(db *gorm.DB) (Error error) {
+func (backRepoNoteShapeLink *BackRepoNoteShapeLinkStruct) Init(stage *models.StageStruct, db *gorm.DB) (Error error) {
 
 	if backRepoNoteShapeLink.Map_NoteShapeLinkDBID_NoteShapeLinkPtr != nil {
 		err := errors.New("In Init, backRepoNoteShapeLink.Map_NoteShapeLinkDBID_NoteShapeLinkPtr should be nil")
@@ -167,6 +168,7 @@ func (backRepoNoteShapeLink *BackRepoNoteShapeLinkStruct) Init(db *gorm.DB) (Err
 	backRepoNoteShapeLink.Map_NoteShapeLinkPtr_NoteShapeLinkDBID = &tmpID
 
 	backRepoNoteShapeLink.db = db
+	backRepoNoteShapeLink.stage = stage
 	return
 }
 
@@ -256,33 +258,6 @@ func (backRepoNoteShapeLink *BackRepoNoteShapeLinkStruct) CommitPhaseTwoInstance
 		noteshapelinkDB.CopyBasicFieldsFromNoteShapeLink(noteshapelink)
 
 		// insertion point for translating pointers encodings into actual pointers
-		// commit pointer value noteshapelink.Classshape translates to updating the noteshapelink.ClassshapeID
-		noteshapelinkDB.ClassshapeID.Valid = true // allow for a 0 value (nil association)
-		if noteshapelink.Classshape != nil {
-			if ClassshapeId, ok := (*backRepo.BackRepoGongStructShape.Map_GongStructShapePtr_GongStructShapeDBID)[noteshapelink.Classshape]; ok {
-				noteshapelinkDB.ClassshapeID.Int64 = int64(ClassshapeId)
-				noteshapelinkDB.ClassshapeID.Valid = true
-			}
-		}
-
-		// commit pointer value noteshapelink.Link translates to updating the noteshapelink.LinkID
-		noteshapelinkDB.LinkID.Valid = true // allow for a 0 value (nil association)
-		if noteshapelink.Link != nil {
-			if LinkId, ok := (*backRepo.BackRepoLink.Map_LinkPtr_LinkDBID)[noteshapelink.Link]; ok {
-				noteshapelinkDB.LinkID.Int64 = int64(LinkId)
-				noteshapelinkDB.LinkID.Valid = true
-			}
-		}
-
-		// commit pointer value noteshapelink.Middlevertice translates to updating the noteshapelink.MiddleverticeID
-		noteshapelinkDB.MiddleverticeID.Valid = true // allow for a 0 value (nil association)
-		if noteshapelink.Middlevertice != nil {
-			if MiddleverticeId, ok := (*backRepo.BackRepoVertice.Map_VerticePtr_VerticeDBID)[noteshapelink.Middlevertice]; ok {
-				noteshapelinkDB.MiddleverticeID.Int64 = int64(MiddleverticeId)
-				noteshapelinkDB.MiddleverticeID.Valid = true
-			}
-		}
-
 		query := backRepoNoteShapeLink.db.Save(&noteshapelinkDB)
 		if query.Error != nil {
 			return query.Error
@@ -312,7 +287,7 @@ func (backRepoNoteShapeLink *BackRepoNoteShapeLinkStruct) CheckoutPhaseOne() (Er
 	// list of instances to be removed
 	// start from the initial map on the stage and remove instances that have been checked out
 	noteshapelinkInstancesToBeRemovedFromTheStage := make(map[*models.NoteShapeLink]any)
-	for key, value := range models.Stage.NoteShapeLinks {
+	for key, value := range backRepoNoteShapeLink.stage.NoteShapeLinks {
 		noteshapelinkInstancesToBeRemovedFromTheStage[key] = value
 	}
 
@@ -330,7 +305,7 @@ func (backRepoNoteShapeLink *BackRepoNoteShapeLinkStruct) CheckoutPhaseOne() (Er
 
 	// remove from stage and back repo's 3 maps all noteshapelinks that are not in the checkout
 	for noteshapelink := range noteshapelinkInstancesToBeRemovedFromTheStage {
-		noteshapelink.Unstage()
+		noteshapelink.Unstage(backRepoNoteShapeLink.GetStage())
 
 		// remove instance from the back repo 3 maps
 		noteshapelinkID := (*backRepoNoteShapeLink.Map_NoteShapeLinkPtr_NoteShapeLinkDBID)[noteshapelink]
@@ -355,12 +330,12 @@ func (backRepoNoteShapeLink *BackRepoNoteShapeLinkStruct) CheckoutPhaseOneInstan
 
 		// append model store with the new element
 		noteshapelink.Name = noteshapelinkDB.Name_Data.String
-		noteshapelink.Stage()
+		noteshapelink.Stage(backRepoNoteShapeLink.GetStage())
 	}
 	noteshapelinkDB.CopyBasicFieldsToNoteShapeLink(noteshapelink)
 
 	// in some cases, the instance might have been unstaged. It is necessary to stage it again
-	noteshapelink.Stage()
+	noteshapelink.Stage(backRepoNoteShapeLink.GetStage())
 
 	// preserve pointer to noteshapelinkDB. Otherwise, pointer will is recycled and the map of pointers
 	// Map_NoteShapeLinkDBID_NoteShapeLinkDB)[noteshapelinkDB hold variable pointers
@@ -390,18 +365,6 @@ func (backRepoNoteShapeLink *BackRepoNoteShapeLinkStruct) CheckoutPhaseTwoInstan
 	_ = noteshapelink // sometimes, there is no code generated. This lines voids the "unused variable" compilation error
 
 	// insertion point for checkout of pointer encoding
-	// Classshape field
-	if noteshapelinkDB.ClassshapeID.Int64 != 0 {
-		noteshapelink.Classshape = (*backRepo.BackRepoGongStructShape.Map_GongStructShapeDBID_GongStructShapePtr)[uint(noteshapelinkDB.ClassshapeID.Int64)]
-	}
-	// Link field
-	if noteshapelinkDB.LinkID.Int64 != 0 {
-		noteshapelink.Link = (*backRepo.BackRepoLink.Map_LinkDBID_LinkPtr)[uint(noteshapelinkDB.LinkID.Int64)]
-	}
-	// Middlevertice field
-	if noteshapelinkDB.MiddleverticeID.Int64 != 0 {
-		noteshapelink.Middlevertice = (*backRepo.BackRepoVertice.Map_VerticeDBID_VerticePtr)[uint(noteshapelinkDB.MiddleverticeID.Int64)]
-	}
 	return
 }
 
@@ -441,6 +404,9 @@ func (noteshapelinkDB *NoteShapeLinkDB) CopyBasicFieldsFromNoteShapeLink(notesha
 
 	noteshapelinkDB.Identifier_Data.String = noteshapelink.Identifier
 	noteshapelinkDB.Identifier_Data.Valid = true
+
+	noteshapelinkDB.Type_Data.String = noteshapelink.Type.ToString()
+	noteshapelinkDB.Type_Data.Valid = true
 }
 
 // CopyBasicFieldsFromNoteShapeLinkWOP
@@ -452,6 +418,9 @@ func (noteshapelinkDB *NoteShapeLinkDB) CopyBasicFieldsFromNoteShapeLinkWOP(note
 
 	noteshapelinkDB.Identifier_Data.String = noteshapelink.Identifier
 	noteshapelinkDB.Identifier_Data.Valid = true
+
+	noteshapelinkDB.Type_Data.String = noteshapelink.Type.ToString()
+	noteshapelinkDB.Type_Data.Valid = true
 }
 
 // CopyBasicFieldsToNoteShapeLink
@@ -459,6 +428,7 @@ func (noteshapelinkDB *NoteShapeLinkDB) CopyBasicFieldsToNoteShapeLink(noteshape
 	// insertion point for checkout of basic fields (back repo to stage)
 	noteshapelink.Name = noteshapelinkDB.Name_Data.String
 	noteshapelink.Identifier = noteshapelinkDB.Identifier_Data.String
+	noteshapelink.Type.FromString(noteshapelinkDB.Type_Data.String)
 }
 
 // CopyBasicFieldsToNoteShapeLinkWOP
@@ -467,6 +437,7 @@ func (noteshapelinkDB *NoteShapeLinkDB) CopyBasicFieldsToNoteShapeLinkWOP(notesh
 	// insertion point for checkout of basic fields (back repo to stage)
 	noteshapelink.Name = noteshapelinkDB.Name_Data.String
 	noteshapelink.Identifier = noteshapelinkDB.Identifier_Data.String
+	noteshapelink.Type.FromString(noteshapelinkDB.Type_Data.String)
 }
 
 // Backup generates a json file from a slice of all NoteShapeLinkDB instances in the backrepo
@@ -624,24 +595,6 @@ func (backRepoNoteShapeLink *BackRepoNoteShapeLinkStruct) RestorePhaseTwo() {
 		_ = noteshapelinkDB
 
 		// insertion point for reindexing pointers encoding
-		// reindexing Classshape field
-		if noteshapelinkDB.ClassshapeID.Int64 != 0 {
-			noteshapelinkDB.ClassshapeID.Int64 = int64(BackRepoGongStructShapeid_atBckpTime_newID[uint(noteshapelinkDB.ClassshapeID.Int64)])
-			noteshapelinkDB.ClassshapeID.Valid = true
-		}
-
-		// reindexing Link field
-		if noteshapelinkDB.LinkID.Int64 != 0 {
-			noteshapelinkDB.LinkID.Int64 = int64(BackRepoLinkid_atBckpTime_newID[uint(noteshapelinkDB.LinkID.Int64)])
-			noteshapelinkDB.LinkID.Valid = true
-		}
-
-		// reindexing Middlevertice field
-		if noteshapelinkDB.MiddleverticeID.Int64 != 0 {
-			noteshapelinkDB.MiddleverticeID.Int64 = int64(BackRepoVerticeid_atBckpTime_newID[uint(noteshapelinkDB.MiddleverticeID.Int64)])
-			noteshapelinkDB.MiddleverticeID.Valid = true
-		}
-
 		// This reindex noteshapelink.NoteShapeLinks
 		if noteshapelinkDB.NoteShape_NoteShapeLinksDBID.Int64 != 0 {
 			noteshapelinkDB.NoteShape_NoteShapeLinksDBID.Int64 =
