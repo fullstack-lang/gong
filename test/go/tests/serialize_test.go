@@ -3,16 +3,16 @@ package tests
 import (
 	"testing"
 
-	"github.com/fullstack-lang/gong/go/fullstack"
+	"github.com/fullstack-lang/gong/test/go/fullstack"
 	"github.com/fullstack-lang/gong/test/go/models"
 )
 
 func TestSerialize(t *testing.T) {
 
-	fullstack.Init(nil)
+	stage, _ := fullstack.NewStackInstance(nil, "")
 
-	bclass1 := (&models.Bstruct{Name: "B1"}).Stage().Commit()
-	bclass2 := (&models.Bstruct{Name: "B2"}).Stage().Commit()
+	bclass1 := (&models.Bstruct{Name: "B1"}).Stage(stage).Commit(stage)
+	bclass2 := (&models.Bstruct{Name: "B2"}).Stage(stage).Commit(stage)
 
 	aclass1 := (&models.Astruct{
 		Name:                "A1",
@@ -20,7 +20,7 @@ func TestSerialize(t *testing.T) {
 		Booleanfield:        true,
 		Anotherbooleanfield: true,
 		Associationtob:      bclass1,
-	}).Stage().Commit()
+	}).Stage(stage).Commit(stage)
 
 	aclass1.Anarrayofb = append(aclass1.Anarrayofb, bclass2)
 	aclass1.Anarrayofb = append(aclass1.Anarrayofb, bclass1)
