@@ -47,11 +47,23 @@ type UmlscInput struct {
 // default: genericError
 //
 //	200: umlscDBResponse
-func GetUmlscs(c *gin.Context) {
-	db := orm.BackRepo.BackRepoUmlsc.GetDB()
+func (controller *Controller) GetUmlscs(c *gin.Context) {
 
 	// source slice
 	var umlscDBs []orm.UmlscDB
+
+	values := c.Request.URL.Query()
+	stackPath := ""
+	if len(values) == 1 {
+		value := values["GONG__StackPath"]
+		if len(value) == 1 {
+			stackPath = value[0]
+			log.Println("GetUmlscs", "GONG__StackPath", stackPath)
+		}
+	}
+	backRepo := controller.Map_BackRepos[stackPath]
+	db := backRepo.BackRepoUmlsc.GetDB()
+
 	query := db.Find(&umlscDBs)
 	if query.Error != nil {
 		var returnError GenericError
@@ -95,8 +107,19 @@ func GetUmlscs(c *gin.Context) {
 //
 //	Responses:
 //	  200: nodeDBResponse
-func PostUmlsc(c *gin.Context) {
-	db := orm.BackRepo.BackRepoUmlsc.GetDB()
+func (controller *Controller) PostUmlsc(c *gin.Context) {
+
+	values := c.Request.URL.Query()
+	stackPath := ""
+	if len(values) == 1 {
+		value := values["GONG__StackPath"]
+		if len(value) == 1 {
+			stackPath = value[0]
+			log.Println("PostUmlscs", "GONG__StackPath", stackPath)
+		}
+	}
+	backRepo := controller.Map_BackRepos[stackPath]
+	db := backRepo.BackRepoUmlsc.GetDB()
 
 	// Validate input
 	var input orm.UmlscAPI
@@ -127,16 +150,16 @@ func PostUmlsc(c *gin.Context) {
 	}
 
 	// get an instance (not staged) from DB instance, and call callback function
-	orm.BackRepo.BackRepoUmlsc.CheckoutPhaseOneInstance(&umlscDB)
-	umlsc := (*orm.BackRepo.BackRepoUmlsc.Map_UmlscDBID_UmlscPtr)[umlscDB.ID]
+	backRepo.BackRepoUmlsc.CheckoutPhaseOneInstance(&umlscDB)
+	umlsc := (*backRepo.BackRepoUmlsc.Map_UmlscDBID_UmlscPtr)[umlscDB.ID]
 
 	if umlsc != nil {
-		models.AfterCreateFromFront(&models.Stage, umlsc)
+		models.AfterCreateFromFront(backRepo.GetStage(), umlsc)
 	}
 
 	// a POST is equivalent to a back repo commit increase
 	// (this will be improved with implementation of unit of work design pattern)
-	orm.BackRepo.IncrementPushFromFrontNb()
+	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, umlscDB)
 }
@@ -151,8 +174,19 @@ func PostUmlsc(c *gin.Context) {
 // default: genericError
 //
 //	200: umlscDBResponse
-func GetUmlsc(c *gin.Context) {
-	db := orm.BackRepo.BackRepoUmlsc.GetDB()
+func (controller *Controller) GetUmlsc(c *gin.Context) {
+
+	values := c.Request.URL.Query()
+	stackPath := ""
+	if len(values) == 1 {
+		value := values["GONG__StackPath"]
+		if len(value) == 1 {
+			stackPath = value[0]
+			log.Println("GetUmlsc", "GONG__StackPath", stackPath)
+		}
+	}
+	backRepo := controller.Map_BackRepos[stackPath]
+	db := backRepo.BackRepoUmlsc.GetDB()
 
 	// Get umlscDB in DB
 	var umlscDB orm.UmlscDB
@@ -183,8 +217,27 @@ func GetUmlsc(c *gin.Context) {
 // default: genericError
 //
 //	200: umlscDBResponse
-func UpdateUmlsc(c *gin.Context) {
-	db := orm.BackRepo.BackRepoUmlsc.GetDB()
+func (controller *Controller) UpdateUmlsc(c *gin.Context) {
+
+	values := c.Request.URL.Query()
+	stackPath := ""
+	if len(values) == 1 {
+		value := values["GONG__StackPath"]
+		if len(value) == 1 {
+			stackPath = value[0]
+			log.Println("UpdateUmlsc", "GONG__StackPath", stackPath)
+		}
+	}
+	backRepo := controller.Map_BackRepos[stackPath]
+	db := backRepo.BackRepoUmlsc.GetDB()
+
+	// Validate input
+	var input orm.UmlscAPI
+	if err := c.ShouldBindJSON(&input); err != nil {
+		log.Println(err.Error())
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
 
 	// Get model if exist
 	var umlscDB orm.UmlscDB
@@ -198,14 +251,6 @@ func UpdateUmlsc(c *gin.Context) {
 		returnError.Body.Message = query.Error.Error()
 		log.Println(query.Error.Error())
 		c.JSON(http.StatusBadRequest, returnError.Body)
-		return
-	}
-
-	// Validate input
-	var input orm.UmlscAPI
-	if err := c.ShouldBindJSON(&input); err != nil {
-		log.Println(err.Error())
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
@@ -228,16 +273,16 @@ func UpdateUmlsc(c *gin.Context) {
 	umlscDB.CopyBasicFieldsToUmlsc(umlscNew)
 
 	// get stage instance from DB instance, and call callback function
-	umlscOld := (*orm.BackRepo.BackRepoUmlsc.Map_UmlscDBID_UmlscPtr)[umlscDB.ID]
+	umlscOld := (*backRepo.BackRepoUmlsc.Map_UmlscDBID_UmlscPtr)[umlscDB.ID]
 	if umlscOld != nil {
-		models.AfterUpdateFromFront(&models.Stage, umlscOld, umlscNew)
+		models.AfterUpdateFromFront(backRepo.GetStage(), umlscOld, umlscNew)
 	}
 
 	// an UPDATE generates a back repo commit increase
 	// (this will be improved with implementation of unit of work design pattern)
 	// in some cases, with the marshalling of the stage, this operation might
 	// generates a checkout
-	orm.BackRepo.IncrementPushFromFrontNb()
+	backRepo.IncrementPushFromFrontNb()
 
 	// return status OK with the marshalling of the the umlscDB
 	c.JSON(http.StatusOK, umlscDB)
@@ -252,8 +297,19 @@ func UpdateUmlsc(c *gin.Context) {
 // default: genericError
 //
 //	200: umlscDBResponse
-func DeleteUmlsc(c *gin.Context) {
-	db := orm.BackRepo.BackRepoUmlsc.GetDB()
+func (controller *Controller) DeleteUmlsc(c *gin.Context) {
+
+	values := c.Request.URL.Query()
+	stackPath := ""
+	if len(values) == 1 {
+		value := values["GONG__StackPath"]
+		if len(value) == 1 {
+			stackPath = value[0]
+			log.Println("DeleteUmlsc", "GONG__StackPath", stackPath)
+		}
+	}
+	backRepo := controller.Map_BackRepos[stackPath]
+	db := backRepo.BackRepoUmlsc.GetDB()
 
 	// Get model if exist
 	var umlscDB orm.UmlscDB
@@ -274,14 +330,14 @@ func DeleteUmlsc(c *gin.Context) {
 	umlscDB.CopyBasicFieldsToUmlsc(umlscDeleted)
 
 	// get stage instance from DB instance, and call callback function
-	umlscStaged := (*orm.BackRepo.BackRepoUmlsc.Map_UmlscDBID_UmlscPtr)[umlscDB.ID]
+	umlscStaged := (*backRepo.BackRepoUmlsc.Map_UmlscDBID_UmlscPtr)[umlscDB.ID]
 	if umlscStaged != nil {
-		models.AfterDeleteFromFront(&models.Stage, umlscStaged, umlscDeleted)
+		models.AfterDeleteFromFront(backRepo.GetStage(), umlscStaged, umlscDeleted)
 	}
 
 	// a DELETE generates a back repo commit increase
 	// (this will be improved with implementation of unit of work design pattern)
-	orm.BackRepo.IncrementPushFromFrontNb()
+	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, gin.H{"data": true})
 }

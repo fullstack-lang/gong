@@ -49,7 +49,7 @@ var map_DocLink_Identifier_{{databaseName}} map[string]any = map[string]any{
 // }
 
 // {{databaseName}}Injection will stage objects of database "{{databaseName}}"
-func {{databaseName}}Injection() {
+func {{databaseName}}Injection(stage *models.StageStruct) {
 
 	// Declaration of instances to stage{{Identifiers}}
 
@@ -63,7 +63,7 @@ func {{databaseName}}Injection() {
 const IdentifiersDecls = ` + "`" + `
 	{{Identifier}} := (&models.{{GeneratedStructName}}{Name: ` +
 	"`" + " + \"" + "`" + `"` + ` + ` + "`" +
-	`{{GeneratedFieldNameValue}}` + "`" + ` + "` + "`" + `"` + ` + ` + "`" + `}).Stage()` + "`" + `
+	`{{GeneratedFieldNameValue}}` + "`" + ` + "` + "`" + `"` + ` + ` + "`" + `}).Stage(stage)` + "`" + `
 
 const StringInitStatement = ` + "`" + `
 	{{Identifier}}.{{GeneratedFieldName}} = ` +

@@ -130,6 +130,13 @@ type BackRepoGongEnumShapeStruct struct {
 	Map_GongEnumShapeDBID_GongEnumShapePtr *map[uint]*models.GongEnumShape
 
 	db *gorm.DB
+
+	stage *models.StageStruct
+}
+
+func (backRepoGongEnumShape *BackRepoGongEnumShapeStruct) GetStage() (stage *models.StageStruct) {
+	stage = backRepoGongEnumShape.stage
+	return
 }
 
 func (backRepoGongEnumShape *BackRepoGongEnumShapeStruct) GetDB() *gorm.DB {
@@ -144,7 +151,7 @@ func (backRepoGongEnumShape *BackRepoGongEnumShapeStruct) GetGongEnumShapeDBFrom
 }
 
 // BackRepoGongEnumShape.Init set up the BackRepo of the GongEnumShape
-func (backRepoGongEnumShape *BackRepoGongEnumShapeStruct) Init(db *gorm.DB) (Error error) {
+func (backRepoGongEnumShape *BackRepoGongEnumShapeStruct) Init(stage *models.StageStruct, db *gorm.DB) (Error error) {
 
 	if backRepoGongEnumShape.Map_GongEnumShapeDBID_GongEnumShapePtr != nil {
 		err := errors.New("In Init, backRepoGongEnumShape.Map_GongEnumShapeDBID_GongEnumShapePtr should be nil")
@@ -171,6 +178,7 @@ func (backRepoGongEnumShape *BackRepoGongEnumShapeStruct) Init(db *gorm.DB) (Err
 	backRepoGongEnumShape.Map_GongEnumShapePtr_GongEnumShapeDBID = &tmpID
 
 	backRepoGongEnumShape.db = db
+	backRepoGongEnumShape.stage = stage
 	return
 }
 
@@ -317,7 +325,7 @@ func (backRepoGongEnumShape *BackRepoGongEnumShapeStruct) CheckoutPhaseOne() (Er
 	// list of instances to be removed
 	// start from the initial map on the stage and remove instances that have been checked out
 	gongenumshapeInstancesToBeRemovedFromTheStage := make(map[*models.GongEnumShape]any)
-	for key, value := range models.Stage.GongEnumShapes {
+	for key, value := range backRepoGongEnumShape.stage.GongEnumShapes {
 		gongenumshapeInstancesToBeRemovedFromTheStage[key] = value
 	}
 
@@ -335,7 +343,7 @@ func (backRepoGongEnumShape *BackRepoGongEnumShapeStruct) CheckoutPhaseOne() (Er
 
 	// remove from stage and back repo's 3 maps all gongenumshapes that are not in the checkout
 	for gongenumshape := range gongenumshapeInstancesToBeRemovedFromTheStage {
-		gongenumshape.Unstage()
+		gongenumshape.Unstage(backRepoGongEnumShape.GetStage())
 
 		// remove instance from the back repo 3 maps
 		gongenumshapeID := (*backRepoGongEnumShape.Map_GongEnumShapePtr_GongEnumShapeDBID)[gongenumshape]
@@ -360,12 +368,12 @@ func (backRepoGongEnumShape *BackRepoGongEnumShapeStruct) CheckoutPhaseOneInstan
 
 		// append model store with the new element
 		gongenumshape.Name = gongenumshapeDB.Name_Data.String
-		gongenumshape.Stage()
+		gongenumshape.Stage(backRepoGongEnumShape.GetStage())
 	}
 	gongenumshapeDB.CopyBasicFieldsToGongEnumShape(gongenumshape)
 
 	// in some cases, the instance might have been unstaged. It is necessary to stage it again
-	gongenumshape.Stage()
+	gongenumshape.Stage(backRepoGongEnumShape.GetStage())
 
 	// preserve pointer to gongenumshapeDB. Otherwise, pointer will is recycled and the map of pointers
 	// Map_GongEnumShapeDBID_GongEnumShapeDB)[gongenumshapeDB hold variable pointers

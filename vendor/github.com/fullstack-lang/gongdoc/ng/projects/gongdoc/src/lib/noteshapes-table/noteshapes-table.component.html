@@ -40,6 +40,13 @@
             </td>
         </ng-container>
         <!-- -->
+        <ng-container matColumnDef="BodyHTML">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> BodyHTML </th>
+            <td mat-cell *matCellDef="let NoteShape">
+                {{NoteShape.BodyHTML}}
+            </td>
+        </ng-container>
+        <!-- -->
         <ng-container matColumnDef="X">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> X </th>
             <td mat-cell *matCellDef="let NoteShape">

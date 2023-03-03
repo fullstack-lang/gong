@@ -40,28 +40,28 @@ var map_DocLink_Identifier_stage map[string]any = map[string]any{
 // }
 
 // stageInjection will stage objects of database "stage"
-func stageInjection() {
+func stageInjection(stage *models.StageStruct) {
 
 	// Declaration of instances to stage
 
 	// Declarations of staged instances of Astruct
-	__Astruct__000000_A1 := (&models.Astruct{Name: `A1`}).Stage()
-	__Astruct__000001_A2 := (&models.Astruct{Name: `A2`}).Stage()
-	__Astruct__000002_A3 := (&models.Astruct{Name: `A3`}).Stage()
+	__Astruct__000000_A1 := (&models.Astruct{Name: `A1`}).Stage(stage)
+	__Astruct__000001_A2 := (&models.Astruct{Name: `A2`}).Stage(stage)
+	__Astruct__000002_A3 := (&models.Astruct{Name: `A3`}).Stage(stage)
 
 	// Declarations of staged instances of AstructBstruct2Use
-	__AstructBstruct2Use__000000_ := (&models.AstructBstruct2Use{Name: ``}).Stage()
-	__AstructBstruct2Use__000001_ := (&models.AstructBstruct2Use{Name: ``}).Stage()
+	__AstructBstruct2Use__000000_ := (&models.AstructBstruct2Use{Name: ``}).Stage(stage)
+	__AstructBstruct2Use__000001_ := (&models.AstructBstruct2Use{Name: ``}).Stage(stage)
 
 	// Declarations of staged instances of AstructBstructUse
 
 	// Declarations of staged instances of Bstruct
-	__Bstruct__000000_B1 := (&models.Bstruct{Name: `B1`}).Stage()
-	__Bstruct__000001_B2 := (&models.Bstruct{Name: `B2`}).Stage()
-	__Bstruct__000002_B3 := (&models.Bstruct{Name: `B3`}).Stage()
+	__Bstruct__000000_B1 := (&models.Bstruct{Name: `B1`}).Stage(stage)
+	__Bstruct__000001_B2 := (&models.Bstruct{Name: `B2`}).Stage(stage)
+	__Bstruct__000002_B3 := (&models.Bstruct{Name: `B3`}).Stage(stage)
 
 	// Declarations of staged instances of Dstruct
-	__Dstruct__000000_D1 := (&models.Dstruct{Name: `D1`}).Stage()
+	__Dstruct__000000_D1 := (&models.Dstruct{Name: `D1`}).Stage(stage)
 
 	// Setup of values
 
@@ -82,32 +82,32 @@ Second Line`
 	__Astruct__000000_A1.Intfield = 3
 	__Astruct__000000_A1.Anotherbooleanfield = false
 	__Astruct__000000_A1.Duration1 = 79653000000000
-	
+
 	// comment added to overcome the problem with the comment map association
 
 	//gong:ident [gongdoc_models.GongStructShape]
 	__Astruct__000000_A1.StructRef = `gongdoc_models.GongStructShape`
-	
+
 	// comment added to overcome the problem with the comment map association
 
 	//gong:ident [gongdoc_models.GongStructShape.Name]
 	__Astruct__000000_A1.FieldRef = `gongdoc_models.GongStructShape.Name`
-	
+
 	// comment added to overcome the problem with the comment map association
 
 	//gong:ident [.]
 	__Astruct__000000_A1.EnumIntRef = `.`
-	
+
 	// comment added to overcome the problem with the comment map association
 
 	//gong:ident [.]
 	__Astruct__000000_A1.EnumStringRef = `.`
-	
+
 	// comment added to overcome the problem with the comment map association
 
 	//gong:ident [.]
 	__Astruct__000000_A1.EnumValue = `.`
-	
+
 	// comment added to overcome the problem with the comment map association
 
 	//gong:ident [.]
@@ -127,32 +127,32 @@ Second Line`
 	__Astruct__000001_A2.Intfield = 0
 	__Astruct__000001_A2.Anotherbooleanfield = false
 	__Astruct__000001_A2.Duration1 = 0
-	
+
 	// comment added to overcome the problem with the comment map association
 
 	//gong:ident [.]
 	__Astruct__000001_A2.StructRef = `.`
-	
+
 	// comment added to overcome the problem with the comment map association
 
 	//gong:ident [.]
 	__Astruct__000001_A2.FieldRef = `.`
-	
+
 	// comment added to overcome the problem with the comment map association
 
 	//gong:ident [.]
 	__Astruct__000001_A2.EnumIntRef = `.`
-	
+
 	// comment added to overcome the problem with the comment map association
 
 	//gong:ident [.]
 	__Astruct__000001_A2.EnumStringRef = `.`
-	
+
 	// comment added to overcome the problem with the comment map association
 
 	//gong:ident [.]
 	__Astruct__000001_A2.EnumValue = `.`
-	
+
 	// comment added to overcome the problem with the comment map association
 
 	//gong:ident [.]
@@ -170,32 +170,32 @@ Second Line`
 	__Astruct__000002_A3.Intfield = 0
 	__Astruct__000002_A3.Anotherbooleanfield = false
 	__Astruct__000002_A3.Duration1 = 0
-	
+
 	// comment added to overcome the problem with the comment map association
 
 	//gong:ident [.]
 	__Astruct__000002_A3.StructRef = `.`
-	
+
 	// comment added to overcome the problem with the comment map association
 
 	//gong:ident [.]
 	__Astruct__000002_A3.FieldRef = `.`
-	
+
 	// comment added to overcome the problem with the comment map association
 
 	//gong:ident [.]
 	__Astruct__000002_A3.EnumIntRef = `.`
-	
+
 	// comment added to overcome the problem with the comment map association
 
 	//gong:ident [.]
 	__Astruct__000002_A3.EnumStringRef = `.`
-	
+
 	// comment added to overcome the problem with the comment map association
 
 	//gong:ident [.]
 	__Astruct__000002_A3.EnumValue = `.`
-	
+
 	// comment added to overcome the problem with the comment map association
 
 	//gong:ident [.]
@@ -240,5 +240,3 @@ Second Line`
 	__AstructBstruct2Use__000000_.Bstrcut2 = __Bstruct__000000_B1
 	__AstructBstruct2Use__000001_.Bstrcut2 = __Bstruct__000000_B1
 }
-
-

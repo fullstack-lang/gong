@@ -21,26 +21,6 @@
         <textarea name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="link.Name"></textarea>
     </mat-form-field>
 
-    <mat-grid-list *ngIf='!isATextArea("Structname")' cols="5" rowHeight="1:1">
-        <mat-grid-tile [colspan]="3">
-            <mat-form-field mat-form-field class="detail-full-width">
-                <mat-label>Structname</mat-label>
-                <input name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="link.Structname">
-            </mat-form-field>
-        </mat-grid-tile>
-        <mat-grid-tile>
-            <button mat-raised-button (click)="toggleTextArea('Structname')">
-                <mat-icon>
-                    expand_more
-                </mat-icon>
-            </button>
-        </mat-grid-tile>
-    </mat-grid-list>
-    <mat-form-field *ngIf='isATextArea("Structname")' mat-form-field class="detail-full-width">
-        <mat-label>Structname</mat-label>
-        <textarea name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="link.Structname"></textarea>
-    </mat-form-field>
-
     <mat-grid-list *ngIf='!isATextArea("Identifier")' cols="5" rowHeight="1:1">
         <mat-grid-tile [colspan]="3">
             <mat-form-field mat-form-field class="detail-full-width">
