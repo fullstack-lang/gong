@@ -143,6 +143,13 @@ type BackRepoGongBasicFieldStruct struct {
 	Map_GongBasicFieldDBID_GongBasicFieldPtr *map[uint]*models.GongBasicField
 
 	db *gorm.DB
+
+	stage *models.StageStruct
+}
+
+func (backRepoGongBasicField *BackRepoGongBasicFieldStruct) GetStage() (stage *models.StageStruct) {
+	stage = backRepoGongBasicField.stage
+	return
 }
 
 func (backRepoGongBasicField *BackRepoGongBasicFieldStruct) GetDB() *gorm.DB {
@@ -157,7 +164,7 @@ func (backRepoGongBasicField *BackRepoGongBasicFieldStruct) GetGongBasicFieldDBF
 }
 
 // BackRepoGongBasicField.Init set up the BackRepo of the GongBasicField
-func (backRepoGongBasicField *BackRepoGongBasicFieldStruct) Init(db *gorm.DB) (Error error) {
+func (backRepoGongBasicField *BackRepoGongBasicFieldStruct) Init(stage *models.StageStruct, db *gorm.DB) (Error error) {
 
 	if backRepoGongBasicField.Map_GongBasicFieldDBID_GongBasicFieldPtr != nil {
 		err := errors.New("In Init, backRepoGongBasicField.Map_GongBasicFieldDBID_GongBasicFieldPtr should be nil")
@@ -184,6 +191,7 @@ func (backRepoGongBasicField *BackRepoGongBasicFieldStruct) Init(db *gorm.DB) (E
 	backRepoGongBasicField.Map_GongBasicFieldPtr_GongBasicFieldDBID = &tmpID
 
 	backRepoGongBasicField.db = db
+	backRepoGongBasicField.stage = stage
 	return
 }
 
@@ -311,7 +319,7 @@ func (backRepoGongBasicField *BackRepoGongBasicFieldStruct) CheckoutPhaseOne() (
 	// list of instances to be removed
 	// start from the initial map on the stage and remove instances that have been checked out
 	gongbasicfieldInstancesToBeRemovedFromTheStage := make(map[*models.GongBasicField]any)
-	for key, value := range models.Stage.GongBasicFields {
+	for key, value := range backRepoGongBasicField.stage.GongBasicFields {
 		gongbasicfieldInstancesToBeRemovedFromTheStage[key] = value
 	}
 
@@ -329,7 +337,7 @@ func (backRepoGongBasicField *BackRepoGongBasicFieldStruct) CheckoutPhaseOne() (
 
 	// remove from stage and back repo's 3 maps all gongbasicfields that are not in the checkout
 	for gongbasicfield := range gongbasicfieldInstancesToBeRemovedFromTheStage {
-		gongbasicfield.Unstage()
+		gongbasicfield.Unstage(backRepoGongBasicField.GetStage())
 
 		// remove instance from the back repo 3 maps
 		gongbasicfieldID := (*backRepoGongBasicField.Map_GongBasicFieldPtr_GongBasicFieldDBID)[gongbasicfield]
@@ -354,12 +362,12 @@ func (backRepoGongBasicField *BackRepoGongBasicFieldStruct) CheckoutPhaseOneInst
 
 		// append model store with the new element
 		gongbasicfield.Name = gongbasicfieldDB.Name_Data.String
-		gongbasicfield.Stage()
+		gongbasicfield.Stage(backRepoGongBasicField.GetStage())
 	}
 	gongbasicfieldDB.CopyBasicFieldsToGongBasicField(gongbasicfield)
 
 	// in some cases, the instance might have been unstaged. It is necessary to stage it again
-	gongbasicfield.Stage()
+	gongbasicfield.Stage(backRepoGongBasicField.GetStage())
 
 	// preserve pointer to gongbasicfieldDB. Otherwise, pointer will is recycled and the map of pointers
 	// Map_GongBasicFieldDBID_GongBasicFieldDB)[gongbasicfieldDB hold variable pointers

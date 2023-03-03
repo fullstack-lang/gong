@@ -120,6 +120,13 @@ type BackRepoGongLinkStruct struct {
 	Map_GongLinkDBID_GongLinkPtr *map[uint]*models.GongLink
 
 	db *gorm.DB
+
+	stage *models.StageStruct
+}
+
+func (backRepoGongLink *BackRepoGongLinkStruct) GetStage() (stage *models.StageStruct) {
+	stage = backRepoGongLink.stage
+	return
 }
 
 func (backRepoGongLink *BackRepoGongLinkStruct) GetDB() *gorm.DB {
@@ -134,7 +141,7 @@ func (backRepoGongLink *BackRepoGongLinkStruct) GetGongLinkDBFromGongLinkPtr(gon
 }
 
 // BackRepoGongLink.Init set up the BackRepo of the GongLink
-func (backRepoGongLink *BackRepoGongLinkStruct) Init(db *gorm.DB) (Error error) {
+func (backRepoGongLink *BackRepoGongLinkStruct) Init(stage *models.StageStruct, db *gorm.DB) (Error error) {
 
 	if backRepoGongLink.Map_GongLinkDBID_GongLinkPtr != nil {
 		err := errors.New("In Init, backRepoGongLink.Map_GongLinkDBID_GongLinkPtr should be nil")
@@ -161,6 +168,7 @@ func (backRepoGongLink *BackRepoGongLinkStruct) Init(db *gorm.DB) (Error error) 
 	backRepoGongLink.Map_GongLinkPtr_GongLinkDBID = &tmpID
 
 	backRepoGongLink.db = db
+	backRepoGongLink.stage = stage
 	return
 }
 
@@ -279,7 +287,7 @@ func (backRepoGongLink *BackRepoGongLinkStruct) CheckoutPhaseOne() (Error error)
 	// list of instances to be removed
 	// start from the initial map on the stage and remove instances that have been checked out
 	gonglinkInstancesToBeRemovedFromTheStage := make(map[*models.GongLink]any)
-	for key, value := range models.Stage.GongLinks {
+	for key, value := range backRepoGongLink.stage.GongLinks {
 		gonglinkInstancesToBeRemovedFromTheStage[key] = value
 	}
 
@@ -297,7 +305,7 @@ func (backRepoGongLink *BackRepoGongLinkStruct) CheckoutPhaseOne() (Error error)
 
 	// remove from stage and back repo's 3 maps all gonglinks that are not in the checkout
 	for gonglink := range gonglinkInstancesToBeRemovedFromTheStage {
-		gonglink.Unstage()
+		gonglink.Unstage(backRepoGongLink.GetStage())
 
 		// remove instance from the back repo 3 maps
 		gonglinkID := (*backRepoGongLink.Map_GongLinkPtr_GongLinkDBID)[gonglink]
@@ -322,12 +330,12 @@ func (backRepoGongLink *BackRepoGongLinkStruct) CheckoutPhaseOneInstance(gonglin
 
 		// append model store with the new element
 		gonglink.Name = gonglinkDB.Name_Data.String
-		gonglink.Stage()
+		gonglink.Stage(backRepoGongLink.GetStage())
 	}
 	gonglinkDB.CopyBasicFieldsToGongLink(gonglink)
 
 	// in some cases, the instance might have been unstaged. It is necessary to stage it again
-	gonglink.Stage()
+	gonglink.Stage(backRepoGongLink.GetStage())
 
 	// preserve pointer to gonglinkDB. Otherwise, pointer will is recycled and the map of pointers
 	// Map_GongLinkDBID_GongLinkDB)[gonglinkDB hold variable pointers

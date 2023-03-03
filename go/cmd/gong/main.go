@@ -47,7 +47,7 @@ func main() {
 	r.Use(cors.Default())
 
 	// setup GORM
-	db := orm.SetupModels(*logDBFlag, ":memory:")
+	db := orm.SetupModels(&models.Stage, *logDBFlag, ":memory:")
 	dbDB, err := db.DB()
 
 	// since the stack can be a multi threaded application. It is important to set up

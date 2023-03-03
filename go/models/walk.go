@@ -40,5 +40,5 @@ func Walk(relativePathToModel string, modelPkg *ModelPkg) {
 	WalkParser(pkgsParser, modelPkg)
 
 	// fetch meta information
-	inspectMeta(pkgsParser["models"])
+	inspectMeta(modelPkg.Stage_, pkgsParser["models"])
 }
