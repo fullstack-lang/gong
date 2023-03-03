@@ -100,7 +100,7 @@ export class PositionSortingComponent implements OnInit {
 
     this.associatedPositions.forEach(
       position => {
-        this.positionService.updatePosition(position)
+        this.positionService.updatePosition(position, this.dialogData.GONG__StackPath)
           .subscribe(position => {
             this.positionService.PositionServiceChanged.next("update")
           });

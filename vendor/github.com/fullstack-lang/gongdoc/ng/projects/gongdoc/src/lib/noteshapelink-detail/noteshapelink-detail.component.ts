@@ -177,13 +177,13 @@ export class NoteShapeLinkDetailComponent implements OnInit {
 
 		switch (this.state) {
 			case NoteShapeLinkDetailComponentState.UPDATE_INSTANCE:
-				this.noteshapelinkService.updateNoteShapeLink(this.noteshapelink)
+				this.noteshapelinkService.updateNoteShapeLink(this.noteshapelink, this.GONG__StackPath)
 					.subscribe(noteshapelink => {
 						this.noteshapelinkService.NoteShapeLinkServiceChanged.next("update")
 					});
 				break;
 			default:
-				this.noteshapelinkService.postNoteShapeLink(this.noteshapelink).subscribe(noteshapelink => {
+				this.noteshapelinkService.postNoteShapeLink(this.noteshapelink, this.GONG__StackPath).subscribe(noteshapelink => {
 					this.noteshapelinkService.NoteShapeLinkServiceChanged.next("post")
 					this.noteshapelink = new (NoteShapeLinkDB) // reset fields
 				});

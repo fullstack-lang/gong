@@ -21,10 +21,6 @@ import { TreeDB } from './tree-db'
 })
 export class NodeService {
 
-  httpOptions = {
-    headers: new HttpHeaders({ 'Content-Type': 'application/json' })
-  };
-
   // Kamar Raïmo: Adding a way to communicate between components that share information
   // so that they are notified of a change.
   NodeServiceChanged: BehaviorSubject<string> = new BehaviorSubject("");
@@ -33,7 +29,6 @@ export class NodeService {
 
   constructor(
     private http: HttpClient,
-    private location: Location,
     @Inject(DOCUMENT) private document: Document
   ) {
     // path to the service share the same origin with the path to the document
@@ -68,10 +63,8 @@ export class NodeService {
     );
   }
 
-  //////// Save methods //////////
-
   /** POST: add a new node to the server */
-  postNode(nodedb: NodeDB): Observable<NodeDB> {
+  postNode(nodedb: NodeDB, GONG__StackPath: string): Observable<NodeDB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
     nodedb.Children = []
@@ -80,7 +73,13 @@ export class NodeService {
     let _Tree_RootNodes_reverse = nodedb.Tree_RootNodes_reverse
     nodedb.Tree_RootNodes_reverse = new TreeDB
 
-    return this.http.post<NodeDB>(this.nodesUrl, nodedb, this.httpOptions).pipe(
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+	return this.http.post<NodeDB>(this.nodesUrl, nodedb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
         nodedb.Node_Children_reverse = _Node_Children_reverse
@@ -92,18 +91,24 @@ export class NodeService {
   }
 
   /** DELETE: delete the nodedb from the server */
-  deleteNode(nodedb: NodeDB | number): Observable<NodeDB> {
+  deleteNode(nodedb: NodeDB | number, GONG__StackPath: string): Observable<NodeDB> {
     const id = typeof nodedb === 'number' ? nodedb : nodedb.ID;
     const url = `${this.nodesUrl}/${id}`;
 
-    return this.http.delete<NodeDB>(url, this.httpOptions).pipe(
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    };
+
+    return this.http.delete<NodeDB>(url, httpOptions).pipe(
       tap(_ => this.log(`deleted nodedb id=${id}`)),
       catchError(this.handleError<NodeDB>('deleteNode'))
     );
   }
 
   /** PUT: update the nodedb on the server */
-  updateNode(nodedb: NodeDB): Observable<NodeDB> {
+  updateNode(nodedb: NodeDB, GONG__StackPath: string): Observable<NodeDB> {
     const id = typeof nodedb === 'number' ? nodedb : nodedb.ID;
     const url = `${this.nodesUrl}/${id}`;
 
@@ -114,7 +119,13 @@ export class NodeService {
     let _Tree_RootNodes_reverse = nodedb.Tree_RootNodes_reverse
     nodedb.Tree_RootNodes_reverse = new TreeDB
 
-    return this.http.put<NodeDB>(url, nodedb, this.httpOptions).pipe(
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    };
+
+    return this.http.put<NodeDB>(url, nodedb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
         nodedb.Node_Children_reverse = _Node_Children_reverse

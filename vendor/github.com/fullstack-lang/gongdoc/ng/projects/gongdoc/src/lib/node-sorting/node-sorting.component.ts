@@ -100,7 +100,7 @@ export class NodeSortingComponent implements OnInit {
 
     this.associatedNodes.forEach(
       node => {
-        this.nodeService.updateNode(node)
+        this.nodeService.updateNode(node, this.dialogData.GONG__StackPath)
           .subscribe(node => {
             this.nodeService.NodeServiceChanged.next("update")
           });

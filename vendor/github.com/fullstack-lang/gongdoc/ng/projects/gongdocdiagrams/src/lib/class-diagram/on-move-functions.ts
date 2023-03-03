@@ -11,7 +11,7 @@ export function onClassshapeMove(umlClassShape: joint.shapes.uml.Class) {
     position!.X = umlClassShape.get('position')!.x
     position!.Y = umlClassShape.get('position')!.y
 
-    positionService.updatePosition(position!).subscribe(
+    positionService.updatePosition(position!, "").subscribe(
         position => {
             // console.log("position updated")
         }
@@ -26,7 +26,7 @@ export function onNoteMove(umlNote: joint.shapes.standard.Rectangle) {
     let noteService = umlNote.attributes['noteService'] as gongdoc.NoteShapeService
     note.X = umlNote.get('position')!.x
     note.Y = umlNote.get('position')!.y
-    noteService.updateNoteShape(note!).subscribe(
+    noteService.updateNoteShape(note!, "").subscribe(
         note => {
 
         }
@@ -44,7 +44,7 @@ export function onLinkMove(standardLink: joint.shapes.standard.Link) {
     middleVertice!.X = standardLink.get('vertices')![0].x
     middleVertice!.Y = standardLink.get('vertices')![0].y
 
-    verticeService.updateVertice(middleVertice!).subscribe(
+    verticeService.updateVertice(middleVertice!, "").subscribe(
         middleVertice => {
             // console.log("middleVertice updated")
         }

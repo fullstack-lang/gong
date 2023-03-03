@@ -165,7 +165,7 @@ export class PositionsTableComponent implements OnInit {
 
   ngOnInit(): void {
     let stackPath = this.activatedRoute.snapshot.paramMap.get('GONG__StackPath')
-    if ( stackPath != undefined) {
+    if (stackPath != undefined) {
       this.GONG__StackPath = stackPath
     }
 
@@ -201,10 +201,14 @@ export class PositionsTableComponent implements OnInit {
           let mapOfSourceInstances = this.frontRepo[this.dialogData.SourceStruct + "s" as keyof FrontRepo] as Map<number, PositionDB>
           let sourceInstance = mapOfSourceInstances.get(this.dialogData.ID)!
 
-          let sourceField = sourceInstance[this.dialogData.SourceField as keyof typeof sourceInstance]! as unknown as PositionDB[]
-          for (let associationInstance of sourceField) {
-            let position = associationInstance[this.dialogData.IntermediateStructField as keyof typeof associationInstance] as unknown as PositionDB
-            this.initialSelection.push(position)
+          // we associates on sourceInstance of type SourceStruct with a MANY MANY associations to PositionDB
+          // the field name is sourceField
+          let sourceFieldArray = sourceInstance[this.dialogData.SourceField as keyof typeof sourceInstance]! as unknown as PositionDB[]
+          if (sourceFieldArray != null) {
+            for (let associationInstance of sourceFieldArray) {
+              let position = associationInstance[this.dialogData.IntermediateStructField as keyof typeof associationInstance] as unknown as PositionDB
+              this.initialSelection.push(position)
+            }
           }
 
           this.selection = new SelectionModel<PositionDB>(allowMultiSelect, this.initialSelection);
@@ -225,7 +229,7 @@ export class PositionsTableComponent implements OnInit {
     // list of positions is truncated of position before the delete
     this.positions = this.positions.filter(h => h !== position);
 
-    this.positionService.deletePosition(positionID).subscribe(
+    this.positionService.deletePosition(positionID, this.GONG__StackPath).subscribe(
       position => {
         this.positionService.PositionServiceChanged.next("delete")
       }
@@ -291,7 +295,7 @@ export class PositionsTableComponent implements OnInit {
 
       // update all position (only update selection & initial selection)
       for (let position of toUpdate) {
-        this.positionService.updatePosition(position)
+        this.positionService.updatePosition(position, this.GONG__StackPath)
           .subscribe(position => {
             this.positionService.PositionServiceChanged.next("update")
           });

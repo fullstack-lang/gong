@@ -132,7 +132,7 @@
         <ng-container matColumnDef="Delete" sticky>
             <th mat-header-cell *matHeaderCellDef> Delete </th>
             <td mat-cell *matCellDef="let node;  let j = index;">
-                <i class="material-icons" [ngStyle]="{'color':'rgba(0,0,0,.50)'}" (click)="deleteNode(node.ID, node)">delete</i>
+                <i class="material-icons my-delete-button" [ngStyle]="{'color':'rgba(0,0,0,.50)'}" (click)="deleteNode(node.ID, node); $event.stopPropagation()">delete</i>
             </td>
         </ng-container>
 

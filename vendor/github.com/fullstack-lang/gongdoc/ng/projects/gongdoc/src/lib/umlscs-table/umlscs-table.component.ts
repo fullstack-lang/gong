@@ -177,7 +177,7 @@ export class UmlscsTableComponent implements OnInit {
 
   ngOnInit(): void {
     let stackPath = this.activatedRoute.snapshot.paramMap.get('GONG__StackPath')
-    if ( stackPath != undefined) {
+    if (stackPath != undefined) {
       this.GONG__StackPath = stackPath
     }
 
@@ -213,10 +213,14 @@ export class UmlscsTableComponent implements OnInit {
           let mapOfSourceInstances = this.frontRepo[this.dialogData.SourceStruct + "s" as keyof FrontRepo] as Map<number, UmlscDB>
           let sourceInstance = mapOfSourceInstances.get(this.dialogData.ID)!
 
-          let sourceField = sourceInstance[this.dialogData.SourceField as keyof typeof sourceInstance]! as unknown as UmlscDB[]
-          for (let associationInstance of sourceField) {
-            let umlsc = associationInstance[this.dialogData.IntermediateStructField as keyof typeof associationInstance] as unknown as UmlscDB
-            this.initialSelection.push(umlsc)
+          // we associates on sourceInstance of type SourceStruct with a MANY MANY associations to UmlscDB
+          // the field name is sourceField
+          let sourceFieldArray = sourceInstance[this.dialogData.SourceField as keyof typeof sourceInstance]! as unknown as UmlscDB[]
+          if (sourceFieldArray != null) {
+            for (let associationInstance of sourceFieldArray) {
+              let umlsc = associationInstance[this.dialogData.IntermediateStructField as keyof typeof associationInstance] as unknown as UmlscDB
+              this.initialSelection.push(umlsc)
+            }
           }
 
           this.selection = new SelectionModel<UmlscDB>(allowMultiSelect, this.initialSelection);
@@ -237,7 +241,7 @@ export class UmlscsTableComponent implements OnInit {
     // list of umlscs is truncated of umlsc before the delete
     this.umlscs = this.umlscs.filter(h => h !== umlsc);
 
-    this.umlscService.deleteUmlsc(umlscID).subscribe(
+    this.umlscService.deleteUmlsc(umlscID, this.GONG__StackPath).subscribe(
       umlsc => {
         this.umlscService.UmlscServiceChanged.next("delete")
       }
@@ -303,7 +307,7 @@ export class UmlscsTableComponent implements OnInit {
 
       // update all umlsc (only update selection & initial selection)
       for (let umlsc of toUpdate) {
-        this.umlscService.updateUmlsc(umlsc)
+        this.umlscService.updateUmlsc(umlsc, this.GONG__StackPath)
           .subscribe(umlsc => {
             this.umlscService.UmlscServiceChanged.next("update")
           });

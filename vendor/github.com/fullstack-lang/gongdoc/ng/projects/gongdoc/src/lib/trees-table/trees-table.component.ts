@@ -153,7 +153,7 @@ export class TreesTableComponent implements OnInit {
 
   ngOnInit(): void {
     let stackPath = this.activatedRoute.snapshot.paramMap.get('GONG__StackPath')
-    if ( stackPath != undefined) {
+    if (stackPath != undefined) {
       this.GONG__StackPath = stackPath
     }
 
@@ -189,10 +189,14 @@ export class TreesTableComponent implements OnInit {
           let mapOfSourceInstances = this.frontRepo[this.dialogData.SourceStruct + "s" as keyof FrontRepo] as Map<number, TreeDB>
           let sourceInstance = mapOfSourceInstances.get(this.dialogData.ID)!
 
-          let sourceField = sourceInstance[this.dialogData.SourceField as keyof typeof sourceInstance]! as unknown as TreeDB[]
-          for (let associationInstance of sourceField) {
-            let tree = associationInstance[this.dialogData.IntermediateStructField as keyof typeof associationInstance] as unknown as TreeDB
-            this.initialSelection.push(tree)
+          // we associates on sourceInstance of type SourceStruct with a MANY MANY associations to TreeDB
+          // the field name is sourceField
+          let sourceFieldArray = sourceInstance[this.dialogData.SourceField as keyof typeof sourceInstance]! as unknown as TreeDB[]
+          if (sourceFieldArray != null) {
+            for (let associationInstance of sourceFieldArray) {
+              let tree = associationInstance[this.dialogData.IntermediateStructField as keyof typeof associationInstance] as unknown as TreeDB
+              this.initialSelection.push(tree)
+            }
           }
 
           this.selection = new SelectionModel<TreeDB>(allowMultiSelect, this.initialSelection);
@@ -213,7 +217,7 @@ export class TreesTableComponent implements OnInit {
     // list of trees is truncated of tree before the delete
     this.trees = this.trees.filter(h => h !== tree);
 
-    this.treeService.deleteTree(treeID).subscribe(
+    this.treeService.deleteTree(treeID, this.GONG__StackPath).subscribe(
       tree => {
         this.treeService.TreeServiceChanged.next("delete")
       }
@@ -279,7 +283,7 @@ export class TreesTableComponent implements OnInit {
 
       // update all tree (only update selection & initial selection)
       for (let tree of toUpdate) {
-        this.treeService.updateTree(tree)
+        this.treeService.updateTree(tree, this.GONG__StackPath)
           .subscribe(tree => {
             this.treeService.TreeServiceChanged.next("update")
           });

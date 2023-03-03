@@ -152,13 +152,13 @@ export class TreeDetailComponent implements OnInit {
 
 		switch (this.state) {
 			case TreeDetailComponentState.UPDATE_INSTANCE:
-				this.treeService.updateTree(this.tree)
+				this.treeService.updateTree(this.tree, this.GONG__StackPath)
 					.subscribe(tree => {
 						this.treeService.TreeServiceChanged.next("update")
 					});
 				break;
 			default:
-				this.treeService.postTree(this.tree).subscribe(tree => {
+				this.treeService.postTree(this.tree, this.GONG__StackPath).subscribe(tree => {
 					this.treeService.TreeServiceChanged.next("post")
 					this.tree = new (TreeDB) // reset fields
 				});

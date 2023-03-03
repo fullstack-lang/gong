@@ -21,10 +21,6 @@ import { ClassdiagramDB } from './classdiagram-db'
 })
 export class DiagramPackageService {
 
-  httpOptions = {
-    headers: new HttpHeaders({ 'Content-Type': 'application/json' })
-  };
-
   // Kamar Raïmo: Adding a way to communicate between components that share information
   // so that they are notified of a change.
   DiagramPackageServiceChanged: BehaviorSubject<string> = new BehaviorSubject("");
@@ -33,7 +29,6 @@ export class DiagramPackageService {
 
   constructor(
     private http: HttpClient,
-    private location: Location,
     @Inject(DOCUMENT) private document: Document
   ) {
     // path to the service share the same origin with the path to the document
@@ -68,17 +63,21 @@ export class DiagramPackageService {
     );
   }
 
-  //////// Save methods //////////
-
   /** POST: add a new diagrampackage to the server */
-  postDiagramPackage(diagrampackagedb: DiagramPackageDB): Observable<DiagramPackageDB> {
+  postDiagramPackage(diagrampackagedb: DiagramPackageDB, GONG__StackPath: string): Observable<DiagramPackageDB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
     diagrampackagedb.Classdiagrams = []
     diagrampackagedb.SelectedClassdiagram = new ClassdiagramDB
     diagrampackagedb.Umlscs = []
 
-    return this.http.post<DiagramPackageDB>(this.diagrampackagesUrl, diagrampackagedb, this.httpOptions).pipe(
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+	return this.http.post<DiagramPackageDB>(this.diagrampackagesUrl, diagrampackagedb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
         this.log(`posted diagrampackagedb id=${diagrampackagedb.ID}`)
@@ -88,18 +87,24 @@ export class DiagramPackageService {
   }
 
   /** DELETE: delete the diagrampackagedb from the server */
-  deleteDiagramPackage(diagrampackagedb: DiagramPackageDB | number): Observable<DiagramPackageDB> {
+  deleteDiagramPackage(diagrampackagedb: DiagramPackageDB | number, GONG__StackPath: string): Observable<DiagramPackageDB> {
     const id = typeof diagrampackagedb === 'number' ? diagrampackagedb : diagrampackagedb.ID;
     const url = `${this.diagrampackagesUrl}/${id}`;
 
-    return this.http.delete<DiagramPackageDB>(url, this.httpOptions).pipe(
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    };
+
+    return this.http.delete<DiagramPackageDB>(url, httpOptions).pipe(
       tap(_ => this.log(`deleted diagrampackagedb id=${id}`)),
       catchError(this.handleError<DiagramPackageDB>('deleteDiagramPackage'))
     );
   }
 
   /** PUT: update the diagrampackagedb on the server */
-  updateDiagramPackage(diagrampackagedb: DiagramPackageDB): Observable<DiagramPackageDB> {
+  updateDiagramPackage(diagrampackagedb: DiagramPackageDB, GONG__StackPath: string): Observable<DiagramPackageDB> {
     const id = typeof diagrampackagedb === 'number' ? diagrampackagedb : diagrampackagedb.ID;
     const url = `${this.diagrampackagesUrl}/${id}`;
 
@@ -108,7 +113,13 @@ export class DiagramPackageService {
     diagrampackagedb.SelectedClassdiagram = new ClassdiagramDB
     diagrampackagedb.Umlscs = []
 
-    return this.http.put<DiagramPackageDB>(url, diagrampackagedb, this.httpOptions).pipe(
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    };
+
+    return this.http.put<DiagramPackageDB>(url, diagrampackagedb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
         this.log(`updated diagrampackagedb id=${diagrampackagedb.ID}`)

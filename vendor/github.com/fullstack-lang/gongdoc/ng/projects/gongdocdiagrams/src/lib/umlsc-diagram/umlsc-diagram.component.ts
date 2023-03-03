@@ -227,7 +227,7 @@ export class UmlscDiagramComponent implements OnInit {
           stateDB!.Y = position["y"]
 
           // update position to DB
-          this.UmlStateService.updateUmlState(stateDB!).subscribe(
+          this.UmlStateService.updateUmlState(stateDB!, "").subscribe(
             state => {
               console.log("state updated")
             }
