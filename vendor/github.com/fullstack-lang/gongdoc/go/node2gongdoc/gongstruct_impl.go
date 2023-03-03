@@ -11,17 +11,17 @@ type GongStructImpl struct {
 }
 
 func (gongStructImpl *GongStructImpl) OnAfterUpdate(
-	stage *gongdoc_models.StageStruct,
+	gongdocStage *gongdoc_models.StageStruct,
 	stagedNode, frontNode *gongdoc_models.Node) {
 	// if node is unchecked
 	if stagedNode.IsChecked && !frontNode.IsChecked {
 
 		// get the latest version of the diagram before modifying it
-		stage.Checkout()
+		gongdocStage.Checkout()
 
 		// remove the gongstructshape from the selected diagram
 		classDiagram := gongStructImpl.nodeCb.GetSelectedClassdiagram()
-		classDiagram.RemoveGongStructShape(stagedNode.Name)
+		classDiagram.RemoveGongStructShape(gongdocStage, stagedNode.Name)
 
 	}
 
@@ -29,10 +29,10 @@ func (gongStructImpl *GongStructImpl) OnAfterUpdate(
 	if !stagedNode.IsChecked && frontNode.IsChecked {
 
 		// get the latest version of the diagram before modifying it
-		stage.Checkout()
+		gongdocStage.Checkout()
 
 		classDiagram := gongStructImpl.nodeCb.GetSelectedClassdiagram()
-		classDiagram.AddGongStructShape(gongStructImpl.nodeCb.diagramPackage, frontNode.Name)
+		classDiagram.AddGongStructShape(gongdocStage, gongStructImpl.nodeCb.diagramPackage, frontNode.Name)
 
 	}
 }
