@@ -47,23 +47,22 @@ type GongStructInput struct {
 // default: genericError
 //
 //	200: gongstructDBResponse
-func GetGongStructs(c *gin.Context) {
-	db := orm.BackRepo.BackRepoGongStruct.GetDB()
+func (controller *Controller) GetGongStructs(c *gin.Context) {
 
 	// source slice
 	var gongstructDBs []orm.GongStructDB
 
-	// type Values map[string][]string
 	values := c.Request.URL.Query()
+	stackPath := ""
 	if len(values) == 1 {
 		value := values["GONG__StackPath"]
 		if len(value) == 1 {
-			// we have a single parameter
-			// we assume it is the stack
-			stackParam := value[0]
-			log.Println("GONG__StackPath", stackParam)
+			stackPath = value[0]
+			log.Println("GetGongStructs", "GONG__StackPath", stackPath)
 		}
 	}
+	backRepo := controller.Map_BackRepos[stackPath]
+	db := backRepo.BackRepoGongStruct.GetDB()
 
 	query := db.Find(&gongstructDBs)
 	if query.Error != nil {
@@ -108,7 +107,19 @@ func GetGongStructs(c *gin.Context) {
 //
 //	Responses:
 //	  200: nodeDBResponse
-func PostGongStruct(c *gin.Context) {
+func (controller *Controller) PostGongStruct(c *gin.Context) {
+
+	values := c.Request.URL.Query()
+	stackPath := ""
+	if len(values) == 1 {
+		value := values["GONG__StackPath"]
+		if len(value) == 1 {
+			stackPath = value[0]
+			log.Println("PostGongStructs", "GONG__StackPath", stackPath)
+		}
+	}
+	backRepo := controller.Map_BackRepos[stackPath]
+	db := backRepo.BackRepoGongStruct.GetDB()
 
 	// Validate input
 	var input orm.GongStructAPI
@@ -128,7 +139,6 @@ func PostGongStruct(c *gin.Context) {
 	gongstructDB.GongStructPointersEnconding = input.GongStructPointersEnconding
 	gongstructDB.CopyBasicFieldsFromGongStruct(&input.GongStruct)
 
-	db := orm.BackRepo.BackRepoGongStruct.GetDB()
 	query := db.Create(&gongstructDB)
 	if query.Error != nil {
 		var returnError GenericError
@@ -140,16 +150,16 @@ func PostGongStruct(c *gin.Context) {
 	}
 
 	// get an instance (not staged) from DB instance, and call callback function
-	orm.BackRepo.BackRepoGongStruct.CheckoutPhaseOneInstance(&gongstructDB)
-	gongstruct := (*orm.BackRepo.BackRepoGongStruct.Map_GongStructDBID_GongStructPtr)[gongstructDB.ID]
+	backRepo.BackRepoGongStruct.CheckoutPhaseOneInstance(&gongstructDB)
+	gongstruct := (*backRepo.BackRepoGongStruct.Map_GongStructDBID_GongStructPtr)[gongstructDB.ID]
 
 	if gongstruct != nil {
-		models.AfterCreateFromFront(&models.Stage, gongstruct)
+		models.AfterCreateFromFront(backRepo.GetStage(), gongstruct)
 	}
 
 	// a POST is equivalent to a back repo commit increase
 	// (this will be improved with implementation of unit of work design pattern)
-	orm.BackRepo.IncrementPushFromFrontNb()
+	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, gongstructDB)
 }
@@ -164,21 +174,19 @@ func PostGongStruct(c *gin.Context) {
 // default: genericError
 //
 //	200: gongstructDBResponse
-func GetGongStruct(c *gin.Context) {
+func (controller *Controller) GetGongStruct(c *gin.Context) {
 
-	// type Values map[string][]string
 	values := c.Request.URL.Query()
+	stackPath := ""
 	if len(values) == 1 {
-		value := values["stack"]
+		value := values["GONG__StackPath"]
 		if len(value) == 1 {
-			// we have a single parameter
-			// we assume it is the stack
-			stackParam := value[0]
-			log.Println("GET params", stackParam)
+			stackPath = value[0]
+			log.Println("GetGongStruct", "GONG__StackPath", stackPath)
 		}
 	}
-
-	db := orm.BackRepo.BackRepoGongStruct.GetDB()
+	backRepo := controller.Map_BackRepos[stackPath]
+	db := backRepo.BackRepoGongStruct.GetDB()
 
 	// Get gongstructDB in DB
 	var gongstructDB orm.GongStructDB
@@ -209,7 +217,19 @@ func GetGongStruct(c *gin.Context) {
 // default: genericError
 //
 //	200: gongstructDBResponse
-func UpdateGongStruct(c *gin.Context) {
+func (controller *Controller) UpdateGongStruct(c *gin.Context) {
+
+	values := c.Request.URL.Query()
+	stackPath := ""
+	if len(values) == 1 {
+		value := values["GONG__StackPath"]
+		if len(value) == 1 {
+			stackPath = value[0]
+			log.Println("UpdateGongStruct", "GONG__StackPath", stackPath)
+		}
+	}
+	backRepo := controller.Map_BackRepos[stackPath]
+	db := backRepo.BackRepoGongStruct.GetDB()
 
 	// Validate input
 	var input orm.GongStructAPI
@@ -218,8 +238,6 @@ func UpdateGongStruct(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-
-	db := orm.BackRepo.BackRepoGongStruct.GetDB()
 
 	// Get model if exist
 	var gongstructDB orm.GongStructDB
@@ -255,16 +273,16 @@ func UpdateGongStruct(c *gin.Context) {
 	gongstructDB.CopyBasicFieldsToGongStruct(gongstructNew)
 
 	// get stage instance from DB instance, and call callback function
-	gongstructOld := (*orm.BackRepo.BackRepoGongStruct.Map_GongStructDBID_GongStructPtr)[gongstructDB.ID]
+	gongstructOld := (*backRepo.BackRepoGongStruct.Map_GongStructDBID_GongStructPtr)[gongstructDB.ID]
 	if gongstructOld != nil {
-		models.AfterUpdateFromFront(&models.Stage, gongstructOld, gongstructNew)
+		models.AfterUpdateFromFront(backRepo.GetStage(), gongstructOld, gongstructNew)
 	}
 
 	// an UPDATE generates a back repo commit increase
 	// (this will be improved with implementation of unit of work design pattern)
 	// in some cases, with the marshalling of the stage, this operation might
 	// generates a checkout
-	orm.BackRepo.IncrementPushFromFrontNb()
+	backRepo.IncrementPushFromFrontNb()
 
 	// return status OK with the marshalling of the the gongstructDB
 	c.JSON(http.StatusOK, gongstructDB)
@@ -279,8 +297,19 @@ func UpdateGongStruct(c *gin.Context) {
 // default: genericError
 //
 //	200: gongstructDBResponse
-func DeleteGongStruct(c *gin.Context) {
-	db := orm.BackRepo.BackRepoGongStruct.GetDB()
+func (controller *Controller) DeleteGongStruct(c *gin.Context) {
+
+	values := c.Request.URL.Query()
+	stackPath := ""
+	if len(values) == 1 {
+		value := values["GONG__StackPath"]
+		if len(value) == 1 {
+			stackPath = value[0]
+			log.Println("DeleteGongStruct", "GONG__StackPath", stackPath)
+		}
+	}
+	backRepo := controller.Map_BackRepos[stackPath]
+	db := backRepo.BackRepoGongStruct.GetDB()
 
 	// Get model if exist
 	var gongstructDB orm.GongStructDB
@@ -301,14 +330,14 @@ func DeleteGongStruct(c *gin.Context) {
 	gongstructDB.CopyBasicFieldsToGongStruct(gongstructDeleted)
 
 	// get stage instance from DB instance, and call callback function
-	gongstructStaged := (*orm.BackRepo.BackRepoGongStruct.Map_GongStructDBID_GongStructPtr)[gongstructDB.ID]
+	gongstructStaged := (*backRepo.BackRepoGongStruct.Map_GongStructDBID_GongStructPtr)[gongstructDB.ID]
 	if gongstructStaged != nil {
-		models.AfterDeleteFromFront(&models.Stage, gongstructStaged, gongstructDeleted)
+		models.AfterDeleteFromFront(backRepo.GetStage(), gongstructStaged, gongstructDeleted)
 	}
 
 	// a DELETE generates a back repo commit increase
 	// (this will be improved with implementation of unit of work design pattern)
-	orm.BackRepo.IncrementPushFromFrontNb()
+	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, gin.H{"data": true})
 }

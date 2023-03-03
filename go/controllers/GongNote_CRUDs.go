@@ -47,23 +47,22 @@ type GongNoteInput struct {
 // default: genericError
 //
 //	200: gongnoteDBResponse
-func GetGongNotes(c *gin.Context) {
-	db := orm.BackRepo.BackRepoGongNote.GetDB()
+func (controller *Controller) GetGongNotes(c *gin.Context) {
 
 	// source slice
 	var gongnoteDBs []orm.GongNoteDB
 
-	// type Values map[string][]string
 	values := c.Request.URL.Query()
+	stackPath := ""
 	if len(values) == 1 {
 		value := values["GONG__StackPath"]
 		if len(value) == 1 {
-			// we have a single parameter
-			// we assume it is the stack
-			stackParam := value[0]
-			log.Println("GONG__StackPath", stackParam)
+			stackPath = value[0]
+			log.Println("GetGongNotes", "GONG__StackPath", stackPath)
 		}
 	}
+	backRepo := controller.Map_BackRepos[stackPath]
+	db := backRepo.BackRepoGongNote.GetDB()
 
 	query := db.Find(&gongnoteDBs)
 	if query.Error != nil {
@@ -108,7 +107,19 @@ func GetGongNotes(c *gin.Context) {
 //
 //	Responses:
 //	  200: nodeDBResponse
-func PostGongNote(c *gin.Context) {
+func (controller *Controller) PostGongNote(c *gin.Context) {
+
+	values := c.Request.URL.Query()
+	stackPath := ""
+	if len(values) == 1 {
+		value := values["GONG__StackPath"]
+		if len(value) == 1 {
+			stackPath = value[0]
+			log.Println("PostGongNotes", "GONG__StackPath", stackPath)
+		}
+	}
+	backRepo := controller.Map_BackRepos[stackPath]
+	db := backRepo.BackRepoGongNote.GetDB()
 
 	// Validate input
 	var input orm.GongNoteAPI
@@ -128,7 +139,6 @@ func PostGongNote(c *gin.Context) {
 	gongnoteDB.GongNotePointersEnconding = input.GongNotePointersEnconding
 	gongnoteDB.CopyBasicFieldsFromGongNote(&input.GongNote)
 
-	db := orm.BackRepo.BackRepoGongNote.GetDB()
 	query := db.Create(&gongnoteDB)
 	if query.Error != nil {
 		var returnError GenericError
@@ -140,16 +150,16 @@ func PostGongNote(c *gin.Context) {
 	}
 
 	// get an instance (not staged) from DB instance, and call callback function
-	orm.BackRepo.BackRepoGongNote.CheckoutPhaseOneInstance(&gongnoteDB)
-	gongnote := (*orm.BackRepo.BackRepoGongNote.Map_GongNoteDBID_GongNotePtr)[gongnoteDB.ID]
+	backRepo.BackRepoGongNote.CheckoutPhaseOneInstance(&gongnoteDB)
+	gongnote := (*backRepo.BackRepoGongNote.Map_GongNoteDBID_GongNotePtr)[gongnoteDB.ID]
 
 	if gongnote != nil {
-		models.AfterCreateFromFront(&models.Stage, gongnote)
+		models.AfterCreateFromFront(backRepo.GetStage(), gongnote)
 	}
 
 	// a POST is equivalent to a back repo commit increase
 	// (this will be improved with implementation of unit of work design pattern)
-	orm.BackRepo.IncrementPushFromFrontNb()
+	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, gongnoteDB)
 }
@@ -164,21 +174,19 @@ func PostGongNote(c *gin.Context) {
 // default: genericError
 //
 //	200: gongnoteDBResponse
-func GetGongNote(c *gin.Context) {
+func (controller *Controller) GetGongNote(c *gin.Context) {
 
-	// type Values map[string][]string
 	values := c.Request.URL.Query()
+	stackPath := ""
 	if len(values) == 1 {
-		value := values["stack"]
+		value := values["GONG__StackPath"]
 		if len(value) == 1 {
-			// we have a single parameter
-			// we assume it is the stack
-			stackParam := value[0]
-			log.Println("GET params", stackParam)
+			stackPath = value[0]
+			log.Println("GetGongNote", "GONG__StackPath", stackPath)
 		}
 	}
-
-	db := orm.BackRepo.BackRepoGongNote.GetDB()
+	backRepo := controller.Map_BackRepos[stackPath]
+	db := backRepo.BackRepoGongNote.GetDB()
 
 	// Get gongnoteDB in DB
 	var gongnoteDB orm.GongNoteDB
@@ -209,7 +217,19 @@ func GetGongNote(c *gin.Context) {
 // default: genericError
 //
 //	200: gongnoteDBResponse
-func UpdateGongNote(c *gin.Context) {
+func (controller *Controller) UpdateGongNote(c *gin.Context) {
+
+	values := c.Request.URL.Query()
+	stackPath := ""
+	if len(values) == 1 {
+		value := values["GONG__StackPath"]
+		if len(value) == 1 {
+			stackPath = value[0]
+			log.Println("UpdateGongNote", "GONG__StackPath", stackPath)
+		}
+	}
+	backRepo := controller.Map_BackRepos[stackPath]
+	db := backRepo.BackRepoGongNote.GetDB()
 
 	// Validate input
 	var input orm.GongNoteAPI
@@ -218,8 +238,6 @@ func UpdateGongNote(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-
-	db := orm.BackRepo.BackRepoGongNote.GetDB()
 
 	// Get model if exist
 	var gongnoteDB orm.GongNoteDB
@@ -255,16 +273,16 @@ func UpdateGongNote(c *gin.Context) {
 	gongnoteDB.CopyBasicFieldsToGongNote(gongnoteNew)
 
 	// get stage instance from DB instance, and call callback function
-	gongnoteOld := (*orm.BackRepo.BackRepoGongNote.Map_GongNoteDBID_GongNotePtr)[gongnoteDB.ID]
+	gongnoteOld := (*backRepo.BackRepoGongNote.Map_GongNoteDBID_GongNotePtr)[gongnoteDB.ID]
 	if gongnoteOld != nil {
-		models.AfterUpdateFromFront(&models.Stage, gongnoteOld, gongnoteNew)
+		models.AfterUpdateFromFront(backRepo.GetStage(), gongnoteOld, gongnoteNew)
 	}
 
 	// an UPDATE generates a back repo commit increase
 	// (this will be improved with implementation of unit of work design pattern)
 	// in some cases, with the marshalling of the stage, this operation might
 	// generates a checkout
-	orm.BackRepo.IncrementPushFromFrontNb()
+	backRepo.IncrementPushFromFrontNb()
 
 	// return status OK with the marshalling of the the gongnoteDB
 	c.JSON(http.StatusOK, gongnoteDB)
@@ -279,8 +297,19 @@ func UpdateGongNote(c *gin.Context) {
 // default: genericError
 //
 //	200: gongnoteDBResponse
-func DeleteGongNote(c *gin.Context) {
-	db := orm.BackRepo.BackRepoGongNote.GetDB()
+func (controller *Controller) DeleteGongNote(c *gin.Context) {
+
+	values := c.Request.URL.Query()
+	stackPath := ""
+	if len(values) == 1 {
+		value := values["GONG__StackPath"]
+		if len(value) == 1 {
+			stackPath = value[0]
+			log.Println("DeleteGongNote", "GONG__StackPath", stackPath)
+		}
+	}
+	backRepo := controller.Map_BackRepos[stackPath]
+	db := backRepo.BackRepoGongNote.GetDB()
 
 	// Get model if exist
 	var gongnoteDB orm.GongNoteDB
@@ -301,14 +330,14 @@ func DeleteGongNote(c *gin.Context) {
 	gongnoteDB.CopyBasicFieldsToGongNote(gongnoteDeleted)
 
 	// get stage instance from DB instance, and call callback function
-	gongnoteStaged := (*orm.BackRepo.BackRepoGongNote.Map_GongNoteDBID_GongNotePtr)[gongnoteDB.ID]
+	gongnoteStaged := (*backRepo.BackRepoGongNote.Map_GongNoteDBID_GongNotePtr)[gongnoteDB.ID]
 	if gongnoteStaged != nil {
-		models.AfterDeleteFromFront(&models.Stage, gongnoteStaged, gongnoteDeleted)
+		models.AfterDeleteFromFront(backRepo.GetStage(), gongnoteStaged, gongnoteDeleted)
 	}
 
 	// a DELETE generates a back repo commit increase
 	// (this will be improved with implementation of unit of work design pattern)
-	orm.BackRepo.IncrementPushFromFrontNb()
+	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, gin.H{"data": true})
 }

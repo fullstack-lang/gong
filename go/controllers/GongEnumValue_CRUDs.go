@@ -47,23 +47,22 @@ type GongEnumValueInput struct {
 // default: genericError
 //
 //	200: gongenumvalueDBResponse
-func GetGongEnumValues(c *gin.Context) {
-	db := orm.BackRepo.BackRepoGongEnumValue.GetDB()
+func (controller *Controller) GetGongEnumValues(c *gin.Context) {
 
 	// source slice
 	var gongenumvalueDBs []orm.GongEnumValueDB
 
-	// type Values map[string][]string
 	values := c.Request.URL.Query()
+	stackPath := ""
 	if len(values) == 1 {
 		value := values["GONG__StackPath"]
 		if len(value) == 1 {
-			// we have a single parameter
-			// we assume it is the stack
-			stackParam := value[0]
-			log.Println("GONG__StackPath", stackParam)
+			stackPath = value[0]
+			log.Println("GetGongEnumValues", "GONG__StackPath", stackPath)
 		}
 	}
+	backRepo := controller.Map_BackRepos[stackPath]
+	db := backRepo.BackRepoGongEnumValue.GetDB()
 
 	query := db.Find(&gongenumvalueDBs)
 	if query.Error != nil {
@@ -108,7 +107,19 @@ func GetGongEnumValues(c *gin.Context) {
 //
 //	Responses:
 //	  200: nodeDBResponse
-func PostGongEnumValue(c *gin.Context) {
+func (controller *Controller) PostGongEnumValue(c *gin.Context) {
+
+	values := c.Request.URL.Query()
+	stackPath := ""
+	if len(values) == 1 {
+		value := values["GONG__StackPath"]
+		if len(value) == 1 {
+			stackPath = value[0]
+			log.Println("PostGongEnumValues", "GONG__StackPath", stackPath)
+		}
+	}
+	backRepo := controller.Map_BackRepos[stackPath]
+	db := backRepo.BackRepoGongEnumValue.GetDB()
 
 	// Validate input
 	var input orm.GongEnumValueAPI
@@ -128,7 +139,6 @@ func PostGongEnumValue(c *gin.Context) {
 	gongenumvalueDB.GongEnumValuePointersEnconding = input.GongEnumValuePointersEnconding
 	gongenumvalueDB.CopyBasicFieldsFromGongEnumValue(&input.GongEnumValue)
 
-	db := orm.BackRepo.BackRepoGongEnumValue.GetDB()
 	query := db.Create(&gongenumvalueDB)
 	if query.Error != nil {
 		var returnError GenericError
@@ -140,16 +150,16 @@ func PostGongEnumValue(c *gin.Context) {
 	}
 
 	// get an instance (not staged) from DB instance, and call callback function
-	orm.BackRepo.BackRepoGongEnumValue.CheckoutPhaseOneInstance(&gongenumvalueDB)
-	gongenumvalue := (*orm.BackRepo.BackRepoGongEnumValue.Map_GongEnumValueDBID_GongEnumValuePtr)[gongenumvalueDB.ID]
+	backRepo.BackRepoGongEnumValue.CheckoutPhaseOneInstance(&gongenumvalueDB)
+	gongenumvalue := (*backRepo.BackRepoGongEnumValue.Map_GongEnumValueDBID_GongEnumValuePtr)[gongenumvalueDB.ID]
 
 	if gongenumvalue != nil {
-		models.AfterCreateFromFront(&models.Stage, gongenumvalue)
+		models.AfterCreateFromFront(backRepo.GetStage(), gongenumvalue)
 	}
 
 	// a POST is equivalent to a back repo commit increase
 	// (this will be improved with implementation of unit of work design pattern)
-	orm.BackRepo.IncrementPushFromFrontNb()
+	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, gongenumvalueDB)
 }
@@ -164,21 +174,19 @@ func PostGongEnumValue(c *gin.Context) {
 // default: genericError
 //
 //	200: gongenumvalueDBResponse
-func GetGongEnumValue(c *gin.Context) {
+func (controller *Controller) GetGongEnumValue(c *gin.Context) {
 
-	// type Values map[string][]string
 	values := c.Request.URL.Query()
+	stackPath := ""
 	if len(values) == 1 {
-		value := values["stack"]
+		value := values["GONG__StackPath"]
 		if len(value) == 1 {
-			// we have a single parameter
-			// we assume it is the stack
-			stackParam := value[0]
-			log.Println("GET params", stackParam)
+			stackPath = value[0]
+			log.Println("GetGongEnumValue", "GONG__StackPath", stackPath)
 		}
 	}
-
-	db := orm.BackRepo.BackRepoGongEnumValue.GetDB()
+	backRepo := controller.Map_BackRepos[stackPath]
+	db := backRepo.BackRepoGongEnumValue.GetDB()
 
 	// Get gongenumvalueDB in DB
 	var gongenumvalueDB orm.GongEnumValueDB
@@ -209,7 +217,19 @@ func GetGongEnumValue(c *gin.Context) {
 // default: genericError
 //
 //	200: gongenumvalueDBResponse
-func UpdateGongEnumValue(c *gin.Context) {
+func (controller *Controller) UpdateGongEnumValue(c *gin.Context) {
+
+	values := c.Request.URL.Query()
+	stackPath := ""
+	if len(values) == 1 {
+		value := values["GONG__StackPath"]
+		if len(value) == 1 {
+			stackPath = value[0]
+			log.Println("UpdateGongEnumValue", "GONG__StackPath", stackPath)
+		}
+	}
+	backRepo := controller.Map_BackRepos[stackPath]
+	db := backRepo.BackRepoGongEnumValue.GetDB()
 
 	// Validate input
 	var input orm.GongEnumValueAPI
@@ -218,8 +238,6 @@ func UpdateGongEnumValue(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-
-	db := orm.BackRepo.BackRepoGongEnumValue.GetDB()
 
 	// Get model if exist
 	var gongenumvalueDB orm.GongEnumValueDB
@@ -255,16 +273,16 @@ func UpdateGongEnumValue(c *gin.Context) {
 	gongenumvalueDB.CopyBasicFieldsToGongEnumValue(gongenumvalueNew)
 
 	// get stage instance from DB instance, and call callback function
-	gongenumvalueOld := (*orm.BackRepo.BackRepoGongEnumValue.Map_GongEnumValueDBID_GongEnumValuePtr)[gongenumvalueDB.ID]
+	gongenumvalueOld := (*backRepo.BackRepoGongEnumValue.Map_GongEnumValueDBID_GongEnumValuePtr)[gongenumvalueDB.ID]
 	if gongenumvalueOld != nil {
-		models.AfterUpdateFromFront(&models.Stage, gongenumvalueOld, gongenumvalueNew)
+		models.AfterUpdateFromFront(backRepo.GetStage(), gongenumvalueOld, gongenumvalueNew)
 	}
 
 	// an UPDATE generates a back repo commit increase
 	// (this will be improved with implementation of unit of work design pattern)
 	// in some cases, with the marshalling of the stage, this operation might
 	// generates a checkout
-	orm.BackRepo.IncrementPushFromFrontNb()
+	backRepo.IncrementPushFromFrontNb()
 
 	// return status OK with the marshalling of the the gongenumvalueDB
 	c.JSON(http.StatusOK, gongenumvalueDB)
@@ -279,8 +297,19 @@ func UpdateGongEnumValue(c *gin.Context) {
 // default: genericError
 //
 //	200: gongenumvalueDBResponse
-func DeleteGongEnumValue(c *gin.Context) {
-	db := orm.BackRepo.BackRepoGongEnumValue.GetDB()
+func (controller *Controller) DeleteGongEnumValue(c *gin.Context) {
+
+	values := c.Request.URL.Query()
+	stackPath := ""
+	if len(values) == 1 {
+		value := values["GONG__StackPath"]
+		if len(value) == 1 {
+			stackPath = value[0]
+			log.Println("DeleteGongEnumValue", "GONG__StackPath", stackPath)
+		}
+	}
+	backRepo := controller.Map_BackRepos[stackPath]
+	db := backRepo.BackRepoGongEnumValue.GetDB()
 
 	// Get model if exist
 	var gongenumvalueDB orm.GongEnumValueDB
@@ -301,14 +330,14 @@ func DeleteGongEnumValue(c *gin.Context) {
 	gongenumvalueDB.CopyBasicFieldsToGongEnumValue(gongenumvalueDeleted)
 
 	// get stage instance from DB instance, and call callback function
-	gongenumvalueStaged := (*orm.BackRepo.BackRepoGongEnumValue.Map_GongEnumValueDBID_GongEnumValuePtr)[gongenumvalueDB.ID]
+	gongenumvalueStaged := (*backRepo.BackRepoGongEnumValue.Map_GongEnumValueDBID_GongEnumValuePtr)[gongenumvalueDB.ID]
 	if gongenumvalueStaged != nil {
-		models.AfterDeleteFromFront(&models.Stage, gongenumvalueStaged, gongenumvalueDeleted)
+		models.AfterDeleteFromFront(backRepo.GetStage(), gongenumvalueStaged, gongenumvalueDeleted)
 	}
 
 	// a DELETE generates a back repo commit increase
 	// (this will be improved with implementation of unit of work design pattern)
-	orm.BackRepo.IncrementPushFromFrontNb()
+	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, gin.H{"data": true})
 }
