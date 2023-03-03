@@ -10,9 +10,6 @@ import (
 type Classdiagram struct {
 	Name string
 
-	// Stage_ where the Classdiagram lives
-	Stage_ *StageStruct
-
 	// list of gongstructshapes in the diagram
 	GongStructShapes []*GongStructShape
 
@@ -26,7 +23,7 @@ type Classdiagram struct {
 	IsInDrawMode bool
 }
 
-func (classdiagram *Classdiagram) RemoveGongStructShape(gongstructshapeName string) {
+func (classdiagram *Classdiagram) RemoveGongStructShape(stage *StageStruct, gongstructshapeName string) {
 
 	foundGongStructShape := false
 	var gongstructshape *GongStructShape
@@ -39,13 +36,13 @@ func (classdiagram *Classdiagram) RemoveGongStructShape(gongstructshapeName stri
 	}
 
 	classdiagram.GongStructShapes = remove(classdiagram.GongStructShapes, gongstructshape)
-	gongstructshape.Position.Unstage(classdiagram.Stage_)
-	gongstructshape.Unstage(classdiagram.Stage_)
+	gongstructshape.Position.Unstage(stage)
+	gongstructshape.Unstage(stage)
 
 	// remove links that go from this gongstructshape
 	for _, link := range gongstructshape.Links {
-		link.Middlevertice.Unstage(classdiagram.Stage_)
-		link.Unstage(classdiagram.Stage_)
+		link.Middlevertice.Unstage(stage)
+		link.Unstage(stage)
 	}
 	gongstructshape.Links = []*Link{}
 
@@ -55,8 +52,8 @@ func (classdiagram *Classdiagram) RemoveGongStructShape(gongstructshapeName stri
 		newSliceOfLinks := make([]*Link, 0)
 		for _, link := range fromGongStructShape.Links {
 			if link.Fieldtypename == IdentifierToGongObjectName(gongstructshape.Identifier) {
-				link.Middlevertice.Unstage(classdiagram.Stage_)
-				link.Unstage(classdiagram.Stage_)
+				link.Middlevertice.Unstage(stage)
+				link.Unstage(stage)
 			} else {
 				newSliceOfLinks = append(newSliceOfLinks, link)
 			}
@@ -66,7 +63,7 @@ func (classdiagram *Classdiagram) RemoveGongStructShape(gongstructshapeName stri
 
 	// remove fields of the gongstructshape
 	for _, field := range gongstructshape.Fields {
-		field.Unstage(classdiagram.Stage_)
+		field.Unstage(stage)
 	}
 
 	//
@@ -84,7 +81,7 @@ func (classdiagram *Classdiagram) RemoveGongStructShape(gongstructshapeName stri
 			// remove it from the slice of links
 			noteShape.NoteShapeLinks = remove(noteShape.NoteShapeLinks, noteShapeLink)
 
-			noteShapeLink.Unstage(classdiagram.Stage_)
+			noteShapeLink.Unstage(stage)
 		}
 	}
 
@@ -93,7 +90,7 @@ func (classdiagram *Classdiagram) RemoveGongStructShape(gongstructshapeName stri
 	// log.Println("RemoveGongStructShape, after commit, nb ", Stage.BackRepo.GetLastCommitFromBackNb())
 }
 
-func (classdiagram *Classdiagram) AddGongStructShape(diagramPackage *DiagramPackage, gongstructshapeName string) {
+func (classdiagram *Classdiagram) AddGongStructShape(stage *StageStruct, diagramPackage *DiagramPackage, gongstructshapeName string) {
 
 	var gongstructshape GongStructShape
 	gongstructshape.Name = classdiagram.Name + "-" + gongstructshapeName
@@ -107,14 +104,14 @@ func (classdiagram *Classdiagram) AddGongStructShape(diagramPackage *DiagramPack
 		gongstructshape.ShowNbInstances = true
 		gongstructshape.NbInstances = nbInstances
 	}
-	gongstructshape.Stage(classdiagram.Stage_)
+	gongstructshape.Stage(stage)
 
 	var position Position
 	position.Name = "Pos-" + gongstructshape.Name
 	position.X = float64(int(rand.Float32()*100) + 10)
 	position.Y = float64(int(rand.Float32()*100) + 10)
 	gongstructshape.Position = &position
-	position.Stage(classdiagram.Stage_)
+	position.Stage(stage)
 
 	classdiagram.GongStructShapes = append(classdiagram.GongStructShapes, &gongstructshape)
 
@@ -124,7 +121,7 @@ func (classdiagram *Classdiagram) AddGongStructShape(diagramPackage *DiagramPack
 
 }
 
-func (classdiagram *Classdiagram) AddGongEnumShape(diagramPackage *DiagramPackage, enumshapeName string) {
+func (classdiagram *Classdiagram) AddGongEnumShape(stage *StageStruct, diagramPackage *DiagramPackage, enumshapeName string) {
 
 	var enumshape GongEnumShape
 	enumshape.Name = classdiagram.Name + "-" + enumshapeName
@@ -132,21 +129,21 @@ func (classdiagram *Classdiagram) AddGongEnumShape(diagramPackage *DiagramPackag
 	enumshape.Width = 240
 	enumshape.Heigth = 63
 
-	enumshape.Stage(classdiagram.Stage_)
+	enumshape.Stage(stage)
 
 	var position Position
 	position.Name = "Pos-" + enumshape.Name
 	position.X = float64(int(rand.Float32()*100) + 10)
 	position.Y = float64(int(rand.Float32()*100) + 10)
 	enumshape.Position = &position
-	position.Stage(classdiagram.Stage_)
+	position.Stage(stage)
 
 	classdiagram.GongEnumShapes = append(classdiagram.GongEnumShapes, &enumshape)
 
 	Stage.Commit()
 }
 
-func (classdiagram *Classdiagram) RemoveGongEnumShape(gongenumshapeName string) {
+func (classdiagram *Classdiagram) RemoveGongEnumShape(stage *StageStruct, gongenumshapeName string) {
 
 	foundGongEnumShape := false
 	var gongenumshape *GongEnumShape
@@ -159,12 +156,12 @@ func (classdiagram *Classdiagram) RemoveGongEnumShape(gongenumshapeName string) 
 	}
 
 	classdiagram.GongEnumShapes = remove(classdiagram.GongEnumShapes, gongenumshape)
-	gongenumshape.Position.Unstage(classdiagram.Stage_)
-	gongenumshape.Unstage(classdiagram.Stage_)
+	gongenumshape.Position.Unstage(stage)
+	gongenumshape.Unstage(stage)
 
 	// remove fields of the gongenumshape
 	for _, gongEnumValueEntry := range gongenumshape.GongEnumValueEntrys {
-		gongEnumValueEntry.Unstage(classdiagram.Stage_)
+		gongEnumValueEntry.Unstage(stage)
 	}
 
 	//
@@ -182,7 +179,7 @@ func (classdiagram *Classdiagram) RemoveGongEnumShape(gongenumshapeName string) 
 			// remove it from the slice of links
 			noteShape.NoteShapeLinks = remove(noteShape.NoteShapeLinks, noteShapeLink)
 
-			noteShapeLink.Unstage(classdiagram.Stage_)
+			noteShapeLink.Unstage(stage)
 		}
 	}
 
