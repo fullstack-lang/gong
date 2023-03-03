@@ -91,7 +91,7 @@ func ({{structname}} *{{Structname}}) Commit(stage *StageStruct) *{{Structname}}
 
 // Checkout {{structname}} to the back repo (if it is already staged)
 func ({{structname}} *{{Structname}}) Checkout(stage *StageStruct) *{{Structname}} {
-	if _, ok := Stage.{{Structname}}s[{{structname}}]; ok {
+	if _, ok := stage.{{Structname}}s[{{structname}}]; ok {
 		if stage.BackRepo != nil {
 			stage.BackRepo.Checkout{{Structname}}({{structname}})
 		}
@@ -324,7 +324,7 @@ map[GongFilePerStructSubTemplateId]string{
 	GongFileFieldSubTmplPointerFieldPointerAssociationMapFunction: `
 		case "{{FieldName}}":
 			res := make(map[*{{AssocStructName}}][]*{{Structname}})
-			for {{structname}} := range Stage.{{Structname}}s {
+			for {{structname}} := range stage.{{Structname}}s {
 				if {{structname}}.{{FieldName}} != nil {
 					{{assocstructname}}_ := {{structname}}.{{FieldName}}
 					var {{structname}}s []*{{Structname}}
@@ -343,7 +343,7 @@ map[GongFilePerStructSubTemplateId]string{
 	GongFileFieldSubTmplPointerFieldSliceOfPointersAssociationMapFunction: `
 		case "{{FieldName}}":
 			res := make(map[*{{AssocStructName}}]*{{Structname}})
-			for {{structname}} := range Stage.{{Structname}}s {
+			for {{structname}} := range stage.{{Structname}}s {
 				for _, {{assocstructname}}_ := range {{structname}}.{{FieldName}} {
 					res[{{assocstructname}}_] = {{structname}}
 				}
