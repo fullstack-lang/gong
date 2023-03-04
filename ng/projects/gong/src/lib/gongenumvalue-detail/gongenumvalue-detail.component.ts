@@ -174,13 +174,13 @@ export class GongEnumValueDetailComponent implements OnInit {
 
 		switch (this.state) {
 			case GongEnumValueDetailComponentState.UPDATE_INSTANCE:
-				this.gongenumvalueService.updateGongEnumValue(this.gongenumvalue)
+				this.gongenumvalueService.updateGongEnumValue(this.gongenumvalue, this.GONG__StackPath)
 					.subscribe(gongenumvalue => {
 						this.gongenumvalueService.GongEnumValueServiceChanged.next("update")
 					});
 				break;
 			default:
-				this.gongenumvalueService.postGongEnumValue(this.gongenumvalue).subscribe(gongenumvalue => {
+				this.gongenumvalueService.postGongEnumValue(this.gongenumvalue, this.GONG__StackPath).subscribe(gongenumvalue => {
 					this.gongenumvalueService.GongEnumValueServiceChanged.next("post")
 					this.gongenumvalue = new (GongEnumValueDB) // reset fields
 				});

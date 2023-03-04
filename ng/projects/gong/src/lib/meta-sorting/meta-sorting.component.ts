@@ -100,7 +100,7 @@ export class MetaSortingComponent implements OnInit {
 
     this.associatedMetas.forEach(
       meta => {
-        this.metaService.updateMeta(meta)
+        this.metaService.updateMeta(meta, this.dialogData.GONG__StackPath)
           .subscribe(meta => {
             this.metaService.MetaServiceChanged.next("update")
           });

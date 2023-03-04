@@ -152,13 +152,13 @@ export class ModelPkgDetailComponent implements OnInit {
 
 		switch (this.state) {
 			case ModelPkgDetailComponentState.UPDATE_INSTANCE:
-				this.modelpkgService.updateModelPkg(this.modelpkg)
+				this.modelpkgService.updateModelPkg(this.modelpkg, this.GONG__StackPath)
 					.subscribe(modelpkg => {
 						this.modelpkgService.ModelPkgServiceChanged.next("update")
 					});
 				break;
 			default:
-				this.modelpkgService.postModelPkg(this.modelpkg).subscribe(modelpkg => {
+				this.modelpkgService.postModelPkg(this.modelpkg, this.GONG__StackPath).subscribe(modelpkg => {
 					this.modelpkgService.ModelPkgServiceChanged.next("post")
 					this.modelpkg = new (ModelPkgDB) // reset fields
 				});

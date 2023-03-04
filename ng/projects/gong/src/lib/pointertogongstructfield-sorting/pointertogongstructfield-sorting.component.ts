@@ -100,7 +100,7 @@ export class PointerToGongStructFieldSortingComponent implements OnInit {
 
     this.associatedPointerToGongStructFields.forEach(
       pointertogongstructfield => {
-        this.pointertogongstructfieldService.updatePointerToGongStructField(pointertogongstructfield)
+        this.pointertogongstructfieldService.updatePointerToGongStructField(pointertogongstructfield, this.dialogData.GONG__StackPath)
           .subscribe(pointertogongstructfield => {
             this.pointertogongstructfieldService.PointerToGongStructFieldServiceChanged.next("update")
           });

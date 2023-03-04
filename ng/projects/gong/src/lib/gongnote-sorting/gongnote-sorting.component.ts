@@ -100,7 +100,7 @@ export class GongNoteSortingComponent implements OnInit {
 
     this.associatedGongNotes.forEach(
       gongnote => {
-        this.gongnoteService.updateGongNote(gongnote)
+        this.gongnoteService.updateGongNote(gongnote, this.dialogData.GONG__StackPath)
           .subscribe(gongnote => {
             this.gongnoteService.GongNoteServiceChanged.next("update")
           });

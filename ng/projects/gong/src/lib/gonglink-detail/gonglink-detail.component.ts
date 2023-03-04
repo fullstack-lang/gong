@@ -174,13 +174,13 @@ export class GongLinkDetailComponent implements OnInit {
 
 		switch (this.state) {
 			case GongLinkDetailComponentState.UPDATE_INSTANCE:
-				this.gonglinkService.updateGongLink(this.gonglink)
+				this.gonglinkService.updateGongLink(this.gonglink, this.GONG__StackPath)
 					.subscribe(gonglink => {
 						this.gonglinkService.GongLinkServiceChanged.next("update")
 					});
 				break;
 			default:
-				this.gonglinkService.postGongLink(this.gonglink).subscribe(gonglink => {
+				this.gonglinkService.postGongLink(this.gonglink, this.GONG__StackPath).subscribe(gonglink => {
 					this.gonglinkService.GongLinkServiceChanged.next("post")
 					this.gonglink = new (GongLinkDB) // reset fields
 				});

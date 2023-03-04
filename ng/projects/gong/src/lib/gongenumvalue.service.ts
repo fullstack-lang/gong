@@ -21,10 +21,6 @@ import { GongEnumDB } from './gongenum-db'
 })
 export class GongEnumValueService {
 
-  httpOptions = {
-    headers: new HttpHeaders({ 'Content-Type': 'application/json' })
-  };
-
   // Kamar Raïmo: Adding a way to communicate between components that share information
   // so that they are notified of a change.
   GongEnumValueServiceChanged: BehaviorSubject<string> = new BehaviorSubject("");
@@ -33,7 +29,6 @@ export class GongEnumValueService {
 
   constructor(
     private http: HttpClient,
-    private location: Location,
     @Inject(DOCUMENT) private document: Document
   ) {
     // path to the service share the same origin with the path to the document
@@ -68,16 +63,20 @@ export class GongEnumValueService {
     );
   }
 
-  //////// Save methods //////////
-
   /** POST: add a new gongenumvalue to the server */
-  postGongEnumValue(gongenumvaluedb: GongEnumValueDB): Observable<GongEnumValueDB> {
+  postGongEnumValue(gongenumvaluedb: GongEnumValueDB, GONG__StackPath: string): Observable<GongEnumValueDB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
     let _GongEnum_GongEnumValues_reverse = gongenumvaluedb.GongEnum_GongEnumValues_reverse
     gongenumvaluedb.GongEnum_GongEnumValues_reverse = new GongEnumDB
 
-    return this.http.post<GongEnumValueDB>(this.gongenumvaluesUrl, gongenumvaluedb, this.httpOptions).pipe(
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+	return this.http.post<GongEnumValueDB>(this.gongenumvaluesUrl, gongenumvaluedb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
         gongenumvaluedb.GongEnum_GongEnumValues_reverse = _GongEnum_GongEnumValues_reverse
@@ -88,18 +87,24 @@ export class GongEnumValueService {
   }
 
   /** DELETE: delete the gongenumvaluedb from the server */
-  deleteGongEnumValue(gongenumvaluedb: GongEnumValueDB | number): Observable<GongEnumValueDB> {
+  deleteGongEnumValue(gongenumvaluedb: GongEnumValueDB | number, GONG__StackPath: string): Observable<GongEnumValueDB> {
     const id = typeof gongenumvaluedb === 'number' ? gongenumvaluedb : gongenumvaluedb.ID;
     const url = `${this.gongenumvaluesUrl}/${id}`;
 
-    return this.http.delete<GongEnumValueDB>(url, this.httpOptions).pipe(
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    };
+
+    return this.http.delete<GongEnumValueDB>(url, httpOptions).pipe(
       tap(_ => this.log(`deleted gongenumvaluedb id=${id}`)),
       catchError(this.handleError<GongEnumValueDB>('deleteGongEnumValue'))
     );
   }
 
   /** PUT: update the gongenumvaluedb on the server */
-  updateGongEnumValue(gongenumvaluedb: GongEnumValueDB): Observable<GongEnumValueDB> {
+  updateGongEnumValue(gongenumvaluedb: GongEnumValueDB, GONG__StackPath: string): Observable<GongEnumValueDB> {
     const id = typeof gongenumvaluedb === 'number' ? gongenumvaluedb : gongenumvaluedb.ID;
     const url = `${this.gongenumvaluesUrl}/${id}`;
 
@@ -107,7 +112,13 @@ export class GongEnumValueService {
     let _GongEnum_GongEnumValues_reverse = gongenumvaluedb.GongEnum_GongEnumValues_reverse
     gongenumvaluedb.GongEnum_GongEnumValues_reverse = new GongEnumDB
 
-    return this.http.put<GongEnumValueDB>(url, gongenumvaluedb, this.httpOptions).pipe(
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    };
+
+    return this.http.put<GongEnumValueDB>(url, gongenumvaluedb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
         gongenumvaluedb.GongEnum_GongEnumValues_reverse = _GongEnum_GongEnumValues_reverse

@@ -100,7 +100,7 @@ export class ModelPkgSortingComponent implements OnInit {
 
     this.associatedModelPkgs.forEach(
       modelpkg => {
-        this.modelpkgService.updateModelPkg(modelpkg)
+        this.modelpkgService.updateModelPkg(modelpkg, this.dialogData.GONG__StackPath)
           .subscribe(modelpkg => {
             this.modelpkgService.ModelPkgServiceChanged.next("update")
           });

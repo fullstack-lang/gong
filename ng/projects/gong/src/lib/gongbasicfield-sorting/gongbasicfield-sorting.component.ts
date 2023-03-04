@@ -100,7 +100,7 @@ export class GongBasicFieldSortingComponent implements OnInit {
 
     this.associatedGongBasicFields.forEach(
       gongbasicfield => {
-        this.gongbasicfieldService.updateGongBasicField(gongbasicfield)
+        this.gongbasicfieldService.updateGongBasicField(gongbasicfield, this.dialogData.GONG__StackPath)
           .subscribe(gongbasicfield => {
             this.gongbasicfieldService.GongBasicFieldServiceChanged.next("update")
           });

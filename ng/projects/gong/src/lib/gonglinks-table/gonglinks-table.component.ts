@@ -178,7 +178,7 @@ export class GongLinksTableComponent implements OnInit {
 
   ngOnInit(): void {
     let stackPath = this.activatedRoute.snapshot.paramMap.get('GONG__StackPath')
-    if ( stackPath != undefined) {
+    if (stackPath != undefined) {
       this.GONG__StackPath = stackPath
     }
 
@@ -214,10 +214,14 @@ export class GongLinksTableComponent implements OnInit {
           let mapOfSourceInstances = this.frontRepo[this.dialogData.SourceStruct + "s" as keyof FrontRepo] as Map<number, GongLinkDB>
           let sourceInstance = mapOfSourceInstances.get(this.dialogData.ID)!
 
-          let sourceField = sourceInstance[this.dialogData.SourceField as keyof typeof sourceInstance]! as unknown as GongLinkDB[]
-          for (let associationInstance of sourceField) {
-            let gonglink = associationInstance[this.dialogData.IntermediateStructField as keyof typeof associationInstance] as unknown as GongLinkDB
-            this.initialSelection.push(gonglink)
+          // we associates on sourceInstance of type SourceStruct with a MANY MANY associations to GongLinkDB
+          // the field name is sourceField
+          let sourceFieldArray = sourceInstance[this.dialogData.SourceField as keyof typeof sourceInstance]! as unknown as GongLinkDB[]
+          if (sourceFieldArray != null) {
+            for (let associationInstance of sourceFieldArray) {
+              let gonglink = associationInstance[this.dialogData.IntermediateStructField as keyof typeof associationInstance] as unknown as GongLinkDB
+              this.initialSelection.push(gonglink)
+            }
           }
 
           this.selection = new SelectionModel<GongLinkDB>(allowMultiSelect, this.initialSelection);
@@ -238,7 +242,7 @@ export class GongLinksTableComponent implements OnInit {
     // list of gonglinks is truncated of gonglink before the delete
     this.gonglinks = this.gonglinks.filter(h => h !== gonglink);
 
-    this.gonglinkService.deleteGongLink(gonglinkID).subscribe(
+    this.gonglinkService.deleteGongLink(gonglinkID, this.GONG__StackPath).subscribe(
       gonglink => {
         this.gonglinkService.GongLinkServiceChanged.next("delete")
       }
@@ -304,7 +308,7 @@ export class GongLinksTableComponent implements OnInit {
 
       // update all gonglink (only update selection & initial selection)
       for (let gonglink of toUpdate) {
-        this.gonglinkService.updateGongLink(gonglink)
+        this.gonglinkService.updateGongLink(gonglink, this.GONG__StackPath)
           .subscribe(gonglink => {
             this.gonglinkService.GongLinkServiceChanged.next("update")
           });

@@ -20,10 +20,6 @@ import { ModelPkgDB } from './modelpkg-db';
 })
 export class ModelPkgService {
 
-  httpOptions = {
-    headers: new HttpHeaders({ 'Content-Type': 'application/json' })
-  };
-
   // Kamar Raïmo: Adding a way to communicate between components that share information
   // so that they are notified of a change.
   ModelPkgServiceChanged: BehaviorSubject<string> = new BehaviorSubject("");
@@ -32,7 +28,6 @@ export class ModelPkgService {
 
   constructor(
     private http: HttpClient,
-    private location: Location,
     @Inject(DOCUMENT) private document: Document
   ) {
     // path to the service share the same origin with the path to the document
@@ -67,14 +62,18 @@ export class ModelPkgService {
     );
   }
 
-  //////// Save methods //////////
-
   /** POST: add a new modelpkg to the server */
-  postModelPkg(modelpkgdb: ModelPkgDB): Observable<ModelPkgDB> {
+  postModelPkg(modelpkgdb: ModelPkgDB, GONG__StackPath: string): Observable<ModelPkgDB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
 
-    return this.http.post<ModelPkgDB>(this.modelpkgsUrl, modelpkgdb, this.httpOptions).pipe(
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+	return this.http.post<ModelPkgDB>(this.modelpkgsUrl, modelpkgdb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
         this.log(`posted modelpkgdb id=${modelpkgdb.ID}`)
@@ -84,24 +83,36 @@ export class ModelPkgService {
   }
 
   /** DELETE: delete the modelpkgdb from the server */
-  deleteModelPkg(modelpkgdb: ModelPkgDB | number): Observable<ModelPkgDB> {
+  deleteModelPkg(modelpkgdb: ModelPkgDB | number, GONG__StackPath: string): Observable<ModelPkgDB> {
     const id = typeof modelpkgdb === 'number' ? modelpkgdb : modelpkgdb.ID;
     const url = `${this.modelpkgsUrl}/${id}`;
 
-    return this.http.delete<ModelPkgDB>(url, this.httpOptions).pipe(
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    };
+
+    return this.http.delete<ModelPkgDB>(url, httpOptions).pipe(
       tap(_ => this.log(`deleted modelpkgdb id=${id}`)),
       catchError(this.handleError<ModelPkgDB>('deleteModelPkg'))
     );
   }
 
   /** PUT: update the modelpkgdb on the server */
-  updateModelPkg(modelpkgdb: ModelPkgDB): Observable<ModelPkgDB> {
+  updateModelPkg(modelpkgdb: ModelPkgDB, GONG__StackPath: string): Observable<ModelPkgDB> {
     const id = typeof modelpkgdb === 'number' ? modelpkgdb : modelpkgdb.ID;
     const url = `${this.modelpkgsUrl}/${id}`;
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
 
-    return this.http.put<ModelPkgDB>(url, modelpkgdb, this.httpOptions).pipe(
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    };
+
+    return this.http.put<ModelPkgDB>(url, modelpkgdb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
         this.log(`updated modelpkgdb id=${modelpkgdb.ID}`)

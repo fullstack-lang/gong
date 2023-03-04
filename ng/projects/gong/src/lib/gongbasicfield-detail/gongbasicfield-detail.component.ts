@@ -187,13 +187,13 @@ export class GongBasicFieldDetailComponent implements OnInit {
 
 		switch (this.state) {
 			case GongBasicFieldDetailComponentState.UPDATE_INSTANCE:
-				this.gongbasicfieldService.updateGongBasicField(this.gongbasicfield)
+				this.gongbasicfieldService.updateGongBasicField(this.gongbasicfield, this.GONG__StackPath)
 					.subscribe(gongbasicfield => {
 						this.gongbasicfieldService.GongBasicFieldServiceChanged.next("update")
 					});
 				break;
 			default:
-				this.gongbasicfieldService.postGongBasicField(this.gongbasicfield).subscribe(gongbasicfield => {
+				this.gongbasicfieldService.postGongBasicField(this.gongbasicfield, this.GONG__StackPath).subscribe(gongbasicfield => {
 					this.gongbasicfieldService.GongBasicFieldServiceChanged.next("post")
 					this.gongbasicfield = new (GongBasicFieldDB) // reset fields
 				});

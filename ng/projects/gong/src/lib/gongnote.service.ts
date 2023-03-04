@@ -20,10 +20,6 @@ import { GongNoteDB } from './gongnote-db';
 })
 export class GongNoteService {
 
-  httpOptions = {
-    headers: new HttpHeaders({ 'Content-Type': 'application/json' })
-  };
-
   // Kamar Raïmo: Adding a way to communicate between components that share information
   // so that they are notified of a change.
   GongNoteServiceChanged: BehaviorSubject<string> = new BehaviorSubject("");
@@ -32,7 +28,6 @@ export class GongNoteService {
 
   constructor(
     private http: HttpClient,
-    private location: Location,
     @Inject(DOCUMENT) private document: Document
   ) {
     // path to the service share the same origin with the path to the document
@@ -67,15 +62,19 @@ export class GongNoteService {
     );
   }
 
-  //////// Save methods //////////
-
   /** POST: add a new gongnote to the server */
-  postGongNote(gongnotedb: GongNoteDB): Observable<GongNoteDB> {
+  postGongNote(gongnotedb: GongNoteDB, GONG__StackPath: string): Observable<GongNoteDB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
     gongnotedb.Links = []
 
-    return this.http.post<GongNoteDB>(this.gongnotesUrl, gongnotedb, this.httpOptions).pipe(
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+	return this.http.post<GongNoteDB>(this.gongnotesUrl, gongnotedb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
         this.log(`posted gongnotedb id=${gongnotedb.ID}`)
@@ -85,25 +84,37 @@ export class GongNoteService {
   }
 
   /** DELETE: delete the gongnotedb from the server */
-  deleteGongNote(gongnotedb: GongNoteDB | number): Observable<GongNoteDB> {
+  deleteGongNote(gongnotedb: GongNoteDB | number, GONG__StackPath: string): Observable<GongNoteDB> {
     const id = typeof gongnotedb === 'number' ? gongnotedb : gongnotedb.ID;
     const url = `${this.gongnotesUrl}/${id}`;
 
-    return this.http.delete<GongNoteDB>(url, this.httpOptions).pipe(
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    };
+
+    return this.http.delete<GongNoteDB>(url, httpOptions).pipe(
       tap(_ => this.log(`deleted gongnotedb id=${id}`)),
       catchError(this.handleError<GongNoteDB>('deleteGongNote'))
     );
   }
 
   /** PUT: update the gongnotedb on the server */
-  updateGongNote(gongnotedb: GongNoteDB): Observable<GongNoteDB> {
+  updateGongNote(gongnotedb: GongNoteDB, GONG__StackPath: string): Observable<GongNoteDB> {
     const id = typeof gongnotedb === 'number' ? gongnotedb : gongnotedb.ID;
     const url = `${this.gongnotesUrl}/${id}`;
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
     gongnotedb.Links = []
 
-    return this.http.put<GongNoteDB>(url, gongnotedb, this.httpOptions).pipe(
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    };
+
+    return this.http.put<GongNoteDB>(url, gongnotedb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
         this.log(`updated gongnotedb id=${gongnotedb.ID}`)

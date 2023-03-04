@@ -100,7 +100,7 @@ export class GongLinkSortingComponent implements OnInit {
 
     this.associatedGongLinks.forEach(
       gonglink => {
-        this.gonglinkService.updateGongLink(gonglink)
+        this.gonglinkService.updateGongLink(gonglink, this.dialogData.GONG__StackPath)
           .subscribe(gonglink => {
             this.gonglinkService.GongLinkServiceChanged.next("update")
           });

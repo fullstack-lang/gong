@@ -20,10 +20,6 @@ import { MetaDB } from './meta-db';
 })
 export class MetaService {
 
-  httpOptions = {
-    headers: new HttpHeaders({ 'Content-Type': 'application/json' })
-  };
-
   // Kamar Raïmo: Adding a way to communicate between components that share information
   // so that they are notified of a change.
   MetaServiceChanged: BehaviorSubject<string> = new BehaviorSubject("");
@@ -32,7 +28,6 @@ export class MetaService {
 
   constructor(
     private http: HttpClient,
-    private location: Location,
     @Inject(DOCUMENT) private document: Document
   ) {
     // path to the service share the same origin with the path to the document
@@ -67,15 +62,19 @@ export class MetaService {
     );
   }
 
-  //////// Save methods //////////
-
   /** POST: add a new meta to the server */
-  postMeta(metadb: MetaDB): Observable<MetaDB> {
+  postMeta(metadb: MetaDB, GONG__StackPath: string): Observable<MetaDB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
     metadb.MetaReferences = []
 
-    return this.http.post<MetaDB>(this.metasUrl, metadb, this.httpOptions).pipe(
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+	return this.http.post<MetaDB>(this.metasUrl, metadb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
         this.log(`posted metadb id=${metadb.ID}`)
@@ -85,25 +84,37 @@ export class MetaService {
   }
 
   /** DELETE: delete the metadb from the server */
-  deleteMeta(metadb: MetaDB | number): Observable<MetaDB> {
+  deleteMeta(metadb: MetaDB | number, GONG__StackPath: string): Observable<MetaDB> {
     const id = typeof metadb === 'number' ? metadb : metadb.ID;
     const url = `${this.metasUrl}/${id}`;
 
-    return this.http.delete<MetaDB>(url, this.httpOptions).pipe(
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    };
+
+    return this.http.delete<MetaDB>(url, httpOptions).pipe(
       tap(_ => this.log(`deleted metadb id=${id}`)),
       catchError(this.handleError<MetaDB>('deleteMeta'))
     );
   }
 
   /** PUT: update the metadb on the server */
-  updateMeta(metadb: MetaDB): Observable<MetaDB> {
+  updateMeta(metadb: MetaDB, GONG__StackPath: string): Observable<MetaDB> {
     const id = typeof metadb === 'number' ? metadb : metadb.ID;
     const url = `${this.metasUrl}/${id}`;
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
     metadb.MetaReferences = []
 
-    return this.http.put<MetaDB>(url, metadb, this.httpOptions).pipe(
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    };
+
+    return this.http.put<MetaDB>(url, metadb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
         this.log(`updated metadb id=${metadb.ID}`)

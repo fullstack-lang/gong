@@ -21,10 +21,6 @@ import { GongStructDB } from './gongstruct-db'
 })
 export class GongTimeFieldService {
 
-  httpOptions = {
-    headers: new HttpHeaders({ 'Content-Type': 'application/json' })
-  };
-
   // Kamar Raïmo: Adding a way to communicate between components that share information
   // so that they are notified of a change.
   GongTimeFieldServiceChanged: BehaviorSubject<string> = new BehaviorSubject("");
@@ -33,7 +29,6 @@ export class GongTimeFieldService {
 
   constructor(
     private http: HttpClient,
-    private location: Location,
     @Inject(DOCUMENT) private document: Document
   ) {
     // path to the service share the same origin with the path to the document
@@ -68,16 +63,20 @@ export class GongTimeFieldService {
     );
   }
 
-  //////// Save methods //////////
-
   /** POST: add a new gongtimefield to the server */
-  postGongTimeField(gongtimefielddb: GongTimeFieldDB): Observable<GongTimeFieldDB> {
+  postGongTimeField(gongtimefielddb: GongTimeFieldDB, GONG__StackPath: string): Observable<GongTimeFieldDB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
     let _GongStruct_GongTimeFields_reverse = gongtimefielddb.GongStruct_GongTimeFields_reverse
     gongtimefielddb.GongStruct_GongTimeFields_reverse = new GongStructDB
 
-    return this.http.post<GongTimeFieldDB>(this.gongtimefieldsUrl, gongtimefielddb, this.httpOptions).pipe(
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+	return this.http.post<GongTimeFieldDB>(this.gongtimefieldsUrl, gongtimefielddb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
         gongtimefielddb.GongStruct_GongTimeFields_reverse = _GongStruct_GongTimeFields_reverse
@@ -88,18 +87,24 @@ export class GongTimeFieldService {
   }
 
   /** DELETE: delete the gongtimefielddb from the server */
-  deleteGongTimeField(gongtimefielddb: GongTimeFieldDB | number): Observable<GongTimeFieldDB> {
+  deleteGongTimeField(gongtimefielddb: GongTimeFieldDB | number, GONG__StackPath: string): Observable<GongTimeFieldDB> {
     const id = typeof gongtimefielddb === 'number' ? gongtimefielddb : gongtimefielddb.ID;
     const url = `${this.gongtimefieldsUrl}/${id}`;
 
-    return this.http.delete<GongTimeFieldDB>(url, this.httpOptions).pipe(
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    };
+
+    return this.http.delete<GongTimeFieldDB>(url, httpOptions).pipe(
       tap(_ => this.log(`deleted gongtimefielddb id=${id}`)),
       catchError(this.handleError<GongTimeFieldDB>('deleteGongTimeField'))
     );
   }
 
   /** PUT: update the gongtimefielddb on the server */
-  updateGongTimeField(gongtimefielddb: GongTimeFieldDB): Observable<GongTimeFieldDB> {
+  updateGongTimeField(gongtimefielddb: GongTimeFieldDB, GONG__StackPath: string): Observable<GongTimeFieldDB> {
     const id = typeof gongtimefielddb === 'number' ? gongtimefielddb : gongtimefielddb.ID;
     const url = `${this.gongtimefieldsUrl}/${id}`;
 
@@ -107,7 +112,13 @@ export class GongTimeFieldService {
     let _GongStruct_GongTimeFields_reverse = gongtimefielddb.GongStruct_GongTimeFields_reverse
     gongtimefielddb.GongStruct_GongTimeFields_reverse = new GongStructDB
 
-    return this.http.put<GongTimeFieldDB>(url, gongtimefielddb, this.httpOptions).pipe(
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    };
+
+    return this.http.put<GongTimeFieldDB>(url, gongtimefielddb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
         gongtimefielddb.GongStruct_GongTimeFields_reverse = _GongStruct_GongTimeFields_reverse

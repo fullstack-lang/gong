@@ -21,10 +21,6 @@ import { MetaDB } from './meta-db'
 })
 export class MetaReferenceService {
 
-  httpOptions = {
-    headers: new HttpHeaders({ 'Content-Type': 'application/json' })
-  };
-
   // Kamar Raïmo: Adding a way to communicate between components that share information
   // so that they are notified of a change.
   MetaReferenceServiceChanged: BehaviorSubject<string> = new BehaviorSubject("");
@@ -33,7 +29,6 @@ export class MetaReferenceService {
 
   constructor(
     private http: HttpClient,
-    private location: Location,
     @Inject(DOCUMENT) private document: Document
   ) {
     // path to the service share the same origin with the path to the document
@@ -68,16 +63,20 @@ export class MetaReferenceService {
     );
   }
 
-  //////// Save methods //////////
-
   /** POST: add a new metareference to the server */
-  postMetaReference(metareferencedb: MetaReferenceDB): Observable<MetaReferenceDB> {
+  postMetaReference(metareferencedb: MetaReferenceDB, GONG__StackPath: string): Observable<MetaReferenceDB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
     let _Meta_MetaReferences_reverse = metareferencedb.Meta_MetaReferences_reverse
     metareferencedb.Meta_MetaReferences_reverse = new MetaDB
 
-    return this.http.post<MetaReferenceDB>(this.metareferencesUrl, metareferencedb, this.httpOptions).pipe(
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+	return this.http.post<MetaReferenceDB>(this.metareferencesUrl, metareferencedb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
         metareferencedb.Meta_MetaReferences_reverse = _Meta_MetaReferences_reverse
@@ -88,18 +87,24 @@ export class MetaReferenceService {
   }
 
   /** DELETE: delete the metareferencedb from the server */
-  deleteMetaReference(metareferencedb: MetaReferenceDB | number): Observable<MetaReferenceDB> {
+  deleteMetaReference(metareferencedb: MetaReferenceDB | number, GONG__StackPath: string): Observable<MetaReferenceDB> {
     const id = typeof metareferencedb === 'number' ? metareferencedb : metareferencedb.ID;
     const url = `${this.metareferencesUrl}/${id}`;
 
-    return this.http.delete<MetaReferenceDB>(url, this.httpOptions).pipe(
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    };
+
+    return this.http.delete<MetaReferenceDB>(url, httpOptions).pipe(
       tap(_ => this.log(`deleted metareferencedb id=${id}`)),
       catchError(this.handleError<MetaReferenceDB>('deleteMetaReference'))
     );
   }
 
   /** PUT: update the metareferencedb on the server */
-  updateMetaReference(metareferencedb: MetaReferenceDB): Observable<MetaReferenceDB> {
+  updateMetaReference(metareferencedb: MetaReferenceDB, GONG__StackPath: string): Observable<MetaReferenceDB> {
     const id = typeof metareferencedb === 'number' ? metareferencedb : metareferencedb.ID;
     const url = `${this.metareferencesUrl}/${id}`;
 
@@ -107,7 +112,13 @@ export class MetaReferenceService {
     let _Meta_MetaReferences_reverse = metareferencedb.Meta_MetaReferences_reverse
     metareferencedb.Meta_MetaReferences_reverse = new MetaDB
 
-    return this.http.put<MetaReferenceDB>(url, metareferencedb, this.httpOptions).pipe(
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    };
+
+    return this.http.put<MetaReferenceDB>(url, metareferencedb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
         metareferencedb.Meta_MetaReferences_reverse = _Meta_MetaReferences_reverse

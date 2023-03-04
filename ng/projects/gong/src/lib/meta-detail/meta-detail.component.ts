@@ -152,13 +152,13 @@ export class MetaDetailComponent implements OnInit {
 
 		switch (this.state) {
 			case MetaDetailComponentState.UPDATE_INSTANCE:
-				this.metaService.updateMeta(this.meta)
+				this.metaService.updateMeta(this.meta, this.GONG__StackPath)
 					.subscribe(meta => {
 						this.metaService.MetaServiceChanged.next("update")
 					});
 				break;
 			default:
-				this.metaService.postMeta(this.meta).subscribe(meta => {
+				this.metaService.postMeta(this.meta, this.GONG__StackPath).subscribe(meta => {
 					this.metaService.MetaServiceChanged.next("post")
 					this.meta = new (MetaDB) // reset fields
 				});
