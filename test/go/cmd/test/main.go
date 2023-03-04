@@ -51,8 +51,8 @@ func (impl *BeforeCommitImplementation) BeforeCommit(stage *models.StageStruct) 
 	}
 	defer file.Close()
 
-	models.Stage.Checkout()
-	models.Stage.Marshall(file, "github.com/fullstack-lang/gong/test/go/models", "main")
+	stage.Checkout()
+	stage.Marshall(file, "github.com/fullstack-lang/gong/test/go/models", "main")
 }
 
 func main() {
@@ -72,10 +72,11 @@ func main() {
 	r.Use(cors.Default())
 
 	// setup stack
+	var stage *models.StageStruct
 	if *marshallOnCommit != "" {
-		fullstack.Init(r)
+		stage, _ = fullstack.NewStackInstance(r, "")
 	} else {
-		fullstack.Init(r, "./test.db")
+		stage, _ = fullstack.NewStackInstance(r, "", "./test.db")
 	}
 
 	// generate injection code from the stage
@@ -94,30 +95,30 @@ func main() {
 		}
 		defer file.Close()
 
-		models.Stage.Checkout()
-		models.Stage.Marshall(file, "github.com/fullstack-lang/gong/test/go/models", "main")
+		stage.Checkout()
+		stage.Marshall(file, "github.com/fullstack-lang/gong/test/go/models", "main")
 		os.Exit(0)
 	}
 
 	// setup the stage by injecting the code from code database
 	if *unmarshall != "" {
-		models.Stage.Checkout()
-		models.Stage.Reset()
-		models.Stage.Commit()
+		stage.Checkout()
+		stage.Reset()
+		stage.Commit()
 		if InjectionGateway[*unmarshall] != nil {
 			InjectionGateway[*unmarshall]()
 		}
-		models.Stage.Commit()
+		stage.Commit()
 	} else {
 		// in case the database is used, checkout the content to the stage
-		models.Stage.Checkout()
+		stage.Checkout()
 	}
 
 	if *unmarshallFromCode != "" {
-		models.Stage.Checkout()
-		models.Stage.Reset()
-		models.Stage.Commit()
-		err := models.ParseAstFile(&models.Stage, *unmarshallFromCode)
+		stage.Checkout()
+		stage.Reset()
+		stage.Commit()
+		err := models.ParseAstFile(stage, *unmarshallFromCode)
 
 		// if the application is run with -unmarshallFromCode=xxx.go -marshallOnCommit
 		// xxx.go might be absent the first time. However, this shall not be a show stopper.
@@ -125,16 +126,16 @@ func main() {
 			log.Println("no file to read " + err.Error())
 		}
 
-		models.Stage.Commit()
+		stage.Commit()
 	} else {
 		// in case the database is used, checkout the content to the stage
-		models.Stage.Checkout()
+		stage.Checkout()
 	}
 
 	// hook automatic marshall to go code at every commit
 	if *marshallOnCommit != "" {
 		hook := new(BeforeCommitImplementation)
-		models.Stage.OnInitCommitFromFrontCallback = hook
+		stage.OnInitCommitFromFrontCallback = hook
 	}
 
 	gongdoc_load.Load(
@@ -143,7 +144,7 @@ func main() {
 		test.GoDir,
 		r,
 		*embeddedDiagrams,
-		&models.Stage.Map_GongStructName_InstancesNb)
+		&stage.Map_GongStructName_InstancesNb)
 
 	// insertion point for serving the static file
 	// provide the static route for the angular pages
