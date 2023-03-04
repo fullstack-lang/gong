@@ -100,7 +100,7 @@ export class GongStructSortingComponent implements OnInit {
 
     this.associatedGongStructs.forEach(
       gongstruct => {
-        this.gongstructService.updateGongStruct(gongstruct)
+        this.gongstructService.updateGongStruct(gongstruct, this.dialogData.GONG__StackPath)
           .subscribe(gongstruct => {
             this.gongstructService.GongStructServiceChanged.next("update")
           });

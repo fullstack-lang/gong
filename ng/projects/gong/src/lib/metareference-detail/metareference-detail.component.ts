@@ -174,13 +174,13 @@ export class MetaReferenceDetailComponent implements OnInit {
 
 		switch (this.state) {
 			case MetaReferenceDetailComponentState.UPDATE_INSTANCE:
-				this.metareferenceService.updateMetaReference(this.metareference)
+				this.metareferenceService.updateMetaReference(this.metareference, this.GONG__StackPath)
 					.subscribe(metareference => {
 						this.metareferenceService.MetaReferenceServiceChanged.next("update")
 					});
 				break;
 			default:
-				this.metareferenceService.postMetaReference(this.metareference).subscribe(metareference => {
+				this.metareferenceService.postMetaReference(this.metareference, this.GONG__StackPath).subscribe(metareference => {
 					this.metareferenceService.MetaReferenceServiceChanged.next("post")
 					this.metareference = new (MetaReferenceDB) // reset fields
 				});

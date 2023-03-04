@@ -26,6 +26,11 @@ type BackRepoStruct struct {
 	stage *models.StageStruct
 }
 
+func (backRepo *BackRepoStruct) GetStage() (stage *models.StageStruct) {
+	stage = backRepo.stage
+	return
+}
+
 func (backRepo *BackRepoStruct) GetLastCommitFromBackNb() uint {
 	return backRepo.CommitFromBackNb
 }

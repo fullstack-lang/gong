@@ -165,7 +165,7 @@ export class GongNotesTableComponent implements OnInit {
 
   ngOnInit(): void {
     let stackPath = this.activatedRoute.snapshot.paramMap.get('GONG__StackPath')
-    if ( stackPath != undefined) {
+    if (stackPath != undefined) {
       this.GONG__StackPath = stackPath
     }
 
@@ -201,10 +201,14 @@ export class GongNotesTableComponent implements OnInit {
           let mapOfSourceInstances = this.frontRepo[this.dialogData.SourceStruct + "s" as keyof FrontRepo] as Map<number, GongNoteDB>
           let sourceInstance = mapOfSourceInstances.get(this.dialogData.ID)!
 
-          let sourceField = sourceInstance[this.dialogData.SourceField as keyof typeof sourceInstance]! as unknown as GongNoteDB[]
-          for (let associationInstance of sourceField) {
-            let gongnote = associationInstance[this.dialogData.IntermediateStructField as keyof typeof associationInstance] as unknown as GongNoteDB
-            this.initialSelection.push(gongnote)
+          // we associates on sourceInstance of type SourceStruct with a MANY MANY associations to GongNoteDB
+          // the field name is sourceField
+          let sourceFieldArray = sourceInstance[this.dialogData.SourceField as keyof typeof sourceInstance]! as unknown as GongNoteDB[]
+          if (sourceFieldArray != null) {
+            for (let associationInstance of sourceFieldArray) {
+              let gongnote = associationInstance[this.dialogData.IntermediateStructField as keyof typeof associationInstance] as unknown as GongNoteDB
+              this.initialSelection.push(gongnote)
+            }
           }
 
           this.selection = new SelectionModel<GongNoteDB>(allowMultiSelect, this.initialSelection);
@@ -225,7 +229,7 @@ export class GongNotesTableComponent implements OnInit {
     // list of gongnotes is truncated of gongnote before the delete
     this.gongnotes = this.gongnotes.filter(h => h !== gongnote);
 
-    this.gongnoteService.deleteGongNote(gongnoteID).subscribe(
+    this.gongnoteService.deleteGongNote(gongnoteID, this.GONG__StackPath).subscribe(
       gongnote => {
         this.gongnoteService.GongNoteServiceChanged.next("delete")
       }
@@ -291,7 +295,7 @@ export class GongNotesTableComponent implements OnInit {
 
       // update all gongnote (only update selection & initial selection)
       for (let gongnote of toUpdate) {
-        this.gongnoteService.updateGongNote(gongnote)
+        this.gongnoteService.updateGongNote(gongnote, this.GONG__StackPath)
           .subscribe(gongnote => {
             this.gongnoteService.GongNoteServiceChanged.next("update")
           });

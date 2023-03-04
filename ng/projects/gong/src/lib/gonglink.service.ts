@@ -21,10 +21,6 @@ import { GongNoteDB } from './gongnote-db'
 })
 export class GongLinkService {
 
-  httpOptions = {
-    headers: new HttpHeaders({ 'Content-Type': 'application/json' })
-  };
-
   // Kamar Raïmo: Adding a way to communicate between components that share information
   // so that they are notified of a change.
   GongLinkServiceChanged: BehaviorSubject<string> = new BehaviorSubject("");
@@ -33,7 +29,6 @@ export class GongLinkService {
 
   constructor(
     private http: HttpClient,
-    private location: Location,
     @Inject(DOCUMENT) private document: Document
   ) {
     // path to the service share the same origin with the path to the document
@@ -68,16 +63,20 @@ export class GongLinkService {
     );
   }
 
-  //////// Save methods //////////
-
   /** POST: add a new gonglink to the server */
-  postGongLink(gonglinkdb: GongLinkDB): Observable<GongLinkDB> {
+  postGongLink(gonglinkdb: GongLinkDB, GONG__StackPath: string): Observable<GongLinkDB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
     let _GongNote_Links_reverse = gonglinkdb.GongNote_Links_reverse
     gonglinkdb.GongNote_Links_reverse = new GongNoteDB
 
-    return this.http.post<GongLinkDB>(this.gonglinksUrl, gonglinkdb, this.httpOptions).pipe(
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+	return this.http.post<GongLinkDB>(this.gonglinksUrl, gonglinkdb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
         gonglinkdb.GongNote_Links_reverse = _GongNote_Links_reverse
@@ -88,18 +87,24 @@ export class GongLinkService {
   }
 
   /** DELETE: delete the gonglinkdb from the server */
-  deleteGongLink(gonglinkdb: GongLinkDB | number): Observable<GongLinkDB> {
+  deleteGongLink(gonglinkdb: GongLinkDB | number, GONG__StackPath: string): Observable<GongLinkDB> {
     const id = typeof gonglinkdb === 'number' ? gonglinkdb : gonglinkdb.ID;
     const url = `${this.gonglinksUrl}/${id}`;
 
-    return this.http.delete<GongLinkDB>(url, this.httpOptions).pipe(
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    };
+
+    return this.http.delete<GongLinkDB>(url, httpOptions).pipe(
       tap(_ => this.log(`deleted gonglinkdb id=${id}`)),
       catchError(this.handleError<GongLinkDB>('deleteGongLink'))
     );
   }
 
   /** PUT: update the gonglinkdb on the server */
-  updateGongLink(gonglinkdb: GongLinkDB): Observable<GongLinkDB> {
+  updateGongLink(gonglinkdb: GongLinkDB, GONG__StackPath: string): Observable<GongLinkDB> {
     const id = typeof gonglinkdb === 'number' ? gonglinkdb : gonglinkdb.ID;
     const url = `${this.gonglinksUrl}/${id}`;
 
@@ -107,7 +112,13 @@ export class GongLinkService {
     let _GongNote_Links_reverse = gonglinkdb.GongNote_Links_reverse
     gonglinkdb.GongNote_Links_reverse = new GongNoteDB
 
-    return this.http.put<GongLinkDB>(url, gonglinkdb, this.httpOptions).pipe(
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    };
+
+    return this.http.put<GongLinkDB>(url, gonglinkdb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
         gonglinkdb.GongNote_Links_reverse = _GongNote_Links_reverse

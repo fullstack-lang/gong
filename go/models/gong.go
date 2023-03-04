@@ -365,7 +365,7 @@ func (gongbasicfield *GongBasicField) Commit(stage *StageStruct) *GongBasicField
 
 // Checkout gongbasicfield to the back repo (if it is already staged)
 func (gongbasicfield *GongBasicField) Checkout(stage *StageStruct) *GongBasicField {
-	if _, ok := Stage.GongBasicFields[gongbasicfield]; ok {
+	if _, ok := stage.GongBasicFields[gongbasicfield]; ok {
 		if stage.BackRepo != nil {
 			stage.BackRepo.CheckoutGongBasicField(gongbasicfield)
 		}
@@ -405,7 +405,7 @@ func (gongenum *GongEnum) Commit(stage *StageStruct) *GongEnum {
 
 // Checkout gongenum to the back repo (if it is already staged)
 func (gongenum *GongEnum) Checkout(stage *StageStruct) *GongEnum {
-	if _, ok := Stage.GongEnums[gongenum]; ok {
+	if _, ok := stage.GongEnums[gongenum]; ok {
 		if stage.BackRepo != nil {
 			stage.BackRepo.CheckoutGongEnum(gongenum)
 		}
@@ -445,7 +445,7 @@ func (gongenumvalue *GongEnumValue) Commit(stage *StageStruct) *GongEnumValue {
 
 // Checkout gongenumvalue to the back repo (if it is already staged)
 func (gongenumvalue *GongEnumValue) Checkout(stage *StageStruct) *GongEnumValue {
-	if _, ok := Stage.GongEnumValues[gongenumvalue]; ok {
+	if _, ok := stage.GongEnumValues[gongenumvalue]; ok {
 		if stage.BackRepo != nil {
 			stage.BackRepo.CheckoutGongEnumValue(gongenumvalue)
 		}
@@ -485,7 +485,7 @@ func (gonglink *GongLink) Commit(stage *StageStruct) *GongLink {
 
 // Checkout gonglink to the back repo (if it is already staged)
 func (gonglink *GongLink) Checkout(stage *StageStruct) *GongLink {
-	if _, ok := Stage.GongLinks[gonglink]; ok {
+	if _, ok := stage.GongLinks[gonglink]; ok {
 		if stage.BackRepo != nil {
 			stage.BackRepo.CheckoutGongLink(gonglink)
 		}
@@ -525,7 +525,7 @@ func (gongnote *GongNote) Commit(stage *StageStruct) *GongNote {
 
 // Checkout gongnote to the back repo (if it is already staged)
 func (gongnote *GongNote) Checkout(stage *StageStruct) *GongNote {
-	if _, ok := Stage.GongNotes[gongnote]; ok {
+	if _, ok := stage.GongNotes[gongnote]; ok {
 		if stage.BackRepo != nil {
 			stage.BackRepo.CheckoutGongNote(gongnote)
 		}
@@ -565,7 +565,7 @@ func (gongstruct *GongStruct) Commit(stage *StageStruct) *GongStruct {
 
 // Checkout gongstruct to the back repo (if it is already staged)
 func (gongstruct *GongStruct) Checkout(stage *StageStruct) *GongStruct {
-	if _, ok := Stage.GongStructs[gongstruct]; ok {
+	if _, ok := stage.GongStructs[gongstruct]; ok {
 		if stage.BackRepo != nil {
 			stage.BackRepo.CheckoutGongStruct(gongstruct)
 		}
@@ -605,7 +605,7 @@ func (gongtimefield *GongTimeField) Commit(stage *StageStruct) *GongTimeField {
 
 // Checkout gongtimefield to the back repo (if it is already staged)
 func (gongtimefield *GongTimeField) Checkout(stage *StageStruct) *GongTimeField {
-	if _, ok := Stage.GongTimeFields[gongtimefield]; ok {
+	if _, ok := stage.GongTimeFields[gongtimefield]; ok {
 		if stage.BackRepo != nil {
 			stage.BackRepo.CheckoutGongTimeField(gongtimefield)
 		}
@@ -645,7 +645,7 @@ func (meta *Meta) Commit(stage *StageStruct) *Meta {
 
 // Checkout meta to the back repo (if it is already staged)
 func (meta *Meta) Checkout(stage *StageStruct) *Meta {
-	if _, ok := Stage.Metas[meta]; ok {
+	if _, ok := stage.Metas[meta]; ok {
 		if stage.BackRepo != nil {
 			stage.BackRepo.CheckoutMeta(meta)
 		}
@@ -685,7 +685,7 @@ func (metareference *MetaReference) Commit(stage *StageStruct) *MetaReference {
 
 // Checkout metareference to the back repo (if it is already staged)
 func (metareference *MetaReference) Checkout(stage *StageStruct) *MetaReference {
-	if _, ok := Stage.MetaReferences[metareference]; ok {
+	if _, ok := stage.MetaReferences[metareference]; ok {
 		if stage.BackRepo != nil {
 			stage.BackRepo.CheckoutMetaReference(metareference)
 		}
@@ -725,7 +725,7 @@ func (modelpkg *ModelPkg) Commit(stage *StageStruct) *ModelPkg {
 
 // Checkout modelpkg to the back repo (if it is already staged)
 func (modelpkg *ModelPkg) Checkout(stage *StageStruct) *ModelPkg {
-	if _, ok := Stage.ModelPkgs[modelpkg]; ok {
+	if _, ok := stage.ModelPkgs[modelpkg]; ok {
 		if stage.BackRepo != nil {
 			stage.BackRepo.CheckoutModelPkg(modelpkg)
 		}
@@ -765,7 +765,7 @@ func (pointertogongstructfield *PointerToGongStructField) Commit(stage *StageStr
 
 // Checkout pointertogongstructfield to the back repo (if it is already staged)
 func (pointertogongstructfield *PointerToGongStructField) Checkout(stage *StageStruct) *PointerToGongStructField {
-	if _, ok := Stage.PointerToGongStructFields[pointertogongstructfield]; ok {
+	if _, ok := stage.PointerToGongStructFields[pointertogongstructfield]; ok {
 		if stage.BackRepo != nil {
 			stage.BackRepo.CheckoutPointerToGongStructField(pointertogongstructfield)
 		}
@@ -805,7 +805,7 @@ func (sliceofpointertogongstructfield *SliceOfPointerToGongStructField) Commit(s
 
 // Checkout sliceofpointertogongstructfield to the back repo (if it is already staged)
 func (sliceofpointertogongstructfield *SliceOfPointerToGongStructField) Checkout(stage *StageStruct) *SliceOfPointerToGongStructField {
-	if _, ok := Stage.SliceOfPointerToGongStructFields[sliceofpointertogongstructfield]; ok {
+	if _, ok := stage.SliceOfPointerToGongStructFields[sliceofpointertogongstructfield]; ok {
 		if stage.BackRepo != nil {
 			stage.BackRepo.CheckoutSliceOfPointerToGongStructField(sliceofpointertogongstructfield)
 		}
@@ -1298,7 +1298,16 @@ func GetAssociationName[Type Gongstruct]() *Type {
 // The function provides a map with keys as instances of End and values to arrays of *Start
 // the map is construed by iterating over all Start instances and populationg keys with End instances
 // and values with slice of Start instances
-func GetPointerReverseMap[Start, End Gongstruct](fieldname string) map[*End][]*Start {
+func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stages ...*StageStruct) map[*End][]*Start {
+
+	var stage *StageStruct
+	_ = stage
+	if len(stages) > 0 {
+		stage = stages[0]
+	} else {
+		stage = &Stage
+	}
+
 	var ret Start
 
 	switch any(ret).(type) {
@@ -1309,7 +1318,7 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string) map[*End][]*S
 		// insertion point for per direct association field
 		case "GongEnum":
 			res := make(map[*GongEnum][]*GongBasicField)
-			for gongbasicfield := range Stage.GongBasicFields {
+			for gongbasicfield := range stage.GongBasicFields {
 				if gongbasicfield.GongEnum != nil {
 					gongenum_ := gongbasicfield.GongEnum
 					var gongbasicfields []*GongBasicField
@@ -1376,7 +1385,7 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string) map[*End][]*S
 		// insertion point for per direct association field
 		case "GongStruct":
 			res := make(map[*GongStruct][]*PointerToGongStructField)
-			for pointertogongstructfield := range Stage.PointerToGongStructFields {
+			for pointertogongstructfield := range stage.PointerToGongStructFields {
 				if pointertogongstructfield.GongStruct != nil {
 					gongstruct_ := pointertogongstructfield.GongStruct
 					var pointertogongstructfields []*PointerToGongStructField
@@ -1398,7 +1407,7 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string) map[*End][]*S
 		// insertion point for per direct association field
 		case "GongStruct":
 			res := make(map[*GongStruct][]*SliceOfPointerToGongStructField)
-			for sliceofpointertogongstructfield := range Stage.SliceOfPointerToGongStructFields {
+			for sliceofpointertogongstructfield := range stage.SliceOfPointerToGongStructFields {
 				if sliceofpointertogongstructfield.GongStruct != nil {
 					gongstruct_ := sliceofpointertogongstructfield.GongStruct
 					var sliceofpointertogongstructfields []*SliceOfPointerToGongStructField
@@ -1424,7 +1433,16 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string) map[*End][]*S
 // The function provides a map with keys as instances of End and values to *Start instances
 // the map is construed by iterating over all Start instances and populating keys with End instances
 // and values with the Start instances
-func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string) map[*End]*Start {
+func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stages ...*StageStruct) map[*End]*Start {
+
+	var stage *StageStruct
+	_ = stage
+	if len(stages) > 0 {
+		stage = stages[0]
+	} else {
+		stage = &Stage
+	}
+
 	var ret Start
 
 	switch any(ret).(type) {
@@ -1440,7 +1458,7 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string) map[*
 		// insertion point for per direct association field
 		case "GongEnumValues":
 			res := make(map[*GongEnumValue]*GongEnum)
-			for gongenum := range Stage.GongEnums {
+			for gongenum := range stage.GongEnums {
 				for _, gongenumvalue_ := range gongenum.GongEnumValues {
 					res[gongenumvalue_] = gongenum
 				}
@@ -1463,7 +1481,7 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string) map[*
 		// insertion point for per direct association field
 		case "Links":
 			res := make(map[*GongLink]*GongNote)
-			for gongnote := range Stage.GongNotes {
+			for gongnote := range stage.GongNotes {
 				for _, gonglink_ := range gongnote.Links {
 					res[gonglink_] = gongnote
 				}
@@ -1476,7 +1494,7 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string) map[*
 		// insertion point for per direct association field
 		case "GongBasicFields":
 			res := make(map[*GongBasicField]*GongStruct)
-			for gongstruct := range Stage.GongStructs {
+			for gongstruct := range stage.GongStructs {
 				for _, gongbasicfield_ := range gongstruct.GongBasicFields {
 					res[gongbasicfield_] = gongstruct
 				}
@@ -1484,7 +1502,7 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string) map[*
 			return any(res).(map[*End]*Start)
 		case "GongTimeFields":
 			res := make(map[*GongTimeField]*GongStruct)
-			for gongstruct := range Stage.GongStructs {
+			for gongstruct := range stage.GongStructs {
 				for _, gongtimefield_ := range gongstruct.GongTimeFields {
 					res[gongtimefield_] = gongstruct
 				}
@@ -1492,7 +1510,7 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string) map[*
 			return any(res).(map[*End]*Start)
 		case "PointerToGongStructFields":
 			res := make(map[*PointerToGongStructField]*GongStruct)
-			for gongstruct := range Stage.GongStructs {
+			for gongstruct := range stage.GongStructs {
 				for _, pointertogongstructfield_ := range gongstruct.PointerToGongStructFields {
 					res[pointertogongstructfield_] = gongstruct
 				}
@@ -1500,7 +1518,7 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string) map[*
 			return any(res).(map[*End]*Start)
 		case "SliceOfPointerToGongStructFields":
 			res := make(map[*SliceOfPointerToGongStructField]*GongStruct)
-			for gongstruct := range Stage.GongStructs {
+			for gongstruct := range stage.GongStructs {
 				for _, sliceofpointertogongstructfield_ := range gongstruct.SliceOfPointerToGongStructFields {
 					res[sliceofpointertogongstructfield_] = gongstruct
 				}
@@ -1518,7 +1536,7 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string) map[*
 		// insertion point for per direct association field
 		case "MetaReferences":
 			res := make(map[*MetaReference]*Meta)
-			for meta := range Stage.Metas {
+			for meta := range stage.Metas {
 				for _, metareference_ := range meta.MetaReferences {
 					res[metareference_] = meta
 				}

@@ -100,7 +100,7 @@ export class MetaReferenceSortingComponent implements OnInit {
 
     this.associatedMetaReferences.forEach(
       metareference => {
-        this.metareferenceService.updateMetaReference(metareference)
+        this.metareferenceService.updateMetaReference(metareference, this.dialogData.GONG__StackPath)
           .subscribe(metareference => {
             this.metareferenceService.MetaReferenceServiceChanged.next("update")
           });

@@ -174,13 +174,13 @@ export class GongTimeFieldDetailComponent implements OnInit {
 
 		switch (this.state) {
 			case GongTimeFieldDetailComponentState.UPDATE_INSTANCE:
-				this.gongtimefieldService.updateGongTimeField(this.gongtimefield)
+				this.gongtimefieldService.updateGongTimeField(this.gongtimefield, this.GONG__StackPath)
 					.subscribe(gongtimefield => {
 						this.gongtimefieldService.GongTimeFieldServiceChanged.next("update")
 					});
 				break;
 			default:
-				this.gongtimefieldService.postGongTimeField(this.gongtimefield).subscribe(gongtimefield => {
+				this.gongtimefieldService.postGongTimeField(this.gongtimefield, this.GONG__StackPath).subscribe(gongtimefield => {
 					this.gongtimefieldService.GongTimeFieldServiceChanged.next("post")
 					this.gongtimefield = new (GongTimeFieldDB) // reset fields
 				});

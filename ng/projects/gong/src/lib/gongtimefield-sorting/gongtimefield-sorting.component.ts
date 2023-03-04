@@ -100,7 +100,7 @@ export class GongTimeFieldSortingComponent implements OnInit {
 
     this.associatedGongTimeFields.forEach(
       gongtimefield => {
-        this.gongtimefieldService.updateGongTimeField(gongtimefield)
+        this.gongtimefieldService.updateGongTimeField(gongtimefield, this.dialogData.GONG__StackPath)
           .subscribe(gongtimefield => {
             this.gongtimefieldService.GongTimeFieldServiceChanged.next("update")
           });
