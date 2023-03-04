@@ -203,7 +203,7 @@ export class GongBasicFieldsTableComponent implements OnInit {
 
   ngOnInit(): void {
     let stackPath = this.activatedRoute.snapshot.paramMap.get('GONG__StackPath')
-    if ( stackPath != undefined) {
+    if (stackPath != undefined) {
       this.GONG__StackPath = stackPath
     }
 
@@ -239,10 +239,14 @@ export class GongBasicFieldsTableComponent implements OnInit {
           let mapOfSourceInstances = this.frontRepo[this.dialogData.SourceStruct + "s" as keyof FrontRepo] as Map<number, GongBasicFieldDB>
           let sourceInstance = mapOfSourceInstances.get(this.dialogData.ID)!
 
-          let sourceField = sourceInstance[this.dialogData.SourceField as keyof typeof sourceInstance]! as unknown as GongBasicFieldDB[]
-          for (let associationInstance of sourceField) {
-            let gongbasicfield = associationInstance[this.dialogData.IntermediateStructField as keyof typeof associationInstance] as unknown as GongBasicFieldDB
-            this.initialSelection.push(gongbasicfield)
+          // we associates on sourceInstance of type SourceStruct with a MANY MANY associations to GongBasicFieldDB
+          // the field name is sourceField
+          let sourceFieldArray = sourceInstance[this.dialogData.SourceField as keyof typeof sourceInstance]! as unknown as GongBasicFieldDB[]
+          if (sourceFieldArray != null) {
+            for (let associationInstance of sourceFieldArray) {
+              let gongbasicfield = associationInstance[this.dialogData.IntermediateStructField as keyof typeof associationInstance] as unknown as GongBasicFieldDB
+              this.initialSelection.push(gongbasicfield)
+            }
           }
 
           this.selection = new SelectionModel<GongBasicFieldDB>(allowMultiSelect, this.initialSelection);
@@ -263,7 +267,7 @@ export class GongBasicFieldsTableComponent implements OnInit {
     // list of gongbasicfields is truncated of gongbasicfield before the delete
     this.gongbasicfields = this.gongbasicfields.filter(h => h !== gongbasicfield);
 
-    this.gongbasicfieldService.deleteGongBasicField(gongbasicfieldID).subscribe(
+    this.gongbasicfieldService.deleteGongBasicField(gongbasicfieldID, this.GONG__StackPath).subscribe(
       gongbasicfield => {
         this.gongbasicfieldService.GongBasicFieldServiceChanged.next("delete")
       }
@@ -329,7 +333,7 @@ export class GongBasicFieldsTableComponent implements OnInit {
 
       // update all gongbasicfield (only update selection & initial selection)
       for (let gongbasicfield of toUpdate) {
-        this.gongbasicfieldService.updateGongBasicField(gongbasicfield)
+        this.gongbasicfieldService.updateGongBasicField(gongbasicfield, this.GONG__StackPath)
           .subscribe(gongbasicfield => {
             this.gongbasicfieldService.GongBasicFieldServiceChanged.next("update")
           });

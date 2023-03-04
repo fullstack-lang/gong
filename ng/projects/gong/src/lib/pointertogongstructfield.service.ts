@@ -21,10 +21,6 @@ import { GongStructDB } from './gongstruct-db'
 })
 export class PointerToGongStructFieldService {
 
-  httpOptions = {
-    headers: new HttpHeaders({ 'Content-Type': 'application/json' })
-  };
-
   // Kamar Raïmo: Adding a way to communicate between components that share information
   // so that they are notified of a change.
   PointerToGongStructFieldServiceChanged: BehaviorSubject<string> = new BehaviorSubject("");
@@ -33,7 +29,6 @@ export class PointerToGongStructFieldService {
 
   constructor(
     private http: HttpClient,
-    private location: Location,
     @Inject(DOCUMENT) private document: Document
   ) {
     // path to the service share the same origin with the path to the document
@@ -68,17 +63,21 @@ export class PointerToGongStructFieldService {
     );
   }
 
-  //////// Save methods //////////
-
   /** POST: add a new pointertogongstructfield to the server */
-  postPointerToGongStructField(pointertogongstructfielddb: PointerToGongStructFieldDB): Observable<PointerToGongStructFieldDB> {
+  postPointerToGongStructField(pointertogongstructfielddb: PointerToGongStructFieldDB, GONG__StackPath: string): Observable<PointerToGongStructFieldDB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
     pointertogongstructfielddb.GongStruct = new GongStructDB
     let _GongStruct_PointerToGongStructFields_reverse = pointertogongstructfielddb.GongStruct_PointerToGongStructFields_reverse
     pointertogongstructfielddb.GongStruct_PointerToGongStructFields_reverse = new GongStructDB
 
-    return this.http.post<PointerToGongStructFieldDB>(this.pointertogongstructfieldsUrl, pointertogongstructfielddb, this.httpOptions).pipe(
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+	return this.http.post<PointerToGongStructFieldDB>(this.pointertogongstructfieldsUrl, pointertogongstructfielddb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
         pointertogongstructfielddb.GongStruct_PointerToGongStructFields_reverse = _GongStruct_PointerToGongStructFields_reverse
@@ -89,18 +88,24 @@ export class PointerToGongStructFieldService {
   }
 
   /** DELETE: delete the pointertogongstructfielddb from the server */
-  deletePointerToGongStructField(pointertogongstructfielddb: PointerToGongStructFieldDB | number): Observable<PointerToGongStructFieldDB> {
+  deletePointerToGongStructField(pointertogongstructfielddb: PointerToGongStructFieldDB | number, GONG__StackPath: string): Observable<PointerToGongStructFieldDB> {
     const id = typeof pointertogongstructfielddb === 'number' ? pointertogongstructfielddb : pointertogongstructfielddb.ID;
     const url = `${this.pointertogongstructfieldsUrl}/${id}`;
 
-    return this.http.delete<PointerToGongStructFieldDB>(url, this.httpOptions).pipe(
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    };
+
+    return this.http.delete<PointerToGongStructFieldDB>(url, httpOptions).pipe(
       tap(_ => this.log(`deleted pointertogongstructfielddb id=${id}`)),
       catchError(this.handleError<PointerToGongStructFieldDB>('deletePointerToGongStructField'))
     );
   }
 
   /** PUT: update the pointertogongstructfielddb on the server */
-  updatePointerToGongStructField(pointertogongstructfielddb: PointerToGongStructFieldDB): Observable<PointerToGongStructFieldDB> {
+  updatePointerToGongStructField(pointertogongstructfielddb: PointerToGongStructFieldDB, GONG__StackPath: string): Observable<PointerToGongStructFieldDB> {
     const id = typeof pointertogongstructfielddb === 'number' ? pointertogongstructfielddb : pointertogongstructfielddb.ID;
     const url = `${this.pointertogongstructfieldsUrl}/${id}`;
 
@@ -109,7 +114,13 @@ export class PointerToGongStructFieldService {
     let _GongStruct_PointerToGongStructFields_reverse = pointertogongstructfielddb.GongStruct_PointerToGongStructFields_reverse
     pointertogongstructfielddb.GongStruct_PointerToGongStructFields_reverse = new GongStructDB
 
-    return this.http.put<PointerToGongStructFieldDB>(url, pointertogongstructfielddb, this.httpOptions).pipe(
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    };
+
+    return this.http.put<PointerToGongStructFieldDB>(url, pointertogongstructfielddb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
         pointertogongstructfielddb.GongStruct_PointerToGongStructFields_reverse = _GongStruct_PointerToGongStructFields_reverse

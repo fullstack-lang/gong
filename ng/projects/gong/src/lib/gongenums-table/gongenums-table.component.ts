@@ -160,7 +160,7 @@ export class GongEnumsTableComponent implements OnInit {
 
   ngOnInit(): void {
     let stackPath = this.activatedRoute.snapshot.paramMap.get('GONG__StackPath')
-    if ( stackPath != undefined) {
+    if (stackPath != undefined) {
       this.GONG__StackPath = stackPath
     }
 
@@ -199,10 +199,14 @@ export class GongEnumsTableComponent implements OnInit {
           let mapOfSourceInstances = this.frontRepo[this.dialogData.SourceStruct + "s" as keyof FrontRepo] as Map<number, GongEnumDB>
           let sourceInstance = mapOfSourceInstances.get(this.dialogData.ID)!
 
-          let sourceField = sourceInstance[this.dialogData.SourceField as keyof typeof sourceInstance]! as unknown as GongEnumDB[]
-          for (let associationInstance of sourceField) {
-            let gongenum = associationInstance[this.dialogData.IntermediateStructField as keyof typeof associationInstance] as unknown as GongEnumDB
-            this.initialSelection.push(gongenum)
+          // we associates on sourceInstance of type SourceStruct with a MANY MANY associations to GongEnumDB
+          // the field name is sourceField
+          let sourceFieldArray = sourceInstance[this.dialogData.SourceField as keyof typeof sourceInstance]! as unknown as GongEnumDB[]
+          if (sourceFieldArray != null) {
+            for (let associationInstance of sourceFieldArray) {
+              let gongenum = associationInstance[this.dialogData.IntermediateStructField as keyof typeof associationInstance] as unknown as GongEnumDB
+              this.initialSelection.push(gongenum)
+            }
           }
 
           this.selection = new SelectionModel<GongEnumDB>(allowMultiSelect, this.initialSelection);
@@ -223,7 +227,7 @@ export class GongEnumsTableComponent implements OnInit {
     // list of gongenums is truncated of gongenum before the delete
     this.gongenums = this.gongenums.filter(h => h !== gongenum);
 
-    this.gongenumService.deleteGongEnum(gongenumID).subscribe(
+    this.gongenumService.deleteGongEnum(gongenumID, this.GONG__StackPath).subscribe(
       gongenum => {
         this.gongenumService.GongEnumServiceChanged.next("delete")
       }
@@ -289,7 +293,7 @@ export class GongEnumsTableComponent implements OnInit {
 
       // update all gongenum (only update selection & initial selection)
       for (let gongenum of toUpdate) {
-        this.gongenumService.updateGongEnum(gongenum)
+        this.gongenumService.updateGongEnum(gongenum, this.GONG__StackPath)
           .subscribe(gongenum => {
             this.gongenumService.GongEnumServiceChanged.next("update")
           });

@@ -178,7 +178,7 @@ export class GongTimeFieldsTableComponent implements OnInit {
 
   ngOnInit(): void {
     let stackPath = this.activatedRoute.snapshot.paramMap.get('GONG__StackPath')
-    if ( stackPath != undefined) {
+    if (stackPath != undefined) {
       this.GONG__StackPath = stackPath
     }
 
@@ -214,10 +214,14 @@ export class GongTimeFieldsTableComponent implements OnInit {
           let mapOfSourceInstances = this.frontRepo[this.dialogData.SourceStruct + "s" as keyof FrontRepo] as Map<number, GongTimeFieldDB>
           let sourceInstance = mapOfSourceInstances.get(this.dialogData.ID)!
 
-          let sourceField = sourceInstance[this.dialogData.SourceField as keyof typeof sourceInstance]! as unknown as GongTimeFieldDB[]
-          for (let associationInstance of sourceField) {
-            let gongtimefield = associationInstance[this.dialogData.IntermediateStructField as keyof typeof associationInstance] as unknown as GongTimeFieldDB
-            this.initialSelection.push(gongtimefield)
+          // we associates on sourceInstance of type SourceStruct with a MANY MANY associations to GongTimeFieldDB
+          // the field name is sourceField
+          let sourceFieldArray = sourceInstance[this.dialogData.SourceField as keyof typeof sourceInstance]! as unknown as GongTimeFieldDB[]
+          if (sourceFieldArray != null) {
+            for (let associationInstance of sourceFieldArray) {
+              let gongtimefield = associationInstance[this.dialogData.IntermediateStructField as keyof typeof associationInstance] as unknown as GongTimeFieldDB
+              this.initialSelection.push(gongtimefield)
+            }
           }
 
           this.selection = new SelectionModel<GongTimeFieldDB>(allowMultiSelect, this.initialSelection);
@@ -238,7 +242,7 @@ export class GongTimeFieldsTableComponent implements OnInit {
     // list of gongtimefields is truncated of gongtimefield before the delete
     this.gongtimefields = this.gongtimefields.filter(h => h !== gongtimefield);
 
-    this.gongtimefieldService.deleteGongTimeField(gongtimefieldID).subscribe(
+    this.gongtimefieldService.deleteGongTimeField(gongtimefieldID, this.GONG__StackPath).subscribe(
       gongtimefield => {
         this.gongtimefieldService.GongTimeFieldServiceChanged.next("delete")
       }
@@ -304,7 +308,7 @@ export class GongTimeFieldsTableComponent implements OnInit {
 
       // update all gongtimefield (only update selection & initial selection)
       for (let gongtimefield of toUpdate) {
-        this.gongtimefieldService.updateGongTimeField(gongtimefield)
+        this.gongtimefieldService.updateGongTimeField(gongtimefield, this.GONG__StackPath)
           .subscribe(gongtimefield => {
             this.gongtimefieldService.GongTimeFieldServiceChanged.next("update")
           });

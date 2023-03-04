@@ -152,13 +152,13 @@ export class GongNoteDetailComponent implements OnInit {
 
 		switch (this.state) {
 			case GongNoteDetailComponentState.UPDATE_INSTANCE:
-				this.gongnoteService.updateGongNote(this.gongnote)
+				this.gongnoteService.updateGongNote(this.gongnote, this.GONG__StackPath)
 					.subscribe(gongnote => {
 						this.gongnoteService.GongNoteServiceChanged.next("update")
 					});
 				break;
 			default:
-				this.gongnoteService.postGongNote(this.gongnote).subscribe(gongnote => {
+				this.gongnoteService.postGongNote(this.gongnote, this.GONG__StackPath).subscribe(gongnote => {
 					this.gongnoteService.GongNoteServiceChanged.next("post")
 					this.gongnote = new (GongNoteDB) // reset fields
 				});

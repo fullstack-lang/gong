@@ -184,13 +184,13 @@ export class PointerToGongStructFieldDetailComponent implements OnInit {
 
 		switch (this.state) {
 			case PointerToGongStructFieldDetailComponentState.UPDATE_INSTANCE:
-				this.pointertogongstructfieldService.updatePointerToGongStructField(this.pointertogongstructfield)
+				this.pointertogongstructfieldService.updatePointerToGongStructField(this.pointertogongstructfield, this.GONG__StackPath)
 					.subscribe(pointertogongstructfield => {
 						this.pointertogongstructfieldService.PointerToGongStructFieldServiceChanged.next("update")
 					});
 				break;
 			default:
-				this.pointertogongstructfieldService.postPointerToGongStructField(this.pointertogongstructfield).subscribe(pointertogongstructfield => {
+				this.pointertogongstructfieldService.postPointerToGongStructField(this.pointertogongstructfield, this.GONG__StackPath).subscribe(pointertogongstructfield => {
 					this.pointertogongstructfieldService.PointerToGongStructFieldServiceChanged.next("post")
 					this.pointertogongstructfield = new (PointerToGongStructFieldDB) // reset fields
 				});
