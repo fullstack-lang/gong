@@ -24,17 +24,6 @@ import (
 
 func genAngular(modelPkg *gong_models.ModelPkg, skipNpmInstall bool, skipGoModCommands bool) {
 
-	{
-		directory, err :=
-			filepath.Abs(
-				filepath.Join(*pkgPath,
-					fmt.Sprintf("../../ng/projects/%s/src/lib", modelPkg.Name)))
-		gong_models.MatTargetPath = directory
-		if err != nil {
-			log.Panic("Problem with frontend target path " + err.Error())
-		}
-	}
-
 	// generate things in ng  lib directory
 	var ngNewWsPerformed bool
 	{
@@ -403,9 +392,6 @@ func genAngular(modelPkg *gong_models.ModelPkg, skipNpmInstall bool, skipGoModCo
 			}
 		}
 	}
-
-	log.Println("Removing all content of " + gong_models.MatTargetPath)
-	gong_models.RemoveContents(gong_models.MatTargetPath)
 
 	// generates styles
 	{
