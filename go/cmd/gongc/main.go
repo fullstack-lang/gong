@@ -30,6 +30,8 @@ var (
 	skipFlutter = flag.Bool("skipFlutter", true, "do not generate flutter front")
 	skipCoder   = flag.Bool("skipCoder", true, "do not generate coder file")
 
+	clean = flag.Bool("clean", false, "remove files & dir that are generated at each gongc and exit")
+
 	addr = flag.String("addr", "localhost:8080/api",
 		"network address addr where the angular generated service will lookup the server")
 	run               = flag.Bool("run", false, "run 'go run main.go' after compilation")
@@ -84,6 +86,31 @@ func main() {
 		}
 		gong_models.PathToGoSubDirectory = directory
 		log.Println("backend target path " + gong_models.PathToGoSubDirectory)
+
+		gong_models.OrmPkgGenPath = filepath.Join(gong_models.PathToGoSubDirectory, "orm")
+		os.RemoveAll(gong_models.OrmPkgGenPath)
+		gong_models.ControllersPkgGenPath = filepath.Join(gong_models.PathToGoSubDirectory, "controllers")
+		os.RemoveAll(gong_models.ControllersPkgGenPath)
+		gong_models.FullstackPkgGenPath = filepath.Join(gong_models.PathToGoSubDirectory, "fullstack")
+		os.RemoveAll(gong_models.FullstackPkgGenPath)
+
+		{
+			directory, err :=
+				filepath.Abs(
+					filepath.Join(*pkgPath,
+						fmt.Sprintf("../../ng/projects/%s/src/lib", modelPkg.Name)))
+			gong_models.MatTargetPath = directory
+			if err != nil {
+				log.Panic("Problem with frontend target path " + err.Error())
+			}
+		}
+		log.Println("Removing all content of " + gong_models.MatTargetPath)
+		gong_models.RemoveContents(gong_models.MatTargetPath)
+
+		if *clean {
+			os.Exit(0)
+		}
+
 	}
 
 	// check wether one is in a git managed directory. If absent, use "git init"
@@ -221,9 +248,6 @@ func main() {
 	}
 
 	// generate directory for orm package
-	gong_models.OrmPkgGenPath = filepath.Join(gong_models.PathToGoSubDirectory, "orm")
-
-	os.RemoveAll(gong_models.OrmPkgGenPath)
 	errd := os.MkdirAll(gong_models.OrmPkgGenPath, os.ModePerm)
 	if os.IsNotExist(errd) {
 		log.Println("creating directory : " + gong_models.OrmPkgGenPath)
@@ -235,9 +259,6 @@ func main() {
 	}
 
 	// generate directory for controllers package
-	gong_models.ControllersPkgGenPath = filepath.Join(gong_models.PathToGoSubDirectory, "controllers")
-
-	os.RemoveAll(gong_models.ControllersPkgGenPath)
 	errd = os.MkdirAll(gong_models.ControllersPkgGenPath, os.ModePerm)
 	if os.IsNotExist(errd) {
 		log.Println("creating directory : " + gong_models.ControllersPkgGenPath)
@@ -247,9 +268,6 @@ func main() {
 	}
 
 	// generate directory for fullstack package
-	gong_models.FullstackPkgGenPath = filepath.Join(gong_models.PathToGoSubDirectory, "fullstack")
-
-	os.RemoveAll(gong_models.FullstackPkgGenPath)
 	errd = os.MkdirAll(gong_models.FullstackPkgGenPath, os.ModePerm)
 	if os.IsNotExist(errd) {
 		log.Println("creating directory : " + gong_models.FullstackPkgGenPath)
