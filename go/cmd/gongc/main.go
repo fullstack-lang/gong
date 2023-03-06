@@ -104,8 +104,11 @@ func main() {
 				log.Panic("Problem with frontend target path " + err.Error())
 			}
 		}
-		log.Println("Removing all content of " + gong_models.MatTargetPath)
-		gong_models.RemoveContents(gong_models.MatTargetPath)
+
+		if !*skipNg {
+			log.Println("Removing all content of " + gong_models.MatTargetPath)
+			gong_models.RemoveContents(gong_models.MatTargetPath)
+		}
 
 		if *clean {
 			os.Exit(0)
