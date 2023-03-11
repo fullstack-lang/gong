@@ -4,6 +4,7 @@ package models
 import (
 	"errors"
 	"fmt"
+	"sync"
 )
 
 // errUnkownEnum is returns when a value cannot match enum values
@@ -87,17 +88,6 @@ type StageStruct struct { // insertion point for definition of arrays registerin
 	MetaPackageImportPath  string
 	MetaPackageImportAlias string
 	Map_DocLink_Renaming   map[string]GONG__Identifier
-
-	// map_Gongstruct_BackPointer is storage of back pointers
-	map_Gongstruct_BackPointer map[any]any
-}
-
-func SetBackPointer[T Gongstruct](stageStruct *StageStruct, instance *T, backPointer any) {
-	stageStruct.map_Gongstruct_BackPointer[instance] = backPointer
-}
-func GetBackPointer[T Gongstruct](stageStruct *StageStruct, instance *T) (backPointer any) {
-	backPointer, _ = stageStruct.map_Gongstruct_BackPointer[instance]
-	return
 }
 
 type GONG__Identifier struct {
@@ -155,25 +145,40 @@ type BackRepoInterface interface {
 }
 
 // swagger:ignore instructs the gong compiler (gongc) to avoid this particular struct
-var Stage StageStruct = StageStruct{ // insertion point for array initiatialisation
-	Astructs:           make(map[*Astruct]any),
-	Astructs_mapString: make(map[string]*Astruct),
+var _stage *StageStruct
 
-	AstructBstruct2Uses:           make(map[*AstructBstruct2Use]any),
-	AstructBstruct2Uses_mapString: make(map[string]*AstructBstruct2Use),
+var once sync.Once
 
-	AstructBstructUses:           make(map[*AstructBstructUse]any),
-	AstructBstructUses_mapString: make(map[string]*AstructBstructUse),
+func GetDefaultStage() *StageStruct {
+	once.Do(func() {
+		_stage = NewStage()
+	})
+	return _stage
+}
 
-	Bstructs:           make(map[*Bstruct]any),
-	Bstructs_mapString: make(map[string]*Bstruct),
+func NewStage() (stage *StageStruct) {
 
-	Dstructs:           make(map[*Dstruct]any),
-	Dstructs_mapString: make(map[string]*Dstruct),
+	stage = &StageStruct{ // insertion point for array initiatialisation
+		Astructs:           make(map[*Astruct]any),
+		Astructs_mapString: make(map[string]*Astruct),
 
-	// end of insertion point
-	Map_GongStructName_InstancesNb: make(map[string]int),
-	map_Gongstruct_BackPointer:     make(map[any]any),
+		AstructBstruct2Uses:           make(map[*AstructBstruct2Use]any),
+		AstructBstruct2Uses_mapString: make(map[string]*AstructBstruct2Use),
+
+		AstructBstructUses:           make(map[*AstructBstructUse]any),
+		AstructBstructUses_mapString: make(map[string]*AstructBstructUse),
+
+		Bstructs:           make(map[*Bstruct]any),
+		Bstructs_mapString: make(map[string]*Bstruct),
+
+		Dstructs:           make(map[*Dstruct]any),
+		Dstructs_mapString: make(map[string]*Dstruct),
+
+		// end of insertion point
+		Map_GongStructName_InstancesNb: make(map[string]int),
+	}
+
+	return
 }
 
 func (stage *StageStruct) Commit() {
@@ -560,21 +565,21 @@ func GongGetSet[Type GongstructSet](stages ...*StageStruct) *Type {
 	if len(stages) > 0 {
 		stage = stages[0]
 	} else {
-		stage = &Stage
+		stage = _stage
 	}
 
 	switch any(ret).(type) {
 	// insertion point for generic get functions
 	case map[*Astruct]any:
-		return any(&stage.Astructs).(*Type)
+		return any(_stage.Astructs).(*Type)
 	case map[*AstructBstruct2Use]any:
-		return any(&stage.AstructBstruct2Uses).(*Type)
+		return any(_stage.AstructBstruct2Uses).(*Type)
 	case map[*AstructBstructUse]any:
-		return any(&stage.AstructBstructUses).(*Type)
+		return any(_stage.AstructBstructUses).(*Type)
 	case map[*Bstruct]any:
-		return any(&stage.Bstructs).(*Type)
+		return any(_stage.Bstructs).(*Type)
 	case map[*Dstruct]any:
-		return any(&stage.Dstructs).(*Type)
+		return any(_stage.Dstructs).(*Type)
 	default:
 		return nil
 	}
@@ -590,21 +595,21 @@ func GongGetMap[Type GongstructMapString](stages ...*StageStruct) *Type {
 	if len(stages) > 0 {
 		stage = stages[0]
 	} else {
-		stage = &Stage
+		stage = _stage
 	}
 
 	switch any(ret).(type) {
 	// insertion point for generic get functions
 	case map[string]*Astruct:
-		return any(&stage.Astructs_mapString).(*Type)
+		return any(_stage.Astructs_mapString).(*Type)
 	case map[string]*AstructBstruct2Use:
-		return any(&stage.AstructBstruct2Uses_mapString).(*Type)
+		return any(_stage.AstructBstruct2Uses_mapString).(*Type)
 	case map[string]*AstructBstructUse:
-		return any(&stage.AstructBstructUses_mapString).(*Type)
+		return any(_stage.AstructBstructUses_mapString).(*Type)
 	case map[string]*Bstruct:
-		return any(&stage.Bstructs_mapString).(*Type)
+		return any(_stage.Bstructs_mapString).(*Type)
 	case map[string]*Dstruct:
-		return any(&stage.Dstructs_mapString).(*Type)
+		return any(_stage.Dstructs_mapString).(*Type)
 	default:
 		return nil
 	}
@@ -620,21 +625,21 @@ func GetGongstructInstancesSet[Type Gongstruct](stages ...*StageStruct) *map[*Ty
 	if len(stages) > 0 {
 		stage = stages[0]
 	} else {
-		stage = &Stage
+		stage = _stage
 	}
 
 	switch any(ret).(type) {
 	// insertion point for generic get functions
 	case Astruct:
-		return any(&stage.Astructs).(*map[*Type]any)
+		return any(_stage.Astructs).(*map[*Type]any)
 	case AstructBstruct2Use:
-		return any(&stage.AstructBstruct2Uses).(*map[*Type]any)
+		return any(_stage.AstructBstruct2Uses).(*map[*Type]any)
 	case AstructBstructUse:
-		return any(&stage.AstructBstructUses).(*map[*Type]any)
+		return any(_stage.AstructBstructUses).(*map[*Type]any)
 	case Bstruct:
-		return any(&stage.Bstructs).(*map[*Type]any)
+		return any(_stage.Bstructs).(*map[*Type]any)
 	case Dstruct:
-		return any(&stage.Dstructs).(*map[*Type]any)
+		return any(_stage.Dstructs).(*map[*Type]any)
 	default:
 		return nil
 	}
@@ -650,21 +655,21 @@ func GetGongstructInstancesMap[Type Gongstruct](stages ...*StageStruct) *map[str
 	if len(stages) > 0 {
 		stage = stages[0]
 	} else {
-		stage = &Stage
+		stage = _stage
 	}
 
 	switch any(ret).(type) {
 	// insertion point for generic get functions
 	case Astruct:
-		return any(&stage.Astructs_mapString).(*map[string]*Type)
+		return any(_stage.Astructs_mapString).(*map[string]*Type)
 	case AstructBstruct2Use:
-		return any(&stage.AstructBstruct2Uses_mapString).(*map[string]*Type)
+		return any(_stage.AstructBstruct2Uses_mapString).(*map[string]*Type)
 	case AstructBstructUse:
-		return any(&stage.AstructBstructUses_mapString).(*map[string]*Type)
+		return any(_stage.AstructBstructUses_mapString).(*map[string]*Type)
 	case Bstruct:
-		return any(&stage.Bstructs_mapString).(*map[string]*Type)
+		return any(_stage.Bstructs_mapString).(*map[string]*Type)
 	case Dstruct:
-		return any(&stage.Dstructs_mapString).(*map[string]*Type)
+		return any(_stage.Dstructs_mapString).(*map[string]*Type)
 	default:
 		return nil
 	}
@@ -758,7 +763,7 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stages ...*St
 	if len(stages) > 0 {
 		stage = stages[0]
 	} else {
-		stage = &Stage
+		stage = _stage
 	}
 
 	var ret Start
@@ -994,7 +999,7 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 	if len(stages) > 0 {
 		stage = stages[0]
 	} else {
-		stage = &Stage
+		stage = _stage
 	}
 
 	var ret Start

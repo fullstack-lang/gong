@@ -20,7 +20,7 @@ func Init(r *gin.Engine, filenames ...string) {
 		filenames = append(filenames, ":memory:")
 	}
 
-	db_inMemory := test_orm.SetupModels(&test_models.Stage, false, filenames[0])
+	db_inMemory := test_orm.SetupModels(test_models.GetDefaultStage(), false, filenames[0])
 
 	// since testsim is a multi threaded application. It is important to set up
 	// only one open connexion at a time
