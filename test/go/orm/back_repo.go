@@ -8,6 +8,7 @@ import (
 	"log"
 	"os"
 	"path/filepath"
+	"sync"
 
 	"gorm.io/gorm"
 
@@ -29,7 +30,7 @@ type BackRepoStruct struct {
 
 	BackRepoDstruct BackRepoDstructStruct
 
-	CommitFromBackNb uint // this ng is updated at the BackRepo level but also at the BackRepo<GongStruct> level
+	CommitFromBackNb uint // this ng is updated at the GetDefaultBackRepo() level but also at the GetDefaultBackRepo()<GongStruct> level
 
 	PushFromFrontNb uint // records increments from push from front
 
@@ -120,14 +121,23 @@ func (backRepo *BackRepoStruct) Checkout(stage *models.StageStruct) {
 	backRepo.BackRepoDstruct.CheckoutPhaseTwo(backRepo)
 }
 
-var BackRepo BackRepoStruct
+var _backRepo *BackRepoStruct
+
+var once sync.Once
+
+func GetDefaultBackRepo() *BackRepoStruct {
+	once.Do(func() {
+		_backRepo = &BackRepoStruct{}
+	})
+	return _backRepo
+}
 
 func GetLastCommitFromBackNb() uint {
-	return BackRepo.GetLastCommitFromBackNb()
+	return GetDefaultBackRepo().GetLastCommitFromBackNb()
 }
 
 func GetLastPushFromFrontNb() uint {
-	return BackRepo.GetLastPushFromFrontNb()
+	return GetDefaultBackRepo().GetLastPushFromFrontNb()
 }
 
 // Backup the BackRepoStruct
