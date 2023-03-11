@@ -35,3 +35,4 @@ test/go/tests/~$serialize_test.xlsx
 test/.DS_Store
 test/go/tests/parse_tests/__debug_bin.exe
 test2/go/cmd/test2/__debug_bin.exe
+test2/go/cmd/test2/__debug_bin

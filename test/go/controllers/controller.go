@@ -17,7 +17,7 @@ type Controller struct {
 	Map_BackRepos map[string]*test_orm.BackRepoStruct
 }
 
-var instance *Controller
+var _controllerSingloton *Controller
 var once sync.Once
 
 func Register(r *gin.Engine) {
@@ -28,10 +28,10 @@ func Register(r *gin.Engine) {
 
 func GetController() *Controller {
 	once.Do(func() {
-		instance = &Controller{
+		_controllerSingloton = &Controller{
 			Map_BackRepos: make(map[string]*test_orm.BackRepoStruct),
 		}
-		instance.Map_BackRepos[""] = test_orm.GetDefaultBackRepo()
+		_controllerSingloton.Map_BackRepos[""] = test_orm.GetDefaultBackRepo()
 	})
-	return instance
+	return _controllerSingloton
 }
