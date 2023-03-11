@@ -24,8 +24,10 @@ func NewStackInstance(
 	Init(r, filenames...)
 
 	// temporary
-	stage = &models.Stage
-	backRepo = &orm.BackRepo
+	if stackPath == "" {
+		stage = models.GetDefaultStage()
+		backRepo = orm.GetDefaultBackRepo()
+	}
 
 	return
 

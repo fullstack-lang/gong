@@ -56,7 +56,7 @@ func AutoMigrate(stage *models.StageStruct, db *gorm.DB) {
 	}
 	// log.Printf("Database Migration of package github.com/fullstack-lang/gong/test/go is OK")
 
-	BackRepo.init(stage, db)
+	GetDefaultBackRepo().init(stage, db)
 }
 
 func ResetDB(db *gorm.DB) { // insertion point for reference to structs
