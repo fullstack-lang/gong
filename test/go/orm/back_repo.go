@@ -79,6 +79,8 @@ func NewBackRepo(stage *models.StageStruct, filename string) (backRepo *BackRepo
 		panic("problem with migration " + msg + " on package github.com/fullstack-lang/gong/test/go")
 	}
 
+	backRepo = new(BackRepoStruct)
+
 	backRepo.BackRepoAstruct.Init(stage, db)
 	backRepo.BackRepoAstructBstruct2Use.Init(stage, db)
 	backRepo.BackRepoAstructBstructUse.Init(stage, db)
