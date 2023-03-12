@@ -3,6 +3,7 @@ package golang
 const FullstackNewStackInstanceTemplate = `package fullstack
 
 import (
+	"{{PkgPathRoot}}/controllers"
 	"{{PkgPathRoot}}/models"
 	"{{PkgPathRoot}}/orm"
 
@@ -26,8 +27,14 @@ func NewStackInstance(
 	Init(r, filenames...)
 
 	// temporary
-	stage = &models.Stage
-	backRepo = &orm.BackRepo
+	if stackPath == "" {
+		stage = models.GetDefaultStage()
+		backRepo = orm.GetDefaultBackRepo()
+	} else {
+		stage = models.NewStage()
+		backRepo = &orm.BackRepoStruct{}
+		controllers.GetController().AddBackRepo(backRepo, stackPath)
+	}
 
 	return
 

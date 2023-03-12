@@ -6,6 +6,7 @@ package models
 import (
 	"errors"
 	"fmt"
+	"sync"
 )
 
 // errUnkownEnum is returns when a value cannot match enum values
@@ -49,17 +50,6 @@ type StageStruct struct { // insertion point for definition of arrays registerin
 	MetaPackageImportPath  string
 	MetaPackageImportAlias string
 	Map_DocLink_Renaming   map[string]GONG__Identifier
-
-	// map_Gongstruct_BackPointer is storage of back pointers
-	map_Gongstruct_BackPointer map[any]any
-}
-
-func SetBackPointer[T Gongstruct](stageStruct *StageStruct, instance *T, backPointer any) {
-	stageStruct.map_Gongstruct_BackPointer[instance] = backPointer
-}
-func GetBackPointer[T Gongstruct](stageStruct *StageStruct, instance *T) (backPointer any) {
-	backPointer, _ = stageStruct.map_Gongstruct_BackPointer[instance]
-	return
 }
 
 type GONG__Identifier struct {
@@ -106,11 +96,25 @@ type BackRepoInterface interface {
 	GetLastPushFromFrontNb() uint
 }
 
-// swagger:ignore instructs the gong compiler (gongc) to avoid this particular struct
-var Stage StageStruct = StageStruct{ // insertion point for array initiatialisation{{` + string(rune(ModelGongStructInsertionArrayInitialisation)) + `}}
-	// end of insertion point
-	Map_GongStructName_InstancesNb: make(map[string]int),
-	map_Gongstruct_BackPointer:     make(map[any]any),
+var _stage *StageStruct
+
+var once sync.Once
+
+func GetDefaultStage() *StageStruct {
+	once.Do(func() {
+		_stage = NewStage()
+	})
+	return _stage
+}
+
+func NewStage() (stage *StageStruct) {
+
+	stage = &StageStruct{ // insertion point for array initiatialisation{{` + string(rune(ModelGongStructInsertionArrayInitialisation)) + `}}
+		// end of insertion point
+		Map_GongStructName_InstancesNb: make(map[string]int),
+	}
+
+	return
 }
 
 func (stage *StageStruct) Commit() {
@@ -217,7 +221,7 @@ func GongGetSet[Type GongstructSet](stages ...*StageStruct) *Type {
 	if len(stages) > 0 {
 		stage = stages[0]
 	} else {
-		stage = &Stage
+		stage = _stage
 	}
 
 	switch any(ret).(type) {
@@ -237,7 +241,7 @@ func GongGetMap[Type GongstructMapString](stages ...*StageStruct) *Type {
 	if len(stages) > 0 {
 		stage = stages[0]
 	} else {
-		stage = &Stage
+		stage = _stage
 	}
 
 	switch any(ret).(type) {
@@ -257,7 +261,7 @@ func GetGongstructInstancesSet[Type Gongstruct](stages ...*StageStruct) *map[*Ty
 	if len(stages) > 0 {
 		stage = stages[0]
 	} else {
-		stage = &Stage
+		stage = _stage
 	}
 
 	switch any(ret).(type) {
@@ -277,7 +281,7 @@ func GetGongstructInstancesMap[Type Gongstruct](stages ...*StageStruct) *map[str
 	if len(stages) > 0 {
 		stage = stages[0]
 	} else {
-		stage = &Stage
+		stage = _stage
 	}
 
 	switch any(ret).(type) {
@@ -315,7 +319,7 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stages ...*St
 	if len(stages) > 0 {
 		stage = stages[0]
 	} else {
-		stage = &Stage
+		stage = _stage
 	}
 
 	var ret Start
@@ -339,7 +343,7 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 	if len(stages) > 0 {
 		stage = stages[0]
 	} else {
-		stage = &Stage
+		stage = _stage
 	}
 
 	var ret Start
