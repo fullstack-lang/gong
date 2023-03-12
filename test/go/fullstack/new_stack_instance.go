@@ -1,6 +1,7 @@
 package fullstack
 
 import (
+	"github.com/fullstack-lang/gong/test/go/controllers"
 	"github.com/fullstack-lang/gong/test/go/models"
 	"github.com/fullstack-lang/gong/test/go/orm"
 
@@ -27,6 +28,10 @@ func NewStackInstance(
 	if stackPath == "" {
 		stage = models.GetDefaultStage()
 		backRepo = orm.GetDefaultBackRepo()
+	} else {
+		stage = models.NewStage()
+		backRepo = &orm.BackRepoStruct{}
+		controllers.GetController().AddBackRepo(backRepo, stackPath)
 	}
 
 	return

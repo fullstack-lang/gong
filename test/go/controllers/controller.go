@@ -35,3 +35,7 @@ func GetController() *Controller {
 	})
 	return _controllerSingloton
 }
+
+func (controller *Controller) AddBackRepo(backRepo *test_orm.BackRepoStruct, stackPath string) {
+	GetController().Map_BackRepos[stackPath] = backRepo
+}
