@@ -122,8 +122,8 @@ func ({{structname}} *{{Structname}}) GetName() (res string) {
 `,
 
 	ModelGongStructInsertionArrayInitialisation: `
-	{{Structname}}s:           make(map[*{{Structname}}]any),
-	{{Structname}}s_mapString: make(map[string]*{{Structname}}),
+		{{Structname}}s:           make(map[*{{Structname}}]any),
+		{{Structname}}s_mapString: make(map[string]*{{Structname}}),
 `,
 
 	ModelGongStructInsertionArrayReset: `
@@ -213,19 +213,19 @@ func ({{structname}} *{{Structname}}) GetName() (res string) {
 
 	ModelGongStructInsertionGenericGetSetFunctions: `
 	case map[*{{Structname}}]any:
-		return any(&stage.{{Structname}}s).(*Type)`,
+		return any(stage.{{Structname}}s).(*Type)`,
 
 	ModelGongStructInsertionGenericGetMapFunctions: `
 	case map[string]*{{Structname}}:
-		return any(&stage.{{Structname}}s_mapString).(*Type)`,
+		return any(stage.{{Structname}}s_mapString).(*Type)`,
 
 	ModelGongStructInsertionGenericInstancesSetFunctions: `
 	case {{Structname}}:
-		return any(&stage.{{Structname}}s).(*map[*Type]any)`,
+		return any(stage.{{Structname}}s).(*map[*Type]any)`,
 
 	ModelGongStructInsertionGenericInstancesMapFunctions: `
 	case {{Structname}}:
-		return any(&stage.{{Structname}}s_mapString).(*map[string]*Type)`,
+		return any(stage.{{Structname}}s_mapString).(*map[string]*Type)`,
 
 	ModelGongStructInsertionGenericGetAssociationNameFunctions: `
 	case {{Structname}}:

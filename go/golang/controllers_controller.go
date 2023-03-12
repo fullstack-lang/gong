@@ -19,7 +19,7 @@ type Controller struct {
 	Map_BackRepos map[string]*{{pkgname}}_orm.BackRepoStruct
 }
 
-var instance *Controller
+var _controllerSingloton *Controller
 var once sync.Once
 
 func Register(r *gin.Engine) {
@@ -30,11 +30,15 @@ func Register(r *gin.Engine) {
 
 func GetController() *Controller {
 	once.Do(func() {
-		instance = &Controller{
+		_controllerSingloton = &Controller{
 			Map_BackRepos: make(map[string]*{{pkgname}}_orm.BackRepoStruct),
 		}
-		instance.Map_BackRepos[""] = &{{pkgname}}_orm.BackRepo
+		_controllerSingloton.Map_BackRepos[""] = {{pkgname}}_orm.GetDefaultBackRepo()
 	})
-	return instance
+	return _controllerSingloton
+}
+
+func (controller *Controller) AddBackRepo(backRepo *{{pkgname}}_orm.BackRepoStruct, stackPath string) {
+	GetController().Map_BackRepos[stackPath] = backRepo
 }
 `
