@@ -277,21 +277,6 @@ func (backRepoAstruct *BackRepoAstructStruct) GetAstructDBFromAstructPtr(astruct
 // BackRepoAstruct.Init set up the BackRepo of the Astruct
 func (backRepoAstruct *BackRepoAstructStruct) Init(stage *models.StageStruct, db *gorm.DB) (Error error) {
 
-	if backRepoAstruct.Map_AstructDBID_AstructPtr != nil {
-		err := errors.New("In Init, backRepoAstruct.Map_AstructDBID_AstructPtr should be nil")
-		return err
-	}
-
-	if backRepoAstruct.Map_AstructDBID_AstructDB != nil {
-		err := errors.New("In Init, backRepoAstruct.Map_AstructDBID_AstructDB should be nil")
-		return err
-	}
-
-	if backRepoAstruct.Map_AstructPtr_AstructDBID != nil {
-		err := errors.New("In Init, backRepoAstruct.Map_AstructPtr_AstructDBID should be nil")
-		return err
-	}
-
 	tmp := make(map[uint]*models.Astruct, 0)
 	backRepoAstruct.Map_AstructDBID_AstructPtr = &tmp
 
