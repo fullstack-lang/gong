@@ -9,7 +9,7 @@ import (
 
 func TestSerialize(t *testing.T) {
 
-	stage, _ := fullstack.NewStackInstance(nil, "")
+	stage := fullstack.NewStackInstance(nil, "")
 
 	bclass1 := (&models.Bstruct{Name: "B1"}).Stage(stage).Commit(stage)
 	bclass2 := (&models.Bstruct{Name: "B2"}).Stage(stage).Commit(stage)

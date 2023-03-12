@@ -2,6 +2,7 @@ package fullstack
 
 import (
 	"github.com/fullstack-lang/gong/test/go/controllers"
+	test_controllers "github.com/fullstack-lang/gong/test/go/controllers"
 	"github.com/fullstack-lang/gong/test/go/models"
 	"github.com/fullstack-lang/gong/test/go/orm"
 
@@ -19,20 +20,23 @@ func NewStackInstance(
 	stackPath string,
 	// filesnames is an optional parameter for the name of the database
 	filenames ...string) (
-	stage *models.StageStruct,
-	backRepo *orm.BackRepoStruct) {
-
-	Init(r, filenames...)
+	stage *models.StageStruct) {
 
 	// temporary
 	if stackPath == "" {
 		stage = models.GetDefaultStage()
-		backRepo = orm.GetDefaultBackRepo()
 	} else {
 		stage = models.NewStage()
-		backRepo = &orm.BackRepoStruct{}
-		controllers.GetController().AddBackRepo(backRepo, stackPath)
 	}
+
+	if len(filenames) == 0 {
+		filenames = append(filenames, ":memory:")
+	}
+
+	backRepo := orm.NewBackRepo(stage, filenames[0])
+
+	controllers.GetController().AddBackRepo(backRepo, stackPath)
+	test_controllers.RegisterControllers(r)
 
 	return
 

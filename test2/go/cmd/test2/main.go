@@ -46,7 +46,7 @@ func main() {
 	r.Use(cors.Default())
 
 	test2_fullstack.Init(r)
-	stageTestA, _ := test_fullstack.NewStackInstance(r, "A")
+	stageTestA := test_fullstack.NewStackInstance(r, "A")
 
 	if *unmarshallFromCodeStageTestA != "" {
 		stageTestA.Checkout()

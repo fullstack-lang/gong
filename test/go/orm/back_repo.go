@@ -9,11 +9,13 @@ import (
 	"path/filepath"
 	"sync"
 
-	"gorm.io/gorm"
-
 	"github.com/fullstack-lang/gong/test/go/models"
 
 	"github.com/tealeg/xlsx/v3"
+
+	"github.com/glebarez/sqlite"
+	"gorm.io/gorm"
+	"gorm.io/gorm/schema"
 )
 
 // BackRepoStruct supports callback functions
@@ -34,6 +36,59 @@ type BackRepoStruct struct {
 	PushFromFrontNb uint // records commit increments when performed by the front
 
 	stage *models.StageStruct
+}
+
+func NewBackRepo(stage *models.StageStruct, filename string) (backRepo *BackRepoStruct) {
+
+	// adjust naming strategy to the stack
+	gormConfig := &gorm.Config{
+		NamingStrategy: schema.NamingStrategy{
+			TablePrefix: "github_com_fullstack_lang_gong_test_go_", // table name prefix
+		},
+	}
+	db, err := gorm.Open(sqlite.Open(filename), gormConfig)
+
+	// since testsim is a multi threaded application. It is important to set up
+	// only one open connexion at a time
+	dbDB_inMemory, err := db.DB()
+	if err != nil {
+		panic("cannot access DB of db" + err.Error())
+	}
+	// it is mandatory to allow parallel access, otherwise, bizarre errors occurs
+	dbDB_inMemory.SetMaxOpenConns(1)
+
+	if err != nil {
+		panic("Failed to connect to database!")
+	}
+
+	// adjust naming strategy to the stack
+	db.Config.NamingStrategy = &schema.NamingStrategy{
+		TablePrefix: "github_com_fullstack_lang_gong_test_go_", // table name prefix
+	}
+
+	err = db.AutoMigrate( // insertion point for reference to structs
+		&AstructDB{},
+		&AstructBstruct2UseDB{},
+		&AstructBstructUseDB{},
+		&BstructDB{},
+		&DstructDB{},
+	)
+
+	if err != nil {
+		msg := err.Error()
+		panic("problem with migration " + msg + " on package github.com/fullstack-lang/gong/test/go")
+	}
+
+	backRepo.BackRepoAstruct.Init(stage, db)
+	backRepo.BackRepoAstructBstruct2Use.Init(stage, db)
+	backRepo.BackRepoAstructBstructUse.Init(stage, db)
+	backRepo.BackRepoBstruct.Init(stage, db)
+	backRepo.BackRepoDstruct.Init(stage, db)
+
+	stage.BackRepo = backRepo
+	backRepo.stage = stage
+
+	return
 }
 
 func (backRepo *BackRepoStruct) GetStage() (stage *models.StageStruct) {
@@ -69,19 +124,6 @@ func (backRepo *BackRepoStruct) IncrementPushFromFrontNb() uint {
 	}
 	backRepo.PushFromFrontNb = backRepo.PushFromFrontNb + 1
 	return backRepo.CommitFromBackNb
-}
-
-// Init the BackRepoStruct inner variables and link to the database
-func (backRepo *BackRepoStruct) init(stage *models.StageStruct, db *gorm.DB) {
-	// insertion point for per struct back repo declarations
-	backRepo.BackRepoAstruct.Init(stage, db)
-	backRepo.BackRepoAstructBstruct2Use.Init(stage, db)
-	backRepo.BackRepoAstructBstructUse.Init(stage, db)
-	backRepo.BackRepoBstruct.Init(stage, db)
-	backRepo.BackRepoDstruct.Init(stage, db)
-
-	stage.BackRepo = backRepo
-	backRepo.stage = stage
 }
 
 // Commit the BackRepoStruct inner variables and link to the database
