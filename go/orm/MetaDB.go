@@ -131,21 +131,6 @@ func (backRepoMeta *BackRepoMetaStruct) GetMetaDBFromMetaPtr(meta *models.Meta) 
 // BackRepoMeta.Init set up the BackRepo of the Meta
 func (backRepoMeta *BackRepoMetaStruct) Init(stage *models.StageStruct, db *gorm.DB) (Error error) {
 
-	if backRepoMeta.Map_MetaDBID_MetaPtr != nil {
-		err := errors.New("In Init, backRepoMeta.Map_MetaDBID_MetaPtr should be nil")
-		return err
-	}
-
-	if backRepoMeta.Map_MetaDBID_MetaDB != nil {
-		err := errors.New("In Init, backRepoMeta.Map_MetaDBID_MetaDB should be nil")
-		return err
-	}
-
-	if backRepoMeta.Map_MetaPtr_MetaDBID != nil {
-		err := errors.New("In Init, backRepoMeta.Map_MetaPtr_MetaDBID should be nil")
-		return err
-	}
-
 	tmp := make(map[uint]*models.Meta, 0)
 	backRepoMeta.Map_MetaDBID_MetaPtr = &tmp
 

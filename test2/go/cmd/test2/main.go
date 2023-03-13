@@ -61,7 +61,7 @@ func main() {
 	r := gin.Default()
 	r.Use(cors.Default())
 
-	test2_fullstack.Init(r)
+	test2_fullstack.NewStackInstance(r, "")
 	stageTestA := test_fullstack.NewStackInstance(r, "A")
 	stageTestB := test_fullstack.NewStackInstance(r, "B")
 
