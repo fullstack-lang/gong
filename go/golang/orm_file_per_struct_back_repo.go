@@ -134,21 +134,6 @@ func (backRepo{{Structname}} *BackRepo{{Structname}}Struct) Get{{Structname}}DBF
 // BackRepo{{Structname}}.Init set up the BackRepo of the {{Structname}}
 func (backRepo{{Structname}} *BackRepo{{Structname}}Struct) Init(stage *models.StageStruct, db *gorm.DB) (Error error) {
 
-	if backRepo{{Structname}}.Map_{{Structname}}DBID_{{Structname}}Ptr != nil {
-		err := errors.New("In Init, backRepo{{Structname}}.Map_{{Structname}}DBID_{{Structname}}Ptr should be nil")
-		return err
-	}
-
-	if backRepo{{Structname}}.Map_{{Structname}}DBID_{{Structname}}DB != nil {
-		err := errors.New("In Init, backRepo{{Structname}}.Map_{{Structname}}DBID_{{Structname}}DB should be nil")
-		return err
-	}
-
-	if backRepo{{Structname}}.Map_{{Structname}}Ptr_{{Structname}}DBID != nil {
-		err := errors.New("In Init, backRepo{{Structname}}.Map_{{Structname}}Ptr_{{Structname}}DBID should be nil")
-		return err
-	}
-
 	tmp := make(map[uint]*models.{{Structname}}, 0)
 	backRepo{{Structname}}.Map_{{Structname}}DBID_{{Structname}}Ptr = &tmp
 

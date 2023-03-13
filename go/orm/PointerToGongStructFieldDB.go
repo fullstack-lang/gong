@@ -147,21 +147,6 @@ func (backRepoPointerToGongStructField *BackRepoPointerToGongStructFieldStruct) 
 // BackRepoPointerToGongStructField.Init set up the BackRepo of the PointerToGongStructField
 func (backRepoPointerToGongStructField *BackRepoPointerToGongStructFieldStruct) Init(stage *models.StageStruct, db *gorm.DB) (Error error) {
 
-	if backRepoPointerToGongStructField.Map_PointerToGongStructFieldDBID_PointerToGongStructFieldPtr != nil {
-		err := errors.New("In Init, backRepoPointerToGongStructField.Map_PointerToGongStructFieldDBID_PointerToGongStructFieldPtr should be nil")
-		return err
-	}
-
-	if backRepoPointerToGongStructField.Map_PointerToGongStructFieldDBID_PointerToGongStructFieldDB != nil {
-		err := errors.New("In Init, backRepoPointerToGongStructField.Map_PointerToGongStructFieldDBID_PointerToGongStructFieldDB should be nil")
-		return err
-	}
-
-	if backRepoPointerToGongStructField.Map_PointerToGongStructFieldPtr_PointerToGongStructFieldDBID != nil {
-		err := errors.New("In Init, backRepoPointerToGongStructField.Map_PointerToGongStructFieldPtr_PointerToGongStructFieldDBID should be nil")
-		return err
-	}
-
 	tmp := make(map[uint]*models.PointerToGongStructField, 0)
 	backRepoPointerToGongStructField.Map_PointerToGongStructFieldDBID_PointerToGongStructFieldPtr = &tmp
 

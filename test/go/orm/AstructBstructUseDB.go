@@ -135,21 +135,6 @@ func (backRepoAstructBstructUse *BackRepoAstructBstructUseStruct) GetAstructBstr
 // BackRepoAstructBstructUse.Init set up the BackRepo of the AstructBstructUse
 func (backRepoAstructBstructUse *BackRepoAstructBstructUseStruct) Init(stage *models.StageStruct, db *gorm.DB) (Error error) {
 
-	if backRepoAstructBstructUse.Map_AstructBstructUseDBID_AstructBstructUsePtr != nil {
-		err := errors.New("In Init, backRepoAstructBstructUse.Map_AstructBstructUseDBID_AstructBstructUsePtr should be nil")
-		return err
-	}
-
-	if backRepoAstructBstructUse.Map_AstructBstructUseDBID_AstructBstructUseDB != nil {
-		err := errors.New("In Init, backRepoAstructBstructUse.Map_AstructBstructUseDBID_AstructBstructUseDB should be nil")
-		return err
-	}
-
-	if backRepoAstructBstructUse.Map_AstructBstructUsePtr_AstructBstructUseDBID != nil {
-		err := errors.New("In Init, backRepoAstructBstructUse.Map_AstructBstructUsePtr_AstructBstructUseDBID should be nil")
-		return err
-	}
-
 	tmp := make(map[uint]*models.AstructBstructUse, 0)
 	backRepoAstructBstructUse.Map_AstructBstructUseDBID_AstructBstructUsePtr = &tmp
 

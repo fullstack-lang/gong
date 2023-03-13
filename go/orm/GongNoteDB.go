@@ -137,21 +137,6 @@ func (backRepoGongNote *BackRepoGongNoteStruct) GetGongNoteDBFromGongNotePtr(gon
 // BackRepoGongNote.Init set up the BackRepo of the GongNote
 func (backRepoGongNote *BackRepoGongNoteStruct) Init(stage *models.StageStruct, db *gorm.DB) (Error error) {
 
-	if backRepoGongNote.Map_GongNoteDBID_GongNotePtr != nil {
-		err := errors.New("In Init, backRepoGongNote.Map_GongNoteDBID_GongNotePtr should be nil")
-		return err
-	}
-
-	if backRepoGongNote.Map_GongNoteDBID_GongNoteDB != nil {
-		err := errors.New("In Init, backRepoGongNote.Map_GongNoteDBID_GongNoteDB should be nil")
-		return err
-	}
-
-	if backRepoGongNote.Map_GongNotePtr_GongNoteDBID != nil {
-		err := errors.New("In Init, backRepoGongNote.Map_GongNotePtr_GongNoteDBID should be nil")
-		return err
-	}
-
 	tmp := make(map[uint]*models.GongNote, 0)
 	backRepoGongNote.Map_GongNoteDBID_GongNotePtr = &tmp
 

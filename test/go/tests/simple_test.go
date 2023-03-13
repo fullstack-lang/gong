@@ -14,7 +14,7 @@ import (
 // through a callback that is defined in the "models" package
 func TestStageCallBack(t *testing.T) {
 
-	stage, _ := fullstack.NewStackInstance(nil, "")
+	stage := fullstack.NewStackInstance(nil, "")
 
 	bclass1 := (&models.Bstruct{Name: "B1"}).Stage(stage)
 

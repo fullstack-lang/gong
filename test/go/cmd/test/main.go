@@ -74,9 +74,9 @@ func main() {
 	// setup stack
 	var stage *models.StageStruct
 	if *marshallOnCommit != "" {
-		stage, _ = fullstack.NewStackInstance(r, "")
+		stage = fullstack.NewStackInstance(r, "")
 	} else {
-		stage, _ = fullstack.NewStackInstance(r, "", "./test.db")
+		stage = fullstack.NewStackInstance(r, "", "./test.db")
 	}
 
 	// generate injection code from the stage
