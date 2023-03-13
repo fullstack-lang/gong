@@ -103,13 +103,13 @@ var AstructBstruct2Use_Fields = []string{
 
 type BackRepoAstructBstruct2UseStruct struct {
 	// stores AstructBstruct2UseDB according to their gorm ID
-	Map_AstructBstruct2UseDBID_AstructBstruct2UseDB *map[uint]*AstructBstruct2UseDB
+	Map_AstructBstruct2UseDBID_AstructBstruct2UseDB map[uint]*AstructBstruct2UseDB
 
 	// stores AstructBstruct2UseDB ID according to AstructBstruct2Use address
-	Map_AstructBstruct2UsePtr_AstructBstruct2UseDBID *map[*models.AstructBstruct2Use]uint
+	Map_AstructBstruct2UsePtr_AstructBstruct2UseDBID map[*models.AstructBstruct2Use]uint
 
 	// stores AstructBstruct2Use according to their gorm ID
-	Map_AstructBstruct2UseDBID_AstructBstruct2UsePtr *map[uint]*models.AstructBstruct2Use
+	Map_AstructBstruct2UseDBID_AstructBstruct2UsePtr map[uint]*models.AstructBstruct2Use
 
 	db *gorm.DB
 
@@ -127,25 +127,8 @@ func (backRepoAstructBstruct2Use *BackRepoAstructBstruct2UseStruct) GetDB() *gor
 
 // GetAstructBstruct2UseDBFromAstructBstruct2UsePtr is a handy function to access the back repo instance from the stage instance
 func (backRepoAstructBstruct2Use *BackRepoAstructBstruct2UseStruct) GetAstructBstruct2UseDBFromAstructBstruct2UsePtr(astructbstruct2use *models.AstructBstruct2Use) (astructbstruct2useDB *AstructBstruct2UseDB) {
-	id := (*backRepoAstructBstruct2Use.Map_AstructBstruct2UsePtr_AstructBstruct2UseDBID)[astructbstruct2use]
-	astructbstruct2useDB = (*backRepoAstructBstruct2Use.Map_AstructBstruct2UseDBID_AstructBstruct2UseDB)[id]
-	return
-}
-
-// BackRepoAstructBstruct2Use.Init set up the BackRepo of the AstructBstruct2Use
-func (backRepoAstructBstruct2Use *BackRepoAstructBstruct2UseStruct) Init(stage *models.StageStruct, db *gorm.DB) (Error error) {
-
-	tmp := make(map[uint]*models.AstructBstruct2Use, 0)
-	backRepoAstructBstruct2Use.Map_AstructBstruct2UseDBID_AstructBstruct2UsePtr = &tmp
-
-	tmpDB := make(map[uint]*AstructBstruct2UseDB, 0)
-	backRepoAstructBstruct2Use.Map_AstructBstruct2UseDBID_AstructBstruct2UseDB = &tmpDB
-
-	tmpID := make(map[*models.AstructBstruct2Use]uint, 0)
-	backRepoAstructBstruct2Use.Map_AstructBstruct2UsePtr_AstructBstruct2UseDBID = &tmpID
-
-	backRepoAstructBstruct2Use.db = db
-	backRepoAstructBstruct2Use.stage = stage
+	id := backRepoAstructBstruct2Use.Map_AstructBstruct2UsePtr_AstructBstruct2UseDBID[astructbstruct2use]
+	astructbstruct2useDB = backRepoAstructBstruct2Use.Map_AstructBstruct2UseDBID_AstructBstruct2UseDB[id]
 	return
 }
 
@@ -159,7 +142,7 @@ func (backRepoAstructBstruct2Use *BackRepoAstructBstruct2UseStruct) CommitPhaseO
 
 	// parse all backRepo instance and checks wether some instance have been unstaged
 	// in this case, remove them from the back repo
-	for id, astructbstruct2use := range *backRepoAstructBstruct2Use.Map_AstructBstruct2UseDBID_AstructBstruct2UsePtr {
+	for id, astructbstruct2use := range backRepoAstructBstruct2Use.Map_AstructBstruct2UseDBID_AstructBstruct2UsePtr {
 		if _, ok := stage.AstructBstruct2Uses[astructbstruct2use]; !ok {
 			backRepoAstructBstruct2Use.CommitDeleteInstance(id)
 		}
@@ -171,19 +154,19 @@ func (backRepoAstructBstruct2Use *BackRepoAstructBstruct2UseStruct) CommitPhaseO
 // BackRepoAstructBstruct2Use.CommitDeleteInstance commits deletion of AstructBstruct2Use to the BackRepo
 func (backRepoAstructBstruct2Use *BackRepoAstructBstruct2UseStruct) CommitDeleteInstance(id uint) (Error error) {
 
-	astructbstruct2use := (*backRepoAstructBstruct2Use.Map_AstructBstruct2UseDBID_AstructBstruct2UsePtr)[id]
+	astructbstruct2use := backRepoAstructBstruct2Use.Map_AstructBstruct2UseDBID_AstructBstruct2UsePtr[id]
 
 	// astructbstruct2use is not staged anymore, remove astructbstruct2useDB
-	astructbstruct2useDB := (*backRepoAstructBstruct2Use.Map_AstructBstruct2UseDBID_AstructBstruct2UseDB)[id]
+	astructbstruct2useDB := backRepoAstructBstruct2Use.Map_AstructBstruct2UseDBID_AstructBstruct2UseDB[id]
 	query := backRepoAstructBstruct2Use.db.Unscoped().Delete(&astructbstruct2useDB)
 	if query.Error != nil {
 		return query.Error
 	}
 
 	// update stores
-	delete((*backRepoAstructBstruct2Use.Map_AstructBstruct2UsePtr_AstructBstruct2UseDBID), astructbstruct2use)
-	delete((*backRepoAstructBstruct2Use.Map_AstructBstruct2UseDBID_AstructBstruct2UsePtr), id)
-	delete((*backRepoAstructBstruct2Use.Map_AstructBstruct2UseDBID_AstructBstruct2UseDB), id)
+	delete(backRepoAstructBstruct2Use.Map_AstructBstruct2UsePtr_AstructBstruct2UseDBID, astructbstruct2use)
+	delete(backRepoAstructBstruct2Use.Map_AstructBstruct2UseDBID_AstructBstruct2UsePtr, id)
+	delete(backRepoAstructBstruct2Use.Map_AstructBstruct2UseDBID_AstructBstruct2UseDB, id)
 
 	return
 }
@@ -193,7 +176,7 @@ func (backRepoAstructBstruct2Use *BackRepoAstructBstruct2UseStruct) CommitDelete
 func (backRepoAstructBstruct2Use *BackRepoAstructBstruct2UseStruct) CommitPhaseOneInstance(astructbstruct2use *models.AstructBstruct2Use) (Error error) {
 
 	// check if the astructbstruct2use is not commited yet
-	if _, ok := (*backRepoAstructBstruct2Use.Map_AstructBstruct2UsePtr_AstructBstruct2UseDBID)[astructbstruct2use]; ok {
+	if _, ok := backRepoAstructBstruct2Use.Map_AstructBstruct2UsePtr_AstructBstruct2UseDBID[astructbstruct2use]; ok {
 		return
 	}
 
@@ -207,9 +190,9 @@ func (backRepoAstructBstruct2Use *BackRepoAstructBstruct2UseStruct) CommitPhaseO
 	}
 
 	// update stores
-	(*backRepoAstructBstruct2Use.Map_AstructBstruct2UsePtr_AstructBstruct2UseDBID)[astructbstruct2use] = astructbstruct2useDB.ID
-	(*backRepoAstructBstruct2Use.Map_AstructBstruct2UseDBID_AstructBstruct2UsePtr)[astructbstruct2useDB.ID] = astructbstruct2use
-	(*backRepoAstructBstruct2Use.Map_AstructBstruct2UseDBID_AstructBstruct2UseDB)[astructbstruct2useDB.ID] = &astructbstruct2useDB
+	backRepoAstructBstruct2Use.Map_AstructBstruct2UsePtr_AstructBstruct2UseDBID[astructbstruct2use] = astructbstruct2useDB.ID
+	backRepoAstructBstruct2Use.Map_AstructBstruct2UseDBID_AstructBstruct2UsePtr[astructbstruct2useDB.ID] = astructbstruct2use
+	backRepoAstructBstruct2Use.Map_AstructBstruct2UseDBID_AstructBstruct2UseDB[astructbstruct2useDB.ID] = &astructbstruct2useDB
 
 	return
 }
@@ -218,7 +201,7 @@ func (backRepoAstructBstruct2Use *BackRepoAstructBstruct2UseStruct) CommitPhaseO
 // Phase Two is the update of instance with the field in the database
 func (backRepoAstructBstruct2Use *BackRepoAstructBstruct2UseStruct) CommitPhaseTwo(backRepo *BackRepoStruct) (Error error) {
 
-	for idx, astructbstruct2use := range *backRepoAstructBstruct2Use.Map_AstructBstruct2UseDBID_AstructBstruct2UsePtr {
+	for idx, astructbstruct2use := range backRepoAstructBstruct2Use.Map_AstructBstruct2UseDBID_AstructBstruct2UsePtr {
 		backRepoAstructBstruct2Use.CommitPhaseTwoInstance(backRepo, idx, astructbstruct2use)
 	}
 
@@ -230,7 +213,7 @@ func (backRepoAstructBstruct2Use *BackRepoAstructBstruct2UseStruct) CommitPhaseT
 func (backRepoAstructBstruct2Use *BackRepoAstructBstruct2UseStruct) CommitPhaseTwoInstance(backRepo *BackRepoStruct, idx uint, astructbstruct2use *models.AstructBstruct2Use) (Error error) {
 
 	// fetch matching astructbstruct2useDB
-	if astructbstruct2useDB, ok := (*backRepoAstructBstruct2Use.Map_AstructBstruct2UseDBID_AstructBstruct2UseDB)[idx]; ok {
+	if astructbstruct2useDB, ok := backRepoAstructBstruct2Use.Map_AstructBstruct2UseDBID_AstructBstruct2UseDB[idx]; ok {
 
 		astructbstruct2useDB.CopyBasicFieldsFromAstructBstruct2Use(astructbstruct2use)
 
@@ -238,7 +221,7 @@ func (backRepoAstructBstruct2Use *BackRepoAstructBstruct2UseStruct) CommitPhaseT
 		// commit pointer value astructbstruct2use.Bstrcut2 translates to updating the astructbstruct2use.Bstrcut2ID
 		astructbstruct2useDB.Bstrcut2ID.Valid = true // allow for a 0 value (nil association)
 		if astructbstruct2use.Bstrcut2 != nil {
-			if Bstrcut2Id, ok := (*backRepo.BackRepoBstruct.Map_BstructPtr_BstructDBID)[astructbstruct2use.Bstrcut2]; ok {
+			if Bstrcut2Id, ok := backRepo.BackRepoBstruct.Map_BstructPtr_BstructDBID[astructbstruct2use.Bstrcut2]; ok {
 				astructbstruct2useDB.Bstrcut2ID.Int64 = int64(Bstrcut2Id)
 				astructbstruct2useDB.Bstrcut2ID.Valid = true
 			}
@@ -283,7 +266,7 @@ func (backRepoAstructBstruct2Use *BackRepoAstructBstruct2UseStruct) CheckoutPhas
 
 		// do not remove this instance from the stage, therefore
 		// remove instance from the list of instances to be be removed from the stage
-		astructbstruct2use, ok := (*backRepoAstructBstruct2Use.Map_AstructBstruct2UseDBID_AstructBstruct2UsePtr)[astructbstruct2useDB.ID]
+		astructbstruct2use, ok := backRepoAstructBstruct2Use.Map_AstructBstruct2UseDBID_AstructBstruct2UsePtr[astructbstruct2useDB.ID]
 		if ok {
 			delete(astructbstruct2useInstancesToBeRemovedFromTheStage, astructbstruct2use)
 		}
@@ -294,10 +277,10 @@ func (backRepoAstructBstruct2Use *BackRepoAstructBstruct2UseStruct) CheckoutPhas
 		astructbstruct2use.Unstage(backRepoAstructBstruct2Use.GetStage())
 
 		// remove instance from the back repo 3 maps
-		astructbstruct2useID := (*backRepoAstructBstruct2Use.Map_AstructBstruct2UsePtr_AstructBstruct2UseDBID)[astructbstruct2use]
-		delete((*backRepoAstructBstruct2Use.Map_AstructBstruct2UsePtr_AstructBstruct2UseDBID), astructbstruct2use)
-		delete((*backRepoAstructBstruct2Use.Map_AstructBstruct2UseDBID_AstructBstruct2UseDB), astructbstruct2useID)
-		delete((*backRepoAstructBstruct2Use.Map_AstructBstruct2UseDBID_AstructBstruct2UsePtr), astructbstruct2useID)
+		astructbstruct2useID := backRepoAstructBstruct2Use.Map_AstructBstruct2UsePtr_AstructBstruct2UseDBID[astructbstruct2use]
+		delete(backRepoAstructBstruct2Use.Map_AstructBstruct2UsePtr_AstructBstruct2UseDBID, astructbstruct2use)
+		delete(backRepoAstructBstruct2Use.Map_AstructBstruct2UseDBID_AstructBstruct2UseDB, astructbstruct2useID)
+		delete(backRepoAstructBstruct2Use.Map_AstructBstruct2UseDBID_AstructBstruct2UsePtr, astructbstruct2useID)
 	}
 
 	return
@@ -307,12 +290,12 @@ func (backRepoAstructBstruct2Use *BackRepoAstructBstruct2UseStruct) CheckoutPhas
 // models version of the astructbstruct2useDB
 func (backRepoAstructBstruct2Use *BackRepoAstructBstruct2UseStruct) CheckoutPhaseOneInstance(astructbstruct2useDB *AstructBstruct2UseDB) (Error error) {
 
-	astructbstruct2use, ok := (*backRepoAstructBstruct2Use.Map_AstructBstruct2UseDBID_AstructBstruct2UsePtr)[astructbstruct2useDB.ID]
+	astructbstruct2use, ok := backRepoAstructBstruct2Use.Map_AstructBstruct2UseDBID_AstructBstruct2UsePtr[astructbstruct2useDB.ID]
 	if !ok {
 		astructbstruct2use = new(models.AstructBstruct2Use)
 
-		(*backRepoAstructBstruct2Use.Map_AstructBstruct2UseDBID_AstructBstruct2UsePtr)[astructbstruct2useDB.ID] = astructbstruct2use
-		(*backRepoAstructBstruct2Use.Map_AstructBstruct2UsePtr_AstructBstruct2UseDBID)[astructbstruct2use] = astructbstruct2useDB.ID
+		backRepoAstructBstruct2Use.Map_AstructBstruct2UseDBID_AstructBstruct2UsePtr[astructbstruct2useDB.ID] = astructbstruct2use
+		backRepoAstructBstruct2Use.Map_AstructBstruct2UsePtr_AstructBstruct2UseDBID[astructbstruct2use] = astructbstruct2useDB.ID
 
 		// append model store with the new element
 		astructbstruct2use.Name = astructbstruct2useDB.Name_Data.String
@@ -327,7 +310,7 @@ func (backRepoAstructBstruct2Use *BackRepoAstructBstruct2UseStruct) CheckoutPhas
 	// Map_AstructBstruct2UseDBID_AstructBstruct2UseDB)[astructbstruct2useDB hold variable pointers
 	astructbstruct2useDB_Data := *astructbstruct2useDB
 	preservedPtrToAstructBstruct2Use := &astructbstruct2useDB_Data
-	(*backRepoAstructBstruct2Use.Map_AstructBstruct2UseDBID_AstructBstruct2UseDB)[astructbstruct2useDB.ID] = preservedPtrToAstructBstruct2Use
+	backRepoAstructBstruct2Use.Map_AstructBstruct2UseDBID_AstructBstruct2UseDB[astructbstruct2useDB.ID] = preservedPtrToAstructBstruct2Use
 
 	return
 }
@@ -337,7 +320,7 @@ func (backRepoAstructBstruct2Use *BackRepoAstructBstruct2UseStruct) CheckoutPhas
 func (backRepoAstructBstruct2Use *BackRepoAstructBstruct2UseStruct) CheckoutPhaseTwo(backRepo *BackRepoStruct) (Error error) {
 
 	// parse all DB instance and update all pointer fields of the translated models instance
-	for _, astructbstruct2useDB := range *backRepoAstructBstruct2Use.Map_AstructBstruct2UseDBID_AstructBstruct2UseDB {
+	for _, astructbstruct2useDB := range backRepoAstructBstruct2Use.Map_AstructBstruct2UseDBID_AstructBstruct2UseDB {
 		backRepoAstructBstruct2Use.CheckoutPhaseTwoInstance(backRepo, astructbstruct2useDB)
 	}
 	return
@@ -347,13 +330,13 @@ func (backRepoAstructBstruct2Use *BackRepoAstructBstruct2UseStruct) CheckoutPhas
 // Phase Two is the update of instance with the field in the database
 func (backRepoAstructBstruct2Use *BackRepoAstructBstruct2UseStruct) CheckoutPhaseTwoInstance(backRepo *BackRepoStruct, astructbstruct2useDB *AstructBstruct2UseDB) (Error error) {
 
-	astructbstruct2use := (*backRepoAstructBstruct2Use.Map_AstructBstruct2UseDBID_AstructBstruct2UsePtr)[astructbstruct2useDB.ID]
+	astructbstruct2use := backRepoAstructBstruct2Use.Map_AstructBstruct2UseDBID_AstructBstruct2UsePtr[astructbstruct2useDB.ID]
 	_ = astructbstruct2use // sometimes, there is no code generated. This lines voids the "unused variable" compilation error
 
 	// insertion point for checkout of pointer encoding
 	// Bstrcut2 field
 	if astructbstruct2useDB.Bstrcut2ID.Int64 != 0 {
-		astructbstruct2use.Bstrcut2 = (*backRepo.BackRepoBstruct.Map_BstructDBID_BstructPtr)[uint(astructbstruct2useDB.Bstrcut2ID.Int64)]
+		astructbstruct2use.Bstrcut2 = backRepo.BackRepoBstruct.Map_BstructDBID_BstructPtr[uint(astructbstruct2useDB.Bstrcut2ID.Int64)]
 	}
 	return
 }
@@ -361,7 +344,7 @@ func (backRepoAstructBstruct2Use *BackRepoAstructBstruct2UseStruct) CheckoutPhas
 // CommitAstructBstruct2Use allows commit of a single astructbstruct2use (if already staged)
 func (backRepo *BackRepoStruct) CommitAstructBstruct2Use(astructbstruct2use *models.AstructBstruct2Use) {
 	backRepo.BackRepoAstructBstruct2Use.CommitPhaseOneInstance(astructbstruct2use)
-	if id, ok := (*backRepo.BackRepoAstructBstruct2Use.Map_AstructBstruct2UsePtr_AstructBstruct2UseDBID)[astructbstruct2use]; ok {
+	if id, ok := backRepo.BackRepoAstructBstruct2Use.Map_AstructBstruct2UsePtr_AstructBstruct2UseDBID[astructbstruct2use]; ok {
 		backRepo.BackRepoAstructBstruct2Use.CommitPhaseTwoInstance(backRepo, id, astructbstruct2use)
 	}
 	backRepo.CommitFromBackNb = backRepo.CommitFromBackNb + 1
@@ -370,9 +353,9 @@ func (backRepo *BackRepoStruct) CommitAstructBstruct2Use(astructbstruct2use *mod
 // CommitAstructBstruct2Use allows checkout of a single astructbstruct2use (if already staged and with a BackRepo id)
 func (backRepo *BackRepoStruct) CheckoutAstructBstruct2Use(astructbstruct2use *models.AstructBstruct2Use) {
 	// check if the astructbstruct2use is staged
-	if _, ok := (*backRepo.BackRepoAstructBstruct2Use.Map_AstructBstruct2UsePtr_AstructBstruct2UseDBID)[astructbstruct2use]; ok {
+	if _, ok := backRepo.BackRepoAstructBstruct2Use.Map_AstructBstruct2UsePtr_AstructBstruct2UseDBID[astructbstruct2use]; ok {
 
-		if id, ok := (*backRepo.BackRepoAstructBstruct2Use.Map_AstructBstruct2UsePtr_AstructBstruct2UseDBID)[astructbstruct2use]; ok {
+		if id, ok := backRepo.BackRepoAstructBstruct2Use.Map_AstructBstruct2UsePtr_AstructBstruct2UseDBID[astructbstruct2use]; ok {
 			var astructbstruct2useDB AstructBstruct2UseDB
 			astructbstruct2useDB.ID = id
 
@@ -422,7 +405,7 @@ func (backRepoAstructBstruct2Use *BackRepoAstructBstruct2UseStruct) Backup(dirPa
 	// organize the map into an array with increasing IDs, in order to have repoductible
 	// backup file
 	forBackup := make([]*AstructBstruct2UseDB, 0)
-	for _, astructbstruct2useDB := range *backRepoAstructBstruct2Use.Map_AstructBstruct2UseDBID_AstructBstruct2UseDB {
+	for _, astructbstruct2useDB := range backRepoAstructBstruct2Use.Map_AstructBstruct2UseDBID_AstructBstruct2UseDB {
 		forBackup = append(forBackup, astructbstruct2useDB)
 	}
 
@@ -448,7 +431,7 @@ func (backRepoAstructBstruct2Use *BackRepoAstructBstruct2UseStruct) BackupXL(fil
 	// organize the map into an array with increasing IDs, in order to have repoductible
 	// backup file
 	forBackup := make([]*AstructBstruct2UseDB, 0)
-	for _, astructbstruct2useDB := range *backRepoAstructBstruct2Use.Map_AstructBstruct2UseDBID_AstructBstruct2UseDB {
+	for _, astructbstruct2useDB := range backRepoAstructBstruct2Use.Map_AstructBstruct2UseDBID_AstructBstruct2UseDB {
 		forBackup = append(forBackup, astructbstruct2useDB)
 	}
 
@@ -513,7 +496,7 @@ func (backRepoAstructBstruct2Use *BackRepoAstructBstruct2UseStruct) rowVisitorAs
 		if query.Error != nil {
 			log.Panic(query.Error)
 		}
-		(*backRepoAstructBstruct2Use.Map_AstructBstruct2UseDBID_AstructBstruct2UseDB)[astructbstruct2useDB.ID] = astructbstruct2useDB
+		backRepoAstructBstruct2Use.Map_AstructBstruct2UseDBID_AstructBstruct2UseDB[astructbstruct2useDB.ID] = astructbstruct2useDB
 		BackRepoAstructBstruct2Useid_atBckpTime_newID[astructbstruct2useDB_ID_atBackupTime] = astructbstruct2useDB.ID
 	}
 	return nil
@@ -550,7 +533,7 @@ func (backRepoAstructBstruct2Use *BackRepoAstructBstruct2UseStruct) RestorePhase
 		if query.Error != nil {
 			log.Panic(query.Error)
 		}
-		(*backRepoAstructBstruct2Use.Map_AstructBstruct2UseDBID_AstructBstruct2UseDB)[astructbstruct2useDB.ID] = astructbstruct2useDB
+		backRepoAstructBstruct2Use.Map_AstructBstruct2UseDBID_AstructBstruct2UseDB[astructbstruct2useDB.ID] = astructbstruct2useDB
 		BackRepoAstructBstruct2Useid_atBckpTime_newID[astructbstruct2useDB_ID_atBackupTime] = astructbstruct2useDB.ID
 	}
 
@@ -563,7 +546,7 @@ func (backRepoAstructBstruct2Use *BackRepoAstructBstruct2UseStruct) RestorePhase
 // to compute new index
 func (backRepoAstructBstruct2Use *BackRepoAstructBstruct2UseStruct) RestorePhaseTwo() {
 
-	for _, astructbstruct2useDB := range *backRepoAstructBstruct2Use.Map_AstructBstruct2UseDBID_AstructBstruct2UseDB {
+	for _, astructbstruct2useDB := range backRepoAstructBstruct2Use.Map_AstructBstruct2UseDBID_AstructBstruct2UseDB {
 
 		// next line of code is to avert unused variable compilation error
 		_ = astructbstruct2useDB
