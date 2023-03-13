@@ -125,21 +125,6 @@ func (backRepoGongStruct *BackRepoGongStructStruct) GetGongStructDBFromGongStruc
 // BackRepoGongStruct.Init set up the BackRepo of the GongStruct
 func (backRepoGongStruct *BackRepoGongStructStruct) Init(stage *models.StageStruct, db *gorm.DB) (Error error) {
 
-	if backRepoGongStruct.Map_GongStructDBID_GongStructPtr != nil {
-		err := errors.New("In Init, backRepoGongStruct.Map_GongStructDBID_GongStructPtr should be nil")
-		return err
-	}
-
-	if backRepoGongStruct.Map_GongStructDBID_GongStructDB != nil {
-		err := errors.New("In Init, backRepoGongStruct.Map_GongStructDBID_GongStructDB should be nil")
-		return err
-	}
-
-	if backRepoGongStruct.Map_GongStructPtr_GongStructDBID != nil {
-		err := errors.New("In Init, backRepoGongStruct.Map_GongStructPtr_GongStructDBID should be nil")
-		return err
-	}
-
 	tmp := make(map[uint]*models.GongStruct, 0)
 	backRepoGongStruct.Map_GongStructDBID_GongStructPtr = &tmp
 

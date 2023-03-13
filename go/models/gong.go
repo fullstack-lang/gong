@@ -4,6 +4,7 @@ package models
 import (
 	"errors"
 	"fmt"
+	"sync"
 )
 
 // errUnkownEnum is returns when a value cannot match enum values
@@ -143,17 +144,6 @@ type StageStruct struct { // insertion point for definition of arrays registerin
 	MetaPackageImportPath  string
 	MetaPackageImportAlias string
 	Map_DocLink_Renaming   map[string]GONG__Identifier
-
-	// map_Gongstruct_BackPointer is storage of back pointers
-	map_Gongstruct_BackPointer map[any]any
-}
-
-func SetBackPointer[T Gongstruct](stageStruct *StageStruct, instance *T, backPointer any) {
-	stageStruct.map_Gongstruct_BackPointer[instance] = backPointer
-}
-func GetBackPointer[T Gongstruct](stageStruct *StageStruct, instance *T) (backPointer any) {
-	backPointer, _ = stageStruct.map_Gongstruct_BackPointer[instance]
-	return
 }
 
 type GONG__Identifier struct {
@@ -224,47 +214,61 @@ type BackRepoInterface interface {
 	GetLastPushFromFrontNb() uint
 }
 
-// swagger:ignore instructs the gong compiler (gongc) to avoid this particular struct
-var Stage StageStruct = StageStruct{ // insertion point for array initiatialisation
-	GongBasicFields:           make(map[*GongBasicField]any),
-	GongBasicFields_mapString: make(map[string]*GongBasicField),
+var _stage *StageStruct
 
-	GongEnums:           make(map[*GongEnum]any),
-	GongEnums_mapString: make(map[string]*GongEnum),
+var once sync.Once
 
-	GongEnumValues:           make(map[*GongEnumValue]any),
-	GongEnumValues_mapString: make(map[string]*GongEnumValue),
+func GetDefaultStage() *StageStruct {
+	once.Do(func() {
+		_stage = NewStage()
+	})
+	return _stage
+}
 
-	GongLinks:           make(map[*GongLink]any),
-	GongLinks_mapString: make(map[string]*GongLink),
+func NewStage() (stage *StageStruct) {
 
-	GongNotes:           make(map[*GongNote]any),
-	GongNotes_mapString: make(map[string]*GongNote),
+	stage = &StageStruct{ // insertion point for array initiatialisation
+		GongBasicFields:           make(map[*GongBasicField]any),
+		GongBasicFields_mapString: make(map[string]*GongBasicField),
 
-	GongStructs:           make(map[*GongStruct]any),
-	GongStructs_mapString: make(map[string]*GongStruct),
+		GongEnums:           make(map[*GongEnum]any),
+		GongEnums_mapString: make(map[string]*GongEnum),
 
-	GongTimeFields:           make(map[*GongTimeField]any),
-	GongTimeFields_mapString: make(map[string]*GongTimeField),
+		GongEnumValues:           make(map[*GongEnumValue]any),
+		GongEnumValues_mapString: make(map[string]*GongEnumValue),
 
-	Metas:           make(map[*Meta]any),
-	Metas_mapString: make(map[string]*Meta),
+		GongLinks:           make(map[*GongLink]any),
+		GongLinks_mapString: make(map[string]*GongLink),
 
-	MetaReferences:           make(map[*MetaReference]any),
-	MetaReferences_mapString: make(map[string]*MetaReference),
+		GongNotes:           make(map[*GongNote]any),
+		GongNotes_mapString: make(map[string]*GongNote),
 
-	ModelPkgs:           make(map[*ModelPkg]any),
-	ModelPkgs_mapString: make(map[string]*ModelPkg),
+		GongStructs:           make(map[*GongStruct]any),
+		GongStructs_mapString: make(map[string]*GongStruct),
 
-	PointerToGongStructFields:           make(map[*PointerToGongStructField]any),
-	PointerToGongStructFields_mapString: make(map[string]*PointerToGongStructField),
+		GongTimeFields:           make(map[*GongTimeField]any),
+		GongTimeFields_mapString: make(map[string]*GongTimeField),
 
-	SliceOfPointerToGongStructFields:           make(map[*SliceOfPointerToGongStructField]any),
-	SliceOfPointerToGongStructFields_mapString: make(map[string]*SliceOfPointerToGongStructField),
+		Metas:           make(map[*Meta]any),
+		Metas_mapString: make(map[string]*Meta),
 
-	// end of insertion point
-	Map_GongStructName_InstancesNb: make(map[string]int),
-	map_Gongstruct_BackPointer:     make(map[any]any),
+		MetaReferences:           make(map[*MetaReference]any),
+		MetaReferences_mapString: make(map[string]*MetaReference),
+
+		ModelPkgs:           make(map[*ModelPkg]any),
+		ModelPkgs_mapString: make(map[string]*ModelPkg),
+
+		PointerToGongStructFields:           make(map[*PointerToGongStructField]any),
+		PointerToGongStructFields_mapString: make(map[string]*PointerToGongStructField),
+
+		SliceOfPointerToGongStructFields:           make(map[*SliceOfPointerToGongStructField]any),
+		SliceOfPointerToGongStructFields_mapString: make(map[string]*SliceOfPointerToGongStructField),
+
+		// end of insertion point
+		Map_GongStructName_InstancesNb: make(map[string]int),
+	}
+
+	return
 }
 
 func (stage *StageStruct) Commit() {
@@ -1043,35 +1047,35 @@ func GongGetSet[Type GongstructSet](stages ...*StageStruct) *Type {
 	if len(stages) > 0 {
 		stage = stages[0]
 	} else {
-		stage = &Stage
+		stage = _stage
 	}
 
 	switch any(ret).(type) {
 	// insertion point for generic get functions
 	case map[*GongBasicField]any:
-		return any(&stage.GongBasicFields).(*Type)
+		return any(stage.GongBasicFields).(*Type)
 	case map[*GongEnum]any:
-		return any(&stage.GongEnums).(*Type)
+		return any(stage.GongEnums).(*Type)
 	case map[*GongEnumValue]any:
-		return any(&stage.GongEnumValues).(*Type)
+		return any(stage.GongEnumValues).(*Type)
 	case map[*GongLink]any:
-		return any(&stage.GongLinks).(*Type)
+		return any(stage.GongLinks).(*Type)
 	case map[*GongNote]any:
-		return any(&stage.GongNotes).(*Type)
+		return any(stage.GongNotes).(*Type)
 	case map[*GongStruct]any:
-		return any(&stage.GongStructs).(*Type)
+		return any(stage.GongStructs).(*Type)
 	case map[*GongTimeField]any:
-		return any(&stage.GongTimeFields).(*Type)
+		return any(stage.GongTimeFields).(*Type)
 	case map[*Meta]any:
-		return any(&stage.Metas).(*Type)
+		return any(stage.Metas).(*Type)
 	case map[*MetaReference]any:
-		return any(&stage.MetaReferences).(*Type)
+		return any(stage.MetaReferences).(*Type)
 	case map[*ModelPkg]any:
-		return any(&stage.ModelPkgs).(*Type)
+		return any(stage.ModelPkgs).(*Type)
 	case map[*PointerToGongStructField]any:
-		return any(&stage.PointerToGongStructFields).(*Type)
+		return any(stage.PointerToGongStructFields).(*Type)
 	case map[*SliceOfPointerToGongStructField]any:
-		return any(&stage.SliceOfPointerToGongStructFields).(*Type)
+		return any(stage.SliceOfPointerToGongStructFields).(*Type)
 	default:
 		return nil
 	}
@@ -1087,35 +1091,35 @@ func GongGetMap[Type GongstructMapString](stages ...*StageStruct) *Type {
 	if len(stages) > 0 {
 		stage = stages[0]
 	} else {
-		stage = &Stage
+		stage = _stage
 	}
 
 	switch any(ret).(type) {
 	// insertion point for generic get functions
 	case map[string]*GongBasicField:
-		return any(&stage.GongBasicFields_mapString).(*Type)
+		return any(stage.GongBasicFields_mapString).(*Type)
 	case map[string]*GongEnum:
-		return any(&stage.GongEnums_mapString).(*Type)
+		return any(stage.GongEnums_mapString).(*Type)
 	case map[string]*GongEnumValue:
-		return any(&stage.GongEnumValues_mapString).(*Type)
+		return any(stage.GongEnumValues_mapString).(*Type)
 	case map[string]*GongLink:
-		return any(&stage.GongLinks_mapString).(*Type)
+		return any(stage.GongLinks_mapString).(*Type)
 	case map[string]*GongNote:
-		return any(&stage.GongNotes_mapString).(*Type)
+		return any(stage.GongNotes_mapString).(*Type)
 	case map[string]*GongStruct:
-		return any(&stage.GongStructs_mapString).(*Type)
+		return any(stage.GongStructs_mapString).(*Type)
 	case map[string]*GongTimeField:
-		return any(&stage.GongTimeFields_mapString).(*Type)
+		return any(stage.GongTimeFields_mapString).(*Type)
 	case map[string]*Meta:
-		return any(&stage.Metas_mapString).(*Type)
+		return any(stage.Metas_mapString).(*Type)
 	case map[string]*MetaReference:
-		return any(&stage.MetaReferences_mapString).(*Type)
+		return any(stage.MetaReferences_mapString).(*Type)
 	case map[string]*ModelPkg:
-		return any(&stage.ModelPkgs_mapString).(*Type)
+		return any(stage.ModelPkgs_mapString).(*Type)
 	case map[string]*PointerToGongStructField:
-		return any(&stage.PointerToGongStructFields_mapString).(*Type)
+		return any(stage.PointerToGongStructFields_mapString).(*Type)
 	case map[string]*SliceOfPointerToGongStructField:
-		return any(&stage.SliceOfPointerToGongStructFields_mapString).(*Type)
+		return any(stage.SliceOfPointerToGongStructFields_mapString).(*Type)
 	default:
 		return nil
 	}
@@ -1131,7 +1135,7 @@ func GetGongstructInstancesSet[Type Gongstruct](stages ...*StageStruct) *map[*Ty
 	if len(stages) > 0 {
 		stage = stages[0]
 	} else {
-		stage = &Stage
+		stage = _stage
 	}
 
 	switch any(ret).(type) {
@@ -1175,7 +1179,7 @@ func GetGongstructInstancesMap[Type Gongstruct](stages ...*StageStruct) *map[str
 	if len(stages) > 0 {
 		stage = stages[0]
 	} else {
-		stage = &Stage
+		stage = _stage
 	}
 
 	switch any(ret).(type) {
@@ -1305,7 +1309,7 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stages ...*St
 	if len(stages) > 0 {
 		stage = stages[0]
 	} else {
-		stage = &Stage
+		stage = _stage
 	}
 
 	var ret Start
@@ -1440,7 +1444,7 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 	if len(stages) > 0 {
 		stage = stages[0]
 	} else {
-		stage = &Stage
+		stage = _stage
 	}
 
 	var ret Start
