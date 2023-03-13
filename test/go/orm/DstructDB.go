@@ -125,21 +125,6 @@ func (backRepoDstruct *BackRepoDstructStruct) GetDstructDBFromDstructPtr(dstruct
 // BackRepoDstruct.Init set up the BackRepo of the Dstruct
 func (backRepoDstruct *BackRepoDstructStruct) Init(stage *models.StageStruct, db *gorm.DB) (Error error) {
 
-	if backRepoDstruct.Map_DstructDBID_DstructPtr != nil {
-		err := errors.New("In Init, backRepoDstruct.Map_DstructDBID_DstructPtr should be nil")
-		return err
-	}
-
-	if backRepoDstruct.Map_DstructDBID_DstructDB != nil {
-		err := errors.New("In Init, backRepoDstruct.Map_DstructDBID_DstructDB should be nil")
-		return err
-	}
-
-	if backRepoDstruct.Map_DstructPtr_DstructDBID != nil {
-		err := errors.New("In Init, backRepoDstruct.Map_DstructPtr_DstructDBID should be nil")
-		return err
-	}
-
 	tmp := make(map[uint]*models.Dstruct, 0)
 	backRepoDstruct.Map_DstructDBID_DstructPtr = &tmp
 

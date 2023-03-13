@@ -155,21 +155,6 @@ func (backRepoBstruct *BackRepoBstructStruct) GetBstructDBFromBstructPtr(bstruct
 // BackRepoBstruct.Init set up the BackRepo of the Bstruct
 func (backRepoBstruct *BackRepoBstructStruct) Init(stage *models.StageStruct, db *gorm.DB) (Error error) {
 
-	if backRepoBstruct.Map_BstructDBID_BstructPtr != nil {
-		err := errors.New("In Init, backRepoBstruct.Map_BstructDBID_BstructPtr should be nil")
-		return err
-	}
-
-	if backRepoBstruct.Map_BstructDBID_BstructDB != nil {
-		err := errors.New("In Init, backRepoBstruct.Map_BstructDBID_BstructDB should be nil")
-		return err
-	}
-
-	if backRepoBstruct.Map_BstructPtr_BstructDBID != nil {
-		err := errors.New("In Init, backRepoBstruct.Map_BstructPtr_BstructDBID should be nil")
-		return err
-	}
-
 	tmp := make(map[uint]*models.Bstruct, 0)
 	backRepoBstruct.Map_BstructDBID_BstructPtr = &tmp
 
