@@ -173,21 +173,6 @@ func (backRepoGongStructShape *BackRepoGongStructShapeStruct) GetGongStructShape
 // BackRepoGongStructShape.Init set up the BackRepo of the GongStructShape
 func (backRepoGongStructShape *BackRepoGongStructShapeStruct) Init(stage *models.StageStruct, db *gorm.DB) (Error error) {
 
-	if backRepoGongStructShape.Map_GongStructShapeDBID_GongStructShapePtr != nil {
-		err := errors.New("In Init, backRepoGongStructShape.Map_GongStructShapeDBID_GongStructShapePtr should be nil")
-		return err
-	}
-
-	if backRepoGongStructShape.Map_GongStructShapeDBID_GongStructShapeDB != nil {
-		err := errors.New("In Init, backRepoGongStructShape.Map_GongStructShapeDBID_GongStructShapeDB should be nil")
-		return err
-	}
-
-	if backRepoGongStructShape.Map_GongStructShapePtr_GongStructShapeDBID != nil {
-		err := errors.New("In Init, backRepoGongStructShape.Map_GongStructShapePtr_GongStructShapeDBID should be nil")
-		return err
-	}
-
 	tmp := make(map[uint]*models.GongStructShape, 0)
 	backRepoGongStructShape.Map_GongStructShapeDBID_GongStructShapePtr = &tmp
 

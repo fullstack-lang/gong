@@ -159,21 +159,6 @@ func (backRepoLink *BackRepoLinkStruct) GetLinkDBFromLinkPtr(link *models.Link) 
 // BackRepoLink.Init set up the BackRepo of the Link
 func (backRepoLink *BackRepoLinkStruct) Init(stage *models.StageStruct, db *gorm.DB) (Error error) {
 
-	if backRepoLink.Map_LinkDBID_LinkPtr != nil {
-		err := errors.New("In Init, backRepoLink.Map_LinkDBID_LinkPtr should be nil")
-		return err
-	}
-
-	if backRepoLink.Map_LinkDBID_LinkDB != nil {
-		err := errors.New("In Init, backRepoLink.Map_LinkDBID_LinkDB should be nil")
-		return err
-	}
-
-	if backRepoLink.Map_LinkPtr_LinkDBID != nil {
-		err := errors.New("In Init, backRepoLink.Map_LinkPtr_LinkDBID should be nil")
-		return err
-	}
-
 	tmp := make(map[uint]*models.Link, 0)
 	backRepoLink.Map_LinkDBID_LinkPtr = &tmp
 

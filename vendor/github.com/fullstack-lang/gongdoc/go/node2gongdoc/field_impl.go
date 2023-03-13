@@ -71,7 +71,7 @@ func (fieldImpl *FieldImpl) OnAfterUpdate(
 			}
 		}
 
-		gongdoc_models.Stage.Commit()
+		gongdocStage.Commit()
 	}
 	if !stagedNode.IsChecked && frontNode.IsChecked {
 
@@ -189,10 +189,10 @@ func (fieldImpl *FieldImpl) OnAfterUpdate(
 				gongStructShape.Width*1.5
 			link.Middlevertice.Y = (gongStructShape.Position.Y+targetGongStructShape.Position.Y)/2.0 +
 				gongStructShape.Heigth/2.0
-			gongdoc_models.Stage.Commit()
+			gongdocStage.Commit()
 		}
 
-		gongdoc_models.Stage.Commit()
+		gongdocStage.Commit()
 	}
 }
 

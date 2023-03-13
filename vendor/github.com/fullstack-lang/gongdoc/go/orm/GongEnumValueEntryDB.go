@@ -137,21 +137,6 @@ func (backRepoGongEnumValueEntry *BackRepoGongEnumValueEntryStruct) GetGongEnumV
 // BackRepoGongEnumValueEntry.Init set up the BackRepo of the GongEnumValueEntry
 func (backRepoGongEnumValueEntry *BackRepoGongEnumValueEntryStruct) Init(stage *models.StageStruct, db *gorm.DB) (Error error) {
 
-	if backRepoGongEnumValueEntry.Map_GongEnumValueEntryDBID_GongEnumValueEntryPtr != nil {
-		err := errors.New("In Init, backRepoGongEnumValueEntry.Map_GongEnumValueEntryDBID_GongEnumValueEntryPtr should be nil")
-		return err
-	}
-
-	if backRepoGongEnumValueEntry.Map_GongEnumValueEntryDBID_GongEnumValueEntryDB != nil {
-		err := errors.New("In Init, backRepoGongEnumValueEntry.Map_GongEnumValueEntryDBID_GongEnumValueEntryDB should be nil")
-		return err
-	}
-
-	if backRepoGongEnumValueEntry.Map_GongEnumValueEntryPtr_GongEnumValueEntryDBID != nil {
-		err := errors.New("In Init, backRepoGongEnumValueEntry.Map_GongEnumValueEntryPtr_GongEnumValueEntryDBID should be nil")
-		return err
-	}
-
 	tmp := make(map[uint]*models.GongEnumValueEntry, 0)
 	backRepoGongEnumValueEntry.Map_GongEnumValueEntryDBID_GongEnumValueEntryPtr = &tmp
 

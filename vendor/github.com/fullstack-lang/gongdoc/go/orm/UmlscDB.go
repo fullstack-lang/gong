@@ -144,21 +144,6 @@ func (backRepoUmlsc *BackRepoUmlscStruct) GetUmlscDBFromUmlscPtr(umlsc *models.U
 // BackRepoUmlsc.Init set up the BackRepo of the Umlsc
 func (backRepoUmlsc *BackRepoUmlscStruct) Init(stage *models.StageStruct, db *gorm.DB) (Error error) {
 
-	if backRepoUmlsc.Map_UmlscDBID_UmlscPtr != nil {
-		err := errors.New("In Init, backRepoUmlsc.Map_UmlscDBID_UmlscPtr should be nil")
-		return err
-	}
-
-	if backRepoUmlsc.Map_UmlscDBID_UmlscDB != nil {
-		err := errors.New("In Init, backRepoUmlsc.Map_UmlscDBID_UmlscDB should be nil")
-		return err
-	}
-
-	if backRepoUmlsc.Map_UmlscPtr_UmlscDBID != nil {
-		err := errors.New("In Init, backRepoUmlsc.Map_UmlscPtr_UmlscDBID should be nil")
-		return err
-	}
-
 	tmp := make(map[uint]*models.Umlsc, 0)
 	backRepoUmlsc.Map_UmlscDBID_UmlscPtr = &tmp
 

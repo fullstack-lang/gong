@@ -137,21 +137,6 @@ func (backRepoVertice *BackRepoVerticeStruct) GetVerticeDBFromVerticePtr(vertice
 // BackRepoVertice.Init set up the BackRepo of the Vertice
 func (backRepoVertice *BackRepoVerticeStruct) Init(stage *models.StageStruct, db *gorm.DB) (Error error) {
 
-	if backRepoVertice.Map_VerticeDBID_VerticePtr != nil {
-		err := errors.New("In Init, backRepoVertice.Map_VerticeDBID_VerticePtr should be nil")
-		return err
-	}
-
-	if backRepoVertice.Map_VerticeDBID_VerticeDB != nil {
-		err := errors.New("In Init, backRepoVertice.Map_VerticeDBID_VerticeDB should be nil")
-		return err
-	}
-
-	if backRepoVertice.Map_VerticePtr_VerticeDBID != nil {
-		err := errors.New("In Init, backRepoVertice.Map_VerticePtr_VerticeDBID should be nil")
-		return err
-	}
-
 	tmp := make(map[uint]*models.Vertice, 0)
 	backRepoVertice.Map_VerticeDBID_VerticePtr = &tmp
 

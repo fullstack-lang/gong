@@ -86,7 +86,7 @@ func (classdiagram *Classdiagram) RemoveGongStructShape(stage *StageStruct, gong
 	}
 
 	// log.Println("RemoveGongStructShape, before commit, nb ", Stage.BackRepo.GetLastCommitFromBackNb())
-	Stage.Commit()
+	stage.Commit()
 	// log.Println("RemoveGongStructShape, after commit, nb ", Stage.BackRepo.GetLastCommitFromBackNb())
 }
 
@@ -116,7 +116,7 @@ func (classdiagram *Classdiagram) AddGongStructShape(stage *StageStruct, diagram
 	classdiagram.GongStructShapes = append(classdiagram.GongStructShapes, &gongstructshape)
 
 	// log.Println("AddGongStructShape, before commit, nb ", Stage.BackRepo.GetLastCommitFromBackNb())
-	Stage.Commit()
+	stage.Commit()
 	// log.Println("AddGongStructShape, after commit, nb ", Stage.BackRepo.GetLastCommitFromBackNb())
 
 }
@@ -140,7 +140,7 @@ func (classdiagram *Classdiagram) AddGongEnumShape(stage *StageStruct, diagramPa
 
 	classdiagram.GongEnumShapes = append(classdiagram.GongEnumShapes, &enumshape)
 
-	Stage.Commit()
+	stage.Commit()
 }
 
 func (classdiagram *Classdiagram) RemoveGongEnumShape(stage *StageStruct, gongenumshapeName string) {
@@ -183,5 +183,5 @@ func (classdiagram *Classdiagram) RemoveGongEnumShape(stage *StageStruct, gongen
 		}
 	}
 
-	Stage.Commit()
+	stage.Commit()
 }

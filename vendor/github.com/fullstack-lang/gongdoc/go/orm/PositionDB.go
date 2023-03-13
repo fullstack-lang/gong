@@ -137,21 +137,6 @@ func (backRepoPosition *BackRepoPositionStruct) GetPositionDBFromPositionPtr(pos
 // BackRepoPosition.Init set up the BackRepo of the Position
 func (backRepoPosition *BackRepoPositionStruct) Init(stage *models.StageStruct, db *gorm.DB) (Error error) {
 
-	if backRepoPosition.Map_PositionDBID_PositionPtr != nil {
-		err := errors.New("In Init, backRepoPosition.Map_PositionDBID_PositionPtr should be nil")
-		return err
-	}
-
-	if backRepoPosition.Map_PositionDBID_PositionDB != nil {
-		err := errors.New("In Init, backRepoPosition.Map_PositionDBID_PositionDB should be nil")
-		return err
-	}
-
-	if backRepoPosition.Map_PositionPtr_PositionDBID != nil {
-		err := errors.New("In Init, backRepoPosition.Map_PositionPtr_PositionDBID should be nil")
-		return err
-	}
-
 	tmp := make(map[uint]*models.Position, 0)
 	backRepoPosition.Map_PositionDBID_PositionPtr = &tmp
 

@@ -161,21 +161,6 @@ func (backRepoDiagramPackage *BackRepoDiagramPackageStruct) GetDiagramPackageDBF
 // BackRepoDiagramPackage.Init set up the BackRepo of the DiagramPackage
 func (backRepoDiagramPackage *BackRepoDiagramPackageStruct) Init(stage *models.StageStruct, db *gorm.DB) (Error error) {
 
-	if backRepoDiagramPackage.Map_DiagramPackageDBID_DiagramPackagePtr != nil {
-		err := errors.New("In Init, backRepoDiagramPackage.Map_DiagramPackageDBID_DiagramPackagePtr should be nil")
-		return err
-	}
-
-	if backRepoDiagramPackage.Map_DiagramPackageDBID_DiagramPackageDB != nil {
-		err := errors.New("In Init, backRepoDiagramPackage.Map_DiagramPackageDBID_DiagramPackageDB should be nil")
-		return err
-	}
-
-	if backRepoDiagramPackage.Map_DiagramPackagePtr_DiagramPackageDBID != nil {
-		err := errors.New("In Init, backRepoDiagramPackage.Map_DiagramPackagePtr_DiagramPackageDBID should be nil")
-		return err
-	}
-
 	tmp := make(map[uint]*models.DiagramPackage, 0)
 	backRepoDiagramPackage.Map_DiagramPackageDBID_DiagramPackagePtr = &tmp
 

@@ -153,21 +153,6 @@ func (backRepoGongEnumShape *BackRepoGongEnumShapeStruct) GetGongEnumShapeDBFrom
 // BackRepoGongEnumShape.Init set up the BackRepo of the GongEnumShape
 func (backRepoGongEnumShape *BackRepoGongEnumShapeStruct) Init(stage *models.StageStruct, db *gorm.DB) (Error error) {
 
-	if backRepoGongEnumShape.Map_GongEnumShapeDBID_GongEnumShapePtr != nil {
-		err := errors.New("In Init, backRepoGongEnumShape.Map_GongEnumShapeDBID_GongEnumShapePtr should be nil")
-		return err
-	}
-
-	if backRepoGongEnumShape.Map_GongEnumShapeDBID_GongEnumShapeDB != nil {
-		err := errors.New("In Init, backRepoGongEnumShape.Map_GongEnumShapeDBID_GongEnumShapeDB should be nil")
-		return err
-	}
-
-	if backRepoGongEnumShape.Map_GongEnumShapePtr_GongEnumShapeDBID != nil {
-		err := errors.New("In Init, backRepoGongEnumShape.Map_GongEnumShapePtr_GongEnumShapeDBID should be nil")
-		return err
-	}
-
 	tmp := make(map[uint]*models.GongEnumShape, 0)
 	backRepoGongEnumShape.Map_GongEnumShapeDBID_GongEnumShapePtr = &tmp
 

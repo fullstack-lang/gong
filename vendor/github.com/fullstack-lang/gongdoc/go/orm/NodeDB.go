@@ -221,21 +221,6 @@ func (backRepoNode *BackRepoNodeStruct) GetNodeDBFromNodePtr(node *models.Node) 
 // BackRepoNode.Init set up the BackRepo of the Node
 func (backRepoNode *BackRepoNodeStruct) Init(stage *models.StageStruct, db *gorm.DB) (Error error) {
 
-	if backRepoNode.Map_NodeDBID_NodePtr != nil {
-		err := errors.New("In Init, backRepoNode.Map_NodeDBID_NodePtr should be nil")
-		return err
-	}
-
-	if backRepoNode.Map_NodeDBID_NodeDB != nil {
-		err := errors.New("In Init, backRepoNode.Map_NodeDBID_NodeDB should be nil")
-		return err
-	}
-
-	if backRepoNode.Map_NodePtr_NodeDBID != nil {
-		err := errors.New("In Init, backRepoNode.Map_NodePtr_NodeDBID should be nil")
-		return err
-	}
-
 	tmp := make(map[uint]*models.Node, 0)
 	backRepoNode.Map_NodeDBID_NodePtr = &tmp
 

@@ -155,21 +155,6 @@ func (backRepoField *BackRepoFieldStruct) GetFieldDBFromFieldPtr(field *models.F
 // BackRepoField.Init set up the BackRepo of the Field
 func (backRepoField *BackRepoFieldStruct) Init(stage *models.StageStruct, db *gorm.DB) (Error error) {
 
-	if backRepoField.Map_FieldDBID_FieldPtr != nil {
-		err := errors.New("In Init, backRepoField.Map_FieldDBID_FieldPtr should be nil")
-		return err
-	}
-
-	if backRepoField.Map_FieldDBID_FieldDB != nil {
-		err := errors.New("In Init, backRepoField.Map_FieldDBID_FieldDB should be nil")
-		return err
-	}
-
-	if backRepoField.Map_FieldPtr_FieldDBID != nil {
-		err := errors.New("In Init, backRepoField.Map_FieldPtr_FieldDBID should be nil")
-		return err
-	}
-
 	tmp := make(map[uint]*models.Field, 0)
 	backRepoField.Map_FieldDBID_FieldPtr = &tmp
 

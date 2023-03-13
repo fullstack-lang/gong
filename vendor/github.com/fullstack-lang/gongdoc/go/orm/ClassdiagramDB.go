@@ -138,21 +138,6 @@ func (backRepoClassdiagram *BackRepoClassdiagramStruct) GetClassdiagramDBFromCla
 // BackRepoClassdiagram.Init set up the BackRepo of the Classdiagram
 func (backRepoClassdiagram *BackRepoClassdiagramStruct) Init(stage *models.StageStruct, db *gorm.DB) (Error error) {
 
-	if backRepoClassdiagram.Map_ClassdiagramDBID_ClassdiagramPtr != nil {
-		err := errors.New("In Init, backRepoClassdiagram.Map_ClassdiagramDBID_ClassdiagramPtr should be nil")
-		return err
-	}
-
-	if backRepoClassdiagram.Map_ClassdiagramDBID_ClassdiagramDB != nil {
-		err := errors.New("In Init, backRepoClassdiagram.Map_ClassdiagramDBID_ClassdiagramDB should be nil")
-		return err
-	}
-
-	if backRepoClassdiagram.Map_ClassdiagramPtr_ClassdiagramDBID != nil {
-		err := errors.New("In Init, backRepoClassdiagram.Map_ClassdiagramPtr_ClassdiagramDBID should be nil")
-		return err
-	}
-
 	tmp := make(map[uint]*models.Classdiagram, 0)
 	backRepoClassdiagram.Map_ClassdiagramDBID_ClassdiagramPtr = &tmp
 
