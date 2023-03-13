@@ -475,7 +475,8 @@
             "program": "${workspaceFolder}/test2/go/cmd/test2",
             "args": [
                 "-unmarshallFromCodeStageTestA=../../../../test/go/cmd/test/stage.go",
-                "-marshallOnCommitStageTestA=../../../../test/go/cmd/test/stage_out"
+                "-marshallOnCommitStageTestA=../../../../test/go/cmd/test/stage_out",
+                "-marshallOnCommitStageTestB=stageB"
             ]
         },
         {
