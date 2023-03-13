@@ -20,16 +20,18 @@ type Controller struct {
 }
 
 var _controllerSingloton *Controller
-var once sync.Once
+var doRegisterOnce sync.Once
 
 func Register(r *gin.Engine) {
-	once.Do(func() {
-		RegisterControllers(r)
+	doRegisterOnce.Do(func() {
+		registerControllers(r)
 	})
 }
 
+var doControllerInitOnce sync.Once
+
 func GetController() *Controller {
-	once.Do(func() {
+	doControllerInitOnce.Do(func() {
 		_controllerSingloton = &Controller{
 			Map_BackRepos: make(map[string]*{{pkgname}}_orm.BackRepoStruct),
 		}
