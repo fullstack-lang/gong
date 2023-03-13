@@ -151,7 +151,7 @@ func (controller *Controller) PostDstruct(c *gin.Context) {
 
 	// get an instance (not staged) from DB instance, and call callback function
 	backRepo.BackRepoDstruct.CheckoutPhaseOneInstance(&dstructDB)
-	dstruct := (*backRepo.BackRepoDstruct.Map_DstructDBID_DstructPtr)[dstructDB.ID]
+	dstruct := backRepo.BackRepoDstruct.Map_DstructDBID_DstructPtr[dstructDB.ID]
 
 	if dstruct != nil {
 		models.AfterCreateFromFront(backRepo.GetStage(), dstruct)
@@ -273,7 +273,7 @@ func (controller *Controller) UpdateDstruct(c *gin.Context) {
 	dstructDB.CopyBasicFieldsToDstruct(dstructNew)
 
 	// get stage instance from DB instance, and call callback function
-	dstructOld := (*backRepo.BackRepoDstruct.Map_DstructDBID_DstructPtr)[dstructDB.ID]
+	dstructOld := backRepo.BackRepoDstruct.Map_DstructDBID_DstructPtr[dstructDB.ID]
 	if dstructOld != nil {
 		models.AfterUpdateFromFront(backRepo.GetStage(), dstructOld, dstructNew)
 	}
@@ -330,7 +330,7 @@ func (controller *Controller) DeleteDstruct(c *gin.Context) {
 	dstructDB.CopyBasicFieldsToDstruct(dstructDeleted)
 
 	// get stage instance from DB instance, and call callback function
-	dstructStaged := (*backRepo.BackRepoDstruct.Map_DstructDBID_DstructPtr)[dstructDB.ID]
+	dstructStaged := backRepo.BackRepoDstruct.Map_DstructDBID_DstructPtr[dstructDB.ID]
 	if dstructStaged != nil {
 		models.AfterDeleteFromFront(backRepo.GetStage(), dstructStaged, dstructDeleted)
 	}

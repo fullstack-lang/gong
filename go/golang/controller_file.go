@@ -167,7 +167,7 @@ func (controller *Controller) Post{{Structname}}(c *gin.Context) {
 
 	// get an instance (not staged) from DB instance, and call callback function
 	backRepo.BackRepo{{Structname}}.CheckoutPhaseOneInstance(&{{structname}}DB)
-	{{structname}} := (*backRepo.BackRepo{{Structname}}.Map_{{Structname}}DBID_{{Structname}}Ptr)[{{structname}}DB.ID]
+	{{structname}} := backRepo.BackRepo{{Structname}}.Map_{{Structname}}DBID_{{Structname}}Ptr[{{structname}}DB.ID]
 
 	if {{structname}} != nil {
 		models.AfterCreateFromFront(backRepo.GetStage(), {{structname}})
@@ -289,7 +289,7 @@ func (controller *Controller) Update{{Structname}}(c *gin.Context) {
 	{{structname}}DB.CopyBasicFieldsTo{{Structname}}({{structname}}New)
 
 	// get stage instance from DB instance, and call callback function
-	{{structname}}Old := (*backRepo.BackRepo{{Structname}}.Map_{{Structname}}DBID_{{Structname}}Ptr)[{{structname}}DB.ID]
+	{{structname}}Old := backRepo.BackRepo{{Structname}}.Map_{{Structname}}DBID_{{Structname}}Ptr[{{structname}}DB.ID]
 	if {{structname}}Old != nil {
 		models.AfterUpdateFromFront(backRepo.GetStage(), {{structname}}Old, {{structname}}New)
 	}
@@ -346,7 +346,7 @@ func (controller *Controller) Delete{{Structname}}(c *gin.Context) {
 	{{structname}}DB.CopyBasicFieldsTo{{Structname}}({{structname}}Deleted)
 
 	// get stage instance from DB instance, and call callback function
-	{{structname}}Staged := (*backRepo.BackRepo{{Structname}}.Map_{{Structname}}DBID_{{Structname}}Ptr)[{{structname}}DB.ID]
+	{{structname}}Staged := backRepo.BackRepo{{Structname}}.Map_{{Structname}}DBID_{{Structname}}Ptr[{{structname}}DB.ID]
 	if {{structname}}Staged != nil {
 		models.AfterDeleteFromFront(backRepo.GetStage(), {{structname}}Staged, {{structname}}Deleted)
 	}
