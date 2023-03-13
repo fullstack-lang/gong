@@ -14,6 +14,9 @@ import (
 	"github.com/gin-gonic/gin"
 
 	test_fullstack "github.com/fullstack-lang/gong/test/go/fullstack"
+	"github.com/fullstack-lang/gong/test/go/models"
+	test_models "github.com/fullstack-lang/gong/test/go/models"
+
 	test2 "github.com/fullstack-lang/gong/test2"
 	test2_fullstack "github.com/fullstack-lang/gong/test2/go/fullstack"
 )
@@ -22,7 +25,25 @@ var (
 	logDBFlag  = flag.Bool("logDB", false, "log mode for db")
 	logGINFlag = flag.Bool("logGIN", false, "log mode for gin")
 	apiFlag    = flag.Bool("api", false, "it true, use api controllers instead of default controllers")
+
+	unmarshallFromCodeStageTestA = flag.String("unmarshallFromCodeStageTestA", "", "unmarshall data from go file and '.go' (must be lowercased without spaces), If unmarshallFromCode arg is '', no unmarshalling")
+	marshallOnCommitStageTestA   = flag.String("marshallOnCommitStageTestA", "", "on all commits, marshall staged data to a go file with the marshall name and '.go' (must be lowercased without spaces). If marshall arg is '', no marshalling")
+	marshallOnCommitStageTestB   = flag.String("marshallOnCommitStageTestB", "", "on all commits, marshall staged data to a go file with the marshall name and '.go' (must be lowercased without spaces). If marshall arg is '', no marshalling")
 )
+
+type BeforeCommitImplementation struct {
+}
+
+func (impl *BeforeCommitImplementation) BeforeCommit(stage *models.StageStruct) {
+	file, err := os.Create(fmt.Sprintf("./%s.go", *marshallOnCommitStageTestB))
+	if err != nil {
+		log.Fatal(err.Error())
+	}
+	defer file.Close()
+
+	stage.Checkout()
+	stage.Marshall(file, "github.com/fullstack-lang/gong/test/go/models", "main")
+}
 
 func main() {
 
@@ -40,8 +61,35 @@ func main() {
 	r := gin.Default()
 	r.Use(cors.Default())
 
-	test2_fullstack.Init(r)
-	test_fullstack.Init(r)
+	test2_fullstack.NewStackInstance(r, "")
+	stageTestA := test_fullstack.NewStackInstance(r, "A")
+	stageTestB := test_fullstack.NewStackInstance(r, "B")
+
+	// hook automatic marshall to go code at every commit
+	if *marshallOnCommitStageTestA != "" {
+		hook := new(BeforeCommitImplementation)
+		stageTestA.OnInitCommitFromFrontCallback = hook
+	}
+
+	if *marshallOnCommitStageTestB != "" {
+		hook := new(BeforeCommitImplementation)
+		stageTestB.OnInitCommitFromFrontCallback = hook
+	}
+
+	if *unmarshallFromCodeStageTestA != "" {
+		stageTestA.Checkout()
+		stageTestA.Reset()
+		stageTestA.Commit()
+		err := test_models.ParseAstFile(stageTestA, *unmarshallFromCodeStageTestA)
+
+		// if the application is run with -unmarshallFromCode=xxx.go -marshallOnCommit
+		// xxx.go might be absent the first time. However, this shall not be a show stopper.
+		if err != nil {
+			log.Println("no file to read " + err.Error())
+		}
+
+		stageTestA.Commit()
+	}
 
 	// provide the static route for the angular pages
 	r.Use(static.Serve("/", EmbedFolder(test2.NgDistNg, "ng/dist/ng")))
