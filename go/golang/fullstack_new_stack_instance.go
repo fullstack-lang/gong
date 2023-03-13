@@ -8,6 +8,11 @@ import (
 	"{{PkgPathRoot}}/orm"
 
 	"github.com/gin-gonic/gin"
+
+	// this will import the angular front end source code directory (versionned with git) in the vendor directory
+	// this path will be included in the "tsconfig.json" front end compilation paths
+	// to include this stack front end code
+	_ "{{PkgPathAboveRoot}}/ng/projects"
 )
 
 // NewStackInstance creates a new stack instance from the Stack Model
@@ -21,20 +26,26 @@ func NewStackInstance(
 	stackPath string,
 	// filesnames is an optional parameter for the name of the database
 	filenames ...string) (
-	stage *models.StageStruct,
-	backRepo *orm.BackRepoStruct) {
-
-	Init(r, filenames...)
+	stage *models.StageStruct) {
 
 	// temporary
 	if stackPath == "" {
 		stage = models.GetDefaultStage()
-		backRepo = orm.GetDefaultBackRepo()
 	} else {
 		stage = models.NewStage()
-		backRepo = &orm.BackRepoStruct{}
+	}
+
+	if len(filenames) == 0 {
+		filenames = append(filenames, ":memory:")
+	}
+
+	backRepo := orm.NewBackRepo(stage, filenames[0])
+
+	if stackPath != "" {
 		controllers.GetController().AddBackRepo(backRepo, stackPath)
 	}
+
+	controllers.Register(r)
 
 	return
 
