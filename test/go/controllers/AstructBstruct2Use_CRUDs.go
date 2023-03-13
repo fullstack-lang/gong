@@ -151,7 +151,7 @@ func (controller *Controller) PostAstructBstruct2Use(c *gin.Context) {
 
 	// get an instance (not staged) from DB instance, and call callback function
 	backRepo.BackRepoAstructBstruct2Use.CheckoutPhaseOneInstance(&astructbstruct2useDB)
-	astructbstruct2use := (*backRepo.BackRepoAstructBstruct2Use.Map_AstructBstruct2UseDBID_AstructBstruct2UsePtr)[astructbstruct2useDB.ID]
+	astructbstruct2use := backRepo.BackRepoAstructBstruct2Use.Map_AstructBstruct2UseDBID_AstructBstruct2UsePtr[astructbstruct2useDB.ID]
 
 	if astructbstruct2use != nil {
 		models.AfterCreateFromFront(backRepo.GetStage(), astructbstruct2use)
@@ -273,7 +273,7 @@ func (controller *Controller) UpdateAstructBstruct2Use(c *gin.Context) {
 	astructbstruct2useDB.CopyBasicFieldsToAstructBstruct2Use(astructbstruct2useNew)
 
 	// get stage instance from DB instance, and call callback function
-	astructbstruct2useOld := (*backRepo.BackRepoAstructBstruct2Use.Map_AstructBstruct2UseDBID_AstructBstruct2UsePtr)[astructbstruct2useDB.ID]
+	astructbstruct2useOld := backRepo.BackRepoAstructBstruct2Use.Map_AstructBstruct2UseDBID_AstructBstruct2UsePtr[astructbstruct2useDB.ID]
 	if astructbstruct2useOld != nil {
 		models.AfterUpdateFromFront(backRepo.GetStage(), astructbstruct2useOld, astructbstruct2useNew)
 	}
@@ -330,7 +330,7 @@ func (controller *Controller) DeleteAstructBstruct2Use(c *gin.Context) {
 	astructbstruct2useDB.CopyBasicFieldsToAstructBstruct2Use(astructbstruct2useDeleted)
 
 	// get stage instance from DB instance, and call callback function
-	astructbstruct2useStaged := (*backRepo.BackRepoAstructBstruct2Use.Map_AstructBstruct2UseDBID_AstructBstruct2UsePtr)[astructbstruct2useDB.ID]
+	astructbstruct2useStaged := backRepo.BackRepoAstructBstruct2Use.Map_AstructBstruct2UseDBID_AstructBstruct2UsePtr[astructbstruct2useDB.ID]
 	if astructbstruct2useStaged != nil {
 		models.AfterDeleteFromFront(backRepo.GetStage(), astructbstruct2useStaged, astructbstruct2useDeleted)
 	}
