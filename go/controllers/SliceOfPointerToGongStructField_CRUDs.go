@@ -151,7 +151,7 @@ func (controller *Controller) PostSliceOfPointerToGongStructField(c *gin.Context
 
 	// get an instance (not staged) from DB instance, and call callback function
 	backRepo.BackRepoSliceOfPointerToGongStructField.CheckoutPhaseOneInstance(&sliceofpointertogongstructfieldDB)
-	sliceofpointertogongstructfield := (*backRepo.BackRepoSliceOfPointerToGongStructField.Map_SliceOfPointerToGongStructFieldDBID_SliceOfPointerToGongStructFieldPtr)[sliceofpointertogongstructfieldDB.ID]
+	sliceofpointertogongstructfield := backRepo.BackRepoSliceOfPointerToGongStructField.Map_SliceOfPointerToGongStructFieldDBID_SliceOfPointerToGongStructFieldPtr[sliceofpointertogongstructfieldDB.ID]
 
 	if sliceofpointertogongstructfield != nil {
 		models.AfterCreateFromFront(backRepo.GetStage(), sliceofpointertogongstructfield)
@@ -273,7 +273,7 @@ func (controller *Controller) UpdateSliceOfPointerToGongStructField(c *gin.Conte
 	sliceofpointertogongstructfieldDB.CopyBasicFieldsToSliceOfPointerToGongStructField(sliceofpointertogongstructfieldNew)
 
 	// get stage instance from DB instance, and call callback function
-	sliceofpointertogongstructfieldOld := (*backRepo.BackRepoSliceOfPointerToGongStructField.Map_SliceOfPointerToGongStructFieldDBID_SliceOfPointerToGongStructFieldPtr)[sliceofpointertogongstructfieldDB.ID]
+	sliceofpointertogongstructfieldOld := backRepo.BackRepoSliceOfPointerToGongStructField.Map_SliceOfPointerToGongStructFieldDBID_SliceOfPointerToGongStructFieldPtr[sliceofpointertogongstructfieldDB.ID]
 	if sliceofpointertogongstructfieldOld != nil {
 		models.AfterUpdateFromFront(backRepo.GetStage(), sliceofpointertogongstructfieldOld, sliceofpointertogongstructfieldNew)
 	}
@@ -330,7 +330,7 @@ func (controller *Controller) DeleteSliceOfPointerToGongStructField(c *gin.Conte
 	sliceofpointertogongstructfieldDB.CopyBasicFieldsToSliceOfPointerToGongStructField(sliceofpointertogongstructfieldDeleted)
 
 	// get stage instance from DB instance, and call callback function
-	sliceofpointertogongstructfieldStaged := (*backRepo.BackRepoSliceOfPointerToGongStructField.Map_SliceOfPointerToGongStructFieldDBID_SliceOfPointerToGongStructFieldPtr)[sliceofpointertogongstructfieldDB.ID]
+	sliceofpointertogongstructfieldStaged := backRepo.BackRepoSliceOfPointerToGongStructField.Map_SliceOfPointerToGongStructFieldDBID_SliceOfPointerToGongStructFieldPtr[sliceofpointertogongstructfieldDB.ID]
 	if sliceofpointertogongstructfieldStaged != nil {
 		models.AfterDeleteFromFront(backRepo.GetStage(), sliceofpointertogongstructfieldStaged, sliceofpointertogongstructfieldDeleted)
 	}

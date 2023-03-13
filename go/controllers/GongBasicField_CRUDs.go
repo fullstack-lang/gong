@@ -151,7 +151,7 @@ func (controller *Controller) PostGongBasicField(c *gin.Context) {
 
 	// get an instance (not staged) from DB instance, and call callback function
 	backRepo.BackRepoGongBasicField.CheckoutPhaseOneInstance(&gongbasicfieldDB)
-	gongbasicfield := (*backRepo.BackRepoGongBasicField.Map_GongBasicFieldDBID_GongBasicFieldPtr)[gongbasicfieldDB.ID]
+	gongbasicfield := backRepo.BackRepoGongBasicField.Map_GongBasicFieldDBID_GongBasicFieldPtr[gongbasicfieldDB.ID]
 
 	if gongbasicfield != nil {
 		models.AfterCreateFromFront(backRepo.GetStage(), gongbasicfield)
@@ -273,7 +273,7 @@ func (controller *Controller) UpdateGongBasicField(c *gin.Context) {
 	gongbasicfieldDB.CopyBasicFieldsToGongBasicField(gongbasicfieldNew)
 
 	// get stage instance from DB instance, and call callback function
-	gongbasicfieldOld := (*backRepo.BackRepoGongBasicField.Map_GongBasicFieldDBID_GongBasicFieldPtr)[gongbasicfieldDB.ID]
+	gongbasicfieldOld := backRepo.BackRepoGongBasicField.Map_GongBasicFieldDBID_GongBasicFieldPtr[gongbasicfieldDB.ID]
 	if gongbasicfieldOld != nil {
 		models.AfterUpdateFromFront(backRepo.GetStage(), gongbasicfieldOld, gongbasicfieldNew)
 	}
@@ -330,7 +330,7 @@ func (controller *Controller) DeleteGongBasicField(c *gin.Context) {
 	gongbasicfieldDB.CopyBasicFieldsToGongBasicField(gongbasicfieldDeleted)
 
 	// get stage instance from DB instance, and call callback function
-	gongbasicfieldStaged := (*backRepo.BackRepoGongBasicField.Map_GongBasicFieldDBID_GongBasicFieldPtr)[gongbasicfieldDB.ID]
+	gongbasicfieldStaged := backRepo.BackRepoGongBasicField.Map_GongBasicFieldDBID_GongBasicFieldPtr[gongbasicfieldDB.ID]
 	if gongbasicfieldStaged != nil {
 		models.AfterDeleteFromFront(backRepo.GetStage(), gongbasicfieldStaged, gongbasicfieldDeleted)
 	}

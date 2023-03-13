@@ -151,7 +151,7 @@ func (controller *Controller) PostGongNote(c *gin.Context) {
 
 	// get an instance (not staged) from DB instance, and call callback function
 	backRepo.BackRepoGongNote.CheckoutPhaseOneInstance(&gongnoteDB)
-	gongnote := (*backRepo.BackRepoGongNote.Map_GongNoteDBID_GongNotePtr)[gongnoteDB.ID]
+	gongnote := backRepo.BackRepoGongNote.Map_GongNoteDBID_GongNotePtr[gongnoteDB.ID]
 
 	if gongnote != nil {
 		models.AfterCreateFromFront(backRepo.GetStage(), gongnote)
@@ -273,7 +273,7 @@ func (controller *Controller) UpdateGongNote(c *gin.Context) {
 	gongnoteDB.CopyBasicFieldsToGongNote(gongnoteNew)
 
 	// get stage instance from DB instance, and call callback function
-	gongnoteOld := (*backRepo.BackRepoGongNote.Map_GongNoteDBID_GongNotePtr)[gongnoteDB.ID]
+	gongnoteOld := backRepo.BackRepoGongNote.Map_GongNoteDBID_GongNotePtr[gongnoteDB.ID]
 	if gongnoteOld != nil {
 		models.AfterUpdateFromFront(backRepo.GetStage(), gongnoteOld, gongnoteNew)
 	}
@@ -330,7 +330,7 @@ func (controller *Controller) DeleteGongNote(c *gin.Context) {
 	gongnoteDB.CopyBasicFieldsToGongNote(gongnoteDeleted)
 
 	// get stage instance from DB instance, and call callback function
-	gongnoteStaged := (*backRepo.BackRepoGongNote.Map_GongNoteDBID_GongNotePtr)[gongnoteDB.ID]
+	gongnoteStaged := backRepo.BackRepoGongNote.Map_GongNoteDBID_GongNotePtr[gongnoteDB.ID]
 	if gongnoteStaged != nil {
 		models.AfterDeleteFromFront(backRepo.GetStage(), gongnoteStaged, gongnoteDeleted)
 	}

@@ -151,7 +151,7 @@ func (controller *Controller) PostModelPkg(c *gin.Context) {
 
 	// get an instance (not staged) from DB instance, and call callback function
 	backRepo.BackRepoModelPkg.CheckoutPhaseOneInstance(&modelpkgDB)
-	modelpkg := (*backRepo.BackRepoModelPkg.Map_ModelPkgDBID_ModelPkgPtr)[modelpkgDB.ID]
+	modelpkg := backRepo.BackRepoModelPkg.Map_ModelPkgDBID_ModelPkgPtr[modelpkgDB.ID]
 
 	if modelpkg != nil {
 		models.AfterCreateFromFront(backRepo.GetStage(), modelpkg)
@@ -273,7 +273,7 @@ func (controller *Controller) UpdateModelPkg(c *gin.Context) {
 	modelpkgDB.CopyBasicFieldsToModelPkg(modelpkgNew)
 
 	// get stage instance from DB instance, and call callback function
-	modelpkgOld := (*backRepo.BackRepoModelPkg.Map_ModelPkgDBID_ModelPkgPtr)[modelpkgDB.ID]
+	modelpkgOld := backRepo.BackRepoModelPkg.Map_ModelPkgDBID_ModelPkgPtr[modelpkgDB.ID]
 	if modelpkgOld != nil {
 		models.AfterUpdateFromFront(backRepo.GetStage(), modelpkgOld, modelpkgNew)
 	}
@@ -330,7 +330,7 @@ func (controller *Controller) DeleteModelPkg(c *gin.Context) {
 	modelpkgDB.CopyBasicFieldsToModelPkg(modelpkgDeleted)
 
 	// get stage instance from DB instance, and call callback function
-	modelpkgStaged := (*backRepo.BackRepoModelPkg.Map_ModelPkgDBID_ModelPkgPtr)[modelpkgDB.ID]
+	modelpkgStaged := backRepo.BackRepoModelPkg.Map_ModelPkgDBID_ModelPkgPtr[modelpkgDB.ID]
 	if modelpkgStaged != nil {
 		models.AfterDeleteFromFront(backRepo.GetStage(), modelpkgStaged, modelpkgDeleted)
 	}
