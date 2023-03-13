@@ -31,33 +31,19 @@ func (nodeCb *NodeCB) FillUpTreeOfGongObjects() {
 		// append to the tree
 		gongstructRootNode.Children = append(gongstructRootNode.Children, nodeGongstruct)
 
-		SetNodeBackPointer(gongStruct, gongStructImpl)
-
 		for _, field := range gongStruct.Fields {
 			nodeGongField := (&gongdoc_models.Node{Name: field.GetName()}).Stage(nodeCb.diagramPackage.Stage_)
 
 			nodeGongField.HasCheckboxButton = true
 
 			fieldImpl := new(FieldImpl)
-			fieldImpl.node = nodeGongstruct
+			fieldImpl.node = nodeGongField
 			fieldImpl.field = field
 			fieldImpl.nodeCb = nodeCb
 			nodeGongField.Impl = fieldImpl
 
 			// append to tree
 			nodeGongstruct.Children = append(nodeGongstruct.Children, nodeGongField)
-
-			switch fieldReal := field.(type) {
-			case *gong_models.GongBasicField:
-				SetNodeBackPointer(fieldReal, fieldImpl)
-			case *gong_models.GongTimeField:
-				SetNodeBackPointer(fieldReal, fieldImpl)
-			case *gong_models.PointerToGongStructField:
-				SetNodeBackPointer(fieldReal, fieldImpl)
-			case *gong_models.SliceOfPointerToGongStructField:
-				SetNodeBackPointer(fieldReal, fieldImpl)
-			default:
-			}
 		}
 	}
 
@@ -78,7 +64,6 @@ func (nodeCb *NodeCB) FillUpTreeOfGongObjects() {
 
 		// append to tree
 		gongenumRootNode.Children = append(gongenumRootNode.Children, nodeGongEnum)
-		SetNodeBackPointer(gongEnum, gongEnumImpl)
 
 		for _, gongEnumValue := range gongEnum.GongEnumValues {
 			nodeGongEnumValue := (&gongdoc_models.Node{Name: gongEnumValue.GetName()}).Stage(nodeCb.diagramPackage.Stage_)
@@ -86,14 +71,14 @@ func (nodeCb *NodeCB) FillUpTreeOfGongObjects() {
 			nodeGongEnumValue.HasCheckboxButton = true
 
 			gongEnumValueImpl := new(GongEnumValueImpl)
-			gongEnumValueImpl.node = nodeGongEnum
+			gongEnumValueImpl.node = nodeGongEnumValue
 			gongEnumValueImpl.gongEnumValue = gongEnumValue
 			gongEnumValueImpl.nodeCb = nodeCb
 			nodeGongEnumValue.Impl = gongEnumValueImpl
 
 			// append to tree
 			nodeGongEnum.Children = append(nodeGongEnum.Children, nodeGongEnumValue)
-			SetNodeBackPointer(gongEnumValue, gongEnumValueImpl)
+
 		}
 	}
 
@@ -102,21 +87,19 @@ func (nodeCb *NodeCB) FillUpTreeOfGongObjects() {
 	gongTree.RootNodes = append(gongTree.RootNodes, gongNotesRootNode)
 	for gongNote := range *gong_models.GetGongstructInstancesSet[gong_models.GongNote]() {
 
-		node := (&gongdoc_models.Node{Name: gongNote.Name}).Stage(nodeCb.diagramPackage.Stage_)
-		node.HasCheckboxButton = true
+		nodeGongNote := (&gongdoc_models.Node{Name: gongNote.Name}).Stage(nodeCb.diagramPackage.Stage_)
+		nodeGongNote.HasCheckboxButton = true
 
-		node.IsExpanded = true
+		nodeGongNote.IsExpanded = true
 
 		gongNoteImpl := new(GongNoteImpl)
-		gongNoteImpl.node = node
+		gongNoteImpl.node = nodeGongNote
 		gongNoteImpl.gongNote = gongNote
 		gongNoteImpl.nodeCb = nodeCb
-		node.Impl = gongNoteImpl
+		nodeGongNote.Impl = gongNoteImpl
 
 		// append to tree
-		gongNotesRootNode.Children = append(gongNotesRootNode.Children, node)
-
-		SetNodeBackPointer(gongNote, gongNoteImpl)
+		gongNotesRootNode.Children = append(gongNotesRootNode.Children, nodeGongNote)
 
 		for _, gongLink := range gongNote.Links {
 
@@ -130,15 +113,14 @@ func (nodeCb *NodeCB) FillUpTreeOfGongObjects() {
 			nodeGongLink.HasCheckboxButton = true
 
 			gongLinkImpl := new(GongLinkImpl)
-			gongLinkImpl.node = node
+			gongLinkImpl.node = nodeGongLink
 			gongLinkImpl.gongLink = gongLink
 			gongLinkImpl.nodeCb = nodeCb
 			nodeGongLink.Impl = gongLinkImpl
 
 			// append to tree
-			node.Children = append(node.Children, nodeGongLink)
+			nodeGongNote.Children = append(nodeGongNote.Children, nodeGongLink)
 
-			SetNodeBackPointer(gongLink, gongLinkImpl)
 		}
 	}
 

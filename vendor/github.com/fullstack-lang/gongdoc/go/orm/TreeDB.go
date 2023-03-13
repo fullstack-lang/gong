@@ -125,21 +125,6 @@ func (backRepoTree *BackRepoTreeStruct) GetTreeDBFromTreePtr(tree *models.Tree) 
 // BackRepoTree.Init set up the BackRepo of the Tree
 func (backRepoTree *BackRepoTreeStruct) Init(stage *models.StageStruct, db *gorm.DB) (Error error) {
 
-	if backRepoTree.Map_TreeDBID_TreePtr != nil {
-		err := errors.New("In Init, backRepoTree.Map_TreeDBID_TreePtr should be nil")
-		return err
-	}
-
-	if backRepoTree.Map_TreeDBID_TreeDB != nil {
-		err := errors.New("In Init, backRepoTree.Map_TreeDBID_TreeDB should be nil")
-		return err
-	}
-
-	if backRepoTree.Map_TreePtr_TreeDBID != nil {
-		err := errors.New("In Init, backRepoTree.Map_TreePtr_TreeDBID should be nil")
-		return err
-	}
-
 	tmp := make(map[uint]*models.Tree, 0)
 	backRepoTree.Map_TreeDBID_TreePtr = &tmp
 

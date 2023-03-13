@@ -180,21 +180,6 @@ func (backRepoNoteShape *BackRepoNoteShapeStruct) GetNoteShapeDBFromNoteShapePtr
 // BackRepoNoteShape.Init set up the BackRepo of the NoteShape
 func (backRepoNoteShape *BackRepoNoteShapeStruct) Init(stage *models.StageStruct, db *gorm.DB) (Error error) {
 
-	if backRepoNoteShape.Map_NoteShapeDBID_NoteShapePtr != nil {
-		err := errors.New("In Init, backRepoNoteShape.Map_NoteShapeDBID_NoteShapePtr should be nil")
-		return err
-	}
-
-	if backRepoNoteShape.Map_NoteShapeDBID_NoteShapeDB != nil {
-		err := errors.New("In Init, backRepoNoteShape.Map_NoteShapeDBID_NoteShapeDB should be nil")
-		return err
-	}
-
-	if backRepoNoteShape.Map_NoteShapePtr_NoteShapeDBID != nil {
-		err := errors.New("In Init, backRepoNoteShape.Map_NoteShapePtr_NoteShapeDBID should be nil")
-		return err
-	}
-
 	tmp := make(map[uint]*models.NoteShape, 0)
 	backRepoNoteShape.Map_NoteShapeDBID_NoteShapePtr = &tmp
 

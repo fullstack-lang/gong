@@ -32,7 +32,7 @@ func LoadEmbeddedDiagramPackage(fs embed.FS, modelPkg *gong_models.ModelPkg) (di
 	diagramPackageAst, ok := pkgsParser["diagrams"]
 	if !ok {
 		gongdoc_node2gongdoc.FillUpNodeTree(diagramPackage)
-		gongdoc_models.Stage.Commit()
+		gongdoc_models.GetDefaultStage().Commit()
 		return diagramPackage, nil
 	}
 
@@ -42,7 +42,7 @@ func LoadEmbeddedDiagramPackage(fs embed.FS, modelPkg *gong_models.ModelPkg) (di
 	for diagramName, inFile := range diagramPackageAst.Files {
 
 		diagramName := strings.TrimSuffix(filepath.Base(diagramName), ".go")
-		diagramPackage.UnmarshallOneDiagram(&gongdoc_models.Stage, diagramName, inFile, fset)
+		diagramPackage.UnmarshallOneDiagram(gongdoc_models.GetDefaultStage(), diagramName, inFile, fset)
 	}
 
 	gongdoc_node2gongdoc.FillUpNodeTree(diagramPackage)
