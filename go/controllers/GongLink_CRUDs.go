@@ -151,7 +151,7 @@ func (controller *Controller) PostGongLink(c *gin.Context) {
 
 	// get an instance (not staged) from DB instance, and call callback function
 	backRepo.BackRepoGongLink.CheckoutPhaseOneInstance(&gonglinkDB)
-	gonglink := (*backRepo.BackRepoGongLink.Map_GongLinkDBID_GongLinkPtr)[gonglinkDB.ID]
+	gonglink := backRepo.BackRepoGongLink.Map_GongLinkDBID_GongLinkPtr[gonglinkDB.ID]
 
 	if gonglink != nil {
 		models.AfterCreateFromFront(backRepo.GetStage(), gonglink)
@@ -273,7 +273,7 @@ func (controller *Controller) UpdateGongLink(c *gin.Context) {
 	gonglinkDB.CopyBasicFieldsToGongLink(gonglinkNew)
 
 	// get stage instance from DB instance, and call callback function
-	gonglinkOld := (*backRepo.BackRepoGongLink.Map_GongLinkDBID_GongLinkPtr)[gonglinkDB.ID]
+	gonglinkOld := backRepo.BackRepoGongLink.Map_GongLinkDBID_GongLinkPtr[gonglinkDB.ID]
 	if gonglinkOld != nil {
 		models.AfterUpdateFromFront(backRepo.GetStage(), gonglinkOld, gonglinkNew)
 	}
@@ -330,7 +330,7 @@ func (controller *Controller) DeleteGongLink(c *gin.Context) {
 	gonglinkDB.CopyBasicFieldsToGongLink(gonglinkDeleted)
 
 	// get stage instance from DB instance, and call callback function
-	gonglinkStaged := (*backRepo.BackRepoGongLink.Map_GongLinkDBID_GongLinkPtr)[gonglinkDB.ID]
+	gonglinkStaged := backRepo.BackRepoGongLink.Map_GongLinkDBID_GongLinkPtr[gonglinkDB.ID]
 	if gonglinkStaged != nil {
 		models.AfterDeleteFromFront(backRepo.GetStage(), gonglinkStaged, gonglinkDeleted)
 	}

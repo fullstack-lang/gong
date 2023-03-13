@@ -111,13 +111,13 @@ var GongLink_Fields = []string{
 
 type BackRepoGongLinkStruct struct {
 	// stores GongLinkDB according to their gorm ID
-	Map_GongLinkDBID_GongLinkDB *map[uint]*GongLinkDB
+	Map_GongLinkDBID_GongLinkDB map[uint]*GongLinkDB
 
 	// stores GongLinkDB ID according to GongLink address
-	Map_GongLinkPtr_GongLinkDBID *map[*models.GongLink]uint
+	Map_GongLinkPtr_GongLinkDBID map[*models.GongLink]uint
 
 	// stores GongLink according to their gorm ID
-	Map_GongLinkDBID_GongLinkPtr *map[uint]*models.GongLink
+	Map_GongLinkDBID_GongLinkPtr map[uint]*models.GongLink
 
 	db *gorm.DB
 
@@ -135,25 +135,8 @@ func (backRepoGongLink *BackRepoGongLinkStruct) GetDB() *gorm.DB {
 
 // GetGongLinkDBFromGongLinkPtr is a handy function to access the back repo instance from the stage instance
 func (backRepoGongLink *BackRepoGongLinkStruct) GetGongLinkDBFromGongLinkPtr(gonglink *models.GongLink) (gonglinkDB *GongLinkDB) {
-	id := (*backRepoGongLink.Map_GongLinkPtr_GongLinkDBID)[gonglink]
-	gonglinkDB = (*backRepoGongLink.Map_GongLinkDBID_GongLinkDB)[id]
-	return
-}
-
-// BackRepoGongLink.Init set up the BackRepo of the GongLink
-func (backRepoGongLink *BackRepoGongLinkStruct) Init(stage *models.StageStruct, db *gorm.DB) (Error error) {
-
-	tmp := make(map[uint]*models.GongLink, 0)
-	backRepoGongLink.Map_GongLinkDBID_GongLinkPtr = &tmp
-
-	tmpDB := make(map[uint]*GongLinkDB, 0)
-	backRepoGongLink.Map_GongLinkDBID_GongLinkDB = &tmpDB
-
-	tmpID := make(map[*models.GongLink]uint, 0)
-	backRepoGongLink.Map_GongLinkPtr_GongLinkDBID = &tmpID
-
-	backRepoGongLink.db = db
-	backRepoGongLink.stage = stage
+	id := backRepoGongLink.Map_GongLinkPtr_GongLinkDBID[gonglink]
+	gonglinkDB = backRepoGongLink.Map_GongLinkDBID_GongLinkDB[id]
 	return
 }
 
@@ -167,7 +150,7 @@ func (backRepoGongLink *BackRepoGongLinkStruct) CommitPhaseOne(stage *models.Sta
 
 	// parse all backRepo instance and checks wether some instance have been unstaged
 	// in this case, remove them from the back repo
-	for id, gonglink := range *backRepoGongLink.Map_GongLinkDBID_GongLinkPtr {
+	for id, gonglink := range backRepoGongLink.Map_GongLinkDBID_GongLinkPtr {
 		if _, ok := stage.GongLinks[gonglink]; !ok {
 			backRepoGongLink.CommitDeleteInstance(id)
 		}
@@ -179,19 +162,19 @@ func (backRepoGongLink *BackRepoGongLinkStruct) CommitPhaseOne(stage *models.Sta
 // BackRepoGongLink.CommitDeleteInstance commits deletion of GongLink to the BackRepo
 func (backRepoGongLink *BackRepoGongLinkStruct) CommitDeleteInstance(id uint) (Error error) {
 
-	gonglink := (*backRepoGongLink.Map_GongLinkDBID_GongLinkPtr)[id]
+	gonglink := backRepoGongLink.Map_GongLinkDBID_GongLinkPtr[id]
 
 	// gonglink is not staged anymore, remove gonglinkDB
-	gonglinkDB := (*backRepoGongLink.Map_GongLinkDBID_GongLinkDB)[id]
+	gonglinkDB := backRepoGongLink.Map_GongLinkDBID_GongLinkDB[id]
 	query := backRepoGongLink.db.Unscoped().Delete(&gonglinkDB)
 	if query.Error != nil {
 		return query.Error
 	}
 
 	// update stores
-	delete((*backRepoGongLink.Map_GongLinkPtr_GongLinkDBID), gonglink)
-	delete((*backRepoGongLink.Map_GongLinkDBID_GongLinkPtr), id)
-	delete((*backRepoGongLink.Map_GongLinkDBID_GongLinkDB), id)
+	delete(backRepoGongLink.Map_GongLinkPtr_GongLinkDBID, gonglink)
+	delete(backRepoGongLink.Map_GongLinkDBID_GongLinkPtr, id)
+	delete(backRepoGongLink.Map_GongLinkDBID_GongLinkDB, id)
 
 	return
 }
@@ -201,7 +184,7 @@ func (backRepoGongLink *BackRepoGongLinkStruct) CommitDeleteInstance(id uint) (E
 func (backRepoGongLink *BackRepoGongLinkStruct) CommitPhaseOneInstance(gonglink *models.GongLink) (Error error) {
 
 	// check if the gonglink is not commited yet
-	if _, ok := (*backRepoGongLink.Map_GongLinkPtr_GongLinkDBID)[gonglink]; ok {
+	if _, ok := backRepoGongLink.Map_GongLinkPtr_GongLinkDBID[gonglink]; ok {
 		return
 	}
 
@@ -215,9 +198,9 @@ func (backRepoGongLink *BackRepoGongLinkStruct) CommitPhaseOneInstance(gonglink 
 	}
 
 	// update stores
-	(*backRepoGongLink.Map_GongLinkPtr_GongLinkDBID)[gonglink] = gonglinkDB.ID
-	(*backRepoGongLink.Map_GongLinkDBID_GongLinkPtr)[gonglinkDB.ID] = gonglink
-	(*backRepoGongLink.Map_GongLinkDBID_GongLinkDB)[gonglinkDB.ID] = &gonglinkDB
+	backRepoGongLink.Map_GongLinkPtr_GongLinkDBID[gonglink] = gonglinkDB.ID
+	backRepoGongLink.Map_GongLinkDBID_GongLinkPtr[gonglinkDB.ID] = gonglink
+	backRepoGongLink.Map_GongLinkDBID_GongLinkDB[gonglinkDB.ID] = &gonglinkDB
 
 	return
 }
@@ -226,7 +209,7 @@ func (backRepoGongLink *BackRepoGongLinkStruct) CommitPhaseOneInstance(gonglink 
 // Phase Two is the update of instance with the field in the database
 func (backRepoGongLink *BackRepoGongLinkStruct) CommitPhaseTwo(backRepo *BackRepoStruct) (Error error) {
 
-	for idx, gonglink := range *backRepoGongLink.Map_GongLinkDBID_GongLinkPtr {
+	for idx, gonglink := range backRepoGongLink.Map_GongLinkDBID_GongLinkPtr {
 		backRepoGongLink.CommitPhaseTwoInstance(backRepo, idx, gonglink)
 	}
 
@@ -238,7 +221,7 @@ func (backRepoGongLink *BackRepoGongLinkStruct) CommitPhaseTwo(backRepo *BackRep
 func (backRepoGongLink *BackRepoGongLinkStruct) CommitPhaseTwoInstance(backRepo *BackRepoStruct, idx uint, gonglink *models.GongLink) (Error error) {
 
 	// fetch matching gonglinkDB
-	if gonglinkDB, ok := (*backRepoGongLink.Map_GongLinkDBID_GongLinkDB)[idx]; ok {
+	if gonglinkDB, ok := backRepoGongLink.Map_GongLinkDBID_GongLinkDB[idx]; ok {
 
 		gonglinkDB.CopyBasicFieldsFromGongLink(gonglink)
 
@@ -282,7 +265,7 @@ func (backRepoGongLink *BackRepoGongLinkStruct) CheckoutPhaseOne() (Error error)
 
 		// do not remove this instance from the stage, therefore
 		// remove instance from the list of instances to be be removed from the stage
-		gonglink, ok := (*backRepoGongLink.Map_GongLinkDBID_GongLinkPtr)[gonglinkDB.ID]
+		gonglink, ok := backRepoGongLink.Map_GongLinkDBID_GongLinkPtr[gonglinkDB.ID]
 		if ok {
 			delete(gonglinkInstancesToBeRemovedFromTheStage, gonglink)
 		}
@@ -293,10 +276,10 @@ func (backRepoGongLink *BackRepoGongLinkStruct) CheckoutPhaseOne() (Error error)
 		gonglink.Unstage(backRepoGongLink.GetStage())
 
 		// remove instance from the back repo 3 maps
-		gonglinkID := (*backRepoGongLink.Map_GongLinkPtr_GongLinkDBID)[gonglink]
-		delete((*backRepoGongLink.Map_GongLinkPtr_GongLinkDBID), gonglink)
-		delete((*backRepoGongLink.Map_GongLinkDBID_GongLinkDB), gonglinkID)
-		delete((*backRepoGongLink.Map_GongLinkDBID_GongLinkPtr), gonglinkID)
+		gonglinkID := backRepoGongLink.Map_GongLinkPtr_GongLinkDBID[gonglink]
+		delete(backRepoGongLink.Map_GongLinkPtr_GongLinkDBID, gonglink)
+		delete(backRepoGongLink.Map_GongLinkDBID_GongLinkDB, gonglinkID)
+		delete(backRepoGongLink.Map_GongLinkDBID_GongLinkPtr, gonglinkID)
 	}
 
 	return
@@ -306,12 +289,12 @@ func (backRepoGongLink *BackRepoGongLinkStruct) CheckoutPhaseOne() (Error error)
 // models version of the gonglinkDB
 func (backRepoGongLink *BackRepoGongLinkStruct) CheckoutPhaseOneInstance(gonglinkDB *GongLinkDB) (Error error) {
 
-	gonglink, ok := (*backRepoGongLink.Map_GongLinkDBID_GongLinkPtr)[gonglinkDB.ID]
+	gonglink, ok := backRepoGongLink.Map_GongLinkDBID_GongLinkPtr[gonglinkDB.ID]
 	if !ok {
 		gonglink = new(models.GongLink)
 
-		(*backRepoGongLink.Map_GongLinkDBID_GongLinkPtr)[gonglinkDB.ID] = gonglink
-		(*backRepoGongLink.Map_GongLinkPtr_GongLinkDBID)[gonglink] = gonglinkDB.ID
+		backRepoGongLink.Map_GongLinkDBID_GongLinkPtr[gonglinkDB.ID] = gonglink
+		backRepoGongLink.Map_GongLinkPtr_GongLinkDBID[gonglink] = gonglinkDB.ID
 
 		// append model store with the new element
 		gonglink.Name = gonglinkDB.Name_Data.String
@@ -326,7 +309,7 @@ func (backRepoGongLink *BackRepoGongLinkStruct) CheckoutPhaseOneInstance(gonglin
 	// Map_GongLinkDBID_GongLinkDB)[gonglinkDB hold variable pointers
 	gonglinkDB_Data := *gonglinkDB
 	preservedPtrToGongLink := &gonglinkDB_Data
-	(*backRepoGongLink.Map_GongLinkDBID_GongLinkDB)[gonglinkDB.ID] = preservedPtrToGongLink
+	backRepoGongLink.Map_GongLinkDBID_GongLinkDB[gonglinkDB.ID] = preservedPtrToGongLink
 
 	return
 }
@@ -336,7 +319,7 @@ func (backRepoGongLink *BackRepoGongLinkStruct) CheckoutPhaseOneInstance(gonglin
 func (backRepoGongLink *BackRepoGongLinkStruct) CheckoutPhaseTwo(backRepo *BackRepoStruct) (Error error) {
 
 	// parse all DB instance and update all pointer fields of the translated models instance
-	for _, gonglinkDB := range *backRepoGongLink.Map_GongLinkDBID_GongLinkDB {
+	for _, gonglinkDB := range backRepoGongLink.Map_GongLinkDBID_GongLinkDB {
 		backRepoGongLink.CheckoutPhaseTwoInstance(backRepo, gonglinkDB)
 	}
 	return
@@ -346,7 +329,7 @@ func (backRepoGongLink *BackRepoGongLinkStruct) CheckoutPhaseTwo(backRepo *BackR
 // Phase Two is the update of instance with the field in the database
 func (backRepoGongLink *BackRepoGongLinkStruct) CheckoutPhaseTwoInstance(backRepo *BackRepoStruct, gonglinkDB *GongLinkDB) (Error error) {
 
-	gonglink := (*backRepoGongLink.Map_GongLinkDBID_GongLinkPtr)[gonglinkDB.ID]
+	gonglink := backRepoGongLink.Map_GongLinkDBID_GongLinkPtr[gonglinkDB.ID]
 	_ = gonglink // sometimes, there is no code generated. This lines voids the "unused variable" compilation error
 
 	// insertion point for checkout of pointer encoding
@@ -356,7 +339,7 @@ func (backRepoGongLink *BackRepoGongLinkStruct) CheckoutPhaseTwoInstance(backRep
 // CommitGongLink allows commit of a single gonglink (if already staged)
 func (backRepo *BackRepoStruct) CommitGongLink(gonglink *models.GongLink) {
 	backRepo.BackRepoGongLink.CommitPhaseOneInstance(gonglink)
-	if id, ok := (*backRepo.BackRepoGongLink.Map_GongLinkPtr_GongLinkDBID)[gonglink]; ok {
+	if id, ok := backRepo.BackRepoGongLink.Map_GongLinkPtr_GongLinkDBID[gonglink]; ok {
 		backRepo.BackRepoGongLink.CommitPhaseTwoInstance(backRepo, id, gonglink)
 	}
 	backRepo.CommitFromBackNb = backRepo.CommitFromBackNb + 1
@@ -365,9 +348,9 @@ func (backRepo *BackRepoStruct) CommitGongLink(gonglink *models.GongLink) {
 // CommitGongLink allows checkout of a single gonglink (if already staged and with a BackRepo id)
 func (backRepo *BackRepoStruct) CheckoutGongLink(gonglink *models.GongLink) {
 	// check if the gonglink is staged
-	if _, ok := (*backRepo.BackRepoGongLink.Map_GongLinkPtr_GongLinkDBID)[gonglink]; ok {
+	if _, ok := backRepo.BackRepoGongLink.Map_GongLinkPtr_GongLinkDBID[gonglink]; ok {
 
-		if id, ok := (*backRepo.BackRepoGongLink.Map_GongLinkPtr_GongLinkDBID)[gonglink]; ok {
+		if id, ok := backRepo.BackRepoGongLink.Map_GongLinkPtr_GongLinkDBID[gonglink]; ok {
 			var gonglinkDB GongLinkDB
 			gonglinkDB.ID = id
 
@@ -433,7 +416,7 @@ func (backRepoGongLink *BackRepoGongLinkStruct) Backup(dirPath string) {
 	// organize the map into an array with increasing IDs, in order to have repoductible
 	// backup file
 	forBackup := make([]*GongLinkDB, 0)
-	for _, gonglinkDB := range *backRepoGongLink.Map_GongLinkDBID_GongLinkDB {
+	for _, gonglinkDB := range backRepoGongLink.Map_GongLinkDBID_GongLinkDB {
 		forBackup = append(forBackup, gonglinkDB)
 	}
 
@@ -459,7 +442,7 @@ func (backRepoGongLink *BackRepoGongLinkStruct) BackupXL(file *xlsx.File) {
 	// organize the map into an array with increasing IDs, in order to have repoductible
 	// backup file
 	forBackup := make([]*GongLinkDB, 0)
-	for _, gonglinkDB := range *backRepoGongLink.Map_GongLinkDBID_GongLinkDB {
+	for _, gonglinkDB := range backRepoGongLink.Map_GongLinkDBID_GongLinkDB {
 		forBackup = append(forBackup, gonglinkDB)
 	}
 
@@ -524,7 +507,7 @@ func (backRepoGongLink *BackRepoGongLinkStruct) rowVisitorGongLink(row *xlsx.Row
 		if query.Error != nil {
 			log.Panic(query.Error)
 		}
-		(*backRepoGongLink.Map_GongLinkDBID_GongLinkDB)[gonglinkDB.ID] = gonglinkDB
+		backRepoGongLink.Map_GongLinkDBID_GongLinkDB[gonglinkDB.ID] = gonglinkDB
 		BackRepoGongLinkid_atBckpTime_newID[gonglinkDB_ID_atBackupTime] = gonglinkDB.ID
 	}
 	return nil
@@ -561,7 +544,7 @@ func (backRepoGongLink *BackRepoGongLinkStruct) RestorePhaseOne(dirPath string) 
 		if query.Error != nil {
 			log.Panic(query.Error)
 		}
-		(*backRepoGongLink.Map_GongLinkDBID_GongLinkDB)[gonglinkDB.ID] = gonglinkDB
+		backRepoGongLink.Map_GongLinkDBID_GongLinkDB[gonglinkDB.ID] = gonglinkDB
 		BackRepoGongLinkid_atBckpTime_newID[gonglinkDB_ID_atBackupTime] = gonglinkDB.ID
 	}
 
@@ -574,7 +557,7 @@ func (backRepoGongLink *BackRepoGongLinkStruct) RestorePhaseOne(dirPath string) 
 // to compute new index
 func (backRepoGongLink *BackRepoGongLinkStruct) RestorePhaseTwo() {
 
-	for _, gonglinkDB := range *backRepoGongLink.Map_GongLinkDBID_GongLinkDB {
+	for _, gonglinkDB := range backRepoGongLink.Map_GongLinkDBID_GongLinkDB {
 
 		// next line of code is to avert unused variable compilation error
 		_ = gonglinkDB

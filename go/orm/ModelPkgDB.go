@@ -99,13 +99,13 @@ var ModelPkg_Fields = []string{
 
 type BackRepoModelPkgStruct struct {
 	// stores ModelPkgDB according to their gorm ID
-	Map_ModelPkgDBID_ModelPkgDB *map[uint]*ModelPkgDB
+	Map_ModelPkgDBID_ModelPkgDB map[uint]*ModelPkgDB
 
 	// stores ModelPkgDB ID according to ModelPkg address
-	Map_ModelPkgPtr_ModelPkgDBID *map[*models.ModelPkg]uint
+	Map_ModelPkgPtr_ModelPkgDBID map[*models.ModelPkg]uint
 
 	// stores ModelPkg according to their gorm ID
-	Map_ModelPkgDBID_ModelPkgPtr *map[uint]*models.ModelPkg
+	Map_ModelPkgDBID_ModelPkgPtr map[uint]*models.ModelPkg
 
 	db *gorm.DB
 
@@ -123,25 +123,8 @@ func (backRepoModelPkg *BackRepoModelPkgStruct) GetDB() *gorm.DB {
 
 // GetModelPkgDBFromModelPkgPtr is a handy function to access the back repo instance from the stage instance
 func (backRepoModelPkg *BackRepoModelPkgStruct) GetModelPkgDBFromModelPkgPtr(modelpkg *models.ModelPkg) (modelpkgDB *ModelPkgDB) {
-	id := (*backRepoModelPkg.Map_ModelPkgPtr_ModelPkgDBID)[modelpkg]
-	modelpkgDB = (*backRepoModelPkg.Map_ModelPkgDBID_ModelPkgDB)[id]
-	return
-}
-
-// BackRepoModelPkg.Init set up the BackRepo of the ModelPkg
-func (backRepoModelPkg *BackRepoModelPkgStruct) Init(stage *models.StageStruct, db *gorm.DB) (Error error) {
-
-	tmp := make(map[uint]*models.ModelPkg, 0)
-	backRepoModelPkg.Map_ModelPkgDBID_ModelPkgPtr = &tmp
-
-	tmpDB := make(map[uint]*ModelPkgDB, 0)
-	backRepoModelPkg.Map_ModelPkgDBID_ModelPkgDB = &tmpDB
-
-	tmpID := make(map[*models.ModelPkg]uint, 0)
-	backRepoModelPkg.Map_ModelPkgPtr_ModelPkgDBID = &tmpID
-
-	backRepoModelPkg.db = db
-	backRepoModelPkg.stage = stage
+	id := backRepoModelPkg.Map_ModelPkgPtr_ModelPkgDBID[modelpkg]
+	modelpkgDB = backRepoModelPkg.Map_ModelPkgDBID_ModelPkgDB[id]
 	return
 }
 
@@ -155,7 +138,7 @@ func (backRepoModelPkg *BackRepoModelPkgStruct) CommitPhaseOne(stage *models.Sta
 
 	// parse all backRepo instance and checks wether some instance have been unstaged
 	// in this case, remove them from the back repo
-	for id, modelpkg := range *backRepoModelPkg.Map_ModelPkgDBID_ModelPkgPtr {
+	for id, modelpkg := range backRepoModelPkg.Map_ModelPkgDBID_ModelPkgPtr {
 		if _, ok := stage.ModelPkgs[modelpkg]; !ok {
 			backRepoModelPkg.CommitDeleteInstance(id)
 		}
@@ -167,19 +150,19 @@ func (backRepoModelPkg *BackRepoModelPkgStruct) CommitPhaseOne(stage *models.Sta
 // BackRepoModelPkg.CommitDeleteInstance commits deletion of ModelPkg to the BackRepo
 func (backRepoModelPkg *BackRepoModelPkgStruct) CommitDeleteInstance(id uint) (Error error) {
 
-	modelpkg := (*backRepoModelPkg.Map_ModelPkgDBID_ModelPkgPtr)[id]
+	modelpkg := backRepoModelPkg.Map_ModelPkgDBID_ModelPkgPtr[id]
 
 	// modelpkg is not staged anymore, remove modelpkgDB
-	modelpkgDB := (*backRepoModelPkg.Map_ModelPkgDBID_ModelPkgDB)[id]
+	modelpkgDB := backRepoModelPkg.Map_ModelPkgDBID_ModelPkgDB[id]
 	query := backRepoModelPkg.db.Unscoped().Delete(&modelpkgDB)
 	if query.Error != nil {
 		return query.Error
 	}
 
 	// update stores
-	delete((*backRepoModelPkg.Map_ModelPkgPtr_ModelPkgDBID), modelpkg)
-	delete((*backRepoModelPkg.Map_ModelPkgDBID_ModelPkgPtr), id)
-	delete((*backRepoModelPkg.Map_ModelPkgDBID_ModelPkgDB), id)
+	delete(backRepoModelPkg.Map_ModelPkgPtr_ModelPkgDBID, modelpkg)
+	delete(backRepoModelPkg.Map_ModelPkgDBID_ModelPkgPtr, id)
+	delete(backRepoModelPkg.Map_ModelPkgDBID_ModelPkgDB, id)
 
 	return
 }
@@ -189,7 +172,7 @@ func (backRepoModelPkg *BackRepoModelPkgStruct) CommitDeleteInstance(id uint) (E
 func (backRepoModelPkg *BackRepoModelPkgStruct) CommitPhaseOneInstance(modelpkg *models.ModelPkg) (Error error) {
 
 	// check if the modelpkg is not commited yet
-	if _, ok := (*backRepoModelPkg.Map_ModelPkgPtr_ModelPkgDBID)[modelpkg]; ok {
+	if _, ok := backRepoModelPkg.Map_ModelPkgPtr_ModelPkgDBID[modelpkg]; ok {
 		return
 	}
 
@@ -203,9 +186,9 @@ func (backRepoModelPkg *BackRepoModelPkgStruct) CommitPhaseOneInstance(modelpkg 
 	}
 
 	// update stores
-	(*backRepoModelPkg.Map_ModelPkgPtr_ModelPkgDBID)[modelpkg] = modelpkgDB.ID
-	(*backRepoModelPkg.Map_ModelPkgDBID_ModelPkgPtr)[modelpkgDB.ID] = modelpkg
-	(*backRepoModelPkg.Map_ModelPkgDBID_ModelPkgDB)[modelpkgDB.ID] = &modelpkgDB
+	backRepoModelPkg.Map_ModelPkgPtr_ModelPkgDBID[modelpkg] = modelpkgDB.ID
+	backRepoModelPkg.Map_ModelPkgDBID_ModelPkgPtr[modelpkgDB.ID] = modelpkg
+	backRepoModelPkg.Map_ModelPkgDBID_ModelPkgDB[modelpkgDB.ID] = &modelpkgDB
 
 	return
 }
@@ -214,7 +197,7 @@ func (backRepoModelPkg *BackRepoModelPkgStruct) CommitPhaseOneInstance(modelpkg 
 // Phase Two is the update of instance with the field in the database
 func (backRepoModelPkg *BackRepoModelPkgStruct) CommitPhaseTwo(backRepo *BackRepoStruct) (Error error) {
 
-	for idx, modelpkg := range *backRepoModelPkg.Map_ModelPkgDBID_ModelPkgPtr {
+	for idx, modelpkg := range backRepoModelPkg.Map_ModelPkgDBID_ModelPkgPtr {
 		backRepoModelPkg.CommitPhaseTwoInstance(backRepo, idx, modelpkg)
 	}
 
@@ -226,7 +209,7 @@ func (backRepoModelPkg *BackRepoModelPkgStruct) CommitPhaseTwo(backRepo *BackRep
 func (backRepoModelPkg *BackRepoModelPkgStruct) CommitPhaseTwoInstance(backRepo *BackRepoStruct, idx uint, modelpkg *models.ModelPkg) (Error error) {
 
 	// fetch matching modelpkgDB
-	if modelpkgDB, ok := (*backRepoModelPkg.Map_ModelPkgDBID_ModelPkgDB)[idx]; ok {
+	if modelpkgDB, ok := backRepoModelPkg.Map_ModelPkgDBID_ModelPkgDB[idx]; ok {
 
 		modelpkgDB.CopyBasicFieldsFromModelPkg(modelpkg)
 
@@ -270,7 +253,7 @@ func (backRepoModelPkg *BackRepoModelPkgStruct) CheckoutPhaseOne() (Error error)
 
 		// do not remove this instance from the stage, therefore
 		// remove instance from the list of instances to be be removed from the stage
-		modelpkg, ok := (*backRepoModelPkg.Map_ModelPkgDBID_ModelPkgPtr)[modelpkgDB.ID]
+		modelpkg, ok := backRepoModelPkg.Map_ModelPkgDBID_ModelPkgPtr[modelpkgDB.ID]
 		if ok {
 			delete(modelpkgInstancesToBeRemovedFromTheStage, modelpkg)
 		}
@@ -281,10 +264,10 @@ func (backRepoModelPkg *BackRepoModelPkgStruct) CheckoutPhaseOne() (Error error)
 		modelpkg.Unstage(backRepoModelPkg.GetStage())
 
 		// remove instance from the back repo 3 maps
-		modelpkgID := (*backRepoModelPkg.Map_ModelPkgPtr_ModelPkgDBID)[modelpkg]
-		delete((*backRepoModelPkg.Map_ModelPkgPtr_ModelPkgDBID), modelpkg)
-		delete((*backRepoModelPkg.Map_ModelPkgDBID_ModelPkgDB), modelpkgID)
-		delete((*backRepoModelPkg.Map_ModelPkgDBID_ModelPkgPtr), modelpkgID)
+		modelpkgID := backRepoModelPkg.Map_ModelPkgPtr_ModelPkgDBID[modelpkg]
+		delete(backRepoModelPkg.Map_ModelPkgPtr_ModelPkgDBID, modelpkg)
+		delete(backRepoModelPkg.Map_ModelPkgDBID_ModelPkgDB, modelpkgID)
+		delete(backRepoModelPkg.Map_ModelPkgDBID_ModelPkgPtr, modelpkgID)
 	}
 
 	return
@@ -294,12 +277,12 @@ func (backRepoModelPkg *BackRepoModelPkgStruct) CheckoutPhaseOne() (Error error)
 // models version of the modelpkgDB
 func (backRepoModelPkg *BackRepoModelPkgStruct) CheckoutPhaseOneInstance(modelpkgDB *ModelPkgDB) (Error error) {
 
-	modelpkg, ok := (*backRepoModelPkg.Map_ModelPkgDBID_ModelPkgPtr)[modelpkgDB.ID]
+	modelpkg, ok := backRepoModelPkg.Map_ModelPkgDBID_ModelPkgPtr[modelpkgDB.ID]
 	if !ok {
 		modelpkg = new(models.ModelPkg)
 
-		(*backRepoModelPkg.Map_ModelPkgDBID_ModelPkgPtr)[modelpkgDB.ID] = modelpkg
-		(*backRepoModelPkg.Map_ModelPkgPtr_ModelPkgDBID)[modelpkg] = modelpkgDB.ID
+		backRepoModelPkg.Map_ModelPkgDBID_ModelPkgPtr[modelpkgDB.ID] = modelpkg
+		backRepoModelPkg.Map_ModelPkgPtr_ModelPkgDBID[modelpkg] = modelpkgDB.ID
 
 		// append model store with the new element
 		modelpkg.Name = modelpkgDB.Name_Data.String
@@ -314,7 +297,7 @@ func (backRepoModelPkg *BackRepoModelPkgStruct) CheckoutPhaseOneInstance(modelpk
 	// Map_ModelPkgDBID_ModelPkgDB)[modelpkgDB hold variable pointers
 	modelpkgDB_Data := *modelpkgDB
 	preservedPtrToModelPkg := &modelpkgDB_Data
-	(*backRepoModelPkg.Map_ModelPkgDBID_ModelPkgDB)[modelpkgDB.ID] = preservedPtrToModelPkg
+	backRepoModelPkg.Map_ModelPkgDBID_ModelPkgDB[modelpkgDB.ID] = preservedPtrToModelPkg
 
 	return
 }
@@ -324,7 +307,7 @@ func (backRepoModelPkg *BackRepoModelPkgStruct) CheckoutPhaseOneInstance(modelpk
 func (backRepoModelPkg *BackRepoModelPkgStruct) CheckoutPhaseTwo(backRepo *BackRepoStruct) (Error error) {
 
 	// parse all DB instance and update all pointer fields of the translated models instance
-	for _, modelpkgDB := range *backRepoModelPkg.Map_ModelPkgDBID_ModelPkgDB {
+	for _, modelpkgDB := range backRepoModelPkg.Map_ModelPkgDBID_ModelPkgDB {
 		backRepoModelPkg.CheckoutPhaseTwoInstance(backRepo, modelpkgDB)
 	}
 	return
@@ -334,7 +317,7 @@ func (backRepoModelPkg *BackRepoModelPkgStruct) CheckoutPhaseTwo(backRepo *BackR
 // Phase Two is the update of instance with the field in the database
 func (backRepoModelPkg *BackRepoModelPkgStruct) CheckoutPhaseTwoInstance(backRepo *BackRepoStruct, modelpkgDB *ModelPkgDB) (Error error) {
 
-	modelpkg := (*backRepoModelPkg.Map_ModelPkgDBID_ModelPkgPtr)[modelpkgDB.ID]
+	modelpkg := backRepoModelPkg.Map_ModelPkgDBID_ModelPkgPtr[modelpkgDB.ID]
 	_ = modelpkg // sometimes, there is no code generated. This lines voids the "unused variable" compilation error
 
 	// insertion point for checkout of pointer encoding
@@ -344,7 +327,7 @@ func (backRepoModelPkg *BackRepoModelPkgStruct) CheckoutPhaseTwoInstance(backRep
 // CommitModelPkg allows commit of a single modelpkg (if already staged)
 func (backRepo *BackRepoStruct) CommitModelPkg(modelpkg *models.ModelPkg) {
 	backRepo.BackRepoModelPkg.CommitPhaseOneInstance(modelpkg)
-	if id, ok := (*backRepo.BackRepoModelPkg.Map_ModelPkgPtr_ModelPkgDBID)[modelpkg]; ok {
+	if id, ok := backRepo.BackRepoModelPkg.Map_ModelPkgPtr_ModelPkgDBID[modelpkg]; ok {
 		backRepo.BackRepoModelPkg.CommitPhaseTwoInstance(backRepo, id, modelpkg)
 	}
 	backRepo.CommitFromBackNb = backRepo.CommitFromBackNb + 1
@@ -353,9 +336,9 @@ func (backRepo *BackRepoStruct) CommitModelPkg(modelpkg *models.ModelPkg) {
 // CommitModelPkg allows checkout of a single modelpkg (if already staged and with a BackRepo id)
 func (backRepo *BackRepoStruct) CheckoutModelPkg(modelpkg *models.ModelPkg) {
 	// check if the modelpkg is staged
-	if _, ok := (*backRepo.BackRepoModelPkg.Map_ModelPkgPtr_ModelPkgDBID)[modelpkg]; ok {
+	if _, ok := backRepo.BackRepoModelPkg.Map_ModelPkgPtr_ModelPkgDBID[modelpkg]; ok {
 
-		if id, ok := (*backRepo.BackRepoModelPkg.Map_ModelPkgPtr_ModelPkgDBID)[modelpkg]; ok {
+		if id, ok := backRepo.BackRepoModelPkg.Map_ModelPkgPtr_ModelPkgDBID[modelpkg]; ok {
 			var modelpkgDB ModelPkgDB
 			modelpkgDB.ID = id
 
@@ -413,7 +396,7 @@ func (backRepoModelPkg *BackRepoModelPkgStruct) Backup(dirPath string) {
 	// organize the map into an array with increasing IDs, in order to have repoductible
 	// backup file
 	forBackup := make([]*ModelPkgDB, 0)
-	for _, modelpkgDB := range *backRepoModelPkg.Map_ModelPkgDBID_ModelPkgDB {
+	for _, modelpkgDB := range backRepoModelPkg.Map_ModelPkgDBID_ModelPkgDB {
 		forBackup = append(forBackup, modelpkgDB)
 	}
 
@@ -439,7 +422,7 @@ func (backRepoModelPkg *BackRepoModelPkgStruct) BackupXL(file *xlsx.File) {
 	// organize the map into an array with increasing IDs, in order to have repoductible
 	// backup file
 	forBackup := make([]*ModelPkgDB, 0)
-	for _, modelpkgDB := range *backRepoModelPkg.Map_ModelPkgDBID_ModelPkgDB {
+	for _, modelpkgDB := range backRepoModelPkg.Map_ModelPkgDBID_ModelPkgDB {
 		forBackup = append(forBackup, modelpkgDB)
 	}
 
@@ -504,7 +487,7 @@ func (backRepoModelPkg *BackRepoModelPkgStruct) rowVisitorModelPkg(row *xlsx.Row
 		if query.Error != nil {
 			log.Panic(query.Error)
 		}
-		(*backRepoModelPkg.Map_ModelPkgDBID_ModelPkgDB)[modelpkgDB.ID] = modelpkgDB
+		backRepoModelPkg.Map_ModelPkgDBID_ModelPkgDB[modelpkgDB.ID] = modelpkgDB
 		BackRepoModelPkgid_atBckpTime_newID[modelpkgDB_ID_atBackupTime] = modelpkgDB.ID
 	}
 	return nil
@@ -541,7 +524,7 @@ func (backRepoModelPkg *BackRepoModelPkgStruct) RestorePhaseOne(dirPath string) 
 		if query.Error != nil {
 			log.Panic(query.Error)
 		}
-		(*backRepoModelPkg.Map_ModelPkgDBID_ModelPkgDB)[modelpkgDB.ID] = modelpkgDB
+		backRepoModelPkg.Map_ModelPkgDBID_ModelPkgDB[modelpkgDB.ID] = modelpkgDB
 		BackRepoModelPkgid_atBckpTime_newID[modelpkgDB_ID_atBackupTime] = modelpkgDB.ID
 	}
 
@@ -554,7 +537,7 @@ func (backRepoModelPkg *BackRepoModelPkgStruct) RestorePhaseOne(dirPath string) 
 // to compute new index
 func (backRepoModelPkg *BackRepoModelPkgStruct) RestorePhaseTwo() {
 
-	for _, modelpkgDB := range *backRepoModelPkg.Map_ModelPkgDBID_ModelPkgDB {
+	for _, modelpkgDB := range backRepoModelPkg.Map_ModelPkgDBID_ModelPkgDB {
 
 		// next line of code is to avert unused variable compilation error
 		_ = modelpkgDB

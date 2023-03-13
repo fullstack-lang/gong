@@ -151,7 +151,7 @@ func (controller *Controller) PostGongStruct(c *gin.Context) {
 
 	// get an instance (not staged) from DB instance, and call callback function
 	backRepo.BackRepoGongStruct.CheckoutPhaseOneInstance(&gongstructDB)
-	gongstruct := (*backRepo.BackRepoGongStruct.Map_GongStructDBID_GongStructPtr)[gongstructDB.ID]
+	gongstruct := backRepo.BackRepoGongStruct.Map_GongStructDBID_GongStructPtr[gongstructDB.ID]
 
 	if gongstruct != nil {
 		models.AfterCreateFromFront(backRepo.GetStage(), gongstruct)
@@ -273,7 +273,7 @@ func (controller *Controller) UpdateGongStruct(c *gin.Context) {
 	gongstructDB.CopyBasicFieldsToGongStruct(gongstructNew)
 
 	// get stage instance from DB instance, and call callback function
-	gongstructOld := (*backRepo.BackRepoGongStruct.Map_GongStructDBID_GongStructPtr)[gongstructDB.ID]
+	gongstructOld := backRepo.BackRepoGongStruct.Map_GongStructDBID_GongStructPtr[gongstructDB.ID]
 	if gongstructOld != nil {
 		models.AfterUpdateFromFront(backRepo.GetStage(), gongstructOld, gongstructNew)
 	}
@@ -330,7 +330,7 @@ func (controller *Controller) DeleteGongStruct(c *gin.Context) {
 	gongstructDB.CopyBasicFieldsToGongStruct(gongstructDeleted)
 
 	// get stage instance from DB instance, and call callback function
-	gongstructStaged := (*backRepo.BackRepoGongStruct.Map_GongStructDBID_GongStructPtr)[gongstructDB.ID]
+	gongstructStaged := backRepo.BackRepoGongStruct.Map_GongStructDBID_GongStructPtr[gongstructDB.ID]
 	if gongstructStaged != nil {
 		models.AfterDeleteFromFront(backRepo.GetStage(), gongstructStaged, gongstructDeleted)
 	}

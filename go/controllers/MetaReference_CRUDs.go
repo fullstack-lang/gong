@@ -151,7 +151,7 @@ func (controller *Controller) PostMetaReference(c *gin.Context) {
 
 	// get an instance (not staged) from DB instance, and call callback function
 	backRepo.BackRepoMetaReference.CheckoutPhaseOneInstance(&metareferenceDB)
-	metareference := (*backRepo.BackRepoMetaReference.Map_MetaReferenceDBID_MetaReferencePtr)[metareferenceDB.ID]
+	metareference := backRepo.BackRepoMetaReference.Map_MetaReferenceDBID_MetaReferencePtr[metareferenceDB.ID]
 
 	if metareference != nil {
 		models.AfterCreateFromFront(backRepo.GetStage(), metareference)
@@ -273,7 +273,7 @@ func (controller *Controller) UpdateMetaReference(c *gin.Context) {
 	metareferenceDB.CopyBasicFieldsToMetaReference(metareferenceNew)
 
 	// get stage instance from DB instance, and call callback function
-	metareferenceOld := (*backRepo.BackRepoMetaReference.Map_MetaReferenceDBID_MetaReferencePtr)[metareferenceDB.ID]
+	metareferenceOld := backRepo.BackRepoMetaReference.Map_MetaReferenceDBID_MetaReferencePtr[metareferenceDB.ID]
 	if metareferenceOld != nil {
 		models.AfterUpdateFromFront(backRepo.GetStage(), metareferenceOld, metareferenceNew)
 	}
@@ -330,7 +330,7 @@ func (controller *Controller) DeleteMetaReference(c *gin.Context) {
 	metareferenceDB.CopyBasicFieldsToMetaReference(metareferenceDeleted)
 
 	// get stage instance from DB instance, and call callback function
-	metareferenceStaged := (*backRepo.BackRepoMetaReference.Map_MetaReferenceDBID_MetaReferencePtr)[metareferenceDB.ID]
+	metareferenceStaged := backRepo.BackRepoMetaReference.Map_MetaReferenceDBID_MetaReferencePtr[metareferenceDB.ID]
 	if metareferenceStaged != nil {
 		models.AfterDeleteFromFront(backRepo.GetStage(), metareferenceStaged, metareferenceDeleted)
 	}
