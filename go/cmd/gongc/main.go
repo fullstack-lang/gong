@@ -328,14 +328,6 @@ func main() {
 
 	golang.GongAstGenerator(modelPkg, *pkgPath)
 
-	// generate files
-	gong_models.SimpleCodeGeneratorForGongStructWithNameField(
-		modelPkg,
-		modelPkg.Name,
-		modelPkg.PkgPath,
-		filepath.Join(*pkgPath, "../orm/setup.go"),
-		golang.OrmFileSetupTemplate, golang.OrmSetupCumulSubTemplateCode)
-
 	gong_models.SimpleCodeGeneratorForGongStructWithNameField(
 		modelPkg,
 		modelPkg.Name,
