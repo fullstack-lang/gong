@@ -630,15 +630,15 @@ func GetGongstructInstancesSet[Type Gongstruct](stages ...*StageStruct) *map[*Ty
 	switch any(ret).(type) {
 	// insertion point for generic get functions
 	case Astruct:
-		return any(stage.Astructs).(*map[*Type]any)
+		return any(&stage.Astructs).(*map[*Type]any)
 	case AstructBstruct2Use:
-		return any(stage.AstructBstruct2Uses).(*map[*Type]any)
+		return any(&stage.AstructBstruct2Uses).(*map[*Type]any)
 	case AstructBstructUse:
-		return any(stage.AstructBstructUses).(*map[*Type]any)
+		return any(&stage.AstructBstructUses).(*map[*Type]any)
 	case Bstruct:
-		return any(stage.Bstructs).(*map[*Type]any)
+		return any(&stage.Bstructs).(*map[*Type]any)
 	case Dstruct:
-		return any(stage.Dstructs).(*map[*Type]any)
+		return any(&stage.Dstructs).(*map[*Type]any)
 	default:
 		return nil
 	}
@@ -660,15 +660,15 @@ func GetGongstructInstancesMap[Type Gongstruct](stages ...*StageStruct) *map[str
 	switch any(ret).(type) {
 	// insertion point for generic get functions
 	case Astruct:
-		return any(stage.Astructs_mapString).(*map[string]*Type)
+		return any(&stage.Astructs_mapString).(*map[string]*Type)
 	case AstructBstruct2Use:
-		return any(stage.AstructBstruct2Uses_mapString).(*map[string]*Type)
+		return any(&stage.AstructBstruct2Uses_mapString).(*map[string]*Type)
 	case AstructBstructUse:
-		return any(stage.AstructBstructUses_mapString).(*map[string]*Type)
+		return any(&stage.AstructBstructUses_mapString).(*map[string]*Type)
 	case Bstruct:
-		return any(stage.Bstructs_mapString).(*map[string]*Type)
+		return any(&stage.Bstructs_mapString).(*map[string]*Type)
 	case Dstruct:
-		return any(stage.Dstructs_mapString).(*map[string]*Type)
+		return any(&stage.Dstructs_mapString).(*map[string]*Type)
 	default:
 		return nil
 	}
