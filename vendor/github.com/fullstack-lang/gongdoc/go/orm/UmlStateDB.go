@@ -143,21 +143,6 @@ func (backRepoUmlState *BackRepoUmlStateStruct) GetUmlStateDBFromUmlStatePtr(uml
 // BackRepoUmlState.Init set up the BackRepo of the UmlState
 func (backRepoUmlState *BackRepoUmlStateStruct) Init(stage *models.StageStruct, db *gorm.DB) (Error error) {
 
-	if backRepoUmlState.Map_UmlStateDBID_UmlStatePtr != nil {
-		err := errors.New("In Init, backRepoUmlState.Map_UmlStateDBID_UmlStatePtr should be nil")
-		return err
-	}
-
-	if backRepoUmlState.Map_UmlStateDBID_UmlStateDB != nil {
-		err := errors.New("In Init, backRepoUmlState.Map_UmlStateDBID_UmlStateDB should be nil")
-		return err
-	}
-
-	if backRepoUmlState.Map_UmlStatePtr_UmlStateDBID != nil {
-		err := errors.New("In Init, backRepoUmlState.Map_UmlStatePtr_UmlStateDBID should be nil")
-		return err
-	}
-
 	tmp := make(map[uint]*models.UmlState, 0)
 	backRepoUmlState.Map_UmlStateDBID_UmlStatePtr = &tmp
 

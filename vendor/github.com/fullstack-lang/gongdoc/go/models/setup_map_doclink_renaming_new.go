@@ -62,5 +62,5 @@ func SetupMapDocLinkRenamingNew(gongdocStage *StageStruct, diagramPackage *Diagr
 		map_DocLink_Renaming[noteShape.Identifier] = identifier
 	}
 
-	Stage.Map_DocLink_Renaming = map_DocLink_Renaming
+	gongdocStage.Map_DocLink_Renaming = map_DocLink_Renaming
 }

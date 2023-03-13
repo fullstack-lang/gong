@@ -31,9 +31,9 @@ func Load(
 	embeddedDiagrams bool,
 	map_StructName_InstanceNb *map[string]int) {
 
-	gongStack, _ := gong_fullstack.NewStackInstance(r, "")
-	gongdoc_fullstack.Init(r)
-	modelPackage, _ := gong_models.LoadEmbedded(gongStack, goSourceDirectories)
+	gongStage := gong_fullstack.NewStackInstance(r, "")
+	gongdoc_fullstack.NewStackInstance(r, "")
+	modelPackage, _ := gong_models.LoadEmbedded(gongStage, goSourceDirectories)
 	modelPackage.Name = stackName
 	modelPackage.PkgPath = pkgPath
 
@@ -41,11 +41,8 @@ func Load(
 	// prepare the model views
 	var diagramPackage *gongdoc_models.DiagramPackage
 
-	gongStage := gong_models.Stage
-	_ = gongStage
-
-	gongdoc_models.Stage.MetaPackageImportAlias = stackName
-	gongdoc_models.Stage.MetaPackageImportPath = pkgPath
+	gongdoc_models.GetDefaultStage().MetaPackageImportAlias = stackName
+	gongdoc_models.GetDefaultStage().MetaPackageImportPath = pkgPath
 
 	if embeddedDiagrams {
 		diagramPackage, _ = LoadEmbeddedDiagramPackage(goSourceDirectories, modelPackage)
@@ -55,7 +52,7 @@ func Load(
 	diagramPackage.GongModelPath = pkgPath
 
 	// first, get all gong struct in the model
-	for gongStruct := range gong_models.Stage.GongStructs {
+	for gongStruct := range gongStage.GongStructs {
 		nbInstances, ok := (*map_StructName_InstanceNb)[gongStruct.Name]
 		if ok {
 			diagramPackage.Map_Identifier_NbInstances[gongStruct.Name] = nbInstances
@@ -63,7 +60,7 @@ func Load(
 	}
 
 	// to be removed after fix of [issue](https://github.com/golang/go/issues/57559)
-	gongdoc_models.SetupMapDocLinkRenaming()
+	gongdoc_models.SetupMapDocLinkRenaming(diagramPackage.Stage_)
 	// end of the be removed
 
 	// set up the number of instance per classshape

@@ -143,21 +143,6 @@ func (backRepoNoteShapeLink *BackRepoNoteShapeLinkStruct) GetNoteShapeLinkDBFrom
 // BackRepoNoteShapeLink.Init set up the BackRepo of the NoteShapeLink
 func (backRepoNoteShapeLink *BackRepoNoteShapeLinkStruct) Init(stage *models.StageStruct, db *gorm.DB) (Error error) {
 
-	if backRepoNoteShapeLink.Map_NoteShapeLinkDBID_NoteShapeLinkPtr != nil {
-		err := errors.New("In Init, backRepoNoteShapeLink.Map_NoteShapeLinkDBID_NoteShapeLinkPtr should be nil")
-		return err
-	}
-
-	if backRepoNoteShapeLink.Map_NoteShapeLinkDBID_NoteShapeLinkDB != nil {
-		err := errors.New("In Init, backRepoNoteShapeLink.Map_NoteShapeLinkDBID_NoteShapeLinkDB should be nil")
-		return err
-	}
-
-	if backRepoNoteShapeLink.Map_NoteShapeLinkPtr_NoteShapeLinkDBID != nil {
-		err := errors.New("In Init, backRepoNoteShapeLink.Map_NoteShapeLinkPtr_NoteShapeLinkDBID should be nil")
-		return err
-	}
-
 	tmp := make(map[uint]*models.NoteShapeLink, 0)
 	backRepoNoteShapeLink.Map_NoteShapeLinkDBID_NoteShapeLinkPtr = &tmp
 
