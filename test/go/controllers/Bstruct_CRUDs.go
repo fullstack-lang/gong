@@ -151,7 +151,7 @@ func (controller *Controller) PostBstruct(c *gin.Context) {
 
 	// get an instance (not staged) from DB instance, and call callback function
 	backRepo.BackRepoBstruct.CheckoutPhaseOneInstance(&bstructDB)
-	bstruct := (*backRepo.BackRepoBstruct.Map_BstructDBID_BstructPtr)[bstructDB.ID]
+	bstruct := backRepo.BackRepoBstruct.Map_BstructDBID_BstructPtr[bstructDB.ID]
 
 	if bstruct != nil {
 		models.AfterCreateFromFront(backRepo.GetStage(), bstruct)
@@ -273,7 +273,7 @@ func (controller *Controller) UpdateBstruct(c *gin.Context) {
 	bstructDB.CopyBasicFieldsToBstruct(bstructNew)
 
 	// get stage instance from DB instance, and call callback function
-	bstructOld := (*backRepo.BackRepoBstruct.Map_BstructDBID_BstructPtr)[bstructDB.ID]
+	bstructOld := backRepo.BackRepoBstruct.Map_BstructDBID_BstructPtr[bstructDB.ID]
 	if bstructOld != nil {
 		models.AfterUpdateFromFront(backRepo.GetStage(), bstructOld, bstructNew)
 	}
@@ -330,7 +330,7 @@ func (controller *Controller) DeleteBstruct(c *gin.Context) {
 	bstructDB.CopyBasicFieldsToBstruct(bstructDeleted)
 
 	// get stage instance from DB instance, and call callback function
-	bstructStaged := (*backRepo.BackRepoBstruct.Map_BstructDBID_BstructPtr)[bstructDB.ID]
+	bstructStaged := backRepo.BackRepoBstruct.Map_BstructDBID_BstructPtr[bstructDB.ID]
 	if bstructStaged != nil {
 		models.AfterDeleteFromFront(backRepo.GetStage(), bstructStaged, bstructDeleted)
 	}
