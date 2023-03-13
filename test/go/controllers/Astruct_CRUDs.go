@@ -151,7 +151,7 @@ func (controller *Controller) PostAstruct(c *gin.Context) {
 
 	// get an instance (not staged) from DB instance, and call callback function
 	backRepo.BackRepoAstruct.CheckoutPhaseOneInstance(&astructDB)
-	astruct := (*backRepo.BackRepoAstruct.Map_AstructDBID_AstructPtr)[astructDB.ID]
+	astruct := backRepo.BackRepoAstruct.Map_AstructDBID_AstructPtr[astructDB.ID]
 
 	if astruct != nil {
 		models.AfterCreateFromFront(backRepo.GetStage(), astruct)
@@ -273,7 +273,7 @@ func (controller *Controller) UpdateAstruct(c *gin.Context) {
 	astructDB.CopyBasicFieldsToAstruct(astructNew)
 
 	// get stage instance from DB instance, and call callback function
-	astructOld := (*backRepo.BackRepoAstruct.Map_AstructDBID_AstructPtr)[astructDB.ID]
+	astructOld := backRepo.BackRepoAstruct.Map_AstructDBID_AstructPtr[astructDB.ID]
 	if astructOld != nil {
 		models.AfterUpdateFromFront(backRepo.GetStage(), astructOld, astructNew)
 	}
@@ -330,7 +330,7 @@ func (controller *Controller) DeleteAstruct(c *gin.Context) {
 	astructDB.CopyBasicFieldsToAstruct(astructDeleted)
 
 	// get stage instance from DB instance, and call callback function
-	astructStaged := (*backRepo.BackRepoAstruct.Map_AstructDBID_AstructPtr)[astructDB.ID]
+	astructStaged := backRepo.BackRepoAstruct.Map_AstructDBID_AstructPtr[astructDB.ID]
 	if astructStaged != nil {
 		models.AfterDeleteFromFront(backRepo.GetStage(), astructStaged, astructDeleted)
 	}

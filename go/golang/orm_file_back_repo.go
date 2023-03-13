@@ -253,7 +253,14 @@ map[string]string{
 `,
 
 	string(rune(BackRepoPerStructInits)): `
-	backRepo.BackRepo{{Structname}}.Init(stage, db)`,
+	backRepo.BackRepo{{Structname}} = BackRepo{{Structname}}Struct{
+		Map_{{Structname}}DBID_{{Structname}}Ptr: make(map[uint]*models.{{Structname}}, 0),
+		Map_{{Structname}}DBID_{{Structname}}DB:  make(map[uint]*{{Structname}}DB, 0),
+		Map_{{Structname}}Ptr_{{Structname}}DBID: make(map[*models.{{Structname}}]uint, 0),
+
+		db:    db,
+		stage: stage,
+	}`,
 
 	string(rune(BackRepoPerStructRefToStructDB)): `
 		&{{Structname}}DB{},`,

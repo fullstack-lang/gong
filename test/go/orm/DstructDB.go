@@ -93,13 +93,13 @@ var Dstruct_Fields = []string{
 
 type BackRepoDstructStruct struct {
 	// stores DstructDB according to their gorm ID
-	Map_DstructDBID_DstructDB *map[uint]*DstructDB
+	Map_DstructDBID_DstructDB map[uint]*DstructDB
 
 	// stores DstructDB ID according to Dstruct address
-	Map_DstructPtr_DstructDBID *map[*models.Dstruct]uint
+	Map_DstructPtr_DstructDBID map[*models.Dstruct]uint
 
 	// stores Dstruct according to their gorm ID
-	Map_DstructDBID_DstructPtr *map[uint]*models.Dstruct
+	Map_DstructDBID_DstructPtr map[uint]*models.Dstruct
 
 	db *gorm.DB
 
@@ -117,25 +117,8 @@ func (backRepoDstruct *BackRepoDstructStruct) GetDB() *gorm.DB {
 
 // GetDstructDBFromDstructPtr is a handy function to access the back repo instance from the stage instance
 func (backRepoDstruct *BackRepoDstructStruct) GetDstructDBFromDstructPtr(dstruct *models.Dstruct) (dstructDB *DstructDB) {
-	id := (*backRepoDstruct.Map_DstructPtr_DstructDBID)[dstruct]
-	dstructDB = (*backRepoDstruct.Map_DstructDBID_DstructDB)[id]
-	return
-}
-
-// BackRepoDstruct.Init set up the BackRepo of the Dstruct
-func (backRepoDstruct *BackRepoDstructStruct) Init(stage *models.StageStruct, db *gorm.DB) (Error error) {
-
-	tmp := make(map[uint]*models.Dstruct, 0)
-	backRepoDstruct.Map_DstructDBID_DstructPtr = &tmp
-
-	tmpDB := make(map[uint]*DstructDB, 0)
-	backRepoDstruct.Map_DstructDBID_DstructDB = &tmpDB
-
-	tmpID := make(map[*models.Dstruct]uint, 0)
-	backRepoDstruct.Map_DstructPtr_DstructDBID = &tmpID
-
-	backRepoDstruct.db = db
-	backRepoDstruct.stage = stage
+	id := backRepoDstruct.Map_DstructPtr_DstructDBID[dstruct]
+	dstructDB = backRepoDstruct.Map_DstructDBID_DstructDB[id]
 	return
 }
 
@@ -149,7 +132,7 @@ func (backRepoDstruct *BackRepoDstructStruct) CommitPhaseOne(stage *models.Stage
 
 	// parse all backRepo instance and checks wether some instance have been unstaged
 	// in this case, remove them from the back repo
-	for id, dstruct := range *backRepoDstruct.Map_DstructDBID_DstructPtr {
+	for id, dstruct := range backRepoDstruct.Map_DstructDBID_DstructPtr {
 		if _, ok := stage.Dstructs[dstruct]; !ok {
 			backRepoDstruct.CommitDeleteInstance(id)
 		}
@@ -161,19 +144,19 @@ func (backRepoDstruct *BackRepoDstructStruct) CommitPhaseOne(stage *models.Stage
 // BackRepoDstruct.CommitDeleteInstance commits deletion of Dstruct to the BackRepo
 func (backRepoDstruct *BackRepoDstructStruct) CommitDeleteInstance(id uint) (Error error) {
 
-	dstruct := (*backRepoDstruct.Map_DstructDBID_DstructPtr)[id]
+	dstruct := backRepoDstruct.Map_DstructDBID_DstructPtr[id]
 
 	// dstruct is not staged anymore, remove dstructDB
-	dstructDB := (*backRepoDstruct.Map_DstructDBID_DstructDB)[id]
+	dstructDB := backRepoDstruct.Map_DstructDBID_DstructDB[id]
 	query := backRepoDstruct.db.Unscoped().Delete(&dstructDB)
 	if query.Error != nil {
 		return query.Error
 	}
 
 	// update stores
-	delete((*backRepoDstruct.Map_DstructPtr_DstructDBID), dstruct)
-	delete((*backRepoDstruct.Map_DstructDBID_DstructPtr), id)
-	delete((*backRepoDstruct.Map_DstructDBID_DstructDB), id)
+	delete(backRepoDstruct.Map_DstructPtr_DstructDBID, dstruct)
+	delete(backRepoDstruct.Map_DstructDBID_DstructPtr, id)
+	delete(backRepoDstruct.Map_DstructDBID_DstructDB, id)
 
 	return
 }
@@ -183,7 +166,7 @@ func (backRepoDstruct *BackRepoDstructStruct) CommitDeleteInstance(id uint) (Err
 func (backRepoDstruct *BackRepoDstructStruct) CommitPhaseOneInstance(dstruct *models.Dstruct) (Error error) {
 
 	// check if the dstruct is not commited yet
-	if _, ok := (*backRepoDstruct.Map_DstructPtr_DstructDBID)[dstruct]; ok {
+	if _, ok := backRepoDstruct.Map_DstructPtr_DstructDBID[dstruct]; ok {
 		return
 	}
 
@@ -197,9 +180,9 @@ func (backRepoDstruct *BackRepoDstructStruct) CommitPhaseOneInstance(dstruct *mo
 	}
 
 	// update stores
-	(*backRepoDstruct.Map_DstructPtr_DstructDBID)[dstruct] = dstructDB.ID
-	(*backRepoDstruct.Map_DstructDBID_DstructPtr)[dstructDB.ID] = dstruct
-	(*backRepoDstruct.Map_DstructDBID_DstructDB)[dstructDB.ID] = &dstructDB
+	backRepoDstruct.Map_DstructPtr_DstructDBID[dstruct] = dstructDB.ID
+	backRepoDstruct.Map_DstructDBID_DstructPtr[dstructDB.ID] = dstruct
+	backRepoDstruct.Map_DstructDBID_DstructDB[dstructDB.ID] = &dstructDB
 
 	return
 }
@@ -208,7 +191,7 @@ func (backRepoDstruct *BackRepoDstructStruct) CommitPhaseOneInstance(dstruct *mo
 // Phase Two is the update of instance with the field in the database
 func (backRepoDstruct *BackRepoDstructStruct) CommitPhaseTwo(backRepo *BackRepoStruct) (Error error) {
 
-	for idx, dstruct := range *backRepoDstruct.Map_DstructDBID_DstructPtr {
+	for idx, dstruct := range backRepoDstruct.Map_DstructDBID_DstructPtr {
 		backRepoDstruct.CommitPhaseTwoInstance(backRepo, idx, dstruct)
 	}
 
@@ -220,7 +203,7 @@ func (backRepoDstruct *BackRepoDstructStruct) CommitPhaseTwo(backRepo *BackRepoS
 func (backRepoDstruct *BackRepoDstructStruct) CommitPhaseTwoInstance(backRepo *BackRepoStruct, idx uint, dstruct *models.Dstruct) (Error error) {
 
 	// fetch matching dstructDB
-	if dstructDB, ok := (*backRepoDstruct.Map_DstructDBID_DstructDB)[idx]; ok {
+	if dstructDB, ok := backRepoDstruct.Map_DstructDBID_DstructDB[idx]; ok {
 
 		dstructDB.CopyBasicFieldsFromDstruct(dstruct)
 
@@ -264,7 +247,7 @@ func (backRepoDstruct *BackRepoDstructStruct) CheckoutPhaseOne() (Error error) {
 
 		// do not remove this instance from the stage, therefore
 		// remove instance from the list of instances to be be removed from the stage
-		dstruct, ok := (*backRepoDstruct.Map_DstructDBID_DstructPtr)[dstructDB.ID]
+		dstruct, ok := backRepoDstruct.Map_DstructDBID_DstructPtr[dstructDB.ID]
 		if ok {
 			delete(dstructInstancesToBeRemovedFromTheStage, dstruct)
 		}
@@ -275,10 +258,10 @@ func (backRepoDstruct *BackRepoDstructStruct) CheckoutPhaseOne() (Error error) {
 		dstruct.Unstage(backRepoDstruct.GetStage())
 
 		// remove instance from the back repo 3 maps
-		dstructID := (*backRepoDstruct.Map_DstructPtr_DstructDBID)[dstruct]
-		delete((*backRepoDstruct.Map_DstructPtr_DstructDBID), dstruct)
-		delete((*backRepoDstruct.Map_DstructDBID_DstructDB), dstructID)
-		delete((*backRepoDstruct.Map_DstructDBID_DstructPtr), dstructID)
+		dstructID := backRepoDstruct.Map_DstructPtr_DstructDBID[dstruct]
+		delete(backRepoDstruct.Map_DstructPtr_DstructDBID, dstruct)
+		delete(backRepoDstruct.Map_DstructDBID_DstructDB, dstructID)
+		delete(backRepoDstruct.Map_DstructDBID_DstructPtr, dstructID)
 	}
 
 	return
@@ -288,12 +271,12 @@ func (backRepoDstruct *BackRepoDstructStruct) CheckoutPhaseOne() (Error error) {
 // models version of the dstructDB
 func (backRepoDstruct *BackRepoDstructStruct) CheckoutPhaseOneInstance(dstructDB *DstructDB) (Error error) {
 
-	dstruct, ok := (*backRepoDstruct.Map_DstructDBID_DstructPtr)[dstructDB.ID]
+	dstruct, ok := backRepoDstruct.Map_DstructDBID_DstructPtr[dstructDB.ID]
 	if !ok {
 		dstruct = new(models.Dstruct)
 
-		(*backRepoDstruct.Map_DstructDBID_DstructPtr)[dstructDB.ID] = dstruct
-		(*backRepoDstruct.Map_DstructPtr_DstructDBID)[dstruct] = dstructDB.ID
+		backRepoDstruct.Map_DstructDBID_DstructPtr[dstructDB.ID] = dstruct
+		backRepoDstruct.Map_DstructPtr_DstructDBID[dstruct] = dstructDB.ID
 
 		// append model store with the new element
 		dstruct.Name = dstructDB.Name_Data.String
@@ -308,7 +291,7 @@ func (backRepoDstruct *BackRepoDstructStruct) CheckoutPhaseOneInstance(dstructDB
 	// Map_DstructDBID_DstructDB)[dstructDB hold variable pointers
 	dstructDB_Data := *dstructDB
 	preservedPtrToDstruct := &dstructDB_Data
-	(*backRepoDstruct.Map_DstructDBID_DstructDB)[dstructDB.ID] = preservedPtrToDstruct
+	backRepoDstruct.Map_DstructDBID_DstructDB[dstructDB.ID] = preservedPtrToDstruct
 
 	return
 }
@@ -318,7 +301,7 @@ func (backRepoDstruct *BackRepoDstructStruct) CheckoutPhaseOneInstance(dstructDB
 func (backRepoDstruct *BackRepoDstructStruct) CheckoutPhaseTwo(backRepo *BackRepoStruct) (Error error) {
 
 	// parse all DB instance and update all pointer fields of the translated models instance
-	for _, dstructDB := range *backRepoDstruct.Map_DstructDBID_DstructDB {
+	for _, dstructDB := range backRepoDstruct.Map_DstructDBID_DstructDB {
 		backRepoDstruct.CheckoutPhaseTwoInstance(backRepo, dstructDB)
 	}
 	return
@@ -328,7 +311,7 @@ func (backRepoDstruct *BackRepoDstructStruct) CheckoutPhaseTwo(backRepo *BackRep
 // Phase Two is the update of instance with the field in the database
 func (backRepoDstruct *BackRepoDstructStruct) CheckoutPhaseTwoInstance(backRepo *BackRepoStruct, dstructDB *DstructDB) (Error error) {
 
-	dstruct := (*backRepoDstruct.Map_DstructDBID_DstructPtr)[dstructDB.ID]
+	dstruct := backRepoDstruct.Map_DstructDBID_DstructPtr[dstructDB.ID]
 	_ = dstruct // sometimes, there is no code generated. This lines voids the "unused variable" compilation error
 
 	// insertion point for checkout of pointer encoding
@@ -338,7 +321,7 @@ func (backRepoDstruct *BackRepoDstructStruct) CheckoutPhaseTwoInstance(backRepo 
 // CommitDstruct allows commit of a single dstruct (if already staged)
 func (backRepo *BackRepoStruct) CommitDstruct(dstruct *models.Dstruct) {
 	backRepo.BackRepoDstruct.CommitPhaseOneInstance(dstruct)
-	if id, ok := (*backRepo.BackRepoDstruct.Map_DstructPtr_DstructDBID)[dstruct]; ok {
+	if id, ok := backRepo.BackRepoDstruct.Map_DstructPtr_DstructDBID[dstruct]; ok {
 		backRepo.BackRepoDstruct.CommitPhaseTwoInstance(backRepo, id, dstruct)
 	}
 	backRepo.CommitFromBackNb = backRepo.CommitFromBackNb + 1
@@ -347,9 +330,9 @@ func (backRepo *BackRepoStruct) CommitDstruct(dstruct *models.Dstruct) {
 // CommitDstruct allows checkout of a single dstruct (if already staged and with a BackRepo id)
 func (backRepo *BackRepoStruct) CheckoutDstruct(dstruct *models.Dstruct) {
 	// check if the dstruct is staged
-	if _, ok := (*backRepo.BackRepoDstruct.Map_DstructPtr_DstructDBID)[dstruct]; ok {
+	if _, ok := backRepo.BackRepoDstruct.Map_DstructPtr_DstructDBID[dstruct]; ok {
 
-		if id, ok := (*backRepo.BackRepoDstruct.Map_DstructPtr_DstructDBID)[dstruct]; ok {
+		if id, ok := backRepo.BackRepoDstruct.Map_DstructPtr_DstructDBID[dstruct]; ok {
 			var dstructDB DstructDB
 			dstructDB.ID = id
 
@@ -399,7 +382,7 @@ func (backRepoDstruct *BackRepoDstructStruct) Backup(dirPath string) {
 	// organize the map into an array with increasing IDs, in order to have repoductible
 	// backup file
 	forBackup := make([]*DstructDB, 0)
-	for _, dstructDB := range *backRepoDstruct.Map_DstructDBID_DstructDB {
+	for _, dstructDB := range backRepoDstruct.Map_DstructDBID_DstructDB {
 		forBackup = append(forBackup, dstructDB)
 	}
 
@@ -425,7 +408,7 @@ func (backRepoDstruct *BackRepoDstructStruct) BackupXL(file *xlsx.File) {
 	// organize the map into an array with increasing IDs, in order to have repoductible
 	// backup file
 	forBackup := make([]*DstructDB, 0)
-	for _, dstructDB := range *backRepoDstruct.Map_DstructDBID_DstructDB {
+	for _, dstructDB := range backRepoDstruct.Map_DstructDBID_DstructDB {
 		forBackup = append(forBackup, dstructDB)
 	}
 
@@ -490,7 +473,7 @@ func (backRepoDstruct *BackRepoDstructStruct) rowVisitorDstruct(row *xlsx.Row) e
 		if query.Error != nil {
 			log.Panic(query.Error)
 		}
-		(*backRepoDstruct.Map_DstructDBID_DstructDB)[dstructDB.ID] = dstructDB
+		backRepoDstruct.Map_DstructDBID_DstructDB[dstructDB.ID] = dstructDB
 		BackRepoDstructid_atBckpTime_newID[dstructDB_ID_atBackupTime] = dstructDB.ID
 	}
 	return nil
@@ -527,7 +510,7 @@ func (backRepoDstruct *BackRepoDstructStruct) RestorePhaseOne(dirPath string) {
 		if query.Error != nil {
 			log.Panic(query.Error)
 		}
-		(*backRepoDstruct.Map_DstructDBID_DstructDB)[dstructDB.ID] = dstructDB
+		backRepoDstruct.Map_DstructDBID_DstructDB[dstructDB.ID] = dstructDB
 		BackRepoDstructid_atBckpTime_newID[dstructDB_ID_atBackupTime] = dstructDB.ID
 	}
 
@@ -540,7 +523,7 @@ func (backRepoDstruct *BackRepoDstructStruct) RestorePhaseOne(dirPath string) {
 // to compute new index
 func (backRepoDstruct *BackRepoDstructStruct) RestorePhaseTwo() {
 
-	for _, dstructDB := range *backRepoDstruct.Map_DstructDBID_DstructDB {
+	for _, dstructDB := range backRepoDstruct.Map_DstructDBID_DstructDB {
 
 		// next line of code is to avert unused variable compilation error
 		_ = dstructDB

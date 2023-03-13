@@ -123,13 +123,13 @@ var Bstruct_Fields = []string{
 
 type BackRepoBstructStruct struct {
 	// stores BstructDB according to their gorm ID
-	Map_BstructDBID_BstructDB *map[uint]*BstructDB
+	Map_BstructDBID_BstructDB map[uint]*BstructDB
 
 	// stores BstructDB ID according to Bstruct address
-	Map_BstructPtr_BstructDBID *map[*models.Bstruct]uint
+	Map_BstructPtr_BstructDBID map[*models.Bstruct]uint
 
 	// stores Bstruct according to their gorm ID
-	Map_BstructDBID_BstructPtr *map[uint]*models.Bstruct
+	Map_BstructDBID_BstructPtr map[uint]*models.Bstruct
 
 	db *gorm.DB
 
@@ -147,25 +147,8 @@ func (backRepoBstruct *BackRepoBstructStruct) GetDB() *gorm.DB {
 
 // GetBstructDBFromBstructPtr is a handy function to access the back repo instance from the stage instance
 func (backRepoBstruct *BackRepoBstructStruct) GetBstructDBFromBstructPtr(bstruct *models.Bstruct) (bstructDB *BstructDB) {
-	id := (*backRepoBstruct.Map_BstructPtr_BstructDBID)[bstruct]
-	bstructDB = (*backRepoBstruct.Map_BstructDBID_BstructDB)[id]
-	return
-}
-
-// BackRepoBstruct.Init set up the BackRepo of the Bstruct
-func (backRepoBstruct *BackRepoBstructStruct) Init(stage *models.StageStruct, db *gorm.DB) (Error error) {
-
-	tmp := make(map[uint]*models.Bstruct, 0)
-	backRepoBstruct.Map_BstructDBID_BstructPtr = &tmp
-
-	tmpDB := make(map[uint]*BstructDB, 0)
-	backRepoBstruct.Map_BstructDBID_BstructDB = &tmpDB
-
-	tmpID := make(map[*models.Bstruct]uint, 0)
-	backRepoBstruct.Map_BstructPtr_BstructDBID = &tmpID
-
-	backRepoBstruct.db = db
-	backRepoBstruct.stage = stage
+	id := backRepoBstruct.Map_BstructPtr_BstructDBID[bstruct]
+	bstructDB = backRepoBstruct.Map_BstructDBID_BstructDB[id]
 	return
 }
 
@@ -179,7 +162,7 @@ func (backRepoBstruct *BackRepoBstructStruct) CommitPhaseOne(stage *models.Stage
 
 	// parse all backRepo instance and checks wether some instance have been unstaged
 	// in this case, remove them from the back repo
-	for id, bstruct := range *backRepoBstruct.Map_BstructDBID_BstructPtr {
+	for id, bstruct := range backRepoBstruct.Map_BstructDBID_BstructPtr {
 		if _, ok := stage.Bstructs[bstruct]; !ok {
 			backRepoBstruct.CommitDeleteInstance(id)
 		}
@@ -191,19 +174,19 @@ func (backRepoBstruct *BackRepoBstructStruct) CommitPhaseOne(stage *models.Stage
 // BackRepoBstruct.CommitDeleteInstance commits deletion of Bstruct to the BackRepo
 func (backRepoBstruct *BackRepoBstructStruct) CommitDeleteInstance(id uint) (Error error) {
 
-	bstruct := (*backRepoBstruct.Map_BstructDBID_BstructPtr)[id]
+	bstruct := backRepoBstruct.Map_BstructDBID_BstructPtr[id]
 
 	// bstruct is not staged anymore, remove bstructDB
-	bstructDB := (*backRepoBstruct.Map_BstructDBID_BstructDB)[id]
+	bstructDB := backRepoBstruct.Map_BstructDBID_BstructDB[id]
 	query := backRepoBstruct.db.Unscoped().Delete(&bstructDB)
 	if query.Error != nil {
 		return query.Error
 	}
 
 	// update stores
-	delete((*backRepoBstruct.Map_BstructPtr_BstructDBID), bstruct)
-	delete((*backRepoBstruct.Map_BstructDBID_BstructPtr), id)
-	delete((*backRepoBstruct.Map_BstructDBID_BstructDB), id)
+	delete(backRepoBstruct.Map_BstructPtr_BstructDBID, bstruct)
+	delete(backRepoBstruct.Map_BstructDBID_BstructPtr, id)
+	delete(backRepoBstruct.Map_BstructDBID_BstructDB, id)
 
 	return
 }
@@ -213,7 +196,7 @@ func (backRepoBstruct *BackRepoBstructStruct) CommitDeleteInstance(id uint) (Err
 func (backRepoBstruct *BackRepoBstructStruct) CommitPhaseOneInstance(bstruct *models.Bstruct) (Error error) {
 
 	// check if the bstruct is not commited yet
-	if _, ok := (*backRepoBstruct.Map_BstructPtr_BstructDBID)[bstruct]; ok {
+	if _, ok := backRepoBstruct.Map_BstructPtr_BstructDBID[bstruct]; ok {
 		return
 	}
 
@@ -227,9 +210,9 @@ func (backRepoBstruct *BackRepoBstructStruct) CommitPhaseOneInstance(bstruct *mo
 	}
 
 	// update stores
-	(*backRepoBstruct.Map_BstructPtr_BstructDBID)[bstruct] = bstructDB.ID
-	(*backRepoBstruct.Map_BstructDBID_BstructPtr)[bstructDB.ID] = bstruct
-	(*backRepoBstruct.Map_BstructDBID_BstructDB)[bstructDB.ID] = &bstructDB
+	backRepoBstruct.Map_BstructPtr_BstructDBID[bstruct] = bstructDB.ID
+	backRepoBstruct.Map_BstructDBID_BstructPtr[bstructDB.ID] = bstruct
+	backRepoBstruct.Map_BstructDBID_BstructDB[bstructDB.ID] = &bstructDB
 
 	return
 }
@@ -238,7 +221,7 @@ func (backRepoBstruct *BackRepoBstructStruct) CommitPhaseOneInstance(bstruct *mo
 // Phase Two is the update of instance with the field in the database
 func (backRepoBstruct *BackRepoBstructStruct) CommitPhaseTwo(backRepo *BackRepoStruct) (Error error) {
 
-	for idx, bstruct := range *backRepoBstruct.Map_BstructDBID_BstructPtr {
+	for idx, bstruct := range backRepoBstruct.Map_BstructDBID_BstructPtr {
 		backRepoBstruct.CommitPhaseTwoInstance(backRepo, idx, bstruct)
 	}
 
@@ -250,7 +233,7 @@ func (backRepoBstruct *BackRepoBstructStruct) CommitPhaseTwo(backRepo *BackRepoS
 func (backRepoBstruct *BackRepoBstructStruct) CommitPhaseTwoInstance(backRepo *BackRepoStruct, idx uint, bstruct *models.Bstruct) (Error error) {
 
 	// fetch matching bstructDB
-	if bstructDB, ok := (*backRepoBstruct.Map_BstructDBID_BstructDB)[idx]; ok {
+	if bstructDB, ok := backRepoBstruct.Map_BstructDBID_BstructDB[idx]; ok {
 
 		bstructDB.CopyBasicFieldsFromBstruct(bstruct)
 
@@ -294,7 +277,7 @@ func (backRepoBstruct *BackRepoBstructStruct) CheckoutPhaseOne() (Error error) {
 
 		// do not remove this instance from the stage, therefore
 		// remove instance from the list of instances to be be removed from the stage
-		bstruct, ok := (*backRepoBstruct.Map_BstructDBID_BstructPtr)[bstructDB.ID]
+		bstruct, ok := backRepoBstruct.Map_BstructDBID_BstructPtr[bstructDB.ID]
 		if ok {
 			delete(bstructInstancesToBeRemovedFromTheStage, bstruct)
 		}
@@ -305,10 +288,10 @@ func (backRepoBstruct *BackRepoBstructStruct) CheckoutPhaseOne() (Error error) {
 		bstruct.Unstage(backRepoBstruct.GetStage())
 
 		// remove instance from the back repo 3 maps
-		bstructID := (*backRepoBstruct.Map_BstructPtr_BstructDBID)[bstruct]
-		delete((*backRepoBstruct.Map_BstructPtr_BstructDBID), bstruct)
-		delete((*backRepoBstruct.Map_BstructDBID_BstructDB), bstructID)
-		delete((*backRepoBstruct.Map_BstructDBID_BstructPtr), bstructID)
+		bstructID := backRepoBstruct.Map_BstructPtr_BstructDBID[bstruct]
+		delete(backRepoBstruct.Map_BstructPtr_BstructDBID, bstruct)
+		delete(backRepoBstruct.Map_BstructDBID_BstructDB, bstructID)
+		delete(backRepoBstruct.Map_BstructDBID_BstructPtr, bstructID)
 	}
 
 	return
@@ -318,12 +301,12 @@ func (backRepoBstruct *BackRepoBstructStruct) CheckoutPhaseOne() (Error error) {
 // models version of the bstructDB
 func (backRepoBstruct *BackRepoBstructStruct) CheckoutPhaseOneInstance(bstructDB *BstructDB) (Error error) {
 
-	bstruct, ok := (*backRepoBstruct.Map_BstructDBID_BstructPtr)[bstructDB.ID]
+	bstruct, ok := backRepoBstruct.Map_BstructDBID_BstructPtr[bstructDB.ID]
 	if !ok {
 		bstruct = new(models.Bstruct)
 
-		(*backRepoBstruct.Map_BstructDBID_BstructPtr)[bstructDB.ID] = bstruct
-		(*backRepoBstruct.Map_BstructPtr_BstructDBID)[bstruct] = bstructDB.ID
+		backRepoBstruct.Map_BstructDBID_BstructPtr[bstructDB.ID] = bstruct
+		backRepoBstruct.Map_BstructPtr_BstructDBID[bstruct] = bstructDB.ID
 
 		// append model store with the new element
 		bstruct.Name = bstructDB.Name_Data.String
@@ -338,7 +321,7 @@ func (backRepoBstruct *BackRepoBstructStruct) CheckoutPhaseOneInstance(bstructDB
 	// Map_BstructDBID_BstructDB)[bstructDB hold variable pointers
 	bstructDB_Data := *bstructDB
 	preservedPtrToBstruct := &bstructDB_Data
-	(*backRepoBstruct.Map_BstructDBID_BstructDB)[bstructDB.ID] = preservedPtrToBstruct
+	backRepoBstruct.Map_BstructDBID_BstructDB[bstructDB.ID] = preservedPtrToBstruct
 
 	return
 }
@@ -348,7 +331,7 @@ func (backRepoBstruct *BackRepoBstructStruct) CheckoutPhaseOneInstance(bstructDB
 func (backRepoBstruct *BackRepoBstructStruct) CheckoutPhaseTwo(backRepo *BackRepoStruct) (Error error) {
 
 	// parse all DB instance and update all pointer fields of the translated models instance
-	for _, bstructDB := range *backRepoBstruct.Map_BstructDBID_BstructDB {
+	for _, bstructDB := range backRepoBstruct.Map_BstructDBID_BstructDB {
 		backRepoBstruct.CheckoutPhaseTwoInstance(backRepo, bstructDB)
 	}
 	return
@@ -358,7 +341,7 @@ func (backRepoBstruct *BackRepoBstructStruct) CheckoutPhaseTwo(backRepo *BackRep
 // Phase Two is the update of instance with the field in the database
 func (backRepoBstruct *BackRepoBstructStruct) CheckoutPhaseTwoInstance(backRepo *BackRepoStruct, bstructDB *BstructDB) (Error error) {
 
-	bstruct := (*backRepoBstruct.Map_BstructDBID_BstructPtr)[bstructDB.ID]
+	bstruct := backRepoBstruct.Map_BstructDBID_BstructPtr[bstructDB.ID]
 	_ = bstruct // sometimes, there is no code generated. This lines voids the "unused variable" compilation error
 
 	// insertion point for checkout of pointer encoding
@@ -368,7 +351,7 @@ func (backRepoBstruct *BackRepoBstructStruct) CheckoutPhaseTwoInstance(backRepo 
 // CommitBstruct allows commit of a single bstruct (if already staged)
 func (backRepo *BackRepoStruct) CommitBstruct(bstruct *models.Bstruct) {
 	backRepo.BackRepoBstruct.CommitPhaseOneInstance(bstruct)
-	if id, ok := (*backRepo.BackRepoBstruct.Map_BstructPtr_BstructDBID)[bstruct]; ok {
+	if id, ok := backRepo.BackRepoBstruct.Map_BstructPtr_BstructDBID[bstruct]; ok {
 		backRepo.BackRepoBstruct.CommitPhaseTwoInstance(backRepo, id, bstruct)
 	}
 	backRepo.CommitFromBackNb = backRepo.CommitFromBackNb + 1
@@ -377,9 +360,9 @@ func (backRepo *BackRepoStruct) CommitBstruct(bstruct *models.Bstruct) {
 // CommitBstruct allows checkout of a single bstruct (if already staged and with a BackRepo id)
 func (backRepo *BackRepoStruct) CheckoutBstruct(bstruct *models.Bstruct) {
 	// check if the bstruct is staged
-	if _, ok := (*backRepo.BackRepoBstruct.Map_BstructPtr_BstructDBID)[bstruct]; ok {
+	if _, ok := backRepo.BackRepoBstruct.Map_BstructPtr_BstructDBID[bstruct]; ok {
 
-		if id, ok := (*backRepo.BackRepoBstruct.Map_BstructPtr_BstructDBID)[bstruct]; ok {
+		if id, ok := backRepo.BackRepoBstruct.Map_BstructPtr_BstructDBID[bstruct]; ok {
 			var bstructDB BstructDB
 			bstructDB.ID = id
 
@@ -453,7 +436,7 @@ func (backRepoBstruct *BackRepoBstructStruct) Backup(dirPath string) {
 	// organize the map into an array with increasing IDs, in order to have repoductible
 	// backup file
 	forBackup := make([]*BstructDB, 0)
-	for _, bstructDB := range *backRepoBstruct.Map_BstructDBID_BstructDB {
+	for _, bstructDB := range backRepoBstruct.Map_BstructDBID_BstructDB {
 		forBackup = append(forBackup, bstructDB)
 	}
 
@@ -479,7 +462,7 @@ func (backRepoBstruct *BackRepoBstructStruct) BackupXL(file *xlsx.File) {
 	// organize the map into an array with increasing IDs, in order to have repoductible
 	// backup file
 	forBackup := make([]*BstructDB, 0)
-	for _, bstructDB := range *backRepoBstruct.Map_BstructDBID_BstructDB {
+	for _, bstructDB := range backRepoBstruct.Map_BstructDBID_BstructDB {
 		forBackup = append(forBackup, bstructDB)
 	}
 
@@ -544,7 +527,7 @@ func (backRepoBstruct *BackRepoBstructStruct) rowVisitorBstruct(row *xlsx.Row) e
 		if query.Error != nil {
 			log.Panic(query.Error)
 		}
-		(*backRepoBstruct.Map_BstructDBID_BstructDB)[bstructDB.ID] = bstructDB
+		backRepoBstruct.Map_BstructDBID_BstructDB[bstructDB.ID] = bstructDB
 		BackRepoBstructid_atBckpTime_newID[bstructDB_ID_atBackupTime] = bstructDB.ID
 	}
 	return nil
@@ -581,7 +564,7 @@ func (backRepoBstruct *BackRepoBstructStruct) RestorePhaseOne(dirPath string) {
 		if query.Error != nil {
 			log.Panic(query.Error)
 		}
-		(*backRepoBstruct.Map_BstructDBID_BstructDB)[bstructDB.ID] = bstructDB
+		backRepoBstruct.Map_BstructDBID_BstructDB[bstructDB.ID] = bstructDB
 		BackRepoBstructid_atBckpTime_newID[bstructDB_ID_atBackupTime] = bstructDB.ID
 	}
 
@@ -594,7 +577,7 @@ func (backRepoBstruct *BackRepoBstructStruct) RestorePhaseOne(dirPath string) {
 // to compute new index
 func (backRepoBstruct *BackRepoBstructStruct) RestorePhaseTwo() {
 
-	for _, bstructDB := range *backRepoBstruct.Map_BstructDBID_BstructDB {
+	for _, bstructDB := range backRepoBstruct.Map_BstructDBID_BstructDB {
 
 		// next line of code is to avert unused variable compilation error
 		_ = bstructDB
