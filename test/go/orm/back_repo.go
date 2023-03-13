@@ -86,13 +86,42 @@ func NewBackRepo(stage *models.StageStruct, filename string) (backRepo *BackRepo
 		Map_AstructDBID_AstructPtr: make(map[uint]*models.Astruct, 0),
 		Map_AstructDBID_AstructDB:  make(map[uint]*AstructDB, 0),
 		Map_AstructPtr_AstructDBID: make(map[*models.Astruct]uint, 0),
-		db:                         db,
-		stage:                      stage,
+
+		db:    db,
+		stage: stage,
 	}
-	backRepo.BackRepoAstructBstruct2Use.Init(stage, db)
-	backRepo.BackRepoAstructBstructUse.Init(stage, db)
-	backRepo.BackRepoBstruct.Init(stage, db)
-	backRepo.BackRepoDstruct.Init(stage, db)
+	backRepo.BackRepoAstructBstruct2Use = BackRepoAstructBstruct2UseStruct{
+		Map_AstructBstruct2UseDBID_AstructBstruct2UsePtr: make(map[uint]*models.AstructBstruct2Use, 0),
+		Map_AstructBstruct2UseDBID_AstructBstruct2UseDB:  make(map[uint]*AstructBstruct2UseDB, 0),
+		Map_AstructBstruct2UsePtr_AstructBstruct2UseDBID: make(map[*models.AstructBstruct2Use]uint, 0),
+
+		db:    db,
+		stage: stage,
+	}
+	backRepo.BackRepoAstructBstructUse = BackRepoAstructBstructUseStruct{
+		Map_AstructBstructUseDBID_AstructBstructUsePtr: make(map[uint]*models.AstructBstructUse, 0),
+		Map_AstructBstructUseDBID_AstructBstructUseDB:  make(map[uint]*AstructBstructUseDB, 0),
+		Map_AstructBstructUsePtr_AstructBstructUseDBID: make(map[*models.AstructBstructUse]uint, 0),
+
+		db:    db,
+		stage: stage,
+	}
+	backRepo.BackRepoBstruct = BackRepoBstructStruct{
+		Map_BstructDBID_BstructPtr: make(map[uint]*models.Bstruct, 0),
+		Map_BstructDBID_BstructDB:  make(map[uint]*BstructDB, 0),
+		Map_BstructPtr_BstructDBID: make(map[*models.Bstruct]uint, 0),
+
+		db:    db,
+		stage: stage,
+	}
+	backRepo.BackRepoDstruct = BackRepoDstructStruct{
+		Map_DstructDBID_DstructPtr: make(map[uint]*models.Dstruct, 0),
+		Map_DstructDBID_DstructDB:  make(map[uint]*DstructDB, 0),
+		Map_DstructPtr_DstructDBID: make(map[*models.Dstruct]uint, 0),
+
+		db:    db,
+		stage: stage,
+	}
 
 	stage.BackRepo = backRepo
 	backRepo.stage = stage
