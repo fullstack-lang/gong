@@ -58,7 +58,7 @@ func LoadSource(pkgPath string) (modelPkg *ModelPkg, err error) {
 	modelPkg = (&ModelPkg{
 		Name:    pkgName,
 		PkgPath: fullPkgPath,
-		Stage_:  &Stage,
+		Stage_:  GetDefaultStage(),
 	})
 
 	Walk(pkgPath, modelPkg)
@@ -108,5 +108,5 @@ func (modelPkg *ModelPkg) SerializeToStage() {
 	for _, gongNote := range modelPkg.GongNotes {
 		gongNote.Stage(modelPkg.Stage_)
 	}
-	Stage.Commit()
+	GetDefaultStage().Commit()
 }
