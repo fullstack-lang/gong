@@ -13,9 +13,7 @@ import (
 	"github.com/gin-contrib/static"
 	"github.com/gin-gonic/gin"
 
-	"github.com/fullstack-lang/gong/go/controllers"
-	"github.com/fullstack-lang/gong/go/models"
-	"github.com/fullstack-lang/gong/go/orm"
+	"github.com/fullstack-lang/gong/go/fullstack"
 
 	gong "github.com/fullstack-lang/gong"
 )
@@ -46,29 +44,7 @@ func main() {
 	r := gin.Default()
 	r.Use(cors.Default())
 
-	// setup GORM
-	db := orm.SetupModels(&models.Stage, *logDBFlag, ":memory:")
-	dbDB, err := db.DB()
-
-	// since the stack can be a multi threaded application. It is important to set up
-	// only one open connexion at a time
-	if err != nil {
-		panic("cannot access DB of db" + err.Error())
-	}
-	dbDB.SetMaxOpenConns(1)
-
-	// load package to analyse
-	modelPkg := &models.ModelPkg{}
-
-	// since the source is embedded, one needs to
-	// compute the Abstract syntax tree in a special manner
-	pkgs := models.ParseEmbedModel(gong.GoDir, "go/models")
-
-	models.WalkParser(pkgs, modelPkg)
-	modelPkg.SerializeToStage()
-	models.Stage.Commit()
-
-	controllers.RegisterControllers(r)
+	fullstack.NewStackInstance(r, "")
 
 	// provide the static route for the angular pages
 	r.Use(static.Serve("/", EmbedFolder(gong.NgDistNg, "ng/dist/ng")))

@@ -131,21 +131,6 @@ func (backRepoModelPkg *BackRepoModelPkgStruct) GetModelPkgDBFromModelPkgPtr(mod
 // BackRepoModelPkg.Init set up the BackRepo of the ModelPkg
 func (backRepoModelPkg *BackRepoModelPkgStruct) Init(stage *models.StageStruct, db *gorm.DB) (Error error) {
 
-	if backRepoModelPkg.Map_ModelPkgDBID_ModelPkgPtr != nil {
-		err := errors.New("In Init, backRepoModelPkg.Map_ModelPkgDBID_ModelPkgPtr should be nil")
-		return err
-	}
-
-	if backRepoModelPkg.Map_ModelPkgDBID_ModelPkgDB != nil {
-		err := errors.New("In Init, backRepoModelPkg.Map_ModelPkgDBID_ModelPkgDB should be nil")
-		return err
-	}
-
-	if backRepoModelPkg.Map_ModelPkgPtr_ModelPkgDBID != nil {
-		err := errors.New("In Init, backRepoModelPkg.Map_ModelPkgPtr_ModelPkgDBID should be nil")
-		return err
-	}
-
 	tmp := make(map[uint]*models.ModelPkg, 0)
 	backRepoModelPkg.Map_ModelPkgDBID_ModelPkgPtr = &tmp
 

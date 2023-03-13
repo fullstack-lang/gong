@@ -131,21 +131,6 @@ func (backRepoMetaReference *BackRepoMetaReferenceStruct) GetMetaReferenceDBFrom
 // BackRepoMetaReference.Init set up the BackRepo of the MetaReference
 func (backRepoMetaReference *BackRepoMetaReferenceStruct) Init(stage *models.StageStruct, db *gorm.DB) (Error error) {
 
-	if backRepoMetaReference.Map_MetaReferenceDBID_MetaReferencePtr != nil {
-		err := errors.New("In Init, backRepoMetaReference.Map_MetaReferenceDBID_MetaReferencePtr should be nil")
-		return err
-	}
-
-	if backRepoMetaReference.Map_MetaReferenceDBID_MetaReferenceDB != nil {
-		err := errors.New("In Init, backRepoMetaReference.Map_MetaReferenceDBID_MetaReferenceDB should be nil")
-		return err
-	}
-
-	if backRepoMetaReference.Map_MetaReferencePtr_MetaReferenceDBID != nil {
-		err := errors.New("In Init, backRepoMetaReference.Map_MetaReferencePtr_MetaReferenceDBID should be nil")
-		return err
-	}
-
 	tmp := make(map[uint]*models.MetaReference, 0)
 	backRepoMetaReference.Map_MetaReferenceDBID_MetaReferencePtr = &tmp
 

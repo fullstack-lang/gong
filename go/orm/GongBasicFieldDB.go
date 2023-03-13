@@ -166,21 +166,6 @@ func (backRepoGongBasicField *BackRepoGongBasicFieldStruct) GetGongBasicFieldDBF
 // BackRepoGongBasicField.Init set up the BackRepo of the GongBasicField
 func (backRepoGongBasicField *BackRepoGongBasicFieldStruct) Init(stage *models.StageStruct, db *gorm.DB) (Error error) {
 
-	if backRepoGongBasicField.Map_GongBasicFieldDBID_GongBasicFieldPtr != nil {
-		err := errors.New("In Init, backRepoGongBasicField.Map_GongBasicFieldDBID_GongBasicFieldPtr should be nil")
-		return err
-	}
-
-	if backRepoGongBasicField.Map_GongBasicFieldDBID_GongBasicFieldDB != nil {
-		err := errors.New("In Init, backRepoGongBasicField.Map_GongBasicFieldDBID_GongBasicFieldDB should be nil")
-		return err
-	}
-
-	if backRepoGongBasicField.Map_GongBasicFieldPtr_GongBasicFieldDBID != nil {
-		err := errors.New("In Init, backRepoGongBasicField.Map_GongBasicFieldPtr_GongBasicFieldDBID should be nil")
-		return err
-	}
-
 	tmp := make(map[uint]*models.GongBasicField, 0)
 	backRepoGongBasicField.Map_GongBasicFieldDBID_GongBasicFieldPtr = &tmp
 

@@ -17,21 +17,27 @@ type Controller struct {
 	Map_BackRepos map[string]*gong_orm.BackRepoStruct
 }
 
-var instance *Controller
-var once sync.Once
+var _controllerSingloton *Controller
+var doRegisterOnce sync.Once
 
 func Register(r *gin.Engine) {
-	once.Do(func() {
-		RegisterControllers(r)
+	doRegisterOnce.Do(func() {
+		registerControllers(r)
 	})
 }
 
+var doControllerInitOnce sync.Once
+
 func GetController() *Controller {
-	once.Do(func() {
-		instance = &Controller{
+	doControllerInitOnce.Do(func() {
+		_controllerSingloton = &Controller{
 			Map_BackRepos: make(map[string]*gong_orm.BackRepoStruct),
 		}
-		instance.Map_BackRepos[""] = &gong_orm.BackRepo
+		_controllerSingloton.Map_BackRepos[""] = gong_orm.GetDefaultBackRepo()
 	})
-	return instance
+	return _controllerSingloton
+}
+
+func (controller *Controller) AddBackRepo(backRepo *gong_orm.BackRepoStruct, stackPath string) {
+	GetController().Map_BackRepos[stackPath] = backRepo
 }

@@ -143,21 +143,6 @@ func (backRepoGongLink *BackRepoGongLinkStruct) GetGongLinkDBFromGongLinkPtr(gon
 // BackRepoGongLink.Init set up the BackRepo of the GongLink
 func (backRepoGongLink *BackRepoGongLinkStruct) Init(stage *models.StageStruct, db *gorm.DB) (Error error) {
 
-	if backRepoGongLink.Map_GongLinkDBID_GongLinkPtr != nil {
-		err := errors.New("In Init, backRepoGongLink.Map_GongLinkDBID_GongLinkPtr should be nil")
-		return err
-	}
-
-	if backRepoGongLink.Map_GongLinkDBID_GongLinkDB != nil {
-		err := errors.New("In Init, backRepoGongLink.Map_GongLinkDBID_GongLinkDB should be nil")
-		return err
-	}
-
-	if backRepoGongLink.Map_GongLinkPtr_GongLinkDBID != nil {
-		err := errors.New("In Init, backRepoGongLink.Map_GongLinkPtr_GongLinkDBID should be nil")
-		return err
-	}
-
 	tmp := make(map[uint]*models.GongLink, 0)
 	backRepoGongLink.Map_GongLinkDBID_GongLinkPtr = &tmp
 

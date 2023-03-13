@@ -147,21 +147,6 @@ func (backRepoSliceOfPointerToGongStructField *BackRepoSliceOfPointerToGongStruc
 // BackRepoSliceOfPointerToGongStructField.Init set up the BackRepo of the SliceOfPointerToGongStructField
 func (backRepoSliceOfPointerToGongStructField *BackRepoSliceOfPointerToGongStructFieldStruct) Init(stage *models.StageStruct, db *gorm.DB) (Error error) {
 
-	if backRepoSliceOfPointerToGongStructField.Map_SliceOfPointerToGongStructFieldDBID_SliceOfPointerToGongStructFieldPtr != nil {
-		err := errors.New("In Init, backRepoSliceOfPointerToGongStructField.Map_SliceOfPointerToGongStructFieldDBID_SliceOfPointerToGongStructFieldPtr should be nil")
-		return err
-	}
-
-	if backRepoSliceOfPointerToGongStructField.Map_SliceOfPointerToGongStructFieldDBID_SliceOfPointerToGongStructFieldDB != nil {
-		err := errors.New("In Init, backRepoSliceOfPointerToGongStructField.Map_SliceOfPointerToGongStructFieldDBID_SliceOfPointerToGongStructFieldDB should be nil")
-		return err
-	}
-
-	if backRepoSliceOfPointerToGongStructField.Map_SliceOfPointerToGongStructFieldPtr_SliceOfPointerToGongStructFieldDBID != nil {
-		err := errors.New("In Init, backRepoSliceOfPointerToGongStructField.Map_SliceOfPointerToGongStructFieldPtr_SliceOfPointerToGongStructFieldDBID should be nil")
-		return err
-	}
-
 	tmp := make(map[uint]*models.SliceOfPointerToGongStructField, 0)
 	backRepoSliceOfPointerToGongStructField.Map_SliceOfPointerToGongStructFieldDBID_SliceOfPointerToGongStructFieldPtr = &tmp
 
