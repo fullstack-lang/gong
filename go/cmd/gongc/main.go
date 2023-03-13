@@ -296,12 +296,6 @@ func main() {
 	gong_models.VerySimpleCodeGenerator(
 		modelPkg,
 		caserEnglish.String(modelPkg.Name),
-		modelPkg.PkgPath, filepath.Join(*pkgPath, "../fullstack/init.go"),
-		golang.FullstackInitTemplate)
-
-	gong_models.VerySimpleCodeGenerator(
-		modelPkg,
-		caserEnglish.String(modelPkg.Name),
 		modelPkg.PkgPath, filepath.Join(*pkgPath, "../fullstack/new_stack_instance.go"),
 		golang.FullstackNewStackInstanceTemplate)
 
