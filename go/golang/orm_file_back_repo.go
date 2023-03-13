@@ -133,7 +133,7 @@ var once sync.Once
 
 func GetDefaultBackRepo() *BackRepoStruct {
 	once.Do(func() {
-		_backRepo = &BackRepoStruct{}
+		_backRepo = NewBackRepo(models.GetDefaultStage(), "")
 	})
 	return _backRepo
 }
