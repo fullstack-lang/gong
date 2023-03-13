@@ -99,13 +99,13 @@ var Meta_Fields = []string{
 
 type BackRepoMetaStruct struct {
 	// stores MetaDB according to their gorm ID
-	Map_MetaDBID_MetaDB *map[uint]*MetaDB
+	Map_MetaDBID_MetaDB map[uint]*MetaDB
 
 	// stores MetaDB ID according to Meta address
-	Map_MetaPtr_MetaDBID *map[*models.Meta]uint
+	Map_MetaPtr_MetaDBID map[*models.Meta]uint
 
 	// stores Meta according to their gorm ID
-	Map_MetaDBID_MetaPtr *map[uint]*models.Meta
+	Map_MetaDBID_MetaPtr map[uint]*models.Meta
 
 	db *gorm.DB
 
@@ -123,25 +123,8 @@ func (backRepoMeta *BackRepoMetaStruct) GetDB() *gorm.DB {
 
 // GetMetaDBFromMetaPtr is a handy function to access the back repo instance from the stage instance
 func (backRepoMeta *BackRepoMetaStruct) GetMetaDBFromMetaPtr(meta *models.Meta) (metaDB *MetaDB) {
-	id := (*backRepoMeta.Map_MetaPtr_MetaDBID)[meta]
-	metaDB = (*backRepoMeta.Map_MetaDBID_MetaDB)[id]
-	return
-}
-
-// BackRepoMeta.Init set up the BackRepo of the Meta
-func (backRepoMeta *BackRepoMetaStruct) Init(stage *models.StageStruct, db *gorm.DB) (Error error) {
-
-	tmp := make(map[uint]*models.Meta, 0)
-	backRepoMeta.Map_MetaDBID_MetaPtr = &tmp
-
-	tmpDB := make(map[uint]*MetaDB, 0)
-	backRepoMeta.Map_MetaDBID_MetaDB = &tmpDB
-
-	tmpID := make(map[*models.Meta]uint, 0)
-	backRepoMeta.Map_MetaPtr_MetaDBID = &tmpID
-
-	backRepoMeta.db = db
-	backRepoMeta.stage = stage
+	id := backRepoMeta.Map_MetaPtr_MetaDBID[meta]
+	metaDB = backRepoMeta.Map_MetaDBID_MetaDB[id]
 	return
 }
 
@@ -155,7 +138,7 @@ func (backRepoMeta *BackRepoMetaStruct) CommitPhaseOne(stage *models.StageStruct
 
 	// parse all backRepo instance and checks wether some instance have been unstaged
 	// in this case, remove them from the back repo
-	for id, meta := range *backRepoMeta.Map_MetaDBID_MetaPtr {
+	for id, meta := range backRepoMeta.Map_MetaDBID_MetaPtr {
 		if _, ok := stage.Metas[meta]; !ok {
 			backRepoMeta.CommitDeleteInstance(id)
 		}
@@ -167,19 +150,19 @@ func (backRepoMeta *BackRepoMetaStruct) CommitPhaseOne(stage *models.StageStruct
 // BackRepoMeta.CommitDeleteInstance commits deletion of Meta to the BackRepo
 func (backRepoMeta *BackRepoMetaStruct) CommitDeleteInstance(id uint) (Error error) {
 
-	meta := (*backRepoMeta.Map_MetaDBID_MetaPtr)[id]
+	meta := backRepoMeta.Map_MetaDBID_MetaPtr[id]
 
 	// meta is not staged anymore, remove metaDB
-	metaDB := (*backRepoMeta.Map_MetaDBID_MetaDB)[id]
+	metaDB := backRepoMeta.Map_MetaDBID_MetaDB[id]
 	query := backRepoMeta.db.Unscoped().Delete(&metaDB)
 	if query.Error != nil {
 		return query.Error
 	}
 
 	// update stores
-	delete((*backRepoMeta.Map_MetaPtr_MetaDBID), meta)
-	delete((*backRepoMeta.Map_MetaDBID_MetaPtr), id)
-	delete((*backRepoMeta.Map_MetaDBID_MetaDB), id)
+	delete(backRepoMeta.Map_MetaPtr_MetaDBID, meta)
+	delete(backRepoMeta.Map_MetaDBID_MetaPtr, id)
+	delete(backRepoMeta.Map_MetaDBID_MetaDB, id)
 
 	return
 }
@@ -189,7 +172,7 @@ func (backRepoMeta *BackRepoMetaStruct) CommitDeleteInstance(id uint) (Error err
 func (backRepoMeta *BackRepoMetaStruct) CommitPhaseOneInstance(meta *models.Meta) (Error error) {
 
 	// check if the meta is not commited yet
-	if _, ok := (*backRepoMeta.Map_MetaPtr_MetaDBID)[meta]; ok {
+	if _, ok := backRepoMeta.Map_MetaPtr_MetaDBID[meta]; ok {
 		return
 	}
 
@@ -203,9 +186,9 @@ func (backRepoMeta *BackRepoMetaStruct) CommitPhaseOneInstance(meta *models.Meta
 	}
 
 	// update stores
-	(*backRepoMeta.Map_MetaPtr_MetaDBID)[meta] = metaDB.ID
-	(*backRepoMeta.Map_MetaDBID_MetaPtr)[metaDB.ID] = meta
-	(*backRepoMeta.Map_MetaDBID_MetaDB)[metaDB.ID] = &metaDB
+	backRepoMeta.Map_MetaPtr_MetaDBID[meta] = metaDB.ID
+	backRepoMeta.Map_MetaDBID_MetaPtr[metaDB.ID] = meta
+	backRepoMeta.Map_MetaDBID_MetaDB[metaDB.ID] = &metaDB
 
 	return
 }
@@ -214,7 +197,7 @@ func (backRepoMeta *BackRepoMetaStruct) CommitPhaseOneInstance(meta *models.Meta
 // Phase Two is the update of instance with the field in the database
 func (backRepoMeta *BackRepoMetaStruct) CommitPhaseTwo(backRepo *BackRepoStruct) (Error error) {
 
-	for idx, meta := range *backRepoMeta.Map_MetaDBID_MetaPtr {
+	for idx, meta := range backRepoMeta.Map_MetaDBID_MetaPtr {
 		backRepoMeta.CommitPhaseTwoInstance(backRepo, idx, meta)
 	}
 
@@ -226,7 +209,7 @@ func (backRepoMeta *BackRepoMetaStruct) CommitPhaseTwo(backRepo *BackRepoStruct)
 func (backRepoMeta *BackRepoMetaStruct) CommitPhaseTwoInstance(backRepo *BackRepoStruct, idx uint, meta *models.Meta) (Error error) {
 
 	// fetch matching metaDB
-	if metaDB, ok := (*backRepoMeta.Map_MetaDBID_MetaDB)[idx]; ok {
+	if metaDB, ok := backRepoMeta.Map_MetaDBID_MetaDB[idx]; ok {
 
 		metaDB.CopyBasicFieldsFromMeta(meta)
 
@@ -289,7 +272,7 @@ func (backRepoMeta *BackRepoMetaStruct) CheckoutPhaseOne() (Error error) {
 
 		// do not remove this instance from the stage, therefore
 		// remove instance from the list of instances to be be removed from the stage
-		meta, ok := (*backRepoMeta.Map_MetaDBID_MetaPtr)[metaDB.ID]
+		meta, ok := backRepoMeta.Map_MetaDBID_MetaPtr[metaDB.ID]
 		if ok {
 			delete(metaInstancesToBeRemovedFromTheStage, meta)
 		}
@@ -300,10 +283,10 @@ func (backRepoMeta *BackRepoMetaStruct) CheckoutPhaseOne() (Error error) {
 		meta.Unstage(backRepoMeta.GetStage())
 
 		// remove instance from the back repo 3 maps
-		metaID := (*backRepoMeta.Map_MetaPtr_MetaDBID)[meta]
-		delete((*backRepoMeta.Map_MetaPtr_MetaDBID), meta)
-		delete((*backRepoMeta.Map_MetaDBID_MetaDB), metaID)
-		delete((*backRepoMeta.Map_MetaDBID_MetaPtr), metaID)
+		metaID := backRepoMeta.Map_MetaPtr_MetaDBID[meta]
+		delete(backRepoMeta.Map_MetaPtr_MetaDBID, meta)
+		delete(backRepoMeta.Map_MetaDBID_MetaDB, metaID)
+		delete(backRepoMeta.Map_MetaDBID_MetaPtr, metaID)
 	}
 
 	return
@@ -313,12 +296,12 @@ func (backRepoMeta *BackRepoMetaStruct) CheckoutPhaseOne() (Error error) {
 // models version of the metaDB
 func (backRepoMeta *BackRepoMetaStruct) CheckoutPhaseOneInstance(metaDB *MetaDB) (Error error) {
 
-	meta, ok := (*backRepoMeta.Map_MetaDBID_MetaPtr)[metaDB.ID]
+	meta, ok := backRepoMeta.Map_MetaDBID_MetaPtr[metaDB.ID]
 	if !ok {
 		meta = new(models.Meta)
 
-		(*backRepoMeta.Map_MetaDBID_MetaPtr)[metaDB.ID] = meta
-		(*backRepoMeta.Map_MetaPtr_MetaDBID)[meta] = metaDB.ID
+		backRepoMeta.Map_MetaDBID_MetaPtr[metaDB.ID] = meta
+		backRepoMeta.Map_MetaPtr_MetaDBID[meta] = metaDB.ID
 
 		// append model store with the new element
 		meta.Name = metaDB.Name_Data.String
@@ -333,7 +316,7 @@ func (backRepoMeta *BackRepoMetaStruct) CheckoutPhaseOneInstance(metaDB *MetaDB)
 	// Map_MetaDBID_MetaDB)[metaDB hold variable pointers
 	metaDB_Data := *metaDB
 	preservedPtrToMeta := &metaDB_Data
-	(*backRepoMeta.Map_MetaDBID_MetaDB)[metaDB.ID] = preservedPtrToMeta
+	backRepoMeta.Map_MetaDBID_MetaDB[metaDB.ID] = preservedPtrToMeta
 
 	return
 }
@@ -343,7 +326,7 @@ func (backRepoMeta *BackRepoMetaStruct) CheckoutPhaseOneInstance(metaDB *MetaDB)
 func (backRepoMeta *BackRepoMetaStruct) CheckoutPhaseTwo(backRepo *BackRepoStruct) (Error error) {
 
 	// parse all DB instance and update all pointer fields of the translated models instance
-	for _, metaDB := range *backRepoMeta.Map_MetaDBID_MetaDB {
+	for _, metaDB := range backRepoMeta.Map_MetaDBID_MetaDB {
 		backRepoMeta.CheckoutPhaseTwoInstance(backRepo, metaDB)
 	}
 	return
@@ -353,7 +336,7 @@ func (backRepoMeta *BackRepoMetaStruct) CheckoutPhaseTwo(backRepo *BackRepoStruc
 // Phase Two is the update of instance with the field in the database
 func (backRepoMeta *BackRepoMetaStruct) CheckoutPhaseTwoInstance(backRepo *BackRepoStruct, metaDB *MetaDB) (Error error) {
 
-	meta := (*backRepoMeta.Map_MetaDBID_MetaPtr)[metaDB.ID]
+	meta := backRepoMeta.Map_MetaDBID_MetaPtr[metaDB.ID]
 	_ = meta // sometimes, there is no code generated. This lines voids the "unused variable" compilation error
 
 	// insertion point for checkout of pointer encoding
@@ -363,11 +346,11 @@ func (backRepoMeta *BackRepoMetaStruct) CheckoutPhaseTwoInstance(backRepo *BackR
 	// 1. reset the slice
 	meta.MetaReferences = meta.MetaReferences[:0]
 	// 2. loop all instances in the type in the association end
-	for _, metareferenceDB_AssocEnd := range *backRepo.BackRepoMetaReference.Map_MetaReferenceDBID_MetaReferenceDB {
+	for _, metareferenceDB_AssocEnd := range backRepo.BackRepoMetaReference.Map_MetaReferenceDBID_MetaReferenceDB {
 		// 3. Does the ID encoding at the end and the ID at the start matches ?
 		if metareferenceDB_AssocEnd.Meta_MetaReferencesDBID.Int64 == int64(metaDB.ID) {
 			// 4. fetch the associated instance in the stage
-			metareference_AssocEnd := (*backRepo.BackRepoMetaReference.Map_MetaReferenceDBID_MetaReferencePtr)[metareferenceDB_AssocEnd.ID]
+			metareference_AssocEnd := backRepo.BackRepoMetaReference.Map_MetaReferenceDBID_MetaReferencePtr[metareferenceDB_AssocEnd.ID]
 			// 5. append it the association slice
 			meta.MetaReferences = append(meta.MetaReferences, metareference_AssocEnd)
 		}
@@ -375,11 +358,11 @@ func (backRepoMeta *BackRepoMetaStruct) CheckoutPhaseTwoInstance(backRepo *BackR
 
 	// sort the array according to the order
 	sort.Slice(meta.MetaReferences, func(i, j int) bool {
-		metareferenceDB_i_ID := (*backRepo.BackRepoMetaReference.Map_MetaReferencePtr_MetaReferenceDBID)[meta.MetaReferences[i]]
-		metareferenceDB_j_ID := (*backRepo.BackRepoMetaReference.Map_MetaReferencePtr_MetaReferenceDBID)[meta.MetaReferences[j]]
+		metareferenceDB_i_ID := backRepo.BackRepoMetaReference.Map_MetaReferencePtr_MetaReferenceDBID[meta.MetaReferences[i]]
+		metareferenceDB_j_ID := backRepo.BackRepoMetaReference.Map_MetaReferencePtr_MetaReferenceDBID[meta.MetaReferences[j]]
 
-		metareferenceDB_i := (*backRepo.BackRepoMetaReference.Map_MetaReferenceDBID_MetaReferenceDB)[metareferenceDB_i_ID]
-		metareferenceDB_j := (*backRepo.BackRepoMetaReference.Map_MetaReferenceDBID_MetaReferenceDB)[metareferenceDB_j_ID]
+		metareferenceDB_i := backRepo.BackRepoMetaReference.Map_MetaReferenceDBID_MetaReferenceDB[metareferenceDB_i_ID]
+		metareferenceDB_j := backRepo.BackRepoMetaReference.Map_MetaReferenceDBID_MetaReferenceDB[metareferenceDB_j_ID]
 
 		return metareferenceDB_i.Meta_MetaReferencesDBID_Index.Int64 < metareferenceDB_j.Meta_MetaReferencesDBID_Index.Int64
 	})
@@ -390,7 +373,7 @@ func (backRepoMeta *BackRepoMetaStruct) CheckoutPhaseTwoInstance(backRepo *BackR
 // CommitMeta allows commit of a single meta (if already staged)
 func (backRepo *BackRepoStruct) CommitMeta(meta *models.Meta) {
 	backRepo.BackRepoMeta.CommitPhaseOneInstance(meta)
-	if id, ok := (*backRepo.BackRepoMeta.Map_MetaPtr_MetaDBID)[meta]; ok {
+	if id, ok := backRepo.BackRepoMeta.Map_MetaPtr_MetaDBID[meta]; ok {
 		backRepo.BackRepoMeta.CommitPhaseTwoInstance(backRepo, id, meta)
 	}
 	backRepo.CommitFromBackNb = backRepo.CommitFromBackNb + 1
@@ -399,9 +382,9 @@ func (backRepo *BackRepoStruct) CommitMeta(meta *models.Meta) {
 // CommitMeta allows checkout of a single meta (if already staged and with a BackRepo id)
 func (backRepo *BackRepoStruct) CheckoutMeta(meta *models.Meta) {
 	// check if the meta is staged
-	if _, ok := (*backRepo.BackRepoMeta.Map_MetaPtr_MetaDBID)[meta]; ok {
+	if _, ok := backRepo.BackRepoMeta.Map_MetaPtr_MetaDBID[meta]; ok {
 
-		if id, ok := (*backRepo.BackRepoMeta.Map_MetaPtr_MetaDBID)[meta]; ok {
+		if id, ok := backRepo.BackRepoMeta.Map_MetaPtr_MetaDBID[meta]; ok {
 			var metaDB MetaDB
 			metaDB.ID = id
 
@@ -459,7 +442,7 @@ func (backRepoMeta *BackRepoMetaStruct) Backup(dirPath string) {
 	// organize the map into an array with increasing IDs, in order to have repoductible
 	// backup file
 	forBackup := make([]*MetaDB, 0)
-	for _, metaDB := range *backRepoMeta.Map_MetaDBID_MetaDB {
+	for _, metaDB := range backRepoMeta.Map_MetaDBID_MetaDB {
 		forBackup = append(forBackup, metaDB)
 	}
 
@@ -485,7 +468,7 @@ func (backRepoMeta *BackRepoMetaStruct) BackupXL(file *xlsx.File) {
 	// organize the map into an array with increasing IDs, in order to have repoductible
 	// backup file
 	forBackup := make([]*MetaDB, 0)
-	for _, metaDB := range *backRepoMeta.Map_MetaDBID_MetaDB {
+	for _, metaDB := range backRepoMeta.Map_MetaDBID_MetaDB {
 		forBackup = append(forBackup, metaDB)
 	}
 
@@ -550,7 +533,7 @@ func (backRepoMeta *BackRepoMetaStruct) rowVisitorMeta(row *xlsx.Row) error {
 		if query.Error != nil {
 			log.Panic(query.Error)
 		}
-		(*backRepoMeta.Map_MetaDBID_MetaDB)[metaDB.ID] = metaDB
+		backRepoMeta.Map_MetaDBID_MetaDB[metaDB.ID] = metaDB
 		BackRepoMetaid_atBckpTime_newID[metaDB_ID_atBackupTime] = metaDB.ID
 	}
 	return nil
@@ -587,7 +570,7 @@ func (backRepoMeta *BackRepoMetaStruct) RestorePhaseOne(dirPath string) {
 		if query.Error != nil {
 			log.Panic(query.Error)
 		}
-		(*backRepoMeta.Map_MetaDBID_MetaDB)[metaDB.ID] = metaDB
+		backRepoMeta.Map_MetaDBID_MetaDB[metaDB.ID] = metaDB
 		BackRepoMetaid_atBckpTime_newID[metaDB_ID_atBackupTime] = metaDB.ID
 	}
 
@@ -600,7 +583,7 @@ func (backRepoMeta *BackRepoMetaStruct) RestorePhaseOne(dirPath string) {
 // to compute new index
 func (backRepoMeta *BackRepoMetaStruct) RestorePhaseTwo() {
 
-	for _, metaDB := range *backRepoMeta.Map_MetaDBID_MetaDB {
+	for _, metaDB := range backRepoMeta.Map_MetaDBID_MetaDB {
 
 		// next line of code is to avert unused variable compilation error
 		_ = metaDB

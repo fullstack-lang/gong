@@ -151,7 +151,7 @@ func (controller *Controller) PostMeta(c *gin.Context) {
 
 	// get an instance (not staged) from DB instance, and call callback function
 	backRepo.BackRepoMeta.CheckoutPhaseOneInstance(&metaDB)
-	meta := (*backRepo.BackRepoMeta.Map_MetaDBID_MetaPtr)[metaDB.ID]
+	meta := backRepo.BackRepoMeta.Map_MetaDBID_MetaPtr[metaDB.ID]
 
 	if meta != nil {
 		models.AfterCreateFromFront(backRepo.GetStage(), meta)
@@ -273,7 +273,7 @@ func (controller *Controller) UpdateMeta(c *gin.Context) {
 	metaDB.CopyBasicFieldsToMeta(metaNew)
 
 	// get stage instance from DB instance, and call callback function
-	metaOld := (*backRepo.BackRepoMeta.Map_MetaDBID_MetaPtr)[metaDB.ID]
+	metaOld := backRepo.BackRepoMeta.Map_MetaDBID_MetaPtr[metaDB.ID]
 	if metaOld != nil {
 		models.AfterUpdateFromFront(backRepo.GetStage(), metaOld, metaNew)
 	}
@@ -330,7 +330,7 @@ func (controller *Controller) DeleteMeta(c *gin.Context) {
 	metaDB.CopyBasicFieldsToMeta(metaDeleted)
 
 	// get stage instance from DB instance, and call callback function
-	metaStaged := (*backRepo.BackRepoMeta.Map_MetaDBID_MetaPtr)[metaDB.ID]
+	metaStaged := backRepo.BackRepoMeta.Map_MetaDBID_MetaPtr[metaDB.ID]
 	if metaStaged != nil {
 		models.AfterDeleteFromFront(backRepo.GetStage(), metaStaged, metaDeleted)
 	}

@@ -151,7 +151,7 @@ func (controller *Controller) PostPointerToGongStructField(c *gin.Context) {
 
 	// get an instance (not staged) from DB instance, and call callback function
 	backRepo.BackRepoPointerToGongStructField.CheckoutPhaseOneInstance(&pointertogongstructfieldDB)
-	pointertogongstructfield := (*backRepo.BackRepoPointerToGongStructField.Map_PointerToGongStructFieldDBID_PointerToGongStructFieldPtr)[pointertogongstructfieldDB.ID]
+	pointertogongstructfield := backRepo.BackRepoPointerToGongStructField.Map_PointerToGongStructFieldDBID_PointerToGongStructFieldPtr[pointertogongstructfieldDB.ID]
 
 	if pointertogongstructfield != nil {
 		models.AfterCreateFromFront(backRepo.GetStage(), pointertogongstructfield)
@@ -273,7 +273,7 @@ func (controller *Controller) UpdatePointerToGongStructField(c *gin.Context) {
 	pointertogongstructfieldDB.CopyBasicFieldsToPointerToGongStructField(pointertogongstructfieldNew)
 
 	// get stage instance from DB instance, and call callback function
-	pointertogongstructfieldOld := (*backRepo.BackRepoPointerToGongStructField.Map_PointerToGongStructFieldDBID_PointerToGongStructFieldPtr)[pointertogongstructfieldDB.ID]
+	pointertogongstructfieldOld := backRepo.BackRepoPointerToGongStructField.Map_PointerToGongStructFieldDBID_PointerToGongStructFieldPtr[pointertogongstructfieldDB.ID]
 	if pointertogongstructfieldOld != nil {
 		models.AfterUpdateFromFront(backRepo.GetStage(), pointertogongstructfieldOld, pointertogongstructfieldNew)
 	}
@@ -330,7 +330,7 @@ func (controller *Controller) DeletePointerToGongStructField(c *gin.Context) {
 	pointertogongstructfieldDB.CopyBasicFieldsToPointerToGongStructField(pointertogongstructfieldDeleted)
 
 	// get stage instance from DB instance, and call callback function
-	pointertogongstructfieldStaged := (*backRepo.BackRepoPointerToGongStructField.Map_PointerToGongStructFieldDBID_PointerToGongStructFieldPtr)[pointertogongstructfieldDB.ID]
+	pointertogongstructfieldStaged := backRepo.BackRepoPointerToGongStructField.Map_PointerToGongStructFieldDBID_PointerToGongStructFieldPtr[pointertogongstructfieldDB.ID]
 	if pointertogongstructfieldStaged != nil {
 		models.AfterDeleteFromFront(backRepo.GetStage(), pointertogongstructfieldStaged, pointertogongstructfieldDeleted)
 	}

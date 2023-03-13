@@ -151,7 +151,7 @@ func (controller *Controller) PostGongTimeField(c *gin.Context) {
 
 	// get an instance (not staged) from DB instance, and call callback function
 	backRepo.BackRepoGongTimeField.CheckoutPhaseOneInstance(&gongtimefieldDB)
-	gongtimefield := (*backRepo.BackRepoGongTimeField.Map_GongTimeFieldDBID_GongTimeFieldPtr)[gongtimefieldDB.ID]
+	gongtimefield := backRepo.BackRepoGongTimeField.Map_GongTimeFieldDBID_GongTimeFieldPtr[gongtimefieldDB.ID]
 
 	if gongtimefield != nil {
 		models.AfterCreateFromFront(backRepo.GetStage(), gongtimefield)
@@ -273,7 +273,7 @@ func (controller *Controller) UpdateGongTimeField(c *gin.Context) {
 	gongtimefieldDB.CopyBasicFieldsToGongTimeField(gongtimefieldNew)
 
 	// get stage instance from DB instance, and call callback function
-	gongtimefieldOld := (*backRepo.BackRepoGongTimeField.Map_GongTimeFieldDBID_GongTimeFieldPtr)[gongtimefieldDB.ID]
+	gongtimefieldOld := backRepo.BackRepoGongTimeField.Map_GongTimeFieldDBID_GongTimeFieldPtr[gongtimefieldDB.ID]
 	if gongtimefieldOld != nil {
 		models.AfterUpdateFromFront(backRepo.GetStage(), gongtimefieldOld, gongtimefieldNew)
 	}
@@ -330,7 +330,7 @@ func (controller *Controller) DeleteGongTimeField(c *gin.Context) {
 	gongtimefieldDB.CopyBasicFieldsToGongTimeField(gongtimefieldDeleted)
 
 	// get stage instance from DB instance, and call callback function
-	gongtimefieldStaged := (*backRepo.BackRepoGongTimeField.Map_GongTimeFieldDBID_GongTimeFieldPtr)[gongtimefieldDB.ID]
+	gongtimefieldStaged := backRepo.BackRepoGongTimeField.Map_GongTimeFieldDBID_GongTimeFieldPtr[gongtimefieldDB.ID]
 	if gongtimefieldStaged != nil {
 		models.AfterDeleteFromFront(backRepo.GetStage(), gongtimefieldStaged, gongtimefieldDeleted)
 	}

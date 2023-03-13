@@ -103,18 +103,102 @@ func NewBackRepo(stage *models.StageStruct, filename string) (backRepo *BackRepo
 	backRepo = new(BackRepoStruct)
 
 	// insertion point for per struct back repo declarations
-	backRepo.BackRepoGongBasicField.Init(stage, db)
-	backRepo.BackRepoGongEnum.Init(stage, db)
-	backRepo.BackRepoGongEnumValue.Init(stage, db)
-	backRepo.BackRepoGongLink.Init(stage, db)
-	backRepo.BackRepoGongNote.Init(stage, db)
-	backRepo.BackRepoGongStruct.Init(stage, db)
-	backRepo.BackRepoGongTimeField.Init(stage, db)
-	backRepo.BackRepoMeta.Init(stage, db)
-	backRepo.BackRepoMetaReference.Init(stage, db)
-	backRepo.BackRepoModelPkg.Init(stage, db)
-	backRepo.BackRepoPointerToGongStructField.Init(stage, db)
-	backRepo.BackRepoSliceOfPointerToGongStructField.Init(stage, db)
+	backRepo.BackRepoGongBasicField = BackRepoGongBasicFieldStruct{
+		Map_GongBasicFieldDBID_GongBasicFieldPtr: make(map[uint]*models.GongBasicField, 0),
+		Map_GongBasicFieldDBID_GongBasicFieldDB:  make(map[uint]*GongBasicFieldDB, 0),
+		Map_GongBasicFieldPtr_GongBasicFieldDBID: make(map[*models.GongBasicField]uint, 0),
+
+		db:    db,
+		stage: stage,
+	}
+	backRepo.BackRepoGongEnum = BackRepoGongEnumStruct{
+		Map_GongEnumDBID_GongEnumPtr: make(map[uint]*models.GongEnum, 0),
+		Map_GongEnumDBID_GongEnumDB:  make(map[uint]*GongEnumDB, 0),
+		Map_GongEnumPtr_GongEnumDBID: make(map[*models.GongEnum]uint, 0),
+
+		db:    db,
+		stage: stage,
+	}
+	backRepo.BackRepoGongEnumValue = BackRepoGongEnumValueStruct{
+		Map_GongEnumValueDBID_GongEnumValuePtr: make(map[uint]*models.GongEnumValue, 0),
+		Map_GongEnumValueDBID_GongEnumValueDB:  make(map[uint]*GongEnumValueDB, 0),
+		Map_GongEnumValuePtr_GongEnumValueDBID: make(map[*models.GongEnumValue]uint, 0),
+
+		db:    db,
+		stage: stage,
+	}
+	backRepo.BackRepoGongLink = BackRepoGongLinkStruct{
+		Map_GongLinkDBID_GongLinkPtr: make(map[uint]*models.GongLink, 0),
+		Map_GongLinkDBID_GongLinkDB:  make(map[uint]*GongLinkDB, 0),
+		Map_GongLinkPtr_GongLinkDBID: make(map[*models.GongLink]uint, 0),
+
+		db:    db,
+		stage: stage,
+	}
+	backRepo.BackRepoGongNote = BackRepoGongNoteStruct{
+		Map_GongNoteDBID_GongNotePtr: make(map[uint]*models.GongNote, 0),
+		Map_GongNoteDBID_GongNoteDB:  make(map[uint]*GongNoteDB, 0),
+		Map_GongNotePtr_GongNoteDBID: make(map[*models.GongNote]uint, 0),
+
+		db:    db,
+		stage: stage,
+	}
+	backRepo.BackRepoGongStruct = BackRepoGongStructStruct{
+		Map_GongStructDBID_GongStructPtr: make(map[uint]*models.GongStruct, 0),
+		Map_GongStructDBID_GongStructDB:  make(map[uint]*GongStructDB, 0),
+		Map_GongStructPtr_GongStructDBID: make(map[*models.GongStruct]uint, 0),
+
+		db:    db,
+		stage: stage,
+	}
+	backRepo.BackRepoGongTimeField = BackRepoGongTimeFieldStruct{
+		Map_GongTimeFieldDBID_GongTimeFieldPtr: make(map[uint]*models.GongTimeField, 0),
+		Map_GongTimeFieldDBID_GongTimeFieldDB:  make(map[uint]*GongTimeFieldDB, 0),
+		Map_GongTimeFieldPtr_GongTimeFieldDBID: make(map[*models.GongTimeField]uint, 0),
+
+		db:    db,
+		stage: stage,
+	}
+	backRepo.BackRepoMeta = BackRepoMetaStruct{
+		Map_MetaDBID_MetaPtr: make(map[uint]*models.Meta, 0),
+		Map_MetaDBID_MetaDB:  make(map[uint]*MetaDB, 0),
+		Map_MetaPtr_MetaDBID: make(map[*models.Meta]uint, 0),
+
+		db:    db,
+		stage: stage,
+	}
+	backRepo.BackRepoMetaReference = BackRepoMetaReferenceStruct{
+		Map_MetaReferenceDBID_MetaReferencePtr: make(map[uint]*models.MetaReference, 0),
+		Map_MetaReferenceDBID_MetaReferenceDB:  make(map[uint]*MetaReferenceDB, 0),
+		Map_MetaReferencePtr_MetaReferenceDBID: make(map[*models.MetaReference]uint, 0),
+
+		db:    db,
+		stage: stage,
+	}
+	backRepo.BackRepoModelPkg = BackRepoModelPkgStruct{
+		Map_ModelPkgDBID_ModelPkgPtr: make(map[uint]*models.ModelPkg, 0),
+		Map_ModelPkgDBID_ModelPkgDB:  make(map[uint]*ModelPkgDB, 0),
+		Map_ModelPkgPtr_ModelPkgDBID: make(map[*models.ModelPkg]uint, 0),
+
+		db:    db,
+		stage: stage,
+	}
+	backRepo.BackRepoPointerToGongStructField = BackRepoPointerToGongStructFieldStruct{
+		Map_PointerToGongStructFieldDBID_PointerToGongStructFieldPtr: make(map[uint]*models.PointerToGongStructField, 0),
+		Map_PointerToGongStructFieldDBID_PointerToGongStructFieldDB:  make(map[uint]*PointerToGongStructFieldDB, 0),
+		Map_PointerToGongStructFieldPtr_PointerToGongStructFieldDBID: make(map[*models.PointerToGongStructField]uint, 0),
+
+		db:    db,
+		stage: stage,
+	}
+	backRepo.BackRepoSliceOfPointerToGongStructField = BackRepoSliceOfPointerToGongStructFieldStruct{
+		Map_SliceOfPointerToGongStructFieldDBID_SliceOfPointerToGongStructFieldPtr: make(map[uint]*models.SliceOfPointerToGongStructField, 0),
+		Map_SliceOfPointerToGongStructFieldDBID_SliceOfPointerToGongStructFieldDB:  make(map[uint]*SliceOfPointerToGongStructFieldDB, 0),
+		Map_SliceOfPointerToGongStructFieldPtr_SliceOfPointerToGongStructFieldDBID: make(map[*models.SliceOfPointerToGongStructField]uint, 0),
+
+		db:    db,
+		stage: stage,
+	}
 
 	stage.BackRepo = backRepo
 	backRepo.stage = stage

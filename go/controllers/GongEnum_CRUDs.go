@@ -151,7 +151,7 @@ func (controller *Controller) PostGongEnum(c *gin.Context) {
 
 	// get an instance (not staged) from DB instance, and call callback function
 	backRepo.BackRepoGongEnum.CheckoutPhaseOneInstance(&gongenumDB)
-	gongenum := (*backRepo.BackRepoGongEnum.Map_GongEnumDBID_GongEnumPtr)[gongenumDB.ID]
+	gongenum := backRepo.BackRepoGongEnum.Map_GongEnumDBID_GongEnumPtr[gongenumDB.ID]
 
 	if gongenum != nil {
 		models.AfterCreateFromFront(backRepo.GetStage(), gongenum)
@@ -273,7 +273,7 @@ func (controller *Controller) UpdateGongEnum(c *gin.Context) {
 	gongenumDB.CopyBasicFieldsToGongEnum(gongenumNew)
 
 	// get stage instance from DB instance, and call callback function
-	gongenumOld := (*backRepo.BackRepoGongEnum.Map_GongEnumDBID_GongEnumPtr)[gongenumDB.ID]
+	gongenumOld := backRepo.BackRepoGongEnum.Map_GongEnumDBID_GongEnumPtr[gongenumDB.ID]
 	if gongenumOld != nil {
 		models.AfterUpdateFromFront(backRepo.GetStage(), gongenumOld, gongenumNew)
 	}
@@ -330,7 +330,7 @@ func (controller *Controller) DeleteGongEnum(c *gin.Context) {
 	gongenumDB.CopyBasicFieldsToGongEnum(gongenumDeleted)
 
 	// get stage instance from DB instance, and call callback function
-	gongenumStaged := (*backRepo.BackRepoGongEnum.Map_GongEnumDBID_GongEnumPtr)[gongenumDB.ID]
+	gongenumStaged := backRepo.BackRepoGongEnum.Map_GongEnumDBID_GongEnumPtr[gongenumDB.ID]
 	if gongenumStaged != nil {
 		models.AfterDeleteFromFront(backRepo.GetStage(), gongenumStaged, gongenumDeleted)
 	}

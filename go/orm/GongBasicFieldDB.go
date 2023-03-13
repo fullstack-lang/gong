@@ -134,13 +134,13 @@ var GongBasicField_Fields = []string{
 
 type BackRepoGongBasicFieldStruct struct {
 	// stores GongBasicFieldDB according to their gorm ID
-	Map_GongBasicFieldDBID_GongBasicFieldDB *map[uint]*GongBasicFieldDB
+	Map_GongBasicFieldDBID_GongBasicFieldDB map[uint]*GongBasicFieldDB
 
 	// stores GongBasicFieldDB ID according to GongBasicField address
-	Map_GongBasicFieldPtr_GongBasicFieldDBID *map[*models.GongBasicField]uint
+	Map_GongBasicFieldPtr_GongBasicFieldDBID map[*models.GongBasicField]uint
 
 	// stores GongBasicField according to their gorm ID
-	Map_GongBasicFieldDBID_GongBasicFieldPtr *map[uint]*models.GongBasicField
+	Map_GongBasicFieldDBID_GongBasicFieldPtr map[uint]*models.GongBasicField
 
 	db *gorm.DB
 
@@ -158,25 +158,8 @@ func (backRepoGongBasicField *BackRepoGongBasicFieldStruct) GetDB() *gorm.DB {
 
 // GetGongBasicFieldDBFromGongBasicFieldPtr is a handy function to access the back repo instance from the stage instance
 func (backRepoGongBasicField *BackRepoGongBasicFieldStruct) GetGongBasicFieldDBFromGongBasicFieldPtr(gongbasicfield *models.GongBasicField) (gongbasicfieldDB *GongBasicFieldDB) {
-	id := (*backRepoGongBasicField.Map_GongBasicFieldPtr_GongBasicFieldDBID)[gongbasicfield]
-	gongbasicfieldDB = (*backRepoGongBasicField.Map_GongBasicFieldDBID_GongBasicFieldDB)[id]
-	return
-}
-
-// BackRepoGongBasicField.Init set up the BackRepo of the GongBasicField
-func (backRepoGongBasicField *BackRepoGongBasicFieldStruct) Init(stage *models.StageStruct, db *gorm.DB) (Error error) {
-
-	tmp := make(map[uint]*models.GongBasicField, 0)
-	backRepoGongBasicField.Map_GongBasicFieldDBID_GongBasicFieldPtr = &tmp
-
-	tmpDB := make(map[uint]*GongBasicFieldDB, 0)
-	backRepoGongBasicField.Map_GongBasicFieldDBID_GongBasicFieldDB = &tmpDB
-
-	tmpID := make(map[*models.GongBasicField]uint, 0)
-	backRepoGongBasicField.Map_GongBasicFieldPtr_GongBasicFieldDBID = &tmpID
-
-	backRepoGongBasicField.db = db
-	backRepoGongBasicField.stage = stage
+	id := backRepoGongBasicField.Map_GongBasicFieldPtr_GongBasicFieldDBID[gongbasicfield]
+	gongbasicfieldDB = backRepoGongBasicField.Map_GongBasicFieldDBID_GongBasicFieldDB[id]
 	return
 }
 
@@ -190,7 +173,7 @@ func (backRepoGongBasicField *BackRepoGongBasicFieldStruct) CommitPhaseOne(stage
 
 	// parse all backRepo instance and checks wether some instance have been unstaged
 	// in this case, remove them from the back repo
-	for id, gongbasicfield := range *backRepoGongBasicField.Map_GongBasicFieldDBID_GongBasicFieldPtr {
+	for id, gongbasicfield := range backRepoGongBasicField.Map_GongBasicFieldDBID_GongBasicFieldPtr {
 		if _, ok := stage.GongBasicFields[gongbasicfield]; !ok {
 			backRepoGongBasicField.CommitDeleteInstance(id)
 		}
@@ -202,19 +185,19 @@ func (backRepoGongBasicField *BackRepoGongBasicFieldStruct) CommitPhaseOne(stage
 // BackRepoGongBasicField.CommitDeleteInstance commits deletion of GongBasicField to the BackRepo
 func (backRepoGongBasicField *BackRepoGongBasicFieldStruct) CommitDeleteInstance(id uint) (Error error) {
 
-	gongbasicfield := (*backRepoGongBasicField.Map_GongBasicFieldDBID_GongBasicFieldPtr)[id]
+	gongbasicfield := backRepoGongBasicField.Map_GongBasicFieldDBID_GongBasicFieldPtr[id]
 
 	// gongbasicfield is not staged anymore, remove gongbasicfieldDB
-	gongbasicfieldDB := (*backRepoGongBasicField.Map_GongBasicFieldDBID_GongBasicFieldDB)[id]
+	gongbasicfieldDB := backRepoGongBasicField.Map_GongBasicFieldDBID_GongBasicFieldDB[id]
 	query := backRepoGongBasicField.db.Unscoped().Delete(&gongbasicfieldDB)
 	if query.Error != nil {
 		return query.Error
 	}
 
 	// update stores
-	delete((*backRepoGongBasicField.Map_GongBasicFieldPtr_GongBasicFieldDBID), gongbasicfield)
-	delete((*backRepoGongBasicField.Map_GongBasicFieldDBID_GongBasicFieldPtr), id)
-	delete((*backRepoGongBasicField.Map_GongBasicFieldDBID_GongBasicFieldDB), id)
+	delete(backRepoGongBasicField.Map_GongBasicFieldPtr_GongBasicFieldDBID, gongbasicfield)
+	delete(backRepoGongBasicField.Map_GongBasicFieldDBID_GongBasicFieldPtr, id)
+	delete(backRepoGongBasicField.Map_GongBasicFieldDBID_GongBasicFieldDB, id)
 
 	return
 }
@@ -224,7 +207,7 @@ func (backRepoGongBasicField *BackRepoGongBasicFieldStruct) CommitDeleteInstance
 func (backRepoGongBasicField *BackRepoGongBasicFieldStruct) CommitPhaseOneInstance(gongbasicfield *models.GongBasicField) (Error error) {
 
 	// check if the gongbasicfield is not commited yet
-	if _, ok := (*backRepoGongBasicField.Map_GongBasicFieldPtr_GongBasicFieldDBID)[gongbasicfield]; ok {
+	if _, ok := backRepoGongBasicField.Map_GongBasicFieldPtr_GongBasicFieldDBID[gongbasicfield]; ok {
 		return
 	}
 
@@ -238,9 +221,9 @@ func (backRepoGongBasicField *BackRepoGongBasicFieldStruct) CommitPhaseOneInstan
 	}
 
 	// update stores
-	(*backRepoGongBasicField.Map_GongBasicFieldPtr_GongBasicFieldDBID)[gongbasicfield] = gongbasicfieldDB.ID
-	(*backRepoGongBasicField.Map_GongBasicFieldDBID_GongBasicFieldPtr)[gongbasicfieldDB.ID] = gongbasicfield
-	(*backRepoGongBasicField.Map_GongBasicFieldDBID_GongBasicFieldDB)[gongbasicfieldDB.ID] = &gongbasicfieldDB
+	backRepoGongBasicField.Map_GongBasicFieldPtr_GongBasicFieldDBID[gongbasicfield] = gongbasicfieldDB.ID
+	backRepoGongBasicField.Map_GongBasicFieldDBID_GongBasicFieldPtr[gongbasicfieldDB.ID] = gongbasicfield
+	backRepoGongBasicField.Map_GongBasicFieldDBID_GongBasicFieldDB[gongbasicfieldDB.ID] = &gongbasicfieldDB
 
 	return
 }
@@ -249,7 +232,7 @@ func (backRepoGongBasicField *BackRepoGongBasicFieldStruct) CommitPhaseOneInstan
 // Phase Two is the update of instance with the field in the database
 func (backRepoGongBasicField *BackRepoGongBasicFieldStruct) CommitPhaseTwo(backRepo *BackRepoStruct) (Error error) {
 
-	for idx, gongbasicfield := range *backRepoGongBasicField.Map_GongBasicFieldDBID_GongBasicFieldPtr {
+	for idx, gongbasicfield := range backRepoGongBasicField.Map_GongBasicFieldDBID_GongBasicFieldPtr {
 		backRepoGongBasicField.CommitPhaseTwoInstance(backRepo, idx, gongbasicfield)
 	}
 
@@ -261,7 +244,7 @@ func (backRepoGongBasicField *BackRepoGongBasicFieldStruct) CommitPhaseTwo(backR
 func (backRepoGongBasicField *BackRepoGongBasicFieldStruct) CommitPhaseTwoInstance(backRepo *BackRepoStruct, idx uint, gongbasicfield *models.GongBasicField) (Error error) {
 
 	// fetch matching gongbasicfieldDB
-	if gongbasicfieldDB, ok := (*backRepoGongBasicField.Map_GongBasicFieldDBID_GongBasicFieldDB)[idx]; ok {
+	if gongbasicfieldDB, ok := backRepoGongBasicField.Map_GongBasicFieldDBID_GongBasicFieldDB[idx]; ok {
 
 		gongbasicfieldDB.CopyBasicFieldsFromGongBasicField(gongbasicfield)
 
@@ -269,7 +252,7 @@ func (backRepoGongBasicField *BackRepoGongBasicFieldStruct) CommitPhaseTwoInstan
 		// commit pointer value gongbasicfield.GongEnum translates to updating the gongbasicfield.GongEnumID
 		gongbasicfieldDB.GongEnumID.Valid = true // allow for a 0 value (nil association)
 		if gongbasicfield.GongEnum != nil {
-			if GongEnumId, ok := (*backRepo.BackRepoGongEnum.Map_GongEnumPtr_GongEnumDBID)[gongbasicfield.GongEnum]; ok {
+			if GongEnumId, ok := backRepo.BackRepoGongEnum.Map_GongEnumPtr_GongEnumDBID[gongbasicfield.GongEnum]; ok {
 				gongbasicfieldDB.GongEnumID.Int64 = int64(GongEnumId)
 				gongbasicfieldDB.GongEnumID.Valid = true
 			}
@@ -314,7 +297,7 @@ func (backRepoGongBasicField *BackRepoGongBasicFieldStruct) CheckoutPhaseOne() (
 
 		// do not remove this instance from the stage, therefore
 		// remove instance from the list of instances to be be removed from the stage
-		gongbasicfield, ok := (*backRepoGongBasicField.Map_GongBasicFieldDBID_GongBasicFieldPtr)[gongbasicfieldDB.ID]
+		gongbasicfield, ok := backRepoGongBasicField.Map_GongBasicFieldDBID_GongBasicFieldPtr[gongbasicfieldDB.ID]
 		if ok {
 			delete(gongbasicfieldInstancesToBeRemovedFromTheStage, gongbasicfield)
 		}
@@ -325,10 +308,10 @@ func (backRepoGongBasicField *BackRepoGongBasicFieldStruct) CheckoutPhaseOne() (
 		gongbasicfield.Unstage(backRepoGongBasicField.GetStage())
 
 		// remove instance from the back repo 3 maps
-		gongbasicfieldID := (*backRepoGongBasicField.Map_GongBasicFieldPtr_GongBasicFieldDBID)[gongbasicfield]
-		delete((*backRepoGongBasicField.Map_GongBasicFieldPtr_GongBasicFieldDBID), gongbasicfield)
-		delete((*backRepoGongBasicField.Map_GongBasicFieldDBID_GongBasicFieldDB), gongbasicfieldID)
-		delete((*backRepoGongBasicField.Map_GongBasicFieldDBID_GongBasicFieldPtr), gongbasicfieldID)
+		gongbasicfieldID := backRepoGongBasicField.Map_GongBasicFieldPtr_GongBasicFieldDBID[gongbasicfield]
+		delete(backRepoGongBasicField.Map_GongBasicFieldPtr_GongBasicFieldDBID, gongbasicfield)
+		delete(backRepoGongBasicField.Map_GongBasicFieldDBID_GongBasicFieldDB, gongbasicfieldID)
+		delete(backRepoGongBasicField.Map_GongBasicFieldDBID_GongBasicFieldPtr, gongbasicfieldID)
 	}
 
 	return
@@ -338,12 +321,12 @@ func (backRepoGongBasicField *BackRepoGongBasicFieldStruct) CheckoutPhaseOne() (
 // models version of the gongbasicfieldDB
 func (backRepoGongBasicField *BackRepoGongBasicFieldStruct) CheckoutPhaseOneInstance(gongbasicfieldDB *GongBasicFieldDB) (Error error) {
 
-	gongbasicfield, ok := (*backRepoGongBasicField.Map_GongBasicFieldDBID_GongBasicFieldPtr)[gongbasicfieldDB.ID]
+	gongbasicfield, ok := backRepoGongBasicField.Map_GongBasicFieldDBID_GongBasicFieldPtr[gongbasicfieldDB.ID]
 	if !ok {
 		gongbasicfield = new(models.GongBasicField)
 
-		(*backRepoGongBasicField.Map_GongBasicFieldDBID_GongBasicFieldPtr)[gongbasicfieldDB.ID] = gongbasicfield
-		(*backRepoGongBasicField.Map_GongBasicFieldPtr_GongBasicFieldDBID)[gongbasicfield] = gongbasicfieldDB.ID
+		backRepoGongBasicField.Map_GongBasicFieldDBID_GongBasicFieldPtr[gongbasicfieldDB.ID] = gongbasicfield
+		backRepoGongBasicField.Map_GongBasicFieldPtr_GongBasicFieldDBID[gongbasicfield] = gongbasicfieldDB.ID
 
 		// append model store with the new element
 		gongbasicfield.Name = gongbasicfieldDB.Name_Data.String
@@ -358,7 +341,7 @@ func (backRepoGongBasicField *BackRepoGongBasicFieldStruct) CheckoutPhaseOneInst
 	// Map_GongBasicFieldDBID_GongBasicFieldDB)[gongbasicfieldDB hold variable pointers
 	gongbasicfieldDB_Data := *gongbasicfieldDB
 	preservedPtrToGongBasicField := &gongbasicfieldDB_Data
-	(*backRepoGongBasicField.Map_GongBasicFieldDBID_GongBasicFieldDB)[gongbasicfieldDB.ID] = preservedPtrToGongBasicField
+	backRepoGongBasicField.Map_GongBasicFieldDBID_GongBasicFieldDB[gongbasicfieldDB.ID] = preservedPtrToGongBasicField
 
 	return
 }
@@ -368,7 +351,7 @@ func (backRepoGongBasicField *BackRepoGongBasicFieldStruct) CheckoutPhaseOneInst
 func (backRepoGongBasicField *BackRepoGongBasicFieldStruct) CheckoutPhaseTwo(backRepo *BackRepoStruct) (Error error) {
 
 	// parse all DB instance and update all pointer fields of the translated models instance
-	for _, gongbasicfieldDB := range *backRepoGongBasicField.Map_GongBasicFieldDBID_GongBasicFieldDB {
+	for _, gongbasicfieldDB := range backRepoGongBasicField.Map_GongBasicFieldDBID_GongBasicFieldDB {
 		backRepoGongBasicField.CheckoutPhaseTwoInstance(backRepo, gongbasicfieldDB)
 	}
 	return
@@ -378,13 +361,13 @@ func (backRepoGongBasicField *BackRepoGongBasicFieldStruct) CheckoutPhaseTwo(bac
 // Phase Two is the update of instance with the field in the database
 func (backRepoGongBasicField *BackRepoGongBasicFieldStruct) CheckoutPhaseTwoInstance(backRepo *BackRepoStruct, gongbasicfieldDB *GongBasicFieldDB) (Error error) {
 
-	gongbasicfield := (*backRepoGongBasicField.Map_GongBasicFieldDBID_GongBasicFieldPtr)[gongbasicfieldDB.ID]
+	gongbasicfield := backRepoGongBasicField.Map_GongBasicFieldDBID_GongBasicFieldPtr[gongbasicfieldDB.ID]
 	_ = gongbasicfield // sometimes, there is no code generated. This lines voids the "unused variable" compilation error
 
 	// insertion point for checkout of pointer encoding
 	// GongEnum field
 	if gongbasicfieldDB.GongEnumID.Int64 != 0 {
-		gongbasicfield.GongEnum = (*backRepo.BackRepoGongEnum.Map_GongEnumDBID_GongEnumPtr)[uint(gongbasicfieldDB.GongEnumID.Int64)]
+		gongbasicfield.GongEnum = backRepo.BackRepoGongEnum.Map_GongEnumDBID_GongEnumPtr[uint(gongbasicfieldDB.GongEnumID.Int64)]
 	}
 	return
 }
@@ -392,7 +375,7 @@ func (backRepoGongBasicField *BackRepoGongBasicFieldStruct) CheckoutPhaseTwoInst
 // CommitGongBasicField allows commit of a single gongbasicfield (if already staged)
 func (backRepo *BackRepoStruct) CommitGongBasicField(gongbasicfield *models.GongBasicField) {
 	backRepo.BackRepoGongBasicField.CommitPhaseOneInstance(gongbasicfield)
-	if id, ok := (*backRepo.BackRepoGongBasicField.Map_GongBasicFieldPtr_GongBasicFieldDBID)[gongbasicfield]; ok {
+	if id, ok := backRepo.BackRepoGongBasicField.Map_GongBasicFieldPtr_GongBasicFieldDBID[gongbasicfield]; ok {
 		backRepo.BackRepoGongBasicField.CommitPhaseTwoInstance(backRepo, id, gongbasicfield)
 	}
 	backRepo.CommitFromBackNb = backRepo.CommitFromBackNb + 1
@@ -401,9 +384,9 @@ func (backRepo *BackRepoStruct) CommitGongBasicField(gongbasicfield *models.Gong
 // CommitGongBasicField allows checkout of a single gongbasicfield (if already staged and with a BackRepo id)
 func (backRepo *BackRepoStruct) CheckoutGongBasicField(gongbasicfield *models.GongBasicField) {
 	// check if the gongbasicfield is staged
-	if _, ok := (*backRepo.BackRepoGongBasicField.Map_GongBasicFieldPtr_GongBasicFieldDBID)[gongbasicfield]; ok {
+	if _, ok := backRepo.BackRepoGongBasicField.Map_GongBasicFieldPtr_GongBasicFieldDBID[gongbasicfield]; ok {
 
-		if id, ok := (*backRepo.BackRepoGongBasicField.Map_GongBasicFieldPtr_GongBasicFieldDBID)[gongbasicfield]; ok {
+		if id, ok := backRepo.BackRepoGongBasicField.Map_GongBasicFieldPtr_GongBasicFieldDBID[gongbasicfield]; ok {
 			var gongbasicfieldDB GongBasicFieldDB
 			gongbasicfieldDB.ID = id
 
@@ -493,7 +476,7 @@ func (backRepoGongBasicField *BackRepoGongBasicFieldStruct) Backup(dirPath strin
 	// organize the map into an array with increasing IDs, in order to have repoductible
 	// backup file
 	forBackup := make([]*GongBasicFieldDB, 0)
-	for _, gongbasicfieldDB := range *backRepoGongBasicField.Map_GongBasicFieldDBID_GongBasicFieldDB {
+	for _, gongbasicfieldDB := range backRepoGongBasicField.Map_GongBasicFieldDBID_GongBasicFieldDB {
 		forBackup = append(forBackup, gongbasicfieldDB)
 	}
 
@@ -519,7 +502,7 @@ func (backRepoGongBasicField *BackRepoGongBasicFieldStruct) BackupXL(file *xlsx.
 	// organize the map into an array with increasing IDs, in order to have repoductible
 	// backup file
 	forBackup := make([]*GongBasicFieldDB, 0)
-	for _, gongbasicfieldDB := range *backRepoGongBasicField.Map_GongBasicFieldDBID_GongBasicFieldDB {
+	for _, gongbasicfieldDB := range backRepoGongBasicField.Map_GongBasicFieldDBID_GongBasicFieldDB {
 		forBackup = append(forBackup, gongbasicfieldDB)
 	}
 
@@ -584,7 +567,7 @@ func (backRepoGongBasicField *BackRepoGongBasicFieldStruct) rowVisitorGongBasicF
 		if query.Error != nil {
 			log.Panic(query.Error)
 		}
-		(*backRepoGongBasicField.Map_GongBasicFieldDBID_GongBasicFieldDB)[gongbasicfieldDB.ID] = gongbasicfieldDB
+		backRepoGongBasicField.Map_GongBasicFieldDBID_GongBasicFieldDB[gongbasicfieldDB.ID] = gongbasicfieldDB
 		BackRepoGongBasicFieldid_atBckpTime_newID[gongbasicfieldDB_ID_atBackupTime] = gongbasicfieldDB.ID
 	}
 	return nil
@@ -621,7 +604,7 @@ func (backRepoGongBasicField *BackRepoGongBasicFieldStruct) RestorePhaseOne(dirP
 		if query.Error != nil {
 			log.Panic(query.Error)
 		}
-		(*backRepoGongBasicField.Map_GongBasicFieldDBID_GongBasicFieldDB)[gongbasicfieldDB.ID] = gongbasicfieldDB
+		backRepoGongBasicField.Map_GongBasicFieldDBID_GongBasicFieldDB[gongbasicfieldDB.ID] = gongbasicfieldDB
 		BackRepoGongBasicFieldid_atBckpTime_newID[gongbasicfieldDB_ID_atBackupTime] = gongbasicfieldDB.ID
 	}
 
@@ -634,7 +617,7 @@ func (backRepoGongBasicField *BackRepoGongBasicFieldStruct) RestorePhaseOne(dirP
 // to compute new index
 func (backRepoGongBasicField *BackRepoGongBasicFieldStruct) RestorePhaseTwo() {
 
-	for _, gongbasicfieldDB := range *backRepoGongBasicField.Map_GongBasicFieldDBID_GongBasicFieldDB {
+	for _, gongbasicfieldDB := range backRepoGongBasicField.Map_GongBasicFieldDBID_GongBasicFieldDB {
 
 		// next line of code is to avert unused variable compilation error
 		_ = gongbasicfieldDB
