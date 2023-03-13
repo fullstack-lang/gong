@@ -11,11 +11,13 @@ import (
 	"path/filepath"
 	"sync"
 
-	"gorm.io/gorm"
-
 	"{{PkgPathRoot}}/models"
 
 	"github.com/tealeg/xlsx/v3"
+
+	"github.com/glebarez/sqlite"
+	"gorm.io/gorm"
+	"gorm.io/gorm/schema"
 )
 
 // BackRepoStruct supports callback functions
@@ -26,6 +28,52 @@ type BackRepoStruct struct {
 	PushFromFrontNb uint // records commit increments when performed by the front
 
 	stage *models.StageStruct
+}
+
+func NewBackRepo(stage *models.StageStruct, filename string) (backRepo *BackRepoStruct) {
+
+	// adjust naming strategy to the stack
+	gormConfig := &gorm.Config{
+		NamingStrategy: schema.NamingStrategy{
+			TablePrefix: "github_com_fullstack_lang_gong_test_go_", // table name prefix
+		},
+	}
+	db, err := gorm.Open(sqlite.Open(filename), gormConfig)
+
+	// since testsim is a multi threaded application. It is important to set up
+	// only one open connexion at a time
+	dbDB_inMemory, err := db.DB()
+	if err != nil {
+		panic("cannot access DB of db" + err.Error())
+	}
+	// it is mandatory to allow parallel access, otherwise, bizarre errors occurs
+	dbDB_inMemory.SetMaxOpenConns(1)
+
+	if err != nil {
+		panic("Failed to connect to database!")
+	}
+
+	// adjust naming strategy to the stack
+	db.Config.NamingStrategy = &schema.NamingStrategy{
+		TablePrefix: "github_com_fullstack_lang_gong_test_go_", // table name prefix
+	}
+
+	err = db.AutoMigrate( // insertion point for reference to structs{{` + string(rune(BackRepoPerStructRefToStructDB)) + `}}
+	)
+
+	if err != nil {
+		msg := err.Error()
+		panic("problem with migration " + msg + " on package github.com/fullstack-lang/gong/test/go")
+	}
+
+	backRepo = new(BackRepoStruct)
+
+	// insertion point for per struct back repo declarations{{` + string(rune(BackRepoPerStructInits)) + `}}
+
+	stage.BackRepo = backRepo
+	backRepo.stage = stage
+
+	return
 }
 
 func (backRepo *BackRepoStruct) GetStage() (stage *models.StageStruct) {
@@ -61,14 +109,6 @@ func (backRepo *BackRepoStruct) IncrementPushFromFrontNb() uint {
 	}
 	backRepo.PushFromFrontNb = backRepo.PushFromFrontNb + 1
 	return backRepo.CommitFromBackNb
-}
-
-// Init the BackRepoStruct inner variables and link to the database
-func (backRepo *BackRepoStruct) init(stage *models.StageStruct, db *gorm.DB) {
-	// insertion point for per struct back repo declarations{{` + string(rune(BackRepoPerStructInits)) + `}}
-
-	stage.BackRepo = backRepo
-	backRepo.stage = stage
 }
 
 // Commit the BackRepoStruct inner variables and link to the database
@@ -189,6 +229,7 @@ type BackRepoSubTemplateInsertion int
 const (
 	BackRepoPerStructDeclarations BackRepoSubTemplateInsertion = iota
 	BackRepoPerStructInits
+	BackRepoPerStructRefToStructDB
 	BackRepoPerStructPhaseOneCommits
 	BackRepoPerStructPhaseTwoCommits
 	BackRepoPerStructPhaseOneCheckouts
@@ -213,6 +254,9 @@ map[string]string{
 
 	string(rune(BackRepoPerStructInits)): `
 	backRepo.BackRepo{{Structname}}.Init(stage, db)`,
+
+	string(rune(BackRepoPerStructRefToStructDB)): `
+		&{{Structname}}DB{},`,
 
 	string(rune(BackRepoPerStructPhaseOneCommits)): `
 	backRepo.BackRepo{{Structname}}.CommitPhaseOne(stage)`,
