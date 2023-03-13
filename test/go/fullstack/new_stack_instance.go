@@ -35,8 +35,11 @@ func NewStackInstance(
 
 	backRepo := orm.NewBackRepo(stage, filenames[0])
 
-	controllers.GetController().AddBackRepo(backRepo, stackPath)
-	test_controllers.RegisterControllers(r)
+	if stackPath != "" {
+		controllers.GetController().AddBackRepo(backRepo, stackPath)
+	}
+
+	test_controllers.Register(r)
 
 	return
 
