@@ -143,21 +143,6 @@ func (backRepoGongTimeField *BackRepoGongTimeFieldStruct) GetGongTimeFieldDBFrom
 // BackRepoGongTimeField.Init set up the BackRepo of the GongTimeField
 func (backRepoGongTimeField *BackRepoGongTimeFieldStruct) Init(stage *models.StageStruct, db *gorm.DB) (Error error) {
 
-	if backRepoGongTimeField.Map_GongTimeFieldDBID_GongTimeFieldPtr != nil {
-		err := errors.New("In Init, backRepoGongTimeField.Map_GongTimeFieldDBID_GongTimeFieldPtr should be nil")
-		return err
-	}
-
-	if backRepoGongTimeField.Map_GongTimeFieldDBID_GongTimeFieldDB != nil {
-		err := errors.New("In Init, backRepoGongTimeField.Map_GongTimeFieldDBID_GongTimeFieldDB should be nil")
-		return err
-	}
-
-	if backRepoGongTimeField.Map_GongTimeFieldPtr_GongTimeFieldDBID != nil {
-		err := errors.New("In Init, backRepoGongTimeField.Map_GongTimeFieldPtr_GongTimeFieldDBID should be nil")
-		return err
-	}
-
 	tmp := make(map[uint]*models.GongTimeField, 0)
 	backRepoGongTimeField.Map_GongTimeFieldDBID_GongTimeFieldPtr = &tmp
 

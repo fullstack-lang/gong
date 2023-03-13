@@ -40,8 +40,8 @@ type ValidationError struct {
 	} ` + "`" + `json:"body"` + "`" + `
 }
 
-// RegisterControllers register controllers
-func RegisterControllers(r *gin.Engine) {
+// registerControllers register controllers
+func registerControllers(r *gin.Engine) {
 	v1 := r.Group("/api/{{PkgPathRoot}}")
 	{ // insertion point for registrations{{` + string(rune(ControllersDeclaration)) + `}}
 		v1.GET("/v1/commitfrombacknb", GetController().GetLastCommitFromBackNb)
@@ -67,7 +67,7 @@ func (controller *Controller) GetLastCommitFromBackNb(c *gin.Context) {
 }
 
 // swagger:route GET /pushfromfrontnb backrepo GetLastPushFromFrontNb
-func(controller *Controller) GetLastPushFromFrontNb(c *gin.Context) {
+func (controller *Controller) GetLastPushFromFrontNb(c *gin.Context) {
 	values := c.Request.URL.Query()
 	stackPath := ""
 	if len(values) == 1 {
