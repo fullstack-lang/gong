@@ -82,7 +82,13 @@ func NewBackRepo(stage *models.StageStruct, filename string) (backRepo *BackRepo
 	backRepo = new(BackRepoStruct)
 
 	// insertion point for per struct back repo declarations
-	backRepo.BackRepoAstruct.Init(stage, db)
+	backRepo.BackRepoAstruct = BackRepoAstructStruct{
+		Map_AstructDBID_AstructPtr: make(map[uint]*models.Astruct, 0),
+		Map_AstructDBID_AstructDB:  make(map[uint]*AstructDB, 0),
+		Map_AstructPtr_AstructDBID: make(map[*models.Astruct]uint, 0),
+		db:                         db,
+		stage:                      stage,
+	}
 	backRepo.BackRepoAstructBstruct2Use.Init(stage, db)
 	backRepo.BackRepoAstructBstructUse.Init(stage, db)
 	backRepo.BackRepoBstruct.Init(stage, db)
