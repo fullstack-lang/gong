@@ -2,11 +2,15 @@ package fullstack
 
 import (
 	"github.com/fullstack-lang/gong/test/go/controllers"
-	test_controllers "github.com/fullstack-lang/gong/test/go/controllers"
 	"github.com/fullstack-lang/gong/test/go/models"
 	"github.com/fullstack-lang/gong/test/go/orm"
 
 	"github.com/gin-gonic/gin"
+
+	// this will import the angular front end source code directory (versionned with git) in the vendor directory
+	// this path will be included in the "tsconfig.json" front end compilation paths
+	// to include this stack front end code
+	_ "github.com/fullstack-lang/gong/test/ng/projects"
 )
 
 // NewStackInstance creates a new stack instance from the Stack Model
@@ -39,7 +43,7 @@ func NewStackInstance(
 		controllers.GetController().AddBackRepo(backRepo, stackPath)
 	}
 
-	test_controllers.Register(r)
+	controllers.Register(r)
 
 	return
 
