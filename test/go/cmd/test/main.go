@@ -7,9 +7,6 @@ import (
 	"os"
 	"strings"
 
-	"github.com/gin-contrib/cors"
-	"github.com/gin-gonic/gin"
-
 	"github.com/fullstack-lang/gong/test"
 	"github.com/fullstack-lang/gong/test/go/fullstack"
 	"github.com/fullstack-lang/gong/test/go/models"
@@ -58,13 +55,7 @@ func main() {
 	// parse program arguments
 	flag.Parse()
 
-	// setup controlers
-	if !*logGINFlag {
-		myfile, _ := os.Create("/tmp/server.log")
-		gin.DefaultWriter = myfile
-	}
-	r := gin.Default()
-	r.Use(cors.Default())
+	r := fullstack.ServeStaticFiles(*logGINFlag)
 
 	// setup stack
 	var stage *models.StageStruct
@@ -140,8 +131,6 @@ func main() {
 		r,
 		*embeddedDiagrams,
 		&stage.Map_GongStructName_InstancesNb)
-
-	fullstack.ServeStaticFiles(r)
 
 	log.Printf("Server ready serve on localhost:8080")
 	r.Run()

@@ -5,12 +5,14 @@ import (
 	"fmt"
 	"io/fs"
 	"net/http"
+	"os"
 
 	"github.com/fullstack-lang/gong/test"
 	"github.com/fullstack-lang/gong/test/go/controllers"
 	"github.com/fullstack-lang/gong/test/go/models"
 	"github.com/fullstack-lang/gong/test/go/orm"
 
+	"github.com/gin-contrib/cors"
 	"github.com/gin-contrib/static"
 	"github.com/gin-gonic/gin"
 
@@ -55,7 +57,16 @@ func NewStackInstance(
 	return
 }
 
-func ServeStaticFiles(r *gin.Engine) {
+func ServeStaticFiles(logGINFlag bool) (r *gin.Engine) {
+
+	// setup controlers
+	if !logGINFlag {
+		myfile, _ := os.Create("/tmp/server.log")
+		gin.DefaultWriter = myfile
+	}
+	r = gin.Default()
+	r.Use(cors.Default())
+
 	// insertion point for serving the static file
 	// provide the static route for the angular pages
 	r.Use(static.Serve("/", EmbedFolder(test.NgDistNg, "ng/dist/ng")))
@@ -65,6 +76,7 @@ func ServeStaticFiles(r *gin.Engine) {
 		c.Abort()
 	})
 
+	return
 }
 
 type embedFileSystem struct {
