@@ -32,7 +32,7 @@ export class RouteService {
     }
 
 	getPathRoot() : string {
-		return 'github_com_fullstack_lang_gong_test_go-'
+		return 'github_com_fullstack_lang_gong_test_go'
 	}
 	getTableOutlet(stackPath: string): string {
         return this.getPathRoot() + '_table'
