@@ -298,11 +298,11 @@ export class SidebarComponent implements OnInit {
   setEditorRouterOutlet(path: string) {
     let outletName = this.routeService.getEditorOutlet(this.GONG__StackPath)
     let fullPath = this.routeService.getPathRoot() + "-" + path.toLowerCase()
-    this.router.navigate([{
-      outlets: {
-        outletName: [fullPath, this.GONG__StackPath]
-      }
-    }]);
+    
+    let outletConf : any = {}
+    outletConf[outletName] = [fullPath, this.GONG__StackPath]
+    
+    this.router.navigate([ { outlets: outletConf } ]);
   }
 
   setEditorSpecialRouterOutlet(node: GongFlatNode) {
