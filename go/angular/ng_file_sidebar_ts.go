@@ -276,34 +276,42 @@ export class SidebarComponent implements OnInit {
   setTableRouterOutletFromTree(path: string, type: GongNodeType, structName: string, id: number) {
 
     if (type == GongNodeType.STRUCT) {
+      let outletName = this.routeService.getTableOutlet(this.GONG__StackPath)
+      let fullPath = this.routeService.getPathRoot() + "-" + path.toLowerCase()
       this.router.navigate([{
         outlets: {
-          {{PkgPathRootWithoutSlashes}}_table: ["{{PkgPathRootWithoutSlashes}}-" + path.toLowerCase(), this.GONG__StackPath]
+          outletName: [fullPath, this.GONG__StackPath]
         }
       }]);
     }
 
     if (type == GongNodeType.INSTANCE) {
+      let outletName = this.routeService.getEditorOutlet(this.GONG__StackPath)
+      let fullPath = this.routeService.getPathRoot() + "-" + path.toLowerCase() + "-detail"
       this.router.navigate([{
         outlets: {
-          {{PkgPathRootWithoutSlashes}}_editor: ["{{PkgPathRootWithoutSlashes}}-" + structName.toLowerCase() + "-detail", id]
+          outletName: [fullPath, id]
         }
       }]);
     }
   }
 
   setEditorRouterOutlet(path: string) {
+    let outletName = this.routeService.getEditorOutlet(this.GONG__StackPath)
+    let fullPath = this.routeService.getPathRoot() + "-" + path.toLowerCase()
     this.router.navigate([{
       outlets: {
-        {{PkgPathRootWithoutSlashes}}_editor: ["{{PkgPathRootWithoutSlashes}}-" + path.toLowerCase(), this.GONG__StackPath]
+        outletName: [fullPath, this.GONG__StackPath]
       }
     }]);
   }
 
   setEditorSpecialRouterOutlet(node: GongFlatNode) {
+    let outletName = this.routeService.getEditorOutlet(this.GONG__StackPath)
+    let fullPath = this.routeService.getPathRoot() + "-" + node.associatedStructName.toLowerCase() + "-adder"
     this.router.navigate([{
       outlets: {
-        {{PkgPathRootWithoutSlashes}}_editor: ["{{PkgPathRootWithoutSlashes}}-" + node.associatedStructName.toLowerCase() + "-adder", node.id, node.structName, node.associationField, this.GONG__StackPath]
+        outletName: [fullPath, node.id, node.structName, node.associationField, this.GONG__StackPath]
       }
     }]);
   }
