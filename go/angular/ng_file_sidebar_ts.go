@@ -30,6 +30,8 @@ import { GongstructSelectionService } from '../gongstruct-selection.service'
 
 // insertion point for per struct import code{{` + string(rune(NgSidebarTsInsertionPerStructImports)) + `}}
 
+import { RouteService } from '../route-service';
+
 /**
  * Types of a GongNode / GongFlatNode
  */
@@ -173,6 +175,8 @@ export class SidebarComponent implements OnInit {
     private gongstructSelectionService: GongstructSelectionService,
 
     // insertion point for per struct service declaration{{` + string(rune(NgSidebarTsInsertionPerStructServiceDeclaration)) + `}}
+
+    private routeService: RouteService,
   ) { }
 
   ngOnDestroy() {
@@ -183,6 +187,10 @@ export class SidebarComponent implements OnInit {
   ngOnInit(): void {
 
     console.log("Sidebar init: " + this.GONG__StackPath)
+
+    // add the routes that will used by this side panel component and
+    // by the component that are called from this component
+    this.routeService.addDataPanelRoutes(this.GONG__StackPath)
 
     this.subscription = this.gongstructSelectionService.gongtructSelected$.subscribe(
       gongstructName => {
@@ -252,9 +260,11 @@ export class SidebarComponent implements OnInit {
    * @param path for the outlet selection
    */
   setTableRouterOutlet(path: string) {
+    let outletName = this.routeService.getTableOutlet(this.GONG__StackPath)
+    let fullPath = this.routeService.getPathRoot() + "-" + path
     this.router.navigate([{
       outlets: {
-        {{PkgPathRootWithoutSlashes}}_table: ["{{PkgPathRootWithoutSlashes}}-" + path]
+        outletName: [fullPath]
       }
     }]);
   }

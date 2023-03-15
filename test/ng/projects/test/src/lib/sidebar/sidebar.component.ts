@@ -1063,7 +1063,7 @@ export class SidebarComponent implements OnInit {
    */
   setTableRouterOutlet(path: string) {
     let outletName = this.routeService.getTableOutlet(this.GONG__StackPath)
-    let fullPath = "github_com_fullstack_lang_gong_test_go-" + path
+    let fullPath = this.routeService.getPathRoot() + "-" + path
     this.router.navigate([{
       outlets: {
         outletName: [fullPath]
