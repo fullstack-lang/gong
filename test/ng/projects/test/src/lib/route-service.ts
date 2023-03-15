@@ -17,6 +17,7 @@ import { BstructDetailComponent } from './bstruct-detail/bstruct-detail.componen
 import { DstructsTableComponent } from './dstructs-table/dstructs-table.component'
 import { DstructDetailComponent } from './dstruct-detail/dstruct-detail.component'
 
+
 @Injectable({
     providedIn: 'root'
 })
@@ -30,47 +31,212 @@ export class RouteService {
         this.router.resetConfig(this.routes)
     }
 
-    getTableOutlet(stackPath: string): string {
-        return 'github_com_fullstack_lang_gong_test_go_table'
+	getPathRoot() : string {
+		return 'github_com_fullstack_lang_gong_test_go-'
+	}
+	getTableOutlet(stackPath: string): string {
+        return this.getPathRoot() + '_table'
     }
-
-    getAstructTablePath(stackPath: string): string {
-        return 'github_com_fullstack_lang_gong_test_go-astructs/:GONG__StackPath'
+	getEditorOutlet(stackPath: string): string {
+        return this.getPathRoot() + '_adder'
     }
-
+	// insertion point for per gongstruct route/path getters
+    getAstructTablePath(): string {
+        return this.getPathRoot() + '-astructs/:GONG__StackPath'
+    }
     getAstructTableRoute(stackPath: string): Route {
         let route: Route =
-            { path: this.getAstructTablePath(stackPath), component: AstructsTableComponent, outlet: this.getTableOutlet(stackPath) }
+            { path: this.getAstructTablePath(), component: AstructsTableComponent, outlet: this.getTableOutlet(stackPath) }
+        return route
+    }
+	getAstructAdderPath(): string {
+        return this.getPathRoot() + '-astruct/:GONG__StackPath'
+    }
+    getAstructAdderRoute(stackPath: string): Route {
+        let route: Route =
+            { path: this.getAstructAdderPath(), component: AstructDetailComponent, outlet: this.getEditorOutlet(stackPath) }
+        return route
+    }
+	getAstructAdderForUsePath(): string {
+        return this.getPathRoot() + '-astruct/:id/:originStruct/:originStructFieldName/:GONG__StackPath'
+    }
+    getAstructAdderForUseRoute(stackPath: string): Route {
+        let route: Route =
+            { path: this.getAstructAdderForUsePath(), component: AstructDetailComponent, outlet: this.getEditorOutlet(stackPath) }
+        return route
+    }
+	getAstructDetailPath(): string {
+        return this.getPathRoot() + '-astruct/:id/:GONG__StackPath'
+    }
+    getAstructDetailRoute(stackPath: string): Route {
+        let route: Route =
+            { path: this.getAstructDetailPath(), component: AstructDetailComponent, outlet: this.getEditorOutlet(stackPath) }
         return route
     }
 
-    addDataPanelRoutes(stackPath: string) {
+    getAstructBstruct2UseTablePath(): string {
+        return this.getPathRoot() + '-astructbstruct2uses/:GONG__StackPath'
+    }
+    getAstructBstruct2UseTableRoute(stackPath: string): Route {
+        let route: Route =
+            { path: this.getAstructBstruct2UseTablePath(), component: AstructBstruct2UsesTableComponent, outlet: this.getTableOutlet(stackPath) }
+        return route
+    }
+	getAstructBstruct2UseAdderPath(): string {
+        return this.getPathRoot() + '-astructbstruct2use/:GONG__StackPath'
+    }
+    getAstructBstruct2UseAdderRoute(stackPath: string): Route {
+        let route: Route =
+            { path: this.getAstructBstruct2UseAdderPath(), component: AstructBstruct2UseDetailComponent, outlet: this.getEditorOutlet(stackPath) }
+        return route
+    }
+	getAstructBstruct2UseAdderForUsePath(): string {
+        return this.getPathRoot() + '-astructbstruct2use/:id/:originStruct/:originStructFieldName/:GONG__StackPath'
+    }
+    getAstructBstruct2UseAdderForUseRoute(stackPath: string): Route {
+        let route: Route =
+            { path: this.getAstructBstruct2UseAdderForUsePath(), component: AstructBstruct2UseDetailComponent, outlet: this.getEditorOutlet(stackPath) }
+        return route
+    }
+	getAstructBstruct2UseDetailPath(): string {
+        return this.getPathRoot() + '-astructbstruct2use/:id/:GONG__StackPath'
+    }
+    getAstructBstruct2UseDetailRoute(stackPath: string): Route {
+        let route: Route =
+            { path: this.getAstructBstruct2UseDetailPath(), component: AstructBstruct2UseDetailComponent, outlet: this.getEditorOutlet(stackPath) }
+        return route
+    }
+
+    getAstructBstructUseTablePath(): string {
+        return this.getPathRoot() + '-astructbstructuses/:GONG__StackPath'
+    }
+    getAstructBstructUseTableRoute(stackPath: string): Route {
+        let route: Route =
+            { path: this.getAstructBstructUseTablePath(), component: AstructBstructUsesTableComponent, outlet: this.getTableOutlet(stackPath) }
+        return route
+    }
+	getAstructBstructUseAdderPath(): string {
+        return this.getPathRoot() + '-astructbstructuse/:GONG__StackPath'
+    }
+    getAstructBstructUseAdderRoute(stackPath: string): Route {
+        let route: Route =
+            { path: this.getAstructBstructUseAdderPath(), component: AstructBstructUseDetailComponent, outlet: this.getEditorOutlet(stackPath) }
+        return route
+    }
+	getAstructBstructUseAdderForUsePath(): string {
+        return this.getPathRoot() + '-astructbstructuse/:id/:originStruct/:originStructFieldName/:GONG__StackPath'
+    }
+    getAstructBstructUseAdderForUseRoute(stackPath: string): Route {
+        let route: Route =
+            { path: this.getAstructBstructUseAdderForUsePath(), component: AstructBstructUseDetailComponent, outlet: this.getEditorOutlet(stackPath) }
+        return route
+    }
+	getAstructBstructUseDetailPath(): string {
+        return this.getPathRoot() + '-astructbstructuse/:id/:GONG__StackPath'
+    }
+    getAstructBstructUseDetailRoute(stackPath: string): Route {
+        let route: Route =
+            { path: this.getAstructBstructUseDetailPath(), component: AstructBstructUseDetailComponent, outlet: this.getEditorOutlet(stackPath) }
+        return route
+    }
+
+    getBstructTablePath(): string {
+        return this.getPathRoot() + '-bstructs/:GONG__StackPath'
+    }
+    getBstructTableRoute(stackPath: string): Route {
+        let route: Route =
+            { path: this.getBstructTablePath(), component: BstructsTableComponent, outlet: this.getTableOutlet(stackPath) }
+        return route
+    }
+	getBstructAdderPath(): string {
+        return this.getPathRoot() + '-bstruct/:GONG__StackPath'
+    }
+    getBstructAdderRoute(stackPath: string): Route {
+        let route: Route =
+            { path: this.getBstructAdderPath(), component: BstructDetailComponent, outlet: this.getEditorOutlet(stackPath) }
+        return route
+    }
+	getBstructAdderForUsePath(): string {
+        return this.getPathRoot() + '-bstruct/:id/:originStruct/:originStructFieldName/:GONG__StackPath'
+    }
+    getBstructAdderForUseRoute(stackPath: string): Route {
+        let route: Route =
+            { path: this.getBstructAdderForUsePath(), component: BstructDetailComponent, outlet: this.getEditorOutlet(stackPath) }
+        return route
+    }
+	getBstructDetailPath(): string {
+        return this.getPathRoot() + '-bstruct/:id/:GONG__StackPath'
+    }
+    getBstructDetailRoute(stackPath: string): Route {
+        let route: Route =
+            { path: this.getBstructDetailPath(), component: BstructDetailComponent, outlet: this.getEditorOutlet(stackPath) }
+        return route
+    }
+
+    getDstructTablePath(): string {
+        return this.getPathRoot() + '-dstructs/:GONG__StackPath'
+    }
+    getDstructTableRoute(stackPath: string): Route {
+        let route: Route =
+            { path: this.getDstructTablePath(), component: DstructsTableComponent, outlet: this.getTableOutlet(stackPath) }
+        return route
+    }
+	getDstructAdderPath(): string {
+        return this.getPathRoot() + '-dstruct/:GONG__StackPath'
+    }
+    getDstructAdderRoute(stackPath: string): Route {
+        let route: Route =
+            { path: this.getDstructAdderPath(), component: DstructDetailComponent, outlet: this.getEditorOutlet(stackPath) }
+        return route
+    }
+	getDstructAdderForUsePath(): string {
+        return this.getPathRoot() + '-dstruct/:id/:originStruct/:originStructFieldName/:GONG__StackPath'
+    }
+    getDstructAdderForUseRoute(stackPath: string): Route {
+        let route: Route =
+            { path: this.getDstructAdderForUsePath(), component: DstructDetailComponent, outlet: this.getEditorOutlet(stackPath) }
+        return route
+    }
+	getDstructDetailPath(): string {
+        return this.getPathRoot() + '-dstruct/:id/:GONG__StackPath'
+    }
+    getDstructDetailRoute(stackPath: string): Route {
+        let route: Route =
+            { path: this.getDstructDetailPath(), component: DstructDetailComponent, outlet: this.getEditorOutlet(stackPath) }
+        return route
+    }
+
+
+
+	addDataPanelRoutes(stackPath: string) {
 
         this.addRoutes([
-            this.getAstructTableRoute(stackPath),
-            { path: 'github_com_fullstack_lang_gong_test_go-astruct-adder/:GONG__StackPath', component: AstructDetailComponent, outlet: 'github_com_fullstack_lang_gong_test_go_editor' },
-            { path: 'github_com_fullstack_lang_gong_test_go-astruct-adder/:id/:originStruct/:originStructFieldName/:GONG__StackPath', component: AstructDetailComponent, outlet: 'github_com_fullstack_lang_gong_test_go_editor' },
-            { path: 'github_com_fullstack_lang_gong_test_go-astruct-detail/:id/:GONG__StackPath', component: AstructDetailComponent, outlet: 'github_com_fullstack_lang_gong_test_go_editor' },
+			// insertion point for all routes getter
+			this.getAstructTableRoute(stackPath),
+			this.getAstructAdderRoute(stackPath),
+			this.getAstructAdderForUseRoute(stackPath),
+			this.getAstructDetailRoute(stackPath),
 
-            { path: 'github_com_fullstack_lang_gong_test_go-astructbstruct2uses/:GONG__StackPath', component: AstructBstruct2UsesTableComponent, outlet: 'github_com_fullstack_lang_gong_test_go_table' },
-            { path: 'github_com_fullstack_lang_gong_test_go-astructbstruct2use-adder/:GONG__StackPath', component: AstructBstruct2UseDetailComponent, outlet: 'github_com_fullstack_lang_gong_test_go_editor' },
-            { path: 'github_com_fullstack_lang_gong_test_go-astructbstruct2use-adder/:id/:originStruct/:originStructFieldName/:GONG__StackPath', component: AstructBstruct2UseDetailComponent, outlet: 'github_com_fullstack_lang_gong_test_go_editor' },
-            { path: 'github_com_fullstack_lang_gong_test_go-astructbstruct2use-detail/:id/:GONG__StackPath', component: AstructBstruct2UseDetailComponent, outlet: 'github_com_fullstack_lang_gong_test_go_editor' },
+			this.getAstructBstruct2UseTableRoute(stackPath),
+			this.getAstructBstruct2UseAdderRoute(stackPath),
+			this.getAstructBstruct2UseAdderForUseRoute(stackPath),
+			this.getAstructBstruct2UseDetailRoute(stackPath),
 
-            { path: 'github_com_fullstack_lang_gong_test_go-astructbstructuses/:GONG__StackPath', component: AstructBstructUsesTableComponent, outlet: 'github_com_fullstack_lang_gong_test_go_table' },
-            { path: 'github_com_fullstack_lang_gong_test_go-astructbstructuse-adder/:GONG__StackPath', component: AstructBstructUseDetailComponent, outlet: 'github_com_fullstack_lang_gong_test_go_editor' },
-            { path: 'github_com_fullstack_lang_gong_test_go-astructbstructuse-adder/:id/:originStruct/:originStructFieldName/:GONG__StackPath', component: AstructBstructUseDetailComponent, outlet: 'github_com_fullstack_lang_gong_test_go_editor' },
-            { path: 'github_com_fullstack_lang_gong_test_go-astructbstructuse-detail/:id/:GONG__StackPath', component: AstructBstructUseDetailComponent, outlet: 'github_com_fullstack_lang_gong_test_go_editor' },
+			this.getAstructBstructUseTableRoute(stackPath),
+			this.getAstructBstructUseAdderRoute(stackPath),
+			this.getAstructBstructUseAdderForUseRoute(stackPath),
+			this.getAstructBstructUseDetailRoute(stackPath),
 
-            { path: 'github_com_fullstack_lang_gong_test_go-bstructs/:GONG__StackPath', component: BstructsTableComponent, outlet: 'github_com_fullstack_lang_gong_test_go_table' },
-            { path: 'github_com_fullstack_lang_gong_test_go-bstruct-adder/:GONG__StackPath', component: BstructDetailComponent, outlet: 'github_com_fullstack_lang_gong_test_go_editor' },
-            { path: 'github_com_fullstack_lang_gong_test_go-bstruct-adder/:id/:originStruct/:originStructFieldName/:GONG__StackPath', component: BstructDetailComponent, outlet: 'github_com_fullstack_lang_gong_test_go_editor' },
-            { path: 'github_com_fullstack_lang_gong_test_go-bstruct-detail/:id/:GONG__StackPath', component: BstructDetailComponent, outlet: 'github_com_fullstack_lang_gong_test_go_editor' },
+			this.getBstructTableRoute(stackPath),
+			this.getBstructAdderRoute(stackPath),
+			this.getBstructAdderForUseRoute(stackPath),
+			this.getBstructDetailRoute(stackPath),
 
-            { path: 'github_com_fullstack_lang_gong_test_go-dstructs/:GONG__StackPath', component: DstructsTableComponent, outlet: 'github_com_fullstack_lang_gong_test_go_table' },
-            { path: 'github_com_fullstack_lang_gong_test_go-dstruct-adder/:GONG__StackPath', component: DstructDetailComponent, outlet: 'github_com_fullstack_lang_gong_test_go_editor' },
-            { path: 'github_com_fullstack_lang_gong_test_go-dstruct-adder/:id/:originStruct/:originStructFieldName/:GONG__StackPath', component: DstructDetailComponent, outlet: 'github_com_fullstack_lang_gong_test_go_editor' },
-            { path: 'github_com_fullstack_lang_gong_test_go-dstruct-detail/:id/:GONG__StackPath', component: DstructDetailComponent, outlet: 'github_com_fullstack_lang_gong_test_go_editor' },
-        ])
-    }
+			this.getDstructTableRoute(stackPath),
+			this.getDstructAdderRoute(stackPath),
+			this.getDstructAdderForUseRoute(stackPath),
+			this.getDstructDetailRoute(stackPath),
+
+		])
+	}
 }
