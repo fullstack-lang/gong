@@ -38,7 +38,7 @@ export class RouteService {
         return this.getPathRoot() + '_table'
     }
 	getEditorOutlet(stackPath: string): string {
-        return this.getPathRoot() + '_adder'
+        return this.getPathRoot() + '_editor'
     }
 	// insertion point for per gongstruct route/path getters
     getAstructTablePath(): string {
@@ -66,7 +66,7 @@ export class RouteService {
         return route
     }
 	getAstructDetailPath(): string {
-        return this.getPathRoot() + '-astruct/:id/:GONG__StackPath'
+        return this.getPathRoot() + '-astruct-detail/:id/:GONG__StackPath'
     }
     getAstructDetailRoute(stackPath: string): Route {
         let route: Route =
@@ -99,7 +99,7 @@ export class RouteService {
         return route
     }
 	getAstructBstruct2UseDetailPath(): string {
-        return this.getPathRoot() + '-astructbstruct2use/:id/:GONG__StackPath'
+        return this.getPathRoot() + '-astructbstruct2use-detail/:id/:GONG__StackPath'
     }
     getAstructBstruct2UseDetailRoute(stackPath: string): Route {
         let route: Route =
@@ -132,7 +132,7 @@ export class RouteService {
         return route
     }
 	getAstructBstructUseDetailPath(): string {
-        return this.getPathRoot() + '-astructbstructuse/:id/:GONG__StackPath'
+        return this.getPathRoot() + '-astructbstructuse-detail/:id/:GONG__StackPath'
     }
     getAstructBstructUseDetailRoute(stackPath: string): Route {
         let route: Route =
@@ -165,7 +165,7 @@ export class RouteService {
         return route
     }
 	getBstructDetailPath(): string {
-        return this.getPathRoot() + '-bstruct/:id/:GONG__StackPath'
+        return this.getPathRoot() + '-bstruct-detail/:id/:GONG__StackPath'
     }
     getBstructDetailRoute(stackPath: string): Route {
         let route: Route =
@@ -198,7 +198,7 @@ export class RouteService {
         return route
     }
 	getDstructDetailPath(): string {
-        return this.getPathRoot() + '-dstruct/:id/:GONG__StackPath'
+        return this.getPathRoot() + '-dstruct-detail/:id/:GONG__StackPath'
     }
     getDstructDetailRoute(stackPath: string): Route {
         let route: Route =
