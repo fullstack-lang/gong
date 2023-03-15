@@ -25,7 +25,7 @@ export class RouteService {
         return this.getPathRoot() + '_table'
     }
 	getEditorOutlet(stackPath: string): string {
-        return this.getPathRoot() + '_adder'
+        return this.getPathRoot() + '_editor'
     }
 	// insertion point for per gongstruct route/path getters{{` + string(NgRouteServiceGetters) + `}}
 
@@ -81,7 +81,7 @@ import { {{Structname}}DetailComponent } from './{{structname}}-detail/{{structn
         return route
     }
 	get{{Structname}}DetailPath(): string {
-        return this.getPathRoot() + '-{{structname}}/:id/:GONG__StackPath'
+        return this.getPathRoot() + '-{{structname}}-detail/:id/:GONG__StackPath'
     }
     get{{Structname}}DetailRoute(stackPath: string): Route {
         let route: Route =
