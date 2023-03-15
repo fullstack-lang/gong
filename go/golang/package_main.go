@@ -14,25 +14,18 @@ import (
 const PackageMain = `package main
 
 import (
-	"embed"
 	"flag"
 	"fmt"
-	"io/fs"
 	"log"
-	"net/http"
 	"os"
 	"strings"
-
-	"github.com/gin-contrib/cors"
-	"github.com/gin-contrib/static"
-	"github.com/gin-gonic/gin"
 
 	"{{PkgPathRoot}}/fullstack"
 	"{{PkgPathRoot}}/models"
 
 	gongdoc_load "github.com/fullstack-lang/gongdoc/go/load"
 
-	{{pkgname}} "{{PkgPathAboveRoot}}"
+	"{{PkgPathAboveRoot}}"
 )
 
 var (
@@ -76,20 +69,17 @@ func main() {
 	// parse program arguments
 	flag.Parse()
 
-	// setup controlers
-	if !*logGINFlag {
-		myfile, _ := os.Create("/tmp/server.log")
-		gin.DefaultWriter = myfile
-	}
-	r := gin.Default()
-	r.Use(cors.Default())
+	// setup the static file server and get the controller
+	r := fullstack.ServeStaticFiles(*logGINFlag)
 
 	// setup stack
 	var stage *models.StageStruct
 	if *marshallOnCommit != "" {
-		stage, _ = fullstack.NewStackInstance(r, "")
+		// persistence in a SQLite file on disk in memory
+		stage = fullstack.NewStackInstance(r, "")
 	} else {
-		stage, _ = fullstack.NewStackInstance(r, "", "./test.db")
+		// persistence in a SQLite file on disk
+		stage = fullstack.NewStackInstance(r, "", "./test.db")
 	}
 
 	// generate injection code from the stage
@@ -159,29 +149,8 @@ func main() {
 		*embeddedDiagrams,
 		&stage.Map_GongStructName_InstancesNb)
 
-	// insertion point for serving the static file{{staticCodeServiceCode}}
-
 	log.Printf("Server ready serve on localhost:8080")
 	r.Run()
-}
-
-type embedFileSystem struct {
-	http.FileSystem
-}
-
-func (e embedFileSystem) Exists(prefix string, path string) bool {
-	_, err := e.Open(path)
-	return err == nil
-}
-
-func EmbedFolder(fsEmbed embed.FS, targetPath string) static.ServeFileSystem {
-	fsys, err := fs.Sub(fsEmbed, targetPath)
-	if err != nil {
-		panic(err)
-	}
-	return embedFileSystem{
-		FileSystem: http.FS(fsys),
-	}
 }
 `
 
