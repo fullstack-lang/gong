@@ -9,15 +9,13 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/gin-contrib/cors"
 	"github.com/gin-contrib/static"
-	"github.com/gin-gonic/gin"
 
+	"github.com/fullstack-lang/gong/test/go/fullstack"
 	test_fullstack "github.com/fullstack-lang/gong/test/go/fullstack"
 	"github.com/fullstack-lang/gong/test/go/models"
 	test_models "github.com/fullstack-lang/gong/test/go/models"
 
-	test2 "github.com/fullstack-lang/gong/test2"
 	test2_fullstack "github.com/fullstack-lang/gong/test2/go/fullstack"
 )
 
@@ -53,13 +51,7 @@ func main() {
 	// parse program arguments
 	flag.Parse()
 
-	// setup controlers
-	if !*logGINFlag {
-		myfile, _ := os.Create("/tmp/server.log")
-		gin.DefaultWriter = myfile
-	}
-	r := gin.Default()
-	r.Use(cors.Default())
+	r := fullstack.ServeStaticFiles(*logGINFlag)
 
 	test2_fullstack.NewStackInstance(r, "")
 	stageTestA := test_fullstack.NewStackInstance(r, "A")
@@ -90,14 +82,6 @@ func main() {
 
 		stageTestA.Commit()
 	}
-
-	// provide the static route for the angular pages
-	r.Use(static.Serve("/", EmbedFolder(test2.NgDistNg, "ng/dist/ng")))
-	r.NoRoute(func(c *gin.Context) {
-		fmt.Println(c.Request.URL.Path, "doesn't exists, redirect on /")
-		c.Redirect(http.StatusMovedPermanently, "/")
-		c.Abort()
-	})
 
 	log.Printf("Server ready serve on localhost:8080")
 	r.Run()
