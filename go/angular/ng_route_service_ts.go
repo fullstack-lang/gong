@@ -19,7 +19,7 @@ export class RouteService {
     }
 
 	getPathRoot() : string {
-		return '{{PkgPathRootWithoutSlashes}}-'
+		return '{{PkgPathRootWithoutSlashes}}'
 	}
 	getTableOutlet(stackPath: string): string {
         return this.getPathRoot() + '_table'
