@@ -22,6 +22,8 @@ import { getBstructUniqueID } from '../front-repo.service'
 import { DstructService } from '../dstruct.service'
 import { getDstructUniqueID } from '../front-repo.service'
 
+import { RouteService } from '../route-service';
+
 /**
  * Types of a GongNode / GongFlatNode
  */
@@ -170,6 +172,8 @@ export class SidebarComponent implements OnInit {
     private astructbstructuseService: AstructBstructUseService,
     private bstructService: BstructService,
     private dstructService: DstructService,
+
+    private routeService: RouteService,
   ) { }
 
   ngOnDestroy() {
@@ -180,6 +184,10 @@ export class SidebarComponent implements OnInit {
   ngOnInit(): void {
 
     console.log("Sidebar init: " + this.GONG__StackPath)
+
+    // add the routes that will used by this side panel component and
+    // by the component that are called from this component
+    this.routeService.addDataPanelRoutes(this.GONG__StackPath)
 
     this.subscription = this.gongstructSelectionService.gongtructSelected$.subscribe(
       gongstructName => {
@@ -1054,9 +1062,11 @@ export class SidebarComponent implements OnInit {
    * @param path for the outlet selection
    */
   setTableRouterOutlet(path: string) {
+    let outletName = this.routeService.getTableOutlet(this.GONG__StackPath)
+    let fullPath = "github_com_fullstack_lang_gong_test_go-" + path
     this.router.navigate([{
       outlets: {
-        github_com_fullstack_lang_gong_test_go_table: ["github_com_fullstack_lang_gong_test_go-" + path]
+        outletName: [fullPath]
       }
     }]);
   }
