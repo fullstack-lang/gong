@@ -38,6 +38,8 @@ import { {{Structname}}Service } from '../{{structname}}.service'
 
 // insertion point for additional imports{{` + string(rune(NgTableTsInsertionPerStructImports)) + `}}
 
+import { RouteService } from '../route-service';
+
 // TableComponent is initilizaed from different routes
 // TableComponentMode detail different cases 
 enum TableComponentMode {
@@ -127,6 +129,8 @@ export class {{Structname}}sTableComponent implements OnInit {
 
     private router: Router,
     private activatedRoute: ActivatedRoute,
+
+    private routeService: RouteService,
   ) {
 
     // compute mode
@@ -241,18 +245,15 @@ export class {{Structname}}sTableComponent implements OnInit {
 
   }
 
-  // display {{structname}} in router
-  display{{Structname}}InRouter({{structname}}ID: number) {
-    this.router.navigate(["{{PkgPathRootWithoutSlashes}}-" + "{{structname}}-display", {{structname}}ID])
-  }
-
   // set editor outlet
   setEditorRouterOutlet({{structname}}ID: number) {
-    this.router.navigate([{
-      outlets: {
-        {{PkgPathRootWithoutSlashes}}_editor: ["{{PkgPathRootWithoutSlashes}}-" + "{{structname}}-detail", {{structname}}ID, this.GONG__StackPath]
-      }
-    }]);
+    let outletName = this.routeService.getEditorOutlet(this.GONG__StackPath)
+    let fullPath = this.routeService.getPathRoot() + "-" + "{{structname}}" + "-detail"
+
+    let outletConf: any = {}
+    outletConf[outletName] = [fullPath, {{structname}}ID, this.GONG__StackPath]
+
+    this.router.navigate([{ outlets: outletConf }])
   }
 
   /** Whether the number of selected elements matches the total number of rows. */
