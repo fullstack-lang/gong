@@ -1,4 +1,6 @@
-import { Component, Injectable, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+
+import { RouteService } from '../route-service';
 
 @Component({
   selector: 'app-test2-splitter',
@@ -8,10 +10,15 @@ import { Component, Injectable, Input, OnInit } from '@angular/core';
 export class SplitterComponent implements OnInit {
 
   @Input() GONG__StackPath: string = ""
+  tableOutletName: string = ""
+  editorOutletName: string = ""
 
-  constructor() { }
+  constructor(private routeService: RouteService) { }
 
   ngOnInit(): void {
     console.log("Splitter: " + this.GONG__StackPath)
+
+    this.tableOutletName = this.routeService.getTableOutlet(this.GONG__StackPath)
+    this.editorOutletName = this.routeService.getEditorOutlet(this.GONG__StackPath)
   }
 }
