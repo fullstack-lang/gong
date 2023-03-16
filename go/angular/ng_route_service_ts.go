@@ -22,10 +22,10 @@ export class RouteService {
         return '{{PkgPathRootWithoutSlashes}}'
     }
     getTableOutlet(stackPath: string): string {
-        return this.getPathRoot() + '_table'
+        return this.getPathRoot() + '_table' + '_' + stackPath
     }
     getEditorOutlet(stackPath: string): string {
-        return this.getPathRoot() + '_editor'
+        return this.getPathRoot() + '_editor' + '_' + stackPath
     }
     // insertion point for per gongstruct route/path getters{{` + string(NgRouteServiceGetters) + `}}
 

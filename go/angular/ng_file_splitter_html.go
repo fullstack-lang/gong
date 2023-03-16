@@ -12,10 +12,10 @@ const NgSplitterTemplateHTML = `<div style="width: 100%; height: 100%; backgroun
         <as-split-area [size]="80">
             <as-split direction="horizontal">
                 <as-split-area [size]="60">
-                    <router-outlet name="{{PkgPathRootWithoutSlashes}}_table"></router-outlet>
+                    <router-outlet [name]="tableOutletName"></router-outlet>
                 </as-split-area>
                 <as-split-area [size]="40">
-                    <router-outlet name="{{PkgPathRootWithoutSlashes}}_editor"></router-outlet>
+                    <router-outlet [name]="editorOutletName"></router-outlet>
                 </as-split-area>
             </as-split>
         </as-split-area>
