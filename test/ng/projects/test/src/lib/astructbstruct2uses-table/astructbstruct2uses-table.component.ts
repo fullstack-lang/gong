@@ -19,6 +19,8 @@ import { AstructBstruct2UseService } from '../astructbstruct2use.service'
 
 // insertion point for additional imports
 
+import { RouteService } from '../route-service';
+
 // TableComponent is initilizaed from different routes
 // TableComponentMode detail different cases 
 enum TableComponentMode {
@@ -129,6 +131,8 @@ export class AstructBstruct2UsesTableComponent implements OnInit {
 
     private router: Router,
     private activatedRoute: ActivatedRoute,
+
+    private routeService: RouteService,
   ) {
 
     // compute mode
@@ -249,18 +253,15 @@ export class AstructBstruct2UsesTableComponent implements OnInit {
 
   }
 
-  // display astructbstruct2use in router
-  displayAstructBstruct2UseInRouter(astructbstruct2useID: number) {
-    this.router.navigate(["github_com_fullstack_lang_gong_test_go-" + "astructbstruct2use-display", astructbstruct2useID])
-  }
-
   // set editor outlet
   setEditorRouterOutlet(astructbstruct2useID: number) {
-    this.router.navigate([{
-      outlets: {
-        github_com_fullstack_lang_gong_test_go_editor: ["github_com_fullstack_lang_gong_test_go-" + "astructbstruct2use-detail", astructbstruct2useID, this.GONG__StackPath]
-      }
-    }]);
+    let outletName = this.routeService.getEditorOutlet(this.GONG__StackPath)
+    let fullPath = this.routeService.getPathRoot() + "-" + "astructbstruct2use" + "-detail"
+
+    let outletConf: any = {}
+    outletConf[outletName] = [fullPath, astructbstruct2useID, this.GONG__StackPath]
+
+    this.router.navigate([{ outlets: outletConf }])
   }
 
   /** Whether the number of selected elements matches the total number of rows. */
