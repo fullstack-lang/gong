@@ -280,13 +280,13 @@ export class SidebarComponent implements OnInit {
       let fullPath = this.routeService.getPathRoot() + "-" + path.toLowerCase()
       let outletConf: any = {}
       outletConf[outletName] = [fullPath, this.GONG__StackPath]
-      
+
       this.router.navigate([{ outlets: outletConf }])
     }
 
     if (type == GongNodeType.INSTANCE) {
       let outletName = this.routeService.getEditorOutlet(this.GONG__StackPath)
-      let fullPath = this.routeService.getPathRoot() + "-" + structName.toLowerCase() + "-detail", id
+      let fullPath = this.routeService.getPathRoot() + "-" + structName.toLowerCase() + "-detail"
 
       let outletConf: any = {}
       outletConf[outletName] = [fullPath, id, this.GONG__StackPath]
