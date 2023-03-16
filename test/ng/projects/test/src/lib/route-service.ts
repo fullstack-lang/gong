@@ -31,16 +31,16 @@ export class RouteService {
         this.router.resetConfig(this.routes)
     }
 
-	getPathRoot() : string {
-		return 'github_com_fullstack_lang_gong_test_go'
-	}
-	getTableOutlet(stackPath: string): string {
+    getPathRoot(): string {
+        return 'github_com_fullstack_lang_gong_test_go'
+    }
+    getTableOutlet(stackPath: string): string {
         return this.getPathRoot() + '_table'
     }
-	getEditorOutlet(stackPath: string): string {
+    getEditorOutlet(stackPath: string): string {
         return this.getPathRoot() + '_editor'
     }
-	// insertion point for per gongstruct route/path getters
+    // insertion point for per gongstruct route/path getters
     getAstructTablePath(): string {
         return this.getPathRoot() + '-astructs/:GONG__StackPath'
     }
@@ -49,23 +49,23 @@ export class RouteService {
             { path: this.getAstructTablePath(), component: AstructsTableComponent, outlet: this.getTableOutlet(stackPath) }
         return route
     }
-	getAstructAdderPath(): string {
-        return this.getPathRoot() + '-astruct/:GONG__StackPath'
+    getAstructAdderPath(): string {
+        return this.getPathRoot() + '-astruct-adder/:GONG__StackPath'
     }
     getAstructAdderRoute(stackPath: string): Route {
         let route: Route =
             { path: this.getAstructAdderPath(), component: AstructDetailComponent, outlet: this.getEditorOutlet(stackPath) }
         return route
     }
-	getAstructAdderForUsePath(): string {
-        return this.getPathRoot() + '-astruct/:id/:originStruct/:originStructFieldName/:GONG__StackPath'
+    getAstructAdderForUsePath(): string {
+        return this.getPathRoot() + '-astruct-adder/:id/:originStruct/:originStructFieldName/:GONG__StackPath'
     }
     getAstructAdderForUseRoute(stackPath: string): Route {
         let route: Route =
             { path: this.getAstructAdderForUsePath(), component: AstructDetailComponent, outlet: this.getEditorOutlet(stackPath) }
         return route
     }
-	getAstructDetailPath(): string {
+    getAstructDetailPath(): string {
         return this.getPathRoot() + '-astruct-detail/:id/:GONG__StackPath'
     }
     getAstructDetailRoute(stackPath: string): Route {
@@ -82,23 +82,23 @@ export class RouteService {
             { path: this.getAstructBstruct2UseTablePath(), component: AstructBstruct2UsesTableComponent, outlet: this.getTableOutlet(stackPath) }
         return route
     }
-	getAstructBstruct2UseAdderPath(): string {
-        return this.getPathRoot() + '-astructbstruct2use/:GONG__StackPath'
+    getAstructBstruct2UseAdderPath(): string {
+        return this.getPathRoot() + '-astructbstruct2use-adder/:GONG__StackPath'
     }
     getAstructBstruct2UseAdderRoute(stackPath: string): Route {
         let route: Route =
             { path: this.getAstructBstruct2UseAdderPath(), component: AstructBstruct2UseDetailComponent, outlet: this.getEditorOutlet(stackPath) }
         return route
     }
-	getAstructBstruct2UseAdderForUsePath(): string {
-        return this.getPathRoot() + '-astructbstruct2use/:id/:originStruct/:originStructFieldName/:GONG__StackPath'
+    getAstructBstruct2UseAdderForUsePath(): string {
+        return this.getPathRoot() + '-astructbstruct2use-adder/:id/:originStruct/:originStructFieldName/:GONG__StackPath'
     }
     getAstructBstruct2UseAdderForUseRoute(stackPath: string): Route {
         let route: Route =
             { path: this.getAstructBstruct2UseAdderForUsePath(), component: AstructBstruct2UseDetailComponent, outlet: this.getEditorOutlet(stackPath) }
         return route
     }
-	getAstructBstruct2UseDetailPath(): string {
+    getAstructBstruct2UseDetailPath(): string {
         return this.getPathRoot() + '-astructbstruct2use-detail/:id/:GONG__StackPath'
     }
     getAstructBstruct2UseDetailRoute(stackPath: string): Route {
@@ -115,23 +115,23 @@ export class RouteService {
             { path: this.getAstructBstructUseTablePath(), component: AstructBstructUsesTableComponent, outlet: this.getTableOutlet(stackPath) }
         return route
     }
-	getAstructBstructUseAdderPath(): string {
-        return this.getPathRoot() + '-astructbstructuse/:GONG__StackPath'
+    getAstructBstructUseAdderPath(): string {
+        return this.getPathRoot() + '-astructbstructuse-adder/:GONG__StackPath'
     }
     getAstructBstructUseAdderRoute(stackPath: string): Route {
         let route: Route =
             { path: this.getAstructBstructUseAdderPath(), component: AstructBstructUseDetailComponent, outlet: this.getEditorOutlet(stackPath) }
         return route
     }
-	getAstructBstructUseAdderForUsePath(): string {
-        return this.getPathRoot() + '-astructbstructuse/:id/:originStruct/:originStructFieldName/:GONG__StackPath'
+    getAstructBstructUseAdderForUsePath(): string {
+        return this.getPathRoot() + '-astructbstructuse-adder/:id/:originStruct/:originStructFieldName/:GONG__StackPath'
     }
     getAstructBstructUseAdderForUseRoute(stackPath: string): Route {
         let route: Route =
             { path: this.getAstructBstructUseAdderForUsePath(), component: AstructBstructUseDetailComponent, outlet: this.getEditorOutlet(stackPath) }
         return route
     }
-	getAstructBstructUseDetailPath(): string {
+    getAstructBstructUseDetailPath(): string {
         return this.getPathRoot() + '-astructbstructuse-detail/:id/:GONG__StackPath'
     }
     getAstructBstructUseDetailRoute(stackPath: string): Route {
@@ -148,23 +148,23 @@ export class RouteService {
             { path: this.getBstructTablePath(), component: BstructsTableComponent, outlet: this.getTableOutlet(stackPath) }
         return route
     }
-	getBstructAdderPath(): string {
-        return this.getPathRoot() + '-bstruct/:GONG__StackPath'
+    getBstructAdderPath(): string {
+        return this.getPathRoot() + '-bstruct-adder/:GONG__StackPath'
     }
     getBstructAdderRoute(stackPath: string): Route {
         let route: Route =
             { path: this.getBstructAdderPath(), component: BstructDetailComponent, outlet: this.getEditorOutlet(stackPath) }
         return route
     }
-	getBstructAdderForUsePath(): string {
-        return this.getPathRoot() + '-bstruct/:id/:originStruct/:originStructFieldName/:GONG__StackPath'
+    getBstructAdderForUsePath(): string {
+        return this.getPathRoot() + '-bstruct-adder/:id/:originStruct/:originStructFieldName/:GONG__StackPath'
     }
     getBstructAdderForUseRoute(stackPath: string): Route {
         let route: Route =
             { path: this.getBstructAdderForUsePath(), component: BstructDetailComponent, outlet: this.getEditorOutlet(stackPath) }
         return route
     }
-	getBstructDetailPath(): string {
+    getBstructDetailPath(): string {
         return this.getPathRoot() + '-bstruct-detail/:id/:GONG__StackPath'
     }
     getBstructDetailRoute(stackPath: string): Route {
@@ -181,23 +181,23 @@ export class RouteService {
             { path: this.getDstructTablePath(), component: DstructsTableComponent, outlet: this.getTableOutlet(stackPath) }
         return route
     }
-	getDstructAdderPath(): string {
-        return this.getPathRoot() + '-dstruct/:GONG__StackPath'
+    getDstructAdderPath(): string {
+        return this.getPathRoot() + '-dstruct-adder/:GONG__StackPath'
     }
     getDstructAdderRoute(stackPath: string): Route {
         let route: Route =
             { path: this.getDstructAdderPath(), component: DstructDetailComponent, outlet: this.getEditorOutlet(stackPath) }
         return route
     }
-	getDstructAdderForUsePath(): string {
-        return this.getPathRoot() + '-dstruct/:id/:originStruct/:originStructFieldName/:GONG__StackPath'
+    getDstructAdderForUsePath(): string {
+        return this.getPathRoot() + '-dstruct-adder/:id/:originStruct/:originStructFieldName/:GONG__StackPath'
     }
     getDstructAdderForUseRoute(stackPath: string): Route {
         let route: Route =
             { path: this.getDstructAdderForUsePath(), component: DstructDetailComponent, outlet: this.getEditorOutlet(stackPath) }
         return route
     }
-	getDstructDetailPath(): string {
+    getDstructDetailPath(): string {
         return this.getPathRoot() + '-dstruct-detail/:id/:GONG__StackPath'
     }
     getDstructDetailRoute(stackPath: string): Route {
@@ -208,35 +208,35 @@ export class RouteService {
 
 
 
-	addDataPanelRoutes(stackPath: string) {
+    addDataPanelRoutes(stackPath: string) {
 
         this.addRoutes([
-			// insertion point for all routes getter
-			this.getAstructTableRoute(stackPath),
-			this.getAstructAdderRoute(stackPath),
-			this.getAstructAdderForUseRoute(stackPath),
-			this.getAstructDetailRoute(stackPath),
+            // insertion point for all routes getter
+            this.getAstructTableRoute(stackPath),
+            this.getAstructAdderRoute(stackPath),
+            this.getAstructAdderForUseRoute(stackPath),
+            this.getAstructDetailRoute(stackPath),
 
-			this.getAstructBstruct2UseTableRoute(stackPath),
-			this.getAstructBstruct2UseAdderRoute(stackPath),
-			this.getAstructBstruct2UseAdderForUseRoute(stackPath),
-			this.getAstructBstruct2UseDetailRoute(stackPath),
+            this.getAstructBstruct2UseTableRoute(stackPath),
+            this.getAstructBstruct2UseAdderRoute(stackPath),
+            this.getAstructBstruct2UseAdderForUseRoute(stackPath),
+            this.getAstructBstruct2UseDetailRoute(stackPath),
 
-			this.getAstructBstructUseTableRoute(stackPath),
-			this.getAstructBstructUseAdderRoute(stackPath),
-			this.getAstructBstructUseAdderForUseRoute(stackPath),
-			this.getAstructBstructUseDetailRoute(stackPath),
+            this.getAstructBstructUseTableRoute(stackPath),
+            this.getAstructBstructUseAdderRoute(stackPath),
+            this.getAstructBstructUseAdderForUseRoute(stackPath),
+            this.getAstructBstructUseDetailRoute(stackPath),
 
-			this.getBstructTableRoute(stackPath),
-			this.getBstructAdderRoute(stackPath),
-			this.getBstructAdderForUseRoute(stackPath),
-			this.getBstructDetailRoute(stackPath),
+            this.getBstructTableRoute(stackPath),
+            this.getBstructAdderRoute(stackPath),
+            this.getBstructAdderForUseRoute(stackPath),
+            this.getBstructDetailRoute(stackPath),
 
-			this.getDstructTableRoute(stackPath),
-			this.getDstructAdderRoute(stackPath),
-			this.getDstructAdderForUseRoute(stackPath),
-			this.getDstructDetailRoute(stackPath),
+            this.getDstructTableRoute(stackPath),
+            this.getDstructAdderRoute(stackPath),
+            this.getDstructAdderForUseRoute(stackPath),
+            this.getDstructDetailRoute(stackPath),
 
-		])
-	}
+        ])
+    }
 }
