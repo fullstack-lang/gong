@@ -35,10 +35,10 @@ export class RouteService {
         return 'github_com_fullstack_lang_gong_test_go'
     }
     getTableOutlet(stackPath: string): string {
-        return this.getPathRoot() + '_table'
+        return this.getPathRoot() + '_table' + '_' + stackPath
     }
     getEditorOutlet(stackPath: string): string {
-        return this.getPathRoot() + '_editor'
+        return this.getPathRoot() + '_editor' + '_' + stackPath
     }
     // insertion point for per gongstruct route/path getters
     getAstructTablePath(): string {
