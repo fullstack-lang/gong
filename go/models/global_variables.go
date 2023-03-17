@@ -12,6 +12,9 @@ var ControllersPkgGenPath string
 // FullstackPkgGenPath is target path for Fullstack package
 var FullstackPkgGenPath string
 
+// StaticPkgGenPath is target path for Static package
+var StaticPkgGenPath string
+
 // // ModulesTargetPath is where ng modules are generated
 // var ModulesTargetPath string
 
