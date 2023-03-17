@@ -1,19 +1,12 @@
 package main
 
 import (
-	"embed"
 	"flag"
 	"fmt"
-	"io/fs"
 	"log"
-	"net/http"
 	"os"
 
-	"github.com/gin-contrib/static"
-
-	"github.com/fullstack-lang/gong/test/go/fullstack"
 	test_fullstack "github.com/fullstack-lang/gong/test/go/fullstack"
-	"github.com/fullstack-lang/gong/test/go/models"
 	test_models "github.com/fullstack-lang/gong/test/go/models"
 
 	test2_fullstack "github.com/fullstack-lang/gong/test2/go/fullstack"
@@ -26,13 +19,16 @@ var (
 
 	unmarshallFromCodeStageTestA = flag.String("unmarshallFromCodeStageTestA", "", "unmarshall data from go file and '.go' (must be lowercased without spaces), If unmarshallFromCode arg is '', no unmarshalling")
 	marshallOnCommitStageTestA   = flag.String("marshallOnCommitStageTestA", "", "on all commits, marshall staged data to a go file with the marshall name and '.go' (must be lowercased without spaces). If marshall arg is '', no marshalling")
+
+	unmarshallFromCodeStageTestB = flag.String("unmarshallFromCodeStageTestB", "", "unmarshall data from go file and '.go' (must be lowercased without spaces), If unmarshallFromCode arg is '', no unmarshalling")
 	marshallOnCommitStageTestB   = flag.String("marshallOnCommitStageTestB", "", "on all commits, marshall staged data to a go file with the marshall name and '.go' (must be lowercased without spaces). If marshall arg is '', no marshalling")
 )
 
 type BeforeCommitImplementation struct {
 }
 
-func (impl *BeforeCommitImplementation) BeforeCommit(stage *models.StageStruct) {
+// commits on stacks on type "test"
+func (impl *BeforeCommitImplementation) BeforeCommit(stage *test_models.StageStruct) {
 	file, err := os.Create(fmt.Sprintf("./%s.go", *marshallOnCommitStageTestB))
 	if err != nil {
 		log.Fatal(err.Error())
@@ -51,9 +47,11 @@ func main() {
 	// parse program arguments
 	flag.Parse()
 
-	r := fullstack.ServeStaticFiles(*logGINFlag)
+	r := test2_fullstack.ServeStaticFiles(*logGINFlag)
 
-	test2_fullstack.NewStackInstance(r, "")
+	stageTest2 := test2_fullstack.NewStackInstance(r, "")
+	_ = stageTest2
+
 	stageTestA := test_fullstack.NewStackInstance(r, "A")
 	stageTestB := test_fullstack.NewStackInstance(r, "B")
 
@@ -61,11 +59,6 @@ func main() {
 	if *marshallOnCommitStageTestA != "" {
 		hook := new(BeforeCommitImplementation)
 		stageTestA.OnInitCommitFromFrontCallback = hook
-	}
-
-	if *marshallOnCommitStageTestB != "" {
-		hook := new(BeforeCommitImplementation)
-		stageTestB.OnInitCommitFromFrontCallback = hook
 	}
 
 	if *unmarshallFromCodeStageTestA != "" {
@@ -83,25 +76,26 @@ func main() {
 		stageTestA.Commit()
 	}
 
+	if *marshallOnCommitStageTestB != "" {
+		hook := new(BeforeCommitImplementation)
+		stageTestB.OnInitCommitFromFrontCallback = hook
+	}
+
+	if *unmarshallFromCodeStageTestB != "" {
+		stageTestB.Checkout()
+		stageTestB.Reset()
+		stageTestB.Commit()
+		err := test_models.ParseAstFile(stageTestB, *unmarshallFromCodeStageTestB)
+
+		// if the application is run with -unmarshallFromCode=xxx.go -marshallOnCommit
+		// xxx.go might be absent the first time. However, this shall not be a show stopper.
+		if err != nil {
+			log.Println("no file to read " + err.Error())
+		}
+
+		stageTestB.Commit()
+	}
+
 	log.Printf("Server ready serve on localhost:8080")
 	r.Run()
-}
-
-type embedFileSystem struct {
-	http.FileSystem
-}
-
-func (e embedFileSystem) Exists(prefix string, path string) bool {
-	_, err := e.Open(path)
-	return err == nil
-}
-
-func EmbedFolder(fsEmbed embed.FS, targetPath string) static.ServeFileSystem {
-	fsys, err := fs.Sub(fsEmbed, targetPath)
-	if err != nil {
-		panic(err)
-	}
-	return embedFileSystem{
-		FileSystem: http.FS(fsys),
-	}
 }

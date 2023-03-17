@@ -28,13 +28,14 @@ export class RouteService {
 
     public addRoutes(newRoutes: Routes): void {
         const existingRoutes = this.router.config
+        this.routes = this.router.config
 
         for (let newRoute of newRoutes) {
             if (!existingRoutes.includes(newRoute)) {
                 this.routes.push(newRoute)
             }
         }
-        this.router.resetConfig(this.routes);
+        this.router.resetConfig(this.routes)
     }
 
     getPathRoot(): string {
