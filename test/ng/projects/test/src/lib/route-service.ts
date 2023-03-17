@@ -26,9 +26,15 @@ export class RouteService {
 
     constructor(private router: Router) { }
 
-    public addRoutes(routes: Routes): void {
-        this.routes.push(...routes)
-        this.router.resetConfig(this.routes)
+    public addRoutes(newRoutes: Routes): void {
+        const existingRoutes = this.router.config
+
+        for (let newRoute of newRoutes) {
+            if (!existingRoutes.includes(newRoute)) {
+                this.routes.push(newRoute)
+            }
+        }
+        this.router.resetConfig(this.routes);
     }
 
     getPathRoot(): string {
