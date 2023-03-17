@@ -13,8 +13,9 @@ export class RouteService {
 
     constructor(private router: Router) { }
 
-    public addRoutes(routes: Routes): void {
+    public addRoutes(newRoutes: Routes): void {
         const existingRoutes = this.router.config
+        this.routes = this.router.config
 
         for (let newRoute of newRoutes) {
             if (!existingRoutes.includes(newRoute)) {

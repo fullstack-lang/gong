@@ -39,7 +39,7 @@ func stageBInjection(stage *models.StageStruct) {
 	// Declaration of instances to stage
 
 	// Declarations of staged instances of Astruct
-	__Astruct__000000_bbbb := (&models.Astruct{Name: `bbbb`}).Stage(stage)
+	__Astruct__000000_a1 := (&models.Astruct{Name: `a1`}).Stage(stage)
 
 	// Declarations of staged instances of AstructBstruct2Use
 
@@ -52,46 +52,47 @@ func stageBInjection(stage *models.StageStruct) {
 	// Setup of values
 
 	// Astruct values setup
-	__Astruct__000000_bbbb.Name = `bbbb`
-	__Astruct__000000_bbbb.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2023-03-17 07:52:44.609 +0000 +0000")
-	__Astruct__000000_bbbb.Booleanfield = false
-	__Astruct__000000_bbbb.CEnum = models.CENUM_VAL1
-	__Astruct__000000_bbbb.CName = ``
-	__Astruct__000000_bbbb.CFloatfield = 0.000000
-	__Astruct__000000_bbbb.Floatfield = 0.000000
-	__Astruct__000000_bbbb.Intfield = 0
-	__Astruct__000000_bbbb.Anotherbooleanfield = false
-	__Astruct__000000_bbbb.Duration1 = 0
+	__Astruct__000000_a1.Name = `a1`
+	__Astruct__000000_a1.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2023-03-17 07:52:44.609 +0000 +0000")
+	__Astruct__000000_a1.Booleanfield = true
+	__Astruct__000000_a1.Aenum = models.ENUM_VAL2
+	__Astruct__000000_a1.CEnum = models.CENUM_VAL1
+	__Astruct__000000_a1.CName = ``
+	__Astruct__000000_a1.CFloatfield = 45454.000000
+	__Astruct__000000_a1.Floatfield = 0.000000
+	__Astruct__000000_a1.Intfield = 0
+	__Astruct__000000_a1.Anotherbooleanfield = false
+	__Astruct__000000_a1.Duration1 = 0
 
 	// comment added to overcome the problem with the comment map association
 
-	//gong:ident []
-	__Astruct__000000_bbbb.StructRef = ``
+	//gong:ident [.]
+	__Astruct__000000_a1.StructRef = `.`
 
 	// comment added to overcome the problem with the comment map association
 
-	//gong:ident []
-	__Astruct__000000_bbbb.FieldRef = ``
+	//gong:ident [.]
+	__Astruct__000000_a1.FieldRef = `.`
 
 	// comment added to overcome the problem with the comment map association
 
-	//gong:ident []
-	__Astruct__000000_bbbb.EnumIntRef = ``
+	//gong:ident [.]
+	__Astruct__000000_a1.EnumIntRef = `.`
 
 	// comment added to overcome the problem with the comment map association
 
-	//gong:ident []
-	__Astruct__000000_bbbb.EnumStringRef = ``
+	//gong:ident [.]
+	__Astruct__000000_a1.EnumStringRef = `.`
 
 	// comment added to overcome the problem with the comment map association
 
-	//gong:ident []
-	__Astruct__000000_bbbb.EnumValue = ``
+	//gong:ident [.]
+	__Astruct__000000_a1.EnumValue = `.`
 
 	// comment added to overcome the problem with the comment map association
 
-	//gong:ident []
-	__Astruct__000000_bbbb.ConstIdentifierValue = ``
+	//gong:ident [.]
+	__Astruct__000000_a1.ConstIdentifierValue = `.`
 
 	// Setup of pointers
 }
