@@ -10,6 +10,7 @@ import (
 	test_models "github.com/fullstack-lang/gong/test/go/models"
 
 	test2_fullstack "github.com/fullstack-lang/gong/test2/go/fullstack"
+	test2_static "github.com/fullstack-lang/gong/test2/go/static"
 )
 
 var (
@@ -47,7 +48,7 @@ func main() {
 	// parse program arguments
 	flag.Parse()
 
-	r := test2_fullstack.ServeStaticFiles(*logGINFlag)
+	r := test2_static.ServeStaticFiles(*logGINFlag)
 
 	stageTest2 := test2_fullstack.NewStackInstance(r, "")
 	_ = stageTest2
