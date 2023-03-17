@@ -13,7 +13,9 @@ import (
 //go:embed ng_file_splitter.css
 var NgFileSplitterCssTmpl string
 
-const NgSplitterTemplateTS = `import { Component, Injectable, Input, OnInit } from '@angular/core';
+const NgSplitterTemplateTS = `import { Component, Input, OnInit } from '@angular/core';
+
+import { RouteService } from '../route-service';
 
 @Component({
   selector: 'app-{{pkgname}}-splitter',
@@ -23,11 +25,16 @@ const NgSplitterTemplateTS = `import { Component, Injectable, Input, OnInit } fr
 export class SplitterComponent implements OnInit {
 
   @Input() GONG__StackPath: string = ""
+  tableOutletName: string = ""
+  editorOutletName: string = ""
 
-  constructor() { }
+  constructor(private routeService: RouteService) { }
 
   ngOnInit(): void {
     console.log("Splitter: " + this.GONG__StackPath)
+
+    this.tableOutletName = this.routeService.getTableOutlet(this.GONG__StackPath)
+    this.editorOutletName = this.routeService.getEditorOutlet(this.GONG__StackPath)
   }
 }
 `

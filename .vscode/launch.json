@@ -476,6 +476,7 @@
             "args": [
                 "-unmarshallFromCodeStageTestA=../../../../test/go/cmd/test/stage.go",
                 "-marshallOnCommitStageTestA=../../../../test/go/cmd/test/stage_out",
+                "-unmarshallFromCodeStageTestB=stageB.go",
                 "-marshallOnCommitStageTestB=stageB"
             ]
         },

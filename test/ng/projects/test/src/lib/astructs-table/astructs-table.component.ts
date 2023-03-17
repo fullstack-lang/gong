@@ -20,6 +20,8 @@ import { AstructService } from '../astruct.service'
 // insertion point for additional imports
 import { CEnumTypeIntList } from '../CEnumTypeInt'
 
+import { RouteService } from '../route-service';
+
 // TableComponent is initilizaed from different routes
 // TableComponentMode detail different cases 
 enum TableComponentMode {
@@ -246,6 +248,8 @@ export class AstructsTableComponent implements OnInit {
 
     private router: Router,
     private activatedRoute: ActivatedRoute,
+
+    private routeService: RouteService,
   ) {
 
     // compute mode
@@ -428,18 +432,15 @@ export class AstructsTableComponent implements OnInit {
 
   }
 
-  // display astruct in router
-  displayAstructInRouter(astructID: number) {
-    this.router.navigate(["github_com_fullstack_lang_gong_test_go-" + "astruct-display", astructID])
-  }
-
   // set editor outlet
   setEditorRouterOutlet(astructID: number) {
-    this.router.navigate([{
-      outlets: {
-        github_com_fullstack_lang_gong_test_go_editor: ["github_com_fullstack_lang_gong_test_go-" + "astruct-detail", astructID, this.GONG__StackPath]
-      }
-    }]);
+    let outletName = this.routeService.getEditorOutlet(this.GONG__StackPath)
+    let fullPath = this.routeService.getPathRoot() + "-" + "astruct" + "-detail"
+
+    let outletConf: any = {}
+    outletConf[outletName] = [fullPath, astructID, this.GONG__StackPath]
+
+    this.router.navigate([{ outlets: outletConf }])
   }
 
   /** Whether the number of selected elements matches the total number of rows. */
