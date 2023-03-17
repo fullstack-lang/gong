@@ -20,6 +20,8 @@ import { GongEnumService } from '../gongenum.service'
 // insertion point for additional imports
 import { GongEnumTypeList } from '../GongEnumType'
 
+import { RouteService } from '../route-service';
+
 // TableComponent is initilizaed from different routes
 // TableComponentMode detail different cases 
 enum TableComponentMode {
@@ -117,6 +119,8 @@ export class GongEnumsTableComponent implements OnInit {
 
     private router: Router,
     private activatedRoute: ActivatedRoute,
+
+    private routeService: RouteService,
   ) {
 
     // compute mode
@@ -238,18 +242,15 @@ export class GongEnumsTableComponent implements OnInit {
 
   }
 
-  // display gongenum in router
-  displayGongEnumInRouter(gongenumID: number) {
-    this.router.navigate(["github_com_fullstack_lang_gong_go-" + "gongenum-display", gongenumID])
-  }
-
   // set editor outlet
   setEditorRouterOutlet(gongenumID: number) {
-    this.router.navigate([{
-      outlets: {
-        github_com_fullstack_lang_gong_go_editor: ["github_com_fullstack_lang_gong_go-" + "gongenum-detail", gongenumID, this.GONG__StackPath]
-      }
-    }]);
+    let outletName = this.routeService.getEditorOutlet(this.GONG__StackPath)
+    let fullPath = this.routeService.getPathRoot() + "-" + "gongenum" + "-detail"
+
+    let outletConf: any = {}
+    outletConf[outletName] = [fullPath, gongenumID, this.GONG__StackPath]
+
+    this.router.navigate([{ outlets: outletConf }])
   }
 
   /** Whether the number of selected elements matches the total number of rows. */
