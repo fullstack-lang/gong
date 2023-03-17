@@ -22,6 +22,7 @@ import (
 
 	"{{PkgPathRoot}}/fullstack"
 	"{{PkgPathRoot}}/models"
+	"{{PkgPathRoot}}/static"
 
 	gongdoc_load "github.com/fullstack-lang/gongdoc/go/load"
 
@@ -70,7 +71,7 @@ func main() {
 	flag.Parse()
 
 	// setup the static file server and get the controller
-	r := fullstack.ServeStaticFiles(*logGINFlag)
+	r := static.ServeStaticFiles(*logGINFlag)
 
 	// setup stack
 	var stage *models.StageStruct
