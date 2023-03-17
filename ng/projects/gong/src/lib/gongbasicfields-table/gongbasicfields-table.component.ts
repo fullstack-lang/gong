@@ -19,6 +19,8 @@ import { GongBasicFieldService } from '../gongbasicfield.service'
 
 // insertion point for additional imports
 
+import { RouteService } from '../route-service';
+
 // TableComponent is initilizaed from different routes
 // TableComponentMode detail different cases 
 enum TableComponentMode {
@@ -148,6 +150,8 @@ export class GongBasicFieldsTableComponent implements OnInit {
 
     private router: Router,
     private activatedRoute: ActivatedRoute,
+
+    private routeService: RouteService,
   ) {
 
     // compute mode
@@ -278,18 +282,15 @@ export class GongBasicFieldsTableComponent implements OnInit {
 
   }
 
-  // display gongbasicfield in router
-  displayGongBasicFieldInRouter(gongbasicfieldID: number) {
-    this.router.navigate(["github_com_fullstack_lang_gong_go-" + "gongbasicfield-display", gongbasicfieldID])
-  }
-
   // set editor outlet
   setEditorRouterOutlet(gongbasicfieldID: number) {
-    this.router.navigate([{
-      outlets: {
-        github_com_fullstack_lang_gong_go_editor: ["github_com_fullstack_lang_gong_go-" + "gongbasicfield-detail", gongbasicfieldID, this.GONG__StackPath]
-      }
-    }]);
+    let outletName = this.routeService.getEditorOutlet(this.GONG__StackPath)
+    let fullPath = this.routeService.getPathRoot() + "-" + "gongbasicfield" + "-detail"
+
+    let outletConf: any = {}
+    outletConf[outletName] = [fullPath, gongbasicfieldID, this.GONG__StackPath]
+
+    this.router.navigate([{ outlets: outletConf }])
   }
 
   /** Whether the number of selected elements matches the total number of rows. */
