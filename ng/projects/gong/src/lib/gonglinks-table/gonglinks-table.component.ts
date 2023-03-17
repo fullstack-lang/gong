@@ -19,6 +19,8 @@ import { GongLinkService } from '../gonglink.service'
 
 // insertion point for additional imports
 
+import { RouteService } from '../route-service';
+
 // TableComponent is initilizaed from different routes
 // TableComponentMode detail different cases 
 enum TableComponentMode {
@@ -131,6 +133,8 @@ export class GongLinksTableComponent implements OnInit {
 
     private router: Router,
     private activatedRoute: ActivatedRoute,
+
+    private routeService: RouteService,
   ) {
 
     // compute mode
@@ -253,18 +257,15 @@ export class GongLinksTableComponent implements OnInit {
 
   }
 
-  // display gonglink in router
-  displayGongLinkInRouter(gonglinkID: number) {
-    this.router.navigate(["github_com_fullstack_lang_gong_go-" + "gonglink-display", gonglinkID])
-  }
-
   // set editor outlet
   setEditorRouterOutlet(gonglinkID: number) {
-    this.router.navigate([{
-      outlets: {
-        github_com_fullstack_lang_gong_go_editor: ["github_com_fullstack_lang_gong_go-" + "gonglink-detail", gonglinkID, this.GONG__StackPath]
-      }
-    }]);
+    let outletName = this.routeService.getEditorOutlet(this.GONG__StackPath)
+    let fullPath = this.routeService.getPathRoot() + "-" + "gonglink" + "-detail"
+
+    let outletConf: any = {}
+    outletConf[outletName] = [fullPath, gonglinkID, this.GONG__StackPath]
+
+    this.router.navigate([{ outlets: outletConf }])
   }
 
   /** Whether the number of selected elements matches the total number of rows. */

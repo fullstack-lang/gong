@@ -19,6 +19,8 @@ import { GongNoteService } from '../gongnote.service'
 
 // insertion point for additional imports
 
+import { RouteService } from '../route-service';
+
 // TableComponent is initilizaed from different routes
 // TableComponentMode detail different cases 
 enum TableComponentMode {
@@ -120,6 +122,8 @@ export class GongNotesTableComponent implements OnInit {
 
     private router: Router,
     private activatedRoute: ActivatedRoute,
+
+    private routeService: RouteService,
   ) {
 
     // compute mode
@@ -240,18 +244,15 @@ export class GongNotesTableComponent implements OnInit {
 
   }
 
-  // display gongnote in router
-  displayGongNoteInRouter(gongnoteID: number) {
-    this.router.navigate(["github_com_fullstack_lang_gong_go-" + "gongnote-display", gongnoteID])
-  }
-
   // set editor outlet
   setEditorRouterOutlet(gongnoteID: number) {
-    this.router.navigate([{
-      outlets: {
-        github_com_fullstack_lang_gong_go_editor: ["github_com_fullstack_lang_gong_go-" + "gongnote-detail", gongnoteID, this.GONG__StackPath]
-      }
-    }]);
+    let outletName = this.routeService.getEditorOutlet(this.GONG__StackPath)
+    let fullPath = this.routeService.getPathRoot() + "-" + "gongnote" + "-detail"
+
+    let outletConf: any = {}
+    outletConf[outletName] = [fullPath, gongnoteID, this.GONG__StackPath]
+
+    this.router.navigate([{ outlets: outletConf }])
   }
 
   /** Whether the number of selected elements matches the total number of rows. */
