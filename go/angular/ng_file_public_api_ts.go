@@ -26,6 +26,7 @@ export * from './lib/null-int64'
 export * from './lib/commitnbfromback.service'
 export * from './lib/gongstruct-selection.service'
 export * from './lib/push_from_front_nb.service'
+export * from './lib/route-service'
 
 {{` + string(rune(NgPublicApiInsertionStructComponentsExportDeclaration)) + `}}
 {{` + string(rune(NgPublicApiInsertionEnumsExportDeclaration)) + `}}

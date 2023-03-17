@@ -12,8 +12,10 @@ export class RouteService {
     constructor(private router: Router) { }
 
     public addRoutes(routes: Routes): void {
-        this.routes.push(...routes)
-        this.router.resetConfig(this.routes)
+        const existingRoutes = this.router.config;
+        const newRoutes = routes.filter((route) => !existingRoutes.includes(route));
+        this.routes = [...existingRoutes, ...newRoutes];
+        this.router.resetConfig(this.routes);
     }
 
     getPathRoot(): string {
