@@ -1,6 +1,4 @@
-package golang
-
-const ServeStaticFilesTemplate = `package static
+package static
 
 import (
 	"embed"
@@ -9,8 +7,7 @@ import (
 	"net/http"
 	"os"
 
-	// this package contains ...
-	"{{PkgPathAboveRoot}}"
+	"github.com/fullstack-lang/gong"
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-contrib/static"
@@ -29,7 +26,7 @@ func ServeStaticFiles(logGINFlag bool) (r *gin.Engine) {
 
 	// insertion point for serving the static file
 	// provide the static route for the angular pages
-	r.Use(static.Serve("/", EmbedFolder({{pkgname}}.NgDistNg, "ng/dist/ng")))
+	r.Use(static.Serve("/", EmbedFolder(gong.NgDistNg, "ng/dist/ng")))
 	r.NoRoute(func(c *gin.Context) {
 		fmt.Println(c.Request.URL.Path, "doesn't exists, redirect on /")
 		c.Redirect(http.StatusMovedPermanently, "/")
@@ -57,4 +54,3 @@ func EmbedFolder(fsEmbed embed.FS, targetPath string) static.ServeFileSystem {
 		FileSystem: http.FS(fsys),
 	}
 }
-`
