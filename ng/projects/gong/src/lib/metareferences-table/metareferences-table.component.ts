@@ -19,6 +19,8 @@ import { MetaReferenceService } from '../metareference.service'
 
 // insertion point for additional imports
 
+import { RouteService } from '../route-service';
+
 // TableComponent is initilizaed from different routes
 // TableComponentMode detail different cases 
 enum TableComponentMode {
@@ -123,6 +125,8 @@ export class MetaReferencesTableComponent implements OnInit {
 
     private router: Router,
     private activatedRoute: ActivatedRoute,
+
+    private routeService: RouteService,
   ) {
 
     // compute mode
@@ -241,18 +245,15 @@ export class MetaReferencesTableComponent implements OnInit {
 
   }
 
-  // display metareference in router
-  displayMetaReferenceInRouter(metareferenceID: number) {
-    this.router.navigate(["github_com_fullstack_lang_gong_go-" + "metareference-display", metareferenceID])
-  }
-
   // set editor outlet
   setEditorRouterOutlet(metareferenceID: number) {
-    this.router.navigate([{
-      outlets: {
-        github_com_fullstack_lang_gong_go_editor: ["github_com_fullstack_lang_gong_go-" + "metareference-detail", metareferenceID, this.GONG__StackPath]
-      }
-    }]);
+    let outletName = this.routeService.getEditorOutlet(this.GONG__StackPath)
+    let fullPath = this.routeService.getPathRoot() + "-" + "metareference" + "-detail"
+
+    let outletConf: any = {}
+    outletConf[outletName] = [fullPath, metareferenceID, this.GONG__StackPath]
+
+    this.router.navigate([{ outlets: outletConf }])
   }
 
   /** Whether the number of selected elements matches the total number of rows. */

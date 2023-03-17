@@ -19,6 +19,8 @@ import { SliceOfPointerToGongStructFieldService } from '../sliceofpointertogongs
 
 // insertion point for additional imports
 
+import { RouteService } from '../route-service';
+
 // TableComponent is initilizaed from different routes
 // TableComponentMode detail different cases 
 enum TableComponentMode {
@@ -137,6 +139,8 @@ export class SliceOfPointerToGongStructFieldsTableComponent implements OnInit {
 
     private router: Router,
     private activatedRoute: ActivatedRoute,
+
+    private routeService: RouteService,
   ) {
 
     // compute mode
@@ -261,18 +265,15 @@ export class SliceOfPointerToGongStructFieldsTableComponent implements OnInit {
 
   }
 
-  // display sliceofpointertogongstructfield in router
-  displaySliceOfPointerToGongStructFieldInRouter(sliceofpointertogongstructfieldID: number) {
-    this.router.navigate(["github_com_fullstack_lang_gong_go-" + "sliceofpointertogongstructfield-display", sliceofpointertogongstructfieldID])
-  }
-
   // set editor outlet
   setEditorRouterOutlet(sliceofpointertogongstructfieldID: number) {
-    this.router.navigate([{
-      outlets: {
-        github_com_fullstack_lang_gong_go_editor: ["github_com_fullstack_lang_gong_go-" + "sliceofpointertogongstructfield-detail", sliceofpointertogongstructfieldID, this.GONG__StackPath]
-      }
-    }]);
+    let outletName = this.routeService.getEditorOutlet(this.GONG__StackPath)
+    let fullPath = this.routeService.getPathRoot() + "-" + "sliceofpointertogongstructfield" + "-detail"
+
+    let outletConf: any = {}
+    outletConf[outletName] = [fullPath, sliceofpointertogongstructfieldID, this.GONG__StackPath]
+
+    this.router.navigate([{ outlets: outletConf }])
   }
 
   /** Whether the number of selected elements matches the total number of rows. */
