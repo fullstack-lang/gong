@@ -509,6 +509,12 @@ func genAngular(modelPkg *gong_models.ModelPkg, skipNpmInstall bool, skipGoModCo
 
 	gong_models.SimpleCodeGeneratorForGongStructWithNameField(
 		modelPkg,
+		caserEnglish.String(modelPkg.Name),
+		modelPkg.PkgPath, filepath.Join(gong_models.MatTargetPath, "route-service.ts"),
+		angular.NgRouteServiceTemplate, angular.NgRouteServiceSubTemplateCode)
+
+	gong_models.SimpleCodeGeneratorForGongStructWithNameField(
+		modelPkg,
 		modelPkg.Name,
 		modelPkg.PkgPath, filepath.Join(gong_models.MatTargetPath, "map-components.ts"),
 		angular.NgLibMapComponentsServiceTemplate, angular.NgLibMapComponentsSubTemplateCode)
