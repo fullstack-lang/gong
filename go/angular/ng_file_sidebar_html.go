@@ -10,7 +10,7 @@ const NgSidebarTemplateHTML = `<mat-tree [dataSource]="dataSource" [treeControl]
         <mat-icon class="node-link-icon" *ngIf='node.level==0' (click)="setEditorRouterOutlet( node.name + '-adder' )">
             add_circle_outline
         </mat-icon>
-        <mat-icon class="node-link-icon" *ngIf='node.level==2 && node.type=="ONE__ZERO_MANY_ASSOCIATION"' (click)="setEditorSpecialRouterOutlet( node )" >
+        <mat-icon class="node-link-icon" *ngIf='node.level==2 && node.type=="ONE__ZERO_MANY_ASSOCIATION"' (click)="setEditorSpecialRouterOutlet( node )">
             add_circle_outline
         </mat-icon>
     </mat-tree-node>
@@ -25,16 +25,15 @@ const NgSidebarTemplateHTML = `<mat-tree [dataSource]="dataSource" [treeControl]
                 }}
             </mat-icon>
         </button>
-        <span (click)="setTableRouterOutletFromTree( node.name + 's', node.type, node.structName, node.id)">{{node.name}}  &nbsp;</span>
+        <span (click)="setTableRouterOutletFromTree( node.name + 's', node.type, node.structName, node.id)">{{node.name}} &nbsp;</span>
         <mat-icon class="node-link-icon" *ngIf='node.level==0' (click)="setEditorRouterOutlet( node.name + '-adder' )">
             add_circle_outline
         </mat-icon>
-        <mat-icon class="node-link-icon" *ngIf='node.level==2 && node.type=="ONE__ZERO_MANY_ASSOCIATION"' (click)="setEditorSpecialRouterOutlet( node )" >
+        <mat-icon class="node-link-icon" *ngIf='node.level==2 && node.type=="ONE__ZERO_MANY_ASSOCIATION"' (click)="setEditorSpecialRouterOutlet( node )">
             add_circle_outline
         </mat-icon>
     </mat-tree-node>
-</mat-tree>
-<h3>&nbsp;&nbsp;Nb commits:&nbsp; &nbsp;&nbsp;{{commitNbFromBack}}</h3>`
+</mat-tree>`
 
 // insertion points
 type NgSidebarHtmlInsertionPoint int
