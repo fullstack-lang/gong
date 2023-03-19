@@ -40,14 +40,16 @@
             "args": []
         },
         {
-            "name": "gongc gongdoc -skipGoModCommands",
+            "name": "gongc gongdoc -skipGoModCommands -skipNpmInstall -compileForDebug",
             "type": "go",
             "request": "launch",
             "mode": "debug",
             "cwd": "${workspaceFolder}/../gongdoc/go/models",
             "program": "${workspaceFolder}/go/cmd/gongc",
             "args": [
-                "-skipGoModCommands"
+                "-skipGoModCommands",
+                "-skipNpmInstall",
+                "-compileForDebug"
             ]
         },
         {

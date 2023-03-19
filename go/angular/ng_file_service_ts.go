@@ -57,11 +57,11 @@ export class {{Structname}}Service {
   /** GET {{structname}}s from the server */
   get{{Structname}}s(GONG__StackPath: string = ""): Observable<{{Structname}}DB[]> {
 
-	let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
     return this.http.get<{{Structname}}DB[]>(this.{{structname}}sUrl, { params: params })
       .pipe(
-        tap(_ => this.log('fetched {{structname}}s')),
+        tap(),
         catchError(this.handleError<{{Structname}}DB[]>('get{{Structname}}s', []))
       );
   }
@@ -86,7 +86,7 @@ export class {{Structname}}Service {
       params: params
     }
 
-	return this.http.post<{{Structname}}DB>(this.{{structname}}sUrl, {{structname}}db, httpOptions).pipe(
+    return this.http.post<{{Structname}}DB>(this.{{structname}}sUrl, {{structname}}db, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers{{` + string(rune(NgServiceTsInsertionPointerRestore)) + `}}
         this.log(` + "`" + `posted {{structname}}db id=${{{structname}}db.ID}` + "`" + `)
@@ -140,11 +140,11 @@ export class {{Structname}}Service {
    * @param operation - name of the operation that failed
    * @param result - optional value to return as the observable result
    */
-  private handleError<T>(operation = 'operation', result?: T) {
+  private handleError<T>(operation = 'operation in {{Structname}}Service', result?: T) {
     return (error: any): Observable<T> => {
 
       // TODO: send the error to remote logging infrastructure
-      console.error(error); // log to console instead
+      console.error("{{Structname}}Service" + error); // log to console instead
 
       // TODO: better job of transforming error for user consumption
       this.log(` + "`" + `${operation} failed: ${error.message}` + "`" + `);
@@ -155,7 +155,7 @@ export class {{Structname}}Service {
   }
 
   private log(message: string) {
-
+      console.log(message)
   }
 }
 `
