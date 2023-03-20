@@ -62,6 +62,7 @@ export class {{Structname}}Service {
     return this.http.get<{{Structname}}DB[]>(this.{{structname}}sUrl, { params: params })
       .pipe(
         tap(),
+		// tap(_ => this.log('fetched {{structname}}s')),
         catchError(this.handleError<{{Structname}}DB[]>('get{{Structname}}s', []))
       );
   }
