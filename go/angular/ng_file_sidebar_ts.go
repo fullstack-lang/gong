@@ -171,7 +171,6 @@ export class SidebarComponent implements OnInit {
   constructor(
     private router: Router,
     private frontRepoService: FrontRepoService,
-    private commitNbFromBackService: CommitNbFromBackService,
     private gongstructSelectionService: GongstructSelectionService,
 
     // insertion point for per struct service declaration{{` + string(rune(NgSidebarTsInsertionPerStructServiceDeclaration)) + `}}
@@ -245,14 +244,7 @@ export class SidebarComponent implements OnInit {
           }
         }
       )
-    });
-
-    // fetch the number of commits
-    this.commitNbFromBackService.getCommitNbFromBack().subscribe(
-      commitNbFromBack => {
-        this.commitNbFromBack = commitNbFromBack
-      }
-    )
+    })
   }
 
   /**
@@ -298,11 +290,9 @@ export class SidebarComponent implements OnInit {
   setEditorRouterOutlet(path: string) {
     let outletName = this.routeService.getEditorOutlet(this.GONG__StackPath)
     let fullPath = this.routeService.getPathRoot() + "-" + path.toLowerCase()
-    
     let outletConf : any = {}
     outletConf[outletName] = [fullPath, this.GONG__StackPath]
-    
-    this.router.navigate([ { outlets: outletConf } ]);
+    this.router.navigate([{ outlets: outletConf }]);
   }
 
   setEditorSpecialRouterOutlet(node: GongFlatNode) {
