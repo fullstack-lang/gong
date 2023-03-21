@@ -148,13 +148,13 @@ var NoteShape_Fields = []string{
 
 type BackRepoNoteShapeStruct struct {
 	// stores NoteShapeDB according to their gorm ID
-	Map_NoteShapeDBID_NoteShapeDB *map[uint]*NoteShapeDB
+	Map_NoteShapeDBID_NoteShapeDB map[uint]*NoteShapeDB
 
 	// stores NoteShapeDB ID according to NoteShape address
-	Map_NoteShapePtr_NoteShapeDBID *map[*models.NoteShape]uint
+	Map_NoteShapePtr_NoteShapeDBID map[*models.NoteShape]uint
 
 	// stores NoteShape according to their gorm ID
-	Map_NoteShapeDBID_NoteShapePtr *map[uint]*models.NoteShape
+	Map_NoteShapeDBID_NoteShapePtr map[uint]*models.NoteShape
 
 	db *gorm.DB
 
@@ -172,25 +172,8 @@ func (backRepoNoteShape *BackRepoNoteShapeStruct) GetDB() *gorm.DB {
 
 // GetNoteShapeDBFromNoteShapePtr is a handy function to access the back repo instance from the stage instance
 func (backRepoNoteShape *BackRepoNoteShapeStruct) GetNoteShapeDBFromNoteShapePtr(noteshape *models.NoteShape) (noteshapeDB *NoteShapeDB) {
-	id := (*backRepoNoteShape.Map_NoteShapePtr_NoteShapeDBID)[noteshape]
-	noteshapeDB = (*backRepoNoteShape.Map_NoteShapeDBID_NoteShapeDB)[id]
-	return
-}
-
-// BackRepoNoteShape.Init set up the BackRepo of the NoteShape
-func (backRepoNoteShape *BackRepoNoteShapeStruct) Init(stage *models.StageStruct, db *gorm.DB) (Error error) {
-
-	tmp := make(map[uint]*models.NoteShape, 0)
-	backRepoNoteShape.Map_NoteShapeDBID_NoteShapePtr = &tmp
-
-	tmpDB := make(map[uint]*NoteShapeDB, 0)
-	backRepoNoteShape.Map_NoteShapeDBID_NoteShapeDB = &tmpDB
-
-	tmpID := make(map[*models.NoteShape]uint, 0)
-	backRepoNoteShape.Map_NoteShapePtr_NoteShapeDBID = &tmpID
-
-	backRepoNoteShape.db = db
-	backRepoNoteShape.stage = stage
+	id := backRepoNoteShape.Map_NoteShapePtr_NoteShapeDBID[noteshape]
+	noteshapeDB = backRepoNoteShape.Map_NoteShapeDBID_NoteShapeDB[id]
 	return
 }
 
@@ -204,7 +187,7 @@ func (backRepoNoteShape *BackRepoNoteShapeStruct) CommitPhaseOne(stage *models.S
 
 	// parse all backRepo instance and checks wether some instance have been unstaged
 	// in this case, remove them from the back repo
-	for id, noteshape := range *backRepoNoteShape.Map_NoteShapeDBID_NoteShapePtr {
+	for id, noteshape := range backRepoNoteShape.Map_NoteShapeDBID_NoteShapePtr {
 		if _, ok := stage.NoteShapes[noteshape]; !ok {
 			backRepoNoteShape.CommitDeleteInstance(id)
 		}
@@ -216,19 +199,19 @@ func (backRepoNoteShape *BackRepoNoteShapeStruct) CommitPhaseOne(stage *models.S
 // BackRepoNoteShape.CommitDeleteInstance commits deletion of NoteShape to the BackRepo
 func (backRepoNoteShape *BackRepoNoteShapeStruct) CommitDeleteInstance(id uint) (Error error) {
 
-	noteshape := (*backRepoNoteShape.Map_NoteShapeDBID_NoteShapePtr)[id]
+	noteshape := backRepoNoteShape.Map_NoteShapeDBID_NoteShapePtr[id]
 
 	// noteshape is not staged anymore, remove noteshapeDB
-	noteshapeDB := (*backRepoNoteShape.Map_NoteShapeDBID_NoteShapeDB)[id]
+	noteshapeDB := backRepoNoteShape.Map_NoteShapeDBID_NoteShapeDB[id]
 	query := backRepoNoteShape.db.Unscoped().Delete(&noteshapeDB)
 	if query.Error != nil {
 		return query.Error
 	}
 
 	// update stores
-	delete((*backRepoNoteShape.Map_NoteShapePtr_NoteShapeDBID), noteshape)
-	delete((*backRepoNoteShape.Map_NoteShapeDBID_NoteShapePtr), id)
-	delete((*backRepoNoteShape.Map_NoteShapeDBID_NoteShapeDB), id)
+	delete(backRepoNoteShape.Map_NoteShapePtr_NoteShapeDBID, noteshape)
+	delete(backRepoNoteShape.Map_NoteShapeDBID_NoteShapePtr, id)
+	delete(backRepoNoteShape.Map_NoteShapeDBID_NoteShapeDB, id)
 
 	return
 }
@@ -238,7 +221,7 @@ func (backRepoNoteShape *BackRepoNoteShapeStruct) CommitDeleteInstance(id uint) 
 func (backRepoNoteShape *BackRepoNoteShapeStruct) CommitPhaseOneInstance(noteshape *models.NoteShape) (Error error) {
 
 	// check if the noteshape is not commited yet
-	if _, ok := (*backRepoNoteShape.Map_NoteShapePtr_NoteShapeDBID)[noteshape]; ok {
+	if _, ok := backRepoNoteShape.Map_NoteShapePtr_NoteShapeDBID[noteshape]; ok {
 		return
 	}
 
@@ -252,9 +235,9 @@ func (backRepoNoteShape *BackRepoNoteShapeStruct) CommitPhaseOneInstance(notesha
 	}
 
 	// update stores
-	(*backRepoNoteShape.Map_NoteShapePtr_NoteShapeDBID)[noteshape] = noteshapeDB.ID
-	(*backRepoNoteShape.Map_NoteShapeDBID_NoteShapePtr)[noteshapeDB.ID] = noteshape
-	(*backRepoNoteShape.Map_NoteShapeDBID_NoteShapeDB)[noteshapeDB.ID] = &noteshapeDB
+	backRepoNoteShape.Map_NoteShapePtr_NoteShapeDBID[noteshape] = noteshapeDB.ID
+	backRepoNoteShape.Map_NoteShapeDBID_NoteShapePtr[noteshapeDB.ID] = noteshape
+	backRepoNoteShape.Map_NoteShapeDBID_NoteShapeDB[noteshapeDB.ID] = &noteshapeDB
 
 	return
 }
@@ -263,7 +246,7 @@ func (backRepoNoteShape *BackRepoNoteShapeStruct) CommitPhaseOneInstance(notesha
 // Phase Two is the update of instance with the field in the database
 func (backRepoNoteShape *BackRepoNoteShapeStruct) CommitPhaseTwo(backRepo *BackRepoStruct) (Error error) {
 
-	for idx, noteshape := range *backRepoNoteShape.Map_NoteShapeDBID_NoteShapePtr {
+	for idx, noteshape := range backRepoNoteShape.Map_NoteShapeDBID_NoteShapePtr {
 		backRepoNoteShape.CommitPhaseTwoInstance(backRepo, idx, noteshape)
 	}
 
@@ -275,7 +258,7 @@ func (backRepoNoteShape *BackRepoNoteShapeStruct) CommitPhaseTwo(backRepo *BackR
 func (backRepoNoteShape *BackRepoNoteShapeStruct) CommitPhaseTwoInstance(backRepo *BackRepoStruct, idx uint, noteshape *models.NoteShape) (Error error) {
 
 	// fetch matching noteshapeDB
-	if noteshapeDB, ok := (*backRepoNoteShape.Map_NoteShapeDBID_NoteShapeDB)[idx]; ok {
+	if noteshapeDB, ok := backRepoNoteShape.Map_NoteShapeDBID_NoteShapeDB[idx]; ok {
 
 		noteshapeDB.CopyBasicFieldsFromNoteShape(noteshape)
 
@@ -338,7 +321,7 @@ func (backRepoNoteShape *BackRepoNoteShapeStruct) CheckoutPhaseOne() (Error erro
 
 		// do not remove this instance from the stage, therefore
 		// remove instance from the list of instances to be be removed from the stage
-		noteshape, ok := (*backRepoNoteShape.Map_NoteShapeDBID_NoteShapePtr)[noteshapeDB.ID]
+		noteshape, ok := backRepoNoteShape.Map_NoteShapeDBID_NoteShapePtr[noteshapeDB.ID]
 		if ok {
 			delete(noteshapeInstancesToBeRemovedFromTheStage, noteshape)
 		}
@@ -349,10 +332,10 @@ func (backRepoNoteShape *BackRepoNoteShapeStruct) CheckoutPhaseOne() (Error erro
 		noteshape.Unstage(backRepoNoteShape.GetStage())
 
 		// remove instance from the back repo 3 maps
-		noteshapeID := (*backRepoNoteShape.Map_NoteShapePtr_NoteShapeDBID)[noteshape]
-		delete((*backRepoNoteShape.Map_NoteShapePtr_NoteShapeDBID), noteshape)
-		delete((*backRepoNoteShape.Map_NoteShapeDBID_NoteShapeDB), noteshapeID)
-		delete((*backRepoNoteShape.Map_NoteShapeDBID_NoteShapePtr), noteshapeID)
+		noteshapeID := backRepoNoteShape.Map_NoteShapePtr_NoteShapeDBID[noteshape]
+		delete(backRepoNoteShape.Map_NoteShapePtr_NoteShapeDBID, noteshape)
+		delete(backRepoNoteShape.Map_NoteShapeDBID_NoteShapeDB, noteshapeID)
+		delete(backRepoNoteShape.Map_NoteShapeDBID_NoteShapePtr, noteshapeID)
 	}
 
 	return
@@ -362,12 +345,12 @@ func (backRepoNoteShape *BackRepoNoteShapeStruct) CheckoutPhaseOne() (Error erro
 // models version of the noteshapeDB
 func (backRepoNoteShape *BackRepoNoteShapeStruct) CheckoutPhaseOneInstance(noteshapeDB *NoteShapeDB) (Error error) {
 
-	noteshape, ok := (*backRepoNoteShape.Map_NoteShapeDBID_NoteShapePtr)[noteshapeDB.ID]
+	noteshape, ok := backRepoNoteShape.Map_NoteShapeDBID_NoteShapePtr[noteshapeDB.ID]
 	if !ok {
 		noteshape = new(models.NoteShape)
 
-		(*backRepoNoteShape.Map_NoteShapeDBID_NoteShapePtr)[noteshapeDB.ID] = noteshape
-		(*backRepoNoteShape.Map_NoteShapePtr_NoteShapeDBID)[noteshape] = noteshapeDB.ID
+		backRepoNoteShape.Map_NoteShapeDBID_NoteShapePtr[noteshapeDB.ID] = noteshape
+		backRepoNoteShape.Map_NoteShapePtr_NoteShapeDBID[noteshape] = noteshapeDB.ID
 
 		// append model store with the new element
 		noteshape.Name = noteshapeDB.Name_Data.String
@@ -382,7 +365,7 @@ func (backRepoNoteShape *BackRepoNoteShapeStruct) CheckoutPhaseOneInstance(notes
 	// Map_NoteShapeDBID_NoteShapeDB)[noteshapeDB hold variable pointers
 	noteshapeDB_Data := *noteshapeDB
 	preservedPtrToNoteShape := &noteshapeDB_Data
-	(*backRepoNoteShape.Map_NoteShapeDBID_NoteShapeDB)[noteshapeDB.ID] = preservedPtrToNoteShape
+	backRepoNoteShape.Map_NoteShapeDBID_NoteShapeDB[noteshapeDB.ID] = preservedPtrToNoteShape
 
 	return
 }
@@ -392,7 +375,7 @@ func (backRepoNoteShape *BackRepoNoteShapeStruct) CheckoutPhaseOneInstance(notes
 func (backRepoNoteShape *BackRepoNoteShapeStruct) CheckoutPhaseTwo(backRepo *BackRepoStruct) (Error error) {
 
 	// parse all DB instance and update all pointer fields of the translated models instance
-	for _, noteshapeDB := range *backRepoNoteShape.Map_NoteShapeDBID_NoteShapeDB {
+	for _, noteshapeDB := range backRepoNoteShape.Map_NoteShapeDBID_NoteShapeDB {
 		backRepoNoteShape.CheckoutPhaseTwoInstance(backRepo, noteshapeDB)
 	}
 	return
@@ -402,7 +385,7 @@ func (backRepoNoteShape *BackRepoNoteShapeStruct) CheckoutPhaseTwo(backRepo *Bac
 // Phase Two is the update of instance with the field in the database
 func (backRepoNoteShape *BackRepoNoteShapeStruct) CheckoutPhaseTwoInstance(backRepo *BackRepoStruct, noteshapeDB *NoteShapeDB) (Error error) {
 
-	noteshape := (*backRepoNoteShape.Map_NoteShapeDBID_NoteShapePtr)[noteshapeDB.ID]
+	noteshape := backRepoNoteShape.Map_NoteShapeDBID_NoteShapePtr[noteshapeDB.ID]
 	_ = noteshape // sometimes, there is no code generated. This lines voids the "unused variable" compilation error
 
 	// insertion point for checkout of pointer encoding
@@ -412,11 +395,11 @@ func (backRepoNoteShape *BackRepoNoteShapeStruct) CheckoutPhaseTwoInstance(backR
 	// 1. reset the slice
 	noteshape.NoteShapeLinks = noteshape.NoteShapeLinks[:0]
 	// 2. loop all instances in the type in the association end
-	for _, noteshapelinkDB_AssocEnd := range *backRepo.BackRepoNoteShapeLink.Map_NoteShapeLinkDBID_NoteShapeLinkDB {
+	for _, noteshapelinkDB_AssocEnd := range backRepo.BackRepoNoteShapeLink.Map_NoteShapeLinkDBID_NoteShapeLinkDB {
 		// 3. Does the ID encoding at the end and the ID at the start matches ?
 		if noteshapelinkDB_AssocEnd.NoteShape_NoteShapeLinksDBID.Int64 == int64(noteshapeDB.ID) {
 			// 4. fetch the associated instance in the stage
-			noteshapelink_AssocEnd := (*backRepo.BackRepoNoteShapeLink.Map_NoteShapeLinkDBID_NoteShapeLinkPtr)[noteshapelinkDB_AssocEnd.ID]
+			noteshapelink_AssocEnd := backRepo.BackRepoNoteShapeLink.Map_NoteShapeLinkDBID_NoteShapeLinkPtr[noteshapelinkDB_AssocEnd.ID]
 			// 5. append it the association slice
 			noteshape.NoteShapeLinks = append(noteshape.NoteShapeLinks, noteshapelink_AssocEnd)
 		}
@@ -424,11 +407,11 @@ func (backRepoNoteShape *BackRepoNoteShapeStruct) CheckoutPhaseTwoInstance(backR
 
 	// sort the array according to the order
 	sort.Slice(noteshape.NoteShapeLinks, func(i, j int) bool {
-		noteshapelinkDB_i_ID := (*backRepo.BackRepoNoteShapeLink.Map_NoteShapeLinkPtr_NoteShapeLinkDBID)[noteshape.NoteShapeLinks[i]]
-		noteshapelinkDB_j_ID := (*backRepo.BackRepoNoteShapeLink.Map_NoteShapeLinkPtr_NoteShapeLinkDBID)[noteshape.NoteShapeLinks[j]]
+		noteshapelinkDB_i_ID := backRepo.BackRepoNoteShapeLink.Map_NoteShapeLinkPtr_NoteShapeLinkDBID[noteshape.NoteShapeLinks[i]]
+		noteshapelinkDB_j_ID := backRepo.BackRepoNoteShapeLink.Map_NoteShapeLinkPtr_NoteShapeLinkDBID[noteshape.NoteShapeLinks[j]]
 
-		noteshapelinkDB_i := (*backRepo.BackRepoNoteShapeLink.Map_NoteShapeLinkDBID_NoteShapeLinkDB)[noteshapelinkDB_i_ID]
-		noteshapelinkDB_j := (*backRepo.BackRepoNoteShapeLink.Map_NoteShapeLinkDBID_NoteShapeLinkDB)[noteshapelinkDB_j_ID]
+		noteshapelinkDB_i := backRepo.BackRepoNoteShapeLink.Map_NoteShapeLinkDBID_NoteShapeLinkDB[noteshapelinkDB_i_ID]
+		noteshapelinkDB_j := backRepo.BackRepoNoteShapeLink.Map_NoteShapeLinkDBID_NoteShapeLinkDB[noteshapelinkDB_j_ID]
 
 		return noteshapelinkDB_i.NoteShape_NoteShapeLinksDBID_Index.Int64 < noteshapelinkDB_j.NoteShape_NoteShapeLinksDBID_Index.Int64
 	})
@@ -439,7 +422,7 @@ func (backRepoNoteShape *BackRepoNoteShapeStruct) CheckoutPhaseTwoInstance(backR
 // CommitNoteShape allows commit of a single noteshape (if already staged)
 func (backRepo *BackRepoStruct) CommitNoteShape(noteshape *models.NoteShape) {
 	backRepo.BackRepoNoteShape.CommitPhaseOneInstance(noteshape)
-	if id, ok := (*backRepo.BackRepoNoteShape.Map_NoteShapePtr_NoteShapeDBID)[noteshape]; ok {
+	if id, ok := backRepo.BackRepoNoteShape.Map_NoteShapePtr_NoteShapeDBID[noteshape]; ok {
 		backRepo.BackRepoNoteShape.CommitPhaseTwoInstance(backRepo, id, noteshape)
 	}
 	backRepo.CommitFromBackNb = backRepo.CommitFromBackNb + 1
@@ -448,9 +431,9 @@ func (backRepo *BackRepoStruct) CommitNoteShape(noteshape *models.NoteShape) {
 // CommitNoteShape allows checkout of a single noteshape (if already staged and with a BackRepo id)
 func (backRepo *BackRepoStruct) CheckoutNoteShape(noteshape *models.NoteShape) {
 	// check if the noteshape is staged
-	if _, ok := (*backRepo.BackRepoNoteShape.Map_NoteShapePtr_NoteShapeDBID)[noteshape]; ok {
+	if _, ok := backRepo.BackRepoNoteShape.Map_NoteShapePtr_NoteShapeDBID[noteshape]; ok {
 
-		if id, ok := (*backRepo.BackRepoNoteShape.Map_NoteShapePtr_NoteShapeDBID)[noteshape]; ok {
+		if id, ok := backRepo.BackRepoNoteShape.Map_NoteShapePtr_NoteShapeDBID[noteshape]; ok {
 			var noteshapeDB NoteShapeDB
 			noteshapeDB.ID = id
 
@@ -564,7 +547,7 @@ func (backRepoNoteShape *BackRepoNoteShapeStruct) Backup(dirPath string) {
 	// organize the map into an array with increasing IDs, in order to have repoductible
 	// backup file
 	forBackup := make([]*NoteShapeDB, 0)
-	for _, noteshapeDB := range *backRepoNoteShape.Map_NoteShapeDBID_NoteShapeDB {
+	for _, noteshapeDB := range backRepoNoteShape.Map_NoteShapeDBID_NoteShapeDB {
 		forBackup = append(forBackup, noteshapeDB)
 	}
 
@@ -590,7 +573,7 @@ func (backRepoNoteShape *BackRepoNoteShapeStruct) BackupXL(file *xlsx.File) {
 	// organize the map into an array with increasing IDs, in order to have repoductible
 	// backup file
 	forBackup := make([]*NoteShapeDB, 0)
-	for _, noteshapeDB := range *backRepoNoteShape.Map_NoteShapeDBID_NoteShapeDB {
+	for _, noteshapeDB := range backRepoNoteShape.Map_NoteShapeDBID_NoteShapeDB {
 		forBackup = append(forBackup, noteshapeDB)
 	}
 
@@ -655,7 +638,7 @@ func (backRepoNoteShape *BackRepoNoteShapeStruct) rowVisitorNoteShape(row *xlsx.
 		if query.Error != nil {
 			log.Panic(query.Error)
 		}
-		(*backRepoNoteShape.Map_NoteShapeDBID_NoteShapeDB)[noteshapeDB.ID] = noteshapeDB
+		backRepoNoteShape.Map_NoteShapeDBID_NoteShapeDB[noteshapeDB.ID] = noteshapeDB
 		BackRepoNoteShapeid_atBckpTime_newID[noteshapeDB_ID_atBackupTime] = noteshapeDB.ID
 	}
 	return nil
@@ -692,7 +675,7 @@ func (backRepoNoteShape *BackRepoNoteShapeStruct) RestorePhaseOne(dirPath string
 		if query.Error != nil {
 			log.Panic(query.Error)
 		}
-		(*backRepoNoteShape.Map_NoteShapeDBID_NoteShapeDB)[noteshapeDB.ID] = noteshapeDB
+		backRepoNoteShape.Map_NoteShapeDBID_NoteShapeDB[noteshapeDB.ID] = noteshapeDB
 		BackRepoNoteShapeid_atBckpTime_newID[noteshapeDB_ID_atBackupTime] = noteshapeDB.ID
 	}
 
@@ -705,7 +688,7 @@ func (backRepoNoteShape *BackRepoNoteShapeStruct) RestorePhaseOne(dirPath string
 // to compute new index
 func (backRepoNoteShape *BackRepoNoteShapeStruct) RestorePhaseTwo() {
 
-	for _, noteshapeDB := range *backRepoNoteShape.Map_NoteShapeDBID_NoteShapeDB {
+	for _, noteshapeDB := range backRepoNoteShape.Map_NoteShapeDBID_NoteShapeDB {
 
 		// next line of code is to avert unused variable compilation error
 		_ = noteshapeDB

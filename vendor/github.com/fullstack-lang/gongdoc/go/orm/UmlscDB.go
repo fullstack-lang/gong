@@ -112,13 +112,13 @@ var Umlsc_Fields = []string{
 
 type BackRepoUmlscStruct struct {
 	// stores UmlscDB according to their gorm ID
-	Map_UmlscDBID_UmlscDB *map[uint]*UmlscDB
+	Map_UmlscDBID_UmlscDB map[uint]*UmlscDB
 
 	// stores UmlscDB ID according to Umlsc address
-	Map_UmlscPtr_UmlscDBID *map[*models.Umlsc]uint
+	Map_UmlscPtr_UmlscDBID map[*models.Umlsc]uint
 
 	// stores Umlsc according to their gorm ID
-	Map_UmlscDBID_UmlscPtr *map[uint]*models.Umlsc
+	Map_UmlscDBID_UmlscPtr map[uint]*models.Umlsc
 
 	db *gorm.DB
 
@@ -136,25 +136,8 @@ func (backRepoUmlsc *BackRepoUmlscStruct) GetDB() *gorm.DB {
 
 // GetUmlscDBFromUmlscPtr is a handy function to access the back repo instance from the stage instance
 func (backRepoUmlsc *BackRepoUmlscStruct) GetUmlscDBFromUmlscPtr(umlsc *models.Umlsc) (umlscDB *UmlscDB) {
-	id := (*backRepoUmlsc.Map_UmlscPtr_UmlscDBID)[umlsc]
-	umlscDB = (*backRepoUmlsc.Map_UmlscDBID_UmlscDB)[id]
-	return
-}
-
-// BackRepoUmlsc.Init set up the BackRepo of the Umlsc
-func (backRepoUmlsc *BackRepoUmlscStruct) Init(stage *models.StageStruct, db *gorm.DB) (Error error) {
-
-	tmp := make(map[uint]*models.Umlsc, 0)
-	backRepoUmlsc.Map_UmlscDBID_UmlscPtr = &tmp
-
-	tmpDB := make(map[uint]*UmlscDB, 0)
-	backRepoUmlsc.Map_UmlscDBID_UmlscDB = &tmpDB
-
-	tmpID := make(map[*models.Umlsc]uint, 0)
-	backRepoUmlsc.Map_UmlscPtr_UmlscDBID = &tmpID
-
-	backRepoUmlsc.db = db
-	backRepoUmlsc.stage = stage
+	id := backRepoUmlsc.Map_UmlscPtr_UmlscDBID[umlsc]
+	umlscDB = backRepoUmlsc.Map_UmlscDBID_UmlscDB[id]
 	return
 }
 
@@ -168,7 +151,7 @@ func (backRepoUmlsc *BackRepoUmlscStruct) CommitPhaseOne(stage *models.StageStru
 
 	// parse all backRepo instance and checks wether some instance have been unstaged
 	// in this case, remove them from the back repo
-	for id, umlsc := range *backRepoUmlsc.Map_UmlscDBID_UmlscPtr {
+	for id, umlsc := range backRepoUmlsc.Map_UmlscDBID_UmlscPtr {
 		if _, ok := stage.Umlscs[umlsc]; !ok {
 			backRepoUmlsc.CommitDeleteInstance(id)
 		}
@@ -180,19 +163,19 @@ func (backRepoUmlsc *BackRepoUmlscStruct) CommitPhaseOne(stage *models.StageStru
 // BackRepoUmlsc.CommitDeleteInstance commits deletion of Umlsc to the BackRepo
 func (backRepoUmlsc *BackRepoUmlscStruct) CommitDeleteInstance(id uint) (Error error) {
 
-	umlsc := (*backRepoUmlsc.Map_UmlscDBID_UmlscPtr)[id]
+	umlsc := backRepoUmlsc.Map_UmlscDBID_UmlscPtr[id]
 
 	// umlsc is not staged anymore, remove umlscDB
-	umlscDB := (*backRepoUmlsc.Map_UmlscDBID_UmlscDB)[id]
+	umlscDB := backRepoUmlsc.Map_UmlscDBID_UmlscDB[id]
 	query := backRepoUmlsc.db.Unscoped().Delete(&umlscDB)
 	if query.Error != nil {
 		return query.Error
 	}
 
 	// update stores
-	delete((*backRepoUmlsc.Map_UmlscPtr_UmlscDBID), umlsc)
-	delete((*backRepoUmlsc.Map_UmlscDBID_UmlscPtr), id)
-	delete((*backRepoUmlsc.Map_UmlscDBID_UmlscDB), id)
+	delete(backRepoUmlsc.Map_UmlscPtr_UmlscDBID, umlsc)
+	delete(backRepoUmlsc.Map_UmlscDBID_UmlscPtr, id)
+	delete(backRepoUmlsc.Map_UmlscDBID_UmlscDB, id)
 
 	return
 }
@@ -202,7 +185,7 @@ func (backRepoUmlsc *BackRepoUmlscStruct) CommitDeleteInstance(id uint) (Error e
 func (backRepoUmlsc *BackRepoUmlscStruct) CommitPhaseOneInstance(umlsc *models.Umlsc) (Error error) {
 
 	// check if the umlsc is not commited yet
-	if _, ok := (*backRepoUmlsc.Map_UmlscPtr_UmlscDBID)[umlsc]; ok {
+	if _, ok := backRepoUmlsc.Map_UmlscPtr_UmlscDBID[umlsc]; ok {
 		return
 	}
 
@@ -216,9 +199,9 @@ func (backRepoUmlsc *BackRepoUmlscStruct) CommitPhaseOneInstance(umlsc *models.U
 	}
 
 	// update stores
-	(*backRepoUmlsc.Map_UmlscPtr_UmlscDBID)[umlsc] = umlscDB.ID
-	(*backRepoUmlsc.Map_UmlscDBID_UmlscPtr)[umlscDB.ID] = umlsc
-	(*backRepoUmlsc.Map_UmlscDBID_UmlscDB)[umlscDB.ID] = &umlscDB
+	backRepoUmlsc.Map_UmlscPtr_UmlscDBID[umlsc] = umlscDB.ID
+	backRepoUmlsc.Map_UmlscDBID_UmlscPtr[umlscDB.ID] = umlsc
+	backRepoUmlsc.Map_UmlscDBID_UmlscDB[umlscDB.ID] = &umlscDB
 
 	return
 }
@@ -227,7 +210,7 @@ func (backRepoUmlsc *BackRepoUmlscStruct) CommitPhaseOneInstance(umlsc *models.U
 // Phase Two is the update of instance with the field in the database
 func (backRepoUmlsc *BackRepoUmlscStruct) CommitPhaseTwo(backRepo *BackRepoStruct) (Error error) {
 
-	for idx, umlsc := range *backRepoUmlsc.Map_UmlscDBID_UmlscPtr {
+	for idx, umlsc := range backRepoUmlsc.Map_UmlscDBID_UmlscPtr {
 		backRepoUmlsc.CommitPhaseTwoInstance(backRepo, idx, umlsc)
 	}
 
@@ -239,7 +222,7 @@ func (backRepoUmlsc *BackRepoUmlscStruct) CommitPhaseTwo(backRepo *BackRepoStruc
 func (backRepoUmlsc *BackRepoUmlscStruct) CommitPhaseTwoInstance(backRepo *BackRepoStruct, idx uint, umlsc *models.Umlsc) (Error error) {
 
 	// fetch matching umlscDB
-	if umlscDB, ok := (*backRepoUmlsc.Map_UmlscDBID_UmlscDB)[idx]; ok {
+	if umlscDB, ok := backRepoUmlsc.Map_UmlscDBID_UmlscDB[idx]; ok {
 
 		umlscDB.CopyBasicFieldsFromUmlsc(umlsc)
 
@@ -302,7 +285,7 @@ func (backRepoUmlsc *BackRepoUmlscStruct) CheckoutPhaseOne() (Error error) {
 
 		// do not remove this instance from the stage, therefore
 		// remove instance from the list of instances to be be removed from the stage
-		umlsc, ok := (*backRepoUmlsc.Map_UmlscDBID_UmlscPtr)[umlscDB.ID]
+		umlsc, ok := backRepoUmlsc.Map_UmlscDBID_UmlscPtr[umlscDB.ID]
 		if ok {
 			delete(umlscInstancesToBeRemovedFromTheStage, umlsc)
 		}
@@ -313,10 +296,10 @@ func (backRepoUmlsc *BackRepoUmlscStruct) CheckoutPhaseOne() (Error error) {
 		umlsc.Unstage(backRepoUmlsc.GetStage())
 
 		// remove instance from the back repo 3 maps
-		umlscID := (*backRepoUmlsc.Map_UmlscPtr_UmlscDBID)[umlsc]
-		delete((*backRepoUmlsc.Map_UmlscPtr_UmlscDBID), umlsc)
-		delete((*backRepoUmlsc.Map_UmlscDBID_UmlscDB), umlscID)
-		delete((*backRepoUmlsc.Map_UmlscDBID_UmlscPtr), umlscID)
+		umlscID := backRepoUmlsc.Map_UmlscPtr_UmlscDBID[umlsc]
+		delete(backRepoUmlsc.Map_UmlscPtr_UmlscDBID, umlsc)
+		delete(backRepoUmlsc.Map_UmlscDBID_UmlscDB, umlscID)
+		delete(backRepoUmlsc.Map_UmlscDBID_UmlscPtr, umlscID)
 	}
 
 	return
@@ -326,12 +309,12 @@ func (backRepoUmlsc *BackRepoUmlscStruct) CheckoutPhaseOne() (Error error) {
 // models version of the umlscDB
 func (backRepoUmlsc *BackRepoUmlscStruct) CheckoutPhaseOneInstance(umlscDB *UmlscDB) (Error error) {
 
-	umlsc, ok := (*backRepoUmlsc.Map_UmlscDBID_UmlscPtr)[umlscDB.ID]
+	umlsc, ok := backRepoUmlsc.Map_UmlscDBID_UmlscPtr[umlscDB.ID]
 	if !ok {
 		umlsc = new(models.Umlsc)
 
-		(*backRepoUmlsc.Map_UmlscDBID_UmlscPtr)[umlscDB.ID] = umlsc
-		(*backRepoUmlsc.Map_UmlscPtr_UmlscDBID)[umlsc] = umlscDB.ID
+		backRepoUmlsc.Map_UmlscDBID_UmlscPtr[umlscDB.ID] = umlsc
+		backRepoUmlsc.Map_UmlscPtr_UmlscDBID[umlsc] = umlscDB.ID
 
 		// append model store with the new element
 		umlsc.Name = umlscDB.Name_Data.String
@@ -346,7 +329,7 @@ func (backRepoUmlsc *BackRepoUmlscStruct) CheckoutPhaseOneInstance(umlscDB *Umls
 	// Map_UmlscDBID_UmlscDB)[umlscDB hold variable pointers
 	umlscDB_Data := *umlscDB
 	preservedPtrToUmlsc := &umlscDB_Data
-	(*backRepoUmlsc.Map_UmlscDBID_UmlscDB)[umlscDB.ID] = preservedPtrToUmlsc
+	backRepoUmlsc.Map_UmlscDBID_UmlscDB[umlscDB.ID] = preservedPtrToUmlsc
 
 	return
 }
@@ -356,7 +339,7 @@ func (backRepoUmlsc *BackRepoUmlscStruct) CheckoutPhaseOneInstance(umlscDB *Umls
 func (backRepoUmlsc *BackRepoUmlscStruct) CheckoutPhaseTwo(backRepo *BackRepoStruct) (Error error) {
 
 	// parse all DB instance and update all pointer fields of the translated models instance
-	for _, umlscDB := range *backRepoUmlsc.Map_UmlscDBID_UmlscDB {
+	for _, umlscDB := range backRepoUmlsc.Map_UmlscDBID_UmlscDB {
 		backRepoUmlsc.CheckoutPhaseTwoInstance(backRepo, umlscDB)
 	}
 	return
@@ -366,7 +349,7 @@ func (backRepoUmlsc *BackRepoUmlscStruct) CheckoutPhaseTwo(backRepo *BackRepoStr
 // Phase Two is the update of instance with the field in the database
 func (backRepoUmlsc *BackRepoUmlscStruct) CheckoutPhaseTwoInstance(backRepo *BackRepoStruct, umlscDB *UmlscDB) (Error error) {
 
-	umlsc := (*backRepoUmlsc.Map_UmlscDBID_UmlscPtr)[umlscDB.ID]
+	umlsc := backRepoUmlsc.Map_UmlscDBID_UmlscPtr[umlscDB.ID]
 	_ = umlsc // sometimes, there is no code generated. This lines voids the "unused variable" compilation error
 
 	// insertion point for checkout of pointer encoding
@@ -376,11 +359,11 @@ func (backRepoUmlsc *BackRepoUmlscStruct) CheckoutPhaseTwoInstance(backRepo *Bac
 	// 1. reset the slice
 	umlsc.States = umlsc.States[:0]
 	// 2. loop all instances in the type in the association end
-	for _, umlstateDB_AssocEnd := range *backRepo.BackRepoUmlState.Map_UmlStateDBID_UmlStateDB {
+	for _, umlstateDB_AssocEnd := range backRepo.BackRepoUmlState.Map_UmlStateDBID_UmlStateDB {
 		// 3. Does the ID encoding at the end and the ID at the start matches ?
 		if umlstateDB_AssocEnd.Umlsc_StatesDBID.Int64 == int64(umlscDB.ID) {
 			// 4. fetch the associated instance in the stage
-			umlstate_AssocEnd := (*backRepo.BackRepoUmlState.Map_UmlStateDBID_UmlStatePtr)[umlstateDB_AssocEnd.ID]
+			umlstate_AssocEnd := backRepo.BackRepoUmlState.Map_UmlStateDBID_UmlStatePtr[umlstateDB_AssocEnd.ID]
 			// 5. append it the association slice
 			umlsc.States = append(umlsc.States, umlstate_AssocEnd)
 		}
@@ -388,11 +371,11 @@ func (backRepoUmlsc *BackRepoUmlscStruct) CheckoutPhaseTwoInstance(backRepo *Bac
 
 	// sort the array according to the order
 	sort.Slice(umlsc.States, func(i, j int) bool {
-		umlstateDB_i_ID := (*backRepo.BackRepoUmlState.Map_UmlStatePtr_UmlStateDBID)[umlsc.States[i]]
-		umlstateDB_j_ID := (*backRepo.BackRepoUmlState.Map_UmlStatePtr_UmlStateDBID)[umlsc.States[j]]
+		umlstateDB_i_ID := backRepo.BackRepoUmlState.Map_UmlStatePtr_UmlStateDBID[umlsc.States[i]]
+		umlstateDB_j_ID := backRepo.BackRepoUmlState.Map_UmlStatePtr_UmlStateDBID[umlsc.States[j]]
 
-		umlstateDB_i := (*backRepo.BackRepoUmlState.Map_UmlStateDBID_UmlStateDB)[umlstateDB_i_ID]
-		umlstateDB_j := (*backRepo.BackRepoUmlState.Map_UmlStateDBID_UmlStateDB)[umlstateDB_j_ID]
+		umlstateDB_i := backRepo.BackRepoUmlState.Map_UmlStateDBID_UmlStateDB[umlstateDB_i_ID]
+		umlstateDB_j := backRepo.BackRepoUmlState.Map_UmlStateDBID_UmlStateDB[umlstateDB_j_ID]
 
 		return umlstateDB_i.Umlsc_StatesDBID_Index.Int64 < umlstateDB_j.Umlsc_StatesDBID_Index.Int64
 	})
@@ -403,7 +386,7 @@ func (backRepoUmlsc *BackRepoUmlscStruct) CheckoutPhaseTwoInstance(backRepo *Bac
 // CommitUmlsc allows commit of a single umlsc (if already staged)
 func (backRepo *BackRepoStruct) CommitUmlsc(umlsc *models.Umlsc) {
 	backRepo.BackRepoUmlsc.CommitPhaseOneInstance(umlsc)
-	if id, ok := (*backRepo.BackRepoUmlsc.Map_UmlscPtr_UmlscDBID)[umlsc]; ok {
+	if id, ok := backRepo.BackRepoUmlsc.Map_UmlscPtr_UmlscDBID[umlsc]; ok {
 		backRepo.BackRepoUmlsc.CommitPhaseTwoInstance(backRepo, id, umlsc)
 	}
 	backRepo.CommitFromBackNb = backRepo.CommitFromBackNb + 1
@@ -412,9 +395,9 @@ func (backRepo *BackRepoStruct) CommitUmlsc(umlsc *models.Umlsc) {
 // CommitUmlsc allows checkout of a single umlsc (if already staged and with a BackRepo id)
 func (backRepo *BackRepoStruct) CheckoutUmlsc(umlsc *models.Umlsc) {
 	// check if the umlsc is staged
-	if _, ok := (*backRepo.BackRepoUmlsc.Map_UmlscPtr_UmlscDBID)[umlsc]; ok {
+	if _, ok := backRepo.BackRepoUmlsc.Map_UmlscPtr_UmlscDBID[umlsc]; ok {
 
-		if id, ok := (*backRepo.BackRepoUmlsc.Map_UmlscPtr_UmlscDBID)[umlsc]; ok {
+		if id, ok := backRepo.BackRepoUmlsc.Map_UmlscPtr_UmlscDBID[umlsc]; ok {
 			var umlscDB UmlscDB
 			umlscDB.ID = id
 
@@ -480,7 +463,7 @@ func (backRepoUmlsc *BackRepoUmlscStruct) Backup(dirPath string) {
 	// organize the map into an array with increasing IDs, in order to have repoductible
 	// backup file
 	forBackup := make([]*UmlscDB, 0)
-	for _, umlscDB := range *backRepoUmlsc.Map_UmlscDBID_UmlscDB {
+	for _, umlscDB := range backRepoUmlsc.Map_UmlscDBID_UmlscDB {
 		forBackup = append(forBackup, umlscDB)
 	}
 
@@ -506,7 +489,7 @@ func (backRepoUmlsc *BackRepoUmlscStruct) BackupXL(file *xlsx.File) {
 	// organize the map into an array with increasing IDs, in order to have repoductible
 	// backup file
 	forBackup := make([]*UmlscDB, 0)
-	for _, umlscDB := range *backRepoUmlsc.Map_UmlscDBID_UmlscDB {
+	for _, umlscDB := range backRepoUmlsc.Map_UmlscDBID_UmlscDB {
 		forBackup = append(forBackup, umlscDB)
 	}
 
@@ -571,7 +554,7 @@ func (backRepoUmlsc *BackRepoUmlscStruct) rowVisitorUmlsc(row *xlsx.Row) error {
 		if query.Error != nil {
 			log.Panic(query.Error)
 		}
-		(*backRepoUmlsc.Map_UmlscDBID_UmlscDB)[umlscDB.ID] = umlscDB
+		backRepoUmlsc.Map_UmlscDBID_UmlscDB[umlscDB.ID] = umlscDB
 		BackRepoUmlscid_atBckpTime_newID[umlscDB_ID_atBackupTime] = umlscDB.ID
 	}
 	return nil
@@ -608,7 +591,7 @@ func (backRepoUmlsc *BackRepoUmlscStruct) RestorePhaseOne(dirPath string) {
 		if query.Error != nil {
 			log.Panic(query.Error)
 		}
-		(*backRepoUmlsc.Map_UmlscDBID_UmlscDB)[umlscDB.ID] = umlscDB
+		backRepoUmlsc.Map_UmlscDBID_UmlscDB[umlscDB.ID] = umlscDB
 		BackRepoUmlscid_atBckpTime_newID[umlscDB_ID_atBackupTime] = umlscDB.ID
 	}
 
@@ -621,7 +604,7 @@ func (backRepoUmlsc *BackRepoUmlscStruct) RestorePhaseOne(dirPath string) {
 // to compute new index
 func (backRepoUmlsc *BackRepoUmlscStruct) RestorePhaseTwo() {
 
-	for _, umlscDB := range *backRepoUmlsc.Map_UmlscDBID_UmlscDB {
+	for _, umlscDB := range backRepoUmlsc.Map_UmlscDBID_UmlscDB {
 
 		// next line of code is to avert unused variable compilation error
 		_ = umlscDB

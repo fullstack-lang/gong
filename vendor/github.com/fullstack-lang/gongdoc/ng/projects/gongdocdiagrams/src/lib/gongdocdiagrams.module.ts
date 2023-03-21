@@ -28,10 +28,8 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 import { AngularSplitModule } from 'angular-split';
 
 import { GongdocdiagramsComponent } from './gongdocdiagrams.component';
-import { UmlscDiagramComponent } from './umlsc-diagram/umlsc-diagram.component';
 import { ClassDiagramComponent } from './class-diagram/class-diagram.component';
 import { PkgeltDocsComponent } from './pkgelt-docs/pkgelt-docs.component';
-import { UmlscSimpleTableComponent } from './umlsc-simple/umlsc-simple.component';
 
 import { ClassdiagramDetailComponent } from './classdiagram-detail/classdiagram-detail.component';
 import { TreeComponent } from './tree/tree.component'
@@ -39,10 +37,8 @@ import { TreeComponent } from './tree/tree.component'
 @NgModule({
   declarations: [
     GongdocdiagramsComponent,
-    UmlscDiagramComponent,
     ClassDiagramComponent,
     PkgeltDocsComponent,
-    UmlscSimpleTableComponent,
     ClassdiagramDetailComponent,
     TreeComponent
   ],
@@ -80,7 +76,6 @@ import { TreeComponent } from './tree/tree.component'
   ],
   exports: [
     PkgeltDocsComponent,
-    UmlscDiagramComponent,
     ClassDiagramComponent,
     ClassdiagramDetailComponent
   ],

@@ -46,5 +46,4 @@ func NewStackInstance(
 	controllers.Register(r)
 
 	return
-
 }

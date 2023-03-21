@@ -151,7 +151,7 @@ func (controller *Controller) PostGongEnumValueEntry(c *gin.Context) {
 
 	// get an instance (not staged) from DB instance, and call callback function
 	backRepo.BackRepoGongEnumValueEntry.CheckoutPhaseOneInstance(&gongenumvalueentryDB)
-	gongenumvalueentry := (*backRepo.BackRepoGongEnumValueEntry.Map_GongEnumValueEntryDBID_GongEnumValueEntryPtr)[gongenumvalueentryDB.ID]
+	gongenumvalueentry := backRepo.BackRepoGongEnumValueEntry.Map_GongEnumValueEntryDBID_GongEnumValueEntryPtr[gongenumvalueentryDB.ID]
 
 	if gongenumvalueentry != nil {
 		models.AfterCreateFromFront(backRepo.GetStage(), gongenumvalueentry)
@@ -273,7 +273,7 @@ func (controller *Controller) UpdateGongEnumValueEntry(c *gin.Context) {
 	gongenumvalueentryDB.CopyBasicFieldsToGongEnumValueEntry(gongenumvalueentryNew)
 
 	// get stage instance from DB instance, and call callback function
-	gongenumvalueentryOld := (*backRepo.BackRepoGongEnumValueEntry.Map_GongEnumValueEntryDBID_GongEnumValueEntryPtr)[gongenumvalueentryDB.ID]
+	gongenumvalueentryOld := backRepo.BackRepoGongEnumValueEntry.Map_GongEnumValueEntryDBID_GongEnumValueEntryPtr[gongenumvalueentryDB.ID]
 	if gongenumvalueentryOld != nil {
 		models.AfterUpdateFromFront(backRepo.GetStage(), gongenumvalueentryOld, gongenumvalueentryNew)
 	}
@@ -330,7 +330,7 @@ func (controller *Controller) DeleteGongEnumValueEntry(c *gin.Context) {
 	gongenumvalueentryDB.CopyBasicFieldsToGongEnumValueEntry(gongenumvalueentryDeleted)
 
 	// get stage instance from DB instance, and call callback function
-	gongenumvalueentryStaged := (*backRepo.BackRepoGongEnumValueEntry.Map_GongEnumValueEntryDBID_GongEnumValueEntryPtr)[gongenumvalueentryDB.ID]
+	gongenumvalueentryStaged := backRepo.BackRepoGongEnumValueEntry.Map_GongEnumValueEntryDBID_GongEnumValueEntryPtr[gongenumvalueentryDB.ID]
 	if gongenumvalueentryStaged != nil {
 		models.AfterDeleteFromFront(backRepo.GetStage(), gongenumvalueentryStaged, gongenumvalueentryDeleted)
 	}

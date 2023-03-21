@@ -111,13 +111,13 @@ var NoteShapeLink_Fields = []string{
 
 type BackRepoNoteShapeLinkStruct struct {
 	// stores NoteShapeLinkDB according to their gorm ID
-	Map_NoteShapeLinkDBID_NoteShapeLinkDB *map[uint]*NoteShapeLinkDB
+	Map_NoteShapeLinkDBID_NoteShapeLinkDB map[uint]*NoteShapeLinkDB
 
 	// stores NoteShapeLinkDB ID according to NoteShapeLink address
-	Map_NoteShapeLinkPtr_NoteShapeLinkDBID *map[*models.NoteShapeLink]uint
+	Map_NoteShapeLinkPtr_NoteShapeLinkDBID map[*models.NoteShapeLink]uint
 
 	// stores NoteShapeLink according to their gorm ID
-	Map_NoteShapeLinkDBID_NoteShapeLinkPtr *map[uint]*models.NoteShapeLink
+	Map_NoteShapeLinkDBID_NoteShapeLinkPtr map[uint]*models.NoteShapeLink
 
 	db *gorm.DB
 
@@ -135,25 +135,8 @@ func (backRepoNoteShapeLink *BackRepoNoteShapeLinkStruct) GetDB() *gorm.DB {
 
 // GetNoteShapeLinkDBFromNoteShapeLinkPtr is a handy function to access the back repo instance from the stage instance
 func (backRepoNoteShapeLink *BackRepoNoteShapeLinkStruct) GetNoteShapeLinkDBFromNoteShapeLinkPtr(noteshapelink *models.NoteShapeLink) (noteshapelinkDB *NoteShapeLinkDB) {
-	id := (*backRepoNoteShapeLink.Map_NoteShapeLinkPtr_NoteShapeLinkDBID)[noteshapelink]
-	noteshapelinkDB = (*backRepoNoteShapeLink.Map_NoteShapeLinkDBID_NoteShapeLinkDB)[id]
-	return
-}
-
-// BackRepoNoteShapeLink.Init set up the BackRepo of the NoteShapeLink
-func (backRepoNoteShapeLink *BackRepoNoteShapeLinkStruct) Init(stage *models.StageStruct, db *gorm.DB) (Error error) {
-
-	tmp := make(map[uint]*models.NoteShapeLink, 0)
-	backRepoNoteShapeLink.Map_NoteShapeLinkDBID_NoteShapeLinkPtr = &tmp
-
-	tmpDB := make(map[uint]*NoteShapeLinkDB, 0)
-	backRepoNoteShapeLink.Map_NoteShapeLinkDBID_NoteShapeLinkDB = &tmpDB
-
-	tmpID := make(map[*models.NoteShapeLink]uint, 0)
-	backRepoNoteShapeLink.Map_NoteShapeLinkPtr_NoteShapeLinkDBID = &tmpID
-
-	backRepoNoteShapeLink.db = db
-	backRepoNoteShapeLink.stage = stage
+	id := backRepoNoteShapeLink.Map_NoteShapeLinkPtr_NoteShapeLinkDBID[noteshapelink]
+	noteshapelinkDB = backRepoNoteShapeLink.Map_NoteShapeLinkDBID_NoteShapeLinkDB[id]
 	return
 }
 
@@ -167,7 +150,7 @@ func (backRepoNoteShapeLink *BackRepoNoteShapeLinkStruct) CommitPhaseOne(stage *
 
 	// parse all backRepo instance and checks wether some instance have been unstaged
 	// in this case, remove them from the back repo
-	for id, noteshapelink := range *backRepoNoteShapeLink.Map_NoteShapeLinkDBID_NoteShapeLinkPtr {
+	for id, noteshapelink := range backRepoNoteShapeLink.Map_NoteShapeLinkDBID_NoteShapeLinkPtr {
 		if _, ok := stage.NoteShapeLinks[noteshapelink]; !ok {
 			backRepoNoteShapeLink.CommitDeleteInstance(id)
 		}
@@ -179,19 +162,19 @@ func (backRepoNoteShapeLink *BackRepoNoteShapeLinkStruct) CommitPhaseOne(stage *
 // BackRepoNoteShapeLink.CommitDeleteInstance commits deletion of NoteShapeLink to the BackRepo
 func (backRepoNoteShapeLink *BackRepoNoteShapeLinkStruct) CommitDeleteInstance(id uint) (Error error) {
 
-	noteshapelink := (*backRepoNoteShapeLink.Map_NoteShapeLinkDBID_NoteShapeLinkPtr)[id]
+	noteshapelink := backRepoNoteShapeLink.Map_NoteShapeLinkDBID_NoteShapeLinkPtr[id]
 
 	// noteshapelink is not staged anymore, remove noteshapelinkDB
-	noteshapelinkDB := (*backRepoNoteShapeLink.Map_NoteShapeLinkDBID_NoteShapeLinkDB)[id]
+	noteshapelinkDB := backRepoNoteShapeLink.Map_NoteShapeLinkDBID_NoteShapeLinkDB[id]
 	query := backRepoNoteShapeLink.db.Unscoped().Delete(&noteshapelinkDB)
 	if query.Error != nil {
 		return query.Error
 	}
 
 	// update stores
-	delete((*backRepoNoteShapeLink.Map_NoteShapeLinkPtr_NoteShapeLinkDBID), noteshapelink)
-	delete((*backRepoNoteShapeLink.Map_NoteShapeLinkDBID_NoteShapeLinkPtr), id)
-	delete((*backRepoNoteShapeLink.Map_NoteShapeLinkDBID_NoteShapeLinkDB), id)
+	delete(backRepoNoteShapeLink.Map_NoteShapeLinkPtr_NoteShapeLinkDBID, noteshapelink)
+	delete(backRepoNoteShapeLink.Map_NoteShapeLinkDBID_NoteShapeLinkPtr, id)
+	delete(backRepoNoteShapeLink.Map_NoteShapeLinkDBID_NoteShapeLinkDB, id)
 
 	return
 }
@@ -201,7 +184,7 @@ func (backRepoNoteShapeLink *BackRepoNoteShapeLinkStruct) CommitDeleteInstance(i
 func (backRepoNoteShapeLink *BackRepoNoteShapeLinkStruct) CommitPhaseOneInstance(noteshapelink *models.NoteShapeLink) (Error error) {
 
 	// check if the noteshapelink is not commited yet
-	if _, ok := (*backRepoNoteShapeLink.Map_NoteShapeLinkPtr_NoteShapeLinkDBID)[noteshapelink]; ok {
+	if _, ok := backRepoNoteShapeLink.Map_NoteShapeLinkPtr_NoteShapeLinkDBID[noteshapelink]; ok {
 		return
 	}
 
@@ -215,9 +198,9 @@ func (backRepoNoteShapeLink *BackRepoNoteShapeLinkStruct) CommitPhaseOneInstance
 	}
 
 	// update stores
-	(*backRepoNoteShapeLink.Map_NoteShapeLinkPtr_NoteShapeLinkDBID)[noteshapelink] = noteshapelinkDB.ID
-	(*backRepoNoteShapeLink.Map_NoteShapeLinkDBID_NoteShapeLinkPtr)[noteshapelinkDB.ID] = noteshapelink
-	(*backRepoNoteShapeLink.Map_NoteShapeLinkDBID_NoteShapeLinkDB)[noteshapelinkDB.ID] = &noteshapelinkDB
+	backRepoNoteShapeLink.Map_NoteShapeLinkPtr_NoteShapeLinkDBID[noteshapelink] = noteshapelinkDB.ID
+	backRepoNoteShapeLink.Map_NoteShapeLinkDBID_NoteShapeLinkPtr[noteshapelinkDB.ID] = noteshapelink
+	backRepoNoteShapeLink.Map_NoteShapeLinkDBID_NoteShapeLinkDB[noteshapelinkDB.ID] = &noteshapelinkDB
 
 	return
 }
@@ -226,7 +209,7 @@ func (backRepoNoteShapeLink *BackRepoNoteShapeLinkStruct) CommitPhaseOneInstance
 // Phase Two is the update of instance with the field in the database
 func (backRepoNoteShapeLink *BackRepoNoteShapeLinkStruct) CommitPhaseTwo(backRepo *BackRepoStruct) (Error error) {
 
-	for idx, noteshapelink := range *backRepoNoteShapeLink.Map_NoteShapeLinkDBID_NoteShapeLinkPtr {
+	for idx, noteshapelink := range backRepoNoteShapeLink.Map_NoteShapeLinkDBID_NoteShapeLinkPtr {
 		backRepoNoteShapeLink.CommitPhaseTwoInstance(backRepo, idx, noteshapelink)
 	}
 
@@ -238,7 +221,7 @@ func (backRepoNoteShapeLink *BackRepoNoteShapeLinkStruct) CommitPhaseTwo(backRep
 func (backRepoNoteShapeLink *BackRepoNoteShapeLinkStruct) CommitPhaseTwoInstance(backRepo *BackRepoStruct, idx uint, noteshapelink *models.NoteShapeLink) (Error error) {
 
 	// fetch matching noteshapelinkDB
-	if noteshapelinkDB, ok := (*backRepoNoteShapeLink.Map_NoteShapeLinkDBID_NoteShapeLinkDB)[idx]; ok {
+	if noteshapelinkDB, ok := backRepoNoteShapeLink.Map_NoteShapeLinkDBID_NoteShapeLinkDB[idx]; ok {
 
 		noteshapelinkDB.CopyBasicFieldsFromNoteShapeLink(noteshapelink)
 
@@ -282,7 +265,7 @@ func (backRepoNoteShapeLink *BackRepoNoteShapeLinkStruct) CheckoutPhaseOne() (Er
 
 		// do not remove this instance from the stage, therefore
 		// remove instance from the list of instances to be be removed from the stage
-		noteshapelink, ok := (*backRepoNoteShapeLink.Map_NoteShapeLinkDBID_NoteShapeLinkPtr)[noteshapelinkDB.ID]
+		noteshapelink, ok := backRepoNoteShapeLink.Map_NoteShapeLinkDBID_NoteShapeLinkPtr[noteshapelinkDB.ID]
 		if ok {
 			delete(noteshapelinkInstancesToBeRemovedFromTheStage, noteshapelink)
 		}
@@ -293,10 +276,10 @@ func (backRepoNoteShapeLink *BackRepoNoteShapeLinkStruct) CheckoutPhaseOne() (Er
 		noteshapelink.Unstage(backRepoNoteShapeLink.GetStage())
 
 		// remove instance from the back repo 3 maps
-		noteshapelinkID := (*backRepoNoteShapeLink.Map_NoteShapeLinkPtr_NoteShapeLinkDBID)[noteshapelink]
-		delete((*backRepoNoteShapeLink.Map_NoteShapeLinkPtr_NoteShapeLinkDBID), noteshapelink)
-		delete((*backRepoNoteShapeLink.Map_NoteShapeLinkDBID_NoteShapeLinkDB), noteshapelinkID)
-		delete((*backRepoNoteShapeLink.Map_NoteShapeLinkDBID_NoteShapeLinkPtr), noteshapelinkID)
+		noteshapelinkID := backRepoNoteShapeLink.Map_NoteShapeLinkPtr_NoteShapeLinkDBID[noteshapelink]
+		delete(backRepoNoteShapeLink.Map_NoteShapeLinkPtr_NoteShapeLinkDBID, noteshapelink)
+		delete(backRepoNoteShapeLink.Map_NoteShapeLinkDBID_NoteShapeLinkDB, noteshapelinkID)
+		delete(backRepoNoteShapeLink.Map_NoteShapeLinkDBID_NoteShapeLinkPtr, noteshapelinkID)
 	}
 
 	return
@@ -306,12 +289,12 @@ func (backRepoNoteShapeLink *BackRepoNoteShapeLinkStruct) CheckoutPhaseOne() (Er
 // models version of the noteshapelinkDB
 func (backRepoNoteShapeLink *BackRepoNoteShapeLinkStruct) CheckoutPhaseOneInstance(noteshapelinkDB *NoteShapeLinkDB) (Error error) {
 
-	noteshapelink, ok := (*backRepoNoteShapeLink.Map_NoteShapeLinkDBID_NoteShapeLinkPtr)[noteshapelinkDB.ID]
+	noteshapelink, ok := backRepoNoteShapeLink.Map_NoteShapeLinkDBID_NoteShapeLinkPtr[noteshapelinkDB.ID]
 	if !ok {
 		noteshapelink = new(models.NoteShapeLink)
 
-		(*backRepoNoteShapeLink.Map_NoteShapeLinkDBID_NoteShapeLinkPtr)[noteshapelinkDB.ID] = noteshapelink
-		(*backRepoNoteShapeLink.Map_NoteShapeLinkPtr_NoteShapeLinkDBID)[noteshapelink] = noteshapelinkDB.ID
+		backRepoNoteShapeLink.Map_NoteShapeLinkDBID_NoteShapeLinkPtr[noteshapelinkDB.ID] = noteshapelink
+		backRepoNoteShapeLink.Map_NoteShapeLinkPtr_NoteShapeLinkDBID[noteshapelink] = noteshapelinkDB.ID
 
 		// append model store with the new element
 		noteshapelink.Name = noteshapelinkDB.Name_Data.String
@@ -326,7 +309,7 @@ func (backRepoNoteShapeLink *BackRepoNoteShapeLinkStruct) CheckoutPhaseOneInstan
 	// Map_NoteShapeLinkDBID_NoteShapeLinkDB)[noteshapelinkDB hold variable pointers
 	noteshapelinkDB_Data := *noteshapelinkDB
 	preservedPtrToNoteShapeLink := &noteshapelinkDB_Data
-	(*backRepoNoteShapeLink.Map_NoteShapeLinkDBID_NoteShapeLinkDB)[noteshapelinkDB.ID] = preservedPtrToNoteShapeLink
+	backRepoNoteShapeLink.Map_NoteShapeLinkDBID_NoteShapeLinkDB[noteshapelinkDB.ID] = preservedPtrToNoteShapeLink
 
 	return
 }
@@ -336,7 +319,7 @@ func (backRepoNoteShapeLink *BackRepoNoteShapeLinkStruct) CheckoutPhaseOneInstan
 func (backRepoNoteShapeLink *BackRepoNoteShapeLinkStruct) CheckoutPhaseTwo(backRepo *BackRepoStruct) (Error error) {
 
 	// parse all DB instance and update all pointer fields of the translated models instance
-	for _, noteshapelinkDB := range *backRepoNoteShapeLink.Map_NoteShapeLinkDBID_NoteShapeLinkDB {
+	for _, noteshapelinkDB := range backRepoNoteShapeLink.Map_NoteShapeLinkDBID_NoteShapeLinkDB {
 		backRepoNoteShapeLink.CheckoutPhaseTwoInstance(backRepo, noteshapelinkDB)
 	}
 	return
@@ -346,7 +329,7 @@ func (backRepoNoteShapeLink *BackRepoNoteShapeLinkStruct) CheckoutPhaseTwo(backR
 // Phase Two is the update of instance with the field in the database
 func (backRepoNoteShapeLink *BackRepoNoteShapeLinkStruct) CheckoutPhaseTwoInstance(backRepo *BackRepoStruct, noteshapelinkDB *NoteShapeLinkDB) (Error error) {
 
-	noteshapelink := (*backRepoNoteShapeLink.Map_NoteShapeLinkDBID_NoteShapeLinkPtr)[noteshapelinkDB.ID]
+	noteshapelink := backRepoNoteShapeLink.Map_NoteShapeLinkDBID_NoteShapeLinkPtr[noteshapelinkDB.ID]
 	_ = noteshapelink // sometimes, there is no code generated. This lines voids the "unused variable" compilation error
 
 	// insertion point for checkout of pointer encoding
@@ -356,7 +339,7 @@ func (backRepoNoteShapeLink *BackRepoNoteShapeLinkStruct) CheckoutPhaseTwoInstan
 // CommitNoteShapeLink allows commit of a single noteshapelink (if already staged)
 func (backRepo *BackRepoStruct) CommitNoteShapeLink(noteshapelink *models.NoteShapeLink) {
 	backRepo.BackRepoNoteShapeLink.CommitPhaseOneInstance(noteshapelink)
-	if id, ok := (*backRepo.BackRepoNoteShapeLink.Map_NoteShapeLinkPtr_NoteShapeLinkDBID)[noteshapelink]; ok {
+	if id, ok := backRepo.BackRepoNoteShapeLink.Map_NoteShapeLinkPtr_NoteShapeLinkDBID[noteshapelink]; ok {
 		backRepo.BackRepoNoteShapeLink.CommitPhaseTwoInstance(backRepo, id, noteshapelink)
 	}
 	backRepo.CommitFromBackNb = backRepo.CommitFromBackNb + 1
@@ -365,9 +348,9 @@ func (backRepo *BackRepoStruct) CommitNoteShapeLink(noteshapelink *models.NoteSh
 // CommitNoteShapeLink allows checkout of a single noteshapelink (if already staged and with a BackRepo id)
 func (backRepo *BackRepoStruct) CheckoutNoteShapeLink(noteshapelink *models.NoteShapeLink) {
 	// check if the noteshapelink is staged
-	if _, ok := (*backRepo.BackRepoNoteShapeLink.Map_NoteShapeLinkPtr_NoteShapeLinkDBID)[noteshapelink]; ok {
+	if _, ok := backRepo.BackRepoNoteShapeLink.Map_NoteShapeLinkPtr_NoteShapeLinkDBID[noteshapelink]; ok {
 
-		if id, ok := (*backRepo.BackRepoNoteShapeLink.Map_NoteShapeLinkPtr_NoteShapeLinkDBID)[noteshapelink]; ok {
+		if id, ok := backRepo.BackRepoNoteShapeLink.Map_NoteShapeLinkPtr_NoteShapeLinkDBID[noteshapelink]; ok {
 			var noteshapelinkDB NoteShapeLinkDB
 			noteshapelinkDB.ID = id
 
@@ -433,7 +416,7 @@ func (backRepoNoteShapeLink *BackRepoNoteShapeLinkStruct) Backup(dirPath string)
 	// organize the map into an array with increasing IDs, in order to have repoductible
 	// backup file
 	forBackup := make([]*NoteShapeLinkDB, 0)
-	for _, noteshapelinkDB := range *backRepoNoteShapeLink.Map_NoteShapeLinkDBID_NoteShapeLinkDB {
+	for _, noteshapelinkDB := range backRepoNoteShapeLink.Map_NoteShapeLinkDBID_NoteShapeLinkDB {
 		forBackup = append(forBackup, noteshapelinkDB)
 	}
 
@@ -459,7 +442,7 @@ func (backRepoNoteShapeLink *BackRepoNoteShapeLinkStruct) BackupXL(file *xlsx.Fi
 	// organize the map into an array with increasing IDs, in order to have repoductible
 	// backup file
 	forBackup := make([]*NoteShapeLinkDB, 0)
-	for _, noteshapelinkDB := range *backRepoNoteShapeLink.Map_NoteShapeLinkDBID_NoteShapeLinkDB {
+	for _, noteshapelinkDB := range backRepoNoteShapeLink.Map_NoteShapeLinkDBID_NoteShapeLinkDB {
 		forBackup = append(forBackup, noteshapelinkDB)
 	}
 
@@ -524,7 +507,7 @@ func (backRepoNoteShapeLink *BackRepoNoteShapeLinkStruct) rowVisitorNoteShapeLin
 		if query.Error != nil {
 			log.Panic(query.Error)
 		}
-		(*backRepoNoteShapeLink.Map_NoteShapeLinkDBID_NoteShapeLinkDB)[noteshapelinkDB.ID] = noteshapelinkDB
+		backRepoNoteShapeLink.Map_NoteShapeLinkDBID_NoteShapeLinkDB[noteshapelinkDB.ID] = noteshapelinkDB
 		BackRepoNoteShapeLinkid_atBckpTime_newID[noteshapelinkDB_ID_atBackupTime] = noteshapelinkDB.ID
 	}
 	return nil
@@ -561,7 +544,7 @@ func (backRepoNoteShapeLink *BackRepoNoteShapeLinkStruct) RestorePhaseOne(dirPat
 		if query.Error != nil {
 			log.Panic(query.Error)
 		}
-		(*backRepoNoteShapeLink.Map_NoteShapeLinkDBID_NoteShapeLinkDB)[noteshapelinkDB.ID] = noteshapelinkDB
+		backRepoNoteShapeLink.Map_NoteShapeLinkDBID_NoteShapeLinkDB[noteshapelinkDB.ID] = noteshapelinkDB
 		BackRepoNoteShapeLinkid_atBckpTime_newID[noteshapelinkDB_ID_atBackupTime] = noteshapelinkDB.ID
 	}
 
@@ -574,7 +557,7 @@ func (backRepoNoteShapeLink *BackRepoNoteShapeLinkStruct) RestorePhaseOne(dirPat
 // to compute new index
 func (backRepoNoteShapeLink *BackRepoNoteShapeLinkStruct) RestorePhaseTwo() {
 
-	for _, noteshapelinkDB := range *backRepoNoteShapeLink.Map_NoteShapeLinkDBID_NoteShapeLinkDB {
+	for _, noteshapelinkDB := range backRepoNoteShapeLink.Map_NoteShapeLinkDBID_NoteShapeLinkDB {
 
 		// next line of code is to avert unused variable compilation error
 		_ = noteshapelinkDB

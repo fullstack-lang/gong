@@ -45,11 +45,12 @@ export class FieldService {
   /** GET fields from the server */
   getFields(GONG__StackPath: string = ""): Observable<FieldDB[]> {
 
-	let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
     return this.http.get<FieldDB[]>(this.fieldsUrl, { params: params })
       .pipe(
-        tap(_ => this.log('fetched fields')),
+        tap(),
+		// tap(_ => this.log('fetched fields')),
         catchError(this.handleError<FieldDB[]>('getFields', []))
       );
   }
@@ -76,7 +77,7 @@ export class FieldService {
       params: params
     }
 
-	return this.http.post<FieldDB>(this.fieldsUrl, fielddb, httpOptions).pipe(
+    return this.http.post<FieldDB>(this.fieldsUrl, fielddb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
         fielddb.GongStructShape_Fields_reverse = _GongStructShape_Fields_reverse
@@ -134,11 +135,11 @@ export class FieldService {
    * @param operation - name of the operation that failed
    * @param result - optional value to return as the observable result
    */
-  private handleError<T>(operation = 'operation', result?: T) {
+  private handleError<T>(operation = 'operation in FieldService', result?: T) {
     return (error: any): Observable<T> => {
 
       // TODO: send the error to remote logging infrastructure
-      console.error(error); // log to console instead
+      console.error("FieldService" + error); // log to console instead
 
       // TODO: better job of transforming error for user consumption
       this.log(`${operation} failed: ${error.message}`);
@@ -149,6 +150,6 @@ export class FieldService {
   }
 
   private log(message: string) {
-
+      console.log(message)
   }
 }

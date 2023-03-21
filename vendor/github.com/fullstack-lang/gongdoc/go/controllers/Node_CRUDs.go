@@ -151,7 +151,7 @@ func (controller *Controller) PostNode(c *gin.Context) {
 
 	// get an instance (not staged) from DB instance, and call callback function
 	backRepo.BackRepoNode.CheckoutPhaseOneInstance(&nodeDB)
-	node := (*backRepo.BackRepoNode.Map_NodeDBID_NodePtr)[nodeDB.ID]
+	node := backRepo.BackRepoNode.Map_NodeDBID_NodePtr[nodeDB.ID]
 
 	if node != nil {
 		models.AfterCreateFromFront(backRepo.GetStage(), node)
@@ -273,7 +273,7 @@ func (controller *Controller) UpdateNode(c *gin.Context) {
 	nodeDB.CopyBasicFieldsToNode(nodeNew)
 
 	// get stage instance from DB instance, and call callback function
-	nodeOld := (*backRepo.BackRepoNode.Map_NodeDBID_NodePtr)[nodeDB.ID]
+	nodeOld := backRepo.BackRepoNode.Map_NodeDBID_NodePtr[nodeDB.ID]
 	if nodeOld != nil {
 		models.AfterUpdateFromFront(backRepo.GetStage(), nodeOld, nodeNew)
 	}
@@ -330,7 +330,7 @@ func (controller *Controller) DeleteNode(c *gin.Context) {
 	nodeDB.CopyBasicFieldsToNode(nodeDeleted)
 
 	// get stage instance from DB instance, and call callback function
-	nodeStaged := (*backRepo.BackRepoNode.Map_NodeDBID_NodePtr)[nodeDB.ID]
+	nodeStaged := backRepo.BackRepoNode.Map_NodeDBID_NodePtr[nodeDB.ID]
 	if nodeStaged != nil {
 		models.AfterDeleteFromFront(backRepo.GetStage(), nodeStaged, nodeDeleted)
 	}

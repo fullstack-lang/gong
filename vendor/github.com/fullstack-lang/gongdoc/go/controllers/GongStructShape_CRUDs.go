@@ -151,7 +151,7 @@ func (controller *Controller) PostGongStructShape(c *gin.Context) {
 
 	// get an instance (not staged) from DB instance, and call callback function
 	backRepo.BackRepoGongStructShape.CheckoutPhaseOneInstance(&gongstructshapeDB)
-	gongstructshape := (*backRepo.BackRepoGongStructShape.Map_GongStructShapeDBID_GongStructShapePtr)[gongstructshapeDB.ID]
+	gongstructshape := backRepo.BackRepoGongStructShape.Map_GongStructShapeDBID_GongStructShapePtr[gongstructshapeDB.ID]
 
 	if gongstructshape != nil {
 		models.AfterCreateFromFront(backRepo.GetStage(), gongstructshape)
@@ -273,7 +273,7 @@ func (controller *Controller) UpdateGongStructShape(c *gin.Context) {
 	gongstructshapeDB.CopyBasicFieldsToGongStructShape(gongstructshapeNew)
 
 	// get stage instance from DB instance, and call callback function
-	gongstructshapeOld := (*backRepo.BackRepoGongStructShape.Map_GongStructShapeDBID_GongStructShapePtr)[gongstructshapeDB.ID]
+	gongstructshapeOld := backRepo.BackRepoGongStructShape.Map_GongStructShapeDBID_GongStructShapePtr[gongstructshapeDB.ID]
 	if gongstructshapeOld != nil {
 		models.AfterUpdateFromFront(backRepo.GetStage(), gongstructshapeOld, gongstructshapeNew)
 	}
@@ -330,7 +330,7 @@ func (controller *Controller) DeleteGongStructShape(c *gin.Context) {
 	gongstructshapeDB.CopyBasicFieldsToGongStructShape(gongstructshapeDeleted)
 
 	// get stage instance from DB instance, and call callback function
-	gongstructshapeStaged := (*backRepo.BackRepoGongStructShape.Map_GongStructShapeDBID_GongStructShapePtr)[gongstructshapeDB.ID]
+	gongstructshapeStaged := backRepo.BackRepoGongStructShape.Map_GongStructShapeDBID_GongStructShapePtr[gongstructshapeDB.ID]
 	if gongstructshapeStaged != nil {
 		models.AfterDeleteFromFront(backRepo.GetStage(), gongstructshapeStaged, gongstructshapeDeleted)
 	}
