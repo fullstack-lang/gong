@@ -6,6 +6,7 @@ import (
 
 	"github.com/fullstack-lang/gong/test/go/fullstack"
 	"github.com/fullstack-lang/gong/test/go/models"
+	"github.com/fullstack-lang/gong/test/go/static"
 )
 
 // TestStageCallBack
@@ -14,7 +15,8 @@ import (
 // through a callback that is defined in the "models" package
 func TestStageCallBack(t *testing.T) {
 
-	stage := fullstack.NewStackInstance(nil, "")
+	r := static.ServeStaticFiles(false)
+	stage := fullstack.NewStackInstance(r, "")
 
 	bclass1 := (&models.Bstruct{Name: "B1"}).Stage(stage)
 
