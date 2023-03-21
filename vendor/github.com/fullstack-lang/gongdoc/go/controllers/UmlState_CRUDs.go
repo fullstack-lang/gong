@@ -151,7 +151,7 @@ func (controller *Controller) PostUmlState(c *gin.Context) {
 
 	// get an instance (not staged) from DB instance, and call callback function
 	backRepo.BackRepoUmlState.CheckoutPhaseOneInstance(&umlstateDB)
-	umlstate := (*backRepo.BackRepoUmlState.Map_UmlStateDBID_UmlStatePtr)[umlstateDB.ID]
+	umlstate := backRepo.BackRepoUmlState.Map_UmlStateDBID_UmlStatePtr[umlstateDB.ID]
 
 	if umlstate != nil {
 		models.AfterCreateFromFront(backRepo.GetStage(), umlstate)
@@ -273,7 +273,7 @@ func (controller *Controller) UpdateUmlState(c *gin.Context) {
 	umlstateDB.CopyBasicFieldsToUmlState(umlstateNew)
 
 	// get stage instance from DB instance, and call callback function
-	umlstateOld := (*backRepo.BackRepoUmlState.Map_UmlStateDBID_UmlStatePtr)[umlstateDB.ID]
+	umlstateOld := backRepo.BackRepoUmlState.Map_UmlStateDBID_UmlStatePtr[umlstateDB.ID]
 	if umlstateOld != nil {
 		models.AfterUpdateFromFront(backRepo.GetStage(), umlstateOld, umlstateNew)
 	}
@@ -330,7 +330,7 @@ func (controller *Controller) DeleteUmlState(c *gin.Context) {
 	umlstateDB.CopyBasicFieldsToUmlState(umlstateDeleted)
 
 	// get stage instance from DB instance, and call callback function
-	umlstateStaged := (*backRepo.BackRepoUmlState.Map_UmlStateDBID_UmlStatePtr)[umlstateDB.ID]
+	umlstateStaged := backRepo.BackRepoUmlState.Map_UmlStateDBID_UmlStatePtr[umlstateDB.ID]
 	if umlstateStaged != nil {
 		models.AfterDeleteFromFront(backRepo.GetStage(), umlstateStaged, umlstateDeleted)
 	}

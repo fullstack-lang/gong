@@ -151,7 +151,7 @@ func (controller *Controller) PostVertice(c *gin.Context) {
 
 	// get an instance (not staged) from DB instance, and call callback function
 	backRepo.BackRepoVertice.CheckoutPhaseOneInstance(&verticeDB)
-	vertice := (*backRepo.BackRepoVertice.Map_VerticeDBID_VerticePtr)[verticeDB.ID]
+	vertice := backRepo.BackRepoVertice.Map_VerticeDBID_VerticePtr[verticeDB.ID]
 
 	if vertice != nil {
 		models.AfterCreateFromFront(backRepo.GetStage(), vertice)
@@ -273,7 +273,7 @@ func (controller *Controller) UpdateVertice(c *gin.Context) {
 	verticeDB.CopyBasicFieldsToVertice(verticeNew)
 
 	// get stage instance from DB instance, and call callback function
-	verticeOld := (*backRepo.BackRepoVertice.Map_VerticeDBID_VerticePtr)[verticeDB.ID]
+	verticeOld := backRepo.BackRepoVertice.Map_VerticeDBID_VerticePtr[verticeDB.ID]
 	if verticeOld != nil {
 		models.AfterUpdateFromFront(backRepo.GetStage(), verticeOld, verticeNew)
 	}
@@ -330,7 +330,7 @@ func (controller *Controller) DeleteVertice(c *gin.Context) {
 	verticeDB.CopyBasicFieldsToVertice(verticeDeleted)
 
 	// get stage instance from DB instance, and call callback function
-	verticeStaged := (*backRepo.BackRepoVertice.Map_VerticeDBID_VerticePtr)[verticeDB.ID]
+	verticeStaged := backRepo.BackRepoVertice.Map_VerticeDBID_VerticePtr[verticeDB.ID]
 	if verticeStaged != nil {
 		models.AfterDeleteFromFront(backRepo.GetStage(), verticeStaged, verticeDeleted)
 	}

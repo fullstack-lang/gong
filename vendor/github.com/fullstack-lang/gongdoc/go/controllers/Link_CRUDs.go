@@ -151,7 +151,7 @@ func (controller *Controller) PostLink(c *gin.Context) {
 
 	// get an instance (not staged) from DB instance, and call callback function
 	backRepo.BackRepoLink.CheckoutPhaseOneInstance(&linkDB)
-	link := (*backRepo.BackRepoLink.Map_LinkDBID_LinkPtr)[linkDB.ID]
+	link := backRepo.BackRepoLink.Map_LinkDBID_LinkPtr[linkDB.ID]
 
 	if link != nil {
 		models.AfterCreateFromFront(backRepo.GetStage(), link)
@@ -273,7 +273,7 @@ func (controller *Controller) UpdateLink(c *gin.Context) {
 	linkDB.CopyBasicFieldsToLink(linkNew)
 
 	// get stage instance from DB instance, and call callback function
-	linkOld := (*backRepo.BackRepoLink.Map_LinkDBID_LinkPtr)[linkDB.ID]
+	linkOld := backRepo.BackRepoLink.Map_LinkDBID_LinkPtr[linkDB.ID]
 	if linkOld != nil {
 		models.AfterUpdateFromFront(backRepo.GetStage(), linkOld, linkNew)
 	}
@@ -330,7 +330,7 @@ func (controller *Controller) DeleteLink(c *gin.Context) {
 	linkDB.CopyBasicFieldsToLink(linkDeleted)
 
 	// get stage instance from DB instance, and call callback function
-	linkStaged := (*backRepo.BackRepoLink.Map_LinkDBID_LinkPtr)[linkDB.ID]
+	linkStaged := backRepo.BackRepoLink.Map_LinkDBID_LinkPtr[linkDB.ID]
 	if linkStaged != nil {
 		models.AfterDeleteFromFront(backRepo.GetStage(), linkStaged, linkDeleted)
 	}

@@ -19,6 +19,8 @@ import { FieldService } from '../field.service'
 
 // insertion point for additional imports
 
+import { RouteService } from '../route-service';
+
 // TableComponent is initilizaed from different routes
 // TableComponentMode detail different cases 
 enum TableComponentMode {
@@ -139,6 +141,8 @@ export class FieldsTableComponent implements OnInit {
 
     private router: Router,
     private activatedRoute: ActivatedRoute,
+
+    private routeService: RouteService,
   ) {
 
     // compute mode
@@ -265,18 +269,15 @@ export class FieldsTableComponent implements OnInit {
 
   }
 
-  // display field in router
-  displayFieldInRouter(fieldID: number) {
-    this.router.navigate(["github_com_fullstack_lang_gongdoc_go-" + "field-display", fieldID])
-  }
-
   // set editor outlet
   setEditorRouterOutlet(fieldID: number) {
-    this.router.navigate([{
-      outlets: {
-        github_com_fullstack_lang_gongdoc_go_editor: ["github_com_fullstack_lang_gongdoc_go-" + "field-detail", fieldID, this.GONG__StackPath]
-      }
-    }]);
+    let outletName = this.routeService.getEditorOutlet(this.GONG__StackPath)
+    let fullPath = this.routeService.getPathRoot() + "-" + "field" + "-detail"
+
+    let outletConf: any = {}
+    outletConf[outletName] = [fullPath, fieldID, this.GONG__StackPath]
+
+    this.router.navigate([{ outlets: outletConf }])
   }
 
   /** Whether the number of selected elements matches the total number of rows. */

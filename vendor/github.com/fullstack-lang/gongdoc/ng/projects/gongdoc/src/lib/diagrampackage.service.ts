@@ -45,11 +45,12 @@ export class DiagramPackageService {
   /** GET diagrampackages from the server */
   getDiagramPackages(GONG__StackPath: string = ""): Observable<DiagramPackageDB[]> {
 
-	let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
     return this.http.get<DiagramPackageDB[]>(this.diagrampackagesUrl, { params: params })
       .pipe(
-        tap(_ => this.log('fetched diagrampackages')),
+        tap(),
+		// tap(_ => this.log('fetched diagrampackages')),
         catchError(this.handleError<DiagramPackageDB[]>('getDiagramPackages', []))
       );
   }
@@ -77,7 +78,7 @@ export class DiagramPackageService {
       params: params
     }
 
-	return this.http.post<DiagramPackageDB>(this.diagrampackagesUrl, diagrampackagedb, httpOptions).pipe(
+    return this.http.post<DiagramPackageDB>(this.diagrampackagesUrl, diagrampackagedb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
         this.log(`posted diagrampackagedb id=${diagrampackagedb.ID}`)
@@ -134,11 +135,11 @@ export class DiagramPackageService {
    * @param operation - name of the operation that failed
    * @param result - optional value to return as the observable result
    */
-  private handleError<T>(operation = 'operation', result?: T) {
+  private handleError<T>(operation = 'operation in DiagramPackageService', result?: T) {
     return (error: any): Observable<T> => {
 
       // TODO: send the error to remote logging infrastructure
-      console.error(error); // log to console instead
+      console.error("DiagramPackageService" + error); // log to console instead
 
       // TODO: better job of transforming error for user consumption
       this.log(`${operation} failed: ${error.message}`);
@@ -149,6 +150,6 @@ export class DiagramPackageService {
   }
 
   private log(message: string) {
-
+      console.log(message)
   }
 }

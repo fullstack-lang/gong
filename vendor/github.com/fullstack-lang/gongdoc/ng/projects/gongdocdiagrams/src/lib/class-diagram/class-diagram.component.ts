@@ -34,7 +34,7 @@ export class ClassDiagramComponent implements OnInit, OnDestroy {
    * the checkCommitNbFromBackTimer polls the commit number of the back repo
    * if the commit number has increased, it pulls the front repo and redraw the diagram
    */
-  checkGongdocCommitNbFromBackTimer: Observable<number> = timer(500, 500);
+  private commutNbFromBackSubscription: Subscription = new Subscription
   lastCommitNbFromBack = -1
   currTime: number = 0
 
@@ -73,44 +73,38 @@ export class ClassDiagramComponent implements OnInit, OnDestroy {
   ) {
   }
 
-  // Since this component is not reused when a new diagram is selected, there can be many
-  // instances of the diagram and each instance will stay alive. For instance,
-  // the instance will be in the control flow if an observable the component subscribes to emits an event.
-  // Therefore, it is mandatory to manage subscriptions in order to unscribe them on the ngOnDestroy hook
-  checkGongdocCommitNbFromBackTimerSubscription: Subscription = new Subscription
-  gongdocCommitNbFromBackService_getCommitNbFromBack: Subscription = new Subscription
-
-  // neccessary to unsubscribe
-  ngOnDestroy() {
-    // console.log("on destroy")
-    this.checkGongdocCommitNbFromBackTimerSubscription.unsubscribe()
-    this.gongdocCommitNbFromBackService_getCommitNbFromBack.unsubscribe()
+  ngOnInit(): void {
+    this.startAutoRefresh(500); // Refresh every 500 ms (half second)
   }
 
-  ngOnInit(): void {
+  ngOnDestroy(): void {
+    this.stopAutoRefresh();
+  }
 
-    // check loop for refresh from the back repo
-    this.checkGongdocCommitNbFromBackTimerSubscription = this.checkGongdocCommitNbFromBackTimer.subscribe(
-      currTime => {
-        this.currTime = currTime
 
-        this.gongdocCommitNbFromBackService_getCommitNbFromBack = this.gongdocCommitNbFromBackService.getCommitNbFromBack().subscribe(
-          commitNbFromBack => {
+  stopAutoRefresh(): void {
+    if (this.commutNbFromBackSubscription) {
+      this.commutNbFromBackSubscription.unsubscribe();
+    }
+  }
 
-            console.log("last commit nb " + this.lastCommitNbFromBack + " new: " + commitNbFromBack)
-            // condition for refresh
-            if (this.lastCommitNbFromBack < commitNbFromBack) {
+  startAutoRefresh(intervalMs: number): void {
+    this.commutNbFromBackSubscription = this.gongdocCommitNbFromBackService
+      .getCommitNbFromBack(intervalMs)
+      .subscribe((commitNbFromBack: number) => {
 
-              // console.log("last commit nb " + this.lastCommitNbFromBack + " new: " + commitNbFromBack)
-              // console.log("last diagram id " + this.lastDiagramId + " new: " + id)
-              // console.log("last drawn diagram id " + this.idOfDrawnClassDiagram + " new: " + id)
-              this.pullGongdocAndDrawDiagram()
-              this.lastCommitNbFromBack = commitNbFromBack
-            }
-          }
-        )
+        // console.log("last commit nb " + this.lastCommitNbFromBack + " new: " + commitNbFromBack)
+        // condition for refresh
+        if (this.lastCommitNbFromBack < commitNbFromBack) {
+
+          // console.log("last commit nb " + this.lastCommitNbFromBack + " new: " + commitNbFromBack)
+          // console.log("last diagram id " + this.lastDiagramId + " new: " + id)
+          // console.log("last drawn diagram id " + this.idOfDrawnClassDiagram + " new: " + id)
+          this.pullGongdocAndDrawDiagram()
+          this.lastCommitNbFromBack = commitNbFromBack
+        }
       }
-    )
+      )
   }
 
   /**
@@ -252,7 +246,7 @@ export class ClassDiagramComponent implements OnInit, OnDestroy {
             id = IdentifierToReceiverAndFieldName(linkDB.Identifier)
             var fromShape = this.Map_GongStructName_JointjsUMLClassShape.get(id.receiver)
 
-            let toShapeName = IdentifierToStructname( linkDB.Fieldtypename)
+            let toShapeName = IdentifierToStructname(linkDB.Fieldtypename)
             var toShape = this.Map_GongStructName_JointjsUMLClassShape.get(toShapeName)
 
             var strockWidth = 2

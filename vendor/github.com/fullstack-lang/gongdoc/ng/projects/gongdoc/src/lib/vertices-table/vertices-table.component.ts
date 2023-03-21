@@ -19,6 +19,8 @@ import { VerticeService } from '../vertice.service'
 
 // insertion point for additional imports
 
+import { RouteService } from '../route-service';
+
 // TableComponent is initilizaed from different routes
 // TableComponentMode detail different cases 
 enum TableComponentMode {
@@ -120,6 +122,8 @@ export class VerticesTableComponent implements OnInit {
 
     private router: Router,
     private activatedRoute: ActivatedRoute,
+
+    private routeService: RouteService,
   ) {
 
     // compute mode
@@ -240,18 +244,15 @@ export class VerticesTableComponent implements OnInit {
 
   }
 
-  // display vertice in router
-  displayVerticeInRouter(verticeID: number) {
-    this.router.navigate(["github_com_fullstack_lang_gongdoc_go-" + "vertice-display", verticeID])
-  }
-
   // set editor outlet
   setEditorRouterOutlet(verticeID: number) {
-    this.router.navigate([{
-      outlets: {
-        github_com_fullstack_lang_gongdoc_go_editor: ["github_com_fullstack_lang_gongdoc_go-" + "vertice-detail", verticeID, this.GONG__StackPath]
-      }
-    }]);
+    let outletName = this.routeService.getEditorOutlet(this.GONG__StackPath)
+    let fullPath = this.routeService.getPathRoot() + "-" + "vertice" + "-detail"
+
+    let outletConf: any = {}
+    outletConf[outletName] = [fullPath, verticeID, this.GONG__StackPath]
+
+    this.router.navigate([{ outlets: outletConf }])
   }
 
   /** Whether the number of selected elements matches the total number of rows. */

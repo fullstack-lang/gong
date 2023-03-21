@@ -6,9 +6,9 @@ import { DOCUMENT, Location } from '@angular/common'
 /*
  * Behavior subject
  */
-import { BehaviorSubject } from 'rxjs';
-import { Observable, of } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
+import { BehaviorSubject, interval } from 'rxjs'
+import { Observable, of } from 'rxjs'
+import { catchError, map, switchMap, tap } from 'rxjs/operators'
 
 @Injectable({
     providedIn: 'root'
@@ -37,13 +37,19 @@ export class CommitNbFromBackService {
         this.commitNbFromBackUrl = origin + '/api/github.com/fullstack-lang/gongdoc/go/v1/commitfrombacknb';
     }
 
-    // observable of the commit nb getter
-    public getCommitNbFromBack(): Observable<number> {
-        return this.http.get<number>(this.commitNbFromBackUrl)
-            .pipe(
-                tap(_ => this.log('fetched commit nb')),
-                catchError(this.handleError<number>('getCommitNb', -1))
-            );
+    getCommitNbFromBack(intervalMs: number): Observable<number> {
+        return interval(intervalMs).pipe(
+            switchMap(() => this.http.get<number>(this.commitNbFromBackUrl).pipe(
+                catchError(error => {
+                    // Handle the error here, e.g. log it, show a notification, etc.
+                    console.error('Error fetching commit number:', error);
+
+                    // Return a default value, a new Observable, or rethrow the error
+                    return of(0); // Here, we return 0 as a default value
+                })
+            )
+            )
+        )
     }
 
     /**
@@ -52,11 +58,11 @@ export class CommitNbFromBackService {
      * @param operation - name of the operation that failed
      * @param result - optional value to return as the observable result
      */
-    private handleError<T>(operation = 'operation', result?: T) {
+    private handleError<T>(operation = 'operation in CommitNbFromBackService', result?: T) {
         return (error: any): Observable<T> => {
 
             // TODO: send the error to remote logging infrastructure
-            console.error(error); // log to console instead
+            console.error("in CommitNbFromBackService" + error); // log to console instead
 
             // TODO: better job of transforming error for user consumption
             this.log('${operation} failed: ${error.message}');
@@ -67,6 +73,6 @@ export class CommitNbFromBackService {
     }
 
     private log(message: string) {
-
+        console.log(message)
     }
 }

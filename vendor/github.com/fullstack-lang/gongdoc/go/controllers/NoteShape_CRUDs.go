@@ -151,7 +151,7 @@ func (controller *Controller) PostNoteShape(c *gin.Context) {
 
 	// get an instance (not staged) from DB instance, and call callback function
 	backRepo.BackRepoNoteShape.CheckoutPhaseOneInstance(&noteshapeDB)
-	noteshape := (*backRepo.BackRepoNoteShape.Map_NoteShapeDBID_NoteShapePtr)[noteshapeDB.ID]
+	noteshape := backRepo.BackRepoNoteShape.Map_NoteShapeDBID_NoteShapePtr[noteshapeDB.ID]
 
 	if noteshape != nil {
 		models.AfterCreateFromFront(backRepo.GetStage(), noteshape)
@@ -273,7 +273,7 @@ func (controller *Controller) UpdateNoteShape(c *gin.Context) {
 	noteshapeDB.CopyBasicFieldsToNoteShape(noteshapeNew)
 
 	// get stage instance from DB instance, and call callback function
-	noteshapeOld := (*backRepo.BackRepoNoteShape.Map_NoteShapeDBID_NoteShapePtr)[noteshapeDB.ID]
+	noteshapeOld := backRepo.BackRepoNoteShape.Map_NoteShapeDBID_NoteShapePtr[noteshapeDB.ID]
 	if noteshapeOld != nil {
 		models.AfterUpdateFromFront(backRepo.GetStage(), noteshapeOld, noteshapeNew)
 	}
@@ -330,7 +330,7 @@ func (controller *Controller) DeleteNoteShape(c *gin.Context) {
 	noteshapeDB.CopyBasicFieldsToNoteShape(noteshapeDeleted)
 
 	// get stage instance from DB instance, and call callback function
-	noteshapeStaged := (*backRepo.BackRepoNoteShape.Map_NoteShapeDBID_NoteShapePtr)[noteshapeDB.ID]
+	noteshapeStaged := backRepo.BackRepoNoteShape.Map_NoteShapeDBID_NoteShapePtr[noteshapeDB.ID]
 	if noteshapeStaged != nil {
 		models.AfterDeleteFromFront(backRepo.GetStage(), noteshapeStaged, noteshapeDeleted)
 	}
