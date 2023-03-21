@@ -46,11 +46,12 @@ export class AstructBstruct2UseService {
   /** GET astructbstruct2uses from the server */
   getAstructBstruct2Uses(GONG__StackPath: string = ""): Observable<AstructBstruct2UseDB[]> {
 
-	let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
     return this.http.get<AstructBstruct2UseDB[]>(this.astructbstruct2usesUrl, { params: params })
       .pipe(
-        tap(_ => this.log('fetched astructbstruct2uses')),
+        tap(),
+		// tap(_ => this.log('fetched astructbstruct2uses')),
         catchError(this.handleError<AstructBstruct2UseDB[]>('getAstructBstruct2Uses', []))
       );
   }
@@ -78,7 +79,7 @@ export class AstructBstruct2UseService {
       params: params
     }
 
-	return this.http.post<AstructBstruct2UseDB>(this.astructbstruct2usesUrl, astructbstruct2usedb, httpOptions).pipe(
+    return this.http.post<AstructBstruct2UseDB>(this.astructbstruct2usesUrl, astructbstruct2usedb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
         astructbstruct2usedb.Astruct_Anarrayofb2Use_reverse = _Astruct_Anarrayofb2Use_reverse
@@ -137,11 +138,11 @@ export class AstructBstruct2UseService {
    * @param operation - name of the operation that failed
    * @param result - optional value to return as the observable result
    */
-  private handleError<T>(operation = 'operation', result?: T) {
+  private handleError<T>(operation = 'operation in AstructBstruct2UseService', result?: T) {
     return (error: any): Observable<T> => {
 
       // TODO: send the error to remote logging infrastructure
-      console.error(error); // log to console instead
+      console.error("AstructBstruct2UseService" + error); // log to console instead
 
       // TODO: better job of transforming error for user consumption
       this.log(`${operation} failed: ${error.message}`);
@@ -152,6 +153,6 @@ export class AstructBstruct2UseService {
   }
 
   private log(message: string) {
-
+      console.log(message)
   }
 }

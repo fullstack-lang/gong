@@ -88,70 +88,43 @@ export class TreeComponent implements OnInit {
   // 
   // the checkCommitNbFromBackTimer polls the commit number of the back repo
   // if the commit number has increased, it pulls the front repo and redraw the diagram
-
-  checkCommitNbFromBackTimer: Observable<number> | undefined // = timer(1000);
+  private commutNbFromBackSubscription: Subscription = new Subscription
   lastCommitNbFromBack = -1
   lastPushFromFrontNb = -1
   currTime: number = 0
   dateOfLastTimerEmission: Date = new Date
 
-  subscribeInProgress: boolean = false
-
-    // Since this component is not reused when a new diagram is selected, there can be many
-  // instances of the diagram and each instance will stay alive. For instance,
-  // the instance will be in the control flow if an observable the component subscribes to emits an event.
-  // Therefore, it is mandatory to manage subscriptions in order to unscribe them on the ngOnDestroy hook
-  checkGongdocCommitNbFromBackTimerSubscription: Subscription = new Subscription
-  gongdocCommitNbFromBackService_getCommitNbFromBack: Subscription = new Subscription
-
-  ngOnDestroy() {
-    // console.log("on destroy")
-    this.checkGongdocCommitNbFromBackTimerSubscription.unsubscribe()
-    this.gongdocCommitNbFromBackService_getCommitNbFromBack.unsubscribe()
+  ngOnInit(): void {
+    this.startAutoRefresh(500); // Refresh every 500 ms (half second)
   }
 
-  ngOnInit(): void {
+  ngOnDestroy(): void {
+    this.stopAutoRefresh();
+  }
 
-    this.checkCommitNbFromBackTimer = timer(500, 500);
 
-    this.checkGongdocCommitNbFromBackTimerSubscription = this.checkCommitNbFromBackTimer?.subscribe(
-      currTime => {
-        this.currTime = currTime
-        this.dateOfLastTimerEmission = new Date
-        // console.log("Timer emission " + this.name + " " + " currTime "+ currTime + " " + 
-        // this.dateOfLastTimerEmission.toLocaleString() + `.${this.dateOfLastTimerEmission.getMilliseconds()}`)
+  stopAutoRefresh(): void {
+    if (this.commutNbFromBackSubscription) {
+      this.commutNbFromBackSubscription.unsubscribe();
+    }
+  }
 
-        // see above for the explanation
-        this.subscribeInProgress = true
-        this.gongdocCommitNbFromBackService.getCommitNbFromBack()
-          .subscribe(
-            commitNbFromBack => {
-              this.subscribeInProgress = false
-              // console.log("TreeComponent, last commit nb " + this.lastCommitNbFromBack + " new: " + commitNbFromBack)
 
-              if (this.lastCommitNbFromBack < commitNbFromBack) {
-                const d = new Date()
-                console.log("TreeComponent, " + d.toLocaleTimeString() + `.${d.getMilliseconds()}` +
-                  ", last commit increased nb " + this.lastCommitNbFromBack + " new: " + commitNbFromBack + " " + this.name)
-                this.lastCommitNbFromBack = commitNbFromBack
-                this.refresh()
-              }
-            }
-          )
+  startAutoRefresh(intervalMs: number): void {
+    this.commutNbFromBackSubscription = this.gongdocCommitNbFromBackService
+      .getCommitNbFromBack(intervalMs)
+      .subscribe((commitNbFromBack: number) => {
+        // console.log("TreeComponent, last commit nb " + this.lastCommitNbFromBack + " new: " + commitNbFromBack)
 
-        // see above for the explanation
-        // this.gongdocPushFromFrontNbService.getPushFromFrontNb().subscribe(
-        //   pushFromFrontNb => {
-        //     if (this.lastPushFromFrontNb < pushFromFrontNb) {
-
-        //       console.log("last commit nb " + this.lastPushFromFrontNb + " new: " + pushFromFrontNb)
-        //       this.refresh()
-        //       this.lastPushFromFrontNb = pushFromFrontNb
-        //     }
-        //   }
-        // )
+        if (this.lastCommitNbFromBack < commitNbFromBack) {
+          const d = new Date()
+          console.log("TreeComponent, " + d.toLocaleTimeString() + `.${d.getMilliseconds()}` +
+            ", last commit increased nb " + this.lastCommitNbFromBack + " new: " + commitNbFromBack + " " + this.name)
+          this.lastCommitNbFromBack = commitNbFromBack
+          this.refresh()
+        }
       }
-    )
+      )
   }
 
   refresh(): void {

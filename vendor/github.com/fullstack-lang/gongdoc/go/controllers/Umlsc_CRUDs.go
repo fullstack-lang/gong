@@ -151,7 +151,7 @@ func (controller *Controller) PostUmlsc(c *gin.Context) {
 
 	// get an instance (not staged) from DB instance, and call callback function
 	backRepo.BackRepoUmlsc.CheckoutPhaseOneInstance(&umlscDB)
-	umlsc := (*backRepo.BackRepoUmlsc.Map_UmlscDBID_UmlscPtr)[umlscDB.ID]
+	umlsc := backRepo.BackRepoUmlsc.Map_UmlscDBID_UmlscPtr[umlscDB.ID]
 
 	if umlsc != nil {
 		models.AfterCreateFromFront(backRepo.GetStage(), umlsc)
@@ -273,7 +273,7 @@ func (controller *Controller) UpdateUmlsc(c *gin.Context) {
 	umlscDB.CopyBasicFieldsToUmlsc(umlscNew)
 
 	// get stage instance from DB instance, and call callback function
-	umlscOld := (*backRepo.BackRepoUmlsc.Map_UmlscDBID_UmlscPtr)[umlscDB.ID]
+	umlscOld := backRepo.BackRepoUmlsc.Map_UmlscDBID_UmlscPtr[umlscDB.ID]
 	if umlscOld != nil {
 		models.AfterUpdateFromFront(backRepo.GetStage(), umlscOld, umlscNew)
 	}
@@ -330,7 +330,7 @@ func (controller *Controller) DeleteUmlsc(c *gin.Context) {
 	umlscDB.CopyBasicFieldsToUmlsc(umlscDeleted)
 
 	// get stage instance from DB instance, and call callback function
-	umlscStaged := (*backRepo.BackRepoUmlsc.Map_UmlscDBID_UmlscPtr)[umlscDB.ID]
+	umlscStaged := backRepo.BackRepoUmlsc.Map_UmlscDBID_UmlscPtr[umlscDB.ID]
 	if umlscStaged != nil {
 		models.AfterDeleteFromFront(backRepo.GetStage(), umlscStaged, umlscDeleted)
 	}

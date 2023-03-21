@@ -19,6 +19,8 @@ import { GongEnumShapeService } from '../gongenumshape.service'
 
 // insertion point for additional imports
 
+import { RouteService } from '../route-service';
+
 // TableComponent is initilizaed from different routes
 // TableComponentMode detail different cases 
 enum TableComponentMode {
@@ -141,6 +143,8 @@ export class GongEnumShapesTableComponent implements OnInit {
 
     private router: Router,
     private activatedRoute: ActivatedRoute,
+
+    private routeService: RouteService,
   ) {
 
     // compute mode
@@ -267,18 +271,15 @@ export class GongEnumShapesTableComponent implements OnInit {
 
   }
 
-  // display gongenumshape in router
-  displayGongEnumShapeInRouter(gongenumshapeID: number) {
-    this.router.navigate(["github_com_fullstack_lang_gongdoc_go-" + "gongenumshape-display", gongenumshapeID])
-  }
-
   // set editor outlet
   setEditorRouterOutlet(gongenumshapeID: number) {
-    this.router.navigate([{
-      outlets: {
-        github_com_fullstack_lang_gongdoc_go_editor: ["github_com_fullstack_lang_gongdoc_go-" + "gongenumshape-detail", gongenumshapeID, this.GONG__StackPath]
-      }
-    }]);
+    let outletName = this.routeService.getEditorOutlet(this.GONG__StackPath)
+    let fullPath = this.routeService.getPathRoot() + "-" + "gongenumshape" + "-detail"
+
+    let outletConf: any = {}
+    outletConf[outletName] = [fullPath, gongenumshapeID, this.GONG__StackPath]
+
+    this.router.navigate([{ outlets: outletConf }])
   }
 
   /** Whether the number of selected elements matches the total number of rows. */

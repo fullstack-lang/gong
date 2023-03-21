@@ -151,7 +151,7 @@ func (controller *Controller) PostPosition(c *gin.Context) {
 
 	// get an instance (not staged) from DB instance, and call callback function
 	backRepo.BackRepoPosition.CheckoutPhaseOneInstance(&positionDB)
-	position := (*backRepo.BackRepoPosition.Map_PositionDBID_PositionPtr)[positionDB.ID]
+	position := backRepo.BackRepoPosition.Map_PositionDBID_PositionPtr[positionDB.ID]
 
 	if position != nil {
 		models.AfterCreateFromFront(backRepo.GetStage(), position)
@@ -273,7 +273,7 @@ func (controller *Controller) UpdatePosition(c *gin.Context) {
 	positionDB.CopyBasicFieldsToPosition(positionNew)
 
 	// get stage instance from DB instance, and call callback function
-	positionOld := (*backRepo.BackRepoPosition.Map_PositionDBID_PositionPtr)[positionDB.ID]
+	positionOld := backRepo.BackRepoPosition.Map_PositionDBID_PositionPtr[positionDB.ID]
 	if positionOld != nil {
 		models.AfterUpdateFromFront(backRepo.GetStage(), positionOld, positionNew)
 	}
@@ -330,7 +330,7 @@ func (controller *Controller) DeletePosition(c *gin.Context) {
 	positionDB.CopyBasicFieldsToPosition(positionDeleted)
 
 	// get stage instance from DB instance, and call callback function
-	positionStaged := (*backRepo.BackRepoPosition.Map_PositionDBID_PositionPtr)[positionDB.ID]
+	positionStaged := backRepo.BackRepoPosition.Map_PositionDBID_PositionPtr[positionDB.ID]
 	if positionStaged != nil {
 		models.AfterDeleteFromFront(backRepo.GetStage(), positionStaged, positionDeleted)
 	}

@@ -151,7 +151,7 @@ func (controller *Controller) PostDiagramPackage(c *gin.Context) {
 
 	// get an instance (not staged) from DB instance, and call callback function
 	backRepo.BackRepoDiagramPackage.CheckoutPhaseOneInstance(&diagrampackageDB)
-	diagrampackage := (*backRepo.BackRepoDiagramPackage.Map_DiagramPackageDBID_DiagramPackagePtr)[diagrampackageDB.ID]
+	diagrampackage := backRepo.BackRepoDiagramPackage.Map_DiagramPackageDBID_DiagramPackagePtr[diagrampackageDB.ID]
 
 	if diagrampackage != nil {
 		models.AfterCreateFromFront(backRepo.GetStage(), diagrampackage)
@@ -273,7 +273,7 @@ func (controller *Controller) UpdateDiagramPackage(c *gin.Context) {
 	diagrampackageDB.CopyBasicFieldsToDiagramPackage(diagrampackageNew)
 
 	// get stage instance from DB instance, and call callback function
-	diagrampackageOld := (*backRepo.BackRepoDiagramPackage.Map_DiagramPackageDBID_DiagramPackagePtr)[diagrampackageDB.ID]
+	diagrampackageOld := backRepo.BackRepoDiagramPackage.Map_DiagramPackageDBID_DiagramPackagePtr[diagrampackageDB.ID]
 	if diagrampackageOld != nil {
 		models.AfterUpdateFromFront(backRepo.GetStage(), diagrampackageOld, diagrampackageNew)
 	}
@@ -330,7 +330,7 @@ func (controller *Controller) DeleteDiagramPackage(c *gin.Context) {
 	diagrampackageDB.CopyBasicFieldsToDiagramPackage(diagrampackageDeleted)
 
 	// get stage instance from DB instance, and call callback function
-	diagrampackageStaged := (*backRepo.BackRepoDiagramPackage.Map_DiagramPackageDBID_DiagramPackagePtr)[diagrampackageDB.ID]
+	diagrampackageStaged := backRepo.BackRepoDiagramPackage.Map_DiagramPackageDBID_DiagramPackagePtr[diagrampackageDB.ID]
 	if diagrampackageStaged != nil {
 		models.AfterDeleteFromFront(backRepo.GetStage(), diagrampackageStaged, diagrampackageDeleted)
 	}

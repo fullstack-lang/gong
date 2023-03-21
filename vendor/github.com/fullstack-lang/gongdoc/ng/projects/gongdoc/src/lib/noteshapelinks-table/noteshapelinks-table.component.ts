@@ -19,6 +19,8 @@ import { NoteShapeLinkService } from '../noteshapelink.service'
 
 // insertion point for additional imports
 
+import { RouteService } from '../route-service';
+
 // TableComponent is initilizaed from different routes
 // TableComponentMode detail different cases 
 enum TableComponentMode {
@@ -131,6 +133,8 @@ export class NoteShapeLinksTableComponent implements OnInit {
 
     private router: Router,
     private activatedRoute: ActivatedRoute,
+
+    private routeService: RouteService,
   ) {
 
     // compute mode
@@ -253,18 +257,15 @@ export class NoteShapeLinksTableComponent implements OnInit {
 
   }
 
-  // display noteshapelink in router
-  displayNoteShapeLinkInRouter(noteshapelinkID: number) {
-    this.router.navigate(["github_com_fullstack_lang_gongdoc_go-" + "noteshapelink-display", noteshapelinkID])
-  }
-
   // set editor outlet
   setEditorRouterOutlet(noteshapelinkID: number) {
-    this.router.navigate([{
-      outlets: {
-        github_com_fullstack_lang_gongdoc_go_editor: ["github_com_fullstack_lang_gongdoc_go-" + "noteshapelink-detail", noteshapelinkID, this.GONG__StackPath]
-      }
-    }]);
+    let outletName = this.routeService.getEditorOutlet(this.GONG__StackPath)
+    let fullPath = this.routeService.getPathRoot() + "-" + "noteshapelink" + "-detail"
+
+    let outletConf: any = {}
+    outletConf[outletName] = [fullPath, noteshapelinkID, this.GONG__StackPath]
+
+    this.router.navigate([{ outlets: outletConf }])
   }
 
   /** Whether the number of selected elements matches the total number of rows. */

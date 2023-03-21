@@ -44,11 +44,12 @@ export class PositionService {
   /** GET positions from the server */
   getPositions(GONG__StackPath: string = ""): Observable<PositionDB[]> {
 
-	let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
     return this.http.get<PositionDB[]>(this.positionsUrl, { params: params })
       .pipe(
-        tap(_ => this.log('fetched positions')),
+        tap(),
+		// tap(_ => this.log('fetched positions')),
         catchError(this.handleError<PositionDB[]>('getPositions', []))
       );
   }
@@ -73,7 +74,7 @@ export class PositionService {
       params: params
     }
 
-	return this.http.post<PositionDB>(this.positionsUrl, positiondb, httpOptions).pipe(
+    return this.http.post<PositionDB>(this.positionsUrl, positiondb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
         this.log(`posted positiondb id=${positiondb.ID}`)
@@ -127,11 +128,11 @@ export class PositionService {
    * @param operation - name of the operation that failed
    * @param result - optional value to return as the observable result
    */
-  private handleError<T>(operation = 'operation', result?: T) {
+  private handleError<T>(operation = 'operation in PositionService', result?: T) {
     return (error: any): Observable<T> => {
 
       // TODO: send the error to remote logging infrastructure
-      console.error(error); // log to console instead
+      console.error("PositionService" + error); // log to console instead
 
       // TODO: better job of transforming error for user consumption
       this.log(`${operation} failed: ${error.message}`);
@@ -142,6 +143,6 @@ export class PositionService {
   }
 
   private log(message: string) {
-
+      console.log(message)
   }
 }

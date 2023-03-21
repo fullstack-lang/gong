@@ -189,13 +189,13 @@ var Node_Fields = []string{
 
 type BackRepoNodeStruct struct {
 	// stores NodeDB according to their gorm ID
-	Map_NodeDBID_NodeDB *map[uint]*NodeDB
+	Map_NodeDBID_NodeDB map[uint]*NodeDB
 
 	// stores NodeDB ID according to Node address
-	Map_NodePtr_NodeDBID *map[*models.Node]uint
+	Map_NodePtr_NodeDBID map[*models.Node]uint
 
 	// stores Node according to their gorm ID
-	Map_NodeDBID_NodePtr *map[uint]*models.Node
+	Map_NodeDBID_NodePtr map[uint]*models.Node
 
 	db *gorm.DB
 
@@ -213,25 +213,8 @@ func (backRepoNode *BackRepoNodeStruct) GetDB() *gorm.DB {
 
 // GetNodeDBFromNodePtr is a handy function to access the back repo instance from the stage instance
 func (backRepoNode *BackRepoNodeStruct) GetNodeDBFromNodePtr(node *models.Node) (nodeDB *NodeDB) {
-	id := (*backRepoNode.Map_NodePtr_NodeDBID)[node]
-	nodeDB = (*backRepoNode.Map_NodeDBID_NodeDB)[id]
-	return
-}
-
-// BackRepoNode.Init set up the BackRepo of the Node
-func (backRepoNode *BackRepoNodeStruct) Init(stage *models.StageStruct, db *gorm.DB) (Error error) {
-
-	tmp := make(map[uint]*models.Node, 0)
-	backRepoNode.Map_NodeDBID_NodePtr = &tmp
-
-	tmpDB := make(map[uint]*NodeDB, 0)
-	backRepoNode.Map_NodeDBID_NodeDB = &tmpDB
-
-	tmpID := make(map[*models.Node]uint, 0)
-	backRepoNode.Map_NodePtr_NodeDBID = &tmpID
-
-	backRepoNode.db = db
-	backRepoNode.stage = stage
+	id := backRepoNode.Map_NodePtr_NodeDBID[node]
+	nodeDB = backRepoNode.Map_NodeDBID_NodeDB[id]
 	return
 }
 
@@ -245,7 +228,7 @@ func (backRepoNode *BackRepoNodeStruct) CommitPhaseOne(stage *models.StageStruct
 
 	// parse all backRepo instance and checks wether some instance have been unstaged
 	// in this case, remove them from the back repo
-	for id, node := range *backRepoNode.Map_NodeDBID_NodePtr {
+	for id, node := range backRepoNode.Map_NodeDBID_NodePtr {
 		if _, ok := stage.Nodes[node]; !ok {
 			backRepoNode.CommitDeleteInstance(id)
 		}
@@ -257,19 +240,19 @@ func (backRepoNode *BackRepoNodeStruct) CommitPhaseOne(stage *models.StageStruct
 // BackRepoNode.CommitDeleteInstance commits deletion of Node to the BackRepo
 func (backRepoNode *BackRepoNodeStruct) CommitDeleteInstance(id uint) (Error error) {
 
-	node := (*backRepoNode.Map_NodeDBID_NodePtr)[id]
+	node := backRepoNode.Map_NodeDBID_NodePtr[id]
 
 	// node is not staged anymore, remove nodeDB
-	nodeDB := (*backRepoNode.Map_NodeDBID_NodeDB)[id]
+	nodeDB := backRepoNode.Map_NodeDBID_NodeDB[id]
 	query := backRepoNode.db.Unscoped().Delete(&nodeDB)
 	if query.Error != nil {
 		return query.Error
 	}
 
 	// update stores
-	delete((*backRepoNode.Map_NodePtr_NodeDBID), node)
-	delete((*backRepoNode.Map_NodeDBID_NodePtr), id)
-	delete((*backRepoNode.Map_NodeDBID_NodeDB), id)
+	delete(backRepoNode.Map_NodePtr_NodeDBID, node)
+	delete(backRepoNode.Map_NodeDBID_NodePtr, id)
+	delete(backRepoNode.Map_NodeDBID_NodeDB, id)
 
 	return
 }
@@ -279,7 +262,7 @@ func (backRepoNode *BackRepoNodeStruct) CommitDeleteInstance(id uint) (Error err
 func (backRepoNode *BackRepoNodeStruct) CommitPhaseOneInstance(node *models.Node) (Error error) {
 
 	// check if the node is not commited yet
-	if _, ok := (*backRepoNode.Map_NodePtr_NodeDBID)[node]; ok {
+	if _, ok := backRepoNode.Map_NodePtr_NodeDBID[node]; ok {
 		return
 	}
 
@@ -293,9 +276,9 @@ func (backRepoNode *BackRepoNodeStruct) CommitPhaseOneInstance(node *models.Node
 	}
 
 	// update stores
-	(*backRepoNode.Map_NodePtr_NodeDBID)[node] = nodeDB.ID
-	(*backRepoNode.Map_NodeDBID_NodePtr)[nodeDB.ID] = node
-	(*backRepoNode.Map_NodeDBID_NodeDB)[nodeDB.ID] = &nodeDB
+	backRepoNode.Map_NodePtr_NodeDBID[node] = nodeDB.ID
+	backRepoNode.Map_NodeDBID_NodePtr[nodeDB.ID] = node
+	backRepoNode.Map_NodeDBID_NodeDB[nodeDB.ID] = &nodeDB
 
 	return
 }
@@ -304,7 +287,7 @@ func (backRepoNode *BackRepoNodeStruct) CommitPhaseOneInstance(node *models.Node
 // Phase Two is the update of instance with the field in the database
 func (backRepoNode *BackRepoNodeStruct) CommitPhaseTwo(backRepo *BackRepoStruct) (Error error) {
 
-	for idx, node := range *backRepoNode.Map_NodeDBID_NodePtr {
+	for idx, node := range backRepoNode.Map_NodeDBID_NodePtr {
 		backRepoNode.CommitPhaseTwoInstance(backRepo, idx, node)
 	}
 
@@ -316,7 +299,7 @@ func (backRepoNode *BackRepoNodeStruct) CommitPhaseTwo(backRepo *BackRepoStruct)
 func (backRepoNode *BackRepoNodeStruct) CommitPhaseTwoInstance(backRepo *BackRepoStruct, idx uint, node *models.Node) (Error error) {
 
 	// fetch matching nodeDB
-	if nodeDB, ok := (*backRepoNode.Map_NodeDBID_NodeDB)[idx]; ok {
+	if nodeDB, ok := backRepoNode.Map_NodeDBID_NodeDB[idx]; ok {
 
 		nodeDB.CopyBasicFieldsFromNode(node)
 
@@ -379,7 +362,7 @@ func (backRepoNode *BackRepoNodeStruct) CheckoutPhaseOne() (Error error) {
 
 		// do not remove this instance from the stage, therefore
 		// remove instance from the list of instances to be be removed from the stage
-		node, ok := (*backRepoNode.Map_NodeDBID_NodePtr)[nodeDB.ID]
+		node, ok := backRepoNode.Map_NodeDBID_NodePtr[nodeDB.ID]
 		if ok {
 			delete(nodeInstancesToBeRemovedFromTheStage, node)
 		}
@@ -390,10 +373,10 @@ func (backRepoNode *BackRepoNodeStruct) CheckoutPhaseOne() (Error error) {
 		node.Unstage(backRepoNode.GetStage())
 
 		// remove instance from the back repo 3 maps
-		nodeID := (*backRepoNode.Map_NodePtr_NodeDBID)[node]
-		delete((*backRepoNode.Map_NodePtr_NodeDBID), node)
-		delete((*backRepoNode.Map_NodeDBID_NodeDB), nodeID)
-		delete((*backRepoNode.Map_NodeDBID_NodePtr), nodeID)
+		nodeID := backRepoNode.Map_NodePtr_NodeDBID[node]
+		delete(backRepoNode.Map_NodePtr_NodeDBID, node)
+		delete(backRepoNode.Map_NodeDBID_NodeDB, nodeID)
+		delete(backRepoNode.Map_NodeDBID_NodePtr, nodeID)
 	}
 
 	return
@@ -403,12 +386,12 @@ func (backRepoNode *BackRepoNodeStruct) CheckoutPhaseOne() (Error error) {
 // models version of the nodeDB
 func (backRepoNode *BackRepoNodeStruct) CheckoutPhaseOneInstance(nodeDB *NodeDB) (Error error) {
 
-	node, ok := (*backRepoNode.Map_NodeDBID_NodePtr)[nodeDB.ID]
+	node, ok := backRepoNode.Map_NodeDBID_NodePtr[nodeDB.ID]
 	if !ok {
 		node = new(models.Node)
 
-		(*backRepoNode.Map_NodeDBID_NodePtr)[nodeDB.ID] = node
-		(*backRepoNode.Map_NodePtr_NodeDBID)[node] = nodeDB.ID
+		backRepoNode.Map_NodeDBID_NodePtr[nodeDB.ID] = node
+		backRepoNode.Map_NodePtr_NodeDBID[node] = nodeDB.ID
 
 		// append model store with the new element
 		node.Name = nodeDB.Name_Data.String
@@ -423,7 +406,7 @@ func (backRepoNode *BackRepoNodeStruct) CheckoutPhaseOneInstance(nodeDB *NodeDB)
 	// Map_NodeDBID_NodeDB)[nodeDB hold variable pointers
 	nodeDB_Data := *nodeDB
 	preservedPtrToNode := &nodeDB_Data
-	(*backRepoNode.Map_NodeDBID_NodeDB)[nodeDB.ID] = preservedPtrToNode
+	backRepoNode.Map_NodeDBID_NodeDB[nodeDB.ID] = preservedPtrToNode
 
 	return
 }
@@ -433,7 +416,7 @@ func (backRepoNode *BackRepoNodeStruct) CheckoutPhaseOneInstance(nodeDB *NodeDB)
 func (backRepoNode *BackRepoNodeStruct) CheckoutPhaseTwo(backRepo *BackRepoStruct) (Error error) {
 
 	// parse all DB instance and update all pointer fields of the translated models instance
-	for _, nodeDB := range *backRepoNode.Map_NodeDBID_NodeDB {
+	for _, nodeDB := range backRepoNode.Map_NodeDBID_NodeDB {
 		backRepoNode.CheckoutPhaseTwoInstance(backRepo, nodeDB)
 	}
 	return
@@ -443,7 +426,7 @@ func (backRepoNode *BackRepoNodeStruct) CheckoutPhaseTwo(backRepo *BackRepoStruc
 // Phase Two is the update of instance with the field in the database
 func (backRepoNode *BackRepoNodeStruct) CheckoutPhaseTwoInstance(backRepo *BackRepoStruct, nodeDB *NodeDB) (Error error) {
 
-	node := (*backRepoNode.Map_NodeDBID_NodePtr)[nodeDB.ID]
+	node := backRepoNode.Map_NodeDBID_NodePtr[nodeDB.ID]
 	_ = node // sometimes, there is no code generated. This lines voids the "unused variable" compilation error
 
 	// insertion point for checkout of pointer encoding
@@ -453,11 +436,11 @@ func (backRepoNode *BackRepoNodeStruct) CheckoutPhaseTwoInstance(backRepo *BackR
 	// 1. reset the slice
 	node.Children = node.Children[:0]
 	// 2. loop all instances in the type in the association end
-	for _, nodeDB_AssocEnd := range *backRepo.BackRepoNode.Map_NodeDBID_NodeDB {
+	for _, nodeDB_AssocEnd := range backRepo.BackRepoNode.Map_NodeDBID_NodeDB {
 		// 3. Does the ID encoding at the end and the ID at the start matches ?
 		if nodeDB_AssocEnd.Node_ChildrenDBID.Int64 == int64(nodeDB.ID) {
 			// 4. fetch the associated instance in the stage
-			node_AssocEnd := (*backRepo.BackRepoNode.Map_NodeDBID_NodePtr)[nodeDB_AssocEnd.ID]
+			node_AssocEnd := backRepo.BackRepoNode.Map_NodeDBID_NodePtr[nodeDB_AssocEnd.ID]
 			// 5. append it the association slice
 			node.Children = append(node.Children, node_AssocEnd)
 		}
@@ -465,11 +448,11 @@ func (backRepoNode *BackRepoNodeStruct) CheckoutPhaseTwoInstance(backRepo *BackR
 
 	// sort the array according to the order
 	sort.Slice(node.Children, func(i, j int) bool {
-		nodeDB_i_ID := (*backRepo.BackRepoNode.Map_NodePtr_NodeDBID)[node.Children[i]]
-		nodeDB_j_ID := (*backRepo.BackRepoNode.Map_NodePtr_NodeDBID)[node.Children[j]]
+		nodeDB_i_ID := backRepo.BackRepoNode.Map_NodePtr_NodeDBID[node.Children[i]]
+		nodeDB_j_ID := backRepo.BackRepoNode.Map_NodePtr_NodeDBID[node.Children[j]]
 
-		nodeDB_i := (*backRepo.BackRepoNode.Map_NodeDBID_NodeDB)[nodeDB_i_ID]
-		nodeDB_j := (*backRepo.BackRepoNode.Map_NodeDBID_NodeDB)[nodeDB_j_ID]
+		nodeDB_i := backRepo.BackRepoNode.Map_NodeDBID_NodeDB[nodeDB_i_ID]
+		nodeDB_j := backRepo.BackRepoNode.Map_NodeDBID_NodeDB[nodeDB_j_ID]
 
 		return nodeDB_i.Node_ChildrenDBID_Index.Int64 < nodeDB_j.Node_ChildrenDBID_Index.Int64
 	})
@@ -480,7 +463,7 @@ func (backRepoNode *BackRepoNodeStruct) CheckoutPhaseTwoInstance(backRepo *BackR
 // CommitNode allows commit of a single node (if already staged)
 func (backRepo *BackRepoStruct) CommitNode(node *models.Node) {
 	backRepo.BackRepoNode.CommitPhaseOneInstance(node)
-	if id, ok := (*backRepo.BackRepoNode.Map_NodePtr_NodeDBID)[node]; ok {
+	if id, ok := backRepo.BackRepoNode.Map_NodePtr_NodeDBID[node]; ok {
 		backRepo.BackRepoNode.CommitPhaseTwoInstance(backRepo, id, node)
 	}
 	backRepo.CommitFromBackNb = backRepo.CommitFromBackNb + 1
@@ -489,9 +472,9 @@ func (backRepo *BackRepoStruct) CommitNode(node *models.Node) {
 // CommitNode allows checkout of a single node (if already staged and with a BackRepo id)
 func (backRepo *BackRepoStruct) CheckoutNode(node *models.Node) {
 	// check if the node is staged
-	if _, ok := (*backRepo.BackRepoNode.Map_NodePtr_NodeDBID)[node]; ok {
+	if _, ok := backRepo.BackRepoNode.Map_NodePtr_NodeDBID[node]; ok {
 
-		if id, ok := (*backRepo.BackRepoNode.Map_NodePtr_NodeDBID)[node]; ok {
+		if id, ok := backRepo.BackRepoNode.Map_NodePtr_NodeDBID[node]; ok {
 			var nodeDB NodeDB
 			nodeDB.ID = id
 
@@ -637,7 +620,7 @@ func (backRepoNode *BackRepoNodeStruct) Backup(dirPath string) {
 	// organize the map into an array with increasing IDs, in order to have repoductible
 	// backup file
 	forBackup := make([]*NodeDB, 0)
-	for _, nodeDB := range *backRepoNode.Map_NodeDBID_NodeDB {
+	for _, nodeDB := range backRepoNode.Map_NodeDBID_NodeDB {
 		forBackup = append(forBackup, nodeDB)
 	}
 
@@ -663,7 +646,7 @@ func (backRepoNode *BackRepoNodeStruct) BackupXL(file *xlsx.File) {
 	// organize the map into an array with increasing IDs, in order to have repoductible
 	// backup file
 	forBackup := make([]*NodeDB, 0)
-	for _, nodeDB := range *backRepoNode.Map_NodeDBID_NodeDB {
+	for _, nodeDB := range backRepoNode.Map_NodeDBID_NodeDB {
 		forBackup = append(forBackup, nodeDB)
 	}
 
@@ -728,7 +711,7 @@ func (backRepoNode *BackRepoNodeStruct) rowVisitorNode(row *xlsx.Row) error {
 		if query.Error != nil {
 			log.Panic(query.Error)
 		}
-		(*backRepoNode.Map_NodeDBID_NodeDB)[nodeDB.ID] = nodeDB
+		backRepoNode.Map_NodeDBID_NodeDB[nodeDB.ID] = nodeDB
 		BackRepoNodeid_atBckpTime_newID[nodeDB_ID_atBackupTime] = nodeDB.ID
 	}
 	return nil
@@ -765,7 +748,7 @@ func (backRepoNode *BackRepoNodeStruct) RestorePhaseOne(dirPath string) {
 		if query.Error != nil {
 			log.Panic(query.Error)
 		}
-		(*backRepoNode.Map_NodeDBID_NodeDB)[nodeDB.ID] = nodeDB
+		backRepoNode.Map_NodeDBID_NodeDB[nodeDB.ID] = nodeDB
 		BackRepoNodeid_atBckpTime_newID[nodeDB_ID_atBackupTime] = nodeDB.ID
 	}
 
@@ -778,7 +761,7 @@ func (backRepoNode *BackRepoNodeStruct) RestorePhaseOne(dirPath string) {
 // to compute new index
 func (backRepoNode *BackRepoNodeStruct) RestorePhaseTwo() {
 
-	for _, nodeDB := range *backRepoNode.Map_NodeDBID_NodeDB {
+	for _, nodeDB := range backRepoNode.Map_NodeDBID_NodeDB {
 
 		// next line of code is to avert unused variable compilation error
 		_ = nodeDB

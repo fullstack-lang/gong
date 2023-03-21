@@ -151,7 +151,7 @@ func (controller *Controller) PostTree(c *gin.Context) {
 
 	// get an instance (not staged) from DB instance, and call callback function
 	backRepo.BackRepoTree.CheckoutPhaseOneInstance(&treeDB)
-	tree := (*backRepo.BackRepoTree.Map_TreeDBID_TreePtr)[treeDB.ID]
+	tree := backRepo.BackRepoTree.Map_TreeDBID_TreePtr[treeDB.ID]
 
 	if tree != nil {
 		models.AfterCreateFromFront(backRepo.GetStage(), tree)
@@ -273,7 +273,7 @@ func (controller *Controller) UpdateTree(c *gin.Context) {
 	treeDB.CopyBasicFieldsToTree(treeNew)
 
 	// get stage instance from DB instance, and call callback function
-	treeOld := (*backRepo.BackRepoTree.Map_TreeDBID_TreePtr)[treeDB.ID]
+	treeOld := backRepo.BackRepoTree.Map_TreeDBID_TreePtr[treeDB.ID]
 	if treeOld != nil {
 		models.AfterUpdateFromFront(backRepo.GetStage(), treeOld, treeNew)
 	}
@@ -330,7 +330,7 @@ func (controller *Controller) DeleteTree(c *gin.Context) {
 	treeDB.CopyBasicFieldsToTree(treeDeleted)
 
 	// get stage instance from DB instance, and call callback function
-	treeStaged := (*backRepo.BackRepoTree.Map_TreeDBID_TreePtr)[treeDB.ID]
+	treeStaged := backRepo.BackRepoTree.Map_TreeDBID_TreePtr[treeDB.ID]
 	if treeStaged != nil {
 		models.AfterDeleteFromFront(backRepo.GetStage(), treeStaged, treeDeleted)
 	}

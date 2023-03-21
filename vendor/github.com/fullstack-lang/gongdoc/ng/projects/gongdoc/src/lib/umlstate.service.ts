@@ -45,11 +45,12 @@ export class UmlStateService {
   /** GET umlstates from the server */
   getUmlStates(GONG__StackPath: string = ""): Observable<UmlStateDB[]> {
 
-	let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
     return this.http.get<UmlStateDB[]>(this.umlstatesUrl, { params: params })
       .pipe(
-        tap(_ => this.log('fetched umlstates')),
+        tap(),
+		// tap(_ => this.log('fetched umlstates')),
         catchError(this.handleError<UmlStateDB[]>('getUmlStates', []))
       );
   }
@@ -76,7 +77,7 @@ export class UmlStateService {
       params: params
     }
 
-	return this.http.post<UmlStateDB>(this.umlstatesUrl, umlstatedb, httpOptions).pipe(
+    return this.http.post<UmlStateDB>(this.umlstatesUrl, umlstatedb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
         umlstatedb.Umlsc_States_reverse = _Umlsc_States_reverse
@@ -134,11 +135,11 @@ export class UmlStateService {
    * @param operation - name of the operation that failed
    * @param result - optional value to return as the observable result
    */
-  private handleError<T>(operation = 'operation', result?: T) {
+  private handleError<T>(operation = 'operation in UmlStateService', result?: T) {
     return (error: any): Observable<T> => {
 
       // TODO: send the error to remote logging infrastructure
-      console.error(error); // log to console instead
+      console.error("UmlStateService" + error); // log to console instead
 
       // TODO: better job of transforming error for user consumption
       this.log(`${operation} failed: ${error.message}`);
@@ -149,6 +150,6 @@ export class UmlStateService {
   }
 
   private log(message: string) {
-
+      console.log(message)
   }
 }

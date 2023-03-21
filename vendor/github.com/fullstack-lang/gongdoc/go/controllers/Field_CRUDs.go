@@ -151,7 +151,7 @@ func (controller *Controller) PostField(c *gin.Context) {
 
 	// get an instance (not staged) from DB instance, and call callback function
 	backRepo.BackRepoField.CheckoutPhaseOneInstance(&fieldDB)
-	field := (*backRepo.BackRepoField.Map_FieldDBID_FieldPtr)[fieldDB.ID]
+	field := backRepo.BackRepoField.Map_FieldDBID_FieldPtr[fieldDB.ID]
 
 	if field != nil {
 		models.AfterCreateFromFront(backRepo.GetStage(), field)
@@ -273,7 +273,7 @@ func (controller *Controller) UpdateField(c *gin.Context) {
 	fieldDB.CopyBasicFieldsToField(fieldNew)
 
 	// get stage instance from DB instance, and call callback function
-	fieldOld := (*backRepo.BackRepoField.Map_FieldDBID_FieldPtr)[fieldDB.ID]
+	fieldOld := backRepo.BackRepoField.Map_FieldDBID_FieldPtr[fieldDB.ID]
 	if fieldOld != nil {
 		models.AfterUpdateFromFront(backRepo.GetStage(), fieldOld, fieldNew)
 	}
@@ -330,7 +330,7 @@ func (controller *Controller) DeleteField(c *gin.Context) {
 	fieldDB.CopyBasicFieldsToField(fieldDeleted)
 
 	// get stage instance from DB instance, and call callback function
-	fieldStaged := (*backRepo.BackRepoField.Map_FieldDBID_FieldPtr)[fieldDB.ID]
+	fieldStaged := backRepo.BackRepoField.Map_FieldDBID_FieldPtr[fieldDB.ID]
 	if fieldStaged != nil {
 		models.AfterDeleteFromFront(backRepo.GetStage(), fieldStaged, fieldDeleted)
 	}

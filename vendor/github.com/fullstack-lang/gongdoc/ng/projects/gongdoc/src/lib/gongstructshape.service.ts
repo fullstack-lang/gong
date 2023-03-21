@@ -46,11 +46,12 @@ export class GongStructShapeService {
   /** GET gongstructshapes from the server */
   getGongStructShapes(GONG__StackPath: string = ""): Observable<GongStructShapeDB[]> {
 
-	let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
     return this.http.get<GongStructShapeDB[]>(this.gongstructshapesUrl, { params: params })
       .pipe(
-        tap(_ => this.log('fetched gongstructshapes')),
+        tap(),
+		// tap(_ => this.log('fetched gongstructshapes')),
         catchError(this.handleError<GongStructShapeDB[]>('getGongStructShapes', []))
       );
   }
@@ -80,7 +81,7 @@ export class GongStructShapeService {
       params: params
     }
 
-	return this.http.post<GongStructShapeDB>(this.gongstructshapesUrl, gongstructshapedb, httpOptions).pipe(
+    return this.http.post<GongStructShapeDB>(this.gongstructshapesUrl, gongstructshapedb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
         gongstructshapedb.Classdiagram_GongStructShapes_reverse = _Classdiagram_GongStructShapes_reverse
@@ -141,11 +142,11 @@ export class GongStructShapeService {
    * @param operation - name of the operation that failed
    * @param result - optional value to return as the observable result
    */
-  private handleError<T>(operation = 'operation', result?: T) {
+  private handleError<T>(operation = 'operation in GongStructShapeService', result?: T) {
     return (error: any): Observable<T> => {
 
       // TODO: send the error to remote logging infrastructure
-      console.error(error); // log to console instead
+      console.error("GongStructShapeService" + error); // log to console instead
 
       // TODO: better job of transforming error for user consumption
       this.log(`${operation} failed: ${error.message}`);
@@ -156,6 +157,6 @@ export class GongStructShapeService {
   }
 
   private log(message: string) {
-
+      console.log(message)
   }
 }

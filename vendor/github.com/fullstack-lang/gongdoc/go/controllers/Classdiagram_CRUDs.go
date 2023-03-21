@@ -151,7 +151,7 @@ func (controller *Controller) PostClassdiagram(c *gin.Context) {
 
 	// get an instance (not staged) from DB instance, and call callback function
 	backRepo.BackRepoClassdiagram.CheckoutPhaseOneInstance(&classdiagramDB)
-	classdiagram := (*backRepo.BackRepoClassdiagram.Map_ClassdiagramDBID_ClassdiagramPtr)[classdiagramDB.ID]
+	classdiagram := backRepo.BackRepoClassdiagram.Map_ClassdiagramDBID_ClassdiagramPtr[classdiagramDB.ID]
 
 	if classdiagram != nil {
 		models.AfterCreateFromFront(backRepo.GetStage(), classdiagram)
@@ -273,7 +273,7 @@ func (controller *Controller) UpdateClassdiagram(c *gin.Context) {
 	classdiagramDB.CopyBasicFieldsToClassdiagram(classdiagramNew)
 
 	// get stage instance from DB instance, and call callback function
-	classdiagramOld := (*backRepo.BackRepoClassdiagram.Map_ClassdiagramDBID_ClassdiagramPtr)[classdiagramDB.ID]
+	classdiagramOld := backRepo.BackRepoClassdiagram.Map_ClassdiagramDBID_ClassdiagramPtr[classdiagramDB.ID]
 	if classdiagramOld != nil {
 		models.AfterUpdateFromFront(backRepo.GetStage(), classdiagramOld, classdiagramNew)
 	}
@@ -330,7 +330,7 @@ func (controller *Controller) DeleteClassdiagram(c *gin.Context) {
 	classdiagramDB.CopyBasicFieldsToClassdiagram(classdiagramDeleted)
 
 	// get stage instance from DB instance, and call callback function
-	classdiagramStaged := (*backRepo.BackRepoClassdiagram.Map_ClassdiagramDBID_ClassdiagramPtr)[classdiagramDB.ID]
+	classdiagramStaged := backRepo.BackRepoClassdiagram.Map_ClassdiagramDBID_ClassdiagramPtr[classdiagramDB.ID]
 	if classdiagramStaged != nil {
 		models.AfterDeleteFromFront(backRepo.GetStage(), classdiagramStaged, classdiagramDeleted)
 	}

@@ -19,6 +19,8 @@ import { PositionService } from '../position.service'
 
 // insertion point for additional imports
 
+import { RouteService } from '../route-service';
+
 // TableComponent is initilizaed from different routes
 // TableComponentMode detail different cases 
 enum TableComponentMode {
@@ -120,6 +122,8 @@ export class PositionsTableComponent implements OnInit {
 
     private router: Router,
     private activatedRoute: ActivatedRoute,
+
+    private routeService: RouteService,
   ) {
 
     // compute mode
@@ -240,18 +244,15 @@ export class PositionsTableComponent implements OnInit {
 
   }
 
-  // display position in router
-  displayPositionInRouter(positionID: number) {
-    this.router.navigate(["github_com_fullstack_lang_gongdoc_go-" + "position-display", positionID])
-  }
-
   // set editor outlet
   setEditorRouterOutlet(positionID: number) {
-    this.router.navigate([{
-      outlets: {
-        github_com_fullstack_lang_gongdoc_go_editor: ["github_com_fullstack_lang_gongdoc_go-" + "position-detail", positionID, this.GONG__StackPath]
-      }
-    }]);
+    let outletName = this.routeService.getEditorOutlet(this.GONG__StackPath)
+    let fullPath = this.routeService.getPathRoot() + "-" + "position" + "-detail"
+
+    let outletConf: any = {}
+    outletConf[outletName] = [fullPath, positionID, this.GONG__StackPath]
+
+    this.router.navigate([{ outlets: outletConf }])
   }
 
   /** Whether the number of selected elements matches the total number of rows. */

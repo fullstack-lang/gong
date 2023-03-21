@@ -112,21 +112,126 @@ func NewBackRepo(stage *models.StageStruct, filename string) (backRepo *BackRepo
 	backRepo = new(BackRepoStruct)
 
 	// insertion point for per struct back repo declarations
-	backRepo.BackRepoClassdiagram.Init(stage, db)
-	backRepo.BackRepoDiagramPackage.Init(stage, db)
-	backRepo.BackRepoField.Init(stage, db)
-	backRepo.BackRepoGongEnumShape.Init(stage, db)
-	backRepo.BackRepoGongEnumValueEntry.Init(stage, db)
-	backRepo.BackRepoGongStructShape.Init(stage, db)
-	backRepo.BackRepoLink.Init(stage, db)
-	backRepo.BackRepoNode.Init(stage, db)
-	backRepo.BackRepoNoteShape.Init(stage, db)
-	backRepo.BackRepoNoteShapeLink.Init(stage, db)
-	backRepo.BackRepoPosition.Init(stage, db)
-	backRepo.BackRepoTree.Init(stage, db)
-	backRepo.BackRepoUmlState.Init(stage, db)
-	backRepo.BackRepoUmlsc.Init(stage, db)
-	backRepo.BackRepoVertice.Init(stage, db)
+	backRepo.BackRepoClassdiagram = BackRepoClassdiagramStruct{
+		Map_ClassdiagramDBID_ClassdiagramPtr: make(map[uint]*models.Classdiagram, 0),
+		Map_ClassdiagramDBID_ClassdiagramDB:  make(map[uint]*ClassdiagramDB, 0),
+		Map_ClassdiagramPtr_ClassdiagramDBID: make(map[*models.Classdiagram]uint, 0),
+
+		db:    db,
+		stage: stage,
+	}
+	backRepo.BackRepoDiagramPackage = BackRepoDiagramPackageStruct{
+		Map_DiagramPackageDBID_DiagramPackagePtr: make(map[uint]*models.DiagramPackage, 0),
+		Map_DiagramPackageDBID_DiagramPackageDB:  make(map[uint]*DiagramPackageDB, 0),
+		Map_DiagramPackagePtr_DiagramPackageDBID: make(map[*models.DiagramPackage]uint, 0),
+
+		db:    db,
+		stage: stage,
+	}
+	backRepo.BackRepoField = BackRepoFieldStruct{
+		Map_FieldDBID_FieldPtr: make(map[uint]*models.Field, 0),
+		Map_FieldDBID_FieldDB:  make(map[uint]*FieldDB, 0),
+		Map_FieldPtr_FieldDBID: make(map[*models.Field]uint, 0),
+
+		db:    db,
+		stage: stage,
+	}
+	backRepo.BackRepoGongEnumShape = BackRepoGongEnumShapeStruct{
+		Map_GongEnumShapeDBID_GongEnumShapePtr: make(map[uint]*models.GongEnumShape, 0),
+		Map_GongEnumShapeDBID_GongEnumShapeDB:  make(map[uint]*GongEnumShapeDB, 0),
+		Map_GongEnumShapePtr_GongEnumShapeDBID: make(map[*models.GongEnumShape]uint, 0),
+
+		db:    db,
+		stage: stage,
+	}
+	backRepo.BackRepoGongEnumValueEntry = BackRepoGongEnumValueEntryStruct{
+		Map_GongEnumValueEntryDBID_GongEnumValueEntryPtr: make(map[uint]*models.GongEnumValueEntry, 0),
+		Map_GongEnumValueEntryDBID_GongEnumValueEntryDB:  make(map[uint]*GongEnumValueEntryDB, 0),
+		Map_GongEnumValueEntryPtr_GongEnumValueEntryDBID: make(map[*models.GongEnumValueEntry]uint, 0),
+
+		db:    db,
+		stage: stage,
+	}
+	backRepo.BackRepoGongStructShape = BackRepoGongStructShapeStruct{
+		Map_GongStructShapeDBID_GongStructShapePtr: make(map[uint]*models.GongStructShape, 0),
+		Map_GongStructShapeDBID_GongStructShapeDB:  make(map[uint]*GongStructShapeDB, 0),
+		Map_GongStructShapePtr_GongStructShapeDBID: make(map[*models.GongStructShape]uint, 0),
+
+		db:    db,
+		stage: stage,
+	}
+	backRepo.BackRepoLink = BackRepoLinkStruct{
+		Map_LinkDBID_LinkPtr: make(map[uint]*models.Link, 0),
+		Map_LinkDBID_LinkDB:  make(map[uint]*LinkDB, 0),
+		Map_LinkPtr_LinkDBID: make(map[*models.Link]uint, 0),
+
+		db:    db,
+		stage: stage,
+	}
+	backRepo.BackRepoNode = BackRepoNodeStruct{
+		Map_NodeDBID_NodePtr: make(map[uint]*models.Node, 0),
+		Map_NodeDBID_NodeDB:  make(map[uint]*NodeDB, 0),
+		Map_NodePtr_NodeDBID: make(map[*models.Node]uint, 0),
+
+		db:    db,
+		stage: stage,
+	}
+	backRepo.BackRepoNoteShape = BackRepoNoteShapeStruct{
+		Map_NoteShapeDBID_NoteShapePtr: make(map[uint]*models.NoteShape, 0),
+		Map_NoteShapeDBID_NoteShapeDB:  make(map[uint]*NoteShapeDB, 0),
+		Map_NoteShapePtr_NoteShapeDBID: make(map[*models.NoteShape]uint, 0),
+
+		db:    db,
+		stage: stage,
+	}
+	backRepo.BackRepoNoteShapeLink = BackRepoNoteShapeLinkStruct{
+		Map_NoteShapeLinkDBID_NoteShapeLinkPtr: make(map[uint]*models.NoteShapeLink, 0),
+		Map_NoteShapeLinkDBID_NoteShapeLinkDB:  make(map[uint]*NoteShapeLinkDB, 0),
+		Map_NoteShapeLinkPtr_NoteShapeLinkDBID: make(map[*models.NoteShapeLink]uint, 0),
+
+		db:    db,
+		stage: stage,
+	}
+	backRepo.BackRepoPosition = BackRepoPositionStruct{
+		Map_PositionDBID_PositionPtr: make(map[uint]*models.Position, 0),
+		Map_PositionDBID_PositionDB:  make(map[uint]*PositionDB, 0),
+		Map_PositionPtr_PositionDBID: make(map[*models.Position]uint, 0),
+
+		db:    db,
+		stage: stage,
+	}
+	backRepo.BackRepoTree = BackRepoTreeStruct{
+		Map_TreeDBID_TreePtr: make(map[uint]*models.Tree, 0),
+		Map_TreeDBID_TreeDB:  make(map[uint]*TreeDB, 0),
+		Map_TreePtr_TreeDBID: make(map[*models.Tree]uint, 0),
+
+		db:    db,
+		stage: stage,
+	}
+	backRepo.BackRepoUmlState = BackRepoUmlStateStruct{
+		Map_UmlStateDBID_UmlStatePtr: make(map[uint]*models.UmlState, 0),
+		Map_UmlStateDBID_UmlStateDB:  make(map[uint]*UmlStateDB, 0),
+		Map_UmlStatePtr_UmlStateDBID: make(map[*models.UmlState]uint, 0),
+
+		db:    db,
+		stage: stage,
+	}
+	backRepo.BackRepoUmlsc = BackRepoUmlscStruct{
+		Map_UmlscDBID_UmlscPtr: make(map[uint]*models.Umlsc, 0),
+		Map_UmlscDBID_UmlscDB:  make(map[uint]*UmlscDB, 0),
+		Map_UmlscPtr_UmlscDBID: make(map[*models.Umlsc]uint, 0),
+
+		db:    db,
+		stage: stage,
+	}
+	backRepo.BackRepoVertice = BackRepoVerticeStruct{
+		Map_VerticeDBID_VerticePtr: make(map[uint]*models.Vertice, 0),
+		Map_VerticeDBID_VerticeDB:  make(map[uint]*VerticeDB, 0),
+		Map_VerticePtr_VerticeDBID: make(map[*models.Vertice]uint, 0),
+
+		db:    db,
+		stage: stage,
+	}
 
 	stage.BackRepo = backRepo
 	backRepo.stage = stage

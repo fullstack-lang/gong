@@ -151,7 +151,7 @@ func (controller *Controller) PostNoteShapeLink(c *gin.Context) {
 
 	// get an instance (not staged) from DB instance, and call callback function
 	backRepo.BackRepoNoteShapeLink.CheckoutPhaseOneInstance(&noteshapelinkDB)
-	noteshapelink := (*backRepo.BackRepoNoteShapeLink.Map_NoteShapeLinkDBID_NoteShapeLinkPtr)[noteshapelinkDB.ID]
+	noteshapelink := backRepo.BackRepoNoteShapeLink.Map_NoteShapeLinkDBID_NoteShapeLinkPtr[noteshapelinkDB.ID]
 
 	if noteshapelink != nil {
 		models.AfterCreateFromFront(backRepo.GetStage(), noteshapelink)
@@ -273,7 +273,7 @@ func (controller *Controller) UpdateNoteShapeLink(c *gin.Context) {
 	noteshapelinkDB.CopyBasicFieldsToNoteShapeLink(noteshapelinkNew)
 
 	// get stage instance from DB instance, and call callback function
-	noteshapelinkOld := (*backRepo.BackRepoNoteShapeLink.Map_NoteShapeLinkDBID_NoteShapeLinkPtr)[noteshapelinkDB.ID]
+	noteshapelinkOld := backRepo.BackRepoNoteShapeLink.Map_NoteShapeLinkDBID_NoteShapeLinkPtr[noteshapelinkDB.ID]
 	if noteshapelinkOld != nil {
 		models.AfterUpdateFromFront(backRepo.GetStage(), noteshapelinkOld, noteshapelinkNew)
 	}
@@ -330,7 +330,7 @@ func (controller *Controller) DeleteNoteShapeLink(c *gin.Context) {
 	noteshapelinkDB.CopyBasicFieldsToNoteShapeLink(noteshapelinkDeleted)
 
 	// get stage instance from DB instance, and call callback function
-	noteshapelinkStaged := (*backRepo.BackRepoNoteShapeLink.Map_NoteShapeLinkDBID_NoteShapeLinkPtr)[noteshapelinkDB.ID]
+	noteshapelinkStaged := backRepo.BackRepoNoteShapeLink.Map_NoteShapeLinkDBID_NoteShapeLinkPtr[noteshapelinkDB.ID]
 	if noteshapelinkStaged != nil {
 		models.AfterDeleteFromFront(backRepo.GetStage(), noteshapelinkStaged, noteshapelinkDeleted)
 	}

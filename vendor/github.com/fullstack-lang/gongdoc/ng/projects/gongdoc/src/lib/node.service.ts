@@ -45,11 +45,12 @@ export class NodeService {
   /** GET nodes from the server */
   getNodes(GONG__StackPath: string = ""): Observable<NodeDB[]> {
 
-	let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
     return this.http.get<NodeDB[]>(this.nodesUrl, { params: params })
       .pipe(
-        tap(_ => this.log('fetched nodes')),
+        tap(),
+		// tap(_ => this.log('fetched nodes')),
         catchError(this.handleError<NodeDB[]>('getNodes', []))
       );
   }
@@ -79,7 +80,7 @@ export class NodeService {
       params: params
     }
 
-	return this.http.post<NodeDB>(this.nodesUrl, nodedb, httpOptions).pipe(
+    return this.http.post<NodeDB>(this.nodesUrl, nodedb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
         nodedb.Node_Children_reverse = _Node_Children_reverse
@@ -142,11 +143,11 @@ export class NodeService {
    * @param operation - name of the operation that failed
    * @param result - optional value to return as the observable result
    */
-  private handleError<T>(operation = 'operation', result?: T) {
+  private handleError<T>(operation = 'operation in NodeService', result?: T) {
     return (error: any): Observable<T> => {
 
       // TODO: send the error to remote logging infrastructure
-      console.error(error); // log to console instead
+      console.error("NodeService" + error); // log to console instead
 
       // TODO: better job of transforming error for user consumption
       this.log(`${operation} failed: ${error.message}`);
@@ -157,6 +158,6 @@ export class NodeService {
   }
 
   private log(message: string) {
-
+      console.log(message)
   }
 }

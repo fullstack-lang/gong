@@ -93,13 +93,13 @@ var Tree_Fields = []string{
 
 type BackRepoTreeStruct struct {
 	// stores TreeDB according to their gorm ID
-	Map_TreeDBID_TreeDB *map[uint]*TreeDB
+	Map_TreeDBID_TreeDB map[uint]*TreeDB
 
 	// stores TreeDB ID according to Tree address
-	Map_TreePtr_TreeDBID *map[*models.Tree]uint
+	Map_TreePtr_TreeDBID map[*models.Tree]uint
 
 	// stores Tree according to their gorm ID
-	Map_TreeDBID_TreePtr *map[uint]*models.Tree
+	Map_TreeDBID_TreePtr map[uint]*models.Tree
 
 	db *gorm.DB
 
@@ -117,25 +117,8 @@ func (backRepoTree *BackRepoTreeStruct) GetDB() *gorm.DB {
 
 // GetTreeDBFromTreePtr is a handy function to access the back repo instance from the stage instance
 func (backRepoTree *BackRepoTreeStruct) GetTreeDBFromTreePtr(tree *models.Tree) (treeDB *TreeDB) {
-	id := (*backRepoTree.Map_TreePtr_TreeDBID)[tree]
-	treeDB = (*backRepoTree.Map_TreeDBID_TreeDB)[id]
-	return
-}
-
-// BackRepoTree.Init set up the BackRepo of the Tree
-func (backRepoTree *BackRepoTreeStruct) Init(stage *models.StageStruct, db *gorm.DB) (Error error) {
-
-	tmp := make(map[uint]*models.Tree, 0)
-	backRepoTree.Map_TreeDBID_TreePtr = &tmp
-
-	tmpDB := make(map[uint]*TreeDB, 0)
-	backRepoTree.Map_TreeDBID_TreeDB = &tmpDB
-
-	tmpID := make(map[*models.Tree]uint, 0)
-	backRepoTree.Map_TreePtr_TreeDBID = &tmpID
-
-	backRepoTree.db = db
-	backRepoTree.stage = stage
+	id := backRepoTree.Map_TreePtr_TreeDBID[tree]
+	treeDB = backRepoTree.Map_TreeDBID_TreeDB[id]
 	return
 }
 
@@ -149,7 +132,7 @@ func (backRepoTree *BackRepoTreeStruct) CommitPhaseOne(stage *models.StageStruct
 
 	// parse all backRepo instance and checks wether some instance have been unstaged
 	// in this case, remove them from the back repo
-	for id, tree := range *backRepoTree.Map_TreeDBID_TreePtr {
+	for id, tree := range backRepoTree.Map_TreeDBID_TreePtr {
 		if _, ok := stage.Trees[tree]; !ok {
 			backRepoTree.CommitDeleteInstance(id)
 		}
@@ -161,19 +144,19 @@ func (backRepoTree *BackRepoTreeStruct) CommitPhaseOne(stage *models.StageStruct
 // BackRepoTree.CommitDeleteInstance commits deletion of Tree to the BackRepo
 func (backRepoTree *BackRepoTreeStruct) CommitDeleteInstance(id uint) (Error error) {
 
-	tree := (*backRepoTree.Map_TreeDBID_TreePtr)[id]
+	tree := backRepoTree.Map_TreeDBID_TreePtr[id]
 
 	// tree is not staged anymore, remove treeDB
-	treeDB := (*backRepoTree.Map_TreeDBID_TreeDB)[id]
+	treeDB := backRepoTree.Map_TreeDBID_TreeDB[id]
 	query := backRepoTree.db.Unscoped().Delete(&treeDB)
 	if query.Error != nil {
 		return query.Error
 	}
 
 	// update stores
-	delete((*backRepoTree.Map_TreePtr_TreeDBID), tree)
-	delete((*backRepoTree.Map_TreeDBID_TreePtr), id)
-	delete((*backRepoTree.Map_TreeDBID_TreeDB), id)
+	delete(backRepoTree.Map_TreePtr_TreeDBID, tree)
+	delete(backRepoTree.Map_TreeDBID_TreePtr, id)
+	delete(backRepoTree.Map_TreeDBID_TreeDB, id)
 
 	return
 }
@@ -183,7 +166,7 @@ func (backRepoTree *BackRepoTreeStruct) CommitDeleteInstance(id uint) (Error err
 func (backRepoTree *BackRepoTreeStruct) CommitPhaseOneInstance(tree *models.Tree) (Error error) {
 
 	// check if the tree is not commited yet
-	if _, ok := (*backRepoTree.Map_TreePtr_TreeDBID)[tree]; ok {
+	if _, ok := backRepoTree.Map_TreePtr_TreeDBID[tree]; ok {
 		return
 	}
 
@@ -197,9 +180,9 @@ func (backRepoTree *BackRepoTreeStruct) CommitPhaseOneInstance(tree *models.Tree
 	}
 
 	// update stores
-	(*backRepoTree.Map_TreePtr_TreeDBID)[tree] = treeDB.ID
-	(*backRepoTree.Map_TreeDBID_TreePtr)[treeDB.ID] = tree
-	(*backRepoTree.Map_TreeDBID_TreeDB)[treeDB.ID] = &treeDB
+	backRepoTree.Map_TreePtr_TreeDBID[tree] = treeDB.ID
+	backRepoTree.Map_TreeDBID_TreePtr[treeDB.ID] = tree
+	backRepoTree.Map_TreeDBID_TreeDB[treeDB.ID] = &treeDB
 
 	return
 }
@@ -208,7 +191,7 @@ func (backRepoTree *BackRepoTreeStruct) CommitPhaseOneInstance(tree *models.Tree
 // Phase Two is the update of instance with the field in the database
 func (backRepoTree *BackRepoTreeStruct) CommitPhaseTwo(backRepo *BackRepoStruct) (Error error) {
 
-	for idx, tree := range *backRepoTree.Map_TreeDBID_TreePtr {
+	for idx, tree := range backRepoTree.Map_TreeDBID_TreePtr {
 		backRepoTree.CommitPhaseTwoInstance(backRepo, idx, tree)
 	}
 
@@ -220,7 +203,7 @@ func (backRepoTree *BackRepoTreeStruct) CommitPhaseTwo(backRepo *BackRepoStruct)
 func (backRepoTree *BackRepoTreeStruct) CommitPhaseTwoInstance(backRepo *BackRepoStruct, idx uint, tree *models.Tree) (Error error) {
 
 	// fetch matching treeDB
-	if treeDB, ok := (*backRepoTree.Map_TreeDBID_TreeDB)[idx]; ok {
+	if treeDB, ok := backRepoTree.Map_TreeDBID_TreeDB[idx]; ok {
 
 		treeDB.CopyBasicFieldsFromTree(tree)
 
@@ -283,7 +266,7 @@ func (backRepoTree *BackRepoTreeStruct) CheckoutPhaseOne() (Error error) {
 
 		// do not remove this instance from the stage, therefore
 		// remove instance from the list of instances to be be removed from the stage
-		tree, ok := (*backRepoTree.Map_TreeDBID_TreePtr)[treeDB.ID]
+		tree, ok := backRepoTree.Map_TreeDBID_TreePtr[treeDB.ID]
 		if ok {
 			delete(treeInstancesToBeRemovedFromTheStage, tree)
 		}
@@ -294,10 +277,10 @@ func (backRepoTree *BackRepoTreeStruct) CheckoutPhaseOne() (Error error) {
 		tree.Unstage(backRepoTree.GetStage())
 
 		// remove instance from the back repo 3 maps
-		treeID := (*backRepoTree.Map_TreePtr_TreeDBID)[tree]
-		delete((*backRepoTree.Map_TreePtr_TreeDBID), tree)
-		delete((*backRepoTree.Map_TreeDBID_TreeDB), treeID)
-		delete((*backRepoTree.Map_TreeDBID_TreePtr), treeID)
+		treeID := backRepoTree.Map_TreePtr_TreeDBID[tree]
+		delete(backRepoTree.Map_TreePtr_TreeDBID, tree)
+		delete(backRepoTree.Map_TreeDBID_TreeDB, treeID)
+		delete(backRepoTree.Map_TreeDBID_TreePtr, treeID)
 	}
 
 	return
@@ -307,12 +290,12 @@ func (backRepoTree *BackRepoTreeStruct) CheckoutPhaseOne() (Error error) {
 // models version of the treeDB
 func (backRepoTree *BackRepoTreeStruct) CheckoutPhaseOneInstance(treeDB *TreeDB) (Error error) {
 
-	tree, ok := (*backRepoTree.Map_TreeDBID_TreePtr)[treeDB.ID]
+	tree, ok := backRepoTree.Map_TreeDBID_TreePtr[treeDB.ID]
 	if !ok {
 		tree = new(models.Tree)
 
-		(*backRepoTree.Map_TreeDBID_TreePtr)[treeDB.ID] = tree
-		(*backRepoTree.Map_TreePtr_TreeDBID)[tree] = treeDB.ID
+		backRepoTree.Map_TreeDBID_TreePtr[treeDB.ID] = tree
+		backRepoTree.Map_TreePtr_TreeDBID[tree] = treeDB.ID
 
 		// append model store with the new element
 		tree.Name = treeDB.Name_Data.String
@@ -327,7 +310,7 @@ func (backRepoTree *BackRepoTreeStruct) CheckoutPhaseOneInstance(treeDB *TreeDB)
 	// Map_TreeDBID_TreeDB)[treeDB hold variable pointers
 	treeDB_Data := *treeDB
 	preservedPtrToTree := &treeDB_Data
-	(*backRepoTree.Map_TreeDBID_TreeDB)[treeDB.ID] = preservedPtrToTree
+	backRepoTree.Map_TreeDBID_TreeDB[treeDB.ID] = preservedPtrToTree
 
 	return
 }
@@ -337,7 +320,7 @@ func (backRepoTree *BackRepoTreeStruct) CheckoutPhaseOneInstance(treeDB *TreeDB)
 func (backRepoTree *BackRepoTreeStruct) CheckoutPhaseTwo(backRepo *BackRepoStruct) (Error error) {
 
 	// parse all DB instance and update all pointer fields of the translated models instance
-	for _, treeDB := range *backRepoTree.Map_TreeDBID_TreeDB {
+	for _, treeDB := range backRepoTree.Map_TreeDBID_TreeDB {
 		backRepoTree.CheckoutPhaseTwoInstance(backRepo, treeDB)
 	}
 	return
@@ -347,7 +330,7 @@ func (backRepoTree *BackRepoTreeStruct) CheckoutPhaseTwo(backRepo *BackRepoStruc
 // Phase Two is the update of instance with the field in the database
 func (backRepoTree *BackRepoTreeStruct) CheckoutPhaseTwoInstance(backRepo *BackRepoStruct, treeDB *TreeDB) (Error error) {
 
-	tree := (*backRepoTree.Map_TreeDBID_TreePtr)[treeDB.ID]
+	tree := backRepoTree.Map_TreeDBID_TreePtr[treeDB.ID]
 	_ = tree // sometimes, there is no code generated. This lines voids the "unused variable" compilation error
 
 	// insertion point for checkout of pointer encoding
@@ -357,11 +340,11 @@ func (backRepoTree *BackRepoTreeStruct) CheckoutPhaseTwoInstance(backRepo *BackR
 	// 1. reset the slice
 	tree.RootNodes = tree.RootNodes[:0]
 	// 2. loop all instances in the type in the association end
-	for _, nodeDB_AssocEnd := range *backRepo.BackRepoNode.Map_NodeDBID_NodeDB {
+	for _, nodeDB_AssocEnd := range backRepo.BackRepoNode.Map_NodeDBID_NodeDB {
 		// 3. Does the ID encoding at the end and the ID at the start matches ?
 		if nodeDB_AssocEnd.Tree_RootNodesDBID.Int64 == int64(treeDB.ID) {
 			// 4. fetch the associated instance in the stage
-			node_AssocEnd := (*backRepo.BackRepoNode.Map_NodeDBID_NodePtr)[nodeDB_AssocEnd.ID]
+			node_AssocEnd := backRepo.BackRepoNode.Map_NodeDBID_NodePtr[nodeDB_AssocEnd.ID]
 			// 5. append it the association slice
 			tree.RootNodes = append(tree.RootNodes, node_AssocEnd)
 		}
@@ -369,11 +352,11 @@ func (backRepoTree *BackRepoTreeStruct) CheckoutPhaseTwoInstance(backRepo *BackR
 
 	// sort the array according to the order
 	sort.Slice(tree.RootNodes, func(i, j int) bool {
-		nodeDB_i_ID := (*backRepo.BackRepoNode.Map_NodePtr_NodeDBID)[tree.RootNodes[i]]
-		nodeDB_j_ID := (*backRepo.BackRepoNode.Map_NodePtr_NodeDBID)[tree.RootNodes[j]]
+		nodeDB_i_ID := backRepo.BackRepoNode.Map_NodePtr_NodeDBID[tree.RootNodes[i]]
+		nodeDB_j_ID := backRepo.BackRepoNode.Map_NodePtr_NodeDBID[tree.RootNodes[j]]
 
-		nodeDB_i := (*backRepo.BackRepoNode.Map_NodeDBID_NodeDB)[nodeDB_i_ID]
-		nodeDB_j := (*backRepo.BackRepoNode.Map_NodeDBID_NodeDB)[nodeDB_j_ID]
+		nodeDB_i := backRepo.BackRepoNode.Map_NodeDBID_NodeDB[nodeDB_i_ID]
+		nodeDB_j := backRepo.BackRepoNode.Map_NodeDBID_NodeDB[nodeDB_j_ID]
 
 		return nodeDB_i.Tree_RootNodesDBID_Index.Int64 < nodeDB_j.Tree_RootNodesDBID_Index.Int64
 	})
@@ -384,7 +367,7 @@ func (backRepoTree *BackRepoTreeStruct) CheckoutPhaseTwoInstance(backRepo *BackR
 // CommitTree allows commit of a single tree (if already staged)
 func (backRepo *BackRepoStruct) CommitTree(tree *models.Tree) {
 	backRepo.BackRepoTree.CommitPhaseOneInstance(tree)
-	if id, ok := (*backRepo.BackRepoTree.Map_TreePtr_TreeDBID)[tree]; ok {
+	if id, ok := backRepo.BackRepoTree.Map_TreePtr_TreeDBID[tree]; ok {
 		backRepo.BackRepoTree.CommitPhaseTwoInstance(backRepo, id, tree)
 	}
 	backRepo.CommitFromBackNb = backRepo.CommitFromBackNb + 1
@@ -393,9 +376,9 @@ func (backRepo *BackRepoStruct) CommitTree(tree *models.Tree) {
 // CommitTree allows checkout of a single tree (if already staged and with a BackRepo id)
 func (backRepo *BackRepoStruct) CheckoutTree(tree *models.Tree) {
 	// check if the tree is staged
-	if _, ok := (*backRepo.BackRepoTree.Map_TreePtr_TreeDBID)[tree]; ok {
+	if _, ok := backRepo.BackRepoTree.Map_TreePtr_TreeDBID[tree]; ok {
 
-		if id, ok := (*backRepo.BackRepoTree.Map_TreePtr_TreeDBID)[tree]; ok {
+		if id, ok := backRepo.BackRepoTree.Map_TreePtr_TreeDBID[tree]; ok {
 			var treeDB TreeDB
 			treeDB.ID = id
 
@@ -445,7 +428,7 @@ func (backRepoTree *BackRepoTreeStruct) Backup(dirPath string) {
 	// organize the map into an array with increasing IDs, in order to have repoductible
 	// backup file
 	forBackup := make([]*TreeDB, 0)
-	for _, treeDB := range *backRepoTree.Map_TreeDBID_TreeDB {
+	for _, treeDB := range backRepoTree.Map_TreeDBID_TreeDB {
 		forBackup = append(forBackup, treeDB)
 	}
 
@@ -471,7 +454,7 @@ func (backRepoTree *BackRepoTreeStruct) BackupXL(file *xlsx.File) {
 	// organize the map into an array with increasing IDs, in order to have repoductible
 	// backup file
 	forBackup := make([]*TreeDB, 0)
-	for _, treeDB := range *backRepoTree.Map_TreeDBID_TreeDB {
+	for _, treeDB := range backRepoTree.Map_TreeDBID_TreeDB {
 		forBackup = append(forBackup, treeDB)
 	}
 
@@ -536,7 +519,7 @@ func (backRepoTree *BackRepoTreeStruct) rowVisitorTree(row *xlsx.Row) error {
 		if query.Error != nil {
 			log.Panic(query.Error)
 		}
-		(*backRepoTree.Map_TreeDBID_TreeDB)[treeDB.ID] = treeDB
+		backRepoTree.Map_TreeDBID_TreeDB[treeDB.ID] = treeDB
 		BackRepoTreeid_atBckpTime_newID[treeDB_ID_atBackupTime] = treeDB.ID
 	}
 	return nil
@@ -573,7 +556,7 @@ func (backRepoTree *BackRepoTreeStruct) RestorePhaseOne(dirPath string) {
 		if query.Error != nil {
 			log.Panic(query.Error)
 		}
-		(*backRepoTree.Map_TreeDBID_TreeDB)[treeDB.ID] = treeDB
+		backRepoTree.Map_TreeDBID_TreeDB[treeDB.ID] = treeDB
 		BackRepoTreeid_atBckpTime_newID[treeDB_ID_atBackupTime] = treeDB.ID
 	}
 
@@ -586,7 +569,7 @@ func (backRepoTree *BackRepoTreeStruct) RestorePhaseOne(dirPath string) {
 // to compute new index
 func (backRepoTree *BackRepoTreeStruct) RestorePhaseTwo() {
 
-	for _, treeDB := range *backRepoTree.Map_TreeDBID_TreeDB {
+	for _, treeDB := range backRepoTree.Map_TreeDBID_TreeDB {
 
 		// next line of code is to avert unused variable compilation error
 		_ = treeDB

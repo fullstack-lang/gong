@@ -44,11 +44,12 @@ export class VerticeService {
   /** GET vertices from the server */
   getVertices(GONG__StackPath: string = ""): Observable<VerticeDB[]> {
 
-	let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
     return this.http.get<VerticeDB[]>(this.verticesUrl, { params: params })
       .pipe(
-        tap(_ => this.log('fetched vertices')),
+        tap(),
+		// tap(_ => this.log('fetched vertices')),
         catchError(this.handleError<VerticeDB[]>('getVertices', []))
       );
   }
@@ -73,7 +74,7 @@ export class VerticeService {
       params: params
     }
 
-	return this.http.post<VerticeDB>(this.verticesUrl, verticedb, httpOptions).pipe(
+    return this.http.post<VerticeDB>(this.verticesUrl, verticedb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
         this.log(`posted verticedb id=${verticedb.ID}`)
@@ -127,11 +128,11 @@ export class VerticeService {
    * @param operation - name of the operation that failed
    * @param result - optional value to return as the observable result
    */
-  private handleError<T>(operation = 'operation', result?: T) {
+  private handleError<T>(operation = 'operation in VerticeService', result?: T) {
     return (error: any): Observable<T> => {
 
       // TODO: send the error to remote logging infrastructure
-      console.error(error); // log to console instead
+      console.error("VerticeService" + error); // log to console instead
 
       // TODO: better job of transforming error for user consumption
       this.log(`${operation} failed: ${error.message}`);
@@ -142,6 +143,6 @@ export class VerticeService {
   }
 
   private log(message: string) {
-
+      console.log(message)
   }
 }

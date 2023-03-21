@@ -45,11 +45,12 @@ export class BstructService {
   /** GET bstructs from the server */
   getBstructs(GONG__StackPath: string = ""): Observable<BstructDB[]> {
 
-	let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
     return this.http.get<BstructDB[]>(this.bstructsUrl, { params: params })
       .pipe(
-        tap(_ => this.log('fetched bstructs')),
+        tap(),
+		// tap(_ => this.log('fetched bstructs')),
         catchError(this.handleError<BstructDB[]>('getBstructs', []))
       );
   }
@@ -78,7 +79,7 @@ export class BstructService {
       params: params
     }
 
-	return this.http.post<BstructDB>(this.bstructsUrl, bstructdb, httpOptions).pipe(
+    return this.http.post<BstructDB>(this.bstructsUrl, bstructdb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
         bstructdb.Astruct_Anarrayofb_reverse = _Astruct_Anarrayofb_reverse
@@ -140,11 +141,11 @@ export class BstructService {
    * @param operation - name of the operation that failed
    * @param result - optional value to return as the observable result
    */
-  private handleError<T>(operation = 'operation', result?: T) {
+  private handleError<T>(operation = 'operation in BstructService', result?: T) {
     return (error: any): Observable<T> => {
 
       // TODO: send the error to remote logging infrastructure
-      console.error(error); // log to console instead
+      console.error("BstructService" + error); // log to console instead
 
       // TODO: better job of transforming error for user consumption
       this.log(`${operation} failed: ${error.message}`);
@@ -155,6 +156,6 @@ export class BstructService {
   }
 
   private log(message: string) {
-
+      console.log(message)
   }
 }

@@ -45,11 +45,12 @@ export class NoteShapeService {
   /** GET noteshapes from the server */
   getNoteShapes(GONG__StackPath: string = ""): Observable<NoteShapeDB[]> {
 
-	let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
     return this.http.get<NoteShapeDB[]>(this.noteshapesUrl, { params: params })
       .pipe(
-        tap(_ => this.log('fetched noteshapes')),
+        tap(),
+		// tap(_ => this.log('fetched noteshapes')),
         catchError(this.handleError<NoteShapeDB[]>('getNoteShapes', []))
       );
   }
@@ -77,7 +78,7 @@ export class NoteShapeService {
       params: params
     }
 
-	return this.http.post<NoteShapeDB>(this.noteshapesUrl, noteshapedb, httpOptions).pipe(
+    return this.http.post<NoteShapeDB>(this.noteshapesUrl, noteshapedb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
         noteshapedb.Classdiagram_NoteShapes_reverse = _Classdiagram_NoteShapes_reverse
@@ -136,11 +137,11 @@ export class NoteShapeService {
    * @param operation - name of the operation that failed
    * @param result - optional value to return as the observable result
    */
-  private handleError<T>(operation = 'operation', result?: T) {
+  private handleError<T>(operation = 'operation in NoteShapeService', result?: T) {
     return (error: any): Observable<T> => {
 
       // TODO: send the error to remote logging infrastructure
-      console.error(error); // log to console instead
+      console.error("NoteShapeService" + error); // log to console instead
 
       // TODO: better job of transforming error for user consumption
       this.log(`${operation} failed: ${error.message}`);
@@ -151,6 +152,6 @@ export class NoteShapeService {
   }
 
   private log(message: string) {
-
+      console.log(message)
   }
 }

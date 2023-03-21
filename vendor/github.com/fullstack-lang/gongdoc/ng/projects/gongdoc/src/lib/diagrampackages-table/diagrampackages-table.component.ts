@@ -19,6 +19,8 @@ import { DiagramPackageService } from '../diagrampackage.service'
 
 // insertion point for additional imports
 
+import { RouteService } from '../route-service';
+
 // TableComponent is initilizaed from different routes
 // TableComponentMode detail different cases 
 enum TableComponentMode {
@@ -136,6 +138,8 @@ export class DiagramPackagesTableComponent implements OnInit {
 
     private router: Router,
     private activatedRoute: ActivatedRoute,
+
+    private routeService: RouteService,
   ) {
 
     // compute mode
@@ -264,18 +268,15 @@ export class DiagramPackagesTableComponent implements OnInit {
 
   }
 
-  // display diagrampackage in router
-  displayDiagramPackageInRouter(diagrampackageID: number) {
-    this.router.navigate(["github_com_fullstack_lang_gongdoc_go-" + "diagrampackage-display", diagrampackageID])
-  }
-
   // set editor outlet
   setEditorRouterOutlet(diagrampackageID: number) {
-    this.router.navigate([{
-      outlets: {
-        github_com_fullstack_lang_gongdoc_go_editor: ["github_com_fullstack_lang_gongdoc_go-" + "diagrampackage-detail", diagrampackageID, this.GONG__StackPath]
-      }
-    }]);
+    let outletName = this.routeService.getEditorOutlet(this.GONG__StackPath)
+    let fullPath = this.routeService.getPathRoot() + "-" + "diagrampackage" + "-detail"
+
+    let outletConf: any = {}
+    outletConf[outletName] = [fullPath, diagrampackageID, this.GONG__StackPath]
+
+    this.router.navigate([{ outlets: outletConf }])
   }
 
   /** Whether the number of selected elements matches the total number of rows. */
