@@ -12,7 +12,7 @@ func Reload(diagramPackage *gongdoc_models.DiagramPackage) {
 
 	gong_models.GetDefaultStage().Checkout()
 	gong_models.GetDefaultStage().Reset()
-	modelPkg, _ := gong_models.LoadSource(
+	modelPkg, _ := gong_models.LoadSource(gong_models.GetDefaultStage(),
 		filepath.Join(diagramPackage.AbsolutePathToDiagramPackage, "../models"))
 	gong_models.GetDefaultStage().Commit()
 
