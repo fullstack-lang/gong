@@ -26,9 +26,12 @@ func ServeStaticFiles(logGINFlag bool) (r *gin.Engine) {
 	}
 	r = gin.Default()
 	config := cors.DefaultConfig()
-	config.AllowOrigins = []string{"http://localhost:8080"}                   // Allow requests from localhost:8080
-	config.AllowMethods = []string{"GET", "POST", "PUT", "DELETE"}            // Allow specific HTTP methods
+	config.AllowOrigins = []string{"http://localhost:8080", "http://localhost:4200"} // Allow requests from localhost:8080 and localhost:4200
+
+	config.AllowMethods = []string{"GET", "POST", "PUT", "DELETE"} // Allow specific HTTP methods
+
 	config.AllowHeaders = []string{"Origin", "Content-Type", "Authorization"} // Allow specific headers
+	
 	r.Use(cors.New(config))
 
 	// insertion point for serving the static file
