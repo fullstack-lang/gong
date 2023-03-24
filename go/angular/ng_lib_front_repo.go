@@ -23,11 +23,6 @@ import { Observable, combineLatest, BehaviorSubject } from 'rxjs';
 export class FrontRepo { // insertion point sub template {{` + string(NgLibFrontRepoMapDecl) + `}}
 }
 
-//
-// Store of all instances of the stack
-//
-export const FrontRepoSingloton = new (FrontRepo)
-
 // the table component is called in different ways
 //
 // DISPLAY or ASSOCIATION MODE
@@ -80,6 +75,11 @@ export class FrontRepoService {
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
   };
+
+  //
+  // Store of all instances of the stack
+  //
+  frontRepo = new (FrontRepo)
 
   constructor(
     private http: HttpClient, // insertion point sub template {{` + string(NgLibFrontRepoServiceDecl) + `}}
@@ -148,7 +148,7 @@ export class FrontRepoService {
             // insertion point sub template for redeem {{` + string(NgLibFrontRepoRedeemPointers) + `}}
 
             // hand over control flow to observer
-            observer.next(FrontRepoSingloton)
+            observer.next(this.frontRepo)
           }
         )
       }
@@ -208,29 +208,29 @@ import { {{Structname}}Service } from './{{structname}}.service'
 
 	string(NgLibFrontRepoInitMapInstances): `
             // init the array
-            FrontRepoSingloton.{{Structname}}s_array = {{structname}}s
+            this.frontRepo.{{Structname}}s_array = {{structname}}s
 
             // clear the map that counts {{Structname}} in the GET
-            FrontRepoSingloton.{{Structname}}s_batch.clear()
+            this.frontRepo.{{Structname}}s_batch.clear()
 
             {{structname}}s.forEach(
               {{structname}} => {
-                FrontRepoSingloton.{{Structname}}s.set({{structname}}.ID, {{structname}})
-                FrontRepoSingloton.{{Structname}}s_batch.set({{structname}}.ID, {{structname}})
+                this.frontRepo.{{Structname}}s.set({{structname}}.ID, {{structname}})
+                this.frontRepo.{{Structname}}s_batch.set({{structname}}.ID, {{structname}})
               }
             )
 
             // clear {{structname}}s that are absent from the batch
-            FrontRepoSingloton.{{Structname}}s.forEach(
+            this.frontRepo.{{Structname}}s.forEach(
               {{structname}} => {
-                if (FrontRepoSingloton.{{Structname}}s_batch.get({{structname}}.ID) == undefined) {
-                  FrontRepoSingloton.{{Structname}}s.delete({{structname}}.ID)
+                if (this.frontRepo.{{Structname}}s_batch.get({{structname}}.ID) == undefined) {
+                  this.frontRepo.{{Structname}}s.delete({{structname}}.ID)
                 }
               }
             )
 
             // sort {{Structname}}s_array array
-            FrontRepoSingloton.{{Structname}}s_array.sort((t1, t2) => {
+            this.frontRepo.{{Structname}}s_array.sort((t1, t2) => {
               if (t1.Name > t2.Name) {
                 return 1;
               }
@@ -263,18 +263,18 @@ import { {{Structname}}Service } from './{{structname}}.service'
             {{structname}}s,
           ]) => {
             // init the array
-            FrontRepoSingloton.{{Structname}}s_array = {{structname}}s
+            this.frontRepo.{{Structname}}s_array = {{structname}}s
 
             // clear the map that counts {{Structname}} in the GET
-            FrontRepoSingloton.{{Structname}}s_batch.clear()
+            this.frontRepo.{{Structname}}s_batch.clear()
 
             // 
             // First Step: init map of instances
             // insertion point sub template 
             {{structname}}s.forEach(
               {{structname}} => {
-                FrontRepoSingloton.{{Structname}}s.set({{structname}}.ID, {{structname}})
-                FrontRepoSingloton.{{Structname}}s_batch.set({{structname}}.ID, {{structname}})
+                this.frontRepo.{{Structname}}s.set({{structname}}.ID, {{structname}})
+                this.frontRepo.{{Structname}}s_batch.set({{structname}}.ID, {{structname}})
 
                 // insertion point for redeeming ONE/ZERO-ONE associations{{` + string(NgFrontRepoPtrToStructRedeeming) + `}}
 
@@ -283,10 +283,10 @@ import { {{Structname}}Service } from './{{structname}}.service'
             )
 
             // clear {{structname}}s that are absent from the GET
-            FrontRepoSingloton.{{Structname}}s.forEach(
+            this.frontRepo.{{Structname}}s.forEach(
               {{structname}} => {
-                if (FrontRepoSingloton.{{Structname}}s_batch.get({{structname}}.ID) == undefined) {
-                  FrontRepoSingloton.{{Structname}}s.delete({{structname}}.ID)
+                if (this.frontRepo.{{Structname}}s_batch.get({{structname}}.ID) == undefined) {
+                  this.frontRepo.{{Structname}}s.delete({{structname}}.ID)
                 }
               }
             )
@@ -296,7 +296,7 @@ import { {{Structname}}Service } from './{{structname}}.service'
             // insertion point sub template 
 
             // hand over control flow to observer
-            observer.next(FrontRepoSingloton)
+            observer.next(this.frontRepo)
           }
         )
       }
@@ -326,7 +326,7 @@ map[string]string{
 	string(NgFrontRepoPtrToStructRedeeming): `
                 // insertion point for pointer field {{FieldName}} redeeming
                 {
-                  let _{{assocStructName}} = FrontRepoSingloton.{{AssocStructName}}s.get({{structname}}.{{FieldName}}ID.Int64)
+                  let _{{assocStructName}} = this.frontRepo.{{AssocStructName}}s.get({{structname}}.{{FieldName}}ID.Int64)
                   if (_{{assocStructName}}) {
                     {{structname}}.{{FieldName}} = _{{assocStructName}}
                   }
@@ -342,7 +342,7 @@ map[string]string{
 	string(NgFrontRepoSliceOfPointerRedeeming): `
                 // insertion point for slice of pointer field {{Structname}}.{{FieldName}} redeeming
                 {
-                  let _{{structname}} = FrontRepoSingloton.{{Structname}}s.get({{assocStructName}}.{{Structname}}_{{FieldName}}DBID.Int64)
+                  let _{{structname}} = this.frontRepo.{{Structname}}s.get({{assocStructName}}.{{Structname}}_{{FieldName}}DBID.Int64)
                   if (_{{structname}}) {
                     if (_{{structname}}.{{FieldName}} == undefined) {
                       _{{structname}}.{{FieldName}} = new Array<{{AssocStructName}}DB>()
