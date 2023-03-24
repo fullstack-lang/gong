@@ -177,7 +177,7 @@ func WalkParser(parserPkgs map[string]*ast.Package, modelPkg *ModelPkg) {
 							hasIgnoreStatement := map_StructName_hasIgnoreStatement[typeSpec.Name.Name]
 
 							if hasNameField && !hasIgnoreStatement {
-								gongstruct := (&GongStruct{Name: typeSpec.Name.Name}).Stage(modelPkg.Stage_)
+								gongstruct := (&GongStruct{Name: typeSpec.Name.Name}).Stage(modelPkg.GetStage())
 								modelPkg.GongStructs[modelPkg.PkgPath+"."+typeSpec.Name.Name] = gongstruct
 							} else {
 								map_Structname_fieldList[typeSpec.Name.Name] = &_type.Fields.List
