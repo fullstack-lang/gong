@@ -32,7 +32,7 @@ func Load(
 	map_StructName_InstanceNb *map[string]int) {
 
 	gongStage := gong_fullstack.NewStackInstance(r, "")
-	gongdoc_fullstack.NewStackInstance(r, "")
+	gongdocStage := gongdoc_fullstack.NewStackInstance(r, "")
 	modelPackage, _ := gong_models.LoadEmbedded(gongStage, goSourceDirectories)
 	modelPackage.Name = stackName
 	modelPackage.PkgPath = pkgPath
@@ -47,7 +47,7 @@ func Load(
 	if embeddedDiagrams {
 		diagramPackage, _ = LoadEmbeddedDiagramPackage(goSourceDirectories, modelPackage)
 	} else {
-		diagramPackage, _ = LoadDiagramPackage(filepath.Join("../../diagrams"), modelPackage, true)
+		diagramPackage, _ = LoadDiagramPackage(gongdocStage, filepath.Join("../../diagrams"), modelPackage, true)
 	}
 	diagramPackage.GongModelPath = pkgPath
 
@@ -60,13 +60,13 @@ func Load(
 	}
 
 	// to be removed after fix of [issue](https://github.com/golang/go/issues/57559)
-	gongdoc_models.SetupMapDocLinkRenaming(diagramPackage.Stage_)
+	gongdoc_models.SetupMapDocLinkRenaming(gongStage, diagramPackage.Stage_)
 	// end of the be removed
 
 	// set up the number of instance per classshape
 	if map_StructName_InstanceNb != nil {
 
-		for gongStruct := range *gong_models.GetGongstructInstancesSet[gong_models.GongStruct]() {
+		for gongStruct := range *gong_models.GetGongstructInstancesSet[gong_models.GongStruct](modelPackage.GetStage()) {
 			diagramPackage.Map_Identifier_NbInstances[gongStruct.Name] =
 				(*map_StructName_InstanceNb)[gongStruct.Name]
 
