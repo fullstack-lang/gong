@@ -39,6 +39,7 @@ interface FlatNode {
 export class TreeComponent implements OnInit {
 
   @Input() name: string = ""
+  @Input() GONG__StackPath: string = ""
 
   // the package can be editable or not
   editable: boolean = false
@@ -95,6 +96,8 @@ export class TreeComponent implements OnInit {
   dateOfLastTimerEmission: Date = new Date
 
   ngOnInit(): void {
+    console.log("TreeComponent->name : ", this.name)
+    console.log("TreeComponent->GONG__StackPath : ", this.GONG__StackPath)
     this.startAutoRefresh(500); // Refresh every 500 ms (half second)
   }
 
@@ -112,7 +115,7 @@ export class TreeComponent implements OnInit {
 
   startAutoRefresh(intervalMs: number): void {
     this.commutNbFromBackSubscription = this.gongdocCommitNbFromBackService
-      .getCommitNbFromBack(intervalMs)
+      .getCommitNbFromBack(intervalMs, this.GONG__StackPath)
       .subscribe((commitNbFromBack: number) => {
         // console.log("TreeComponent, last commit nb " + this.lastCommitNbFromBack + " new: " + commitNbFromBack)
 
@@ -129,7 +132,7 @@ export class TreeComponent implements OnInit {
 
   refresh(): void {
 
-    this.gongdocFrontRepoService.pull().subscribe(
+    this.gongdocFrontRepoService.pull(this.GONG__StackPath).subscribe(
       gongdocsFrontRepo => {
         this.gongdocFrontRepo = gongdocsFrontRepo
 

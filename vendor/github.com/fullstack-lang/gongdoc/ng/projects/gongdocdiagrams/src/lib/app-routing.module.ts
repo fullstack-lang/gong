@@ -7,7 +7,7 @@ import { ClassdiagramDetailComponent } from './classdiagram-detail/classdiagram-
 
 const routes: Routes = [
 
-  { path: 'classdiagram-detail', component: ClassDiagramComponent, outlet: 'diagrameditor' },
+  { path: 'classdiagram-editor/:GONG__StackPath', component: ClassDiagramComponent, outlet: 'diagrameditor' },
   { path: 'github_com_fullstack_lang_gongdoc_go-classdiagram-adder', component: ClassdiagramDetailComponent, outlet: 'elementeditor' },
   { path: 'classdiagram-detail/:id', component: ClassdiagramDetailComponent, outlet: 'elementeditor' },
 ];

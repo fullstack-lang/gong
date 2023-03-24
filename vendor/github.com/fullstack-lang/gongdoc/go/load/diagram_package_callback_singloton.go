@@ -11,19 +11,19 @@ type DiagramPackageCallbacksSingloton struct {
 }
 
 func (diagramPackageCallbacksSingloton *DiagramPackageCallbacksSingloton) OnAfterUpdate(
-	stage *gongdoc_models.StageStruct,
+	gongdocStage *gongdoc_models.StageStruct,
 	stagedDiagramPackage, frontDiagramPackage *gongdoc_models.DiagramPackage) {
 
 	if stagedDiagramPackage.IsReloaded != frontDiagramPackage.IsReloaded {
 
 		// reset the IsReloaded to false
-		stagedDiagramPackage.Checkout(stage)
+		stagedDiagramPackage.Checkout(gongdocStage)
 		stagedDiagramPackage.IsReloaded = false
-		stagedDiagramPackage.Commit(stage)
+		stagedDiagramPackage.Commit(gongdocStage)
 
 		log.Println("Reload requested")
 		if stagedDiagramPackage.IsEditable {
-			Reload(stagedDiagramPackage)
+			Reload(gongdocStage, stagedDiagramPackage)
 		}
 	}
 }

@@ -24,7 +24,7 @@ func (gongNoteImpl *GongNoteImpl) OnAfterUpdate(
 
 		noteShape := (&gongdoc_models.NoteShape{Name: stagedNode.Name}).Stage(gongdocStage)
 
-		mapOfGongNotes := *gong_models.GetGongstructInstancesMap[gong_models.GongNote]()
+		mapOfGongNotes := *gong_models.GetGongstructInstancesMap[gong_models.GongNote](gongNoteImpl.nodeCb.diagramPackage.ModelPkg.GetStage())
 
 		gongNote, ok := mapOfGongNotes[noteShape.Name]
 		if !ok {
