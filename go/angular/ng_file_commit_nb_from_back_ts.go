@@ -11,7 +11,7 @@ import (
 )
 
 const NgCommitNbFromBackTemplateTS = `import { Injectable, Component, Inject } from '@angular/core';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HttpParams } from '@angular/common/http';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { DOCUMENT, Location } from '@angular/common'
 
@@ -49,9 +49,12 @@ export class CommitNbFromBackService {
         this.commitNbFromBackUrl = origin + '/api/{{PkgPathRoot}}/v1/commitfrombacknb';
     }
 
-    getCommitNbFromBack(intervalMs: number): Observable<number> {
+    getCommitNbFromBack(intervalMs: number, GONG__StackPath: string = ""): Observable<number> {
+
+        let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+
         return interval(intervalMs).pipe(
-            switchMap(() => this.http.get<number>(this.commitNbFromBackUrl).pipe(
+            switchMap(() => this.http.get<number>(this.commitNbFromBackUrl, { params: params }).pipe(
                 catchError(error => {
                     // Handle the error here, e.g. log it, show a notification, etc.
                     console.error('Error fetching commit number:', error);
