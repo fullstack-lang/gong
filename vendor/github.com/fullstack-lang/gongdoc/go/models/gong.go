@@ -1260,35 +1260,35 @@ func GongGetSet[Type GongstructSet](stages ...*StageStruct) *Type {
 	switch any(ret).(type) {
 	// insertion point for generic get functions
 	case map[*Classdiagram]any:
-		return any(stage.Classdiagrams).(*Type)
+		return any(&stage.Classdiagrams).(*Type)
 	case map[*DiagramPackage]any:
-		return any(stage.DiagramPackages).(*Type)
+		return any(&stage.DiagramPackages).(*Type)
 	case map[*Field]any:
-		return any(stage.Fields).(*Type)
+		return any(&stage.Fields).(*Type)
 	case map[*GongEnumShape]any:
-		return any(stage.GongEnumShapes).(*Type)
+		return any(&stage.GongEnumShapes).(*Type)
 	case map[*GongEnumValueEntry]any:
-		return any(stage.GongEnumValueEntrys).(*Type)
+		return any(&stage.GongEnumValueEntrys).(*Type)
 	case map[*GongStructShape]any:
-		return any(stage.GongStructShapes).(*Type)
+		return any(&stage.GongStructShapes).(*Type)
 	case map[*Link]any:
-		return any(stage.Links).(*Type)
+		return any(&stage.Links).(*Type)
 	case map[*Node]any:
-		return any(stage.Nodes).(*Type)
+		return any(&stage.Nodes).(*Type)
 	case map[*NoteShape]any:
-		return any(stage.NoteShapes).(*Type)
+		return any(&stage.NoteShapes).(*Type)
 	case map[*NoteShapeLink]any:
-		return any(stage.NoteShapeLinks).(*Type)
+		return any(&stage.NoteShapeLinks).(*Type)
 	case map[*Position]any:
-		return any(stage.Positions).(*Type)
+		return any(&stage.Positions).(*Type)
 	case map[*Tree]any:
-		return any(stage.Trees).(*Type)
+		return any(&stage.Trees).(*Type)
 	case map[*UmlState]any:
-		return any(stage.UmlStates).(*Type)
+		return any(&stage.UmlStates).(*Type)
 	case map[*Umlsc]any:
-		return any(stage.Umlscs).(*Type)
+		return any(&stage.Umlscs).(*Type)
 	case map[*Vertice]any:
-		return any(stage.Vertices).(*Type)
+		return any(&stage.Vertices).(*Type)
 	default:
 		return nil
 	}
@@ -1310,35 +1310,35 @@ func GongGetMap[Type GongstructMapString](stages ...*StageStruct) *Type {
 	switch any(ret).(type) {
 	// insertion point for generic get functions
 	case map[string]*Classdiagram:
-		return any(stage.Classdiagrams_mapString).(*Type)
+		return any(&stage.Classdiagrams_mapString).(*Type)
 	case map[string]*DiagramPackage:
-		return any(stage.DiagramPackages_mapString).(*Type)
+		return any(&stage.DiagramPackages_mapString).(*Type)
 	case map[string]*Field:
-		return any(stage.Fields_mapString).(*Type)
+		return any(&stage.Fields_mapString).(*Type)
 	case map[string]*GongEnumShape:
-		return any(stage.GongEnumShapes_mapString).(*Type)
+		return any(&stage.GongEnumShapes_mapString).(*Type)
 	case map[string]*GongEnumValueEntry:
-		return any(stage.GongEnumValueEntrys_mapString).(*Type)
+		return any(&stage.GongEnumValueEntrys_mapString).(*Type)
 	case map[string]*GongStructShape:
-		return any(stage.GongStructShapes_mapString).(*Type)
+		return any(&stage.GongStructShapes_mapString).(*Type)
 	case map[string]*Link:
-		return any(stage.Links_mapString).(*Type)
+		return any(&stage.Links_mapString).(*Type)
 	case map[string]*Node:
-		return any(stage.Nodes_mapString).(*Type)
+		return any(&stage.Nodes_mapString).(*Type)
 	case map[string]*NoteShape:
-		return any(stage.NoteShapes_mapString).(*Type)
+		return any(&stage.NoteShapes_mapString).(*Type)
 	case map[string]*NoteShapeLink:
-		return any(stage.NoteShapeLinks_mapString).(*Type)
+		return any(&stage.NoteShapeLinks_mapString).(*Type)
 	case map[string]*Position:
-		return any(stage.Positions_mapString).(*Type)
+		return any(&stage.Positions_mapString).(*Type)
 	case map[string]*Tree:
-		return any(stage.Trees_mapString).(*Type)
+		return any(&stage.Trees_mapString).(*Type)
 	case map[string]*UmlState:
-		return any(stage.UmlStates_mapString).(*Type)
+		return any(&stage.UmlStates_mapString).(*Type)
 	case map[string]*Umlsc:
-		return any(stage.Umlscs_mapString).(*Type)
+		return any(&stage.Umlscs_mapString).(*Type)
 	case map[string]*Vertice:
-		return any(stage.Vertices_mapString).(*Type)
+		return any(&stage.Vertices_mapString).(*Type)
 	default:
 		return nil
 	}

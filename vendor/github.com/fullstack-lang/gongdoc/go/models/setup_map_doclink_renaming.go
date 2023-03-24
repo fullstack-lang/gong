@@ -7,15 +7,15 @@ import (
 )
 
 // to be removed after fix of [issue](https://github.com/golang/go/issues/57559)
-func SetupMapDocLinkRenaming(stage *StageStruct) {
+func SetupMapDocLinkRenaming(gongStage *gong_models.StageStruct, gongdocStage *StageStruct) {
 
 	// set up Map_DocLink_Renaming
 	//  TO BE REMOVED
 	// to be removed after fix of [issue](https://github.com/golang/go/issues/57559)
-	stage.Map_DocLink_Renaming = make(map[string]GONG__Identifier)
+	gongdocStage.Map_DocLink_Renaming = make(map[string]GONG__Identifier)
 
 	gongstructOrdered := []*gong_models.GongStruct{}
-	for gongstruct := range *gong_models.GetGongstructInstancesSet[gong_models.GongStruct]() {
+	for gongstruct := range *gong_models.GetGongstructInstancesSet[gong_models.GongStruct](gongStage) {
 		gongstructOrdered = append(gongstructOrdered, gongstruct)
 	}
 	sort.Slice(gongstructOrdered[:], func(i, j int) bool {
@@ -28,7 +28,7 @@ func SetupMapDocLinkRenaming(stage *StageStruct) {
 		identifier.Ident = ident
 		identifier.Type = GONG__STRUCT_INSTANCE
 
-		stage.Map_DocLink_Renaming[ident] = identifier
+		gongdocStage.Map_DocLink_Renaming[ident] = identifier
 
 		for _, field := range gongStruct.Fields {
 			ident := GongstructAndFieldnameToFieldIdentifier(
@@ -37,10 +37,10 @@ func SetupMapDocLinkRenaming(stage *StageStruct) {
 			var identifier GONG__Identifier
 			identifier.Ident = ident
 			identifier.Type = GONG__FIELD_VALUE
-			stage.Map_DocLink_Renaming[ident] = identifier
+			gongdocStage.Map_DocLink_Renaming[ident] = identifier
 		}
 	}
-	for gongEnum := range *gong_models.GetGongstructInstancesSet[gong_models.GongEnum]() {
+	for gongEnum := range *gong_models.GetGongstructInstancesSet[gong_models.GongEnum](gongStage) {
 		ident := GongStructNameToIdentifier(gongEnum.Name)
 
 		var identifier GONG__Identifier
@@ -52,7 +52,7 @@ func SetupMapDocLinkRenaming(stage *StageStruct) {
 			identifier.Type = GONG__ENUM_CAST_STRING
 		}
 
-		stage.Map_DocLink_Renaming[ident] = identifier
+		gongdocStage.Map_DocLink_Renaming[ident] = identifier
 
 		for _, value := range gongEnum.GongEnumValues {
 			ident := GongStructNameToIdentifier(value.Name)
@@ -60,20 +60,20 @@ func SetupMapDocLinkRenaming(stage *StageStruct) {
 			var identifier GONG__Identifier
 			identifier.Ident = ident
 			identifier.Type = GONG__IDENTIFIER_CONST
-			stage.Map_DocLink_Renaming[ident] = identifier
+			gongdocStage.Map_DocLink_Renaming[ident] = identifier
 		}
 
 		// to do after fix of https://github.com/fullstack-lang/gongdoc/issues/100
 		// stage.Map_DocLink_Renaming[ident] = ident
 	}
 
-	for gongNote := range *gong_models.GetGongstructInstancesSet[gong_models.GongNote]() {
+	for gongNote := range *gong_models.GetGongstructInstancesSet[gong_models.GongNote](gongStage) {
 		ident := GongStructNameToIdentifier(gongNote.Name)
 
 		var identifier GONG__Identifier
 		identifier.Ident = ident
 		identifier.Type = GONG__IDENTIFIER_CONST
-		stage.Map_DocLink_Renaming[ident] = identifier
+		gongdocStage.Map_DocLink_Renaming[ident] = identifier
 	}
 
 	// end of TO BE REMOVED
