@@ -112,7 +112,7 @@ func (fieldImpl *FieldImpl) OnAfterUpdate(
 			fieldRank := 0
 
 			// let's compute it by parsing the field of the gongstruct
-			gongStruct_ := (*gong_models.GetGongstructInstancesMap[gong_models.GongStruct]())[gongStruct.Name]
+			gongStruct_ := (*gong_models.GetGongstructInstancesMap[gong_models.GongStruct](fieldImpl.nodeCb.diagramPackage.ModelPkg.GetStage()))[gongStruct.Name]
 			for idx, gongField := range gongStruct_.Fields {
 
 				map_Field_Rank[gongField] = idx

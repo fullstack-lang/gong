@@ -99,11 +99,6 @@ export class FrontRepo { // insertion point sub template
   Vertices_batch = new Map<number, VerticeDB>(); // same but only in last GET (for finding repo instances to delete)
 }
 
-//
-// Store of all instances of the stack
-//
-export const FrontRepoSingloton = new (FrontRepo)
-
 // the table component is called in different ways
 //
 // DISPLAY or ASSOCIATION MODE
@@ -156,6 +151,11 @@ export class FrontRepoService {
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
   };
+
+  //
+  // Store of all instances of the stack
+  //
+  frontRepo = new (FrontRepo)
 
   constructor(
     private http: HttpClient, // insertion point sub template 
@@ -324,29 +324,29 @@ export class FrontRepoService {
             // First Step: init map of instances
             // insertion point sub template for init 
             // init the array
-            FrontRepoSingloton.Classdiagrams_array = classdiagrams
+            this.frontRepo.Classdiagrams_array = classdiagrams
 
             // clear the map that counts Classdiagram in the GET
-            FrontRepoSingloton.Classdiagrams_batch.clear()
+            this.frontRepo.Classdiagrams_batch.clear()
 
             classdiagrams.forEach(
               classdiagram => {
-                FrontRepoSingloton.Classdiagrams.set(classdiagram.ID, classdiagram)
-                FrontRepoSingloton.Classdiagrams_batch.set(classdiagram.ID, classdiagram)
+                this.frontRepo.Classdiagrams.set(classdiagram.ID, classdiagram)
+                this.frontRepo.Classdiagrams_batch.set(classdiagram.ID, classdiagram)
               }
             )
 
             // clear classdiagrams that are absent from the batch
-            FrontRepoSingloton.Classdiagrams.forEach(
+            this.frontRepo.Classdiagrams.forEach(
               classdiagram => {
-                if (FrontRepoSingloton.Classdiagrams_batch.get(classdiagram.ID) == undefined) {
-                  FrontRepoSingloton.Classdiagrams.delete(classdiagram.ID)
+                if (this.frontRepo.Classdiagrams_batch.get(classdiagram.ID) == undefined) {
+                  this.frontRepo.Classdiagrams.delete(classdiagram.ID)
                 }
               }
             )
 
             // sort Classdiagrams_array array
-            FrontRepoSingloton.Classdiagrams_array.sort((t1, t2) => {
+            this.frontRepo.Classdiagrams_array.sort((t1, t2) => {
               if (t1.Name > t2.Name) {
                 return 1;
               }
@@ -357,29 +357,29 @@ export class FrontRepoService {
             });
 
             // init the array
-            FrontRepoSingloton.DiagramPackages_array = diagrampackages
+            this.frontRepo.DiagramPackages_array = diagrampackages
 
             // clear the map that counts DiagramPackage in the GET
-            FrontRepoSingloton.DiagramPackages_batch.clear()
+            this.frontRepo.DiagramPackages_batch.clear()
 
             diagrampackages.forEach(
               diagrampackage => {
-                FrontRepoSingloton.DiagramPackages.set(diagrampackage.ID, diagrampackage)
-                FrontRepoSingloton.DiagramPackages_batch.set(diagrampackage.ID, diagrampackage)
+                this.frontRepo.DiagramPackages.set(diagrampackage.ID, diagrampackage)
+                this.frontRepo.DiagramPackages_batch.set(diagrampackage.ID, diagrampackage)
               }
             )
 
             // clear diagrampackages that are absent from the batch
-            FrontRepoSingloton.DiagramPackages.forEach(
+            this.frontRepo.DiagramPackages.forEach(
               diagrampackage => {
-                if (FrontRepoSingloton.DiagramPackages_batch.get(diagrampackage.ID) == undefined) {
-                  FrontRepoSingloton.DiagramPackages.delete(diagrampackage.ID)
+                if (this.frontRepo.DiagramPackages_batch.get(diagrampackage.ID) == undefined) {
+                  this.frontRepo.DiagramPackages.delete(diagrampackage.ID)
                 }
               }
             )
 
             // sort DiagramPackages_array array
-            FrontRepoSingloton.DiagramPackages_array.sort((t1, t2) => {
+            this.frontRepo.DiagramPackages_array.sort((t1, t2) => {
               if (t1.Name > t2.Name) {
                 return 1;
               }
@@ -390,29 +390,29 @@ export class FrontRepoService {
             });
 
             // init the array
-            FrontRepoSingloton.Fields_array = fields
+            this.frontRepo.Fields_array = fields
 
             // clear the map that counts Field in the GET
-            FrontRepoSingloton.Fields_batch.clear()
+            this.frontRepo.Fields_batch.clear()
 
             fields.forEach(
               field => {
-                FrontRepoSingloton.Fields.set(field.ID, field)
-                FrontRepoSingloton.Fields_batch.set(field.ID, field)
+                this.frontRepo.Fields.set(field.ID, field)
+                this.frontRepo.Fields_batch.set(field.ID, field)
               }
             )
 
             // clear fields that are absent from the batch
-            FrontRepoSingloton.Fields.forEach(
+            this.frontRepo.Fields.forEach(
               field => {
-                if (FrontRepoSingloton.Fields_batch.get(field.ID) == undefined) {
-                  FrontRepoSingloton.Fields.delete(field.ID)
+                if (this.frontRepo.Fields_batch.get(field.ID) == undefined) {
+                  this.frontRepo.Fields.delete(field.ID)
                 }
               }
             )
 
             // sort Fields_array array
-            FrontRepoSingloton.Fields_array.sort((t1, t2) => {
+            this.frontRepo.Fields_array.sort((t1, t2) => {
               if (t1.Name > t2.Name) {
                 return 1;
               }
@@ -423,29 +423,29 @@ export class FrontRepoService {
             });
 
             // init the array
-            FrontRepoSingloton.GongEnumShapes_array = gongenumshapes
+            this.frontRepo.GongEnumShapes_array = gongenumshapes
 
             // clear the map that counts GongEnumShape in the GET
-            FrontRepoSingloton.GongEnumShapes_batch.clear()
+            this.frontRepo.GongEnumShapes_batch.clear()
 
             gongenumshapes.forEach(
               gongenumshape => {
-                FrontRepoSingloton.GongEnumShapes.set(gongenumshape.ID, gongenumshape)
-                FrontRepoSingloton.GongEnumShapes_batch.set(gongenumshape.ID, gongenumshape)
+                this.frontRepo.GongEnumShapes.set(gongenumshape.ID, gongenumshape)
+                this.frontRepo.GongEnumShapes_batch.set(gongenumshape.ID, gongenumshape)
               }
             )
 
             // clear gongenumshapes that are absent from the batch
-            FrontRepoSingloton.GongEnumShapes.forEach(
+            this.frontRepo.GongEnumShapes.forEach(
               gongenumshape => {
-                if (FrontRepoSingloton.GongEnumShapes_batch.get(gongenumshape.ID) == undefined) {
-                  FrontRepoSingloton.GongEnumShapes.delete(gongenumshape.ID)
+                if (this.frontRepo.GongEnumShapes_batch.get(gongenumshape.ID) == undefined) {
+                  this.frontRepo.GongEnumShapes.delete(gongenumshape.ID)
                 }
               }
             )
 
             // sort GongEnumShapes_array array
-            FrontRepoSingloton.GongEnumShapes_array.sort((t1, t2) => {
+            this.frontRepo.GongEnumShapes_array.sort((t1, t2) => {
               if (t1.Name > t2.Name) {
                 return 1;
               }
@@ -456,29 +456,29 @@ export class FrontRepoService {
             });
 
             // init the array
-            FrontRepoSingloton.GongEnumValueEntrys_array = gongenumvalueentrys
+            this.frontRepo.GongEnumValueEntrys_array = gongenumvalueentrys
 
             // clear the map that counts GongEnumValueEntry in the GET
-            FrontRepoSingloton.GongEnumValueEntrys_batch.clear()
+            this.frontRepo.GongEnumValueEntrys_batch.clear()
 
             gongenumvalueentrys.forEach(
               gongenumvalueentry => {
-                FrontRepoSingloton.GongEnumValueEntrys.set(gongenumvalueentry.ID, gongenumvalueentry)
-                FrontRepoSingloton.GongEnumValueEntrys_batch.set(gongenumvalueentry.ID, gongenumvalueentry)
+                this.frontRepo.GongEnumValueEntrys.set(gongenumvalueentry.ID, gongenumvalueentry)
+                this.frontRepo.GongEnumValueEntrys_batch.set(gongenumvalueentry.ID, gongenumvalueentry)
               }
             )
 
             // clear gongenumvalueentrys that are absent from the batch
-            FrontRepoSingloton.GongEnumValueEntrys.forEach(
+            this.frontRepo.GongEnumValueEntrys.forEach(
               gongenumvalueentry => {
-                if (FrontRepoSingloton.GongEnumValueEntrys_batch.get(gongenumvalueentry.ID) == undefined) {
-                  FrontRepoSingloton.GongEnumValueEntrys.delete(gongenumvalueentry.ID)
+                if (this.frontRepo.GongEnumValueEntrys_batch.get(gongenumvalueentry.ID) == undefined) {
+                  this.frontRepo.GongEnumValueEntrys.delete(gongenumvalueentry.ID)
                 }
               }
             )
 
             // sort GongEnumValueEntrys_array array
-            FrontRepoSingloton.GongEnumValueEntrys_array.sort((t1, t2) => {
+            this.frontRepo.GongEnumValueEntrys_array.sort((t1, t2) => {
               if (t1.Name > t2.Name) {
                 return 1;
               }
@@ -489,29 +489,29 @@ export class FrontRepoService {
             });
 
             // init the array
-            FrontRepoSingloton.GongStructShapes_array = gongstructshapes
+            this.frontRepo.GongStructShapes_array = gongstructshapes
 
             // clear the map that counts GongStructShape in the GET
-            FrontRepoSingloton.GongStructShapes_batch.clear()
+            this.frontRepo.GongStructShapes_batch.clear()
 
             gongstructshapes.forEach(
               gongstructshape => {
-                FrontRepoSingloton.GongStructShapes.set(gongstructshape.ID, gongstructshape)
-                FrontRepoSingloton.GongStructShapes_batch.set(gongstructshape.ID, gongstructshape)
+                this.frontRepo.GongStructShapes.set(gongstructshape.ID, gongstructshape)
+                this.frontRepo.GongStructShapes_batch.set(gongstructshape.ID, gongstructshape)
               }
             )
 
             // clear gongstructshapes that are absent from the batch
-            FrontRepoSingloton.GongStructShapes.forEach(
+            this.frontRepo.GongStructShapes.forEach(
               gongstructshape => {
-                if (FrontRepoSingloton.GongStructShapes_batch.get(gongstructshape.ID) == undefined) {
-                  FrontRepoSingloton.GongStructShapes.delete(gongstructshape.ID)
+                if (this.frontRepo.GongStructShapes_batch.get(gongstructshape.ID) == undefined) {
+                  this.frontRepo.GongStructShapes.delete(gongstructshape.ID)
                 }
               }
             )
 
             // sort GongStructShapes_array array
-            FrontRepoSingloton.GongStructShapes_array.sort((t1, t2) => {
+            this.frontRepo.GongStructShapes_array.sort((t1, t2) => {
               if (t1.Name > t2.Name) {
                 return 1;
               }
@@ -522,29 +522,29 @@ export class FrontRepoService {
             });
 
             // init the array
-            FrontRepoSingloton.Links_array = links
+            this.frontRepo.Links_array = links
 
             // clear the map that counts Link in the GET
-            FrontRepoSingloton.Links_batch.clear()
+            this.frontRepo.Links_batch.clear()
 
             links.forEach(
               link => {
-                FrontRepoSingloton.Links.set(link.ID, link)
-                FrontRepoSingloton.Links_batch.set(link.ID, link)
+                this.frontRepo.Links.set(link.ID, link)
+                this.frontRepo.Links_batch.set(link.ID, link)
               }
             )
 
             // clear links that are absent from the batch
-            FrontRepoSingloton.Links.forEach(
+            this.frontRepo.Links.forEach(
               link => {
-                if (FrontRepoSingloton.Links_batch.get(link.ID) == undefined) {
-                  FrontRepoSingloton.Links.delete(link.ID)
+                if (this.frontRepo.Links_batch.get(link.ID) == undefined) {
+                  this.frontRepo.Links.delete(link.ID)
                 }
               }
             )
 
             // sort Links_array array
-            FrontRepoSingloton.Links_array.sort((t1, t2) => {
+            this.frontRepo.Links_array.sort((t1, t2) => {
               if (t1.Name > t2.Name) {
                 return 1;
               }
@@ -555,29 +555,29 @@ export class FrontRepoService {
             });
 
             // init the array
-            FrontRepoSingloton.Nodes_array = nodes
+            this.frontRepo.Nodes_array = nodes
 
             // clear the map that counts Node in the GET
-            FrontRepoSingloton.Nodes_batch.clear()
+            this.frontRepo.Nodes_batch.clear()
 
             nodes.forEach(
               node => {
-                FrontRepoSingloton.Nodes.set(node.ID, node)
-                FrontRepoSingloton.Nodes_batch.set(node.ID, node)
+                this.frontRepo.Nodes.set(node.ID, node)
+                this.frontRepo.Nodes_batch.set(node.ID, node)
               }
             )
 
             // clear nodes that are absent from the batch
-            FrontRepoSingloton.Nodes.forEach(
+            this.frontRepo.Nodes.forEach(
               node => {
-                if (FrontRepoSingloton.Nodes_batch.get(node.ID) == undefined) {
-                  FrontRepoSingloton.Nodes.delete(node.ID)
+                if (this.frontRepo.Nodes_batch.get(node.ID) == undefined) {
+                  this.frontRepo.Nodes.delete(node.ID)
                 }
               }
             )
 
             // sort Nodes_array array
-            FrontRepoSingloton.Nodes_array.sort((t1, t2) => {
+            this.frontRepo.Nodes_array.sort((t1, t2) => {
               if (t1.Name > t2.Name) {
                 return 1;
               }
@@ -588,29 +588,29 @@ export class FrontRepoService {
             });
 
             // init the array
-            FrontRepoSingloton.NoteShapes_array = noteshapes
+            this.frontRepo.NoteShapes_array = noteshapes
 
             // clear the map that counts NoteShape in the GET
-            FrontRepoSingloton.NoteShapes_batch.clear()
+            this.frontRepo.NoteShapes_batch.clear()
 
             noteshapes.forEach(
               noteshape => {
-                FrontRepoSingloton.NoteShapes.set(noteshape.ID, noteshape)
-                FrontRepoSingloton.NoteShapes_batch.set(noteshape.ID, noteshape)
+                this.frontRepo.NoteShapes.set(noteshape.ID, noteshape)
+                this.frontRepo.NoteShapes_batch.set(noteshape.ID, noteshape)
               }
             )
 
             // clear noteshapes that are absent from the batch
-            FrontRepoSingloton.NoteShapes.forEach(
+            this.frontRepo.NoteShapes.forEach(
               noteshape => {
-                if (FrontRepoSingloton.NoteShapes_batch.get(noteshape.ID) == undefined) {
-                  FrontRepoSingloton.NoteShapes.delete(noteshape.ID)
+                if (this.frontRepo.NoteShapes_batch.get(noteshape.ID) == undefined) {
+                  this.frontRepo.NoteShapes.delete(noteshape.ID)
                 }
               }
             )
 
             // sort NoteShapes_array array
-            FrontRepoSingloton.NoteShapes_array.sort((t1, t2) => {
+            this.frontRepo.NoteShapes_array.sort((t1, t2) => {
               if (t1.Name > t2.Name) {
                 return 1;
               }
@@ -621,29 +621,29 @@ export class FrontRepoService {
             });
 
             // init the array
-            FrontRepoSingloton.NoteShapeLinks_array = noteshapelinks
+            this.frontRepo.NoteShapeLinks_array = noteshapelinks
 
             // clear the map that counts NoteShapeLink in the GET
-            FrontRepoSingloton.NoteShapeLinks_batch.clear()
+            this.frontRepo.NoteShapeLinks_batch.clear()
 
             noteshapelinks.forEach(
               noteshapelink => {
-                FrontRepoSingloton.NoteShapeLinks.set(noteshapelink.ID, noteshapelink)
-                FrontRepoSingloton.NoteShapeLinks_batch.set(noteshapelink.ID, noteshapelink)
+                this.frontRepo.NoteShapeLinks.set(noteshapelink.ID, noteshapelink)
+                this.frontRepo.NoteShapeLinks_batch.set(noteshapelink.ID, noteshapelink)
               }
             )
 
             // clear noteshapelinks that are absent from the batch
-            FrontRepoSingloton.NoteShapeLinks.forEach(
+            this.frontRepo.NoteShapeLinks.forEach(
               noteshapelink => {
-                if (FrontRepoSingloton.NoteShapeLinks_batch.get(noteshapelink.ID) == undefined) {
-                  FrontRepoSingloton.NoteShapeLinks.delete(noteshapelink.ID)
+                if (this.frontRepo.NoteShapeLinks_batch.get(noteshapelink.ID) == undefined) {
+                  this.frontRepo.NoteShapeLinks.delete(noteshapelink.ID)
                 }
               }
             )
 
             // sort NoteShapeLinks_array array
-            FrontRepoSingloton.NoteShapeLinks_array.sort((t1, t2) => {
+            this.frontRepo.NoteShapeLinks_array.sort((t1, t2) => {
               if (t1.Name > t2.Name) {
                 return 1;
               }
@@ -654,29 +654,29 @@ export class FrontRepoService {
             });
 
             // init the array
-            FrontRepoSingloton.Positions_array = positions
+            this.frontRepo.Positions_array = positions
 
             // clear the map that counts Position in the GET
-            FrontRepoSingloton.Positions_batch.clear()
+            this.frontRepo.Positions_batch.clear()
 
             positions.forEach(
               position => {
-                FrontRepoSingloton.Positions.set(position.ID, position)
-                FrontRepoSingloton.Positions_batch.set(position.ID, position)
+                this.frontRepo.Positions.set(position.ID, position)
+                this.frontRepo.Positions_batch.set(position.ID, position)
               }
             )
 
             // clear positions that are absent from the batch
-            FrontRepoSingloton.Positions.forEach(
+            this.frontRepo.Positions.forEach(
               position => {
-                if (FrontRepoSingloton.Positions_batch.get(position.ID) == undefined) {
-                  FrontRepoSingloton.Positions.delete(position.ID)
+                if (this.frontRepo.Positions_batch.get(position.ID) == undefined) {
+                  this.frontRepo.Positions.delete(position.ID)
                 }
               }
             )
 
             // sort Positions_array array
-            FrontRepoSingloton.Positions_array.sort((t1, t2) => {
+            this.frontRepo.Positions_array.sort((t1, t2) => {
               if (t1.Name > t2.Name) {
                 return 1;
               }
@@ -687,29 +687,29 @@ export class FrontRepoService {
             });
 
             // init the array
-            FrontRepoSingloton.Trees_array = trees
+            this.frontRepo.Trees_array = trees
 
             // clear the map that counts Tree in the GET
-            FrontRepoSingloton.Trees_batch.clear()
+            this.frontRepo.Trees_batch.clear()
 
             trees.forEach(
               tree => {
-                FrontRepoSingloton.Trees.set(tree.ID, tree)
-                FrontRepoSingloton.Trees_batch.set(tree.ID, tree)
+                this.frontRepo.Trees.set(tree.ID, tree)
+                this.frontRepo.Trees_batch.set(tree.ID, tree)
               }
             )
 
             // clear trees that are absent from the batch
-            FrontRepoSingloton.Trees.forEach(
+            this.frontRepo.Trees.forEach(
               tree => {
-                if (FrontRepoSingloton.Trees_batch.get(tree.ID) == undefined) {
-                  FrontRepoSingloton.Trees.delete(tree.ID)
+                if (this.frontRepo.Trees_batch.get(tree.ID) == undefined) {
+                  this.frontRepo.Trees.delete(tree.ID)
                 }
               }
             )
 
             // sort Trees_array array
-            FrontRepoSingloton.Trees_array.sort((t1, t2) => {
+            this.frontRepo.Trees_array.sort((t1, t2) => {
               if (t1.Name > t2.Name) {
                 return 1;
               }
@@ -720,29 +720,29 @@ export class FrontRepoService {
             });
 
             // init the array
-            FrontRepoSingloton.UmlStates_array = umlstates
+            this.frontRepo.UmlStates_array = umlstates
 
             // clear the map that counts UmlState in the GET
-            FrontRepoSingloton.UmlStates_batch.clear()
+            this.frontRepo.UmlStates_batch.clear()
 
             umlstates.forEach(
               umlstate => {
-                FrontRepoSingloton.UmlStates.set(umlstate.ID, umlstate)
-                FrontRepoSingloton.UmlStates_batch.set(umlstate.ID, umlstate)
+                this.frontRepo.UmlStates.set(umlstate.ID, umlstate)
+                this.frontRepo.UmlStates_batch.set(umlstate.ID, umlstate)
               }
             )
 
             // clear umlstates that are absent from the batch
-            FrontRepoSingloton.UmlStates.forEach(
+            this.frontRepo.UmlStates.forEach(
               umlstate => {
-                if (FrontRepoSingloton.UmlStates_batch.get(umlstate.ID) == undefined) {
-                  FrontRepoSingloton.UmlStates.delete(umlstate.ID)
+                if (this.frontRepo.UmlStates_batch.get(umlstate.ID) == undefined) {
+                  this.frontRepo.UmlStates.delete(umlstate.ID)
                 }
               }
             )
 
             // sort UmlStates_array array
-            FrontRepoSingloton.UmlStates_array.sort((t1, t2) => {
+            this.frontRepo.UmlStates_array.sort((t1, t2) => {
               if (t1.Name > t2.Name) {
                 return 1;
               }
@@ -753,29 +753,29 @@ export class FrontRepoService {
             });
 
             // init the array
-            FrontRepoSingloton.Umlscs_array = umlscs
+            this.frontRepo.Umlscs_array = umlscs
 
             // clear the map that counts Umlsc in the GET
-            FrontRepoSingloton.Umlscs_batch.clear()
+            this.frontRepo.Umlscs_batch.clear()
 
             umlscs.forEach(
               umlsc => {
-                FrontRepoSingloton.Umlscs.set(umlsc.ID, umlsc)
-                FrontRepoSingloton.Umlscs_batch.set(umlsc.ID, umlsc)
+                this.frontRepo.Umlscs.set(umlsc.ID, umlsc)
+                this.frontRepo.Umlscs_batch.set(umlsc.ID, umlsc)
               }
             )
 
             // clear umlscs that are absent from the batch
-            FrontRepoSingloton.Umlscs.forEach(
+            this.frontRepo.Umlscs.forEach(
               umlsc => {
-                if (FrontRepoSingloton.Umlscs_batch.get(umlsc.ID) == undefined) {
-                  FrontRepoSingloton.Umlscs.delete(umlsc.ID)
+                if (this.frontRepo.Umlscs_batch.get(umlsc.ID) == undefined) {
+                  this.frontRepo.Umlscs.delete(umlsc.ID)
                 }
               }
             )
 
             // sort Umlscs_array array
-            FrontRepoSingloton.Umlscs_array.sort((t1, t2) => {
+            this.frontRepo.Umlscs_array.sort((t1, t2) => {
               if (t1.Name > t2.Name) {
                 return 1;
               }
@@ -786,29 +786,29 @@ export class FrontRepoService {
             });
 
             // init the array
-            FrontRepoSingloton.Vertices_array = vertices
+            this.frontRepo.Vertices_array = vertices
 
             // clear the map that counts Vertice in the GET
-            FrontRepoSingloton.Vertices_batch.clear()
+            this.frontRepo.Vertices_batch.clear()
 
             vertices.forEach(
               vertice => {
-                FrontRepoSingloton.Vertices.set(vertice.ID, vertice)
-                FrontRepoSingloton.Vertices_batch.set(vertice.ID, vertice)
+                this.frontRepo.Vertices.set(vertice.ID, vertice)
+                this.frontRepo.Vertices_batch.set(vertice.ID, vertice)
               }
             )
 
             // clear vertices that are absent from the batch
-            FrontRepoSingloton.Vertices.forEach(
+            this.frontRepo.Vertices.forEach(
               vertice => {
-                if (FrontRepoSingloton.Vertices_batch.get(vertice.ID) == undefined) {
-                  FrontRepoSingloton.Vertices.delete(vertice.ID)
+                if (this.frontRepo.Vertices_batch.get(vertice.ID) == undefined) {
+                  this.frontRepo.Vertices.delete(vertice.ID)
                 }
               }
             )
 
             // sort Vertices_array array
-            FrontRepoSingloton.Vertices_array.sort((t1, t2) => {
+            this.frontRepo.Vertices_array.sort((t1, t2) => {
               if (t1.Name > t2.Name) {
                 return 1;
               }
@@ -829,7 +829,7 @@ export class FrontRepoService {
                 // insertion point for redeeming ONE-MANY associations
                 // insertion point for slice of pointer field DiagramPackage.Classdiagrams redeeming
                 {
-                  let _diagrampackage = FrontRepoSingloton.DiagramPackages.get(classdiagram.DiagramPackage_ClassdiagramsDBID.Int64)
+                  let _diagrampackage = this.frontRepo.DiagramPackages.get(classdiagram.DiagramPackage_ClassdiagramsDBID.Int64)
                   if (_diagrampackage) {
                     if (_diagrampackage.Classdiagrams == undefined) {
                       _diagrampackage.Classdiagrams = new Array<ClassdiagramDB>()
@@ -847,7 +847,7 @@ export class FrontRepoService {
                 // insertion point sub sub template for ONE-/ZERO-ONE associations pointers redeeming
                 // insertion point for pointer field SelectedClassdiagram redeeming
                 {
-                  let _classdiagram = FrontRepoSingloton.Classdiagrams.get(diagrampackage.SelectedClassdiagramID.Int64)
+                  let _classdiagram = this.frontRepo.Classdiagrams.get(diagrampackage.SelectedClassdiagramID.Int64)
                   if (_classdiagram) {
                     diagrampackage.SelectedClassdiagram = _classdiagram
                   }
@@ -863,7 +863,7 @@ export class FrontRepoService {
                 // insertion point for redeeming ONE-MANY associations
                 // insertion point for slice of pointer field GongStructShape.Fields redeeming
                 {
-                  let _gongstructshape = FrontRepoSingloton.GongStructShapes.get(field.GongStructShape_FieldsDBID.Int64)
+                  let _gongstructshape = this.frontRepo.GongStructShapes.get(field.GongStructShape_FieldsDBID.Int64)
                   if (_gongstructshape) {
                     if (_gongstructshape.Fields == undefined) {
                       _gongstructshape.Fields = new Array<FieldDB>()
@@ -881,7 +881,7 @@ export class FrontRepoService {
                 // insertion point sub sub template for ONE-/ZERO-ONE associations pointers redeeming
                 // insertion point for pointer field Position redeeming
                 {
-                  let _position = FrontRepoSingloton.Positions.get(gongenumshape.PositionID.Int64)
+                  let _position = this.frontRepo.Positions.get(gongenumshape.PositionID.Int64)
                   if (_position) {
                     gongenumshape.Position = _position
                   }
@@ -890,7 +890,7 @@ export class FrontRepoService {
                 // insertion point for redeeming ONE-MANY associations
                 // insertion point for slice of pointer field Classdiagram.GongEnumShapes redeeming
                 {
-                  let _classdiagram = FrontRepoSingloton.Classdiagrams.get(gongenumshape.Classdiagram_GongEnumShapesDBID.Int64)
+                  let _classdiagram = this.frontRepo.Classdiagrams.get(gongenumshape.Classdiagram_GongEnumShapesDBID.Int64)
                   if (_classdiagram) {
                     if (_classdiagram.GongEnumShapes == undefined) {
                       _classdiagram.GongEnumShapes = new Array<GongEnumShapeDB>()
@@ -910,7 +910,7 @@ export class FrontRepoService {
                 // insertion point for redeeming ONE-MANY associations
                 // insertion point for slice of pointer field GongEnumShape.GongEnumValueEntrys redeeming
                 {
-                  let _gongenumshape = FrontRepoSingloton.GongEnumShapes.get(gongenumvalueentry.GongEnumShape_GongEnumValueEntrysDBID.Int64)
+                  let _gongenumshape = this.frontRepo.GongEnumShapes.get(gongenumvalueentry.GongEnumShape_GongEnumValueEntrysDBID.Int64)
                   if (_gongenumshape) {
                     if (_gongenumshape.GongEnumValueEntrys == undefined) {
                       _gongenumshape.GongEnumValueEntrys = new Array<GongEnumValueEntryDB>()
@@ -928,7 +928,7 @@ export class FrontRepoService {
                 // insertion point sub sub template for ONE-/ZERO-ONE associations pointers redeeming
                 // insertion point for pointer field Position redeeming
                 {
-                  let _position = FrontRepoSingloton.Positions.get(gongstructshape.PositionID.Int64)
+                  let _position = this.frontRepo.Positions.get(gongstructshape.PositionID.Int64)
                   if (_position) {
                     gongstructshape.Position = _position
                   }
@@ -937,7 +937,7 @@ export class FrontRepoService {
                 // insertion point for redeeming ONE-MANY associations
                 // insertion point for slice of pointer field Classdiagram.GongStructShapes redeeming
                 {
-                  let _classdiagram = FrontRepoSingloton.Classdiagrams.get(gongstructshape.Classdiagram_GongStructShapesDBID.Int64)
+                  let _classdiagram = this.frontRepo.Classdiagrams.get(gongstructshape.Classdiagram_GongStructShapesDBID.Int64)
                   if (_classdiagram) {
                     if (_classdiagram.GongStructShapes == undefined) {
                       _classdiagram.GongStructShapes = new Array<GongStructShapeDB>()
@@ -955,7 +955,7 @@ export class FrontRepoService {
                 // insertion point sub sub template for ONE-/ZERO-ONE associations pointers redeeming
                 // insertion point for pointer field Middlevertice redeeming
                 {
-                  let _vertice = FrontRepoSingloton.Vertices.get(link.MiddleverticeID.Int64)
+                  let _vertice = this.frontRepo.Vertices.get(link.MiddleverticeID.Int64)
                   if (_vertice) {
                     link.Middlevertice = _vertice
                   }
@@ -964,7 +964,7 @@ export class FrontRepoService {
                 // insertion point for redeeming ONE-MANY associations
                 // insertion point for slice of pointer field GongStructShape.Links redeeming
                 {
-                  let _gongstructshape = FrontRepoSingloton.GongStructShapes.get(link.GongStructShape_LinksDBID.Int64)
+                  let _gongstructshape = this.frontRepo.GongStructShapes.get(link.GongStructShape_LinksDBID.Int64)
                   if (_gongstructshape) {
                     if (_gongstructshape.Links == undefined) {
                       _gongstructshape.Links = new Array<LinkDB>()
@@ -984,7 +984,7 @@ export class FrontRepoService {
                 // insertion point for redeeming ONE-MANY associations
                 // insertion point for slice of pointer field Node.Children redeeming
                 {
-                  let _node = FrontRepoSingloton.Nodes.get(node.Node_ChildrenDBID.Int64)
+                  let _node = this.frontRepo.Nodes.get(node.Node_ChildrenDBID.Int64)
                   if (_node) {
                     if (_node.Children == undefined) {
                       _node.Children = new Array<NodeDB>()
@@ -997,7 +997,7 @@ export class FrontRepoService {
                 }
                 // insertion point for slice of pointer field Tree.RootNodes redeeming
                 {
-                  let _tree = FrontRepoSingloton.Trees.get(node.Tree_RootNodesDBID.Int64)
+                  let _tree = this.frontRepo.Trees.get(node.Tree_RootNodesDBID.Int64)
                   if (_tree) {
                     if (_tree.RootNodes == undefined) {
                       _tree.RootNodes = new Array<NodeDB>()
@@ -1017,7 +1017,7 @@ export class FrontRepoService {
                 // insertion point for redeeming ONE-MANY associations
                 // insertion point for slice of pointer field Classdiagram.NoteShapes redeeming
                 {
-                  let _classdiagram = FrontRepoSingloton.Classdiagrams.get(noteshape.Classdiagram_NoteShapesDBID.Int64)
+                  let _classdiagram = this.frontRepo.Classdiagrams.get(noteshape.Classdiagram_NoteShapesDBID.Int64)
                   if (_classdiagram) {
                     if (_classdiagram.NoteShapes == undefined) {
                       _classdiagram.NoteShapes = new Array<NoteShapeDB>()
@@ -1037,7 +1037,7 @@ export class FrontRepoService {
                 // insertion point for redeeming ONE-MANY associations
                 // insertion point for slice of pointer field NoteShape.NoteShapeLinks redeeming
                 {
-                  let _noteshape = FrontRepoSingloton.NoteShapes.get(noteshapelink.NoteShape_NoteShapeLinksDBID.Int64)
+                  let _noteshape = this.frontRepo.NoteShapes.get(noteshapelink.NoteShape_NoteShapeLinksDBID.Int64)
                   if (_noteshape) {
                     if (_noteshape.NoteShapeLinks == undefined) {
                       _noteshape.NoteShapeLinks = new Array<NoteShapeLinkDB>()
@@ -1071,7 +1071,7 @@ export class FrontRepoService {
                 // insertion point for redeeming ONE-MANY associations
                 // insertion point for slice of pointer field Umlsc.States redeeming
                 {
-                  let _umlsc = FrontRepoSingloton.Umlscs.get(umlstate.Umlsc_StatesDBID.Int64)
+                  let _umlsc = this.frontRepo.Umlscs.get(umlstate.Umlsc_StatesDBID.Int64)
                   if (_umlsc) {
                     if (_umlsc.States == undefined) {
                       _umlsc.States = new Array<UmlStateDB>()
@@ -1091,7 +1091,7 @@ export class FrontRepoService {
                 // insertion point for redeeming ONE-MANY associations
                 // insertion point for slice of pointer field DiagramPackage.Umlscs redeeming
                 {
-                  let _diagrampackage = FrontRepoSingloton.DiagramPackages.get(umlsc.DiagramPackage_UmlscsDBID.Int64)
+                  let _diagrampackage = this.frontRepo.DiagramPackages.get(umlsc.DiagramPackage_UmlscsDBID.Int64)
                   if (_diagrampackage) {
                     if (_diagrampackage.Umlscs == undefined) {
                       _diagrampackage.Umlscs = new Array<UmlscDB>()
@@ -1113,7 +1113,7 @@ export class FrontRepoService {
             )
 
             // hand over control flow to observer
-            observer.next(FrontRepoSingloton)
+            observer.next(this.frontRepo)
           }
         )
       }
@@ -1133,25 +1133,25 @@ export class FrontRepoService {
             classdiagrams,
           ]) => {
             // init the array
-            FrontRepoSingloton.Classdiagrams_array = classdiagrams
+            this.frontRepo.Classdiagrams_array = classdiagrams
 
             // clear the map that counts Classdiagram in the GET
-            FrontRepoSingloton.Classdiagrams_batch.clear()
+            this.frontRepo.Classdiagrams_batch.clear()
 
             // 
             // First Step: init map of instances
             // insertion point sub template 
             classdiagrams.forEach(
               classdiagram => {
-                FrontRepoSingloton.Classdiagrams.set(classdiagram.ID, classdiagram)
-                FrontRepoSingloton.Classdiagrams_batch.set(classdiagram.ID, classdiagram)
+                this.frontRepo.Classdiagrams.set(classdiagram.ID, classdiagram)
+                this.frontRepo.Classdiagrams_batch.set(classdiagram.ID, classdiagram)
 
                 // insertion point for redeeming ONE/ZERO-ONE associations
 
                 // insertion point for redeeming ONE-MANY associations
                 // insertion point for slice of pointer field DiagramPackage.Classdiagrams redeeming
                 {
-                  let _diagrampackage = FrontRepoSingloton.DiagramPackages.get(classdiagram.DiagramPackage_ClassdiagramsDBID.Int64)
+                  let _diagrampackage = this.frontRepo.DiagramPackages.get(classdiagram.DiagramPackage_ClassdiagramsDBID.Int64)
                   if (_diagrampackage) {
                     if (_diagrampackage.Classdiagrams == undefined) {
                       _diagrampackage.Classdiagrams = new Array<ClassdiagramDB>()
@@ -1166,10 +1166,10 @@ export class FrontRepoService {
             )
 
             // clear classdiagrams that are absent from the GET
-            FrontRepoSingloton.Classdiagrams.forEach(
+            this.frontRepo.Classdiagrams.forEach(
               classdiagram => {
-                if (FrontRepoSingloton.Classdiagrams_batch.get(classdiagram.ID) == undefined) {
-                  FrontRepoSingloton.Classdiagrams.delete(classdiagram.ID)
+                if (this.frontRepo.Classdiagrams_batch.get(classdiagram.ID) == undefined) {
+                  this.frontRepo.Classdiagrams.delete(classdiagram.ID)
                 }
               }
             )
@@ -1179,7 +1179,7 @@ export class FrontRepoService {
             // insertion point sub template 
 
             // hand over control flow to observer
-            observer.next(FrontRepoSingloton)
+            observer.next(this.frontRepo)
           }
         )
       }
@@ -1197,23 +1197,23 @@ export class FrontRepoService {
             diagrampackages,
           ]) => {
             // init the array
-            FrontRepoSingloton.DiagramPackages_array = diagrampackages
+            this.frontRepo.DiagramPackages_array = diagrampackages
 
             // clear the map that counts DiagramPackage in the GET
-            FrontRepoSingloton.DiagramPackages_batch.clear()
+            this.frontRepo.DiagramPackages_batch.clear()
 
             // 
             // First Step: init map of instances
             // insertion point sub template 
             diagrampackages.forEach(
               diagrampackage => {
-                FrontRepoSingloton.DiagramPackages.set(diagrampackage.ID, diagrampackage)
-                FrontRepoSingloton.DiagramPackages_batch.set(diagrampackage.ID, diagrampackage)
+                this.frontRepo.DiagramPackages.set(diagrampackage.ID, diagrampackage)
+                this.frontRepo.DiagramPackages_batch.set(diagrampackage.ID, diagrampackage)
 
                 // insertion point for redeeming ONE/ZERO-ONE associations
                 // insertion point for pointer field SelectedClassdiagram redeeming
                 {
-                  let _classdiagram = FrontRepoSingloton.Classdiagrams.get(diagrampackage.SelectedClassdiagramID.Int64)
+                  let _classdiagram = this.frontRepo.Classdiagrams.get(diagrampackage.SelectedClassdiagramID.Int64)
                   if (_classdiagram) {
                     diagrampackage.SelectedClassdiagram = _classdiagram
                   }
@@ -1224,10 +1224,10 @@ export class FrontRepoService {
             )
 
             // clear diagrampackages that are absent from the GET
-            FrontRepoSingloton.DiagramPackages.forEach(
+            this.frontRepo.DiagramPackages.forEach(
               diagrampackage => {
-                if (FrontRepoSingloton.DiagramPackages_batch.get(diagrampackage.ID) == undefined) {
-                  FrontRepoSingloton.DiagramPackages.delete(diagrampackage.ID)
+                if (this.frontRepo.DiagramPackages_batch.get(diagrampackage.ID) == undefined) {
+                  this.frontRepo.DiagramPackages.delete(diagrampackage.ID)
                 }
               }
             )
@@ -1237,7 +1237,7 @@ export class FrontRepoService {
             // insertion point sub template 
 
             // hand over control flow to observer
-            observer.next(FrontRepoSingloton)
+            observer.next(this.frontRepo)
           }
         )
       }
@@ -1255,25 +1255,25 @@ export class FrontRepoService {
             fields,
           ]) => {
             // init the array
-            FrontRepoSingloton.Fields_array = fields
+            this.frontRepo.Fields_array = fields
 
             // clear the map that counts Field in the GET
-            FrontRepoSingloton.Fields_batch.clear()
+            this.frontRepo.Fields_batch.clear()
 
             // 
             // First Step: init map of instances
             // insertion point sub template 
             fields.forEach(
               field => {
-                FrontRepoSingloton.Fields.set(field.ID, field)
-                FrontRepoSingloton.Fields_batch.set(field.ID, field)
+                this.frontRepo.Fields.set(field.ID, field)
+                this.frontRepo.Fields_batch.set(field.ID, field)
 
                 // insertion point for redeeming ONE/ZERO-ONE associations
 
                 // insertion point for redeeming ONE-MANY associations
                 // insertion point for slice of pointer field GongStructShape.Fields redeeming
                 {
-                  let _gongstructshape = FrontRepoSingloton.GongStructShapes.get(field.GongStructShape_FieldsDBID.Int64)
+                  let _gongstructshape = this.frontRepo.GongStructShapes.get(field.GongStructShape_FieldsDBID.Int64)
                   if (_gongstructshape) {
                     if (_gongstructshape.Fields == undefined) {
                       _gongstructshape.Fields = new Array<FieldDB>()
@@ -1288,10 +1288,10 @@ export class FrontRepoService {
             )
 
             // clear fields that are absent from the GET
-            FrontRepoSingloton.Fields.forEach(
+            this.frontRepo.Fields.forEach(
               field => {
-                if (FrontRepoSingloton.Fields_batch.get(field.ID) == undefined) {
-                  FrontRepoSingloton.Fields.delete(field.ID)
+                if (this.frontRepo.Fields_batch.get(field.ID) == undefined) {
+                  this.frontRepo.Fields.delete(field.ID)
                 }
               }
             )
@@ -1301,7 +1301,7 @@ export class FrontRepoService {
             // insertion point sub template 
 
             // hand over control flow to observer
-            observer.next(FrontRepoSingloton)
+            observer.next(this.frontRepo)
           }
         )
       }
@@ -1319,23 +1319,23 @@ export class FrontRepoService {
             gongenumshapes,
           ]) => {
             // init the array
-            FrontRepoSingloton.GongEnumShapes_array = gongenumshapes
+            this.frontRepo.GongEnumShapes_array = gongenumshapes
 
             // clear the map that counts GongEnumShape in the GET
-            FrontRepoSingloton.GongEnumShapes_batch.clear()
+            this.frontRepo.GongEnumShapes_batch.clear()
 
             // 
             // First Step: init map of instances
             // insertion point sub template 
             gongenumshapes.forEach(
               gongenumshape => {
-                FrontRepoSingloton.GongEnumShapes.set(gongenumshape.ID, gongenumshape)
-                FrontRepoSingloton.GongEnumShapes_batch.set(gongenumshape.ID, gongenumshape)
+                this.frontRepo.GongEnumShapes.set(gongenumshape.ID, gongenumshape)
+                this.frontRepo.GongEnumShapes_batch.set(gongenumshape.ID, gongenumshape)
 
                 // insertion point for redeeming ONE/ZERO-ONE associations
                 // insertion point for pointer field Position redeeming
                 {
-                  let _position = FrontRepoSingloton.Positions.get(gongenumshape.PositionID.Int64)
+                  let _position = this.frontRepo.Positions.get(gongenumshape.PositionID.Int64)
                   if (_position) {
                     gongenumshape.Position = _position
                   }
@@ -1344,7 +1344,7 @@ export class FrontRepoService {
                 // insertion point for redeeming ONE-MANY associations
                 // insertion point for slice of pointer field Classdiagram.GongEnumShapes redeeming
                 {
-                  let _classdiagram = FrontRepoSingloton.Classdiagrams.get(gongenumshape.Classdiagram_GongEnumShapesDBID.Int64)
+                  let _classdiagram = this.frontRepo.Classdiagrams.get(gongenumshape.Classdiagram_GongEnumShapesDBID.Int64)
                   if (_classdiagram) {
                     if (_classdiagram.GongEnumShapes == undefined) {
                       _classdiagram.GongEnumShapes = new Array<GongEnumShapeDB>()
@@ -1359,10 +1359,10 @@ export class FrontRepoService {
             )
 
             // clear gongenumshapes that are absent from the GET
-            FrontRepoSingloton.GongEnumShapes.forEach(
+            this.frontRepo.GongEnumShapes.forEach(
               gongenumshape => {
-                if (FrontRepoSingloton.GongEnumShapes_batch.get(gongenumshape.ID) == undefined) {
-                  FrontRepoSingloton.GongEnumShapes.delete(gongenumshape.ID)
+                if (this.frontRepo.GongEnumShapes_batch.get(gongenumshape.ID) == undefined) {
+                  this.frontRepo.GongEnumShapes.delete(gongenumshape.ID)
                 }
               }
             )
@@ -1372,7 +1372,7 @@ export class FrontRepoService {
             // insertion point sub template 
 
             // hand over control flow to observer
-            observer.next(FrontRepoSingloton)
+            observer.next(this.frontRepo)
           }
         )
       }
@@ -1390,25 +1390,25 @@ export class FrontRepoService {
             gongenumvalueentrys,
           ]) => {
             // init the array
-            FrontRepoSingloton.GongEnumValueEntrys_array = gongenumvalueentrys
+            this.frontRepo.GongEnumValueEntrys_array = gongenumvalueentrys
 
             // clear the map that counts GongEnumValueEntry in the GET
-            FrontRepoSingloton.GongEnumValueEntrys_batch.clear()
+            this.frontRepo.GongEnumValueEntrys_batch.clear()
 
             // 
             // First Step: init map of instances
             // insertion point sub template 
             gongenumvalueentrys.forEach(
               gongenumvalueentry => {
-                FrontRepoSingloton.GongEnumValueEntrys.set(gongenumvalueentry.ID, gongenumvalueentry)
-                FrontRepoSingloton.GongEnumValueEntrys_batch.set(gongenumvalueentry.ID, gongenumvalueentry)
+                this.frontRepo.GongEnumValueEntrys.set(gongenumvalueentry.ID, gongenumvalueentry)
+                this.frontRepo.GongEnumValueEntrys_batch.set(gongenumvalueentry.ID, gongenumvalueentry)
 
                 // insertion point for redeeming ONE/ZERO-ONE associations
 
                 // insertion point for redeeming ONE-MANY associations
                 // insertion point for slice of pointer field GongEnumShape.GongEnumValueEntrys redeeming
                 {
-                  let _gongenumshape = FrontRepoSingloton.GongEnumShapes.get(gongenumvalueentry.GongEnumShape_GongEnumValueEntrysDBID.Int64)
+                  let _gongenumshape = this.frontRepo.GongEnumShapes.get(gongenumvalueentry.GongEnumShape_GongEnumValueEntrysDBID.Int64)
                   if (_gongenumshape) {
                     if (_gongenumshape.GongEnumValueEntrys == undefined) {
                       _gongenumshape.GongEnumValueEntrys = new Array<GongEnumValueEntryDB>()
@@ -1423,10 +1423,10 @@ export class FrontRepoService {
             )
 
             // clear gongenumvalueentrys that are absent from the GET
-            FrontRepoSingloton.GongEnumValueEntrys.forEach(
+            this.frontRepo.GongEnumValueEntrys.forEach(
               gongenumvalueentry => {
-                if (FrontRepoSingloton.GongEnumValueEntrys_batch.get(gongenumvalueentry.ID) == undefined) {
-                  FrontRepoSingloton.GongEnumValueEntrys.delete(gongenumvalueentry.ID)
+                if (this.frontRepo.GongEnumValueEntrys_batch.get(gongenumvalueentry.ID) == undefined) {
+                  this.frontRepo.GongEnumValueEntrys.delete(gongenumvalueentry.ID)
                 }
               }
             )
@@ -1436,7 +1436,7 @@ export class FrontRepoService {
             // insertion point sub template 
 
             // hand over control flow to observer
-            observer.next(FrontRepoSingloton)
+            observer.next(this.frontRepo)
           }
         )
       }
@@ -1454,23 +1454,23 @@ export class FrontRepoService {
             gongstructshapes,
           ]) => {
             // init the array
-            FrontRepoSingloton.GongStructShapes_array = gongstructshapes
+            this.frontRepo.GongStructShapes_array = gongstructshapes
 
             // clear the map that counts GongStructShape in the GET
-            FrontRepoSingloton.GongStructShapes_batch.clear()
+            this.frontRepo.GongStructShapes_batch.clear()
 
             // 
             // First Step: init map of instances
             // insertion point sub template 
             gongstructshapes.forEach(
               gongstructshape => {
-                FrontRepoSingloton.GongStructShapes.set(gongstructshape.ID, gongstructshape)
-                FrontRepoSingloton.GongStructShapes_batch.set(gongstructshape.ID, gongstructshape)
+                this.frontRepo.GongStructShapes.set(gongstructshape.ID, gongstructshape)
+                this.frontRepo.GongStructShapes_batch.set(gongstructshape.ID, gongstructshape)
 
                 // insertion point for redeeming ONE/ZERO-ONE associations
                 // insertion point for pointer field Position redeeming
                 {
-                  let _position = FrontRepoSingloton.Positions.get(gongstructshape.PositionID.Int64)
+                  let _position = this.frontRepo.Positions.get(gongstructshape.PositionID.Int64)
                   if (_position) {
                     gongstructshape.Position = _position
                   }
@@ -1479,7 +1479,7 @@ export class FrontRepoService {
                 // insertion point for redeeming ONE-MANY associations
                 // insertion point for slice of pointer field Classdiagram.GongStructShapes redeeming
                 {
-                  let _classdiagram = FrontRepoSingloton.Classdiagrams.get(gongstructshape.Classdiagram_GongStructShapesDBID.Int64)
+                  let _classdiagram = this.frontRepo.Classdiagrams.get(gongstructshape.Classdiagram_GongStructShapesDBID.Int64)
                   if (_classdiagram) {
                     if (_classdiagram.GongStructShapes == undefined) {
                       _classdiagram.GongStructShapes = new Array<GongStructShapeDB>()
@@ -1494,10 +1494,10 @@ export class FrontRepoService {
             )
 
             // clear gongstructshapes that are absent from the GET
-            FrontRepoSingloton.GongStructShapes.forEach(
+            this.frontRepo.GongStructShapes.forEach(
               gongstructshape => {
-                if (FrontRepoSingloton.GongStructShapes_batch.get(gongstructshape.ID) == undefined) {
-                  FrontRepoSingloton.GongStructShapes.delete(gongstructshape.ID)
+                if (this.frontRepo.GongStructShapes_batch.get(gongstructshape.ID) == undefined) {
+                  this.frontRepo.GongStructShapes.delete(gongstructshape.ID)
                 }
               }
             )
@@ -1507,7 +1507,7 @@ export class FrontRepoService {
             // insertion point sub template 
 
             // hand over control flow to observer
-            observer.next(FrontRepoSingloton)
+            observer.next(this.frontRepo)
           }
         )
       }
@@ -1525,23 +1525,23 @@ export class FrontRepoService {
             links,
           ]) => {
             // init the array
-            FrontRepoSingloton.Links_array = links
+            this.frontRepo.Links_array = links
 
             // clear the map that counts Link in the GET
-            FrontRepoSingloton.Links_batch.clear()
+            this.frontRepo.Links_batch.clear()
 
             // 
             // First Step: init map of instances
             // insertion point sub template 
             links.forEach(
               link => {
-                FrontRepoSingloton.Links.set(link.ID, link)
-                FrontRepoSingloton.Links_batch.set(link.ID, link)
+                this.frontRepo.Links.set(link.ID, link)
+                this.frontRepo.Links_batch.set(link.ID, link)
 
                 // insertion point for redeeming ONE/ZERO-ONE associations
                 // insertion point for pointer field Middlevertice redeeming
                 {
-                  let _vertice = FrontRepoSingloton.Vertices.get(link.MiddleverticeID.Int64)
+                  let _vertice = this.frontRepo.Vertices.get(link.MiddleverticeID.Int64)
                   if (_vertice) {
                     link.Middlevertice = _vertice
                   }
@@ -1550,7 +1550,7 @@ export class FrontRepoService {
                 // insertion point for redeeming ONE-MANY associations
                 // insertion point for slice of pointer field GongStructShape.Links redeeming
                 {
-                  let _gongstructshape = FrontRepoSingloton.GongStructShapes.get(link.GongStructShape_LinksDBID.Int64)
+                  let _gongstructshape = this.frontRepo.GongStructShapes.get(link.GongStructShape_LinksDBID.Int64)
                   if (_gongstructshape) {
                     if (_gongstructshape.Links == undefined) {
                       _gongstructshape.Links = new Array<LinkDB>()
@@ -1565,10 +1565,10 @@ export class FrontRepoService {
             )
 
             // clear links that are absent from the GET
-            FrontRepoSingloton.Links.forEach(
+            this.frontRepo.Links.forEach(
               link => {
-                if (FrontRepoSingloton.Links_batch.get(link.ID) == undefined) {
-                  FrontRepoSingloton.Links.delete(link.ID)
+                if (this.frontRepo.Links_batch.get(link.ID) == undefined) {
+                  this.frontRepo.Links.delete(link.ID)
                 }
               }
             )
@@ -1578,7 +1578,7 @@ export class FrontRepoService {
             // insertion point sub template 
 
             // hand over control flow to observer
-            observer.next(FrontRepoSingloton)
+            observer.next(this.frontRepo)
           }
         )
       }
@@ -1596,25 +1596,25 @@ export class FrontRepoService {
             nodes,
           ]) => {
             // init the array
-            FrontRepoSingloton.Nodes_array = nodes
+            this.frontRepo.Nodes_array = nodes
 
             // clear the map that counts Node in the GET
-            FrontRepoSingloton.Nodes_batch.clear()
+            this.frontRepo.Nodes_batch.clear()
 
             // 
             // First Step: init map of instances
             // insertion point sub template 
             nodes.forEach(
               node => {
-                FrontRepoSingloton.Nodes.set(node.ID, node)
-                FrontRepoSingloton.Nodes_batch.set(node.ID, node)
+                this.frontRepo.Nodes.set(node.ID, node)
+                this.frontRepo.Nodes_batch.set(node.ID, node)
 
                 // insertion point for redeeming ONE/ZERO-ONE associations
 
                 // insertion point for redeeming ONE-MANY associations
                 // insertion point for slice of pointer field Node.Children redeeming
                 {
-                  let _node = FrontRepoSingloton.Nodes.get(node.Node_ChildrenDBID.Int64)
+                  let _node = this.frontRepo.Nodes.get(node.Node_ChildrenDBID.Int64)
                   if (_node) {
                     if (_node.Children == undefined) {
                       _node.Children = new Array<NodeDB>()
@@ -1627,7 +1627,7 @@ export class FrontRepoService {
                 }
                 // insertion point for slice of pointer field Tree.RootNodes redeeming
                 {
-                  let _tree = FrontRepoSingloton.Trees.get(node.Tree_RootNodesDBID.Int64)
+                  let _tree = this.frontRepo.Trees.get(node.Tree_RootNodesDBID.Int64)
                   if (_tree) {
                     if (_tree.RootNodes == undefined) {
                       _tree.RootNodes = new Array<NodeDB>()
@@ -1642,10 +1642,10 @@ export class FrontRepoService {
             )
 
             // clear nodes that are absent from the GET
-            FrontRepoSingloton.Nodes.forEach(
+            this.frontRepo.Nodes.forEach(
               node => {
-                if (FrontRepoSingloton.Nodes_batch.get(node.ID) == undefined) {
-                  FrontRepoSingloton.Nodes.delete(node.ID)
+                if (this.frontRepo.Nodes_batch.get(node.ID) == undefined) {
+                  this.frontRepo.Nodes.delete(node.ID)
                 }
               }
             )
@@ -1655,7 +1655,7 @@ export class FrontRepoService {
             // insertion point sub template 
 
             // hand over control flow to observer
-            observer.next(FrontRepoSingloton)
+            observer.next(this.frontRepo)
           }
         )
       }
@@ -1673,25 +1673,25 @@ export class FrontRepoService {
             noteshapes,
           ]) => {
             // init the array
-            FrontRepoSingloton.NoteShapes_array = noteshapes
+            this.frontRepo.NoteShapes_array = noteshapes
 
             // clear the map that counts NoteShape in the GET
-            FrontRepoSingloton.NoteShapes_batch.clear()
+            this.frontRepo.NoteShapes_batch.clear()
 
             // 
             // First Step: init map of instances
             // insertion point sub template 
             noteshapes.forEach(
               noteshape => {
-                FrontRepoSingloton.NoteShapes.set(noteshape.ID, noteshape)
-                FrontRepoSingloton.NoteShapes_batch.set(noteshape.ID, noteshape)
+                this.frontRepo.NoteShapes.set(noteshape.ID, noteshape)
+                this.frontRepo.NoteShapes_batch.set(noteshape.ID, noteshape)
 
                 // insertion point for redeeming ONE/ZERO-ONE associations
 
                 // insertion point for redeeming ONE-MANY associations
                 // insertion point for slice of pointer field Classdiagram.NoteShapes redeeming
                 {
-                  let _classdiagram = FrontRepoSingloton.Classdiagrams.get(noteshape.Classdiagram_NoteShapesDBID.Int64)
+                  let _classdiagram = this.frontRepo.Classdiagrams.get(noteshape.Classdiagram_NoteShapesDBID.Int64)
                   if (_classdiagram) {
                     if (_classdiagram.NoteShapes == undefined) {
                       _classdiagram.NoteShapes = new Array<NoteShapeDB>()
@@ -1706,10 +1706,10 @@ export class FrontRepoService {
             )
 
             // clear noteshapes that are absent from the GET
-            FrontRepoSingloton.NoteShapes.forEach(
+            this.frontRepo.NoteShapes.forEach(
               noteshape => {
-                if (FrontRepoSingloton.NoteShapes_batch.get(noteshape.ID) == undefined) {
-                  FrontRepoSingloton.NoteShapes.delete(noteshape.ID)
+                if (this.frontRepo.NoteShapes_batch.get(noteshape.ID) == undefined) {
+                  this.frontRepo.NoteShapes.delete(noteshape.ID)
                 }
               }
             )
@@ -1719,7 +1719,7 @@ export class FrontRepoService {
             // insertion point sub template 
 
             // hand over control flow to observer
-            observer.next(FrontRepoSingloton)
+            observer.next(this.frontRepo)
           }
         )
       }
@@ -1737,25 +1737,25 @@ export class FrontRepoService {
             noteshapelinks,
           ]) => {
             // init the array
-            FrontRepoSingloton.NoteShapeLinks_array = noteshapelinks
+            this.frontRepo.NoteShapeLinks_array = noteshapelinks
 
             // clear the map that counts NoteShapeLink in the GET
-            FrontRepoSingloton.NoteShapeLinks_batch.clear()
+            this.frontRepo.NoteShapeLinks_batch.clear()
 
             // 
             // First Step: init map of instances
             // insertion point sub template 
             noteshapelinks.forEach(
               noteshapelink => {
-                FrontRepoSingloton.NoteShapeLinks.set(noteshapelink.ID, noteshapelink)
-                FrontRepoSingloton.NoteShapeLinks_batch.set(noteshapelink.ID, noteshapelink)
+                this.frontRepo.NoteShapeLinks.set(noteshapelink.ID, noteshapelink)
+                this.frontRepo.NoteShapeLinks_batch.set(noteshapelink.ID, noteshapelink)
 
                 // insertion point for redeeming ONE/ZERO-ONE associations
 
                 // insertion point for redeeming ONE-MANY associations
                 // insertion point for slice of pointer field NoteShape.NoteShapeLinks redeeming
                 {
-                  let _noteshape = FrontRepoSingloton.NoteShapes.get(noteshapelink.NoteShape_NoteShapeLinksDBID.Int64)
+                  let _noteshape = this.frontRepo.NoteShapes.get(noteshapelink.NoteShape_NoteShapeLinksDBID.Int64)
                   if (_noteshape) {
                     if (_noteshape.NoteShapeLinks == undefined) {
                       _noteshape.NoteShapeLinks = new Array<NoteShapeLinkDB>()
@@ -1770,10 +1770,10 @@ export class FrontRepoService {
             )
 
             // clear noteshapelinks that are absent from the GET
-            FrontRepoSingloton.NoteShapeLinks.forEach(
+            this.frontRepo.NoteShapeLinks.forEach(
               noteshapelink => {
-                if (FrontRepoSingloton.NoteShapeLinks_batch.get(noteshapelink.ID) == undefined) {
-                  FrontRepoSingloton.NoteShapeLinks.delete(noteshapelink.ID)
+                if (this.frontRepo.NoteShapeLinks_batch.get(noteshapelink.ID) == undefined) {
+                  this.frontRepo.NoteShapeLinks.delete(noteshapelink.ID)
                 }
               }
             )
@@ -1783,7 +1783,7 @@ export class FrontRepoService {
             // insertion point sub template 
 
             // hand over control flow to observer
-            observer.next(FrontRepoSingloton)
+            observer.next(this.frontRepo)
           }
         )
       }
@@ -1801,18 +1801,18 @@ export class FrontRepoService {
             positions,
           ]) => {
             // init the array
-            FrontRepoSingloton.Positions_array = positions
+            this.frontRepo.Positions_array = positions
 
             // clear the map that counts Position in the GET
-            FrontRepoSingloton.Positions_batch.clear()
+            this.frontRepo.Positions_batch.clear()
 
             // 
             // First Step: init map of instances
             // insertion point sub template 
             positions.forEach(
               position => {
-                FrontRepoSingloton.Positions.set(position.ID, position)
-                FrontRepoSingloton.Positions_batch.set(position.ID, position)
+                this.frontRepo.Positions.set(position.ID, position)
+                this.frontRepo.Positions_batch.set(position.ID, position)
 
                 // insertion point for redeeming ONE/ZERO-ONE associations
 
@@ -1821,10 +1821,10 @@ export class FrontRepoService {
             )
 
             // clear positions that are absent from the GET
-            FrontRepoSingloton.Positions.forEach(
+            this.frontRepo.Positions.forEach(
               position => {
-                if (FrontRepoSingloton.Positions_batch.get(position.ID) == undefined) {
-                  FrontRepoSingloton.Positions.delete(position.ID)
+                if (this.frontRepo.Positions_batch.get(position.ID) == undefined) {
+                  this.frontRepo.Positions.delete(position.ID)
                 }
               }
             )
@@ -1834,7 +1834,7 @@ export class FrontRepoService {
             // insertion point sub template 
 
             // hand over control flow to observer
-            observer.next(FrontRepoSingloton)
+            observer.next(this.frontRepo)
           }
         )
       }
@@ -1852,18 +1852,18 @@ export class FrontRepoService {
             trees,
           ]) => {
             // init the array
-            FrontRepoSingloton.Trees_array = trees
+            this.frontRepo.Trees_array = trees
 
             // clear the map that counts Tree in the GET
-            FrontRepoSingloton.Trees_batch.clear()
+            this.frontRepo.Trees_batch.clear()
 
             // 
             // First Step: init map of instances
             // insertion point sub template 
             trees.forEach(
               tree => {
-                FrontRepoSingloton.Trees.set(tree.ID, tree)
-                FrontRepoSingloton.Trees_batch.set(tree.ID, tree)
+                this.frontRepo.Trees.set(tree.ID, tree)
+                this.frontRepo.Trees_batch.set(tree.ID, tree)
 
                 // insertion point for redeeming ONE/ZERO-ONE associations
 
@@ -1872,10 +1872,10 @@ export class FrontRepoService {
             )
 
             // clear trees that are absent from the GET
-            FrontRepoSingloton.Trees.forEach(
+            this.frontRepo.Trees.forEach(
               tree => {
-                if (FrontRepoSingloton.Trees_batch.get(tree.ID) == undefined) {
-                  FrontRepoSingloton.Trees.delete(tree.ID)
+                if (this.frontRepo.Trees_batch.get(tree.ID) == undefined) {
+                  this.frontRepo.Trees.delete(tree.ID)
                 }
               }
             )
@@ -1885,7 +1885,7 @@ export class FrontRepoService {
             // insertion point sub template 
 
             // hand over control flow to observer
-            observer.next(FrontRepoSingloton)
+            observer.next(this.frontRepo)
           }
         )
       }
@@ -1903,25 +1903,25 @@ export class FrontRepoService {
             umlstates,
           ]) => {
             // init the array
-            FrontRepoSingloton.UmlStates_array = umlstates
+            this.frontRepo.UmlStates_array = umlstates
 
             // clear the map that counts UmlState in the GET
-            FrontRepoSingloton.UmlStates_batch.clear()
+            this.frontRepo.UmlStates_batch.clear()
 
             // 
             // First Step: init map of instances
             // insertion point sub template 
             umlstates.forEach(
               umlstate => {
-                FrontRepoSingloton.UmlStates.set(umlstate.ID, umlstate)
-                FrontRepoSingloton.UmlStates_batch.set(umlstate.ID, umlstate)
+                this.frontRepo.UmlStates.set(umlstate.ID, umlstate)
+                this.frontRepo.UmlStates_batch.set(umlstate.ID, umlstate)
 
                 // insertion point for redeeming ONE/ZERO-ONE associations
 
                 // insertion point for redeeming ONE-MANY associations
                 // insertion point for slice of pointer field Umlsc.States redeeming
                 {
-                  let _umlsc = FrontRepoSingloton.Umlscs.get(umlstate.Umlsc_StatesDBID.Int64)
+                  let _umlsc = this.frontRepo.Umlscs.get(umlstate.Umlsc_StatesDBID.Int64)
                   if (_umlsc) {
                     if (_umlsc.States == undefined) {
                       _umlsc.States = new Array<UmlStateDB>()
@@ -1936,10 +1936,10 @@ export class FrontRepoService {
             )
 
             // clear umlstates that are absent from the GET
-            FrontRepoSingloton.UmlStates.forEach(
+            this.frontRepo.UmlStates.forEach(
               umlstate => {
-                if (FrontRepoSingloton.UmlStates_batch.get(umlstate.ID) == undefined) {
-                  FrontRepoSingloton.UmlStates.delete(umlstate.ID)
+                if (this.frontRepo.UmlStates_batch.get(umlstate.ID) == undefined) {
+                  this.frontRepo.UmlStates.delete(umlstate.ID)
                 }
               }
             )
@@ -1949,7 +1949,7 @@ export class FrontRepoService {
             // insertion point sub template 
 
             // hand over control flow to observer
-            observer.next(FrontRepoSingloton)
+            observer.next(this.frontRepo)
           }
         )
       }
@@ -1967,25 +1967,25 @@ export class FrontRepoService {
             umlscs,
           ]) => {
             // init the array
-            FrontRepoSingloton.Umlscs_array = umlscs
+            this.frontRepo.Umlscs_array = umlscs
 
             // clear the map that counts Umlsc in the GET
-            FrontRepoSingloton.Umlscs_batch.clear()
+            this.frontRepo.Umlscs_batch.clear()
 
             // 
             // First Step: init map of instances
             // insertion point sub template 
             umlscs.forEach(
               umlsc => {
-                FrontRepoSingloton.Umlscs.set(umlsc.ID, umlsc)
-                FrontRepoSingloton.Umlscs_batch.set(umlsc.ID, umlsc)
+                this.frontRepo.Umlscs.set(umlsc.ID, umlsc)
+                this.frontRepo.Umlscs_batch.set(umlsc.ID, umlsc)
 
                 // insertion point for redeeming ONE/ZERO-ONE associations
 
                 // insertion point for redeeming ONE-MANY associations
                 // insertion point for slice of pointer field DiagramPackage.Umlscs redeeming
                 {
-                  let _diagrampackage = FrontRepoSingloton.DiagramPackages.get(umlsc.DiagramPackage_UmlscsDBID.Int64)
+                  let _diagrampackage = this.frontRepo.DiagramPackages.get(umlsc.DiagramPackage_UmlscsDBID.Int64)
                   if (_diagrampackage) {
                     if (_diagrampackage.Umlscs == undefined) {
                       _diagrampackage.Umlscs = new Array<UmlscDB>()
@@ -2000,10 +2000,10 @@ export class FrontRepoService {
             )
 
             // clear umlscs that are absent from the GET
-            FrontRepoSingloton.Umlscs.forEach(
+            this.frontRepo.Umlscs.forEach(
               umlsc => {
-                if (FrontRepoSingloton.Umlscs_batch.get(umlsc.ID) == undefined) {
-                  FrontRepoSingloton.Umlscs.delete(umlsc.ID)
+                if (this.frontRepo.Umlscs_batch.get(umlsc.ID) == undefined) {
+                  this.frontRepo.Umlscs.delete(umlsc.ID)
                 }
               }
             )
@@ -2013,7 +2013,7 @@ export class FrontRepoService {
             // insertion point sub template 
 
             // hand over control flow to observer
-            observer.next(FrontRepoSingloton)
+            observer.next(this.frontRepo)
           }
         )
       }
@@ -2031,18 +2031,18 @@ export class FrontRepoService {
             vertices,
           ]) => {
             // init the array
-            FrontRepoSingloton.Vertices_array = vertices
+            this.frontRepo.Vertices_array = vertices
 
             // clear the map that counts Vertice in the GET
-            FrontRepoSingloton.Vertices_batch.clear()
+            this.frontRepo.Vertices_batch.clear()
 
             // 
             // First Step: init map of instances
             // insertion point sub template 
             vertices.forEach(
               vertice => {
-                FrontRepoSingloton.Vertices.set(vertice.ID, vertice)
-                FrontRepoSingloton.Vertices_batch.set(vertice.ID, vertice)
+                this.frontRepo.Vertices.set(vertice.ID, vertice)
+                this.frontRepo.Vertices_batch.set(vertice.ID, vertice)
 
                 // insertion point for redeeming ONE/ZERO-ONE associations
 
@@ -2051,10 +2051,10 @@ export class FrontRepoService {
             )
 
             // clear vertices that are absent from the GET
-            FrontRepoSingloton.Vertices.forEach(
+            this.frontRepo.Vertices.forEach(
               vertice => {
-                if (FrontRepoSingloton.Vertices_batch.get(vertice.ID) == undefined) {
-                  FrontRepoSingloton.Vertices.delete(vertice.ID)
+                if (this.frontRepo.Vertices_batch.get(vertice.ID) == undefined) {
+                  this.frontRepo.Vertices.delete(vertice.ID)
                 }
               }
             )
@@ -2064,7 +2064,7 @@ export class FrontRepoService {
             // insertion point sub template 
 
             // hand over control flow to observer
-            observer.next(FrontRepoSingloton)
+            observer.next(this.frontRepo)
           }
         )
       }

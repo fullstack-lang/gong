@@ -1039,43 +1039,35 @@ type GongstructMapString interface {
 
 // GongGetSet returns the set staged GongstructType instances
 // it is usefull because it allows refactoring of gong struct identifier
-func GongGetSet[Type GongstructSet](stages ...*StageStruct) *Type {
+func GongGetSet[Type GongstructSet](stage *StageStruct) *Type {
 	var ret Type
-
-	var stage *StageStruct
-	_ = stage
-	if len(stages) > 0 {
-		stage = stages[0]
-	} else {
-		stage = _stage
-	}
-
+	
 	switch any(ret).(type) {
 	// insertion point for generic get functions
 	case map[*GongBasicField]any:
-		return any(stage.GongBasicFields).(*Type)
+		return any(&stage.GongBasicFields).(*Type)
 	case map[*GongEnum]any:
-		return any(stage.GongEnums).(*Type)
+		return any(&stage.GongEnums).(*Type)
 	case map[*GongEnumValue]any:
-		return any(stage.GongEnumValues).(*Type)
+		return any(&stage.GongEnumValues).(*Type)
 	case map[*GongLink]any:
-		return any(stage.GongLinks).(*Type)
+		return any(&stage.GongLinks).(*Type)
 	case map[*GongNote]any:
-		return any(stage.GongNotes).(*Type)
+		return any(&stage.GongNotes).(*Type)
 	case map[*GongStruct]any:
-		return any(stage.GongStructs).(*Type)
+		return any(&stage.GongStructs).(*Type)
 	case map[*GongTimeField]any:
-		return any(stage.GongTimeFields).(*Type)
+		return any(&stage.GongTimeFields).(*Type)
 	case map[*Meta]any:
-		return any(stage.Metas).(*Type)
+		return any(&stage.Metas).(*Type)
 	case map[*MetaReference]any:
-		return any(stage.MetaReferences).(*Type)
+		return any(&stage.MetaReferences).(*Type)
 	case map[*ModelPkg]any:
-		return any(stage.ModelPkgs).(*Type)
+		return any(&stage.ModelPkgs).(*Type)
 	case map[*PointerToGongStructField]any:
-		return any(stage.PointerToGongStructFields).(*Type)
+		return any(&stage.PointerToGongStructFields).(*Type)
 	case map[*SliceOfPointerToGongStructField]any:
-		return any(stage.SliceOfPointerToGongStructFields).(*Type)
+		return any(&stage.SliceOfPointerToGongStructFields).(*Type)
 	default:
 		return nil
 	}
@@ -1083,43 +1075,35 @@ func GongGetSet[Type GongstructSet](stages ...*StageStruct) *Type {
 
 // GongGetMap returns the map of staged GongstructType instances
 // it is usefull because it allows refactoring of gong struct identifier
-func GongGetMap[Type GongstructMapString](stages ...*StageStruct) *Type {
+func GongGetMap[Type GongstructMapString](stage *StageStruct) *Type {
 	var ret Type
-
-	var stage *StageStruct
-	_ = stage
-	if len(stages) > 0 {
-		stage = stages[0]
-	} else {
-		stage = _stage
-	}
 
 	switch any(ret).(type) {
 	// insertion point for generic get functions
 	case map[string]*GongBasicField:
-		return any(stage.GongBasicFields_mapString).(*Type)
+		return any(&stage.GongBasicFields_mapString).(*Type)
 	case map[string]*GongEnum:
-		return any(stage.GongEnums_mapString).(*Type)
+		return any(&stage.GongEnums_mapString).(*Type)
 	case map[string]*GongEnumValue:
-		return any(stage.GongEnumValues_mapString).(*Type)
+		return any(&stage.GongEnumValues_mapString).(*Type)
 	case map[string]*GongLink:
-		return any(stage.GongLinks_mapString).(*Type)
+		return any(&stage.GongLinks_mapString).(*Type)
 	case map[string]*GongNote:
-		return any(stage.GongNotes_mapString).(*Type)
+		return any(&stage.GongNotes_mapString).(*Type)
 	case map[string]*GongStruct:
-		return any(stage.GongStructs_mapString).(*Type)
+		return any(&stage.GongStructs_mapString).(*Type)
 	case map[string]*GongTimeField:
-		return any(stage.GongTimeFields_mapString).(*Type)
+		return any(&stage.GongTimeFields_mapString).(*Type)
 	case map[string]*Meta:
-		return any(stage.Metas_mapString).(*Type)
+		return any(&stage.Metas_mapString).(*Type)
 	case map[string]*MetaReference:
-		return any(stage.MetaReferences_mapString).(*Type)
+		return any(&stage.MetaReferences_mapString).(*Type)
 	case map[string]*ModelPkg:
-		return any(stage.ModelPkgs_mapString).(*Type)
+		return any(&stage.ModelPkgs_mapString).(*Type)
 	case map[string]*PointerToGongStructField:
-		return any(stage.PointerToGongStructFields_mapString).(*Type)
+		return any(&stage.PointerToGongStructFields_mapString).(*Type)
 	case map[string]*SliceOfPointerToGongStructField:
-		return any(stage.SliceOfPointerToGongStructFields_mapString).(*Type)
+		return any(&stage.SliceOfPointerToGongStructFields_mapString).(*Type)
 	default:
 		return nil
 	}
@@ -1127,16 +1111,8 @@ func GongGetMap[Type GongstructMapString](stages ...*StageStruct) *Type {
 
 // GetGongstructInstancesSet returns the set staged GongstructType instances
 // it is usefull because it allows refactoring of gongstruct identifier
-func GetGongstructInstancesSet[Type Gongstruct](stages ...*StageStruct) *map[*Type]any {
+func GetGongstructInstancesSet[Type Gongstruct](stage *StageStruct) *map[*Type]any {
 	var ret Type
-
-	var stage *StageStruct
-	_ = stage
-	if len(stages) > 0 {
-		stage = stages[0]
-	} else {
-		stage = _stage
-	}
 
 	switch any(ret).(type) {
 	// insertion point for generic get functions
@@ -1171,16 +1147,8 @@ func GetGongstructInstancesSet[Type Gongstruct](stages ...*StageStruct) *map[*Ty
 
 // GetGongstructInstancesMap returns the map of staged GongstructType instances
 // it is usefull because it allows refactoring of gong struct identifier
-func GetGongstructInstancesMap[Type Gongstruct](stages ...*StageStruct) *map[string]*Type {
+func GetGongstructInstancesMap[Type Gongstruct](stage *StageStruct) *map[string]*Type {
 	var ret Type
-
-	var stage *StageStruct
-	_ = stage
-	if len(stages) > 0 {
-		stage = stages[0]
-	} else {
-		stage = _stage
-	}
 
 	switch any(ret).(type) {
 	// insertion point for generic get functions
@@ -1302,15 +1270,7 @@ func GetAssociationName[Type Gongstruct]() *Type {
 // The function provides a map with keys as instances of End and values to arrays of *Start
 // the map is construed by iterating over all Start instances and populationg keys with End instances
 // and values with slice of Start instances
-func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stages ...*StageStruct) map[*End][]*Start {
-
-	var stage *StageStruct
-	_ = stage
-	if len(stages) > 0 {
-		stage = stages[0]
-	} else {
-		stage = _stage
-	}
+func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *StageStruct) map[*End][]*Start {
 
 	var ret Start
 
@@ -1437,15 +1397,7 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stages ...*St
 // The function provides a map with keys as instances of End and values to *Start instances
 // the map is construed by iterating over all Start instances and populating keys with End instances
 // and values with the Start instances
-func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stages ...*StageStruct) map[*End]*Start {
-
-	var stage *StageStruct
-	_ = stage
-	if len(stages) > 0 {
-		stage = stages[0]
-	} else {
-		stage = _stage
-	}
+func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage *StageStruct) map[*End]*Start {
 
 	var ret Start
 
