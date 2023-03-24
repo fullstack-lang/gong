@@ -101,7 +101,7 @@ func (diagramPackage *DiagramPackage) UnmarshallOneDiagram(stage *StageStruct, d
 
 		for gongStructShape := range *GetGongstructInstancesSet[GongStructShape]() {
 
-			_, ok := (*gong_models.GetGongstructInstancesMap[gong_models.GongStruct]())[IdentifierToGongObjectName(gongStructShape.Identifier)]
+			_, ok := (*gong_models.GetGongstructInstancesMap[gong_models.GongStruct](diagramPackage.ModelPkg.GetStage()))[IdentifierToGongObjectName(gongStructShape.Identifier)]
 
 			if !ok {
 				log.Println("UnmarshallOneDiagram: In diagram", classdiagram.Name, "unknown note related to note shape", gongStructShape.Identifier)
@@ -120,7 +120,7 @@ func (diagramPackage *DiagramPackage) UnmarshallOneDiagram(stage *StageStruct, d
 		// if a can be traced, this is probably for a lack of diagram maintenance
 		for noteShape := range *GetGongstructInstancesSet[NoteShape]() {
 
-			note, ok := (*gong_models.GetGongstructInstancesMap[gong_models.GongNote]())[IdentifierToGongObjectName(noteShape.Identifier)]
+			note, ok := (*gong_models.GetGongstructInstancesMap[gong_models.GongNote](diagramPackage.ModelPkg.GetStage()))[IdentifierToGongObjectName(noteShape.Identifier)]
 
 			if !ok {
 				log.Println("UnmarshallOneDiagram: In diagram", classdiagram.Name, "unknown note related to note shape", noteShape.Identifier)

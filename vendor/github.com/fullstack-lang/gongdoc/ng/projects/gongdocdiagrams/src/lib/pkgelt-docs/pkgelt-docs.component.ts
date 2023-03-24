@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 import { Router, RouterState } from '@angular/router';
 
@@ -9,23 +9,26 @@ import { Router, RouterState } from '@angular/router';
 })
 export class PkgeltDocsComponent implements OnInit {
 
+  @Input() GONG__StackPath: string = ""
+
   constructor(
     private router: Router,
   ) { }
 
   ngOnInit(): void {
 
-    this.setEditorRouterOutlet()
+    // this.setEditorRouterOutlet()
+    console.log("PkgeltDocsComponent->GONG__StackPath : ", this.GONG__StackPath)
   }
 
   // set editor outlet
   setEditorRouterOutlet() {
 
-    console.log("pkgElt setEditorRouterOutlet ")
+    console.log("pkgElt setEditorRouterOutlet with GONG__StackPath", this.GONG__StackPath)
 
     this.router.navigate([{
       outlets: {
-        diagrameditor: ["classdiagram-detail"]
+        diagrameditor: ["classdiagram-editor", this.GONG__StackPath]
       }
     }]).catch(
       reason => {

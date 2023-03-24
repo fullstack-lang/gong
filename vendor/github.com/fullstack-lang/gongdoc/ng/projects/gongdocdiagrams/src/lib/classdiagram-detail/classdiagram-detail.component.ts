@@ -54,6 +54,9 @@ export class ClassdiagramDetailComponent implements OnInit {
 	}
 
 	ngOnInit(): void {
+
+		
+
 		this.getClassdiagram()
 
 		// observable for changes in structs
