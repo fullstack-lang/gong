@@ -16,6 +16,7 @@ import (
 	"golang.org/x/text/language"
 
 	"github.com/fullstack-lang/gong/go/golang"
+	"github.com/fullstack-lang/gong/go/models"
 	"github.com/fullstack-lang/gong/go/vscode"
 
 	gong_models "github.com/fullstack-lang/gong/go/models"
@@ -58,7 +59,7 @@ func main() {
 	golang.RemoveGeneratedGongFilesButDocs(*pkgPath)
 
 	// initiate model package
-	modelPkg, _ := gong_models.LoadSource(*pkgPath)
+	modelPkg, _ := gong_models.LoadSource(models.GetDefaultStage(), *pkgPath)
 
 	// check wether the package name follows gong naming convention
 	if strings.ContainsAny(modelPkg.Name, "-") {
