@@ -39,11 +39,6 @@ export class FrontRepo { // insertion point sub template
   Dstructs_batch = new Map<number, DstructDB>(); // same but only in last GET (for finding repo instances to delete)
 }
 
-//
-// Store of all instances of the stack
-//
-export const FrontRepoSingloton = new (FrontRepo)
-
 // the table component is called in different ways
 //
 // DISPLAY or ASSOCIATION MODE
@@ -96,6 +91,11 @@ export class FrontRepoService {
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
   };
+
+  //
+  // Store of all instances of the stack
+  //
+  frontRepo = new (FrontRepo)
 
   constructor(
     private http: HttpClient, // insertion point sub template 
@@ -194,29 +194,29 @@ export class FrontRepoService {
             // First Step: init map of instances
             // insertion point sub template for init 
             // init the array
-            FrontRepoSingloton.Astructs_array = astructs
+            this.frontRepo.Astructs_array = astructs
 
             // clear the map that counts Astruct in the GET
-            FrontRepoSingloton.Astructs_batch.clear()
+            this.frontRepo.Astructs_batch.clear()
 
             astructs.forEach(
               astruct => {
-                FrontRepoSingloton.Astructs.set(astruct.ID, astruct)
-                FrontRepoSingloton.Astructs_batch.set(astruct.ID, astruct)
+                this.frontRepo.Astructs.set(astruct.ID, astruct)
+                this.frontRepo.Astructs_batch.set(astruct.ID, astruct)
               }
             )
 
             // clear astructs that are absent from the batch
-            FrontRepoSingloton.Astructs.forEach(
+            this.frontRepo.Astructs.forEach(
               astruct => {
-                if (FrontRepoSingloton.Astructs_batch.get(astruct.ID) == undefined) {
-                  FrontRepoSingloton.Astructs.delete(astruct.ID)
+                if (this.frontRepo.Astructs_batch.get(astruct.ID) == undefined) {
+                  this.frontRepo.Astructs.delete(astruct.ID)
                 }
               }
             )
 
             // sort Astructs_array array
-            FrontRepoSingloton.Astructs_array.sort((t1, t2) => {
+            this.frontRepo.Astructs_array.sort((t1, t2) => {
               if (t1.Name > t2.Name) {
                 return 1;
               }
@@ -227,29 +227,29 @@ export class FrontRepoService {
             });
 
             // init the array
-            FrontRepoSingloton.AstructBstruct2Uses_array = astructbstruct2uses
+            this.frontRepo.AstructBstruct2Uses_array = astructbstruct2uses
 
             // clear the map that counts AstructBstruct2Use in the GET
-            FrontRepoSingloton.AstructBstruct2Uses_batch.clear()
+            this.frontRepo.AstructBstruct2Uses_batch.clear()
 
             astructbstruct2uses.forEach(
               astructbstruct2use => {
-                FrontRepoSingloton.AstructBstruct2Uses.set(astructbstruct2use.ID, astructbstruct2use)
-                FrontRepoSingloton.AstructBstruct2Uses_batch.set(astructbstruct2use.ID, astructbstruct2use)
+                this.frontRepo.AstructBstruct2Uses.set(astructbstruct2use.ID, astructbstruct2use)
+                this.frontRepo.AstructBstruct2Uses_batch.set(astructbstruct2use.ID, astructbstruct2use)
               }
             )
 
             // clear astructbstruct2uses that are absent from the batch
-            FrontRepoSingloton.AstructBstruct2Uses.forEach(
+            this.frontRepo.AstructBstruct2Uses.forEach(
               astructbstruct2use => {
-                if (FrontRepoSingloton.AstructBstruct2Uses_batch.get(astructbstruct2use.ID) == undefined) {
-                  FrontRepoSingloton.AstructBstruct2Uses.delete(astructbstruct2use.ID)
+                if (this.frontRepo.AstructBstruct2Uses_batch.get(astructbstruct2use.ID) == undefined) {
+                  this.frontRepo.AstructBstruct2Uses.delete(astructbstruct2use.ID)
                 }
               }
             )
 
             // sort AstructBstruct2Uses_array array
-            FrontRepoSingloton.AstructBstruct2Uses_array.sort((t1, t2) => {
+            this.frontRepo.AstructBstruct2Uses_array.sort((t1, t2) => {
               if (t1.Name > t2.Name) {
                 return 1;
               }
@@ -260,29 +260,29 @@ export class FrontRepoService {
             });
 
             // init the array
-            FrontRepoSingloton.AstructBstructUses_array = astructbstructuses
+            this.frontRepo.AstructBstructUses_array = astructbstructuses
 
             // clear the map that counts AstructBstructUse in the GET
-            FrontRepoSingloton.AstructBstructUses_batch.clear()
+            this.frontRepo.AstructBstructUses_batch.clear()
 
             astructbstructuses.forEach(
               astructbstructuse => {
-                FrontRepoSingloton.AstructBstructUses.set(astructbstructuse.ID, astructbstructuse)
-                FrontRepoSingloton.AstructBstructUses_batch.set(astructbstructuse.ID, astructbstructuse)
+                this.frontRepo.AstructBstructUses.set(astructbstructuse.ID, astructbstructuse)
+                this.frontRepo.AstructBstructUses_batch.set(astructbstructuse.ID, astructbstructuse)
               }
             )
 
             // clear astructbstructuses that are absent from the batch
-            FrontRepoSingloton.AstructBstructUses.forEach(
+            this.frontRepo.AstructBstructUses.forEach(
               astructbstructuse => {
-                if (FrontRepoSingloton.AstructBstructUses_batch.get(astructbstructuse.ID) == undefined) {
-                  FrontRepoSingloton.AstructBstructUses.delete(astructbstructuse.ID)
+                if (this.frontRepo.AstructBstructUses_batch.get(astructbstructuse.ID) == undefined) {
+                  this.frontRepo.AstructBstructUses.delete(astructbstructuse.ID)
                 }
               }
             )
 
             // sort AstructBstructUses_array array
-            FrontRepoSingloton.AstructBstructUses_array.sort((t1, t2) => {
+            this.frontRepo.AstructBstructUses_array.sort((t1, t2) => {
               if (t1.Name > t2.Name) {
                 return 1;
               }
@@ -293,29 +293,29 @@ export class FrontRepoService {
             });
 
             // init the array
-            FrontRepoSingloton.Bstructs_array = bstructs
+            this.frontRepo.Bstructs_array = bstructs
 
             // clear the map that counts Bstruct in the GET
-            FrontRepoSingloton.Bstructs_batch.clear()
+            this.frontRepo.Bstructs_batch.clear()
 
             bstructs.forEach(
               bstruct => {
-                FrontRepoSingloton.Bstructs.set(bstruct.ID, bstruct)
-                FrontRepoSingloton.Bstructs_batch.set(bstruct.ID, bstruct)
+                this.frontRepo.Bstructs.set(bstruct.ID, bstruct)
+                this.frontRepo.Bstructs_batch.set(bstruct.ID, bstruct)
               }
             )
 
             // clear bstructs that are absent from the batch
-            FrontRepoSingloton.Bstructs.forEach(
+            this.frontRepo.Bstructs.forEach(
               bstruct => {
-                if (FrontRepoSingloton.Bstructs_batch.get(bstruct.ID) == undefined) {
-                  FrontRepoSingloton.Bstructs.delete(bstruct.ID)
+                if (this.frontRepo.Bstructs_batch.get(bstruct.ID) == undefined) {
+                  this.frontRepo.Bstructs.delete(bstruct.ID)
                 }
               }
             )
 
             // sort Bstructs_array array
-            FrontRepoSingloton.Bstructs_array.sort((t1, t2) => {
+            this.frontRepo.Bstructs_array.sort((t1, t2) => {
               if (t1.Name > t2.Name) {
                 return 1;
               }
@@ -326,29 +326,29 @@ export class FrontRepoService {
             });
 
             // init the array
-            FrontRepoSingloton.Dstructs_array = dstructs
+            this.frontRepo.Dstructs_array = dstructs
 
             // clear the map that counts Dstruct in the GET
-            FrontRepoSingloton.Dstructs_batch.clear()
+            this.frontRepo.Dstructs_batch.clear()
 
             dstructs.forEach(
               dstruct => {
-                FrontRepoSingloton.Dstructs.set(dstruct.ID, dstruct)
-                FrontRepoSingloton.Dstructs_batch.set(dstruct.ID, dstruct)
+                this.frontRepo.Dstructs.set(dstruct.ID, dstruct)
+                this.frontRepo.Dstructs_batch.set(dstruct.ID, dstruct)
               }
             )
 
             // clear dstructs that are absent from the batch
-            FrontRepoSingloton.Dstructs.forEach(
+            this.frontRepo.Dstructs.forEach(
               dstruct => {
-                if (FrontRepoSingloton.Dstructs_batch.get(dstruct.ID) == undefined) {
-                  FrontRepoSingloton.Dstructs.delete(dstruct.ID)
+                if (this.frontRepo.Dstructs_batch.get(dstruct.ID) == undefined) {
+                  this.frontRepo.Dstructs.delete(dstruct.ID)
                 }
               }
             )
 
             // sort Dstructs_array array
-            FrontRepoSingloton.Dstructs_array.sort((t1, t2) => {
+            this.frontRepo.Dstructs_array.sort((t1, t2) => {
               if (t1.Name > t2.Name) {
                 return 1;
               }
@@ -367,63 +367,63 @@ export class FrontRepoService {
                 // insertion point sub sub template for ONE-/ZERO-ONE associations pointers redeeming
                 // insertion point for pointer field Bstruct redeeming
                 {
-                  let _bstruct = FrontRepoSingloton.Bstructs.get(astruct.BstructID.Int64)
+                  let _bstruct = this.frontRepo.Bstructs.get(astruct.BstructID.Int64)
                   if (_bstruct) {
                     astruct.Bstruct = _bstruct
                   }
                 }
                 // insertion point for pointer field Bstruct2 redeeming
                 {
-                  let _bstruct = FrontRepoSingloton.Bstructs.get(astruct.Bstruct2ID.Int64)
+                  let _bstruct = this.frontRepo.Bstructs.get(astruct.Bstruct2ID.Int64)
                   if (_bstruct) {
                     astruct.Bstruct2 = _bstruct
                   }
                 }
                 // insertion point for pointer field Dstruct redeeming
                 {
-                  let _dstruct = FrontRepoSingloton.Dstructs.get(astruct.DstructID.Int64)
+                  let _dstruct = this.frontRepo.Dstructs.get(astruct.DstructID.Int64)
                   if (_dstruct) {
                     astruct.Dstruct = _dstruct
                   }
                 }
                 // insertion point for pointer field Dstruct2 redeeming
                 {
-                  let _dstruct = FrontRepoSingloton.Dstructs.get(astruct.Dstruct2ID.Int64)
+                  let _dstruct = this.frontRepo.Dstructs.get(astruct.Dstruct2ID.Int64)
                   if (_dstruct) {
                     astruct.Dstruct2 = _dstruct
                   }
                 }
                 // insertion point for pointer field Dstruct3 redeeming
                 {
-                  let _dstruct = FrontRepoSingloton.Dstructs.get(astruct.Dstruct3ID.Int64)
+                  let _dstruct = this.frontRepo.Dstructs.get(astruct.Dstruct3ID.Int64)
                   if (_dstruct) {
                     astruct.Dstruct3 = _dstruct
                   }
                 }
                 // insertion point for pointer field Dstruct4 redeeming
                 {
-                  let _dstruct = FrontRepoSingloton.Dstructs.get(astruct.Dstruct4ID.Int64)
+                  let _dstruct = this.frontRepo.Dstructs.get(astruct.Dstruct4ID.Int64)
                   if (_dstruct) {
                     astruct.Dstruct4 = _dstruct
                   }
                 }
                 // insertion point for pointer field Associationtob redeeming
                 {
-                  let _bstruct = FrontRepoSingloton.Bstructs.get(astruct.AssociationtobID.Int64)
+                  let _bstruct = this.frontRepo.Bstructs.get(astruct.AssociationtobID.Int64)
                   if (_bstruct) {
                     astruct.Associationtob = _bstruct
                   }
                 }
                 // insertion point for pointer field Anotherassociationtob_2 redeeming
                 {
-                  let _bstruct = FrontRepoSingloton.Bstructs.get(astruct.Anotherassociationtob_2ID.Int64)
+                  let _bstruct = this.frontRepo.Bstructs.get(astruct.Anotherassociationtob_2ID.Int64)
                   if (_bstruct) {
                     astruct.Anotherassociationtob_2 = _bstruct
                   }
                 }
                 // insertion point for pointer field AnAstruct redeeming
                 {
-                  let _astruct = FrontRepoSingloton.Astructs.get(astruct.AnAstructID.Int64)
+                  let _astruct = this.frontRepo.Astructs.get(astruct.AnAstructID.Int64)
                   if (_astruct) {
                     astruct.AnAstruct = _astruct
                   }
@@ -432,7 +432,7 @@ export class FrontRepoService {
                 // insertion point for redeeming ONE-MANY associations
                 // insertion point for slice of pointer field Astruct.Anarrayofa redeeming
                 {
-                  let _astruct = FrontRepoSingloton.Astructs.get(astruct.Astruct_AnarrayofaDBID.Int64)
+                  let _astruct = this.frontRepo.Astructs.get(astruct.Astruct_AnarrayofaDBID.Int64)
                   if (_astruct) {
                     if (_astruct.Anarrayofa == undefined) {
                       _astruct.Anarrayofa = new Array<AstructDB>()
@@ -450,7 +450,7 @@ export class FrontRepoService {
                 // insertion point sub sub template for ONE-/ZERO-ONE associations pointers redeeming
                 // insertion point for pointer field Bstrcut2 redeeming
                 {
-                  let _bstruct = FrontRepoSingloton.Bstructs.get(astructbstruct2use.Bstrcut2ID.Int64)
+                  let _bstruct = this.frontRepo.Bstructs.get(astructbstruct2use.Bstrcut2ID.Int64)
                   if (_bstruct) {
                     astructbstruct2use.Bstrcut2 = _bstruct
                   }
@@ -459,7 +459,7 @@ export class FrontRepoService {
                 // insertion point for redeeming ONE-MANY associations
                 // insertion point for slice of pointer field Astruct.Anarrayofb2Use redeeming
                 {
-                  let _astruct = FrontRepoSingloton.Astructs.get(astructbstruct2use.Astruct_Anarrayofb2UseDBID.Int64)
+                  let _astruct = this.frontRepo.Astructs.get(astructbstruct2use.Astruct_Anarrayofb2UseDBID.Int64)
                   if (_astruct) {
                     if (_astruct.Anarrayofb2Use == undefined) {
                       _astruct.Anarrayofb2Use = new Array<AstructBstruct2UseDB>()
@@ -477,7 +477,7 @@ export class FrontRepoService {
                 // insertion point sub sub template for ONE-/ZERO-ONE associations pointers redeeming
                 // insertion point for pointer field Bstruct2 redeeming
                 {
-                  let _bstruct = FrontRepoSingloton.Bstructs.get(astructbstructuse.Bstruct2ID.Int64)
+                  let _bstruct = this.frontRepo.Bstructs.get(astructbstructuse.Bstruct2ID.Int64)
                   if (_bstruct) {
                     astructbstructuse.Bstruct2 = _bstruct
                   }
@@ -486,7 +486,7 @@ export class FrontRepoService {
                 // insertion point for redeeming ONE-MANY associations
                 // insertion point for slice of pointer field Astruct.AnarrayofbUse redeeming
                 {
-                  let _astruct = FrontRepoSingloton.Astructs.get(astructbstructuse.Astruct_AnarrayofbUseDBID.Int64)
+                  let _astruct = this.frontRepo.Astructs.get(astructbstructuse.Astruct_AnarrayofbUseDBID.Int64)
                   if (_astruct) {
                     if (_astruct.AnarrayofbUse == undefined) {
                       _astruct.AnarrayofbUse = new Array<AstructBstructUseDB>()
@@ -506,7 +506,7 @@ export class FrontRepoService {
                 // insertion point for redeeming ONE-MANY associations
                 // insertion point for slice of pointer field Astruct.Anarrayofb redeeming
                 {
-                  let _astruct = FrontRepoSingloton.Astructs.get(bstruct.Astruct_AnarrayofbDBID.Int64)
+                  let _astruct = this.frontRepo.Astructs.get(bstruct.Astruct_AnarrayofbDBID.Int64)
                   if (_astruct) {
                     if (_astruct.Anarrayofb == undefined) {
                       _astruct.Anarrayofb = new Array<BstructDB>()
@@ -519,7 +519,7 @@ export class FrontRepoService {
                 }
                 // insertion point for slice of pointer field Astruct.Anotherarrayofb redeeming
                 {
-                  let _astruct = FrontRepoSingloton.Astructs.get(bstruct.Astruct_AnotherarrayofbDBID.Int64)
+                  let _astruct = this.frontRepo.Astructs.get(bstruct.Astruct_AnotherarrayofbDBID.Int64)
                   if (_astruct) {
                     if (_astruct.Anotherarrayofb == undefined) {
                       _astruct.Anotherarrayofb = new Array<BstructDB>()
@@ -541,7 +541,7 @@ export class FrontRepoService {
             )
 
             // hand over control flow to observer
-            observer.next(FrontRepoSingloton)
+            observer.next(this.frontRepo)
           }
         )
       }
@@ -561,79 +561,79 @@ export class FrontRepoService {
             astructs,
           ]) => {
             // init the array
-            FrontRepoSingloton.Astructs_array = astructs
+            this.frontRepo.Astructs_array = astructs
 
             // clear the map that counts Astruct in the GET
-            FrontRepoSingloton.Astructs_batch.clear()
+            this.frontRepo.Astructs_batch.clear()
 
             // 
             // First Step: init map of instances
             // insertion point sub template 
             astructs.forEach(
               astruct => {
-                FrontRepoSingloton.Astructs.set(astruct.ID, astruct)
-                FrontRepoSingloton.Astructs_batch.set(astruct.ID, astruct)
+                this.frontRepo.Astructs.set(astruct.ID, astruct)
+                this.frontRepo.Astructs_batch.set(astruct.ID, astruct)
 
                 // insertion point for redeeming ONE/ZERO-ONE associations
                 // insertion point for pointer field Bstruct redeeming
                 {
-                  let _bstruct = FrontRepoSingloton.Bstructs.get(astruct.BstructID.Int64)
+                  let _bstruct = this.frontRepo.Bstructs.get(astruct.BstructID.Int64)
                   if (_bstruct) {
                     astruct.Bstruct = _bstruct
                   }
                 }
                 // insertion point for pointer field Bstruct2 redeeming
                 {
-                  let _bstruct = FrontRepoSingloton.Bstructs.get(astruct.Bstruct2ID.Int64)
+                  let _bstruct = this.frontRepo.Bstructs.get(astruct.Bstruct2ID.Int64)
                   if (_bstruct) {
                     astruct.Bstruct2 = _bstruct
                   }
                 }
                 // insertion point for pointer field Dstruct redeeming
                 {
-                  let _dstruct = FrontRepoSingloton.Dstructs.get(astruct.DstructID.Int64)
+                  let _dstruct = this.frontRepo.Dstructs.get(astruct.DstructID.Int64)
                   if (_dstruct) {
                     astruct.Dstruct = _dstruct
                   }
                 }
                 // insertion point for pointer field Dstruct2 redeeming
                 {
-                  let _dstruct = FrontRepoSingloton.Dstructs.get(astruct.Dstruct2ID.Int64)
+                  let _dstruct = this.frontRepo.Dstructs.get(astruct.Dstruct2ID.Int64)
                   if (_dstruct) {
                     astruct.Dstruct2 = _dstruct
                   }
                 }
                 // insertion point for pointer field Dstruct3 redeeming
                 {
-                  let _dstruct = FrontRepoSingloton.Dstructs.get(astruct.Dstruct3ID.Int64)
+                  let _dstruct = this.frontRepo.Dstructs.get(astruct.Dstruct3ID.Int64)
                   if (_dstruct) {
                     astruct.Dstruct3 = _dstruct
                   }
                 }
                 // insertion point for pointer field Dstruct4 redeeming
                 {
-                  let _dstruct = FrontRepoSingloton.Dstructs.get(astruct.Dstruct4ID.Int64)
+                  let _dstruct = this.frontRepo.Dstructs.get(astruct.Dstruct4ID.Int64)
                   if (_dstruct) {
                     astruct.Dstruct4 = _dstruct
                   }
                 }
                 // insertion point for pointer field Associationtob redeeming
                 {
-                  let _bstruct = FrontRepoSingloton.Bstructs.get(astruct.AssociationtobID.Int64)
+                  let _bstruct = this.frontRepo.Bstructs.get(astruct.AssociationtobID.Int64)
                   if (_bstruct) {
                     astruct.Associationtob = _bstruct
                   }
                 }
                 // insertion point for pointer field Anotherassociationtob_2 redeeming
                 {
-                  let _bstruct = FrontRepoSingloton.Bstructs.get(astruct.Anotherassociationtob_2ID.Int64)
+                  let _bstruct = this.frontRepo.Bstructs.get(astruct.Anotherassociationtob_2ID.Int64)
                   if (_bstruct) {
                     astruct.Anotherassociationtob_2 = _bstruct
                   }
                 }
                 // insertion point for pointer field AnAstruct redeeming
                 {
-                  let _astruct = FrontRepoSingloton.Astructs.get(astruct.AnAstructID.Int64)
+                  let _astruct = this.frontRepo.Astructs.get(astruct.AnAstructID.Int64)
                   if (_astruct) {
                     astruct.AnAstruct = _astruct
                   }
@@ -642,7 +642,7 @@ export class FrontRepoService {
                 // insertion point for redeeming ONE-MANY associations
                 // insertion point for slice of pointer field Astruct.Anarrayofa redeeming
                 {
-                  let _astruct = FrontRepoSingloton.Astructs.get(astruct.Astruct_AnarrayofaDBID.Int64)
+                  let _astruct = this.frontRepo.Astructs.get(astruct.Astruct_AnarrayofaDBID.Int64)
                   if (_astruct) {
                     if (_astruct.Anarrayofa == undefined) {
                       _astruct.Anarrayofa = new Array<AstructDB>()
@@ -657,10 +657,10 @@ export class FrontRepoService {
             )
 
             // clear astructs that are absent from the GET
-            FrontRepoSingloton.Astructs.forEach(
+            this.frontRepo.Astructs.forEach(
               astruct => {
-                if (FrontRepoSingloton.Astructs_batch.get(astruct.ID) == undefined) {
-                  FrontRepoSingloton.Astructs.delete(astruct.ID)
+                if (this.frontRepo.Astructs_batch.get(astruct.ID) == undefined) {
+                  this.frontRepo.Astructs.delete(astruct.ID)
                 }
               }
             )
@@ -670,7 +670,7 @@ export class FrontRepoService {
             // insertion point sub template 
 
             // hand over control flow to observer
-            observer.next(FrontRepoSingloton)
+            observer.next(this.frontRepo)
           }
         )
       }
@@ -688,23 +688,23 @@ export class FrontRepoService {
             astructbstruct2uses,
           ]) => {
             // init the array
-            FrontRepoSingloton.AstructBstruct2Uses_array = astructbstruct2uses
+            this.frontRepo.AstructBstruct2Uses_array = astructbstruct2uses
 
             // clear the map that counts AstructBstruct2Use in the GET
-            FrontRepoSingloton.AstructBstruct2Uses_batch.clear()
+            this.frontRepo.AstructBstruct2Uses_batch.clear()
 
             // 
             // First Step: init map of instances
             // insertion point sub template 
             astructbstruct2uses.forEach(
               astructbstruct2use => {
-                FrontRepoSingloton.AstructBstruct2Uses.set(astructbstruct2use.ID, astructbstruct2use)
-                FrontRepoSingloton.AstructBstruct2Uses_batch.set(astructbstruct2use.ID, astructbstruct2use)
+                this.frontRepo.AstructBstruct2Uses.set(astructbstruct2use.ID, astructbstruct2use)
+                this.frontRepo.AstructBstruct2Uses_batch.set(astructbstruct2use.ID, astructbstruct2use)
 
                 // insertion point for redeeming ONE/ZERO-ONE associations
                 // insertion point for pointer field Bstrcut2 redeeming
                 {
-                  let _bstruct = FrontRepoSingloton.Bstructs.get(astructbstruct2use.Bstrcut2ID.Int64)
+                  let _bstruct = this.frontRepo.Bstructs.get(astructbstruct2use.Bstrcut2ID.Int64)
                   if (_bstruct) {
                     astructbstruct2use.Bstrcut2 = _bstruct
                   }
@@ -713,7 +713,7 @@ export class FrontRepoService {
                 // insertion point for redeeming ONE-MANY associations
                 // insertion point for slice of pointer field Astruct.Anarrayofb2Use redeeming
                 {
-                  let _astruct = FrontRepoSingloton.Astructs.get(astructbstruct2use.Astruct_Anarrayofb2UseDBID.Int64)
+                  let _astruct = this.frontRepo.Astructs.get(astructbstruct2use.Astruct_Anarrayofb2UseDBID.Int64)
                   if (_astruct) {
                     if (_astruct.Anarrayofb2Use == undefined) {
                       _astruct.Anarrayofb2Use = new Array<AstructBstruct2UseDB>()
@@ -728,10 +728,10 @@ export class FrontRepoService {
             )
 
             // clear astructbstruct2uses that are absent from the GET
-            FrontRepoSingloton.AstructBstruct2Uses.forEach(
+            this.frontRepo.AstructBstruct2Uses.forEach(
               astructbstruct2use => {
-                if (FrontRepoSingloton.AstructBstruct2Uses_batch.get(astructbstruct2use.ID) == undefined) {
-                  FrontRepoSingloton.AstructBstruct2Uses.delete(astructbstruct2use.ID)
+                if (this.frontRepo.AstructBstruct2Uses_batch.get(astructbstruct2use.ID) == undefined) {
+                  this.frontRepo.AstructBstruct2Uses.delete(astructbstruct2use.ID)
                 }
               }
             )
@@ -741,7 +741,7 @@ export class FrontRepoService {
             // insertion point sub template 
 
             // hand over control flow to observer
-            observer.next(FrontRepoSingloton)
+            observer.next(this.frontRepo)
           }
         )
       }
@@ -759,23 +759,23 @@ export class FrontRepoService {
             astructbstructuses,
           ]) => {
             // init the array
-            FrontRepoSingloton.AstructBstructUses_array = astructbstructuses
+            this.frontRepo.AstructBstructUses_array = astructbstructuses
 
             // clear the map that counts AstructBstructUse in the GET
-            FrontRepoSingloton.AstructBstructUses_batch.clear()
+            this.frontRepo.AstructBstructUses_batch.clear()
 
             // 
             // First Step: init map of instances
             // insertion point sub template 
             astructbstructuses.forEach(
               astructbstructuse => {
-                FrontRepoSingloton.AstructBstructUses.set(astructbstructuse.ID, astructbstructuse)
-                FrontRepoSingloton.AstructBstructUses_batch.set(astructbstructuse.ID, astructbstructuse)
+                this.frontRepo.AstructBstructUses.set(astructbstructuse.ID, astructbstructuse)
+                this.frontRepo.AstructBstructUses_batch.set(astructbstructuse.ID, astructbstructuse)
 
                 // insertion point for redeeming ONE/ZERO-ONE associations
                 // insertion point for pointer field Bstruct2 redeeming
                 {
-                  let _bstruct = FrontRepoSingloton.Bstructs.get(astructbstructuse.Bstruct2ID.Int64)
+                  let _bstruct = this.frontRepo.Bstructs.get(astructbstructuse.Bstruct2ID.Int64)
                   if (_bstruct) {
                     astructbstructuse.Bstruct2 = _bstruct
                   }
@@ -784,7 +784,7 @@ export class FrontRepoService {
                 // insertion point for redeeming ONE-MANY associations
                 // insertion point for slice of pointer field Astruct.AnarrayofbUse redeeming
                 {
-                  let _astruct = FrontRepoSingloton.Astructs.get(astructbstructuse.Astruct_AnarrayofbUseDBID.Int64)
+                  let _astruct = this.frontRepo.Astructs.get(astructbstructuse.Astruct_AnarrayofbUseDBID.Int64)
                   if (_astruct) {
                     if (_astruct.AnarrayofbUse == undefined) {
                       _astruct.AnarrayofbUse = new Array<AstructBstructUseDB>()
@@ -799,10 +799,10 @@ export class FrontRepoService {
             )
 
             // clear astructbstructuses that are absent from the GET
-            FrontRepoSingloton.AstructBstructUses.forEach(
+            this.frontRepo.AstructBstructUses.forEach(
               astructbstructuse => {
-                if (FrontRepoSingloton.AstructBstructUses_batch.get(astructbstructuse.ID) == undefined) {
-                  FrontRepoSingloton.AstructBstructUses.delete(astructbstructuse.ID)
+                if (this.frontRepo.AstructBstructUses_batch.get(astructbstructuse.ID) == undefined) {
+                  this.frontRepo.AstructBstructUses.delete(astructbstructuse.ID)
                 }
               }
             )
@@ -812,7 +812,7 @@ export class FrontRepoService {
             // insertion point sub template 
 
             // hand over control flow to observer
-            observer.next(FrontRepoSingloton)
+            observer.next(this.frontRepo)
           }
         )
       }
@@ -830,25 +830,25 @@ export class FrontRepoService {
             bstructs,
           ]) => {
             // init the array
-            FrontRepoSingloton.Bstructs_array = bstructs
+            this.frontRepo.Bstructs_array = bstructs
 
             // clear the map that counts Bstruct in the GET
-            FrontRepoSingloton.Bstructs_batch.clear()
+            this.frontRepo.Bstructs_batch.clear()
 
             // 
             // First Step: init map of instances
             // insertion point sub template 
             bstructs.forEach(
               bstruct => {
-                FrontRepoSingloton.Bstructs.set(bstruct.ID, bstruct)
-                FrontRepoSingloton.Bstructs_batch.set(bstruct.ID, bstruct)
+                this.frontRepo.Bstructs.set(bstruct.ID, bstruct)
+                this.frontRepo.Bstructs_batch.set(bstruct.ID, bstruct)
 
                 // insertion point for redeeming ONE/ZERO-ONE associations
 
                 // insertion point for redeeming ONE-MANY associations
                 // insertion point for slice of pointer field Astruct.Anarrayofb redeeming
                 {
-                  let _astruct = FrontRepoSingloton.Astructs.get(bstruct.Astruct_AnarrayofbDBID.Int64)
+                  let _astruct = this.frontRepo.Astructs.get(bstruct.Astruct_AnarrayofbDBID.Int64)
                   if (_astruct) {
                     if (_astruct.Anarrayofb == undefined) {
                       _astruct.Anarrayofb = new Array<BstructDB>()
@@ -861,7 +861,7 @@ export class FrontRepoService {
                 }
                 // insertion point for slice of pointer field Astruct.Anotherarrayofb redeeming
                 {
-                  let _astruct = FrontRepoSingloton.Astructs.get(bstruct.Astruct_AnotherarrayofbDBID.Int64)
+                  let _astruct = this.frontRepo.Astructs.get(bstruct.Astruct_AnotherarrayofbDBID.Int64)
                   if (_astruct) {
                     if (_astruct.Anotherarrayofb == undefined) {
                       _astruct.Anotherarrayofb = new Array<BstructDB>()
@@ -876,10 +876,10 @@ export class FrontRepoService {
             )
 
             // clear bstructs that are absent from the GET
-            FrontRepoSingloton.Bstructs.forEach(
+            this.frontRepo.Bstructs.forEach(
               bstruct => {
-                if (FrontRepoSingloton.Bstructs_batch.get(bstruct.ID) == undefined) {
-                  FrontRepoSingloton.Bstructs.delete(bstruct.ID)
+                if (this.frontRepo.Bstructs_batch.get(bstruct.ID) == undefined) {
+                  this.frontRepo.Bstructs.delete(bstruct.ID)
                 }
               }
             )
@@ -889,7 +889,7 @@ export class FrontRepoService {
             // insertion point sub template 
 
             // hand over control flow to observer
-            observer.next(FrontRepoSingloton)
+            observer.next(this.frontRepo)
           }
         )
       }
@@ -907,18 +907,18 @@ export class FrontRepoService {
             dstructs,
           ]) => {
             // init the array
-            FrontRepoSingloton.Dstructs_array = dstructs
+            this.frontRepo.Dstructs_array = dstructs
 
             // clear the map that counts Dstruct in the GET
-            FrontRepoSingloton.Dstructs_batch.clear()
+            this.frontRepo.Dstructs_batch.clear()
 
             // 
             // First Step: init map of instances
             // insertion point sub template 
             dstructs.forEach(
               dstruct => {
-                FrontRepoSingloton.Dstructs.set(dstruct.ID, dstruct)
-                FrontRepoSingloton.Dstructs_batch.set(dstruct.ID, dstruct)
+                this.frontRepo.Dstructs.set(dstruct.ID, dstruct)
+                this.frontRepo.Dstructs_batch.set(dstruct.ID, dstruct)
 
                 // insertion point for redeeming ONE/ZERO-ONE associations
 
@@ -927,10 +927,10 @@ export class FrontRepoService {
             )
 
             // clear dstructs that are absent from the GET
-            FrontRepoSingloton.Dstructs.forEach(
+            this.frontRepo.Dstructs.forEach(
               dstruct => {
-                if (FrontRepoSingloton.Dstructs_batch.get(dstruct.ID) == undefined) {
-                  FrontRepoSingloton.Dstructs.delete(dstruct.ID)
+                if (this.frontRepo.Dstructs_batch.get(dstruct.ID) == undefined) {
+                  this.frontRepo.Dstructs.delete(dstruct.ID)
                 }
               }
             )
@@ -940,7 +940,7 @@ export class FrontRepoService {
             // insertion point sub template 
 
             // hand over control flow to observer
-            observer.next(FrontRepoSingloton)
+            observer.next(this.frontRepo)
           }
         )
       }
