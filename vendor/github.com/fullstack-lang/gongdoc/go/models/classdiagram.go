@@ -71,8 +71,8 @@ func (classdiagram *Classdiagram) RemoveGongStructShape(stage *StageStruct, gong
 	//
 	// generate the map to navigate from children to parents
 	fieldName := GetAssociationName[NoteShape]().NoteShapeLinks[0].Name
-	map_NoteShapeLink_NodeShape := GetSliceOfPointersReverseMap[NoteShape, NoteShapeLink](fieldName)
-	for noteShapeLink := range *GetGongstructInstancesSet[NoteShapeLink]() {
+	map_NoteShapeLink_NodeShape := GetSliceOfPointersReverseMap[NoteShape, NoteShapeLink](fieldName, stage)
+	for noteShapeLink := range *GetGongstructInstancesSet[NoteShapeLink](stage) {
 		if noteShapeLink.Name == gongstructshapeName {
 
 			// get the note shape
@@ -169,8 +169,8 @@ func (classdiagram *Classdiagram) RemoveGongEnumShape(stage *StageStruct, gongen
 	//
 	// generate the map to navigate from children to parents
 	fieldName := GetAssociationName[NoteShape]().NoteShapeLinks[0].Name
-	map_NoteShapeLink_NodeShape := GetSliceOfPointersReverseMap[NoteShape, NoteShapeLink](fieldName)
-	for noteShapeLink := range *GetGongstructInstancesSet[NoteShapeLink]() {
+	map_NoteShapeLink_NodeShape := GetSliceOfPointersReverseMap[NoteShape, NoteShapeLink](fieldName, stage)
+	for noteShapeLink := range *GetGongstructInstancesSet[NoteShapeLink](stage) {
 		if noteShapeLink.Name == gongenumshapeName {
 
 			// get the note shape

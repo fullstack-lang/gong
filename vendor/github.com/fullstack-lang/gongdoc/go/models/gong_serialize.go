@@ -8,26 +8,26 @@ import (
 	"github.com/xuri/excelize/v2"
 )
 
-func SerializeStage(filename string) {
+func SerializeStage(stage *StageStruct, filename string) {
 
 	f := excelize.NewFile()
 	{
 		// insertion point
-		SerializeExcelize[Classdiagram](f)
-		SerializeExcelize[DiagramPackage](f)
-		SerializeExcelize[Field](f)
-		SerializeExcelize[GongEnumShape](f)
-		SerializeExcelize[GongEnumValueEntry](f)
-		SerializeExcelize[GongStructShape](f)
-		SerializeExcelize[Link](f)
-		SerializeExcelize[Node](f)
-		SerializeExcelize[NoteShape](f)
-		SerializeExcelize[NoteShapeLink](f)
-		SerializeExcelize[Position](f)
-		SerializeExcelize[Tree](f)
-		SerializeExcelize[UmlState](f)
-		SerializeExcelize[Umlsc](f)
-		SerializeExcelize[Vertice](f)
+		SerializeExcelize[Classdiagram](stage, f)
+		SerializeExcelize[DiagramPackage](stage, f)
+		SerializeExcelize[Field](stage, f)
+		SerializeExcelize[GongEnumShape](stage, f)
+		SerializeExcelize[GongEnumValueEntry](stage, f)
+		SerializeExcelize[GongStructShape](stage, f)
+		SerializeExcelize[Link](stage, f)
+		SerializeExcelize[Node](stage, f)
+		SerializeExcelize[NoteShape](stage, f)
+		SerializeExcelize[NoteShapeLink](stage, f)
+		SerializeExcelize[Position](stage, f)
+		SerializeExcelize[Tree](stage, f)
+		SerializeExcelize[UmlState](stage, f)
+		SerializeExcelize[Umlsc](stage, f)
+		SerializeExcelize[Vertice](stage, f)
 	}
 
 	var tab ExcelizeTabulator
@@ -48,7 +48,7 @@ type Tabulator interface {
 	AddCell(sheetName string, rowId, columnIndex int, value string)
 }
 
-func Serialize[Type Gongstruct](tab Tabulator) {
+func Serialize[Type Gongstruct](stage *StageStruct, tab Tabulator) {
 	sheetName := GetGongstructName[Type]()
 
 	// Create a new sheet.
@@ -60,7 +60,7 @@ func Serialize[Type Gongstruct](tab Tabulator) {
 		// f.SetCellStr(sheetName, fmt.Sprintf("%s%d", IntToLetters(int32(index+1)), line), fieldName)
 	}
 
-	set := *GetGongstructInstancesSet[Type]()
+	set := *GetGongstructInstancesSet[Type](stage)
 	for instance := range set {
 		line := tab.AddRow(sheetName)
 		for index, fieldName := range GetFields[Type]() {
@@ -92,13 +92,13 @@ func (tab *ExcelizeTabulator) AddCell(sheetName string, rowId, columnIndex int, 
 
 }
 
-func SerializeExcelize[Type Gongstruct](f *excelize.File) {
+func SerializeExcelize[Type Gongstruct](stage *StageStruct, f *excelize.File) {
 	sheetName := GetGongstructName[Type]()
 
 	// Create a new sheet.
 	f.NewSheet(sheetName)
 
-	set := *GetGongstructInstancesSet[Type]()
+	set := *GetGongstructInstancesSet[Type](stage)
 	line := 1
 
 	for index, fieldName := range GetFields[Type]() {

@@ -202,7 +202,7 @@ export class TreeComponent implements OnInit {
 
     node.gongNode.IsExpanded = !node.gongNode.IsExpanded
 
-    this.gongdocNodeService.updateNode(node.gongNode, "").subscribe(
+    this.gongdocNodeService.updateNode(node.gongNode, this.GONG__StackPath).subscribe(
       gongdocNode => {
         console.log("toggleNodeExpansion: updated node")
       }
@@ -215,7 +215,7 @@ export class TreeComponent implements OnInit {
     const d = new Date()
     console.log("TreeComponent, toggleNodeCheckbox, " + d.toLocaleTimeString() + `.${d.getMilliseconds()}` + " " + this.name)
     node.gongNode.IsChecked = !node.gongNode.IsChecked
-    this.gongdocNodeService.updateNode(node.gongNode, "").subscribe(
+    this.gongdocNodeService.updateNode(node.gongNode, this.GONG__StackPath).subscribe(
       gongdocNode => {
         const d = new Date()
         console.log("toggleNodeCheckbox: updated node " + d.toLocaleTimeString() + `.${d.getMilliseconds()}` + " " + this.name)
@@ -238,7 +238,7 @@ export class TreeComponent implements OnInit {
     )
 
     node.gongNode.IsExpanded = true
-    this.gongdocNodeService.updateNode(node.gongNode, "").subscribe(
+    this.gongdocNodeService.updateNode(node.gongNode, this.GONG__StackPath).subscribe(
       gongdocNode => {
         console.log("node.gongNode.IsExpanded updated node")
       }
@@ -249,7 +249,7 @@ export class TreeComponent implements OnInit {
 
   setInEditMode(node: FlatNode) {
     node.gongNode.IsInEditMode = true
-    this.gongdocNodeService.updateNode(node.gongNode, "").subscribe(
+    this.gongdocNodeService.updateNode(node.gongNode, this.GONG__StackPath).subscribe(
       gongdocNode => {
         console.log("node.gongNode.IsInEditMode = true, updated node")
       }
@@ -258,7 +258,7 @@ export class TreeComponent implements OnInit {
 
   update(node: FlatNode) {
     node.gongNode.IsInEditMode = false
-    this.gongdocNodeService.updateNode(node.gongNode, "").subscribe(
+    this.gongdocNodeService.updateNode(node.gongNode, this.GONG__StackPath).subscribe(
       gongdocNode => {
         console.log("node.gongNode.IsInEditMode = false, updated node")
       }
@@ -275,7 +275,7 @@ export class TreeComponent implements OnInit {
 
         // and set the edit mode
         node.gongNode.IsInEditMode = false
-        this.gongdocNodeService.updateNode(node.gongNode, "").subscribe(
+        this.gongdocNodeService.updateNode(node.gongNode, this.GONG__StackPath).subscribe(
           gongdocNode => {
             console.log("node.gongNode.IsInEditMode = false, updated node")
           }
@@ -292,7 +292,7 @@ export class TreeComponent implements OnInit {
     // and set the edit mode
     node.gongNode.IsInDrawMode = false
     node.gongNode.IsSaved = false
-    this.gongdocNodeService.updateNode(node.gongNode, "").subscribe(
+    this.gongdocNodeService.updateNode(node.gongNode, this.GONG__StackPath).subscribe(
       gongdocNode => {
         console.log("node.gongNode.IsInDrawMode = false, updated node")
       }
@@ -303,14 +303,14 @@ export class TreeComponent implements OnInit {
   updateDiagram(node: FlatNode) {
 
     node.gongNode.IsSaved = true
-    this.gongdocNodeService.updateNode(node.gongNode, "").subscribe(
+    this.gongdocNodeService.updateNode(node.gongNode, this.GONG__StackPath).subscribe(
       gongdocNode => {
         console.log("node.gongNode.IsSaved = true, updated node")
 
         if (gongdocNode.IsSaved) {
           // and set the edit mode
           node.gongNode.IsInDrawMode = false
-          this.gongdocNodeService.updateNode(node.gongNode, "").subscribe(
+          this.gongdocNodeService.updateNode(node.gongNode, this.GONG__StackPath).subscribe(
             gongdocNode => {
               console.log("gongdocNode.IsSaved, updated node")
             }
@@ -332,7 +332,7 @@ export class TreeComponent implements OnInit {
 
   setInDrawMode(node: FlatNode) {
     node.gongNode.IsInDrawMode = true
-    this.gongdocNodeService.updateNode(node.gongNode, "").subscribe(
+    this.gongdocNodeService.updateNode(node.gongNode, this.GONG__StackPath).subscribe(
       gongdocNode => {
         console.log("setInDrawMode, updated node")
       }
