@@ -126,5 +126,6 @@ func (nodeCb *NodeCB) FillUpTreeOfGongObjects() {
 
 	// generate the map to navigate from children to parents
 	fieldName := gongdoc_models.GetAssociationName[gongdoc_models.Node]().Children[0].Name
-	nodeCb.map_Children_Parent = gongdoc_models.GetSliceOfPointersReverseMap[gongdoc_models.Node, gongdoc_models.Node](fieldName)
+	nodeCb.map_Children_Parent =
+		gongdoc_models.GetSliceOfPointersReverseMap[gongdoc_models.Node, gongdoc_models.Node](fieldName, nodeCb.diagramPackage.Stage_)
 }

@@ -25,5 +25,5 @@ func TestSerialize(t *testing.T) {
 	aclass1.Anarrayofb = append(aclass1.Anarrayofb, bclass2)
 	aclass1.Anarrayofb = append(aclass1.Anarrayofb, bclass1)
 
-	models.SerializeStage("serialize_test.xlsx")
+	models.SerializeStage(stage, "serialize_test.xlsx")
 }

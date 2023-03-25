@@ -46,22 +46,22 @@ func TestStageCallBack(t *testing.T) {
 
 	stage.Commit()
 
-	mapOfAstruct := models.GongGetMap[map[string]*models.Astruct]()
+	mapOfAstruct := models.GongGetMap[map[string]*models.Astruct](stage)
 	for id, astruct := range *mapOfAstruct {
 		log.Println(id, " ", astruct.Name)
 	}
 
-	setOfAstruct := models.GongGetSet[map[*models.Astruct]any]()
+	setOfAstruct := models.GongGetSet[map[*models.Astruct]any](stage)
 	for astruct := range *setOfAstruct {
 		log.Println(" ", astruct.Name)
 	}
 
-	mapOfAstruct = models.GetGongstructInstancesMap[models.Astruct]()
+	mapOfAstruct = models.GetGongstructInstancesMap[models.Astruct](stage)
 	for id, astruct := range *mapOfAstruct {
 		log.Println(id, " ", astruct.Name)
 	}
 
-	setOfAstruct = models.GetGongstructInstancesSet[models.Astruct]()
+	setOfAstruct = models.GetGongstructInstancesSet[models.Astruct](stage)
 	for astruct := range *setOfAstruct {
 		log.Println(" ", astruct.Name)
 	}
@@ -75,28 +75,28 @@ func TestStageCallBack(t *testing.T) {
 	reverseMapAstruct_AssocationTob :=
 		models.GetPointerReverseMap[
 			models.Astruct, models.Bstruct](
-			models.GetAssociationName[models.Astruct]().Associationtob.Name)
+			models.GetAssociationName[models.Astruct]().Associationtob.Name, stage)
 	for _, astruct := range reverseMapAstruct_AssocationTob[bclass1] {
 		log.Println("astruct ", astruct.Name)
 	}
 	reverseMapAstruct_AnAstruct :=
 		models.GetPointerReverseMap[
 			models.Astruct, models.Astruct](
-			models.GetAssociationName[models.Astruct]().AnAstruct.Name)
+			models.GetAssociationName[models.Astruct]().AnAstruct.Name, stage)
 	for _, astruct := range reverseMapAstruct_AnAstruct[aclass2] {
 		log.Println("astruct from aclass2", astruct.Name)
 	}
 	reverseMapAstruct_AnAstruct2 :=
 		models.GetPointerReverseMap[
 			models.Astruct, models.Astruct](
-			models.GetAssociationName[models.Astruct]().AnAstruct.Name)
+			models.GetAssociationName[models.Astruct]().AnAstruct.Name, stage)
 	for _, astruct := range reverseMapAstruct_AnAstruct2[aclass1] {
 		log.Println("astruct from aclass1", astruct.Name)
 	}
 	reverseMapAstruct_AnarrayOfB :=
 		models.GetSliceOfPointersReverseMap[
 			models.Astruct, models.Bstruct](
-			models.GetAssociationName[models.Astruct]().Anarrayofb[0].Name)
+			models.GetAssociationName[models.Astruct]().Anarrayofb[0].Name, stage)
 
 	log.Println("astruct from an array of b", reverseMapAstruct_AnarrayOfB[bclass1].Name)
 
