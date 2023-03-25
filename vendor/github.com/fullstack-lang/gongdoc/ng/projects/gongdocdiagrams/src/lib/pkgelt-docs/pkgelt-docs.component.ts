@@ -17,7 +17,9 @@ export class PkgeltDocsComponent implements OnInit {
 
   ngOnInit(): void {
 
-    // this.setEditorRouterOutlet()
+    // the class diagram editor is setup with a component that has no data
+    // this component will fetch the new commits from the back
+    this.setEditorRouterOutlet()
     console.log("PkgeltDocsComponent->GONG__StackPath : ", this.GONG__StackPath)
   }
 

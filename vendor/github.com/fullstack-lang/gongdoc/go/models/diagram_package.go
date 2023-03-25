@@ -85,7 +85,7 @@ func (diagramPackage *DiagramPackage) UnmarshallOneDiagram(stage *StageStruct, d
 		// there should be one diagram on the stage and it has to be
 		// appended to the diagram package
 		var ok bool
-		classdiagram, ok = (*GetGongstructInstancesMap[Classdiagram]())[diagramName]
+		classdiagram, ok = (*GetGongstructInstancesMap[Classdiagram](stage))[diagramName]
 
 		if !ok {
 			// log.Println("Unable to find", diagramName, ". It might be a docs.go file")
@@ -99,7 +99,7 @@ func (diagramPackage *DiagramPackage) UnmarshallOneDiagram(stage *StageStruct, d
 		diagramPackage.Classdiagrams = append(diagramPackage.Classdiagrams,
 			classdiagram)
 
-		for gongStructShape := range *GetGongstructInstancesSet[GongStructShape]() {
+		for gongStructShape := range *GetGongstructInstancesSet[GongStructShape](stage) {
 
 			_, ok := (*gong_models.GetGongstructInstancesMap[gong_models.GongStruct](diagramPackage.ModelPkg.GetStage()))[IdentifierToGongObjectName(gongStructShape.Identifier)]
 
@@ -118,7 +118,7 @@ func (diagramPackage *DiagramPackage) UnmarshallOneDiagram(stage *StageStruct, d
 		// because, note are not synchronized via the gopls renaming request
 		//
 		// if a can be traced, this is probably for a lack of diagram maintenance
-		for noteShape := range *GetGongstructInstancesSet[NoteShape]() {
+		for noteShape := range *GetGongstructInstancesSet[NoteShape](stage) {
 
 			note, ok := (*gong_models.GetGongstructInstancesMap[gong_models.GongNote](diagramPackage.ModelPkg.GetStage()))[IdentifierToGongObjectName(noteShape.Identifier)]
 
@@ -138,7 +138,7 @@ func (diagramPackage *DiagramPackage) UnmarshallOneDiagram(stage *StageStruct, d
 
 		// legacy diagram file may have Fieldtypename without the ident `Point`
 		// the following will turn it into `ref_models.Point`
-		for link := range *GetGongstructInstancesSet[Link]() {
+		for link := range *GetGongstructInstancesSet[Link](stage) {
 
 			if !strings.ContainsAny(link.Fieldtypename, ".") {
 				link.Fieldtypename = GongStructNameToIdentifier(link.Fieldtypename)

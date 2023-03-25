@@ -26,7 +26,7 @@ import { IdentifierToReceiverAndFieldName, IdentifierToStructname } from './iden
 })
 export class ClassDiagramComponent implements OnInit, OnDestroy {
 
-  @Input() GONG__StackPath: string = ""
+  GONG__StackPath: string = ""
   
   /**
    * the class diagram component is refreshed both by direct input when the user moves vertices or positions
@@ -76,6 +76,12 @@ export class ClassDiagramComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+
+    let stackPath = this.activatedRoute.snapshot.paramMap.get('GONG__StackPath')
+    if (stackPath != undefined) {
+      this.GONG__StackPath = stackPath
+    }
+
     console.log( "Class Diagram Component: GONG_StackPath is ", this.GONG__StackPath)
 
     this.startAutoRefresh(500); // Refresh every 500 ms (half second)
@@ -94,7 +100,7 @@ export class ClassDiagramComponent implements OnInit, OnDestroy {
 
   startAutoRefresh(intervalMs: number): void {
     this.commutNbFromBackSubscription = this.gongdocCommitNbFromBackService
-      .getCommitNbFromBack(intervalMs)
+      .getCommitNbFromBack(intervalMs, this.GONG__StackPath)
       .subscribe((commitNbFromBack: number) => {
 
         // console.log("last commit nb " + this.lastCommitNbFromBack + " new: " + commitNbFromBack)
@@ -115,7 +121,7 @@ export class ClassDiagramComponent implements OnInit, OnDestroy {
    * pullGongdocAndDrawDiagram refresh the front repo and calls redraw
    */
   pullGongdocAndDrawDiagram() {
-    this.gongdocFrontRepoService.pull().subscribe(
+    this.gongdocFrontRepoService.pull(this.GONG__StackPath).subscribe(
       frontRepo => {
         this.gongdocFrontRepo = frontRepo
         console.log("gongdoc front repo pull returned")
@@ -139,7 +145,11 @@ export class ClassDiagramComponent implements OnInit, OnDestroy {
   //
   addGongStructShapeToGraph(gongStructShape: gongdoc.GongStructShapeDB): joint.shapes.uml.Class {
 
-    let umlClassShape = newUmlClassShapeFromGongStructShape(gongStructShape, this.positionService, this.gongStructShapeService)
+    let umlClassShape = newUmlClassShapeFromGongStructShape(
+      gongStructShape, 
+      this.positionService, 
+      this.gongStructShapeService,
+      this.GONG__StackPath)
     umlClassShape.addTo(this.graph!);
 
     // add a backbone event handler to update the position
@@ -154,7 +164,11 @@ export class ClassDiagramComponent implements OnInit, OnDestroy {
 
   addGongEnumShapeToGraph(gongEnumShape: gongdoc.GongEnumShapeDB): joint.shapes.uml.Class {
 
-    let umlClassShape = newUmlClassShapeFromGongEnumShape(gongEnumShape, this.positionService, this.gongEnumShapeService)
+    let umlClassShape = newUmlClassShapeFromGongEnumShape(
+      gongEnumShape, 
+      this.positionService, 
+      this.gongEnumShapeService,
+      this.GONG__StackPath)
     umlClassShape.addTo(this.graph!);
 
     // add a backbone event handler to update the position
@@ -172,7 +186,7 @@ export class ClassDiagramComponent implements OnInit, OnDestroy {
   //
   addNoteToGraph(note: gongdoc.NoteShapeDB): joint.shapes.basic.Rect {
 
-    let umlNote = newUmlNote(note, this.noteService)
+    let umlNote = newUmlNote(note, this.noteService, this.GONG__StackPath)
     umlNote.addTo(this.graph!);
     return umlNote
   }
@@ -326,6 +340,7 @@ export class ClassDiagramComponent implements OnInit, OnDestroy {
                 // store relevant attributes for working when callback are invoked
                 middleVertice: linkDB.Middlevertice,
                 verticeService: this.verticeService,
+                GONG__StackPath: this.GONG__StackPath,
               })
 
               // add a backbone event handler to update the position

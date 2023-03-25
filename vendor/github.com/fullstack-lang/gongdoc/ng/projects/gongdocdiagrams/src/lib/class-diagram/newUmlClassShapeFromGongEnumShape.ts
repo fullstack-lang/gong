@@ -2,9 +2,11 @@ import * as joint from 'jointjs';
 import * as gongdoc from 'gongdoc'
 import { shapeIdentifierToShapeName } from './shape-identifier-to-shape-name';
 
-export function newUmlClassShapeFromGongEnumShape(gongEnumShape: gongdoc.GongEnumShapeDB,
+export function newUmlClassShapeFromGongEnumShape(
+    gongEnumShape: gongdoc.GongEnumShapeDB,
     positionService: gongdoc.PositionService,
-    gongEnumShapeService: gongdoc.GongEnumShapeService): joint.shapes.uml.Class {
+    gongEnumShapeService: gongdoc.GongEnumShapeService,
+    GONG__StackPath: string): joint.shapes.uml.Class {
 
     var attributes = new Array<string>()
     if (gongEnumShape.GongEnumValueEntrys) {
@@ -71,7 +73,8 @@ export function newUmlClassShapeFromGongEnumShape(gongEnumShape: gongdoc.GongEnu
             // store relevant attributes for working when callback are invoked
             classshape: gongEnumShape,
             positionService: positionService,
-            gongEnumShapeService: gongEnumShapeService
+            gongEnumShapeService: gongEnumShapeService,
+            GONG__StackPath: GONG__StackPath
         }
     )
 

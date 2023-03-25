@@ -2,8 +2,10 @@ import * as joint from 'jointjs';
 import * as gongdoc from 'gongdoc'
 import { MatLabel } from '@angular/material/form-field';
 
-export function newUmlNote(note: gongdoc.NoteShapeDB,
-    noteService: gongdoc.NoteShapeService): joint.shapes.basic.Rect {
+export function newUmlNote(
+    note: gongdoc.NoteShapeDB,
+    noteService: gongdoc.NoteShapeService,
+    GONG__StackPath: string): joint.shapes.basic.Rect {
 
     // fetch the fields, it must belong to the current diagram
     // and the type must match the note type
@@ -24,6 +26,7 @@ export function newUmlNote(note: gongdoc.NoteShapeDB,
             // store relevant attributes for working when callback are invoked
             note: note,
             noteService: noteService,
+            GONG__StackPath: GONG__StackPath,
         }
     )
     let width = noteBody.length * 12

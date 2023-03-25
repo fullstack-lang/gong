@@ -75,7 +75,7 @@ func (nodeCb *NodeCB) OnAfterCreate(
 	for index == 0 || hasNameCollision {
 		index++
 		hasNameCollision = false
-		for classdiagram := range *gongdoc_models.GetGongstructInstancesSet[gongdoc_models.Classdiagram]() {
+		for classdiagram := range *gongdoc_models.GetGongstructInstancesSet[gongdoc_models.Classdiagram](gongdocStage) {
 			if classdiagram.Name == node.Name {
 				hasNameCollision = true
 			}
@@ -157,7 +157,7 @@ func (nodeCb *NodeCB) FillUpDiagramNodeTree(diagramPackage *gongdoc_models.Diagr
 	gongdocTree.RootNodes = append(gongdocTree.RootNodes, diagramPackageNode)
 
 	// add one node per class diagram
-	for classdiagram := range *gongdoc_models.GetGongstructInstancesSet[gongdoc_models.Classdiagram]() {
+	for classdiagram := range *gongdoc_models.GetGongstructInstancesSet[gongdoc_models.Classdiagram](nodeCb.diagramPackage.Stage_) {
 		node := (&gongdoc_models.Node{Name: classdiagram.Name}).Stage(nodeCb.diagramPackage.Stage_)
 
 		node.HasCheckboxButton = true
