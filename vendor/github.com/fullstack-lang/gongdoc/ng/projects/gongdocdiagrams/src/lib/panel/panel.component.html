@@ -13,7 +13,7 @@
     </div>
 </ng-template>
 
-<as-split unit="pixel" *ngIf="view==default" direction="vertical">
+<as-split unit="pixel" *ngIf="view==diagrams" direction="vertical">
     <as-split-area [size]="40">
         <ng-container *ngTemplateOutlet="radioToolbar"></ng-container>
     </as-split-area>
@@ -24,7 +24,7 @@
     </as-split-area>
 </as-split>
 
-<as-split unit="pixel" *ngIf="view==meta" direction="vertical">
+<as-split unit="pixel" *ngIf="view==diagrams_data" direction="vertical">
     <as-split-area [size]="40">
         <ng-container *ngTemplateOutlet="radioToolbar"></ng-container>
     </as-split-area>
@@ -34,7 +34,7 @@
 </as-split>
 
 
-<as-split unit="pixel" *ngIf="view==gong" direction="vertical">
+<as-split unit="pixel" *ngIf="view==model_data" direction="vertical">
     <as-split-area [size]="40">
         <ng-container *ngTemplateOutlet="radioToolbar"></ng-container>
     </as-split-area>
