@@ -13,12 +13,13 @@ import * as {{pkgname}} from '{{pkgname}}'
 })
 export class AppComponent implements OnInit {
 
-  view = 'Default view'
-  default = 'Default view'
-  diagrams = 'Diagrams view'
-  meta = 'Meta view'
+  view = 'Data'
+  default = 'Data'
+  model = 'Model'
 
-  views: string[] = [this.default, this.diagrams, this.meta];
+  views: string[] = [this.default, this.model];
+
+  GONG__StackPath = "{{PkgPathRoot}}/models"
 
   // variable that enables pooling of selected gongstruct
   obsTimer: Observable<number> = timer(1000, 1000)
@@ -47,7 +48,7 @@ export class AppComponent implements OnInit {
                     // console.log("GongStructShape has been unselected")
                   }
                 )
-                this.gongstructSelectionService.gongstructSelected( GongStructShape.Identifier)
+                this.gongstructSelectionService.gongstructSelected(GongStructShape.Identifier)
               }
             }
           }
