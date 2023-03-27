@@ -11,9 +11,9 @@ import * as test from 'test'
 })
 export class AppComponent implements OnInit {
 
-  view = 'Data view'
-  default = 'Data view'
-  model = 'Model view'
+  view = 'Data'
+  default = 'Data'
+  model = 'Model'
 
   views: string[] = [this.default, this.model];
 
