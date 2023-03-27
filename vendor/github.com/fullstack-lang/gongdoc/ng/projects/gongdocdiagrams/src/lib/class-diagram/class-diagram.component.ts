@@ -26,8 +26,8 @@ import { IdentifierToReceiverAndFieldName, IdentifierToStructname } from './iden
 })
 export class ClassDiagramComponent implements OnInit, OnDestroy {
 
-  GONG__StackPath: string = ""
-  
+  @Input() GONG__StackPath: string = ""
+
   /**
    * the class diagram component is refreshed both by direct input when the user moves vertices or positions
    * otherwise, modification are gotten from the back repo 
@@ -82,7 +82,7 @@ export class ClassDiagramComponent implements OnInit, OnDestroy {
       this.GONG__StackPath = stackPath
     }
 
-    console.log( "Class Diagram Component: GONG_StackPath is ", this.GONG__StackPath)
+    console.log("Class Diagram Component: GONG_StackPath is ", this.GONG__StackPath)
 
     this.startAutoRefresh(500); // Refresh every 500 ms (half second)
   }
@@ -107,9 +107,7 @@ export class ClassDiagramComponent implements OnInit, OnDestroy {
         // condition for refresh
         if (this.lastCommitNbFromBack < commitNbFromBack) {
 
-          // console.log("last commit nb " + this.lastCommitNbFromBack + " new: " + commitNbFromBack)
-          // console.log("last diagram id " + this.lastDiagramId + " new: " + id)
-          // console.log("last drawn diagram id " + this.idOfDrawnClassDiagram + " new: " + id)
+          console.log("ClassDiagramComponent", this.GONG__StackPath, "last commit nb " + this.lastCommitNbFromBack + " new: " + commitNbFromBack)
           this.pullGongdocAndDrawDiagram()
           this.lastCommitNbFromBack = commitNbFromBack
         }
@@ -146,8 +144,8 @@ export class ClassDiagramComponent implements OnInit, OnDestroy {
   addGongStructShapeToGraph(gongStructShape: gongdoc.GongStructShapeDB): joint.shapes.uml.Class {
 
     let umlClassShape = newUmlClassShapeFromGongStructShape(
-      gongStructShape, 
-      this.positionService, 
+      gongStructShape,
+      this.positionService,
       this.gongStructShapeService,
       this.GONG__StackPath)
     umlClassShape.addTo(this.graph!);
@@ -165,8 +163,8 @@ export class ClassDiagramComponent implements OnInit, OnDestroy {
   addGongEnumShapeToGraph(gongEnumShape: gongdoc.GongEnumShapeDB): joint.shapes.uml.Class {
 
     let umlClassShape = newUmlClassShapeFromGongEnumShape(
-      gongEnumShape, 
-      this.positionService, 
+      gongEnumShape,
+      this.positionService,
       this.gongEnumShapeService,
       this.GONG__StackPath)
     umlClassShape.addTo(this.graph!);
@@ -219,7 +217,7 @@ export class ClassDiagramComponent implements OnInit, OnDestroy {
     );
 
     let paperOptions: joint.dia.Paper.Options = {}
-    paperOptions.el = document.getElementById('jointjs-holder')!
+    paperOptions.el = document.getElementById(this.GONG__StackPath)!
     paperOptions.model = this.graph
     paperOptions.width = diagramWidth
     paperOptions.height = 1000
