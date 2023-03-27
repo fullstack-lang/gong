@@ -11,12 +11,13 @@ import * as test from 'test'
 })
 export class AppComponent implements OnInit {
 
-  view = 'Default view'
-  default = 'Default view'
-  diagrams = 'Diagrams view'
-  meta = 'Meta view'
+  view = 'Data view'
+  default = 'Data view'
+  model = 'Model view'
 
-  views: string[] = [this.default, this.diagrams, this.meta];
+  views: string[] = [this.default, this.model];
+
+  GONG__StackPath = "github.com/fullstack-lang/gong/test/go/models"
 
   // variable that enables pooling of selected gongstruct
   obsTimer: Observable<number> = timer(1000, 1000)

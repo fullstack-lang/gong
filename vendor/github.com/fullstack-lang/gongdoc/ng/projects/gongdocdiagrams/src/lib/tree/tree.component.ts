@@ -121,8 +121,8 @@ export class TreeComponent implements OnInit {
 
         if (this.lastCommitNbFromBack < commitNbFromBack) {
           const d = new Date()
-          console.log("TreeComponent, " + d.toLocaleTimeString() + `.${d.getMilliseconds()}` +
-            ", last commit increased nb " + this.lastCommitNbFromBack + " new: " + commitNbFromBack + " " + this.name)
+          console.log("TreeComponent, ", this.GONG__StackPath, " name ", this.name + d.toLocaleTimeString() + `.${d.getMilliseconds()}` +
+            ", last commit increased nb " + this.lastCommitNbFromBack + " new: " + commitNbFromBack)
           this.lastCommitNbFromBack = commitNbFromBack
           this.refresh()
         }
@@ -213,7 +213,7 @@ export class TreeComponent implements OnInit {
   toggleNodeCheckbox(node: FlatNode): void {
 
     const d = new Date()
-    console.log("TreeComponent, toggleNodeCheckbox, " + d.toLocaleTimeString() + `.${d.getMilliseconds()}` + " " + this.name)
+    console.log("TreeComponent ", this.GONG__StackPath, " name ", this.name, " toggleNodeCheckbox, " + d.toLocaleTimeString() + `.${d.getMilliseconds()}` + " " + this.name)
     node.gongNode.IsChecked = !node.gongNode.IsChecked
     this.gongdocNodeService.updateNode(node.gongNode, this.GONG__StackPath).subscribe(
       gongdocNode => {
@@ -226,12 +226,16 @@ export class TreeComponent implements OnInit {
   addNewItem(node: FlatNode) {
 
     var gongNode: gongdoc.NodeDB = new (gongdoc.NodeDB)
+
+    const d = new Date()
+    console.log("TreeComponent ", this.GONG__StackPath, " name ", this.name, " addNewItem, " + d.toLocaleTimeString() + `.${d.getMilliseconds()}` + " " + this.name)
+
     gongNode.Name = "NewDiagram"
     gongNode.HasEditButton = true
     gongNode.IsInEditMode = true
     gongNode.Node_ChildrenDBID.Valid = true
     gongNode.Node_ChildrenDBID.Int64 = node.gongNode.ID
-    this.gongdocNodeService.postNode(gongNode, "").subscribe(
+    this.gongdocNodeService.postNode(gongNode, this.GONG__StackPath).subscribe(
       gongdocNode => {
         console.log("post node")
       }
@@ -323,7 +327,7 @@ export class TreeComponent implements OnInit {
   }
 
   deleteNode(node: FlatNode) {
-    this.gongdocNodeService.deleteNode(node.gongNode, "").subscribe(
+    this.gongdocNodeService.deleteNode(node.gongNode, this.GONG__StackPath).subscribe(
       gongdocNode => {
         console.log("delete node")
       }
