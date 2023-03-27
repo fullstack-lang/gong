@@ -31,8 +31,8 @@ func Load(
 	embeddedDiagrams bool,
 	map_StructName_InstanceNb *map[string]int) {
 
-	gongStage := gong_fullstack.NewStackInstance(r, "")
-	gongdocStage := gongdoc_fullstack.NewStackInstance(r, "")
+	gongStage := gong_fullstack.NewStackInstance(r, pkgPath)
+	gongdocStage := gongdoc_fullstack.NewStackInstance(r, pkgPath)
 	modelPackage, _ := gong_models.LoadEmbedded(gongStage, goSourceDirectories)
 	modelPackage.Name = stackName
 	modelPackage.PkgPath = pkgPath
