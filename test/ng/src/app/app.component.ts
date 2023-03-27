@@ -11,9 +11,9 @@ import * as test from 'test'
 })
 export class AppComponent implements OnInit {
 
-  view = 'Data view'
-  default = 'Data view'
-  model = 'Model view'
+  view = 'Data'
+  default = 'Data'
+  model = 'Model'
 
   views: string[] = [this.default, this.model];
 
@@ -34,7 +34,6 @@ export class AppComponent implements OnInit {
     // pool the gongdoc command and check wether a gongstruct has been selected
     this.obsTimer.subscribe(
       currTime => {
-
         // pool all GongStructShapes and find which one is selected
         this.gongdocGongStructShapeService.getGongStructShapes().subscribe(
           GongStructShapes => {
