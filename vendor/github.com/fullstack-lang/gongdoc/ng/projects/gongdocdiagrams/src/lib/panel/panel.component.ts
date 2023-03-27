@@ -10,11 +10,11 @@ import * as gongdoc from 'gongdoc';
 export class PanelComponent implements OnInit {
 
   // choices for the top radio button
-  view = 'Default view'
-  default = 'Default view'
-  meta = 'Meta view'
-  gong = 'Gong view'
-  views: string[] = [this.default, this.meta, this.gong];
+  view = 'Diagrams'
+  diagrams = 'Diagrams'
+  diagrams_data = 'Diagrams data'
+  model_data = 'Model data'
+  views: string[] = [this.diagrams, this.diagrams_data, this.model_data];
 
   stacks: string[] = []
 
