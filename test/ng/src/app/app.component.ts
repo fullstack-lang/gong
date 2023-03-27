@@ -34,7 +34,6 @@ export class AppComponent implements OnInit {
     // pool the gongdoc command and check wether a gongstruct has been selected
     this.obsTimer.subscribe(
       currTime => {
-
         // pool all GongStructShapes and find which one is selected
         this.gongdocGongStructShapeService.getGongStructShapes().subscribe(
           GongStructShapes => {

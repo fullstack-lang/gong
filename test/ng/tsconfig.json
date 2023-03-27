@@ -6,7 +6,6 @@
     "outDir": "./dist/out-tsc",
     "forceConsistentCasingInFileNames": true,
     "strict": true,
-    "skipLibCheck": true,
     "noImplicitOverride": true,
     "noPropertyAccessFromIndexSignature": true,
     "noImplicitReturns": true,
@@ -18,12 +17,16 @@
     "moduleResolution": "node",
     "importHelpers": true,
     "target": "ES2022",
-    "module": "es2020",
-    "lib": [
-      "es2020",
-      "dom"
-    ],
+    "module": "ES2022",
+    "useDefineForClassFields": false,
     "paths": {
+      // 
+      // https://angular.io/guide/creating-libraries#use-typescript-path-mapping-for-peer-dependencies
+      //
+      // Angular libraries should list any @angular/* 
+      // dependencies the library depends on as peer dependencies. This ensures that when modules ask for Angular, 
+      // they all get the exact same module. If a library lists @angular/core in dependencies instead of peerDependencies, 
+      // it might get a different Angular module instead, which would cause your application to break.
       "@angular/*": [
         "./node_modules/@angular/*"
       ],
@@ -57,9 +60,6 @@
       "jointjs": [
         "./node_modules/jointjs"
       ],
-      "@types/jointjs": [
-        "./node_modules/@types/jointjs"
-      ],
       "@angular-material-components/datetime-picker": [
         "./node_modules/@angular-material-components/datetime-picker"
       ],
@@ -69,6 +69,8 @@
       "tslib": [
         "./node_modules/tslib"
       ],
+      // for test, the path to vendor is one level higher since it shares the vendor directory
+      // with others
       "gong": [
         "../../ng/projects/gong/src/public-api.ts"
       ],
@@ -86,7 +88,11 @@
         "dist/test"
       ]
     },
-    "useDefineForClassFields": false
+    "lib": [
+      "ES2022",
+      "dom"
+    ],
+    "skipLibCheck": true
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
