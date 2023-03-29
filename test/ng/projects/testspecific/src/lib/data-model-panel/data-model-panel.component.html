@@ -12,7 +12,16 @@
         <ng-container *ngTemplateOutlet="radioToolbar"></ng-container>
     </as-split-area>
     <as-split-area [size]="$any('*')">
-        <lib-data-model-panel [GONG__StackPath]="GONG__StackPath">
-        </lib-data-model-panel>
+        <app-test-splitter GONG__StackPath=""></app-test-splitter>
+    </as-split-area>
+</as-split>
+
+
+<as-split unit="pixel" *ngIf="view==model" direction="vertical">
+    <as-split-area [size]=40>
+        <ng-container *ngTemplateOutlet="radioToolbar"></ng-container>
+    </as-split-area>
+    <as-split-area [size]="$any('*')">
+        <lib-panel [GONG__StackPath]="GONG__StackPath"></lib-panel>
     </as-split-area>
 </as-split>
