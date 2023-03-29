@@ -1,4 +1,6 @@
-import { Component, Input } from '@angular/core';
+package angular
+
+const NgFileDataModelPanelTemplateTs = `import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'lib-data-model-panel',
@@ -15,3 +17,4 @@ export class DataModelPanelComponent {
   @Input() GONG__StackPath: string = ""
 
 }
+`
