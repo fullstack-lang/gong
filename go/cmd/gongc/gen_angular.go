@@ -43,7 +43,12 @@ func genAngular(modelPkg *gong_models.ModelPkg, skipNpmInstall bool, skipGoModCo
 
 			// generate ng workspace
 
-			cmd := exec.Command("ng", "new", "ng", "--defaults=true", "--minimal=true")
+			var cmd *exec.Cmd
+			if !skipNpmInstall {
+				cmd = exec.Command("ng", "new", "ng", "--defaults=true", "--minimal=true")
+			} else {
+				cmd = exec.Command("ng", "new", "ng", "--defaults=true", "--minimal=true", "--skip-install")
+			}
 			cmd.Dir = filepath.Dir(gong_models.NgWorkspacePath)
 			log.Printf("Creating angular workspace\n")
 
@@ -340,6 +345,10 @@ func genAngular(modelPkg *gong_models.ModelPkg, skipNpmInstall bool, skipGoModCo
 					log.Panic(err)
 				}
 				log.Printf("ng generate library is over and took %s", time.Since(start))
+
+				filename := filepath.Join(gong_models.NgWorkspacePath, "tsconfig.json")
+				gong_models.InsertStringToFile(filename, "        \"projects/"+modelPkg.Name+"specific/src/public-api.ts\",", modelPkg.Name+"specific\": [")
+
 			}
 
 			// npm install
