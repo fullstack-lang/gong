@@ -34,7 +34,6 @@ import { GongModule } from 'gong'
 
 import { TestModule } from 'test'
 import { TestspecificModule } from 'testspecific'
-
 import { GongstructSelectionService } from 'test'
 
 // mandatory
@@ -76,7 +75,7 @@ import { HttpClientModule } from '@angular/common/http';
     GongdocdiagramsModule,
 
     TestModule,
-    TestspecificModule
+    TestspecificModule,
   ],
   providers: [
     GongstructSelectionService
