@@ -510,6 +510,14 @@ func genAngular(modelPkg *gong_models.ModelPkg, skipNpmInstall bool, skipGoModCo
 		modelPkg.PkgPath, filepath.Join(gong_models.MatTargetPath, modelPkg.Name+".module.ts"),
 		angular.NgLibModuleTemplate, angular.NgLibModuleSubTemplateCode)
 
+	gong_models.VerySimpleCodeGenerator(
+		modelPkg,
+		modelPkg.Name,
+		modelPkg.PkgPath,
+		filepath.Join(gong_models.MaterialLibSpecificTargetPath,
+			fmt.Sprintf("%sspecific.module.ts", modelPkg.Name)),
+		angular.NgFileModuleSpecific)
+
 	gong_models.SimpleCodeGeneratorForGongStructWithNameField(
 		modelPkg,
 		caserEnglish.String(modelPkg.Name),
