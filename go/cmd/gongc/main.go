@@ -107,6 +107,17 @@ func main() {
 			}
 		}
 
+		{
+			directory, err :=
+				filepath.Abs(
+					filepath.Join(*pkgPath,
+						fmt.Sprintf("../../ng/projects/%sspecific/src/lib", modelPkg.Name)))
+			gong_models.MaterialLibSpecificTargetPath = directory
+			if err != nil {
+				log.Panic("Problem with frontend target path " + err.Error())
+			}
+		}
+
 		if !*skipNg {
 			log.Println("Removing all content of " + gong_models.MatTargetPath)
 			gong_models.RemoveContents(gong_models.MatTargetPath)

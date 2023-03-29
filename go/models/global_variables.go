@@ -21,5 +21,8 @@ var StaticPkgGenPath string
 // MatTargetPath is where the ng components are generated
 var MatTargetPath string
 
+// MatTargetPath is where the ng components are generated for the specific lib
+var MaterialLibSpecificTargetPath string
+
 // NgWorkspacePath is the path to the Ng Workspace
 var NgWorkspacePath string
