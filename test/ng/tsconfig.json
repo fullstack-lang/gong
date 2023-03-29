@@ -81,7 +81,8 @@
         "../../vendor/github.com/fullstack-lang/gongdoc/ng/projects/gongdocdiagrams/src/public-api.ts"
       ],
       "testspecific": [
-        "dist/testspecific"
+        "dist/testspecific",
+        "projects/testspecific/src/public-api.ts",
       ],
       "test": [
         "projects/test/src/public-api.ts",
