@@ -13,48 +13,19 @@ import * as {{pkgname}} from '{{pkgname}}'
 })
 export class AppComponent implements OnInit {
 
-  view = 'Data'
-  default = 'Data'
-  model = 'Model'
+  default = '{{TitlePkgName}} Data/Model'
+  view = this.default
 
-  views: string[] = [this.default, this.model];
+  views: string[] = [this.default];
 
   GONG__StackPath = "{{PkgPathRoot}}/models"
 
-  // variable that enables pooling of selected gongstruct
-  obsTimer: Observable<number> = timer(1000, 1000)
-  lastSelectionDate: string = ''
-
-  constructor(private gongdocGongStructShapeService: gongdoc.GongStructShapeService,
-    private gongstructSelectionService: {{pkgname}}.GongstructSelectionService
+  constructor(
   ) {
 
   }
 
   ngOnInit(): void {
-
-    // pool the gongdoc command and check wether a gongstruct has been selected
-    this.obsTimer.subscribe(
-      currTime => {
-        // pool all GongStructShapes and find which one is selected
-        this.gongdocGongStructShapeService.getGongStructShapes().subscribe(
-          GongStructShapes => {
-            for (let GongStructShape of GongStructShapes) {
-              if (GongStructShape.IsSelected) {
-                GongStructShape.IsSelected = false
-                // console.log("GongStructShape " + GongStructShape.ReferenceName + " is selected")
-                this.gongdocGongStructShapeService.updateGongStructShape(GongStructShape, "").subscribe(
-                  GongStructShape2 => {
-                    // console.log("GongStructShape has been unselected")
-                  }
-                )
-                this.gongstructSelectionService.gongstructSelected(GongStructShape.Identifier)
-              }
-            }
-          }
-        )
-      }
-    )
   }
 }
 `
