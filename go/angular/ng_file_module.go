@@ -35,6 +35,7 @@ import { GongdocdiagramsModule } from 'gongdocdiagrams'
 import { GongModule } from 'gong'
 
 import { {{TitlePkgName}}Module } from '{{pkgname}}'
+import { {{TitlePkgName}}specificModule } from '{{pkgname}}specific'
 import { GongstructSelectionService } from '{{pkgname}}'
 
 // mandatory
@@ -75,7 +76,8 @@ import { HttpClientModule } from '@angular/common/http';
     GongdocModule,
     GongdocdiagramsModule,
 
-    {{TitlePkgName}}Module
+    {{TitlePkgName}}Module,
+    {{TitlePkgName}}specificModule,
   ],
   providers: [
     GongstructSelectionService
