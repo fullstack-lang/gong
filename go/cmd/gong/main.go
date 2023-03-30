@@ -7,13 +7,12 @@ import (
 	"os"
 	"strings"
 
-	"github.com/fullstack-lang/gong/go/fullstack"
-	"github.com/fullstack-lang/gong/go/models"
-	"github.com/fullstack-lang/gong/go/static"
+	gong_go "github.com/fullstack-lang/gong/go"
+	gong_fullstack "github.com/fullstack-lang/gong/go/fullstack"
+	gong_models "github.com/fullstack-lang/gong/go/models"
+	gong_static "github.com/fullstack-lang/gong/go/static"
 
 	gongdoc_load "github.com/fullstack-lang/gongdoc/go/load"
-
-	"github.com/fullstack-lang/gong"
 )
 
 var (
@@ -38,7 +37,7 @@ var InjectionGateway = make(map[string](func()))
 type BeforeCommitImplementation struct {
 }
 
-func (impl *BeforeCommitImplementation) BeforeCommit(stage *models.StageStruct) {
+func (impl *BeforeCommitImplementation) BeforeCommit(stage *gong_models.StageStruct) {
 	file, err := os.Create(fmt.Sprintf("./%s.go", *marshallOnCommit))
 	if err != nil {
 		log.Fatal(err.Error())
@@ -58,16 +57,16 @@ func main() {
 	flag.Parse()
 
 	// setup the static file server and get the controller
-	r := static.ServeStaticFiles(*logGINFlag)
+	r := gong_static.ServeStaticFiles(*logGINFlag)
 
 	// setup stack
-	var stage *models.StageStruct
+	var stage *gong_models.StageStruct
 	if *marshallOnCommit != "" {
 		// persistence in a SQLite file on disk in memory
-		stage = fullstack.NewStackInstance(r, "")
+		stage = gong_fullstack.NewStackInstance(r, "github.com/fullstack-lang/gong/go/models")
 	} else {
 		// persistence in a SQLite file on disk
-		stage = fullstack.NewStackInstance(r, "", "./test.db")
+		stage = gong_fullstack.NewStackInstance(r, "github.com/fullstack-lang/gong/go/models", "./test.db")
 	}
 
 	// generate injection code from the stage
@@ -109,7 +108,7 @@ func main() {
 		stage.Checkout()
 		stage.Reset()
 		stage.Commit()
-		err := models.ParseAstFile(stage, *unmarshallFromCode)
+		err := gong_models.ParseAstFile(stage, *unmarshallFromCode)
 
 		// if the application is run with -unmarshallFromCode=xxx.go -marshallOnCommit
 		// xxx.go might be absent the first time. However, this shall not be a show stopper.
@@ -132,7 +131,8 @@ func main() {
 	gongdoc_load.Load(
 		"gong",
 		"github.com/fullstack-lang/gong/go/models",
-		gong.GoDir,
+		gong_go.GoModelsDir,
+		gong_go.GoDiagramsDir,
 		r,
 		*embeddedDiagrams,
 		&stage.Map_GongStructName_InstancesNb)
