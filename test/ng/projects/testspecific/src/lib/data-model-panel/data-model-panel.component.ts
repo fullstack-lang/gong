@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 
 @Component({
-  selector: 'lib-data-model-panel',
+  selector: 'lib-github_com_fullstack_lang_gong_test_go-data-model-panel',
   templateUrl: './data-model-panel.component.html',
 })
 export class DataModelPanelComponent {
