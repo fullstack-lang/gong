@@ -64,10 +64,10 @@ func main() {
 	var stage *models.StageStruct
 	if *marshallOnCommit != "" {
 		// persistence in a SQLite file on disk in memory
-		stage = fullstack.NewStackInstance(r, "")
+		stage = fullstack.NewStackInstance(r, "github.com/fullstack-lang/gong/test/go/models")
 	} else {
 		// persistence in a SQLite file on disk
-		stage = fullstack.NewStackInstance(r, "", "./test.db")
+		stage = fullstack.NewStackInstance(r, "github.com/fullstack-lang/gong/test/go/models", "./test.db")
 	}
 
 	// generate injection code from the stage
