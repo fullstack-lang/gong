@@ -510,41 +510,49 @@ func genAngular(modelPkg *gong_models.ModelPkg, skipNpmInstall bool, skipGoModCo
 		modelPkg.PkgPath, filepath.Join(gong_models.MatTargetPath, modelPkg.Name+".module.ts"),
 		angular.NgLibModuleTemplate, angular.NgLibModuleSubTemplateCode)
 
-	gong_models.VerySimpleCodeGenerator(
-		modelPkg,
-		modelPkg.Name,
-		modelPkg.PkgPath,
-		filepath.Join(gong_models.MaterialLibSpecificTargetPath,
-			fmt.Sprintf("%sspecific.module.ts", modelPkg.Name)),
-		angular.NgFileModuleSpecific)
-
 	{
 		directory, _ := filepath.Abs(
 			filepath.Join(gong_models.MaterialLibSpecificTargetPath, "data-model-panel"))
-		errForCreationOfStylesDir := os.MkdirAll(directory, os.ModePerm)
-		if os.IsNotExist(errForCreationOfStylesDir) {
+		_, err := os.Stat(directory)
+		if os.IsNotExist(err) {
+			err := os.MkdirAll(directory, os.ModePerm)
+
+			if err != nil {
+				log.Fatalln("Unable to create dir", directory, err.Error())
+			}
+
 			log.Println("creating directory : " + gong_models.OrmPkgGenPath)
+
+			// if data-model-panel does not exists, it is an indication that
+			// the module file has to be overwritten
+			gong_models.VerySimpleCodeGenerator(
+				modelPkg,
+				modelPkg.Name,
+				modelPkg.PkgPath,
+				filepath.Join(gong_models.MaterialLibSpecificTargetPath,
+					fmt.Sprintf("%sspecific.module.ts", modelPkg.Name)),
+				angular.NgFileModuleSpecific)
+
+			gong_models.VerySimpleCodeGenerator(
+				modelPkg,
+				modelPkg.Name,
+				modelPkg.PkgPath,
+				filepath.Join(gong_models.MaterialLibSpecificTargetPath,
+					"data-model-panel", "data-model-panel.component.ts"),
+				angular.NgFileDataModelPanelTemplateTs)
+
+			gong_models.VerySimpleCodeGenerator(
+				modelPkg,
+				modelPkg.Name,
+				modelPkg.PkgPath,
+				filepath.Join(gong_models.MaterialLibSpecificTargetPath,
+					"data-model-panel", "data-model-panel.component.html"),
+				angular.NgFileDataModelPanelTemplateHtml)
 		}
-		if os.IsExist(errForCreationOfStylesDir) {
+		if os.IsExist(err) {
 			log.Println("directory " + gong_models.OrmPkgGenPath + " allready exists")
 		}
 	}
-
-	gong_models.VerySimpleCodeGenerator(
-		modelPkg,
-		modelPkg.Name,
-		modelPkg.PkgPath,
-		filepath.Join(gong_models.MaterialLibSpecificTargetPath,
-			"data-model-panel", "data-model-panel.component.ts"),
-		angular.NgFileDataModelPanelTemplateTs)
-
-	gong_models.VerySimpleCodeGenerator(
-		modelPkg,
-		modelPkg.Name,
-		modelPkg.PkgPath,
-		filepath.Join(gong_models.MaterialLibSpecificTargetPath,
-			"data-model-panel", "data-model-panel.component.html"),
-		angular.NgFileDataModelPanelTemplateHtml)
 
 	gong_models.SimpleCodeGeneratorForGongStructWithNameField(
 		modelPkg,
