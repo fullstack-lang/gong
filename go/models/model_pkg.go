@@ -36,13 +36,13 @@ func NewModelPkg(stage *StageStruct) (modelPkg *ModelPkg) {
 // dir, initialized with a //go:embed directive, is the root
 // the embedded source code
 // usualy, it embeds go/models go/diagrams
-func LoadEmbedded(stage *StageStruct, dir embed.FS) (modelPkg *ModelPkg, err error) {
+func LoadEmbedded(stage *StageStruct, goModelsDir embed.FS) (modelPkg *ModelPkg, err error) {
 
 	modelPkg = NewModelPkg(stage)
 
 	// since the source is embedded, one needs to
 	// compute the Abstract syntax tree in a special manner
-	pkgs := ParseEmbedModel(dir, "go/models")
+	pkgs := ParseEmbedModel(goModelsDir, "models")
 
 	WalkParser(pkgs, modelPkg)
 	// fetch meta information
