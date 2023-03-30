@@ -44,11 +44,12 @@ export class GongStructService {
   /** GET gongstructs from the server */
   getGongStructs(GONG__StackPath: string = ""): Observable<GongStructDB[]> {
 
-	let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
     return this.http.get<GongStructDB[]>(this.gongstructsUrl, { params: params })
       .pipe(
-        tap(_ => this.log('fetched gongstructs')),
+        tap(),
+		// tap(_ => this.log('fetched gongstructs')),
         catchError(this.handleError<GongStructDB[]>('getGongStructs', []))
       );
   }
@@ -77,7 +78,7 @@ export class GongStructService {
       params: params
     }
 
-	return this.http.post<GongStructDB>(this.gongstructsUrl, gongstructdb, httpOptions).pipe(
+    return this.http.post<GongStructDB>(this.gongstructsUrl, gongstructdb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
         this.log(`posted gongstructdb id=${gongstructdb.ID}`)
@@ -135,11 +136,11 @@ export class GongStructService {
    * @param operation - name of the operation that failed
    * @param result - optional value to return as the observable result
    */
-  private handleError<T>(operation = 'operation', result?: T) {
+  private handleError<T>(operation = 'operation in GongStructService', result?: T) {
     return (error: any): Observable<T> => {
 
       // TODO: send the error to remote logging infrastructure
-      console.error(error); // log to console instead
+      console.error("GongStructService" + error); // log to console instead
 
       // TODO: better job of transforming error for user consumption
       this.log(`${operation} failed: ${error.message}`);
@@ -150,6 +151,6 @@ export class GongStructService {
   }
 
   private log(message: string) {
-
+      console.log(message)
   }
 }

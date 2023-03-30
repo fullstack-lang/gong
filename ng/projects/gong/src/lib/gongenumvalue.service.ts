@@ -45,11 +45,12 @@ export class GongEnumValueService {
   /** GET gongenumvalues from the server */
   getGongEnumValues(GONG__StackPath: string = ""): Observable<GongEnumValueDB[]> {
 
-	let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
     return this.http.get<GongEnumValueDB[]>(this.gongenumvaluesUrl, { params: params })
       .pipe(
-        tap(_ => this.log('fetched gongenumvalues')),
+        tap(),
+		// tap(_ => this.log('fetched gongenumvalues')),
         catchError(this.handleError<GongEnumValueDB[]>('getGongEnumValues', []))
       );
   }
@@ -76,7 +77,7 @@ export class GongEnumValueService {
       params: params
     }
 
-	return this.http.post<GongEnumValueDB>(this.gongenumvaluesUrl, gongenumvaluedb, httpOptions).pipe(
+    return this.http.post<GongEnumValueDB>(this.gongenumvaluesUrl, gongenumvaluedb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
         gongenumvaluedb.GongEnum_GongEnumValues_reverse = _GongEnum_GongEnumValues_reverse
@@ -134,11 +135,11 @@ export class GongEnumValueService {
    * @param operation - name of the operation that failed
    * @param result - optional value to return as the observable result
    */
-  private handleError<T>(operation = 'operation', result?: T) {
+  private handleError<T>(operation = 'operation in GongEnumValueService', result?: T) {
     return (error: any): Observable<T> => {
 
       // TODO: send the error to remote logging infrastructure
-      console.error(error); // log to console instead
+      console.error("GongEnumValueService" + error); // log to console instead
 
       // TODO: better job of transforming error for user consumption
       this.log(`${operation} failed: ${error.message}`);
@@ -149,6 +150,6 @@ export class GongEnumValueService {
   }
 
   private log(message: string) {
-
+      console.log(message)
   }
 }
