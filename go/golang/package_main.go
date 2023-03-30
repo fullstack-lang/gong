@@ -20,13 +20,12 @@ import (
 	"os"
 	"strings"
 
-	"{{PkgPathRoot}}/fullstack"
-	"{{PkgPathRoot}}/models"
-	"{{PkgPathRoot}}/static"
+	{{pkgname}}_go "{{PkgPathRoot}}"
+	{{pkgname}}_fullstack "{{PkgPathRoot}}/fullstack"
+	{{pkgname}}_models "{{PkgPathRoot}}/models"
+	{{pkgname}}_static "{{PkgPathRoot}}/static"
 
 	gongdoc_load "github.com/fullstack-lang/gongdoc/go/load"
-
-	"{{PkgPathAboveRoot}}"
 )
 
 var (
@@ -51,7 +50,7 @@ var InjectionGateway = make(map[string](func()))
 type BeforeCommitImplementation struct {
 }
 
-func (impl *BeforeCommitImplementation) BeforeCommit(stage *models.StageStruct) {
+func (impl *BeforeCommitImplementation) BeforeCommit(stage *{{pkgname}}_models.StageStruct) {
 	file, err := os.Create(fmt.Sprintf("./%s.go", *marshallOnCommit))
 	if err != nil {
 		log.Fatal(err.Error())
@@ -71,16 +70,16 @@ func main() {
 	flag.Parse()
 
 	// setup the static file server and get the controller
-	r := static.ServeStaticFiles(*logGINFlag)
+	r := {{pkgname}}_static.ServeStaticFiles(*logGINFlag)
 
 	// setup stack
-	var stage *models.StageStruct
+	var stage *{{pkgname}}_models.StageStruct
 	if *marshallOnCommit != "" {
 		// persistence in a SQLite file on disk in memory
-		stage = fullstack.NewStackInstance(r, "{{PkgPathRoot}}/models")
+		stage = {{pkgname}}_fullstack.NewStackInstance(r, "{{PkgPathRoot}}/models")
 	} else {
 		// persistence in a SQLite file on disk
-		stage = fullstack.NewStackInstance(r, "{{PkgPathRoot}}/models", "./test.db")
+		stage = {{pkgname}}_fullstack.NewStackInstance(r, "{{PkgPathRoot}}/models", "./test.db")
 	}
 
 	// generate injection code from the stage
@@ -122,7 +121,7 @@ func main() {
 		stage.Checkout()
 		stage.Reset()
 		stage.Commit()
-		err := models.ParseAstFile(stage, *unmarshallFromCode)
+		err := {{pkgname}}_models.ParseAstFile(stage, *unmarshallFromCode)
 
 		// if the application is run with -unmarshallFromCode=xxx.go -marshallOnCommit
 		// xxx.go might be absent the first time. However, this shall not be a show stopper.
@@ -145,7 +144,8 @@ func main() {
 	gongdoc_load.Load(
 		"{{pkgname}}",
 		"{{PkgPathRoot}}/models",
-		{{pkgname}}.GoDir,
+		{{pkgname}}_go.GoModelsDir,
+		{{pkgname}}_go.GoDiagramsDir,
 		r,
 		*embeddedDiagrams,
 		&stage.Map_GongStructName_InstancesNb)
