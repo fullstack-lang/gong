@@ -14,8 +14,8 @@ const NgFileAppComponentHtml = `<!-- button bar that is present in all tabs -->
         <ng-container *ngTemplateOutlet="radioToolbar"></ng-container>
     </as-split-area>
     <as-split-area [size]="$any('*')">
-        <lib-data-model-panel [GONG__StackPath]="GONG__StackPath">
-        </lib-data-model-panel>
+        <lib-{{PkgPathRootWithoutSlashes}}-data-model-panel [GONG__StackPath]="GONG__StackPath">
+        </lib-{{PkgPathRootWithoutSlashes}}-data-model-panel>
     </as-split-area>
 </as-split>
 `

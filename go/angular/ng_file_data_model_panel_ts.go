@@ -3,7 +3,7 @@ package angular
 const NgFileDataModelPanelTemplateTs = `import { Component, Input } from '@angular/core';
 
 @Component({
-  selector: 'lib-data-model-panel',
+  selector: 'lib-{{PkgPathRootWithoutSlashes}}-data-model-panel',
   templateUrl: './data-model-panel.component.html',
 })
 export class DataModelPanelComponent {
