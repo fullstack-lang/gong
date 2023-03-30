@@ -312,7 +312,7 @@ func main() {
 	gong_models.VerySimpleCodeGenerator(
 		modelPkg,
 		caserEnglish.String(modelPkg.Name),
-		modelPkg.PkgPath, filepath.Join(*pkgPath, "../../embed.go"),
+		modelPkg.PkgPath, filepath.Join(*pkgPath, "../../go/embed.go"),
 		golang.EmebedGoDirTemplate)
 
 	gong_models.VerySimpleCodeGenerator(

@@ -26,14 +26,15 @@ import (
 func Load(
 	stackName string,
 	pkgPath string,
-	goSourceDirectories embed.FS,
+	goModelsDir embed.FS,
+	goDiagramsDir embed.FS,
 	r *gin.Engine,
 	embeddedDiagrams bool,
 	map_StructName_InstanceNb *map[string]int) {
 
 	gongStage := gong_fullstack.NewStackInstance(r, pkgPath)
 	gongdocStage := gongdoc_fullstack.NewStackInstance(r, pkgPath)
-	modelPackage, _ := gong_models.LoadEmbedded(gongStage, goSourceDirectories)
+	modelPackage, _ := gong_models.LoadEmbedded(gongStage, goModelsDir)
 	modelPackage.Name = stackName
 	modelPackage.PkgPath = pkgPath
 
@@ -45,7 +46,7 @@ func Load(
 	gongdoc_models.GetDefaultStage().MetaPackageImportPath = pkgPath
 
 	if embeddedDiagrams {
-		diagramPackage, _ = LoadEmbeddedDiagramPackage(goSourceDirectories, modelPackage)
+		diagramPackage, _ = LoadEmbeddedDiagramPackage(goDiagramsDir, modelPackage)
 	} else {
 		diagramPackage, _ = LoadDiagramPackage(gongdocStage, filepath.Join("../../diagrams"), modelPackage, true)
 	}
