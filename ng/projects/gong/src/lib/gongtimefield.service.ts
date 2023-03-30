@@ -45,11 +45,12 @@ export class GongTimeFieldService {
   /** GET gongtimefields from the server */
   getGongTimeFields(GONG__StackPath: string = ""): Observable<GongTimeFieldDB[]> {
 
-	let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
     return this.http.get<GongTimeFieldDB[]>(this.gongtimefieldsUrl, { params: params })
       .pipe(
-        tap(_ => this.log('fetched gongtimefields')),
+        tap(),
+		// tap(_ => this.log('fetched gongtimefields')),
         catchError(this.handleError<GongTimeFieldDB[]>('getGongTimeFields', []))
       );
   }
@@ -76,7 +77,7 @@ export class GongTimeFieldService {
       params: params
     }
 
-	return this.http.post<GongTimeFieldDB>(this.gongtimefieldsUrl, gongtimefielddb, httpOptions).pipe(
+    return this.http.post<GongTimeFieldDB>(this.gongtimefieldsUrl, gongtimefielddb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
         gongtimefielddb.GongStruct_GongTimeFields_reverse = _GongStruct_GongTimeFields_reverse
@@ -134,11 +135,11 @@ export class GongTimeFieldService {
    * @param operation - name of the operation that failed
    * @param result - optional value to return as the observable result
    */
-  private handleError<T>(operation = 'operation', result?: T) {
+  private handleError<T>(operation = 'operation in GongTimeFieldService', result?: T) {
     return (error: any): Observable<T> => {
 
       // TODO: send the error to remote logging infrastructure
-      console.error(error); // log to console instead
+      console.error("GongTimeFieldService" + error); // log to console instead
 
       // TODO: better job of transforming error for user consumption
       this.log(`${operation} failed: ${error.message}`);
@@ -149,6 +150,6 @@ export class GongTimeFieldService {
   }
 
   private log(message: string) {
-
+      console.log(message)
   }
 }

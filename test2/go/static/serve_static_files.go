@@ -7,16 +7,12 @@ import (
 	"net/http"
 	"os"
 
+	// this package contains ...
 	"github.com/fullstack-lang/gong/test2"
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-contrib/static"
 	"github.com/gin-gonic/gin"
-
-	// this will import the angular front end source code directory (versionned with git) in the vendor directory
-	// this path will be included in the "tsconfig.json" front end compilation paths
-	// to include this stack front end code
-	_ "github.com/fullstack-lang/gong/test2/ng/projects"
 )
 
 func ServeStaticFiles(logGINFlag bool) (r *gin.Engine) {
@@ -27,7 +23,14 @@ func ServeStaticFiles(logGINFlag bool) (r *gin.Engine) {
 		gin.DefaultWriter = myfile
 	}
 	r = gin.Default()
-	r.Use(cors.Default())
+	config := cors.DefaultConfig()
+	config.AllowOrigins = []string{"http://localhost:8080", "http://localhost:4200"} // Allow requests from localhost:8080 and localhost:4200
+
+	config.AllowMethods = []string{"GET", "POST", "PUT", "DELETE"} // Allow specific HTTP methods
+
+	config.AllowHeaders = []string{"Origin", "Content-Type", "Authorization"} // Allow specific headers
+	
+	r.Use(cors.New(config))
 
 	// insertion point for serving the static file
 	// provide the static route for the angular pages

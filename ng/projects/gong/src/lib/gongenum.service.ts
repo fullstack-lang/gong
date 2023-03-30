@@ -44,11 +44,12 @@ export class GongEnumService {
   /** GET gongenums from the server */
   getGongEnums(GONG__StackPath: string = ""): Observable<GongEnumDB[]> {
 
-	let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
     return this.http.get<GongEnumDB[]>(this.gongenumsUrl, { params: params })
       .pipe(
-        tap(_ => this.log('fetched gongenums')),
+        tap(),
+		// tap(_ => this.log('fetched gongenums')),
         catchError(this.handleError<GongEnumDB[]>('getGongEnums', []))
       );
   }
@@ -74,7 +75,7 @@ export class GongEnumService {
       params: params
     }
 
-	return this.http.post<GongEnumDB>(this.gongenumsUrl, gongenumdb, httpOptions).pipe(
+    return this.http.post<GongEnumDB>(this.gongenumsUrl, gongenumdb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
         this.log(`posted gongenumdb id=${gongenumdb.ID}`)
@@ -129,11 +130,11 @@ export class GongEnumService {
    * @param operation - name of the operation that failed
    * @param result - optional value to return as the observable result
    */
-  private handleError<T>(operation = 'operation', result?: T) {
+  private handleError<T>(operation = 'operation in GongEnumService', result?: T) {
     return (error: any): Observable<T> => {
 
       // TODO: send the error to remote logging infrastructure
-      console.error(error); // log to console instead
+      console.error("GongEnumService" + error); // log to console instead
 
       // TODO: better job of transforming error for user consumption
       this.log(`${operation} failed: ${error.message}`);
@@ -144,6 +145,6 @@ export class GongEnumService {
   }
 
   private log(message: string) {
-
+      console.log(message)
   }
 }

@@ -44,11 +44,12 @@ export class GongNoteService {
   /** GET gongnotes from the server */
   getGongNotes(GONG__StackPath: string = ""): Observable<GongNoteDB[]> {
 
-	let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
     return this.http.get<GongNoteDB[]>(this.gongnotesUrl, { params: params })
       .pipe(
-        tap(_ => this.log('fetched gongnotes')),
+        tap(),
+		// tap(_ => this.log('fetched gongnotes')),
         catchError(this.handleError<GongNoteDB[]>('getGongNotes', []))
       );
   }
@@ -74,7 +75,7 @@ export class GongNoteService {
       params: params
     }
 
-	return this.http.post<GongNoteDB>(this.gongnotesUrl, gongnotedb, httpOptions).pipe(
+    return this.http.post<GongNoteDB>(this.gongnotesUrl, gongnotedb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
         this.log(`posted gongnotedb id=${gongnotedb.ID}`)
@@ -129,11 +130,11 @@ export class GongNoteService {
    * @param operation - name of the operation that failed
    * @param result - optional value to return as the observable result
    */
-  private handleError<T>(operation = 'operation', result?: T) {
+  private handleError<T>(operation = 'operation in GongNoteService', result?: T) {
     return (error: any): Observable<T> => {
 
       // TODO: send the error to remote logging infrastructure
-      console.error(error); // log to console instead
+      console.error("GongNoteService" + error); // log to console instead
 
       // TODO: better job of transforming error for user consumption
       this.log(`${operation} failed: ${error.message}`);
@@ -144,6 +145,6 @@ export class GongNoteService {
   }
 
   private log(message: string) {
-
+      console.log(message)
   }
 }

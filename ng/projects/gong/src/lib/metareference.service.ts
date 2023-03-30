@@ -45,11 +45,12 @@ export class MetaReferenceService {
   /** GET metareferences from the server */
   getMetaReferences(GONG__StackPath: string = ""): Observable<MetaReferenceDB[]> {
 
-	let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
     return this.http.get<MetaReferenceDB[]>(this.metareferencesUrl, { params: params })
       .pipe(
-        tap(_ => this.log('fetched metareferences')),
+        tap(),
+		// tap(_ => this.log('fetched metareferences')),
         catchError(this.handleError<MetaReferenceDB[]>('getMetaReferences', []))
       );
   }
@@ -76,7 +77,7 @@ export class MetaReferenceService {
       params: params
     }
 
-	return this.http.post<MetaReferenceDB>(this.metareferencesUrl, metareferencedb, httpOptions).pipe(
+    return this.http.post<MetaReferenceDB>(this.metareferencesUrl, metareferencedb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
         metareferencedb.Meta_MetaReferences_reverse = _Meta_MetaReferences_reverse
@@ -134,11 +135,11 @@ export class MetaReferenceService {
    * @param operation - name of the operation that failed
    * @param result - optional value to return as the observable result
    */
-  private handleError<T>(operation = 'operation', result?: T) {
+  private handleError<T>(operation = 'operation in MetaReferenceService', result?: T) {
     return (error: any): Observable<T> => {
 
       // TODO: send the error to remote logging infrastructure
-      console.error(error); // log to console instead
+      console.error("MetaReferenceService" + error); // log to console instead
 
       // TODO: better job of transforming error for user consumption
       this.log(`${operation} failed: ${error.message}`);
@@ -149,6 +150,6 @@ export class MetaReferenceService {
   }
 
   private log(message: string) {
-
+      console.log(message)
   }
 }

@@ -45,11 +45,12 @@ export class GongLinkService {
   /** GET gonglinks from the server */
   getGongLinks(GONG__StackPath: string = ""): Observable<GongLinkDB[]> {
 
-	let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
     return this.http.get<GongLinkDB[]>(this.gonglinksUrl, { params: params })
       .pipe(
-        tap(_ => this.log('fetched gonglinks')),
+        tap(),
+		// tap(_ => this.log('fetched gonglinks')),
         catchError(this.handleError<GongLinkDB[]>('getGongLinks', []))
       );
   }
@@ -76,7 +77,7 @@ export class GongLinkService {
       params: params
     }
 
-	return this.http.post<GongLinkDB>(this.gonglinksUrl, gonglinkdb, httpOptions).pipe(
+    return this.http.post<GongLinkDB>(this.gonglinksUrl, gonglinkdb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
         gonglinkdb.GongNote_Links_reverse = _GongNote_Links_reverse
@@ -134,11 +135,11 @@ export class GongLinkService {
    * @param operation - name of the operation that failed
    * @param result - optional value to return as the observable result
    */
-  private handleError<T>(operation = 'operation', result?: T) {
+  private handleError<T>(operation = 'operation in GongLinkService', result?: T) {
     return (error: any): Observable<T> => {
 
       // TODO: send the error to remote logging infrastructure
-      console.error(error); // log to console instead
+      console.error("GongLinkService" + error); // log to console instead
 
       // TODO: better job of transforming error for user consumption
       this.log(`${operation} failed: ${error.message}`);
@@ -149,6 +150,6 @@ export class GongLinkService {
   }
 
   private log(message: string) {
-
+      console.log(message)
   }
 }
