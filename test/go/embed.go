@@ -1,6 +1,4 @@
-package golang
-
-const EmebedGoDirTemplate = `package {{pkgname}}
+package test
 
 import "embed"
 
@@ -9,4 +7,3 @@ var GoModelsDir embed.FS
 
 //go:embed diagrams
 var GoDiagramsDir embed.FS
-`

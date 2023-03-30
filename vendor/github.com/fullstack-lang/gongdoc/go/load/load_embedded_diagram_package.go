@@ -25,7 +25,7 @@ func LoadEmbeddedDiagramPackage(fs embed.FS, modelPkg *gong_models.ModelPkg) (di
 	diagramPackage.GongModelPath = modelPkg.PkgPath
 
 	fset := new(token.FileSet)
-	pkgsParser := gong_models.ParseEmbedModel(fs, "go/diagrams")
+	pkgsParser := gong_models.ParseEmbedModel(fs, "diagrams")
 	if len(pkgsParser) != 1 {
 		log.Panic("Unable to parser, wrong number of parsers ", len(pkgsParser))
 	}
