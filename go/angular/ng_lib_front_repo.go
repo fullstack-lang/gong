@@ -257,7 +257,7 @@ import { {{Structname}}Service } from './{{structname}}.service'
     return new Observable<FrontRepo>(
       (observer) => {
         combineLatest([
-          this.{{structname}}Service.get{{Structname}}s()
+          this.{{structname}}Service.get{{Structname}}s(this.GONG__StackPath)
         ]).subscribe(
           ([ // insertion point sub template 
             {{structname}}s,
