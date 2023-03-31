@@ -44,7 +44,7 @@ export class AstructBstructUseService {
   }
 
   /** GET astructbstructuses from the server */
-  getAstructBstructUses(GONG__StackPath: string = ""): Observable<AstructBstructUseDB[]> {
+  getAstructBstructUses(GONG__StackPath: string): Observable<AstructBstructUseDB[]> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
@@ -57,9 +57,12 @@ export class AstructBstructUseService {
   }
 
   /** GET astructbstructuse by id. Will 404 if id not found */
-  getAstructBstructUse(id: number): Observable<AstructBstructUseDB> {
+  getAstructBstructUse(id: number, GONG__StackPath: string): Observable<AstructBstructUseDB> {
+
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+
     const url = `${this.astructbstructusesUrl}/${id}`;
-    return this.http.get<AstructBstructUseDB>(url).pipe(
+    return this.http.get<AstructBstructUseDB>(url, { params: params }).pipe(
       tap(_ => this.log(`fetched astructbstructuse id=${id}`)),
       catchError(this.handleError<AstructBstructUseDB>(`getAstructBstructUse id=${id}`))
     );
