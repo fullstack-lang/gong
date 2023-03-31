@@ -42,7 +42,7 @@ export class DstructService {
   }
 
   /** GET dstructs from the server */
-  getDstructs(GONG__StackPath: string = ""): Observable<DstructDB[]> {
+  getDstructs(GONG__StackPath: string): Observable<DstructDB[]> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
@@ -55,9 +55,12 @@ export class DstructService {
   }
 
   /** GET dstruct by id. Will 404 if id not found */
-  getDstruct(id: number): Observable<DstructDB> {
+  getDstruct(id: number, GONG__StackPath: string): Observable<DstructDB> {
+
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+
     const url = `${this.dstructsUrl}/${id}`;
-    return this.http.get<DstructDB>(url).pipe(
+    return this.http.get<DstructDB>(url, { params: params }).pipe(
       tap(_ => this.log(`fetched dstruct id=${id}`)),
       catchError(this.handleError<DstructDB>(`getDstruct id=${id}`))
     );
