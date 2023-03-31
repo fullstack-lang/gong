@@ -74,7 +74,7 @@ export class {{Structname}}Service {
 
     const url = ` + "`" + `${this.{{structname}}sUrl}/${id}` + "`" + `;
     return this.http.get<{{Structname}}DB>(url, { params: params }).pipe(
-      tap(_ => this.log(` + "`" + `fetched {{structname}} id=${id}` + "`" + `)),
+      // tap(_ => this.log(` + "`" + `fetched {{structname}} id=${id}` + "`" + `)),
       catchError(this.handleError<{{Structname}}DB>(` + "`" + `get{{Structname}} id=${id}` + "`" + `))
     );
   }
@@ -93,7 +93,7 @@ export class {{Structname}}Service {
     return this.http.post<{{Structname}}DB>(this.{{structname}}sUrl, {{structname}}db, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers{{` + string(rune(NgServiceTsInsertionPointerRestore)) + `}}
-        this.log(` + "`" + `posted {{structname}}db id=${{{structname}}db.ID}` + "`" + `)
+        // this.log(` + "`" + `posted {{structname}}db id=${{{structname}}db.ID}` + "`" + `)
       }),
       catchError(this.handleError<{{Structname}}DB>('post{{Structname}}'))
     );
