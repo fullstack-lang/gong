@@ -49,7 +49,11 @@ type StageStruct struct { // insertion point for definition of arrays registerin
 	// store meta package import
 	MetaPackageImportPath  string
 	MetaPackageImportAlias string
-	Map_DocLink_Renaming   map[string]GONG__Identifier
+
+	// to be removed after fix of [issue](https://github.com/golang/go/issues/57559)
+	// map to enable docLink renaming when an identifier is renamed
+	Map_DocLink_Renaming map[string]GONG__Identifier
+	// the to be removed stops here
 }
 
 type GONG__Identifier struct {
@@ -112,6 +116,10 @@ func NewStage() (stage *StageStruct) {
 	stage = &StageStruct{ // insertion point for array initiatialisation{{` + string(rune(ModelGongStructInsertionArrayInitialisation)) + `}}
 		// end of insertion point
 		Map_GongStructName_InstancesNb: make(map[string]int),
+
+		// to be removed after fix of [issue](https://github.com/golang/go/issues/57559)
+		Map_DocLink_Renaming: make(map[string]GONG__Identifier),
+		// the to be removed stops here
 	}
 
 	return
@@ -215,7 +223,7 @@ type GongstructMapString interface {
 // it is usefull because it allows refactoring of gong struct identifier
 func GongGetSet[Type GongstructSet](stage *StageStruct) *Type {
 	var ret Type
-	
+
 	switch any(ret).(type) {
 	// insertion point for generic get functions{{` + string(rune(ModelGongStructInsertionGenericGetSetFunctions)) + `}}
 	default:
