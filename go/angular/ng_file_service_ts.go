@@ -55,7 +55,7 @@ export class {{Structname}}Service {
   }
 
   /** GET {{structname}}s from the server */
-  get{{Structname}}s(GONG__StackPath: string = ""): Observable<{{Structname}}DB[]> {
+  get{{Structname}}s(GONG__StackPath: string): Observable<{{Structname}}DB[]> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
@@ -68,9 +68,12 @@ export class {{Structname}}Service {
   }
 
   /** GET {{structname}} by id. Will 404 if id not found */
-  get{{Structname}}(id: number): Observable<{{Structname}}DB> {
+  get{{Structname}}(id: number, GONG__StackPath: string): Observable<{{Structname}}DB> {
+
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+
     const url = ` + "`" + `${this.{{structname}}sUrl}/${id}` + "`" + `;
-    return this.http.get<{{Structname}}DB>(url).pipe(
+    return this.http.get<{{Structname}}DB>(url, { params: params }).pipe(
       tap(_ => this.log(` + "`" + `fetched {{structname}} id=${id}` + "`" + `)),
       catchError(this.handleError<{{Structname}}DB>(` + "`" + `get{{Structname}} id=${id}` + "`" + `))
     );
