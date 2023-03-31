@@ -555,7 +555,7 @@ export class FrontRepoService {
     return new Observable<FrontRepo>(
       (observer) => {
         combineLatest([
-          this.astructService.getAstructs()
+          this.astructService.getAstructs(this.GONG__StackPath)
         ]).subscribe(
           ([ // insertion point sub template 
             astructs,
