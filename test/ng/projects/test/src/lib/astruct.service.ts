@@ -44,22 +44,25 @@ export class AstructService {
   }
 
   /** GET astructs from the server */
-  getAstructs(GONG__StackPath: string = ""): Observable<AstructDB[]> {
+  getAstructs(GONG__StackPath: string): Observable<AstructDB[]> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
     return this.http.get<AstructDB[]>(this.astructsUrl, { params: params })
       .pipe(
         tap(),
-		// tap(_ => this.log('fetched astructs')),
+        // tap(_ => this.log('fetched astructs')),
         catchError(this.handleError<AstructDB[]>('getAstructs', []))
       );
   }
 
   /** GET astruct by id. Will 404 if id not found */
-  getAstruct(id: number): Observable<AstructDB> {
+  getAstruct(id: number, GONG__StackPath: string): Observable<AstructDB> {
+
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+
     const url = `${this.astructsUrl}/${id}`;
-    return this.http.get<AstructDB>(url).pipe(
+    return this.http.get<AstructDB>(url, { params: params }).pipe(
       tap(_ => this.log(`fetched astruct id=${id}`)),
       catchError(this.handleError<AstructDB>(`getAstruct id=${id}`))
     );
@@ -179,6 +182,6 @@ export class AstructService {
   }
 
   private log(message: string) {
-      console.log(message)
+    console.log(message)
   }
 }
