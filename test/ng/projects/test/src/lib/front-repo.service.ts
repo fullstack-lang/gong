@@ -682,7 +682,7 @@ export class FrontRepoService {
     return new Observable<FrontRepo>(
       (observer) => {
         combineLatest([
-          this.astructbstruct2useService.getAstructBstruct2Uses()
+          this.astructbstruct2useService.getAstructBstruct2Uses(this.GONG__StackPath)
         ]).subscribe(
           ([ // insertion point sub template 
             astructbstruct2uses,
@@ -753,7 +753,7 @@ export class FrontRepoService {
     return new Observable<FrontRepo>(
       (observer) => {
         combineLatest([
-          this.astructbstructuseService.getAstructBstructUses()
+          this.astructbstructuseService.getAstructBstructUses(this.GONG__StackPath)
         ]).subscribe(
           ([ // insertion point sub template 
             astructbstructuses,
@@ -824,7 +824,7 @@ export class FrontRepoService {
     return new Observable<FrontRepo>(
       (observer) => {
         combineLatest([
-          this.bstructService.getBstructs()
+          this.bstructService.getBstructs(this.GONG__StackPath)
         ]).subscribe(
           ([ // insertion point sub template 
             bstructs,
@@ -901,7 +901,7 @@ export class FrontRepoService {
     return new Observable<FrontRepo>(
       (observer) => {
         combineLatest([
-          this.dstructService.getDstructs()
+          this.dstructService.getDstructs(this.GONG__StackPath)
         ]).subscribe(
           ([ // insertion point sub template 
             dstructs,

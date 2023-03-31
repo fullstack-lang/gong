@@ -43,7 +43,7 @@ export class BstructService {
   }
 
   /** GET bstructs from the server */
-  getBstructs(GONG__StackPath: string = ""): Observable<BstructDB[]> {
+  getBstructs(GONG__StackPath: string): Observable<BstructDB[]> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
@@ -56,9 +56,12 @@ export class BstructService {
   }
 
   /** GET bstruct by id. Will 404 if id not found */
-  getBstruct(id: number): Observable<BstructDB> {
+  getBstruct(id: number, GONG__StackPath: string): Observable<BstructDB> {
+
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+
     const url = `${this.bstructsUrl}/${id}`;
-    return this.http.get<BstructDB>(url).pipe(
+    return this.http.get<BstructDB>(url, { params: params }).pipe(
       tap(_ => this.log(`fetched bstruct id=${id}`)),
       catchError(this.handleError<BstructDB>(`getBstruct id=${id}`))
     );

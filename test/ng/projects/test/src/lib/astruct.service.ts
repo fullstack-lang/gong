@@ -51,7 +51,7 @@ export class AstructService {
     return this.http.get<AstructDB[]>(this.astructsUrl, { params: params })
       .pipe(
         tap(),
-        // tap(_ => this.log('fetched astructs')),
+		// tap(_ => this.log('fetched astructs')),
         catchError(this.handleError<AstructDB[]>('getAstructs', []))
       );
   }
@@ -182,6 +182,6 @@ export class AstructService {
   }
 
   private log(message: string) {
-    console.log(message)
+      console.log(message)
   }
 }
