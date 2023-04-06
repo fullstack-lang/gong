@@ -44,7 +44,7 @@ export class GongBasicFieldService {
   }
 
   /** GET gongbasicfields from the server */
-  getGongBasicFields(GONG__StackPath: string = ""): Observable<GongBasicFieldDB[]> {
+  getGongBasicFields(GONG__StackPath: string): Observable<GongBasicFieldDB[]> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
@@ -57,10 +57,13 @@ export class GongBasicFieldService {
   }
 
   /** GET gongbasicfield by id. Will 404 if id not found */
-  getGongBasicField(id: number): Observable<GongBasicFieldDB> {
+  getGongBasicField(id: number, GONG__StackPath: string): Observable<GongBasicFieldDB> {
+
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+
     const url = `${this.gongbasicfieldsUrl}/${id}`;
-    return this.http.get<GongBasicFieldDB>(url).pipe(
-      tap(_ => this.log(`fetched gongbasicfield id=${id}`)),
+    return this.http.get<GongBasicFieldDB>(url, { params: params }).pipe(
+      // tap(_ => this.log(`fetched gongbasicfield id=${id}`)),
       catchError(this.handleError<GongBasicFieldDB>(`getGongBasicField id=${id}`))
     );
   }
@@ -83,7 +86,7 @@ export class GongBasicFieldService {
       tap(_ => {
         // insertion point for restoration of reverse pointers
         gongbasicfielddb.GongStruct_GongBasicFields_reverse = _GongStruct_GongBasicFields_reverse
-        this.log(`posted gongbasicfielddb id=${gongbasicfielddb.ID}`)
+        // this.log(`posted gongbasicfielddb id=${gongbasicfielddb.ID}`)
       }),
       catchError(this.handleError<GongBasicFieldDB>('postGongBasicField'))
     );

@@ -42,7 +42,7 @@ export class GongNoteService {
   }
 
   /** GET gongnotes from the server */
-  getGongNotes(GONG__StackPath: string = ""): Observable<GongNoteDB[]> {
+  getGongNotes(GONG__StackPath: string): Observable<GongNoteDB[]> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
@@ -55,10 +55,13 @@ export class GongNoteService {
   }
 
   /** GET gongnote by id. Will 404 if id not found */
-  getGongNote(id: number): Observable<GongNoteDB> {
+  getGongNote(id: number, GONG__StackPath: string): Observable<GongNoteDB> {
+
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+
     const url = `${this.gongnotesUrl}/${id}`;
-    return this.http.get<GongNoteDB>(url).pipe(
-      tap(_ => this.log(`fetched gongnote id=${id}`)),
+    return this.http.get<GongNoteDB>(url, { params: params }).pipe(
+      // tap(_ => this.log(`fetched gongnote id=${id}`)),
       catchError(this.handleError<GongNoteDB>(`getGongNote id=${id}`))
     );
   }
@@ -78,7 +81,7 @@ export class GongNoteService {
     return this.http.post<GongNoteDB>(this.gongnotesUrl, gongnotedb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
-        this.log(`posted gongnotedb id=${gongnotedb.ID}`)
+        // this.log(`posted gongnotedb id=${gongnotedb.ID}`)
       }),
       catchError(this.handleError<GongNoteDB>('postGongNote'))
     );
