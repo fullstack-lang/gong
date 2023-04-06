@@ -58,7 +58,7 @@ func (controller *Controller) GetAstructBstruct2Uses(c *gin.Context) {
 		value := values["GONG__StackPath"]
 		if len(value) == 1 {
 			stackPath = value[0]
-			log.Println("GetAstructBstruct2Uses", "GONG__StackPath", stackPath)
+			// log.Println("GetAstructBstruct2Uses", "GONG__StackPath", stackPath)
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
@@ -115,7 +115,7 @@ func (controller *Controller) PostAstructBstruct2Use(c *gin.Context) {
 		value := values["GONG__StackPath"]
 		if len(value) == 1 {
 			stackPath = value[0]
-			log.Println("PostAstructBstruct2Uses", "GONG__StackPath", stackPath)
+			// log.Println("PostAstructBstruct2Uses", "GONG__StackPath", stackPath)
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
@@ -182,7 +182,7 @@ func (controller *Controller) GetAstructBstruct2Use(c *gin.Context) {
 		value := values["GONG__StackPath"]
 		if len(value) == 1 {
 			stackPath = value[0]
-			log.Println("GetAstructBstruct2Use", "GONG__StackPath", stackPath)
+			// log.Println("GetAstructBstruct2Use", "GONG__StackPath", stackPath)
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
@@ -225,7 +225,7 @@ func (controller *Controller) UpdateAstructBstruct2Use(c *gin.Context) {
 		value := values["GONG__StackPath"]
 		if len(value) == 1 {
 			stackPath = value[0]
-			log.Println("UpdateAstructBstruct2Use", "GONG__StackPath", stackPath)
+			// log.Println("UpdateAstructBstruct2Use", "GONG__StackPath", stackPath)
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
@@ -305,7 +305,7 @@ func (controller *Controller) DeleteAstructBstruct2Use(c *gin.Context) {
 		value := values["GONG__StackPath"]
 		if len(value) == 1 {
 			stackPath = value[0]
-			log.Println("DeleteAstructBstruct2Use", "GONG__StackPath", stackPath)
+			// log.Println("DeleteAstructBstruct2Use", "GONG__StackPath", stackPath)
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]

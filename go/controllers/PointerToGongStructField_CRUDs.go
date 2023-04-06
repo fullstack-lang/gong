@@ -58,7 +58,7 @@ func (controller *Controller) GetPointerToGongStructFields(c *gin.Context) {
 		value := values["GONG__StackPath"]
 		if len(value) == 1 {
 			stackPath = value[0]
-			log.Println("GetPointerToGongStructFields", "GONG__StackPath", stackPath)
+			// log.Println("GetPointerToGongStructFields", "GONG__StackPath", stackPath)
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
@@ -115,7 +115,7 @@ func (controller *Controller) PostPointerToGongStructField(c *gin.Context) {
 		value := values["GONG__StackPath"]
 		if len(value) == 1 {
 			stackPath = value[0]
-			log.Println("PostPointerToGongStructFields", "GONG__StackPath", stackPath)
+			// log.Println("PostPointerToGongStructFields", "GONG__StackPath", stackPath)
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
@@ -182,7 +182,7 @@ func (controller *Controller) GetPointerToGongStructField(c *gin.Context) {
 		value := values["GONG__StackPath"]
 		if len(value) == 1 {
 			stackPath = value[0]
-			log.Println("GetPointerToGongStructField", "GONG__StackPath", stackPath)
+			// log.Println("GetPointerToGongStructField", "GONG__StackPath", stackPath)
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
@@ -225,7 +225,7 @@ func (controller *Controller) UpdatePointerToGongStructField(c *gin.Context) {
 		value := values["GONG__StackPath"]
 		if len(value) == 1 {
 			stackPath = value[0]
-			log.Println("UpdatePointerToGongStructField", "GONG__StackPath", stackPath)
+			// log.Println("UpdatePointerToGongStructField", "GONG__StackPath", stackPath)
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
@@ -305,7 +305,7 @@ func (controller *Controller) DeletePointerToGongStructField(c *gin.Context) {
 		value := values["GONG__StackPath"]
 		if len(value) == 1 {
 			stackPath = value[0]
-			log.Println("DeletePointerToGongStructField", "GONG__StackPath", stackPath)
+			// log.Println("DeletePointerToGongStructField", "GONG__StackPath", stackPath)
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]

@@ -43,7 +43,7 @@ export class SliceOfPointerToGongStructFieldService {
   }
 
   /** GET sliceofpointertogongstructfields from the server */
-  getSliceOfPointerToGongStructFields(GONG__StackPath: string = ""): Observable<SliceOfPointerToGongStructFieldDB[]> {
+  getSliceOfPointerToGongStructFields(GONG__StackPath: string): Observable<SliceOfPointerToGongStructFieldDB[]> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
@@ -56,10 +56,13 @@ export class SliceOfPointerToGongStructFieldService {
   }
 
   /** GET sliceofpointertogongstructfield by id. Will 404 if id not found */
-  getSliceOfPointerToGongStructField(id: number): Observable<SliceOfPointerToGongStructFieldDB> {
+  getSliceOfPointerToGongStructField(id: number, GONG__StackPath: string): Observable<SliceOfPointerToGongStructFieldDB> {
+
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+
     const url = `${this.sliceofpointertogongstructfieldsUrl}/${id}`;
-    return this.http.get<SliceOfPointerToGongStructFieldDB>(url).pipe(
-      tap(_ => this.log(`fetched sliceofpointertogongstructfield id=${id}`)),
+    return this.http.get<SliceOfPointerToGongStructFieldDB>(url, { params: params }).pipe(
+      // tap(_ => this.log(`fetched sliceofpointertogongstructfield id=${id}`)),
       catchError(this.handleError<SliceOfPointerToGongStructFieldDB>(`getSliceOfPointerToGongStructField id=${id}`))
     );
   }
@@ -82,7 +85,7 @@ export class SliceOfPointerToGongStructFieldService {
       tap(_ => {
         // insertion point for restoration of reverse pointers
         sliceofpointertogongstructfielddb.GongStruct_SliceOfPointerToGongStructFields_reverse = _GongStruct_SliceOfPointerToGongStructFields_reverse
-        this.log(`posted sliceofpointertogongstructfielddb id=${sliceofpointertogongstructfielddb.ID}`)
+        // this.log(`posted sliceofpointertogongstructfielddb id=${sliceofpointertogongstructfielddb.ID}`)
       }),
       catchError(this.handleError<SliceOfPointerToGongStructFieldDB>('postSliceOfPointerToGongStructField'))
     );

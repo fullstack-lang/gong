@@ -42,7 +42,7 @@ export class MetaService {
   }
 
   /** GET metas from the server */
-  getMetas(GONG__StackPath: string = ""): Observable<MetaDB[]> {
+  getMetas(GONG__StackPath: string): Observable<MetaDB[]> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
@@ -55,10 +55,13 @@ export class MetaService {
   }
 
   /** GET meta by id. Will 404 if id not found */
-  getMeta(id: number): Observable<MetaDB> {
+  getMeta(id: number, GONG__StackPath: string): Observable<MetaDB> {
+
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+
     const url = `${this.metasUrl}/${id}`;
-    return this.http.get<MetaDB>(url).pipe(
-      tap(_ => this.log(`fetched meta id=${id}`)),
+    return this.http.get<MetaDB>(url, { params: params }).pipe(
+      // tap(_ => this.log(`fetched meta id=${id}`)),
       catchError(this.handleError<MetaDB>(`getMeta id=${id}`))
     );
   }
@@ -78,7 +81,7 @@ export class MetaService {
     return this.http.post<MetaDB>(this.metasUrl, metadb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
-        this.log(`posted metadb id=${metadb.ID}`)
+        // this.log(`posted metadb id=${metadb.ID}`)
       }),
       catchError(this.handleError<MetaDB>('postMeta'))
     );

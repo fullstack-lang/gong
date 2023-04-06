@@ -58,7 +58,7 @@ func (controller *Controller) GetSliceOfPointerToGongStructFields(c *gin.Context
 		value := values["GONG__StackPath"]
 		if len(value) == 1 {
 			stackPath = value[0]
-			log.Println("GetSliceOfPointerToGongStructFields", "GONG__StackPath", stackPath)
+			// log.Println("GetSliceOfPointerToGongStructFields", "GONG__StackPath", stackPath)
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
@@ -115,7 +115,7 @@ func (controller *Controller) PostSliceOfPointerToGongStructField(c *gin.Context
 		value := values["GONG__StackPath"]
 		if len(value) == 1 {
 			stackPath = value[0]
-			log.Println("PostSliceOfPointerToGongStructFields", "GONG__StackPath", stackPath)
+			// log.Println("PostSliceOfPointerToGongStructFields", "GONG__StackPath", stackPath)
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
@@ -182,7 +182,7 @@ func (controller *Controller) GetSliceOfPointerToGongStructField(c *gin.Context)
 		value := values["GONG__StackPath"]
 		if len(value) == 1 {
 			stackPath = value[0]
-			log.Println("GetSliceOfPointerToGongStructField", "GONG__StackPath", stackPath)
+			// log.Println("GetSliceOfPointerToGongStructField", "GONG__StackPath", stackPath)
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
@@ -225,7 +225,7 @@ func (controller *Controller) UpdateSliceOfPointerToGongStructField(c *gin.Conte
 		value := values["GONG__StackPath"]
 		if len(value) == 1 {
 			stackPath = value[0]
-			log.Println("UpdateSliceOfPointerToGongStructField", "GONG__StackPath", stackPath)
+			// log.Println("UpdateSliceOfPointerToGongStructField", "GONG__StackPath", stackPath)
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
@@ -305,7 +305,7 @@ func (controller *Controller) DeleteSliceOfPointerToGongStructField(c *gin.Conte
 		value := values["GONG__StackPath"]
 		if len(value) == 1 {
 			stackPath = value[0]
-			log.Println("DeleteSliceOfPointerToGongStructField", "GONG__StackPath", stackPath)
+			// log.Println("DeleteSliceOfPointerToGongStructField", "GONG__StackPath", stackPath)
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]

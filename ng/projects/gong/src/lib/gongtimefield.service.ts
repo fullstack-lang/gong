@@ -43,7 +43,7 @@ export class GongTimeFieldService {
   }
 
   /** GET gongtimefields from the server */
-  getGongTimeFields(GONG__StackPath: string = ""): Observable<GongTimeFieldDB[]> {
+  getGongTimeFields(GONG__StackPath: string): Observable<GongTimeFieldDB[]> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
@@ -56,10 +56,13 @@ export class GongTimeFieldService {
   }
 
   /** GET gongtimefield by id. Will 404 if id not found */
-  getGongTimeField(id: number): Observable<GongTimeFieldDB> {
+  getGongTimeField(id: number, GONG__StackPath: string): Observable<GongTimeFieldDB> {
+
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+
     const url = `${this.gongtimefieldsUrl}/${id}`;
-    return this.http.get<GongTimeFieldDB>(url).pipe(
-      tap(_ => this.log(`fetched gongtimefield id=${id}`)),
+    return this.http.get<GongTimeFieldDB>(url, { params: params }).pipe(
+      // tap(_ => this.log(`fetched gongtimefield id=${id}`)),
       catchError(this.handleError<GongTimeFieldDB>(`getGongTimeField id=${id}`))
     );
   }
@@ -81,7 +84,7 @@ export class GongTimeFieldService {
       tap(_ => {
         // insertion point for restoration of reverse pointers
         gongtimefielddb.GongStruct_GongTimeFields_reverse = _GongStruct_GongTimeFields_reverse
-        this.log(`posted gongtimefielddb id=${gongtimefielddb.ID}`)
+        // this.log(`posted gongtimefielddb id=${gongtimefielddb.ID}`)
       }),
       catchError(this.handleError<GongTimeFieldDB>('postGongTimeField'))
     );
