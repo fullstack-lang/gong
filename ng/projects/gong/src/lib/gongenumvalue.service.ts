@@ -43,7 +43,7 @@ export class GongEnumValueService {
   }
 
   /** GET gongenumvalues from the server */
-  getGongEnumValues(GONG__StackPath: string = ""): Observable<GongEnumValueDB[]> {
+  getGongEnumValues(GONG__StackPath: string): Observable<GongEnumValueDB[]> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
@@ -56,10 +56,13 @@ export class GongEnumValueService {
   }
 
   /** GET gongenumvalue by id. Will 404 if id not found */
-  getGongEnumValue(id: number): Observable<GongEnumValueDB> {
+  getGongEnumValue(id: number, GONG__StackPath: string): Observable<GongEnumValueDB> {
+
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+
     const url = `${this.gongenumvaluesUrl}/${id}`;
-    return this.http.get<GongEnumValueDB>(url).pipe(
-      tap(_ => this.log(`fetched gongenumvalue id=${id}`)),
+    return this.http.get<GongEnumValueDB>(url, { params: params }).pipe(
+      // tap(_ => this.log(`fetched gongenumvalue id=${id}`)),
       catchError(this.handleError<GongEnumValueDB>(`getGongEnumValue id=${id}`))
     );
   }
@@ -81,7 +84,7 @@ export class GongEnumValueService {
       tap(_ => {
         // insertion point for restoration of reverse pointers
         gongenumvaluedb.GongEnum_GongEnumValues_reverse = _GongEnum_GongEnumValues_reverse
-        this.log(`posted gongenumvaluedb id=${gongenumvaluedb.ID}`)
+        // this.log(`posted gongenumvaluedb id=${gongenumvaluedb.ID}`)
       }),
       catchError(this.handleError<GongEnumValueDB>('postGongEnumValue'))
     );

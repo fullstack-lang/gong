@@ -43,7 +43,7 @@ export class GongLinkService {
   }
 
   /** GET gonglinks from the server */
-  getGongLinks(GONG__StackPath: string = ""): Observable<GongLinkDB[]> {
+  getGongLinks(GONG__StackPath: string): Observable<GongLinkDB[]> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
@@ -56,10 +56,13 @@ export class GongLinkService {
   }
 
   /** GET gonglink by id. Will 404 if id not found */
-  getGongLink(id: number): Observable<GongLinkDB> {
+  getGongLink(id: number, GONG__StackPath: string): Observable<GongLinkDB> {
+
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+
     const url = `${this.gonglinksUrl}/${id}`;
-    return this.http.get<GongLinkDB>(url).pipe(
-      tap(_ => this.log(`fetched gonglink id=${id}`)),
+    return this.http.get<GongLinkDB>(url, { params: params }).pipe(
+      // tap(_ => this.log(`fetched gonglink id=${id}`)),
       catchError(this.handleError<GongLinkDB>(`getGongLink id=${id}`))
     );
   }
@@ -81,7 +84,7 @@ export class GongLinkService {
       tap(_ => {
         // insertion point for restoration of reverse pointers
         gonglinkdb.GongNote_Links_reverse = _GongNote_Links_reverse
-        this.log(`posted gonglinkdb id=${gonglinkdb.ID}`)
+        // this.log(`posted gonglinkdb id=${gonglinkdb.ID}`)
       }),
       catchError(this.handleError<GongLinkDB>('postGongLink'))
     );
