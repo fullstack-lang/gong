@@ -30,9 +30,6 @@ const (
 // ParseAstFile Parse pathToFile and stages all instances
 // declared in the file
 func ParseAstFile(stage *StageStruct, pathToFile string) error {
-	// map to store renaming docLink
-	// to be removed after fix of [issue](https://github.com/golang/go/issues/57559)
-	stage.Map_DocLink_Renaming = make(map[string]GONG__Identifier, 0)
 
 	fileOfInterest, err := filepath.Abs(pathToFile)
 	if err != nil {

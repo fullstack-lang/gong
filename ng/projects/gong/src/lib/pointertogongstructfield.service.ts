@@ -43,7 +43,7 @@ export class PointerToGongStructFieldService {
   }
 
   /** GET pointertogongstructfields from the server */
-  getPointerToGongStructFields(GONG__StackPath: string = ""): Observable<PointerToGongStructFieldDB[]> {
+  getPointerToGongStructFields(GONG__StackPath: string): Observable<PointerToGongStructFieldDB[]> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
@@ -56,10 +56,13 @@ export class PointerToGongStructFieldService {
   }
 
   /** GET pointertogongstructfield by id. Will 404 if id not found */
-  getPointerToGongStructField(id: number): Observable<PointerToGongStructFieldDB> {
+  getPointerToGongStructField(id: number, GONG__StackPath: string): Observable<PointerToGongStructFieldDB> {
+
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+
     const url = `${this.pointertogongstructfieldsUrl}/${id}`;
-    return this.http.get<PointerToGongStructFieldDB>(url).pipe(
-      tap(_ => this.log(`fetched pointertogongstructfield id=${id}`)),
+    return this.http.get<PointerToGongStructFieldDB>(url, { params: params }).pipe(
+      // tap(_ => this.log(`fetched pointertogongstructfield id=${id}`)),
       catchError(this.handleError<PointerToGongStructFieldDB>(`getPointerToGongStructField id=${id}`))
     );
   }
@@ -82,7 +85,7 @@ export class PointerToGongStructFieldService {
       tap(_ => {
         // insertion point for restoration of reverse pointers
         pointertogongstructfielddb.GongStruct_PointerToGongStructFields_reverse = _GongStruct_PointerToGongStructFields_reverse
-        this.log(`posted pointertogongstructfielddb id=${pointertogongstructfielddb.ID}`)
+        // this.log(`posted pointertogongstructfielddb id=${pointertogongstructfielddb.ID}`)
       }),
       catchError(this.handleError<PointerToGongStructFieldDB>('postPointerToGongStructField'))
     );
