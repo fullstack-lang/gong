@@ -896,7 +896,7 @@ export class FrontRepoService {
     return new Observable<FrontRepo>(
       (observer) => {
         combineLatest([
-          this.gongbasicfieldService.getGongBasicFields()
+          this.gongbasicfieldService.getGongBasicFields(this.GONG__StackPath)
         ]).subscribe(
           ([ // insertion point sub template 
             gongbasicfields,
@@ -967,7 +967,7 @@ export class FrontRepoService {
     return new Observable<FrontRepo>(
       (observer) => {
         combineLatest([
-          this.gongenumService.getGongEnums()
+          this.gongenumService.getGongEnums(this.GONG__StackPath)
         ]).subscribe(
           ([ // insertion point sub template 
             gongenums,
@@ -1018,7 +1018,7 @@ export class FrontRepoService {
     return new Observable<FrontRepo>(
       (observer) => {
         combineLatest([
-          this.gongenumvalueService.getGongEnumValues()
+          this.gongenumvalueService.getGongEnumValues(this.GONG__StackPath)
         ]).subscribe(
           ([ // insertion point sub template 
             gongenumvalues,
@@ -1082,7 +1082,7 @@ export class FrontRepoService {
     return new Observable<FrontRepo>(
       (observer) => {
         combineLatest([
-          this.gonglinkService.getGongLinks()
+          this.gonglinkService.getGongLinks(this.GONG__StackPath)
         ]).subscribe(
           ([ // insertion point sub template 
             gonglinks,
@@ -1146,7 +1146,7 @@ export class FrontRepoService {
     return new Observable<FrontRepo>(
       (observer) => {
         combineLatest([
-          this.gongnoteService.getGongNotes()
+          this.gongnoteService.getGongNotes(this.GONG__StackPath)
         ]).subscribe(
           ([ // insertion point sub template 
             gongnotes,
@@ -1197,7 +1197,7 @@ export class FrontRepoService {
     return new Observable<FrontRepo>(
       (observer) => {
         combineLatest([
-          this.gongstructService.getGongStructs()
+          this.gongstructService.getGongStructs(this.GONG__StackPath)
         ]).subscribe(
           ([ // insertion point sub template 
             gongstructs,
@@ -1248,7 +1248,7 @@ export class FrontRepoService {
     return new Observable<FrontRepo>(
       (observer) => {
         combineLatest([
-          this.gongtimefieldService.getGongTimeFields()
+          this.gongtimefieldService.getGongTimeFields(this.GONG__StackPath)
         ]).subscribe(
           ([ // insertion point sub template 
             gongtimefields,
@@ -1312,7 +1312,7 @@ export class FrontRepoService {
     return new Observable<FrontRepo>(
       (observer) => {
         combineLatest([
-          this.metaService.getMetas()
+          this.metaService.getMetas(this.GONG__StackPath)
         ]).subscribe(
           ([ // insertion point sub template 
             metas,
@@ -1363,7 +1363,7 @@ export class FrontRepoService {
     return new Observable<FrontRepo>(
       (observer) => {
         combineLatest([
-          this.metareferenceService.getMetaReferences()
+          this.metareferenceService.getMetaReferences(this.GONG__StackPath)
         ]).subscribe(
           ([ // insertion point sub template 
             metareferences,
@@ -1427,7 +1427,7 @@ export class FrontRepoService {
     return new Observable<FrontRepo>(
       (observer) => {
         combineLatest([
-          this.modelpkgService.getModelPkgs()
+          this.modelpkgService.getModelPkgs(this.GONG__StackPath)
         ]).subscribe(
           ([ // insertion point sub template 
             modelpkgs,
@@ -1478,7 +1478,7 @@ export class FrontRepoService {
     return new Observable<FrontRepo>(
       (observer) => {
         combineLatest([
-          this.pointertogongstructfieldService.getPointerToGongStructFields()
+          this.pointertogongstructfieldService.getPointerToGongStructFields(this.GONG__StackPath)
         ]).subscribe(
           ([ // insertion point sub template 
             pointertogongstructfields,
@@ -1549,7 +1549,7 @@ export class FrontRepoService {
     return new Observable<FrontRepo>(
       (observer) => {
         combineLatest([
-          this.sliceofpointertogongstructfieldService.getSliceOfPointerToGongStructFields()
+          this.sliceofpointertogongstructfieldService.getSliceOfPointerToGongStructFields(this.GONG__StackPath)
         ]).subscribe(
           ([ // insertion point sub template 
             sliceofpointertogongstructfields,

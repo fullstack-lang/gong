@@ -42,7 +42,7 @@ export class GongStructService {
   }
 
   /** GET gongstructs from the server */
-  getGongStructs(GONG__StackPath: string = ""): Observable<GongStructDB[]> {
+  getGongStructs(GONG__StackPath: string): Observable<GongStructDB[]> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
@@ -55,10 +55,13 @@ export class GongStructService {
   }
 
   /** GET gongstruct by id. Will 404 if id not found */
-  getGongStruct(id: number): Observable<GongStructDB> {
+  getGongStruct(id: number, GONG__StackPath: string): Observable<GongStructDB> {
+
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+
     const url = `${this.gongstructsUrl}/${id}`;
-    return this.http.get<GongStructDB>(url).pipe(
-      tap(_ => this.log(`fetched gongstruct id=${id}`)),
+    return this.http.get<GongStructDB>(url, { params: params }).pipe(
+      // tap(_ => this.log(`fetched gongstruct id=${id}`)),
       catchError(this.handleError<GongStructDB>(`getGongStruct id=${id}`))
     );
   }
@@ -81,7 +84,7 @@ export class GongStructService {
     return this.http.post<GongStructDB>(this.gongstructsUrl, gongstructdb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
-        this.log(`posted gongstructdb id=${gongstructdb.ID}`)
+        // this.log(`posted gongstructdb id=${gongstructdb.ID}`)
       }),
       catchError(this.handleError<GongStructDB>('postGongStruct'))
     );

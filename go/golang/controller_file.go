@@ -74,7 +74,7 @@ func (controller *Controller) Get{{Structname}}s(c *gin.Context) {
 		value := values["GONG__StackPath"]
 		if len(value) == 1 {
 			stackPath = value[0]
-			log.Println("Get{{Structname}}s", "GONG__StackPath", stackPath)
+			// log.Println("Get{{Structname}}s", "GONG__StackPath", stackPath)
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
@@ -131,7 +131,7 @@ func (controller *Controller) Post{{Structname}}(c *gin.Context) {
 		value := values["GONG__StackPath"]
 		if len(value) == 1 {
 			stackPath = value[0]
-			log.Println("Post{{Structname}}s", "GONG__StackPath", stackPath)
+			// log.Println("Post{{Structname}}s", "GONG__StackPath", stackPath)
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
@@ -198,7 +198,7 @@ func (controller *Controller) Get{{Structname}}(c *gin.Context) {
 		value := values["GONG__StackPath"]
 		if len(value) == 1 {
 			stackPath = value[0]
-			log.Println("Get{{Structname}}", "GONG__StackPath", stackPath)
+			// log.Println("Get{{Structname}}", "GONG__StackPath", stackPath)
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
@@ -241,7 +241,7 @@ func (controller *Controller) Update{{Structname}}(c *gin.Context) {
 		value := values["GONG__StackPath"]
 		if len(value) == 1 {
 			stackPath = value[0]
-			log.Println("Update{{Structname}}", "GONG__StackPath", stackPath)
+			// log.Println("Update{{Structname}}", "GONG__StackPath", stackPath)
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
@@ -321,7 +321,7 @@ func (controller *Controller) Delete{{Structname}}(c *gin.Context) {
 		value := values["GONG__StackPath"]
 		if len(value) == 1 {
 			stackPath = value[0]
-			log.Println("Delete{{Structname}}", "GONG__StackPath", stackPath)
+			// log.Println("Delete{{Structname}}", "GONG__StackPath", stackPath)
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
