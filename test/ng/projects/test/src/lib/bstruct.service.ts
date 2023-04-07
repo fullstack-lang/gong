@@ -62,7 +62,7 @@ export class BstructService {
 
     const url = `${this.bstructsUrl}/${id}`;
     return this.http.get<BstructDB>(url, { params: params }).pipe(
-      tap(_ => this.log(`fetched bstruct id=${id}`)),
+      // tap(_ => this.log(`fetched bstruct id=${id}`)),
       catchError(this.handleError<BstructDB>(`getBstruct id=${id}`))
     );
   }
@@ -87,7 +87,7 @@ export class BstructService {
         // insertion point for restoration of reverse pointers
         bstructdb.Astruct_Anarrayofb_reverse = _Astruct_Anarrayofb_reverse
         bstructdb.Astruct_Anotherarrayofb_reverse = _Astruct_Anotherarrayofb_reverse
-        this.log(`posted bstructdb id=${bstructdb.ID}`)
+        // this.log(`posted bstructdb id=${bstructdb.ID}`)
       }),
       catchError(this.handleError<BstructDB>('postBstruct'))
     );
