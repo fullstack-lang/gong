@@ -63,7 +63,7 @@ export class AstructService {
 
     const url = `${this.astructsUrl}/${id}`;
     return this.http.get<AstructDB>(url, { params: params }).pipe(
-      tap(_ => this.log(`fetched astruct id=${id}`)),
+      // tap(_ => this.log(`fetched astruct id=${id}`)),
       catchError(this.handleError<AstructDB>(`getAstruct id=${id}`))
     );
   }
@@ -99,7 +99,7 @@ export class AstructService {
       tap(_ => {
         // insertion point for restoration of reverse pointers
         astructdb.Astruct_Anarrayofa_reverse = _Astruct_Anarrayofa_reverse
-        this.log(`posted astructdb id=${astructdb.ID}`)
+        // this.log(`posted astructdb id=${astructdb.ID}`)
       }),
       catchError(this.handleError<AstructDB>('postAstruct'))
     );
