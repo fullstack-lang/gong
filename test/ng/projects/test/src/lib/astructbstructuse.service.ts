@@ -63,7 +63,7 @@ export class AstructBstructUseService {
 
     const url = `${this.astructbstructusesUrl}/${id}`;
     return this.http.get<AstructBstructUseDB>(url, { params: params }).pipe(
-      tap(_ => this.log(`fetched astructbstructuse id=${id}`)),
+      // tap(_ => this.log(`fetched astructbstructuse id=${id}`)),
       catchError(this.handleError<AstructBstructUseDB>(`getAstructBstructUse id=${id}`))
     );
   }
@@ -86,7 +86,7 @@ export class AstructBstructUseService {
       tap(_ => {
         // insertion point for restoration of reverse pointers
         astructbstructusedb.Astruct_AnarrayofbUse_reverse = _Astruct_AnarrayofbUse_reverse
-        this.log(`posted astructbstructusedb id=${astructbstructusedb.ID}`)
+        // this.log(`posted astructbstructusedb id=${astructbstructusedb.ID}`)
       }),
       catchError(this.handleError<AstructBstructUseDB>('postAstructBstructUse'))
     );

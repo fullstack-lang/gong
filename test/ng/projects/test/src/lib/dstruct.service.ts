@@ -61,7 +61,7 @@ export class DstructService {
 
     const url = `${this.dstructsUrl}/${id}`;
     return this.http.get<DstructDB>(url, { params: params }).pipe(
-      tap(_ => this.log(`fetched dstruct id=${id}`)),
+      // tap(_ => this.log(`fetched dstruct id=${id}`)),
       catchError(this.handleError<DstructDB>(`getDstruct id=${id}`))
     );
   }
@@ -80,7 +80,7 @@ export class DstructService {
     return this.http.post<DstructDB>(this.dstructsUrl, dstructdb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
-        this.log(`posted dstructdb id=${dstructdb.ID}`)
+        // this.log(`posted dstructdb id=${dstructdb.ID}`)
       }),
       catchError(this.handleError<DstructDB>('postDstruct'))
     );
