@@ -14,15 +14,16 @@ type GongStruct struct {
 	GongTimeFields                   []*GongTimeField
 	PointerToGongStructFields        []*PointerToGongStructField
 	SliceOfPointerToGongStructFields []*SliceOfPointerToGongStructField
+
+	// HasOnAfterUpdateSignature is used to generate orchestrator code
+	HasOnAfterUpdateSignature bool
 }
 
-//
 // HasNameField indicates wether the gong struct has a field with Name "Name"
 //
 // This is important since
 // - only Gong Struct with Name field can be stored in DB
 // - only Gong Struct without file
-//
 func (gongStruct *GongStruct) HasNameField() (hasNameField bool) {
 
 	// hasNameField default value is false
