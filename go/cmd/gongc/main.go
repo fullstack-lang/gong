@@ -383,6 +383,17 @@ func main() {
 		filepath.Join(*pkgPath, "../models/gong_callbacks.go"),
 		golang.ModelGongCallbacksFileTemplate, golang.ModelGongCallbacksStructSubTemplateCode)
 
+	gong_models.CodeGenerator(
+		modelPkg,
+		modelPkg.Name,
+		modelPkg.PkgPath,
+		filepath.Join(*pkgPath, "../models/gong_orchestrator.go"),
+		golang.ModelGongOrchestratorFileTemplate,
+		golang.ModelGongOrchestratorStructSubTemplateCode,
+		map[string]string{}, map[string]string{},
+		true,
+		true)
+
 	gong_models.SimpleCodeGeneratorForGongStructWithNameField(
 		modelPkg,
 		modelPkg.Name,
