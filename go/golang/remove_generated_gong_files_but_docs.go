@@ -27,141 +27,31 @@ func RemoveGeneratedGongFilesButDocs(
 
 	}
 
-	{
-		// relative to the models package, swith to ./controlers package
-		filename := filepath.Join(RelativePkgPath, "gong.go")
-
-		// we should use go generate
-		log.Println("removing file : " + filename)
-
-		if err := os.Remove(filename); err != nil {
-			if os.IsExist(err) {
-				log.Fatalf("Unable to remove %s", filename)
-			}
-		}
+	filesToRemove := []string{
+		"gong.go",
+		"../..embed.go",
+		"../embed.go",
+		"gong_coder.go",
+		"gong_ast.go",
+		"gong_serialize.go",
+		"gong_marshall.go",
+		"gong_graph.go",
+		"gong_enum.go",
+		"gong_callbacks.go",
+		"gong_orchestrator.go",
 	}
 
-	{
-		// relative to the models package, swith to ./controlers package
-		filename := filepath.Join(RelativePkgPath, "../..", "embed.go")
-
-		// we should use go generate
-		log.Println("removing file : " + filename)
-
-		if err := os.Remove(filename); err != nil {
-			if os.IsExist(err) {
-				log.Fatalf("Unable to remove %s", filename)
-			}
-		}
+	for _, file := range filesToRemove {
+		removeFile(filepath.Join(RelativePkgPath, file))
 	}
+}
 
-	{
-		// relative to the models package, swith to ./controlers package
-		filename := filepath.Join(RelativePkgPath, "..", "embed.go")
+func removeFile(filename string) {
+	log.Println("removing file : " + filename)
 
-		// we should use go generate
-		log.Println("removing file : " + filename)
-
-		if err := os.Remove(filename); err != nil {
-			if os.IsExist(err) {
-				log.Fatalf("Unable to remove %s", filename)
-			}
-		}
-	}
-
-	{
-		// relative to the models package, swith to ./controlers package
-		filename := filepath.Join(RelativePkgPath, "gong_coder.go")
-
-		// we should use go generate
-		log.Println("removing file : " + filename)
-
-		if err := os.Remove(filename); err != nil {
-			if os.IsExist(err) {
-				log.Fatalf("Unable to remove %s", filename)
-			}
-		}
-	}
-
-	{
-		// relative to the models package, swith to ./controlers package
-		filename := filepath.Join(RelativePkgPath, "gong_ast.go")
-
-		// we should use go generate
-		log.Println("removing file : " + filename)
-
-		if err := os.Remove(filename); err != nil {
-			if os.IsExist(err) {
-				log.Fatalf("Unable to remove %s", filename)
-			}
-		}
-	}
-
-	{
-		// relative to the models package, swith to ./controlers package
-		filename := filepath.Join(RelativePkgPath, "gong_serialize.go")
-
-		// we should use go generate
-		log.Println("removing file : " + filename)
-
-		if err := os.Remove(filename); err != nil {
-			if os.IsExist(err) {
-				log.Fatalf("Unable to remove %s", filename)
-			}
-		}
-	}
-
-	{
-		// relative to the models package, swith to ./controlers package
-		filename := filepath.Join(RelativePkgPath, "gong_marshall.go")
-
-		// we should use go generate
-		log.Println("removing file : " + filename)
-
-		if err := os.Remove(filename); err != nil {
-			if os.IsExist(err) {
-				log.Fatalf("Unable to remove %s", filename)
-			}
-		}
-	}
-
-	{
-		// relative to the models package, swith to ./controlers package
-		filename := filepath.Join(RelativePkgPath, "gong_graph.go")
-
-		// we should use go generate
-		log.Println("removing file : " + filename)
-
-		if err := os.Remove(filename); err != nil {
-			if os.IsExist(err) {
-				log.Fatalf("Unable to remove %s", filename)
-			}
-		}
-	}
-	{
-		// relative to the models package, swith to ./controlers package
-		filename := filepath.Join(RelativePkgPath, "gong_enum.go")
-
-		// we should use go generate
-		log.Println("removing file : " + filename)
-
-		if err := os.Remove(filename); err != nil {
-			if os.IsExist(err) {
-				log.Fatalf("Unable to remove %s", filename)
-			}
-		}
-	}
-	{
-		// relative to the models package, swith to ./controlers package
-		filename := filepath.Join(RelativePkgPath, "gong_callbacks.go")
-
-		// we should use go generate
-		log.Println("removing file : " + filename)
-
-		if err := os.Remove(filename); err != nil {
-			if os.IsExist(err) {
-				log.Fatalf("Unable to remove %s", filename)
-			}
+	if err := os.Remove(filename); err != nil {
+		if os.IsExist(err) {
+			log.Fatalf("Unable to remove %s", filename)
 		}
 	}
 }
