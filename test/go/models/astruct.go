@@ -85,3 +85,9 @@ type Astruct struct {
 	//gong:ident [pkg.Name1]
 	ConstIdentifierValue string
 }
+
+// presence of this function will let gong generates orchestrator code
+func (astruct *Astruct) OnAfterUpdate(stage *StageStruct, stagedInstance, frontInstance *Astruct) {
+
+	//
+}

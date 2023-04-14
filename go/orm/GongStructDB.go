@@ -60,6 +60,10 @@ type GongStructDB struct {
 
 	// Declation for basic field gongstructDB.Name
 	Name_Data sql.NullString
+
+	// Declation for basic field gongstructDB.HasOnAfterUpdateSignature
+	// provide the sql storage for the boolan
+	HasOnAfterUpdateSignature_Data sql.NullBool
 	// encoding of pointers
 	GongStructPointersEnconding
 }
@@ -82,6 +86,8 @@ type GongStructWOP struct {
 	// insertion for WOP basic fields
 
 	Name string `xlsx:"1"`
+
+	HasOnAfterUpdateSignature bool `xlsx:"2"`
 	// insertion for WOP pointer fields
 }
 
@@ -89,6 +95,7 @@ var GongStruct_Fields = []string{
 	// insertion for WOP basic fields
 	"ID",
 	"Name",
+	"HasOnAfterUpdateSignature",
 }
 
 type BackRepoGongStructStruct struct {
@@ -535,6 +542,9 @@ func (gongstructDB *GongStructDB) CopyBasicFieldsFromGongStruct(gongstruct *mode
 
 	gongstructDB.Name_Data.String = gongstruct.Name
 	gongstructDB.Name_Data.Valid = true
+
+	gongstructDB.HasOnAfterUpdateSignature_Data.Bool = gongstruct.HasOnAfterUpdateSignature
+	gongstructDB.HasOnAfterUpdateSignature_Data.Valid = true
 }
 
 // CopyBasicFieldsFromGongStructWOP
@@ -543,12 +553,16 @@ func (gongstructDB *GongStructDB) CopyBasicFieldsFromGongStructWOP(gongstruct *G
 
 	gongstructDB.Name_Data.String = gongstruct.Name
 	gongstructDB.Name_Data.Valid = true
+
+	gongstructDB.HasOnAfterUpdateSignature_Data.Bool = gongstruct.HasOnAfterUpdateSignature
+	gongstructDB.HasOnAfterUpdateSignature_Data.Valid = true
 }
 
 // CopyBasicFieldsToGongStruct
 func (gongstructDB *GongStructDB) CopyBasicFieldsToGongStruct(gongstruct *models.GongStruct) {
 	// insertion point for checkout of basic fields (back repo to stage)
 	gongstruct.Name = gongstructDB.Name_Data.String
+	gongstruct.HasOnAfterUpdateSignature = gongstructDB.HasOnAfterUpdateSignature_Data.Bool
 }
 
 // CopyBasicFieldsToGongStructWOP
@@ -556,6 +570,7 @@ func (gongstructDB *GongStructDB) CopyBasicFieldsToGongStructWOP(gongstruct *Gon
 	gongstruct.ID = int(gongstructDB.ID)
 	// insertion point for checkout of basic fields (back repo to stage)
 	gongstruct.Name = gongstructDB.Name_Data.String
+	gongstruct.HasOnAfterUpdateSignature = gongstructDB.HasOnAfterUpdateSignature_Data.Bool
 }
 
 // Backup generates a json file from a slice of all GongStructDB instances in the backrepo

@@ -2,7 +2,7 @@ package models
 
 // Bstruct demonstrate basic metabaron
 //
-// 	swagger:model Bstruct
+//	swagger:model Bstruct
 type Bstruct struct {
 	Name string
 
@@ -15,4 +15,10 @@ type Bstruct struct {
 
 	// swagger:ignore
 	ToBeIgnored int
+}
+
+// presence of this function will let gong generates orchestrator code
+func (bstruct *Bstruct) OnAfterUpdate(stage *StageStruct, stagedInstance, frontInstance *Bstruct) {
+
+	//
 }

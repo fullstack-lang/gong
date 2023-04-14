@@ -310,4 +310,20 @@ func WalkParser(parserPkgs map[string]*ast.Package, modelPkg *ModelPkg) {
 		}
 	}
 
+	// pass to detect if there a function that matches the OnAfterUpdate signature
+	for filePath, file := range astPackage.Files {
+
+		var fileName string
+
+		if strings.Contains(filePath, string(os.PathSeparator)) {
+			fileNames := strings.Split(filePath, string(os.PathSeparator))
+			fileName = fileNames[len(fileNames)-1]
+		}
+
+		if fileName == "gong.go" {
+			continue
+		}
+
+		checkFunctionSignature(file, modelPkg)
+	}
 }
