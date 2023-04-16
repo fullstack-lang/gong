@@ -155,7 +155,7 @@ export class AstructService {
       tap(_ => {
         // insertion point for restoration of reverse pointers
         astructdb.Astruct_Anarrayofa_reverse = _Astruct_Anarrayofa_reverse
-        this.log(`updated astructdb id=${astructdb.ID}`)
+        // this.log(`updated astructdb id=${astructdb.ID}`)
       }),
       catchError(this.handleError<AstructDB>('updateAstruct'))
     );

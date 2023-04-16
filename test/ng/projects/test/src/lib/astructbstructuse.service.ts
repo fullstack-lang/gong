@@ -129,7 +129,7 @@ export class AstructBstructUseService {
       tap(_ => {
         // insertion point for restoration of reverse pointers
         astructbstructusedb.Astruct_AnarrayofbUse_reverse = _Astruct_AnarrayofbUse_reverse
-        this.log(`updated astructbstructusedb id=${astructbstructusedb.ID}`)
+        // this.log(`updated astructbstructusedb id=${astructbstructusedb.ID}`)
       }),
       catchError(this.handleError<AstructBstructUseDB>('updateAstructBstructUse'))
     );

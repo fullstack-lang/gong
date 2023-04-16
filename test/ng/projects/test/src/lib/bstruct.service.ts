@@ -132,7 +132,7 @@ export class BstructService {
         // insertion point for restoration of reverse pointers
         bstructdb.Astruct_Anarrayofb_reverse = _Astruct_Anarrayofb_reverse
         bstructdb.Astruct_Anotherarrayofb_reverse = _Astruct_Anotherarrayofb_reverse
-        this.log(`updated bstructdb id=${bstructdb.ID}`)
+        // this.log(`updated bstructdb id=${bstructdb.ID}`)
       }),
       catchError(this.handleError<BstructDB>('updateBstruct'))
     );

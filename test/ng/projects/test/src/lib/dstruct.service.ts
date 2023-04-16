@@ -119,7 +119,7 @@ export class DstructService {
     return this.http.put<DstructDB>(url, dstructdb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
-        this.log(`updated dstructdb id=${dstructdb.ID}`)
+        // this.log(`updated dstructdb id=${dstructdb.ID}`)
       }),
       catchError(this.handleError<DstructDB>('updateDstruct'))
     );
