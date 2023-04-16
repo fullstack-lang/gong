@@ -132,7 +132,7 @@ export class {{Structname}}Service {
     return this.http.put<{{Structname}}DB>(url, {{structname}}db, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers{{` + string(rune(NgServiceTsInsertionPointerRestore)) + `}}
-        this.log(` + "`" + `updated {{structname}}db id=${{{structname}}db.ID}` + "`" + `)
+        // this.log(` + "`" + `updated {{structname}}db id=${{{structname}}db.ID}` + "`" + `)
       }),
       catchError(this.handleError<{{Structname}}DB>('update{{Structname}}'))
     );
