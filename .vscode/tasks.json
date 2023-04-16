@@ -14,6 +14,36 @@
             "group": "build"
         },
         {
+            "label": "00 - go work edit -use gong",
+            "type": "shell",
+            "options": {
+                "cwd": "./"
+            },
+            "command": "go",
+            "args": [
+                "work",
+                "edit",
+                "-use",
+                "gong"
+            ],
+            "group": "build"
+        },
+        {
+            "label": "00 - go work edit -dropuse gong",
+            "type": "shell",
+            "options": {
+                "cwd": "./"
+            },
+            "command": "go",
+            "args": [
+                "work",
+                "edit",
+                "-dropuse",
+                "gong"
+            ],
+            "group": "build"
+        },
+        {
             "label": "00 - go install gong",
             "type": "shell",
             "options": {
