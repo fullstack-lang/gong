@@ -31,6 +31,19 @@
             "args": []
         },
         {
+            "name": "gongc gongsvg -skipGoModCommands -skipNpmInstall -compileForDebug",
+            "type": "go",
+            "request": "launch",
+            "mode": "debug",
+            "cwd": "${workspaceFolder}/../gongsvg/go/models",
+            "program": "${workspaceFolder}/go/cmd/gongc",
+            "args": [
+                "-skipGoModCommands",
+                "-skipNpmInstall",
+                "-compileForDebug"
+            ]
+        },
+        {
             "name": "gongc gongdoc",
             "type": "go",
             "request": "launch",
