@@ -22,6 +22,9 @@ const NgClassDBTmpl = `// insertion point for imports{{` + string(rune(NgClassTs
 import { NullInt64 } from './null-int64'
 
 export class {{Structname}}DB {
+
+	static GONGSTRUCT_NAME = "{{Structname}}"
+
 	CreatedAt?: string
 	DeletedAt?: string
 	ID: number = 0
