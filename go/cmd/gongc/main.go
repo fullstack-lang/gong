@@ -133,10 +133,18 @@ func main() {
 			log.Println("Removing all content of " + gong_models.MatTargetPath)
 			gong_models.RemoveContents(gong_models.MatTargetPath)
 		}
-		if !*skipNg {
-			log.Println("Removing all content of " + gong_models.MaterialLibDatamodelTargetPath)
-			gong_models.RemoveContents(gong_models.MaterialLibDatamodelTargetPath)
-		}
+
+		// idealy, one would like to regenerate the datamodel library at each gongc but
+		// there is no "ng" command to remove an existing library from a workspace
+		// if !*skipNg {
+		// 	datamodelLibDir := filepath.Join(gong_models.MaterialLibDatamodelTargetPath, "../..")
+		// 	log.Println("Removing all content of " + datamodelLibDir)
+		// 	gong_models.RemoveContents(datamodelLibDir)
+		// 	err = os.RemoveAll(datamodelLibDir)
+		// 	if err != nil {
+		// 		log.Println("Unable de remove", datamodelLibDir)
+		// 	}
+		// }
 
 		if *clean {
 			os.Exit(0)
