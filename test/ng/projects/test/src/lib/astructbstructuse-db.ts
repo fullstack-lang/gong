@@ -6,6 +6,9 @@ import { AstructDB } from './astruct-db'
 import { NullInt64 } from './null-int64'
 
 export class AstructBstructUseDB {
+
+	static GONGSTRUCT_NAME = "AstructBstructUse"
+
 	CreatedAt?: string
 	DeletedAt?: string
 	ID: number = 0

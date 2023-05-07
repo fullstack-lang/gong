@@ -118,9 +118,24 @@ func main() {
 			}
 		}
 
+		{
+			directory, err :=
+				filepath.Abs(
+					filepath.Join(*pkgPath,
+						fmt.Sprintf("../../ng/projects/%sdatamodel/src/lib", modelPkg.Name)))
+			gong_models.MaterialLibDatamodelTargetPath = directory
+			if err != nil {
+				log.Panic("Problem with frontend target path " + err.Error())
+			}
+		}
+
 		if !*skipNg {
 			log.Println("Removing all content of " + gong_models.MatTargetPath)
 			gong_models.RemoveContents(gong_models.MatTargetPath)
+		}
+		if !*skipNg {
+			log.Println("Removing all content of " + gong_models.MaterialLibDatamodelTargetPath)
+			gong_models.RemoveContents(gong_models.MaterialLibDatamodelTargetPath)
 		}
 
 		if *clean {
