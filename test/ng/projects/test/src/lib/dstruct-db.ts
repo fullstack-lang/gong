@@ -4,6 +4,9 @@
 import { NullInt64 } from './null-int64'
 
 export class DstructDB {
+
+	static GONGSTRUCT_NAME = "Dstruct"
+
 	CreatedAt?: string
 	DeletedAt?: string
 	ID: number = 0
