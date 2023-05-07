@@ -3,7 +3,6 @@ package main
 import (
 	"bytes"
 	"encoding/json"
-	"fmt"
 	"io"
 	"io/ioutil"
 	"log"
@@ -133,7 +132,7 @@ func configGeneratedNgWorkspace(modelPkg *gong_models.ModelPkg) {
 			start := time.Now()
 			cmd := exec.Command("ng", "generate", "library", modelPkg.Name+"specific", "--defaults=true", "--skip-install=true")
 			cmd.Dir = gong_models.NgWorkspacePath
-			log.Printf("Creating a library %s in the angular workspace\n", modelPkg.Name)
+			log.Printf("Creating a specific library %s in the angular workspace\n", modelPkg.Name)
 
 			// https://stackoverflow.com/questions/48253268/print-the-stdout-from-exec-command-in-real-time-in-go
 			var stdBuffer bytes.Buffer
@@ -155,47 +154,7 @@ func configGeneratedNgWorkspace(modelPkg *gong_models.ModelPkg) {
 			gong_models.InsertStringToFile(filename, "        \"projects/"+modelPkg.Name+"specific/src/public-api.ts\",", modelPkg.Name+"specific\": [")
 
 			{
-				directory, _ := filepath.Abs(
-					filepath.Join(gong_models.MaterialLibSpecificTargetPath, "data-model-panel"))
-				_, err := os.Stat(directory)
-				if os.IsNotExist(err) {
-					err := os.MkdirAll(directory, os.ModePerm)
 
-					if err != nil {
-						log.Fatalln("Unable to create dir", directory, err.Error())
-					}
-
-					log.Println("creating directory : " + gong_models.OrmPkgGenPath)
-
-					// if data-model-panel does not exists, it is an indication that
-					// the module file has to be overwritten
-					gong_models.VerySimpleCodeGenerator(
-						modelPkg,
-						modelPkg.Name,
-						modelPkg.PkgPath,
-						filepath.Join(gong_models.MaterialLibSpecificTargetPath,
-							fmt.Sprintf("%sspecific.module.ts", modelPkg.Name)),
-						angular.NgFileModuleSpecific)
-
-					gong_models.VerySimpleCodeGenerator(
-						modelPkg,
-						modelPkg.Name,
-						modelPkg.PkgPath,
-						filepath.Join(gong_models.MaterialLibSpecificTargetPath,
-							"data-model-panel", "data-model-panel.component.ts"),
-						angular.NgFileDataModelPanelTemplateTs)
-
-					gong_models.VerySimpleCodeGenerator(
-						modelPkg,
-						modelPkg.Name,
-						modelPkg.PkgPath,
-						filepath.Join(gong_models.MaterialLibSpecificTargetPath,
-							"data-model-panel", "data-model-panel.component.html"),
-						angular.NgFileDataModelPanelTemplateHtml)
-				}
-				if os.IsExist(err) {
-					log.Println("directory " + gong_models.OrmPkgGenPath + " allready exists")
-				}
 			}
 		}
 		if os.IsNotExist(errStat) {
@@ -277,6 +236,12 @@ func configGeneratedNgWorkspace(modelPkg *gong_models.ModelPkg) {
 				return
 			}
 		}
+	}
+
+	// generate data panel lib if directory does not exist
+	if _, errd := os.Stat(gong_models.MaterialLibDatamodelTargetPath); os.IsNotExist(errd) {
+		log.Println("Creating datamodel lib", gong_models.MaterialLibDatamodelTargetPath)
+		generateDatamodelLib(modelPkg)
 	}
 
 }
