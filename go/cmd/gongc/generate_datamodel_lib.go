@@ -16,9 +16,9 @@ import (
 
 func generateDatamodelLib(modelPkg *gong_models.ModelPkg) {
 	start := time.Now()
-	cmd := exec.Command("ng", "generate", "library", modelPkg.Name+"datamodel", "--defaults=true", "--skip-install=true")
+	cmd := exec.Command("ng", "generate", "component", "data-model-panel", "--project", modelPkg.Name+"datamodel")
 	cmd.Dir = gong_models.NgWorkspacePath
-	log.Printf("Creating a specific library %s in the angular workspace\n", modelPkg.Name)
+	log.Printf("Creating a specific component %s in the angular workspace\n", "data-model-panel")
 
 	// https://stackoverflow.com/questions/48253268/print-the-stdout-from-exec-command-in-real-time-in-go
 	var stdBuffer bytes.Buffer
@@ -34,48 +34,31 @@ func generateDatamodelLib(modelPkg *gong_models.ModelPkg) {
 	if err := cmd.Run(); err != nil {
 		log.Panic(err)
 	}
-	log.Printf("ng generate library is over and took %s", time.Since(start))
+	log.Printf("ng generate component is over and took %s", time.Since(start))
 
-	directory, _ := filepath.Abs(
-		filepath.Join(gong_models.MaterialLibDatamodelTargetPath, "data-model-panel"))
-	_, err := os.Stat(directory)
-	if os.IsNotExist(err) {
-		err := os.MkdirAll(directory, os.ModePerm)
+	// if data-model-panel does not exists, it is an indication that
+	// the module file has to be overwritten
+	gong_models.VerySimpleCodeGenerator(
+		modelPkg,
+		modelPkg.Name,
+		modelPkg.PkgPath,
+		filepath.Join(gong_models.MaterialLibDatamodelTargetPath,
+			fmt.Sprintf("%sdatamodel.module.ts", modelPkg.Name)),
+		angular.NgFileModuleDatamodel)
 
-		if err != nil {
-			log.Fatalln("Unable to create dir", directory, err.Error())
-		}
+	gong_models.VerySimpleCodeGenerator(
+		modelPkg,
+		modelPkg.Name,
+		modelPkg.PkgPath,
+		filepath.Join(gong_models.MaterialLibDatamodelTargetPath,
+			"data-model-panel", "data-model-panel.component.ts"),
+		angular.NgFileDataModelPanelTemplateTs)
 
-		log.Println("creating directory : " + gong_models.OrmPkgGenPath)
-
-		// if data-model-panel does not exists, it is an indication that
-		// the module file has to be overwritten
-		gong_models.VerySimpleCodeGenerator(
-			modelPkg,
-			modelPkg.Name,
-			modelPkg.PkgPath,
-			filepath.Join(gong_models.MaterialLibDatamodelTargetPath,
-				fmt.Sprintf("%sspecific.module.ts", modelPkg.Name)),
-			angular.NgFileModuleSpecific)
-
-		gong_models.VerySimpleCodeGenerator(
-			modelPkg,
-			modelPkg.Name,
-			modelPkg.PkgPath,
-			filepath.Join(gong_models.MaterialLibDatamodelTargetPath,
-				"data-model-panel", "data-model-panel.component.ts"),
-			angular.NgFileDataModelPanelTemplateTs)
-
-		gong_models.VerySimpleCodeGenerator(
-			modelPkg,
-			modelPkg.Name,
-			modelPkg.PkgPath,
-			filepath.Join(gong_models.MaterialLibDatamodelTargetPath,
-				"data-model-panel", "data-model-panel.component.html"),
-			angular.NgFileDataModelPanelTemplateHtml)
-	}
-	if os.IsExist(err) {
-		log.Println("directory " + gong_models.OrmPkgGenPath + " allready exists")
-	}
-
+	gong_models.VerySimpleCodeGenerator(
+		modelPkg,
+		modelPkg.Name,
+		modelPkg.PkgPath,
+		filepath.Join(gong_models.MaterialLibDatamodelTargetPath,
+			"data-model-panel", "data-model-panel.component.html"),
+		angular.NgFileDataModelPanelTemplateHtml)
 }
