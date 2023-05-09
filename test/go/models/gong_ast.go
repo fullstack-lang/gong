@@ -653,9 +653,21 @@ func UnmarshallGongstructStaging(stage *StageStruct, cmap *ast.CommentMap, assig
 					}
 				}
 			}
-		case *ast.BasicLit:
-			// assignment to string field
-			basicLit := expr
+		case *ast.BasicLit, *ast.UnaryExpr:
+
+			var basicLit *ast.BasicLit
+			var exprSign = 1.0
+
+			if bl, ok := expr.(*ast.BasicLit); ok {
+				// expression is  for instance ... = 18.000
+				basicLit = bl
+			} else if ue, ok := expr.(*ast.UnaryExpr); ok {
+				// expression is  for instance ... = -18.000
+				// we want to extract a *ast.BasicLit from the *ast.UnaryExpr
+				basicLit = ue.X.(*ast.BasicLit)
+				exprSign = -1
+			}
+
 			// astCoordinate := astCoordinate + "\tBasicLit" + "." + basicLit.Value
 			// log.Println(astCoordinate)
 			var ok bool
@@ -688,21 +700,21 @@ func UnmarshallGongstructStaging(stage *StageStruct, cmap *ast.CommentMap, assig
 					if err != nil {
 						log.Fatalln(err)
 					}
-					__gong__map_Astruct[identifier].CFloatfield = fielValue
+					__gong__map_Astruct[identifier].CFloatfield = exprSign * fielValue
 				case "Floatfield":
 					// convert string to float64
 					fielValue, err := strconv.ParseFloat(basicLit.Value, 64)
 					if err != nil {
 						log.Fatalln(err)
 					}
-					__gong__map_Astruct[identifier].Floatfield = fielValue
+					__gong__map_Astruct[identifier].Floatfield = exprSign * fielValue
 				case "Intfield":
 					// convert string to int
 					fielValue, err := strconv.ParseInt(basicLit.Value, 10, 64)
 					if err != nil {
 						log.Fatalln(err)
 					}
-					__gong__map_Astruct[identifier].Intfield = int(fielValue)
+					__gong__map_Astruct[identifier].Intfield = int(exprSign) * int(fielValue)
 				case "Duration1":
 					// convert string to duration
 					fielValue, err := strconv.ParseInt(basicLit.Value, 10, 64)
@@ -764,21 +776,21 @@ func UnmarshallGongstructStaging(stage *StageStruct, cmap *ast.CommentMap, assig
 					if err != nil {
 						log.Fatalln(err)
 					}
-					__gong__map_Bstruct[identifier].Floatfield = fielValue
+					__gong__map_Bstruct[identifier].Floatfield = exprSign * fielValue
 				case "Floatfield2":
 					// convert string to float64
 					fielValue, err := strconv.ParseFloat(basicLit.Value, 64)
 					if err != nil {
 						log.Fatalln(err)
 					}
-					__gong__map_Bstruct[identifier].Floatfield2 = fielValue
+					__gong__map_Bstruct[identifier].Floatfield2 = exprSign * fielValue
 				case "Intfield":
 					// convert string to int
 					fielValue, err := strconv.ParseInt(basicLit.Value, 10, 64)
 					if err != nil {
 						log.Fatalln(err)
 					}
-					__gong__map_Bstruct[identifier].Intfield = int(fielValue)
+					__gong__map_Bstruct[identifier].Intfield = int(exprSign) * int(fielValue)
 				}
 			case "Dstruct":
 				switch fieldName {
