@@ -184,8 +184,10 @@ func configGeneratedNgWorkspace(modelPkg *gong_models.ModelPkg) {
 			log.Printf("ng generate library is over and took %s", time.Since(start))
 
 			filename := filepath.Join(gong_models.NgWorkspacePath, "tsconfig.json")
-			gong_models.InsertStringToFile(filename, "        \"projects/"+modelPkg.Name+"datamodel/src/public-api.ts\",", modelPkg.Name+"specific\": [")
+			gong_models.InsertStringToFile(filename, "        \"projects/"+modelPkg.Name+"datamodel/src/public-api.ts\",", modelPkg.Name+"datamodel\": [")
 
+			log.Println("Creating datamodel lib", gong_models.MaterialLibDatamodelTargetPath)
+			generateDatamodelLib(modelPkg)
 		}
 
 		// npm install
@@ -236,12 +238,6 @@ func configGeneratedNgWorkspace(modelPkg *gong_models.ModelPkg) {
 				return
 			}
 		}
-	}
-
-	// generate data panel lib if directory does not exist
-	if _, errd := os.Stat(gong_models.MaterialLibDatamodelTargetPath); os.IsNotExist(errd) {
-		log.Println("Creating datamodel lib", gong_models.MaterialLibDatamodelTargetPath)
-		generateDatamodelLib(modelPkg)
 	}
 
 }
