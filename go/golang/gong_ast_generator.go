@@ -95,7 +95,7 @@ map[ModelGongAstFieldInsertionId]string{
 					if err != nil {
 						log.Fatalln(err)
 					}
-					__gong__map_{{Structname}}[identifier].{{FieldName}} = int(fielValue)`,
+					__gong__map_{{Structname}}[identifier].{{FieldName}} = int(exprSign) * int(fielValue)`,
 	ModelGongAstFieldAssignDuration: `
 				case "{{FieldName}}":
 					// convert string to duration
@@ -111,7 +111,7 @@ map[ModelGongAstFieldInsertionId]string{
 					if err != nil {
 						log.Fatalln(err)
 					}
-					__gong__map_{{Structname}}[identifier].{{FieldName}} = fielValue`,
+					__gong__map_{{Structname}}[identifier].{{FieldName}} = exprSign * fielValue`,
 	ModelGongAstFieldAssignBoolean: `
 				case "{{FieldName}}":
 					// convert string to boolean
