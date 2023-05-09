@@ -1,10 +1,11 @@
-package angular
+import { NgModule } from '@angular/core';
 
-const NgFileModuleSpecific = `import { NgModule } from '@angular/core';
+import { DataModelPanelComponent } from './data-model-panel/data-model-panel.component';
 
-import { {{TitlePkgName}}specificComponent } from './{{pkgname}}specific.component';
+import { GongdocModule } from 'gongdoc'
+import { GongdocdiagramsModule } from 'gongdocdiagrams'
 
-import { {{TitlePkgName}}Module } from '{{pkgname}}'
+import { TestModule } from 'test'
 
 import { MatRadioModule } from '@angular/material/radio';
 import { FormsModule } from '@angular/forms';
@@ -13,7 +14,7 @@ import { AngularSplitModule } from 'angular-split';
 
 @NgModule({
   declarations: [
-    {{TitlePkgName}}specificComponent
+    DataModelPanelComponent
   ],
   imports: [
     GongdocModule,
@@ -25,11 +26,10 @@ import { AngularSplitModule } from 'angular-split';
 
     AngularSplitModule,
 
-    {{TitlePkgName}}Module,
+    TestModule,
   ],
   exports: [
-    {{TitlePkgName}}specificComponent
+    DataModelPanelComponent
   ]
 })
-export class {{TitlePkgName}}specificModule { }
-`
+export class TestdatamodelModule { }
