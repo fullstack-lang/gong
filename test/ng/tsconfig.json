@@ -69,8 +69,6 @@
       "tslib": [
         "./node_modules/tslib"
       ],
-      // for test, the path to vendor is one level higher since it shares the vendor directory
-      // with others
       "gong": [
         "../../ng/projects/gong/src/public-api.ts"
       ],
@@ -80,9 +78,13 @@
       "gongdocdiagrams": [
         "../../vendor/github.com/fullstack-lang/gongdoc/ng/projects/gongdocdiagrams/src/public-api.ts"
       ],
+      "testdatamodel": [
+        "projects/testdatamodel/src/public-api.ts",
+        "dist/testdatamodel"
+      ],
       "testspecific": [
-        "dist/testspecific",
         "projects/testspecific/src/public-api.ts",
+        "dist/testspecific"
       ],
       "test": [
         "projects/test/src/public-api.ts",
