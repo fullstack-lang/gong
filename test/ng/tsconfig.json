@@ -20,7 +20,6 @@
     "module": "ES2022",
     "useDefineForClassFields": false,
     "paths": {
-
       // 
       // https://angular.io/guide/creating-libraries#use-typescript-path-mapping-for-peer-dependencies
       //
@@ -71,13 +70,13 @@
         "./node_modules/tslib"
       ],
       "gong": [
-      "../vendor/github.com/fullstack-lang/gong/ng/projects/gong/src/public-api.ts"
+        "../../ng/projects/gong/src/public-api.ts"
       ],
       "gongdoc": [
-      "../vendor/github.com/fullstack-lang/gongdoc/ng/projects/gongdoc/src/public-api.ts"
+        "../../vendor/github.com/fullstack-lang/gongdoc/ng/projects/gongdoc/src/public-api.ts"
       ],
       "gongdocdiagrams": [
-      "../vendor/github.com/fullstack-lang/gongdoc/ng/projects/gongdocdiagrams/src/public-api.ts"
+        "../../vendor/github.com/fullstack-lang/gongdoc/ng/projects/gongdocdiagrams/src/public-api.ts"
       ],
       "testdatamodel": [
         "projects/testdatamodel/src/public-api.ts",
@@ -87,7 +86,6 @@
         "projects/testspecific/src/public-api.ts",
         "dist/testspecific"
       ],
-
       "test": [
         "projects/test/src/public-api.ts",
         "dist/test"
@@ -96,8 +94,9 @@
     "lib": [
       "ES2022",
       "dom"
-    ]
-  ,"skipLibCheck":true},
+    ],
+    "skipLibCheck": true
+  },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
     "strictInjectionParameters": true,
