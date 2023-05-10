@@ -560,6 +560,7 @@ func UnmarshallGongstructStaging(stage *StageStruct, cmap *ast.CommentMap, assig
 
 			var basicLit *ast.BasicLit
 			var exprSign = 1.0
+			_ = exprSign // in case this is not used
 
 			if bl, ok := expr.(*ast.BasicLit); ok {
 				// expression is  for instance ... = 18.000

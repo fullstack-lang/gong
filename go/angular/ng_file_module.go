@@ -36,6 +36,7 @@ import { GongModule } from 'gong'
 
 import { {{TitlePkgName}}Module } from '{{pkgname}}'
 import { {{TitlePkgName}}specificModule } from '{{pkgname}}specific'
+import { {{TitlePkgName}}datamodelModule } from '{{pkgname}}datamodel'
 import { GongstructSelectionService } from '{{pkgname}}'
 
 // mandatory
@@ -78,6 +79,7 @@ import { HttpClientModule } from '@angular/common/http';
 
     {{TitlePkgName}}Module,
     {{TitlePkgName}}specificModule,
+    {{TitlePkgName}}datamodelModule,
   ],
   providers: [
     GongstructSelectionService
