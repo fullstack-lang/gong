@@ -109,7 +109,7 @@ const VsCodeTasksConfig = `{
 		"command": "go mod vendor"
 	  },
 	  {
-		"label": "00 - update gong dependencies",
+		"label": "00 - update dependencies",
 		"type": "shell",
 		"command": "go",
 		"args": [
@@ -117,6 +117,7 @@ const VsCodeTasksConfig = `{
 		  "-d",
 		  "github.com/fullstack-lang/gong@HEAD",
 		  "github.com/fullstack-lang/gongdoc@HEAD",
+		  "github.com/fullstack-lang/gongsvg@HEAD",
 		],
 		"group": "build"
 	  },
