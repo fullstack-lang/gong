@@ -1,14 +1,14 @@
 import { Injectable, Component, Inject } from '@angular/core';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HttpParams } from '@angular/common/http';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { DOCUMENT, Location } from '@angular/common'
 
 /*
  * Behavior subject
  */
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, interval } from 'rxjs';
 import { Observable, of } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
+import { catchError, map, switchMap, tap } from 'rxjs/operators';
 
 @Injectable({
     providedIn: 'root'
@@ -19,7 +19,7 @@ export class PushFromFrontNbService {
         headers: new HttpHeaders({ 'Content-Type': 'application/json' })
     };
 
-    private commitNbUrl: string
+    private pushFromFrontNbURL: string
     constructor(
         private http: HttpClient,
         private location: Location,
@@ -33,16 +33,34 @@ export class PushFromFrontNbService {
         origin = origin.replace("4200", "8080")
 
         // compute path to the service
-        this.commitNbUrl = origin + '/api/github.com/fullstack-lang/gong/test/go/v1/pushfromfrontnb';
+        this.pushFromFrontNbURL = origin + '/api/github.com/fullstack-lang/gong/test/go/v1/pushfromfrontnb';
     }
 
     // observable of the commit nb getter
     public getPushFromFrontNb(): Observable<number> {
-        return this.http.get<number>(this.commitNbUrl)
+        return this.http.get<number>(this.pushFromFrontNbURL)
             .pipe(
                 tap(_ => this.log('fetched commit nb')),
                 catchError(this.handleError<number>('getPushFromFrontNb', -1))
             );
+    }
+
+    getPushNbFromFront(intervalMs: number, GONG__StackPath: string = ""): Observable<number> {
+
+        let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+
+        return interval(intervalMs).pipe(
+            switchMap(() => this.http.get<number>(this.pushFromFrontNbURL, { params: params }).pipe(
+                catchError(error => {
+                    // Handle the error here, e.g. log it, show a notification, etc.
+                    console.error('Error fetching commit number:', error);
+
+                    // Return a default value, a new Observable, or rethrow the error
+                    return of(0); // Here, we return 0 as a default value
+                })
+            )
+            )
+        )
     }
 
     /**

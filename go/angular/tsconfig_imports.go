@@ -59,4 +59,10 @@ const TsConfigInsertForPaths = `
       "gongdocdiagrams": [
       "../vendor/github.com/fullstack-lang/gongdoc/ng/projects/gongdocdiagrams/src/public-api.ts"
       ],
+      "gongsvg": [
+        "../vendor/github.com/fullstack-lang/gongsvg/ng/projects/gongsvg/src/public-api.ts"
+      ],
+      "gongsvgspecific": [
+        "../vendor/github.com/fullstack-lang/gongsvg/ng/projects/gongsvgspecific/src/public-api.ts"
+      ],
 `
