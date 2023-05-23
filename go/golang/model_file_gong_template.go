@@ -125,6 +125,14 @@ func NewStage() (stage *StageStruct) {
 	return
 }
 
+func (stage *StageStruct) CommitWithSuspendedCallbacks() {
+
+	tmp := stage.OnInitCommitCallback
+	stage.OnInitCommitCallback = nil
+	stage.Commit()
+	stage.OnInitCommitCallback = tmp
+}
+
 func (stage *StageStruct) Commit() {
 	if stage.BackRepo != nil {
 		stage.BackRepo.Commit(stage)
