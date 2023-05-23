@@ -127,10 +127,10 @@ func NewStage() (stage *StageStruct) {
 
 func (stage *StageStruct) CommitWithSuspendedCallbacks() {
 
-	tmp := stage.OnInitCommitCallback
-	stage.OnInitCommitCallback = nil
+	tmp := stage.OnInitCommitFromBackCallback
+	stage.OnInitCommitFromBackCallback = nil
 	stage.Commit()
-	stage.OnInitCommitCallback = tmp
+	stage.OnInitCommitFromBackCallback = tmp
 }
 
 func (stage *StageStruct) Commit() {
