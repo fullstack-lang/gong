@@ -17,30 +17,6 @@ const TsConfigInsertForPaths = `
       "rxjs": [
         "./node_modules/rxjs"
       ],
-      "@types/leaflet": [
-        "./node_modules/@types/leaflet"
-      ],
-      "@types/node": [
-        "./node_modules/@types/node"
-      ],
-      "@asymmetrik/ngx-leaflet": [
-        "./node_modules/@asymmetrik/ngx-leaflet"
-      ],
-      "leaflet": [
-        "./node_modules/leaflet"
-      ],
-      "leaflet-rotatedmarker": [
-        "./node_modules/leaflet-rotatedmarker"
-      ],
-      "lodash": [
-        "./node_modules/lodash"
-      ],
-      "@types/loash": [
-        "./node_modules/@types/loash"
-      ],
-      "jointjs": [
-        "./node_modules/jointjs"
-      ],
       "@angular-material-components/datetime-picker": [
         "./node_modules/@angular-material-components/datetime-picker"
       ],
