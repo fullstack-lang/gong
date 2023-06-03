@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"encoding/json"
 	"io"
-	"io/ioutil"
 	"log"
 	"os"
 	"os/exec"
@@ -14,7 +13,6 @@ import (
 
 	"github.com/fullstack-lang/gong/go/angular"
 	gong_models "github.com/fullstack-lang/gong/go/models"
-	"github.com/tidwall/sjson"
 )
 
 func configGeneratedNgWorkspace(modelPkg *gong_models.ModelPkg) {
@@ -213,31 +211,31 @@ func configGeneratedNgWorkspace(modelPkg *gong_models.ModelPkg) {
 			}
 			log.Printf("npm i is over and took %s", time.Since(start))
 		}
-		if true {
+		// if true {
 
-			// needed till fix of https://github.com/clientIO/joint/issues/2018
-			tsConfigFile := filepath.Join(gong_models.NgWorkspacePath, "tsconfig.json")
-			// Read the contents of the tsconfig.json file
-			file, err := ioutil.ReadFile(tsConfigFile)
-			if err != nil {
-				log.Fatalln(err)
-				return
-			}
+		// 	// needed till fix of https://github.com/clientIO/joint/issues/2018
+		// 	tsConfigFile := filepath.Join(gong_models.NgWorkspacePath, "tsconfig.json")
+		// 	// Read the contents of the tsconfig.json file
+		// 	file, err := ioutil.ReadFile(tsConfigFile)
+		// 	if err != nil {
+		// 		log.Fatalln(err)
+		// 		return
+		// 	}
 
-			// Modify the skipLibCheck field
-			file, err = sjson.SetBytes(file, "compilerOptions.skipLibCheck", true)
-			if err != nil {
-				log.Fatalln(err)
-				return
-			}
+		// 	// Modify the skipLibCheck field
+		// 	file, err = sjson.SetBytes(file, "compilerOptions.skipLibCheck", true)
+		// 	if err != nil {
+		// 		log.Fatalln(err)
+		// 		return
+		// 	}
 
-			// Write the updated JSON back to the tsconfig.json file
-			err = ioutil.WriteFile(tsConfigFile, file, 0644)
-			if err != nil {
-				log.Fatalln(err)
-				return
-			}
-		}
+		// 	// Write the updated JSON back to the tsconfig.json file
+		// 	err = ioutil.WriteFile(tsConfigFile, file, 0644)
+		// 	if err != nil {
+		// 		log.Fatalln(err)
+		// 		return
+		// 	}
+		// }
 	}
 
 }
