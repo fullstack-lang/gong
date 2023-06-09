@@ -5,11 +5,12 @@ package models
 // A Gongnote is a go comment that contains the keywork "GONGNOTE(<Name>): <body>"
 // for instance
 // ....
-// GONGDOC(note on the organization between line and points): first line
+// GONGDOC(NoteOnOrganizationOfLineAndPoints): first line
 // this is an example of a note that
 // could be displayed on a diagram.
 //
 // The comment can be standalone or attached to a declation/var
+// const NoteOnOrganizationOfLineAndPoints = ""
 type GongNote struct {
 	Name string
 	Body string
