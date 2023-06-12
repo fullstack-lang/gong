@@ -2,15 +2,12 @@ package main
 
 import (
 	"bytes"
-	"fmt"
 	"io"
 	"log"
 	"os"
 	"os/exec"
-	"path/filepath"
 	"time"
 
-	"github.com/fullstack-lang/gong/go/angular"
 	gong_models "github.com/fullstack-lang/gong/go/models"
 )
 
@@ -35,30 +32,4 @@ func generateDatamodelLib(modelPkg *gong_models.ModelPkg) {
 		log.Panic(err)
 	}
 	log.Printf("ng generate component is over and took %s", time.Since(start))
-
-	// if data-model-panel does not exists, it is an indication that
-	// the module file has to be overwritten
-	gong_models.VerySimpleCodeGenerator(
-		modelPkg,
-		modelPkg.Name,
-		modelPkg.PkgPath,
-		filepath.Join(gong_models.MaterialLibDatamodelTargetPath,
-			fmt.Sprintf("%sdatamodel.module.ts", modelPkg.Name)),
-		angular.NgFileModuleDatamodel)
-
-	gong_models.VerySimpleCodeGenerator(
-		modelPkg,
-		modelPkg.Name,
-		modelPkg.PkgPath,
-		filepath.Join(gong_models.MaterialLibDatamodelTargetPath,
-			"data-model-panel", "data-model-panel.component.ts"),
-		angular.NgFileDataModelPanelTemplateTs)
-
-	gong_models.VerySimpleCodeGenerator(
-		modelPkg,
-		modelPkg.Name,
-		modelPkg.PkgPath,
-		filepath.Join(gong_models.MaterialLibDatamodelTargetPath,
-			"data-model-panel", "data-model-panel.component.html"),
-		angular.NgFileDataModelPanelTemplateHtml)
 }
