@@ -1,0 +1,12 @@
+.child {
+    position: absolute;
+    width: 3000px;
+    height: 8000px;
+    z-index: 100;
+    pointer-events: none;
+}
+
+.overlay {
+    pointer-events: auto;
+    /* Enable pointer events for the SVG shapes */
+}

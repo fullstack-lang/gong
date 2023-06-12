@@ -58,7 +58,7 @@ func (controller *Controller) GetGongEnumValueEntrys(c *gin.Context) {
 		value := values["GONG__StackPath"]
 		if len(value) == 1 {
 			stackPath = value[0]
-			log.Println("GetGongEnumValueEntrys", "GONG__StackPath", stackPath)
+			// log.Println("GetGongEnumValueEntrys", "GONG__StackPath", stackPath)
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
@@ -115,7 +115,7 @@ func (controller *Controller) PostGongEnumValueEntry(c *gin.Context) {
 		value := values["GONG__StackPath"]
 		if len(value) == 1 {
 			stackPath = value[0]
-			log.Println("PostGongEnumValueEntrys", "GONG__StackPath", stackPath)
+			// log.Println("PostGongEnumValueEntrys", "GONG__StackPath", stackPath)
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
@@ -182,7 +182,7 @@ func (controller *Controller) GetGongEnumValueEntry(c *gin.Context) {
 		value := values["GONG__StackPath"]
 		if len(value) == 1 {
 			stackPath = value[0]
-			log.Println("GetGongEnumValueEntry", "GONG__StackPath", stackPath)
+			// log.Println("GetGongEnumValueEntry", "GONG__StackPath", stackPath)
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
@@ -225,7 +225,7 @@ func (controller *Controller) UpdateGongEnumValueEntry(c *gin.Context) {
 		value := values["GONG__StackPath"]
 		if len(value) == 1 {
 			stackPath = value[0]
-			log.Println("UpdateGongEnumValueEntry", "GONG__StackPath", stackPath)
+			// log.Println("UpdateGongEnumValueEntry", "GONG__StackPath", stackPath)
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
@@ -305,7 +305,7 @@ func (controller *Controller) DeleteGongEnumValueEntry(c *gin.Context) {
 		value := values["GONG__StackPath"]
 		if len(value) == 1 {
 			stackPath = value[0]
-			log.Println("DeleteGongEnumValueEntry", "GONG__StackPath", stackPath)
+			// log.Println("DeleteGongEnumValueEntry", "GONG__StackPath", stackPath)
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]

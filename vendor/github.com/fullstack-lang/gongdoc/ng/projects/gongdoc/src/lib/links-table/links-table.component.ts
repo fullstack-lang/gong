@@ -81,14 +81,47 @@ export class LinksTableComponent implements OnInit {
         case 'Fieldtypename':
           return linkDB.Fieldtypename;
 
+        case 'FieldOffsetX':
+          return linkDB.FieldOffsetX;
+
+        case 'FieldOffsetY':
+          return linkDB.FieldOffsetY;
+
         case 'TargetMultiplicity':
           return linkDB.TargetMultiplicity;
+
+        case 'TargetMultiplicityOffsetX':
+          return linkDB.TargetMultiplicityOffsetX;
+
+        case 'TargetMultiplicityOffsetY':
+          return linkDB.TargetMultiplicityOffsetY;
 
         case 'SourceMultiplicity':
           return linkDB.SourceMultiplicity;
 
+        case 'SourceMultiplicityOffsetX':
+          return linkDB.SourceMultiplicityOffsetX;
+
+        case 'SourceMultiplicityOffsetY':
+          return linkDB.SourceMultiplicityOffsetY;
+
         case 'Middlevertice':
           return (linkDB.Middlevertice ? linkDB.Middlevertice.Name : '');
+
+        case 'StartOrientation':
+          return linkDB.StartOrientation;
+
+        case 'StartRatio':
+          return linkDB.StartRatio;
+
+        case 'EndOrientation':
+          return linkDB.EndOrientation;
+
+        case 'EndRatio':
+          return linkDB.EndRatio;
+
+        case 'CornerOffsetRatio':
+          return linkDB.CornerOffsetRatio;
 
         case 'GongStructShape_Links':
           if (this.frontRepo.GongStructShapes.get(linkDB.GongStructShape_LinksDBID.Int64) != undefined) {
@@ -114,11 +147,22 @@ export class LinksTableComponent implements OnInit {
       mergedContent += linkDB.Name.toLowerCase()
       mergedContent += linkDB.Identifier.toLowerCase()
       mergedContent += linkDB.Fieldtypename.toLowerCase()
+      mergedContent += linkDB.FieldOffsetX.toString()
+      mergedContent += linkDB.FieldOffsetY.toString()
       mergedContent += linkDB.TargetMultiplicity.toLowerCase()
+      mergedContent += linkDB.TargetMultiplicityOffsetX.toString()
+      mergedContent += linkDB.TargetMultiplicityOffsetY.toString()
       mergedContent += linkDB.SourceMultiplicity.toLowerCase()
+      mergedContent += linkDB.SourceMultiplicityOffsetX.toString()
+      mergedContent += linkDB.SourceMultiplicityOffsetY.toString()
       if (linkDB.Middlevertice) {
         mergedContent += linkDB.Middlevertice.Name.toLowerCase()
       }
+      mergedContent += linkDB.StartOrientation.toLowerCase()
+      mergedContent += linkDB.StartRatio.toString()
+      mergedContent += linkDB.EndOrientation.toLowerCase()
+      mergedContent += linkDB.EndRatio.toString()
+      mergedContent += linkDB.CornerOffsetRatio.toString()
       if (linkDB.GongStructShape_LinksDBID.Int64 != 0) {
         mergedContent += this.frontRepo.GongStructShapes.get(linkDB.GongStructShape_LinksDBID.Int64)!.Name.toLowerCase()
       }
@@ -180,9 +224,20 @@ export class LinksTableComponent implements OnInit {
         "Name",
         "Identifier",
         "Fieldtypename",
+        "FieldOffsetX",
+        "FieldOffsetY",
         "TargetMultiplicity",
+        "TargetMultiplicityOffsetX",
+        "TargetMultiplicityOffsetY",
         "SourceMultiplicity",
+        "SourceMultiplicityOffsetX",
+        "SourceMultiplicityOffsetY",
         "Middlevertice",
+        "StartOrientation",
+        "StartRatio",
+        "EndOrientation",
+        "EndRatio",
+        "CornerOffsetRatio",
         "GongStructShape_Links",
       ]
     } else {
@@ -190,9 +245,20 @@ export class LinksTableComponent implements OnInit {
         "Name",
         "Identifier",
         "Fieldtypename",
+        "FieldOffsetX",
+        "FieldOffsetY",
         "TargetMultiplicity",
+        "TargetMultiplicityOffsetX",
+        "TargetMultiplicityOffsetY",
         "SourceMultiplicity",
+        "SourceMultiplicityOffsetX",
+        "SourceMultiplicityOffsetY",
         "Middlevertice",
+        "StartOrientation",
+        "StartRatio",
+        "EndOrientation",
+        "EndRatio",
+        "CornerOffsetRatio",
         "GongStructShape_Links",
       ]
       this.selection = new SelectionModel<LinkDB>(allowMultiSelect, this.initialSelection);

@@ -178,4 +178,60 @@ func (noteshapelinktype *NoteShapeLinkType) ToCodeString() (res string) {
 	return
 }
 
+// Utility function for OrientationType
+// if enum values are string, it is stored with the value
+// if enum values are int, they are stored with the code of the value
+func (orientationtype OrientationType) ToString() (res string) {
+
+	// migration of former implementation of enum
+	switch orientationtype {
+	// insertion code per enum code
+	case ORIENTATION_HORIZONTAL:
+		res = "ORIENTATION_HORIZONTAL"
+	case ORIENTATION_VERTICAL:
+		res = "ORIENTATION_VERTICAL"
+	}
+	return
+}
+
+func (orientationtype *OrientationType) FromString(input string) (err error) {
+
+	switch input {
+	// insertion code per enum code
+	case "ORIENTATION_HORIZONTAL":
+		*orientationtype = ORIENTATION_HORIZONTAL
+	case "ORIENTATION_VERTICAL":
+		*orientationtype = ORIENTATION_VERTICAL
+	default:
+		return errUnkownEnum
+	}
+	return
+}
+
+func (orientationtype *OrientationType) FromCodeString(input string) (err error) {
+
+	switch input {
+	// insertion code per enum code
+	case "ORIENTATION_HORIZONTAL":
+		*orientationtype = ORIENTATION_HORIZONTAL
+	case "ORIENTATION_VERTICAL":
+		*orientationtype = ORIENTATION_VERTICAL
+	default:
+		return errUnkownEnum
+	}
+	return
+}
+
+func (orientationtype *OrientationType) ToCodeString() (res string) {
+
+	switch *orientationtype {
+	// insertion code per enum code
+	case ORIENTATION_HORIZONTAL:
+		res = "ORIENTATION_HORIZONTAL"
+	case ORIENTATION_VERTICAL:
+		res = "ORIENTATION_VERTICAL"
+	}
+	return
+}
+
 // Last line of the template

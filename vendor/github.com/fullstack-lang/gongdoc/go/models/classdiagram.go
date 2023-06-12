@@ -51,7 +51,9 @@ func (classdiagram *Classdiagram) RemoveGongStructShape(stage *StageStruct, gong
 
 		newSliceOfLinks := make([]*Link, 0)
 		for _, link := range fromGongStructShape.Links {
-			if link.Fieldtypename == IdentifierToGongObjectName(gongstructshape.Identifier) {
+			typeOfTheField := IdentifierToGongObjectName(gongstructshape.Identifier)
+			typeOfTheLink := IdentifierToGongObjectName(link.Fieldtypename)
+			if typeOfTheLink == typeOfTheField {
 				link.Middlevertice.Unstage(stage)
 				link.Unstage(stage)
 			} else {

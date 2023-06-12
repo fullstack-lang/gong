@@ -5,6 +5,9 @@ func IsStaged[Type Gongstruct](stage *StageStruct, instance *Type) (ok bool) {
 
 	switch target := any(instance).(type) {
 	// insertion point for stage
+	case *Button:
+		ok = stage.IsStagedButton(target)
+
 	case *Classdiagram:
 		ok = stage.IsStagedClassdiagram(target)
 
@@ -57,6 +60,13 @@ func IsStaged[Type Gongstruct](stage *StageStruct, instance *Type) (ok bool) {
 }
 
 // insertion point for stage per struct
+	func (stage *StageStruct) IsStagedButton(button *Button) (ok bool) {
+
+		_, ok = stage.Buttons[button]
+	
+		return
+	}
+
 	func (stage *StageStruct) IsStagedClassdiagram(classdiagram *Classdiagram) (ok bool) {
 
 		_, ok = stage.Classdiagrams[classdiagram]
@@ -171,6 +181,9 @@ func StageBranch[Type Gongstruct](stage *StageStruct, instance *Type) {
 
 	switch target := any(instance).(type) {
 	// insertion point for stage branch
+	case *Button:
+		stage.StageBranchButton(target)
+
 	case *Classdiagram:
 		stage.StageBranchClassdiagram(target)
 
@@ -222,6 +235,21 @@ func StageBranch[Type Gongstruct](stage *StageStruct, instance *Type) {
 }
 
 // insertion point for stage branch per struct
+func (stage *StageStruct) StageBranchButton(button *Button) {
+
+	// check if instance is already staged
+	if IsStaged(stage, button) {
+		return
+	}
+
+	button.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
 func (stage *StageStruct) StageBranchClassdiagram(classdiagram *Classdiagram) {
 
 	// check if instance is already staged
@@ -378,6 +406,9 @@ func (stage *StageStruct) StageBranchNode(node *Node) {
 	for _, _node := range node.Children {
 		StageBranch(stage, _node)
 	}
+	for _, _button := range node.Buttons {
+		StageBranch(stage, _button)
+	}
 
 }
 
@@ -504,6 +535,9 @@ func UnstageBranch[Type Gongstruct](stage *StageStruct, instance *Type) {
 
 	switch target := any(instance).(type) {
 	// insertion point for unstage branch
+	case *Button:
+		stage.UnstageBranchButton(target)
+
 	case *Classdiagram:
 		stage.UnstageBranchClassdiagram(target)
 
@@ -555,6 +589,21 @@ func UnstageBranch[Type Gongstruct](stage *StageStruct, instance *Type) {
 }
 
 // insertion point for unstage branch per struct
+func (stage *StageStruct) UnstageBranchButton(button *Button) {
+
+	// check if instance is already staged
+	if ! IsStaged(stage, button) {
+		return
+	}
+
+	button.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
 func (stage *StageStruct) UnstageBranchClassdiagram(classdiagram *Classdiagram) {
 
 	// check if instance is already staged
@@ -710,6 +759,9 @@ func (stage *StageStruct) UnstageBranchNode(node *Node) {
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _node := range node.Children {
 		UnstageBranch(stage, _node)
+	}
+	for _, _button := range node.Buttons {
+		UnstageBranch(stage, _button)
 	}
 
 }

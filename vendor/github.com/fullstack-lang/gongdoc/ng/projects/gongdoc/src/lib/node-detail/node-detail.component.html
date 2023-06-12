@@ -34,28 +34,7 @@
     <mat-checkbox [formControl]="IsCheckboxDisabledFormControl">IsCheckboxDisabled</mat-checkbox>
 
     <!-- -->
-    <mat-checkbox [formControl]="HasAddChildButtonFormControl">HasAddChildButton</mat-checkbox>
-
-    <!-- -->
-    <mat-checkbox [formControl]="HasEditButtonFormControl">HasEditButton</mat-checkbox>
-
-    <!-- -->
     <mat-checkbox [formControl]="IsInEditModeFormControl">IsInEditMode</mat-checkbox>
-
-    <!-- -->
-    <mat-checkbox [formControl]="HasDrawButtonFormControl">HasDrawButton</mat-checkbox>
-
-    <!-- -->
-    <mat-checkbox [formControl]="HasDrawOffButtonFormControl">HasDrawOffButton</mat-checkbox>
-
-    <!-- -->
-    <mat-checkbox [formControl]="IsInDrawModeFormControl">IsInDrawMode</mat-checkbox>
-
-    <!-- -->
-    <mat-checkbox [formControl]="IsSavedFormControl">IsSaved</mat-checkbox>
-
-    <!-- -->
-    <mat-checkbox [formControl]="HasDeleteButtonFormControl">HasDeleteButton</mat-checkbox>
 
     <mat-grid-list cols="5" rowHeight="2:1">
         <mat-grid-tile [colspan]="3">
@@ -64,6 +43,19 @@
         <!-- insertion point for the button of the MANY_MANY association-->
         <mat-grid-tile>
             <button mat-raised-button (click)="openDragAndDropOrdering('Node', 'Node_ChildrenDBID')">
+                <mat-icon>
+                    shuffle
+                </mat-icon>
+            </button>
+        </mat-grid-tile>
+    </mat-grid-list>
+    <mat-grid-list cols="5" rowHeight="2:1">
+        <mat-grid-tile [colspan]="3">
+            <button mat-raised-button (click)="openReverseSelection('Button', 'Node_ButtonsDBID', 'ONE_MANY_ASSOCIATION_MODE', '', '', '')">Buttons</button>
+        </mat-grid-tile>
+        <!-- insertion point for the button of the MANY_MANY association-->
+        <mat-grid-tile>
+            <button mat-raised-button (click)="openDragAndDropOrdering('Button', 'Node_ButtonsDBID')">
                 <mat-icon>
                     shuffle
                 </mat-icon>

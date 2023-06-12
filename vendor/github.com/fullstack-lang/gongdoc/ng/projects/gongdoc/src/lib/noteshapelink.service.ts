@@ -43,7 +43,7 @@ export class NoteShapeLinkService {
   }
 
   /** GET noteshapelinks from the server */
-  getNoteShapeLinks(GONG__StackPath: string = ""): Observable<NoteShapeLinkDB[]> {
+  getNoteShapeLinks(GONG__StackPath: string): Observable<NoteShapeLinkDB[]> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
@@ -56,10 +56,13 @@ export class NoteShapeLinkService {
   }
 
   /** GET noteshapelink by id. Will 404 if id not found */
-  getNoteShapeLink(id: number): Observable<NoteShapeLinkDB> {
+  getNoteShapeLink(id: number, GONG__StackPath: string): Observable<NoteShapeLinkDB> {
+
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+
     const url = `${this.noteshapelinksUrl}/${id}`;
-    return this.http.get<NoteShapeLinkDB>(url).pipe(
-      tap(_ => this.log(`fetched noteshapelink id=${id}`)),
+    return this.http.get<NoteShapeLinkDB>(url, { params: params }).pipe(
+      // tap(_ => this.log(`fetched noteshapelink id=${id}`)),
       catchError(this.handleError<NoteShapeLinkDB>(`getNoteShapeLink id=${id}`))
     );
   }
@@ -81,7 +84,7 @@ export class NoteShapeLinkService {
       tap(_ => {
         // insertion point for restoration of reverse pointers
         noteshapelinkdb.NoteShape_NoteShapeLinks_reverse = _NoteShape_NoteShapeLinks_reverse
-        this.log(`posted noteshapelinkdb id=${noteshapelinkdb.ID}`)
+        // this.log(`posted noteshapelinkdb id=${noteshapelinkdb.ID}`)
       }),
       catchError(this.handleError<NoteShapeLinkDB>('postNoteShapeLink'))
     );
@@ -123,7 +126,7 @@ export class NoteShapeLinkService {
       tap(_ => {
         // insertion point for restoration of reverse pointers
         noteshapelinkdb.NoteShape_NoteShapeLinks_reverse = _NoteShape_NoteShapeLinks_reverse
-        this.log(`updated noteshapelinkdb id=${noteshapelinkdb.ID}`)
+        // this.log(`updated noteshapelinkdb id=${noteshapelinkdb.ID}`)
       }),
       catchError(this.handleError<NoteShapeLinkDB>('updateNoteShapeLink'))
     );

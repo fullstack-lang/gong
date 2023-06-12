@@ -43,7 +43,7 @@ export class UmlStateService {
   }
 
   /** GET umlstates from the server */
-  getUmlStates(GONG__StackPath: string = ""): Observable<UmlStateDB[]> {
+  getUmlStates(GONG__StackPath: string): Observable<UmlStateDB[]> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
@@ -56,10 +56,13 @@ export class UmlStateService {
   }
 
   /** GET umlstate by id. Will 404 if id not found */
-  getUmlState(id: number): Observable<UmlStateDB> {
+  getUmlState(id: number, GONG__StackPath: string): Observable<UmlStateDB> {
+
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+
     const url = `${this.umlstatesUrl}/${id}`;
-    return this.http.get<UmlStateDB>(url).pipe(
-      tap(_ => this.log(`fetched umlstate id=${id}`)),
+    return this.http.get<UmlStateDB>(url, { params: params }).pipe(
+      // tap(_ => this.log(`fetched umlstate id=${id}`)),
       catchError(this.handleError<UmlStateDB>(`getUmlState id=${id}`))
     );
   }
@@ -81,7 +84,7 @@ export class UmlStateService {
       tap(_ => {
         // insertion point for restoration of reverse pointers
         umlstatedb.Umlsc_States_reverse = _Umlsc_States_reverse
-        this.log(`posted umlstatedb id=${umlstatedb.ID}`)
+        // this.log(`posted umlstatedb id=${umlstatedb.ID}`)
       }),
       catchError(this.handleError<UmlStateDB>('postUmlState'))
     );
@@ -123,7 +126,7 @@ export class UmlStateService {
       tap(_ => {
         // insertion point for restoration of reverse pointers
         umlstatedb.Umlsc_States_reverse = _Umlsc_States_reverse
-        this.log(`updated umlstatedb id=${umlstatedb.ID}`)
+        // this.log(`updated umlstatedb id=${umlstatedb.ID}`)
       }),
       catchError(this.handleError<UmlStateDB>('updateUmlState'))
     );

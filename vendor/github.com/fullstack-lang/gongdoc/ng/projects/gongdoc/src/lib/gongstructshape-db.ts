@@ -8,6 +8,9 @@ import { ClassdiagramDB } from './classdiagram-db'
 import { NullInt64 } from './null-int64'
 
 export class GongStructShapeDB {
+
+	static GONGSTRUCT_NAME = "GongStructShape"
+
 	CreatedAt?: string
 	DeletedAt?: string
 	ID: number = 0

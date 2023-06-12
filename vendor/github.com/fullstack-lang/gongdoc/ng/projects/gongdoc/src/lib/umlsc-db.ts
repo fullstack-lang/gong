@@ -6,6 +6,9 @@ import { DiagramPackageDB } from './diagrampackage-db'
 import { NullInt64 } from './null-int64'
 
 export class UmlscDB {
+
+	static GONGSTRUCT_NAME = "Umlsc"
+
 	CreatedAt?: string
 	DeletedAt?: string
 	ID: number = 0

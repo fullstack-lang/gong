@@ -43,7 +43,7 @@ export class GongEnumValueEntryService {
   }
 
   /** GET gongenumvalueentrys from the server */
-  getGongEnumValueEntrys(GONG__StackPath: string = ""): Observable<GongEnumValueEntryDB[]> {
+  getGongEnumValueEntrys(GONG__StackPath: string): Observable<GongEnumValueEntryDB[]> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
@@ -56,10 +56,13 @@ export class GongEnumValueEntryService {
   }
 
   /** GET gongenumvalueentry by id. Will 404 if id not found */
-  getGongEnumValueEntry(id: number): Observable<GongEnumValueEntryDB> {
+  getGongEnumValueEntry(id: number, GONG__StackPath: string): Observable<GongEnumValueEntryDB> {
+
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+
     const url = `${this.gongenumvalueentrysUrl}/${id}`;
-    return this.http.get<GongEnumValueEntryDB>(url).pipe(
-      tap(_ => this.log(`fetched gongenumvalueentry id=${id}`)),
+    return this.http.get<GongEnumValueEntryDB>(url, { params: params }).pipe(
+      // tap(_ => this.log(`fetched gongenumvalueentry id=${id}`)),
       catchError(this.handleError<GongEnumValueEntryDB>(`getGongEnumValueEntry id=${id}`))
     );
   }
@@ -81,7 +84,7 @@ export class GongEnumValueEntryService {
       tap(_ => {
         // insertion point for restoration of reverse pointers
         gongenumvalueentrydb.GongEnumShape_GongEnumValueEntrys_reverse = _GongEnumShape_GongEnumValueEntrys_reverse
-        this.log(`posted gongenumvalueentrydb id=${gongenumvalueentrydb.ID}`)
+        // this.log(`posted gongenumvalueentrydb id=${gongenumvalueentrydb.ID}`)
       }),
       catchError(this.handleError<GongEnumValueEntryDB>('postGongEnumValueEntry'))
     );
@@ -123,7 +126,7 @@ export class GongEnumValueEntryService {
       tap(_ => {
         // insertion point for restoration of reverse pointers
         gongenumvalueentrydb.GongEnumShape_GongEnumValueEntrys_reverse = _GongEnumShape_GongEnumValueEntrys_reverse
-        this.log(`updated gongenumvalueentrydb id=${gongenumvalueentrydb.ID}`)
+        // this.log(`updated gongenumvalueentrydb id=${gongenumvalueentrydb.ID}`)
       }),
       catchError(this.handleError<GongEnumValueEntryDB>('updateGongEnumValueEntry'))
     );

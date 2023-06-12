@@ -1,0 +1,13 @@
+.parent {
+    position: absolute;
+    width: 3000px;
+    height: 8000px;
+    pointer-events: none;
+}
+
+.child {
+    position: absolute;
+    width: 3000px;
+    height: 8000px;
+    pointer-events: none;
+}

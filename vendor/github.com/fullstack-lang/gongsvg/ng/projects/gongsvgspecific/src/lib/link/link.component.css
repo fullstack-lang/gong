@@ -1,0 +1,23 @@
+svg {
+    position: absolute;
+    width: 3000px;
+    height: 8000px;
+    pointer-events: none;
+}
+
+.overlay {
+    pointer-events: auto;
+}
+
+line.overlay[segment-orientation='horizontal'] {
+    cursor: ns-resize;
+}
+
+line.overlay[segment-orientation='vertical'] {
+    cursor: ew-resize;
+}
+
+.movable-text {
+    cursor: move;
+    pointer-events: auto;
+}

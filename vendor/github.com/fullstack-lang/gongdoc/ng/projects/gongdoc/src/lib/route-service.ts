@@ -2,6 +2,9 @@ import { Injectable } from '@angular/core';
 import { Route, Router, Routes } from '@angular/router';
 
 // insertion point for imports
+import { ButtonsTableComponent } from './buttons-table/buttons-table.component'
+import { ButtonDetailComponent } from './button-detail/button-detail.component'
+
 import { ClassdiagramsTableComponent } from './classdiagrams-table/classdiagrams-table.component'
 import { ClassdiagramDetailComponent } from './classdiagram-detail/classdiagram-detail.component'
 
@@ -78,6 +81,39 @@ export class RouteService {
         return this.getPathRoot() + '_editor' + '_' + stackPath
     }
     // insertion point for per gongstruct route/path getters
+    getButtonTablePath(): string {
+        return this.getPathRoot() + '-buttons/:GONG__StackPath'
+    }
+    getButtonTableRoute(stackPath: string): Route {
+        let route: Route =
+            { path: this.getButtonTablePath(), component: ButtonsTableComponent, outlet: this.getTableOutlet(stackPath) }
+        return route
+    }
+    getButtonAdderPath(): string {
+        return this.getPathRoot() + '-button-adder/:GONG__StackPath'
+    }
+    getButtonAdderRoute(stackPath: string): Route {
+        let route: Route =
+            { path: this.getButtonAdderPath(), component: ButtonDetailComponent, outlet: this.getEditorOutlet(stackPath) }
+        return route
+    }
+    getButtonAdderForUsePath(): string {
+        return this.getPathRoot() + '-button-adder/:id/:originStruct/:originStructFieldName/:GONG__StackPath'
+    }
+    getButtonAdderForUseRoute(stackPath: string): Route {
+        let route: Route =
+            { path: this.getButtonAdderForUsePath(), component: ButtonDetailComponent, outlet: this.getEditorOutlet(stackPath) }
+        return route
+    }
+    getButtonDetailPath(): string {
+        return this.getPathRoot() + '-button-detail/:id/:GONG__StackPath'
+    }
+    getButtonDetailRoute(stackPath: string): Route {
+        let route: Route =
+            { path: this.getButtonDetailPath(), component: ButtonDetailComponent, outlet: this.getEditorOutlet(stackPath) }
+        return route
+    }
+
     getClassdiagramTablePath(): string {
         return this.getPathRoot() + '-classdiagrams/:GONG__StackPath'
     }
@@ -579,6 +615,11 @@ export class RouteService {
 
         this.addRoutes([
             // insertion point for all routes getter
+            this.getButtonTableRoute(stackPath),
+            this.getButtonAdderRoute(stackPath),
+            this.getButtonAdderForUseRoute(stackPath),
+            this.getButtonDetailRoute(stackPath),
+
             this.getClassdiagramTableRoute(stackPath),
             this.getClassdiagramAdderRoute(stackPath),
             this.getClassdiagramAdderForUseRoute(stackPath),

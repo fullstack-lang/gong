@@ -1,0 +1,170 @@
+<svg *ngIf="nbControlPoints == 0 && this.Link && (!isFloatingOrthogonal)" class="svg">
+    <g>
+        <line class="overlay" 
+            [attr.x1]="getPosition(Link.Start, Link.StartAnchorType, Link.End)[0]" 
+            [attr.y1]="getPosition(Link.Start, Link.StartAnchorType, Link.End)[1]" 
+            [attr.x2]="getPosition(Link.End, Link.EndAnchorType, Link.Start)[0]" 
+            [attr.y2]="getPosition(Link.End, Link.EndAnchorType, Link.Start)[1]"
+            [attr.fill]="Link.Color"
+            [attr.fill-opacity]="Link.FillOpacity" 
+            [attr.stroke]="Link.Stroke" 
+            [attr.stroke-width]="Link.StrokeWidth"
+            [attr.stroke-dasharray]="Link.StrokeDashArray" 
+            [attr.transform]="Link.Transform" 
+            
+            (mousedown)="linkMouseDown($event, 0)" 
+            (mousemove)="linkMouseMove($event)" 
+            (mouseup)="linkMouseUp($event)"
+            
+            />
+    </g>
+</svg>
+
+<svg *ngIf="nbControlPoints > 0 && this.Link && this.Link.ControlPoints" class="svg">
+    <g>
+        <line class="overlay" 
+            [attr.x1]="getPosition(Link.Start, Link.StartAnchorType)[0]" 
+            [attr.y1]="getPosition(Link.Start, Link.StartAnchorType)[1]" 
+            [attr.x2]="Link.ControlPoints[0].X" 
+            [attr.y2]="Link.ControlPoints[0].Y"
+            [attr.fill]="Link.Color"
+            [attr.fill-opacity]="Link.FillOpacity" 
+            [attr.stroke]="Link.Stroke" 
+            [attr.stroke-width]="Link.StrokeWidth"
+            [attr.stroke-dasharray]="Link.StrokeDashArray" 
+            [attr.transform]="Link.Transform" 
+            
+            (mousedown)="linkMouseDown($event, 0)" 
+            />
+
+        <line class="overlay" 
+            [attr.x1]="Link.ControlPoints[nbControlPoints-1].X" 
+            [attr.y1]="Link.ControlPoints[nbControlPoints-1].Y"
+            [attr.x2]="getPosition(Link.End, Link.EndAnchorType)[0]" 
+            [attr.y2]="getPosition(Link.End, Link.EndAnchorType)[1]" 
+            [attr.fill]="Link.Color"
+            [attr.fill-opacity]="Link.FillOpacity" 
+            [attr.stroke]="Link.Stroke" 
+            [attr.stroke-width]="Link.StrokeWidth"
+            [attr.stroke-dasharray]="Link.StrokeDashArray" 
+            [attr.transform]="Link.Transform"
+
+            (mousedown)="linkMouseDown($event, 0)" 
+            />
+    </g>
+</svg>
+
+<svg *ngIf="nbControlPoints > 0 && this.Link && this.Link.ControlPoints" class="svg">
+    <svg *ngFor="let item of [].constructor(nbControlPoints-1); let i = index">
+    <g>
+        <line class="overlay" 
+            [attr.x1]="Link.ControlPoints[i].X" 
+            [attr.y1]="Link.ControlPoints[i].Y"
+            [attr.x2]="Link.ControlPoints[i+1].X" 
+            [attr.y2]="Link.ControlPoints[i+1].Y"
+            [attr.fill]="Link.Color"
+            [attr.fill-opacity]="Link.FillOpacity" 
+            [attr.stroke]="Link.Stroke" 
+            [attr.stroke-width]="Link.StrokeWidth"
+            [attr.stroke-dasharray]="Link.StrokeDashArray" 
+            [attr.transform]="Link.Transform" 
+
+            (mousedown)="linkMouseDown($event, 0)" 
+            />
+    </g>
+    </svg>
+</svg>
+
+<svg *ngIf="isFloatingOrthogonal && Link && segments" class="svg">
+    <g>
+        <line *ngFor='let segment of segments' class="overlay" 
+            [attr.x1]="segment.StartPoint.X" 
+            [attr.y1]="segment.StartPoint.Y" 
+            [attr.x2]="segment.EndPoint.X" 
+            [attr.y2]="segment.EndPoint.Y"
+            [attr.fill]="Link.Color"
+            [attr.fill-opacity]="Link.FillOpacity" 
+            [attr.stroke]="Link.Stroke" 
+            [attr.stroke-width]="Link.StrokeWidth"
+            [attr.stroke-dasharray]="Link.StrokeDashArray" 
+            [attr.segment-orientation]="getOrientation(segment)"
+            [attr.segment-number]="segment.Number"
+            
+            (mousedown)="linkMouseDown($event, segment.Number)" 
+            (mousemove)="linkMouseMove($event
+            )" 
+            (mouseup)="linkMouseUp($event)"
+            
+            />
+
+        <ng-container *ngFor='let segment of segments; let i = index'>
+             <path *ngIf="segments[i + 1] as nextSegment" class="overlay" [attr.d]="getArcPath(segment, nextSegment)" 
+            
+                [attr.fill]="Link.Color"
+                [attr.fill-opacity]="Link.FillOpacity" 
+                [attr.stroke]="Link.Stroke" 
+                [attr.stroke-width]="Link.StrokeWidth"
+                [attr.stroke-dasharray]="Link.StrokeDashArray" 
+                />
+            <ng-container *ngIf="(i == (segments.length - 1)) && this.Link!.HasEndArrow">
+                <path class="overlay" 
+                
+                    [attr.d]="getArrowPath(segment)"
+                    [attr.fill]="Link.Color"
+                    [attr.fill-opacity]="Link.FillOpacity" 
+                    [attr.stroke]="Link.Stroke" 
+                    [attr.stroke-width]="Link.StrokeWidth"
+                    [attr.stroke-dasharray]="Link.StrokeDashArray" 
+                />
+            </ng-container>
+            <ng-container *ngIf="(i == (segments.length - 1))">
+                <ng-container *ngFor='let text of this.Link.TextAtArrowEnd!; let i = index'>
+                    <ng-container *ngIf='splitTextIntoLines(text.Content) as lines'>
+                        <text class="movable-text"
+                            [attr.x]="segment.EndPoint.X + text.X_Offset" 
+                            [attr.y]="segment.EndPoint.Y + text.Y_Offset" 
+                            [attr.fill]="text.Color"    
+                            [attr.fill-opacity]="text.FillOpacity"
+                            [attr.stroke]="text.Stroke"
+                            [attr.stroke-width]="text.StrokeWidth"
+                            [attr.stroke-dasharray]="text.StrokeDashArray"
+                            [attr.transform]="text.Transform"
+                            
+                            (mousedown)="textAnchoredMouseDown($event, i, 'POSITION_ON_ARROW_END')" 
+                            (mousemove)="textAnchoredMouseMove($event)" 
+                            (mouseup)="textAnchoredMouseUp($event)"
+                            >
+                            <tspan *ngFor='let line of lines; let j = index' 
+                                [attr.x]="segment.EndPoint.X + text.X_Offset"
+                                [attr.dy]="j > 0 ? '1em' : '0'">{{line}}</tspan>  
+                            </text>
+                    </ng-container>
+                </ng-container>
+            </ng-container>
+            <ng-container *ngIf="i == 0">
+                <ng-container *ngFor='let text of this.Link.TextAtArrowStart!; let i = index'>
+                     <ng-container *ngIf='splitTextIntoLines(text.Content) as lines'>
+                        <text class="movable-text"
+                            [attr.x]="segment.StartPoint.X + text.X_Offset" 
+                            [attr.y]="segment.StartPoint.Y + text.Y_Offset" 
+                            [attr.fill]="text.Color"    
+                            [attr.fill-opacity]="text.FillOpacity"
+                            [attr.stroke]="text.Stroke"
+                            [attr.stroke-width]="text.StrokeWidth"
+                            [attr.stroke-dasharray]="text.StrokeDashArray"
+                            [attr.transform]="text.Transform"
+                            
+                            (mousedown)="textAnchoredMouseDown($event, i, 'POSITION_ON_ARROW_START')" 
+                            (mousemove)="textAnchoredMouseMove($event)" 
+                            (mouseup)="textAnchoredMouseUp($event)"
+                            >
+                            <tspan *ngFor='let line of lines; let j = index' 
+                                [attr.x]="segment.StartPoint.X + text.X_Offset"
+                                [attr.dy]="j > 0 ? '1em' : '0'">{{line}}</tspan>                        
+                        </text>
+                    </ng-container>
+                </ng-container>
+            </ng-container>
+        </ng-container>
+    </g>
+</svg>

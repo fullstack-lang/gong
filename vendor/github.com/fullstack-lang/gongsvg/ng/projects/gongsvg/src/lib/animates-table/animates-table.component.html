@@ -1,0 +1,156 @@
+<section class="container mat-elevation-z8" tabindex="0">
+    <mat-form-field>
+        <mat-label>Filter</mat-label>
+        <input matInput (keyup)="applyFilter($event)" placeholder="Ex. ium" #input>
+    </mat-form-field>
+    <h1 *ngIf="dialogData">animate</h1>
+    <table class="table" mat-table [dataSource]="matTableDataSource" matSort>
+        <!-- Checkbox Column, only used when the component is used to select items for a field that is a slice of pointers -->
+        <ng-container matColumnDef="select">
+            <th mat-header-cell *matHeaderCellDef>
+                <mat-checkbox (change)="$event ? masterToggle() : null" [checked]="selection.hasValue() && isAllSelected()" [indeterminate]="selection.hasValue() && !isAllSelected()">
+                </mat-checkbox>
+            </th>
+            <td mat-cell *matCellDef="let row">
+                <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(row) : null" [checked]="selection.isSelected(row)">
+                </mat-checkbox>
+            </td>
+        </ng-container>
+
+        <!-- insertion point for fields specific code -->
+        <!-- -->
+        <ng-container matColumnDef="Name" sticky>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
+            <td mat-cell *matCellDef="let Animate">
+                {{Animate.Name}}
+            </td>
+        </ng-container>
+        <!-- -->
+        <ng-container matColumnDef="AttributeName">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> AttributeName </th>
+            <td mat-cell *matCellDef="let Animate">
+                {{Animate.AttributeName}}
+            </td>
+        </ng-container>
+        <!-- -->
+        <ng-container matColumnDef="Values">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Values </th>
+            <td mat-cell *matCellDef="let Animate">
+                {{Animate.Values}}
+            </td>
+        </ng-container>
+        <!-- -->
+        <ng-container matColumnDef="Dur">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Dur </th>
+            <td mat-cell *matCellDef="let Animate">
+                {{Animate.Dur}}
+            </td>
+        </ng-container>
+        <!-- -->
+        <ng-container matColumnDef="RepeatCount">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> RepeatCount </th>
+            <td mat-cell *matCellDef="let Animate">
+                {{Animate.RepeatCount}}
+            </td>
+        </ng-container>
+        <!-- -->
+        <ng-container matColumnDef="Circle_Animations">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> <-- (Circle) Animations </th>
+            <td mat-cell *matCellDef="let animate">
+                {{frontRepo.Circles.get(animate.Circle_AnimationsDBID.Int64)?.Name}}
+            </td>
+        </ng-container>
+        <!-- -->
+        <ng-container matColumnDef="Ellipse_Animates">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> <-- (Ellipse) Animates </th>
+            <td mat-cell *matCellDef="let animate">
+                {{frontRepo.Ellipses.get(animate.Ellipse_AnimatesDBID.Int64)?.Name}}
+            </td>
+        </ng-container>
+        <!-- -->
+        <ng-container matColumnDef="Line_Animates">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> <-- (Line) Animates </th>
+            <td mat-cell *matCellDef="let animate">
+                {{frontRepo.Lines.get(animate.Line_AnimatesDBID.Int64)?.Name}}
+            </td>
+        </ng-container>
+        <!-- -->
+        <ng-container matColumnDef="LinkAnchoredText_Animates">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> <-- (LinkAnchoredText) Animates </th>
+            <td mat-cell *matCellDef="let animate">
+                {{frontRepo.LinkAnchoredTexts.get(animate.LinkAnchoredText_AnimatesDBID.Int64)?.Name}}
+            </td>
+        </ng-container>
+        <!-- -->
+        <ng-container matColumnDef="Path_Animates">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> <-- (Path) Animates </th>
+            <td mat-cell *matCellDef="let animate">
+                {{frontRepo.Paths.get(animate.Path_AnimatesDBID.Int64)?.Name}}
+            </td>
+        </ng-container>
+        <!-- -->
+        <ng-container matColumnDef="Polygone_Animates">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> <-- (Polygone) Animates </th>
+            <td mat-cell *matCellDef="let animate">
+                {{frontRepo.Polygones.get(animate.Polygone_AnimatesDBID.Int64)?.Name}}
+            </td>
+        </ng-container>
+        <!-- -->
+        <ng-container matColumnDef="Polyline_Animates">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> <-- (Polyline) Animates </th>
+            <td mat-cell *matCellDef="let animate">
+                {{frontRepo.Polylines.get(animate.Polyline_AnimatesDBID.Int64)?.Name}}
+            </td>
+        </ng-container>
+        <!-- -->
+        <ng-container matColumnDef="Rect_Animations">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> <-- (Rect) Animations </th>
+            <td mat-cell *matCellDef="let animate">
+                {{frontRepo.Rects.get(animate.Rect_AnimationsDBID.Int64)?.Name}}
+            </td>
+        </ng-container>
+        <!-- -->
+        <ng-container matColumnDef="RectAnchoredText_Animates">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> <-- (RectAnchoredText) Animates </th>
+            <td mat-cell *matCellDef="let animate">
+                {{frontRepo.RectAnchoredTexts.get(animate.RectAnchoredText_AnimatesDBID.Int64)?.Name}}
+            </td>
+        </ng-container>
+        <!-- -->
+        <ng-container matColumnDef="Text_Animates">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> <-- (Text) Animates </th>
+            <td mat-cell *matCellDef="let animate">
+                {{frontRepo.Texts.get(animate.Text_AnimatesDBID.Int64)?.Name}}
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="ID" sticky>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> ID. </th>
+            <td mat-cell *matCellDef="let Animate"> {{Animate.ID}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="Delete" sticky>
+            <th mat-header-cell *matHeaderCellDef> Delete </th>
+            <td mat-cell *matCellDef="let animate;  let j = index;">
+                <i class="material-icons my-delete-button" [ngStyle]="{'color':'rgba(0,0,0,.50)'}" (click)="deleteAnimate(animate.ID, animate); $event.stopPropagation()">delete</i>
+            </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns;"></tr>
+
+        <tr mat-row *matRowDef="
+        let row; 
+        columns: displayedColumns;
+        " (click)="setEditorRouterOutlet( row.ID ) " class="row-link">
+        </tr>
+
+        <!-- Row shown when there is no matching data. -->
+        <tr class="mat-row" *matNoDataRow>
+            <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
+        </tr>
+    </table>
+    <mat-paginator [pageSizeOptions]="[50, 100, 500, 1000]" showFirstLastButtons></mat-paginator>
+    <button class="table__save" color="primary" *ngIf="dialogData" mat-raised-button (click)="save()">
+        Save
+    </button>
+</section>

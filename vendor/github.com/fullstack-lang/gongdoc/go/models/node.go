@@ -1,5 +1,7 @@
 package models
 
+import "log"
+
 // Node is a node in the tree for selecting items to display
 // Node implements the visual artifacts of a node (the name, the buttons, the checkbocks, ...)
 // The font end read the fields of the node and display the node accordingly
@@ -20,19 +22,20 @@ type Node struct {
 	IsChecked          bool
 	IsCheckboxDisabled bool
 
-	HasAddChildButton bool
-
-	// to edit the name
-	HasEditButton bool
-	IsInEditMode  bool
-
-	// to edit the diagram
-	HasDrawButton    bool
-	HasDrawOffButton bool
-	IsInDrawMode     bool
-	IsSaved          bool
-
-	HasDeleteButton bool
+	// in case the user wants to change the name of the node
+	IsInEditMode bool
 
 	Children []*Node
+
+	Buttons []*Button
+}
+
+// OnAfterUpdate, notice that node == stagedNode
+func (node *Node) OnAfterUpdate(stage *StageStruct, _, frontNode *Node) {
+
+	log.Println("Node, OnAfterUpdate", node.Name)
+
+	if node.Impl != nil {
+		node.Impl.OnAfterUpdate(stage, node, frontNode)
+	}
 }

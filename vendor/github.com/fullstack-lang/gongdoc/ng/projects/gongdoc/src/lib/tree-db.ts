@@ -5,6 +5,9 @@ import { NodeDB } from './node-db'
 import { NullInt64 } from './null-int64'
 
 export class TreeDB {
+
+	static GONGSTRUCT_NAME = "Tree"
+
 	CreatedAt?: string
 	DeletedAt?: string
 	ID: number = 0

@@ -9,11 +9,6 @@ import (
 // to be removed after fix of [issue](https://github.com/golang/go/issues/57559)
 func SetupMapDocLinkRenaming(gongStage *gong_models.StageStruct, gongdocStage *StageStruct) {
 
-	// set up Map_DocLink_Renaming
-	//  TO BE REMOVED
-	// to be removed after fix of [issue](https://github.com/golang/go/issues/57559)
-	gongdocStage.Map_DocLink_Renaming = make(map[string]GONG__Identifier)
-
 	gongstructOrdered := []*gong_models.GongStruct{}
 	for gongstruct := range *gong_models.GetGongstructInstancesSet[gong_models.GongStruct](gongStage) {
 		gongstructOrdered = append(gongstructOrdered, gongstruct)

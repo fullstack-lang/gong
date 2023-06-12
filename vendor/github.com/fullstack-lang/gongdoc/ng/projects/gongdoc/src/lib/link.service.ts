@@ -44,7 +44,7 @@ export class LinkService {
   }
 
   /** GET links from the server */
-  getLinks(GONG__StackPath: string = ""): Observable<LinkDB[]> {
+  getLinks(GONG__StackPath: string): Observable<LinkDB[]> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
@@ -57,10 +57,13 @@ export class LinkService {
   }
 
   /** GET link by id. Will 404 if id not found */
-  getLink(id: number): Observable<LinkDB> {
+  getLink(id: number, GONG__StackPath: string): Observable<LinkDB> {
+
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+
     const url = `${this.linksUrl}/${id}`;
-    return this.http.get<LinkDB>(url).pipe(
-      tap(_ => this.log(`fetched link id=${id}`)),
+    return this.http.get<LinkDB>(url, { params: params }).pipe(
+      // tap(_ => this.log(`fetched link id=${id}`)),
       catchError(this.handleError<LinkDB>(`getLink id=${id}`))
     );
   }
@@ -83,7 +86,7 @@ export class LinkService {
       tap(_ => {
         // insertion point for restoration of reverse pointers
         linkdb.GongStructShape_Links_reverse = _GongStructShape_Links_reverse
-        this.log(`posted linkdb id=${linkdb.ID}`)
+        // this.log(`posted linkdb id=${linkdb.ID}`)
       }),
       catchError(this.handleError<LinkDB>('postLink'))
     );
@@ -126,7 +129,7 @@ export class LinkService {
       tap(_ => {
         // insertion point for restoration of reverse pointers
         linkdb.GongStructShape_Links_reverse = _GongStructShape_Links_reverse
-        this.log(`updated linkdb id=${linkdb.ID}`)
+        // this.log(`updated linkdb id=${linkdb.ID}`)
       }),
       catchError(this.handleError<LinkDB>('updateLink'))
     );

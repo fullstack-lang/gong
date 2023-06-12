@@ -1,0 +1,12 @@
+<svg class="child">
+    <g>
+        <path [attr.d]="Path?.Definition" [attr.fill]="Path?.Color" [attr.fill-opacity]="Path?.FillOpacity" [attr.stroke]="Path?.Stroke"
+            [attr.stroke-width]="Path?.StrokeWidth" [attr.stroke-dasharray]="Path?.StrokeDashArray" />
+
+        <animate *ngFor="let animate of Path?.Animates" 
+            [attr.attributeName]="animate.AttributeName" 
+            [attr.values]="animate.Values" 
+            [attr.dur]="animate.Dur" 
+            [attr.repeatCount]="animate.RepeatCount" />
+    </g>
+</svg>

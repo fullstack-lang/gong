@@ -42,7 +42,7 @@ export class PositionService {
   }
 
   /** GET positions from the server */
-  getPositions(GONG__StackPath: string = ""): Observable<PositionDB[]> {
+  getPositions(GONG__StackPath: string): Observable<PositionDB[]> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
@@ -55,10 +55,13 @@ export class PositionService {
   }
 
   /** GET position by id. Will 404 if id not found */
-  getPosition(id: number): Observable<PositionDB> {
+  getPosition(id: number, GONG__StackPath: string): Observable<PositionDB> {
+
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+
     const url = `${this.positionsUrl}/${id}`;
-    return this.http.get<PositionDB>(url).pipe(
-      tap(_ => this.log(`fetched position id=${id}`)),
+    return this.http.get<PositionDB>(url, { params: params }).pipe(
+      // tap(_ => this.log(`fetched position id=${id}`)),
       catchError(this.handleError<PositionDB>(`getPosition id=${id}`))
     );
   }
@@ -77,7 +80,7 @@ export class PositionService {
     return this.http.post<PositionDB>(this.positionsUrl, positiondb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
-        this.log(`posted positiondb id=${positiondb.ID}`)
+        // this.log(`posted positiondb id=${positiondb.ID}`)
       }),
       catchError(this.handleError<PositionDB>('postPosition'))
     );
@@ -116,7 +119,7 @@ export class PositionService {
     return this.http.put<PositionDB>(url, positiondb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
-        this.log(`updated positiondb id=${positiondb.ID}`)
+        // this.log(`updated positiondb id=${positiondb.ID}`)
       }),
       catchError(this.handleError<PositionDB>('updatePosition'))
     );

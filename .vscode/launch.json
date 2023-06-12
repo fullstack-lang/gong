@@ -9,7 +9,7 @@
             "request": "launch",
             "type": "chrome",
             "url": "http://localhost:4200",
-            "webRoot": "${workspaceFolder}",
+            "webRoot": "${workspaceFolder}/test/ng",
             "sourceMaps": true,
         },
         {

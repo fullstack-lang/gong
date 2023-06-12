@@ -43,7 +43,7 @@ export class NoteShapeService {
   }
 
   /** GET noteshapes from the server */
-  getNoteShapes(GONG__StackPath: string = ""): Observable<NoteShapeDB[]> {
+  getNoteShapes(GONG__StackPath: string): Observable<NoteShapeDB[]> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
@@ -56,10 +56,13 @@ export class NoteShapeService {
   }
 
   /** GET noteshape by id. Will 404 if id not found */
-  getNoteShape(id: number): Observable<NoteShapeDB> {
+  getNoteShape(id: number, GONG__StackPath: string): Observable<NoteShapeDB> {
+
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+
     const url = `${this.noteshapesUrl}/${id}`;
-    return this.http.get<NoteShapeDB>(url).pipe(
-      tap(_ => this.log(`fetched noteshape id=${id}`)),
+    return this.http.get<NoteShapeDB>(url, { params: params }).pipe(
+      // tap(_ => this.log(`fetched noteshape id=${id}`)),
       catchError(this.handleError<NoteShapeDB>(`getNoteShape id=${id}`))
     );
   }
@@ -82,7 +85,7 @@ export class NoteShapeService {
       tap(_ => {
         // insertion point for restoration of reverse pointers
         noteshapedb.Classdiagram_NoteShapes_reverse = _Classdiagram_NoteShapes_reverse
-        this.log(`posted noteshapedb id=${noteshapedb.ID}`)
+        // this.log(`posted noteshapedb id=${noteshapedb.ID}`)
       }),
       catchError(this.handleError<NoteShapeDB>('postNoteShape'))
     );
@@ -125,7 +128,7 @@ export class NoteShapeService {
       tap(_ => {
         // insertion point for restoration of reverse pointers
         noteshapedb.Classdiagram_NoteShapes_reverse = _Classdiagram_NoteShapes_reverse
-        this.log(`updated noteshapedb id=${noteshapedb.ID}`)
+        // this.log(`updated noteshapedb id=${noteshapedb.ID}`)
       }),
       catchError(this.handleError<NoteShapeDB>('updateNoteShape'))
     );

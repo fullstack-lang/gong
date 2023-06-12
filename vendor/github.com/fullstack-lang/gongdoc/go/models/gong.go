@@ -30,6 +30,14 @@ type GongStructInterface interface {
 // StageStruct enables storage of staged instances
 // swagger:ignore
 type StageStruct struct { // insertion point for definition of arrays registering instances
+	Buttons           map[*Button]any
+	Buttons_mapString map[string]*Button
+
+	OnAfterButtonCreateCallback OnAfterCreateInterface[Button]
+	OnAfterButtonUpdateCallback OnAfterUpdateInterface[Button]
+	OnAfterButtonDeleteCallback OnAfterDeleteInterface[Button]
+	OnAfterButtonReadCallback   OnAfterReadInterface[Button]
+
 	Classdiagrams           map[*Classdiagram]any
 	Classdiagrams_mapString map[string]*Classdiagram
 
@@ -167,7 +175,11 @@ type StageStruct struct { // insertion point for definition of arrays registerin
 	// store meta package import
 	MetaPackageImportPath  string
 	MetaPackageImportAlias string
-	Map_DocLink_Renaming   map[string]GONG__Identifier
+
+	// to be removed after fix of [issue](https://github.com/golang/go/issues/57559)
+	// map to enable docLink renaming when an identifier is renamed
+	Map_DocLink_Renaming map[string]GONG__Identifier
+	// the to be removed stops here
 }
 
 type GONG__Identifier struct {
@@ -210,6 +222,8 @@ type BackRepoInterface interface {
 	BackupXL(stage *StageStruct, dirPath string)
 	RestoreXL(stage *StageStruct, dirPath string)
 	// insertion point for Commit and Checkout signatures
+	CommitButton(button *Button)
+	CheckoutButton(button *Button)
 	CommitClassdiagram(classdiagram *Classdiagram)
 	CheckoutClassdiagram(classdiagram *Classdiagram)
 	CommitDiagramPackage(diagrampackage *DiagramPackage)
@@ -258,6 +272,9 @@ func GetDefaultStage() *StageStruct {
 func NewStage() (stage *StageStruct) {
 
 	stage = &StageStruct{ // insertion point for array initiatialisation
+		Buttons:           make(map[*Button]any),
+		Buttons_mapString: make(map[string]*Button),
+
 		Classdiagrams:           make(map[*Classdiagram]any),
 		Classdiagrams_mapString: make(map[string]*Classdiagram),
 
@@ -305,9 +322,21 @@ func NewStage() (stage *StageStruct) {
 
 		// end of insertion point
 		Map_GongStructName_InstancesNb: make(map[string]int),
+
+		// to be removed after fix of [issue](https://github.com/golang/go/issues/57559)
+		Map_DocLink_Renaming: make(map[string]GONG__Identifier),
+		// the to be removed stops here
 	}
 
 	return
+}
+
+func (stage *StageStruct) CommitWithSuspendedCallbacks() {
+
+	tmp := stage.OnInitCommitFromBackCallback
+	stage.OnInitCommitFromBackCallback = nil
+	stage.Commit()
+	stage.OnInitCommitFromBackCallback = tmp
 }
 
 func (stage *StageStruct) Commit() {
@@ -316,6 +345,7 @@ func (stage *StageStruct) Commit() {
 	}
 
 	// insertion point for computing the map of number of instances per gongstruct
+	stage.Map_GongStructName_InstancesNb["Button"] = len(stage.Buttons)
 	stage.Map_GongStructName_InstancesNb["Classdiagram"] = len(stage.Classdiagrams)
 	stage.Map_GongStructName_InstancesNb["DiagramPackage"] = len(stage.DiagramPackages)
 	stage.Map_GongStructName_InstancesNb["Field"] = len(stage.Fields)
@@ -340,6 +370,7 @@ func (stage *StageStruct) Checkout() {
 	}
 
 	// insertion point for computing the map of number of instances per gongstruct
+	stage.Map_GongStructName_InstancesNb["Button"] = len(stage.Buttons)
 	stage.Map_GongStructName_InstancesNb["Classdiagram"] = len(stage.Classdiagrams)
 	stage.Map_GongStructName_InstancesNb["DiagramPackage"] = len(stage.DiagramPackages)
 	stage.Map_GongStructName_InstancesNb["Field"] = len(stage.Fields)
@@ -387,6 +418,46 @@ func (stage *StageStruct) RestoreXL(dirPath string) {
 }
 
 // insertion point for cumulative sub template with model space calls
+// Stage puts button to the model stage
+func (button *Button) Stage(stage *StageStruct) *Button {
+	stage.Buttons[button] = __member
+	stage.Buttons_mapString[button.Name] = button
+
+	return button
+}
+
+// Unstage removes button off the model stage
+func (button *Button) Unstage(stage *StageStruct) *Button {
+	delete(stage.Buttons, button)
+	delete(stage.Buttons_mapString, button.Name)
+	return button
+}
+
+// commit button to the back repo (if it is already staged)
+func (button *Button) Commit(stage *StageStruct) *Button {
+	if _, ok := stage.Buttons[button]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitButton(button)
+		}
+	}
+	return button
+}
+
+// Checkout button to the back repo (if it is already staged)
+func (button *Button) Checkout(stage *StageStruct) *Button {
+	if _, ok := stage.Buttons[button]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutButton(button)
+		}
+	}
+	return button
+}
+
+// for satisfaction of GongStruct interface
+func (button *Button) GetName() (res string) {
+	return button.Name
+}
+
 // Stage puts classdiagram to the model stage
 func (classdiagram *Classdiagram) Stage(stage *StageStruct) *Classdiagram {
 	stage.Classdiagrams[classdiagram] = __member
@@ -989,6 +1060,7 @@ func (vertice *Vertice) GetName() (res string) {
 
 // swagger:ignore
 type AllModelsStructCreateInterface interface { // insertion point for Callbacks on creation
+	CreateORMButton(Button *Button)
 	CreateORMClassdiagram(Classdiagram *Classdiagram)
 	CreateORMDiagramPackage(DiagramPackage *DiagramPackage)
 	CreateORMField(Field *Field)
@@ -1007,6 +1079,7 @@ type AllModelsStructCreateInterface interface { // insertion point for Callbacks
 }
 
 type AllModelsStructDeleteInterface interface { // insertion point for Callbacks on deletion
+	DeleteORMButton(Button *Button)
 	DeleteORMClassdiagram(Classdiagram *Classdiagram)
 	DeleteORMDiagramPackage(DiagramPackage *DiagramPackage)
 	DeleteORMField(Field *Field)
@@ -1025,6 +1098,9 @@ type AllModelsStructDeleteInterface interface { // insertion point for Callbacks
 }
 
 func (stage *StageStruct) Reset() { // insertion point for array reset
+	stage.Buttons = make(map[*Button]any)
+	stage.Buttons_mapString = make(map[string]*Button)
+
 	stage.Classdiagrams = make(map[*Classdiagram]any)
 	stage.Classdiagrams_mapString = make(map[string]*Classdiagram)
 
@@ -1073,6 +1149,9 @@ func (stage *StageStruct) Reset() { // insertion point for array reset
 }
 
 func (stage *StageStruct) Nil() { // insertion point for array nil
+	stage.Buttons = nil
+	stage.Buttons_mapString = nil
+
 	stage.Classdiagrams = nil
 	stage.Classdiagrams_mapString = nil
 
@@ -1121,6 +1200,10 @@ func (stage *StageStruct) Nil() { // insertion point for array nil
 }
 
 func (stage *StageStruct) Unstage() { // insertion point for array nil
+	for button := range stage.Buttons {
+		button.Unstage(stage)
+	}
+
 	for classdiagram := range stage.Classdiagrams {
 		classdiagram.Unstage(stage)
 	}
@@ -1189,7 +1272,7 @@ func (stage *StageStruct) Unstage() { // insertion point for array nil
 // - full refactoring of Gongstruct identifiers / fields
 type Gongstruct interface {
 	// insertion point for generic types
-	Classdiagram | DiagramPackage | Field | GongEnumShape | GongEnumValueEntry | GongStructShape | Link | Node | NoteShape | NoteShapeLink | Position | Tree | UmlState | Umlsc | Vertice
+	Button | Classdiagram | DiagramPackage | Field | GongEnumShape | GongEnumValueEntry | GongStructShape | Link | Node | NoteShape | NoteShapeLink | Position | Tree | UmlState | Umlsc | Vertice
 }
 
 // Gongstruct is the type parameter for generated generic function that allows
@@ -1198,13 +1281,14 @@ type Gongstruct interface {
 // - full refactoring of Gongstruct identifiers / fields
 type PointerToGongstruct interface {
 	// insertion point for generic types
-	*Classdiagram | *DiagramPackage | *Field | *GongEnumShape | *GongEnumValueEntry | *GongStructShape | *Link | *Node | *NoteShape | *NoteShapeLink | *Position | *Tree | *UmlState | *Umlsc | *Vertice
+	*Button | *Classdiagram | *DiagramPackage | *Field | *GongEnumShape | *GongEnumValueEntry | *GongStructShape | *Link | *Node | *NoteShape | *NoteShapeLink | *Position | *Tree | *UmlState | *Umlsc | *Vertice
 	GetName() string
 }
 
 type GongstructSet interface {
 	map[any]any |
 		// insertion point for generic types
+		map[*Button]any |
 		map[*Classdiagram]any |
 		map[*DiagramPackage]any |
 		map[*Field]any |
@@ -1226,6 +1310,7 @@ type GongstructSet interface {
 type GongstructMapString interface {
 	map[any]any |
 		// insertion point for generic types
+		map[string]*Button |
 		map[string]*Classdiagram |
 		map[string]*DiagramPackage |
 		map[string]*Field |
@@ -1248,9 +1333,11 @@ type GongstructMapString interface {
 // it is usefull because it allows refactoring of gong struct identifier
 func GongGetSet[Type GongstructSet](stage *StageStruct) *Type {
 	var ret Type
-	
+
 	switch any(ret).(type) {
 	// insertion point for generic get functions
+	case map[*Button]any:
+		return any(&stage.Buttons).(*Type)
 	case map[*Classdiagram]any:
 		return any(&stage.Classdiagrams).(*Type)
 	case map[*DiagramPackage]any:
@@ -1293,6 +1380,8 @@ func GongGetMap[Type GongstructMapString](stage *StageStruct) *Type {
 
 	switch any(ret).(type) {
 	// insertion point for generic get functions
+	case map[string]*Button:
+		return any(&stage.Buttons_mapString).(*Type)
 	case map[string]*Classdiagram:
 		return any(&stage.Classdiagrams_mapString).(*Type)
 	case map[string]*DiagramPackage:
@@ -1335,6 +1424,8 @@ func GetGongstructInstancesSet[Type Gongstruct](stage *StageStruct) *map[*Type]a
 
 	switch any(ret).(type) {
 	// insertion point for generic get functions
+	case Button:
+		return any(&stage.Buttons).(*map[*Type]any)
 	case Classdiagram:
 		return any(&stage.Classdiagrams).(*map[*Type]any)
 	case DiagramPackage:
@@ -1377,6 +1468,8 @@ func GetGongstructInstancesMap[Type Gongstruct](stage *StageStruct) *map[string]
 
 	switch any(ret).(type) {
 	// insertion point for generic get functions
+	case Button:
+		return any(&stage.Buttons_mapString).(*map[string]*Type)
 	case Classdiagram:
 		return any(&stage.Classdiagrams_mapString).(*map[string]*Type)
 	case DiagramPackage:
@@ -1421,6 +1514,10 @@ func GetAssociationName[Type Gongstruct]() *Type {
 
 	switch any(ret).(type) {
 	// insertion point for instance with special fields
+	case Button:
+		return any(&Button{
+			// Initialisation of associations
+		}).(*Type)
 	case Classdiagram:
 		return any(&Classdiagram{
 			// Initialisation of associations
@@ -1478,6 +1575,8 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			// Initialisation of associations
 			// field is initialized with an instance of Node with the name of the field
 			Children: []*Node{{Name: "Children"}},
+			// field is initialized with an instance of Button with the name of the field
+			Buttons: []*Button{{Name: "Buttons"}},
 		}).(*Type)
 	case NoteShape:
 		return any(&NoteShape{
@@ -1531,6 +1630,11 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *StageS
 
 	switch any(ret).(type) {
 	// insertion point of functions that provide maps for reverse associations
+	// reverse maps of direct associations of Button
+	case Button:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
 	// reverse maps of direct associations of Classdiagram
 	case Classdiagram:
 		switch fieldname {
@@ -1690,6 +1794,11 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 
 	switch any(ret).(type) {
 	// insertion point of functions that provide maps for reverse associations
+	// reverse maps of direct associations of Button
+	case Button:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
 	// reverse maps of direct associations of Classdiagram
 	case Classdiagram:
 		switch fieldname {
@@ -1801,6 +1910,14 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 				}
 			}
 			return any(res).(map[*End]*Start)
+		case "Buttons":
+			res := make(map[*Button]*Node)
+			for node := range stage.Nodes {
+				for _, button_ := range node.Buttons {
+					res[button_] = node
+				}
+			}
+			return any(res).(map[*End]*Start)
 		}
 	// reverse maps of direct associations of NoteShape
 	case NoteShape:
@@ -1873,6 +1990,8 @@ func GetGongstructName[Type Gongstruct]() (res string) {
 
 	switch any(ret).(type) {
 	// insertion point for generic get gongstruct name
+	case Button:
+		res = "Button"
 	case Classdiagram:
 		res = "Classdiagram"
 	case DiagramPackage:
@@ -1914,6 +2033,8 @@ func GetFields[Type Gongstruct]() (res []string) {
 
 	switch any(ret).(type) {
 	// insertion point for generic get gongstruct name
+	case Button:
+		res = []string{"Name", "Icon"}
 	case Classdiagram:
 		res = []string{"Name", "GongStructShapes", "GongEnumShapes", "NoteShapes", "IsInDrawMode"}
 	case DiagramPackage:
@@ -1927,9 +2048,9 @@ func GetFields[Type Gongstruct]() (res []string) {
 	case GongStructShape:
 		res = []string{"Name", "Position", "Identifier", "ShowNbInstances", "NbInstances", "Fields", "Links", "Width", "Heigth", "IsSelected"}
 	case Link:
-		res = []string{"Name", "Identifier", "Fieldtypename", "TargetMultiplicity", "SourceMultiplicity", "Middlevertice"}
+		res = []string{"Name", "Identifier", "Fieldtypename", "FieldOffsetX", "FieldOffsetY", "TargetMultiplicity", "TargetMultiplicityOffsetX", "TargetMultiplicityOffsetY", "SourceMultiplicity", "SourceMultiplicityOffsetX", "SourceMultiplicityOffsetY", "Middlevertice", "StartOrientation", "StartRatio", "EndOrientation", "EndRatio", "CornerOffsetRatio"}
 	case Node:
-		res = []string{"Name", "IsExpanded", "HasCheckboxButton", "IsChecked", "IsCheckboxDisabled", "HasAddChildButton", "HasEditButton", "IsInEditMode", "HasDrawButton", "HasDrawOffButton", "IsInDrawMode", "IsSaved", "HasDeleteButton", "Children"}
+		res = []string{"Name", "IsExpanded", "HasCheckboxButton", "IsChecked", "IsCheckboxDisabled", "IsInEditMode", "Children", "Buttons"}
 	case NoteShape:
 		res = []string{"Name", "Identifier", "Body", "BodyHTML", "X", "Y", "Width", "Heigth", "Matched", "NoteShapeLinks"}
 	case NoteShapeLink:
@@ -1953,6 +2074,14 @@ func GetFieldStringValue[Type Gongstruct](instance Type, fieldName string) (res 
 
 	switch any(ret).(type) {
 	// insertion point for generic get gongstruct field value
+	case Button:
+		switch fieldName {
+		// string value of fields
+		case "Name":
+			res = any(instance).(Button).Name
+		case "Icon":
+			res = any(instance).(Button).Icon
+		}
 	case Classdiagram:
 		switch fieldName {
 		// string value of fields
@@ -2106,16 +2235,40 @@ func GetFieldStringValue[Type Gongstruct](instance Type, fieldName string) (res 
 			res = any(instance).(Link).Identifier
 		case "Fieldtypename":
 			res = any(instance).(Link).Fieldtypename
+		case "FieldOffsetX":
+			res = fmt.Sprintf("%f", any(instance).(Link).FieldOffsetX)
+		case "FieldOffsetY":
+			res = fmt.Sprintf("%f", any(instance).(Link).FieldOffsetY)
 		case "TargetMultiplicity":
 			enum := any(instance).(Link).TargetMultiplicity
 			res = enum.ToCodeString()
+		case "TargetMultiplicityOffsetX":
+			res = fmt.Sprintf("%f", any(instance).(Link).TargetMultiplicityOffsetX)
+		case "TargetMultiplicityOffsetY":
+			res = fmt.Sprintf("%f", any(instance).(Link).TargetMultiplicityOffsetY)
 		case "SourceMultiplicity":
 			enum := any(instance).(Link).SourceMultiplicity
 			res = enum.ToCodeString()
+		case "SourceMultiplicityOffsetX":
+			res = fmt.Sprintf("%f", any(instance).(Link).SourceMultiplicityOffsetX)
+		case "SourceMultiplicityOffsetY":
+			res = fmt.Sprintf("%f", any(instance).(Link).SourceMultiplicityOffsetY)
 		case "Middlevertice":
 			if any(instance).(Link).Middlevertice != nil {
 				res = any(instance).(Link).Middlevertice.Name
 			}
+		case "StartOrientation":
+			enum := any(instance).(Link).StartOrientation
+			res = enum.ToCodeString()
+		case "StartRatio":
+			res = fmt.Sprintf("%f", any(instance).(Link).StartRatio)
+		case "EndOrientation":
+			enum := any(instance).(Link).EndOrientation
+			res = enum.ToCodeString()
+		case "EndRatio":
+			res = fmt.Sprintf("%f", any(instance).(Link).EndRatio)
+		case "CornerOffsetRatio":
+			res = fmt.Sprintf("%f", any(instance).(Link).CornerOffsetRatio)
 		}
 	case Node:
 		switch fieldName {
@@ -2130,24 +2283,17 @@ func GetFieldStringValue[Type Gongstruct](instance Type, fieldName string) (res 
 			res = fmt.Sprintf("%t", any(instance).(Node).IsChecked)
 		case "IsCheckboxDisabled":
 			res = fmt.Sprintf("%t", any(instance).(Node).IsCheckboxDisabled)
-		case "HasAddChildButton":
-			res = fmt.Sprintf("%t", any(instance).(Node).HasAddChildButton)
-		case "HasEditButton":
-			res = fmt.Sprintf("%t", any(instance).(Node).HasEditButton)
 		case "IsInEditMode":
 			res = fmt.Sprintf("%t", any(instance).(Node).IsInEditMode)
-		case "HasDrawButton":
-			res = fmt.Sprintf("%t", any(instance).(Node).HasDrawButton)
-		case "HasDrawOffButton":
-			res = fmt.Sprintf("%t", any(instance).(Node).HasDrawOffButton)
-		case "IsInDrawMode":
-			res = fmt.Sprintf("%t", any(instance).(Node).IsInDrawMode)
-		case "IsSaved":
-			res = fmt.Sprintf("%t", any(instance).(Node).IsSaved)
-		case "HasDeleteButton":
-			res = fmt.Sprintf("%t", any(instance).(Node).HasDeleteButton)
 		case "Children":
 			for idx, __instance__ := range any(instance).(Node).Children {
+				if idx > 0 {
+					res += "\n"
+				}
+				res += __instance__.Name
+			}
+		case "Buttons":
+			for idx, __instance__ := range any(instance).(Node).Buttons {
 				if idx > 0 {
 					res += "\n"
 				}

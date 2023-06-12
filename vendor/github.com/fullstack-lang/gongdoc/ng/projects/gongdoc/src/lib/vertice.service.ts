@@ -42,7 +42,7 @@ export class VerticeService {
   }
 
   /** GET vertices from the server */
-  getVertices(GONG__StackPath: string = ""): Observable<VerticeDB[]> {
+  getVertices(GONG__StackPath: string): Observable<VerticeDB[]> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
@@ -55,10 +55,13 @@ export class VerticeService {
   }
 
   /** GET vertice by id. Will 404 if id not found */
-  getVertice(id: number): Observable<VerticeDB> {
+  getVertice(id: number, GONG__StackPath: string): Observable<VerticeDB> {
+
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+
     const url = `${this.verticesUrl}/${id}`;
-    return this.http.get<VerticeDB>(url).pipe(
-      tap(_ => this.log(`fetched vertice id=${id}`)),
+    return this.http.get<VerticeDB>(url, { params: params }).pipe(
+      // tap(_ => this.log(`fetched vertice id=${id}`)),
       catchError(this.handleError<VerticeDB>(`getVertice id=${id}`))
     );
   }
@@ -77,7 +80,7 @@ export class VerticeService {
     return this.http.post<VerticeDB>(this.verticesUrl, verticedb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
-        this.log(`posted verticedb id=${verticedb.ID}`)
+        // this.log(`posted verticedb id=${verticedb.ID}`)
       }),
       catchError(this.handleError<VerticeDB>('postVertice'))
     );
@@ -116,7 +119,7 @@ export class VerticeService {
     return this.http.put<VerticeDB>(url, verticedb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
-        this.log(`updated verticedb id=${verticedb.ID}`)
+        // this.log(`updated verticedb id=${verticedb.ID}`)
       }),
       catchError(this.handleError<VerticeDB>('updateVertice'))
     );

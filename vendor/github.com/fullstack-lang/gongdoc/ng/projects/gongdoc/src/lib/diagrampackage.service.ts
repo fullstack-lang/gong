@@ -43,7 +43,7 @@ export class DiagramPackageService {
   }
 
   /** GET diagrampackages from the server */
-  getDiagramPackages(GONG__StackPath: string = ""): Observable<DiagramPackageDB[]> {
+  getDiagramPackages(GONG__StackPath: string): Observable<DiagramPackageDB[]> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
@@ -56,10 +56,13 @@ export class DiagramPackageService {
   }
 
   /** GET diagrampackage by id. Will 404 if id not found */
-  getDiagramPackage(id: number): Observable<DiagramPackageDB> {
+  getDiagramPackage(id: number, GONG__StackPath: string): Observable<DiagramPackageDB> {
+
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+
     const url = `${this.diagrampackagesUrl}/${id}`;
-    return this.http.get<DiagramPackageDB>(url).pipe(
-      tap(_ => this.log(`fetched diagrampackage id=${id}`)),
+    return this.http.get<DiagramPackageDB>(url, { params: params }).pipe(
+      // tap(_ => this.log(`fetched diagrampackage id=${id}`)),
       catchError(this.handleError<DiagramPackageDB>(`getDiagramPackage id=${id}`))
     );
   }
@@ -81,7 +84,7 @@ export class DiagramPackageService {
     return this.http.post<DiagramPackageDB>(this.diagrampackagesUrl, diagrampackagedb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
-        this.log(`posted diagrampackagedb id=${diagrampackagedb.ID}`)
+        // this.log(`posted diagrampackagedb id=${diagrampackagedb.ID}`)
       }),
       catchError(this.handleError<DiagramPackageDB>('postDiagramPackage'))
     );
@@ -123,7 +126,7 @@ export class DiagramPackageService {
     return this.http.put<DiagramPackageDB>(url, diagrampackagedb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
-        this.log(`updated diagrampackagedb id=${diagrampackagedb.ID}`)
+        // this.log(`updated diagrampackagedb id=${diagrampackagedb.ID}`)
       }),
       catchError(this.handleError<DiagramPackageDB>('updateDiagramPackage'))
     );

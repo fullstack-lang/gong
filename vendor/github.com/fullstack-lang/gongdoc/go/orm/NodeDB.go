@@ -89,37 +89,9 @@ type NodeDB struct {
 	// provide the sql storage for the boolan
 	IsCheckboxDisabled_Data sql.NullBool
 
-	// Declation for basic field nodeDB.HasAddChildButton
-	// provide the sql storage for the boolan
-	HasAddChildButton_Data sql.NullBool
-
-	// Declation for basic field nodeDB.HasEditButton
-	// provide the sql storage for the boolan
-	HasEditButton_Data sql.NullBool
-
 	// Declation for basic field nodeDB.IsInEditMode
 	// provide the sql storage for the boolan
 	IsInEditMode_Data sql.NullBool
-
-	// Declation for basic field nodeDB.HasDrawButton
-	// provide the sql storage for the boolan
-	HasDrawButton_Data sql.NullBool
-
-	// Declation for basic field nodeDB.HasDrawOffButton
-	// provide the sql storage for the boolan
-	HasDrawOffButton_Data sql.NullBool
-
-	// Declation for basic field nodeDB.IsInDrawMode
-	// provide the sql storage for the boolan
-	IsInDrawMode_Data sql.NullBool
-
-	// Declation for basic field nodeDB.IsSaved
-	// provide the sql storage for the boolan
-	IsSaved_Data sql.NullBool
-
-	// Declation for basic field nodeDB.HasDeleteButton
-	// provide the sql storage for the boolan
-	HasDeleteButton_Data sql.NullBool
 	// encoding of pointers
 	NodePointersEnconding
 }
@@ -151,21 +123,7 @@ type NodeWOP struct {
 
 	IsCheckboxDisabled bool `xlsx:"5"`
 
-	HasAddChildButton bool `xlsx:"6"`
-
-	HasEditButton bool `xlsx:"7"`
-
-	IsInEditMode bool `xlsx:"8"`
-
-	HasDrawButton bool `xlsx:"9"`
-
-	HasDrawOffButton bool `xlsx:"10"`
-
-	IsInDrawMode bool `xlsx:"11"`
-
-	IsSaved bool `xlsx:"12"`
-
-	HasDeleteButton bool `xlsx:"13"`
+	IsInEditMode bool `xlsx:"6"`
 	// insertion for WOP pointer fields
 }
 
@@ -177,14 +135,7 @@ var Node_Fields = []string{
 	"HasCheckboxButton",
 	"IsChecked",
 	"IsCheckboxDisabled",
-	"HasAddChildButton",
-	"HasEditButton",
 	"IsInEditMode",
-	"HasDrawButton",
-	"HasDrawOffButton",
-	"IsInDrawMode",
-	"IsSaved",
-	"HasDeleteButton",
 }
 
 type BackRepoNodeStruct struct {
@@ -323,6 +274,25 @@ func (backRepoNode *BackRepoNodeStruct) CommitPhaseTwoInstance(backRepo *BackRep
 			}
 		}
 
+		// This loop encodes the slice of pointers node.Buttons into the back repo.
+		// Each back repo instance at the end of the association encode the ID of the association start
+		// into a dedicated field for coding the association. The back repo instance is then saved to the db
+		for idx, buttonAssocEnd := range node.Buttons {
+
+			// get the back repo instance at the association end
+			buttonAssocEnd_DB :=
+				backRepo.BackRepoButton.GetButtonDBFromButtonPtr(buttonAssocEnd)
+
+			// encode reverse pointer in the association end back repo instance
+			buttonAssocEnd_DB.Node_ButtonsDBID.Int64 = int64(nodeDB.ID)
+			buttonAssocEnd_DB.Node_ButtonsDBID.Valid = true
+			buttonAssocEnd_DB.Node_ButtonsDBID_Index.Int64 = int64(idx)
+			buttonAssocEnd_DB.Node_ButtonsDBID_Index.Valid = true
+			if q := backRepoNode.db.Save(buttonAssocEnd_DB); q.Error != nil {
+				return q.Error
+			}
+		}
+
 		query := backRepoNode.db.Save(&nodeDB)
 		if query.Error != nil {
 			return query.Error
@@ -457,6 +427,33 @@ func (backRepoNode *BackRepoNodeStruct) CheckoutPhaseTwoInstance(backRepo *BackR
 		return nodeDB_i.Node_ChildrenDBID_Index.Int64 < nodeDB_j.Node_ChildrenDBID_Index.Int64
 	})
 
+	// This loop redeem node.Buttons in the stage from the encode in the back repo
+	// It parses all ButtonDB in the back repo and if the reverse pointer encoding matches the back repo ID
+	// it appends the stage instance
+	// 1. reset the slice
+	node.Buttons = node.Buttons[:0]
+	// 2. loop all instances in the type in the association end
+	for _, buttonDB_AssocEnd := range backRepo.BackRepoButton.Map_ButtonDBID_ButtonDB {
+		// 3. Does the ID encoding at the end and the ID at the start matches ?
+		if buttonDB_AssocEnd.Node_ButtonsDBID.Int64 == int64(nodeDB.ID) {
+			// 4. fetch the associated instance in the stage
+			button_AssocEnd := backRepo.BackRepoButton.Map_ButtonDBID_ButtonPtr[buttonDB_AssocEnd.ID]
+			// 5. append it the association slice
+			node.Buttons = append(node.Buttons, button_AssocEnd)
+		}
+	}
+
+	// sort the array according to the order
+	sort.Slice(node.Buttons, func(i, j int) bool {
+		buttonDB_i_ID := backRepo.BackRepoButton.Map_ButtonPtr_ButtonDBID[node.Buttons[i]]
+		buttonDB_j_ID := backRepo.BackRepoButton.Map_ButtonPtr_ButtonDBID[node.Buttons[j]]
+
+		buttonDB_i := backRepo.BackRepoButton.Map_ButtonDBID_ButtonDB[buttonDB_i_ID]
+		buttonDB_j := backRepo.BackRepoButton.Map_ButtonDBID_ButtonDB[buttonDB_j_ID]
+
+		return buttonDB_i.Node_ButtonsDBID_Index.Int64 < buttonDB_j.Node_ButtonsDBID_Index.Int64
+	})
+
 	return
 }
 
@@ -506,29 +503,8 @@ func (nodeDB *NodeDB) CopyBasicFieldsFromNode(node *models.Node) {
 	nodeDB.IsCheckboxDisabled_Data.Bool = node.IsCheckboxDisabled
 	nodeDB.IsCheckboxDisabled_Data.Valid = true
 
-	nodeDB.HasAddChildButton_Data.Bool = node.HasAddChildButton
-	nodeDB.HasAddChildButton_Data.Valid = true
-
-	nodeDB.HasEditButton_Data.Bool = node.HasEditButton
-	nodeDB.HasEditButton_Data.Valid = true
-
 	nodeDB.IsInEditMode_Data.Bool = node.IsInEditMode
 	nodeDB.IsInEditMode_Data.Valid = true
-
-	nodeDB.HasDrawButton_Data.Bool = node.HasDrawButton
-	nodeDB.HasDrawButton_Data.Valid = true
-
-	nodeDB.HasDrawOffButton_Data.Bool = node.HasDrawOffButton
-	nodeDB.HasDrawOffButton_Data.Valid = true
-
-	nodeDB.IsInDrawMode_Data.Bool = node.IsInDrawMode
-	nodeDB.IsInDrawMode_Data.Valid = true
-
-	nodeDB.IsSaved_Data.Bool = node.IsSaved
-	nodeDB.IsSaved_Data.Valid = true
-
-	nodeDB.HasDeleteButton_Data.Bool = node.HasDeleteButton
-	nodeDB.HasDeleteButton_Data.Valid = true
 }
 
 // CopyBasicFieldsFromNodeWOP
@@ -550,29 +526,8 @@ func (nodeDB *NodeDB) CopyBasicFieldsFromNodeWOP(node *NodeWOP) {
 	nodeDB.IsCheckboxDisabled_Data.Bool = node.IsCheckboxDisabled
 	nodeDB.IsCheckboxDisabled_Data.Valid = true
 
-	nodeDB.HasAddChildButton_Data.Bool = node.HasAddChildButton
-	nodeDB.HasAddChildButton_Data.Valid = true
-
-	nodeDB.HasEditButton_Data.Bool = node.HasEditButton
-	nodeDB.HasEditButton_Data.Valid = true
-
 	nodeDB.IsInEditMode_Data.Bool = node.IsInEditMode
 	nodeDB.IsInEditMode_Data.Valid = true
-
-	nodeDB.HasDrawButton_Data.Bool = node.HasDrawButton
-	nodeDB.HasDrawButton_Data.Valid = true
-
-	nodeDB.HasDrawOffButton_Data.Bool = node.HasDrawOffButton
-	nodeDB.HasDrawOffButton_Data.Valid = true
-
-	nodeDB.IsInDrawMode_Data.Bool = node.IsInDrawMode
-	nodeDB.IsInDrawMode_Data.Valid = true
-
-	nodeDB.IsSaved_Data.Bool = node.IsSaved
-	nodeDB.IsSaved_Data.Valid = true
-
-	nodeDB.HasDeleteButton_Data.Bool = node.HasDeleteButton
-	nodeDB.HasDeleteButton_Data.Valid = true
 }
 
 // CopyBasicFieldsToNode
@@ -583,14 +538,7 @@ func (nodeDB *NodeDB) CopyBasicFieldsToNode(node *models.Node) {
 	node.HasCheckboxButton = nodeDB.HasCheckboxButton_Data.Bool
 	node.IsChecked = nodeDB.IsChecked_Data.Bool
 	node.IsCheckboxDisabled = nodeDB.IsCheckboxDisabled_Data.Bool
-	node.HasAddChildButton = nodeDB.HasAddChildButton_Data.Bool
-	node.HasEditButton = nodeDB.HasEditButton_Data.Bool
 	node.IsInEditMode = nodeDB.IsInEditMode_Data.Bool
-	node.HasDrawButton = nodeDB.HasDrawButton_Data.Bool
-	node.HasDrawOffButton = nodeDB.HasDrawOffButton_Data.Bool
-	node.IsInDrawMode = nodeDB.IsInDrawMode_Data.Bool
-	node.IsSaved = nodeDB.IsSaved_Data.Bool
-	node.HasDeleteButton = nodeDB.HasDeleteButton_Data.Bool
 }
 
 // CopyBasicFieldsToNodeWOP
@@ -602,14 +550,7 @@ func (nodeDB *NodeDB) CopyBasicFieldsToNodeWOP(node *NodeWOP) {
 	node.HasCheckboxButton = nodeDB.HasCheckboxButton_Data.Bool
 	node.IsChecked = nodeDB.IsChecked_Data.Bool
 	node.IsCheckboxDisabled = nodeDB.IsCheckboxDisabled_Data.Bool
-	node.HasAddChildButton = nodeDB.HasAddChildButton_Data.Bool
-	node.HasEditButton = nodeDB.HasEditButton_Data.Bool
 	node.IsInEditMode = nodeDB.IsInEditMode_Data.Bool
-	node.HasDrawButton = nodeDB.HasDrawButton_Data.Bool
-	node.HasDrawOffButton = nodeDB.HasDrawOffButton_Data.Bool
-	node.IsInDrawMode = nodeDB.IsInDrawMode_Data.Bool
-	node.IsSaved = nodeDB.IsSaved_Data.Bool
-	node.HasDeleteButton = nodeDB.HasDeleteButton_Data.Bool
 }
 
 // Backup generates a json file from a slice of all NodeDB instances in the backrepo

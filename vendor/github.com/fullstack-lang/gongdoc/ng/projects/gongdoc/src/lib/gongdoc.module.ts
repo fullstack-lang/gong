@@ -39,6 +39,10 @@ import { SidebarComponent } from './sidebar/sidebar.component';
 import { GongstructSelectionService } from './gongstruct-selection.service'
 
 // insertion point for imports 
+import { ButtonsTableComponent } from './buttons-table/buttons-table.component'
+import { ButtonSortingComponent } from './button-sorting/button-sorting.component'
+import { ButtonDetailComponent } from './button-detail/button-detail.component'
+
 import { ClassdiagramsTableComponent } from './classdiagrams-table/classdiagrams-table.component'
 import { ClassdiagramSortingComponent } from './classdiagram-sorting/classdiagram-sorting.component'
 import { ClassdiagramDetailComponent } from './classdiagram-detail/classdiagram-detail.component'
@@ -103,6 +107,10 @@ import { VerticeDetailComponent } from './vertice-detail/vertice-detail.componen
 @NgModule({
 	declarations: [
 		// insertion point for declarations 
+		ButtonsTableComponent,
+		ButtonSortingComponent,
+		ButtonDetailComponent,
+
 		ClassdiagramsTableComponent,
 		ClassdiagramSortingComponent,
 		ClassdiagramDetailComponent,
@@ -202,6 +210,10 @@ import { VerticeDetailComponent } from './vertice-detail/vertice-detail.componen
 	],
 	exports: [
 		// insertion point for declarations 
+		ButtonsTableComponent,
+		ButtonSortingComponent,
+		ButtonDetailComponent,
+
 		ClassdiagramsTableComponent,
 		ClassdiagramSortingComponent,
 		ClassdiagramDetailComponent,

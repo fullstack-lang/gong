@@ -5,6 +5,9 @@ import { NoteShapeDB } from './noteshape-db'
 import { NullInt64 } from './null-int64'
 
 export class NoteShapeLinkDB {
+
+	static GONGSTRUCT_NAME = "NoteShapeLink"
+
 	CreatedAt?: string
 	DeletedAt?: string
 	ID: number = 0

@@ -4,6 +4,9 @@
 import { NullInt64 } from './null-int64'
 
 export class VerticeDB {
+
+	static GONGSTRUCT_NAME = "Vertice"
+
 	CreatedAt?: string
 	DeletedAt?: string
 	ID: number = 0

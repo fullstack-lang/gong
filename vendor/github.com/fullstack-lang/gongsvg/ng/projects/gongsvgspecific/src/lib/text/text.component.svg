@@ -1,0 +1,16 @@
+<svg class="child">
+    <g>
+        <text [attr.x]="Text?.X" [attr.y]="Text?.Y" [attr.fill]="Text?.Color" [attr.fill]="Text?.Color" [attr.fill-opacity]="Text?.FillOpacity"
+            [attr.stroke]="Text?.Stroke" [attr.stroke-width]="Text?.StrokeWidth" [attr.stroke-dasharray]="Text?.StrokeDashArray"
+            [attr.transform]="Text?.Transform">{{Text?.Content}}</text>
+
+    <animate *ngFor="let animate of Text?.Animates" 
+            [attr.attributeName]="animate.AttributeName" 
+            [attr.values]="animate.Values" 
+            [attr.dur]="animate.Dur" 
+            [attr.repeatCount]="animate.RepeatCount"
+            fill="freeze" />
+
+            
+    </g>
+</svg>

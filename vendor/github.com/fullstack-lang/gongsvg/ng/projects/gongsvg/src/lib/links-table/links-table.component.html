@@ -1,0 +1,205 @@
+<section class="container mat-elevation-z8" tabindex="0">
+    <mat-form-field>
+        <mat-label>Filter</mat-label>
+        <input matInput (keyup)="applyFilter($event)" placeholder="Ex. ium" #input>
+    </mat-form-field>
+    <h1 *ngIf="dialogData">link</h1>
+    <table class="table" mat-table [dataSource]="matTableDataSource" matSort>
+        <!-- Checkbox Column, only used when the component is used to select items for a field that is a slice of pointers -->
+        <ng-container matColumnDef="select">
+            <th mat-header-cell *matHeaderCellDef>
+                <mat-checkbox (change)="$event ? masterToggle() : null" [checked]="selection.hasValue() && isAllSelected()" [indeterminate]="selection.hasValue() && !isAllSelected()">
+                </mat-checkbox>
+            </th>
+            <td mat-cell *matCellDef="let row">
+                <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(row) : null" [checked]="selection.isSelected(row)">
+                </mat-checkbox>
+            </td>
+        </ng-container>
+
+        <!-- insertion point for fields specific code -->
+        <!-- -->
+        <ng-container matColumnDef="Name" sticky>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
+            <td mat-cell *matCellDef="let Link">
+                {{Link.Name}}
+            </td>
+        </ng-container>
+        <!-- -->
+        <ng-container matColumnDef="Type">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Type </th>
+            <td mat-cell *matCellDef="let Link">
+                {{Link.Type}}
+            </td>
+        </ng-container>
+        <!-- -->
+        <ng-container matColumnDef="Start">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Start </th>
+            <td mat-cell *matCellDef="let Link">
+                {{ Link.Start ? Link.Start.Name : ''}}
+            </td>
+        </ng-container>
+        <!-- -->
+        <ng-container matColumnDef="StartAnchorType">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> StartAnchorType </th>
+            <td mat-cell *matCellDef="let Link">
+                {{Link.StartAnchorType}}
+            </td>
+        </ng-container>
+        <!-- -->
+        <ng-container matColumnDef="End">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> End </th>
+            <td mat-cell *matCellDef="let Link">
+                {{ Link.End ? Link.End.Name : ''}}
+            </td>
+        </ng-container>
+        <!-- -->
+        <ng-container matColumnDef="EndAnchorType">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> EndAnchorType </th>
+            <td mat-cell *matCellDef="let Link">
+                {{Link.EndAnchorType}}
+            </td>
+        </ng-container>
+        <!-- -->
+        <ng-container matColumnDef="StartOrientation">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> StartOrientation </th>
+            <td mat-cell *matCellDef="let Link">
+                {{Link.StartOrientation}}
+            </td>
+        </ng-container>
+        <!-- -->
+        <ng-container matColumnDef="StartRatio">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> StartRatio </th>
+            <td mat-cell *matCellDef="let Link">
+                {{Link.StartRatio.toPrecision(5)}}
+            </td>
+        </ng-container>
+        <!-- -->
+        <ng-container matColumnDef="EndOrientation">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> EndOrientation </th>
+            <td mat-cell *matCellDef="let Link">
+                {{Link.EndOrientation}}
+            </td>
+        </ng-container>
+        <!-- -->
+        <ng-container matColumnDef="EndRatio">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> EndRatio </th>
+            <td mat-cell *matCellDef="let Link">
+                {{Link.EndRatio.toPrecision(5)}}
+            </td>
+        </ng-container>
+        <!-- -->
+        <ng-container matColumnDef="CornerOffsetRatio">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> CornerOffsetRatio </th>
+            <td mat-cell *matCellDef="let Link">
+                {{Link.CornerOffsetRatio.toPrecision(5)}}
+            </td>
+        </ng-container>
+        <!-- -->
+        <ng-container matColumnDef="CornerRadius">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> CornerRadius </th>
+            <td mat-cell *matCellDef="let Link">
+                {{Link.CornerRadius.toPrecision(5)}}
+            </td>
+        </ng-container>
+        <!-- -->
+        <ng-container matColumnDef="HasEndArrow">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> HasEndArrow </th>
+            <td mat-cell *matCellDef="let Link">
+                <mat-checkbox [checked]="Link.HasEndArrow" disabled=true></mat-checkbox>
+            </td>
+        </ng-container>
+        <!-- -->
+        <ng-container matColumnDef="EndArrowSize">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> EndArrowSize </th>
+            <td mat-cell *matCellDef="let Link">
+                {{Link.EndArrowSize.toPrecision(5)}}
+            </td>
+        </ng-container>
+        <!-- -->
+        <ng-container matColumnDef="Color">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Color </th>
+            <td mat-cell *matCellDef="let Link">
+                {{Link.Color}}
+            </td>
+        </ng-container>
+        <!-- -->
+        <ng-container matColumnDef="FillOpacity">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> FillOpacity </th>
+            <td mat-cell *matCellDef="let Link">
+                {{Link.FillOpacity.toPrecision(5)}}
+            </td>
+        </ng-container>
+        <!-- -->
+        <ng-container matColumnDef="Stroke">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Stroke </th>
+            <td mat-cell *matCellDef="let Link">
+                {{Link.Stroke}}
+            </td>
+        </ng-container>
+        <!-- -->
+        <ng-container matColumnDef="StrokeWidth">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> StrokeWidth </th>
+            <td mat-cell *matCellDef="let Link">
+                {{Link.StrokeWidth.toPrecision(5)}}
+            </td>
+        </ng-container>
+        <!-- -->
+        <ng-container matColumnDef="StrokeDashArray">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> StrokeDashArray </th>
+            <td mat-cell *matCellDef="let Link">
+                {{Link.StrokeDashArray}}
+            </td>
+        </ng-container>
+        <!-- -->
+        <ng-container matColumnDef="StrokeDashArrayWhenSelected">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> StrokeDashArrayWhenSelected </th>
+            <td mat-cell *matCellDef="let Link">
+                {{Link.StrokeDashArrayWhenSelected}}
+            </td>
+        </ng-container>
+        <!-- -->
+        <ng-container matColumnDef="Transform">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Transform </th>
+            <td mat-cell *matCellDef="let Link">
+                {{Link.Transform}}
+            </td>
+        </ng-container>
+        <!-- -->
+        <ng-container matColumnDef="Layer_Links">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> <-- (Layer) Links </th>
+            <td mat-cell *matCellDef="let link">
+                {{frontRepo.Layers.get(link.Layer_LinksDBID.Int64)?.Name}}
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="ID" sticky>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> ID. </th>
+            <td mat-cell *matCellDef="let Link"> {{Link.ID}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="Delete" sticky>
+            <th mat-header-cell *matHeaderCellDef> Delete </th>
+            <td mat-cell *matCellDef="let link;  let j = index;">
+                <i class="material-icons my-delete-button" [ngStyle]="{'color':'rgba(0,0,0,.50)'}" (click)="deleteLink(link.ID, link); $event.stopPropagation()">delete</i>
+            </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns;"></tr>
+
+        <tr mat-row *matRowDef="
+        let row; 
+        columns: displayedColumns;
+        " (click)="setEditorRouterOutlet( row.ID ) " class="row-link">
+        </tr>
+
+        <!-- Row shown when there is no matching data. -->
+        <tr class="mat-row" *matNoDataRow>
+            <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
+        </tr>
+    </table>
+    <mat-paginator [pageSizeOptions]="[50, 100, 500, 1000]" showFirstLastButtons></mat-paginator>
+    <button class="table__save" color="primary" *ngIf="dialogData" mat-raised-button (click)="save()">
+        Save
+    </button>
+</section>

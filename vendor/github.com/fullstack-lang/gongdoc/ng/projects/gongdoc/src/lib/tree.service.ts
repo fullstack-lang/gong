@@ -42,7 +42,7 @@ export class TreeService {
   }
 
   /** GET trees from the server */
-  getTrees(GONG__StackPath: string = ""): Observable<TreeDB[]> {
+  getTrees(GONG__StackPath: string): Observable<TreeDB[]> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
@@ -55,10 +55,13 @@ export class TreeService {
   }
 
   /** GET tree by id. Will 404 if id not found */
-  getTree(id: number): Observable<TreeDB> {
+  getTree(id: number, GONG__StackPath: string): Observable<TreeDB> {
+
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+
     const url = `${this.treesUrl}/${id}`;
-    return this.http.get<TreeDB>(url).pipe(
-      tap(_ => this.log(`fetched tree id=${id}`)),
+    return this.http.get<TreeDB>(url, { params: params }).pipe(
+      // tap(_ => this.log(`fetched tree id=${id}`)),
       catchError(this.handleError<TreeDB>(`getTree id=${id}`))
     );
   }
@@ -78,7 +81,7 @@ export class TreeService {
     return this.http.post<TreeDB>(this.treesUrl, treedb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
-        this.log(`posted treedb id=${treedb.ID}`)
+        // this.log(`posted treedb id=${treedb.ID}`)
       }),
       catchError(this.handleError<TreeDB>('postTree'))
     );
@@ -118,7 +121,7 @@ export class TreeService {
     return this.http.put<TreeDB>(url, treedb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
-        this.log(`updated treedb id=${treedb.ID}`)
+        // this.log(`updated treedb id=${treedb.ID}`)
       }),
       catchError(this.handleError<TreeDB>('updateTree'))
     );

@@ -1,4 +1,6 @@
 // insertion point sub template for components imports 
+  import { ButtonsTableComponent } from './buttons-table/buttons-table.component'
+  import { ButtonSortingComponent } from './button-sorting/button-sorting.component'
   import { ClassdiagramsTableComponent } from './classdiagrams-table/classdiagrams-table.component'
   import { ClassdiagramSortingComponent } from './classdiagram-sorting/classdiagram-sorting.component'
   import { DiagramPackagesTableComponent } from './diagrampackages-table/diagrampackages-table.component'
@@ -31,6 +33,8 @@
   import { VerticeSortingComponent } from './vertice-sorting/vertice-sorting.component'
 
 // insertion point sub template for map of components per struct 
+  export const MapOfButtonsComponents: Map<string, any> = new Map([["ButtonsTableComponent", ButtonsTableComponent],])
+  export const MapOfButtonSortingComponents: Map<string, any> = new Map([["ButtonSortingComponent", ButtonSortingComponent],])
   export const MapOfClassdiagramsComponents: Map<string, any> = new Map([["ClassdiagramsTableComponent", ClassdiagramsTableComponent],])
   export const MapOfClassdiagramSortingComponents: Map<string, any> = new Map([["ClassdiagramSortingComponent", ClassdiagramSortingComponent],])
   export const MapOfDiagramPackagesComponents: Map<string, any> = new Map([["DiagramPackagesTableComponent", DiagramPackagesTableComponent],])
@@ -67,6 +71,7 @@ export const MapOfComponents: Map<string, any> =
   new Map(
     [
       // insertion point sub template for map of components 
+      ["Button", MapOfButtonsComponents],
       ["Classdiagram", MapOfClassdiagramsComponents],
       ["DiagramPackage", MapOfDiagramPackagesComponents],
       ["Field", MapOfFieldsComponents],
@@ -90,6 +95,7 @@ export const MapOfSortingComponents: Map<string, any> =
   new Map(
     [
     // insertion point sub template for map of sorting components 
+      ["Button", MapOfButtonSortingComponents],
       ["Classdiagram", MapOfClassdiagramSortingComponents],
       ["DiagramPackage", MapOfDiagramPackageSortingComponents],
       ["Field", MapOfFieldSortingComponents],
