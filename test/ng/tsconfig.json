@@ -80,15 +80,12 @@
       ],
       "testdatamodel": [
         "projects/testdatamodel/src/public-api.ts",
-        "dist/testdatamodel"
       ],
       "testspecific": [
         "projects/testspecific/src/public-api.ts",
-        "dist/testspecific"
       ],
       "test": [
         "projects/test/src/public-api.ts",
-        "dist/test"
       ]
     },
     "lib": [
