@@ -60,12 +60,12 @@ func LoadDiagramPackage(gongdocStage *gongdoc_models.StageStruct, pkgPath string
 	log.Printf("Parser took %s", time.Since(startParser))
 
 	if errParser != nil {
-		log.Panic("Unable to parser ")
+		log.Panic("Unable to parser ", errParser.Error())
 	}
 	diagramPackageAst, ok := pkgsParser["diagrams"]
 	if !ok {
 		diagramPackage.IsEditable = editable
-		gongdoc_node2gongdoc.FillUpNodeTree(diagramPackage)
+		gongdoc_node2gongdoc.FillUpNodeTree(gongdocStage, diagramPackage)
 		gongdocStage.Commit()
 		return diagramPackage, nil
 	}
@@ -79,7 +79,7 @@ func LoadDiagramPackage(gongdocStage *gongdoc_models.StageStruct, pkgPath string
 	}
 
 	diagramPackage.IsEditable = editable
-	gongdoc_node2gongdoc.FillUpNodeTree(diagramPackage)
+	gongdoc_node2gongdoc.FillUpNodeTree(gongdocStage, diagramPackage)
 	gongdocStage.Commit()
 	return diagramPackage, nil
 }

@@ -1,0 +1,10 @@
+svg {
+    position: absolute;
+    width: 3000px;
+    height: 8000px;
+    pointer-events: none;
+}
+
+.rect-link-link {
+    pointer-events: auto;
+}

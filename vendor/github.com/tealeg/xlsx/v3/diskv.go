@@ -298,7 +298,7 @@ func (dvr *DiskVRow) ForEachCell(cvf CellVisitorFunc, option ...CellVisitorOptio
 				return err
 			}
 		}
-		
+
 		err = fn(ci, cell)
 		if err != nil {
 			return err
@@ -339,11 +339,13 @@ type DiskVCellStore struct {
 
 // UseDiskVCellStore is a FileOption that makes all Sheet instances
 // for a File use DiskV as their backing store.  You can use this
-// option when handling very large Sheets that would otherwise riquire
+// option when handling very large Sheets that would otherwise require
 // allocating vast amounts of memory.
 func UseDiskVCellStore(f *File) {
 	f.cellStoreConstructor = NewDiskVCellStore
 }
+
+const cellStorePrefix = "cellstore"
 
 // NewDiskVCellStore is a CellStoreConstructor than returns a
 // CellStore in terms of DiskV.
@@ -352,7 +354,7 @@ func NewDiskVCellStore() (CellStore, error) {
 		buf: bytes.NewBuffer([]byte{}),
 	}
 
-	dir, err := ioutil.TempDir("", "cellstore"+generator.Hex128())
+	dir, err := ioutil.TempDir("", cellStorePrefix+generator.Hex128())
 	if err != nil {
 		return nil, err
 	}

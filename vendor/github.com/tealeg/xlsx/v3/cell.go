@@ -379,7 +379,7 @@ func (c *Cell) SetHyperlink(hyperlink string, displayText string, tooltip string
 	} else {
 		c.Hyperlink = Hyperlink{Link: hyperlink, Location: hyperlink}
 	}
-  c.SetString(hyperlink)
+	c.SetString(hyperlink)
 	c.Row.Sheet.addRelation(RelationshipTypeHyperlink, hyperlink, RelationshipTargetModeExternal)
 	if displayText != "" {
 		c.Hyperlink.DisplayString = displayText
@@ -390,7 +390,7 @@ func (c *Cell) SetHyperlink(hyperlink string, displayText string, tooltip string
 	}
 }
 
-// SetInt sets a cell's value to an integer.
+// SetValue sets a cell's value to any type.
 func (c *Cell) SetValue(n interface{}) {
 	c.updatable()
 	switch t := n.(type) {

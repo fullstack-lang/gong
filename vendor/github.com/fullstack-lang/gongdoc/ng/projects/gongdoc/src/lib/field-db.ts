@@ -5,6 +5,9 @@ import { GongStructShapeDB } from './gongstructshape-db'
 import { NullInt64 } from './null-int64'
 
 export class FieldDB {
+
+	static GONGSTRUCT_NAME = "Field"
+
 	CreatedAt?: string
 	DeletedAt?: string
 	ID: number = 0

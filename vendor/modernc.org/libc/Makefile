@@ -21,7 +21,7 @@ all:
 	go generate
 	gofmt -l -s -w *.go
 	go install -v ./...
-	go test -i
+	go test
 	go test 2>&1 -timeout 1h | tee -a $(log)
 	GOOS=darwin GOARCH=amd64 go build
 	GOOS=darwin GOARCH=arm64 go build
@@ -34,14 +34,15 @@ all:
 	GOOS=linux GOARCH=s390x go build
 	GOOS=netbsd GOARCH=amd64 go build
 	GOOS=openbsd GOARCH=amd64 go build
+	GOOS=openbsd GOARCH=arm64 go build
 	GOOS=windows GOARCH=386 go build
 	GOOS=windows GOARCH=amd64 go build
-	go vet -unsafeptr=false 2>&1 | grep -v $(ngrep) || true
-	golint 2>&1 | grep -v $(ngrep) || true
-	make todo
-	misspell *.go
-	staticcheck || true
-	maligned || true
+	GOOS=windows GOARCH=arm64 go build
+	# go vet -unsafeptr=false 2>&1 | grep -v $(ngrep) || true
+	# golint 2>&1 | grep -v $(ngrep) || true
+	# make todo
+	# misspell *.go
+	# staticcheck || true
 	grep -n 'FAIL\|PASS' $(log)
 	go version
 	date 2>&1 | tee -a $(log)
@@ -65,6 +66,12 @@ freebsd_amd64:
 # only on freebsd/386
 freebsd_386:
 	@echo "Should be executed only on freebsd/386."
+	go generate 2>&1 | tee log-generate
+	go build -v ./...
+
+# only on freebsd/arm
+freebsd_arm:
+	@echo "Should be executed only on freebsd/arm."
 	go generate 2>&1 | tee log-generate
 	go build -v ./...
 
@@ -95,14 +102,29 @@ linux_s390x:
 	CCGO_CPP=s390x-linux-gnu-cpp TARGET_GOOS=linux TARGET_GOARCH=s390x go generate
 	GOOS=linux GOARCH=s390x go build -v ./...
 
+linux_ppc64le:
+	CCGO_CPP=powerpc64le-linux-gnu-cpp TARGET_GOOS=linux TARGET_GOARCH=ppc64le go generate
+	GOOS=linux GOARCH=ppc64le go build -v ./...
+
 # only on openbsd/amd64
 openbsd_amd64:
 	@echo "Should be executed only on openbsd/amd64."
 	go generate 2>&1 | tee log-generate
 	go build -v ./...
+	#
+# only on openbsd/arm64
+openbsd_arm64:
+	@echo "Should be executed only on openbsd/arm64."
+	go generate 2>&1 | tee log-generate
+	go build -v ./...
 
 windows_amd64:
 	@echo "Should be executed only on windows/amd64."
+	go generate 2>&1 | tee log-generate
+	go build -v ./...
+
+windows_arm64:
+	@echo "Should be executed only on windows/arm64."
 	go generate 2>&1 | tee log-generate
 	go build -v ./...
 
@@ -123,6 +145,8 @@ build_all_targets:
 	GOOS=freebsd GOARCH=386 go test -c -o /dev/null
 	GOOS=freebsd GOARCH=amd64 go build -v ./...
 	GOOS=freebsd GOARCH=amd64 go test -c -o /dev/null
+	GOOS=freebsd GOARCH=arm go build -v ./...
+	GOOS=freebsd GOARCH=arm go test -c -o /dev/null
 	GOOS=linux GOARCH=386 go build -v ./...
 	GOOS=linux GOARCH=386 go test -c -o /dev/null
 	GOOS=linux GOARCH=amd64 go build -v ./...
@@ -131,16 +155,24 @@ build_all_targets:
 	GOOS=linux GOARCH=arm go test -c -o /dev/null
 	GOOS=linux GOARCH=arm64 go build -v ./...
 	GOOS=linux GOARCH=arm64 go test -c -o /dev/null
+	GOOS=linux GOARCH=ppc64le go test -c -o /dev/null
+	GOOS=linux GOARCH=ppc64le go test -c -o /dev/null
+	GOOS=linux GOARCH=riscv64 go build -v ./...
+	GOOS=linux GOARCH=riscv64 go build -v ./...
 	GOOS=linux GOARCH=s390x go build -v ./...
 	GOOS=linux GOARCH=s390x go test -c -o /dev/null
 	GOOS=netbsd GOARCH=amd64 go build -v ./...
 	GOOS=netbsd GOARCH=amd64 go test -c -o /dev/null
 	GOOS=openbsd GOARCH=amd64 go build -v ./...
 	GOOS=openbsd GOARCH=amd64 go test -c -o /dev/null
+	GOOS=openbsd GOARCH=arm64 go build -v ./...
+	GOOS=openbsd GOARCH=arm64 go test -c -o /dev/null
 	GOOS=windows GOARCH=386 go build -v ./...
 	GOOS=windows GOARCH=386 go test -c -o /dev/null
 	GOOS=windows GOARCH=amd64 go build -v ./...
 	GOOS=windows GOARCH=amd64 go test -c -o /dev/null
+	GOOS=windows GOARCH=arm64 go build -v ./...
+	GOOS=windows GOARCH=arm64 go test -c -o /dev/null
 	echo done
 
 devbench:

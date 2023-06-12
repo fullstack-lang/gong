@@ -80,6 +80,7 @@ export class TreeComponent implements OnInit {
     private gongdocCommitNbFromBackService: gongdoc.CommitNbFromBackService,
     private gongdocPushFromFrontNbService: gongdoc.PushFromFrontNbService,
     private gongdocNodeService: gongdoc.NodeService,
+    private gongdocButtonService: gongdoc.ButtonService,
     private router: Router,
   ) {
   }
@@ -160,7 +161,7 @@ export class TreeComponent implements OnInit {
           return
         }
 
-        // sort the nodes by their index
+        // sort the nodes by their index, and sort their buttons as well
         treeSingloton.RootNodes.sort((a, b) =>
           (a.Tree_RootNodesDBID_Index.Int64 >
             b.Tree_RootNodesDBID_Index.Int64) ? 1 : -1)
@@ -178,6 +179,19 @@ export class TreeComponent implements OnInit {
         // expand nodes that were exapanded before
         this.treeControl.dataNodes?.forEach(
           node => {
+
+            let gongNode = node.gongNode
+            if (gongNode && gongNode.Buttons) {
+
+              if (gongNode.Buttons.length > 0) {
+                console.log("Button", gongNode.Name)
+              }
+
+              gongNode.Buttons.sort((a, b) =>
+                (a.Node_ButtonsDBID_Index.Int64 >
+                  b.Node_ButtonsDBID_Index.Int64) ? 1 : -1)
+            }
+
             if (node.gongNode.IsExpanded) {
               this.treeControl.expand(node)
             }
@@ -223,39 +237,11 @@ export class TreeComponent implements OnInit {
     )
   }
 
-  addNewItem(node: FlatNode) {
+  onButtonClick(node: FlatNode, button: gongdoc.ButtonDB) {
 
-    var gongNode: gongdoc.NodeDB = new (gongdoc.NodeDB)
-
-    const d = new Date()
-    console.log("TreeComponent ", this.GONG__StackPath, " name ", this.name, " addNewItem, " + d.toLocaleTimeString() + `.${d.getMilliseconds()}` + " " + this.name)
-
-    gongNode.Name = "NewDiagram"
-    gongNode.HasEditButton = true
-    gongNode.IsInEditMode = true
-    gongNode.Node_ChildrenDBID.Valid = true
-    gongNode.Node_ChildrenDBID.Int64 = node.gongNode.ID
-    this.gongdocNodeService.postNode(gongNode, this.GONG__StackPath).subscribe(
-      gongdocNode => {
-        console.log("post node")
-      }
-    )
-
-    node.gongNode.IsExpanded = true
-    this.gongdocNodeService.updateNode(node.gongNode, this.GONG__StackPath).subscribe(
-      gongdocNode => {
-        console.log("node.gongNode.IsExpanded updated node")
-      }
-    )
-
-
-  }
-
-  setInEditMode(node: FlatNode) {
-    node.gongNode.IsInEditMode = true
-    this.gongdocNodeService.updateNode(node.gongNode, this.GONG__StackPath).subscribe(
-      gongdocNode => {
-        console.log("node.gongNode.IsInEditMode = true, updated node")
+    this.gongdocButtonService.updateButton(button, this.GONG__StackPath).subscribe(
+      gongdocButton => {
+        console.log("button pressed")
       }
     )
   }
@@ -265,80 +251,6 @@ export class TreeComponent implements OnInit {
     this.gongdocNodeService.updateNode(node.gongNode, this.GONG__StackPath).subscribe(
       gongdocNode => {
         console.log("node.gongNode.IsInEditMode = false, updated node")
-      }
-    )
-  }
-
-
-  cancelEditMode(node: FlatNode) {
-
-    // fetch the value from the server
-    this.gongdocNodeService.getNode(node.gongNode.ID).subscribe(
-      gongdocNode => {
-        node.gongNode.Name = gongdocNode.Name
-
-        // and set the edit mode
-        node.gongNode.IsInEditMode = false
-        this.gongdocNodeService.updateNode(node.gongNode, this.GONG__StackPath).subscribe(
-          gongdocNode => {
-            console.log("node.gongNode.IsInEditMode = false, updated node")
-          }
-        )
-      }
-    )
-  }
-
-  cancelDrawMode(node: FlatNode) {
-
-    // fetch the value from the server
-    // <to do>
-
-    // and set the edit mode
-    node.gongNode.IsInDrawMode = false
-    node.gongNode.IsSaved = false
-    this.gongdocNodeService.updateNode(node.gongNode, this.GONG__StackPath).subscribe(
-      gongdocNode => {
-        console.log("node.gongNode.IsInDrawMode = false, updated node")
-      }
-    )
-
-  }
-
-  updateDiagram(node: FlatNode) {
-
-    node.gongNode.IsSaved = true
-    this.gongdocNodeService.updateNode(node.gongNode, this.GONG__StackPath).subscribe(
-      gongdocNode => {
-        console.log("node.gongNode.IsSaved = true, updated node")
-
-        if (gongdocNode.IsSaved) {
-          // and set the edit mode
-          node.gongNode.IsInDrawMode = false
-          this.gongdocNodeService.updateNode(node.gongNode, this.GONG__StackPath).subscribe(
-            gongdocNode => {
-              console.log("gongdocNode.IsSaved, updated node")
-            }
-          )
-        }
-      }
-    )
-
-
-  }
-
-  deleteNode(node: FlatNode) {
-    this.gongdocNodeService.deleteNode(node.gongNode, this.GONG__StackPath).subscribe(
-      gongdocNode => {
-        console.log("delete node")
-      }
-    )
-  }
-
-  setInDrawMode(node: FlatNode) {
-    node.gongNode.IsInDrawMode = true
-    this.gongdocNodeService.updateNode(node.gongNode, this.GONG__StackPath).subscribe(
-      gongdocNode => {
-        console.log("setInDrawMode, updated node")
       }
     )
   }

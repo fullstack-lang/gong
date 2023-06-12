@@ -16,6 +16,12 @@ export * from './lib/push_from_front_nb.service'
 export * from './lib/route-service'
 
 
+export * from './lib/button-detail/button-detail.component'
+export * from './lib/button-sorting/button-sorting.component'
+export * from './lib/buttons-table/buttons-table.component'
+export * from './lib/button-db'
+export * from './lib/button.service'
+
 export * from './lib/classdiagram-detail/classdiagram-detail.component'
 export * from './lib/classdiagram-sorting/classdiagram-sorting.component'
 export * from './lib/classdiagrams-table/classdiagrams-table.component'
@@ -110,3 +116,4 @@ export * from './lib/vertice.service'
 export * from './lib/GongEnumShapeType'
 export * from './lib/MultiplicityType'
 export * from './lib/NoteShapeLinkType'
+export * from './lib/OrientationType'

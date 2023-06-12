@@ -1,0 +1,12 @@
+<svg class="child">
+    <g>
+        <polyline [attr.points]="Polyline?.Points" [attr.fill]="Polyline?.Color" [attr.fill-opacity]="Polyline?.FillOpacity" [attr.stroke]="Polyline?.Stroke"
+            [attr.stroke-width]="Polyline?.StrokeWidth" [attr.stroke-dasharray]="Polyline?.StrokeDashArray" />
+
+        <animate *ngFor="let animate of Polyline?.Animates" 
+            [attr.attributeName]="animate.AttributeName" 
+            [attr.values]="animate.Values" 
+            [attr.dur]="animate.Dur" 
+            [attr.repeatCount]="animate.RepeatCount" />
+    </g>
+</svg>

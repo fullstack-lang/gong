@@ -5,6 +5,9 @@ import { UmlscDB } from './umlsc-db'
 import { NullInt64 } from './null-int64'
 
 export class UmlStateDB {
+
+	static GONGSTRUCT_NAME = "UmlState"
+
 	CreatedAt?: string
 	DeletedAt?: string
 	ID: number = 0

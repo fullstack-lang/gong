@@ -40,10 +40,38 @@
             </td>
         </ng-container>
         <!-- -->
+        <ng-container matColumnDef="FieldOffsetX">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> FieldOffsetX </th>
+            <td mat-cell *matCellDef="let Link">
+                {{Link.FieldOffsetX.toPrecision(5)}}
+            </td>
+        </ng-container>
+        <!-- -->
+        <ng-container matColumnDef="FieldOffsetY">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> FieldOffsetY </th>
+            <td mat-cell *matCellDef="let Link">
+                {{Link.FieldOffsetY.toPrecision(5)}}
+            </td>
+        </ng-container>
+        <!-- -->
         <ng-container matColumnDef="TargetMultiplicity">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> TargetMultiplicity </th>
             <td mat-cell *matCellDef="let Link">
                 {{Link.TargetMultiplicity}}
+            </td>
+        </ng-container>
+        <!-- -->
+        <ng-container matColumnDef="TargetMultiplicityOffsetX">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> TargetMultiplicityOffsetX </th>
+            <td mat-cell *matCellDef="let Link">
+                {{Link.TargetMultiplicityOffsetX.toPrecision(5)}}
+            </td>
+        </ng-container>
+        <!-- -->
+        <ng-container matColumnDef="TargetMultiplicityOffsetY">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> TargetMultiplicityOffsetY </th>
+            <td mat-cell *matCellDef="let Link">
+                {{Link.TargetMultiplicityOffsetY.toPrecision(5)}}
             </td>
         </ng-container>
         <!-- -->
@@ -54,10 +82,59 @@
             </td>
         </ng-container>
         <!-- -->
+        <ng-container matColumnDef="SourceMultiplicityOffsetX">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> SourceMultiplicityOffsetX </th>
+            <td mat-cell *matCellDef="let Link">
+                {{Link.SourceMultiplicityOffsetX.toPrecision(5)}}
+            </td>
+        </ng-container>
+        <!-- -->
+        <ng-container matColumnDef="SourceMultiplicityOffsetY">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> SourceMultiplicityOffsetY </th>
+            <td mat-cell *matCellDef="let Link">
+                {{Link.SourceMultiplicityOffsetY.toPrecision(5)}}
+            </td>
+        </ng-container>
+        <!-- -->
         <ng-container matColumnDef="Middlevertice">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Middlevertice </th>
             <td mat-cell *matCellDef="let Link">
                 {{ Link.Middlevertice ? Link.Middlevertice.Name : ''}}
+            </td>
+        </ng-container>
+        <!-- -->
+        <ng-container matColumnDef="StartOrientation">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> StartOrientation </th>
+            <td mat-cell *matCellDef="let Link">
+                {{Link.StartOrientation}}
+            </td>
+        </ng-container>
+        <!-- -->
+        <ng-container matColumnDef="StartRatio">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> StartRatio </th>
+            <td mat-cell *matCellDef="let Link">
+                {{Link.StartRatio.toPrecision(5)}}
+            </td>
+        </ng-container>
+        <!-- -->
+        <ng-container matColumnDef="EndOrientation">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> EndOrientation </th>
+            <td mat-cell *matCellDef="let Link">
+                {{Link.EndOrientation}}
+            </td>
+        </ng-container>
+        <!-- -->
+        <ng-container matColumnDef="EndRatio">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> EndRatio </th>
+            <td mat-cell *matCellDef="let Link">
+                {{Link.EndRatio.toPrecision(5)}}
+            </td>
+        </ng-container>
+        <!-- -->
+        <ng-container matColumnDef="CornerOffsetRatio">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> CornerOffsetRatio </th>
+            <td mat-cell *matCellDef="let Link">
+                {{Link.CornerOffsetRatio.toPrecision(5)}}
             </td>
         </ng-container>
         <!-- -->

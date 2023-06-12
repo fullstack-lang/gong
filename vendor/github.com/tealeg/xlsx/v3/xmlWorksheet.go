@@ -595,7 +595,7 @@ func emitStructAsXML(v reflect.Value, name, xmlNS string) (xmlwriter.Elem, error
 				Name:  "xmlns",
 				Value: xmlNS,
 			})
-		case "SheetData", "MergeCells":
+		case "SheetData", "MergeCells", "DataValidations":
 			// Skip SheetData here, we explicitly generate this in writeXML below
 			// Microsoft Excel considers a mergeCells element before a sheetData element to be
 			// an error and will fail to open the document, so we'll be back with this data
@@ -647,7 +647,7 @@ func emitStructAsXML(v reflect.Value, name, xmlNS string) (xmlwriter.Elem, error
 func (worksheet *xlsxWorksheet) makeXlsxRowFromRow(row *Row, styles *xlsxStyleSheet, refTable *RefTable) (*xlsxRow, error) {
 	xRow := &xlsxRow{}
 	xRow.R = row.num + 1
-	if row.isCustom {
+	if row.customHeight {
 		xRow.CustomHeight = true
 		xRow.Ht = fmt.Sprintf("%g", row.GetHeight())
 	}
@@ -692,6 +692,8 @@ func (worksheet *xlsxWorksheet) makeXlsxRowFromRow(row *Row, styles *xlsxStyleSh
 				xC.V = strconv.Itoa(refTable.AddString(cell.Value))
 			} else if len(cell.RichText) > 0 {
 				xC.V = strconv.Itoa(refTable.AddRichText(cell.RichText))
+			} else {
+				xC.V = strconv.Itoa(refTable.AddString(""))
 			}
 			xC.T = "s"
 		case CellTypeNumeric:
@@ -759,6 +761,13 @@ func (worksheet *xlsxWorksheet) WriteXML(xw *xmlwriter.Writer, s *Sheet, styles 
 					return err
 				}
 				return xw.Write(mergeCells)
+			}
+			if worksheet.DataValidations != nil {
+				dataValidation, err := emitStructAsXML(reflect.ValueOf(worksheet.DataValidations), "dataValidations", "")
+				if err != nil {
+					return err
+				}
+				return xw.Write(dataValidation)
 			}
 			return nil
 		}(),

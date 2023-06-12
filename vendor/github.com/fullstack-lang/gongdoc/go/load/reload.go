@@ -18,6 +18,7 @@ func Reload(gongdocStage *gongdoc_models.StageStruct, diagramPackage *gongdoc_mo
 
 	diagramPackage.Stage_.Checkout()
 	diagramPackage.Stage_.Reset()
+	diagramPackage.SelectedClassdiagram = nil
 	diagramPackage.Stage_.Commit()
 
 	diagramPackage.Classdiagrams = nil
@@ -32,6 +33,6 @@ func Reload(gongdocStage *gongdoc_models.StageStruct, diagramPackage *gongdoc_mo
 	// to be removed after fix of [issue](https://github.com/golang/go/issues/57559)
 	gongdoc_models.SetupMapDocLinkRenaming(gong_models.GetDefaultStage(), diagramPackage.Stage_)
 	// end of the be removed
-	gongdoc_node2gongdoc.FillUpNodeTree(diagramPackage)
+	gongdoc_node2gongdoc.FillUpNodeTree(gongdocStage, diagramPackage)
 	diagramPackage.Stage_.Commit()
 }

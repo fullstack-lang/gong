@@ -4,6 +4,9 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, combineLatest, BehaviorSubject } from 'rxjs';
 
 // insertion point sub template for services imports 
+import { ButtonDB } from './button-db'
+import { ButtonService } from './button.service'
+
 import { ClassdiagramDB } from './classdiagram-db'
 import { ClassdiagramService } from './classdiagram.service'
 
@@ -52,6 +55,9 @@ import { VerticeService } from './vertice.service'
 
 // FrontRepo stores all instances in a front repository (design pattern repository)
 export class FrontRepo { // insertion point sub template 
+  Buttons_array = new Array<ButtonDB>(); // array of repo instances
+  Buttons = new Map<number, ButtonDB>(); // map of repo instances
+  Buttons_batch = new Map<number, ButtonDB>(); // same but only in last GET (for finding repo instances to delete)
   Classdiagrams_array = new Array<ClassdiagramDB>(); // array of repo instances
   Classdiagrams = new Map<number, ClassdiagramDB>(); // map of repo instances
   Classdiagrams_batch = new Map<number, ClassdiagramDB>(); // same but only in last GET (for finding repo instances to delete)
@@ -159,6 +165,7 @@ export class FrontRepoService {
 
   constructor(
     private http: HttpClient, // insertion point sub template 
+    private buttonService: ButtonService,
     private classdiagramService: ClassdiagramService,
     private diagrampackageService: DiagramPackageService,
     private fieldService: FieldService,
@@ -204,6 +211,7 @@ export class FrontRepoService {
 
   // typing of observable can be messy in typescript. Therefore, one force the type
   observableFrontRepo: [ // insertion point sub template 
+    Observable<ButtonDB[]>,
     Observable<ClassdiagramDB[]>,
     Observable<DiagramPackageDB[]>,
     Observable<FieldDB[]>,
@@ -220,6 +228,7 @@ export class FrontRepoService {
     Observable<UmlscDB[]>,
     Observable<VerticeDB[]>,
   ] = [ // insertion point sub template
+      this.buttonService.getButtons(this.GONG__StackPath),
       this.classdiagramService.getClassdiagrams(this.GONG__StackPath),
       this.diagrampackageService.getDiagramPackages(this.GONG__StackPath),
       this.fieldService.getFields(this.GONG__StackPath),
@@ -248,6 +257,7 @@ export class FrontRepoService {
     this.GONG__StackPath = GONG__StackPath
 
     this.observableFrontRepo = [ // insertion point sub template
+      this.buttonService.getButtons(this.GONG__StackPath),
       this.classdiagramService.getClassdiagrams(this.GONG__StackPath),
       this.diagrampackageService.getDiagramPackages(this.GONG__StackPath),
       this.fieldService.getFields(this.GONG__StackPath),
@@ -271,6 +281,7 @@ export class FrontRepoService {
           this.observableFrontRepo
         ).subscribe(
           ([ // insertion point sub template for declarations 
+            buttons_,
             classdiagrams_,
             diagrampackages_,
             fields_,
@@ -289,6 +300,8 @@ export class FrontRepoService {
           ]) => {
             // Typing can be messy with many items. Therefore, type casting is necessary here
             // insertion point sub template for type casting 
+            var buttons: ButtonDB[]
+            buttons = buttons_ as ButtonDB[]
             var classdiagrams: ClassdiagramDB[]
             classdiagrams = classdiagrams_ as ClassdiagramDB[]
             var diagrampackages: DiagramPackageDB[]
@@ -323,6 +336,39 @@ export class FrontRepoService {
             // 
             // First Step: init map of instances
             // insertion point sub template for init 
+            // init the array
+            this.frontRepo.Buttons_array = buttons
+
+            // clear the map that counts Button in the GET
+            this.frontRepo.Buttons_batch.clear()
+
+            buttons.forEach(
+              button => {
+                this.frontRepo.Buttons.set(button.ID, button)
+                this.frontRepo.Buttons_batch.set(button.ID, button)
+              }
+            )
+
+            // clear buttons that are absent from the batch
+            this.frontRepo.Buttons.forEach(
+              button => {
+                if (this.frontRepo.Buttons_batch.get(button.ID) == undefined) {
+                  this.frontRepo.Buttons.delete(button.ID)
+                }
+              }
+            )
+
+            // sort Buttons_array array
+            this.frontRepo.Buttons_array.sort((t1, t2) => {
+              if (t1.Name > t2.Name) {
+                return 1;
+              }
+              if (t1.Name < t2.Name) {
+                return -1;
+              }
+              return 0;
+            });
+
             // init the array
             this.frontRepo.Classdiagrams_array = classdiagrams
 
@@ -822,6 +868,26 @@ export class FrontRepoService {
             // 
             // Second Step: redeem pointers between instances (thanks to maps in the First Step)
             // insertion point sub template for redeem 
+            buttons.forEach(
+              button => {
+                // insertion point sub sub template for ONE-/ZERO-ONE associations pointers redeeming
+
+                // insertion point for redeeming ONE-MANY associations
+                // insertion point for slice of pointer field Node.Buttons redeeming
+                {
+                  let _node = this.frontRepo.Nodes.get(button.Node_ButtonsDBID.Int64)
+                  if (_node) {
+                    if (_node.Buttons == undefined) {
+                      _node.Buttons = new Array<ButtonDB>()
+                    }
+                    _node.Buttons.push(button)
+                    if (button.Node_Buttons_reverse == undefined) {
+                      button.Node_Buttons_reverse = _node
+                    }
+                  }
+                }
+              }
+            )
             classdiagrams.forEach(
               classdiagram => {
                 // insertion point sub sub template for ONE-/ZERO-ONE associations pointers redeeming
@@ -1122,12 +1188,76 @@ export class FrontRepoService {
 
   // insertion point for pull per struct 
 
+  // ButtonPull performs a GET on Button of the stack and redeem association pointers 
+  ButtonPull(): Observable<FrontRepo> {
+    return new Observable<FrontRepo>(
+      (observer) => {
+        combineLatest([
+          this.buttonService.getButtons(this.GONG__StackPath)
+        ]).subscribe(
+          ([ // insertion point sub template 
+            buttons,
+          ]) => {
+            // init the array
+            this.frontRepo.Buttons_array = buttons
+
+            // clear the map that counts Button in the GET
+            this.frontRepo.Buttons_batch.clear()
+
+            // 
+            // First Step: init map of instances
+            // insertion point sub template 
+            buttons.forEach(
+              button => {
+                this.frontRepo.Buttons.set(button.ID, button)
+                this.frontRepo.Buttons_batch.set(button.ID, button)
+
+                // insertion point for redeeming ONE/ZERO-ONE associations
+
+                // insertion point for redeeming ONE-MANY associations
+                // insertion point for slice of pointer field Node.Buttons redeeming
+                {
+                  let _node = this.frontRepo.Nodes.get(button.Node_ButtonsDBID.Int64)
+                  if (_node) {
+                    if (_node.Buttons == undefined) {
+                      _node.Buttons = new Array<ButtonDB>()
+                    }
+                    _node.Buttons.push(button)
+                    if (button.Node_Buttons_reverse == undefined) {
+                      button.Node_Buttons_reverse = _node
+                    }
+                  }
+                }
+              }
+            )
+
+            // clear buttons that are absent from the GET
+            this.frontRepo.Buttons.forEach(
+              button => {
+                if (this.frontRepo.Buttons_batch.get(button.ID) == undefined) {
+                  this.frontRepo.Buttons.delete(button.ID)
+                }
+              }
+            )
+
+            // 
+            // Second Step: redeem pointers between instances (thanks to maps in the First Step)
+            // insertion point sub template 
+
+            // hand over control flow to observer
+            observer.next(this.frontRepo)
+          }
+        )
+      }
+    )
+  }
+
   // ClassdiagramPull performs a GET on Classdiagram of the stack and redeem association pointers 
   ClassdiagramPull(): Observable<FrontRepo> {
     return new Observable<FrontRepo>(
       (observer) => {
         combineLatest([
-          this.classdiagramService.getClassdiagrams()
+          this.classdiagramService.getClassdiagrams(this.GONG__StackPath)
         ]).subscribe(
           ([ // insertion point sub template 
             classdiagrams,
@@ -1191,7 +1321,7 @@ export class FrontRepoService {
     return new Observable<FrontRepo>(
       (observer) => {
         combineLatest([
-          this.diagrampackageService.getDiagramPackages()
+          this.diagrampackageService.getDiagramPackages(this.GONG__StackPath)
         ]).subscribe(
           ([ // insertion point sub template 
             diagrampackages,
@@ -1249,7 +1379,7 @@ export class FrontRepoService {
     return new Observable<FrontRepo>(
       (observer) => {
         combineLatest([
-          this.fieldService.getFields()
+          this.fieldService.getFields(this.GONG__StackPath)
         ]).subscribe(
           ([ // insertion point sub template 
             fields,
@@ -1313,7 +1443,7 @@ export class FrontRepoService {
     return new Observable<FrontRepo>(
       (observer) => {
         combineLatest([
-          this.gongenumshapeService.getGongEnumShapes()
+          this.gongenumshapeService.getGongEnumShapes(this.GONG__StackPath)
         ]).subscribe(
           ([ // insertion point sub template 
             gongenumshapes,
@@ -1384,7 +1514,7 @@ export class FrontRepoService {
     return new Observable<FrontRepo>(
       (observer) => {
         combineLatest([
-          this.gongenumvalueentryService.getGongEnumValueEntrys()
+          this.gongenumvalueentryService.getGongEnumValueEntrys(this.GONG__StackPath)
         ]).subscribe(
           ([ // insertion point sub template 
             gongenumvalueentrys,
@@ -1448,7 +1578,7 @@ export class FrontRepoService {
     return new Observable<FrontRepo>(
       (observer) => {
         combineLatest([
-          this.gongstructshapeService.getGongStructShapes()
+          this.gongstructshapeService.getGongStructShapes(this.GONG__StackPath)
         ]).subscribe(
           ([ // insertion point sub template 
             gongstructshapes,
@@ -1519,7 +1649,7 @@ export class FrontRepoService {
     return new Observable<FrontRepo>(
       (observer) => {
         combineLatest([
-          this.linkService.getLinks()
+          this.linkService.getLinks(this.GONG__StackPath)
         ]).subscribe(
           ([ // insertion point sub template 
             links,
@@ -1590,7 +1720,7 @@ export class FrontRepoService {
     return new Observable<FrontRepo>(
       (observer) => {
         combineLatest([
-          this.nodeService.getNodes()
+          this.nodeService.getNodes(this.GONG__StackPath)
         ]).subscribe(
           ([ // insertion point sub template 
             nodes,
@@ -1667,7 +1797,7 @@ export class FrontRepoService {
     return new Observable<FrontRepo>(
       (observer) => {
         combineLatest([
-          this.noteshapeService.getNoteShapes()
+          this.noteshapeService.getNoteShapes(this.GONG__StackPath)
         ]).subscribe(
           ([ // insertion point sub template 
             noteshapes,
@@ -1731,7 +1861,7 @@ export class FrontRepoService {
     return new Observable<FrontRepo>(
       (observer) => {
         combineLatest([
-          this.noteshapelinkService.getNoteShapeLinks()
+          this.noteshapelinkService.getNoteShapeLinks(this.GONG__StackPath)
         ]).subscribe(
           ([ // insertion point sub template 
             noteshapelinks,
@@ -1795,7 +1925,7 @@ export class FrontRepoService {
     return new Observable<FrontRepo>(
       (observer) => {
         combineLatest([
-          this.positionService.getPositions()
+          this.positionService.getPositions(this.GONG__StackPath)
         ]).subscribe(
           ([ // insertion point sub template 
             positions,
@@ -1846,7 +1976,7 @@ export class FrontRepoService {
     return new Observable<FrontRepo>(
       (observer) => {
         combineLatest([
-          this.treeService.getTrees()
+          this.treeService.getTrees(this.GONG__StackPath)
         ]).subscribe(
           ([ // insertion point sub template 
             trees,
@@ -1897,7 +2027,7 @@ export class FrontRepoService {
     return new Observable<FrontRepo>(
       (observer) => {
         combineLatest([
-          this.umlstateService.getUmlStates()
+          this.umlstateService.getUmlStates(this.GONG__StackPath)
         ]).subscribe(
           ([ // insertion point sub template 
             umlstates,
@@ -1961,7 +2091,7 @@ export class FrontRepoService {
     return new Observable<FrontRepo>(
       (observer) => {
         combineLatest([
-          this.umlscService.getUmlscs()
+          this.umlscService.getUmlscs(this.GONG__StackPath)
         ]).subscribe(
           ([ // insertion point sub template 
             umlscs,
@@ -2025,7 +2155,7 @@ export class FrontRepoService {
     return new Observable<FrontRepo>(
       (observer) => {
         combineLatest([
-          this.verticeService.getVertices()
+          this.verticeService.getVertices(this.GONG__StackPath)
         ]).subscribe(
           ([ // insertion point sub template 
             vertices,
@@ -2073,48 +2203,51 @@ export class FrontRepoService {
 }
 
 // insertion point for get unique ID per struct 
-export function getClassdiagramUniqueID(id: number): number {
+export function getButtonUniqueID(id: number): number {
   return 31 * id
 }
-export function getDiagramPackageUniqueID(id: number): number {
+export function getClassdiagramUniqueID(id: number): number {
   return 37 * id
 }
-export function getFieldUniqueID(id: number): number {
+export function getDiagramPackageUniqueID(id: number): number {
   return 41 * id
 }
-export function getGongEnumShapeUniqueID(id: number): number {
+export function getFieldUniqueID(id: number): number {
   return 43 * id
 }
-export function getGongEnumValueEntryUniqueID(id: number): number {
+export function getGongEnumShapeUniqueID(id: number): number {
   return 47 * id
 }
-export function getGongStructShapeUniqueID(id: number): number {
+export function getGongEnumValueEntryUniqueID(id: number): number {
   return 53 * id
 }
-export function getLinkUniqueID(id: number): number {
+export function getGongStructShapeUniqueID(id: number): number {
   return 59 * id
 }
-export function getNodeUniqueID(id: number): number {
+export function getLinkUniqueID(id: number): number {
   return 61 * id
 }
-export function getNoteShapeUniqueID(id: number): number {
+export function getNodeUniqueID(id: number): number {
   return 67 * id
 }
-export function getNoteShapeLinkUniqueID(id: number): number {
+export function getNoteShapeUniqueID(id: number): number {
   return 71 * id
 }
-export function getPositionUniqueID(id: number): number {
+export function getNoteShapeLinkUniqueID(id: number): number {
   return 73 * id
 }
-export function getTreeUniqueID(id: number): number {
+export function getPositionUniqueID(id: number): number {
   return 79 * id
 }
-export function getUmlStateUniqueID(id: number): number {
+export function getTreeUniqueID(id: number): number {
   return 83 * id
 }
-export function getUmlscUniqueID(id: number): number {
+export function getUmlStateUniqueID(id: number): number {
   return 89 * id
 }
-export function getVerticeUniqueID(id: number): number {
+export function getUmlscUniqueID(id: number): number {
   return 97 * id
+}
+export function getVerticeUniqueID(id: number): number {
+  return 101 * id
 }

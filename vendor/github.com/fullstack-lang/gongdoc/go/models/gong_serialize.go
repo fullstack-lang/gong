@@ -13,6 +13,7 @@ func SerializeStage(stage *StageStruct, filename string) {
 	f := excelize.NewFile()
 	{
 		// insertion point
+		SerializeExcelize[Button](stage, f)
 		SerializeExcelize[Classdiagram](stage, f)
 		SerializeExcelize[DiagramPackage](stage, f)
 		SerializeExcelize[Field](stage, f)

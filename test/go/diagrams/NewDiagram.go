@@ -168,6 +168,8 @@ func NewDiagramInjection(stage *models.StageStruct) {
 
 	// Declaration of instances to stage
 
+	// Declarations of staged instances of Button
+
 	// Declarations of staged instances of Classdiagram
 	__Classdiagram__000000_NewDiagram := (&models.Classdiagram{Name: `NewDiagram`}).Stage(stage)
 
@@ -179,6 +181,8 @@ func NewDiagramInjection(stage *models.StageStruct) {
 	__Field__000002_Date := (&models.Field{Name: `Date`}).Stage(stage)
 
 	// Declarations of staged instances of GongEnumShape
+
+	// Declarations of staged instances of GongEnumValueEntry
 
 	// Declarations of staged instances of GongStructShape
 	__GongStructShape__000000_NewDiagram_Astruct := (&models.GongStructShape{Name: `NewDiagram-Astruct`}).Stage(stage)
@@ -280,9 +284,24 @@ func NewDiagramInjection(stage *models.StageStruct) {
 
 	//gong:ident [ref_models.Astruct.Anarrayofb]
 	__Link__000000_Anarrayofb.Identifier = `ref_models.Astruct.Anarrayofb`
-	__Link__000000_Anarrayofb.Fieldtypename = `Bstruct`
+
+	// comment added to overcome the problem with the comment map association
+
+	//gong:ident [ref_models.Bstruct]
+	__Link__000000_Anarrayofb.Fieldtypename = `ref_models.Bstruct`
+	__Link__000000_Anarrayofb.FieldOffsetX = -92.000000
+	__Link__000000_Anarrayofb.FieldOffsetY = 26.000000
 	__Link__000000_Anarrayofb.TargetMultiplicity = models.MANY
+	__Link__000000_Anarrayofb.TargetMultiplicityOffsetX = -29.000000
+	__Link__000000_Anarrayofb.TargetMultiplicityOffsetY = -8.000000
 	__Link__000000_Anarrayofb.SourceMultiplicity = models.ZERO_ONE
+	__Link__000000_Anarrayofb.SourceMultiplicityOffsetX = 11.000000
+	__Link__000000_Anarrayofb.SourceMultiplicityOffsetY = 27.000000
+	__Link__000000_Anarrayofb.StartOrientation = models.ORIENTATION_VERTICAL
+	__Link__000000_Anarrayofb.StartRatio = 0.455278
+	__Link__000000_Anarrayofb.EndOrientation = models.ORIENTATION_HORIZONTAL
+	__Link__000000_Anarrayofb.EndRatio = 0.428571
+	__Link__000000_Anarrayofb.CornerOffsetRatio = 1.157407
 
 	// Link values setup
 	__Link__000001_Bstruct.Name = `Bstruct`
@@ -291,9 +310,24 @@ func NewDiagramInjection(stage *models.StageStruct) {
 
 	//gong:ident [ref_models.Astruct.Bstruct]
 	__Link__000001_Bstruct.Identifier = `ref_models.Astruct.Bstruct`
-	__Link__000001_Bstruct.Fieldtypename = `Bstruct`
+
+	// comment added to overcome the problem with the comment map association
+
+	//gong:ident [ref_models.Bstruct]
+	__Link__000001_Bstruct.Fieldtypename = `ref_models.Bstruct`
+	__Link__000001_Bstruct.FieldOffsetX = 21.000000
+	__Link__000001_Bstruct.FieldOffsetY = -16.000000
 	__Link__000001_Bstruct.TargetMultiplicity = models.ZERO_ONE
+	__Link__000001_Bstruct.TargetMultiplicityOffsetX = -39.000000
+	__Link__000001_Bstruct.TargetMultiplicityOffsetY = -14.000000
 	__Link__000001_Bstruct.SourceMultiplicity = models.MANY
+	__Link__000001_Bstruct.SourceMultiplicityOffsetX = 17.000000
+	__Link__000001_Bstruct.SourceMultiplicityOffsetY = -10.000000
+	__Link__000001_Bstruct.StartOrientation = models.ORIENTATION_HORIZONTAL
+	__Link__000001_Bstruct.StartRatio = 0.462963
+	__Link__000001_Bstruct.EndOrientation = models.ORIENTATION_VERTICAL
+	__Link__000001_Bstruct.EndRatio = 0.642778
+	__Link__000001_Bstruct.CornerOffsetRatio = 2.370370
 
 	// Position values setup
 	__Position__000000_Pos_NewDiagram_Astruct.X = 70.000000
@@ -301,8 +335,8 @@ func NewDiagramInjection(stage *models.StageStruct) {
 	__Position__000000_Pos_NewDiagram_Astruct.Name = `Pos-NewDiagram-Astruct`
 
 	// Position values setup
-	__Position__000001_Pos_NewDiagram_Bstruct.X = 430.000000
-	__Position__000001_Pos_NewDiagram_Bstruct.Y = 180.000000
+	__Position__000001_Pos_NewDiagram_Bstruct.X = 485.000000
+	__Position__000001_Pos_NewDiagram_Bstruct.Y = 292.000000
 	__Position__000001_Pos_NewDiagram_Bstruct.Name = `Pos-NewDiagram-Bstruct`
 
 	// Vertice values setup
@@ -328,3 +362,5 @@ func NewDiagramInjection(stage *models.StageStruct) {
 	__Link__000000_Anarrayofb.Middlevertice = __Vertice__000000_Verticle_in_class_diagram_NewDiagram_in_middle_between_NewDiagram_Astruct_and_NewDiagram_Bstruct
 	__Link__000001_Bstruct.Middlevertice = __Vertice__000001_Verticle_in_class_diagram_NewDiagram_in_middle_between_NewDiagram_Astruct_and_NewDiagram_Bstruct
 }
+
+

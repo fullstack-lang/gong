@@ -1,0 +1,21 @@
+<svg *ngIf="this.RectLinkLink && 
+    this.RectLinkLink.Start && 
+    this.RectLinkLink.End  && 
+    this.RectLinkLink.End.Start && 
+    this.RectLinkLink.End.End &&
+    ! isTargetX_a_NaN" >
+    <g>
+        <line class="rect-link-link" 
+            [attr.x1]="getStartPosition()[0]" 
+            [attr.y1]="getStartPosition()[1]" 
+            [attr.x2]="getEndPosition()[0]" 
+            [attr.y2]="getEndPosition()[1]"
+            [attr.fill]="RectLinkLink.Color"
+            [attr.fill-opacity]="RectLinkLink.FillOpacity" 
+            [attr.stroke]="RectLinkLink.Stroke" 
+            [attr.stroke-width]="RectLinkLink.StrokeWidth"
+            [attr.stroke-dasharray]="RectLinkLink.StrokeDashArray" 
+            [attr.transform]="RectLinkLink.Transform" 
+            />
+    </g>
+</svg>

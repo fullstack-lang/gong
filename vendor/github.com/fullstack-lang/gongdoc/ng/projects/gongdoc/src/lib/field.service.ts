@@ -43,7 +43,7 @@ export class FieldService {
   }
 
   /** GET fields from the server */
-  getFields(GONG__StackPath: string = ""): Observable<FieldDB[]> {
+  getFields(GONG__StackPath: string): Observable<FieldDB[]> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
@@ -56,10 +56,13 @@ export class FieldService {
   }
 
   /** GET field by id. Will 404 if id not found */
-  getField(id: number): Observable<FieldDB> {
+  getField(id: number, GONG__StackPath: string): Observable<FieldDB> {
+
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+
     const url = `${this.fieldsUrl}/${id}`;
-    return this.http.get<FieldDB>(url).pipe(
-      tap(_ => this.log(`fetched field id=${id}`)),
+    return this.http.get<FieldDB>(url, { params: params }).pipe(
+      // tap(_ => this.log(`fetched field id=${id}`)),
       catchError(this.handleError<FieldDB>(`getField id=${id}`))
     );
   }
@@ -81,7 +84,7 @@ export class FieldService {
       tap(_ => {
         // insertion point for restoration of reverse pointers
         fielddb.GongStructShape_Fields_reverse = _GongStructShape_Fields_reverse
-        this.log(`posted fielddb id=${fielddb.ID}`)
+        // this.log(`posted fielddb id=${fielddb.ID}`)
       }),
       catchError(this.handleError<FieldDB>('postField'))
     );
@@ -123,7 +126,7 @@ export class FieldService {
       tap(_ => {
         // insertion point for restoration of reverse pointers
         fielddb.GongStructShape_Fields_reverse = _GongStructShape_Fields_reverse
-        this.log(`updated fielddb id=${fielddb.ID}`)
+        // this.log(`updated fielddb id=${fielddb.ID}`)
       }),
       catchError(this.handleError<FieldDB>('updateField'))
     );

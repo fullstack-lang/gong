@@ -43,7 +43,7 @@ export class UmlscService {
   }
 
   /** GET umlscs from the server */
-  getUmlscs(GONG__StackPath: string = ""): Observable<UmlscDB[]> {
+  getUmlscs(GONG__StackPath: string): Observable<UmlscDB[]> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
@@ -56,10 +56,13 @@ export class UmlscService {
   }
 
   /** GET umlsc by id. Will 404 if id not found */
-  getUmlsc(id: number): Observable<UmlscDB> {
+  getUmlsc(id: number, GONG__StackPath: string): Observable<UmlscDB> {
+
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+
     const url = `${this.umlscsUrl}/${id}`;
-    return this.http.get<UmlscDB>(url).pipe(
-      tap(_ => this.log(`fetched umlsc id=${id}`)),
+    return this.http.get<UmlscDB>(url, { params: params }).pipe(
+      // tap(_ => this.log(`fetched umlsc id=${id}`)),
       catchError(this.handleError<UmlscDB>(`getUmlsc id=${id}`))
     );
   }
@@ -82,7 +85,7 @@ export class UmlscService {
       tap(_ => {
         // insertion point for restoration of reverse pointers
         umlscdb.DiagramPackage_Umlscs_reverse = _DiagramPackage_Umlscs_reverse
-        this.log(`posted umlscdb id=${umlscdb.ID}`)
+        // this.log(`posted umlscdb id=${umlscdb.ID}`)
       }),
       catchError(this.handleError<UmlscDB>('postUmlsc'))
     );
@@ -125,7 +128,7 @@ export class UmlscService {
       tap(_ => {
         // insertion point for restoration of reverse pointers
         umlscdb.DiagramPackage_Umlscs_reverse = _DiagramPackage_Umlscs_reverse
-        this.log(`updated umlscdb id=${umlscdb.ID}`)
+        // this.log(`updated umlscdb id=${umlscdb.ID}`)
       }),
       catchError(this.handleError<UmlscDB>('updateUmlsc'))
     );

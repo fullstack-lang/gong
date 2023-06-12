@@ -40,14 +40,7 @@ export class NodeDetailComponent implements OnInit {
 	HasCheckboxButtonFormControl: UntypedFormControl = new UntypedFormControl(false);
 	IsCheckedFormControl: UntypedFormControl = new UntypedFormControl(false);
 	IsCheckboxDisabledFormControl: UntypedFormControl = new UntypedFormControl(false);
-	HasAddChildButtonFormControl: UntypedFormControl = new UntypedFormControl(false);
-	HasEditButtonFormControl: UntypedFormControl = new UntypedFormControl(false);
 	IsInEditModeFormControl: UntypedFormControl = new UntypedFormControl(false);
-	HasDrawButtonFormControl: UntypedFormControl = new UntypedFormControl(false);
-	HasDrawOffButtonFormControl: UntypedFormControl = new UntypedFormControl(false);
-	IsInDrawModeFormControl: UntypedFormControl = new UntypedFormControl(false);
-	IsSavedFormControl: UntypedFormControl = new UntypedFormControl(false);
-	HasDeleteButtonFormControl: UntypedFormControl = new UntypedFormControl(false);
 
 	// the NodeDB of interest
 	node: NodeDB = new NodeDB
@@ -168,14 +161,7 @@ export class NodeDetailComponent implements OnInit {
 				this.HasCheckboxButtonFormControl.setValue(this.node.HasCheckboxButton)
 				this.IsCheckedFormControl.setValue(this.node.IsChecked)
 				this.IsCheckboxDisabledFormControl.setValue(this.node.IsCheckboxDisabled)
-				this.HasAddChildButtonFormControl.setValue(this.node.HasAddChildButton)
-				this.HasEditButtonFormControl.setValue(this.node.HasEditButton)
 				this.IsInEditModeFormControl.setValue(this.node.IsInEditMode)
-				this.HasDrawButtonFormControl.setValue(this.node.HasDrawButton)
-				this.HasDrawOffButtonFormControl.setValue(this.node.HasDrawOffButton)
-				this.IsInDrawModeFormControl.setValue(this.node.IsInDrawMode)
-				this.IsSavedFormControl.setValue(this.node.IsSaved)
-				this.HasDeleteButtonFormControl.setValue(this.node.HasDeleteButton)
 			}
 		)
 
@@ -192,14 +178,7 @@ export class NodeDetailComponent implements OnInit {
 		this.node.HasCheckboxButton = this.HasCheckboxButtonFormControl.value
 		this.node.IsChecked = this.IsCheckedFormControl.value
 		this.node.IsCheckboxDisabled = this.IsCheckboxDisabledFormControl.value
-		this.node.HasAddChildButton = this.HasAddChildButtonFormControl.value
-		this.node.HasEditButton = this.HasEditButtonFormControl.value
 		this.node.IsInEditMode = this.IsInEditModeFormControl.value
-		this.node.HasDrawButton = this.HasDrawButtonFormControl.value
-		this.node.HasDrawOffButton = this.HasDrawOffButtonFormControl.value
-		this.node.IsInDrawMode = this.IsInDrawModeFormControl.value
-		this.node.IsSaved = this.IsSavedFormControl.value
-		this.node.HasDeleteButton = this.HasDeleteButtonFormControl.value
 
 		// save from the front pointer space to the non pointer space for serialization
 

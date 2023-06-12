@@ -44,7 +44,7 @@ export class GongEnumShapeService {
   }
 
   /** GET gongenumshapes from the server */
-  getGongEnumShapes(GONG__StackPath: string = ""): Observable<GongEnumShapeDB[]> {
+  getGongEnumShapes(GONG__StackPath: string): Observable<GongEnumShapeDB[]> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
@@ -57,10 +57,13 @@ export class GongEnumShapeService {
   }
 
   /** GET gongenumshape by id. Will 404 if id not found */
-  getGongEnumShape(id: number): Observable<GongEnumShapeDB> {
+  getGongEnumShape(id: number, GONG__StackPath: string): Observable<GongEnumShapeDB> {
+
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+
     const url = `${this.gongenumshapesUrl}/${id}`;
-    return this.http.get<GongEnumShapeDB>(url).pipe(
-      tap(_ => this.log(`fetched gongenumshape id=${id}`)),
+    return this.http.get<GongEnumShapeDB>(url, { params: params }).pipe(
+      // tap(_ => this.log(`fetched gongenumshape id=${id}`)),
       catchError(this.handleError<GongEnumShapeDB>(`getGongEnumShape id=${id}`))
     );
   }
@@ -84,7 +87,7 @@ export class GongEnumShapeService {
       tap(_ => {
         // insertion point for restoration of reverse pointers
         gongenumshapedb.Classdiagram_GongEnumShapes_reverse = _Classdiagram_GongEnumShapes_reverse
-        this.log(`posted gongenumshapedb id=${gongenumshapedb.ID}`)
+        // this.log(`posted gongenumshapedb id=${gongenumshapedb.ID}`)
       }),
       catchError(this.handleError<GongEnumShapeDB>('postGongEnumShape'))
     );
@@ -128,7 +131,7 @@ export class GongEnumShapeService {
       tap(_ => {
         // insertion point for restoration of reverse pointers
         gongenumshapedb.Classdiagram_GongEnumShapes_reverse = _Classdiagram_GongEnumShapes_reverse
-        this.log(`updated gongenumshapedb id=${gongenumshapedb.ID}`)
+        // this.log(`updated gongenumshapedb id=${gongenumshapedb.ID}`)
       }),
       catchError(this.handleError<GongEnumShapeDB>('updateGongEnumShape'))
     );
