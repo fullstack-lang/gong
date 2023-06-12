@@ -43,7 +43,7 @@ export class ClassdiagramService {
   }
 
   /** GET classdiagrams from the server */
-  getClassdiagrams(GONG__StackPath: string = ""): Observable<ClassdiagramDB[]> {
+  getClassdiagrams(GONG__StackPath: string): Observable<ClassdiagramDB[]> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
@@ -56,10 +56,13 @@ export class ClassdiagramService {
   }
 
   /** GET classdiagram by id. Will 404 if id not found */
-  getClassdiagram(id: number): Observable<ClassdiagramDB> {
+  getClassdiagram(id: number, GONG__StackPath: string): Observable<ClassdiagramDB> {
+
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+
     const url = `${this.classdiagramsUrl}/${id}`;
-    return this.http.get<ClassdiagramDB>(url).pipe(
-      tap(_ => this.log(`fetched classdiagram id=${id}`)),
+    return this.http.get<ClassdiagramDB>(url, { params: params }).pipe(
+      // tap(_ => this.log(`fetched classdiagram id=${id}`)),
       catchError(this.handleError<ClassdiagramDB>(`getClassdiagram id=${id}`))
     );
   }
@@ -84,7 +87,7 @@ export class ClassdiagramService {
       tap(_ => {
         // insertion point for restoration of reverse pointers
         classdiagramdb.DiagramPackage_Classdiagrams_reverse = _DiagramPackage_Classdiagrams_reverse
-        this.log(`posted classdiagramdb id=${classdiagramdb.ID}`)
+        // this.log(`posted classdiagramdb id=${classdiagramdb.ID}`)
       }),
       catchError(this.handleError<ClassdiagramDB>('postClassdiagram'))
     );
@@ -129,7 +132,7 @@ export class ClassdiagramService {
       tap(_ => {
         // insertion point for restoration of reverse pointers
         classdiagramdb.DiagramPackage_Classdiagrams_reverse = _DiagramPackage_Classdiagrams_reverse
-        this.log(`updated classdiagramdb id=${classdiagramdb.ID}`)
+        // this.log(`updated classdiagramdb id=${classdiagramdb.ID}`)
       }),
       catchError(this.handleError<ClassdiagramDB>('updateClassdiagram'))
     );

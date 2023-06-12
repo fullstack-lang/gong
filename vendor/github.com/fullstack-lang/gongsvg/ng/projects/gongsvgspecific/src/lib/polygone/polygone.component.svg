@@ -1,0 +1,12 @@
+<svg class="child">
+    <g>
+        <polygon [attr.points]="Polygone?.Points" [attr.fill]="Polygone?.Color" [attr.fill-opacity]="Polygone?.FillOpacity" [attr.stroke]="Polygone?.Stroke"
+            [attr.stroke-width]="Polygone?.StrokeWidth" [attr.stroke-dasharray]="Polygone?.StrokeDashArray" />
+
+        <animate *ngFor="let animate of Polygone?.Animates" 
+            [attr.attributeName]="animate.AttributeName" 
+            [attr.values]="animate.Values" 
+            [attr.dur]="animate.Dur" 
+            [attr.repeatCount]="animate.RepeatCount" />
+    </g>
+</svg>

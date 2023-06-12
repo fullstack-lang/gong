@@ -1,0 +1,15 @@
+<svg class="child">
+    <g>
+        <line class="overlay" 
+            (click)="onClick($event)" 
+            [attr.x1]="Line?.X1" [attr.y1]="Line?.Y1" [attr.x2]="Line?.X2" [attr.y2]="Line?.Y2" [attr.fill]="Line?.Color"
+            [attr.fill-opacity]="Line?.FillOpacity" [attr.stroke]="Line?.Stroke" [attr.stroke-width]="Line?.StrokeWidth"
+            [attr.stroke-dasharray]="Line?.StrokeDashArray" [attr.transform]="Line?.Transform" />
+
+        <animate *ngFor="let animate of Line?.Animates" 
+            [attr.attributeName]="animate.AttributeName" 
+            [attr.values]="animate.Values" 
+            [attr.dur]="animate.Dur" 
+            [attr.repeatCount]="animate.RepeatCount" />
+    </g>
+</svg>

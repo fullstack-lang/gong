@@ -1,0 +1,199 @@
+<form *ngIf="animate" class="details">
+    <h2 class="details__title">animate</h2>
+    <!-- insertion point for fields specific code -->
+    <mat-grid-list *ngIf='!isATextArea("Name")' cols="5" rowHeight="1:1">
+        <mat-grid-tile [colspan]="3">
+            <mat-form-field mat-form-field class="detail-full-width">
+                <mat-label>Name</mat-label>
+                <input name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="animate.Name">
+            </mat-form-field>
+        </mat-grid-tile>
+        <mat-grid-tile>
+            <button mat-raised-button (click)="toggleTextArea('Name')">
+                <mat-icon>
+                    expand_more
+                </mat-icon>
+            </button>
+        </mat-grid-tile>
+    </mat-grid-list>
+    <mat-form-field *ngIf='isATextArea("Name")' mat-form-field class="detail-full-width">
+        <mat-label>Name</mat-label>
+        <textarea name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="animate.Name"></textarea>
+    </mat-form-field>
+
+    <mat-grid-list *ngIf='!isATextArea("AttributeName")' cols="5" rowHeight="1:1">
+        <mat-grid-tile [colspan]="3">
+            <mat-form-field mat-form-field class="detail-full-width">
+                <mat-label>AttributeName</mat-label>
+                <input name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="animate.AttributeName">
+            </mat-form-field>
+        </mat-grid-tile>
+        <mat-grid-tile>
+            <button mat-raised-button (click)="toggleTextArea('AttributeName')">
+                <mat-icon>
+                    expand_more
+                </mat-icon>
+            </button>
+        </mat-grid-tile>
+    </mat-grid-list>
+    <mat-form-field *ngIf='isATextArea("AttributeName")' mat-form-field class="detail-full-width">
+        <mat-label>AttributeName</mat-label>
+        <textarea name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="animate.AttributeName"></textarea>
+    </mat-form-field>
+
+    <mat-grid-list *ngIf='!isATextArea("Values")' cols="5" rowHeight="1:1">
+        <mat-grid-tile [colspan]="3">
+            <mat-form-field mat-form-field class="detail-full-width">
+                <mat-label>Values</mat-label>
+                <input name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="animate.Values">
+            </mat-form-field>
+        </mat-grid-tile>
+        <mat-grid-tile>
+            <button mat-raised-button (click)="toggleTextArea('Values')">
+                <mat-icon>
+                    expand_more
+                </mat-icon>
+            </button>
+        </mat-grid-tile>
+    </mat-grid-list>
+    <mat-form-field *ngIf='isATextArea("Values")' mat-form-field class="detail-full-width">
+        <mat-label>Values</mat-label>
+        <textarea name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="animate.Values"></textarea>
+    </mat-form-field>
+
+    <mat-grid-list *ngIf='!isATextArea("Dur")' cols="5" rowHeight="1:1">
+        <mat-grid-tile [colspan]="3">
+            <mat-form-field mat-form-field class="detail-full-width">
+                <mat-label>Dur</mat-label>
+                <input name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="animate.Dur">
+            </mat-form-field>
+        </mat-grid-tile>
+        <mat-grid-tile>
+            <button mat-raised-button (click)="toggleTextArea('Dur')">
+                <mat-icon>
+                    expand_more
+                </mat-icon>
+            </button>
+        </mat-grid-tile>
+    </mat-grid-list>
+    <mat-form-field *ngIf='isATextArea("Dur")' mat-form-field class="detail-full-width">
+        <mat-label>Dur</mat-label>
+        <textarea name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="animate.Dur"></textarea>
+    </mat-form-field>
+
+    <mat-grid-list *ngIf='!isATextArea("RepeatCount")' cols="5" rowHeight="1:1">
+        <mat-grid-tile [colspan]="3">
+            <mat-form-field mat-form-field class="detail-full-width">
+                <mat-label>RepeatCount</mat-label>
+                <input name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="animate.RepeatCount">
+            </mat-form-field>
+        </mat-grid-tile>
+        <mat-grid-tile>
+            <button mat-raised-button (click)="toggleTextArea('RepeatCount')">
+                <mat-icon>
+                    expand_more
+                </mat-icon>
+            </button>
+        </mat-grid-tile>
+    </mat-grid-list>
+    <mat-form-field *ngIf='isATextArea("RepeatCount")' mat-form-field class="detail-full-width">
+        <mat-label>RepeatCount</mat-label>
+        <textarea name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="animate.RepeatCount"></textarea>
+    </mat-form-field>
+
+    <mat-form-field class="detail-full-width">
+        <mat-label>(Circle) Animations</mat-label>
+        <mat-select [compareWith]="compareObjects" [(ngModel)]="animate.Circle_Animations_reverse" [ngModelOptions]="{standalone: true}">
+            <mat-option>None</mat-option>
+            <mat-option *ngFor="let circle of frontRepo.Circles_array" [value]="circle">
+                {{circle.Name}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+    <mat-form-field class="detail-full-width">
+        <mat-label>(Ellipse) Animates</mat-label>
+        <mat-select [compareWith]="compareObjects" [(ngModel)]="animate.Ellipse_Animates_reverse" [ngModelOptions]="{standalone: true}">
+            <mat-option>None</mat-option>
+            <mat-option *ngFor="let ellipse of frontRepo.Ellipses_array" [value]="ellipse">
+                {{ellipse.Name}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+    <mat-form-field class="detail-full-width">
+        <mat-label>(Line) Animates</mat-label>
+        <mat-select [compareWith]="compareObjects" [(ngModel)]="animate.Line_Animates_reverse" [ngModelOptions]="{standalone: true}">
+            <mat-option>None</mat-option>
+            <mat-option *ngFor="let line of frontRepo.Lines_array" [value]="line">
+                {{line.Name}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+    <mat-form-field class="detail-full-width">
+        <mat-label>(LinkAnchoredText) Animates</mat-label>
+        <mat-select [compareWith]="compareObjects" [(ngModel)]="animate.LinkAnchoredText_Animates_reverse" [ngModelOptions]="{standalone: true}">
+            <mat-option>None</mat-option>
+            <mat-option *ngFor="let linkanchoredtext of frontRepo.LinkAnchoredTexts_array" [value]="linkanchoredtext">
+                {{linkanchoredtext.Name}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+    <mat-form-field class="detail-full-width">
+        <mat-label>(Path) Animates</mat-label>
+        <mat-select [compareWith]="compareObjects" [(ngModel)]="animate.Path_Animates_reverse" [ngModelOptions]="{standalone: true}">
+            <mat-option>None</mat-option>
+            <mat-option *ngFor="let path of frontRepo.Paths_array" [value]="path">
+                {{path.Name}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+    <mat-form-field class="detail-full-width">
+        <mat-label>(Polygone) Animates</mat-label>
+        <mat-select [compareWith]="compareObjects" [(ngModel)]="animate.Polygone_Animates_reverse" [ngModelOptions]="{standalone: true}">
+            <mat-option>None</mat-option>
+            <mat-option *ngFor="let polygone of frontRepo.Polygones_array" [value]="polygone">
+                {{polygone.Name}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+    <mat-form-field class="detail-full-width">
+        <mat-label>(Polyline) Animates</mat-label>
+        <mat-select [compareWith]="compareObjects" [(ngModel)]="animate.Polyline_Animates_reverse" [ngModelOptions]="{standalone: true}">
+            <mat-option>None</mat-option>
+            <mat-option *ngFor="let polyline of frontRepo.Polylines_array" [value]="polyline">
+                {{polyline.Name}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+    <mat-form-field class="detail-full-width">
+        <mat-label>(Rect) Animations</mat-label>
+        <mat-select [compareWith]="compareObjects" [(ngModel)]="animate.Rect_Animations_reverse" [ngModelOptions]="{standalone: true}">
+            <mat-option>None</mat-option>
+            <mat-option *ngFor="let rect of frontRepo.Rects_array" [value]="rect">
+                {{rect.Name}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+    <mat-form-field class="detail-full-width">
+        <mat-label>(RectAnchoredText) Animates</mat-label>
+        <mat-select [compareWith]="compareObjects" [(ngModel)]="animate.RectAnchoredText_Animates_reverse" [ngModelOptions]="{standalone: true}">
+            <mat-option>None</mat-option>
+            <mat-option *ngFor="let rectanchoredtext of frontRepo.RectAnchoredTexts_array" [value]="rectanchoredtext">
+                {{rectanchoredtext.Name}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+    <mat-form-field class="detail-full-width">
+        <mat-label>(Text) Animates</mat-label>
+        <mat-select [compareWith]="compareObjects" [(ngModel)]="animate.Text_Animates_reverse" [ngModelOptions]="{standalone: true}">
+            <mat-option>None</mat-option>
+            <mat-option *ngFor="let text of frontRepo.Texts_array" [value]="text">
+                {{text.Name}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+    <div class="details__save">
+        <button mat-raised-button color="primary" (click)="save()">
+            Save animate
+        </button>
+    </div>
+</form>

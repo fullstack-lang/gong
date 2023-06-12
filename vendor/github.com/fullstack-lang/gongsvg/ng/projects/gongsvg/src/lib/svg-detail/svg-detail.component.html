@@ -1,0 +1,75 @@
+<form *ngIf="svg" class="details">
+    <h2 class="details__title">svg</h2>
+    <!-- insertion point for fields specific code -->
+    <mat-grid-list *ngIf='!isATextArea("Name")' cols="5" rowHeight="1:1">
+        <mat-grid-tile [colspan]="3">
+            <mat-form-field mat-form-field class="detail-full-width">
+                <mat-label>Name</mat-label>
+                <input name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="svg.Name">
+            </mat-form-field>
+        </mat-grid-tile>
+        <mat-grid-tile>
+            <button mat-raised-button (click)="toggleTextArea('Name')">
+                <mat-icon>
+                    expand_more
+                </mat-icon>
+            </button>
+        </mat-grid-tile>
+    </mat-grid-list>
+    <mat-form-field *ngIf='isATextArea("Name")' mat-form-field class="detail-full-width">
+        <mat-label>Name</mat-label>
+        <textarea name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="svg.Name"></textarea>
+    </mat-form-field>
+
+    <mat-grid-list cols="5" rowHeight="2:1">
+        <mat-grid-tile [colspan]="3">
+            <button mat-raised-button (click)="openReverseSelection('Layer', 'SVG_LayersDBID', 'ONE_MANY_ASSOCIATION_MODE', '', '', '')">Layers</button>
+        </mat-grid-tile>
+        <!-- insertion point for the button of the MANY_MANY association-->
+        <mat-grid-tile>
+            <button mat-raised-button (click)="openDragAndDropOrdering('Layer', 'SVG_LayersDBID')">
+                <mat-icon>
+                    shuffle
+                </mat-icon>
+            </button>
+        </mat-grid-tile>
+    </mat-grid-list>
+    <!-- -->
+    <mat-form-field appearance="fill" class="detail-full-width">
+        <mat-label>DrawingState</mat-label>
+        <mat-select [(ngModel)]="svg.DrawingState" [ngModelOptions]="{standalone: true}">
+            <mat-option *ngFor="let enum of DrawingStateList" [value]="enum.value">
+                {{enum.viewValue}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    <mat-form-field class="detail-full-width">
+        <mat-label>StartRect</mat-label>
+        <mat-select [compareWith]="compareObjects" [(value)]="svg.StartRect" (selectionChange)="fillUpNameIfEmpty($event)">
+            <mat-option>None</mat-option>
+            <mat-option *ngFor="let rect of frontRepo.Rects_array" [value]="rect">
+                {{rect.Name}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    <mat-form-field class="detail-full-width">
+        <mat-label>EndRect</mat-label>
+        <mat-select [compareWith]="compareObjects" [(value)]="svg.EndRect" (selectionChange)="fillUpNameIfEmpty($event)">
+            <mat-option>None</mat-option>
+            <mat-option *ngFor="let rect of frontRepo.Rects_array" [value]="rect">
+                {{rect.Name}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    <!-- -->
+    <mat-checkbox [formControl]="IsEditableFormControl">IsEditable</mat-checkbox>
+
+    <div class="details__save">
+        <button mat-raised-button color="primary" (click)="save()">
+            Save svg
+        </button>
+    </div>
+</form>

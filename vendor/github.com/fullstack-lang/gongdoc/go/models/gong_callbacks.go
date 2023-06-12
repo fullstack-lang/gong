@@ -5,6 +5,10 @@ func AfterCreateFromFront[Type Gongstruct](stage *StageStruct, instance *Type) {
 
 	switch target := any(instance).(type) {
 	// insertion point
+	case *Button:
+		if stage.OnAfterButtonCreateCallback != nil {
+			stage.OnAfterButtonCreateCallback.OnAfterCreate(stage, target)
+		}
 	case *Classdiagram:
 		if stage.OnAfterClassdiagramCreateCallback != nil {
 			stage.OnAfterClassdiagramCreateCallback.OnAfterCreate(stage, target)
@@ -75,6 +79,11 @@ func AfterUpdateFromFront[Type Gongstruct](stage *StageStruct, old, new *Type) {
 
 	switch oldTarget := any(old).(type) {
 	// insertion point
+	case *Button:
+		newTarget := any(new).(*Button)
+		if stage.OnAfterButtonUpdateCallback != nil {
+			stage.OnAfterButtonUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
 	case *Classdiagram:
 		newTarget := any(new).(*Classdiagram)
 		if stage.OnAfterClassdiagramUpdateCallback != nil {
@@ -160,6 +169,11 @@ func AfterDeleteFromFront[Type Gongstruct](stage *StageStruct, staged, front *Ty
 
 	switch front := any(front).(type) {
 	// insertion point
+	case *Button:
+		if stage.OnAfterButtonDeleteCallback != nil {
+			staged := any(staged).(*Button)
+			stage.OnAfterButtonDeleteCallback.OnAfterDelete(stage, staged, front)
+		}
 	case *Classdiagram:
 		if stage.OnAfterClassdiagramDeleteCallback != nil {
 			staged := any(staged).(*Classdiagram)
@@ -245,6 +259,10 @@ func AfterReadFromFront[Type Gongstruct](stage *StageStruct, instance *Type) {
 
 	switch target := any(instance).(type) {
 	// insertion point
+	case *Button:
+		if stage.OnAfterButtonReadCallback != nil {
+			stage.OnAfterButtonReadCallback.OnAfterRead(stage, target)
+		}
 	case *Classdiagram:
 		if stage.OnAfterClassdiagramReadCallback != nil {
 			stage.OnAfterClassdiagramReadCallback.OnAfterRead(stage, target)
@@ -316,6 +334,9 @@ func SetCallbackAfterUpdateFromFront[Type Gongstruct](stage *StageStruct, callba
 	var instance Type
 	switch any(instance).(type) {
 		// insertion point
+	case *Button:
+		stage.OnAfterButtonUpdateCallback = any(callback).(OnAfterUpdateInterface[Button])
+	
 	case *Classdiagram:
 		stage.OnAfterClassdiagramUpdateCallback = any(callback).(OnAfterUpdateInterface[Classdiagram])
 	
@@ -368,6 +389,9 @@ func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *StageStruct, callba
 	var instance Type
 	switch any(instance).(type) {
 		// insertion point
+	case *Button:
+		stage.OnAfterButtonCreateCallback = any(callback).(OnAfterCreateInterface[Button])
+	
 	case *Classdiagram:
 		stage.OnAfterClassdiagramCreateCallback = any(callback).(OnAfterCreateInterface[Classdiagram])
 	
@@ -420,6 +444,9 @@ func SetCallbackAfterDeleteFromFront[Type Gongstruct](stage *StageStruct, callba
 	var instance Type
 	switch any(instance).(type) {
 		// insertion point
+	case *Button:
+		stage.OnAfterButtonDeleteCallback = any(callback).(OnAfterDeleteInterface[Button])
+	
 	case *Classdiagram:
 		stage.OnAfterClassdiagramDeleteCallback = any(callback).(OnAfterDeleteInterface[Classdiagram])
 	
@@ -472,6 +499,9 @@ func SetCallbackAfterReadFromFront[Type Gongstruct](stage *StageStruct, callback
 	var instance Type
 	switch any(instance).(type) {
 		// insertion point
+	case *Button:
+		stage.OnAfterButtonReadCallback = any(callback).(OnAfterReadInterface[Button])
+	
 	case *Classdiagram:
 		stage.OnAfterClassdiagramReadCallback = any(callback).(OnAfterReadInterface[Classdiagram])
 	

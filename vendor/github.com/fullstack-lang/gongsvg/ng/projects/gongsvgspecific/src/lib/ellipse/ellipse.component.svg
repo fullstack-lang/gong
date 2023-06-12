@@ -1,0 +1,14 @@
+<svg class="child">
+    <g>
+        <ellipse [attr.rx]="Ellipse?.RX" [attr.ry]="Ellipse?.RY" [attr.cx]="Ellipse?.CX" [attr.cy]="Ellipse?.CY" [attr.fill]="Ellipse?.Color"
+            [attr.fill-opacity]="Ellipse?.FillOpacity" [attr.stroke]="Ellipse?.Stroke" [attr.stroke-width]="Ellipse?.StrokeWidth"
+            [attr.stroke-dasharray]="Ellipse?.StrokeDashArray" />
+
+            <animate *ngFor="let animate of Ellipse?.Animates" 
+            [attr.attributeName]="animate.AttributeName" 
+            [attr.values]="animate.Values" 
+            [attr.dur]="animate.Dur" 
+            [attr.repeatCount]="animate.RepeatCount" />
+
+    </g>
+</svg>

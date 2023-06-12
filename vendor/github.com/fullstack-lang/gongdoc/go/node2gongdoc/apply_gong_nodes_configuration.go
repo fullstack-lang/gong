@@ -2,12 +2,13 @@ package node2gongdoc
 
 import gongdoc_models "github.com/fullstack-lang/gongdoc/go/models"
 
-func applyGongNodesConfiguration(node *gongdoc_models.Node, isCheckboxDisabled, isChecked bool) {
+// applyGongNodesConfRecursively
+func applyGongNodesConfRecursively(node *gongdoc_models.Node, isCheckboxDisabled, isChecked bool) {
 
 	node.IsCheckboxDisabled = isCheckboxDisabled
 	node.IsChecked = isChecked
 
 	for _, _node := range node.Children {
-		applyGongNodesConfiguration(_node, isCheckboxDisabled, isChecked)
+		applyGongNodesConfRecursively(_node, isCheckboxDisabled, isChecked)
 	}
 }

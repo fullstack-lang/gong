@@ -1,4 +1,17 @@
+.vertical-paper {
+    min-height: 10000px;
+    /* Or any large value */
+    background-color: #fff;
+    /* Use the color you want for the paper */
+    /* Add any other styling you want for the paper */
+}
+
 .mat-mdc-form-field {
     margin-right: 3px;
-    width: 100px;
+    width: 200px;
+}
+
+.tight-buttons {
+    margin-left: -10px;
+    margin-right: -10px;
 }

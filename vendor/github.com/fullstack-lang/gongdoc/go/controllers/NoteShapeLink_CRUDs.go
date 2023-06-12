@@ -58,7 +58,7 @@ func (controller *Controller) GetNoteShapeLinks(c *gin.Context) {
 		value := values["GONG__StackPath"]
 		if len(value) == 1 {
 			stackPath = value[0]
-			log.Println("GetNoteShapeLinks", "GONG__StackPath", stackPath)
+			// log.Println("GetNoteShapeLinks", "GONG__StackPath", stackPath)
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
@@ -115,7 +115,7 @@ func (controller *Controller) PostNoteShapeLink(c *gin.Context) {
 		value := values["GONG__StackPath"]
 		if len(value) == 1 {
 			stackPath = value[0]
-			log.Println("PostNoteShapeLinks", "GONG__StackPath", stackPath)
+			// log.Println("PostNoteShapeLinks", "GONG__StackPath", stackPath)
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
@@ -182,7 +182,7 @@ func (controller *Controller) GetNoteShapeLink(c *gin.Context) {
 		value := values["GONG__StackPath"]
 		if len(value) == 1 {
 			stackPath = value[0]
-			log.Println("GetNoteShapeLink", "GONG__StackPath", stackPath)
+			// log.Println("GetNoteShapeLink", "GONG__StackPath", stackPath)
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
@@ -225,7 +225,7 @@ func (controller *Controller) UpdateNoteShapeLink(c *gin.Context) {
 		value := values["GONG__StackPath"]
 		if len(value) == 1 {
 			stackPath = value[0]
-			log.Println("UpdateNoteShapeLink", "GONG__StackPath", stackPath)
+			// log.Println("UpdateNoteShapeLink", "GONG__StackPath", stackPath)
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
@@ -305,7 +305,7 @@ func (controller *Controller) DeleteNoteShapeLink(c *gin.Context) {
 		value := values["GONG__StackPath"]
 		if len(value) == 1 {
 			stackPath = value[0]
-			log.Println("DeleteNoteShapeLink", "GONG__StackPath", stackPath)
+			// log.Println("DeleteNoteShapeLink", "GONG__StackPath", stackPath)
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]

@@ -1,0 +1,16 @@
+package models
+
+type RectAnchorType string
+
+// values for EnumType
+const (
+	RECT_ANCHOR_TOP          RectAnchorType = "RECT_ANCHOR_TOP"
+	RECT_ANCHOR_TOP_LEFT     RectAnchorType = "RECT_ANCHOR_TOP_LEFT"
+	RECT_ANCHOR_TOP_RIGHT    RectAnchorType = "RECT_ANCHOR_TOP_RIGHT"
+	RECT_ANCHOR_BOTTOM       RectAnchorType = "RECT_ANCHOR_BOTTOM"
+	RECT_ANCHOR_BOTTOM_LEFT  RectAnchorType = "RECT_ANCHOR_BOTTOM_LEFT"
+	RECT_ANCHOR_BOTTOM_RIGHT RectAnchorType = "RECT_ANCHOR_BOTTOM_RIGHT"
+	RECT_ANCHOR_LEFT         RectAnchorType = "RECT_ANCHOR_LEFT"
+	RECT_ANCHOR_RIGHT        RectAnchorType = "RECT_ANCHOR_RIGHT"
+	RECT_ANCHOR_CENTER       RectAnchorType = "RECT_ANCHOR_CENTER"
+)

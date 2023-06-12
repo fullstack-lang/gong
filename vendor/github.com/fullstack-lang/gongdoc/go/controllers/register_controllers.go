@@ -2,7 +2,6 @@ package controllers
 
 import (
 	"fmt"
-	"log"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -42,6 +41,13 @@ type ValidationError struct {
 func registerControllers(r *gin.Engine) {
 	v1 := r.Group("/api/github.com/fullstack-lang/gongdoc/go")
 	{ // insertion point for registrations
+		v1.GET("/v1/buttons", GetController().GetButtons)
+		v1.GET("/v1/buttons/:id", GetController().GetButton)
+		v1.POST("/v1/buttons", GetController().PostButton)
+		v1.PATCH("/v1/buttons/:id", GetController().UpdateButton)
+		v1.PUT("/v1/buttons/:id", GetController().UpdateButton)
+		v1.DELETE("/v1/buttons/:id", GetController().DeleteButton)
+
 		v1.GET("/v1/classdiagrams", GetController().GetClassdiagrams)
 		v1.GET("/v1/classdiagrams/:id", GetController().GetClassdiagram)
 		v1.POST("/v1/classdiagrams", GetController().PostClassdiagram)
@@ -160,7 +166,7 @@ func (controller *Controller) GetLastCommitFromBackNb(c *gin.Context) {
 		value := values["GONG__StackPath"]
 		if len(value) == 1 {
 			stackPath = value[0]
-			log.Println("GetLastCommitFromBackNb", "GONG__StackPath", stackPath)
+			// log.Println("GetLastCommitFromBackNb", "GONG__StackPath", stackPath)
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
@@ -177,7 +183,7 @@ func (controller *Controller) GetLastPushFromFrontNb(c *gin.Context) {
 		value := values["GONG__StackPath"]
 		if len(value) == 1 {
 			stackPath = value[0]
-			log.Println("GetLastPushFromFrontNb", "GONG__StackPath", stackPath)
+			// log.Println("GetLastPushFromFrontNb", "GONG__StackPath", stackPath)
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]

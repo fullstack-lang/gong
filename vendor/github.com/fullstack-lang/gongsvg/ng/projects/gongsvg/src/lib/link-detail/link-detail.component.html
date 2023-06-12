@@ -1,0 +1,292 @@
+<form *ngIf="link" class="details">
+    <h2 class="details__title">link</h2>
+    <!-- insertion point for fields specific code -->
+    <mat-grid-list *ngIf='!isATextArea("Name")' cols="5" rowHeight="1:1">
+        <mat-grid-tile [colspan]="3">
+            <mat-form-field mat-form-field class="detail-full-width">
+                <mat-label>Name</mat-label>
+                <input name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="link.Name">
+            </mat-form-field>
+        </mat-grid-tile>
+        <mat-grid-tile>
+            <button mat-raised-button (click)="toggleTextArea('Name')">
+                <mat-icon>
+                    expand_more
+                </mat-icon>
+            </button>
+        </mat-grid-tile>
+    </mat-grid-list>
+    <mat-form-field *ngIf='isATextArea("Name")' mat-form-field class="detail-full-width">
+        <mat-label>Name</mat-label>
+        <textarea name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="link.Name"></textarea>
+    </mat-form-field>
+
+    <!-- -->
+    <mat-form-field appearance="fill" class="detail-full-width">
+        <mat-label>Type</mat-label>
+        <mat-select [(ngModel)]="link.Type" [ngModelOptions]="{standalone: true}">
+            <mat-option *ngFor="let enum of LinkTypeList" [value]="enum.value">
+                {{enum.viewValue}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    <mat-form-field class="detail-full-width">
+        <mat-label>Start</mat-label>
+        <mat-select [compareWith]="compareObjects" [(value)]="link.Start" (selectionChange)="fillUpNameIfEmpty($event)">
+            <mat-option>None</mat-option>
+            <mat-option *ngFor="let rect of frontRepo.Rects_array" [value]="rect">
+                {{rect.Name}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    <!-- -->
+    <mat-form-field appearance="fill" class="detail-full-width">
+        <mat-label>StartAnchorType</mat-label>
+        <mat-select [(ngModel)]="link.StartAnchorType" [ngModelOptions]="{standalone: true}">
+            <mat-option *ngFor="let enum of AnchorTypeList" [value]="enum.value">
+                {{enum.viewValue}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    <mat-form-field class="detail-full-width">
+        <mat-label>End</mat-label>
+        <mat-select [compareWith]="compareObjects" [(value)]="link.End" (selectionChange)="fillUpNameIfEmpty($event)">
+            <mat-option>None</mat-option>
+            <mat-option *ngFor="let rect of frontRepo.Rects_array" [value]="rect">
+                {{rect.Name}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    <!-- -->
+    <mat-form-field appearance="fill" class="detail-full-width">
+        <mat-label>EndAnchorType</mat-label>
+        <mat-select [(ngModel)]="link.EndAnchorType" [ngModelOptions]="{standalone: true}">
+            <mat-option *ngFor="let enum of AnchorTypeList" [value]="enum.value">
+                {{enum.viewValue}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    <!-- -->
+    <mat-form-field appearance="fill" class="detail-full-width">
+        <mat-label>StartOrientation</mat-label>
+        <mat-select [(ngModel)]="link.StartOrientation" [ngModelOptions]="{standalone: true}">
+            <mat-option *ngFor="let enum of OrientationTypeList" [value]="enum.value">
+                {{enum.viewValue}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    <!-- -->
+    <mat-form-field class="detail-full-width">
+        <mat-label>StartRatio</mat-label>
+        <input type="number" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="link.StartRatio" [ngModelOptions]="{standalone: true}">
+    </mat-form-field>
+
+    <!-- -->
+    <mat-form-field appearance="fill" class="detail-full-width">
+        <mat-label>EndOrientation</mat-label>
+        <mat-select [(ngModel)]="link.EndOrientation" [ngModelOptions]="{standalone: true}">
+            <mat-option *ngFor="let enum of OrientationTypeList" [value]="enum.value">
+                {{enum.viewValue}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    <!-- -->
+    <mat-form-field class="detail-full-width">
+        <mat-label>EndRatio</mat-label>
+        <input type="number" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="link.EndRatio" [ngModelOptions]="{standalone: true}">
+    </mat-form-field>
+
+    <!-- -->
+    <mat-form-field class="detail-full-width">
+        <mat-label>CornerOffsetRatio</mat-label>
+        <input type="number" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="link.CornerOffsetRatio" [ngModelOptions]="{standalone: true}">
+    </mat-form-field>
+
+    <!-- -->
+    <mat-form-field class="detail-full-width">
+        <mat-label>CornerRadius</mat-label>
+        <input type="number" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="link.CornerRadius" [ngModelOptions]="{standalone: true}">
+    </mat-form-field>
+
+    <!-- -->
+    <mat-checkbox [formControl]="HasEndArrowFormControl">HasEndArrow</mat-checkbox>
+
+    <!-- -->
+    <mat-form-field class="detail-full-width">
+        <mat-label>EndArrowSize</mat-label>
+        <input type="number" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="link.EndArrowSize" [ngModelOptions]="{standalone: true}">
+    </mat-form-field>
+
+    <mat-grid-list cols="5" rowHeight="2:1">
+        <mat-grid-tile [colspan]="3">
+            <button mat-raised-button (click)="openReverseSelection('LinkAnchoredText', 'Link_TextAtArrowEndDBID', 'ONE_MANY_ASSOCIATION_MODE', '', '', '')">TextAtArrowEnd</button>
+        </mat-grid-tile>
+        <!-- insertion point for the button of the MANY_MANY association-->
+        <mat-grid-tile>
+            <button mat-raised-button (click)="openDragAndDropOrdering('LinkAnchoredText', 'Link_TextAtArrowEndDBID')">
+                <mat-icon>
+                    shuffle
+                </mat-icon>
+            </button>
+        </mat-grid-tile>
+    </mat-grid-list>
+    <mat-grid-list cols="5" rowHeight="2:1">
+        <mat-grid-tile [colspan]="3">
+            <button mat-raised-button (click)="openReverseSelection('LinkAnchoredText', 'Link_TextAtArrowStartDBID', 'ONE_MANY_ASSOCIATION_MODE', '', '', '')">TextAtArrowStart</button>
+        </mat-grid-tile>
+        <!-- insertion point for the button of the MANY_MANY association-->
+        <mat-grid-tile>
+            <button mat-raised-button (click)="openDragAndDropOrdering('LinkAnchoredText', 'Link_TextAtArrowStartDBID')">
+                <mat-icon>
+                    shuffle
+                </mat-icon>
+            </button>
+        </mat-grid-tile>
+    </mat-grid-list>
+    <mat-grid-list cols="5" rowHeight="2:1">
+        <mat-grid-tile [colspan]="3">
+            <button mat-raised-button (click)="openReverseSelection('Point', 'Link_ControlPointsDBID', 'ONE_MANY_ASSOCIATION_MODE', '', '', '')">ControlPoints</button>
+        </mat-grid-tile>
+        <!-- insertion point for the button of the MANY_MANY association-->
+        <mat-grid-tile>
+            <button mat-raised-button (click)="openDragAndDropOrdering('Point', 'Link_ControlPointsDBID')">
+                <mat-icon>
+                    shuffle
+                </mat-icon>
+            </button>
+        </mat-grid-tile>
+    </mat-grid-list>
+    <mat-grid-list *ngIf='!isATextArea("Color")' cols="5" rowHeight="1:1">
+        <mat-grid-tile [colspan]="3">
+            <mat-form-field mat-form-field class="detail-full-width">
+                <mat-label>Color</mat-label>
+                <input name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="link.Color">
+            </mat-form-field>
+        </mat-grid-tile>
+        <mat-grid-tile>
+            <button mat-raised-button (click)="toggleTextArea('Color')">
+                <mat-icon>
+                    expand_more
+                </mat-icon>
+            </button>
+        </mat-grid-tile>
+    </mat-grid-list>
+    <mat-form-field *ngIf='isATextArea("Color")' mat-form-field class="detail-full-width">
+        <mat-label>Color</mat-label>
+        <textarea name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="link.Color"></textarea>
+    </mat-form-field>
+
+    <!-- -->
+    <mat-form-field class="detail-full-width">
+        <mat-label>FillOpacity</mat-label>
+        <input type="number" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="link.FillOpacity" [ngModelOptions]="{standalone: true}">
+    </mat-form-field>
+
+    <mat-grid-list *ngIf='!isATextArea("Stroke")' cols="5" rowHeight="1:1">
+        <mat-grid-tile [colspan]="3">
+            <mat-form-field mat-form-field class="detail-full-width">
+                <mat-label>Stroke</mat-label>
+                <input name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="link.Stroke">
+            </mat-form-field>
+        </mat-grid-tile>
+        <mat-grid-tile>
+            <button mat-raised-button (click)="toggleTextArea('Stroke')">
+                <mat-icon>
+                    expand_more
+                </mat-icon>
+            </button>
+        </mat-grid-tile>
+    </mat-grid-list>
+    <mat-form-field *ngIf='isATextArea("Stroke")' mat-form-field class="detail-full-width">
+        <mat-label>Stroke</mat-label>
+        <textarea name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="link.Stroke"></textarea>
+    </mat-form-field>
+
+    <!-- -->
+    <mat-form-field class="detail-full-width">
+        <mat-label>StrokeWidth</mat-label>
+        <input type="number" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="link.StrokeWidth" [ngModelOptions]="{standalone: true}">
+    </mat-form-field>
+
+    <mat-grid-list *ngIf='!isATextArea("StrokeDashArray")' cols="5" rowHeight="1:1">
+        <mat-grid-tile [colspan]="3">
+            <mat-form-field mat-form-field class="detail-full-width">
+                <mat-label>StrokeDashArray</mat-label>
+                <input name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="link.StrokeDashArray">
+            </mat-form-field>
+        </mat-grid-tile>
+        <mat-grid-tile>
+            <button mat-raised-button (click)="toggleTextArea('StrokeDashArray')">
+                <mat-icon>
+                    expand_more
+                </mat-icon>
+            </button>
+        </mat-grid-tile>
+    </mat-grid-list>
+    <mat-form-field *ngIf='isATextArea("StrokeDashArray")' mat-form-field class="detail-full-width">
+        <mat-label>StrokeDashArray</mat-label>
+        <textarea name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="link.StrokeDashArray"></textarea>
+    </mat-form-field>
+
+    <mat-grid-list *ngIf='!isATextArea("StrokeDashArrayWhenSelected")' cols="5" rowHeight="1:1">
+        <mat-grid-tile [colspan]="3">
+            <mat-form-field mat-form-field class="detail-full-width">
+                <mat-label>StrokeDashArrayWhenSelected</mat-label>
+                <input name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="link.StrokeDashArrayWhenSelected">
+            </mat-form-field>
+        </mat-grid-tile>
+        <mat-grid-tile>
+            <button mat-raised-button (click)="toggleTextArea('StrokeDashArrayWhenSelected')">
+                <mat-icon>
+                    expand_more
+                </mat-icon>
+            </button>
+        </mat-grid-tile>
+    </mat-grid-list>
+    <mat-form-field *ngIf='isATextArea("StrokeDashArrayWhenSelected")' mat-form-field class="detail-full-width">
+        <mat-label>StrokeDashArrayWhenSelected</mat-label>
+        <textarea name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="link.StrokeDashArrayWhenSelected"></textarea>
+    </mat-form-field>
+
+    <mat-grid-list *ngIf='!isATextArea("Transform")' cols="5" rowHeight="1:1">
+        <mat-grid-tile [colspan]="3">
+            <mat-form-field mat-form-field class="detail-full-width">
+                <mat-label>Transform</mat-label>
+                <input name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="link.Transform">
+            </mat-form-field>
+        </mat-grid-tile>
+        <mat-grid-tile>
+            <button mat-raised-button (click)="toggleTextArea('Transform')">
+                <mat-icon>
+                    expand_more
+                </mat-icon>
+            </button>
+        </mat-grid-tile>
+    </mat-grid-list>
+    <mat-form-field *ngIf='isATextArea("Transform")' mat-form-field class="detail-full-width">
+        <mat-label>Transform</mat-label>
+        <textarea name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="link.Transform"></textarea>
+    </mat-form-field>
+
+    <mat-form-field class="detail-full-width">
+        <mat-label>(Layer) Links</mat-label>
+        <mat-select [compareWith]="compareObjects" [(ngModel)]="link.Layer_Links_reverse" [ngModelOptions]="{standalone: true}">
+            <mat-option>None</mat-option>
+            <mat-option *ngFor="let layer of frontRepo.Layers_array" [value]="layer">
+                {{layer.Name}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+    <div class="details__save">
+        <button mat-raised-button color="primary" (click)="save()">
+            Save link
+        </button>
+    </div>
+</form>

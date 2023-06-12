@@ -1,0 +1,176 @@
+<form *ngIf="rectlinklink" class="details">
+    <h2 class="details__title">rectlinklink</h2>
+    <!-- insertion point for fields specific code -->
+    <mat-grid-list *ngIf='!isATextArea("Name")' cols="5" rowHeight="1:1">
+        <mat-grid-tile [colspan]="3">
+            <mat-form-field mat-form-field class="detail-full-width">
+                <mat-label>Name</mat-label>
+                <input name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="rectlinklink.Name">
+            </mat-form-field>
+        </mat-grid-tile>
+        <mat-grid-tile>
+            <button mat-raised-button (click)="toggleTextArea('Name')">
+                <mat-icon>
+                    expand_more
+                </mat-icon>
+            </button>
+        </mat-grid-tile>
+    </mat-grid-list>
+    <mat-form-field *ngIf='isATextArea("Name")' mat-form-field class="detail-full-width">
+        <mat-label>Name</mat-label>
+        <textarea name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="rectlinklink.Name"></textarea>
+    </mat-form-field>
+
+    <mat-form-field class="detail-full-width">
+        <mat-label>Start</mat-label>
+        <mat-select [compareWith]="compareObjects" [(value)]="rectlinklink.Start" (selectionChange)="fillUpNameIfEmpty($event)">
+            <mat-option>None</mat-option>
+            <mat-option *ngFor="let rect of frontRepo.Rects_array" [value]="rect">
+                {{rect.Name}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    <mat-form-field class="detail-full-width">
+        <mat-label>End</mat-label>
+        <mat-select [compareWith]="compareObjects" [(value)]="rectlinklink.End" (selectionChange)="fillUpNameIfEmpty($event)">
+            <mat-option>None</mat-option>
+            <mat-option *ngFor="let link of frontRepo.Links_array" [value]="link">
+                {{link.Name}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    <!-- -->
+    <mat-form-field class="detail-full-width">
+        <mat-label>TargetAnchorPosition</mat-label>
+        <input type="number" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="rectlinklink.TargetAnchorPosition" [ngModelOptions]="{standalone: true}">
+    </mat-form-field>
+
+    <mat-grid-list *ngIf='!isATextArea("Color")' cols="5" rowHeight="1:1">
+        <mat-grid-tile [colspan]="3">
+            <mat-form-field mat-form-field class="detail-full-width">
+                <mat-label>Color</mat-label>
+                <input name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="rectlinklink.Color">
+            </mat-form-field>
+        </mat-grid-tile>
+        <mat-grid-tile>
+            <button mat-raised-button (click)="toggleTextArea('Color')">
+                <mat-icon>
+                    expand_more
+                </mat-icon>
+            </button>
+        </mat-grid-tile>
+    </mat-grid-list>
+    <mat-form-field *ngIf='isATextArea("Color")' mat-form-field class="detail-full-width">
+        <mat-label>Color</mat-label>
+        <textarea name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="rectlinklink.Color"></textarea>
+    </mat-form-field>
+
+    <!-- -->
+    <mat-form-field class="detail-full-width">
+        <mat-label>FillOpacity</mat-label>
+        <input type="number" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="rectlinklink.FillOpacity" [ngModelOptions]="{standalone: true}">
+    </mat-form-field>
+
+    <mat-grid-list *ngIf='!isATextArea("Stroke")' cols="5" rowHeight="1:1">
+        <mat-grid-tile [colspan]="3">
+            <mat-form-field mat-form-field class="detail-full-width">
+                <mat-label>Stroke</mat-label>
+                <input name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="rectlinklink.Stroke">
+            </mat-form-field>
+        </mat-grid-tile>
+        <mat-grid-tile>
+            <button mat-raised-button (click)="toggleTextArea('Stroke')">
+                <mat-icon>
+                    expand_more
+                </mat-icon>
+            </button>
+        </mat-grid-tile>
+    </mat-grid-list>
+    <mat-form-field *ngIf='isATextArea("Stroke")' mat-form-field class="detail-full-width">
+        <mat-label>Stroke</mat-label>
+        <textarea name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="rectlinklink.Stroke"></textarea>
+    </mat-form-field>
+
+    <!-- -->
+    <mat-form-field class="detail-full-width">
+        <mat-label>StrokeWidth</mat-label>
+        <input type="number" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="rectlinklink.StrokeWidth" [ngModelOptions]="{standalone: true}">
+    </mat-form-field>
+
+    <mat-grid-list *ngIf='!isATextArea("StrokeDashArray")' cols="5" rowHeight="1:1">
+        <mat-grid-tile [colspan]="3">
+            <mat-form-field mat-form-field class="detail-full-width">
+                <mat-label>StrokeDashArray</mat-label>
+                <input name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="rectlinklink.StrokeDashArray">
+            </mat-form-field>
+        </mat-grid-tile>
+        <mat-grid-tile>
+            <button mat-raised-button (click)="toggleTextArea('StrokeDashArray')">
+                <mat-icon>
+                    expand_more
+                </mat-icon>
+            </button>
+        </mat-grid-tile>
+    </mat-grid-list>
+    <mat-form-field *ngIf='isATextArea("StrokeDashArray")' mat-form-field class="detail-full-width">
+        <mat-label>StrokeDashArray</mat-label>
+        <textarea name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="rectlinklink.StrokeDashArray"></textarea>
+    </mat-form-field>
+
+    <mat-grid-list *ngIf='!isATextArea("StrokeDashArrayWhenSelected")' cols="5" rowHeight="1:1">
+        <mat-grid-tile [colspan]="3">
+            <mat-form-field mat-form-field class="detail-full-width">
+                <mat-label>StrokeDashArrayWhenSelected</mat-label>
+                <input name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="rectlinklink.StrokeDashArrayWhenSelected">
+            </mat-form-field>
+        </mat-grid-tile>
+        <mat-grid-tile>
+            <button mat-raised-button (click)="toggleTextArea('StrokeDashArrayWhenSelected')">
+                <mat-icon>
+                    expand_more
+                </mat-icon>
+            </button>
+        </mat-grid-tile>
+    </mat-grid-list>
+    <mat-form-field *ngIf='isATextArea("StrokeDashArrayWhenSelected")' mat-form-field class="detail-full-width">
+        <mat-label>StrokeDashArrayWhenSelected</mat-label>
+        <textarea name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="rectlinklink.StrokeDashArrayWhenSelected"></textarea>
+    </mat-form-field>
+
+    <mat-grid-list *ngIf='!isATextArea("Transform")' cols="5" rowHeight="1:1">
+        <mat-grid-tile [colspan]="3">
+            <mat-form-field mat-form-field class="detail-full-width">
+                <mat-label>Transform</mat-label>
+                <input name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="rectlinklink.Transform">
+            </mat-form-field>
+        </mat-grid-tile>
+        <mat-grid-tile>
+            <button mat-raised-button (click)="toggleTextArea('Transform')">
+                <mat-icon>
+                    expand_more
+                </mat-icon>
+            </button>
+        </mat-grid-tile>
+    </mat-grid-list>
+    <mat-form-field *ngIf='isATextArea("Transform")' mat-form-field class="detail-full-width">
+        <mat-label>Transform</mat-label>
+        <textarea name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="rectlinklink.Transform"></textarea>
+    </mat-form-field>
+
+    <mat-form-field class="detail-full-width">
+        <mat-label>(Layer) RectLinkLinks</mat-label>
+        <mat-select [compareWith]="compareObjects" [(ngModel)]="rectlinklink.Layer_RectLinkLinks_reverse" [ngModelOptions]="{standalone: true}">
+            <mat-option>None</mat-option>
+            <mat-option *ngFor="let layer of frontRepo.Layers_array" [value]="layer">
+                {{layer.Name}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+    <div class="details__save">
+        <button mat-raised-button color="primary" (click)="save()">
+            Save rectlinklink
+        </button>
+    </div>
+</form>

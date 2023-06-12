@@ -1,0 +1,70 @@
+<div class="parent">
+
+    <style>
+        .parent {
+            position: absolute;
+            width: 3000px;
+            height: 8000px;
+            pointer-events: none;
+        }
+
+        .child {
+            position: absolute;
+            width: 3000px;
+            height: 8000px;
+            pointer-events: none;
+        }
+    </style>
+
+    <div *ngFor="let elt of Layer?.Rects" class="child">
+        <lib-rect [GONG__StackPath]="GONG__StackPath" [Rect]="elt">
+        </lib-rect>
+    </div>
+
+    <div *ngFor="let elt of Layer?.Circles" class="child">
+        <lib-circle [Circle]="elt">
+        </lib-circle>
+    </div>
+
+    <div *ngFor="let ellipse of Layer?.Ellipses" class="child">
+        <lib-ellipse [Ellipse]="ellipse">
+        </lib-ellipse>
+    </div>
+
+
+    <div *ngFor="let line of Layer?.Lines" class="child">
+        <lib-line [GONG__StackPath]="GONG__StackPath" [Line]="line">
+        </lib-line>
+    </div>
+
+    <div *ngFor="let link of Layer?.Links" class="child">
+        <lib-link [GONG__StackPath]="GONG__StackPath" [Link]="link">
+        </lib-link>
+    </div>
+
+    <div *ngFor="let path of Layer?.Paths" class="child">
+        <lib-path [Path]="path">
+        </lib-path>
+    </div>
+
+    <div *ngFor="let polygone of Layer?.Polygones" class="child">
+        <lib-polygone [Polygone]="polygone">
+        </lib-polygone>
+    </div>
+
+
+    <div *ngFor="let polyline of Layer?.Polylines" class="child">
+        <lib-polyline [Polyline]="polyline">
+        </lib-polyline>
+    </div>
+
+    <div *ngFor="let elt of Layer?.RectLinkLinks" class="child">
+        <lib-rect-link-link [RectLinkLink]="elt">
+        </lib-rect-link-link>
+    </div>
+
+    <div *ngFor="let elt of Layer?.Texts" class="child">
+        <lib-text [Text]="elt">
+        </lib-text>
+    </div>
+</div>

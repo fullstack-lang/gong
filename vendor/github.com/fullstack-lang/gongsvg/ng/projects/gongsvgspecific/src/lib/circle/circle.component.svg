@@ -1,0 +1,14 @@
+<svg class="child" (click)="onClick($event)">
+    <g>
+        <circle class="overlay" [attr.cx]="Circle?.CX" [attr.cy]="Circle?.CY" [attr.r]="Circle?.Radius" [attr.fill]="Circle?.Color!" [attr.fill-opacity]="Circle?.FillOpacity"
+            [attr.stroke]="Circle?.Stroke" [attr.stroke-width]="Circle?.StrokeWidth" [attr.stroke-dasharray]="Circle?.StrokeDashArray"
+            [attr.transform]="Circle?.Transform">
+
+            <animate *ngFor="let animate of Circle?.Animations" 
+            [attr.attributeName]="animate.AttributeName" 
+            [attr.values]="animate.Values" 
+            [attr.dur]="animate.Dur" 
+            [attr.repeatCount]="animate.RepeatCount" />
+        </circle>
+    </g>
+</svg>

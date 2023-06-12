@@ -44,7 +44,7 @@ export class GongStructShapeService {
   }
 
   /** GET gongstructshapes from the server */
-  getGongStructShapes(GONG__StackPath: string = ""): Observable<GongStructShapeDB[]> {
+  getGongStructShapes(GONG__StackPath: string): Observable<GongStructShapeDB[]> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
@@ -57,10 +57,13 @@ export class GongStructShapeService {
   }
 
   /** GET gongstructshape by id. Will 404 if id not found */
-  getGongStructShape(id: number): Observable<GongStructShapeDB> {
+  getGongStructShape(id: number, GONG__StackPath: string): Observable<GongStructShapeDB> {
+
+    let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
+
     const url = `${this.gongstructshapesUrl}/${id}`;
-    return this.http.get<GongStructShapeDB>(url).pipe(
-      tap(_ => this.log(`fetched gongstructshape id=${id}`)),
+    return this.http.get<GongStructShapeDB>(url, { params: params }).pipe(
+      // tap(_ => this.log(`fetched gongstructshape id=${id}`)),
       catchError(this.handleError<GongStructShapeDB>(`getGongStructShape id=${id}`))
     );
   }
@@ -85,7 +88,7 @@ export class GongStructShapeService {
       tap(_ => {
         // insertion point for restoration of reverse pointers
         gongstructshapedb.Classdiagram_GongStructShapes_reverse = _Classdiagram_GongStructShapes_reverse
-        this.log(`posted gongstructshapedb id=${gongstructshapedb.ID}`)
+        // this.log(`posted gongstructshapedb id=${gongstructshapedb.ID}`)
       }),
       catchError(this.handleError<GongStructShapeDB>('postGongStructShape'))
     );
@@ -130,7 +133,7 @@ export class GongStructShapeService {
       tap(_ => {
         // insertion point for restoration of reverse pointers
         gongstructshapedb.Classdiagram_GongStructShapes_reverse = _Classdiagram_GongStructShapes_reverse
-        this.log(`updated gongstructshapedb id=${gongstructshapedb.ID}`)
+        // this.log(`updated gongstructshapedb id=${gongstructshapedb.ID}`)
       }),
       catchError(this.handleError<GongStructShapeDB>('updateGongStructShape'))
     );

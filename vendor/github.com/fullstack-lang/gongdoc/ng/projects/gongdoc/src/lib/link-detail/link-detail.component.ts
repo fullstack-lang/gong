@@ -11,6 +11,7 @@ import { MapOfSortingComponents } from '../map-components'
 
 // insertion point for imports
 import { MultiplicityTypeSelect, MultiplicityTypeList } from '../MultiplicityType'
+import { OrientationTypeSelect, OrientationTypeList } from '../OrientationType'
 import { GongStructShapeDB } from '../gongstructshape-db'
 
 import { Router, ActivatedRoute } from '@angular/router';
@@ -37,6 +38,7 @@ export class LinkDetailComponent implements OnInit {
 
 	// insertion point for declarations
 	MultiplicityTypeList: MultiplicityTypeSelect[] = []
+	OrientationTypeList: OrientationTypeSelect[] = []
 
 	// the LinkDB of interest
 	link: LinkDB = new LinkDB
@@ -119,6 +121,7 @@ export class LinkDetailComponent implements OnInit {
 
 		// insertion point for initialisation of enums list
 		this.MultiplicityTypeList = MultiplicityTypeList
+		this.OrientationTypeList = OrientationTypeList
 	}
 
 	getLink(): void {

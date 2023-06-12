@@ -8,6 +8,9 @@ import { DiagramPackageDB } from './diagrampackage-db'
 import { NullInt64 } from './null-int64'
 
 export class ClassdiagramDB {
+
+	static GONGSTRUCT_NAME = "Classdiagram"
+
 	CreatedAt?: string
 	DeletedAt?: string
 	ID: number = 0
