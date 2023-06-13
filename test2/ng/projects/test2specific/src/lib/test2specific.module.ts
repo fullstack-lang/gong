@@ -4,7 +4,7 @@ import { Test2specificComponent } from './test2specific.component';
 import { DataModelPanelComponent } from './data-model-panel/data-model-panel.component';
 
 import { GongdocModule } from 'gongdoc'
-import { GongdocdiagramsModule } from 'gongdocdiagrams'
+import { GongdocspecificModule } from 'gongdocspecific'
 
 import { Test2Module } from 'test2'
 
@@ -20,7 +20,7 @@ import { AngularSplitModule } from 'angular-split';
   ],
   imports: [
     GongdocModule,
-    GongdocdiagramsModule,
+    GongdocspecificModule,
 
     MatRadioModule,
     FormsModule,

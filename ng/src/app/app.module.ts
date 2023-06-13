@@ -28,7 +28,7 @@ import { FormsModule } from '@angular/forms';
 import { AngularSplitModule } from 'angular-split';
 
 import { GongdocModule } from 'gongdoc'
-import { GongdocdiagramsModule } from 'gongdocdiagrams'
+import { GongdocspecificModule } from 'gongdocspecific'
 
 
 import { GongModule } from 'gong'
@@ -72,7 +72,7 @@ import { HttpClientModule } from '@angular/common/http';
 
     // gongdoc stack (for displaying UML diagrams of the gong code in the current stack)
     GongdocModule,
-    GongdocdiagramsModule,
+    GongdocspecificModule,
 
     GongModule,
     GongspecificModule,
