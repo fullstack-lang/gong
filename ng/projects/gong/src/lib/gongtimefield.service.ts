@@ -126,7 +126,7 @@ export class GongTimeFieldService {
       tap(_ => {
         // insertion point for restoration of reverse pointers
         gongtimefielddb.GongStruct_GongTimeFields_reverse = _GongStruct_GongTimeFields_reverse
-        this.log(`updated gongtimefielddb id=${gongtimefielddb.ID}`)
+        // this.log(`updated gongtimefielddb id=${gongtimefielddb.ID}`)
       }),
       catchError(this.handleError<GongTimeFieldDB>('updateGongTimeField'))
     );

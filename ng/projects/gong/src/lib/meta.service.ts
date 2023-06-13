@@ -121,7 +121,7 @@ export class MetaService {
     return this.http.put<MetaDB>(url, metadb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
-        this.log(`updated metadb id=${metadb.ID}`)
+        // this.log(`updated metadb id=${metadb.ID}`)
       }),
       catchError(this.handleError<MetaDB>('updateMeta'))
     );

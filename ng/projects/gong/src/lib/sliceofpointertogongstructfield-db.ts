@@ -5,6 +5,9 @@ import { GongStructDB } from './gongstruct-db'
 import { NullInt64 } from './null-int64'
 
 export class SliceOfPointerToGongStructFieldDB {
+
+	static GONGSTRUCT_NAME = "SliceOfPointerToGongStructField"
+
 	CreatedAt?: string
 	DeletedAt?: string
 	ID: number = 0

@@ -126,7 +126,7 @@ export class MetaReferenceService {
       tap(_ => {
         // insertion point for restoration of reverse pointers
         metareferencedb.Meta_MetaReferences_reverse = _Meta_MetaReferences_reverse
-        this.log(`updated metareferencedb id=${metareferencedb.ID}`)
+        // this.log(`updated metareferencedb id=${metareferencedb.ID}`)
       }),
       catchError(this.handleError<MetaReferenceDB>('updateMetaReference'))
     );

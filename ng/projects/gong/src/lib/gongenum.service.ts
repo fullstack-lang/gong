@@ -121,7 +121,7 @@ export class GongEnumService {
     return this.http.put<GongEnumDB>(url, gongenumdb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
-        this.log(`updated gongenumdb id=${gongenumdb.ID}`)
+        // this.log(`updated gongenumdb id=${gongenumdb.ID}`)
       }),
       catchError(this.handleError<GongEnumDB>('updateGongEnum'))
     );

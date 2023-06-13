@@ -5,6 +5,9 @@ import { MetaReferenceDB } from './metareference-db'
 import { NullInt64 } from './null-int64'
 
 export class MetaDB {
+
+	static GONGSTRUCT_NAME = "Meta"
+
 	CreatedAt?: string
 	DeletedAt?: string
 	ID: number = 0
