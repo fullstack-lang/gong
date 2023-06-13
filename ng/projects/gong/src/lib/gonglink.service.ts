@@ -126,7 +126,7 @@ export class GongLinkService {
       tap(_ => {
         // insertion point for restoration of reverse pointers
         gonglinkdb.GongNote_Links_reverse = _GongNote_Links_reverse
-        this.log(`updated gonglinkdb id=${gonglinkdb.ID}`)
+        // this.log(`updated gonglinkdb id=${gonglinkdb.ID}`)
       }),
       catchError(this.handleError<GongLinkDB>('updateGongLink'))
     );

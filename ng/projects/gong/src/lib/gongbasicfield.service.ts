@@ -129,7 +129,7 @@ export class GongBasicFieldService {
       tap(_ => {
         // insertion point for restoration of reverse pointers
         gongbasicfielddb.GongStruct_GongBasicFields_reverse = _GongStruct_GongBasicFields_reverse
-        this.log(`updated gongbasicfielddb id=${gongbasicfielddb.ID}`)
+        // this.log(`updated gongbasicfielddb id=${gongbasicfielddb.ID}`)
       }),
       catchError(this.handleError<GongBasicFieldDB>('updateGongBasicField'))
     );

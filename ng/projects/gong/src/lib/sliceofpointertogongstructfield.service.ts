@@ -128,7 +128,7 @@ export class SliceOfPointerToGongStructFieldService {
       tap(_ => {
         // insertion point for restoration of reverse pointers
         sliceofpointertogongstructfielddb.GongStruct_SliceOfPointerToGongStructFields_reverse = _GongStruct_SliceOfPointerToGongStructFields_reverse
-        this.log(`updated sliceofpointertogongstructfielddb id=${sliceofpointertogongstructfielddb.ID}`)
+        // this.log(`updated sliceofpointertogongstructfielddb id=${sliceofpointertogongstructfielddb.ID}`)
       }),
       catchError(this.handleError<SliceOfPointerToGongStructFieldDB>('updateSliceOfPointerToGongStructField'))
     );

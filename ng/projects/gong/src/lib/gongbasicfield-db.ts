@@ -6,6 +6,9 @@ import { GongStructDB } from './gongstruct-db'
 import { NullInt64 } from './null-int64'
 
 export class GongBasicFieldDB {
+
+	static GONGSTRUCT_NAME = "GongBasicField"
+
 	CreatedAt?: string
 	DeletedAt?: string
 	ID: number = 0

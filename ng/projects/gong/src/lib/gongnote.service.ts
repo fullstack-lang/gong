@@ -121,7 +121,7 @@ export class GongNoteService {
     return this.http.put<GongNoteDB>(url, gongnotedb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
-        this.log(`updated gongnotedb id=${gongnotedb.ID}`)
+        // this.log(`updated gongnotedb id=${gongnotedb.ID}`)
       }),
       catchError(this.handleError<GongNoteDB>('updateGongNote'))
     );

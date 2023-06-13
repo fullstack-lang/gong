@@ -119,7 +119,7 @@ export class ModelPkgService {
     return this.http.put<ModelPkgDB>(url, modelpkgdb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
-        this.log(`updated modelpkgdb id=${modelpkgdb.ID}`)
+        // this.log(`updated modelpkgdb id=${modelpkgdb.ID}`)
       }),
       catchError(this.handleError<ModelPkgDB>('updateModelPkg'))
     );

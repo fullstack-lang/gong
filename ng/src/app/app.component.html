@@ -1,1 +1,18 @@
-<app-gong-splitter></app-gong-splitter>
+<!-- button bar that is present in all tabs -->
+<ng-template #radioToolbar>
+    <mat-radio-group aria-label="Select an option" [(ngModel)]="view">
+        <mat-radio-button *ngFor="let view of views" [value]="view">
+            {{view}}&nbsp;&nbsp;&nbsp;
+        </mat-radio-button>
+    </mat-radio-group>
+</ng-template>
+
+<as-split unit="pixel" *ngIf="view==default" direction="vertical">
+    <as-split-area [size]=40>
+        <ng-container *ngTemplateOutlet="radioToolbar"></ng-container>
+    </as-split-area>
+    <as-split-area [size]="$any('*')">
+        <lib-github_com_fullstack_lang_gong_go-data-model-panel [GONG__StackPath]="GONG__StackPath">
+        </lib-github_com_fullstack_lang_gong_go-data-model-panel>
+    </as-split-area>
+</as-split>

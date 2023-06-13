@@ -8,12 +8,16 @@ import { SliceOfPointerToGongStructFieldDB } from './sliceofpointertogongstructf
 import { NullInt64 } from './null-int64'
 
 export class GongStructDB {
+
+	static GONGSTRUCT_NAME = "GongStruct"
+
 	CreatedAt?: string
 	DeletedAt?: string
 	ID: number = 0
 
 	// insertion point for basic fields declarations
 	Name: string = ""
+	HasOnAfterUpdateSignature: boolean = false
 
 	// insertion point for other declarations
 	GongBasicFields?: Array<GongBasicFieldDB>
