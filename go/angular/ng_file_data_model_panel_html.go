@@ -2,11 +2,16 @@ package angular
 
 const NgFileDataModelPanelTemplateHtml = `<!-- button bar that is present in all tabs -->
 <ng-template #radioToolbar>
-    <mat-radio-group aria-label="Select an option" [(ngModel)]="view">
-        <mat-radio-button *ngFor="let view of views" [value]="view">
-            {{view}}&nbsp;&nbsp;&nbsp;
-        </mat-radio-button>
-    </mat-radio-group>
+    <div [ngStyle]="containerStyle">
+        <mat-radio-group aria-label="Select an option" [(ngModel)]="view" [ngStyle]="radioGroupStyle">
+            <div *ngFor="let view of views">
+                <mat-radio-button [value]="view">
+                    {{view}}&nbsp;&nbsp;&nbsp;
+                </mat-radio-button>
+            </div>
+        </mat-radio-group>
+        <span [ngStyle]="textStyle">Stack : "{{GONG__StackPath}}"</span>
+    </div>
 </ng-template>
 
 <as-split unit="pixel" *ngIf="view==default" direction="vertical">

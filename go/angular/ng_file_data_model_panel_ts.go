@@ -9,10 +9,29 @@ const NgFileDataModelPanelTemplateTs = `import { Component, Input } from '@angul
 export class DataModelPanelComponent {
 
   view = 'Data'
-  default = 'Data'
+  default = this.view
   model = 'Model'
 
   views: string[] = [this.default, this.model]
+
+  textStyle = {
+    'color': 'rgba(0, 0, 0, 0.87)', // These are just examples.
+    'font-size': '14px' // Adjust them according to your needs.
+  }
+
+  containerStyle = {
+    'display': 'flex',
+    // 'justify-content': 'space-between',
+    'align-items': 'center',
+    'width': '100%' // Adjust as necessary.
+  }
+
+  radioGroupStyle = {
+    'display': 'flex',
+    'flex-direction': 'row',
+    'align-items': 'center',
+    'justify-content': 'flex-start'
+  }
 
   @Input() GONG__StackPath: string = ""
 
