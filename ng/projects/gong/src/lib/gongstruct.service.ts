@@ -127,7 +127,7 @@ export class GongStructService {
     return this.http.put<GongStructDB>(url, gongstructdb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
-        this.log(`updated gongstructdb id=${gongstructdb.ID}`)
+        // this.log(`updated gongstructdb id=${gongstructdb.ID}`)
       }),
       catchError(this.handleError<GongStructDB>('updateGongStruct'))
     );

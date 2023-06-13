@@ -5,6 +5,9 @@ import { GongNoteDB } from './gongnote-db'
 import { NullInt64 } from './null-int64'
 
 export class GongLinkDB {
+
+	static GONGSTRUCT_NAME = "GongLink"
+
 	CreatedAt?: string
 	DeletedAt?: string
 	ID: number = 0

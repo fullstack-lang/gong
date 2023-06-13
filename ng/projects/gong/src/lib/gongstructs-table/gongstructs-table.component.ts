@@ -75,6 +75,9 @@ export class GongStructsTableComponent implements OnInit {
         case 'Name':
           return gongstructDB.Name;
 
+        case 'HasOnAfterUpdateSignature':
+          return gongstructDB.HasOnAfterUpdateSignature ? "true" : "false";
+
         default:
           console.assert(false, "Unknown field")
           return "";
@@ -145,10 +148,12 @@ export class GongStructsTableComponent implements OnInit {
     if (this.mode == TableComponentMode.DISPLAY_MODE) {
       this.displayedColumns = ['ID', 'Delete', // insertion point for columns to display
         "Name",
+        "HasOnAfterUpdateSignature",
       ]
     } else {
       this.displayedColumns = ['select', 'ID', // insertion point for columns to display
         "Name",
+        "HasOnAfterUpdateSignature",
       ]
       this.selection = new SelectionModel<GongStructDB>(allowMultiSelect, this.initialSelection);
     }

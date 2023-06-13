@@ -5,6 +5,9 @@ import { GongEnumDB } from './gongenum-db'
 import { NullInt64 } from './null-int64'
 
 export class GongEnumValueDB {
+
+	static GONGSTRUCT_NAME = "GongEnumValue"
+
 	CreatedAt?: string
 	DeletedAt?: string
 	ID: number = 0

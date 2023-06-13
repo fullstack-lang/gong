@@ -33,6 +33,7 @@ enum GongStructDetailComponentState {
 export class GongStructDetailComponent implements OnInit {
 
 	// insertion point for declarations
+	HasOnAfterUpdateSignatureFormControl: UntypedFormControl = new UntypedFormControl(false);
 
 	// the GongStructDB of interest
 	gongstruct: GongStructDB = new GongStructDB
@@ -133,6 +134,7 @@ export class GongStructDetailComponent implements OnInit {
 				}
 
 				// insertion point for recovery of form controls value for bool fields
+				this.HasOnAfterUpdateSignatureFormControl.setValue(this.gongstruct.HasOnAfterUpdateSignature)
 			}
 		)
 
@@ -145,6 +147,7 @@ export class GongStructDetailComponent implements OnInit {
 		// pointers fields, after the translation, are nulled in order to perform serialization
 
 		// insertion point for translation/nullation of each field
+		this.gongstruct.HasOnAfterUpdateSignature = this.HasOnAfterUpdateSignatureFormControl.value
 
 		// save from the front pointer space to the non pointer space for serialization
 
