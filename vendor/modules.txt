@@ -1,7 +1,7 @@
 # github.com/frankban/quicktest v1.13.1
 ## explicit; go 1.13
 github.com/frankban/quicktest
-# github.com/fullstack-lang/gongdoc v0.0.0-20230612230422-ec78b1485172
+# github.com/fullstack-lang/gongdoc v0.0.0-20230613210004-8551f73e06cb
 ## explicit; go 1.19
 github.com/fullstack-lang/gongdoc/go/controllers
 github.com/fullstack-lang/gongdoc/go/doc2svg
@@ -11,7 +11,7 @@ github.com/fullstack-lang/gongdoc/go/models
 github.com/fullstack-lang/gongdoc/go/node2gongdoc
 github.com/fullstack-lang/gongdoc/go/orm
 github.com/fullstack-lang/gongdoc/ng/projects
-# github.com/fullstack-lang/gongsvg v0.0.0-20230609144250-36ae243e8b83
+# github.com/fullstack-lang/gongsvg v0.0.0-20230613071402-51cc2bb615bd
 ## explicit; go 1.19
 github.com/fullstack-lang/gongsvg/go/controllers
 github.com/fullstack-lang/gongsvg/go/fullstack

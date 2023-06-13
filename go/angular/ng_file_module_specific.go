@@ -17,7 +17,7 @@ import { AngularSplitModule } from 'angular-split';
   ],
   imports: [
     GongdocModule,
-    GongdocdiagramsModule,
+    GongdocspecificModule,
 
     MatRadioModule,
     FormsModule,

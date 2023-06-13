@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { DataModelPanelComponent } from './data-model-panel/data-model-panel.component';
 
 import { GongdocModule } from 'gongdoc'
-import { GongdocdiagramsModule } from 'gongdocdiagrams'
+import { GongdocspecificModule } from 'gongdocspecific'
 
 import { TestModule } from 'test'
 
@@ -18,7 +18,7 @@ import { AngularSplitModule } from 'angular-split';
   ],
   imports: [
     GongdocModule,
-    GongdocdiagramsModule,
+    GongdocspecificModule,
 
     MatRadioModule,
     FormsModule,
