@@ -1,3 +1,4 @@
+// do not modify, generated file
 package fullstack
 
 import (
@@ -44,6 +45,21 @@ func NewStackInstance(
 	}
 
 	controllers.Register(r)
+
+	// add orchestration
+	// insertion point
+	models.SetOrchestratorOnAfterUpdate[models.GongBasicField](stage)
+	models.SetOrchestratorOnAfterUpdate[models.GongEnum](stage)
+	models.SetOrchestratorOnAfterUpdate[models.GongEnumValue](stage)
+	models.SetOrchestratorOnAfterUpdate[models.GongLink](stage)
+	models.SetOrchestratorOnAfterUpdate[models.GongNote](stage)
+	models.SetOrchestratorOnAfterUpdate[models.GongStruct](stage)
+	models.SetOrchestratorOnAfterUpdate[models.GongTimeField](stage)
+	models.SetOrchestratorOnAfterUpdate[models.Meta](stage)
+	models.SetOrchestratorOnAfterUpdate[models.MetaReference](stage)
+	models.SetOrchestratorOnAfterUpdate[models.ModelPkg](stage)
+	models.SetOrchestratorOnAfterUpdate[models.PointerToGongStructField](stage)
+	models.SetOrchestratorOnAfterUpdate[models.SliceOfPointerToGongStructField](stage)
 
 	return
 }
