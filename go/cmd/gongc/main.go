@@ -338,11 +338,12 @@ func main() {
 		modelPkg.PkgPath, filepath.Join(*pkgPath, "../../go/embed.go"),
 		golang.EmebedGoDirTemplate)
 
-	gong_models.VerySimpleCodeGenerator(
+	gong_models.SimpleCodeGeneratorForGongStructWithNameField(
 		modelPkg,
 		caserEnglish.String(modelPkg.Name),
 		modelPkg.PkgPath, filepath.Join(*pkgPath, "../fullstack/new_stack_instance.go"),
-		golang.FullstackNewStackInstanceTemplate)
+		golang.FullstackNewStackInstanceTemplate,
+		golang.ModelGongNewStackInstanceStructSubTemplateCode)
 
 	gong_models.VerySimpleCodeGenerator(
 		modelPkg,
