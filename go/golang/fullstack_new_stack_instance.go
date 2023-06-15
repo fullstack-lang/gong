@@ -1,6 +1,7 @@
 package golang
 
-const FullstackNewStackInstanceTemplate = `package fullstack
+const FullstackNewStackInstanceTemplate = `// do not modify, generated file
+package fullstack
 
 import (
 	"{{PkgPathRoot}}/controllers"
@@ -47,6 +48,21 @@ func NewStackInstance(
 
 	controllers.Register(r)
 
+	// add orchestration
+	// insertion point{{` + string(rune(ModelGongNewStackInstanceSet)) + `}}
+
 	return
 }
 `
+
+type ModelGongNewStackInstanceStructInsertionId int
+
+const (
+	ModelGongNewStackInstanceSet ModelGongNewStackInstanceStructInsertionId = iota
+)
+
+var ModelGongNewStackInstanceStructSubTemplateCode map[string]string = // new line
+map[string]string{
+	string(rune(ModelGongNewStackInstanceSet)): `
+	models.SetOrchestratorOnAfterUpdate[models.{{Structname}}](stage)`,
+}
