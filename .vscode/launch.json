@@ -43,6 +43,19 @@
                 "-compileForDebug"
             ]
         },
+                {
+            "name": "gongc gongtree -skipGoModCommands -skipNpmInstall -compileForDebug",
+            "type": "go",
+            "request": "launch",
+            "mode": "debug",
+            "cwd": "${workspaceFolder}/../gongtree/go/models",
+            "program": "${workspaceFolder}/go/cmd/gongc",
+            "args": [
+                "-skipGoModCommands",
+                "-skipNpmInstall",
+                "-compileForDebug"
+            ]
+        },
         {
             "name": "gongc gongdoc",
             "type": "go",
