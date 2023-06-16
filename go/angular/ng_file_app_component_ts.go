@@ -18,7 +18,8 @@ export class AppComponent implements OnInit {
 
   views: string[] = [this.default];
 
-  GONG__StackPath = "{{PkgPathRoot}}/models"
+  DataStack = "{{pkgname}}"
+  ModelStacks = "{{PkgPathRoot}}/models"
 
   constructor(
   ) {
