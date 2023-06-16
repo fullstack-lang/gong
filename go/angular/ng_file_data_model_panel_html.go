@@ -10,7 +10,7 @@ const NgFileDataModelPanelTemplateHtml = `<!-- button bar that is present in all
                 </mat-radio-button>
             </div>
         </mat-radio-group>
-        <span [ngStyle]="textStyle">Stack : "{{GONG__StackPath}}"</span>
+        <span [ngStyle]="textStyle">Data stack path : "{{GONG__DATA__StackPath}}", Model stacks path : "{{GONG__MODEL__StacksPath}}"</span>
     </div>
 </ng-template>
 
@@ -19,7 +19,7 @@ const NgFileDataModelPanelTemplateHtml = `<!-- button bar that is present in all
         <ng-container *ngTemplateOutlet="radioToolbar"></ng-container>
     </as-split-area>
     <as-split-area [size]="$any('*')">
-        <app-{{pkgname}}-splitter [GONG__StackPath]="GONG__StackPath"></app-{{pkgname}}-splitter>
+        <app-{{pkgname}}-splitter [GONG__StackPath]="GONG__DATA__StackPath"></app-{{pkgname}}-splitter>
     </as-split-area>
 </as-split>
 
@@ -29,6 +29,6 @@ const NgFileDataModelPanelTemplateHtml = `<!-- button bar that is present in all
         <ng-container *ngTemplateOutlet="radioToolbar"></ng-container>
     </as-split-area>
     <as-split-area [size]="$any('*')">
-        <lib-panel [GONG__StackPath]="GONG__StackPath"></lib-panel>
+        <lib-panel [GONG__StackPath]="GONG__MODEL__StacksPath"></lib-panel>
     </as-split-area>
 </as-split>`

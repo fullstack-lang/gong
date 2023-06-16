@@ -31,6 +31,13 @@ export class DataModelPanelComponent {
     'justify-content': 'flex-start'
   }
 
-  @Input() GONG__StackPath: string = ""
+  // this component relies on the the gongtree stack to enable
+  // edit of the data
+  @Input() GONG__DATA__StackPath: string = ""
+
+  // this component relies on several stacks (gong, gongdoc, gongsvg, ...) for the modeling of the stack
+  // a gongdoc stack and a gong stack. All have the same path defined by
+  // GONG__MODEL_StackPath
+  @Input() GONG__MODEL__StacksPath: string = ""
 
 }

@@ -76,10 +76,10 @@ func main() {
 	var stage *{{pkgname}}_models.StageStruct
 	if *marshallOnCommit != "" {
 		// persistence in a SQLite file on disk in memory
-		stage = {{pkgname}}_fullstack.NewStackInstance(r, "{{PkgPathRoot}}/models")
+		stage = {{pkgname}}_fullstack.NewStackInstance(r, "{{pkgname}}")
 	} else {
 		// persistence in a SQLite file on disk
-		stage = {{pkgname}}_fullstack.NewStackInstance(r, "{{PkgPathRoot}}/models", "./test.db")
+		stage = {{pkgname}}_fullstack.NewStackInstance(r, "{{pkgname}}", "./test.db")
 	}
 
 	// generate injection code from the stage
