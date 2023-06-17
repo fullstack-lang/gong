@@ -99,17 +99,17 @@ func genAngular(modelPkg *gong_models.ModelPkg, skipNpmInstall bool, skipGoModCo
 	// mostly
 	if ngNewWsPerformed {
 		configGeneratedNgWorkspace(modelPkg)
-	}
 
-	// if data-model-panel does not exists, it is an indication that
-	// the module file has to be overwritten
-	gong_models.VerySimpleCodeGenerator(
-		modelPkg,
-		modelPkg.Name,
-		modelPkg.PkgPath,
-		filepath.Join(gong_models.MaterialLibDatamodelTargetPath,
-			fmt.Sprintf("%sdatamodel.module.ts", modelPkg.Name)),
-		angular.NgFileModuleDatamodel)
+		// if data-model-panel does not exists, it is an indication that
+		// the module file has to be overwritten
+		gong_models.VerySimpleCodeGenerator(
+			modelPkg,
+			modelPkg.Name,
+			modelPkg.PkgPath,
+			filepath.Join(gong_models.MaterialLibDatamodelTargetPath,
+				fmt.Sprintf("%sdatamodel.module.ts", modelPkg.Name)),
+			angular.NgFileModuleDatamodel)
+	}
 
 	gong_models.VerySimpleCodeGenerator(
 		modelPkg,
