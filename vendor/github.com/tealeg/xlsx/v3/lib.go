@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"io"
 	"io/ioutil"
+	"log"
 	"path"
 	"path/filepath"
 	"regexp"
@@ -17,7 +18,6 @@ import (
 )
 
 const (
-	sheetEnding           = `</sheetData></worksheet>`
 	fixedCellRefChar      = "$"
 	cellRangeChar         = ":"
 	externalSheetBangChar = "!"
@@ -1112,12 +1112,23 @@ func truncateSheetXML(r io.Reader, rowLimit int) (io.Reader, error) {
 	r = io.TeeReader(r, output)
 	decoder := xml.NewDecoder(r)
 
+	var ns string
 	for {
 		token, readErr = decoder.Token()
 		if readErr == io.EOF {
 			break
 		} else if readErr != nil {
 			return nil, readErr
+		}
+		if start, ok := token.(xml.StartElement); ok && start.Name.Local == "worksheet" && start.Name.Space != "" {
+			namespace := start.Name.Space
+			// find if the namespace has a short name
+			for _, attr := range start.Attr {
+				if attr.Name.Space == "xmlns" && attr.Value == namespace {
+					ns = attr.Name.Local
+					break
+				}
+			}
 		}
 		end, ok := token.(xml.EndElement)
 		if ok && end.Name.Local == "row" {
@@ -1132,6 +1143,10 @@ func truncateSheetXML(r io.Reader, rowLimit int) (io.Reader, error) {
 	output.Truncate(int(offset))
 
 	if readErr != io.EOF {
+		sheetEnding := `</sheetData></worksheet>`
+		if ns != "" {
+			sheetEnding = fmt.Sprintf(`</%s:sheetData></%s:worksheet>`, ns, ns)
+		}
 		_, err := output.Write([]byte(sheetEnding))
 		if err != nil {
 			return nil, err
@@ -1150,8 +1165,8 @@ func truncateSheetXMLValueOnly(r io.Reader) (io.Reader, error) {
 	if err != nil {
 		return nil, err
 	}
-	rowRegexp, _ := regexp.Compile(`(?s)<row .*?</row>`)
-	cellRegexp, _ := regexp.Compile(`(?s)<c .*?/[>|c>]`)
+	rowRegexp, _ := regexp.Compile(`(?s)<row>?.*?</row>`)
+	cellRegexp, _ := regexp.Compile(`(?s)<c>?.*?/.*?>`)
 	valueRegexp, _ := regexp.Compile(`(?s)<v>.*?</v>`)
 	mergerRegexp, _ := regexp.Compile(`<mergeCell ref="[A-Z0-9]+:[A-Z0-9]+"/>`)
 	dimensionRegexp, _ := regexp.Compile(`<dimension ref="[A-Z]+[0-9]+:[A-Z]+[0-9]+"/>`)
@@ -1180,10 +1195,16 @@ func truncateSheetXMLValueOnly(r io.Reader) (io.Reader, error) {
 	// Delete all null value
 	var firstCell, lastCell []byte
 	sheetXML = rowRegexp.ReplaceAllFunc(sheetXML, func(rowMatch []byte) []byte {
+		err := ioutil.WriteFile("dump.xml", rowMatch, 0640)
+		if err != nil {
+			log.Fatalf("Failed to write (%s): %s", err, rowMatch)
+		}
+
 		if !valueRegexp.Match(rowMatch) {
 			rowMatch = rowRegexp.ReplaceAll(rowMatch, nil)
 		}
 		rowMatch = cellRegexp.ReplaceAllFunc(rowMatch, func(cellMatch []byte) []byte {
+
 			if !valueRegexp.Match(cellMatch) {
 				cellMatch = cellRegexp.ReplaceAll(cellMatch, nil)
 			} else {

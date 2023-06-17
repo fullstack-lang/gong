@@ -5,12 +5,13 @@ import (
 
 	gong_models "github.com/fullstack-lang/gong/go/models"
 	gongdoc_models "github.com/fullstack-lang/gongdoc/go/models"
+	gongtree_models "github.com/fullstack-lang/gongtree/go/models"
 )
 
 func computeGongNodesConfigurations(
 	stage *gongdoc_models.StageStruct,
 	classdiagram *gongdoc_models.Classdiagram,
-	treeOfGongObjects *gongdoc_models.Tree) {
+	treeOfGongObjects *gongtree_models.Tree) {
 
 	//
 	// compute maps of displayed gong objects because we need to

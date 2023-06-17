@@ -6,6 +6,7 @@ import (
 	"path/filepath"
 
 	gongdoc_models "github.com/fullstack-lang/gongdoc/go/models"
+	gongtree_models "github.com/fullstack-lang/gongtree/go/models"
 )
 
 type NodeImplClasssiagram struct {
@@ -15,10 +16,10 @@ type NodeImplClasssiagram struct {
 	classdiagram   *gongdoc_models.Classdiagram
 
 	// one needs to access the node of the diagram package to manage the childern nodes
-	diagramPackageNode *gongdoc_models.Node
+	diagramPackageNode *gongtree_models.Node
 
 	// one needs to perform computation of node confs after the update
-	treeOfGongObjects *gongdoc_models.Tree
+	treeOfGongObjects *gongtree_models.Tree
 
 	// peculiar
 	IsInDrawMode bool
@@ -27,8 +28,8 @@ type NodeImplClasssiagram struct {
 func NewNodeImplClasssiagram(
 	diagramPackage *gongdoc_models.DiagramPackage,
 	classdiagram *gongdoc_models.Classdiagram,
-	diagramPackageNode *gongdoc_models.Node,
-	treeOfGongObjects *gongdoc_models.Tree,
+	diagramPackageNode *gongtree_models.Node,
+	treeOfGongObjects *gongtree_models.Tree,
 ) (nodeImplClasssiagram *NodeImplClasssiagram) {
 
 	nodeImplClasssiagram = new(NodeImplClasssiagram)
@@ -41,9 +42,11 @@ func NewNodeImplClasssiagram(
 }
 
 func (nodeImplClasssiagram *NodeImplClasssiagram) OnAfterUpdate(
-	gongdocStage *gongdoc_models.StageStruct,
+	gongtreeStage *gongtree_models.StageStruct,
 	stagedNode,
-	frontNode *gongdoc_models.Node) {
+	frontNode *gongtree_models.Node) {
+
+	gongdocStage := nodeImplClasssiagram.diagramPackage.Stage_
 
 	log.Println("NodeImplClasssiagram: OnAfterUpdate")
 
@@ -55,7 +58,7 @@ func (nodeImplClasssiagram *NodeImplClasssiagram) OnAfterUpdate(
 		// The front will detect that the backend has been commited
 		// It will refresh and fetch the node with checked value
 		stagedNode.IsChecked = true
-		stagedNode.Commit(gongdocStage)
+		stagedNode.Commit(gongtreeStage)
 		nodeImplClasssiagram.diagramPackage.SelectedClassdiagram = nodeImplClasssiagram.classdiagram
 
 		for _, otherDiagramNode := range nodeImplClasssiagram.diagramPackageNode.Children {
@@ -67,7 +70,7 @@ func (nodeImplClasssiagram *NodeImplClasssiagram) OnAfterUpdate(
 			if otherDiagramNode.IsChecked {
 				// log.Println("Node " + node.Name + " is checked and should be unchecked")
 				otherDiagramNode.IsChecked = false
-				otherDiagramNode.Commit(gongdocStage)
+				otherDiagramNode.Commit(gongtreeStage)
 			}
 		}
 	}
@@ -86,7 +89,7 @@ func (nodeImplClasssiagram *NodeImplClasssiagram) OnAfterUpdate(
 				continue
 			} else {
 				log.Println("The name of the diagram is not a correct identifier in go: " + frontNode.Name)
-				stagedNode.Commit(gongdocStage)
+				stagedNode.Commit(gongtreeStage)
 				return
 			}
 		}
@@ -140,13 +143,16 @@ func (nodeImplClasssiagram *NodeImplClasssiagram) OnAfterUpdate(
 	// on need to commit the staged node for the front to reconstruct
 	// the node as checked and overides the unchecking action
 	if stagedNode.IsChecked && !frontNode.IsChecked {
-		stagedNode.Commit(gongdocStage)
+		stagedNode.Commit(gongtreeStage)
 	}
 
-	computeNodeConfs(gongdocStage,
+	computeNodeConfs(
+		gongtreeStage,
+		gongdocStage,
 		nodeImplClasssiagram.diagramPackageNode,
 		nodeImplClasssiagram.diagramPackage,
 		nodeImplClasssiagram.treeOfGongObjects)
 
 	gongdocStage.Commit()
+	gongtreeStage.Commit()
 }

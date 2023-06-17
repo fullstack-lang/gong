@@ -1,3 +1,4 @@
+// do not modify, generated file
 package fullstack
 
 import (
@@ -44,6 +45,26 @@ func NewStackInstance(
 	}
 
 	controllers.Register(r)
+
+	// add orchestration
+	// insertion point
+	models.SetOrchestratorOnAfterUpdate[models.Animate](stage)
+	models.SetOrchestratorOnAfterUpdate[models.Circle](stage)
+	models.SetOrchestratorOnAfterUpdate[models.Ellipse](stage)
+	models.SetOrchestratorOnAfterUpdate[models.Layer](stage)
+	models.SetOrchestratorOnAfterUpdate[models.Line](stage)
+	models.SetOrchestratorOnAfterUpdate[models.Link](stage)
+	models.SetOrchestratorOnAfterUpdate[models.LinkAnchoredText](stage)
+	models.SetOrchestratorOnAfterUpdate[models.Path](stage)
+	models.SetOrchestratorOnAfterUpdate[models.Point](stage)
+	models.SetOrchestratorOnAfterUpdate[models.Polygone](stage)
+	models.SetOrchestratorOnAfterUpdate[models.Polyline](stage)
+	models.SetOrchestratorOnAfterUpdate[models.Rect](stage)
+	models.SetOrchestratorOnAfterUpdate[models.RectAnchoredRect](stage)
+	models.SetOrchestratorOnAfterUpdate[models.RectAnchoredText](stage)
+	models.SetOrchestratorOnAfterUpdate[models.RectLinkLink](stage)
+	models.SetOrchestratorOnAfterUpdate[models.SVG](stage)
+	models.SetOrchestratorOnAfterUpdate[models.Text](stage)
 
 	return
 }

@@ -6,6 +6,7 @@ import (
 
 	gongdoc_models "github.com/fullstack-lang/gongdoc/go/models"
 	gongsvg_models "github.com/fullstack-lang/gongsvg/go/models"
+	gongtree_models "github.com/fullstack-lang/gongtree/go/models"
 )
 
 type DocSVGMapper struct {
@@ -14,11 +15,25 @@ type DocSVGMapper struct {
 	map_NoteShape_Rect       map[*gongdoc_models.NoteShape]*gongsvg_models.Rect
 	map_Structname_Rect      map[string]*gongsvg_models.Rect
 	map_Fieldname_Link       map[string]*gongsvg_models.Link
+
+	gongtreeStage *gongtree_models.StageStruct
+	gongsvgStage  *gongsvg_models.StageStruct
+}
+
+func NewDocSVGMapper(
+	gongtreeStage *gongtree_models.StageStruct,
+	gongsvgStage *gongsvg_models.StageStruct) (docSVGMapper *DocSVGMapper) {
+
+	docSVGMapper = new(DocSVGMapper)
+	docSVGMapper.gongtreeStage = gongtreeStage
+	docSVGMapper.gongsvgStage = gongsvgStage
+
+	return
 }
 
 func (docSVGMapper *DocSVGMapper) GenerateSvg(
 	gongdocStage *gongdoc_models.StageStruct,
-	gongsvgStage *gongsvg_models.StageStruct) {
+) {
 
 	log.Println("DocSVGMapper.GenerateSvg")
 
@@ -29,8 +44,8 @@ func (docSVGMapper *DocSVGMapper) GenerateSvg(
 	docSVGMapper.map_Structname_Rect = make(map[string]*gongsvg_models.Rect)
 	docSVGMapper.map_Fieldname_Link = make(map[string]*gongsvg_models.Link)
 
-	gongsvgStage.Reset()
-	gongsvgStage.Commit()
+	docSVGMapper.gongsvgStage.Reset()
+	docSVGMapper.gongsvgStage.Commit()
 
 	var selectedDiagram *gongdoc_models.Classdiagram
 
@@ -46,17 +61,17 @@ func (docSVGMapper *DocSVGMapper) GenerateSvg(
 		return
 	}
 
-	svg := new(gongsvg_models.SVG).Stage(gongsvgStage)
+	svg := new(gongsvg_models.SVG).Stage(docSVGMapper.gongsvgStage)
 	svg.Name = selectedDiagram.Name
 	svg.IsEditable = selectedDiagram.IsInDrawMode
 
 	for _, gongstructShape := range selectedDiagram.GongStructShapes {
 
-		rectLayer := new(gongsvg_models.Layer).Stage(gongsvgStage)
+		rectLayer := new(gongsvg_models.Layer).Stage(docSVGMapper.gongsvgStage)
 		rectLayer.Name = "Layer" + gongstructShape.Identifier
 		svg.Layers = append(svg.Layers, rectLayer)
 
-		rect := new(gongsvg_models.Rect).Stage(gongsvgStage)
+		rect := new(gongsvg_models.Rect).Stage(docSVGMapper.gongsvgStage)
 		rect.Name = gongstructShape.Identifier
 
 		// hook a callback on rect modifications
@@ -93,7 +108,7 @@ func (docSVGMapper *DocSVGMapper) GenerateSvg(
 		//
 		// Title
 		//
-		title := new(gongsvg_models.RectAnchoredText).Stage(gongsvgStage)
+		title := new(gongsvg_models.RectAnchoredText).Stage(docSVGMapper.gongsvgStage)
 		title.Name = gongdoc_models.IdentifierToGongObjectName(gongstructShape.Identifier)
 		title.Content = title.Name
 		title.X_Offset = 0
@@ -106,7 +121,7 @@ func (docSVGMapper *DocSVGMapper) GenerateSvg(
 		rect.RectAnchoredTexts = append(rect.RectAnchoredTexts, title)
 
 		// additional box to hightlight the title
-		titleBox := new(gongsvg_models.RectAnchoredRect).Stage(gongsvgStage)
+		titleBox := new(gongsvg_models.RectAnchoredRect).Stage(docSVGMapper.gongsvgStage)
 		titleBox.Name = gongdoc_models.IdentifierToGongObjectName(gongstructShape.Identifier)
 		titleBox.X_Offset = 0
 		titleBox.Y_Offset = 0
@@ -123,7 +138,7 @@ func (docSVGMapper *DocSVGMapper) GenerateSvg(
 		// fields
 		//
 		for idx, field := range gongstructShape.Fields {
-			fieldText := new(gongsvg_models.RectAnchoredText).Stage(gongsvgStage)
+			fieldText := new(gongsvg_models.RectAnchoredText).Stage(docSVGMapper.gongsvgStage)
 			fieldText.Name = field.Name + " : " + field.Fieldtypename
 			fieldText.Content = field.Name + " : " + field.Fieldtypename
 
@@ -142,7 +157,7 @@ func (docSVGMapper *DocSVGMapper) GenerateSvg(
 		// number of instance (x%d)
 		//
 		if gongstructShape.ShowNbInstances {
-			nbInstancesText := new(gongsvg_models.RectAnchoredText).Stage(gongsvgStage)
+			nbInstancesText := new(gongsvg_models.RectAnchoredText).Stage(docSVGMapper.gongsvgStage)
 			nbInstancesText.Name = fmt.Sprintf("(x%d)", gongstructShape.NbInstances)
 			nbInstancesText.Content = fmt.Sprintf("(x%d)", gongstructShape.NbInstances)
 
@@ -168,12 +183,12 @@ func (docSVGMapper *DocSVGMapper) GenerateSvg(
 
 			endRect := docSVGMapper.map_Structname_Rect[docLink.Fieldtypename]
 
-			link := new(gongsvg_models.Link).Stage(gongsvgStage)
+			link := new(gongsvg_models.Link).Stage(docSVGMapper.gongsvgStage)
 			link.Name = startRect.Name + " - to - " + endRect.Name
 
 			link.Impl = NewLinkImplLink(docLink, gongdocStage)
 
-			linkLayer := new(gongsvg_models.Layer).Stage(gongsvgStage)
+			linkLayer := new(gongsvg_models.Layer).Stage(docSVGMapper.gongsvgStage)
 			docSVGMapper.map_Fieldname_Link[docLink.Identifier] = link
 
 			linkLayer.Links = append(linkLayer.Links, link)
@@ -210,7 +225,7 @@ func (docSVGMapper *DocSVGMapper) GenerateSvg(
 			link.End = endRect
 
 			// add text to the arrow
-			targetMulitplicity := new(gongsvg_models.LinkAnchoredText).Stage(gongsvgStage)
+			targetMulitplicity := new(gongsvg_models.LinkAnchoredText).Stage(docSVGMapper.gongsvgStage)
 			targetMulitplicity.Impl = NewAnchoredTextImplLinkTargetMultiplicity(docLink, gongdocStage)
 			link.TextAtArrowEnd = append(link.TextAtArrowEnd, targetMulitplicity)
 			targetMulitplicity.Name = docLink.TargetMultiplicity.ToString()
@@ -223,7 +238,7 @@ func (docSVGMapper *DocSVGMapper) GenerateSvg(
 			targetMulitplicity.FillOpacity = 100
 			targetMulitplicity.FontWeight = "normal"
 
-			fieldName := new(gongsvg_models.LinkAnchoredText).Stage(gongsvgStage)
+			fieldName := new(gongsvg_models.LinkAnchoredText).Stage(docSVGMapper.gongsvgStage)
 			fieldName.Impl = NewAnchoredTextImplLinkFieldName(docLink, gongdocStage)
 
 			link.TextAtArrowEnd = append(link.TextAtArrowEnd, fieldName)
@@ -239,7 +254,7 @@ func (docSVGMapper *DocSVGMapper) GenerateSvg(
 
 			// add the callback
 
-			sourceMultiplicity := new(gongsvg_models.LinkAnchoredText).Stage(gongsvgStage)
+			sourceMultiplicity := new(gongsvg_models.LinkAnchoredText).Stage(docSVGMapper.gongsvgStage)
 			sourceMultiplicity.Impl = NewAnchoredTextImplLinkSourceMultiplicity(docLink, gongdocStage)
 
 			link.TextAtArrowStart = append(link.TextAtArrowStart, sourceMultiplicity)
@@ -257,11 +272,11 @@ func (docSVGMapper *DocSVGMapper) GenerateSvg(
 	//
 	for _, gongenumShape := range selectedDiagram.GongEnumShapes {
 
-		rectLayer := new(gongsvg_models.Layer).Stage(gongsvgStage)
+		rectLayer := new(gongsvg_models.Layer).Stage(docSVGMapper.gongsvgStage)
 		rectLayer.Name = "Layer" + gongenumShape.Identifier
 		svg.Layers = append(svg.Layers, rectLayer)
 
-		rect := new(gongsvg_models.Rect).Stage(gongsvgStage)
+		rect := new(gongsvg_models.Rect).Stage(docSVGMapper.gongsvgStage)
 		rect.Name = gongenumShape.Identifier
 
 		rect.Impl = NewRectImplGongenumShape(gongenumShape, gongdocStage)
@@ -297,7 +312,7 @@ func (docSVGMapper *DocSVGMapper) GenerateSvg(
 		//
 		// Title
 		//
-		title := new(gongsvg_models.RectAnchoredText).Stage(gongsvgStage)
+		title := new(gongsvg_models.RectAnchoredText).Stage(docSVGMapper.gongsvgStage)
 		title.Name = gongdoc_models.IdentifierToGongObjectName(gongenumShape.Identifier)
 		title.Content = title.Name
 		title.X_Offset = 0
@@ -310,7 +325,7 @@ func (docSVGMapper *DocSVGMapper) GenerateSvg(
 		rect.RectAnchoredTexts = append(rect.RectAnchoredTexts, title)
 
 		// additional box to hightlight the title
-		titleBox := new(gongsvg_models.RectAnchoredRect).Stage(gongsvgStage)
+		titleBox := new(gongsvg_models.RectAnchoredRect).Stage(docSVGMapper.gongsvgStage)
 		titleBox.Name = gongdoc_models.IdentifierToGongObjectName(gongenumShape.Identifier)
 		titleBox.X_Offset = 0
 		titleBox.Y_Offset = 0
@@ -327,7 +342,7 @@ func (docSVGMapper *DocSVGMapper) GenerateSvg(
 		// fields
 		//
 		for idx, field := range gongenumShape.GongEnumValueEntrys {
-			fieldText := new(gongsvg_models.RectAnchoredText).Stage(gongsvgStage)
+			fieldText := new(gongsvg_models.RectAnchoredText).Stage(docSVGMapper.gongsvgStage)
 			fieldText.Name = field.Name
 			fieldText.Content = field.Name
 
@@ -348,11 +363,11 @@ func (docSVGMapper *DocSVGMapper) GenerateSvg(
 	//
 	for _, noteShape := range selectedDiagram.NoteShapes {
 
-		rectLayer := new(gongsvg_models.Layer).Stage(gongsvgStage)
+		rectLayer := new(gongsvg_models.Layer).Stage(docSVGMapper.gongsvgStage)
 		rectLayer.Name = "Layer" + noteShape.Identifier
 		svg.Layers = append(svg.Layers, rectLayer)
 
-		rect := new(gongsvg_models.Rect).Stage(gongsvgStage)
+		rect := new(gongsvg_models.Rect).Stage(docSVGMapper.gongsvgStage)
 		rect.Name = noteShape.Identifier
 
 		rect.Impl = NewRectImplNoteShape(noteShape, gongdocStage)
@@ -388,7 +403,7 @@ func (docSVGMapper *DocSVGMapper) GenerateSvg(
 		//
 		// Title
 		//
-		title := new(gongsvg_models.RectAnchoredText).Stage(gongsvgStage)
+		title := new(gongsvg_models.RectAnchoredText).Stage(docSVGMapper.gongsvgStage)
 		title.Name = gongdoc_models.IdentifierToGongObjectName(noteShape.Identifier)
 		title.Content = title.Name
 		title.X_Offset = 0
@@ -403,7 +418,7 @@ func (docSVGMapper *DocSVGMapper) GenerateSvg(
 		//
 		// Title
 		//
-		content := new(gongsvg_models.RectAnchoredText).Stage(gongsvgStage)
+		content := new(gongsvg_models.RectAnchoredText).Stage(docSVGMapper.gongsvgStage)
 		content.Name = noteShape.Body
 		content.Content = content.Name
 		content.X_Offset = 0
@@ -416,7 +431,7 @@ func (docSVGMapper *DocSVGMapper) GenerateSvg(
 		rect.RectAnchoredTexts = append(rect.RectAnchoredTexts, content)
 
 		// // additional box to hightlight the title
-		// titleBox := new(gongsvg_models.RectAnchoredRect).Stage(gongsvgStage)
+		// titleBox := new(gongsvg_models.RectAnchoredRect).Stage(docSVGMapper.gongsvgStage)
 		// titleBox.Name = gongdoc_models.IdentifierToGongObjectName(noteShape.Identifier)
 		// titleBox.X_Offset = 0
 		// titleBox.Y_Offset = 0
@@ -448,9 +463,9 @@ func (docSVGMapper *DocSVGMapper) GenerateSvg(
 				endRect, ok = docSVGMapper.map_Structname_Rect[noteLink.Identifier]
 				if ok {
 					// create the link
-					link := new(gongsvg_models.Link).Stage(gongsvgStage)
+					link := new(gongsvg_models.Link).Stage(docSVGMapper.gongsvgStage)
 					link.Name = startRect.Name + " - to - " + endRect.Name
-					linkLayer := new(gongsvg_models.Layer).Stage(gongsvgStage)
+					linkLayer := new(gongsvg_models.Layer).Stage(docSVGMapper.gongsvgStage)
 
 					linkLayer.Links = append(linkLayer.Links, link)
 					svg.Layers = append(svg.Layers, linkLayer)
@@ -489,9 +504,9 @@ func (docSVGMapper *DocSVGMapper) GenerateSvg(
 				// find the endLink
 				endLink, ok = docSVGMapper.map_Fieldname_Link[noteLink.Identifier]
 				if ok {
-					rectLinkLink := new(gongsvg_models.RectLinkLink).Stage(gongsvgStage)
+					rectLinkLink := new(gongsvg_models.RectLinkLink).Stage(docSVGMapper.gongsvgStage)
 					rectLinkLink.Name = startRect.Name + " - to - " + endLink.Name
-					rectLinkLinkLayer := new(gongsvg_models.Layer).Stage(gongsvgStage)
+					rectLinkLinkLayer := new(gongsvg_models.Layer).Stage(docSVGMapper.gongsvgStage)
 
 					rectLinkLinkLayer.RectLinkLinks = append(rectLinkLinkLayer.RectLinkLinks, rectLinkLink)
 					svg.Layers = append(svg.Layers, rectLinkLinkLayer)
@@ -510,5 +525,5 @@ func (docSVGMapper *DocSVGMapper) GenerateSvg(
 		}
 
 	}
-	gongsvgStage.Commit()
+	docSVGMapper.gongsvgStage.Commit()
 }

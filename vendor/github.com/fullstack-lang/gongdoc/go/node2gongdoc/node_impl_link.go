@@ -5,6 +5,7 @@ import (
 
 	gong_models "github.com/fullstack-lang/gong/go/models"
 	gongdoc_models "github.com/fullstack-lang/gongdoc/go/models"
+	gongtree_models "github.com/fullstack-lang/gongtree/go/models"
 )
 
 type NodeImplLink struct {
@@ -13,15 +14,15 @@ type NodeImplLink struct {
 	gongNote *gong_models.GongNote
 	gongLink *gong_models.GongLink
 
-	nodeOfGongNote *gongdoc_models.Node
-	nodeOfLink     *gongdoc_models.Node
+	nodeOfGongNote *gongtree_models.Node
+	nodeOfLink     *gongtree_models.Node
 }
 
 func NewNodeImplLink(
 	gongNote *gong_models.GongNote,
 	gongLink *gong_models.GongLink,
-	nodeOfGongNote *gongdoc_models.Node,
-	nodeOfLink *gongdoc_models.Node,
+	nodeOfGongNote *gongtree_models.Node,
+	nodeOfLink *gongtree_models.Node,
 	NodeImplGongObjectAbstract NodeImplGongObjectAbstract,
 ) (nodeImplLink *NodeImplLink) {
 
@@ -37,10 +38,11 @@ func NewNodeImplLink(
 }
 
 func (nodeImplLink *NodeImplLink) OnAfterUpdate(
-	gongdocStage *gongdoc_models.StageStruct,
-	stagedNode, frontNode *gongdoc_models.Node) {
+	gongtreeStage *gongtree_models.StageStruct,
+	stagedNode, frontNode *gongtree_models.Node) {
 
 	classdiagram := nodeImplLink.diagramPackage.SelectedClassdiagram
+	gongdocStage := nodeImplLink.diagramPackage.Stage_
 
 	// find the classhape in the classdiagram
 	foundNoteshape := false

@@ -1,4 +1,4 @@
-// Licensed under the MIT license, see LICENCE file for details.
+// Licensed under the MIT license, see LICENSE file for details.
 
 /*
 Package quicktest provides a collection of Go helpers for writing tests.
@@ -12,7 +12,12 @@ instance:
         t.Run("numbers", func(t *testing.T) {
             c := qt.New(t)
             numbers, err := somepackage.Numbers()
+            c.Assert(err, qt.IsNil)
             c.Assert(numbers, qt.DeepEquals, []int{42, 47})
+        })
+        t.Run("bad wolf error", func(t *testing.T) {
+            c := qt.New(t)
+            numbers, err := somepackage.Numbers()
             c.Assert(err, qt.ErrorMatches, "bad wolf")
         })
         t.Run("nil", func(t *testing.T) {
@@ -54,8 +59,8 @@ On failure it prints the error from the first index that failed.
 
 For example:
 
-	c.Assert([]int{3, 5, 8}, qt.All(qt.Not(qt.Equals)), 0)
-	c.Assert([][]string{{"a", "b"}, {"a", "b"}}, qt.All(qt.DeepEquals), []string{"c", "d"})
+    c.Assert([]int{3, 5, 8}, qt.All(qt.Not(qt.Equals)), 0)
+    c.Assert([][]string{{"a", "b"}, {"a", "b"}}, qt.All(qt.DeepEquals), []string{"c", "d"})
 
 See also Any and Contains.
 
@@ -66,8 +71,8 @@ or array or the values from a map. It succeeds if any element passes the check.
 
 For example:
 
-	c.Assert([]int{3,5,7,99}, qt.Any(qt.Equals), 7)
-	c.Assert([][]string{{"a", "b"}, {"c", "d"}}, qt.Any(qt.DeepEquals), []string{"c", "d"})
+    c.Assert([]int{3,5,7,99}, qt.Any(qt.Equals), 7)
+    c.Assert([][]string{{"a", "b"}, {"c", "d"}}, qt.Any(qt.DeepEquals), []string{"c", "d"})
 
 See also All and Contains.
 
@@ -113,8 +118,8 @@ strings.Contains will be used.
 
 For example:
 
-	c.Assert("hello world", qt.Contains, "world")
-	c.Assert([]int{3,5,7,99}, qt.Contains, 7)
+    c.Assert("hello world", qt.Contains, "world")
+    c.Assert([]int{3,5,7,99}, qt.Contains, 7)
 
 ContentEquals
 
@@ -122,7 +127,7 @@ ContentEquals is is like DeepEquals but any slices in the compared values will b
 
 For example:
 
-	c.Assert([]string{"c", "a", "b"}, qt.ContentEquals, []string{"a", "b", "c"})
+    c.Assert([]string{"c", "a", "b"}, qt.ContentEquals, []string{"a", "b", "c"})
 
 DeepEquals
 
@@ -149,6 +154,31 @@ Note that the following will fail:
 
 Use the IsNil checker below for this kind of nil check.
 
+ErrorAs
+
+ErrorAs checks that the error is or wraps a specific error type. If so, it
+assigns it to the provided pointer. This is analogous to calling errors.As.
+
+For instance:
+
+    // Checking for a specific error type
+    c.Assert(err, qt.ErrorAs, new(*os.PathError))
+
+    // Checking fields on a specific error type
+    var pathError *os.PathError
+    if c.Check(err, qt.ErrorAs, &pathError) {
+        c.Assert(pathError.Path, Equals, "some_path")
+    }
+
+ErrorIs
+
+ErrorIs checks that the error is or wraps a specific error value. This is
+analogous to calling errors.Is.
+
+For instance:
+
+    c.Assert(err, qt.ErrorIs, os.ErrNotExist)
+
 ErrorMatches
 
 ErrorMatches checks that the provided value is an error whose message matches
@@ -166,6 +196,16 @@ For instance:
 
     c.Assert([]int{42, 47}, qt.HasLen, 2)
     c.Assert(myMap, qt.HasLen, 42)
+
+Implements
+
+Implements checks that the provided value implements an interface. The
+interface is specified with a pointer to an interface variable.
+
+For instance:
+
+    var rc io.ReadCloser
+    c.Assert(myReader, qt.Implements, &rc)
 
 IsFalse
 
