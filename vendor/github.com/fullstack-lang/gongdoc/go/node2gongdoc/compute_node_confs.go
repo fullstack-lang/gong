@@ -1,18 +1,23 @@
 package node2gongdoc
 
-import gongdoc_models "github.com/fullstack-lang/gongdoc/go/models"
+import (
+	gongdoc_models "github.com/fullstack-lang/gongdoc/go/models"
+	gongtree_models "github.com/fullstack-lang/gongtree/go/models"
+)
 
 func computeNodeConfs(
+	gongtreeStage *gongtree_models.StageStruct,
 	gongdocStage *gongdoc_models.StageStruct,
-	diagramPackageNode *gongdoc_models.Node,
+	diagramPackageNode *gongtree_models.Node,
 	diagramPackage *gongdoc_models.DiagramPackage,
-	treeOfGongObjects *gongdoc_models.Tree,
+	treeOfGongObjects *gongtree_models.Tree,
 ) {
 
 	computeClassdiagramNodesConfigurations(
 		diagramPackageNode,
 		diagramPackage,
-		gongdocStage)
+		gongdocStage,
+		gongtreeStage)
 
 	classdiagram := diagramPackage.SelectedClassdiagram
 

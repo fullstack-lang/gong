@@ -8,6 +8,10 @@ import { GongdocModule } from 'gongdoc'
 import { GongModule } from 'gong'
 
 import { GongsvgModule } from 'gongsvg'
+import { GongsvgspecificModule } from 'gongsvgspecific'
+
+import { GongtreeModule } from 'gongtree'
+import { GongtreespecificModule } from 'gongtreespecific'
 
 // for angular material
 import { MatSliderModule } from '@angular/material/slider';
@@ -31,16 +35,14 @@ import { AngularSplitModule } from 'angular-split';
 
 import { PkgeltDocsComponent } from './pkgelt-docs/pkgelt-docs.component';
 
-import { TreeComponent } from './tree/tree.component';
 import { PanelComponent } from './panel/panel.component'
 
-import { GongsvgspecificModule } from 'gongsvgspecific'
+
 
 
 @NgModule({
   declarations: [
     PkgeltDocsComponent,
-    TreeComponent,
     PanelComponent
   ],
   imports: [
@@ -74,7 +76,11 @@ import { GongsvgspecificModule } from 'gongsvgspecific'
     GongModule,
 
     GongsvgModule,
-    GongsvgspecificModule
+    GongsvgspecificModule,
+
+    GongtreeModule,
+    GongtreespecificModule,
+
   ],
   exports: [
     PkgeltDocsComponent,

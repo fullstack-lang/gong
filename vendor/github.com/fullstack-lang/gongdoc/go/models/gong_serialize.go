@@ -13,7 +13,6 @@ func SerializeStage(stage *StageStruct, filename string) {
 	f := excelize.NewFile()
 	{
 		// insertion point
-		SerializeExcelize[Button](stage, f)
 		SerializeExcelize[Classdiagram](stage, f)
 		SerializeExcelize[DiagramPackage](stage, f)
 		SerializeExcelize[Field](stage, f)
@@ -21,11 +20,9 @@ func SerializeStage(stage *StageStruct, filename string) {
 		SerializeExcelize[GongEnumValueEntry](stage, f)
 		SerializeExcelize[GongStructShape](stage, f)
 		SerializeExcelize[Link](stage, f)
-		SerializeExcelize[Node](stage, f)
 		SerializeExcelize[NoteShape](stage, f)
 		SerializeExcelize[NoteShapeLink](stage, f)
 		SerializeExcelize[Position](stage, f)
-		SerializeExcelize[Tree](stage, f)
 		SerializeExcelize[UmlState](stage, f)
 		SerializeExcelize[Umlsc](stage, f)
 		SerializeExcelize[Vertice](stage, f)

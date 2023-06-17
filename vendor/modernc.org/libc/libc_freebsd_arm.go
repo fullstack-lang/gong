@@ -324,10 +324,8 @@ func Xutime(t *TLS, filename, times uintptr) int32 {
 	var a []unix.Timeval
 	if times != 0 {
 		a = make([]unix.Timeval, 2)
-		var _ utime.Utimbuf
-		panic("TODO")
-		// a[0].Sec = (*utime.Utimbuf)(unsafe.Pointer(times)).Factime
-		// a[1].Sec = (*utime.Utimbuf)(unsafe.Pointer(times)).Fmodtime
+		a[0].Sec = (*utime.Utimbuf)(unsafe.Pointer(times)).Factime
+		a[1].Sec = (*utime.Utimbuf)(unsafe.Pointer(times)).Fmodtime
 	}
 	if err := unix.Utimes(GoString(filename), a); err != nil {
 		if dmesgs {

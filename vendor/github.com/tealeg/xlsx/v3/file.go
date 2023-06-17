@@ -153,22 +153,22 @@ func FileToSliceUnmerged(path string, options ...FileOption) ([][][]string, erro
 
 // Save the File to an xlsx file at the provided path.
 func (f *File) Save(path string) (err error) {
-	wrap := func(err error) error {
-		return fmt.Errorf("File.Save(%s): %w", path, err)
-	}
+	defer func() {
+		if err != nil {
+			err = fmt.Errorf("File.Save(%s): %w", path, err)
+		}
+	}()
 	target, err := os.Create(path)
 	if err != nil {
-		return wrap(err)
+		return err
 	}
+	defer func() {
+		if ie := target.Close(); ie != nil {
+			err = fmt.Errorf("write:%+v close:%w", err, ie)
+		}
+	}()
 	err = f.Write(target)
-	if err != nil {
-		return wrap(err)
-	}
-	err = target.Close()
-	if err != nil {
-		return wrap(err)
-	}
-	return nil
+	return
 }
 
 // Write the File to io.Writer as xlsx
@@ -353,6 +353,7 @@ func (f *File) MakeStreamParts() (map[string]string, error) {
 				PartName:    "/" + partName,
 				ContentType: "application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"})
 		workbookRels[rId] = sheetPath
+
 		workbook.Sheets.Sheet[sheetIndex-1] = xlsxSheet{
 			Name:    sheet.Name,
 			SheetId: sheetId,
@@ -372,6 +373,10 @@ func (f *File) MakeStreamParts() (map[string]string, error) {
 			}
 		}
 		sheetIndex++
+	}
+
+	for _, dn := range f.DefinedNames {
+		workbook.DefinedNames.DefinedName = append(workbook.DefinedNames.DefinedName, *dn)
 	}
 
 	workbookMarshal, err := marshal(workbook)
@@ -509,6 +514,10 @@ func (f *File) MarshallParts(zipWriter *zip.Writer) error {
 			}
 		}
 		sheetIndex++
+	}
+
+	for _, dn := range f.DefinedNames {
+		workbook.DefinedNames.DefinedName = append(workbook.DefinedNames.DefinedName, *dn)
 	}
 
 	workbookMarshal, err := marshal(workbook)
@@ -668,4 +677,13 @@ func (f *File) ToSliceUnmerged() (output [][][]string, err error) {
 	}
 
 	return output, nil
+}
+
+type DefinedName xlsxDefinedName
+
+// AddDefinedName adds a new Name definition to the workbook.
+func (f *File) AddDefinedName(name DefinedName) error {
+	definedName := xlsxDefinedName(name)
+	f.DefinedNames = append(f.DefinedNames, &definedName)
+	return nil
 }

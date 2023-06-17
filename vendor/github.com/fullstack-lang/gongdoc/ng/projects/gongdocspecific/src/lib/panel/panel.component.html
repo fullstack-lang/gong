@@ -51,3 +51,12 @@
         <app-gongsvg-splitter [GONG__StackPath]="GONG__StackPath"></app-gongsvg-splitter>
     </as-split-area>
 </as-split>
+
+<as-split unit="pixel" *ngIf="view==tree_data" direction="vertical">
+    <as-split-area [size]="40">
+        <ng-container *ngTemplateOutlet="radioToolbar"></ng-container>
+    </as-split-area>
+    <as-split-area [size]="$any('*')">
+        <app-gongtree-splitter [GONG__StackPath]="GONG__StackPath"></app-gongtree-splitter>
+    </as-split-area>
+</as-split>

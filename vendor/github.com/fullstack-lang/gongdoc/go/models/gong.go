@@ -30,14 +30,6 @@ type GongStructInterface interface {
 // StageStruct enables storage of staged instances
 // swagger:ignore
 type StageStruct struct { // insertion point for definition of arrays registering instances
-	Buttons           map[*Button]any
-	Buttons_mapString map[string]*Button
-
-	OnAfterButtonCreateCallback OnAfterCreateInterface[Button]
-	OnAfterButtonUpdateCallback OnAfterUpdateInterface[Button]
-	OnAfterButtonDeleteCallback OnAfterDeleteInterface[Button]
-	OnAfterButtonReadCallback   OnAfterReadInterface[Button]
-
 	Classdiagrams           map[*Classdiagram]any
 	Classdiagrams_mapString map[string]*Classdiagram
 
@@ -94,14 +86,6 @@ type StageStruct struct { // insertion point for definition of arrays registerin
 	OnAfterLinkDeleteCallback OnAfterDeleteInterface[Link]
 	OnAfterLinkReadCallback   OnAfterReadInterface[Link]
 
-	Nodes           map[*Node]any
-	Nodes_mapString map[string]*Node
-
-	OnAfterNodeCreateCallback OnAfterCreateInterface[Node]
-	OnAfterNodeUpdateCallback OnAfterUpdateInterface[Node]
-	OnAfterNodeDeleteCallback OnAfterDeleteInterface[Node]
-	OnAfterNodeReadCallback   OnAfterReadInterface[Node]
-
 	NoteShapes           map[*NoteShape]any
 	NoteShapes_mapString map[string]*NoteShape
 
@@ -125,14 +109,6 @@ type StageStruct struct { // insertion point for definition of arrays registerin
 	OnAfterPositionUpdateCallback OnAfterUpdateInterface[Position]
 	OnAfterPositionDeleteCallback OnAfterDeleteInterface[Position]
 	OnAfterPositionReadCallback   OnAfterReadInterface[Position]
-
-	Trees           map[*Tree]any
-	Trees_mapString map[string]*Tree
-
-	OnAfterTreeCreateCallback OnAfterCreateInterface[Tree]
-	OnAfterTreeUpdateCallback OnAfterUpdateInterface[Tree]
-	OnAfterTreeDeleteCallback OnAfterDeleteInterface[Tree]
-	OnAfterTreeReadCallback   OnAfterReadInterface[Tree]
 
 	UmlStates           map[*UmlState]any
 	UmlStates_mapString map[string]*UmlState
@@ -222,8 +198,6 @@ type BackRepoInterface interface {
 	BackupXL(stage *StageStruct, dirPath string)
 	RestoreXL(stage *StageStruct, dirPath string)
 	// insertion point for Commit and Checkout signatures
-	CommitButton(button *Button)
-	CheckoutButton(button *Button)
 	CommitClassdiagram(classdiagram *Classdiagram)
 	CheckoutClassdiagram(classdiagram *Classdiagram)
 	CommitDiagramPackage(diagrampackage *DiagramPackage)
@@ -238,16 +212,12 @@ type BackRepoInterface interface {
 	CheckoutGongStructShape(gongstructshape *GongStructShape)
 	CommitLink(link *Link)
 	CheckoutLink(link *Link)
-	CommitNode(node *Node)
-	CheckoutNode(node *Node)
 	CommitNoteShape(noteshape *NoteShape)
 	CheckoutNoteShape(noteshape *NoteShape)
 	CommitNoteShapeLink(noteshapelink *NoteShapeLink)
 	CheckoutNoteShapeLink(noteshapelink *NoteShapeLink)
 	CommitPosition(position *Position)
 	CheckoutPosition(position *Position)
-	CommitTree(tree *Tree)
-	CheckoutTree(tree *Tree)
 	CommitUmlState(umlstate *UmlState)
 	CheckoutUmlState(umlstate *UmlState)
 	CommitUmlsc(umlsc *Umlsc)
@@ -272,9 +242,6 @@ func GetDefaultStage() *StageStruct {
 func NewStage() (stage *StageStruct) {
 
 	stage = &StageStruct{ // insertion point for array initiatialisation
-		Buttons:           make(map[*Button]any),
-		Buttons_mapString: make(map[string]*Button),
-
 		Classdiagrams:           make(map[*Classdiagram]any),
 		Classdiagrams_mapString: make(map[string]*Classdiagram),
 
@@ -296,9 +263,6 @@ func NewStage() (stage *StageStruct) {
 		Links:           make(map[*Link]any),
 		Links_mapString: make(map[string]*Link),
 
-		Nodes:           make(map[*Node]any),
-		Nodes_mapString: make(map[string]*Node),
-
 		NoteShapes:           make(map[*NoteShape]any),
 		NoteShapes_mapString: make(map[string]*NoteShape),
 
@@ -307,9 +271,6 @@ func NewStage() (stage *StageStruct) {
 
 		Positions:           make(map[*Position]any),
 		Positions_mapString: make(map[string]*Position),
-
-		Trees:           make(map[*Tree]any),
-		Trees_mapString: make(map[string]*Tree),
 
 		UmlStates:           make(map[*UmlState]any),
 		UmlStates_mapString: make(map[string]*UmlState),
@@ -345,7 +306,6 @@ func (stage *StageStruct) Commit() {
 	}
 
 	// insertion point for computing the map of number of instances per gongstruct
-	stage.Map_GongStructName_InstancesNb["Button"] = len(stage.Buttons)
 	stage.Map_GongStructName_InstancesNb["Classdiagram"] = len(stage.Classdiagrams)
 	stage.Map_GongStructName_InstancesNb["DiagramPackage"] = len(stage.DiagramPackages)
 	stage.Map_GongStructName_InstancesNb["Field"] = len(stage.Fields)
@@ -353,11 +313,9 @@ func (stage *StageStruct) Commit() {
 	stage.Map_GongStructName_InstancesNb["GongEnumValueEntry"] = len(stage.GongEnumValueEntrys)
 	stage.Map_GongStructName_InstancesNb["GongStructShape"] = len(stage.GongStructShapes)
 	stage.Map_GongStructName_InstancesNb["Link"] = len(stage.Links)
-	stage.Map_GongStructName_InstancesNb["Node"] = len(stage.Nodes)
 	stage.Map_GongStructName_InstancesNb["NoteShape"] = len(stage.NoteShapes)
 	stage.Map_GongStructName_InstancesNb["NoteShapeLink"] = len(stage.NoteShapeLinks)
 	stage.Map_GongStructName_InstancesNb["Position"] = len(stage.Positions)
-	stage.Map_GongStructName_InstancesNb["Tree"] = len(stage.Trees)
 	stage.Map_GongStructName_InstancesNb["UmlState"] = len(stage.UmlStates)
 	stage.Map_GongStructName_InstancesNb["Umlsc"] = len(stage.Umlscs)
 	stage.Map_GongStructName_InstancesNb["Vertice"] = len(stage.Vertices)
@@ -370,7 +328,6 @@ func (stage *StageStruct) Checkout() {
 	}
 
 	// insertion point for computing the map of number of instances per gongstruct
-	stage.Map_GongStructName_InstancesNb["Button"] = len(stage.Buttons)
 	stage.Map_GongStructName_InstancesNb["Classdiagram"] = len(stage.Classdiagrams)
 	stage.Map_GongStructName_InstancesNb["DiagramPackage"] = len(stage.DiagramPackages)
 	stage.Map_GongStructName_InstancesNb["Field"] = len(stage.Fields)
@@ -378,11 +335,9 @@ func (stage *StageStruct) Checkout() {
 	stage.Map_GongStructName_InstancesNb["GongEnumValueEntry"] = len(stage.GongEnumValueEntrys)
 	stage.Map_GongStructName_InstancesNb["GongStructShape"] = len(stage.GongStructShapes)
 	stage.Map_GongStructName_InstancesNb["Link"] = len(stage.Links)
-	stage.Map_GongStructName_InstancesNb["Node"] = len(stage.Nodes)
 	stage.Map_GongStructName_InstancesNb["NoteShape"] = len(stage.NoteShapes)
 	stage.Map_GongStructName_InstancesNb["NoteShapeLink"] = len(stage.NoteShapeLinks)
 	stage.Map_GongStructName_InstancesNb["Position"] = len(stage.Positions)
-	stage.Map_GongStructName_InstancesNb["Tree"] = len(stage.Trees)
 	stage.Map_GongStructName_InstancesNb["UmlState"] = len(stage.UmlStates)
 	stage.Map_GongStructName_InstancesNb["Umlsc"] = len(stage.Umlscs)
 	stage.Map_GongStructName_InstancesNb["Vertice"] = len(stage.Vertices)
@@ -418,46 +373,6 @@ func (stage *StageStruct) RestoreXL(dirPath string) {
 }
 
 // insertion point for cumulative sub template with model space calls
-// Stage puts button to the model stage
-func (button *Button) Stage(stage *StageStruct) *Button {
-	stage.Buttons[button] = __member
-	stage.Buttons_mapString[button.Name] = button
-
-	return button
-}
-
-// Unstage removes button off the model stage
-func (button *Button) Unstage(stage *StageStruct) *Button {
-	delete(stage.Buttons, button)
-	delete(stage.Buttons_mapString, button.Name)
-	return button
-}
-
-// commit button to the back repo (if it is already staged)
-func (button *Button) Commit(stage *StageStruct) *Button {
-	if _, ok := stage.Buttons[button]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CommitButton(button)
-		}
-	}
-	return button
-}
-
-// Checkout button to the back repo (if it is already staged)
-func (button *Button) Checkout(stage *StageStruct) *Button {
-	if _, ok := stage.Buttons[button]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CheckoutButton(button)
-		}
-	}
-	return button
-}
-
-// for satisfaction of GongStruct interface
-func (button *Button) GetName() (res string) {
-	return button.Name
-}
-
 // Stage puts classdiagram to the model stage
 func (classdiagram *Classdiagram) Stage(stage *StageStruct) *Classdiagram {
 	stage.Classdiagrams[classdiagram] = __member
@@ -738,46 +653,6 @@ func (link *Link) GetName() (res string) {
 	return link.Name
 }
 
-// Stage puts node to the model stage
-func (node *Node) Stage(stage *StageStruct) *Node {
-	stage.Nodes[node] = __member
-	stage.Nodes_mapString[node.Name] = node
-
-	return node
-}
-
-// Unstage removes node off the model stage
-func (node *Node) Unstage(stage *StageStruct) *Node {
-	delete(stage.Nodes, node)
-	delete(stage.Nodes_mapString, node.Name)
-	return node
-}
-
-// commit node to the back repo (if it is already staged)
-func (node *Node) Commit(stage *StageStruct) *Node {
-	if _, ok := stage.Nodes[node]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CommitNode(node)
-		}
-	}
-	return node
-}
-
-// Checkout node to the back repo (if it is already staged)
-func (node *Node) Checkout(stage *StageStruct) *Node {
-	if _, ok := stage.Nodes[node]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CheckoutNode(node)
-		}
-	}
-	return node
-}
-
-// for satisfaction of GongStruct interface
-func (node *Node) GetName() (res string) {
-	return node.Name
-}
-
 // Stage puts noteshape to the model stage
 func (noteshape *NoteShape) Stage(stage *StageStruct) *NoteShape {
 	stage.NoteShapes[noteshape] = __member
@@ -896,46 +771,6 @@ func (position *Position) Checkout(stage *StageStruct) *Position {
 // for satisfaction of GongStruct interface
 func (position *Position) GetName() (res string) {
 	return position.Name
-}
-
-// Stage puts tree to the model stage
-func (tree *Tree) Stage(stage *StageStruct) *Tree {
-	stage.Trees[tree] = __member
-	stage.Trees_mapString[tree.Name] = tree
-
-	return tree
-}
-
-// Unstage removes tree off the model stage
-func (tree *Tree) Unstage(stage *StageStruct) *Tree {
-	delete(stage.Trees, tree)
-	delete(stage.Trees_mapString, tree.Name)
-	return tree
-}
-
-// commit tree to the back repo (if it is already staged)
-func (tree *Tree) Commit(stage *StageStruct) *Tree {
-	if _, ok := stage.Trees[tree]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CommitTree(tree)
-		}
-	}
-	return tree
-}
-
-// Checkout tree to the back repo (if it is already staged)
-func (tree *Tree) Checkout(stage *StageStruct) *Tree {
-	if _, ok := stage.Trees[tree]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CheckoutTree(tree)
-		}
-	}
-	return tree
-}
-
-// for satisfaction of GongStruct interface
-func (tree *Tree) GetName() (res string) {
-	return tree.Name
 }
 
 // Stage puts umlstate to the model stage
@@ -1060,7 +895,6 @@ func (vertice *Vertice) GetName() (res string) {
 
 // swagger:ignore
 type AllModelsStructCreateInterface interface { // insertion point for Callbacks on creation
-	CreateORMButton(Button *Button)
 	CreateORMClassdiagram(Classdiagram *Classdiagram)
 	CreateORMDiagramPackage(DiagramPackage *DiagramPackage)
 	CreateORMField(Field *Field)
@@ -1068,18 +902,15 @@ type AllModelsStructCreateInterface interface { // insertion point for Callbacks
 	CreateORMGongEnumValueEntry(GongEnumValueEntry *GongEnumValueEntry)
 	CreateORMGongStructShape(GongStructShape *GongStructShape)
 	CreateORMLink(Link *Link)
-	CreateORMNode(Node *Node)
 	CreateORMNoteShape(NoteShape *NoteShape)
 	CreateORMNoteShapeLink(NoteShapeLink *NoteShapeLink)
 	CreateORMPosition(Position *Position)
-	CreateORMTree(Tree *Tree)
 	CreateORMUmlState(UmlState *UmlState)
 	CreateORMUmlsc(Umlsc *Umlsc)
 	CreateORMVertice(Vertice *Vertice)
 }
 
 type AllModelsStructDeleteInterface interface { // insertion point for Callbacks on deletion
-	DeleteORMButton(Button *Button)
 	DeleteORMClassdiagram(Classdiagram *Classdiagram)
 	DeleteORMDiagramPackage(DiagramPackage *DiagramPackage)
 	DeleteORMField(Field *Field)
@@ -1087,20 +918,15 @@ type AllModelsStructDeleteInterface interface { // insertion point for Callbacks
 	DeleteORMGongEnumValueEntry(GongEnumValueEntry *GongEnumValueEntry)
 	DeleteORMGongStructShape(GongStructShape *GongStructShape)
 	DeleteORMLink(Link *Link)
-	DeleteORMNode(Node *Node)
 	DeleteORMNoteShape(NoteShape *NoteShape)
 	DeleteORMNoteShapeLink(NoteShapeLink *NoteShapeLink)
 	DeleteORMPosition(Position *Position)
-	DeleteORMTree(Tree *Tree)
 	DeleteORMUmlState(UmlState *UmlState)
 	DeleteORMUmlsc(Umlsc *Umlsc)
 	DeleteORMVertice(Vertice *Vertice)
 }
 
 func (stage *StageStruct) Reset() { // insertion point for array reset
-	stage.Buttons = make(map[*Button]any)
-	stage.Buttons_mapString = make(map[string]*Button)
-
 	stage.Classdiagrams = make(map[*Classdiagram]any)
 	stage.Classdiagrams_mapString = make(map[string]*Classdiagram)
 
@@ -1122,9 +948,6 @@ func (stage *StageStruct) Reset() { // insertion point for array reset
 	stage.Links = make(map[*Link]any)
 	stage.Links_mapString = make(map[string]*Link)
 
-	stage.Nodes = make(map[*Node]any)
-	stage.Nodes_mapString = make(map[string]*Node)
-
 	stage.NoteShapes = make(map[*NoteShape]any)
 	stage.NoteShapes_mapString = make(map[string]*NoteShape)
 
@@ -1133,9 +956,6 @@ func (stage *StageStruct) Reset() { // insertion point for array reset
 
 	stage.Positions = make(map[*Position]any)
 	stage.Positions_mapString = make(map[string]*Position)
-
-	stage.Trees = make(map[*Tree]any)
-	stage.Trees_mapString = make(map[string]*Tree)
 
 	stage.UmlStates = make(map[*UmlState]any)
 	stage.UmlStates_mapString = make(map[string]*UmlState)
@@ -1149,9 +969,6 @@ func (stage *StageStruct) Reset() { // insertion point for array reset
 }
 
 func (stage *StageStruct) Nil() { // insertion point for array nil
-	stage.Buttons = nil
-	stage.Buttons_mapString = nil
-
 	stage.Classdiagrams = nil
 	stage.Classdiagrams_mapString = nil
 
@@ -1173,9 +990,6 @@ func (stage *StageStruct) Nil() { // insertion point for array nil
 	stage.Links = nil
 	stage.Links_mapString = nil
 
-	stage.Nodes = nil
-	stage.Nodes_mapString = nil
-
 	stage.NoteShapes = nil
 	stage.NoteShapes_mapString = nil
 
@@ -1184,9 +998,6 @@ func (stage *StageStruct) Nil() { // insertion point for array nil
 
 	stage.Positions = nil
 	stage.Positions_mapString = nil
-
-	stage.Trees = nil
-	stage.Trees_mapString = nil
 
 	stage.UmlStates = nil
 	stage.UmlStates_mapString = nil
@@ -1200,10 +1011,6 @@ func (stage *StageStruct) Nil() { // insertion point for array nil
 }
 
 func (stage *StageStruct) Unstage() { // insertion point for array nil
-	for button := range stage.Buttons {
-		button.Unstage(stage)
-	}
-
 	for classdiagram := range stage.Classdiagrams {
 		classdiagram.Unstage(stage)
 	}
@@ -1232,10 +1039,6 @@ func (stage *StageStruct) Unstage() { // insertion point for array nil
 		link.Unstage(stage)
 	}
 
-	for node := range stage.Nodes {
-		node.Unstage(stage)
-	}
-
 	for noteshape := range stage.NoteShapes {
 		noteshape.Unstage(stage)
 	}
@@ -1246,10 +1049,6 @@ func (stage *StageStruct) Unstage() { // insertion point for array nil
 
 	for position := range stage.Positions {
 		position.Unstage(stage)
-	}
-
-	for tree := range stage.Trees {
-		tree.Unstage(stage)
 	}
 
 	for umlstate := range stage.UmlStates {
@@ -1272,7 +1071,7 @@ func (stage *StageStruct) Unstage() { // insertion point for array nil
 // - full refactoring of Gongstruct identifiers / fields
 type Gongstruct interface {
 	// insertion point for generic types
-	Button | Classdiagram | DiagramPackage | Field | GongEnumShape | GongEnumValueEntry | GongStructShape | Link | Node | NoteShape | NoteShapeLink | Position | Tree | UmlState | Umlsc | Vertice
+	Classdiagram | DiagramPackage | Field | GongEnumShape | GongEnumValueEntry | GongStructShape | Link | NoteShape | NoteShapeLink | Position | UmlState | Umlsc | Vertice
 }
 
 // Gongstruct is the type parameter for generated generic function that allows
@@ -1281,14 +1080,13 @@ type Gongstruct interface {
 // - full refactoring of Gongstruct identifiers / fields
 type PointerToGongstruct interface {
 	// insertion point for generic types
-	*Button | *Classdiagram | *DiagramPackage | *Field | *GongEnumShape | *GongEnumValueEntry | *GongStructShape | *Link | *Node | *NoteShape | *NoteShapeLink | *Position | *Tree | *UmlState | *Umlsc | *Vertice
+	*Classdiagram | *DiagramPackage | *Field | *GongEnumShape | *GongEnumValueEntry | *GongStructShape | *Link | *NoteShape | *NoteShapeLink | *Position | *UmlState | *Umlsc | *Vertice
 	GetName() string
 }
 
 type GongstructSet interface {
 	map[any]any |
 		// insertion point for generic types
-		map[*Button]any |
 		map[*Classdiagram]any |
 		map[*DiagramPackage]any |
 		map[*Field]any |
@@ -1296,11 +1094,9 @@ type GongstructSet interface {
 		map[*GongEnumValueEntry]any |
 		map[*GongStructShape]any |
 		map[*Link]any |
-		map[*Node]any |
 		map[*NoteShape]any |
 		map[*NoteShapeLink]any |
 		map[*Position]any |
-		map[*Tree]any |
 		map[*UmlState]any |
 		map[*Umlsc]any |
 		map[*Vertice]any |
@@ -1310,7 +1106,6 @@ type GongstructSet interface {
 type GongstructMapString interface {
 	map[any]any |
 		// insertion point for generic types
-		map[string]*Button |
 		map[string]*Classdiagram |
 		map[string]*DiagramPackage |
 		map[string]*Field |
@@ -1318,11 +1113,9 @@ type GongstructMapString interface {
 		map[string]*GongEnumValueEntry |
 		map[string]*GongStructShape |
 		map[string]*Link |
-		map[string]*Node |
 		map[string]*NoteShape |
 		map[string]*NoteShapeLink |
 		map[string]*Position |
-		map[string]*Tree |
 		map[string]*UmlState |
 		map[string]*Umlsc |
 		map[string]*Vertice |
@@ -1336,8 +1129,6 @@ func GongGetSet[Type GongstructSet](stage *StageStruct) *Type {
 
 	switch any(ret).(type) {
 	// insertion point for generic get functions
-	case map[*Button]any:
-		return any(&stage.Buttons).(*Type)
 	case map[*Classdiagram]any:
 		return any(&stage.Classdiagrams).(*Type)
 	case map[*DiagramPackage]any:
@@ -1352,16 +1143,12 @@ func GongGetSet[Type GongstructSet](stage *StageStruct) *Type {
 		return any(&stage.GongStructShapes).(*Type)
 	case map[*Link]any:
 		return any(&stage.Links).(*Type)
-	case map[*Node]any:
-		return any(&stage.Nodes).(*Type)
 	case map[*NoteShape]any:
 		return any(&stage.NoteShapes).(*Type)
 	case map[*NoteShapeLink]any:
 		return any(&stage.NoteShapeLinks).(*Type)
 	case map[*Position]any:
 		return any(&stage.Positions).(*Type)
-	case map[*Tree]any:
-		return any(&stage.Trees).(*Type)
 	case map[*UmlState]any:
 		return any(&stage.UmlStates).(*Type)
 	case map[*Umlsc]any:
@@ -1380,8 +1167,6 @@ func GongGetMap[Type GongstructMapString](stage *StageStruct) *Type {
 
 	switch any(ret).(type) {
 	// insertion point for generic get functions
-	case map[string]*Button:
-		return any(&stage.Buttons_mapString).(*Type)
 	case map[string]*Classdiagram:
 		return any(&stage.Classdiagrams_mapString).(*Type)
 	case map[string]*DiagramPackage:
@@ -1396,16 +1181,12 @@ func GongGetMap[Type GongstructMapString](stage *StageStruct) *Type {
 		return any(&stage.GongStructShapes_mapString).(*Type)
 	case map[string]*Link:
 		return any(&stage.Links_mapString).(*Type)
-	case map[string]*Node:
-		return any(&stage.Nodes_mapString).(*Type)
 	case map[string]*NoteShape:
 		return any(&stage.NoteShapes_mapString).(*Type)
 	case map[string]*NoteShapeLink:
 		return any(&stage.NoteShapeLinks_mapString).(*Type)
 	case map[string]*Position:
 		return any(&stage.Positions_mapString).(*Type)
-	case map[string]*Tree:
-		return any(&stage.Trees_mapString).(*Type)
 	case map[string]*UmlState:
 		return any(&stage.UmlStates_mapString).(*Type)
 	case map[string]*Umlsc:
@@ -1424,8 +1205,6 @@ func GetGongstructInstancesSet[Type Gongstruct](stage *StageStruct) *map[*Type]a
 
 	switch any(ret).(type) {
 	// insertion point for generic get functions
-	case Button:
-		return any(&stage.Buttons).(*map[*Type]any)
 	case Classdiagram:
 		return any(&stage.Classdiagrams).(*map[*Type]any)
 	case DiagramPackage:
@@ -1440,16 +1219,12 @@ func GetGongstructInstancesSet[Type Gongstruct](stage *StageStruct) *map[*Type]a
 		return any(&stage.GongStructShapes).(*map[*Type]any)
 	case Link:
 		return any(&stage.Links).(*map[*Type]any)
-	case Node:
-		return any(&stage.Nodes).(*map[*Type]any)
 	case NoteShape:
 		return any(&stage.NoteShapes).(*map[*Type]any)
 	case NoteShapeLink:
 		return any(&stage.NoteShapeLinks).(*map[*Type]any)
 	case Position:
 		return any(&stage.Positions).(*map[*Type]any)
-	case Tree:
-		return any(&stage.Trees).(*map[*Type]any)
 	case UmlState:
 		return any(&stage.UmlStates).(*map[*Type]any)
 	case Umlsc:
@@ -1468,8 +1243,6 @@ func GetGongstructInstancesMap[Type Gongstruct](stage *StageStruct) *map[string]
 
 	switch any(ret).(type) {
 	// insertion point for generic get functions
-	case Button:
-		return any(&stage.Buttons_mapString).(*map[string]*Type)
 	case Classdiagram:
 		return any(&stage.Classdiagrams_mapString).(*map[string]*Type)
 	case DiagramPackage:
@@ -1484,16 +1257,12 @@ func GetGongstructInstancesMap[Type Gongstruct](stage *StageStruct) *map[string]
 		return any(&stage.GongStructShapes_mapString).(*map[string]*Type)
 	case Link:
 		return any(&stage.Links_mapString).(*map[string]*Type)
-	case Node:
-		return any(&stage.Nodes_mapString).(*map[string]*Type)
 	case NoteShape:
 		return any(&stage.NoteShapes_mapString).(*map[string]*Type)
 	case NoteShapeLink:
 		return any(&stage.NoteShapeLinks_mapString).(*map[string]*Type)
 	case Position:
 		return any(&stage.Positions_mapString).(*map[string]*Type)
-	case Tree:
-		return any(&stage.Trees_mapString).(*map[string]*Type)
 	case UmlState:
 		return any(&stage.UmlStates_mapString).(*map[string]*Type)
 	case Umlsc:
@@ -1514,10 +1283,6 @@ func GetAssociationName[Type Gongstruct]() *Type {
 
 	switch any(ret).(type) {
 	// insertion point for instance with special fields
-	case Button:
-		return any(&Button{
-			// Initialisation of associations
-		}).(*Type)
 	case Classdiagram:
 		return any(&Classdiagram{
 			// Initialisation of associations
@@ -1570,14 +1335,6 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			// field is initialized with an instance of Vertice with the name of the field
 			Middlevertice: &Vertice{Name: "Middlevertice"},
 		}).(*Type)
-	case Node:
-		return any(&Node{
-			// Initialisation of associations
-			// field is initialized with an instance of Node with the name of the field
-			Children: []*Node{{Name: "Children"}},
-			// field is initialized with an instance of Button with the name of the field
-			Buttons: []*Button{{Name: "Buttons"}},
-		}).(*Type)
 	case NoteShape:
 		return any(&NoteShape{
 			// Initialisation of associations
@@ -1591,12 +1348,6 @@ func GetAssociationName[Type Gongstruct]() *Type {
 	case Position:
 		return any(&Position{
 			// Initialisation of associations
-		}).(*Type)
-	case Tree:
-		return any(&Tree{
-			// Initialisation of associations
-			// field is initialized with an instance of Node with the name of the field
-			RootNodes: []*Node{{Name: "RootNodes"}},
 		}).(*Type)
 	case UmlState:
 		return any(&UmlState{
@@ -1630,11 +1381,6 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *StageS
 
 	switch any(ret).(type) {
 	// insertion point of functions that provide maps for reverse associations
-	// reverse maps of direct associations of Button
-	case Button:
-		switch fieldname {
-		// insertion point for per direct association field
-		}
 	// reverse maps of direct associations of Classdiagram
 	case Classdiagram:
 		switch fieldname {
@@ -1738,11 +1484,6 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *StageS
 			}
 			return any(res).(map[*End][]*Start)
 		}
-	// reverse maps of direct associations of Node
-	case Node:
-		switch fieldname {
-		// insertion point for per direct association field
-		}
 	// reverse maps of direct associations of NoteShape
 	case NoteShape:
 		switch fieldname {
@@ -1755,11 +1496,6 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *StageS
 		}
 	// reverse maps of direct associations of Position
 	case Position:
-		switch fieldname {
-		// insertion point for per direct association field
-		}
-	// reverse maps of direct associations of Tree
-	case Tree:
 		switch fieldname {
 		// insertion point for per direct association field
 		}
@@ -1794,11 +1530,6 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 
 	switch any(ret).(type) {
 	// insertion point of functions that provide maps for reverse associations
-	// reverse maps of direct associations of Button
-	case Button:
-		switch fieldname {
-		// insertion point for per direct association field
-		}
 	// reverse maps of direct associations of Classdiagram
 	case Classdiagram:
 		switch fieldname {
@@ -1898,27 +1629,6 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 		switch fieldname {
 		// insertion point for per direct association field
 		}
-	// reverse maps of direct associations of Node
-	case Node:
-		switch fieldname {
-		// insertion point for per direct association field
-		case "Children":
-			res := make(map[*Node]*Node)
-			for node := range stage.Nodes {
-				for _, node_ := range node.Children {
-					res[node_] = node
-				}
-			}
-			return any(res).(map[*End]*Start)
-		case "Buttons":
-			res := make(map[*Button]*Node)
-			for node := range stage.Nodes {
-				for _, button_ := range node.Buttons {
-					res[button_] = node
-				}
-			}
-			return any(res).(map[*End]*Start)
-		}
 	// reverse maps of direct associations of NoteShape
 	case NoteShape:
 		switch fieldname {
@@ -1941,19 +1651,6 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 	case Position:
 		switch fieldname {
 		// insertion point for per direct association field
-		}
-	// reverse maps of direct associations of Tree
-	case Tree:
-		switch fieldname {
-		// insertion point for per direct association field
-		case "RootNodes":
-			res := make(map[*Node]*Tree)
-			for tree := range stage.Trees {
-				for _, node_ := range tree.RootNodes {
-					res[node_] = tree
-				}
-			}
-			return any(res).(map[*End]*Start)
 		}
 	// reverse maps of direct associations of UmlState
 	case UmlState:
@@ -1990,8 +1687,6 @@ func GetGongstructName[Type Gongstruct]() (res string) {
 
 	switch any(ret).(type) {
 	// insertion point for generic get gongstruct name
-	case Button:
-		res = "Button"
 	case Classdiagram:
 		res = "Classdiagram"
 	case DiagramPackage:
@@ -2006,16 +1701,12 @@ func GetGongstructName[Type Gongstruct]() (res string) {
 		res = "GongStructShape"
 	case Link:
 		res = "Link"
-	case Node:
-		res = "Node"
 	case NoteShape:
 		res = "NoteShape"
 	case NoteShapeLink:
 		res = "NoteShapeLink"
 	case Position:
 		res = "Position"
-	case Tree:
-		res = "Tree"
 	case UmlState:
 		res = "UmlState"
 	case Umlsc:
@@ -2033,8 +1724,6 @@ func GetFields[Type Gongstruct]() (res []string) {
 
 	switch any(ret).(type) {
 	// insertion point for generic get gongstruct name
-	case Button:
-		res = []string{"Name", "Icon"}
 	case Classdiagram:
 		res = []string{"Name", "GongStructShapes", "GongEnumShapes", "NoteShapes", "IsInDrawMode"}
 	case DiagramPackage:
@@ -2049,16 +1738,12 @@ func GetFields[Type Gongstruct]() (res []string) {
 		res = []string{"Name", "Position", "Identifier", "ShowNbInstances", "NbInstances", "Fields", "Links", "Width", "Heigth", "IsSelected"}
 	case Link:
 		res = []string{"Name", "Identifier", "Fieldtypename", "FieldOffsetX", "FieldOffsetY", "TargetMultiplicity", "TargetMultiplicityOffsetX", "TargetMultiplicityOffsetY", "SourceMultiplicity", "SourceMultiplicityOffsetX", "SourceMultiplicityOffsetY", "Middlevertice", "StartOrientation", "StartRatio", "EndOrientation", "EndRatio", "CornerOffsetRatio"}
-	case Node:
-		res = []string{"Name", "IsExpanded", "HasCheckboxButton", "IsChecked", "IsCheckboxDisabled", "IsInEditMode", "Children", "Buttons"}
 	case NoteShape:
 		res = []string{"Name", "Identifier", "Body", "BodyHTML", "X", "Y", "Width", "Heigth", "Matched", "NoteShapeLinks"}
 	case NoteShapeLink:
 		res = []string{"Name", "Identifier", "Type"}
 	case Position:
 		res = []string{"X", "Y", "Name"}
-	case Tree:
-		res = []string{"Name", "RootNodes"}
 	case UmlState:
 		res = []string{"Name", "X", "Y"}
 	case Umlsc:
@@ -2074,14 +1759,6 @@ func GetFieldStringValue[Type Gongstruct](instance Type, fieldName string) (res 
 
 	switch any(ret).(type) {
 	// insertion point for generic get gongstruct field value
-	case Button:
-		switch fieldName {
-		// string value of fields
-		case "Name":
-			res = any(instance).(Button).Name
-		case "Icon":
-			res = any(instance).(Button).Icon
-		}
 	case Classdiagram:
 		switch fieldName {
 		// string value of fields
@@ -2270,36 +1947,6 @@ func GetFieldStringValue[Type Gongstruct](instance Type, fieldName string) (res 
 		case "CornerOffsetRatio":
 			res = fmt.Sprintf("%f", any(instance).(Link).CornerOffsetRatio)
 		}
-	case Node:
-		switch fieldName {
-		// string value of fields
-		case "Name":
-			res = any(instance).(Node).Name
-		case "IsExpanded":
-			res = fmt.Sprintf("%t", any(instance).(Node).IsExpanded)
-		case "HasCheckboxButton":
-			res = fmt.Sprintf("%t", any(instance).(Node).HasCheckboxButton)
-		case "IsChecked":
-			res = fmt.Sprintf("%t", any(instance).(Node).IsChecked)
-		case "IsCheckboxDisabled":
-			res = fmt.Sprintf("%t", any(instance).(Node).IsCheckboxDisabled)
-		case "IsInEditMode":
-			res = fmt.Sprintf("%t", any(instance).(Node).IsInEditMode)
-		case "Children":
-			for idx, __instance__ := range any(instance).(Node).Children {
-				if idx > 0 {
-					res += "\n"
-				}
-				res += __instance__.Name
-			}
-		case "Buttons":
-			for idx, __instance__ := range any(instance).(Node).Buttons {
-				if idx > 0 {
-					res += "\n"
-				}
-				res += __instance__.Name
-			}
-		}
 	case NoteShape:
 		switch fieldName {
 		// string value of fields
@@ -2349,19 +1996,6 @@ func GetFieldStringValue[Type Gongstruct](instance Type, fieldName string) (res 
 			res = fmt.Sprintf("%f", any(instance).(Position).Y)
 		case "Name":
 			res = any(instance).(Position).Name
-		}
-	case Tree:
-		switch fieldName {
-		// string value of fields
-		case "Name":
-			res = any(instance).(Tree).Name
-		case "RootNodes":
-			for idx, __instance__ := range any(instance).(Tree).RootNodes {
-				if idx > 0 {
-					res += "\n"
-				}
-				res += __instance__.Name
-			}
 		}
 	case UmlState:
 		switch fieldName {

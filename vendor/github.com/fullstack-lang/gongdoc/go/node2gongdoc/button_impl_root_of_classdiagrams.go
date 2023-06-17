@@ -7,6 +7,7 @@ import (
 	"path/filepath"
 
 	gongdoc_models "github.com/fullstack-lang/gongdoc/go/models"
+	gongtree_models "github.com/fullstack-lang/gongtree/go/models"
 )
 
 type ButtonImplRootOfClassdiagrams struct {
@@ -14,10 +15,10 @@ type ButtonImplRootOfClassdiagrams struct {
 	diagramPackage *gongdoc_models.DiagramPackage
 
 	// one needs to access the node of the diagram package to manage the childern nodes
-	diagramPackageNode *gongdoc_models.Node
+	diagramPackageNode *gongtree_models.Node
 
 	// one needs to perform computation of node confs after the update
-	treeOfGongObjects *gongdoc_models.Tree
+	treeOfGongObjects *gongtree_models.Tree
 
 	// type of button
 	Icon ButtonType
@@ -25,8 +26,8 @@ type ButtonImplRootOfClassdiagrams struct {
 
 func NewButtonImplRootOfClassdiagrams(
 	diagramPackage *gongdoc_models.DiagramPackage,
-	diagramPackageNode *gongdoc_models.Node,
-	treeOfGongObjects *gongdoc_models.Tree,
+	diagramPackageNode *gongtree_models.Node,
+	treeOfGongObjects *gongtree_models.Tree,
 	icon ButtonType,
 ) (buttonImplRootOfClassdiagrams *ButtonImplRootOfClassdiagrams) {
 
@@ -41,8 +42,10 @@ func NewButtonImplRootOfClassdiagrams(
 }
 
 func (buttonImpl *ButtonImplRootOfClassdiagrams) ButtonUpdated(
-	gongdocStage *gongdoc_models.StageStruct,
-	stageButton, front *gongdoc_models.Button) {
+	gongtreeStage *gongtree_models.StageStruct,
+	stageButton, front *gongtree_models.Button) {
+
+	gongdocStage := buttonImpl.diagramPackage.Stage_
 
 	switch buttonImpl.Icon {
 	case BUTTON_add:
@@ -96,7 +99,9 @@ func (buttonImpl *ButtonImplRootOfClassdiagrams) ButtonUpdated(
 		gongdocStage.Unstage()
 		gongdocStage.Checkout()
 
-		classdiagramNode := NewClassdiagramNode(classdiagram,
+		classdiagramNode := NewClassdiagramNode(
+			gongtreeStage,
+			classdiagram,
 			buttonImpl.diagramPackage,
 			buttonImpl.diagramPackageNode,
 			buttonImpl.treeOfGongObjects)
@@ -106,10 +111,13 @@ func (buttonImpl *ButtonImplRootOfClassdiagrams) ButtonUpdated(
 		log.Fatalln("Unkown button type", buttonImpl.Icon)
 	}
 
-	computeNodeConfs(gongdocStage,
+	computeNodeConfs(
+		gongtreeStage,
+		gongdocStage,
 		buttonImpl.diagramPackageNode,
 		buttonImpl.diagramPackage,
 		buttonImpl.treeOfGongObjects)
 
 	gongdocStage.Commit()
+	gongtreeStage.Commit()
 }

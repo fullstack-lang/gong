@@ -3,6 +3,7 @@ package node2gongdoc
 import (
 	gong_models "github.com/fullstack-lang/gong/go/models"
 	gongdoc_models "github.com/fullstack-lang/gongdoc/go/models"
+	gongtree_models "github.com/fullstack-lang/gongtree/go/models"
 )
 
 // NodeImplEnumValue handles the passage fo information
@@ -15,15 +16,15 @@ type NodeImplEnumValue struct {
 	gongEnum      *gong_models.GongEnum
 	gongEnumValue *gong_models.GongEnumValue
 
-	nodeOfGongEnum  *gongdoc_models.Node
-	nodeOfEnumValue *gongdoc_models.Node
+	nodeOfGongEnum  *gongtree_models.Node
+	nodeOfEnumValue *gongtree_models.Node
 }
 
 func NewNodeImplEnumValue(
 	gongEnum *gong_models.GongEnum,
 	gongEnumValue *gong_models.GongEnumValue,
-	nodeOfGongEnum *gongdoc_models.Node,
-	nodeOfEnumValue *gongdoc_models.Node,
+	nodeOfGongEnum *gongtree_models.Node,
+	nodeOfEnumValue *gongtree_models.Node,
 	NodeImplGongObjectAbstract NodeImplGongObjectAbstract,
 ) (nodeImplEnumValue *NodeImplEnumValue) {
 
@@ -39,10 +40,11 @@ func NewNodeImplEnumValue(
 }
 
 func (nodeImplEnumValue *NodeImplEnumValue) OnAfterUpdate(
-	gongdocStage *gongdoc_models.StageStruct,
-	stagedNode, frontNode *gongdoc_models.Node) {
+	gongtreeStage *gongtree_models.StageStruct,
+	stagedNode, frontNode *gongtree_models.Node) {
 
 	classdiagram := nodeImplEnumValue.diagramPackage.SelectedClassdiagram
+	gongdocStage := nodeImplEnumValue.diagramPackage.Stage_
 
 	// find the classhape in the classdiagram
 	foundGongEnumShape := false

@@ -5,10 +5,6 @@ func AfterCreateFromFront[Type Gongstruct](stage *StageStruct, instance *Type) {
 
 	switch target := any(instance).(type) {
 	// insertion point
-	case *Button:
-		if stage.OnAfterButtonCreateCallback != nil {
-			stage.OnAfterButtonCreateCallback.OnAfterCreate(stage, target)
-		}
 	case *Classdiagram:
 		if stage.OnAfterClassdiagramCreateCallback != nil {
 			stage.OnAfterClassdiagramCreateCallback.OnAfterCreate(stage, target)
@@ -37,10 +33,6 @@ func AfterCreateFromFront[Type Gongstruct](stage *StageStruct, instance *Type) {
 		if stage.OnAfterLinkCreateCallback != nil {
 			stage.OnAfterLinkCreateCallback.OnAfterCreate(stage, target)
 		}
-	case *Node:
-		if stage.OnAfterNodeCreateCallback != nil {
-			stage.OnAfterNodeCreateCallback.OnAfterCreate(stage, target)
-		}
 	case *NoteShape:
 		if stage.OnAfterNoteShapeCreateCallback != nil {
 			stage.OnAfterNoteShapeCreateCallback.OnAfterCreate(stage, target)
@@ -52,10 +44,6 @@ func AfterCreateFromFront[Type Gongstruct](stage *StageStruct, instance *Type) {
 	case *Position:
 		if stage.OnAfterPositionCreateCallback != nil {
 			stage.OnAfterPositionCreateCallback.OnAfterCreate(stage, target)
-		}
-	case *Tree:
-		if stage.OnAfterTreeCreateCallback != nil {
-			stage.OnAfterTreeCreateCallback.OnAfterCreate(stage, target)
 		}
 	case *UmlState:
 		if stage.OnAfterUmlStateCreateCallback != nil {
@@ -79,11 +67,6 @@ func AfterUpdateFromFront[Type Gongstruct](stage *StageStruct, old, new *Type) {
 
 	switch oldTarget := any(old).(type) {
 	// insertion point
-	case *Button:
-		newTarget := any(new).(*Button)
-		if stage.OnAfterButtonUpdateCallback != nil {
-			stage.OnAfterButtonUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
-		}
 	case *Classdiagram:
 		newTarget := any(new).(*Classdiagram)
 		if stage.OnAfterClassdiagramUpdateCallback != nil {
@@ -119,11 +102,6 @@ func AfterUpdateFromFront[Type Gongstruct](stage *StageStruct, old, new *Type) {
 		if stage.OnAfterLinkUpdateCallback != nil {
 			stage.OnAfterLinkUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
-	case *Node:
-		newTarget := any(new).(*Node)
-		if stage.OnAfterNodeUpdateCallback != nil {
-			stage.OnAfterNodeUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
-		}
 	case *NoteShape:
 		newTarget := any(new).(*NoteShape)
 		if stage.OnAfterNoteShapeUpdateCallback != nil {
@@ -138,11 +116,6 @@ func AfterUpdateFromFront[Type Gongstruct](stage *StageStruct, old, new *Type) {
 		newTarget := any(new).(*Position)
 		if stage.OnAfterPositionUpdateCallback != nil {
 			stage.OnAfterPositionUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
-		}
-	case *Tree:
-		newTarget := any(new).(*Tree)
-		if stage.OnAfterTreeUpdateCallback != nil {
-			stage.OnAfterTreeUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
 	case *UmlState:
 		newTarget := any(new).(*UmlState)
@@ -169,11 +142,6 @@ func AfterDeleteFromFront[Type Gongstruct](stage *StageStruct, staged, front *Ty
 
 	switch front := any(front).(type) {
 	// insertion point
-	case *Button:
-		if stage.OnAfterButtonDeleteCallback != nil {
-			staged := any(staged).(*Button)
-			stage.OnAfterButtonDeleteCallback.OnAfterDelete(stage, staged, front)
-		}
 	case *Classdiagram:
 		if stage.OnAfterClassdiagramDeleteCallback != nil {
 			staged := any(staged).(*Classdiagram)
@@ -209,11 +177,6 @@ func AfterDeleteFromFront[Type Gongstruct](stage *StageStruct, staged, front *Ty
 			staged := any(staged).(*Link)
 			stage.OnAfterLinkDeleteCallback.OnAfterDelete(stage, staged, front)
 		}
-	case *Node:
-		if stage.OnAfterNodeDeleteCallback != nil {
-			staged := any(staged).(*Node)
-			stage.OnAfterNodeDeleteCallback.OnAfterDelete(stage, staged, front)
-		}
 	case *NoteShape:
 		if stage.OnAfterNoteShapeDeleteCallback != nil {
 			staged := any(staged).(*NoteShape)
@@ -228,11 +191,6 @@ func AfterDeleteFromFront[Type Gongstruct](stage *StageStruct, staged, front *Ty
 		if stage.OnAfterPositionDeleteCallback != nil {
 			staged := any(staged).(*Position)
 			stage.OnAfterPositionDeleteCallback.OnAfterDelete(stage, staged, front)
-		}
-	case *Tree:
-		if stage.OnAfterTreeDeleteCallback != nil {
-			staged := any(staged).(*Tree)
-			stage.OnAfterTreeDeleteCallback.OnAfterDelete(stage, staged, front)
 		}
 	case *UmlState:
 		if stage.OnAfterUmlStateDeleteCallback != nil {
@@ -259,10 +217,6 @@ func AfterReadFromFront[Type Gongstruct](stage *StageStruct, instance *Type) {
 
 	switch target := any(instance).(type) {
 	// insertion point
-	case *Button:
-		if stage.OnAfterButtonReadCallback != nil {
-			stage.OnAfterButtonReadCallback.OnAfterRead(stage, target)
-		}
 	case *Classdiagram:
 		if stage.OnAfterClassdiagramReadCallback != nil {
 			stage.OnAfterClassdiagramReadCallback.OnAfterRead(stage, target)
@@ -291,10 +245,6 @@ func AfterReadFromFront[Type Gongstruct](stage *StageStruct, instance *Type) {
 		if stage.OnAfterLinkReadCallback != nil {
 			stage.OnAfterLinkReadCallback.OnAfterRead(stage, target)
 		}
-	case *Node:
-		if stage.OnAfterNodeReadCallback != nil {
-			stage.OnAfterNodeReadCallback.OnAfterRead(stage, target)
-		}
 	case *NoteShape:
 		if stage.OnAfterNoteShapeReadCallback != nil {
 			stage.OnAfterNoteShapeReadCallback.OnAfterRead(stage, target)
@@ -306,10 +256,6 @@ func AfterReadFromFront[Type Gongstruct](stage *StageStruct, instance *Type) {
 	case *Position:
 		if stage.OnAfterPositionReadCallback != nil {
 			stage.OnAfterPositionReadCallback.OnAfterRead(stage, target)
-		}
-	case *Tree:
-		if stage.OnAfterTreeReadCallback != nil {
-			stage.OnAfterTreeReadCallback.OnAfterRead(stage, target)
 		}
 	case *UmlState:
 		if stage.OnAfterUmlStateReadCallback != nil {
@@ -334,9 +280,6 @@ func SetCallbackAfterUpdateFromFront[Type Gongstruct](stage *StageStruct, callba
 	var instance Type
 	switch any(instance).(type) {
 		// insertion point
-	case *Button:
-		stage.OnAfterButtonUpdateCallback = any(callback).(OnAfterUpdateInterface[Button])
-	
 	case *Classdiagram:
 		stage.OnAfterClassdiagramUpdateCallback = any(callback).(OnAfterUpdateInterface[Classdiagram])
 	
@@ -358,9 +301,6 @@ func SetCallbackAfterUpdateFromFront[Type Gongstruct](stage *StageStruct, callba
 	case *Link:
 		stage.OnAfterLinkUpdateCallback = any(callback).(OnAfterUpdateInterface[Link])
 	
-	case *Node:
-		stage.OnAfterNodeUpdateCallback = any(callback).(OnAfterUpdateInterface[Node])
-	
 	case *NoteShape:
 		stage.OnAfterNoteShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[NoteShape])
 	
@@ -369,9 +309,6 @@ func SetCallbackAfterUpdateFromFront[Type Gongstruct](stage *StageStruct, callba
 	
 	case *Position:
 		stage.OnAfterPositionUpdateCallback = any(callback).(OnAfterUpdateInterface[Position])
-	
-	case *Tree:
-		stage.OnAfterTreeUpdateCallback = any(callback).(OnAfterUpdateInterface[Tree])
 	
 	case *UmlState:
 		stage.OnAfterUmlStateUpdateCallback = any(callback).(OnAfterUpdateInterface[UmlState])
@@ -389,9 +326,6 @@ func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *StageStruct, callba
 	var instance Type
 	switch any(instance).(type) {
 		// insertion point
-	case *Button:
-		stage.OnAfterButtonCreateCallback = any(callback).(OnAfterCreateInterface[Button])
-	
 	case *Classdiagram:
 		stage.OnAfterClassdiagramCreateCallback = any(callback).(OnAfterCreateInterface[Classdiagram])
 	
@@ -413,9 +347,6 @@ func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *StageStruct, callba
 	case *Link:
 		stage.OnAfterLinkCreateCallback = any(callback).(OnAfterCreateInterface[Link])
 	
-	case *Node:
-		stage.OnAfterNodeCreateCallback = any(callback).(OnAfterCreateInterface[Node])
-	
 	case *NoteShape:
 		stage.OnAfterNoteShapeCreateCallback = any(callback).(OnAfterCreateInterface[NoteShape])
 	
@@ -424,9 +355,6 @@ func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *StageStruct, callba
 	
 	case *Position:
 		stage.OnAfterPositionCreateCallback = any(callback).(OnAfterCreateInterface[Position])
-	
-	case *Tree:
-		stage.OnAfterTreeCreateCallback = any(callback).(OnAfterCreateInterface[Tree])
 	
 	case *UmlState:
 		stage.OnAfterUmlStateCreateCallback = any(callback).(OnAfterCreateInterface[UmlState])
@@ -444,9 +372,6 @@ func SetCallbackAfterDeleteFromFront[Type Gongstruct](stage *StageStruct, callba
 	var instance Type
 	switch any(instance).(type) {
 		// insertion point
-	case *Button:
-		stage.OnAfterButtonDeleteCallback = any(callback).(OnAfterDeleteInterface[Button])
-	
 	case *Classdiagram:
 		stage.OnAfterClassdiagramDeleteCallback = any(callback).(OnAfterDeleteInterface[Classdiagram])
 	
@@ -468,9 +393,6 @@ func SetCallbackAfterDeleteFromFront[Type Gongstruct](stage *StageStruct, callba
 	case *Link:
 		stage.OnAfterLinkDeleteCallback = any(callback).(OnAfterDeleteInterface[Link])
 	
-	case *Node:
-		stage.OnAfterNodeDeleteCallback = any(callback).(OnAfterDeleteInterface[Node])
-	
 	case *NoteShape:
 		stage.OnAfterNoteShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[NoteShape])
 	
@@ -479,9 +401,6 @@ func SetCallbackAfterDeleteFromFront[Type Gongstruct](stage *StageStruct, callba
 	
 	case *Position:
 		stage.OnAfterPositionDeleteCallback = any(callback).(OnAfterDeleteInterface[Position])
-	
-	case *Tree:
-		stage.OnAfterTreeDeleteCallback = any(callback).(OnAfterDeleteInterface[Tree])
 	
 	case *UmlState:
 		stage.OnAfterUmlStateDeleteCallback = any(callback).(OnAfterDeleteInterface[UmlState])
@@ -499,9 +418,6 @@ func SetCallbackAfterReadFromFront[Type Gongstruct](stage *StageStruct, callback
 	var instance Type
 	switch any(instance).(type) {
 		// insertion point
-	case *Button:
-		stage.OnAfterButtonReadCallback = any(callback).(OnAfterReadInterface[Button])
-	
 	case *Classdiagram:
 		stage.OnAfterClassdiagramReadCallback = any(callback).(OnAfterReadInterface[Classdiagram])
 	
@@ -523,9 +439,6 @@ func SetCallbackAfterReadFromFront[Type Gongstruct](stage *StageStruct, callback
 	case *Link:
 		stage.OnAfterLinkReadCallback = any(callback).(OnAfterReadInterface[Link])
 	
-	case *Node:
-		stage.OnAfterNodeReadCallback = any(callback).(OnAfterReadInterface[Node])
-	
 	case *NoteShape:
 		stage.OnAfterNoteShapeReadCallback = any(callback).(OnAfterReadInterface[NoteShape])
 	
@@ -534,9 +447,6 @@ func SetCallbackAfterReadFromFront[Type Gongstruct](stage *StageStruct, callback
 	
 	case *Position:
 		stage.OnAfterPositionReadCallback = any(callback).(OnAfterReadInterface[Position])
-	
-	case *Tree:
-		stage.OnAfterTreeReadCallback = any(callback).(OnAfterReadInterface[Tree])
 	
 	case *UmlState:
 		stage.OnAfterUmlStateReadCallback = any(callback).(OnAfterReadInterface[UmlState])

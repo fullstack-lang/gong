@@ -1,4 +1,4 @@
-// Licensed under the MIT license, see LICENCE file for details.
+// Licensed under the MIT license, see LICENSE file for details.
 
 package quicktest
 
@@ -13,6 +13,7 @@ import (
 	"reflect"
 	"runtime"
 	"strings"
+	"testing"
 )
 
 // reportParams holds parameters for reporting a test error.
@@ -24,7 +25,7 @@ type reportParams struct {
 	// args holds all other arguments (if any) provided to the checker.
 	args []interface{}
 	// comment optionally holds the comment passed when performing the check.
-	comment Comment
+	comments []Comment
 	// notes holds notes added while doing the check.
 	notes []note
 	// format holds the format function that must be used when outputting
@@ -36,6 +37,18 @@ type reportParams struct {
 // output. This is useful when a checker calls note and does not want the
 // provided value to be quoted.
 type Unquoted string
+
+// SuppressedIfLong indicates that the value must be suppressed if verbose
+// testing is off and the pretty printed version of the value is long. This is
+// useful when a checker calls note and does not want the provided value to be
+// printed in non-verbose test runs if the value is too long.
+type SuppressedIfLong struct {
+	// Value holds the original annotated value.
+	Value interface{}
+}
+
+// longValueLines holds the number of lines after which a value is long.
+const longValueLines = 10
 
 // report generates a failure report for the given error, optionally including
 // in the output the checker arguments, comment and notes included in the
@@ -51,18 +64,34 @@ func report(err error, p reportParams) string {
 // writeError writes a pretty formatted output of the given error using the
 // provided report parameters.
 func writeError(w io.Writer, err error, p reportParams) {
+	ptrs := make(map[string]interface{})
 	values := make(map[string]string)
 	printPair := func(key string, value interface{}) {
 		fmt.Fprintln(w, key+":")
 		var v string
 		if u, ok := value.(Unquoted); ok {
 			v = string(u)
+		} else if s, ok := value.(SuppressedIfLong); ok {
+			v = p.format(s.Value)
+			if !testingVerbose() {
+				if n := strings.Count(v, "\n"); n > longValueLines {
+					v = fmt.Sprintf("<suppressed due to length (%d lines), use -v for full output>", n)
+				}
+			}
 		} else {
 			v = p.format(value)
 		}
+		isPtr := reflect.ValueOf(value).Kind() == reflect.Ptr
 		if k := values[v]; k != "" {
+			if previousValue, ok := ptrs[k]; ok && isPtr && previousValue != value {
+				fmt.Fprint(w, prefixf(prefix, "<same as %q but different pointer value>", k))
+				return
+			}
 			fmt.Fprint(w, prefixf(prefix, "<same as %q>", k))
 			return
+		}
+		if isPtr {
+			ptrs[key] = value
 		}
 		values[v] = key
 		fmt.Fprint(w, prefixf(prefix, "%s", v))
@@ -73,9 +102,11 @@ func writeError(w io.Writer, err error, p reportParams) {
 		printPair("error", Unquoted(err.Error()))
 	}
 
-	// Write the comment if provided.
-	if comment := p.comment.String(); comment != "" {
-		printPair("comment", Unquoted(comment))
+	// Write comments if provided.
+	for _, c := range p.comments {
+		if comment := c.String(); comment != "" {
+			printPair("comment", Unquoted(comment))
+		}
 	}
 
 	// Write notes if present.
@@ -92,6 +123,11 @@ func writeError(w io.Writer, err error, p reportParams) {
 	for i, arg := range append([]interface{}{p.got}, p.args...) {
 		printPair(p.argNames[i], arg)
 	}
+}
+
+// testingVerbose is defined as a variable for testing.
+var testingVerbose = func() bool {
+	return testing.Verbose()
 }
 
 // writeStack writes the traceback information for the current failure into the

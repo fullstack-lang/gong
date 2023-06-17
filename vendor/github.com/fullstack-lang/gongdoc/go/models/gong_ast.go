@@ -303,7 +303,6 @@ func ParseAstFileFromAst(stage *StageStruct, inFile *ast.File, fset *token.FileS
 var __gong__map_Indentifiers_gongstructName = make(map[string]string)
 
 // insertion point for identifiers maps
-var __gong__map_Button = make(map[string]*Button)
 var __gong__map_Classdiagram = make(map[string]*Classdiagram)
 var __gong__map_DiagramPackage = make(map[string]*DiagramPackage)
 var __gong__map_Field = make(map[string]*Field)
@@ -311,11 +310,9 @@ var __gong__map_GongEnumShape = make(map[string]*GongEnumShape)
 var __gong__map_GongEnumValueEntry = make(map[string]*GongEnumValueEntry)
 var __gong__map_GongStructShape = make(map[string]*GongStructShape)
 var __gong__map_Link = make(map[string]*Link)
-var __gong__map_Node = make(map[string]*Node)
 var __gong__map_NoteShape = make(map[string]*NoteShape)
 var __gong__map_NoteShapeLink = make(map[string]*NoteShapeLink)
 var __gong__map_Position = make(map[string]*Position)
-var __gong__map_Tree = make(map[string]*Tree)
 var __gong__map_UmlState = make(map[string]*UmlState)
 var __gong__map_Umlsc = make(map[string]*Umlsc)
 var __gong__map_Vertice = make(map[string]*Vertice)
@@ -491,10 +488,6 @@ func UnmarshallGongstructStaging(stage *StageStruct, cmap *ast.CommentMap, assig
 									// this is the place where an instance is created
 									switch gongstructName {
 									// insertion point for identifiers
-									case "Button":
-										instanceButton := (&Button{Name: instanceName}).Stage(stage)
-										instance = any(instanceButton)
-										__gong__map_Button[identifier] = instanceButton
 									case "Classdiagram":
 										instanceClassdiagram := (&Classdiagram{Name: instanceName}).Stage(stage)
 										instance = any(instanceClassdiagram)
@@ -523,10 +516,6 @@ func UnmarshallGongstructStaging(stage *StageStruct, cmap *ast.CommentMap, assig
 										instanceLink := (&Link{Name: instanceName}).Stage(stage)
 										instance = any(instanceLink)
 										__gong__map_Link[identifier] = instanceLink
-									case "Node":
-										instanceNode := (&Node{Name: instanceName}).Stage(stage)
-										instance = any(instanceNode)
-										__gong__map_Node[identifier] = instanceNode
 									case "NoteShape":
 										instanceNoteShape := (&NoteShape{Name: instanceName}).Stage(stage)
 										instance = any(instanceNoteShape)
@@ -539,10 +528,6 @@ func UnmarshallGongstructStaging(stage *StageStruct, cmap *ast.CommentMap, assig
 										instancePosition := (&Position{Name: instanceName}).Stage(stage)
 										instance = any(instancePosition)
 										__gong__map_Position[identifier] = instancePosition
-									case "Tree":
-										instanceTree := (&Tree{Name: instanceName}).Stage(stage)
-										instance = any(instanceTree)
-										__gong__map_Tree[identifier] = instanceTree
 									case "UmlState":
 										instanceUmlState := (&UmlState{Name: instanceName}).Stage(stage)
 										instance = any(instanceUmlState)
@@ -591,10 +576,6 @@ func UnmarshallGongstructStaging(stage *StageStruct, cmap *ast.CommentMap, assig
 						}
 						switch gongstructName {
 						// insertion point for basic lit assignments
-						case "Button":
-							switch fieldName {
-							// insertion point for date assign code
-							}
 						case "Classdiagram":
 							switch fieldName {
 							// insertion point for date assign code
@@ -623,10 +604,6 @@ func UnmarshallGongstructStaging(stage *StageStruct, cmap *ast.CommentMap, assig
 							switch fieldName {
 							// insertion point for date assign code
 							}
-						case "Node":
-							switch fieldName {
-							// insertion point for date assign code
-							}
 						case "NoteShape":
 							switch fieldName {
 							// insertion point for date assign code
@@ -636,10 +613,6 @@ func UnmarshallGongstructStaging(stage *StageStruct, cmap *ast.CommentMap, assig
 							// insertion point for date assign code
 							}
 						case "Position":
-							switch fieldName {
-							// insertion point for date assign code
-							}
-						case "Tree":
 							switch fieldName {
 							// insertion point for date assign code
 							}
@@ -680,10 +653,6 @@ func UnmarshallGongstructStaging(stage *StageStruct, cmap *ast.CommentMap, assig
 					}
 					switch gongstructName {
 					// insertion point for slice of pointers assignments
-					case "Button":
-						switch fieldName {
-						// insertion point for slice of pointers assign code
-						}
 					case "Classdiagram":
 						switch fieldName {
 						// insertion point for slice of pointers assign code
@@ -760,22 +729,6 @@ func UnmarshallGongstructStaging(stage *StageStruct, cmap *ast.CommentMap, assig
 						switch fieldName {
 						// insertion point for slice of pointers assign code
 						}
-					case "Node":
-						switch fieldName {
-						// insertion point for slice of pointers assign code
-						case "Children":
-							// remove first and last char
-							targetIdentifier := ident.Name
-							target := __gong__map_Node[targetIdentifier]
-							__gong__map_Node[identifier].Children =
-								append(__gong__map_Node[identifier].Children, target)
-						case "Buttons":
-							// remove first and last char
-							targetIdentifier := ident.Name
-							target := __gong__map_Button[targetIdentifier]
-							__gong__map_Node[identifier].Buttons =
-								append(__gong__map_Node[identifier].Buttons, target)
-						}
 					case "NoteShape":
 						switch fieldName {
 						// insertion point for slice of pointers assign code
@@ -793,16 +746,6 @@ func UnmarshallGongstructStaging(stage *StageStruct, cmap *ast.CommentMap, assig
 					case "Position":
 						switch fieldName {
 						// insertion point for slice of pointers assign code
-						}
-					case "Tree":
-						switch fieldName {
-						// insertion point for slice of pointers assign code
-						case "RootNodes":
-							// remove first and last char
-							targetIdentifier := ident.Name
-							target := __gong__map_Node[targetIdentifier]
-							__gong__map_Tree[identifier].RootNodes =
-								append(__gong__map_Tree[identifier].RootNodes, target)
 						}
 					case "UmlState":
 						switch fieldName {
@@ -871,18 +814,6 @@ func UnmarshallGongstructStaging(stage *StageStruct, cmap *ast.CommentMap, assig
 
 			switch gongstructName {
 			// insertion point for basic lit assignments
-			case "Button":
-				switch fieldName {
-				// insertion point for field dependant code
-				case "Name":
-					// remove first and last char
-					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
-					__gong__map_Button[identifier].Name = fielValue
-				case "Icon":
-					// remove first and last char
-					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
-					__gong__map_Button[identifier].Icon = fielValue
-				}
 			case "Classdiagram":
 				switch fieldName {
 				// insertion point for field dependant code
@@ -1085,14 +1016,6 @@ func UnmarshallGongstructStaging(stage *StageStruct, cmap *ast.CommentMap, assig
 					}
 					__gong__map_Link[identifier].CornerOffsetRatio = exprSign * fielValue
 				}
-			case "Node":
-				switch fieldName {
-				// insertion point for field dependant code
-				case "Name":
-					// remove first and last char
-					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
-					__gong__map_Node[identifier].Name = fielValue
-				}
 			case "NoteShape":
 				switch fieldName {
 				// insertion point for field dependant code
@@ -1175,14 +1098,6 @@ func UnmarshallGongstructStaging(stage *StageStruct, cmap *ast.CommentMap, assig
 					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
 					__gong__map_Position[identifier].Name = fielValue
 				}
-			case "Tree":
-				switch fieldName {
-				// insertion point for field dependant code
-				case "Name":
-					// remove first and last char
-					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
-					__gong__map_Tree[identifier].Name = fielValue
-				}
 			case "UmlState":
 				switch fieldName {
 				// insertion point for field dependant code
@@ -1253,10 +1168,6 @@ func UnmarshallGongstructStaging(stage *StageStruct, cmap *ast.CommentMap, assig
 			}
 			switch gongstructName {
 			// insertion point for bool & pointers assignments
-			case "Button":
-				switch fieldName {
-				// insertion point for field dependant code
-				}
 			case "Classdiagram":
 				switch fieldName {
 				// insertion point for field dependant code
@@ -1332,45 +1243,6 @@ func UnmarshallGongstructStaging(stage *StageStruct, cmap *ast.CommentMap, assig
 					targetIdentifier := ident.Name
 					__gong__map_Link[identifier].Middlevertice = __gong__map_Vertice[targetIdentifier]
 				}
-			case "Node":
-				switch fieldName {
-				// insertion point for field dependant code
-				case "IsExpanded":
-					// convert string to boolean
-					fielValue, err := strconv.ParseBool(ident.Name)
-					if err != nil {
-						log.Fatalln(err)
-					}
-					__gong__map_Node[identifier].IsExpanded = fielValue
-				case "HasCheckboxButton":
-					// convert string to boolean
-					fielValue, err := strconv.ParseBool(ident.Name)
-					if err != nil {
-						log.Fatalln(err)
-					}
-					__gong__map_Node[identifier].HasCheckboxButton = fielValue
-				case "IsChecked":
-					// convert string to boolean
-					fielValue, err := strconv.ParseBool(ident.Name)
-					if err != nil {
-						log.Fatalln(err)
-					}
-					__gong__map_Node[identifier].IsChecked = fielValue
-				case "IsCheckboxDisabled":
-					// convert string to boolean
-					fielValue, err := strconv.ParseBool(ident.Name)
-					if err != nil {
-						log.Fatalln(err)
-					}
-					__gong__map_Node[identifier].IsCheckboxDisabled = fielValue
-				case "IsInEditMode":
-					// convert string to boolean
-					fielValue, err := strconv.ParseBool(ident.Name)
-					if err != nil {
-						log.Fatalln(err)
-					}
-					__gong__map_Node[identifier].IsInEditMode = fielValue
-				}
 			case "NoteShape":
 				switch fieldName {
 				// insertion point for field dependant code
@@ -1387,10 +1259,6 @@ func UnmarshallGongstructStaging(stage *StageStruct, cmap *ast.CommentMap, assig
 				// insertion point for field dependant code
 				}
 			case "Position":
-				switch fieldName {
-				// insertion point for field dependant code
-				}
-			case "Tree":
 				switch fieldName {
 				// insertion point for field dependant code
 				}
@@ -1441,10 +1309,6 @@ func UnmarshallGongstructStaging(stage *StageStruct, cmap *ast.CommentMap, assig
 				_ = enumValue
 				switch gongstructName {
 				// insertion point for enums assignments
-				case "Button":
-					switch fieldName {
-					// insertion point for enum assign code
-					}
 				case "Classdiagram":
 					switch fieldName {
 					// insertion point for enum assign code
@@ -1501,10 +1365,6 @@ func UnmarshallGongstructStaging(stage *StageStruct, cmap *ast.CommentMap, assig
 						}
 						__gong__map_Link[identifier].EndOrientation = OrientationType(val)
 					}
-				case "Node":
-					switch fieldName {
-					// insertion point for enum assign code
-					}
 				case "NoteShape":
 					switch fieldName {
 					// insertion point for enum assign code
@@ -1521,10 +1381,6 @@ func UnmarshallGongstructStaging(stage *StageStruct, cmap *ast.CommentMap, assig
 						__gong__map_NoteShapeLink[identifier].Type = NoteShapeLinkType(val)
 					}
 				case "Position":
-					switch fieldName {
-					// insertion point for enum assign code
-					}
-				case "Tree":
 					switch fieldName {
 					// insertion point for enum assign code
 					}

@@ -13,7 +13,7 @@ import (
 
 	"github.com/fullstack-lang/gongdoc/go/doc2svg"
 	gongsvg_fullstack "github.com/fullstack-lang/gongsvg/go/fullstack"
-	gongsvg_models "github.com/fullstack-lang/gongsvg/go/models"
+	gongtree_fullstack "github.com/fullstack-lang/gongtree/go/fullstack"
 
 	"github.com/gin-gonic/gin"
 )
@@ -21,11 +21,10 @@ import (
 type BeforeCommitImplementation struct {
 	// for generating SVG
 	docSVGMapper *doc2svg.DocSVGMapper
-	gongsvgStage *gongsvg_models.StageStruct
 }
 
 func (beforeCommitImplementation *BeforeCommitImplementation) BeforeCommit(gongdocStage *gongdoc_models.StageStruct) {
-	beforeCommitImplementation.docSVGMapper.GenerateSvg(gongdocStage, beforeCommitImplementation.gongsvgStage)
+	beforeCommitImplementation.docSVGMapper.GenerateSvg(gongdocStage)
 }
 
 // Load have gongdoc init itself and the gong stack as well
@@ -49,24 +48,20 @@ func Load(
 	gongStage := gong_fullstack.NewStackInstance(r, pkgPath)
 	gongdocStage := gongdoc_fullstack.NewStackInstance(r, pkgPath)
 	gongsvgStage := gongsvg_fullstack.NewStackInstance(r, pkgPath)
-
-	gongdoc_models.SetOrchestratorOnAfterUpdate[gongdoc_models.Button](gongdocStage)
-	gongdoc_models.SetOrchestratorOnAfterUpdate[gongdoc_models.Node](gongdocStage)
-
-	gongsvg_models.SetOrchestratorOnAfterUpdate[gongsvg_models.Rect](gongsvgStage)
-	gongsvg_models.SetOrchestratorOnAfterUpdate[gongsvg_models.Link](gongsvgStage)
-	gongsvg_models.SetOrchestratorOnAfterUpdate[gongsvg_models.LinkAnchoredText](gongsvgStage)
+	gongtreeStage := gongtree_fullstack.NewStackInstance(r, pkgPath)
+	_ = gongtreeStage
 
 	beforeCommitImplementation := new(BeforeCommitImplementation)
 
-	docSVGMapper := new(doc2svg.DocSVGMapper)
+	docSVGMapper := doc2svg.NewDocSVGMapper(gongtreeStage, gongsvgStage)
+
 	beforeCommitImplementation.docSVGMapper = docSVGMapper
-	beforeCommitImplementation.gongsvgStage = gongsvgStage
 
 	gongdocStage.OnInitCommitFromFrontCallback = beforeCommitImplementation
 	gongdocStage.OnInitCommitFromBackCallback = beforeCommitImplementation
 
 	diagramPackageCallbackSingloton := new(DiagramPackageCallbacksSingloton)
+	diagramPackageCallbackSingloton.gongtreeStage = gongtreeStage
 	gongdocStage.OnAfterDiagramPackageUpdateCallback = diagramPackageCallbackSingloton
 
 	modelPackage, _ := gong_models.LoadEmbedded(gongStage, goModelsDir)
@@ -82,9 +77,9 @@ func Load(
 	gongdocStage.MetaPackageImportPath = pkgPath
 
 	if embeddedDiagrams {
-		diagramPackage, _ = LoadEmbeddedDiagramPackage(gongdocStage, goDiagramsDir, modelPackage)
+		diagramPackage, _ = LoadEmbeddedDiagramPackage(gongdocStage, gongtreeStage, goDiagramsDir, modelPackage)
 	} else {
-		diagramPackage, _ = LoadDiagramPackage(gongdocStage, filepath.Join("../../diagrams"), modelPackage, true)
+		diagramPackage, _ = LoadDiagramPackage(gongdocStage, gongtreeStage, filepath.Join("../../diagrams"), modelPackage, true)
 	}
 	diagramPackage.GongModelPath = pkgPath
 

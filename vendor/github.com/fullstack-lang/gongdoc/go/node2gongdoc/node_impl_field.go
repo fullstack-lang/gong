@@ -6,6 +6,7 @@ import (
 
 	gong_models "github.com/fullstack-lang/gong/go/models"
 	gongdoc_models "github.com/fullstack-lang/gongdoc/go/models"
+	gongtree_models "github.com/fullstack-lang/gongtree/go/models"
 )
 
 // NodeImplField handles the passage fo information
@@ -18,15 +19,15 @@ type NodeImplField struct {
 	gongStruct *gong_models.GongStruct
 	field      gong_models.FieldInterface
 
-	nodeOfGongstruct *gongdoc_models.Node
-	nodeOfField      *gongdoc_models.Node
+	nodeOfGongstruct *gongtree_models.Node
+	nodeOfField      *gongtree_models.Node
 }
 
 func NewNodeImplField(
 	gongStruct *gong_models.GongStruct,
 	field gong_models.FieldInterface,
-	nodeOfGongstruct *gongdoc_models.Node,
-	nodeOfField *gongdoc_models.Node,
+	nodeOfGongstruct *gongtree_models.Node,
+	nodeOfField *gongtree_models.Node,
 	NodeImplGongObjectAbstract NodeImplGongObjectAbstract,
 ) (nodeImplField *NodeImplField) {
 
@@ -42,8 +43,10 @@ func NewNodeImplField(
 }
 
 func (nodeImplField *NodeImplField) OnAfterUpdate(
-	gongdocStage *gongdoc_models.StageStruct,
-	stagedNode, frontNode *gongdoc_models.Node) {
+	gongtreeStage *gongtree_models.StageStruct,
+	stagedNode, frontNode *gongtree_models.Node) {
+
+	gongdocStage := nodeImplField.diagramPackage.Stage_
 
 	// find the classhape in the classdiagram
 	foundGongStructShape := false
