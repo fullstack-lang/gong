@@ -1,0 +1,32 @@
+<!-- button bar that is present in all tabs -->
+<ng-template #radioToolbar>
+    <div [ngStyle]="containerStyle">
+        <mat-radio-group aria-label="Select an option" [(ngModel)]="view" [ngStyle]="radioGroupStyle">
+            <div *ngFor="let view of views">
+                <mat-radio-button [value]="view">
+                    {{view}}&nbsp;&nbsp;&nbsp;
+                </mat-radio-button>
+            </div>
+        </mat-radio-group>
+        <span [ngStyle]="textStyle">Data stack path : "{{GONG__DATA__StackPath}}", Model stacks path : "{{GONG__MODEL__StacksPath}}"</span>
+    </div>
+</ng-template>
+
+<as-split unit="pixel" *ngIf="view==default" direction="vertical">
+    <as-split-area [size]=40>
+        <ng-container *ngTemplateOutlet="radioToolbar"></ng-container>
+    </as-split-area>
+    <as-split-area [size]="$any('*')">
+        <app-gongtree-splitter [GONG__StackPath]="GONG__DATA__StackPath"></app-gongtree-splitter>
+    </as-split-area>
+</as-split>
+
+
+<as-split unit="pixel" *ngIf="view==model" direction="vertical">
+    <as-split-area [size]=40>
+        <ng-container *ngTemplateOutlet="radioToolbar"></ng-container>
+    </as-split-area>
+    <as-split-area [size]="$any('*')">
+        <lib-panel [GONG__StackPath]="GONG__MODEL__StacksPath"></lib-panel>
+    </as-split-area>
+</as-split>

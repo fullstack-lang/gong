@@ -3,6 +3,7 @@ package node2gongdoc
 import (
 	gong_models "github.com/fullstack-lang/gong/go/models"
 	gongdoc_models "github.com/fullstack-lang/gongdoc/go/models"
+	gongtree_models "github.com/fullstack-lang/gongtree/go/models"
 )
 
 type NodeImplGongEnum struct {
@@ -23,10 +24,11 @@ func NewNodeImplGongEnum(
 }
 
 func (nodeImplGongEnum *NodeImplGongEnum) OnAfterUpdate(
-	gongdocStage *gongdoc_models.StageStruct,
-	stagedNode, frontNode *gongdoc_models.Node) {
+	gongtreeStage *gongtree_models.StageStruct,
+	stagedNode, frontNode *gongtree_models.Node) {
 
 	classDiagram := nodeImplGongEnum.diagramPackage.SelectedClassdiagram
+	gongdocStage := nodeImplGongEnum.diagramPackage.Stage_
 
 	// setting the value of the staged node	to the new value
 	// otherwise, the expansion memory is lost

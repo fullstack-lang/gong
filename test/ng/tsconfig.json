@@ -87,6 +87,15 @@
       "gongsvgdatamodel": [
         "../../vendor/github.com/fullstack-lang/gongsvg/ng/projects/gongsvgdatamodel/src/public-api.ts"
       ],
+      "gongtree": [
+        "../../vendor/github.com/fullstack-lang/gongtree/ng/projects/gongtree/src/public-api.ts"
+      ],
+      "gongtreespecific": [
+        "../../vendor/github.com/fullstack-lang/gongtree/ng/projects/gongtreespecific/src/public-api.ts"
+      ],
+      "gongtreedatamodel": [
+        "../../vendor/github.com/fullstack-lang/gongtree/ng/projects/gongtreedatamodel/src/public-api.ts"
+      ],
       "testdatamodel": [
         "projects/testdatamodel/src/public-api.ts",
       ],

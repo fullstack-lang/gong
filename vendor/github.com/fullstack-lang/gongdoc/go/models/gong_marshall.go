@@ -110,44 +110,6 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 	_ = setValueField 
 
 	// insertion initialization of objects to stage
-	map_Button_Identifiers := make(map[*Button]string)
-	_ = map_Button_Identifiers
-
-	buttonOrdered := []*Button{}
-	for button := range stage.Buttons {
-		buttonOrdered = append(buttonOrdered, button)
-	}
-	sort.Slice(buttonOrdered[:], func(i, j int) bool {
-		return buttonOrdered[i].Name < buttonOrdered[j].Name
-	})
-	identifiersDecl += "\n\n	// Declarations of staged instances of Button"
-	for idx, button := range buttonOrdered {
-
-		id = generatesIdentifier("Button", idx, button.Name)
-		map_Button_Identifiers[button] = id
-
-		decl = IdentifiersDecls
-		decl = strings.ReplaceAll(decl, "{{Identifier}}", id)
-		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Button")
-		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", button.Name)
-		identifiersDecl += decl
-
-		initializerStatements += "\n\n	// Button values setup"
-		// Initialisation of values
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(button.Name))
-		initializerStatements += setValueField
-
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Icon")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(button.Icon))
-		initializerStatements += setValueField
-
-	}
-
 	map_Classdiagram_Identifiers := make(map[*Classdiagram]string)
 	_ = map_Classdiagram_Identifiers
 
@@ -608,68 +570,6 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 
 	}
 
-	map_Node_Identifiers := make(map[*Node]string)
-	_ = map_Node_Identifiers
-
-	nodeOrdered := []*Node{}
-	for node := range stage.Nodes {
-		nodeOrdered = append(nodeOrdered, node)
-	}
-	sort.Slice(nodeOrdered[:], func(i, j int) bool {
-		return nodeOrdered[i].Name < nodeOrdered[j].Name
-	})
-	identifiersDecl += "\n\n	// Declarations of staged instances of Node"
-	for idx, node := range nodeOrdered {
-
-		id = generatesIdentifier("Node", idx, node.Name)
-		map_Node_Identifiers[node] = id
-
-		decl = IdentifiersDecls
-		decl = strings.ReplaceAll(decl, "{{Identifier}}", id)
-		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Node")
-		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", node.Name)
-		identifiersDecl += decl
-
-		initializerStatements += "\n\n	// Node values setup"
-		// Initialisation of values
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(node.Name))
-		initializerStatements += setValueField
-
-		setValueField = NumberInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "IsExpanded")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", node.IsExpanded))
-		initializerStatements += setValueField
-
-		setValueField = NumberInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "HasCheckboxButton")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", node.HasCheckboxButton))
-		initializerStatements += setValueField
-
-		setValueField = NumberInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "IsChecked")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", node.IsChecked))
-		initializerStatements += setValueField
-
-		setValueField = NumberInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "IsCheckboxDisabled")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", node.IsCheckboxDisabled))
-		initializerStatements += setValueField
-
-		setValueField = NumberInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "IsInEditMode")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", node.IsInEditMode))
-		initializerStatements += setValueField
-
-	}
-
 	map_NoteShape_Identifiers := make(map[*NoteShape]string)
 	_ = map_NoteShape_Identifiers
 
@@ -846,38 +746,6 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 
 	}
 
-	map_Tree_Identifiers := make(map[*Tree]string)
-	_ = map_Tree_Identifiers
-
-	treeOrdered := []*Tree{}
-	for tree := range stage.Trees {
-		treeOrdered = append(treeOrdered, tree)
-	}
-	sort.Slice(treeOrdered[:], func(i, j int) bool {
-		return treeOrdered[i].Name < treeOrdered[j].Name
-	})
-	identifiersDecl += "\n\n	// Declarations of staged instances of Tree"
-	for idx, tree := range treeOrdered {
-
-		id = generatesIdentifier("Tree", idx, tree.Name)
-		map_Tree_Identifiers[tree] = id
-
-		decl = IdentifiersDecls
-		decl = strings.ReplaceAll(decl, "{{Identifier}}", id)
-		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Tree")
-		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", tree.Name)
-		identifiersDecl += decl
-
-		initializerStatements += "\n\n	// Tree values setup"
-		// Initialisation of values
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(tree.Name))
-		initializerStatements += setValueField
-
-	}
-
 	map_UmlState_Identifiers := make(map[*UmlState]string)
 	_ = map_UmlState_Identifiers
 
@@ -1011,16 +879,6 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 	}
 
 	// insertion initialization of objects to stage
-	for idx, button := range buttonOrdered {
-		var setPointerField string
-		_ = setPointerField
-
-		id = generatesIdentifier("Button", idx, button.Name)
-		map_Button_Identifiers[button] = id
-
-		// Initialisation of values
-	}
-
 	for idx, classdiagram := range classdiagramOrdered {
 		var setPointerField string
 		_ = setPointerField
@@ -1187,32 +1045,6 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 
 	}
 
-	for idx, node := range nodeOrdered {
-		var setPointerField string
-		_ = setPointerField
-
-		id = generatesIdentifier("Node", idx, node.Name)
-		map_Node_Identifiers[node] = id
-
-		// Initialisation of values
-		for _, _node := range node.Children {
-			setPointerField = SliceOfPointersFieldInitStatement
-			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "Children")
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_Node_Identifiers[_node])
-			pointersInitializesStatements += setPointerField
-		}
-
-		for _, _button := range node.Buttons {
-			setPointerField = SliceOfPointersFieldInitStatement
-			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "Buttons")
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_Button_Identifiers[_button])
-			pointersInitializesStatements += setPointerField
-		}
-
-	}
-
 	for idx, noteshape := range noteshapeOrdered {
 		var setPointerField string
 		_ = setPointerField
@@ -1249,24 +1081,6 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 		map_Position_Identifiers[position] = id
 
 		// Initialisation of values
-	}
-
-	for idx, tree := range treeOrdered {
-		var setPointerField string
-		_ = setPointerField
-
-		id = generatesIdentifier("Tree", idx, tree.Name)
-		map_Tree_Identifiers[tree] = id
-
-		// Initialisation of values
-		for _, _node := range tree.RootNodes {
-			setPointerField = SliceOfPointersFieldInitStatement
-			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "RootNodes")
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_Node_Identifiers[_node])
-			pointersInitializesStatements += setPointerField
-		}
-
 	}
 
 	for idx, umlstate := range umlstateOrdered {

@@ -1,9 +1,11 @@
 package node2gongdoc
 
-import gongdoc_models "github.com/fullstack-lang/gongdoc/go/models"
+import (
+	gongtree_models "github.com/fullstack-lang/gongtree/go/models"
+)
 
 // applyGongNodesConfRecursively
-func applyGongNodesConfRecursively(node *gongdoc_models.Node, isCheckboxDisabled, isChecked bool) {
+func applyGongNodesConfRecursively(node *gongtree_models.Node, isCheckboxDisabled, isChecked bool) {
 
 	node.IsCheckboxDisabled = isCheckboxDisabled
 	node.IsChecked = isChecked

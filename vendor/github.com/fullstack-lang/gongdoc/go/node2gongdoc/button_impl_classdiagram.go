@@ -7,6 +7,7 @@ import (
 	"path/filepath"
 
 	gongdoc_models "github.com/fullstack-lang/gongdoc/go/models"
+	gongtree_models "github.com/fullstack-lang/gongtree/go/models"
 )
 
 type ButtonImplClassdiagram struct {
@@ -15,12 +16,12 @@ type ButtonImplClassdiagram struct {
 	classdiagram   *gongdoc_models.Classdiagram
 
 	// one needs to access the node of the diagram package to manage the childern nodes
-	diagramPackageNode *gongdoc_models.Node
+	diagramPackageNode *gongtree_models.Node
 
 	// one needs to perform computation of node confs after the update
-	treeOfGongObjects *gongdoc_models.Tree
+	treeOfGongObjects *gongtree_models.Tree
 
-	classdiagramNode     *gongdoc_models.Node
+	classdiagramNode     *gongtree_models.Node
 	nodeImplClassdiagram *NodeImplClasssiagram
 
 	// type of button
@@ -30,9 +31,9 @@ type ButtonImplClassdiagram struct {
 func NewButtonImplClassdiagram(
 	diagramPackage *gongdoc_models.DiagramPackage,
 	classdiagram *gongdoc_models.Classdiagram,
-	diagramPackageNode *gongdoc_models.Node,
-	treeOfGongObjects *gongdoc_models.Tree,
-	classdiagramNode *gongdoc_models.Node,
+	diagramPackageNode *gongtree_models.Node,
+	treeOfGongObjects *gongtree_models.Tree,
+	classdiagramNode *gongtree_models.Node,
 	nodeImplClassdiagram *NodeImplClasssiagram,
 	icon ButtonType,
 ) (buttonImplClassdiagram *ButtonImplClassdiagram) {
@@ -51,8 +52,10 @@ func NewButtonImplClassdiagram(
 }
 
 func (buttonImplClassdiagram *ButtonImplClassdiagram) ButtonUpdated(
-	gongdocStage *gongdoc_models.StageStruct,
-	stageButton, front *gongdoc_models.Button) {
+	gongtreeStage *gongtree_models.StageStruct,
+	stageButton, front *gongtree_models.Button) {
+
+	gongdocStage := buttonImplClassdiagram.diagramPackage.Stage_
 
 	log.Println("ButtonImplClassdiagramDraw, ButtonUpdated", front.Name)
 
@@ -218,9 +221,13 @@ func (buttonImplClassdiagram *ButtonImplClassdiagram) ButtonUpdated(
 		log.Fatalln("Unkown button type", buttonImplClassdiagram.Icon)
 	}
 
-	computeNodeConfs(gongdocStage,
+	computeNodeConfs(
+		gongtreeStage,
+		gongdocStage,
 		buttonImplClassdiagram.diagramPackageNode,
 		buttonImplClassdiagram.diagramPackage,
 		buttonImplClassdiagram.treeOfGongObjects)
+
 	gongdocStage.Commit()
+	gongtreeStage.Commit()
 }
