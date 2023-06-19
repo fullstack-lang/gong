@@ -77,12 +77,12 @@ func configGeneratedNgWorkspace(modelPkg *gong_models.ModelPkg) {
 	// check existance of generated angular library. If absent, use "ng generate libray <library>"
 	// and generate default app application
 	{
-		_, errStat := os.Stat(gong_models.MatTargetPath)
-		log.Println("module target abs path " + gong_models.MatTargetPath)
+		_, errStat := os.Stat(gong_models.NgDataLibrarySourceCodeDirectory)
+		log.Println("module target abs path " + gong_models.NgDataLibrarySourceCodeDirectory)
 
 		if os.IsNotExist(errStat) {
 			log.Printf("library directory %s does not exist, hence gong is generating it with ng generate library command",
-				gong_models.MatTargetPath)
+				gong_models.NgDataLibrarySourceCodeDirectory)
 
 			// generate library project
 			start := time.Now()
@@ -124,7 +124,7 @@ func configGeneratedNgWorkspace(modelPkg *gong_models.ModelPkg) {
 		// generate the "specific" library that will contains stack specific stuff, that can be reused
 		if os.IsNotExist(errStat) {
 			log.Printf("library directory %sspecific does not exist, hence gong is generating it with ng generate library command",
-				gong_models.MatTargetPath)
+				gong_models.NgDataLibrarySourceCodeDirectory)
 
 			// generate library project
 			start := time.Now()
@@ -157,7 +157,7 @@ func configGeneratedNgWorkspace(modelPkg *gong_models.ModelPkg) {
 		}
 		if os.IsNotExist(errStat) {
 			log.Printf("library directory %sdatamodel does not exist, hence gong is generating it with ng generate library command",
-				gong_models.MatTargetPath)
+				gong_models.NgDataLibrarySourceCodeDirectory)
 
 			// generate library project
 			start := time.Now()

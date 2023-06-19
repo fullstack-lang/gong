@@ -129,7 +129,7 @@ func genAngular(modelPkg *gong_models.ModelPkg, skipNpmInstall bool, skipGoModCo
 
 	// generates styles
 	{
-		directory, _ := filepath.Abs(gong_models.MatTargetPath)
+		directory, _ := filepath.Abs(gong_models.NgDataLibrarySourceCodeDirectory)
 		errForCreationOfStylesDir := os.MkdirAll(filepath.Join(directory, "styles"), os.ModePerm)
 		if os.IsNotExist(errForCreationOfStylesDir) {
 			log.Println("creating directory : " + gong_models.OrmPkgGenPath)
@@ -142,115 +142,115 @@ func genAngular(modelPkg *gong_models.ModelPkg, skipNpmInstall bool, skipGoModCo
 	angular.MultiCodeGeneratorNgDetail(
 		modelPkg,
 		modelPkg.Name,
-		gong_models.MatTargetPath,
+		gong_models.NgDataLibrarySourceCodeDirectory,
 		modelPkg.PkgPath)
 
 	angular.MultiCodeGeneratorNgClass(
 		modelPkg,
 		modelPkg.Name,
-		gong_models.MatTargetPath,
+		gong_models.NgDataLibrarySourceCodeDirectory,
 		modelPkg.PkgPath)
 
 	angular.MultiCodeGeneratorNgService(
 		modelPkg,
 		modelPkg.Name,
-		gong_models.MatTargetPath,
+		gong_models.NgDataLibrarySourceCodeDirectory,
 		modelPkg.PkgPath,
 		*addr)
 
 	angular.CodeGeneratorNgCommitNbFromBack(
 		modelPkg,
 		modelPkg.Name,
-		gong_models.MatTargetPath,
+		gong_models.NgDataLibrarySourceCodeDirectory,
 		modelPkg.PkgPath,
 		*addr)
 
 	angular.CodeGeneratorNgGongselectionServiceTs(
 		modelPkg,
 		modelPkg.Name,
-		gong_models.MatTargetPath,
+		gong_models.NgDataLibrarySourceCodeDirectory,
 		modelPkg.PkgPath,
 		*addr)
 
 	angular.CodeGeneratorNgNullInt64(
 		modelPkg,
 		modelPkg.Name,
-		gong_models.MatTargetPath,
+		gong_models.NgDataLibrarySourceCodeDirectory,
 		modelPkg.PkgPath,
 		*addr)
 
 	angular.CodeGeneratorNgPushFromFrontNb(
 		modelPkg,
 		modelPkg.Name,
-		gong_models.MatTargetPath,
+		gong_models.NgDataLibrarySourceCodeDirectory,
 		modelPkg.PkgPath,
 		*addr)
 
 	angular.MultiCodeGeneratorNgTable(
 		modelPkg,
 		modelPkg.Name,
-		gong_models.MatTargetPath,
+		gong_models.NgDataLibrarySourceCodeDirectory,
 		modelPkg.PkgPath)
 
 	angular.MultiCodeGeneratorNgSorting(
 		modelPkg,
 		modelPkg.Name,
-		gong_models.MatTargetPath,
+		gong_models.NgDataLibrarySourceCodeDirectory,
 		modelPkg.PkgPath)
 
 	angular.CodeGeneratorNgFrontRepo(
 		modelPkg,
 		modelPkg.Name,
-		gong_models.MatTargetPath,
+		gong_models.NgDataLibrarySourceCodeDirectory,
 		modelPkg.PkgPath)
 
 	angular.CodeGeneratorNgSidebar(
 		modelPkg,
 		modelPkg.Name,
-		gong_models.MatTargetPath,
+		gong_models.NgDataLibrarySourceCodeDirectory,
 		modelPkg.PkgPath)
 
 	angular.CodeGeneratorNgEnum(
 		modelPkg,
 		modelPkg.Name,
-		gong_models.MatTargetPath,
+		gong_models.NgDataLibrarySourceCodeDirectory,
 		modelPkg.PkgPath)
 
 	angular.CodeGeneratorNgPublicApi(
 		modelPkg,
 		modelPkg.Name,
-		gong_models.MatTargetPath,
+		gong_models.NgDataLibrarySourceCodeDirectory,
 		modelPkg.PkgPath)
 
 	angular.CodeGeneratorNgSplitter(
 		modelPkg,
 		modelPkg.Name,
-		gong_models.MatTargetPath,
+		gong_models.NgDataLibrarySourceCodeDirectory,
 		modelPkg.PkgPath)
 
 	caserEnglish := cases.Title(language.English)
 	gong_models.SimpleCodeGeneratorForGongStructWithNameField(
 		modelPkg,
 		caserEnglish.String(modelPkg.Name),
-		modelPkg.PkgPath, filepath.Join(gong_models.MatTargetPath, modelPkg.Name+".module.ts"),
+		modelPkg.PkgPath, filepath.Join(gong_models.NgDataLibrarySourceCodeDirectory, modelPkg.Name+".module.ts"),
 		angular.NgLibModuleTemplate, angular.NgLibModuleSubTemplateCode)
 
 	gong_models.SimpleCodeGeneratorForGongStructWithNameField(
 		modelPkg,
 		caserEnglish.String(modelPkg.Name),
-		modelPkg.PkgPath, filepath.Join(gong_models.MatTargetPath, "app-routing.module.ts"),
+		modelPkg.PkgPath, filepath.Join(gong_models.NgDataLibrarySourceCodeDirectory, "app-routing.module.ts"),
 		angular.NgRoutingTemplate, angular.NgRoutingSubTemplateCode)
 
 	gong_models.SimpleCodeGeneratorForGongStructWithNameField(
 		modelPkg,
 		caserEnglish.String(modelPkg.Name),
-		modelPkg.PkgPath, filepath.Join(gong_models.MatTargetPath, "route-service.ts"),
+		modelPkg.PkgPath, filepath.Join(gong_models.NgDataLibrarySourceCodeDirectory, "route-service.ts"),
 		angular.NgRouteServiceTemplate, angular.NgRouteServiceSubTemplateCode)
 
 	gong_models.SimpleCodeGeneratorForGongStructWithNameField(
 		modelPkg,
 		modelPkg.Name,
-		modelPkg.PkgPath, filepath.Join(gong_models.MatTargetPath, "map-components.ts"),
+		modelPkg.PkgPath, filepath.Join(gong_models.NgDataLibrarySourceCodeDirectory, "map-components.ts"),
 		angular.NgLibMapComponentsServiceTemplate, angular.NgLibMapComponentsSubTemplateCode)
 
 	gong_models.VerySimpleCodeGenerator(

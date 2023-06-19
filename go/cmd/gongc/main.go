@@ -25,13 +25,14 @@ import (
 const COMPUTED_FROM_PKG_PATH string = "computed from pkgPath (path to package for analysis)"
 
 var (
-	pkgPath     = flag.String("pkgPath", ".", "path to the models package to be compiled by gongc compilation")
-	skipSwagger = flag.Bool("skipSwagger", true, "skip swagger")
-	skipNg      = flag.Bool("skipNg", false, "generates skipNg")
+	pkgPath = flag.String("pkgPath", ".", "path to the models package."+
+		"For instance, gongc go/models")
+	skipSwagger = flag.Bool("skipSwagger", true, "skip swagger file generation")
+	skipNg      = flag.Bool("skipNg", false, "generates skipNg, skip ng operations")
 	skipFlutter = flag.Bool("skipFlutter", true, "do not generate flutter front")
 	skipCoder   = flag.Bool("skipCoder", true, "do not generate coder file")
 
-	clean = flag.Bool("clean", false, "remove files & dir that are generated at each gongc and exit")
+	clean = flag.Bool("clean", false, "let gongc remove files & dir that are generated. The program then exits.")
 
 	addr = flag.String("addr", "localhost:8080/api",
 		"network address addr where the angular generated service will lookup the server")
@@ -40,7 +41,8 @@ var (
 
 	skipNpmInstall = flag.Bool("skipNpmInstall", false, "skip the npm install command")
 
-	compileForDebug = flag.Bool("compileForDebug", false, "Delve can be slow to start (more than 60'). A workaround is to generate a go build with with '-N -l' options")
+	compileForDebug = flag.Bool("compileForDebug", false, "The go debugger can be slow to start (more than 60')."+
+		"A workaround is to generate a go build with with '-N -l' options")
 )
 
 func main() {
@@ -64,7 +66,7 @@ func main() {
 	// check wether the package name follows gong naming convention
 	if strings.ContainsAny(modelPkg.Name, "-") {
 		log.Panicln(modelPkg.Name + " is not OK for a gong package name because it contains a - (dash) " +
-			"and it cannot be used for naming a typescript class (the generated module in this cause)")
+			"and it cannot be used for naming a typescript class (in the generated front end lib)")
 	}
 
 	//
@@ -101,7 +103,7 @@ func main() {
 				filepath.Abs(
 					filepath.Join(*pkgPath,
 						fmt.Sprintf("../../ng/projects/%s/src/lib", modelPkg.Name)))
-			gong_models.MatTargetPath = directory
+			gong_models.NgDataLibrarySourceCodeDirectory = directory
 			if err != nil {
 				log.Panic("Problem with frontend target path " + err.Error())
 			}
@@ -112,7 +114,7 @@ func main() {
 				filepath.Abs(
 					filepath.Join(*pkgPath,
 						fmt.Sprintf("../../ng/projects/%sspecific/src/lib", modelPkg.Name)))
-			gong_models.MaterialLibSpecificTargetPath = directory
+			gong_models.NgSpecificLibrarySourceCodeDirectory = directory
 			if err != nil {
 				log.Panic("Problem with frontend target path " + err.Error())
 			}
@@ -130,8 +132,8 @@ func main() {
 		}
 
 		if !*skipNg {
-			log.Println("Removing all content of " + gong_models.MatTargetPath)
-			gong_models.RemoveContents(gong_models.MatTargetPath)
+			log.Println("Removing all content of " + gong_models.NgDataLibrarySourceCodeDirectory)
+			gong_models.RemoveContents(gong_models.NgDataLibrarySourceCodeDirectory)
 		}
 
 		// idealy, one would like to regenerate the datamodel library at each gongc but
@@ -191,7 +193,7 @@ func main() {
 		}
 	}
 
-	// generate diagrams/docs.go is absent
+	// generate diagrams/docs.go if absent
 	{
 		diagramsDocFilePath := filepath.Join(*pkgPath, "../diagrams/docs.go")
 		_, errd := os.Stat(diagramsDocFilePath)
