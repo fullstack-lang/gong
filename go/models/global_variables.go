@@ -15,19 +15,29 @@ var FullstackPkgGenPath string
 // StaticPkgGenPath is target path for Static package
 var StaticPkgGenPath string
 
-// // ModulesTargetPath is where ng modules are generated
-// var ModulesTargetPath string
-
-// MatTargetPath is where the ng components are generated
-var MatTargetPath string
-
-// MaterialLibSpecificTargetPath is where the ng components are generated for the
-// specifc lib
-var MaterialLibSpecificTargetPath string
-
-// MaterialLibDatamodelTargetPath is where the ng components are generated for the
-// data model lib
-var MaterialLibDatamodelTargetPath string
-
 // NgWorkspacePath is the path to the Ng Workspace
 var NgWorkspacePath string
+
+// NgDataLibrarySourceCodeDirectory is the "<pkgName>/src/lib" directory where,
+// by angular CLI convention,
+// the source code for the library's components,
+// services, modules, and other features are located.
+//
+// gongc regenerates at each compilation a material angular library "<pkgName>" for
+// having the code related to data manipulation of objects of the
+// stack
+var NgDataLibrarySourceCodeDirectory string
+
+// NgSpecificLibrarySourceCodeDirectory is the "<pkgName>specific/src/lib"
+// where the developper stores its specific code for the front component
+//
+// This library is generated once at the stack creation
+var NgSpecificLibrarySourceCodeDirectory string
+
+// MaterialLibDatamodelTargetPath is the "<pkgName>datamodel/src/lib"
+//
+// gongc regenerates at each compilation a material angular library "<pkgName>datamodel" for
+// having the code related to inclusion of the gongdoc stack and the gong stack
+// for docmenting the stack with UML diagrams (gongdoc) and providing a meta inspection
+// of the declarations of the stack
+var MaterialLibDatamodelTargetPath string
