@@ -6,11 +6,12 @@ import { Component, Input } from '@angular/core';
 })
 export class DataModelPanelComponent {
 
-  view = 'Data'
-  default = this.view
+  data = 'Data'
+  dataNew = 'DataNew'
+  view = this.data
   model = 'Model'
 
-  views: string[] = [this.default, this.model]
+  views: string[] = [this.data, this.dataNew, this.model]
 
   textStyle = {
     'color': 'rgba(0, 0, 0, 0.87)', // These are just examples.
