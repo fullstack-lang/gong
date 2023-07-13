@@ -58,7 +58,6 @@ import { BstructDetailComponent } from './bstruct-detail/bstruct-detail.componen
 import { DstructsTableComponent } from './dstructs-table/dstructs-table.component'
 import { DstructSortingComponent } from './dstruct-sorting/dstruct-sorting.component'
 import { DstructDetailComponent } from './dstruct-detail/dstruct-detail.component';
-import { SplitterNewComponent } from './splitter-new/splitter-new.component'
 
 
 @NgModule({
@@ -87,7 +86,6 @@ import { SplitterNewComponent } from './splitter-new/splitter-new.component'
 
 		SplitterComponent,
 		SidebarComponent,
-		SplitterNewComponent
 	],
 	imports: [
 		FormsModule,
@@ -146,7 +144,6 @@ import { SplitterNewComponent } from './splitter-new/splitter-new.component'
 
 
 		SplitterComponent,
-		SplitterNewComponent,
 		SidebarComponent,
 
 	],

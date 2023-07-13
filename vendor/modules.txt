@@ -40,6 +40,13 @@ github.com/fullstack-lang/gongdoc/go/models
 github.com/fullstack-lang/gongdoc/go/node2gongdoc
 github.com/fullstack-lang/gongdoc/go/orm
 github.com/fullstack-lang/gongdoc/ng/projects
+# github.com/fullstack-lang/gongrouter v0.0.0-20230712090825-4712155e97f7
+## explicit; go 1.20
+github.com/fullstack-lang/gongrouter/go/controllers
+github.com/fullstack-lang/gongrouter/go/fullstack
+github.com/fullstack-lang/gongrouter/go/models
+github.com/fullstack-lang/gongrouter/go/orm
+github.com/fullstack-lang/gongrouter/ng/projects
 # github.com/fullstack-lang/gongsvg v0.0.0-20230616114434-9f04fe33a038
 ## explicit; go 1.19
 github.com/fullstack-lang/gongsvg/go/controllers
