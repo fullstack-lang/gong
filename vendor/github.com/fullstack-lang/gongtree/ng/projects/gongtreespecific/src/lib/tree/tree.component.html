@@ -1,14 +1,17 @@
 <div class="vertical-paper">
     <mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
         <!-- This is the tree node template for leaf nodes -->
-        <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding>
+        <mat-tree-node [class.node-link]="node.gongNode.IsNodeClickable" *matTreeNodeDef="let node" matTreeNodePadding>
             <!-- use a disabled button to provide padding for tree leaf -->
             <button mat-icon-button disabled></button>
             <mat-checkbox *ngIf="node.gongNode.HasCheckboxButton" [disabled]="node.gongNode.IsCheckboxDisabled" [checked]="node.gongNode.IsChecked" (change)="toggleNodeCheckbox(node)">
             </mat-checkbox>
-            <div *ngIf='!node.gongNode.IsInEditMode'>
+            <div *ngIf='!node.gongNode.IsInEditMode && !node.gongNode.IsNodeClickable'>
                 {{node.name}}
             </div>
+            <span *ngIf='!node.gongNode.IsInEditMode && node.gongNode.IsNodeClickable' (click)="onNodeClick(node)">
+                {{node.name}}
+            </span>
             <mat-form-field *ngIf='node.gongNode.IsInEditMode' mat-form-field class="mat-mdc-form-field">
                 <mat-label>Name</mat-label>
                 <input name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="node.gongNode.Name">
@@ -34,7 +37,7 @@
             </button>
             <mat-checkbox *ngIf="node.gongNode.HasCheckboxButton" [disabled]="node.gongNode.IsCheckboxDisabled" [checked]="node.gongNode.IsChecked" (change)="toggleNodeCheckbox(node)">
             </mat-checkbox>
-            <div>
+            <div *ngIf="!node.gongNode.IsNodeClickable">
                 {{node.name}}
             </div>
             <ng-container *ngFor="let button of node.gongNode.Buttons">
