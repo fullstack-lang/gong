@@ -726,6 +726,13 @@ func UnmarshallGongstructStaging(stage *StageStruct, cmap *ast.CommentMap, assig
 						log.Fatalln(err)
 					}
 					__gong__map_Node[identifier].IsInEditMode = fielValue
+				case "IsNodeClickable":
+					// convert string to boolean
+					fielValue, err := strconv.ParseBool(ident.Name)
+					if err != nil {
+						log.Fatalln(err)
+					}
+					__gong__map_Node[identifier].IsNodeClickable = fielValue
 				}
 			case "Tree":
 				switch fieldName {

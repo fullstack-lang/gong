@@ -61,6 +61,13 @@
             </td>
         </ng-container>
         <!-- -->
+        <ng-container matColumnDef="IsNodeClickable">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> IsNodeClickable </th>
+            <td mat-cell *matCellDef="let Node">
+                <mat-checkbox [checked]="Node.IsNodeClickable" disabled=true></mat-checkbox>
+            </td>
+        </ng-container>
+        <!-- -->
         <ng-container matColumnDef="Node_Children">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> <-- (Node) Children </th>
             <td mat-cell *matCellDef="let node">

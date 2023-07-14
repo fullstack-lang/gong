@@ -242,4 +242,14 @@ export class TreeComponent implements OnInit {
       }
     )
   }
+
+  onNodeClick(node: FlatNode): void {
+
+    this.gongtreeNodeService.updateNode(node.gongNode, this.GONG__StackPath).subscribe(
+      gongtreeNode => {
+        console.log("onNodeClick: updated node")
+      }
+    )
+  }
+
 }

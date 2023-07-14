@@ -46,6 +46,10 @@ func Load(
 	for _, gongStruct := range sliceOfGongStructsSorted {
 
 		nodeGongstruct := (&gongtree_models.Node{Name: gongStruct.Name}).Stage(gongtreeStage)
+		nodeGongstruct.IsNodeClickable = true
+
+		nodeGongstruct.Impl = NewNodeImplGongstruct(gongStruct)
+
 		treeOfGongObjects.RootNodes = append(treeOfGongObjects.RootNodes, nodeGongstruct)
 	}
 	gongtreeStage.Commit()

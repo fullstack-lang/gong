@@ -88,6 +88,12 @@
             "command": "go get -d github.com/fullstack-lang/gongdoc@HEAD; go mod tidy; go mod vendor"
         },
         {
+            "label": "00 - go get -d github.com/fullstack-lang/gongtree@HEAD; go mod tidy; go mod vendor",
+            "type": "shell",
+            "group": "build",
+            "command": "go get -d github.com/fullstack-lang/gongtree@HEAD; go mod tidy; go mod vendor"
+        },
+        {
             "label": "04 - go run test -marshallOnStartup=stage",
             "type": "shell",
             "options": {
