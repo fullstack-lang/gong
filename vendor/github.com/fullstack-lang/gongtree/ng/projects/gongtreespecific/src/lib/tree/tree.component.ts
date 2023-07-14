@@ -204,15 +204,21 @@ export class TreeComponent implements OnInit {
 
     node.gongNode.IsExpanded = !node.gongNode.IsExpanded
 
+    let buttons = node.gongNode.Buttons
+
     this.gongtreeNodeService.updateNode(node.gongNode, this.GONG__StackPath).subscribe(
       gongtreeNode => {
         console.log("toggleNodeExpansion: updated node")
+        if (buttons) {
+          node.gongNode.Buttons = buttons
+        }
       }
     )
   }
 
   // toggling behavior is controlled from the back
   toggleNodeCheckbox(node: FlatNode): void {
+    let buttons = node.gongNode.Buttons
 
     const d = new Date()
     console.log("TreeComponent ", this.GONG__StackPath, " name ", this.name, " toggleNodeCheckbox, " + d.toLocaleTimeString() + `.${d.getMilliseconds()}` + " " + this.name)
@@ -221,33 +227,50 @@ export class TreeComponent implements OnInit {
       gongtreeNode => {
         const d = new Date()
         console.log("toggleNodeCheckbox: updated node " + d.toLocaleTimeString() + `.${d.getMilliseconds()}` + " " + this.name)
+        // is necessary because the update loses links to buttons
+        if (buttons) {
+          node.gongNode.Buttons = buttons
+        }
       }
     )
   }
 
   onButtonClick(node: FlatNode, button: gongtree.ButtonDB) {
+    let buttons = node.gongNode.Buttons
 
     this.gongtreeButtonService.updateButton(button, this.GONG__StackPath).subscribe(
       gongtreeButton => {
         console.log("button pressed")
+        if (buttons) {
+          node.gongNode.Buttons = buttons
+        }
       }
     )
   }
 
   update(node: FlatNode) {
+    let buttons = node.gongNode.Buttons
+
     node.gongNode.IsInEditMode = false
     this.gongtreeNodeService.updateNode(node.gongNode, this.GONG__StackPath).subscribe(
       gongtreeNode => {
         console.log("node.gongNode.IsInEditMode = false, updated node")
+        if (buttons) {
+          node.gongNode.Buttons = buttons
+        }
       }
     )
   }
 
   onNodeClick(node: FlatNode): void {
+    let buttons = node.gongNode.Buttons
 
     this.gongtreeNodeService.updateNode(node.gongNode, this.GONG__StackPath).subscribe(
       gongtreeNode => {
         console.log("onNodeClick: updated node")
+        if (buttons) {
+          node.gongNode.Buttons = buttons
+        }
       }
     )
   }

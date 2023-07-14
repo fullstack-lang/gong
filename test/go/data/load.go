@@ -8,6 +8,7 @@ import (
 
 	gongrouter_fullstack "github.com/fullstack-lang/gongrouter/go/fullstack"
 
+	gongtree_buttons "github.com/fullstack-lang/gongtree/go/buttons"
 	gongtree_fullstack "github.com/fullstack-lang/gongtree/go/fullstack"
 	gongtree_models "github.com/fullstack-lang/gongtree/go/models"
 
@@ -49,6 +50,15 @@ func Load(
 		nodeGongstruct.IsNodeClickable = true
 
 		nodeGongstruct.Impl = NewNodeImplGongstruct(gongStruct)
+
+		// add add button
+		addButton := (&gongtree_models.Button{
+			Name: gongStruct.Name + " " + string(gongtree_buttons.BUTTON_add),
+			Icon: string(gongtree_buttons.BUTTON_add)}).Stage(gongtreeStage)
+		nodeGongstruct.Buttons = append(nodeGongstruct.Buttons, addButton)
+		addButton.Impl = NewButtonImplGongstruct(
+			gongtree_buttons.BUTTON_add,
+		)
 
 		treeOfGongObjects.RootNodes = append(treeOfGongObjects.RootNodes, nodeGongstruct)
 	}
