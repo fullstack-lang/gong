@@ -7,6 +7,7 @@ import (
 	"github.com/gin-gonic/gin"
 
 	gongrouter_fullstack "github.com/fullstack-lang/gongrouter/go/fullstack"
+	gongrouter_models "github.com/fullstack-lang/gongrouter/go/models"
 
 	gongtree_buttons "github.com/fullstack-lang/gongtree/go/buttons"
 	gongtree_fullstack "github.com/fullstack-lang/gongtree/go/fullstack"
@@ -63,4 +64,13 @@ func Load(
 		treeOfGongObjects.RootNodes = append(treeOfGongObjects.RootNodes, nodeGongstruct)
 	}
 	gongtreeStage.Commit()
+
+	tableRouter := new(gongrouter_models.Outlet).Stage(gongrouterStage)
+	tableRouter.Name = "github_com_fullstack_lang_gong_test_go" + "_table" + "_" + stackPath
+
+	editorRouter := new(gongrouter_models.Outlet).Stage(gongrouterStage)
+	editorRouter.Name = "github_com_fullstack_lang_gong_test_go" + "_editor" + "_" + stackPath
+
+	gongrouterStage.Commit()
+
 }
