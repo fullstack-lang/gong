@@ -47,11 +47,14 @@ export class DataModelPanelComponent implements OnInit {
   // GONG__MODEL_StackPath
   @Input() GONG__MODEL__StacksPath: string = ""
 
-  outletName = "outlet"
+  tableOutletName = ""
+  editorOutletName = ""
 
   ngOnInit(): void {
 
     // add the routes that will used by router compnents
     this.routeService.addDataPanelRoutes(this.GONG__DATA__StackPath)
+    this.tableOutletName = this.routeService.getTableOutlet(this.GONG__DATA__StackPath)
+    this.editorOutletName = this.routeService.getEditorOutlet(this.GONG__DATA__StackPath)
   }
 }
