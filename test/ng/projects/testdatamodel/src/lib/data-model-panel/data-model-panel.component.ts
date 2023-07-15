@@ -1,10 +1,12 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import * as test from 'test';
+
 
 @Component({
   selector: 'lib-github_com_fullstack_lang_gong_test_go-data-model-panel',
   templateUrl: './data-model-panel.component.html',
 })
-export class DataModelPanelComponent {
+export class DataModelPanelComponent implements OnInit {
 
   data = 'Data'
   dataNew = 'DataNew'
@@ -32,6 +34,10 @@ export class DataModelPanelComponent {
     'justify-content': 'flex-start'
   }
 
+  constructor(
+    private routeService: test.RouteService,
+  ) { }
+
   // this component relies on the the gongtree stack to enable
   // edit of the data
   @Input() GONG__DATA__StackPath: string = ""
@@ -43,4 +49,9 @@ export class DataModelPanelComponent {
 
   outletName = "outlet"
 
+  ngOnInit(): void {
+
+    // add the routes that will used by router compnents
+    this.routeService.addDataPanelRoutes(this.GONG__DATA__StackPath)
+  }
 }
