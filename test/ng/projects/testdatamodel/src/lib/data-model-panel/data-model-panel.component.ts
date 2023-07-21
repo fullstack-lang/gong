@@ -1,7 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import * as test from 'test';
 
-
 @Component({
   selector: 'lib-github_com_fullstack_lang_gong_test_go-data-model-panel',
   templateUrl: './data-model-panel.component.html',

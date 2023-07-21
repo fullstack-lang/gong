@@ -57,7 +57,7 @@ import { BstructDetailComponent } from './bstruct-detail/bstruct-detail.componen
 
 import { DstructsTableComponent } from './dstructs-table/dstructs-table.component'
 import { DstructSortingComponent } from './dstruct-sorting/dstruct-sorting.component'
-import { DstructDetailComponent } from './dstruct-detail/dstruct-detail.component';
+import { DstructDetailComponent } from './dstruct-detail/dstruct-detail.component'
 
 
 @NgModule({
@@ -85,7 +85,7 @@ import { DstructDetailComponent } from './dstruct-detail/dstruct-detail.componen
 
 
 		SplitterComponent,
-		SidebarComponent,
+		SidebarComponent
 	],
 	imports: [
 		FormsModule,
