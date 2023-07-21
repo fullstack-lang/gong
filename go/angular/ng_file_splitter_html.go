@@ -3,21 +3,13 @@ package angular
 const NgSplitterTemplateHTML = `<div style="width: 100%; height: 100%; background: grey(16);">
     <as-split direction="horizontal">
         <as-split-area [size]="20">
-            <as-split direction="vertical">
-                <as-split-area>
-                    <app-{{pkgname}}-sidebar [GONG__StackPath]="GONG__StackPath"></app-{{pkgname}}-sidebar>
-                </as-split-area>
-            </as-split>
+            <app-{{pkgname}}-sidebar [GONG__StackPath]="GONG__StackPath"></app-{{pkgname}}-sidebar>
         </as-split-area>
-        <as-split-area [size]="80">
-            <as-split direction="horizontal">
-                <as-split-area [size]="60">
-                    <router-outlet [name]="tableOutletName"></router-outlet>
-                </as-split-area>
-                <as-split-area [size]="40">
-                    <router-outlet [name]="editorOutletName"></router-outlet>
-                </as-split-area>
-            </as-split>
+        <as-split-area [size]="50">
+            <router-outlet [name]="tableOutletName"></router-outlet>
+        </as-split-area>
+        <as-split-area [size]="30">
+            <router-outlet [name]="editorOutletName"></router-outlet>
         </as-split-area>
     </as-split>
 </div>`

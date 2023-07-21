@@ -40,6 +40,13 @@ github.com/fullstack-lang/gongdoc/go/models
 github.com/fullstack-lang/gongdoc/go/node2gongdoc
 github.com/fullstack-lang/gongdoc/go/orm
 github.com/fullstack-lang/gongdoc/ng/projects
+# github.com/fullstack-lang/gongrouter v0.0.0-20230721142241-f28a3007a909
+## explicit; go 1.20
+github.com/fullstack-lang/gongrouter/go/controllers
+github.com/fullstack-lang/gongrouter/go/fullstack
+github.com/fullstack-lang/gongrouter/go/models
+github.com/fullstack-lang/gongrouter/go/orm
+github.com/fullstack-lang/gongrouter/ng/projects
 # github.com/fullstack-lang/gongsvg v0.0.0-20230616114434-9f04fe33a038
 ## explicit; go 1.19
 github.com/fullstack-lang/gongsvg/go/controllers
@@ -47,8 +54,9 @@ github.com/fullstack-lang/gongsvg/go/fullstack
 github.com/fullstack-lang/gongsvg/go/models
 github.com/fullstack-lang/gongsvg/go/orm
 github.com/fullstack-lang/gongsvg/ng/projects
-# github.com/fullstack-lang/gongtree v0.0.0-20230616085657-90b0175cbbea
+# github.com/fullstack-lang/gongtree v0.0.0-20230714143522-831761c69707
 ## explicit; go 1.20
+github.com/fullstack-lang/gongtree/go/buttons
 github.com/fullstack-lang/gongtree/go/controllers
 github.com/fullstack-lang/gongtree/go/fullstack
 github.com/fullstack-lang/gongtree/go/models
