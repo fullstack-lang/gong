@@ -1,18 +1,20 @@
 package angular
 
-const NgFileDataModelPanelTemplateTs = `import { Component, Input } from '@angular/core';
+const NgFileDataModelPanelTemplateTs = `import { Component, Input, OnInit } from '@angular/core';
+import * as {{pkgname}} from '{{pkgname}}';
 
 @Component({
   selector: 'lib-{{PkgPathRootWithoutSlashes}}-data-model-panel',
   templateUrl: './data-model-panel.component.html',
 })
-export class DataModelPanelComponent {
+export class DataModelPanelComponent implements OnInit {
 
-  view = 'Data'
-  default = this.view
+  data = 'Data'
+  dataNew = 'DataNew'
+  view = this.data
   model = 'Model'
 
-  views: string[] = [this.default, this.model]
+  views: string[] = [this.data, this.dataNew, this.model]
 
   textStyle = {
     'color': 'rgba(0, 0, 0, 0.87)', // These are just examples.
@@ -33,6 +35,10 @@ export class DataModelPanelComponent {
     'justify-content': 'flex-start'
   }
 
+  constructor(
+    private routeService: {{pkgname}}.RouteService,
+  ) { }
+
   // this component relies on the the gongtree stack to enable
   // edit of the data
   @Input() GONG__DATA__StackPath: string = ""
@@ -42,5 +48,15 @@ export class DataModelPanelComponent {
   // GONG__MODEL_StackPath
   @Input() GONG__MODEL__StacksPath: string = ""
 
+  tableOutletName = ""
+  editorOutletName = ""
+
+  ngOnInit(): void {
+
+    // add the routes that will used by router compnents
+    this.routeService.addDataPanelRoutes(this.GONG__DATA__StackPath)
+    this.tableOutletName = this.routeService.getTableOutlet(this.GONG__DATA__StackPath)
+    this.editorOutletName = this.routeService.getEditorOutlet(this.GONG__DATA__StackPath)
+  }
 }
 `
