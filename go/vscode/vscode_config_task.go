@@ -49,9 +49,9 @@ const VsCodeTasksConfig = `{
 		"problemMatcher": []
 	  },
 	  {
-		"label": "04 - ng serve",
+		"label": "04 - ng serve --host=127.0.0.1",
 		"type": "shell",
-		"command": "cd ng; ng serve",
+		"command": "cd ng; ng serve --host=127.0.0.1",
 		"group": "build",
 		"problemMatcher": []
 	  },
@@ -129,6 +129,10 @@ const VsCodeTasksConfig = `{
 		  "get",
 		  "-d",
 		  "github.com/fullstack-lang/gong@HEAD",
+		  "github.com/fullstack-lang/gongdoc@HEAD",
+		  "github.com/fullstack-lang/gongrouter@HEAD",
+		  "github.com/fullstack-lang/gongsvg@HEAD",
+		  "github.com/fullstack-lang/gongtree@HEAD",
 		],
 		"group": "build"
 	  },

@@ -25,6 +25,9 @@ type Node struct {
 	// in case the user wants to change the name of the node
 	IsInEditMode bool
 
+	// when the user hover on the node, it can click
+	IsNodeClickable bool
+
 	Children []*Node
 
 	Buttons []*Button
