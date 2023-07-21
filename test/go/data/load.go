@@ -64,7 +64,10 @@ func Load(
 			Icon: string(gongtree_buttons.BUTTON_add)}).Stage(gongtreeStage)
 		nodeGongstruct.Buttons = append(nodeGongstruct.Buttons, addButton)
 		addButton.Impl = NewButtonImplGongstruct(
+			gongStruct,
 			gongtree_buttons.BUTTON_add,
+			gongrouterStage,
+			editorRouter,
 		)
 
 		treeOfGongObjects.RootNodes = append(treeOfGongObjects.RootNodes, nodeGongstruct)
