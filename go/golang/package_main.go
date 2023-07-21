@@ -18,9 +18,10 @@ import (
 	"fmt"
 	"log"
 	"os"
-	"strings"
+	"strconv"
 
 	{{pkgname}}_go "{{PkgPathRoot}}"
+	{{pkgname}}_data "{{PkgPathRoot}}/data"
 	{{pkgname}}_fullstack "{{PkgPathRoot}}/fullstack"
 	{{pkgname}}_models "{{PkgPathRoot}}/models"
 	{{pkgname}}_static "{{PkgPathRoot}}/static"
@@ -32,13 +33,13 @@ var (
 	logDBFlag  = flag.Bool("logDB", false, "log mode for db")
 	logGINFlag = flag.Bool("logGIN", false, "log mode for gin")
 
-	marshallOnStartup  = flag.String("marshallOnStartup", "", "at startup, marshall staged data to a go file with the marshall name and '.go' (must be lowercased without spaces). If marshall arg is '', no marshalling")
 	unmarshallFromCode = flag.String("unmarshallFromCode", "", "unmarshall data from go file and '.go' (must be lowercased without spaces), If unmarshallFromCode arg is '', no unmarshalling")
-	unmarshall         = flag.String("unmarshall", "", "unmarshall data from marshall name and '.go' (must be lowercased without spaces), If unmarshall arg is '', no unmarshalling")
 	marshallOnCommit   = flag.String("marshallOnCommit", "", "on all commits, marshall staged data to a go file with the marshall name and '.go' (must be lowercased without spaces). If marshall arg is '', no marshalling")
 
 	diagrams         = flag.Bool("diagrams", true, "parse/analysis go/models and go/diagrams")
 	embeddedDiagrams = flag.Bool("embeddedDiagrams", false, "parse/analysis go/models and go/embeddedDiagrams")
+
+	port = flag.Int("port", 8080, "port server")
 )
 
 // InjectionGateway is the singloton that stores all functions
@@ -82,40 +83,7 @@ func main() {
 		stage = {{pkgname}}_fullstack.NewStackInstance(r, "{{pkgname}}", "./test.db")
 	}
 
-	// generate injection code from the stage
-	if *marshallOnStartup != "" {
-
-		if strings.Contains(*marshallOnStartup, " ") {
-			log.Fatalln(*marshallOnStartup + " must not contains blank spaces")
-		}
-		if strings.ToLower(*marshallOnStartup) != *marshallOnStartup {
-			log.Fatalln(*marshallOnStartup + " must be lowercases")
-		}
-
-		file, err := os.Create(fmt.Sprintf("./%s.go", *marshallOnStartup))
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		defer file.Close()
-
-		stage.Checkout()
-		stage.Marshall(file, "{{PkgPathRoot}}/models", "main")
-		os.Exit(0)
-	}
-
-	// setup the stage by injecting the code from code database
-	if *unmarshall != "" {
-		stage.Checkout()
-		stage.Reset()
-		stage.Commit()
-		if InjectionGateway[*unmarshall] != nil {
-			InjectionGateway[*unmarshall]()
-		}
-		stage.Commit()
-	} else {
-		// in case the database is used, checkout the content to the stage
-		stage.Checkout()
-	}
+	{{pkgname}}_data.Load(r, {{pkgname}}_go.GoModelsDir, "{{pkgname}}")
 
 	if *unmarshallFromCode != "" {
 		stage.Checkout()
@@ -150,8 +118,11 @@ func main() {
 		*embeddedDiagrams,
 		&stage.Map_GongStructName_InstancesNb)
 
-	log.Printf("Server ready serve on localhost:8080")
-	r.Run()
+	log.Printf("Server ready serve on localhost:" + strconv.Itoa(*port))
+	err := r.Run(":" + strconv.Itoa(*port))
+	if err != nil {
+		log.Fatalln(err.Error())
+	}
 }
 `
 
