@@ -4,6 +4,13 @@ const VsCodeLaunchConfig = `{
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "Launch Edge",
+            "request": "launch",
+            "type": "msedge",
+            "url": "http://localhost:4200",
+            "webRoot": "${workspaceFolder}/ng"
+        },
+        {
             "name": "Launch firefox localhost:4200",
             "type": "firefox",
             "request": "launch",
