@@ -192,6 +192,23 @@ func main() {
 			if err := cmd.Run(); err != nil {
 				log.Panic(err)
 			}
+
+			f, err := os.OpenFile(".gitignore", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
+			if err != nil {
+				log.Fatalf("failed opening file: %s", err)
+			}
+
+			defer f.Close()
+
+			if _, err := f.WriteString(modelPkg.Name + "\n"); err != nil {
+				log.Fatalf("failed writing to file: %s", err)
+			}
+			if _, err := f.WriteString("__debug_bin" + "\n"); err != nil {
+				log.Fatalf("failed writing to file: %s", err)
+			}
+			if _, err := f.WriteString("*.exe" + "\n"); err != nil {
+				log.Fatalf("failed writing to file: %s", err)
+			}
 		}
 	}
 
