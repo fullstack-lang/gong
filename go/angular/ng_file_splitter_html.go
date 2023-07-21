@@ -3,7 +3,7 @@ package angular
 const NgSplitterTemplateHTML = `<div style="width: 100%; height: 100%; background: grey(16);">
     <as-split direction="horizontal">
         <as-split-area [size]="20">
-            <app-test-sidebar [GONG__StackPath]="GONG__StackPath"></app-test-sidebar>
+            <app-{{pkgname}}-sidebar [GONG__StackPath]="GONG__StackPath"></app-{{pkgname}}-sidebar>
         </as-split-area>
         <as-split-area [size]="50">
             <router-outlet [name]="tableOutletName"></router-outlet>
