@@ -98,6 +98,8 @@ func main() {
 		os.RemoveAll(gong_models.FullstackPkgGenPath)
 		gong_models.StaticPkgGenPath = filepath.Join(gong_models.PathToGoSubDirectory, "static")
 		os.RemoveAll(gong_models.StaticPkgGenPath)
+		gong_models.DataPkgGenPath = filepath.Join(gong_models.PathToGoSubDirectory, "data")
+		os.RemoveAll(gong_models.DataPkgGenPath)
 		{
 			directory, err :=
 				filepath.Abs(
@@ -326,6 +328,15 @@ func main() {
 		log.Println("directory " + gong_models.StaticPkgGenPath + " allready exists")
 	}
 
+	// generate directory for Data package
+	errd = os.MkdirAll(gong_models.DataPkgGenPath, os.ModePerm)
+	if os.IsNotExist(errd) {
+		log.Println("creating directory : " + gong_models.DataPkgGenPath)
+	}
+	if os.IsExist(errd) {
+		log.Println("directory " + gong_models.DataPkgGenPath + " allready exists")
+	}
+
 	// compute source path
 	sourcePath, errd2 := filepath.Abs(*pkgPath)
 	if errd2 != nil {
@@ -445,6 +456,12 @@ func main() {
 		modelPkg.PkgPath,
 		filepath.Join(*pkgPath, "../docs.go"),
 		golang.RootFileDocsTemplate)
+
+	gong_models.VerySimpleCodeGenerator(
+		modelPkg,
+		caserEnglish.String(modelPkg.Name),
+		modelPkg.PkgPath, filepath.Join(*pkgPath, "../data/load.go"),
+		golang.LoadFileTemplate)
 
 	// go mod vendor to get the ng code of dependant gong stacks
 	if !*skipGoModCommands {
