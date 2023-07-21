@@ -54,7 +54,7 @@ func (nodeImplGongstruct *NodeImplGongstruct) OnAfterUpdate(
 	log.Println("NodeImplGongstruct:OnAfterUpdate")
 	nodeImplGongstruct.tableRouter.Path =
 		"github_com_fullstack_lang_gong_test_go-" +
-			strings.ToLower(nodeImplGongstruct.gongStruct.Name) + "s" + "/:GONG__StackPath"
+			strings.ToLower(nodeImplGongstruct.gongStruct.Name) + "s"
 
 	nodeImplGongstruct.gongrouterStage.Commit()
 
