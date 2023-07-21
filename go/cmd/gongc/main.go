@@ -460,6 +460,18 @@ func main() {
 	gong_models.VerySimpleCodeGenerator(
 		modelPkg,
 		caserEnglish.String(modelPkg.Name),
+		modelPkg.PkgPath, filepath.Join(*pkgPath, "../data/button_impl_gongstruct.go"),
+		golang.ButtonImplGongstructFileTemplate)
+
+	gong_models.VerySimpleCodeGenerator(
+		modelPkg,
+		caserEnglish.String(modelPkg.Name),
+		modelPkg.PkgPath, filepath.Join(*pkgPath, "../data/node_impl_gongstruct.go"),
+		golang.NodeImplGongstructFileTemplate)
+
+	gong_models.VerySimpleCodeGenerator(
+		modelPkg,
+		caserEnglish.String(modelPkg.Name),
 		modelPkg.PkgPath, filepath.Join(*pkgPath, "../data/load.go"),
 		golang.LoadFileTemplate)
 
