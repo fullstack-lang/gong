@@ -5,6 +5,13 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "Launch Edge",
+            "request": "launch",
+            "type": "msedge",
+            "url": "http://localhost:4200",
+            "webRoot": "${workspaceFolder}/test/ng"
+        },
+        {
             "name": "Launch Chrome on 4200",
             "request": "launch",
             "type": "chrome",

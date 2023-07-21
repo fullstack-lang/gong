@@ -27,8 +27,14 @@ func Load(
 	gong_models.LoadEmbedded(gongStage, goModelsDir)
 
 	gongtreeStage := gongtree_fullstack.NewStackInstance(r, stackPath)
+
+	// configure routing of table and editor router
 	gongrouterStage := gongrouter_fullstack.NewStackInstance(r, stackPath)
-	_ = gongrouterStage
+	tableRouter := new(gongrouter_models.Outlet).Stage(gongrouterStage)
+	tableRouter.Name = "github_com_fullstack_lang_gong_test_go" + "_table" + "_" + stackPath
+
+	editorRouter := new(gongrouter_models.Outlet).Stage(gongrouterStage)
+	editorRouter.Name = "github_com_fullstack_lang_gong_test_go" + "_editor" + "_" + stackPath
 
 	// create tree
 	// set up the gongTree to display elements
@@ -50,7 +56,7 @@ func Load(
 		nodeGongstruct := (&gongtree_models.Node{Name: gongStruct.Name}).Stage(gongtreeStage)
 		nodeGongstruct.IsNodeClickable = true
 
-		nodeGongstruct.Impl = NewNodeImplGongstruct(gongStruct)
+		nodeGongstruct.Impl = NewNodeImplGongstruct(gongStruct, gongrouterStage, tableRouter)
 
 		// add add button
 		addButton := (&gongtree_models.Button{
@@ -64,12 +70,6 @@ func Load(
 		treeOfGongObjects.RootNodes = append(treeOfGongObjects.RootNodes, nodeGongstruct)
 	}
 	gongtreeStage.Commit()
-
-	tableRouter := new(gongrouter_models.Outlet).Stage(gongrouterStage)
-	tableRouter.Name = "github_com_fullstack_lang_gong_test_go" + "_table" + "_" + stackPath
-
-	editorRouter := new(gongrouter_models.Outlet).Stage(gongrouterStage)
-	editorRouter.Name = "github_com_fullstack_lang_gong_test_go" + "_editor" + "_" + stackPath
 
 	gongrouterStage.Commit()
 

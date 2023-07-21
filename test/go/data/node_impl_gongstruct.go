@@ -1,21 +1,30 @@
 package data
 
 import (
+	"log"
+	"strings"
+
 	gong_models "github.com/fullstack-lang/gong/go/models"
+	gongrouter_models "github.com/fullstack-lang/gongrouter/go/models"
 	gongtree_models "github.com/fullstack-lang/gongtree/go/models"
 )
 
 type NodeImplGongstruct struct {
-	gongStruct *gong_models.GongStruct
+	gongStruct      *gong_models.GongStruct
+	gongrouterStage *gongrouter_models.StageStruct
+	tableRouter     *gongrouter_models.Outlet
 }
 
 func NewNodeImplGongstruct(
 	gongStruct *gong_models.GongStruct,
+	gongrouterStage *gongrouter_models.StageStruct,
+	tableRouter *gongrouter_models.Outlet,
 ) (nodeImplGongstruct *NodeImplGongstruct) {
 
 	nodeImplGongstruct = new(NodeImplGongstruct)
 	nodeImplGongstruct.gongStruct = gongStruct
-
+	nodeImplGongstruct.gongrouterStage = gongrouterStage
+	nodeImplGongstruct.tableRouter = tableRouter
 	return
 }
 
@@ -39,4 +48,14 @@ func (nodeImplGongstruct *NodeImplGongstruct) OnAfterUpdate(
 	if !stagedNode.IsChecked && frontNode.IsChecked {
 
 	}
+
+	// the node was selected. Therefore, one request the
+	// router to route to the table
+	log.Println("NodeImplGongstruct:OnAfterUpdate")
+	nodeImplGongstruct.tableRouter.Path =
+		"github_com_fullstack_lang_gong_test_go-" +
+			strings.ToLower(nodeImplGongstruct.gongStruct.Name) + "s" + "/:GONG__StackPath"
+
+	nodeImplGongstruct.gongrouterStage.Commit()
+
 }
