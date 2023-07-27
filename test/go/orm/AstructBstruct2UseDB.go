@@ -335,6 +335,7 @@ func (backRepoAstructBstruct2Use *BackRepoAstructBstruct2UseStruct) CheckoutPhas
 
 	// insertion point for checkout of pointer encoding
 	// Bstrcut2 field
+	astructbstruct2use.Bstrcut2 = nil
 	if astructbstruct2useDB.Bstrcut2ID.Int64 != 0 {
 		astructbstruct2use.Bstrcut2 = backRepo.BackRepoBstruct.Map_BstructDBID_BstructPtr[uint(astructbstruct2useDB.Bstrcut2ID.Int64)]
 	}
