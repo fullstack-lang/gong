@@ -718,6 +718,7 @@ var BackRepoFieldSubTemplateCode map[BackRepoPerStructSubTemplate]string = map[B
 
 	BackRepoCheckoutPointerToStructStageField: `
 	// {{FieldName}} field
+	{{structname}}.{{FieldName}} = nil
 	if {{structname}}DB.{{FieldName}}ID.Int64 != 0 {
 		{{structname}}.{{FieldName}} = backRepo.BackRepo{{AssociationStructName}}.Map_{{AssociationStructName}}DBID_{{AssociationStructName}}Ptr[uint({{structname}}DB.{{FieldName}}ID.Int64)]
 	}`,
