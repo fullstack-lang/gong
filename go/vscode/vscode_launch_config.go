@@ -11,40 +11,11 @@ const VsCodeLaunchConfig = `{
             "webRoot": "${workspaceFolder}/ng"
         },
         {
-            "name": "Launch firefox localhost:4200",
-            "type": "firefox",
+            "name": "Launch Chrome",
             "request": "launch",
-            "reAttach": true,
-            "url": "http://localhost:4200/",
-            "webRoot": "${workspaceFolder}/ng",
-            "pathMappings": [
-                {
-                    "url": "webpack:///vendor",
-                    "path": "${workspaceFolder}/vendor"
-                },
-                {
-                    "url": "webpack:///projects",
-                    "path": "${workspaceFolder}/ng/projects"
-                }
-            ]
-        },
-        {
-            "name": "Launch firefox localhost:8080",
-            "type": "firefox",
-            "request": "launch",
-            "reAttach": true,
-            "url": "http://localhost:8080/",
-            "webRoot": "${workspaceFolder}/ng",
-            "pathMappings": [
-                {
-                    "url": "webpack:///vendor",
-                    "path": "${workspaceFolder}/vendor"
-                },
-                {
-                    "url": "webpack:///projects",
-                    "path": "${workspaceFolder}/ng/projects"
-                }
-            ]
+            "type": "chrome",
+            "url": "http://localhost:8080",
+            "webRoot": "${workspaceFolder}/ng"
         },
         {
             "name": "go server -unmarshallFromCode=stage.go -marshallOnCommit=stage",
