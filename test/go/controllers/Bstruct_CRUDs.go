@@ -4,6 +4,7 @@ package controllers
 import (
 	"log"
 	"net/http"
+	"sync"
 	"time"
 
 	"github.com/fullstack-lang/gong/test/go/models"
@@ -15,6 +16,8 @@ import (
 // declaration in order to justify use of the models import
 var __Bstruct__dummysDeclaration__ models.Bstruct
 var __Bstruct_time__dummyDeclaration time.Duration
+
+var mutexBstruct sync.Mutex
 
 // An BstructID parameter model.
 //
@@ -109,6 +112,8 @@ func (controller *Controller) GetBstructs(c *gin.Context) {
 //	  200: nodeDBResponse
 func (controller *Controller) PostBstruct(c *gin.Context) {
 
+	mutexBstruct.Lock()
+
 	values := c.Request.URL.Query()
 	stackPath := ""
 	if len(values) == 1 {
@@ -162,6 +167,8 @@ func (controller *Controller) PostBstruct(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, bstructDB)
+
+	mutexBstruct.Unlock()
 }
 
 // GetBstruct
@@ -218,6 +225,8 @@ func (controller *Controller) GetBstruct(c *gin.Context) {
 //
 //	200: bstructDBResponse
 func (controller *Controller) UpdateBstruct(c *gin.Context) {
+
+	mutexBstruct.Lock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -286,6 +295,8 @@ func (controller *Controller) UpdateBstruct(c *gin.Context) {
 
 	// return status OK with the marshalling of the the bstructDB
 	c.JSON(http.StatusOK, bstructDB)
+
+	mutexBstruct.Unlock()
 }
 
 // DeleteBstruct
@@ -298,6 +309,8 @@ func (controller *Controller) UpdateBstruct(c *gin.Context) {
 //
 //	200: bstructDBResponse
 func (controller *Controller) DeleteBstruct(c *gin.Context) {
+
+	mutexBstruct.Lock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -340,4 +353,6 @@ func (controller *Controller) DeleteBstruct(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, gin.H{"data": true})
+
+	mutexBstruct.Unlock()
 }

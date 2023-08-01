@@ -4,6 +4,7 @@ package controllers
 import (
 	"log"
 	"net/http"
+	"sync"
 	"time"
 
 	"github.com/fullstack-lang/gong/test/go/models"
@@ -15,6 +16,8 @@ import (
 // declaration in order to justify use of the models import
 var __Astruct__dummysDeclaration__ models.Astruct
 var __Astruct_time__dummyDeclaration time.Duration
+
+var mutexAstruct sync.Mutex
 
 // An AstructID parameter model.
 //
@@ -109,6 +112,8 @@ func (controller *Controller) GetAstructs(c *gin.Context) {
 //	  200: nodeDBResponse
 func (controller *Controller) PostAstruct(c *gin.Context) {
 
+	mutexAstruct.Lock()
+
 	values := c.Request.URL.Query()
 	stackPath := ""
 	if len(values) == 1 {
@@ -162,6 +167,8 @@ func (controller *Controller) PostAstruct(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, astructDB)
+
+	mutexAstruct.Unlock()
 }
 
 // GetAstruct
@@ -218,6 +225,8 @@ func (controller *Controller) GetAstruct(c *gin.Context) {
 //
 //	200: astructDBResponse
 func (controller *Controller) UpdateAstruct(c *gin.Context) {
+
+	mutexAstruct.Lock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -286,6 +295,8 @@ func (controller *Controller) UpdateAstruct(c *gin.Context) {
 
 	// return status OK with the marshalling of the the astructDB
 	c.JSON(http.StatusOK, astructDB)
+
+	mutexAstruct.Unlock()
 }
 
 // DeleteAstruct
@@ -298,6 +309,8 @@ func (controller *Controller) UpdateAstruct(c *gin.Context) {
 //
 //	200: astructDBResponse
 func (controller *Controller) DeleteAstruct(c *gin.Context) {
+
+	mutexAstruct.Lock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -340,4 +353,6 @@ func (controller *Controller) DeleteAstruct(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, gin.H{"data": true})
+
+	mutexAstruct.Unlock()
 }
