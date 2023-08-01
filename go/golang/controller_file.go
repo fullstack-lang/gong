@@ -20,6 +20,7 @@ package controllers
 import (
 	"log"
 	"net/http"
+	"sync"
 	"time"
 
 	"{{PkgPathRoot}}/models"
@@ -31,6 +32,8 @@ import (
 // declaration in order to justify use of the models import
 var __{{Structname}}__dummysDeclaration__ models.{{Structname}}
 var __{{Structname}}_time__dummyDeclaration time.Duration
+
+var mutex{{Structname}} sync.Mutex
 
 // An {{Structname}}ID parameter model.
 //
@@ -125,6 +128,8 @@ func (controller *Controller) Get{{Structname}}s(c *gin.Context) {
 //	  200: nodeDBResponse
 func (controller *Controller) Post{{Structname}}(c *gin.Context) {
 
+	mutex{{Structname}}.Lock()
+
 	values := c.Request.URL.Query()
 	stackPath := ""
 	if len(values) == 1 {
@@ -178,6 +183,8 @@ func (controller *Controller) Post{{Structname}}(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, {{structname}}DB)
+
+	mutex{{Structname}}.Unlock()
 }
 
 // Get{{Structname}}
@@ -234,6 +241,8 @@ func (controller *Controller) Get{{Structname}}(c *gin.Context) {
 //
 //	200: {{structname}}DBResponse
 func (controller *Controller) Update{{Structname}}(c *gin.Context) {
+
+	mutex{{Structname}}.Lock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -302,6 +311,8 @@ func (controller *Controller) Update{{Structname}}(c *gin.Context) {
 
 	// return status OK with the marshalling of the the {{structname}}DB
 	c.JSON(http.StatusOK, {{structname}}DB)
+
+	mutex{{Structname}}.Unlock()
 }
 
 // Delete{{Structname}}
@@ -314,6 +325,8 @@ func (controller *Controller) Update{{Structname}}(c *gin.Context) {
 //
 //	200: {{structname}}DBResponse
 func (controller *Controller) Delete{{Structname}}(c *gin.Context) {
+
+	mutex{{Structname}}.Lock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -356,6 +369,8 @@ func (controller *Controller) Delete{{Structname}}(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, gin.H{"data": true})
+
+	mutex{{Structname}}.Unlock()
 }
 `
 
