@@ -4,6 +4,7 @@ package controllers
 import (
 	"log"
 	"net/http"
+	"sync"
 	"time"
 
 	"github.com/fullstack-lang/gong/test/go/models"
@@ -15,6 +16,8 @@ import (
 // declaration in order to justify use of the models import
 var __Dstruct__dummysDeclaration__ models.Dstruct
 var __Dstruct_time__dummyDeclaration time.Duration
+
+var mutexDstruct sync.Mutex
 
 // An DstructID parameter model.
 //
@@ -109,6 +112,8 @@ func (controller *Controller) GetDstructs(c *gin.Context) {
 //	  200: nodeDBResponse
 func (controller *Controller) PostDstruct(c *gin.Context) {
 
+	mutexDstruct.Lock()
+
 	values := c.Request.URL.Query()
 	stackPath := ""
 	if len(values) == 1 {
@@ -162,6 +167,8 @@ func (controller *Controller) PostDstruct(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, dstructDB)
+
+	mutexDstruct.Unlock()
 }
 
 // GetDstruct
@@ -218,6 +225,8 @@ func (controller *Controller) GetDstruct(c *gin.Context) {
 //
 //	200: dstructDBResponse
 func (controller *Controller) UpdateDstruct(c *gin.Context) {
+
+	mutexDstruct.Lock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -286,6 +295,8 @@ func (controller *Controller) UpdateDstruct(c *gin.Context) {
 
 	// return status OK with the marshalling of the the dstructDB
 	c.JSON(http.StatusOK, dstructDB)
+
+	mutexDstruct.Unlock()
 }
 
 // DeleteDstruct
@@ -298,6 +309,8 @@ func (controller *Controller) UpdateDstruct(c *gin.Context) {
 //
 //	200: dstructDBResponse
 func (controller *Controller) DeleteDstruct(c *gin.Context) {
+
+	mutexDstruct.Lock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -340,4 +353,6 @@ func (controller *Controller) DeleteDstruct(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, gin.H{"data": true})
+
+	mutexDstruct.Unlock()
 }

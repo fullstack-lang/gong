@@ -4,6 +4,7 @@ package controllers
 import (
 	"log"
 	"net/http"
+	"sync"
 	"time"
 
 	"github.com/fullstack-lang/gong/test/go/models"
@@ -15,6 +16,8 @@ import (
 // declaration in order to justify use of the models import
 var __AstructBstructUse__dummysDeclaration__ models.AstructBstructUse
 var __AstructBstructUse_time__dummyDeclaration time.Duration
+
+var mutexAstructBstructUse sync.Mutex
 
 // An AstructBstructUseID parameter model.
 //
@@ -109,6 +112,8 @@ func (controller *Controller) GetAstructBstructUses(c *gin.Context) {
 //	  200: nodeDBResponse
 func (controller *Controller) PostAstructBstructUse(c *gin.Context) {
 
+	mutexAstructBstructUse.Lock()
+
 	values := c.Request.URL.Query()
 	stackPath := ""
 	if len(values) == 1 {
@@ -162,6 +167,8 @@ func (controller *Controller) PostAstructBstructUse(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, astructbstructuseDB)
+
+	mutexAstructBstructUse.Unlock()
 }
 
 // GetAstructBstructUse
@@ -218,6 +225,8 @@ func (controller *Controller) GetAstructBstructUse(c *gin.Context) {
 //
 //	200: astructbstructuseDBResponse
 func (controller *Controller) UpdateAstructBstructUse(c *gin.Context) {
+
+	mutexAstructBstructUse.Lock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -286,6 +295,8 @@ func (controller *Controller) UpdateAstructBstructUse(c *gin.Context) {
 
 	// return status OK with the marshalling of the the astructbstructuseDB
 	c.JSON(http.StatusOK, astructbstructuseDB)
+
+	mutexAstructBstructUse.Unlock()
 }
 
 // DeleteAstructBstructUse
@@ -298,6 +309,8 @@ func (controller *Controller) UpdateAstructBstructUse(c *gin.Context) {
 //
 //	200: astructbstructuseDBResponse
 func (controller *Controller) DeleteAstructBstructUse(c *gin.Context) {
+
+	mutexAstructBstructUse.Lock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -340,4 +353,6 @@ func (controller *Controller) DeleteAstructBstructUse(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, gin.H{"data": true})
+
+	mutexAstructBstructUse.Unlock()
 }
