@@ -1,7 +1,7 @@
 ./go/models/gong.go
 
 *.exe
-__debug_bin
+__debug_bin*
 **/.DS_Store
 
 go/controllers/gongapi.yml
@@ -15,3 +15,4 @@ test2/go/cmd/test2/test2
 
 test/go/.DS_Store
 test/go/tests/~$serialize_test.xlsx
+
