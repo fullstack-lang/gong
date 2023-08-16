@@ -33,7 +33,7 @@ func NewStackInstance(
 	if stackPath == "" {
 		stage = models.GetDefaultStage()
 	} else {
-		stage = models.NewStage()
+		stage = models.NewStage(stackPath)
 	}
 
 	if len(filenames) == 0 {
