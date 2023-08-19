@@ -103,6 +103,7 @@ export class GongrouterOutletComponent {
     outletConf[outletName] = [path, this.DataStack]
 
     this.router.navigate([{ outlets: outletConf }]);
+
   }
 
 }
