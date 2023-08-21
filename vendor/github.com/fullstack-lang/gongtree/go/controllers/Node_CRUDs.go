@@ -4,6 +4,7 @@ package controllers
 import (
 	"log"
 	"net/http"
+	"sync"
 	"time"
 
 	"github.com/fullstack-lang/gongtree/go/models"
@@ -15,6 +16,8 @@ import (
 // declaration in order to justify use of the models import
 var __Node__dummysDeclaration__ models.Node
 var __Node_time__dummyDeclaration time.Duration
+
+var mutexNode sync.Mutex
 
 // An NodeID parameter model.
 //
@@ -109,6 +112,8 @@ func (controller *Controller) GetNodes(c *gin.Context) {
 //	  200: nodeDBResponse
 func (controller *Controller) PostNode(c *gin.Context) {
 
+	mutexNode.Lock()
+
 	values := c.Request.URL.Query()
 	stackPath := ""
 	if len(values) == 1 {
@@ -162,6 +167,8 @@ func (controller *Controller) PostNode(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, nodeDB)
+
+	mutexNode.Unlock()
 }
 
 // GetNode
@@ -218,6 +225,8 @@ func (controller *Controller) GetNode(c *gin.Context) {
 //
 //	200: nodeDBResponse
 func (controller *Controller) UpdateNode(c *gin.Context) {
+
+	mutexNode.Lock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -286,6 +295,8 @@ func (controller *Controller) UpdateNode(c *gin.Context) {
 
 	// return status OK with the marshalling of the the nodeDB
 	c.JSON(http.StatusOK, nodeDB)
+
+	mutexNode.Unlock()
 }
 
 // DeleteNode
@@ -298,6 +309,8 @@ func (controller *Controller) UpdateNode(c *gin.Context) {
 //
 //	200: nodeDBResponse
 func (controller *Controller) DeleteNode(c *gin.Context) {
+
+	mutexNode.Lock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -340,4 +353,6 @@ func (controller *Controller) DeleteNode(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, gin.H{"data": true})
+
+	mutexNode.Unlock()
 }

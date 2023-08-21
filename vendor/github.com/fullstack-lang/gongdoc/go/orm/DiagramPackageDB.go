@@ -426,6 +426,7 @@ func (backRepoDiagramPackage *BackRepoDiagramPackageStruct) CheckoutPhaseTwoInst
 	})
 
 	// SelectedClassdiagram field
+	diagrampackage.SelectedClassdiagram = nil
 	if diagrampackageDB.SelectedClassdiagramID.Int64 != 0 {
 		diagrampackage.SelectedClassdiagram = backRepo.BackRepoClassdiagram.Map_ClassdiagramDBID_ClassdiagramPtr[uint(diagrampackageDB.SelectedClassdiagramID.Int64)]
 	}

@@ -1,0 +1,79 @@
+<form *ngIf="table" class="details">
+    <h2 class="details__title">table</h2>
+    <!-- insertion point for fields specific code -->
+    <mat-grid-list *ngIf='!isATextArea("Name")' cols="5" rowHeight="1:1">
+        <mat-grid-tile [colspan]="3">
+            <mat-form-field mat-form-field class="detail-full-width">
+                <mat-label>Name</mat-label>
+                <input name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="table.Name">
+            </mat-form-field>
+        </mat-grid-tile>
+        <mat-grid-tile>
+            <button mat-raised-button (click)="toggleTextArea('Name')">
+                <mat-icon>
+                    expand_more
+                </mat-icon>
+            </button>
+        </mat-grid-tile>
+    </mat-grid-list>
+    <mat-form-field *ngIf='isATextArea("Name")' mat-form-field class="detail-full-width">
+        <mat-label>Name</mat-label>
+        <textarea name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="table.Name"></textarea>
+    </mat-form-field>
+
+    <mat-grid-list cols="5" rowHeight="2:1">
+        <mat-grid-tile [colspan]="3">
+            <button mat-raised-button (click)="openReverseSelection('DisplayedColumn', 'Table_DisplayedColumnsDBID', 'ONE_MANY_ASSOCIATION_MODE', '', '', '')">DisplayedColumns</button>
+        </mat-grid-tile>
+        <!-- insertion point for the button of the MANY_MANY association-->
+        <mat-grid-tile>
+            <button mat-raised-button (click)="openDragAndDropOrdering('DisplayedColumn', 'Table_DisplayedColumnsDBID')">
+                <mat-icon>
+                    shuffle
+                </mat-icon>
+            </button>
+        </mat-grid-tile>
+    </mat-grid-list>
+    <mat-grid-list cols="5" rowHeight="2:1">
+        <mat-grid-tile [colspan]="3">
+            <button mat-raised-button (click)="openReverseSelection('Row', 'Table_RowsDBID', 'ONE_MANY_ASSOCIATION_MODE', '', '', '')">Rows</button>
+        </mat-grid-tile>
+        <!-- insertion point for the button of the MANY_MANY association-->
+        <mat-grid-tile>
+            <button mat-raised-button (click)="openDragAndDropOrdering('Row', 'Table_RowsDBID')">
+                <mat-icon>
+                    shuffle
+                </mat-icon>
+            </button>
+        </mat-grid-tile>
+    </mat-grid-list>
+    <!-- -->
+    <mat-checkbox [formControl]="HasFilteringFormControl">HasFiltering</mat-checkbox>
+
+    <!-- -->
+    <mat-checkbox [formControl]="HasColumnSortingFormControl">HasColumnSorting</mat-checkbox>
+
+    <!-- -->
+    <mat-checkbox [formControl]="HasPaginatorFormControl">HasPaginator</mat-checkbox>
+
+    <!-- -->
+    <mat-checkbox [formControl]="HasCheckableRowsFormControl">HasCheckableRows</mat-checkbox>
+
+    <!-- -->
+    <mat-checkbox [formControl]="HasSaveButtonFormControl">HasSaveButton</mat-checkbox>
+
+    <!-- -->
+    <mat-checkbox [formControl]="CanDragDropRowsFormControl">CanDragDropRows</mat-checkbox>
+
+    <!-- -->
+    <mat-checkbox [formControl]="HasCloseButtonFormControl">HasCloseButton</mat-checkbox>
+
+    <!-- -->
+    <mat-checkbox [formControl]="SavingInProgressFormControl">SavingInProgress</mat-checkbox>
+
+    <div class="details__save">
+        <button mat-raised-button color="primary" (click)="save()">
+            Save table
+        </button>
+    </div>
+</form>

@@ -1,0 +1,88 @@
+<form *ngIf="cell" class="details">
+    <h2 class="details__title">cell</h2>
+    <!-- insertion point for fields specific code -->
+    <mat-grid-list *ngIf='!isATextArea("Name")' cols="5" rowHeight="1:1">
+        <mat-grid-tile [colspan]="3">
+            <mat-form-field mat-form-field class="detail-full-width">
+                <mat-label>Name</mat-label>
+                <input name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="cell.Name">
+            </mat-form-field>
+        </mat-grid-tile>
+        <mat-grid-tile>
+            <button mat-raised-button (click)="toggleTextArea('Name')">
+                <mat-icon>
+                    expand_more
+                </mat-icon>
+            </button>
+        </mat-grid-tile>
+    </mat-grid-list>
+    <mat-form-field *ngIf='isATextArea("Name")' mat-form-field class="detail-full-width">
+        <mat-label>Name</mat-label>
+        <textarea name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="cell.Name"></textarea>
+    </mat-form-field>
+
+    <mat-form-field class="detail-full-width">
+        <mat-label>CellString</mat-label>
+        <mat-select [compareWith]="compareObjects" [(value)]="cell.CellString" (selectionChange)="fillUpNameIfEmpty($event)">
+            <mat-option>None</mat-option>
+            <mat-option *ngFor="let cellstring of frontRepo.CellStrings_array" [value]="cellstring">
+                {{cellstring.Name}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    <mat-form-field class="detail-full-width">
+        <mat-label>CellFloat64</mat-label>
+        <mat-select [compareWith]="compareObjects" [(value)]="cell.CellFloat64" (selectionChange)="fillUpNameIfEmpty($event)">
+            <mat-option>None</mat-option>
+            <mat-option *ngFor="let cellfloat64 of frontRepo.CellFloat64s_array" [value]="cellfloat64">
+                {{cellfloat64.Name}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    <mat-form-field class="detail-full-width">
+        <mat-label>CellInt</mat-label>
+        <mat-select [compareWith]="compareObjects" [(value)]="cell.CellInt" (selectionChange)="fillUpNameIfEmpty($event)">
+            <mat-option>None</mat-option>
+            <mat-option *ngFor="let cellint of frontRepo.CellInts_array" [value]="cellint">
+                {{cellint.Name}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    <mat-form-field class="detail-full-width">
+        <mat-label>CellBool</mat-label>
+        <mat-select [compareWith]="compareObjects" [(value)]="cell.CellBool" (selectionChange)="fillUpNameIfEmpty($event)">
+            <mat-option>None</mat-option>
+            <mat-option *ngFor="let cellboolean of frontRepo.CellBooleans_array" [value]="cellboolean">
+                {{cellboolean.Name}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    <mat-form-field class="detail-full-width">
+        <mat-label>CellIcon</mat-label>
+        <mat-select [compareWith]="compareObjects" [(value)]="cell.CellIcon" (selectionChange)="fillUpNameIfEmpty($event)">
+            <mat-option>None</mat-option>
+            <mat-option *ngFor="let cellicon of frontRepo.CellIcons_array" [value]="cellicon">
+                {{cellicon.Name}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    <mat-form-field class="detail-full-width">
+        <mat-label>(Row) Cells</mat-label>
+        <mat-select [compareWith]="compareObjects" [(ngModel)]="cell.Row_Cells_reverse" [ngModelOptions]="{standalone: true}">
+            <mat-option>None</mat-option>
+            <mat-option *ngFor="let row of frontRepo.Rows_array" [value]="row">
+                {{row.Name}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+    <div class="details__save">
+        <button mat-raised-button color="primary" (click)="save()">
+            Save cell
+        </button>
+    </div>
+</form>

@@ -425,6 +425,7 @@ func (backRepoLink *BackRepoLinkStruct) CheckoutPhaseTwoInstance(backRepo *BackR
 
 	// insertion point for checkout of pointer encoding
 	// Middlevertice field
+	link.Middlevertice = nil
 	if linkDB.MiddleverticeID.Int64 != 0 {
 		link.Middlevertice = backRepo.BackRepoVertice.Map_VerticeDBID_VerticePtr[uint(linkDB.MiddleverticeID.Int64)]
 	}

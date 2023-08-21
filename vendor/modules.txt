@@ -30,7 +30,7 @@ github.com/dustin/go-humanize
 # github.com/frankban/quicktest v1.14.5
 ## explicit; go 1.13
 github.com/frankban/quicktest
-# github.com/fullstack-lang/gongdoc v0.0.0-20230617113521-c72e962e03ca
+# github.com/fullstack-lang/gongdoc v0.0.0-20230802134450-befcd248c3a1
 ## explicit; go 1.19
 github.com/fullstack-lang/gongdoc/go/controllers
 github.com/fullstack-lang/gongdoc/go/doc2svg
@@ -47,14 +47,21 @@ github.com/fullstack-lang/gongrouter/go/fullstack
 github.com/fullstack-lang/gongrouter/go/models
 github.com/fullstack-lang/gongrouter/go/orm
 github.com/fullstack-lang/gongrouter/ng/projects
-# github.com/fullstack-lang/gongsvg v0.0.0-20230616114434-9f04fe33a038
+# github.com/fullstack-lang/gongsvg v0.0.0-20230801152816-1fe19f3afd9c
 ## explicit; go 1.19
 github.com/fullstack-lang/gongsvg/go/controllers
 github.com/fullstack-lang/gongsvg/go/fullstack
 github.com/fullstack-lang/gongsvg/go/models
 github.com/fullstack-lang/gongsvg/go/orm
 github.com/fullstack-lang/gongsvg/ng/projects
-# github.com/fullstack-lang/gongtree v0.0.0-20230714143522-831761c69707
+# github.com/fullstack-lang/gongtable v0.0.0-20230819090758-8b9d8aed45ed
+## explicit; go 1.21
+github.com/fullstack-lang/gongtable/go/controllers
+github.com/fullstack-lang/gongtable/go/fullstack
+github.com/fullstack-lang/gongtable/go/models
+github.com/fullstack-lang/gongtable/go/orm
+github.com/fullstack-lang/gongtable/ng/projects
+# github.com/fullstack-lang/gongtree v0.0.0-20230801154057-79c7faf82605
 ## explicit; go 1.20
 github.com/fullstack-lang/gongtree/go/buttons
 github.com/fullstack-lang/gongtree/go/controllers
@@ -84,10 +91,10 @@ github.com/gin-gonic/gin/binding
 github.com/gin-gonic/gin/internal/bytesconv
 github.com/gin-gonic/gin/internal/json
 github.com/gin-gonic/gin/render
-# github.com/glebarez/go-sqlite v1.21.1
+# github.com/glebarez/go-sqlite v1.21.2
 ## explicit; go 1.17
 github.com/glebarez/go-sqlite
-# github.com/glebarez/sqlite v1.8.0
+# github.com/glebarez/sqlite v1.9.0
 ## explicit; go 1.18
 github.com/glebarez/sqlite
 # github.com/go-playground/locales v0.14.1
@@ -297,7 +304,7 @@ google.golang.org/protobuf/runtime/protoiface
 # gopkg.in/yaml.v3 v3.0.1
 ## explicit
 gopkg.in/yaml.v3
-# gorm.io/gorm v1.25.1
+# gorm.io/gorm v1.25.2
 ## explicit; go 1.16
 gorm.io/gorm
 gorm.io/gorm/callbacks
@@ -306,7 +313,7 @@ gorm.io/gorm/logger
 gorm.io/gorm/migrator
 gorm.io/gorm/schema
 gorm.io/gorm/utils
-# modernc.org/libc v1.22.3
+# modernc.org/libc v1.22.5
 ## explicit; go 1.18
 modernc.org/libc
 modernc.org/libc/errno
@@ -340,6 +347,6 @@ modernc.org/mathutil
 # modernc.org/memory v1.5.0
 ## explicit; go 1.18
 modernc.org/memory
-# modernc.org/sqlite v1.21.1
+# modernc.org/sqlite v1.23.1
 ## explicit; go 1.18
 modernc.org/sqlite/lib

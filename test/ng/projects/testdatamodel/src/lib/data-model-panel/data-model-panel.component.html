@@ -40,6 +40,22 @@
     </as-split-area>
 </as-split>
 
+<as-split unit="pixel" *ngIf="view==dataNewNew" direction="vertical">
+    <as-split-area [size]=40>
+        <ng-container *ngTemplateOutlet="radioToolbar"></ng-container>
+    </as-split-area>
+    <as-split-area [size]="$any('*')">
+        <as-split direction="horizontal">
+            <as-split-area [size]="20">
+                <lib-tree [GONG__StackPath]="GONG__DATA__StackPath+'-sidebar'" name="gong"></lib-tree>
+            </as-split-area>
+            <as-split-area [size]="50">
+            </as-split-area>
+            <as-split-area [size]="30">
+            </as-split-area>
+        </as-split>
+    </as-split-area>
+</as-split>
 
 <as-split unit="pixel" *ngIf="view==model" direction="vertical">
     <as-split-area [size]=40>

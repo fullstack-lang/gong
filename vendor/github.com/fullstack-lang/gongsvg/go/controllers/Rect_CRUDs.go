@@ -4,6 +4,7 @@ package controllers
 import (
 	"log"
 	"net/http"
+	"sync"
 	"time"
 
 	"github.com/fullstack-lang/gongsvg/go/models"
@@ -15,6 +16,8 @@ import (
 // declaration in order to justify use of the models import
 var __Rect__dummysDeclaration__ models.Rect
 var __Rect_time__dummyDeclaration time.Duration
+
+var mutexRect sync.Mutex
 
 // An RectID parameter model.
 //
@@ -109,6 +112,8 @@ func (controller *Controller) GetRects(c *gin.Context) {
 //	  200: nodeDBResponse
 func (controller *Controller) PostRect(c *gin.Context) {
 
+	mutexRect.Lock()
+
 	values := c.Request.URL.Query()
 	stackPath := ""
 	if len(values) == 1 {
@@ -162,6 +167,8 @@ func (controller *Controller) PostRect(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, rectDB)
+
+	mutexRect.Unlock()
 }
 
 // GetRect
@@ -218,6 +225,8 @@ func (controller *Controller) GetRect(c *gin.Context) {
 //
 //	200: rectDBResponse
 func (controller *Controller) UpdateRect(c *gin.Context) {
+
+	mutexRect.Lock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -286,6 +295,8 @@ func (controller *Controller) UpdateRect(c *gin.Context) {
 
 	// return status OK with the marshalling of the the rectDB
 	c.JSON(http.StatusOK, rectDB)
+
+	mutexRect.Unlock()
 }
 
 // DeleteRect
@@ -298,6 +309,8 @@ func (controller *Controller) UpdateRect(c *gin.Context) {
 //
 //	200: rectDBResponse
 func (controller *Controller) DeleteRect(c *gin.Context) {
+
+	mutexRect.Lock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -340,4 +353,6 @@ func (controller *Controller) DeleteRect(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, gin.H{"data": true})
+
+	mutexRect.Unlock()
 }

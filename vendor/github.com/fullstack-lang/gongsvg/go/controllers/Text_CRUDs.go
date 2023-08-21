@@ -4,6 +4,7 @@ package controllers
 import (
 	"log"
 	"net/http"
+	"sync"
 	"time"
 
 	"github.com/fullstack-lang/gongsvg/go/models"
@@ -15,6 +16,8 @@ import (
 // declaration in order to justify use of the models import
 var __Text__dummysDeclaration__ models.Text
 var __Text_time__dummyDeclaration time.Duration
+
+var mutexText sync.Mutex
 
 // An TextID parameter model.
 //
@@ -109,6 +112,8 @@ func (controller *Controller) GetTexts(c *gin.Context) {
 //	  200: nodeDBResponse
 func (controller *Controller) PostText(c *gin.Context) {
 
+	mutexText.Lock()
+
 	values := c.Request.URL.Query()
 	stackPath := ""
 	if len(values) == 1 {
@@ -162,6 +167,8 @@ func (controller *Controller) PostText(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, textDB)
+
+	mutexText.Unlock()
 }
 
 // GetText
@@ -218,6 +225,8 @@ func (controller *Controller) GetText(c *gin.Context) {
 //
 //	200: textDBResponse
 func (controller *Controller) UpdateText(c *gin.Context) {
+
+	mutexText.Lock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -286,6 +295,8 @@ func (controller *Controller) UpdateText(c *gin.Context) {
 
 	// return status OK with the marshalling of the the textDB
 	c.JSON(http.StatusOK, textDB)
+
+	mutexText.Unlock()
 }
 
 // DeleteText
@@ -298,6 +309,8 @@ func (controller *Controller) UpdateText(c *gin.Context) {
 //
 //	200: textDBResponse
 func (controller *Controller) DeleteText(c *gin.Context) {
+
+	mutexText.Lock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -340,4 +353,6 @@ func (controller *Controller) DeleteText(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, gin.H{"data": true})
+
+	mutexText.Unlock()
 }

@@ -1,0 +1,158 @@
+<form *ngIf="formfield" class="details">
+    <h2 class="details__title">formfield</h2>
+    <!-- insertion point for fields specific code -->
+    <mat-grid-list *ngIf='!isATextArea("Name")' cols="5" rowHeight="1:1">
+        <mat-grid-tile [colspan]="3">
+            <mat-form-field mat-form-field class="detail-full-width">
+                <mat-label>Name</mat-label>
+                <input name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="formfield.Name">
+            </mat-form-field>
+        </mat-grid-tile>
+        <mat-grid-tile>
+            <button mat-raised-button (click)="toggleTextArea('Name')">
+                <mat-icon>
+                    expand_more
+                </mat-icon>
+            </button>
+        </mat-grid-tile>
+    </mat-grid-list>
+    <mat-form-field *ngIf='isATextArea("Name")' mat-form-field class="detail-full-width">
+        <mat-label>Name</mat-label>
+        <textarea name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="formfield.Name"></textarea>
+    </mat-form-field>
+
+    <!-- -->
+    <mat-form-field appearance="fill" class="detail-full-width">
+        <mat-label>InputTypeEnum</mat-label>
+        <mat-select [(ngModel)]="formfield.InputTypeEnum" [ngModelOptions]="{standalone: true}">
+            <mat-option *ngFor="let enum of InputTypeEnumList" [value]="enum.value">
+                {{enum.viewValue}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    <mat-grid-list *ngIf='!isATextArea("Label")' cols="5" rowHeight="1:1">
+        <mat-grid-tile [colspan]="3">
+            <mat-form-field mat-form-field class="detail-full-width">
+                <mat-label>Label</mat-label>
+                <input name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="formfield.Label">
+            </mat-form-field>
+        </mat-grid-tile>
+        <mat-grid-tile>
+            <button mat-raised-button (click)="toggleTextArea('Label')">
+                <mat-icon>
+                    expand_more
+                </mat-icon>
+            </button>
+        </mat-grid-tile>
+    </mat-grid-list>
+    <mat-form-field *ngIf='isATextArea("Label")' mat-form-field class="detail-full-width">
+        <mat-label>Label</mat-label>
+        <textarea name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="formfield.Label"></textarea>
+    </mat-form-field>
+
+    <mat-grid-list *ngIf='!isATextArea("Placeholder")' cols="5" rowHeight="1:1">
+        <mat-grid-tile [colspan]="3">
+            <mat-form-field mat-form-field class="detail-full-width">
+                <mat-label>Placeholder</mat-label>
+                <input name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="formfield.Placeholder">
+            </mat-form-field>
+        </mat-grid-tile>
+        <mat-grid-tile>
+            <button mat-raised-button (click)="toggleTextArea('Placeholder')">
+                <mat-icon>
+                    expand_more
+                </mat-icon>
+            </button>
+        </mat-grid-tile>
+    </mat-grid-list>
+    <mat-form-field *ngIf='isATextArea("Placeholder")' mat-form-field class="detail-full-width">
+        <mat-label>Placeholder</mat-label>
+        <textarea name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="formfield.Placeholder"></textarea>
+    </mat-form-field>
+
+    <mat-form-field class="detail-full-width">
+        <mat-label>FormFieldString</mat-label>
+        <mat-select [compareWith]="compareObjects" [(value)]="formfield.FormFieldString" (selectionChange)="fillUpNameIfEmpty($event)">
+            <mat-option>None</mat-option>
+            <mat-option *ngFor="let formfieldstring of frontRepo.FormFieldStrings_array" [value]="formfieldstring">
+                {{formfieldstring.Name}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    <mat-form-field class="detail-full-width">
+        <mat-label>FormFieldFloat64</mat-label>
+        <mat-select [compareWith]="compareObjects" [(value)]="formfield.FormFieldFloat64" (selectionChange)="fillUpNameIfEmpty($event)">
+            <mat-option>None</mat-option>
+            <mat-option *ngFor="let formfieldfloat64 of frontRepo.FormFieldFloat64s_array" [value]="formfieldfloat64">
+                {{formfieldfloat64.Name}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    <mat-form-field class="detail-full-width">
+        <mat-label>FormFieldInt</mat-label>
+        <mat-select [compareWith]="compareObjects" [(value)]="formfield.FormFieldInt" (selectionChange)="fillUpNameIfEmpty($event)">
+            <mat-option>None</mat-option>
+            <mat-option *ngFor="let formfieldint of frontRepo.FormFieldInts_array" [value]="formfieldint">
+                {{formfieldint.Name}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    <mat-form-field class="detail-full-width">
+        <mat-label>FormFieldDate</mat-label>
+        <mat-select [compareWith]="compareObjects" [(value)]="formfield.FormFieldDate" (selectionChange)="fillUpNameIfEmpty($event)">
+            <mat-option>None</mat-option>
+            <mat-option *ngFor="let formfielddate of frontRepo.FormFieldDates_array" [value]="formfielddate">
+                {{formfielddate.Name}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    <mat-form-field class="detail-full-width">
+        <mat-label>FormFieldTime</mat-label>
+        <mat-select [compareWith]="compareObjects" [(value)]="formfield.FormFieldTime" (selectionChange)="fillUpNameIfEmpty($event)">
+            <mat-option>None</mat-option>
+            <mat-option *ngFor="let formfieldtime of frontRepo.FormFieldTimes_array" [value]="formfieldtime">
+                {{formfieldtime.Name}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    <mat-form-field class="detail-full-width">
+        <mat-label>FormFieldDateTime</mat-label>
+        <mat-select [compareWith]="compareObjects" [(value)]="formfield.FormFieldDateTime" (selectionChange)="fillUpNameIfEmpty($event)">
+            <mat-option>None</mat-option>
+            <mat-option *ngFor="let formfielddatetime of frontRepo.FormFieldDateTimes_array" [value]="formfielddatetime">
+                {{formfielddatetime.Name}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    <mat-form-field class="detail-full-width">
+        <mat-label>FormFieldSelect</mat-label>
+        <mat-select [compareWith]="compareObjects" [(value)]="formfield.FormFieldSelect" (selectionChange)="fillUpNameIfEmpty($event)">
+            <mat-option>None</mat-option>
+            <mat-option *ngFor="let formfieldselect of frontRepo.FormFieldSelects_array" [value]="formfieldselect">
+                {{formfieldselect.Name}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    <mat-form-field class="detail-full-width">
+        <mat-label>(FormDiv) FormFields</mat-label>
+        <mat-select [compareWith]="compareObjects" [(ngModel)]="formfield.FormDiv_FormFields_reverse" [ngModelOptions]="{standalone: true}">
+            <mat-option>None</mat-option>
+            <mat-option *ngFor="let formdiv of frontRepo.FormDivs_array" [value]="formdiv">
+                {{formdiv.Name}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+    <div class="details__save">
+        <button mat-raised-button color="primary" (click)="save()">
+            Save formfield
+        </button>
+    </div>
+</form>

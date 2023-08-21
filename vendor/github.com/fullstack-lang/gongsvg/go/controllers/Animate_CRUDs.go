@@ -4,6 +4,7 @@ package controllers
 import (
 	"log"
 	"net/http"
+	"sync"
 	"time"
 
 	"github.com/fullstack-lang/gongsvg/go/models"
@@ -15,6 +16,8 @@ import (
 // declaration in order to justify use of the models import
 var __Animate__dummysDeclaration__ models.Animate
 var __Animate_time__dummyDeclaration time.Duration
+
+var mutexAnimate sync.Mutex
 
 // An AnimateID parameter model.
 //
@@ -109,6 +112,8 @@ func (controller *Controller) GetAnimates(c *gin.Context) {
 //	  200: nodeDBResponse
 func (controller *Controller) PostAnimate(c *gin.Context) {
 
+	mutexAnimate.Lock()
+
 	values := c.Request.URL.Query()
 	stackPath := ""
 	if len(values) == 1 {
@@ -162,6 +167,8 @@ func (controller *Controller) PostAnimate(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, animateDB)
+
+	mutexAnimate.Unlock()
 }
 
 // GetAnimate
@@ -218,6 +225,8 @@ func (controller *Controller) GetAnimate(c *gin.Context) {
 //
 //	200: animateDBResponse
 func (controller *Controller) UpdateAnimate(c *gin.Context) {
+
+	mutexAnimate.Lock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -286,6 +295,8 @@ func (controller *Controller) UpdateAnimate(c *gin.Context) {
 
 	// return status OK with the marshalling of the the animateDB
 	c.JSON(http.StatusOK, animateDB)
+
+	mutexAnimate.Unlock()
 }
 
 // DeleteAnimate
@@ -298,6 +309,8 @@ func (controller *Controller) UpdateAnimate(c *gin.Context) {
 //
 //	200: animateDBResponse
 func (controller *Controller) DeleteAnimate(c *gin.Context) {
+
+	mutexAnimate.Lock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -340,4 +353,6 @@ func (controller *Controller) DeleteAnimate(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, gin.H{"data": true})
+
+	mutexAnimate.Unlock()
 }
