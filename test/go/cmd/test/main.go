@@ -69,7 +69,7 @@ func main() {
 		stage = test_fullstack.NewStackInstance(r, "test", "./test.db")
 	}
 
-	test_data.Load(r, test_go.GoModelsDir, "test")
+	test_data.Load(r, test_go.GoModelsDir, "test", stage)
 
 	if *unmarshallFromCode != "" {
 		stage.Checkout()

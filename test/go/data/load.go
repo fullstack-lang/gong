@@ -19,12 +19,15 @@ import (
 
 	gong_fullstack "github.com/fullstack-lang/gong/go/fullstack"
 	gong_models "github.com/fullstack-lang/gong/go/models"
+
+	"github.com/fullstack-lang/gong/test/go/models"
 )
 
 func Load(
 	r *gin.Engine,
 	goModelsDir embed.FS,
-	stackPath string) {
+	stackPath string,
+	stageOfInterest *models.StageStruct) {
 
 	gongStage := gong_fullstack.NewStackInstance(r, stackPath)
 
@@ -92,7 +95,7 @@ func Load(
 
 		nodeGongstruct := (&gongtree_models.Node{Name: gongStruct.Name}).Stage(stageForSidebarTree)
 		nodeGongstruct.IsNodeClickable = true
-		nodeGongstruct.Impl = NewNodeImplGongstruct(gongStruct, stageForMainTable)
+		nodeGongstruct.Impl = NewNodeImplGongstruct(gongStruct, stageForMainTable, stageOfInterest)
 
 		// add add button
 		addButton := (&gongtree_models.Button{
@@ -125,7 +128,7 @@ func fillUpSelectTableWithDummyStuff(stage *gongtable_models.StageStruct, tableN
 
 	for j := 0; j < nbColumns; j++ {
 		column := new(gongtable_models.DisplayedColumn).Stage(stage)
-		column.Name = "Select a Struct on the left tab"
+		column.Name = "Select a Struct on the left tab to view instances"
 		table.DisplayedColumns = append(table.DisplayedColumns, column)
 	}
 
