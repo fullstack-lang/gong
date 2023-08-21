@@ -4,6 +4,7 @@ package controllers
 import (
 	"log"
 	"net/http"
+	"sync"
 	"time"
 
 	"github.com/fullstack-lang/gongsvg/go/models"
@@ -15,6 +16,8 @@ import (
 // declaration in order to justify use of the models import
 var __Line__dummysDeclaration__ models.Line
 var __Line_time__dummyDeclaration time.Duration
+
+var mutexLine sync.Mutex
 
 // An LineID parameter model.
 //
@@ -109,6 +112,8 @@ func (controller *Controller) GetLines(c *gin.Context) {
 //	  200: nodeDBResponse
 func (controller *Controller) PostLine(c *gin.Context) {
 
+	mutexLine.Lock()
+
 	values := c.Request.URL.Query()
 	stackPath := ""
 	if len(values) == 1 {
@@ -162,6 +167,8 @@ func (controller *Controller) PostLine(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, lineDB)
+
+	mutexLine.Unlock()
 }
 
 // GetLine
@@ -218,6 +225,8 @@ func (controller *Controller) GetLine(c *gin.Context) {
 //
 //	200: lineDBResponse
 func (controller *Controller) UpdateLine(c *gin.Context) {
+
+	mutexLine.Lock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -286,6 +295,8 @@ func (controller *Controller) UpdateLine(c *gin.Context) {
 
 	// return status OK with the marshalling of the the lineDB
 	c.JSON(http.StatusOK, lineDB)
+
+	mutexLine.Unlock()
 }
 
 // DeleteLine
@@ -298,6 +309,8 @@ func (controller *Controller) UpdateLine(c *gin.Context) {
 //
 //	200: lineDBResponse
 func (controller *Controller) DeleteLine(c *gin.Context) {
+
+	mutexLine.Lock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -340,4 +353,6 @@ func (controller *Controller) DeleteLine(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, gin.H{"data": true})
+
+	mutexLine.Unlock()
 }

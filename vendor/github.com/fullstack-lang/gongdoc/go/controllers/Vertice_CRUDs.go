@@ -4,6 +4,7 @@ package controllers
 import (
 	"log"
 	"net/http"
+	"sync"
 	"time"
 
 	"github.com/fullstack-lang/gongdoc/go/models"
@@ -15,6 +16,8 @@ import (
 // declaration in order to justify use of the models import
 var __Vertice__dummysDeclaration__ models.Vertice
 var __Vertice_time__dummyDeclaration time.Duration
+
+var mutexVertice sync.Mutex
 
 // An VerticeID parameter model.
 //
@@ -109,6 +112,8 @@ func (controller *Controller) GetVertices(c *gin.Context) {
 //	  200: nodeDBResponse
 func (controller *Controller) PostVertice(c *gin.Context) {
 
+	mutexVertice.Lock()
+
 	values := c.Request.URL.Query()
 	stackPath := ""
 	if len(values) == 1 {
@@ -162,6 +167,8 @@ func (controller *Controller) PostVertice(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, verticeDB)
+
+	mutexVertice.Unlock()
 }
 
 // GetVertice
@@ -218,6 +225,8 @@ func (controller *Controller) GetVertice(c *gin.Context) {
 //
 //	200: verticeDBResponse
 func (controller *Controller) UpdateVertice(c *gin.Context) {
+
+	mutexVertice.Lock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -286,6 +295,8 @@ func (controller *Controller) UpdateVertice(c *gin.Context) {
 
 	// return status OK with the marshalling of the the verticeDB
 	c.JSON(http.StatusOK, verticeDB)
+
+	mutexVertice.Unlock()
 }
 
 // DeleteVertice
@@ -298,6 +309,8 @@ func (controller *Controller) UpdateVertice(c *gin.Context) {
 //
 //	200: verticeDBResponse
 func (controller *Controller) DeleteVertice(c *gin.Context) {
+
+	mutexVertice.Lock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -340,4 +353,6 @@ func (controller *Controller) DeleteVertice(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, gin.H{"data": true})
+
+	mutexVertice.Unlock()
 }

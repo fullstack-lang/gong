@@ -4,6 +4,7 @@ package controllers
 import (
 	"log"
 	"net/http"
+	"sync"
 	"time"
 
 	"github.com/fullstack-lang/gongsvg/go/models"
@@ -15,6 +16,8 @@ import (
 // declaration in order to justify use of the models import
 var __Layer__dummysDeclaration__ models.Layer
 var __Layer_time__dummyDeclaration time.Duration
+
+var mutexLayer sync.Mutex
 
 // An LayerID parameter model.
 //
@@ -109,6 +112,8 @@ func (controller *Controller) GetLayers(c *gin.Context) {
 //	  200: nodeDBResponse
 func (controller *Controller) PostLayer(c *gin.Context) {
 
+	mutexLayer.Lock()
+
 	values := c.Request.URL.Query()
 	stackPath := ""
 	if len(values) == 1 {
@@ -162,6 +167,8 @@ func (controller *Controller) PostLayer(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, layerDB)
+
+	mutexLayer.Unlock()
 }
 
 // GetLayer
@@ -218,6 +225,8 @@ func (controller *Controller) GetLayer(c *gin.Context) {
 //
 //	200: layerDBResponse
 func (controller *Controller) UpdateLayer(c *gin.Context) {
+
+	mutexLayer.Lock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -286,6 +295,8 @@ func (controller *Controller) UpdateLayer(c *gin.Context) {
 
 	// return status OK with the marshalling of the the layerDB
 	c.JSON(http.StatusOK, layerDB)
+
+	mutexLayer.Unlock()
 }
 
 // DeleteLayer
@@ -298,6 +309,8 @@ func (controller *Controller) UpdateLayer(c *gin.Context) {
 //
 //	200: layerDBResponse
 func (controller *Controller) DeleteLayer(c *gin.Context) {
+
+	mutexLayer.Lock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -340,4 +353,6 @@ func (controller *Controller) DeleteLayer(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, gin.H{"data": true})
+
+	mutexLayer.Unlock()
 }

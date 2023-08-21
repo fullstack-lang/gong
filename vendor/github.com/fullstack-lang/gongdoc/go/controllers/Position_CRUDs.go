@@ -4,6 +4,7 @@ package controllers
 import (
 	"log"
 	"net/http"
+	"sync"
 	"time"
 
 	"github.com/fullstack-lang/gongdoc/go/models"
@@ -15,6 +16,8 @@ import (
 // declaration in order to justify use of the models import
 var __Position__dummysDeclaration__ models.Position
 var __Position_time__dummyDeclaration time.Duration
+
+var mutexPosition sync.Mutex
 
 // An PositionID parameter model.
 //
@@ -109,6 +112,8 @@ func (controller *Controller) GetPositions(c *gin.Context) {
 //	  200: nodeDBResponse
 func (controller *Controller) PostPosition(c *gin.Context) {
 
+	mutexPosition.Lock()
+
 	values := c.Request.URL.Query()
 	stackPath := ""
 	if len(values) == 1 {
@@ -162,6 +167,8 @@ func (controller *Controller) PostPosition(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, positionDB)
+
+	mutexPosition.Unlock()
 }
 
 // GetPosition
@@ -218,6 +225,8 @@ func (controller *Controller) GetPosition(c *gin.Context) {
 //
 //	200: positionDBResponse
 func (controller *Controller) UpdatePosition(c *gin.Context) {
+
+	mutexPosition.Lock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -286,6 +295,8 @@ func (controller *Controller) UpdatePosition(c *gin.Context) {
 
 	// return status OK with the marshalling of the the positionDB
 	c.JSON(http.StatusOK, positionDB)
+
+	mutexPosition.Unlock()
 }
 
 // DeletePosition
@@ -298,6 +309,8 @@ func (controller *Controller) UpdatePosition(c *gin.Context) {
 //
 //	200: positionDBResponse
 func (controller *Controller) DeletePosition(c *gin.Context) {
+
+	mutexPosition.Lock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -340,4 +353,6 @@ func (controller *Controller) DeletePosition(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, gin.H{"data": true})
+
+	mutexPosition.Unlock()
 }

@@ -4,6 +4,7 @@ package controllers
 import (
 	"log"
 	"net/http"
+	"sync"
 	"time"
 
 	"github.com/fullstack-lang/gongdoc/go/models"
@@ -15,6 +16,8 @@ import (
 // declaration in order to justify use of the models import
 var __Classdiagram__dummysDeclaration__ models.Classdiagram
 var __Classdiagram_time__dummyDeclaration time.Duration
+
+var mutexClassdiagram sync.Mutex
 
 // An ClassdiagramID parameter model.
 //
@@ -109,6 +112,8 @@ func (controller *Controller) GetClassdiagrams(c *gin.Context) {
 //	  200: nodeDBResponse
 func (controller *Controller) PostClassdiagram(c *gin.Context) {
 
+	mutexClassdiagram.Lock()
+
 	values := c.Request.URL.Query()
 	stackPath := ""
 	if len(values) == 1 {
@@ -162,6 +167,8 @@ func (controller *Controller) PostClassdiagram(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, classdiagramDB)
+
+	mutexClassdiagram.Unlock()
 }
 
 // GetClassdiagram
@@ -218,6 +225,8 @@ func (controller *Controller) GetClassdiagram(c *gin.Context) {
 //
 //	200: classdiagramDBResponse
 func (controller *Controller) UpdateClassdiagram(c *gin.Context) {
+
+	mutexClassdiagram.Lock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -286,6 +295,8 @@ func (controller *Controller) UpdateClassdiagram(c *gin.Context) {
 
 	// return status OK with the marshalling of the the classdiagramDB
 	c.JSON(http.StatusOK, classdiagramDB)
+
+	mutexClassdiagram.Unlock()
 }
 
 // DeleteClassdiagram
@@ -298,6 +309,8 @@ func (controller *Controller) UpdateClassdiagram(c *gin.Context) {
 //
 //	200: classdiagramDBResponse
 func (controller *Controller) DeleteClassdiagram(c *gin.Context) {
+
+	mutexClassdiagram.Lock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -340,4 +353,6 @@ func (controller *Controller) DeleteClassdiagram(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, gin.H{"data": true})
+
+	mutexClassdiagram.Unlock()
 }

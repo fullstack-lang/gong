@@ -63,4 +63,5 @@ func (nodeImplGongstruct *NodeImplGongstruct) OnAfterUpdate(
 		nodeImplGongstruct.treeOfGongObjects)
 
 	gongdocStage.Commit()
+	gongtreeStage.Commit()
 }
