@@ -105,6 +105,15 @@
       "gongrouterdatamodel": [
         "../../vendor/github.com/fullstack-lang/gongrouter/ng/projects/gongrouterdatamodel/src/public-api.ts"
       ],
+      "gongtable": [
+        "../../vendor/github.com/fullstack-lang/gongtable/ng/projects/gongtable/src/public-api.ts"
+      ],
+      "gongtablespecific": [
+        "../../vendor/github.com/fullstack-lang/gongtable/ng/projects/gongtablespecific/src/public-api.ts"
+      ],
+      "gongtabledatamodel": [
+        "../../vendor/github.com/fullstack-lang/gongtable/ng/projects/gongtabledatamodel/src/public-api.ts"
+      ],
       "testdatamodel": [
         "projects/testdatamodel/src/public-api.ts",
       ],
