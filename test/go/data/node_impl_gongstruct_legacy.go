@@ -2,29 +2,33 @@ package data
 
 import (
 	"log"
+	"strings"
 
 	gong_models "github.com/fullstack-lang/gong/go/models"
 	gongrouter_models "github.com/fullstack-lang/gongrouter/go/models"
 	gongtree_models "github.com/fullstack-lang/gongtree/go/models"
 )
 
-type NodeImplGongstruct struct {
+type NodeImplGongstructLegacy struct {
 	gongStruct      *gong_models.GongStruct
 	gongrouterStage *gongrouter_models.StageStruct
+	tableRouter     *gongrouter_models.Outlet
 }
 
-func NewNodeImplGongstruct(
+func NewNodeImplGongstructLegacy(
 	gongStruct *gong_models.GongStruct,
 	gongrouterStage *gongrouter_models.StageStruct,
-) (nodeImplGongstruct *NodeImplGongstruct) {
+	tableRouter *gongrouter_models.Outlet,
+) (nodeImplGongstructLegacy *NodeImplGongstructLegacy) {
 
-	nodeImplGongstruct = new(NodeImplGongstruct)
-	nodeImplGongstruct.gongStruct = gongStruct
-	nodeImplGongstruct.gongrouterStage = gongrouterStage
+	nodeImplGongstructLegacy = new(NodeImplGongstructLegacy)
+	nodeImplGongstructLegacy.gongStruct = gongStruct
+	nodeImplGongstructLegacy.gongrouterStage = gongrouterStage
+	nodeImplGongstructLegacy.tableRouter = tableRouter
 	return
 }
 
-func (nodeImplGongstruct *NodeImplGongstruct) OnAfterUpdate(
+func (nodeImplGongstructLegacy *NodeImplGongstructLegacy) OnAfterUpdate(
 	gongtreeStage *gongtree_models.StageStruct,
 	stagedNode, frontNode *gongtree_models.Node) {
 
@@ -48,6 +52,10 @@ func (nodeImplGongstruct *NodeImplGongstruct) OnAfterUpdate(
 	// the node was selected. Therefore, one request the
 	// router to route to the table
 	log.Println("NodeImplGongstruct:OnAfterUpdate")
+	nodeImplGongstructLegacy.tableRouter.Path =
+		"github_com_fullstack_lang_gong_test_go-" +
+			strings.ToLower(nodeImplGongstructLegacy.gongStruct.Name) + "s"
 
-	nodeImplGongstruct.gongrouterStage.Commit()
+	nodeImplGongstructLegacy.gongrouterStage.Commit()
+
 }
