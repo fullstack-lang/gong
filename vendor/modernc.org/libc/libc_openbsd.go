@@ -205,11 +205,7 @@ var localtime time.Tm
 
 // struct tm *localtime(const time_t *timep);
 func Xlocaltime(_ *TLS, timep uintptr) uintptr {
-	loc := gotime.Local
-	if r := getenv(Environ(), "TZ"); r != 0 {
-		zone, off := parseZone(GoString(r))
-		loc = gotime.FixedZone(zone, -off)
-	}
+	loc := getLocalLocation()
 	ut := *(*time.Time_t)(unsafe.Pointer(timep))
 	t := gotime.Unix(int64(ut), 0).In(loc)
 	localtime.Ftm_sec = int32(t.Second())
@@ -226,11 +222,7 @@ func Xlocaltime(_ *TLS, timep uintptr) uintptr {
 
 // struct tm *localtime_r(const time_t *timep, struct tm *result);
 func Xlocaltime_r(_ *TLS, timep, result uintptr) uintptr {
-	loc := gotime.Local
-	if r := getenv(Environ(), "TZ"); r != 0 {
-		zone, off := parseZone(GoString(r))
-		loc = gotime.FixedZone(zone, -off)
-	}
+	loc := getLocalLocation()
 	ut := *(*time.Time_t)(unsafe.Pointer(timep))
 	t := gotime.Unix(int64(ut), 0).In(loc)
 	(*time.Tm)(unsafe.Pointer(result)).Ftm_sec = int32(t.Second())
@@ -1468,8 +1460,16 @@ func X__inet_ntoa(t *TLS, in1 in.In_addr) uintptr {
 }
 
 func Xmmap(t *TLS, addr uintptr, length types.Size_t, prot, flags, fd int32, offset types.Off_t) uintptr {
+	// On 2021-12-23, a new syscall for mmap was introduced:
+	//
+	// 	49	STD NOLOCK	{ void *sys_mmap(void *addr, size_t len, int prot, \
+	// 			    int flags, int fd, off_t pos); }
+	//  src: https://github.com/golang/go/issues/59661
+
+	const unix_SYS_MMAP = 49
+
 	// Cannot avoid the syscall here, addr sometimes matter.
-	data, _, err := unix.Syscall6(unix.SYS_MMAP, addr, uintptr(length), uintptr(prot), uintptr(flags), uintptr(fd), uintptr(offset))
+	data, _, err := unix.Syscall6(unix_SYS_MMAP, addr, uintptr(length), uintptr(prot), uintptr(flags), uintptr(fd), uintptr(offset))
 	if err != 0 {
 		if dmesgs {
 			dmesg("%v: %v FAIL", origin(1), err)

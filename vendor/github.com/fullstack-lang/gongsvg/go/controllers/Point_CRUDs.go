@@ -4,6 +4,7 @@ package controllers
 import (
 	"log"
 	"net/http"
+	"sync"
 	"time"
 
 	"github.com/fullstack-lang/gongsvg/go/models"
@@ -15,6 +16,8 @@ import (
 // declaration in order to justify use of the models import
 var __Point__dummysDeclaration__ models.Point
 var __Point_time__dummyDeclaration time.Duration
+
+var mutexPoint sync.Mutex
 
 // An PointID parameter model.
 //
@@ -109,6 +112,8 @@ func (controller *Controller) GetPoints(c *gin.Context) {
 //	  200: nodeDBResponse
 func (controller *Controller) PostPoint(c *gin.Context) {
 
+	mutexPoint.Lock()
+
 	values := c.Request.URL.Query()
 	stackPath := ""
 	if len(values) == 1 {
@@ -162,6 +167,8 @@ func (controller *Controller) PostPoint(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, pointDB)
+
+	mutexPoint.Unlock()
 }
 
 // GetPoint
@@ -218,6 +225,8 @@ func (controller *Controller) GetPoint(c *gin.Context) {
 //
 //	200: pointDBResponse
 func (controller *Controller) UpdatePoint(c *gin.Context) {
+
+	mutexPoint.Lock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -286,6 +295,8 @@ func (controller *Controller) UpdatePoint(c *gin.Context) {
 
 	// return status OK with the marshalling of the the pointDB
 	c.JSON(http.StatusOK, pointDB)
+
+	mutexPoint.Unlock()
 }
 
 // DeletePoint
@@ -298,6 +309,8 @@ func (controller *Controller) UpdatePoint(c *gin.Context) {
 //
 //	200: pointDBResponse
 func (controller *Controller) DeletePoint(c *gin.Context) {
+
+	mutexPoint.Lock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -340,4 +353,6 @@ func (controller *Controller) DeletePoint(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, gin.H{"data": true})
+
+	mutexPoint.Unlock()
 }
