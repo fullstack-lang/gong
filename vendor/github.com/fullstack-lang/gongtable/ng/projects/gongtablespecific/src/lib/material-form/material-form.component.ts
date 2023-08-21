@@ -5,7 +5,6 @@ import * as gongtable from 'gongtable'
 
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
-import * as moment from 'moment';
 import { MatButtonModule } from '@angular/material/button';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { NgIf } from '@angular/common';
@@ -238,28 +237,38 @@ export class MaterialFormComponent implements OnInit {
               }
             }
             if (formField.FormFieldDate) {
+              // Assume formField is already defined
               let formFieldDate = formField.FormFieldDate
 
-              let date = moment(this.generatedForm.value[formField.Name])
-              let formattedDate = date.utc().format('YYYY-MM-DDTHH:mm:ss[Z]')
-              let dateObject = moment(formattedDate).toDate()
+              let formFieldValue = this.generatedForm.value[formField.Name];
 
-              console.log(dateObject)
-              console.log(formFieldDate.Value)
+              // 1. Convert to a UTC formatted string and then to a Date object
+              let dateObj = new Date(formFieldValue);
+              let formattedDate = dateObj.toISOString();
+              let dateObject = new Date(formattedDate);
 
-              let moment1 = moment(this.generatedForm.value[formField.Name]).startOf('day');
-              let moment2 = moment(formFieldDate.Value).utc().startOf('day');
+              console.log(dateObject);
+              console.log(formFieldDate.Value);
 
-              console.log(moment1.isSame(moment2, 'day')); // Outputs: true if they are the same day
+              // 2. Check if two dates are on the same day
+              let inputDate = new Date(formFieldValue);
+              let comparisonDate = new Date(formFieldDate.Value);
 
-              if (!moment1.isSame(moment2, 'day')) {
-                formFieldDate.Value = dateObject
-                this.formFieldDateService.updateFormFieldDate(formFieldDate, this.DataStack).subscribe(
-                  () => {
-                    console.log("Date Form Field updated")
-                  }
-                )
+              let isSameDay = (date1: Date, date2: Date) => {
+                return date1.getUTCFullYear() === date2.getUTCFullYear() &&
+                  date1.getUTCMonth() === date2.getUTCMonth() &&
+                  date1.getUTCDate() === date2.getUTCDate();
               }
+
+              console.log(isSameDay(inputDate, comparisonDate));
+
+              if (!isSameDay(inputDate, comparisonDate)) {
+                formFieldDate.Value = dateObject;
+                this.formFieldDateService.updateFormFieldDate(formFieldDate, this.DataStack).subscribe(() => {
+                  console.log("Date Form Field updated");
+                });
+              }
+
             }
             if (formField.FormFieldTime) {
               let formFieldTime = formField.FormFieldTime
