@@ -1,7 +1,7 @@
 <section class="container mat-elevation-z8" tabindex="0">
 
     <!-- <input [formControl]="filterControl" placeholder="Filter"> -->
-    <div class="toolbar">
+    <div *ngIf="selectedTable?.HasFiltering || selectedTable?.HasSaveButton || selectedTable?.HasCloseButton" class="toolbar">
         <div class="left-toolbar">
             <!-- Filter -->
             <mat-form-field *ngIf="selectedTable?.HasFiltering">
