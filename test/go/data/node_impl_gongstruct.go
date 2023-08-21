@@ -4,23 +4,23 @@ import (
 	"log"
 
 	gong_models "github.com/fullstack-lang/gong/go/models"
-	gongrouter_models "github.com/fullstack-lang/gongrouter/go/models"
+	gongtable_models "github.com/fullstack-lang/gongtable/go/models"
 	gongtree_models "github.com/fullstack-lang/gongtree/go/models"
 )
 
 type NodeImplGongstruct struct {
-	gongStruct      *gong_models.GongStruct
-	gongrouterStage *gongrouter_models.StageStruct
+	gongStruct     *gong_models.GongStruct
+	gongtableStage *gongtable_models.StageStruct
 }
 
 func NewNodeImplGongstruct(
 	gongStruct *gong_models.GongStruct,
-	gongrouterStage *gongrouter_models.StageStruct,
+	gongtableStage *gongtable_models.StageStruct,
 ) (nodeImplGongstruct *NodeImplGongstruct) {
 
 	nodeImplGongstruct = new(NodeImplGongstruct)
 	nodeImplGongstruct.gongStruct = gongStruct
-	nodeImplGongstruct.gongrouterStage = gongrouterStage
+	nodeImplGongstruct.gongtableStage = gongtableStage
 	return
 }
 
@@ -46,8 +46,8 @@ func (nodeImplGongstruct *NodeImplGongstruct) OnAfterUpdate(
 	}
 
 	// the node was selected. Therefore, one request the
-	// router to route to the table
+	// table to route to the table
 	log.Println("NodeImplGongstruct:OnAfterUpdate")
 
-	nodeImplGongstruct.gongrouterStage.Commit()
+	nodeImplGongstruct.gongtableStage.Commit()
 }
