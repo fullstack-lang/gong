@@ -1,3 +1,10 @@
+.container {
+    height: 100%;
+    width: 100%;
+    max-width: 100%;
+    overflow: auto;
+}
+
 .my-button:hover {
     animation: pulse 0.5s ease-in-out;
 }

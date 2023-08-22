@@ -13,6 +13,7 @@ import { GongrouterspecificModule } from 'gongrouterspecific'
 
 import { GongtableModule } from 'gongtable'
 import { GongtablespecificModule } from 'gongtablespecific'
+import { GongtabledatamodelModule } from 'gongtabledatamodel'
 
 import { TestModule } from 'test'
 
@@ -37,6 +38,7 @@ import { AngularSplitModule } from 'angular-split';
 
     GongtableModule,
     GongtablespecificModule,
+    GongtabledatamodelModule,
 
     MatRadioModule,
     FormsModule,
