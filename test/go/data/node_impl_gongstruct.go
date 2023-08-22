@@ -1,6 +1,7 @@
 package data
 
 import (
+	"fmt"
 	"log"
 
 	gong_models "github.com/fullstack-lang/gong/go/models"
@@ -54,26 +55,27 @@ func (nodeImplGongstruct *NodeImplGongstruct) OnAfterUpdate(
 	// table to route to the table
 	log.Println("NodeImplGongstruct:OnAfterUpdate with: ", nodeImplGongstruct.gongStruct.GetName())
 
-	nodeImplGongstruct.gongtableStage.Reset()
-
 	tableStage := nodeImplGongstruct.gongtableStage
+	tableStage.Reset()
+	tableStage.Commit()
+
+	table := new(gongtable_models.Table).Stage(tableStage)
+	table.Name = "Table"
+	table.HasColumnSorting = false
+	table.HasFiltering = false
+	table.HasPaginator = false
+	table.HasCheckableRows = false
+	table.HasSaveButton = false
 
 	if nodeImplGongstruct.gongStruct.GetName() == "Astruct" {
 
+		fields := models.GetFields[models.Astruct]()
+
 		setOfAstructs := (*models.GetGongstructInstancesSet[models.Astruct](nodeImplGongstruct.stageOfInterest))
 
-		nbColumns := 1
-		table := new(gongtable_models.Table).Stage(tableStage)
-		table.Name = "Table"
-		table.HasColumnSorting = false
-		table.HasFiltering = false
-		table.HasPaginator = false
-		table.HasCheckableRows = false
-		table.HasSaveButton = false
-
-		for j := 0; j < nbColumns; j++ {
+		for _, fieldName := range fields {
 			column := new(gongtable_models.DisplayedColumn).Stage(tableStage)
-			column.Name = "Name"
+			column.Name = fieldName
 			table.DisplayedColumns = append(table.DisplayedColumns, column)
 		}
 
@@ -82,13 +84,18 @@ func (nodeImplGongstruct *NodeImplGongstruct) OnAfterUpdate(
 			row.Name = astruct.Name
 			table.Rows = append(table.Rows, row)
 
-			for j := 0; j < nbColumns; j++ {
-				cell := new(gongtable_models.Cell).Stage(tableStage)
-				cell.Name = astruct.Name
+			for _, fieldName := range fields {
+				value := models.GetFieldStringValue[models.Astruct](*astruct, fieldName)
 
-				cellString := new(gongtable_models.CellString).Stage(tableStage)
-				cellString.Name = cell.Name
-				cellString.Value = cell.Name
+				log.Println(fieldName, value)
+				cell := (&gongtable_models.Cell{
+					Name: value,
+				}).Stage(tableStage)
+
+				cellString := (&gongtable_models.CellString{
+					Name:  value,
+					Value: value,
+				}).Stage(tableStage)
 				cell.CellString = cellString
 
 				row.Cells = append(row.Cells, cell)
@@ -97,4 +104,45 @@ func (nodeImplGongstruct *NodeImplGongstruct) OnAfterUpdate(
 	}
 
 	tableStage.Commit()
+}
+
+func fillUpTable[T models.Gongstruct](
+	nodeImplGongstruct *NodeImplGongstruct,
+	tableStage *gongtable_models.StageStruct,
+	table *gongtable_models.Table) {
+
+	fields := models.GetFields[T]()
+
+	setOfStructs := (*models.GetGongstructInstancesSet[T](nodeImplGongstruct.stageOfInterest))
+
+	for _, fieldName := range fields {
+		column := new(gongtable_models.DisplayedColumn).Stage(tableStage)
+		column.Name = fieldName
+		table.DisplayedColumns = append(table.DisplayedColumns, column)
+	}
+
+	fieldIndex := 0
+	for structInstance := range setOfStructs {
+		row := new(gongtable_models.Row).Stage(tableStage)
+		row.Name = models.GetFieldStringValue[T](*structInstance, "Name")
+		table.Rows = append(table.Rows, row)
+
+		for _, fieldName := range fields {
+			value := models.GetFieldStringValue[T](*structInstance, fieldName)
+			value = fmt.Sprintf("%d", fieldIndex) + " " + value
+			fieldIndex++
+			log.Println(fieldName, value)
+			cell := (&gongtable_models.Cell{
+				Name: value,
+			}).Stage(tableStage)
+
+			cellString := (&gongtable_models.CellString{
+				Name:  value,
+				Value: value,
+			}).Stage(tableStage)
+			cell.CellString = cellString
+
+			row.Cells = append(row.Cells, cell)
+		}
+	}
 }
