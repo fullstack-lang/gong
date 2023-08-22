@@ -79,6 +79,7 @@ func (nodeImplGongstruct *NodeImplGongstruct) OnAfterUpdate(
 			table.DisplayedColumns = append(table.DisplayedColumns, column)
 		}
 
+		fieldIndex := 0
 		for astruct := range setOfAstructs {
 			row := new(gongtable_models.Row).Stage(tableStage)
 			row.Name = astruct.Name
@@ -86,14 +87,16 @@ func (nodeImplGongstruct *NodeImplGongstruct) OnAfterUpdate(
 
 			for _, fieldName := range fields {
 				value := models.GetFieldStringValue[models.Astruct](*astruct, fieldName)
-
+				name := fmt.Sprintf("%d", fieldIndex) + "" + value
+				name = value
+				fieldIndex++
 				log.Println(fieldName, value)
 				cell := (&gongtable_models.Cell{
-					Name: value,
+					Name: name,
 				}).Stage(tableStage)
 
 				cellString := (&gongtable_models.CellString{
-					Name:  value,
+					Name:  name,
 					Value: value,
 				}).Stage(tableStage)
 				cell.CellString = cellString

@@ -18,8 +18,8 @@ github.com/fullstack-lang/gongrouter v0.0.0-20230721203848-64c395251bdc h1:5SQGu
 github.com/fullstack-lang/gongrouter v0.0.0-20230721203848-64c395251bdc/go.mod h1:PmkbLMv6oQDbx3u/WRNgA/j13SGuGp1bdwJQk8YWEK4=
 github.com/fullstack-lang/gongsvg v0.0.0-20230801152816-1fe19f3afd9c h1:FrSZTTL3UL2R70F2paBHXHTe+xAAiwUEb94r+DvEww8=
 github.com/fullstack-lang/gongsvg v0.0.0-20230801152816-1fe19f3afd9c/go.mod h1:kK87KPgp+5MSPtmpTD+U/01F/zvDL82TZmuZfvz82Xg=
-github.com/fullstack-lang/gongtable v0.0.0-20230822033949-48a84eed0551 h1:L/MVeNdDadvs08VjC1sMYlQZp11hjQLWmxMTLjVEKuA=
-github.com/fullstack-lang/gongtable v0.0.0-20230822033949-48a84eed0551/go.mod h1:3WihGma2PNLsakM9mmaBWONvZKzIu632STzfSsANbgA=
+github.com/fullstack-lang/gongtable v0.0.0-20230822040428-0b9421a1477a h1:Mp+tVLlXwIG7LuxZe6eoKnu/WjC6deoJgRScMNba0uc=
+github.com/fullstack-lang/gongtable v0.0.0-20230822040428-0b9421a1477a/go.mod h1:3WihGma2PNLsakM9mmaBWONvZKzIu632STzfSsANbgA=
 github.com/fullstack-lang/gongtree v0.0.0-20230801154057-79c7faf82605 h1:xBVzabhAKbG9F3Ja3ycU0S3agrUZMgVaYCdPTRVEVRY=
 github.com/fullstack-lang/gongtree v0.0.0-20230801154057-79c7faf82605/go.mod h1:Uyv4Z+XDbR++WjootZi0zzKiCkG0IHlPNPRWY7TjRGU=
 github.com/gabriel-vasile/mimetype v1.4.2 h1:w5qFW6JKBz9Y393Y4q372O9A7cUSequkh1Q7OhCmWKU=
