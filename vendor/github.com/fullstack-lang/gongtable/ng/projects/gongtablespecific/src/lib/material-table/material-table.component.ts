@@ -173,6 +173,20 @@ export class MaterialTableComponent implements OnInit {
           return
         }
 
+        this.selectedTable.DisplayedColumns?.sort((t1, t2) => {
+          let t1_revPointerID_Index = t1.Table_DisplayedColumnsDBID_Index
+          let t2_revPointerID_Index = t2.Table_DisplayedColumnsDBID_Index
+          if (t1_revPointerID_Index && t2_revPointerID_Index) {
+            if (t1_revPointerID_Index.Int64 > t2_revPointerID_Index.Int64) {
+              return 1;
+            }
+            if (t1_revPointerID_Index.Int64 < t2_revPointerID_Index.Int64) {
+              return -1;
+            }
+          }
+          return 0;
+        })
+
         this.mapHeaderIdIndex = new Map<string, number>()
         let index = 0
 
