@@ -63,6 +63,7 @@ func main() {
 	// setup stack
 	var stage *test_models.StageStruct
 	var backRepo *test_orm.BackRepoStruct
+
 	if *marshallOnCommit != "" {
 		// persistence in a SQLite file on disk in memory
 		stage, backRepo = test_fullstack.NewStackInstance(r, "test")

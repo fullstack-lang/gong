@@ -417,6 +417,13 @@ func main() {
 		filepath.Join(*pkgPath, "../orm/back_repo.go"),
 		golang.BackRepoTemplateCode, golang.BackRepoSubTemplate)
 
+	gong_models.VerySimpleCodeGenerator(
+		modelPkg,
+		modelPkg.Name,
+		modelPkg.PkgPath,
+		filepath.Join(*pkgPath, "../orm/get_instance_db_from_instance.go"),
+		golang.GetInstanceDBFromInstanceTemplateCode)
+
 	gong_models.SimpleCodeGeneratorForGongStructWithNameField(
 		modelPkg,
 		modelPkg.Name,
