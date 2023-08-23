@@ -71,6 +71,12 @@
     <!-- -->
     <mat-checkbox [formControl]="SavingInProgressFormControl">SavingInProgress</mat-checkbox>
 
+    <!-- -->
+    <mat-form-field class="detail-full-width">
+        <mat-label>NbOfStickyColumns</mat-label>
+        <input type="number" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="table.NbOfStickyColumns" [ngModelOptions]="{standalone: true}">
+    </mat-form-field>
+
     <div class="details__save">
         <button mat-raised-button color="primary" (click)="save()">
             Save table
