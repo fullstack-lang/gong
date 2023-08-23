@@ -11,24 +11,28 @@ import (
 	"github.com/fullstack-lang/maticons/maticons"
 
 	"github.com/fullstack-lang/gong/test/go/models"
+	"github.com/fullstack-lang/gong/test/go/orm"
 )
 
 type NodeImplGongstruct struct {
-	gongStruct      *gong_models.GongStruct
-	gongtableStage  *gongtable_models.StageStruct
-	stageOfInterest *models.StageStruct
+	gongStruct         *gong_models.GongStruct
+	gongtableStage     *gongtable_models.StageStruct
+	stageOfInterest    *models.StageStruct
+	backRepoOfInterest *orm.BackRepoStruct
 }
 
 func NewNodeImplGongstruct(
 	gongStruct *gong_models.GongStruct,
 	gongtableStage *gongtable_models.StageStruct,
 	stageOfInterest *models.StageStruct,
+	backRepoOfInterest *orm.BackRepoStruct,
 ) (nodeImplGongstruct *NodeImplGongstruct) {
 
 	nodeImplGongstruct = new(NodeImplGongstruct)
 	nodeImplGongstruct.gongStruct = gongStruct
 	nodeImplGongstruct.gongtableStage = gongtableStage
 	nodeImplGongstruct.stageOfInterest = stageOfInterest
+	nodeImplGongstruct.backRepoOfInterest = backRepoOfInterest
 	return
 }
 
@@ -91,15 +95,22 @@ func (nodeImplGongstruct *NodeImplGongstruct) OnAfterUpdate(
 func fillUpTable[T models.Gongstruct](
 	nodeImplGongstruct *NodeImplGongstruct,
 	tableStage *gongtable_models.StageStruct,
-	table *gongtable_models.Table) {
+	table *gongtable_models.Table,
+) {
 
 	fields := models.GetFields[T]()
+	table.NbOfStickyColumns = 3
 
 	setOfStructs := (*models.GetGongstructInstancesSet[T](nodeImplGongstruct.stageOfInterest))
 
 	column := new(gongtable_models.DisplayedColumn).Stage(tableStage)
 	column.Name = "ID"
 	table.DisplayedColumns = append(table.DisplayedColumns, column)
+
+	column = new(gongtable_models.DisplayedColumn).Stage(tableStage)
+	column.Name = "Delete"
+	table.DisplayedColumns = append(table.DisplayedColumns, column)
+
 	for _, fieldName := range fields {
 		column := new(gongtable_models.DisplayedColumn).Stage(tableStage)
 		column.Name = fieldName
@@ -117,17 +128,21 @@ func fillUpTable[T models.Gongstruct](
 		}).Stage(tableStage)
 		row.Cells = append(row.Cells, cell)
 		cellInt := (&gongtable_models.CellInt{
-			Name:  "ID",
-			Value: 0,
+			Name: "ID",
+			Value: orm.GetID(
+				nodeImplGongstruct.stageOfInterest,
+				nodeImplGongstruct.backRepoOfInterest,
+				structInstance,
+			),
 		}).Stage(tableStage)
 		cell.CellInt = cellInt
 
 		cell = (&gongtable_models.Cell{
-			Name: "Delete",
+			Name: "Delete Icon",
 		}).Stage(tableStage)
 		row.Cells = append(row.Cells, cell)
 		cellIcon := (&gongtable_models.CellIcon{
-			Name: "ID",
+			Name: "Delete Icon",
 			Icon: string(maticons.BUTTON_delete),
 		}).Stage(tableStage)
 		cell.CellIcon = cellIcon

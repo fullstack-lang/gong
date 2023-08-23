@@ -13,7 +13,7 @@ import (
 // through a callback that is defined in the "models" package
 func TestStageCount(t *testing.T) {
 
-	stage := fullstack.NewStackInstance(nil, "")
+	stage, _ := fullstack.NewStackInstance(nil, "")
 
 	bclass1 := (&models.Bstruct{Name: "B1"}).Stage(stage)
 

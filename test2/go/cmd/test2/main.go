@@ -53,8 +53,8 @@ func main() {
 	stageTest2 := test2_fullstack.NewStackInstance(r, "")
 	_ = stageTest2
 
-	stageTestA := test_fullstack.NewStackInstance(r, "A")
-	stageTestB := test_fullstack.NewStackInstance(r, "B")
+	stageTestA, _ := test_fullstack.NewStackInstance(r, "A")
+	stageTestB, _ := test_fullstack.NewStackInstance(r, "B")
 
 	// hook automatic marshall to go code at every commit
 	if *marshallOnCommitStageTestA != "" {
