@@ -92,6 +92,9 @@ type TableDB struct {
 	// Declation for basic field tableDB.SavingInProgress
 	// provide the sql storage for the boolan
 	SavingInProgress_Data sql.NullBool
+
+	// Declation for basic field tableDB.NbOfStickyColumns
+	NbOfStickyColumns_Data sql.NullInt64
 	// encoding of pointers
 	TablePointersEnconding
 }
@@ -130,6 +133,8 @@ type TableWOP struct {
 	HasCloseButton bool `xlsx:"8"`
 
 	SavingInProgress bool `xlsx:"9"`
+
+	NbOfStickyColumns int `xlsx:"10"`
 	// insertion for WOP pointer fields
 }
 
@@ -145,6 +150,7 @@ var Table_Fields = []string{
 	"CanDragDropRows",
 	"HasCloseButton",
 	"SavingInProgress",
+	"NbOfStickyColumns",
 }
 
 type BackRepoTableStruct struct {
@@ -523,6 +529,9 @@ func (tableDB *TableDB) CopyBasicFieldsFromTable(table *models.Table) {
 
 	tableDB.SavingInProgress_Data.Bool = table.SavingInProgress
 	tableDB.SavingInProgress_Data.Valid = true
+
+	tableDB.NbOfStickyColumns_Data.Int64 = int64(table.NbOfStickyColumns)
+	tableDB.NbOfStickyColumns_Data.Valid = true
 }
 
 // CopyBasicFieldsFromTableWOP
@@ -555,6 +564,9 @@ func (tableDB *TableDB) CopyBasicFieldsFromTableWOP(table *TableWOP) {
 
 	tableDB.SavingInProgress_Data.Bool = table.SavingInProgress
 	tableDB.SavingInProgress_Data.Valid = true
+
+	tableDB.NbOfStickyColumns_Data.Int64 = int64(table.NbOfStickyColumns)
+	tableDB.NbOfStickyColumns_Data.Valid = true
 }
 
 // CopyBasicFieldsToTable
@@ -569,6 +581,7 @@ func (tableDB *TableDB) CopyBasicFieldsToTable(table *models.Table) {
 	table.CanDragDropRows = tableDB.CanDragDropRows_Data.Bool
 	table.HasCloseButton = tableDB.HasCloseButton_Data.Bool
 	table.SavingInProgress = tableDB.SavingInProgress_Data.Bool
+	table.NbOfStickyColumns = int(tableDB.NbOfStickyColumns_Data.Int64)
 }
 
 // CopyBasicFieldsToTableWOP
@@ -584,6 +597,7 @@ func (tableDB *TableDB) CopyBasicFieldsToTableWOP(table *TableWOP) {
 	table.CanDragDropRows = tableDB.CanDragDropRows_Data.Bool
 	table.HasCloseButton = tableDB.HasCloseButton_Data.Bool
 	table.SavingInProgress = tableDB.SavingInProgress_Data.Bool
+	table.NbOfStickyColumns = int(tableDB.NbOfStickyColumns_Data.Int64)
 }
 
 // Backup generates a json file from a slice of all TableDB instances in the backrepo

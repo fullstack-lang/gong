@@ -54,7 +54,7 @@ github.com/fullstack-lang/gongsvg/go/fullstack
 github.com/fullstack-lang/gongsvg/go/models
 github.com/fullstack-lang/gongsvg/go/orm
 github.com/fullstack-lang/gongsvg/ng/projects
-# github.com/fullstack-lang/gongtable v0.0.0-20230822040428-0b9421a1477a
+# github.com/fullstack-lang/gongtable v0.0.0-20230822120137-24241d3ffbf6
 ## explicit; go 1.21
 github.com/fullstack-lang/gongtable/go/controllers
 github.com/fullstack-lang/gongtable/go/fullstack
@@ -69,6 +69,9 @@ github.com/fullstack-lang/gongtree/go/fullstack
 github.com/fullstack-lang/gongtree/go/models
 github.com/fullstack-lang/gongtree/go/orm
 github.com/fullstack-lang/gongtree/ng/projects
+# github.com/fullstack-lang/maticons v0.0.0-20230823061653-70c364fbdd00
+## explicit; go 1.21.0
+github.com/fullstack-lang/maticons/maticons
 # github.com/gabriel-vasile/mimetype v1.4.2
 ## explicit; go 1.20
 github.com/gabriel-vasile/mimetype

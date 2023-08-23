@@ -28,7 +28,11 @@ export class MaterialTableComponent implements OnInit {
 
   dataSource = new MatTableDataSource<gongtable.RowDB>()
 
-
+  stickyStyle = {
+    position: 'sticky',
+    left: '0',
+    zIndex: '1'
+  }
   // for selection
   selectedTable: gongtable.TableDB | undefined = undefined;
 
@@ -162,20 +166,22 @@ export class MaterialTableComponent implements OnInit {
         })
 
         // sort cells according to their order
-        for (let row of this.selectedTable.Rows!) {
-          row.Cells?.sort((t1, t2) => {
-            let t1_revPointerID_Index = t1.Row_CellsDBID_Index
-            let t2_revPointerID_Index = t2.Row_CellsDBID_Index
-            if (t1_revPointerID_Index && t2_revPointerID_Index) {
-              if (t1_revPointerID_Index.Int64 > t2_revPointerID_Index.Int64) {
-                return 1;
+        if (this.selectedTable.Rows) {
+          for (let row of this.selectedTable.Rows) {
+            row.Cells?.sort((t1, t2) => {
+              let t1_revPointerID_Index = t1.Row_CellsDBID_Index
+              let t2_revPointerID_Index = t2.Row_CellsDBID_Index
+              if (t1_revPointerID_Index && t2_revPointerID_Index) {
+                if (t1_revPointerID_Index.Int64 > t2_revPointerID_Index.Int64) {
+                  return 1;
+                }
+                if (t1_revPointerID_Index.Int64 < t2_revPointerID_Index.Int64) {
+                  return -1;
+                }
               }
-              if (t1_revPointerID_Index.Int64 < t2_revPointerID_Index.Int64) {
-                return -1;
-              }
-            }
-            return 0;
-          })
+              return 0;
+            })
+          }
         }
 
 
