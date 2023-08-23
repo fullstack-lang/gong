@@ -11,10 +11,12 @@ export class DataModelPanelComponent implements OnInit {
 
   data = 'Data'
   dataNew = 'DataNew'
+  dataNewNew = 'Data New New'
+  tableData = "Table Data"
   view = this.data
   model = 'Model'
 
-  views: string[] = [this.data, this.dataNew, this.model]
+  views: string[] = [this.data, this.dataNew, this.dataNewNew, this.tableData, this.model]
 
   textStyle = {
     'color': 'rgba(0, 0, 0, 0.87)', // These are just examples.
@@ -33,6 +35,11 @@ export class DataModelPanelComponent implements OnInit {
     'flex-direction': 'row',
     'align-items': 'center',
     'justify-content': 'flex-start'
+  }
+
+  scrollStyle = {
+    'overflow- x': 'auto',
+    'width': '100%',  // Ensure the div takes the full width of its parent container
   }
 
   constructor(
