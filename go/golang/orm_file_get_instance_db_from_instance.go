@@ -1,4 +1,6 @@
-// generated code - do not edit
+package golang
+
+const GetInstanceDBFromInstanceTemplateCode = `// generated code - do not edit
 package orm
 
 import (
@@ -38,3 +40,4 @@ func GetID[T models.Gongstruct](
 	}
 	return
 }
+`
