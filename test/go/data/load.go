@@ -21,13 +21,15 @@ import (
 	gong_models "github.com/fullstack-lang/gong/go/models"
 
 	"github.com/fullstack-lang/gong/test/go/models"
+	"github.com/fullstack-lang/gong/test/go/orm"
 )
 
 func Load(
 	r *gin.Engine,
 	goModelsDir embed.FS,
 	stackPath string,
-	stageOfInterest *models.StageStruct) {
+	stageOfInterest *models.StageStruct,
+	backRepoOfInterest *orm.BackRepoStruct) {
 
 	gongStage := gong_fullstack.NewStackInstance(r, stackPath)
 
@@ -95,7 +97,7 @@ func Load(
 
 		nodeGongstruct := (&gongtree_models.Node{Name: gongStruct.Name}).Stage(stageForSidebarTree)
 		nodeGongstruct.IsNodeClickable = true
-		nodeGongstruct.Impl = NewNodeImplGongstruct(gongStruct, stageForMainTable, stageOfInterest)
+		nodeGongstruct.Impl = NewNodeImplGongstruct(gongStruct, stageForMainTable, stageOfInterest, backRepoOfInterest)
 
 		// add add button
 		addButton := (&gongtree_models.Button{

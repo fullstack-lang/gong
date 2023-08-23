@@ -16,7 +16,7 @@ import (
 func TestStageCallBack(t *testing.T) {
 
 	r := static.ServeStaticFiles(false)
-	stage := fullstack.NewStackInstance(r, "")
+	stage, _ := fullstack.NewStackInstance(r, "")
 
 	bclass1 := (&models.Bstruct{Name: "B1"}).Stage(stage)
 
