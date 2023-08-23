@@ -23,6 +23,7 @@ export class TableDB {
 	CanDragDropRows: boolean = false
 	HasCloseButton: boolean = false
 	SavingInProgress: boolean = false
+	NbOfStickyColumns: number = 0
 
 	// insertion point for other declarations
 	DisplayedColumns?: Array<DisplayedColumnDB>

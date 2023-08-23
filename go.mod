@@ -1,8 +1,6 @@
 module github.com/fullstack-lang/gong
 
-go 1.21
-
-toolchain go1.21.0
+go 1.21.0
 
 require (
 	github.com/frankban/quicktest v1.14.5 // indirect
@@ -27,8 +25,9 @@ require (
 require (
 	github.com/fullstack-lang/gongdoc v0.0.0-20230802134450-befcd248c3a1
 	github.com/fullstack-lang/gongrouter v0.0.0-20230721203848-64c395251bdc
-	github.com/fullstack-lang/gongtable v0.0.0-20230822040428-0b9421a1477a
+	github.com/fullstack-lang/gongtable v0.0.0-20230822120137-24241d3ffbf6
 	github.com/fullstack-lang/gongtree v0.0.0-20230801154057-79c7faf82605
+	github.com/fullstack-lang/maticons v0.0.0-20230823061653-70c364fbdd00
 	github.com/glebarez/sqlite v1.9.0
 	github.com/xuri/excelize/v2 v2.6.1
 )

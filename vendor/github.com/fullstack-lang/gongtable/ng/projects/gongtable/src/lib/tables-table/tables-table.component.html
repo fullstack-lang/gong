@@ -81,6 +81,13 @@
                 <mat-checkbox [checked]="Table.SavingInProgress" disabled=true></mat-checkbox>
             </td>
         </ng-container>
+        <!-- -->
+        <ng-container matColumnDef="NbOfStickyColumns">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> NbOfStickyColumns </th>
+            <td mat-cell *matCellDef="let Table">
+                {{Table.NbOfStickyColumns}}
+            </td>
+        </ng-container>
 
         <ng-container matColumnDef="ID" sticky>
             <th mat-header-cell *matHeaderCellDef mat-sort-header> ID. </th>

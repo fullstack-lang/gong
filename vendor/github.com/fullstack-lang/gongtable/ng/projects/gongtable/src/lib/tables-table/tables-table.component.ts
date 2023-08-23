@@ -99,6 +99,9 @@ export class TablesTableComponent implements OnInit {
         case 'SavingInProgress':
           return tableDB.SavingInProgress ? "true" : "false";
 
+        case 'NbOfStickyColumns':
+          return tableDB.NbOfStickyColumns;
+
         default:
           console.assert(false, "Unknown field")
           return "";
@@ -114,6 +117,7 @@ export class TablesTableComponent implements OnInit {
 
       // insertion point for merging of fields
       mergedContent += tableDB.Name.toLowerCase()
+      mergedContent += tableDB.NbOfStickyColumns.toString()
 
       let isSelected = mergedContent.includes(filter.toLowerCase())
       return isSelected
@@ -177,6 +181,7 @@ export class TablesTableComponent implements OnInit {
         "CanDragDropRows",
         "HasCloseButton",
         "SavingInProgress",
+        "NbOfStickyColumns",
       ]
     } else {
       this.displayedColumns = ['select', 'ID', // insertion point for columns to display
@@ -189,6 +194,7 @@ export class TablesTableComponent implements OnInit {
         "CanDragDropRows",
         "HasCloseButton",
         "SavingInProgress",
+        "NbOfStickyColumns",
       ]
       this.selection = new SelectionModel<TableDB>(allowMultiSelect, this.initialSelection);
     }

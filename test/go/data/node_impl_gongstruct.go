@@ -8,6 +8,8 @@ import (
 	gongtable_models "github.com/fullstack-lang/gongtable/go/models"
 	gongtree_models "github.com/fullstack-lang/gongtree/go/models"
 
+	"github.com/fullstack-lang/maticons/maticons"
+
 	"github.com/fullstack-lang/gong/test/go/models"
 )
 
@@ -68,42 +70,19 @@ func (nodeImplGongstruct *NodeImplGongstruct) OnAfterUpdate(
 	table.HasSaveButton = false
 
 	if nodeImplGongstruct.gongStruct.GetName() == "Astruct" {
-
-		fields := models.GetFields[models.Astruct]()
-
-		setOfAstructs := (*models.GetGongstructInstancesSet[models.Astruct](nodeImplGongstruct.stageOfInterest))
-
-		for _, fieldName := range fields {
-			column := new(gongtable_models.DisplayedColumn).Stage(tableStage)
-			column.Name = fieldName
-			table.DisplayedColumns = append(table.DisplayedColumns, column)
-		}
-
-		fieldIndex := 0
-		for astruct := range setOfAstructs {
-			row := new(gongtable_models.Row).Stage(tableStage)
-			row.Name = astruct.Name
-			table.Rows = append(table.Rows, row)
-
-			for _, fieldName := range fields {
-				value := models.GetFieldStringValue[models.Astruct](*astruct, fieldName)
-				name := fmt.Sprintf("%d", fieldIndex) + "" + value
-				name = value
-				fieldIndex++
-				log.Println(fieldName, value)
-				cell := (&gongtable_models.Cell{
-					Name: name,
-				}).Stage(tableStage)
-
-				cellString := (&gongtable_models.CellString{
-					Name:  name,
-					Value: value,
-				}).Stage(tableStage)
-				cell.CellString = cellString
-
-				row.Cells = append(row.Cells, cell)
-			}
-		}
+		fillUpTable[models.Astruct](nodeImplGongstruct, tableStage, table)
+	}
+	if nodeImplGongstruct.gongStruct.GetName() == "Bstruct" {
+		fillUpTable[models.Bstruct](nodeImplGongstruct, tableStage, table)
+	}
+	if nodeImplGongstruct.gongStruct.GetName() == "Dstruct" {
+		fillUpTable[models.Dstruct](nodeImplGongstruct, tableStage, table)
+	}
+	if nodeImplGongstruct.gongStruct.GetName() == "AstructBstruct2Use" {
+		fillUpTable[models.AstructBstruct2Use](nodeImplGongstruct, tableStage, table)
+	}
+	if nodeImplGongstruct.gongStruct.GetName() == "AstructBstructUse" {
+		fillUpTable[models.AstructBstructUse](nodeImplGongstruct, tableStage, table)
 	}
 
 	tableStage.Commit()
@@ -118,6 +97,9 @@ func fillUpTable[T models.Gongstruct](
 
 	setOfStructs := (*models.GetGongstructInstancesSet[T](nodeImplGongstruct.stageOfInterest))
 
+	column := new(gongtable_models.DisplayedColumn).Stage(tableStage)
+	column.Name = "ID"
+	table.DisplayedColumns = append(table.DisplayedColumns, column)
 	for _, fieldName := range fields {
 		column := new(gongtable_models.DisplayedColumn).Stage(tableStage)
 		column.Name = fieldName
@@ -130,22 +112,42 @@ func fillUpTable[T models.Gongstruct](
 		row.Name = models.GetFieldStringValue[T](*structInstance, "Name")
 		table.Rows = append(table.Rows, row)
 
+		cell := (&gongtable_models.Cell{
+			Name: "ID",
+		}).Stage(tableStage)
+		row.Cells = append(row.Cells, cell)
+		cellInt := (&gongtable_models.CellInt{
+			Name:  "ID",
+			Value: 0,
+		}).Stage(tableStage)
+		cell.CellInt = cellInt
+
+		cell = (&gongtable_models.Cell{
+			Name: "Delete",
+		}).Stage(tableStage)
+		row.Cells = append(row.Cells, cell)
+		cellIcon := (&gongtable_models.CellIcon{
+			Name: "ID",
+			Icon: string(maticons.BUTTON_delete),
+		}).Stage(tableStage)
+		cell.CellIcon = cellIcon
+
 		for _, fieldName := range fields {
 			value := models.GetFieldStringValue[T](*structInstance, fieldName)
-			value = fmt.Sprintf("%d", fieldIndex) + " " + value
+			name := fmt.Sprintf("%d", fieldIndex) + " " + value
 			fieldIndex++
 			log.Println(fieldName, value)
 			cell := (&gongtable_models.Cell{
-				Name: value,
+				Name: name,
 			}).Stage(tableStage)
+			row.Cells = append(row.Cells, cell)
 
 			cellString := (&gongtable_models.CellString{
-				Name:  value,
+				Name:  name,
 				Value: value,
 			}).Stage(tableStage)
 			cell.CellString = cellString
 
-			row.Cells = append(row.Cells, cell)
 		}
 	}
 }
