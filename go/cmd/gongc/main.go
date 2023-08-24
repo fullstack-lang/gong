@@ -487,11 +487,11 @@ func main() {
 		modelPkg.PkgPath, filepath.Join(*pkgPath, "../data/button_impl_gongstruct.go"),
 		golang.ButtonImplGongstructFileTemplate)
 
-	gong_models.VerySimpleCodeGenerator(
+	gong_models.SimpleCodeGenerator(
 		modelPkg,
 		caserEnglish.String(modelPkg.Name),
 		modelPkg.PkgPath, filepath.Join(*pkgPath, "../data/node_impl_gongstruct.go"),
-		golang.NodeImplGongstructFileTemplate)
+		golang.NodeImplGongstructFileTemplate, golang.NodeImplGongstructSubTemplateCode)
 
 	gong_models.VerySimpleCodeGenerator(
 		modelPkg,
