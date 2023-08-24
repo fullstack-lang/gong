@@ -69,9 +69,9 @@ func (nodeImplGongstruct *NodeImplGongstruct) OnAfterUpdate(
 
 	table := new(gongtable_models.Table).Stage(tableStage)
 	table.Name = "Table"
-	table.HasColumnSorting = false
-	table.HasFiltering = false
-	table.HasPaginator = false
+	table.HasColumnSorting = true
+	table.HasFiltering = true
+	table.HasPaginator = true
 	table.HasCheckableRows = false
 	table.HasSaveButton = false
 
@@ -139,7 +139,7 @@ func fillUpTable[T models.Gongstruct](
 			value := models.GetFieldStringValue[T](*structInstance, fieldName)
 			name := fmt.Sprintf("%d", fieldIndex) + " " + value
 			fieldIndex++
-			log.Println(fieldName, value)
+			// log.Println(fieldName, value)
 			cell := (&gongtable_models.Cell{
 				Name: name,
 			}).Stage(tableStage)

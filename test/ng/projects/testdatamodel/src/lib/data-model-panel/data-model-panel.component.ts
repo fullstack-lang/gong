@@ -8,13 +8,12 @@ import * as test from 'test';
 export class DataModelPanelComponent implements OnInit {
 
   data = 'Data'
-  dataNew = 'DataNew'
   dataNewNew = 'Data New New'
   tableData = "Table Data"
   view = this.data
   model = 'Model'
 
-  views: string[] = [this.data, this.dataNew, this.dataNewNew, this.tableData, this.model]
+  views: string[] = [this.data, this.dataNewNew, this.tableData, this.model]
 
   textStyle = {
     'color': 'rgba(0, 0, 0, 0.87)', // These are just examples.

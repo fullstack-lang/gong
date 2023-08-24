@@ -67,9 +67,9 @@ func (nodeImplGongstruct *NodeImplGongstruct) OnAfterUpdate(
 
 	table := new(gongtable_models.Table).Stage(tableStage)
 	table.Name = "Table"
-	table.HasColumnSorting = false
-	table.HasFiltering = false
-	table.HasPaginator = false
+	table.HasColumnSorting = true
+	table.HasFiltering = true
+	table.HasPaginator = true
 	table.HasCheckableRows = false
 	table.HasSaveButton = false
 
