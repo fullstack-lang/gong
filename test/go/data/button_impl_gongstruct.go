@@ -9,8 +9,8 @@ import (
 )
 
 type ButtonImplGongstruct struct {
-	gongStruct *gong_models.GongStruct
-	Icon       gongtree_buttons.ButtonType
+	gongStruct      *gong_models.GongStruct
+	Icon            gongtree_buttons.ButtonType
 }
 
 func NewButtonImplGongstruct(
@@ -30,5 +30,4 @@ func (buttonImpl *ButtonImplGongstruct) ButtonUpdated(
 	stageButton, front *gongtree_models.Button) {
 
 	log.Println("ButtonImplGongstruct: ButtonUpdated")
-
 }

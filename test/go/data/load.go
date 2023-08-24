@@ -7,9 +7,6 @@ import (
 
 	"github.com/gin-gonic/gin"
 
-	gongrouter_fullstack "github.com/fullstack-lang/gongrouter/go/fullstack"
-	gongrouter_models "github.com/fullstack-lang/gongrouter/go/models"
-
 	gongtree_buttons "github.com/fullstack-lang/gongtree/go/buttons"
 	gongtree_fullstack "github.com/fullstack-lang/gongtree/go/fullstack"
 	gongtree_models "github.com/fullstack-lang/gongtree/go/models"
@@ -35,27 +32,13 @@ func Load(
 
 	gong_models.LoadEmbedded(gongStage, goModelsDir)
 
-	gongtreeStageLegacy := gongtree_fullstack.NewStackInstance(r, stackPath)
-
 	// treeForSelectingDate that is on the sidebar
 	stageForSidebarTree := gongtree_fullstack.NewStackInstance(r, stackPath+"-sidebar")
 	stageForMainTable := gongtable_fullstack.NewStackInstance(r, stackPath)
 	fillUpSelectTableWithDummyStuff(stageForMainTable, "Table")
 	stageForMainTable.Commit()
 
-	// (legacy) configure routing of table and editor router
-	gongrouterStage := gongrouter_fullstack.NewStackInstance(r, stackPath)
-	tableRouter := new(gongrouter_models.Outlet).Stage(gongrouterStage)
-	tableRouter.Name = "github_com_fullstack_lang_gong_test_go" + "_table" + "_" + stackPath
-
-	editorRouter := new(gongrouter_models.Outlet).Stage(gongrouterStage)
-	editorRouter.Name = "github_com_fullstack_lang_gong_test_go" + "_editor" + "_" + stackPath
-	// end of legacy
-
 	// create tree
-	// set up the gongTree to display elements
-	treeOfGongObjectsLegacy := (&gongtree_models.Tree{Name: "gong"}).Stage(gongtreeStageLegacy)
-
 	treeOfGongStructs := (&gongtree_models.Tree{Name: "gong"}).Stage(stageForSidebarTree)
 
 	// collect all gong struct to construe the true
@@ -70,28 +53,6 @@ func Load(
 	sort.Slice(sliceOfGongStructsSorted, func(i, j int) bool {
 		return sliceOfGongStructsSorted[i].Name < sliceOfGongStructsSorted[j].Name
 	})
-
-	for _, gongStructLegacy := range sliceOfGongStructsSorted {
-
-		nodeGongstruct := (&gongtree_models.Node{Name: gongStructLegacy.Name}).Stage(gongtreeStageLegacy)
-		nodeGongstruct.IsNodeClickable = true
-		nodeGongstruct.Impl = NewNodeImplGongstructLegacy(gongStructLegacy, gongrouterStage, tableRouter)
-
-		// add add button
-		addButton := (&gongtree_models.Button{
-			Name: gongStructLegacy.Name + " " + string(gongtree_buttons.BUTTON_add),
-			Icon: string(gongtree_buttons.BUTTON_add)}).Stage(gongtreeStageLegacy)
-		nodeGongstruct.Buttons = append(nodeGongstruct.Buttons, addButton)
-		addButton.Impl = NewButtonImplGongstructLegacy(
-			gongStructLegacy,
-			gongtree_buttons.BUTTON_add,
-			gongrouterStage,
-			editorRouter,
-		)
-
-		treeOfGongObjectsLegacy.RootNodes = append(treeOfGongObjectsLegacy.RootNodes, nodeGongstruct)
-	}
-	gongtreeStageLegacy.Commit()
 
 	for _, gongStruct := range sliceOfGongStructsSorted {
 
@@ -112,9 +73,6 @@ func Load(
 		treeOfGongStructs.RootNodes = append(treeOfGongStructs.RootNodes, nodeGongstruct)
 	}
 	stageForSidebarTree.Commit()
-
-	gongrouterStage.Commit()
-
 }
 
 func fillUpSelectTableWithDummyStuff(stage *gongtable_models.StageStruct, tableName string) {
