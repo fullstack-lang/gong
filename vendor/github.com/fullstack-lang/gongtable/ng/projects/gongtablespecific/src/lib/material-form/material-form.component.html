@@ -1,0 +1,35 @@
+<form *ngIf="generatedForm" [formGroup]="generatedForm" (ngSubmit)="submitForm()">
+    <div *ngFor="let div of this.selectedFormGroup?.FormDivs">
+        <mat-form-field class="custom-form-field" *ngFor="let formField of div.FormFields">
+            <mat-label>{{formField.Label}}</mat-label>
+            <input *ngIf="formField.FormFieldString" matInput [formControlName]="formField.Name" [placeholder]="formField.Placeholder">
+            <input *ngIf="formField.FormFieldInt" matInput [formControlName]="formField.Name" [placeholder]="formField.Placeholder">
+            <input *ngIf="formField.FormFieldDate" type="date" matInput [formControlName]="formField.Name" [placeholder]="formField.Placeholder">
+            <input *ngIf="formField.FormFieldTime" type="time" matInput [formControlName]="formField.Name" [placeholder]="formField.Placeholder" [step]="formField.FormFieldTime.Step">
+            <input *ngIf="formField.FormFieldDateTime" matInput [formControlName]="formField.Name" [placeholder]="formField.Placeholder">
+            <mat-select *ngIf="formField.FormFieldSelect" [formControlName]="formField.Name">
+                <mat-option *ngFor="let option of formField.FormFieldSelect.Options" [value]="option.Name">
+                    {{ option.Name }}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-checkbox class="custom-checkbox" *ngFor="let checkBox of div.CheckBoxs" [formControlName]="checkBox.Name">{{checkBox.Name}}</mat-checkbox>
+
+        <!-- Flexbox container starts here -->
+        <div *ngIf="div.FormEditAssocButton || div.FormSortAssocButton" class="flex-align-items-center">
+            <p class="custom-text" *ngIf="div.FormEditAssocButton">{{div.FormEditAssocButton.Label}}</p>
+            <button *ngIf="div.FormEditAssocButton" (click)="openTableAssociation(div.FormEditAssocButton.Name)" mat-raised-button class="custom-button">
+                <mat-icon>
+                    list
+                </mat-icon>
+            </button>
+            <button *ngIf="div.FormSortAssocButton" (click)="openTableSort(div.FormSortAssocButton.Name)" mat-raised-button class="custom-button">
+                <mat-icon>
+                    shuffle
+                </mat-icon>
+            </button>
+        </div>
+        <!-- Flexbox container ends here -->
+    </div>
+    <button mat-raised-button color="primary" type="submit">Submit</button>
+</form>

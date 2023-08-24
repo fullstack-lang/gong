@@ -417,6 +417,13 @@ func main() {
 		filepath.Join(*pkgPath, "../orm/back_repo.go"),
 		golang.BackRepoTemplateCode, golang.BackRepoSubTemplate)
 
+	gong_models.VerySimpleCodeGenerator(
+		modelPkg,
+		modelPkg.Name,
+		modelPkg.PkgPath,
+		filepath.Join(*pkgPath, "../orm/get_instance_db_from_instance.go"),
+		golang.GetInstanceDBFromInstanceTemplateCode)
+
 	gong_models.SimpleCodeGeneratorForGongStructWithNameField(
 		modelPkg,
 		modelPkg.Name,
@@ -480,11 +487,11 @@ func main() {
 		modelPkg.PkgPath, filepath.Join(*pkgPath, "../data/button_impl_gongstruct.go"),
 		golang.ButtonImplGongstructFileTemplate)
 
-	gong_models.VerySimpleCodeGenerator(
+	gong_models.SimpleCodeGenerator(
 		modelPkg,
 		caserEnglish.String(modelPkg.Name),
 		modelPkg.PkgPath, filepath.Join(*pkgPath, "../data/node_impl_gongstruct.go"),
-		golang.NodeImplGongstructFileTemplate)
+		golang.NodeImplGongstructFileTemplate, golang.NodeImplGongstructSubTemplateCode)
 
 	gong_models.VerySimpleCodeGenerator(
 		modelPkg,

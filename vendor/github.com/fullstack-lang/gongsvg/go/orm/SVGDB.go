@@ -401,10 +401,12 @@ func (backRepoSVG *BackRepoSVGStruct) CheckoutPhaseTwoInstance(backRepo *BackRep
 	})
 
 	// StartRect field
+	svg.StartRect = nil
 	if svgDB.StartRectID.Int64 != 0 {
 		svg.StartRect = backRepo.BackRepoRect.Map_RectDBID_RectPtr[uint(svgDB.StartRectID.Int64)]
 	}
 	// EndRect field
+	svg.EndRect = nil
 	if svgDB.EndRectID.Int64 != 0 {
 		svg.EndRect = backRepo.BackRepoRect.Map_RectDBID_RectPtr[uint(svgDB.EndRectID.Int64)]
 	}

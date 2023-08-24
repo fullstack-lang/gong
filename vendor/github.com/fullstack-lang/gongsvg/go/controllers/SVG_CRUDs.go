@@ -4,6 +4,7 @@ package controllers
 import (
 	"log"
 	"net/http"
+	"sync"
 	"time"
 
 	"github.com/fullstack-lang/gongsvg/go/models"
@@ -15,6 +16,8 @@ import (
 // declaration in order to justify use of the models import
 var __SVG__dummysDeclaration__ models.SVG
 var __SVG_time__dummyDeclaration time.Duration
+
+var mutexSVG sync.Mutex
 
 // An SVGID parameter model.
 //
@@ -109,6 +112,8 @@ func (controller *Controller) GetSVGs(c *gin.Context) {
 //	  200: nodeDBResponse
 func (controller *Controller) PostSVG(c *gin.Context) {
 
+	mutexSVG.Lock()
+
 	values := c.Request.URL.Query()
 	stackPath := ""
 	if len(values) == 1 {
@@ -162,6 +167,8 @@ func (controller *Controller) PostSVG(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, svgDB)
+
+	mutexSVG.Unlock()
 }
 
 // GetSVG
@@ -218,6 +225,8 @@ func (controller *Controller) GetSVG(c *gin.Context) {
 //
 //	200: svgDBResponse
 func (controller *Controller) UpdateSVG(c *gin.Context) {
+
+	mutexSVG.Lock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -286,6 +295,8 @@ func (controller *Controller) UpdateSVG(c *gin.Context) {
 
 	// return status OK with the marshalling of the the svgDB
 	c.JSON(http.StatusOK, svgDB)
+
+	mutexSVG.Unlock()
 }
 
 // DeleteSVG
@@ -298,6 +309,8 @@ func (controller *Controller) UpdateSVG(c *gin.Context) {
 //
 //	200: svgDBResponse
 func (controller *Controller) DeleteSVG(c *gin.Context) {
+
+	mutexSVG.Lock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -340,4 +353,6 @@ func (controller *Controller) DeleteSVG(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, gin.H{"data": true})
+
+	mutexSVG.Unlock()
 }
