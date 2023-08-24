@@ -16,6 +16,8 @@ import (
 	"golang.org/x/text/language"
 
 	"github.com/fullstack-lang/gong/go/golang"
+	"github.com/fullstack-lang/gong/go/golang/controllers"
+	"github.com/fullstack-lang/gong/go/golang/data"
 	"github.com/fullstack-lang/gong/go/models"
 	"github.com/fullstack-lang/gong/go/vscode"
 
@@ -429,13 +431,13 @@ func main() {
 		modelPkg.Name,
 		modelPkg.PkgPath,
 		filepath.Join(*pkgPath, "../controllers/register_controllers.go"),
-		golang.ControllersRegisterTemplate, golang.ControllersRegistrationsSubTemplate)
+		controllers.ControllersRegisterTemplate, controllers.ControllersRegistrationsSubTemplate)
 
 	gong_models.VerySimpleCodeGenerator(
 		modelPkg,
 		caserEnglish.String(modelPkg.Name),
 		modelPkg.PkgPath, filepath.Join(*pkgPath, "../controllers/controller.go"),
-		golang.ControllerTemplate)
+		controllers.ControllerTemplate)
 
 	gong_models.SimpleCodeGeneratorForGongStructWithNameField(
 		modelPkg,
@@ -468,7 +470,7 @@ func main() {
 		modelPkg.PkgPath,
 		gong_models.OrmPkgGenPath)
 
-	golang.MultiCodeGeneratorControllers(
+	controllers.MultiCodeGeneratorControllers(
 		modelPkg,
 		modelPkg.Name,
 		modelPkg.PkgPath,
@@ -485,19 +487,19 @@ func main() {
 		modelPkg,
 		caserEnglish.String(modelPkg.Name),
 		modelPkg.PkgPath, filepath.Join(*pkgPath, "../data/button_impl_gongstruct.go"),
-		golang.ButtonImplGongstructFileTemplate)
+		data.ButtonImplGongstructFileTemplate)
 
 	gong_models.SimpleCodeGenerator(
 		modelPkg,
 		caserEnglish.String(modelPkg.Name),
 		modelPkg.PkgPath, filepath.Join(*pkgPath, "../data/node_impl_gongstruct.go"),
-		golang.NodeImplGongstructFileTemplate, golang.NodeImplGongstructSubTemplateCode)
+		data.NodeImplGongstructFileTemplate, data.NodeImplGongstructSubTemplateCode)
 
 	gong_models.VerySimpleCodeGenerator(
 		modelPkg,
 		caserEnglish.String(modelPkg.Name),
 		modelPkg.PkgPath, filepath.Join(*pkgPath, "../data/load.go"),
-		golang.LoadFileTemplate)
+		data.LoadFileTemplate)
 
 	// go mod vendor to get the ng code of dependant gong stacks
 	if !*skipGoModCommands {

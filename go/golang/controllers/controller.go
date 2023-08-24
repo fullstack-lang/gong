@@ -1,6 +1,7 @@
-package golang
+package controllers
 
-const ControllerTemplate = `package controllers
+const ControllerTemplate = `// generated code - do not edit
+package controllers
 
 import (
 	"sync"

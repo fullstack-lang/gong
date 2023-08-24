@@ -1,6 +1,7 @@
-package golang
+package controllers
 
-const ControllersRegisterTemplate = `package controllers
+const ControllersRegisterTemplate = `// generated code - do not edit
+package controllers
 
 import (
 	"fmt"

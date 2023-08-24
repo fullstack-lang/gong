@@ -1,4 +1,4 @@
-package golang
+package data
 
 const NodeImplGongstructFileTemplate = `package data
 
