@@ -1,4 +1,4 @@
-package golang
+package fullstack
 
 const FullstackNewStackInstanceTemplate = `// do not modify, generated file
 package fullstack

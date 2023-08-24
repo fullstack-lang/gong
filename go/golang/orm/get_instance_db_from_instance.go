@@ -1,4 +1,4 @@
-package golang
+package orm
 
 const GetInstanceDBFromInstanceTemplateCode = `// generated code - do not edit
 package orm

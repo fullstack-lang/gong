@@ -1,6 +1,7 @@
-package golang
+package orm
 
-const BackRepoTemplateCode = `package orm
+const BackRepoTemplateCode = `// do not modify, generated file
+package orm
 
 import (
 	"bufio"
