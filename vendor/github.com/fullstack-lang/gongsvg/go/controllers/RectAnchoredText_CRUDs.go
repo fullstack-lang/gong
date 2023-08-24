@@ -4,6 +4,7 @@ package controllers
 import (
 	"log"
 	"net/http"
+	"sync"
 	"time"
 
 	"github.com/fullstack-lang/gongsvg/go/models"
@@ -15,6 +16,8 @@ import (
 // declaration in order to justify use of the models import
 var __RectAnchoredText__dummysDeclaration__ models.RectAnchoredText
 var __RectAnchoredText_time__dummyDeclaration time.Duration
+
+var mutexRectAnchoredText sync.Mutex
 
 // An RectAnchoredTextID parameter model.
 //
@@ -109,6 +112,8 @@ func (controller *Controller) GetRectAnchoredTexts(c *gin.Context) {
 //	  200: nodeDBResponse
 func (controller *Controller) PostRectAnchoredText(c *gin.Context) {
 
+	mutexRectAnchoredText.Lock()
+
 	values := c.Request.URL.Query()
 	stackPath := ""
 	if len(values) == 1 {
@@ -162,6 +167,8 @@ func (controller *Controller) PostRectAnchoredText(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, rectanchoredtextDB)
+
+	mutexRectAnchoredText.Unlock()
 }
 
 // GetRectAnchoredText
@@ -218,6 +225,8 @@ func (controller *Controller) GetRectAnchoredText(c *gin.Context) {
 //
 //	200: rectanchoredtextDBResponse
 func (controller *Controller) UpdateRectAnchoredText(c *gin.Context) {
+
+	mutexRectAnchoredText.Lock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -286,6 +295,8 @@ func (controller *Controller) UpdateRectAnchoredText(c *gin.Context) {
 
 	// return status OK with the marshalling of the the rectanchoredtextDB
 	c.JSON(http.StatusOK, rectanchoredtextDB)
+
+	mutexRectAnchoredText.Unlock()
 }
 
 // DeleteRectAnchoredText
@@ -298,6 +309,8 @@ func (controller *Controller) UpdateRectAnchoredText(c *gin.Context) {
 //
 //	200: rectanchoredtextDBResponse
 func (controller *Controller) DeleteRectAnchoredText(c *gin.Context) {
+
+	mutexRectAnchoredText.Lock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -340,4 +353,6 @@ func (controller *Controller) DeleteRectAnchoredText(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, gin.H{"data": true})
+
+	mutexRectAnchoredText.Unlock()
 }

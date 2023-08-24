@@ -4,6 +4,7 @@ package controllers
 import (
 	"log"
 	"net/http"
+	"sync"
 	"time"
 
 	"github.com/fullstack-lang/gongsvg/go/models"
@@ -15,6 +16,8 @@ import (
 // declaration in order to justify use of the models import
 var __Polyline__dummysDeclaration__ models.Polyline
 var __Polyline_time__dummyDeclaration time.Duration
+
+var mutexPolyline sync.Mutex
 
 // An PolylineID parameter model.
 //
@@ -109,6 +112,8 @@ func (controller *Controller) GetPolylines(c *gin.Context) {
 //	  200: nodeDBResponse
 func (controller *Controller) PostPolyline(c *gin.Context) {
 
+	mutexPolyline.Lock()
+
 	values := c.Request.URL.Query()
 	stackPath := ""
 	if len(values) == 1 {
@@ -162,6 +167,8 @@ func (controller *Controller) PostPolyline(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, polylineDB)
+
+	mutexPolyline.Unlock()
 }
 
 // GetPolyline
@@ -218,6 +225,8 @@ func (controller *Controller) GetPolyline(c *gin.Context) {
 //
 //	200: polylineDBResponse
 func (controller *Controller) UpdatePolyline(c *gin.Context) {
+
+	mutexPolyline.Lock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -286,6 +295,8 @@ func (controller *Controller) UpdatePolyline(c *gin.Context) {
 
 	// return status OK with the marshalling of the the polylineDB
 	c.JSON(http.StatusOK, polylineDB)
+
+	mutexPolyline.Unlock()
 }
 
 // DeletePolyline
@@ -298,6 +309,8 @@ func (controller *Controller) UpdatePolyline(c *gin.Context) {
 //
 //	200: polylineDBResponse
 func (controller *Controller) DeletePolyline(c *gin.Context) {
+
+	mutexPolyline.Lock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -340,4 +353,6 @@ func (controller *Controller) DeletePolyline(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, gin.H{"data": true})
+
+	mutexPolyline.Unlock()
 }

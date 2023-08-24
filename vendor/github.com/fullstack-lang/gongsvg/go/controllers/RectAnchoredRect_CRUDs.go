@@ -4,6 +4,7 @@ package controllers
 import (
 	"log"
 	"net/http"
+	"sync"
 	"time"
 
 	"github.com/fullstack-lang/gongsvg/go/models"
@@ -15,6 +16,8 @@ import (
 // declaration in order to justify use of the models import
 var __RectAnchoredRect__dummysDeclaration__ models.RectAnchoredRect
 var __RectAnchoredRect_time__dummyDeclaration time.Duration
+
+var mutexRectAnchoredRect sync.Mutex
 
 // An RectAnchoredRectID parameter model.
 //
@@ -109,6 +112,8 @@ func (controller *Controller) GetRectAnchoredRects(c *gin.Context) {
 //	  200: nodeDBResponse
 func (controller *Controller) PostRectAnchoredRect(c *gin.Context) {
 
+	mutexRectAnchoredRect.Lock()
+
 	values := c.Request.URL.Query()
 	stackPath := ""
 	if len(values) == 1 {
@@ -162,6 +167,8 @@ func (controller *Controller) PostRectAnchoredRect(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, rectanchoredrectDB)
+
+	mutexRectAnchoredRect.Unlock()
 }
 
 // GetRectAnchoredRect
@@ -218,6 +225,8 @@ func (controller *Controller) GetRectAnchoredRect(c *gin.Context) {
 //
 //	200: rectanchoredrectDBResponse
 func (controller *Controller) UpdateRectAnchoredRect(c *gin.Context) {
+
+	mutexRectAnchoredRect.Lock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -286,6 +295,8 @@ func (controller *Controller) UpdateRectAnchoredRect(c *gin.Context) {
 
 	// return status OK with the marshalling of the the rectanchoredrectDB
 	c.JSON(http.StatusOK, rectanchoredrectDB)
+
+	mutexRectAnchoredRect.Unlock()
 }
 
 // DeleteRectAnchoredRect
@@ -298,6 +309,8 @@ func (controller *Controller) UpdateRectAnchoredRect(c *gin.Context) {
 //
 //	200: rectanchoredrectDBResponse
 func (controller *Controller) DeleteRectAnchoredRect(c *gin.Context) {
+
+	mutexRectAnchoredRect.Lock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -340,4 +353,6 @@ func (controller *Controller) DeleteRectAnchoredRect(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, gin.H{"data": true})
+
+	mutexRectAnchoredRect.Unlock()
 }

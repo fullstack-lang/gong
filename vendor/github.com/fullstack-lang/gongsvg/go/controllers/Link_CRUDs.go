@@ -4,6 +4,7 @@ package controllers
 import (
 	"log"
 	"net/http"
+	"sync"
 	"time"
 
 	"github.com/fullstack-lang/gongsvg/go/models"
@@ -15,6 +16,8 @@ import (
 // declaration in order to justify use of the models import
 var __Link__dummysDeclaration__ models.Link
 var __Link_time__dummyDeclaration time.Duration
+
+var mutexLink sync.Mutex
 
 // An LinkID parameter model.
 //
@@ -109,6 +112,8 @@ func (controller *Controller) GetLinks(c *gin.Context) {
 //	  200: nodeDBResponse
 func (controller *Controller) PostLink(c *gin.Context) {
 
+	mutexLink.Lock()
+
 	values := c.Request.URL.Query()
 	stackPath := ""
 	if len(values) == 1 {
@@ -162,6 +167,8 @@ func (controller *Controller) PostLink(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, linkDB)
+
+	mutexLink.Unlock()
 }
 
 // GetLink
@@ -218,6 +225,8 @@ func (controller *Controller) GetLink(c *gin.Context) {
 //
 //	200: linkDBResponse
 func (controller *Controller) UpdateLink(c *gin.Context) {
+
+	mutexLink.Lock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -286,6 +295,8 @@ func (controller *Controller) UpdateLink(c *gin.Context) {
 
 	// return status OK with the marshalling of the the linkDB
 	c.JSON(http.StatusOK, linkDB)
+
+	mutexLink.Unlock()
 }
 
 // DeleteLink
@@ -298,6 +309,8 @@ func (controller *Controller) UpdateLink(c *gin.Context) {
 //
 //	200: linkDBResponse
 func (controller *Controller) DeleteLink(c *gin.Context) {
+
+	mutexLink.Lock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -340,4 +353,6 @@ func (controller *Controller) DeleteLink(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, gin.H{"data": true})
+
+	mutexLink.Unlock()
 }

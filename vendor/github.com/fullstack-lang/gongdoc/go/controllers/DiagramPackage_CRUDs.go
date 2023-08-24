@@ -4,6 +4,7 @@ package controllers
 import (
 	"log"
 	"net/http"
+	"sync"
 	"time"
 
 	"github.com/fullstack-lang/gongdoc/go/models"
@@ -15,6 +16,8 @@ import (
 // declaration in order to justify use of the models import
 var __DiagramPackage__dummysDeclaration__ models.DiagramPackage
 var __DiagramPackage_time__dummyDeclaration time.Duration
+
+var mutexDiagramPackage sync.Mutex
 
 // An DiagramPackageID parameter model.
 //
@@ -109,6 +112,8 @@ func (controller *Controller) GetDiagramPackages(c *gin.Context) {
 //	  200: nodeDBResponse
 func (controller *Controller) PostDiagramPackage(c *gin.Context) {
 
+	mutexDiagramPackage.Lock()
+
 	values := c.Request.URL.Query()
 	stackPath := ""
 	if len(values) == 1 {
@@ -162,6 +167,8 @@ func (controller *Controller) PostDiagramPackage(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, diagrampackageDB)
+
+	mutexDiagramPackage.Unlock()
 }
 
 // GetDiagramPackage
@@ -218,6 +225,8 @@ func (controller *Controller) GetDiagramPackage(c *gin.Context) {
 //
 //	200: diagrampackageDBResponse
 func (controller *Controller) UpdateDiagramPackage(c *gin.Context) {
+
+	mutexDiagramPackage.Lock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -286,6 +295,8 @@ func (controller *Controller) UpdateDiagramPackage(c *gin.Context) {
 
 	// return status OK with the marshalling of the the diagrampackageDB
 	c.JSON(http.StatusOK, diagrampackageDB)
+
+	mutexDiagramPackage.Unlock()
 }
 
 // DeleteDiagramPackage
@@ -298,6 +309,8 @@ func (controller *Controller) UpdateDiagramPackage(c *gin.Context) {
 //
 //	200: diagrampackageDBResponse
 func (controller *Controller) DeleteDiagramPackage(c *gin.Context) {
+
+	mutexDiagramPackage.Lock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -340,4 +353,6 @@ func (controller *Controller) DeleteDiagramPackage(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, gin.H{"data": true})
+
+	mutexDiagramPackage.Unlock()
 }

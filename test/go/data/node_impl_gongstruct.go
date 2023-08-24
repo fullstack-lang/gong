@@ -1,30 +1,38 @@
 package data
 
 import (
+	"fmt"
 	"log"
-	"strings"
 
 	gong_models "github.com/fullstack-lang/gong/go/models"
-	gongrouter_models "github.com/fullstack-lang/gongrouter/go/models"
+	gongtable_models "github.com/fullstack-lang/gongtable/go/models"
 	gongtree_models "github.com/fullstack-lang/gongtree/go/models"
+
+	"github.com/fullstack-lang/maticons/maticons"
+
+	"github.com/fullstack-lang/gong/test/go/models"
+	"github.com/fullstack-lang/gong/test/go/orm"
 )
 
 type NodeImplGongstruct struct {
-	gongStruct      *gong_models.GongStruct
-	gongrouterStage *gongrouter_models.StageStruct
-	tableRouter     *gongrouter_models.Outlet
+	gongStruct         *gong_models.GongStruct
+	gongtableStage     *gongtable_models.StageStruct
+	stageOfInterest    *models.StageStruct
+	backRepoOfInterest *orm.BackRepoStruct
 }
 
 func NewNodeImplGongstruct(
 	gongStruct *gong_models.GongStruct,
-	gongrouterStage *gongrouter_models.StageStruct,
-	tableRouter *gongrouter_models.Outlet,
+	gongtableStage *gongtable_models.StageStruct,
+	stageOfInterest *models.StageStruct,
+	backRepoOfInterest *orm.BackRepoStruct,
 ) (nodeImplGongstruct *NodeImplGongstruct) {
 
 	nodeImplGongstruct = new(NodeImplGongstruct)
 	nodeImplGongstruct.gongStruct = gongStruct
-	nodeImplGongstruct.gongrouterStage = gongrouterStage
-	nodeImplGongstruct.tableRouter = tableRouter
+	nodeImplGongstruct.gongtableStage = gongtableStage
+	nodeImplGongstruct.stageOfInterest = stageOfInterest
+	nodeImplGongstruct.backRepoOfInterest = backRepoOfInterest
 	return
 }
 
@@ -50,12 +58,112 @@ func (nodeImplGongstruct *NodeImplGongstruct) OnAfterUpdate(
 	}
 
 	// the node was selected. Therefore, one request the
-	// router to route to the table
-	log.Println("NodeImplGongstruct:OnAfterUpdate")
-	nodeImplGongstruct.tableRouter.Path =
-		"github_com_fullstack_lang_gong_test_go-" +
-			strings.ToLower(nodeImplGongstruct.gongStruct.Name) + "s"
+	// table to route to the table
+	log.Println("NodeImplGongstruct:OnAfterUpdate with: ", nodeImplGongstruct.gongStruct.GetName())
 
-	nodeImplGongstruct.gongrouterStage.Commit()
+	tableStage := nodeImplGongstruct.gongtableStage
+	tableStage.Reset()
+	tableStage.Commit()
 
+	table := new(gongtable_models.Table).Stage(tableStage)
+	table.Name = "Table"
+	table.HasColumnSorting = true
+	table.HasFiltering = true
+	table.HasPaginator = true
+	table.HasCheckableRows = false
+	table.HasSaveButton = false
+
+	// insertion point
+	if nodeImplGongstruct.gongStruct.GetName() == "Astruct" {
+		fillUpTable[models.Astruct](nodeImplGongstruct, tableStage, table)
+	}
+	if nodeImplGongstruct.gongStruct.GetName() == "AstructBstruct2Use" {
+		fillUpTable[models.AstructBstruct2Use](nodeImplGongstruct, tableStage, table)
+	}
+	if nodeImplGongstruct.gongStruct.GetName() == "AstructBstructUse" {
+		fillUpTable[models.AstructBstructUse](nodeImplGongstruct, tableStage, table)
+	}
+	if nodeImplGongstruct.gongStruct.GetName() == "Bstruct" {
+		fillUpTable[models.Bstruct](nodeImplGongstruct, tableStage, table)
+	}
+	if nodeImplGongstruct.gongStruct.GetName() == "Dstruct" {
+		fillUpTable[models.Dstruct](nodeImplGongstruct, tableStage, table)
+	}
+
+	tableStage.Commit()
+}
+
+func fillUpTable[T models.Gongstruct](
+	nodeImplGongstruct *NodeImplGongstruct,
+	tableStage *gongtable_models.StageStruct,
+	table *gongtable_models.Table,
+) {
+
+	fields := models.GetFields[T]()
+	table.NbOfStickyColumns = 3
+
+	setOfStructs := (*models.GetGongstructInstancesSet[T](nodeImplGongstruct.stageOfInterest))
+
+	column := new(gongtable_models.DisplayedColumn).Stage(tableStage)
+	column.Name = "ID"
+	table.DisplayedColumns = append(table.DisplayedColumns, column)
+
+	column = new(gongtable_models.DisplayedColumn).Stage(tableStage)
+	column.Name = "Delete"
+	table.DisplayedColumns = append(table.DisplayedColumns, column)
+
+	for _, fieldName := range fields {
+		column := new(gongtable_models.DisplayedColumn).Stage(tableStage)
+		column.Name = fieldName
+		table.DisplayedColumns = append(table.DisplayedColumns, column)
+	}
+
+	fieldIndex := 0
+	for structInstance := range setOfStructs {
+		row := new(gongtable_models.Row).Stage(tableStage)
+		row.Name = models.GetFieldStringValue[T](*structInstance, "Name")
+		table.Rows = append(table.Rows, row)
+
+		cell := (&gongtable_models.Cell{
+			Name: "ID",
+		}).Stage(tableStage)
+		row.Cells = append(row.Cells, cell)
+		cellInt := (&gongtable_models.CellInt{
+			Name: "ID",
+			Value: orm.GetID(
+				nodeImplGongstruct.stageOfInterest,
+				nodeImplGongstruct.backRepoOfInterest,
+				structInstance,
+			),
+		}).Stage(tableStage)
+		cell.CellInt = cellInt
+
+		cell = (&gongtable_models.Cell{
+			Name: "Delete Icon",
+		}).Stage(tableStage)
+		row.Cells = append(row.Cells, cell)
+		cellIcon := (&gongtable_models.CellIcon{
+			Name: "Delete Icon",
+			Icon: string(maticons.BUTTON_delete),
+		}).Stage(tableStage)
+		cell.CellIcon = cellIcon
+
+		for _, fieldName := range fields {
+			value := models.GetFieldStringValue[T](*structInstance, fieldName)
+			name := fmt.Sprintf("%d", fieldIndex) + " " + value
+			fieldIndex++
+			// log.Println(fieldName, value)
+			cell := (&gongtable_models.Cell{
+				Name: name,
+			}).Stage(tableStage)
+			row.Cells = append(row.Cells, cell)
+
+			cellString := (&gongtable_models.CellString{
+				Name:  name,
+				Value: value,
+			}).Stage(tableStage)
+			cell.CellString = cellString
+
+		}
+	}
 }

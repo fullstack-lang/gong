@@ -24,6 +24,7 @@ import (
 	{{pkgname}}_data "{{PkgPathRoot}}/data"
 	{{pkgname}}_fullstack "{{PkgPathRoot}}/fullstack"
 	{{pkgname}}_models "{{PkgPathRoot}}/models"
+	{{pkgname}}_orm "{{PkgPathRoot}}/orm"
 	{{pkgname}}_static "{{PkgPathRoot}}/static"
 
 	gongdoc_load "github.com/fullstack-lang/gongdoc/go/load"
@@ -74,15 +75,17 @@ func main() {
 
 	// setup stack
 	var stage *{{pkgname}}_models.StageStruct
+	var backRepo *test_orm.BackRepoStruct
+
 	if *marshallOnCommit != "" {
 		// persistence in a SQLite file on disk in memory
-		stage = {{pkgname}}_fullstack.NewStackInstance(r, "{{pkgname}}")
+		stage, backRepo = {{pkgname}}_fullstack.NewStackInstance(r, "{{pkgname}}")
 	} else {
 		// persistence in a SQLite file on disk
-		stage = {{pkgname}}_fullstack.NewStackInstance(r, "{{pkgname}}", "./test.db")
+		stage, backRepo = {{pkgname}}_fullstack.NewStackInstance(r, "{{pkgname}}", "./test.db")
 	}
 
-	{{pkgname}}_data.Load(r, {{pkgname}}_go.GoModelsDir, "{{pkgname}}")
+	{{pkgname}}_data.Load(r, {{pkgname}}_go.GoModelsDir, "{{pkgname}}", stage, backRepo)
 
 	if *unmarshallFromCode != "" {
 		stage.Checkout()
