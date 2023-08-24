@@ -1,6 +1,7 @@
-package golang
+package diagrams
 
-const DiagramsDocFile = `// Package diagrams implements uml diagrams for documenting the {{pkgname}} stack.
+const DiagramsDocFile = `// generated code - do not edit
+// Package diagrams implements uml diagrams for documenting the {{pkgname}} stack.
 //
 // The diagrams package is a set of go files, one for each diagram. A diagram is
 // a go variable of type either github.com/fullstack-lang/gongdoc/go/models.Classdiagram or

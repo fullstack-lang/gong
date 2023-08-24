@@ -18,6 +18,9 @@ import (
 	"github.com/fullstack-lang/gong/go/golang"
 	"github.com/fullstack-lang/gong/go/golang/controllers"
 	"github.com/fullstack-lang/gong/go/golang/data"
+	"github.com/fullstack-lang/gong/go/golang/diagrams"
+	"github.com/fullstack-lang/gong/go/golang/fullstack"
+	"github.com/fullstack-lang/gong/go/golang/orm"
 	"github.com/fullstack-lang/gong/go/models"
 	"github.com/fullstack-lang/gong/go/vscode"
 
@@ -236,7 +239,7 @@ func main() {
 				modelPkg.Name,
 				modelPkg.PkgPath,
 				diagramsDocFilePath,
-				golang.DiagramsDocFile)
+				diagrams.DiagramsDocFile)
 		}
 	}
 
@@ -374,8 +377,8 @@ func main() {
 		modelPkg,
 		caserEnglish.String(modelPkg.Name),
 		modelPkg.PkgPath, filepath.Join(*pkgPath, "../fullstack/new_stack_instance.go"),
-		golang.FullstackNewStackInstanceTemplate,
-		golang.ModelGongNewStackInstanceStructSubTemplateCode)
+		fullstack.FullstackNewStackInstanceTemplate,
+		fullstack.ModelGongNewStackInstanceStructSubTemplateCode)
 
 	gong_models.VerySimpleCodeGenerator(
 		modelPkg,
@@ -417,14 +420,14 @@ func main() {
 		modelPkg.Name,
 		modelPkg.PkgPath,
 		filepath.Join(*pkgPath, "../orm/back_repo.go"),
-		golang.BackRepoTemplateCode, golang.BackRepoSubTemplate)
+		orm.BackRepoTemplateCode, orm.BackRepoSubTemplate)
 
 	gong_models.VerySimpleCodeGenerator(
 		modelPkg,
 		modelPkg.Name,
 		modelPkg.PkgPath,
 		filepath.Join(*pkgPath, "../orm/get_instance_db_from_instance.go"),
-		golang.GetInstanceDBFromInstanceTemplateCode)
+		orm.GetInstanceDBFromInstanceTemplateCode)
 
 	gong_models.SimpleCodeGeneratorForGongStructWithNameField(
 		modelPkg,
@@ -464,7 +467,7 @@ func main() {
 		filepath.Join(*pkgPath, "../models/gong_serialize.go"),
 		golang.ModelGongSerializeFileTemplate, golang.ModelGongSerializeStructSubTemplateCode)
 
-	golang.MultiCodeGeneratorBackRepo(
+	orm.MultiCodeGeneratorBackRepo(
 		modelPkg,
 		modelPkg.Name,
 		modelPkg.PkgPath,

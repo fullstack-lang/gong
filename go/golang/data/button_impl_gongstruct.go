@@ -1,6 +1,7 @@
 package data
 
-const ButtonImplGongstructFileTemplate = `package data
+const ButtonImplGongstructFileTemplate = `// generated code - do not edit
+package data
 
 import (
 	"log"
