@@ -4,6 +4,7 @@ package controllers
 import (
 	"log"
 	"net/http"
+	"sync"
 	"time"
 
 	"github.com/fullstack-lang/gongdoc/go/models"
@@ -15,6 +16,8 @@ import (
 // declaration in order to justify use of the models import
 var __Umlsc__dummysDeclaration__ models.Umlsc
 var __Umlsc_time__dummyDeclaration time.Duration
+
+var mutexUmlsc sync.Mutex
 
 // An UmlscID parameter model.
 //
@@ -109,6 +112,8 @@ func (controller *Controller) GetUmlscs(c *gin.Context) {
 //	  200: nodeDBResponse
 func (controller *Controller) PostUmlsc(c *gin.Context) {
 
+	mutexUmlsc.Lock()
+
 	values := c.Request.URL.Query()
 	stackPath := ""
 	if len(values) == 1 {
@@ -162,6 +167,8 @@ func (controller *Controller) PostUmlsc(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, umlscDB)
+
+	mutexUmlsc.Unlock()
 }
 
 // GetUmlsc
@@ -218,6 +225,8 @@ func (controller *Controller) GetUmlsc(c *gin.Context) {
 //
 //	200: umlscDBResponse
 func (controller *Controller) UpdateUmlsc(c *gin.Context) {
+
+	mutexUmlsc.Lock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -286,6 +295,8 @@ func (controller *Controller) UpdateUmlsc(c *gin.Context) {
 
 	// return status OK with the marshalling of the the umlscDB
 	c.JSON(http.StatusOK, umlscDB)
+
+	mutexUmlsc.Unlock()
 }
 
 // DeleteUmlsc
@@ -298,6 +309,8 @@ func (controller *Controller) UpdateUmlsc(c *gin.Context) {
 //
 //	200: umlscDBResponse
 func (controller *Controller) DeleteUmlsc(c *gin.Context) {
+
+	mutexUmlsc.Lock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -340,4 +353,6 @@ func (controller *Controller) DeleteUmlsc(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, gin.H{"data": true})
+
+	mutexUmlsc.Unlock()
 }

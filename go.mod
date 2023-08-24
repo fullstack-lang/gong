@@ -1,6 +1,6 @@
 module github.com/fullstack-lang/gong
 
-go 1.19
+go 1.21
 
 require (
 	github.com/frankban/quicktest v1.14.5 // indirect
@@ -19,14 +19,16 @@ require (
 	golang.org/x/sys v0.8.0 // indirect
 	golang.org/x/text v0.9.0
 	google.golang.org/protobuf v1.30.0 // indirect
-	gorm.io/gorm v1.25.1
+	gorm.io/gorm v1.25.2
 )
 
 require (
-	github.com/fullstack-lang/gongdoc v0.0.0-20230617113521-c72e962e03ca
+	github.com/fullstack-lang/gongdoc v0.0.0-20230802134450-befcd248c3a1
 	github.com/fullstack-lang/gongrouter v0.0.0-20230721203848-64c395251bdc
-	github.com/fullstack-lang/gongtree v0.0.0-20230714143522-831761c69707
-	github.com/glebarez/sqlite v1.8.0
+	github.com/fullstack-lang/gongtable v0.0.0-20230822120137-24241d3ffbf6
+	github.com/fullstack-lang/gongtree v0.0.0-20230801154057-79c7faf82605
+	github.com/fullstack-lang/maticons v0.0.0-20230823061653-70c364fbdd00
+	github.com/glebarez/sqlite v1.9.0
 	github.com/xuri/excelize/v2 v2.6.1
 )
 
@@ -34,10 +36,10 @@ require (
 	github.com/bytedance/sonic v1.9.1 // indirect
 	github.com/chenzhuoyu/base64x v0.0.0-20221115062448-fe3a3abad311 // indirect
 	github.com/dustin/go-humanize v1.0.1 // indirect
-	github.com/fullstack-lang/gongsvg v0.0.0-20230616114434-9f04fe33a038 // indirect
+	github.com/fullstack-lang/gongsvg v0.0.0-20230801152816-1fe19f3afd9c // indirect
 	github.com/gabriel-vasile/mimetype v1.4.2 // indirect
 	github.com/gin-contrib/sse v0.1.0 // indirect
-	github.com/glebarez/go-sqlite v1.21.1 // indirect
+	github.com/glebarez/go-sqlite v1.21.2 // indirect
 	github.com/go-playground/locales v0.14.1 // indirect
 	github.com/go-playground/universal-translator v0.18.1 // indirect
 	github.com/goccy/go-json v0.10.2 // indirect
@@ -65,8 +67,8 @@ require (
 	golang.org/x/arch v0.3.0 // indirect
 	golang.org/x/net v0.10.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
-	modernc.org/libc v1.22.3 // indirect
+	modernc.org/libc v1.22.5 // indirect
 	modernc.org/mathutil v1.5.0 // indirect
 	modernc.org/memory v1.5.0 // indirect
-	modernc.org/sqlite v1.21.1 // indirect
+	modernc.org/sqlite v1.23.1 // indirect
 )

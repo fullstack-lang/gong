@@ -4,6 +4,7 @@ package controllers
 import (
 	"log"
 	"net/http"
+	"sync"
 	"time"
 
 	"github.com/fullstack-lang/gongdoc/go/models"
@@ -15,6 +16,8 @@ import (
 // declaration in order to justify use of the models import
 var __UmlState__dummysDeclaration__ models.UmlState
 var __UmlState_time__dummyDeclaration time.Duration
+
+var mutexUmlState sync.Mutex
 
 // An UmlStateID parameter model.
 //
@@ -109,6 +112,8 @@ func (controller *Controller) GetUmlStates(c *gin.Context) {
 //	  200: nodeDBResponse
 func (controller *Controller) PostUmlState(c *gin.Context) {
 
+	mutexUmlState.Lock()
+
 	values := c.Request.URL.Query()
 	stackPath := ""
 	if len(values) == 1 {
@@ -162,6 +167,8 @@ func (controller *Controller) PostUmlState(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, umlstateDB)
+
+	mutexUmlState.Unlock()
 }
 
 // GetUmlState
@@ -218,6 +225,8 @@ func (controller *Controller) GetUmlState(c *gin.Context) {
 //
 //	200: umlstateDBResponse
 func (controller *Controller) UpdateUmlState(c *gin.Context) {
+
+	mutexUmlState.Lock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -286,6 +295,8 @@ func (controller *Controller) UpdateUmlState(c *gin.Context) {
 
 	// return status OK with the marshalling of the the umlstateDB
 	c.JSON(http.StatusOK, umlstateDB)
+
+	mutexUmlState.Unlock()
 }
 
 // DeleteUmlState
@@ -298,6 +309,8 @@ func (controller *Controller) UpdateUmlState(c *gin.Context) {
 //
 //	200: umlstateDBResponse
 func (controller *Controller) DeleteUmlState(c *gin.Context) {
+
+	mutexUmlState.Lock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -340,4 +353,6 @@ func (controller *Controller) DeleteUmlState(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, gin.H{"data": true})
+
+	mutexUmlState.Unlock()
 }

@@ -372,6 +372,7 @@ func (backRepoGongEnumShape *BackRepoGongEnumShapeStruct) CheckoutPhaseTwoInstan
 
 	// insertion point for checkout of pointer encoding
 	// Position field
+	gongenumshape.Position = nil
 	if gongenumshapeDB.PositionID.Int64 != 0 {
 		gongenumshape.Position = backRepo.BackRepoPosition.Map_PositionDBID_PositionPtr[uint(gongenumshapeDB.PositionID.Int64)]
 	}

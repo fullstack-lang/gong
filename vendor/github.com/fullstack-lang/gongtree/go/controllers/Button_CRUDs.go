@@ -4,6 +4,7 @@ package controllers
 import (
 	"log"
 	"net/http"
+	"sync"
 	"time"
 
 	"github.com/fullstack-lang/gongtree/go/models"
@@ -15,6 +16,8 @@ import (
 // declaration in order to justify use of the models import
 var __Button__dummysDeclaration__ models.Button
 var __Button_time__dummyDeclaration time.Duration
+
+var mutexButton sync.Mutex
 
 // An ButtonID parameter model.
 //
@@ -109,6 +112,8 @@ func (controller *Controller) GetButtons(c *gin.Context) {
 //	  200: nodeDBResponse
 func (controller *Controller) PostButton(c *gin.Context) {
 
+	mutexButton.Lock()
+
 	values := c.Request.URL.Query()
 	stackPath := ""
 	if len(values) == 1 {
@@ -162,6 +167,8 @@ func (controller *Controller) PostButton(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, buttonDB)
+
+	mutexButton.Unlock()
 }
 
 // GetButton
@@ -218,6 +225,8 @@ func (controller *Controller) GetButton(c *gin.Context) {
 //
 //	200: buttonDBResponse
 func (controller *Controller) UpdateButton(c *gin.Context) {
+
+	mutexButton.Lock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -286,6 +295,8 @@ func (controller *Controller) UpdateButton(c *gin.Context) {
 
 	// return status OK with the marshalling of the the buttonDB
 	c.JSON(http.StatusOK, buttonDB)
+
+	mutexButton.Unlock()
 }
 
 // DeleteButton
@@ -298,6 +309,8 @@ func (controller *Controller) UpdateButton(c *gin.Context) {
 //
 //	200: buttonDBResponse
 func (controller *Controller) DeleteButton(c *gin.Context) {
+
+	mutexButton.Lock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -340,4 +353,6 @@ func (controller *Controller) DeleteButton(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, gin.H{"data": true})
+
+	mutexButton.Unlock()
 }

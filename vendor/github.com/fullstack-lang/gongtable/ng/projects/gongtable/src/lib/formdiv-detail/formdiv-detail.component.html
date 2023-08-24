@@ -1,0 +1,84 @@
+<form *ngIf="formdiv" class="details">
+    <h2 class="details__title">formdiv</h2>
+    <!-- insertion point for fields specific code -->
+    <mat-grid-list *ngIf='!isATextArea("Name")' cols="5" rowHeight="1:1">
+        <mat-grid-tile [colspan]="3">
+            <mat-form-field mat-form-field class="detail-full-width">
+                <mat-label>Name</mat-label>
+                <input name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="formdiv.Name">
+            </mat-form-field>
+        </mat-grid-tile>
+        <mat-grid-tile>
+            <button mat-raised-button (click)="toggleTextArea('Name')">
+                <mat-icon>
+                    expand_more
+                </mat-icon>
+            </button>
+        </mat-grid-tile>
+    </mat-grid-list>
+    <mat-form-field *ngIf='isATextArea("Name")' mat-form-field class="detail-full-width">
+        <mat-label>Name</mat-label>
+        <textarea name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="formdiv.Name"></textarea>
+    </mat-form-field>
+
+    <mat-grid-list cols="5" rowHeight="2:1">
+        <mat-grid-tile [colspan]="3">
+            <button mat-raised-button (click)="openReverseSelection('FormField', 'FormDiv_FormFieldsDBID', 'ONE_MANY_ASSOCIATION_MODE', '', '', '')">FormFields</button>
+        </mat-grid-tile>
+        <!-- insertion point for the button of the MANY_MANY association-->
+        <mat-grid-tile>
+            <button mat-raised-button (click)="openDragAndDropOrdering('FormField', 'FormDiv_FormFieldsDBID')">
+                <mat-icon>
+                    shuffle
+                </mat-icon>
+            </button>
+        </mat-grid-tile>
+    </mat-grid-list>
+    <mat-grid-list cols="5" rowHeight="2:1">
+        <mat-grid-tile [colspan]="3">
+            <button mat-raised-button (click)="openReverseSelection('CheckBox', 'FormDiv_CheckBoxsDBID', 'ONE_MANY_ASSOCIATION_MODE', '', '', '')">CheckBoxs</button>
+        </mat-grid-tile>
+        <!-- insertion point for the button of the MANY_MANY association-->
+        <mat-grid-tile>
+            <button mat-raised-button (click)="openDragAndDropOrdering('CheckBox', 'FormDiv_CheckBoxsDBID')">
+                <mat-icon>
+                    shuffle
+                </mat-icon>
+            </button>
+        </mat-grid-tile>
+    </mat-grid-list>
+    <mat-form-field class="detail-full-width">
+        <mat-label>FormEditAssocButton</mat-label>
+        <mat-select [compareWith]="compareObjects" [(value)]="formdiv.FormEditAssocButton" (selectionChange)="fillUpNameIfEmpty($event)">
+            <mat-option>None</mat-option>
+            <mat-option *ngFor="let formeditassocbutton of frontRepo.FormEditAssocButtons_array" [value]="formeditassocbutton">
+                {{formeditassocbutton.Name}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    <mat-form-field class="detail-full-width">
+        <mat-label>FormSortAssocButton</mat-label>
+        <mat-select [compareWith]="compareObjects" [(value)]="formdiv.FormSortAssocButton" (selectionChange)="fillUpNameIfEmpty($event)">
+            <mat-option>None</mat-option>
+            <mat-option *ngFor="let formsortassocbutton of frontRepo.FormSortAssocButtons_array" [value]="formsortassocbutton">
+                {{formsortassocbutton.Name}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    <mat-form-field class="detail-full-width">
+        <mat-label>(FormGroup) FormDivs</mat-label>
+        <mat-select [compareWith]="compareObjects" [(ngModel)]="formdiv.FormGroup_FormDivs_reverse" [ngModelOptions]="{standalone: true}">
+            <mat-option>None</mat-option>
+            <mat-option *ngFor="let formgroup of frontRepo.FormGroups_array" [value]="formgroup">
+                {{formgroup.Name}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+    <div class="details__save">
+        <button mat-raised-button color="primary" (click)="save()">
+            Save formdiv
+        </button>
+    </div>
+</form>

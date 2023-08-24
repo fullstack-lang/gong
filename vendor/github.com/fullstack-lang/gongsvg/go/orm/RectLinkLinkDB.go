@@ -396,10 +396,12 @@ func (backRepoRectLinkLink *BackRepoRectLinkLinkStruct) CheckoutPhaseTwoInstance
 
 	// insertion point for checkout of pointer encoding
 	// Start field
+	rectlinklink.Start = nil
 	if rectlinklinkDB.StartID.Int64 != 0 {
 		rectlinklink.Start = backRepo.BackRepoRect.Map_RectDBID_RectPtr[uint(rectlinklinkDB.StartID.Int64)]
 	}
 	// End field
+	rectlinklink.End = nil
 	if rectlinklinkDB.EndID.Int64 != 0 {
 		rectlinklink.End = backRepo.BackRepoLink.Map_LinkDBID_LinkPtr[uint(rectlinklinkDB.EndID.Int64)]
 	}

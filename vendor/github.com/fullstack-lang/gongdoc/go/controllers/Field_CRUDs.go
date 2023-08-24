@@ -4,6 +4,7 @@ package controllers
 import (
 	"log"
 	"net/http"
+	"sync"
 	"time"
 
 	"github.com/fullstack-lang/gongdoc/go/models"
@@ -15,6 +16,8 @@ import (
 // declaration in order to justify use of the models import
 var __Field__dummysDeclaration__ models.Field
 var __Field_time__dummyDeclaration time.Duration
+
+var mutexField sync.Mutex
 
 // An FieldID parameter model.
 //
@@ -109,6 +112,8 @@ func (controller *Controller) GetFields(c *gin.Context) {
 //	  200: nodeDBResponse
 func (controller *Controller) PostField(c *gin.Context) {
 
+	mutexField.Lock()
+
 	values := c.Request.URL.Query()
 	stackPath := ""
 	if len(values) == 1 {
@@ -162,6 +167,8 @@ func (controller *Controller) PostField(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, fieldDB)
+
+	mutexField.Unlock()
 }
 
 // GetField
@@ -218,6 +225,8 @@ func (controller *Controller) GetField(c *gin.Context) {
 //
 //	200: fieldDBResponse
 func (controller *Controller) UpdateField(c *gin.Context) {
+
+	mutexField.Lock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -286,6 +295,8 @@ func (controller *Controller) UpdateField(c *gin.Context) {
 
 	// return status OK with the marshalling of the the fieldDB
 	c.JSON(http.StatusOK, fieldDB)
+
+	mutexField.Unlock()
 }
 
 // DeleteField
@@ -298,6 +309,8 @@ func (controller *Controller) UpdateField(c *gin.Context) {
 //
 //	200: fieldDBResponse
 func (controller *Controller) DeleteField(c *gin.Context) {
+
+	mutexField.Lock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -340,4 +353,6 @@ func (controller *Controller) DeleteField(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, gin.H{"data": true})
+
+	mutexField.Unlock()
 }

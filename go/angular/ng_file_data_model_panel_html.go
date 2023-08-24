@@ -23,25 +23,35 @@ const NgFileDataModelPanelTemplateHtml = `<!-- button bar that is present in all
     </as-split-area>
 </as-split>
 
-<as-split unit="pixel" *ngIf="view==dataNew" direction="vertical">
+<as-split unit="pixel" *ngIf="view==dataNewNew" direction="vertical">
     <as-split-area [size]=40>
         <ng-container *ngTemplateOutlet="radioToolbar"></ng-container>
     </as-split-area>
     <as-split-area [size]="$any('*')">
         <as-split direction="horizontal">
             <as-split-area [size]="20">
-                <lib-tree [GONG__StackPath]="GONG__DATA__StackPath" name="gong"></lib-tree>
+                <lib-tree [GONG__StackPath]="GONG__DATA__StackPath+'-sidebar'" name="gong"></lib-tree>
             </as-split-area>
             <as-split-area [size]="50">
-                <lib-gongrouter-outlet [OutletName]="tableOutletName" [DataStack]="GONG__DATA__StackPath"></lib-gongrouter-outlet>
+                <div [ngStyle]="scrollStyle">
+                    <lib-material-table TableName="Table" [DataStack]="GONG__DATA__StackPath"></lib-material-table>
+                </div>
             </as-split-area>
             <as-split-area [size]="30">
-                <lib-gongrouter-outlet [OutletName]="editorOutletName" [DataStack]="GONG__DATA__StackPath"></lib-gongrouter-outlet>
             </as-split-area>
         </as-split>
     </as-split-area>
 </as-split>
 
+<as-split unit="pixel" *ngIf="view==tableData" direction="vertical">
+    <as-split-area [size]=40>
+        <ng-container *ngTemplateOutlet="radioToolbar"></ng-container>
+    </as-split-area>
+    <as-split-area [size]="$any('*')">
+        <lib-github_com_fullstack_lang_gongtable_go-data-model-panel [GONG__MODEL__StacksPath]="GONG__DATA__StackPath" [GONG__DATA__StackPath]="GONG__DATA__StackPath">
+        </lib-github_com_fullstack_lang_gongtable_go-data-model-panel>
+    </as-split-area>
+</as-split>
 
 <as-split unit="pixel" *ngIf="view==model" direction="vertical">
     <as-split-area [size]=40>

@@ -4,6 +4,7 @@ package controllers
 import (
 	"log"
 	"net/http"
+	"sync"
 	"time"
 
 	"github.com/fullstack-lang/gongsvg/go/models"
@@ -15,6 +16,8 @@ import (
 // declaration in order to justify use of the models import
 var __Path__dummysDeclaration__ models.Path
 var __Path_time__dummyDeclaration time.Duration
+
+var mutexPath sync.Mutex
 
 // An PathID parameter model.
 //
@@ -109,6 +112,8 @@ func (controller *Controller) GetPaths(c *gin.Context) {
 //	  200: nodeDBResponse
 func (controller *Controller) PostPath(c *gin.Context) {
 
+	mutexPath.Lock()
+
 	values := c.Request.URL.Query()
 	stackPath := ""
 	if len(values) == 1 {
@@ -162,6 +167,8 @@ func (controller *Controller) PostPath(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, pathDB)
+
+	mutexPath.Unlock()
 }
 
 // GetPath
@@ -218,6 +225,8 @@ func (controller *Controller) GetPath(c *gin.Context) {
 //
 //	200: pathDBResponse
 func (controller *Controller) UpdatePath(c *gin.Context) {
+
+	mutexPath.Lock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -286,6 +295,8 @@ func (controller *Controller) UpdatePath(c *gin.Context) {
 
 	// return status OK with the marshalling of the the pathDB
 	c.JSON(http.StatusOK, pathDB)
+
+	mutexPath.Unlock()
 }
 
 // DeletePath
@@ -298,6 +309,8 @@ func (controller *Controller) UpdatePath(c *gin.Context) {
 //
 //	200: pathDBResponse
 func (controller *Controller) DeletePath(c *gin.Context) {
+
+	mutexPath.Lock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -340,4 +353,6 @@ func (controller *Controller) DeletePath(c *gin.Context) {
 	backRepo.IncrementPushFromFrontNb()
 
 	c.JSON(http.StatusOK, gin.H{"data": true})
+
+	mutexPath.Unlock()
 }

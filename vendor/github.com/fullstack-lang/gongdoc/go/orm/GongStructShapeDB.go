@@ -411,6 +411,7 @@ func (backRepoGongStructShape *BackRepoGongStructShapeStruct) CheckoutPhaseTwoIn
 
 	// insertion point for checkout of pointer encoding
 	// Position field
+	gongstructshape.Position = nil
 	if gongstructshapeDB.PositionID.Int64 != 0 {
 		gongstructshape.Position = backRepo.BackRepoPosition.Map_PositionDBID_PositionPtr[uint(gongstructshapeDB.PositionID.Int64)]
 	}
