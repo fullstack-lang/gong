@@ -1,6 +1,7 @@
-package golang
+package data
 
-const LoadFileTemplate = `package data
+const LoadFileTemplate = `// generated code - do not edit
+package data
 
 import (
 	"embed"
