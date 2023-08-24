@@ -1,4 +1,6 @@
-package data
+package golang
+
+const NodeImplGongstructFileTemplate = `package data
 
 import (
 	"fmt"
@@ -10,8 +12,8 @@ import (
 
 	"github.com/fullstack-lang/maticons/maticons"
 
-	"github.com/fullstack-lang/gong/test/go/models"
-	"github.com/fullstack-lang/gong/test/go/orm"
+	"{{PkgPathRoot}}/models"
+	"{{PkgPathRoot}}/orm"
 )
 
 type NodeImplGongstruct struct {
@@ -73,22 +75,7 @@ func (nodeImplGongstruct *NodeImplGongstruct) OnAfterUpdate(
 	table.HasCheckableRows = false
 	table.HasSaveButton = false
 
-	// insertion point
-	if nodeImplGongstruct.gongStruct.GetName() == "Astruct" {
-		fillUpTable[models.Astruct](nodeImplGongstruct, tableStage, table)
-	}
-	if nodeImplGongstruct.gongStruct.GetName() == "AstructBstruct2Use" {
-		fillUpTable[models.AstructBstruct2Use](nodeImplGongstruct, tableStage, table)
-	}
-	if nodeImplGongstruct.gongStruct.GetName() == "AstructBstructUse" {
-		fillUpTable[models.AstructBstructUse](nodeImplGongstruct, tableStage, table)
-	}
-	if nodeImplGongstruct.gongStruct.GetName() == "Bstruct" {
-		fillUpTable[models.Bstruct](nodeImplGongstruct, tableStage, table)
-	}
-	if nodeImplGongstruct.gongStruct.GetName() == "Dstruct" {
-		fillUpTable[models.Dstruct](nodeImplGongstruct, tableStage, table)
-	}
+	// insertion point{{` + string(rune(NodeImplGongstruct)) + `}}
 
 	tableStage.Commit()
 }
@@ -152,7 +139,7 @@ func fillUpTable[T models.Gongstruct](
 			value := models.GetFieldStringValue[T](*structInstance, fieldName)
 			name := fmt.Sprintf("%d", fieldIndex) + " " + value
 			fieldIndex++
-			// log.Println(fieldName, value)
+			log.Println(fieldName, value)
 			cell := (&gongtable_models.Cell{
 				Name: name,
 			}).Stage(tableStage)
@@ -166,4 +153,19 @@ func fillUpTable[T models.Gongstruct](
 
 		}
 	}
+}
+`
+
+type NodeImplGongstructInsertionId int
+
+const (
+	NodeImplGongstruct NodeImplGongstructInsertionId = iota
+)
+
+var NodeImplGongstructSubTemplateCode map[string]string = // new line
+map[string]string{
+	string(rune(NodeImplGongstruct)): `
+	if nodeImplGongstruct.gongStruct.GetName() == "{{Structname}}" {
+		fillUpTable[models.{{Structname}}](nodeImplGongstruct, tableStage, table)
+	}`,
 }
