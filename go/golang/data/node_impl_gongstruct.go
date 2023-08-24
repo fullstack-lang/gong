@@ -1,6 +1,7 @@
 package data
 
-const NodeImplGongstructFileTemplate = `package data
+const NodeImplGongstructFileTemplate = `// generated code - do not edit
+package data
 
 import (
 	"fmt"
