@@ -21,6 +21,7 @@ import (
 	"github.com/fullstack-lang/gong/go/golang/diagrams"
 	"github.com/fullstack-lang/gong/go/golang/fullstack"
 	"github.com/fullstack-lang/gong/go/golang/orm"
+	"github.com/fullstack-lang/gong/go/golang/static"
 	"github.com/fullstack-lang/gong/go/models"
 	"github.com/fullstack-lang/gong/go/vscode"
 
@@ -384,7 +385,7 @@ func main() {
 		modelPkg,
 		caserEnglish.String(modelPkg.Name),
 		modelPkg.PkgPath, filepath.Join(*pkgPath, "../static/serve_static_files.go"),
-		golang.ServeStaticFilesTemplate)
+		static.ServeStaticFilesTemplate)
 
 	golang.CodeGeneratorModelGong(
 		modelPkg,

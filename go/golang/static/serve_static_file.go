@@ -1,6 +1,7 @@
-package golang
+package static
 
-const ServeStaticFilesTemplate = `package static
+const ServeStaticFilesTemplate = `// generated code - do not edit
+package static
 
 import (
 	"embed"
