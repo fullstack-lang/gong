@@ -8,9 +8,6 @@ import { GongdocspecificModule } from 'gongdocspecific'
 import { GongtreeModule } from 'gongtree'
 import { GongtreespecificModule } from 'gongtreespecific'
 
-import { GongrouterModule } from 'gongrouter'
-import { GongrouterspecificModule } from 'gongrouterspecific'
-
 import { GongtableModule } from 'gongtable'
 
 import { MatRadioModule } from '@angular/material/radio';
@@ -28,9 +25,6 @@ import { AngularSplitModule } from 'angular-split';
 
     GongtreeModule,
     GongtreespecificModule,
-
-    GongrouterModule,
-    GongrouterspecificModule,
 
     MatRadioModule,
     FormsModule,
