@@ -1,4 +1,4 @@
-package golang
+package models
 
 import (
 	"fmt"
@@ -14,7 +14,8 @@ import (
 	"golang.org/x/text/language"
 )
 
-const ModelGongCoderFileTemplate = `package models
+const ModelGongCoderFileTemplate = `// generated code - do not edit
+package models
 
 import "time"
 
@@ -64,10 +65,8 @@ func GongfieldName[Type PointerToGongstruct, FieldType Gongfield](field FieldTyp
 }
 `
 
-//
 // insertion points are places where the code is
 // generated per gong struct
-//
 type ModelGongCoderStructInsertionId int
 
 const (
