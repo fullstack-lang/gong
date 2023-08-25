@@ -1,6 +1,7 @@
 package models
 
-const GongAstTemplate = `package models
+const GongAstTemplate = `// generated code - do not edit
+package models
 
 import (
 	"errors"

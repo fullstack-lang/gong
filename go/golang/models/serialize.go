@@ -1,6 +1,7 @@
-package golang
+package models
 
-const ModelGongSerializeFileTemplate = `package models
+const ModelGongSerializeFileTemplate = `// generated code - do not edit
+package models
 
 import (
 	"fmt"
