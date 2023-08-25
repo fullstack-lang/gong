@@ -5,6 +5,8 @@ import (
 	"log"
 	"os"
 	"path/filepath"
+
+	"github.com/fullstack-lang/gong/go/golang/models"
 )
 
 // RemoveGeneratedGongFilesButDocs generates the setup file for the gorm
@@ -23,7 +25,7 @@ func RemoveGeneratedGongFilesButDocs(
 			log.Panic(err)
 		}
 		defer file.Close()
-		fmt.Fprint(file, DefaultModelDocsTemplate)
+		fmt.Fprint(file, models.DefaultModelDocsTemplate)
 
 	}
 
