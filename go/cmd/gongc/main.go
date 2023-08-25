@@ -388,7 +388,7 @@ func main() {
 		modelPkg.PkgPath, filepath.Join(*pkgPath, "../static/serve_static_files.go"),
 		static.ServeStaticFilesTemplate)
 
-	golang.CodeGeneratorModelGong(
+	models.CodeGeneratorModelGong(
 		modelPkg,
 		modelPkg.Name,
 		*pkgPath)
