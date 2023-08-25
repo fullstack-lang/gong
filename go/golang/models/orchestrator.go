@@ -1,6 +1,7 @@
-package golang
+package models
 
-const ModelGongOrchestratorFileTemplate = `package models
+const ModelGongOrchestratorFileTemplate = `// generated code - do not edit
+package models
 
 // insertion point{{` + string(rune(ModelGongOrchestratorStruct)) + `}}
 

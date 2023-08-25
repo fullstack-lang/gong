@@ -1,4 +1,4 @@
-package golang
+package models
 
 import (
 	"fmt"
@@ -12,6 +12,13 @@ import (
 	"golang.org/x/text/cases"
 	"golang.org/x/text/language"
 )
+
+const ModelGongEnumFileTemplate = `// generated code - do not edit
+package models
+
+// insertion point of enum utility functions{{` + string(rune(ModelGongEnumUtilityFunctions)) + `}}
+// Last line of the template
+`
 
 // insertion code for all enums
 type ModelGongEnumInsertionId int

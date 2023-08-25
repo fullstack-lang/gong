@@ -393,23 +393,23 @@ func main() {
 		modelPkg.Name,
 		*pkgPath)
 
-	golang.CodeGeneratorModelGongEnum(
+	models.CodeGeneratorModelGongEnum(
 		modelPkg,
 		modelPkg.Name,
 		*pkgPath)
 
-	golang.CodeGeneratorModelGongMarshall(
+	models.CodeGeneratorModelGongMarshall(
 		modelPkg,
 		modelPkg.Name,
 		*pkgPath)
 
-	golang.CodeGeneratorModelGongGraph(
+	models.CodeGeneratorModelGongGraph(
 		modelPkg,
 		modelPkg.Name,
 		*pkgPath)
 
 	if !*skipCoder {
-		golang.CodeGeneratorModelGongCoder(
+		models.CodeGeneratorModelGongCoder(
 			modelPkg,
 			modelPkg.Name,
 			*pkgPath)
@@ -449,15 +449,15 @@ func main() {
 		modelPkg.Name,
 		modelPkg.PkgPath,
 		filepath.Join(*pkgPath, "../models/gong_callbacks.go"),
-		golang.ModelGongCallbacksFileTemplate, golang.ModelGongCallbacksStructSubTemplateCode)
+		models.ModelGongCallbacksFileTemplate, models.ModelGongCallbacksStructSubTemplateCode)
 
 	gong_models.CodeGenerator(
 		modelPkg,
 		modelPkg.Name,
 		modelPkg.PkgPath,
 		filepath.Join(*pkgPath, "../models/gong_orchestrator.go"),
-		golang.ModelGongOrchestratorFileTemplate,
-		golang.ModelGongOrchestratorStructSubTemplateCode,
+		models.ModelGongOrchestratorFileTemplate,
+		models.ModelGongOrchestratorStructSubTemplateCode,
 		map[string]string{}, map[string]string{},
 		true,
 		true)
@@ -467,7 +467,7 @@ func main() {
 		modelPkg.Name,
 		modelPkg.PkgPath,
 		filepath.Join(*pkgPath, "../models/gong_serialize.go"),
-		golang.ModelGongSerializeFileTemplate, golang.ModelGongSerializeStructSubTemplateCode)
+		models.ModelGongSerializeFileTemplate, models.ModelGongSerializeStructSubTemplateCode)
 
 	orm.MultiCodeGeneratorBackRepo(
 		modelPkg,

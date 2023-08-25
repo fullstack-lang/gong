@@ -1,6 +1,7 @@
-package golang
+package models
 
-const ModelGongCallbacksFileTemplate = `package models
+const ModelGongCallbacksFileTemplate = `// generated code - do not edit
+package models
 
 // AfterCreateFromFront is called after a create from front
 func AfterCreateFromFront[Type Gongstruct](stage *StageStruct, instance *Type) {

@@ -38,7 +38,7 @@
         "./node_modules/tslib"
       ],
       "gong": [
-        "../vendor/github.com/fullstack-lang/gong/ng/projects/gong/src/public-api.ts"
+        "projects/gong/src/public-api.ts"
       ],
       "gongspecific": [
         "projects/gongspecific/src/public-api.ts",
@@ -56,10 +56,15 @@
       "gongsvgspecific": [
         "../vendor/github.com/fullstack-lang/gongsvg/ng/projects/gongsvgspecific/src/public-api.ts"
       ],
-      "gong": [
-        "projects/gong/src/public-api.ts",
-        "dist/gong"
-      ]
+      "gongtree": [
+        "../vendor/github.com/fullstack-lang/gongtree/ng/projects/gongtree/src/public-api.ts"
+      ],
+      "gongtreespecific": [
+        "../vendor/github.com/fullstack-lang/gongtree/ng/projects/gongtreespecific/src/public-api.ts"
+      ],
+      "gongtreedatamodel": [
+        "../vendor/github.com/fullstack-lang/gongtree/ng/projects/gongtreedatamodel/src/public-api.ts"
+      ],
     },
     "noPropertyAccessFromIndexSignature": true,
     "noImplicitReturns": true,
