@@ -20,9 +20,10 @@ import (
 	"github.com/fullstack-lang/gong/go/golang/data"
 	"github.com/fullstack-lang/gong/go/golang/diagrams"
 	"github.com/fullstack-lang/gong/go/golang/fullstack"
+	"github.com/fullstack-lang/gong/go/golang/models"
 	"github.com/fullstack-lang/gong/go/golang/orm"
 	"github.com/fullstack-lang/gong/go/golang/static"
-	"github.com/fullstack-lang/gong/go/models"
+
 	"github.com/fullstack-lang/gong/go/vscode"
 
 	gong_models "github.com/fullstack-lang/gong/go/models"
@@ -67,7 +68,7 @@ func main() {
 	golang.RemoveGeneratedGongFilesButDocs(*pkgPath)
 
 	// initiate model package
-	modelPkg, _ := gong_models.LoadSource(models.GetDefaultStage(), *pkgPath)
+	modelPkg, _ := gong_models.LoadSource(gong_models.GetDefaultStage(), *pkgPath)
 
 	// check wether the package name follows gong naming convention
 	if strings.ContainsAny(modelPkg.Name, "-") {
@@ -414,7 +415,7 @@ func main() {
 			*pkgPath)
 	}
 
-	golang.GongAstGenerator(modelPkg, *pkgPath)
+	models.GongAstGenerator(modelPkg, *pkgPath)
 
 	gong_models.SimpleCodeGeneratorForGongStructWithNameField(
 		modelPkg,

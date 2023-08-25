@@ -5,9 +5,19 @@ type CellIcon struct {
 
 	// reference of the material icon (ex "home", "delete", "edit")
 	Icon string
+
+	Impl CellIconImplInterface
 }
 
-func (cellIcon *CellIcon) OnAfterUpdate(stage *StageStruct, stagedInstance, frontInstance *CellIcon) {
+type CellIconImplInterface interface {
 
-	//
+	// CellIconUpdated function is called each time a CellIcon is modified
+	CellIconUpdated(stage *StageStruct, cellIcon, updatedCellIcon *CellIcon)
+}
+
+func (cellIcon *CellIcon) OnAfterUpdate(stage *StageStruct, stagedInstance, frontCellIcon *CellIcon) {
+
+	if cellIcon.Impl != nil {
+		cellIcon.Impl.CellIconUpdated(stage, cellIcon, frontCellIcon)
+	}
 }

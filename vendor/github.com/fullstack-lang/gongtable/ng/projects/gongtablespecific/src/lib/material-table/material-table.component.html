@@ -29,7 +29,7 @@
      The mat-table directive applies Angular Material styling and functionality.
      The [dataSource] input specifies the data for the table, which is stored in the dataSource variable.
      The mat-elevation-z8 class applies a box-shadow (elevation). -->
-    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" cdkDropList (cdkDropListDropped)="drop($event)" matSort>
+    <table mat-table [dataSource]="dataSource" class="table mat-elevation-z8" cdkDropList (cdkDropListDropped)="drop($event)" matSort>
 
         <ng-container *ngIf="selectedTable?.HasCheckableRows" matColumnDef="select">
             <th mat-header-cell *matHeaderCellDef class="sticky">
@@ -92,6 +92,6 @@
         <!-- Data row for each row in dataSource.
              The mat-row directive applies Angular Material styling.
              The *matRowDef directive defines a row for each row object in dataSource and sets its columns. -->
-        <tr mat-row *matRowDef="let row; columns: allDisplayedColumns" cdkDrag [cdkDragDisabled]="!selectedTable?.CanDragDropRows"></tr>
+        <tr mat-row *matRowDef="let row; columns: allDisplayedColumns" (click)="onClick( row.Table_RowsDBID_Index.Int64 )" cdkDrag [cdkDragDisabled]="!selectedTable?.CanDragDropRows"></tr>
     </table>
 </section>
