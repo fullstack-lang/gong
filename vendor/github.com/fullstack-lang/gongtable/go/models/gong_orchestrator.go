@@ -1,3 +1,4 @@
+// generated code - do not edit
 package models
 
 // insertion point
@@ -31,6 +32,16 @@ func (orchestrator *FormSortAssocButtonOrchestrator) OnAfterUpdate(
 
 	stagedFormSortAssocButton.OnAfterUpdate(gongsvgStage, stagedFormSortAssocButton, backRepoFormSortAssocButton)
 }
+// RowOrchestrator
+type RowOrchestrator struct {
+}
+
+func (orchestrator *RowOrchestrator) OnAfterUpdate(
+	gongsvgStage *StageStruct,
+	stagedRow, backRepoRow *Row) {
+
+	stagedRow.OnAfterUpdate(gongsvgStage, stagedRow, backRepoRow)
+}
 
 func SetOrchestratorOnAfterUpdate[Type Gongstruct](stage *StageStruct) {
 
@@ -44,6 +55,8 @@ func SetOrchestratorOnAfterUpdate[Type Gongstruct](stage *StageStruct) {
 		stage.OnAfterFormEditAssocButtonUpdateCallback = new(FormEditAssocButtonOrchestrator)
 	case FormSortAssocButton:
 		stage.OnAfterFormSortAssocButtonUpdateCallback = new(FormSortAssocButtonOrchestrator)
+	case Row:
+		stage.OnAfterRowUpdateCallback = new(RowOrchestrator)
 
 	}
 

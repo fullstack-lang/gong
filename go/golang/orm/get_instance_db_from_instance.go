@@ -4,24 +4,21 @@ const GetInstanceDBFromInstanceTemplateCode = `// generated code - do not edit
 package orm
 
 import (
-	"github.com/fullstack-lang/gong/test/go/models"
+	"{{PkgPathRoot}}/models"
 )
 
-type GongstrucDB interface {
+type GongstructDB interface {
 	// insertion point for generic types
-	AstructDB | AstructBstruct2UseDB | AstructBstructUseDB | BstructDB | DstructDB
+	{{` + string(rune(GetInstanceDBFromInstanceGonstructDBDefinition)) + `}}
 }
 
-func GetInstanceDBFromInstance[T models.Gongstruct, T2 GongstrucDB](
+func GetInstanceDBFromInstance[T models.Gongstruct, T2 GongstructDB](
 	stage *models.StageStruct,
 	backRepo *BackRepoStruct,
 	instance *T) (ret *T2) {
 
 	switch concreteInstance := any(instance).(type) {
-	case *models.Astruct:
-		astructInstance := any(concreteInstance).(*models.Astruct)
-		ret2 := backRepo.BackRepoAstruct.GetAstructDBFromAstructPtr(astructInstance)
-		ret = any(ret2).(*T2)
+	// insertion point for per struct backup{{` + string(rune(GetInstanceDBFromInstanceSwitchCaseGet)) + `}}
 	}
 	return
 }
@@ -32,12 +29,33 @@ func GetID[T models.Gongstruct](
 	instance *T) (id int) {
 
 	switch inst := any(instance).(type) {
-	case *models.Astruct:
-		tmp := GetInstanceDBFromInstance[models.Astruct, AstructDB](
-			stage, backRepo, inst,
-		)
-		id = int(tmp.ID)
+	// insertion point for per struct backup{{` + string(rune(GetInstanceDBFromInstanceSwitchCaseGetID)) + `}}
 	}
 	return
 }
 `
+
+type GetInstanceDBFromInstanceSubTemplateInsertion int
+
+const (
+	GetInstanceDBFromInstanceSwitchCaseGetID GetInstanceDBFromInstanceSubTemplateInsertion = iota
+	GetInstanceDBFromInstanceSwitchCaseGet
+	GetInstanceDBFromInstanceGonstructDBDefinition
+)
+
+var GetInstanceDBFromInstanceSubTemplate map[string]string = // new line
+map[string]string{
+
+	string(rune(GetInstanceDBFromInstanceSwitchCaseGetID)): `
+	case *models.{{Structname}}:
+		tmp := GetInstanceDBFromInstance[models.{{Structname}}, {{Structname}}DB](
+			stage, backRepo, inst,
+		)
+		id = int(tmp.ID)`,
+	string(rune(GetInstanceDBFromInstanceSwitchCaseGet)): `
+	case *models.{{Structname}}:
+		{{structname}}Instance := any(concreteInstance).(*models.{{Structname}})
+		ret2 := backRepo.BackRepo{{Structname}}.Get{{Structname}}DBFrom{{Structname}}Ptr({{structname}}Instance)
+		ret = any(ret2).(*T2)`,
+	string(rune(GetInstanceDBFromInstanceGonstructDBDefinition)): ` | {{Structname}}DB`,
+}

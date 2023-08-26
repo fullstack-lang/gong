@@ -155,6 +155,8 @@ export * from './lib/table-db'
 export * from './lib/table.service'
 
 
+export * from './lib/FormGroupName'
 export * from './lib/InputTypeEnum'
 export * from './lib/TableExtraNameEnum'
 export * from './lib/TableExtraPathEnum'
+export * from './lib/TableName'
