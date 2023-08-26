@@ -10,10 +10,11 @@ export class DataModelPanelComponent implements OnInit {
   data = 'Data'
   dataNewNew = 'Data New New'
   tableData = "Table Data"
-  view = this.data
+  formData = "Form Data"
+  view = this.dataNewNew
   model = 'Model'
 
-  views: string[] = [this.data, this.dataNewNew, this.tableData, this.model]
+  views: string[] = [this.dataNewNew, this.data, this.tableData, this.formData, this.model]
 
   textStyle = {
     'color': 'rgba(0, 0, 0, 0.87)', // These are just examples.

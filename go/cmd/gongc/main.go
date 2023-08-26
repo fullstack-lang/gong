@@ -424,12 +424,15 @@ func main() {
 		filepath.Join(*pkgPath, "../orm/back_repo.go"),
 		orm.BackRepoTemplateCode, orm.BackRepoSubTemplate)
 
-	gong_models.VerySimpleCodeGenerator(
+	gong_models.SimpleCodeGenerator(
 		modelPkg,
 		modelPkg.Name,
 		modelPkg.PkgPath,
 		filepath.Join(*pkgPath, "../orm/get_instance_db_from_instance.go"),
-		orm.GetInstanceDBFromInstanceTemplateCode)
+		orm.GetInstanceDBFromInstanceTemplateCode, orm.GetInstanceDBFromInstanceSubTemplate)
+
+	// for the replacement of the of the first bar in the Gongstruct Type def
+	orm.ReplaceInFile("../orm/get_instance_db_from_instance.go", "	 | ", "	")
 
 	gong_models.SimpleCodeGeneratorForGongStructWithNameField(
 		modelPkg,

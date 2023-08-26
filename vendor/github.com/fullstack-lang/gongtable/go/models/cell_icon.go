@@ -6,6 +6,7 @@ type CellIcon struct {
 	// reference of the material icon (ex "home", "delete", "edit")
 	Icon string
 
+	// swagger:ignore
 	Impl CellIconImplInterface
 }
 
