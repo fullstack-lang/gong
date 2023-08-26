@@ -46,21 +46,60 @@ func (buttonImpl *ButtonImplGongstruct) ButtonUpdated(
 
 	switch buttonImpl.gongStruct.Name {
 	case "Astruct":
-		formDiv := (&table.FormDiv{
-			Name: "Name",
-		}).Stage(formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDiv)
-		formField := (&table.FormField{
-			Name:        "Name",
-			Label:       "Name",
-			Placeholder: "Astruct",
-		}).Stage(formStage)
-		formDiv.FormFields = append(formDiv.FormFields, formField)
 
-		formFieldString := (&table.FormFieldString{
-			Name: "Name",
-		}).Stage(formStage)
-		formField.FormFieldString = formFieldString
+		// Name field
+		{
+			formDiv := (&table.FormDiv{
+				Name: "Name",
+			}).Stage(formStage)
+			formGroup.FormDivs = append(formGroup.FormDivs, formDiv)
+			formField := (&table.FormField{
+				Name:        "Name",
+				Label:       "Name",
+				Placeholder: "Astruct",
+			}).Stage(formStage)
+			formDiv.FormFields = append(formDiv.FormFields, formField)
+
+			formFieldString := (&table.FormFieldString{
+				Name: "Name",
+			}).Stage(formStage)
+			formField.FormFieldString = formFieldString
+		}
+
+		// Date field
+		{
+			formDiv := (&table.FormDiv{
+				Name: "Date",
+			}).Stage(formStage)
+			formGroup.FormDivs = append(formGroup.FormDivs, formDiv)
+			{
+				formFieldPartDate := (&table.FormField{
+					Name:        "Date",
+					Label:       "Date",
+					Placeholder: "",
+				}).Stage(formStage)
+				formDiv.FormFields = append(formDiv.FormFields, formFieldPartDate)
+
+				formFieldDate := (&table.FormFieldDate{
+					Name: "Date",
+				}).Stage(formStage)
+				formFieldPartDate.FormFieldDate = formFieldDate
+			}
+			{
+				formFieldPartTime := (&table.FormField{
+					Name:        "Time",
+					Label:       "Time",
+					Placeholder: "",
+				}).Stage(formStage)
+				formDiv.FormFields = append(formDiv.FormFields, formFieldPartTime)
+
+				formFieldTime := (&table.FormFieldTime{
+					Name: "Time",
+				}).Stage(formStage)
+				formFieldPartTime.FormFieldTime = formFieldTime
+			}
+
+		}
 	}
 	formStage.Commit()
 }
