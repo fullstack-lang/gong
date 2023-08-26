@@ -43,9 +43,9 @@ func Load(
 	stageForMainTable.Commit()
 
 	// stage for reusable form
-	stageForForm, backRepoForForm := gongtable_fullstack.NewStackInstance(r, stackPath+"-form")
+	formStage, backRepoForForm := gongtable_fullstack.NewStackInstance(r, stackPath+"-form")
 	_ = backRepoForForm
-	stageForForm.Commit()
+	formStage.Commit()
 
 	// create tree
 	treeOfGongStructs := (&gongtree_models.Tree{Name: "gong"}).Stage(stageForSidebarTree)
@@ -77,6 +77,7 @@ func Load(
 		addButton.Impl = NewButtonImplGongstruct(
 			gongStruct,
 			gongtree_buttons.BUTTON_add,
+			formStage,
 		)
 
 		treeOfGongStructs.RootNodes = append(treeOfGongStructs.RootNodes, nodeGongstruct)
