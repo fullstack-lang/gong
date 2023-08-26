@@ -10,6 +10,7 @@ type FormEditAssocButton struct {
 
 	Label string
 
+	// swagger:ignore
 	OnAssocEditon FormEditAssocButtonInterface
 }
 

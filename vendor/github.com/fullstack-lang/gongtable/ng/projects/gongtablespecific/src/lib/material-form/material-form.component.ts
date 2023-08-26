@@ -49,6 +49,7 @@ export class MaterialFormComponent implements OnInit {
     private gongtableFrontRepoService: gongtable.FrontRepoService,
     private gongtableCommitNbFromBackService: gongtable.CommitNbFromBackService,
     private formBuilder: FormBuilder,
+
     private formFieldStringService: gongtable.FormFieldStringService,
     private formFieldIntService: gongtable.FormFieldIntService,
     private formFieldDateService: gongtable.FormFieldDateService,
@@ -59,6 +60,7 @@ export class MaterialFormComponent implements OnInit {
     private formEditAssocButtonService: gongtable.FormEditAssocButtonService,
     private formSortAssocButtonService: gongtable.FormSortAssocButtonService,
 
+    private formGroupService: gongtable.FormGroupService,
   ) {
 
   }
@@ -196,157 +198,178 @@ export class MaterialFormComponent implements OnInit {
   }
 
   submitForm() {
-    if (this.generatedForm) {
-      console.log(this.generatedForm.valueChanges)
 
-      if (this.selectedFormGroup == undefined) {
-        return
+    let nbFieldsModified = 0
+
+    if (this.generatedForm == undefined) {
+      return
+    }
+    console.log(this.generatedForm.valueChanges)
+
+    if (this.selectedFormGroup == undefined) {
+      return
+    }
+
+    if (this.selectedFormGroup.FormDivs == undefined) {
+      return
+    }
+
+    for (let formDiv of this.selectedFormGroup.FormDivs) {
+      if (formDiv.FormFields == undefined) {
+        continue
       }
+      for (let formField of formDiv.FormFields) {
+        if (formField.FormFieldString) {
+          let formFieldString = formField.FormFieldString
+          let newValue = this.generatedForm.value[formField.Name]
 
-      if (this.selectedFormGroup.FormDivs == undefined) {
-        return
-      }
-
-      for (let formDiv of this.selectedFormGroup.FormDivs) {
-        if (formDiv.FormFields) {
-          for (let formField of formDiv.FormFields) {
-            if (formField.FormFieldString) {
-              let formFieldString = formField.FormFieldString
-              let newValue = this.generatedForm.value[formField.Name]
-
-              if (newValue != formFieldString.Value) {
-                formFieldString.Value = newValue
-                this.formFieldStringService.updateFormFieldString(formFieldString, this.DataStack).subscribe(
-                  () => {
-                    console.log("String Form Field updated")
-                  }
-                )
+          if (newValue != formFieldString.Value) {
+            nbFieldsModified++
+            formFieldString.Value = newValue
+            this.formFieldStringService.updateFormFieldString(formFieldString, this.DataStack).subscribe(
+              () => {
+                console.log("String Form Field updated")
               }
-            }
-            if (formField.FormFieldInt) {
-              let formFieldInt = formField.FormFieldInt
-              let newValue: number = +this.generatedForm.value[formField.Name]
-
-              if (newValue != formFieldInt.Value) {
-                formFieldInt.Value = newValue
-                this.formFieldIntService.updateFormFieldInt(formFieldInt, this.DataStack).subscribe(
-                  () => {
-                    console.log("Int Form Field updated")
-                  }
-                )
-              }
-            }
-            if (formField.FormFieldDate) {
-              // Assume formField is already defined
-              let formFieldDate = formField.FormFieldDate
-
-              let formFieldValue = this.generatedForm.value[formField.Name];
-
-              // 1. Convert to a UTC formatted string and then to a Date object
-              let dateObj = new Date(formFieldValue);
-              let formattedDate = dateObj.toISOString();
-              let dateObject = new Date(formattedDate);
-
-              console.log(dateObject);
-              console.log(formFieldDate.Value);
-
-              // 2. Check if two dates are on the same day
-              let inputDate = new Date(formFieldValue);
-              let comparisonDate = new Date(formFieldDate.Value);
-
-              let isSameDay = (date1: Date, date2: Date) => {
-                return date1.getUTCFullYear() === date2.getUTCFullYear() &&
-                  date1.getUTCMonth() === date2.getUTCMonth() &&
-                  date1.getUTCDate() === date2.getUTCDate();
-              }
-
-              console.log(isSameDay(inputDate, comparisonDate));
-
-              if (!isSameDay(inputDate, comparisonDate)) {
-                formFieldDate.Value = dateObject;
-                this.formFieldDateService.updateFormFieldDate(formFieldDate, this.DataStack).subscribe(() => {
-                  console.log("Date Form Field updated");
-                });
-              }
-
-            }
-            if (formField.FormFieldTime) {
-              let formFieldTime = formField.FormFieldTime
-
-              const [hours, minutes, seconds] = this.generatedForm.value[formField.Name].split(':').map(Number);
-              const date = new Date("1970-01-01")
-              date.setUTCHours(hours, minutes, seconds);
-              // console.log("date for time", date.toUTCString())
-              // console.log("date for backend time", new Date(formFieldTime.Value).toUTCString())
-
-              if (date.getTime() != new Date(formFieldTime.Value).getTime()) {
-                formFieldTime.Value = date
-                this.formFieldTimeService.updateFormFieldTime(formFieldTime, this.DataStack).subscribe(
-                  () => {
-                    console.log("Time Form Field updated")
-                  }
-                )
-              }
-            }
-            if (formField.FormFieldDateTime) {
-              let formFieldDateTime = formField.FormFieldDateTime
-
-              let newValue = this.generatedForm.value[formField.Name]
-
-              if (newValue != formFieldDateTime.Value) {
-                formFieldDateTime.Value = newValue
-                this.formFieldDateTimeService.updateFormFieldDateTime(formFieldDateTime, this.DataStack).subscribe(
-                  () => {
-                    console.log("Date Time Form Field updated")
-                  }
-                )
-              }
-            }
-            if (formField.FormFieldSelect) {
-              let newValue = this.generatedForm.value[formField.Name]
-              let formFieldSelect = formField.FormFieldSelect
-
-              if (newValue != formFieldSelect.Value?.Name) {
-                formFieldSelect.Value = newValue
-
-                if (formFieldSelect.Options == undefined) {
-                  return
-                }
-
-                for (let option of formFieldSelect.Options) {
-                  if (option.Name == newValue) {
-                    formFieldSelect.Value = option
-                    formFieldSelect.ValueID.Int64 = option.ID
-                  }
-                }
-
-                let options = formFieldSelect.Options
-
-                this.formFieldSelectService.updateFormFieldSelect(formFieldSelect, this.DataStack).subscribe(
-                  () => {
-                    console.log("Select Form Field updated")
-                    formFieldSelect.Options = options
-                  }
-                )
-              }
-            }
+            )
           }
         }
-        if (formDiv.CheckBoxs) {
-          for (let checkBox of formDiv.CheckBoxs) {
-            let newValue = this.generatedForm.value[checkBox.Name] as boolean
-            if (newValue != checkBox.Value) {
-              checkBox.Value = newValue
-              this.checkBoxService.updateCheckBox(checkBox, this.DataStack).subscribe(
-                () => {
-                  console.log("Boolean Field updated")
-                }
-              )
+        if (formField.FormFieldInt) {
+          let formFieldInt = formField.FormFieldInt
+          let newValue: number = +this.generatedForm.value[formField.Name]
+
+          if (newValue != formFieldInt.Value) {
+            nbFieldsModified++
+            formFieldInt.Value = newValue
+            this.formFieldIntService.updateFormFieldInt(formFieldInt, this.DataStack).subscribe(
+              () => {
+                console.log("Int Form Field updated")
+              }
+            )
+          }
+        }
+        if (formField.FormFieldDate) {
+          // Assume formField is already defined
+          let formFieldDate = formField.FormFieldDate
+
+          let formFieldValue = this.generatedForm.value[formField.Name];
+
+          // 1. Convert to a UTC formatted string and then to a Date object
+          let dateObj = new Date(formFieldValue);
+          let formattedDate = dateObj.toISOString();
+          let dateObject = new Date(formattedDate);
+
+          console.log(dateObject);
+          console.log(formFieldDate.Value);
+
+          // 2. Check if two dates are on the same day
+          let inputDate = new Date(formFieldValue);
+          let comparisonDate = new Date(formFieldDate.Value);
+
+          let isSameDay = (date1: Date, date2: Date) => {
+            return date1.getUTCFullYear() === date2.getUTCFullYear() &&
+              date1.getUTCMonth() === date2.getUTCMonth() &&
+              date1.getUTCDate() === date2.getUTCDate();
+          }
+
+          console.log(isSameDay(inputDate, comparisonDate));
+
+          if (!isSameDay(inputDate, comparisonDate)) {
+            nbFieldsModified++
+            formFieldDate.Value = dateObject;
+            this.formFieldDateService.updateFormFieldDate(formFieldDate, this.DataStack).subscribe(() => {
+              console.log("Date Form Field updated");
+            });
+          }
+
+        }
+        if (formField.FormFieldTime) {
+          let formFieldTime = formField.FormFieldTime
+
+          const [hours, minutes, seconds] = this.generatedForm.value[formField.Name].split(':').map(Number);
+          const date = new Date("1970-01-01")
+          date.setUTCHours(hours, minutes, seconds);
+          // console.log("date for time", date.toUTCString())
+          // console.log("date for backend time", new Date(formFieldTime.Value).toUTCString())
+
+          if (date.getTime() != new Date(formFieldTime.Value).getTime()) {
+            nbFieldsModified++
+            formFieldTime.Value = date
+            this.formFieldTimeService.updateFormFieldTime(formFieldTime, this.DataStack).subscribe(
+              () => {
+                console.log("Time Form Field updated")
+              }
+            )
+          }
+        }
+        if (formField.FormFieldDateTime) {
+          let formFieldDateTime = formField.FormFieldDateTime
+
+          let newValue = this.generatedForm.value[formField.Name]
+
+          if (newValue != formFieldDateTime.Value) {
+            nbFieldsModified++
+            formFieldDateTime.Value = newValue
+            this.formFieldDateTimeService.updateFormFieldDateTime(formFieldDateTime, this.DataStack).subscribe(
+              () => {
+                console.log("Date Time Form Field updated")
+              }
+            )
+          }
+        }
+        if (formField.FormFieldSelect) {
+          let newValue = this.generatedForm.value[formField.Name]
+          let formFieldSelect = formField.FormFieldSelect
+
+          if (newValue != formFieldSelect.Value?.Name) {
+            formFieldSelect.Value = newValue
+
+            if (formFieldSelect.Options == undefined) {
+              return
             }
 
+            for (let option of formFieldSelect.Options) {
+              if (option.Name == newValue) {
+                formFieldSelect.Value = option
+                formFieldSelect.ValueID.Int64 = option.ID
+              }
+            }
+
+            let options = formFieldSelect.Options
+
+            nbFieldsModified++
+            this.formFieldSelectService.updateFormFieldSelect(formFieldSelect, this.DataStack).subscribe(
+              () => {
+                console.log("Select Form Field updated")
+                formFieldSelect.Options = options
+              }
+            )
           }
         }
       }
+      if (formDiv.CheckBoxs) {
+        for (let checkBox of formDiv.CheckBoxs) {
+          let newValue = this.generatedForm.value[checkBox.Name] as boolean
+          if (newValue != checkBox.Value) {
+            nbFieldsModified++
+            checkBox.Value = newValue
+            this.checkBoxService.updateCheckBox(checkBox, this.DataStack).subscribe(
+              () => {
+                console.log("Boolean Field updated")
+              }
+            )
+          }
+        }
+      }
+    }
+
+    // if no field has been modified, it is important to notice the back end
+    if (nbFieldsModified == 0) {
+      let divs = this.selectedFormGroup.FormDivs
+      this.formGroupService.updateFormGroup(this.selectedFormGroup, this.DataStack).subscribe(
+        () => {
+          this.selectedFormGroup!.FormDivs = divs
+        }
+      )
     }
   }
 

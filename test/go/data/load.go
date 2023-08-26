@@ -35,9 +35,17 @@ func Load(
 
 	// treeForSelectingDate that is on the sidebar
 	stageForSidebarTree := gongtree_fullstack.NewStackInstance(r, stackPath+"-sidebar")
-	stageForMainTable := gongtable_fullstack.NewStackInstance(r, stackPath)
+
+	// stage for main table
+	stageForMainTable, backRepoForMainTable := gongtable_fullstack.NewStackInstance(r, stackPath)
+	_ = backRepoForMainTable
 	fillUpSelectTableWithDummyStuff(stageForMainTable, "Table")
 	stageForMainTable.Commit()
+
+	// stage for reusable form
+	stageForForm, backRepoForForm := gongtable_fullstack.NewStackInstance(r, stackPath+"-form")
+	_ = backRepoForForm
+	stageForForm.Commit()
 
 	// create tree
 	treeOfGongStructs := (&gongtree_models.Tree{Name: "gong"}).Stage(stageForSidebarTree)
