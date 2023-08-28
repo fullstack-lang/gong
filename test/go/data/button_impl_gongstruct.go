@@ -134,7 +134,7 @@ func (buttonImpl *ButtonImplGongstruct) ButtonUpdated(
 			formDiv.FormFields = append(formDiv.FormFields, formField)
 
 			formFieldSelect := (&table.FormFieldSelect{
-				Name: "Name",
+				Name: "Aenum",
 			}).Stage(formStage)
 			formField.FormFieldSelect = formFieldSelect
 
@@ -150,6 +150,43 @@ func (buttonImpl *ButtonImplGongstruct) ButtonUpdated(
 			{
 				option := (&table.Option{
 					Name: models.ENUM_VAL2.ToString(),
+				}).Stage(formStage)
+
+				formField.FormFieldSelect.Options =
+					append(formField.FormFieldSelect.Options, option)
+			}
+		}
+
+		// Cenum
+		{
+			formDiv := (&table.FormDiv{
+				Name: "Cenum",
+			}).Stage(formStage)
+			formGroup.FormDivs = append(formGroup.FormDivs, formDiv)
+			formField := (&table.FormField{
+				Name:        "Cenum",
+				Label:       "Cenum",
+				Placeholder: "",
+			}).Stage(formStage)
+			formDiv.FormFields = append(formDiv.FormFields, formField)
+
+			formFieldSelect := (&table.FormFieldSelect{
+				Name: "Cenum",
+			}).Stage(formStage)
+			formField.FormFieldSelect = formFieldSelect
+
+			formField.FormFieldSelect.Options = make([]*table.Option, 0)
+			{
+				option := (&table.Option{
+					Name: "CENUM_VAL1",
+				}).Stage(formStage)
+
+				formField.FormFieldSelect.Options =
+					append(formField.FormFieldSelect.Options, option)
+			}
+			{
+				option := (&table.Option{
+					Name: "CENUM_VAL2",
 				}).Stage(formStage)
 
 				formField.FormFieldSelect.Options =
