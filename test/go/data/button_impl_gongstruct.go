@@ -106,6 +106,19 @@ func (buttonImpl *ButtonImplGongstruct) ButtonUpdated(
 			}
 
 		}
+
+		// Booleanfield
+		{
+			formDiv := (&table.FormDiv{
+				Name: "Booleanfield",
+			}).Stage(formStage)
+			formGroup.FormDivs = append(formGroup.FormDivs, formDiv)
+
+			checkBox := (&table.CheckBox{
+				Name: "Booleanfield",
+			}).Stage(formStage)
+			formDiv.CheckBoxs = append(formDiv.CheckBoxs, checkBox)
+		}
 	}
 	formStage.Commit()
 }
