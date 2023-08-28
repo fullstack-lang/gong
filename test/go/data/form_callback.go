@@ -47,8 +47,10 @@ func (astructFormCallback *AstructFormCallback) OnSave() {
 
 			time := formDiv.FormFields[1].FormFieldTime.Value
 			astruct.Date = addTimeComponents(date, time)
+		case "Booleanfield":
+			value := formDiv.CheckBoxs[0].Value
+			astruct.Booleanfield = value
 		}
-
 	}
 
 	astructFormCallback.stageOfInterest.Commit()
