@@ -119,6 +119,43 @@ func (buttonImpl *ButtonImplGongstruct) ButtonUpdated(
 			}).Stage(formStage)
 			formDiv.CheckBoxs = append(formDiv.CheckBoxs, checkBox)
 		}
+
+		// Aenum
+		{
+			formDiv := (&table.FormDiv{
+				Name: "Aenum",
+			}).Stage(formStage)
+			formGroup.FormDivs = append(formGroup.FormDivs, formDiv)
+			formField := (&table.FormField{
+				Name:        "Aenum",
+				Label:       "Aenum",
+				Placeholder: "",
+			}).Stage(formStage)
+			formDiv.FormFields = append(formDiv.FormFields, formField)
+
+			formFieldSelect := (&table.FormFieldSelect{
+				Name: "Name",
+			}).Stage(formStage)
+			formField.FormFieldSelect = formFieldSelect
+
+			formField.FormFieldSelect.Options = make([]*table.Option, 0)
+			{
+				option := (&table.Option{
+					Name: models.ENUM_VAL1.ToString(),
+				}).Stage(formStage)
+
+				formField.FormFieldSelect.Options =
+					append(formField.FormFieldSelect.Options, option)
+			}
+			{
+				option := (&table.Option{
+					Name: models.ENUM_VAL2.ToString(),
+				}).Stage(formStage)
+
+				formField.FormFieldSelect.Options =
+					append(formField.FormFieldSelect.Options, option)
+			}
+		}
 	}
 	formStage.Commit()
 }

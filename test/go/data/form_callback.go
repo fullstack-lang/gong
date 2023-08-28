@@ -50,6 +50,9 @@ func (astructFormCallback *AstructFormCallback) OnSave() {
 		case "Booleanfield":
 			value := formDiv.CheckBoxs[0].Value
 			astruct.Booleanfield = value
+		case "Aenum":
+			value := formDiv.FormFields[0].FormFieldSelect.Value
+			astruct.Aenum = models.AEnumType(value.Name)
 		}
 	}
 
