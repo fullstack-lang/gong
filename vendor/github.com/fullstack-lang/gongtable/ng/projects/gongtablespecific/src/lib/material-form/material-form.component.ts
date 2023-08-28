@@ -216,105 +216,104 @@ export class MaterialFormComponent implements OnInit {
     }
 
     for (let formDiv of this.selectedFormGroup.FormDivs) {
-      if (formDiv.FormFields == undefined) {
-        continue
-      }
-      for (let formField of formDiv.FormFields) {
-        if (formField.FormFieldString) {
-          let formFieldString = formField.FormFieldString
-          let newValue = this.generatedForm.value[formField.Name]
+      if (formDiv.FormFields) {
+        for (let formField of formDiv.FormFields) {
+          if (formField.FormFieldString) {
+            let formFieldString = formField.FormFieldString
+            let newValue = this.generatedForm.value[formField.Name]
 
-          if (newValue != formFieldString.Value) {
+            if (newValue != formFieldString.Value) {
 
-            formFieldString.Value = newValue
-            promises.push(this.formFieldStringService.updateFormFieldString(formFieldString, this.DataStack))
+              formFieldString.Value = newValue
+              promises.push(this.formFieldStringService.updateFormFieldString(formFieldString, this.DataStack))
+            }
           }
-        }
-        if (formField.FormFieldInt) {
-          let formFieldInt = formField.FormFieldInt
-          let newValue: number = +this.generatedForm.value[formField.Name]
+          if (formField.FormFieldInt) {
+            let formFieldInt = formField.FormFieldInt
+            let newValue: number = +this.generatedForm.value[formField.Name]
 
-          if (newValue != formFieldInt.Value) {
+            if (newValue != formFieldInt.Value) {
 
-            formFieldInt.Value = newValue
-            promises.push(this.formFieldIntService.updateFormFieldInt(formFieldInt, this.DataStack))
+              formFieldInt.Value = newValue
+              promises.push(this.formFieldIntService.updateFormFieldInt(formFieldInt, this.DataStack))
+            }
           }
-        }
-        if (formField.FormFieldDate) {
-          // Assume formField is already defined
-          let formFieldDate = formField.FormFieldDate
+          if (formField.FormFieldDate) {
+            // Assume formField is already defined
+            let formFieldDate = formField.FormFieldDate
 
-          let formFieldValue = this.generatedForm.value[formField.Name];
+            let formFieldValue = this.generatedForm.value[formField.Name];
 
-          // 1. Convert to a UTC formatted string and then to a Date object
-          let dateObj = new Date(formFieldValue);
-          let formattedDate = dateObj.toISOString();
-          let dateObject = new Date(formattedDate);
+            // 1. Convert to a UTC formatted string and then to a Date object
+            let dateObj = new Date(formFieldValue);
+            let formattedDate = dateObj.toISOString();
+            let dateObject = new Date(formattedDate);
 
-          console.log(dateObject);
-          console.log(formFieldDate.Value);
+            console.log(dateObject);
+            console.log(formFieldDate.Value);
 
-          // 2. Check if two dates are on the same day
-          let inputDate = new Date(formFieldValue);
-          let comparisonDate = new Date(formFieldDate.Value);
+            // 2. Check if two dates are on the same day
+            let inputDate = new Date(formFieldValue);
+            let comparisonDate = new Date(formFieldDate.Value);
 
-          let isSameDay = (date1: Date, date2: Date) => {
-            return date1.getUTCFullYear() === date2.getUTCFullYear() &&
-              date1.getUTCMonth() === date2.getUTCMonth() &&
-              date1.getUTCDate() === date2.getUTCDate();
-          }
-
-          console.log(isSameDay(inputDate, comparisonDate));
-
-          if (!isSameDay(inputDate, comparisonDate)) {
-            formFieldDate.Value = dateObject;
-            promises.push(this.formFieldDateService.updateFormFieldDate(formFieldDate, this.DataStack))
-          }
-
-        }
-        if (formField.FormFieldTime) {
-          let formFieldTime = formField.FormFieldTime
-
-          const [hours, minutes, seconds] = this.generatedForm.value[formField.Name].split(':').map(Number);
-          const date = new Date("1970-01-01")
-          date.setUTCHours(hours, minutes, seconds);
-          // console.log("date for time", date.toUTCString())
-          // console.log("date for backend time", new Date(formFieldTime.Value).toUTCString())
-
-          if (date.getTime() != new Date(formFieldTime.Value).getTime()) {
-            formFieldTime.Value = date
-            promises.push(this.formFieldTimeService.updateFormFieldTime(formFieldTime, this.DataStack))
-          }
-        }
-        if (formField.FormFieldDateTime) {
-          let formFieldDateTime = formField.FormFieldDateTime
-
-          let newValue = this.generatedForm.value[formField.Name]
-
-          if (newValue != formFieldDateTime.Value) {
-            formFieldDateTime.Value = newValue
-            promises.push(this.formFieldDateTimeService.updateFormFieldDateTime(formFieldDateTime, this.DataStack))
-          }
-        }
-        if (formField.FormFieldSelect) {
-          let newValue = this.generatedForm.value[formField.Name]
-          let formFieldSelect = formField.FormFieldSelect
-
-          if (newValue != formFieldSelect.Value?.Name) {
-            formFieldSelect.Value = newValue
-
-            if (formFieldSelect.Options == undefined) {
-              return
+            let isSameDay = (date1: Date, date2: Date) => {
+              return date1.getUTCFullYear() === date2.getUTCFullYear() &&
+                date1.getUTCMonth() === date2.getUTCMonth() &&
+                date1.getUTCDate() === date2.getUTCDate();
             }
 
-            for (let option of formFieldSelect.Options) {
-              if (option.Name == newValue) {
-                formFieldSelect.Value = option
-                formFieldSelect.ValueID.Int64 = option.ID
+            console.log(isSameDay(inputDate, comparisonDate));
+
+            if (!isSameDay(inputDate, comparisonDate)) {
+              formFieldDate.Value = dateObject;
+              promises.push(this.formFieldDateService.updateFormFieldDate(formFieldDate, this.DataStack))
+            }
+
+          }
+          if (formField.FormFieldTime) {
+            let formFieldTime = formField.FormFieldTime
+
+            const [hours, minutes, seconds] = this.generatedForm.value[formField.Name].split(':').map(Number);
+            const date = new Date("1970-01-01")
+            date.setUTCHours(hours, minutes, seconds);
+            // console.log("date for time", date.toUTCString())
+            // console.log("date for backend time", new Date(formFieldTime.Value).toUTCString())
+
+            if (date.getTime() != new Date(formFieldTime.Value).getTime()) {
+              formFieldTime.Value = date
+              promises.push(this.formFieldTimeService.updateFormFieldTime(formFieldTime, this.DataStack))
+            }
+          }
+          if (formField.FormFieldDateTime) {
+            let formFieldDateTime = formField.FormFieldDateTime
+
+            let newValue = this.generatedForm.value[formField.Name]
+
+            if (newValue != formFieldDateTime.Value) {
+              formFieldDateTime.Value = newValue
+              promises.push(this.formFieldDateTimeService.updateFormFieldDateTime(formFieldDateTime, this.DataStack))
+            }
+          }
+          if (formField.FormFieldSelect) {
+            let newValue = this.generatedForm.value[formField.Name]
+            let formFieldSelect = formField.FormFieldSelect
+
+            if (newValue != formFieldSelect.Value?.Name) {
+              formFieldSelect.Value = newValue
+
+              if (formFieldSelect.Options == undefined) {
+                return
               }
-            }
 
-            promises.push(this.formFieldSelectService.updateFormFieldSelect(formFieldSelect, this.DataStack))
+              for (let option of formFieldSelect.Options) {
+                if (option.Name == newValue) {
+                  formFieldSelect.Value = option
+                  formFieldSelect.ValueID.Int64 = option.ID
+                }
+              }
+
+              promises.push(this.formFieldSelectService.updateFormFieldSelect(formFieldSelect, this.DataStack))
+            }
           }
         }
       }
