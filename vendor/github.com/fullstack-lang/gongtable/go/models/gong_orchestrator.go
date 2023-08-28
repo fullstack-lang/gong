@@ -22,6 +22,16 @@ func (orchestrator *FormEditAssocButtonOrchestrator) OnAfterUpdate(
 
 	stagedFormEditAssocButton.OnAfterUpdate(gongsvgStage, stagedFormEditAssocButton, backRepoFormEditAssocButton)
 }
+// FormGroupOrchestrator
+type FormGroupOrchestrator struct {
+}
+
+func (orchestrator *FormGroupOrchestrator) OnAfterUpdate(
+	gongsvgStage *StageStruct,
+	stagedFormGroup, backRepoFormGroup *FormGroup) {
+
+	stagedFormGroup.OnAfterUpdate(gongsvgStage, stagedFormGroup, backRepoFormGroup)
+}
 // FormSortAssocButtonOrchestrator
 type FormSortAssocButtonOrchestrator struct {
 }
@@ -53,6 +63,8 @@ func SetOrchestratorOnAfterUpdate[Type Gongstruct](stage *StageStruct) {
 		stage.OnAfterCellIconUpdateCallback = new(CellIconOrchestrator)
 	case FormEditAssocButton:
 		stage.OnAfterFormEditAssocButtonUpdateCallback = new(FormEditAssocButtonOrchestrator)
+	case FormGroup:
+		stage.OnAfterFormGroupUpdateCallback = new(FormGroupOrchestrator)
 	case FormSortAssocButton:
 		stage.OnAfterFormSortAssocButtonUpdateCallback = new(FormSortAssocButtonOrchestrator)
 	case Row:

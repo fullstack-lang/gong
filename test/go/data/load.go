@@ -47,8 +47,6 @@ func Load(
 	_ = backRepoForForm
 	formStage.Commit()
 
-	formStage.OnInitCommitFromFrontCallback = NewAstructFormCallback(stageOfInterest)
-
 	// create tree
 	treeOfGongStructs := (&gongtree_models.Tree{Name: "gong"}).Stage(stageForSidebarTree)
 
@@ -80,6 +78,7 @@ func Load(
 			gongStruct,
 			gongtree_buttons.BUTTON_add,
 			formStage,
+			stageOfInterest,
 		)
 
 		treeOfGongStructs.RootNodes = append(treeOfGongStructs.RootNodes, nodeGongstruct)
