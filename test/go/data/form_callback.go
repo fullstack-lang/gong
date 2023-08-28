@@ -52,7 +52,9 @@ func (astructFormCallback *AstructFormCallback) OnSave() {
 			astruct.Booleanfield = value
 		case "Aenum":
 			value := formDiv.FormFields[0].FormFieldSelect.Value
-			astruct.Aenum = models.AEnumType(value.Name)
+			if err := (&astruct.Aenum).FromString(value.GetName()); err != nil {
+				log.Fatalln("Unkwnown enum value", value.GetName())
+			}
 		}
 	}
 
