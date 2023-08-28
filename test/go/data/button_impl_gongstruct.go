@@ -8,24 +8,29 @@ import (
 	table "github.com/fullstack-lang/gongtable/go/models"
 	gongtree_buttons "github.com/fullstack-lang/gongtree/go/buttons"
 	gongtree_models "github.com/fullstack-lang/gongtree/go/models"
+
+	"github.com/fullstack-lang/gong/test/go/models"
 )
 
 type ButtonImplGongstruct struct {
-	gongStruct *gong_models.GongStruct
-	Icon       gongtree_buttons.ButtonType
-	formStage  *table.StageStruct
+	gongStruct      *gong_models.GongStruct
+	Icon            gongtree_buttons.ButtonType
+	formStage       *table.StageStruct
+	stageOfInterest *models.StageStruct
 }
 
 func NewButtonImplGongstruct(
 	gongStruct *gong_models.GongStruct,
 	icon gongtree_buttons.ButtonType,
 	formStage *table.StageStruct,
+	stageOfInterest *models.StageStruct,
 ) (buttonImplGongstruct *ButtonImplGongstruct) {
 
 	buttonImplGongstruct = new(ButtonImplGongstruct)
 	buttonImplGongstruct.Icon = icon
 	buttonImplGongstruct.gongStruct = gongStruct
 	buttonImplGongstruct.formStage = formStage
+	buttonImplGongstruct.stageOfInterest = stageOfInterest
 
 	return
 }
@@ -41,7 +46,8 @@ func (buttonImpl *ButtonImplGongstruct) ButtonUpdated(
 	formStage.Commit()
 
 	formGroup := (&table.FormGroup{
-		Name: table.FormGroupDefaultName.ToString(),
+		Name:   table.FormGroupDefaultName.ToString(),
+		OnSave: NewAstructFormCallback(buttonImpl.stageOfInterest, formStage),
 	}).Stage(formStage)
 
 	switch buttonImpl.gongStruct.Name {
