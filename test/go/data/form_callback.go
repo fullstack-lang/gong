@@ -4,35 +4,44 @@ import (
 	"log"
 	"time"
 
-	"github.com/fullstack-lang/gong/test/go/models"
 	table "github.com/fullstack-lang/gongtable/go/models"
+
+	"github.com/fullstack-lang/gong/test/go/models"
 )
 
 func NewAstructFormCallback(
 	stageOfInterest *models.StageStruct,
+	formStage *table.StageStruct,
 ) (astructFormCallback *AstructFormCallback) {
 	astructFormCallback = new(AstructFormCallback)
 	astructFormCallback.stageOfInterest = stageOfInterest
+	astructFormCallback.formStage = formStage
 	return
 }
 
 type AstructFormCallback struct {
 	stageOfInterest *models.StageStruct
+	formStage       *table.StageStruct
 }
 
-func (astructFormCallback *AstructFormCallback) BeforeCommit(formStage *table.StageStruct) {
+func (astructFormCallback *AstructFormCallback) OnSave() {
 
-	log.Println("AstructFormCallback, BeforeCommit")
+	log.Println("AstructFormCallback, OnSave")
+
+	// checkout formStage to have the form group on the stage synchronized with the
+	// back repo (and front repo)
+	astructFormCallback.formStage.Checkout()
 
 	astruct := new(models.Astruct).Stage(astructFormCallback.stageOfInterest)
 
 	// get the formGroup
-	formGroup := formStage.FormGroups_mapString[table.FormGroupDefaultName.ToString()]
+	formGroup := astructFormCallback.formStage.FormGroups_mapString[table.FormGroupDefaultName.ToString()]
 
 	for _, formDiv := range formGroup.FormDivs {
 		switch formDiv.Name {
 		case "Name":
-			astruct.Name = formDiv.FormFields[0].FormFieldString.Value
+			newValue := formDiv.FormFields[0].FormFieldString.Value
+			astruct.Name = newValue
 		case "Date":
 			date := formDiv.FormFields[0].FormFieldDate.Value
 

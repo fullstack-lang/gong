@@ -1,5 +1,5 @@
 import { Component, Inject, Input, OnInit } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { Subscription, forkJoin } from 'rxjs';
 
 import * as gongtable from 'gongtable'
 
@@ -199,7 +199,8 @@ export class MaterialFormComponent implements OnInit {
 
   submitForm() {
 
-    let nbFieldsModified = 0
+    const promises = []
+
 
     if (this.generatedForm == undefined) {
       return
@@ -224,13 +225,9 @@ export class MaterialFormComponent implements OnInit {
           let newValue = this.generatedForm.value[formField.Name]
 
           if (newValue != formFieldString.Value) {
-            nbFieldsModified++
+
             formFieldString.Value = newValue
-            this.formFieldStringService.updateFormFieldString(formFieldString, this.DataStack).subscribe(
-              () => {
-                console.log("String Form Field updated")
-              }
-            )
+            promises.push(this.formFieldStringService.updateFormFieldString(formFieldString, this.DataStack))
           }
         }
         if (formField.FormFieldInt) {
@@ -238,13 +235,9 @@ export class MaterialFormComponent implements OnInit {
           let newValue: number = +this.generatedForm.value[formField.Name]
 
           if (newValue != formFieldInt.Value) {
-            nbFieldsModified++
+
             formFieldInt.Value = newValue
-            this.formFieldIntService.updateFormFieldInt(formFieldInt, this.DataStack).subscribe(
-              () => {
-                console.log("Int Form Field updated")
-              }
-            )
+            promises.push(this.formFieldIntService.updateFormFieldInt(formFieldInt, this.DataStack))
           }
         }
         if (formField.FormFieldDate) {
@@ -274,11 +267,8 @@ export class MaterialFormComponent implements OnInit {
           console.log(isSameDay(inputDate, comparisonDate));
 
           if (!isSameDay(inputDate, comparisonDate)) {
-            nbFieldsModified++
             formFieldDate.Value = dateObject;
-            this.formFieldDateService.updateFormFieldDate(formFieldDate, this.DataStack).subscribe(() => {
-              console.log("Date Form Field updated");
-            });
+            promises.push(this.formFieldDateService.updateFormFieldDate(formFieldDate, this.DataStack))
           }
 
         }
@@ -292,13 +282,8 @@ export class MaterialFormComponent implements OnInit {
           // console.log("date for backend time", new Date(formFieldTime.Value).toUTCString())
 
           if (date.getTime() != new Date(formFieldTime.Value).getTime()) {
-            nbFieldsModified++
             formFieldTime.Value = date
-            this.formFieldTimeService.updateFormFieldTime(formFieldTime, this.DataStack).subscribe(
-              () => {
-                console.log("Time Form Field updated")
-              }
-            )
+            promises.push(this.formFieldTimeService.updateFormFieldTime(formFieldTime, this.DataStack))
           }
         }
         if (formField.FormFieldDateTime) {
@@ -307,13 +292,8 @@ export class MaterialFormComponent implements OnInit {
           let newValue = this.generatedForm.value[formField.Name]
 
           if (newValue != formFieldDateTime.Value) {
-            nbFieldsModified++
             formFieldDateTime.Value = newValue
-            this.formFieldDateTimeService.updateFormFieldDateTime(formFieldDateTime, this.DataStack).subscribe(
-              () => {
-                console.log("Date Time Form Field updated")
-              }
-            )
+            promises.push(this.formFieldDateTimeService.updateFormFieldDateTime(formFieldDateTime, this.DataStack))
           }
         }
         if (formField.FormFieldSelect) {
@@ -334,15 +314,7 @@ export class MaterialFormComponent implements OnInit {
               }
             }
 
-            let options = formFieldSelect.Options
-
-            nbFieldsModified++
-            this.formFieldSelectService.updateFormFieldSelect(formFieldSelect, this.DataStack).subscribe(
-              () => {
-                console.log("Select Form Field updated")
-                formFieldSelect.Options = options
-              }
-            )
+            promises.push(this.formFieldSelectService.updateFormFieldSelect(formFieldSelect, this.DataStack))
           }
         }
       }
@@ -350,27 +322,35 @@ export class MaterialFormComponent implements OnInit {
         for (let checkBox of formDiv.CheckBoxs) {
           let newValue = this.generatedForm.value[checkBox.Name] as boolean
           if (newValue != checkBox.Value) {
-            nbFieldsModified++
             checkBox.Value = newValue
-            this.checkBoxService.updateCheckBox(checkBox, this.DataStack).subscribe(
-              () => {
-                console.log("Boolean Field updated")
-              }
-            )
+            promises.push(this.checkBoxService.updateCheckBox(checkBox, this.DataStack))
           }
         }
       }
     }
 
-    // if no field has been modified, it is important to notice the back end
-    if (nbFieldsModified == 0) {
-      let divs = this.selectedFormGroup.FormDivs
-      this.formGroupService.updateFormGroup(this.selectedFormGroup, this.DataStack).subscribe(
+    // wait till all promises are completed to update the form group itself
+    forkJoin(promises).subscribe(
+      () => {
+        this.formGroupService.updateFormGroup(this.selectedFormGroup!, this.DataStack).subscribe(
+          () => {
+
+            // a refresh is necessary to redeem all associations
+            this.refresh()
+          }
+        )
+      }
+    )
+
+    if (promises.length == 0) {
+      this.formGroupService.updateFormGroup(this.selectedFormGroup!, this.DataStack).subscribe(
         () => {
-          this.selectedFormGroup!.FormDivs = divs
+          // a refresh is necessary to redeem all associations
+          this.refresh()
         }
       )
     }
+
   }
 
   openTableAssociation(fieldName: string) {
