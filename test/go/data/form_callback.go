@@ -66,6 +66,17 @@ func (astructFormCallback *AstructFormCallback) OnSave() {
 		case "Intfield":
 			newValue := formDiv.FormFields[0].FormFieldInt.Value
 			astruct.Intfield = newValue
+		case "Duration1":
+			hours := formDiv.FormFields[0].FormFieldInt.Value
+			astruct.Intfield = hours
+			minutes := formDiv.FormFields[1].FormFieldInt.Value
+			astruct.Intfield = minutes
+			seconds := formDiv.FormFields[2].FormFieldInt.Value
+			astruct.Intfield = seconds
+
+			astruct.Duration1 = time.Duration(hours)*time.Hour +
+				time.Duration(minutes)*time.Minute +
+				time.Duration(seconds)*time.Second
 		}
 	}
 
