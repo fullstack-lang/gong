@@ -5,7 +5,7 @@ import (
 	"log"
 
 	gong_models "github.com/fullstack-lang/gong/go/models"
-	table "github.com/fullstack-lang/gongtable/go/models"
+	form "github.com/fullstack-lang/gongtable/go/models"
 	gongtree_buttons "github.com/fullstack-lang/gongtree/go/buttons"
 	gongtree_models "github.com/fullstack-lang/gongtree/go/models"
 
@@ -15,14 +15,14 @@ import (
 type ButtonImplGongstruct struct {
 	gongStruct      *gong_models.GongStruct
 	Icon            gongtree_buttons.ButtonType
-	formStage       *table.StageStruct
+	formStage       *form.StageStruct
 	stageOfInterest *models.StageStruct
 }
 
 func NewButtonImplGongstruct(
 	gongStruct *gong_models.GongStruct,
 	icon gongtree_buttons.ButtonType,
-	formStage *table.StageStruct,
+	formStage *form.StageStruct,
 	stageOfInterest *models.StageStruct,
 ) (buttonImplGongstruct *ButtonImplGongstruct) {
 
@@ -45,8 +45,8 @@ func (buttonImpl *ButtonImplGongstruct) ButtonUpdated(
 	formStage.Reset()
 	formStage.Commit()
 
-	formGroup := (&table.FormGroup{
-		Name:   table.FormGroupDefaultName.ToString(),
+	formGroup := (&form.FormGroup{
+		Name:   form.FormGroupDefaultName.ToString(),
 		OnSave: NewAstructFormCallback(buttonImpl.stageOfInterest, formStage),
 	}).Stage(formStage)
 
@@ -55,18 +55,18 @@ func (buttonImpl *ButtonImplGongstruct) ButtonUpdated(
 
 		// Name field
 		{
-			formDiv := (&table.FormDiv{
+			formDiv := (&form.FormDiv{
 				Name: "Name",
 			}).Stage(formStage)
 			formGroup.FormDivs = append(formGroup.FormDivs, formDiv)
-			formField := (&table.FormField{
+			formField := (&form.FormField{
 				Name:        "Name",
 				Label:       "Name",
 				Placeholder: "Astruct",
 			}).Stage(formStage)
 			formDiv.FormFields = append(formDiv.FormFields, formField)
 
-			formFieldString := (&table.FormFieldString{
+			formFieldString := (&form.FormFieldString{
 				Name: "Name",
 			}).Stage(formStage)
 			formField.FormFieldString = formFieldString
@@ -74,32 +74,32 @@ func (buttonImpl *ButtonImplGongstruct) ButtonUpdated(
 
 		// Date field
 		{
-			formDiv := (&table.FormDiv{
+			formDiv := (&form.FormDiv{
 				Name: "Date",
 			}).Stage(formStage)
 			formGroup.FormDivs = append(formGroup.FormDivs, formDiv)
 			{
-				formFieldPartDate := (&table.FormField{
+				formFieldPartDate := (&form.FormField{
 					Name:        "Date",
 					Label:       "Date",
 					Placeholder: "",
 				}).Stage(formStage)
 				formDiv.FormFields = append(formDiv.FormFields, formFieldPartDate)
 
-				formFieldDate := (&table.FormFieldDate{
+				formFieldDate := (&form.FormFieldDate{
 					Name: "Date",
 				}).Stage(formStage)
 				formFieldPartDate.FormFieldDate = formFieldDate
 			}
 			{
-				formFieldPartTime := (&table.FormField{
+				formFieldPartTime := (&form.FormField{
 					Name:        "Time",
 					Label:       "Time",
 					Placeholder: "",
 				}).Stage(formStage)
 				formDiv.FormFields = append(formDiv.FormFields, formFieldPartTime)
 
-				formFieldTime := (&table.FormFieldTime{
+				formFieldTime := (&form.FormFieldTime{
 					Name: "Time",
 				}).Stage(formStage)
 				formFieldPartTime.FormFieldTime = formFieldTime
@@ -109,12 +109,12 @@ func (buttonImpl *ButtonImplGongstruct) ButtonUpdated(
 
 		// Booleanfield
 		{
-			formDiv := (&table.FormDiv{
+			formDiv := (&form.FormDiv{
 				Name: "Booleanfield",
 			}).Stage(formStage)
 			formGroup.FormDivs = append(formGroup.FormDivs, formDiv)
 
-			checkBox := (&table.CheckBox{
+			checkBox := (&form.CheckBox{
 				Name: "Booleanfield",
 			}).Stage(formStage)
 			formDiv.CheckBoxs = append(formDiv.CheckBoxs, checkBox)
@@ -122,25 +122,25 @@ func (buttonImpl *ButtonImplGongstruct) ButtonUpdated(
 
 		// Aenum
 		{
-			formDiv := (&table.FormDiv{
+			formDiv := (&form.FormDiv{
 				Name: "Aenum",
 			}).Stage(formStage)
 			formGroup.FormDivs = append(formGroup.FormDivs, formDiv)
-			formField := (&table.FormField{
+			formField := (&form.FormField{
 				Name:        "Aenum",
 				Label:       "Aenum",
 				Placeholder: "",
 			}).Stage(formStage)
 			formDiv.FormFields = append(formDiv.FormFields, formField)
 
-			formFieldSelect := (&table.FormFieldSelect{
+			formFieldSelect := (&form.FormFieldSelect{
 				Name: "Aenum",
 			}).Stage(formStage)
 			formField.FormFieldSelect = formFieldSelect
 
-			formField.FormFieldSelect.Options = make([]*table.Option, 0)
+			formField.FormFieldSelect.Options = make([]*form.Option, 0)
 			{
-				option := (&table.Option{
+				option := (&form.Option{
 					Name: models.ENUM_VAL1.ToString(),
 				}).Stage(formStage)
 
@@ -148,7 +148,7 @@ func (buttonImpl *ButtonImplGongstruct) ButtonUpdated(
 					append(formField.FormFieldSelect.Options, option)
 			}
 			{
-				option := (&table.Option{
+				option := (&form.Option{
 					Name: models.ENUM_VAL2.ToString(),
 				}).Stage(formStage)
 
@@ -159,25 +159,25 @@ func (buttonImpl *ButtonImplGongstruct) ButtonUpdated(
 
 		// Cenum
 		{
-			formDiv := (&table.FormDiv{
+			formDiv := (&form.FormDiv{
 				Name: "Cenum",
 			}).Stage(formStage)
 			formGroup.FormDivs = append(formGroup.FormDivs, formDiv)
-			formField := (&table.FormField{
+			formField := (&form.FormField{
 				Name:        "Cenum",
 				Label:       "Cenum",
 				Placeholder: "",
 			}).Stage(formStage)
 			formDiv.FormFields = append(formDiv.FormFields, formField)
 
-			formFieldSelect := (&table.FormFieldSelect{
+			formFieldSelect := (&form.FormFieldSelect{
 				Name: "Cenum",
 			}).Stage(formStage)
 			formField.FormFieldSelect = formFieldSelect
 
-			formField.FormFieldSelect.Options = make([]*table.Option, 0)
+			formField.FormFieldSelect.Options = make([]*form.Option, 0)
 			{
-				option := (&table.Option{
+				option := (&form.Option{
 					Name: "CENUM_VAL1",
 				}).Stage(formStage)
 
@@ -185,7 +185,7 @@ func (buttonImpl *ButtonImplGongstruct) ButtonUpdated(
 					append(formField.FormFieldSelect.Options, option)
 			}
 			{
-				option := (&table.Option{
+				option := (&form.Option{
 					Name: "CENUM_VAL2",
 				}).Stage(formStage)
 
@@ -196,22 +196,64 @@ func (buttonImpl *ButtonImplGongstruct) ButtonUpdated(
 
 		// Intfield
 		{
-			formDiv := (&table.FormDiv{
+			formDiv := (&form.FormDiv{
 				Name: "Intfield",
 			}).Stage(formStage)
 			formGroup.FormDivs = append(formGroup.FormDivs, formDiv)
-			formField := (&table.FormField{
+			formField := (&form.FormField{
 				Name:  "Intfield",
 				Label: "Intfield",
 			}).Stage(formStage)
 			formDiv.FormFields = append(formDiv.FormFields, formField)
 
-			formFieldInt := (&table.FormFieldInt{
+			formFieldInt := (&form.FormFieldInt{
 				Name: "Intfield",
 			}).Stage(formStage)
 			formField.FormFieldInt = formFieldInt
 		}
 
+		// Duration
+		{
+			formDiv := (&form.FormDiv{
+				Name: "Duration1",
+			}).Stage(formStage)
+			formGroup.FormDivs = append(formGroup.FormDivs, formDiv)
+
+			{
+				formFieldHours := (&form.FormField{
+					Name:  "Hours",
+					Label: "Hours",
+				}).Stage(formStage)
+				formDiv.FormFields = append(formDiv.FormFields, formFieldHours)
+				formFieldIntHours := (&form.FormFieldInt{
+					Name: "Hours",
+				}).Stage(formStage)
+				formFieldHours.FormFieldInt = formFieldIntHours
+			}
+
+			{
+				formFieldMinutes := (&form.FormField{
+					Name:  "Minutes",
+					Label: "Minutes",
+				}).Stage(formStage)
+				formDiv.FormFields = append(formDiv.FormFields, formFieldMinutes)
+				formFieldIntMinutes := (&form.FormFieldInt{
+					Name: "Minutes",
+				}).Stage(formStage)
+				formFieldMinutes.FormFieldInt = formFieldIntMinutes
+			}
+			{
+				formFieldSeconds := (&form.FormField{
+					Name:  "Seconds",
+					Label: "Seconds",
+				}).Stage(formStage)
+				formDiv.FormFields = append(formDiv.FormFields, formFieldSeconds)
+				formFieldIntSeconds := (&form.FormFieldInt{
+					Name: "Seconds",
+				}).Stage(formStage)
+				formFieldSeconds.FormFieldInt = formFieldIntSeconds
+			}
+		}
 	}
 	formStage.Commit()
 }
