@@ -51,9 +51,17 @@ func (astructFormCallback *AstructFormCallback) OnSave() {
 			value := formDiv.CheckBoxs[0].Value
 			astruct.Booleanfield = value
 		case "Aenum":
-			value := formDiv.FormFields[0].FormFieldSelect.Value
-			if err := (&astruct.Aenum).FromString(value.GetName()); err != nil {
-				log.Fatalln("Unkwnown enum value", value.GetName())
+			if value := formDiv.FormFields[0].FormFieldSelect.Value; value != nil {
+				if err := (&astruct.Aenum).FromString(value.GetName()); err != nil {
+					log.Println("Unkwnown enum value", value.GetName())
+				}
+			}
+		case "Cenum":
+			if value := formDiv.FormFields[0].FormFieldSelect.Value; value != nil {
+				if err := (&astruct.CEnum).FromCodeString(value.GetName()); err != nil {
+					log.Println("Unkwnown enum value", value.GetName())
+				}
+
 			}
 		}
 	}
