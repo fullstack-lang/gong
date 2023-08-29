@@ -193,6 +193,25 @@ func (buttonImpl *ButtonImplGongstruct) ButtonUpdated(
 					append(formField.FormFieldSelect.Options, option)
 			}
 		}
+
+		// Intfield
+		{
+			formDiv := (&table.FormDiv{
+				Name: "Intfield",
+			}).Stage(formStage)
+			formGroup.FormDivs = append(formGroup.FormDivs, formDiv)
+			formField := (&table.FormField{
+				Name:  "Intfield",
+				Label: "Intfield",
+			}).Stage(formStage)
+			formDiv.FormFields = append(formDiv.FormFields, formField)
+
+			formFieldInt := (&table.FormFieldInt{
+				Name: "Intfield",
+			}).Stage(formStage)
+			formField.FormFieldInt = formFieldInt
+		}
+
 	}
 	formStage.Commit()
 }

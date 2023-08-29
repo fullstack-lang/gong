@@ -63,6 +63,9 @@ func (astructFormCallback *AstructFormCallback) OnSave() {
 				}
 
 			}
+		case "Intfield":
+			newValue := formDiv.FormFields[0].FormFieldInt.Value
+			astruct.Intfield = newValue
 		}
 	}
 
