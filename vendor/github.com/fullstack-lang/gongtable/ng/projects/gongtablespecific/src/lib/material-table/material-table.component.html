@@ -1,10 +1,9 @@
-<section class="container mat-elevation-z8" tabindex="0">
-
+<section *ngIf="selectedTable" class="container mat-elevation-z8" tabindex="0">
     <!-- <input [formControl]="filterControl" placeholder="Filter"> -->
-    <div *ngIf="selectedTable?.HasFiltering || selectedTable?.HasSaveButton || selectedTable?.HasCloseButton" class="toolbar">
+    <div *ngIf="selectedTable.HasFiltering || selectedTable.HasSaveButton || selectedTable.HasCloseButton" class="toolbar">
         <div class="left-toolbar">
             <!-- Filter -->
-            <mat-form-field *ngIf="selectedTable?.HasFiltering">
+            <mat-form-field *ngIf="selectedTable.HasFiltering">
                 <mat-label>Filter</mat-label>
                 <input matInput (keyup)="applyFilter($event)" placeholder="Ex. ium" #input>
             </mat-form-field>
@@ -12,17 +11,17 @@
 
         <div class="center-toolbar">
             <!-- Save Button -->
-            <button class="table__save" mat-button *ngIf="selectedTable?.HasSaveButton" (click)="save()">
+            <button class="table__save" mat-button *ngIf="selectedTable.HasSaveButton" (click)="save()">
                 Save
             </button>
-            <button class="table__save" mat-button *ngIf="selectedTable?.HasCloseButton" (click)="close()">
+            <button class="table__save" mat-button *ngIf="selectedTable.HasCloseButton" (click)="close()">
                 Close
             </button>
         </div>
 
         <div class="right-toolbar">
             <!-- Paginator -->
-            <mat-paginator *ngIf="selectedTable?.HasPaginator" [pageSizeOptions]="[50, 100, 500, 1000]" showFirstLastButtons></mat-paginator>
+            <mat-paginator *ngIf="selectedTable.HasPaginator" [pageSizeOptions]="[50, 100, 500, 1000]" showFirstLastButtons></mat-paginator>
         </div>
     </div>
     <!-- Main table element. 
@@ -31,12 +30,12 @@
      The mat-elevation-z8 class applies a box-shadow (elevation). -->
     <table mat-table [dataSource]="dataSource" class="table mat-elevation-z8" cdkDropList (cdkDropListDropped)="drop($event)" matSort>
 
-        <ng-container *ngIf="selectedTable?.HasCheckableRows" matColumnDef="select">
-            <th mat-header-cell *matHeaderCellDef class="sticky">
+        <ng-container *ngIf="selectedTable.HasCheckableRows" matColumnDef="select" sticky>
+            <th mat-header-cell *matHeaderCellDef>
                 <mat-checkbox (change)="$event ? masterToggle() : null" [checked]="selection.hasValue() && isAllSelected()" [indeterminate]="selection.hasValue() && !isAllSelected()">
                 </mat-checkbox>
             </th>
-            <td mat-cell *matCellDef="let row" class="sticky">
+            <td mat-cell *matCellDef="let row">
                 <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(row) : null" [checked]="selection.isSelected(row)">
                 </mat-checkbox>
             </td>
@@ -52,37 +51,41 @@
         column in the table. This means it's setting a template for each column, which includes the header 
         cell and the data cell definitions.
          -->
-        <ng-container [matColumnDef]="column" *ngFor="let column of displayedColumns; let i = index">
-            <!-- Header cell for each column. 
+        <ng-container *ngFor="let column of displayedColumns; let i = index">
+            <ng-container [matColumnDef]="column" [sticky]="i < this.selectedTable.NbOfStickyColumns">
+
+                <!-- Header cell for each column. 
             The mat-header-cell directive applies Angular Material styling. 
             The *matHeaderCellDef directive specifies that this is a header cell.
             {{ column }} will display the name of the column. -->
-            <th mat-header-cell *matHeaderCellDef mat-sort-header [disabled]="!selectedTable?.HasColumnSorting" [ngClass]="{'sticky': i < selectedTable?.NbOfStickyColumns!}">{{
-                column }}</th>
+                <th mat-header-cell *matHeaderCellDef mat-sort-header [disabled]="selectedTable.HasColumnSorting">{{
+                    column }}</th>
 
-            <!-- Data cell for each row in each column.
+                <!-- Data cell for each row in each column.
             The mat-cell directive applies Angular Material styling.
             The *matCellDef directive defines a cell for each row, with the row stored in the element variable.
             {{ element[column] }} will display the data in this cell for the current row. -->
-            <td mat-cell *matCellDef="let element" [ngClass]="{'sticky': i < selectedTable?.NbOfStickyColumns!}">
-                <ng-container *ngIf="element.Cells[i]?.CellString">
-                    {{ element.Cells[i].CellString.Value }}
-                </ng-container>
-                <ng-container *ngIf="element.Cells[i]?.CellInt">
-                    {{ element.Cells[i].CellInt.Value }}
-                </ng-container>
-                <ng-container *ngIf="element.Cells[i]?.CellFloat64">
-                    {{ element.Cells[i].CellFloat64.Value }}
-                </ng-container>
-                <ng-container *ngIf="element.Cells[i]?.CellBool">
-                    <mat-checkbox [checked]="element.Cells[i].CellBool.Value" disabled=true></mat-checkbox>
-                </ng-container>
-                <ng-container *ngIf="element.Cells[i]?.CellIcon">
-                    <i class="material-icons my-button" [ngStyle]="{'color':'rgba(0,0,0,.50)'}">{{
-                        element.Cells[i].CellIcon.Icon }}</i>
-                </ng-container>
-            </td>
+                <td mat-cell *matCellDef="let element">
+                    <ng-container *ngIf="element.Cells[i]?.CellString">
+                        {{ element.Cells[i].CellString.Value }}
+                    </ng-container>
+                    <ng-container *ngIf="element.Cells[i]?.CellInt">
+                        {{ element.Cells[i].CellInt.Value }}
+                    </ng-container>
+                    <ng-container *ngIf="element.Cells[i]?.CellFloat64">
+                        {{ element.Cells[i].CellFloat64.Value }}
+                    </ng-container>
+                    <ng-container *ngIf="element.Cells[i]?.CellBool">
+                        <mat-checkbox [checked]="element.Cells[i].CellBool.Value" disabled=true></mat-checkbox>
+                    </ng-container>
+                    <ng-container *ngIf="element.Cells[i]?.CellIcon">
+                        <i class="material-icons my-button" [ngStyle]="{'color':'rgba(0,0,0,.50)'}">{{
+                            element.Cells[i].CellIcon.Icon }}</i>
+                    </ng-container>
+                </td>
+            </ng-container>
         </ng-container>
+
 
         <!-- Header row. 
             The mat-header-row directive applies Angular Material styling.
@@ -92,6 +95,6 @@
         <!-- Data row for each row in dataSource.
              The mat-row directive applies Angular Material styling.
              The *matRowDef directive defines a row for each row object in dataSource and sets its columns. -->
-        <tr mat-row *matRowDef="let row; columns: allDisplayedColumns" (click)="onClick( row.Table_RowsDBID_Index.Int64 )" cdkDrag [cdkDragDisabled]="!selectedTable?.CanDragDropRows"></tr>
+        <tr mat-row *matRowDef="let row; columns: allDisplayedColumns" (click)="onClick( row.Table_RowsDBID_Index.Int64 )" cdkDrag [cdkDragDisabled]="!selectedTable.CanDragDropRows"></tr>
     </table>
 </section>
