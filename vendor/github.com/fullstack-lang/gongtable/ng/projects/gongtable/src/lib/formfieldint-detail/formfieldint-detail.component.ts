@@ -33,6 +33,8 @@ enum FormFieldIntDetailComponentState {
 export class FormFieldIntDetailComponent implements OnInit {
 
 	// insertion point for declarations
+	HasMinValidatorFormControl: UntypedFormControl = new UntypedFormControl(false);
+	HasMaxValidatorFormControl: UntypedFormControl = new UntypedFormControl(false);
 
 	// the FormFieldIntDB of interest
 	formfieldint: FormFieldIntDB = new FormFieldIntDB
@@ -133,6 +135,8 @@ export class FormFieldIntDetailComponent implements OnInit {
 				}
 
 				// insertion point for recovery of form controls value for bool fields
+				this.HasMinValidatorFormControl.setValue(this.formfieldint.HasMinValidator)
+				this.HasMaxValidatorFormControl.setValue(this.formfieldint.HasMaxValidator)
 			}
 		)
 
@@ -145,6 +149,8 @@ export class FormFieldIntDetailComponent implements OnInit {
 		// pointers fields, after the translation, are nulled in order to perform serialization
 
 		// insertion point for translation/nullation of each field
+		this.formfieldint.HasMinValidator = this.HasMinValidatorFormControl.value
+		this.formfieldint.HasMaxValidator = this.HasMaxValidatorFormControl.value
 
 		// save from the front pointer space to the non pointer space for serialization
 
