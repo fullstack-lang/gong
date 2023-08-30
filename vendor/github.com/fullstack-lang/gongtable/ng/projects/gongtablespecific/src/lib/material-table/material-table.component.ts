@@ -431,4 +431,19 @@ export class MaterialTableComponent implements OnInit {
       }
     )
   }
+
+  getDynamicStyles(columnIndex: number): { [key: string]: any } {
+    const styles: { [key: string]: any } = {} // Explicitly define the type here 
+    if (this.selectedTable == undefined) {
+      return styles
+    }
+
+    if (columnIndex <= this.selectedTable.NbOfStickyColumns) {
+      styles['position'] = 'sticky'
+      return styles
+    }
+
+
+    return styles
+  }
 }
