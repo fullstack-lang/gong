@@ -14,6 +14,10 @@ export class FormFieldIntDB {
 	// insertion point for basic fields declarations
 	Name: string = ""
 	Value: number = 0
+	HasMinValidator: boolean = false
+	MinValue: number = 0
+	HasMaxValidator: boolean = false
+	MaxValue: number = 0
 
 	// insertion point for other declarations
 }

@@ -63,6 +63,20 @@ type FormFieldFloat64DB struct {
 
 	// Declation for basic field formfieldfloat64DB.Value
 	Value_Data sql.NullFloat64
+
+	// Declation for basic field formfieldfloat64DB.HasMinValidator
+	// provide the sql storage for the boolan
+	HasMinValidator_Data sql.NullBool
+
+	// Declation for basic field formfieldfloat64DB.MinValue
+	MinValue_Data sql.NullFloat64
+
+	// Declation for basic field formfieldfloat64DB.HasMaxValidator
+	// provide the sql storage for the boolan
+	HasMaxValidator_Data sql.NullBool
+
+	// Declation for basic field formfieldfloat64DB.MaxValue
+	MaxValue_Data sql.NullFloat64
 	// encoding of pointers
 	FormFieldFloat64PointersEnconding
 }
@@ -87,6 +101,14 @@ type FormFieldFloat64WOP struct {
 	Name string `xlsx:"1"`
 
 	Value float64 `xlsx:"2"`
+
+	HasMinValidator bool `xlsx:"3"`
+
+	MinValue float64 `xlsx:"4"`
+
+	HasMaxValidator bool `xlsx:"5"`
+
+	MaxValue float64 `xlsx:"6"`
 	// insertion for WOP pointer fields
 }
 
@@ -95,6 +117,10 @@ var FormFieldFloat64_Fields = []string{
 	"ID",
 	"Name",
 	"Value",
+	"HasMinValidator",
+	"MinValue",
+	"HasMaxValidator",
+	"MaxValue",
 }
 
 type BackRepoFormFieldFloat64Struct struct {
@@ -360,6 +386,18 @@ func (formfieldfloat64DB *FormFieldFloat64DB) CopyBasicFieldsFromFormFieldFloat6
 
 	formfieldfloat64DB.Value_Data.Float64 = formfieldfloat64.Value
 	formfieldfloat64DB.Value_Data.Valid = true
+
+	formfieldfloat64DB.HasMinValidator_Data.Bool = formfieldfloat64.HasMinValidator
+	formfieldfloat64DB.HasMinValidator_Data.Valid = true
+
+	formfieldfloat64DB.MinValue_Data.Float64 = formfieldfloat64.MinValue
+	formfieldfloat64DB.MinValue_Data.Valid = true
+
+	formfieldfloat64DB.HasMaxValidator_Data.Bool = formfieldfloat64.HasMaxValidator
+	formfieldfloat64DB.HasMaxValidator_Data.Valid = true
+
+	formfieldfloat64DB.MaxValue_Data.Float64 = formfieldfloat64.MaxValue
+	formfieldfloat64DB.MaxValue_Data.Valid = true
 }
 
 // CopyBasicFieldsFromFormFieldFloat64WOP
@@ -371,6 +409,18 @@ func (formfieldfloat64DB *FormFieldFloat64DB) CopyBasicFieldsFromFormFieldFloat6
 
 	formfieldfloat64DB.Value_Data.Float64 = formfieldfloat64.Value
 	formfieldfloat64DB.Value_Data.Valid = true
+
+	formfieldfloat64DB.HasMinValidator_Data.Bool = formfieldfloat64.HasMinValidator
+	formfieldfloat64DB.HasMinValidator_Data.Valid = true
+
+	formfieldfloat64DB.MinValue_Data.Float64 = formfieldfloat64.MinValue
+	formfieldfloat64DB.MinValue_Data.Valid = true
+
+	formfieldfloat64DB.HasMaxValidator_Data.Bool = formfieldfloat64.HasMaxValidator
+	formfieldfloat64DB.HasMaxValidator_Data.Valid = true
+
+	formfieldfloat64DB.MaxValue_Data.Float64 = formfieldfloat64.MaxValue
+	formfieldfloat64DB.MaxValue_Data.Valid = true
 }
 
 // CopyBasicFieldsToFormFieldFloat64
@@ -378,6 +428,10 @@ func (formfieldfloat64DB *FormFieldFloat64DB) CopyBasicFieldsToFormFieldFloat64(
 	// insertion point for checkout of basic fields (back repo to stage)
 	formfieldfloat64.Name = formfieldfloat64DB.Name_Data.String
 	formfieldfloat64.Value = formfieldfloat64DB.Value_Data.Float64
+	formfieldfloat64.HasMinValidator = formfieldfloat64DB.HasMinValidator_Data.Bool
+	formfieldfloat64.MinValue = formfieldfloat64DB.MinValue_Data.Float64
+	formfieldfloat64.HasMaxValidator = formfieldfloat64DB.HasMaxValidator_Data.Bool
+	formfieldfloat64.MaxValue = formfieldfloat64DB.MaxValue_Data.Float64
 }
 
 // CopyBasicFieldsToFormFieldFloat64WOP
@@ -386,6 +440,10 @@ func (formfieldfloat64DB *FormFieldFloat64DB) CopyBasicFieldsToFormFieldFloat64W
 	// insertion point for checkout of basic fields (back repo to stage)
 	formfieldfloat64.Name = formfieldfloat64DB.Name_Data.String
 	formfieldfloat64.Value = formfieldfloat64DB.Value_Data.Float64
+	formfieldfloat64.HasMinValidator = formfieldfloat64DB.HasMinValidator_Data.Bool
+	formfieldfloat64.MinValue = formfieldfloat64DB.MinValue_Data.Float64
+	formfieldfloat64.HasMaxValidator = formfieldfloat64DB.HasMaxValidator_Data.Bool
+	formfieldfloat64.MaxValue = formfieldfloat64DB.MaxValue_Data.Float64
 }
 
 // Backup generates a json file from a slice of all FormFieldFloat64DB instances in the backrepo

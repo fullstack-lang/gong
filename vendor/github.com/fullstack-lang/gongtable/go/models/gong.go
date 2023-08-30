@@ -2864,15 +2864,15 @@ func GetFields[Type Gongstruct]() (res []string) {
 	case FormEditAssocButton:
 		res = []string{"Name", "Label"}
 	case FormField:
-		res = []string{"Name", "InputTypeEnum", "Label", "Placeholder", "FormFieldString", "FormFieldFloat64", "FormFieldInt", "FormFieldDate", "FormFieldTime", "FormFieldDateTime", "FormFieldSelect"}
+		res = []string{"Name", "InputTypeEnum", "Label", "Placeholder", "FormFieldString", "FormFieldFloat64", "FormFieldInt", "FormFieldDate", "FormFieldTime", "FormFieldDateTime", "FormFieldSelect", "HasBespokeWidth", "BespokeWidthPx"}
 	case FormFieldDate:
 		res = []string{"Name", "Value"}
 	case FormFieldDateTime:
 		res = []string{"Name", "Value"}
 	case FormFieldFloat64:
-		res = []string{"Name", "Value"}
+		res = []string{"Name", "Value", "HasMinValidator", "MinValue", "HasMaxValidator", "MaxValue"}
 	case FormFieldInt:
-		res = []string{"Name", "Value"}
+		res = []string{"Name", "Value", "HasMinValidator", "MinValue", "HasMaxValidator", "MaxValue"}
 	case FormFieldSelect:
 		res = []string{"Name", "Value", "Options"}
 	case FormFieldString:
@@ -3054,6 +3054,10 @@ func GetFieldStringValue[Type Gongstruct](instance Type, fieldName string) (res 
 			if any(instance).(FormField).FormFieldSelect != nil {
 				res = any(instance).(FormField).FormFieldSelect.Name
 			}
+		case "HasBespokeWidth":
+			res = fmt.Sprintf("%t", any(instance).(FormField).HasBespokeWidth)
+		case "BespokeWidthPx":
+			res = fmt.Sprintf("%d", any(instance).(FormField).BespokeWidthPx)
 		}
 	case FormFieldDate:
 		switch fieldName {
@@ -3078,6 +3082,14 @@ func GetFieldStringValue[Type Gongstruct](instance Type, fieldName string) (res 
 			res = any(instance).(FormFieldFloat64).Name
 		case "Value":
 			res = fmt.Sprintf("%f", any(instance).(FormFieldFloat64).Value)
+		case "HasMinValidator":
+			res = fmt.Sprintf("%t", any(instance).(FormFieldFloat64).HasMinValidator)
+		case "MinValue":
+			res = fmt.Sprintf("%f", any(instance).(FormFieldFloat64).MinValue)
+		case "HasMaxValidator":
+			res = fmt.Sprintf("%t", any(instance).(FormFieldFloat64).HasMaxValidator)
+		case "MaxValue":
+			res = fmt.Sprintf("%f", any(instance).(FormFieldFloat64).MaxValue)
 		}
 	case FormFieldInt:
 		switch fieldName {
@@ -3086,6 +3098,14 @@ func GetFieldStringValue[Type Gongstruct](instance Type, fieldName string) (res 
 			res = any(instance).(FormFieldInt).Name
 		case "Value":
 			res = fmt.Sprintf("%d", any(instance).(FormFieldInt).Value)
+		case "HasMinValidator":
+			res = fmt.Sprintf("%t", any(instance).(FormFieldInt).HasMinValidator)
+		case "MinValue":
+			res = fmt.Sprintf("%d", any(instance).(FormFieldInt).MinValue)
+		case "HasMaxValidator":
+			res = fmt.Sprintf("%t", any(instance).(FormFieldInt).HasMaxValidator)
+		case "MaxValue":
+			res = fmt.Sprintf("%d", any(instance).(FormFieldInt).MaxValue)
 		}
 	case FormFieldSelect:
 		switch fieldName {

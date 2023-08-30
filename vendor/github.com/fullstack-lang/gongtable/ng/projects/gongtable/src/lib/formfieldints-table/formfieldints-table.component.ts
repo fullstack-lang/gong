@@ -78,6 +78,18 @@ export class FormFieldIntsTableComponent implements OnInit {
         case 'Value':
           return formfieldintDB.Value;
 
+        case 'HasMinValidator':
+          return formfieldintDB.HasMinValidator ? "true" : "false";
+
+        case 'MinValue':
+          return formfieldintDB.MinValue;
+
+        case 'HasMaxValidator':
+          return formfieldintDB.HasMaxValidator ? "true" : "false";
+
+        case 'MaxValue':
+          return formfieldintDB.MaxValue;
+
         default:
           console.assert(false, "Unknown field")
           return "";
@@ -94,6 +106,8 @@ export class FormFieldIntsTableComponent implements OnInit {
       // insertion point for merging of fields
       mergedContent += formfieldintDB.Name.toLowerCase()
       mergedContent += formfieldintDB.Value.toString()
+      mergedContent += formfieldintDB.MinValue.toString()
+      mergedContent += formfieldintDB.MaxValue.toString()
 
       let isSelected = mergedContent.includes(filter.toLowerCase())
       return isSelected
@@ -150,11 +164,19 @@ export class FormFieldIntsTableComponent implements OnInit {
       this.displayedColumns = ['ID', 'Delete', // insertion point for columns to display
         "Name",
         "Value",
+        "HasMinValidator",
+        "MinValue",
+        "HasMaxValidator",
+        "MaxValue",
       ]
     } else {
       this.displayedColumns = ['select', 'ID', // insertion point for columns to display
         "Name",
         "Value",
+        "HasMinValidator",
+        "MinValue",
+        "HasMaxValidator",
+        "MaxValue",
       ]
       this.selection = new SelectionModel<FormFieldIntDB>(allowMultiSelect, this.initialSelection);
     }

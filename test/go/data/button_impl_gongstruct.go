@@ -224,10 +224,18 @@ func (buttonImpl *ButtonImplGongstruct) ButtonUpdated(
 					Name:  "Hours",
 					Label: "Hours",
 				}).Stage(formStage)
+				formFieldHours.HasBespokeWidth = true
+				formFieldHours.BespokeWidthPx = 90
+
 				formDiv.FormFields = append(formDiv.FormFields, formFieldHours)
+
 				formFieldIntHours := (&form.FormFieldInt{
 					Name: "Hours",
 				}).Stage(formStage)
+				formFieldIntHours.HasMaxValidator = true
+				formFieldIntHours.MaxValue = 23
+				formFieldIntHours.HasMinValidator = true
+				formFieldIntHours.MinValue = 0
 				formFieldHours.FormFieldInt = formFieldIntHours
 			}
 
@@ -236,10 +244,17 @@ func (buttonImpl *ButtonImplGongstruct) ButtonUpdated(
 					Name:  "Minutes",
 					Label: "Minutes",
 				}).Stage(formStage)
+				formFieldMinutes.HasBespokeWidth = true
+				formFieldMinutes.BespokeWidthPx = 90
 				formDiv.FormFields = append(formDiv.FormFields, formFieldMinutes)
+
 				formFieldIntMinutes := (&form.FormFieldInt{
 					Name: "Minutes",
 				}).Stage(formStage)
+				formFieldIntMinutes.HasMaxValidator = true
+				formFieldIntMinutes.MaxValue = 59
+				formFieldIntMinutes.HasMinValidator = true
+				formFieldIntMinutes.MinValue = 0
 				formFieldMinutes.FormFieldInt = formFieldIntMinutes
 			}
 			{
@@ -247,12 +262,37 @@ func (buttonImpl *ButtonImplGongstruct) ButtonUpdated(
 					Name:  "Seconds",
 					Label: "Seconds",
 				}).Stage(formStage)
+				formFieldSeconds.HasBespokeWidth = true
+				formFieldSeconds.BespokeWidthPx = 90
 				formDiv.FormFields = append(formDiv.FormFields, formFieldSeconds)
+
 				formFieldIntSeconds := (&form.FormFieldInt{
 					Name: "Seconds",
 				}).Stage(formStage)
+				formFieldIntSeconds.HasMaxValidator = true
+				formFieldIntSeconds.MaxValue = 59
+				formFieldIntSeconds.HasMinValidator = true
+				formFieldIntSeconds.MinValue = 0
 				formFieldSeconds.FormFieldInt = formFieldIntSeconds
 			}
+		}
+
+		// Floatfield
+		{
+			formDiv := (&form.FormDiv{
+				Name: "Floatfield",
+			}).Stage(formStage)
+			formGroup.FormDivs = append(formGroup.FormDivs, formDiv)
+			formField := (&form.FormField{
+				Name:  "Floatfield",
+				Label: "Floatfield",
+			}).Stage(formStage)
+			formDiv.FormFields = append(formDiv.FormFields, formField)
+
+			formFieldFloat64 := (&form.FormFieldFloat64{
+				Name: "Floatfield",
+			}).Stage(formStage)
+			formField.FormFieldFloat64 = formFieldFloat64
 		}
 	}
 	formStage.Commit()

@@ -141,6 +141,15 @@
         </mat-select>
     </mat-form-field>
 
+    <!-- -->
+    <mat-checkbox [formControl]="HasBespokeWidthFormControl">HasBespokeWidth</mat-checkbox>
+
+    <!-- -->
+    <mat-form-field class="detail-full-width">
+        <mat-label>BespokeWidthPx</mat-label>
+        <input type="number" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="formfield.BespokeWidthPx" [ngModelOptions]="{standalone: true}">
+    </mat-form-field>
+
     <mat-form-field class="detail-full-width">
         <mat-label>(FormDiv) FormFields</mat-label>
         <mat-select [compareWith]="compareObjects" [(ngModel)]="formfield.FormDiv_FormFields_reverse" [ngModelOptions]="{standalone: true}">
