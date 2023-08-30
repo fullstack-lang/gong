@@ -6,7 +6,7 @@ import (
 	"log"
 
 	gong_models "github.com/fullstack-lang/gong/go/models"
-	gongtable_models "github.com/fullstack-lang/gongtable/go/models"
+	gongtable "github.com/fullstack-lang/gongtable/go/models"
 	gongtree_models "github.com/fullstack-lang/gongtree/go/models"
 
 	"github.com/fullstack-lang/maticons/maticons"
@@ -17,14 +17,14 @@ import (
 
 type NodeImplGongstruct struct {
 	gongStruct         *gong_models.GongStruct
-	gongtableStage     *gongtable_models.StageStruct
+	gongtableStage     *gongtable.StageStruct
 	stageOfInterest    *models.StageStruct
 	backRepoOfInterest *orm.BackRepoStruct
 }
 
 func NewNodeImplGongstruct(
 	gongStruct *gong_models.GongStruct,
-	gongtableStage *gongtable_models.StageStruct,
+	gongtableStage *gongtable.StageStruct,
 	stageOfInterest *models.StageStruct,
 	backRepoOfInterest *orm.BackRepoStruct,
 ) (nodeImplGongstruct *NodeImplGongstruct) {
@@ -66,7 +66,7 @@ func (nodeImplGongstruct *NodeImplGongstruct) OnAfterUpdate(
 	tableStage.Reset()
 	tableStage.Commit()
 
-	table := new(gongtable_models.Table).Stage(tableStage)
+	table := new(gongtable.Table).Stage(tableStage)
 	table.Name = "Table"
 	table.HasColumnSorting = true
 	table.HasFiltering = true
@@ -96,8 +96,8 @@ func (nodeImplGongstruct *NodeImplGongstruct) OnAfterUpdate(
 
 func fillUpTable[T models.Gongstruct](
 	nodeImplGongstruct *NodeImplGongstruct,
-	tableStage *gongtable_models.StageStruct,
-	table *gongtable_models.Table,
+	tableStage *gongtable.StageStruct,
+	table *gongtable.Table,
 ) {
 
 	fields := models.GetFields[T]()
@@ -105,31 +105,36 @@ func fillUpTable[T models.Gongstruct](
 
 	setOfStructs := (*models.GetGongstructInstancesSet[T](nodeImplGongstruct.stageOfInterest))
 
-	column := new(gongtable_models.DisplayedColumn).Stage(tableStage)
+	column := new(gongtable.DisplayedColumn).Stage(tableStage)
 	column.Name = "ID"
 	table.DisplayedColumns = append(table.DisplayedColumns, column)
 
-	column = new(gongtable_models.DisplayedColumn).Stage(tableStage)
+	column = new(gongtable.DisplayedColumn).Stage(tableStage)
 	column.Name = "Delete"
 	table.DisplayedColumns = append(table.DisplayedColumns, column)
 
 	for _, fieldName := range fields {
-		column := new(gongtable_models.DisplayedColumn).Stage(tableStage)
+		column := new(gongtable.DisplayedColumn).Stage(tableStage)
 		column.Name = fieldName
 		table.DisplayedColumns = append(table.DisplayedColumns, column)
 	}
 
 	fieldIndex := 0
 	for structInstance := range setOfStructs {
-		row := new(gongtable_models.Row).Stage(tableStage)
+		row := new(gongtable.Row).Stage(tableStage)
 		row.Name = models.GetFieldStringValue[T](*structInstance, "Name")
+
+		updater := new(RowUpdate[T])
+		updater.Instance = structInstance
+		row.Impl = updater
+
 		table.Rows = append(table.Rows, row)
 
-		cell := (&gongtable_models.Cell{
+		cell := (&gongtable.Cell{
 			Name: "ID",
 		}).Stage(tableStage)
 		row.Cells = append(row.Cells, cell)
-		cellInt := (&gongtable_models.CellInt{
+		cellInt := (&gongtable.CellInt{
 			Name: "ID",
 			Value: orm.GetID(
 				nodeImplGongstruct.stageOfInterest,
@@ -139,11 +144,11 @@ func fillUpTable[T models.Gongstruct](
 		}).Stage(tableStage)
 		cell.CellInt = cellInt
 
-		cell = (&gongtable_models.Cell{
+		cell = (&gongtable.Cell{
 			Name: "Delete Icon",
 		}).Stage(tableStage)
 		row.Cells = append(row.Cells, cell)
-		cellIcon := (&gongtable_models.CellIcon{
+		cellIcon := (&gongtable.CellIcon{
 			Name: "Delete Icon",
 			Icon: string(maticons.BUTTON_delete),
 		}).Stage(tableStage)
@@ -154,12 +159,12 @@ func fillUpTable[T models.Gongstruct](
 			name := fmt.Sprintf("%d", fieldIndex) + " " + value
 			fieldIndex++
 			// log.Println(fieldName, value)
-			cell := (&gongtable_models.Cell{
+			cell := (&gongtable.Cell{
 				Name: name,
 			}).Stage(tableStage)
 			row.Cells = append(row.Cells, cell)
 
-			cellString := (&gongtable_models.CellString{
+			cellString := (&gongtable.CellString{
 				Name:  name,
 				Value: value,
 			}).Stage(tableStage)
@@ -167,4 +172,12 @@ func fillUpTable[T models.Gongstruct](
 
 		}
 	}
+}
+
+type RowUpdate[T models.Gongstruct] struct {
+	Instance *T
+}
+
+func (rowUpdate *RowUpdate[T]) RowUpdated(stage *gongtable.StageStruct, row, updatedRow *gongtable.Row) {
+	log.Println("RowUpdate: RowUpdated", updatedRow.Name)
 }
