@@ -77,6 +77,9 @@ func (astructFormCallback *AstructFormCallback) OnSave() {
 			astruct.Duration1 = time.Duration(hours)*time.Hour +
 				time.Duration(minutes)*time.Minute +
 				time.Duration(seconds)*time.Second
+		case "Floatfield":
+			newValue := formDiv.FormFields[0].FormFieldFloat64.Value
+			astruct.Floatfield = newValue
 		}
 	}
 

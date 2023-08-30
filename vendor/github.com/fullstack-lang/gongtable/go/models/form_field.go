@@ -20,4 +20,8 @@ type FormField struct {
 	FormFieldDateTime *FormFieldDateTime
 
 	FormFieldSelect *FormFieldSelect
+
+	// set up specific width
+	HasBespokeWidth bool
+	BespokeWidthPx  int
 }

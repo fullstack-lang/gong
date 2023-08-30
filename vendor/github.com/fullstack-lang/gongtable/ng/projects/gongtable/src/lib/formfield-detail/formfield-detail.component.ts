@@ -37,6 +37,7 @@ export class FormFieldDetailComponent implements OnInit {
 
 	// insertion point for declarations
 	InputTypeEnumList: InputTypeEnumSelect[] = []
+	HasBespokeWidthFormControl: UntypedFormControl = new UntypedFormControl(false);
 
 	// the FormFieldDB of interest
 	formfield: FormFieldDB = new FormFieldDB
@@ -146,6 +147,7 @@ export class FormFieldDetailComponent implements OnInit {
 				}
 
 				// insertion point for recovery of form controls value for bool fields
+				this.HasBespokeWidthFormControl.setValue(this.formfield.HasBespokeWidth)
 			}
 		)
 
@@ -228,6 +230,7 @@ export class FormFieldDetailComponent implements OnInit {
 			this.formfield.FormFieldSelectID.Int64 = 0
 			this.formfield.FormFieldSelectID.Valid = true
 		}
+		this.formfield.HasBespokeWidth = this.HasBespokeWidthFormControl.value
 
 		// save from the front pointer space to the non pointer space for serialization
 

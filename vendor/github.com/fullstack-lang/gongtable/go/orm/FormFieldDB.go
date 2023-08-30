@@ -103,6 +103,13 @@ type FormFieldDB struct {
 
 	// Declation for basic field formfieldDB.Placeholder
 	Placeholder_Data sql.NullString
+
+	// Declation for basic field formfieldDB.HasBespokeWidth
+	// provide the sql storage for the boolan
+	HasBespokeWidth_Data sql.NullBool
+
+	// Declation for basic field formfieldDB.BespokeWidthPx
+	BespokeWidthPx_Data sql.NullInt64
 	// encoding of pointers
 	FormFieldPointersEnconding
 }
@@ -131,6 +138,10 @@ type FormFieldWOP struct {
 	Label string `xlsx:"3"`
 
 	Placeholder string `xlsx:"4"`
+
+	HasBespokeWidth bool `xlsx:"5"`
+
+	BespokeWidthPx int `xlsx:"6"`
 	// insertion for WOP pointer fields
 }
 
@@ -141,6 +152,8 @@ var FormField_Fields = []string{
 	"InputTypeEnum",
 	"Label",
 	"Placeholder",
+	"HasBespokeWidth",
+	"BespokeWidthPx",
 }
 
 type BackRepoFormFieldStruct struct {
@@ -510,6 +523,12 @@ func (formfieldDB *FormFieldDB) CopyBasicFieldsFromFormField(formfield *models.F
 
 	formfieldDB.Placeholder_Data.String = formfield.Placeholder
 	formfieldDB.Placeholder_Data.Valid = true
+
+	formfieldDB.HasBespokeWidth_Data.Bool = formfield.HasBespokeWidth
+	formfieldDB.HasBespokeWidth_Data.Valid = true
+
+	formfieldDB.BespokeWidthPx_Data.Int64 = int64(formfield.BespokeWidthPx)
+	formfieldDB.BespokeWidthPx_Data.Valid = true
 }
 
 // CopyBasicFieldsFromFormFieldWOP
@@ -527,6 +546,12 @@ func (formfieldDB *FormFieldDB) CopyBasicFieldsFromFormFieldWOP(formfield *FormF
 
 	formfieldDB.Placeholder_Data.String = formfield.Placeholder
 	formfieldDB.Placeholder_Data.Valid = true
+
+	formfieldDB.HasBespokeWidth_Data.Bool = formfield.HasBespokeWidth
+	formfieldDB.HasBespokeWidth_Data.Valid = true
+
+	formfieldDB.BespokeWidthPx_Data.Int64 = int64(formfield.BespokeWidthPx)
+	formfieldDB.BespokeWidthPx_Data.Valid = true
 }
 
 // CopyBasicFieldsToFormField
@@ -536,6 +561,8 @@ func (formfieldDB *FormFieldDB) CopyBasicFieldsToFormField(formfield *models.For
 	formfield.InputTypeEnum.FromString(formfieldDB.InputTypeEnum_Data.String)
 	formfield.Label = formfieldDB.Label_Data.String
 	formfield.Placeholder = formfieldDB.Placeholder_Data.String
+	formfield.HasBespokeWidth = formfieldDB.HasBespokeWidth_Data.Bool
+	formfield.BespokeWidthPx = int(formfieldDB.BespokeWidthPx_Data.Int64)
 }
 
 // CopyBasicFieldsToFormFieldWOP
@@ -546,6 +573,8 @@ func (formfieldDB *FormFieldDB) CopyBasicFieldsToFormFieldWOP(formfield *FormFie
 	formfield.InputTypeEnum.FromString(formfieldDB.InputTypeEnum_Data.String)
 	formfield.Label = formfieldDB.Label_Data.String
 	formfield.Placeholder = formfieldDB.Placeholder_Data.String
+	formfield.HasBespokeWidth = formfieldDB.HasBespokeWidth_Data.Bool
+	formfield.BespokeWidthPx = int(formfieldDB.BespokeWidthPx_Data.Int64)
 }
 
 // Backup generates a json file from a slice of all FormFieldDB instances in the backrepo
