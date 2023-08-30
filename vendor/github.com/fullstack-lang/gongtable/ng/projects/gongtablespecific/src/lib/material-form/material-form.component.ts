@@ -3,7 +3,7 @@ import { Subscription, forkJoin } from 'rxjs';
 
 import * as gongtable from 'gongtable'
 
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, AbstractControl, ValidationErrors } from '@angular/forms';
 
 import { MatButtonModule } from '@angular/material/button';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogModule } from '@angular/material/dialog';
@@ -163,6 +163,7 @@ export class MaterialFormComponent implements OnInit {
                 if (formField.FormFieldInt.HasMaxValidator) {
                   validators.push(Validators.max(formField.FormFieldInt.MaxValue))
                 }
+                validators.push(integerValidator)
                 generatedFormGroupConfig[formField.Name] = [formField.FormFieldInt.Value.toString(), validators]
               }
               if (formField.FormFieldFloat64) {
@@ -470,3 +471,11 @@ export class MaterialFormComponent implements OnInit {
   }
 }
 
+export function integerValidator(control: AbstractControl): ValidationErrors | null {
+  const value = control.value
+  if (value === null || value === '') return null
+  if (!Number.isInteger(+value)) {
+    return { 'integer': 'Input must be an integer' }
+  }
+  return null
+}
