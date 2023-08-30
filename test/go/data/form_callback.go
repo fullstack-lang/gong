@@ -12,16 +12,19 @@ import (
 func NewAstructFormCallback(
 	stageOfInterest *models.StageStruct,
 	formStage *table.StageStruct,
+	astruct *models.Astruct,
 ) (astructFormCallback *AstructFormCallback) {
 	astructFormCallback = new(AstructFormCallback)
 	astructFormCallback.stageOfInterest = stageOfInterest
 	astructFormCallback.formStage = formStage
+	astructFormCallback.astruct = astruct
 	return
 }
 
 type AstructFormCallback struct {
 	stageOfInterest *models.StageStruct
 	formStage       *table.StageStruct
+	astruct         *models.Astruct
 }
 
 func (astructFormCallback *AstructFormCallback) OnSave() {
@@ -32,7 +35,10 @@ func (astructFormCallback *AstructFormCallback) OnSave() {
 	// back repo (and front repo)
 	astructFormCallback.formStage.Checkout()
 
-	astruct := new(models.Astruct).Stage(astructFormCallback.stageOfInterest)
+	if astructFormCallback.astruct == nil {
+		astructFormCallback.astruct = new(models.Astruct).Stage(astructFormCallback.stageOfInterest)
+	}
+	astruct := astructFormCallback.astruct
 
 	// get the formGroup
 	formGroup := astructFormCallback.formStage.FormGroups_mapString[table.FormGroupDefaultName.ToString()]
