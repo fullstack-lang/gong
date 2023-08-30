@@ -37,10 +37,9 @@ func Load(
 	stageForSidebarTree := gongtree_fullstack.NewStackInstance(r, stackPath+"-sidebar")
 
 	// stage for main table
-	stageForMainTable, backRepoForMainTable := gongtable_fullstack.NewStackInstance(r, stackPath)
-	_ = backRepoForMainTable
-	fillUpSelectTableWithDummyStuff(stageForMainTable, "Table")
-	stageForMainTable.Commit()
+	tableStage, _ := gongtable_fullstack.NewStackInstance(r, stackPath)
+	fillUpSelectTableWithDummyStuff(tableStage, "Table")
+	tableStage.Commit()
 
 	// stage for reusable form
 	formStage, backRepoForForm := gongtable_fullstack.NewStackInstance(r, stackPath+"-form")
@@ -67,7 +66,7 @@ func Load(
 
 		nodeGongstruct := (&gongtree_models.Node{Name: gongStruct.Name}).Stage(stageForSidebarTree)
 		nodeGongstruct.IsNodeClickable = true
-		nodeGongstruct.Impl = NewNodeImplGongstruct(gongStruct, stageForMainTable, stageOfInterest, backRepoOfInterest)
+		nodeGongstruct.Impl = NewNodeImplGongstruct(gongStruct, tableStage, formStage, stageOfInterest, backRepoOfInterest)
 
 		// add add button
 		addButton := (&gongtree_models.Button{

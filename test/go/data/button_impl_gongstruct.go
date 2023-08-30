@@ -47,13 +47,21 @@ func (buttonImpl *ButtonImplGongstruct) ButtonUpdated(
 
 	formGroup := (&form.FormGroup{
 		Name:   form.FormGroupDefaultName.ToString(),
-		OnSave: NewAstructFormCallback(buttonImpl.stageOfInterest, formStage),
+		OnSave: NewAstructFormCallback(buttonImpl.stageOfInterest, formStage, nil),
 	}).Stage(formStage)
 
 	switch buttonImpl.gongStruct.Name {
 	case "Astruct":
 		astruct := new(models.Astruct)
+		FillUpForm(astruct, formStage, formGroup)
+	}
+	formStage.Commit()
+}
 
+func FillUpForm[T models.Gongstruct](instance *T, formStage *form.StageStruct, formGroup *form.FormGroup) {
+
+	switch instancesTyped := any(instance).(type) {
+	case *models.Astruct:
 		// Name field
 		{
 			formDiv := (&form.FormDiv{
@@ -69,7 +77,7 @@ func (buttonImpl *ButtonImplGongstruct) ButtonUpdated(
 
 			formFieldString := (&form.FormFieldString{
 				Name:  "Name",
-				Value: astruct.Name,
+				Value: instancesTyped.Name,
 			}).Stage(formStage)
 			formField.FormFieldString = formFieldString
 		}
@@ -90,7 +98,7 @@ func (buttonImpl *ButtonImplGongstruct) ButtonUpdated(
 
 				formFieldDate := (&form.FormFieldDate{
 					Name:  "Date",
-					Value: astruct.Date,
+					Value: instancesTyped.Date,
 				}).Stage(formStage)
 				formFieldPartDate.FormFieldDate = formFieldDate
 			}
@@ -104,7 +112,7 @@ func (buttonImpl *ButtonImplGongstruct) ButtonUpdated(
 
 				formFieldTime := (&form.FormFieldTime{
 					Name:  "Time",
-					Value: astruct.Date,
+					Value: instancesTyped.Date,
 				}).Stage(formStage)
 				formFieldPartTime.FormFieldTime = formFieldTime
 			}
@@ -119,7 +127,7 @@ func (buttonImpl *ButtonImplGongstruct) ButtonUpdated(
 
 			checkBox := (&form.CheckBox{
 				Name:  "Booleanfield",
-				Value: astruct.Booleanfield,
+				Value: instancesTyped.Booleanfield,
 			}).Stage(formStage)
 			formDiv.CheckBoxs = append(formDiv.CheckBoxs, checkBox)
 		}
@@ -147,7 +155,7 @@ func (buttonImpl *ButtonImplGongstruct) ButtonUpdated(
 				option := (&form.Option{
 					Name: models.ENUM_VAL1.ToString(),
 				}).Stage(formStage)
-				if astruct.Aenum == models.ENUM_VAL1 {
+				if instancesTyped.Aenum == models.ENUM_VAL1 {
 					formFieldSelect.Value = option
 				}
 
@@ -158,7 +166,7 @@ func (buttonImpl *ButtonImplGongstruct) ButtonUpdated(
 				option := (&form.Option{
 					Name: models.ENUM_VAL2.ToString(),
 				}).Stage(formStage)
-				if astruct.Aenum == models.ENUM_VAL2 {
+				if instancesTyped.Aenum == models.ENUM_VAL2 {
 					formFieldSelect.Value = option
 				}
 				formField.FormFieldSelect.Options =
@@ -189,7 +197,7 @@ func (buttonImpl *ButtonImplGongstruct) ButtonUpdated(
 				option := (&form.Option{
 					Name: "CENUM_VAL1",
 				}).Stage(formStage)
-				if astruct.CEnum == models.CENUM_VAL1 {
+				if instancesTyped.CEnum == models.CENUM_VAL1 {
 					formFieldSelect.Value = option
 				}
 
@@ -200,7 +208,7 @@ func (buttonImpl *ButtonImplGongstruct) ButtonUpdated(
 				option := (&form.Option{
 					Name: "CENUM_VAL2",
 				}).Stage(formStage)
-				if astruct.CEnum == models.CENUM_VAL2 {
+				if instancesTyped.CEnum == models.CENUM_VAL2 {
 					formFieldSelect.Value = option
 				}
 
@@ -223,7 +231,7 @@ func (buttonImpl *ButtonImplGongstruct) ButtonUpdated(
 
 			formFieldInt := (&form.FormFieldInt{
 				Name:  "Intfield",
-				Value: astruct.Intfield,
+				Value: instancesTyped.Intfield,
 			}).Stage(formStage)
 			formField.FormFieldInt = formFieldInt
 		}
@@ -247,7 +255,7 @@ func (buttonImpl *ButtonImplGongstruct) ButtonUpdated(
 
 				formFieldIntHours := (&form.FormFieldInt{
 					Name:  "Hours",
-					Value: int(astruct.Duration1.Hours()) % 24,
+					Value: int(instancesTyped.Duration1.Hours()) % 24,
 				}).Stage(formStage)
 				formFieldIntHours.HasMaxValidator = true
 				formFieldIntHours.MaxValue = 23
@@ -267,7 +275,7 @@ func (buttonImpl *ButtonImplGongstruct) ButtonUpdated(
 
 				formFieldIntMinutes := (&form.FormFieldInt{
 					Name:  "Minutes",
-					Value: int(astruct.Duration1.Minutes()) % 60,
+					Value: int(instancesTyped.Duration1.Minutes()) % 60,
 				}).Stage(formStage)
 				formFieldIntMinutes.HasMaxValidator = true
 				formFieldIntMinutes.MaxValue = 59
@@ -286,7 +294,7 @@ func (buttonImpl *ButtonImplGongstruct) ButtonUpdated(
 
 				formFieldIntSeconds := (&form.FormFieldInt{
 					Name:  "Seconds",
-					Value: int(astruct.Duration1.Seconds()) % 60,
+					Value: int(instancesTyped.Duration1.Seconds()) % 60,
 				}).Stage(formStage)
 				formFieldIntSeconds.HasMaxValidator = true
 				formFieldIntSeconds.MaxValue = 59
@@ -310,10 +318,9 @@ func (buttonImpl *ButtonImplGongstruct) ButtonUpdated(
 
 			formFieldFloat64 := (&form.FormFieldFloat64{
 				Name:  "Floatfield",
-				Value: astruct.Floatfield,
+				Value: instancesTyped.Floatfield,
 			}).Stage(formStage)
 			formField.FormFieldFloat64 = formFieldFloat64
 		}
 	}
-	formStage.Commit()
 }
