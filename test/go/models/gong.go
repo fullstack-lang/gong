@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"sync"
+	"time"
 )
 
 // errUnkownEnum is returns when a value cannot match enum values
@@ -546,6 +547,24 @@ func (stage *StageStruct) Unstage() { // insertion point for array nil
 type Gongstruct interface {
 	// insertion point for generic types
 	Astruct | AstructBstruct2Use | AstructBstructUse | Bstruct | Dstruct
+}
+
+type GongtructBasicField interface {
+	int | float64 | bool | string | time.Time | time.Duration |
+		*Astruct | *AstructBstruct2Use | *AstructBstructUse | *Bstruct | *Dstruct |
+		*[]Astruct | *[]AstructBstruct2Use | *[]AstructBstructUse | *[]Bstruct | *[]Dstruct
+}
+
+type GongstructEnumStringField interface {
+	AEnumType | BEnumType
+	Codes() []string
+	CodeValues() []string
+}
+
+type GongstructEnumIntField interface {
+	CEnumTypeInt
+	Codes() []string
+	CodeValues() []int
 }
 
 // Gongstruct is the type parameter for generated generic function that allows

@@ -18,6 +18,46 @@ func (aenumtype AEnumType) ToString() (res string) {
 	return
 }
 
+func (aenumtype AEnumType) Codes() (res []string) {
+
+	res = make([]string, 0)
+
+	res = append(res, "ENUM_VAL1")
+	res = append(res, "ENUM_VAL2")
+
+	return
+}
+
+func (aenumtype AEnumType) CodeValues() (res []string) {
+
+	res = make([]string, 0)
+
+	res = append(res, "ENUM_VAL1_NOT_THE_SAME")
+	res = append(res, "ENUM_VAL2")
+
+	return
+}
+
+func (aenumtype CEnumTypeInt) Codes() (res []string) {
+
+	res = make([]string, 0)
+
+	res = append(res, "CENUM_VAL1")
+	res = append(res, "CENUM_VAL2")
+
+	return
+}
+
+func (aenumtype CEnumTypeInt) CodeValues() (res []int) {
+
+	res = make([]int, 0)
+
+	res = append(res, int(CENUM_VAL1))
+	res = append(res, int(CENUM_VAL2))
+
+	return
+}
+
 func (aenumtype *AEnumType) FromString(input string) (err error) {
 
 	switch input {
