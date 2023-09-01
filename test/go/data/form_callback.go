@@ -51,6 +51,11 @@ func (astructFormCallback *AstructFormCallback) OnSave() {
 		case "Date":
 			date := formDiv.FormFields[0].FormFieldDate.Value
 
+			// in the angular form div, the time.Time is show twice, once for the Date and once for the Time
+			// construing the date back, one needs to truncate the date, otherwise
+			// hours, minutes, seconds and nanoseconds would be added twice
+			date = date.Truncate(24 * time.Hour)
+
 			time := formDiv.FormFields[1].FormFieldTime.Value
 			astruct.Date = addTimeComponents(date, time)
 		case "Booleanfield":
