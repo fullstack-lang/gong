@@ -1,6 +1,6 @@
-<section *ngIf="selectedTable" class="container mat-elevation-z8" tabindex="0">
+<section class="container mat-elevation-z8" tabindex="0">
     <!-- <input [formControl]="filterControl" placeholder="Filter"> -->
-    <div *ngIf="selectedTable.HasFiltering || selectedTable.HasSaveButton || selectedTable.HasCloseButton" class="toolbar">
+    <div *ngIf="selectedTable && (selectedTable.HasFiltering || selectedTable.HasSaveButton || selectedTable.HasCloseButton)" class="toolbar">
         <div class="left-toolbar">
             <!-- Filter -->
             <mat-form-field *ngIf="selectedTable.HasFiltering">
@@ -30,7 +30,7 @@
      The mat-elevation-z8 class applies a box-shadow (elevation). -->
     <table mat-table [dataSource]="dataSource" class="table mat-elevation-z8" cdkDropList (cdkDropListDropped)="drop($event)" matSort>
 
-        <ng-container *ngIf="selectedTable.HasCheckableRows" matColumnDef="select" sticky>
+        <ng-container *ngIf="selectedTable && selectedTable.HasCheckableRows" matColumnDef="select" sticky>
             <th mat-header-cell *matHeaderCellDef>
                 <mat-checkbox (change)="$event ? masterToggle() : null" [checked]="selection.hasValue() && isAllSelected()" [indeterminate]="selection.hasValue() && !isAllSelected()">
                 </mat-checkbox>
@@ -52,13 +52,13 @@
         cell and the data cell definitions.
          -->
         <ng-container *ngFor="let column of displayedColumns; let i = index">
-            <ng-container [matColumnDef]="column" [sticky]="i < this.selectedTable.NbOfStickyColumns">
+            <ng-container [matColumnDef]="column" [sticky]="i < this.selectedTable!.NbOfStickyColumns">
 
                 <!-- Header cell for each column. 
             The mat-header-cell directive applies Angular Material styling. 
             The *matHeaderCellDef directive specifies that this is a header cell.
             {{ column }} will display the name of the column. -->
-                <th mat-header-cell *matHeaderCellDef mat-sort-header [disabled]="selectedTable.HasColumnSorting">{{
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>{{
                     column }}</th>
 
                 <!-- Data cell for each row in each column.
@@ -95,6 +95,6 @@
         <!-- Data row for each row in dataSource.
              The mat-row directive applies Angular Material styling.
              The *matRowDef directive defines a row for each row object in dataSource and sets its columns. -->
-        <tr mat-row *matRowDef="let row; columns: allDisplayedColumns" (click)="onClick( row.Table_RowsDBID_Index.Int64 )" cdkDrag [cdkDragDisabled]="!selectedTable.CanDragDropRows"></tr>
+        <tr mat-row *matRowDef="let row; columns: allDisplayedColumns" (click)="onClick( row.Table_RowsDBID_Index.Int64 )" cdkDrag [cdkDragDisabled]="!selectedTable!.CanDragDropRows"></tr>
     </table>
 </section>
