@@ -1399,6 +1399,13 @@ func UnmarshallGongstructStaging(stage *StageStruct, cmap *ast.CommentMap, assig
 				case "Value":
 					targetIdentifier := ident.Name
 					__gong__map_FormFieldSelect[identifier].Value = __gong__map_Option[targetIdentifier]
+				case "CanBeEmpty":
+					// convert string to boolean
+					fielValue, err := strconv.ParseBool(ident.Name)
+					if err != nil {
+						log.Fatalln(err)
+					}
+					__gong__map_FormFieldSelect[identifier].CanBeEmpty = fielValue
 				}
 			case "FormFieldString":
 				switch fieldName {

@@ -33,6 +33,7 @@ enum FormFieldSelectDetailComponentState {
 export class FormFieldSelectDetailComponent implements OnInit {
 
 	// insertion point for declarations
+	CanBeEmptyFormControl: UntypedFormControl = new UntypedFormControl(false);
 
 	// the FormFieldSelectDB of interest
 	formfieldselect: FormFieldSelectDB = new FormFieldSelectDB
@@ -133,6 +134,7 @@ export class FormFieldSelectDetailComponent implements OnInit {
 				}
 
 				// insertion point for recovery of form controls value for bool fields
+				this.CanBeEmptyFormControl.setValue(this.formfieldselect.CanBeEmpty)
 			}
 		)
 
@@ -155,6 +157,7 @@ export class FormFieldSelectDetailComponent implements OnInit {
 			this.formfieldselect.ValueID.Int64 = 0
 			this.formfieldselect.ValueID.Valid = true
 		}
+		this.formfieldselect.CanBeEmpty = this.CanBeEmptyFormControl.value
 
 		// save from the front pointer space to the non pointer space for serialization
 

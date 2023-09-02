@@ -32,6 +32,13 @@
                 {{ FormFieldSelect.Value ? FormFieldSelect.Value.Name : ''}}
             </td>
         </ng-container>
+        <!-- -->
+        <ng-container matColumnDef="CanBeEmpty">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> CanBeEmpty </th>
+            <td mat-cell *matCellDef="let FormFieldSelect">
+                <mat-checkbox [checked]="FormFieldSelect.CanBeEmpty" disabled=true></mat-checkbox>
+            </td>
+        </ng-container>
 
         <ng-container matColumnDef="ID" sticky>
             <th mat-header-cell *matHeaderCellDef mat-sort-header> ID. </th>
