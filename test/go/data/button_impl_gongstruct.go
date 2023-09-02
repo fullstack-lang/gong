@@ -53,25 +53,57 @@ func (buttonImpl *ButtonImplGongstruct) ButtonUpdated(
 	switch buttonImpl.gongStruct.Name {
 	case "Astruct":
 		astruct := new(models.Astruct)
-		FillUpForm(astruct, formStage, formGroup)
+		FillUpForm(astruct, buttonImpl.stageOfInterest, formStage, formGroup)
 	}
 	formStage.Commit()
 }
 
-func FillUpForm[T models.Gongstruct](instance *T, formStage *form.StageStruct, formGroup *form.FormGroup) {
+func FillUpForm[T models.Gongstruct](instance *T, stageOfInterest *models.StageStruct, formStage *form.StageStruct, formGroup *form.FormGroup) {
 
-	switch instancesTyped := any(instance).(type) {
+	switch instanceWithInferedType := any(instance).(type) {
 	case *models.Astruct:
-		FillUpFormDivBasicField("Name", instancesTyped.Name, instancesTyped, formStage, formGroup)
-		FillUpFormDivBasicField("Date", instancesTyped.Date, instancesTyped, formStage, formGroup)
-		FillUpFormDivBasicField("Booleanfield", instancesTyped.Booleanfield, instancesTyped, formStage, formGroup)
-		FillUpFormDivBasicField("Intfield", instancesTyped.Intfield, instancesTyped, formStage, formGroup)
-		FillUpFormDivBasicField("Floatfield", instancesTyped.Floatfield, instancesTyped, formStage, formGroup)
-		FillUpFormDivBasicField("Duration1", instancesTyped.Duration1, instancesTyped, formStage, formGroup)
+		FillUpFormDivBasicField("Name", instanceWithInferedType.Name, instanceWithInferedType, formStage, formGroup)
+		FillUpFormDivBasicField("Date", instanceWithInferedType.Date, instanceWithInferedType, formStage, formGroup)
+		FillUpFormDivBasicField("Booleanfield", instanceWithInferedType.Booleanfield, instanceWithInferedType, formStage, formGroup)
+		FillUpFormDivBasicField("Intfield", instanceWithInferedType.Intfield, instanceWithInferedType, formStage, formGroup)
+		FillUpFormDivBasicField("Floatfield", instanceWithInferedType.Floatfield, instanceWithInferedType, formStage, formGroup)
+		FillUpFormDivBasicField("Duration1", instanceWithInferedType.Duration1, instanceWithInferedType, formStage, formGroup)
 
-		FillUpFormDivEnumStringType("Aenum", instancesTyped.Aenum, instancesTyped, formStage, formGroup)
-		FillUpFormDivEnumStringType("Aenum_2", instancesTyped.Aenum_2, instancesTyped, formStage, formGroup)
-		FillUpFormDivEnumIntType("Cenum", instancesTyped.CEnum, instancesTyped, formStage, formGroup)
+		FillUpFormDivEnumStringType("Aenum", instanceWithInferedType.Aenum, instanceWithInferedType, formStage, formGroup)
+		FillUpFormDivEnumStringType("Aenum_2", instanceWithInferedType.Aenum_2, instanceWithInferedType, formStage, formGroup)
+		FillUpFormDivEnumIntType("Cenum", instanceWithInferedType.CEnum, instanceWithInferedType, formStage, formGroup)
+
+		{
+			formDiv := (&form.FormDiv{
+				Name: "Associationtob",
+			}).Stage(formStage)
+			formGroup.FormDivs = append(formGroup.FormDivs, formDiv)
+			formField := (&form.FormField{
+				Name:        "Association",
+				Label:       "Association",
+				Placeholder: "",
+			}).Stage(formStage)
+			formDiv.FormFields = append(formDiv.FormFields, formField)
+
+			formFieldSelect := (&form.FormFieldSelect{
+				Name: "association",
+			}).Stage(formStage)
+			formField.FormFieldSelect = formFieldSelect
+
+			formField.FormFieldSelect.Options = make([]*form.Option, 0)
+			for bstruct := range *models.GetGongstructInstancesSet[models.Bstruct](stageOfInterest) {
+				option := (&form.Option{
+					Name: bstruct.Name,
+				}).Stage(formStage)
+
+				if bstruct == instanceWithInferedType.Associationtob {
+					formFieldSelect.Value = option
+				}
+
+				formField.FormFieldSelect.Options =
+					append(formField.FormFieldSelect.Options, option)
+			}
+		}
 
 	}
 }
