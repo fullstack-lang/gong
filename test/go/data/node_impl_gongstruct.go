@@ -209,7 +209,7 @@ func (rowUpdate *RowUpdate[T]) RowUpdated(stage *gongtable.StageStruct, row, upd
 			Name:   gongtable.FormGroupDefaultName.ToString(),
 			OnSave: NewAstructFormCallback(rowUpdate.stageOfInterest, formStage, instancesTyped),
 		}).Stage(formStage)
-		FillUpForm(instancesTyped, formStage, formGroup)
+		FillUpForm(instancesTyped, rowUpdate.stageOfInterest, formStage, formGroup)
 	}
 	formStage.Commit()
 
