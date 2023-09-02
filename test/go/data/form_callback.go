@@ -63,6 +63,12 @@ func (astructFormCallback *AstructFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(astruct.Duration1), formDiv)
 		case "Floatfield":
 			FormDivBasicFieldToField(&(astruct.Floatfield), formDiv)
+		case "Associationtob":
+			for bstruct := range *models.GetGongstructInstancesSet[models.Bstruct](astructFormCallback.stageOfInterest) {
+				if bstruct.Name == formDiv.FormFields[0].FormFieldSelect.Value.GetName() {
+					astruct.Associationtob = bstruct
+				}
+			}
 		}
 	}
 
