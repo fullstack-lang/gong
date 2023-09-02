@@ -64,15 +64,11 @@ func (astructFormCallback *AstructFormCallback) OnSave() {
 		case "Floatfield":
 			FormDivBasicFieldToField(&(astruct.Floatfield), formDiv)
 		case "Associationtob":
-			if formDiv.FormFields[0].FormFieldSelect.Value == nil {
-				astruct.Associationtob = nil
-			} else {
-				for bstruct := range *models.GetGongstructInstancesSet[models.Bstruct](astructFormCallback.stageOfInterest) {
-					if bstruct.Name == formDiv.FormFields[0].FormFieldSelect.Value.GetName() {
-						astruct.Associationtob = bstruct
-					}
-				}
-			}
+			FormDivSelectFieldToField[*models.Bstruct, models.Bstruct](&(astruct.Associationtob), astructFormCallback.stageOfInterest, formDiv)
+		case "Anotherassociationtob_2":
+			FormDivSelectFieldToField[*models.Bstruct, models.Bstruct](&(astruct.Anotherassociationtob_2), astructFormCallback.stageOfInterest, formDiv)
+		case "AnAstruct":
+			FormDivSelectFieldToField[*models.Astruct, models.Astruct](&(astruct.AnAstruct), astructFormCallback.stageOfInterest, formDiv)
 		}
 	}
 

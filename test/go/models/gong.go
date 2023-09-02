@@ -24,9 +24,9 @@ var __member __void
 // It allows runtime reflexion of instances (without the hassle of the "reflect" package)
 type GongStructInterface interface {
 	GetName() (res string)
-	GetID() (res int)
-	GetFields() (res []string)
-	GetFieldStringValue(fieldName string) (res string)
+	// GetID() (res int)
+	// GetFields() (res []string)
+	// GetFieldStringValue(fieldName string) (res string)
 }
 
 // StageStruct enables storage of staged instances
