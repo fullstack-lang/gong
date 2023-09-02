@@ -2874,7 +2874,7 @@ func GetFields[Type Gongstruct]() (res []string) {
 	case FormFieldInt:
 		res = []string{"Name", "Value", "HasMinValidator", "MinValue", "HasMaxValidator", "MaxValue"}
 	case FormFieldSelect:
-		res = []string{"Name", "Value", "Options"}
+		res = []string{"Name", "Value", "Options", "CanBeEmpty"}
 	case FormFieldString:
 		res = []string{"Name", "Value"}
 	case FormFieldTime:
@@ -3123,6 +3123,8 @@ func GetFieldStringValue[Type Gongstruct](instance Type, fieldName string) (res 
 				}
 				res += __instance__.Name
 			}
+		case "CanBeEmpty":
+			res = fmt.Sprintf("%t", any(instance).(FormFieldSelect).CanBeEmpty)
 		}
 	case FormFieldString:
 		switch fieldName {

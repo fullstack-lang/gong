@@ -64,6 +64,10 @@ type FormFieldSelectDB struct {
 
 	// Declation for basic field formfieldselectDB.Name
 	Name_Data sql.NullString
+
+	// Declation for basic field formfieldselectDB.CanBeEmpty
+	// provide the sql storage for the boolan
+	CanBeEmpty_Data sql.NullBool
 	// encoding of pointers
 	FormFieldSelectPointersEnconding
 }
@@ -86,6 +90,8 @@ type FormFieldSelectWOP struct {
 	// insertion for WOP basic fields
 
 	Name string `xlsx:"1"`
+
+	CanBeEmpty bool `xlsx:"2"`
 	// insertion for WOP pointer fields
 }
 
@@ -93,6 +99,7 @@ var FormFieldSelect_Fields = []string{
 	// insertion for WOP basic fields
 	"ID",
 	"Name",
+	"CanBeEmpty",
 }
 
 type BackRepoFormFieldSelectStruct struct {
@@ -415,6 +422,9 @@ func (formfieldselectDB *FormFieldSelectDB) CopyBasicFieldsFromFormFieldSelect(f
 
 	formfieldselectDB.Name_Data.String = formfieldselect.Name
 	formfieldselectDB.Name_Data.Valid = true
+
+	formfieldselectDB.CanBeEmpty_Data.Bool = formfieldselect.CanBeEmpty
+	formfieldselectDB.CanBeEmpty_Data.Valid = true
 }
 
 // CopyBasicFieldsFromFormFieldSelectWOP
@@ -423,12 +433,16 @@ func (formfieldselectDB *FormFieldSelectDB) CopyBasicFieldsFromFormFieldSelectWO
 
 	formfieldselectDB.Name_Data.String = formfieldselect.Name
 	formfieldselectDB.Name_Data.Valid = true
+
+	formfieldselectDB.CanBeEmpty_Data.Bool = formfieldselect.CanBeEmpty
+	formfieldselectDB.CanBeEmpty_Data.Valid = true
 }
 
 // CopyBasicFieldsToFormFieldSelect
 func (formfieldselectDB *FormFieldSelectDB) CopyBasicFieldsToFormFieldSelect(formfieldselect *models.FormFieldSelect) {
 	// insertion point for checkout of basic fields (back repo to stage)
 	formfieldselect.Name = formfieldselectDB.Name_Data.String
+	formfieldselect.CanBeEmpty = formfieldselectDB.CanBeEmpty_Data.Bool
 }
 
 // CopyBasicFieldsToFormFieldSelectWOP
@@ -436,6 +450,7 @@ func (formfieldselectDB *FormFieldSelectDB) CopyBasicFieldsToFormFieldSelectWOP(
 	formfieldselect.ID = int(formfieldselectDB.ID)
 	// insertion point for checkout of basic fields (back repo to stage)
 	formfieldselect.Name = formfieldselectDB.Name_Data.String
+	formfieldselect.CanBeEmpty = formfieldselectDB.CanBeEmpty_Data.Bool
 }
 
 // Backup generates a json file from a slice of all FormFieldSelectDB instances in the backrepo

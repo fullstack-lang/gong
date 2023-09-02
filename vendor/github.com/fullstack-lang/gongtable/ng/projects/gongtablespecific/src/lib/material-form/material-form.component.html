@@ -29,6 +29,9 @@
                 <input *ngIf="formField.FormFieldTime" type="time" matInput [formControlName]="formField.Name" [placeholder]="formField.Placeholder" [step]="formField.FormFieldTime.Step">
                 <input *ngIf="formField.FormFieldDateTime" matInput [formControlName]="formField.Name" [placeholder]="formField.Placeholder">
                 <mat-select *ngIf="formField.FormFieldSelect" [formControlName]="formField.Name">
+                    <mat-option *ngIf="formField.FormFieldSelect.CanBeEmpty">
+                        Empty
+                    </mat-option>
                     <mat-option *ngFor="let option of formField.FormFieldSelect.Options" [value]="option.Name">
                         {{ option.Name }}
                     </mat-option>

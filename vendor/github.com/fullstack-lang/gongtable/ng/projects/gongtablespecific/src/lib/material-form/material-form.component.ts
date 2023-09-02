@@ -201,7 +201,11 @@ export class MaterialFormComponent implements OnInit {
                 generatedFormGroupConfig[formField.Name] = [timeStr, Validators.required]
               }
               if (formField.FormFieldSelect) {
-                generatedFormGroupConfig[formField.Name] = [formField.FormFieldSelect.Value?.Name, Validators.required]
+                if (formField.FormFieldSelect.CanBeEmpty) {
+                  generatedFormGroupConfig[formField.Name] = [formField.FormFieldSelect.Value?.Name, []]
+                } else {
+                  generatedFormGroupConfig[formField.Name] = [formField.FormFieldSelect.Value?.Name, Validators.required]
+                }
               }
             }
           }
@@ -333,17 +337,22 @@ export class MaterialFormComponent implements OnInit {
             if (newValue != formFieldSelect.Value?.Name) {
               formFieldSelect.Value = newValue
 
-              if (formFieldSelect.Options == undefined) {
+              if (!formFieldSelect.CanBeEmpty && formFieldSelect.Options == undefined) {
                 return
               }
 
-              for (let option of formFieldSelect.Options) {
-                if (option.Name == newValue) {
-                  formFieldSelect.Value = option
-                  formFieldSelect.ValueID.Int64 = option.ID
-                }
+              if (formFieldSelect.CanBeEmpty && formFieldSelect.Value == undefined) {
+                formFieldSelect.ValueID.Int64 = 0
               }
 
+              if (formFieldSelect.Options) {
+                for (let option of formFieldSelect.Options) {
+                  if (option.Name == newValue) {
+                    formFieldSelect.Value = option
+                    formFieldSelect.ValueID.Int64 = option.ID
+                  }
+                }
+              }
               promises.push(this.formFieldSelectService.updateFormFieldSelect(formFieldSelect, this.DataStack))
             }
           }
