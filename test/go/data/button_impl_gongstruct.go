@@ -86,7 +86,8 @@ func FillUpForm[T models.Gongstruct](instance *T, stageOfInterest *models.StageS
 			formDiv.FormFields = append(formDiv.FormFields, formField)
 
 			formFieldSelect := (&form.FormFieldSelect{
-				Name: "association",
+				Name:       "association",
+				CanBeEmpty: true,
 			}).Stage(formStage)
 			formField.FormFieldSelect = formFieldSelect
 
