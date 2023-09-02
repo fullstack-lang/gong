@@ -561,10 +561,20 @@ type GongstructEnumStringField interface {
 	CodeValues() []string
 }
 
+type PointerToGongstructEnumStringField interface {
+	*AEnumType | *BEnumType
+	FromCodeString(input string) (err error)
+}
+
 type GongstructEnumIntField interface {
 	CEnumTypeInt
 	Codes() []string
 	CodeValues() []int
+}
+
+type PointerToGongstructEnumIntField interface {
+	*CEnumTypeInt
+	FromCodeString(input string) (err error)
 }
 
 // Gongstruct is the type parameter for generated generic function that allows

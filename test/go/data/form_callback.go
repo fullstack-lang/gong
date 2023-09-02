@@ -52,18 +52,11 @@ func (astructFormCallback *AstructFormCallback) OnSave() {
 		case "Booleanfield":
 			FormDivBasicFieldToField(&(astruct.Booleanfield), formDiv)
 		case "Aenum":
-			if value := formDiv.FormFields[0].FormFieldSelect.Value; value != nil {
-				if err := (&astruct.Aenum).FromString(value.GetName()); err != nil {
-					log.Println("Unkwnown enum value", value.GetName())
-				}
-			}
+			FormDivEnumStringFieldToField(&(astruct.Aenum), formDiv)
+		case "Aenum_2":
+			FormDivEnumStringFieldToField(&(astruct.Aenum_2), formDiv)
 		case "Cenum":
-			if value := formDiv.FormFields[0].FormFieldSelect.Value; value != nil {
-				if err := (&astruct.CEnum).FromCodeString(value.GetName()); err != nil {
-					log.Println("Unkwnown enum value", value.GetName())
-				}
-
-			}
+			FormDivEnumIntFieldToField(&(astruct.CEnum), formDiv)
 		case "Intfield":
 			FormDivBasicFieldToField(&(astruct.Intfield), formDiv)
 		case "Duration1":
