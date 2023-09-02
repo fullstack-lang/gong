@@ -46,21 +46,11 @@ func (astructFormCallback *AstructFormCallback) OnSave() {
 	for _, formDiv := range formGroup.FormDivs {
 		switch formDiv.Name {
 		case "Name":
-			newValue := formDiv.FormFields[0].FormFieldString.Value
-			astruct.Name = newValue
+			FormDivBasicFieldToField(&(astruct.Name), formDiv)
 		case "Date":
-			date := formDiv.FormFields[0].FormFieldDate.Value
-
-			// in the angular form div, the time.Time is show twice, once for the Date and once for the Time
-			// construing the date back, one needs to truncate the date, otherwise
-			// hours, minutes, seconds and nanoseconds would be added twice
-			date = date.Truncate(24 * time.Hour)
-
-			time := formDiv.FormFields[1].FormFieldTime.Value
-			astruct.Date = addTimeComponents(date, time)
+			FormDivBasicFieldToField(&(astruct.Date), formDiv)
 		case "Booleanfield":
-			value := formDiv.CheckBoxs[0].Value
-			astruct.Booleanfield = value
+			FormDivBasicFieldToField(&(astruct.Booleanfield), formDiv)
 		case "Aenum":
 			if value := formDiv.FormFields[0].FormFieldSelect.Value; value != nil {
 				if err := (&astruct.Aenum).FromString(value.GetName()); err != nil {
@@ -75,19 +65,11 @@ func (astructFormCallback *AstructFormCallback) OnSave() {
 
 			}
 		case "Intfield":
-			newValue := formDiv.FormFields[0].FormFieldInt.Value
-			astruct.Intfield = newValue
+			FormDivBasicFieldToField(&(astruct.Intfield), formDiv)
 		case "Duration1":
-			hours := formDiv.FormFields[0].FormFieldInt.Value
-			minutes := formDiv.FormFields[1].FormFieldInt.Value
-			seconds := formDiv.FormFields[2].FormFieldInt.Value
-
-			astruct.Duration1 = time.Duration(hours)*time.Hour +
-				time.Duration(minutes)*time.Minute +
-				time.Duration(seconds)*time.Second
+			FormDivBasicFieldToField(&(astruct.Duration1), formDiv)
 		case "Floatfield":
-			newValue := formDiv.FormFields[0].FormFieldFloat64.Value
-			astruct.Floatfield = newValue
+			FormDivBasicFieldToField(&(astruct.Floatfield), formDiv)
 		}
 	}
 
