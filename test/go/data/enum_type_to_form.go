@@ -6,7 +6,7 @@ import (
 	"github.com/fullstack-lang/gong/test/go/models"
 )
 
-func FillUpFormDivEnumStringType[T models.PointerToGongstruct, TF models.GongstructEnumStringField](
+func EnumTypeStringToForm[T models.PointerToGongstruct, TF models.GongstructEnumStringField](
 	fieldName string, field TF, instance T, formStage *form.StageStruct, formGroup *form.FormGroup,
 ) {
 	formDiv := (&form.FormDiv{
@@ -42,7 +42,7 @@ func FillUpFormDivEnumStringType[T models.PointerToGongstruct, TF models.Gongstr
 	}
 }
 
-func FillUpFormDivEnumIntType[T models.PointerToGongstruct, TF models.GongstructEnumIntField](
+func EnumTypeIntToForm[T models.PointerToGongstruct, TF models.GongstructEnumIntField](
 	fieldName string, field TF, instance T, formStage *form.StageStruct, formGroup *form.FormGroup,
 ) {
 	formDiv := (&form.FormDiv{

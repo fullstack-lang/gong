@@ -8,7 +8,7 @@ import (
 	"github.com/fullstack-lang/gong/test/go/models"
 )
 
-func FillUpFormDivBasicField[T models.PointerToGongstruct, TF models.GongtructBasicField](
+func BasicFieldtoForm[T models.PointerToGongstruct, TF models.GongtructBasicField](
 	fieldName string, field TF, instance T, formStage *form.StageStruct, formGroup *form.FormGroup,
 ) {
 
