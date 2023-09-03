@@ -75,26 +75,7 @@ func FillUpForm[T models.Gongstruct](
 	case *models.Astruct:
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, formStage, formGroup)
 
-		formDiv := (&form.FormDiv{
-			Name: "Anarrayofb",
-		}).Stage(formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDiv)
-
-		formEditAssocButton := (&form.FormEditAssocButton{
-			Name:  "Anarrayofb",
-			Label: "Anarrayofb",
-		}).Stage(formStage)
-		formDiv.FormEditAssocButton = formEditAssocButton
-		onAssocEditon := NewOnAssocEditon(r, formStage)
-		formEditAssocButton.OnAssocEditon = onAssocEditon
-
-		formSortAssocButton := (&form.FormSortAssocButton{
-			Name:  "Anarrayofb",
-			Label: "Anarrayofb",
-		}).Stage(formStage)
-		formDiv.FormSortAssocButton = formSortAssocButton
-		onSortingEditon := NewOnSortingEditon(r, formStage)
-		formSortAssocButton.OnSortEdition = onSortingEditon
+		AssociationSliceToForm("Anarrayofb", instanceWithInferedType.Anarrayofb, stageOfInterest, formStage, formGroup, r)
 
 		BasicFieldtoForm("Date", instanceWithInferedType.Date, instanceWithInferedType, formStage, formGroup)
 		BasicFieldtoForm("Booleanfield", instanceWithInferedType.Booleanfield, instanceWithInferedType, formStage, formGroup)
