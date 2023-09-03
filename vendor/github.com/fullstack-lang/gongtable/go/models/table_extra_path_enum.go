@@ -6,6 +6,6 @@ type TableExtraPathEnum string
 
 // values for TableExtraPathEnum
 const (
-	TableSelectExtra TableExtraPathEnum = "-table"
-	TableSortExtra   TableExtraPathEnum = "-table-sort"
+	StackNamePostFixForTableForAssociation        TableExtraPathEnum = "-table"
+	StackNamePostFixForTableForAssociationSorting TableExtraPathEnum = "-table-sort"
 )

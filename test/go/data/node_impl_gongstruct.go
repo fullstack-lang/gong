@@ -8,6 +8,7 @@ import (
 	gong_models "github.com/fullstack-lang/gong/go/models"
 	gongtable "github.com/fullstack-lang/gongtable/go/models"
 	gongtree_models "github.com/fullstack-lang/gongtree/go/models"
+	"github.com/gin-gonic/gin"
 
 	"github.com/fullstack-lang/maticons/maticons"
 
@@ -21,6 +22,7 @@ type NodeImplGongstruct struct {
 	formStage          *gongtable.StageStruct
 	stageOfInterest    *models.StageStruct
 	backRepoOfInterest *orm.BackRepoStruct
+	r                  *gin.Engine
 }
 
 func NewNodeImplGongstruct(
@@ -29,6 +31,7 @@ func NewNodeImplGongstruct(
 	formStage *gongtable.StageStruct,
 	stageOfInterest *models.StageStruct,
 	backRepoOfInterest *orm.BackRepoStruct,
+	r *gin.Engine,
 ) (nodeImplGongstruct *NodeImplGongstruct) {
 
 	nodeImplGongstruct = new(NodeImplGongstruct)
@@ -37,6 +40,7 @@ func NewNodeImplGongstruct(
 	nodeImplGongstruct.formStage = formStage
 	nodeImplGongstruct.stageOfInterest = stageOfInterest
 	nodeImplGongstruct.backRepoOfInterest = backRepoOfInterest
+	nodeImplGongstruct.r = r
 	return
 }
 
@@ -79,19 +83,19 @@ func (nodeImplGongstruct *NodeImplGongstruct) OnAfterUpdate(
 
 	// insertion point
 	if nodeImplGongstruct.gongStruct.GetName() == "Astruct" {
-		fillUpTable[models.Astruct](nodeImplGongstruct, tableStage, table)
+		fillUpTable[models.Astruct](nodeImplGongstruct, tableStage, table, nodeImplGongstruct.r)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "AstructBstruct2Use" {
-		fillUpTable[models.AstructBstruct2Use](nodeImplGongstruct, tableStage, table)
+		fillUpTable[models.AstructBstruct2Use](nodeImplGongstruct, tableStage, table, nodeImplGongstruct.r)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "AstructBstructUse" {
-		fillUpTable[models.AstructBstructUse](nodeImplGongstruct, tableStage, table)
+		fillUpTable[models.AstructBstructUse](nodeImplGongstruct, tableStage, table, nodeImplGongstruct.r)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "Bstruct" {
-		fillUpTable[models.Bstruct](nodeImplGongstruct, tableStage, table)
+		fillUpTable[models.Bstruct](nodeImplGongstruct, tableStage, table, nodeImplGongstruct.r)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "Dstruct" {
-		fillUpTable[models.Dstruct](nodeImplGongstruct, tableStage, table)
+		fillUpTable[models.Dstruct](nodeImplGongstruct, tableStage, table, nodeImplGongstruct.r)
 	}
 
 	tableStage.Commit()
@@ -101,6 +105,7 @@ func fillUpTable[T models.Gongstruct](
 	nodeImplGongstruct *NodeImplGongstruct,
 	tableStage *gongtable.StageStruct,
 	table *gongtable.Table,
+	r *gin.Engine,
 ) {
 
 	fields := models.GetFields[T]()
@@ -128,7 +133,7 @@ func fillUpTable[T models.Gongstruct](
 		row.Name = models.GetFieldStringValue[T](*structInstance, "Name")
 
 		updater := NewRowUpdate[T](structInstance,
-			nodeImplGongstruct.formStage, nodeImplGongstruct.stageOfInterest)
+			nodeImplGongstruct.formStage, nodeImplGongstruct.stageOfInterest, r)
 		updater.Instance = structInstance
 		row.Impl = updater
 
@@ -182,11 +187,13 @@ func NewRowUpdate[T models.Gongstruct](
 	Instance *T,
 	formStage *gongtable.StageStruct,
 	stageOfInterest *models.StageStruct,
+	r *gin.Engine,
 ) (rowUpdate *RowUpdate[T]) {
 	rowUpdate = new(RowUpdate[T])
 	rowUpdate.Instance = Instance
 	rowUpdate.formStage = formStage
 	rowUpdate.stageOfInterest = stageOfInterest
+	rowUpdate.r = r
 	return
 }
 
@@ -194,6 +201,7 @@ type RowUpdate[T models.Gongstruct] struct {
 	Instance        *T
 	formStage       *gongtable.StageStruct
 	stageOfInterest *models.StageStruct
+	r               *gin.Engine
 }
 
 func (rowUpdate *RowUpdate[T]) RowUpdated(stage *gongtable.StageStruct, row, updatedRow *gongtable.Row) {
@@ -209,7 +217,7 @@ func (rowUpdate *RowUpdate[T]) RowUpdated(stage *gongtable.StageStruct, row, upd
 			Name:   gongtable.FormGroupDefaultName.ToString(),
 			OnSave: NewAstructFormCallback(rowUpdate.stageOfInterest, formStage, instancesTyped),
 		}).Stage(formStage)
-		FillUpForm(instancesTyped, rowUpdate.stageOfInterest, formStage, formGroup)
+		FillUpForm(instancesTyped, rowUpdate.stageOfInterest, formStage, formGroup, rowUpdate.r)
 	}
 	formStage.Commit()
 

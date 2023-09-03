@@ -282,9 +282,9 @@ func (tableextrapathenum TableExtraPathEnum) ToString() (res string) {
 	// migration of former implementation of enum
 	switch tableextrapathenum {
 	// insertion code per enum code
-	case TableSelectExtra:
+	case StackNamePostFixForTableForAssociation:
 		res = "-table"
-	case TableSortExtra:
+	case StackNamePostFixForTableForAssociationSorting:
 		res = "-table-sort"
 	}
 	return
@@ -295,9 +295,9 @@ func (tableextrapathenum *TableExtraPathEnum) FromString(input string) (err erro
 	switch input {
 	// insertion code per enum code
 	case "-table":
-		*tableextrapathenum = TableSelectExtra
+		*tableextrapathenum = StackNamePostFixForTableForAssociation
 	case "-table-sort":
-		*tableextrapathenum = TableSortExtra
+		*tableextrapathenum = StackNamePostFixForTableForAssociationSorting
 	default:
 		return errUnkownEnum
 	}
@@ -308,10 +308,10 @@ func (tableextrapathenum *TableExtraPathEnum) FromCodeString(input string) (err 
 
 	switch input {
 	// insertion code per enum code
-	case "TableSelectExtra":
-		*tableextrapathenum = TableSelectExtra
-	case "TableSortExtra":
-		*tableextrapathenum = TableSortExtra
+	case "StackNamePostFixForTableForAssociation":
+		*tableextrapathenum = StackNamePostFixForTableForAssociation
+	case "StackNamePostFixForTableForAssociationSorting":
+		*tableextrapathenum = StackNamePostFixForTableForAssociationSorting
 	default:
 		return errUnkownEnum
 	}
@@ -322,10 +322,10 @@ func (tableextrapathenum *TableExtraPathEnum) ToCodeString() (res string) {
 
 	switch *tableextrapathenum {
 	// insertion code per enum code
-	case TableSelectExtra:
-		res = "TableSelectExtra"
-	case TableSortExtra:
-		res = "TableSortExtra"
+	case StackNamePostFixForTableForAssociation:
+		res = "StackNamePostFixForTableForAssociation"
+	case StackNamePostFixForTableForAssociationSorting:
+		res = "StackNamePostFixForTableForAssociationSorting"
 	}
 	return
 }

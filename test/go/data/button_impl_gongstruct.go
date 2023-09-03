@@ -4,6 +4,8 @@ package data
 import (
 	"log"
 
+	"github.com/gin-gonic/gin"
+
 	gong_models "github.com/fullstack-lang/gong/go/models"
 	form "github.com/fullstack-lang/gongtable/go/models"
 	gongtree_buttons "github.com/fullstack-lang/gongtree/go/buttons"
@@ -17,6 +19,7 @@ type ButtonImplGongstruct struct {
 	Icon            gongtree_buttons.ButtonType
 	formStage       *form.StageStruct
 	stageOfInterest *models.StageStruct
+	r               *gin.Engine
 }
 
 func NewButtonImplGongstruct(
@@ -24,6 +27,7 @@ func NewButtonImplGongstruct(
 	icon gongtree_buttons.ButtonType,
 	formStage *form.StageStruct,
 	stageOfInterest *models.StageStruct,
+	r *gin.Engine,
 ) (buttonImplGongstruct *ButtonImplGongstruct) {
 
 	buttonImplGongstruct = new(ButtonImplGongstruct)
@@ -31,6 +35,7 @@ func NewButtonImplGongstruct(
 	buttonImplGongstruct.gongStruct = gongStruct
 	buttonImplGongstruct.formStage = formStage
 	buttonImplGongstruct.stageOfInterest = stageOfInterest
+	buttonImplGongstruct.r = r
 
 	return
 }
@@ -53,16 +58,44 @@ func (buttonImpl *ButtonImplGongstruct) ButtonUpdated(
 	switch buttonImpl.gongStruct.Name {
 	case "Astruct":
 		astruct := new(models.Astruct)
-		FillUpForm(astruct, buttonImpl.stageOfInterest, formStage, formGroup)
+		FillUpForm(astruct, buttonImpl.stageOfInterest, formStage, formGroup, buttonImpl.r)
 	}
 	formStage.Commit()
 }
 
-func FillUpForm[T models.Gongstruct](instance *T, stageOfInterest *models.StageStruct, formStage *form.StageStruct, formGroup *form.FormGroup) {
+func FillUpForm[T models.Gongstruct](
+	instance *T,
+	stageOfInterest *models.StageStruct,
+	formStage *form.StageStruct,
+	formGroup *form.FormGroup,
+	r *gin.Engine,
+) {
 
 	switch instanceWithInferedType := any(instance).(type) {
 	case *models.Astruct:
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, formStage, formGroup)
+
+		formDiv := (&form.FormDiv{
+			Name: "Anarrayofb",
+		}).Stage(formStage)
+		formGroup.FormDivs = append(formGroup.FormDivs, formDiv)
+
+		formEditAssocButton := (&form.FormEditAssocButton{
+			Name:  "Anarrayofb",
+			Label: "Anarrayofb",
+		}).Stage(formStage)
+		formDiv.FormEditAssocButton = formEditAssocButton
+		onAssocEditon := NewOnAssocEditon(r, formStage)
+		formEditAssocButton.OnAssocEditon = onAssocEditon
+
+		formSortAssocButton := (&form.FormSortAssocButton{
+			Name:  "Anarrayofb",
+			Label: "Anarrayofb",
+		}).Stage(formStage)
+		formDiv.FormSortAssocButton = formSortAssocButton
+		onSortingEditon := NewOnSortingEditon(r, formStage)
+		formSortAssocButton.OnSortEdition = onSortingEditon
+
 		BasicFieldtoForm("Date", instanceWithInferedType.Date, instanceWithInferedType, formStage, formGroup)
 		BasicFieldtoForm("Booleanfield", instanceWithInferedType.Booleanfield, instanceWithInferedType, formStage, formGroup)
 		BasicFieldtoForm("Intfield", instanceWithInferedType.Intfield, instanceWithInferedType, formStage, formGroup)
@@ -76,5 +109,6 @@ func FillUpForm[T models.Gongstruct](instance *T, stageOfInterest *models.StageS
 		AssociationFieldToForm[*models.Astruct, *models.Bstruct, models.Bstruct]("Associationtob", instanceWithInferedType.Associationtob, stageOfInterest, instanceWithInferedType, formStage, formGroup)
 		AssociationFieldToForm[*models.Astruct, *models.Bstruct, models.Bstruct]("Anotherassociationtob_2", instanceWithInferedType.Anotherassociationtob_2, stageOfInterest, instanceWithInferedType, formStage, formGroup)
 		AssociationFieldToForm[*models.Astruct, *models.Astruct, models.Astruct]("AnAstruct", instanceWithInferedType.AnAstruct, stageOfInterest, instanceWithInferedType, formStage, formGroup)
+
 	}
 }

@@ -420,7 +420,7 @@ export class MaterialFormComponent implements OnInit {
               // when the association button is pressed
               this.dialog.open(MaterialTableComponent, {
                 data: {
-                  DataStack: this.DataStack + gongtable.TableExtraPathEnum.TableSelectExtra,
+                  DataStack: this.DataStack + gongtable.TableExtraPathEnum.StackNamePostFixForTableForAssociation,
                   TableName: gongtable.TableExtraNameEnum.TableSelectExtraName
                 },
               });
@@ -458,7 +458,7 @@ export class MaterialFormComponent implements OnInit {
               // when the association button is pressed
               this.dialog.open(MaterialTableComponent, {
                 data: {
-                  DataStack: this.DataStack + gongtable.TableExtraPathEnum.TableSortExtra,
+                  DataStack: this.DataStack + gongtable.TableExtraPathEnum.StackNamePostFixForTableForAssociationSorting,
                   TableName: gongtable.TableExtraNameEnum.TableSortExtraName
                 },
               });
