@@ -353,9 +353,18 @@ export class MaterialTableComponent implements OnInit {
     if (modifiedRows.size == 0) {
       // in case this component is called as a modal window (MatDialog)
       // exits,
-      if (this.tableDialogData) {
-        this.dialogRef?.close('Closing the application')
-      }
+      this.selectedTable.SavingInProgress = true
+      this.tableService.updateTable(this.selectedTable!, this.DataStack).subscribe(
+        () => {
+          // in case this component is called as a modal window (MatDialog)
+          // exits,
+          if (this.tableDialogData) {
+            this.dialogRef?.close('Closing the application')
+          }
+
+          this.refresh()
+        }
+      )
       return
     }
 

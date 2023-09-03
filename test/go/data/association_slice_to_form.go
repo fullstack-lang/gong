@@ -3,6 +3,8 @@ package data
 
 import (
 	"fmt"
+	"log"
+	"sort"
 
 	"github.com/gin-gonic/gin"
 
@@ -16,7 +18,7 @@ import (
 // - one for selection
 // - one for sorting
 func AssociationSliceToForm[FieldType models.PointerToGongstruct](
-	fieldName string, field []FieldType,
+	fieldName string, field *[]FieldType,
 	stageOfInterest *models.StageStruct, formStage *form.StageStruct, formGroup *form.FormGroup,
 	r *gin.Engine,
 ) {
@@ -47,7 +49,7 @@ func AssociationSliceToForm[FieldType models.PointerToGongstruct](
 func NewOnAssocEditon[FieldType models.PointerToGongstruct](
 	r *gin.Engine,
 	formStage *form.StageStruct,
-	field []FieldType,
+	field *[]FieldType,
 	stageOfInterest *models.StageStruct,
 ) (onAssocEdition *OnAssocEditon[FieldType]) {
 
@@ -64,7 +66,7 @@ func NewOnAssocEditon[FieldType models.PointerToGongstruct](
 type OnAssocEditon[FieldType models.PointerToGongstruct] struct {
 	r               *gin.Engine
 	formStage       *form.StageStruct
-	field           []FieldType
+	field           *[]FieldType
 	stageOfInterest *models.StageStruct
 }
 
@@ -76,6 +78,13 @@ func (onAssocEditon *OnAssocEditon[FieldType]) OnButtonPressed() {
 	tableStageForSelection, _ := gongtable_fullstack.NewStackInstance(onAssocEditon.r, tableStackName)
 
 	instanceSet := *models.GetGongstructInstancesSetFromPointerType[FieldType](onAssocEditon.stageOfInterest)
+	instanceSlice := make([]FieldType, 0)
+	for instance := range instanceSet {
+		instanceSlice = append(instanceSlice, instance)
+	}
+	sort.Slice(instanceSlice, func(i, j int) bool {
+		return instanceSlice[i].GetName() < instanceSlice[j].GetName()
+	})
 
 	table := new(gongtable_models.Table).Stage(tableStageForSelection)
 	table.Name = string(form.TableSelectExtraName)
@@ -85,8 +94,9 @@ func (onAssocEditon *OnAssocEditon[FieldType]) OnButtonPressed() {
 	table.HasCheckableRows = true
 	table.HasSaveButton = true
 
+	// filterdInstanceSet is the set of instance that are part of the field
 	filterdInstanceSet := make(map[FieldType]any, 0)
-	for _, instance := range onAssocEditon.field {
+	for _, instance := range *onAssocEditon.field {
 		filterdInstanceSet[instance] = nil
 	}
 
@@ -95,7 +105,7 @@ func (onAssocEditon *OnAssocEditon[FieldType]) OnButtonPressed() {
 		column.Name = fieldName
 		table.DisplayedColumns = append(table.DisplayedColumns, column)
 	}
-	for instance := range instanceSet {
+	for _, instance := range instanceSlice {
 		row := new(gongtable_models.Row).Stage(tableStageForSelection)
 		row.Name = instance.GetName()
 		table.Rows = append(table.Rows, row)
@@ -116,5 +126,51 @@ func (onAssocEditon *OnAssocEditon[FieldType]) OnButtonPressed() {
 			row.Cells = append(row.Cells, cell)
 		}
 	}
+
+	// set up control inversion for the saving of the table
+	table.Impl = NewTablePickSaver[FieldType](onAssocEditon.field, onAssocEditon.stageOfInterest)
+
 	tableStageForSelection.Commit()
+}
+
+func NewTablePickSaver[FieldType models.PointerToGongstruct](
+	field *[]FieldType,
+	stageOfInterest *models.StageStruct,
+) (tablePickSaver *TablePickSaver[FieldType]) {
+
+	tablePickSaver = new(TablePickSaver[FieldType])
+	tablePickSaver.field = field
+	tablePickSaver.stageOfInterest = stageOfInterest
+
+	return
+}
+
+type TablePickSaver[FieldType models.PointerToGongstruct] struct {
+	field           *[]FieldType
+	stageOfInterest *models.StageStruct
+}
+
+func (tablePickSaver *TablePickSaver[FieldType]) TableUpdated(stage *form.StageStruct, table, updatedTable *form.Table) {
+	log.Println("TablePickSaver: TableUpdated")
+
+	// checkout to the stage to get the rows that have been checked and not
+	stage.Checkout()
+
+	instanceSet := *models.GetGongstructInstancesSetFromPointerType[FieldType](tablePickSaver.stageOfInterest)
+	instanceSlice := make([]FieldType, 0)
+	for instance := range instanceSet {
+		instanceSlice = append(instanceSlice, instance)
+	}
+	sort.Slice(instanceSlice, func(i, j int) bool {
+		return instanceSlice[i].GetName() < instanceSlice[j].GetName()
+	})
+
+	*tablePickSaver.field = make([]FieldType, 0)
+
+	for idx, row := range table.Rows {
+		if row.IsChecked {
+			instance := instanceSlice[idx]
+			*tablePickSaver.field = append(*tablePickSaver.field, instance)
+		}
+	}
 }
