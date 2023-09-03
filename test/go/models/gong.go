@@ -1144,6 +1144,189 @@ func GetFields[Type Gongstruct]() (res []string) {
 	return
 }
 
+func GetFieldsFromPointer[Type PointerToGongstruct]() (res []string) {
+
+	var ret Type
+
+	switch any(ret).(type) {
+	// insertion point for generic get gongstruct name
+	case *Astruct:
+		res = []string{"Name", "Date", "Booleanfield", "Aenum", "Aenum_2", "Benum", "CEnum", "CName", "CFloatfield", "Bstruct", "Bstruct2", "Dstruct", "Dstruct2", "Dstruct3", "Dstruct4", "Floatfield", "Intfield", "Anotherbooleanfield", "Duration1", "Associationtob", "Anotherassociationtob_2", "Anarrayofb", "Anotherarrayofb", "Anarrayofa", "AnarrayofbUse", "Anarrayofb2Use", "AnAstruct", "StructRef", "FieldRef", "EnumIntRef", "EnumStringRef", "EnumValue", "ConstIdentifierValue"}
+	case *AstructBstruct2Use:
+		res = []string{"Name", "Bstrcut2"}
+	case *AstructBstructUse:
+		res = []string{"Name", "Bstruct2"}
+	case *Bstruct:
+		res = []string{"Name", "Floatfield", "Floatfield2", "Intfield"}
+	case *Dstruct:
+		res = []string{"Name"}
+	}
+	return
+}
+
+func GetFieldStringValueFromPointer[Type PointerToGongstruct](instance Type, fieldName string) (res string) {
+
+	switch inferedInstance := any(instance).(type) {
+	// insertion point for generic get gongstruct field value
+	case *Astruct:
+		switch fieldName {
+		// string value of fields
+		case "Name":
+			res = inferedInstance.Name
+		case "Date":
+			res = inferedInstance.Date.String()
+		case "Booleanfield":
+			res = fmt.Sprintf("%t", inferedInstance.Booleanfield)
+		case "Aenum":
+			enum := inferedInstance.Aenum
+			res = enum.ToCodeString()
+		case "Aenum_2":
+			enum := inferedInstance.Aenum_2
+			res = enum.ToCodeString()
+		case "Benum":
+			enum := inferedInstance.Benum
+			res = enum.ToCodeString()
+		case "CEnum":
+			enum := inferedInstance.CEnum
+			res = enum.ToCodeString()
+		case "CName":
+			res = inferedInstance.CName
+		case "CFloatfield":
+			res = fmt.Sprintf("%f", inferedInstance.CFloatfield)
+		case "Bstruct":
+			if inferedInstance.Bstruct != nil {
+				res = inferedInstance.Bstruct.Name
+			}
+		case "Bstruct2":
+			if inferedInstance.Bstruct2 != nil {
+				res = inferedInstance.Bstruct2.Name
+			}
+		case "Dstruct":
+			if inferedInstance.Dstruct != nil {
+				res = inferedInstance.Dstruct.Name
+			}
+		case "Dstruct2":
+			if inferedInstance.Dstruct2 != nil {
+				res = inferedInstance.Dstruct2.Name
+			}
+		case "Dstruct3":
+			if inferedInstance.Dstruct3 != nil {
+				res = inferedInstance.Dstruct3.Name
+			}
+		case "Dstruct4":
+			if inferedInstance.Dstruct4 != nil {
+				res = inferedInstance.Dstruct4.Name
+			}
+		case "Floatfield":
+			res = fmt.Sprintf("%f", inferedInstance.Floatfield)
+		case "Intfield":
+			res = fmt.Sprintf("%d", inferedInstance.Intfield)
+		case "Anotherbooleanfield":
+			res = fmt.Sprintf("%t", inferedInstance.Anotherbooleanfield)
+		case "Duration1":
+			res = fmt.Sprintf("%d", inferedInstance.Duration1)
+		case "Associationtob":
+			if inferedInstance.Associationtob != nil {
+				res = inferedInstance.Associationtob.Name
+			}
+		case "Anotherassociationtob_2":
+			if inferedInstance.Anotherassociationtob_2 != nil {
+				res = inferedInstance.Anotherassociationtob_2.Name
+			}
+		case "Anarrayofb":
+			for idx, __instance__ := range inferedInstance.Anarrayofb {
+				if idx > 0 {
+					res += "\n"
+				}
+				res += __instance__.Name
+			}
+		case "Anotherarrayofb":
+			for idx, __instance__ := range inferedInstance.Anotherarrayofb {
+				if idx > 0 {
+					res += "\n"
+				}
+				res += __instance__.Name
+			}
+		case "Anarrayofa":
+			for idx, __instance__ := range inferedInstance.Anarrayofa {
+				if idx > 0 {
+					res += "\n"
+				}
+				res += __instance__.Name
+			}
+		case "AnarrayofbUse":
+			for idx, __instance__ := range inferedInstance.AnarrayofbUse {
+				if idx > 0 {
+					res += "\n"
+				}
+				res += __instance__.Name
+			}
+		case "Anarrayofb2Use":
+			for idx, __instance__ := range inferedInstance.Anarrayofb2Use {
+				if idx > 0 {
+					res += "\n"
+				}
+				res += __instance__.Name
+			}
+		case "AnAstruct":
+			if inferedInstance.AnAstruct != nil {
+				res = inferedInstance.AnAstruct.Name
+			}
+		case "StructRef":
+			res = inferedInstance.StructRef
+		case "FieldRef":
+			res = inferedInstance.FieldRef
+		case "EnumIntRef":
+			res = inferedInstance.EnumIntRef
+		case "EnumStringRef":
+			res = inferedInstance.EnumStringRef
+		case "EnumValue":
+			res = inferedInstance.EnumValue
+		case "ConstIdentifierValue":
+			res = inferedInstance.ConstIdentifierValue
+		}
+	case *AstructBstruct2Use:
+		switch fieldName {
+		// string value of fields
+		case "Name":
+			res = inferedInstance.Name
+		case "Bstrcut2":
+			if inferedInstance.Bstrcut2 != nil {
+				res = inferedInstance.Bstrcut2.Name
+			}
+		}
+	case *AstructBstructUse:
+		switch fieldName {
+		// string value of fields
+		case "Name":
+			res = inferedInstance.Name
+		case "Bstruct2":
+			if inferedInstance.Bstruct2 != nil {
+				res = inferedInstance.Bstruct2.Name
+			}
+		}
+	case *Bstruct:
+		switch fieldName {
+		// string value of fields
+		case "Name":
+			res = inferedInstance.Name
+		case "Floatfield":
+			res = fmt.Sprintf("%f", inferedInstance.Floatfield)
+		case "Floatfield2":
+			res = fmt.Sprintf("%f", inferedInstance.Floatfield2)
+		case "Intfield":
+			res = fmt.Sprintf("%d", inferedInstance.Intfield)
+		}
+	case *Dstruct:
+		switch fieldName {
+		// string value of fields
+		case "Name":
+			res = inferedInstance.Name
+		}
+	}
+	return
+}
+
 func GetFieldStringValue[Type Gongstruct](instance Type, fieldName string) (res string) {
 	var ret Type
 
