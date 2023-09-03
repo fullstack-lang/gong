@@ -52,6 +52,16 @@ func (orchestrator *RowOrchestrator) OnAfterUpdate(
 
 	stagedRow.OnAfterUpdate(gongsvgStage, stagedRow, backRepoRow)
 }
+// TableOrchestrator
+type TableOrchestrator struct {
+}
+
+func (orchestrator *TableOrchestrator) OnAfterUpdate(
+	gongsvgStage *StageStruct,
+	stagedTable, backRepoTable *Table) {
+
+	stagedTable.OnAfterUpdate(gongsvgStage, stagedTable, backRepoTable)
+}
 
 func SetOrchestratorOnAfterUpdate[Type Gongstruct](stage *StageStruct) {
 
@@ -69,6 +79,8 @@ func SetOrchestratorOnAfterUpdate[Type Gongstruct](stage *StageStruct) {
 		stage.OnAfterFormSortAssocButtonUpdateCallback = new(FormSortAssocButtonOrchestrator)
 	case Row:
 		stage.OnAfterRowUpdateCallback = new(RowOrchestrator)
+	case Table:
+		stage.OnAfterTableUpdateCallback = new(TableOrchestrator)
 
 	}
 
