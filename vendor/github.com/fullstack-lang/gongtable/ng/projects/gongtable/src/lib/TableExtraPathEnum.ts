@@ -1,8 +1,8 @@
 // generated from ng_file_enum.ts.go
 export enum TableExtraPathEnum {
 	// insertion point	
-	TableSelectExtra = "-table",
-	TableSortExtra = "-table-sort",
+	StackNamePostFixForTableForAssociation = "-table",
+	StackNamePostFixForTableForAssociationSorting = "-table-sort",
 }
 
 export interface TableExtraPathEnumSelect {
@@ -11,6 +11,6 @@ export interface TableExtraPathEnumSelect {
 }
 
 export const TableExtraPathEnumList: TableExtraPathEnumSelect[] = [ // insertion point	
-	{ value: TableExtraPathEnum.TableSelectExtra, viewValue: "-table" },
-	{ value: TableExtraPathEnum.TableSortExtra, viewValue: "-table-sort" },
+	{ value: TableExtraPathEnum.StackNamePostFixForTableForAssociation, viewValue: "-table" },
+	{ value: TableExtraPathEnum.StackNamePostFixForTableForAssociationSorting, viewValue: "-table-sort" },
 ];

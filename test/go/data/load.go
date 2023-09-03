@@ -66,7 +66,7 @@ func Load(
 
 		nodeGongstruct := (&gongtree_models.Node{Name: gongStruct.Name}).Stage(stageForSidebarTree)
 		nodeGongstruct.IsNodeClickable = true
-		nodeGongstruct.Impl = NewNodeImplGongstruct(gongStruct, tableStage, formStage, stageOfInterest, backRepoOfInterest)
+		nodeGongstruct.Impl = NewNodeImplGongstruct(gongStruct, tableStage, formStage, stageOfInterest, backRepoOfInterest, r)
 
 		// add add button
 		addButton := (&gongtree_models.Button{
@@ -78,6 +78,7 @@ func Load(
 			gongtree_buttons.BUTTON_add,
 			formStage,
 			stageOfInterest,
+			r,
 		)
 
 		treeOfGongStructs.RootNodes = append(treeOfGongStructs.RootNodes, nodeGongstruct)
