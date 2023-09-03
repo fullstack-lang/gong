@@ -106,9 +106,9 @@ func FillUpForm[T models.Gongstruct](
 		EnumTypeStringToForm("Aenum_2", instanceWithInferedType.Aenum_2, instanceWithInferedType, formStage, formGroup)
 		EnumTypeIntToForm("Cenum", instanceWithInferedType.CEnum, instanceWithInferedType, formStage, formGroup)
 
-		AssociationFieldToForm[*models.Astruct, *models.Bstruct, models.Bstruct]("Associationtob", instanceWithInferedType.Associationtob, stageOfInterest, instanceWithInferedType, formStage, formGroup)
-		AssociationFieldToForm[*models.Astruct, *models.Bstruct, models.Bstruct]("Anotherassociationtob_2", instanceWithInferedType.Anotherassociationtob_2, stageOfInterest, instanceWithInferedType, formStage, formGroup)
-		AssociationFieldToForm[*models.Astruct, *models.Astruct, models.Astruct]("AnAstruct", instanceWithInferedType.AnAstruct, stageOfInterest, instanceWithInferedType, formStage, formGroup)
+		AssociationFieldToForm("Associationtob", instanceWithInferedType.Associationtob, stageOfInterest, instanceWithInferedType, formStage, formGroup)
+		AssociationFieldToForm("Anotherassociationtob_2", instanceWithInferedType.Anotherassociationtob_2, stageOfInterest, instanceWithInferedType, formStage, formGroup)
+		AssociationFieldToForm("AnAstruct", instanceWithInferedType.AnAstruct, stageOfInterest, instanceWithInferedType, formStage, formGroup)
 
 	}
 }
