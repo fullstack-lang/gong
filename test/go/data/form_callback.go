@@ -64,11 +64,11 @@ func (astructFormCallback *AstructFormCallback) OnSave() {
 		case "Floatfield":
 			FormDivBasicFieldToField(&(astruct.Floatfield), formDiv)
 		case "Associationtob":
-			FormDivSelectFieldToField[*models.Bstruct, models.Bstruct](&(astruct.Associationtob), astructFormCallback.stageOfInterest, formDiv)
+			FormDivSelectFieldToField(&(astruct.Associationtob), astructFormCallback.stageOfInterest, formDiv)
 		case "Anotherassociationtob_2":
-			FormDivSelectFieldToField[*models.Bstruct, models.Bstruct](&(astruct.Anotherassociationtob_2), astructFormCallback.stageOfInterest, formDiv)
+			FormDivSelectFieldToField(&(astruct.Anotherassociationtob_2), astructFormCallback.stageOfInterest, formDiv)
 		case "AnAstruct":
-			FormDivSelectFieldToField[*models.Astruct, models.Astruct](&(astruct.AnAstruct), astructFormCallback.stageOfInterest, formDiv)
+			FormDivSelectFieldToField(&(astruct.AnAstruct), astructFormCallback.stageOfInterest, formDiv)
 		}
 	}
 

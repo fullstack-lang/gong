@@ -675,6 +675,26 @@ func GetGongstructInstancesSet[Type Gongstruct](stage *StageStruct) *map[*Type]a
 	}
 }
 
+func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *StageStruct) *map[Type]any {
+	var ret Type
+
+	switch any(ret).(type) {
+	// insertion point for generic get functions
+	case *Astruct:
+		return any(&stage.Astructs).(*map[Type]any)
+	case *AstructBstruct2Use:
+		return any(&stage.AstructBstruct2Uses).(*map[Type]any)
+	case *AstructBstructUse:
+		return any(&stage.AstructBstructUses).(*map[Type]any)
+	case *Bstruct:
+		return any(&stage.Bstructs).(*map[Type]any)
+	case *Dstruct:
+		return any(&stage.Dstructs).(*map[Type]any)
+	default:
+		return nil
+	}
+}
+
 // GetGongstructInstancesMap returns the map of staged GongstructType instances
 // it is usefull because it allows refactoring of gong struct identifier
 func GetGongstructInstancesMap[Type Gongstruct](stage *StageStruct) *map[string]*Type {

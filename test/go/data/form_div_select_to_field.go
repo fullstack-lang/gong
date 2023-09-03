@@ -5,12 +5,12 @@ import (
 	form "github.com/fullstack-lang/gongtable/go/models"
 )
 
-func FormDivSelectFieldToField[TF models.PointerToGongstruct, TFinfered models.Gongstruct](field *TF, stageOfInterest *models.StageStruct, formDiv *form.FormDiv) {
+func FormDivSelectFieldToField[TF models.PointerToGongstruct](field *TF, stageOfInterest *models.StageStruct, formDiv *form.FormDiv) {
 
 	if formDiv.FormFields[0].FormFieldSelect.Value == nil {
 		*field = nil
 	} else {
-		for _instance := range *models.GetGongstructInstancesSet[TFinfered](stageOfInterest) {
+		for _instance := range *models.GetGongstructInstancesSetFromPointerType[TF](stageOfInterest) {
 			if any(_instance).(TF).GetName() == formDiv.FormFields[0].FormFieldSelect.Value.GetName() {
 				*field = any(_instance).(TF)
 			}

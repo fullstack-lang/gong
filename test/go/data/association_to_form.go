@@ -6,7 +6,7 @@ import (
 	"github.com/fullstack-lang/gong/test/go/models"
 )
 
-func AssociationFieldToForm[T models.PointerToGongstruct, TF models.PointerToGongstruct, TFinfered models.Gongstruct](
+func AssociationFieldToForm[T models.PointerToGongstruct, TF models.PointerToGongstruct](
 	fieldName string, field TF, stageOfInterest *models.StageStruct, instance T, formStage *form.StageStruct, formGroup *form.FormGroup,
 ) {
 
@@ -28,7 +28,7 @@ func AssociationFieldToForm[T models.PointerToGongstruct, TF models.PointerToGon
 	formField.FormFieldSelect = formFieldSelect
 
 	formField.FormFieldSelect.Options = make([]*form.Option, 0)
-	for _instance := range *models.GetGongstructInstancesSet[TFinfered](stageOfInterest) {
+	for _instance := range *models.GetGongstructInstancesSetFromPointerType[TF](stageOfInterest) {
 		option := (&form.Option{
 			Name: any(_instance).(TF).GetName(),
 		}).Stage(formStage)
