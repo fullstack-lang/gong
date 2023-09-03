@@ -27,4 +27,22 @@ type Table struct {
 	// allowing it to be fixed within its parent after a scroll point is reached.
 	// NbOfStickyColumns defines the number of sticky column at the left of the table
 	NbOfStickyColumns int
+
+	// swagger:ignore
+	Impl TableImplInterface
+}
+
+type TableImplInterface interface {
+
+	// TableUpdated function is called each time a Table is modified
+	TableUpdated(stage *StageStruct, table, updatedTable *Table)
+}
+
+// OnAfterUpdate is called when there is an update to the table
+// note the play on words "font table"
+func (table *Table) OnAfterUpdate(stage *StageStruct, _, frontTable *Table) {
+
+	if table.Impl != nil {
+		table.Impl.TableUpdated(stage, table, frontTable)
+	}
 }
