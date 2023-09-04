@@ -76,6 +76,7 @@ func Load(
 		addButton.Impl = NewButtonImplGongstruct(
 			gongStruct,
 			gongtree_buttons.BUTTON_add,
+			tableStage,
 			formStage,
 			stageOfInterest,
 			r,
