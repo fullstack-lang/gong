@@ -8,10 +8,11 @@ import (
 
 	"github.com/gin-gonic/gin"
 
-	"github.com/fullstack-lang/gong/test/go/models"
 	gongtable_fullstack "github.com/fullstack-lang/gongtable/go/fullstack"
 	form "github.com/fullstack-lang/gongtable/go/models"
 	gongtable_models "github.com/fullstack-lang/gongtable/go/models"
+
+	"github.com/fullstack-lang/gong/test/go/models"
 )
 
 // AssociationSliceToForm add a form div with 2 buttons
@@ -41,7 +42,7 @@ func AssociationSliceToForm[FieldType models.PointerToGongstruct](
 		Label: fieldName,
 	}).Stage(formStage)
 	formDiv.FormSortAssocButton = formSortAssocButton
-	onSortingEditon := NewOnSortingEditon(r, formStage)
+	onSortingEditon := NewOnSortingEditon(r, formStage, field, stageOfInterest)
 	formSortAssocButton.OnSortEdition = onSortingEditon
 
 }
