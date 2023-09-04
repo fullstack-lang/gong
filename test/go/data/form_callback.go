@@ -5,8 +5,10 @@ import (
 	"time"
 
 	table "github.com/fullstack-lang/gongtable/go/models"
+	"github.com/gin-gonic/gin"
 
 	"github.com/fullstack-lang/gong/test/go/models"
+	"github.com/fullstack-lang/gong/test/go/orm"
 )
 
 func NewAstructFormCallback(
@@ -14,20 +16,26 @@ func NewAstructFormCallback(
 	tableStage *table.StageStruct,
 	formStage *table.StageStruct,
 	astruct *models.Astruct,
+	r *gin.Engine,
+	backRepoOfInterest *orm.BackRepoStruct,
 ) (astructFormCallback *AstructFormCallback) {
 	astructFormCallback = new(AstructFormCallback)
 	astructFormCallback.stageOfInterest = stageOfInterest
 	astructFormCallback.tableStage = tableStage
 	astructFormCallback.formStage = formStage
 	astructFormCallback.astruct = astruct
+	astructFormCallback.r = r
+	astructFormCallback.backRepoOfInterest = backRepoOfInterest
 	return
 }
 
 type AstructFormCallback struct {
-	stageOfInterest *models.StageStruct
-	tableStage      *table.StageStruct
-	formStage       *table.StageStruct
-	astruct         *models.Astruct
+	stageOfInterest    *models.StageStruct
+	tableStage         *table.StageStruct
+	formStage          *table.StageStruct
+	astruct            *models.Astruct
+	r                  *gin.Engine
+	backRepoOfInterest *orm.BackRepoStruct
 }
 
 func (astructFormCallback *AstructFormCallback) OnSave() {
@@ -76,6 +84,13 @@ func (astructFormCallback *AstructFormCallback) OnSave() {
 	}
 
 	astructFormCallback.stageOfInterest.Commit()
+	fillUpTable[models.Astruct](
+		astructFormCallback.stageOfInterest,
+		astructFormCallback.tableStage,
+		astructFormCallback.formStage,
+		astructFormCallback.r,
+		astructFormCallback.backRepoOfInterest,
+	)
 	astructFormCallback.tableStage.Commit()
 }
 

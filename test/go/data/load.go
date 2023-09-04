@@ -80,6 +80,7 @@ func Load(
 			formStage,
 			stageOfInterest,
 			r,
+			backRepoOfInterest,
 		)
 
 		treeOfGongStructs.RootNodes = append(treeOfGongStructs.RootNodes, nodeGongstruct)
