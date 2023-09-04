@@ -119,7 +119,7 @@ export class MaterialTableComponent implements OnInit {
     this.commutNbFromBackSubscription = this.gongtableCommitNbFromBackService
       .getCommitNbFromBack(intervalMs, this.DataStack)
       .subscribe((commitNbFromBack: number) => {
-        // console.log("OutletComponent, last commit nb " + this.lastCommitNbFromBack + " new: " + commitNbFromBack)
+        console.log("OutletComponent, last commit nb " + this.lastCommitNbFromBack + " new: " + commitNbFromBack)
 
         if (this.lastCommitNbFromBack < commitNbFromBack) {
           const d = new Date()

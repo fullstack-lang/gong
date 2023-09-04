@@ -17,6 +17,7 @@ import (
 type ButtonImplGongstruct struct {
 	gongStruct      *gong_models.GongStruct
 	Icon            gongtree_buttons.ButtonType
+	tableStage      *form.StageStruct
 	formStage       *form.StageStruct
 	stageOfInterest *models.StageStruct
 	r               *gin.Engine
@@ -25,6 +26,7 @@ type ButtonImplGongstruct struct {
 func NewButtonImplGongstruct(
 	gongStruct *gong_models.GongStruct,
 	icon gongtree_buttons.ButtonType,
+	tableStage *form.StageStruct,
 	formStage *form.StageStruct,
 	stageOfInterest *models.StageStruct,
 	r *gin.Engine,
@@ -33,6 +35,7 @@ func NewButtonImplGongstruct(
 	buttonImplGongstruct = new(ButtonImplGongstruct)
 	buttonImplGongstruct.Icon = icon
 	buttonImplGongstruct.gongStruct = gongStruct
+	buttonImplGongstruct.tableStage = tableStage
 	buttonImplGongstruct.formStage = formStage
 	buttonImplGongstruct.stageOfInterest = stageOfInterest
 	buttonImplGongstruct.r = r
@@ -52,7 +55,7 @@ func (buttonImpl *ButtonImplGongstruct) ButtonUpdated(
 
 	formGroup := (&form.FormGroup{
 		Name:   form.FormGroupDefaultName.ToString(),
-		OnSave: NewAstructFormCallback(buttonImpl.stageOfInterest, formStage, nil),
+		OnSave: NewAstructFormCallback(buttonImpl.stageOfInterest, buttonImpl.tableStage, formStage, nil),
 	}).Stage(formStage)
 
 	switch buttonImpl.gongStruct.Name {

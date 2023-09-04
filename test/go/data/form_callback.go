@@ -11,11 +11,13 @@ import (
 
 func NewAstructFormCallback(
 	stageOfInterest *models.StageStruct,
+	tableStage *table.StageStruct,
 	formStage *table.StageStruct,
 	astruct *models.Astruct,
 ) (astructFormCallback *AstructFormCallback) {
 	astructFormCallback = new(AstructFormCallback)
 	astructFormCallback.stageOfInterest = stageOfInterest
+	astructFormCallback.tableStage = tableStage
 	astructFormCallback.formStage = formStage
 	astructFormCallback.astruct = astruct
 	return
@@ -23,6 +25,7 @@ func NewAstructFormCallback(
 
 type AstructFormCallback struct {
 	stageOfInterest *models.StageStruct
+	tableStage      *table.StageStruct
 	formStage       *table.StageStruct
 	astruct         *models.Astruct
 }
@@ -73,6 +76,7 @@ func (astructFormCallback *AstructFormCallback) OnSave() {
 	}
 
 	astructFormCallback.stageOfInterest.Commit()
+	astructFormCallback.tableStage.Commit()
 }
 
 func addTimeComponents(x, y time.Time) time.Time {

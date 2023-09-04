@@ -133,7 +133,9 @@ func fillUpTable[T models.Gongstruct](
 		row.Name = models.GetFieldStringValue[T](*structInstance, "Name")
 
 		updater := NewRowUpdate[T](structInstance,
-			nodeImplGongstruct.formStage, nodeImplGongstruct.stageOfInterest, r)
+			nodeImplGongstruct.tableStage,
+			nodeImplGongstruct.formStage,
+			nodeImplGongstruct.stageOfInterest, r)
 		updater.Instance = structInstance
 		row.Impl = updater
 
@@ -185,6 +187,7 @@ func fillUpTable[T models.Gongstruct](
 
 func NewRowUpdate[T models.Gongstruct](
 	Instance *T,
+	tableStage *gongtable.StageStruct,
 	formStage *gongtable.StageStruct,
 	stageOfInterest *models.StageStruct,
 	r *gin.Engine,
@@ -199,6 +202,7 @@ func NewRowUpdate[T models.Gongstruct](
 
 type RowUpdate[T models.Gongstruct] struct {
 	Instance        *T
+	tableStage      *gongtable.StageStruct
 	formStage       *gongtable.StageStruct
 	stageOfInterest *models.StageStruct
 	r               *gin.Engine
@@ -215,7 +219,7 @@ func (rowUpdate *RowUpdate[T]) RowUpdated(stage *gongtable.StageStruct, row, upd
 	case *models.Astruct:
 		formGroup := (&gongtable.FormGroup{
 			Name:   gongtable.FormGroupDefaultName.ToString(),
-			OnSave: NewAstructFormCallback(rowUpdate.stageOfInterest, formStage, instancesTyped),
+			OnSave: NewAstructFormCallback(rowUpdate.stageOfInterest, rowUpdate.tableStage, formStage, instancesTyped),
 		}).Stage(formStage)
 		FillUpForm(instancesTyped, rowUpdate.stageOfInterest, formStage, formGroup, rowUpdate.r)
 	}
