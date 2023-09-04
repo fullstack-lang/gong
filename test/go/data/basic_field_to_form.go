@@ -37,28 +37,28 @@ func BasicFieldtoForm[T models.PointerToGongstruct, TF models.GongtructBasicFiel
 		formGroup.FormDivs = append(formGroup.FormDivs, formDiv)
 		{
 			formFieldPartDate := (&form.FormField{
-				Name:        "Date",
-				Label:       "Date",
+				Name:        fieldName + "Date",
+				Label:       fieldName + "Date",
 				Placeholder: "",
 			}).Stage(formStage)
 			formDiv.FormFields = append(formDiv.FormFields, formFieldPartDate)
 
 			formFieldDate := (&form.FormFieldDate{
-				Name:  "Date",
+				Name:  fieldName + "Date",
 				Value: fieldWithInterferedType,
 			}).Stage(formStage)
 			formFieldPartDate.FormFieldDate = formFieldDate
 		}
 		{
 			formFieldPartTime := (&form.FormField{
-				Name:        "Time",
-				Label:       "Time",
+				Name:        fieldName + "Time",
+				Label:       fieldName + "Time",
 				Placeholder: "",
 			}).Stage(formStage)
 			formDiv.FormFields = append(formDiv.FormFields, formFieldPartTime)
 
 			formFieldTime := (&form.FormFieldTime{
-				Name:  "Time",
+				Name:  fieldName + "Time",
 				Value: fieldWithInterferedType,
 			}).Stage(formStage)
 			formFieldPartTime.FormFieldTime = formFieldTime
@@ -70,23 +70,23 @@ func BasicFieldtoForm[T models.PointerToGongstruct, TF models.GongtructBasicFiel
 		formGroup.FormDivs = append(formGroup.FormDivs, formDiv)
 
 		checkBox := (&form.CheckBox{
-			Name:  "bool",
+			Name:  fieldName,
 			Value: fieldWithInterferedType,
 		}).Stage(formStage)
 		formDiv.CheckBoxs = append(formDiv.CheckBoxs, checkBox)
 	case int:
 		formDiv := (&form.FormDiv{
-			Name: "Intfield",
+			Name: fieldName,
 		}).Stage(formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDiv)
 		formField := (&form.FormField{
-			Name:  "Intfield",
-			Label: "Intfield",
+			Name:  fieldName,
+			Label: fieldName,
 		}).Stage(formStage)
 		formDiv.FormFields = append(formDiv.FormFields, formField)
 
 		formFieldInt := (&form.FormFieldInt{
-			Name:  "Intfield",
+			Name:  fieldName,
 			Value: fieldWithInterferedType,
 		}).Stage(formStage)
 		formField.FormFieldInt = formFieldInt
@@ -96,13 +96,13 @@ func BasicFieldtoForm[T models.PointerToGongstruct, TF models.GongtructBasicFiel
 		}).Stage(formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDiv)
 		formField := (&form.FormField{
-			Name:  "float64",
-			Label: "float64",
+			Name:  fieldName,
+			Label: fieldName,
 		}).Stage(formStage)
 		formDiv.FormFields = append(formDiv.FormFields, formField)
 
 		formFieldFloat64 := (&form.FormFieldFloat64{
-			Name:  "float64",
+			Name:  fieldName,
 			Value: fieldWithInterferedType,
 		}).Stage(formStage)
 		formField.FormFieldFloat64 = formFieldFloat64
