@@ -4,6 +4,7 @@ package data
 import (
 	"fmt"
 	"log"
+	"sort"
 
 	gong_models "github.com/fullstack-lang/gong/go/models"
 	gongtable "github.com/fullstack-lang/gongtable/go/models"
@@ -114,6 +115,24 @@ func fillUpTable[T models.Gongstruct](
 	table.NbOfStickyColumns = 3
 
 	setOfStructs := (*models.GetGongstructInstancesSet[T](stageOfInterest))
+	sliceOfGongStructsSorted := make([]*T, len(setOfStructs))
+	i := 0
+	for k := range setOfStructs {
+		sliceOfGongStructsSorted[i] = k
+		i++
+	}
+	sort.Slice(sliceOfGongStructsSorted, func(i, j int) bool {
+		return orm.GetID(
+			stageOfInterest,
+			backRepoOfInterest,
+			sliceOfGongStructsSorted[i],
+		) <
+			orm.GetID(
+				stageOfInterest,
+				backRepoOfInterest,
+				sliceOfGongStructsSorted[j],
+			)
+	})
 
 	column := new(gongtable.DisplayedColumn).Stage(tableStage)
 	column.Name = "ID"
@@ -130,7 +149,7 @@ func fillUpTable[T models.Gongstruct](
 	}
 
 	fieldIndex := 0
-	for structInstance := range setOfStructs {
+	for _, structInstance := range sliceOfGongStructsSorted {
 		row := new(gongtable.Row).Stage(tableStage)
 		row.Name = models.GetFieldStringValue[T](*structInstance, "Name")
 
@@ -198,6 +217,7 @@ func NewRowUpdate[T models.Gongstruct](
 ) (rowUpdate *RowUpdate[T]) {
 	rowUpdate = new(RowUpdate[T])
 	rowUpdate.Instance = Instance
+	rowUpdate.tableStage = tableStage
 	rowUpdate.formStage = formStage
 	rowUpdate.stageOfInterest = stageOfInterest
 	rowUpdate.r = r
