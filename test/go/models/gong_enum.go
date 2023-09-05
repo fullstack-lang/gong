@@ -18,6 +18,20 @@ func (aenumtype AEnumType) ToString() (res string) {
 	return
 }
 
+func (aenumtype *AEnumType) FromString(input string) (err error) {
+
+	switch input {
+	// insertion code per enum code
+	case "ENUM_VAL1_NOT_THE_SAME":
+		*aenumtype = ENUM_VAL1
+	case "ENUM_VAL2":
+		*aenumtype = ENUM_VAL2
+	default:
+		return errUnkownEnum
+	}
+	return
+}
+
 func (aenumtype *AEnumType) FromCodeString(input string) (err error) {
 
 	switch input {
@@ -44,24 +58,12 @@ func (aenumtype *AEnumType) ToCodeString() (res string) {
 	return
 }
 
-func (aenumtype *AEnumType) FromString(input string) (err error) {
-
-	switch input {
-	// insertion code per enum code
-	case "ENUM_VAL1_NOT_THE_SAME":
-		*aenumtype = ENUM_VAL1
-	case "ENUM_VAL2":
-		*aenumtype = ENUM_VAL2
-	default:
-		return errUnkownEnum
-	}
-	return
-}
 
 func (aenumtype AEnumType) Codes() (res []string) {
 
 	res = make([]string, 0)
 
+	// insertion code per enum code
 	res = append(res, "ENUM_VAL1")
 	res = append(res, "ENUM_VAL2")
 
@@ -72,28 +74,9 @@ func (aenumtype AEnumType) CodeValues() (res []string) {
 
 	res = make([]string, 0)
 
+	// insertion code per enum code
 	res = append(res, "ENUM_VAL1_NOT_THE_SAME")
 	res = append(res, "ENUM_VAL2")
-
-	return
-}
-
-func (aenumtype CEnumTypeInt) Codes() (res []string) {
-
-	res = make([]string, 0)
-
-	res = append(res, "CENUM_VAL1")
-	res = append(res, "CENUM_VAL2")
-
-	return
-}
-
-func (aenumtype CEnumTypeInt) CodeValues() (res []int) {
-
-	res = make([]int, 0)
-
-	res = append(res, int(CENUM_VAL1))
-	res = append(res, int(CENUM_VAL2))
 
 	return
 }
@@ -154,6 +137,29 @@ func (benumtype *BEnumType) ToCodeString() (res string) {
 	return
 }
 
+
+func (benumtype BEnumType) Codes() (res []string) {
+
+	res = make([]string, 0)
+
+	// insertion code per enum code
+	res = append(res, "BENUM_VAL1")
+	res = append(res, "BENUM_VAL2")
+
+	return
+}
+
+func (benumtype BEnumType) CodeValues() (res []string) {
+
+	res = make([]string, 0)
+
+	// insertion code per enum code
+	res = append(res, "BENUM_VAL1_NOT_THE_SAME")
+	res = append(res, "BENUM_VAL2")
+
+	return
+}
+
 // Utility function for CEnumTypeInt
 // if enum values are string, it is stored with the value
 // if enum values are int, they are stored with the code of the value
@@ -207,6 +213,29 @@ func (cenumtypeint *CEnumTypeInt) ToCodeString() (res string) {
 	case CENUM_VAL2:
 		res = "CENUM_VAL2"
 	}
+	return
+}
+
+
+func (cenumtypeint CEnumTypeInt) Codes() (res []string) {
+
+	res = make([]string, 0)
+
+	// insertion code per enum code
+	res = append(res, "CENUM_VAL1")
+	res = append(res, "CENUM_VAL2")
+
+	return
+}
+
+func (cenumtypeint CEnumTypeInt) CodeValues() (res []int) {
+
+	res = make([]int, 0)
+
+	// insertion code per enum code
+	res = append(res, 0)
+	res = append(res, 1)
+
 	return
 }
 
