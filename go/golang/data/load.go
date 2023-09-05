@@ -5,7 +5,6 @@ package data
 
 import (
 	"embed"
-	"fmt"
 	"sort"
 
 	"github.com/gin-gonic/gin"
@@ -15,7 +14,6 @@ import (
 	gongtree_models "github.com/fullstack-lang/gongtree/go/models"
 
 	gongtable_fullstack "github.com/fullstack-lang/gongtable/go/fullstack"
-	gongtable_models "github.com/fullstack-lang/gongtable/go/models"
 
 	gong_fullstack "github.com/fullstack-lang/gong/go/fullstack"
 	gong_models "github.com/fullstack-lang/gong/go/models"
@@ -37,9 +35,15 @@ func Load(
 
 	// treeForSelectingDate that is on the sidebar
 	stageForSidebarTree := gongtree_fullstack.NewStackInstance(r, stackPath+"-sidebar")
-	stageForMainTable := gongtable_fullstack.NewStackInstance(r, stackPath)
-	fillUpSelectTableWithDummyStuff(stageForMainTable, "Table")
-	stageForMainTable.Commit()
+
+	// stage for main table
+	tableStage, _ := gongtable_fullstack.NewStackInstance(r, stackPath)
+	tableStage.Commit()
+
+	// stage for reusable form
+	formStage, backRepoForForm := gongtable_fullstack.NewStackInstance(r, stackPath+"-form")
+	_ = backRepoForForm
+	formStage.Commit()
 
 	// create tree
 	treeOfGongStructs := (&gongtree_models.Tree{Name: "gong"}).Stage(stageForSidebarTree)
@@ -61,7 +65,7 @@ func Load(
 
 		nodeGongstruct := (&gongtree_models.Node{Name: gongStruct.Name}).Stage(stageForSidebarTree)
 		nodeGongstruct.IsNodeClickable = true
-		nodeGongstruct.Impl = NewNodeImplGongstruct(gongStruct, stageForMainTable, stageOfInterest, backRepoOfInterest)
+		nodeGongstruct.Impl = NewNodeImplGongstruct(gongStruct, tableStage, formStage, stageOfInterest, backRepoOfInterest, r)
 
 		// add add button
 		addButton := (&gongtree_models.Button{
@@ -71,50 +75,15 @@ func Load(
 		addButton.Impl = NewButtonImplGongstruct(
 			gongStruct,
 			gongtree_buttons.BUTTON_add,
+			tableStage,
+			formStage,
+			stageOfInterest,
+			r,
+			backRepoOfInterest,
 		)
 
 		treeOfGongStructs.RootNodes = append(treeOfGongStructs.RootNodes, nodeGongstruct)
 	}
 	stageForSidebarTree.Commit()
-}
-
-func fillUpSelectTableWithDummyStuff(stage *gongtable_models.StageStruct, tableName string) {
-	nbRows := 0
-	nbColumns := 1
-	table := new(gongtable_models.Table).Stage(stage)
-	table.Name = tableName
-	table.HasColumnSorting = false
-	table.HasFiltering = false
-	table.HasPaginator = false
-	table.HasCheckableRows = false
-	table.HasSaveButton = false
-
-	for j := 0; j < nbColumns; j++ {
-		column := new(gongtable_models.DisplayedColumn).Stage(stage)
-		column.Name = "Select a Struct on the left tab to view instances"
-		table.DisplayedColumns = append(table.DisplayedColumns, column)
-	}
-
-	for i := 0; i < nbRows; i++ {
-		row := new(gongtable_models.Row).Stage(stage)
-		row.Name = fmt.Sprintf("Row %d", i)
-		table.Rows = append(table.Rows, row)
-
-		if i%2 == 0 {
-			row.IsChecked = true
-		}
-
-		for j := 0; j < nbColumns; j++ {
-			cell := new(gongtable_models.Cell).Stage(stage)
-			cell.Name = fmt.Sprintf("Row %d - Column %d", i, j)
-
-			cellString := new(gongtable_models.CellString).Stage(stage)
-			cellString.Name = cell.Name
-			cellString.Value = cell.Name
-			cell.CellString = cellString
-
-			row.Cells = append(row.Cells, cell)
-		}
-	}
 }
 `
