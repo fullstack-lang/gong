@@ -18,6 +18,46 @@ func (aenumtype AEnumType) ToString() (res string) {
 	return
 }
 
+func (aenumtype *AEnumType) FromCodeString(input string) (err error) {
+
+	switch input {
+	// insertion code per enum code
+	case "ENUM_VAL1":
+		*aenumtype = ENUM_VAL1
+	case "ENUM_VAL2":
+		*aenumtype = ENUM_VAL2
+	default:
+		return errUnkownEnum
+	}
+	return
+}
+
+func (aenumtype *AEnumType) ToCodeString() (res string) {
+
+	switch *aenumtype {
+	// insertion code per enum code
+	case ENUM_VAL1:
+		res = "ENUM_VAL1"
+	case ENUM_VAL2:
+		res = "ENUM_VAL2"
+	}
+	return
+}
+
+func (aenumtype *AEnumType) FromString(input string) (err error) {
+
+	switch input {
+	// insertion code per enum code
+	case "ENUM_VAL1_NOT_THE_SAME":
+		*aenumtype = ENUM_VAL1
+	case "ENUM_VAL2":
+		*aenumtype = ENUM_VAL2
+	default:
+		return errUnkownEnum
+	}
+	return
+}
+
 func (aenumtype AEnumType) Codes() (res []string) {
 
 	res = make([]string, 0)
@@ -55,46 +95,6 @@ func (aenumtype CEnumTypeInt) CodeValues() (res []int) {
 	res = append(res, int(CENUM_VAL1))
 	res = append(res, int(CENUM_VAL2))
 
-	return
-}
-
-func (aenumtype *AEnumType) FromString(input string) (err error) {
-
-	switch input {
-	// insertion code per enum code
-	case "ENUM_VAL1_NOT_THE_SAME":
-		*aenumtype = ENUM_VAL1
-	case "ENUM_VAL2":
-		*aenumtype = ENUM_VAL2
-	default:
-		return errUnkownEnum
-	}
-	return
-}
-
-func (aenumtype *AEnumType) FromCodeString(input string) (err error) {
-
-	switch input {
-	// insertion code per enum code
-	case "ENUM_VAL1":
-		*aenumtype = ENUM_VAL1
-	case "ENUM_VAL2":
-		*aenumtype = ENUM_VAL2
-	default:
-		return errUnkownEnum
-	}
-	return
-}
-
-func (aenumtype *AEnumType) ToCodeString() (res string) {
-
-	switch *aenumtype {
-	// insertion code per enum code
-	case ENUM_VAL1:
-		res = "ENUM_VAL1"
-	case ENUM_VAL2:
-		res = "ENUM_VAL2"
-	}
 	return
 }
 

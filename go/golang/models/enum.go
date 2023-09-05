@@ -71,6 +71,43 @@ func ({{enumName}} *{{EnumName}}) ToCodeString() (res string) {
 	}
 	return
 }
+
+
+func (aenumtype AEnumType) Codes() (res []string) {
+
+	res = make([]string, 0)
+
+	// insertion code per enum code{{codesString}}
+
+	return
+}
+
+func (aenumtype AEnumType) CodeValues() (res []string) {
+
+	res = make([]string, 0)
+
+	// insertion code per enum code{{codeValuesString}}
+
+	return
+}
+
+func (aenumtype CEnumTypeInt) Codes() (res []string) {
+
+	res = make([]string, 0)
+
+	// insertion code per enum code{{codesInt}}
+
+	return
+}
+
+func (aenumtype CEnumTypeInt) CodeValues() (res []int) {
+
+	res = make([]int, 0)
+
+	// insertion code per enum code{{codeValuesInt}}
+
+	return
+}
 `,
 }
 
@@ -82,6 +119,10 @@ const (
 	GongModelEnumValueFromCodeString
 	GongModelEnumValueToString
 	GongModelEnumValueToCodeString
+	GongModelEnumCodesString
+	GongModelEnumCodeValuesString
+	GongModelEnumCodesInt
+	GongModelEnumCodeValuesInt
 )
 
 var GongModelEnumValueSubTemplateCode map[GongModelEnumValueSubTemplateId]string = // declaration of the sub templates
@@ -99,6 +140,14 @@ map[GongModelEnumValueSubTemplateId]string{
 	GongModelEnumValueToCodeString: `
 	case {{GongEnumCode}}:
 		res = "{{GongEnumCode}}"`,
+	GongModelEnumCodesString: `
+	res = append(res, "{{GongEnumCode}}")`,
+	GongModelEnumCodeValuesString: `
+	res = append(res, {{GongEnumValue}})`,
+	GongModelEnumCodesInt: `
+	res = append(res, "{{GongEnumCode}}")`,
+	GongModelEnumCodeValuesInt: `
+	res = append(res, int({{GongEnumValue}}))`,
 }
 
 func CodeGeneratorModelGongEnum(
@@ -132,6 +181,11 @@ func CodeGeneratorModelGongEnum(
 			codeToStringPerGongValue := ""
 			codeToCodeStringPerGongValue := ""
 
+			codesString := ""
+			codeValuesString := ""
+			codesInt := ""
+			codeValuesInt := ""
+
 			for _, enumValue := range gongEnum.GongEnumValues {
 				codeFromStringPerGongValue += models.Replace2(GongModelEnumValueSubTemplateCode[GongModelEnumValueFromString],
 					"{{GongEnumValue}}", enumValue.Value,
@@ -141,23 +195,47 @@ func CodeGeneratorModelGongEnum(
 				codeToStringPerGongValue += models.Replace2(GongModelEnumValueSubTemplateCode[GongModelEnumValueToString],
 					"{{GongEnumValue}}", enumValue.Value,
 					"{{GongEnumCode}}", enumValue.Name)
-
 				codeToCodeStringPerGongValue += models.Replace2(GongModelEnumValueSubTemplateCode[GongModelEnumValueToCodeString],
+					"{{GongEnumValue}}", enumValue.Value,
+					"{{GongEnumCode}}", enumValue.Name)
+				codesString += models.Replace2(GongModelEnumValueSubTemplateCode[GongModelEnumCodesString],
+					"{{GongEnumValue}}", enumValue.Value,
+					"{{GongEnumCode}}", enumValue.Name)
+				codeValuesString += models.Replace2(GongModelEnumValueSubTemplateCode[GongModelEnumCodeValuesString],
+					"{{GongEnumValue}}", enumValue.Value,
+					"{{GongEnumCode}}", enumValue.Name)
+				codesInt += models.Replace2(GongModelEnumValueSubTemplateCode[GongModelEnumCodesInt],
+					"{{GongEnumValue}}", enumValue.Value,
+					"{{GongEnumCode}}", enumValue.Name)
+				codeValuesInt += models.Replace2(GongModelEnumValueSubTemplateCode[GongModelEnumCodeValuesInt],
 					"{{GongEnumValue}}", enumValue.Value,
 					"{{GongEnumCode}}", enumValue.Name)
 			}
 
-			generatedCodeFromSubTemplate := models.Replace4(ModelGongEnumSubTemplateCode[subEnumTemplate],
+			generatedCodeFromSubTemplate := models.Replace8(ModelGongEnumSubTemplateCode[subEnumTemplate],
 				"{{ToStringPerCodeCode}}", codeToStringPerGongValue,
 				"{{FromStringPerCodeCode}}", codeFromStringPerGongValue,
 				"{{FromCodeStringPerCodeCode}}", codeFromCodeStringPerGongValue,
-				"{{ToCodeStringPerCodeCode}}", codeToCodeStringPerGongValue)
+				"{{ToCodeStringPerCodeCode}}", codeToCodeStringPerGongValue,
+				"{{codesString}}", codesString,
+				"{{codeValuesString}}", codeValuesString,
+				"{{codesInt}}", codesInt,
+				"{{codeValuesInt}}", codeValuesInt,
+			)
 
 			var typeOfEnumAsString string
 			if gongEnum.Type == models.String {
 				typeOfEnumAsString = "String"
+				generatedCodeFromSubTemplate = models.Replace2(generatedCodeFromSubTemplate,
+					"{{codesString}}", codesString,
+					"{{codeValuesString}}", codeValuesString,
+				)
 			} else {
 				typeOfEnumAsString = "Int"
+				generatedCodeFromSubTemplate = models.Replace2(generatedCodeFromSubTemplate,
+					"{{codesInt}}", codesInt,
+					"{{codeValuesInt}}", codeValuesInt,
+				)
 			}
 
 			generatedCodeFromSubTemplate = models.Replace4(generatedCodeFromSubTemplate,
