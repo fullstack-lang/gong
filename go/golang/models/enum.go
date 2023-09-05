@@ -17,6 +17,29 @@ const ModelGongEnumFileTemplate = `// generated code - do not edit
 package models
 
 // insertion point of enum utility functions{{` + string(rune(ModelGongEnumUtilityFunctions)) + `}}
+
+type GongstructEnumStringField interface {
+	{{` + string(rune(ModelGongStructInsertionGenericEnumStringTypes)) + `}}
+	Codes() []string
+	CodeValues() []string
+}
+
+type PointerToGongstructEnumStringField interface {
+	{{` + string(rune(ModelGongStructInsertionGenericPointerToEnumStringTypes)) + `}}
+	FromCodeString(input string) (err error)
+}
+
+type GongstructEnumIntField interface {
+	{{` + string(rune(ModelGongStructInsertionGenericEnumIntTypes)) + `}}
+	Codes() []string
+	CodeValues() []int
+}
+
+type PointerToGongstructEnumIntField interface {
+	{{` + string(rune(ModelGongStructInsertionGenericPointerToEnumIntTypes)) + `}}
+	FromCodeString(input string) (err error)
+}
+
 // Last line of the template
 `
 
@@ -26,6 +49,12 @@ type ModelGongEnumInsertionId int
 const (
 	// iota + 40 is to separate the insertion code of gongstruct from insertion code of gongenum
 	ModelGongEnumUtilityFunctions ModelGongEnumInsertionId = iota + 40
+
+	ModelGongStructInsertionGenericEnumStringTypes
+	ModelGongStructInsertionGenericPointerToEnumStringTypes
+	ModelGongStructInsertionGenericEnumIntTypes
+	ModelGongStructInsertionGenericPointerToEnumIntTypes
+
 	ModelGongEnumInsertionsNb
 )
 
@@ -91,6 +120,10 @@ func ({{enumName}} {{EnumName}}) CodeValues() (res []{{type}}) {
 	return
 }
 `,
+	ModelGongStructInsertionGenericEnumStringTypes:          ` | {{EnumName}}`,
+	ModelGongStructInsertionGenericPointerToEnumStringTypes: ` | *{{EnumName}}`,
+	ModelGongStructInsertionGenericEnumIntTypes:             ` | {{EnumName}}`,
+	ModelGongStructInsertionGenericPointerToEnumIntTypes:    ` | *{{EnumName}}`,
 }
 
 // gongenum value template
@@ -141,8 +174,15 @@ func CodeGeneratorModelGongEnum(
 
 	// sort gong enums per name (for reproductibility)
 	gongEnums := []*models.GongEnum{}
+	// gongStringEnums := []*models.GongEnum{}
+	// gongIntEnums := []*models.GongEnum{}
 	for _, _enum := range mdlPkg.GongEnums {
 		gongEnums = append(gongEnums, _enum)
+		// if _enum.Type == models.String {
+		// 	gongStringEnums = append(gongStringEnums, _enum)
+		// } else {
+		// 	gongIntEnums = append(gongIntEnums, _enum)
+		// }
 	}
 	sort.Slice(gongEnums[:], func(i, j int) bool {
 		return gongEnums[i].Name < gongEnums[j].Name
