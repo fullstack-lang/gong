@@ -89,7 +89,7 @@ func FillUpForm[T models.Gongstruct](
 	case *models.Astruct:
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, formStage, formGroup)
 
-		AssociationSliceToForm("Anarrayofb", &instanceWithInferedType.Anarrayofb, stageOfInterest, formStage, formGroup, r)
+		AssociationSliceToForm("Anarrayofb", instanceWithInferedType, &instanceWithInferedType.Anarrayofb, stageOfInterest, formStage, formGroup, r)
 
 		BasicFieldtoForm("Date", instanceWithInferedType.Date, instanceWithInferedType, formStage, formGroup)
 		BasicFieldtoForm("Booleanfield", instanceWithInferedType.Booleanfield, instanceWithInferedType, formStage, formGroup)

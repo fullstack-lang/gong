@@ -18,8 +18,10 @@ import (
 // AssociationSliceToForm add a form div with 2 buttons
 // - one for selection
 // - one for sorting
-func AssociationSliceToForm[FieldType models.PointerToGongstruct](
-	fieldName string, field *[]FieldType,
+func AssociationSliceToForm[InstanceType models.PointerToGongstruct, FieldType models.PointerToGongstruct](
+	fieldName string,
+	instance InstanceType,
+	field *[]FieldType,
 	stageOfInterest *models.StageStruct, formStage *form.StageStruct, formGroup *form.FormGroup,
 	r *gin.Engine,
 ) {
@@ -34,7 +36,7 @@ func AssociationSliceToForm[FieldType models.PointerToGongstruct](
 		Label: fieldName,
 	}).Stage(formStage)
 	formDiv.FormEditAssocButton = formEditAssocButton
-	onAssocEditon := NewOnAssocEditon(r, formStage, field, stageOfInterest)
+	onAssocEditon := NewOnAssocEditon(r, formStage, instance, field, stageOfInterest)
 	formEditAssocButton.OnAssocEditon = onAssocEditon
 
 	formSortAssocButton := (&form.FormSortAssocButton{
@@ -47,31 +49,34 @@ func AssociationSliceToForm[FieldType models.PointerToGongstruct](
 
 }
 
-func NewOnAssocEditon[FieldType models.PointerToGongstruct](
+func NewOnAssocEditon[InstanceType models.PointerToGongstruct, FieldType models.PointerToGongstruct](
 	r *gin.Engine,
 	formStage *form.StageStruct,
+	instance InstanceType,
 	field *[]FieldType,
 	stageOfInterest *models.StageStruct,
-) (onAssocEdition *OnAssocEditon[FieldType]) {
+) (onAssocEdition *OnAssocEditon[InstanceType, FieldType]) {
 
-	onAssocEdition = new(OnAssocEditon[FieldType])
+	onAssocEdition = new(OnAssocEditon[InstanceType, FieldType])
 
 	onAssocEdition.r = r
 	onAssocEdition.formStage = formStage
+	onAssocEdition.instance = instance
 	onAssocEdition.field = field
 	onAssocEdition.stageOfInterest = stageOfInterest
 
 	return
 }
 
-type OnAssocEditon[FieldType models.PointerToGongstruct] struct {
+type OnAssocEditon[InstanceType models.PointerToGongstruct, FieldType models.PointerToGongstruct] struct {
 	r               *gin.Engine
 	formStage       *form.StageStruct
+	instance        InstanceType
 	field           *[]FieldType
 	stageOfInterest *models.StageStruct
 }
 
-func (onAssocEditon *OnAssocEditon[FieldType]) OnButtonPressed() {
+func (onAssocEditon *OnAssocEditon[InstanceType, FieldType]) OnButtonPressed() {
 
 	tableStackName := onAssocEditon.formStage.GetPath() + string(form.StackNamePostFixForTableForAssociation)
 
@@ -129,29 +134,32 @@ func (onAssocEditon *OnAssocEditon[FieldType]) OnButtonPressed() {
 	}
 
 	// set up control inversion for the saving of the table
-	table.Impl = NewTablePickSaver[FieldType](onAssocEditon.field, onAssocEditon.stageOfInterest)
+	table.Impl = NewTablePickSaver[InstanceType, FieldType](onAssocEditon.instance, onAssocEditon.field, onAssocEditon.stageOfInterest)
 
 	tableStageForSelection.Commit()
 }
 
-func NewTablePickSaver[FieldType models.PointerToGongstruct](
+func NewTablePickSaver[InstanceType models.PointerToGongstruct, FieldType models.PointerToGongstruct](
+	instance InstanceType,
 	field *[]FieldType,
 	stageOfInterest *models.StageStruct,
-) (tablePickSaver *TablePickSaver[FieldType]) {
+) (tablePickSaver *TablePickSaver[InstanceType, FieldType]) {
 
-	tablePickSaver = new(TablePickSaver[FieldType])
+	tablePickSaver = new(TablePickSaver[InstanceType, FieldType])
+	tablePickSaver.instance = instance
 	tablePickSaver.field = field
 	tablePickSaver.stageOfInterest = stageOfInterest
 
 	return
 }
 
-type TablePickSaver[FieldType models.PointerToGongstruct] struct {
+type TablePickSaver[InstanceType models.PointerToGongstruct, FieldType models.PointerToGongstruct] struct {
+	instance        InstanceType
 	field           *[]FieldType
 	stageOfInterest *models.StageStruct
 }
 
-func (tablePickSaver *TablePickSaver[FieldType]) TableUpdated(stage *form.StageStruct, table, updatedTable *form.Table) {
+func (tablePickSaver *TablePickSaver[InstanceType, FieldType]) TableUpdated(stage *form.StageStruct, table, updatedTable *form.Table) {
 	log.Println("TablePickSaver: TableUpdated")
 
 	// checkout to the stage to get the rows that have been checked and not
@@ -174,4 +182,10 @@ func (tablePickSaver *TablePickSaver[FieldType]) TableUpdated(stage *form.StageS
 			*tablePickSaver.field = append(*tablePickSaver.field, instance)
 		}
 	}
+
+	// first, force commit of instance for taking into account the slice
+	tablePickSaver.instance.CommitVoid(tablePickSaver.stageOfInterest)
+
+	// commit the whole (to see the result)
+	tablePickSaver.stageOfInterest.Commit()
 }
