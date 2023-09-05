@@ -132,8 +132,8 @@ type ButtonImplFilePerStructSubTemplateId int
 const (
 	ButtonImplFileFieldSubTmplSetBasicField ButtonImplFilePerStructSubTemplateId = iota
 	// ButtonImplFileFieldSubTmplSetBasicFieldInt
-	// ButtonImplFileFieldSubTmplSetBasicFieldEnumString
-	// ButtonImplFileFieldSubTmplSetBasicFieldEnumInt
+	ButtonImplFileFieldSubTmplSetBasicFieldEnumString
+	ButtonImplFileFieldSubTmplSetBasicFieldEnumInt
 	// ButtonImplFileFieldSubTmplSetBasicFieldFloat64
 	// ButtonImplFileFieldSubTmplSetBasicFieldString
 	// ButtonImplFileFieldSubTmplSetBasicFieldStringDocLink
@@ -147,6 +147,10 @@ map[ButtonImplFilePerStructSubTemplateId]string{
 
 	ButtonImplFileFieldSubTmplSetBasicField: `
 		BasicFieldtoForm("{{FieldName}}", instanceWithInferedType.Name, instanceWithInferedType, formStage, formGroup)`,
+	ButtonImplFileFieldSubTmplSetBasicFieldEnumString: `
+		EnumTypeStringToForm("{{FieldName}}", instanceWithInferedType.Name, instanceWithInferedType, formStage, formGroup)`,
+	ButtonImplFileFieldSubTmplSetBasicFieldEnumInt: `
+		EnumTypeIntToForm("{{FieldName}}", instanceWithInferedType.Name, instanceWithInferedType, formStage, formGroup)`,
 }
 
 func CodeGeneratorModelButtonImpl(
@@ -193,6 +197,16 @@ func CodeGeneratorModelButtonImpl(
 							fieldToFormCode += models.Replace1(
 								ButtonImplFileFieldFieldSubTemplateCode[ButtonImplFileFieldSubTmplSetBasicField],
 								"{{FieldName}}", field.Name)
+						} else {
+							if field.GongEnum.Type == models.Int {
+								fieldToFormCode += models.Replace1(
+									ButtonImplFileFieldFieldSubTemplateCode[ButtonImplFileFieldSubTmplSetBasicFieldEnumInt],
+									"{{FieldName}}", field.Name)
+							} else {
+								fieldToFormCode += models.Replace1(
+									ButtonImplFileFieldFieldSubTemplateCode[ButtonImplFileFieldSubTmplSetBasicFieldEnumString],
+									"{{FieldName}}", field.Name)
+							}
 						}
 					default:
 					}
