@@ -574,28 +574,6 @@ type GongtructBasicField interface {
 		*[]Astruct | *[]AstructBstruct2Use | *[]AstructBstructUse | *[]Bstruct | *[]Dstruct
 }
 
-type GongstructEnumStringField interface {
-	AEnumType | BEnumType
-	Codes() []string
-	CodeValues() []string
-}
-
-type PointerToGongstructEnumStringField interface {
-	*AEnumType | *BEnumType
-	FromCodeString(input string) (err error)
-}
-
-type GongstructEnumIntField interface {
-	CEnumTypeInt
-	Codes() []string
-	CodeValues() []int
-}
-
-type PointerToGongstructEnumIntField interface {
-	*CEnumTypeInt
-	FromCodeString(input string) (err error)
-}
-
 // Gongstruct is the type parameter for generated generic function that allows
 // - access to staged instances
 // - navigation between staged instances by going backward association links between gongstruct
