@@ -146,8 +146,7 @@ var ButtonImplFileFieldFieldSubTemplateCode map[ButtonImplFilePerStructSubTempla
 map[ButtonImplFilePerStructSubTemplateId]string{
 
 	ButtonImplFileFieldSubTmplSetBasicField: `
-		BasicFieldtoForm({{FieldName}}, instanceWithInferedType.Name, instanceWithInferedType, formStage, formGroup)
-`,
+		BasicFieldtoForm("{{FieldName}}", instanceWithInferedType.Name, instanceWithInferedType, formStage, formGroup)`,
 }
 
 func CodeGeneratorModelButtonImpl(
@@ -189,13 +188,12 @@ func CodeGeneratorModelButtonImpl(
 				case *models.GongBasicField:
 
 					switch field.GetBasicKind() {
-					case types.String:
-					case types.Bool:
-					case types.Float64:
-					case types.Int, types.Int64:
-						fieldToFormCode += models.Replace1(
-							ButtonImplFileFieldFieldSubTemplateCode[ButtonImplFileFieldSubTmplSetBasicField],
-							"{{FieldName}}", field.Name)
+					case types.String, types.Bool, types.Float64, types.Int, types.Int64:
+						if field.GongEnum == nil {
+							fieldToFormCode += models.Replace1(
+								ButtonImplFileFieldFieldSubTemplateCode[ButtonImplFileFieldSubTmplSetBasicField],
+								"{{FieldName}}", field.Name)
+						}
 					default:
 					}
 				default:
