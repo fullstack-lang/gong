@@ -114,6 +114,9 @@ func fillUpTable[T models.Gongstruct](
 	fields := models.GetFields[T]()
 	table.NbOfStickyColumns = 3
 
+	// refresh the stage of interest
+	stageOfInterest.Checkout()
+
 	setOfStructs := (*models.GetGongstructInstancesSet[T](stageOfInterest))
 	sliceOfGongStructsSorted := make([]*T, len(setOfStructs))
 	i := 0

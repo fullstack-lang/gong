@@ -288,6 +288,9 @@ func (astruct *Astruct) Commit(stage *StageStruct) *Astruct {
 	}
 	return astruct
 }
+func (astruct *Astruct) CommitVoid(stage *StageStruct) {
+	astruct.Commit(stage)
+}
 
 // Checkout astruct to the back repo (if it is already staged)
 func (astruct *Astruct) Checkout(stage *StageStruct) *Astruct {
@@ -327,6 +330,10 @@ func (astructbstruct2use *AstructBstruct2Use) Commit(stage *StageStruct) *Astruc
 		}
 	}
 	return astructbstruct2use
+}
+
+func (astructbstruct2use *AstructBstruct2Use) CommitVoid(stage *StageStruct) {
+	astructbstruct2use.Commit(stage)
 }
 
 // Checkout astructbstruct2use to the back repo (if it is already staged)
@@ -369,6 +376,10 @@ func (astructbstructuse *AstructBstructUse) Commit(stage *StageStruct) *AstructB
 	return astructbstructuse
 }
 
+func (astructbstructuse *AstructBstructUse) CommitVoid(stage *StageStruct) {
+	astructbstructuse.Commit(stage)
+}
+
 // Checkout astructbstructuse to the back repo (if it is already staged)
 func (astructbstructuse *AstructBstructUse) Checkout(stage *StageStruct) *AstructBstructUse {
 	if _, ok := stage.AstructBstructUses[astructbstructuse]; ok {
@@ -409,6 +420,10 @@ func (bstruct *Bstruct) Commit(stage *StageStruct) *Bstruct {
 	return bstruct
 }
 
+func (bstruct *Bstruct) CommitVoid(stage *StageStruct) {
+	bstruct.Commit(stage)
+}
+
 // Checkout bstruct to the back repo (if it is already staged)
 func (bstruct *Bstruct) Checkout(stage *StageStruct) *Bstruct {
 	if _, ok := stage.Bstructs[bstruct]; ok {
@@ -447,6 +462,10 @@ func (dstruct *Dstruct) Commit(stage *StageStruct) *Dstruct {
 		}
 	}
 	return dstruct
+}
+
+func (dstruct *Dstruct) CommitVoid(stage *StageStruct) {
+	dstruct.Commit(stage)
 }
 
 // Checkout dstruct to the back repo (if it is already staged)
@@ -585,6 +604,7 @@ type PointerToGongstruct interface {
 	// insertion point for generic types
 	*Astruct | *AstructBstruct2Use | *AstructBstructUse | *Bstruct | *Dstruct
 	GetName() string
+	CommitVoid(*StageStruct)
 }
 
 type GongstructSet interface {
