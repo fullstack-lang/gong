@@ -123,105 +123,30 @@ map[ButtonImplGongstructInsertionId]string{
 		FillUpForm({{structname}}, buttonImpl.stageOfInterest, formStage, formGroup, buttonImpl.r)`,
 	ButtonImplPerGongstructCallToFormGenerator: `
 	case *models.{{Structname}}:
-		`,
+		// insertion point{{fieldToFormCode}}
+`,
 }
 
 type ButtonImplFilePerStructSubTemplateId int
 
 const (
-	ButtonImplFileFieldSubTmplSetBasicFieldBool ButtonImplFilePerStructSubTemplateId = iota
-	ButtonImplFileFieldSubTmplSetBasicFieldInt
-	ButtonImplFileFieldSubTmplSetBasicFieldEnumString
-	ButtonImplFileFieldSubTmplSetBasicFieldEnumInt
-	ButtonImplFileFieldSubTmplSetBasicFieldFloat64
-	ButtonImplFileFieldSubTmplSetBasicFieldString
-	ButtonImplFileFieldSubTmplSetBasicFieldStringDocLink
-	ButtonImplFileFieldSubTmplSetTimeField
-	ButtonImplFileFieldSubTmplSetPointerField
-	ButtonImplFileFieldSubTmplSetSliceOfPointersField
+	ButtonImplFileFieldSubTmplSetBasicField ButtonImplFilePerStructSubTemplateId = iota
+	// ButtonImplFileFieldSubTmplSetBasicFieldInt
+	// ButtonImplFileFieldSubTmplSetBasicFieldEnumString
+	// ButtonImplFileFieldSubTmplSetBasicFieldEnumInt
+	// ButtonImplFileFieldSubTmplSetBasicFieldFloat64
+	// ButtonImplFileFieldSubTmplSetBasicFieldString
+	// ButtonImplFileFieldSubTmplSetBasicFieldStringDocLink
+	// ButtonImplFileFieldSubTmplSetTimeField
+	// ButtonImplFileFieldSubTmplSetPointerField
+	// ButtonImplFileFieldSubTmplSetSliceOfPointersField
 )
 
 var ButtonImplFileFieldFieldSubTemplateCode map[ButtonImplFilePerStructSubTemplateId]string = // declaration of the sub templates
 map[ButtonImplFilePerStructSubTemplateId]string{
 
-	ButtonImplFileFieldSubTmplSetBasicFieldBool: `
-		setValueField = NumberInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "{{FieldName}}")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", {{structname}}.{{FieldName}}))
-		initializerStatements += setValueField
-`,
-	ButtonImplFileFieldSubTmplSetTimeField: `
-		setValueField = TimeInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "{{FieldName}}")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", {{structname}}.{{FieldName}}.String())
-		initializerStatements += setValueField
-`,
-	ButtonImplFileFieldSubTmplSetBasicFieldInt: `
-		setValueField = NumberInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "{{FieldName}}")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", {{structname}}.{{FieldName}}))
-		initializerStatements += setValueField
-`,
-	ButtonImplFileFieldSubTmplSetBasicFieldEnumString: `
-		if {{structname}}.{{FieldName}} != "" {
-			setValueField = StringEnumInitStatement
-			setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-			setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "{{FieldName}}")
-			setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", "models."+{{structname}}.{{FieldName}}.ToCodeString())
-			initializerStatements += setValueField
-		}
-`,
-	ButtonImplFileFieldSubTmplSetBasicFieldEnumInt: `
-		setValueField = NumberInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "{{FieldName}}")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", "models."+{{structname}}.{{FieldName}}.ToCodeString())
-		initializerStatements += setValueField
-`,
-	ButtonImplFileFieldSubTmplSetBasicFieldFloat64: `
-		setValueField = NumberInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "{{FieldName}}")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", {{structname}}.{{FieldName}}))
-		initializerStatements += setValueField
-`,
-	ButtonImplFileFieldSubTmplSetBasicFieldString: `
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "{{FieldName}}")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string({{structname}}.{{FieldName}}))
-		initializerStatements += setValueField
-`,
-	ButtonImplFileFieldSubTmplSetBasicFieldStringDocLink: `
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "\n\t{{Identifier}}",
-			fmt.Sprintf("\n\n\t// comment added to overcome the problem with the comment map association\n\n\t//gong:ident [%s]\n\t{{Identifier}}",
-				string({{structname}}.{{FieldName}})))
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "{{FieldName}}")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string({{structname}}.{{FieldName}}))
-		initializerStatements += setValueField
-`,
-	ButtonImplFileFieldSubTmplSetPointerField: `
-		if {{structname}}.{{FieldName}} != nil {
-			setPointerField = PointerFieldInitStatement
-			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "{{FieldName}}")
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_{{AssocStructName}}_Identifiers[{{structname}}.{{FieldName}}])
-			pointersInitializesStatements += setPointerField
-		}
-`,
-	ButtonImplFileFieldSubTmplSetSliceOfPointersField: `
-		for _, _{{assocstructname}} := range {{structname}}.{{FieldName}} {
-			setPointerField = SliceOfPointersFieldInitStatement
-			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "{{FieldName}}")
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_{{AssocStructName}}_Identifiers[_{{assocstructname}}])
-			pointersInitializesStatements += setPointerField
-		}
+	ButtonImplFileFieldSubTmplSetBasicField: `
+		BasicFieldtoForm({{FieldName}}, instanceWithInferedType.Name, instanceWithInferedType, formStage, formGroup)
 `,
 }
 
@@ -256,8 +181,7 @@ func CodeGeneratorModelButtonImpl(
 
 		for subStructTemplate := range ButtonImplGongstructSubTemplateCode {
 
-			valInitCode := ""
-			pointerInitCode := ""
+			fieldToFormCode := ""
 
 			for _, field := range gongStruct.Fields {
 
@@ -266,76 +190,27 @@ func CodeGeneratorModelButtonImpl(
 
 					switch field.GetBasicKind() {
 					case types.String:
-						if field.GongEnum == nil {
-
-							if !field.IsDocLink {
-								valInitCode += models.Replace1(
-									ButtonImplFileFieldFieldSubTemplateCode[ButtonImplFileFieldSubTmplSetBasicFieldString],
-									"{{FieldName}}", field.Name)
-							} else {
-								valInitCode += models.Replace1(
-									ButtonImplFileFieldFieldSubTemplateCode[ButtonImplFileFieldSubTmplSetBasicFieldStringDocLink],
-									"{{FieldName}}", field.Name)
-							}
-
-						} else {
-							valInitCode += models.Replace1(
-								ButtonImplFileFieldFieldSubTemplateCode[ButtonImplFileFieldSubTmplSetBasicFieldEnumString],
-								"{{FieldName}}", field.Name)
-						}
 					case types.Bool:
-						valInitCode += models.Replace1(
-							ButtonImplFileFieldFieldSubTemplateCode[ButtonImplFileFieldSubTmplSetBasicFieldBool],
-							"{{FieldName}}", field.Name)
 					case types.Float64:
-						valInitCode += models.Replace1(
-							ButtonImplFileFieldFieldSubTemplateCode[ButtonImplFileFieldSubTmplSetBasicFieldFloat64],
-							"{{FieldName}}", field.Name)
 					case types.Int, types.Int64:
-						if field.GongEnum == nil {
-							valInitCode += models.Replace1(
-								ButtonImplFileFieldFieldSubTemplateCode[ButtonImplFileFieldSubTmplSetBasicFieldInt],
-								"{{FieldName}}", field.Name)
-						} else {
-							valInitCode += models.Replace1(
-								ButtonImplFileFieldFieldSubTemplateCode[ButtonImplFileFieldSubTmplSetBasicFieldEnumInt],
-								"{{FieldName}}", field.Name)
-						}
+						fieldToFormCode += models.Replace1(
+							ButtonImplFileFieldFieldSubTemplateCode[ButtonImplFileFieldSubTmplSetBasicField],
+							"{{FieldName}}", field.Name)
 					default:
 					}
-				case *models.GongTimeField:
-					valInitCode += models.Replace1(
-						ButtonImplFileFieldFieldSubTemplateCode[ButtonImplFileFieldSubTmplSetTimeField],
-						"{{FieldName}}", field.Name)
-				case *models.PointerToGongStructField:
-					pointerInitCode += models.Replace2(
-						ButtonImplFileFieldFieldSubTemplateCode[ButtonImplFileFieldSubTmplSetPointerField],
-						"{{FieldName}}", field.Name,
-						"{{AssocStructName}}", field.GongStruct.Name)
-				case *models.SliceOfPointerToGongStructField:
-					pointerInitCode += models.Replace3(
-						ButtonImplFileFieldFieldSubTemplateCode[ButtonImplFileFieldSubTmplSetSliceOfPointersField],
-						"{{FieldName}}", field.Name,
-						"{{AssocStructName}}", field.GongStruct.Name,
-						"{{assocstructname}}", strings.ToLower(field.GongStruct.Name))
 				default:
 				}
 
 			}
 
-			valInitCode = models.Replace2(valInitCode,
+			fieldToFormCode = models.Replace2(fieldToFormCode,
 				"{{structname}}", strings.ToLower(gongStruct.Name),
 				"{{Structname}}", gongStruct.Name)
 
-			pointerInitCode = models.Replace2(pointerInitCode,
-				"{{structname}}", strings.ToLower(gongStruct.Name),
-				"{{Structname}}", gongStruct.Name)
-
-			generatedCodeFromSubTemplate := models.Replace4(ButtonImplGongstructSubTemplateCode[subStructTemplate],
+			generatedCodeFromSubTemplate := models.Replace3(ButtonImplGongstructSubTemplateCode[subStructTemplate],
 				"{{structname}}", strings.ToLower(gongStruct.Name),
 				"{{Structname}}", gongStruct.Name,
-				"{{ValuesInitialization}}", valInitCode,
-				"{{PointersInitialization}}", pointerInitCode)
+				"{{fieldToFormCode}}", fieldToFormCode)
 
 			subStructCodes[subStructTemplate] += generatedCodeFromSubTemplate
 		}
