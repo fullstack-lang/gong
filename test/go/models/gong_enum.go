@@ -239,4 +239,27 @@ func (cenumtypeint CEnumTypeInt) CodeValues() (res []int) {
 	return
 }
 
+
+type GongstructEnumStringField interface {
+	AEnumType | BEnumType | CEnumTypeInt
+	Codes() []string
+	CodeValues() []string
+}
+
+type PointerToGongstructEnumStringField interface {
+	*AEnumType | *BEnumType | *CEnumTypeInt
+	FromCodeString(input string) (err error)
+}
+
+type GongstructEnumIntField interface {
+	AEnumType | BEnumType | CEnumTypeInt
+	Codes() []string
+	CodeValues() []int
+}
+
+type PointerToGongstructEnumIntField interface {
+	*AEnumType | *BEnumType | *CEnumTypeInt
+	FromCodeString(input string) (err error)
+}
+
 // Last line of the template

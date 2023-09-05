@@ -35,8 +35,7 @@ const (
 	ModelGongStructInsertionGenericGetFieldValues
 	ModelGongStructInsertionGenericReversePointerAssociationsMaps
 	ModelGongStructInsertionGenericReverseSliceOfPointersAssociationsMaps
-	ModelGongStructInsertionGenericGongstructTypes
-	ModelGongStructInsertionGenericPointerToGongstructTypes
+
 	ModelGongStructInsertionGenericGongSetTypes
 	ModelGongStructInsertionGenericGongstructName
 	ModelGongStructInsertionGenericGongMapTypes
@@ -45,6 +44,10 @@ const (
 	ModelGongStructInsertionGenericInstancesSetFunctions
 	ModelGongStructInsertionGenericInstancesMapFunctions
 	ModelGongStructInsertionGenericGetAssociationNameFunctions
+
+	ModelGongStructInsertionGenericGongstructTypes
+	ModelGongStructInsertionGenericPointerToGongstructTypes
+
 	ModelGongStructInsertionsNb
 )
 
@@ -87,6 +90,10 @@ func ({{structname}} *{{Structname}}) Commit(stage *StageStruct) *{{Structname}}
 		}
 	}
 	return {{structname}}
+}
+
+func ({{structname}} *{{Structname}}) CommitVoid(stage *StageStruct) {
+	{{structname}}.Commit(stage)
 }
 
 // Checkout {{structname}} to the back repo (if it is already staged)
