@@ -118,4 +118,5 @@ func (tableSortSaver *TableSortSaver[FieldType]) TableUpdated(stage *form.StageS
 		instance := (*tableSortSaver.map_RowID_instance)[row]
 		*tableSortSaver.field = append(*tableSortSaver.field, instance)
 	}
+	tableSortSaver.stageOfInterest.Commit()
 }
