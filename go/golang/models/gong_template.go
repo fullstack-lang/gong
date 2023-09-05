@@ -228,6 +228,7 @@ type PointerToGongstruct interface {
 	// insertion point for generic types
 	{{` + string(rune(ModelGongStructInsertionGenericPointerToGongstructTypes)) + `}}
 	GetName() string
+	CommitVoid(*StageStruct)
 }
 
 type GongstructSet interface {
@@ -273,6 +274,18 @@ func GetGongstructInstancesSet[Type Gongstruct](stage *StageStruct) *map[*Type]a
 
 	switch any(ret).(type) {
 	// insertion point for generic get functions{{` + string(rune(ModelGongStructInsertionGenericInstancesSetFunctions)) + `}}
+	default:
+		return nil
+	}
+}
+
+// GetGongstructInstancesSetFromPointerType returns the set staged GongstructType instances
+// it is usefull because it allows refactoring of gongstruct identifier
+func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *StageStruct) *map[Type]any {
+	var ret Type
+
+	switch any(ret).(type) {
+	// insertion point for generic get functions{{` + string(rune(ModelGongStructInsertionGenericInstancesSetFromPointerTypeFunctions)) + `}}
 	default:
 		return nil
 	}
@@ -361,10 +374,28 @@ func GetFields[Type Gongstruct]() (res []string) {
 	return
 }
 
-func GetFieldStringValue[Type Gongstruct](instance Type, fieldName string) (res string) {
+// GetFieldsFromPointer return the array of the fields
+func GetFieldsFromPointer[Type PointerToGongstruct]() (res []string) {
+
 	var ret Type
 
 	switch any(ret).(type) {
+	// insertion point for generic get gongstruct name{{` + string(rune(ModelGongStructInsertionGenericGetFieldsFromPointer)) + `}}
+	}
+	return
+}
+
+func GetFieldStringValueFromPointer[Type PointerToGongstruct](instance Type, fieldName string) (res string) {
+
+	switch inferedInstance := any(instance).(type) {
+	// insertion point for generic get gongstruct field value{{` + string(rune(ModelGongStructInsertionGenericGetFieldValuesFromPointer)) + `}}
+	}
+	return
+}
+
+func GetFieldStringValue[Type Gongstruct](instance Type, fieldName string) (res string) {
+
+	switch inferedInstance := any(instance).(type) {
 	// insertion point for generic get gongstruct field value{{` + string(rune(ModelGongStructInsertionGenericGetFieldValues)) + `}}
 	}
 	return
