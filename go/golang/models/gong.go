@@ -31,8 +31,12 @@ const (
 	ModelGongStructInsertionUnmarshallDeclarations
 	ModelGongStructInsertionUnmarshallPointersInitializations
 	ModelGongStructInsertionComputeNbInstances
+
 	ModelGongStructInsertionGenericGetFields
+	ModelGongStructInsertionGenericGetFieldsFromPointer
 	ModelGongStructInsertionGenericGetFieldValues
+	ModelGongStructInsertionGenericGetFieldValuesFromPointer
+
 	ModelGongStructInsertionGenericReversePointerAssociationsMaps
 	ModelGongStructInsertionGenericReverseSliceOfPointersAssociationsMaps
 
@@ -42,6 +46,8 @@ const (
 	ModelGongStructInsertionGenericGetSetFunctions
 	ModelGongStructInsertionGenericGetMapFunctions
 	ModelGongStructInsertionGenericInstancesSetFunctions
+	ModelGongStructInsertionGenericInstancesSetFromPointerTypeFunctions
+
 	ModelGongStructInsertionGenericInstancesMapFunctions
 	ModelGongStructInsertionGenericGetAssociationNameFunctions
 
@@ -60,8 +66,17 @@ map[ModelGongStructInsertionId]string{
 	ModelGongStructInsertionGenericGetFields: `
 	case {{Structname}}:{{ListOfFieldsName}}`,
 
+	ModelGongStructInsertionGenericGetFieldsFromPointer: `
+	case *{{Structname}}:{{ListOfFieldsName}}`,
+
 	ModelGongStructInsertionGenericGetFieldValues: `
 	case {{Structname}}:
+		switch fieldName {
+		// string value of fields{{StringValueOfFields}}
+		}`,
+
+	ModelGongStructInsertionGenericGetFieldValuesFromPointer: `
+	case *{{Structname}}:
 		switch fieldName {
 		// string value of fields{{StringValueOfFields}}
 		}`,
@@ -230,6 +245,10 @@ func ({{structname}} *{{Structname}}) GetName() (res string) {
 	case {{Structname}}:
 		return any(&stage.{{Structname}}s).(*map[*Type]any)`,
 
+	ModelGongStructInsertionGenericInstancesSetFromPointerTypeFunctions: `
+	case *{{Structname}}:
+		return any(&stage.{{Structname}}s).(*map[Type]any)`,
+
 	ModelGongStructInsertionGenericInstancesMapFunctions: `
 	case {{Structname}}:
 		return any(&stage.{{Structname}}s_mapString).(*map[string]*Type)`,
@@ -276,35 +295,35 @@ map[GongFilePerStructSubTemplateId]string{
 
 	GongFileFieldSubTmplStringValueBasicFieldBool: `
 		case "{{FieldName}}":
-			res = fmt.Sprintf("%t", any(instance).({{Structname}}).{{FieldName}})`,
+			res = fmt.Sprintf("%t", inferedInstance.{{FieldName}})`,
 	GongFileFieldSubTmplStringValueBasicFieldInt: `
 		case "{{FieldName}}":
-			res = fmt.Sprintf("%d", any(instance).({{Structname}}).{{FieldName}})`,
+			res = fmt.Sprintf("%d", inferedInstance.{{FieldName}})`,
 	GongFileFieldSubTmplStringValueBasicFieldEnumString: `
 		case "{{FieldName}}":
-			enum := any(instance).({{Structname}}).{{FieldName}}
+			enum := inferedInstance.{{FieldName}}
 			res = enum.ToCodeString()`,
 	GongFileFieldSubTmplStringValueBasicFieldEnumInt: `
 		case "{{FieldName}}":
-			enum := any(instance).({{Structname}}).{{FieldName}}
+			enum := inferedInstance.{{FieldName}}
 			res = enum.ToCodeString()`,
 	GongFileFieldSubTmplStringValueBasicFieldFloat64: `
 		case "{{FieldName}}":
-			res = fmt.Sprintf("%f", any(instance).({{Structname}}).{{FieldName}})`,
+			res = fmt.Sprintf("%f", inferedInstance.{{FieldName}})`,
 	GongFileFieldSubTmplStringValueBasicFieldString: `
 		case "{{FieldName}}":
-			res = any(instance).({{Structname}}).{{FieldName}}`,
+			res = inferedInstance.{{FieldName}}`,
 	GongFileFieldSubTmplStringValueTimeField: `
 		case "{{FieldName}}":
-			res = any(instance).({{Structname}}).{{FieldName}}.String()`,
+			res = inferedInstance.{{FieldName}}.String()`,
 	GongFileFieldSubTmplStringValuePointerField: `
 		case "{{FieldName}}":
-			if any(instance).({{Structname}}).{{FieldName}} != nil {
-				res = any(instance).({{Structname}}).{{FieldName}}.Name
+			if inferedInstance.{{FieldName}} != nil {
+				res = inferedInstance.{{FieldName}}.Name
 			}`,
 	GongFileFieldSubTmplStringValueSliceOfPointersField: `
 		case "{{FieldName}}":
-			for idx, __instance__ := range any(instance).({{Structname}}).{{FieldName}} {
+			for idx, __instance__ := range inferedInstance.{{FieldName}} {
 				if idx > 0 {
 					res += "\n"
 				}
