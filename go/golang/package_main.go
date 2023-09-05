@@ -108,7 +108,7 @@ func main() {
 	// hook automatic marshall to go code at every commit
 	if *marshallOnCommit != "" {
 		hook := new(BeforeCommitImplementation)
-		stage.OnInitCommitFromFrontCallback = hook
+		stage.OnInitCommitCallback = hook
 	}
 
 	gongdoc_load.Load(
