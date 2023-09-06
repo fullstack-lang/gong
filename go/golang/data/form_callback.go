@@ -43,66 +43,66 @@ const (
 var FormCallbackGongstructSubTemplateCode map[FormCallbackGongstructInsertionId]string = // new line
 map[FormCallbackGongstructInsertionId]string{
 	FormCallbackPerGongstructCode: `
-	func New{{Structname}}FormCallback(
-		stageOfInterest *models.StageStruct,
-		tableStage *table.StageStruct,
-		formStage *table.StageStruct,
-		{{structname}} *models.{{Structname}},
-		r *gin.Engine,
-		backRepoOfInterest *orm.BackRepoStruct,
-	) ({{structname}}FormCallback *{{Structname}}FormCallback) {
-		{{structname}}FormCallback = new({{Structname}}FormCallback)
-		{{structname}}FormCallback.stageOfInterest = stageOfInterest
-		{{structname}}FormCallback.tableStage = tableStage
-		{{structname}}FormCallback.formStage = formStage
-		{{structname}}FormCallback.{{structname}} = {{structname}}
-		{{structname}}FormCallback.r = r
-		{{structname}}FormCallback.backRepoOfInterest = backRepoOfInterest
-		return
+func New{{Structname}}FormCallback(
+	stageOfInterest *models.StageStruct,
+	tableStage *table.StageStruct,
+	formStage *table.StageStruct,
+	{{structname}} *models.{{Structname}},
+	r *gin.Engine,
+	backRepoOfInterest *orm.BackRepoStruct,
+) ({{structname}}FormCallback *{{Structname}}FormCallback) {
+	{{structname}}FormCallback = new({{Structname}}FormCallback)
+	{{structname}}FormCallback.stageOfInterest = stageOfInterest
+	{{structname}}FormCallback.tableStage = tableStage
+	{{structname}}FormCallback.formStage = formStage
+	{{structname}}FormCallback.{{structname}} = {{structname}}
+	{{structname}}FormCallback.r = r
+	{{structname}}FormCallback.backRepoOfInterest = backRepoOfInterest
+	return
+}
+
+type {{Structname}}FormCallback struct {
+	stageOfInterest    *models.StageStruct
+	tableStage         *table.StageStruct
+	formStage          *table.StageStruct
+	{{structname}}            *models.{{Structname}}
+	r                  *gin.Engine
+	backRepoOfInterest *orm.BackRepoStruct
+}
+
+func ({{structname}}FormCallback *{{Structname}}FormCallback) OnSave() {
+
+	log.Println("{{Structname}}FormCallback, OnSave")
+
+	// checkout formStage to have the form group on the stage synchronized with the
+	// back repo (and front repo)
+	{{structname}}FormCallback.formStage.Checkout()
+
+	if {{structname}}FormCallback.{{structname}} == nil {
+		{{structname}}FormCallback.{{structname}} = new(models.{{Structname}}).Stage({{structname}}FormCallback.stageOfInterest)
 	}
-	
-	type {{Structname}}FormCallback struct {
-		stageOfInterest    *models.StageStruct
-		tableStage         *table.StageStruct
-		formStage          *table.StageStruct
-		{{structname}}            *models.{{Structname}}
-		r                  *gin.Engine
-		backRepoOfInterest *orm.BackRepoStruct
+	{{structname}} := {{structname}}FormCallback.{{structname}}
+	_ = {{structname}}
+
+	// get the formGroup
+	formGroup := {{structname}}FormCallback.formStage.FormGroups_mapString[table.FormGroupDefaultName.ToString()]
+
+	for _, formDiv := range formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field{{fieldToFormCode}}
+		}
 	}
-	
-	func ({{structname}}FormCallback *{{Structname}}FormCallback) OnSave() {
-	
-		log.Println("{{Structname}}FormCallback, OnSave")
-	
-		// checkout formStage to have the form group on the stage synchronized with the
-		// back repo (and front repo)
-		{{structname}}FormCallback.formStage.Checkout()
-	
-		if {{structname}}FormCallback.{{structname}} == nil {
-			{{structname}}FormCallback.{{structname}} = new(models.{{Structname}}).Stage({{structname}}FormCallback.stageOfInterest)
-		}
-		{{structname}} := {{structname}}FormCallback.{{structname}}
-		_ = {{structname}}
-	
-		// get the formGroup
-		formGroup := {{structname}}FormCallback.formStage.FormGroups_mapString[table.FormGroupDefaultName.ToString()]
-	
-		for _, formDiv := range formGroup.FormDivs {
-			switch formDiv.Name {
-			// insertion point per field{{fieldToFormCode}}
-			}
-		}
-	
-		{{structname}}FormCallback.stageOfInterest.Commit()
-		fillUpTable[models.{{Structname}}](
-			{{structname}}FormCallback.stageOfInterest,
-			{{structname}}FormCallback.tableStage,
-			{{structname}}FormCallback.formStage,
-			{{structname}}FormCallback.r,
-			{{structname}}FormCallback.backRepoOfInterest,
-		)
-		{{structname}}FormCallback.tableStage.Commit()
-	}`,
+
+	{{structname}}FormCallback.stageOfInterest.Commit()
+	fillUpTable[models.{{Structname}}](
+		{{structname}}FormCallback.stageOfInterest,
+		{{structname}}FormCallback.tableStage,
+		{{structname}}FormCallback.formStage,
+		{{structname}}FormCallback.r,
+		{{structname}}FormCallback.backRepoOfInterest,
+	)
+	{{structname}}FormCallback.tableStage.Commit()
+}`,
 }
 
 type FormCallbackSubTemplateId int
@@ -111,20 +111,24 @@ const (
 	FormCallbackSubTmplBasicField FormCallbackSubTemplateId = iota
 	FormCallbackSubTmplBasicFieldEnumString
 	FormCallbackSubTmplBasicFieldEnumInt
+	FormCallbackSubTmplPointerToStruct
 )
 
 var FormCallbackFileFieldFieldSubTemplateCode map[FormCallbackSubTemplateId]string = // declaration of the sub templates
 map[FormCallbackSubTemplateId]string{
 
 	FormCallbackSubTmplBasicField: `
-			case "{{FieldName}}":
-				FormDivBasicFieldToField(&({{structname}}.{{FieldName}}), formDiv)`,
+		case "{{FieldName}}":
+			FormDivBasicFieldToField(&({{structname}}.{{FieldName}}), formDiv)`,
 	FormCallbackSubTmplBasicFieldEnumString: `
-			case "{{FieldName}}":
-				FormDivEnumStringFieldToField(&({{structname}}.{{FieldName}}), formDiv)`,
+		case "{{FieldName}}":
+			FormDivEnumStringFieldToField(&({{structname}}.{{FieldName}}), formDiv)`,
 	FormCallbackSubTmplBasicFieldEnumInt: `
-			case "{{FieldName}}":
-				FormDivEnumIntFieldToField(&({{structname}}.{{FieldName}}), formDiv)`,
+		case "{{FieldName}}":
+			FormDivEnumIntFieldToField(&({{structname}}.{{FieldName}}), formDiv)`,
+	FormCallbackSubTmplPointerToStruct: `
+		case "{{FieldName}}":
+			FormDivSelectFieldToField(&({{structname}}.{{FieldName}}), {{structname}}FormCallback.stageOfInterest, formDiv)`,
 }
 
 func CodeGeneratorModelFormCallback(
@@ -184,6 +188,10 @@ func CodeGeneratorModelFormCallback(
 						}
 					default:
 					}
+				case *models.PointerToGongStructField:
+					fieldToFormCode += models.Replace1(
+						FormCallbackFileFieldFieldSubTemplateCode[FormCallbackSubTmplPointerToStruct],
+						"{{FieldName}}", field.Name)
 				default:
 				}
 

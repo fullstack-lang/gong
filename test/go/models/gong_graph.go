@@ -102,6 +102,12 @@ func (stage *StageStruct) StageBranchAstruct(astruct *Astruct) {
 	astruct.Stage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
+	if astruct.Associationtob != nil {
+		StageBranch(stage, astruct.Associationtob)
+	}
+	if astruct.Anotherassociationtob_2 != nil {
+		StageBranch(stage, astruct.Anotherassociationtob_2)
+	}
 	if astruct.Bstruct != nil {
 		StageBranch(stage, astruct.Bstruct)
 	}
@@ -119,12 +125,6 @@ func (stage *StageStruct) StageBranchAstruct(astruct *Astruct) {
 	}
 	if astruct.Dstruct4 != nil {
 		StageBranch(stage, astruct.Dstruct4)
-	}
-	if astruct.Associationtob != nil {
-		StageBranch(stage, astruct.Associationtob)
-	}
-	if astruct.Anotherassociationtob_2 != nil {
-		StageBranch(stage, astruct.Anotherassociationtob_2)
 	}
 	if astruct.AnAstruct != nil {
 		StageBranch(stage, astruct.AnAstruct)
@@ -255,6 +255,12 @@ func (stage *StageStruct) UnstageBranchAstruct(astruct *Astruct) {
 	astruct.Unstage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
+	if astruct.Associationtob != nil {
+		UnstageBranch(stage, astruct.Associationtob)
+	}
+	if astruct.Anotherassociationtob_2 != nil {
+		UnstageBranch(stage, astruct.Anotherassociationtob_2)
+	}
 	if astruct.Bstruct != nil {
 		UnstageBranch(stage, astruct.Bstruct)
 	}
@@ -272,12 +278,6 @@ func (stage *StageStruct) UnstageBranchAstruct(astruct *Astruct) {
 	}
 	if astruct.Dstruct4 != nil {
 		UnstageBranch(stage, astruct.Dstruct4)
-	}
-	if astruct.Associationtob != nil {
-		UnstageBranch(stage, astruct.Associationtob)
-	}
-	if astruct.Anotherassociationtob_2 != nil {
-		UnstageBranch(stage, astruct.Anotherassociationtob_2)
 	}
 	if astruct.AnAstruct != nil {
 		UnstageBranch(stage, astruct.AnAstruct)

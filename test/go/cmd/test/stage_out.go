@@ -160,7 +160,7 @@ Second Line`
 
 	// Astruct values setup
 	__Astruct__000002_A3.Name = `A3`
-	__Astruct__000002_A3.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2022-02-10 01:06:11 +0000 UTC")
+	__Astruct__000002_A3.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2022-02-10 01:06:11.446 +0000 UTC")
 	__Astruct__000002_A3.Booleanfield = true
 	__Astruct__000002_A3.Benum = models.BENUM_VAL2
 	__Astruct__000002_A3.CEnum = models.CENUM_VAL1
@@ -229,15 +229,15 @@ Second Line`
 	__Dstruct__000000_D1.Name = `D1`
 
 	// Setup of pointers
-	__Astruct__000000_A1.Associationtob = __Bstruct__000001_B2
+	__Astruct__000000_A1.Associationtob = __Bstruct__000002_B3
+	__Astruct__000000_A1.Anarrayofb = append(__Astruct__000000_A1.Anarrayofb, __Bstruct__000002_B3)
+	__Astruct__000000_A1.Anarrayofb = append(__Astruct__000000_A1.Anarrayofb, __Bstruct__000000_B1)
 	__Astruct__000000_A1.Anotherarrayofb = append(__Astruct__000000_A1.Anotherarrayofb, __Bstruct__000001_B2)
 	__Astruct__000000_A1.Anotherarrayofb = append(__Astruct__000000_A1.Anotherarrayofb, __Bstruct__000002_B3)
 	__Astruct__000000_A1.Anarrayofa = append(__Astruct__000000_A1.Anarrayofa, __Astruct__000000_A1)
-	__Astruct__000000_A1.Anarrayofb2Use = append(__Astruct__000000_A1.Anarrayofb2Use, __AstructBstruct2Use__000001_)
-	__Astruct__000001_A2.Anarrayofb2Use = append(__Astruct__000001_A2.Anarrayofb2Use, __AstructBstruct2Use__000000_)
-	__Astruct__000002_A3.Anarrayofb = append(__Astruct__000002_A3.Anarrayofb, __Bstruct__000000_B1)
-	__Astruct__000002_A3.Anarrayofb = append(__Astruct__000002_A3.Anarrayofb, __Bstruct__000001_B2)
-	__Astruct__000002_A3.Anarrayofb = append(__Astruct__000002_A3.Anarrayofb, __Bstruct__000002_B3)
+	__Astruct__000000_A1.Anarrayofb2Use = append(__Astruct__000000_A1.Anarrayofb2Use, __AstructBstruct2Use__000000_)
+	__Astruct__000001_A2.Anarrayofb2Use = append(__Astruct__000001_A2.Anarrayofb2Use, __AstructBstruct2Use__000001_)
+	__Astruct__000002_A3.Associationtob = __Bstruct__000002_B3
 	__AstructBstruct2Use__000000_.Bstrcut2 = __Bstruct__000000_B1
 	__AstructBstruct2Use__000001_.Bstrcut2 = __Bstruct__000000_B1
 }
