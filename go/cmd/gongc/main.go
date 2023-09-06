@@ -540,6 +540,12 @@ func main() {
 		modelPkg.PkgPath, filepath.Join(*pkgPath, "../data/assoc_sorting_button_impl.go"),
 		data.NewOnSortingEditonTemplate)
 
+	gong_models.VerySimpleCodeGenerator(
+		modelPkg,
+		caserEnglish.String(modelPkg.Name),
+		modelPkg.PkgPath, filepath.Join(*pkgPath, "../data/form_div_field.go"),
+		data.FormDivToFieldTemplate)
+
 	// go mod vendor to get the ng code of dependant gong stacks
 	if !*skipGoModCommands {
 		start := time.Now()
