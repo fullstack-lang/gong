@@ -146,6 +146,8 @@ func FillUpForm[T models.Gongstruct](
 	case *models.Astruct:
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, formStage, formGroup)
+		AssociationFieldToForm("Associationtob", instanceWithInferedType.Associationtob, stageOfInterest, formStage, formGroup)
+		AssociationFieldToForm("Anotherassociationtob_2", instanceWithInferedType.Anotherassociationtob_2, stageOfInterest, formStage, formGroup)
 		BasicFieldtoForm("Booleanfield", instanceWithInferedType.Booleanfield, instanceWithInferedType, formStage, formGroup)
 		EnumTypeStringToForm("Aenum", instanceWithInferedType.Aenum, instanceWithInferedType, formStage, formGroup)
 		EnumTypeStringToForm("Aenum_2", instanceWithInferedType.Aenum_2, instanceWithInferedType, formStage, formGroup)
@@ -163,8 +165,6 @@ func FillUpForm[T models.Gongstruct](
 		BasicFieldtoForm("Intfield", instanceWithInferedType.Intfield, instanceWithInferedType, formStage, formGroup)
 		BasicFieldtoForm("Anotherbooleanfield", instanceWithInferedType.Anotherbooleanfield, instanceWithInferedType, formStage, formGroup)
 		BasicFieldtoForm("Duration1", instanceWithInferedType.Duration1, instanceWithInferedType, formStage, formGroup)
-		AssociationFieldToForm("Associationtob", instanceWithInferedType.Associationtob, stageOfInterest, formStage, formGroup)
-		AssociationFieldToForm("Anotherassociationtob_2", instanceWithInferedType.Anotherassociationtob_2, stageOfInterest, formStage, formGroup)
 		AssociationSliceToForm("Anarrayofb", instanceWithInferedType, &instanceWithInferedType.Anarrayofb, stageOfInterest, formStage, formGroup, r)
 		AssociationSliceToForm("Anotherarrayofb", instanceWithInferedType, &instanceWithInferedType.Anotherarrayofb, stageOfInterest, formStage, formGroup, r)
 		AssociationSliceToForm("Anarrayofa", instanceWithInferedType, &instanceWithInferedType.Anarrayofa, stageOfInterest, formStage, formGroup, r)

@@ -10,6 +10,10 @@ type Astruct struct {
 	// a "Name" field is necessary to generate a GongStruct
 	Name string
 
+	// ONE-ZERO/ONE association is a supported type of gong
+	Associationtob          *Bstruct
+	Anotherassociationtob_2 *Bstruct
+
 	// time.Time is a supported type of gong
 	Date time.Time
 
@@ -36,10 +40,6 @@ type Astruct struct {
 	Anotherbooleanfield bool
 
 	Duration1 time.Duration
-
-	// ONE-ZERO/ONE association is a supported type of gong
-	Associationtob          *Bstruct
-	Anotherassociationtob_2 *Bstruct
 
 	// ONE-MANY association is a supported type of gong
 	// not that that in go, this is a MANY-MANY association. In gong, the association
