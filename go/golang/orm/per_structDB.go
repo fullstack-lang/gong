@@ -670,6 +670,9 @@ var BackRepoFieldSubTemplateCode map[BackRepoPerStructSubTemplate]string = map[B
 				{{structname}}DB.{{FieldName}}ID.Int64 = int64({{FieldName}}Id)
 				{{structname}}DB.{{FieldName}}ID.Valid = true
 			}
+		} else {
+			{{structname}}DB.{{FieldName}}ID.Int64 = 0
+			{{structname}}DB.{{FieldName}}ID.Valid = true
 		}
 `,
 

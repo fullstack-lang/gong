@@ -225,6 +225,9 @@ func (backRepoAstructBstruct2Use *BackRepoAstructBstruct2UseStruct) CommitPhaseT
 				astructbstruct2useDB.Bstrcut2ID.Int64 = int64(Bstrcut2Id)
 				astructbstruct2useDB.Bstrcut2ID.Valid = true
 			}
+		} else {
+			astructbstruct2useDB.Bstrcut2ID.Int64 = 0
+			astructbstruct2useDB.Bstrcut2ID.Valid = true
 		}
 
 		query := backRepoAstructBstruct2Use.db.Save(&astructbstruct2useDB)
