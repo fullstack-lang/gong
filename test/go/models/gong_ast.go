@@ -819,6 +819,12 @@ func UnmarshallGongstructStaging(stage *StageStruct, cmap *ast.CommentMap, assig
 			case "Astruct":
 				switch fieldName {
 				// insertion point for field dependant code
+				case "Associationtob":
+					targetIdentifier := ident.Name
+					__gong__map_Astruct[identifier].Associationtob = __gong__map_Bstruct[targetIdentifier]
+				case "Anotherassociationtob_2":
+					targetIdentifier := ident.Name
+					__gong__map_Astruct[identifier].Anotherassociationtob_2 = __gong__map_Bstruct[targetIdentifier]
 				case "Booleanfield":
 					// convert string to boolean
 					fielValue, err := strconv.ParseBool(ident.Name)
@@ -851,12 +857,6 @@ func UnmarshallGongstructStaging(stage *StageStruct, cmap *ast.CommentMap, assig
 						log.Fatalln(err)
 					}
 					__gong__map_Astruct[identifier].Anotherbooleanfield = fielValue
-				case "Associationtob":
-					targetIdentifier := ident.Name
-					__gong__map_Astruct[identifier].Associationtob = __gong__map_Bstruct[targetIdentifier]
-				case "Anotherassociationtob_2":
-					targetIdentifier := ident.Name
-					__gong__map_Astruct[identifier].Anotherassociationtob_2 = __gong__map_Bstruct[targetIdentifier]
 				case "AnAstruct":
 					targetIdentifier := ident.Name
 					__gong__map_Astruct[identifier].AnAstruct = __gong__map_Astruct[targetIdentifier]

@@ -807,6 +807,40 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *StageS
 	case Astruct:
 		switch fieldname {
 		// insertion point for per direct association field
+		case "Associationtob":
+			res := make(map[*Bstruct][]*Astruct)
+			for astruct := range stage.Astructs {
+				if astruct.Associationtob != nil {
+					bstruct_ := astruct.Associationtob
+					var astructs []*Astruct
+					_, ok := res[bstruct_]
+					if ok {
+						astructs = res[bstruct_]
+					} else {
+						astructs = make([]*Astruct, 0)
+					}
+					astructs = append(astructs, astruct)
+					res[bstruct_] = astructs
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "Anotherassociationtob_2":
+			res := make(map[*Bstruct][]*Astruct)
+			for astruct := range stage.Astructs {
+				if astruct.Anotherassociationtob_2 != nil {
+					bstruct_ := astruct.Anotherassociationtob_2
+					var astructs []*Astruct
+					_, ok := res[bstruct_]
+					if ok {
+						astructs = res[bstruct_]
+					} else {
+						astructs = make([]*Astruct, 0)
+					}
+					astructs = append(astructs, astruct)
+					res[bstruct_] = astructs
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		case "Bstruct":
 			res := make(map[*Bstruct][]*Astruct)
 			for astruct := range stage.Astructs {
@@ -906,40 +940,6 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *StageS
 					}
 					astructs = append(astructs, astruct)
 					res[dstruct_] = astructs
-				}
-			}
-			return any(res).(map[*End][]*Start)
-		case "Associationtob":
-			res := make(map[*Bstruct][]*Astruct)
-			for astruct := range stage.Astructs {
-				if astruct.Associationtob != nil {
-					bstruct_ := astruct.Associationtob
-					var astructs []*Astruct
-					_, ok := res[bstruct_]
-					if ok {
-						astructs = res[bstruct_]
-					} else {
-						astructs = make([]*Astruct, 0)
-					}
-					astructs = append(astructs, astruct)
-					res[bstruct_] = astructs
-				}
-			}
-			return any(res).(map[*End][]*Start)
-		case "Anotherassociationtob_2":
-			res := make(map[*Bstruct][]*Astruct)
-			for astruct := range stage.Astructs {
-				if astruct.Anotherassociationtob_2 != nil {
-					bstruct_ := astruct.Anotherassociationtob_2
-					var astructs []*Astruct
-					_, ok := res[bstruct_]
-					if ok {
-						astructs = res[bstruct_]
-					} else {
-						astructs = make([]*Astruct, 0)
-					}
-					astructs = append(astructs, astruct)
-					res[bstruct_] = astructs
 				}
 			}
 			return any(res).(map[*End][]*Start)
@@ -1130,7 +1130,7 @@ func GetFields[Type Gongstruct]() (res []string) {
 	switch any(ret).(type) {
 	// insertion point for generic get gongstruct name
 	case Astruct:
-		res = []string{"Name", "Date", "Booleanfield", "Aenum", "Aenum_2", "Benum", "CEnum", "CName", "CFloatfield", "Bstruct", "Bstruct2", "Dstruct", "Dstruct2", "Dstruct3", "Dstruct4", "Floatfield", "Intfield", "Anotherbooleanfield", "Duration1", "Associationtob", "Anotherassociationtob_2", "Anarrayofb", "Anotherarrayofb", "Anarrayofa", "AnarrayofbUse", "Anarrayofb2Use", "AnAstruct", "StructRef", "FieldRef", "EnumIntRef", "EnumStringRef", "EnumValue", "ConstIdentifierValue"}
+		res = []string{"Name", "Associationtob", "Anotherassociationtob_2", "Date", "Booleanfield", "Aenum", "Aenum_2", "Benum", "CEnum", "CName", "CFloatfield", "Bstruct", "Bstruct2", "Dstruct", "Dstruct2", "Dstruct3", "Dstruct4", "Floatfield", "Intfield", "Anotherbooleanfield", "Duration1", "Anarrayofb", "Anotherarrayofb", "Anarrayofa", "AnarrayofbUse", "Anarrayofb2Use", "AnAstruct", "StructRef", "FieldRef", "EnumIntRef", "EnumStringRef", "EnumValue", "ConstIdentifierValue"}
 	case AstructBstruct2Use:
 		res = []string{"Name", "Bstrcut2"}
 	case AstructBstructUse:
@@ -1151,7 +1151,7 @@ func GetFieldsFromPointer[Type PointerToGongstruct]() (res []string) {
 	switch any(ret).(type) {
 	// insertion point for generic get gongstruct name
 	case *Astruct:
-		res = []string{"Name", "Date", "Booleanfield", "Aenum", "Aenum_2", "Benum", "CEnum", "CName", "CFloatfield", "Bstruct", "Bstruct2", "Dstruct", "Dstruct2", "Dstruct3", "Dstruct4", "Floatfield", "Intfield", "Anotherbooleanfield", "Duration1", "Associationtob", "Anotherassociationtob_2", "Anarrayofb", "Anotherarrayofb", "Anarrayofa", "AnarrayofbUse", "Anarrayofb2Use", "AnAstruct", "StructRef", "FieldRef", "EnumIntRef", "EnumStringRef", "EnumValue", "ConstIdentifierValue"}
+		res = []string{"Name", "Associationtob", "Anotherassociationtob_2", "Date", "Booleanfield", "Aenum", "Aenum_2", "Benum", "CEnum", "CName", "CFloatfield", "Bstruct", "Bstruct2", "Dstruct", "Dstruct2", "Dstruct3", "Dstruct4", "Floatfield", "Intfield", "Anotherbooleanfield", "Duration1", "Anarrayofb", "Anotherarrayofb", "Anarrayofa", "AnarrayofbUse", "Anarrayofb2Use", "AnAstruct", "StructRef", "FieldRef", "EnumIntRef", "EnumStringRef", "EnumValue", "ConstIdentifierValue"}
 	case *AstructBstruct2Use:
 		res = []string{"Name", "Bstrcut2"}
 	case *AstructBstructUse:
@@ -1173,6 +1173,14 @@ func GetFieldStringValueFromPointer[Type PointerToGongstruct](instance Type, fie
 		// string value of fields
 		case "Name":
 			res = inferedInstance.Name
+		case "Associationtob":
+			if inferedInstance.Associationtob != nil {
+				res = inferedInstance.Associationtob.Name
+			}
+		case "Anotherassociationtob_2":
+			if inferedInstance.Anotherassociationtob_2 != nil {
+				res = inferedInstance.Anotherassociationtob_2.Name
+			}
 		case "Date":
 			res = inferedInstance.Date.String()
 		case "Booleanfield":
@@ -1225,14 +1233,6 @@ func GetFieldStringValueFromPointer[Type PointerToGongstruct](instance Type, fie
 			res = fmt.Sprintf("%t", inferedInstance.Anotherbooleanfield)
 		case "Duration1":
 			res = fmt.Sprintf("%d", inferedInstance.Duration1)
-		case "Associationtob":
-			if inferedInstance.Associationtob != nil {
-				res = inferedInstance.Associationtob.Name
-			}
-		case "Anotherassociationtob_2":
-			if inferedInstance.Anotherassociationtob_2 != nil {
-				res = inferedInstance.Anotherassociationtob_2.Name
-			}
 		case "Anarrayofb":
 			for idx, __instance__ := range inferedInstance.Anarrayofb {
 				if idx > 0 {
@@ -1336,6 +1336,14 @@ func GetFieldStringValue[Type Gongstruct](instance Type, fieldName string) (res 
 		// string value of fields
 		case "Name":
 			res = inferedInstance.Name
+		case "Associationtob":
+			if inferedInstance.Associationtob != nil {
+				res = inferedInstance.Associationtob.Name
+			}
+		case "Anotherassociationtob_2":
+			if inferedInstance.Anotherassociationtob_2 != nil {
+				res = inferedInstance.Anotherassociationtob_2.Name
+			}
 		case "Date":
 			res = inferedInstance.Date.String()
 		case "Booleanfield":
@@ -1388,14 +1396,6 @@ func GetFieldStringValue[Type Gongstruct](instance Type, fieldName string) (res 
 			res = fmt.Sprintf("%t", inferedInstance.Anotherbooleanfield)
 		case "Duration1":
 			res = fmt.Sprintf("%d", inferedInstance.Duration1)
-		case "Associationtob":
-			if inferedInstance.Associationtob != nil {
-				res = inferedInstance.Associationtob.Name
-			}
-		case "Anotherassociationtob_2":
-			if inferedInstance.Anotherassociationtob_2 != nil {
-				res = inferedInstance.Anotherassociationtob_2.Name
-			}
 		case "Anarrayofb":
 			for idx, __instance__ := range inferedInstance.Anarrayofb {
 				if idx > 0 {

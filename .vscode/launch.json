@@ -199,13 +199,14 @@
             ]
         },
         {
-            "name": "gongc test -skipGoModCommands -skipNg -skipNpmInstall whithout rm main.go",
+            "name": "gongc test -skipGoModCommands -skipNg -skipNpmInstall -compileForDebug whithout rm main.go",
             "type": "go",
             "request": "launch",
             "mode": "debug",
             "cwd": "${workspaceFolder}/test/go/models",
             "program": "${workspaceFolder}/go/cmd/gongc",
             "args": [
+                "-compileForDebug",
                 "-skipGoModCommands",
                 "-skipNg",
                 "-skipNpmInstall",
