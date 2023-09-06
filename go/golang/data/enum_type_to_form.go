@@ -1,10 +1,12 @@
-// generated code - do not edit
+package data
+
+const EnumTypeStringToForm = `// generated code - do not edit
 package data
 
 import (
 	form "github.com/fullstack-lang/gongtable/go/models"
 
-	"github.com/fullstack-lang/gong/test/go/models"
+	"{{PkgPathRoot}}/models"
 )
 
 func EnumTypeStringToForm[T models.PointerToGongstruct, TF models.GongstructEnumStringField](
@@ -78,3 +80,4 @@ func EnumTypeIntToForm[T models.PointerToGongstruct, TF models.GongstructEnumInt
 			append(formField.FormFieldSelect.Options, option)
 	}
 }
+`
