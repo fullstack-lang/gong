@@ -152,9 +152,9 @@ map[ButtonImplSubTemplateId]string{
 	ButtonImplSubTmplBasicFieldEnumInt: `
 		EnumTypeIntToForm("{{FieldName}}", instanceWithInferedType.{{FieldName}}, instanceWithInferedType, formStage, formGroup)`,
 	ButtonImplSubTmplPointerField: `
-		AssociationFieldToForm("{{FieldName}}", instanceWithInferedType.{{FieldName}}, instanceWithInferedType, stageOfInterest, formStage, formGroup)`,
+		AssociationFieldToForm("{{FieldName}}", instanceWithInferedType.{{FieldName}}, stageOfInterest, formStage, formGroup)`,
 	ButtonImplSubTmplSliceOfPointersField: `
-		AssociationSliceToForm("{{FieldName}}", instanceWithInferedType, &instanceWithInferedType.{{FieldName}}, instanceWithInferedType, stageOfInterest, formStage, formGroup)`,
+		AssociationSliceToForm("{{FieldName}}", instanceWithInferedType, &instanceWithInferedType.{{FieldName}}, stageOfInterest, formStage, formGroup, r)`,
 }
 
 func CodeGeneratorModelButtonImpl(
