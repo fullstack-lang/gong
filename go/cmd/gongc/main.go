@@ -498,6 +498,13 @@ func main() {
 		modelPkg.PkgPath,
 	)
 
+	data.CodeGeneratorModelFormCallback(
+		modelPkg,
+		modelPkg.Name,
+		*pkgPath,
+		modelPkg.PkgPath,
+	)
+
 	gong_models.SimpleCodeGenerator(
 		modelPkg,
 		caserEnglish.String(modelPkg.Name),
