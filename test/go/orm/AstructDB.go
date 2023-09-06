@@ -367,6 +367,9 @@ func (backRepoAstruct *BackRepoAstructStruct) CommitPhaseTwoInstance(backRepo *B
 				astructDB.AssociationtobID.Int64 = int64(AssociationtobId)
 				astructDB.AssociationtobID.Valid = true
 			}
+		} else {
+			astructDB.AssociationtobID.Int64 = 0
+			astructDB.AssociationtobID.Valid = true
 		}
 
 		// commit pointer value astruct.Anotherassociationtob_2 translates to updating the astruct.Anotherassociationtob_2ID
@@ -376,6 +379,9 @@ func (backRepoAstruct *BackRepoAstructStruct) CommitPhaseTwoInstance(backRepo *B
 				astructDB.Anotherassociationtob_2ID.Int64 = int64(Anotherassociationtob_2Id)
 				astructDB.Anotherassociationtob_2ID.Valid = true
 			}
+		} else {
+			astructDB.Anotherassociationtob_2ID.Int64 = 0
+			astructDB.Anotherassociationtob_2ID.Valid = true
 		}
 
 		// commit pointer value astruct.Bstruct translates to updating the astruct.BstructID
@@ -385,6 +391,9 @@ func (backRepoAstruct *BackRepoAstructStruct) CommitPhaseTwoInstance(backRepo *B
 				astructDB.BstructID.Int64 = int64(BstructId)
 				astructDB.BstructID.Valid = true
 			}
+		} else {
+			astructDB.BstructID.Int64 = 0
+			astructDB.BstructID.Valid = true
 		}
 
 		// commit pointer value astruct.Bstruct2 translates to updating the astruct.Bstruct2ID
@@ -394,6 +403,9 @@ func (backRepoAstruct *BackRepoAstructStruct) CommitPhaseTwoInstance(backRepo *B
 				astructDB.Bstruct2ID.Int64 = int64(Bstruct2Id)
 				astructDB.Bstruct2ID.Valid = true
 			}
+		} else {
+			astructDB.Bstruct2ID.Int64 = 0
+			astructDB.Bstruct2ID.Valid = true
 		}
 
 		// commit pointer value astruct.Dstruct translates to updating the astruct.DstructID
@@ -403,6 +415,9 @@ func (backRepoAstruct *BackRepoAstructStruct) CommitPhaseTwoInstance(backRepo *B
 				astructDB.DstructID.Int64 = int64(DstructId)
 				astructDB.DstructID.Valid = true
 			}
+		} else {
+			astructDB.DstructID.Int64 = 0
+			astructDB.DstructID.Valid = true
 		}
 
 		// commit pointer value astruct.Dstruct2 translates to updating the astruct.Dstruct2ID
@@ -412,6 +427,9 @@ func (backRepoAstruct *BackRepoAstructStruct) CommitPhaseTwoInstance(backRepo *B
 				astructDB.Dstruct2ID.Int64 = int64(Dstruct2Id)
 				astructDB.Dstruct2ID.Valid = true
 			}
+		} else {
+			astructDB.Dstruct2ID.Int64 = 0
+			astructDB.Dstruct2ID.Valid = true
 		}
 
 		// commit pointer value astruct.Dstruct3 translates to updating the astruct.Dstruct3ID
@@ -421,6 +439,9 @@ func (backRepoAstruct *BackRepoAstructStruct) CommitPhaseTwoInstance(backRepo *B
 				astructDB.Dstruct3ID.Int64 = int64(Dstruct3Id)
 				astructDB.Dstruct3ID.Valid = true
 			}
+		} else {
+			astructDB.Dstruct3ID.Int64 = 0
+			astructDB.Dstruct3ID.Valid = true
 		}
 
 		// commit pointer value astruct.Dstruct4 translates to updating the astruct.Dstruct4ID
@@ -430,6 +451,9 @@ func (backRepoAstruct *BackRepoAstructStruct) CommitPhaseTwoInstance(backRepo *B
 				astructDB.Dstruct4ID.Int64 = int64(Dstruct4Id)
 				astructDB.Dstruct4ID.Valid = true
 			}
+		} else {
+			astructDB.Dstruct4ID.Int64 = 0
+			astructDB.Dstruct4ID.Valid = true
 		}
 
 		// This loop encodes the slice of pointers astruct.Anarrayofb into the back repo.
@@ -534,6 +558,9 @@ func (backRepoAstruct *BackRepoAstructStruct) CommitPhaseTwoInstance(backRepo *B
 				astructDB.AnAstructID.Int64 = int64(AnAstructId)
 				astructDB.AnAstructID.Valid = true
 			}
+		} else {
+			astructDB.AnAstructID.Int64 = 0
+			astructDB.AnAstructID.Valid = true
 		}
 
 		query := backRepoAstruct.db.Save(&astructDB)
