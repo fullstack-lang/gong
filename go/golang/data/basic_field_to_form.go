@@ -1,4 +1,6 @@
-// generated code - do not edit
+package data
+
+const BasicFieldtoFormTemplate = `// generated code - do not edit
 package data
 
 import (
@@ -6,7 +8,7 @@ import (
 
 	form "github.com/fullstack-lang/gongtable/go/models"
 
-	"github.com/fullstack-lang/gong/test/go/models"
+	"{{PkgPathRoot}}/models"
 )
 
 func BasicFieldtoForm[T models.PointerToGongstruct, TF models.GongtructBasicField](
@@ -217,3 +219,4 @@ func BasicFieldtoForm[T models.PointerToGongstruct, TF models.GongtructBasicFiel
 	}
 
 }
+`

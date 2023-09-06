@@ -1,10 +1,12 @@
-// generated code - do not edit
+package data
+
+const AssociationFieldToFormTemplate = `// generated code - do not edit
 package data
 
 import (
 	form "github.com/fullstack-lang/gongtable/go/models"
 
-	"github.com/fullstack-lang/gong/test/go/models"
+	"{{PkgPathRoot}}/models"
 )
 
 // AssociationFieldToForm will append a div to the form
@@ -46,3 +48,4 @@ func AssociationFieldToForm[FieldType models.PointerToGongstruct](
 			append(formField.FormFieldSelect.Options, option)
 	}
 }
+`

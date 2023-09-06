@@ -510,6 +510,36 @@ func main() {
 		modelPkg.PkgPath, filepath.Join(*pkgPath, "../data/load.go"),
 		data.LoadFileTemplate)
 
+	gong_models.VerySimpleCodeGenerator(
+		modelPkg,
+		caserEnglish.String(modelPkg.Name),
+		modelPkg.PkgPath, filepath.Join(*pkgPath, "../data/basic_field_to_form.go"),
+		data.BasicFieldtoFormTemplate)
+
+	gong_models.VerySimpleCodeGenerator(
+		modelPkg,
+		caserEnglish.String(modelPkg.Name),
+		modelPkg.PkgPath, filepath.Join(*pkgPath, "../data/association_to_form.go"),
+		data.AssociationFieldToFormTemplate)
+
+	gong_models.VerySimpleCodeGenerator(
+		modelPkg,
+		caserEnglish.String(modelPkg.Name),
+		modelPkg.PkgPath, filepath.Join(*pkgPath, "../data/association_slice_to_form.go"),
+		data.AssociationSliceToFormTemplate)
+
+	gong_models.VerySimpleCodeGenerator(
+		modelPkg,
+		caserEnglish.String(modelPkg.Name),
+		modelPkg.PkgPath, filepath.Join(*pkgPath, "../data/enum_type_to_form.go"),
+		data.EnumTypeStringToForm)
+
+	gong_models.VerySimpleCodeGenerator(
+		modelPkg,
+		caserEnglish.String(modelPkg.Name),
+		modelPkg.PkgPath, filepath.Join(*pkgPath, "../data/assoc_sorting_button_impl.go"),
+		data.NewOnSortingEditonTemplate)
+
 	// go mod vendor to get the ng code of dependant gong stacks
 	if !*skipGoModCommands {
 		start := time.Now()
