@@ -127,30 +127,34 @@ map[ButtonImplGongstructInsertionId]string{
 `,
 }
 
-type ButtonImplFilePerStructSubTemplateId int
+type ButtonImplSubTemplateId int
 
 const (
-	ButtonImplFileFieldSubTmplSetBasicField ButtonImplFilePerStructSubTemplateId = iota
+	ButtonImplSubTmplBasicField ButtonImplSubTemplateId = iota
 	// ButtonImplFileFieldSubTmplSetBasicFieldInt
-	ButtonImplFileFieldSubTmplSetBasicFieldEnumString
-	ButtonImplFileFieldSubTmplSetBasicFieldEnumInt
+	ButtonImplSubTmplBasicFieldEnumString
+	ButtonImplSubTmplBasicFieldEnumInt
 	// ButtonImplFileFieldSubTmplSetBasicFieldFloat64
 	// ButtonImplFileFieldSubTmplSetBasicFieldString
 	// ButtonImplFileFieldSubTmplSetBasicFieldStringDocLink
 	// ButtonImplFileFieldSubTmplSetTimeField
-	// ButtonImplFileFieldSubTmplSetPointerField
-	// ButtonImplFileFieldSubTmplSetSliceOfPointersField
+	ButtonImplSubTmplPointerField
+	ButtonImplSubTmplSliceOfPointersField
 )
 
-var ButtonImplFileFieldFieldSubTemplateCode map[ButtonImplFilePerStructSubTemplateId]string = // declaration of the sub templates
-map[ButtonImplFilePerStructSubTemplateId]string{
+var ButtonImplFileFieldFieldSubTemplateCode map[ButtonImplSubTemplateId]string = // declaration of the sub templates
+map[ButtonImplSubTemplateId]string{
 
-	ButtonImplFileFieldSubTmplSetBasicField: `
-		BasicFieldtoForm("{{FieldName}}", instanceWithInferedType.Name, instanceWithInferedType, formStage, formGroup)`,
-	ButtonImplFileFieldSubTmplSetBasicFieldEnumString: `
-		EnumTypeStringToForm("{{FieldName}}", instanceWithInferedType.Name, instanceWithInferedType, formStage, formGroup)`,
-	ButtonImplFileFieldSubTmplSetBasicFieldEnumInt: `
-		EnumTypeIntToForm("{{FieldName}}", instanceWithInferedType.Name, instanceWithInferedType, formStage, formGroup)`,
+	ButtonImplSubTmplBasicField: `
+		BasicFieldtoForm("{{FieldName}}", instanceWithInferedType.{{FieldName}}, instanceWithInferedType, formStage, formGroup)`,
+	ButtonImplSubTmplBasicFieldEnumString: `
+		EnumTypeStringToForm("{{FieldName}}", instanceWithInferedType.{{FieldName}}, instanceWithInferedType, formStage, formGroup)`,
+	ButtonImplSubTmplBasicFieldEnumInt: `
+		EnumTypeIntToForm("{{FieldName}}", instanceWithInferedType.{{FieldName}}, instanceWithInferedType, formStage, formGroup)`,
+	ButtonImplSubTmplPointerField: `
+		AssociationFieldToForm("{{FieldName}}", instanceWithInferedType.{{FieldName}}, instanceWithInferedType, stageOfInterest, formStage, formGroup)`,
+	ButtonImplSubTmplSliceOfPointersField: `
+		AssociationSliceToForm("{{FieldName}}", instanceWithInferedType, &instanceWithInferedType.{{FieldName}}, instanceWithInferedType, stageOfInterest, formStage, formGroup)`,
 }
 
 func CodeGeneratorModelButtonImpl(
@@ -195,21 +199,29 @@ func CodeGeneratorModelButtonImpl(
 					case types.String, types.Bool, types.Float64, types.Int, types.Int64:
 						if field.GongEnum == nil {
 							fieldToFormCode += models.Replace1(
-								ButtonImplFileFieldFieldSubTemplateCode[ButtonImplFileFieldSubTmplSetBasicField],
+								ButtonImplFileFieldFieldSubTemplateCode[ButtonImplSubTmplBasicField],
 								"{{FieldName}}", field.Name)
 						} else {
 							if field.GongEnum.Type == models.Int {
 								fieldToFormCode += models.Replace1(
-									ButtonImplFileFieldFieldSubTemplateCode[ButtonImplFileFieldSubTmplSetBasicFieldEnumInt],
+									ButtonImplFileFieldFieldSubTemplateCode[ButtonImplSubTmplBasicFieldEnumInt],
 									"{{FieldName}}", field.Name)
 							} else {
 								fieldToFormCode += models.Replace1(
-									ButtonImplFileFieldFieldSubTemplateCode[ButtonImplFileFieldSubTmplSetBasicFieldEnumString],
+									ButtonImplFileFieldFieldSubTemplateCode[ButtonImplSubTmplBasicFieldEnumString],
 									"{{FieldName}}", field.Name)
 							}
 						}
 					default:
 					}
+				case *models.PointerToGongStructField:
+					fieldToFormCode += models.Replace1(
+						ButtonImplFileFieldFieldSubTemplateCode[ButtonImplSubTmplPointerField],
+						"{{FieldName}}", field.Name)
+				case *models.SliceOfPointerToGongStructField:
+					fieldToFormCode += models.Replace1(
+						ButtonImplFileFieldFieldSubTemplateCode[ButtonImplSubTmplSliceOfPointersField],
+						"{{FieldName}}", field.Name)
 				default:
 				}
 
