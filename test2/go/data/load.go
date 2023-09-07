@@ -27,7 +27,7 @@ func Load(
 	stageOfInterest *models.StageStruct,
 	backRepoOfInterest *orm.BackRepoStruct) {
 
-	gongStage := gong_fullstack.NewStackInstance(r, stackPath)
+	gongStage, _ := gong_fullstack.NewStackInstance(r, stackPath)
 
 	gong_models.LoadEmbedded(gongStage, goModelsDir)
 

@@ -16,8 +16,8 @@ import (
 	gong_fullstack "github.com/fullstack-lang/gong/go/fullstack"
 	gong_models "github.com/fullstack-lang/gong/go/models"
 
-	"github.com/fullstack-lang/gong/test/go/models"
-	"github.com/fullstack-lang/gong/test/go/orm"
+	"github.com/fullstack-lang/gong/go/models"
+	"github.com/fullstack-lang/gong/go/orm"
 )
 
 func Load(
