@@ -76,6 +76,12 @@ export class AstructsTableComponent implements OnInit {
         case 'Name':
           return astructDB.Name;
 
+        case 'Associationtob':
+          return (astructDB.Associationtob ? astructDB.Associationtob.Name : '');
+
+        case 'Anotherassociationtob_2':
+          return (astructDB.Anotherassociationtob_2 ? astructDB.Anotherassociationtob_2.Name : '');
+
         case 'Date':
           return (new Date(astructDB.Date)).getTime()
 
@@ -130,12 +136,6 @@ export class AstructsTableComponent implements OnInit {
         case 'Duration1':
           return astructDB.Duration1;
 
-        case 'Associationtob':
-          return (astructDB.Associationtob ? astructDB.Associationtob.Name : '');
-
-        case 'Anotherassociationtob_2':
-          return (astructDB.Anotherassociationtob_2 ? astructDB.Anotherassociationtob_2.Name : '');
-
         case 'AnAstruct':
           return (astructDB.AnAstruct ? astructDB.AnAstruct.Name : '');
 
@@ -179,6 +179,12 @@ export class AstructsTableComponent implements OnInit {
 
       // insertion point for merging of fields
       mergedContent += astructDB.Name.toLowerCase()
+      if (astructDB.Associationtob) {
+        mergedContent += astructDB.Associationtob.Name.toLowerCase()
+      }
+      if (astructDB.Anotherassociationtob_2) {
+        mergedContent += astructDB.Anotherassociationtob_2.Name.toLowerCase()
+      }
       mergedContent += astructDB.Aenum.toLowerCase()
       mergedContent += astructDB.Aenum_2.toLowerCase()
       mergedContent += astructDB.Benum.toLowerCase()
@@ -205,12 +211,6 @@ export class AstructsTableComponent implements OnInit {
       }
       mergedContent += astructDB.Floatfield.toString()
       mergedContent += astructDB.Intfield.toString()
-      if (astructDB.Associationtob) {
-        mergedContent += astructDB.Associationtob.Name.toLowerCase()
-      }
-      if (astructDB.Anotherassociationtob_2) {
-        mergedContent += astructDB.Anotherassociationtob_2.Name.toLowerCase()
-      }
       if (astructDB.AnAstruct) {
         mergedContent += astructDB.AnAstruct.Name.toLowerCase()
       }
@@ -279,6 +279,8 @@ export class AstructsTableComponent implements OnInit {
     if (this.mode == TableComponentMode.DISPLAY_MODE) {
       this.displayedColumns = ['ID', 'Delete', // insertion point for columns to display
         "Name",
+        "Associationtob",
+        "Anotherassociationtob_2",
         "Date",
         "Booleanfield",
         "Aenum",
@@ -297,8 +299,6 @@ export class AstructsTableComponent implements OnInit {
         "Intfield",
         "Anotherbooleanfield",
         "Duration1",
-        "Associationtob",
-        "Anotherassociationtob_2",
         "AnAstruct",
         "StructRef",
         "FieldRef",
@@ -311,6 +311,8 @@ export class AstructsTableComponent implements OnInit {
     } else {
       this.displayedColumns = ['select', 'ID', // insertion point for columns to display
         "Name",
+        "Associationtob",
+        "Anotherassociationtob_2",
         "Date",
         "Booleanfield",
         "Aenum",
@@ -329,8 +331,6 @@ export class AstructsTableComponent implements OnInit {
         "Intfield",
         "Anotherbooleanfield",
         "Duration1",
-        "Associationtob",
-        "Anotherassociationtob_2",
         "AnAstruct",
         "StructRef",
         "FieldRef",

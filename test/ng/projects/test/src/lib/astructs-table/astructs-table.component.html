@@ -26,6 +26,20 @@
             </td>
         </ng-container>
         <!-- -->
+        <ng-container matColumnDef="Associationtob">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Associationtob </th>
+            <td mat-cell *matCellDef="let Astruct">
+                {{ Astruct.Associationtob ? Astruct.Associationtob.Name : ''}}
+            </td>
+        </ng-container>
+        <!-- -->
+        <ng-container matColumnDef="Anotherassociationtob_2">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Anotherassociationtob_2 </th>
+            <td mat-cell *matCellDef="let Astruct">
+                {{ Astruct.Anotherassociationtob_2 ? Astruct.Anotherassociationtob_2.Name : ''}}
+            </td>
+        </ng-container>
+        <!-- -->
         <ng-container matColumnDef="Date">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Date </th>
             <td mat-cell *matCellDef="let Astruct">
@@ -149,20 +163,6 @@
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Duration1 </th>
             <td mat-cell *matCellDef="let Astruct">
                 {{Astruct.Duration1_string}}
-            </td>
-        </ng-container>
-        <!-- -->
-        <ng-container matColumnDef="Associationtob">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> Associationtob </th>
-            <td mat-cell *matCellDef="let Astruct">
-                {{ Astruct.Associationtob ? Astruct.Associationtob.Name : ''}}
-            </td>
-        </ng-container>
-        <!-- -->
-        <ng-container matColumnDef="Anotherassociationtob_2">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> Anotherassociationtob_2 </th>
-            <td mat-cell *matCellDef="let Astruct">
-                {{ Astruct.Anotherassociationtob_2 ? Astruct.Anotherassociationtob_2.Name : ''}}
             </td>
         </ng-container>
         <!-- -->
