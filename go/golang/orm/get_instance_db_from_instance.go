@@ -19,6 +19,8 @@ func GetInstanceDBFromInstance[T models.Gongstruct, T2 GongstructDB](
 
 	switch concreteInstance := any(instance).(type) {
 	// insertion point for per struct backup{{` + string(rune(GetInstanceDBFromInstanceSwitchCaseGet)) + `}}
+	default:
+		_ = concreteInstance
 	}
 	return
 }
@@ -30,6 +32,8 @@ func GetID[T models.Gongstruct](
 
 	switch inst := any(instance).(type) {
 	// insertion point for per struct backup{{` + string(rune(GetInstanceDBFromInstanceSwitchCaseGetID)) + `}}
+	default:
+		_ = inst
 	}
 	return
 }

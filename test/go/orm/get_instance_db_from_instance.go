@@ -37,6 +37,8 @@ func GetInstanceDBFromInstance[T models.Gongstruct, T2 GongstructDB](
 		dstructInstance := any(concreteInstance).(*models.Dstruct)
 		ret2 := backRepo.BackRepoDstruct.GetDstructDBFromDstructPtr(dstructInstance)
 		ret = any(ret2).(*T2)
+	default:
+		_ = concreteInstance
 	}
 	return
 }
@@ -73,6 +75,8 @@ func GetID[T models.Gongstruct](
 			stage, backRepo, inst,
 		)
 		id = int(tmp.ID)
+	default:
+		_ = inst
 	}
 	return
 }

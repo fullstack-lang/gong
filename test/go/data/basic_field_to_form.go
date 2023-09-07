@@ -173,47 +173,6 @@ func BasicFieldtoForm[T models.PointerToGongstruct, TF models.GongtructBasicFiel
 			formFieldIntSeconds.MinValue = 0
 			formFieldSeconds.FormFieldInt = formFieldIntSeconds
 		}
-	case models.AEnumType:
-
-		formDiv := (&form.FormDiv{
-			Name: "Aenum",
-		}).Stage(formStage)
-		formGroup.FormDivs = append(formGroup.FormDivs, formDiv)
-		formField := (&form.FormField{
-			Name:        "Aenum",
-			Label:       "Aenum",
-			Placeholder: "",
-		}).Stage(formStage)
-		formDiv.FormFields = append(formDiv.FormFields, formField)
-
-		formFieldSelect := (&form.FormFieldSelect{
-			Name: "Aenum",
-		}).Stage(formStage)
-		formField.FormFieldSelect = formFieldSelect
-
-		formField.FormFieldSelect.Options = make([]*form.Option, 0)
-		{
-			option := (&form.Option{
-				Name: models.ENUM_VAL1.ToString(),
-			}).Stage(formStage)
-			if fieldWithInterferedType == models.ENUM_VAL1 {
-				formFieldSelect.Value = option
-			}
-
-			formField.FormFieldSelect.Options =
-				append(formField.FormFieldSelect.Options, option)
-		}
-		{
-			option := (&form.Option{
-				Name: models.ENUM_VAL2.ToString(),
-			}).Stage(formStage)
-			if fieldWithInterferedType == models.ENUM_VAL2 {
-				formFieldSelect.Value = option
-			}
-			formField.FormFieldSelect.Options =
-				append(formField.FormFieldSelect.Options, option)
-		}
-
 	}
 
 }
