@@ -37,6 +37,12 @@ export class AstructDB {
 	ConstIdentifierValue: string = ""
 
 	// insertion point for other declarations
+	Associationtob?: BstructDB
+	AssociationtobID: NullInt64 = new NullInt64 // if pointer is null, Associationtob.ID = 0
+
+	Anotherassociationtob_2?: BstructDB
+	Anotherassociationtob_2ID: NullInt64 = new NullInt64 // if pointer is null, Anotherassociationtob_2.ID = 0
+
 	CEnum_string?: string
 	Bstruct?: BstructDB
 	BstructID: NullInt64 = new NullInt64 // if pointer is null, Bstruct.ID = 0
@@ -57,12 +63,6 @@ export class AstructDB {
 	Dstruct4ID: NullInt64 = new NullInt64 // if pointer is null, Dstruct4.ID = 0
 
 	Duration1_string?: string
-	Associationtob?: BstructDB
-	AssociationtobID: NullInt64 = new NullInt64 // if pointer is null, Associationtob.ID = 0
-
-	Anotherassociationtob_2?: BstructDB
-	Anotherassociationtob_2ID: NullInt64 = new NullInt64 // if pointer is null, Anotherassociationtob_2.ID = 0
-
 	Anarrayofb?: Array<BstructDB>
 	Anotherarrayofb?: Array<BstructDB>
 	Anarrayofa?: Array<AstructDB>
