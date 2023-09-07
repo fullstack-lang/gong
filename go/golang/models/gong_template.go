@@ -389,6 +389,8 @@ func GetFieldStringValueFromPointer[Type PointerToGongstruct](instance Type, fie
 
 	switch inferedInstance := any(instance).(type) {
 	// insertion point for generic get gongstruct field value{{` + string(rune(ModelGongStructInsertionGenericGetFieldValuesFromPointer)) + `}}
+	default:
+		_ = inferedInstance	
 	}
 	return
 }
@@ -397,6 +399,8 @@ func GetFieldStringValue[Type Gongstruct](instance Type, fieldName string) (res 
 
 	switch inferedInstance := any(instance).(type) {
 	// insertion point for generic get gongstruct field value{{` + string(rune(ModelGongStructInsertionGenericGetFieldValues)) + `}}
+	default:
+		_ = inferedInstance	
 	}
 	return
 }

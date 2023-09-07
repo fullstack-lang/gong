@@ -39,10 +39,18 @@ import { SidebarComponent } from './sidebar/sidebar.component';
 import { GongstructSelectionService } from './gongstruct-selection.service'
 
 // insertion point for imports 
+import { DummysTableComponent } from './dummys-table/dummys-table.component'
+import { DummySortingComponent } from './dummy-sorting/dummy-sorting.component'
+import { DummyDetailComponent } from './dummy-detail/dummy-detail.component'
+
 
 @NgModule({
 	declarations: [
 		// insertion point for declarations 
+		DummysTableComponent,
+		DummySortingComponent,
+		DummyDetailComponent,
+
 
 		SplitterComponent,
 		SidebarComponent
@@ -82,6 +90,10 @@ import { GongstructSelectionService } from './gongstruct-selection.service'
 	],
 	exports: [
 		// insertion point for declarations 
+		DummysTableComponent,
+		DummySortingComponent,
+		DummyDetailComponent,
+
 
 		SplitterComponent,
 		SidebarComponent,

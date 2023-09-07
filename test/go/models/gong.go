@@ -1323,6 +1323,8 @@ func GetFieldStringValueFromPointer[Type PointerToGongstruct](instance Type, fie
 		case "Name":
 			res = inferedInstance.Name
 		}
+	default:
+		_ = inferedInstance	
 	}
 	return
 }
@@ -1486,6 +1488,8 @@ func GetFieldStringValue[Type Gongstruct](instance Type, fieldName string) (res 
 		case "Name":
 			res = inferedInstance.Name
 		}
+	default:
+		_ = inferedInstance	
 	}
 	return
 }

@@ -1,3 +1,4 @@
+// do not modify, generated file
 package fullstack
 
 import (
@@ -24,26 +25,31 @@ func NewStackInstance(
 	stackPath string,
 	// filesnames is an optional parameter for the name of the database
 	filenames ...string) (
-	stage *models.StageStruct) {
+	stage *models.StageStruct,
+	backRepo *orm.BackRepoStruct) {
 
 	// temporary
 	if stackPath == "" {
 		stage = models.GetDefaultStage()
 	} else {
-		stage = models.NewStage()
+		stage = models.NewStage(stackPath)
 	}
 
 	if len(filenames) == 0 {
 		filenames = append(filenames, ":memory:")
 	}
 
-	backRepo := orm.NewBackRepo(stage, filenames[0])
+	backRepo = orm.NewBackRepo(stage, filenames[0])
 
 	if stackPath != "" {
 		controllers.GetController().AddBackRepo(backRepo, stackPath)
 	}
 
 	controllers.Register(r)
+
+	// add orchestration
+	// insertion point
+	models.SetOrchestratorOnAfterUpdate[models.Dummy](stage)
 
 	return
 }

@@ -245,10 +245,63 @@ func (rowUpdate *RowUpdate[T]) RowUpdated(stage *gongtable.StageStruct, row, upd
 	formStage.Commit()
 
 	switch instancesTyped := any(rowUpdate.Instance).(type) {
+	// insertion point
 	case *models.Astruct:
 		formGroup := (&gongtable.FormGroup{
 			Name: gongtable.FormGroupDefaultName.ToString(),
 			OnSave: NewAstructFormCallback(
+				rowUpdate.stageOfInterest,
+				rowUpdate.tableStage,
+				formStage,
+				instancesTyped,
+				rowUpdate.r,
+				rowUpdate.backRepoOfInterest,
+			),
+		}).Stage(formStage)
+		FillUpForm(instancesTyped, rowUpdate.stageOfInterest, formStage, formGroup, rowUpdate.r)
+	case *models.AstructBstruct2Use:
+		formGroup := (&gongtable.FormGroup{
+			Name: gongtable.FormGroupDefaultName.ToString(),
+			OnSave: NewAstructBstruct2UseFormCallback(
+				rowUpdate.stageOfInterest,
+				rowUpdate.tableStage,
+				formStage,
+				instancesTyped,
+				rowUpdate.r,
+				rowUpdate.backRepoOfInterest,
+			),
+		}).Stage(formStage)
+		FillUpForm(instancesTyped, rowUpdate.stageOfInterest, formStage, formGroup, rowUpdate.r)
+	case *models.AstructBstructUse:
+		formGroup := (&gongtable.FormGroup{
+			Name: gongtable.FormGroupDefaultName.ToString(),
+			OnSave: NewAstructBstructUseFormCallback(
+				rowUpdate.stageOfInterest,
+				rowUpdate.tableStage,
+				formStage,
+				instancesTyped,
+				rowUpdate.r,
+				rowUpdate.backRepoOfInterest,
+			),
+		}).Stage(formStage)
+		FillUpForm(instancesTyped, rowUpdate.stageOfInterest, formStage, formGroup, rowUpdate.r)
+	case *models.Bstruct:
+		formGroup := (&gongtable.FormGroup{
+			Name: gongtable.FormGroupDefaultName.ToString(),
+			OnSave: NewBstructFormCallback(
+				rowUpdate.stageOfInterest,
+				rowUpdate.tableStage,
+				formStage,
+				instancesTyped,
+				rowUpdate.r,
+				rowUpdate.backRepoOfInterest,
+			),
+		}).Stage(formStage)
+		FillUpForm(instancesTyped, rowUpdate.stageOfInterest, formStage, formGroup, rowUpdate.r)
+	case *models.Dstruct:
+		formGroup := (&gongtable.FormGroup{
+			Name: gongtable.FormGroupDefaultName.ToString(),
+			OnSave: NewDstructFormCallback(
 				rowUpdate.stageOfInterest,
 				rowUpdate.tableStage,
 				formStage,

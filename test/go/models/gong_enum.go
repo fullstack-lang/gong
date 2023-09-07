@@ -241,7 +241,7 @@ func (cenumtypeint CEnumTypeInt) CodeValues() (res []int) {
 
 
 type GongstructEnumStringField interface {
-	AEnumType | BEnumType | CEnumTypeInt
+	string  | AEnumType | BEnumType | CEnumTypeInt
 	Codes() []string
 	CodeValues() []string
 }
@@ -252,7 +252,7 @@ type PointerToGongstructEnumStringField interface {
 }
 
 type GongstructEnumIntField interface {
-	AEnumType | BEnumType | CEnumTypeInt
+	int  | AEnumType | BEnumType | CEnumTypeInt
 	Codes() []string
 	CodeValues() []int
 }
