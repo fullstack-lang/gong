@@ -263,6 +263,9 @@ func (backRepoGongStructShape *BackRepoGongStructShapeStruct) CommitPhaseTwoInst
 				gongstructshapeDB.PositionID.Int64 = int64(PositionId)
 				gongstructshapeDB.PositionID.Valid = true
 			}
+		} else {
+			gongstructshapeDB.PositionID.Int64 = 0
+			gongstructshapeDB.PositionID.Valid = true
 		}
 
 		// This loop encodes the slice of pointers gongstructshape.Fields into the back repo.
