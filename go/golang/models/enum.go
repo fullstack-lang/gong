@@ -19,7 +19,7 @@ package models
 // insertion point of enum utility functions{{` + string(rune(ModelGongEnumUtilityFunctions)) + `}}
 
 type GongstructEnumStringField interface {
-	{{` + string(rune(ModelGongStructInsertionGenericEnumStringTypes)) + `}}
+	string {{` + string(rune(ModelGongStructInsertionGenericEnumStringTypes)) + `}}
 	Codes() []string
 	CodeValues() []string
 }
@@ -30,7 +30,7 @@ type PointerToGongstructEnumStringField interface {
 }
 
 type GongstructEnumIntField interface {
-	{{` + string(rune(ModelGongStructInsertionGenericEnumIntTypes)) + `}}
+	int {{` + string(rune(ModelGongStructInsertionGenericEnumIntTypes)) + `}}
 	Codes() []string
 	CodeValues() []int
 }

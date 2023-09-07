@@ -75,14 +75,14 @@ func main() {
 
 	// setup stack
 	var stage *{{pkgname}}_models.StageStruct
-	var backRepo *test_orm.BackRepoStruct
+	var backRepo *{{pkgname}}_orm.BackRepoStruct
 
 	if *marshallOnCommit != "" {
 		// persistence in a SQLite file on disk in memory
 		stage, backRepo = {{pkgname}}_fullstack.NewStackInstance(r, "{{pkgname}}")
 	} else {
 		// persistence in a SQLite file on disk
-		stage, backRepo = {{pkgname}}_fullstack.NewStackInstance(r, "{{pkgname}}", "./test.db")
+		stage, backRepo = {{pkgname}}_fullstack.NewStackInstance(r, "{{pkgname}}", "./{{pkgname}}.db")
 	}
 
 	{{pkgname}}_data.Load(r, {{pkgname}}_go.GoModelsDir, "{{pkgname}}", stage, backRepo)

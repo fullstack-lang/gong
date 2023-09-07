@@ -232,19 +232,7 @@ func (rowUpdate *RowUpdate[T]) RowUpdated(stage *gongtable.StageStruct, row, upd
 	formStage.Commit()
 
 	switch instancesTyped := any(rowUpdate.Instance).(type) {
-	case *models.Astruct:
-		formGroup := (&gongtable.FormGroup{
-			Name: gongtable.FormGroupDefaultName.ToString(),
-			OnSave: NewAstructFormCallback(
-				rowUpdate.stageOfInterest,
-				rowUpdate.tableStage,
-				formStage,
-				instancesTyped,
-				rowUpdate.r,
-				rowUpdate.backRepoOfInterest,
-			),
-		}).Stage(formStage)
-		FillUpForm(instancesTyped, rowUpdate.stageOfInterest, formStage, formGroup, rowUpdate.r)
+	// insertion point{{` + string(rune(NodeImplGongstructCase)) + `}}
 	}
 	formStage.Commit()
 
@@ -255,6 +243,7 @@ type NodeImplGongstructInsertionId int
 
 const (
 	NodeImplGongstruct NodeImplGongstructInsertionId = iota
+	NodeImplGongstructCase
 )
 
 var NodeImplGongstructSubTemplateCode map[string]string = // new line
@@ -263,4 +252,18 @@ map[string]string{
 	if nodeImplGongstruct.gongStruct.GetName() == "{{Structname}}" {
 		fillUpTable[models.{{Structname}}](nodeImplGongstruct.stageOfInterest, tableStage, nodeImplGongstruct.formStage, nodeImplGongstruct.r, nodeImplGongstruct.backRepoOfInterest)
 	}`,
+	string(rune(NodeImplGongstructCase)): `
+	case *models.{{Structname}}:
+		formGroup := (&gongtable.FormGroup{
+			Name: gongtable.FormGroupDefaultName.ToString(),
+			OnSave: New{{Structname}}FormCallback(
+				rowUpdate.stageOfInterest,
+				rowUpdate.tableStage,
+				formStage,
+				instancesTyped,
+				rowUpdate.r,
+				rowUpdate.backRepoOfInterest,
+			),
+		}).Stage(formStage)
+		FillUpForm(instancesTyped, rowUpdate.stageOfInterest, formStage, formGroup, rowUpdate.r)`,
 }
