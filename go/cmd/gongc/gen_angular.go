@@ -111,6 +111,13 @@ func genAngular(modelPkg *gong_models.ModelPkg, skipNpmInstall bool, skipGoModCo
 			fmt.Sprintf("%sdatamodel.module.ts", modelPkg.Name)),
 		angular.NgFileModuleDatamodel)
 
+	// in this particular case, one have to remove duplicate lines
+	// that are generated if gongc is applied to gongdoc, gong, gongtree or gongtable
+	// where there "Module" can appear multiple time in the module file
+	removeDuplicateLinesInFile(filepath.Join(gong_models.MaterialLibDatamodelTargetPath,
+		fmt.Sprintf("%sdatamodel.module.ts", modelPkg.Name)),
+		"Module")
+
 	gong_models.VerySimpleCodeGenerator(
 		modelPkg,
 		modelPkg.Name,
