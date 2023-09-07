@@ -8,8 +8,9 @@ import { GongdocspecificModule } from 'gongdocspecific'
 import { GongtreeModule } from 'gongtree'
 import { GongtreespecificModule } from 'gongtreespecific'
 
-import { GongrouterModule } from 'gongrouter'
-import { GongrouterspecificModule } from 'gongrouterspecific'
+import { GongtableModule } from 'gongtable'
+import { GongtablespecificModule } from 'gongtablespecific'
+import { GongtabledatamodelModule } from 'gongtabledatamodel'
 
 import { MatRadioModule } from '@angular/material/radio';
 import { FormsModule } from '@angular/forms';
@@ -24,18 +25,18 @@ import { AngularSplitModule } from 'angular-split';
     GongdocModule,
     GongdocspecificModule,
 
-    GongrouterModule,
-    GongrouterspecificModule,
-
     GongtreeModule,
     GongtreespecificModule,
+
+    GongtableModule,
+    GongtablespecificModule,
+    GongtabledatamodelModule,
 
     MatRadioModule,
     FormsModule,
     CommonModule,
 
     AngularSplitModule,
-
   ],
   exports: [
     DataModelPanelComponent
