@@ -280,6 +280,9 @@ func (backRepoFormField *BackRepoFormFieldStruct) CommitPhaseTwoInstance(backRep
 				formfieldDB.FormFieldStringID.Int64 = int64(FormFieldStringId)
 				formfieldDB.FormFieldStringID.Valid = true
 			}
+		} else {
+			formfieldDB.FormFieldStringID.Int64 = 0
+			formfieldDB.FormFieldStringID.Valid = true
 		}
 
 		// commit pointer value formfield.FormFieldFloat64 translates to updating the formfield.FormFieldFloat64ID
@@ -289,6 +292,9 @@ func (backRepoFormField *BackRepoFormFieldStruct) CommitPhaseTwoInstance(backRep
 				formfieldDB.FormFieldFloat64ID.Int64 = int64(FormFieldFloat64Id)
 				formfieldDB.FormFieldFloat64ID.Valid = true
 			}
+		} else {
+			formfieldDB.FormFieldFloat64ID.Int64 = 0
+			formfieldDB.FormFieldFloat64ID.Valid = true
 		}
 
 		// commit pointer value formfield.FormFieldInt translates to updating the formfield.FormFieldIntID
@@ -298,6 +304,9 @@ func (backRepoFormField *BackRepoFormFieldStruct) CommitPhaseTwoInstance(backRep
 				formfieldDB.FormFieldIntID.Int64 = int64(FormFieldIntId)
 				formfieldDB.FormFieldIntID.Valid = true
 			}
+		} else {
+			formfieldDB.FormFieldIntID.Int64 = 0
+			formfieldDB.FormFieldIntID.Valid = true
 		}
 
 		// commit pointer value formfield.FormFieldDate translates to updating the formfield.FormFieldDateID
@@ -307,6 +316,9 @@ func (backRepoFormField *BackRepoFormFieldStruct) CommitPhaseTwoInstance(backRep
 				formfieldDB.FormFieldDateID.Int64 = int64(FormFieldDateId)
 				formfieldDB.FormFieldDateID.Valid = true
 			}
+		} else {
+			formfieldDB.FormFieldDateID.Int64 = 0
+			formfieldDB.FormFieldDateID.Valid = true
 		}
 
 		// commit pointer value formfield.FormFieldTime translates to updating the formfield.FormFieldTimeID
@@ -316,6 +328,9 @@ func (backRepoFormField *BackRepoFormFieldStruct) CommitPhaseTwoInstance(backRep
 				formfieldDB.FormFieldTimeID.Int64 = int64(FormFieldTimeId)
 				formfieldDB.FormFieldTimeID.Valid = true
 			}
+		} else {
+			formfieldDB.FormFieldTimeID.Int64 = 0
+			formfieldDB.FormFieldTimeID.Valid = true
 		}
 
 		// commit pointer value formfield.FormFieldDateTime translates to updating the formfield.FormFieldDateTimeID
@@ -325,6 +340,9 @@ func (backRepoFormField *BackRepoFormFieldStruct) CommitPhaseTwoInstance(backRep
 				formfieldDB.FormFieldDateTimeID.Int64 = int64(FormFieldDateTimeId)
 				formfieldDB.FormFieldDateTimeID.Valid = true
 			}
+		} else {
+			formfieldDB.FormFieldDateTimeID.Int64 = 0
+			formfieldDB.FormFieldDateTimeID.Valid = true
 		}
 
 		// commit pointer value formfield.FormFieldSelect translates to updating the formfield.FormFieldSelectID
@@ -334,6 +352,9 @@ func (backRepoFormField *BackRepoFormFieldStruct) CommitPhaseTwoInstance(backRep
 				formfieldDB.FormFieldSelectID.Int64 = int64(FormFieldSelectId)
 				formfieldDB.FormFieldSelectID.Valid = true
 			}
+		} else {
+			formfieldDB.FormFieldSelectID.Int64 = 0
+			formfieldDB.FormFieldSelectID.Valid = true
 		}
 
 		query := backRepoFormField.db.Save(&formfieldDB)

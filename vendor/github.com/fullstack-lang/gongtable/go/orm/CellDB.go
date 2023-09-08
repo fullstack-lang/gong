@@ -241,6 +241,9 @@ func (backRepoCell *BackRepoCellStruct) CommitPhaseTwoInstance(backRepo *BackRep
 				cellDB.CellStringID.Int64 = int64(CellStringId)
 				cellDB.CellStringID.Valid = true
 			}
+		} else {
+			cellDB.CellStringID.Int64 = 0
+			cellDB.CellStringID.Valid = true
 		}
 
 		// commit pointer value cell.CellFloat64 translates to updating the cell.CellFloat64ID
@@ -250,6 +253,9 @@ func (backRepoCell *BackRepoCellStruct) CommitPhaseTwoInstance(backRepo *BackRep
 				cellDB.CellFloat64ID.Int64 = int64(CellFloat64Id)
 				cellDB.CellFloat64ID.Valid = true
 			}
+		} else {
+			cellDB.CellFloat64ID.Int64 = 0
+			cellDB.CellFloat64ID.Valid = true
 		}
 
 		// commit pointer value cell.CellInt translates to updating the cell.CellIntID
@@ -259,6 +265,9 @@ func (backRepoCell *BackRepoCellStruct) CommitPhaseTwoInstance(backRepo *BackRep
 				cellDB.CellIntID.Int64 = int64(CellIntId)
 				cellDB.CellIntID.Valid = true
 			}
+		} else {
+			cellDB.CellIntID.Int64 = 0
+			cellDB.CellIntID.Valid = true
 		}
 
 		// commit pointer value cell.CellBool translates to updating the cell.CellBoolID
@@ -268,6 +277,9 @@ func (backRepoCell *BackRepoCellStruct) CommitPhaseTwoInstance(backRepo *BackRep
 				cellDB.CellBoolID.Int64 = int64(CellBoolId)
 				cellDB.CellBoolID.Valid = true
 			}
+		} else {
+			cellDB.CellBoolID.Int64 = 0
+			cellDB.CellBoolID.Valid = true
 		}
 
 		// commit pointer value cell.CellIcon translates to updating the cell.CellIconID
@@ -277,6 +289,9 @@ func (backRepoCell *BackRepoCellStruct) CommitPhaseTwoInstance(backRepo *BackRep
 				cellDB.CellIconID.Int64 = int64(CellIconId)
 				cellDB.CellIconID.Valid = true
 			}
+		} else {
+			cellDB.CellIconID.Int64 = 0
+			cellDB.CellIconID.Valid = true
 		}
 
 		query := backRepoCell.db.Save(&cellDB)

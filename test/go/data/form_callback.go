@@ -53,8 +53,8 @@ func (astructFormCallback *AstructFormCallback) OnSave() {
 	if astructFormCallback.astruct == nil {
 		astructFormCallback.astruct = new(models.Astruct).Stage(astructFormCallback.stageOfInterest)
 	}
-	astruct := astructFormCallback.astruct
-	_ = astruct
+	astruct_ := astructFormCallback.astruct
+	_ = astruct_
 
 	// get the formGroup
 	formGroup := astructFormCallback.formStage.FormGroups_mapString[table.FormGroupDefaultName.ToString()]
@@ -63,59 +63,59 @@ func (astructFormCallback *AstructFormCallback) OnSave() {
 		switch formDiv.Name {
 		// insertion point per field
 		case "Name":
-			FormDivBasicFieldToField(&(astruct.Name), formDiv)
+			FormDivBasicFieldToField(&(astruct_.Name), formDiv)
 		case "Associationtob":
-			FormDivSelectFieldToField(&(astruct.Associationtob), astructFormCallback.stageOfInterest, formDiv)
+			FormDivSelectFieldToField(&(astruct_.Associationtob), astructFormCallback.stageOfInterest, formDiv)
 		case "Anotherassociationtob_2":
-			FormDivSelectFieldToField(&(astruct.Anotherassociationtob_2), astructFormCallback.stageOfInterest, formDiv)
+			FormDivSelectFieldToField(&(astruct_.Anotherassociationtob_2), astructFormCallback.stageOfInterest, formDiv)
 		case "Booleanfield":
-			FormDivBasicFieldToField(&(astruct.Booleanfield), formDiv)
+			FormDivBasicFieldToField(&(astruct_.Booleanfield), formDiv)
 		case "Aenum":
-			FormDivEnumStringFieldToField(&(astruct.Aenum), formDiv)
+			FormDivEnumStringFieldToField(&(astruct_.Aenum), formDiv)
 		case "Aenum_2":
-			FormDivEnumStringFieldToField(&(astruct.Aenum_2), formDiv)
+			FormDivEnumStringFieldToField(&(astruct_.Aenum_2), formDiv)
 		case "Benum":
-			FormDivEnumStringFieldToField(&(astruct.Benum), formDiv)
+			FormDivEnumStringFieldToField(&(astruct_.Benum), formDiv)
 		case "CEnum":
-			FormDivEnumIntFieldToField(&(astruct.CEnum), formDiv)
+			FormDivEnumIntFieldToField(&(astruct_.CEnum), formDiv)
 		case "CName":
-			FormDivBasicFieldToField(&(astruct.CName), formDiv)
+			FormDivBasicFieldToField(&(astruct_.CName), formDiv)
 		case "CFloatfield":
-			FormDivBasicFieldToField(&(astruct.CFloatfield), formDiv)
+			FormDivBasicFieldToField(&(astruct_.CFloatfield), formDiv)
 		case "Bstruct":
-			FormDivSelectFieldToField(&(astruct.Bstruct), astructFormCallback.stageOfInterest, formDiv)
+			FormDivSelectFieldToField(&(astruct_.Bstruct), astructFormCallback.stageOfInterest, formDiv)
 		case "Bstruct2":
-			FormDivSelectFieldToField(&(astruct.Bstruct2), astructFormCallback.stageOfInterest, formDiv)
+			FormDivSelectFieldToField(&(astruct_.Bstruct2), astructFormCallback.stageOfInterest, formDiv)
 		case "Dstruct":
-			FormDivSelectFieldToField(&(astruct.Dstruct), astructFormCallback.stageOfInterest, formDiv)
+			FormDivSelectFieldToField(&(astruct_.Dstruct), astructFormCallback.stageOfInterest, formDiv)
 		case "Dstruct2":
-			FormDivSelectFieldToField(&(astruct.Dstruct2), astructFormCallback.stageOfInterest, formDiv)
+			FormDivSelectFieldToField(&(astruct_.Dstruct2), astructFormCallback.stageOfInterest, formDiv)
 		case "Dstruct3":
-			FormDivSelectFieldToField(&(astruct.Dstruct3), astructFormCallback.stageOfInterest, formDiv)
+			FormDivSelectFieldToField(&(astruct_.Dstruct3), astructFormCallback.stageOfInterest, formDiv)
 		case "Dstruct4":
-			FormDivSelectFieldToField(&(astruct.Dstruct4), astructFormCallback.stageOfInterest, formDiv)
+			FormDivSelectFieldToField(&(astruct_.Dstruct4), astructFormCallback.stageOfInterest, formDiv)
 		case "Floatfield":
-			FormDivBasicFieldToField(&(astruct.Floatfield), formDiv)
+			FormDivBasicFieldToField(&(astruct_.Floatfield), formDiv)
 		case "Intfield":
-			FormDivBasicFieldToField(&(astruct.Intfield), formDiv)
+			FormDivBasicFieldToField(&(astruct_.Intfield), formDiv)
 		case "Anotherbooleanfield":
-			FormDivBasicFieldToField(&(astruct.Anotherbooleanfield), formDiv)
+			FormDivBasicFieldToField(&(astruct_.Anotherbooleanfield), formDiv)
 		case "Duration1":
-			FormDivBasicFieldToField(&(astruct.Duration1), formDiv)
+			FormDivBasicFieldToField(&(astruct_.Duration1), formDiv)
 		case "AnAstruct":
-			FormDivSelectFieldToField(&(astruct.AnAstruct), astructFormCallback.stageOfInterest, formDiv)
+			FormDivSelectFieldToField(&(astruct_.AnAstruct), astructFormCallback.stageOfInterest, formDiv)
 		case "StructRef":
-			FormDivBasicFieldToField(&(astruct.StructRef), formDiv)
+			FormDivBasicFieldToField(&(astruct_.StructRef), formDiv)
 		case "FieldRef":
-			FormDivBasicFieldToField(&(astruct.FieldRef), formDiv)
+			FormDivBasicFieldToField(&(astruct_.FieldRef), formDiv)
 		case "EnumIntRef":
-			FormDivBasicFieldToField(&(astruct.EnumIntRef), formDiv)
+			FormDivBasicFieldToField(&(astruct_.EnumIntRef), formDiv)
 		case "EnumStringRef":
-			FormDivBasicFieldToField(&(astruct.EnumStringRef), formDiv)
+			FormDivBasicFieldToField(&(astruct_.EnumStringRef), formDiv)
 		case "EnumValue":
-			FormDivBasicFieldToField(&(astruct.EnumValue), formDiv)
+			FormDivBasicFieldToField(&(astruct_.EnumValue), formDiv)
 		case "ConstIdentifierValue":
-			FormDivBasicFieldToField(&(astruct.ConstIdentifierValue), formDiv)
+			FormDivBasicFieldToField(&(astruct_.ConstIdentifierValue), formDiv)
 		}
 	}
 
@@ -167,8 +167,8 @@ func (astructbstruct2useFormCallback *AstructBstruct2UseFormCallback) OnSave() {
 	if astructbstruct2useFormCallback.astructbstruct2use == nil {
 		astructbstruct2useFormCallback.astructbstruct2use = new(models.AstructBstruct2Use).Stage(astructbstruct2useFormCallback.stageOfInterest)
 	}
-	astructbstruct2use := astructbstruct2useFormCallback.astructbstruct2use
-	_ = astructbstruct2use
+	astructbstruct2use_ := astructbstruct2useFormCallback.astructbstruct2use
+	_ = astructbstruct2use_
 
 	// get the formGroup
 	formGroup := astructbstruct2useFormCallback.formStage.FormGroups_mapString[table.FormGroupDefaultName.ToString()]
@@ -177,9 +177,9 @@ func (astructbstruct2useFormCallback *AstructBstruct2UseFormCallback) OnSave() {
 		switch formDiv.Name {
 		// insertion point per field
 		case "Name":
-			FormDivBasicFieldToField(&(astructbstruct2use.Name), formDiv)
+			FormDivBasicFieldToField(&(astructbstruct2use_.Name), formDiv)
 		case "Bstrcut2":
-			FormDivSelectFieldToField(&(astructbstruct2use.Bstrcut2), astructbstruct2useFormCallback.stageOfInterest, formDiv)
+			FormDivSelectFieldToField(&(astructbstruct2use_.Bstrcut2), astructbstruct2useFormCallback.stageOfInterest, formDiv)
 		}
 	}
 
@@ -231,8 +231,8 @@ func (astructbstructuseFormCallback *AstructBstructUseFormCallback) OnSave() {
 	if astructbstructuseFormCallback.astructbstructuse == nil {
 		astructbstructuseFormCallback.astructbstructuse = new(models.AstructBstructUse).Stage(astructbstructuseFormCallback.stageOfInterest)
 	}
-	astructbstructuse := astructbstructuseFormCallback.astructbstructuse
-	_ = astructbstructuse
+	astructbstructuse_ := astructbstructuseFormCallback.astructbstructuse
+	_ = astructbstructuse_
 
 	// get the formGroup
 	formGroup := astructbstructuseFormCallback.formStage.FormGroups_mapString[table.FormGroupDefaultName.ToString()]
@@ -241,9 +241,9 @@ func (astructbstructuseFormCallback *AstructBstructUseFormCallback) OnSave() {
 		switch formDiv.Name {
 		// insertion point per field
 		case "Name":
-			FormDivBasicFieldToField(&(astructbstructuse.Name), formDiv)
+			FormDivBasicFieldToField(&(astructbstructuse_.Name), formDiv)
 		case "Bstruct2":
-			FormDivSelectFieldToField(&(astructbstructuse.Bstruct2), astructbstructuseFormCallback.stageOfInterest, formDiv)
+			FormDivSelectFieldToField(&(astructbstructuse_.Bstruct2), astructbstructuseFormCallback.stageOfInterest, formDiv)
 		}
 	}
 
@@ -295,8 +295,8 @@ func (bstructFormCallback *BstructFormCallback) OnSave() {
 	if bstructFormCallback.bstruct == nil {
 		bstructFormCallback.bstruct = new(models.Bstruct).Stage(bstructFormCallback.stageOfInterest)
 	}
-	bstruct := bstructFormCallback.bstruct
-	_ = bstruct
+	bstruct_ := bstructFormCallback.bstruct
+	_ = bstruct_
 
 	// get the formGroup
 	formGroup := bstructFormCallback.formStage.FormGroups_mapString[table.FormGroupDefaultName.ToString()]
@@ -305,13 +305,13 @@ func (bstructFormCallback *BstructFormCallback) OnSave() {
 		switch formDiv.Name {
 		// insertion point per field
 		case "Name":
-			FormDivBasicFieldToField(&(bstruct.Name), formDiv)
+			FormDivBasicFieldToField(&(bstruct_.Name), formDiv)
 		case "Floatfield":
-			FormDivBasicFieldToField(&(bstruct.Floatfield), formDiv)
+			FormDivBasicFieldToField(&(bstruct_.Floatfield), formDiv)
 		case "Floatfield2":
-			FormDivBasicFieldToField(&(bstruct.Floatfield2), formDiv)
+			FormDivBasicFieldToField(&(bstruct_.Floatfield2), formDiv)
 		case "Intfield":
-			FormDivBasicFieldToField(&(bstruct.Intfield), formDiv)
+			FormDivBasicFieldToField(&(bstruct_.Intfield), formDiv)
 		}
 	}
 
@@ -363,8 +363,8 @@ func (dstructFormCallback *DstructFormCallback) OnSave() {
 	if dstructFormCallback.dstruct == nil {
 		dstructFormCallback.dstruct = new(models.Dstruct).Stage(dstructFormCallback.stageOfInterest)
 	}
-	dstruct := dstructFormCallback.dstruct
-	_ = dstruct
+	dstruct_ := dstructFormCallback.dstruct
+	_ = dstruct_
 
 	// get the formGroup
 	formGroup := dstructFormCallback.formStage.FormGroups_mapString[table.FormGroupDefaultName.ToString()]
@@ -373,7 +373,7 @@ func (dstructFormCallback *DstructFormCallback) OnSave() {
 		switch formDiv.Name {
 		// insertion point per field
 		case "Name":
-			FormDivBasicFieldToField(&(dstruct.Name), formDiv)
+			FormDivBasicFieldToField(&(dstruct_.Name), formDiv)
 		}
 	}
 
