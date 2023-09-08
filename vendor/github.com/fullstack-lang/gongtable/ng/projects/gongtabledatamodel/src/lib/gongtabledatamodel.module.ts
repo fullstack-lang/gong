@@ -9,6 +9,8 @@ import { GongtreeModule } from 'gongtree'
 import { GongtreespecificModule } from 'gongtreespecific'
 
 import { GongtableModule } from 'gongtable'
+import { GongtablespecificModule } from 'gongtablespecific'
+
 
 import { MatRadioModule } from '@angular/material/radio';
 import { FormsModule } from '@angular/forms';
@@ -26,13 +28,15 @@ import { AngularSplitModule } from 'angular-split';
     GongtreeModule,
     GongtreespecificModule,
 
+    GongtableModule,
+    GongtablespecificModule,
+
     MatRadioModule,
     FormsModule,
     CommonModule,
 
     AngularSplitModule,
 
-    GongtableModule,
   ],
   exports: [
     DataModelPanelComponent

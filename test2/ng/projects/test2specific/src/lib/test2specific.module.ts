@@ -1,38 +1,16 @@
 import { NgModule } from '@angular/core';
-
 import { Test2specificComponent } from './test2specific.component';
-import { DataModelPanelComponent } from './data-model-panel/data-model-panel.component';
 
-import { GongdocModule } from 'gongdoc'
-import { GongdocspecificModule } from 'gongdocspecific'
 
-import { Test2Module } from 'test2'
-
-import { MatRadioModule } from '@angular/material/radio';
-import { FormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common';
-import { AngularSplitModule } from 'angular-split';
 
 @NgModule({
   declarations: [
-    Test2specificComponent,
-    DataModelPanelComponent
+    Test2specificComponent
   ],
   imports: [
-    GongdocModule,
-    GongdocspecificModule,
-
-    MatRadioModule,
-    FormsModule,
-    CommonModule,
-
-    AngularSplitModule,
-
-    Test2Module,
   ],
   exports: [
-    Test2specificComponent,
-    DataModelPanelComponent
+    Test2specificComponent
   ]
 })
 export class Test2specificModule { }

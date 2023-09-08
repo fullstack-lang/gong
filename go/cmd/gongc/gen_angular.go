@@ -111,6 +111,30 @@ func genAngular(modelPkg *gong_models.ModelPkg, skipNpmInstall bool, skipGoModCo
 			fmt.Sprintf("%sdatamodel.module.ts", modelPkg.Name)),
 		angular.NgFileModuleDatamodel)
 
+	// in this particular case, one have to remove duplicate lines
+	// that are generated if gongc is applied to gongdoc, gong, gongtree or gongtable
+	// where there "Module" can appear multiple time in the module file
+	removeDuplicateLinesInFile(filepath.Join(gong_models.MaterialLibDatamodelTargetPath,
+		fmt.Sprintf("%sdatamodel.module.ts", modelPkg.Name)),
+		"Module")
+
+	if "github.com/fullstack-lang/gongtable/go/models" == modelPkg.PkgPath {
+		removeSpecificLinesInFile(filepath.Join(gong_models.MaterialLibDatamodelTargetPath,
+			fmt.Sprintf("%sdatamodel.module.ts", modelPkg.Name)),
+			"import { GongtabledatamodelModule } from 'gongtabledatamodel'")
+		removeSpecificLinesInFile(filepath.Join(gong_models.MaterialLibDatamodelTargetPath,
+			fmt.Sprintf("%sdatamodel.module.ts", modelPkg.Name)),
+			"    GongtabledatamodelModule,")
+	}
+	if "github.com/fullstack-lang/gongtree/go/models" == modelPkg.PkgPath {
+		removeSpecificLinesInFile(filepath.Join(gong_models.MaterialLibDatamodelTargetPath,
+			fmt.Sprintf("%sdatamodel.module.ts", modelPkg.Name)),
+			"import { GongtreedatamodelModule } from 'gongtreedatamodel'")
+		removeSpecificLinesInFile(filepath.Join(gong_models.MaterialLibDatamodelTargetPath,
+			fmt.Sprintf("%sdatamodel.module.ts", modelPkg.Name)),
+			"    GongtreedatamodelModule,")
+	}
+
 	gong_models.VerySimpleCodeGenerator(
 		modelPkg,
 		modelPkg.Name,

@@ -16,4 +16,10 @@ export * from './lib/push_from_front_nb.service'
 export * from './lib/route-service'
 
 
+export * from './lib/dummy-detail/dummy-detail.component'
+export * from './lib/dummy-sorting/dummy-sorting.component'
+export * from './lib/dummys-table/dummys-table.component'
+export * from './lib/dummy-db'
+export * from './lib/dummy.service'
+
 

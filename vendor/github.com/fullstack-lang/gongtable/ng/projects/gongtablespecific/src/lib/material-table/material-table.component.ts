@@ -353,9 +353,18 @@ export class MaterialTableComponent implements OnInit {
     if (modifiedRows.size == 0) {
       // in case this component is called as a modal window (MatDialog)
       // exits,
-      if (this.tableDialogData) {
-        this.dialogRef?.close('Closing the application')
-      }
+      this.selectedTable.SavingInProgress = true
+      this.tableService.updateTable(this.selectedTable!, this.DataStack).subscribe(
+        () => {
+          // in case this component is called as a modal window (MatDialog)
+          // exits,
+          if (this.tableDialogData) {
+            this.dialogRef?.close('Closing the application')
+          }
+
+          this.refresh()
+        }
+      )
       return
     }
 
@@ -430,5 +439,20 @@ export class MaterialTableComponent implements OnInit {
         row.Cells = cells
       }
     )
+  }
+
+  getDynamicStyles(columnIndex: number): { [key: string]: any } {
+    const styles: { [key: string]: any } = {} // Explicitly define the type here 
+    if (this.selectedTable == undefined) {
+      return styles
+    }
+
+    if (columnIndex <= this.selectedTable.NbOfStickyColumns) {
+      styles['position'] = 'sticky'
+      return styles
+    }
+
+
+    return styles
   }
 }

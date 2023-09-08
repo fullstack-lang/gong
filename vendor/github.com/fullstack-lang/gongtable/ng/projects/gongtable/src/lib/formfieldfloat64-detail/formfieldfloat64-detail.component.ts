@@ -33,6 +33,8 @@ enum FormFieldFloat64DetailComponentState {
 export class FormFieldFloat64DetailComponent implements OnInit {
 
 	// insertion point for declarations
+	HasMinValidatorFormControl: UntypedFormControl = new UntypedFormControl(false);
+	HasMaxValidatorFormControl: UntypedFormControl = new UntypedFormControl(false);
 
 	// the FormFieldFloat64DB of interest
 	formfieldfloat64: FormFieldFloat64DB = new FormFieldFloat64DB
@@ -133,6 +135,8 @@ export class FormFieldFloat64DetailComponent implements OnInit {
 				}
 
 				// insertion point for recovery of form controls value for bool fields
+				this.HasMinValidatorFormControl.setValue(this.formfieldfloat64.HasMinValidator)
+				this.HasMaxValidatorFormControl.setValue(this.formfieldfloat64.HasMaxValidator)
 			}
 		)
 
@@ -145,6 +149,8 @@ export class FormFieldFloat64DetailComponent implements OnInit {
 		// pointers fields, after the translation, are nulled in order to perform serialization
 
 		// insertion point for translation/nullation of each field
+		this.formfieldfloat64.HasMinValidator = this.HasMinValidatorFormControl.value
+		this.formfieldfloat64.HasMaxValidator = this.HasMaxValidatorFormControl.value
 
 		// save from the front pointer space to the non pointer space for serialization
 

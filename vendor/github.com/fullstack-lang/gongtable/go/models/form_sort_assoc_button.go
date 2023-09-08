@@ -10,6 +10,7 @@ type FormSortAssocButton struct {
 
 	Label string
 
+	// swagger:ignore
 	OnSortEdition FormSortAssocButtonInterface
 }
 
