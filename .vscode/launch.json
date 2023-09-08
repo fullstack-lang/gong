@@ -129,14 +129,14 @@
             ]
         },
         {
-            "name": "gongc gongmattree -skipNg -skipGoModCommands",
+            "name": "gongc gongtable  -skipGoModCommands",
             "type": "go",
             "request": "launch",
             "mode": "debug",
-            "cwd": "${workspaceFolder}/../gongmattree/go/models",
+            "cwd": "${workspaceFolder}/../gongtable/go/models",
             "program": "${workspaceFolder}/go/cmd/gongc",
             "args": [
-                "-skipNg",
+                "go/models",
                 "-skipGoModCommands"
             ]
         },
