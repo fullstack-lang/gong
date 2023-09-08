@@ -81,8 +81,8 @@ func ({{structname}}FormCallback *{{Structname}}FormCallback) OnSave() {
 	if {{structname}}FormCallback.{{structname}} == nil {
 		{{structname}}FormCallback.{{structname}} = new(models.{{Structname}}).Stage({{structname}}FormCallback.stageOfInterest)
 	}
-	{{structname}} := {{structname}}FormCallback.{{structname}}
-	_ = {{structname}}
+	{{structname}}_ := {{structname}}FormCallback.{{structname}}
+	_ = {{structname}}_
 
 	// get the formGroup
 	formGroup := {{structname}}FormCallback.formStage.FormGroups_mapString[table.FormGroupDefaultName.ToString()]
@@ -119,16 +119,16 @@ map[FormCallbackSubTemplateId]string{
 
 	FormCallbackSubTmplBasicField: `
 		case "{{FieldName}}":
-			FormDivBasicFieldToField(&({{structname}}.{{FieldName}}), formDiv)`,
+			FormDivBasicFieldToField(&({{structname}}_.{{FieldName}}), formDiv)`,
 	FormCallbackSubTmplBasicFieldEnumString: `
 		case "{{FieldName}}":
-			FormDivEnumStringFieldToField(&({{structname}}.{{FieldName}}), formDiv)`,
+			FormDivEnumStringFieldToField(&({{structname}}_.{{FieldName}}), formDiv)`,
 	FormCallbackSubTmplBasicFieldEnumInt: `
 		case "{{FieldName}}":
-			FormDivEnumIntFieldToField(&({{structname}}.{{FieldName}}), formDiv)`,
+			FormDivEnumIntFieldToField(&({{structname}}_.{{FieldName}}), formDiv)`,
 	FormCallbackSubTmplPointerToStruct: `
 		case "{{FieldName}}":
-			FormDivSelectFieldToField(&({{structname}}.{{FieldName}}), {{structname}}FormCallback.stageOfInterest, formDiv)`,
+			FormDivSelectFieldToField(&({{structname}}_.{{FieldName}}), {{structname}}FormCallback.stageOfInterest, formDiv)`,
 }
 
 func CodeGeneratorModelFormCallback(
