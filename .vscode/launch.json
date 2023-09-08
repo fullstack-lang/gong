@@ -129,15 +129,15 @@
             ]
         },
         {
-            "name": "gongc gongtable  -skipGoModCommands",
+            "name": "gongc gongtable -skipNpmInstall -skipGoModCommands",
             "type": "go",
             "request": "launch",
             "mode": "debug",
             "cwd": "${workspaceFolder}/../gongtable/go/models",
             "program": "${workspaceFolder}/go/cmd/gongc",
             "args": [
-                "go/models",
-                "-skipGoModCommands"
+                "-skipNpmInstall",
+                "-skipGoModCommands",
             ]
         },
         {
