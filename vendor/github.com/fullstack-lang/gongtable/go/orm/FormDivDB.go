@@ -267,6 +267,9 @@ func (backRepoFormDiv *BackRepoFormDivStruct) CommitPhaseTwoInstance(backRepo *B
 				formdivDB.FormEditAssocButtonID.Int64 = int64(FormEditAssocButtonId)
 				formdivDB.FormEditAssocButtonID.Valid = true
 			}
+		} else {
+			formdivDB.FormEditAssocButtonID.Int64 = 0
+			formdivDB.FormEditAssocButtonID.Valid = true
 		}
 
 		// commit pointer value formdiv.FormSortAssocButton translates to updating the formdiv.FormSortAssocButtonID
@@ -276,6 +279,9 @@ func (backRepoFormDiv *BackRepoFormDivStruct) CommitPhaseTwoInstance(backRepo *B
 				formdivDB.FormSortAssocButtonID.Int64 = int64(FormSortAssocButtonId)
 				formdivDB.FormSortAssocButtonID.Valid = true
 			}
+		} else {
+			formdivDB.FormSortAssocButtonID.Int64 = 0
+			formdivDB.FormSortAssocButtonID.Valid = true
 		}
 
 		query := backRepoFormDiv.db.Save(&formdivDB)

@@ -138,9 +138,12 @@ func CodeGenerator(
 
 		// compute code from sub template
 		for subTemplate := range subTemplateCode {
-			subCodes[subTemplate] += Replace2(subTemplateCode[subTemplate],
+			subCodes[subTemplate] += Replace3(subTemplateCode[subTemplate],
 				"{{Structname}}", _struct.Name,
-				"{{structname}}", structName)
+				"{{structname}}", structName,
+				"	 | ", "	", // for the replacement of the of the first bar in the Gongstruct Type def
+
+			)
 
 			// apply sub sub templates
 			for subSubTemplate := range subSubTemplateCode {

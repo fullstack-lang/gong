@@ -78,6 +78,18 @@ export class FormFieldFloat64sTableComponent implements OnInit {
         case 'Value':
           return formfieldfloat64DB.Value;
 
+        case 'HasMinValidator':
+          return formfieldfloat64DB.HasMinValidator ? "true" : "false";
+
+        case 'MinValue':
+          return formfieldfloat64DB.MinValue;
+
+        case 'HasMaxValidator':
+          return formfieldfloat64DB.HasMaxValidator ? "true" : "false";
+
+        case 'MaxValue':
+          return formfieldfloat64DB.MaxValue;
+
         default:
           console.assert(false, "Unknown field")
           return "";
@@ -94,6 +106,8 @@ export class FormFieldFloat64sTableComponent implements OnInit {
       // insertion point for merging of fields
       mergedContent += formfieldfloat64DB.Name.toLowerCase()
       mergedContent += formfieldfloat64DB.Value.toString()
+      mergedContent += formfieldfloat64DB.MinValue.toString()
+      mergedContent += formfieldfloat64DB.MaxValue.toString()
 
       let isSelected = mergedContent.includes(filter.toLowerCase())
       return isSelected
@@ -150,11 +164,19 @@ export class FormFieldFloat64sTableComponent implements OnInit {
       this.displayedColumns = ['ID', 'Delete', // insertion point for columns to display
         "Name",
         "Value",
+        "HasMinValidator",
+        "MinValue",
+        "HasMaxValidator",
+        "MaxValue",
       ]
     } else {
       this.displayedColumns = ['select', 'ID', // insertion point for columns to display
         "Name",
         "Value",
+        "HasMinValidator",
+        "MinValue",
+        "HasMaxValidator",
+        "MaxValue",
       ]
       this.selection = new SelectionModel<FormFieldFloat64DB>(allowMultiSelect, this.initialSelection);
     }

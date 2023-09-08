@@ -11,6 +11,8 @@ import { CommitNbFromBackService } from '../commitnbfromback.service'
 import { GongstructSelectionService } from '../gongstruct-selection.service'
 
 // insertion point for per struct import code
+import { DummyService } from '../dummy.service'
+import { getDummyUniqueID } from '../front-repo.service'
 
 import { RouteService } from '../route-service';
 
@@ -156,6 +158,7 @@ export class SidebarComponent implements OnInit {
     private gongstructSelectionService: GongstructSelectionService,
 
     // insertion point for per struct service declaration
+    private dummyService: DummyService,
 
     private routeService: RouteService,
   ) { }
@@ -191,6 +194,14 @@ export class SidebarComponent implements OnInit {
     )
 
     // insertion point for per struct observable for refresh trigger
+    // observable for changes in structs
+    this.dummyService.DummyServiceChanged.subscribe(
+      message => {
+        if (message == "post" || message == "update" || message == "delete") {
+          this.refresh()
+        }
+      }
+    )
   }
 
   refresh(): void {
@@ -215,6 +226,50 @@ export class SidebarComponent implements OnInit {
       this.gongNodeTree = new Array<GongNode>();
 
       // insertion point for per struct tree construction
+      /**
+      * fill up the Dummy part of the mat tree
+      */
+      let dummyGongNodeStruct: GongNode = {
+        name: "Dummy",
+        type: GongNodeType.STRUCT,
+        id: 0,
+        uniqueIdPerStack: 13 * nonInstanceNodeId,
+        structName: "Dummy",
+        associationField: "",
+        associatedStructName: "",
+        children: new Array<GongNode>()
+      }
+      nonInstanceNodeId = nonInstanceNodeId + 1
+      this.gongNodeTree.push(dummyGongNodeStruct)
+
+      this.frontRepo.Dummys_array.sort((t1, t2) => {
+        if (t1.Name > t2.Name) {
+          return 1;
+        }
+        if (t1.Name < t2.Name) {
+          return -1;
+        }
+        return 0;
+      });
+
+      this.frontRepo.Dummys_array.forEach(
+        dummyDB => {
+          let dummyGongNodeInstance: GongNode = {
+            name: dummyDB.Name,
+            type: GongNodeType.INSTANCE,
+            id: dummyDB.ID,
+            uniqueIdPerStack: getDummyUniqueID(dummyDB.ID),
+            structName: "Dummy",
+            associationField: "",
+            associatedStructName: "",
+            children: new Array<GongNode>()
+          }
+          dummyGongNodeStruct.children!.push(dummyGongNodeInstance)
+
+          // insertion point for per field code
+        }
+      )
+
 
       this.dataSource.data = this.gongNodeTree
 

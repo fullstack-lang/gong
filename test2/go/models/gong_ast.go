@@ -1,3 +1,4 @@
+// generated code - do not edit
 package models
 
 import (
@@ -303,6 +304,7 @@ func ParseAstFileFromAst(stage *StageStruct, inFile *ast.File, fset *token.FileS
 var __gong__map_Indentifiers_gongstructName = make(map[string]string)
 
 // insertion point for identifiers maps
+var __gong__map_Dummy = make(map[string]*Dummy)
 
 // Parser needs to be configured for having the [Name1.Name2] or [pkg.Name1] ...
 // to be recognized as a proper identifier.
@@ -475,6 +477,10 @@ func UnmarshallGongstructStaging(stage *StageStruct, cmap *ast.CommentMap, assig
 									// this is the place where an instance is created
 									switch gongstructName {
 									// insertion point for identifiers
+									case "Dummy":
+										instanceDummy := (&Dummy{Name: instanceName}).Stage(stage)
+										instance = any(instanceDummy)
+										__gong__map_Dummy[identifier] = instanceDummy
 									}
 									__gong__map_Indentifiers_gongstructName[identifier] = gongstructName
 									return
@@ -511,6 +517,10 @@ func UnmarshallGongstructStaging(stage *StageStruct, cmap *ast.CommentMap, assig
 						}
 						switch gongstructName {
 						// insertion point for basic lit assignments
+						case "Dummy":
+							switch fieldName {
+							// insertion point for date assign code
+							}
 						}
 					}
 				}
@@ -536,6 +546,10 @@ func UnmarshallGongstructStaging(stage *StageStruct, cmap *ast.CommentMap, assig
 					}
 					switch gongstructName {
 					// insertion point for slice of pointers assignments
+					case "Dummy":
+						switch fieldName {
+						// insertion point for slice of pointers assign code
+						}
 					}
 				case *ast.SelectorExpr:
 					slcExpr := arg
@@ -554,9 +568,22 @@ func UnmarshallGongstructStaging(stage *StageStruct, cmap *ast.CommentMap, assig
 					}
 				}
 			}
-		case *ast.BasicLit:
-			// assignment to string field
-			basicLit := expr
+		case *ast.BasicLit, *ast.UnaryExpr:
+
+			var basicLit *ast.BasicLit
+			var exprSign = 1.0
+			_ = exprSign // in case this is not used
+
+			if bl, ok := expr.(*ast.BasicLit); ok {
+				// expression is  for instance ... = 18.000
+				basicLit = bl
+			} else if ue, ok := expr.(*ast.UnaryExpr); ok {
+				// expression is  for instance ... = -18.000
+				// we want to extract a *ast.BasicLit from the *ast.UnaryExpr
+				basicLit = ue.X.(*ast.BasicLit)
+				exprSign = -1
+			}
+
 			// astCoordinate := astCoordinate + "\tBasicLit" + "." + basicLit.Value
 			// log.Println(astCoordinate)
 			var ok bool
@@ -572,6 +599,14 @@ func UnmarshallGongstructStaging(stage *StageStruct, cmap *ast.CommentMap, assig
 
 			switch gongstructName {
 			// insertion point for basic lit assignments
+			case "Dummy":
+				switch fieldName {
+				// insertion point for field dependant code
+				case "Name":
+					// remove first and last char
+					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
+					__gong__map_Dummy[identifier].Name = fielValue
+				}
 			}
 		case *ast.Ident:
 			// assignment to boolean field ?
@@ -586,6 +621,10 @@ func UnmarshallGongstructStaging(stage *StageStruct, cmap *ast.CommentMap, assig
 			}
 			switch gongstructName {
 			// insertion point for bool & pointers assignments
+			case "Dummy":
+				switch fieldName {
+				// insertion point for field dependant code
+				}
 			}
 		case *ast.SelectorExpr:
 			// assignment to enum field
@@ -614,6 +653,10 @@ func UnmarshallGongstructStaging(stage *StageStruct, cmap *ast.CommentMap, assig
 				_ = enumValue
 				switch gongstructName {
 				// insertion point for enums assignments
+				case "Dummy":
+					switch fieldName {
+					// insertion point for enum assign code
+					}
 				}
 			}
 		}

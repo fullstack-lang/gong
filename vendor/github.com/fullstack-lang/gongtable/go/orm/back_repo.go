@@ -1,3 +1,4 @@
+// do not modify, generated file
 package orm
 
 import (

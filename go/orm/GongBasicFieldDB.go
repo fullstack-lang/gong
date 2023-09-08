@@ -256,6 +256,9 @@ func (backRepoGongBasicField *BackRepoGongBasicFieldStruct) CommitPhaseTwoInstan
 				gongbasicfieldDB.GongEnumID.Int64 = int64(GongEnumId)
 				gongbasicfieldDB.GongEnumID.Valid = true
 			}
+		} else {
+			gongbasicfieldDB.GongEnumID.Int64 = 0
+			gongbasicfieldDB.GongEnumID.Valid = true
 		}
 
 		query := backRepoGongBasicField.db.Save(&gongbasicfieldDB)
@@ -366,6 +369,7 @@ func (backRepoGongBasicField *BackRepoGongBasicFieldStruct) CheckoutPhaseTwoInst
 
 	// insertion point for checkout of pointer encoding
 	// GongEnum field
+	gongbasicfield.GongEnum = nil
 	if gongbasicfieldDB.GongEnumID.Int64 != 0 {
 		gongbasicfield.GongEnum = backRepo.BackRepoGongEnum.Map_GongEnumDBID_GongEnumPtr[uint(gongbasicfieldDB.GongEnumID.Int64)]
 	}

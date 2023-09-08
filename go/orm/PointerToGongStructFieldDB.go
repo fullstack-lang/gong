@@ -237,6 +237,9 @@ func (backRepoPointerToGongStructField *BackRepoPointerToGongStructFieldStruct) 
 				pointertogongstructfieldDB.GongStructID.Int64 = int64(GongStructId)
 				pointertogongstructfieldDB.GongStructID.Valid = true
 			}
+		} else {
+			pointertogongstructfieldDB.GongStructID.Int64 = 0
+			pointertogongstructfieldDB.GongStructID.Valid = true
 		}
 
 		query := backRepoPointerToGongStructField.db.Save(&pointertogongstructfieldDB)
@@ -347,6 +350,7 @@ func (backRepoPointerToGongStructField *BackRepoPointerToGongStructFieldStruct) 
 
 	// insertion point for checkout of pointer encoding
 	// GongStruct field
+	pointertogongstructfield.GongStruct = nil
 	if pointertogongstructfieldDB.GongStructID.Int64 != 0 {
 		pointertogongstructfield.GongStruct = backRepo.BackRepoGongStruct.Map_GongStructDBID_GongStructPtr[uint(pointertogongstructfieldDB.GongStructID.Int64)]
 	}

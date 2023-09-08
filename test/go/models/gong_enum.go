@@ -58,6 +58,29 @@ func (aenumtype *AEnumType) ToCodeString() (res string) {
 	return
 }
 
+
+func (aenumtype AEnumType) Codes() (res []string) {
+
+	res = make([]string, 0)
+
+	// insertion code per enum code
+	res = append(res, "ENUM_VAL1")
+	res = append(res, "ENUM_VAL2")
+
+	return
+}
+
+func (aenumtype AEnumType) CodeValues() (res []string) {
+
+	res = make([]string, 0)
+
+	// insertion code per enum code
+	res = append(res, "ENUM_VAL1_NOT_THE_SAME")
+	res = append(res, "ENUM_VAL2")
+
+	return
+}
+
 // Utility function for BEnumType
 // if enum values are string, it is stored with the value
 // if enum values are int, they are stored with the code of the value
@@ -111,6 +134,29 @@ func (benumtype *BEnumType) ToCodeString() (res string) {
 	case BENUM_VAL2:
 		res = "BENUM_VAL2"
 	}
+	return
+}
+
+
+func (benumtype BEnumType) Codes() (res []string) {
+
+	res = make([]string, 0)
+
+	// insertion code per enum code
+	res = append(res, "BENUM_VAL1")
+	res = append(res, "BENUM_VAL2")
+
+	return
+}
+
+func (benumtype BEnumType) CodeValues() (res []string) {
+
+	res = make([]string, 0)
+
+	// insertion code per enum code
+	res = append(res, "BENUM_VAL1_NOT_THE_SAME")
+	res = append(res, "BENUM_VAL2")
+
 	return
 }
 
@@ -168,6 +214,52 @@ func (cenumtypeint *CEnumTypeInt) ToCodeString() (res string) {
 		res = "CENUM_VAL2"
 	}
 	return
+}
+
+
+func (cenumtypeint CEnumTypeInt) Codes() (res []string) {
+
+	res = make([]string, 0)
+
+	// insertion code per enum code
+	res = append(res, "CENUM_VAL1")
+	res = append(res, "CENUM_VAL2")
+
+	return
+}
+
+func (cenumtypeint CEnumTypeInt) CodeValues() (res []int) {
+
+	res = make([]int, 0)
+
+	// insertion code per enum code
+	res = append(res, 0)
+	res = append(res, 1)
+
+	return
+}
+
+
+type GongstructEnumStringField interface {
+	string  | AEnumType | BEnumType | CEnumTypeInt
+	Codes() []string
+	CodeValues() []string
+}
+
+type PointerToGongstructEnumStringField interface {
+	*AEnumType | *BEnumType | *CEnumTypeInt
+	FromCodeString(input string) (err error)
+}
+
+type GongstructEnumIntField interface {
+	int  | AEnumType | BEnumType | CEnumTypeInt
+	Codes() []string
+	CodeValues() []int
+}
+
+type PointerToGongstructEnumIntField interface {
+	*AEnumType | *BEnumType | *CEnumTypeInt
+	FromCodeString(input string) (err error)
 }
 
 // Last line of the template

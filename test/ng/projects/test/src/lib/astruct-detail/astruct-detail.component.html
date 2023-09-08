@@ -21,6 +21,26 @@
         <textarea name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="astruct.Name"></textarea>
     </mat-form-field>
 
+    <mat-form-field class="detail-full-width">
+        <mat-label>Associationtob</mat-label>
+        <mat-select [compareWith]="compareObjects" [(value)]="astruct.Associationtob" (selectionChange)="fillUpNameIfEmpty($event)">
+            <mat-option>None</mat-option>
+            <mat-option *ngFor="let bstruct of frontRepo.Bstructs_array" [value]="bstruct">
+                {{bstruct.Name}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    <mat-form-field class="detail-full-width">
+        <mat-label>Anotherassociationtob_2</mat-label>
+        <mat-select [compareWith]="compareObjects" [(value)]="astruct.Anotherassociationtob_2" (selectionChange)="fillUpNameIfEmpty($event)">
+            <mat-option>None</mat-option>
+            <mat-option *ngFor="let bstruct of frontRepo.Bstructs_array" [value]="bstruct">
+                {{bstruct.Name}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+
     <!-- -->
     <mat-form-field>
         <mat-label>Date</mat-label>
@@ -194,26 +214,6 @@
             </mat-form-field>
         </mat-grid-tile>
     </mat-grid-list>
-
-    <mat-form-field class="detail-full-width">
-        <mat-label>Associationtob</mat-label>
-        <mat-select [compareWith]="compareObjects" [(value)]="astruct.Associationtob" (selectionChange)="fillUpNameIfEmpty($event)">
-            <mat-option>None</mat-option>
-            <mat-option *ngFor="let bstruct of frontRepo.Bstructs_array" [value]="bstruct">
-                {{bstruct.Name}}
-            </mat-option>
-        </mat-select>
-    </mat-form-field>
-
-    <mat-form-field class="detail-full-width">
-        <mat-label>Anotherassociationtob_2</mat-label>
-        <mat-select [compareWith]="compareObjects" [(value)]="astruct.Anotherassociationtob_2" (selectionChange)="fillUpNameIfEmpty($event)">
-            <mat-option>None</mat-option>
-            <mat-option *ngFor="let bstruct of frontRepo.Bstructs_array" [value]="bstruct">
-                {{bstruct.Name}}
-            </mat-option>
-        </mat-select>
-    </mat-form-field>
 
     <mat-grid-list cols="5" rowHeight="2:1">
         <mat-grid-tile [colspan]="3">

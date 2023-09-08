@@ -365,6 +365,20 @@ export class FrontRepoService {
             astructs.forEach(
               astruct => {
                 // insertion point sub sub template for ONE-/ZERO-ONE associations pointers redeeming
+                // insertion point for pointer field Associationtob redeeming
+                {
+                  let _bstruct = this.frontRepo.Bstructs.get(astruct.AssociationtobID.Int64)
+                  if (_bstruct) {
+                    astruct.Associationtob = _bstruct
+                  }
+                }
+                // insertion point for pointer field Anotherassociationtob_2 redeeming
+                {
+                  let _bstruct = this.frontRepo.Bstructs.get(astruct.Anotherassociationtob_2ID.Int64)
+                  if (_bstruct) {
+                    astruct.Anotherassociationtob_2 = _bstruct
+                  }
+                }
                 // insertion point for pointer field Bstruct redeeming
                 {
                   let _bstruct = this.frontRepo.Bstructs.get(astruct.BstructID.Int64)
@@ -405,20 +419,6 @@ export class FrontRepoService {
                   let _dstruct = this.frontRepo.Dstructs.get(astruct.Dstruct4ID.Int64)
                   if (_dstruct) {
                     astruct.Dstruct4 = _dstruct
-                  }
-                }
-                // insertion point for pointer field Associationtob redeeming
-                {
-                  let _bstruct = this.frontRepo.Bstructs.get(astruct.AssociationtobID.Int64)
-                  if (_bstruct) {
-                    astruct.Associationtob = _bstruct
-                  }
-                }
-                // insertion point for pointer field Anotherassociationtob_2 redeeming
-                {
-                  let _bstruct = this.frontRepo.Bstructs.get(astruct.Anotherassociationtob_2ID.Int64)
-                  if (_bstruct) {
-                    astruct.Anotherassociationtob_2 = _bstruct
                   }
                 }
                 // insertion point for pointer field AnAstruct redeeming
@@ -575,6 +575,20 @@ export class FrontRepoService {
                 this.frontRepo.Astructs_batch.set(astruct.ID, astruct)
 
                 // insertion point for redeeming ONE/ZERO-ONE associations
+                // insertion point for pointer field Associationtob redeeming
+                {
+                  let _bstruct = this.frontRepo.Bstructs.get(astruct.AssociationtobID.Int64)
+                  if (_bstruct) {
+                    astruct.Associationtob = _bstruct
+                  }
+                }
+                // insertion point for pointer field Anotherassociationtob_2 redeeming
+                {
+                  let _bstruct = this.frontRepo.Bstructs.get(astruct.Anotherassociationtob_2ID.Int64)
+                  if (_bstruct) {
+                    astruct.Anotherassociationtob_2 = _bstruct
+                  }
+                }
                 // insertion point for pointer field Bstruct redeeming
                 {
                   let _bstruct = this.frontRepo.Bstructs.get(astruct.BstructID.Int64)
@@ -615,20 +629,6 @@ export class FrontRepoService {
                   let _dstruct = this.frontRepo.Dstructs.get(astruct.Dstruct4ID.Int64)
                   if (_dstruct) {
                     astruct.Dstruct4 = _dstruct
-                  }
-                }
-                // insertion point for pointer field Associationtob redeeming
-                {
-                  let _bstruct = this.frontRepo.Bstructs.get(astruct.AssociationtobID.Int64)
-                  if (_bstruct) {
-                    astruct.Associationtob = _bstruct
-                  }
-                }
-                // insertion point for pointer field Anotherassociationtob_2 redeeming
-                {
-                  let _bstruct = this.frontRepo.Bstructs.get(astruct.Anotherassociationtob_2ID.Int64)
-                  if (_bstruct) {
-                    astruct.Anotherassociationtob_2 = _bstruct
                   }
                 }
                 // insertion point for pointer field AnAstruct redeeming

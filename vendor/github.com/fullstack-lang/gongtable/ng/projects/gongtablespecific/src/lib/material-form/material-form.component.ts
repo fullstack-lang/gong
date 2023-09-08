@@ -1,9 +1,9 @@
 import { Component, Inject, Input, OnInit } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { Subscription, forkJoin } from 'rxjs';
 
 import * as gongtable from 'gongtable'
 
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, AbstractControl, ValidationErrors } from '@angular/forms';
 
 import { MatButtonModule } from '@angular/material/button';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogModule } from '@angular/material/dialog';
@@ -49,8 +49,10 @@ export class MaterialFormComponent implements OnInit {
     private gongtableFrontRepoService: gongtable.FrontRepoService,
     private gongtableCommitNbFromBackService: gongtable.CommitNbFromBackService,
     private formBuilder: FormBuilder,
+
     private formFieldStringService: gongtable.FormFieldStringService,
     private formFieldIntService: gongtable.FormFieldIntService,
+    private formFieldFloat64Service: gongtable.FormFieldFloat64Service,
     private formFieldDateService: gongtable.FormFieldDateService,
     private formFieldTimeService: gongtable.FormFieldTimeService,
     private formFieldDateTimeService: gongtable.FormFieldDateTimeService,
@@ -59,6 +61,7 @@ export class MaterialFormComponent implements OnInit {
     private formEditAssocButtonService: gongtable.FormEditAssocButtonService,
     private formSortAssocButtonService: gongtable.FormSortAssocButtonService,
 
+    private formGroupService: gongtable.FormGroupService,
   ) {
 
   }
@@ -152,8 +155,29 @@ export class MaterialFormComponent implements OnInit {
                 generatedFormGroupConfig[formField.Name] = [formField.FormFieldString.Value, Validators.required]
               }
               if (formField.FormFieldInt) {
-                generatedFormGroupConfig[formField.Name] = [formField.FormFieldInt.Value.toString(), Validators.required]
+                let validators = [Validators.required]
+
+                if (formField.FormFieldInt.HasMinValidator) {
+                  validators.push(Validators.min(formField.FormFieldInt.MinValue))
+                }
+                if (formField.FormFieldInt.HasMaxValidator) {
+                  validators.push(Validators.max(formField.FormFieldInt.MaxValue))
+                }
+                validators.push(integerValidator)
+                generatedFormGroupConfig[formField.Name] = [formField.FormFieldInt.Value.toString(), validators]
               }
+              if (formField.FormFieldFloat64) {
+                let validators = [Validators.required]
+
+                if (formField.FormFieldFloat64.HasMinValidator) {
+                  validators.push(Validators.min(formField.FormFieldFloat64.MinValue))
+                }
+                if (formField.FormFieldFloat64.HasMaxValidator) {
+                  validators.push(Validators.max(formField.FormFieldFloat64.MaxValue))
+                }
+                generatedFormGroupConfig[formField.Name] = [formField.FormFieldFloat64.Value.toString(), validators]
+              }
+
               if (formField.FormFieldDate) {
                 let displayedString = formField.FormFieldDate.Value.toString().substring(0, 10)
                 generatedFormGroupConfig[formField.Name] = [displayedString, Validators.required]
@@ -177,7 +201,11 @@ export class MaterialFormComponent implements OnInit {
                 generatedFormGroupConfig[formField.Name] = [timeStr, Validators.required]
               }
               if (formField.FormFieldSelect) {
-                generatedFormGroupConfig[formField.Name] = [formField.FormFieldSelect.Value?.Name, Validators.required]
+                if (formField.FormFieldSelect.CanBeEmpty) {
+                  generatedFormGroupConfig[formField.Name] = [formField.FormFieldSelect.Value?.Name, []]
+                } else {
+                  generatedFormGroupConfig[formField.Name] = [formField.FormFieldSelect.Value?.Name, Validators.required]
+                }
               }
             }
           }
@@ -196,158 +224,173 @@ export class MaterialFormComponent implements OnInit {
   }
 
   submitForm() {
-    if (this.generatedForm) {
-      console.log(this.generatedForm.valueChanges)
 
-      if (this.selectedFormGroup == undefined) {
-        return
-      }
+    const promises = []
 
-      if (this.selectedFormGroup.FormDivs == undefined) {
-        return
-      }
 
-      for (let formDiv of this.selectedFormGroup.FormDivs) {
-        if (formDiv.FormFields) {
-          for (let formField of formDiv.FormFields) {
-            if (formField.FormFieldString) {
-              let formFieldString = formField.FormFieldString
-              let newValue = this.generatedForm.value[formField.Name]
+    if (this.generatedForm == undefined) {
+      return
+    }
+    console.log(this.generatedForm.valueChanges)
 
-              if (newValue != formFieldString.Value) {
-                formFieldString.Value = newValue
-                this.formFieldStringService.updateFormFieldString(formFieldString, this.DataStack).subscribe(
-                  () => {
-                    console.log("String Form Field updated")
-                  }
-                )
-              }
+    if (this.selectedFormGroup == undefined) {
+      return
+    }
+
+    if (this.selectedFormGroup.FormDivs == undefined) {
+      return
+    }
+
+    for (let formDiv of this.selectedFormGroup.FormDivs) {
+      if (formDiv.FormFields) {
+        for (let formField of formDiv.FormFields) {
+          if (formField.FormFieldString) {
+            let formFieldString = formField.FormFieldString
+            let newValue = this.generatedForm.value[formField.Name]
+
+            if (newValue != formFieldString.Value) {
+
+              formFieldString.Value = newValue
+              promises.push(this.formFieldStringService.updateFormFieldString(formFieldString, this.DataStack))
             }
-            if (formField.FormFieldInt) {
-              let formFieldInt = formField.FormFieldInt
-              let newValue: number = +this.generatedForm.value[formField.Name]
+          }
+          if (formField.FormFieldInt) {
+            let formFieldInt = formField.FormFieldInt
+            let newValue: number = +this.generatedForm.value[formField.Name]
 
-              if (newValue != formFieldInt.Value) {
-                formFieldInt.Value = newValue
-                this.formFieldIntService.updateFormFieldInt(formFieldInt, this.DataStack).subscribe(
-                  () => {
-                    console.log("Int Form Field updated")
-                  }
-                )
-              }
+            if (newValue != formFieldInt.Value) {
+
+              formFieldInt.Value = newValue
+              promises.push(this.formFieldIntService.updateFormFieldInt(formFieldInt, this.DataStack))
             }
-            if (formField.FormFieldDate) {
-              // Assume formField is already defined
-              let formFieldDate = formField.FormFieldDate
+          }
+          if (formField.FormFieldFloat64) {
+            let formFieldFlFormFieldFloat64 = formField.FormFieldFloat64
+            let newValue: number = +this.generatedForm.value[formField.Name]
 
-              let formFieldValue = this.generatedForm.value[formField.Name];
+            if (newValue != formFieldFlFormFieldFloat64.Value) {
 
-              // 1. Convert to a UTC formatted string and then to a Date object
-              let dateObj = new Date(formFieldValue);
-              let formattedDate = dateObj.toISOString();
-              let dateObject = new Date(formattedDate);
-
-              console.log(dateObject);
-              console.log(formFieldDate.Value);
-
-              // 2. Check if two dates are on the same day
-              let inputDate = new Date(formFieldValue);
-              let comparisonDate = new Date(formFieldDate.Value);
-
-              let isSameDay = (date1: Date, date2: Date) => {
-                return date1.getUTCFullYear() === date2.getUTCFullYear() &&
-                  date1.getUTCMonth() === date2.getUTCMonth() &&
-                  date1.getUTCDate() === date2.getUTCDate();
-              }
-
-              console.log(isSameDay(inputDate, comparisonDate));
-
-              if (!isSameDay(inputDate, comparisonDate)) {
-                formFieldDate.Value = dateObject;
-                this.formFieldDateService.updateFormFieldDate(formFieldDate, this.DataStack).subscribe(() => {
-                  console.log("Date Form Field updated");
-                });
-              }
-
+              formFieldFlFormFieldFloat64.Value = newValue
+              promises.push(this.formFieldFloat64Service.updateFormFieldFloat64(formFieldFlFormFieldFloat64, this.DataStack))
             }
-            if (formField.FormFieldTime) {
-              let formFieldTime = formField.FormFieldTime
+          }
+          if (formField.FormFieldDate) {
+            // Assume formField is already defined
+            let formFieldDate = formField.FormFieldDate
 
-              const [hours, minutes, seconds] = this.generatedForm.value[formField.Name].split(':').map(Number);
-              const date = new Date("1970-01-01")
-              date.setUTCHours(hours, minutes, seconds);
-              // console.log("date for time", date.toUTCString())
-              // console.log("date for backend time", new Date(formFieldTime.Value).toUTCString())
+            let formFieldValue = this.generatedForm.value[formField.Name];
 
-              if (date.getTime() != new Date(formFieldTime.Value).getTime()) {
-                formFieldTime.Value = date
-                this.formFieldTimeService.updateFormFieldTime(formFieldTime, this.DataStack).subscribe(
-                  () => {
-                    console.log("Time Form Field updated")
-                  }
-                )
-              }
+            // 1. Convert to a UTC formatted string and then to a Date object
+            let dateObj = new Date(formFieldValue);
+            let formattedDate = dateObj.toISOString();
+            let dateObject = new Date(formattedDate);
+
+            console.log(dateObject);
+            console.log(formFieldDate.Value);
+
+            // 2. Check if two dates are on the same day
+            let inputDate = new Date(formFieldValue);
+            let comparisonDate = new Date(formFieldDate.Value);
+
+            let isSameDay = (date1: Date, date2: Date) => {
+              return date1.getUTCFullYear() === date2.getUTCFullYear() &&
+                date1.getUTCMonth() === date2.getUTCMonth() &&
+                date1.getUTCDate() === date2.getUTCDate();
             }
-            if (formField.FormFieldDateTime) {
-              let formFieldDateTime = formField.FormFieldDateTime
 
-              let newValue = this.generatedForm.value[formField.Name]
+            console.log(isSameDay(inputDate, comparisonDate));
 
-              if (newValue != formFieldDateTime.Value) {
-                formFieldDateTime.Value = newValue
-                this.formFieldDateTimeService.updateFormFieldDateTime(formFieldDateTime, this.DataStack).subscribe(
-                  () => {
-                    console.log("Date Time Form Field updated")
-                  }
-                )
-              }
+            if (!isSameDay(inputDate, comparisonDate)) {
+              formFieldDate.Value = dateObject;
+              promises.push(this.formFieldDateService.updateFormFieldDate(formFieldDate, this.DataStack))
             }
-            if (formField.FormFieldSelect) {
-              let newValue = this.generatedForm.value[formField.Name]
-              let formFieldSelect = formField.FormFieldSelect
 
-              if (newValue != formFieldSelect.Value?.Name) {
-                formFieldSelect.Value = newValue
+          }
+          if (formField.FormFieldTime) {
+            let formFieldTime = formField.FormFieldTime
 
-                if (formFieldSelect.Options == undefined) {
-                  return
-                }
+            const [hours, minutes, seconds] = this.generatedForm.value[formField.Name].split(':').map(Number);
+            const date = new Date("1970-01-01")
+            date.setUTCHours(hours, minutes, seconds);
+            // console.log("date for time", date.toUTCString())
+            // console.log("date for backend time", new Date(formFieldTime.Value).toUTCString())
 
+            if (date.getTime() != new Date(formFieldTime.Value).getTime()) {
+              formFieldTime.Value = date
+              promises.push(this.formFieldTimeService.updateFormFieldTime(formFieldTime, this.DataStack))
+            }
+          }
+          if (formField.FormFieldDateTime) {
+            let formFieldDateTime = formField.FormFieldDateTime
+
+            let newValue = this.generatedForm.value[formField.Name]
+
+            if (newValue != formFieldDateTime.Value) {
+              formFieldDateTime.Value = newValue
+              promises.push(this.formFieldDateTimeService.updateFormFieldDateTime(formFieldDateTime, this.DataStack))
+            }
+          }
+          if (formField.FormFieldSelect) {
+            let newValue = this.generatedForm.value[formField.Name]
+            let formFieldSelect = formField.FormFieldSelect
+
+            if (newValue != formFieldSelect.Value?.Name) {
+              formFieldSelect.Value = newValue
+
+              if (!formFieldSelect.CanBeEmpty && formFieldSelect.Options == undefined) {
+                return
+              }
+
+              if (formFieldSelect.CanBeEmpty && formFieldSelect.Value == undefined) {
+                formFieldSelect.ValueID.Int64 = 0
+              }
+
+              if (formFieldSelect.Options) {
                 for (let option of formFieldSelect.Options) {
                   if (option.Name == newValue) {
                     formFieldSelect.Value = option
                     formFieldSelect.ValueID.Int64 = option.ID
                   }
                 }
-
-                let options = formFieldSelect.Options
-
-                this.formFieldSelectService.updateFormFieldSelect(formFieldSelect, this.DataStack).subscribe(
-                  () => {
-                    console.log("Select Form Field updated")
-                    formFieldSelect.Options = options
-                  }
-                )
               }
+              promises.push(this.formFieldSelectService.updateFormFieldSelect(formFieldSelect, this.DataStack))
             }
           }
         }
-        if (formDiv.CheckBoxs) {
-          for (let checkBox of formDiv.CheckBoxs) {
-            let newValue = this.generatedForm.value[checkBox.Name] as boolean
-            if (newValue != checkBox.Value) {
-              checkBox.Value = newValue
-              this.checkBoxService.updateCheckBox(checkBox, this.DataStack).subscribe(
-                () => {
-                  console.log("Boolean Field updated")
-                }
-              )
-            }
-
+      }
+      if (formDiv.CheckBoxs) {
+        for (let checkBox of formDiv.CheckBoxs) {
+          let newValue = this.generatedForm.value[checkBox.Name] as boolean
+          if (newValue != checkBox.Value) {
+            checkBox.Value = newValue
+            promises.push(this.checkBoxService.updateCheckBox(checkBox, this.DataStack))
           }
         }
       }
     }
+
+    // wait till all promises are completed to update the form group itself
+    forkJoin(promises).subscribe(
+      () => {
+        this.formGroupService.updateFormGroup(this.selectedFormGroup!, this.DataStack).subscribe(
+          () => {
+
+            // a refresh is necessary to redeem all associations
+            this.refresh()
+          }
+        )
+      }
+    )
+
+    if (promises.length == 0) {
+      this.formGroupService.updateFormGroup(this.selectedFormGroup!, this.DataStack).subscribe(
+        () => {
+          // a refresh is necessary to redeem all associations
+          this.refresh()
+        }
+      )
+    }
+
   }
 
   openTableAssociation(fieldName: string) {
@@ -377,7 +420,7 @@ export class MaterialFormComponent implements OnInit {
               // when the association button is pressed
               this.dialog.open(MaterialTableComponent, {
                 data: {
-                  DataStack: this.DataStack + gongtable.TableExtraPathEnum.TableSelectExtra,
+                  DataStack: this.DataStack + gongtable.TableExtraPathEnum.StackNamePostFixForTableForAssociation,
                   TableName: gongtable.TableExtraNameEnum.TableSelectExtraName
                 },
               });
@@ -415,7 +458,7 @@ export class MaterialFormComponent implements OnInit {
               // when the association button is pressed
               this.dialog.open(MaterialTableComponent, {
                 data: {
-                  DataStack: this.DataStack + gongtable.TableExtraPathEnum.TableSortExtra,
+                  DataStack: this.DataStack + gongtable.TableExtraPathEnum.StackNamePostFixForTableForAssociationSorting,
                   TableName: gongtable.TableExtraNameEnum.TableSortExtraName
                 },
               });
@@ -425,5 +468,23 @@ export class MaterialFormComponent implements OnInit {
       }
     }
   }
+
+  getDynamicStyles(formField: gongtable.FormFieldDB): { [key: string]: any } {
+    const styles: { [key: string]: any } = {} // Explicitly define the type here   
+    if (formField) {
+      if (formField.HasBespokeWidth) {
+        styles['width.px'] = formField.BespokeWidthPx
+      }
+    }
+    return styles
+  }
 }
 
+export function integerValidator(control: AbstractControl): ValidationErrors | null {
+  const value = control.value
+  if (value === null || value === '') return null
+  if (!Number.isInteger(+value)) {
+    return { 'integer': 'Input must be an integer' }
+  }
+  return null
+}

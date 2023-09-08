@@ -312,6 +312,76 @@ export class SidebarComponent implements OnInit {
 
           // insertion point for per field code
           /**
+          * let append a node for the association Associationtob
+          */
+          let AssociationtobGongNodeAssociation: GongNode = {
+            name: "(Bstruct) Associationtob",
+            type: GongNodeType.ONE__ZERO_ONE_ASSOCIATION,
+            id: astructDB.ID,
+            uniqueIdPerStack: 17 * nonInstanceNodeId,
+            structName: "Astruct",
+            associationField: "Associationtob",
+            associatedStructName: "Bstruct",
+            children: new Array<GongNode>()
+          }
+          nonInstanceNodeId = nonInstanceNodeId + 1
+          astructGongNodeInstance.children!.push(AssociationtobGongNodeAssociation)
+
+          /**
+            * let append a node for the instance behind the asssociation Associationtob
+            */
+          if (astructDB.Associationtob != undefined) {
+            let astructGongNodeInstance_Associationtob: GongNode = {
+              name: astructDB.Associationtob.Name,
+              type: GongNodeType.INSTANCE,
+              id: astructDB.Associationtob.ID,
+              uniqueIdPerStack: // godel numbering (thank you kurt)
+                3 * getAstructUniqueID(astructDB.ID)
+                + 5 * getBstructUniqueID(astructDB.Associationtob.ID),
+              structName: "Bstruct",
+              associationField: "",
+              associatedStructName: "",
+              children: new Array<GongNode>()
+            }
+            AssociationtobGongNodeAssociation.children.push(astructGongNodeInstance_Associationtob)
+          }
+
+          /**
+          * let append a node for the association Anotherassociationtob_2
+          */
+          let Anotherassociationtob_2GongNodeAssociation: GongNode = {
+            name: "(Bstruct) Anotherassociationtob_2",
+            type: GongNodeType.ONE__ZERO_ONE_ASSOCIATION,
+            id: astructDB.ID,
+            uniqueIdPerStack: 17 * nonInstanceNodeId,
+            structName: "Astruct",
+            associationField: "Anotherassociationtob_2",
+            associatedStructName: "Bstruct",
+            children: new Array<GongNode>()
+          }
+          nonInstanceNodeId = nonInstanceNodeId + 1
+          astructGongNodeInstance.children!.push(Anotherassociationtob_2GongNodeAssociation)
+
+          /**
+            * let append a node for the instance behind the asssociation Anotherassociationtob_2
+            */
+          if (astructDB.Anotherassociationtob_2 != undefined) {
+            let astructGongNodeInstance_Anotherassociationtob_2: GongNode = {
+              name: astructDB.Anotherassociationtob_2.Name,
+              type: GongNodeType.INSTANCE,
+              id: astructDB.Anotherassociationtob_2.ID,
+              uniqueIdPerStack: // godel numbering (thank you kurt)
+                3 * getAstructUniqueID(astructDB.ID)
+                + 5 * getBstructUniqueID(astructDB.Anotherassociationtob_2.ID),
+              structName: "Bstruct",
+              associationField: "",
+              associatedStructName: "",
+              children: new Array<GongNode>()
+            }
+            Anotherassociationtob_2GongNodeAssociation.children.push(astructGongNodeInstance_Anotherassociationtob_2)
+          }
+
+          /**
           * let append a node for the association Bstruct
           */
           let BstructGongNodeAssociation: GongNode = {
@@ -519,76 +589,6 @@ export class SidebarComponent implements OnInit {
               children: new Array<GongNode>()
             }
             Dstruct4GongNodeAssociation.children.push(astructGongNodeInstance_Dstruct4)
-          }
-
-          /**
-          * let append a node for the association Associationtob
-          */
-          let AssociationtobGongNodeAssociation: GongNode = {
-            name: "(Bstruct) Associationtob",
-            type: GongNodeType.ONE__ZERO_ONE_ASSOCIATION,
-            id: astructDB.ID,
-            uniqueIdPerStack: 17 * nonInstanceNodeId,
-            structName: "Astruct",
-            associationField: "Associationtob",
-            associatedStructName: "Bstruct",
-            children: new Array<GongNode>()
-          }
-          nonInstanceNodeId = nonInstanceNodeId + 1
-          astructGongNodeInstance.children!.push(AssociationtobGongNodeAssociation)
-
-          /**
-            * let append a node for the instance behind the asssociation Associationtob
-            */
-          if (astructDB.Associationtob != undefined) {
-            let astructGongNodeInstance_Associationtob: GongNode = {
-              name: astructDB.Associationtob.Name,
-              type: GongNodeType.INSTANCE,
-              id: astructDB.Associationtob.ID,
-              uniqueIdPerStack: // godel numbering (thank you kurt)
-                3 * getAstructUniqueID(astructDB.ID)
-                + 5 * getBstructUniqueID(astructDB.Associationtob.ID),
-              structName: "Bstruct",
-              associationField: "",
-              associatedStructName: "",
-              children: new Array<GongNode>()
-            }
-            AssociationtobGongNodeAssociation.children.push(astructGongNodeInstance_Associationtob)
-          }
-
-          /**
-          * let append a node for the association Anotherassociationtob_2
-          */
-          let Anotherassociationtob_2GongNodeAssociation: GongNode = {
-            name: "(Bstruct) Anotherassociationtob_2",
-            type: GongNodeType.ONE__ZERO_ONE_ASSOCIATION,
-            id: astructDB.ID,
-            uniqueIdPerStack: 17 * nonInstanceNodeId,
-            structName: "Astruct",
-            associationField: "Anotherassociationtob_2",
-            associatedStructName: "Bstruct",
-            children: new Array<GongNode>()
-          }
-          nonInstanceNodeId = nonInstanceNodeId + 1
-          astructGongNodeInstance.children!.push(Anotherassociationtob_2GongNodeAssociation)
-
-          /**
-            * let append a node for the instance behind the asssociation Anotherassociationtob_2
-            */
-          if (astructDB.Anotherassociationtob_2 != undefined) {
-            let astructGongNodeInstance_Anotherassociationtob_2: GongNode = {
-              name: astructDB.Anotherassociationtob_2.Name,
-              type: GongNodeType.INSTANCE,
-              id: astructDB.Anotherassociationtob_2.ID,
-              uniqueIdPerStack: // godel numbering (thank you kurt)
-                3 * getAstructUniqueID(astructDB.ID)
-                + 5 * getBstructUniqueID(astructDB.Anotherassociationtob_2.ID),
-              structName: "Bstruct",
-              associationField: "",
-              associatedStructName: "",
-              children: new Array<GongNode>()
-            }
-            Anotherassociationtob_2GongNodeAssociation.children.push(astructGongNodeInstance_Anotherassociationtob_2)
           }
 
           /**
