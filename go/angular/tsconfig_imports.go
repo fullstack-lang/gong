@@ -27,13 +27,14 @@ const TsConfigInsertForPaths = `
         "./node_modules/tslib"
       ],
       "gong": [
-      "../vendor/github.com/fullstack-lang/gong/ng/projects/gong/src/public-api.ts"
+        "../vendor/github.com/fullstack-lang/gong/ng/projects/gong/src/public-api.ts",
+        "../../vendor/github.com/fullstack-lang/gong/ng/projects/gong/src/public-api.ts"
       ],
       "gongdoc": [
-      "../vendor/github.com/fullstack-lang/gongdoc/ng/projects/gongdoc/src/public-api.ts"
+        "../vendor/github.com/fullstack-lang/gongdoc/ng/projects/gongdoc/src/public-api.ts"
       ],
       "gongdocspecific": [
-      "../vendor/github.com/fullstack-lang/gongdoc/ng/projects/gongdocspecific/src/public-api.ts"
+        "../vendor/github.com/fullstack-lang/gongdoc/ng/projects/gongdocspecific/src/public-api.ts"
       ],
       "gongsvg": [
         "../vendor/github.com/fullstack-lang/gongsvg/ng/projects/gongsvg/src/public-api.ts"

@@ -78,6 +78,9 @@ export class FormFieldSelectsTableComponent implements OnInit {
         case 'Value':
           return (formfieldselectDB.Value ? formfieldselectDB.Value.Name : '');
 
+        case 'CanBeEmpty':
+          return formfieldselectDB.CanBeEmpty ? "true" : "false";
+
         default:
           console.assert(false, "Unknown field")
           return "";
@@ -152,11 +155,13 @@ export class FormFieldSelectsTableComponent implements OnInit {
       this.displayedColumns = ['ID', 'Delete', // insertion point for columns to display
         "Name",
         "Value",
+        "CanBeEmpty",
       ]
     } else {
       this.displayedColumns = ['select', 'ID', // insertion point for columns to display
         "Name",
         "Value",
+        "CanBeEmpty",
       ]
       this.selection = new SelectionModel<FormFieldSelectDB>(allowMultiSelect, this.initialSelection);
     }

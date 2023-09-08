@@ -1,5 +1,6 @@
-// Copyright 2022 The nfp Authors. All rights reserved. Use of this source code
-// is governed by a BSD-style license that can be found in the LICENSE file.
+// Copyright 2022 - 2023 The nfp Authors. All rights reserved. Use of this
+// source code is governed by a BSD-style license that can be found in the
+// LICENSE file.
 //
 // This package NFP (Number Format Parser) produce syntax trees for number
 // format expression. Excel Number format controls options such the number of
@@ -41,7 +42,7 @@ const (
 	Whitespace     = " "
 	Zero           = "0"
 	// DatesTimesCodeChars defined dates and times control codes in upper case
-	DatesTimesCodeChars = "EYMDHSG"
+	DatesTimesCodeChars = "AEYMDHSG"
 	// NumCodeChars defined numeric code character
 	NumCodeChars = "0123456789"
 	// Token section types
@@ -179,10 +180,9 @@ type Section struct {
 // Tokens directly maps the ordered list of tokens.
 // Attributes:
 //
-//    Index        - Current position in the number format expression
-//    SectionIndex - Current position in section
-//    Sections     - Ordered section of token sequences
-//
+//	Index        - Current position in the number format expression
+//	SectionIndex - Current position in section
+//	Sections     - Ordered section of token sequences
 type Tokens struct {
 	Index        int
 	SectionIndex int
@@ -234,9 +234,12 @@ type Parser struct {
 	InString      bool
 	InPlaceholder bool
 	NumFmt        string
-	Offset        int
-	Tokens        Tokens
-	Token         Token
+	// Runes is a copy of the number format string as a rune slice. It's stored here to avoid
+	// allocating a new slice every time we need to access it.
+	Runes  []rune
+	Offset int
+	Tokens Tokens
+	Token  Token
 }
 
 // NumberFormatParser provides function to parse an Excel number format into a
@@ -247,21 +250,36 @@ func NumberFormatParser() Parser {
 
 // EOF provides function to check whether end of tokens stack.
 func (ps *Parser) EOF() bool {
-	return ps.Offset >= len([]rune(ps.NumFmt))
+	return ps.Offset >= len(ps.Runes)
 }
 
 // getTokens return a token stream (list).
 func (ps *Parser) getTokens() Tokens {
-	ps.NumFmt = strings.TrimSpace(ps.NumFmt)
 	// state-dependent character evaluation (order is important)
 	for !ps.EOF() {
 		if ps.InBracket {
 			if ps.Token.TType == TokenTypeCurrencyLanguage {
 				if ps.currentChar() != Dash && ps.currentChar() != BracketClose {
-					ps.Token.Parts[1].Token.TValue += ps.currentChar()
+					if len(ps.Token.Parts) == 0 {
+						ps.Token.Parts = append(ps.Token.Parts, Part{Token: Token{TType: TokenSubTypeCurrencyString}})
+					}
+					ps.Token.Parts[len(ps.Token.Parts)-1].Token.TValue += ps.currentChar()
 				}
-				if ps.currentChar() == Dash {
-					ps.Token.Parts[0].Token.TValue, ps.Token.Parts[1].Token.TValue = ps.Token.Parts[1].Token.TValue, ps.Token.Parts[0].Token.TValue
+				if ps.currentChar() == Dash && ps.nextChar() != BracketClose {
+					if l := len(ps.Token.Parts); l == 0 {
+						ps.Token.Parts = append(ps.Token.Parts, Part{Token: Token{TType: TokenSubTypeLanguageInfo}})
+					} else {
+						if ps.Token.Parts[0].Token.TType != TokenSubTypeLanguageInfo && ps.Token.Parts[0].Token.TValue != "" {
+							ps.Token.Parts = append(ps.Token.Parts, Part{Token: Token{TType: TokenSubTypeLanguageInfo}})
+						} else {
+							ps.Token.Parts[l-1].Token.TValue += ps.currentChar()
+						}
+					}
+				}
+				if ps.currentChar() == Comma {
+					ps.Token.TValue += ps.currentChar()
+					ps.Offset++
+					continue
 				}
 			}
 
@@ -307,10 +325,6 @@ func (ps *Parser) getTokens() Tokens {
 					}
 
 					if ps.Token.TType == TokenTypeCurrencyLanguage {
-						if ps.Token.Parts[0].Token.TValue == "" {
-							ps.Token.Parts = []Part{{Token: Token{TType: ps.Token.Parts[1].Token.TType, TValue: ps.Token.Parts[1].Token.TValue}}}
-						}
-
 						ps.Tokens.add(ps.Token.TValue, ps.Token.TType, ps.Token.Parts)
 						ps.Token = Token{}
 						ps.Offset++
@@ -349,6 +363,10 @@ func (ps *Parser) getTokens() Tokens {
 				}
 				if ps.Token.TType != "" {
 					ps.Tokens.add(ps.Token.TValue, ps.Token.TType, ps.Token.Parts)
+					ps.Token = Token{}
+				}
+				if ps.Token.TValue != "" && !strings.ContainsAny(NumCodeChars, ps.Token.TValue) {
+					ps.Tokens.add(ps.Token.TValue, TokenTypeLiteral, ps.Token.Parts)
 					ps.Token = Token{}
 				}
 				ps.Token.TType = TokenTypeZeroPlaceHolder
@@ -397,12 +415,6 @@ func (ps *Parser) getTokens() Tokens {
 
 		if strings.ContainsAny(Dollar+Dash+Plus+ParenOpen+ParenClose+Colon+Whitespace, ps.currentChar()) {
 			if ps.InBracket {
-				if len(ps.Token.Parts) == 0 {
-					ps.Token.Parts = []Part{
-						{Token: Token{TType: TokenSubTypeCurrencyString}},
-						{Token: Token{TType: TokenSubTypeLanguageInfo}},
-					}
-				}
 				ps.Token.TValue += ps.currentChar()
 				ps.Token.TType = TokenTypeCurrencyLanguage
 				ps.Offset++
@@ -568,6 +580,9 @@ func (ps *Parser) getTokens() Tokens {
 		}
 
 		if ps.currentChar() == BracketOpen {
+			if ps.Token.TType == "" && ps.Token.TValue != "" {
+				ps.Token.TType = TokenTypeLiteral
+			}
 			if ps.Token.TType != "" && !ps.InBracket {
 				ps.Tokens.add(ps.Token.TValue, ps.Token.TType, ps.Token.Parts)
 				ps.Token = Token{}
@@ -657,6 +672,10 @@ func (ps *Parser) getTokens() Tokens {
 					ps.Tokens.add(ps.Token.TValue, ps.Token.TType, ps.Token.Parts)
 					ps.Token = Token{}
 				}
+				if ps.Token.TType != "" && ps.Token.TType != TokenTypeDateTimes {
+					ps.Tokens.add(ps.Token.TValue, ps.Token.TType, ps.Token.Parts)
+					ps.Token = Token{}
+				}
 				ps.Token.TType = TokenTypeDateTimes
 				ps.Token.TValue += ps.currentChar()
 				ps.Offset++
@@ -677,6 +696,10 @@ func (ps *Parser) getTokens() Tokens {
 			if ps.currentChar() == QuoteSingle {
 				ps.Offset++
 				continue
+			}
+			if !strings.ContainsAny(NumCodeChars, ps.currentChar()) && ps.Token.TType == TokenTypeZeroPlaceHolder {
+				ps.Tokens.add(ps.Token.TValue, ps.Token.TType, ps.Token.Parts)
+				ps.Token = Token{}
 			}
 		}
 		ps.Token.TValue += ps.currentChar()
@@ -699,7 +722,8 @@ func (ps *Parser) getTokens() Tokens {
 
 // Parse provides function to parse number format as a token stream (list).
 func (ps *Parser) Parse(numFmt string) []Section {
-	ps.NumFmt = numFmt
+	ps.NumFmt = strings.TrimSpace(numFmt)
+	ps.Runes = []rune(ps.NumFmt)
 	ps.Tokens = ps.getTokens()
 	return ps.Tokens.Sections
 }
@@ -707,22 +731,22 @@ func (ps *Parser) Parse(numFmt string) []Section {
 // doubleChar provides function to get two characters after the current
 // position.
 func (ps *Parser) doubleChar() string {
-	if len([]rune(ps.NumFmt)) >= ps.Offset+2 {
-		return string([]rune(ps.NumFmt)[ps.Offset : ps.Offset+2])
+	if len(ps.Runes) >= ps.Offset+2 {
+		return string(ps.Runes[ps.Offset : ps.Offset+2])
 	}
 	return ""
 }
 
 // currentChar provides function to get the character of the current position.
 func (ps *Parser) currentChar() string {
-	return string([]rune(ps.NumFmt)[ps.Offset])
+	return string(ps.Runes[ps.Offset])
 }
 
 // nextChar provides function to get the next character of the current
 // position.
 func (ps *Parser) nextChar() string {
-	if len([]rune(ps.NumFmt)) >= ps.Offset+2 {
-		return string([]rune(ps.NumFmt)[ps.Offset+1 : ps.Offset+2])
+	if len(ps.Runes) >= ps.Offset+2 {
+		return string(ps.Runes[ps.Offset+1 : ps.Offset+2])
 	}
 	return ""
 }
@@ -732,8 +756,8 @@ func (ps *Parser) nextChar() string {
 func (ps *Parser) apPattern() (int, string) {
 	for i, pattern := range AmPm {
 		l := len(pattern)
-		if len([]rune(ps.NumFmt)) >= ps.Offset+l {
-			matched := string([]rune(ps.NumFmt)[ps.Offset : ps.Offset+l])
+		if len(ps.Runes) >= ps.Offset+l {
+			matched := string(ps.Runes[ps.Offset : ps.Offset+l])
 			if strings.EqualFold(matched, pattern) {
 				return i, matched
 			}
@@ -746,8 +770,8 @@ func (ps *Parser) apPattern() (int, string) {
 // general pattern, it will be returned matched result and result.
 func (ps *Parser) generalPattern() (int, string) {
 	l := len(TokenTypeGeneral)
-	if len([]rune(ps.NumFmt)) >= ps.Offset+l {
-		matched := string([]rune(ps.NumFmt)[ps.Offset : ps.Offset+l])
+	if len(ps.Runes) >= ps.Offset+l {
+		matched := string(ps.Runes[ps.Offset : ps.Offset+l])
 		if strings.EqualFold(matched, TokenTypeGeneral) {
 			return 0, matched
 		}

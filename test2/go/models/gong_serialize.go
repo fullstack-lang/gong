@@ -1,3 +1,4 @@
+// generated code - do not edit
 package models
 
 import (
@@ -13,6 +14,7 @@ func SerializeStage(stage *StageStruct, filename string) {
 	f := excelize.NewFile()
 	{
 		// insertion point
+		SerializeExcelize[Dummy](stage, f)
 	}
 
 	var tab ExcelizeTabulator

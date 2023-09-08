@@ -27,6 +27,24 @@
         <input type="number" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="formfieldint.Value" [ngModelOptions]="{standalone: true}">
     </mat-form-field>
 
+    <!-- -->
+    <mat-checkbox [formControl]="HasMinValidatorFormControl">HasMinValidator</mat-checkbox>
+
+    <!-- -->
+    <mat-form-field class="detail-full-width">
+        <mat-label>MinValue</mat-label>
+        <input type="number" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="formfieldint.MinValue" [ngModelOptions]="{standalone: true}">
+    </mat-form-field>
+
+    <!-- -->
+    <mat-checkbox [formControl]="HasMaxValidatorFormControl">HasMaxValidator</mat-checkbox>
+
+    <!-- -->
+    <mat-form-field class="detail-full-width">
+        <mat-label>MaxValue</mat-label>
+        <input type="number" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="formfieldint.MaxValue" [ngModelOptions]="{standalone: true}">
+    </mat-form-field>
+
     <div class="details__save">
         <button mat-raised-button color="primary" (click)="save()">
             Save formfieldint

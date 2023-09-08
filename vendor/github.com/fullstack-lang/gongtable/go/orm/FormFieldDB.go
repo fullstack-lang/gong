@@ -103,6 +103,13 @@ type FormFieldDB struct {
 
 	// Declation for basic field formfieldDB.Placeholder
 	Placeholder_Data sql.NullString
+
+	// Declation for basic field formfieldDB.HasBespokeWidth
+	// provide the sql storage for the boolan
+	HasBespokeWidth_Data sql.NullBool
+
+	// Declation for basic field formfieldDB.BespokeWidthPx
+	BespokeWidthPx_Data sql.NullInt64
 	// encoding of pointers
 	FormFieldPointersEnconding
 }
@@ -131,6 +138,10 @@ type FormFieldWOP struct {
 	Label string `xlsx:"3"`
 
 	Placeholder string `xlsx:"4"`
+
+	HasBespokeWidth bool `xlsx:"5"`
+
+	BespokeWidthPx int `xlsx:"6"`
 	// insertion for WOP pointer fields
 }
 
@@ -141,6 +152,8 @@ var FormField_Fields = []string{
 	"InputTypeEnum",
 	"Label",
 	"Placeholder",
+	"HasBespokeWidth",
+	"BespokeWidthPx",
 }
 
 type BackRepoFormFieldStruct struct {
@@ -267,6 +280,9 @@ func (backRepoFormField *BackRepoFormFieldStruct) CommitPhaseTwoInstance(backRep
 				formfieldDB.FormFieldStringID.Int64 = int64(FormFieldStringId)
 				formfieldDB.FormFieldStringID.Valid = true
 			}
+		} else {
+			formfieldDB.FormFieldStringID.Int64 = 0
+			formfieldDB.FormFieldStringID.Valid = true
 		}
 
 		// commit pointer value formfield.FormFieldFloat64 translates to updating the formfield.FormFieldFloat64ID
@@ -276,6 +292,9 @@ func (backRepoFormField *BackRepoFormFieldStruct) CommitPhaseTwoInstance(backRep
 				formfieldDB.FormFieldFloat64ID.Int64 = int64(FormFieldFloat64Id)
 				formfieldDB.FormFieldFloat64ID.Valid = true
 			}
+		} else {
+			formfieldDB.FormFieldFloat64ID.Int64 = 0
+			formfieldDB.FormFieldFloat64ID.Valid = true
 		}
 
 		// commit pointer value formfield.FormFieldInt translates to updating the formfield.FormFieldIntID
@@ -285,6 +304,9 @@ func (backRepoFormField *BackRepoFormFieldStruct) CommitPhaseTwoInstance(backRep
 				formfieldDB.FormFieldIntID.Int64 = int64(FormFieldIntId)
 				formfieldDB.FormFieldIntID.Valid = true
 			}
+		} else {
+			formfieldDB.FormFieldIntID.Int64 = 0
+			formfieldDB.FormFieldIntID.Valid = true
 		}
 
 		// commit pointer value formfield.FormFieldDate translates to updating the formfield.FormFieldDateID
@@ -294,6 +316,9 @@ func (backRepoFormField *BackRepoFormFieldStruct) CommitPhaseTwoInstance(backRep
 				formfieldDB.FormFieldDateID.Int64 = int64(FormFieldDateId)
 				formfieldDB.FormFieldDateID.Valid = true
 			}
+		} else {
+			formfieldDB.FormFieldDateID.Int64 = 0
+			formfieldDB.FormFieldDateID.Valid = true
 		}
 
 		// commit pointer value formfield.FormFieldTime translates to updating the formfield.FormFieldTimeID
@@ -303,6 +328,9 @@ func (backRepoFormField *BackRepoFormFieldStruct) CommitPhaseTwoInstance(backRep
 				formfieldDB.FormFieldTimeID.Int64 = int64(FormFieldTimeId)
 				formfieldDB.FormFieldTimeID.Valid = true
 			}
+		} else {
+			formfieldDB.FormFieldTimeID.Int64 = 0
+			formfieldDB.FormFieldTimeID.Valid = true
 		}
 
 		// commit pointer value formfield.FormFieldDateTime translates to updating the formfield.FormFieldDateTimeID
@@ -312,6 +340,9 @@ func (backRepoFormField *BackRepoFormFieldStruct) CommitPhaseTwoInstance(backRep
 				formfieldDB.FormFieldDateTimeID.Int64 = int64(FormFieldDateTimeId)
 				formfieldDB.FormFieldDateTimeID.Valid = true
 			}
+		} else {
+			formfieldDB.FormFieldDateTimeID.Int64 = 0
+			formfieldDB.FormFieldDateTimeID.Valid = true
 		}
 
 		// commit pointer value formfield.FormFieldSelect translates to updating the formfield.FormFieldSelectID
@@ -321,6 +352,9 @@ func (backRepoFormField *BackRepoFormFieldStruct) CommitPhaseTwoInstance(backRep
 				formfieldDB.FormFieldSelectID.Int64 = int64(FormFieldSelectId)
 				formfieldDB.FormFieldSelectID.Valid = true
 			}
+		} else {
+			formfieldDB.FormFieldSelectID.Int64 = 0
+			formfieldDB.FormFieldSelectID.Valid = true
 		}
 
 		query := backRepoFormField.db.Save(&formfieldDB)
@@ -510,6 +544,12 @@ func (formfieldDB *FormFieldDB) CopyBasicFieldsFromFormField(formfield *models.F
 
 	formfieldDB.Placeholder_Data.String = formfield.Placeholder
 	formfieldDB.Placeholder_Data.Valid = true
+
+	formfieldDB.HasBespokeWidth_Data.Bool = formfield.HasBespokeWidth
+	formfieldDB.HasBespokeWidth_Data.Valid = true
+
+	formfieldDB.BespokeWidthPx_Data.Int64 = int64(formfield.BespokeWidthPx)
+	formfieldDB.BespokeWidthPx_Data.Valid = true
 }
 
 // CopyBasicFieldsFromFormFieldWOP
@@ -527,6 +567,12 @@ func (formfieldDB *FormFieldDB) CopyBasicFieldsFromFormFieldWOP(formfield *FormF
 
 	formfieldDB.Placeholder_Data.String = formfield.Placeholder
 	formfieldDB.Placeholder_Data.Valid = true
+
+	formfieldDB.HasBespokeWidth_Data.Bool = formfield.HasBespokeWidth
+	formfieldDB.HasBespokeWidth_Data.Valid = true
+
+	formfieldDB.BespokeWidthPx_Data.Int64 = int64(formfield.BespokeWidthPx)
+	formfieldDB.BespokeWidthPx_Data.Valid = true
 }
 
 // CopyBasicFieldsToFormField
@@ -536,6 +582,8 @@ func (formfieldDB *FormFieldDB) CopyBasicFieldsToFormField(formfield *models.For
 	formfield.InputTypeEnum.FromString(formfieldDB.InputTypeEnum_Data.String)
 	formfield.Label = formfieldDB.Label_Data.String
 	formfield.Placeholder = formfieldDB.Placeholder_Data.String
+	formfield.HasBespokeWidth = formfieldDB.HasBespokeWidth_Data.Bool
+	formfield.BespokeWidthPx = int(formfieldDB.BespokeWidthPx_Data.Int64)
 }
 
 // CopyBasicFieldsToFormFieldWOP
@@ -546,6 +594,8 @@ func (formfieldDB *FormFieldDB) CopyBasicFieldsToFormFieldWOP(formfield *FormFie
 	formfield.InputTypeEnum.FromString(formfieldDB.InputTypeEnum_Data.String)
 	formfield.Label = formfieldDB.Label_Data.String
 	formfield.Placeholder = formfieldDB.Placeholder_Data.String
+	formfield.HasBespokeWidth = formfieldDB.HasBespokeWidth_Data.Bool
+	formfield.BespokeWidthPx = int(formfieldDB.BespokeWidthPx_Data.Int64)
 }
 
 // Backup generates a json file from a slice of all FormFieldDB instances in the backrepo

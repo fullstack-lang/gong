@@ -38,6 +38,7 @@ const NgFileDataModelPanelTemplateHtml = `<!-- button bar that is present in all
                 </div>
             </as-split-area>
             <as-split-area [size]="30">
+                <lib-material-form FormName="Form" [DataStack]="GONG__DATA__StackPath+'-form'"></lib-material-form>
             </as-split-area>
         </as-split>
     </as-split-area>
@@ -49,6 +50,16 @@ const NgFileDataModelPanelTemplateHtml = `<!-- button bar that is present in all
     </as-split-area>
     <as-split-area [size]="$any('*')">
         <lib-github_com_fullstack_lang_gongtable_go-data-model-panel [GONG__MODEL__StacksPath]="GONG__DATA__StackPath" [GONG__DATA__StackPath]="GONG__DATA__StackPath">
+        </lib-github_com_fullstack_lang_gongtable_go-data-model-panel>
+    </as-split-area>
+</as-split>
+
+<as-split unit="pixel" *ngIf="view==formData" direction="vertical">
+    <as-split-area [size]=40>
+        <ng-container *ngTemplateOutlet="radioToolbar"></ng-container>
+    </as-split-area>
+    <as-split-area [size]="$any('*')">
+        <lib-github_com_fullstack_lang_gongtable_go-data-model-panel [GONG__MODEL__StacksPath]="GONG__DATA__StackPath" [GONG__DATA__StackPath]="GONG__DATA__StackPath+'-form'">
         </lib-github_com_fullstack_lang_gongtable_go-data-model-panel>
     </as-split-area>
 </as-split>

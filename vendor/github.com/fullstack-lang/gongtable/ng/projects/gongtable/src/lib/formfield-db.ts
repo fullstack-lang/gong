@@ -24,6 +24,8 @@ export class FormFieldDB {
 	InputTypeEnum: string = ""
 	Label: string = ""
 	Placeholder: string = ""
+	HasBespokeWidth: boolean = false
+	BespokeWidthPx: number = 0
 
 	// insertion point for other declarations
 	FormFieldString?: FormFieldStringDB

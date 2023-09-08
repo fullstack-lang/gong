@@ -5,4 +5,6 @@ type FormFieldSelect struct {
 	Value *Option
 
 	Options []*Option
+
+	CanBeEmpty bool
 }

@@ -6,6 +6,12 @@ type TableExtraPathEnum string
 
 // values for TableExtraPathEnum
 const (
-	TableSelectExtra TableExtraPathEnum = "-table"
-	TableSortExtra   TableExtraPathEnum = "-table-sort"
+
+	// those five default values are used by the "data" when used in combination for accessing
+	// data
+	StackNamePostFixForTableForMainTable          TableExtraPathEnum = "-table"
+	StackNamePostFixForTableForMainForm           TableExtraPathEnum = "-form"
+	StackNamePostFixForTableForMainTree           TableExtraPathEnum = "-sidebar"
+	StackNamePostFixForTableForAssociation        TableExtraPathEnum = "-table-pick"
+	StackNamePostFixForTableForAssociationSorting TableExtraPathEnum = "-table-sort"
 )

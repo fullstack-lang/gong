@@ -63,6 +63,20 @@ type FormFieldIntDB struct {
 
 	// Declation for basic field formfieldintDB.Value
 	Value_Data sql.NullInt64
+
+	// Declation for basic field formfieldintDB.HasMinValidator
+	// provide the sql storage for the boolan
+	HasMinValidator_Data sql.NullBool
+
+	// Declation for basic field formfieldintDB.MinValue
+	MinValue_Data sql.NullInt64
+
+	// Declation for basic field formfieldintDB.HasMaxValidator
+	// provide the sql storage for the boolan
+	HasMaxValidator_Data sql.NullBool
+
+	// Declation for basic field formfieldintDB.MaxValue
+	MaxValue_Data sql.NullInt64
 	// encoding of pointers
 	FormFieldIntPointersEnconding
 }
@@ -87,6 +101,14 @@ type FormFieldIntWOP struct {
 	Name string `xlsx:"1"`
 
 	Value int `xlsx:"2"`
+
+	HasMinValidator bool `xlsx:"3"`
+
+	MinValue int `xlsx:"4"`
+
+	HasMaxValidator bool `xlsx:"5"`
+
+	MaxValue int `xlsx:"6"`
 	// insertion for WOP pointer fields
 }
 
@@ -95,6 +117,10 @@ var FormFieldInt_Fields = []string{
 	"ID",
 	"Name",
 	"Value",
+	"HasMinValidator",
+	"MinValue",
+	"HasMaxValidator",
+	"MaxValue",
 }
 
 type BackRepoFormFieldIntStruct struct {
@@ -360,6 +386,18 @@ func (formfieldintDB *FormFieldIntDB) CopyBasicFieldsFromFormFieldInt(formfieldi
 
 	formfieldintDB.Value_Data.Int64 = int64(formfieldint.Value)
 	formfieldintDB.Value_Data.Valid = true
+
+	formfieldintDB.HasMinValidator_Data.Bool = formfieldint.HasMinValidator
+	formfieldintDB.HasMinValidator_Data.Valid = true
+
+	formfieldintDB.MinValue_Data.Int64 = int64(formfieldint.MinValue)
+	formfieldintDB.MinValue_Data.Valid = true
+
+	formfieldintDB.HasMaxValidator_Data.Bool = formfieldint.HasMaxValidator
+	formfieldintDB.HasMaxValidator_Data.Valid = true
+
+	formfieldintDB.MaxValue_Data.Int64 = int64(formfieldint.MaxValue)
+	formfieldintDB.MaxValue_Data.Valid = true
 }
 
 // CopyBasicFieldsFromFormFieldIntWOP
@@ -371,6 +409,18 @@ func (formfieldintDB *FormFieldIntDB) CopyBasicFieldsFromFormFieldIntWOP(formfie
 
 	formfieldintDB.Value_Data.Int64 = int64(formfieldint.Value)
 	formfieldintDB.Value_Data.Valid = true
+
+	formfieldintDB.HasMinValidator_Data.Bool = formfieldint.HasMinValidator
+	formfieldintDB.HasMinValidator_Data.Valid = true
+
+	formfieldintDB.MinValue_Data.Int64 = int64(formfieldint.MinValue)
+	formfieldintDB.MinValue_Data.Valid = true
+
+	formfieldintDB.HasMaxValidator_Data.Bool = formfieldint.HasMaxValidator
+	formfieldintDB.HasMaxValidator_Data.Valid = true
+
+	formfieldintDB.MaxValue_Data.Int64 = int64(formfieldint.MaxValue)
+	formfieldintDB.MaxValue_Data.Valid = true
 }
 
 // CopyBasicFieldsToFormFieldInt
@@ -378,6 +428,10 @@ func (formfieldintDB *FormFieldIntDB) CopyBasicFieldsToFormFieldInt(formfieldint
 	// insertion point for checkout of basic fields (back repo to stage)
 	formfieldint.Name = formfieldintDB.Name_Data.String
 	formfieldint.Value = int(formfieldintDB.Value_Data.Int64)
+	formfieldint.HasMinValidator = formfieldintDB.HasMinValidator_Data.Bool
+	formfieldint.MinValue = int(formfieldintDB.MinValue_Data.Int64)
+	formfieldint.HasMaxValidator = formfieldintDB.HasMaxValidator_Data.Bool
+	formfieldint.MaxValue = int(formfieldintDB.MaxValue_Data.Int64)
 }
 
 // CopyBasicFieldsToFormFieldIntWOP
@@ -386,6 +440,10 @@ func (formfieldintDB *FormFieldIntDB) CopyBasicFieldsToFormFieldIntWOP(formfield
 	// insertion point for checkout of basic fields (back repo to stage)
 	formfieldint.Name = formfieldintDB.Name_Data.String
 	formfieldint.Value = int(formfieldintDB.Value_Data.Int64)
+	formfieldint.HasMinValidator = formfieldintDB.HasMinValidator_Data.Bool
+	formfieldint.MinValue = int(formfieldintDB.MinValue_Data.Int64)
+	formfieldint.HasMaxValidator = formfieldintDB.HasMaxValidator_Data.Bool
+	formfieldint.MaxValue = int(formfieldintDB.MaxValue_Data.Int64)
 }
 
 // Backup generates a json file from a slice of all FormFieldIntDB instances in the backrepo

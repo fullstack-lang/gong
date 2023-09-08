@@ -17,6 +17,29 @@ const ModelGongEnumFileTemplate = `// generated code - do not edit
 package models
 
 // insertion point of enum utility functions{{` + string(rune(ModelGongEnumUtilityFunctions)) + `}}
+
+type GongstructEnumStringField interface {
+	string {{` + string(rune(ModelGongStructInsertionGenericEnumStringTypes)) + `}}
+	Codes() []string
+	CodeValues() []string
+}
+
+type PointerToGongstructEnumStringField interface {
+	{{` + string(rune(ModelGongStructInsertionGenericPointerToEnumStringTypes)) + `}}
+	FromCodeString(input string) (err error)
+}
+
+type GongstructEnumIntField interface {
+	int {{` + string(rune(ModelGongStructInsertionGenericEnumIntTypes)) + `}}
+	Codes() []string
+	CodeValues() []int
+}
+
+type PointerToGongstructEnumIntField interface {
+	{{` + string(rune(ModelGongStructInsertionGenericPointerToEnumIntTypes)) + `}}
+	FromCodeString(input string) (err error)
+}
+
 // Last line of the template
 `
 
@@ -26,6 +49,12 @@ type ModelGongEnumInsertionId int
 const (
 	// iota + 40 is to separate the insertion code of gongstruct from insertion code of gongenum
 	ModelGongEnumUtilityFunctions ModelGongEnumInsertionId = iota + 40
+
+	ModelGongStructInsertionGenericEnumStringTypes
+	ModelGongStructInsertionGenericPointerToEnumStringTypes
+	ModelGongStructInsertionGenericEnumIntTypes
+	ModelGongStructInsertionGenericPointerToEnumIntTypes
+
 	ModelGongEnumInsertionsNb
 )
 
@@ -71,7 +100,30 @@ func ({{enumName}} *{{EnumName}}) ToCodeString() (res string) {
 	}
 	return
 }
+
+
+func ({{enumName}} {{EnumName}}) Codes() (res []string) {
+
+	res = make([]string, 0)
+
+	// insertion code per enum code{{codes}}
+
+	return
+}
+
+func ({{enumName}} {{EnumName}}) CodeValues() (res []{{type}}) {
+
+	res = make([]{{type}}, 0)
+
+	// insertion code per enum code{{codeValues}}
+
+	return
+}
 `,
+	ModelGongStructInsertionGenericEnumStringTypes:          ` | {{EnumName}}`,
+	ModelGongStructInsertionGenericPointerToEnumStringTypes: ` | *{{EnumName}}`,
+	ModelGongStructInsertionGenericEnumIntTypes:             ` | {{EnumName}}`,
+	ModelGongStructInsertionGenericPointerToEnumIntTypes:    ` | *{{EnumName}}`,
 }
 
 // gongenum value template
@@ -82,6 +134,8 @@ const (
 	GongModelEnumValueFromCodeString
 	GongModelEnumValueToString
 	GongModelEnumValueToCodeString
+	GongModelEnumCodes
+	GongModelEnumCodeValues
 )
 
 var GongModelEnumValueSubTemplateCode map[GongModelEnumValueSubTemplateId]string = // declaration of the sub templates
@@ -99,6 +153,10 @@ map[GongModelEnumValueSubTemplateId]string{
 	GongModelEnumValueToCodeString: `
 	case {{GongEnumCode}}:
 		res = "{{GongEnumCode}}"`,
+	GongModelEnumCodes: `
+	res = append(res, "{{GongEnumCode}}")`,
+	GongModelEnumCodeValues: `
+	res = append(res, {{GongEnumValue}})`,
 }
 
 func CodeGeneratorModelGongEnum(
@@ -116,8 +174,15 @@ func CodeGeneratorModelGongEnum(
 
 	// sort gong enums per name (for reproductibility)
 	gongEnums := []*models.GongEnum{}
+	// gongStringEnums := []*models.GongEnum{}
+	// gongIntEnums := []*models.GongEnum{}
 	for _, _enum := range mdlPkg.GongEnums {
 		gongEnums = append(gongEnums, _enum)
+		// if _enum.Type == models.String {
+		// 	gongStringEnums = append(gongStringEnums, _enum)
+		// } else {
+		// 	gongIntEnums = append(gongIntEnums, _enum)
+		// }
 	}
 	sort.Slice(gongEnums[:], func(i, j int) bool {
 		return gongEnums[i].Name < gongEnums[j].Name
@@ -132,6 +197,9 @@ func CodeGeneratorModelGongEnum(
 			codeToStringPerGongValue := ""
 			codeToCodeStringPerGongValue := ""
 
+			codes := ""
+			codeValues := ""
+
 			for _, enumValue := range gongEnum.GongEnumValues {
 				codeFromStringPerGongValue += models.Replace2(GongModelEnumValueSubTemplateCode[GongModelEnumValueFromString],
 					"{{GongEnumValue}}", enumValue.Value,
@@ -141,17 +209,25 @@ func CodeGeneratorModelGongEnum(
 				codeToStringPerGongValue += models.Replace2(GongModelEnumValueSubTemplateCode[GongModelEnumValueToString],
 					"{{GongEnumValue}}", enumValue.Value,
 					"{{GongEnumCode}}", enumValue.Name)
-
 				codeToCodeStringPerGongValue += models.Replace2(GongModelEnumValueSubTemplateCode[GongModelEnumValueToCodeString],
+					"{{GongEnumValue}}", enumValue.Value,
+					"{{GongEnumCode}}", enumValue.Name)
+				codes += models.Replace2(GongModelEnumValueSubTemplateCode[GongModelEnumCodes],
+					"{{GongEnumValue}}", enumValue.Value,
+					"{{GongEnumCode}}", enumValue.Name)
+				codeValues += models.Replace2(GongModelEnumValueSubTemplateCode[GongModelEnumCodeValues],
 					"{{GongEnumValue}}", enumValue.Value,
 					"{{GongEnumCode}}", enumValue.Name)
 			}
 
-			generatedCodeFromSubTemplate := models.Replace4(ModelGongEnumSubTemplateCode[subEnumTemplate],
+			generatedCodeFromSubTemplate := models.Replace6(ModelGongEnumSubTemplateCode[subEnumTemplate],
 				"{{ToStringPerCodeCode}}", codeToStringPerGongValue,
 				"{{FromStringPerCodeCode}}", codeFromStringPerGongValue,
 				"{{FromCodeStringPerCodeCode}}", codeFromCodeStringPerGongValue,
-				"{{ToCodeStringPerCodeCode}}", codeToCodeStringPerGongValue)
+				"{{ToCodeStringPerCodeCode}}", codeToCodeStringPerGongValue,
+				"{{codes}}", codes,
+				"{{codeValues}}", codeValues,
+			)
 
 			var typeOfEnumAsString string
 			if gongEnum.Type == models.String {

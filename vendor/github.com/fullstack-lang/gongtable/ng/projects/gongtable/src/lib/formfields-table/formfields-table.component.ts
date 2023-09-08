@@ -105,6 +105,12 @@ export class FormFieldsTableComponent implements OnInit {
         case 'FormFieldSelect':
           return (formfieldDB.FormFieldSelect ? formfieldDB.FormFieldSelect.Name : '');
 
+        case 'HasBespokeWidth':
+          return formfieldDB.HasBespokeWidth ? "true" : "false";
+
+        case 'BespokeWidthPx':
+          return formfieldDB.BespokeWidthPx;
+
         case 'FormDiv_FormFields':
           if (this.frontRepo.FormDivs.get(formfieldDB.FormDiv_FormFieldsDBID.Int64) != undefined) {
             return this.frontRepo.FormDivs.get(formfieldDB.FormDiv_FormFieldsDBID.Int64)!.Name
@@ -151,6 +157,7 @@ export class FormFieldsTableComponent implements OnInit {
       if (formfieldDB.FormFieldSelect) {
         mergedContent += formfieldDB.FormFieldSelect.Name.toLowerCase()
       }
+      mergedContent += formfieldDB.BespokeWidthPx.toString()
       if (formfieldDB.FormDiv_FormFieldsDBID.Int64 != 0) {
         mergedContent += this.frontRepo.FormDivs.get(formfieldDB.FormDiv_FormFieldsDBID.Int64)!.Name.toLowerCase()
       }
@@ -220,6 +227,8 @@ export class FormFieldsTableComponent implements OnInit {
         "FormFieldTime",
         "FormFieldDateTime",
         "FormFieldSelect",
+        "HasBespokeWidth",
+        "BespokeWidthPx",
         "FormDiv_FormFields",
       ]
     } else {
@@ -235,6 +244,8 @@ export class FormFieldsTableComponent implements OnInit {
         "FormFieldTime",
         "FormFieldDateTime",
         "FormFieldSelect",
+        "HasBespokeWidth",
+        "BespokeWidthPx",
         "FormDiv_FormFields",
       ]
       this.selection = new SelectionModel<FormFieldDB>(allowMultiSelect, this.initialSelection);

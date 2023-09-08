@@ -32,6 +32,34 @@
                 {{FormFieldFloat64.Value.toPrecision(5)}}
             </td>
         </ng-container>
+        <!-- -->
+        <ng-container matColumnDef="HasMinValidator">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> HasMinValidator </th>
+            <td mat-cell *matCellDef="let FormFieldFloat64">
+                <mat-checkbox [checked]="FormFieldFloat64.HasMinValidator" disabled=true></mat-checkbox>
+            </td>
+        </ng-container>
+        <!-- -->
+        <ng-container matColumnDef="MinValue">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> MinValue </th>
+            <td mat-cell *matCellDef="let FormFieldFloat64">
+                {{FormFieldFloat64.MinValue.toPrecision(5)}}
+            </td>
+        </ng-container>
+        <!-- -->
+        <ng-container matColumnDef="HasMaxValidator">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> HasMaxValidator </th>
+            <td mat-cell *matCellDef="let FormFieldFloat64">
+                <mat-checkbox [checked]="FormFieldFloat64.HasMaxValidator" disabled=true></mat-checkbox>
+            </td>
+        </ng-container>
+        <!-- -->
+        <ng-container matColumnDef="MaxValue">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> MaxValue </th>
+            <td mat-cell *matCellDef="let FormFieldFloat64">
+                {{FormFieldFloat64.MaxValue.toPrecision(5)}}
+            </td>
+        </ng-container>
 
         <ng-container matColumnDef="ID" sticky>
             <th mat-header-cell *matHeaderCellDef mat-sort-header> ID. </th>

@@ -46,6 +46,14 @@ type AstructAPI struct {
 type AstructPointersEnconding struct {
 	// insertion for pointer fields encoding declaration
 
+	// field Associationtob is a pointer to another Struct (optional or 0..1)
+	// This field is generated into another field to enable AS ONE association
+	AssociationtobID sql.NullInt64
+
+	// field Anotherassociationtob_2 is a pointer to another Struct (optional or 0..1)
+	// This field is generated into another field to enable AS ONE association
+	Anotherassociationtob_2ID sql.NullInt64
+
 	// field Bstruct is a pointer to another Struct (optional or 0..1)
 	// This field is generated into another field to enable AS ONE association
 	BstructID sql.NullInt64
@@ -69,14 +77,6 @@ type AstructPointersEnconding struct {
 	// field Dstruct4 is a pointer to another Struct (optional or 0..1)
 	// This field is generated into another field to enable AS ONE association
 	Dstruct4ID sql.NullInt64
-
-	// field Associationtob is a pointer to another Struct (optional or 0..1)
-	// This field is generated into another field to enable AS ONE association
-	AssociationtobID sql.NullInt64
-
-	// field Anotherassociationtob_2 is a pointer to another Struct (optional or 0..1)
-	// This field is generated into another field to enable AS ONE association
-	Anotherassociationtob_2ID sql.NullInt64
 
 	// field AnAstruct is a pointer to another Struct (optional or 0..1)
 	// This field is generated into another field to enable AS ONE association
@@ -360,60 +360,6 @@ func (backRepoAstruct *BackRepoAstructStruct) CommitPhaseTwoInstance(backRepo *B
 		astructDB.CopyBasicFieldsFromAstruct(astruct)
 
 		// insertion point for translating pointers encodings into actual pointers
-		// commit pointer value astruct.Bstruct translates to updating the astruct.BstructID
-		astructDB.BstructID.Valid = true // allow for a 0 value (nil association)
-		if astruct.Bstruct != nil {
-			if BstructId, ok := backRepo.BackRepoBstruct.Map_BstructPtr_BstructDBID[astruct.Bstruct]; ok {
-				astructDB.BstructID.Int64 = int64(BstructId)
-				astructDB.BstructID.Valid = true
-			}
-		}
-
-		// commit pointer value astruct.Bstruct2 translates to updating the astruct.Bstruct2ID
-		astructDB.Bstruct2ID.Valid = true // allow for a 0 value (nil association)
-		if astruct.Bstruct2 != nil {
-			if Bstruct2Id, ok := backRepo.BackRepoBstruct.Map_BstructPtr_BstructDBID[astruct.Bstruct2]; ok {
-				astructDB.Bstruct2ID.Int64 = int64(Bstruct2Id)
-				astructDB.Bstruct2ID.Valid = true
-			}
-		}
-
-		// commit pointer value astruct.Dstruct translates to updating the astruct.DstructID
-		astructDB.DstructID.Valid = true // allow for a 0 value (nil association)
-		if astruct.Dstruct != nil {
-			if DstructId, ok := backRepo.BackRepoDstruct.Map_DstructPtr_DstructDBID[astruct.Dstruct]; ok {
-				astructDB.DstructID.Int64 = int64(DstructId)
-				astructDB.DstructID.Valid = true
-			}
-		}
-
-		// commit pointer value astruct.Dstruct2 translates to updating the astruct.Dstruct2ID
-		astructDB.Dstruct2ID.Valid = true // allow for a 0 value (nil association)
-		if astruct.Dstruct2 != nil {
-			if Dstruct2Id, ok := backRepo.BackRepoDstruct.Map_DstructPtr_DstructDBID[astruct.Dstruct2]; ok {
-				astructDB.Dstruct2ID.Int64 = int64(Dstruct2Id)
-				astructDB.Dstruct2ID.Valid = true
-			}
-		}
-
-		// commit pointer value astruct.Dstruct3 translates to updating the astruct.Dstruct3ID
-		astructDB.Dstruct3ID.Valid = true // allow for a 0 value (nil association)
-		if astruct.Dstruct3 != nil {
-			if Dstruct3Id, ok := backRepo.BackRepoDstruct.Map_DstructPtr_DstructDBID[astruct.Dstruct3]; ok {
-				astructDB.Dstruct3ID.Int64 = int64(Dstruct3Id)
-				astructDB.Dstruct3ID.Valid = true
-			}
-		}
-
-		// commit pointer value astruct.Dstruct4 translates to updating the astruct.Dstruct4ID
-		astructDB.Dstruct4ID.Valid = true // allow for a 0 value (nil association)
-		if astruct.Dstruct4 != nil {
-			if Dstruct4Id, ok := backRepo.BackRepoDstruct.Map_DstructPtr_DstructDBID[astruct.Dstruct4]; ok {
-				astructDB.Dstruct4ID.Int64 = int64(Dstruct4Id)
-				astructDB.Dstruct4ID.Valid = true
-			}
-		}
-
 		// commit pointer value astruct.Associationtob translates to updating the astruct.AssociationtobID
 		astructDB.AssociationtobID.Valid = true // allow for a 0 value (nil association)
 		if astruct.Associationtob != nil {
@@ -421,6 +367,9 @@ func (backRepoAstruct *BackRepoAstructStruct) CommitPhaseTwoInstance(backRepo *B
 				astructDB.AssociationtobID.Int64 = int64(AssociationtobId)
 				astructDB.AssociationtobID.Valid = true
 			}
+		} else {
+			astructDB.AssociationtobID.Int64 = 0
+			astructDB.AssociationtobID.Valid = true
 		}
 
 		// commit pointer value astruct.Anotherassociationtob_2 translates to updating the astruct.Anotherassociationtob_2ID
@@ -430,6 +379,81 @@ func (backRepoAstruct *BackRepoAstructStruct) CommitPhaseTwoInstance(backRepo *B
 				astructDB.Anotherassociationtob_2ID.Int64 = int64(Anotherassociationtob_2Id)
 				astructDB.Anotherassociationtob_2ID.Valid = true
 			}
+		} else {
+			astructDB.Anotherassociationtob_2ID.Int64 = 0
+			astructDB.Anotherassociationtob_2ID.Valid = true
+		}
+
+		// commit pointer value astruct.Bstruct translates to updating the astruct.BstructID
+		astructDB.BstructID.Valid = true // allow for a 0 value (nil association)
+		if astruct.Bstruct != nil {
+			if BstructId, ok := backRepo.BackRepoBstruct.Map_BstructPtr_BstructDBID[astruct.Bstruct]; ok {
+				astructDB.BstructID.Int64 = int64(BstructId)
+				astructDB.BstructID.Valid = true
+			}
+		} else {
+			astructDB.BstructID.Int64 = 0
+			astructDB.BstructID.Valid = true
+		}
+
+		// commit pointer value astruct.Bstruct2 translates to updating the astruct.Bstruct2ID
+		astructDB.Bstruct2ID.Valid = true // allow for a 0 value (nil association)
+		if astruct.Bstruct2 != nil {
+			if Bstruct2Id, ok := backRepo.BackRepoBstruct.Map_BstructPtr_BstructDBID[astruct.Bstruct2]; ok {
+				astructDB.Bstruct2ID.Int64 = int64(Bstruct2Id)
+				astructDB.Bstruct2ID.Valid = true
+			}
+		} else {
+			astructDB.Bstruct2ID.Int64 = 0
+			astructDB.Bstruct2ID.Valid = true
+		}
+
+		// commit pointer value astruct.Dstruct translates to updating the astruct.DstructID
+		astructDB.DstructID.Valid = true // allow for a 0 value (nil association)
+		if astruct.Dstruct != nil {
+			if DstructId, ok := backRepo.BackRepoDstruct.Map_DstructPtr_DstructDBID[astruct.Dstruct]; ok {
+				astructDB.DstructID.Int64 = int64(DstructId)
+				astructDB.DstructID.Valid = true
+			}
+		} else {
+			astructDB.DstructID.Int64 = 0
+			astructDB.DstructID.Valid = true
+		}
+
+		// commit pointer value astruct.Dstruct2 translates to updating the astruct.Dstruct2ID
+		astructDB.Dstruct2ID.Valid = true // allow for a 0 value (nil association)
+		if astruct.Dstruct2 != nil {
+			if Dstruct2Id, ok := backRepo.BackRepoDstruct.Map_DstructPtr_DstructDBID[astruct.Dstruct2]; ok {
+				astructDB.Dstruct2ID.Int64 = int64(Dstruct2Id)
+				astructDB.Dstruct2ID.Valid = true
+			}
+		} else {
+			astructDB.Dstruct2ID.Int64 = 0
+			astructDB.Dstruct2ID.Valid = true
+		}
+
+		// commit pointer value astruct.Dstruct3 translates to updating the astruct.Dstruct3ID
+		astructDB.Dstruct3ID.Valid = true // allow for a 0 value (nil association)
+		if astruct.Dstruct3 != nil {
+			if Dstruct3Id, ok := backRepo.BackRepoDstruct.Map_DstructPtr_DstructDBID[astruct.Dstruct3]; ok {
+				astructDB.Dstruct3ID.Int64 = int64(Dstruct3Id)
+				astructDB.Dstruct3ID.Valid = true
+			}
+		} else {
+			astructDB.Dstruct3ID.Int64 = 0
+			astructDB.Dstruct3ID.Valid = true
+		}
+
+		// commit pointer value astruct.Dstruct4 translates to updating the astruct.Dstruct4ID
+		astructDB.Dstruct4ID.Valid = true // allow for a 0 value (nil association)
+		if astruct.Dstruct4 != nil {
+			if Dstruct4Id, ok := backRepo.BackRepoDstruct.Map_DstructPtr_DstructDBID[astruct.Dstruct4]; ok {
+				astructDB.Dstruct4ID.Int64 = int64(Dstruct4Id)
+				astructDB.Dstruct4ID.Valid = true
+			}
+		} else {
+			astructDB.Dstruct4ID.Int64 = 0
+			astructDB.Dstruct4ID.Valid = true
 		}
 
 		// This loop encodes the slice of pointers astruct.Anarrayofb into the back repo.
@@ -534,6 +558,9 @@ func (backRepoAstruct *BackRepoAstructStruct) CommitPhaseTwoInstance(backRepo *B
 				astructDB.AnAstructID.Int64 = int64(AnAstructId)
 				astructDB.AnAstructID.Valid = true
 			}
+		} else {
+			astructDB.AnAstructID.Int64 = 0
+			astructDB.AnAstructID.Valid = true
 		}
 
 		query := backRepoAstruct.db.Save(&astructDB)
@@ -643,6 +670,16 @@ func (backRepoAstruct *BackRepoAstructStruct) CheckoutPhaseTwoInstance(backRepo 
 	_ = astruct // sometimes, there is no code generated. This lines voids the "unused variable" compilation error
 
 	// insertion point for checkout of pointer encoding
+	// Associationtob field
+	astruct.Associationtob = nil
+	if astructDB.AssociationtobID.Int64 != 0 {
+		astruct.Associationtob = backRepo.BackRepoBstruct.Map_BstructDBID_BstructPtr[uint(astructDB.AssociationtobID.Int64)]
+	}
+	// Anotherassociationtob_2 field
+	astruct.Anotherassociationtob_2 = nil
+	if astructDB.Anotherassociationtob_2ID.Int64 != 0 {
+		astruct.Anotherassociationtob_2 = backRepo.BackRepoBstruct.Map_BstructDBID_BstructPtr[uint(astructDB.Anotherassociationtob_2ID.Int64)]
+	}
 	// Bstruct field
 	astruct.Bstruct = nil
 	if astructDB.BstructID.Int64 != 0 {
@@ -672,16 +709,6 @@ func (backRepoAstruct *BackRepoAstructStruct) CheckoutPhaseTwoInstance(backRepo 
 	astruct.Dstruct4 = nil
 	if astructDB.Dstruct4ID.Int64 != 0 {
 		astruct.Dstruct4 = backRepo.BackRepoDstruct.Map_DstructDBID_DstructPtr[uint(astructDB.Dstruct4ID.Int64)]
-	}
-	// Associationtob field
-	astruct.Associationtob = nil
-	if astructDB.AssociationtobID.Int64 != 0 {
-		astruct.Associationtob = backRepo.BackRepoBstruct.Map_BstructDBID_BstructPtr[uint(astructDB.AssociationtobID.Int64)]
-	}
-	// Anotherassociationtob_2 field
-	astruct.Anotherassociationtob_2 = nil
-	if astructDB.Anotherassociationtob_2ID.Int64 != 0 {
-		astruct.Anotherassociationtob_2 = backRepo.BackRepoBstruct.Map_BstructDBID_BstructPtr[uint(astructDB.Anotherassociationtob_2ID.Int64)]
 	}
 	// This loop redeem astruct.Anarrayofb in the stage from the encode in the back repo
 	// It parses all BstructDB in the back repo and if the reverse pointer encoding matches the back repo ID
@@ -1181,6 +1208,18 @@ func (backRepoAstruct *BackRepoAstructStruct) RestorePhaseTwo() {
 		_ = astructDB
 
 		// insertion point for reindexing pointers encoding
+		// reindexing Associationtob field
+		if astructDB.AssociationtobID.Int64 != 0 {
+			astructDB.AssociationtobID.Int64 = int64(BackRepoBstructid_atBckpTime_newID[uint(astructDB.AssociationtobID.Int64)])
+			astructDB.AssociationtobID.Valid = true
+		}
+
+		// reindexing Anotherassociationtob_2 field
+		if astructDB.Anotherassociationtob_2ID.Int64 != 0 {
+			astructDB.Anotherassociationtob_2ID.Int64 = int64(BackRepoBstructid_atBckpTime_newID[uint(astructDB.Anotherassociationtob_2ID.Int64)])
+			astructDB.Anotherassociationtob_2ID.Valid = true
+		}
+
 		// reindexing Bstruct field
 		if astructDB.BstructID.Int64 != 0 {
 			astructDB.BstructID.Int64 = int64(BackRepoBstructid_atBckpTime_newID[uint(astructDB.BstructID.Int64)])
@@ -1215,18 +1254,6 @@ func (backRepoAstruct *BackRepoAstructStruct) RestorePhaseTwo() {
 		if astructDB.Dstruct4ID.Int64 != 0 {
 			astructDB.Dstruct4ID.Int64 = int64(BackRepoDstructid_atBckpTime_newID[uint(astructDB.Dstruct4ID.Int64)])
 			astructDB.Dstruct4ID.Valid = true
-		}
-
-		// reindexing Associationtob field
-		if astructDB.AssociationtobID.Int64 != 0 {
-			astructDB.AssociationtobID.Int64 = int64(BackRepoBstructid_atBckpTime_newID[uint(astructDB.AssociationtobID.Int64)])
-			astructDB.AssociationtobID.Valid = true
-		}
-
-		// reindexing Anotherassociationtob_2 field
-		if astructDB.Anotherassociationtob_2ID.Int64 != 0 {
-			astructDB.Anotherassociationtob_2ID.Int64 = int64(BackRepoBstructid_atBckpTime_newID[uint(astructDB.Anotherassociationtob_2ID.Int64)])
-			astructDB.Anotherassociationtob_2ID.Valid = true
 		}
 
 		// reindexing AnAstruct field

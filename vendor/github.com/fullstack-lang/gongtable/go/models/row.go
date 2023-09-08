@@ -6,6 +6,7 @@ type Row struct {
 
 	IsChecked bool
 
+	// swagger:ignore
 	Impl RowImplInterface
 }
 

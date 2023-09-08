@@ -424,12 +424,15 @@ func main() {
 		filepath.Join(*pkgPath, "../orm/back_repo.go"),
 		orm.BackRepoTemplateCode, orm.BackRepoSubTemplate)
 
-	gong_models.VerySimpleCodeGenerator(
+	gong_models.SimpleCodeGenerator(
 		modelPkg,
 		modelPkg.Name,
 		modelPkg.PkgPath,
 		filepath.Join(*pkgPath, "../orm/get_instance_db_from_instance.go"),
-		orm.GetInstanceDBFromInstanceTemplateCode)
+		orm.GetInstanceDBFromInstanceTemplateCode, orm.GetInstanceDBFromInstanceSubTemplate)
+
+	// for the replacement of the of the first bar in the Gongstruct Type def
+	orm.ReplaceInFile("../orm/get_instance_db_from_instance.go", "	 | ", "	")
 
 	gong_models.SimpleCodeGeneratorForGongStructWithNameField(
 		modelPkg,
@@ -488,11 +491,19 @@ func main() {
 		filepath.Join(*pkgPath, "../docs.go"),
 		golang.RootFileDocsTemplate)
 
-	gong_models.VerySimpleCodeGenerator(
+	data.CodeGeneratorModelButtonImpl(
 		modelPkg,
-		caserEnglish.String(modelPkg.Name),
-		modelPkg.PkgPath, filepath.Join(*pkgPath, "../data/button_impl_gongstruct.go"),
-		data.ButtonImplGongstructFileTemplate)
+		modelPkg.Name,
+		*pkgPath,
+		modelPkg.PkgPath,
+	)
+
+	data.CodeGeneratorModelFormCallback(
+		modelPkg,
+		modelPkg.Name,
+		*pkgPath,
+		modelPkg.PkgPath,
+	)
 
 	gong_models.SimpleCodeGenerator(
 		modelPkg,
@@ -505,6 +516,42 @@ func main() {
 		caserEnglish.String(modelPkg.Name),
 		modelPkg.PkgPath, filepath.Join(*pkgPath, "../data/load.go"),
 		data.LoadFileTemplate)
+
+	gong_models.VerySimpleCodeGenerator(
+		modelPkg,
+		caserEnglish.String(modelPkg.Name),
+		modelPkg.PkgPath, filepath.Join(*pkgPath, "../data/basic_field_to_form.go"),
+		data.BasicFieldtoFormTemplate)
+
+	gong_models.VerySimpleCodeGenerator(
+		modelPkg,
+		caserEnglish.String(modelPkg.Name),
+		modelPkg.PkgPath, filepath.Join(*pkgPath, "../data/association_to_form.go"),
+		data.AssociationFieldToFormTemplate)
+
+	gong_models.VerySimpleCodeGenerator(
+		modelPkg,
+		caserEnglish.String(modelPkg.Name),
+		modelPkg.PkgPath, filepath.Join(*pkgPath, "../data/association_slice_to_form.go"),
+		data.AssociationSliceToFormTemplate)
+
+	gong_models.VerySimpleCodeGenerator(
+		modelPkg,
+		caserEnglish.String(modelPkg.Name),
+		modelPkg.PkgPath, filepath.Join(*pkgPath, "../data/enum_type_to_form.go"),
+		data.EnumTypeStringToForm)
+
+	gong_models.VerySimpleCodeGenerator(
+		modelPkg,
+		caserEnglish.String(modelPkg.Name),
+		modelPkg.PkgPath, filepath.Join(*pkgPath, "../data/assoc_sorting_button_impl.go"),
+		data.NewOnSortingEditonTemplate)
+
+	gong_models.VerySimpleCodeGenerator(
+		modelPkg,
+		caserEnglish.String(modelPkg.Name),
+		modelPkg.PkgPath, filepath.Join(*pkgPath, "../data/form_div_field.go"),
+		data.FormDivToFieldTemplate)
 
 	// go mod vendor to get the ng code of dependant gong stacks
 	if !*skipGoModCommands {

@@ -14,6 +14,7 @@ export class FormFieldSelectDB {
 
 	// insertion point for basic fields declarations
 	Name: string = ""
+	CanBeEmpty: boolean = false
 
 	// insertion point for other declarations
 	Value?: OptionDB
