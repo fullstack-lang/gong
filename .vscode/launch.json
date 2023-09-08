@@ -416,15 +416,6 @@
             ]
         },
         {
-            "name": "gongc msspace",
-            "type": "go",
-            "request": "launch",
-            "mode": "debug",
-            "cwd": "../../../r/DEV_COHERENCE/msspace/go/models",
-            "program": "${workspaceFolder}/go/cmd/gongc",
-            "args": []
-        },
-        {
             "name": "gongc compareclaplannings",
             "type": "go",
             "request": "launch",
@@ -432,72 +423,6 @@
             "cwd": "../../../r/DEV_COHERENCE/compareclaplannings/go/models",
             "program": "${workspaceFolder}/go/cmd/gongc",
             "args": []
-        },
-        {
-            "name": "go run test",
-            "type": "go",
-            "request": "launch",
-            "mode": "auto",
-            "program": "${workspaceFolder}/test/go/cmd/test",
-            "args": []
-        },
-        {
-            "name": "go run test -embeddedDiagrams",
-            "type": "go",
-            "request": "launch",
-            "mode": "auto",
-            "program": "${workspaceFolder}/test/go/cmd/test",
-            "args": [
-                "-embeddedDiagrams"
-            ]
-        },
-        {
-            "name": "go run gong",
-            "type": "go",
-            "request": "launch",
-            "mode": "auto",
-            "program": "${workspaceFolder}/go/cmd/gong",
-            "args": []
-        },
-        {
-            "name": "go run test -marshallOnStartup=stage",
-            "type": "go",
-            "request": "launch",
-            "mode": "auto",
-            "program": "${workspaceFolder}/test/go/cmd/test",
-            "args": [
-                "-marshallOnStartup=stage"
-            ]
-        },
-        {
-            "name": "go run test -embeddedDiagrams",
-            "type": "go",
-            "request": "launch",
-            "mode": "auto",
-            "program": "${workspaceFolder}/test/go/cmd/test",
-            "args": [
-                "-embeddedDiagrams"
-            ]
-        },
-        {
-            "name": "go run test -marshallOnStartup=alternate",
-            "type": "go",
-            "request": "launch",
-            "mode": "auto",
-            "program": "${workspaceFolder}/test/go/cmd/test",
-            "args": [
-                "-marshallOnStartup=alternate"
-            ]
-        },
-        {
-            "name": "go run test -unmarshallFromCode=stage.go",
-            "type": "go",
-            "request": "launch",
-            "mode": "auto",
-            "program": "${workspaceFolder}/test/go/cmd/test",
-            "args": [
-                "-unmarshallFromCode=stage.go"
-            ]
         },
         {
             "name": "go run test -unmarshallFromCode=stage.go -marshallOnCommit=stage_out",

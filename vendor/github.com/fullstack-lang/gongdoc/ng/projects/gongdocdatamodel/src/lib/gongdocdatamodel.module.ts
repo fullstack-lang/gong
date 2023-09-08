@@ -12,6 +12,7 @@ import { GongtableModule } from 'gongtable'
 import { GongtablespecificModule } from 'gongtablespecific'
 import { GongtabledatamodelModule } from 'gongtabledatamodel'
 
+
 import { MatRadioModule } from '@angular/material/radio';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -37,6 +38,7 @@ import { AngularSplitModule } from 'angular-split';
     CommonModule,
 
     AngularSplitModule,
+
   ],
   exports: [
     DataModelPanelComponent

@@ -226,6 +226,9 @@ func (backRepoFormFieldSelect *BackRepoFormFieldSelectStruct) CommitPhaseTwoInst
 				formfieldselectDB.ValueID.Int64 = int64(ValueId)
 				formfieldselectDB.ValueID.Valid = true
 			}
+		} else {
+			formfieldselectDB.ValueID.Int64 = 0
+			formfieldselectDB.ValueID.Valid = true
 		}
 
 		// This loop encodes the slice of pointers formfieldselect.Options into the back repo.
