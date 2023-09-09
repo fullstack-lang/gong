@@ -184,6 +184,7 @@ const (
 	NgServiceTSPointerToGongStructReset
 
 	NgServiceTSSliceOfPointerToGongStructReset
+	NgServiceTSSliceOfPointerToGongStructRestore
 	NgServiceTSSliceOfPointerToGongStructReversePointerReset
 	NgServiceTSSliceOfPointerToGongStructReversePointerRestore
 
@@ -196,10 +197,15 @@ var NgServiceSubTemplateCode map[NgServiceSubTemplate]string = map[NgServiceSubT
 import { {{AssocStructName}}DB } from './{{assocStructName}}-db'`,
 
 	NgServiceTSPointerToGongStructReset: `
+    let {{FieldName}} = {{structname}}db.{{FieldName}}
     {{structname}}db.{{FieldName}} = new {{AssocStructName}}DB`,
 
 	NgServiceTSSliceOfPointerToGongStructReset: `
+    let {{FieldName}} = {{structname}}db.{{FieldName}}
     {{structname}}db.{{FieldName}} = []`,
+
+	NgServiceTSSliceOfPointerToGongStructRestore: `
+	      {{structname}}db.{{FieldName}} = {{FieldName}}`,
 
 	NgServiceTSSliceOfPointerToGongStructReversePointerReset: `
     let _{{AssocStructName}}_{{FieldName}}_reverse = {{structname}}db.{{AssocStructName}}_{{FieldName}}_reverse
@@ -270,6 +276,10 @@ func MultiCodeGeneratorNgService(
 
 				TSinsertions[NgServiceTsInsertionPointerReset] +=
 					models.Replace1(NgServiceSubTemplateCode[NgServiceTSSliceOfPointerToGongStructReset],
+						"{{FieldName}}", field.Name)
+
+				TSinsertions[NgServiceTsInsertionPointerRestore] +=
+					models.Replace1(NgServiceSubTemplateCode[NgServiceTSSliceOfPointerToGongStructRestore],
 						"{{FieldName}}", field.Name)
 			}
 		}
