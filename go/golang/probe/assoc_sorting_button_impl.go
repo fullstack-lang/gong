@@ -1,13 +1,11 @@
-package data
+package probe
 
 const NewOnSortingEditonTemplate = `// generated code - do not edit
-package data
+package probe
 
 import (
 	"fmt"
 	"log"
-
-	"github.com/gin-gonic/gin"
 
 	gongtable_fullstack "github.com/fullstack-lang/gongtable/go/fullstack"
 	form "github.com/fullstack-lang/gongtable/go/models"
@@ -17,35 +15,30 @@ import (
 )
 
 func NewOnSortingEditon[FieldType models.PointerToGongstruct](
-	r *gin.Engine,
-	formStage *form.StageStruct,
 	field *[]FieldType,
-	stageOfInterest *models.StageStruct,
+	playground *Playground,
 ) (onSortingEdition *OnSortingEditon[FieldType]) {
 
 	onSortingEdition = new(OnSortingEditon[FieldType])
 
-	onSortingEdition.r = r
-	onSortingEdition.formStage = formStage
+	onSortingEdition.playground = playground
 	onSortingEdition.field = field
-	onSortingEdition.stageOfInterest = stageOfInterest
 
 	return
 }
 
 type OnSortingEditon[FieldType models.PointerToGongstruct] struct {
-	r               *gin.Engine
-	formStage       *form.StageStruct
-	field           *[]FieldType
-	stageOfInterest *models.StageStruct
+	field      *[]FieldType
+	playground *Playground
 }
 
 func (onSortingEditon *OnSortingEditon[FieldType]) OnButtonPressed() {
 
-	tableStackName := onSortingEditon.formStage.GetPath() + string(form.StackNamePostFixForTableForAssociationSorting)
+	tableStackName := onSortingEditon.playground.formStage.GetPath() +
+		string(form.StackNamePostFixForTableForAssociationSorting)
 
 	// tableStackName supposed to be "test-form-table"
-	tableStageForSelection, _ := gongtable_fullstack.NewStackInstance(onSortingEditon.r, tableStackName)
+	tableStageForSelection, _ := gongtable_fullstack.NewStackInstance(onSortingEditon.playground.r, tableStackName)
 
 	table := new(gongtable_models.Table).Stage(tableStageForSelection)
 	table.Name = string(form.TableSortExtraName)
@@ -82,7 +75,10 @@ func (onSortingEditon *OnSortingEditon[FieldType]) OnButtonPressed() {
 		}
 	}
 
-	table.Impl = NewTableSortSaver[FieldType](onSortingEditon.field, onSortingEditon.stageOfInterest, &map_RowID_instance)
+	table.Impl = NewTableSortSaver[FieldType](
+		onSortingEditon.field,
+		onSortingEditon.playground.stageOfInterest,
+		&map_RowID_instance)
 	tableStageForSelection.Commit()
 }
 

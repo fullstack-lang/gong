@@ -1,5 +1,7 @@
-// generated code - do not edit
-package data
+package probe
+
+const NewProbeTemplate = `// generated code - do not edit
+package probe
 
 import (
 	"embed"
@@ -16,11 +18,11 @@ import (
 	gong_fullstack "github.com/fullstack-lang/gong/go/fullstack"
 	gong_models "github.com/fullstack-lang/gong/go/models"
 
-	"github.com/fullstack-lang/gong/test/go/models"
-	"github.com/fullstack-lang/gong/test/go/orm"
+	"{{PkgPathRoot}}/models"
+	"{{PkgPathRoot}}/orm"
 )
 
-func Load(
+func NewProbe(
 	r *gin.Engine,
 	goModelsDir embed.FS,
 	stackPath string,
@@ -39,9 +41,16 @@ func Load(
 	tableStage.Commit()
 
 	// stage for reusable form
-	formStage, backRepoForForm := gongtable_fullstack.NewStackInstance(r, stackPath+"-form")
-	_ = backRepoForForm
+	formStage, _ := gongtable_fullstack.NewStackInstance(r, stackPath+"-form")
 	formStage.Commit()
+
+	playground := (&Playground{
+		stageOfInterest:    stageOfInterest,
+		backRepoOfInterest: backRepoOfInterest,
+		r:                  r,
+		formStage:          formStage,
+		tableStage:         tableStage,
+	})
 
 	// create tree
 	treeOfGongStructs := (&gongtree_models.Tree{Name: "gong"}).Stage(stageForSidebarTree)
@@ -63,7 +72,7 @@ func Load(
 
 		nodeGongstruct := (&gongtree_models.Node{Name: gongStruct.Name}).Stage(stageForSidebarTree)
 		nodeGongstruct.IsNodeClickable = true
-		nodeGongstruct.Impl = NewNodeImplGongstruct(gongStruct, tableStage, formStage, stageOfInterest, backRepoOfInterest, r)
+		nodeGongstruct.Impl = NewNodeImplGongstruct(gongStruct, playground)
 
 		// add add button
 		addButton := (&gongtree_models.Button{
@@ -73,14 +82,11 @@ func Load(
 		addButton.Impl = NewButtonImplGongstruct(
 			gongStruct,
 			gongtree_buttons.BUTTON_add,
-			tableStage,
-			formStage,
-			stageOfInterest,
-			r,
-			backRepoOfInterest,
+			playground,
 		)
 
 		treeOfGongStructs.RootNodes = append(treeOfGongStructs.RootNodes, nodeGongstruct)
 	}
 	stageForSidebarTree.Commit()
 }
+`
