@@ -21,10 +21,10 @@ import (
 	"strconv"
 
 	{{pkgname}}_go "{{PkgPathRoot}}"
-	{{pkgname}}_data "{{PkgPathRoot}}/data"
 	{{pkgname}}_fullstack "{{PkgPathRoot}}/fullstack"
 	{{pkgname}}_models "{{PkgPathRoot}}/models"
 	{{pkgname}}_orm "{{PkgPathRoot}}/orm"
+	{{pkgname}}_probe "{{PkgPathRoot}}/probe"
 	{{pkgname}}_static "{{PkgPathRoot}}/static"
 
 	gongdoc_load "github.com/fullstack-lang/gongdoc/go/load"
@@ -85,7 +85,7 @@ func main() {
 		stage, backRepo = {{pkgname}}_fullstack.NewStackInstance(r, "{{pkgname}}", "./{{pkgname}}.db")
 	}
 
-	{{pkgname}}_data.Load(r, {{pkgname}}_go.GoModelsDir, "{{pkgname}}", stage, backRepo)
+	{{pkgname}}_probe.NewProbe(r, {{pkgname}}_go.GoModelsDir, "{{pkgname}}", stage, backRepo)
 
 	if *unmarshallFromCode != "" {
 		stage.Checkout()

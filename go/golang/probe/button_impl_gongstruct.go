@@ -1,4 +1,4 @@
-package data
+package probe
 
 import (
 	"fmt"
@@ -15,7 +15,7 @@ import (
 )
 
 const ButtonImplGongstructFileTemplate = `// generated code - do not edit
-package data
+package probe
 
 import (
 	"log"
@@ -257,7 +257,7 @@ func CodeGeneratorModelButtonImpl(
 		"{{PkgPathRoot}}", strings.ReplaceAll(pkgGoPath, "/models", ""),
 	)
 
-	file, err := os.Create(filepath.Join(pkgPath, "../data/button_impl_gongstruct.go"))
+	file, err := os.Create(filepath.Join(pkgPath, "../probe/button_impl_gongstruct.go"))
 	if err != nil {
 		log.Panic(err)
 	}
