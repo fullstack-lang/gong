@@ -72,6 +72,7 @@ export class AstructBstruct2UseService {
   postAstructBstruct2Use(astructbstruct2usedb: AstructBstruct2UseDB, GONG__StackPath: string): Observable<AstructBstruct2UseDB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
+    let Bstrcut2 = astructbstruct2usedb.Bstrcut2
     astructbstruct2usedb.Bstrcut2 = new BstructDB
     let _Astruct_Anarrayofb2Use_reverse = astructbstruct2usedb.Astruct_Anarrayofb2Use_reverse
     astructbstruct2usedb.Astruct_Anarrayofb2Use_reverse = new AstructDB
@@ -115,6 +116,7 @@ export class AstructBstruct2UseService {
     const url = `${this.astructbstruct2usesUrl}/${id}`;
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
+    let Bstrcut2 = astructbstruct2usedb.Bstrcut2
     astructbstruct2usedb.Bstrcut2 = new BstructDB
     let _Astruct_Anarrayofb2Use_reverse = astructbstruct2usedb.Astruct_Anarrayofb2Use_reverse
     astructbstruct2usedb.Astruct_Anarrayofb2Use_reverse = new AstructDB
