@@ -9,7 +9,6 @@ import (
 	gong_models "github.com/fullstack-lang/gong/go/models"
 	gongtable "github.com/fullstack-lang/gongtable/go/models"
 	gongtree_models "github.com/fullstack-lang/gongtree/go/models"
-	"github.com/gin-gonic/gin"
 
 	"github.com/fullstack-lang/maticons/maticons"
 
@@ -18,30 +17,18 @@ import (
 )
 
 type NodeImplGongstruct struct {
-	gongStruct         *gong_models.GongStruct
-	tableStage         *gongtable.StageStruct
-	formStage          *gongtable.StageStruct
-	stageOfInterest    *models.StageStruct
-	backRepoOfInterest *orm.BackRepoStruct
-	r                  *gin.Engine
+	gongStruct *gong_models.GongStruct
+	playground *Playground
 }
 
 func NewNodeImplGongstruct(
 	gongStruct *gong_models.GongStruct,
-	tableStage *gongtable.StageStruct,
-	formStage *gongtable.StageStruct,
-	stageOfInterest *models.StageStruct,
-	backRepoOfInterest *orm.BackRepoStruct,
-	r *gin.Engine,
+	playground *Playground,
 ) (nodeImplGongstruct *NodeImplGongstruct) {
 
 	nodeImplGongstruct = new(NodeImplGongstruct)
 	nodeImplGongstruct.gongStruct = gongStruct
-	nodeImplGongstruct.tableStage = tableStage
-	nodeImplGongstruct.formStage = formStage
-	nodeImplGongstruct.stageOfInterest = stageOfInterest
-	nodeImplGongstruct.backRepoOfInterest = backRepoOfInterest
-	nodeImplGongstruct.r = r
+	nodeImplGongstruct.playground = playground
 	return
 }
 
@@ -70,40 +57,22 @@ func (nodeImplGongstruct *NodeImplGongstruct) OnAfterUpdate(
 	// table to route to the table
 	log.Println("NodeImplGongstruct:OnAfterUpdate with: ", nodeImplGongstruct.gongStruct.GetName())
 
-	tableStage := nodeImplGongstruct.tableStage
-
 	// insertion point
 	if nodeImplGongstruct.gongStruct.GetName() == "Astruct" {
-		fillUpTable[models.Astruct](nodeImplGongstruct.stageOfInterest, tableStage, nodeImplGongstruct.formStage, nodeImplGongstruct.r, nodeImplGongstruct.backRepoOfInterest)
-	}
-	if nodeImplGongstruct.gongStruct.GetName() == "AstructBstruct2Use" {
-		fillUpTable[models.AstructBstruct2Use](nodeImplGongstruct.stageOfInterest, tableStage, nodeImplGongstruct.formStage, nodeImplGongstruct.r, nodeImplGongstruct.backRepoOfInterest)
-	}
-	if nodeImplGongstruct.gongStruct.GetName() == "AstructBstructUse" {
-		fillUpTable[models.AstructBstructUse](nodeImplGongstruct.stageOfInterest, tableStage, nodeImplGongstruct.formStage, nodeImplGongstruct.r, nodeImplGongstruct.backRepoOfInterest)
-	}
-	if nodeImplGongstruct.gongStruct.GetName() == "Bstruct" {
-		fillUpTable[models.Bstruct](nodeImplGongstruct.stageOfInterest, tableStage, nodeImplGongstruct.formStage, nodeImplGongstruct.r, nodeImplGongstruct.backRepoOfInterest)
-	}
-	if nodeImplGongstruct.gongStruct.GetName() == "Dstruct" {
-		fillUpTable[models.Dstruct](nodeImplGongstruct.stageOfInterest, tableStage, nodeImplGongstruct.formStage, nodeImplGongstruct.r, nodeImplGongstruct.backRepoOfInterest)
+		fillUpTable[models.Astruct](nodeImplGongstruct.playground)
 	}
 
-	tableStage.Commit()
+	nodeImplGongstruct.playground.tableStage.Commit()
 }
 
 func fillUpTable[T models.Gongstruct](
-	stageOfInterest *models.StageStruct,
-	tableStage *gongtable.StageStruct,
-	formStage *gongtable.StageStruct,
-	r *gin.Engine,
-	backRepoOfInterest *orm.BackRepoStruct,
+	playground *Playground,
 ) {
 
-	tableStage.Reset()
-	tableStage.Commit()
+	playground.tableStage.Reset()
+	playground.tableStage.Commit()
 
-	table := new(gongtable.Table).Stage(tableStage)
+	table := new(gongtable.Table).Stage(playground.tableStage)
 	table.Name = "Table"
 	table.HasColumnSorting = true
 	table.HasFiltering = true
@@ -115,9 +84,9 @@ func fillUpTable[T models.Gongstruct](
 	table.NbOfStickyColumns = 3
 
 	// refresh the stage of interest
-	stageOfInterest.Checkout()
+	playground.stageOfInterest.Checkout()
 
-	setOfStructs := (*models.GetGongstructInstancesSet[T](stageOfInterest))
+	setOfStructs := (*models.GetGongstructInstancesSet[T](playground.stageOfInterest))
 	sliceOfGongStructsSorted := make([]*T, len(setOfStructs))
 	i := 0
 	for k := range setOfStructs {
@@ -126,42 +95,37 @@ func fillUpTable[T models.Gongstruct](
 	}
 	sort.Slice(sliceOfGongStructsSorted, func(i, j int) bool {
 		return orm.GetID(
-			stageOfInterest,
-			backRepoOfInterest,
+			playground.stageOfInterest,
+			playground.backRepoOfInterest,
 			sliceOfGongStructsSorted[i],
 		) <
 			orm.GetID(
-				stageOfInterest,
-				backRepoOfInterest,
+				playground.stageOfInterest,
+				playground.backRepoOfInterest,
 				sliceOfGongStructsSorted[j],
 			)
 	})
 
-	column := new(gongtable.DisplayedColumn).Stage(tableStage)
+	column := new(gongtable.DisplayedColumn).Stage(playground.tableStage)
 	column.Name = "ID"
 	table.DisplayedColumns = append(table.DisplayedColumns, column)
 
-	column = new(gongtable.DisplayedColumn).Stage(tableStage)
+	column = new(gongtable.DisplayedColumn).Stage(playground.tableStage)
 	column.Name = "Delete"
 	table.DisplayedColumns = append(table.DisplayedColumns, column)
 
 	for _, fieldName := range fields {
-		column := new(gongtable.DisplayedColumn).Stage(tableStage)
+		column := new(gongtable.DisplayedColumn).Stage(playground.tableStage)
 		column.Name = fieldName
 		table.DisplayedColumns = append(table.DisplayedColumns, column)
 	}
 
 	fieldIndex := 0
 	for _, structInstance := range sliceOfGongStructsSorted {
-		row := new(gongtable.Row).Stage(tableStage)
+		row := new(gongtable.Row).Stage(playground.tableStage)
 		row.Name = models.GetFieldStringValue[T](*structInstance, "Name")
 
-		updater := NewRowUpdate[T](structInstance,
-			tableStage,
-			formStage,
-			stageOfInterest,
-			r,
-			backRepoOfInterest)
+		updater := NewRowUpdate[T](structInstance, playground)
 		updater.Instance = structInstance
 		row.Impl = updater
 
@@ -169,26 +133,26 @@ func fillUpTable[T models.Gongstruct](
 
 		cell := (&gongtable.Cell{
 			Name: "ID",
-		}).Stage(tableStage)
+		}).Stage(playground.tableStage)
 		row.Cells = append(row.Cells, cell)
 		cellInt := (&gongtable.CellInt{
 			Name: "ID",
 			Value: orm.GetID(
-				stageOfInterest,
-				backRepoOfInterest,
+				playground.stageOfInterest,
+				playground.backRepoOfInterest,
 				structInstance,
 			),
-		}).Stage(tableStage)
+		}).Stage(playground.tableStage)
 		cell.CellInt = cellInt
 
 		cell = (&gongtable.Cell{
 			Name: "Delete Icon",
-		}).Stage(tableStage)
+		}).Stage(playground.tableStage)
 		row.Cells = append(row.Cells, cell)
 		cellIcon := (&gongtable.CellIcon{
 			Name: "Delete Icon",
 			Icon: string(maticons.BUTTON_delete),
-		}).Stage(tableStage)
+		}).Stage(playground.tableStage)
 		cell.CellIcon = cellIcon
 
 		for _, fieldName := range fields {
@@ -198,13 +162,13 @@ func fillUpTable[T models.Gongstruct](
 			// log.Println(fieldName, value)
 			cell := (&gongtable.Cell{
 				Name: name,
-			}).Stage(tableStage)
+			}).Stage(playground.tableStage)
 			row.Cells = append(row.Cells, cell)
 
 			cellString := (&gongtable.CellString{
 				Name:  name,
 				Value: value,
-			}).Stage(tableStage)
+			}).Stage(playground.tableStage)
 			cell.CellString = cellString
 		}
 	}
@@ -212,35 +176,23 @@ func fillUpTable[T models.Gongstruct](
 
 func NewRowUpdate[T models.Gongstruct](
 	Instance *T,
-	tableStage *gongtable.StageStruct,
-	formStage *gongtable.StageStruct,
-	stageOfInterest *models.StageStruct,
-	r *gin.Engine,
-	backRepoOfInterest *orm.BackRepoStruct,
+	playground *Playground,
 ) (rowUpdate *RowUpdate[T]) {
 	rowUpdate = new(RowUpdate[T])
 	rowUpdate.Instance = Instance
-	rowUpdate.tableStage = tableStage
-	rowUpdate.formStage = formStage
-	rowUpdate.stageOfInterest = stageOfInterest
-	rowUpdate.r = r
-	rowUpdate.backRepoOfInterest = backRepoOfInterest
+	rowUpdate.playground = playground
 	return
 }
 
 type RowUpdate[T models.Gongstruct] struct {
-	Instance           *T
-	tableStage         *gongtable.StageStruct
-	formStage          *gongtable.StageStruct
-	stageOfInterest    *models.StageStruct
-	r                  *gin.Engine
-	backRepoOfInterest *orm.BackRepoStruct
+	Instance   *T
+	playground *Playground
 }
 
 func (rowUpdate *RowUpdate[T]) RowUpdated(stage *gongtable.StageStruct, row, updatedRow *gongtable.Row) {
 	log.Println("RowUpdate: RowUpdated", updatedRow.Name)
 
-	formStage := rowUpdate.formStage
+	formStage := rowUpdate.playground.formStage
 	formStage.Reset()
 	formStage.Commit()
 
@@ -250,67 +202,11 @@ func (rowUpdate *RowUpdate[T]) RowUpdated(stage *gongtable.StageStruct, row, upd
 		formGroup := (&gongtable.FormGroup{
 			Name: gongtable.FormGroupDefaultName.ToString(),
 			OnSave: NewAstructFormCallback(
-				rowUpdate.stageOfInterest,
-				rowUpdate.tableStage,
-				formStage,
 				instancesTyped,
-				rowUpdate.r,
-				rowUpdate.backRepoOfInterest,
+				rowUpdate.playground,
 			),
 		}).Stage(formStage)
-		FillUpForm(instancesTyped, rowUpdate.stageOfInterest, formStage, formGroup, rowUpdate.r)
-	case *models.AstructBstruct2Use:
-		formGroup := (&gongtable.FormGroup{
-			Name: gongtable.FormGroupDefaultName.ToString(),
-			OnSave: NewAstructBstruct2UseFormCallback(
-				rowUpdate.stageOfInterest,
-				rowUpdate.tableStage,
-				formStage,
-				instancesTyped,
-				rowUpdate.r,
-				rowUpdate.backRepoOfInterest,
-			),
-		}).Stage(formStage)
-		FillUpForm(instancesTyped, rowUpdate.stageOfInterest, formStage, formGroup, rowUpdate.r)
-	case *models.AstructBstructUse:
-		formGroup := (&gongtable.FormGroup{
-			Name: gongtable.FormGroupDefaultName.ToString(),
-			OnSave: NewAstructBstructUseFormCallback(
-				rowUpdate.stageOfInterest,
-				rowUpdate.tableStage,
-				formStage,
-				instancesTyped,
-				rowUpdate.r,
-				rowUpdate.backRepoOfInterest,
-			),
-		}).Stage(formStage)
-		FillUpForm(instancesTyped, rowUpdate.stageOfInterest, formStage, formGroup, rowUpdate.r)
-	case *models.Bstruct:
-		formGroup := (&gongtable.FormGroup{
-			Name: gongtable.FormGroupDefaultName.ToString(),
-			OnSave: NewBstructFormCallback(
-				rowUpdate.stageOfInterest,
-				rowUpdate.tableStage,
-				formStage,
-				instancesTyped,
-				rowUpdate.r,
-				rowUpdate.backRepoOfInterest,
-			),
-		}).Stage(formStage)
-		FillUpForm(instancesTyped, rowUpdate.stageOfInterest, formStage, formGroup, rowUpdate.r)
-	case *models.Dstruct:
-		formGroup := (&gongtable.FormGroup{
-			Name: gongtable.FormGroupDefaultName.ToString(),
-			OnSave: NewDstructFormCallback(
-				rowUpdate.stageOfInterest,
-				rowUpdate.tableStage,
-				formStage,
-				instancesTyped,
-				rowUpdate.r,
-				rowUpdate.backRepoOfInterest,
-			),
-		}).Stage(formStage)
-		FillUpForm(instancesTyped, rowUpdate.stageOfInterest, formStage, formGroup, rowUpdate.r)
+		FillUpForm(instancesTyped, formGroup, rowUpdate.playground)
 	}
 	formStage.Commit()
 
