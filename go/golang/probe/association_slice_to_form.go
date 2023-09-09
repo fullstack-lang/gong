@@ -8,8 +8,6 @@ import (
 	"log"
 	"sort"
 
-	"github.com/gin-gonic/gin"
-
 	gongtable_fullstack "github.com/fullstack-lang/gongtable/go/fullstack"
 	form "github.com/fullstack-lang/gongtable/go/models"
 	gongtable_models "github.com/fullstack-lang/gongtable/go/models"
@@ -24,68 +22,61 @@ func AssociationSliceToForm[InstanceType models.PointerToGongstruct, FieldType m
 	fieldName string,
 	instance InstanceType,
 	field *[]FieldType,
-	stageOfInterest *models.StageStruct, formStage *form.StageStruct, formGroup *form.FormGroup,
-	r *gin.Engine,
+	formGroup *form.FormGroup,
+	playground *Playground,
 ) {
 
 	formDiv := (&form.FormDiv{
 		Name: fieldName,
-	}).Stage(formStage)
+	}).Stage(playground.formStage)
 	formGroup.FormDivs = append(formGroup.FormDivs, formDiv)
 
 	formEditAssocButton := (&form.FormEditAssocButton{
 		Name:  fieldName,
 		Label: fieldName,
-	}).Stage(formStage)
+	}).Stage(playground.formStage)
 	formDiv.FormEditAssocButton = formEditAssocButton
-	onAssocEditon := NewOnAssocEditon(r, formStage, instance, field, stageOfInterest)
+	onAssocEditon := NewOnAssocEditon(instance, field, playground)
 	formEditAssocButton.OnAssocEditon = onAssocEditon
 
 	formSortAssocButton := (&form.FormSortAssocButton{
 		Name:  fieldName,
 		Label: fieldName,
-	}).Stage(formStage)
+	}).Stage(playground.formStage)
 	formDiv.FormSortAssocButton = formSortAssocButton
-	onSortingEditon := NewOnSortingEditon(r, formStage, field, stageOfInterest)
+	onSortingEditon := NewOnSortingEditon(field, playground)
 	formSortAssocButton.OnSortEdition = onSortingEditon
 
 }
 
+type OnAssocEditon[InstanceType models.PointerToGongstruct, FieldType models.PointerToGongstruct] struct {
+	instance   InstanceType
+	field      *[]FieldType
+	playground *Playground
+}
+
 func NewOnAssocEditon[InstanceType models.PointerToGongstruct, FieldType models.PointerToGongstruct](
-	r *gin.Engine,
-	formStage *form.StageStruct,
 	instance InstanceType,
 	field *[]FieldType,
-	stageOfInterest *models.StageStruct,
+	playground *Playground,
 ) (onAssocEdition *OnAssocEditon[InstanceType, FieldType]) {
 
 	onAssocEdition = new(OnAssocEditon[InstanceType, FieldType])
-
-	onAssocEdition.r = r
-	onAssocEdition.formStage = formStage
 	onAssocEdition.instance = instance
 	onAssocEdition.field = field
-	onAssocEdition.stageOfInterest = stageOfInterest
+	onAssocEdition.playground = playground
 
 	return
 }
 
-type OnAssocEditon[InstanceType models.PointerToGongstruct, FieldType models.PointerToGongstruct] struct {
-	r               *gin.Engine
-	formStage       *form.StageStruct
-	instance        InstanceType
-	field           *[]FieldType
-	stageOfInterest *models.StageStruct
-}
-
 func (onAssocEditon *OnAssocEditon[InstanceType, FieldType]) OnButtonPressed() {
 
-	tableStackName := onAssocEditon.formStage.GetPath() + string(form.StackNamePostFixForTableForAssociation)
+	tableStackName := onAssocEditon.playground.formStage.GetPath() + string(form.StackNamePostFixForTableForAssociation)
 
 	// tableStackName supposed to be "test-form-table"
-	tableStageForSelection, _ := gongtable_fullstack.NewStackInstance(onAssocEditon.r, tableStackName)
+	tableStageForSelection, _ := gongtable_fullstack.NewStackInstance(onAssocEditon.playground.r, tableStackName)
 
-	instanceSet := *models.GetGongstructInstancesSetFromPointerType[FieldType](onAssocEditon.stageOfInterest)
+	instanceSet := *models.GetGongstructInstancesSetFromPointerType[FieldType](onAssocEditon.playground.stageOfInterest)
 	instanceSlice := make([]FieldType, 0)
 	for instance := range instanceSet {
 		instanceSlice = append(instanceSlice, instance)
@@ -136,7 +127,10 @@ func (onAssocEditon *OnAssocEditon[InstanceType, FieldType]) OnButtonPressed() {
 	}
 
 	// set up control inversion for the saving of the table
-	table.Impl = NewTablePickSaver[InstanceType, FieldType](onAssocEditon.instance, onAssocEditon.field, onAssocEditon.stageOfInterest)
+	table.Impl = NewTablePickSaver[InstanceType, FieldType](
+		onAssocEditon.instance,
+		onAssocEditon.field,
+		onAssocEditon.playground)
 
 	tableStageForSelection.Commit()
 }
@@ -144,21 +138,21 @@ func (onAssocEditon *OnAssocEditon[InstanceType, FieldType]) OnButtonPressed() {
 func NewTablePickSaver[InstanceType models.PointerToGongstruct, FieldType models.PointerToGongstruct](
 	instance InstanceType,
 	field *[]FieldType,
-	stageOfInterest *models.StageStruct,
+	playground *Playground,
 ) (tablePickSaver *TablePickSaver[InstanceType, FieldType]) {
 
 	tablePickSaver = new(TablePickSaver[InstanceType, FieldType])
 	tablePickSaver.instance = instance
 	tablePickSaver.field = field
-	tablePickSaver.stageOfInterest = stageOfInterest
+	tablePickSaver.playground = playground
 
 	return
 }
 
 type TablePickSaver[InstanceType models.PointerToGongstruct, FieldType models.PointerToGongstruct] struct {
-	instance        InstanceType
-	field           *[]FieldType
-	stageOfInterest *models.StageStruct
+	instance   InstanceType
+	field      *[]FieldType
+	playground *Playground
 }
 
 func (tablePickSaver *TablePickSaver[InstanceType, FieldType]) TableUpdated(stage *form.StageStruct, table, updatedTable *form.Table) {
@@ -167,7 +161,7 @@ func (tablePickSaver *TablePickSaver[InstanceType, FieldType]) TableUpdated(stag
 	// checkout to the stage to get the rows that have been checked and not
 	stage.Checkout()
 
-	instanceSet := *models.GetGongstructInstancesSetFromPointerType[FieldType](tablePickSaver.stageOfInterest)
+	instanceSet := *models.GetGongstructInstancesSetFromPointerType[FieldType](tablePickSaver.playground.stageOfInterest)
 	instanceSlice := make([]FieldType, 0)
 	for instance := range instanceSet {
 		instanceSlice = append(instanceSlice, instance)
@@ -186,9 +180,9 @@ func (tablePickSaver *TablePickSaver[InstanceType, FieldType]) TableUpdated(stag
 	}
 
 	// first, force commit of instance for taking into account the slice
-	tablePickSaver.instance.CommitVoid(tablePickSaver.stageOfInterest)
+	tablePickSaver.instance.CommitVoid(tablePickSaver.playground.stageOfInterest)
 
 	// commit the whole (to see the result)
-	tablePickSaver.stageOfInterest.Commit()
+	tablePickSaver.playground.stageOfInterest.Commit()
 }
 `
