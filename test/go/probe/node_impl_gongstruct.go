@@ -77,6 +77,27 @@ func (nodeImplGongstruct *NodeImplGongstruct) OnAfterUpdate(
 	nodeImplGongstruct.playground.tableStage.Commit()
 }
 
+func fillUpTablePointerToGongstruct[T models.PointerToGongstruct](
+	playground *Playground,
+) {
+	var typedInstance T
+	switch any(typedInstance).(type) {
+	// insertion point
+	case *models.Astruct:
+		fillUpTable[models.Astruct](playground)
+	case *models.AstructBstruct2Use:
+		fillUpTable[models.AstructBstruct2Use](playground)
+	case *models.AstructBstructUse:
+		fillUpTable[models.AstructBstructUse](playground)
+	case *models.Bstruct:
+		fillUpTable[models.Bstruct](playground)
+	case *models.Dstruct:
+		fillUpTable[models.Dstruct](playground)
+	default:
+		log.Println("unknow type")
+	}
+}
+
 func fillUpTable[T models.Gongstruct](
 	playground *Playground,
 ) {

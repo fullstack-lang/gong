@@ -64,6 +64,17 @@ func (nodeImplGongstruct *NodeImplGongstruct) OnAfterUpdate(
 	nodeImplGongstruct.playground.tableStage.Commit()
 }
 
+func fillUpTablePointerToGongstruct[T models.PointerToGongstruct](
+	playground *Playground,
+) {
+	var typedInstance T
+	switch any(typedInstance).(type) {
+	// insertion point{{` + string(rune(NodeImplGongstructCaseForCastingDown)) + `}}
+	default:
+		log.Println("unknow type")
+	}
+}
+
 func fillUpTable[T models.Gongstruct](
 	playground *Playground,
 ) {
@@ -208,6 +219,7 @@ type NodeImplGongstructInsertionId int
 const (
 	NodeImplGongstruct NodeImplGongstructInsertionId = iota
 	NodeImplGongstructCase
+	NodeImplGongstructCaseForCastingDown
 )
 
 var NodeImplGongstructSubTemplateCode map[string]string = // new line
@@ -216,6 +228,9 @@ map[string]string{
 	if nodeImplGongstruct.gongStruct.GetName() == "{{Structname}}" {
 		fillUpTable[models.{{Structname}}](nodeImplGongstruct.playground)
 	}`,
+	string(rune(NodeImplGongstructCaseForCastingDown)): `
+	case *models.{{Structname}}:
+		fillUpTable[models.{{Structname}}](playground)`,
 	string(rune(NodeImplGongstructCase)): `
 	case *models.{{Structname}}:
 		formGroup := (&gongtable.FormGroup{

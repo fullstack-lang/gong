@@ -182,7 +182,13 @@ func (tablePickSaver *TablePickSaver[InstanceType, FieldType]) TableUpdated(stag
 	// first, force commit of instance for taking into account the slice
 	tablePickSaver.instance.CommitVoid(tablePickSaver.playground.stageOfInterest)
 
-	// commit the whole (to see the result)
+	// commit the whole
 	tablePickSaver.playground.stageOfInterest.Commit()
+
+	// see the result
+	fillUpTablePointerToGongstruct[InstanceType](
+		tablePickSaver.playground,
+	)
+	tablePickSaver.playground.tableStage.Commit()
 }
 `
