@@ -9,7 +9,8 @@ import (
 
 type GongstructDB interface {
 	// insertion point for generic types
-	{{` + string(rune(GetInstanceDBFromInstanceGonstructDBDefinition)) + `}}
+	// "int" is present to handle the case when no struct is present
+	int {{` + string(rune(GetInstanceDBFromInstanceGonstructDBDefinition)) + `}}
 }
 
 func GetInstanceDBFromInstance[T models.Gongstruct, T2 GongstructDB](
