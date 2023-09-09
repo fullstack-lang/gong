@@ -51,7 +51,7 @@ export class AstructService {
     return this.http.get<AstructDB[]>(this.astructsUrl, { params: params })
       .pipe(
         tap(),
-        // tap(_ => this.log('fetched astructs')),
+		// tap(_ => this.log('fetched astructs')),
         catchError(this.handleError<AstructDB[]>('getAstructs', []))
       );
   }
@@ -72,20 +72,33 @@ export class AstructService {
   postAstruct(astructdb: AstructDB, GONG__StackPath: string): Observable<AstructDB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
-    let
-      astructdb.Associationtob = new BstructDB
+    let Associationtob = astructdb.Associationtob
+    astructdb.Associationtob = new BstructDB
+    let Anotherassociationtob_2 = astructdb.Anotherassociationtob_2
     astructdb.Anotherassociationtob_2 = new BstructDB
+    let Bstruct = astructdb.Bstruct
     astructdb.Bstruct = new BstructDB
+    let Bstruct2 = astructdb.Bstruct2
     astructdb.Bstruct2 = new BstructDB
+    let Dstruct = astructdb.Dstruct
     astructdb.Dstruct = new DstructDB
+    let Dstruct2 = astructdb.Dstruct2
     astructdb.Dstruct2 = new DstructDB
+    let Dstruct3 = astructdb.Dstruct3
     astructdb.Dstruct3 = new DstructDB
+    let Dstruct4 = astructdb.Dstruct4
     astructdb.Dstruct4 = new DstructDB
+    let Anarrayofb = astructdb.Anarrayofb
     astructdb.Anarrayofb = []
+    let Anotherarrayofb = astructdb.Anotherarrayofb
     astructdb.Anotherarrayofb = []
+    let Anarrayofa = astructdb.Anarrayofa
     astructdb.Anarrayofa = []
+    let AnarrayofbUse = astructdb.AnarrayofbUse
     astructdb.AnarrayofbUse = []
+    let Anarrayofb2Use = astructdb.Anarrayofb2Use
     astructdb.Anarrayofb2Use = []
+    let AnAstruct = astructdb.AnAstruct
     astructdb.AnAstruct = new AstructDB
     let _Astruct_Anarrayofa_reverse = astructdb.Astruct_Anarrayofa_reverse
     astructdb.Astruct_Anarrayofa_reverse = new AstructDB
@@ -99,8 +112,12 @@ export class AstructService {
     return this.http.post<AstructDB>(this.astructsUrl, astructdb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
+	      astructdb.Anarrayofb = Anarrayofb
+	      astructdb.Anotherarrayofb = Anotherarrayofb
+	      astructdb.Anarrayofa = Anarrayofa
+	      astructdb.AnarrayofbUse = AnarrayofbUse
+	      astructdb.Anarrayofb2Use = Anarrayofb2Use
         astructdb.Astruct_Anarrayofa_reverse = _Astruct_Anarrayofa_reverse
-        astructdb.Associationtob = Associationtob
         // this.log(`posted astructdb id=${astructdb.ID}`)
       }),
       catchError(this.handleError<AstructDB>('postAstruct'))
@@ -130,19 +147,33 @@ export class AstructService {
     const url = `${this.astructsUrl}/${id}`;
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
+    let Associationtob = astructdb.Associationtob
     astructdb.Associationtob = new BstructDB
+    let Anotherassociationtob_2 = astructdb.Anotherassociationtob_2
     astructdb.Anotherassociationtob_2 = new BstructDB
+    let Bstruct = astructdb.Bstruct
     astructdb.Bstruct = new BstructDB
+    let Bstruct2 = astructdb.Bstruct2
     astructdb.Bstruct2 = new BstructDB
+    let Dstruct = astructdb.Dstruct
     astructdb.Dstruct = new DstructDB
+    let Dstruct2 = astructdb.Dstruct2
     astructdb.Dstruct2 = new DstructDB
+    let Dstruct3 = astructdb.Dstruct3
     astructdb.Dstruct3 = new DstructDB
+    let Dstruct4 = astructdb.Dstruct4
     astructdb.Dstruct4 = new DstructDB
+    let Anarrayofb = astructdb.Anarrayofb
     astructdb.Anarrayofb = []
+    let Anotherarrayofb = astructdb.Anotherarrayofb
     astructdb.Anotherarrayofb = []
+    let Anarrayofa = astructdb.Anarrayofa
     astructdb.Anarrayofa = []
+    let AnarrayofbUse = astructdb.AnarrayofbUse
     astructdb.AnarrayofbUse = []
+    let Anarrayofb2Use = astructdb.Anarrayofb2Use
     astructdb.Anarrayofb2Use = []
+    let AnAstruct = astructdb.AnAstruct
     astructdb.AnAstruct = new AstructDB
     let _Astruct_Anarrayofa_reverse = astructdb.Astruct_Anarrayofa_reverse
     astructdb.Astruct_Anarrayofa_reverse = new AstructDB
@@ -156,6 +187,11 @@ export class AstructService {
     return this.http.put<AstructDB>(url, astructdb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
+	      astructdb.Anarrayofb = Anarrayofb
+	      astructdb.Anotherarrayofb = Anotherarrayofb
+	      astructdb.Anarrayofa = Anarrayofa
+	      astructdb.AnarrayofbUse = AnarrayofbUse
+	      astructdb.Anarrayofb2Use = Anarrayofb2Use
         astructdb.Astruct_Anarrayofa_reverse = _Astruct_Anarrayofa_reverse
         // this.log(`updated astructdb id=${astructdb.ID}`)
       }),
@@ -184,6 +220,6 @@ export class AstructService {
   }
 
   private log(message: string) {
-    console.log(message)
+      console.log(message)
   }
 }
