@@ -20,45 +20,30 @@ package probe
 import (
 	"log"
 
-	"github.com/gin-gonic/gin"
-
 	gong_models "github.com/fullstack-lang/gong/go/models"
 	form "github.com/fullstack-lang/gongtable/go/models"
 	gongtree_buttons "github.com/fullstack-lang/gongtree/go/buttons"
 	gongtree_models "github.com/fullstack-lang/gongtree/go/models"
 
 	"{{PkgPathRoot}}/models"
-	"{{PkgPathRoot}}/orm"
 )
 
 type ButtonImplGongstruct struct {
-	gongStruct         *gong_models.GongStruct
-	Icon               gongtree_buttons.ButtonType
-	tableStage         *form.StageStruct
-	formStage          *form.StageStruct
-	stageOfInterest    *models.StageStruct
-	r                  *gin.Engine
-	backRepoOfInterest *orm.BackRepoStruct
+	gongStruct *gong_models.GongStruct
+	Icon       gongtree_buttons.ButtonType
+	playground *Playground
 }
 
 func NewButtonImplGongstruct(
 	gongStruct *gong_models.GongStruct,
 	icon gongtree_buttons.ButtonType,
-	tableStage *form.StageStruct,
-	formStage *form.StageStruct,
-	stageOfInterest *models.StageStruct,
-	r *gin.Engine,
-	backRepoOfInterest *orm.BackRepoStruct,
+	playground *Playground,
 ) (buttonImplGongstruct *ButtonImplGongstruct) {
 
 	buttonImplGongstruct = new(ButtonImplGongstruct)
 	buttonImplGongstruct.Icon = icon
 	buttonImplGongstruct.gongStruct = gongStruct
-	buttonImplGongstruct.tableStage = tableStage
-	buttonImplGongstruct.formStage = formStage
-	buttonImplGongstruct.stageOfInterest = stageOfInterest
-	buttonImplGongstruct.r = r
-	buttonImplGongstruct.backRepoOfInterest = backRepoOfInterest
+	buttonImplGongstruct.playground = playground
 
 	return
 }
@@ -69,7 +54,7 @@ func (buttonImpl *ButtonImplGongstruct) ButtonUpdated(
 
 	log.Println("ButtonImplGongstruct: ButtonUpdated")
 
-	formStage := buttonImpl.formStage
+	formStage := buttonImpl.playground.formStage
 	formStage.Reset()
 	formStage.Commit()
 
@@ -81,10 +66,8 @@ func (buttonImpl *ButtonImplGongstruct) ButtonUpdated(
 
 func FillUpForm[T models.Gongstruct](
 	instance *T,
-	stageOfInterest *models.StageStruct,
-	formStage *form.StageStruct,
 	formGroup *form.FormGroup,
-	r *gin.Engine,
+	playground *Playground,
 ) {
 
 	switch instanceWithInferedType := any(instance).(type) {
@@ -111,16 +94,12 @@ map[ButtonImplGongstructInsertionId]string{
 		formGroup := (&form.FormGroup{
 			Name: form.FormGroupDefaultName.ToString(),
 			OnSave: New{{Structname}}FormCallback(
-				buttonImpl.stageOfInterest,
-				buttonImpl.tableStage,
-				formStage,
 				nil,
-				buttonImpl.r,
-				buttonImpl.backRepoOfInterest,
+				buttonImpl.playground,
 			),
 		}).Stage(formStage)
 		{{structname}} := new(models.{{Structname}})
-		FillUpForm({{structname}}, buttonImpl.stageOfInterest, formStage, formGroup, buttonImpl.r)`,
+		FillUpForm({{structname}}, formGroup, buttonImpl.playground)`,
 	ButtonImplPerGongstructCallToFormGenerator: `
 	case *models.{{Structname}}:
 		// insertion point{{fieldToFormCode}}
@@ -146,15 +125,15 @@ var ButtonImplFileFieldFieldSubTemplateCode map[ButtonImplSubTemplateId]string =
 map[ButtonImplSubTemplateId]string{
 
 	ButtonImplSubTmplBasicField: `
-		BasicFieldtoForm("{{FieldName}}", instanceWithInferedType.{{FieldName}}, instanceWithInferedType, formStage, formGroup)`,
+		BasicFieldtoForm("{{FieldName}}", instanceWithInferedType.{{FieldName}}, instanceWithInferedType, playground.formStage, formGroup)`,
 	ButtonImplSubTmplBasicFieldEnumString: `
-		EnumTypeStringToForm("{{FieldName}}", instanceWithInferedType.{{FieldName}}, instanceWithInferedType, formStage, formGroup)`,
+		EnumTypeStringToForm("{{FieldName}}", instanceWithInferedType.{{FieldName}}, instanceWithInferedType, playground.formStage, formGroup)`,
 	ButtonImplSubTmplBasicFieldEnumInt: `
-		EnumTypeIntToForm("{{FieldName}}", instanceWithInferedType.{{FieldName}}, instanceWithInferedType, formStage, formGroup)`,
+		EnumTypeIntToForm("{{FieldName}}", instanceWithInferedType.{{FieldName}}, instanceWithInferedType, playground.formStage, formGroup)`,
 	ButtonImplSubTmplPointerField: `
-		AssociationFieldToForm("{{FieldName}}", instanceWithInferedType.{{FieldName}}, stageOfInterest, formStage, formGroup)`,
+		AssociationFieldToForm("{{FieldName}}", instanceWithInferedType.{{FieldName}}, formGroup, playground)`,
 	ButtonImplSubTmplSliceOfPointersField: `
-		AssociationSliceToForm("{{FieldName}}", instanceWithInferedType, &instanceWithInferedType.{{FieldName}}, stageOfInterest, formStage, formGroup, r)`,
+		AssociationSliceToForm("{{FieldName}}", instanceWithInferedType, &instanceWithInferedType.{{FieldName}}, formGroup, playground)`,
 }
 
 func CodeGeneratorModelButtonImpl(
