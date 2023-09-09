@@ -71,6 +71,7 @@ export class RowService {
   postRow(rowdb: RowDB, GONG__StackPath: string): Observable<RowDB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
+    let Cells = rowdb.Cells
     rowdb.Cells = []
     let _Table_Rows_reverse = rowdb.Table_Rows_reverse
     rowdb.Table_Rows_reverse = new TableDB
@@ -84,6 +85,7 @@ export class RowService {
     return this.http.post<RowDB>(this.rowsUrl, rowdb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
+	      rowdb.Cells = Cells
         rowdb.Table_Rows_reverse = _Table_Rows_reverse
         // this.log(`posted rowdb id=${rowdb.ID}`)
       }),
@@ -114,6 +116,7 @@ export class RowService {
     const url = `${this.rowsUrl}/${id}`;
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
+    let Cells = rowdb.Cells
     rowdb.Cells = []
     let _Table_Rows_reverse = rowdb.Table_Rows_reverse
     rowdb.Table_Rows_reverse = new TableDB
@@ -127,6 +130,7 @@ export class RowService {
     return this.http.put<RowDB>(url, rowdb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
+	      rowdb.Cells = Cells
         rowdb.Table_Rows_reverse = _Table_Rows_reverse
         // this.log(`updated rowdb id=${rowdb.ID}`)
       }),

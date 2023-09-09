@@ -71,7 +71,9 @@ export class FormFieldSelectService {
   postFormFieldSelect(formfieldselectdb: FormFieldSelectDB, GONG__StackPath: string): Observable<FormFieldSelectDB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
+    let Value = formfieldselectdb.Value
     formfieldselectdb.Value = new OptionDB
+    let Options = formfieldselectdb.Options
     formfieldselectdb.Options = []
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
@@ -83,6 +85,7 @@ export class FormFieldSelectService {
     return this.http.post<FormFieldSelectDB>(this.formfieldselectsUrl, formfieldselectdb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
+	      formfieldselectdb.Options = Options
         // this.log(`posted formfieldselectdb id=${formfieldselectdb.ID}`)
       }),
       catchError(this.handleError<FormFieldSelectDB>('postFormFieldSelect'))
@@ -112,7 +115,9 @@ export class FormFieldSelectService {
     const url = `${this.formfieldselectsUrl}/${id}`;
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
+    let Value = formfieldselectdb.Value
     formfieldselectdb.Value = new OptionDB
+    let Options = formfieldselectdb.Options
     formfieldselectdb.Options = []
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
@@ -124,6 +129,7 @@ export class FormFieldSelectService {
     return this.http.put<FormFieldSelectDB>(url, formfieldselectdb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
+	      formfieldselectdb.Options = Options
         // this.log(`updated formfieldselectdb id=${formfieldselectdb.ID}`)
       }),
       catchError(this.handleError<FormFieldSelectDB>('updateFormFieldSelect'))
