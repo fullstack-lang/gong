@@ -7,7 +7,8 @@ import (
 
 type GongstructDB interface {
 	// insertion point for generic types
-	ButtonDB | NodeDB | TreeDB
+	// "int" is present to handle the case when no struct is present
+	int  | ButtonDB | NodeDB | TreeDB
 }
 
 func GetInstanceDBFromInstance[T models.Gongstruct, T2 GongstructDB](

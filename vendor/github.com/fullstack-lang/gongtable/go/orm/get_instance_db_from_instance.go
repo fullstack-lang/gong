@@ -7,7 +7,8 @@ import (
 
 type GongstructDB interface {
 	// insertion point for generic types
-	CellDB | CellBooleanDB | CellFloat64DB | CellIconDB | CellIntDB | CellStringDB | CheckBoxDB | DisplayedColumnDB | FormDivDB | FormEditAssocButtonDB | FormFieldDB | FormFieldDateDB | FormFieldDateTimeDB | FormFieldFloat64DB | FormFieldIntDB | FormFieldSelectDB | FormFieldStringDB | FormFieldTimeDB | FormGroupDB | FormSortAssocButtonDB | OptionDB | RowDB | TableDB
+	// "int" is present to handle the case when no struct is present
+	int  | CellDB | CellBooleanDB | CellFloat64DB | CellIconDB | CellIntDB | CellStringDB | CheckBoxDB | DisplayedColumnDB | FormDivDB | FormEditAssocButtonDB | FormFieldDB | FormFieldDateDB | FormFieldDateTimeDB | FormFieldFloat64DB | FormFieldIntDB | FormFieldSelectDB | FormFieldStringDB | FormFieldTimeDB | FormGroupDB | FormSortAssocButtonDB | OptionDB | RowDB | TableDB
 }
 
 func GetInstanceDBFromInstance[T models.Gongstruct, T2 GongstructDB](
