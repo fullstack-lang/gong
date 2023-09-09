@@ -277,6 +277,9 @@ func (backRepoRectLinkLink *BackRepoRectLinkLinkStruct) CommitPhaseTwoInstance(b
 				rectlinklinkDB.StartID.Int64 = int64(StartId)
 				rectlinklinkDB.StartID.Valid = true
 			}
+		} else {
+			rectlinklinkDB.StartID.Int64 = 0
+			rectlinklinkDB.StartID.Valid = true
 		}
 
 		// commit pointer value rectlinklink.End translates to updating the rectlinklink.EndID
@@ -286,6 +289,9 @@ func (backRepoRectLinkLink *BackRepoRectLinkLinkStruct) CommitPhaseTwoInstance(b
 				rectlinklinkDB.EndID.Int64 = int64(EndId)
 				rectlinklinkDB.EndID.Valid = true
 			}
+		} else {
+			rectlinklinkDB.EndID.Int64 = 0
+			rectlinklinkDB.EndID.Valid = true
 		}
 
 		query := backRepoRectLinkLink.db.Save(&rectlinklinkDB)
