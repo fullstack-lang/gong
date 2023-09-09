@@ -61,6 +61,18 @@ func (nodeImplGongstruct *NodeImplGongstruct) OnAfterUpdate(
 	if nodeImplGongstruct.gongStruct.GetName() == "Astruct" {
 		fillUpTable[models.Astruct](nodeImplGongstruct.playground)
 	}
+	if nodeImplGongstruct.gongStruct.GetName() == "AstructBstruct2Use" {
+		fillUpTable[models.AstructBstruct2Use](nodeImplGongstruct.playground)
+	}
+	if nodeImplGongstruct.gongStruct.GetName() == "AstructBstructUse" {
+		fillUpTable[models.AstructBstructUse](nodeImplGongstruct.playground)
+	}
+	if nodeImplGongstruct.gongStruct.GetName() == "Bstruct" {
+		fillUpTable[models.Bstruct](nodeImplGongstruct.playground)
+	}
+	if nodeImplGongstruct.gongStruct.GetName() == "Dstruct" {
+		fillUpTable[models.Dstruct](nodeImplGongstruct.playground)
+	}
 
 	nodeImplGongstruct.playground.tableStage.Commit()
 }
@@ -202,6 +214,42 @@ func (rowUpdate *RowUpdate[T]) RowUpdated(stage *gongtable.StageStruct, row, upd
 		formGroup := (&gongtable.FormGroup{
 			Name: gongtable.FormGroupDefaultName.ToString(),
 			OnSave: NewAstructFormCallback(
+				instancesTyped,
+				rowUpdate.playground,
+			),
+		}).Stage(formStage)
+		FillUpForm(instancesTyped, formGroup, rowUpdate.playground)
+	case *models.AstructBstruct2Use:
+		formGroup := (&gongtable.FormGroup{
+			Name: gongtable.FormGroupDefaultName.ToString(),
+			OnSave: NewAstructBstruct2UseFormCallback(
+				instancesTyped,
+				rowUpdate.playground,
+			),
+		}).Stage(formStage)
+		FillUpForm(instancesTyped, formGroup, rowUpdate.playground)
+	case *models.AstructBstructUse:
+		formGroup := (&gongtable.FormGroup{
+			Name: gongtable.FormGroupDefaultName.ToString(),
+			OnSave: NewAstructBstructUseFormCallback(
+				instancesTyped,
+				rowUpdate.playground,
+			),
+		}).Stage(formStage)
+		FillUpForm(instancesTyped, formGroup, rowUpdate.playground)
+	case *models.Bstruct:
+		formGroup := (&gongtable.FormGroup{
+			Name: gongtable.FormGroupDefaultName.ToString(),
+			OnSave: NewBstructFormCallback(
+				instancesTyped,
+				rowUpdate.playground,
+			),
+		}).Stage(formStage)
+		FillUpForm(instancesTyped, formGroup, rowUpdate.playground)
+	case *models.Dstruct:
+		formGroup := (&gongtable.FormGroup{
+			Name: gongtable.FormGroupDefaultName.ToString(),
+			OnSave: NewDstructFormCallback(
 				instancesTyped,
 				rowUpdate.playground,
 			),
