@@ -53,8 +53,8 @@ func (gongbasicfieldFormCallback *GongBasicFieldFormCallback) OnSave() {
 	if gongbasicfieldFormCallback.gongbasicfield == nil {
 		gongbasicfieldFormCallback.gongbasicfield = new(models.GongBasicField).Stage(gongbasicfieldFormCallback.stageOfInterest)
 	}
-	gongbasicfield := gongbasicfieldFormCallback.gongbasicfield
-	_ = gongbasicfield
+	gongbasicfield_ := gongbasicfieldFormCallback.gongbasicfield
+	_ = gongbasicfield_
 
 	// get the formGroup
 	formGroup := gongbasicfieldFormCallback.formStage.FormGroups_mapString[table.FormGroupDefaultName.ToString()]
@@ -63,19 +63,19 @@ func (gongbasicfieldFormCallback *GongBasicFieldFormCallback) OnSave() {
 		switch formDiv.Name {
 		// insertion point per field
 		case "Name":
-			FormDivBasicFieldToField(&(gongbasicfield.Name), formDiv)
+			FormDivBasicFieldToField(&(gongbasicfield_.Name), formDiv)
 		case "BasicKindName":
-			FormDivBasicFieldToField(&(gongbasicfield.BasicKindName), formDiv)
+			FormDivBasicFieldToField(&(gongbasicfield_.BasicKindName), formDiv)
 		case "GongEnum":
-			FormDivSelectFieldToField(&(gongbasicfield.GongEnum), gongbasicfieldFormCallback.stageOfInterest, formDiv)
+			FormDivSelectFieldToField(&(gongbasicfield_.GongEnum), gongbasicfieldFormCallback.stageOfInterest, formDiv)
 		case "DeclaredType":
-			FormDivBasicFieldToField(&(gongbasicfield.DeclaredType), formDiv)
+			FormDivBasicFieldToField(&(gongbasicfield_.DeclaredType), formDiv)
 		case "CompositeStructName":
-			FormDivBasicFieldToField(&(gongbasicfield.CompositeStructName), formDiv)
+			FormDivBasicFieldToField(&(gongbasicfield_.CompositeStructName), formDiv)
 		case "Index":
-			FormDivBasicFieldToField(&(gongbasicfield.Index), formDiv)
+			FormDivBasicFieldToField(&(gongbasicfield_.Index), formDiv)
 		case "IsDocLink":
-			FormDivBasicFieldToField(&(gongbasicfield.IsDocLink), formDiv)
+			FormDivBasicFieldToField(&(gongbasicfield_.IsDocLink), formDiv)
 		}
 	}
 
@@ -127,8 +127,8 @@ func (gongenumFormCallback *GongEnumFormCallback) OnSave() {
 	if gongenumFormCallback.gongenum == nil {
 		gongenumFormCallback.gongenum = new(models.GongEnum).Stage(gongenumFormCallback.stageOfInterest)
 	}
-	gongenum := gongenumFormCallback.gongenum
-	_ = gongenum
+	gongenum_ := gongenumFormCallback.gongenum
+	_ = gongenum_
 
 	// get the formGroup
 	formGroup := gongenumFormCallback.formStage.FormGroups_mapString[table.FormGroupDefaultName.ToString()]
@@ -137,9 +137,9 @@ func (gongenumFormCallback *GongEnumFormCallback) OnSave() {
 		switch formDiv.Name {
 		// insertion point per field
 		case "Name":
-			FormDivBasicFieldToField(&(gongenum.Name), formDiv)
+			FormDivBasicFieldToField(&(gongenum_.Name), formDiv)
 		case "Type":
-			FormDivEnumIntFieldToField(&(gongenum.Type), formDiv)
+			FormDivEnumIntFieldToField(&(gongenum_.Type), formDiv)
 		}
 	}
 
@@ -191,8 +191,8 @@ func (gongenumvalueFormCallback *GongEnumValueFormCallback) OnSave() {
 	if gongenumvalueFormCallback.gongenumvalue == nil {
 		gongenumvalueFormCallback.gongenumvalue = new(models.GongEnumValue).Stage(gongenumvalueFormCallback.stageOfInterest)
 	}
-	gongenumvalue := gongenumvalueFormCallback.gongenumvalue
-	_ = gongenumvalue
+	gongenumvalue_ := gongenumvalueFormCallback.gongenumvalue
+	_ = gongenumvalue_
 
 	// get the formGroup
 	formGroup := gongenumvalueFormCallback.formStage.FormGroups_mapString[table.FormGroupDefaultName.ToString()]
@@ -201,9 +201,9 @@ func (gongenumvalueFormCallback *GongEnumValueFormCallback) OnSave() {
 		switch formDiv.Name {
 		// insertion point per field
 		case "Name":
-			FormDivBasicFieldToField(&(gongenumvalue.Name), formDiv)
+			FormDivBasicFieldToField(&(gongenumvalue_.Name), formDiv)
 		case "Value":
-			FormDivBasicFieldToField(&(gongenumvalue.Value), formDiv)
+			FormDivBasicFieldToField(&(gongenumvalue_.Value), formDiv)
 		}
 	}
 
@@ -255,8 +255,8 @@ func (gonglinkFormCallback *GongLinkFormCallback) OnSave() {
 	if gonglinkFormCallback.gonglink == nil {
 		gonglinkFormCallback.gonglink = new(models.GongLink).Stage(gonglinkFormCallback.stageOfInterest)
 	}
-	gonglink := gonglinkFormCallback.gonglink
-	_ = gonglink
+	gonglink_ := gonglinkFormCallback.gonglink
+	_ = gonglink_
 
 	// get the formGroup
 	formGroup := gonglinkFormCallback.formStage.FormGroups_mapString[table.FormGroupDefaultName.ToString()]
@@ -265,11 +265,11 @@ func (gonglinkFormCallback *GongLinkFormCallback) OnSave() {
 		switch formDiv.Name {
 		// insertion point per field
 		case "Name":
-			FormDivBasicFieldToField(&(gonglink.Name), formDiv)
+			FormDivBasicFieldToField(&(gonglink_.Name), formDiv)
 		case "Recv":
-			FormDivBasicFieldToField(&(gonglink.Recv), formDiv)
+			FormDivBasicFieldToField(&(gonglink_.Recv), formDiv)
 		case "ImportPath":
-			FormDivBasicFieldToField(&(gonglink.ImportPath), formDiv)
+			FormDivBasicFieldToField(&(gonglink_.ImportPath), formDiv)
 		}
 	}
 
@@ -321,8 +321,8 @@ func (gongnoteFormCallback *GongNoteFormCallback) OnSave() {
 	if gongnoteFormCallback.gongnote == nil {
 		gongnoteFormCallback.gongnote = new(models.GongNote).Stage(gongnoteFormCallback.stageOfInterest)
 	}
-	gongnote := gongnoteFormCallback.gongnote
-	_ = gongnote
+	gongnote_ := gongnoteFormCallback.gongnote
+	_ = gongnote_
 
 	// get the formGroup
 	formGroup := gongnoteFormCallback.formStage.FormGroups_mapString[table.FormGroupDefaultName.ToString()]
@@ -331,11 +331,11 @@ func (gongnoteFormCallback *GongNoteFormCallback) OnSave() {
 		switch formDiv.Name {
 		// insertion point per field
 		case "Name":
-			FormDivBasicFieldToField(&(gongnote.Name), formDiv)
+			FormDivBasicFieldToField(&(gongnote_.Name), formDiv)
 		case "Body":
-			FormDivBasicFieldToField(&(gongnote.Body), formDiv)
+			FormDivBasicFieldToField(&(gongnote_.Body), formDiv)
 		case "BodyHTML":
-			FormDivBasicFieldToField(&(gongnote.BodyHTML), formDiv)
+			FormDivBasicFieldToField(&(gongnote_.BodyHTML), formDiv)
 		}
 	}
 
@@ -387,8 +387,8 @@ func (gongstructFormCallback *GongStructFormCallback) OnSave() {
 	if gongstructFormCallback.gongstruct == nil {
 		gongstructFormCallback.gongstruct = new(models.GongStruct).Stage(gongstructFormCallback.stageOfInterest)
 	}
-	gongstruct := gongstructFormCallback.gongstruct
-	_ = gongstruct
+	gongstruct_ := gongstructFormCallback.gongstruct
+	_ = gongstruct_
 
 	// get the formGroup
 	formGroup := gongstructFormCallback.formStage.FormGroups_mapString[table.FormGroupDefaultName.ToString()]
@@ -397,9 +397,9 @@ func (gongstructFormCallback *GongStructFormCallback) OnSave() {
 		switch formDiv.Name {
 		// insertion point per field
 		case "Name":
-			FormDivBasicFieldToField(&(gongstruct.Name), formDiv)
+			FormDivBasicFieldToField(&(gongstruct_.Name), formDiv)
 		case "HasOnAfterUpdateSignature":
-			FormDivBasicFieldToField(&(gongstruct.HasOnAfterUpdateSignature), formDiv)
+			FormDivBasicFieldToField(&(gongstruct_.HasOnAfterUpdateSignature), formDiv)
 		}
 	}
 
@@ -451,8 +451,8 @@ func (gongtimefieldFormCallback *GongTimeFieldFormCallback) OnSave() {
 	if gongtimefieldFormCallback.gongtimefield == nil {
 		gongtimefieldFormCallback.gongtimefield = new(models.GongTimeField).Stage(gongtimefieldFormCallback.stageOfInterest)
 	}
-	gongtimefield := gongtimefieldFormCallback.gongtimefield
-	_ = gongtimefield
+	gongtimefield_ := gongtimefieldFormCallback.gongtimefield
+	_ = gongtimefield_
 
 	// get the formGroup
 	formGroup := gongtimefieldFormCallback.formStage.FormGroups_mapString[table.FormGroupDefaultName.ToString()]
@@ -461,11 +461,11 @@ func (gongtimefieldFormCallback *GongTimeFieldFormCallback) OnSave() {
 		switch formDiv.Name {
 		// insertion point per field
 		case "Name":
-			FormDivBasicFieldToField(&(gongtimefield.Name), formDiv)
+			FormDivBasicFieldToField(&(gongtimefield_.Name), formDiv)
 		case "Index":
-			FormDivBasicFieldToField(&(gongtimefield.Index), formDiv)
+			FormDivBasicFieldToField(&(gongtimefield_.Index), formDiv)
 		case "CompositeStructName":
-			FormDivBasicFieldToField(&(gongtimefield.CompositeStructName), formDiv)
+			FormDivBasicFieldToField(&(gongtimefield_.CompositeStructName), formDiv)
 		}
 	}
 
@@ -517,8 +517,8 @@ func (metaFormCallback *MetaFormCallback) OnSave() {
 	if metaFormCallback.meta == nil {
 		metaFormCallback.meta = new(models.Meta).Stage(metaFormCallback.stageOfInterest)
 	}
-	meta := metaFormCallback.meta
-	_ = meta
+	meta_ := metaFormCallback.meta
+	_ = meta_
 
 	// get the formGroup
 	formGroup := metaFormCallback.formStage.FormGroups_mapString[table.FormGroupDefaultName.ToString()]
@@ -527,9 +527,9 @@ func (metaFormCallback *MetaFormCallback) OnSave() {
 		switch formDiv.Name {
 		// insertion point per field
 		case "Name":
-			FormDivBasicFieldToField(&(meta.Name), formDiv)
+			FormDivBasicFieldToField(&(meta_.Name), formDiv)
 		case "Text":
-			FormDivBasicFieldToField(&(meta.Text), formDiv)
+			FormDivBasicFieldToField(&(meta_.Text), formDiv)
 		}
 	}
 
@@ -581,8 +581,8 @@ func (metareferenceFormCallback *MetaReferenceFormCallback) OnSave() {
 	if metareferenceFormCallback.metareference == nil {
 		metareferenceFormCallback.metareference = new(models.MetaReference).Stage(metareferenceFormCallback.stageOfInterest)
 	}
-	metareference := metareferenceFormCallback.metareference
-	_ = metareference
+	metareference_ := metareferenceFormCallback.metareference
+	_ = metareference_
 
 	// get the formGroup
 	formGroup := metareferenceFormCallback.formStage.FormGroups_mapString[table.FormGroupDefaultName.ToString()]
@@ -591,7 +591,7 @@ func (metareferenceFormCallback *MetaReferenceFormCallback) OnSave() {
 		switch formDiv.Name {
 		// insertion point per field
 		case "Name":
-			FormDivBasicFieldToField(&(metareference.Name), formDiv)
+			FormDivBasicFieldToField(&(metareference_.Name), formDiv)
 		}
 	}
 
@@ -643,8 +643,8 @@ func (modelpkgFormCallback *ModelPkgFormCallback) OnSave() {
 	if modelpkgFormCallback.modelpkg == nil {
 		modelpkgFormCallback.modelpkg = new(models.ModelPkg).Stage(modelpkgFormCallback.stageOfInterest)
 	}
-	modelpkg := modelpkgFormCallback.modelpkg
-	_ = modelpkg
+	modelpkg_ := modelpkgFormCallback.modelpkg
+	_ = modelpkg_
 
 	// get the formGroup
 	formGroup := modelpkgFormCallback.formStage.FormGroups_mapString[table.FormGroupDefaultName.ToString()]
@@ -653,9 +653,9 @@ func (modelpkgFormCallback *ModelPkgFormCallback) OnSave() {
 		switch formDiv.Name {
 		// insertion point per field
 		case "Name":
-			FormDivBasicFieldToField(&(modelpkg.Name), formDiv)
+			FormDivBasicFieldToField(&(modelpkg_.Name), formDiv)
 		case "PkgPath":
-			FormDivBasicFieldToField(&(modelpkg.PkgPath), formDiv)
+			FormDivBasicFieldToField(&(modelpkg_.PkgPath), formDiv)
 		}
 	}
 
@@ -707,8 +707,8 @@ func (pointertogongstructfieldFormCallback *PointerToGongStructFieldFormCallback
 	if pointertogongstructfieldFormCallback.pointertogongstructfield == nil {
 		pointertogongstructfieldFormCallback.pointertogongstructfield = new(models.PointerToGongStructField).Stage(pointertogongstructfieldFormCallback.stageOfInterest)
 	}
-	pointertogongstructfield := pointertogongstructfieldFormCallback.pointertogongstructfield
-	_ = pointertogongstructfield
+	pointertogongstructfield_ := pointertogongstructfieldFormCallback.pointertogongstructfield
+	_ = pointertogongstructfield_
 
 	// get the formGroup
 	formGroup := pointertogongstructfieldFormCallback.formStage.FormGroups_mapString[table.FormGroupDefaultName.ToString()]
@@ -717,13 +717,13 @@ func (pointertogongstructfieldFormCallback *PointerToGongStructFieldFormCallback
 		switch formDiv.Name {
 		// insertion point per field
 		case "Name":
-			FormDivBasicFieldToField(&(pointertogongstructfield.Name), formDiv)
+			FormDivBasicFieldToField(&(pointertogongstructfield_.Name), formDiv)
 		case "GongStruct":
-			FormDivSelectFieldToField(&(pointertogongstructfield.GongStruct), pointertogongstructfieldFormCallback.stageOfInterest, formDiv)
+			FormDivSelectFieldToField(&(pointertogongstructfield_.GongStruct), pointertogongstructfieldFormCallback.stageOfInterest, formDiv)
 		case "Index":
-			FormDivBasicFieldToField(&(pointertogongstructfield.Index), formDiv)
+			FormDivBasicFieldToField(&(pointertogongstructfield_.Index), formDiv)
 		case "CompositeStructName":
-			FormDivBasicFieldToField(&(pointertogongstructfield.CompositeStructName), formDiv)
+			FormDivBasicFieldToField(&(pointertogongstructfield_.CompositeStructName), formDiv)
 		}
 	}
 
@@ -775,8 +775,8 @@ func (sliceofpointertogongstructfieldFormCallback *SliceOfPointerToGongStructFie
 	if sliceofpointertogongstructfieldFormCallback.sliceofpointertogongstructfield == nil {
 		sliceofpointertogongstructfieldFormCallback.sliceofpointertogongstructfield = new(models.SliceOfPointerToGongStructField).Stage(sliceofpointertogongstructfieldFormCallback.stageOfInterest)
 	}
-	sliceofpointertogongstructfield := sliceofpointertogongstructfieldFormCallback.sliceofpointertogongstructfield
-	_ = sliceofpointertogongstructfield
+	sliceofpointertogongstructfield_ := sliceofpointertogongstructfieldFormCallback.sliceofpointertogongstructfield
+	_ = sliceofpointertogongstructfield_
 
 	// get the formGroup
 	formGroup := sliceofpointertogongstructfieldFormCallback.formStage.FormGroups_mapString[table.FormGroupDefaultName.ToString()]
@@ -785,13 +785,13 @@ func (sliceofpointertogongstructfieldFormCallback *SliceOfPointerToGongStructFie
 		switch formDiv.Name {
 		// insertion point per field
 		case "Name":
-			FormDivBasicFieldToField(&(sliceofpointertogongstructfield.Name), formDiv)
+			FormDivBasicFieldToField(&(sliceofpointertogongstructfield_.Name), formDiv)
 		case "GongStruct":
-			FormDivSelectFieldToField(&(sliceofpointertogongstructfield.GongStruct), sliceofpointertogongstructfieldFormCallback.stageOfInterest, formDiv)
+			FormDivSelectFieldToField(&(sliceofpointertogongstructfield_.GongStruct), sliceofpointertogongstructfieldFormCallback.stageOfInterest, formDiv)
 		case "Index":
-			FormDivBasicFieldToField(&(sliceofpointertogongstructfield.Index), formDiv)
+			FormDivBasicFieldToField(&(sliceofpointertogongstructfield_.Index), formDiv)
 		case "CompositeStructName":
-			FormDivBasicFieldToField(&(sliceofpointertogongstructfield.CompositeStructName), formDiv)
+			FormDivBasicFieldToField(&(sliceofpointertogongstructfield_.CompositeStructName), formDiv)
 		}
 	}
 

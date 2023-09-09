@@ -34,7 +34,7 @@ func Load(
 	gong_models.LoadEmbedded(gongStage, goModelsDir)
 
 	// treeForSelectingDate that is on the sidebar
-	stageForSidebarTree := gongtree_fullstack.NewStackInstance(r, stackPath+"-sidebar")
+	stageForSidebarTree, _ := gongtree_fullstack.NewStackInstance(r, stackPath+"-sidebar")
 
 	// stage for main table
 	tableStage, _ := gongtable_fullstack.NewStackInstance(r, stackPath)
