@@ -10,32 +10,32 @@ import (
 // AssociationFieldToForm will append a div to the form
 // with the values of options equal to the name of each possible instances in the association type
 func AssociationFieldToForm[FieldType models.PointerToGongstruct](
-	fieldName string, field FieldType, stageOfInterest *models.StageStruct, formStage *form.StageStruct, formGroup *form.FormGroup,
+	fieldName string, field FieldType, formGroup *form.FormGroup, playground *Playground,
 ) {
 
 	formDiv := (&form.FormDiv{
 		Name: fieldName,
-	}).Stage(formStage)
+	}).Stage(playground.formStage)
 	formGroup.FormDivs = append(formGroup.FormDivs, formDiv)
 	formField := (&form.FormField{
 		Name:        fieldName,
 		Label:       fieldName,
 		Placeholder: "",
-	}).Stage(formStage)
+	}).Stage(playground.formStage)
 	formDiv.FormFields = append(formDiv.FormFields, formField)
 
 	formFieldSelect := (&form.FormFieldSelect{
 		Name:       "association",
 		CanBeEmpty: true,
-	}).Stage(formStage)
+	}).Stage(playground.formStage)
 	formField.FormFieldSelect = formFieldSelect
 
 	// generate one option per possible instances for the field
 	formField.FormFieldSelect.Options = make([]*form.Option, 0)
-	for instance := range *models.GetGongstructInstancesSetFromPointerType[FieldType](stageOfInterest) {
+	for instance := range *models.GetGongstructInstancesSetFromPointerType[FieldType](playground.stageOfInterest) {
 		option := (&form.Option{
 			Name: instance.GetName(),
-		}).Stage(formStage)
+		}).Stage(playground.formStage)
 
 		// set up select value if field matches the instance
 		if instance == field {
