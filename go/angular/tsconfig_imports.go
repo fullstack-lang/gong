@@ -54,13 +54,13 @@ const TsConfigInsertForPaths = `
       "gongtreespecific": [
         "../vendor/github.com/fullstack-lang/gongtree/ng/projects/gongtreespecific/src/public-api.ts"
       ],
-      "gongrouter": [
-        "../vendor/github.com/fullstack-lang/gongrouter/ng/projects/gongrouter/src/public-api.ts"
+      "gongtable": [
+        "../vendor/github.com/fullstack-lang/gongtable/ng/projects/gongtable/src/public-api.ts"
       ],
-      "gongrouterspecific": [
-        "../vendor/github.com/fullstack-lang/gongrouter/ng/projects/gongrouterspecific/src/public-api.ts"
+      "gongtablespecific": [
+        "../vendor/github.com/fullstack-lang/gongtable/ng/projects/gongtablespecific/src/public-api.ts"
       ],
-      "gongrouterdatamodel": [
-        "../vendor/github.com/fullstack-lang/gongrouter/ng/projects/gongrouterdatamodel/src/public-api.ts"
+      "gongtabledatamodel": [
+        "../vendor/github.com/fullstack-lang/gongtable/ng/projects/gongtabledatamodel/src/public-api.ts"
       ],
 `
