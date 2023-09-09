@@ -70,6 +70,7 @@ export class FormGroupService {
   postFormGroup(formgroupdb: FormGroupDB, GONG__StackPath: string): Observable<FormGroupDB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
+    let FormDivs = formgroupdb.FormDivs
     formgroupdb.FormDivs = []
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
@@ -81,6 +82,7 @@ export class FormGroupService {
     return this.http.post<FormGroupDB>(this.formgroupsUrl, formgroupdb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
+	      formgroupdb.FormDivs = FormDivs
         // this.log(`posted formgroupdb id=${formgroupdb.ID}`)
       }),
       catchError(this.handleError<FormGroupDB>('postFormGroup'))
@@ -110,6 +112,7 @@ export class FormGroupService {
     const url = `${this.formgroupsUrl}/${id}`;
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
+    let FormDivs = formgroupdb.FormDivs
     formgroupdb.FormDivs = []
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
@@ -121,6 +124,7 @@ export class FormGroupService {
     return this.http.put<FormGroupDB>(url, formgroupdb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
+	      formgroupdb.FormDivs = FormDivs
         // this.log(`updated formgroupdb id=${formgroupdb.ID}`)
       }),
       catchError(this.handleError<FormGroupDB>('updateFormGroup'))
