@@ -51,7 +51,7 @@ export class AstructService {
     return this.http.get<AstructDB[]>(this.astructsUrl, { params: params })
       .pipe(
         tap(),
-		// tap(_ => this.log('fetched astructs')),
+        // tap(_ => this.log('fetched astructs')),
         catchError(this.handleError<AstructDB[]>('getAstructs', []))
       );
   }
@@ -72,7 +72,8 @@ export class AstructService {
   postAstruct(astructdb: AstructDB, GONG__StackPath: string): Observable<AstructDB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
-    astructdb.Associationtob = new BstructDB
+    let
+      astructdb.Associationtob = new BstructDB
     astructdb.Anotherassociationtob_2 = new BstructDB
     astructdb.Bstruct = new BstructDB
     astructdb.Bstruct2 = new BstructDB
@@ -99,6 +100,7 @@ export class AstructService {
       tap(_ => {
         // insertion point for restoration of reverse pointers
         astructdb.Astruct_Anarrayofa_reverse = _Astruct_Anarrayofa_reverse
+        astructdb.Associationtob = Associationtob
         // this.log(`posted astructdb id=${astructdb.ID}`)
       }),
       catchError(this.handleError<AstructDB>('postAstruct'))
@@ -182,6 +184,6 @@ export class AstructService {
   }
 
   private log(message: string) {
-      console.log(message)
+    console.log(message)
   }
 }
