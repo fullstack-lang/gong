@@ -1,5 +1,5 @@
 // generated code - do not edit
-package data
+package probe
 
 import (
 	form "github.com/fullstack-lang/gongtable/go/models"
