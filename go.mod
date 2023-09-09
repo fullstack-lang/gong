@@ -28,7 +28,7 @@ require (
 	github.com/fullstack-lang/gongtree v0.0.0-20230909000818-844a3b0d4a67
 	github.com/fullstack-lang/maticons v0.0.0-20230823061653-70c364fbdd00
 	github.com/glebarez/sqlite v1.9.0
-	github.com/xuri/excelize/v2 v2.6.1
+	github.com/xuri/excelize/v2 v2.8.0
 )
 
 require (
