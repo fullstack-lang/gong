@@ -47,9 +47,8 @@ func Load(
 
 	gongStage, _ := gong_fullstack.NewStackInstance(r, pkgPath)
 	gongdocStage, _ := gongdoc_fullstack.NewStackInstance(r, pkgPath)
-	gongsvgStage := gongsvg_fullstack.NewStackInstance(r, pkgPath)
+	gongsvgStage, _ := gongsvg_fullstack.NewStackInstance(r, pkgPath)
 	gongtreeStage, _ := gongtree_fullstack.NewStackInstance(r, pkgPath)
-	_ = gongtreeStage
 
 	beforeCommitImplementation := new(BeforeCommitImplementation)
 

@@ -338,6 +338,9 @@ func (backRepoLink *BackRepoLinkStruct) CommitPhaseTwoInstance(backRepo *BackRep
 				linkDB.StartID.Int64 = int64(StartId)
 				linkDB.StartID.Valid = true
 			}
+		} else {
+			linkDB.StartID.Int64 = 0
+			linkDB.StartID.Valid = true
 		}
 
 		// commit pointer value link.End translates to updating the link.EndID
@@ -347,6 +350,9 @@ func (backRepoLink *BackRepoLinkStruct) CommitPhaseTwoInstance(backRepo *BackRep
 				linkDB.EndID.Int64 = int64(EndId)
 				linkDB.EndID.Valid = true
 			}
+		} else {
+			linkDB.EndID.Int64 = 0
+			linkDB.EndID.Valid = true
 		}
 
 		// This loop encodes the slice of pointers link.TextAtArrowEnd into the back repo.
