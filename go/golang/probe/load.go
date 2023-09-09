@@ -1,7 +1,7 @@
-package data
+package probe
 
 const LoadFileTemplate = `// generated code - do not edit
-package data
+package probe
 
 import (
 	"embed"

@@ -1,7 +1,7 @@
-package data
+package probe
 
 const AssociationSliceToFormTemplate = `// generated code - do not edit
-package data
+package probe
 
 import (
 	"fmt"
