@@ -1,5 +1,5 @@
 // generated code - do not edit
-package data
+package probe
 
 import (
 	"log"
@@ -151,7 +151,7 @@ type AstructBstruct2UseFormCallback struct {
 	stageOfInterest    *models.StageStruct
 	tableStage         *table.StageStruct
 	formStage          *table.StageStruct
-	astructbstruct2use            *models.AstructBstruct2Use
+	astructbstruct2use *models.AstructBstruct2Use
 	r                  *gin.Engine
 	backRepoOfInterest *orm.BackRepoStruct
 }
@@ -215,7 +215,7 @@ type AstructBstructUseFormCallback struct {
 	stageOfInterest    *models.StageStruct
 	tableStage         *table.StageStruct
 	formStage          *table.StageStruct
-	astructbstructuse            *models.AstructBstructUse
+	astructbstructuse  *models.AstructBstructUse
 	r                  *gin.Engine
 	backRepoOfInterest *orm.BackRepoStruct
 }

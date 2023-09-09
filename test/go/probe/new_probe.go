@@ -1,5 +1,5 @@
 // generated code - do not edit
-package data
+package probe
 
 import (
 	"embed"
@@ -20,7 +20,7 @@ import (
 	"github.com/fullstack-lang/gong/test/go/orm"
 )
 
-func Load(
+func NewProbe(
 	r *gin.Engine,
 	goModelsDir embed.FS,
 	stackPath string,
