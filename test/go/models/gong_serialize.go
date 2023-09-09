@@ -97,8 +97,7 @@ func SerializeExcelize[Type Gongstruct](stage *StageStruct, f *excelize.File) {
 	}
 	f.AutoFilter(sheetName,
 		fmt.Sprintf("%s%d", IntToLetters(int32(1)), line),
-		fmt.Sprintf("%s%d", IntToLetters(int32(len(GetFields[Type]()))), line),
-		"")
+		[]excelize.AutoFilterOptions{})
 
 	for instance := range set {
 		line = line + 1
