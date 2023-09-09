@@ -78,12 +78,19 @@ export class FormFieldService {
   postFormField(formfielddb: FormFieldDB, GONG__StackPath: string): Observable<FormFieldDB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
+    let FormFieldString = formfielddb.FormFieldString
     formfielddb.FormFieldString = new FormFieldStringDB
+    let FormFieldFloat64 = formfielddb.FormFieldFloat64
     formfielddb.FormFieldFloat64 = new FormFieldFloat64DB
+    let FormFieldInt = formfielddb.FormFieldInt
     formfielddb.FormFieldInt = new FormFieldIntDB
+    let FormFieldDate = formfielddb.FormFieldDate
     formfielddb.FormFieldDate = new FormFieldDateDB
+    let FormFieldTime = formfielddb.FormFieldTime
     formfielddb.FormFieldTime = new FormFieldTimeDB
+    let FormFieldDateTime = formfielddb.FormFieldDateTime
     formfielddb.FormFieldDateTime = new FormFieldDateTimeDB
+    let FormFieldSelect = formfielddb.FormFieldSelect
     formfielddb.FormFieldSelect = new FormFieldSelectDB
     let _FormDiv_FormFields_reverse = formfielddb.FormDiv_FormFields_reverse
     formfielddb.FormDiv_FormFields_reverse = new FormDivDB
@@ -127,12 +134,19 @@ export class FormFieldService {
     const url = `${this.formfieldsUrl}/${id}`;
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
+    let FormFieldString = formfielddb.FormFieldString
     formfielddb.FormFieldString = new FormFieldStringDB
+    let FormFieldFloat64 = formfielddb.FormFieldFloat64
     formfielddb.FormFieldFloat64 = new FormFieldFloat64DB
+    let FormFieldInt = formfielddb.FormFieldInt
     formfielddb.FormFieldInt = new FormFieldIntDB
+    let FormFieldDate = formfielddb.FormFieldDate
     formfielddb.FormFieldDate = new FormFieldDateDB
+    let FormFieldTime = formfielddb.FormFieldTime
     formfielddb.FormFieldTime = new FormFieldTimeDB
+    let FormFieldDateTime = formfielddb.FormFieldDateTime
     formfielddb.FormFieldDateTime = new FormFieldDateTimeDB
+    let FormFieldSelect = formfielddb.FormFieldSelect
     formfielddb.FormFieldSelect = new FormFieldSelectDB
     let _FormDiv_FormFields_reverse = formfielddb.FormDiv_FormFields_reverse
     formfielddb.FormDiv_FormFields_reverse = new FormDivDB

@@ -70,7 +70,9 @@ export class TableService {
   postTable(tabledb: TableDB, GONG__StackPath: string): Observable<TableDB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
+    let DisplayedColumns = tabledb.DisplayedColumns
     tabledb.DisplayedColumns = []
+    let Rows = tabledb.Rows
     tabledb.Rows = []
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
@@ -82,6 +84,8 @@ export class TableService {
     return this.http.post<TableDB>(this.tablesUrl, tabledb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
+	      tabledb.DisplayedColumns = DisplayedColumns
+	      tabledb.Rows = Rows
         // this.log(`posted tabledb id=${tabledb.ID}`)
       }),
       catchError(this.handleError<TableDB>('postTable'))
@@ -111,7 +115,9 @@ export class TableService {
     const url = `${this.tablesUrl}/${id}`;
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
+    let DisplayedColumns = tabledb.DisplayedColumns
     tabledb.DisplayedColumns = []
+    let Rows = tabledb.Rows
     tabledb.Rows = []
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
@@ -123,6 +129,8 @@ export class TableService {
     return this.http.put<TableDB>(url, tabledb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
+	      tabledb.DisplayedColumns = DisplayedColumns
+	      tabledb.Rows = Rows
         // this.log(`updated tabledb id=${tabledb.ID}`)
       }),
       catchError(this.handleError<TableDB>('updateTable'))
