@@ -8,10 +8,10 @@ import (
 	"strconv"
 
 	test_go "github.com/fullstack-lang/gong/test/go"
-	test_data "github.com/fullstack-lang/gong/test/go/data"
 	test_fullstack "github.com/fullstack-lang/gong/test/go/fullstack"
 	test_models "github.com/fullstack-lang/gong/test/go/models"
 	test_orm "github.com/fullstack-lang/gong/test/go/orm"
+	test_probe "github.com/fullstack-lang/gong/test/go/probe"
 	test_static "github.com/fullstack-lang/gong/test/go/static"
 
 	gongdoc_load "github.com/fullstack-lang/gongdoc/go/load"
@@ -72,7 +72,7 @@ func main() {
 		stage, backRepo = test_fullstack.NewStackInstance(r, "test", "./test.db")
 	}
 
-	test_data.Load(r, test_go.GoModelsDir, "test", stage, backRepo)
+	test_probe.NewProbe(r, test_go.GoModelsDir, "test", stage, backRepo)
 
 	if *unmarshallFromCode != "" {
 		stage.Checkout()
