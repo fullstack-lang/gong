@@ -1,4 +1,5 @@
 <form *ngIf="generatedForm" [formGroup]="generatedForm" (ngSubmit)="submitForm()">
+    <button class="table__save" mat-raised-button type="submit">Submit</button>
     <div *ngFor="let div of this.selectedFormGroup?.FormDivs">
         <ng-container *ngFor="let formField of div.FormFields">
             <mat-form-field [ngStyle]="getDynamicStyles(formField)">
@@ -57,5 +58,4 @@
         </div>
         <!-- Flexbox container ends here -->
     </div>
-    <button mat-raised-button color="primary" type="submit">Submit</button>
 </form>

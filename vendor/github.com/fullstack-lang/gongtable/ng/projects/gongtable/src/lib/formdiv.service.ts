@@ -73,9 +73,13 @@ export class FormDivService {
   postFormDiv(formdivdb: FormDivDB, GONG__StackPath: string): Observable<FormDivDB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
+    let FormFields = formdivdb.FormFields
     formdivdb.FormFields = []
+    let CheckBoxs = formdivdb.CheckBoxs
     formdivdb.CheckBoxs = []
+    let FormEditAssocButton = formdivdb.FormEditAssocButton
     formdivdb.FormEditAssocButton = new FormEditAssocButtonDB
+    let FormSortAssocButton = formdivdb.FormSortAssocButton
     formdivdb.FormSortAssocButton = new FormSortAssocButtonDB
     let _FormGroup_FormDivs_reverse = formdivdb.FormGroup_FormDivs_reverse
     formdivdb.FormGroup_FormDivs_reverse = new FormGroupDB
@@ -89,6 +93,8 @@ export class FormDivService {
     return this.http.post<FormDivDB>(this.formdivsUrl, formdivdb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
+	      formdivdb.FormFields = FormFields
+	      formdivdb.CheckBoxs = CheckBoxs
         formdivdb.FormGroup_FormDivs_reverse = _FormGroup_FormDivs_reverse
         // this.log(`posted formdivdb id=${formdivdb.ID}`)
       }),
@@ -119,9 +125,13 @@ export class FormDivService {
     const url = `${this.formdivsUrl}/${id}`;
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
+    let FormFields = formdivdb.FormFields
     formdivdb.FormFields = []
+    let CheckBoxs = formdivdb.CheckBoxs
     formdivdb.CheckBoxs = []
+    let FormEditAssocButton = formdivdb.FormEditAssocButton
     formdivdb.FormEditAssocButton = new FormEditAssocButtonDB
+    let FormSortAssocButton = formdivdb.FormSortAssocButton
     formdivdb.FormSortAssocButton = new FormSortAssocButtonDB
     let _FormGroup_FormDivs_reverse = formdivdb.FormGroup_FormDivs_reverse
     formdivdb.FormGroup_FormDivs_reverse = new FormGroupDB
@@ -135,6 +145,8 @@ export class FormDivService {
     return this.http.put<FormDivDB>(url, formdivdb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
+	      formdivdb.FormFields = FormFields
+	      formdivdb.CheckBoxs = CheckBoxs
         formdivdb.FormGroup_FormDivs_reverse = _FormGroup_FormDivs_reverse
         // this.log(`updated formdivdb id=${formdivdb.ID}`)
       }),
