@@ -105,8 +105,8 @@ func main() {
 		os.RemoveAll(gong_models.FullstackPkgGenPath)
 		gong_models.StaticPkgGenPath = filepath.Join(gong_models.PathToGoSubDirectory, "static")
 		os.RemoveAll(gong_models.StaticPkgGenPath)
-		gong_models.DataPkgGenPath = filepath.Join(gong_models.PathToGoSubDirectory, "data")
-		os.RemoveAll(gong_models.DataPkgGenPath)
+		gong_models.ProbePkgGenPath = filepath.Join(gong_models.PathToGoSubDirectory, "probe")
+		os.RemoveAll(gong_models.ProbePkgGenPath)
 		{
 			directory, err :=
 				filepath.Abs(
@@ -353,12 +353,12 @@ func main() {
 	}
 
 	// generate directory for Data package
-	errd = os.MkdirAll(gong_models.DataPkgGenPath, os.ModePerm)
+	errd = os.MkdirAll(gong_models.ProbePkgGenPath, os.ModePerm)
 	if os.IsNotExist(errd) {
-		log.Println("creating directory : " + gong_models.DataPkgGenPath)
+		log.Println("creating directory : " + gong_models.ProbePkgGenPath)
 	}
 	if os.IsExist(errd) {
-		log.Println("directory " + gong_models.DataPkgGenPath + " allready exists")
+		log.Println("directory " + gong_models.ProbePkgGenPath + " allready exists")
 	}
 
 	// compute source path
@@ -514,8 +514,14 @@ func main() {
 	gong_models.VerySimpleCodeGenerator(
 		modelPkg,
 		caserEnglish.String(modelPkg.Name),
-		modelPkg.PkgPath, filepath.Join(*pkgPath, "../probe/load.go"),
-		probe.LoadFileTemplate)
+		modelPkg.PkgPath, filepath.Join(*pkgPath, "../probe/new_probe.go"),
+		probe.NewProbeTemplate)
+
+	gong_models.VerySimpleCodeGenerator(
+		modelPkg,
+		caserEnglish.String(modelPkg.Name),
+		modelPkg.PkgPath, filepath.Join(*pkgPath, "../probe/playground.go"),
+		probe.PlaygroundTemplate)
 
 	gong_models.VerySimpleCodeGenerator(
 		modelPkg,

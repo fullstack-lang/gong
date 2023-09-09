@@ -1,4 +1,6 @@
-// generated code - do not edit
+package probe
+
+const PlaygroundTemplate = `// generated code - do not edit
 package probe
 
 import (
@@ -6,8 +8,8 @@ import (
 
 	form "github.com/fullstack-lang/gongtable/go/models"
 
-	"github.com/fullstack-lang/gong/test/go/models"
-	"github.com/fullstack-lang/gong/test/go/orm"
+	"{{PkgPathRoot}}/models"
+	"{{PkgPathRoot}}/orm"
 )
 
 type Playground struct {
@@ -17,3 +19,4 @@ type Playground struct {
 	formStage          *form.StageStruct
 	tableStage         *form.StageStruct
 }
+`

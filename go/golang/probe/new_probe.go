@@ -1,6 +1,6 @@
 package probe
 
-const LoadFileTemplate = `// generated code - do not edit
+const NewProbeTemplate = `// generated code - do not edit
 package probe
 
 import (
