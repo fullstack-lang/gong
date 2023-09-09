@@ -1,14 +1,12 @@
-package data
-
-const BasicFieldtoFormTemplate = `// generated code - do not edit
-package data
+// generated code - do not edit
+package probe
 
 import (
 	"time"
 
 	form "github.com/fullstack-lang/gongtable/go/models"
 
-	"{{PkgPathRoot}}/models"
+	"github.com/fullstack-lang/gong/test/go/models"
 )
 
 func BasicFieldtoForm[T models.PointerToGongstruct, TF models.GongtructBasicField](
@@ -178,4 +176,3 @@ func BasicFieldtoForm[T models.PointerToGongstruct, TF models.GongtructBasicFiel
 	}
 
 }
-`

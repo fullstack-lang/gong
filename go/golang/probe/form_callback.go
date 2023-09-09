@@ -1,4 +1,4 @@
-package data
+package probe
 
 import (
 	"fmt"
@@ -15,17 +15,15 @@ import (
 )
 
 const FormCallbackGongstructFileTemplate = `// generated code - do not edit
-package data
+package probe
 
 import (
 	"log"
 	"time"
 
 	table "github.com/fullstack-lang/gongtable/go/models"
-	"github.com/gin-gonic/gin"
 
 	"{{PkgPathRoot}}/models"
-	"{{PkgPathRoot}}/orm"
 )
 
 const __dummmy__time = time.Nanosecond
@@ -44,30 +42,19 @@ var FormCallbackGongstructSubTemplateCode map[FormCallbackGongstructInsertionId]
 map[FormCallbackGongstructInsertionId]string{
 	FormCallbackPerGongstructCode: `
 func New{{Structname}}FormCallback(
-	stageOfInterest *models.StageStruct,
-	tableStage *table.StageStruct,
-	formStage *table.StageStruct,
 	{{structname}} *models.{{Structname}},
-	r *gin.Engine,
-	backRepoOfInterest *orm.BackRepoStruct,
+	playground *Playground,
 ) ({{structname}}FormCallback *{{Structname}}FormCallback) {
 	{{structname}}FormCallback = new({{Structname}}FormCallback)
-	{{structname}}FormCallback.stageOfInterest = stageOfInterest
-	{{structname}}FormCallback.tableStage = tableStage
-	{{structname}}FormCallback.formStage = formStage
+	{{structname}}FormCallback.playground = playground
 	{{structname}}FormCallback.{{structname}} = {{structname}}
-	{{structname}}FormCallback.r = r
-	{{structname}}FormCallback.backRepoOfInterest = backRepoOfInterest
 	return
 }
 
 type {{Structname}}FormCallback struct {
-	stageOfInterest    *models.StageStruct
-	tableStage         *table.StageStruct
-	formStage          *table.StageStruct
-	{{structname}}            *models.{{Structname}}
-	r                  *gin.Engine
-	backRepoOfInterest *orm.BackRepoStruct
+	{{structname}} *models.{{Structname}}
+
+	playground *Playground
 }
 
 func ({{structname}}FormCallback *{{Structname}}FormCallback) OnSave() {
@@ -76,16 +63,16 @@ func ({{structname}}FormCallback *{{Structname}}FormCallback) OnSave() {
 
 	// checkout formStage to have the form group on the stage synchronized with the
 	// back repo (and front repo)
-	{{structname}}FormCallback.formStage.Checkout()
+	{{structname}}FormCallback.playground.formStage.Checkout()
 
 	if {{structname}}FormCallback.{{structname}} == nil {
-		{{structname}}FormCallback.{{structname}} = new(models.{{Structname}}).Stage({{structname}}FormCallback.stageOfInterest)
+		{{structname}}FormCallback.{{structname}} = new(models.{{Structname}}).Stage({{structname}}FormCallback.playground.stageOfInterest)
 	}
 	{{structname}}_ := {{structname}}FormCallback.{{structname}}
 	_ = {{structname}}_
 
 	// get the formGroup
-	formGroup := {{structname}}FormCallback.formStage.FormGroups_mapString[table.FormGroupDefaultName.ToString()]
+	formGroup := {{structname}}FormCallback.playground.formStage.FormGroups_mapString[table.FormGroupDefaultName.ToString()]
 
 	for _, formDiv := range formGroup.FormDivs {
 		switch formDiv.Name {
@@ -93,15 +80,11 @@ func ({{structname}}FormCallback *{{Structname}}FormCallback) OnSave() {
 		}
 	}
 
-	{{structname}}FormCallback.stageOfInterest.Commit()
+	{{structname}}FormCallback.playground.stageOfInterest.Commit()
 	fillUpTable[models.{{Structname}}](
-		{{structname}}FormCallback.stageOfInterest,
-		{{structname}}FormCallback.tableStage,
-		{{structname}}FormCallback.formStage,
-		{{structname}}FormCallback.r,
-		{{structname}}FormCallback.backRepoOfInterest,
+		{{structname}}FormCallback.playground,
 	)
-	{{structname}}FormCallback.tableStage.Commit()
+	{{structname}}FormCallback.playground.tableStage.Commit()
 }`,
 }
 
@@ -128,7 +111,7 @@ map[FormCallbackSubTemplateId]string{
 			FormDivEnumIntFieldToField(&({{structname}}_.{{FieldName}}), formDiv)`,
 	FormCallbackSubTmplPointerToStruct: `
 		case "{{FieldName}}":
-			FormDivSelectFieldToField(&({{structname}}_.{{FieldName}}), {{structname}}FormCallback.stageOfInterest, formDiv)`,
+			FormDivSelectFieldToField(&({{structname}}_.{{FieldName}}), {{structname}}FormCallback.playground.stageOfInterest, formDiv)`,
 }
 
 func CodeGeneratorModelFormCallback(
@@ -227,7 +210,7 @@ func CodeGeneratorModelFormCallback(
 		"{{PkgPathRoot}}", strings.ReplaceAll(pkgGoPath, "/models", ""),
 	)
 
-	file, err := os.Create(filepath.Join(pkgPath, "../data/form_callback.go"))
+	file, err := os.Create(filepath.Join(pkgPath, "../probe/form_callback.go"))
 	if err != nil {
 		log.Panic(err)
 	}

@@ -76,10 +76,15 @@ export class CellService {
   postCell(celldb: CellDB, GONG__StackPath: string): Observable<CellDB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
+    let CellString = celldb.CellString
     celldb.CellString = new CellStringDB
+    let CellFloat64 = celldb.CellFloat64
     celldb.CellFloat64 = new CellFloat64DB
+    let CellInt = celldb.CellInt
     celldb.CellInt = new CellIntDB
+    let CellBool = celldb.CellBool
     celldb.CellBool = new CellBooleanDB
+    let CellIcon = celldb.CellIcon
     celldb.CellIcon = new CellIconDB
     let _Row_Cells_reverse = celldb.Row_Cells_reverse
     celldb.Row_Cells_reverse = new RowDB
@@ -123,10 +128,15 @@ export class CellService {
     const url = `${this.cellsUrl}/${id}`;
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
+    let CellString = celldb.CellString
     celldb.CellString = new CellStringDB
+    let CellFloat64 = celldb.CellFloat64
     celldb.CellFloat64 = new CellFloat64DB
+    let CellInt = celldb.CellInt
     celldb.CellInt = new CellIntDB
+    let CellBool = celldb.CellBool
     celldb.CellBool = new CellBooleanDB
+    let CellIcon = celldb.CellIcon
     celldb.CellIcon = new CellIconDB
     let _Row_Cells_reverse = celldb.Row_Cells_reverse
     celldb.Row_Cells_reverse = new RowDB

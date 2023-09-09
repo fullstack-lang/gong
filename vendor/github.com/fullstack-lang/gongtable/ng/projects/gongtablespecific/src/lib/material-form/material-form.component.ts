@@ -376,7 +376,7 @@ export class MaterialFormComponent implements OnInit {
           () => {
 
             // a refresh is necessary to redeem all associations
-            this.refresh()
+            // this.refresh()
           }
         )
       }
@@ -386,7 +386,7 @@ export class MaterialFormComponent implements OnInit {
       this.formGroupService.updateFormGroup(this.selectedFormGroup!, this.DataStack).subscribe(
         () => {
           // a refresh is necessary to redeem all associations
-          this.refresh()
+          // this.refresh()
         }
       )
     }
