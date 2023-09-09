@@ -1,4 +1,4 @@
-package data
+package probe
 
 import (
 	"fmt"
@@ -15,7 +15,7 @@ import (
 )
 
 const FormCallbackGongstructFileTemplate = `// generated code - do not edit
-package data
+package probe
 
 import (
 	"log"
@@ -227,7 +227,7 @@ func CodeGeneratorModelFormCallback(
 		"{{PkgPathRoot}}", strings.ReplaceAll(pkgGoPath, "/models", ""),
 	)
 
-	file, err := os.Create(filepath.Join(pkgPath, "../data/form_callback.go"))
+	file, err := os.Create(filepath.Join(pkgPath, "../probe/form_callback.go"))
 	if err != nil {
 		log.Panic(err)
 	}
