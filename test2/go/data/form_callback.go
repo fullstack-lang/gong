@@ -53,8 +53,8 @@ func (dummyFormCallback *DummyFormCallback) OnSave() {
 	if dummyFormCallback.dummy == nil {
 		dummyFormCallback.dummy = new(models.Dummy).Stage(dummyFormCallback.stageOfInterest)
 	}
-	dummy := dummyFormCallback.dummy
-	_ = dummy
+	dummy_ := dummyFormCallback.dummy
+	_ = dummy_
 
 	// get the formGroup
 	formGroup := dummyFormCallback.formStage.FormGroups_mapString[table.FormGroupDefaultName.ToString()]
@@ -63,7 +63,7 @@ func (dummyFormCallback *DummyFormCallback) OnSave() {
 		switch formDiv.Name {
 		// insertion point per field
 		case "Name":
-			FormDivBasicFieldToField(&(dummy.Name), formDiv)
+			FormDivBasicFieldToField(&(dummy_.Name), formDiv)
 		}
 	}
 
