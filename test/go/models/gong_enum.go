@@ -58,7 +58,6 @@ func (aenumtype *AEnumType) ToCodeString() (res string) {
 	return
 }
 
-
 func (aenumtype AEnumType) Codes() (res []string) {
 
 	res = make([]string, 0)
@@ -136,7 +135,6 @@ func (benumtype *BEnumType) ToCodeString() (res string) {
 	}
 	return
 }
-
 
 func (benumtype BEnumType) Codes() (res []string) {
 
@@ -216,7 +214,6 @@ func (cenumtypeint *CEnumTypeInt) ToCodeString() (res string) {
 	return
 }
 
-
 func (cenumtypeint CEnumTypeInt) Codes() (res []string) {
 
 	res = make([]string, 0)
@@ -239,20 +236,19 @@ func (cenumtypeint CEnumTypeInt) CodeValues() (res []int) {
 	return
 }
 
-
 type GongstructEnumStringField interface {
-	string  | AEnumType | BEnumType | CEnumTypeInt
+	string | AEnumType | BEnumType
 	Codes() []string
 	CodeValues() []string
 }
 
 type PointerToGongstructEnumStringField interface {
-	*AEnumType | *BEnumType | *CEnumTypeInt
+	*AEnumType | *BEnumType
 	FromCodeString(input string) (err error)
 }
 
 type GongstructEnumIntField interface {
-	int  | AEnumType | BEnumType | CEnumTypeInt
+	int | CEnumTypeInt
 	Codes() []string
 	CodeValues() []int
 }
