@@ -408,6 +408,13 @@ func main() {
 		modelPkg.Name,
 		*pkgPath)
 
+	models.CodeGeneratorModelGongSlice(
+		modelPkg,
+		modelPkg.Name,
+		*pkgPath,
+		modelPkg.PkgPath,
+	)
+
 	if !*skipCoder {
 		models.CodeGeneratorModelGongCoder(
 			modelPkg,
