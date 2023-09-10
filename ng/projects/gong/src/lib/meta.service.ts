@@ -70,6 +70,7 @@ export class MetaService {
   postMeta(metadb: MetaDB, GONG__StackPath: string): Observable<MetaDB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
+    let MetaReferences = metadb.MetaReferences
     metadb.MetaReferences = []
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
@@ -81,6 +82,7 @@ export class MetaService {
     return this.http.post<MetaDB>(this.metasUrl, metadb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
+	      metadb.MetaReferences = MetaReferences
         // this.log(`posted metadb id=${metadb.ID}`)
       }),
       catchError(this.handleError<MetaDB>('postMeta'))
@@ -110,6 +112,7 @@ export class MetaService {
     const url = `${this.metasUrl}/${id}`;
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
+    let MetaReferences = metadb.MetaReferences
     metadb.MetaReferences = []
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
@@ -121,6 +124,7 @@ export class MetaService {
     return this.http.put<MetaDB>(url, metadb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
+	      metadb.MetaReferences = MetaReferences
         // this.log(`updated metadb id=${metadb.ID}`)
       }),
       catchError(this.handleError<MetaDB>('updateMeta'))

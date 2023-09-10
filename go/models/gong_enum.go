@@ -58,7 +58,6 @@ func (gongenumtype *GongEnumType) ToCodeString() (res string) {
 	return
 }
 
-
 func (gongenumtype GongEnumType) Codes() (res []string) {
 
 	res = make([]string, 0)
@@ -81,20 +80,21 @@ func (gongenumtype GongEnumType) CodeValues() (res []int) {
 	return
 }
 
+// end of insertion point for enum utility functions
 
 type GongstructEnumStringField interface {
-	string  | GongEnumType
+	string
 	Codes() []string
 	CodeValues() []string
 }
 
 type PointerToGongstructEnumStringField interface {
-	*GongEnumType
+	
 	FromCodeString(input string) (err error)
 }
 
 type GongstructEnumIntField interface {
-	int  | GongEnumType
+	int | GongEnumType
 	Codes() []string
 	CodeValues() []int
 }

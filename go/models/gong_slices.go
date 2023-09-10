@@ -33,85 +33,20 @@ func EvictInOtherSlices[T PointerToGongstruct, TF PointerToGongstruct](
 
 	switch owningInstanceInfered := any(owningInstance).(type) {
 	// insertion point
-	case *Astruct:
+	case *GongBasicField:
+		// insertion point per field
+
+	case *GongEnum:
 		// insertion point per field
 		// tweaking, it might be streamlined
-		if fieldName == "Anarrayofb" {
+		if fieldName == "GongEnumValues" {
 			for _instance := range *GetGongstructInstancesSetFromPointerType[T](stage) {
-				_inferedTypeInstance := any(_instance).(*Astruct)
+				_inferedTypeInstance := any(_instance).(*GongEnum)
 				reference := make([]TF, 0)
-				targetFieldSlice := any(_inferedTypeInstance.Anarrayofb).([]TF)
+				targetFieldSlice := any(_inferedTypeInstance.GongEnumValues).([]TF)
 				copy(targetFieldSlice, reference)
-				_inferedTypeInstance.Anarrayofb = make([]*Bstruct, 0)
-				if any(_instance).(*Astruct) != owningInstanceInfered {
-					for _, fieldInstance := range reference {
-						if _, ok := setOfFieldInstances[any(fieldInstance).(TF)]; !ok {
-							targetFieldSlice = append(targetFieldSlice, fieldInstance)
-						}
-					}
-				}
-			}
-		}
-		// tweaking, it might be streamlined
-		if fieldName == "Anotherarrayofb" {
-			for _instance := range *GetGongstructInstancesSetFromPointerType[T](stage) {
-				_inferedTypeInstance := any(_instance).(*Astruct)
-				reference := make([]TF, 0)
-				targetFieldSlice := any(_inferedTypeInstance.Anotherarrayofb).([]TF)
-				copy(targetFieldSlice, reference)
-				_inferedTypeInstance.Anotherarrayofb = make([]*Bstruct, 0)
-				if any(_instance).(*Astruct) != owningInstanceInfered {
-					for _, fieldInstance := range reference {
-						if _, ok := setOfFieldInstances[any(fieldInstance).(TF)]; !ok {
-							targetFieldSlice = append(targetFieldSlice, fieldInstance)
-						}
-					}
-				}
-			}
-		}
-		// tweaking, it might be streamlined
-		if fieldName == "Anarrayofa" {
-			for _instance := range *GetGongstructInstancesSetFromPointerType[T](stage) {
-				_inferedTypeInstance := any(_instance).(*Astruct)
-				reference := make([]TF, 0)
-				targetFieldSlice := any(_inferedTypeInstance.Anarrayofa).([]TF)
-				copy(targetFieldSlice, reference)
-				_inferedTypeInstance.Anarrayofa = make([]*Astruct, 0)
-				if any(_instance).(*Astruct) != owningInstanceInfered {
-					for _, fieldInstance := range reference {
-						if _, ok := setOfFieldInstances[any(fieldInstance).(TF)]; !ok {
-							targetFieldSlice = append(targetFieldSlice, fieldInstance)
-						}
-					}
-				}
-			}
-		}
-		// tweaking, it might be streamlined
-		if fieldName == "AnarrayofbUse" {
-			for _instance := range *GetGongstructInstancesSetFromPointerType[T](stage) {
-				_inferedTypeInstance := any(_instance).(*Astruct)
-				reference := make([]TF, 0)
-				targetFieldSlice := any(_inferedTypeInstance.AnarrayofbUse).([]TF)
-				copy(targetFieldSlice, reference)
-				_inferedTypeInstance.AnarrayofbUse = make([]*AstructBstructUse, 0)
-				if any(_instance).(*Astruct) != owningInstanceInfered {
-					for _, fieldInstance := range reference {
-						if _, ok := setOfFieldInstances[any(fieldInstance).(TF)]; !ok {
-							targetFieldSlice = append(targetFieldSlice, fieldInstance)
-						}
-					}
-				}
-			}
-		}
-		// tweaking, it might be streamlined
-		if fieldName == "Anarrayofb2Use" {
-			for _instance := range *GetGongstructInstancesSetFromPointerType[T](stage) {
-				_inferedTypeInstance := any(_instance).(*Astruct)
-				reference := make([]TF, 0)
-				targetFieldSlice := any(_inferedTypeInstance.Anarrayofb2Use).([]TF)
-				copy(targetFieldSlice, reference)
-				_inferedTypeInstance.Anarrayofb2Use = make([]*AstructBstruct2Use, 0)
-				if any(_instance).(*Astruct) != owningInstanceInfered {
+				_inferedTypeInstance.GongEnumValues = make([]*GongEnumValue, 0)
+				if any(_instance).(*GongEnum) != owningInstanceInfered {
 					for _, fieldInstance := range reference {
 						if _, ok := setOfFieldInstances[any(fieldInstance).(TF)]; !ok {
 							targetFieldSlice = append(targetFieldSlice, fieldInstance)
@@ -121,16 +56,136 @@ func EvictInOtherSlices[T PointerToGongstruct, TF PointerToGongstruct](
 			}
 		}
 
-	case *AstructBstruct2Use:
+	case *GongEnumValue:
 		// insertion point per field
 
-	case *AstructBstructUse:
+	case *GongLink:
 		// insertion point per field
 
-	case *Bstruct:
+	case *GongNote:
+		// insertion point per field
+		// tweaking, it might be streamlined
+		if fieldName == "Links" {
+			for _instance := range *GetGongstructInstancesSetFromPointerType[T](stage) {
+				_inferedTypeInstance := any(_instance).(*GongNote)
+				reference := make([]TF, 0)
+				targetFieldSlice := any(_inferedTypeInstance.Links).([]TF)
+				copy(targetFieldSlice, reference)
+				_inferedTypeInstance.Links = make([]*GongLink, 0)
+				if any(_instance).(*GongNote) != owningInstanceInfered {
+					for _, fieldInstance := range reference {
+						if _, ok := setOfFieldInstances[any(fieldInstance).(TF)]; !ok {
+							targetFieldSlice = append(targetFieldSlice, fieldInstance)
+						}
+					}
+				}
+			}
+		}
+
+	case *GongStruct:
+		// insertion point per field
+		// tweaking, it might be streamlined
+		if fieldName == "GongBasicFields" {
+			for _instance := range *GetGongstructInstancesSetFromPointerType[T](stage) {
+				_inferedTypeInstance := any(_instance).(*GongStruct)
+				reference := make([]TF, 0)
+				targetFieldSlice := any(_inferedTypeInstance.GongBasicFields).([]TF)
+				copy(targetFieldSlice, reference)
+				_inferedTypeInstance.GongBasicFields = make([]*GongBasicField, 0)
+				if any(_instance).(*GongStruct) != owningInstanceInfered {
+					for _, fieldInstance := range reference {
+						if _, ok := setOfFieldInstances[any(fieldInstance).(TF)]; !ok {
+							targetFieldSlice = append(targetFieldSlice, fieldInstance)
+						}
+					}
+				}
+			}
+		}
+		// tweaking, it might be streamlined
+		if fieldName == "GongTimeFields" {
+			for _instance := range *GetGongstructInstancesSetFromPointerType[T](stage) {
+				_inferedTypeInstance := any(_instance).(*GongStruct)
+				reference := make([]TF, 0)
+				targetFieldSlice := any(_inferedTypeInstance.GongTimeFields).([]TF)
+				copy(targetFieldSlice, reference)
+				_inferedTypeInstance.GongTimeFields = make([]*GongTimeField, 0)
+				if any(_instance).(*GongStruct) != owningInstanceInfered {
+					for _, fieldInstance := range reference {
+						if _, ok := setOfFieldInstances[any(fieldInstance).(TF)]; !ok {
+							targetFieldSlice = append(targetFieldSlice, fieldInstance)
+						}
+					}
+				}
+			}
+		}
+		// tweaking, it might be streamlined
+		if fieldName == "PointerToGongStructFields" {
+			for _instance := range *GetGongstructInstancesSetFromPointerType[T](stage) {
+				_inferedTypeInstance := any(_instance).(*GongStruct)
+				reference := make([]TF, 0)
+				targetFieldSlice := any(_inferedTypeInstance.PointerToGongStructFields).([]TF)
+				copy(targetFieldSlice, reference)
+				_inferedTypeInstance.PointerToGongStructFields = make([]*PointerToGongStructField, 0)
+				if any(_instance).(*GongStruct) != owningInstanceInfered {
+					for _, fieldInstance := range reference {
+						if _, ok := setOfFieldInstances[any(fieldInstance).(TF)]; !ok {
+							targetFieldSlice = append(targetFieldSlice, fieldInstance)
+						}
+					}
+				}
+			}
+		}
+		// tweaking, it might be streamlined
+		if fieldName == "SliceOfPointerToGongStructFields" {
+			for _instance := range *GetGongstructInstancesSetFromPointerType[T](stage) {
+				_inferedTypeInstance := any(_instance).(*GongStruct)
+				reference := make([]TF, 0)
+				targetFieldSlice := any(_inferedTypeInstance.SliceOfPointerToGongStructFields).([]TF)
+				copy(targetFieldSlice, reference)
+				_inferedTypeInstance.SliceOfPointerToGongStructFields = make([]*SliceOfPointerToGongStructField, 0)
+				if any(_instance).(*GongStruct) != owningInstanceInfered {
+					for _, fieldInstance := range reference {
+						if _, ok := setOfFieldInstances[any(fieldInstance).(TF)]; !ok {
+							targetFieldSlice = append(targetFieldSlice, fieldInstance)
+						}
+					}
+				}
+			}
+		}
+
+	case *GongTimeField:
 		// insertion point per field
 
-	case *Dstruct:
+	case *Meta:
+		// insertion point per field
+		// tweaking, it might be streamlined
+		if fieldName == "MetaReferences" {
+			for _instance := range *GetGongstructInstancesSetFromPointerType[T](stage) {
+				_inferedTypeInstance := any(_instance).(*Meta)
+				reference := make([]TF, 0)
+				targetFieldSlice := any(_inferedTypeInstance.MetaReferences).([]TF)
+				copy(targetFieldSlice, reference)
+				_inferedTypeInstance.MetaReferences = make([]*MetaReference, 0)
+				if any(_instance).(*Meta) != owningInstanceInfered {
+					for _, fieldInstance := range reference {
+						if _, ok := setOfFieldInstances[any(fieldInstance).(TF)]; !ok {
+							targetFieldSlice = append(targetFieldSlice, fieldInstance)
+						}
+					}
+				}
+			}
+		}
+
+	case *MetaReference:
+		// insertion point per field
+
+	case *ModelPkg:
+		// insertion point per field
+
+	case *PointerToGongStructField:
+		// insertion point per field
+
+	case *SliceOfPointerToGongStructField:
 		// insertion point per field
 
 	default:

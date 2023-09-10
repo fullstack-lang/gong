@@ -72,6 +72,7 @@ export class GongBasicFieldService {
   postGongBasicField(gongbasicfielddb: GongBasicFieldDB, GONG__StackPath: string): Observable<GongBasicFieldDB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
+    let GongEnum = gongbasicfielddb.GongEnum
     gongbasicfielddb.GongEnum = new GongEnumDB
     let _GongStruct_GongBasicFields_reverse = gongbasicfielddb.GongStruct_GongBasicFields_reverse
     gongbasicfielddb.GongStruct_GongBasicFields_reverse = new GongStructDB
@@ -115,6 +116,7 @@ export class GongBasicFieldService {
     const url = `${this.gongbasicfieldsUrl}/${id}`;
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
+    let GongEnum = gongbasicfielddb.GongEnum
     gongbasicfielddb.GongEnum = new GongEnumDB
     let _GongStruct_GongBasicFields_reverse = gongbasicfielddb.GongStruct_GongBasicFields_reverse
     gongbasicfielddb.GongStruct_GongBasicFields_reverse = new GongStructDB

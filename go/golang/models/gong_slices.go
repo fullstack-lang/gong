@@ -16,8 +16,6 @@ import (
 const GongSliceTemplate = `// generated code - do not edit
 package models
 
-import "log"
-
 // EvictInOtherSlices allows for adherance between
 // the gong association model and go.
 //
@@ -50,6 +48,8 @@ func EvictInOtherSlices[T PointerToGongstruct, TF PointerToGongstruct](
 
 	switch owningInstanceInfered := any(owningInstance).(type) {
 	// insertion point{{` + string(rune(GongSliceCase)) + `}}
+	default:
+		_ = owningInstanceInfered // to avoid "declared and not used" error if no named struct has slices
 	}
 }
 `
@@ -83,7 +83,6 @@ map[GongSliceSubTemplateId]string{
 		if fieldName == "{{FieldName}}" {
 			for _instance := range *GetGongstructInstancesSetFromPointerType[T](stage) {
 				_inferedTypeInstance := any(_instance).(*{{Structname}})
-				log.Println("Instance", _inferedTypeInstance.GetName(), "{{FieldName}}", len(_inferedTypeInstance.{{FieldName}}))
 				reference := make([]TF, 0)
 				targetFieldSlice := any(_inferedTypeInstance.{{FieldName}}).([]TF)
 				copy(targetFieldSlice, reference)
@@ -95,7 +94,6 @@ map[GongSliceSubTemplateId]string{
 						}
 					}
 				}
-				log.Println("Instance", _inferedTypeInstance.GetName(), "{{FieldName}}", len(_inferedTypeInstance.{{FieldName}}))
 			}
 		}`,
 }

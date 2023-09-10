@@ -70,9 +70,13 @@ export class GongStructService {
   postGongStruct(gongstructdb: GongStructDB, GONG__StackPath: string): Observable<GongStructDB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
+    let GongBasicFields = gongstructdb.GongBasicFields
     gongstructdb.GongBasicFields = []
+    let GongTimeFields = gongstructdb.GongTimeFields
     gongstructdb.GongTimeFields = []
+    let PointerToGongStructFields = gongstructdb.PointerToGongStructFields
     gongstructdb.PointerToGongStructFields = []
+    let SliceOfPointerToGongStructFields = gongstructdb.SliceOfPointerToGongStructFields
     gongstructdb.SliceOfPointerToGongStructFields = []
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
@@ -84,6 +88,10 @@ export class GongStructService {
     return this.http.post<GongStructDB>(this.gongstructsUrl, gongstructdb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
+	      gongstructdb.GongBasicFields = GongBasicFields
+	      gongstructdb.GongTimeFields = GongTimeFields
+	      gongstructdb.PointerToGongStructFields = PointerToGongStructFields
+	      gongstructdb.SliceOfPointerToGongStructFields = SliceOfPointerToGongStructFields
         // this.log(`posted gongstructdb id=${gongstructdb.ID}`)
       }),
       catchError(this.handleError<GongStructDB>('postGongStruct'))
@@ -113,9 +121,13 @@ export class GongStructService {
     const url = `${this.gongstructsUrl}/${id}`;
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
+    let GongBasicFields = gongstructdb.GongBasicFields
     gongstructdb.GongBasicFields = []
+    let GongTimeFields = gongstructdb.GongTimeFields
     gongstructdb.GongTimeFields = []
+    let PointerToGongStructFields = gongstructdb.PointerToGongStructFields
     gongstructdb.PointerToGongStructFields = []
+    let SliceOfPointerToGongStructFields = gongstructdb.SliceOfPointerToGongStructFields
     gongstructdb.SliceOfPointerToGongStructFields = []
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
@@ -127,6 +139,10 @@ export class GongStructService {
     return this.http.put<GongStructDB>(url, gongstructdb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
+	      gongstructdb.GongBasicFields = GongBasicFields
+	      gongstructdb.GongTimeFields = GongTimeFields
+	      gongstructdb.PointerToGongStructFields = PointerToGongStructFields
+	      gongstructdb.SliceOfPointerToGongStructFields = SliceOfPointerToGongStructFields
         // this.log(`updated gongstructdb id=${gongstructdb.ID}`)
       }),
       catchError(this.handleError<GongStructDB>('updateGongStruct'))
