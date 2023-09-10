@@ -70,6 +70,7 @@ export class GongNoteService {
   postGongNote(gongnotedb: GongNoteDB, GONG__StackPath: string): Observable<GongNoteDB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
+    let Links = gongnotedb.Links
     gongnotedb.Links = []
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
@@ -81,6 +82,7 @@ export class GongNoteService {
     return this.http.post<GongNoteDB>(this.gongnotesUrl, gongnotedb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
+	      gongnotedb.Links = Links
         // this.log(`posted gongnotedb id=${gongnotedb.ID}`)
       }),
       catchError(this.handleError<GongNoteDB>('postGongNote'))
@@ -110,6 +112,7 @@ export class GongNoteService {
     const url = `${this.gongnotesUrl}/${id}`;
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
+    let Links = gongnotedb.Links
     gongnotedb.Links = []
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
@@ -121,6 +124,7 @@ export class GongNoteService {
     return this.http.put<GongNoteDB>(url, gongnotedb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
+	      gongnotedb.Links = Links
         // this.log(`updated gongnotedb id=${gongnotedb.ID}`)
       }),
       catchError(this.handleError<GongNoteDB>('updateGongNote'))
