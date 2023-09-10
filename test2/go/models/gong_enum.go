@@ -2,9 +2,10 @@
 package models
 
 // insertion point of enum utility functions
+// end of insertion point for enum utility functions
 
 type GongstructEnumStringField interface {
-	string 
+	string
 	Codes() []string
 	CodeValues() []string
 }
@@ -15,7 +16,7 @@ type PointerToGongstructEnumStringField interface {
 }
 
 type GongstructEnumIntField interface {
-	int 
+	int
 	Codes() []string
 	CodeValues() []int
 }

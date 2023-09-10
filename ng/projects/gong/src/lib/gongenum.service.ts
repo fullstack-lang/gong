@@ -70,6 +70,7 @@ export class GongEnumService {
   postGongEnum(gongenumdb: GongEnumDB, GONG__StackPath: string): Observable<GongEnumDB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
+    let GongEnumValues = gongenumdb.GongEnumValues
     gongenumdb.GongEnumValues = []
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
@@ -81,6 +82,7 @@ export class GongEnumService {
     return this.http.post<GongEnumDB>(this.gongenumsUrl, gongenumdb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
+	      gongenumdb.GongEnumValues = GongEnumValues
         // this.log(`posted gongenumdb id=${gongenumdb.ID}`)
       }),
       catchError(this.handleError<GongEnumDB>('postGongEnum'))
@@ -110,6 +112,7 @@ export class GongEnumService {
     const url = `${this.gongenumsUrl}/${id}`;
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
+    let GongEnumValues = gongenumdb.GongEnumValues
     gongenumdb.GongEnumValues = []
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
@@ -121,6 +124,7 @@ export class GongEnumService {
     return this.http.put<GongEnumDB>(url, gongenumdb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
+	      gongenumdb.GongEnumValues = GongEnumValues
         // this.log(`updated gongenumdb id=${gongenumdb.ID}`)
       }),
       catchError(this.handleError<GongEnumDB>('updateGongEnum'))

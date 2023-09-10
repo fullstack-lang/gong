@@ -71,6 +71,7 @@ export class SliceOfPointerToGongStructFieldService {
   postSliceOfPointerToGongStructField(sliceofpointertogongstructfielddb: SliceOfPointerToGongStructFieldDB, GONG__StackPath: string): Observable<SliceOfPointerToGongStructFieldDB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
+    let GongStruct = sliceofpointertogongstructfielddb.GongStruct
     sliceofpointertogongstructfielddb.GongStruct = new GongStructDB
     let _GongStruct_SliceOfPointerToGongStructFields_reverse = sliceofpointertogongstructfielddb.GongStruct_SliceOfPointerToGongStructFields_reverse
     sliceofpointertogongstructfielddb.GongStruct_SliceOfPointerToGongStructFields_reverse = new GongStructDB
@@ -114,6 +115,7 @@ export class SliceOfPointerToGongStructFieldService {
     const url = `${this.sliceofpointertogongstructfieldsUrl}/${id}`;
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
+    let GongStruct = sliceofpointertogongstructfielddb.GongStruct
     sliceofpointertogongstructfielddb.GongStruct = new GongStructDB
     let _GongStruct_SliceOfPointerToGongStructFields_reverse = sliceofpointertogongstructfielddb.GongStruct_SliceOfPointerToGongStructFields_reverse
     sliceofpointertogongstructfielddb.GongStruct_SliceOfPointerToGongStructFields_reverse = new GongStructDB
