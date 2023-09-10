@@ -36,6 +36,7 @@ func RemoveGeneratedGongFilesButDocs(
 		"gong_coder.go",
 		"gong_ast.go",
 		"gong_serialize.go",
+		"gong_slices.go",
 		"gong_marshall.go",
 		"gong_graph.go",
 		"gong_enum.go",
