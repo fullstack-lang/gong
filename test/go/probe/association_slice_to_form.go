@@ -34,7 +34,7 @@ func AssociationSliceToForm[InstanceType models.PointerToGongstruct, FieldType m
 		Label: fieldName,
 	}).Stage(playground.formStage)
 	formDiv.FormEditAssocButton = formEditAssocButton
-	onAssocEditon := NewOnAssocEditon(instance, field, playground)
+	onAssocEditon := NewOnAssocEditon(instance, field, fieldName, playground)
 	formEditAssocButton.OnAssocEditon = onAssocEditon
 
 	formSortAssocButton := (&form.FormSortAssocButton{
@@ -50,18 +50,21 @@ func AssociationSliceToForm[InstanceType models.PointerToGongstruct, FieldType m
 type OnAssocEditon[InstanceType models.PointerToGongstruct, FieldType models.PointerToGongstruct] struct {
 	instance   InstanceType
 	field      *[]FieldType
+	fieldName  string
 	playground *Playground
 }
 
 func NewOnAssocEditon[InstanceType models.PointerToGongstruct, FieldType models.PointerToGongstruct](
 	instance InstanceType,
 	field *[]FieldType,
+	fieldName string,
 	playground *Playground,
 ) (onAssocEdition *OnAssocEditon[InstanceType, FieldType]) {
 
 	onAssocEdition = new(OnAssocEditon[InstanceType, FieldType])
 	onAssocEdition.instance = instance
 	onAssocEdition.field = field
+	onAssocEdition.fieldName = fieldName
 	onAssocEdition.playground = playground
 
 	return
@@ -128,6 +131,7 @@ func (onAssocEditon *OnAssocEditon[InstanceType, FieldType]) OnButtonPressed() {
 	table.Impl = NewTablePickSaver[InstanceType, FieldType](
 		onAssocEditon.instance,
 		onAssocEditon.field,
+		onAssocEditon.fieldName,
 		onAssocEditon.playground)
 
 	tableStageForSelection.Commit()
@@ -136,12 +140,15 @@ func (onAssocEditon *OnAssocEditon[InstanceType, FieldType]) OnButtonPressed() {
 func NewTablePickSaver[InstanceType models.PointerToGongstruct, FieldType models.PointerToGongstruct](
 	instance InstanceType,
 	field *[]FieldType,
+	fieldName string,
 	playground *Playground,
+
 ) (tablePickSaver *TablePickSaver[InstanceType, FieldType]) {
 
 	tablePickSaver = new(TablePickSaver[InstanceType, FieldType])
 	tablePickSaver.instance = instance
 	tablePickSaver.field = field
+	tablePickSaver.fieldName = fieldName
 	tablePickSaver.playground = playground
 
 	return
@@ -150,10 +157,13 @@ func NewTablePickSaver[InstanceType models.PointerToGongstruct, FieldType models
 type TablePickSaver[InstanceType models.PointerToGongstruct, FieldType models.PointerToGongstruct] struct {
 	instance   InstanceType
 	field      *[]FieldType
+	fieldName  string
 	playground *Playground
 }
 
-func (tablePickSaver *TablePickSaver[InstanceType, FieldType]) TableUpdated(stage *form.StageStruct, table, updatedTable *form.Table) {
+func (tablePickSaver *TablePickSaver[InstanceType, FieldType]) TableUpdated(
+	stage *form.StageStruct,
+	table, updatedTable *form.Table) {
 	log.Println("TablePickSaver: TableUpdated")
 
 	// checkout to the stage to get the rows that have been checked and not
@@ -181,7 +191,9 @@ func (tablePickSaver *TablePickSaver[InstanceType, FieldType]) TableUpdated(stag
 	tablePickSaver.instance.CommitVoid(tablePickSaver.playground.stageOfInterest)
 	models.EvictInOtherSlices(
 		tablePickSaver.playground.stageOfInterest,
-		tablePickSaver.instance, *tablePickSaver.field, "Anarrayofb")
+		tablePickSaver.instance,
+		*tablePickSaver.field,
+		tablePickSaver.fieldName)
 
 	// commit the whole
 	tablePickSaver.playground.stageOfInterest.Commit()
