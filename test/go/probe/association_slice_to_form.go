@@ -179,6 +179,9 @@ func (tablePickSaver *TablePickSaver[InstanceType, FieldType]) TableUpdated(stag
 
 	// first, force commit of instance for taking into account the slice
 	tablePickSaver.instance.CommitVoid(tablePickSaver.playground.stageOfInterest)
+	models.EvictInOtherSlices(
+		tablePickSaver.playground.stageOfInterest,
+		tablePickSaver.instance, *tablePickSaver.field, "Anarrayofb")
 
 	// commit the whole
 	tablePickSaver.playground.stageOfInterest.Commit()
