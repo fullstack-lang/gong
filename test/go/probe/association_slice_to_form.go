@@ -178,7 +178,8 @@ func (tablePickSaver *TablePickSaver[InstanceType, FieldType]) TableUpdated(
 		return instanceSlice[i].GetName() < instanceSlice[j].GetName()
 	})
 
-	*tablePickSaver.field = make([]FieldType, 0)
+	// reset the field
+	*tablePickSaver.field = (*tablePickSaver.field)[:0]
 
 	for idx, row := range table.Rows {
 		if row.IsChecked {

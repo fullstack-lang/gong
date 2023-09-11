@@ -607,3 +607,25 @@ func (backRepoBstruct *BackRepoBstructStruct) RestorePhaseTwo() {
 // this field is used during the restauration process.
 // it stores the ID at the backup time and is used for renumbering
 var BackRepoBstructid_atBckpTime_newID map[uint]uint
+
+// BackRepoBstruct.ResetReversePointers commits all staged instances of Bstruct to the BackRepo
+// Phase Two is the update of instance with the field in the database
+func (backRepoBstruct *BackRepoBstructStruct) ResetReversePointers(backRepo *BackRepoStruct) (Error error) {
+
+	for idx, bstruct := range backRepoBstruct.Map_BstructDBID_BstructPtr {
+		backRepoBstruct.ResetReversePointersInstance(backRepo, idx, bstruct)
+	}
+
+	return
+}
+
+func (backRepoBstruct *BackRepoBstructStruct) ResetReversePointersInstance(backRepo *BackRepoStruct, idx uint, astruct *models.Bstruct) (Error error) {
+
+	// fetch matching bstructDB
+	if bstructDB, ok := backRepoBstruct.Map_BstructDBID_BstructDB[idx]; ok {
+		bstructDB.Astruct_AnarrayofbDBID.Int64 = 0
+		bstructDB.Astruct_AnarrayofbDBID.Valid = true
+	}
+
+	return
+}
