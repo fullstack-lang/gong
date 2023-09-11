@@ -71,6 +71,7 @@ export class NoteShapeService {
   postNoteShape(noteshapedb: NoteShapeDB, GONG__StackPath: string): Observable<NoteShapeDB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
+    let NoteShapeLinks = noteshapedb.NoteShapeLinks
     noteshapedb.NoteShapeLinks = []
     let _Classdiagram_NoteShapes_reverse = noteshapedb.Classdiagram_NoteShapes_reverse
     noteshapedb.Classdiagram_NoteShapes_reverse = new ClassdiagramDB
@@ -84,6 +85,7 @@ export class NoteShapeService {
     return this.http.post<NoteShapeDB>(this.noteshapesUrl, noteshapedb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
+	      noteshapedb.NoteShapeLinks = NoteShapeLinks
         noteshapedb.Classdiagram_NoteShapes_reverse = _Classdiagram_NoteShapes_reverse
         // this.log(`posted noteshapedb id=${noteshapedb.ID}`)
       }),
@@ -114,6 +116,7 @@ export class NoteShapeService {
     const url = `${this.noteshapesUrl}/${id}`;
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
+    let NoteShapeLinks = noteshapedb.NoteShapeLinks
     noteshapedb.NoteShapeLinks = []
     let _Classdiagram_NoteShapes_reverse = noteshapedb.Classdiagram_NoteShapes_reverse
     noteshapedb.Classdiagram_NoteShapes_reverse = new ClassdiagramDB
@@ -127,6 +130,7 @@ export class NoteShapeService {
     return this.http.put<NoteShapeDB>(url, noteshapedb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
+	      noteshapedb.NoteShapeLinks = NoteShapeLinks
         noteshapedb.Classdiagram_NoteShapes_reverse = _Classdiagram_NoteShapes_reverse
         // this.log(`updated noteshapedb id=${noteshapedb.ID}`)
       }),

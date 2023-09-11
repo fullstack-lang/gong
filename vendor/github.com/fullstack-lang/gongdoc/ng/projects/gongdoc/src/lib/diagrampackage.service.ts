@@ -71,8 +71,11 @@ export class DiagramPackageService {
   postDiagramPackage(diagrampackagedb: DiagramPackageDB, GONG__StackPath: string): Observable<DiagramPackageDB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
+    let Classdiagrams = diagrampackagedb.Classdiagrams
     diagrampackagedb.Classdiagrams = []
+    let SelectedClassdiagram = diagrampackagedb.SelectedClassdiagram
     diagrampackagedb.SelectedClassdiagram = new ClassdiagramDB
+    let Umlscs = diagrampackagedb.Umlscs
     diagrampackagedb.Umlscs = []
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
@@ -84,6 +87,8 @@ export class DiagramPackageService {
     return this.http.post<DiagramPackageDB>(this.diagrampackagesUrl, diagrampackagedb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
+	      diagrampackagedb.Classdiagrams = Classdiagrams
+	      diagrampackagedb.Umlscs = Umlscs
         // this.log(`posted diagrampackagedb id=${diagrampackagedb.ID}`)
       }),
       catchError(this.handleError<DiagramPackageDB>('postDiagramPackage'))
@@ -113,8 +118,11 @@ export class DiagramPackageService {
     const url = `${this.diagrampackagesUrl}/${id}`;
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
+    let Classdiagrams = diagrampackagedb.Classdiagrams
     diagrampackagedb.Classdiagrams = []
+    let SelectedClassdiagram = diagrampackagedb.SelectedClassdiagram
     diagrampackagedb.SelectedClassdiagram = new ClassdiagramDB
+    let Umlscs = diagrampackagedb.Umlscs
     diagrampackagedb.Umlscs = []
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
@@ -126,6 +134,8 @@ export class DiagramPackageService {
     return this.http.put<DiagramPackageDB>(url, diagrampackagedb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
+	      diagrampackagedb.Classdiagrams = Classdiagrams
+	      diagrampackagedb.Umlscs = Umlscs
         // this.log(`updated diagrampackagedb id=${diagrampackagedb.ID}`)
       }),
       catchError(this.handleError<DiagramPackageDB>('updateDiagramPackage'))

@@ -50,7 +50,6 @@ func (formgroupname *FormGroupName) ToCodeString() (res string) {
 	return
 }
 
-
 func (formgroupname FormGroupName) Codes() (res []string) {
 
 	res = make([]string, 0)
@@ -239,7 +238,6 @@ func (inputtypeenum *InputTypeEnum) ToCodeString() (res string) {
 	return
 }
 
-
 func (inputtypeenum InputTypeEnum) Codes() (res []string) {
 
 	res = make([]string, 0)
@@ -346,7 +344,6 @@ func (tableextranameenum *TableExtraNameEnum) ToCodeString() (res string) {
 	return
 }
 
-
 func (tableextranameenum TableExtraNameEnum) Codes() (res []string) {
 
 	res = make([]string, 0)
@@ -449,7 +446,6 @@ func (tableextrapathenum *TableExtraPathEnum) ToCodeString() (res string) {
 	return
 }
 
-
 func (tableextrapathenum TableExtraPathEnum) Codes() (res []string) {
 
 	res = make([]string, 0)
@@ -526,7 +522,6 @@ func (tablename *TableName) ToCodeString() (res string) {
 	return
 }
 
-
 func (tablename TableName) Codes() (res []string) {
 
 	res = make([]string, 0)
@@ -547,9 +542,10 @@ func (tablename TableName) CodeValues() (res []string) {
 	return
 }
 
+// end of insertion point for enum utility functions
 
 type GongstructEnumStringField interface {
-	string  | FormGroupName | InputTypeEnum | TableExtraNameEnum | TableExtraPathEnum | TableName
+	string | FormGroupName | InputTypeEnum | TableExtraNameEnum | TableExtraPathEnum | TableName
 	Codes() []string
 	CodeValues() []string
 }
@@ -560,13 +556,13 @@ type PointerToGongstructEnumStringField interface {
 }
 
 type GongstructEnumIntField interface {
-	int  | FormGroupName | InputTypeEnum | TableExtraNameEnum | TableExtraPathEnum | TableName
+	int
 	Codes() []string
 	CodeValues() []int
 }
 
 type PointerToGongstructEnumIntField interface {
-	*FormGroupName | *InputTypeEnum | *TableExtraNameEnum | *TableExtraPathEnum | *TableName
+	
 	FromCodeString(input string) (err error)
 }
 

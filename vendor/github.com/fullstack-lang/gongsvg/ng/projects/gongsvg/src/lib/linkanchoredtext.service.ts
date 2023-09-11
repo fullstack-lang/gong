@@ -71,6 +71,7 @@ export class LinkAnchoredTextService {
   postLinkAnchoredText(linkanchoredtextdb: LinkAnchoredTextDB, GONG__StackPath: string): Observable<LinkAnchoredTextDB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
+    let Animates = linkanchoredtextdb.Animates
     linkanchoredtextdb.Animates = []
     let _Link_TextAtArrowEnd_reverse = linkanchoredtextdb.Link_TextAtArrowEnd_reverse
     linkanchoredtextdb.Link_TextAtArrowEnd_reverse = new LinkDB
@@ -86,6 +87,7 @@ export class LinkAnchoredTextService {
     return this.http.post<LinkAnchoredTextDB>(this.linkanchoredtextsUrl, linkanchoredtextdb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
+	      linkanchoredtextdb.Animates = Animates
         linkanchoredtextdb.Link_TextAtArrowEnd_reverse = _Link_TextAtArrowEnd_reverse
         linkanchoredtextdb.Link_TextAtArrowStart_reverse = _Link_TextAtArrowStart_reverse
         // this.log(`posted linkanchoredtextdb id=${linkanchoredtextdb.ID}`)
@@ -117,6 +119,7 @@ export class LinkAnchoredTextService {
     const url = `${this.linkanchoredtextsUrl}/${id}`;
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
+    let Animates = linkanchoredtextdb.Animates
     linkanchoredtextdb.Animates = []
     let _Link_TextAtArrowEnd_reverse = linkanchoredtextdb.Link_TextAtArrowEnd_reverse
     linkanchoredtextdb.Link_TextAtArrowEnd_reverse = new LinkDB
@@ -132,6 +135,7 @@ export class LinkAnchoredTextService {
     return this.http.put<LinkAnchoredTextDB>(url, linkanchoredtextdb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
+	      linkanchoredtextdb.Animates = Animates
         linkanchoredtextdb.Link_TextAtArrowEnd_reverse = _Link_TextAtArrowEnd_reverse
         linkanchoredtextdb.Link_TextAtArrowStart_reverse = _Link_TextAtArrowStart_reverse
         // this.log(`updated linkanchoredtextdb id=${linkanchoredtextdb.ID}`)

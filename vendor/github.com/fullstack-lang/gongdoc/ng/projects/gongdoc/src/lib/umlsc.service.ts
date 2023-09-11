@@ -71,6 +71,7 @@ export class UmlscService {
   postUmlsc(umlscdb: UmlscDB, GONG__StackPath: string): Observable<UmlscDB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
+    let States = umlscdb.States
     umlscdb.States = []
     let _DiagramPackage_Umlscs_reverse = umlscdb.DiagramPackage_Umlscs_reverse
     umlscdb.DiagramPackage_Umlscs_reverse = new DiagramPackageDB
@@ -84,6 +85,7 @@ export class UmlscService {
     return this.http.post<UmlscDB>(this.umlscsUrl, umlscdb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
+	      umlscdb.States = States
         umlscdb.DiagramPackage_Umlscs_reverse = _DiagramPackage_Umlscs_reverse
         // this.log(`posted umlscdb id=${umlscdb.ID}`)
       }),
@@ -114,6 +116,7 @@ export class UmlscService {
     const url = `${this.umlscsUrl}/${id}`;
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
+    let States = umlscdb.States
     umlscdb.States = []
     let _DiagramPackage_Umlscs_reverse = umlscdb.DiagramPackage_Umlscs_reverse
     umlscdb.DiagramPackage_Umlscs_reverse = new DiagramPackageDB
@@ -127,6 +130,7 @@ export class UmlscService {
     return this.http.put<UmlscDB>(url, umlscdb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
+	      umlscdb.States = States
         umlscdb.DiagramPackage_Umlscs_reverse = _DiagramPackage_Umlscs_reverse
         // this.log(`updated umlscdb id=${umlscdb.ID}`)
       }),
