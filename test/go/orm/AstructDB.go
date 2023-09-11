@@ -350,6 +350,28 @@ func (backRepoAstruct *BackRepoAstructStruct) CommitPhaseTwo(backRepo *BackRepoS
 	return
 }
 
+// BackRepoAstruct.ResetReversePointers commits all staged instances of Astruct to the BackRepo
+// Phase Two is the update of instance with the field in the database
+func (backRepoAstruct *BackRepoAstructStruct) ResetReversePointers(backRepo *BackRepoStruct) (Error error) {
+
+	for idx, astruct := range backRepoAstruct.Map_AstructDBID_AstructPtr {
+		backRepoAstruct.ResetReversePointersInstance(backRepo, idx, astruct)
+	}
+
+	return
+}
+
+func (backRepoAstruct *BackRepoAstructStruct) ResetReversePointersInstance(backRepo *BackRepoStruct, idx uint, astruct *models.Astruct) (Error error) {
+
+	// fetch matching astructDB
+	if astructDB, ok := backRepoAstruct.Map_AstructDBID_AstructDB[idx]; ok {
+		astructDB.Astruct_AnarrayofaDBID.Int64 = 0
+		astructDB.Astruct_AnarrayofaDBID.Valid = true
+	}
+
+	return
+}
+
 // BackRepoAstruct.CommitPhaseTwoInstance commits {{structname }} of models.Astruct to the BackRepo
 // Phase Two is the update of instance with the field in the database
 func (backRepoAstruct *BackRepoAstructStruct) CommitPhaseTwoInstance(backRepo *BackRepoStruct, idx uint, astruct *models.Astruct) (Error error) {
