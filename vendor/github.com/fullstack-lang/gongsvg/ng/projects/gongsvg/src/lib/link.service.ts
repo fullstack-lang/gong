@@ -72,10 +72,15 @@ export class LinkService {
   postLink(linkdb: LinkDB, GONG__StackPath: string): Observable<LinkDB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
+    let Start = linkdb.Start
     linkdb.Start = new RectDB
+    let End = linkdb.End
     linkdb.End = new RectDB
+    let TextAtArrowEnd = linkdb.TextAtArrowEnd
     linkdb.TextAtArrowEnd = []
+    let TextAtArrowStart = linkdb.TextAtArrowStart
     linkdb.TextAtArrowStart = []
+    let ControlPoints = linkdb.ControlPoints
     linkdb.ControlPoints = []
     let _Layer_Links_reverse = linkdb.Layer_Links_reverse
     linkdb.Layer_Links_reverse = new LayerDB
@@ -89,6 +94,9 @@ export class LinkService {
     return this.http.post<LinkDB>(this.linksUrl, linkdb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
+	      linkdb.TextAtArrowEnd = TextAtArrowEnd
+	      linkdb.TextAtArrowStart = TextAtArrowStart
+	      linkdb.ControlPoints = ControlPoints
         linkdb.Layer_Links_reverse = _Layer_Links_reverse
         // this.log(`posted linkdb id=${linkdb.ID}`)
       }),
@@ -119,10 +127,15 @@ export class LinkService {
     const url = `${this.linksUrl}/${id}`;
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
+    let Start = linkdb.Start
     linkdb.Start = new RectDB
+    let End = linkdb.End
     linkdb.End = new RectDB
+    let TextAtArrowEnd = linkdb.TextAtArrowEnd
     linkdb.TextAtArrowEnd = []
+    let TextAtArrowStart = linkdb.TextAtArrowStart
     linkdb.TextAtArrowStart = []
+    let ControlPoints = linkdb.ControlPoints
     linkdb.ControlPoints = []
     let _Layer_Links_reverse = linkdb.Layer_Links_reverse
     linkdb.Layer_Links_reverse = new LayerDB
@@ -136,6 +149,9 @@ export class LinkService {
     return this.http.put<LinkDB>(url, linkdb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
+	      linkdb.TextAtArrowEnd = TextAtArrowEnd
+	      linkdb.TextAtArrowStart = TextAtArrowStart
+	      linkdb.ControlPoints = ControlPoints
         linkdb.Layer_Links_reverse = _Layer_Links_reverse
         // this.log(`updated linkdb id=${linkdb.ID}`)
       }),

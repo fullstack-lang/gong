@@ -72,6 +72,7 @@ export class LinkService {
   postLink(linkdb: LinkDB, GONG__StackPath: string): Observable<LinkDB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
+    let Middlevertice = linkdb.Middlevertice
     linkdb.Middlevertice = new VerticeDB
     let _GongStructShape_Links_reverse = linkdb.GongStructShape_Links_reverse
     linkdb.GongStructShape_Links_reverse = new GongStructShapeDB
@@ -115,6 +116,7 @@ export class LinkService {
     const url = `${this.linksUrl}/${id}`;
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
+    let Middlevertice = linkdb.Middlevertice
     linkdb.Middlevertice = new VerticeDB
     let _GongStructShape_Links_reverse = linkdb.GongStructShape_Links_reverse
     linkdb.GongStructShape_Links_reverse = new GongStructShapeDB

@@ -71,6 +71,7 @@ export class EllipseService {
   postEllipse(ellipsedb: EllipseDB, GONG__StackPath: string): Observable<EllipseDB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
+    let Animates = ellipsedb.Animates
     ellipsedb.Animates = []
     let _Layer_Ellipses_reverse = ellipsedb.Layer_Ellipses_reverse
     ellipsedb.Layer_Ellipses_reverse = new LayerDB
@@ -84,6 +85,7 @@ export class EllipseService {
     return this.http.post<EllipseDB>(this.ellipsesUrl, ellipsedb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
+	      ellipsedb.Animates = Animates
         ellipsedb.Layer_Ellipses_reverse = _Layer_Ellipses_reverse
         // this.log(`posted ellipsedb id=${ellipsedb.ID}`)
       }),
@@ -114,6 +116,7 @@ export class EllipseService {
     const url = `${this.ellipsesUrl}/${id}`;
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
+    let Animates = ellipsedb.Animates
     ellipsedb.Animates = []
     let _Layer_Ellipses_reverse = ellipsedb.Layer_Ellipses_reverse
     ellipsedb.Layer_Ellipses_reverse = new LayerDB
@@ -127,6 +130,7 @@ export class EllipseService {
     return this.http.put<EllipseDB>(url, ellipsedb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
+	      ellipsedb.Animates = Animates
         ellipsedb.Layer_Ellipses_reverse = _Layer_Ellipses_reverse
         // this.log(`updated ellipsedb id=${ellipsedb.ID}`)
       }),

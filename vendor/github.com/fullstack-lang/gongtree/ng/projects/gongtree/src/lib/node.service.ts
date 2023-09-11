@@ -71,7 +71,9 @@ export class NodeService {
   postNode(nodedb: NodeDB, GONG__StackPath: string): Observable<NodeDB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
+    let Children = nodedb.Children
     nodedb.Children = []
+    let Buttons = nodedb.Buttons
     nodedb.Buttons = []
     let _Node_Children_reverse = nodedb.Node_Children_reverse
     nodedb.Node_Children_reverse = new NodeDB
@@ -87,6 +89,8 @@ export class NodeService {
     return this.http.post<NodeDB>(this.nodesUrl, nodedb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
+	      nodedb.Children = Children
+	      nodedb.Buttons = Buttons
         nodedb.Node_Children_reverse = _Node_Children_reverse
         nodedb.Tree_RootNodes_reverse = _Tree_RootNodes_reverse
         // this.log(`posted nodedb id=${nodedb.ID}`)
@@ -118,7 +122,9 @@ export class NodeService {
     const url = `${this.nodesUrl}/${id}`;
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
+    let Children = nodedb.Children
     nodedb.Children = []
+    let Buttons = nodedb.Buttons
     nodedb.Buttons = []
     let _Node_Children_reverse = nodedb.Node_Children_reverse
     nodedb.Node_Children_reverse = new NodeDB
@@ -134,6 +140,8 @@ export class NodeService {
     return this.http.put<NodeDB>(url, nodedb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
+	      nodedb.Children = Children
+	      nodedb.Buttons = Buttons
         nodedb.Node_Children_reverse = _Node_Children_reverse
         nodedb.Tree_RootNodes_reverse = _Tree_RootNodes_reverse
         // this.log(`updated nodedb id=${nodedb.ID}`)

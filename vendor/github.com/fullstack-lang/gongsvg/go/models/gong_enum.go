@@ -82,7 +82,6 @@ func (anchortype *AnchorType) ToCodeString() (res string) {
 	return
 }
 
-
 func (anchortype AnchorType) Codes() (res []string) {
 
 	res = make([]string, 0)
@@ -1327,7 +1326,6 @@ func (colortype *ColorType) ToCodeString() (res string) {
 	return
 }
 
-
 func (colortype ColorType) Codes() (res []string) {
 
 	res = make([]string, 0)
@@ -1696,7 +1694,6 @@ func (drawingstate *DrawingState) ToCodeString() (res string) {
 	return
 }
 
-
 func (drawingstate DrawingState) Codes() (res []string) {
 
 	res = make([]string, 0)
@@ -1774,7 +1771,6 @@ func (linktype *LinkType) ToCodeString() (res string) {
 	}
 	return
 }
-
 
 func (linktype LinkType) Codes() (res []string) {
 
@@ -1854,7 +1850,6 @@ func (orientationtype *OrientationType) ToCodeString() (res string) {
 	return
 }
 
-
 func (orientationtype OrientationType) Codes() (res []string) {
 
 	res = make([]string, 0)
@@ -1932,7 +1927,6 @@ func (positiononarrowtype *PositionOnArrowType) ToCodeString() (res string) {
 	}
 	return
 }
-
 
 func (positiononarrowtype PositionOnArrowType) Codes() (res []string) {
 
@@ -2068,7 +2062,6 @@ func (rectanchortype *RectAnchorType) ToCodeString() (res string) {
 	return
 }
 
-
 func (rectanchortype RectAnchorType) Codes() (res []string) {
 
 	res = make([]string, 0)
@@ -2177,7 +2170,6 @@ func (sidetype *SideType) ToCodeString() (res string) {
 	return
 }
 
-
 func (sidetype SideType) Codes() (res []string) {
 
 	res = make([]string, 0)
@@ -2268,7 +2260,6 @@ func (textanchortype *TextAnchorType) ToCodeString() (res string) {
 	return
 }
 
-
 func (textanchortype TextAnchorType) Codes() (res []string) {
 
 	res = make([]string, 0)
@@ -2293,9 +2284,10 @@ func (textanchortype TextAnchorType) CodeValues() (res []string) {
 	return
 }
 
+// end of insertion point for enum utility functions
 
 type GongstructEnumStringField interface {
-	string  | AnchorType | ColorType | DrawingState | LinkType | OrientationType | PositionOnArrowType | RectAnchorType | SideType | TextAnchorType
+	string | AnchorType | ColorType | DrawingState | LinkType | OrientationType | PositionOnArrowType | RectAnchorType | SideType | TextAnchorType
 	Codes() []string
 	CodeValues() []string
 }
@@ -2306,13 +2298,13 @@ type PointerToGongstructEnumStringField interface {
 }
 
 type GongstructEnumIntField interface {
-	int  | AnchorType | ColorType | DrawingState | LinkType | OrientationType | PositionOnArrowType | RectAnchorType | SideType | TextAnchorType
+	int
 	Codes() []string
 	CodeValues() []int
 }
 
 type PointerToGongstructEnumIntField interface {
-	*AnchorType | *ColorType | *DrawingState | *LinkType | *OrientationType | *PositionOnArrowType | *RectAnchorType | *SideType | *TextAnchorType
+	
 	FromCodeString(input string) (err error)
 }
 
