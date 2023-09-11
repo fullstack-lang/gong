@@ -71,8 +71,11 @@ export class SVGService {
   postSVG(svgdb: SVGDB, GONG__StackPath: string): Observable<SVGDB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
+    let Layers = svgdb.Layers
     svgdb.Layers = []
+    let StartRect = svgdb.StartRect
     svgdb.StartRect = new RectDB
+    let EndRect = svgdb.EndRect
     svgdb.EndRect = new RectDB
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
@@ -84,6 +87,7 @@ export class SVGService {
     return this.http.post<SVGDB>(this.svgsUrl, svgdb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
+	      svgdb.Layers = Layers
         // this.log(`posted svgdb id=${svgdb.ID}`)
       }),
       catchError(this.handleError<SVGDB>('postSVG'))
@@ -113,8 +117,11 @@ export class SVGService {
     const url = `${this.svgsUrl}/${id}`;
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
+    let Layers = svgdb.Layers
     svgdb.Layers = []
+    let StartRect = svgdb.StartRect
     svgdb.StartRect = new RectDB
+    let EndRect = svgdb.EndRect
     svgdb.EndRect = new RectDB
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
@@ -126,6 +133,7 @@ export class SVGService {
     return this.http.put<SVGDB>(url, svgdb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
+	      svgdb.Layers = Layers
         // this.log(`updated svgdb id=${svgdb.ID}`)
       }),
       catchError(this.handleError<SVGDB>('updateSVG'))

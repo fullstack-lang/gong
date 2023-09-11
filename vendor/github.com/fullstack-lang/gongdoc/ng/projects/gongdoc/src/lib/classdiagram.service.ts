@@ -71,8 +71,11 @@ export class ClassdiagramService {
   postClassdiagram(classdiagramdb: ClassdiagramDB, GONG__StackPath: string): Observable<ClassdiagramDB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
+    let GongStructShapes = classdiagramdb.GongStructShapes
     classdiagramdb.GongStructShapes = []
+    let GongEnumShapes = classdiagramdb.GongEnumShapes
     classdiagramdb.GongEnumShapes = []
+    let NoteShapes = classdiagramdb.NoteShapes
     classdiagramdb.NoteShapes = []
     let _DiagramPackage_Classdiagrams_reverse = classdiagramdb.DiagramPackage_Classdiagrams_reverse
     classdiagramdb.DiagramPackage_Classdiagrams_reverse = new DiagramPackageDB
@@ -86,6 +89,9 @@ export class ClassdiagramService {
     return this.http.post<ClassdiagramDB>(this.classdiagramsUrl, classdiagramdb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
+	      classdiagramdb.GongStructShapes = GongStructShapes
+	      classdiagramdb.GongEnumShapes = GongEnumShapes
+	      classdiagramdb.NoteShapes = NoteShapes
         classdiagramdb.DiagramPackage_Classdiagrams_reverse = _DiagramPackage_Classdiagrams_reverse
         // this.log(`posted classdiagramdb id=${classdiagramdb.ID}`)
       }),
@@ -116,8 +122,11 @@ export class ClassdiagramService {
     const url = `${this.classdiagramsUrl}/${id}`;
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
+    let GongStructShapes = classdiagramdb.GongStructShapes
     classdiagramdb.GongStructShapes = []
+    let GongEnumShapes = classdiagramdb.GongEnumShapes
     classdiagramdb.GongEnumShapes = []
+    let NoteShapes = classdiagramdb.NoteShapes
     classdiagramdb.NoteShapes = []
     let _DiagramPackage_Classdiagrams_reverse = classdiagramdb.DiagramPackage_Classdiagrams_reverse
     classdiagramdb.DiagramPackage_Classdiagrams_reverse = new DiagramPackageDB
@@ -131,6 +140,9 @@ export class ClassdiagramService {
     return this.http.put<ClassdiagramDB>(url, classdiagramdb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
+	      classdiagramdb.GongStructShapes = GongStructShapes
+	      classdiagramdb.GongEnumShapes = GongEnumShapes
+	      classdiagramdb.NoteShapes = NoteShapes
         classdiagramdb.DiagramPackage_Classdiagrams_reverse = _DiagramPackage_Classdiagrams_reverse
         // this.log(`updated classdiagramdb id=${classdiagramdb.ID}`)
       }),

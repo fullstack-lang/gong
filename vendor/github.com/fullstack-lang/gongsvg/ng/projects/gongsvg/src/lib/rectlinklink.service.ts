@@ -73,7 +73,9 @@ export class RectLinkLinkService {
   postRectLinkLink(rectlinklinkdb: RectLinkLinkDB, GONG__StackPath: string): Observable<RectLinkLinkDB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
+    let Start = rectlinklinkdb.Start
     rectlinklinkdb.Start = new RectDB
+    let End = rectlinklinkdb.End
     rectlinklinkdb.End = new LinkDB
     let _Layer_RectLinkLinks_reverse = rectlinklinkdb.Layer_RectLinkLinks_reverse
     rectlinklinkdb.Layer_RectLinkLinks_reverse = new LayerDB
@@ -117,7 +119,9 @@ export class RectLinkLinkService {
     const url = `${this.rectlinklinksUrl}/${id}`;
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
+    let Start = rectlinklinkdb.Start
     rectlinklinkdb.Start = new RectDB
+    let End = rectlinklinkdb.End
     rectlinklinkdb.End = new LinkDB
     let _Layer_RectLinkLinks_reverse = rectlinklinkdb.Layer_RectLinkLinks_reverse
     rectlinklinkdb.Layer_RectLinkLinks_reverse = new LayerDB

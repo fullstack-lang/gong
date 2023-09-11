@@ -71,6 +71,7 @@ export class RectAnchoredTextService {
   postRectAnchoredText(rectanchoredtextdb: RectAnchoredTextDB, GONG__StackPath: string): Observable<RectAnchoredTextDB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
+    let Animates = rectanchoredtextdb.Animates
     rectanchoredtextdb.Animates = []
     let _Rect_RectAnchoredTexts_reverse = rectanchoredtextdb.Rect_RectAnchoredTexts_reverse
     rectanchoredtextdb.Rect_RectAnchoredTexts_reverse = new RectDB
@@ -84,6 +85,7 @@ export class RectAnchoredTextService {
     return this.http.post<RectAnchoredTextDB>(this.rectanchoredtextsUrl, rectanchoredtextdb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
+	      rectanchoredtextdb.Animates = Animates
         rectanchoredtextdb.Rect_RectAnchoredTexts_reverse = _Rect_RectAnchoredTexts_reverse
         // this.log(`posted rectanchoredtextdb id=${rectanchoredtextdb.ID}`)
       }),
@@ -114,6 +116,7 @@ export class RectAnchoredTextService {
     const url = `${this.rectanchoredtextsUrl}/${id}`;
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
+    let Animates = rectanchoredtextdb.Animates
     rectanchoredtextdb.Animates = []
     let _Rect_RectAnchoredTexts_reverse = rectanchoredtextdb.Rect_RectAnchoredTexts_reverse
     rectanchoredtextdb.Rect_RectAnchoredTexts_reverse = new RectDB
@@ -127,6 +130,7 @@ export class RectAnchoredTextService {
     return this.http.put<RectAnchoredTextDB>(url, rectanchoredtextdb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
+	      rectanchoredtextdb.Animates = Animates
         rectanchoredtextdb.Rect_RectAnchoredTexts_reverse = _Rect_RectAnchoredTexts_reverse
         // this.log(`updated rectanchoredtextdb id=${rectanchoredtextdb.ID}`)
       }),

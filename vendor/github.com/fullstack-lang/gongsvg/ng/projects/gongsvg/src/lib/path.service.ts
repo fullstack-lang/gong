@@ -71,6 +71,7 @@ export class PathService {
   postPath(pathdb: PathDB, GONG__StackPath: string): Observable<PathDB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
+    let Animates = pathdb.Animates
     pathdb.Animates = []
     let _Layer_Paths_reverse = pathdb.Layer_Paths_reverse
     pathdb.Layer_Paths_reverse = new LayerDB
@@ -84,6 +85,7 @@ export class PathService {
     return this.http.post<PathDB>(this.pathsUrl, pathdb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
+	      pathdb.Animates = Animates
         pathdb.Layer_Paths_reverse = _Layer_Paths_reverse
         // this.log(`posted pathdb id=${pathdb.ID}`)
       }),
@@ -114,6 +116,7 @@ export class PathService {
     const url = `${this.pathsUrl}/${id}`;
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
+    let Animates = pathdb.Animates
     pathdb.Animates = []
     let _Layer_Paths_reverse = pathdb.Layer_Paths_reverse
     pathdb.Layer_Paths_reverse = new LayerDB
@@ -127,6 +130,7 @@ export class PathService {
     return this.http.put<PathDB>(url, pathdb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
+	      pathdb.Animates = Animates
         pathdb.Layer_Paths_reverse = _Layer_Paths_reverse
         // this.log(`updated pathdb id=${pathdb.ID}`)
       }),

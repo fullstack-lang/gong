@@ -72,8 +72,11 @@ export class GongStructShapeService {
   postGongStructShape(gongstructshapedb: GongStructShapeDB, GONG__StackPath: string): Observable<GongStructShapeDB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
+    let Position = gongstructshapedb.Position
     gongstructshapedb.Position = new PositionDB
+    let Fields = gongstructshapedb.Fields
     gongstructshapedb.Fields = []
+    let Links = gongstructshapedb.Links
     gongstructshapedb.Links = []
     let _Classdiagram_GongStructShapes_reverse = gongstructshapedb.Classdiagram_GongStructShapes_reverse
     gongstructshapedb.Classdiagram_GongStructShapes_reverse = new ClassdiagramDB
@@ -87,6 +90,8 @@ export class GongStructShapeService {
     return this.http.post<GongStructShapeDB>(this.gongstructshapesUrl, gongstructshapedb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
+	      gongstructshapedb.Fields = Fields
+	      gongstructshapedb.Links = Links
         gongstructshapedb.Classdiagram_GongStructShapes_reverse = _Classdiagram_GongStructShapes_reverse
         // this.log(`posted gongstructshapedb id=${gongstructshapedb.ID}`)
       }),
@@ -117,8 +122,11 @@ export class GongStructShapeService {
     const url = `${this.gongstructshapesUrl}/${id}`;
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
+    let Position = gongstructshapedb.Position
     gongstructshapedb.Position = new PositionDB
+    let Fields = gongstructshapedb.Fields
     gongstructshapedb.Fields = []
+    let Links = gongstructshapedb.Links
     gongstructshapedb.Links = []
     let _Classdiagram_GongStructShapes_reverse = gongstructshapedb.Classdiagram_GongStructShapes_reverse
     gongstructshapedb.Classdiagram_GongStructShapes_reverse = new ClassdiagramDB
@@ -132,6 +140,8 @@ export class GongStructShapeService {
     return this.http.put<GongStructShapeDB>(url, gongstructshapedb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
+	      gongstructshapedb.Fields = Fields
+	      gongstructshapedb.Links = Links
         gongstructshapedb.Classdiagram_GongStructShapes_reverse = _Classdiagram_GongStructShapes_reverse
         // this.log(`updated gongstructshapedb id=${gongstructshapedb.ID}`)
       }),

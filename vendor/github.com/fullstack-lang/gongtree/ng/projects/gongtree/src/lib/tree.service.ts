@@ -70,6 +70,7 @@ export class TreeService {
   postTree(treedb: TreeDB, GONG__StackPath: string): Observable<TreeDB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
+    let RootNodes = treedb.RootNodes
     treedb.RootNodes = []
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
@@ -81,6 +82,7 @@ export class TreeService {
     return this.http.post<TreeDB>(this.treesUrl, treedb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
+	      treedb.RootNodes = RootNodes
         // this.log(`posted treedb id=${treedb.ID}`)
       }),
       catchError(this.handleError<TreeDB>('postTree'))
@@ -110,6 +112,7 @@ export class TreeService {
     const url = `${this.treesUrl}/${id}`;
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
+    let RootNodes = treedb.RootNodes
     treedb.RootNodes = []
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
@@ -121,6 +124,7 @@ export class TreeService {
     return this.http.put<TreeDB>(url, treedb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
+	      treedb.RootNodes = RootNodes
         // this.log(`updated treedb id=${treedb.ID}`)
       }),
       catchError(this.handleError<TreeDB>('updateTree'))

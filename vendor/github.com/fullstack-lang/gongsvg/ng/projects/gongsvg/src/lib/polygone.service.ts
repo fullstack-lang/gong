@@ -71,6 +71,7 @@ export class PolygoneService {
   postPolygone(polygonedb: PolygoneDB, GONG__StackPath: string): Observable<PolygoneDB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
+    let Animates = polygonedb.Animates
     polygonedb.Animates = []
     let _Layer_Polygones_reverse = polygonedb.Layer_Polygones_reverse
     polygonedb.Layer_Polygones_reverse = new LayerDB
@@ -84,6 +85,7 @@ export class PolygoneService {
     return this.http.post<PolygoneDB>(this.polygonesUrl, polygonedb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
+	      polygonedb.Animates = Animates
         polygonedb.Layer_Polygones_reverse = _Layer_Polygones_reverse
         // this.log(`posted polygonedb id=${polygonedb.ID}`)
       }),
@@ -114,6 +116,7 @@ export class PolygoneService {
     const url = `${this.polygonesUrl}/${id}`;
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
+    let Animates = polygonedb.Animates
     polygonedb.Animates = []
     let _Layer_Polygones_reverse = polygonedb.Layer_Polygones_reverse
     polygonedb.Layer_Polygones_reverse = new LayerDB
@@ -127,6 +130,7 @@ export class PolygoneService {
     return this.http.put<PolygoneDB>(url, polygonedb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
+	      polygonedb.Animates = Animates
         polygonedb.Layer_Polygones_reverse = _Layer_Polygones_reverse
         // this.log(`updated polygonedb id=${polygonedb.ID}`)
       }),

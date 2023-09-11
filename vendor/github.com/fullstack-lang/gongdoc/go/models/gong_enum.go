@@ -58,7 +58,6 @@ func (gongenumshapetype *GongEnumShapeType) ToCodeString() (res string) {
 	return
 }
 
-
 func (gongenumshapetype GongEnumShapeType) Codes() (res []string) {
 
 	res = make([]string, 0)
@@ -145,7 +144,6 @@ func (multiplicitytype *MultiplicityType) ToCodeString() (res string) {
 	return
 }
 
-
 func (multiplicitytype MultiplicityType) Codes() (res []string) {
 
 	res = make([]string, 0)
@@ -226,7 +224,6 @@ func (noteshapelinktype *NoteShapeLinkType) ToCodeString() (res string) {
 	return
 }
 
-
 func (noteshapelinktype NoteShapeLinkType) Codes() (res []string) {
 
 	res = make([]string, 0)
@@ -305,7 +302,6 @@ func (orientationtype *OrientationType) ToCodeString() (res string) {
 	return
 }
 
-
 func (orientationtype OrientationType) Codes() (res []string) {
 
 	res = make([]string, 0)
@@ -328,26 +324,27 @@ func (orientationtype OrientationType) CodeValues() (res []string) {
 	return
 }
 
+// end of insertion point for enum utility functions
 
 type GongstructEnumStringField interface {
-	string  | GongEnumShapeType | MultiplicityType | NoteShapeLinkType | OrientationType
+	string | MultiplicityType | NoteShapeLinkType | OrientationType
 	Codes() []string
 	CodeValues() []string
 }
 
 type PointerToGongstructEnumStringField interface {
-	*GongEnumShapeType | *MultiplicityType | *NoteShapeLinkType | *OrientationType
+	*MultiplicityType | *NoteShapeLinkType | *OrientationType
 	FromCodeString(input string) (err error)
 }
 
 type GongstructEnumIntField interface {
-	int  | GongEnumShapeType | MultiplicityType | NoteShapeLinkType | OrientationType
+	int | GongEnumShapeType
 	Codes() []string
 	CodeValues() []int
 }
 
 type PointerToGongstructEnumIntField interface {
-	*GongEnumShapeType | *MultiplicityType | *NoteShapeLinkType | *OrientationType
+	*GongEnumShapeType
 	FromCodeString(input string) (err error)
 }
 

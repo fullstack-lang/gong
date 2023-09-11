@@ -72,7 +72,9 @@ export class GongEnumShapeService {
   postGongEnumShape(gongenumshapedb: GongEnumShapeDB, GONG__StackPath: string): Observable<GongEnumShapeDB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
+    let Position = gongenumshapedb.Position
     gongenumshapedb.Position = new PositionDB
+    let GongEnumValueEntrys = gongenumshapedb.GongEnumValueEntrys
     gongenumshapedb.GongEnumValueEntrys = []
     let _Classdiagram_GongEnumShapes_reverse = gongenumshapedb.Classdiagram_GongEnumShapes_reverse
     gongenumshapedb.Classdiagram_GongEnumShapes_reverse = new ClassdiagramDB
@@ -86,6 +88,7 @@ export class GongEnumShapeService {
     return this.http.post<GongEnumShapeDB>(this.gongenumshapesUrl, gongenumshapedb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
+	      gongenumshapedb.GongEnumValueEntrys = GongEnumValueEntrys
         gongenumshapedb.Classdiagram_GongEnumShapes_reverse = _Classdiagram_GongEnumShapes_reverse
         // this.log(`posted gongenumshapedb id=${gongenumshapedb.ID}`)
       }),
@@ -116,7 +119,9 @@ export class GongEnumShapeService {
     const url = `${this.gongenumshapesUrl}/${id}`;
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
+    let Position = gongenumshapedb.Position
     gongenumshapedb.Position = new PositionDB
+    let GongEnumValueEntrys = gongenumshapedb.GongEnumValueEntrys
     gongenumshapedb.GongEnumValueEntrys = []
     let _Classdiagram_GongEnumShapes_reverse = gongenumshapedb.Classdiagram_GongEnumShapes_reverse
     gongenumshapedb.Classdiagram_GongEnumShapes_reverse = new ClassdiagramDB
@@ -130,6 +135,7 @@ export class GongEnumShapeService {
     return this.http.put<GongEnumShapeDB>(url, gongenumshapedb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
+	      gongenumshapedb.GongEnumValueEntrys = GongEnumValueEntrys
         gongenumshapedb.Classdiagram_GongEnumShapes_reverse = _Classdiagram_GongEnumShapes_reverse
         // this.log(`updated gongenumshapedb id=${gongenumshapedb.ID}`)
       }),

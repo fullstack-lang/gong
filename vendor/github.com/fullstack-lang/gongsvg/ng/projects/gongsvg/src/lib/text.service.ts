@@ -71,6 +71,7 @@ export class TextService {
   postText(textdb: TextDB, GONG__StackPath: string): Observable<TextDB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
+    let Animates = textdb.Animates
     textdb.Animates = []
     let _Layer_Texts_reverse = textdb.Layer_Texts_reverse
     textdb.Layer_Texts_reverse = new LayerDB
@@ -84,6 +85,7 @@ export class TextService {
     return this.http.post<TextDB>(this.textsUrl, textdb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
+	      textdb.Animates = Animates
         textdb.Layer_Texts_reverse = _Layer_Texts_reverse
         // this.log(`posted textdb id=${textdb.ID}`)
       }),
@@ -114,6 +116,7 @@ export class TextService {
     const url = `${this.textsUrl}/${id}`;
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
+    let Animates = textdb.Animates
     textdb.Animates = []
     let _Layer_Texts_reverse = textdb.Layer_Texts_reverse
     textdb.Layer_Texts_reverse = new LayerDB
@@ -127,6 +130,7 @@ export class TextService {
     return this.http.put<TextDB>(url, textdb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
+	      textdb.Animates = Animates
         textdb.Layer_Texts_reverse = _Layer_Texts_reverse
         // this.log(`updated textdb id=${textdb.ID}`)
       }),

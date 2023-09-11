@@ -71,15 +71,25 @@ export class LayerService {
   postLayer(layerdb: LayerDB, GONG__StackPath: string): Observable<LayerDB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
+    let Rects = layerdb.Rects
     layerdb.Rects = []
+    let Texts = layerdb.Texts
     layerdb.Texts = []
+    let Circles = layerdb.Circles
     layerdb.Circles = []
+    let Lines = layerdb.Lines
     layerdb.Lines = []
+    let Ellipses = layerdb.Ellipses
     layerdb.Ellipses = []
+    let Polylines = layerdb.Polylines
     layerdb.Polylines = []
+    let Polygones = layerdb.Polygones
     layerdb.Polygones = []
+    let Paths = layerdb.Paths
     layerdb.Paths = []
+    let Links = layerdb.Links
     layerdb.Links = []
+    let RectLinkLinks = layerdb.RectLinkLinks
     layerdb.RectLinkLinks = []
     let _SVG_Layers_reverse = layerdb.SVG_Layers_reverse
     layerdb.SVG_Layers_reverse = new SVGDB
@@ -93,6 +103,16 @@ export class LayerService {
     return this.http.post<LayerDB>(this.layersUrl, layerdb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
+	      layerdb.Rects = Rects
+	      layerdb.Texts = Texts
+	      layerdb.Circles = Circles
+	      layerdb.Lines = Lines
+	      layerdb.Ellipses = Ellipses
+	      layerdb.Polylines = Polylines
+	      layerdb.Polygones = Polygones
+	      layerdb.Paths = Paths
+	      layerdb.Links = Links
+	      layerdb.RectLinkLinks = RectLinkLinks
         layerdb.SVG_Layers_reverse = _SVG_Layers_reverse
         // this.log(`posted layerdb id=${layerdb.ID}`)
       }),
@@ -123,15 +143,25 @@ export class LayerService {
     const url = `${this.layersUrl}/${id}`;
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
+    let Rects = layerdb.Rects
     layerdb.Rects = []
+    let Texts = layerdb.Texts
     layerdb.Texts = []
+    let Circles = layerdb.Circles
     layerdb.Circles = []
+    let Lines = layerdb.Lines
     layerdb.Lines = []
+    let Ellipses = layerdb.Ellipses
     layerdb.Ellipses = []
+    let Polylines = layerdb.Polylines
     layerdb.Polylines = []
+    let Polygones = layerdb.Polygones
     layerdb.Polygones = []
+    let Paths = layerdb.Paths
     layerdb.Paths = []
+    let Links = layerdb.Links
     layerdb.Links = []
+    let RectLinkLinks = layerdb.RectLinkLinks
     layerdb.RectLinkLinks = []
     let _SVG_Layers_reverse = layerdb.SVG_Layers_reverse
     layerdb.SVG_Layers_reverse = new SVGDB
@@ -145,6 +175,16 @@ export class LayerService {
     return this.http.put<LayerDB>(url, layerdb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
+	      layerdb.Rects = Rects
+	      layerdb.Texts = Texts
+	      layerdb.Circles = Circles
+	      layerdb.Lines = Lines
+	      layerdb.Ellipses = Ellipses
+	      layerdb.Polylines = Polylines
+	      layerdb.Polygones = Polygones
+	      layerdb.Paths = Paths
+	      layerdb.Links = Links
+	      layerdb.RectLinkLinks = RectLinkLinks
         layerdb.SVG_Layers_reverse = _SVG_Layers_reverse
         // this.log(`updated layerdb id=${layerdb.ID}`)
       }),
