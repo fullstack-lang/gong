@@ -538,6 +538,30 @@ func (backRepoDstruct *BackRepoDstructStruct) RestorePhaseTwo() {
 
 }
 
+// BackRepoDstruct.ResetReversePointers commits all staged instances of Dstruct to the BackRepo
+// Phase Two is the update of instance with the field in the database
+func (backRepoDstruct *BackRepoDstructStruct) ResetReversePointers(backRepo *BackRepoStruct) (Error error) {
+
+	for idx, dstruct := range backRepoDstruct.Map_DstructDBID_DstructPtr {
+		backRepoDstruct.ResetReversePointersInstance(backRepo, idx, dstruct)
+	}
+
+	return
+}
+
+func (backRepoDstruct *BackRepoDstructStruct) ResetReversePointersInstance(backRepo *BackRepoStruct, idx uint, astruct *models.Dstruct) (Error error) {
+
+	// fetch matching dstructDB
+	if dstructDB, ok := backRepoDstruct.Map_DstructDBID_DstructDB[idx]; ok {
+		_ = dstructDB // to avoid unused variable error if there are no reverse to reset
+
+		// insertion point for reverse pointers reset
+		// end of insertion point for reverse pointers reset
+	}
+
+	return
+}
+
 // this field is used during the restauration process.
 // it stores the ID at the backup time and is used for renumbering
 var BackRepoDstructid_atBckpTime_newID map[uint]uint
