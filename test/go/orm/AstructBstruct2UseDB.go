@@ -577,6 +577,39 @@ func (backRepoAstructBstruct2Use *BackRepoAstructBstruct2UseStruct) RestorePhase
 
 }
 
+// BackRepoAstructBstruct2Use.ResetReversePointers commits all staged instances of AstructBstruct2Use to the BackRepo
+// Phase Two is the update of instance with the field in the database
+func (backRepoAstructBstruct2Use *BackRepoAstructBstruct2UseStruct) ResetReversePointers(backRepo *BackRepoStruct) (Error error) {
+
+	for idx, astructbstruct2use := range backRepoAstructBstruct2Use.Map_AstructBstruct2UseDBID_AstructBstruct2UsePtr {
+		backRepoAstructBstruct2Use.ResetReversePointersInstance(backRepo, idx, astructbstruct2use)
+	}
+
+	return
+}
+
+func (backRepoAstructBstruct2Use *BackRepoAstructBstruct2UseStruct) ResetReversePointersInstance(backRepo *BackRepoStruct, idx uint, astruct *models.AstructBstruct2Use) (Error error) {
+
+	// fetch matching astructbstruct2useDB
+	if astructbstruct2useDB, ok := backRepoAstructBstruct2Use.Map_AstructBstruct2UseDBID_AstructBstruct2UseDB[idx]; ok {
+		_ = astructbstruct2useDB // to avoid unused variable error if there are no reverse to reset
+
+		// insertion point for reverse pointers reset
+		if astructbstruct2useDB.Astruct_Anarrayofb2UseDBID.Int64 != 0 {
+			astructbstruct2useDB.Astruct_Anarrayofb2UseDBID.Int64 = 0
+			astructbstruct2useDB.Astruct_Anarrayofb2UseDBID.Valid = true
+
+			// save the reset
+			if q := backRepoAstructBstruct2Use.db.Save(astructbstruct2useDB); q.Error != nil {
+				return q.Error
+			}
+		}
+		// end of insertion point for reverse pointers reset
+	}
+
+	return
+}
+
 // this field is used during the restauration process.
 // it stores the ID at the backup time and is used for renumbering
 var BackRepoAstructBstruct2Useid_atBckpTime_newID map[uint]uint

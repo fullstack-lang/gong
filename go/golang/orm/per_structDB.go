@@ -539,6 +539,30 @@ func (backRepo{{Structname}} *BackRepo{{Structname}}Struct) RestorePhaseTwo() {
 
 }
 
+// BackRepo{{Structname}}.ResetReversePointers commits all staged instances of {{Structname}} to the BackRepo
+// Phase Two is the update of instance with the field in the database
+func (backRepo{{Structname}} *BackRepo{{Structname}}Struct) ResetReversePointers(backRepo *BackRepoStruct) (Error error) {
+
+	for idx, {{structname}} := range backRepo{{Structname}}.Map_{{Structname}}DBID_{{Structname}}Ptr {
+		backRepo{{Structname}}.ResetReversePointersInstance(backRepo, idx, {{structname}})
+	}
+
+	return
+}
+
+func (backRepo{{Structname}} *BackRepo{{Structname}}Struct) ResetReversePointersInstance(backRepo *BackRepoStruct, idx uint, astruct *models.{{Structname}}) (Error error) {
+
+	// fetch matching {{structname}}DB
+	if {{structname}}DB, ok := backRepo{{Structname}}.Map_{{Structname}}DBID_{{Structname}}DB[idx]; ok {
+		_ = {{structname}}DB // to avoid unused variable error if there are no reverse to reset
+
+		// insertion point for reverse pointers reset{{` + string(rune(BackRepoPointerReversePointersReseting)) + `}}
+		// end of insertion point for reverse pointers reset
+	}
+
+	return
+}
+
 // this field is used during the restauration process.
 // it stores the ID at the backup time and is used for renumbering
 var BackRepo{{Structname}}id_atBckpTime_newID map[uint]uint
@@ -559,6 +583,8 @@ const (
 	BackRepoBasicFieldsCheckout
 	BackRepoPointerEncodingFieldsCheckout
 	BackRepoPointerEncodingFieldsReindexing
+	BackRepoPointerReversePointersReseting
+
 	BackRepoNbInsertionPoints
 )
 
@@ -595,6 +621,8 @@ const (
 	BackRepoCommitSliceOfPointerToStructField
 	BackRepoCheckoutSliceOfPointerToStructStageField
 	BackRepoReindexingSliceOfPointerToStruct
+
+	BackRepoReversePointerResetSliceOfPointerToStruct
 )
 
 var BackRepoFieldSubTemplateCode map[BackRepoPerStructSubTemplate]string = map[BackRepoPerStructSubTemplate]string{
@@ -770,6 +798,16 @@ var BackRepoFieldSubTemplateCode map[BackRepoPerStructSubTemplate]string = map[B
 				int64(BackRepo{{AssociationStructName}}id_atBckpTime_newID[uint({{structname}}DB.{{AssociationStructName}}_{{FieldName}}DBID.Int64)])
 		}
 `,
+	BackRepoReversePointerResetSliceOfPointerToStruct: `
+		if {{structname}}DB.{{AssociationStructName}}_{{FieldName}}DBID.Int64 != 0 {
+			{{structname}}DB.{{AssociationStructName}}_{{FieldName}}DBID.Int64 = 0
+			{{structname}}DB.{{AssociationStructName}}_{{FieldName}}DBID.Valid = true
+
+			// save the reset
+			if q := backRepo{{Structname}}.db.Save({{structname}}DB); q.Error != nil {
+				return q.Error
+			}
+		}`,
 }
 
 // MultiCodeGeneratorBackRepo parses mdlPkg and generates the code for the
@@ -980,6 +1018,12 @@ func MultiCodeGeneratorBackRepo(
 
 						insertions[BackRepoPointerEncodingFieldsReindexing] += models.Replace3(
 							BackRepoFieldSubTemplateCode[BackRepoReindexingSliceOfPointerToStruct],
+							"{{AssociationStructName}}", __struct.Name,
+							"{{associationStructName}}", strings.ToLower(__struct.Name),
+							"{{FieldName}}", field.Name)
+
+						insertions[BackRepoPointerReversePointersReseting] += models.Replace3(
+							BackRepoFieldSubTemplateCode[BackRepoReversePointerResetSliceOfPointerToStruct],
 							"{{AssociationStructName}}", __struct.Name,
 							"{{associationStructName}}", strings.ToLower(__struct.Name),
 							"{{FieldName}}", field.Name)

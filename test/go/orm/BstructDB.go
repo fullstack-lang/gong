@@ -619,17 +619,28 @@ func (backRepoBstruct *BackRepoBstructStruct) ResetReversePointersInstance(backR
 
 	// fetch matching bstructDB
 	if bstructDB, ok := backRepoBstruct.Map_BstructDBID_BstructDB[idx]; ok {
+		_ = bstructDB // to avoid unused variable error if there are no reverse to reset
 
+		// insertion point for reverse pointers reset
 		if bstructDB.Astruct_AnarrayofbDBID.Int64 != 0 {
 			bstructDB.Astruct_AnarrayofbDBID.Int64 = 0
 			bstructDB.Astruct_AnarrayofbDBID.Valid = true
 
-			// save the resets
+			// save the reset
 			if q := backRepoBstruct.db.Save(bstructDB); q.Error != nil {
 				return q.Error
 			}
 		}
+		if bstructDB.Astruct_AnotherarrayofbDBID.Int64 != 0 {
+			bstructDB.Astruct_AnotherarrayofbDBID.Int64 = 0
+			bstructDB.Astruct_AnotherarrayofbDBID.Valid = true
 
+			// save the reset
+			if q := backRepoBstruct.db.Save(bstructDB); q.Error != nil {
+				return q.Error
+			}
+		}
+		// end of insertion point for reverse pointers reset
 	}
 
 	return
