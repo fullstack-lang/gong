@@ -34,14 +34,14 @@ package models
 // fields of other instance
 //
 // Note : algo is in O(N)log(N) of nb of Astruct and Bstruct instances
-func EvictInOtherSlices[T PointerToGongstruct, TF PointerToGongstruct](
+func EvictInOtherSlices[OwningType PointerToGongstruct, FieldType PointerToGongstruct](
 	stage *StageStruct,
-	owningInstance T,
-	sliceField []TF,
+	owningInstance OwningType,
+	sliceField []FieldType,
 	fieldName string) {
 
 	// create a map of the field elements
-	setOfFieldInstances := make(map[TF]any, 0)
+	setOfFieldInstances := make(map[FieldType]any, 0)
 	for _, fieldInstance := range sliceField {
 		setOfFieldInstances[fieldInstance] = true
 	}
@@ -79,18 +79,20 @@ var GongSliceFileFieldFieldSubTemplateCode map[GongSliceSubTemplateId]string = /
 map[GongSliceSubTemplateId]string{
 
 	GongSliceSubTmplSliceOfPointersToStruct: `
-		// tweaking, it might be streamlined
 		if fieldName == "{{FieldName}}" {
-			for _instance := range *GetGongstructInstancesSetFromPointerType[T](stage) {
-				_inferedTypeInstance := any(_instance).(*{{Structname}})
-				reference := make([]TF, 0)
-				targetFieldSlice := any(_inferedTypeInstance.{{FieldName}}).([]TF)
-				copy(targetFieldSlice, reference)
-				_inferedTypeInstance.{{FieldName}} = make([]*{{AssociationStructName}}, 0)
+
+			// walk all instances of the owning type
+			for _instance := range *GetGongstructInstancesSetFromPointerType[OwningType](stage) {
 				if any(_instance).(*{{Structname}}) != owningInstanceInfered {
+					_inferedTypeInstance := any(_instance).(*{{Structname}})
+					reference := make([]FieldType, 0)
+					targetFieldSlice := any(_inferedTypeInstance.{{FieldName}}).([]FieldType)
+					copy(targetFieldSlice, reference)
+					_inferedTypeInstance.{{FieldName}} = _inferedTypeInstance.{{FieldName}}[0:]
 					for _, fieldInstance := range reference {
-						if _, ok := setOfFieldInstances[any(fieldInstance).(TF)]; !ok {
-							targetFieldSlice = append(targetFieldSlice, fieldInstance)
+						if _, ok := setOfFieldInstances[any(fieldInstance).(FieldType)]; !ok {
+							_inferedTypeInstance.{{FieldName}} =
+								append(_inferedTypeInstance.{{FieldName}}, any(fieldInstance).(*{{AssociationStructName}}))
 						}
 					}
 				}
