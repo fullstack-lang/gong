@@ -481,97 +481,97 @@ func (backRepoAstruct *BackRepoAstructStruct) CommitPhaseTwoInstance(backRepo *B
 		// This loop encodes the slice of pointers astruct.Anarrayofb into the back repo.
 		// Each back repo instance at the end of the association encode the ID of the association start
 		// into a dedicated field for coding the association. The back repo instance is then saved to the db
-		for idx, bstructAssocEnd := range astruct.Anarrayofb {
+		// for idx, bstructAssocEnd := range astruct.Anarrayofb {
 
-			// get the back repo instance at the association end
-			bstructAssocEnd_DB :=
-				backRepo.BackRepoBstruct.GetBstructDBFromBstructPtr(bstructAssocEnd)
+		// 	// get the back repo instance at the association end
+		// 	bstructAssocEnd_DB :=
+		// 		backRepo.BackRepoBstruct.GetBstructDBFromBstructPtr(bstructAssocEnd)
 
-			// encode reverse pointer in the association end back repo instance
-			bstructAssocEnd_DB.Astruct_AnarrayofbDBID.Int64 = int64(astructDB.ID)
-			bstructAssocEnd_DB.Astruct_AnarrayofbDBID.Valid = true
-			bstructAssocEnd_DB.Astruct_AnarrayofbDBID_Index.Int64 = int64(idx)
-			bstructAssocEnd_DB.Astruct_AnarrayofbDBID_Index.Valid = true
-			if q := backRepoAstruct.db.Save(bstructAssocEnd_DB); q.Error != nil {
-				return q.Error
-			}
-		}
+		// 	// encode reverse pointer in the association end back repo instance
+		// 	bstructAssocEnd_DB.Astruct_AnarrayofbDBID.Int64 = int64(astructDB.ID)
+		// 	bstructAssocEnd_DB.Astruct_AnarrayofbDBID.Valid = true
+		// 	bstructAssocEnd_DB.Astruct_AnarrayofbDBID_Index.Int64 = int64(idx)
+		// 	bstructAssocEnd_DB.Astruct_AnarrayofbDBID_Index.Valid = true
+		// 	if q := backRepoAstruct.db.Save(bstructAssocEnd_DB); q.Error != nil {
+		// 		return q.Error
+		// 	}
+		// }
 
 		// This loop encodes the slice of pointers astruct.Anotherarrayofb into the back repo.
 		// Each back repo instance at the end of the association encode the ID of the association start
 		// into a dedicated field for coding the association. The back repo instance is then saved to the db
-		for idx, bstructAssocEnd := range astruct.Anotherarrayofb {
+		// for idx, bstructAssocEnd := range astruct.Anotherarrayofb {
 
-			// get the back repo instance at the association end
-			bstructAssocEnd_DB :=
-				backRepo.BackRepoBstruct.GetBstructDBFromBstructPtr(bstructAssocEnd)
+		// 	// get the back repo instance at the association end
+		// 	bstructAssocEnd_DB :=
+		// 		backRepo.BackRepoBstruct.GetBstructDBFromBstructPtr(bstructAssocEnd)
 
-			// encode reverse pointer in the association end back repo instance
-			bstructAssocEnd_DB.Astruct_AnotherarrayofbDBID.Int64 = int64(astructDB.ID)
-			bstructAssocEnd_DB.Astruct_AnotherarrayofbDBID.Valid = true
-			bstructAssocEnd_DB.Astruct_AnotherarrayofbDBID_Index.Int64 = int64(idx)
-			bstructAssocEnd_DB.Astruct_AnotherarrayofbDBID_Index.Valid = true
-			if q := backRepoAstruct.db.Save(bstructAssocEnd_DB); q.Error != nil {
-				return q.Error
-			}
-		}
+		// 	// encode reverse pointer in the association end back repo instance
+		// 	bstructAssocEnd_DB.Astruct_AnotherarrayofbDBID.Int64 = int64(astructDB.ID)
+		// 	bstructAssocEnd_DB.Astruct_AnotherarrayofbDBID.Valid = true
+		// 	bstructAssocEnd_DB.Astruct_AnotherarrayofbDBID_Index.Int64 = int64(idx)
+		// 	bstructAssocEnd_DB.Astruct_AnotherarrayofbDBID_Index.Valid = true
+		// 	if q := backRepoAstruct.db.Save(bstructAssocEnd_DB); q.Error != nil {
+		// 		return q.Error
+		// 	}
+		// }
 
 		// This loop encodes the slice of pointers astruct.Anarrayofa into the back repo.
 		// Each back repo instance at the end of the association encode the ID of the association start
 		// into a dedicated field for coding the association. The back repo instance is then saved to the db
-		for idx, astructAssocEnd := range astruct.Anarrayofa {
+		// for idx, astructAssocEnd := range astruct.Anarrayofa {
 
-			// get the back repo instance at the association end
-			astructAssocEnd_DB :=
-				backRepo.BackRepoAstruct.GetAstructDBFromAstructPtr(astructAssocEnd)
+		// 	// get the back repo instance at the association end
+		// 	astructAssocEnd_DB :=
+		// 		backRepo.BackRepoAstruct.GetAstructDBFromAstructPtr(astructAssocEnd)
 
-			// encode reverse pointer in the association end back repo instance
-			astructAssocEnd_DB.Astruct_AnarrayofaDBID.Int64 = int64(astructDB.ID)
-			astructAssocEnd_DB.Astruct_AnarrayofaDBID.Valid = true
-			astructAssocEnd_DB.Astruct_AnarrayofaDBID_Index.Int64 = int64(idx)
-			astructAssocEnd_DB.Astruct_AnarrayofaDBID_Index.Valid = true
-			if q := backRepoAstruct.db.Save(astructAssocEnd_DB); q.Error != nil {
-				return q.Error
-			}
-		}
+		// 	// encode reverse pointer in the association end back repo instance
+		// 	astructAssocEnd_DB.Astruct_AnarrayofaDBID.Int64 = int64(astructDB.ID)
+		// 	astructAssocEnd_DB.Astruct_AnarrayofaDBID.Valid = true
+		// 	astructAssocEnd_DB.Astruct_AnarrayofaDBID_Index.Int64 = int64(idx)
+		// 	astructAssocEnd_DB.Astruct_AnarrayofaDBID_Index.Valid = true
+		// 	if q := backRepoAstruct.db.Save(astructAssocEnd_DB); q.Error != nil {
+		// 		return q.Error
+		// 	}
+		// }
 
 		// This loop encodes the slice of pointers astruct.AnarrayofbUse into the back repo.
 		// Each back repo instance at the end of the association encode the ID of the association start
 		// into a dedicated field for coding the association. The back repo instance is then saved to the db
-		for idx, astructbstructuseAssocEnd := range astruct.AnarrayofbUse {
+		// for idx, astructbstructuseAssocEnd := range astruct.AnarrayofbUse {
 
-			// get the back repo instance at the association end
-			astructbstructuseAssocEnd_DB :=
-				backRepo.BackRepoAstructBstructUse.GetAstructBstructUseDBFromAstructBstructUsePtr(astructbstructuseAssocEnd)
+		// 	// get the back repo instance at the association end
+		// 	astructbstructuseAssocEnd_DB :=
+		// 		backRepo.BackRepoAstructBstructUse.GetAstructBstructUseDBFromAstructBstructUsePtr(astructbstructuseAssocEnd)
 
-			// encode reverse pointer in the association end back repo instance
-			astructbstructuseAssocEnd_DB.Astruct_AnarrayofbUseDBID.Int64 = int64(astructDB.ID)
-			astructbstructuseAssocEnd_DB.Astruct_AnarrayofbUseDBID.Valid = true
-			astructbstructuseAssocEnd_DB.Astruct_AnarrayofbUseDBID_Index.Int64 = int64(idx)
-			astructbstructuseAssocEnd_DB.Astruct_AnarrayofbUseDBID_Index.Valid = true
-			if q := backRepoAstruct.db.Save(astructbstructuseAssocEnd_DB); q.Error != nil {
-				return q.Error
-			}
-		}
+		// 	// encode reverse pointer in the association end back repo instance
+		// 	astructbstructuseAssocEnd_DB.Astruct_AnarrayofbUseDBID.Int64 = int64(astructDB.ID)
+		// 	astructbstructuseAssocEnd_DB.Astruct_AnarrayofbUseDBID.Valid = true
+		// 	astructbstructuseAssocEnd_DB.Astruct_AnarrayofbUseDBID_Index.Int64 = int64(idx)
+		// 	astructbstructuseAssocEnd_DB.Astruct_AnarrayofbUseDBID_Index.Valid = true
+		// 	if q := backRepoAstruct.db.Save(astructbstructuseAssocEnd_DB); q.Error != nil {
+		// 		return q.Error
+		// 	}
+		// }
 
 		// This loop encodes the slice of pointers astruct.Anarrayofb2Use into the back repo.
 		// Each back repo instance at the end of the association encode the ID of the association start
 		// into a dedicated field for coding the association. The back repo instance is then saved to the db
-		for idx, astructbstruct2useAssocEnd := range astruct.Anarrayofb2Use {
+		// for idx, astructbstruct2useAssocEnd := range astruct.Anarrayofb2Use {
 
-			// get the back repo instance at the association end
-			astructbstruct2useAssocEnd_DB :=
-				backRepo.BackRepoAstructBstruct2Use.GetAstructBstruct2UseDBFromAstructBstruct2UsePtr(astructbstruct2useAssocEnd)
+		// 	// get the back repo instance at the association end
+		// 	astructbstruct2useAssocEnd_DB :=
+		// 		backRepo.BackRepoAstructBstruct2Use.GetAstructBstruct2UseDBFromAstructBstruct2UsePtr(astructbstruct2useAssocEnd)
 
-			// encode reverse pointer in the association end back repo instance
-			astructbstruct2useAssocEnd_DB.Astruct_Anarrayofb2UseDBID.Int64 = int64(astructDB.ID)
-			astructbstruct2useAssocEnd_DB.Astruct_Anarrayofb2UseDBID.Valid = true
-			astructbstruct2useAssocEnd_DB.Astruct_Anarrayofb2UseDBID_Index.Int64 = int64(idx)
-			astructbstruct2useAssocEnd_DB.Astruct_Anarrayofb2UseDBID_Index.Valid = true
-			if q := backRepoAstruct.db.Save(astructbstruct2useAssocEnd_DB); q.Error != nil {
-				return q.Error
-			}
-		}
+		// 	// encode reverse pointer in the association end back repo instance
+		// 	astructbstruct2useAssocEnd_DB.Astruct_Anarrayofb2UseDBID.Int64 = int64(astructDB.ID)
+		// 	astructbstruct2useAssocEnd_DB.Astruct_Anarrayofb2UseDBID.Valid = true
+		// 	astructbstruct2useAssocEnd_DB.Astruct_Anarrayofb2UseDBID_Index.Int64 = int64(idx)
+		// 	astructbstruct2useAssocEnd_DB.Astruct_Anarrayofb2UseDBID_Index.Valid = true
+		// 	if q := backRepoAstruct.db.Save(astructbstruct2useAssocEnd_DB); q.Error != nil {
+		// 		return q.Error
+		// 	}
+		// }
 
 		// commit pointer value astruct.AnAstruct translates to updating the astruct.AnAstructID
 		astructDB.AnAstructID.Valid = true // allow for a 0 value (nil association)
