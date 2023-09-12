@@ -38,12 +38,12 @@ func EvictInOtherSlices[T PointerToGongstruct, TF PointerToGongstruct](
 		// tweaking, it might be streamlined
 		if fieldName == "Anarrayofb" {
 			for _instance := range *GetGongstructInstancesSetFromPointerType[T](stage) {
-				_inferedTypeInstance := any(_instance).(*Astruct)
-				reference := make([]TF, 0)
-				targetFieldSlice := any(_inferedTypeInstance.Anarrayofb).([]TF)
-				copy(targetFieldSlice, reference)
-				_inferedTypeInstance.Anarrayofb = make([]*Bstruct, 0)
 				if any(_instance).(*Astruct) != owningInstanceInfered {
+					_inferedTypeInstance := any(_instance).(*Astruct)
+					reference := make([]TF, 0)
+					targetFieldSlice := any(_inferedTypeInstance.Anarrayofb).([]TF)
+					copy(targetFieldSlice, reference)
+					_inferedTypeInstance.Anarrayofb = make([]*Bstruct, 0)
 					for _, fieldInstance := range reference {
 						if _, ok := setOfFieldInstances[any(fieldInstance).(TF)]; !ok {
 							targetFieldSlice = append(targetFieldSlice, fieldInstance)
