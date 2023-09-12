@@ -19,14 +19,14 @@ package models
 // fields of other instance
 //
 // Note : algo is in O(N)log(N) of nb of Astruct and Bstruct instances
-func EvictInOtherSlices[T PointerToGongstruct, TF PointerToGongstruct](
+func EvictInOtherSlices[OwningType PointerToGongstruct, FieldType PointerToGongstruct](
 	stage *StageStruct,
-	owningInstance T,
-	sliceField []TF,
+	owningInstance OwningType,
+	sliceField []FieldType,
 	fieldName string) {
 
 	// create a map of the field elements
-	setOfFieldInstances := make(map[TF]any, 0)
+	setOfFieldInstances := make(map[FieldType]any, 0)
 	for _, fieldInstance := range sliceField {
 		setOfFieldInstances[fieldInstance] = true
 	}
@@ -35,86 +35,96 @@ func EvictInOtherSlices[T PointerToGongstruct, TF PointerToGongstruct](
 	// insertion point
 	case *Astruct:
 		// insertion point per field
-		// tweaking, it might be streamlined
 		if fieldName == "Anarrayofb" {
-			for _instance := range *GetGongstructInstancesSetFromPointerType[T](stage) {
-				_inferedTypeInstance := any(_instance).(*Astruct)
-				reference := make([]TF, 0)
-				targetFieldSlice := any(_inferedTypeInstance.Anarrayofb).([]TF)
-				copy(targetFieldSlice, reference)
-				_inferedTypeInstance.Anarrayofb = make([]*Bstruct, 0)
+
+			// walk all instances of the owning type
+			for _instance := range *GetGongstructInstancesSetFromPointerType[OwningType](stage) {
 				if any(_instance).(*Astruct) != owningInstanceInfered {
+					_inferedTypeInstance := any(_instance).(*Astruct)
+					reference := make([]FieldType, 0)
+					targetFieldSlice := any(_inferedTypeInstance.Anarrayofb).([]FieldType)
+					copy(targetFieldSlice, reference)
+					_inferedTypeInstance.Anarrayofb = _inferedTypeInstance.Anarrayofb[0:]
 					for _, fieldInstance := range reference {
-						if _, ok := setOfFieldInstances[any(fieldInstance).(TF)]; !ok {
-							targetFieldSlice = append(targetFieldSlice, fieldInstance)
+						if _, ok := setOfFieldInstances[any(fieldInstance).(FieldType)]; !ok {
+							_inferedTypeInstance.Anarrayofb =
+								append(_inferedTypeInstance.Anarrayofb, any(fieldInstance).(*Bstruct))
 						}
 					}
 				}
 			}
 		}
-		// tweaking, it might be streamlined
 		if fieldName == "Anotherarrayofb" {
-			for _instance := range *GetGongstructInstancesSetFromPointerType[T](stage) {
-				_inferedTypeInstance := any(_instance).(*Astruct)
-				reference := make([]TF, 0)
-				targetFieldSlice := any(_inferedTypeInstance.Anotherarrayofb).([]TF)
-				copy(targetFieldSlice, reference)
-				_inferedTypeInstance.Anotherarrayofb = make([]*Bstruct, 0)
+
+			// walk all instances of the owning type
+			for _instance := range *GetGongstructInstancesSetFromPointerType[OwningType](stage) {
 				if any(_instance).(*Astruct) != owningInstanceInfered {
+					_inferedTypeInstance := any(_instance).(*Astruct)
+					reference := make([]FieldType, 0)
+					targetFieldSlice := any(_inferedTypeInstance.Anotherarrayofb).([]FieldType)
+					copy(targetFieldSlice, reference)
+					_inferedTypeInstance.Anotherarrayofb = _inferedTypeInstance.Anotherarrayofb[0:]
 					for _, fieldInstance := range reference {
-						if _, ok := setOfFieldInstances[any(fieldInstance).(TF)]; !ok {
-							targetFieldSlice = append(targetFieldSlice, fieldInstance)
+						if _, ok := setOfFieldInstances[any(fieldInstance).(FieldType)]; !ok {
+							_inferedTypeInstance.Anotherarrayofb =
+								append(_inferedTypeInstance.Anotherarrayofb, any(fieldInstance).(*Bstruct))
 						}
 					}
 				}
 			}
 		}
-		// tweaking, it might be streamlined
 		if fieldName == "Anarrayofa" {
-			for _instance := range *GetGongstructInstancesSetFromPointerType[T](stage) {
-				_inferedTypeInstance := any(_instance).(*Astruct)
-				reference := make([]TF, 0)
-				targetFieldSlice := any(_inferedTypeInstance.Anarrayofa).([]TF)
-				copy(targetFieldSlice, reference)
-				_inferedTypeInstance.Anarrayofa = make([]*Astruct, 0)
+
+			// walk all instances of the owning type
+			for _instance := range *GetGongstructInstancesSetFromPointerType[OwningType](stage) {
 				if any(_instance).(*Astruct) != owningInstanceInfered {
+					_inferedTypeInstance := any(_instance).(*Astruct)
+					reference := make([]FieldType, 0)
+					targetFieldSlice := any(_inferedTypeInstance.Anarrayofa).([]FieldType)
+					copy(targetFieldSlice, reference)
+					_inferedTypeInstance.Anarrayofa = _inferedTypeInstance.Anarrayofa[0:]
 					for _, fieldInstance := range reference {
-						if _, ok := setOfFieldInstances[any(fieldInstance).(TF)]; !ok {
-							targetFieldSlice = append(targetFieldSlice, fieldInstance)
+						if _, ok := setOfFieldInstances[any(fieldInstance).(FieldType)]; !ok {
+							_inferedTypeInstance.Anarrayofa =
+								append(_inferedTypeInstance.Anarrayofa, any(fieldInstance).(*Astruct))
 						}
 					}
 				}
 			}
 		}
-		// tweaking, it might be streamlined
 		if fieldName == "AnarrayofbUse" {
-			for _instance := range *GetGongstructInstancesSetFromPointerType[T](stage) {
-				_inferedTypeInstance := any(_instance).(*Astruct)
-				reference := make([]TF, 0)
-				targetFieldSlice := any(_inferedTypeInstance.AnarrayofbUse).([]TF)
-				copy(targetFieldSlice, reference)
-				_inferedTypeInstance.AnarrayofbUse = make([]*AstructBstructUse, 0)
+
+			// walk all instances of the owning type
+			for _instance := range *GetGongstructInstancesSetFromPointerType[OwningType](stage) {
 				if any(_instance).(*Astruct) != owningInstanceInfered {
+					_inferedTypeInstance := any(_instance).(*Astruct)
+					reference := make([]FieldType, 0)
+					targetFieldSlice := any(_inferedTypeInstance.AnarrayofbUse).([]FieldType)
+					copy(targetFieldSlice, reference)
+					_inferedTypeInstance.AnarrayofbUse = _inferedTypeInstance.AnarrayofbUse[0:]
 					for _, fieldInstance := range reference {
-						if _, ok := setOfFieldInstances[any(fieldInstance).(TF)]; !ok {
-							targetFieldSlice = append(targetFieldSlice, fieldInstance)
+						if _, ok := setOfFieldInstances[any(fieldInstance).(FieldType)]; !ok {
+							_inferedTypeInstance.AnarrayofbUse =
+								append(_inferedTypeInstance.AnarrayofbUse, any(fieldInstance).(*AstructBstructUse))
 						}
 					}
 				}
 			}
 		}
-		// tweaking, it might be streamlined
 		if fieldName == "Anarrayofb2Use" {
-			for _instance := range *GetGongstructInstancesSetFromPointerType[T](stage) {
-				_inferedTypeInstance := any(_instance).(*Astruct)
-				reference := make([]TF, 0)
-				targetFieldSlice := any(_inferedTypeInstance.Anarrayofb2Use).([]TF)
-				copy(targetFieldSlice, reference)
-				_inferedTypeInstance.Anarrayofb2Use = make([]*AstructBstruct2Use, 0)
+
+			// walk all instances of the owning type
+			for _instance := range *GetGongstructInstancesSetFromPointerType[OwningType](stage) {
 				if any(_instance).(*Astruct) != owningInstanceInfered {
+					_inferedTypeInstance := any(_instance).(*Astruct)
+					reference := make([]FieldType, 0)
+					targetFieldSlice := any(_inferedTypeInstance.Anarrayofb2Use).([]FieldType)
+					copy(targetFieldSlice, reference)
+					_inferedTypeInstance.Anarrayofb2Use = _inferedTypeInstance.Anarrayofb2Use[0:]
 					for _, fieldInstance := range reference {
-						if _, ok := setOfFieldInstances[any(fieldInstance).(TF)]; !ok {
-							targetFieldSlice = append(targetFieldSlice, fieldInstance)
+						if _, ok := setOfFieldInstances[any(fieldInstance).(FieldType)]; !ok {
+							_inferedTypeInstance.Anarrayofb2Use =
+								append(_inferedTypeInstance.Anarrayofb2Use, any(fieldInstance).(*AstructBstruct2Use))
 						}
 					}
 				}
