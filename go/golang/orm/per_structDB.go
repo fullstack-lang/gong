@@ -680,21 +680,21 @@ var BackRepoFieldSubTemplateCode map[BackRepoPerStructSubTemplate]string = map[B
 		// This loop encodes the slice of pointers {{structname}}.{{FieldName}} into the back repo.
 		// Each back repo instance at the end of the association encode the ID of the association start
 		// into a dedicated field for coding the association. The back repo instance is then saved to the db
-		// for idx, {{associationStructName}}AssocEnd := range {{structname}}.{{FieldName}} {
+		for idx, {{associationStructName}}AssocEnd := range {{structname}}.{{FieldName}} {
 
-		// 	// get the back repo instance at the association end
-		// 	{{associationStructName}}AssocEnd_DB :=
-		// 		backRepo.BackRepo{{AssociationStructName}}.Get{{AssociationStructName}}DBFrom{{AssociationStructName}}Ptr({{associationStructName}}AssocEnd)
+			// get the back repo instance at the association end
+			{{associationStructName}}AssocEnd_DB :=
+				backRepo.BackRepo{{AssociationStructName}}.Get{{AssociationStructName}}DBFrom{{AssociationStructName}}Ptr({{associationStructName}}AssocEnd)
 
-		// 	// encode reverse pointer in the association end back repo instance
-		// 	{{associationStructName}}AssocEnd_DB.{{Structname}}_{{FieldName}}DBID.Int64 = int64({{structname}}DB.ID)
-		// 	{{associationStructName}}AssocEnd_DB.{{Structname}}_{{FieldName}}DBID.Valid = true
-		// 	{{associationStructName}}AssocEnd_DB.{{Structname}}_{{FieldName}}DBID_Index.Int64 = int64(idx)
-		// 	{{associationStructName}}AssocEnd_DB.{{Structname}}_{{FieldName}}DBID_Index.Valid = true
-		// 	if q := backRepo{{Structname}}.db.Save({{associationStructName}}AssocEnd_DB); q.Error != nil {
-		// 		return q.Error
-		// 	}
-		// }
+			// encode reverse pointer in the association end back repo instance
+			{{associationStructName}}AssocEnd_DB.{{Structname}}_{{FieldName}}DBID.Int64 = int64({{structname}}DB.ID)
+			{{associationStructName}}AssocEnd_DB.{{Structname}}_{{FieldName}}DBID.Valid = true
+			{{associationStructName}}AssocEnd_DB.{{Structname}}_{{FieldName}}DBID_Index.Int64 = int64(idx)
+			{{associationStructName}}AssocEnd_DB.{{Structname}}_{{FieldName}}DBID_Index.Valid = true
+			if q := backRepo{{Structname}}.db.Save({{associationStructName}}AssocEnd_DB); q.Error != nil {
+				return q.Error
+			}
+		}
 `,
 
 	//
