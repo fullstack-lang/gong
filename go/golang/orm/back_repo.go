@@ -116,6 +116,8 @@ func (backRepo *BackRepoStruct) IncrementPushFromFrontNb() uint {
 func (backRepo *BackRepoStruct) Commit(stage *models.StageStruct) {
 	// insertion point for per struct back repo phase one commit{{` + string(rune(BackRepoPerStructPhaseOneCommits)) + `}}
 
+	// insertion point for per struct back repo for reseting the reverse pointers{{` + string(rune(BackRepoPerStructResetReversePointers)) + `}}
+
 	// insertion point for per struct back repo phase two commit{{` + string(rune(BackRepoPerStructPhaseTwoCommits)) + `}}
 
 	backRepo.IncrementCommitFromBackNb()
@@ -232,6 +234,7 @@ const (
 	BackRepoPerStructInits
 	BackRepoPerStructRefToStructDB
 	BackRepoPerStructPhaseOneCommits
+	BackRepoPerStructResetReversePointers
 	BackRepoPerStructPhaseTwoCommits
 	BackRepoPerStructPhaseOneCheckouts
 	BackRepoPerStructPhaseTwoCheckouts
@@ -268,6 +271,9 @@ map[string]string{
 
 	string(rune(BackRepoPerStructPhaseOneCommits)): `
 	backRepo.BackRepo{{Structname}}.CommitPhaseOne(stage)`,
+
+	string(rune(BackRepoPerStructResetReversePointers)): `
+	backRepo.BackRepo{{Structname}}.ResetReversePointers(backRepo)`,
 
 	string(rune(BackRepoPerStructPhaseTwoCommits)): `
 	backRepo.BackRepo{{Structname}}.CommitPhaseTwo(backRepo)`,
