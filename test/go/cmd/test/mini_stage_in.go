@@ -26,25 +26,26 @@ var ___dummy__dummy_mini_stage_in dummy.StageStruct
 // When parsed, those maps will help with the renaming process
 var map_DocLink_Identifier_mini_stage_in map[string]any = map[string]any{
 	// injection point for docLink to identifiers
-	"dummy.DummyTypeString": dummy.DummyTypeString(""),
 
-	"dummy.DummyTypeInt": dummy.DummyTypeInt(0),
+	"dummy.A": dummy.A,
 
 	"dummy.Dummy": &(dummy.Dummy{}),
 
 	"dummy.Dummy.Name": (dummy.Dummy{}).Name,
 
-	"dummy.A": dummy.A,
+	"dummy.DummyTypeInt": dummy.DummyTypeInt(0),
+
+	"dummy.DummyTypeString": dummy.DummyTypeString(""),
 }
 
 // init might be handy if one want to have the data embedded in the binary
 // but it has to properly reference the Injection gateway in the main package
 // func init() {
 // 	_ = __Dummy_time_variable
-// 	InjectionGateway["mini_stage_out"] = mini_stage_outInjection
+// 	InjectionGateway["mini_stage_in"] = mini_stage_inInjection
 // }
 
-// mini_stage_outInjection will stage objects of database "mini_stage_out"
+// mini_stage_inInjection will stage objects of database "mini_stage_in"
 func mini_stage_inInjection(stage *models.StageStruct) {
 
 	// Declaration of instances to stage
@@ -57,6 +58,7 @@ func mini_stage_inInjection(stage *models.StageStruct) {
 	// Declarations of staged instances of AstructBstructUse
 
 	// Declarations of staged instances of Bstruct
+	__Bstruct__000000_B1 := (&models.Bstruct{Name: `B1`}).Stage(stage)
 
 	// Declarations of staged instances of Dstruct
 
@@ -64,7 +66,7 @@ func mini_stage_inInjection(stage *models.StageStruct) {
 
 	// Astruct values setup
 	__Astruct__000000_Foo.Name = `Foo`
-	__Astruct__000000_Foo.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 +0000")
+	__Astruct__000000_Foo.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
 	__Astruct__000000_Foo.Booleanfield = false
 	__Astruct__000000_Foo.CEnum = models.CENUM_VAL1
 	__Astruct__000000_Foo.CName = ``
@@ -84,6 +86,8 @@ func mini_stage_inInjection(stage *models.StageStruct) {
 	//gong:ident [dummy.Dummy2.Name]
 	__Astruct__000000_Foo.FieldRef = `dummy.Dummy2.Name`
 
+	// comment added to overcome the problem with the comment map association
+
 	//gong:ident [dummy.DummyTypeInt]
 	__Astruct__000000_Foo.EnumIntRef = `dummy.DummyTypeInt`
 
@@ -99,8 +103,15 @@ func mini_stage_inInjection(stage *models.StageStruct) {
 
 	// comment added to overcome the problem with the comment map association
 
-	//gong:ident []
-	__Astruct__000000_Foo.ConstIdentifierValue = ``
+	//gong:ident [..]
+	__Astruct__000000_Foo.ConstIdentifierValue = `..`
+
+	// Bstruct values setup
+	__Bstruct__000000_B1.Name = `B1`
+	__Bstruct__000000_B1.Floatfield = 0.000000
+	__Bstruct__000000_B1.Floatfield2 = 0.000000
+	__Bstruct__000000_B1.Intfield = 0
 
 	// Setup of pointers
+	__Astruct__000000_Foo.Anarrayofb = append(__Astruct__000000_Foo.Anarrayofb, __Bstruct__000000_B1)
 }

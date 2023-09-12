@@ -196,6 +196,8 @@ func (backRepo *BackRepoStruct) Checkout(stage *models.StageStruct) {
 	backRepo.BackRepoBstruct.CheckoutPhaseOne()
 	backRepo.BackRepoDstruct.CheckoutPhaseOne()
 
+	// backRepo.BackRepoBstruct.ResetReversePointers(backRepo)
+
 	// insertion point for per struct back repo phase two commit
 	backRepo.BackRepoAstruct.CheckoutPhaseTwo(backRepo)
 	backRepo.BackRepoAstructBstruct2Use.CheckoutPhaseTwo(backRepo)
