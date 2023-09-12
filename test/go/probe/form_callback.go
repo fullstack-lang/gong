@@ -106,7 +106,7 @@ func (astructFormCallback *AstructFormCallback) OnSave() {
 		}
 	}
 
-	// astructFormCallback.playground.stageOfInterest.Commit()
+	astructFormCallback.playground.stageOfInterest.Commit()
 	fillUpTable[models.Astruct](
 		astructFormCallback.playground,
 	)
