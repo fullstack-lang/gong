@@ -584,6 +584,30 @@ func (backRepoTree *BackRepoTreeStruct) RestorePhaseTwo() {
 
 }
 
+// BackRepoTree.ResetReversePointers commits all staged instances of Tree to the BackRepo
+// Phase Two is the update of instance with the field in the database
+func (backRepoTree *BackRepoTreeStruct) ResetReversePointers(backRepo *BackRepoStruct) (Error error) {
+
+	for idx, tree := range backRepoTree.Map_TreeDBID_TreePtr {
+		backRepoTree.ResetReversePointersInstance(backRepo, idx, tree)
+	}
+
+	return
+}
+
+func (backRepoTree *BackRepoTreeStruct) ResetReversePointersInstance(backRepo *BackRepoStruct, idx uint, astruct *models.Tree) (Error error) {
+
+	// fetch matching treeDB
+	if treeDB, ok := backRepoTree.Map_TreeDBID_TreeDB[idx]; ok {
+		_ = treeDB // to avoid unused variable error if there are no reverse to reset
+
+		// insertion point for reverse pointers reset
+		// end of insertion point for reverse pointers reset
+	}
+
+	return
+}
+
 // this field is used during the restauration process.
 // it stores the ID at the backup time and is used for renumbering
 var BackRepoTreeid_atBckpTime_newID map[uint]uint

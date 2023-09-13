@@ -97,12 +97,12 @@ func ({{structname}}FormCallback *{{Structname}}FormCallback) OnSave() {
 		{{structname}}FormCallback.playground.formStage.Reset()
 		newFormGroup := (&table.FormGroup{
 			Name: table.FormGroupDefaultName.ToString(),
-			OnSave: NewAstructFormCallback(
+			OnSave: New{{Structname}}FormCallback(
 				nil,
 				{{structname}}FormCallback.playground,
 			),
 		}).Stage({{structname}}FormCallback.playground.formStage)
-		{{structname}} := new(models.Astruct)
+		{{structname}} := new(models.{{Structname}})
 		FillUpForm({{structname}}, newFormGroup, {{structname}}FormCallback.playground)
 		{{structname}}FormCallback.playground.formStage.Commit()
 	}
