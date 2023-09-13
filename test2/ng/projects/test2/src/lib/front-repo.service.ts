@@ -186,6 +186,15 @@ export class FrontRepoService {
               }
             )
 
+            // 
+            // Third Step: sort arrays (slices in go) according to their index
+            // insertion point sub template for redeem 
+            dummys.forEach(
+              dummy => {
+                // insertion point for sorting
+              }
+            )
+
             // hand over control flow to observer
             observer.next(this.frontRepo)
           }

@@ -598,6 +598,30 @@ func (backRepoMeta *BackRepoMetaStruct) RestorePhaseTwo() {
 
 }
 
+// BackRepoMeta.ResetReversePointers commits all staged instances of Meta to the BackRepo
+// Phase Two is the update of instance with the field in the database
+func (backRepoMeta *BackRepoMetaStruct) ResetReversePointers(backRepo *BackRepoStruct) (Error error) {
+
+	for idx, meta := range backRepoMeta.Map_MetaDBID_MetaPtr {
+		backRepoMeta.ResetReversePointersInstance(backRepo, idx, meta)
+	}
+
+	return
+}
+
+func (backRepoMeta *BackRepoMetaStruct) ResetReversePointersInstance(backRepo *BackRepoStruct, idx uint, astruct *models.Meta) (Error error) {
+
+	// fetch matching metaDB
+	if metaDB, ok := backRepoMeta.Map_MetaDBID_MetaDB[idx]; ok {
+		_ = metaDB // to avoid unused variable error if there are no reverse to reset
+
+		// insertion point for reverse pointers reset
+		// end of insertion point for reverse pointers reset
+	}
+
+	return
+}
+
 // this field is used during the restauration process.
 // it stores the ID at the backup time and is used for renumbering
 var BackRepoMetaid_atBckpTime_newID map[uint]uint

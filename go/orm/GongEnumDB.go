@@ -598,6 +598,30 @@ func (backRepoGongEnum *BackRepoGongEnumStruct) RestorePhaseTwo() {
 
 }
 
+// BackRepoGongEnum.ResetReversePointers commits all staged instances of GongEnum to the BackRepo
+// Phase Two is the update of instance with the field in the database
+func (backRepoGongEnum *BackRepoGongEnumStruct) ResetReversePointers(backRepo *BackRepoStruct) (Error error) {
+
+	for idx, gongenum := range backRepoGongEnum.Map_GongEnumDBID_GongEnumPtr {
+		backRepoGongEnum.ResetReversePointersInstance(backRepo, idx, gongenum)
+	}
+
+	return
+}
+
+func (backRepoGongEnum *BackRepoGongEnumStruct) ResetReversePointersInstance(backRepo *BackRepoStruct, idx uint, astruct *models.GongEnum) (Error error) {
+
+	// fetch matching gongenumDB
+	if gongenumDB, ok := backRepoGongEnum.Map_GongEnumDBID_GongEnumDB[idx]; ok {
+		_ = gongenumDB // to avoid unused variable error if there are no reverse to reset
+
+		// insertion point for reverse pointers reset
+		// end of insertion point for reverse pointers reset
+	}
+
+	return
+}
+
 // this field is used during the restauration process.
 // it stores the ID at the backup time and is used for renumbering
 var BackRepoGongEnumid_atBckpTime_newID map[uint]uint
