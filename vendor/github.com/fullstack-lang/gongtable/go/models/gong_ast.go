@@ -1184,6 +1184,10 @@ func UnmarshallGongstructStaging(stage *StageStruct, cmap *ast.CommentMap, assig
 					// remove first and last char
 					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
 					__gong__map_FormGroup[identifier].Name = fielValue
+				case "Label":
+					// remove first and last char
+					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
+					__gong__map_FormGroup[identifier].Label = fielValue
 				}
 			case "FormSortAssocButton":
 				switch fieldName {
