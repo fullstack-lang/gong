@@ -578,6 +578,39 @@ func (backRepoGongTimeField *BackRepoGongTimeFieldStruct) RestorePhaseTwo() {
 
 }
 
+// BackRepoGongTimeField.ResetReversePointers commits all staged instances of GongTimeField to the BackRepo
+// Phase Two is the update of instance with the field in the database
+func (backRepoGongTimeField *BackRepoGongTimeFieldStruct) ResetReversePointers(backRepo *BackRepoStruct) (Error error) {
+
+	for idx, gongtimefield := range backRepoGongTimeField.Map_GongTimeFieldDBID_GongTimeFieldPtr {
+		backRepoGongTimeField.ResetReversePointersInstance(backRepo, idx, gongtimefield)
+	}
+
+	return
+}
+
+func (backRepoGongTimeField *BackRepoGongTimeFieldStruct) ResetReversePointersInstance(backRepo *BackRepoStruct, idx uint, astruct *models.GongTimeField) (Error error) {
+
+	// fetch matching gongtimefieldDB
+	if gongtimefieldDB, ok := backRepoGongTimeField.Map_GongTimeFieldDBID_GongTimeFieldDB[idx]; ok {
+		_ = gongtimefieldDB // to avoid unused variable error if there are no reverse to reset
+
+		// insertion point for reverse pointers reset
+		if gongtimefieldDB.GongStruct_GongTimeFieldsDBID.Int64 != 0 {
+			gongtimefieldDB.GongStruct_GongTimeFieldsDBID.Int64 = 0
+			gongtimefieldDB.GongStruct_GongTimeFieldsDBID.Valid = true
+
+			// save the reset
+			if q := backRepoGongTimeField.db.Save(gongtimefieldDB); q.Error != nil {
+				return q.Error
+			}
+		}
+		// end of insertion point for reverse pointers reset
+	}
+
+	return
+}
+
 // this field is used during the restauration process.
 // it stores the ID at the backup time and is used for renumbering
 var BackRepoGongTimeFieldid_atBckpTime_newID map[uint]uint

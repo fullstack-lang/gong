@@ -188,7 +188,6 @@ func (tablePickSaver *TablePickSaver[InstanceType, FieldType]) TableUpdated(
 	}
 
 	// first, force commit of instance for taking into account the slice
-	tablePickSaver.instance.CommitVoid(tablePickSaver.playground.stageOfInterest)
 	models.EvictInOtherSlices(
 		tablePickSaver.playground.stageOfInterest,
 		tablePickSaver.instance,
