@@ -46,7 +46,8 @@ func (buttonImpl *ButtonImplGongstruct) ButtonUpdated(
 	// insertion point
 	case "Astruct":
 		formGroup := (&form.FormGroup{
-			Name: form.FormGroupDefaultName.ToString(),
+			Name:  form.FormGroupDefaultName.ToString(),
+			Label: "New Astruct Form",
 			OnSave: NewAstructFormCallback(
 				nil,
 				buttonImpl.playground,
@@ -167,4 +168,3 @@ func FillUpForm[T models.Gongstruct](
 		_ = instanceWithInferedType
 	}
 }
-
