@@ -810,6 +810,39 @@ func (backRepoFormField *BackRepoFormFieldStruct) RestorePhaseTwo() {
 
 }
 
+// BackRepoFormField.ResetReversePointers commits all staged instances of FormField to the BackRepo
+// Phase Two is the update of instance with the field in the database
+func (backRepoFormField *BackRepoFormFieldStruct) ResetReversePointers(backRepo *BackRepoStruct) (Error error) {
+
+	for idx, formfield := range backRepoFormField.Map_FormFieldDBID_FormFieldPtr {
+		backRepoFormField.ResetReversePointersInstance(backRepo, idx, formfield)
+	}
+
+	return
+}
+
+func (backRepoFormField *BackRepoFormFieldStruct) ResetReversePointersInstance(backRepo *BackRepoStruct, idx uint, astruct *models.FormField) (Error error) {
+
+	// fetch matching formfieldDB
+	if formfieldDB, ok := backRepoFormField.Map_FormFieldDBID_FormFieldDB[idx]; ok {
+		_ = formfieldDB // to avoid unused variable error if there are no reverse to reset
+
+		// insertion point for reverse pointers reset
+		if formfieldDB.FormDiv_FormFieldsDBID.Int64 != 0 {
+			formfieldDB.FormDiv_FormFieldsDBID.Int64 = 0
+			formfieldDB.FormDiv_FormFieldsDBID.Valid = true
+
+			// save the reset
+			if q := backRepoFormField.db.Save(formfieldDB); q.Error != nil {
+				return q.Error
+			}
+		}
+		// end of insertion point for reverse pointers reset
+	}
+
+	return
+}
+
 // this field is used during the restauration process.
 // it stores the ID at the backup time and is used for renumbering
 var BackRepoFormFieldid_atBckpTime_newID map[uint]uint

@@ -193,6 +193,11 @@ func CodeGeneratorModelButtonImpl(
 						}
 					default:
 					}
+				case *models.GongTimeField:
+					fieldToFormCode += models.Replace1(
+						ButtonImplFileFieldFieldSubTemplateCode[ButtonImplSubTmplBasicField],
+						"{{FieldName}}", field.Name)
+
 				case *models.PointerToGongStructField:
 					fieldToFormCode += models.Replace1(
 						ButtonImplFileFieldFieldSubTemplateCode[ButtonImplSubTmplPointerField],

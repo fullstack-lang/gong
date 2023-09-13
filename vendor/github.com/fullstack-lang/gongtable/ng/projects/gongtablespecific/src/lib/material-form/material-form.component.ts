@@ -124,31 +124,8 @@ export class MaterialFormComponent implements OnInit {
           return
         }
 
-        this.selectedFormGroup.FormDivs.sort((t1, t2) => {
-          if (t1.FormGroup_FormDivsDBID_Index && t2.FormGroup_FormDivsDBID_Index) {
-            if (t1.FormGroup_FormDivsDBID_Index.Int64 > t2.FormGroup_FormDivsDBID_Index.Int64) {
-              return 1;
-            }
-            if (t1.FormGroup_FormDivsDBID_Index.Int64 < t2.FormGroup_FormDivsDBID_Index.Int64) {
-              return -1;
-            }
-          }
-          return 0;
-        })
-
         for (let formDiv of this.selectedFormGroup.FormDivs) {
           if (formDiv.FormFields) {
-            formDiv.FormFields.sort((t1, t2) => {
-              if (t1.FormDiv_FormFieldsDBID_Index && t2.FormDiv_FormFieldsDBID_Index) {
-                if (t1.FormDiv_FormFieldsDBID_Index.Int64 > t2.FormDiv_FormFieldsDBID_Index.Int64) {
-                  return 1;
-                }
-                if (t1.FormDiv_FormFieldsDBID_Index.Int64 < t2.FormDiv_FormFieldsDBID_Index.Int64) {
-                  return -1;
-                }
-              }
-              return 0;
-            })
 
             for (let formField of formDiv.FormFields) {
               if (formField.FormFieldString) {

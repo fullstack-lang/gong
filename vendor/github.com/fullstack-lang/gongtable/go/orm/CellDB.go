@@ -685,6 +685,39 @@ func (backRepoCell *BackRepoCellStruct) RestorePhaseTwo() {
 
 }
 
+// BackRepoCell.ResetReversePointers commits all staged instances of Cell to the BackRepo
+// Phase Two is the update of instance with the field in the database
+func (backRepoCell *BackRepoCellStruct) ResetReversePointers(backRepo *BackRepoStruct) (Error error) {
+
+	for idx, cell := range backRepoCell.Map_CellDBID_CellPtr {
+		backRepoCell.ResetReversePointersInstance(backRepo, idx, cell)
+	}
+
+	return
+}
+
+func (backRepoCell *BackRepoCellStruct) ResetReversePointersInstance(backRepo *BackRepoStruct, idx uint, astruct *models.Cell) (Error error) {
+
+	// fetch matching cellDB
+	if cellDB, ok := backRepoCell.Map_CellDBID_CellDB[idx]; ok {
+		_ = cellDB // to avoid unused variable error if there are no reverse to reset
+
+		// insertion point for reverse pointers reset
+		if cellDB.Row_CellsDBID.Int64 != 0 {
+			cellDB.Row_CellsDBID.Int64 = 0
+			cellDB.Row_CellsDBID.Valid = true
+
+			// save the reset
+			if q := backRepoCell.db.Save(cellDB); q.Error != nil {
+				return q.Error
+			}
+		}
+		// end of insertion point for reverse pointers reset
+	}
+
+	return
+}
+
 // this field is used during the restauration process.
 // it stores the ID at the backup time and is used for renumbering
 var BackRepoCellid_atBckpTime_newID map[uint]uint

@@ -550,6 +550,39 @@ func (backRepoOption *BackRepoOptionStruct) RestorePhaseTwo() {
 
 }
 
+// BackRepoOption.ResetReversePointers commits all staged instances of Option to the BackRepo
+// Phase Two is the update of instance with the field in the database
+func (backRepoOption *BackRepoOptionStruct) ResetReversePointers(backRepo *BackRepoStruct) (Error error) {
+
+	for idx, option := range backRepoOption.Map_OptionDBID_OptionPtr {
+		backRepoOption.ResetReversePointersInstance(backRepo, idx, option)
+	}
+
+	return
+}
+
+func (backRepoOption *BackRepoOptionStruct) ResetReversePointersInstance(backRepo *BackRepoStruct, idx uint, astruct *models.Option) (Error error) {
+
+	// fetch matching optionDB
+	if optionDB, ok := backRepoOption.Map_OptionDBID_OptionDB[idx]; ok {
+		_ = optionDB // to avoid unused variable error if there are no reverse to reset
+
+		// insertion point for reverse pointers reset
+		if optionDB.FormFieldSelect_OptionsDBID.Int64 != 0 {
+			optionDB.FormFieldSelect_OptionsDBID.Int64 = 0
+			optionDB.FormFieldSelect_OptionsDBID.Valid = true
+
+			// save the reset
+			if q := backRepoOption.db.Save(optionDB); q.Error != nil {
+				return q.Error
+			}
+		}
+		// end of insertion point for reverse pointers reset
+	}
+
+	return
+}
+
 // this field is used during the restauration process.
 // it stores the ID at the backup time and is used for renumbering
 var BackRepoOptionid_atBckpTime_newID map[uint]uint
