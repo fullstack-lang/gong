@@ -46,17 +46,17 @@ type BstructAPI struct {
 type BstructPointersEnconding struct {
 	// insertion for pointer fields encoding declaration
 
-	// Implementation of a reverse ID for field Astruct{}.Anarrayofb []*Bstruct
-	Astruct_AnarrayofbDBID sql.NullInt64
-
-	// implementation of the index of the withing the slice
-	Astruct_AnarrayofbDBID_Index sql.NullInt64
-
 	// Implementation of a reverse ID for field Astruct{}.Anotherarrayofb []*Bstruct
 	Astruct_AnotherarrayofbDBID sql.NullInt64
 
 	// implementation of the index of the withing the slice
 	Astruct_AnotherarrayofbDBID_Index sql.NullInt64
+
+	// Implementation of a reverse ID for field Astruct{}.Anarrayofb []*Bstruct
+	Astruct_AnarrayofbDBID sql.NullInt64
+
+	// implementation of the index of the withing the slice
+	Astruct_AnarrayofbDBID_Index sql.NullInt64
 }
 
 // BstructDB describes a bstruct in the database
@@ -583,16 +583,16 @@ func (backRepoBstruct *BackRepoBstructStruct) RestorePhaseTwo() {
 		_ = bstructDB
 
 		// insertion point for reindexing pointers encoding
-		// This reindex bstruct.Anarrayofb
-		if bstructDB.Astruct_AnarrayofbDBID.Int64 != 0 {
-			bstructDB.Astruct_AnarrayofbDBID.Int64 =
-				int64(BackRepoAstructid_atBckpTime_newID[uint(bstructDB.Astruct_AnarrayofbDBID.Int64)])
-		}
-
 		// This reindex bstruct.Anotherarrayofb
 		if bstructDB.Astruct_AnotherarrayofbDBID.Int64 != 0 {
 			bstructDB.Astruct_AnotherarrayofbDBID.Int64 =
 				int64(BackRepoAstructid_atBckpTime_newID[uint(bstructDB.Astruct_AnotherarrayofbDBID.Int64)])
+		}
+
+		// This reindex bstruct.Anarrayofb
+		if bstructDB.Astruct_AnarrayofbDBID.Int64 != 0 {
+			bstructDB.Astruct_AnarrayofbDBID.Int64 =
+				int64(BackRepoAstructid_atBckpTime_newID[uint(bstructDB.Astruct_AnarrayofbDBID.Int64)])
 		}
 
 		// update databse with new index encoding
@@ -622,18 +622,18 @@ func (backRepoBstruct *BackRepoBstructStruct) ResetReversePointersInstance(backR
 		_ = bstructDB // to avoid unused variable error if there are no reverse to reset
 
 		// insertion point for reverse pointers reset
-		if bstructDB.Astruct_AnarrayofbDBID.Int64 != 0 {
-			bstructDB.Astruct_AnarrayofbDBID.Int64 = 0
-			bstructDB.Astruct_AnarrayofbDBID.Valid = true
+		if bstructDB.Astruct_AnotherarrayofbDBID.Int64 != 0 {
+			bstructDB.Astruct_AnotherarrayofbDBID.Int64 = 0
+			bstructDB.Astruct_AnotherarrayofbDBID.Valid = true
 
 			// save the reset
 			if q := backRepoBstruct.db.Save(bstructDB); q.Error != nil {
 				return q.Error
 			}
 		}
-		if bstructDB.Astruct_AnotherarrayofbDBID.Int64 != 0 {
-			bstructDB.Astruct_AnotherarrayofbDBID.Int64 = 0
-			bstructDB.Astruct_AnotherarrayofbDBID.Valid = true
+		if bstructDB.Astruct_AnarrayofbDBID.Int64 != 0 {
+			bstructDB.Astruct_AnarrayofbDBID.Int64 = 0
+			bstructDB.Astruct_AnarrayofbDBID.Valid = true
 
 			// save the reset
 			if q := backRepoBstruct.db.Save(bstructDB); q.Error != nil {
