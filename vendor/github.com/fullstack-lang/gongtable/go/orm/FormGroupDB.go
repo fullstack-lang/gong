@@ -584,6 +584,30 @@ func (backRepoFormGroup *BackRepoFormGroupStruct) RestorePhaseTwo() {
 
 }
 
+// BackRepoFormGroup.ResetReversePointers commits all staged instances of FormGroup to the BackRepo
+// Phase Two is the update of instance with the field in the database
+func (backRepoFormGroup *BackRepoFormGroupStruct) ResetReversePointers(backRepo *BackRepoStruct) (Error error) {
+
+	for idx, formgroup := range backRepoFormGroup.Map_FormGroupDBID_FormGroupPtr {
+		backRepoFormGroup.ResetReversePointersInstance(backRepo, idx, formgroup)
+	}
+
+	return
+}
+
+func (backRepoFormGroup *BackRepoFormGroupStruct) ResetReversePointersInstance(backRepo *BackRepoStruct, idx uint, astruct *models.FormGroup) (Error error) {
+
+	// fetch matching formgroupDB
+	if formgroupDB, ok := backRepoFormGroup.Map_FormGroupDBID_FormGroupDB[idx]; ok {
+		_ = formgroupDB // to avoid unused variable error if there are no reverse to reset
+
+		// insertion point for reverse pointers reset
+		// end of insertion point for reverse pointers reset
+	}
+
+	return
+}
+
 // this field is used during the restauration process.
 // it stores the ID at the backup time and is used for renumbering
 var BackRepoFormGroupid_atBckpTime_newID map[uint]uint
