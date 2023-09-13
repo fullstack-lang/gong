@@ -4,6 +4,7 @@ import "log"
 
 type FormGroup struct {
 	Name     string
+	Label    string
 	FormDivs []*FormDiv
 
 	// swagger:ignore

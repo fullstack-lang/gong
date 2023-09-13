@@ -3036,7 +3036,7 @@ func GetFields[Type Gongstruct]() (res []string) {
 	case FormFieldTime:
 		res = []string{"Name", "Value", "Step"}
 	case FormGroup:
-		res = []string{"Name", "FormDivs"}
+		res = []string{"Name", "Label", "FormDivs"}
 	case FormSortAssocButton:
 		res = []string{"Name", "Label"}
 	case Option:
@@ -3093,7 +3093,7 @@ func GetFieldsFromPointer[Type PointerToGongstruct]() (res []string) {
 	case *FormFieldTime:
 		res = []string{"Name", "Value", "Step"}
 	case *FormGroup:
-		res = []string{"Name", "FormDivs"}
+		res = []string{"Name", "Label", "FormDivs"}
 	case *FormSortAssocButton:
 		res = []string{"Name", "Label"}
 	case *Option:
@@ -3361,6 +3361,8 @@ func GetFieldStringValueFromPointer[Type PointerToGongstruct](instance Type, fie
 		// string value of fields
 		case "Name":
 			res = inferedInstance.Name
+		case "Label":
+			res = inferedInstance.Label
 		case "FormDivs":
 			for idx, __instance__ := range inferedInstance.FormDivs {
 				if idx > 0 {
@@ -3697,6 +3699,8 @@ func GetFieldStringValue[Type Gongstruct](instance Type, fieldName string) (res 
 		// string value of fields
 		case "Name":
 			res = inferedInstance.Name
+		case "Label":
+			res = inferedInstance.Label
 		case "FormDivs":
 			for idx, __instance__ := range inferedInstance.FormDivs {
 				if idx > 0 {

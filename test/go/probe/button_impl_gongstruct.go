@@ -46,7 +46,8 @@ func (buttonImpl *ButtonImplGongstruct) ButtonUpdated(
 	// insertion point
 	case "Astruct":
 		formGroup := (&form.FormGroup{
-			Name: form.FormGroupDefaultName.ToString(),
+			Name:  form.FormGroupDefaultName.ToString(),
+			Label: "New Astruct Form",
 			OnSave: NewAstructFormCallback(
 				nil,
 				buttonImpl.playground,
@@ -56,7 +57,8 @@ func (buttonImpl *ButtonImplGongstruct) ButtonUpdated(
 		FillUpForm(astruct, formGroup, buttonImpl.playground)
 	case "AstructBstruct2Use":
 		formGroup := (&form.FormGroup{
-			Name: form.FormGroupDefaultName.ToString(),
+			Name:  form.FormGroupDefaultName.ToString(),
+			Label: "New AstructBstruct2Use Form",
 			OnSave: NewAstructBstruct2UseFormCallback(
 				nil,
 				buttonImpl.playground,
@@ -66,7 +68,8 @@ func (buttonImpl *ButtonImplGongstruct) ButtonUpdated(
 		FillUpForm(astructbstruct2use, formGroup, buttonImpl.playground)
 	case "AstructBstructUse":
 		formGroup := (&form.FormGroup{
-			Name: form.FormGroupDefaultName.ToString(),
+			Name:  form.FormGroupDefaultName.ToString(),
+			Label: "New AstructBstructUse Form",
 			OnSave: NewAstructBstructUseFormCallback(
 				nil,
 				buttonImpl.playground,
@@ -76,7 +79,8 @@ func (buttonImpl *ButtonImplGongstruct) ButtonUpdated(
 		FillUpForm(astructbstructuse, formGroup, buttonImpl.playground)
 	case "Bstruct":
 		formGroup := (&form.FormGroup{
-			Name: form.FormGroupDefaultName.ToString(),
+			Name:  form.FormGroupDefaultName.ToString(),
+			Label: "New Bstruct Form",
 			OnSave: NewBstructFormCallback(
 				nil,
 				buttonImpl.playground,
@@ -86,7 +90,8 @@ func (buttonImpl *ButtonImplGongstruct) ButtonUpdated(
 		FillUpForm(bstruct, formGroup, buttonImpl.playground)
 	case "Dstruct":
 		formGroup := (&form.FormGroup{
-			Name: form.FormGroupDefaultName.ToString(),
+			Name:  form.FormGroupDefaultName.ToString(),
+			Label: "New Dstruct Form",
 			OnSave: NewDstructFormCallback(
 				nil,
 				buttonImpl.playground,
