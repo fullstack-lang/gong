@@ -605,6 +605,39 @@ func (backRepoSliceOfPointerToGongStructField *BackRepoSliceOfPointerToGongStruc
 
 }
 
+// BackRepoSliceOfPointerToGongStructField.ResetReversePointers commits all staged instances of SliceOfPointerToGongStructField to the BackRepo
+// Phase Two is the update of instance with the field in the database
+func (backRepoSliceOfPointerToGongStructField *BackRepoSliceOfPointerToGongStructFieldStruct) ResetReversePointers(backRepo *BackRepoStruct) (Error error) {
+
+	for idx, sliceofpointertogongstructfield := range backRepoSliceOfPointerToGongStructField.Map_SliceOfPointerToGongStructFieldDBID_SliceOfPointerToGongStructFieldPtr {
+		backRepoSliceOfPointerToGongStructField.ResetReversePointersInstance(backRepo, idx, sliceofpointertogongstructfield)
+	}
+
+	return
+}
+
+func (backRepoSliceOfPointerToGongStructField *BackRepoSliceOfPointerToGongStructFieldStruct) ResetReversePointersInstance(backRepo *BackRepoStruct, idx uint, astruct *models.SliceOfPointerToGongStructField) (Error error) {
+
+	// fetch matching sliceofpointertogongstructfieldDB
+	if sliceofpointertogongstructfieldDB, ok := backRepoSliceOfPointerToGongStructField.Map_SliceOfPointerToGongStructFieldDBID_SliceOfPointerToGongStructFieldDB[idx]; ok {
+		_ = sliceofpointertogongstructfieldDB // to avoid unused variable error if there are no reverse to reset
+
+		// insertion point for reverse pointers reset
+		if sliceofpointertogongstructfieldDB.GongStruct_SliceOfPointerToGongStructFieldsDBID.Int64 != 0 {
+			sliceofpointertogongstructfieldDB.GongStruct_SliceOfPointerToGongStructFieldsDBID.Int64 = 0
+			sliceofpointertogongstructfieldDB.GongStruct_SliceOfPointerToGongStructFieldsDBID.Valid = true
+
+			// save the reset
+			if q := backRepoSliceOfPointerToGongStructField.db.Save(sliceofpointertogongstructfieldDB); q.Error != nil {
+				return q.Error
+			}
+		}
+		// end of insertion point for reverse pointers reset
+	}
+
+	return
+}
+
 // this field is used during the restauration process.
 // it stores the ID at the backup time and is used for renumbering
 var BackRepoSliceOfPointerToGongStructFieldid_atBckpTime_newID map[uint]uint

@@ -737,6 +737,30 @@ func (backRepoGongStruct *BackRepoGongStructStruct) RestorePhaseTwo() {
 
 }
 
+// BackRepoGongStruct.ResetReversePointers commits all staged instances of GongStruct to the BackRepo
+// Phase Two is the update of instance with the field in the database
+func (backRepoGongStruct *BackRepoGongStructStruct) ResetReversePointers(backRepo *BackRepoStruct) (Error error) {
+
+	for idx, gongstruct := range backRepoGongStruct.Map_GongStructDBID_GongStructPtr {
+		backRepoGongStruct.ResetReversePointersInstance(backRepo, idx, gongstruct)
+	}
+
+	return
+}
+
+func (backRepoGongStruct *BackRepoGongStructStruct) ResetReversePointersInstance(backRepo *BackRepoStruct, idx uint, astruct *models.GongStruct) (Error error) {
+
+	// fetch matching gongstructDB
+	if gongstructDB, ok := backRepoGongStruct.Map_GongStructDBID_GongStructDB[idx]; ok {
+		_ = gongstructDB // to avoid unused variable error if there are no reverse to reset
+
+		// insertion point for reverse pointers reset
+		// end of insertion point for reverse pointers reset
+	}
+
+	return
+}
+
 // this field is used during the restauration process.
 // it stores the ID at the backup time and is used for renumbering
 var BackRepoGongStructid_atBckpTime_newID map[uint]uint
