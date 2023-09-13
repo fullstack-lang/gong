@@ -234,7 +234,8 @@ map[string]string{
 	string(rune(NodeImplGongstructCase)): `
 	case *models.{{Structname}}:
 		formGroup := (&gongtable.FormGroup{
-			Name: gongtable.FormGroupDefaultName.ToString(),
+			Name:  gongtable.FormGroupDefaultName.ToString(),
+			Label: "Update {{Structname}} Form",
 			OnSave: New{{Structname}}FormCallback(
 				instancesTyped,
 				rowUpdate.playground,
