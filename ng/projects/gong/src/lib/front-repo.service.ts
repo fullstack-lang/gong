@@ -881,6 +881,140 @@ export class FrontRepoService {
               }
             )
 
+            // 
+            // Third Step: sort arrays (slices in go) according to their index
+            // insertion point sub template for redeem 
+            gongbasicfields.forEach(
+              gongbasicfield => {
+                // insertion point for sorting
+              }
+            )
+            gongenums.forEach(
+              gongenum => {
+                // insertion point for sorting
+                gongenum.GongEnumValues?.sort((t1, t2) => {
+                  if (t1.GongEnum_GongEnumValuesDBID_Index.Int64 > t2.GongEnum_GongEnumValuesDBID_Index.Int64) {
+                    return 1;
+                  }
+                  if (t1.GongEnum_GongEnumValuesDBID_Index.Int64 < t2.GongEnum_GongEnumValuesDBID_Index.Int64) {
+                    return -1;
+                  }
+                  return 0;
+                })
+
+              }
+            )
+            gongenumvalues.forEach(
+              gongenumvalue => {
+                // insertion point for sorting
+              }
+            )
+            gonglinks.forEach(
+              gonglink => {
+                // insertion point for sorting
+              }
+            )
+            gongnotes.forEach(
+              gongnote => {
+                // insertion point for sorting
+                gongnote.Links?.sort((t1, t2) => {
+                  if (t1.GongNote_LinksDBID_Index.Int64 > t2.GongNote_LinksDBID_Index.Int64) {
+                    return 1;
+                  }
+                  if (t1.GongNote_LinksDBID_Index.Int64 < t2.GongNote_LinksDBID_Index.Int64) {
+                    return -1;
+                  }
+                  return 0;
+                })
+
+              }
+            )
+            gongstructs.forEach(
+              gongstruct => {
+                // insertion point for sorting
+                gongstruct.GongBasicFields?.sort((t1, t2) => {
+                  if (t1.GongStruct_GongBasicFieldsDBID_Index.Int64 > t2.GongStruct_GongBasicFieldsDBID_Index.Int64) {
+                    return 1;
+                  }
+                  if (t1.GongStruct_GongBasicFieldsDBID_Index.Int64 < t2.GongStruct_GongBasicFieldsDBID_Index.Int64) {
+                    return -1;
+                  }
+                  return 0;
+                })
+
+                gongstruct.GongTimeFields?.sort((t1, t2) => {
+                  if (t1.GongStruct_GongTimeFieldsDBID_Index.Int64 > t2.GongStruct_GongTimeFieldsDBID_Index.Int64) {
+                    return 1;
+                  }
+                  if (t1.GongStruct_GongTimeFieldsDBID_Index.Int64 < t2.GongStruct_GongTimeFieldsDBID_Index.Int64) {
+                    return -1;
+                  }
+                  return 0;
+                })
+
+                gongstruct.PointerToGongStructFields?.sort((t1, t2) => {
+                  if (t1.GongStruct_PointerToGongStructFieldsDBID_Index.Int64 > t2.GongStruct_PointerToGongStructFieldsDBID_Index.Int64) {
+                    return 1;
+                  }
+                  if (t1.GongStruct_PointerToGongStructFieldsDBID_Index.Int64 < t2.GongStruct_PointerToGongStructFieldsDBID_Index.Int64) {
+                    return -1;
+                  }
+                  return 0;
+                })
+
+                gongstruct.SliceOfPointerToGongStructFields?.sort((t1, t2) => {
+                  if (t1.GongStruct_SliceOfPointerToGongStructFieldsDBID_Index.Int64 > t2.GongStruct_SliceOfPointerToGongStructFieldsDBID_Index.Int64) {
+                    return 1;
+                  }
+                  if (t1.GongStruct_SliceOfPointerToGongStructFieldsDBID_Index.Int64 < t2.GongStruct_SliceOfPointerToGongStructFieldsDBID_Index.Int64) {
+                    return -1;
+                  }
+                  return 0;
+                })
+
+              }
+            )
+            gongtimefields.forEach(
+              gongtimefield => {
+                // insertion point for sorting
+              }
+            )
+            metas.forEach(
+              meta => {
+                // insertion point for sorting
+                meta.MetaReferences?.sort((t1, t2) => {
+                  if (t1.Meta_MetaReferencesDBID_Index.Int64 > t2.Meta_MetaReferencesDBID_Index.Int64) {
+                    return 1;
+                  }
+                  if (t1.Meta_MetaReferencesDBID_Index.Int64 < t2.Meta_MetaReferencesDBID_Index.Int64) {
+                    return -1;
+                  }
+                  return 0;
+                })
+
+              }
+            )
+            metareferences.forEach(
+              metareference => {
+                // insertion point for sorting
+              }
+            )
+            modelpkgs.forEach(
+              modelpkg => {
+                // insertion point for sorting
+              }
+            )
+            pointertogongstructfields.forEach(
+              pointertogongstructfield => {
+                // insertion point for sorting
+              }
+            )
+            sliceofpointertogongstructfields.forEach(
+              sliceofpointertogongstructfield => {
+                // insertion point for sorting
+              }
+            )
+
             // hand over control flow to observer
             observer.next(this.frontRepo)
           }

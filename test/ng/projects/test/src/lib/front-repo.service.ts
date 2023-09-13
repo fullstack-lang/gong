@@ -540,6 +540,85 @@ export class FrontRepoService {
               }
             )
 
+            // 
+            // Third Step: sort arrays (slices in go) according to their index
+            // insertion point sub template for redeem 
+            astructs.forEach(
+              astruct => {
+                // insertion point for sorting
+                astruct.Anotherarrayofb?.sort((t1, t2) => {
+                  if (t1.Astruct_AnotherarrayofbDBID_Index.Int64 > t2.Astruct_AnotherarrayofbDBID_Index.Int64) {
+                    return 1;
+                  }
+                  if (t1.Astruct_AnotherarrayofbDBID_Index.Int64 < t2.Astruct_AnotherarrayofbDBID_Index.Int64) {
+                    return -1;
+                  }
+                  return 0;
+                })
+
+                astruct.Anarrayofb?.sort((t1, t2) => {
+                  if (t1.Astruct_AnarrayofbDBID_Index.Int64 > t2.Astruct_AnarrayofbDBID_Index.Int64) {
+                    return 1;
+                  }
+                  if (t1.Astruct_AnarrayofbDBID_Index.Int64 < t2.Astruct_AnarrayofbDBID_Index.Int64) {
+                    return -1;
+                  }
+                  return 0;
+                })
+
+                astruct.Anarrayofa?.sort((t1, t2) => {
+                  if (t1.Astruct_AnarrayofaDBID_Index.Int64 > t2.Astruct_AnarrayofaDBID_Index.Int64) {
+                    return 1;
+                  }
+                  if (t1.Astruct_AnarrayofaDBID_Index.Int64 < t2.Astruct_AnarrayofaDBID_Index.Int64) {
+                    return -1;
+                  }
+                  return 0;
+                })
+
+                astruct.AnarrayofbUse?.sort((t1, t2) => {
+                  if (t1.Astruct_AnarrayofbUseDBID_Index.Int64 > t2.Astruct_AnarrayofbUseDBID_Index.Int64) {
+                    return 1;
+                  }
+                  if (t1.Astruct_AnarrayofbUseDBID_Index.Int64 < t2.Astruct_AnarrayofbUseDBID_Index.Int64) {
+                    return -1;
+                  }
+                  return 0;
+                })
+
+                astruct.Anarrayofb2Use?.sort((t1, t2) => {
+                  if (t1.Astruct_Anarrayofb2UseDBID_Index.Int64 > t2.Astruct_Anarrayofb2UseDBID_Index.Int64) {
+                    return 1;
+                  }
+                  if (t1.Astruct_Anarrayofb2UseDBID_Index.Int64 < t2.Astruct_Anarrayofb2UseDBID_Index.Int64) {
+                    return -1;
+                  }
+                  return 0;
+                })
+
+              }
+            )
+            astructbstruct2uses.forEach(
+              astructbstruct2use => {
+                // insertion point for sorting
+              }
+            )
+            astructbstructuses.forEach(
+              astructbstructuse => {
+                // insertion point for sorting
+              }
+            )
+            bstructs.forEach(
+              bstruct => {
+                // insertion point for sorting
+              }
+            )
+            dstructs.forEach(
+              dstruct => {
+                // insertion point for sorting
+              }
+            )
+
             // hand over control flow to observer
             observer.next(this.frontRepo)
           }

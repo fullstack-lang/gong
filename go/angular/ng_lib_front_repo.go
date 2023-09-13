@@ -147,6 +147,10 @@ export class FrontRepoService {
             // Second Step: redeem pointers between instances (thanks to maps in the First Step)
             // insertion point sub template for redeem {{` + string(NgLibFrontRepoRedeemPointers) + `}}
 
+            // 
+            // Third Step: sort arrays (slices in go) according to their index
+            // insertion point sub template for redeem {{` + string(NgLibFrontRepoSortSlicesOfPointers) + `}}
+
             // hand over control flow to observer
             observer.next(this.frontRepo)
           }
@@ -173,6 +177,7 @@ const (
 	NgLibFrontRepoArraysDecls          NgLibFrontRepoServiceSubTemplate = "ArraysDecls"
 	NgLibFrontRepoInitMapInstances     NgLibFrontRepoServiceSubTemplate = "InitMapInstances"
 	NgLibFrontRepoRedeemPointers       NgLibFrontRepoServiceSubTemplate = "RedeemPointers"
+	NgLibFrontRepoSortSlicesOfPointers NgLibFrontRepoServiceSubTemplate = "SortSlicesOfPointers"
 	NgLibFrontRepoPerStructPull        NgLibFrontRepoServiceSubTemplate = "PerStructPull"
 	NgLibFrontRepoPerStructGetUniqueID NgLibFrontRepoServiceSubTemplate = "PerStructGetUniqueID"
 )
@@ -247,6 +252,13 @@ import { {{Structname}}Service } from './{{structname}}.service'
                 // insertion point sub sub template for ONE-/ZERO-ONE associations pointers redeeming{{` + string(NgFrontRepoPtrToStructRedeeming) + `}}
 
                 // insertion point for redeeming ONE-MANY associations{{` + string(NgFrontRepoSliceOfPointerRedeeming) + `}}
+              }
+            )`,
+
+	string(NgLibFrontRepoSortSlicesOfPointers): `
+            {{structname}}s.forEach(
+              {{structname}} => {
+                // insertion point for sorting{{` + string(NgFrontRepoSliceOfPointerSorting) + `}}
               }
             )`,
 
@@ -335,6 +347,7 @@ map[string]string{
 
 const (
 	NgFrontRepoSliceOfPointerRedeeming NgLibFrontRepoServiceSubSubTemplate = "NgFrontRepoSliceOfPointerRedeeming"
+	NgFrontRepoSliceOfPointerSorting   NgLibFrontRepoServiceSubSubTemplate = "NgFrontRepoSliceOfPointerSorting"
 )
 
 var NgFrontRepoSliceOfPointerToStructTmplCode map[string]string = // new line
@@ -353,6 +366,17 @@ map[string]string{
                     }
                   }
                 }`,
+	string(NgFrontRepoSliceOfPointerSorting): `
+                {{structname}}.{{FieldName}}?.sort((t1, t2) => {
+                  if (t1.{{Structname}}_{{FieldName}}DBID_Index.Int64 > t2.{{Structname}}_{{FieldName}}DBID_Index.Int64) {
+                    return 1;
+                  }
+                  if (t1.{{Structname}}_{{FieldName}}DBID_Index.Int64 < t2.{{Structname}}_{{FieldName}}DBID_Index.Int64) {
+                    return -1;
+                  }
+                  return 0;
+                })
+`,
 }
 
 func CodeGeneratorNgFrontRepo(
@@ -392,6 +416,7 @@ func CodeGeneratorNgFrontRepo(
 
 		fieldPointerToStructCodes := ""
 		fieldSliceOfPtrToStructCodes := ""
+		fieldSliceOfPtrSortingToStructCodes := ""
 
 		// compute code per field
 		for _, field := range _struct.Fields {
@@ -411,6 +436,18 @@ func CodeGeneratorNgFrontRepo(
 					"{{structname}}", structName)
 
 			case *models.SliceOfPointerToGongStructField:
+
+				fieldName := strings.ToLower(field.Name)
+				assocStructName := strings.ToLower(field.GongStruct.Name)
+
+				fieldSliceOfPtrSortingToStructCodes += models.Replace6(
+					NgFrontRepoSliceOfPointerToStructTmplCode[string(NgFrontRepoSliceOfPointerSorting)],
+					"{{fieldName}}", fieldName,
+					"{{FieldName}}", field.Name,
+					"{{AssocStructName}}", field.GongStruct.Name,
+					"{{assocStructName}}", assocStructName,
+					"{{Structname}}", _struct.Name,
+					"{{structname}}", structName)
 			}
 		}
 
@@ -457,6 +494,11 @@ func CodeGeneratorNgFrontRepo(
 			perStructCodes[subTemplate] = strings.ReplaceAll(
 				perStructCodes[subTemplate],
 				toReplace, fieldSliceOfPtrToStructCodes)
+
+			toReplace = "{{" + string(NgFrontRepoSliceOfPointerSorting) + "}}"
+			perStructCodes[subTemplate] = strings.ReplaceAll(
+				perStructCodes[subTemplate],
+				toReplace, fieldSliceOfPtrSortingToStructCodes)
 		}
 	}
 

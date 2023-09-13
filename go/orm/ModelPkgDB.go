@@ -552,6 +552,30 @@ func (backRepoModelPkg *BackRepoModelPkgStruct) RestorePhaseTwo() {
 
 }
 
+// BackRepoModelPkg.ResetReversePointers commits all staged instances of ModelPkg to the BackRepo
+// Phase Two is the update of instance with the field in the database
+func (backRepoModelPkg *BackRepoModelPkgStruct) ResetReversePointers(backRepo *BackRepoStruct) (Error error) {
+
+	for idx, modelpkg := range backRepoModelPkg.Map_ModelPkgDBID_ModelPkgPtr {
+		backRepoModelPkg.ResetReversePointersInstance(backRepo, idx, modelpkg)
+	}
+
+	return
+}
+
+func (backRepoModelPkg *BackRepoModelPkgStruct) ResetReversePointersInstance(backRepo *BackRepoStruct, idx uint, astruct *models.ModelPkg) (Error error) {
+
+	// fetch matching modelpkgDB
+	if modelpkgDB, ok := backRepoModelPkg.Map_ModelPkgDBID_ModelPkgDB[idx]; ok {
+		_ = modelpkgDB // to avoid unused variable error if there are no reverse to reset
+
+		// insertion point for reverse pointers reset
+		// end of insertion point for reverse pointers reset
+	}
+
+	return
+}
+
 // this field is used during the restauration process.
 // it stores the ID at the backup time and is used for renumbering
 var BackRepoModelPkgid_atBckpTime_newID map[uint]uint

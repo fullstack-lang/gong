@@ -578,6 +578,39 @@ func (backRepoGongLink *BackRepoGongLinkStruct) RestorePhaseTwo() {
 
 }
 
+// BackRepoGongLink.ResetReversePointers commits all staged instances of GongLink to the BackRepo
+// Phase Two is the update of instance with the field in the database
+func (backRepoGongLink *BackRepoGongLinkStruct) ResetReversePointers(backRepo *BackRepoStruct) (Error error) {
+
+	for idx, gonglink := range backRepoGongLink.Map_GongLinkDBID_GongLinkPtr {
+		backRepoGongLink.ResetReversePointersInstance(backRepo, idx, gonglink)
+	}
+
+	return
+}
+
+func (backRepoGongLink *BackRepoGongLinkStruct) ResetReversePointersInstance(backRepo *BackRepoStruct, idx uint, astruct *models.GongLink) (Error error) {
+
+	// fetch matching gonglinkDB
+	if gonglinkDB, ok := backRepoGongLink.Map_GongLinkDBID_GongLinkDB[idx]; ok {
+		_ = gonglinkDB // to avoid unused variable error if there are no reverse to reset
+
+		// insertion point for reverse pointers reset
+		if gonglinkDB.GongNote_LinksDBID.Int64 != 0 {
+			gonglinkDB.GongNote_LinksDBID.Int64 = 0
+			gonglinkDB.GongNote_LinksDBID.Valid = true
+
+			// save the reset
+			if q := backRepoGongLink.db.Save(gonglinkDB); q.Error != nil {
+				return q.Error
+			}
+		}
+		// end of insertion point for reverse pointers reset
+	}
+
+	return
+}
+
 // this field is used during the restauration process.
 // it stores the ID at the backup time and is used for renumbering
 var BackRepoGongLinkid_atBckpTime_newID map[uint]uint
