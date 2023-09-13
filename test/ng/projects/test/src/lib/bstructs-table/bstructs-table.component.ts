@@ -84,16 +84,16 @@ export class BstructsTableComponent implements OnInit {
         case 'Intfield':
           return bstructDB.Intfield;
 
-        case 'Astruct_Anarrayofb':
-          if (this.frontRepo.Astructs.get(bstructDB.Astruct_AnarrayofbDBID.Int64) != undefined) {
-            return this.frontRepo.Astructs.get(bstructDB.Astruct_AnarrayofbDBID.Int64)!.Name
+        case 'Astruct_Anotherarrayofb':
+          if (this.frontRepo.Astructs.get(bstructDB.Astruct_AnotherarrayofbDBID.Int64) != undefined) {
+            return this.frontRepo.Astructs.get(bstructDB.Astruct_AnotherarrayofbDBID.Int64)!.Name
           } else {
             return ""
           }
 
-        case 'Astruct_Anotherarrayofb':
-          if (this.frontRepo.Astructs.get(bstructDB.Astruct_AnotherarrayofbDBID.Int64) != undefined) {
-            return this.frontRepo.Astructs.get(bstructDB.Astruct_AnotherarrayofbDBID.Int64)!.Name
+        case 'Astruct_Anarrayofb':
+          if (this.frontRepo.Astructs.get(bstructDB.Astruct_AnarrayofbDBID.Int64) != undefined) {
+            return this.frontRepo.Astructs.get(bstructDB.Astruct_AnarrayofbDBID.Int64)!.Name
           } else {
             return ""
           }
@@ -116,12 +116,12 @@ export class BstructsTableComponent implements OnInit {
       mergedContent += bstructDB.Floatfield.toString()
       mergedContent += bstructDB.Floatfield2.toString()
       mergedContent += bstructDB.Intfield.toString()
-      if (bstructDB.Astruct_AnarrayofbDBID.Int64 != 0) {
-        mergedContent += this.frontRepo.Astructs.get(bstructDB.Astruct_AnarrayofbDBID.Int64)!.Name.toLowerCase()
-      }
-
       if (bstructDB.Astruct_AnotherarrayofbDBID.Int64 != 0) {
         mergedContent += this.frontRepo.Astructs.get(bstructDB.Astruct_AnotherarrayofbDBID.Int64)!.Name.toLowerCase()
+      }
+
+      if (bstructDB.Astruct_AnarrayofbDBID.Int64 != 0) {
+        mergedContent += this.frontRepo.Astructs.get(bstructDB.Astruct_AnarrayofbDBID.Int64)!.Name.toLowerCase()
       }
 
 
@@ -182,8 +182,8 @@ export class BstructsTableComponent implements OnInit {
         "Floatfield",
         "Floatfield2",
         "Intfield",
-        "Astruct_Anarrayofb",
         "Astruct_Anotherarrayofb",
+        "Astruct_Anarrayofb",
       ]
     } else {
       this.displayedColumns = ['select', 'ID', // insertion point for columns to display
@@ -191,8 +191,8 @@ export class BstructsTableComponent implements OnInit {
         "Floatfield",
         "Floatfield2",
         "Intfield",
-        "Astruct_Anarrayofb",
         "Astruct_Anotherarrayofb",
+        "Astruct_Anarrayofb",
       ]
       this.selection = new SelectionModel<BstructDB>(allowMultiSelect, this.initialSelection);
     }

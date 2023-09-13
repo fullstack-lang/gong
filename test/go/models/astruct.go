@@ -11,7 +11,10 @@ type Astruct struct {
 	Name string
 
 	// ONE-ZERO/ONE association is a supported type of gong
-	Associationtob          *Bstruct
+	Associationtob *Bstruct
+
+	Anotherarrayofb []*Bstruct
+
 	Anotherassociationtob_2 *Bstruct
 
 	// time.Time is a supported type of gong
@@ -48,8 +51,7 @@ type Astruct struct {
 	Anarrayofb []*Bstruct
 
 	// gong supports different fields with the same destination struct, even itself
-	Anotherarrayofb []*Bstruct
-	Anarrayofa      []*Astruct
+	Anarrayofa []*Astruct
 
 	// MANY-MANY association, (because AclassBclassUse ends with "Use")
 	AnarrayofbUse  []*AstructBstructUse
