@@ -550,6 +550,39 @@ func (backRepoDisplayedColumn *BackRepoDisplayedColumnStruct) RestorePhaseTwo() 
 
 }
 
+// BackRepoDisplayedColumn.ResetReversePointers commits all staged instances of DisplayedColumn to the BackRepo
+// Phase Two is the update of instance with the field in the database
+func (backRepoDisplayedColumn *BackRepoDisplayedColumnStruct) ResetReversePointers(backRepo *BackRepoStruct) (Error error) {
+
+	for idx, displayedcolumn := range backRepoDisplayedColumn.Map_DisplayedColumnDBID_DisplayedColumnPtr {
+		backRepoDisplayedColumn.ResetReversePointersInstance(backRepo, idx, displayedcolumn)
+	}
+
+	return
+}
+
+func (backRepoDisplayedColumn *BackRepoDisplayedColumnStruct) ResetReversePointersInstance(backRepo *BackRepoStruct, idx uint, astruct *models.DisplayedColumn) (Error error) {
+
+	// fetch matching displayedcolumnDB
+	if displayedcolumnDB, ok := backRepoDisplayedColumn.Map_DisplayedColumnDBID_DisplayedColumnDB[idx]; ok {
+		_ = displayedcolumnDB // to avoid unused variable error if there are no reverse to reset
+
+		// insertion point for reverse pointers reset
+		if displayedcolumnDB.Table_DisplayedColumnsDBID.Int64 != 0 {
+			displayedcolumnDB.Table_DisplayedColumnsDBID.Int64 = 0
+			displayedcolumnDB.Table_DisplayedColumnsDBID.Valid = true
+
+			// save the reset
+			if q := backRepoDisplayedColumn.db.Save(displayedcolumnDB); q.Error != nil {
+				return q.Error
+			}
+		}
+		// end of insertion point for reverse pointers reset
+	}
+
+	return
+}
+
 // this field is used during the restauration process.
 // it stores the ID at the backup time and is used for renumbering
 var BackRepoDisplayedColumnid_atBckpTime_newID map[uint]uint
