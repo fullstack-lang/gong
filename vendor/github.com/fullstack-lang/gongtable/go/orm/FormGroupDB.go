@@ -60,6 +60,9 @@ type FormGroupDB struct {
 
 	// Declation for basic field formgroupDB.Name
 	Name_Data sql.NullString
+
+	// Declation for basic field formgroupDB.Label
+	Label_Data sql.NullString
 	// encoding of pointers
 	FormGroupPointersEnconding
 }
@@ -82,6 +85,8 @@ type FormGroupWOP struct {
 	// insertion for WOP basic fields
 
 	Name string `xlsx:"1"`
+
+	Label string `xlsx:"2"`
 	// insertion for WOP pointer fields
 }
 
@@ -89,6 +94,7 @@ var FormGroup_Fields = []string{
 	// insertion for WOP basic fields
 	"ID",
 	"Name",
+	"Label",
 }
 
 type BackRepoFormGroupStruct struct {
@@ -397,6 +403,9 @@ func (formgroupDB *FormGroupDB) CopyBasicFieldsFromFormGroup(formgroup *models.F
 
 	formgroupDB.Name_Data.String = formgroup.Name
 	formgroupDB.Name_Data.Valid = true
+
+	formgroupDB.Label_Data.String = formgroup.Label
+	formgroupDB.Label_Data.Valid = true
 }
 
 // CopyBasicFieldsFromFormGroupWOP
@@ -405,12 +414,16 @@ func (formgroupDB *FormGroupDB) CopyBasicFieldsFromFormGroupWOP(formgroup *FormG
 
 	formgroupDB.Name_Data.String = formgroup.Name
 	formgroupDB.Name_Data.Valid = true
+
+	formgroupDB.Label_Data.String = formgroup.Label
+	formgroupDB.Label_Data.Valid = true
 }
 
 // CopyBasicFieldsToFormGroup
 func (formgroupDB *FormGroupDB) CopyBasicFieldsToFormGroup(formgroup *models.FormGroup) {
 	// insertion point for checkout of basic fields (back repo to stage)
 	formgroup.Name = formgroupDB.Name_Data.String
+	formgroup.Label = formgroupDB.Label_Data.String
 }
 
 // CopyBasicFieldsToFormGroupWOP
@@ -418,6 +431,7 @@ func (formgroupDB *FormGroupDB) CopyBasicFieldsToFormGroupWOP(formgroup *FormGro
 	formgroup.ID = int(formgroupDB.ID)
 	// insertion point for checkout of basic fields (back repo to stage)
 	formgroup.Name = formgroupDB.Name_Data.String
+	formgroup.Label = formgroupDB.Label_Data.String
 }
 
 // Backup generates a json file from a slice of all FormGroupDB instances in the backrepo

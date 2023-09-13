@@ -92,7 +92,8 @@ map[ButtonImplGongstructInsertionId]string{
 	ButtonImplPerGongstructCallToForm: `
 	case "{{Structname}}":
 		formGroup := (&form.FormGroup{
-			Name: form.FormGroupDefaultName.ToString(),
+			Name:  form.FormGroupDefaultName.ToString(),
+			Label: "New {{Structname}} Form",
 			OnSave: New{{Structname}}FormCallback(
 				nil,
 				buttonImpl.playground,

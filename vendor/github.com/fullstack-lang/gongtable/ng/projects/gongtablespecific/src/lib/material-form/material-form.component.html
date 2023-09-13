@@ -1,5 +1,8 @@
 <form *ngIf="generatedForm" [formGroup]="generatedForm" (ngSubmit)="submitForm()">
-    <button class="table__save" mat-raised-button type="submit">Submit</button>
+    <div *ngIf="selectedFormGroup" class="flex-align-items-center">
+        <p class="custom-text">{{selectedFormGroup.Label}}</p>
+        <button class="table__save custom-button" mat-raised-button type=" submit">Submit</button>
+    </div>
     <div *ngFor="let div of this.selectedFormGroup?.FormDivs">
         <ng-container *ngFor="let formField of div.FormFields">
             <mat-form-field [ngStyle]="getDynamicStyles(formField)">
