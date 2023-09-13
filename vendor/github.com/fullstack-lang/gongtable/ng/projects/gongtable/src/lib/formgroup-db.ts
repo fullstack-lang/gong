@@ -14,6 +14,7 @@ export class FormGroupDB {
 
 	// insertion point for basic fields declarations
 	Name: string = ""
+	Label: string = ""
 
 	// insertion point for other declarations
 	FormDivs?: Array<FormDivDB>

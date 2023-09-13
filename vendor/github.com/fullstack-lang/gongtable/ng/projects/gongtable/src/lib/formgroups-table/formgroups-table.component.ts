@@ -75,6 +75,9 @@ export class FormGroupsTableComponent implements OnInit {
         case 'Name':
           return formgroupDB.Name;
 
+        case 'Label':
+          return formgroupDB.Label;
+
         default:
           console.assert(false, "Unknown field")
           return "";
@@ -90,6 +93,7 @@ export class FormGroupsTableComponent implements OnInit {
 
       // insertion point for merging of fields
       mergedContent += formgroupDB.Name.toLowerCase()
+      mergedContent += formgroupDB.Label.toLowerCase()
 
       let isSelected = mergedContent.includes(filter.toLowerCase())
       return isSelected
@@ -145,10 +149,12 @@ export class FormGroupsTableComponent implements OnInit {
     if (this.mode == TableComponentMode.DISPLAY_MODE) {
       this.displayedColumns = ['ID', 'Delete', // insertion point for columns to display
         "Name",
+        "Label",
       ]
     } else {
       this.displayedColumns = ['select', 'ID', // insertion point for columns to display
         "Name",
+        "Label",
       ]
       this.selection = new SelectionModel<FormGroupDB>(allowMultiSelect, this.initialSelection);
     }

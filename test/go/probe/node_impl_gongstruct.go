@@ -233,7 +233,8 @@ func (rowUpdate *RowUpdate[T]) RowUpdated(stage *gongtable.StageStruct, row, upd
 	// insertion point
 	case *models.Astruct:
 		formGroup := (&gongtable.FormGroup{
-			Name: gongtable.FormGroupDefaultName.ToString(),
+			Name:  gongtable.FormGroupDefaultName.ToString(),
+			Label: "Update Astruct Form",
 			OnSave: NewAstructFormCallback(
 				instancesTyped,
 				rowUpdate.playground,
@@ -242,7 +243,8 @@ func (rowUpdate *RowUpdate[T]) RowUpdated(stage *gongtable.StageStruct, row, upd
 		FillUpForm(instancesTyped, formGroup, rowUpdate.playground)
 	case *models.AstructBstruct2Use:
 		formGroup := (&gongtable.FormGroup{
-			Name: gongtable.FormGroupDefaultName.ToString(),
+			Name:  gongtable.FormGroupDefaultName.ToString(),
+			Label: "Update AstructBstruct2Use Form",
 			OnSave: NewAstructBstruct2UseFormCallback(
 				instancesTyped,
 				rowUpdate.playground,
@@ -251,7 +253,8 @@ func (rowUpdate *RowUpdate[T]) RowUpdated(stage *gongtable.StageStruct, row, upd
 		FillUpForm(instancesTyped, formGroup, rowUpdate.playground)
 	case *models.AstructBstructUse:
 		formGroup := (&gongtable.FormGroup{
-			Name: gongtable.FormGroupDefaultName.ToString(),
+			Name:  gongtable.FormGroupDefaultName.ToString(),
+			Label: "Update AstructBstructUse Form",
 			OnSave: NewAstructBstructUseFormCallback(
 				instancesTyped,
 				rowUpdate.playground,
@@ -260,7 +263,8 @@ func (rowUpdate *RowUpdate[T]) RowUpdated(stage *gongtable.StageStruct, row, upd
 		FillUpForm(instancesTyped, formGroup, rowUpdate.playground)
 	case *models.Bstruct:
 		formGroup := (&gongtable.FormGroup{
-			Name: gongtable.FormGroupDefaultName.ToString(),
+			Name:  gongtable.FormGroupDefaultName.ToString(),
+			Label: "Update Bstruct Form",
 			OnSave: NewBstructFormCallback(
 				instancesTyped,
 				rowUpdate.playground,
@@ -269,7 +273,8 @@ func (rowUpdate *RowUpdate[T]) RowUpdated(stage *gongtable.StageStruct, row, upd
 		FillUpForm(instancesTyped, formGroup, rowUpdate.playground)
 	case *models.Dstruct:
 		formGroup := (&gongtable.FormGroup{
-			Name: gongtable.FormGroupDefaultName.ToString(),
+			Name:  gongtable.FormGroupDefaultName.ToString(),
+			Label: "Update Dstruct Form",
 			OnSave: NewDstructFormCallback(
 				instancesTyped,
 				rowUpdate.playground,
