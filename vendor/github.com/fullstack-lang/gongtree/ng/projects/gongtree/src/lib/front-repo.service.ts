@@ -331,6 +331,55 @@ export class FrontRepoService {
               }
             )
 
+            // 
+            // Third Step: sort arrays (slices in go) according to their index
+            // insertion point sub template for redeem 
+            buttons.forEach(
+              button => {
+                // insertion point for sorting
+              }
+            )
+            nodes.forEach(
+              node => {
+                // insertion point for sorting
+                node.Children?.sort((t1, t2) => {
+                  if (t1.Node_ChildrenDBID_Index.Int64 > t2.Node_ChildrenDBID_Index.Int64) {
+                    return 1;
+                  }
+                  if (t1.Node_ChildrenDBID_Index.Int64 < t2.Node_ChildrenDBID_Index.Int64) {
+                    return -1;
+                  }
+                  return 0;
+                })
+
+                node.Buttons?.sort((t1, t2) => {
+                  if (t1.Node_ButtonsDBID_Index.Int64 > t2.Node_ButtonsDBID_Index.Int64) {
+                    return 1;
+                  }
+                  if (t1.Node_ButtonsDBID_Index.Int64 < t2.Node_ButtonsDBID_Index.Int64) {
+                    return -1;
+                  }
+                  return 0;
+                })
+
+              }
+            )
+            trees.forEach(
+              tree => {
+                // insertion point for sorting
+                tree.RootNodes?.sort((t1, t2) => {
+                  if (t1.Tree_RootNodesDBID_Index.Int64 > t2.Tree_RootNodesDBID_Index.Int64) {
+                    return 1;
+                  }
+                  if (t1.Tree_RootNodesDBID_Index.Int64 < t2.Tree_RootNodesDBID_Index.Int64) {
+                    return -1;
+                  }
+                  return 0;
+                })
+
+              }
+            )
+
             // hand over control flow to observer
             observer.next(this.frontRepo)
           }
