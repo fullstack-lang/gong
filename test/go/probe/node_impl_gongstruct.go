@@ -233,7 +233,8 @@ func (rowUpdate *RowUpdate[T]) RowUpdated(stage *gongtable.StageStruct, row, upd
 	// insertion point
 	case *models.Astruct:
 		formGroup := (&gongtable.FormGroup{
-			Name: gongtable.FormGroupDefaultName.ToString(),
+			Name:  gongtable.FormGroupDefaultName.ToString(),
+			Label: "Update Astruct Form",
 			OnSave: NewAstructFormCallback(
 				instancesTyped,
 				rowUpdate.playground,
