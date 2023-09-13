@@ -7,13 +7,13 @@ require (
 	github.com/gin-contrib/cors v1.4.0
 	github.com/gin-contrib/static v0.0.1
 	github.com/gin-gonic/gin v1.9.1
-	github.com/go-playground/validator/v10 v10.15.3 // indirect
+	github.com/go-playground/validator/v10 v10.15.4 // indirect
 	github.com/google/btree v1.1.2 // indirect
 	github.com/json-iterator/go v1.1.12 // indirect
 	github.com/mattn/go-isatty v0.0.19 // indirect
 	github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd // indirect
 	github.com/shabbyrobe/xmlwriter v0.0.0-20230525083848-85336ec334fa // indirect
-	github.com/tealeg/xlsx/v3 v3.3.0
+	github.com/tealeg/xlsx/v3 v3.3.1
 	golang.org/x/crypto v0.13.0 // indirect
 	golang.org/x/mod v0.12.0
 	golang.org/x/sys v0.12.0 // indirect
@@ -24,15 +24,15 @@ require (
 
 require (
 	github.com/fullstack-lang/gongdoc v0.0.0-20230910200256-43715514dfd6
-	github.com/fullstack-lang/gongtable v0.0.0-20230913221129-ac65bccc3819
-	github.com/fullstack-lang/gongtree v0.0.0-20230910195944-cb51919c64fc
+	github.com/fullstack-lang/gongtable v0.0.0-20230913224020-fb679588244d
+	github.com/fullstack-lang/gongtree v0.0.0-20230913222634-8462dc6f4e58
 	github.com/fullstack-lang/maticons v0.0.0-20230823061653-70c364fbdd00
 	github.com/glebarez/sqlite v1.9.0
 	github.com/xuri/excelize/v2 v2.8.0
 )
 
 require (
-	github.com/bytedance/sonic v1.10.0 // indirect
+	github.com/bytedance/sonic v1.10.1 // indirect
 	github.com/chenzhuoyu/base64x v0.0.0-20230717121745-296ad89f973d // indirect
 	github.com/chenzhuoyu/iasm v0.9.0 // indirect
 	github.com/dustin/go-humanize v1.0.1 // indirect

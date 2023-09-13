@@ -194,12 +194,12 @@ func (astructbstruct2useFormCallback *AstructBstruct2UseFormCallback) OnSave() {
 		astructbstruct2useFormCallback.playground.formStage.Reset()
 		newFormGroup := (&table.FormGroup{
 			Name: table.FormGroupDefaultName.ToString(),
-			OnSave: NewAstructFormCallback(
+			OnSave: NewAstructBstruct2UseFormCallback(
 				nil,
 				astructbstruct2useFormCallback.playground,
 			),
 		}).Stage(astructbstruct2useFormCallback.playground.formStage)
-		astructbstruct2use := new(models.Astruct)
+		astructbstruct2use := new(models.AstructBstruct2Use)
 		FillUpForm(astructbstruct2use, newFormGroup, astructbstruct2useFormCallback.playground)
 		astructbstruct2useFormCallback.playground.formStage.Commit()
 	}
@@ -265,12 +265,12 @@ func (astructbstructuseFormCallback *AstructBstructUseFormCallback) OnSave() {
 		astructbstructuseFormCallback.playground.formStage.Reset()
 		newFormGroup := (&table.FormGroup{
 			Name: table.FormGroupDefaultName.ToString(),
-			OnSave: NewAstructFormCallback(
+			OnSave: NewAstructBstructUseFormCallback(
 				nil,
 				astructbstructuseFormCallback.playground,
 			),
 		}).Stage(astructbstructuseFormCallback.playground.formStage)
-		astructbstructuse := new(models.Astruct)
+		astructbstructuse := new(models.AstructBstructUse)
 		FillUpForm(astructbstructuse, newFormGroup, astructbstructuseFormCallback.playground)
 		astructbstructuseFormCallback.playground.formStage.Commit()
 	}
@@ -340,12 +340,12 @@ func (bstructFormCallback *BstructFormCallback) OnSave() {
 		bstructFormCallback.playground.formStage.Reset()
 		newFormGroup := (&table.FormGroup{
 			Name: table.FormGroupDefaultName.ToString(),
-			OnSave: NewAstructFormCallback(
+			OnSave: NewBstructFormCallback(
 				nil,
 				bstructFormCallback.playground,
 			),
 		}).Stage(bstructFormCallback.playground.formStage)
-		bstruct := new(models.Astruct)
+		bstruct := new(models.Bstruct)
 		FillUpForm(bstruct, newFormGroup, bstructFormCallback.playground)
 		bstructFormCallback.playground.formStage.Commit()
 	}
@@ -409,12 +409,12 @@ func (dstructFormCallback *DstructFormCallback) OnSave() {
 		dstructFormCallback.playground.formStage.Reset()
 		newFormGroup := (&table.FormGroup{
 			Name: table.FormGroupDefaultName.ToString(),
-			OnSave: NewAstructFormCallback(
+			OnSave: NewDstructFormCallback(
 				nil,
 				dstructFormCallback.playground,
 			),
 		}).Stage(dstructFormCallback.playground.formStage)
-		dstruct := new(models.Astruct)
+		dstruct := new(models.Dstruct)
 		FillUpForm(dstruct, newFormGroup, dstructFormCallback.playground)
 		dstructFormCallback.playground.formStage.Commit()
 	}

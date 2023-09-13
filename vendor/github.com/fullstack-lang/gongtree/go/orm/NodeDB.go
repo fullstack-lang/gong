@@ -744,6 +744,48 @@ func (backRepoNode *BackRepoNodeStruct) RestorePhaseTwo() {
 
 }
 
+// BackRepoNode.ResetReversePointers commits all staged instances of Node to the BackRepo
+// Phase Two is the update of instance with the field in the database
+func (backRepoNode *BackRepoNodeStruct) ResetReversePointers(backRepo *BackRepoStruct) (Error error) {
+
+	for idx, node := range backRepoNode.Map_NodeDBID_NodePtr {
+		backRepoNode.ResetReversePointersInstance(backRepo, idx, node)
+	}
+
+	return
+}
+
+func (backRepoNode *BackRepoNodeStruct) ResetReversePointersInstance(backRepo *BackRepoStruct, idx uint, astruct *models.Node) (Error error) {
+
+	// fetch matching nodeDB
+	if nodeDB, ok := backRepoNode.Map_NodeDBID_NodeDB[idx]; ok {
+		_ = nodeDB // to avoid unused variable error if there are no reverse to reset
+
+		// insertion point for reverse pointers reset
+		if nodeDB.Node_ChildrenDBID.Int64 != 0 {
+			nodeDB.Node_ChildrenDBID.Int64 = 0
+			nodeDB.Node_ChildrenDBID.Valid = true
+
+			// save the reset
+			if q := backRepoNode.db.Save(nodeDB); q.Error != nil {
+				return q.Error
+			}
+		}
+		if nodeDB.Tree_RootNodesDBID.Int64 != 0 {
+			nodeDB.Tree_RootNodesDBID.Int64 = 0
+			nodeDB.Tree_RootNodesDBID.Valid = true
+
+			// save the reset
+			if q := backRepoNode.db.Save(nodeDB); q.Error != nil {
+				return q.Error
+			}
+		}
+		// end of insertion point for reverse pointers reset
+	}
+
+	return
+}
+
 // this field is used during the restauration process.
 // it stores the ID at the backup time and is used for renumbering
 var BackRepoNodeid_atBckpTime_newID map[uint]uint

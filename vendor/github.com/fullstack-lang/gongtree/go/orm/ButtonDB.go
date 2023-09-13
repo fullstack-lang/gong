@@ -564,6 +564,39 @@ func (backRepoButton *BackRepoButtonStruct) RestorePhaseTwo() {
 
 }
 
+// BackRepoButton.ResetReversePointers commits all staged instances of Button to the BackRepo
+// Phase Two is the update of instance with the field in the database
+func (backRepoButton *BackRepoButtonStruct) ResetReversePointers(backRepo *BackRepoStruct) (Error error) {
+
+	for idx, button := range backRepoButton.Map_ButtonDBID_ButtonPtr {
+		backRepoButton.ResetReversePointersInstance(backRepo, idx, button)
+	}
+
+	return
+}
+
+func (backRepoButton *BackRepoButtonStruct) ResetReversePointersInstance(backRepo *BackRepoStruct, idx uint, astruct *models.Button) (Error error) {
+
+	// fetch matching buttonDB
+	if buttonDB, ok := backRepoButton.Map_ButtonDBID_ButtonDB[idx]; ok {
+		_ = buttonDB // to avoid unused variable error if there are no reverse to reset
+
+		// insertion point for reverse pointers reset
+		if buttonDB.Node_ButtonsDBID.Int64 != 0 {
+			buttonDB.Node_ButtonsDBID.Int64 = 0
+			buttonDB.Node_ButtonsDBID.Valid = true
+
+			// save the reset
+			if q := backRepoButton.db.Save(buttonDB); q.Error != nil {
+				return q.Error
+			}
+		}
+		// end of insertion point for reverse pointers reset
+	}
+
+	return
+}
+
 // this field is used during the restauration process.
 // it stores the ID at the backup time and is used for renumbering
 var BackRepoButtonid_atBckpTime_newID map[uint]uint

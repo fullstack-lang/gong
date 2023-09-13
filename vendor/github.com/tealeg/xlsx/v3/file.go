@@ -83,15 +83,17 @@ func NewFile(options ...FileOption) *File {
 // xlsx.File struct for it.  You may pass it zero, one or
 // many FileOption functions that affect the behaviour of the file.
 func OpenFile(fileName string, options ...FileOption) (file *File, err error) {
-	var z *zip.ReadCloser
 	wrap := func(err error) (*File, error) {
 		return nil, fmt.Errorf("OpenFile: %w", err)
 	}
 
+	var z *zip.ReadCloser
 	z, err = zip.OpenReader(fileName)
 	if err != nil {
 		return wrap(err)
 	}
+	defer z.Close()
+
 	file, err = ReadZip(z, options...)
 	if err != nil {
 		return wrap(err)
@@ -124,10 +126,10 @@ func OpenReaderAt(r io.ReaderAt, size int64, options ...FileOption) (*File, erro
 //
 // For example:
 //
-//    var mySlice [][][]string
-//    var value string
-//    mySlice = xlsx.FileToSlice("myXLSX.xlsx")
-//    value = mySlice[0][0][0]
+//	var mySlice [][][]string
+//	var value string
+//	mySlice = xlsx.FileToSlice("myXLSX.xlsx")
+//	value = mySlice[0][0][0]
 //
 // Here, value would be set to the raw value of the cell A1 in the
 // first sheet in the XLSX file.
@@ -593,10 +595,10 @@ func (f *File) MarshallParts(zipWriter *zip.Writer) error {
 //
 // For example:
 //
-//    var mySlice [][][]string
-//    var value string
-//    mySlice = xlsx.FileToSlice("myXLSX.xlsx")
-//    value = mySlice[0][0][0]
+//	var mySlice [][][]string
+//	var value string
+//	mySlice = xlsx.FileToSlice("myXLSX.xlsx")
+//	value = mySlice[0][0][0]
 //
 // Here, value would be set to the raw value of the cell A1 in the
 // first sheet in the XLSX file.
@@ -644,9 +646,11 @@ func (f *File) ToSlice() (output [][][]string, err error) {
 // | 2012 | 2013 | Egg   | 80 |
 // This sheet will be converted to the slice:
 // [
-//    [2011 2011 Bread 20]
-//    [2011 2011 Fish  70]
-//    [2012 2013 Egg   80]
+//
+//	[2011 2011 Bread 20]
+//	[2011 2011 Fish  70]
+//	[2012 2013 Egg   80]
+//
 // ]
 func (f *File) ToSliceUnmerged() (output [][][]string, err error) {
 	output, err = f.ToSlice()

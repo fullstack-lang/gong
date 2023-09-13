@@ -8,7 +8,6 @@ import (
 	"fmt"
 	"io"
 	"io/ioutil"
-	"log"
 	"path"
 	"path/filepath"
 	"regexp"
@@ -42,18 +41,18 @@ func getRangeFromString(rangeString string) (lower int, upper int, error error) 
 	var parts []string
 	parts = strings.SplitN(rangeString, cellRangeChar, 2)
 	if parts[0] == "" {
-		error = errors.New(fmt.Sprintf("Invalid range '%s'\n", rangeString))
+		error = fmt.Errorf("Invalid range '%s'\n", rangeString)
 	}
 	if parts[1] == "" {
-		error = errors.New(fmt.Sprintf("Invalid range '%s'\n", rangeString))
+		error = fmt.Errorf("Invalid range '%s'\n", rangeString)
 	}
 	lower, error = strconv.Atoi(parts[0])
 	if error != nil {
-		error = errors.New(fmt.Sprintf("Invalid range (not integer in lower bound) %s\n", rangeString))
+		error = fmt.Errorf("Invalid range (not integer in lower bound) %s\n", rangeString)
 	}
 	upper, error = strconv.Atoi(parts[1])
 	if error != nil {
-		error = errors.New(fmt.Sprintf("Invalid range (not integer in upper bound) %s\n", rangeString))
+		error = fmt.Errorf("Invalid range (not integer in upper bound) %s\n", rangeString)
 	}
 	return lower, upper, error
 }
@@ -648,6 +647,8 @@ func makeHyperlinkTable(worksheet *xlsxWorksheet, fi *File, rsheet *xlsxSheet) (
 			if err != nil {
 				return wrap(fmt.Errorf("file.Open: %w", err))
 			}
+			defer rc.Close()
+
 			decoder := xml.NewDecoder(rc)
 			err = decoder.Decode(worksheetRels)
 			if err != nil {
@@ -701,7 +702,7 @@ func makeHyperlinkTable(worksheet *xlsxWorksheet, fi *File, rsheet *xlsxSheet) (
 func readSheetFromFile(rsheet xlsxSheet, fi *File, sheetXMLMap map[string]string, rowLimit, colLimit int, valueOnly bool) (sheet *Sheet, errRes error) {
 	defer func() {
 		if x := recover(); x != nil {
-			errRes = errors.New(fmt.Sprintf("%v\n%s\n", x, debug.Stack()))
+			errRes = fmt.Errorf("%v\n%s\n", x, debug.Stack())
 		}
 	}()
 
@@ -770,6 +771,8 @@ func readSheetsFromZipFile(f *zip.File, file *File, sheetXMLMap map[string]strin
 	if err != nil {
 		return wrap(fmt.Errorf("file.Open: %w", err))
 	}
+	defer rc.Close()
+
 	decoder = xml.NewDecoder(rc)
 	err = decoder.Decode(workbook)
 	if err != nil {
@@ -810,15 +813,18 @@ func readSheetsFromZipFile(f *zip.File, file *File, sheetXMLMap map[string]strin
 	for j := 0; j < sheetCount; j++ {
 		sheet := <-sheetChan
 		if sheet == nil {
+			// FIXME channel leak
 			return wrap(fmt.Errorf("No sheet returnded from readSheetFromFile"))
 		}
 		if sheet.Error != nil {
+			// FIXME channel leak
 			return wrap(sheet.Error)
 		}
 		sheetName := sheet.Sheet.Name
 		sheetsByName[sheetName] = sheet.Sheet
 		sheets[sheet.Index] = sheet.Sheet
 	}
+	close(sheetChan)
 	return sheetsByName, sheets, nil
 }
 
@@ -846,6 +852,8 @@ func readSharedStringsFromZipFile(f *zip.File) (*RefTable, error) {
 	if err != nil {
 		return wrap(err)
 	}
+	defer rc.Close()
+
 	sst = new(xlsxSST)
 	decoder = xml.NewDecoder(rc)
 	err = decoder.Decode(sst)
@@ -873,6 +881,8 @@ func readStylesFromZipFile(f *zip.File, theme *theme) (*xlsxStyleSheet, error) {
 	if err != nil {
 		return wrap(err)
 	}
+	defer rc.Close()
+
 	style = newXlsxStyleSheet(theme)
 	decoder = xml.NewDecoder(rc)
 	err = decoder.Decode(style)
@@ -902,6 +912,7 @@ func readThemeFromZipFile(f *zip.File) (*theme, error) {
 	if err != nil {
 		return wrap(err)
 	}
+	defer rc.Close()
 
 	var themeXml xlsxTheme
 	err = xml.NewDecoder(rc).Decode(&themeXml)
@@ -972,6 +983,8 @@ func readWorkbookRelationsFromZipFile(workbookRels *zip.File) (WorkBookRels, err
 	if err != nil {
 		return wrap(err)
 	}
+	defer rc.Close()
+
 	decoder = xml.NewDecoder(rc)
 	wbRelationships = new(xlsxWorkbookRels)
 	err = decoder.Decode(wbRelationships)
@@ -1195,11 +1208,6 @@ func truncateSheetXMLValueOnly(r io.Reader) (io.Reader, error) {
 	// Delete all null value
 	var firstCell, lastCell []byte
 	sheetXML = rowRegexp.ReplaceAllFunc(sheetXML, func(rowMatch []byte) []byte {
-		err := ioutil.WriteFile("dump.xml", rowMatch, 0640)
-		if err != nil {
-			log.Fatalf("Failed to write (%s): %s", err, rowMatch)
-		}
-
 		if !valueRegexp.Match(rowMatch) {
 			rowMatch = rowRegexp.ReplaceAll(rowMatch, nil)
 		}
