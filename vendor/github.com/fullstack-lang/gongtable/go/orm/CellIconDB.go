@@ -552,6 +552,30 @@ func (backRepoCellIcon *BackRepoCellIconStruct) RestorePhaseTwo() {
 
 }
 
+// BackRepoCellIcon.ResetReversePointers commits all staged instances of CellIcon to the BackRepo
+// Phase Two is the update of instance with the field in the database
+func (backRepoCellIcon *BackRepoCellIconStruct) ResetReversePointers(backRepo *BackRepoStruct) (Error error) {
+
+	for idx, cellicon := range backRepoCellIcon.Map_CellIconDBID_CellIconPtr {
+		backRepoCellIcon.ResetReversePointersInstance(backRepo, idx, cellicon)
+	}
+
+	return
+}
+
+func (backRepoCellIcon *BackRepoCellIconStruct) ResetReversePointersInstance(backRepo *BackRepoStruct, idx uint, astruct *models.CellIcon) (Error error) {
+
+	// fetch matching celliconDB
+	if celliconDB, ok := backRepoCellIcon.Map_CellIconDBID_CellIconDB[idx]; ok {
+		_ = celliconDB // to avoid unused variable error if there are no reverse to reset
+
+		// insertion point for reverse pointers reset
+		// end of insertion point for reverse pointers reset
+	}
+
+	return
+}
+
 // this field is used during the restauration process.
 // it stores the ID at the backup time and is used for renumbering
 var BackRepoCellIconid_atBckpTime_newID map[uint]uint

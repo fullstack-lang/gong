@@ -19,14 +19,14 @@ package models
 // fields of other instance
 //
 // Note : algo is in O(N)log(N) of nb of Astruct and Bstruct instances
-func EvictInOtherSlices[T PointerToGongstruct, TF PointerToGongstruct](
+func EvictInOtherSlices[OwningType PointerToGongstruct, FieldType PointerToGongstruct](
 	stage *StageStruct,
-	owningInstance T,
-	sliceField []TF,
+	owningInstance OwningType,
+	sliceField []FieldType,
 	fieldName string) {
 
 	// create a map of the field elements
-	setOfFieldInstances := make(map[TF]any, 0)
+	setOfFieldInstances := make(map[FieldType]any, 0)
 	for _, fieldInstance := range sliceField {
 		setOfFieldInstances[fieldInstance] = true
 	}
@@ -59,35 +59,39 @@ func EvictInOtherSlices[T PointerToGongstruct, TF PointerToGongstruct](
 
 	case *FormDiv:
 		// insertion point per field
-		// tweaking, it might be streamlined
 		if fieldName == "FormFields" {
-			for _instance := range *GetGongstructInstancesSetFromPointerType[T](stage) {
-				_inferedTypeInstance := any(_instance).(*FormDiv)
-				reference := make([]TF, 0)
-				targetFieldSlice := any(_inferedTypeInstance.FormFields).([]TF)
-				copy(targetFieldSlice, reference)
-				_inferedTypeInstance.FormFields = make([]*FormField, 0)
+
+			// walk all instances of the owning type
+			for _instance := range *GetGongstructInstancesSetFromPointerType[OwningType](stage) {
 				if any(_instance).(*FormDiv) != owningInstanceInfered {
+					_inferedTypeInstance := any(_instance).(*FormDiv)
+					reference := make([]FieldType, 0)
+					targetFieldSlice := any(_inferedTypeInstance.FormFields).([]FieldType)
+					copy(targetFieldSlice, reference)
+					_inferedTypeInstance.FormFields = _inferedTypeInstance.FormFields[0:]
 					for _, fieldInstance := range reference {
-						if _, ok := setOfFieldInstances[any(fieldInstance).(TF)]; !ok {
-							targetFieldSlice = append(targetFieldSlice, fieldInstance)
+						if _, ok := setOfFieldInstances[any(fieldInstance).(FieldType)]; !ok {
+							_inferedTypeInstance.FormFields =
+								append(_inferedTypeInstance.FormFields, any(fieldInstance).(*FormField))
 						}
 					}
 				}
 			}
 		}
-		// tweaking, it might be streamlined
 		if fieldName == "CheckBoxs" {
-			for _instance := range *GetGongstructInstancesSetFromPointerType[T](stage) {
-				_inferedTypeInstance := any(_instance).(*FormDiv)
-				reference := make([]TF, 0)
-				targetFieldSlice := any(_inferedTypeInstance.CheckBoxs).([]TF)
-				copy(targetFieldSlice, reference)
-				_inferedTypeInstance.CheckBoxs = make([]*CheckBox, 0)
+
+			// walk all instances of the owning type
+			for _instance := range *GetGongstructInstancesSetFromPointerType[OwningType](stage) {
 				if any(_instance).(*FormDiv) != owningInstanceInfered {
+					_inferedTypeInstance := any(_instance).(*FormDiv)
+					reference := make([]FieldType, 0)
+					targetFieldSlice := any(_inferedTypeInstance.CheckBoxs).([]FieldType)
+					copy(targetFieldSlice, reference)
+					_inferedTypeInstance.CheckBoxs = _inferedTypeInstance.CheckBoxs[0:]
 					for _, fieldInstance := range reference {
-						if _, ok := setOfFieldInstances[any(fieldInstance).(TF)]; !ok {
-							targetFieldSlice = append(targetFieldSlice, fieldInstance)
+						if _, ok := setOfFieldInstances[any(fieldInstance).(FieldType)]; !ok {
+							_inferedTypeInstance.CheckBoxs =
+								append(_inferedTypeInstance.CheckBoxs, any(fieldInstance).(*CheckBox))
 						}
 					}
 				}
@@ -114,18 +118,20 @@ func EvictInOtherSlices[T PointerToGongstruct, TF PointerToGongstruct](
 
 	case *FormFieldSelect:
 		// insertion point per field
-		// tweaking, it might be streamlined
 		if fieldName == "Options" {
-			for _instance := range *GetGongstructInstancesSetFromPointerType[T](stage) {
-				_inferedTypeInstance := any(_instance).(*FormFieldSelect)
-				reference := make([]TF, 0)
-				targetFieldSlice := any(_inferedTypeInstance.Options).([]TF)
-				copy(targetFieldSlice, reference)
-				_inferedTypeInstance.Options = make([]*Option, 0)
+
+			// walk all instances of the owning type
+			for _instance := range *GetGongstructInstancesSetFromPointerType[OwningType](stage) {
 				if any(_instance).(*FormFieldSelect) != owningInstanceInfered {
+					_inferedTypeInstance := any(_instance).(*FormFieldSelect)
+					reference := make([]FieldType, 0)
+					targetFieldSlice := any(_inferedTypeInstance.Options).([]FieldType)
+					copy(targetFieldSlice, reference)
+					_inferedTypeInstance.Options = _inferedTypeInstance.Options[0:]
 					for _, fieldInstance := range reference {
-						if _, ok := setOfFieldInstances[any(fieldInstance).(TF)]; !ok {
-							targetFieldSlice = append(targetFieldSlice, fieldInstance)
+						if _, ok := setOfFieldInstances[any(fieldInstance).(FieldType)]; !ok {
+							_inferedTypeInstance.Options =
+								append(_inferedTypeInstance.Options, any(fieldInstance).(*Option))
 						}
 					}
 				}
@@ -140,18 +146,20 @@ func EvictInOtherSlices[T PointerToGongstruct, TF PointerToGongstruct](
 
 	case *FormGroup:
 		// insertion point per field
-		// tweaking, it might be streamlined
 		if fieldName == "FormDivs" {
-			for _instance := range *GetGongstructInstancesSetFromPointerType[T](stage) {
-				_inferedTypeInstance := any(_instance).(*FormGroup)
-				reference := make([]TF, 0)
-				targetFieldSlice := any(_inferedTypeInstance.FormDivs).([]TF)
-				copy(targetFieldSlice, reference)
-				_inferedTypeInstance.FormDivs = make([]*FormDiv, 0)
+
+			// walk all instances of the owning type
+			for _instance := range *GetGongstructInstancesSetFromPointerType[OwningType](stage) {
 				if any(_instance).(*FormGroup) != owningInstanceInfered {
+					_inferedTypeInstance := any(_instance).(*FormGroup)
+					reference := make([]FieldType, 0)
+					targetFieldSlice := any(_inferedTypeInstance.FormDivs).([]FieldType)
+					copy(targetFieldSlice, reference)
+					_inferedTypeInstance.FormDivs = _inferedTypeInstance.FormDivs[0:]
 					for _, fieldInstance := range reference {
-						if _, ok := setOfFieldInstances[any(fieldInstance).(TF)]; !ok {
-							targetFieldSlice = append(targetFieldSlice, fieldInstance)
+						if _, ok := setOfFieldInstances[any(fieldInstance).(FieldType)]; !ok {
+							_inferedTypeInstance.FormDivs =
+								append(_inferedTypeInstance.FormDivs, any(fieldInstance).(*FormDiv))
 						}
 					}
 				}
@@ -166,18 +174,20 @@ func EvictInOtherSlices[T PointerToGongstruct, TF PointerToGongstruct](
 
 	case *Row:
 		// insertion point per field
-		// tweaking, it might be streamlined
 		if fieldName == "Cells" {
-			for _instance := range *GetGongstructInstancesSetFromPointerType[T](stage) {
-				_inferedTypeInstance := any(_instance).(*Row)
-				reference := make([]TF, 0)
-				targetFieldSlice := any(_inferedTypeInstance.Cells).([]TF)
-				copy(targetFieldSlice, reference)
-				_inferedTypeInstance.Cells = make([]*Cell, 0)
+
+			// walk all instances of the owning type
+			for _instance := range *GetGongstructInstancesSetFromPointerType[OwningType](stage) {
 				if any(_instance).(*Row) != owningInstanceInfered {
+					_inferedTypeInstance := any(_instance).(*Row)
+					reference := make([]FieldType, 0)
+					targetFieldSlice := any(_inferedTypeInstance.Cells).([]FieldType)
+					copy(targetFieldSlice, reference)
+					_inferedTypeInstance.Cells = _inferedTypeInstance.Cells[0:]
 					for _, fieldInstance := range reference {
-						if _, ok := setOfFieldInstances[any(fieldInstance).(TF)]; !ok {
-							targetFieldSlice = append(targetFieldSlice, fieldInstance)
+						if _, ok := setOfFieldInstances[any(fieldInstance).(FieldType)]; !ok {
+							_inferedTypeInstance.Cells =
+								append(_inferedTypeInstance.Cells, any(fieldInstance).(*Cell))
 						}
 					}
 				}
@@ -186,35 +196,39 @@ func EvictInOtherSlices[T PointerToGongstruct, TF PointerToGongstruct](
 
 	case *Table:
 		// insertion point per field
-		// tweaking, it might be streamlined
 		if fieldName == "DisplayedColumns" {
-			for _instance := range *GetGongstructInstancesSetFromPointerType[T](stage) {
-				_inferedTypeInstance := any(_instance).(*Table)
-				reference := make([]TF, 0)
-				targetFieldSlice := any(_inferedTypeInstance.DisplayedColumns).([]TF)
-				copy(targetFieldSlice, reference)
-				_inferedTypeInstance.DisplayedColumns = make([]*DisplayedColumn, 0)
+
+			// walk all instances of the owning type
+			for _instance := range *GetGongstructInstancesSetFromPointerType[OwningType](stage) {
 				if any(_instance).(*Table) != owningInstanceInfered {
+					_inferedTypeInstance := any(_instance).(*Table)
+					reference := make([]FieldType, 0)
+					targetFieldSlice := any(_inferedTypeInstance.DisplayedColumns).([]FieldType)
+					copy(targetFieldSlice, reference)
+					_inferedTypeInstance.DisplayedColumns = _inferedTypeInstance.DisplayedColumns[0:]
 					for _, fieldInstance := range reference {
-						if _, ok := setOfFieldInstances[any(fieldInstance).(TF)]; !ok {
-							targetFieldSlice = append(targetFieldSlice, fieldInstance)
+						if _, ok := setOfFieldInstances[any(fieldInstance).(FieldType)]; !ok {
+							_inferedTypeInstance.DisplayedColumns =
+								append(_inferedTypeInstance.DisplayedColumns, any(fieldInstance).(*DisplayedColumn))
 						}
 					}
 				}
 			}
 		}
-		// tweaking, it might be streamlined
 		if fieldName == "Rows" {
-			for _instance := range *GetGongstructInstancesSetFromPointerType[T](stage) {
-				_inferedTypeInstance := any(_instance).(*Table)
-				reference := make([]TF, 0)
-				targetFieldSlice := any(_inferedTypeInstance.Rows).([]TF)
-				copy(targetFieldSlice, reference)
-				_inferedTypeInstance.Rows = make([]*Row, 0)
+
+			// walk all instances of the owning type
+			for _instance := range *GetGongstructInstancesSetFromPointerType[OwningType](stage) {
 				if any(_instance).(*Table) != owningInstanceInfered {
+					_inferedTypeInstance := any(_instance).(*Table)
+					reference := make([]FieldType, 0)
+					targetFieldSlice := any(_inferedTypeInstance.Rows).([]FieldType)
+					copy(targetFieldSlice, reference)
+					_inferedTypeInstance.Rows = _inferedTypeInstance.Rows[0:]
 					for _, fieldInstance := range reference {
-						if _, ok := setOfFieldInstances[any(fieldInstance).(TF)]; !ok {
-							targetFieldSlice = append(targetFieldSlice, fieldInstance)
+						if _, ok := setOfFieldInstances[any(fieldInstance).(FieldType)]; !ok {
+							_inferedTypeInstance.Rows =
+								append(_inferedTypeInstance.Rows, any(fieldInstance).(*Row))
 						}
 					}
 				}

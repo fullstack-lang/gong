@@ -552,6 +552,30 @@ func (backRepoFormEditAssocButton *BackRepoFormEditAssocButtonStruct) RestorePha
 
 }
 
+// BackRepoFormEditAssocButton.ResetReversePointers commits all staged instances of FormEditAssocButton to the BackRepo
+// Phase Two is the update of instance with the field in the database
+func (backRepoFormEditAssocButton *BackRepoFormEditAssocButtonStruct) ResetReversePointers(backRepo *BackRepoStruct) (Error error) {
+
+	for idx, formeditassocbutton := range backRepoFormEditAssocButton.Map_FormEditAssocButtonDBID_FormEditAssocButtonPtr {
+		backRepoFormEditAssocButton.ResetReversePointersInstance(backRepo, idx, formeditassocbutton)
+	}
+
+	return
+}
+
+func (backRepoFormEditAssocButton *BackRepoFormEditAssocButtonStruct) ResetReversePointersInstance(backRepo *BackRepoStruct, idx uint, astruct *models.FormEditAssocButton) (Error error) {
+
+	// fetch matching formeditassocbuttonDB
+	if formeditassocbuttonDB, ok := backRepoFormEditAssocButton.Map_FormEditAssocButtonDBID_FormEditAssocButtonDB[idx]; ok {
+		_ = formeditassocbuttonDB // to avoid unused variable error if there are no reverse to reset
+
+		// insertion point for reverse pointers reset
+		// end of insertion point for reverse pointers reset
+	}
+
+	return
+}
+
 // this field is used during the restauration process.
 // it stores the ID at the backup time and is used for renumbering
 var BackRepoFormEditAssocButtonid_atBckpTime_newID map[uint]uint

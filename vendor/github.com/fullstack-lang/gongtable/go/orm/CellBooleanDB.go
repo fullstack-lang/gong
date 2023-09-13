@@ -553,6 +553,30 @@ func (backRepoCellBoolean *BackRepoCellBooleanStruct) RestorePhaseTwo() {
 
 }
 
+// BackRepoCellBoolean.ResetReversePointers commits all staged instances of CellBoolean to the BackRepo
+// Phase Two is the update of instance with the field in the database
+func (backRepoCellBoolean *BackRepoCellBooleanStruct) ResetReversePointers(backRepo *BackRepoStruct) (Error error) {
+
+	for idx, cellboolean := range backRepoCellBoolean.Map_CellBooleanDBID_CellBooleanPtr {
+		backRepoCellBoolean.ResetReversePointersInstance(backRepo, idx, cellboolean)
+	}
+
+	return
+}
+
+func (backRepoCellBoolean *BackRepoCellBooleanStruct) ResetReversePointersInstance(backRepo *BackRepoStruct, idx uint, astruct *models.CellBoolean) (Error error) {
+
+	// fetch matching cellbooleanDB
+	if cellbooleanDB, ok := backRepoCellBoolean.Map_CellBooleanDBID_CellBooleanDB[idx]; ok {
+		_ = cellbooleanDB // to avoid unused variable error if there are no reverse to reset
+
+		// insertion point for reverse pointers reset
+		// end of insertion point for reverse pointers reset
+	}
+
+	return
+}
+
 // this field is used during the restauration process.
 // it stores the ID at the backup time and is used for renumbering
 var BackRepoCellBooleanid_atBckpTime_newID map[uint]uint
