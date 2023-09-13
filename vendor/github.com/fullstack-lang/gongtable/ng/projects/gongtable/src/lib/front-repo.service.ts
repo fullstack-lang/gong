@@ -1548,6 +1548,195 @@ export class FrontRepoService {
               }
             )
 
+            // 
+            // Third Step: sort arrays (slices in go) according to their index
+            // insertion point sub template for redeem 
+            cells.forEach(
+              cell => {
+                // insertion point for sorting
+              }
+            )
+            cellbooleans.forEach(
+              cellboolean => {
+                // insertion point for sorting
+              }
+            )
+            cellfloat64s.forEach(
+              cellfloat64 => {
+                // insertion point for sorting
+              }
+            )
+            cellicons.forEach(
+              cellicon => {
+                // insertion point for sorting
+              }
+            )
+            cellints.forEach(
+              cellint => {
+                // insertion point for sorting
+              }
+            )
+            cellstrings.forEach(
+              cellstring => {
+                // insertion point for sorting
+              }
+            )
+            checkboxs.forEach(
+              checkbox => {
+                // insertion point for sorting
+              }
+            )
+            displayedcolumns.forEach(
+              displayedcolumn => {
+                // insertion point for sorting
+              }
+            )
+            formdivs.forEach(
+              formdiv => {
+                // insertion point for sorting
+                formdiv.FormFields?.sort((t1, t2) => {
+                  if (t1.FormDiv_FormFieldsDBID_Index.Int64 > t2.FormDiv_FormFieldsDBID_Index.Int64) {
+                    return 1;
+                  }
+                  if (t1.FormDiv_FormFieldsDBID_Index.Int64 < t2.FormDiv_FormFieldsDBID_Index.Int64) {
+                    return -1;
+                  }
+                  return 0;
+                })
+
+                formdiv.CheckBoxs?.sort((t1, t2) => {
+                  if (t1.FormDiv_CheckBoxsDBID_Index.Int64 > t2.FormDiv_CheckBoxsDBID_Index.Int64) {
+                    return 1;
+                  }
+                  if (t1.FormDiv_CheckBoxsDBID_Index.Int64 < t2.FormDiv_CheckBoxsDBID_Index.Int64) {
+                    return -1;
+                  }
+                  return 0;
+                })
+
+              }
+            )
+            formeditassocbuttons.forEach(
+              formeditassocbutton => {
+                // insertion point for sorting
+              }
+            )
+            formfields.forEach(
+              formfield => {
+                // insertion point for sorting
+              }
+            )
+            formfielddates.forEach(
+              formfielddate => {
+                // insertion point for sorting
+              }
+            )
+            formfielddatetimes.forEach(
+              formfielddatetime => {
+                // insertion point for sorting
+              }
+            )
+            formfieldfloat64s.forEach(
+              formfieldfloat64 => {
+                // insertion point for sorting
+              }
+            )
+            formfieldints.forEach(
+              formfieldint => {
+                // insertion point for sorting
+              }
+            )
+            formfieldselects.forEach(
+              formfieldselect => {
+                // insertion point for sorting
+                formfieldselect.Options?.sort((t1, t2) => {
+                  if (t1.FormFieldSelect_OptionsDBID_Index.Int64 > t2.FormFieldSelect_OptionsDBID_Index.Int64) {
+                    return 1;
+                  }
+                  if (t1.FormFieldSelect_OptionsDBID_Index.Int64 < t2.FormFieldSelect_OptionsDBID_Index.Int64) {
+                    return -1;
+                  }
+                  return 0;
+                })
+
+              }
+            )
+            formfieldstrings.forEach(
+              formfieldstring => {
+                // insertion point for sorting
+              }
+            )
+            formfieldtimes.forEach(
+              formfieldtime => {
+                // insertion point for sorting
+              }
+            )
+            formgroups.forEach(
+              formgroup => {
+                // insertion point for sorting
+                formgroup.FormDivs?.sort((t1, t2) => {
+                  if (t1.FormGroup_FormDivsDBID_Index.Int64 > t2.FormGroup_FormDivsDBID_Index.Int64) {
+                    return 1;
+                  }
+                  if (t1.FormGroup_FormDivsDBID_Index.Int64 < t2.FormGroup_FormDivsDBID_Index.Int64) {
+                    return -1;
+                  }
+                  return 0;
+                })
+
+              }
+            )
+            formsortassocbuttons.forEach(
+              formsortassocbutton => {
+                // insertion point for sorting
+              }
+            )
+            options.forEach(
+              option => {
+                // insertion point for sorting
+              }
+            )
+            rows.forEach(
+              row => {
+                // insertion point for sorting
+                row.Cells?.sort((t1, t2) => {
+                  if (t1.Row_CellsDBID_Index.Int64 > t2.Row_CellsDBID_Index.Int64) {
+                    return 1;
+                  }
+                  if (t1.Row_CellsDBID_Index.Int64 < t2.Row_CellsDBID_Index.Int64) {
+                    return -1;
+                  }
+                  return 0;
+                })
+
+              }
+            )
+            tables.forEach(
+              table => {
+                // insertion point for sorting
+                table.DisplayedColumns?.sort((t1, t2) => {
+                  if (t1.Table_DisplayedColumnsDBID_Index.Int64 > t2.Table_DisplayedColumnsDBID_Index.Int64) {
+                    return 1;
+                  }
+                  if (t1.Table_DisplayedColumnsDBID_Index.Int64 < t2.Table_DisplayedColumnsDBID_Index.Int64) {
+                    return -1;
+                  }
+                  return 0;
+                })
+
+                table.Rows?.sort((t1, t2) => {
+                  if (t1.Table_RowsDBID_Index.Int64 > t2.Table_RowsDBID_Index.Int64) {
+                    return 1;
+                  }
+                  if (t1.Table_RowsDBID_Index.Int64 < t2.Table_RowsDBID_Index.Int64) {
+                    return -1;
+                  }
+                  return 0;
+                })
+
+              }
+            )
+
             // hand over control flow to observer
             observer.next(this.frontRepo)
           }

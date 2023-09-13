@@ -566,6 +566,30 @@ func (backRepoFormFieldTime *BackRepoFormFieldTimeStruct) RestorePhaseTwo() {
 
 }
 
+// BackRepoFormFieldTime.ResetReversePointers commits all staged instances of FormFieldTime to the BackRepo
+// Phase Two is the update of instance with the field in the database
+func (backRepoFormFieldTime *BackRepoFormFieldTimeStruct) ResetReversePointers(backRepo *BackRepoStruct) (Error error) {
+
+	for idx, formfieldtime := range backRepoFormFieldTime.Map_FormFieldTimeDBID_FormFieldTimePtr {
+		backRepoFormFieldTime.ResetReversePointersInstance(backRepo, idx, formfieldtime)
+	}
+
+	return
+}
+
+func (backRepoFormFieldTime *BackRepoFormFieldTimeStruct) ResetReversePointersInstance(backRepo *BackRepoStruct, idx uint, astruct *models.FormFieldTime) (Error error) {
+
+	// fetch matching formfieldtimeDB
+	if formfieldtimeDB, ok := backRepoFormFieldTime.Map_FormFieldTimeDBID_FormFieldTimeDB[idx]; ok {
+		_ = formfieldtimeDB // to avoid unused variable error if there are no reverse to reset
+
+		// insertion point for reverse pointers reset
+		// end of insertion point for reverse pointers reset
+	}
+
+	return
+}
+
 // this field is used during the restauration process.
 // it stores the ID at the backup time and is used for renumbering
 var BackRepoFormFieldTimeid_atBckpTime_newID map[uint]uint

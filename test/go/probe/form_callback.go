@@ -20,11 +20,17 @@ func NewAstructFormCallback(
 	astructFormCallback = new(AstructFormCallback)
 	astructFormCallback.playground = playground
 	astructFormCallback.astruct = astruct
+
+	astructFormCallback.CreationMode = (astruct == nil)
+
 	return
 }
 
 type AstructFormCallback struct {
 	astruct *models.Astruct
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
 
 	playground *Playground
 }
@@ -111,6 +117,22 @@ func (astructFormCallback *AstructFormCallback) OnSave() {
 		astructFormCallback.playground,
 	)
 	astructFormCallback.playground.tableStage.Commit()
+
+	// display a new form by reset the form stage
+	if astructFormCallback.CreationMode {
+		astructFormCallback.playground.formStage.Reset()
+		newFormGroup := (&table.FormGroup{
+			Name: table.FormGroupDefaultName.ToString(),
+			OnSave: NewAstructFormCallback(
+				nil,
+				astructFormCallback.playground,
+			),
+		}).Stage(astructFormCallback.playground.formStage)
+		astruct := new(models.Astruct)
+		FillUpForm(astruct, newFormGroup, astructFormCallback.playground)
+		astructFormCallback.playground.formStage.Commit()
+	}
+
 }
 func NewAstructBstruct2UseFormCallback(
 	astructbstruct2use *models.AstructBstruct2Use,
@@ -119,11 +141,17 @@ func NewAstructBstruct2UseFormCallback(
 	astructbstruct2useFormCallback = new(AstructBstruct2UseFormCallback)
 	astructbstruct2useFormCallback.playground = playground
 	astructbstruct2useFormCallback.astructbstruct2use = astructbstruct2use
+
+	astructbstruct2useFormCallback.CreationMode = (astructbstruct2use == nil)
+
 	return
 }
 
 type AstructBstruct2UseFormCallback struct {
 	astructbstruct2use *models.AstructBstruct2Use
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
 
 	playground *Playground
 }
@@ -160,6 +188,22 @@ func (astructbstruct2useFormCallback *AstructBstruct2UseFormCallback) OnSave() {
 		astructbstruct2useFormCallback.playground,
 	)
 	astructbstruct2useFormCallback.playground.tableStage.Commit()
+
+	// display a new form by reset the form stage
+	if astructbstruct2useFormCallback.CreationMode {
+		astructbstruct2useFormCallback.playground.formStage.Reset()
+		newFormGroup := (&table.FormGroup{
+			Name: table.FormGroupDefaultName.ToString(),
+			OnSave: NewAstructFormCallback(
+				nil,
+				astructbstruct2useFormCallback.playground,
+			),
+		}).Stage(astructbstruct2useFormCallback.playground.formStage)
+		astructbstruct2use := new(models.Astruct)
+		FillUpForm(astructbstruct2use, newFormGroup, astructbstruct2useFormCallback.playground)
+		astructbstruct2useFormCallback.playground.formStage.Commit()
+	}
+
 }
 func NewAstructBstructUseFormCallback(
 	astructbstructuse *models.AstructBstructUse,
@@ -168,11 +212,17 @@ func NewAstructBstructUseFormCallback(
 	astructbstructuseFormCallback = new(AstructBstructUseFormCallback)
 	astructbstructuseFormCallback.playground = playground
 	astructbstructuseFormCallback.astructbstructuse = astructbstructuse
+
+	astructbstructuseFormCallback.CreationMode = (astructbstructuse == nil)
+
 	return
 }
 
 type AstructBstructUseFormCallback struct {
 	astructbstructuse *models.AstructBstructUse
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
 
 	playground *Playground
 }
@@ -209,6 +259,22 @@ func (astructbstructuseFormCallback *AstructBstructUseFormCallback) OnSave() {
 		astructbstructuseFormCallback.playground,
 	)
 	astructbstructuseFormCallback.playground.tableStage.Commit()
+
+	// display a new form by reset the form stage
+	if astructbstructuseFormCallback.CreationMode {
+		astructbstructuseFormCallback.playground.formStage.Reset()
+		newFormGroup := (&table.FormGroup{
+			Name: table.FormGroupDefaultName.ToString(),
+			OnSave: NewAstructFormCallback(
+				nil,
+				astructbstructuseFormCallback.playground,
+			),
+		}).Stage(astructbstructuseFormCallback.playground.formStage)
+		astructbstructuse := new(models.Astruct)
+		FillUpForm(astructbstructuse, newFormGroup, astructbstructuseFormCallback.playground)
+		astructbstructuseFormCallback.playground.formStage.Commit()
+	}
+
 }
 func NewBstructFormCallback(
 	bstruct *models.Bstruct,
@@ -217,11 +283,17 @@ func NewBstructFormCallback(
 	bstructFormCallback = new(BstructFormCallback)
 	bstructFormCallback.playground = playground
 	bstructFormCallback.bstruct = bstruct
+
+	bstructFormCallback.CreationMode = (bstruct == nil)
+
 	return
 }
 
 type BstructFormCallback struct {
 	bstruct *models.Bstruct
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
 
 	playground *Playground
 }
@@ -262,6 +334,22 @@ func (bstructFormCallback *BstructFormCallback) OnSave() {
 		bstructFormCallback.playground,
 	)
 	bstructFormCallback.playground.tableStage.Commit()
+
+	// display a new form by reset the form stage
+	if bstructFormCallback.CreationMode {
+		bstructFormCallback.playground.formStage.Reset()
+		newFormGroup := (&table.FormGroup{
+			Name: table.FormGroupDefaultName.ToString(),
+			OnSave: NewAstructFormCallback(
+				nil,
+				bstructFormCallback.playground,
+			),
+		}).Stage(bstructFormCallback.playground.formStage)
+		bstruct := new(models.Astruct)
+		FillUpForm(bstruct, newFormGroup, bstructFormCallback.playground)
+		bstructFormCallback.playground.formStage.Commit()
+	}
+
 }
 func NewDstructFormCallback(
 	dstruct *models.Dstruct,
@@ -270,11 +358,17 @@ func NewDstructFormCallback(
 	dstructFormCallback = new(DstructFormCallback)
 	dstructFormCallback.playground = playground
 	dstructFormCallback.dstruct = dstruct
+
+	dstructFormCallback.CreationMode = (dstruct == nil)
+
 	return
 }
 
 type DstructFormCallback struct {
 	dstruct *models.Dstruct
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
 
 	playground *Playground
 }
@@ -309,4 +403,20 @@ func (dstructFormCallback *DstructFormCallback) OnSave() {
 		dstructFormCallback.playground,
 	)
 	dstructFormCallback.playground.tableStage.Commit()
+
+	// display a new form by reset the form stage
+	if dstructFormCallback.CreationMode {
+		dstructFormCallback.playground.formStage.Reset()
+		newFormGroup := (&table.FormGroup{
+			Name: table.FormGroupDefaultName.ToString(),
+			OnSave: NewAstructFormCallback(
+				nil,
+				dstructFormCallback.playground,
+			),
+		}).Stage(dstructFormCallback.playground.formStage)
+		dstruct := new(models.Astruct)
+		FillUpForm(dstruct, newFormGroup, dstructFormCallback.playground)
+		dstructFormCallback.playground.formStage.Commit()
+	}
+
 }
