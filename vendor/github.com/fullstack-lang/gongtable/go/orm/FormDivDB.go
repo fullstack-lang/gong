@@ -696,6 +696,39 @@ func (backRepoFormDiv *BackRepoFormDivStruct) RestorePhaseTwo() {
 
 }
 
+// BackRepoFormDiv.ResetReversePointers commits all staged instances of FormDiv to the BackRepo
+// Phase Two is the update of instance with the field in the database
+func (backRepoFormDiv *BackRepoFormDivStruct) ResetReversePointers(backRepo *BackRepoStruct) (Error error) {
+
+	for idx, formdiv := range backRepoFormDiv.Map_FormDivDBID_FormDivPtr {
+		backRepoFormDiv.ResetReversePointersInstance(backRepo, idx, formdiv)
+	}
+
+	return
+}
+
+func (backRepoFormDiv *BackRepoFormDivStruct) ResetReversePointersInstance(backRepo *BackRepoStruct, idx uint, astruct *models.FormDiv) (Error error) {
+
+	// fetch matching formdivDB
+	if formdivDB, ok := backRepoFormDiv.Map_FormDivDBID_FormDivDB[idx]; ok {
+		_ = formdivDB // to avoid unused variable error if there are no reverse to reset
+
+		// insertion point for reverse pointers reset
+		if formdivDB.FormGroup_FormDivsDBID.Int64 != 0 {
+			formdivDB.FormGroup_FormDivsDBID.Int64 = 0
+			formdivDB.FormGroup_FormDivsDBID.Valid = true
+
+			// save the reset
+			if q := backRepoFormDiv.db.Save(formdivDB); q.Error != nil {
+				return q.Error
+			}
+		}
+		// end of insertion point for reverse pointers reset
+	}
+
+	return
+}
+
 // this field is used during the restauration process.
 // it stores the ID at the backup time and is used for renumbering
 var BackRepoFormDivid_atBckpTime_newID map[uint]uint

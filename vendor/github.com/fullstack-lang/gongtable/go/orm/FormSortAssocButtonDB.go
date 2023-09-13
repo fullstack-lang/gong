@@ -552,6 +552,30 @@ func (backRepoFormSortAssocButton *BackRepoFormSortAssocButtonStruct) RestorePha
 
 }
 
+// BackRepoFormSortAssocButton.ResetReversePointers commits all staged instances of FormSortAssocButton to the BackRepo
+// Phase Two is the update of instance with the field in the database
+func (backRepoFormSortAssocButton *BackRepoFormSortAssocButtonStruct) ResetReversePointers(backRepo *BackRepoStruct) (Error error) {
+
+	for idx, formsortassocbutton := range backRepoFormSortAssocButton.Map_FormSortAssocButtonDBID_FormSortAssocButtonPtr {
+		backRepoFormSortAssocButton.ResetReversePointersInstance(backRepo, idx, formsortassocbutton)
+	}
+
+	return
+}
+
+func (backRepoFormSortAssocButton *BackRepoFormSortAssocButtonStruct) ResetReversePointersInstance(backRepo *BackRepoStruct, idx uint, astruct *models.FormSortAssocButton) (Error error) {
+
+	// fetch matching formsortassocbuttonDB
+	if formsortassocbuttonDB, ok := backRepoFormSortAssocButton.Map_FormSortAssocButtonDBID_FormSortAssocButtonDB[idx]; ok {
+		_ = formsortassocbuttonDB // to avoid unused variable error if there are no reverse to reset
+
+		// insertion point for reverse pointers reset
+		// end of insertion point for reverse pointers reset
+	}
+
+	return
+}
+
 // this field is used during the restauration process.
 // it stores the ID at the backup time and is used for renumbering
 var BackRepoFormSortAssocButtonid_atBckpTime_newID map[uint]uint
