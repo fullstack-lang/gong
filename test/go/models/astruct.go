@@ -13,7 +13,11 @@ type Astruct struct {
 	// ONE-ZERO/ONE association is a supported type of gong
 	Associationtob *Bstruct
 
-	Anotherarrayofb []*Bstruct
+	// ONE-MANY association is a supported type of gong
+	// not that that in go, this is a MANY-MANY association. In gong, the association
+	// is implemented in the destination of the association, therefore, a Bclass instance
+	// is related to ZERO/ONE Aclass instance by Arrayofb field
+	Anarrayofb []*Bstruct
 
 	Anotherassociationtob_2 *Bstruct
 
@@ -44,14 +48,10 @@ type Astruct struct {
 
 	Duration1 time.Duration
 
-	// ONE-MANY association is a supported type of gong
-	// not that that in go, this is a MANY-MANY association. In gong, the association
-	// is implemented in the destination of the association, therefore, a Bclass instance
-	// is related to ZERO/ONE Aclass instance by Arrayofb field
-	Anarrayofb []*Bstruct
-
 	// gong supports different fields with the same destination struct, even itself
 	Anarrayofa []*Astruct
+
+	Anotherarrayofb []*Bstruct
 
 	// MANY-MANY association, (because AclassBclassUse ends with "Use")
 	AnarrayofbUse  []*AstructBstructUse

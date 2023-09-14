@@ -347,22 +347,22 @@ export class SidebarComponent implements OnInit {
           }
 
           /**
-          * let append a node for the slide of pointer Anotherarrayofb
+          * let append a node for the slide of pointer Anarrayofb
           */
-          let AnotherarrayofbGongNodeAssociation: GongNode = {
-            name: "(Bstruct) Anotherarrayofb",
+          let AnarrayofbGongNodeAssociation: GongNode = {
+            name: "(Bstruct) Anarrayofb",
             type: GongNodeType.ONE__ZERO_MANY_ASSOCIATION,
             id: astructDB.ID,
             uniqueIdPerStack: 19 * nonInstanceNodeId,
             structName: "Astruct",
-            associationField: "Anotherarrayofb",
+            associationField: "Anarrayofb",
             associatedStructName: "Bstruct",
             children: new Array<GongNode>()
           }
           nonInstanceNodeId = nonInstanceNodeId + 1
-          astructGongNodeInstance.children.push(AnotherarrayofbGongNodeAssociation)
+          astructGongNodeInstance.children.push(AnarrayofbGongNodeAssociation)
 
-          astructDB.Anotherarrayofb?.forEach(bstructDB => {
+          astructDB.Anarrayofb?.forEach(bstructDB => {
             let bstructNode: GongNode = {
               name: bstructDB.Name,
               type: GongNodeType.INSTANCE,
@@ -375,7 +375,7 @@ export class SidebarComponent implements OnInit {
               associatedStructName: "",
               children: new Array<GongNode>()
             }
-            AnotherarrayofbGongNodeAssociation.children.push(bstructNode)
+            AnarrayofbGongNodeAssociation.children.push(bstructNode)
           })
 
           /**
@@ -624,38 +624,6 @@ export class SidebarComponent implements OnInit {
           }
 
           /**
-          * let append a node for the slide of pointer Anarrayofb
-          */
-          let AnarrayofbGongNodeAssociation: GongNode = {
-            name: "(Bstruct) Anarrayofb",
-            type: GongNodeType.ONE__ZERO_MANY_ASSOCIATION,
-            id: astructDB.ID,
-            uniqueIdPerStack: 19 * nonInstanceNodeId,
-            structName: "Astruct",
-            associationField: "Anarrayofb",
-            associatedStructName: "Bstruct",
-            children: new Array<GongNode>()
-          }
-          nonInstanceNodeId = nonInstanceNodeId + 1
-          astructGongNodeInstance.children.push(AnarrayofbGongNodeAssociation)
-
-          astructDB.Anarrayofb?.forEach(bstructDB => {
-            let bstructNode: GongNode = {
-              name: bstructDB.Name,
-              type: GongNodeType.INSTANCE,
-              id: bstructDB.ID,
-              uniqueIdPerStack: // godel numbering (thank you kurt)
-                7 * getAstructUniqueID(astructDB.ID)
-                + 11 * getBstructUniqueID(bstructDB.ID),
-              structName: "Bstruct",
-              associationField: "",
-              associatedStructName: "",
-              children: new Array<GongNode>()
-            }
-            AnarrayofbGongNodeAssociation.children.push(bstructNode)
-          })
-
-          /**
           * let append a node for the slide of pointer Anarrayofa
           */
           let AnarrayofaGongNodeAssociation: GongNode = {
@@ -685,6 +653,38 @@ export class SidebarComponent implements OnInit {
               children: new Array<GongNode>()
             }
             AnarrayofaGongNodeAssociation.children.push(astructNode)
+          })
+
+          /**
+          * let append a node for the slide of pointer Anotherarrayofb
+          */
+          let AnotherarrayofbGongNodeAssociation: GongNode = {
+            name: "(Bstruct) Anotherarrayofb",
+            type: GongNodeType.ONE__ZERO_MANY_ASSOCIATION,
+            id: astructDB.ID,
+            uniqueIdPerStack: 19 * nonInstanceNodeId,
+            structName: "Astruct",
+            associationField: "Anotherarrayofb",
+            associatedStructName: "Bstruct",
+            children: new Array<GongNode>()
+          }
+          nonInstanceNodeId = nonInstanceNodeId + 1
+          astructGongNodeInstance.children.push(AnotherarrayofbGongNodeAssociation)
+
+          astructDB.Anotherarrayofb?.forEach(bstructDB => {
+            let bstructNode: GongNode = {
+              name: bstructDB.Name,
+              type: GongNodeType.INSTANCE,
+              id: bstructDB.ID,
+              uniqueIdPerStack: // godel numbering (thank you kurt)
+                7 * getAstructUniqueID(astructDB.ID)
+                + 11 * getBstructUniqueID(bstructDB.ID),
+              structName: "Bstruct",
+              associationField: "",
+              associatedStructName: "",
+              children: new Array<GongNode>()
+            }
+            AnotherarrayofbGongNodeAssociation.children.push(bstructNode)
           })
 
           /**
