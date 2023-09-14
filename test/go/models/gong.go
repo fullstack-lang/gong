@@ -731,13 +731,13 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			// field is initialized with an instance of Bstruct with the name of the field
 			Associationtob: &Bstruct{Name: "Associationtob"},
 			// field is initialized with an instance of Bstruct with the name of the field
-			Anotherarrayofb: []*Bstruct{{Name: "Anotherarrayofb"}},
+			Anarrayofb: []*Bstruct{{Name: "Anarrayofb"}},
 			// field is initialized with an instance of Bstruct with the name of the field
 			Anotherassociationtob_2: &Bstruct{Name: "Anotherassociationtob_2"},
-			// field is initialized with an instance of Bstruct with the name of the field
-			Anarrayofb: []*Bstruct{{Name: "Anarrayofb"}},
 			// field is initialized with an instance of Astruct with the name of the field
 			Anarrayofa: []*Astruct{{Name: "Anarrayofa"}},
+			// field is initialized with an instance of Bstruct with the name of the field
+			Anotherarrayofb: []*Bstruct{{Name: "Anotherarrayofb"}},
 			// field is initialized with an instance of AstructBstructUse with the name of the field
 			AnarrayofbUse: []*AstructBstructUse{{Name: "AnarrayofbUse"}},
 			// field is initialized with an instance of AstructBstruct2Use with the name of the field
@@ -1035,14 +1035,6 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 	case Astruct:
 		switch fieldname {
 		// insertion point for per direct association field
-		case "Anotherarrayofb":
-			res := make(map[*Bstruct]*Astruct)
-			for astruct := range stage.Astructs {
-				for _, bstruct_ := range astruct.Anotherarrayofb {
-					res[bstruct_] = astruct
-				}
-			}
-			return any(res).(map[*End]*Start)
 		case "Anarrayofb":
 			res := make(map[*Bstruct]*Astruct)
 			for astruct := range stage.Astructs {
@@ -1056,6 +1048,14 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 			for astruct := range stage.Astructs {
 				for _, astruct_ := range astruct.Anarrayofa {
 					res[astruct_] = astruct
+				}
+			}
+			return any(res).(map[*End]*Start)
+		case "Anotherarrayofb":
+			res := make(map[*Bstruct]*Astruct)
+			for astruct := range stage.Astructs {
+				for _, bstruct_ := range astruct.Anotherarrayofb {
+					res[bstruct_] = astruct
 				}
 			}
 			return any(res).(map[*End]*Start)
@@ -1130,7 +1130,7 @@ func GetFields[Type Gongstruct]() (res []string) {
 	switch any(ret).(type) {
 	// insertion point for generic get gongstruct name
 	case Astruct:
-		res = []string{"Name", "Associationtob", "Anotherarrayofb", "Anotherassociationtob_2", "Date", "Booleanfield", "Aenum", "Aenum_2", "Benum", "CEnum", "CName", "CFloatfield", "Bstruct", "Bstruct2", "Dstruct", "Dstruct2", "Dstruct3", "Dstruct4", "Floatfield", "Intfield", "Anotherbooleanfield", "Duration1", "Anarrayofb", "Anarrayofa", "AnarrayofbUse", "Anarrayofb2Use", "AnAstruct", "StructRef", "FieldRef", "EnumIntRef", "EnumStringRef", "EnumValue", "ConstIdentifierValue"}
+		res = []string{"Name", "Associationtob", "Anarrayofb", "Anotherassociationtob_2", "Date", "Booleanfield", "Aenum", "Aenum_2", "Benum", "CEnum", "CName", "CFloatfield", "Bstruct", "Bstruct2", "Dstruct", "Dstruct2", "Dstruct3", "Dstruct4", "Floatfield", "Intfield", "Anotherbooleanfield", "Duration1", "Anarrayofa", "Anotherarrayofb", "AnarrayofbUse", "Anarrayofb2Use", "AnAstruct", "StructRef", "FieldRef", "EnumIntRef", "EnumStringRef", "EnumValue", "ConstIdentifierValue"}
 	case AstructBstruct2Use:
 		res = []string{"Name", "Bstrcut2"}
 	case AstructBstructUse:
@@ -1151,7 +1151,7 @@ func GetFieldsFromPointer[Type PointerToGongstruct]() (res []string) {
 	switch any(ret).(type) {
 	// insertion point for generic get gongstruct name
 	case *Astruct:
-		res = []string{"Name", "Associationtob", "Anotherarrayofb", "Anotherassociationtob_2", "Date", "Booleanfield", "Aenum", "Aenum_2", "Benum", "CEnum", "CName", "CFloatfield", "Bstruct", "Bstruct2", "Dstruct", "Dstruct2", "Dstruct3", "Dstruct4", "Floatfield", "Intfield", "Anotherbooleanfield", "Duration1", "Anarrayofb", "Anarrayofa", "AnarrayofbUse", "Anarrayofb2Use", "AnAstruct", "StructRef", "FieldRef", "EnumIntRef", "EnumStringRef", "EnumValue", "ConstIdentifierValue"}
+		res = []string{"Name", "Associationtob", "Anarrayofb", "Anotherassociationtob_2", "Date", "Booleanfield", "Aenum", "Aenum_2", "Benum", "CEnum", "CName", "CFloatfield", "Bstruct", "Bstruct2", "Dstruct", "Dstruct2", "Dstruct3", "Dstruct4", "Floatfield", "Intfield", "Anotherbooleanfield", "Duration1", "Anarrayofa", "Anotherarrayofb", "AnarrayofbUse", "Anarrayofb2Use", "AnAstruct", "StructRef", "FieldRef", "EnumIntRef", "EnumStringRef", "EnumValue", "ConstIdentifierValue"}
 	case *AstructBstruct2Use:
 		res = []string{"Name", "Bstrcut2"}
 	case *AstructBstructUse:
@@ -1177,8 +1177,8 @@ func GetFieldStringValueFromPointer[Type PointerToGongstruct](instance Type, fie
 			if inferedInstance.Associationtob != nil {
 				res = inferedInstance.Associationtob.Name
 			}
-		case "Anotherarrayofb":
-			for idx, __instance__ := range inferedInstance.Anotherarrayofb {
+		case "Anarrayofb":
+			for idx, __instance__ := range inferedInstance.Anarrayofb {
 				if idx > 0 {
 					res += "\n"
 				}
@@ -1240,15 +1240,15 @@ func GetFieldStringValueFromPointer[Type PointerToGongstruct](instance Type, fie
 			res = fmt.Sprintf("%t", inferedInstance.Anotherbooleanfield)
 		case "Duration1":
 			res = fmt.Sprintf("%d", inferedInstance.Duration1)
-		case "Anarrayofb":
-			for idx, __instance__ := range inferedInstance.Anarrayofb {
+		case "Anarrayofa":
+			for idx, __instance__ := range inferedInstance.Anarrayofa {
 				if idx > 0 {
 					res += "\n"
 				}
 				res += __instance__.Name
 			}
-		case "Anarrayofa":
-			for idx, __instance__ := range inferedInstance.Anarrayofa {
+		case "Anotherarrayofb":
+			for idx, __instance__ := range inferedInstance.Anotherarrayofb {
 				if idx > 0 {
 					res += "\n"
 				}
@@ -1342,8 +1342,8 @@ func GetFieldStringValue[Type Gongstruct](instance Type, fieldName string) (res 
 			if inferedInstance.Associationtob != nil {
 				res = inferedInstance.Associationtob.Name
 			}
-		case "Anotherarrayofb":
-			for idx, __instance__ := range inferedInstance.Anotherarrayofb {
+		case "Anarrayofb":
+			for idx, __instance__ := range inferedInstance.Anarrayofb {
 				if idx > 0 {
 					res += "\n"
 				}
@@ -1405,15 +1405,15 @@ func GetFieldStringValue[Type Gongstruct](instance Type, fieldName string) (res 
 			res = fmt.Sprintf("%t", inferedInstance.Anotherbooleanfield)
 		case "Duration1":
 			res = fmt.Sprintf("%d", inferedInstance.Duration1)
-		case "Anarrayofb":
-			for idx, __instance__ := range inferedInstance.Anarrayofb {
+		case "Anarrayofa":
+			for idx, __instance__ := range inferedInstance.Anarrayofa {
 				if idx > 0 {
 					res += "\n"
 				}
 				res += __instance__.Name
 			}
-		case "Anarrayofa":
-			for idx, __instance__ := range inferedInstance.Anarrayofa {
+		case "Anotherarrayofb":
+			for idx, __instance__ := range inferedInstance.Anotherarrayofb {
 				if idx > 0 {
 					res += "\n"
 				}
