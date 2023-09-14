@@ -131,14 +131,14 @@ func (stage *StageStruct) StageBranchAstruct(astruct *Astruct) {
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
-	for _, _bstruct := range astruct.Anotherarrayofb {
-		StageBranch(stage, _bstruct)
-	}
 	for _, _bstruct := range astruct.Anarrayofb {
 		StageBranch(stage, _bstruct)
 	}
 	for _, _astruct := range astruct.Anarrayofa {
 		StageBranch(stage, _astruct)
+	}
+	for _, _bstruct := range astruct.Anotherarrayofb {
+		StageBranch(stage, _bstruct)
 	}
 	for _, _astructbstructuse := range astruct.AnarrayofbUse {
 		StageBranch(stage, _astructbstructuse)
@@ -284,14 +284,14 @@ func (stage *StageStruct) UnstageBranchAstruct(astruct *Astruct) {
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
-	for _, _bstruct := range astruct.Anotherarrayofb {
-		UnstageBranch(stage, _bstruct)
-	}
 	for _, _bstruct := range astruct.Anarrayofb {
 		UnstageBranch(stage, _bstruct)
 	}
 	for _, _astruct := range astruct.Anarrayofa {
 		UnstageBranch(stage, _astruct)
+	}
+	for _, _bstruct := range astruct.Anotherarrayofb {
+		UnstageBranch(stage, _bstruct)
 	}
 	for _, _astructbstructuse := range astruct.AnarrayofbUse {
 		UnstageBranch(stage, _astructbstructuse)

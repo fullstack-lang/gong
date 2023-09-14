@@ -74,8 +74,8 @@ export class AstructService {
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
     let Associationtob = astructdb.Associationtob
     astructdb.Associationtob = new BstructDB
-    let Anotherarrayofb = astructdb.Anotherarrayofb
-    astructdb.Anotherarrayofb = []
+    let Anarrayofb = astructdb.Anarrayofb
+    astructdb.Anarrayofb = []
     let Anotherassociationtob_2 = astructdb.Anotherassociationtob_2
     astructdb.Anotherassociationtob_2 = new BstructDB
     let Bstruct = astructdb.Bstruct
@@ -90,10 +90,10 @@ export class AstructService {
     astructdb.Dstruct3 = new DstructDB
     let Dstruct4 = astructdb.Dstruct4
     astructdb.Dstruct4 = new DstructDB
-    let Anarrayofb = astructdb.Anarrayofb
-    astructdb.Anarrayofb = []
     let Anarrayofa = astructdb.Anarrayofa
     astructdb.Anarrayofa = []
+    let Anotherarrayofb = astructdb.Anotherarrayofb
+    astructdb.Anotherarrayofb = []
     let AnarrayofbUse = astructdb.AnarrayofbUse
     astructdb.AnarrayofbUse = []
     let Anarrayofb2Use = astructdb.Anarrayofb2Use
@@ -112,9 +112,9 @@ export class AstructService {
     return this.http.post<AstructDB>(this.astructsUrl, astructdb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
-	      astructdb.Anotherarrayofb = Anotherarrayofb
 	      astructdb.Anarrayofb = Anarrayofb
 	      astructdb.Anarrayofa = Anarrayofa
+	      astructdb.Anotherarrayofb = Anotherarrayofb
 	      astructdb.AnarrayofbUse = AnarrayofbUse
 	      astructdb.Anarrayofb2Use = Anarrayofb2Use
         astructdb.Astruct_Anarrayofa_reverse = _Astruct_Anarrayofa_reverse
@@ -149,8 +149,8 @@ export class AstructService {
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
     let Associationtob = astructdb.Associationtob
     astructdb.Associationtob = new BstructDB
-    let Anotherarrayofb = astructdb.Anotherarrayofb
-    astructdb.Anotherarrayofb = []
+    let Anarrayofb = astructdb.Anarrayofb
+    astructdb.Anarrayofb = []
     let Anotherassociationtob_2 = astructdb.Anotherassociationtob_2
     astructdb.Anotherassociationtob_2 = new BstructDB
     let Bstruct = astructdb.Bstruct
@@ -165,10 +165,10 @@ export class AstructService {
     astructdb.Dstruct3 = new DstructDB
     let Dstruct4 = astructdb.Dstruct4
     astructdb.Dstruct4 = new DstructDB
-    let Anarrayofb = astructdb.Anarrayofb
-    astructdb.Anarrayofb = []
     let Anarrayofa = astructdb.Anarrayofa
     astructdb.Anarrayofa = []
+    let Anotherarrayofb = astructdb.Anotherarrayofb
+    astructdb.Anotherarrayofb = []
     let AnarrayofbUse = astructdb.AnarrayofbUse
     astructdb.AnarrayofbUse = []
     let Anarrayofb2Use = astructdb.Anarrayofb2Use
@@ -187,9 +187,9 @@ export class AstructService {
     return this.http.put<AstructDB>(url, astructdb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
-	      astructdb.Anotherarrayofb = Anotherarrayofb
 	      astructdb.Anarrayofb = Anarrayofb
 	      astructdb.Anarrayofa = Anarrayofa
+	      astructdb.Anotherarrayofb = Anotherarrayofb
 	      astructdb.AnarrayofbUse = AnarrayofbUse
 	      astructdb.Anarrayofb2Use = Anarrayofb2Use
         astructdb.Astruct_Anarrayofa_reverse = _Astruct_Anarrayofa_reverse

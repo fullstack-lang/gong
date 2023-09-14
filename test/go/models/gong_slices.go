@@ -35,25 +35,6 @@ func EvictInOtherSlices[OwningType PointerToGongstruct, FieldType PointerToGongs
 	// insertion point
 	case *Astruct:
 		// insertion point per field
-		if fieldName == "Anotherarrayofb" {
-
-			// walk all instances of the owning type
-			for _instance := range *GetGongstructInstancesSetFromPointerType[OwningType](stage) {
-				if any(_instance).(*Astruct) != owningInstanceInfered {
-					_inferedTypeInstance := any(_instance).(*Astruct)
-					reference := make([]FieldType, 0)
-					targetFieldSlice := any(_inferedTypeInstance.Anotherarrayofb).([]FieldType)
-					copy(targetFieldSlice, reference)
-					_inferedTypeInstance.Anotherarrayofb = _inferedTypeInstance.Anotherarrayofb[0:]
-					for _, fieldInstance := range reference {
-						if _, ok := setOfFieldInstances[any(fieldInstance).(FieldType)]; !ok {
-							_inferedTypeInstance.Anotherarrayofb =
-								append(_inferedTypeInstance.Anotherarrayofb, any(fieldInstance).(*Bstruct))
-						}
-					}
-				}
-			}
-		}
 		if fieldName == "Anarrayofb" {
 
 			// walk all instances of the owning type
@@ -87,6 +68,25 @@ func EvictInOtherSlices[OwningType PointerToGongstruct, FieldType PointerToGongs
 						if _, ok := setOfFieldInstances[any(fieldInstance).(FieldType)]; !ok {
 							_inferedTypeInstance.Anarrayofa =
 								append(_inferedTypeInstance.Anarrayofa, any(fieldInstance).(*Astruct))
+						}
+					}
+				}
+			}
+		}
+		if fieldName == "Anotherarrayofb" {
+
+			// walk all instances of the owning type
+			for _instance := range *GetGongstructInstancesSetFromPointerType[OwningType](stage) {
+				if any(_instance).(*Astruct) != owningInstanceInfered {
+					_inferedTypeInstance := any(_instance).(*Astruct)
+					reference := make([]FieldType, 0)
+					targetFieldSlice := any(_inferedTypeInstance.Anotherarrayofb).([]FieldType)
+					copy(targetFieldSlice, reference)
+					_inferedTypeInstance.Anotherarrayofb = _inferedTypeInstance.Anotherarrayofb[0:]
+					for _, fieldInstance := range reference {
+						if _, ok := setOfFieldInstances[any(fieldInstance).(FieldType)]; !ok {
+							_inferedTypeInstance.Anotherarrayofb =
+								append(_inferedTypeInstance.Anotherarrayofb, any(fieldInstance).(*Bstruct))
 						}
 					}
 				}

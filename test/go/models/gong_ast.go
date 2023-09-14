@@ -589,12 +589,6 @@ func UnmarshallGongstructStaging(stage *StageStruct, cmap *ast.CommentMap, assig
 					case "Astruct":
 						switch fieldName {
 						// insertion point for slice of pointers assign code
-						case "Anotherarrayofb":
-							// remove first and last char
-							targetIdentifier := ident.Name
-							target := __gong__map_Bstruct[targetIdentifier]
-							__gong__map_Astruct[identifier].Anotherarrayofb =
-								append(__gong__map_Astruct[identifier].Anotherarrayofb, target)
 						case "Anarrayofb":
 							// remove first and last char
 							targetIdentifier := ident.Name
@@ -607,6 +601,12 @@ func UnmarshallGongstructStaging(stage *StageStruct, cmap *ast.CommentMap, assig
 							target := __gong__map_Astruct[targetIdentifier]
 							__gong__map_Astruct[identifier].Anarrayofa =
 								append(__gong__map_Astruct[identifier].Anarrayofa, target)
+						case "Anotherarrayofb":
+							// remove first and last char
+							targetIdentifier := ident.Name
+							target := __gong__map_Bstruct[targetIdentifier]
+							__gong__map_Astruct[identifier].Anotherarrayofb =
+								append(__gong__map_Astruct[identifier].Anotherarrayofb, target)
 						case "AnarrayofbUse":
 							// remove first and last char
 							targetIdentifier := ident.Name

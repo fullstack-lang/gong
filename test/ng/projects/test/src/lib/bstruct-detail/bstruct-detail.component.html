@@ -40,8 +40,8 @@
     </mat-form-field>
 
     <mat-form-field class="detail-full-width">
-        <mat-label>(Astruct) Anotherarrayofb</mat-label>
-        <mat-select [compareWith]="compareObjects" [(ngModel)]="bstruct.Astruct_Anotherarrayofb_reverse" [ngModelOptions]="{standalone: true}">
+        <mat-label>(Astruct) Anarrayofb</mat-label>
+        <mat-select [compareWith]="compareObjects" [(ngModel)]="bstruct.Astruct_Anarrayofb_reverse" [ngModelOptions]="{standalone: true}">
             <mat-option>None</mat-option>
             <mat-option *ngFor="let astruct of frontRepo.Astructs_array" [value]="astruct">
                 {{astruct.Name}}
@@ -49,8 +49,8 @@
         </mat-select>
     </mat-form-field>
     <mat-form-field class="detail-full-width">
-        <mat-label>(Astruct) Anarrayofb</mat-label>
-        <mat-select [compareWith]="compareObjects" [(ngModel)]="bstruct.Astruct_Anarrayofb_reverse" [ngModelOptions]="{standalone: true}">
+        <mat-label>(Astruct) Anotherarrayofb</mat-label>
+        <mat-select [compareWith]="compareObjects" [(ngModel)]="bstruct.Astruct_Anotherarrayofb_reverse" [ngModelOptions]="{standalone: true}">
             <mat-option>None</mat-option>
             <mat-option *ngFor="let astruct of frontRepo.Astructs_array" [value]="astruct">
                 {{astruct.Name}}

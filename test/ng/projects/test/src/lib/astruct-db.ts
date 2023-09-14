@@ -40,7 +40,7 @@ export class AstructDB {
 	Associationtob?: BstructDB
 	AssociationtobID: NullInt64 = new NullInt64 // if pointer is null, Associationtob.ID = 0
 
-	Anotherarrayofb?: Array<BstructDB>
+	Anarrayofb?: Array<BstructDB>
 	Anotherassociationtob_2?: BstructDB
 	Anotherassociationtob_2ID: NullInt64 = new NullInt64 // if pointer is null, Anotherassociationtob_2.ID = 0
 
@@ -64,8 +64,8 @@ export class AstructDB {
 	Dstruct4ID: NullInt64 = new NullInt64 // if pointer is null, Dstruct4.ID = 0
 
 	Duration1_string?: string
-	Anarrayofb?: Array<BstructDB>
 	Anarrayofa?: Array<AstructDB>
+	Anotherarrayofb?: Array<BstructDB>
 	AnarrayofbUse?: Array<AstructBstructUseDB>
 	Anarrayofb2Use?: Array<AstructBstruct2UseDB>
 	AnAstruct?: AstructDB
