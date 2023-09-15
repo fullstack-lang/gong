@@ -1,6 +1,6 @@
 package probe
 
-const NodeImplGongstructFileTemplate = `// generated code - do not edit
+const FillUpTableTemplate = `// generated code - do not edit
 package probe
 
 import (
@@ -8,9 +8,7 @@ import (
 	"log"
 	"sort"
 
-	gong_models "github.com/fullstack-lang/gong/go/models"
 	gongtable "github.com/fullstack-lang/gongtable/go/models"
-	gongtree_models "github.com/fullstack-lang/gongtree/go/models"
 
 	"github.com/fullstack-lang/maticons/maticons"
 
@@ -18,58 +16,12 @@ import (
 	"{{PkgPathRoot}}/orm"
 )
 
-type NodeImplGongstruct struct {
-	gongStruct *gong_models.GongStruct
-	playground *Playground
-}
-
-func NewNodeImplGongstruct(
-	gongStruct *gong_models.GongStruct,
-	playground *Playground,
-) (nodeImplGongstruct *NodeImplGongstruct) {
-
-	nodeImplGongstruct = new(NodeImplGongstruct)
-	nodeImplGongstruct.gongStruct = gongStruct
-	nodeImplGongstruct.playground = playground
-	return
-}
-
-func (nodeImplGongstruct *NodeImplGongstruct) OnAfterUpdate(
-	gongtreeStage *gongtree_models.StageStruct,
-	stagedNode, frontNode *gongtree_models.Node) {
-
-	// setting the value of the staged node	to the new value
-	// otherwise, the expansion memory is lost
-	if stagedNode.IsExpanded != frontNode.IsExpanded {
-		stagedNode.IsExpanded = frontNode.IsExpanded
-		return
-	}
-
-	// if node is unchecked
-	if stagedNode.IsChecked && !frontNode.IsChecked {
-
-	}
-
-	// if node is checked, add gongstructshape
-	if !stagedNode.IsChecked && frontNode.IsChecked {
-
-	}
-
-	// the node was selected. Therefore, one request the
-	// table to route to the table
-	log.Println("NodeImplGongstruct:OnAfterUpdate with: ", nodeImplGongstruct.gongStruct.GetName())
-
-	// insertion point{{` + string(rune(NodeImplGongstruct)) + `}}
-
-	nodeImplGongstruct.playground.tableStage.Commit()
-}
-
 func fillUpTablePointerToGongstruct[T models.PointerToGongstruct](
 	playground *Playground,
 ) {
 	var typedInstance T
 	switch any(typedInstance).(type) {
-	// insertion point{{` + string(rune(NodeImplGongstructCaseForCastingDown)) + `}}
+	// insertion point{{` + string(rune(FillUpTableCaseForCastingDown)) + `}}
 	default:
 		log.Println("unknow type")
 	}
@@ -207,31 +159,27 @@ func (rowUpdate *RowUpdate[T]) RowUpdated(stage *gongtable.StageStruct, row, upd
 	formStage.Commit()
 
 	switch instancesTyped := any(rowUpdate.Instance).(type) {
-	// insertion point{{` + string(rune(NodeImplGongstructCase)) + `}}
+	// insertion point{{` + string(rune(FillUpTableCase)) + `}}
 	}
 	formStage.Commit()
 
 }
 `
 
-type NodeImplGongstructInsertionId int
+type FillUpTableInsertionId int
 
 const (
-	NodeImplGongstruct NodeImplGongstructInsertionId = iota
-	NodeImplGongstructCase
-	NodeImplGongstructCaseForCastingDown
+	FillUpTableCase FillUpTableInsertionId = iota
+	FillUpTableCaseForCastingDown
 )
 
-var NodeImplGongstructSubTemplateCode map[string]string = // new line
+var FillUpTableSubTemplateCode map[string]string = // new line
 map[string]string{
-	string(rune(NodeImplGongstruct)): `
-	if nodeImplGongstruct.gongStruct.GetName() == "{{Structname}}" {
-		fillUpTable[models.{{Structname}}](nodeImplGongstruct.playground)
-	}`,
-	string(rune(NodeImplGongstructCaseForCastingDown)): `
+
+	string(rune(FillUpTableCaseForCastingDown)): `
 	case *models.{{Structname}}:
 		fillUpTable[models.{{Structname}}](playground)`,
-	string(rune(NodeImplGongstructCase)): `
+	string(rune(FillUpTableCase)): `
 	case *models.{{Structname}}:
 		formGroup := (&gongtable.FormGroup{
 			Name:  gongtable.FormGroupDefaultName.ToString(),

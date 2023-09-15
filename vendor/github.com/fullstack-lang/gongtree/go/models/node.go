@@ -15,6 +15,10 @@ type Node struct {
 	// Impl is the pointer to the implementation of the node in the models of interest
 	Impl NodeImplInterface
 
+	// BackgroundColor, if zero value will have the color to default, therwise, the node
+	// will have this color
+	BackgroundColor string
+
 	IsExpanded bool
 
 	// fields related to the selection of the node by a check box

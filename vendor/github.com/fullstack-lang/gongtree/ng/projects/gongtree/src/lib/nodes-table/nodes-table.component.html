@@ -26,6 +26,13 @@
             </td>
         </ng-container>
         <!-- -->
+        <ng-container matColumnDef="BackgroundColor">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> BackgroundColor </th>
+            <td mat-cell *matCellDef="let Node">
+                {{Node.BackgroundColor}}
+            </td>
+        </ng-container>
+        <!-- -->
         <ng-container matColumnDef="IsExpanded">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> IsExpanded </th>
             <td mat-cell *matCellDef="let Node">
