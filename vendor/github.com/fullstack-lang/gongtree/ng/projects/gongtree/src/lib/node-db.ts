@@ -15,6 +15,7 @@ export class NodeDB {
 
 	// insertion point for basic fields declarations
 	Name: string = ""
+	BackgroundColor: string = ""
 	IsExpanded: boolean = false
 	HasCheckboxButton: boolean = false
 	IsChecked: boolean = false
