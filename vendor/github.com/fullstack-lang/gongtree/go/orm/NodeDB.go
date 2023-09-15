@@ -73,6 +73,9 @@ type NodeDB struct {
 	// Declation for basic field nodeDB.Name
 	Name_Data sql.NullString
 
+	// Declation for basic field nodeDB.BackgroundColor
+	BackgroundColor_Data sql.NullString
+
 	// Declation for basic field nodeDB.IsExpanded
 	// provide the sql storage for the boolan
 	IsExpanded_Data sql.NullBool
@@ -119,17 +122,19 @@ type NodeWOP struct {
 
 	Name string `xlsx:"1"`
 
-	IsExpanded bool `xlsx:"2"`
+	BackgroundColor string `xlsx:"2"`
 
-	HasCheckboxButton bool `xlsx:"3"`
+	IsExpanded bool `xlsx:"3"`
 
-	IsChecked bool `xlsx:"4"`
+	HasCheckboxButton bool `xlsx:"4"`
 
-	IsCheckboxDisabled bool `xlsx:"5"`
+	IsChecked bool `xlsx:"5"`
 
-	IsInEditMode bool `xlsx:"6"`
+	IsCheckboxDisabled bool `xlsx:"6"`
 
-	IsNodeClickable bool `xlsx:"7"`
+	IsInEditMode bool `xlsx:"7"`
+
+	IsNodeClickable bool `xlsx:"8"`
 	// insertion for WOP pointer fields
 }
 
@@ -137,6 +142,7 @@ var Node_Fields = []string{
 	// insertion for WOP basic fields
 	"ID",
 	"Name",
+	"BackgroundColor",
 	"IsExpanded",
 	"HasCheckboxButton",
 	"IsChecked",
@@ -498,6 +504,9 @@ func (nodeDB *NodeDB) CopyBasicFieldsFromNode(node *models.Node) {
 	nodeDB.Name_Data.String = node.Name
 	nodeDB.Name_Data.Valid = true
 
+	nodeDB.BackgroundColor_Data.String = node.BackgroundColor
+	nodeDB.BackgroundColor_Data.Valid = true
+
 	nodeDB.IsExpanded_Data.Bool = node.IsExpanded
 	nodeDB.IsExpanded_Data.Valid = true
 
@@ -524,6 +533,9 @@ func (nodeDB *NodeDB) CopyBasicFieldsFromNodeWOP(node *NodeWOP) {
 	nodeDB.Name_Data.String = node.Name
 	nodeDB.Name_Data.Valid = true
 
+	nodeDB.BackgroundColor_Data.String = node.BackgroundColor
+	nodeDB.BackgroundColor_Data.Valid = true
+
 	nodeDB.IsExpanded_Data.Bool = node.IsExpanded
 	nodeDB.IsExpanded_Data.Valid = true
 
@@ -547,6 +559,7 @@ func (nodeDB *NodeDB) CopyBasicFieldsFromNodeWOP(node *NodeWOP) {
 func (nodeDB *NodeDB) CopyBasicFieldsToNode(node *models.Node) {
 	// insertion point for checkout of basic fields (back repo to stage)
 	node.Name = nodeDB.Name_Data.String
+	node.BackgroundColor = nodeDB.BackgroundColor_Data.String
 	node.IsExpanded = nodeDB.IsExpanded_Data.Bool
 	node.HasCheckboxButton = nodeDB.HasCheckboxButton_Data.Bool
 	node.IsChecked = nodeDB.IsChecked_Data.Bool
@@ -560,6 +573,7 @@ func (nodeDB *NodeDB) CopyBasicFieldsToNodeWOP(node *NodeWOP) {
 	node.ID = int(nodeDB.ID)
 	// insertion point for checkout of basic fields (back repo to stage)
 	node.Name = nodeDB.Name_Data.String
+	node.BackgroundColor = nodeDB.BackgroundColor_Data.String
 	node.IsExpanded = nodeDB.IsExpanded_Data.Bool
 	node.HasCheckboxButton = nodeDB.HasCheckboxButton_Data.Bool
 	node.IsChecked = nodeDB.IsChecked_Data.Bool

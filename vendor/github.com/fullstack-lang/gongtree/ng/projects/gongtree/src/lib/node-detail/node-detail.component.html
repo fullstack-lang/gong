@@ -21,6 +21,26 @@
         <textarea name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="node.Name"></textarea>
     </mat-form-field>
 
+    <mat-grid-list *ngIf='!isATextArea("BackgroundColor")' cols="5" rowHeight="1:1">
+        <mat-grid-tile [colspan]="3">
+            <mat-form-field mat-form-field class="detail-full-width">
+                <mat-label>BackgroundColor</mat-label>
+                <input name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="node.BackgroundColor">
+            </mat-form-field>
+        </mat-grid-tile>
+        <mat-grid-tile>
+            <button mat-raised-button (click)="toggleTextArea('BackgroundColor')">
+                <mat-icon>
+                    expand_more
+                </mat-icon>
+            </button>
+        </mat-grid-tile>
+    </mat-grid-list>
+    <mat-form-field *ngIf='isATextArea("BackgroundColor")' mat-form-field class="detail-full-width">
+        <mat-label>BackgroundColor</mat-label>
+        <textarea name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="node.BackgroundColor"></textarea>
+    </mat-form-field>
+
     <!-- -->
     <mat-checkbox [formControl]="IsExpandedFormControl">IsExpanded</mat-checkbox>
 
