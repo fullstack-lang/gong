@@ -72,8 +72,6 @@ func main() {
 		stage, backRepo = test_fullstack.NewStackInstance(r, "test", "./test.db")
 	}
 
-	test_probe.NewProbe(r, test_go.GoModelsDir, "test", stage, backRepo)
-
 	if *unmarshallFromCode != "" {
 		stage.Checkout()
 		stage.Reset()
@@ -97,6 +95,8 @@ func main() {
 		hook := new(BeforeCommitImplementation)
 		stage.OnInitCommitCallback = hook
 	}
+
+	test_probe.NewProbe(r, test_go.GoModelsDir, "test", stage, backRepo)
 
 	gongdoc_load.Load(
 		"test",

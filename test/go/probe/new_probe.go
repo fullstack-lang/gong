@@ -3,6 +3,7 @@ package probe
 
 import (
 	"embed"
+	"fmt"
 	"sort"
 
 	"github.com/gin-gonic/gin"
@@ -68,7 +69,11 @@ func NewProbe(
 
 	for _, gongStruct := range sliceOfGongStructsSorted {
 
-		nodeGongstruct := (&gongtree_models.Node{Name: gongStruct.Name}).Stage(stageForSidebarTree)
+		name := gongStruct.Name + " (" +
+			fmt.Sprintf("%d", stageOfInterest.Map_GongStructName_InstancesNb[gongStruct.Name]) + ")"
+
+		nodeGongstruct := (&gongtree_models.Node{Name: name}).Stage(stageForSidebarTree)
+
 		nodeGongstruct.IsNodeClickable = true
 		nodeGongstruct.Impl = NewTreeNodeImplGongstruct(gongStruct, playground)
 
