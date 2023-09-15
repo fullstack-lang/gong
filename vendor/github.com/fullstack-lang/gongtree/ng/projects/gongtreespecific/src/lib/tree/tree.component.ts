@@ -275,4 +275,15 @@ export class TreeComponent implements OnInit {
     )
   }
 
+  getNodeBackgroundColor(node: FlatNode): string {
+    if (node.gongNode) {
+      if (node.gongNode.BackgroundColor != "") {
+        return node.gongNode.BackgroundColor
+      } else {
+        return 'default'
+      }
+    }
+    return 'default'
+  }
+
 }

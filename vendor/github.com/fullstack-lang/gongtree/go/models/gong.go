@@ -697,7 +697,7 @@ func GetFields[Type Gongstruct]() (res []string) {
 	case Button:
 		res = []string{"Name", "Icon"}
 	case Node:
-		res = []string{"Name", "IsExpanded", "HasCheckboxButton", "IsChecked", "IsCheckboxDisabled", "IsInEditMode", "IsNodeClickable", "Children", "Buttons"}
+		res = []string{"Name", "BackgroundColor", "IsExpanded", "HasCheckboxButton", "IsChecked", "IsCheckboxDisabled", "IsInEditMode", "IsNodeClickable", "Children", "Buttons"}
 	case Tree:
 		res = []string{"Name", "RootNodes"}
 	}
@@ -714,7 +714,7 @@ func GetFieldsFromPointer[Type PointerToGongstruct]() (res []string) {
 	case *Button:
 		res = []string{"Name", "Icon"}
 	case *Node:
-		res = []string{"Name", "IsExpanded", "HasCheckboxButton", "IsChecked", "IsCheckboxDisabled", "IsInEditMode", "IsNodeClickable", "Children", "Buttons"}
+		res = []string{"Name", "BackgroundColor", "IsExpanded", "HasCheckboxButton", "IsChecked", "IsCheckboxDisabled", "IsInEditMode", "IsNodeClickable", "Children", "Buttons"}
 	case *Tree:
 		res = []string{"Name", "RootNodes"}
 	}
@@ -738,6 +738,8 @@ func GetFieldStringValueFromPointer[Type PointerToGongstruct](instance Type, fie
 		// string value of fields
 		case "Name":
 			res = inferedInstance.Name
+		case "BackgroundColor":
+			res = inferedInstance.BackgroundColor
 		case "IsExpanded":
 			res = fmt.Sprintf("%t", inferedInstance.IsExpanded)
 		case "HasCheckboxButton":
@@ -801,6 +803,8 @@ func GetFieldStringValue[Type Gongstruct](instance Type, fieldName string) (res 
 		// string value of fields
 		case "Name":
 			res = inferedInstance.Name
+		case "BackgroundColor":
+			res = inferedInstance.BackgroundColor
 		case "IsExpanded":
 			res = fmt.Sprintf("%t", inferedInstance.IsExpanded)
 		case "HasCheckboxButton":
