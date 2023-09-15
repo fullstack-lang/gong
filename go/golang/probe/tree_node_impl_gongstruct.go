@@ -55,6 +55,13 @@ func (nodeImplGongstruct *TreeNodeImplGongstruct) OnAfterUpdate(
 
 	// insertion point{{` + string(rune(NodeImplGongstruct)) + `}}
 
+	// set color for node and reset all other nodes color
+	for node := range *gongtree_models.GetGongstructInstancesSet[gongtree_models.Node](gongtreeStage) {
+		node.BackgroundColor = ""
+	}
+	stagedNode.BackgroundColor = "lightgrey"
+	gongtreeStage.Commit()
+
 	nodeImplGongstruct.playground.tableStage.Commit()
 }
 `
