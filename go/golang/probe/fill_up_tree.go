@@ -10,6 +10,8 @@ import (
 	gongtree_models "github.com/fullstack-lang/gongtree/go/models"
 
 	gong_models "github.com/fullstack-lang/gong/go/models"
+
+	"{{PkgPathRoot}}/models"
 )
 
 func fillUpTree(
@@ -40,6 +42,12 @@ func fillUpTree(
 
 		nodeGongstruct := (&gongtree_models.Node{Name: name}).Stage(playground.treeStage)
 
+
+		nodeGongstruct.IsExpanded = false
+		switch gongStruct.Name {
+		// insertion point{{` + string(rune(FillUpTreeStructCase)) + `}}	
+		}
+
 		nodeGongstruct.IsNodeClickable = true
 		nodeGongstruct.Impl = NewTreeNodeImplGongstruct(gongStruct, playground)
 
@@ -58,4 +66,57 @@ func fillUpTree(
 	}
 	playground.treeStage.Commit()
 }
+
+type InstanceNodeCallback[T models.Gongstruct] struct {
+	Instance       *T
+	gongstructName string
+	playground     *Playground
+}
+
+func NewInstanceNodeCallback[T models.Gongstruct](
+	instance *T,
+	gongstructName string,
+	playground *Playground) (
+	instanceNodeCallback *InstanceNodeCallback[T],
+) {
+	instanceNodeCallback = new(InstanceNodeCallback[T])
+
+	instanceNodeCallback.playground = playground
+	instanceNodeCallback.gongstructName = gongstructName
+	instanceNodeCallback.Instance = instance
+
+	return
+}
+
+func (instanceNodeCallback *InstanceNodeCallback[T]) OnAfterUpdate(
+	gongtreeStage *gongtree_models.StageStruct,
+	stagedNode, frontNode *gongtree_models.Node) {
+
+	FillUpFormFromGongstruct(
+		instanceNodeCallback.Instance,
+		instanceNodeCallback.playground,
+	)
+}
 `
+
+type FillUpTreeInsertionId int
+
+const (
+	FillUpTreeStructCase FillUpTreeInsertionId = iota
+	FillUpTreeInsertionNb
+)
+
+var FillUpTreeSubTemplateCode map[string]string = // new line
+map[string]string{
+	string(rune(FillUpTreeStructCase)): `
+		case "{{Structname}}":
+			nodeGongstruct.Name = name
+			set := *models.GetGongstructInstancesSet[models.{{Structname}}](playground.stageOfInterest)
+			for {{structname}} := range set {
+				nodeInstance := (&gongtree_models.Node{Name: {{structname}}.GetName()}).Stage(playground.treeStage)
+				nodeInstance.IsNodeClickable = true
+				nodeInstance.Impl = NewInstanceNodeCallback({{structname}}, "{{Structname}}", playground)
+
+				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
+			}`,
+}
