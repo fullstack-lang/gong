@@ -498,7 +498,7 @@ func main() {
 		filepath.Join(*pkgPath, "../docs.go"),
 		golang.RootFileDocsTemplate)
 
-	probe.CodeGeneratorModelButtonImpl(
+	probe.CodeGeneratorFillUpForm(
 		modelPkg,
 		modelPkg.Name,
 		*pkgPath,
@@ -517,6 +517,12 @@ func main() {
 		caserEnglish.String(modelPkg.Name),
 		modelPkg.PkgPath, filepath.Join(*pkgPath, "../probe/tree_node_impl_gongstruct.go"),
 		probe.TreeNodeImplGongstructFileTemplate, probe.TreeNodeImplGongstructSubTemplateCode)
+
+	gong_models.SimpleCodeGenerator(
+		modelPkg,
+		caserEnglish.String(modelPkg.Name),
+		modelPkg.PkgPath, filepath.Join(*pkgPath, "../probe/button_impl_gongstruct.go"),
+		probe.ButtonImplGongstructFileTemplate, probe.ButtonImplGongstructSubTemplateCode)
 
 	gong_models.SimpleCodeGenerator(
 		modelPkg,
