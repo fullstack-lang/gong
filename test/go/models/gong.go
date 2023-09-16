@@ -279,6 +279,12 @@ func (astruct *Astruct) Unstage(stage *StageStruct) *Astruct {
 	return astruct
 }
 
+// UnstageVoid removes astruct off the model stage
+func (astruct *Astruct) UnstageVoid(stage *StageStruct) {
+	delete(stage.Astructs, astruct)
+	delete(stage.Astructs_mapString, astruct.Name)
+}
+
 // commit astruct to the back repo (if it is already staged)
 func (astruct *Astruct) Commit(stage *StageStruct) *Astruct {
 	if _, ok := stage.Astructs[astruct]; ok {
@@ -321,6 +327,12 @@ func (astructbstruct2use *AstructBstruct2Use) Unstage(stage *StageStruct) *Astru
 	delete(stage.AstructBstruct2Uses, astructbstruct2use)
 	delete(stage.AstructBstruct2Uses_mapString, astructbstruct2use.Name)
 	return astructbstruct2use
+}
+
+// UnstageVoid removes astructbstruct2use off the model stage
+func (astructbstruct2use *AstructBstruct2Use) UnstageVoid(stage *StageStruct) {
+	delete(stage.AstructBstruct2Uses, astructbstruct2use)
+	delete(stage.AstructBstruct2Uses_mapString, astructbstruct2use.Name)
 }
 
 // commit astructbstruct2use to the back repo (if it is already staged)
@@ -367,6 +379,12 @@ func (astructbstructuse *AstructBstructUse) Unstage(stage *StageStruct) *Astruct
 	return astructbstructuse
 }
 
+// UnstageVoid removes astructbstructuse off the model stage
+func (astructbstructuse *AstructBstructUse) UnstageVoid(stage *StageStruct) {
+	delete(stage.AstructBstructUses, astructbstructuse)
+	delete(stage.AstructBstructUses_mapString, astructbstructuse.Name)
+}
+
 // commit astructbstructuse to the back repo (if it is already staged)
 func (astructbstructuse *AstructBstructUse) Commit(stage *StageStruct) *AstructBstructUse {
 	if _, ok := stage.AstructBstructUses[astructbstructuse]; ok {
@@ -411,6 +429,12 @@ func (bstruct *Bstruct) Unstage(stage *StageStruct) *Bstruct {
 	return bstruct
 }
 
+// UnstageVoid removes bstruct off the model stage
+func (bstruct *Bstruct) UnstageVoid(stage *StageStruct) {
+	delete(stage.Bstructs, bstruct)
+	delete(stage.Bstructs_mapString, bstruct.Name)
+}
+
 // commit bstruct to the back repo (if it is already staged)
 func (bstruct *Bstruct) Commit(stage *StageStruct) *Bstruct {
 	if _, ok := stage.Bstructs[bstruct]; ok {
@@ -453,6 +477,12 @@ func (dstruct *Dstruct) Unstage(stage *StageStruct) *Dstruct {
 	delete(stage.Dstructs, dstruct)
 	delete(stage.Dstructs_mapString, dstruct.Name)
 	return dstruct
+}
+
+// UnstageVoid removes dstruct off the model stage
+func (dstruct *Dstruct) UnstageVoid(stage *StageStruct) {
+	delete(stage.Dstructs, dstruct)
+	delete(stage.Dstructs_mapString, dstruct.Name)
 }
 
 // commit dstruct to the back repo (if it is already staged)
@@ -582,6 +612,7 @@ type PointerToGongstruct interface {
 	*Astruct | *AstructBstruct2Use | *AstructBstructUse | *Bstruct | *Dstruct
 	GetName() string
 	CommitVoid(*StageStruct)
+	UnstageVoid(stage *StageStruct)
 }
 
 type GongstructSet interface {
