@@ -28,7 +28,7 @@ import (
 
 const __dummmy__time = time.Nanosecond
 
-// insertion point{{` + string(rune(ButtonImplPerGongstructCallToForm)) + `}}
+// insertion point{{` + string(rune(FillUpTreeStructCase)) + `}}
 `
 
 type FormCallbackGongstructInsertionId int

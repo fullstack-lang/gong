@@ -518,11 +518,11 @@ func main() {
 		modelPkg.PkgPath, filepath.Join(*pkgPath, "../probe/tree_node_impl_gongstruct.go"),
 		probe.TreeNodeImplGongstructFileTemplate, probe.TreeNodeImplGongstructSubTemplateCode)
 
-	gong_models.SimpleCodeGenerator(
+	gong_models.VerySimpleCodeGenerator(
 		modelPkg,
 		caserEnglish.String(modelPkg.Name),
 		modelPkg.PkgPath, filepath.Join(*pkgPath, "../probe/button_impl_gongstruct.go"),
-		probe.ButtonImplGongstructFileTemplate, probe.ButtonImplGongstructSubTemplateCode)
+		probe.ButtonImplGongstructFileTemplate)
 
 	gong_models.SimpleCodeGenerator(
 		modelPkg,
@@ -554,11 +554,11 @@ func main() {
 		modelPkg.PkgPath, filepath.Join(*pkgPath, "../probe/new_probe.go"),
 		probe.NewProbeTemplate)
 
-	gong_models.VerySimpleCodeGenerator(
+	gong_models.SimpleCodeGenerator(
 		modelPkg,
 		caserEnglish.String(modelPkg.Name),
 		modelPkg.PkgPath, filepath.Join(*pkgPath, "../probe/fill_up_tree.go"),
-		probe.FillUpTree)
+		probe.FillUpTree, probe.FillUpTreeSubTemplateCode)
 
 	gong_models.VerySimpleCodeGenerator(
 		modelPkg,
