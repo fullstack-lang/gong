@@ -527,6 +527,12 @@ func main() {
 	gong_models.SimpleCodeGenerator(
 		modelPkg,
 		caserEnglish.String(modelPkg.Name),
+		modelPkg.PkgPath, filepath.Join(*pkgPath, "../probe/cell_delete_icon_impl.go"),
+		probe.CellDeleteIconImplTemplate, probe.CellDeleteIconImplSubTemplateCode)
+
+	gong_models.SimpleCodeGenerator(
+		modelPkg,
+		caserEnglish.String(modelPkg.Name),
 		modelPkg.PkgPath, filepath.Join(*pkgPath, "../probe/fill_up_table.go"),
 		probe.FillUpTableTemplate, probe.FillUpTableSubTemplateCode)
 
