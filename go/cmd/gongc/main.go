@@ -533,6 +533,12 @@ func main() {
 	gong_models.VerySimpleCodeGenerator(
 		modelPkg,
 		caserEnglish.String(modelPkg.Name),
+		modelPkg.PkgPath, filepath.Join(*pkgPath, "../probe/fill_up_tree.go"),
+		probe.FillUpTree)
+
+	gong_models.VerySimpleCodeGenerator(
+		modelPkg,
+		caserEnglish.String(modelPkg.Name),
 		modelPkg.PkgPath, filepath.Join(*pkgPath, "../probe/playground.go"),
 		probe.PlaygroundTemplate)
 
