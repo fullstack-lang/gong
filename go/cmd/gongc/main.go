@@ -498,7 +498,7 @@ func main() {
 		filepath.Join(*pkgPath, "../docs.go"),
 		golang.RootFileDocsTemplate)
 
-	probe.CodeGeneratorModelButtonImpl(
+	probe.CodeGeneratorFillUpForm(
 		modelPkg,
 		modelPkg.Name,
 		*pkgPath,
@@ -518,6 +518,30 @@ func main() {
 		modelPkg.PkgPath, filepath.Join(*pkgPath, "../probe/tree_node_impl_gongstruct.go"),
 		probe.TreeNodeImplGongstructFileTemplate, probe.TreeNodeImplGongstructSubTemplateCode)
 
+	gong_models.VerySimpleCodeGenerator(
+		modelPkg,
+		caserEnglish.String(modelPkg.Name),
+		modelPkg.PkgPath, filepath.Join(*pkgPath, "../probe/button_impl_gongstruct.go"),
+		probe.ButtonImplGongstructFileTemplate)
+
+	gong_models.SimpleCodeGenerator(
+		modelPkg,
+		caserEnglish.String(modelPkg.Name),
+		modelPkg.PkgPath, filepath.Join(*pkgPath, "../probe/cell_delete_icon_impl.go"),
+		probe.CellDeleteIconImplTemplate, probe.CellDeleteIconImplSubTemplateCode)
+
+	gong_models.SimpleCodeGenerator(
+		modelPkg,
+		caserEnglish.String(modelPkg.Name),
+		modelPkg.PkgPath, filepath.Join(*pkgPath, "../probe/fill_up_form_from_gongstruct.go"),
+		probe.FillUpFormFromGongstructTemplate, probe.FillUpFormFromGongstructSubTemplateCode)
+
+	gong_models.SimpleCodeGenerator(
+		modelPkg,
+		caserEnglish.String(modelPkg.Name),
+		modelPkg.PkgPath, filepath.Join(*pkgPath, "../probe/fill_up_form_from_gongstruct_name.go"),
+		probe.FillUpFormFromGongstructNameTemplate, probe.FillUpFormFromGongstructNameSubTemplateCode)
+
 	gong_models.SimpleCodeGenerator(
 		modelPkg,
 		caserEnglish.String(modelPkg.Name),
@@ -530,11 +554,11 @@ func main() {
 		modelPkg.PkgPath, filepath.Join(*pkgPath, "../probe/new_probe.go"),
 		probe.NewProbeTemplate)
 
-	gong_models.VerySimpleCodeGenerator(
+	gong_models.SimpleCodeGenerator(
 		modelPkg,
 		caserEnglish.String(modelPkg.Name),
 		modelPkg.PkgPath, filepath.Join(*pkgPath, "../probe/fill_up_tree.go"),
-		probe.FillUpTree)
+		probe.FillUpTree, probe.FillUpTreeSubTemplateCode)
 
 	gong_models.VerySimpleCodeGenerator(
 		modelPkg,
