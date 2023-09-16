@@ -539,6 +539,12 @@ func main() {
 	gong_models.SimpleCodeGenerator(
 		modelPkg,
 		caserEnglish.String(modelPkg.Name),
+		modelPkg.PkgPath, filepath.Join(*pkgPath, "../probe/fill_up_form_from_gongstruct_name.go"),
+		probe.FillUpFormFromGongstructNameTemplate, probe.FillUpFormFromGongstructNameSubTemplateCode)
+
+	gong_models.SimpleCodeGenerator(
+		modelPkg,
+		caserEnglish.String(modelPkg.Name),
 		modelPkg.PkgPath, filepath.Join(*pkgPath, "../probe/fill_up_table.go"),
 		probe.FillUpTableTemplate, probe.FillUpTableSubTemplateCode)
 
