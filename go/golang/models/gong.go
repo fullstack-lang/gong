@@ -97,6 +97,12 @@ func ({{structname}} *{{Structname}}) Unstage(stage *StageStruct) *{{Structname}
 	return {{structname}}
 }
 
+// UnstageVoid removes {{structname}} off the model stage
+func ({{structname}} *{{Structname}}) UnstageVoid(stage *StageStruct) {
+	delete(stage.{{Structname}}s, {{structname}})
+	delete(stage.{{Structname}}s_mapString, {{structname}}.Name)
+}
+
 // commit {{structname}} to the back repo (if it is already staged)
 func ({{structname}} *{{Structname}}) Commit(stage *StageStruct) *{{Structname}} {
 	if _, ok := stage.{{Structname}}s[{{structname}}]; ok {
