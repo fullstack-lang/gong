@@ -8,8 +8,8 @@ import (
 	gongtree_models "github.com/fullstack-lang/gongtree/go/models"
 
 	gong_models "github.com/fullstack-lang/gong/go/models"
+
 	"github.com/fullstack-lang/gong/test/go/models"
-	// "github.com/fullstack-lang/gong/test/go/models"
 )
 
 func fillUpTree(
@@ -40,8 +40,10 @@ func fillUpTree(
 
 		nodeGongstruct := (&gongtree_models.Node{Name: name}).Stage(playground.treeStage)
 
+
 		nodeGongstruct.IsExpanded = false
 		switch gongStruct.Name {
+		// insertion point
 		case "Astruct":
 			nodeGongstruct.Name = name
 			set := *models.GetGongstructInstancesSet[models.Astruct](playground.stageOfInterest)
@@ -52,6 +54,46 @@ func fillUpTree(
 
 				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
 			}
+		case "AstructBstruct2Use":
+			nodeGongstruct.Name = name
+			set := *models.GetGongstructInstancesSet[models.AstructBstruct2Use](playground.stageOfInterest)
+			for astructbstruct2use := range set {
+				nodeInstance := (&gongtree_models.Node{Name: astructbstruct2use.GetName()}).Stage(playground.treeStage)
+				nodeInstance.IsNodeClickable = true
+				nodeInstance.Impl = NewInstanceNodeCallback(astructbstruct2use, "AstructBstruct2Use", playground)
+
+				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
+			}
+		case "AstructBstructUse":
+			nodeGongstruct.Name = name
+			set := *models.GetGongstructInstancesSet[models.AstructBstructUse](playground.stageOfInterest)
+			for astructbstructuse := range set {
+				nodeInstance := (&gongtree_models.Node{Name: astructbstructuse.GetName()}).Stage(playground.treeStage)
+				nodeInstance.IsNodeClickable = true
+				nodeInstance.Impl = NewInstanceNodeCallback(astructbstructuse, "AstructBstructUse", playground)
+
+				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
+			}
+		case "Bstruct":
+			nodeGongstruct.Name = name
+			set := *models.GetGongstructInstancesSet[models.Bstruct](playground.stageOfInterest)
+			for bstruct := range set {
+				nodeInstance := (&gongtree_models.Node{Name: bstruct.GetName()}).Stage(playground.treeStage)
+				nodeInstance.IsNodeClickable = true
+				nodeInstance.Impl = NewInstanceNodeCallback(bstruct, "Bstruct", playground)
+
+				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
+			}
+		case "Dstruct":
+			nodeGongstruct.Name = name
+			set := *models.GetGongstructInstancesSet[models.Dstruct](playground.stageOfInterest)
+			for dstruct := range set {
+				nodeInstance := (&gongtree_models.Node{Name: dstruct.GetName()}).Stage(playground.treeStage)
+				nodeInstance.IsNodeClickable = true
+				nodeInstance.Impl = NewInstanceNodeCallback(dstruct, "Dstruct", playground)
+
+				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
+			}	
 		}
 
 		nodeGongstruct.IsNodeClickable = true

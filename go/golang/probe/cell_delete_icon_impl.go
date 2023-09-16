@@ -53,7 +53,7 @@ const (
 
 var CellDeleteIconImplSubTemplateCode map[string]string = // new line
 map[string]string{
-	string(rune(ButtonImplPerGongstructCallToForm)): `
+	string(rune(CellDeleteIconImplSwitchCase)): `
 	case *models.{{Structname}}:
 		instancesTyped.Unstage(cellDeleteIconImpl.playground.stageOfInterest)`,
 }

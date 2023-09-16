@@ -32,7 +32,7 @@ const (
 
 var FillUpFormFromGongstructSubTemplateCode map[string]string = // new line
 map[string]string{
-	string(rune(ButtonImplPerGongstructCallToForm)): `
+	string(rune(FillUpTreeStructCase)): `
 	case *models.{{Structname}}:
 		formGroup := (&gongtable.FormGroup{
 			Name:  gongtable.FormGroupDefaultName.ToString(),

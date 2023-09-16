@@ -44,26 +44,3 @@ func (buttonImpl *ButtonImplGongstruct) ButtonUpdated(
 	)
 }
 `
-
-type ButtonImplGongstructInsertionId int
-
-const (
-	ButtonImplPerGongstructCallToForm ButtonImplGongstructInsertionId = iota
-	ButtonImplGongstructInsertionNb
-)
-
-var ButtonImplGongstructSubTemplateCode map[string]string = // new line
-map[string]string{
-	string(rune(ButtonImplPerGongstructCallToForm)): `
-	case "{{Structname}}":
-		formGroup := (&form.FormGroup{
-			Name:  form.FormGroupDefaultName.ToString(),
-			Label: "New {{Structname}} Form",
-			OnSave: New{{Structname}}FormCallback(
-				nil,
-				buttonImpl.playground,
-			),
-		}).Stage(formStage)
-		{{structname}} := new(models.{{Structname}})
-		FillUpForm({{structname}}, formGroup, buttonImpl.playground)`,
-}
