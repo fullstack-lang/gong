@@ -51,7 +51,7 @@ github.com/fullstack-lang/gongsvg/go/fullstack
 github.com/fullstack-lang/gongsvg/go/models
 github.com/fullstack-lang/gongsvg/go/orm
 github.com/fullstack-lang/gongsvg/ng/projects
-# github.com/fullstack-lang/gongtable v0.0.0-20230913224020-fb679588244d
+# github.com/fullstack-lang/gongtable v0.0.0-20230915150623-63bdafd5cd82
 ## explicit; go 1.21.0
 github.com/fullstack-lang/gongtable/go/controllers
 github.com/fullstack-lang/gongtable/go/fullstack
