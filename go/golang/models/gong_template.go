@@ -229,6 +229,7 @@ type PointerToGongstruct interface {
 	{{` + string(rune(ModelGongStructInsertionGenericPointerToGongstructTypes)) + `}}
 	GetName() string
 	CommitVoid(*StageStruct)
+	UnstageVoid(stage *StageStruct)
 }
 
 type GongstructSet interface {
