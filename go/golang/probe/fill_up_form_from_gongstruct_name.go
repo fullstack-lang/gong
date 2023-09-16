@@ -42,7 +42,7 @@ const (
 
 var FillUpFormFromGongstructNameSubTemplateCode map[string]string = // new line
 map[string]string{
-	string(rune(ButtonImplPerGongstructCallToForm)): `
+	string(rune(FillUpTreeStructCase)): `
 	case "{{Structname}}":
 		formGroup := (&form.FormGroup{
 			Name:  form.FormGroupDefaultName.ToString(),
