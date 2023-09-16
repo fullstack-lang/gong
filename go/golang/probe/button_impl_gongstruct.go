@@ -7,11 +7,8 @@ import (
 	"log"
 
 	gong_models "github.com/fullstack-lang/gong/go/models"
-	form "github.com/fullstack-lang/gongtable/go/models"
 	gongtree_buttons "github.com/fullstack-lang/gongtree/go/buttons"
 	gongtree_models "github.com/fullstack-lang/gongtree/go/models"
-
-	"{{PkgPathRoot}}/models"
 )
 
 type ButtonImplGongstruct struct {
@@ -40,14 +37,11 @@ func (buttonImpl *ButtonImplGongstruct) ButtonUpdated(
 
 	log.Println("ButtonImplGongstruct: ButtonUpdated")
 
-	formStage := buttonImpl.playground.formStage
-	formStage.Reset()
-	formStage.Commit()
-
-	switch buttonImpl.gongStruct.Name {
-	// insertion point{{` + string(rune(ButtonImplPerGongstructCallToForm)) + `}}
-	}
-	formStage.Commit()
+	FillUpFormFromGongstructName(
+		buttonImpl.playground,
+		buttonImpl.gongStruct.Name,
+		true,
+	)
 }
 `
 
