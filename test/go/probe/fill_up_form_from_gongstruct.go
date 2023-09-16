@@ -1,3 +1,4 @@
+// generated code - do not edit
 package probe
 
 import (
@@ -63,6 +64,8 @@ func FillUpFormFromGongstruct[T models.Gongstruct](instance *T, playground *Play
 			),
 		}).Stage(formStage)
 		FillUpForm(instancesTyped, formGroup, playground)
+	default:
+		_ = instancesTyped
 	}
 	formStage.Commit()
 }
