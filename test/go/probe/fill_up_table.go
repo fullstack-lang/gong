@@ -123,6 +123,7 @@ func fillUpTable[T models.Gongstruct](
 			Name: "Delete Icon",
 			Icon: string(maticons.BUTTON_delete),
 		}).Stage(playground.tableStage)
+		cellIcon.Impl = NewCellDeleteIconImpl[T](structInstance, playground)
 		cell.CellIcon = cellIcon
 
 		for _, fieldName := range fields {
@@ -221,4 +222,37 @@ func (rowUpdate *RowUpdate[T]) RowUpdated(stage *gongtable.StageStruct, row, upd
 	}
 	formStage.Commit()
 
+}
+
+func NewCellDeleteIconImpl[T models.Gongstruct](
+	Instance *T,
+	playground *Playground,
+) (cellDeleteIconImpl *CellDeleteIconImpl[T]) {
+	cellDeleteIconImpl = new(CellDeleteIconImpl[T])
+	cellDeleteIconImpl.Instance = Instance
+	cellDeleteIconImpl.playground = playground
+	return
+}
+
+type CellDeleteIconImpl[T models.Gongstruct] struct {
+	Instance   *T
+	playground *Playground
+}
+
+func (cellDeleteIconImpl *CellDeleteIconImpl[T]) CellIconUpdated(stage *gongtable.StageStruct,
+	row, updatedCellIcon *gongtable.CellIcon) {
+	log.Println("CellIconUpdate: CellIconUpdated", updatedCellIcon.Name)
+
+	switch instancesTyped := any(cellDeleteIconImpl.Instance).(type) {
+	// insertion point
+	case *models.Astruct:
+		instancesTyped.Unstage(cellDeleteIconImpl.playground.stageOfInterest)
+	default:
+		_ = instancesTyped
+	}
+	cellDeleteIconImpl.playground.stageOfInterest.Commit()
+
+	fillUpTable[T](cellDeleteIconImpl.playground)
+	fillUpTree(cellDeleteIconImpl.playground)
+	cellDeleteIconImpl.playground.tableStage.Commit()
 }

@@ -69,6 +69,7 @@ export class MaterialTableComponent implements OnInit {
     private gongtableCommitNbFromBackService: gongtable.CommitNbFromBackService,
     private rowService: gongtable.RowService,
     private tableService: gongtable.TableService,
+    private celliconService: gongtable.CellIconService,
 
 
     // not null if the component is called as a selection component of cellboolean instances
@@ -450,5 +451,14 @@ export class MaterialTableComponent implements OnInit {
 
 
     return styles
+  }
+
+  onClickCellIcon(cellIcon: gongtable.CellIconDB) {
+    console.log("Cell Icon clicked")
+    this.celliconService.updateCellIcon(cellIcon, this.DataStack).subscribe(
+      () => {
+
+      }
+    )
   }
 }
