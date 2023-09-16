@@ -1,4 +1,6 @@
-// generated code - do not edit
+package probe
+
+const CellDeleteIconImplTemplate = `// generated code - do not edit
 package probe
 
 import (
@@ -6,7 +8,7 @@ import (
 
 	gongtable "github.com/fullstack-lang/gongtable/go/models"
 
-	"github.com/fullstack-lang/gong/test/go/models"
+	"{{PkgPathRoot}}/models"
 )
 
 func NewCellDeleteIconImpl[T models.Gongstruct](
@@ -29,17 +31,7 @@ func (cellDeleteIconImpl *CellDeleteIconImpl[T]) CellIconUpdated(stage *gongtabl
 	log.Println("CellIconUpdate: CellIconUpdated", updatedCellIcon.Name)
 
 	switch instancesTyped := any(cellDeleteIconImpl.Instance).(type) {
-	// insertion point
-	case *models.Astruct:
-		instancesTyped.Unstage(cellDeleteIconImpl.playground.stageOfInterest)
-	case *models.AstructBstruct2Use:
-		instancesTyped.Unstage(cellDeleteIconImpl.playground.stageOfInterest)
-	case *models.AstructBstructUse:
-		instancesTyped.Unstage(cellDeleteIconImpl.playground.stageOfInterest)
-	case *models.Bstruct:
-		instancesTyped.Unstage(cellDeleteIconImpl.playground.stageOfInterest)
-	case *models.Dstruct:
-		instancesTyped.Unstage(cellDeleteIconImpl.playground.stageOfInterest)
+	// insertion point{{` + string(rune(CellDeleteIconImplSwitchCase)) + `}}
 	default:
 		_ = instancesTyped
 	}
@@ -50,3 +42,18 @@ func (cellDeleteIconImpl *CellDeleteIconImpl[T]) CellIconUpdated(stage *gongtabl
 	cellDeleteIconImpl.playground.tableStage.Commit()
 }
 
+`
+
+type CellDeleteIconImplInsertionId int
+
+const (
+	CellDeleteIconImplSwitchCase CellDeleteIconImplInsertionId = iota
+	CellDeleteIconImplInsertionNb
+)
+
+var CellDeleteIconImplSubTemplateCode map[string]string = // new line
+map[string]string{
+	string(rune(ButtonImplPerGongstructCallToForm)): `
+	case *models.{{Structname}}:
+		instancesTyped.Unstage(cellDeleteIconImpl.playground.stageOfInterest)`,
+}
