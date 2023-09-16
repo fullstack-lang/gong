@@ -8,6 +8,8 @@ import (
 	gongtree_models "github.com/fullstack-lang/gongtree/go/models"
 
 	gong_models "github.com/fullstack-lang/gong/go/models"
+	"github.com/fullstack-lang/gong/test/go/models"
+	// "github.com/fullstack-lang/gong/test/go/models"
 )
 
 func fillUpTree(
@@ -38,6 +40,20 @@ func fillUpTree(
 
 		nodeGongstruct := (&gongtree_models.Node{Name: name}).Stage(playground.treeStage)
 
+		nodeGongstruct.IsExpanded = false
+		switch gongStruct.Name {
+		case "Astruct":
+			nodeGongstruct.Name = name
+			set := *models.GetGongstructInstancesSet[models.Astruct](playground.stageOfInterest)
+			for astruct := range set {
+				nodeInstance := (&gongtree_models.Node{Name: astruct.GetName()}).Stage(playground.treeStage)
+				nodeInstance.IsNodeClickable = true
+				nodeInstance.Impl = NewInstanceNodeCallback(astruct, "Astruct", playground)
+
+				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
+			}
+		}
+
 		nodeGongstruct.IsNodeClickable = true
 		nodeGongstruct.Impl = NewTreeNodeImplGongstruct(gongStruct, playground)
 
@@ -55,4 +71,35 @@ func fillUpTree(
 		sidebar.RootNodes = append(sidebar.RootNodes, nodeGongstruct)
 	}
 	playground.treeStage.Commit()
+}
+
+type InstanceNodeCallback[T models.Gongstruct] struct {
+	Instance       *T
+	gongstructName string
+	playground     *Playground
+}
+
+func NewInstanceNodeCallback[T models.Gongstruct](
+	instance *T,
+	gongstructName string,
+	playground *Playground) (
+	instanceNodeCallback *InstanceNodeCallback[T],
+) {
+	instanceNodeCallback = new(InstanceNodeCallback[T])
+
+	instanceNodeCallback.playground = playground
+	instanceNodeCallback.gongstructName = gongstructName
+	instanceNodeCallback.Instance = instance
+
+	return
+}
+
+func (instanceNodeCallback *InstanceNodeCallback[T]) OnAfterUpdate(
+	gongtreeStage *gongtree_models.StageStruct,
+	stagedNode, frontNode *gongtree_models.Node) {
+
+	FillUpFormFromGongstruct(
+		instanceNodeCallback.Instance,
+		instanceNodeCallback.playground,
+	)
 }
