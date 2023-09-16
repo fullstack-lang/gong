@@ -221,7 +221,6 @@ func (rowUpdate *RowUpdate[T]) RowUpdated(stage *gongtable.StageStruct, row, upd
 		FillUpForm(instancesTyped, formGroup, rowUpdate.playground)
 	}
 	formStage.Commit()
-
 }
 
 func NewCellDeleteIconImpl[T models.Gongstruct](
@@ -247,6 +246,14 @@ func (cellDeleteIconImpl *CellDeleteIconImpl[T]) CellIconUpdated(stage *gongtabl
 	// insertion point
 	case *models.Astruct:
 		instancesTyped.Unstage(cellDeleteIconImpl.playground.stageOfInterest)
+	case *models.AstructBstruct2Use:
+		instancesTyped.Unstage(cellDeleteIconImpl.playground.stageOfInterest)
+	case *models.AstructBstructUse:
+		instancesTyped.Unstage(cellDeleteIconImpl.playground.stageOfInterest)
+	case *models.Bstruct:
+		instancesTyped.Unstage(cellDeleteIconImpl.playground.stageOfInterest)
+	case *models.Dstruct:
+		instancesTyped.Unstage(cellDeleteIconImpl.playground.stageOfInterest)
 	default:
 		_ = instancesTyped
 	}
@@ -256,3 +263,4 @@ func (cellDeleteIconImpl *CellDeleteIconImpl[T]) CellIconUpdated(stage *gongtabl
 	fillUpTree(cellDeleteIconImpl.playground)
 	cellDeleteIconImpl.playground.tableStage.Commit()
 }
+
