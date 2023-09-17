@@ -1174,6 +1174,43 @@ func GetFields[Type Gongstruct]() (res []string) {
 	return
 }
 
+type ReverseField struct {
+	GongstructName string
+	Fieldname      string
+}
+
+func GetReverseFields[Type Gongstruct]() (res []ReverseField) {
+
+	res = make([]ReverseField, 0)
+
+	var ret Type
+
+	switch any(ret).(type) {
+	// insertion point for generic get gongstruct name
+
+	case Bstruct:
+		var rf ReverseField
+		rf.GongstructName = "Astruct"
+		rf.Fieldname = "Anarrayofb"
+		res = append(res, rf)
+		rf.GongstructName = "Astruct"
+		rf.Fieldname = "Anotherarrayofb"
+		res = append(res, rf)
+	}
+
+	return
+}
+
+func GetGongstructFromName[T Gongstruct](gongstructName string) (result T) {
+	switch gongstructName {
+	case "Astruct":
+		var res T
+		return res
+	}
+
+	return
+}
+
 // GetFieldsFromPointer return the array of the fields
 func GetFieldsFromPointer[Type PointerToGongstruct]() (res []string) {
 
@@ -1355,7 +1392,7 @@ func GetFieldStringValueFromPointer[Type PointerToGongstruct](instance Type, fie
 			res = inferedInstance.Name
 		}
 	default:
-		_ = inferedInstance	
+		_ = inferedInstance
 	}
 	return
 }
@@ -1520,7 +1557,7 @@ func GetFieldStringValue[Type Gongstruct](instance Type, fieldName string) (res 
 			res = inferedInstance.Name
 		}
 	default:
-		_ = inferedInstance	
+		_ = inferedInstance
 	}
 	return
 }
