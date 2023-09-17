@@ -6,8 +6,8 @@ import (
 
 	"github.com/gin-gonic/gin"
 
-	gongtree_fullstack "github.com/fullstack-lang/gongtree/go/fullstack"
 	gongtable_fullstack "github.com/fullstack-lang/gongtable/go/fullstack"
+	gongtree_fullstack "github.com/fullstack-lang/gongtree/go/fullstack"
 
 	gong_fullstack "github.com/fullstack-lang/gong/go/fullstack"
 	gong_models "github.com/fullstack-lang/gong/go/models"
@@ -31,7 +31,7 @@ func NewProbe(
 	treeStage, _ := gongtree_fullstack.NewStackInstance(r, stackPath+"-sidebar")
 
 	// stage for main table
-	tableStage, _ := gongtable_fullstack.NewStackInstance(r, stackPath)
+	tableStage, _ := gongtable_fullstack.NewStackInstance(r, stackPath+"-table")
 	tableStage.Commit()
 
 	// stage for reusable form
