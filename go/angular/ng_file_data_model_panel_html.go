@@ -34,7 +34,7 @@ const NgFileDataModelPanelTemplateHtml = `<!-- button bar that is present in all
             </as-split-area>
             <as-split-area [size]="50">
                 <div [ngStyle]="scrollStyle">
-                    <lib-material-table TableName="Table" [DataStack]="GONG__DATA__StackPath"></lib-material-table>
+                    <lib-material-table TableName="Table" [DataStack]="GONG__DATA__StackPath+'-table'"></lib-material-table>
                 </div>
             </as-split-area>
             <as-split-area [size]="30">
