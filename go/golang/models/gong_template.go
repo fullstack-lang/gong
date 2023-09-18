@@ -375,6 +375,24 @@ func GetFields[Type Gongstruct]() (res []string) {
 	return
 }
 
+type ReverseField struct {
+	GongstructName string
+	Fieldname      string
+}
+
+func GetReverseFields[Type Gongstruct]() (res []ReverseField) {
+
+	res = make([]ReverseField, 0)
+
+	var ret Type
+
+	switch any(ret).(type) {
+
+	// insertion point for generic get gongstruct name{{` + string(rune(ModelGongStructInsertionGenericGetReverseFields)) + `}}
+	}
+	return
+}
+
 // GetFieldsFromPointer return the array of the fields
 func GetFieldsFromPointer[Type PointerToGongstruct]() (res []string) {
 
