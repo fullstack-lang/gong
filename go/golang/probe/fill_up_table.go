@@ -43,6 +43,8 @@ func fillUpTable[T models.Gongstruct](
 	table.HasSaveButton = false
 
 	fields := models.GetFields[T]()
+	reverseFields := models.GetReverseFields[T]()
+
 	table.NbOfStickyColumns = 3
 
 	// refresh the stage of interest
@@ -79,6 +81,11 @@ func fillUpTable[T models.Gongstruct](
 	for _, fieldName := range fields {
 		column := new(gongtable.DisplayedColumn).Stage(playground.tableStage)
 		column.Name = fieldName
+		table.DisplayedColumns = append(table.DisplayedColumns, column)
+	}
+	for _, reverseField := range reverseFields {
+		column := new(gongtable.DisplayedColumn).Stage(playground.tableStage)
+		column.Name = "(" + reverseField.GongstructName + ") -> " + reverseField.Fieldname
 		table.DisplayedColumns = append(table.DisplayedColumns, column)
 	}
 
@@ -120,6 +127,27 @@ func fillUpTable[T models.Gongstruct](
 
 		for _, fieldName := range fields {
 			value := models.GetFieldStringValue[T](*structInstance, fieldName)
+			name := fmt.Sprintf("%d", fieldIndex) + " " + value
+			fieldIndex++
+			// log.Println(fieldName, value)
+			cell := (&gongtable.Cell{
+				Name: name,
+			}).Stage(playground.tableStage)
+			row.Cells = append(row.Cells, cell)
+
+			cellString := (&gongtable.CellString{
+				Name:  name,
+				Value: value,
+			}).Stage(playground.tableStage)
+			cell.CellString = cellString
+		}
+		for _, reverseField := range reverseFields {
+
+			value := orm.GetReverseFieldOwnerName[T](
+				playground.stageOfInterest,
+				playground.backRepoOfInterest,
+				structInstance,
+				reverseField.Fieldname)
 			name := fmt.Sprintf("%d", fieldIndex) + " " + value
 			fieldIndex++
 			// log.Println(fieldName, value)
