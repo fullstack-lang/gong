@@ -219,6 +219,12 @@ func (dummy *Dummy) Unstage(stage *StageStruct) *Dummy {
 	return dummy
 }
 
+// UnstageVoid removes dummy off the model stage
+func (dummy *Dummy) UnstageVoid(stage *StageStruct) {
+	delete(stage.Dummys, dummy)
+	delete(stage.Dummys_mapString, dummy.Name)
+}
+
 // commit dummy to the back repo (if it is already staged)
 func (dummy *Dummy) Commit(stage *StageStruct) *Dummy {
 	if _, ok := stage.Dummys[dummy]; ok {
@@ -298,6 +304,7 @@ type PointerToGongstruct interface {
 	*Dummy
 	GetName() string
 	CommitVoid(*StageStruct)
+	UnstageVoid(stage *StageStruct)
 }
 
 type GongstructSet interface {
@@ -468,6 +475,27 @@ func GetFields[Type Gongstruct]() (res []string) {
 	// insertion point for generic get gongstruct name
 	case Dummy:
 		res = []string{"Name"}
+	}
+	return
+}
+
+type ReverseField struct {
+	GongstructName string
+	Fieldname      string
+}
+
+func GetReverseFields[Type Gongstruct]() (res []ReverseField) {
+
+	res = make([]ReverseField, 0)
+
+	var ret Type
+
+	switch any(ret).(type) {
+
+	// insertion point for generic get gongstruct name
+	case Dummy:
+		var rf ReverseField
+		_ = rf
 	}
 	return
 }

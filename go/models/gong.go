@@ -384,6 +384,12 @@ func (gongbasicfield *GongBasicField) Unstage(stage *StageStruct) *GongBasicFiel
 	return gongbasicfield
 }
 
+// UnstageVoid removes gongbasicfield off the model stage
+func (gongbasicfield *GongBasicField) UnstageVoid(stage *StageStruct) {
+	delete(stage.GongBasicFields, gongbasicfield)
+	delete(stage.GongBasicFields_mapString, gongbasicfield.Name)
+}
+
 // commit gongbasicfield to the back repo (if it is already staged)
 func (gongbasicfield *GongBasicField) Commit(stage *StageStruct) *GongBasicField {
 	if _, ok := stage.GongBasicFields[gongbasicfield]; ok {
@@ -426,6 +432,12 @@ func (gongenum *GongEnum) Unstage(stage *StageStruct) *GongEnum {
 	delete(stage.GongEnums, gongenum)
 	delete(stage.GongEnums_mapString, gongenum.Name)
 	return gongenum
+}
+
+// UnstageVoid removes gongenum off the model stage
+func (gongenum *GongEnum) UnstageVoid(stage *StageStruct) {
+	delete(stage.GongEnums, gongenum)
+	delete(stage.GongEnums_mapString, gongenum.Name)
 }
 
 // commit gongenum to the back repo (if it is already staged)
@@ -472,6 +484,12 @@ func (gongenumvalue *GongEnumValue) Unstage(stage *StageStruct) *GongEnumValue {
 	return gongenumvalue
 }
 
+// UnstageVoid removes gongenumvalue off the model stage
+func (gongenumvalue *GongEnumValue) UnstageVoid(stage *StageStruct) {
+	delete(stage.GongEnumValues, gongenumvalue)
+	delete(stage.GongEnumValues_mapString, gongenumvalue.Name)
+}
+
 // commit gongenumvalue to the back repo (if it is already staged)
 func (gongenumvalue *GongEnumValue) Commit(stage *StageStruct) *GongEnumValue {
 	if _, ok := stage.GongEnumValues[gongenumvalue]; ok {
@@ -514,6 +532,12 @@ func (gonglink *GongLink) Unstage(stage *StageStruct) *GongLink {
 	delete(stage.GongLinks, gonglink)
 	delete(stage.GongLinks_mapString, gonglink.Name)
 	return gonglink
+}
+
+// UnstageVoid removes gonglink off the model stage
+func (gonglink *GongLink) UnstageVoid(stage *StageStruct) {
+	delete(stage.GongLinks, gonglink)
+	delete(stage.GongLinks_mapString, gonglink.Name)
 }
 
 // commit gonglink to the back repo (if it is already staged)
@@ -560,6 +584,12 @@ func (gongnote *GongNote) Unstage(stage *StageStruct) *GongNote {
 	return gongnote
 }
 
+// UnstageVoid removes gongnote off the model stage
+func (gongnote *GongNote) UnstageVoid(stage *StageStruct) {
+	delete(stage.GongNotes, gongnote)
+	delete(stage.GongNotes_mapString, gongnote.Name)
+}
+
 // commit gongnote to the back repo (if it is already staged)
 func (gongnote *GongNote) Commit(stage *StageStruct) *GongNote {
 	if _, ok := stage.GongNotes[gongnote]; ok {
@@ -602,6 +632,12 @@ func (gongstruct *GongStruct) Unstage(stage *StageStruct) *GongStruct {
 	delete(stage.GongStructs, gongstruct)
 	delete(stage.GongStructs_mapString, gongstruct.Name)
 	return gongstruct
+}
+
+// UnstageVoid removes gongstruct off the model stage
+func (gongstruct *GongStruct) UnstageVoid(stage *StageStruct) {
+	delete(stage.GongStructs, gongstruct)
+	delete(stage.GongStructs_mapString, gongstruct.Name)
 }
 
 // commit gongstruct to the back repo (if it is already staged)
@@ -648,6 +684,12 @@ func (gongtimefield *GongTimeField) Unstage(stage *StageStruct) *GongTimeField {
 	return gongtimefield
 }
 
+// UnstageVoid removes gongtimefield off the model stage
+func (gongtimefield *GongTimeField) UnstageVoid(stage *StageStruct) {
+	delete(stage.GongTimeFields, gongtimefield)
+	delete(stage.GongTimeFields_mapString, gongtimefield.Name)
+}
+
 // commit gongtimefield to the back repo (if it is already staged)
 func (gongtimefield *GongTimeField) Commit(stage *StageStruct) *GongTimeField {
 	if _, ok := stage.GongTimeFields[gongtimefield]; ok {
@@ -690,6 +732,12 @@ func (meta *Meta) Unstage(stage *StageStruct) *Meta {
 	delete(stage.Metas, meta)
 	delete(stage.Metas_mapString, meta.Name)
 	return meta
+}
+
+// UnstageVoid removes meta off the model stage
+func (meta *Meta) UnstageVoid(stage *StageStruct) {
+	delete(stage.Metas, meta)
+	delete(stage.Metas_mapString, meta.Name)
 }
 
 // commit meta to the back repo (if it is already staged)
@@ -736,6 +784,12 @@ func (metareference *MetaReference) Unstage(stage *StageStruct) *MetaReference {
 	return metareference
 }
 
+// UnstageVoid removes metareference off the model stage
+func (metareference *MetaReference) UnstageVoid(stage *StageStruct) {
+	delete(stage.MetaReferences, metareference)
+	delete(stage.MetaReferences_mapString, metareference.Name)
+}
+
 // commit metareference to the back repo (if it is already staged)
 func (metareference *MetaReference) Commit(stage *StageStruct) *MetaReference {
 	if _, ok := stage.MetaReferences[metareference]; ok {
@@ -778,6 +832,12 @@ func (modelpkg *ModelPkg) Unstage(stage *StageStruct) *ModelPkg {
 	delete(stage.ModelPkgs, modelpkg)
 	delete(stage.ModelPkgs_mapString, modelpkg.Name)
 	return modelpkg
+}
+
+// UnstageVoid removes modelpkg off the model stage
+func (modelpkg *ModelPkg) UnstageVoid(stage *StageStruct) {
+	delete(stage.ModelPkgs, modelpkg)
+	delete(stage.ModelPkgs_mapString, modelpkg.Name)
 }
 
 // commit modelpkg to the back repo (if it is already staged)
@@ -824,6 +884,12 @@ func (pointertogongstructfield *PointerToGongStructField) Unstage(stage *StageSt
 	return pointertogongstructfield
 }
 
+// UnstageVoid removes pointertogongstructfield off the model stage
+func (pointertogongstructfield *PointerToGongStructField) UnstageVoid(stage *StageStruct) {
+	delete(stage.PointerToGongStructFields, pointertogongstructfield)
+	delete(stage.PointerToGongStructFields_mapString, pointertogongstructfield.Name)
+}
+
 // commit pointertogongstructfield to the back repo (if it is already staged)
 func (pointertogongstructfield *PointerToGongStructField) Commit(stage *StageStruct) *PointerToGongStructField {
 	if _, ok := stage.PointerToGongStructFields[pointertogongstructfield]; ok {
@@ -866,6 +932,12 @@ func (sliceofpointertogongstructfield *SliceOfPointerToGongStructField) Unstage(
 	delete(stage.SliceOfPointerToGongStructFields, sliceofpointertogongstructfield)
 	delete(stage.SliceOfPointerToGongStructFields_mapString, sliceofpointertogongstructfield.Name)
 	return sliceofpointertogongstructfield
+}
+
+// UnstageVoid removes sliceofpointertogongstructfield off the model stage
+func (sliceofpointertogongstructfield *SliceOfPointerToGongStructField) UnstageVoid(stage *StageStruct) {
+	delete(stage.SliceOfPointerToGongStructFields, sliceofpointertogongstructfield)
+	delete(stage.SliceOfPointerToGongStructFields_mapString, sliceofpointertogongstructfield.Name)
 }
 
 // commit sliceofpointertogongstructfield to the back repo (if it is already staged)
@@ -1079,6 +1151,7 @@ type PointerToGongstruct interface {
 	*GongBasicField | *GongEnum | *GongEnumValue | *GongLink | *GongNote | *GongStruct | *GongTimeField | *Meta | *MetaReference | *ModelPkg | *PointerToGongStructField | *SliceOfPointerToGongStructField
 	GetName() string
 	CommitVoid(*StageStruct)
+	UnstageVoid(stage *StageStruct)
 }
 
 type GongstructSet interface {
@@ -1706,6 +1779,81 @@ func GetFields[Type Gongstruct]() (res []string) {
 		res = []string{"Name", "GongStruct", "Index", "CompositeStructName"}
 	case SliceOfPointerToGongStructField:
 		res = []string{"Name", "GongStruct", "Index", "CompositeStructName"}
+	}
+	return
+}
+
+type ReverseField struct {
+	GongstructName string
+	Fieldname      string
+}
+
+func GetReverseFields[Type Gongstruct]() (res []ReverseField) {
+
+	res = make([]ReverseField, 0)
+
+	var ret Type
+
+	switch any(ret).(type) {
+
+	// insertion point for generic get gongstruct name
+	case GongBasicField:
+		var rf ReverseField
+		_ = rf
+		rf.GongstructName = "GongStruct"
+		rf.Fieldname = "GongBasicFields"
+		res = append(res, rf)
+	case GongEnum:
+		var rf ReverseField
+		_ = rf
+	case GongEnumValue:
+		var rf ReverseField
+		_ = rf
+		rf.GongstructName = "GongEnum"
+		rf.Fieldname = "GongEnumValues"
+		res = append(res, rf)
+	case GongLink:
+		var rf ReverseField
+		_ = rf
+		rf.GongstructName = "GongNote"
+		rf.Fieldname = "Links"
+		res = append(res, rf)
+	case GongNote:
+		var rf ReverseField
+		_ = rf
+	case GongStruct:
+		var rf ReverseField
+		_ = rf
+	case GongTimeField:
+		var rf ReverseField
+		_ = rf
+		rf.GongstructName = "GongStruct"
+		rf.Fieldname = "GongTimeFields"
+		res = append(res, rf)
+	case Meta:
+		var rf ReverseField
+		_ = rf
+	case MetaReference:
+		var rf ReverseField
+		_ = rf
+		rf.GongstructName = "Meta"
+		rf.Fieldname = "MetaReferences"
+		res = append(res, rf)
+	case ModelPkg:
+		var rf ReverseField
+		_ = rf
+	case PointerToGongStructField:
+		var rf ReverseField
+		_ = rf
+		rf.GongstructName = "GongStruct"
+		rf.Fieldname = "PointerToGongStructFields"
+		res = append(res, rf)
+	case SliceOfPointerToGongStructField:
+		var rf ReverseField
+		_ = rf
+		rf.GongstructName = "GongStruct"
+		rf.Fieldname = "SliceOfPointerToGongStructFields"
+		res = append(res, rf)
 	}
 	return
 }

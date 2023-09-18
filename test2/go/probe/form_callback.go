@@ -20,11 +20,17 @@ func NewDummyFormCallback(
 	dummyFormCallback = new(DummyFormCallback)
 	dummyFormCallback.playground = playground
 	dummyFormCallback.dummy = dummy
+
+	dummyFormCallback.CreationMode = (dummy == nil)
+
 	return
 }
 
 type DummyFormCallback struct {
 	dummy *models.Dummy
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
 
 	playground *Playground
 }
@@ -59,4 +65,20 @@ func (dummyFormCallback *DummyFormCallback) OnSave() {
 		dummyFormCallback.playground,
 	)
 	dummyFormCallback.playground.tableStage.Commit()
+
+	// display a new form by reset the form stage
+	if dummyFormCallback.CreationMode {
+		dummyFormCallback.playground.formStage.Reset()
+		newFormGroup := (&table.FormGroup{
+			Name: table.FormGroupDefaultName.ToString(),
+			OnSave: NewDummyFormCallback(
+				nil,
+				dummyFormCallback.playground,
+			),
+		}).Stage(dummyFormCallback.playground.formStage)
+		dummy := new(models.Dummy)
+		FillUpForm(dummy, newFormGroup, dummyFormCallback.playground)
+		dummyFormCallback.playground.formStage.Commit()
+	}
+
 }
