@@ -505,6 +505,13 @@ func main() {
 		modelPkg.PkgPath,
 	)
 
+	orm.CodeGeneratorGetReverseFieldOwnerName(
+		modelPkg,
+		modelPkg.Name,
+		*pkgPath,
+		modelPkg.PkgPath,
+	)
+
 	probe.CodeGeneratorModelFormCallback(
 		modelPkg,
 		modelPkg.Name,
