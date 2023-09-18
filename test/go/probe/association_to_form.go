@@ -46,3 +46,46 @@ func AssociationFieldToForm[FieldType models.PointerToGongstruct](
 			append(formField.FormFieldSelect.Options, option)
 	}
 }
+
+func AssociationReverseFieldToForm[OwnerType models.PointerToGongstruct, FieldType models.PointerToGongstruct](
+	owner OwnerType,
+	fieldName string,
+	instance FieldType,
+	sliceField []FieldType,
+	formGroup *form.FormGroup,
+	playground *Playground,
+) {
+
+	formDiv := (&form.FormDiv{
+		Name: fieldName,
+	}).Stage(playground.formStage)
+	formGroup.FormDivs = append(formGroup.FormDivs, formDiv)
+	formField := (&form.FormField{
+		Name:        fieldName,
+		Label:       fieldName,
+		Placeholder: "",
+	}).Stage(playground.formStage)
+	formDiv.FormFields = append(formDiv.FormFields, formField)
+
+	formFieldSelect := (&form.FormFieldSelect{
+		Name:       "association",
+		CanBeEmpty: true,
+	}).Stage(playground.formStage)
+	formField.FormFieldSelect = formFieldSelect
+
+	// generate one option per possible instances for the field
+	formField.FormFieldSelect.Options = make([]*form.Option, 0)
+	for _instance := range *models.GetGongstructInstancesSetFromPointerType[FieldType](playground.stageOfInterest) {
+		option := (&form.Option{
+			Name: _instance.GetName(),
+		}).Stage(playground.formStage)
+
+		// set up select value if field matches the instance
+		if _instance == instance {
+			formFieldSelect.Value = option
+		}
+
+		formField.FormFieldSelect.Options =
+			append(formField.FormFieldSelect.Options, option)
+	}
+}

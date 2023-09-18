@@ -94,3 +94,32 @@ func GetReverseFieldOwnerName[T models.Gongstruct](
 	}
 	return
 }
+
+func GetReverseFieldOwner[T models.Gongstruct](
+	stage *models.StageStruct,
+	backRepo *BackRepoStruct,
+	instance *T,
+	reverseFieldName string) (res any) {
+
+	res = nil
+	switch inst := any(instance).(type) {
+	// insertion point
+	case *models.Bstruct:
+		tmp := GetInstanceDBFromInstance[models.Bstruct, BstructDB](
+			stage, backRepo, inst,
+		)
+		_ = tmp
+		switch reverseFieldName {
+		// insertion point
+		case "Anarrayofb":
+			if tmp.Astruct_AnarrayofbDBID.Int64 != 0 {
+				id := uint(tmp.Astruct_AnarrayofbDBID.Int64)
+				reservePointerTarget := backRepo.BackRepoAstruct.Map_AstructDBID_AstructPtr[id]
+				res = reservePointerTarget
+			}
+		}
+	default:
+		_ = inst
+	}
+	return res
+}
