@@ -5,6 +5,7 @@ import (
 	form "github.com/fullstack-lang/gongtable/go/models"
 
 	"github.com/fullstack-lang/gong/test/go/models"
+	"github.com/fullstack-lang/gong/test/go/orm"
 )
 
 func FillUpForm[T models.Gongstruct](
@@ -67,6 +68,15 @@ func FillUpForm[T models.Gongstruct](
 		BasicFieldtoForm("Floatfield", instanceWithInferedType.Floatfield, instanceWithInferedType, playground.formStage, formGroup)
 		BasicFieldtoForm("Floatfield2", instanceWithInferedType.Floatfield2, instanceWithInferedType, playground.formStage, formGroup)
 		BasicFieldtoForm("Intfield", instanceWithInferedType.Intfield, instanceWithInferedType, playground.formStage, formGroup)
+
+		reverseFieldOwner := orm.GetReverseFieldOwner(playground.stageOfInterest, playground.backRepoOfInterest, instanceWithInferedType, "Anarrayofb")
+		AssociationReverseFieldToForm(
+			reverseFieldOwner.(*models.Astruct),
+			"Anarrayofb",
+			instanceWithInferedType,
+			(reverseFieldOwner.(*models.Astruct)).Anarrayofb,
+			formGroup,
+			playground)
 
 	case *models.Dstruct:
 		// insertion point
