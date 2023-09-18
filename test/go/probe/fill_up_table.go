@@ -52,6 +52,7 @@ func fillUpTable[T models.Gongstruct](
 
 	fields := models.GetFields[T]()
 	reverseFields := models.GetReverseFields[T]()
+
 	table.NbOfStickyColumns = 3
 
 	// refresh the stage of interest
@@ -150,7 +151,7 @@ func fillUpTable[T models.Gongstruct](
 		}
 		for _, reverseField := range reverseFields {
 
-			value := orm.GetReverseFieldStringValue[T](
+			value := orm.GetReverseFieldOwnerName[T](
 				playground.stageOfInterest,
 				playground.backRepoOfInterest,
 				structInstance,
