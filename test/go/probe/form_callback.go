@@ -8,6 +8,7 @@ import (
 	table "github.com/fullstack-lang/gongtable/go/models"
 
 	"github.com/fullstack-lang/gong/test/go/models"
+	"github.com/fullstack-lang/gong/test/go/orm"
 )
 
 const __dummmy__time = time.Nanosecond
@@ -326,6 +327,27 @@ func (bstructFormCallback *BstructFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(bstruct_.Floatfield2), formDiv)
 		case "Intfield":
 			FormDivBasicFieldToField(&(bstruct_.Intfield), formDiv)
+		case "Astruct:Anarrayofb":
+			// we need to retrieve the field owner before the change
+			reverseFieldOwner := orm.GetReverseFieldOwner(
+				bstructFormCallback.playground.stageOfInterest,
+				bstructFormCallback.playground.backRepoOfInterest,
+				bstruct_,
+				"Anarrayofb")
+			astructBeforeChange := reverseFieldOwner.(*models.Astruct)
+
+			// we need to retrieve the field owner after the change
+			// parse all astrcut and get the one with the name in the
+			// div
+			for _astruct := range *models.GetGongstructInstancesSet[models.Astruct](bstructFormCallback.playground.stageOfInterest) {
+				if _astruct.GetName() == formDiv.FormFields[0].FormFieldSelect.Value.GetName() {
+					if _astruct != astructBeforeChange {
+						RemoveElement(astructBeforeChange.Anarrayofb, bstruct_)
+						_astruct.Anarrayofb = append(_astruct.Anarrayofb, bstruct_)
+					}
+				}
+			}
+
 		}
 	}
 
@@ -419,4 +441,15 @@ func (dstructFormCallback *DstructFormCallback) OnSave() {
 		dstructFormCallback.playground.formStage.Commit()
 	}
 
+}
+
+// RemoveElement removes an instance of 'element' from 'slice'.
+// It returns a new slice with the element removed.
+func RemoveElement[T comparable](slice []T, element T) []T {
+	for i, v := range slice {
+		if v == element {
+			return append(slice[:i], slice[i+1:]...)
+		}
+	}
+	return slice
 }
