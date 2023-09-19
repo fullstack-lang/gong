@@ -578,6 +578,39 @@ func (backRepoUmlState *BackRepoUmlStateStruct) RestorePhaseTwo() {
 
 }
 
+// BackRepoUmlState.ResetReversePointers commits all staged instances of UmlState to the BackRepo
+// Phase Two is the update of instance with the field in the database
+func (backRepoUmlState *BackRepoUmlStateStruct) ResetReversePointers(backRepo *BackRepoStruct) (Error error) {
+
+	for idx, umlstate := range backRepoUmlState.Map_UmlStateDBID_UmlStatePtr {
+		backRepoUmlState.ResetReversePointersInstance(backRepo, idx, umlstate)
+	}
+
+	return
+}
+
+func (backRepoUmlState *BackRepoUmlStateStruct) ResetReversePointersInstance(backRepo *BackRepoStruct, idx uint, astruct *models.UmlState) (Error error) {
+
+	// fetch matching umlstateDB
+	if umlstateDB, ok := backRepoUmlState.Map_UmlStateDBID_UmlStateDB[idx]; ok {
+		_ = umlstateDB // to avoid unused variable error if there are no reverse to reset
+
+		// insertion point for reverse pointers reset
+		if umlstateDB.Umlsc_StatesDBID.Int64 != 0 {
+			umlstateDB.Umlsc_StatesDBID.Int64 = 0
+			umlstateDB.Umlsc_StatesDBID.Valid = true
+
+			// save the reset
+			if q := backRepoUmlState.db.Save(umlstateDB); q.Error != nil {
+				return q.Error
+			}
+		}
+		// end of insertion point for reverse pointers reset
+	}
+
+	return
+}
+
 // this field is used during the restauration process.
 // it stores the ID at the backup time and is used for renumbering
 var BackRepoUmlStateid_atBckpTime_newID map[uint]uint

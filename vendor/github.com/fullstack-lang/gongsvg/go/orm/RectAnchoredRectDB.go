@@ -790,6 +790,39 @@ func (backRepoRectAnchoredRect *BackRepoRectAnchoredRectStruct) RestorePhaseTwo(
 
 }
 
+// BackRepoRectAnchoredRect.ResetReversePointers commits all staged instances of RectAnchoredRect to the BackRepo
+// Phase Two is the update of instance with the field in the database
+func (backRepoRectAnchoredRect *BackRepoRectAnchoredRectStruct) ResetReversePointers(backRepo *BackRepoStruct) (Error error) {
+
+	for idx, rectanchoredrect := range backRepoRectAnchoredRect.Map_RectAnchoredRectDBID_RectAnchoredRectPtr {
+		backRepoRectAnchoredRect.ResetReversePointersInstance(backRepo, idx, rectanchoredrect)
+	}
+
+	return
+}
+
+func (backRepoRectAnchoredRect *BackRepoRectAnchoredRectStruct) ResetReversePointersInstance(backRepo *BackRepoStruct, idx uint, astruct *models.RectAnchoredRect) (Error error) {
+
+	// fetch matching rectanchoredrectDB
+	if rectanchoredrectDB, ok := backRepoRectAnchoredRect.Map_RectAnchoredRectDBID_RectAnchoredRectDB[idx]; ok {
+		_ = rectanchoredrectDB // to avoid unused variable error if there are no reverse to reset
+
+		// insertion point for reverse pointers reset
+		if rectanchoredrectDB.Rect_RectAnchoredRectsDBID.Int64 != 0 {
+			rectanchoredrectDB.Rect_RectAnchoredRectsDBID.Int64 = 0
+			rectanchoredrectDB.Rect_RectAnchoredRectsDBID.Valid = true
+
+			// save the reset
+			if q := backRepoRectAnchoredRect.db.Save(rectanchoredrectDB); q.Error != nil {
+				return q.Error
+			}
+		}
+		// end of insertion point for reverse pointers reset
+	}
+
+	return
+}
+
 // this field is used during the restauration process.
 // it stores the ID at the backup time and is used for renumbering
 var BackRepoRectAnchoredRectid_atBckpTime_newID map[uint]uint

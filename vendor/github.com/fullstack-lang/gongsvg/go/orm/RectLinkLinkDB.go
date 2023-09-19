@@ -716,6 +716,39 @@ func (backRepoRectLinkLink *BackRepoRectLinkLinkStruct) RestorePhaseTwo() {
 
 }
 
+// BackRepoRectLinkLink.ResetReversePointers commits all staged instances of RectLinkLink to the BackRepo
+// Phase Two is the update of instance with the field in the database
+func (backRepoRectLinkLink *BackRepoRectLinkLinkStruct) ResetReversePointers(backRepo *BackRepoStruct) (Error error) {
+
+	for idx, rectlinklink := range backRepoRectLinkLink.Map_RectLinkLinkDBID_RectLinkLinkPtr {
+		backRepoRectLinkLink.ResetReversePointersInstance(backRepo, idx, rectlinklink)
+	}
+
+	return
+}
+
+func (backRepoRectLinkLink *BackRepoRectLinkLinkStruct) ResetReversePointersInstance(backRepo *BackRepoStruct, idx uint, astruct *models.RectLinkLink) (Error error) {
+
+	// fetch matching rectlinklinkDB
+	if rectlinklinkDB, ok := backRepoRectLinkLink.Map_RectLinkLinkDBID_RectLinkLinkDB[idx]; ok {
+		_ = rectlinklinkDB // to avoid unused variable error if there are no reverse to reset
+
+		// insertion point for reverse pointers reset
+		if rectlinklinkDB.Layer_RectLinkLinksDBID.Int64 != 0 {
+			rectlinklinkDB.Layer_RectLinkLinksDBID.Int64 = 0
+			rectlinklinkDB.Layer_RectLinkLinksDBID.Valid = true
+
+			// save the reset
+			if q := backRepoRectLinkLink.db.Save(rectlinklinkDB); q.Error != nil {
+				return q.Error
+			}
+		}
+		// end of insertion point for reverse pointers reset
+	}
+
+	return
+}
+
 // this field is used during the restauration process.
 // it stores the ID at the backup time and is used for renumbering
 var BackRepoRectLinkLinkid_atBckpTime_newID map[uint]uint
