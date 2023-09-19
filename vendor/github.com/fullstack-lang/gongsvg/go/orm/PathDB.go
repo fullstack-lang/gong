@@ -708,6 +708,39 @@ func (backRepoPath *BackRepoPathStruct) RestorePhaseTwo() {
 
 }
 
+// BackRepoPath.ResetReversePointers commits all staged instances of Path to the BackRepo
+// Phase Two is the update of instance with the field in the database
+func (backRepoPath *BackRepoPathStruct) ResetReversePointers(backRepo *BackRepoStruct) (Error error) {
+
+	for idx, path := range backRepoPath.Map_PathDBID_PathPtr {
+		backRepoPath.ResetReversePointersInstance(backRepo, idx, path)
+	}
+
+	return
+}
+
+func (backRepoPath *BackRepoPathStruct) ResetReversePointersInstance(backRepo *BackRepoStruct, idx uint, astruct *models.Path) (Error error) {
+
+	// fetch matching pathDB
+	if pathDB, ok := backRepoPath.Map_PathDBID_PathDB[idx]; ok {
+		_ = pathDB // to avoid unused variable error if there are no reverse to reset
+
+		// insertion point for reverse pointers reset
+		if pathDB.Layer_PathsDBID.Int64 != 0 {
+			pathDB.Layer_PathsDBID.Int64 = 0
+			pathDB.Layer_PathsDBID.Valid = true
+
+			// save the reset
+			if q := backRepoPath.db.Save(pathDB); q.Error != nil {
+				return q.Error
+			}
+		}
+		// end of insertion point for reverse pointers reset
+	}
+
+	return
+}
+
 // this field is used during the restauration process.
 // it stores the ID at the backup time and is used for renumbering
 var BackRepoPathid_atBckpTime_newID map[uint]uint

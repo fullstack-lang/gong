@@ -318,6 +318,25 @@ func (backRepo *BackRepoStruct) Commit(stage *models.StageStruct) {
 	backRepo.BackRepoSVG.CommitPhaseOne(stage)
 	backRepo.BackRepoText.CommitPhaseOne(stage)
 
+	// insertion point for per struct back repo for reseting the reverse pointers
+	backRepo.BackRepoAnimate.ResetReversePointers(backRepo)
+	backRepo.BackRepoCircle.ResetReversePointers(backRepo)
+	backRepo.BackRepoEllipse.ResetReversePointers(backRepo)
+	backRepo.BackRepoLayer.ResetReversePointers(backRepo)
+	backRepo.BackRepoLine.ResetReversePointers(backRepo)
+	backRepo.BackRepoLink.ResetReversePointers(backRepo)
+	backRepo.BackRepoLinkAnchoredText.ResetReversePointers(backRepo)
+	backRepo.BackRepoPath.ResetReversePointers(backRepo)
+	backRepo.BackRepoPoint.ResetReversePointers(backRepo)
+	backRepo.BackRepoPolygone.ResetReversePointers(backRepo)
+	backRepo.BackRepoPolyline.ResetReversePointers(backRepo)
+	backRepo.BackRepoRect.ResetReversePointers(backRepo)
+	backRepo.BackRepoRectAnchoredRect.ResetReversePointers(backRepo)
+	backRepo.BackRepoRectAnchoredText.ResetReversePointers(backRepo)
+	backRepo.BackRepoRectLinkLink.ResetReversePointers(backRepo)
+	backRepo.BackRepoSVG.ResetReversePointers(backRepo)
+	backRepo.BackRepoText.ResetReversePointers(backRepo)
+
 	// insertion point for per struct back repo phase two commit
 	backRepo.BackRepoAnimate.CommitPhaseTwo(backRepo)
 	backRepo.BackRepoCircle.CommitPhaseTwo(backRepo)

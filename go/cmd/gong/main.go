@@ -8,10 +8,10 @@ import (
 	"strconv"
 
 	gong_go "github.com/fullstack-lang/gong/go"
-	gong_data "github.com/fullstack-lang/gong/go/data"
 	gong_fullstack "github.com/fullstack-lang/gong/go/fullstack"
 	gong_models "github.com/fullstack-lang/gong/go/models"
 	gong_orm "github.com/fullstack-lang/gong/go/orm"
+	gong_probe "github.com/fullstack-lang/gong/go/probe"
 	gong_static "github.com/fullstack-lang/gong/go/static"
 
 	gongdoc_load "github.com/fullstack-lang/gongdoc/go/load"
@@ -72,8 +72,6 @@ func main() {
 		stage, backRepo = gong_fullstack.NewStackInstance(r, "gong", "./gong.db")
 	}
 
-	gong_data.Load(r, gong_go.GoModelsDir, "gong", stage, backRepo)
-
 	if *unmarshallFromCode != "" {
 		stage.Checkout()
 		stage.Reset()
@@ -97,6 +95,8 @@ func main() {
 		hook := new(BeforeCommitImplementation)
 		stage.OnInitCommitCallback = hook
 	}
+
+	gong_probe.NewProbe(r, gong_go.GoModelsDir, "gong", stage, backRepo)
 
 	gongdoc_load.Load(
 		"gong",

@@ -2196,6 +2196,74 @@ func (sidetype SideType) CodeValues() (res []string) {
 	return
 }
 
+// Utility function for StackName
+// if enum values are string, it is stored with the value
+// if enum values are int, they are stored with the code of the value
+func (stackname StackName) ToString() (res string) {
+
+	// migration of former implementation of enum
+	switch stackname {
+	// insertion code per enum code
+	case StackNameDefault:
+		res = "gongsvg"
+	}
+	return
+}
+
+func (stackname *StackName) FromString(input string) (err error) {
+
+	switch input {
+	// insertion code per enum code
+	case "gongsvg":
+		*stackname = StackNameDefault
+	default:
+		return errUnkownEnum
+	}
+	return
+}
+
+func (stackname *StackName) FromCodeString(input string) (err error) {
+
+	switch input {
+	// insertion code per enum code
+	case "StackNameDefault":
+		*stackname = StackNameDefault
+	default:
+		return errUnkownEnum
+	}
+	return
+}
+
+func (stackname *StackName) ToCodeString() (res string) {
+
+	switch *stackname {
+	// insertion code per enum code
+	case StackNameDefault:
+		res = "StackNameDefault"
+	}
+	return
+}
+
+func (stackname StackName) Codes() (res []string) {
+
+	res = make([]string, 0)
+
+	// insertion code per enum code
+	res = append(res, "StackNameDefault")
+
+	return
+}
+
+func (stackname StackName) CodeValues() (res []string) {
+
+	res = make([]string, 0)
+
+	// insertion code per enum code
+	res = append(res, "gongsvg")
+
+	return
+}
+
 // Utility function for TextAnchorType
 // if enum values are string, it is stored with the value
 // if enum values are int, they are stored with the code of the value
@@ -2287,13 +2355,13 @@ func (textanchortype TextAnchorType) CodeValues() (res []string) {
 // end of insertion point for enum utility functions
 
 type GongstructEnumStringField interface {
-	string | AnchorType | ColorType | DrawingState | LinkType | OrientationType | PositionOnArrowType | RectAnchorType | SideType | TextAnchorType
+	string | AnchorType | ColorType | DrawingState | LinkType | OrientationType | PositionOnArrowType | RectAnchorType | SideType | StackName | TextAnchorType
 	Codes() []string
 	CodeValues() []string
 }
 
 type PointerToGongstructEnumStringField interface {
-	*AnchorType | *ColorType | *DrawingState | *LinkType | *OrientationType | *PositionOnArrowType | *RectAnchorType | *SideType | *TextAnchorType
+	*AnchorType | *ColorType | *DrawingState | *LinkType | *OrientationType | *PositionOnArrowType | *RectAnchorType | *SideType | *StackName | *TextAnchorType
 	FromCodeString(input string) (err error)
 }
 

@@ -270,6 +270,21 @@ func (backRepo *BackRepoStruct) Commit(stage *models.StageStruct) {
 	backRepo.BackRepoUmlsc.CommitPhaseOne(stage)
 	backRepo.BackRepoVertice.CommitPhaseOne(stage)
 
+	// insertion point for per struct back repo for reseting the reverse pointers
+	backRepo.BackRepoClassdiagram.ResetReversePointers(backRepo)
+	backRepo.BackRepoDiagramPackage.ResetReversePointers(backRepo)
+	backRepo.BackRepoField.ResetReversePointers(backRepo)
+	backRepo.BackRepoGongEnumShape.ResetReversePointers(backRepo)
+	backRepo.BackRepoGongEnumValueEntry.ResetReversePointers(backRepo)
+	backRepo.BackRepoGongStructShape.ResetReversePointers(backRepo)
+	backRepo.BackRepoLink.ResetReversePointers(backRepo)
+	backRepo.BackRepoNoteShape.ResetReversePointers(backRepo)
+	backRepo.BackRepoNoteShapeLink.ResetReversePointers(backRepo)
+	backRepo.BackRepoPosition.ResetReversePointers(backRepo)
+	backRepo.BackRepoUmlState.ResetReversePointers(backRepo)
+	backRepo.BackRepoUmlsc.ResetReversePointers(backRepo)
+	backRepo.BackRepoVertice.ResetReversePointers(backRepo)
+
 	// insertion point for per struct back repo phase two commit
 	backRepo.BackRepoClassdiagram.CommitPhaseTwo(backRepo)
 	backRepo.BackRepoDiagramPackage.CommitPhaseTwo(backRepo)
