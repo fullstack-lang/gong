@@ -104,6 +104,8 @@ func CodeGeneratorGetReverseFieldOwnerName(
 			continue
 		}
 
+		fieldNames := make(map[string]any, 0)
+
 		for subStructTemplate := range GetReverseFieldOwnerNameSubTemplateCode {
 
 			fieldToFormCode := ""
@@ -112,16 +114,21 @@ func CodeGeneratorGetReverseFieldOwnerName(
 			// Parse all fields from other structs that points to this struct
 			//
 			for _, __struct := range gongStructs {
+
 				for _, field := range __struct.Fields {
 					switch field := field.(type) {
 					case *models.SliceOfPointerToGongStructField:
 
 						if field.GongStruct == gongStruct {
 
-							fieldToFormCode += models.Replace2(
-								GetReverseFieldOwnerNameSubSubTemplateCode[GetReverseFieldOwnerNameSwitchCode],
-								"{{AssocStructName}}", __struct.Name,
-								"{{FieldName}}", field.GetName())
+							if _, ok := fieldNames[field.GetName()]; ok {
+								fieldNames[field.GetName()] = true
+
+								fieldToFormCode += models.Replace2(
+									GetReverseFieldOwnerNameSubSubTemplateCode[GetReverseFieldOwnerNameSwitchCode],
+									"{{AssocStructName}}", __struct.Name,
+									"{{FieldName}}", field.GetName())
+							}
 						}
 					}
 				}
@@ -164,4 +171,19 @@ func CodeGeneratorGetReverseFieldOwnerName(
 	defer file.Close()
 	fmt.Fprint(file, codeGO)
 
+}
+
+func removeDuplicates(strList []models.FieldInterface) []models.FieldInterface {
+	list := []models.FieldInterface{}
+	encountered := map[string]bool{}
+
+	for _, item := range strList {
+		if encountered[item.GetName()] == true {
+			continue
+		}
+		encountered[item.GetName()] = true
+		list = append(list, item)
+	}
+
+	return list
 }

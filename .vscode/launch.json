@@ -51,6 +51,20 @@
             ]
         },
         {
+            "name": "gongc gongsvg -skipGoModCommands -skipNg -skipNpmInstall -compileForDebug",
+            "type": "go",
+            "request": "launch",
+            "mode": "debug",
+            "cwd": "${workspaceFolder}/../gongsvg/go/models",
+            "program": "${workspaceFolder}/go/cmd/gongc",
+            "args": [
+                "-skipGoModCommands",
+                "-skipNg",
+                "-skipNpmInstall",
+                "-compileForDebug"
+            ]
+        },
+        {
             "name": "gongc gongtree -skipGoModCommands -skipNpmInstall -compileForDebug",
             "type": "go",
             "request": "launch",
@@ -254,14 +268,15 @@
             ]
         },
         {
-            "name": "gongc bebop -skipGoModCommands -skipNg",
+            "name": "gongc compareclaplannings -skipGoModCommands -skipNg -skipNpmInstall",
             "type": "go",
             "request": "launch",
             "mode": "debug",
-            "cwd": "../../../r/DEV_COHERENCE/bebop/go/models",
+            "cwd": "../../../r/DEV_COHERENCE/compareclaplannings/go/models",
             "program": "${workspaceFolder}/go/cmd/gongc",
             "args": [
                 "-skipGoModCommands",
+                "-skipNpmInstall",
                 "-skipNg"
             ]
         },

@@ -566,6 +566,30 @@ func (backRepoVertice *BackRepoVerticeStruct) RestorePhaseTwo() {
 
 }
 
+// BackRepoVertice.ResetReversePointers commits all staged instances of Vertice to the BackRepo
+// Phase Two is the update of instance with the field in the database
+func (backRepoVertice *BackRepoVerticeStruct) ResetReversePointers(backRepo *BackRepoStruct) (Error error) {
+
+	for idx, vertice := range backRepoVertice.Map_VerticeDBID_VerticePtr {
+		backRepoVertice.ResetReversePointersInstance(backRepo, idx, vertice)
+	}
+
+	return
+}
+
+func (backRepoVertice *BackRepoVerticeStruct) ResetReversePointersInstance(backRepo *BackRepoStruct, idx uint, astruct *models.Vertice) (Error error) {
+
+	// fetch matching verticeDB
+	if verticeDB, ok := backRepoVertice.Map_VerticeDBID_VerticeDB[idx]; ok {
+		_ = verticeDB // to avoid unused variable error if there are no reverse to reset
+
+		// insertion point for reverse pointers reset
+		// end of insertion point for reverse pointers reset
+	}
+
+	return
+}
+
 // this field is used during the restauration process.
 // it stores the ID at the backup time and is used for renumbering
 var BackRepoVerticeid_atBckpTime_newID map[uint]uint

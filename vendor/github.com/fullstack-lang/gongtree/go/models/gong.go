@@ -249,6 +249,12 @@ func (button *Button) Unstage(stage *StageStruct) *Button {
 	return button
 }
 
+// UnstageVoid removes button off the model stage
+func (button *Button) UnstageVoid(stage *StageStruct) {
+	delete(stage.Buttons, button)
+	delete(stage.Buttons_mapString, button.Name)
+}
+
 // commit button to the back repo (if it is already staged)
 func (button *Button) Commit(stage *StageStruct) *Button {
 	if _, ok := stage.Buttons[button]; ok {
@@ -293,6 +299,12 @@ func (node *Node) Unstage(stage *StageStruct) *Node {
 	return node
 }
 
+// UnstageVoid removes node off the model stage
+func (node *Node) UnstageVoid(stage *StageStruct) {
+	delete(stage.Nodes, node)
+	delete(stage.Nodes_mapString, node.Name)
+}
+
 // commit node to the back repo (if it is already staged)
 func (node *Node) Commit(stage *StageStruct) *Node {
 	if _, ok := stage.Nodes[node]; ok {
@@ -335,6 +347,12 @@ func (tree *Tree) Unstage(stage *StageStruct) *Tree {
 	delete(stage.Trees, tree)
 	delete(stage.Trees_mapString, tree.Name)
 	return tree
+}
+
+// UnstageVoid removes tree off the model stage
+func (tree *Tree) UnstageVoid(stage *StageStruct) {
+	delete(stage.Trees, tree)
+	delete(stage.Trees_mapString, tree.Name)
 }
 
 // commit tree to the back repo (if it is already staged)
@@ -440,6 +458,7 @@ type PointerToGongstruct interface {
 	*Button | *Node | *Tree
 	GetName() string
 	CommitVoid(*StageStruct)
+	UnstageVoid(stage *StageStruct)
 }
 
 type GongstructSet interface {
@@ -700,6 +719,42 @@ func GetFields[Type Gongstruct]() (res []string) {
 		res = []string{"Name", "BackgroundColor", "IsExpanded", "HasCheckboxButton", "IsChecked", "IsCheckboxDisabled", "IsInEditMode", "IsNodeClickable", "Children", "Buttons"}
 	case Tree:
 		res = []string{"Name", "RootNodes"}
+	}
+	return
+}
+
+type ReverseField struct {
+	GongstructName string
+	Fieldname      string
+}
+
+func GetReverseFields[Type Gongstruct]() (res []ReverseField) {
+
+	res = make([]ReverseField, 0)
+
+	var ret Type
+
+	switch any(ret).(type) {
+
+	// insertion point for generic get gongstruct name
+	case Button:
+		var rf ReverseField
+		_ = rf
+		rf.GongstructName = "Node"
+		rf.Fieldname = "Buttons"
+		res = append(res, rf)
+	case Node:
+		var rf ReverseField
+		_ = rf
+		rf.GongstructName = "Node"
+		rf.Fieldname = "Children"
+		res = append(res, rf)
+		rf.GongstructName = "Tree"
+		rf.Fieldname = "RootNodes"
+		res = append(res, rf)
+	case Tree:
+		var rf ReverseField
+		_ = rf
 	}
 	return
 }

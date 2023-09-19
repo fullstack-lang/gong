@@ -778,6 +778,39 @@ func (backRepoLine *BackRepoLineStruct) RestorePhaseTwo() {
 
 }
 
+// BackRepoLine.ResetReversePointers commits all staged instances of Line to the BackRepo
+// Phase Two is the update of instance with the field in the database
+func (backRepoLine *BackRepoLineStruct) ResetReversePointers(backRepo *BackRepoStruct) (Error error) {
+
+	for idx, line := range backRepoLine.Map_LineDBID_LinePtr {
+		backRepoLine.ResetReversePointersInstance(backRepo, idx, line)
+	}
+
+	return
+}
+
+func (backRepoLine *BackRepoLineStruct) ResetReversePointersInstance(backRepo *BackRepoStruct, idx uint, astruct *models.Line) (Error error) {
+
+	// fetch matching lineDB
+	if lineDB, ok := backRepoLine.Map_LineDBID_LineDB[idx]; ok {
+		_ = lineDB // to avoid unused variable error if there are no reverse to reset
+
+		// insertion point for reverse pointers reset
+		if lineDB.Layer_LinesDBID.Int64 != 0 {
+			lineDB.Layer_LinesDBID.Int64 = 0
+			lineDB.Layer_LinesDBID.Valid = true
+
+			// save the reset
+			if q := backRepoLine.db.Save(lineDB); q.Error != nil {
+				return q.Error
+			}
+		}
+		// end of insertion point for reverse pointers reset
+	}
+
+	return
+}
+
 // this field is used during the restauration process.
 // it stores the ID at the backup time and is used for renumbering
 var BackRepoLineid_atBckpTime_newID map[uint]uint

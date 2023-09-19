@@ -1036,6 +1036,39 @@ func (backRepoRect *BackRepoRectStruct) RestorePhaseTwo() {
 
 }
 
+// BackRepoRect.ResetReversePointers commits all staged instances of Rect to the BackRepo
+// Phase Two is the update of instance with the field in the database
+func (backRepoRect *BackRepoRectStruct) ResetReversePointers(backRepo *BackRepoStruct) (Error error) {
+
+	for idx, rect := range backRepoRect.Map_RectDBID_RectPtr {
+		backRepoRect.ResetReversePointersInstance(backRepo, idx, rect)
+	}
+
+	return
+}
+
+func (backRepoRect *BackRepoRectStruct) ResetReversePointersInstance(backRepo *BackRepoStruct, idx uint, astruct *models.Rect) (Error error) {
+
+	// fetch matching rectDB
+	if rectDB, ok := backRepoRect.Map_RectDBID_RectDB[idx]; ok {
+		_ = rectDB // to avoid unused variable error if there are no reverse to reset
+
+		// insertion point for reverse pointers reset
+		if rectDB.Layer_RectsDBID.Int64 != 0 {
+			rectDB.Layer_RectsDBID.Int64 = 0
+			rectDB.Layer_RectsDBID.Valid = true
+
+			// save the reset
+			if q := backRepoRect.db.Save(rectDB); q.Error != nil {
+				return q.Error
+			}
+		}
+		// end of insertion point for reverse pointers reset
+	}
+
+	return
+}
+
 // this field is used during the restauration process.
 // it stores the ID at the backup time and is used for renumbering
 var BackRepoRectid_atBckpTime_newID map[uint]uint

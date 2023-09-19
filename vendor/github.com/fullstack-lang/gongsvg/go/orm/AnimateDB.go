@@ -714,6 +714,120 @@ func (backRepoAnimate *BackRepoAnimateStruct) RestorePhaseTwo() {
 
 }
 
+// BackRepoAnimate.ResetReversePointers commits all staged instances of Animate to the BackRepo
+// Phase Two is the update of instance with the field in the database
+func (backRepoAnimate *BackRepoAnimateStruct) ResetReversePointers(backRepo *BackRepoStruct) (Error error) {
+
+	for idx, animate := range backRepoAnimate.Map_AnimateDBID_AnimatePtr {
+		backRepoAnimate.ResetReversePointersInstance(backRepo, idx, animate)
+	}
+
+	return
+}
+
+func (backRepoAnimate *BackRepoAnimateStruct) ResetReversePointersInstance(backRepo *BackRepoStruct, idx uint, astruct *models.Animate) (Error error) {
+
+	// fetch matching animateDB
+	if animateDB, ok := backRepoAnimate.Map_AnimateDBID_AnimateDB[idx]; ok {
+		_ = animateDB // to avoid unused variable error if there are no reverse to reset
+
+		// insertion point for reverse pointers reset
+		if animateDB.Circle_AnimationsDBID.Int64 != 0 {
+			animateDB.Circle_AnimationsDBID.Int64 = 0
+			animateDB.Circle_AnimationsDBID.Valid = true
+
+			// save the reset
+			if q := backRepoAnimate.db.Save(animateDB); q.Error != nil {
+				return q.Error
+			}
+		}
+		if animateDB.Ellipse_AnimatesDBID.Int64 != 0 {
+			animateDB.Ellipse_AnimatesDBID.Int64 = 0
+			animateDB.Ellipse_AnimatesDBID.Valid = true
+
+			// save the reset
+			if q := backRepoAnimate.db.Save(animateDB); q.Error != nil {
+				return q.Error
+			}
+		}
+		if animateDB.Line_AnimatesDBID.Int64 != 0 {
+			animateDB.Line_AnimatesDBID.Int64 = 0
+			animateDB.Line_AnimatesDBID.Valid = true
+
+			// save the reset
+			if q := backRepoAnimate.db.Save(animateDB); q.Error != nil {
+				return q.Error
+			}
+		}
+		if animateDB.LinkAnchoredText_AnimatesDBID.Int64 != 0 {
+			animateDB.LinkAnchoredText_AnimatesDBID.Int64 = 0
+			animateDB.LinkAnchoredText_AnimatesDBID.Valid = true
+
+			// save the reset
+			if q := backRepoAnimate.db.Save(animateDB); q.Error != nil {
+				return q.Error
+			}
+		}
+		if animateDB.Path_AnimatesDBID.Int64 != 0 {
+			animateDB.Path_AnimatesDBID.Int64 = 0
+			animateDB.Path_AnimatesDBID.Valid = true
+
+			// save the reset
+			if q := backRepoAnimate.db.Save(animateDB); q.Error != nil {
+				return q.Error
+			}
+		}
+		if animateDB.Polygone_AnimatesDBID.Int64 != 0 {
+			animateDB.Polygone_AnimatesDBID.Int64 = 0
+			animateDB.Polygone_AnimatesDBID.Valid = true
+
+			// save the reset
+			if q := backRepoAnimate.db.Save(animateDB); q.Error != nil {
+				return q.Error
+			}
+		}
+		if animateDB.Polyline_AnimatesDBID.Int64 != 0 {
+			animateDB.Polyline_AnimatesDBID.Int64 = 0
+			animateDB.Polyline_AnimatesDBID.Valid = true
+
+			// save the reset
+			if q := backRepoAnimate.db.Save(animateDB); q.Error != nil {
+				return q.Error
+			}
+		}
+		if animateDB.Rect_AnimationsDBID.Int64 != 0 {
+			animateDB.Rect_AnimationsDBID.Int64 = 0
+			animateDB.Rect_AnimationsDBID.Valid = true
+
+			// save the reset
+			if q := backRepoAnimate.db.Save(animateDB); q.Error != nil {
+				return q.Error
+			}
+		}
+		if animateDB.RectAnchoredText_AnimatesDBID.Int64 != 0 {
+			animateDB.RectAnchoredText_AnimatesDBID.Int64 = 0
+			animateDB.RectAnchoredText_AnimatesDBID.Valid = true
+
+			// save the reset
+			if q := backRepoAnimate.db.Save(animateDB); q.Error != nil {
+				return q.Error
+			}
+		}
+		if animateDB.Text_AnimatesDBID.Int64 != 0 {
+			animateDB.Text_AnimatesDBID.Int64 = 0
+			animateDB.Text_AnimatesDBID.Valid = true
+
+			// save the reset
+			if q := backRepoAnimate.db.Save(animateDB); q.Error != nil {
+				return q.Error
+			}
+		}
+		// end of insertion point for reverse pointers reset
+	}
+
+	return
+}
+
 // this field is used during the restauration process.
 // it stores the ID at the backup time and is used for renumbering
 var BackRepoAnimateid_atBckpTime_newID map[uint]uint

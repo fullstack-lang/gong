@@ -564,6 +564,39 @@ func (backRepoGongEnumValueEntry *BackRepoGongEnumValueEntryStruct) RestorePhase
 
 }
 
+// BackRepoGongEnumValueEntry.ResetReversePointers commits all staged instances of GongEnumValueEntry to the BackRepo
+// Phase Two is the update of instance with the field in the database
+func (backRepoGongEnumValueEntry *BackRepoGongEnumValueEntryStruct) ResetReversePointers(backRepo *BackRepoStruct) (Error error) {
+
+	for idx, gongenumvalueentry := range backRepoGongEnumValueEntry.Map_GongEnumValueEntryDBID_GongEnumValueEntryPtr {
+		backRepoGongEnumValueEntry.ResetReversePointersInstance(backRepo, idx, gongenumvalueentry)
+	}
+
+	return
+}
+
+func (backRepoGongEnumValueEntry *BackRepoGongEnumValueEntryStruct) ResetReversePointersInstance(backRepo *BackRepoStruct, idx uint, astruct *models.GongEnumValueEntry) (Error error) {
+
+	// fetch matching gongenumvalueentryDB
+	if gongenumvalueentryDB, ok := backRepoGongEnumValueEntry.Map_GongEnumValueEntryDBID_GongEnumValueEntryDB[idx]; ok {
+		_ = gongenumvalueentryDB // to avoid unused variable error if there are no reverse to reset
+
+		// insertion point for reverse pointers reset
+		if gongenumvalueentryDB.GongEnumShape_GongEnumValueEntrysDBID.Int64 != 0 {
+			gongenumvalueentryDB.GongEnumShape_GongEnumValueEntrysDBID.Int64 = 0
+			gongenumvalueentryDB.GongEnumShape_GongEnumValueEntrysDBID.Valid = true
+
+			// save the reset
+			if q := backRepoGongEnumValueEntry.db.Save(gongenumvalueentryDB); q.Error != nil {
+				return q.Error
+			}
+		}
+		// end of insertion point for reverse pointers reset
+	}
+
+	return
+}
+
 // this field is used during the restauration process.
 // it stores the ID at the backup time and is used for renumbering
 var BackRepoGongEnumValueEntryid_atBckpTime_newID map[uint]uint

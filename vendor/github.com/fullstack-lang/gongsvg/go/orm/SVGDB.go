@@ -667,6 +667,30 @@ func (backRepoSVG *BackRepoSVGStruct) RestorePhaseTwo() {
 
 }
 
+// BackRepoSVG.ResetReversePointers commits all staged instances of SVG to the BackRepo
+// Phase Two is the update of instance with the field in the database
+func (backRepoSVG *BackRepoSVGStruct) ResetReversePointers(backRepo *BackRepoStruct) (Error error) {
+
+	for idx, svg := range backRepoSVG.Map_SVGDBID_SVGPtr {
+		backRepoSVG.ResetReversePointersInstance(backRepo, idx, svg)
+	}
+
+	return
+}
+
+func (backRepoSVG *BackRepoSVGStruct) ResetReversePointersInstance(backRepo *BackRepoStruct, idx uint, astruct *models.SVG) (Error error) {
+
+	// fetch matching svgDB
+	if svgDB, ok := backRepoSVG.Map_SVGDBID_SVGDB[idx]; ok {
+		_ = svgDB // to avoid unused variable error if there are no reverse to reset
+
+		// insertion point for reverse pointers reset
+		// end of insertion point for reverse pointers reset
+	}
+
+	return
+}
+
 // this field is used during the restauration process.
 // it stores the ID at the backup time and is used for renumbering
 var BackRepoSVGid_atBckpTime_newID map[uint]uint

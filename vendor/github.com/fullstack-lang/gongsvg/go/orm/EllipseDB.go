@@ -750,6 +750,39 @@ func (backRepoEllipse *BackRepoEllipseStruct) RestorePhaseTwo() {
 
 }
 
+// BackRepoEllipse.ResetReversePointers commits all staged instances of Ellipse to the BackRepo
+// Phase Two is the update of instance with the field in the database
+func (backRepoEllipse *BackRepoEllipseStruct) ResetReversePointers(backRepo *BackRepoStruct) (Error error) {
+
+	for idx, ellipse := range backRepoEllipse.Map_EllipseDBID_EllipsePtr {
+		backRepoEllipse.ResetReversePointersInstance(backRepo, idx, ellipse)
+	}
+
+	return
+}
+
+func (backRepoEllipse *BackRepoEllipseStruct) ResetReversePointersInstance(backRepo *BackRepoStruct, idx uint, astruct *models.Ellipse) (Error error) {
+
+	// fetch matching ellipseDB
+	if ellipseDB, ok := backRepoEllipse.Map_EllipseDBID_EllipseDB[idx]; ok {
+		_ = ellipseDB // to avoid unused variable error if there are no reverse to reset
+
+		// insertion point for reverse pointers reset
+		if ellipseDB.Layer_EllipsesDBID.Int64 != 0 {
+			ellipseDB.Layer_EllipsesDBID.Int64 = 0
+			ellipseDB.Layer_EllipsesDBID.Valid = true
+
+			// save the reset
+			if q := backRepoEllipse.db.Save(ellipseDB); q.Error != nil {
+				return q.Error
+			}
+		}
+		// end of insertion point for reverse pointers reset
+	}
+
+	return
+}
+
 // this field is used during the restauration process.
 // it stores the ID at the backup time and is used for renumbering
 var BackRepoEllipseid_atBckpTime_newID map[uint]uint
