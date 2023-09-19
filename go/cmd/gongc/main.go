@@ -38,6 +38,7 @@ var (
 	skipNg      = flag.Bool("skipNg", false, "generates skipNg, skip ng operations")
 	skipFlutter = flag.Bool("skipFlutter", true, "do not generate flutter front")
 	skipCoder   = flag.Bool("skipCoder", true, "do not generate coder file")
+	skipSerialize = flag.Bool("skipSerialize", true, "do not generate serialize code")
 
 	clean = flag.Bool("clean", false, "let gongc remove files & dir that are generated. The program then exits.")
 
@@ -472,12 +473,14 @@ func main() {
 		true,
 		true)
 
-	gong_models.SimpleCodeGeneratorForGongStructWithNameField(
-		modelPkg,
-		modelPkg.Name,
-		modelPkg.PkgPath,
-		filepath.Join(*pkgPath, "../models/gong_serialize.go"),
-		models.ModelGongSerializeFileTemplate, models.ModelGongSerializeStructSubTemplateCode)
+	if !*skipSerialize {
+		gong_models.SimpleCodeGeneratorForGongStructWithNameField(
+			modelPkg,
+			modelPkg.Name,
+			modelPkg.PkgPath,
+			filepath.Join(*pkgPath, "../models/gong_serialize.go"),
+			models.ModelGongSerializeFileTemplate, models.ModelGongSerializeStructSubTemplateCode)	
+	}
 
 	orm.MultiCodeGeneratorBackRepo(
 		modelPkg,
