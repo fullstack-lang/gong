@@ -459,6 +459,12 @@ func (animate *Animate) Unstage(stage *StageStruct) *Animate {
 	return animate
 }
 
+// UnstageVoid removes animate off the model stage
+func (animate *Animate) UnstageVoid(stage *StageStruct) {
+	delete(stage.Animates, animate)
+	delete(stage.Animates_mapString, animate.Name)
+}
+
 // commit animate to the back repo (if it is already staged)
 func (animate *Animate) Commit(stage *StageStruct) *Animate {
 	if _, ok := stage.Animates[animate]; ok {
@@ -501,6 +507,12 @@ func (circle *Circle) Unstage(stage *StageStruct) *Circle {
 	delete(stage.Circles, circle)
 	delete(stage.Circles_mapString, circle.Name)
 	return circle
+}
+
+// UnstageVoid removes circle off the model stage
+func (circle *Circle) UnstageVoid(stage *StageStruct) {
+	delete(stage.Circles, circle)
+	delete(stage.Circles_mapString, circle.Name)
 }
 
 // commit circle to the back repo (if it is already staged)
@@ -547,6 +559,12 @@ func (ellipse *Ellipse) Unstage(stage *StageStruct) *Ellipse {
 	return ellipse
 }
 
+// UnstageVoid removes ellipse off the model stage
+func (ellipse *Ellipse) UnstageVoid(stage *StageStruct) {
+	delete(stage.Ellipses, ellipse)
+	delete(stage.Ellipses_mapString, ellipse.Name)
+}
+
 // commit ellipse to the back repo (if it is already staged)
 func (ellipse *Ellipse) Commit(stage *StageStruct) *Ellipse {
 	if _, ok := stage.Ellipses[ellipse]; ok {
@@ -589,6 +607,12 @@ func (layer *Layer) Unstage(stage *StageStruct) *Layer {
 	delete(stage.Layers, layer)
 	delete(stage.Layers_mapString, layer.Name)
 	return layer
+}
+
+// UnstageVoid removes layer off the model stage
+func (layer *Layer) UnstageVoid(stage *StageStruct) {
+	delete(stage.Layers, layer)
+	delete(stage.Layers_mapString, layer.Name)
 }
 
 // commit layer to the back repo (if it is already staged)
@@ -635,6 +659,12 @@ func (line *Line) Unstage(stage *StageStruct) *Line {
 	return line
 }
 
+// UnstageVoid removes line off the model stage
+func (line *Line) UnstageVoid(stage *StageStruct) {
+	delete(stage.Lines, line)
+	delete(stage.Lines_mapString, line.Name)
+}
+
 // commit line to the back repo (if it is already staged)
 func (line *Line) Commit(stage *StageStruct) *Line {
 	if _, ok := stage.Lines[line]; ok {
@@ -677,6 +707,12 @@ func (link *Link) Unstage(stage *StageStruct) *Link {
 	delete(stage.Links, link)
 	delete(stage.Links_mapString, link.Name)
 	return link
+}
+
+// UnstageVoid removes link off the model stage
+func (link *Link) UnstageVoid(stage *StageStruct) {
+	delete(stage.Links, link)
+	delete(stage.Links_mapString, link.Name)
 }
 
 // commit link to the back repo (if it is already staged)
@@ -723,6 +759,12 @@ func (linkanchoredtext *LinkAnchoredText) Unstage(stage *StageStruct) *LinkAncho
 	return linkanchoredtext
 }
 
+// UnstageVoid removes linkanchoredtext off the model stage
+func (linkanchoredtext *LinkAnchoredText) UnstageVoid(stage *StageStruct) {
+	delete(stage.LinkAnchoredTexts, linkanchoredtext)
+	delete(stage.LinkAnchoredTexts_mapString, linkanchoredtext.Name)
+}
+
 // commit linkanchoredtext to the back repo (if it is already staged)
 func (linkanchoredtext *LinkAnchoredText) Commit(stage *StageStruct) *LinkAnchoredText {
 	if _, ok := stage.LinkAnchoredTexts[linkanchoredtext]; ok {
@@ -765,6 +807,12 @@ func (path *Path) Unstage(stage *StageStruct) *Path {
 	delete(stage.Paths, path)
 	delete(stage.Paths_mapString, path.Name)
 	return path
+}
+
+// UnstageVoid removes path off the model stage
+func (path *Path) UnstageVoid(stage *StageStruct) {
+	delete(stage.Paths, path)
+	delete(stage.Paths_mapString, path.Name)
 }
 
 // commit path to the back repo (if it is already staged)
@@ -811,6 +859,12 @@ func (point *Point) Unstage(stage *StageStruct) *Point {
 	return point
 }
 
+// UnstageVoid removes point off the model stage
+func (point *Point) UnstageVoid(stage *StageStruct) {
+	delete(stage.Points, point)
+	delete(stage.Points_mapString, point.Name)
+}
+
 // commit point to the back repo (if it is already staged)
 func (point *Point) Commit(stage *StageStruct) *Point {
 	if _, ok := stage.Points[point]; ok {
@@ -853,6 +907,12 @@ func (polygone *Polygone) Unstage(stage *StageStruct) *Polygone {
 	delete(stage.Polygones, polygone)
 	delete(stage.Polygones_mapString, polygone.Name)
 	return polygone
+}
+
+// UnstageVoid removes polygone off the model stage
+func (polygone *Polygone) UnstageVoid(stage *StageStruct) {
+	delete(stage.Polygones, polygone)
+	delete(stage.Polygones_mapString, polygone.Name)
 }
 
 // commit polygone to the back repo (if it is already staged)
@@ -899,6 +959,12 @@ func (polyline *Polyline) Unstage(stage *StageStruct) *Polyline {
 	return polyline
 }
 
+// UnstageVoid removes polyline off the model stage
+func (polyline *Polyline) UnstageVoid(stage *StageStruct) {
+	delete(stage.Polylines, polyline)
+	delete(stage.Polylines_mapString, polyline.Name)
+}
+
 // commit polyline to the back repo (if it is already staged)
 func (polyline *Polyline) Commit(stage *StageStruct) *Polyline {
 	if _, ok := stage.Polylines[polyline]; ok {
@@ -941,6 +1007,12 @@ func (rect *Rect) Unstage(stage *StageStruct) *Rect {
 	delete(stage.Rects, rect)
 	delete(stage.Rects_mapString, rect.Name)
 	return rect
+}
+
+// UnstageVoid removes rect off the model stage
+func (rect *Rect) UnstageVoid(stage *StageStruct) {
+	delete(stage.Rects, rect)
+	delete(stage.Rects_mapString, rect.Name)
 }
 
 // commit rect to the back repo (if it is already staged)
@@ -987,6 +1059,12 @@ func (rectanchoredrect *RectAnchoredRect) Unstage(stage *StageStruct) *RectAncho
 	return rectanchoredrect
 }
 
+// UnstageVoid removes rectanchoredrect off the model stage
+func (rectanchoredrect *RectAnchoredRect) UnstageVoid(stage *StageStruct) {
+	delete(stage.RectAnchoredRects, rectanchoredrect)
+	delete(stage.RectAnchoredRects_mapString, rectanchoredrect.Name)
+}
+
 // commit rectanchoredrect to the back repo (if it is already staged)
 func (rectanchoredrect *RectAnchoredRect) Commit(stage *StageStruct) *RectAnchoredRect {
 	if _, ok := stage.RectAnchoredRects[rectanchoredrect]; ok {
@@ -1029,6 +1107,12 @@ func (rectanchoredtext *RectAnchoredText) Unstage(stage *StageStruct) *RectAncho
 	delete(stage.RectAnchoredTexts, rectanchoredtext)
 	delete(stage.RectAnchoredTexts_mapString, rectanchoredtext.Name)
 	return rectanchoredtext
+}
+
+// UnstageVoid removes rectanchoredtext off the model stage
+func (rectanchoredtext *RectAnchoredText) UnstageVoid(stage *StageStruct) {
+	delete(stage.RectAnchoredTexts, rectanchoredtext)
+	delete(stage.RectAnchoredTexts_mapString, rectanchoredtext.Name)
 }
 
 // commit rectanchoredtext to the back repo (if it is already staged)
@@ -1075,6 +1159,12 @@ func (rectlinklink *RectLinkLink) Unstage(stage *StageStruct) *RectLinkLink {
 	return rectlinklink
 }
 
+// UnstageVoid removes rectlinklink off the model stage
+func (rectlinklink *RectLinkLink) UnstageVoid(stage *StageStruct) {
+	delete(stage.RectLinkLinks, rectlinklink)
+	delete(stage.RectLinkLinks_mapString, rectlinklink.Name)
+}
+
 // commit rectlinklink to the back repo (if it is already staged)
 func (rectlinklink *RectLinkLink) Commit(stage *StageStruct) *RectLinkLink {
 	if _, ok := stage.RectLinkLinks[rectlinklink]; ok {
@@ -1119,6 +1209,12 @@ func (svg *SVG) Unstage(stage *StageStruct) *SVG {
 	return svg
 }
 
+// UnstageVoid removes svg off the model stage
+func (svg *SVG) UnstageVoid(stage *StageStruct) {
+	delete(stage.SVGs, svg)
+	delete(stage.SVGs_mapString, svg.Name)
+}
+
 // commit svg to the back repo (if it is already staged)
 func (svg *SVG) Commit(stage *StageStruct) *SVG {
 	if _, ok := stage.SVGs[svg]; ok {
@@ -1161,6 +1257,12 @@ func (text *Text) Unstage(stage *StageStruct) *Text {
 	delete(stage.Texts, text)
 	delete(stage.Texts_mapString, text.Name)
 	return text
+}
+
+// UnstageVoid removes text off the model stage
+func (text *Text) UnstageVoid(stage *StageStruct) {
+	delete(stage.Texts, text)
+	delete(stage.Texts_mapString, text.Name)
 }
 
 // commit text to the back repo (if it is already staged)
@@ -1434,6 +1536,7 @@ type PointerToGongstruct interface {
 	*Animate | *Circle | *Ellipse | *Layer | *Line | *Link | *LinkAnchoredText | *Path | *Point | *Polygone | *Polyline | *Rect | *RectAnchoredRect | *RectAnchoredText | *RectLinkLink | *SVG | *Text
 	GetName() string
 	CommitVoid(*StageStruct)
+	UnstageVoid(stage *StageStruct)
 }
 
 type GongstructSet interface {
@@ -2458,6 +2561,153 @@ func GetFields[Type Gongstruct]() (res []string) {
 		res = []string{"Name", "Layers", "DrawingState", "StartRect", "EndRect", "IsEditable"}
 	case Text:
 		res = []string{"Name", "X", "Y", "Content", "Color", "FillOpacity", "Stroke", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "Animates"}
+	}
+	return
+}
+
+type ReverseField struct {
+	GongstructName string
+	Fieldname      string
+}
+
+func GetReverseFields[Type Gongstruct]() (res []ReverseField) {
+
+	res = make([]ReverseField, 0)
+
+	var ret Type
+
+	switch any(ret).(type) {
+
+	// insertion point for generic get gongstruct name
+	case Animate:
+		var rf ReverseField
+		_ = rf
+		rf.GongstructName = "Circle"
+		rf.Fieldname = "Animations"
+		res = append(res, rf)
+		rf.GongstructName = "Ellipse"
+		rf.Fieldname = "Animates"
+		res = append(res, rf)
+		rf.GongstructName = "Line"
+		rf.Fieldname = "Animates"
+		res = append(res, rf)
+		rf.GongstructName = "LinkAnchoredText"
+		rf.Fieldname = "Animates"
+		res = append(res, rf)
+		rf.GongstructName = "Path"
+		rf.Fieldname = "Animates"
+		res = append(res, rf)
+		rf.GongstructName = "Polygone"
+		rf.Fieldname = "Animates"
+		res = append(res, rf)
+		rf.GongstructName = "Polyline"
+		rf.Fieldname = "Animates"
+		res = append(res, rf)
+		rf.GongstructName = "Rect"
+		rf.Fieldname = "Animations"
+		res = append(res, rf)
+		rf.GongstructName = "RectAnchoredText"
+		rf.Fieldname = "Animates"
+		res = append(res, rf)
+		rf.GongstructName = "Text"
+		rf.Fieldname = "Animates"
+		res = append(res, rf)
+	case Circle:
+		var rf ReverseField
+		_ = rf
+		rf.GongstructName = "Layer"
+		rf.Fieldname = "Circles"
+		res = append(res, rf)
+	case Ellipse:
+		var rf ReverseField
+		_ = rf
+		rf.GongstructName = "Layer"
+		rf.Fieldname = "Ellipses"
+		res = append(res, rf)
+	case Layer:
+		var rf ReverseField
+		_ = rf
+		rf.GongstructName = "SVG"
+		rf.Fieldname = "Layers"
+		res = append(res, rf)
+	case Line:
+		var rf ReverseField
+		_ = rf
+		rf.GongstructName = "Layer"
+		rf.Fieldname = "Lines"
+		res = append(res, rf)
+	case Link:
+		var rf ReverseField
+		_ = rf
+		rf.GongstructName = "Layer"
+		rf.Fieldname = "Links"
+		res = append(res, rf)
+	case LinkAnchoredText:
+		var rf ReverseField
+		_ = rf
+		rf.GongstructName = "Link"
+		rf.Fieldname = "TextAtArrowEnd"
+		res = append(res, rf)
+		rf.GongstructName = "Link"
+		rf.Fieldname = "TextAtArrowStart"
+		res = append(res, rf)
+	case Path:
+		var rf ReverseField
+		_ = rf
+		rf.GongstructName = "Layer"
+		rf.Fieldname = "Paths"
+		res = append(res, rf)
+	case Point:
+		var rf ReverseField
+		_ = rf
+		rf.GongstructName = "Link"
+		rf.Fieldname = "ControlPoints"
+		res = append(res, rf)
+	case Polygone:
+		var rf ReverseField
+		_ = rf
+		rf.GongstructName = "Layer"
+		rf.Fieldname = "Polygones"
+		res = append(res, rf)
+	case Polyline:
+		var rf ReverseField
+		_ = rf
+		rf.GongstructName = "Layer"
+		rf.Fieldname = "Polylines"
+		res = append(res, rf)
+	case Rect:
+		var rf ReverseField
+		_ = rf
+		rf.GongstructName = "Layer"
+		rf.Fieldname = "Rects"
+		res = append(res, rf)
+	case RectAnchoredRect:
+		var rf ReverseField
+		_ = rf
+		rf.GongstructName = "Rect"
+		rf.Fieldname = "RectAnchoredRects"
+		res = append(res, rf)
+	case RectAnchoredText:
+		var rf ReverseField
+		_ = rf
+		rf.GongstructName = "Rect"
+		rf.Fieldname = "RectAnchoredTexts"
+		res = append(res, rf)
+	case RectLinkLink:
+		var rf ReverseField
+		_ = rf
+		rf.GongstructName = "Layer"
+		rf.Fieldname = "RectLinkLinks"
+		res = append(res, rf)
+	case SVG:
+		var rf ReverseField
+		_ = rf
+	case Text:
+		var rf ReverseField
+		_ = rf
+		rf.GongstructName = "Layer"
+		rf.Fieldname = "Texts"
+		res = append(res, rf)
 	}
 	return
 }
