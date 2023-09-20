@@ -36,7 +36,6 @@ func GetController() *Controller {
 		_controllerSingloton = &Controller{
 			Map_BackRepos: make(map[string]*{{pkgname}}_orm.BackRepoStruct),
 		}
-		_controllerSingloton.Map_BackRepos[""] = {{pkgname}}_orm.GetDefaultBackRepo()
 	})
 	return _controllerSingloton
 }
