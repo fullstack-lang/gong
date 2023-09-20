@@ -729,6 +729,30 @@ func (backRepoDiagramPackage *BackRepoDiagramPackageStruct) RestorePhaseTwo() {
 
 }
 
+// BackRepoDiagramPackage.ResetReversePointers commits all staged instances of DiagramPackage to the BackRepo
+// Phase Two is the update of instance with the field in the database
+func (backRepoDiagramPackage *BackRepoDiagramPackageStruct) ResetReversePointers(backRepo *BackRepoStruct) (Error error) {
+
+	for idx, diagrampackage := range backRepoDiagramPackage.Map_DiagramPackageDBID_DiagramPackagePtr {
+		backRepoDiagramPackage.ResetReversePointersInstance(backRepo, idx, diagrampackage)
+	}
+
+	return
+}
+
+func (backRepoDiagramPackage *BackRepoDiagramPackageStruct) ResetReversePointersInstance(backRepo *BackRepoStruct, idx uint, astruct *models.DiagramPackage) (Error error) {
+
+	// fetch matching diagrampackageDB
+	if diagrampackageDB, ok := backRepoDiagramPackage.Map_DiagramPackageDBID_DiagramPackageDB[idx]; ok {
+		_ = diagrampackageDB // to avoid unused variable error if there are no reverse to reset
+
+		// insertion point for reverse pointers reset
+		// end of insertion point for reverse pointers reset
+	}
+
+	return
+}
+
 // this field is used during the restauration process.
 // it stores the ID at the backup time and is used for renumbering
 var BackRepoDiagramPackageid_atBckpTime_newID map[uint]uint

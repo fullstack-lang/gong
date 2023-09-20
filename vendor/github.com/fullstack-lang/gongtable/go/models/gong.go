@@ -549,6 +549,12 @@ func (cell *Cell) Unstage(stage *StageStruct) *Cell {
 	return cell
 }
 
+// UnstageVoid removes cell off the model stage
+func (cell *Cell) UnstageVoid(stage *StageStruct) {
+	delete(stage.Cells, cell)
+	delete(stage.Cells_mapString, cell.Name)
+}
+
 // commit cell to the back repo (if it is already staged)
 func (cell *Cell) Commit(stage *StageStruct) *Cell {
 	if _, ok := stage.Cells[cell]; ok {
@@ -591,6 +597,12 @@ func (cellboolean *CellBoolean) Unstage(stage *StageStruct) *CellBoolean {
 	delete(stage.CellBooleans, cellboolean)
 	delete(stage.CellBooleans_mapString, cellboolean.Name)
 	return cellboolean
+}
+
+// UnstageVoid removes cellboolean off the model stage
+func (cellboolean *CellBoolean) UnstageVoid(stage *StageStruct) {
+	delete(stage.CellBooleans, cellboolean)
+	delete(stage.CellBooleans_mapString, cellboolean.Name)
 }
 
 // commit cellboolean to the back repo (if it is already staged)
@@ -637,6 +649,12 @@ func (cellfloat64 *CellFloat64) Unstage(stage *StageStruct) *CellFloat64 {
 	return cellfloat64
 }
 
+// UnstageVoid removes cellfloat64 off the model stage
+func (cellfloat64 *CellFloat64) UnstageVoid(stage *StageStruct) {
+	delete(stage.CellFloat64s, cellfloat64)
+	delete(stage.CellFloat64s_mapString, cellfloat64.Name)
+}
+
 // commit cellfloat64 to the back repo (if it is already staged)
 func (cellfloat64 *CellFloat64) Commit(stage *StageStruct) *CellFloat64 {
 	if _, ok := stage.CellFloat64s[cellfloat64]; ok {
@@ -679,6 +697,12 @@ func (cellicon *CellIcon) Unstage(stage *StageStruct) *CellIcon {
 	delete(stage.CellIcons, cellicon)
 	delete(stage.CellIcons_mapString, cellicon.Name)
 	return cellicon
+}
+
+// UnstageVoid removes cellicon off the model stage
+func (cellicon *CellIcon) UnstageVoid(stage *StageStruct) {
+	delete(stage.CellIcons, cellicon)
+	delete(stage.CellIcons_mapString, cellicon.Name)
 }
 
 // commit cellicon to the back repo (if it is already staged)
@@ -725,6 +749,12 @@ func (cellint *CellInt) Unstage(stage *StageStruct) *CellInt {
 	return cellint
 }
 
+// UnstageVoid removes cellint off the model stage
+func (cellint *CellInt) UnstageVoid(stage *StageStruct) {
+	delete(stage.CellInts, cellint)
+	delete(stage.CellInts_mapString, cellint.Name)
+}
+
 // commit cellint to the back repo (if it is already staged)
 func (cellint *CellInt) Commit(stage *StageStruct) *CellInt {
 	if _, ok := stage.CellInts[cellint]; ok {
@@ -767,6 +797,12 @@ func (cellstring *CellString) Unstage(stage *StageStruct) *CellString {
 	delete(stage.CellStrings, cellstring)
 	delete(stage.CellStrings_mapString, cellstring.Name)
 	return cellstring
+}
+
+// UnstageVoid removes cellstring off the model stage
+func (cellstring *CellString) UnstageVoid(stage *StageStruct) {
+	delete(stage.CellStrings, cellstring)
+	delete(stage.CellStrings_mapString, cellstring.Name)
 }
 
 // commit cellstring to the back repo (if it is already staged)
@@ -813,6 +849,12 @@ func (checkbox *CheckBox) Unstage(stage *StageStruct) *CheckBox {
 	return checkbox
 }
 
+// UnstageVoid removes checkbox off the model stage
+func (checkbox *CheckBox) UnstageVoid(stage *StageStruct) {
+	delete(stage.CheckBoxs, checkbox)
+	delete(stage.CheckBoxs_mapString, checkbox.Name)
+}
+
 // commit checkbox to the back repo (if it is already staged)
 func (checkbox *CheckBox) Commit(stage *StageStruct) *CheckBox {
 	if _, ok := stage.CheckBoxs[checkbox]; ok {
@@ -855,6 +897,12 @@ func (displayedcolumn *DisplayedColumn) Unstage(stage *StageStruct) *DisplayedCo
 	delete(stage.DisplayedColumns, displayedcolumn)
 	delete(stage.DisplayedColumns_mapString, displayedcolumn.Name)
 	return displayedcolumn
+}
+
+// UnstageVoid removes displayedcolumn off the model stage
+func (displayedcolumn *DisplayedColumn) UnstageVoid(stage *StageStruct) {
+	delete(stage.DisplayedColumns, displayedcolumn)
+	delete(stage.DisplayedColumns_mapString, displayedcolumn.Name)
 }
 
 // commit displayedcolumn to the back repo (if it is already staged)
@@ -901,6 +949,12 @@ func (formdiv *FormDiv) Unstage(stage *StageStruct) *FormDiv {
 	return formdiv
 }
 
+// UnstageVoid removes formdiv off the model stage
+func (formdiv *FormDiv) UnstageVoid(stage *StageStruct) {
+	delete(stage.FormDivs, formdiv)
+	delete(stage.FormDivs_mapString, formdiv.Name)
+}
+
 // commit formdiv to the back repo (if it is already staged)
 func (formdiv *FormDiv) Commit(stage *StageStruct) *FormDiv {
 	if _, ok := stage.FormDivs[formdiv]; ok {
@@ -943,6 +997,12 @@ func (formeditassocbutton *FormEditAssocButton) Unstage(stage *StageStruct) *For
 	delete(stage.FormEditAssocButtons, formeditassocbutton)
 	delete(stage.FormEditAssocButtons_mapString, formeditassocbutton.Name)
 	return formeditassocbutton
+}
+
+// UnstageVoid removes formeditassocbutton off the model stage
+func (formeditassocbutton *FormEditAssocButton) UnstageVoid(stage *StageStruct) {
+	delete(stage.FormEditAssocButtons, formeditassocbutton)
+	delete(stage.FormEditAssocButtons_mapString, formeditassocbutton.Name)
 }
 
 // commit formeditassocbutton to the back repo (if it is already staged)
@@ -989,6 +1049,12 @@ func (formfield *FormField) Unstage(stage *StageStruct) *FormField {
 	return formfield
 }
 
+// UnstageVoid removes formfield off the model stage
+func (formfield *FormField) UnstageVoid(stage *StageStruct) {
+	delete(stage.FormFields, formfield)
+	delete(stage.FormFields_mapString, formfield.Name)
+}
+
 // commit formfield to the back repo (if it is already staged)
 func (formfield *FormField) Commit(stage *StageStruct) *FormField {
 	if _, ok := stage.FormFields[formfield]; ok {
@@ -1031,6 +1097,12 @@ func (formfielddate *FormFieldDate) Unstage(stage *StageStruct) *FormFieldDate {
 	delete(stage.FormFieldDates, formfielddate)
 	delete(stage.FormFieldDates_mapString, formfielddate.Name)
 	return formfielddate
+}
+
+// UnstageVoid removes formfielddate off the model stage
+func (formfielddate *FormFieldDate) UnstageVoid(stage *StageStruct) {
+	delete(stage.FormFieldDates, formfielddate)
+	delete(stage.FormFieldDates_mapString, formfielddate.Name)
 }
 
 // commit formfielddate to the back repo (if it is already staged)
@@ -1077,6 +1149,12 @@ func (formfielddatetime *FormFieldDateTime) Unstage(stage *StageStruct) *FormFie
 	return formfielddatetime
 }
 
+// UnstageVoid removes formfielddatetime off the model stage
+func (formfielddatetime *FormFieldDateTime) UnstageVoid(stage *StageStruct) {
+	delete(stage.FormFieldDateTimes, formfielddatetime)
+	delete(stage.FormFieldDateTimes_mapString, formfielddatetime.Name)
+}
+
 // commit formfielddatetime to the back repo (if it is already staged)
 func (formfielddatetime *FormFieldDateTime) Commit(stage *StageStruct) *FormFieldDateTime {
 	if _, ok := stage.FormFieldDateTimes[formfielddatetime]; ok {
@@ -1119,6 +1197,12 @@ func (formfieldfloat64 *FormFieldFloat64) Unstage(stage *StageStruct) *FormField
 	delete(stage.FormFieldFloat64s, formfieldfloat64)
 	delete(stage.FormFieldFloat64s_mapString, formfieldfloat64.Name)
 	return formfieldfloat64
+}
+
+// UnstageVoid removes formfieldfloat64 off the model stage
+func (formfieldfloat64 *FormFieldFloat64) UnstageVoid(stage *StageStruct) {
+	delete(stage.FormFieldFloat64s, formfieldfloat64)
+	delete(stage.FormFieldFloat64s_mapString, formfieldfloat64.Name)
 }
 
 // commit formfieldfloat64 to the back repo (if it is already staged)
@@ -1165,6 +1249,12 @@ func (formfieldint *FormFieldInt) Unstage(stage *StageStruct) *FormFieldInt {
 	return formfieldint
 }
 
+// UnstageVoid removes formfieldint off the model stage
+func (formfieldint *FormFieldInt) UnstageVoid(stage *StageStruct) {
+	delete(stage.FormFieldInts, formfieldint)
+	delete(stage.FormFieldInts_mapString, formfieldint.Name)
+}
+
 // commit formfieldint to the back repo (if it is already staged)
 func (formfieldint *FormFieldInt) Commit(stage *StageStruct) *FormFieldInt {
 	if _, ok := stage.FormFieldInts[formfieldint]; ok {
@@ -1207,6 +1297,12 @@ func (formfieldselect *FormFieldSelect) Unstage(stage *StageStruct) *FormFieldSe
 	delete(stage.FormFieldSelects, formfieldselect)
 	delete(stage.FormFieldSelects_mapString, formfieldselect.Name)
 	return formfieldselect
+}
+
+// UnstageVoid removes formfieldselect off the model stage
+func (formfieldselect *FormFieldSelect) UnstageVoid(stage *StageStruct) {
+	delete(stage.FormFieldSelects, formfieldselect)
+	delete(stage.FormFieldSelects_mapString, formfieldselect.Name)
 }
 
 // commit formfieldselect to the back repo (if it is already staged)
@@ -1253,6 +1349,12 @@ func (formfieldstring *FormFieldString) Unstage(stage *StageStruct) *FormFieldSt
 	return formfieldstring
 }
 
+// UnstageVoid removes formfieldstring off the model stage
+func (formfieldstring *FormFieldString) UnstageVoid(stage *StageStruct) {
+	delete(stage.FormFieldStrings, formfieldstring)
+	delete(stage.FormFieldStrings_mapString, formfieldstring.Name)
+}
+
 // commit formfieldstring to the back repo (if it is already staged)
 func (formfieldstring *FormFieldString) Commit(stage *StageStruct) *FormFieldString {
 	if _, ok := stage.FormFieldStrings[formfieldstring]; ok {
@@ -1295,6 +1397,12 @@ func (formfieldtime *FormFieldTime) Unstage(stage *StageStruct) *FormFieldTime {
 	delete(stage.FormFieldTimes, formfieldtime)
 	delete(stage.FormFieldTimes_mapString, formfieldtime.Name)
 	return formfieldtime
+}
+
+// UnstageVoid removes formfieldtime off the model stage
+func (formfieldtime *FormFieldTime) UnstageVoid(stage *StageStruct) {
+	delete(stage.FormFieldTimes, formfieldtime)
+	delete(stage.FormFieldTimes_mapString, formfieldtime.Name)
 }
 
 // commit formfieldtime to the back repo (if it is already staged)
@@ -1341,6 +1449,12 @@ func (formgroup *FormGroup) Unstage(stage *StageStruct) *FormGroup {
 	return formgroup
 }
 
+// UnstageVoid removes formgroup off the model stage
+func (formgroup *FormGroup) UnstageVoid(stage *StageStruct) {
+	delete(stage.FormGroups, formgroup)
+	delete(stage.FormGroups_mapString, formgroup.Name)
+}
+
 // commit formgroup to the back repo (if it is already staged)
 func (formgroup *FormGroup) Commit(stage *StageStruct) *FormGroup {
 	if _, ok := stage.FormGroups[formgroup]; ok {
@@ -1383,6 +1497,12 @@ func (formsortassocbutton *FormSortAssocButton) Unstage(stage *StageStruct) *For
 	delete(stage.FormSortAssocButtons, formsortassocbutton)
 	delete(stage.FormSortAssocButtons_mapString, formsortassocbutton.Name)
 	return formsortassocbutton
+}
+
+// UnstageVoid removes formsortassocbutton off the model stage
+func (formsortassocbutton *FormSortAssocButton) UnstageVoid(stage *StageStruct) {
+	delete(stage.FormSortAssocButtons, formsortassocbutton)
+	delete(stage.FormSortAssocButtons_mapString, formsortassocbutton.Name)
 }
 
 // commit formsortassocbutton to the back repo (if it is already staged)
@@ -1429,6 +1549,12 @@ func (option *Option) Unstage(stage *StageStruct) *Option {
 	return option
 }
 
+// UnstageVoid removes option off the model stage
+func (option *Option) UnstageVoid(stage *StageStruct) {
+	delete(stage.Options, option)
+	delete(stage.Options_mapString, option.Name)
+}
+
 // commit option to the back repo (if it is already staged)
 func (option *Option) Commit(stage *StageStruct) *Option {
 	if _, ok := stage.Options[option]; ok {
@@ -1473,6 +1599,12 @@ func (row *Row) Unstage(stage *StageStruct) *Row {
 	return row
 }
 
+// UnstageVoid removes row off the model stage
+func (row *Row) UnstageVoid(stage *StageStruct) {
+	delete(stage.Rows, row)
+	delete(stage.Rows_mapString, row.Name)
+}
+
 // commit row to the back repo (if it is already staged)
 func (row *Row) Commit(stage *StageStruct) *Row {
 	if _, ok := stage.Rows[row]; ok {
@@ -1515,6 +1647,12 @@ func (table *Table) Unstage(stage *StageStruct) *Table {
 	delete(stage.Tables, table)
 	delete(stage.Tables_mapString, table.Name)
 	return table
+}
+
+// UnstageVoid removes table off the model stage
+func (table *Table) UnstageVoid(stage *StageStruct) {
+	delete(stage.Tables, table)
+	delete(stage.Tables_mapString, table.Name)
 }
 
 // commit table to the back repo (if it is already staged)
@@ -1860,6 +1998,7 @@ type PointerToGongstruct interface {
 	*Cell | *CellBoolean | *CellFloat64 | *CellIcon | *CellInt | *CellString | *CheckBox | *DisplayedColumn | *FormDiv | *FormEditAssocButton | *FormField | *FormFieldDate | *FormFieldDateTime | *FormFieldFloat64 | *FormFieldInt | *FormFieldSelect | *FormFieldString | *FormFieldTime | *FormGroup | *FormSortAssocButton | *Option | *Row | *Table
 	GetName() string
 	CommitVoid(*StageStruct)
+	UnstageVoid(stage *StageStruct)
 }
 
 type GongstructSet interface {
@@ -3045,6 +3184,114 @@ func GetFields[Type Gongstruct]() (res []string) {
 		res = []string{"Name", "Cells", "IsChecked"}
 	case Table:
 		res = []string{"Name", "DisplayedColumns", "Rows", "HasFiltering", "HasColumnSorting", "HasPaginator", "HasCheckableRows", "HasSaveButton", "CanDragDropRows", "HasCloseButton", "SavingInProgress", "NbOfStickyColumns"}
+	}
+	return
+}
+
+type ReverseField struct {
+	GongstructName string
+	Fieldname      string
+}
+
+func GetReverseFields[Type Gongstruct]() (res []ReverseField) {
+
+	res = make([]ReverseField, 0)
+
+	var ret Type
+
+	switch any(ret).(type) {
+
+	// insertion point for generic get gongstruct name
+	case Cell:
+		var rf ReverseField
+		_ = rf
+		rf.GongstructName = "Row"
+		rf.Fieldname = "Cells"
+		res = append(res, rf)
+	case CellBoolean:
+		var rf ReverseField
+		_ = rf
+	case CellFloat64:
+		var rf ReverseField
+		_ = rf
+	case CellIcon:
+		var rf ReverseField
+		_ = rf
+	case CellInt:
+		var rf ReverseField
+		_ = rf
+	case CellString:
+		var rf ReverseField
+		_ = rf
+	case CheckBox:
+		var rf ReverseField
+		_ = rf
+		rf.GongstructName = "FormDiv"
+		rf.Fieldname = "CheckBoxs"
+		res = append(res, rf)
+	case DisplayedColumn:
+		var rf ReverseField
+		_ = rf
+		rf.GongstructName = "Table"
+		rf.Fieldname = "DisplayedColumns"
+		res = append(res, rf)
+	case FormDiv:
+		var rf ReverseField
+		_ = rf
+		rf.GongstructName = "FormGroup"
+		rf.Fieldname = "FormDivs"
+		res = append(res, rf)
+	case FormEditAssocButton:
+		var rf ReverseField
+		_ = rf
+	case FormField:
+		var rf ReverseField
+		_ = rf
+		rf.GongstructName = "FormDiv"
+		rf.Fieldname = "FormFields"
+		res = append(res, rf)
+	case FormFieldDate:
+		var rf ReverseField
+		_ = rf
+	case FormFieldDateTime:
+		var rf ReverseField
+		_ = rf
+	case FormFieldFloat64:
+		var rf ReverseField
+		_ = rf
+	case FormFieldInt:
+		var rf ReverseField
+		_ = rf
+	case FormFieldSelect:
+		var rf ReverseField
+		_ = rf
+	case FormFieldString:
+		var rf ReverseField
+		_ = rf
+	case FormFieldTime:
+		var rf ReverseField
+		_ = rf
+	case FormGroup:
+		var rf ReverseField
+		_ = rf
+	case FormSortAssocButton:
+		var rf ReverseField
+		_ = rf
+	case Option:
+		var rf ReverseField
+		_ = rf
+		rf.GongstructName = "FormFieldSelect"
+		rf.Fieldname = "Options"
+		res = append(res, rf)
+	case Row:
+		var rf ReverseField
+		_ = rf
+		rf.GongstructName = "Table"
+		rf.Fieldname = "Rows"
+		res = append(res, rf)
+	case Table:
+		var rf ReverseField
+		_ = rf
 	}
 	return
 }

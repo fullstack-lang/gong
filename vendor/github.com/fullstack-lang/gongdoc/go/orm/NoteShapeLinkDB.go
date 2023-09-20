@@ -578,6 +578,39 @@ func (backRepoNoteShapeLink *BackRepoNoteShapeLinkStruct) RestorePhaseTwo() {
 
 }
 
+// BackRepoNoteShapeLink.ResetReversePointers commits all staged instances of NoteShapeLink to the BackRepo
+// Phase Two is the update of instance with the field in the database
+func (backRepoNoteShapeLink *BackRepoNoteShapeLinkStruct) ResetReversePointers(backRepo *BackRepoStruct) (Error error) {
+
+	for idx, noteshapelink := range backRepoNoteShapeLink.Map_NoteShapeLinkDBID_NoteShapeLinkPtr {
+		backRepoNoteShapeLink.ResetReversePointersInstance(backRepo, idx, noteshapelink)
+	}
+
+	return
+}
+
+func (backRepoNoteShapeLink *BackRepoNoteShapeLinkStruct) ResetReversePointersInstance(backRepo *BackRepoStruct, idx uint, astruct *models.NoteShapeLink) (Error error) {
+
+	// fetch matching noteshapelinkDB
+	if noteshapelinkDB, ok := backRepoNoteShapeLink.Map_NoteShapeLinkDBID_NoteShapeLinkDB[idx]; ok {
+		_ = noteshapelinkDB // to avoid unused variable error if there are no reverse to reset
+
+		// insertion point for reverse pointers reset
+		if noteshapelinkDB.NoteShape_NoteShapeLinksDBID.Int64 != 0 {
+			noteshapelinkDB.NoteShape_NoteShapeLinksDBID.Int64 = 0
+			noteshapelinkDB.NoteShape_NoteShapeLinksDBID.Valid = true
+
+			// save the reset
+			if q := backRepoNoteShapeLink.db.Save(noteshapelinkDB); q.Error != nil {
+				return q.Error
+			}
+		}
+		// end of insertion point for reverse pointers reset
+	}
+
+	return
+}
+
 // this field is used during the restauration process.
 // it stores the ID at the backup time and is used for renumbering
 var BackRepoNoteShapeLinkid_atBckpTime_newID map[uint]uint
