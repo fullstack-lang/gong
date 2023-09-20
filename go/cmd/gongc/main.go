@@ -34,11 +34,11 @@ const COMPUTED_FROM_PKG_PATH string = "computed from pkgPath (path to package fo
 var (
 	pkgPath = flag.String("pkgPath", ".", "path to the models package."+
 		"For instance, gongc go/models")
-	skipSwagger = flag.Bool("skipSwagger", true, "skip swagger file generation")
-	skipNg      = flag.Bool("skipNg", false, "generates skipNg, skip ng operations")
-	skipFlutter = flag.Bool("skipFlutter", true, "do not generate flutter front")
-	skipCoder   = flag.Bool("skipCoder", true, "do not generate coder file")
-	skipSerialize = flag.Bool("skipSerialize", true, "do not generate serialize code")
+	skipSwagger   = flag.Bool("skipSwagger", true, "skip swagger file generation")
+	skipNg        = flag.Bool("skipNg", false, "generates skipNg, skip ng operations")
+	skipFlutter   = flag.Bool("skipFlutter", true, "do not generate flutter front")
+	skipCoder     = flag.Bool("skipCoder", true, "do not generate coder file")
+	skipSerialize = flag.Bool("skipSerialize", false, "do not generate models/gong_serialize code for xl ouput")
 
 	clean = flag.Bool("clean", false, "let gongc remove files & dir that are generated. The program then exits.")
 
@@ -479,7 +479,7 @@ func main() {
 			modelPkg.Name,
 			modelPkg.PkgPath,
 			filepath.Join(*pkgPath, "../models/gong_serialize.go"),
-			models.ModelGongSerializeFileTemplate, models.ModelGongSerializeStructSubTemplateCode)	
+			models.ModelGongSerializeFileTemplate, models.ModelGongSerializeStructSubTemplateCode)
 	}
 
 	orm.MultiCodeGeneratorBackRepo(

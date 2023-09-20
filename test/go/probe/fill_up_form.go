@@ -71,6 +71,7 @@ func FillUpForm[T models.Gongstruct](
 	case *models.Dstruct:
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, playground.formStage, formGroup)
+		AssociationSliceToForm("Anarrayofb", instanceWithInferedType, &instanceWithInferedType.Anarrayofb, formGroup, playground)
 
 	default:
 		_ = instanceWithInferedType
