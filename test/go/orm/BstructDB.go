@@ -57,6 +57,12 @@ type BstructPointersEnconding struct {
 
 	// implementation of the index of the withing the slice
 	Astruct_AnotherarrayofbDBID_Index sql.NullInt64
+
+	// Implementation of a reverse ID for field Dstruct{}.Anarrayofb []*Bstruct
+	Dstruct_AnarrayofbDBID sql.NullInt64
+
+	// implementation of the index of the withing the slice
+	Dstruct_AnarrayofbDBID_Index sql.NullInt64
 }
 
 // BstructDB describes a bstruct in the database
@@ -595,6 +601,12 @@ func (backRepoBstruct *BackRepoBstructStruct) RestorePhaseTwo() {
 				int64(BackRepoAstructid_atBckpTime_newID[uint(bstructDB.Astruct_AnotherarrayofbDBID.Int64)])
 		}
 
+		// This reindex bstruct.Anarrayofb
+		if bstructDB.Dstruct_AnarrayofbDBID.Int64 != 0 {
+			bstructDB.Dstruct_AnarrayofbDBID.Int64 =
+				int64(BackRepoDstructid_atBckpTime_newID[uint(bstructDB.Dstruct_AnarrayofbDBID.Int64)])
+		}
+
 		// update databse with new index encoding
 		query := backRepoBstruct.db.Model(bstructDB).Updates(*bstructDB)
 		if query.Error != nil {
@@ -634,6 +646,15 @@ func (backRepoBstruct *BackRepoBstructStruct) ResetReversePointersInstance(backR
 		if bstructDB.Astruct_AnotherarrayofbDBID.Int64 != 0 {
 			bstructDB.Astruct_AnotherarrayofbDBID.Int64 = 0
 			bstructDB.Astruct_AnotherarrayofbDBID.Valid = true
+
+			// save the reset
+			if q := backRepoBstruct.db.Save(bstructDB); q.Error != nil {
+				return q.Error
+			}
+		}
+		if bstructDB.Dstruct_AnarrayofbDBID.Int64 != 0 {
+			bstructDB.Dstruct_AnarrayofbDBID.Int64 = 0
+			bstructDB.Dstruct_AnarrayofbDBID.Valid = true
 
 			// save the reset
 			if q := backRepoBstruct.db.Save(bstructDB); q.Error != nil {

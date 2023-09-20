@@ -815,6 +815,8 @@ func GetAssociationName[Type Gongstruct]() *Type {
 	case Dstruct:
 		return any(&Dstruct{
 			// Initialisation of associations
+			// field is initialized with an instance of Bstruct with the name of the field
+			Anarrayofb: []*Bstruct{{Name: "Anarrayofb"}},
 		}).(*Type)
 	default:
 		return nil
@@ -1126,6 +1128,14 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 	case Dstruct:
 		switch fieldname {
 		// insertion point for per direct association field
+		case "Anarrayofb":
+			res := make(map[*Bstruct]*Dstruct)
+			for dstruct := range stage.Dstructs {
+				for _, bstruct_ := range dstruct.Anarrayofb {
+					res[bstruct_] = dstruct
+				}
+			}
+			return any(res).(map[*End]*Start)
 		}
 	}
 	return nil
@@ -1169,7 +1179,7 @@ func GetFields[Type Gongstruct]() (res []string) {
 	case Bstruct:
 		res = []string{"Name", "Floatfield", "Floatfield2", "Intfield"}
 	case Dstruct:
-		res = []string{"Name"}
+		res = []string{"Name", "Anarrayofb"}
 	}
 	return
 }
@@ -1215,6 +1225,9 @@ func GetReverseFields[Type Gongstruct]() (res []ReverseField) {
 		rf.GongstructName = "Astruct"
 		rf.Fieldname = "Anotherarrayofb"
 		res = append(res, rf)
+		rf.GongstructName = "Dstruct"
+		rf.Fieldname = "Anarrayofb"
+		res = append(res, rf)
 	case Dstruct:
 		var rf ReverseField
 		_ = rf
@@ -1238,7 +1251,7 @@ func GetFieldsFromPointer[Type PointerToGongstruct]() (res []string) {
 	case *Bstruct:
 		res = []string{"Name", "Floatfield", "Floatfield2", "Intfield"}
 	case *Dstruct:
-		res = []string{"Name"}
+		res = []string{"Name", "Anarrayofb"}
 	}
 	return
 }
@@ -1401,6 +1414,13 @@ func GetFieldStringValueFromPointer[Type PointerToGongstruct](instance Type, fie
 		// string value of fields
 		case "Name":
 			res = inferedInstance.Name
+		case "Anarrayofb":
+			for idx, __instance__ := range inferedInstance.Anarrayofb {
+				if idx > 0 {
+					res += "\n"
+				}
+				res += __instance__.Name
+			}
 		}
 	default:
 		_ = inferedInstance	
@@ -1566,6 +1586,13 @@ func GetFieldStringValue[Type Gongstruct](instance Type, fieldName string) (res 
 		// string value of fields
 		case "Name":
 			res = inferedInstance.Name
+		case "Anarrayofb":
+			for idx, __instance__ := range inferedInstance.Anarrayofb {
+				if idx > 0 {
+					res += "\n"
+				}
+				res += __instance__.Name
+			}
 		}
 	default:
 		_ = inferedInstance	

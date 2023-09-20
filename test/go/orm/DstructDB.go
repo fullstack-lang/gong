@@ -208,6 +208,25 @@ func (backRepoDstruct *BackRepoDstructStruct) CommitPhaseTwoInstance(backRepo *B
 		dstructDB.CopyBasicFieldsFromDstruct(dstruct)
 
 		// insertion point for translating pointers encodings into actual pointers
+		// This loop encodes the slice of pointers dstruct.Anarrayofb into the back repo.
+		// Each back repo instance at the end of the association encode the ID of the association start
+		// into a dedicated field for coding the association. The back repo instance is then saved to the db
+		for idx, bstructAssocEnd := range dstruct.Anarrayofb {
+
+			// get the back repo instance at the association end
+			bstructAssocEnd_DB :=
+				backRepo.BackRepoBstruct.GetBstructDBFromBstructPtr(bstructAssocEnd)
+
+			// encode reverse pointer in the association end back repo instance
+			bstructAssocEnd_DB.Dstruct_AnarrayofbDBID.Int64 = int64(dstructDB.ID)
+			bstructAssocEnd_DB.Dstruct_AnarrayofbDBID.Valid = true
+			bstructAssocEnd_DB.Dstruct_AnarrayofbDBID_Index.Int64 = int64(idx)
+			bstructAssocEnd_DB.Dstruct_AnarrayofbDBID_Index.Valid = true
+			if q := backRepoDstruct.db.Save(bstructAssocEnd_DB); q.Error != nil {
+				return q.Error
+			}
+		}
+
 		query := backRepoDstruct.db.Save(&dstructDB)
 		if query.Error != nil {
 			return query.Error
@@ -315,6 +334,33 @@ func (backRepoDstruct *BackRepoDstructStruct) CheckoutPhaseTwoInstance(backRepo 
 	_ = dstruct // sometimes, there is no code generated. This lines voids the "unused variable" compilation error
 
 	// insertion point for checkout of pointer encoding
+	// This loop redeem dstruct.Anarrayofb in the stage from the encode in the back repo
+	// It parses all BstructDB in the back repo and if the reverse pointer encoding matches the back repo ID
+	// it appends the stage instance
+	// 1. reset the slice
+	dstruct.Anarrayofb = dstruct.Anarrayofb[:0]
+	// 2. loop all instances in the type in the association end
+	for _, bstructDB_AssocEnd := range backRepo.BackRepoBstruct.Map_BstructDBID_BstructDB {
+		// 3. Does the ID encoding at the end and the ID at the start matches ?
+		if bstructDB_AssocEnd.Dstruct_AnarrayofbDBID.Int64 == int64(dstructDB.ID) {
+			// 4. fetch the associated instance in the stage
+			bstruct_AssocEnd := backRepo.BackRepoBstruct.Map_BstructDBID_BstructPtr[bstructDB_AssocEnd.ID]
+			// 5. append it the association slice
+			dstruct.Anarrayofb = append(dstruct.Anarrayofb, bstruct_AssocEnd)
+		}
+	}
+
+	// sort the array according to the order
+	sort.Slice(dstruct.Anarrayofb, func(i, j int) bool {
+		bstructDB_i_ID := backRepo.BackRepoBstruct.Map_BstructPtr_BstructDBID[dstruct.Anarrayofb[i]]
+		bstructDB_j_ID := backRepo.BackRepoBstruct.Map_BstructPtr_BstructDBID[dstruct.Anarrayofb[j]]
+
+		bstructDB_i := backRepo.BackRepoBstruct.Map_BstructDBID_BstructDB[bstructDB_i_ID]
+		bstructDB_j := backRepo.BackRepoBstruct.Map_BstructDBID_BstructDB[bstructDB_j_ID]
+
+		return bstructDB_i.Dstruct_AnarrayofbDBID_Index.Int64 < bstructDB_j.Dstruct_AnarrayofbDBID_Index.Int64
+	})
+
 	return
 }
 

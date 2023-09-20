@@ -142,6 +142,25 @@ func EvictInOtherSlices[OwningType PointerToGongstruct, FieldType PointerToGongs
 
 	case *Dstruct:
 		// insertion point per field
+		if fieldName == "Anarrayofb" {
+
+			// walk all instances of the owning type
+			for _instance := range *GetGongstructInstancesSetFromPointerType[OwningType](stage) {
+				if any(_instance).(*Dstruct) != owningInstanceInfered {
+					_inferedTypeInstance := any(_instance).(*Dstruct)
+					reference := make([]FieldType, 0)
+					targetFieldSlice := any(_inferedTypeInstance.Anarrayofb).([]FieldType)
+					copy(targetFieldSlice, reference)
+					_inferedTypeInstance.Anarrayofb = _inferedTypeInstance.Anarrayofb[0:]
+					for _, fieldInstance := range reference {
+						if _, ok := setOfFieldInstances[any(fieldInstance).(FieldType)]; !ok {
+							_inferedTypeInstance.Anarrayofb =
+								append(_inferedTypeInstance.Anarrayofb, any(fieldInstance).(*Bstruct))
+						}
+					}
+				}
+			}
+		}
 
 	default:
 		_ = owningInstanceInfered // to avoid "declared and not used" error if no named struct has slices

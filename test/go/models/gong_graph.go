@@ -212,6 +212,9 @@ func (stage *StageStruct) StageBranchDstruct(dstruct *Dstruct) {
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _bstruct := range dstruct.Anarrayofb {
+		StageBranch(stage, _bstruct)
+	}
 
 }
 
@@ -365,6 +368,9 @@ func (stage *StageStruct) UnstageBranchDstruct(dstruct *Dstruct) {
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _bstruct := range dstruct.Anarrayofb {
+		UnstageBranch(stage, _bstruct)
+	}
 
 }
 
