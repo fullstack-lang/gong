@@ -206,7 +206,7 @@ map[string]string{
 		formGroup := (&gongtable.FormGroup{
 			Name:  gongtable.FormGroupDefaultName.ToString(),
 			Label: "Update {{Structname}} Form",
-			OnSave: New{{Structname}}FormCallback(
+			OnSave: __gong__New__{{Structname}}FormCallback(
 				instancesTyped,
 				rowUpdate.playground,
 			),

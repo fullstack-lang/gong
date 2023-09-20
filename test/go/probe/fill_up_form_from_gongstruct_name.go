@@ -30,7 +30,7 @@ func FillUpFormFromGongstructName(
 		formGroup := (&form.FormGroup{
 			Name:  form.FormGroupDefaultName.ToString(),
 			Label: prefix + " Astruct Form",
-			OnSave: NewAstructFormCallback(
+			OnSave: __gong__New__AstructFormCallback(
 				nil,
 				playground,
 			),
@@ -41,7 +41,7 @@ func FillUpFormFromGongstructName(
 		formGroup := (&form.FormGroup{
 			Name:  form.FormGroupDefaultName.ToString(),
 			Label: prefix + " AstructBstruct2Use Form",
-			OnSave: NewAstructBstruct2UseFormCallback(
+			OnSave: __gong__New__AstructBstruct2UseFormCallback(
 				nil,
 				playground,
 			),
@@ -52,7 +52,7 @@ func FillUpFormFromGongstructName(
 		formGroup := (&form.FormGroup{
 			Name:  form.FormGroupDefaultName.ToString(),
 			Label: prefix + " AstructBstructUse Form",
-			OnSave: NewAstructBstructUseFormCallback(
+			OnSave: __gong__New__AstructBstructUseFormCallback(
 				nil,
 				playground,
 			),
@@ -63,7 +63,7 @@ func FillUpFormFromGongstructName(
 		formGroup := (&form.FormGroup{
 			Name:  form.FormGroupDefaultName.ToString(),
 			Label: prefix + " Bstruct Form",
-			OnSave: NewBstructFormCallback(
+			OnSave: __gong__New__BstructFormCallback(
 				nil,
 				playground,
 			),
@@ -74,7 +74,7 @@ func FillUpFormFromGongstructName(
 		formGroup := (&form.FormGroup{
 			Name:  form.FormGroupDefaultName.ToString(),
 			Label: prefix + " Dstruct Form",
-			OnSave: NewDstructFormCallback(
+			OnSave: __gong__New__DstructFormCallback(
 				nil,
 				playground,
 			),
