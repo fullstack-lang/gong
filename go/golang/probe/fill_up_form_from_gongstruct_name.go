@@ -47,7 +47,7 @@ map[string]string{
 		formGroup := (&form.FormGroup{
 			Name:  form.FormGroupDefaultName.ToString(),
 			Label: prefix + " {{Structname}} Form",
-			OnSave: New{{Structname}}FormCallback(
+			OnSave: __gong__New__{{Structname}}FormCallback(
 				nil,
 				playground,
 			),
