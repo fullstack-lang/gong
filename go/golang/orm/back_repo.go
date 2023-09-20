@@ -10,7 +10,6 @@ import (
 	"log"
 	"os"
 	"path/filepath"
-	"sync"
 
 	"{{PkgPathRoot}}/models"
 
@@ -128,25 +127,6 @@ func (backRepo *BackRepoStruct) Checkout(stage *models.StageStruct) {
 	// insertion point for per struct back repo phase one commit{{` + string(rune(BackRepoPerStructPhaseOneCheckouts)) + `}}
 
 	// insertion point for per struct back repo phase two commit{{` + string(rune(BackRepoPerStructPhaseTwoCheckouts)) + `}}
-}
-
-var _backRepo *BackRepoStruct
-
-var once sync.Once
-
-func GetDefaultBackRepo() *BackRepoStruct {
-	once.Do(func() {
-		_backRepo = NewBackRepo(models.GetDefaultStage(), "")
-	})
-	return _backRepo
-}
-
-func GetLastCommitFromBackNb() uint {
-	return GetDefaultBackRepo().GetLastCommitFromBackNb()
-}
-
-func GetLastPushFromFrontNb() uint {
-	return GetDefaultBackRepo().GetLastPushFromFrontNb()
 }
 
 // Backup the BackRepoStruct
