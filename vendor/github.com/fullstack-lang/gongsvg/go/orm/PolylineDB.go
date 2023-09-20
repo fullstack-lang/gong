@@ -708,6 +708,39 @@ func (backRepoPolyline *BackRepoPolylineStruct) RestorePhaseTwo() {
 
 }
 
+// BackRepoPolyline.ResetReversePointers commits all staged instances of Polyline to the BackRepo
+// Phase Two is the update of instance with the field in the database
+func (backRepoPolyline *BackRepoPolylineStruct) ResetReversePointers(backRepo *BackRepoStruct) (Error error) {
+
+	for idx, polyline := range backRepoPolyline.Map_PolylineDBID_PolylinePtr {
+		backRepoPolyline.ResetReversePointersInstance(backRepo, idx, polyline)
+	}
+
+	return
+}
+
+func (backRepoPolyline *BackRepoPolylineStruct) ResetReversePointersInstance(backRepo *BackRepoStruct, idx uint, astruct *models.Polyline) (Error error) {
+
+	// fetch matching polylineDB
+	if polylineDB, ok := backRepoPolyline.Map_PolylineDBID_PolylineDB[idx]; ok {
+		_ = polylineDB // to avoid unused variable error if there are no reverse to reset
+
+		// insertion point for reverse pointers reset
+		if polylineDB.Layer_PolylinesDBID.Int64 != 0 {
+			polylineDB.Layer_PolylinesDBID.Int64 = 0
+			polylineDB.Layer_PolylinesDBID.Valid = true
+
+			// save the reset
+			if q := backRepoPolyline.db.Save(polylineDB); q.Error != nil {
+				return q.Error
+			}
+		}
+		// end of insertion point for reverse pointers reset
+	}
+
+	return
+}
+
 // this field is used during the restauration process.
 // it stores the ID at the backup time and is used for renumbering
 var BackRepoPolylineid_atBckpTime_newID map[uint]uint

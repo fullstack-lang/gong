@@ -703,6 +703,39 @@ func (backRepoClassdiagram *BackRepoClassdiagramStruct) RestorePhaseTwo() {
 
 }
 
+// BackRepoClassdiagram.ResetReversePointers commits all staged instances of Classdiagram to the BackRepo
+// Phase Two is the update of instance with the field in the database
+func (backRepoClassdiagram *BackRepoClassdiagramStruct) ResetReversePointers(backRepo *BackRepoStruct) (Error error) {
+
+	for idx, classdiagram := range backRepoClassdiagram.Map_ClassdiagramDBID_ClassdiagramPtr {
+		backRepoClassdiagram.ResetReversePointersInstance(backRepo, idx, classdiagram)
+	}
+
+	return
+}
+
+func (backRepoClassdiagram *BackRepoClassdiagramStruct) ResetReversePointersInstance(backRepo *BackRepoStruct, idx uint, astruct *models.Classdiagram) (Error error) {
+
+	// fetch matching classdiagramDB
+	if classdiagramDB, ok := backRepoClassdiagram.Map_ClassdiagramDBID_ClassdiagramDB[idx]; ok {
+		_ = classdiagramDB // to avoid unused variable error if there are no reverse to reset
+
+		// insertion point for reverse pointers reset
+		if classdiagramDB.DiagramPackage_ClassdiagramsDBID.Int64 != 0 {
+			classdiagramDB.DiagramPackage_ClassdiagramsDBID.Int64 = 0
+			classdiagramDB.DiagramPackage_ClassdiagramsDBID.Valid = true
+
+			// save the reset
+			if q := backRepoClassdiagram.db.Save(classdiagramDB); q.Error != nil {
+				return q.Error
+			}
+		}
+		// end of insertion point for reverse pointers reset
+	}
+
+	return
+}
+
 // this field is used during the restauration process.
 // it stores the ID at the backup time and is used for renumbering
 var BackRepoClassdiagramid_atBckpTime_newID map[uint]uint

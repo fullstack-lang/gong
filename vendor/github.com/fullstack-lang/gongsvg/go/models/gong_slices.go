@@ -19,14 +19,14 @@ package models
 // fields of other instance
 //
 // Note : algo is in O(N)log(N) of nb of Astruct and Bstruct instances
-func EvictInOtherSlices[T PointerToGongstruct, TF PointerToGongstruct](
+func EvictInOtherSlices[OwningType PointerToGongstruct, FieldType PointerToGongstruct](
 	stage *StageStruct,
-	owningInstance T,
-	sliceField []TF,
+	owningInstance OwningType,
+	sliceField []FieldType,
 	fieldName string) {
 
 	// create a map of the field elements
-	setOfFieldInstances := make(map[TF]any, 0)
+	setOfFieldInstances := make(map[FieldType]any, 0)
 	for _, fieldInstance := range sliceField {
 		setOfFieldInstances[fieldInstance] = true
 	}
@@ -38,18 +38,20 @@ func EvictInOtherSlices[T PointerToGongstruct, TF PointerToGongstruct](
 
 	case *Circle:
 		// insertion point per field
-		// tweaking, it might be streamlined
 		if fieldName == "Animations" {
-			for _instance := range *GetGongstructInstancesSetFromPointerType[T](stage) {
-				_inferedTypeInstance := any(_instance).(*Circle)
-				reference := make([]TF, 0)
-				targetFieldSlice := any(_inferedTypeInstance.Animations).([]TF)
-				copy(targetFieldSlice, reference)
-				_inferedTypeInstance.Animations = make([]*Animate, 0)
+
+			// walk all instances of the owning type
+			for _instance := range *GetGongstructInstancesSetFromPointerType[OwningType](stage) {
 				if any(_instance).(*Circle) != owningInstanceInfered {
+					_inferedTypeInstance := any(_instance).(*Circle)
+					reference := make([]FieldType, 0)
+					targetFieldSlice := any(_inferedTypeInstance.Animations).([]FieldType)
+					copy(targetFieldSlice, reference)
+					_inferedTypeInstance.Animations = _inferedTypeInstance.Animations[0:]
 					for _, fieldInstance := range reference {
-						if _, ok := setOfFieldInstances[any(fieldInstance).(TF)]; !ok {
-							targetFieldSlice = append(targetFieldSlice, fieldInstance)
+						if _, ok := setOfFieldInstances[any(fieldInstance).(FieldType)]; !ok {
+							_inferedTypeInstance.Animations =
+								append(_inferedTypeInstance.Animations, any(fieldInstance).(*Animate))
 						}
 					}
 				}
@@ -58,18 +60,20 @@ func EvictInOtherSlices[T PointerToGongstruct, TF PointerToGongstruct](
 
 	case *Ellipse:
 		// insertion point per field
-		// tweaking, it might be streamlined
 		if fieldName == "Animates" {
-			for _instance := range *GetGongstructInstancesSetFromPointerType[T](stage) {
-				_inferedTypeInstance := any(_instance).(*Ellipse)
-				reference := make([]TF, 0)
-				targetFieldSlice := any(_inferedTypeInstance.Animates).([]TF)
-				copy(targetFieldSlice, reference)
-				_inferedTypeInstance.Animates = make([]*Animate, 0)
+
+			// walk all instances of the owning type
+			for _instance := range *GetGongstructInstancesSetFromPointerType[OwningType](stage) {
 				if any(_instance).(*Ellipse) != owningInstanceInfered {
+					_inferedTypeInstance := any(_instance).(*Ellipse)
+					reference := make([]FieldType, 0)
+					targetFieldSlice := any(_inferedTypeInstance.Animates).([]FieldType)
+					copy(targetFieldSlice, reference)
+					_inferedTypeInstance.Animates = _inferedTypeInstance.Animates[0:]
 					for _, fieldInstance := range reference {
-						if _, ok := setOfFieldInstances[any(fieldInstance).(TF)]; !ok {
-							targetFieldSlice = append(targetFieldSlice, fieldInstance)
+						if _, ok := setOfFieldInstances[any(fieldInstance).(FieldType)]; !ok {
+							_inferedTypeInstance.Animates =
+								append(_inferedTypeInstance.Animates, any(fieldInstance).(*Animate))
 						}
 					}
 				}
@@ -78,171 +82,191 @@ func EvictInOtherSlices[T PointerToGongstruct, TF PointerToGongstruct](
 
 	case *Layer:
 		// insertion point per field
-		// tweaking, it might be streamlined
 		if fieldName == "Rects" {
-			for _instance := range *GetGongstructInstancesSetFromPointerType[T](stage) {
-				_inferedTypeInstance := any(_instance).(*Layer)
-				reference := make([]TF, 0)
-				targetFieldSlice := any(_inferedTypeInstance.Rects).([]TF)
-				copy(targetFieldSlice, reference)
-				_inferedTypeInstance.Rects = make([]*Rect, 0)
+
+			// walk all instances of the owning type
+			for _instance := range *GetGongstructInstancesSetFromPointerType[OwningType](stage) {
 				if any(_instance).(*Layer) != owningInstanceInfered {
+					_inferedTypeInstance := any(_instance).(*Layer)
+					reference := make([]FieldType, 0)
+					targetFieldSlice := any(_inferedTypeInstance.Rects).([]FieldType)
+					copy(targetFieldSlice, reference)
+					_inferedTypeInstance.Rects = _inferedTypeInstance.Rects[0:]
 					for _, fieldInstance := range reference {
-						if _, ok := setOfFieldInstances[any(fieldInstance).(TF)]; !ok {
-							targetFieldSlice = append(targetFieldSlice, fieldInstance)
+						if _, ok := setOfFieldInstances[any(fieldInstance).(FieldType)]; !ok {
+							_inferedTypeInstance.Rects =
+								append(_inferedTypeInstance.Rects, any(fieldInstance).(*Rect))
 						}
 					}
 				}
 			}
 		}
-		// tweaking, it might be streamlined
 		if fieldName == "Texts" {
-			for _instance := range *GetGongstructInstancesSetFromPointerType[T](stage) {
-				_inferedTypeInstance := any(_instance).(*Layer)
-				reference := make([]TF, 0)
-				targetFieldSlice := any(_inferedTypeInstance.Texts).([]TF)
-				copy(targetFieldSlice, reference)
-				_inferedTypeInstance.Texts = make([]*Text, 0)
+
+			// walk all instances of the owning type
+			for _instance := range *GetGongstructInstancesSetFromPointerType[OwningType](stage) {
 				if any(_instance).(*Layer) != owningInstanceInfered {
+					_inferedTypeInstance := any(_instance).(*Layer)
+					reference := make([]FieldType, 0)
+					targetFieldSlice := any(_inferedTypeInstance.Texts).([]FieldType)
+					copy(targetFieldSlice, reference)
+					_inferedTypeInstance.Texts = _inferedTypeInstance.Texts[0:]
 					for _, fieldInstance := range reference {
-						if _, ok := setOfFieldInstances[any(fieldInstance).(TF)]; !ok {
-							targetFieldSlice = append(targetFieldSlice, fieldInstance)
+						if _, ok := setOfFieldInstances[any(fieldInstance).(FieldType)]; !ok {
+							_inferedTypeInstance.Texts =
+								append(_inferedTypeInstance.Texts, any(fieldInstance).(*Text))
 						}
 					}
 				}
 			}
 		}
-		// tweaking, it might be streamlined
 		if fieldName == "Circles" {
-			for _instance := range *GetGongstructInstancesSetFromPointerType[T](stage) {
-				_inferedTypeInstance := any(_instance).(*Layer)
-				reference := make([]TF, 0)
-				targetFieldSlice := any(_inferedTypeInstance.Circles).([]TF)
-				copy(targetFieldSlice, reference)
-				_inferedTypeInstance.Circles = make([]*Circle, 0)
+
+			// walk all instances of the owning type
+			for _instance := range *GetGongstructInstancesSetFromPointerType[OwningType](stage) {
 				if any(_instance).(*Layer) != owningInstanceInfered {
+					_inferedTypeInstance := any(_instance).(*Layer)
+					reference := make([]FieldType, 0)
+					targetFieldSlice := any(_inferedTypeInstance.Circles).([]FieldType)
+					copy(targetFieldSlice, reference)
+					_inferedTypeInstance.Circles = _inferedTypeInstance.Circles[0:]
 					for _, fieldInstance := range reference {
-						if _, ok := setOfFieldInstances[any(fieldInstance).(TF)]; !ok {
-							targetFieldSlice = append(targetFieldSlice, fieldInstance)
+						if _, ok := setOfFieldInstances[any(fieldInstance).(FieldType)]; !ok {
+							_inferedTypeInstance.Circles =
+								append(_inferedTypeInstance.Circles, any(fieldInstance).(*Circle))
 						}
 					}
 				}
 			}
 		}
-		// tweaking, it might be streamlined
 		if fieldName == "Lines" {
-			for _instance := range *GetGongstructInstancesSetFromPointerType[T](stage) {
-				_inferedTypeInstance := any(_instance).(*Layer)
-				reference := make([]TF, 0)
-				targetFieldSlice := any(_inferedTypeInstance.Lines).([]TF)
-				copy(targetFieldSlice, reference)
-				_inferedTypeInstance.Lines = make([]*Line, 0)
+
+			// walk all instances of the owning type
+			for _instance := range *GetGongstructInstancesSetFromPointerType[OwningType](stage) {
 				if any(_instance).(*Layer) != owningInstanceInfered {
+					_inferedTypeInstance := any(_instance).(*Layer)
+					reference := make([]FieldType, 0)
+					targetFieldSlice := any(_inferedTypeInstance.Lines).([]FieldType)
+					copy(targetFieldSlice, reference)
+					_inferedTypeInstance.Lines = _inferedTypeInstance.Lines[0:]
 					for _, fieldInstance := range reference {
-						if _, ok := setOfFieldInstances[any(fieldInstance).(TF)]; !ok {
-							targetFieldSlice = append(targetFieldSlice, fieldInstance)
+						if _, ok := setOfFieldInstances[any(fieldInstance).(FieldType)]; !ok {
+							_inferedTypeInstance.Lines =
+								append(_inferedTypeInstance.Lines, any(fieldInstance).(*Line))
 						}
 					}
 				}
 			}
 		}
-		// tweaking, it might be streamlined
 		if fieldName == "Ellipses" {
-			for _instance := range *GetGongstructInstancesSetFromPointerType[T](stage) {
-				_inferedTypeInstance := any(_instance).(*Layer)
-				reference := make([]TF, 0)
-				targetFieldSlice := any(_inferedTypeInstance.Ellipses).([]TF)
-				copy(targetFieldSlice, reference)
-				_inferedTypeInstance.Ellipses = make([]*Ellipse, 0)
+
+			// walk all instances of the owning type
+			for _instance := range *GetGongstructInstancesSetFromPointerType[OwningType](stage) {
 				if any(_instance).(*Layer) != owningInstanceInfered {
+					_inferedTypeInstance := any(_instance).(*Layer)
+					reference := make([]FieldType, 0)
+					targetFieldSlice := any(_inferedTypeInstance.Ellipses).([]FieldType)
+					copy(targetFieldSlice, reference)
+					_inferedTypeInstance.Ellipses = _inferedTypeInstance.Ellipses[0:]
 					for _, fieldInstance := range reference {
-						if _, ok := setOfFieldInstances[any(fieldInstance).(TF)]; !ok {
-							targetFieldSlice = append(targetFieldSlice, fieldInstance)
+						if _, ok := setOfFieldInstances[any(fieldInstance).(FieldType)]; !ok {
+							_inferedTypeInstance.Ellipses =
+								append(_inferedTypeInstance.Ellipses, any(fieldInstance).(*Ellipse))
 						}
 					}
 				}
 			}
 		}
-		// tweaking, it might be streamlined
 		if fieldName == "Polylines" {
-			for _instance := range *GetGongstructInstancesSetFromPointerType[T](stage) {
-				_inferedTypeInstance := any(_instance).(*Layer)
-				reference := make([]TF, 0)
-				targetFieldSlice := any(_inferedTypeInstance.Polylines).([]TF)
-				copy(targetFieldSlice, reference)
-				_inferedTypeInstance.Polylines = make([]*Polyline, 0)
+
+			// walk all instances of the owning type
+			for _instance := range *GetGongstructInstancesSetFromPointerType[OwningType](stage) {
 				if any(_instance).(*Layer) != owningInstanceInfered {
+					_inferedTypeInstance := any(_instance).(*Layer)
+					reference := make([]FieldType, 0)
+					targetFieldSlice := any(_inferedTypeInstance.Polylines).([]FieldType)
+					copy(targetFieldSlice, reference)
+					_inferedTypeInstance.Polylines = _inferedTypeInstance.Polylines[0:]
 					for _, fieldInstance := range reference {
-						if _, ok := setOfFieldInstances[any(fieldInstance).(TF)]; !ok {
-							targetFieldSlice = append(targetFieldSlice, fieldInstance)
+						if _, ok := setOfFieldInstances[any(fieldInstance).(FieldType)]; !ok {
+							_inferedTypeInstance.Polylines =
+								append(_inferedTypeInstance.Polylines, any(fieldInstance).(*Polyline))
 						}
 					}
 				}
 			}
 		}
-		// tweaking, it might be streamlined
 		if fieldName == "Polygones" {
-			for _instance := range *GetGongstructInstancesSetFromPointerType[T](stage) {
-				_inferedTypeInstance := any(_instance).(*Layer)
-				reference := make([]TF, 0)
-				targetFieldSlice := any(_inferedTypeInstance.Polygones).([]TF)
-				copy(targetFieldSlice, reference)
-				_inferedTypeInstance.Polygones = make([]*Polygone, 0)
+
+			// walk all instances of the owning type
+			for _instance := range *GetGongstructInstancesSetFromPointerType[OwningType](stage) {
 				if any(_instance).(*Layer) != owningInstanceInfered {
+					_inferedTypeInstance := any(_instance).(*Layer)
+					reference := make([]FieldType, 0)
+					targetFieldSlice := any(_inferedTypeInstance.Polygones).([]FieldType)
+					copy(targetFieldSlice, reference)
+					_inferedTypeInstance.Polygones = _inferedTypeInstance.Polygones[0:]
 					for _, fieldInstance := range reference {
-						if _, ok := setOfFieldInstances[any(fieldInstance).(TF)]; !ok {
-							targetFieldSlice = append(targetFieldSlice, fieldInstance)
+						if _, ok := setOfFieldInstances[any(fieldInstance).(FieldType)]; !ok {
+							_inferedTypeInstance.Polygones =
+								append(_inferedTypeInstance.Polygones, any(fieldInstance).(*Polygone))
 						}
 					}
 				}
 			}
 		}
-		// tweaking, it might be streamlined
 		if fieldName == "Paths" {
-			for _instance := range *GetGongstructInstancesSetFromPointerType[T](stage) {
-				_inferedTypeInstance := any(_instance).(*Layer)
-				reference := make([]TF, 0)
-				targetFieldSlice := any(_inferedTypeInstance.Paths).([]TF)
-				copy(targetFieldSlice, reference)
-				_inferedTypeInstance.Paths = make([]*Path, 0)
+
+			// walk all instances of the owning type
+			for _instance := range *GetGongstructInstancesSetFromPointerType[OwningType](stage) {
 				if any(_instance).(*Layer) != owningInstanceInfered {
+					_inferedTypeInstance := any(_instance).(*Layer)
+					reference := make([]FieldType, 0)
+					targetFieldSlice := any(_inferedTypeInstance.Paths).([]FieldType)
+					copy(targetFieldSlice, reference)
+					_inferedTypeInstance.Paths = _inferedTypeInstance.Paths[0:]
 					for _, fieldInstance := range reference {
-						if _, ok := setOfFieldInstances[any(fieldInstance).(TF)]; !ok {
-							targetFieldSlice = append(targetFieldSlice, fieldInstance)
+						if _, ok := setOfFieldInstances[any(fieldInstance).(FieldType)]; !ok {
+							_inferedTypeInstance.Paths =
+								append(_inferedTypeInstance.Paths, any(fieldInstance).(*Path))
 						}
 					}
 				}
 			}
 		}
-		// tweaking, it might be streamlined
 		if fieldName == "Links" {
-			for _instance := range *GetGongstructInstancesSetFromPointerType[T](stage) {
-				_inferedTypeInstance := any(_instance).(*Layer)
-				reference := make([]TF, 0)
-				targetFieldSlice := any(_inferedTypeInstance.Links).([]TF)
-				copy(targetFieldSlice, reference)
-				_inferedTypeInstance.Links = make([]*Link, 0)
+
+			// walk all instances of the owning type
+			for _instance := range *GetGongstructInstancesSetFromPointerType[OwningType](stage) {
 				if any(_instance).(*Layer) != owningInstanceInfered {
+					_inferedTypeInstance := any(_instance).(*Layer)
+					reference := make([]FieldType, 0)
+					targetFieldSlice := any(_inferedTypeInstance.Links).([]FieldType)
+					copy(targetFieldSlice, reference)
+					_inferedTypeInstance.Links = _inferedTypeInstance.Links[0:]
 					for _, fieldInstance := range reference {
-						if _, ok := setOfFieldInstances[any(fieldInstance).(TF)]; !ok {
-							targetFieldSlice = append(targetFieldSlice, fieldInstance)
+						if _, ok := setOfFieldInstances[any(fieldInstance).(FieldType)]; !ok {
+							_inferedTypeInstance.Links =
+								append(_inferedTypeInstance.Links, any(fieldInstance).(*Link))
 						}
 					}
 				}
 			}
 		}
-		// tweaking, it might be streamlined
 		if fieldName == "RectLinkLinks" {
-			for _instance := range *GetGongstructInstancesSetFromPointerType[T](stage) {
-				_inferedTypeInstance := any(_instance).(*Layer)
-				reference := make([]TF, 0)
-				targetFieldSlice := any(_inferedTypeInstance.RectLinkLinks).([]TF)
-				copy(targetFieldSlice, reference)
-				_inferedTypeInstance.RectLinkLinks = make([]*RectLinkLink, 0)
+
+			// walk all instances of the owning type
+			for _instance := range *GetGongstructInstancesSetFromPointerType[OwningType](stage) {
 				if any(_instance).(*Layer) != owningInstanceInfered {
+					_inferedTypeInstance := any(_instance).(*Layer)
+					reference := make([]FieldType, 0)
+					targetFieldSlice := any(_inferedTypeInstance.RectLinkLinks).([]FieldType)
+					copy(targetFieldSlice, reference)
+					_inferedTypeInstance.RectLinkLinks = _inferedTypeInstance.RectLinkLinks[0:]
 					for _, fieldInstance := range reference {
-						if _, ok := setOfFieldInstances[any(fieldInstance).(TF)]; !ok {
-							targetFieldSlice = append(targetFieldSlice, fieldInstance)
+						if _, ok := setOfFieldInstances[any(fieldInstance).(FieldType)]; !ok {
+							_inferedTypeInstance.RectLinkLinks =
+								append(_inferedTypeInstance.RectLinkLinks, any(fieldInstance).(*RectLinkLink))
 						}
 					}
 				}
@@ -251,18 +275,20 @@ func EvictInOtherSlices[T PointerToGongstruct, TF PointerToGongstruct](
 
 	case *Line:
 		// insertion point per field
-		// tweaking, it might be streamlined
 		if fieldName == "Animates" {
-			for _instance := range *GetGongstructInstancesSetFromPointerType[T](stage) {
-				_inferedTypeInstance := any(_instance).(*Line)
-				reference := make([]TF, 0)
-				targetFieldSlice := any(_inferedTypeInstance.Animates).([]TF)
-				copy(targetFieldSlice, reference)
-				_inferedTypeInstance.Animates = make([]*Animate, 0)
+
+			// walk all instances of the owning type
+			for _instance := range *GetGongstructInstancesSetFromPointerType[OwningType](stage) {
 				if any(_instance).(*Line) != owningInstanceInfered {
+					_inferedTypeInstance := any(_instance).(*Line)
+					reference := make([]FieldType, 0)
+					targetFieldSlice := any(_inferedTypeInstance.Animates).([]FieldType)
+					copy(targetFieldSlice, reference)
+					_inferedTypeInstance.Animates = _inferedTypeInstance.Animates[0:]
 					for _, fieldInstance := range reference {
-						if _, ok := setOfFieldInstances[any(fieldInstance).(TF)]; !ok {
-							targetFieldSlice = append(targetFieldSlice, fieldInstance)
+						if _, ok := setOfFieldInstances[any(fieldInstance).(FieldType)]; !ok {
+							_inferedTypeInstance.Animates =
+								append(_inferedTypeInstance.Animates, any(fieldInstance).(*Animate))
 						}
 					}
 				}
@@ -271,52 +297,58 @@ func EvictInOtherSlices[T PointerToGongstruct, TF PointerToGongstruct](
 
 	case *Link:
 		// insertion point per field
-		// tweaking, it might be streamlined
 		if fieldName == "TextAtArrowEnd" {
-			for _instance := range *GetGongstructInstancesSetFromPointerType[T](stage) {
-				_inferedTypeInstance := any(_instance).(*Link)
-				reference := make([]TF, 0)
-				targetFieldSlice := any(_inferedTypeInstance.TextAtArrowEnd).([]TF)
-				copy(targetFieldSlice, reference)
-				_inferedTypeInstance.TextAtArrowEnd = make([]*LinkAnchoredText, 0)
+
+			// walk all instances of the owning type
+			for _instance := range *GetGongstructInstancesSetFromPointerType[OwningType](stage) {
 				if any(_instance).(*Link) != owningInstanceInfered {
+					_inferedTypeInstance := any(_instance).(*Link)
+					reference := make([]FieldType, 0)
+					targetFieldSlice := any(_inferedTypeInstance.TextAtArrowEnd).([]FieldType)
+					copy(targetFieldSlice, reference)
+					_inferedTypeInstance.TextAtArrowEnd = _inferedTypeInstance.TextAtArrowEnd[0:]
 					for _, fieldInstance := range reference {
-						if _, ok := setOfFieldInstances[any(fieldInstance).(TF)]; !ok {
-							targetFieldSlice = append(targetFieldSlice, fieldInstance)
+						if _, ok := setOfFieldInstances[any(fieldInstance).(FieldType)]; !ok {
+							_inferedTypeInstance.TextAtArrowEnd =
+								append(_inferedTypeInstance.TextAtArrowEnd, any(fieldInstance).(*LinkAnchoredText))
 						}
 					}
 				}
 			}
 		}
-		// tweaking, it might be streamlined
 		if fieldName == "TextAtArrowStart" {
-			for _instance := range *GetGongstructInstancesSetFromPointerType[T](stage) {
-				_inferedTypeInstance := any(_instance).(*Link)
-				reference := make([]TF, 0)
-				targetFieldSlice := any(_inferedTypeInstance.TextAtArrowStart).([]TF)
-				copy(targetFieldSlice, reference)
-				_inferedTypeInstance.TextAtArrowStart = make([]*LinkAnchoredText, 0)
+
+			// walk all instances of the owning type
+			for _instance := range *GetGongstructInstancesSetFromPointerType[OwningType](stage) {
 				if any(_instance).(*Link) != owningInstanceInfered {
+					_inferedTypeInstance := any(_instance).(*Link)
+					reference := make([]FieldType, 0)
+					targetFieldSlice := any(_inferedTypeInstance.TextAtArrowStart).([]FieldType)
+					copy(targetFieldSlice, reference)
+					_inferedTypeInstance.TextAtArrowStart = _inferedTypeInstance.TextAtArrowStart[0:]
 					for _, fieldInstance := range reference {
-						if _, ok := setOfFieldInstances[any(fieldInstance).(TF)]; !ok {
-							targetFieldSlice = append(targetFieldSlice, fieldInstance)
+						if _, ok := setOfFieldInstances[any(fieldInstance).(FieldType)]; !ok {
+							_inferedTypeInstance.TextAtArrowStart =
+								append(_inferedTypeInstance.TextAtArrowStart, any(fieldInstance).(*LinkAnchoredText))
 						}
 					}
 				}
 			}
 		}
-		// tweaking, it might be streamlined
 		if fieldName == "ControlPoints" {
-			for _instance := range *GetGongstructInstancesSetFromPointerType[T](stage) {
-				_inferedTypeInstance := any(_instance).(*Link)
-				reference := make([]TF, 0)
-				targetFieldSlice := any(_inferedTypeInstance.ControlPoints).([]TF)
-				copy(targetFieldSlice, reference)
-				_inferedTypeInstance.ControlPoints = make([]*Point, 0)
+
+			// walk all instances of the owning type
+			for _instance := range *GetGongstructInstancesSetFromPointerType[OwningType](stage) {
 				if any(_instance).(*Link) != owningInstanceInfered {
+					_inferedTypeInstance := any(_instance).(*Link)
+					reference := make([]FieldType, 0)
+					targetFieldSlice := any(_inferedTypeInstance.ControlPoints).([]FieldType)
+					copy(targetFieldSlice, reference)
+					_inferedTypeInstance.ControlPoints = _inferedTypeInstance.ControlPoints[0:]
 					for _, fieldInstance := range reference {
-						if _, ok := setOfFieldInstances[any(fieldInstance).(TF)]; !ok {
-							targetFieldSlice = append(targetFieldSlice, fieldInstance)
+						if _, ok := setOfFieldInstances[any(fieldInstance).(FieldType)]; !ok {
+							_inferedTypeInstance.ControlPoints =
+								append(_inferedTypeInstance.ControlPoints, any(fieldInstance).(*Point))
 						}
 					}
 				}
@@ -325,18 +357,20 @@ func EvictInOtherSlices[T PointerToGongstruct, TF PointerToGongstruct](
 
 	case *LinkAnchoredText:
 		// insertion point per field
-		// tweaking, it might be streamlined
 		if fieldName == "Animates" {
-			for _instance := range *GetGongstructInstancesSetFromPointerType[T](stage) {
-				_inferedTypeInstance := any(_instance).(*LinkAnchoredText)
-				reference := make([]TF, 0)
-				targetFieldSlice := any(_inferedTypeInstance.Animates).([]TF)
-				copy(targetFieldSlice, reference)
-				_inferedTypeInstance.Animates = make([]*Animate, 0)
+
+			// walk all instances of the owning type
+			for _instance := range *GetGongstructInstancesSetFromPointerType[OwningType](stage) {
 				if any(_instance).(*LinkAnchoredText) != owningInstanceInfered {
+					_inferedTypeInstance := any(_instance).(*LinkAnchoredText)
+					reference := make([]FieldType, 0)
+					targetFieldSlice := any(_inferedTypeInstance.Animates).([]FieldType)
+					copy(targetFieldSlice, reference)
+					_inferedTypeInstance.Animates = _inferedTypeInstance.Animates[0:]
 					for _, fieldInstance := range reference {
-						if _, ok := setOfFieldInstances[any(fieldInstance).(TF)]; !ok {
-							targetFieldSlice = append(targetFieldSlice, fieldInstance)
+						if _, ok := setOfFieldInstances[any(fieldInstance).(FieldType)]; !ok {
+							_inferedTypeInstance.Animates =
+								append(_inferedTypeInstance.Animates, any(fieldInstance).(*Animate))
 						}
 					}
 				}
@@ -345,18 +379,20 @@ func EvictInOtherSlices[T PointerToGongstruct, TF PointerToGongstruct](
 
 	case *Path:
 		// insertion point per field
-		// tweaking, it might be streamlined
 		if fieldName == "Animates" {
-			for _instance := range *GetGongstructInstancesSetFromPointerType[T](stage) {
-				_inferedTypeInstance := any(_instance).(*Path)
-				reference := make([]TF, 0)
-				targetFieldSlice := any(_inferedTypeInstance.Animates).([]TF)
-				copy(targetFieldSlice, reference)
-				_inferedTypeInstance.Animates = make([]*Animate, 0)
+
+			// walk all instances of the owning type
+			for _instance := range *GetGongstructInstancesSetFromPointerType[OwningType](stage) {
 				if any(_instance).(*Path) != owningInstanceInfered {
+					_inferedTypeInstance := any(_instance).(*Path)
+					reference := make([]FieldType, 0)
+					targetFieldSlice := any(_inferedTypeInstance.Animates).([]FieldType)
+					copy(targetFieldSlice, reference)
+					_inferedTypeInstance.Animates = _inferedTypeInstance.Animates[0:]
 					for _, fieldInstance := range reference {
-						if _, ok := setOfFieldInstances[any(fieldInstance).(TF)]; !ok {
-							targetFieldSlice = append(targetFieldSlice, fieldInstance)
+						if _, ok := setOfFieldInstances[any(fieldInstance).(FieldType)]; !ok {
+							_inferedTypeInstance.Animates =
+								append(_inferedTypeInstance.Animates, any(fieldInstance).(*Animate))
 						}
 					}
 				}
@@ -368,18 +404,20 @@ func EvictInOtherSlices[T PointerToGongstruct, TF PointerToGongstruct](
 
 	case *Polygone:
 		// insertion point per field
-		// tweaking, it might be streamlined
 		if fieldName == "Animates" {
-			for _instance := range *GetGongstructInstancesSetFromPointerType[T](stage) {
-				_inferedTypeInstance := any(_instance).(*Polygone)
-				reference := make([]TF, 0)
-				targetFieldSlice := any(_inferedTypeInstance.Animates).([]TF)
-				copy(targetFieldSlice, reference)
-				_inferedTypeInstance.Animates = make([]*Animate, 0)
+
+			// walk all instances of the owning type
+			for _instance := range *GetGongstructInstancesSetFromPointerType[OwningType](stage) {
 				if any(_instance).(*Polygone) != owningInstanceInfered {
+					_inferedTypeInstance := any(_instance).(*Polygone)
+					reference := make([]FieldType, 0)
+					targetFieldSlice := any(_inferedTypeInstance.Animates).([]FieldType)
+					copy(targetFieldSlice, reference)
+					_inferedTypeInstance.Animates = _inferedTypeInstance.Animates[0:]
 					for _, fieldInstance := range reference {
-						if _, ok := setOfFieldInstances[any(fieldInstance).(TF)]; !ok {
-							targetFieldSlice = append(targetFieldSlice, fieldInstance)
+						if _, ok := setOfFieldInstances[any(fieldInstance).(FieldType)]; !ok {
+							_inferedTypeInstance.Animates =
+								append(_inferedTypeInstance.Animates, any(fieldInstance).(*Animate))
 						}
 					}
 				}
@@ -388,18 +426,20 @@ func EvictInOtherSlices[T PointerToGongstruct, TF PointerToGongstruct](
 
 	case *Polyline:
 		// insertion point per field
-		// tweaking, it might be streamlined
 		if fieldName == "Animates" {
-			for _instance := range *GetGongstructInstancesSetFromPointerType[T](stage) {
-				_inferedTypeInstance := any(_instance).(*Polyline)
-				reference := make([]TF, 0)
-				targetFieldSlice := any(_inferedTypeInstance.Animates).([]TF)
-				copy(targetFieldSlice, reference)
-				_inferedTypeInstance.Animates = make([]*Animate, 0)
+
+			// walk all instances of the owning type
+			for _instance := range *GetGongstructInstancesSetFromPointerType[OwningType](stage) {
 				if any(_instance).(*Polyline) != owningInstanceInfered {
+					_inferedTypeInstance := any(_instance).(*Polyline)
+					reference := make([]FieldType, 0)
+					targetFieldSlice := any(_inferedTypeInstance.Animates).([]FieldType)
+					copy(targetFieldSlice, reference)
+					_inferedTypeInstance.Animates = _inferedTypeInstance.Animates[0:]
 					for _, fieldInstance := range reference {
-						if _, ok := setOfFieldInstances[any(fieldInstance).(TF)]; !ok {
-							targetFieldSlice = append(targetFieldSlice, fieldInstance)
+						if _, ok := setOfFieldInstances[any(fieldInstance).(FieldType)]; !ok {
+							_inferedTypeInstance.Animates =
+								append(_inferedTypeInstance.Animates, any(fieldInstance).(*Animate))
 						}
 					}
 				}
@@ -408,52 +448,58 @@ func EvictInOtherSlices[T PointerToGongstruct, TF PointerToGongstruct](
 
 	case *Rect:
 		// insertion point per field
-		// tweaking, it might be streamlined
 		if fieldName == "Animations" {
-			for _instance := range *GetGongstructInstancesSetFromPointerType[T](stage) {
-				_inferedTypeInstance := any(_instance).(*Rect)
-				reference := make([]TF, 0)
-				targetFieldSlice := any(_inferedTypeInstance.Animations).([]TF)
-				copy(targetFieldSlice, reference)
-				_inferedTypeInstance.Animations = make([]*Animate, 0)
+
+			// walk all instances of the owning type
+			for _instance := range *GetGongstructInstancesSetFromPointerType[OwningType](stage) {
 				if any(_instance).(*Rect) != owningInstanceInfered {
+					_inferedTypeInstance := any(_instance).(*Rect)
+					reference := make([]FieldType, 0)
+					targetFieldSlice := any(_inferedTypeInstance.Animations).([]FieldType)
+					copy(targetFieldSlice, reference)
+					_inferedTypeInstance.Animations = _inferedTypeInstance.Animations[0:]
 					for _, fieldInstance := range reference {
-						if _, ok := setOfFieldInstances[any(fieldInstance).(TF)]; !ok {
-							targetFieldSlice = append(targetFieldSlice, fieldInstance)
+						if _, ok := setOfFieldInstances[any(fieldInstance).(FieldType)]; !ok {
+							_inferedTypeInstance.Animations =
+								append(_inferedTypeInstance.Animations, any(fieldInstance).(*Animate))
 						}
 					}
 				}
 			}
 		}
-		// tweaking, it might be streamlined
 		if fieldName == "RectAnchoredTexts" {
-			for _instance := range *GetGongstructInstancesSetFromPointerType[T](stage) {
-				_inferedTypeInstance := any(_instance).(*Rect)
-				reference := make([]TF, 0)
-				targetFieldSlice := any(_inferedTypeInstance.RectAnchoredTexts).([]TF)
-				copy(targetFieldSlice, reference)
-				_inferedTypeInstance.RectAnchoredTexts = make([]*RectAnchoredText, 0)
+
+			// walk all instances of the owning type
+			for _instance := range *GetGongstructInstancesSetFromPointerType[OwningType](stage) {
 				if any(_instance).(*Rect) != owningInstanceInfered {
+					_inferedTypeInstance := any(_instance).(*Rect)
+					reference := make([]FieldType, 0)
+					targetFieldSlice := any(_inferedTypeInstance.RectAnchoredTexts).([]FieldType)
+					copy(targetFieldSlice, reference)
+					_inferedTypeInstance.RectAnchoredTexts = _inferedTypeInstance.RectAnchoredTexts[0:]
 					for _, fieldInstance := range reference {
-						if _, ok := setOfFieldInstances[any(fieldInstance).(TF)]; !ok {
-							targetFieldSlice = append(targetFieldSlice, fieldInstance)
+						if _, ok := setOfFieldInstances[any(fieldInstance).(FieldType)]; !ok {
+							_inferedTypeInstance.RectAnchoredTexts =
+								append(_inferedTypeInstance.RectAnchoredTexts, any(fieldInstance).(*RectAnchoredText))
 						}
 					}
 				}
 			}
 		}
-		// tweaking, it might be streamlined
 		if fieldName == "RectAnchoredRects" {
-			for _instance := range *GetGongstructInstancesSetFromPointerType[T](stage) {
-				_inferedTypeInstance := any(_instance).(*Rect)
-				reference := make([]TF, 0)
-				targetFieldSlice := any(_inferedTypeInstance.RectAnchoredRects).([]TF)
-				copy(targetFieldSlice, reference)
-				_inferedTypeInstance.RectAnchoredRects = make([]*RectAnchoredRect, 0)
+
+			// walk all instances of the owning type
+			for _instance := range *GetGongstructInstancesSetFromPointerType[OwningType](stage) {
 				if any(_instance).(*Rect) != owningInstanceInfered {
+					_inferedTypeInstance := any(_instance).(*Rect)
+					reference := make([]FieldType, 0)
+					targetFieldSlice := any(_inferedTypeInstance.RectAnchoredRects).([]FieldType)
+					copy(targetFieldSlice, reference)
+					_inferedTypeInstance.RectAnchoredRects = _inferedTypeInstance.RectAnchoredRects[0:]
 					for _, fieldInstance := range reference {
-						if _, ok := setOfFieldInstances[any(fieldInstance).(TF)]; !ok {
-							targetFieldSlice = append(targetFieldSlice, fieldInstance)
+						if _, ok := setOfFieldInstances[any(fieldInstance).(FieldType)]; !ok {
+							_inferedTypeInstance.RectAnchoredRects =
+								append(_inferedTypeInstance.RectAnchoredRects, any(fieldInstance).(*RectAnchoredRect))
 						}
 					}
 				}
@@ -465,18 +511,20 @@ func EvictInOtherSlices[T PointerToGongstruct, TF PointerToGongstruct](
 
 	case *RectAnchoredText:
 		// insertion point per field
-		// tweaking, it might be streamlined
 		if fieldName == "Animates" {
-			for _instance := range *GetGongstructInstancesSetFromPointerType[T](stage) {
-				_inferedTypeInstance := any(_instance).(*RectAnchoredText)
-				reference := make([]TF, 0)
-				targetFieldSlice := any(_inferedTypeInstance.Animates).([]TF)
-				copy(targetFieldSlice, reference)
-				_inferedTypeInstance.Animates = make([]*Animate, 0)
+
+			// walk all instances of the owning type
+			for _instance := range *GetGongstructInstancesSetFromPointerType[OwningType](stage) {
 				if any(_instance).(*RectAnchoredText) != owningInstanceInfered {
+					_inferedTypeInstance := any(_instance).(*RectAnchoredText)
+					reference := make([]FieldType, 0)
+					targetFieldSlice := any(_inferedTypeInstance.Animates).([]FieldType)
+					copy(targetFieldSlice, reference)
+					_inferedTypeInstance.Animates = _inferedTypeInstance.Animates[0:]
 					for _, fieldInstance := range reference {
-						if _, ok := setOfFieldInstances[any(fieldInstance).(TF)]; !ok {
-							targetFieldSlice = append(targetFieldSlice, fieldInstance)
+						if _, ok := setOfFieldInstances[any(fieldInstance).(FieldType)]; !ok {
+							_inferedTypeInstance.Animates =
+								append(_inferedTypeInstance.Animates, any(fieldInstance).(*Animate))
 						}
 					}
 				}
@@ -488,18 +536,20 @@ func EvictInOtherSlices[T PointerToGongstruct, TF PointerToGongstruct](
 
 	case *SVG:
 		// insertion point per field
-		// tweaking, it might be streamlined
 		if fieldName == "Layers" {
-			for _instance := range *GetGongstructInstancesSetFromPointerType[T](stage) {
-				_inferedTypeInstance := any(_instance).(*SVG)
-				reference := make([]TF, 0)
-				targetFieldSlice := any(_inferedTypeInstance.Layers).([]TF)
-				copy(targetFieldSlice, reference)
-				_inferedTypeInstance.Layers = make([]*Layer, 0)
+
+			// walk all instances of the owning type
+			for _instance := range *GetGongstructInstancesSetFromPointerType[OwningType](stage) {
 				if any(_instance).(*SVG) != owningInstanceInfered {
+					_inferedTypeInstance := any(_instance).(*SVG)
+					reference := make([]FieldType, 0)
+					targetFieldSlice := any(_inferedTypeInstance.Layers).([]FieldType)
+					copy(targetFieldSlice, reference)
+					_inferedTypeInstance.Layers = _inferedTypeInstance.Layers[0:]
 					for _, fieldInstance := range reference {
-						if _, ok := setOfFieldInstances[any(fieldInstance).(TF)]; !ok {
-							targetFieldSlice = append(targetFieldSlice, fieldInstance)
+						if _, ok := setOfFieldInstances[any(fieldInstance).(FieldType)]; !ok {
+							_inferedTypeInstance.Layers =
+								append(_inferedTypeInstance.Layers, any(fieldInstance).(*Layer))
 						}
 					}
 				}
@@ -508,18 +558,20 @@ func EvictInOtherSlices[T PointerToGongstruct, TF PointerToGongstruct](
 
 	case *Text:
 		// insertion point per field
-		// tweaking, it might be streamlined
 		if fieldName == "Animates" {
-			for _instance := range *GetGongstructInstancesSetFromPointerType[T](stage) {
-				_inferedTypeInstance := any(_instance).(*Text)
-				reference := make([]TF, 0)
-				targetFieldSlice := any(_inferedTypeInstance.Animates).([]TF)
-				copy(targetFieldSlice, reference)
-				_inferedTypeInstance.Animates = make([]*Animate, 0)
+
+			// walk all instances of the owning type
+			for _instance := range *GetGongstructInstancesSetFromPointerType[OwningType](stage) {
 				if any(_instance).(*Text) != owningInstanceInfered {
+					_inferedTypeInstance := any(_instance).(*Text)
+					reference := make([]FieldType, 0)
+					targetFieldSlice := any(_inferedTypeInstance.Animates).([]FieldType)
+					copy(targetFieldSlice, reference)
+					_inferedTypeInstance.Animates = _inferedTypeInstance.Animates[0:]
 					for _, fieldInstance := range reference {
-						if _, ok := setOfFieldInstances[any(fieldInstance).(TF)]; !ok {
-							targetFieldSlice = append(targetFieldSlice, fieldInstance)
+						if _, ok := setOfFieldInstances[any(fieldInstance).(FieldType)]; !ok {
+							_inferedTypeInstance.Animates =
+								append(_inferedTypeInstance.Animates, any(fieldInstance).(*Animate))
 						}
 					}
 				}

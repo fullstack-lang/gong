@@ -709,6 +709,39 @@ func (backRepoNoteShape *BackRepoNoteShapeStruct) RestorePhaseTwo() {
 
 }
 
+// BackRepoNoteShape.ResetReversePointers commits all staged instances of NoteShape to the BackRepo
+// Phase Two is the update of instance with the field in the database
+func (backRepoNoteShape *BackRepoNoteShapeStruct) ResetReversePointers(backRepo *BackRepoStruct) (Error error) {
+
+	for idx, noteshape := range backRepoNoteShape.Map_NoteShapeDBID_NoteShapePtr {
+		backRepoNoteShape.ResetReversePointersInstance(backRepo, idx, noteshape)
+	}
+
+	return
+}
+
+func (backRepoNoteShape *BackRepoNoteShapeStruct) ResetReversePointersInstance(backRepo *BackRepoStruct, idx uint, astruct *models.NoteShape) (Error error) {
+
+	// fetch matching noteshapeDB
+	if noteshapeDB, ok := backRepoNoteShape.Map_NoteShapeDBID_NoteShapeDB[idx]; ok {
+		_ = noteshapeDB // to avoid unused variable error if there are no reverse to reset
+
+		// insertion point for reverse pointers reset
+		if noteshapeDB.Classdiagram_NoteShapesDBID.Int64 != 0 {
+			noteshapeDB.Classdiagram_NoteShapesDBID.Int64 = 0
+			noteshapeDB.Classdiagram_NoteShapesDBID.Valid = true
+
+			// save the reset
+			if q := backRepoNoteShape.db.Save(noteshapeDB); q.Error != nil {
+				return q.Error
+			}
+		}
+		// end of insertion point for reverse pointers reset
+	}
+
+	return
+}
+
 // this field is used during the restauration process.
 // it stores the ID at the backup time and is used for renumbering
 var BackRepoNoteShapeid_atBckpTime_newID map[uint]uint

@@ -625,6 +625,39 @@ func (backRepoUmlsc *BackRepoUmlscStruct) RestorePhaseTwo() {
 
 }
 
+// BackRepoUmlsc.ResetReversePointers commits all staged instances of Umlsc to the BackRepo
+// Phase Two is the update of instance with the field in the database
+func (backRepoUmlsc *BackRepoUmlscStruct) ResetReversePointers(backRepo *BackRepoStruct) (Error error) {
+
+	for idx, umlsc := range backRepoUmlsc.Map_UmlscDBID_UmlscPtr {
+		backRepoUmlsc.ResetReversePointersInstance(backRepo, idx, umlsc)
+	}
+
+	return
+}
+
+func (backRepoUmlsc *BackRepoUmlscStruct) ResetReversePointersInstance(backRepo *BackRepoStruct, idx uint, astruct *models.Umlsc) (Error error) {
+
+	// fetch matching umlscDB
+	if umlscDB, ok := backRepoUmlsc.Map_UmlscDBID_UmlscDB[idx]; ok {
+		_ = umlscDB // to avoid unused variable error if there are no reverse to reset
+
+		// insertion point for reverse pointers reset
+		if umlscDB.DiagramPackage_UmlscsDBID.Int64 != 0 {
+			umlscDB.DiagramPackage_UmlscsDBID.Int64 = 0
+			umlscDB.DiagramPackage_UmlscsDBID.Valid = true
+
+			// save the reset
+			if q := backRepoUmlsc.db.Save(umlscDB); q.Error != nil {
+				return q.Error
+			}
+		}
+		// end of insertion point for reverse pointers reset
+	}
+
+	return
+}
+
 // this field is used during the restauration process.
 // it stores the ID at the backup time and is used for renumbering
 var BackRepoUmlscid_atBckpTime_newID map[uint]uint

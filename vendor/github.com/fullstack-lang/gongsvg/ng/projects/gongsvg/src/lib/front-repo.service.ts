@@ -1414,6 +1414,355 @@ export class FrontRepoService {
               }
             )
 
+            // 
+            // Third Step: sort arrays (slices in go) according to their index
+            // insertion point sub template for redeem 
+            animates.forEach(
+              animate => {
+                // insertion point for sorting
+              }
+            )
+            circles.forEach(
+              circle => {
+                // insertion point for sorting
+                circle.Animations?.sort((t1, t2) => {
+                  if (t1.Circle_AnimationsDBID_Index.Int64 > t2.Circle_AnimationsDBID_Index.Int64) {
+                    return 1;
+                  }
+                  if (t1.Circle_AnimationsDBID_Index.Int64 < t2.Circle_AnimationsDBID_Index.Int64) {
+                    return -1;
+                  }
+                  return 0;
+                })
+
+              }
+            )
+            ellipses.forEach(
+              ellipse => {
+                // insertion point for sorting
+                ellipse.Animates?.sort((t1, t2) => {
+                  if (t1.Ellipse_AnimatesDBID_Index.Int64 > t2.Ellipse_AnimatesDBID_Index.Int64) {
+                    return 1;
+                  }
+                  if (t1.Ellipse_AnimatesDBID_Index.Int64 < t2.Ellipse_AnimatesDBID_Index.Int64) {
+                    return -1;
+                  }
+                  return 0;
+                })
+
+              }
+            )
+            layers.forEach(
+              layer => {
+                // insertion point for sorting
+                layer.Rects?.sort((t1, t2) => {
+                  if (t1.Layer_RectsDBID_Index.Int64 > t2.Layer_RectsDBID_Index.Int64) {
+                    return 1;
+                  }
+                  if (t1.Layer_RectsDBID_Index.Int64 < t2.Layer_RectsDBID_Index.Int64) {
+                    return -1;
+                  }
+                  return 0;
+                })
+
+                layer.Texts?.sort((t1, t2) => {
+                  if (t1.Layer_TextsDBID_Index.Int64 > t2.Layer_TextsDBID_Index.Int64) {
+                    return 1;
+                  }
+                  if (t1.Layer_TextsDBID_Index.Int64 < t2.Layer_TextsDBID_Index.Int64) {
+                    return -1;
+                  }
+                  return 0;
+                })
+
+                layer.Circles?.sort((t1, t2) => {
+                  if (t1.Layer_CirclesDBID_Index.Int64 > t2.Layer_CirclesDBID_Index.Int64) {
+                    return 1;
+                  }
+                  if (t1.Layer_CirclesDBID_Index.Int64 < t2.Layer_CirclesDBID_Index.Int64) {
+                    return -1;
+                  }
+                  return 0;
+                })
+
+                layer.Lines?.sort((t1, t2) => {
+                  if (t1.Layer_LinesDBID_Index.Int64 > t2.Layer_LinesDBID_Index.Int64) {
+                    return 1;
+                  }
+                  if (t1.Layer_LinesDBID_Index.Int64 < t2.Layer_LinesDBID_Index.Int64) {
+                    return -1;
+                  }
+                  return 0;
+                })
+
+                layer.Ellipses?.sort((t1, t2) => {
+                  if (t1.Layer_EllipsesDBID_Index.Int64 > t2.Layer_EllipsesDBID_Index.Int64) {
+                    return 1;
+                  }
+                  if (t1.Layer_EllipsesDBID_Index.Int64 < t2.Layer_EllipsesDBID_Index.Int64) {
+                    return -1;
+                  }
+                  return 0;
+                })
+
+                layer.Polylines?.sort((t1, t2) => {
+                  if (t1.Layer_PolylinesDBID_Index.Int64 > t2.Layer_PolylinesDBID_Index.Int64) {
+                    return 1;
+                  }
+                  if (t1.Layer_PolylinesDBID_Index.Int64 < t2.Layer_PolylinesDBID_Index.Int64) {
+                    return -1;
+                  }
+                  return 0;
+                })
+
+                layer.Polygones?.sort((t1, t2) => {
+                  if (t1.Layer_PolygonesDBID_Index.Int64 > t2.Layer_PolygonesDBID_Index.Int64) {
+                    return 1;
+                  }
+                  if (t1.Layer_PolygonesDBID_Index.Int64 < t2.Layer_PolygonesDBID_Index.Int64) {
+                    return -1;
+                  }
+                  return 0;
+                })
+
+                layer.Paths?.sort((t1, t2) => {
+                  if (t1.Layer_PathsDBID_Index.Int64 > t2.Layer_PathsDBID_Index.Int64) {
+                    return 1;
+                  }
+                  if (t1.Layer_PathsDBID_Index.Int64 < t2.Layer_PathsDBID_Index.Int64) {
+                    return -1;
+                  }
+                  return 0;
+                })
+
+                layer.Links?.sort((t1, t2) => {
+                  if (t1.Layer_LinksDBID_Index.Int64 > t2.Layer_LinksDBID_Index.Int64) {
+                    return 1;
+                  }
+                  if (t1.Layer_LinksDBID_Index.Int64 < t2.Layer_LinksDBID_Index.Int64) {
+                    return -1;
+                  }
+                  return 0;
+                })
+
+                layer.RectLinkLinks?.sort((t1, t2) => {
+                  if (t1.Layer_RectLinkLinksDBID_Index.Int64 > t2.Layer_RectLinkLinksDBID_Index.Int64) {
+                    return 1;
+                  }
+                  if (t1.Layer_RectLinkLinksDBID_Index.Int64 < t2.Layer_RectLinkLinksDBID_Index.Int64) {
+                    return -1;
+                  }
+                  return 0;
+                })
+
+              }
+            )
+            lines.forEach(
+              line => {
+                // insertion point for sorting
+                line.Animates?.sort((t1, t2) => {
+                  if (t1.Line_AnimatesDBID_Index.Int64 > t2.Line_AnimatesDBID_Index.Int64) {
+                    return 1;
+                  }
+                  if (t1.Line_AnimatesDBID_Index.Int64 < t2.Line_AnimatesDBID_Index.Int64) {
+                    return -1;
+                  }
+                  return 0;
+                })
+
+              }
+            )
+            links.forEach(
+              link => {
+                // insertion point for sorting
+                link.TextAtArrowEnd?.sort((t1, t2) => {
+                  if (t1.Link_TextAtArrowEndDBID_Index.Int64 > t2.Link_TextAtArrowEndDBID_Index.Int64) {
+                    return 1;
+                  }
+                  if (t1.Link_TextAtArrowEndDBID_Index.Int64 < t2.Link_TextAtArrowEndDBID_Index.Int64) {
+                    return -1;
+                  }
+                  return 0;
+                })
+
+                link.TextAtArrowStart?.sort((t1, t2) => {
+                  if (t1.Link_TextAtArrowStartDBID_Index.Int64 > t2.Link_TextAtArrowStartDBID_Index.Int64) {
+                    return 1;
+                  }
+                  if (t1.Link_TextAtArrowStartDBID_Index.Int64 < t2.Link_TextAtArrowStartDBID_Index.Int64) {
+                    return -1;
+                  }
+                  return 0;
+                })
+
+                link.ControlPoints?.sort((t1, t2) => {
+                  if (t1.Link_ControlPointsDBID_Index.Int64 > t2.Link_ControlPointsDBID_Index.Int64) {
+                    return 1;
+                  }
+                  if (t1.Link_ControlPointsDBID_Index.Int64 < t2.Link_ControlPointsDBID_Index.Int64) {
+                    return -1;
+                  }
+                  return 0;
+                })
+
+              }
+            )
+            linkanchoredtexts.forEach(
+              linkanchoredtext => {
+                // insertion point for sorting
+                linkanchoredtext.Animates?.sort((t1, t2) => {
+                  if (t1.LinkAnchoredText_AnimatesDBID_Index.Int64 > t2.LinkAnchoredText_AnimatesDBID_Index.Int64) {
+                    return 1;
+                  }
+                  if (t1.LinkAnchoredText_AnimatesDBID_Index.Int64 < t2.LinkAnchoredText_AnimatesDBID_Index.Int64) {
+                    return -1;
+                  }
+                  return 0;
+                })
+
+              }
+            )
+            paths.forEach(
+              path => {
+                // insertion point for sorting
+                path.Animates?.sort((t1, t2) => {
+                  if (t1.Path_AnimatesDBID_Index.Int64 > t2.Path_AnimatesDBID_Index.Int64) {
+                    return 1;
+                  }
+                  if (t1.Path_AnimatesDBID_Index.Int64 < t2.Path_AnimatesDBID_Index.Int64) {
+                    return -1;
+                  }
+                  return 0;
+                })
+
+              }
+            )
+            points.forEach(
+              point => {
+                // insertion point for sorting
+              }
+            )
+            polygones.forEach(
+              polygone => {
+                // insertion point for sorting
+                polygone.Animates?.sort((t1, t2) => {
+                  if (t1.Polygone_AnimatesDBID_Index.Int64 > t2.Polygone_AnimatesDBID_Index.Int64) {
+                    return 1;
+                  }
+                  if (t1.Polygone_AnimatesDBID_Index.Int64 < t2.Polygone_AnimatesDBID_Index.Int64) {
+                    return -1;
+                  }
+                  return 0;
+                })
+
+              }
+            )
+            polylines.forEach(
+              polyline => {
+                // insertion point for sorting
+                polyline.Animates?.sort((t1, t2) => {
+                  if (t1.Polyline_AnimatesDBID_Index.Int64 > t2.Polyline_AnimatesDBID_Index.Int64) {
+                    return 1;
+                  }
+                  if (t1.Polyline_AnimatesDBID_Index.Int64 < t2.Polyline_AnimatesDBID_Index.Int64) {
+                    return -1;
+                  }
+                  return 0;
+                })
+
+              }
+            )
+            rects.forEach(
+              rect => {
+                // insertion point for sorting
+                rect.Animations?.sort((t1, t2) => {
+                  if (t1.Rect_AnimationsDBID_Index.Int64 > t2.Rect_AnimationsDBID_Index.Int64) {
+                    return 1;
+                  }
+                  if (t1.Rect_AnimationsDBID_Index.Int64 < t2.Rect_AnimationsDBID_Index.Int64) {
+                    return -1;
+                  }
+                  return 0;
+                })
+
+                rect.RectAnchoredTexts?.sort((t1, t2) => {
+                  if (t1.Rect_RectAnchoredTextsDBID_Index.Int64 > t2.Rect_RectAnchoredTextsDBID_Index.Int64) {
+                    return 1;
+                  }
+                  if (t1.Rect_RectAnchoredTextsDBID_Index.Int64 < t2.Rect_RectAnchoredTextsDBID_Index.Int64) {
+                    return -1;
+                  }
+                  return 0;
+                })
+
+                rect.RectAnchoredRects?.sort((t1, t2) => {
+                  if (t1.Rect_RectAnchoredRectsDBID_Index.Int64 > t2.Rect_RectAnchoredRectsDBID_Index.Int64) {
+                    return 1;
+                  }
+                  if (t1.Rect_RectAnchoredRectsDBID_Index.Int64 < t2.Rect_RectAnchoredRectsDBID_Index.Int64) {
+                    return -1;
+                  }
+                  return 0;
+                })
+
+              }
+            )
+            rectanchoredrects.forEach(
+              rectanchoredrect => {
+                // insertion point for sorting
+              }
+            )
+            rectanchoredtexts.forEach(
+              rectanchoredtext => {
+                // insertion point for sorting
+                rectanchoredtext.Animates?.sort((t1, t2) => {
+                  if (t1.RectAnchoredText_AnimatesDBID_Index.Int64 > t2.RectAnchoredText_AnimatesDBID_Index.Int64) {
+                    return 1;
+                  }
+                  if (t1.RectAnchoredText_AnimatesDBID_Index.Int64 < t2.RectAnchoredText_AnimatesDBID_Index.Int64) {
+                    return -1;
+                  }
+                  return 0;
+                })
+
+              }
+            )
+            rectlinklinks.forEach(
+              rectlinklink => {
+                // insertion point for sorting
+              }
+            )
+            svgs.forEach(
+              svg => {
+                // insertion point for sorting
+                svg.Layers?.sort((t1, t2) => {
+                  if (t1.SVG_LayersDBID_Index.Int64 > t2.SVG_LayersDBID_Index.Int64) {
+                    return 1;
+                  }
+                  if (t1.SVG_LayersDBID_Index.Int64 < t2.SVG_LayersDBID_Index.Int64) {
+                    return -1;
+                  }
+                  return 0;
+                })
+
+              }
+            )
+            texts.forEach(
+              text => {
+                // insertion point for sorting
+                text.Animates?.sort((t1, t2) => {
+                  if (t1.Text_AnimatesDBID_Index.Int64 > t2.Text_AnimatesDBID_Index.Int64) {
+                    return 1;
+                  }
+                  if (t1.Text_AnimatesDBID_Index.Int64 < t2.Text_AnimatesDBID_Index.Int64) {
+                    return -1;
+                  }
+                  return 0;
+                })
+
+              }
+            )
+
             // hand over control flow to observer
             observer.next(this.frontRepo)
           }

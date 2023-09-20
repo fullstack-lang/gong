@@ -106,6 +106,19 @@
             "command": "go get -d github.com/fullstack-lang/gongtable@HEAD; go mod tidy; go mod vendor"
         },
         {
+            "label": "00 - update dependencies",
+            "type": "shell",
+            "command": "go",
+            "args": [
+              "get",
+              "-d",
+              "github.com/fullstack-lang/gongdoc@HEAD",
+              "github.com/fullstack-lang/gongtree@HEAD",
+              "github.com/fullstack-lang/gongtable@HEAD",
+            ],
+            "group": "build"
+          },
+        {
             "label": "04 - go run test -marshallOnStartup=stage",
             "type": "shell",
             "options": {

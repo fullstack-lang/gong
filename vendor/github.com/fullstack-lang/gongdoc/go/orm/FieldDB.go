@@ -606,6 +606,39 @@ func (backRepoField *BackRepoFieldStruct) RestorePhaseTwo() {
 
 }
 
+// BackRepoField.ResetReversePointers commits all staged instances of Field to the BackRepo
+// Phase Two is the update of instance with the field in the database
+func (backRepoField *BackRepoFieldStruct) ResetReversePointers(backRepo *BackRepoStruct) (Error error) {
+
+	for idx, field := range backRepoField.Map_FieldDBID_FieldPtr {
+		backRepoField.ResetReversePointersInstance(backRepo, idx, field)
+	}
+
+	return
+}
+
+func (backRepoField *BackRepoFieldStruct) ResetReversePointersInstance(backRepo *BackRepoStruct, idx uint, astruct *models.Field) (Error error) {
+
+	// fetch matching fieldDB
+	if fieldDB, ok := backRepoField.Map_FieldDBID_FieldDB[idx]; ok {
+		_ = fieldDB // to avoid unused variable error if there are no reverse to reset
+
+		// insertion point for reverse pointers reset
+		if fieldDB.GongStructShape_FieldsDBID.Int64 != 0 {
+			fieldDB.GongStructShape_FieldsDBID.Int64 = 0
+			fieldDB.GongStructShape_FieldsDBID.Valid = true
+
+			// save the reset
+			if q := backRepoField.db.Save(fieldDB); q.Error != nil {
+				return q.Error
+			}
+		}
+		// end of insertion point for reverse pointers reset
+	}
+
+	return
+}
+
 // this field is used during the restauration process.
 // it stores the ID at the backup time and is used for renumbering
 var BackRepoFieldid_atBckpTime_newID map[uint]uint

@@ -399,6 +399,12 @@ func (classdiagram *Classdiagram) Unstage(stage *StageStruct) *Classdiagram {
 	return classdiagram
 }
 
+// UnstageVoid removes classdiagram off the model stage
+func (classdiagram *Classdiagram) UnstageVoid(stage *StageStruct) {
+	delete(stage.Classdiagrams, classdiagram)
+	delete(stage.Classdiagrams_mapString, classdiagram.Name)
+}
+
 // commit classdiagram to the back repo (if it is already staged)
 func (classdiagram *Classdiagram) Commit(stage *StageStruct) *Classdiagram {
 	if _, ok := stage.Classdiagrams[classdiagram]; ok {
@@ -441,6 +447,12 @@ func (diagrampackage *DiagramPackage) Unstage(stage *StageStruct) *DiagramPackag
 	delete(stage.DiagramPackages, diagrampackage)
 	delete(stage.DiagramPackages_mapString, diagrampackage.Name)
 	return diagrampackage
+}
+
+// UnstageVoid removes diagrampackage off the model stage
+func (diagrampackage *DiagramPackage) UnstageVoid(stage *StageStruct) {
+	delete(stage.DiagramPackages, diagrampackage)
+	delete(stage.DiagramPackages_mapString, diagrampackage.Name)
 }
 
 // commit diagrampackage to the back repo (if it is already staged)
@@ -487,6 +499,12 @@ func (field *Field) Unstage(stage *StageStruct) *Field {
 	return field
 }
 
+// UnstageVoid removes field off the model stage
+func (field *Field) UnstageVoid(stage *StageStruct) {
+	delete(stage.Fields, field)
+	delete(stage.Fields_mapString, field.Name)
+}
+
 // commit field to the back repo (if it is already staged)
 func (field *Field) Commit(stage *StageStruct) *Field {
 	if _, ok := stage.Fields[field]; ok {
@@ -529,6 +547,12 @@ func (gongenumshape *GongEnumShape) Unstage(stage *StageStruct) *GongEnumShape {
 	delete(stage.GongEnumShapes, gongenumshape)
 	delete(stage.GongEnumShapes_mapString, gongenumshape.Name)
 	return gongenumshape
+}
+
+// UnstageVoid removes gongenumshape off the model stage
+func (gongenumshape *GongEnumShape) UnstageVoid(stage *StageStruct) {
+	delete(stage.GongEnumShapes, gongenumshape)
+	delete(stage.GongEnumShapes_mapString, gongenumshape.Name)
 }
 
 // commit gongenumshape to the back repo (if it is already staged)
@@ -575,6 +599,12 @@ func (gongenumvalueentry *GongEnumValueEntry) Unstage(stage *StageStruct) *GongE
 	return gongenumvalueentry
 }
 
+// UnstageVoid removes gongenumvalueentry off the model stage
+func (gongenumvalueentry *GongEnumValueEntry) UnstageVoid(stage *StageStruct) {
+	delete(stage.GongEnumValueEntrys, gongenumvalueentry)
+	delete(stage.GongEnumValueEntrys_mapString, gongenumvalueentry.Name)
+}
+
 // commit gongenumvalueentry to the back repo (if it is already staged)
 func (gongenumvalueentry *GongEnumValueEntry) Commit(stage *StageStruct) *GongEnumValueEntry {
 	if _, ok := stage.GongEnumValueEntrys[gongenumvalueentry]; ok {
@@ -617,6 +647,12 @@ func (gongstructshape *GongStructShape) Unstage(stage *StageStruct) *GongStructS
 	delete(stage.GongStructShapes, gongstructshape)
 	delete(stage.GongStructShapes_mapString, gongstructshape.Name)
 	return gongstructshape
+}
+
+// UnstageVoid removes gongstructshape off the model stage
+func (gongstructshape *GongStructShape) UnstageVoid(stage *StageStruct) {
+	delete(stage.GongStructShapes, gongstructshape)
+	delete(stage.GongStructShapes_mapString, gongstructshape.Name)
 }
 
 // commit gongstructshape to the back repo (if it is already staged)
@@ -663,6 +699,12 @@ func (link *Link) Unstage(stage *StageStruct) *Link {
 	return link
 }
 
+// UnstageVoid removes link off the model stage
+func (link *Link) UnstageVoid(stage *StageStruct) {
+	delete(stage.Links, link)
+	delete(stage.Links_mapString, link.Name)
+}
+
 // commit link to the back repo (if it is already staged)
 func (link *Link) Commit(stage *StageStruct) *Link {
 	if _, ok := stage.Links[link]; ok {
@@ -705,6 +747,12 @@ func (noteshape *NoteShape) Unstage(stage *StageStruct) *NoteShape {
 	delete(stage.NoteShapes, noteshape)
 	delete(stage.NoteShapes_mapString, noteshape.Name)
 	return noteshape
+}
+
+// UnstageVoid removes noteshape off the model stage
+func (noteshape *NoteShape) UnstageVoid(stage *StageStruct) {
+	delete(stage.NoteShapes, noteshape)
+	delete(stage.NoteShapes_mapString, noteshape.Name)
 }
 
 // commit noteshape to the back repo (if it is already staged)
@@ -751,6 +799,12 @@ func (noteshapelink *NoteShapeLink) Unstage(stage *StageStruct) *NoteShapeLink {
 	return noteshapelink
 }
 
+// UnstageVoid removes noteshapelink off the model stage
+func (noteshapelink *NoteShapeLink) UnstageVoid(stage *StageStruct) {
+	delete(stage.NoteShapeLinks, noteshapelink)
+	delete(stage.NoteShapeLinks_mapString, noteshapelink.Name)
+}
+
 // commit noteshapelink to the back repo (if it is already staged)
 func (noteshapelink *NoteShapeLink) Commit(stage *StageStruct) *NoteShapeLink {
 	if _, ok := stage.NoteShapeLinks[noteshapelink]; ok {
@@ -793,6 +847,12 @@ func (position *Position) Unstage(stage *StageStruct) *Position {
 	delete(stage.Positions, position)
 	delete(stage.Positions_mapString, position.Name)
 	return position
+}
+
+// UnstageVoid removes position off the model stage
+func (position *Position) UnstageVoid(stage *StageStruct) {
+	delete(stage.Positions, position)
+	delete(stage.Positions_mapString, position.Name)
 }
 
 // commit position to the back repo (if it is already staged)
@@ -839,6 +899,12 @@ func (umlstate *UmlState) Unstage(stage *StageStruct) *UmlState {
 	return umlstate
 }
 
+// UnstageVoid removes umlstate off the model stage
+func (umlstate *UmlState) UnstageVoid(stage *StageStruct) {
+	delete(stage.UmlStates, umlstate)
+	delete(stage.UmlStates_mapString, umlstate.Name)
+}
+
 // commit umlstate to the back repo (if it is already staged)
 func (umlstate *UmlState) Commit(stage *StageStruct) *UmlState {
 	if _, ok := stage.UmlStates[umlstate]; ok {
@@ -883,6 +949,12 @@ func (umlsc *Umlsc) Unstage(stage *StageStruct) *Umlsc {
 	return umlsc
 }
 
+// UnstageVoid removes umlsc off the model stage
+func (umlsc *Umlsc) UnstageVoid(stage *StageStruct) {
+	delete(stage.Umlscs, umlsc)
+	delete(stage.Umlscs_mapString, umlsc.Name)
+}
+
 // commit umlsc to the back repo (if it is already staged)
 func (umlsc *Umlsc) Commit(stage *StageStruct) *Umlsc {
 	if _, ok := stage.Umlscs[umlsc]; ok {
@@ -925,6 +997,12 @@ func (vertice *Vertice) Unstage(stage *StageStruct) *Vertice {
 	delete(stage.Vertices, vertice)
 	delete(stage.Vertices_mapString, vertice.Name)
 	return vertice
+}
+
+// UnstageVoid removes vertice off the model stage
+func (vertice *Vertice) UnstageVoid(stage *StageStruct) {
+	delete(stage.Vertices, vertice)
+	delete(stage.Vertices_mapString, vertice.Name)
 }
 
 // commit vertice to the back repo (if it is already staged)
@@ -1150,6 +1228,7 @@ type PointerToGongstruct interface {
 	*Classdiagram | *DiagramPackage | *Field | *GongEnumShape | *GongEnumValueEntry | *GongStructShape | *Link | *NoteShape | *NoteShapeLink | *Position | *UmlState | *Umlsc | *Vertice
 	GetName() string
 	CommitVoid(*StageStruct)
+	UnstageVoid(stage *StageStruct)
 }
 
 type GongstructSet interface {
@@ -1856,6 +1935,93 @@ func GetFields[Type Gongstruct]() (res []string) {
 		res = []string{"Name", "States", "Activestate", "IsInDrawMode"}
 	case Vertice:
 		res = []string{"X", "Y", "Name"}
+	}
+	return
+}
+
+type ReverseField struct {
+	GongstructName string
+	Fieldname      string
+}
+
+func GetReverseFields[Type Gongstruct]() (res []ReverseField) {
+
+	res = make([]ReverseField, 0)
+
+	var ret Type
+
+	switch any(ret).(type) {
+
+	// insertion point for generic get gongstruct name
+	case Classdiagram:
+		var rf ReverseField
+		_ = rf
+		rf.GongstructName = "DiagramPackage"
+		rf.Fieldname = "Classdiagrams"
+		res = append(res, rf)
+	case DiagramPackage:
+		var rf ReverseField
+		_ = rf
+	case Field:
+		var rf ReverseField
+		_ = rf
+		rf.GongstructName = "GongStructShape"
+		rf.Fieldname = "Fields"
+		res = append(res, rf)
+	case GongEnumShape:
+		var rf ReverseField
+		_ = rf
+		rf.GongstructName = "Classdiagram"
+		rf.Fieldname = "GongEnumShapes"
+		res = append(res, rf)
+	case GongEnumValueEntry:
+		var rf ReverseField
+		_ = rf
+		rf.GongstructName = "GongEnumShape"
+		rf.Fieldname = "GongEnumValueEntrys"
+		res = append(res, rf)
+	case GongStructShape:
+		var rf ReverseField
+		_ = rf
+		rf.GongstructName = "Classdiagram"
+		rf.Fieldname = "GongStructShapes"
+		res = append(res, rf)
+	case Link:
+		var rf ReverseField
+		_ = rf
+		rf.GongstructName = "GongStructShape"
+		rf.Fieldname = "Links"
+		res = append(res, rf)
+	case NoteShape:
+		var rf ReverseField
+		_ = rf
+		rf.GongstructName = "Classdiagram"
+		rf.Fieldname = "NoteShapes"
+		res = append(res, rf)
+	case NoteShapeLink:
+		var rf ReverseField
+		_ = rf
+		rf.GongstructName = "NoteShape"
+		rf.Fieldname = "NoteShapeLinks"
+		res = append(res, rf)
+	case Position:
+		var rf ReverseField
+		_ = rf
+	case UmlState:
+		var rf ReverseField
+		_ = rf
+		rf.GongstructName = "Umlsc"
+		rf.Fieldname = "States"
+		res = append(res, rf)
+	case Umlsc:
+		var rf ReverseField
+		_ = rf
+		rf.GongstructName = "DiagramPackage"
+		rf.Fieldname = "Umlscs"
+		res = append(res, rf)
+	case Vertice:
+		var rf ReverseField
+		_ = rf
 	}
 	return
 }
