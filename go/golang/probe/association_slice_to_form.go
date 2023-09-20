@@ -44,11 +44,10 @@ func AssociationSliceToForm[InstanceType models.PointerToGongstruct, FieldType m
 		Label: fieldName,
 	}).Stage(playground.formStage)
 	formDiv.FormSortAssocButton = formSortAssocButton
-	onSortingEditon := NewOnSortingEditon(field, playground)
+	onSortingEditon := NewOnSortingEditon(instance, field, playground)
 	formSortAssocButton.OnSortEdition = onSortingEditon
 
 }
-
 type OnAssocEditon[InstanceType models.PointerToGongstruct, FieldType models.PointerToGongstruct] struct {
 	instance   InstanceType
 	field      *[]FieldType
