@@ -736,6 +736,39 @@ func (backRepoText *BackRepoTextStruct) RestorePhaseTwo() {
 
 }
 
+// BackRepoText.ResetReversePointers commits all staged instances of Text to the BackRepo
+// Phase Two is the update of instance with the field in the database
+func (backRepoText *BackRepoTextStruct) ResetReversePointers(backRepo *BackRepoStruct) (Error error) {
+
+	for idx, text := range backRepoText.Map_TextDBID_TextPtr {
+		backRepoText.ResetReversePointersInstance(backRepo, idx, text)
+	}
+
+	return
+}
+
+func (backRepoText *BackRepoTextStruct) ResetReversePointersInstance(backRepo *BackRepoStruct, idx uint, astruct *models.Text) (Error error) {
+
+	// fetch matching textDB
+	if textDB, ok := backRepoText.Map_TextDBID_TextDB[idx]; ok {
+		_ = textDB // to avoid unused variable error if there are no reverse to reset
+
+		// insertion point for reverse pointers reset
+		if textDB.Layer_TextsDBID.Int64 != 0 {
+			textDB.Layer_TextsDBID.Int64 = 0
+			textDB.Layer_TextsDBID.Valid = true
+
+			// save the reset
+			if q := backRepoText.db.Save(textDB); q.Error != nil {
+				return q.Error
+			}
+		}
+		// end of insertion point for reverse pointers reset
+	}
+
+	return
+}
+
 // this field is used during the restauration process.
 // it stores the ID at the backup time and is used for renumbering
 var BackRepoTextid_atBckpTime_newID map[uint]uint

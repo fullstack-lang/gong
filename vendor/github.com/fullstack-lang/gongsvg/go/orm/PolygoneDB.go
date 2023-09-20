@@ -708,6 +708,39 @@ func (backRepoPolygone *BackRepoPolygoneStruct) RestorePhaseTwo() {
 
 }
 
+// BackRepoPolygone.ResetReversePointers commits all staged instances of Polygone to the BackRepo
+// Phase Two is the update of instance with the field in the database
+func (backRepoPolygone *BackRepoPolygoneStruct) ResetReversePointers(backRepo *BackRepoStruct) (Error error) {
+
+	for idx, polygone := range backRepoPolygone.Map_PolygoneDBID_PolygonePtr {
+		backRepoPolygone.ResetReversePointersInstance(backRepo, idx, polygone)
+	}
+
+	return
+}
+
+func (backRepoPolygone *BackRepoPolygoneStruct) ResetReversePointersInstance(backRepo *BackRepoStruct, idx uint, astruct *models.Polygone) (Error error) {
+
+	// fetch matching polygoneDB
+	if polygoneDB, ok := backRepoPolygone.Map_PolygoneDBID_PolygoneDB[idx]; ok {
+		_ = polygoneDB // to avoid unused variable error if there are no reverse to reset
+
+		// insertion point for reverse pointers reset
+		if polygoneDB.Layer_PolygonesDBID.Int64 != 0 {
+			polygoneDB.Layer_PolygonesDBID.Int64 = 0
+			polygoneDB.Layer_PolygonesDBID.Valid = true
+
+			// save the reset
+			if q := backRepoPolygone.db.Save(polygoneDB); q.Error != nil {
+				return q.Error
+			}
+		}
+		// end of insertion point for reverse pointers reset
+	}
+
+	return
+}
+
 // this field is used during the restauration process.
 // it stores the ID at the backup time and is used for renumbering
 var BackRepoPolygoneid_atBckpTime_newID map[uint]uint
