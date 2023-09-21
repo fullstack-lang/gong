@@ -18,7 +18,7 @@ func FillUpFormFromGongstruct[T models.Gongstruct](instance *T, playground *Play
 		formGroup := (&gongtable.FormGroup{
 			Name:  gongtable.FormGroupDefaultName.ToString(),
 			Label: "Update Astruct Form",
-			OnSave: NewAstructFormCallback(
+			OnSave: __gong__New__AstructFormCallback(
 				instancesTyped,
 				playground,
 			),
@@ -28,7 +28,7 @@ func FillUpFormFromGongstruct[T models.Gongstruct](instance *T, playground *Play
 		formGroup := (&gongtable.FormGroup{
 			Name:  gongtable.FormGroupDefaultName.ToString(),
 			Label: "Update AstructBstruct2Use Form",
-			OnSave: NewAstructBstruct2UseFormCallback(
+			OnSave: __gong__New__AstructBstruct2UseFormCallback(
 				instancesTyped,
 				playground,
 			),
@@ -38,7 +38,7 @@ func FillUpFormFromGongstruct[T models.Gongstruct](instance *T, playground *Play
 		formGroup := (&gongtable.FormGroup{
 			Name:  gongtable.FormGroupDefaultName.ToString(),
 			Label: "Update AstructBstructUse Form",
-			OnSave: NewAstructBstructUseFormCallback(
+			OnSave: __gong__New__AstructBstructUseFormCallback(
 				instancesTyped,
 				playground,
 			),
@@ -48,7 +48,7 @@ func FillUpFormFromGongstruct[T models.Gongstruct](instance *T, playground *Play
 		formGroup := (&gongtable.FormGroup{
 			Name:  gongtable.FormGroupDefaultName.ToString(),
 			Label: "Update Bstruct Form",
-			OnSave: NewBstructFormCallback(
+			OnSave: __gong__New__BstructFormCallback(
 				instancesTyped,
 				playground,
 			),
@@ -58,7 +58,7 @@ func FillUpFormFromGongstruct[T models.Gongstruct](instance *T, playground *Play
 		formGroup := (&gongtable.FormGroup{
 			Name:  gongtable.FormGroupDefaultName.ToString(),
 			Label: "Update Dstruct Form",
-			OnSave: NewDstructFormCallback(
+			OnSave: __gong__New__DstructFormCallback(
 				instancesTyped,
 				playground,
 			),

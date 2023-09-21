@@ -14,7 +14,7 @@ import (
 const __dummmy__time = time.Nanosecond
 
 // insertion point
-func NewAstructFormCallback(
+func __gong__New__AstructFormCallback(
 	astruct *models.Astruct,
 	playground *Playground,
 ) (astructFormCallback *AstructFormCallback) {
@@ -110,6 +110,8 @@ func (astructFormCallback *AstructFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(astruct_.EnumValue), formDiv)
 		case "ConstIdentifierValue":
 			FormDivBasicFieldToField(&(astruct_.ConstIdentifierValue), formDiv)
+		case "TextArea":
+			FormDivBasicFieldToField(&(astruct_.TextArea), formDiv)
 		}
 	}
 
@@ -124,7 +126,7 @@ func (astructFormCallback *AstructFormCallback) OnSave() {
 		astructFormCallback.playground.formStage.Reset()
 		newFormGroup := (&table.FormGroup{
 			Name: table.FormGroupDefaultName.ToString(),
-			OnSave: NewAstructFormCallback(
+			OnSave: __gong__New__AstructFormCallback(
 				nil,
 				astructFormCallback.playground,
 			),
@@ -135,7 +137,7 @@ func (astructFormCallback *AstructFormCallback) OnSave() {
 	}
 
 }
-func NewAstructBstruct2UseFormCallback(
+func __gong__New__AstructBstruct2UseFormCallback(
 	astructbstruct2use *models.AstructBstruct2Use,
 	playground *Playground,
 ) (astructbstruct2useFormCallback *AstructBstruct2UseFormCallback) {
@@ -195,7 +197,7 @@ func (astructbstruct2useFormCallback *AstructBstruct2UseFormCallback) OnSave() {
 		astructbstruct2useFormCallback.playground.formStage.Reset()
 		newFormGroup := (&table.FormGroup{
 			Name: table.FormGroupDefaultName.ToString(),
-			OnSave: NewAstructBstruct2UseFormCallback(
+			OnSave: __gong__New__AstructBstruct2UseFormCallback(
 				nil,
 				astructbstruct2useFormCallback.playground,
 			),
@@ -206,7 +208,7 @@ func (astructbstruct2useFormCallback *AstructBstruct2UseFormCallback) OnSave() {
 	}
 
 }
-func NewAstructBstructUseFormCallback(
+func __gong__New__AstructBstructUseFormCallback(
 	astructbstructuse *models.AstructBstructUse,
 	playground *Playground,
 ) (astructbstructuseFormCallback *AstructBstructUseFormCallback) {
@@ -266,7 +268,7 @@ func (astructbstructuseFormCallback *AstructBstructUseFormCallback) OnSave() {
 		astructbstructuseFormCallback.playground.formStage.Reset()
 		newFormGroup := (&table.FormGroup{
 			Name: table.FormGroupDefaultName.ToString(),
-			OnSave: NewAstructBstructUseFormCallback(
+			OnSave: __gong__New__AstructBstructUseFormCallback(
 				nil,
 				astructbstructuseFormCallback.playground,
 			),
@@ -277,7 +279,7 @@ func (astructbstructuseFormCallback *AstructBstructUseFormCallback) OnSave() {
 	}
 
 }
-func NewBstructFormCallback(
+func __gong__New__BstructFormCallback(
 	bstruct *models.Bstruct,
 	playground *Playground,
 ) (bstructFormCallback *BstructFormCallback) {
@@ -362,7 +364,7 @@ func (bstructFormCallback *BstructFormCallback) OnSave() {
 		bstructFormCallback.playground.formStage.Reset()
 		newFormGroup := (&table.FormGroup{
 			Name: table.FormGroupDefaultName.ToString(),
-			OnSave: NewBstructFormCallback(
+			OnSave: __gong__New__BstructFormCallback(
 				nil,
 				bstructFormCallback.playground,
 			),
@@ -373,7 +375,7 @@ func (bstructFormCallback *BstructFormCallback) OnSave() {
 	}
 
 }
-func NewDstructFormCallback(
+func __gong__New__DstructFormCallback(
 	dstruct *models.Dstruct,
 	playground *Playground,
 ) (dstructFormCallback *DstructFormCallback) {
@@ -431,7 +433,7 @@ func (dstructFormCallback *DstructFormCallback) OnSave() {
 		dstructFormCallback.playground.formStage.Reset()
 		newFormGroup := (&table.FormGroup{
 			Name: table.FormGroupDefaultName.ToString(),
-			OnSave: NewDstructFormCallback(
+			OnSave: __gong__New__DstructFormCallback(
 				nil,
 				dstructFormCallback.playground,
 			),

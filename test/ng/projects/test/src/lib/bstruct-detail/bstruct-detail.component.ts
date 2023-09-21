@@ -11,6 +11,7 @@ import { MapOfSortingComponents } from '../map-components'
 
 // insertion point for imports
 import { AstructDB } from '../astruct-db'
+import { DstructDB } from '../dstruct-db'
 
 import { Router, ActivatedRoute } from '@angular/router';
 
@@ -26,6 +27,7 @@ enum BstructDetailComponentState {
 	// insertion point for declarations of enum values of state
 	CREATE_INSTANCE_WITH_ASSOCIATION_Astruct_Anarrayofb_SET,
 	CREATE_INSTANCE_WITH_ASSOCIATION_Astruct_Anotherarrayofb_SET,
+	CREATE_INSTANCE_WITH_ASSOCIATION_Dstruct_Anarrayofb_SET,
 }
 
 @Component({
@@ -103,6 +105,10 @@ export class BstructDetailComponent implements OnInit {
 						// console.log("Bstruct" + " is instanciated with back pointer to instance " + this.id + " Astruct association Anotherarrayofb")
 						this.state = BstructDetailComponentState.CREATE_INSTANCE_WITH_ASSOCIATION_Astruct_Anotherarrayofb_SET
 						break;
+					case "Anarrayofb":
+						// console.log("Bstruct" + " is instanciated with back pointer to instance " + this.id + " Dstruct association Anarrayofb")
+						this.state = BstructDetailComponentState.CREATE_INSTANCE_WITH_ASSOCIATION_Dstruct_Anarrayofb_SET
+						break;
 					default:
 						console.log(this.originStructFieldName + " is unkown association")
 				}
@@ -146,6 +152,10 @@ export class BstructDetailComponent implements OnInit {
 					case BstructDetailComponentState.CREATE_INSTANCE_WITH_ASSOCIATION_Astruct_Anotherarrayofb_SET:
 						this.bstruct = new (BstructDB)
 						this.bstruct.Astruct_Anotherarrayofb_reverse = frontRepo.Astructs.get(this.id)!
+						break;
+					case BstructDetailComponentState.CREATE_INSTANCE_WITH_ASSOCIATION_Dstruct_Anarrayofb_SET:
+						this.bstruct = new (BstructDB)
+						this.bstruct.Dstruct_Anarrayofb_reverse = frontRepo.Dstructs.get(this.id)!
 						break;
 					default:
 						console.log(this.state + " is unkown state")
@@ -191,6 +201,18 @@ export class BstructDetailComponent implements OnInit {
 			}
 			this.bstruct.Astruct_AnotherarrayofbDBID_Index.Valid = true
 			this.bstruct.Astruct_Anotherarrayofb_reverse = new AstructDB // very important, otherwise, circular JSON
+		}
+		if (this.bstruct.Dstruct_Anarrayofb_reverse != undefined) {
+			if (this.bstruct.Dstruct_AnarrayofbDBID == undefined) {
+				this.bstruct.Dstruct_AnarrayofbDBID = new NullInt64
+			}
+			this.bstruct.Dstruct_AnarrayofbDBID.Int64 = this.bstruct.Dstruct_Anarrayofb_reverse.ID
+			this.bstruct.Dstruct_AnarrayofbDBID.Valid = true
+			if (this.bstruct.Dstruct_AnarrayofbDBID_Index == undefined) {
+				this.bstruct.Dstruct_AnarrayofbDBID_Index = new NullInt64
+			}
+			this.bstruct.Dstruct_AnarrayofbDBID_Index.Valid = true
+			this.bstruct.Dstruct_Anarrayofb_reverse = new DstructDB // very important, otherwise, circular JSON
 		}
 
 		switch (this.state) {

@@ -530,6 +530,19 @@ export class FrontRepoService {
                     }
                   }
                 }
+                // insertion point for slice of pointer field Dstruct.Anarrayofb redeeming
+                {
+                  let _dstruct = this.frontRepo.Dstructs.get(bstruct.Dstruct_AnarrayofbDBID.Int64)
+                  if (_dstruct) {
+                    if (_dstruct.Anarrayofb == undefined) {
+                      _dstruct.Anarrayofb = new Array<BstructDB>()
+                    }
+                    _dstruct.Anarrayofb.push(bstruct)
+                    if (bstruct.Dstruct_Anarrayofb_reverse == undefined) {
+                      bstruct.Dstruct_Anarrayofb_reverse = _dstruct
+                    }
+                  }
+                }
               }
             )
             dstructs.forEach(
@@ -616,6 +629,16 @@ export class FrontRepoService {
             dstructs.forEach(
               dstruct => {
                 // insertion point for sorting
+                dstruct.Anarrayofb?.sort((t1, t2) => {
+                  if (t1.Dstruct_AnarrayofbDBID_Index.Int64 > t2.Dstruct_AnarrayofbDBID_Index.Int64) {
+                    return 1;
+                  }
+                  if (t1.Dstruct_AnarrayofbDBID_Index.Int64 < t2.Dstruct_AnarrayofbDBID_Index.Int64) {
+                    return -1;
+                  }
+                  return 0;
+                })
+
               }
             )
 
@@ -948,6 +971,19 @@ export class FrontRepoService {
                     _astruct.Anotherarrayofb.push(bstruct)
                     if (bstruct.Astruct_Anotherarrayofb_reverse == undefined) {
                       bstruct.Astruct_Anotherarrayofb_reverse = _astruct
+                    }
+                  }
+                }
+                // insertion point for slice of pointer field Dstruct.Anarrayofb redeeming
+                {
+                  let _dstruct = this.frontRepo.Dstructs.get(bstruct.Dstruct_AnarrayofbDBID.Int64)
+                  if (_dstruct) {
+                    if (_dstruct.Anarrayofb == undefined) {
+                      _dstruct.Anarrayofb = new Array<BstructDB>()
+                    }
+                    _dstruct.Anarrayofb.push(bstruct)
+                    if (bstruct.Dstruct_Anarrayofb_reverse == undefined) {
+                      bstruct.Dstruct_Anarrayofb_reverse = _dstruct
                     }
                   }
                 }

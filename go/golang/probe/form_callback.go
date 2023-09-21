@@ -41,7 +41,7 @@ const (
 var FormCallbackGongstructSubTemplateCode map[FormCallbackGongstructInsertionId]string = // new line
 map[FormCallbackGongstructInsertionId]string{
 	FormCallbackPerGongstructCode: `
-func New{{Structname}}FormCallback(
+func __gong__New__{{Structname}}FormCallback(
 	{{structname}} *models.{{Structname}},
 	playground *Playground,
 ) ({{structname}}FormCallback *{{Structname}}FormCallback) {
@@ -97,7 +97,7 @@ func ({{structname}}FormCallback *{{Structname}}FormCallback) OnSave() {
 		{{structname}}FormCallback.playground.formStage.Reset()
 		newFormGroup := (&table.FormGroup{
 			Name: table.FormGroupDefaultName.ToString(),
-			OnSave: New{{Structname}}FormCallback(
+			OnSave: __gong__New__{{Structname}}FormCallback(
 				nil,
 				{{structname}}FormCallback.playground,
 			),

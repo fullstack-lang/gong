@@ -635,6 +635,12 @@ func UnmarshallGongstructStaging(stage *StageStruct, cmap *ast.CommentMap, assig
 					case "Dstruct":
 						switch fieldName {
 						// insertion point for slice of pointers assign code
+						case "Anarrayofb":
+							// remove first and last char
+							targetIdentifier := ident.Name
+							target := __gong__map_Bstruct[targetIdentifier]
+							__gong__map_Dstruct[identifier].Anarrayofb =
+								append(__gong__map_Dstruct[identifier].Anarrayofb, target)
 						}
 					}
 				case *ast.SelectorExpr:
@@ -748,6 +754,10 @@ func UnmarshallGongstructStaging(stage *StageStruct, cmap *ast.CommentMap, assig
 					// remove first and last char
 					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
 					__gong__map_Astruct[identifier].ConstIdentifierValue = fielValue
+				case "TextArea":
+					// remove first and last char
+					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
+					__gong__map_Astruct[identifier].TextArea = fielValue
 				}
 			case "AstructBstruct2Use":
 				switch fieldName {
