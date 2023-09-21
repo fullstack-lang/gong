@@ -71,7 +71,7 @@ var ButtonImplFileFieldFieldSubTemplateCode map[ButtonImplSubTemplateId]string =
 map[ButtonImplSubTemplateId]string{
 
 	ButtonImplSubTmplBasicField: `
-		BasicFieldtoForm("{{FieldName}}", instanceWithInferedType.{{FieldName}}, instanceWithInferedType, playground.formStage, formGroup)`,
+		BasicFieldtoForm("{{FieldName}}", instanceWithInferedType.{{FieldName}}, instanceWithInferedType, playground.formStage, formGroup, {{isTextArea}})`,
 	ButtonImplSubTmplBasicFieldEnumString: `
 		EnumTypeStringToForm("{{FieldName}}", instanceWithInferedType.{{FieldName}}, instanceWithInferedType, playground.formStage, formGroup)`,
 	ButtonImplSubTmplBasicFieldEnumInt: `
@@ -123,9 +123,14 @@ func CodeGeneratorFillUpForm(
 					switch field.GetBasicKind() {
 					case types.String, types.Bool, types.Float64, types.Int, types.Int64:
 						if field.GongEnum == nil {
-							fieldToFormCode += models.Replace1(
+							var isTextArea = "false"
+							if field.IsTextArea {
+								isTextArea = "true"
+							}
+							fieldToFormCode += models.Replace2(
 								ButtonImplFileFieldFieldSubTemplateCode[ButtonImplSubTmplBasicField],
-								"{{FieldName}}", field.Name)
+								"{{FieldName}}", field.Name,
+								"{{isTextArea}}", isTextArea)
 						} else {
 							if field.GongEnum.Type == models.Int {
 								fieldToFormCode += models.Replace1(
@@ -140,9 +145,10 @@ func CodeGeneratorFillUpForm(
 					default:
 					}
 				case *models.GongTimeField:
-					fieldToFormCode += models.Replace1(
+					fieldToFormCode += models.Replace2(
 						ButtonImplFileFieldFieldSubTemplateCode[ButtonImplSubTmplBasicField],
-						"{{FieldName}}", field.Name)
+						"{{FieldName}}", field.Name,
+						"{{isTextArea}}", "false")
 
 				case *models.PointerToGongStructField:
 					fieldToFormCode += models.Replace1(

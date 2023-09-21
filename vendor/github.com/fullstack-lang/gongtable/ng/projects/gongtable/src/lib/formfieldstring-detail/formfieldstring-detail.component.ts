@@ -33,6 +33,7 @@ enum FormFieldStringDetailComponentState {
 export class FormFieldStringDetailComponent implements OnInit {
 
 	// insertion point for declarations
+	IsTextAreaFormControl: UntypedFormControl = new UntypedFormControl(false);
 
 	// the FormFieldStringDB of interest
 	formfieldstring: FormFieldStringDB = new FormFieldStringDB
@@ -133,6 +134,7 @@ export class FormFieldStringDetailComponent implements OnInit {
 				}
 
 				// insertion point for recovery of form controls value for bool fields
+				this.IsTextAreaFormControl.setValue(this.formfieldstring.IsTextArea)
 			}
 		)
 
@@ -145,6 +147,7 @@ export class FormFieldStringDetailComponent implements OnInit {
 		// pointers fields, after the translation, are nulled in order to perform serialization
 
 		// insertion point for translation/nullation of each field
+		this.formfieldstring.IsTextArea = this.IsTextAreaFormControl.value
 
 		// save from the front pointer space to the non pointer space for serialization
 
