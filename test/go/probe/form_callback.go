@@ -331,7 +331,7 @@ func (bstructFormCallback *BstructFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(bstruct_.Intfield), formDiv)
 		case "Astruct:Anarrayofb":
 			// we need to retrieve the field owner before the change
-			var ownerBeforeChange *models.Astruct
+			var pastAstructOwner *models.Astruct
 			reverseFieldOwner := orm.GetReverseFieldOwner(
 				bstructFormCallback.playground.stageOfInterest,
 				bstructFormCallback.playground.backRepoOfInterest,
@@ -339,26 +339,36 @@ func (bstructFormCallback *BstructFormCallback) OnSave() {
 				"Anarrayofb")
 
 			if reverseFieldOwner != nil {
-				ownerBeforeChange = reverseFieldOwner.(*models.Astruct)
+				pastAstructOwner = reverseFieldOwner.(*models.Astruct)
 			}
 			if formDiv.FormFields[0].FormFieldSelect.Value == nil {
-				if ownerBeforeChange != nil {
-					RemoveElement(ownerBeforeChange.Anarrayofb, bstruct_)
+				if pastAstructOwner != nil {
+					RemoveElement(
+						bstructFormCallback.playground.stageOfInterest,
+						bstructFormCallback.playground.backRepoOfInterest,
+						pastAstructOwner.Anarrayofb,
+						bstruct_)
 				}
 			} else {
 				// we need to retrieve the field owner after the change
 				// parse all astrcut and get the one with the name in the
 				// div
 				for _astruct := range *models.GetGongstructInstancesSet[models.Astruct](bstructFormCallback.playground.stageOfInterest) {
+
+					// the match is base on the name
 					if _astruct.GetName() == formDiv.FormFields[0].FormFieldSelect.Value.GetName() {
-						if ownerBeforeChange != nil {
-							if _astruct != ownerBeforeChange {
-								RemoveElement(ownerBeforeChange.Anarrayofb, bstruct_)
-								_astruct.Anarrayofb = append(_astruct.Anarrayofb, bstruct_)
+						newAstructOwner := _astruct // we have a match
+						if pastAstructOwner != nil {
+							if newAstructOwner != pastAstructOwner {
+								RemoveElement(
+									bstructFormCallback.playground.stageOfInterest,
+									bstructFormCallback.playground.backRepoOfInterest,
+									pastAstructOwner.Anarrayofb,
+									bstruct_)
+								newAstructOwner.Anarrayofb = append(newAstructOwner.Anarrayofb, bstruct_)
 							}
 						} else {
-							// _astruct is the new owner
-							_astruct.Anarrayofb = append(_astruct.Anarrayofb, bstruct_)
+							newAstructOwner.Anarrayofb = append(newAstructOwner.Anarrayofb, bstruct_)
 						}
 					}
 				}
@@ -460,9 +470,12 @@ func (dstructFormCallback *DstructFormCallback) OnSave() {
 
 // RemoveElement removes an instance of 'element' from 'slice'.
 // It returns a new slice with the element removed.
-func RemoveElement[T comparable](slice []T, element T) []T {
+func RemoveElement[T models.PointerToGongstruct](
+	stage *models.StageStruct,
+	backRepo *orm.BackRepoStruct,
+	slice []T, element T) []T {
 	for i, v := range slice {
-		if v == element {
+		if orm.GetIDPointer[T](stage, backRepo, v) == orm.GetIDPointer[T](stage, backRepo, element) {
 			return append(slice[:i], slice[i+1:]...)
 		}
 	}
