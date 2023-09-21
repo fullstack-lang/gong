@@ -331,25 +331,38 @@ func (bstructFormCallback *BstructFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(bstruct_.Intfield), formDiv)
 		case "Astruct:Anarrayofb":
 			// we need to retrieve the field owner before the change
+			var ownerBeforeChange *models.Astruct
 			reverseFieldOwner := orm.GetReverseFieldOwner(
 				bstructFormCallback.playground.stageOfInterest,
 				bstructFormCallback.playground.backRepoOfInterest,
 				bstruct_,
 				"Anarrayofb")
-			astructBeforeChange := reverseFieldOwner.(*models.Astruct)
 
-			// we need to retrieve the field owner after the change
-			// parse all astrcut and get the one with the name in the
-			// div
-			for _astruct := range *models.GetGongstructInstancesSet[models.Astruct](bstructFormCallback.playground.stageOfInterest) {
-				if _astruct.GetName() == formDiv.FormFields[0].FormFieldSelect.Value.GetName() {
-					if _astruct != astructBeforeChange {
-						RemoveElement(astructBeforeChange.Anarrayofb, bstruct_)
-						_astruct.Anarrayofb = append(_astruct.Anarrayofb, bstruct_)
+			if reverseFieldOwner != nil {
+				ownerBeforeChange = reverseFieldOwner.(*models.Astruct)
+			}
+			if formDiv.FormFields[0].FormFieldSelect.Value == nil {
+				if ownerBeforeChange != nil {
+					RemoveElement(ownerBeforeChange.Anarrayofb, bstruct_)
+				}
+			} else {
+				// we need to retrieve the field owner after the change
+				// parse all astrcut and get the one with the name in the
+				// div
+				for _astruct := range *models.GetGongstructInstancesSet[models.Astruct](bstructFormCallback.playground.stageOfInterest) {
+					if _astruct.GetName() == formDiv.FormFields[0].FormFieldSelect.Value.GetName() {
+						if ownerBeforeChange != nil {
+							if _astruct != ownerBeforeChange {
+								RemoveElement(ownerBeforeChange.Anarrayofb, bstruct_)
+								_astruct.Anarrayofb = append(_astruct.Anarrayofb, bstruct_)
+							}
+						} else {
+							// _astruct is the new owner
+							_astruct.Anarrayofb = append(_astruct.Anarrayofb, bstruct_)
+						}
 					}
 				}
 			}
-
 		}
 	}
 
