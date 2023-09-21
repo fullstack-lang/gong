@@ -29,6 +29,7 @@ func BasicFieldtoForm[T models.PointerToGongstruct, TF models.GongtructBasicFiel
 		formFieldString := (&form.FormFieldString{
 			Name:  "string",
 			Value: fieldWithInterferedType,
+			// IsTextArea: field,
 		}).Stage(formStage)
 		formField.FormFieldString = formFieldString
 	case time.Time:
