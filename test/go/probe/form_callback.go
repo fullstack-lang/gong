@@ -3,6 +3,7 @@ package probe
 
 import (
 	"log"
+	"slices"
 	"time"
 
 	table "github.com/fullstack-lang/gongtable/go/models"
@@ -343,11 +344,8 @@ func (bstructFormCallback *BstructFormCallback) OnSave() {
 			}
 			if formDiv.FormFields[0].FormFieldSelect.Value == nil {
 				if pastAstructOwner != nil {
-					RemoveElement(
-						bstructFormCallback.playground.stageOfInterest,
-						bstructFormCallback.playground.backRepoOfInterest,
-						pastAstructOwner.Anarrayofb,
-						bstruct_)
+					idx := slices.Index(pastAstructOwner.Anarrayofb, bstruct_)
+					pastAstructOwner.Anarrayofb = slices.Delete(pastAstructOwner.Anarrayofb, idx, idx+1)
 				}
 			} else {
 				// we need to retrieve the field owner after the change
@@ -360,11 +358,8 @@ func (bstructFormCallback *BstructFormCallback) OnSave() {
 						newAstructOwner := _astruct // we have a match
 						if pastAstructOwner != nil {
 							if newAstructOwner != pastAstructOwner {
-								RemoveElement(
-									bstructFormCallback.playground.stageOfInterest,
-									bstructFormCallback.playground.backRepoOfInterest,
-									pastAstructOwner.Anarrayofb,
-									bstruct_)
+								idx := slices.Index(pastAstructOwner.Anarrayofb, bstruct_)
+								pastAstructOwner.Anarrayofb = slices.Delete(pastAstructOwner.Anarrayofb, idx, idx+1)
 								newAstructOwner.Anarrayofb = append(newAstructOwner.Anarrayofb, bstruct_)
 							}
 						} else {
@@ -466,18 +461,4 @@ func (dstructFormCallback *DstructFormCallback) OnSave() {
 		dstructFormCallback.playground.formStage.Commit()
 	}
 
-}
-
-// RemoveElement removes an instance of 'element' from 'slice'.
-// It returns a new slice with the element removed.
-func RemoveElement[T models.PointerToGongstruct](
-	stage *models.StageStruct,
-	backRepo *orm.BackRepoStruct,
-	slice []T, element T) []T {
-	for i, v := range slice {
-		if orm.GetIDPointer[T](stage, backRepo, v) == orm.GetIDPointer[T](stage, backRepo, element) {
-			return append(slice[:i], slice[i+1:]...)
-		}
-	}
-	return slice
 }
