@@ -51,7 +51,6 @@ func AssociationReverseFieldToForm[OwnerType models.PointerToGongstruct, FieldTy
 	owner OwnerType,
 	fieldName string,
 	instance FieldType,
-	sliceField []FieldType,
 	formGroup *form.FormGroup,
 	playground *Playground,
 ) {
@@ -81,7 +80,7 @@ func AssociationReverseFieldToForm[OwnerType models.PointerToGongstruct, FieldTy
 		}).Stage(playground.formStage)
 
 		// set up select value if field matches the instance
-		if _instance == owner {
+		if owner != nil && _instance == owner {
 			formFieldSelect.Value = option
 		}
 
