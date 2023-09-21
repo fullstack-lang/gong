@@ -9,7 +9,7 @@ func GetReverseFieldOwnerName[T models.Gongstruct](
 	stage *models.StageStruct,
 	backRepo *BackRepoStruct,
 	instance *T,
-	reverseFieldName string) (res string) {
+	reverseField *models.ReverseField) (res string) {
 
 	res = ""
 	switch inst := any(instance).(type) {
@@ -19,13 +19,82 @@ func GetReverseFieldOwnerName[T models.Gongstruct](
 			stage, backRepo, inst,
 		)
 		_ = tmp
-		switch reverseFieldName {
+		switch reverseField.GongstructName {
 		// insertion point
-		case "Cells":
-			if tmp.Row_CellsDBID.Int64 != 0 {
-				id := uint(tmp.Row_CellsDBID.Int64)
-				reservePointerTarget := backRepo.BackRepoRow.Map_RowDBID_RowPtr[id]
-				res = reservePointerTarget.Name
+		case "Cell":
+			switch reverseField.Fieldname {
+			}
+		case "CellBoolean":
+			switch reverseField.Fieldname {
+			}
+		case "CellFloat64":
+			switch reverseField.Fieldname {
+			}
+		case "CellIcon":
+			switch reverseField.Fieldname {
+			}
+		case "CellInt":
+			switch reverseField.Fieldname {
+			}
+		case "CellString":
+			switch reverseField.Fieldname {
+			}
+		case "CheckBox":
+			switch reverseField.Fieldname {
+			}
+		case "DisplayedColumn":
+			switch reverseField.Fieldname {
+			}
+		case "FormDiv":
+			switch reverseField.Fieldname {
+			}
+		case "FormEditAssocButton":
+			switch reverseField.Fieldname {
+			}
+		case "FormField":
+			switch reverseField.Fieldname {
+			}
+		case "FormFieldDate":
+			switch reverseField.Fieldname {
+			}
+		case "FormFieldDateTime":
+			switch reverseField.Fieldname {
+			}
+		case "FormFieldFloat64":
+			switch reverseField.Fieldname {
+			}
+		case "FormFieldInt":
+			switch reverseField.Fieldname {
+			}
+		case "FormFieldSelect":
+			switch reverseField.Fieldname {
+			}
+		case "FormFieldString":
+			switch reverseField.Fieldname {
+			}
+		case "FormFieldTime":
+			switch reverseField.Fieldname {
+			}
+		case "FormGroup":
+			switch reverseField.Fieldname {
+			}
+		case "FormSortAssocButton":
+			switch reverseField.Fieldname {
+			}
+		case "Option":
+			switch reverseField.Fieldname {
+			}
+		case "Row":
+			switch reverseField.Fieldname {
+			case "Cells":
+				if tmp.Row_CellsDBID.Int64 != 0 {
+					id := uint(tmp.Row_CellsDBID.Int64)
+					reservePointerTarget := backRepo.BackRepoRow.Map_RowDBID_RowPtr[id]
+					res = reservePointerTarget.Name
+				}
+			}
+		case "Table":
+			switch reverseField.Fieldname {
 			}
 		}
 
@@ -34,8 +103,77 @@ func GetReverseFieldOwnerName[T models.Gongstruct](
 			stage, backRepo, inst,
 		)
 		_ = tmp
-		switch reverseFieldName {
+		switch reverseField.GongstructName {
 		// insertion point
+		case "Cell":
+			switch reverseField.Fieldname {
+			}
+		case "CellBoolean":
+			switch reverseField.Fieldname {
+			}
+		case "CellFloat64":
+			switch reverseField.Fieldname {
+			}
+		case "CellIcon":
+			switch reverseField.Fieldname {
+			}
+		case "CellInt":
+			switch reverseField.Fieldname {
+			}
+		case "CellString":
+			switch reverseField.Fieldname {
+			}
+		case "CheckBox":
+			switch reverseField.Fieldname {
+			}
+		case "DisplayedColumn":
+			switch reverseField.Fieldname {
+			}
+		case "FormDiv":
+			switch reverseField.Fieldname {
+			}
+		case "FormEditAssocButton":
+			switch reverseField.Fieldname {
+			}
+		case "FormField":
+			switch reverseField.Fieldname {
+			}
+		case "FormFieldDate":
+			switch reverseField.Fieldname {
+			}
+		case "FormFieldDateTime":
+			switch reverseField.Fieldname {
+			}
+		case "FormFieldFloat64":
+			switch reverseField.Fieldname {
+			}
+		case "FormFieldInt":
+			switch reverseField.Fieldname {
+			}
+		case "FormFieldSelect":
+			switch reverseField.Fieldname {
+			}
+		case "FormFieldString":
+			switch reverseField.Fieldname {
+			}
+		case "FormFieldTime":
+			switch reverseField.Fieldname {
+			}
+		case "FormGroup":
+			switch reverseField.Fieldname {
+			}
+		case "FormSortAssocButton":
+			switch reverseField.Fieldname {
+			}
+		case "Option":
+			switch reverseField.Fieldname {
+			}
+		case "Row":
+			switch reverseField.Fieldname {
+			}
+		case "Table":
+			switch reverseField.Fieldname {
+			}
 		}
 
 	case *models.CellFloat64:
@@ -43,8 +181,77 @@ func GetReverseFieldOwnerName[T models.Gongstruct](
 			stage, backRepo, inst,
 		)
 		_ = tmp
-		switch reverseFieldName {
+		switch reverseField.GongstructName {
 		// insertion point
+		case "Cell":
+			switch reverseField.Fieldname {
+			}
+		case "CellBoolean":
+			switch reverseField.Fieldname {
+			}
+		case "CellFloat64":
+			switch reverseField.Fieldname {
+			}
+		case "CellIcon":
+			switch reverseField.Fieldname {
+			}
+		case "CellInt":
+			switch reverseField.Fieldname {
+			}
+		case "CellString":
+			switch reverseField.Fieldname {
+			}
+		case "CheckBox":
+			switch reverseField.Fieldname {
+			}
+		case "DisplayedColumn":
+			switch reverseField.Fieldname {
+			}
+		case "FormDiv":
+			switch reverseField.Fieldname {
+			}
+		case "FormEditAssocButton":
+			switch reverseField.Fieldname {
+			}
+		case "FormField":
+			switch reverseField.Fieldname {
+			}
+		case "FormFieldDate":
+			switch reverseField.Fieldname {
+			}
+		case "FormFieldDateTime":
+			switch reverseField.Fieldname {
+			}
+		case "FormFieldFloat64":
+			switch reverseField.Fieldname {
+			}
+		case "FormFieldInt":
+			switch reverseField.Fieldname {
+			}
+		case "FormFieldSelect":
+			switch reverseField.Fieldname {
+			}
+		case "FormFieldString":
+			switch reverseField.Fieldname {
+			}
+		case "FormFieldTime":
+			switch reverseField.Fieldname {
+			}
+		case "FormGroup":
+			switch reverseField.Fieldname {
+			}
+		case "FormSortAssocButton":
+			switch reverseField.Fieldname {
+			}
+		case "Option":
+			switch reverseField.Fieldname {
+			}
+		case "Row":
+			switch reverseField.Fieldname {
+			}
+		case "Table":
+			switch reverseField.Fieldname {
+			}
 		}
 
 	case *models.CellIcon:
@@ -52,8 +259,77 @@ func GetReverseFieldOwnerName[T models.Gongstruct](
 			stage, backRepo, inst,
 		)
 		_ = tmp
-		switch reverseFieldName {
+		switch reverseField.GongstructName {
 		// insertion point
+		case "Cell":
+			switch reverseField.Fieldname {
+			}
+		case "CellBoolean":
+			switch reverseField.Fieldname {
+			}
+		case "CellFloat64":
+			switch reverseField.Fieldname {
+			}
+		case "CellIcon":
+			switch reverseField.Fieldname {
+			}
+		case "CellInt":
+			switch reverseField.Fieldname {
+			}
+		case "CellString":
+			switch reverseField.Fieldname {
+			}
+		case "CheckBox":
+			switch reverseField.Fieldname {
+			}
+		case "DisplayedColumn":
+			switch reverseField.Fieldname {
+			}
+		case "FormDiv":
+			switch reverseField.Fieldname {
+			}
+		case "FormEditAssocButton":
+			switch reverseField.Fieldname {
+			}
+		case "FormField":
+			switch reverseField.Fieldname {
+			}
+		case "FormFieldDate":
+			switch reverseField.Fieldname {
+			}
+		case "FormFieldDateTime":
+			switch reverseField.Fieldname {
+			}
+		case "FormFieldFloat64":
+			switch reverseField.Fieldname {
+			}
+		case "FormFieldInt":
+			switch reverseField.Fieldname {
+			}
+		case "FormFieldSelect":
+			switch reverseField.Fieldname {
+			}
+		case "FormFieldString":
+			switch reverseField.Fieldname {
+			}
+		case "FormFieldTime":
+			switch reverseField.Fieldname {
+			}
+		case "FormGroup":
+			switch reverseField.Fieldname {
+			}
+		case "FormSortAssocButton":
+			switch reverseField.Fieldname {
+			}
+		case "Option":
+			switch reverseField.Fieldname {
+			}
+		case "Row":
+			switch reverseField.Fieldname {
+			}
+		case "Table":
+			switch reverseField.Fieldname {
+			}
 		}
 
 	case *models.CellInt:
@@ -61,8 +337,77 @@ func GetReverseFieldOwnerName[T models.Gongstruct](
 			stage, backRepo, inst,
 		)
 		_ = tmp
-		switch reverseFieldName {
+		switch reverseField.GongstructName {
 		// insertion point
+		case "Cell":
+			switch reverseField.Fieldname {
+			}
+		case "CellBoolean":
+			switch reverseField.Fieldname {
+			}
+		case "CellFloat64":
+			switch reverseField.Fieldname {
+			}
+		case "CellIcon":
+			switch reverseField.Fieldname {
+			}
+		case "CellInt":
+			switch reverseField.Fieldname {
+			}
+		case "CellString":
+			switch reverseField.Fieldname {
+			}
+		case "CheckBox":
+			switch reverseField.Fieldname {
+			}
+		case "DisplayedColumn":
+			switch reverseField.Fieldname {
+			}
+		case "FormDiv":
+			switch reverseField.Fieldname {
+			}
+		case "FormEditAssocButton":
+			switch reverseField.Fieldname {
+			}
+		case "FormField":
+			switch reverseField.Fieldname {
+			}
+		case "FormFieldDate":
+			switch reverseField.Fieldname {
+			}
+		case "FormFieldDateTime":
+			switch reverseField.Fieldname {
+			}
+		case "FormFieldFloat64":
+			switch reverseField.Fieldname {
+			}
+		case "FormFieldInt":
+			switch reverseField.Fieldname {
+			}
+		case "FormFieldSelect":
+			switch reverseField.Fieldname {
+			}
+		case "FormFieldString":
+			switch reverseField.Fieldname {
+			}
+		case "FormFieldTime":
+			switch reverseField.Fieldname {
+			}
+		case "FormGroup":
+			switch reverseField.Fieldname {
+			}
+		case "FormSortAssocButton":
+			switch reverseField.Fieldname {
+			}
+		case "Option":
+			switch reverseField.Fieldname {
+			}
+		case "Row":
+			switch reverseField.Fieldname {
+			}
+		case "Table":
+			switch reverseField.Fieldname {
+			}
 		}
 
 	case *models.CellString:
@@ -70,8 +415,77 @@ func GetReverseFieldOwnerName[T models.Gongstruct](
 			stage, backRepo, inst,
 		)
 		_ = tmp
-		switch reverseFieldName {
+		switch reverseField.GongstructName {
 		// insertion point
+		case "Cell":
+			switch reverseField.Fieldname {
+			}
+		case "CellBoolean":
+			switch reverseField.Fieldname {
+			}
+		case "CellFloat64":
+			switch reverseField.Fieldname {
+			}
+		case "CellIcon":
+			switch reverseField.Fieldname {
+			}
+		case "CellInt":
+			switch reverseField.Fieldname {
+			}
+		case "CellString":
+			switch reverseField.Fieldname {
+			}
+		case "CheckBox":
+			switch reverseField.Fieldname {
+			}
+		case "DisplayedColumn":
+			switch reverseField.Fieldname {
+			}
+		case "FormDiv":
+			switch reverseField.Fieldname {
+			}
+		case "FormEditAssocButton":
+			switch reverseField.Fieldname {
+			}
+		case "FormField":
+			switch reverseField.Fieldname {
+			}
+		case "FormFieldDate":
+			switch reverseField.Fieldname {
+			}
+		case "FormFieldDateTime":
+			switch reverseField.Fieldname {
+			}
+		case "FormFieldFloat64":
+			switch reverseField.Fieldname {
+			}
+		case "FormFieldInt":
+			switch reverseField.Fieldname {
+			}
+		case "FormFieldSelect":
+			switch reverseField.Fieldname {
+			}
+		case "FormFieldString":
+			switch reverseField.Fieldname {
+			}
+		case "FormFieldTime":
+			switch reverseField.Fieldname {
+			}
+		case "FormGroup":
+			switch reverseField.Fieldname {
+			}
+		case "FormSortAssocButton":
+			switch reverseField.Fieldname {
+			}
+		case "Option":
+			switch reverseField.Fieldname {
+			}
+		case "Row":
+			switch reverseField.Fieldname {
+			}
+		case "Table":
+			switch reverseField.Fieldname {
+			}
 		}
 
 	case *models.CheckBox:
@@ -79,13 +493,82 @@ func GetReverseFieldOwnerName[T models.Gongstruct](
 			stage, backRepo, inst,
 		)
 		_ = tmp
-		switch reverseFieldName {
+		switch reverseField.GongstructName {
 		// insertion point
-		case "CheckBoxs":
-			if tmp.FormDiv_CheckBoxsDBID.Int64 != 0 {
-				id := uint(tmp.FormDiv_CheckBoxsDBID.Int64)
-				reservePointerTarget := backRepo.BackRepoFormDiv.Map_FormDivDBID_FormDivPtr[id]
-				res = reservePointerTarget.Name
+		case "Cell":
+			switch reverseField.Fieldname {
+			}
+		case "CellBoolean":
+			switch reverseField.Fieldname {
+			}
+		case "CellFloat64":
+			switch reverseField.Fieldname {
+			}
+		case "CellIcon":
+			switch reverseField.Fieldname {
+			}
+		case "CellInt":
+			switch reverseField.Fieldname {
+			}
+		case "CellString":
+			switch reverseField.Fieldname {
+			}
+		case "CheckBox":
+			switch reverseField.Fieldname {
+			}
+		case "DisplayedColumn":
+			switch reverseField.Fieldname {
+			}
+		case "FormDiv":
+			switch reverseField.Fieldname {
+			case "CheckBoxs":
+				if tmp.FormDiv_CheckBoxsDBID.Int64 != 0 {
+					id := uint(tmp.FormDiv_CheckBoxsDBID.Int64)
+					reservePointerTarget := backRepo.BackRepoFormDiv.Map_FormDivDBID_FormDivPtr[id]
+					res = reservePointerTarget.Name
+				}
+			}
+		case "FormEditAssocButton":
+			switch reverseField.Fieldname {
+			}
+		case "FormField":
+			switch reverseField.Fieldname {
+			}
+		case "FormFieldDate":
+			switch reverseField.Fieldname {
+			}
+		case "FormFieldDateTime":
+			switch reverseField.Fieldname {
+			}
+		case "FormFieldFloat64":
+			switch reverseField.Fieldname {
+			}
+		case "FormFieldInt":
+			switch reverseField.Fieldname {
+			}
+		case "FormFieldSelect":
+			switch reverseField.Fieldname {
+			}
+		case "FormFieldString":
+			switch reverseField.Fieldname {
+			}
+		case "FormFieldTime":
+			switch reverseField.Fieldname {
+			}
+		case "FormGroup":
+			switch reverseField.Fieldname {
+			}
+		case "FormSortAssocButton":
+			switch reverseField.Fieldname {
+			}
+		case "Option":
+			switch reverseField.Fieldname {
+			}
+		case "Row":
+			switch reverseField.Fieldname {
+			}
+		case "Table":
+			switch reverseField.Fieldname {
 			}
 		}
 
@@ -94,13 +577,82 @@ func GetReverseFieldOwnerName[T models.Gongstruct](
 			stage, backRepo, inst,
 		)
 		_ = tmp
-		switch reverseFieldName {
+		switch reverseField.GongstructName {
 		// insertion point
-		case "DisplayedColumns":
-			if tmp.Table_DisplayedColumnsDBID.Int64 != 0 {
-				id := uint(tmp.Table_DisplayedColumnsDBID.Int64)
-				reservePointerTarget := backRepo.BackRepoTable.Map_TableDBID_TablePtr[id]
-				res = reservePointerTarget.Name
+		case "Cell":
+			switch reverseField.Fieldname {
+			}
+		case "CellBoolean":
+			switch reverseField.Fieldname {
+			}
+		case "CellFloat64":
+			switch reverseField.Fieldname {
+			}
+		case "CellIcon":
+			switch reverseField.Fieldname {
+			}
+		case "CellInt":
+			switch reverseField.Fieldname {
+			}
+		case "CellString":
+			switch reverseField.Fieldname {
+			}
+		case "CheckBox":
+			switch reverseField.Fieldname {
+			}
+		case "DisplayedColumn":
+			switch reverseField.Fieldname {
+			}
+		case "FormDiv":
+			switch reverseField.Fieldname {
+			}
+		case "FormEditAssocButton":
+			switch reverseField.Fieldname {
+			}
+		case "FormField":
+			switch reverseField.Fieldname {
+			}
+		case "FormFieldDate":
+			switch reverseField.Fieldname {
+			}
+		case "FormFieldDateTime":
+			switch reverseField.Fieldname {
+			}
+		case "FormFieldFloat64":
+			switch reverseField.Fieldname {
+			}
+		case "FormFieldInt":
+			switch reverseField.Fieldname {
+			}
+		case "FormFieldSelect":
+			switch reverseField.Fieldname {
+			}
+		case "FormFieldString":
+			switch reverseField.Fieldname {
+			}
+		case "FormFieldTime":
+			switch reverseField.Fieldname {
+			}
+		case "FormGroup":
+			switch reverseField.Fieldname {
+			}
+		case "FormSortAssocButton":
+			switch reverseField.Fieldname {
+			}
+		case "Option":
+			switch reverseField.Fieldname {
+			}
+		case "Row":
+			switch reverseField.Fieldname {
+			}
+		case "Table":
+			switch reverseField.Fieldname {
+			case "DisplayedColumns":
+				if tmp.Table_DisplayedColumnsDBID.Int64 != 0 {
+					id := uint(tmp.Table_DisplayedColumnsDBID.Int64)
+					reservePointerTarget := backRepo.BackRepoTable.Map_TableDBID_TablePtr[id]
+					res = reservePointerTarget.Name
+				}
 			}
 		}
 
@@ -109,13 +661,82 @@ func GetReverseFieldOwnerName[T models.Gongstruct](
 			stage, backRepo, inst,
 		)
 		_ = tmp
-		switch reverseFieldName {
+		switch reverseField.GongstructName {
 		// insertion point
-		case "FormDivs":
-			if tmp.FormGroup_FormDivsDBID.Int64 != 0 {
-				id := uint(tmp.FormGroup_FormDivsDBID.Int64)
-				reservePointerTarget := backRepo.BackRepoFormGroup.Map_FormGroupDBID_FormGroupPtr[id]
-				res = reservePointerTarget.Name
+		case "Cell":
+			switch reverseField.Fieldname {
+			}
+		case "CellBoolean":
+			switch reverseField.Fieldname {
+			}
+		case "CellFloat64":
+			switch reverseField.Fieldname {
+			}
+		case "CellIcon":
+			switch reverseField.Fieldname {
+			}
+		case "CellInt":
+			switch reverseField.Fieldname {
+			}
+		case "CellString":
+			switch reverseField.Fieldname {
+			}
+		case "CheckBox":
+			switch reverseField.Fieldname {
+			}
+		case "DisplayedColumn":
+			switch reverseField.Fieldname {
+			}
+		case "FormDiv":
+			switch reverseField.Fieldname {
+			}
+		case "FormEditAssocButton":
+			switch reverseField.Fieldname {
+			}
+		case "FormField":
+			switch reverseField.Fieldname {
+			}
+		case "FormFieldDate":
+			switch reverseField.Fieldname {
+			}
+		case "FormFieldDateTime":
+			switch reverseField.Fieldname {
+			}
+		case "FormFieldFloat64":
+			switch reverseField.Fieldname {
+			}
+		case "FormFieldInt":
+			switch reverseField.Fieldname {
+			}
+		case "FormFieldSelect":
+			switch reverseField.Fieldname {
+			}
+		case "FormFieldString":
+			switch reverseField.Fieldname {
+			}
+		case "FormFieldTime":
+			switch reverseField.Fieldname {
+			}
+		case "FormGroup":
+			switch reverseField.Fieldname {
+			case "FormDivs":
+				if tmp.FormGroup_FormDivsDBID.Int64 != 0 {
+					id := uint(tmp.FormGroup_FormDivsDBID.Int64)
+					reservePointerTarget := backRepo.BackRepoFormGroup.Map_FormGroupDBID_FormGroupPtr[id]
+					res = reservePointerTarget.Name
+				}
+			}
+		case "FormSortAssocButton":
+			switch reverseField.Fieldname {
+			}
+		case "Option":
+			switch reverseField.Fieldname {
+			}
+		case "Row":
+			switch reverseField.Fieldname {
+			}
+		case "Table":
+			switch reverseField.Fieldname {
 			}
 		}
 
@@ -124,8 +745,77 @@ func GetReverseFieldOwnerName[T models.Gongstruct](
 			stage, backRepo, inst,
 		)
 		_ = tmp
-		switch reverseFieldName {
+		switch reverseField.GongstructName {
 		// insertion point
+		case "Cell":
+			switch reverseField.Fieldname {
+			}
+		case "CellBoolean":
+			switch reverseField.Fieldname {
+			}
+		case "CellFloat64":
+			switch reverseField.Fieldname {
+			}
+		case "CellIcon":
+			switch reverseField.Fieldname {
+			}
+		case "CellInt":
+			switch reverseField.Fieldname {
+			}
+		case "CellString":
+			switch reverseField.Fieldname {
+			}
+		case "CheckBox":
+			switch reverseField.Fieldname {
+			}
+		case "DisplayedColumn":
+			switch reverseField.Fieldname {
+			}
+		case "FormDiv":
+			switch reverseField.Fieldname {
+			}
+		case "FormEditAssocButton":
+			switch reverseField.Fieldname {
+			}
+		case "FormField":
+			switch reverseField.Fieldname {
+			}
+		case "FormFieldDate":
+			switch reverseField.Fieldname {
+			}
+		case "FormFieldDateTime":
+			switch reverseField.Fieldname {
+			}
+		case "FormFieldFloat64":
+			switch reverseField.Fieldname {
+			}
+		case "FormFieldInt":
+			switch reverseField.Fieldname {
+			}
+		case "FormFieldSelect":
+			switch reverseField.Fieldname {
+			}
+		case "FormFieldString":
+			switch reverseField.Fieldname {
+			}
+		case "FormFieldTime":
+			switch reverseField.Fieldname {
+			}
+		case "FormGroup":
+			switch reverseField.Fieldname {
+			}
+		case "FormSortAssocButton":
+			switch reverseField.Fieldname {
+			}
+		case "Option":
+			switch reverseField.Fieldname {
+			}
+		case "Row":
+			switch reverseField.Fieldname {
+			}
+		case "Table":
+			switch reverseField.Fieldname {
+			}
 		}
 
 	case *models.FormField:
@@ -133,13 +823,82 @@ func GetReverseFieldOwnerName[T models.Gongstruct](
 			stage, backRepo, inst,
 		)
 		_ = tmp
-		switch reverseFieldName {
+		switch reverseField.GongstructName {
 		// insertion point
-		case "FormFields":
-			if tmp.FormDiv_FormFieldsDBID.Int64 != 0 {
-				id := uint(tmp.FormDiv_FormFieldsDBID.Int64)
-				reservePointerTarget := backRepo.BackRepoFormDiv.Map_FormDivDBID_FormDivPtr[id]
-				res = reservePointerTarget.Name
+		case "Cell":
+			switch reverseField.Fieldname {
+			}
+		case "CellBoolean":
+			switch reverseField.Fieldname {
+			}
+		case "CellFloat64":
+			switch reverseField.Fieldname {
+			}
+		case "CellIcon":
+			switch reverseField.Fieldname {
+			}
+		case "CellInt":
+			switch reverseField.Fieldname {
+			}
+		case "CellString":
+			switch reverseField.Fieldname {
+			}
+		case "CheckBox":
+			switch reverseField.Fieldname {
+			}
+		case "DisplayedColumn":
+			switch reverseField.Fieldname {
+			}
+		case "FormDiv":
+			switch reverseField.Fieldname {
+			case "FormFields":
+				if tmp.FormDiv_FormFieldsDBID.Int64 != 0 {
+					id := uint(tmp.FormDiv_FormFieldsDBID.Int64)
+					reservePointerTarget := backRepo.BackRepoFormDiv.Map_FormDivDBID_FormDivPtr[id]
+					res = reservePointerTarget.Name
+				}
+			}
+		case "FormEditAssocButton":
+			switch reverseField.Fieldname {
+			}
+		case "FormField":
+			switch reverseField.Fieldname {
+			}
+		case "FormFieldDate":
+			switch reverseField.Fieldname {
+			}
+		case "FormFieldDateTime":
+			switch reverseField.Fieldname {
+			}
+		case "FormFieldFloat64":
+			switch reverseField.Fieldname {
+			}
+		case "FormFieldInt":
+			switch reverseField.Fieldname {
+			}
+		case "FormFieldSelect":
+			switch reverseField.Fieldname {
+			}
+		case "FormFieldString":
+			switch reverseField.Fieldname {
+			}
+		case "FormFieldTime":
+			switch reverseField.Fieldname {
+			}
+		case "FormGroup":
+			switch reverseField.Fieldname {
+			}
+		case "FormSortAssocButton":
+			switch reverseField.Fieldname {
+			}
+		case "Option":
+			switch reverseField.Fieldname {
+			}
+		case "Row":
+			switch reverseField.Fieldname {
+			}
+		case "Table":
+			switch reverseField.Fieldname {
 			}
 		}
 
@@ -148,8 +907,77 @@ func GetReverseFieldOwnerName[T models.Gongstruct](
 			stage, backRepo, inst,
 		)
 		_ = tmp
-		switch reverseFieldName {
+		switch reverseField.GongstructName {
 		// insertion point
+		case "Cell":
+			switch reverseField.Fieldname {
+			}
+		case "CellBoolean":
+			switch reverseField.Fieldname {
+			}
+		case "CellFloat64":
+			switch reverseField.Fieldname {
+			}
+		case "CellIcon":
+			switch reverseField.Fieldname {
+			}
+		case "CellInt":
+			switch reverseField.Fieldname {
+			}
+		case "CellString":
+			switch reverseField.Fieldname {
+			}
+		case "CheckBox":
+			switch reverseField.Fieldname {
+			}
+		case "DisplayedColumn":
+			switch reverseField.Fieldname {
+			}
+		case "FormDiv":
+			switch reverseField.Fieldname {
+			}
+		case "FormEditAssocButton":
+			switch reverseField.Fieldname {
+			}
+		case "FormField":
+			switch reverseField.Fieldname {
+			}
+		case "FormFieldDate":
+			switch reverseField.Fieldname {
+			}
+		case "FormFieldDateTime":
+			switch reverseField.Fieldname {
+			}
+		case "FormFieldFloat64":
+			switch reverseField.Fieldname {
+			}
+		case "FormFieldInt":
+			switch reverseField.Fieldname {
+			}
+		case "FormFieldSelect":
+			switch reverseField.Fieldname {
+			}
+		case "FormFieldString":
+			switch reverseField.Fieldname {
+			}
+		case "FormFieldTime":
+			switch reverseField.Fieldname {
+			}
+		case "FormGroup":
+			switch reverseField.Fieldname {
+			}
+		case "FormSortAssocButton":
+			switch reverseField.Fieldname {
+			}
+		case "Option":
+			switch reverseField.Fieldname {
+			}
+		case "Row":
+			switch reverseField.Fieldname {
+			}
+		case "Table":
+			switch reverseField.Fieldname {
+			}
 		}
 
 	case *models.FormFieldDateTime:
@@ -157,8 +985,77 @@ func GetReverseFieldOwnerName[T models.Gongstruct](
 			stage, backRepo, inst,
 		)
 		_ = tmp
-		switch reverseFieldName {
+		switch reverseField.GongstructName {
 		// insertion point
+		case "Cell":
+			switch reverseField.Fieldname {
+			}
+		case "CellBoolean":
+			switch reverseField.Fieldname {
+			}
+		case "CellFloat64":
+			switch reverseField.Fieldname {
+			}
+		case "CellIcon":
+			switch reverseField.Fieldname {
+			}
+		case "CellInt":
+			switch reverseField.Fieldname {
+			}
+		case "CellString":
+			switch reverseField.Fieldname {
+			}
+		case "CheckBox":
+			switch reverseField.Fieldname {
+			}
+		case "DisplayedColumn":
+			switch reverseField.Fieldname {
+			}
+		case "FormDiv":
+			switch reverseField.Fieldname {
+			}
+		case "FormEditAssocButton":
+			switch reverseField.Fieldname {
+			}
+		case "FormField":
+			switch reverseField.Fieldname {
+			}
+		case "FormFieldDate":
+			switch reverseField.Fieldname {
+			}
+		case "FormFieldDateTime":
+			switch reverseField.Fieldname {
+			}
+		case "FormFieldFloat64":
+			switch reverseField.Fieldname {
+			}
+		case "FormFieldInt":
+			switch reverseField.Fieldname {
+			}
+		case "FormFieldSelect":
+			switch reverseField.Fieldname {
+			}
+		case "FormFieldString":
+			switch reverseField.Fieldname {
+			}
+		case "FormFieldTime":
+			switch reverseField.Fieldname {
+			}
+		case "FormGroup":
+			switch reverseField.Fieldname {
+			}
+		case "FormSortAssocButton":
+			switch reverseField.Fieldname {
+			}
+		case "Option":
+			switch reverseField.Fieldname {
+			}
+		case "Row":
+			switch reverseField.Fieldname {
+			}
+		case "Table":
+			switch reverseField.Fieldname {
+			}
 		}
 
 	case *models.FormFieldFloat64:
@@ -166,8 +1063,77 @@ func GetReverseFieldOwnerName[T models.Gongstruct](
 			stage, backRepo, inst,
 		)
 		_ = tmp
-		switch reverseFieldName {
+		switch reverseField.GongstructName {
 		// insertion point
+		case "Cell":
+			switch reverseField.Fieldname {
+			}
+		case "CellBoolean":
+			switch reverseField.Fieldname {
+			}
+		case "CellFloat64":
+			switch reverseField.Fieldname {
+			}
+		case "CellIcon":
+			switch reverseField.Fieldname {
+			}
+		case "CellInt":
+			switch reverseField.Fieldname {
+			}
+		case "CellString":
+			switch reverseField.Fieldname {
+			}
+		case "CheckBox":
+			switch reverseField.Fieldname {
+			}
+		case "DisplayedColumn":
+			switch reverseField.Fieldname {
+			}
+		case "FormDiv":
+			switch reverseField.Fieldname {
+			}
+		case "FormEditAssocButton":
+			switch reverseField.Fieldname {
+			}
+		case "FormField":
+			switch reverseField.Fieldname {
+			}
+		case "FormFieldDate":
+			switch reverseField.Fieldname {
+			}
+		case "FormFieldDateTime":
+			switch reverseField.Fieldname {
+			}
+		case "FormFieldFloat64":
+			switch reverseField.Fieldname {
+			}
+		case "FormFieldInt":
+			switch reverseField.Fieldname {
+			}
+		case "FormFieldSelect":
+			switch reverseField.Fieldname {
+			}
+		case "FormFieldString":
+			switch reverseField.Fieldname {
+			}
+		case "FormFieldTime":
+			switch reverseField.Fieldname {
+			}
+		case "FormGroup":
+			switch reverseField.Fieldname {
+			}
+		case "FormSortAssocButton":
+			switch reverseField.Fieldname {
+			}
+		case "Option":
+			switch reverseField.Fieldname {
+			}
+		case "Row":
+			switch reverseField.Fieldname {
+			}
+		case "Table":
+			switch reverseField.Fieldname {
+			}
 		}
 
 	case *models.FormFieldInt:
@@ -175,8 +1141,77 @@ func GetReverseFieldOwnerName[T models.Gongstruct](
 			stage, backRepo, inst,
 		)
 		_ = tmp
-		switch reverseFieldName {
+		switch reverseField.GongstructName {
 		// insertion point
+		case "Cell":
+			switch reverseField.Fieldname {
+			}
+		case "CellBoolean":
+			switch reverseField.Fieldname {
+			}
+		case "CellFloat64":
+			switch reverseField.Fieldname {
+			}
+		case "CellIcon":
+			switch reverseField.Fieldname {
+			}
+		case "CellInt":
+			switch reverseField.Fieldname {
+			}
+		case "CellString":
+			switch reverseField.Fieldname {
+			}
+		case "CheckBox":
+			switch reverseField.Fieldname {
+			}
+		case "DisplayedColumn":
+			switch reverseField.Fieldname {
+			}
+		case "FormDiv":
+			switch reverseField.Fieldname {
+			}
+		case "FormEditAssocButton":
+			switch reverseField.Fieldname {
+			}
+		case "FormField":
+			switch reverseField.Fieldname {
+			}
+		case "FormFieldDate":
+			switch reverseField.Fieldname {
+			}
+		case "FormFieldDateTime":
+			switch reverseField.Fieldname {
+			}
+		case "FormFieldFloat64":
+			switch reverseField.Fieldname {
+			}
+		case "FormFieldInt":
+			switch reverseField.Fieldname {
+			}
+		case "FormFieldSelect":
+			switch reverseField.Fieldname {
+			}
+		case "FormFieldString":
+			switch reverseField.Fieldname {
+			}
+		case "FormFieldTime":
+			switch reverseField.Fieldname {
+			}
+		case "FormGroup":
+			switch reverseField.Fieldname {
+			}
+		case "FormSortAssocButton":
+			switch reverseField.Fieldname {
+			}
+		case "Option":
+			switch reverseField.Fieldname {
+			}
+		case "Row":
+			switch reverseField.Fieldname {
+			}
+		case "Table":
+			switch reverseField.Fieldname {
+			}
 		}
 
 	case *models.FormFieldSelect:
@@ -184,8 +1219,77 @@ func GetReverseFieldOwnerName[T models.Gongstruct](
 			stage, backRepo, inst,
 		)
 		_ = tmp
-		switch reverseFieldName {
+		switch reverseField.GongstructName {
 		// insertion point
+		case "Cell":
+			switch reverseField.Fieldname {
+			}
+		case "CellBoolean":
+			switch reverseField.Fieldname {
+			}
+		case "CellFloat64":
+			switch reverseField.Fieldname {
+			}
+		case "CellIcon":
+			switch reverseField.Fieldname {
+			}
+		case "CellInt":
+			switch reverseField.Fieldname {
+			}
+		case "CellString":
+			switch reverseField.Fieldname {
+			}
+		case "CheckBox":
+			switch reverseField.Fieldname {
+			}
+		case "DisplayedColumn":
+			switch reverseField.Fieldname {
+			}
+		case "FormDiv":
+			switch reverseField.Fieldname {
+			}
+		case "FormEditAssocButton":
+			switch reverseField.Fieldname {
+			}
+		case "FormField":
+			switch reverseField.Fieldname {
+			}
+		case "FormFieldDate":
+			switch reverseField.Fieldname {
+			}
+		case "FormFieldDateTime":
+			switch reverseField.Fieldname {
+			}
+		case "FormFieldFloat64":
+			switch reverseField.Fieldname {
+			}
+		case "FormFieldInt":
+			switch reverseField.Fieldname {
+			}
+		case "FormFieldSelect":
+			switch reverseField.Fieldname {
+			}
+		case "FormFieldString":
+			switch reverseField.Fieldname {
+			}
+		case "FormFieldTime":
+			switch reverseField.Fieldname {
+			}
+		case "FormGroup":
+			switch reverseField.Fieldname {
+			}
+		case "FormSortAssocButton":
+			switch reverseField.Fieldname {
+			}
+		case "Option":
+			switch reverseField.Fieldname {
+			}
+		case "Row":
+			switch reverseField.Fieldname {
+			}
+		case "Table":
+			switch reverseField.Fieldname {
+			}
 		}
 
 	case *models.FormFieldString:
@@ -193,8 +1297,77 @@ func GetReverseFieldOwnerName[T models.Gongstruct](
 			stage, backRepo, inst,
 		)
 		_ = tmp
-		switch reverseFieldName {
+		switch reverseField.GongstructName {
 		// insertion point
+		case "Cell":
+			switch reverseField.Fieldname {
+			}
+		case "CellBoolean":
+			switch reverseField.Fieldname {
+			}
+		case "CellFloat64":
+			switch reverseField.Fieldname {
+			}
+		case "CellIcon":
+			switch reverseField.Fieldname {
+			}
+		case "CellInt":
+			switch reverseField.Fieldname {
+			}
+		case "CellString":
+			switch reverseField.Fieldname {
+			}
+		case "CheckBox":
+			switch reverseField.Fieldname {
+			}
+		case "DisplayedColumn":
+			switch reverseField.Fieldname {
+			}
+		case "FormDiv":
+			switch reverseField.Fieldname {
+			}
+		case "FormEditAssocButton":
+			switch reverseField.Fieldname {
+			}
+		case "FormField":
+			switch reverseField.Fieldname {
+			}
+		case "FormFieldDate":
+			switch reverseField.Fieldname {
+			}
+		case "FormFieldDateTime":
+			switch reverseField.Fieldname {
+			}
+		case "FormFieldFloat64":
+			switch reverseField.Fieldname {
+			}
+		case "FormFieldInt":
+			switch reverseField.Fieldname {
+			}
+		case "FormFieldSelect":
+			switch reverseField.Fieldname {
+			}
+		case "FormFieldString":
+			switch reverseField.Fieldname {
+			}
+		case "FormFieldTime":
+			switch reverseField.Fieldname {
+			}
+		case "FormGroup":
+			switch reverseField.Fieldname {
+			}
+		case "FormSortAssocButton":
+			switch reverseField.Fieldname {
+			}
+		case "Option":
+			switch reverseField.Fieldname {
+			}
+		case "Row":
+			switch reverseField.Fieldname {
+			}
+		case "Table":
+			switch reverseField.Fieldname {
+			}
 		}
 
 	case *models.FormFieldTime:
@@ -202,8 +1375,77 @@ func GetReverseFieldOwnerName[T models.Gongstruct](
 			stage, backRepo, inst,
 		)
 		_ = tmp
-		switch reverseFieldName {
+		switch reverseField.GongstructName {
 		// insertion point
+		case "Cell":
+			switch reverseField.Fieldname {
+			}
+		case "CellBoolean":
+			switch reverseField.Fieldname {
+			}
+		case "CellFloat64":
+			switch reverseField.Fieldname {
+			}
+		case "CellIcon":
+			switch reverseField.Fieldname {
+			}
+		case "CellInt":
+			switch reverseField.Fieldname {
+			}
+		case "CellString":
+			switch reverseField.Fieldname {
+			}
+		case "CheckBox":
+			switch reverseField.Fieldname {
+			}
+		case "DisplayedColumn":
+			switch reverseField.Fieldname {
+			}
+		case "FormDiv":
+			switch reverseField.Fieldname {
+			}
+		case "FormEditAssocButton":
+			switch reverseField.Fieldname {
+			}
+		case "FormField":
+			switch reverseField.Fieldname {
+			}
+		case "FormFieldDate":
+			switch reverseField.Fieldname {
+			}
+		case "FormFieldDateTime":
+			switch reverseField.Fieldname {
+			}
+		case "FormFieldFloat64":
+			switch reverseField.Fieldname {
+			}
+		case "FormFieldInt":
+			switch reverseField.Fieldname {
+			}
+		case "FormFieldSelect":
+			switch reverseField.Fieldname {
+			}
+		case "FormFieldString":
+			switch reverseField.Fieldname {
+			}
+		case "FormFieldTime":
+			switch reverseField.Fieldname {
+			}
+		case "FormGroup":
+			switch reverseField.Fieldname {
+			}
+		case "FormSortAssocButton":
+			switch reverseField.Fieldname {
+			}
+		case "Option":
+			switch reverseField.Fieldname {
+			}
+		case "Row":
+			switch reverseField.Fieldname {
+			}
+		case "Table":
+			switch reverseField.Fieldname {
+			}
 		}
 
 	case *models.FormGroup:
@@ -211,8 +1453,77 @@ func GetReverseFieldOwnerName[T models.Gongstruct](
 			stage, backRepo, inst,
 		)
 		_ = tmp
-		switch reverseFieldName {
+		switch reverseField.GongstructName {
 		// insertion point
+		case "Cell":
+			switch reverseField.Fieldname {
+			}
+		case "CellBoolean":
+			switch reverseField.Fieldname {
+			}
+		case "CellFloat64":
+			switch reverseField.Fieldname {
+			}
+		case "CellIcon":
+			switch reverseField.Fieldname {
+			}
+		case "CellInt":
+			switch reverseField.Fieldname {
+			}
+		case "CellString":
+			switch reverseField.Fieldname {
+			}
+		case "CheckBox":
+			switch reverseField.Fieldname {
+			}
+		case "DisplayedColumn":
+			switch reverseField.Fieldname {
+			}
+		case "FormDiv":
+			switch reverseField.Fieldname {
+			}
+		case "FormEditAssocButton":
+			switch reverseField.Fieldname {
+			}
+		case "FormField":
+			switch reverseField.Fieldname {
+			}
+		case "FormFieldDate":
+			switch reverseField.Fieldname {
+			}
+		case "FormFieldDateTime":
+			switch reverseField.Fieldname {
+			}
+		case "FormFieldFloat64":
+			switch reverseField.Fieldname {
+			}
+		case "FormFieldInt":
+			switch reverseField.Fieldname {
+			}
+		case "FormFieldSelect":
+			switch reverseField.Fieldname {
+			}
+		case "FormFieldString":
+			switch reverseField.Fieldname {
+			}
+		case "FormFieldTime":
+			switch reverseField.Fieldname {
+			}
+		case "FormGroup":
+			switch reverseField.Fieldname {
+			}
+		case "FormSortAssocButton":
+			switch reverseField.Fieldname {
+			}
+		case "Option":
+			switch reverseField.Fieldname {
+			}
+		case "Row":
+			switch reverseField.Fieldname {
+			}
+		case "Table":
+			switch reverseField.Fieldname {
+			}
 		}
 
 	case *models.FormSortAssocButton:
@@ -220,8 +1531,77 @@ func GetReverseFieldOwnerName[T models.Gongstruct](
 			stage, backRepo, inst,
 		)
 		_ = tmp
-		switch reverseFieldName {
+		switch reverseField.GongstructName {
 		// insertion point
+		case "Cell":
+			switch reverseField.Fieldname {
+			}
+		case "CellBoolean":
+			switch reverseField.Fieldname {
+			}
+		case "CellFloat64":
+			switch reverseField.Fieldname {
+			}
+		case "CellIcon":
+			switch reverseField.Fieldname {
+			}
+		case "CellInt":
+			switch reverseField.Fieldname {
+			}
+		case "CellString":
+			switch reverseField.Fieldname {
+			}
+		case "CheckBox":
+			switch reverseField.Fieldname {
+			}
+		case "DisplayedColumn":
+			switch reverseField.Fieldname {
+			}
+		case "FormDiv":
+			switch reverseField.Fieldname {
+			}
+		case "FormEditAssocButton":
+			switch reverseField.Fieldname {
+			}
+		case "FormField":
+			switch reverseField.Fieldname {
+			}
+		case "FormFieldDate":
+			switch reverseField.Fieldname {
+			}
+		case "FormFieldDateTime":
+			switch reverseField.Fieldname {
+			}
+		case "FormFieldFloat64":
+			switch reverseField.Fieldname {
+			}
+		case "FormFieldInt":
+			switch reverseField.Fieldname {
+			}
+		case "FormFieldSelect":
+			switch reverseField.Fieldname {
+			}
+		case "FormFieldString":
+			switch reverseField.Fieldname {
+			}
+		case "FormFieldTime":
+			switch reverseField.Fieldname {
+			}
+		case "FormGroup":
+			switch reverseField.Fieldname {
+			}
+		case "FormSortAssocButton":
+			switch reverseField.Fieldname {
+			}
+		case "Option":
+			switch reverseField.Fieldname {
+			}
+		case "Row":
+			switch reverseField.Fieldname {
+			}
+		case "Table":
+			switch reverseField.Fieldname {
+			}
 		}
 
 	case *models.Option:
@@ -229,13 +1609,82 @@ func GetReverseFieldOwnerName[T models.Gongstruct](
 			stage, backRepo, inst,
 		)
 		_ = tmp
-		switch reverseFieldName {
+		switch reverseField.GongstructName {
 		// insertion point
-		case "Options":
-			if tmp.FormFieldSelect_OptionsDBID.Int64 != 0 {
-				id := uint(tmp.FormFieldSelect_OptionsDBID.Int64)
-				reservePointerTarget := backRepo.BackRepoFormFieldSelect.Map_FormFieldSelectDBID_FormFieldSelectPtr[id]
-				res = reservePointerTarget.Name
+		case "Cell":
+			switch reverseField.Fieldname {
+			}
+		case "CellBoolean":
+			switch reverseField.Fieldname {
+			}
+		case "CellFloat64":
+			switch reverseField.Fieldname {
+			}
+		case "CellIcon":
+			switch reverseField.Fieldname {
+			}
+		case "CellInt":
+			switch reverseField.Fieldname {
+			}
+		case "CellString":
+			switch reverseField.Fieldname {
+			}
+		case "CheckBox":
+			switch reverseField.Fieldname {
+			}
+		case "DisplayedColumn":
+			switch reverseField.Fieldname {
+			}
+		case "FormDiv":
+			switch reverseField.Fieldname {
+			}
+		case "FormEditAssocButton":
+			switch reverseField.Fieldname {
+			}
+		case "FormField":
+			switch reverseField.Fieldname {
+			}
+		case "FormFieldDate":
+			switch reverseField.Fieldname {
+			}
+		case "FormFieldDateTime":
+			switch reverseField.Fieldname {
+			}
+		case "FormFieldFloat64":
+			switch reverseField.Fieldname {
+			}
+		case "FormFieldInt":
+			switch reverseField.Fieldname {
+			}
+		case "FormFieldSelect":
+			switch reverseField.Fieldname {
+			case "Options":
+				if tmp.FormFieldSelect_OptionsDBID.Int64 != 0 {
+					id := uint(tmp.FormFieldSelect_OptionsDBID.Int64)
+					reservePointerTarget := backRepo.BackRepoFormFieldSelect.Map_FormFieldSelectDBID_FormFieldSelectPtr[id]
+					res = reservePointerTarget.Name
+				}
+			}
+		case "FormFieldString":
+			switch reverseField.Fieldname {
+			}
+		case "FormFieldTime":
+			switch reverseField.Fieldname {
+			}
+		case "FormGroup":
+			switch reverseField.Fieldname {
+			}
+		case "FormSortAssocButton":
+			switch reverseField.Fieldname {
+			}
+		case "Option":
+			switch reverseField.Fieldname {
+			}
+		case "Row":
+			switch reverseField.Fieldname {
+			}
+		case "Table":
+			switch reverseField.Fieldname {
 			}
 		}
 
@@ -244,13 +1693,82 @@ func GetReverseFieldOwnerName[T models.Gongstruct](
 			stage, backRepo, inst,
 		)
 		_ = tmp
-		switch reverseFieldName {
+		switch reverseField.GongstructName {
 		// insertion point
-		case "Rows":
-			if tmp.Table_RowsDBID.Int64 != 0 {
-				id := uint(tmp.Table_RowsDBID.Int64)
-				reservePointerTarget := backRepo.BackRepoTable.Map_TableDBID_TablePtr[id]
-				res = reservePointerTarget.Name
+		case "Cell":
+			switch reverseField.Fieldname {
+			}
+		case "CellBoolean":
+			switch reverseField.Fieldname {
+			}
+		case "CellFloat64":
+			switch reverseField.Fieldname {
+			}
+		case "CellIcon":
+			switch reverseField.Fieldname {
+			}
+		case "CellInt":
+			switch reverseField.Fieldname {
+			}
+		case "CellString":
+			switch reverseField.Fieldname {
+			}
+		case "CheckBox":
+			switch reverseField.Fieldname {
+			}
+		case "DisplayedColumn":
+			switch reverseField.Fieldname {
+			}
+		case "FormDiv":
+			switch reverseField.Fieldname {
+			}
+		case "FormEditAssocButton":
+			switch reverseField.Fieldname {
+			}
+		case "FormField":
+			switch reverseField.Fieldname {
+			}
+		case "FormFieldDate":
+			switch reverseField.Fieldname {
+			}
+		case "FormFieldDateTime":
+			switch reverseField.Fieldname {
+			}
+		case "FormFieldFloat64":
+			switch reverseField.Fieldname {
+			}
+		case "FormFieldInt":
+			switch reverseField.Fieldname {
+			}
+		case "FormFieldSelect":
+			switch reverseField.Fieldname {
+			}
+		case "FormFieldString":
+			switch reverseField.Fieldname {
+			}
+		case "FormFieldTime":
+			switch reverseField.Fieldname {
+			}
+		case "FormGroup":
+			switch reverseField.Fieldname {
+			}
+		case "FormSortAssocButton":
+			switch reverseField.Fieldname {
+			}
+		case "Option":
+			switch reverseField.Fieldname {
+			}
+		case "Row":
+			switch reverseField.Fieldname {
+			}
+		case "Table":
+			switch reverseField.Fieldname {
+			case "Rows":
+				if tmp.Table_RowsDBID.Int64 != 0 {
+					id := uint(tmp.Table_RowsDBID.Int64)
+					reservePointerTarget := backRepo.BackRepoTable.Map_TableDBID_TablePtr[id]
+					res = reservePointerTarget.Name
+				}
 			}
 		}
 
@@ -259,8 +1777,77 @@ func GetReverseFieldOwnerName[T models.Gongstruct](
 			stage, backRepo, inst,
 		)
 		_ = tmp
-		switch reverseFieldName {
+		switch reverseField.GongstructName {
 		// insertion point
+		case "Cell":
+			switch reverseField.Fieldname {
+			}
+		case "CellBoolean":
+			switch reverseField.Fieldname {
+			}
+		case "CellFloat64":
+			switch reverseField.Fieldname {
+			}
+		case "CellIcon":
+			switch reverseField.Fieldname {
+			}
+		case "CellInt":
+			switch reverseField.Fieldname {
+			}
+		case "CellString":
+			switch reverseField.Fieldname {
+			}
+		case "CheckBox":
+			switch reverseField.Fieldname {
+			}
+		case "DisplayedColumn":
+			switch reverseField.Fieldname {
+			}
+		case "FormDiv":
+			switch reverseField.Fieldname {
+			}
+		case "FormEditAssocButton":
+			switch reverseField.Fieldname {
+			}
+		case "FormField":
+			switch reverseField.Fieldname {
+			}
+		case "FormFieldDate":
+			switch reverseField.Fieldname {
+			}
+		case "FormFieldDateTime":
+			switch reverseField.Fieldname {
+			}
+		case "FormFieldFloat64":
+			switch reverseField.Fieldname {
+			}
+		case "FormFieldInt":
+			switch reverseField.Fieldname {
+			}
+		case "FormFieldSelect":
+			switch reverseField.Fieldname {
+			}
+		case "FormFieldString":
+			switch reverseField.Fieldname {
+			}
+		case "FormFieldTime":
+			switch reverseField.Fieldname {
+			}
+		case "FormGroup":
+			switch reverseField.Fieldname {
+			}
+		case "FormSortAssocButton":
+			switch reverseField.Fieldname {
+			}
+		case "Option":
+			switch reverseField.Fieldname {
+			}
+		case "Row":
+			switch reverseField.Fieldname {
+			}
+		case "Table":
+			switch reverseField.Fieldname {
+			}
 		}
 
 	default:

@@ -63,6 +63,10 @@ type FormFieldStringDB struct {
 
 	// Declation for basic field formfieldstringDB.Value
 	Value_Data sql.NullString
+
+	// Declation for basic field formfieldstringDB.IsTextArea
+	// provide the sql storage for the boolan
+	IsTextArea_Data sql.NullBool
 	// encoding of pointers
 	FormFieldStringPointersEnconding
 }
@@ -87,6 +91,8 @@ type FormFieldStringWOP struct {
 	Name string `xlsx:"1"`
 
 	Value string `xlsx:"2"`
+
+	IsTextArea bool `xlsx:"3"`
 	// insertion for WOP pointer fields
 }
 
@@ -95,6 +101,7 @@ var FormFieldString_Fields = []string{
 	"ID",
 	"Name",
 	"Value",
+	"IsTextArea",
 }
 
 type BackRepoFormFieldStringStruct struct {
@@ -360,6 +367,9 @@ func (formfieldstringDB *FormFieldStringDB) CopyBasicFieldsFromFormFieldString(f
 
 	formfieldstringDB.Value_Data.String = formfieldstring.Value
 	formfieldstringDB.Value_Data.Valid = true
+
+	formfieldstringDB.IsTextArea_Data.Bool = formfieldstring.IsTextArea
+	formfieldstringDB.IsTextArea_Data.Valid = true
 }
 
 // CopyBasicFieldsFromFormFieldStringWOP
@@ -371,6 +381,9 @@ func (formfieldstringDB *FormFieldStringDB) CopyBasicFieldsFromFormFieldStringWO
 
 	formfieldstringDB.Value_Data.String = formfieldstring.Value
 	formfieldstringDB.Value_Data.Valid = true
+
+	formfieldstringDB.IsTextArea_Data.Bool = formfieldstring.IsTextArea
+	formfieldstringDB.IsTextArea_Data.Valid = true
 }
 
 // CopyBasicFieldsToFormFieldString
@@ -378,6 +391,7 @@ func (formfieldstringDB *FormFieldStringDB) CopyBasicFieldsToFormFieldString(for
 	// insertion point for checkout of basic fields (back repo to stage)
 	formfieldstring.Name = formfieldstringDB.Name_Data.String
 	formfieldstring.Value = formfieldstringDB.Value_Data.String
+	formfieldstring.IsTextArea = formfieldstringDB.IsTextArea_Data.Bool
 }
 
 // CopyBasicFieldsToFormFieldStringWOP
@@ -386,6 +400,7 @@ func (formfieldstringDB *FormFieldStringDB) CopyBasicFieldsToFormFieldStringWOP(
 	// insertion point for checkout of basic fields (back repo to stage)
 	formfieldstring.Name = formfieldstringDB.Name_Data.String
 	formfieldstring.Value = formfieldstringDB.Value_Data.String
+	formfieldstring.IsTextArea = formfieldstringDB.IsTextArea_Data.Bool
 }
 
 // Backup generates a json file from a slice of all FormFieldStringDB instances in the backrepo

@@ -14,6 +14,7 @@ export class FormFieldStringDB {
 	// insertion point for basic fields declarations
 	Name: string = ""
 	Value: string = ""
+	IsTextArea: boolean = false
 
 	// insertion point for other declarations
 }
