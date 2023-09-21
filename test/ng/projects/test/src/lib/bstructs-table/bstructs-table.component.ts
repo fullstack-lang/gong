@@ -98,6 +98,13 @@ export class BstructsTableComponent implements OnInit {
             return ""
           }
 
+        case 'Dstruct_Anarrayofb':
+          if (this.frontRepo.Dstructs.get(bstructDB.Dstruct_AnarrayofbDBID.Int64) != undefined) {
+            return this.frontRepo.Dstructs.get(bstructDB.Dstruct_AnarrayofbDBID.Int64)!.Name
+          } else {
+            return ""
+          }
+
         default:
           console.assert(false, "Unknown field")
           return "";
@@ -122,6 +129,10 @@ export class BstructsTableComponent implements OnInit {
 
       if (bstructDB.Astruct_AnotherarrayofbDBID.Int64 != 0) {
         mergedContent += this.frontRepo.Astructs.get(bstructDB.Astruct_AnotherarrayofbDBID.Int64)!.Name.toLowerCase()
+      }
+
+      if (bstructDB.Dstruct_AnarrayofbDBID.Int64 != 0) {
+        mergedContent += this.frontRepo.Dstructs.get(bstructDB.Dstruct_AnarrayofbDBID.Int64)!.Name.toLowerCase()
       }
 
 
@@ -184,6 +195,7 @@ export class BstructsTableComponent implements OnInit {
         "Intfield",
         "Astruct_Anarrayofb",
         "Astruct_Anotherarrayofb",
+        "Dstruct_Anarrayofb",
       ]
     } else {
       this.displayedColumns = ['select', 'ID', // insertion point for columns to display
@@ -193,6 +205,7 @@ export class BstructsTableComponent implements OnInit {
         "Intfield",
         "Astruct_Anarrayofb",
         "Astruct_Anotherarrayofb",
+        "Dstruct_Anarrayofb",
       ]
       this.selection = new SelectionModel<BstructDB>(allowMultiSelect, this.initialSelection);
     }
