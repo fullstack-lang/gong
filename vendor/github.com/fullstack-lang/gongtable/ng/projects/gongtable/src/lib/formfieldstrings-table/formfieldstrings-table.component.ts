@@ -78,6 +78,9 @@ export class FormFieldStringsTableComponent implements OnInit {
         case 'Value':
           return formfieldstringDB.Value;
 
+        case 'IsTextArea':
+          return formfieldstringDB.IsTextArea ? "true" : "false";
+
         default:
           console.assert(false, "Unknown field")
           return "";
@@ -150,11 +153,13 @@ export class FormFieldStringsTableComponent implements OnInit {
       this.displayedColumns = ['ID', 'Delete', // insertion point for columns to display
         "Name",
         "Value",
+        "IsTextArea",
       ]
     } else {
       this.displayedColumns = ['select', 'ID', // insertion point for columns to display
         "Name",
         "Value",
+        "IsTextArea",
       ]
       this.selection = new SelectionModel<FormFieldStringDB>(allowMultiSelect, this.initialSelection);
     }

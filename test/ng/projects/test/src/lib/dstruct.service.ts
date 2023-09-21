@@ -70,6 +70,8 @@ export class DstructService {
   postDstruct(dstructdb: DstructDB, GONG__StackPath: string): Observable<DstructDB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
+    let Anarrayofb = dstructdb.Anarrayofb
+    dstructdb.Anarrayofb = []
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -80,6 +82,7 @@ export class DstructService {
     return this.http.post<DstructDB>(this.dstructsUrl, dstructdb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
+	      dstructdb.Anarrayofb = Anarrayofb
         // this.log(`posted dstructdb id=${dstructdb.ID}`)
       }),
       catchError(this.handleError<DstructDB>('postDstruct'))
@@ -109,6 +112,8 @@ export class DstructService {
     const url = `${this.dstructsUrl}/${id}`;
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
+    let Anarrayofb = dstructdb.Anarrayofb
+    dstructdb.Anarrayofb = []
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -119,6 +124,7 @@ export class DstructService {
     return this.http.put<DstructDB>(url, dstructdb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
+	      dstructdb.Anarrayofb = Anarrayofb
         // this.log(`updated dstructdb id=${dstructdb.ID}`)
       }),
       catchError(this.handleError<DstructDB>('updateDstruct'))

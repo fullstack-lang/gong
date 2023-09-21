@@ -15,6 +15,7 @@ import { BstructDB } from './bstruct-db';
 
 // insertion point for imports
 import { AstructDB } from './astruct-db'
+import { DstructDB } from './dstruct-db'
 
 @Injectable({
   providedIn: 'root'
@@ -75,6 +76,8 @@ export class BstructService {
     bstructdb.Astruct_Anarrayofb_reverse = new AstructDB
     let _Astruct_Anotherarrayofb_reverse = bstructdb.Astruct_Anotherarrayofb_reverse
     bstructdb.Astruct_Anotherarrayofb_reverse = new AstructDB
+    let _Dstruct_Anarrayofb_reverse = bstructdb.Dstruct_Anarrayofb_reverse
+    bstructdb.Dstruct_Anarrayofb_reverse = new DstructDB
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -87,6 +90,7 @@ export class BstructService {
         // insertion point for restoration of reverse pointers
         bstructdb.Astruct_Anarrayofb_reverse = _Astruct_Anarrayofb_reverse
         bstructdb.Astruct_Anotherarrayofb_reverse = _Astruct_Anotherarrayofb_reverse
+        bstructdb.Dstruct_Anarrayofb_reverse = _Dstruct_Anarrayofb_reverse
         // this.log(`posted bstructdb id=${bstructdb.ID}`)
       }),
       catchError(this.handleError<BstructDB>('postBstruct'))
@@ -120,6 +124,8 @@ export class BstructService {
     bstructdb.Astruct_Anarrayofb_reverse = new AstructDB
     let _Astruct_Anotherarrayofb_reverse = bstructdb.Astruct_Anotherarrayofb_reverse
     bstructdb.Astruct_Anotherarrayofb_reverse = new AstructDB
+    let _Dstruct_Anarrayofb_reverse = bstructdb.Dstruct_Anarrayofb_reverse
+    bstructdb.Dstruct_Anarrayofb_reverse = new DstructDB
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -132,6 +138,7 @@ export class BstructService {
         // insertion point for restoration of reverse pointers
         bstructdb.Astruct_Anarrayofb_reverse = _Astruct_Anarrayofb_reverse
         bstructdb.Astruct_Anotherarrayofb_reverse = _Astruct_Anotherarrayofb_reverse
+        bstructdb.Dstruct_Anarrayofb_reverse = _Dstruct_Anarrayofb_reverse
         // this.log(`updated bstructdb id=${bstructdb.ID}`)
       }),
       catchError(this.handleError<BstructDB>('updateBstruct'))

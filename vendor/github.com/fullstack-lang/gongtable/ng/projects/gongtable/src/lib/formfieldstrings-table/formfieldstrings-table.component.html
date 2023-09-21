@@ -32,6 +32,13 @@
                 {{FormFieldString.Value}}
             </td>
         </ng-container>
+        <!-- -->
+        <ng-container matColumnDef="IsTextArea">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> IsTextArea </th>
+            <td mat-cell *matCellDef="let FormFieldString">
+                <mat-checkbox [checked]="FormFieldString.IsTextArea" disabled=true></mat-checkbox>
+            </td>
+        </ng-container>
 
         <ng-container matColumnDef="ID" sticky>
             <th mat-header-cell *matHeaderCellDef mat-sort-header> ID. </th>
