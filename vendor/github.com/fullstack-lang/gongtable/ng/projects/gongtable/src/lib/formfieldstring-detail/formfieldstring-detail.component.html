@@ -41,6 +41,9 @@
         <textarea name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="formfieldstring.Value"></textarea>
     </mat-form-field>
 
+    <!-- -->
+    <mat-checkbox [formControl]="IsTextAreaFormControl">IsTextArea</mat-checkbox>
+
     <div class="details__save">
         <button mat-raised-button color="primary" (click)="save()">
             Save formfieldstring

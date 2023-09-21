@@ -60,6 +60,13 @@
                 {{frontRepo.Astructs.get(bstruct.Astruct_AnotherarrayofbDBID.Int64)?.Name}}
             </td>
         </ng-container>
+        <!-- -->
+        <ng-container matColumnDef="Dstruct_Anarrayofb">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> <-- (Dstruct) Anarrayofb </th>
+            <td mat-cell *matCellDef="let bstruct">
+                {{frontRepo.Dstructs.get(bstruct.Dstruct_AnarrayofbDBID.Int64)?.Name}}
+            </td>
+        </ng-container>
 
         <ng-container matColumnDef="ID" sticky>
             <th mat-header-cell *matHeaderCellDef mat-sort-header> ID. </th>
