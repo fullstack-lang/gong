@@ -158,6 +158,9 @@ type AstructDB struct {
 
 	// Declation for basic field astructDB.ConstIdentifierValue
 	ConstIdentifierValue_Data sql.NullString
+
+	// Declation for basic field astructDB.TextArea
+	TextArea_Data sql.NullString
 	// encoding of pointers
 	AstructPointersEnconding
 }
@@ -216,6 +219,8 @@ type AstructWOP struct {
 	EnumValue string `xlsx:"18"`
 
 	ConstIdentifierValue string `xlsx:"19"`
+
+	TextArea string `xlsx:"20"`
 	// insertion for WOP pointer fields
 }
 
@@ -241,6 +246,7 @@ var Astruct_Fields = []string{
 	"EnumStringRef",
 	"EnumValue",
 	"ConstIdentifierValue",
+	"TextArea",
 }
 
 type BackRepoAstructStruct struct {
@@ -940,6 +946,9 @@ func (astructDB *AstructDB) CopyBasicFieldsFromAstruct(astruct *models.Astruct) 
 
 	astructDB.ConstIdentifierValue_Data.String = astruct.ConstIdentifierValue
 	astructDB.ConstIdentifierValue_Data.Valid = true
+
+	astructDB.TextArea_Data.String = astruct.TextArea
+	astructDB.TextArea_Data.Valid = true
 }
 
 // CopyBasicFieldsFromAstructWOP
@@ -1002,6 +1011,9 @@ func (astructDB *AstructDB) CopyBasicFieldsFromAstructWOP(astruct *AstructWOP) {
 
 	astructDB.ConstIdentifierValue_Data.String = astruct.ConstIdentifierValue
 	astructDB.ConstIdentifierValue_Data.Valid = true
+
+	astructDB.TextArea_Data.String = astruct.TextArea
+	astructDB.TextArea_Data.Valid = true
 }
 
 // CopyBasicFieldsToAstruct
@@ -1026,6 +1038,7 @@ func (astructDB *AstructDB) CopyBasicFieldsToAstruct(astruct *models.Astruct) {
 	astruct.EnumStringRef = astructDB.EnumStringRef_Data.String
 	astruct.EnumValue = astructDB.EnumValue_Data.String
 	astruct.ConstIdentifierValue = astructDB.ConstIdentifierValue_Data.String
+	astruct.TextArea = astructDB.TextArea_Data.String
 }
 
 // CopyBasicFieldsToAstructWOP
@@ -1051,6 +1064,7 @@ func (astructDB *AstructDB) CopyBasicFieldsToAstructWOP(astruct *AstructWOP) {
 	astruct.EnumStringRef = astructDB.EnumStringRef_Data.String
 	astruct.EnumValue = astructDB.EnumValue_Data.String
 	astruct.ConstIdentifierValue = astructDB.ConstIdentifierValue_Data.String
+	astruct.TextArea = astructDB.TextArea_Data.String
 }
 
 // Backup generates a json file from a slice of all AstructDB instances in the backrepo

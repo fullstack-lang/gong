@@ -18,12 +18,16 @@ func GenerateFieldParser(fieldList *[]*ast.Field, owningGongstruct *GongStruct,
 
 	for _, field := range *fieldList {
 
-		// get the comment group and check wether it is "swagger:ignore"
+		// get the comment group and check wether it is "swagger:ignore" or "gong:ignore"
 		var isIgnoredField bool
+		var isTextArea bool
 		if field.Comment != nil {
 			for _, comment := range field.Comment.List {
-				if strings.Contains(comment.Text, "swagger:ignore") {
+				if strings.Contains(comment.Text, "swagger:ignore") || strings.Contains(comment.Text, "gong:ignore") {
 					isIgnoredField = true
+				}
+				if strings.Contains(comment.Text, "gong:text") {
+					isTextArea = true
 				}
 			}
 		}
@@ -31,6 +35,9 @@ func GenerateFieldParser(fieldList *[]*ast.Field, owningGongstruct *GongStruct,
 			for _, comment := range field.Doc.List {
 				if strings.Contains(comment.Text, "swagger:ignore") {
 					isIgnoredField = true
+				}
+				if strings.Contains(comment.Text, "gong:text") {
+					isTextArea = true
 				}
 			}
 		}
@@ -72,6 +79,7 @@ func GenerateFieldParser(fieldList *[]*ast.Field, owningGongstruct *GongStruct,
 							DeclaredType:        "string",
 							Index:               len(owningGongstruct.Fields),
 							CompositeStructName: compositeTypeStructName,
+							IsTextArea:          isTextArea,
 						}
 
 					if field.Doc != nil {
