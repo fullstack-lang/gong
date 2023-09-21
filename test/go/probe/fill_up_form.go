@@ -71,13 +71,21 @@ func FillUpForm[T models.Gongstruct](
 		BasicFieldtoForm("Intfield", instanceWithInferedType.Intfield, instanceWithInferedType, playground.formStage, formGroup, false)
 
 		reverseFieldOwner := orm.GetReverseFieldOwner(playground.stageOfInterest, playground.backRepoOfInterest, instanceWithInferedType, "Anarrayofb")
-		AssociationReverseFieldToForm(
-			reverseFieldOwner.(*models.Astruct),
-			"Anarrayofb",
-			instanceWithInferedType,
-			(reverseFieldOwner.(*models.Astruct)).Anarrayofb,
-			formGroup,
-			playground)
+		if reverseFieldOwner != nil {
+			AssociationReverseFieldToForm(
+				reverseFieldOwner.(*models.Astruct),
+				"Anarrayofb",
+				instanceWithInferedType,
+				formGroup,
+				playground)
+		} else {
+			AssociationReverseFieldToForm[*models.Astruct, *models.Bstruct](
+				nil,
+				"Anarrayofb",
+				instanceWithInferedType,
+				formGroup,
+				playground)
+		}
 
 	case *models.Dstruct:
 		// insertion point
