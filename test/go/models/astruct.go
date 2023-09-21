@@ -86,6 +86,9 @@ type Astruct struct {
 	// docLinkRemapping "pkg.Name1"
 	//gong:ident [pkg.Name1]
 	ConstIdentifierValue string
+
+	//gong:text, magic code to have the form editor have a text area instead of an input
+	TextArea string
 }
 
 // presence of this function will let gong generates orchestrator code

@@ -19,6 +19,9 @@ type GongBasicField struct {
 	// IsDocLink is true if the field is a string field
 	// that is set at compile time by a DocLink directive //gong:ident
 	IsDocLink bool
+
+	// if there is a gong:text magic field
+	IsTextArea bool
 }
 
 func (gongBasicField *GongBasicField) GetIndex() int {
