@@ -112,8 +112,7 @@ Second Line`
 
 	//gong:ident [.....]
 	__Astruct__000000_A1.ConstIdentifierValue = `.....`
-	__Astruct__000000_A1.TextArea = `Hello, this is a text area
-where one can work on multiple lines`
+	__Astruct__000000_A1.TextArea = ``
 
 	// Astruct values setup
 	__Astruct__000001_A2.Name = `A2`
@@ -234,6 +233,7 @@ where one can work on multiple lines`
 
 	// Setup of pointers
 	__Astruct__000000_A1.Associationtob = __Bstruct__000001_B2
+	__Astruct__000000_A1.Anarrayofb = append(__Astruct__000000_A1.Anarrayofb, __Bstruct__000001_B2)
 	__Astruct__000000_A1.Anarrayofb = append(__Astruct__000000_A1.Anarrayofb, __Bstruct__000002_B3)
 	__Astruct__000000_A1.Anarrayofb = append(__Astruct__000000_A1.Anarrayofb, __Bstruct__000000_B1)
 	__Astruct__000000_A1.Anarrayofa = append(__Astruct__000000_A1.Anarrayofa, __Astruct__000000_A1)

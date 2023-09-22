@@ -18,7 +18,7 @@ func FillUpFormFromGongstruct[T models.Gongstruct](instance *T, playground *Play
 		formGroup := (&gongtable.FormGroup{
 			Name:  gongtable.FormGroupDefaultName.ToString(),
 			Label: "Update Dummy Form",
-			OnSave: NewDummyFormCallback(
+			OnSave: __gong__New__DummyFormCallback(
 				instancesTyped,
 				playground,
 			),

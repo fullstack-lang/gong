@@ -5,7 +5,10 @@ import (
 	form "github.com/fullstack-lang/gongtable/go/models"
 
 	"github.com/fullstack-lang/gong/test2/go/models"
+	"github.com/fullstack-lang/gong/test2/go/orm"
 )
+
+var __dummy_orm_fillup_form = orm.BackRepoStruct{}
 
 func FillUpForm[T models.Gongstruct](
 	instance *T,
@@ -17,7 +20,7 @@ func FillUpForm[T models.Gongstruct](
 	// insertion point
 	case *models.Dummy:
 		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, playground.formStage, formGroup)
+		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, playground.formStage, formGroup, false)
 
 	default:
 		_ = instanceWithInferedType

@@ -484,12 +484,15 @@
             ]
         },
         {
-            "name": "go run test2",
+            "name": "go run test2 -unmarshallFromCode=stage.go -marshallOnCommit=stage_out",
             "type": "go",
             "request": "launch",
             "mode": "auto",
             "program": "${workspaceFolder}/test2/go/cmd/test2",
-            "args": []
+            "args": [
+                "-unmarshallFromCode=stage.go",
+                "-marshallOnCommit=stage_out"
+            ]
         },
         {
             "name": "go test BclassOrder",

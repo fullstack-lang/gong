@@ -19,14 +19,19 @@ package probe
 
 import (
 	"log"
+	"slices"
 	"time"
 
 	table "github.com/fullstack-lang/gongtable/go/models"
 
 	"{{PkgPathRoot}}/models"
+	"{{PkgPathRoot}}/orm"
 )
 
 const __dummmy__time = time.Nanosecond
+
+var __dummmy__letters = slices.Delete([]string{"a"}, 0, 1)
+var __dummy_orm = orm.BackRepoStruct{}
 
 // insertion point{{` + string(rune(FillUpTreeStructCase)) + `}}
 `
@@ -117,6 +122,7 @@ const (
 	FormCallbackSubTmplBasicFieldEnumString
 	FormCallbackSubTmplBasicFieldEnumInt
 	FormCallbackSubTmplPointerToStruct
+	FormCallbackSubTmplSliceOfPointersReversePointer
 )
 
 var FormCallbackFileFieldFieldSubTemplateCode map[FormCallbackSubTemplateId]string = // declaration of the sub templates
@@ -134,6 +140,49 @@ map[FormCallbackSubTemplateId]string{
 	FormCallbackSubTmplPointerToStruct: `
 		case "{{FieldName}}":
 			FormDivSelectFieldToField(&({{structname}}_.{{FieldName}}), {{structname}}FormCallback.playground.stageOfInterest, formDiv)`,
+	FormCallbackSubTmplSliceOfPointersReversePointer: `
+		case "{{AssocStructName}}:{{FieldName}}":
+			// we need to retrieve the field owner before the change
+			var past{{AssocStructName}}Owner *models.{{AssocStructName}}
+			var rf models.ReverseField
+			_ = rf
+			rf.GongstructName = "{{AssocStructName}}"
+			rf.Fieldname = "{{FieldName}}"
+			reverseFieldOwner := orm.GetReverseFieldOwner(
+				{{structname}}FormCallback.playground.stageOfInterest,
+				{{structname}}FormCallback.playground.backRepoOfInterest,
+				{{structname}}_,
+				&rf)
+
+			if reverseFieldOwner != nil {
+				past{{AssocStructName}}Owner = reverseFieldOwner.(*models.{{AssocStructName}})
+			}
+			if formDiv.FormFields[0].FormFieldSelect.Value == nil {
+				if past{{AssocStructName}}Owner != nil {
+					idx := slices.Index(past{{AssocStructName}}Owner.{{FieldName}}, {{structname}}_)
+					past{{AssocStructName}}Owner.{{FieldName}} = slices.Delete(past{{AssocStructName}}Owner.{{FieldName}}, idx, idx+1)
+				}
+			} else {
+				// we need to retrieve the field owner after the change
+				// parse all astrcut and get the one with the name in the
+				// div
+				for _{{assocStructName}} := range *models.GetGongstructInstancesSet[models.{{AssocStructName}}]({{structname}}FormCallback.playground.stageOfInterest) {
+
+					// the match is base on the name
+					if _{{assocStructName}}.GetName() == formDiv.FormFields[0].FormFieldSelect.Value.GetName() {
+						new{{AssocStructName}}Owner := _{{assocStructName}} // we have a match
+						if past{{AssocStructName}}Owner != nil {
+							if new{{AssocStructName}}Owner != past{{AssocStructName}}Owner {
+								idx := slices.Index(past{{AssocStructName}}Owner.{{FieldName}}, {{structname}}_)
+								past{{AssocStructName}}Owner.{{FieldName}} = slices.Delete(past{{AssocStructName}}Owner.{{FieldName}}, idx, idx+1)
+								new{{AssocStructName}}Owner.{{FieldName}} = append(new{{AssocStructName}}Owner.{{FieldName}}, {{structname}}_)
+							}
+						} else {
+							new{{AssocStructName}}Owner.{{FieldName}} = append(new{{AssocStructName}}Owner.{{FieldName}}, {{structname}}_)
+						}
+					}
+				}
+			}`,
 }
 
 func CodeGeneratorModelFormCallback(
@@ -200,6 +249,22 @@ func CodeGeneratorModelFormCallback(
 				default:
 				}
 
+			}
+
+			for _, __struct := range gongStructs {
+
+				for _, field := range __struct.Fields {
+					switch field := field.(type) {
+					case *models.SliceOfPointerToGongStructField:
+						if field.GongStruct == gongStruct {
+							fieldToFormCode += models.Replace3(
+								FormCallbackFileFieldFieldSubTemplateCode[FormCallbackSubTmplSliceOfPointersReversePointer],
+								"{{AssocStructName}}", __struct.Name,
+								"{{assocStructName}}", strings.ToLower(__struct.Name),
+								"{{FieldName}}", field.Name)
+						}
+					}
+				}
 			}
 
 			fieldToFormCode = models.Replace2(fieldToFormCode,

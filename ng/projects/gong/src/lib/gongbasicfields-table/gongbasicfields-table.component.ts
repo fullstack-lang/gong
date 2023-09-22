@@ -93,6 +93,9 @@ export class GongBasicFieldsTableComponent implements OnInit {
         case 'IsDocLink':
           return gongbasicfieldDB.IsDocLink ? "true" : "false";
 
+        case 'IsTextArea':
+          return gongbasicfieldDB.IsTextArea ? "true" : "false";
+
         case 'GongStruct_GongBasicFields':
           if (this.frontRepo.GongStructs.get(gongbasicfieldDB.GongStruct_GongBasicFieldsDBID.Int64) != undefined) {
             return this.frontRepo.GongStructs.get(gongbasicfieldDB.GongStruct_GongBasicFieldsDBID.Int64)!.Name
@@ -187,6 +190,7 @@ export class GongBasicFieldsTableComponent implements OnInit {
         "CompositeStructName",
         "Index",
         "IsDocLink",
+        "IsTextArea",
         "GongStruct_GongBasicFields",
       ]
     } else {
@@ -198,6 +202,7 @@ export class GongBasicFieldsTableComponent implements OnInit {
         "CompositeStructName",
         "Index",
         "IsDocLink",
+        "IsTextArea",
         "GongStruct_GongBasicFields",
       ]
       this.selection = new SelectionModel<GongBasicFieldDB>(allowMultiSelect, this.initialSelection);

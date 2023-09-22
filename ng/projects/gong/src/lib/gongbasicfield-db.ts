@@ -20,6 +20,7 @@ export class GongBasicFieldDB {
 	CompositeStructName: string = ""
 	Index: number = 0
 	IsDocLink: boolean = false
+	IsTextArea: boolean = false
 
 	// insertion point for other declarations
 	GongEnum?: GongEnumDB

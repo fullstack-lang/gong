@@ -1748,6 +1748,42 @@ func GetGongstructName[Type Gongstruct]() (res string) {
 	return res
 }
 
+// GetPointerToGongstructName returns the name of the Gongstruct
+// this can be usefull if one want program robust to refactoring
+func GetPointerToGongstructName[Type PointerToGongstruct]() (res string) {
+
+	var ret Type
+
+	switch any(ret).(type) {
+	// insertion point for generic get gongstruct name
+	case *GongBasicField:
+		res = "GongBasicField"
+	case *GongEnum:
+		res = "GongEnum"
+	case *GongEnumValue:
+		res = "GongEnumValue"
+	case *GongLink:
+		res = "GongLink"
+	case *GongNote:
+		res = "GongNote"
+	case *GongStruct:
+		res = "GongStruct"
+	case *GongTimeField:
+		res = "GongTimeField"
+	case *Meta:
+		res = "Meta"
+	case *MetaReference:
+		res = "MetaReference"
+	case *ModelPkg:
+		res = "ModelPkg"
+	case *PointerToGongStructField:
+		res = "PointerToGongStructField"
+	case *SliceOfPointerToGongStructField:
+		res = "SliceOfPointerToGongStructField"
+	}
+	return res
+}
+
 // GetFields return the array of the fields
 func GetFields[Type Gongstruct]() (res []string) {
 
@@ -1756,7 +1792,7 @@ func GetFields[Type Gongstruct]() (res []string) {
 	switch any(ret).(type) {
 	// insertion point for generic get gongstruct name
 	case GongBasicField:
-		res = []string{"Name", "BasicKindName", "GongEnum", "DeclaredType", "CompositeStructName", "Index", "IsDocLink"}
+		res = []string{"Name", "BasicKindName", "GongEnum", "DeclaredType", "CompositeStructName", "Index", "IsDocLink", "IsTextArea"}
 	case GongEnum:
 		res = []string{"Name", "Type", "GongEnumValues"}
 	case GongEnumValue:
@@ -1866,7 +1902,7 @@ func GetFieldsFromPointer[Type PointerToGongstruct]() (res []string) {
 	switch any(ret).(type) {
 	// insertion point for generic get gongstruct name
 	case *GongBasicField:
-		res = []string{"Name", "BasicKindName", "GongEnum", "DeclaredType", "CompositeStructName", "Index", "IsDocLink"}
+		res = []string{"Name", "BasicKindName", "GongEnum", "DeclaredType", "CompositeStructName", "Index", "IsDocLink", "IsTextArea"}
 	case *GongEnum:
 		res = []string{"Name", "Type", "GongEnumValues"}
 	case *GongEnumValue:
@@ -1916,6 +1952,8 @@ func GetFieldStringValueFromPointer[Type PointerToGongstruct](instance Type, fie
 			res = fmt.Sprintf("%d", inferedInstance.Index)
 		case "IsDocLink":
 			res = fmt.Sprintf("%t", inferedInstance.IsDocLink)
+		case "IsTextArea":
+			res = fmt.Sprintf("%t", inferedInstance.IsTextArea)
 		}
 	case *GongEnum:
 		switch fieldName {
@@ -2072,7 +2110,7 @@ func GetFieldStringValueFromPointer[Type PointerToGongstruct](instance Type, fie
 			res = inferedInstance.CompositeStructName
 		}
 	default:
-		_ = inferedInstance	
+		_ = inferedInstance
 	}
 	return
 }
@@ -2100,6 +2138,8 @@ func GetFieldStringValue[Type Gongstruct](instance Type, fieldName string) (res 
 			res = fmt.Sprintf("%d", inferedInstance.Index)
 		case "IsDocLink":
 			res = fmt.Sprintf("%t", inferedInstance.IsDocLink)
+		case "IsTextArea":
+			res = fmt.Sprintf("%t", inferedInstance.IsTextArea)
 		}
 	case GongEnum:
 		switch fieldName {
@@ -2256,7 +2296,7 @@ func GetFieldStringValue[Type Gongstruct](instance Type, fieldName string) (res 
 			res = inferedInstance.CompositeStructName
 		}
 	default:
-		_ = inferedInstance	
+		_ = inferedInstance
 	}
 	return
 }

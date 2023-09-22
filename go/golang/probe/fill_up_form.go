@@ -21,7 +21,10 @@ import (
 	form "github.com/fullstack-lang/gongtable/go/models"
 
 	"{{PkgPathRoot}}/models"
+	"{{PkgPathRoot}}/orm"
 )
+
+var __dummy_orm_fillup_form = orm.BackRepoStruct{}
 
 func FillUpForm[T models.Gongstruct](
 	instance *T,
@@ -65,6 +68,7 @@ const (
 	// ButtonImplFileFieldSubTmplSetTimeField
 	ButtonImplSubTmplPointerField
 	ButtonImplSubTmplSliceOfPointersField
+	ButtonImplSubTmplSliceOfPointersReversePointer
 )
 
 var ButtonImplFileFieldFieldSubTemplateCode map[ButtonImplSubTemplateId]string = // declaration of the sub templates
@@ -80,6 +84,29 @@ map[ButtonImplSubTemplateId]string{
 		AssociationFieldToForm("{{FieldName}}", instanceWithInferedType.{{FieldName}}, formGroup, playground)`,
 	ButtonImplSubTmplSliceOfPointersField: `
 		AssociationSliceToForm("{{FieldName}}", instanceWithInferedType, &instanceWithInferedType.{{FieldName}}, formGroup, playground)`,
+	ButtonImplSubTmplSliceOfPointersReversePointer: `
+		{
+			var rf models.ReverseField
+			_ = rf
+			rf.GongstructName = "{{AssocStructName}}"
+			rf.Fieldname = "{{FieldName}}"
+			reverseFieldOwner := orm.GetReverseFieldOwner(playground.stageOfInterest, playground.backRepoOfInterest, instanceWithInferedType, &rf)
+			if reverseFieldOwner != nil {
+				AssociationReverseFieldToForm(
+					reverseFieldOwner.(*models.{{AssocStructName}}),
+					"{{FieldName}}",
+					instanceWithInferedType,
+					formGroup,
+					playground)
+			} else {
+				AssociationReverseFieldToForm[*models.{{AssocStructName}}, *models.{{Structname}}](
+					nil,
+					"{{FieldName}}",
+					instanceWithInferedType,
+					formGroup,
+					playground)
+			}	
+		}`,
 }
 
 func CodeGeneratorFillUpForm(
@@ -161,6 +188,24 @@ func CodeGeneratorFillUpForm(
 				default:
 				}
 
+			}
+
+			//
+			// Parse all fields from other structs that points to this struct
+			//
+			for _, __struct := range gongStructs {
+				for _, field := range __struct.Fields {
+					switch field := field.(type) {
+					case *models.SliceOfPointerToGongStructField:
+
+						if field.GongStruct == gongStruct {
+							fieldToFormCode += models.Replace2(
+								ButtonImplFileFieldFieldSubTemplateCode[ButtonImplSubTmplSliceOfPointersReversePointer],
+								"{{AssocStructName}}", __struct.Name,
+								"{{FieldName}}", field.GetName())
+						}
+					}
+				}
 			}
 
 			fieldToFormCode = models.Replace2(fieldToFormCode,

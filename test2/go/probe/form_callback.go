@@ -3,17 +3,22 @@ package probe
 
 import (
 	"log"
+	"slices"
 	"time"
 
 	table "github.com/fullstack-lang/gongtable/go/models"
 
 	"github.com/fullstack-lang/gong/test2/go/models"
+	"github.com/fullstack-lang/gong/test2/go/orm"
 )
 
 const __dummmy__time = time.Nanosecond
 
+var __dummmy__letters = slices.Delete([]string{"a"}, 0, 1)
+var __dummy_orm = orm.BackRepoStruct{}
+
 // insertion point
-func NewDummyFormCallback(
+func __gong__New__DummyFormCallback(
 	dummy *models.Dummy,
 	playground *Playground,
 ) (dummyFormCallback *DummyFormCallback) {
@@ -71,7 +76,7 @@ func (dummyFormCallback *DummyFormCallback) OnSave() {
 		dummyFormCallback.playground.formStage.Reset()
 		newFormGroup := (&table.FormGroup{
 			Name: table.FormGroupDefaultName.ToString(),
-			OnSave: NewDummyFormCallback(
+			OnSave: __gong__New__DummyFormCallback(
 				nil,
 				dummyFormCallback.playground,
 			),
