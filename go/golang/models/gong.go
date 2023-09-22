@@ -43,6 +43,7 @@ const (
 
 	ModelGongStructInsertionGenericGongSetTypes
 	ModelGongStructInsertionGenericGongstructName
+	ModelGongStructInsertionGenericPointerToGongstructName
 	ModelGongStructInsertionGenericGongMapTypes
 	ModelGongStructInsertionGenericGetSetFunctions
 	ModelGongStructInsertionGenericGetMapFunctions
@@ -238,6 +239,10 @@ func ({{structname}} *{{Structname}}) GetName() (res string) {
 
 	ModelGongStructInsertionGenericGongstructName: `
 	case {{Structname}}:
+		res = "{{Structname}}"`,
+
+	ModelGongStructInsertionGenericPointerToGongstructName: `
+	case *{{Structname}}:
 		res = "{{Structname}}"`,
 
 	ModelGongStructInsertionGenericGongMapTypes: `
