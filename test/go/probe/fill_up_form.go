@@ -52,16 +52,82 @@ func FillUpForm[T models.Gongstruct](
 		BasicFieldtoForm("EnumValue", instanceWithInferedType.EnumValue, instanceWithInferedType, playground.formStage, formGroup, false)
 		BasicFieldtoForm("ConstIdentifierValue", instanceWithInferedType.ConstIdentifierValue, instanceWithInferedType, playground.formStage, formGroup, false)
 		BasicFieldtoForm("TextArea", instanceWithInferedType.TextArea, instanceWithInferedType, playground.formStage, formGroup, true)
+		{
+			var rf models.ReverseField
+			_ = rf
+			rf.GongstructName = "Astruct"
+			rf.Fieldname = "Anarrayofa"
+			reverseFieldOwner := orm.GetReverseFieldOwner(playground.stageOfInterest, playground.backRepoOfInterest, instanceWithInferedType, &rf)
+			if reverseFieldOwner != nil {
+				AssociationReverseFieldToForm(
+					reverseFieldOwner.(*models.Astruct),
+					"Anarrayofa",
+					instanceWithInferedType,
+					formGroup,
+					playground)
+			} else {
+				AssociationReverseFieldToForm[*models.Astruct, *models.Astruct](
+					nil,
+					"Anarrayofa",
+					instanceWithInferedType,
+					formGroup,
+					playground)
+			}	
+		}
 
 	case *models.AstructBstruct2Use:
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, playground.formStage, formGroup, false)
 		AssociationFieldToForm("Bstrcut2", instanceWithInferedType.Bstrcut2, formGroup, playground)
+		{
+			var rf models.ReverseField
+			_ = rf
+			rf.GongstructName = "Astruct"
+			rf.Fieldname = "Anarrayofb2Use"
+			reverseFieldOwner := orm.GetReverseFieldOwner(playground.stageOfInterest, playground.backRepoOfInterest, instanceWithInferedType, &rf)
+			if reverseFieldOwner != nil {
+				AssociationReverseFieldToForm(
+					reverseFieldOwner.(*models.Astruct),
+					"Anarrayofb2Use",
+					instanceWithInferedType,
+					formGroup,
+					playground)
+			} else {
+				AssociationReverseFieldToForm[*models.Astruct, *models.AstructBstruct2Use](
+					nil,
+					"Anarrayofb2Use",
+					instanceWithInferedType,
+					formGroup,
+					playground)
+			}	
+		}
 
 	case *models.AstructBstructUse:
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, playground.formStage, formGroup, false)
 		AssociationFieldToForm("Bstruct2", instanceWithInferedType.Bstruct2, formGroup, playground)
+		{
+			var rf models.ReverseField
+			_ = rf
+			rf.GongstructName = "Astruct"
+			rf.Fieldname = "AnarrayofbUse"
+			reverseFieldOwner := orm.GetReverseFieldOwner(playground.stageOfInterest, playground.backRepoOfInterest, instanceWithInferedType, &rf)
+			if reverseFieldOwner != nil {
+				AssociationReverseFieldToForm(
+					reverseFieldOwner.(*models.Astruct),
+					"AnarrayofbUse",
+					instanceWithInferedType,
+					formGroup,
+					playground)
+			} else {
+				AssociationReverseFieldToForm[*models.Astruct, *models.AstructBstructUse](
+					nil,
+					"AnarrayofbUse",
+					instanceWithInferedType,
+					formGroup,
+					playground)
+			}	
+		}
 
 	case *models.Bstruct:
 		// insertion point
@@ -69,22 +135,71 @@ func FillUpForm[T models.Gongstruct](
 		BasicFieldtoForm("Floatfield", instanceWithInferedType.Floatfield, instanceWithInferedType, playground.formStage, formGroup, false)
 		BasicFieldtoForm("Floatfield2", instanceWithInferedType.Floatfield2, instanceWithInferedType, playground.formStage, formGroup, false)
 		BasicFieldtoForm("Intfield", instanceWithInferedType.Intfield, instanceWithInferedType, playground.formStage, formGroup, false)
-
-		reverseFieldOwner := orm.GetReverseFieldOwner(playground.stageOfInterest, playground.backRepoOfInterest, instanceWithInferedType, "Anarrayofb")
-		if reverseFieldOwner != nil {
-			AssociationReverseFieldToForm(
-				reverseFieldOwner.(*models.Astruct),
-				"Anarrayofb",
-				instanceWithInferedType,
-				formGroup,
-				playground)
-		} else {
-			AssociationReverseFieldToForm[*models.Astruct, *models.Bstruct](
-				nil,
-				"Anarrayofb",
-				instanceWithInferedType,
-				formGroup,
-				playground)
+		{
+			var rf models.ReverseField
+			_ = rf
+			rf.GongstructName = "Astruct"
+			rf.Fieldname = "Anarrayofb"
+			reverseFieldOwner := orm.GetReverseFieldOwner(playground.stageOfInterest, playground.backRepoOfInterest, instanceWithInferedType, &rf)
+			if reverseFieldOwner != nil {
+				AssociationReverseFieldToForm(
+					reverseFieldOwner.(*models.Astruct),
+					"Anarrayofb",
+					instanceWithInferedType,
+					formGroup,
+					playground)
+			} else {
+				AssociationReverseFieldToForm[*models.Astruct, *models.Bstruct](
+					nil,
+					"Anarrayofb",
+					instanceWithInferedType,
+					formGroup,
+					playground)
+			}	
+		}
+		{
+			var rf models.ReverseField
+			_ = rf
+			rf.GongstructName = "Astruct"
+			rf.Fieldname = "Anotherarrayofb"
+			reverseFieldOwner := orm.GetReverseFieldOwner(playground.stageOfInterest, playground.backRepoOfInterest, instanceWithInferedType, &rf)
+			if reverseFieldOwner != nil {
+				AssociationReverseFieldToForm(
+					reverseFieldOwner.(*models.Astruct),
+					"Anotherarrayofb",
+					instanceWithInferedType,
+					formGroup,
+					playground)
+			} else {
+				AssociationReverseFieldToForm[*models.Astruct, *models.Bstruct](
+					nil,
+					"Anotherarrayofb",
+					instanceWithInferedType,
+					formGroup,
+					playground)
+			}	
+		}
+		{
+			var rf models.ReverseField
+			_ = rf
+			rf.GongstructName = "Dstruct"
+			rf.Fieldname = "Anarrayofb"
+			reverseFieldOwner := orm.GetReverseFieldOwner(playground.stageOfInterest, playground.backRepoOfInterest, instanceWithInferedType, &rf)
+			if reverseFieldOwner != nil {
+				AssociationReverseFieldToForm(
+					reverseFieldOwner.(*models.Dstruct),
+					"Anarrayofb",
+					instanceWithInferedType,
+					formGroup,
+					playground)
+			} else {
+				AssociationReverseFieldToForm[*models.Dstruct, *models.Bstruct](
+					nil,
+					"Anarrayofb",
+					instanceWithInferedType,
+					formGroup,
+					playground)
+			}	
 		}
 
 	case *models.Dstruct:
