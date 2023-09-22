@@ -100,6 +100,9 @@
     <!-- -->
     <mat-checkbox [formControl]="IsDocLinkFormControl">IsDocLink</mat-checkbox>
 
+    <!-- -->
+    <mat-checkbox [formControl]="IsTextAreaFormControl">IsTextArea</mat-checkbox>
+
     <mat-form-field class="detail-full-width">
         <mat-label>(GongStruct) GongBasicFields</mat-label>
         <mat-select [compareWith]="compareObjects" [(ngModel)]="gongbasicfield.GongStruct_GongBasicFields_reverse" [ngModelOptions]="{standalone: true}">

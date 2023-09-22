@@ -10,7 +10,7 @@ import (
 type GongstructDB interface {
 	// insertion point for generic types
 	// "int" is present to handle the case when no struct is present
-	int {{` + string(rune(GetInstanceDBFromInstanceGonstructDBDefinition)) + `}}
+	int{{` + string(rune(GetInstanceDBFromInstanceGonstructDBDefinition)) + `}}
 }
 
 func GetInstanceDBFromInstance[T models.Gongstruct, T2 GongstructDB](
@@ -30,6 +30,19 @@ func GetID[T models.Gongstruct](
 	stage *models.StageStruct,
 	backRepo *BackRepoStruct,
 	instance *T) (id int) {
+
+	switch inst := any(instance).(type) {
+	// insertion point for per struct backup{{` + string(rune(GetInstanceDBFromInstanceSwitchCaseGetID)) + `}}
+	default:
+		_ = inst
+	}
+	return
+}
+
+func GetIDPointer[T models.PointerToGongstruct](
+	stage *models.StageStruct,
+	backRepo *BackRepoStruct,
+	instance T) (id int) {
 
 	switch inst := any(instance).(type) {
 	// insertion point for per struct backup{{` + string(rune(GetInstanceDBFromInstanceSwitchCaseGetID)) + `}}
