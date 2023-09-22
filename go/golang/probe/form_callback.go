@@ -30,6 +30,9 @@ import (
 
 const __dummmy__time = time.Nanosecond
 
+var __dummmy__letters = slices.Delete([]string{"a"}, 0, 1)
+var __dummy_orm = orm.BackRepoStruct{}
+
 // insertion point{{` + string(rune(FillUpTreeStructCase)) + `}}
 `
 
