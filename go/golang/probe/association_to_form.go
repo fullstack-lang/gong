@@ -62,8 +62,8 @@ func AssociationReverseFieldToForm[OwnerType models.PointerToGongstruct, FieldTy
 	}).Stage(playground.formStage)
 	formGroup.FormDivs = append(formGroup.FormDivs, formDiv)
 	formField := (&form.FormField{
-		Name:        fieldName,
-		Label:       fieldName,
+		Name:        models.GetPointerToGongstructName[OwnerType]() + ":" + fieldName,
+		Label:       models.GetPointerToGongstructName[OwnerType]() + ":" + fieldName,
 		Placeholder: "",
 	}).Stage(playground.formStage)
 	formDiv.FormFields = append(formDiv.FormFields, formField)
