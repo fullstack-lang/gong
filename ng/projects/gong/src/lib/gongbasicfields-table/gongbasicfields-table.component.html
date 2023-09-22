@@ -68,6 +68,13 @@
             </td>
         </ng-container>
         <!-- -->
+        <ng-container matColumnDef="IsTextArea">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> IsTextArea </th>
+            <td mat-cell *matCellDef="let GongBasicField">
+                <mat-checkbox [checked]="GongBasicField.IsTextArea" disabled=true></mat-checkbox>
+            </td>
+        </ng-container>
+        <!-- -->
         <ng-container matColumnDef="GongStruct_GongBasicFields">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> <-- (GongStruct) GongBasicFields </th>
             <td mat-cell *matCellDef="let gongbasicfield">

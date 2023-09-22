@@ -36,6 +36,7 @@ export class GongBasicFieldDetailComponent implements OnInit {
 
 	// insertion point for declarations
 	IsDocLinkFormControl: UntypedFormControl = new UntypedFormControl(false);
+	IsTextAreaFormControl: UntypedFormControl = new UntypedFormControl(false);
 
 	// the GongBasicFieldDB of interest
 	gongbasicfield: GongBasicFieldDB = new GongBasicFieldDB
@@ -145,6 +146,7 @@ export class GongBasicFieldDetailComponent implements OnInit {
 
 				// insertion point for recovery of form controls value for bool fields
 				this.IsDocLinkFormControl.setValue(this.gongbasicfield.IsDocLink)
+				this.IsTextAreaFormControl.setValue(this.gongbasicfield.IsTextArea)
 			}
 		)
 
@@ -168,6 +170,7 @@ export class GongBasicFieldDetailComponent implements OnInit {
 			this.gongbasicfield.GongEnumID.Valid = true
 		}
 		this.gongbasicfield.IsDocLink = this.IsDocLinkFormControl.value
+		this.gongbasicfield.IsTextArea = this.IsTextAreaFormControl.value
 
 		// save from the front pointer space to the non pointer space for serialization
 

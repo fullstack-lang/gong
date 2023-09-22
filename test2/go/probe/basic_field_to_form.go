@@ -10,7 +10,7 @@ import (
 )
 
 func BasicFieldtoForm[T models.PointerToGongstruct, TF models.GongtructBasicField](
-	fieldName string, field TF, instance T, formStage *form.StageStruct, formGroup *form.FormGroup,
+	fieldName string, field TF, instance T, formStage *form.StageStruct, formGroup *form.FormGroup, isTextArea bool,
 ) {
 
 	switch fieldWithInterferedType := any(field).(type) {
@@ -27,8 +27,9 @@ func BasicFieldtoForm[T models.PointerToGongstruct, TF models.GongtructBasicFiel
 		formDiv.FormFields = append(formDiv.FormFields, formField)
 
 		formFieldString := (&form.FormFieldString{
-			Name:  "string",
-			Value: fieldWithInterferedType,
+			Name:  		"string",
+			Value: 		fieldWithInterferedType,
+			IsTextArea: isTextArea,
 		}).Stage(formStage)
 		formField.FormFieldString = formFieldString
 	case time.Time:

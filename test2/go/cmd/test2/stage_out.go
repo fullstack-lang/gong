@@ -10,8 +10,8 @@ import (
 
 // generated in order to avoid error in the package import
 // if there are no elements in the stage to marshall
-var ___dummy__Stage_stage models.StageStruct
-var ___dummy__Time_stage time.Time
+var ___dummy__Stage_stage_out models.StageStruct
+var ___dummy__Time_stage_out time.Time
 
 // Injection point for meta package dummy declaration{{ImportPackageDummyDeclaration}}
 
@@ -22,7 +22,7 @@ var ___dummy__Time_stage time.Time
 // [Corresponding Issue](https://github.com/golang/go/issues/57559)
 //
 // When parsed, those maps will help with the renaming process
-var map_DocLink_Identifier_stage map[string]any = map[string]any{
+var map_DocLink_Identifier_stage_out map[string]any = map[string]any{
 	// injection point for docLink to identifiers{{EntriesDocLinkStringDocLinkIdentifier}}
 }
 
@@ -30,21 +30,25 @@ var map_DocLink_Identifier_stage map[string]any = map[string]any{
 // but it has to properly reference the Injection gateway in the main package
 // func init() {
 // 	_ = __Dummy_time_variable
-// 	InjectionGateway["stage"] = stageInjection
+// 	InjectionGateway["stage_out"] = stage_outInjection
 // }
 
-// stageInjection will stage objects of database "stage"
-func stageInjection(stage *models.StageStruct) {
+// stage_outInjection will stage objects of database "stage_out"
+func stage_outInjection(stage *models.StageStruct) {
 
 	// Declaration of instances to stage
 
 	// Declarations of staged instances of Dummy
 	__Dummy__000000_How_dummy_ := (&models.Dummy{Name: `How dummy ?`}).Stage(stage)
+	__Dummy__000001_Very := (&models.Dummy{Name: `Very`}).Stage(stage)
 
 	// Setup of values
 
 	// Dummy values setup
 	__Dummy__000000_How_dummy_.Name = `How dummy ?`
+
+	// Dummy values setup
+	__Dummy__000001_Very.Name = `Very`
 
 	// Setup of pointers
 }
