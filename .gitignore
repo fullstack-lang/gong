@@ -17,3 +17,4 @@ test/go/.DS_Store
 test/go/tests/~$serialize_test.xlsx
 
 go/cmd/gong/gong
+test2/go/cmd/test2/test2.db
