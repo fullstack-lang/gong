@@ -12,25 +12,28 @@ import (
 	"github.com/fullstack-lang/gong/go/models"
 )
 
-func NewOnSortingEditon[FieldType models.PointerToGongstruct](
+func NewOnSortingEditon[InstanceType models.PointerToGongstruct, FieldType models.PointerToGongstruct](
+	instance InstanceType,
 	field *[]FieldType,
 	playground *Playground,
-) (onSortingEdition *OnSortingEditon[FieldType]) {
+) (onSortingEdition *OnSortingEditon[InstanceType, FieldType]) {
 
-	onSortingEdition = new(OnSortingEditon[FieldType])
+	onSortingEdition = new(OnSortingEditon[InstanceType, FieldType])
 
 	onSortingEdition.playground = playground
+	onSortingEdition.instance = instance
 	onSortingEdition.field = field
 
 	return
 }
 
-type OnSortingEditon[FieldType models.PointerToGongstruct] struct {
+type OnSortingEditon[InstanceType models.PointerToGongstruct, FieldType models.PointerToGongstruct] struct {
+	instance   InstanceType
 	field      *[]FieldType
 	playground *Playground
 }
 
-func (onSortingEditon *OnSortingEditon[FieldType]) OnButtonPressed() {
+func (onSortingEditon *OnSortingEditon[InstanceType, FieldType]) OnButtonPressed() {
 
 	tableStackName := onSortingEditon.playground.formStage.GetPath() +
 		string(form.StackNamePostFixForTableForAssociationSorting)
@@ -73,36 +76,40 @@ func (onSortingEditon *OnSortingEditon[FieldType]) OnButtonPressed() {
 		}
 	}
 
-	table.Impl = NewTableSortSaver[FieldType](
+	table.Impl = NewTableSortSaver[InstanceType, FieldType](
+		onSortingEditon.instance,
 		onSortingEditon.field,
-		onSortingEditon.playground.stageOfInterest,
+		onSortingEditon.playground,
 		&map_RowID_instance)
 	tableStageForSelection.Commit()
 }
 
-func NewTableSortSaver[FieldType models.PointerToGongstruct](
+func NewTableSortSaver[InstanceType models.PointerToGongstruct, FieldType models.PointerToGongstruct](
+	instance InstanceType,
 	field *[]FieldType,
-	stageOfInterest *models.StageStruct,
+	playground *Playground,
 	map_RowID_instance *map[*gongtable_models.Row]FieldType,
-) (tableSortSaver *TableSortSaver[FieldType]) {
+) (tableSortSaver *TableSortSaver[InstanceType, FieldType]) {
 
-	tableSortSaver = new(TableSortSaver[FieldType])
+	tableSortSaver = new(TableSortSaver[InstanceType, FieldType])
+	tableSortSaver.instance = instance
 	tableSortSaver.field = field
-	tableSortSaver.stageOfInterest = stageOfInterest
+	tableSortSaver.playground = playground
 	tableSortSaver.map_RowID_instance = map_RowID_instance
 
 	return
 }
 
-type TableSortSaver[FieldType models.PointerToGongstruct] struct {
-	field           *[]FieldType
-	stageOfInterest *models.StageStruct
+type TableSortSaver[InstanceType models.PointerToGongstruct, FieldType models.PointerToGongstruct] struct {
+	instance   InstanceType
+	field      *[]FieldType
+	playground *Playground
 
 	// map giving the relation between the row ID and the instance
 	map_RowID_instance *map[*gongtable_models.Row]FieldType
 }
 
-func (tableSortSaver *TableSortSaver[FieldType]) TableUpdated(stage *form.StageStruct, table, updatedTable *form.Table) {
+func (tableSortSaver *TableSortSaver[InstanceType, FieldType]) TableUpdated(stage *form.StageStruct, table, updatedTable *form.Table) {
 	log.Println("TableSortSaver: TableUpdated")
 
 	// checkout to the stage to get the rows that have been checked and not
@@ -114,5 +121,11 @@ func (tableSortSaver *TableSortSaver[FieldType]) TableUpdated(stage *form.StageS
 		instance := (*tableSortSaver.map_RowID_instance)[row]
 		*tableSortSaver.field = append(*tableSortSaver.field, instance)
 	}
-	tableSortSaver.stageOfInterest.Commit()
+	tableSortSaver.playground.stageOfInterest.Commit()
+
+	// see the result
+	fillUpTablePointerToGongstruct[InstanceType](
+		tableSortSaver.playground,
+	)
+	tableSortSaver.playground.tableStage.Commit()
 }

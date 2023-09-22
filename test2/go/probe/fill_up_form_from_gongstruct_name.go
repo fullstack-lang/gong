@@ -30,7 +30,7 @@ func FillUpFormFromGongstructName(
 		formGroup := (&form.FormGroup{
 			Name:  form.FormGroupDefaultName.ToString(),
 			Label: prefix + " Dummy Form",
-			OnSave: NewDummyFormCallback(
+			OnSave: __gong__New__DummyFormCallback(
 				nil,
 				playground,
 			),
