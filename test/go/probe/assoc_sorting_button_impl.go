@@ -128,4 +128,6 @@ func (tableSortSaver *TableSortSaver[InstanceType, FieldType]) TableUpdated(stag
 		tableSortSaver.playground,
 	)
 	tableSortSaver.playground.tableStage.Commit()
+
+	fillUpTree(tableSortSaver.playground)
 }

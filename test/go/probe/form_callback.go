@@ -181,7 +181,7 @@ func (astructFormCallback *AstructFormCallback) OnSave() {
 		FillUpForm(astruct, newFormGroup, astructFormCallback.playground)
 		astructFormCallback.playground.formStage.Commit()
 	}
-
+	fillUpTree(astructFormCallback.playground)
 }
 func __gong__New__AstructBstruct2UseFormCallback(
 	astructbstruct2use *models.AstructBstruct2Use,
