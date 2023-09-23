@@ -81,6 +81,9 @@ func (controller *Controller) Get{{Structname}}s(c *gin.Context) {
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
+	if backRepo == nil {
+		log.Panic("Stack {{PkgPathRoot}}/models, Unkown stack", stackPath)
+	}
 	db := backRepo.BackRepo{{Structname}}.GetDB()
 
 	query := db.Find(&{{structname}}DBs)
@@ -140,6 +143,9 @@ func (controller *Controller) Post{{Structname}}(c *gin.Context) {
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
+	if backRepo == nil {
+		log.Panic("Stack {{PkgPathRoot}}/models, Unkown stack", stackPath)
+	}
 	db := backRepo.BackRepo{{Structname}}.GetDB()
 
 	// Validate input
@@ -209,6 +215,9 @@ func (controller *Controller) Get{{Structname}}(c *gin.Context) {
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
+	if backRepo == nil {
+		log.Panic("Stack {{PkgPathRoot}}/models, Unkown stack", stackPath)
+	}
 	db := backRepo.BackRepo{{Structname}}.GetDB()
 
 	// Get {{structname}}DB in DB
@@ -254,6 +263,9 @@ func (controller *Controller) Update{{Structname}}(c *gin.Context) {
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
+	if backRepo == nil {
+		log.Panic("Stack {{PkgPathRoot}}/models, Unkown stack", stackPath)
+	}
 	db := backRepo.BackRepo{{Structname}}.GetDB()
 
 	// Validate input
@@ -338,6 +350,9 @@ func (controller *Controller) Delete{{Structname}}(c *gin.Context) {
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
+	if backRepo == nil {
+		log.Panic("Stack {{PkgPathRoot}}/models, Unkown stack", stackPath)
+	}
 	db := backRepo.BackRepo{{Structname}}.GetDB()
 
 	// Get model if exist
