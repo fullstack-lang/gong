@@ -27,10 +27,16 @@ import { FormsModule } from '@angular/forms';
 // to split the screen
 import { AngularSplitModule } from 'angular-split';
 
+import { GongModule } from 'gong'
+
 import { GongdocModule } from 'gongdoc'
 import { GongdocspecificModule } from 'gongdocspecific'
 
-import { GongModule } from 'gong'
+import { GongtreeModule } from 'gongtree'
+import { GongtreespecificModule } from 'gongtreespecific'
+
+import { GongtableModule } from 'gongtable'
+import { GongtablespecificModule } from 'gongtablespecific'
 
 import { TestModule } from 'test'
 import { TestspecificModule } from 'testspecific'
@@ -73,6 +79,12 @@ import { HttpClientModule } from '@angular/common/http';
     // gongdoc stack (for displaying UML diagrams of the gong code in the current stack)
     GongdocModule,
     GongdocspecificModule,
+
+    GongtreeModule,
+    GongtreespecificModule,
+
+    GongtableModule,
+    GongtablespecificModule,
 
     TestModule,
     TestspecificModule,
