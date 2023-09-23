@@ -12,6 +12,8 @@ import (
 	gong_fullstack "github.com/fullstack-lang/gong/go/fullstack"
 	gong_models "github.com/fullstack-lang/gong/go/models"
 
+	gongdoc_load "github.com/fullstack-lang/gongdoc/go/load"
+
 	"github.com/fullstack-lang/gong/test/go/models"
 	"github.com/fullstack-lang/gong/test/go/orm"
 )
@@ -19,6 +21,8 @@ import (
 func NewProbe(
 	r *gin.Engine,
 	goModelsDir embed.FS,
+	goDiagramsDir embed.FS,
+	embeddedDiagrams bool,
 	stackPath string,
 	stageOfInterest *models.StageStruct,
 	backRepoOfInterest *orm.BackRepoStruct) {
@@ -49,4 +53,13 @@ func NewProbe(
 	)
 
 	fillUpTree(playground)
+
+	gongdoc_load.Load(
+		"test",
+		"github.com/fullstack-lang/gong/test/go/models",
+		goModelsDir,
+		goDiagramsDir,
+		r,
+		embeddedDiagrams,
+		&stageOfInterest.Map_GongStructName_InstancesNb)
 }
