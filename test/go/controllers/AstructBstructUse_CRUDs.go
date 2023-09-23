@@ -65,6 +65,9 @@ func (controller *Controller) GetAstructBstructUses(c *gin.Context) {
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
+	if backRepo == nil {
+		log.Panic("Stack github.com/fullstack-lang/gong/test/go/models, Unkown stack", stackPath)
+	}
 	db := backRepo.BackRepoAstructBstructUse.GetDB()
 
 	query := db.Find(&astructbstructuseDBs)
@@ -124,6 +127,9 @@ func (controller *Controller) PostAstructBstructUse(c *gin.Context) {
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
+	if backRepo == nil {
+		log.Panic("Stack github.com/fullstack-lang/gong/test/go/models, Unkown stack", stackPath)
+	}
 	db := backRepo.BackRepoAstructBstructUse.GetDB()
 
 	// Validate input
@@ -193,6 +199,9 @@ func (controller *Controller) GetAstructBstructUse(c *gin.Context) {
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
+	if backRepo == nil {
+		log.Panic("Stack github.com/fullstack-lang/gong/test/go/models, Unkown stack", stackPath)
+	}
 	db := backRepo.BackRepoAstructBstructUse.GetDB()
 
 	// Get astructbstructuseDB in DB
@@ -238,6 +247,9 @@ func (controller *Controller) UpdateAstructBstructUse(c *gin.Context) {
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
+	if backRepo == nil {
+		log.Panic("Stack github.com/fullstack-lang/gong/test/go/models, Unkown stack", stackPath)
+	}
 	db := backRepo.BackRepoAstructBstructUse.GetDB()
 
 	// Validate input
@@ -322,6 +334,9 @@ func (controller *Controller) DeleteAstructBstructUse(c *gin.Context) {
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
+	if backRepo == nil {
+		log.Panic("Stack github.com/fullstack-lang/gong/test/go/models, Unkown stack", stackPath)
+	}
 	db := backRepo.BackRepoAstructBstructUse.GetDB()
 
 	// Get model if exist
