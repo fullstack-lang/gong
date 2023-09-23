@@ -46,6 +46,7 @@ func AssociationSliceToForm[InstanceType models.PointerToGongstruct, FieldType m
 	formSortAssocButton.OnSortEdition = onSortingEditon
 
 }
+
 type OnAssocEditon[InstanceType models.PointerToGongstruct, FieldType models.PointerToGongstruct] struct {
 	instance   InstanceType
 	field      *[]FieldType
@@ -201,4 +202,6 @@ func (tablePickSaver *TablePickSaver[InstanceType, FieldType]) TableUpdated(
 		tablePickSaver.playground,
 	)
 	tablePickSaver.playground.tableStage.Commit()
+
+	fillUpTree(tablePickSaver.playground)
 }
