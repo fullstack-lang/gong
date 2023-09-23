@@ -100,14 +100,14 @@ map[GetReverseFieldOwnerNameSubTemplateId]string{
 			switch reverseField.Fieldname {`,
 	GetReverseFieldOwnerNameSwitchCode: `
 			case "{{FieldName}}":
-				if tmp.{{AssocStructName}}_{{FieldName}}DBID.Int64 != 0 {
+				if tmp != nil && tmp.{{AssocStructName}}_{{FieldName}}DBID.Int64 != 0 {
 					id := uint(tmp.{{AssocStructName}}_{{FieldName}}DBID.Int64)
 					reservePointerTarget := backRepo.BackRepo{{AssocStructName}}.Map_{{AssocStructName}}DBID_{{AssocStructName}}Ptr[id]
 					res = reservePointerTarget.Name
 				}`,
 	GetReverseFieldOwnerSwitchCode: `
 			case "{{FieldName}}":
-				if tmp.{{AssocStructName}}_{{FieldName}}DBID.Int64 != 0 {
+				if tmp != nil && tmp.{{AssocStructName}}_{{FieldName}}DBID.Int64 != 0 {
 					id := uint(tmp.{{AssocStructName}}_{{FieldName}}DBID.Int64)
 					reservePointerTarget := backRepo.BackRepo{{AssocStructName}}.Map_{{AssocStructName}}DBID_{{AssocStructName}}Ptr[id]
 					res = reservePointerTarget
