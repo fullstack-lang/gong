@@ -16,7 +16,6 @@ import (
 func fillUpTree(
 	playground *Playground,
 ) {
-
 	// keep in memory which nodes have been unfolded / folded
 	expandedNodesSet := make(map[string]any, 0)
 	var _sidebar *tree.Tree
@@ -56,10 +55,12 @@ func fillUpTree(
 
 		nodeGongstruct := (&tree.Node{Name: name}).Stage(playground.treeStage)
 
+
 		nodeGongstruct.IsExpanded = false
 		if _, ok := expandedNodesSet[strings.Fields(name)[0]]; ok {
 			nodeGongstruct.IsExpanded = true
 		}
+		
 		switch gongStruct.Name {
 		// insertion point
 		case "Astruct":
@@ -111,7 +112,7 @@ func fillUpTree(
 				nodeInstance.Impl = NewInstanceNodeCallback(dstruct, "Dstruct", playground)
 
 				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-			}
+			}	
 		}
 
 		nodeGongstruct.IsNodeClickable = true
