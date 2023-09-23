@@ -55,11 +55,12 @@ func NewProbe(
 	fillUpTree(playground)
 
 	gongdoc_load.Load(
-		"test",
+		"",
 		"github.com/fullstack-lang/gong/test/go/models",
 		goModelsDir,
 		goDiagramsDir,
 		r,
 		embeddedDiagrams,
 		&stageOfInterest.Map_GongStructName_InstancesNb)
+
 }

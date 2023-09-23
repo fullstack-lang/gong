@@ -94,7 +94,8 @@ func main() {
 		stage.OnInitCommitCallback = hook
 	}
 
-	test_probe.NewProbe(r, test_go.GoModelsDir, test_go.GoDiagramsDir, *embeddedDiagrams, "test", stage, backRepo)
+	test_probe.NewProbe(r, test_go.GoModelsDir, test_go.GoDiagramsDir, 
+		*embeddedDiagrams,"test", stage, backRepo)
 
 	log.Printf("Server ready serve on localhost:" + strconv.Itoa(*port))
 	err := r.Run(":" + strconv.Itoa(*port))
