@@ -36,18 +36,8 @@ import {
 
 import { AppRoutingModule } from './app-routing.module';
 
-import { SplitterComponent } from './splitter/splitter.component'
-import { SidebarComponent } from './sidebar/sidebar.component';
-import { GongstructSelectionService } from './gongstruct-selection.service'
-
-// insertion point for imports {{` + string(NgLibModuleImports) + `}}
-
 @NgModule({
 	declarations: [
-		// insertion point for declarations {{` + string(NgLibModuleDeclarations) + `}}
-
-		SplitterComponent,
-		SidebarComponent
 	],
 	imports: [
 		FormsModule,
@@ -83,42 +73,9 @@ import { GongstructSelectionService } from './gongstruct-selection.service'
 		AngularSplitModule,
 	],
 	exports: [
-		// insertion point for declarations {{` + string(NgLibModuleDeclarations) + `}}
-
-		SplitterComponent,
-		SidebarComponent,
-
 	],
 	providers: [
-		GongstructSelectionService,
-		{
-			provide: MatDialogRef,
-			useValue: {}
-		},
 	],
 })
 export class {{PkgName}}Module { }
 `
-
-type NgLibModuleServiceSubTemplate string
-
-const (
-	NgLibModuleDeclarations NgLibModuleServiceSubTemplate = "NgLibModuleIndivDecls"
-	NgLibModuleImports      NgLibModuleServiceSubTemplate = "NgLibModuleImports"
-)
-
-var NgLibModuleSubTemplateCode map[string]string = // new line
-map[string]string{
-
-	string(NgLibModuleImports): `
-import { {{Structname}}sTableComponent } from './{{structname}}s-table/{{structname}}s-table.component'
-import { {{Structname}}SortingComponent } from './{{structname}}-sorting/{{structname}}-sorting.component'
-import { {{Structname}}DetailComponent } from './{{structname}}-detail/{{structname}}-detail.component'
-`,
-
-	string(NgLibModuleDeclarations): `
-		{{Structname}}sTableComponent,
-		{{Structname}}SortingComponent,
-		{{Structname}}DetailComponent,
-`,
-}
