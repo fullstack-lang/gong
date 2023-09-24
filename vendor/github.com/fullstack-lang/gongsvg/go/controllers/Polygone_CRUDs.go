@@ -65,6 +65,9 @@ func (controller *Controller) GetPolygones(c *gin.Context) {
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
+	if backRepo == nil {
+		log.Panic("Stack github.com/fullstack-lang/gongsvg/go/models, Unkown stack", stackPath)
+	}
 	db := backRepo.BackRepoPolygone.GetDB()
 
 	query := db.Find(&polygoneDBs)
@@ -124,6 +127,9 @@ func (controller *Controller) PostPolygone(c *gin.Context) {
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
+	if backRepo == nil {
+		log.Panic("Stack github.com/fullstack-lang/gongsvg/go/models, Unkown stack", stackPath)
+	}
 	db := backRepo.BackRepoPolygone.GetDB()
 
 	// Validate input
@@ -193,6 +199,9 @@ func (controller *Controller) GetPolygone(c *gin.Context) {
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
+	if backRepo == nil {
+		log.Panic("Stack github.com/fullstack-lang/gongsvg/go/models, Unkown stack", stackPath)
+	}
 	db := backRepo.BackRepoPolygone.GetDB()
 
 	// Get polygoneDB in DB
@@ -238,6 +247,9 @@ func (controller *Controller) UpdatePolygone(c *gin.Context) {
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
+	if backRepo == nil {
+		log.Panic("Stack github.com/fullstack-lang/gongsvg/go/models, Unkown stack", stackPath)
+	}
 	db := backRepo.BackRepoPolygone.GetDB()
 
 	// Validate input
@@ -322,6 +334,9 @@ func (controller *Controller) DeletePolygone(c *gin.Context) {
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
+	if backRepo == nil {
+		log.Panic("Stack github.com/fullstack-lang/gongsvg/go/models, Unkown stack", stackPath)
+	}
 	db := backRepo.BackRepoPolygone.GetDB()
 
 	// Get model if exist

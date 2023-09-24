@@ -2520,6 +2520,52 @@ func GetGongstructName[Type Gongstruct]() (res string) {
 	return res
 }
 
+// GetPointerToGongstructName returns the name of the Gongstruct
+// this can be usefull if one want program robust to refactoring
+func GetPointerToGongstructName[Type PointerToGongstruct]() (res string) {
+
+	var ret Type
+
+	switch any(ret).(type) {
+	// insertion point for generic get gongstruct name
+	case *Animate:
+		res = "Animate"
+	case *Circle:
+		res = "Circle"
+	case *Ellipse:
+		res = "Ellipse"
+	case *Layer:
+		res = "Layer"
+	case *Line:
+		res = "Line"
+	case *Link:
+		res = "Link"
+	case *LinkAnchoredText:
+		res = "LinkAnchoredText"
+	case *Path:
+		res = "Path"
+	case *Point:
+		res = "Point"
+	case *Polygone:
+		res = "Polygone"
+	case *Polyline:
+		res = "Polyline"
+	case *Rect:
+		res = "Rect"
+	case *RectAnchoredRect:
+		res = "RectAnchoredRect"
+	case *RectAnchoredText:
+		res = "RectAnchoredText"
+	case *RectLinkLink:
+		res = "RectLinkLink"
+	case *SVG:
+		res = "SVG"
+	case *Text:
+		res = "Text"
+	}
+	return res
+}
+
 // GetFields return the array of the fields
 func GetFields[Type Gongstruct]() (res []string) {
 
@@ -3417,7 +3463,7 @@ func GetFieldStringValueFromPointer[Type PointerToGongstruct](instance Type, fie
 			}
 		}
 	default:
-		_ = inferedInstance	
+		_ = inferedInstance
 	}
 	return
 }
@@ -4082,7 +4128,7 @@ func GetFieldStringValue[Type Gongstruct](instance Type, fieldName string) (res 
 			}
 		}
 	default:
-		_ = inferedInstance	
+		_ = inferedInstance
 	}
 	return
 }

@@ -65,6 +65,9 @@ func (controller *Controller) GetPolylines(c *gin.Context) {
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
+	if backRepo == nil {
+		log.Panic("Stack github.com/fullstack-lang/gongsvg/go/models, Unkown stack", stackPath)
+	}
 	db := backRepo.BackRepoPolyline.GetDB()
 
 	query := db.Find(&polylineDBs)
@@ -124,6 +127,9 @@ func (controller *Controller) PostPolyline(c *gin.Context) {
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
+	if backRepo == nil {
+		log.Panic("Stack github.com/fullstack-lang/gongsvg/go/models, Unkown stack", stackPath)
+	}
 	db := backRepo.BackRepoPolyline.GetDB()
 
 	// Validate input
@@ -193,6 +199,9 @@ func (controller *Controller) GetPolyline(c *gin.Context) {
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
+	if backRepo == nil {
+		log.Panic("Stack github.com/fullstack-lang/gongsvg/go/models, Unkown stack", stackPath)
+	}
 	db := backRepo.BackRepoPolyline.GetDB()
 
 	// Get polylineDB in DB
@@ -238,6 +247,9 @@ func (controller *Controller) UpdatePolyline(c *gin.Context) {
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
+	if backRepo == nil {
+		log.Panic("Stack github.com/fullstack-lang/gongsvg/go/models, Unkown stack", stackPath)
+	}
 	db := backRepo.BackRepoPolyline.GetDB()
 
 	// Validate input
@@ -322,6 +334,9 @@ func (controller *Controller) DeletePolyline(c *gin.Context) {
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
+	if backRepo == nil {
+		log.Panic("Stack github.com/fullstack-lang/gongsvg/go/models, Unkown stack", stackPath)
+	}
 	db := backRepo.BackRepoPolyline.GetDB()
 
 	// Get model if exist

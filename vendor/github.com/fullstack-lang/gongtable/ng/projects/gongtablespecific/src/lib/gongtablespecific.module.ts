@@ -19,9 +19,6 @@ import { MatSelectModule } from '@angular/material/select'
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MatDialogModule } from '@angular/material/dialog';
 
-
-
-
 @NgModule({
   declarations: [
     MaterialTableComponent,

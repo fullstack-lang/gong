@@ -8,7 +8,7 @@ import (
 type GongstructDB interface {
 	// insertion point for generic types
 	// "int" is present to handle the case when no struct is present
-	int  | AnimateDB | CircleDB | EllipseDB | LayerDB | LineDB | LinkDB | LinkAnchoredTextDB | PathDB | PointDB | PolygoneDB | PolylineDB | RectDB | RectAnchoredRectDB | RectAnchoredTextDB | RectLinkLinkDB | SVGDB | TextDB
+	int | AnimateDB | CircleDB | EllipseDB | LayerDB | LineDB | LinkDB | LinkAnchoredTextDB | PathDB | PointDB | PolygoneDB | PolylineDB | RectDB | RectAnchoredRectDB | RectAnchoredTextDB | RectLinkLinkDB | SVGDB | TextDB
 }
 
 func GetInstanceDBFromInstance[T models.Gongstruct, T2 GongstructDB](
@@ -96,6 +96,104 @@ func GetID[T models.Gongstruct](
 	stage *models.StageStruct,
 	backRepo *BackRepoStruct,
 	instance *T) (id int) {
+
+	switch inst := any(instance).(type) {
+	// insertion point for per struct backup
+	case *models.Animate:
+		tmp := GetInstanceDBFromInstance[models.Animate, AnimateDB](
+			stage, backRepo, inst,
+		)
+		id = int(tmp.ID)
+	case *models.Circle:
+		tmp := GetInstanceDBFromInstance[models.Circle, CircleDB](
+			stage, backRepo, inst,
+		)
+		id = int(tmp.ID)
+	case *models.Ellipse:
+		tmp := GetInstanceDBFromInstance[models.Ellipse, EllipseDB](
+			stage, backRepo, inst,
+		)
+		id = int(tmp.ID)
+	case *models.Layer:
+		tmp := GetInstanceDBFromInstance[models.Layer, LayerDB](
+			stage, backRepo, inst,
+		)
+		id = int(tmp.ID)
+	case *models.Line:
+		tmp := GetInstanceDBFromInstance[models.Line, LineDB](
+			stage, backRepo, inst,
+		)
+		id = int(tmp.ID)
+	case *models.Link:
+		tmp := GetInstanceDBFromInstance[models.Link, LinkDB](
+			stage, backRepo, inst,
+		)
+		id = int(tmp.ID)
+	case *models.LinkAnchoredText:
+		tmp := GetInstanceDBFromInstance[models.LinkAnchoredText, LinkAnchoredTextDB](
+			stage, backRepo, inst,
+		)
+		id = int(tmp.ID)
+	case *models.Path:
+		tmp := GetInstanceDBFromInstance[models.Path, PathDB](
+			stage, backRepo, inst,
+		)
+		id = int(tmp.ID)
+	case *models.Point:
+		tmp := GetInstanceDBFromInstance[models.Point, PointDB](
+			stage, backRepo, inst,
+		)
+		id = int(tmp.ID)
+	case *models.Polygone:
+		tmp := GetInstanceDBFromInstance[models.Polygone, PolygoneDB](
+			stage, backRepo, inst,
+		)
+		id = int(tmp.ID)
+	case *models.Polyline:
+		tmp := GetInstanceDBFromInstance[models.Polyline, PolylineDB](
+			stage, backRepo, inst,
+		)
+		id = int(tmp.ID)
+	case *models.Rect:
+		tmp := GetInstanceDBFromInstance[models.Rect, RectDB](
+			stage, backRepo, inst,
+		)
+		id = int(tmp.ID)
+	case *models.RectAnchoredRect:
+		tmp := GetInstanceDBFromInstance[models.RectAnchoredRect, RectAnchoredRectDB](
+			stage, backRepo, inst,
+		)
+		id = int(tmp.ID)
+	case *models.RectAnchoredText:
+		tmp := GetInstanceDBFromInstance[models.RectAnchoredText, RectAnchoredTextDB](
+			stage, backRepo, inst,
+		)
+		id = int(tmp.ID)
+	case *models.RectLinkLink:
+		tmp := GetInstanceDBFromInstance[models.RectLinkLink, RectLinkLinkDB](
+			stage, backRepo, inst,
+		)
+		id = int(tmp.ID)
+	case *models.SVG:
+		tmp := GetInstanceDBFromInstance[models.SVG, SVGDB](
+			stage, backRepo, inst,
+		)
+		id = int(tmp.ID)
+	case *models.Text:
+		tmp := GetInstanceDBFromInstance[models.Text, TextDB](
+			stage, backRepo, inst,
+		)
+		id = int(tmp.ID)
+	default:
+		_ = inst
+	}
+	return
+}
+
+func GetIDPointer[T models.PointerToGongstruct](
+	stage *models.StageStruct,
+	backRepo *BackRepoStruct,
+	instance T) (id int) {
 
 	switch inst := any(instance).(type) {
 	// insertion point for per struct backup

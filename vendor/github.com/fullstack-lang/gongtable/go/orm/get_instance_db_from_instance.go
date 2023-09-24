@@ -8,7 +8,7 @@ import (
 type GongstructDB interface {
 	// insertion point for generic types
 	// "int" is present to handle the case when no struct is present
-	int  | CellDB | CellBooleanDB | CellFloat64DB | CellIconDB | CellIntDB | CellStringDB | CheckBoxDB | DisplayedColumnDB | FormDivDB | FormEditAssocButtonDB | FormFieldDB | FormFieldDateDB | FormFieldDateTimeDB | FormFieldFloat64DB | FormFieldIntDB | FormFieldSelectDB | FormFieldStringDB | FormFieldTimeDB | FormGroupDB | FormSortAssocButtonDB | OptionDB | RowDB | TableDB
+	int | CellDB | CellBooleanDB | CellFloat64DB | CellIconDB | CellIntDB | CellStringDB | CheckBoxDB | DisplayedColumnDB | FormDivDB | FormEditAssocButtonDB | FormFieldDB | FormFieldDateDB | FormFieldDateTimeDB | FormFieldFloat64DB | FormFieldIntDB | FormFieldSelectDB | FormFieldStringDB | FormFieldTimeDB | FormGroupDB | FormSortAssocButtonDB | OptionDB | RowDB | TableDB
 }
 
 func GetInstanceDBFromInstance[T models.Gongstruct, T2 GongstructDB](
@@ -120,6 +120,134 @@ func GetID[T models.Gongstruct](
 	stage *models.StageStruct,
 	backRepo *BackRepoStruct,
 	instance *T) (id int) {
+
+	switch inst := any(instance).(type) {
+	// insertion point for per struct backup
+	case *models.Cell:
+		tmp := GetInstanceDBFromInstance[models.Cell, CellDB](
+			stage, backRepo, inst,
+		)
+		id = int(tmp.ID)
+	case *models.CellBoolean:
+		tmp := GetInstanceDBFromInstance[models.CellBoolean, CellBooleanDB](
+			stage, backRepo, inst,
+		)
+		id = int(tmp.ID)
+	case *models.CellFloat64:
+		tmp := GetInstanceDBFromInstance[models.CellFloat64, CellFloat64DB](
+			stage, backRepo, inst,
+		)
+		id = int(tmp.ID)
+	case *models.CellIcon:
+		tmp := GetInstanceDBFromInstance[models.CellIcon, CellIconDB](
+			stage, backRepo, inst,
+		)
+		id = int(tmp.ID)
+	case *models.CellInt:
+		tmp := GetInstanceDBFromInstance[models.CellInt, CellIntDB](
+			stage, backRepo, inst,
+		)
+		id = int(tmp.ID)
+	case *models.CellString:
+		tmp := GetInstanceDBFromInstance[models.CellString, CellStringDB](
+			stage, backRepo, inst,
+		)
+		id = int(tmp.ID)
+	case *models.CheckBox:
+		tmp := GetInstanceDBFromInstance[models.CheckBox, CheckBoxDB](
+			stage, backRepo, inst,
+		)
+		id = int(tmp.ID)
+	case *models.DisplayedColumn:
+		tmp := GetInstanceDBFromInstance[models.DisplayedColumn, DisplayedColumnDB](
+			stage, backRepo, inst,
+		)
+		id = int(tmp.ID)
+	case *models.FormDiv:
+		tmp := GetInstanceDBFromInstance[models.FormDiv, FormDivDB](
+			stage, backRepo, inst,
+		)
+		id = int(tmp.ID)
+	case *models.FormEditAssocButton:
+		tmp := GetInstanceDBFromInstance[models.FormEditAssocButton, FormEditAssocButtonDB](
+			stage, backRepo, inst,
+		)
+		id = int(tmp.ID)
+	case *models.FormField:
+		tmp := GetInstanceDBFromInstance[models.FormField, FormFieldDB](
+			stage, backRepo, inst,
+		)
+		id = int(tmp.ID)
+	case *models.FormFieldDate:
+		tmp := GetInstanceDBFromInstance[models.FormFieldDate, FormFieldDateDB](
+			stage, backRepo, inst,
+		)
+		id = int(tmp.ID)
+	case *models.FormFieldDateTime:
+		tmp := GetInstanceDBFromInstance[models.FormFieldDateTime, FormFieldDateTimeDB](
+			stage, backRepo, inst,
+		)
+		id = int(tmp.ID)
+	case *models.FormFieldFloat64:
+		tmp := GetInstanceDBFromInstance[models.FormFieldFloat64, FormFieldFloat64DB](
+			stage, backRepo, inst,
+		)
+		id = int(tmp.ID)
+	case *models.FormFieldInt:
+		tmp := GetInstanceDBFromInstance[models.FormFieldInt, FormFieldIntDB](
+			stage, backRepo, inst,
+		)
+		id = int(tmp.ID)
+	case *models.FormFieldSelect:
+		tmp := GetInstanceDBFromInstance[models.FormFieldSelect, FormFieldSelectDB](
+			stage, backRepo, inst,
+		)
+		id = int(tmp.ID)
+	case *models.FormFieldString:
+		tmp := GetInstanceDBFromInstance[models.FormFieldString, FormFieldStringDB](
+			stage, backRepo, inst,
+		)
+		id = int(tmp.ID)
+	case *models.FormFieldTime:
+		tmp := GetInstanceDBFromInstance[models.FormFieldTime, FormFieldTimeDB](
+			stage, backRepo, inst,
+		)
+		id = int(tmp.ID)
+	case *models.FormGroup:
+		tmp := GetInstanceDBFromInstance[models.FormGroup, FormGroupDB](
+			stage, backRepo, inst,
+		)
+		id = int(tmp.ID)
+	case *models.FormSortAssocButton:
+		tmp := GetInstanceDBFromInstance[models.FormSortAssocButton, FormSortAssocButtonDB](
+			stage, backRepo, inst,
+		)
+		id = int(tmp.ID)
+	case *models.Option:
+		tmp := GetInstanceDBFromInstance[models.Option, OptionDB](
+			stage, backRepo, inst,
+		)
+		id = int(tmp.ID)
+	case *models.Row:
+		tmp := GetInstanceDBFromInstance[models.Row, RowDB](
+			stage, backRepo, inst,
+		)
+		id = int(tmp.ID)
+	case *models.Table:
+		tmp := GetInstanceDBFromInstance[models.Table, TableDB](
+			stage, backRepo, inst,
+		)
+		id = int(tmp.ID)
+	default:
+		_ = inst
+	}
+	return
+}
+
+func GetIDPointer[T models.PointerToGongstruct](
+	stage *models.StageStruct,
+	backRepo *BackRepoStruct,
+	instance T) (id int) {
 
 	switch inst := any(instance).(type) {
 	// insertion point for per struct backup
