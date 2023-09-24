@@ -65,6 +65,9 @@ func (controller *Controller) GetCircles(c *gin.Context) {
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
+	if backRepo == nil {
+		log.Panic("Stack github.com/fullstack-lang/gongsvg/go/models, Unkown stack", stackPath)
+	}
 	db := backRepo.BackRepoCircle.GetDB()
 
 	query := db.Find(&circleDBs)
@@ -124,6 +127,9 @@ func (controller *Controller) PostCircle(c *gin.Context) {
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
+	if backRepo == nil {
+		log.Panic("Stack github.com/fullstack-lang/gongsvg/go/models, Unkown stack", stackPath)
+	}
 	db := backRepo.BackRepoCircle.GetDB()
 
 	// Validate input
@@ -193,6 +199,9 @@ func (controller *Controller) GetCircle(c *gin.Context) {
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
+	if backRepo == nil {
+		log.Panic("Stack github.com/fullstack-lang/gongsvg/go/models, Unkown stack", stackPath)
+	}
 	db := backRepo.BackRepoCircle.GetDB()
 
 	// Get circleDB in DB
@@ -238,6 +247,9 @@ func (controller *Controller) UpdateCircle(c *gin.Context) {
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
+	if backRepo == nil {
+		log.Panic("Stack github.com/fullstack-lang/gongsvg/go/models, Unkown stack", stackPath)
+	}
 	db := backRepo.BackRepoCircle.GetDB()
 
 	// Validate input
@@ -322,6 +334,9 @@ func (controller *Controller) DeleteCircle(c *gin.Context) {
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
+	if backRepo == nil {
+		log.Panic("Stack github.com/fullstack-lang/gongsvg/go/models, Unkown stack", stackPath)
+	}
 	db := backRepo.BackRepoCircle.GetDB()
 
 	// Get model if exist

@@ -65,6 +65,9 @@ func (controller *Controller) GetDiagramPackages(c *gin.Context) {
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
+	if backRepo == nil {
+		log.Panic("Stack github.com/fullstack-lang/gongdoc/go/models, Unkown stack", stackPath)
+	}
 	db := backRepo.BackRepoDiagramPackage.GetDB()
 
 	query := db.Find(&diagrampackageDBs)
@@ -124,6 +127,9 @@ func (controller *Controller) PostDiagramPackage(c *gin.Context) {
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
+	if backRepo == nil {
+		log.Panic("Stack github.com/fullstack-lang/gongdoc/go/models, Unkown stack", stackPath)
+	}
 	db := backRepo.BackRepoDiagramPackage.GetDB()
 
 	// Validate input
@@ -193,6 +199,9 @@ func (controller *Controller) GetDiagramPackage(c *gin.Context) {
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
+	if backRepo == nil {
+		log.Panic("Stack github.com/fullstack-lang/gongdoc/go/models, Unkown stack", stackPath)
+	}
 	db := backRepo.BackRepoDiagramPackage.GetDB()
 
 	// Get diagrampackageDB in DB
@@ -238,6 +247,9 @@ func (controller *Controller) UpdateDiagramPackage(c *gin.Context) {
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
+	if backRepo == nil {
+		log.Panic("Stack github.com/fullstack-lang/gongdoc/go/models, Unkown stack", stackPath)
+	}
 	db := backRepo.BackRepoDiagramPackage.GetDB()
 
 	// Validate input
@@ -322,6 +334,9 @@ func (controller *Controller) DeleteDiagramPackage(c *gin.Context) {
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
+	if backRepo == nil {
+		log.Panic("Stack github.com/fullstack-lang/gongdoc/go/models, Unkown stack", stackPath)
+	}
 	db := backRepo.BackRepoDiagramPackage.GetDB()
 
 	// Get model if exist

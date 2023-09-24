@@ -65,6 +65,9 @@ func (controller *Controller) GetRectAnchoredTexts(c *gin.Context) {
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
+	if backRepo == nil {
+		log.Panic("Stack github.com/fullstack-lang/gongsvg/go/models, Unkown stack", stackPath)
+	}
 	db := backRepo.BackRepoRectAnchoredText.GetDB()
 
 	query := db.Find(&rectanchoredtextDBs)
@@ -124,6 +127,9 @@ func (controller *Controller) PostRectAnchoredText(c *gin.Context) {
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
+	if backRepo == nil {
+		log.Panic("Stack github.com/fullstack-lang/gongsvg/go/models, Unkown stack", stackPath)
+	}
 	db := backRepo.BackRepoRectAnchoredText.GetDB()
 
 	// Validate input
@@ -193,6 +199,9 @@ func (controller *Controller) GetRectAnchoredText(c *gin.Context) {
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
+	if backRepo == nil {
+		log.Panic("Stack github.com/fullstack-lang/gongsvg/go/models, Unkown stack", stackPath)
+	}
 	db := backRepo.BackRepoRectAnchoredText.GetDB()
 
 	// Get rectanchoredtextDB in DB
@@ -238,6 +247,9 @@ func (controller *Controller) UpdateRectAnchoredText(c *gin.Context) {
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
+	if backRepo == nil {
+		log.Panic("Stack github.com/fullstack-lang/gongsvg/go/models, Unkown stack", stackPath)
+	}
 	db := backRepo.BackRepoRectAnchoredText.GetDB()
 
 	// Validate input
@@ -322,6 +334,9 @@ func (controller *Controller) DeleteRectAnchoredText(c *gin.Context) {
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
+	if backRepo == nil {
+		log.Panic("Stack github.com/fullstack-lang/gongsvg/go/models, Unkown stack", stackPath)
+	}
 	db := backRepo.BackRepoRectAnchoredText.GetDB()
 
 	// Get model if exist

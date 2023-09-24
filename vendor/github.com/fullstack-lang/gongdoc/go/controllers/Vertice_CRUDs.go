@@ -65,6 +65,9 @@ func (controller *Controller) GetVertices(c *gin.Context) {
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
+	if backRepo == nil {
+		log.Panic("Stack github.com/fullstack-lang/gongdoc/go/models, Unkown stack", stackPath)
+	}
 	db := backRepo.BackRepoVertice.GetDB()
 
 	query := db.Find(&verticeDBs)
@@ -124,6 +127,9 @@ func (controller *Controller) PostVertice(c *gin.Context) {
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
+	if backRepo == nil {
+		log.Panic("Stack github.com/fullstack-lang/gongdoc/go/models, Unkown stack", stackPath)
+	}
 	db := backRepo.BackRepoVertice.GetDB()
 
 	// Validate input
@@ -193,6 +199,9 @@ func (controller *Controller) GetVertice(c *gin.Context) {
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
+	if backRepo == nil {
+		log.Panic("Stack github.com/fullstack-lang/gongdoc/go/models, Unkown stack", stackPath)
+	}
 	db := backRepo.BackRepoVertice.GetDB()
 
 	// Get verticeDB in DB
@@ -238,6 +247,9 @@ func (controller *Controller) UpdateVertice(c *gin.Context) {
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
+	if backRepo == nil {
+		log.Panic("Stack github.com/fullstack-lang/gongdoc/go/models, Unkown stack", stackPath)
+	}
 	db := backRepo.BackRepoVertice.GetDB()
 
 	// Validate input
@@ -322,6 +334,9 @@ func (controller *Controller) DeleteVertice(c *gin.Context) {
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
+	if backRepo == nil {
+		log.Panic("Stack github.com/fullstack-lang/gongdoc/go/models, Unkown stack", stackPath)
+	}
 	db := backRepo.BackRepoVertice.GetDB()
 
 	// Get model if exist

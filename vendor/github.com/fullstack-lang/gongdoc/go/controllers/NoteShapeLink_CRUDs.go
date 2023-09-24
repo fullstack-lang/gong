@@ -65,6 +65,9 @@ func (controller *Controller) GetNoteShapeLinks(c *gin.Context) {
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
+	if backRepo == nil {
+		log.Panic("Stack github.com/fullstack-lang/gongdoc/go/models, Unkown stack", stackPath)
+	}
 	db := backRepo.BackRepoNoteShapeLink.GetDB()
 
 	query := db.Find(&noteshapelinkDBs)
@@ -124,6 +127,9 @@ func (controller *Controller) PostNoteShapeLink(c *gin.Context) {
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
+	if backRepo == nil {
+		log.Panic("Stack github.com/fullstack-lang/gongdoc/go/models, Unkown stack", stackPath)
+	}
 	db := backRepo.BackRepoNoteShapeLink.GetDB()
 
 	// Validate input
@@ -193,6 +199,9 @@ func (controller *Controller) GetNoteShapeLink(c *gin.Context) {
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
+	if backRepo == nil {
+		log.Panic("Stack github.com/fullstack-lang/gongdoc/go/models, Unkown stack", stackPath)
+	}
 	db := backRepo.BackRepoNoteShapeLink.GetDB()
 
 	// Get noteshapelinkDB in DB
@@ -238,6 +247,9 @@ func (controller *Controller) UpdateNoteShapeLink(c *gin.Context) {
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
+	if backRepo == nil {
+		log.Panic("Stack github.com/fullstack-lang/gongdoc/go/models, Unkown stack", stackPath)
+	}
 	db := backRepo.BackRepoNoteShapeLink.GetDB()
 
 	// Validate input
@@ -322,6 +334,9 @@ func (controller *Controller) DeleteNoteShapeLink(c *gin.Context) {
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
+	if backRepo == nil {
+		log.Panic("Stack github.com/fullstack-lang/gongdoc/go/models, Unkown stack", stackPath)
+	}
 	db := backRepo.BackRepoNoteShapeLink.GetDB()
 
 	// Get model if exist

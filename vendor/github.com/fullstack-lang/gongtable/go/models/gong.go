@@ -3131,6 +3131,64 @@ func GetGongstructName[Type Gongstruct]() (res string) {
 	return res
 }
 
+// GetPointerToGongstructName returns the name of the Gongstruct
+// this can be usefull if one want program robust to refactoring
+func GetPointerToGongstructName[Type PointerToGongstruct]() (res string) {
+
+	var ret Type
+
+	switch any(ret).(type) {
+	// insertion point for generic get gongstruct name
+	case *Cell:
+		res = "Cell"
+	case *CellBoolean:
+		res = "CellBoolean"
+	case *CellFloat64:
+		res = "CellFloat64"
+	case *CellIcon:
+		res = "CellIcon"
+	case *CellInt:
+		res = "CellInt"
+	case *CellString:
+		res = "CellString"
+	case *CheckBox:
+		res = "CheckBox"
+	case *DisplayedColumn:
+		res = "DisplayedColumn"
+	case *FormDiv:
+		res = "FormDiv"
+	case *FormEditAssocButton:
+		res = "FormEditAssocButton"
+	case *FormField:
+		res = "FormField"
+	case *FormFieldDate:
+		res = "FormFieldDate"
+	case *FormFieldDateTime:
+		res = "FormFieldDateTime"
+	case *FormFieldFloat64:
+		res = "FormFieldFloat64"
+	case *FormFieldInt:
+		res = "FormFieldInt"
+	case *FormFieldSelect:
+		res = "FormFieldSelect"
+	case *FormFieldString:
+		res = "FormFieldString"
+	case *FormFieldTime:
+		res = "FormFieldTime"
+	case *FormGroup:
+		res = "FormGroup"
+	case *FormSortAssocButton:
+		res = "FormSortAssocButton"
+	case *Option:
+		res = "Option"
+	case *Row:
+		res = "Row"
+	case *Table:
+		res = "Table"
+	}
+	return res
+}
+
 // GetFields return the array of the fields
 func GetFields[Type Gongstruct]() (res []string) {
 
@@ -3688,7 +3746,7 @@ func GetFieldStringValueFromPointer[Type PointerToGongstruct](instance Type, fie
 			res = fmt.Sprintf("%d", inferedInstance.NbOfStickyColumns)
 		}
 	default:
-		_ = inferedInstance	
+		_ = inferedInstance
 	}
 	return
 }
@@ -4028,7 +4086,7 @@ func GetFieldStringValue[Type Gongstruct](instance Type, fieldName string) (res 
 			res = fmt.Sprintf("%d", inferedInstance.NbOfStickyColumns)
 		}
 	default:
-		_ = inferedInstance	
+		_ = inferedInstance
 	}
 	return
 }

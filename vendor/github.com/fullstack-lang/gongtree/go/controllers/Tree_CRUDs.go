@@ -65,6 +65,9 @@ func (controller *Controller) GetTrees(c *gin.Context) {
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
+	if backRepo == nil {
+		log.Panic("Stack github.com/fullstack-lang/gongtree/go/models, Unkown stack", stackPath)
+	}
 	db := backRepo.BackRepoTree.GetDB()
 
 	query := db.Find(&treeDBs)
@@ -124,6 +127,9 @@ func (controller *Controller) PostTree(c *gin.Context) {
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
+	if backRepo == nil {
+		log.Panic("Stack github.com/fullstack-lang/gongtree/go/models, Unkown stack", stackPath)
+	}
 	db := backRepo.BackRepoTree.GetDB()
 
 	// Validate input
@@ -193,6 +199,9 @@ func (controller *Controller) GetTree(c *gin.Context) {
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
+	if backRepo == nil {
+		log.Panic("Stack github.com/fullstack-lang/gongtree/go/models, Unkown stack", stackPath)
+	}
 	db := backRepo.BackRepoTree.GetDB()
 
 	// Get treeDB in DB
@@ -238,6 +247,9 @@ func (controller *Controller) UpdateTree(c *gin.Context) {
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
+	if backRepo == nil {
+		log.Panic("Stack github.com/fullstack-lang/gongtree/go/models, Unkown stack", stackPath)
+	}
 	db := backRepo.BackRepoTree.GetDB()
 
 	// Validate input
@@ -322,6 +334,9 @@ func (controller *Controller) DeleteTree(c *gin.Context) {
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
+	if backRepo == nil {
+		log.Panic("Stack github.com/fullstack-lang/gongtree/go/models, Unkown stack", stackPath)
+	}
 	db := backRepo.BackRepoTree.GetDB()
 
 	// Get model if exist

@@ -65,6 +65,9 @@ func (controller *Controller) GetNodes(c *gin.Context) {
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
+	if backRepo == nil {
+		log.Panic("Stack github.com/fullstack-lang/gongtree/go/models, Unkown stack", stackPath)
+	}
 	db := backRepo.BackRepoNode.GetDB()
 
 	query := db.Find(&nodeDBs)
@@ -124,6 +127,9 @@ func (controller *Controller) PostNode(c *gin.Context) {
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
+	if backRepo == nil {
+		log.Panic("Stack github.com/fullstack-lang/gongtree/go/models, Unkown stack", stackPath)
+	}
 	db := backRepo.BackRepoNode.GetDB()
 
 	// Validate input
@@ -193,6 +199,9 @@ func (controller *Controller) GetNode(c *gin.Context) {
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
+	if backRepo == nil {
+		log.Panic("Stack github.com/fullstack-lang/gongtree/go/models, Unkown stack", stackPath)
+	}
 	db := backRepo.BackRepoNode.GetDB()
 
 	// Get nodeDB in DB
@@ -238,6 +247,9 @@ func (controller *Controller) UpdateNode(c *gin.Context) {
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
+	if backRepo == nil {
+		log.Panic("Stack github.com/fullstack-lang/gongtree/go/models, Unkown stack", stackPath)
+	}
 	db := backRepo.BackRepoNode.GetDB()
 
 	// Validate input
@@ -322,6 +334,9 @@ func (controller *Controller) DeleteNode(c *gin.Context) {
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
+	if backRepo == nil {
+		log.Panic("Stack github.com/fullstack-lang/gongtree/go/models, Unkown stack", stackPath)
+	}
 	db := backRepo.BackRepoNode.GetDB()
 
 	// Get model if exist

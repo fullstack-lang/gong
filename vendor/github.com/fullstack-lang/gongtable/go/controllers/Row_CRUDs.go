@@ -65,6 +65,9 @@ func (controller *Controller) GetRows(c *gin.Context) {
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
+	if backRepo == nil {
+		log.Panic("Stack github.com/fullstack-lang/gongtable/go/models, Unkown stack", stackPath)
+	}
 	db := backRepo.BackRepoRow.GetDB()
 
 	query := db.Find(&rowDBs)
@@ -124,6 +127,9 @@ func (controller *Controller) PostRow(c *gin.Context) {
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
+	if backRepo == nil {
+		log.Panic("Stack github.com/fullstack-lang/gongtable/go/models, Unkown stack", stackPath)
+	}
 	db := backRepo.BackRepoRow.GetDB()
 
 	// Validate input
@@ -193,6 +199,9 @@ func (controller *Controller) GetRow(c *gin.Context) {
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
+	if backRepo == nil {
+		log.Panic("Stack github.com/fullstack-lang/gongtable/go/models, Unkown stack", stackPath)
+	}
 	db := backRepo.BackRepoRow.GetDB()
 
 	// Get rowDB in DB
@@ -238,6 +247,9 @@ func (controller *Controller) UpdateRow(c *gin.Context) {
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
+	if backRepo == nil {
+		log.Panic("Stack github.com/fullstack-lang/gongtable/go/models, Unkown stack", stackPath)
+	}
 	db := backRepo.BackRepoRow.GetDB()
 
 	// Validate input
@@ -322,6 +334,9 @@ func (controller *Controller) DeleteRow(c *gin.Context) {
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
+	if backRepo == nil {
+		log.Panic("Stack github.com/fullstack-lang/gongtable/go/models, Unkown stack", stackPath)
+	}
 	db := backRepo.BackRepoRow.GetDB()
 
 	// Get model if exist

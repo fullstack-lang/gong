@@ -65,6 +65,9 @@ func (controller *Controller) GetAnimates(c *gin.Context) {
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
+	if backRepo == nil {
+		log.Panic("Stack github.com/fullstack-lang/gongsvg/go/models, Unkown stack", stackPath)
+	}
 	db := backRepo.BackRepoAnimate.GetDB()
 
 	query := db.Find(&animateDBs)
@@ -124,6 +127,9 @@ func (controller *Controller) PostAnimate(c *gin.Context) {
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
+	if backRepo == nil {
+		log.Panic("Stack github.com/fullstack-lang/gongsvg/go/models, Unkown stack", stackPath)
+	}
 	db := backRepo.BackRepoAnimate.GetDB()
 
 	// Validate input
@@ -193,6 +199,9 @@ func (controller *Controller) GetAnimate(c *gin.Context) {
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
+	if backRepo == nil {
+		log.Panic("Stack github.com/fullstack-lang/gongsvg/go/models, Unkown stack", stackPath)
+	}
 	db := backRepo.BackRepoAnimate.GetDB()
 
 	// Get animateDB in DB
@@ -238,6 +247,9 @@ func (controller *Controller) UpdateAnimate(c *gin.Context) {
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
+	if backRepo == nil {
+		log.Panic("Stack github.com/fullstack-lang/gongsvg/go/models, Unkown stack", stackPath)
+	}
 	db := backRepo.BackRepoAnimate.GetDB()
 
 	// Validate input
@@ -322,6 +334,9 @@ func (controller *Controller) DeleteAnimate(c *gin.Context) {
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
+	if backRepo == nil {
+		log.Panic("Stack github.com/fullstack-lang/gongsvg/go/models, Unkown stack", stackPath)
+	}
 	db := backRepo.BackRepoAnimate.GetDB()
 
 	// Get model if exist

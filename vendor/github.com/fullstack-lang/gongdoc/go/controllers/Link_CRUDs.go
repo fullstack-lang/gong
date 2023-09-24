@@ -65,6 +65,9 @@ func (controller *Controller) GetLinks(c *gin.Context) {
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
+	if backRepo == nil {
+		log.Panic("Stack github.com/fullstack-lang/gongdoc/go/models, Unkown stack", stackPath)
+	}
 	db := backRepo.BackRepoLink.GetDB()
 
 	query := db.Find(&linkDBs)
@@ -124,6 +127,9 @@ func (controller *Controller) PostLink(c *gin.Context) {
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
+	if backRepo == nil {
+		log.Panic("Stack github.com/fullstack-lang/gongdoc/go/models, Unkown stack", stackPath)
+	}
 	db := backRepo.BackRepoLink.GetDB()
 
 	// Validate input
@@ -193,6 +199,9 @@ func (controller *Controller) GetLink(c *gin.Context) {
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
+	if backRepo == nil {
+		log.Panic("Stack github.com/fullstack-lang/gongdoc/go/models, Unkown stack", stackPath)
+	}
 	db := backRepo.BackRepoLink.GetDB()
 
 	// Get linkDB in DB
@@ -238,6 +247,9 @@ func (controller *Controller) UpdateLink(c *gin.Context) {
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
+	if backRepo == nil {
+		log.Panic("Stack github.com/fullstack-lang/gongdoc/go/models, Unkown stack", stackPath)
+	}
 	db := backRepo.BackRepoLink.GetDB()
 
 	// Validate input
@@ -322,6 +334,9 @@ func (controller *Controller) DeleteLink(c *gin.Context) {
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
+	if backRepo == nil {
+		log.Panic("Stack github.com/fullstack-lang/gongdoc/go/models, Unkown stack", stackPath)
+	}
 	db := backRepo.BackRepoLink.GetDB()
 
 	// Get model if exist

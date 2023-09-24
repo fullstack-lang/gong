@@ -65,6 +65,9 @@ func (controller *Controller) GetPaths(c *gin.Context) {
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
+	if backRepo == nil {
+		log.Panic("Stack github.com/fullstack-lang/gongsvg/go/models, Unkown stack", stackPath)
+	}
 	db := backRepo.BackRepoPath.GetDB()
 
 	query := db.Find(&pathDBs)
@@ -124,6 +127,9 @@ func (controller *Controller) PostPath(c *gin.Context) {
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
+	if backRepo == nil {
+		log.Panic("Stack github.com/fullstack-lang/gongsvg/go/models, Unkown stack", stackPath)
+	}
 	db := backRepo.BackRepoPath.GetDB()
 
 	// Validate input
@@ -193,6 +199,9 @@ func (controller *Controller) GetPath(c *gin.Context) {
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
+	if backRepo == nil {
+		log.Panic("Stack github.com/fullstack-lang/gongsvg/go/models, Unkown stack", stackPath)
+	}
 	db := backRepo.BackRepoPath.GetDB()
 
 	// Get pathDB in DB
@@ -238,6 +247,9 @@ func (controller *Controller) UpdatePath(c *gin.Context) {
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
+	if backRepo == nil {
+		log.Panic("Stack github.com/fullstack-lang/gongsvg/go/models, Unkown stack", stackPath)
+	}
 	db := backRepo.BackRepoPath.GetDB()
 
 	// Validate input
@@ -322,6 +334,9 @@ func (controller *Controller) DeletePath(c *gin.Context) {
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
+	if backRepo == nil {
+		log.Panic("Stack github.com/fullstack-lang/gongsvg/go/models, Unkown stack", stackPath)
+	}
 	db := backRepo.BackRepoPath.GetDB()
 
 	// Get model if exist

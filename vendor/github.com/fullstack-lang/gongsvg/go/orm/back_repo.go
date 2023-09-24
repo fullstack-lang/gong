@@ -8,7 +8,6 @@ import (
 	"log"
 	"os"
 	"path/filepath"
-	"sync"
 
 	"github.com/fullstack-lang/gongsvg/go/models"
 
@@ -398,25 +397,6 @@ func (backRepo *BackRepoStruct) Checkout(stage *models.StageStruct) {
 	backRepo.BackRepoRectLinkLink.CheckoutPhaseTwo(backRepo)
 	backRepo.BackRepoSVG.CheckoutPhaseTwo(backRepo)
 	backRepo.BackRepoText.CheckoutPhaseTwo(backRepo)
-}
-
-var _backRepo *BackRepoStruct
-
-var once sync.Once
-
-func GetDefaultBackRepo() *BackRepoStruct {
-	once.Do(func() {
-		_backRepo = NewBackRepo(models.GetDefaultStage(), "")
-	})
-	return _backRepo
-}
-
-func GetLastCommitFromBackNb() uint {
-	return GetDefaultBackRepo().GetLastCommitFromBackNb()
-}
-
-func GetLastPushFromFrontNb() uint {
-	return GetDefaultBackRepo().GetLastPushFromFrontNb()
 }
 
 // Backup the BackRepoStruct

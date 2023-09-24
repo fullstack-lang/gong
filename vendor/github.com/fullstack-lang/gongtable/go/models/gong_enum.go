@@ -542,16 +542,104 @@ func (tablename TableName) CodeValues() (res []string) {
 	return
 }
 
+// Utility function for TableTestNameEnum
+// if enum values are string, it is stored with the value
+// if enum values are int, they are stored with the code of the value
+func (tabletestnameenum TableTestNameEnum) ToString() (res string) {
+
+	// migration of former implementation of enum
+	switch tabletestnameenum {
+	// insertion code per enum code
+	case ManualyEditedTableStackName:
+		res = "manualy edited table"
+	case ManualyEditedFormStackName:
+		res = "manualy edited form"
+	case GeneratedTableStackName:
+		res = "generated table"
+	}
+	return
+}
+
+func (tabletestnameenum *TableTestNameEnum) FromString(input string) (err error) {
+
+	switch input {
+	// insertion code per enum code
+	case "manualy edited table":
+		*tabletestnameenum = ManualyEditedTableStackName
+	case "manualy edited form":
+		*tabletestnameenum = ManualyEditedFormStackName
+	case "generated table":
+		*tabletestnameenum = GeneratedTableStackName
+	default:
+		return errUnkownEnum
+	}
+	return
+}
+
+func (tabletestnameenum *TableTestNameEnum) FromCodeString(input string) (err error) {
+
+	switch input {
+	// insertion code per enum code
+	case "ManualyEditedTableStackName":
+		*tabletestnameenum = ManualyEditedTableStackName
+	case "ManualyEditedFormStackName":
+		*tabletestnameenum = ManualyEditedFormStackName
+	case "GeneratedTableStackName":
+		*tabletestnameenum = GeneratedTableStackName
+	default:
+		return errUnkownEnum
+	}
+	return
+}
+
+func (tabletestnameenum *TableTestNameEnum) ToCodeString() (res string) {
+
+	switch *tabletestnameenum {
+	// insertion code per enum code
+	case ManualyEditedTableStackName:
+		res = "ManualyEditedTableStackName"
+	case ManualyEditedFormStackName:
+		res = "ManualyEditedFormStackName"
+	case GeneratedTableStackName:
+		res = "GeneratedTableStackName"
+	}
+	return
+}
+
+func (tabletestnameenum TableTestNameEnum) Codes() (res []string) {
+
+	res = make([]string, 0)
+
+	// insertion code per enum code
+	res = append(res, "ManualyEditedTableStackName")
+	res = append(res, "ManualyEditedFormStackName")
+	res = append(res, "GeneratedTableStackName")
+
+	return
+}
+
+func (tabletestnameenum TableTestNameEnum) CodeValues() (res []string) {
+
+	res = make([]string, 0)
+
+	// insertion code per enum code
+	res = append(res, "manualy edited table")
+	res = append(res, "manualy edited form")
+	res = append(res, "generated table")
+
+	return
+}
+
 // end of insertion point for enum utility functions
 
 type GongstructEnumStringField interface {
-	string | FormGroupName | InputTypeEnum | TableExtraNameEnum | TableExtraPathEnum | TableName
+	string | FormGroupName | InputTypeEnum | TableExtraNameEnum | TableExtraPathEnum | TableName | TableTestNameEnum
 	Codes() []string
 	CodeValues() []string
 }
 
 type PointerToGongstructEnumStringField interface {
-	*FormGroupName | *InputTypeEnum | *TableExtraNameEnum | *TableExtraPathEnum | *TableName
+	*FormGroupName | *InputTypeEnum | *TableExtraNameEnum | *TableExtraPathEnum | *TableName | *TableTestNameEnum
 	FromCodeString(input string) (err error)
 }
 

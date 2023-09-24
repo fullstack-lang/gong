@@ -65,6 +65,9 @@ func (controller *Controller) GetFormSortAssocButtons(c *gin.Context) {
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
+	if backRepo == nil {
+		log.Panic("Stack github.com/fullstack-lang/gongtable/go/models, Unkown stack", stackPath)
+	}
 	db := backRepo.BackRepoFormSortAssocButton.GetDB()
 
 	query := db.Find(&formsortassocbuttonDBs)
@@ -124,6 +127,9 @@ func (controller *Controller) PostFormSortAssocButton(c *gin.Context) {
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
+	if backRepo == nil {
+		log.Panic("Stack github.com/fullstack-lang/gongtable/go/models, Unkown stack", stackPath)
+	}
 	db := backRepo.BackRepoFormSortAssocButton.GetDB()
 
 	// Validate input
@@ -193,6 +199,9 @@ func (controller *Controller) GetFormSortAssocButton(c *gin.Context) {
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
+	if backRepo == nil {
+		log.Panic("Stack github.com/fullstack-lang/gongtable/go/models, Unkown stack", stackPath)
+	}
 	db := backRepo.BackRepoFormSortAssocButton.GetDB()
 
 	// Get formsortassocbuttonDB in DB
@@ -238,6 +247,9 @@ func (controller *Controller) UpdateFormSortAssocButton(c *gin.Context) {
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
+	if backRepo == nil {
+		log.Panic("Stack github.com/fullstack-lang/gongtable/go/models, Unkown stack", stackPath)
+	}
 	db := backRepo.BackRepoFormSortAssocButton.GetDB()
 
 	// Validate input
@@ -322,6 +334,9 @@ func (controller *Controller) DeleteFormSortAssocButton(c *gin.Context) {
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
+	if backRepo == nil {
+		log.Panic("Stack github.com/fullstack-lang/gongtable/go/models, Unkown stack", stackPath)
+	}
 	db := backRepo.BackRepoFormSortAssocButton.GetDB()
 
 	// Get model if exist

@@ -65,6 +65,9 @@ func (controller *Controller) GetFormFieldFloat64s(c *gin.Context) {
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
+	if backRepo == nil {
+		log.Panic("Stack github.com/fullstack-lang/gongtable/go/models, Unkown stack", stackPath)
+	}
 	db := backRepo.BackRepoFormFieldFloat64.GetDB()
 
 	query := db.Find(&formfieldfloat64DBs)
@@ -124,6 +127,9 @@ func (controller *Controller) PostFormFieldFloat64(c *gin.Context) {
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
+	if backRepo == nil {
+		log.Panic("Stack github.com/fullstack-lang/gongtable/go/models, Unkown stack", stackPath)
+	}
 	db := backRepo.BackRepoFormFieldFloat64.GetDB()
 
 	// Validate input
@@ -193,6 +199,9 @@ func (controller *Controller) GetFormFieldFloat64(c *gin.Context) {
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
+	if backRepo == nil {
+		log.Panic("Stack github.com/fullstack-lang/gongtable/go/models, Unkown stack", stackPath)
+	}
 	db := backRepo.BackRepoFormFieldFloat64.GetDB()
 
 	// Get formfieldfloat64DB in DB
@@ -238,6 +247,9 @@ func (controller *Controller) UpdateFormFieldFloat64(c *gin.Context) {
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
+	if backRepo == nil {
+		log.Panic("Stack github.com/fullstack-lang/gongtable/go/models, Unkown stack", stackPath)
+	}
 	db := backRepo.BackRepoFormFieldFloat64.GetDB()
 
 	// Validate input
@@ -322,6 +334,9 @@ func (controller *Controller) DeleteFormFieldFloat64(c *gin.Context) {
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
+	if backRepo == nil {
+		log.Panic("Stack github.com/fullstack-lang/gongtable/go/models, Unkown stack", stackPath)
+	}
 	db := backRepo.BackRepoFormFieldFloat64.GetDB()
 
 	// Get model if exist

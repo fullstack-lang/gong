@@ -8,7 +8,7 @@ import (
 type GongstructDB interface {
 	// insertion point for generic types
 	// "int" is present to handle the case when no struct is present
-	int  | ClassdiagramDB | DiagramPackageDB | FieldDB | GongEnumShapeDB | GongEnumValueEntryDB | GongStructShapeDB | LinkDB | NoteShapeDB | NoteShapeLinkDB | PositionDB | UmlStateDB | UmlscDB | VerticeDB
+	int | ClassdiagramDB | DiagramPackageDB | FieldDB | GongEnumShapeDB | GongEnumValueEntryDB | GongStructShapeDB | LinkDB | NoteShapeDB | NoteShapeLinkDB | PositionDB | UmlStateDB | UmlscDB | VerticeDB
 }
 
 func GetInstanceDBFromInstance[T models.Gongstruct, T2 GongstructDB](
@@ -80,6 +80,84 @@ func GetID[T models.Gongstruct](
 	stage *models.StageStruct,
 	backRepo *BackRepoStruct,
 	instance *T) (id int) {
+
+	switch inst := any(instance).(type) {
+	// insertion point for per struct backup
+	case *models.Classdiagram:
+		tmp := GetInstanceDBFromInstance[models.Classdiagram, ClassdiagramDB](
+			stage, backRepo, inst,
+		)
+		id = int(tmp.ID)
+	case *models.DiagramPackage:
+		tmp := GetInstanceDBFromInstance[models.DiagramPackage, DiagramPackageDB](
+			stage, backRepo, inst,
+		)
+		id = int(tmp.ID)
+	case *models.Field:
+		tmp := GetInstanceDBFromInstance[models.Field, FieldDB](
+			stage, backRepo, inst,
+		)
+		id = int(tmp.ID)
+	case *models.GongEnumShape:
+		tmp := GetInstanceDBFromInstance[models.GongEnumShape, GongEnumShapeDB](
+			stage, backRepo, inst,
+		)
+		id = int(tmp.ID)
+	case *models.GongEnumValueEntry:
+		tmp := GetInstanceDBFromInstance[models.GongEnumValueEntry, GongEnumValueEntryDB](
+			stage, backRepo, inst,
+		)
+		id = int(tmp.ID)
+	case *models.GongStructShape:
+		tmp := GetInstanceDBFromInstance[models.GongStructShape, GongStructShapeDB](
+			stage, backRepo, inst,
+		)
+		id = int(tmp.ID)
+	case *models.Link:
+		tmp := GetInstanceDBFromInstance[models.Link, LinkDB](
+			stage, backRepo, inst,
+		)
+		id = int(tmp.ID)
+	case *models.NoteShape:
+		tmp := GetInstanceDBFromInstance[models.NoteShape, NoteShapeDB](
+			stage, backRepo, inst,
+		)
+		id = int(tmp.ID)
+	case *models.NoteShapeLink:
+		tmp := GetInstanceDBFromInstance[models.NoteShapeLink, NoteShapeLinkDB](
+			stage, backRepo, inst,
+		)
+		id = int(tmp.ID)
+	case *models.Position:
+		tmp := GetInstanceDBFromInstance[models.Position, PositionDB](
+			stage, backRepo, inst,
+		)
+		id = int(tmp.ID)
+	case *models.UmlState:
+		tmp := GetInstanceDBFromInstance[models.UmlState, UmlStateDB](
+			stage, backRepo, inst,
+		)
+		id = int(tmp.ID)
+	case *models.Umlsc:
+		tmp := GetInstanceDBFromInstance[models.Umlsc, UmlscDB](
+			stage, backRepo, inst,
+		)
+		id = int(tmp.ID)
+	case *models.Vertice:
+		tmp := GetInstanceDBFromInstance[models.Vertice, VerticeDB](
+			stage, backRepo, inst,
+		)
+		id = int(tmp.ID)
+	default:
+		_ = inst
+	}
+	return
+}
+
+func GetIDPointer[T models.PointerToGongstruct](
+	stage *models.StageStruct,
+	backRepo *BackRepoStruct,
+	instance T) (id int) {
 
 	switch inst := any(instance).(type) {
 	// insertion point for per struct backup

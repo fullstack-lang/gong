@@ -65,6 +65,9 @@ func (controller *Controller) GetCellIcons(c *gin.Context) {
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
+	if backRepo == nil {
+		log.Panic("Stack github.com/fullstack-lang/gongtable/go/models, Unkown stack", stackPath)
+	}
 	db := backRepo.BackRepoCellIcon.GetDB()
 
 	query := db.Find(&celliconDBs)
@@ -124,6 +127,9 @@ func (controller *Controller) PostCellIcon(c *gin.Context) {
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
+	if backRepo == nil {
+		log.Panic("Stack github.com/fullstack-lang/gongtable/go/models, Unkown stack", stackPath)
+	}
 	db := backRepo.BackRepoCellIcon.GetDB()
 
 	// Validate input
@@ -193,6 +199,9 @@ func (controller *Controller) GetCellIcon(c *gin.Context) {
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
+	if backRepo == nil {
+		log.Panic("Stack github.com/fullstack-lang/gongtable/go/models, Unkown stack", stackPath)
+	}
 	db := backRepo.BackRepoCellIcon.GetDB()
 
 	// Get celliconDB in DB
@@ -238,6 +247,9 @@ func (controller *Controller) UpdateCellIcon(c *gin.Context) {
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
+	if backRepo == nil {
+		log.Panic("Stack github.com/fullstack-lang/gongtable/go/models, Unkown stack", stackPath)
+	}
 	db := backRepo.BackRepoCellIcon.GetDB()
 
 	// Validate input
@@ -322,6 +334,9 @@ func (controller *Controller) DeleteCellIcon(c *gin.Context) {
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
+	if backRepo == nil {
+		log.Panic("Stack github.com/fullstack-lang/gongtable/go/models, Unkown stack", stackPath)
+	}
 	db := backRepo.BackRepoCellIcon.GetDB()
 
 	// Get model if exist

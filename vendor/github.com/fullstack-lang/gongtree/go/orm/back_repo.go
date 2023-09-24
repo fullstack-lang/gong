@@ -8,7 +8,6 @@ import (
 	"log"
 	"os"
 	"path/filepath"
-	"sync"
 
 	"github.com/fullstack-lang/gongtree/go/models"
 
@@ -174,25 +173,6 @@ func (backRepo *BackRepoStruct) Checkout(stage *models.StageStruct) {
 	backRepo.BackRepoButton.CheckoutPhaseTwo(backRepo)
 	backRepo.BackRepoNode.CheckoutPhaseTwo(backRepo)
 	backRepo.BackRepoTree.CheckoutPhaseTwo(backRepo)
-}
-
-var _backRepo *BackRepoStruct
-
-var once sync.Once
-
-func GetDefaultBackRepo() *BackRepoStruct {
-	once.Do(func() {
-		_backRepo = NewBackRepo(models.GetDefaultStage(), "")
-	})
-	return _backRepo
-}
-
-func GetLastCommitFromBackNb() uint {
-	return GetDefaultBackRepo().GetLastCommitFromBackNb()
-}
-
-func GetLastPushFromFrontNb() uint {
-	return GetDefaultBackRepo().GetLastPushFromFrontNb()
 }
 
 // Backup the BackRepoStruct

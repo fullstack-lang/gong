@@ -65,6 +65,9 @@ func (controller *Controller) GetGongEnumValueEntrys(c *gin.Context) {
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
+	if backRepo == nil {
+		log.Panic("Stack github.com/fullstack-lang/gongdoc/go/models, Unkown stack", stackPath)
+	}
 	db := backRepo.BackRepoGongEnumValueEntry.GetDB()
 
 	query := db.Find(&gongenumvalueentryDBs)
@@ -124,6 +127,9 @@ func (controller *Controller) PostGongEnumValueEntry(c *gin.Context) {
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
+	if backRepo == nil {
+		log.Panic("Stack github.com/fullstack-lang/gongdoc/go/models, Unkown stack", stackPath)
+	}
 	db := backRepo.BackRepoGongEnumValueEntry.GetDB()
 
 	// Validate input
@@ -193,6 +199,9 @@ func (controller *Controller) GetGongEnumValueEntry(c *gin.Context) {
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
+	if backRepo == nil {
+		log.Panic("Stack github.com/fullstack-lang/gongdoc/go/models, Unkown stack", stackPath)
+	}
 	db := backRepo.BackRepoGongEnumValueEntry.GetDB()
 
 	// Get gongenumvalueentryDB in DB
@@ -238,6 +247,9 @@ func (controller *Controller) UpdateGongEnumValueEntry(c *gin.Context) {
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
+	if backRepo == nil {
+		log.Panic("Stack github.com/fullstack-lang/gongdoc/go/models, Unkown stack", stackPath)
+	}
 	db := backRepo.BackRepoGongEnumValueEntry.GetDB()
 
 	// Validate input
@@ -322,6 +334,9 @@ func (controller *Controller) DeleteGongEnumValueEntry(c *gin.Context) {
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
+	if backRepo == nil {
+		log.Panic("Stack github.com/fullstack-lang/gongdoc/go/models, Unkown stack", stackPath)
+	}
 	db := backRepo.BackRepoGongEnumValueEntry.GetDB()
 
 	// Get model if exist

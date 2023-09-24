@@ -34,7 +34,6 @@ func GetController() *Controller {
 		_controllerSingloton = &Controller{
 			Map_BackRepos: make(map[string]*gongsvg_orm.BackRepoStruct),
 		}
-		_controllerSingloton.Map_BackRepos[""] = gongsvg_orm.GetDefaultBackRepo()
 	})
 	return _controllerSingloton
 }

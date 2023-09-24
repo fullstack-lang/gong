@@ -65,6 +65,9 @@ func (controller *Controller) GetFormFieldTimes(c *gin.Context) {
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
+	if backRepo == nil {
+		log.Panic("Stack github.com/fullstack-lang/gongtable/go/models, Unkown stack", stackPath)
+	}
 	db := backRepo.BackRepoFormFieldTime.GetDB()
 
 	query := db.Find(&formfieldtimeDBs)
@@ -124,6 +127,9 @@ func (controller *Controller) PostFormFieldTime(c *gin.Context) {
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
+	if backRepo == nil {
+		log.Panic("Stack github.com/fullstack-lang/gongtable/go/models, Unkown stack", stackPath)
+	}
 	db := backRepo.BackRepoFormFieldTime.GetDB()
 
 	// Validate input
@@ -193,6 +199,9 @@ func (controller *Controller) GetFormFieldTime(c *gin.Context) {
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
+	if backRepo == nil {
+		log.Panic("Stack github.com/fullstack-lang/gongtable/go/models, Unkown stack", stackPath)
+	}
 	db := backRepo.BackRepoFormFieldTime.GetDB()
 
 	// Get formfieldtimeDB in DB
@@ -238,6 +247,9 @@ func (controller *Controller) UpdateFormFieldTime(c *gin.Context) {
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
+	if backRepo == nil {
+		log.Panic("Stack github.com/fullstack-lang/gongtable/go/models, Unkown stack", stackPath)
+	}
 	db := backRepo.BackRepoFormFieldTime.GetDB()
 
 	// Validate input
@@ -322,6 +334,9 @@ func (controller *Controller) DeleteFormFieldTime(c *gin.Context) {
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
+	if backRepo == nil {
+		log.Panic("Stack github.com/fullstack-lang/gongtable/go/models, Unkown stack", stackPath)
+	}
 	db := backRepo.BackRepoFormFieldTime.GetDB()
 
 	// Get model if exist

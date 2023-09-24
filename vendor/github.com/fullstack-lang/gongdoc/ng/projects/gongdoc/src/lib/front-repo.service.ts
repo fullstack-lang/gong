@@ -980,6 +980,175 @@ export class FrontRepoService {
               }
             )
 
+            // 
+            // Third Step: sort arrays (slices in go) according to their index
+            // insertion point sub template for redeem 
+            classdiagrams.forEach(
+              classdiagram => {
+                // insertion point for sorting
+                classdiagram.GongStructShapes?.sort((t1, t2) => {
+                  if (t1.Classdiagram_GongStructShapesDBID_Index.Int64 > t2.Classdiagram_GongStructShapesDBID_Index.Int64) {
+                    return 1;
+                  }
+                  if (t1.Classdiagram_GongStructShapesDBID_Index.Int64 < t2.Classdiagram_GongStructShapesDBID_Index.Int64) {
+                    return -1;
+                  }
+                  return 0;
+                })
+
+                classdiagram.GongEnumShapes?.sort((t1, t2) => {
+                  if (t1.Classdiagram_GongEnumShapesDBID_Index.Int64 > t2.Classdiagram_GongEnumShapesDBID_Index.Int64) {
+                    return 1;
+                  }
+                  if (t1.Classdiagram_GongEnumShapesDBID_Index.Int64 < t2.Classdiagram_GongEnumShapesDBID_Index.Int64) {
+                    return -1;
+                  }
+                  return 0;
+                })
+
+                classdiagram.NoteShapes?.sort((t1, t2) => {
+                  if (t1.Classdiagram_NoteShapesDBID_Index.Int64 > t2.Classdiagram_NoteShapesDBID_Index.Int64) {
+                    return 1;
+                  }
+                  if (t1.Classdiagram_NoteShapesDBID_Index.Int64 < t2.Classdiagram_NoteShapesDBID_Index.Int64) {
+                    return -1;
+                  }
+                  return 0;
+                })
+
+              }
+            )
+            diagrampackages.forEach(
+              diagrampackage => {
+                // insertion point for sorting
+                diagrampackage.Classdiagrams?.sort((t1, t2) => {
+                  if (t1.DiagramPackage_ClassdiagramsDBID_Index.Int64 > t2.DiagramPackage_ClassdiagramsDBID_Index.Int64) {
+                    return 1;
+                  }
+                  if (t1.DiagramPackage_ClassdiagramsDBID_Index.Int64 < t2.DiagramPackage_ClassdiagramsDBID_Index.Int64) {
+                    return -1;
+                  }
+                  return 0;
+                })
+
+                diagrampackage.Umlscs?.sort((t1, t2) => {
+                  if (t1.DiagramPackage_UmlscsDBID_Index.Int64 > t2.DiagramPackage_UmlscsDBID_Index.Int64) {
+                    return 1;
+                  }
+                  if (t1.DiagramPackage_UmlscsDBID_Index.Int64 < t2.DiagramPackage_UmlscsDBID_Index.Int64) {
+                    return -1;
+                  }
+                  return 0;
+                })
+
+              }
+            )
+            fields.forEach(
+              field => {
+                // insertion point for sorting
+              }
+            )
+            gongenumshapes.forEach(
+              gongenumshape => {
+                // insertion point for sorting
+                gongenumshape.GongEnumValueEntrys?.sort((t1, t2) => {
+                  if (t1.GongEnumShape_GongEnumValueEntrysDBID_Index.Int64 > t2.GongEnumShape_GongEnumValueEntrysDBID_Index.Int64) {
+                    return 1;
+                  }
+                  if (t1.GongEnumShape_GongEnumValueEntrysDBID_Index.Int64 < t2.GongEnumShape_GongEnumValueEntrysDBID_Index.Int64) {
+                    return -1;
+                  }
+                  return 0;
+                })
+
+              }
+            )
+            gongenumvalueentrys.forEach(
+              gongenumvalueentry => {
+                // insertion point for sorting
+              }
+            )
+            gongstructshapes.forEach(
+              gongstructshape => {
+                // insertion point for sorting
+                gongstructshape.Fields?.sort((t1, t2) => {
+                  if (t1.GongStructShape_FieldsDBID_Index.Int64 > t2.GongStructShape_FieldsDBID_Index.Int64) {
+                    return 1;
+                  }
+                  if (t1.GongStructShape_FieldsDBID_Index.Int64 < t2.GongStructShape_FieldsDBID_Index.Int64) {
+                    return -1;
+                  }
+                  return 0;
+                })
+
+                gongstructshape.Links?.sort((t1, t2) => {
+                  if (t1.GongStructShape_LinksDBID_Index.Int64 > t2.GongStructShape_LinksDBID_Index.Int64) {
+                    return 1;
+                  }
+                  if (t1.GongStructShape_LinksDBID_Index.Int64 < t2.GongStructShape_LinksDBID_Index.Int64) {
+                    return -1;
+                  }
+                  return 0;
+                })
+
+              }
+            )
+            links.forEach(
+              link => {
+                // insertion point for sorting
+              }
+            )
+            noteshapes.forEach(
+              noteshape => {
+                // insertion point for sorting
+                noteshape.NoteShapeLinks?.sort((t1, t2) => {
+                  if (t1.NoteShape_NoteShapeLinksDBID_Index.Int64 > t2.NoteShape_NoteShapeLinksDBID_Index.Int64) {
+                    return 1;
+                  }
+                  if (t1.NoteShape_NoteShapeLinksDBID_Index.Int64 < t2.NoteShape_NoteShapeLinksDBID_Index.Int64) {
+                    return -1;
+                  }
+                  return 0;
+                })
+
+              }
+            )
+            noteshapelinks.forEach(
+              noteshapelink => {
+                // insertion point for sorting
+              }
+            )
+            positions.forEach(
+              position => {
+                // insertion point for sorting
+              }
+            )
+            umlstates.forEach(
+              umlstate => {
+                // insertion point for sorting
+              }
+            )
+            umlscs.forEach(
+              umlsc => {
+                // insertion point for sorting
+                umlsc.States?.sort((t1, t2) => {
+                  if (t1.Umlsc_StatesDBID_Index.Int64 > t2.Umlsc_StatesDBID_Index.Int64) {
+                    return 1;
+                  }
+                  if (t1.Umlsc_StatesDBID_Index.Int64 < t2.Umlsc_StatesDBID_Index.Int64) {
+                    return -1;
+                  }
+                  return 0;
+                })
+
+              }
+            )
+            vertices.forEach(
+              vertice => {
+                // insertion point for sorting
+              }
+            )
+
             // hand over control flow to observer
             observer.next(this.frontRepo)
           }

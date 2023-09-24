@@ -65,6 +65,9 @@ func (controller *Controller) GetButtons(c *gin.Context) {
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
+	if backRepo == nil {
+		log.Panic("Stack github.com/fullstack-lang/gongtree/go/models, Unkown stack", stackPath)
+	}
 	db := backRepo.BackRepoButton.GetDB()
 
 	query := db.Find(&buttonDBs)
@@ -124,6 +127,9 @@ func (controller *Controller) PostButton(c *gin.Context) {
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
+	if backRepo == nil {
+		log.Panic("Stack github.com/fullstack-lang/gongtree/go/models, Unkown stack", stackPath)
+	}
 	db := backRepo.BackRepoButton.GetDB()
 
 	// Validate input
@@ -193,6 +199,9 @@ func (controller *Controller) GetButton(c *gin.Context) {
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
+	if backRepo == nil {
+		log.Panic("Stack github.com/fullstack-lang/gongtree/go/models, Unkown stack", stackPath)
+	}
 	db := backRepo.BackRepoButton.GetDB()
 
 	// Get buttonDB in DB
@@ -238,6 +247,9 @@ func (controller *Controller) UpdateButton(c *gin.Context) {
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
+	if backRepo == nil {
+		log.Panic("Stack github.com/fullstack-lang/gongtree/go/models, Unkown stack", stackPath)
+	}
 	db := backRepo.BackRepoButton.GetDB()
 
 	// Validate input
@@ -322,6 +334,9 @@ func (controller *Controller) DeleteButton(c *gin.Context) {
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
+	if backRepo == nil {
+		log.Panic("Stack github.com/fullstack-lang/gongtree/go/models, Unkown stack", stackPath)
+	}
 	db := backRepo.BackRepoButton.GetDB()
 
 	// Get model if exist

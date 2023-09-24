@@ -34,7 +34,6 @@ func GetController() *Controller {
 		_controllerSingloton = &Controller{
 			Map_BackRepos: make(map[string]*gongdoc_orm.BackRepoStruct),
 		}
-		_controllerSingloton.Map_BackRepos[""] = gongdoc_orm.GetDefaultBackRepo()
 	})
 	return _controllerSingloton
 }
