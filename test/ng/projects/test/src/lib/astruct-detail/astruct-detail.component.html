@@ -428,6 +428,26 @@
         <textarea name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="astruct.ConstIdentifierValue"></textarea>
     </mat-form-field>
 
+    <mat-grid-list *ngIf='!isATextArea("TextArea")' cols="5" rowHeight="1:1">
+        <mat-grid-tile [colspan]="3">
+            <mat-form-field mat-form-field class="detail-full-width">
+                <mat-label>TextArea</mat-label>
+                <input name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="astruct.TextArea">
+            </mat-form-field>
+        </mat-grid-tile>
+        <mat-grid-tile>
+            <button mat-raised-button (click)="toggleTextArea('TextArea')">
+                <mat-icon>
+                    expand_more
+                </mat-icon>
+            </button>
+        </mat-grid-tile>
+    </mat-grid-list>
+    <mat-form-field *ngIf='isATextArea("TextArea")' mat-form-field class="detail-full-width">
+        <mat-label>TextArea</mat-label>
+        <textarea name="" [ngModelOptions]="{standalone: true}" matInput [(ngModel)]="astruct.TextArea"></textarea>
+    </mat-form-field>
+
     <mat-form-field class="detail-full-width">
         <mat-label>(Astruct) Anarrayofa</mat-label>
         <mat-select [compareWith]="compareObjects" [(ngModel)]="astruct.Astruct_Anarrayofa_reverse" [ngModelOptions]="{standalone: true}">
