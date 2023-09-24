@@ -65,6 +65,9 @@ func (controller *Controller) GetGongTimeFields(c *gin.Context) {
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
+	if backRepo == nil {
+		log.Panic("Stack github.com/fullstack-lang/gong/go/models, Unkown stack", stackPath)
+	}
 	db := backRepo.BackRepoGongTimeField.GetDB()
 
 	query := db.Find(&gongtimefieldDBs)
@@ -124,6 +127,9 @@ func (controller *Controller) PostGongTimeField(c *gin.Context) {
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
+	if backRepo == nil {
+		log.Panic("Stack github.com/fullstack-lang/gong/go/models, Unkown stack", stackPath)
+	}
 	db := backRepo.BackRepoGongTimeField.GetDB()
 
 	// Validate input
@@ -193,6 +199,9 @@ func (controller *Controller) GetGongTimeField(c *gin.Context) {
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
+	if backRepo == nil {
+		log.Panic("Stack github.com/fullstack-lang/gong/go/models, Unkown stack", stackPath)
+	}
 	db := backRepo.BackRepoGongTimeField.GetDB()
 
 	// Get gongtimefieldDB in DB
@@ -238,6 +247,9 @@ func (controller *Controller) UpdateGongTimeField(c *gin.Context) {
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
+	if backRepo == nil {
+		log.Panic("Stack github.com/fullstack-lang/gong/go/models, Unkown stack", stackPath)
+	}
 	db := backRepo.BackRepoGongTimeField.GetDB()
 
 	// Validate input
@@ -322,6 +334,9 @@ func (controller *Controller) DeleteGongTimeField(c *gin.Context) {
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
+	if backRepo == nil {
+		log.Panic("Stack github.com/fullstack-lang/gong/go/models, Unkown stack", stackPath)
+	}
 	db := backRepo.BackRepoGongTimeField.GetDB()
 
 	// Get model if exist

@@ -65,6 +65,9 @@ func (controller *Controller) GetMetas(c *gin.Context) {
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
+	if backRepo == nil {
+		log.Panic("Stack github.com/fullstack-lang/gong/go/models, Unkown stack", stackPath)
+	}
 	db := backRepo.BackRepoMeta.GetDB()
 
 	query := db.Find(&metaDBs)
@@ -124,6 +127,9 @@ func (controller *Controller) PostMeta(c *gin.Context) {
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
+	if backRepo == nil {
+		log.Panic("Stack github.com/fullstack-lang/gong/go/models, Unkown stack", stackPath)
+	}
 	db := backRepo.BackRepoMeta.GetDB()
 
 	// Validate input
@@ -193,6 +199,9 @@ func (controller *Controller) GetMeta(c *gin.Context) {
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
+	if backRepo == nil {
+		log.Panic("Stack github.com/fullstack-lang/gong/go/models, Unkown stack", stackPath)
+	}
 	db := backRepo.BackRepoMeta.GetDB()
 
 	// Get metaDB in DB
@@ -238,6 +247,9 @@ func (controller *Controller) UpdateMeta(c *gin.Context) {
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
+	if backRepo == nil {
+		log.Panic("Stack github.com/fullstack-lang/gong/go/models, Unkown stack", stackPath)
+	}
 	db := backRepo.BackRepoMeta.GetDB()
 
 	// Validate input
@@ -322,6 +334,9 @@ func (controller *Controller) DeleteMeta(c *gin.Context) {
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
+	if backRepo == nil {
+		log.Panic("Stack github.com/fullstack-lang/gong/go/models, Unkown stack", stackPath)
+	}
 	db := backRepo.BackRepoMeta.GetDB()
 
 	// Get model if exist

@@ -65,6 +65,9 @@ func (controller *Controller) GetModelPkgs(c *gin.Context) {
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
+	if backRepo == nil {
+		log.Panic("Stack github.com/fullstack-lang/gong/go/models, Unkown stack", stackPath)
+	}
 	db := backRepo.BackRepoModelPkg.GetDB()
 
 	query := db.Find(&modelpkgDBs)
@@ -124,6 +127,9 @@ func (controller *Controller) PostModelPkg(c *gin.Context) {
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
+	if backRepo == nil {
+		log.Panic("Stack github.com/fullstack-lang/gong/go/models, Unkown stack", stackPath)
+	}
 	db := backRepo.BackRepoModelPkg.GetDB()
 
 	// Validate input
@@ -193,6 +199,9 @@ func (controller *Controller) GetModelPkg(c *gin.Context) {
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
+	if backRepo == nil {
+		log.Panic("Stack github.com/fullstack-lang/gong/go/models, Unkown stack", stackPath)
+	}
 	db := backRepo.BackRepoModelPkg.GetDB()
 
 	// Get modelpkgDB in DB
@@ -238,6 +247,9 @@ func (controller *Controller) UpdateModelPkg(c *gin.Context) {
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
+	if backRepo == nil {
+		log.Panic("Stack github.com/fullstack-lang/gong/go/models, Unkown stack", stackPath)
+	}
 	db := backRepo.BackRepoModelPkg.GetDB()
 
 	// Validate input
@@ -322,6 +334,9 @@ func (controller *Controller) DeleteModelPkg(c *gin.Context) {
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
+	if backRepo == nil {
+		log.Panic("Stack github.com/fullstack-lang/gong/go/models, Unkown stack", stackPath)
+	}
 	db := backRepo.BackRepoModelPkg.GetDB()
 
 	// Get model if exist

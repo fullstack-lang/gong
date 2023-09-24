@@ -27,6 +27,7 @@ const TsConfigInsertForPaths = `
         "./node_modules/tslib"
       ],
       "gong": [
+        "projects/gong/src/public-api.ts",
         "../../ng/projects/gong/src/public-api.ts",
         "../vendor/github.com/fullstack-lang/gong/ng/projects/gong/src/public-api.ts",
         "../../vendor/github.com/fullstack-lang/gong/ng/projects/gong/src/public-api.ts"
@@ -44,10 +45,6 @@ const TsConfigInsertForPaths = `
         "../vendor/github.com/fullstack-lang/gongsvg/ng/projects/gongsvg/src/public-api.ts",
         "../../vendor/github.com/fullstack-lang/gongsvg/ng/projects/gongsvg/src/public-api.ts"
       ],
-      "gongsvgdatamodel": [
-        "../vendor/github.com/fullstack-lang/gongsvg/ng/projects/gongsvgdatamodel/src/public-api.ts",
-        "../../vendor/github.com/fullstack-lang/gongsvg/ng/projects/gongsvgdatamodel/src/public-api.ts"
-      ],
       "gongsvgspecific": [
         "../vendor/github.com/fullstack-lang/gongsvg/ng/projects/gongsvgspecific/src/public-api.ts",
         "../../vendor/github.com/fullstack-lang/gongsvg/ng/projects/gongsvgspecific/src/public-api.ts"
@@ -55,10 +52,6 @@ const TsConfigInsertForPaths = `
       "gongtree": [
         "../vendor/github.com/fullstack-lang/gongtree/ng/projects/gongtree/src/public-api.ts",
         "../../vendor/github.com/fullstack-lang/gongtree/ng/projects/gongtree/src/public-api.ts"
-      ],
-      "gongtreedatamodel": [
-        "../vendor/github.com/fullstack-lang/gongtree/ng/projects/gongtreedatamodel/src/public-api.ts",
-        "../../vendor/github.com/fullstack-lang/gongtree/ng/projects/gongtreedatamodel/src/public-api.ts"
       ],
       "gongtreespecific": [
         "../vendor/github.com/fullstack-lang/gongtree/ng/projects/gongtreespecific/src/public-api.ts",
@@ -71,9 +64,5 @@ const TsConfigInsertForPaths = `
       "gongtablespecific": [
         "../vendor/github.com/fullstack-lang/gongtable/ng/projects/gongtablespecific/src/public-api.ts",
         "../../vendor/github.com/fullstack-lang/gongtable/ng/projects/gongtablespecific/src/public-api.ts"
-      ],
-      "gongtabledatamodel": [
-        "../vendor/github.com/fullstack-lang/gongtable/ng/projects/gongtabledatamodel/src/public-api.ts",
-        "../../vendor/github.com/fullstack-lang/gongtable/ng/projects/gongtabledatamodel/src/public-api.ts"
       ],
 `

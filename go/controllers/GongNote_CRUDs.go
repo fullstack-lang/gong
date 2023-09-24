@@ -65,6 +65,9 @@ func (controller *Controller) GetGongNotes(c *gin.Context) {
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
+	if backRepo == nil {
+		log.Panic("Stack github.com/fullstack-lang/gong/go/models, Unkown stack", stackPath)
+	}
 	db := backRepo.BackRepoGongNote.GetDB()
 
 	query := db.Find(&gongnoteDBs)
@@ -124,6 +127,9 @@ func (controller *Controller) PostGongNote(c *gin.Context) {
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
+	if backRepo == nil {
+		log.Panic("Stack github.com/fullstack-lang/gong/go/models, Unkown stack", stackPath)
+	}
 	db := backRepo.BackRepoGongNote.GetDB()
 
 	// Validate input
@@ -193,6 +199,9 @@ func (controller *Controller) GetGongNote(c *gin.Context) {
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
+	if backRepo == nil {
+		log.Panic("Stack github.com/fullstack-lang/gong/go/models, Unkown stack", stackPath)
+	}
 	db := backRepo.BackRepoGongNote.GetDB()
 
 	// Get gongnoteDB in DB
@@ -238,6 +247,9 @@ func (controller *Controller) UpdateGongNote(c *gin.Context) {
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
+	if backRepo == nil {
+		log.Panic("Stack github.com/fullstack-lang/gong/go/models, Unkown stack", stackPath)
+	}
 	db := backRepo.BackRepoGongNote.GetDB()
 
 	// Validate input
@@ -322,6 +334,9 @@ func (controller *Controller) DeleteGongNote(c *gin.Context) {
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
+	if backRepo == nil {
+		log.Panic("Stack github.com/fullstack-lang/gong/go/models, Unkown stack", stackPath)
+	}
 	db := backRepo.BackRepoGongNote.GetDB()
 
 	// Get model if exist
