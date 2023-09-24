@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 
 import { Observable, combineLatest, timer } from 'rxjs'
 
+import * as gongdoc from 'gongdoc'
+import * as test from 'test'
+
 import { GongdocModule } from 'gongdoc'
 import { GongdocspecificModule } from 'gongdocspecific'
 
@@ -10,9 +13,6 @@ import { GongtreespecificModule } from 'gongtreespecific'
 
 import { GongtableModule } from 'gongtable'
 import { GongtablespecificModule } from 'gongtablespecific'
-
-import * as gongdoc from 'gongdoc'
-import * as test from 'test'
 
 @Component({
   selector: 'app-root',
