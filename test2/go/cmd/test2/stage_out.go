@@ -39,16 +39,20 @@ func stage_outInjection(stage *models.StageStruct) {
 	// Declaration of instances to stage
 
 	// Declarations of staged instances of Dummy
-	__Dummy__000000_How_dummy_ := (&models.Dummy{Name: `How dummy ?`}).Stage(stage)
-	__Dummy__000001_Very := (&models.Dummy{Name: `Very`}).Stage(stage)
+	__Dummy__000000_ := (&models.Dummy{Name: ``}).Stage(stage)
+	__Dummy__000001_ := (&models.Dummy{Name: ``}).Stage(stage)
+	__Dummy__000002_How_dummy_ := (&models.Dummy{Name: `How dummy ?`}).Stage(stage)
 
 	// Setup of values
 
 	// Dummy values setup
-	__Dummy__000000_How_dummy_.Name = `How dummy ?`
+	__Dummy__000000_.Name = ``
 
 	// Dummy values setup
-	__Dummy__000001_Very.Name = `Very`
+	__Dummy__000001_.Name = ``
+
+	// Dummy values setup
+	__Dummy__000002_How_dummy_.Name = `How dummy ?`
 
 	// Setup of pointers
 }
