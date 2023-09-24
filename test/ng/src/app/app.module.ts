@@ -40,7 +40,6 @@ import { GongtablespecificModule } from 'gongtablespecific'
 
 import { TestModule } from 'test'
 import { TestspecificModule } from 'testspecific'
-import { TestdatamodelModule } from 'testdatamodel'
 
 // mandatory
 import { HttpClientModule } from '@angular/common/http';
@@ -88,7 +87,6 @@ import { HttpClientModule } from '@angular/common/http';
 
     TestModule,
     TestspecificModule,
-    TestdatamodelModule,
   ],
   providers: [
   ],
