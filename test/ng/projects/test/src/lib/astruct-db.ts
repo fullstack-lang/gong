@@ -35,6 +35,7 @@ export class AstructDB {
 	EnumStringRef: string = ""
 	EnumValue: string = ""
 	ConstIdentifierValue: string = ""
+	TextArea: string = ""
 
 	// insertion point for other declarations
 	Associationtob?: BstructDB

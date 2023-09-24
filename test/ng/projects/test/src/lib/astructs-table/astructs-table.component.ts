@@ -157,6 +157,9 @@ export class AstructsTableComponent implements OnInit {
         case 'ConstIdentifierValue':
           return astructDB.ConstIdentifierValue;
 
+        case 'TextArea':
+          return astructDB.TextArea;
+
         case 'Astruct_Anarrayofa':
           if (this.frontRepo.Astructs.get(astructDB.Astruct_AnarrayofaDBID.Int64) != undefined) {
             return this.frontRepo.Astructs.get(astructDB.Astruct_AnarrayofaDBID.Int64)!.Name
@@ -220,6 +223,7 @@ export class AstructsTableComponent implements OnInit {
       mergedContent += astructDB.EnumStringRef.toLowerCase()
       mergedContent += astructDB.EnumValue.toLowerCase()
       mergedContent += astructDB.ConstIdentifierValue.toLowerCase()
+      mergedContent += astructDB.TextArea.toLowerCase()
       if (astructDB.Astruct_AnarrayofaDBID.Int64 != 0) {
         mergedContent += this.frontRepo.Astructs.get(astructDB.Astruct_AnarrayofaDBID.Int64)!.Name.toLowerCase()
       }
@@ -306,6 +310,7 @@ export class AstructsTableComponent implements OnInit {
         "EnumStringRef",
         "EnumValue",
         "ConstIdentifierValue",
+        "TextArea",
         "Astruct_Anarrayofa",
       ]
     } else {
@@ -338,6 +343,7 @@ export class AstructsTableComponent implements OnInit {
         "EnumStringRef",
         "EnumValue",
         "ConstIdentifierValue",
+        "TextArea",
         "Astruct_Anarrayofa",
       ]
       this.selection = new SelectionModel<AstructDB>(allowMultiSelect, this.initialSelection);
