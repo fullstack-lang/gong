@@ -182,6 +182,7 @@ func (astructFormCallback *AstructFormCallback) OnSave() {
 		astructFormCallback.playground.formStage.Commit()
 	}
 
+	fillUpTree(astructFormCallback.playground)
 }
 func __gong__New__AstructBstruct2UseFormCallback(
 	astructbstruct2use *models.AstructBstruct2Use,
@@ -295,6 +296,7 @@ func (astructbstruct2useFormCallback *AstructBstruct2UseFormCallback) OnSave() {
 		astructbstruct2useFormCallback.playground.formStage.Commit()
 	}
 
+	fillUpTree(astructbstruct2useFormCallback.playground)
 }
 func __gong__New__AstructBstructUseFormCallback(
 	astructbstructuse *models.AstructBstructUse,
@@ -408,6 +410,7 @@ func (astructbstructuseFormCallback *AstructBstructUseFormCallback) OnSave() {
 		astructbstructuseFormCallback.playground.formStage.Commit()
 	}
 
+	fillUpTree(astructbstructuseFormCallback.playground)
 }
 func __gong__New__BstructFormCallback(
 	bstruct *models.Bstruct,
@@ -609,6 +612,7 @@ func (bstructFormCallback *BstructFormCallback) OnSave() {
 		bstructFormCallback.playground.formStage.Commit()
 	}
 
+	fillUpTree(bstructFormCallback.playground)
 }
 func __gong__New__DstructFormCallback(
 	dstruct *models.Dstruct,
@@ -678,4 +682,5 @@ func (dstructFormCallback *DstructFormCallback) OnSave() {
 		dstructFormCallback.playground.formStage.Commit()
 	}
 
+	fillUpTree(dstructFormCallback.playground)
 }
