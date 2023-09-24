@@ -26,8 +26,6 @@ import (
 	{{pkgname}}_orm "{{PkgPathRoot}}/orm"
 	{{pkgname}}_probe "{{PkgPathRoot}}/probe"
 	{{pkgname}}_static "{{PkgPathRoot}}/static"
-
-	gongdoc_load "github.com/fullstack-lang/gongdoc/go/load"
 )
 
 var (
@@ -109,16 +107,8 @@ func main() {
 		stage.OnInitCommitCallback = hook
 	}
 
-	{{pkgname}}_probe.NewProbe(r, {{pkgname}}_go.GoModelsDir, "{{pkgname}}", stage, backRepo)
-
-	gongdoc_load.Load(
-		"{{pkgname}}",
-		"{{PkgPathRoot}}/models",
-		{{pkgname}}_go.GoModelsDir,
-		{{pkgname}}_go.GoDiagramsDir,
-		r,
-		*embeddedDiagrams,
-		&stage.Map_GongStructName_InstancesNb)
+	{{pkgname}}_probe.NewProbe(r, {{pkgname}}_go.GoModelsDir, {{pkgname}}_go.GoDiagramsDir, 
+		*embeddedDiagrams,"{{pkgname}}", stage, backRepo)
 
 	log.Printf("Server ready serve on localhost:" + strconv.Itoa(*port))
 	err := r.Run(":" + strconv.Itoa(*port))

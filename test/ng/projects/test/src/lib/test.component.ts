@@ -1,15 +1,15 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'lib-gongdocdatamodel',
+  selector: 'lib-test',
   template: `
     <p>
-      gongdocdatamodel works!
+      test works!
     </p>
   `,
   styles: [
   ]
 })
-export class GongdocdatamodelComponent {
+export class TestComponent {
 
 }

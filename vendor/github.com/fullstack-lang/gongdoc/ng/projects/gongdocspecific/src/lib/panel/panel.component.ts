@@ -12,15 +12,7 @@ export class PanelComponent implements OnInit {
   // choices for the top radio button
   view = 'Diagrams'
   diagrams = 'Diagrams'
-  diagrams_data = 'Diagrams data'
-  model_data = 'Model data'
-  svg_data = 'SVG data'
-  tree_data = 'Tree data'
-  views: string[] = [this.diagrams, 
-    this.diagrams_data, 
-    this.model_data, 
-    this.svg_data, 
-    this.tree_data];
+  views: string[] = [this.diagrams];
 
   stacks: string[] = []
 

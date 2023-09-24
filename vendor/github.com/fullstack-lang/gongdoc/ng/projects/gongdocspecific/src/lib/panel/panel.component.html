@@ -14,49 +14,12 @@
 </ng-template>
 
 <as-split unit="pixel" *ngIf="view==diagrams" direction="vertical">
-    <as-split-area [size]="40">
+    <!-- <as-split-area [size]="40">
         <ng-container *ngTemplateOutlet="radioToolbar"></ng-container>
-    </as-split-area>
+    </as-split-area> -->
     <as-split-area [size]="$any('*')">
         <!-- letting the component load only after ngOnInit is finished is important
         because the GONG__StackPath is not initialized otherwise -->
         <lib-pkgelt-docs *ngIf="!loading" [GONG__StackPath]="GONG__StackPath"></lib-pkgelt-docs>
-    </as-split-area>
-</as-split>
-
-<as-split unit="pixel" *ngIf="view==diagrams_data" direction="vertical">
-    <as-split-area [size]="40">
-        <ng-container *ngTemplateOutlet="radioToolbar"></ng-container>
-    </as-split-area>
-    <as-split-area [size]="$any('*')">
-        <app-gongdoc-splitter [GONG__StackPath]="GONG__StackPath"></app-gongdoc-splitter>
-    </as-split-area>
-</as-split>
-
-
-<as-split unit="pixel" *ngIf="view==model_data" direction="vertical">
-    <as-split-area [size]="40">
-        <ng-container *ngTemplateOutlet="radioToolbar"></ng-container>
-    </as-split-area>
-    <as-split-area [size]="$any('*')">
-        <app-gong-splitter [GONG__StackPath]="GONG__StackPath"></app-gong-splitter>
-    </as-split-area>
-</as-split>
-
-<as-split unit="pixel" *ngIf="view==svg_data" direction="vertical">
-    <as-split-area [size]="40">
-        <ng-container *ngTemplateOutlet="radioToolbar"></ng-container>
-    </as-split-area>
-    <as-split-area [size]="$any('*')">
-        <app-gongsvg-splitter [GONG__StackPath]="GONG__StackPath"></app-gongsvg-splitter>
-    </as-split-area>
-</as-split>
-
-<as-split unit="pixel" *ngIf="view==tree_data" direction="vertical">
-    <as-split-area [size]="40">
-        <ng-container *ngTemplateOutlet="radioToolbar"></ng-container>
-    </as-split-area>
-    <as-split-area [size]="$any('*')">
-        <app-gongtree-splitter [GONG__StackPath]="GONG__StackPath"></app-gongtree-splitter>
     </as-split-area>
 </as-split>
