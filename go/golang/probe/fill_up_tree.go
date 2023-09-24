@@ -131,10 +131,10 @@ map[string]string{
 		case "{{Structname}}":
 			nodeGongstruct.Name = name
 			set := *models.GetGongstructInstancesSet[models.{{Structname}}](playground.stageOfInterest)
-			for {{structname}} := range set {
-				nodeInstance := (&tree.Node{Name: {{structname}}.GetName()}).Stage(playground.treeStage)
+			for _{{structname}} := range set {
+				nodeInstance := (&tree.Node{Name: _{{structname}}.GetName()}).Stage(playground.treeStage)
 				nodeInstance.IsNodeClickable = true
-				nodeInstance.Impl = NewInstanceNodeCallback({{structname}}, "{{Structname}}", playground)
+				nodeInstance.Impl = NewInstanceNodeCallback(_{{structname}}, "{{Structname}}", playground)
 
 				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
 			}`,
