@@ -27,6 +27,7 @@ const TsConfigInsertForPaths = `
         "./node_modules/tslib"
       ],
       "gong": [
+        "projects/gong/src/public-api.ts",
         "../../ng/projects/gong/src/public-api.ts",
         "../vendor/github.com/fullstack-lang/gong/ng/projects/gong/src/public-api.ts",
         "../../vendor/github.com/fullstack-lang/gong/ng/projects/gong/src/public-api.ts"

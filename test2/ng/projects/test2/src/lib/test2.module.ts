@@ -34,26 +34,8 @@ import {
 
 import { AppRoutingModule } from './app-routing.module';
 
-import { SplitterComponent } from './splitter/splitter.component'
-import { SidebarComponent } from './sidebar/sidebar.component';
-import { GongstructSelectionService } from './gongstruct-selection.service'
-
-// insertion point for imports 
-import { DummysTableComponent } from './dummys-table/dummys-table.component'
-import { DummySortingComponent } from './dummy-sorting/dummy-sorting.component'
-import { DummyDetailComponent } from './dummy-detail/dummy-detail.component'
-
-
 @NgModule({
 	declarations: [
-		// insertion point for declarations 
-		DummysTableComponent,
-		DummySortingComponent,
-		DummyDetailComponent,
-
-
-		SplitterComponent,
-		SidebarComponent
 	],
 	imports: [
 		FormsModule,
@@ -89,22 +71,8 @@ import { DummyDetailComponent } from './dummy-detail/dummy-detail.component'
 		AngularSplitModule,
 	],
 	exports: [
-		// insertion point for declarations 
-		DummysTableComponent,
-		DummySortingComponent,
-		DummyDetailComponent,
-
-
-		SplitterComponent,
-		SidebarComponent,
-
 	],
 	providers: [
-		GongstructSelectionService,
-		{
-			provide: MatDialogRef,
-			useValue: {}
-		},
 	],
 })
 export class Test2Module { }

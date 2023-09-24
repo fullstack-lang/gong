@@ -86,4 +86,5 @@ func (dummyFormCallback *DummyFormCallback) OnSave() {
 		dummyFormCallback.playground.formStage.Commit()
 	}
 
+	fillUpTree(dummyFormCallback.playground)
 }
