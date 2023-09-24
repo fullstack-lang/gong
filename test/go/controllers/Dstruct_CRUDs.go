@@ -65,6 +65,9 @@ func (controller *Controller) GetDstructs(c *gin.Context) {
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
+	if backRepo == nil {
+		log.Panic("Stack github.com/fullstack-lang/gong/test/go/models, Unkown stack", stackPath)
+	}
 	db := backRepo.BackRepoDstruct.GetDB()
 
 	query := db.Find(&dstructDBs)
@@ -124,6 +127,9 @@ func (controller *Controller) PostDstruct(c *gin.Context) {
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
+	if backRepo == nil {
+		log.Panic("Stack github.com/fullstack-lang/gong/test/go/models, Unkown stack", stackPath)
+	}
 	db := backRepo.BackRepoDstruct.GetDB()
 
 	// Validate input
@@ -193,6 +199,9 @@ func (controller *Controller) GetDstruct(c *gin.Context) {
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
+	if backRepo == nil {
+		log.Panic("Stack github.com/fullstack-lang/gong/test/go/models, Unkown stack", stackPath)
+	}
 	db := backRepo.BackRepoDstruct.GetDB()
 
 	// Get dstructDB in DB
@@ -238,6 +247,9 @@ func (controller *Controller) UpdateDstruct(c *gin.Context) {
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
+	if backRepo == nil {
+		log.Panic("Stack github.com/fullstack-lang/gong/test/go/models, Unkown stack", stackPath)
+	}
 	db := backRepo.BackRepoDstruct.GetDB()
 
 	// Validate input
@@ -322,6 +334,9 @@ func (controller *Controller) DeleteDstruct(c *gin.Context) {
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
+	if backRepo == nil {
+		log.Panic("Stack github.com/fullstack-lang/gong/test/go/models, Unkown stack", stackPath)
+	}
 	db := backRepo.BackRepoDstruct.GetDB()
 
 	// Get model if exist
