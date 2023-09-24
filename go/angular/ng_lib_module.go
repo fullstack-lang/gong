@@ -75,6 +75,7 @@ import { AppRoutingModule } from './app-routing.module';
 	exports: [
 	],
 	providers: [
+		{ provide: MatDialogRef, useValue: { close: () => { } } }
 	],
 })
 export class {{PkgName}}Module { }
