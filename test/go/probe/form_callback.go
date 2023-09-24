@@ -28,9 +28,6 @@ func __gong__New__AstructFormCallback(
 
 	astructFormCallback.CreationMode = (astruct == nil)
 
-
-	fillUpTree(astructFormCallback.playground)
-	
 	return
 }
 
@@ -196,9 +193,6 @@ func __gong__New__AstructBstruct2UseFormCallback(
 
 	astructbstruct2useFormCallback.CreationMode = (astructbstruct2use == nil)
 
-
-	fillUpTree(astructbstruct2useFormCallback.playground)
-	
 	return
 }
 
@@ -312,9 +306,6 @@ func __gong__New__AstructBstructUseFormCallback(
 
 	astructbstructuseFormCallback.CreationMode = (astructbstructuse == nil)
 
-
-	fillUpTree(astructbstructuseFormCallback.playground)
-	
 	return
 }
 
@@ -428,9 +419,6 @@ func __gong__New__BstructFormCallback(
 
 	bstructFormCallback.CreationMode = (bstruct == nil)
 
-
-	fillUpTree(bstructFormCallback.playground)
-	
 	return
 }
 
@@ -632,9 +620,6 @@ func __gong__New__DstructFormCallback(
 
 	dstructFormCallback.CreationMode = (dstruct == nil)
 
-
-	fillUpTree(dstructFormCallback.playground)
-	
 	return
 }
 
