@@ -27,40 +27,53 @@ const TsConfigInsertForPaths = `
         "./node_modules/tslib"
       ],
       "gong": [
+        "../../ng/projects/gong/src/public-api.ts",
         "../vendor/github.com/fullstack-lang/gong/ng/projects/gong/src/public-api.ts",
         "../../vendor/github.com/fullstack-lang/gong/ng/projects/gong/src/public-api.ts"
       ],
       "gongdoc": [
-        "../vendor/github.com/fullstack-lang/gongdoc/ng/projects/gongdoc/src/public-api.ts"
+        "../vendor/github.com/fullstack-lang/gongdoc/ng/projects/gongdoc/src/public-api.ts",
+        "../../vendor/github.com/fullstack-lang/gongdoc/ng/projects/gongdoc/src/public-api.ts"
       ],
       "gongdocspecific": [
-        "../vendor/github.com/fullstack-lang/gongdoc/ng/projects/gongdocspecific/src/public-api.ts"
+        "../vendor/github.com/fullstack-lang/gongdoc/ng/projects/gongdocspecific/src/public-api.ts",
+        "../../vendor/github.com/fullstack-lang/gongdoc/ng/projects/gongdocspecific/src/public-api.ts"
+
       ],
       "gongsvg": [
-        "../vendor/github.com/fullstack-lang/gongsvg/ng/projects/gongsvg/src/public-api.ts"
+        "../vendor/github.com/fullstack-lang/gongsvg/ng/projects/gongsvg/src/public-api.ts",
+        "../../vendor/github.com/fullstack-lang/gongsvg/ng/projects/gongsvg/src/public-api.ts"
       ],
       "gongsvgdatamodel": [
-        "../vendor/github.com/fullstack-lang/gongsvg/ng/projects/gongsvgdatamodel/src/public-api.ts"
+        "../vendor/github.com/fullstack-lang/gongsvg/ng/projects/gongsvgdatamodel/src/public-api.ts",
+        "../../vendor/github.com/fullstack-lang/gongsvg/ng/projects/gongsvgdatamodel/src/public-api.ts"
       ],
       "gongsvgspecific": [
-        "../vendor/github.com/fullstack-lang/gongsvg/ng/projects/gongsvgspecific/src/public-api.ts"
+        "../vendor/github.com/fullstack-lang/gongsvg/ng/projects/gongsvgspecific/src/public-api.ts",
+        "../../vendor/github.com/fullstack-lang/gongsvg/ng/projects/gongsvgspecific/src/public-api.ts"
       ],
       "gongtree": [
-        "../vendor/github.com/fullstack-lang/gongtree/ng/projects/gongtree/src/public-api.ts"
+        "../vendor/github.com/fullstack-lang/gongtree/ng/projects/gongtree/src/public-api.ts",
+        "../../vendor/github.com/fullstack-lang/gongtree/ng/projects/gongtree/src/public-api.ts"
       ],
       "gongtreedatamodel": [
-        "../vendor/github.com/fullstack-lang/gongtree/ng/projects/gongtreedatamodel/src/public-api.ts"
+        "../vendor/github.com/fullstack-lang/gongtree/ng/projects/gongtreedatamodel/src/public-api.ts",
+        "../../vendor/github.com/fullstack-lang/gongtree/ng/projects/gongtreedatamodel/src/public-api.ts"
       ],
       "gongtreespecific": [
-        "../vendor/github.com/fullstack-lang/gongtree/ng/projects/gongtreespecific/src/public-api.ts"
+        "../vendor/github.com/fullstack-lang/gongtree/ng/projects/gongtreespecific/src/public-api.ts",
+        "../../vendor/github.com/fullstack-lang/gongtree/ng/projects/gongtreespecific/src/public-api.ts"
       ],
       "gongtable": [
-        "../vendor/github.com/fullstack-lang/gongtable/ng/projects/gongtable/src/public-api.ts"
+        "../vendor/github.com/fullstack-lang/gongtable/ng/projects/gongtable/src/public-api.ts",
+        "../../vendor/github.com/fullstack-lang/gongtable/ng/projects/gongtable/src/public-api.ts"
       ],
       "gongtablespecific": [
-        "../vendor/github.com/fullstack-lang/gongtable/ng/projects/gongtablespecific/src/public-api.ts"
+        "../vendor/github.com/fullstack-lang/gongtable/ng/projects/gongtablespecific/src/public-api.ts",
+        "../../vendor/github.com/fullstack-lang/gongtable/ng/projects/gongtablespecific/src/public-api.ts"
       ],
       "gongtabledatamodel": [
-        "../vendor/github.com/fullstack-lang/gongtable/ng/projects/gongtabledatamodel/src/public-api.ts"
+        "../vendor/github.com/fullstack-lang/gongtable/ng/projects/gongtabledatamodel/src/public-api.ts",
+        "../../vendor/github.com/fullstack-lang/gongtable/ng/projects/gongtabledatamodel/src/public-api.ts"
       ],
 `

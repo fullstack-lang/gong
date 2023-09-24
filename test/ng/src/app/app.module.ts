@@ -88,7 +88,7 @@ import { HttpClientModule } from '@angular/common/http';
 
     TestModule,
     TestspecificModule,
-    TestdatamodelModule
+    TestdatamodelModule,
   ],
   providers: [
   ],

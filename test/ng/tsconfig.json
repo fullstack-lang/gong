@@ -20,6 +20,7 @@
     "module": "ES2022",
     "useDefineForClassFields": false,
     "paths": {
+
       // 
       // https://angular.io/guide/creating-libraries#use-typescript-path-mapping-for-peer-dependencies
       //
@@ -36,30 +37,6 @@
       "rxjs": [
         "./node_modules/rxjs"
       ],
-      "@types/leaflet": [
-        "./node_modules/@types/leaflet"
-      ],
-      "@types/node": [
-        "./node_modules/@types/node"
-      ],
-      "@asymmetrik/ngx-leaflet": [
-        "./node_modules/@asymmetrik/ngx-leaflet"
-      ],
-      "leaflet": [
-        "./node_modules/leaflet"
-      ],
-      "leaflet-rotatedmarker": [
-        "./node_modules/leaflet-rotatedmarker"
-      ],
-      "lodash": [
-        "./node_modules/lodash"
-      ],
-      "@types/loash": [
-        "./node_modules/@types/loash"
-      ],
-      "jointjs": [
-        "./node_modules/jointjs"
-      ],
       "@angular-material-components/datetime-picker": [
         "./node_modules/@angular-material-components/datetime-picker"
       ],
@@ -70,65 +47,73 @@
         "./node_modules/tslib"
       ],
       "gong": [
-        "../../ng/projects/gong/src/public-api.ts"
+        "../../ng/projects/gong/src/public-api.ts",
+        "../vendor/github.com/fullstack-lang/gong/ng/projects/gong/src/public-api.ts",
+        "../../vendor/github.com/fullstack-lang/gong/ng/projects/gong/src/public-api.ts"
       ],
       "gongdoc": [
+        "../vendor/github.com/fullstack-lang/gongdoc/ng/projects/gongdoc/src/public-api.ts",
         "../../vendor/github.com/fullstack-lang/gongdoc/ng/projects/gongdoc/src/public-api.ts"
       ],
       "gongdocspecific": [
+        "../vendor/github.com/fullstack-lang/gongdoc/ng/projects/gongdocspecific/src/public-api.ts",
         "../../vendor/github.com/fullstack-lang/gongdoc/ng/projects/gongdocspecific/src/public-api.ts"
+
       ],
       "gongsvg": [
+        "../vendor/github.com/fullstack-lang/gongsvg/ng/projects/gongsvg/src/public-api.ts",
         "../../vendor/github.com/fullstack-lang/gongsvg/ng/projects/gongsvg/src/public-api.ts"
       ],
-      "gongsvgspecific": [
-        "../../vendor/github.com/fullstack-lang/gongsvg/ng/projects/gongsvgspecific/src/public-api.ts"
-      ],
       "gongsvgdatamodel": [
+        "../vendor/github.com/fullstack-lang/gongsvg/ng/projects/gongsvgdatamodel/src/public-api.ts",
         "../../vendor/github.com/fullstack-lang/gongsvg/ng/projects/gongsvgdatamodel/src/public-api.ts"
       ],
+      "gongsvgspecific": [
+        "../vendor/github.com/fullstack-lang/gongsvg/ng/projects/gongsvgspecific/src/public-api.ts",
+        "../../vendor/github.com/fullstack-lang/gongsvg/ng/projects/gongsvgspecific/src/public-api.ts"
+      ],
       "gongtree": [
+        "../vendor/github.com/fullstack-lang/gongtree/ng/projects/gongtree/src/public-api.ts",
         "../../vendor/github.com/fullstack-lang/gongtree/ng/projects/gongtree/src/public-api.ts"
       ],
-      "gongtreespecific": [
-        "../../vendor/github.com/fullstack-lang/gongtree/ng/projects/gongtreespecific/src/public-api.ts"
-      ],
       "gongtreedatamodel": [
+        "../vendor/github.com/fullstack-lang/gongtree/ng/projects/gongtreedatamodel/src/public-api.ts",
         "../../vendor/github.com/fullstack-lang/gongtree/ng/projects/gongtreedatamodel/src/public-api.ts"
       ],
-      "gongrouter": [
-        "../../vendor/github.com/fullstack-lang/gongrouter/ng/projects/gongrouter/src/public-api.ts"
-      ],
-      "gongrouterspecific": [
-        "../../vendor/github.com/fullstack-lang/gongrouter/ng/projects/gongrouterspecific/src/public-api.ts"
-      ],
-      "gongrouterdatamodel": [
-        "../../vendor/github.com/fullstack-lang/gongrouter/ng/projects/gongrouterdatamodel/src/public-api.ts"
+      "gongtreespecific": [
+        "../vendor/github.com/fullstack-lang/gongtree/ng/projects/gongtreespecific/src/public-api.ts",
+        "../../vendor/github.com/fullstack-lang/gongtree/ng/projects/gongtreespecific/src/public-api.ts"
       ],
       "gongtable": [
+        "../vendor/github.com/fullstack-lang/gongtable/ng/projects/gongtable/src/public-api.ts",
         "../../vendor/github.com/fullstack-lang/gongtable/ng/projects/gongtable/src/public-api.ts"
       ],
       "gongtablespecific": [
+        "../vendor/github.com/fullstack-lang/gongtable/ng/projects/gongtablespecific/src/public-api.ts",
         "../../vendor/github.com/fullstack-lang/gongtable/ng/projects/gongtablespecific/src/public-api.ts"
       ],
       "gongtabledatamodel": [
+        "../vendor/github.com/fullstack-lang/gongtable/ng/projects/gongtabledatamodel/src/public-api.ts",
         "../../vendor/github.com/fullstack-lang/gongtable/ng/projects/gongtabledatamodel/src/public-api.ts"
       ],
       "testdatamodel": [
         "projects/testdatamodel/src/public-api.ts",
+        "dist/testdatamodel"
       ],
       "testspecific": [
         "projects/testspecific/src/public-api.ts",
+        "dist/testspecific"
       ],
+
       "test": [
         "projects/test/src/public-api.ts",
+        "dist/test"
       ]
     },
     "lib": [
       "ES2022",
       "dom"
-    ],
-    "skipLibCheck": true
+    ]
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
