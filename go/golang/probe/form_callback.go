@@ -112,6 +112,7 @@ func ({{structname}}FormCallback *{{Structname}}FormCallback) OnSave() {
 		{{structname}}FormCallback.playground.formStage.Commit()
 	}
 
+	fillUpTree({{structname}}FormCallback.playground)
 }`,
 }
 
