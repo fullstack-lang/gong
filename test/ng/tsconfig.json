@@ -114,7 +114,7 @@
       "ES2022",
       "dom"
     ]
-  },
+  ,"skipLibCheck":true},
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
     "strictInjectionParameters": true,

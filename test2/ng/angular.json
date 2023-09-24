@@ -168,39 +168,6 @@
           }
         }
       }
-    },
-    "test2datamodel": {
-      "projectType": "library",
-      "root": "projects/test2datamodel",
-      "sourceRoot": "projects/test2datamodel/src",
-      "prefix": "lib",
-      "architect": {
-        "build": {
-          "builder": "@angular-devkit/build-angular:ng-packagr",
-          "options": {
-            "project": "projects/test2datamodel/ng-package.json"
-          },
-          "configurations": {
-            "production": {
-              "tsConfig": "projects/test2datamodel/tsconfig.lib.prod.json"
-            },
-            "development": {
-              "tsConfig": "projects/test2datamodel/tsconfig.lib.json"
-            }
-          },
-          "defaultConfiguration": "production"
-        },
-        "test": {
-          "builder": "@angular-devkit/build-angular:karma",
-          "options": {
-            "tsConfig": "projects/test2datamodel/tsconfig.spec.json",
-            "polyfills": [
-              "zone.js",
-              "zone.js/testing"
-            ]
-          }
-        }
-      }
     }
   },
   "version": 1
