@@ -65,6 +65,9 @@ func (controller *Controller) GetDummys(c *gin.Context) {
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
+	if backRepo == nil {
+		log.Panic("Stack github.com/fullstack-lang/gong/test2/go/models, Unkown stack", stackPath)
+	}
 	db := backRepo.BackRepoDummy.GetDB()
 
 	query := db.Find(&dummyDBs)
@@ -124,6 +127,9 @@ func (controller *Controller) PostDummy(c *gin.Context) {
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
+	if backRepo == nil {
+		log.Panic("Stack github.com/fullstack-lang/gong/test2/go/models, Unkown stack", stackPath)
+	}
 	db := backRepo.BackRepoDummy.GetDB()
 
 	// Validate input
@@ -193,6 +199,9 @@ func (controller *Controller) GetDummy(c *gin.Context) {
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
+	if backRepo == nil {
+		log.Panic("Stack github.com/fullstack-lang/gong/test2/go/models, Unkown stack", stackPath)
+	}
 	db := backRepo.BackRepoDummy.GetDB()
 
 	// Get dummyDB in DB
@@ -238,6 +247,9 @@ func (controller *Controller) UpdateDummy(c *gin.Context) {
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
+	if backRepo == nil {
+		log.Panic("Stack github.com/fullstack-lang/gong/test2/go/models, Unkown stack", stackPath)
+	}
 	db := backRepo.BackRepoDummy.GetDB()
 
 	// Validate input
@@ -322,6 +334,9 @@ func (controller *Controller) DeleteDummy(c *gin.Context) {
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
+	if backRepo == nil {
+		log.Panic("Stack github.com/fullstack-lang/gong/test2/go/models, Unkown stack", stackPath)
+	}
 	db := backRepo.BackRepoDummy.GetDB()
 
 	// Get model if exist
