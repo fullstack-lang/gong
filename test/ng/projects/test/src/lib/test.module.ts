@@ -34,58 +34,8 @@ import {
 
 import { AppRoutingModule } from './app-routing.module';
 
-import { SplitterComponent } from './splitter/splitter.component'
-import { SidebarComponent } from './sidebar/sidebar.component';
-import { GongstructSelectionService } from './gongstruct-selection.service'
-
-// insertion point for imports 
-import { AstructsTableComponent } from './astructs-table/astructs-table.component'
-import { AstructSortingComponent } from './astruct-sorting/astruct-sorting.component'
-import { AstructDetailComponent } from './astruct-detail/astruct-detail.component'
-
-import { AstructBstruct2UsesTableComponent } from './astructbstruct2uses-table/astructbstruct2uses-table.component'
-import { AstructBstruct2UseSortingComponent } from './astructbstruct2use-sorting/astructbstruct2use-sorting.component'
-import { AstructBstruct2UseDetailComponent } from './astructbstruct2use-detail/astructbstruct2use-detail.component'
-
-import { AstructBstructUsesTableComponent } from './astructbstructuses-table/astructbstructuses-table.component'
-import { AstructBstructUseSortingComponent } from './astructbstructuse-sorting/astructbstructuse-sorting.component'
-import { AstructBstructUseDetailComponent } from './astructbstructuse-detail/astructbstructuse-detail.component'
-
-import { BstructsTableComponent } from './bstructs-table/bstructs-table.component'
-import { BstructSortingComponent } from './bstruct-sorting/bstruct-sorting.component'
-import { BstructDetailComponent } from './bstruct-detail/bstruct-detail.component'
-
-import { DstructsTableComponent } from './dstructs-table/dstructs-table.component'
-import { DstructSortingComponent } from './dstruct-sorting/dstruct-sorting.component'
-import { DstructDetailComponent } from './dstruct-detail/dstruct-detail.component'
-
-
 @NgModule({
 	declarations: [
-		// insertion point for declarations 
-		AstructsTableComponent,
-		AstructSortingComponent,
-		AstructDetailComponent,
-
-		AstructBstruct2UsesTableComponent,
-		AstructBstruct2UseSortingComponent,
-		AstructBstruct2UseDetailComponent,
-
-		AstructBstructUsesTableComponent,
-		AstructBstructUseSortingComponent,
-		AstructBstructUseDetailComponent,
-
-		BstructsTableComponent,
-		BstructSortingComponent,
-		BstructDetailComponent,
-
-		DstructsTableComponent,
-		DstructSortingComponent,
-		DstructDetailComponent,
-
-
-		SplitterComponent,
-		SidebarComponent
 	],
 	imports: [
 		FormsModule,
@@ -121,38 +71,8 @@ import { DstructDetailComponent } from './dstruct-detail/dstruct-detail.componen
 		AngularSplitModule,
 	],
 	exports: [
-		// insertion point for declarations 
-		AstructsTableComponent,
-		AstructSortingComponent,
-		AstructDetailComponent,
-
-		AstructBstruct2UsesTableComponent,
-		AstructBstruct2UseSortingComponent,
-		AstructBstruct2UseDetailComponent,
-
-		AstructBstructUsesTableComponent,
-		AstructBstructUseSortingComponent,
-		AstructBstructUseDetailComponent,
-
-		BstructsTableComponent,
-		BstructSortingComponent,
-		BstructDetailComponent,
-
-		DstructsTableComponent,
-		DstructSortingComponent,
-		DstructDetailComponent,
-
-
-		SplitterComponent,
-		SidebarComponent,
-
 	],
 	providers: [
-		GongstructSelectionService,
-		{
-			provide: MatDialogRef,
-			useValue: {}
-		},
 	],
 })
 export class TestModule { }
