@@ -101,16 +101,6 @@ func genAngular(modelPkg *gong_models.ModelPkg, skipNpmInstall bool, skipGoModCo
 		configGeneratedNgWorkspace(modelPkg)
 	}
 
-	// if data-model-panel does not exists, it is an indication that
-	// the module file has to be overwritten
-	gong_models.VerySimpleCodeGenerator(
-		modelPkg,
-		modelPkg.Name,
-		modelPkg.PkgPath,
-		filepath.Join(gong_models.MaterialLibDatamodelTargetPath,
-			fmt.Sprintf("%sdatamodel.module.ts", modelPkg.Name)),
-		angular.NgFileModuleDatamodel)
-
 	// in this particular case, one have to remove duplicate lines
 	// that are generated if gongc is applied to gongdoc, gong, gongtree or gongtable
 	// where there "Module" can appear multiple time in the module file
@@ -135,22 +125,6 @@ func genAngular(modelPkg *gong_models.ModelPkg, skipNpmInstall bool, skipGoModCo
 			"    GongtreedatamodelModule,")
 	}
 
-	gong_models.VerySimpleCodeGenerator(
-		modelPkg,
-		modelPkg.Name,
-		modelPkg.PkgPath,
-		filepath.Join(gong_models.MaterialLibDatamodelTargetPath,
-			"data-model-panel", "data-model-panel.component.ts"),
-		angular.NgFileDataModelPanelTemplateTs)
-
-	gong_models.VerySimpleCodeGenerator(
-		modelPkg,
-		modelPkg.Name,
-		modelPkg.PkgPath,
-		filepath.Join(gong_models.MaterialLibDatamodelTargetPath,
-			"data-model-panel", "data-model-panel.component.html"),
-		angular.NgFileDataModelPanelTemplateHtml)
-
 	// generates styles
 	{
 		directory, _ := filepath.Abs(gong_models.NgDataLibrarySourceCodeDirectory)
@@ -162,12 +136,6 @@ func genAngular(modelPkg *gong_models.ModelPkg, skipNpmInstall bool, skipGoModCo
 			log.Println("directory " + gong_models.OrmPkgGenPath + " allready exists")
 		}
 	}
-
-	angular.MultiCodeGeneratorNgDetail(
-		modelPkg,
-		modelPkg.Name,
-		gong_models.NgDataLibrarySourceCodeDirectory,
-		modelPkg.PkgPath)
 
 	angular.MultiCodeGeneratorNgClass(
 		modelPkg,
@@ -189,13 +157,6 @@ func genAngular(modelPkg *gong_models.ModelPkg, skipNpmInstall bool, skipGoModCo
 		modelPkg.PkgPath,
 		*addr)
 
-	angular.CodeGeneratorNgGongselectionServiceTs(
-		modelPkg,
-		modelPkg.Name,
-		gong_models.NgDataLibrarySourceCodeDirectory,
-		modelPkg.PkgPath,
-		*addr)
-
 	angular.CodeGeneratorNgNullInt64(
 		modelPkg,
 		modelPkg.Name,
@@ -210,25 +171,7 @@ func genAngular(modelPkg *gong_models.ModelPkg, skipNpmInstall bool, skipGoModCo
 		modelPkg.PkgPath,
 		*addr)
 
-	angular.MultiCodeGeneratorNgTable(
-		modelPkg,
-		modelPkg.Name,
-		gong_models.NgDataLibrarySourceCodeDirectory,
-		modelPkg.PkgPath)
-
-	angular.MultiCodeGeneratorNgSorting(
-		modelPkg,
-		modelPkg.Name,
-		gong_models.NgDataLibrarySourceCodeDirectory,
-		modelPkg.PkgPath)
-
 	angular.CodeGeneratorNgFrontRepo(
-		modelPkg,
-		modelPkg.Name,
-		gong_models.NgDataLibrarySourceCodeDirectory,
-		modelPkg.PkgPath)
-
-	angular.CodeGeneratorNgSidebar(
 		modelPkg,
 		modelPkg.Name,
 		gong_models.NgDataLibrarySourceCodeDirectory,
@@ -246,36 +189,18 @@ func genAngular(modelPkg *gong_models.ModelPkg, skipNpmInstall bool, skipGoModCo
 		gong_models.NgDataLibrarySourceCodeDirectory,
 		modelPkg.PkgPath)
 
-	angular.CodeGeneratorNgSplitter(
-		modelPkg,
-		modelPkg.Name,
-		gong_models.NgDataLibrarySourceCodeDirectory,
-		modelPkg.PkgPath)
-
 	caserEnglish := cases.Title(language.English)
-	gong_models.SimpleCodeGeneratorForGongStructWithNameField(
+	gong_models.VerySimpleCodeGeneratorForGongStructWithNameField(
 		modelPkg,
 		caserEnglish.String(modelPkg.Name),
 		modelPkg.PkgPath, filepath.Join(gong_models.NgDataLibrarySourceCodeDirectory, modelPkg.Name+".module.ts"),
-		angular.NgLibModuleTemplate, angular.NgLibModuleSubTemplateCode)
+		angular.NgLibModuleTemplate)
 
 	gong_models.SimpleCodeGeneratorForGongStructWithNameField(
 		modelPkg,
 		caserEnglish.String(modelPkg.Name),
 		modelPkg.PkgPath, filepath.Join(gong_models.NgDataLibrarySourceCodeDirectory, "app-routing.module.ts"),
 		angular.NgRoutingTemplate, angular.NgRoutingSubTemplateCode)
-
-	gong_models.SimpleCodeGeneratorForGongStructWithNameField(
-		modelPkg,
-		caserEnglish.String(modelPkg.Name),
-		modelPkg.PkgPath, filepath.Join(gong_models.NgDataLibrarySourceCodeDirectory, "route-service.ts"),
-		angular.NgRouteServiceTemplate, angular.NgRouteServiceSubTemplateCode)
-
-	gong_models.SimpleCodeGeneratorForGongStructWithNameField(
-		modelPkg,
-		modelPkg.Name,
-		modelPkg.PkgPath, filepath.Join(gong_models.NgDataLibrarySourceCodeDirectory, "map-components.ts"),
-		angular.NgLibMapComponentsServiceTemplate, angular.NgLibMapComponentsSubTemplateCode)
 
 	gong_models.VerySimpleCodeGenerator(
 		modelPkg,

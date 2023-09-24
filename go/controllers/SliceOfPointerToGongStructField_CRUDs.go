@@ -65,6 +65,9 @@ func (controller *Controller) GetSliceOfPointerToGongStructFields(c *gin.Context
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
+	if backRepo == nil {
+		log.Panic("Stack github.com/fullstack-lang/gong/go/models, Unkown stack", stackPath)
+	}
 	db := backRepo.BackRepoSliceOfPointerToGongStructField.GetDB()
 
 	query := db.Find(&sliceofpointertogongstructfieldDBs)
@@ -124,6 +127,9 @@ func (controller *Controller) PostSliceOfPointerToGongStructField(c *gin.Context
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
+	if backRepo == nil {
+		log.Panic("Stack github.com/fullstack-lang/gong/go/models, Unkown stack", stackPath)
+	}
 	db := backRepo.BackRepoSliceOfPointerToGongStructField.GetDB()
 
 	// Validate input
@@ -193,6 +199,9 @@ func (controller *Controller) GetSliceOfPointerToGongStructField(c *gin.Context)
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
+	if backRepo == nil {
+		log.Panic("Stack github.com/fullstack-lang/gong/go/models, Unkown stack", stackPath)
+	}
 	db := backRepo.BackRepoSliceOfPointerToGongStructField.GetDB()
 
 	// Get sliceofpointertogongstructfieldDB in DB
@@ -238,6 +247,9 @@ func (controller *Controller) UpdateSliceOfPointerToGongStructField(c *gin.Conte
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
+	if backRepo == nil {
+		log.Panic("Stack github.com/fullstack-lang/gong/go/models, Unkown stack", stackPath)
+	}
 	db := backRepo.BackRepoSliceOfPointerToGongStructField.GetDB()
 
 	// Validate input
@@ -322,6 +334,9 @@ func (controller *Controller) DeleteSliceOfPointerToGongStructField(c *gin.Conte
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
+	if backRepo == nil {
+		log.Panic("Stack github.com/fullstack-lang/gong/go/models, Unkown stack", stackPath)
+	}
 	db := backRepo.BackRepoSliceOfPointerToGongStructField.GetDB()
 
 	// Get model if exist

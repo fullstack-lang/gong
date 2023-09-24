@@ -18,15 +18,10 @@ const NgPublicApiTemplateTS = `// generated from ng_file_public_api_ts.go
 
 export * from './lib/{{pkgname}}.module'
 
-export * from './lib/splitter/splitter.component'
-export * from './lib/sidebar/sidebar.component'
-
 export * from './lib/front-repo.service'
 export * from './lib/null-int64'
 export * from './lib/commitnbfromback.service'
-export * from './lib/gongstruct-selection.service'
 export * from './lib/push_from_front_nb.service'
-export * from './lib/route-service'
 
 {{` + string(rune(NgPublicApiInsertionStructComponentsExportDeclaration)) + `}}
 {{` + string(rune(NgPublicApiInsertionEnumsExportDeclaration)) + `}}
@@ -51,9 +46,6 @@ const (
 
 var NgPublicApiHtmlSubTemplateCode map[NgPublicApiSubTemplate]string = map[NgPublicApiSubTemplate]string{
 	NgPublicApiStructComponentsExportDeclaration: `
-export * from './lib/{{structname}}-detail/{{structname}}-detail.component'
-export * from './lib/{{structname}}-sorting/{{structname}}-sorting.component'
-export * from './lib/{{structname}}s-table/{{structname}}s-table.component'
 export * from './lib/{{structname}}-db'
 export * from './lib/{{structname}}.service'
 `,

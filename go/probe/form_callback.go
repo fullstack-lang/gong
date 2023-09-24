@@ -14,6 +14,9 @@ import (
 
 const __dummmy__time = time.Nanosecond
 
+var __dummmy__letters = slices.Delete([]string{"a"}, 0, 1)
+var __dummy_orm = orm.BackRepoStruct{}
+
 // insertion point
 func __gong__New__GongBasicFieldFormCallback(
 	gongbasicfield *models.GongBasicField,
@@ -139,6 +142,7 @@ func (gongbasicfieldFormCallback *GongBasicFieldFormCallback) OnSave() {
 		gongbasicfieldFormCallback.playground.formStage.Commit()
 	}
 
+	fillUpTree(gongbasicfieldFormCallback.playground)
 }
 func __gong__New__GongEnumFormCallback(
 	gongenum *models.GongEnum,
@@ -210,6 +214,7 @@ func (gongenumFormCallback *GongEnumFormCallback) OnSave() {
 		gongenumFormCallback.playground.formStage.Commit()
 	}
 
+	fillUpTree(gongenumFormCallback.playground)
 }
 func __gong__New__GongEnumValueFormCallback(
 	gongenumvalue *models.GongEnumValue,
@@ -323,6 +328,7 @@ func (gongenumvalueFormCallback *GongEnumValueFormCallback) OnSave() {
 		gongenumvalueFormCallback.playground.formStage.Commit()
 	}
 
+	fillUpTree(gongenumvalueFormCallback.playground)
 }
 func __gong__New__GongLinkFormCallback(
 	gonglink *models.GongLink,
@@ -438,6 +444,7 @@ func (gonglinkFormCallback *GongLinkFormCallback) OnSave() {
 		gonglinkFormCallback.playground.formStage.Commit()
 	}
 
+	fillUpTree(gonglinkFormCallback.playground)
 }
 func __gong__New__GongNoteFormCallback(
 	gongnote *models.GongNote,
@@ -511,6 +518,7 @@ func (gongnoteFormCallback *GongNoteFormCallback) OnSave() {
 		gongnoteFormCallback.playground.formStage.Commit()
 	}
 
+	fillUpTree(gongnoteFormCallback.playground)
 }
 func __gong__New__GongStructFormCallback(
 	gongstruct *models.GongStruct,
@@ -582,6 +590,7 @@ func (gongstructFormCallback *GongStructFormCallback) OnSave() {
 		gongstructFormCallback.playground.formStage.Commit()
 	}
 
+	fillUpTree(gongstructFormCallback.playground)
 }
 func __gong__New__GongTimeFieldFormCallback(
 	gongtimefield *models.GongTimeField,
@@ -697,6 +706,7 @@ func (gongtimefieldFormCallback *GongTimeFieldFormCallback) OnSave() {
 		gongtimefieldFormCallback.playground.formStage.Commit()
 	}
 
+	fillUpTree(gongtimefieldFormCallback.playground)
 }
 func __gong__New__MetaFormCallback(
 	meta *models.Meta,
@@ -768,6 +778,7 @@ func (metaFormCallback *MetaFormCallback) OnSave() {
 		metaFormCallback.playground.formStage.Commit()
 	}
 
+	fillUpTree(metaFormCallback.playground)
 }
 func __gong__New__MetaReferenceFormCallback(
 	metareference *models.MetaReference,
@@ -879,6 +890,7 @@ func (metareferenceFormCallback *MetaReferenceFormCallback) OnSave() {
 		metareferenceFormCallback.playground.formStage.Commit()
 	}
 
+	fillUpTree(metareferenceFormCallback.playground)
 }
 func __gong__New__ModelPkgFormCallback(
 	modelpkg *models.ModelPkg,
@@ -950,6 +962,7 @@ func (modelpkgFormCallback *ModelPkgFormCallback) OnSave() {
 		modelpkgFormCallback.playground.formStage.Commit()
 	}
 
+	fillUpTree(modelpkgFormCallback.playground)
 }
 func __gong__New__PointerToGongStructFieldFormCallback(
 	pointertogongstructfield *models.PointerToGongStructField,
@@ -1067,6 +1080,7 @@ func (pointertogongstructfieldFormCallback *PointerToGongStructFieldFormCallback
 		pointertogongstructfieldFormCallback.playground.formStage.Commit()
 	}
 
+	fillUpTree(pointertogongstructfieldFormCallback.playground)
 }
 func __gong__New__SliceOfPointerToGongStructFieldFormCallback(
 	sliceofpointertogongstructfield *models.SliceOfPointerToGongStructField,
@@ -1184,4 +1198,5 @@ func (sliceofpointertogongstructfieldFormCallback *SliceOfPointerToGongStructFie
 		sliceofpointertogongstructfieldFormCallback.playground.formStage.Commit()
 	}
 
+	fillUpTree(sliceofpointertogongstructfieldFormCallback.playground)
 }

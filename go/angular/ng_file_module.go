@@ -42,7 +42,6 @@ import { GongtablespecificModule } from 'gongtablespecific'
 
 import { {{TitlePkgName}}Module } from '{{pkgname}}'
 import { {{TitlePkgName}}specificModule } from '{{pkgname}}specific'
-import { {{TitlePkgName}}datamodelModule } from '{{pkgname}}datamodel'
 
 // mandatory
 import { HttpClientModule } from '@angular/common/http';
@@ -90,7 +89,6 @@ import { HttpClientModule } from '@angular/common/http';
 
     {{TitlePkgName}}Module,
     {{TitlePkgName}}specificModule,
-    {{TitlePkgName}}datamodelModule,
   ],
   providers: [
   ],
