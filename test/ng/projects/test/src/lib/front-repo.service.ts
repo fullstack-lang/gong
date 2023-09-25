@@ -98,23 +98,19 @@ export class FrontRepoService {
   }
 
   // typing of observable can be messy in typescript. Therefore, one force the type
-  observableFrontRepo: [
+  observableFrontRepo: [ 
     Observable<null>, // see below for the of(null) observable
     // insertion point sub template 
-
-
-  ] = [
-      // Using `combineLatest` with a placeholder observable.
-      //
-      // This is used when no GongStruct is present in the front API
-      //
-      // The `of(null)` is a "meaningless" observable that emits a single value (null) and completes.
-      // This is used as a workaround to satisfy TypeScript requirements and the `combineLatest` 
-      // expectation for a non-empty array of observables. However, this is a hack and might not make
-      // logical sense for most use cases. If you find the need to use such a placeholder, consider 
-      // evaluating the logic and the appropriateness of the `combineLatest` operator in this context.
-      of(null), // 
-      // insertion point sub template
+  ] = [ 
+    // Using "combineLatest" with a placeholder observable.
+    //
+    // This allows the typescript compiler to pass when no GongStruct is present in the front API
+    //
+    // The "of(null)" is a "meaningless" observable that emits a single value (null) and completes.
+    // This is used as a workaround to satisfy TypeScript requirements and the "combineLatest" 
+    // expectation for a non-empty array of observables.
+    of(null), // 
+    // insertion point sub template
     ];
 
   //
@@ -127,8 +123,9 @@ export class FrontRepoService {
 
     this.GONG__StackPath = GONG__StackPath
 
-    this.observableFrontRepo = [ // insertion point sub template
-      of(null), // 
+    this.observableFrontRepo = [ 
+      of(null), // see above for justification
+      // insertion point sub template
     ]
 
     return new Observable<FrontRepo>(
