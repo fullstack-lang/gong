@@ -400,7 +400,7 @@ func CodeGeneratorNgFrontRepo(
 	// have alphabetical order generation
 	structList := []*models.GongStruct{}
 	for _, _struct := range mdlPkg.GongStructs {
-		if !_struct.HasNameField() {
+		if !_struct.HasNameField() || _struct.IsIgnoredForFront {
 			continue
 		}
 		structList = append(structList, _struct)

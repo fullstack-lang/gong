@@ -13,6 +13,9 @@ import (
 	"path/filepath"
 	"strings"
 	"unicode"
+
+	// to parse the .frontignore file
+	gitignore "github.com/sabhiram/go-gitignore"
 )
 
 func ParseEmbedModel(embeddedDir embed.FS, source string) map[string]*ast.Package {
@@ -83,12 +86,22 @@ func WalkParser(parserPkgs map[string]*ast.Package, modelPkg *ModelPkg) {
 		map_StructName_hasIgnoreStatement[t.Name] = strings.Contains(t.Doc, "swagger:ignore")
 	}
 
+	ignorePatterns, err := gitignore.CompileIgnoreFile(".frontignore")
+	if err != nil {
+		if pathErr, ok := err.(*os.PathError); ok {
+			log.Println("No .frontignore file present", pathErr.Error())
+		} else {
+			log.Fatalf("Failed to compile .frontignore: %v", err)
+		}
+	}
+
 	// first pass : get "type" definition for enum & struct
 	//
 	// search all files
 	for filePath, file := range astPackage.Files {
 
 		var fileName string
+		var isFileFrontIgnored bool
 
 		if strings.Contains(filePath, string(os.PathSeparator)) {
 			fileNames := strings.Split(filePath, string(os.PathSeparator))
@@ -97,6 +110,10 @@ func WalkParser(parserPkgs map[string]*ast.Package, modelPkg *ModelPkg) {
 
 		if fileName == "gong.go" {
 			continue
+		}
+
+		if ignorePatterns != nil && ignorePatterns.MatchesPath(fileName) {
+			isFileFrontIgnored = true
 		}
 
 		// for exploration
@@ -177,7 +194,10 @@ func WalkParser(parserPkgs map[string]*ast.Package, modelPkg *ModelPkg) {
 							hasIgnoreStatement := map_StructName_hasIgnoreStatement[typeSpec.Name.Name]
 
 							if hasNameField && !hasIgnoreStatement {
-								gongstruct := (&GongStruct{Name: typeSpec.Name.Name}).Stage(modelPkg.GetStage())
+								gongstruct := (&GongStruct{
+									Name:              typeSpec.Name.Name,
+									IsIgnoredForFront: isFileFrontIgnored}).
+									Stage(modelPkg.GetStage())
 								modelPkg.GongStructs[modelPkg.PkgPath+"."+typeSpec.Name.Name] = gongstruct
 							} else {
 								map_Structname_fieldList[typeSpec.Name.Name] = &_type.Fields.List
