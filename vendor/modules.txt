@@ -190,6 +190,9 @@ github.com/rogpeppe/fastuuid
 # github.com/rogpeppe/go-internal v1.11.0
 ## explicit; go 1.19
 github.com/rogpeppe/go-internal/fmtsort
+# github.com/sabhiram/go-gitignore v0.0.0-20210923224102-525f6e181f06
+## explicit; go 1.13
+github.com/sabhiram/go-gitignore
 # github.com/shabbyrobe/xmlwriter v0.0.0-20230525083848-85336ec334fa
 ## explicit; go 1.13
 github.com/shabbyrobe/xmlwriter

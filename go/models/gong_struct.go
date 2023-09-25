@@ -17,6 +17,12 @@ type GongStruct struct {
 
 	// HasOnAfterUpdateSignature is used to generate orchestrator code
 	HasOnAfterUpdateSignature bool
+
+	// IsIgnoredForFront, if true, let the compiler avoid generation of code
+	// in the angular front
+	// .frontignore file provides a pattern for parsing go files similar to the gitingore syntax "*"
+	// every GongStruct defined in matched go file has IsIgnoredForFront set to true
+	IsIgnoredForFront bool
 }
 
 // HasNameField indicates wether the gong struct has a field with Name "Name"
