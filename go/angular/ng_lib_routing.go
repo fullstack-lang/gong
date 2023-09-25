@@ -11,10 +11,3 @@ const routes: Routes = [];
 })
 export class AppRoutingModule { }
 `
-
-type NgRoutingServiceSubTemplate string
-
-const ()
-
-var NgRoutingSubTemplateCode map[string]string = // new line
-map[string]string{}

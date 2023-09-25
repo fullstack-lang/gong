@@ -196,11 +196,11 @@ func genAngular(modelPkg *gong_models.ModelPkg, skipNpmInstall bool, skipGoModCo
 		modelPkg.PkgPath, filepath.Join(gong_models.NgDataLibrarySourceCodeDirectory, modelPkg.Name+".module.ts"),
 		angular.NgLibModuleTemplate)
 
-	gong_models.SimpleCodeGeneratorForGongStructWithNameField(
+	gong_models.VerySimpleCodeGeneratorForGongStructWithNameField(
 		modelPkg,
 		caserEnglish.String(modelPkg.Name),
 		modelPkg.PkgPath, filepath.Join(gong_models.NgDataLibrarySourceCodeDirectory, "app-routing.module.ts"),
-		angular.NgRoutingTemplate, angular.NgRoutingSubTemplateCode)
+		angular.NgRoutingTemplate)
 
 	gong_models.VerySimpleCodeGenerator(
 		modelPkg,
