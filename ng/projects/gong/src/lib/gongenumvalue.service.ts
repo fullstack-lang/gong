@@ -43,6 +43,10 @@ export class GongEnumValueService {
   }
 
   /** GET gongenumvalues from the server */
+  // gets is more robust to refactoring
+  gets(GONG__StackPath: string): Observable<GongEnumValueDB[]> {
+    return this.getGongEnumValues(GONG__StackPath)
+  }
   getGongEnumValues(GONG__StackPath: string): Observable<GongEnumValueDB[]> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
@@ -56,6 +60,10 @@ export class GongEnumValueService {
   }
 
   /** GET gongenumvalue by id. Will 404 if id not found */
+  // more robust API to refactoring
+  get(id: number, GONG__StackPath: string): Observable<GongEnumValueDB> {
+	return this.getGongEnumValue(id, GONG__StackPath)
+  }
   getGongEnumValue(id: number, GONG__StackPath: string): Observable<GongEnumValueDB> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
@@ -68,6 +76,9 @@ export class GongEnumValueService {
   }
 
   /** POST: add a new gongenumvalue to the server */
+  post(gongenumvaluedb: GongEnumValueDB, GONG__StackPath: string): Observable<GongEnumValueDB> {
+    return this.postGongEnumValue(gongenumvaluedb, GONG__StackPath)	
+  }
   postGongEnumValue(gongenumvaluedb: GongEnumValueDB, GONG__StackPath: string): Observable<GongEnumValueDB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
@@ -91,6 +102,9 @@ export class GongEnumValueService {
   }
 
   /** DELETE: delete the gongenumvaluedb from the server */
+  delete(gongenumvaluedb: GongEnumValueDB | number, GONG__StackPath: string): Observable<GongEnumValueDB> {
+    return this.deleteGongEnumValue(gongenumvaluedb, GONG__StackPath)
+  }
   deleteGongEnumValue(gongenumvaluedb: GongEnumValueDB | number, GONG__StackPath: string): Observable<GongEnumValueDB> {
     const id = typeof gongenumvaluedb === 'number' ? gongenumvaluedb : gongenumvaluedb.ID;
     const url = `${this.gongenumvaluesUrl}/${id}`;
@@ -108,6 +122,9 @@ export class GongEnumValueService {
   }
 
   /** PUT: update the gongenumvaluedb on the server */
+  update(gongenumvaluedb: GongEnumValueDB, GONG__StackPath: string): Observable<GongEnumValueDB> {
+    return this.updateGongEnumValue(gongenumvaluedb, GONG__StackPath)
+  }
   updateGongEnumValue(gongenumvaluedb: GongEnumValueDB, GONG__StackPath: string): Observable<GongEnumValueDB> {
     const id = typeof gongenumvaluedb === 'number' ? gongenumvaluedb : gongenumvaluedb.ID;
     const url = `${this.gongenumvaluesUrl}/${id}`;

@@ -11,20 +11,20 @@ import { BehaviorSubject } from 'rxjs';
 import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 
-import { DummyDB } from './dummy-db';
+import { FstructDB } from './fstruct-db';
 
 // insertion point for imports
 
 @Injectable({
   providedIn: 'root'
 })
-export class DummyService {
+export class FstructService {
 
   // Kamar Raïmo: Adding a way to communicate between components that share information
   // so that they are notified of a change.
-  DummyServiceChanged: BehaviorSubject<string> = new BehaviorSubject("");
+  FstructServiceChanged: BehaviorSubject<string> = new BehaviorSubject("");
 
-  private dummysUrl: string
+  private fstructsUrl: string
 
   constructor(
     private http: HttpClient,
@@ -38,47 +38,47 @@ export class DummyService {
     origin = origin.replace("4200", "8080")
 
     // compute path to the service
-    this.dummysUrl = origin + '/api/github.com/fullstack-lang/gong/test2/go/v1/dummys';
+    this.fstructsUrl = origin + '/api/github.com/fullstack-lang/gong/test/go/v1/fstructs';
   }
 
-  /** GET dummys from the server */
+  /** GET fstructs from the server */
   // gets is more robust to refactoring
-  gets(GONG__StackPath: string): Observable<DummyDB[]> {
-    return this.getDummys(GONG__StackPath)
+  gets(GONG__StackPath: string): Observable<FstructDB[]> {
+    return this.getFstructs(GONG__StackPath)
   }
-  getDummys(GONG__StackPath: string): Observable<DummyDB[]> {
+  getFstructs(GONG__StackPath: string): Observable<FstructDB[]> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
-    return this.http.get<DummyDB[]>(this.dummysUrl, { params: params })
+    return this.http.get<FstructDB[]>(this.fstructsUrl, { params: params })
       .pipe(
         tap(),
-		// tap(_ => this.log('fetched dummys')),
-        catchError(this.handleError<DummyDB[]>('getDummys', []))
+		// tap(_ => this.log('fetched fstructs')),
+        catchError(this.handleError<FstructDB[]>('getFstructs', []))
       );
   }
 
-  /** GET dummy by id. Will 404 if id not found */
+  /** GET fstruct by id. Will 404 if id not found */
   // more robust API to refactoring
-  get(id: number, GONG__StackPath: string): Observable<DummyDB> {
-	return this.getDummy(id, GONG__StackPath)
+  get(id: number, GONG__StackPath: string): Observable<FstructDB> {
+	return this.getFstruct(id, GONG__StackPath)
   }
-  getDummy(id: number, GONG__StackPath: string): Observable<DummyDB> {
+  getFstruct(id: number, GONG__StackPath: string): Observable<FstructDB> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
-    const url = `${this.dummysUrl}/${id}`;
-    return this.http.get<DummyDB>(url, { params: params }).pipe(
-      // tap(_ => this.log(`fetched dummy id=${id}`)),
-      catchError(this.handleError<DummyDB>(`getDummy id=${id}`))
+    const url = `${this.fstructsUrl}/${id}`;
+    return this.http.get<FstructDB>(url, { params: params }).pipe(
+      // tap(_ => this.log(`fetched fstruct id=${id}`)),
+      catchError(this.handleError<FstructDB>(`getFstruct id=${id}`))
     );
   }
 
-  /** POST: add a new dummy to the server */
-  post(dummydb: DummyDB, GONG__StackPath: string): Observable<DummyDB> {
-    return this.postDummy(dummydb, GONG__StackPath)	
+  /** POST: add a new fstruct to the server */
+  post(fstructdb: FstructDB, GONG__StackPath: string): Observable<FstructDB> {
+    return this.postFstruct(fstructdb, GONG__StackPath)	
   }
-  postDummy(dummydb: DummyDB, GONG__StackPath: string): Observable<DummyDB> {
+  postFstruct(fstructdb: FstructDB, GONG__StackPath: string): Observable<FstructDB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
 
@@ -88,22 +88,22 @@ export class DummyService {
       params: params
     }
 
-    return this.http.post<DummyDB>(this.dummysUrl, dummydb, httpOptions).pipe(
+    return this.http.post<FstructDB>(this.fstructsUrl, fstructdb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
-        // this.log(`posted dummydb id=${dummydb.ID}`)
+        // this.log(`posted fstructdb id=${fstructdb.ID}`)
       }),
-      catchError(this.handleError<DummyDB>('postDummy'))
+      catchError(this.handleError<FstructDB>('postFstruct'))
     );
   }
 
-  /** DELETE: delete the dummydb from the server */
-  delete(dummydb: DummyDB | number, GONG__StackPath: string): Observable<DummyDB> {
-    return this.deleteDummy(dummydb, GONG__StackPath)
+  /** DELETE: delete the fstructdb from the server */
+  delete(fstructdb: FstructDB | number, GONG__StackPath: string): Observable<FstructDB> {
+    return this.deleteFstruct(fstructdb, GONG__StackPath)
   }
-  deleteDummy(dummydb: DummyDB | number, GONG__StackPath: string): Observable<DummyDB> {
-    const id = typeof dummydb === 'number' ? dummydb : dummydb.ID;
-    const url = `${this.dummysUrl}/${id}`;
+  deleteFstruct(fstructdb: FstructDB | number, GONG__StackPath: string): Observable<FstructDB> {
+    const id = typeof fstructdb === 'number' ? fstructdb : fstructdb.ID;
+    const url = `${this.fstructsUrl}/${id}`;
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -111,19 +111,19 @@ export class DummyService {
       params: params
     };
 
-    return this.http.delete<DummyDB>(url, httpOptions).pipe(
-      tap(_ => this.log(`deleted dummydb id=${id}`)),
-      catchError(this.handleError<DummyDB>('deleteDummy'))
+    return this.http.delete<FstructDB>(url, httpOptions).pipe(
+      tap(_ => this.log(`deleted fstructdb id=${id}`)),
+      catchError(this.handleError<FstructDB>('deleteFstruct'))
     );
   }
 
-  /** PUT: update the dummydb on the server */
-  update(dummydb: DummyDB, GONG__StackPath: string): Observable<DummyDB> {
-    return this.updateDummy(dummydb, GONG__StackPath)
+  /** PUT: update the fstructdb on the server */
+  update(fstructdb: FstructDB, GONG__StackPath: string): Observable<FstructDB> {
+    return this.updateFstruct(fstructdb, GONG__StackPath)
   }
-  updateDummy(dummydb: DummyDB, GONG__StackPath: string): Observable<DummyDB> {
-    const id = typeof dummydb === 'number' ? dummydb : dummydb.ID;
-    const url = `${this.dummysUrl}/${id}`;
+  updateFstruct(fstructdb: FstructDB, GONG__StackPath: string): Observable<FstructDB> {
+    const id = typeof fstructdb === 'number' ? fstructdb : fstructdb.ID;
+    const url = `${this.fstructsUrl}/${id}`;
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
 
@@ -133,12 +133,12 @@ export class DummyService {
       params: params
     };
 
-    return this.http.put<DummyDB>(url, dummydb, httpOptions).pipe(
+    return this.http.put<FstructDB>(url, fstructdb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
-        // this.log(`updated dummydb id=${dummydb.ID}`)
+        // this.log(`updated fstructdb id=${fstructdb.ID}`)
       }),
-      catchError(this.handleError<DummyDB>('updateDummy'))
+      catchError(this.handleError<FstructDB>('updateFstruct'))
     );
   }
 
@@ -148,11 +148,11 @@ export class DummyService {
    * @param operation - name of the operation that failed
    * @param result - optional value to return as the observable result
    */
-  private handleError<T>(operation = 'operation in DummyService', result?: T) {
+  private handleError<T>(operation = 'operation in FstructService', result?: T) {
     return (error: any): Observable<T> => {
 
       // TODO: send the error to remote logging infrastructure
-      console.error("DummyService" + error); // log to console instead
+      console.error("FstructService" + error); // log to console instead
 
       // TODO: better job of transforming error for user consumption
       this.log(`${operation} failed: ${error.message}`);

@@ -55,6 +55,10 @@ export class {{Structname}}Service {
   }
 
   /** GET {{structname}}s from the server */
+  // gets is more robust to refactoring
+  gets(GONG__StackPath: string): Observable<{{Structname}}DB[]> {
+    return this.get{{Structname}}s(GONG__StackPath)
+  }
   get{{Structname}}s(GONG__StackPath: string): Observable<{{Structname}}DB[]> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
@@ -68,6 +72,10 @@ export class {{Structname}}Service {
   }
 
   /** GET {{structname}} by id. Will 404 if id not found */
+  // more robust API to refactoring
+  get(id: number, GONG__StackPath: string): Observable<{{Structname}}DB> {
+	return this.get{{Structname}}(id, GONG__StackPath)
+  }
   get{{Structname}}(id: number, GONG__StackPath: string): Observable<{{Structname}}DB> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
@@ -80,6 +88,9 @@ export class {{Structname}}Service {
   }
 
   /** POST: add a new {{structname}} to the server */
+  post({{structname}}db: {{Structname}}DB, GONG__StackPath: string): Observable<{{Structname}}DB> {
+    return this.post{{Structname}}({{structname}}db, GONG__StackPath)	
+  }
   post{{Structname}}({{structname}}db: {{Structname}}DB, GONG__StackPath: string): Observable<{{Structname}}DB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON){{` + string(rune(NgServiceTsInsertionPointerReset)) + `}}
@@ -100,6 +111,9 @@ export class {{Structname}}Service {
   }
 
   /** DELETE: delete the {{structname}}db from the server */
+  delete({{structname}}db: {{Structname}}DB | number, GONG__StackPath: string): Observable<{{Structname}}DB> {
+    return this.delete{{Structname}}({{structname}}db, GONG__StackPath)
+  }
   delete{{Structname}}({{structname}}db: {{Structname}}DB | number, GONG__StackPath: string): Observable<{{Structname}}DB> {
     const id = typeof {{structname}}db === 'number' ? {{structname}}db : {{structname}}db.ID;
     const url = ` + "`" + `${this.{{structname}}sUrl}/${id}` + "`" + `;
@@ -117,6 +131,9 @@ export class {{Structname}}Service {
   }
 
   /** PUT: update the {{structname}}db on the server */
+  update({{structname}}db: {{Structname}}DB, GONG__StackPath: string): Observable<{{Structname}}DB> {
+    return this.update{{Structname}}({{structname}}db, GONG__StackPath)
+  }
   update{{Structname}}({{structname}}db: {{Structname}}DB, GONG__StackPath: string): Observable<{{Structname}}DB> {
     const id = typeof {{structname}}db === 'number' ? {{structname}}db : {{structname}}db.ID;
     const url = ` + "`" + `${this.{{structname}}sUrl}/${id}` + "`" + `;

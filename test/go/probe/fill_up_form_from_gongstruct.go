@@ -64,6 +64,16 @@ func FillUpFormFromGongstruct[T models.Gongstruct](instance *T, playground *Play
 			),
 		}).Stage(formStage)
 		FillUpForm(instancesTyped, formGroup, playground)
+	case *models.Fstruct:
+		formGroup := (&gongtable.FormGroup{
+			Name:  gongtable.FormGroupDefaultName.ToString(),
+			Label: "Update Fstruct Form",
+			OnSave: __gong__New__FstructFormCallback(
+				instancesTyped,
+				playground,
+			),
+		}).Stage(formStage)
+		FillUpForm(instancesTyped, formGroup, playground)
 	default:
 		_ = instancesTyped
 	}

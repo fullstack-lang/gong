@@ -43,6 +43,10 @@ export class GongLinkService {
   }
 
   /** GET gonglinks from the server */
+  // gets is more robust to refactoring
+  gets(GONG__StackPath: string): Observable<GongLinkDB[]> {
+    return this.getGongLinks(GONG__StackPath)
+  }
   getGongLinks(GONG__StackPath: string): Observable<GongLinkDB[]> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
@@ -56,6 +60,10 @@ export class GongLinkService {
   }
 
   /** GET gonglink by id. Will 404 if id not found */
+  // more robust API to refactoring
+  get(id: number, GONG__StackPath: string): Observable<GongLinkDB> {
+	return this.getGongLink(id, GONG__StackPath)
+  }
   getGongLink(id: number, GONG__StackPath: string): Observable<GongLinkDB> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
@@ -68,6 +76,9 @@ export class GongLinkService {
   }
 
   /** POST: add a new gonglink to the server */
+  post(gonglinkdb: GongLinkDB, GONG__StackPath: string): Observable<GongLinkDB> {
+    return this.postGongLink(gonglinkdb, GONG__StackPath)	
+  }
   postGongLink(gonglinkdb: GongLinkDB, GONG__StackPath: string): Observable<GongLinkDB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
@@ -91,6 +102,9 @@ export class GongLinkService {
   }
 
   /** DELETE: delete the gonglinkdb from the server */
+  delete(gonglinkdb: GongLinkDB | number, GONG__StackPath: string): Observable<GongLinkDB> {
+    return this.deleteGongLink(gonglinkdb, GONG__StackPath)
+  }
   deleteGongLink(gonglinkdb: GongLinkDB | number, GONG__StackPath: string): Observable<GongLinkDB> {
     const id = typeof gonglinkdb === 'number' ? gonglinkdb : gonglinkdb.ID;
     const url = `${this.gonglinksUrl}/${id}`;
@@ -108,6 +122,9 @@ export class GongLinkService {
   }
 
   /** PUT: update the gonglinkdb on the server */
+  update(gonglinkdb: GongLinkDB, GONG__StackPath: string): Observable<GongLinkDB> {
+    return this.updateGongLink(gonglinkdb, GONG__StackPath)
+  }
   updateGongLink(gonglinkdb: GongLinkDB, GONG__StackPath: string): Observable<GongLinkDB> {
     const id = typeof gonglinkdb === 'number' ? gonglinkdb : gonglinkdb.ID;
     const url = `${this.gonglinksUrl}/${id}`;
