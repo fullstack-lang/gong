@@ -44,7 +44,7 @@ func LoadEmbedded(stage *StageStruct, goModelsDir embed.FS) (modelPkg *ModelPkg,
 	// compute the Abstract syntax tree in a special manner
 	pkgs := ParseEmbedModel(goModelsDir, "models")
 
-	WalkParser(pkgs, modelPkg)
+	WalkParser(pkgs, modelPkg, nil)
 	// fetch meta information
 	inspectMeta(stage, pkgs["models"])
 
