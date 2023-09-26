@@ -43,6 +43,10 @@ export class SliceOfPointerToGongStructFieldService {
   }
 
   /** GET sliceofpointertogongstructfields from the server */
+  // gets is more robust to refactoring
+  gets(GONG__StackPath: string): Observable<SliceOfPointerToGongStructFieldDB[]> {
+    return this.getSliceOfPointerToGongStructFields(GONG__StackPath)
+  }
   getSliceOfPointerToGongStructFields(GONG__StackPath: string): Observable<SliceOfPointerToGongStructFieldDB[]> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
@@ -56,6 +60,10 @@ export class SliceOfPointerToGongStructFieldService {
   }
 
   /** GET sliceofpointertogongstructfield by id. Will 404 if id not found */
+  // more robust API to refactoring
+  get(id: number, GONG__StackPath: string): Observable<SliceOfPointerToGongStructFieldDB> {
+	return this.getSliceOfPointerToGongStructField(id, GONG__StackPath)
+  }
   getSliceOfPointerToGongStructField(id: number, GONG__StackPath: string): Observable<SliceOfPointerToGongStructFieldDB> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
@@ -68,6 +76,9 @@ export class SliceOfPointerToGongStructFieldService {
   }
 
   /** POST: add a new sliceofpointertogongstructfield to the server */
+  post(sliceofpointertogongstructfielddb: SliceOfPointerToGongStructFieldDB, GONG__StackPath: string): Observable<SliceOfPointerToGongStructFieldDB> {
+    return this.postSliceOfPointerToGongStructField(sliceofpointertogongstructfielddb, GONG__StackPath)	
+  }
   postSliceOfPointerToGongStructField(sliceofpointertogongstructfielddb: SliceOfPointerToGongStructFieldDB, GONG__StackPath: string): Observable<SliceOfPointerToGongStructFieldDB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
@@ -93,6 +104,9 @@ export class SliceOfPointerToGongStructFieldService {
   }
 
   /** DELETE: delete the sliceofpointertogongstructfielddb from the server */
+  delete(sliceofpointertogongstructfielddb: SliceOfPointerToGongStructFieldDB | number, GONG__StackPath: string): Observable<SliceOfPointerToGongStructFieldDB> {
+    return this.deleteSliceOfPointerToGongStructField(sliceofpointertogongstructfielddb, GONG__StackPath)
+  }
   deleteSliceOfPointerToGongStructField(sliceofpointertogongstructfielddb: SliceOfPointerToGongStructFieldDB | number, GONG__StackPath: string): Observable<SliceOfPointerToGongStructFieldDB> {
     const id = typeof sliceofpointertogongstructfielddb === 'number' ? sliceofpointertogongstructfielddb : sliceofpointertogongstructfielddb.ID;
     const url = `${this.sliceofpointertogongstructfieldsUrl}/${id}`;
@@ -110,6 +124,9 @@ export class SliceOfPointerToGongStructFieldService {
   }
 
   /** PUT: update the sliceofpointertogongstructfielddb on the server */
+  update(sliceofpointertogongstructfielddb: SliceOfPointerToGongStructFieldDB, GONG__StackPath: string): Observable<SliceOfPointerToGongStructFieldDB> {
+    return this.updateSliceOfPointerToGongStructField(sliceofpointertogongstructfielddb, GONG__StackPath)
+  }
   updateSliceOfPointerToGongStructField(sliceofpointertogongstructfielddb: SliceOfPointerToGongStructFieldDB, GONG__StackPath: string): Observable<SliceOfPointerToGongStructFieldDB> {
     const id = typeof sliceofpointertogongstructfielddb === 'number' ? sliceofpointertogongstructfielddb : sliceofpointertogongstructfielddb.ID;
     const url = `${this.sliceofpointertogongstructfieldsUrl}/${id}`;

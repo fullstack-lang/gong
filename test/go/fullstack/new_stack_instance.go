@@ -54,6 +54,7 @@ func NewStackInstance(
 	models.SetOrchestratorOnAfterUpdate[models.AstructBstructUse](stage)
 	models.SetOrchestratorOnAfterUpdate[models.Bstruct](stage)
 	models.SetOrchestratorOnAfterUpdate[models.Dstruct](stage)
+	models.SetOrchestratorOnAfterUpdate[models.Fstruct](stage)
 
 	return
 }

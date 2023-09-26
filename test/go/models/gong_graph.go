@@ -20,6 +20,9 @@ func IsStaged[Type Gongstruct](stage *StageStruct, instance *Type) (ok bool) {
 	case *Dstruct:
 		ok = stage.IsStagedDstruct(target)
 
+	case *Fstruct:
+		ok = stage.IsStagedFstruct(target)
+
 	default:
 		_ = target
 	}
@@ -62,6 +65,13 @@ func IsStaged[Type Gongstruct](stage *StageStruct, instance *Type) (ok bool) {
 		return
 	}
 
+	func (stage *StageStruct) IsStagedFstruct(fstruct *Fstruct) (ok bool) {
+
+		_, ok = stage.Fstructs[fstruct]
+	
+		return
+	}
+
 
 // StageBranch stages instance and apply StageBranch on all gongstruct instances that are
 // referenced by pointers or slices of pointers of the insance
@@ -85,6 +95,9 @@ func StageBranch[Type Gongstruct](stage *StageStruct, instance *Type) {
 
 	case *Dstruct:
 		stage.StageBranchDstruct(target)
+
+	case *Fstruct:
+		stage.StageBranchFstruct(target)
 
 	default:
 		_ = target
@@ -218,6 +231,21 @@ func (stage *StageStruct) StageBranchDstruct(dstruct *Dstruct) {
 
 }
 
+func (stage *StageStruct) StageBranchFstruct(fstruct *Fstruct) {
+
+	// check if instance is already staged
+	if IsStaged(stage, fstruct) {
+		return
+	}
+
+	fstruct.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
 
 // UnstageBranch stages instance and apply UnstageBranch on all gongstruct instances that are
 // referenced by pointers or slices of pointers of the insance
@@ -241,6 +269,9 @@ func UnstageBranch[Type Gongstruct](stage *StageStruct, instance *Type) {
 
 	case *Dstruct:
 		stage.UnstageBranchDstruct(target)
+
+	case *Fstruct:
+		stage.UnstageBranchFstruct(target)
 
 	default:
 		_ = target
@@ -371,6 +402,21 @@ func (stage *StageStruct) UnstageBranchDstruct(dstruct *Dstruct) {
 	for _, _bstruct := range dstruct.Anarrayofb {
 		UnstageBranch(stage, _bstruct)
 	}
+
+}
+
+func (stage *StageStruct) UnstageBranchFstruct(fstruct *Fstruct) {
+
+	// check if instance is already staged
+	if ! IsStaged(stage, fstruct) {
+		return
+	}
+
+	fstruct.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
 
 }
 

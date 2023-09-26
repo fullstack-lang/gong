@@ -42,6 +42,10 @@ export class GongNoteService {
   }
 
   /** GET gongnotes from the server */
+  // gets is more robust to refactoring
+  gets(GONG__StackPath: string): Observable<GongNoteDB[]> {
+    return this.getGongNotes(GONG__StackPath)
+  }
   getGongNotes(GONG__StackPath: string): Observable<GongNoteDB[]> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
@@ -55,6 +59,10 @@ export class GongNoteService {
   }
 
   /** GET gongnote by id. Will 404 if id not found */
+  // more robust API to refactoring
+  get(id: number, GONG__StackPath: string): Observable<GongNoteDB> {
+	return this.getGongNote(id, GONG__StackPath)
+  }
   getGongNote(id: number, GONG__StackPath: string): Observable<GongNoteDB> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
@@ -67,6 +75,9 @@ export class GongNoteService {
   }
 
   /** POST: add a new gongnote to the server */
+  post(gongnotedb: GongNoteDB, GONG__StackPath: string): Observable<GongNoteDB> {
+    return this.postGongNote(gongnotedb, GONG__StackPath)	
+  }
   postGongNote(gongnotedb: GongNoteDB, GONG__StackPath: string): Observable<GongNoteDB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
@@ -90,6 +101,9 @@ export class GongNoteService {
   }
 
   /** DELETE: delete the gongnotedb from the server */
+  delete(gongnotedb: GongNoteDB | number, GONG__StackPath: string): Observable<GongNoteDB> {
+    return this.deleteGongNote(gongnotedb, GONG__StackPath)
+  }
   deleteGongNote(gongnotedb: GongNoteDB | number, GONG__StackPath: string): Observable<GongNoteDB> {
     const id = typeof gongnotedb === 'number' ? gongnotedb : gongnotedb.ID;
     const url = `${this.gongnotesUrl}/${id}`;
@@ -107,6 +121,9 @@ export class GongNoteService {
   }
 
   /** PUT: update the gongnotedb on the server */
+  update(gongnotedb: GongNoteDB, GONG__StackPath: string): Observable<GongNoteDB> {
+    return this.updateGongNote(gongnotedb, GONG__StackPath)
+  }
   updateGongNote(gongnotedb: GongNoteDB, GONG__StackPath: string): Observable<GongNoteDB> {
     const id = typeof gongnotedb === 'number' ? gongnotedb : gongnotedb.ID;
     const url = `${this.gongnotesUrl}/${id}`;
