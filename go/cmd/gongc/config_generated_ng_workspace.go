@@ -155,38 +155,6 @@ func configGeneratedNgWorkspace(modelPkg *gong_models.ModelPkg) {
 
 			}
 		}
-		if os.IsNotExist(errStat) {
-			log.Printf("library directory %sdatamodel does not exist, hence gong is generating it with ng generate library command",
-				gong_models.NgDataLibrarySourceCodeDirectory)
-
-			// generate library project
-			start := time.Now()
-			cmd := exec.Command("ng", "generate", "library", modelPkg.Name+"datamodel", "--defaults=true", "--skip-install=true")
-			cmd.Dir = gong_models.NgWorkspacePath
-			log.Printf("Creating a library %s in the angular workspace\n", modelPkg.Name)
-
-			// https://stackoverflow.com/questions/48253268/print-the-stdout-from-exec-command-in-real-time-in-go
-			var stdBuffer bytes.Buffer
-			mw := io.MultiWriter(os.Stdout, &stdBuffer)
-
-			cmd.Stdout = mw
-			cmd.Stderr = mw
-
-			log.Println(cmd.String())
-			log.Println(stdBuffer.String())
-
-			// Execute the command
-			if err := cmd.Run(); err != nil {
-				log.Panic(err)
-			}
-			log.Printf("ng generate library is over and took %s", time.Since(start))
-
-			filename := filepath.Join(gong_models.NgWorkspacePath, "tsconfig.json")
-			gong_models.InsertStringToFile(filename, "        \"projects/"+modelPkg.Name+"datamodel/src/public-api.ts\",", modelPkg.Name+"datamodel\": [")
-
-			log.Println("Creating datamodel lib", gong_models.MaterialLibDatamodelTargetPath)
-			generateDatamodelLib(modelPkg)
-		}
 
 		// npm install
 		if true {
