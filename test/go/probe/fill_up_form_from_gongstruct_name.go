@@ -81,6 +81,17 @@ func FillUpFormFromGongstructName(
 		}).Stage(formStage)
 		dstruct := new(models.Dstruct)
 		FillUpForm(dstruct, formGroup, playground)
+	case "Fstruct":
+		formGroup := (&form.FormGroup{
+			Name:  form.FormGroupDefaultName.ToString(),
+			Label: prefix + " Fstruct Form",
+			OnSave: __gong__New__FstructFormCallback(
+				nil,
+				playground,
+			),
+		}).Stage(formStage)
+		fstruct := new(models.Fstruct)
+		FillUpForm(fstruct, formGroup, playground)
 	}
 	formStage.Commit()
 }

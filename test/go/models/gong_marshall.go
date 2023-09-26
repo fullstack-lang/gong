@@ -426,6 +426,38 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 
 	}
 
+	map_Fstruct_Identifiers := make(map[*Fstruct]string)
+	_ = map_Fstruct_Identifiers
+
+	fstructOrdered := []*Fstruct{}
+	for fstruct := range stage.Fstructs {
+		fstructOrdered = append(fstructOrdered, fstruct)
+	}
+	sort.Slice(fstructOrdered[:], func(i, j int) bool {
+		return fstructOrdered[i].Name < fstructOrdered[j].Name
+	})
+	identifiersDecl += "\n\n	// Declarations of staged instances of Fstruct"
+	for idx, fstruct := range fstructOrdered {
+
+		id = generatesIdentifier("Fstruct", idx, fstruct.Name)
+		map_Fstruct_Identifiers[fstruct] = id
+
+		decl = IdentifiersDecls
+		decl = strings.ReplaceAll(decl, "{{Identifier}}", id)
+		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Fstruct")
+		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", fstruct.Name)
+		identifiersDecl += decl
+
+		initializerStatements += "\n\n	// Fstruct values setup"
+		// Initialisation of values
+		setValueField = StringInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(fstruct.Name))
+		initializerStatements += setValueField
+
+	}
+
 	// insertion initialization of objects to stage
 	for idx, astruct := range astructOrdered {
 		var setPointerField string
@@ -611,6 +643,16 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 			pointersInitializesStatements += setPointerField
 		}
 
+	}
+
+	for idx, fstruct := range fstructOrdered {
+		var setPointerField string
+		_ = setPointerField
+
+		id = generatesIdentifier("Fstruct", idx, fstruct.Name)
+		map_Fstruct_Identifiers[fstruct] = id
+
+		// Initialisation of values
 	}
 
 	res = strings.ReplaceAll(res, "{{Identifiers}}", identifiersDecl)

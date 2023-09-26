@@ -1021,6 +1021,13 @@ func UnmarshallGongstructStaging(stage *StageStruct, cmap *ast.CommentMap, assig
 						log.Fatalln(err)
 					}
 					__gong__map_GongStruct[identifier].HasOnAfterUpdateSignature = fielValue
+				case "IsIgnoredForFront":
+					// convert string to boolean
+					fielValue, err := strconv.ParseBool(ident.Name)
+					if err != nil {
+						log.Fatalln(err)
+					}
+					__gong__map_GongStruct[identifier].IsIgnoredForFront = fielValue
 				}
 			case "GongTimeField":
 				switch fieldName {
