@@ -17,9 +17,6 @@ const TsConfigInsertForPaths = `
       "rxjs": [
         "./node_modules/rxjs"
       ],
-      "@angular-material-components/datetime-picker": [
-        "./node_modules/@angular-material-components/datetime-picker"
-      ],
       "angular-split": [
         "./node_modules/angular-split"
       ],
