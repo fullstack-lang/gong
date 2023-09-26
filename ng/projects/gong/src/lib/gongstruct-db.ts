@@ -18,6 +18,7 @@ export class GongStructDB {
 	// insertion point for basic fields declarations
 	Name: string = ""
 	HasOnAfterUpdateSignature: boolean = false
+	IsIgnoredForFront: boolean = false
 
 	// insertion point for other declarations
 	GongBasicFields?: Array<GongBasicFieldDB>
