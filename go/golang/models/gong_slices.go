@@ -106,6 +106,12 @@ func CodeGeneratorModelGongSlice(
 	pkgPath string,
 	pkgGoPath string) {
 
+	// this code is not robust to empty models
+	// map[Gongstruct]any cannot compile
+	if len(mdlPkg.GongStructs) == 0 {
+		return
+	}
+
 	// generate the typescript file
 	codeGO := GongSliceTemplate
 
