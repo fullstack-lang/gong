@@ -57,7 +57,7 @@ func ParseEmbedModel(embeddedDir embed.FS, source string) map[string]*ast.Packag
 	return pkgs
 }
 
-func WalkParser(parserPkgs map[string]*ast.Package, modelPkg *ModelPkg) {
+func WalkParser(parserPkgs map[string]*ast.Package, modelPkg *ModelPkg, ignorePatterns *gitignore.GitIgnore) {
 
 	// this is to store struct that are not gongstruct
 	// but that can be embedded
@@ -84,15 +84,6 @@ func WalkParser(parserPkgs map[string]*ast.Package, modelPkg *ModelPkg) {
 	map_StructName_hasIgnoreStatement := make(map[string]bool)
 	for _, t := range typeDocumentation.Types {
 		map_StructName_hasIgnoreStatement[t.Name] = strings.Contains(t.Doc, "swagger:ignore")
-	}
-
-	ignorePatterns, err := gitignore.CompileIgnoreFile(".frontignore")
-	if err != nil {
-		if pathErr, ok := err.(*os.PathError); ok {
-			log.Println("No .frontignore file present", pathErr.Error())
-		} else {
-			log.Fatalf("Failed to compile .frontignore: %v", err)
-		}
 	}
 
 	// first pass : get "type" definition for enum & struct

@@ -4,8 +4,12 @@ import (
 	"go/parser"
 	"go/token"
 	"log"
+	"os"
 	"path/filepath"
 	"time"
+
+	// to parse the .frontignore file
+	gitignore "github.com/sabhiram/go-gitignore"
 )
 
 // Walk parses go files in the `models` directory pointed by relativePathToModel and
@@ -37,7 +41,17 @@ func Walk(relativePathToModel string, modelPkg *ModelPkg) {
 		log.Panic("Unable to parser, wrong number of parsers ", len(pkgsParser))
 	}
 
-	WalkParser(pkgsParser, modelPkg)
+	ignorePatterns, err := gitignore.CompileIgnoreFile(
+		filepath.Join(relativePathToModel, ".frontignore"))
+	if err != nil {
+		if pathErr, ok := err.(*os.PathError); ok {
+			log.Println("No .frontignore file present", pathErr.Error())
+		} else {
+			log.Fatalf("Failed to compile .frontignore: %v", err)
+		}
+	}
+
+	WalkParser(pkgsParser, modelPkg, ignorePatterns)
 
 	// fetch meta information
 	inspectMeta(modelPkg.GetStage(), pkgsParser["models"])
