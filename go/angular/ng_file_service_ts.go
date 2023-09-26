@@ -238,7 +238,7 @@ func MultiCodeGeneratorNgService(
 
 	for _, _struct := range structList {
 
-		if !_struct.HasNameField() {
+		if !_struct.HasNameField() || _struct.IsIgnoredForFront {
 			continue
 		}
 

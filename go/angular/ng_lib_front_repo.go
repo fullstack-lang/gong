@@ -15,7 +15,7 @@ import (
 const NgLibFrontRepoServiceTemplate = `import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
-import { Observable, combineLatest, BehaviorSubject } from 'rxjs';
+import { Observable, combineLatest, BehaviorSubject, of } from 'rxjs';
 
 // insertion point sub template for services imports {{` + string(NgLibFrontRepoServiceImports) + `}}
 
@@ -112,8 +112,19 @@ export class FrontRepoService {
   }
 
   // typing of observable can be messy in typescript. Therefore, one force the type
-  observableFrontRepo: [ // insertion point sub template {{` + string(NgLibFrontRepoObservableArrayType) + `}}
-  ] = [ // insertion point sub template{{` + string(NgLibFrontRepoObservableRefs) + `}}
+  observableFrontRepo: [ 
+    Observable<null>, // see below for the of(null) observable
+    // insertion point sub template {{` + string(NgLibFrontRepoObservableArrayType) + `}}
+  ] = [ 
+    // Using "combineLatest" with a placeholder observable.
+    //
+    // This allows the typescript compiler to pass when no GongStruct is present in the front API
+    //
+    // The "of(null)" is a "meaningless" observable that emits a single value (null) and completes.
+    // This is used as a workaround to satisfy TypeScript requirements and the "combineLatest" 
+    // expectation for a non-empty array of observables.
+    of(null), // 
+    // insertion point sub template{{` + string(NgLibFrontRepoObservableRefs) + `}}
     ];
 
   //
@@ -126,7 +137,9 @@ export class FrontRepoService {
 
     this.GONG__StackPath = GONG__StackPath
 
-    this.observableFrontRepo = [ // insertion point sub template{{` + string(NgLibFrontRepoObservableRefs) + `}}
+    this.observableFrontRepo = [ 
+      of(null), // see above for justification
+      // insertion point sub template{{` + string(NgLibFrontRepoObservableRefs) + `}}
     ]
 
     return new Observable<FrontRepo>(
@@ -134,7 +147,9 @@ export class FrontRepoService {
         combineLatest(
           this.observableFrontRepo
         ).subscribe(
-          ([ // insertion point sub template for declarations {{` + string(NgLibFrontRepoArraysDecls) + `}}
+          ([ 
+            ___of_null, // see above for the explanation about of
+            // insertion point sub template for declarations {{` + string(NgLibFrontRepoArraysDecls) + `}}
           ]) => {
             // Typing can be messy with many items. Therefore, type casting is necessary here
             // insertion point sub template for type casting {{` + string(NgLibFrontRepoTypeCasting) + `}}
@@ -400,7 +415,7 @@ func CodeGeneratorNgFrontRepo(
 	// have alphabetical order generation
 	structList := []*models.GongStruct{}
 	for _, _struct := range mdlPkg.GongStructs {
-		if !_struct.HasNameField() {
+		if !_struct.HasNameField() || _struct.IsIgnoredForFront {
 			continue
 		}
 		structList = append(structList, _struct)
