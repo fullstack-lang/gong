@@ -49,6 +49,7 @@ const (
 	ModelGongStructInsertionGenericGetMapFunctions
 	ModelGongStructInsertionGenericInstancesSetFunctions
 	ModelGongStructInsertionGenericInstancesSetFromPointerTypeFunctions
+	ModelGongStructInsertionGenericInstancesSetFromPointerTypeFunctionsReturnType
 
 	ModelGongStructInsertionGenericInstancesMapFunctions
 	ModelGongStructInsertionGenericGetAssociationNameFunctions
@@ -601,11 +602,17 @@ func CodeGeneratorModelGong(
 	}
 
 	caserEnglish := cases.Title(language.English)
-	codeGO = models.Replace4(codeGO,
+	returnType := "*map[Type]any" // to solve the issue of empty model
+	_ = returnType
+	if len(mdlPkg.GongStructs) == 0 {
+		returnType = "any"
+	}
+	codeGO = models.Replace5(codeGO,
 		"{{PkgName}}", pkgName,
 		"{{TitlePkgName}}", caserEnglish.String(pkgName),
 		"{{pkgname}}", strings.ToLower(pkgName),
-		"	 | ", "	", // for the replacement of the of the first bar in the Gongstruct Type def
+		"	 | ", "	", // for the replacement of the of the first bar in the Gongstruct Type def,
+		"{{mapReturnType}}", returnType,
 	)
 
 	file, err := os.Create(filepath.Join(pkgPath, "gong.go"))
