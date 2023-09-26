@@ -42,6 +42,10 @@ export class ModelPkgService {
   }
 
   /** GET modelpkgs from the server */
+  // gets is more robust to refactoring
+  gets(GONG__StackPath: string): Observable<ModelPkgDB[]> {
+    return this.getModelPkgs(GONG__StackPath)
+  }
   getModelPkgs(GONG__StackPath: string): Observable<ModelPkgDB[]> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
@@ -55,6 +59,10 @@ export class ModelPkgService {
   }
 
   /** GET modelpkg by id. Will 404 if id not found */
+  // more robust API to refactoring
+  get(id: number, GONG__StackPath: string): Observable<ModelPkgDB> {
+	return this.getModelPkg(id, GONG__StackPath)
+  }
   getModelPkg(id: number, GONG__StackPath: string): Observable<ModelPkgDB> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
@@ -67,6 +75,9 @@ export class ModelPkgService {
   }
 
   /** POST: add a new modelpkg to the server */
+  post(modelpkgdb: ModelPkgDB, GONG__StackPath: string): Observable<ModelPkgDB> {
+    return this.postModelPkg(modelpkgdb, GONG__StackPath)	
+  }
   postModelPkg(modelpkgdb: ModelPkgDB, GONG__StackPath: string): Observable<ModelPkgDB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
@@ -87,6 +98,9 @@ export class ModelPkgService {
   }
 
   /** DELETE: delete the modelpkgdb from the server */
+  delete(modelpkgdb: ModelPkgDB | number, GONG__StackPath: string): Observable<ModelPkgDB> {
+    return this.deleteModelPkg(modelpkgdb, GONG__StackPath)
+  }
   deleteModelPkg(modelpkgdb: ModelPkgDB | number, GONG__StackPath: string): Observable<ModelPkgDB> {
     const id = typeof modelpkgdb === 'number' ? modelpkgdb : modelpkgdb.ID;
     const url = `${this.modelpkgsUrl}/${id}`;
@@ -104,6 +118,9 @@ export class ModelPkgService {
   }
 
   /** PUT: update the modelpkgdb on the server */
+  update(modelpkgdb: ModelPkgDB, GONG__StackPath: string): Observable<ModelPkgDB> {
+    return this.updateModelPkg(modelpkgdb, GONG__StackPath)
+  }
   updateModelPkg(modelpkgdb: ModelPkgDB, GONG__StackPath: string): Observable<ModelPkgDB> {
     const id = typeof modelpkgdb === 'number' ? modelpkgdb : modelpkgdb.ID;
     const url = `${this.modelpkgsUrl}/${id}`;

@@ -8,7 +8,7 @@ import (
 type GongstructDB interface {
 	// insertion point for generic types
 	// "int" is present to handle the case when no struct is present
-	int | AstructDB | AstructBstruct2UseDB | AstructBstructUseDB | BstructDB | DstructDB
+	int | AstructDB | AstructBstruct2UseDB | AstructBstructUseDB | BstructDB | DstructDB | FstructDB
 }
 
 func GetInstanceDBFromInstance[T models.Gongstruct, T2 GongstructDB](
@@ -37,6 +37,10 @@ func GetInstanceDBFromInstance[T models.Gongstruct, T2 GongstructDB](
 	case *models.Dstruct:
 		dstructInstance := any(concreteInstance).(*models.Dstruct)
 		ret2 := backRepo.BackRepoDstruct.GetDstructDBFromDstructPtr(dstructInstance)
+		ret = any(ret2).(*T2)
+	case *models.Fstruct:
+		fstructInstance := any(concreteInstance).(*models.Fstruct)
+		ret2 := backRepo.BackRepoFstruct.GetFstructDBFromFstructPtr(fstructInstance)
 		ret = any(ret2).(*T2)
 	default:
 		_ = concreteInstance
@@ -76,6 +80,11 @@ func GetID[T models.Gongstruct](
 			stage, backRepo, inst,
 		)
 		id = int(tmp.ID)
+	case *models.Fstruct:
+		tmp := GetInstanceDBFromInstance[models.Fstruct, FstructDB](
+			stage, backRepo, inst,
+		)
+		id = int(tmp.ID)
 	default:
 		_ = inst
 	}
@@ -111,6 +120,11 @@ func GetIDPointer[T models.PointerToGongstruct](
 		id = int(tmp.ID)
 	case *models.Dstruct:
 		tmp := GetInstanceDBFromInstance[models.Dstruct, DstructDB](
+			stage, backRepo, inst,
+		)
+		id = int(tmp.ID)
+	case *models.Fstruct:
+		tmp := GetInstanceDBFromInstance[models.Fstruct, FstructDB](
 			stage, backRepo, inst,
 		)
 		id = int(tmp.ID)
