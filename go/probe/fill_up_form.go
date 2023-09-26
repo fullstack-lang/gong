@@ -127,6 +127,7 @@ func FillUpForm[T models.Gongstruct](
 		AssociationSliceToForm("PointerToGongStructFields", instanceWithInferedType, &instanceWithInferedType.PointerToGongStructFields, formGroup, playground)
 		AssociationSliceToForm("SliceOfPointerToGongStructFields", instanceWithInferedType, &instanceWithInferedType.SliceOfPointerToGongStructFields, formGroup, playground)
 		BasicFieldtoForm("HasOnAfterUpdateSignature", instanceWithInferedType.HasOnAfterUpdateSignature, instanceWithInferedType, playground.formStage, formGroup, false)
+		BasicFieldtoForm("IsIgnoredForFront", instanceWithInferedType.IsIgnoredForFront, instanceWithInferedType, playground.formStage, formGroup, false)
 
 	case *models.GongTimeField:
 		// insertion point
