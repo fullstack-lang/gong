@@ -684,3 +684,73 @@ func (dstructFormCallback *DstructFormCallback) OnSave() {
 
 	fillUpTree(dstructFormCallback.playground)
 }
+func __gong__New__FstructFormCallback(
+	fstruct *models.Fstruct,
+	playground *Playground,
+) (fstructFormCallback *FstructFormCallback) {
+	fstructFormCallback = new(FstructFormCallback)
+	fstructFormCallback.playground = playground
+	fstructFormCallback.fstruct = fstruct
+
+	fstructFormCallback.CreationMode = (fstruct == nil)
+
+	return
+}
+
+type FstructFormCallback struct {
+	fstruct *models.Fstruct
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
+
+	playground *Playground
+}
+
+func (fstructFormCallback *FstructFormCallback) OnSave() {
+
+	log.Println("FstructFormCallback, OnSave")
+
+	// checkout formStage to have the form group on the stage synchronized with the
+	// back repo (and front repo)
+	fstructFormCallback.playground.formStage.Checkout()
+
+	if fstructFormCallback.fstruct == nil {
+		fstructFormCallback.fstruct = new(models.Fstruct).Stage(fstructFormCallback.playground.stageOfInterest)
+	}
+	fstruct_ := fstructFormCallback.fstruct
+	_ = fstruct_
+
+	// get the formGroup
+	formGroup := fstructFormCallback.playground.formStage.FormGroups_mapString[table.FormGroupDefaultName.ToString()]
+
+	for _, formDiv := range formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(fstruct_.Name), formDiv)
+		}
+	}
+
+	fstructFormCallback.playground.stageOfInterest.Commit()
+	fillUpTable[models.Fstruct](
+		fstructFormCallback.playground,
+	)
+	fstructFormCallback.playground.tableStage.Commit()
+
+	// display a new form by reset the form stage
+	if fstructFormCallback.CreationMode {
+		fstructFormCallback.playground.formStage.Reset()
+		newFormGroup := (&table.FormGroup{
+			Name: table.FormGroupDefaultName.ToString(),
+			OnSave: __gong__New__FstructFormCallback(
+				nil,
+				fstructFormCallback.playground,
+			),
+		}).Stage(fstructFormCallback.playground.formStage)
+		fstruct := new(models.Fstruct)
+		FillUpForm(fstruct, newFormGroup, fstructFormCallback.playground)
+		fstructFormCallback.playground.formStage.Commit()
+	}
+
+	fillUpTree(fstructFormCallback.playground)
+}

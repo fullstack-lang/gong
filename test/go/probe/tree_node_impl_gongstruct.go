@@ -67,6 +67,9 @@ func (nodeImplGongstruct *TreeNodeImplGongstruct) OnAfterUpdate(
 	if nodeImplGongstruct.gongStruct.GetName() == "Dstruct" {
 		fillUpTable[models.Dstruct](nodeImplGongstruct.playground)
 	}
+	if nodeImplGongstruct.gongStruct.GetName() == "Fstruct" {
+		fillUpTable[models.Fstruct](nodeImplGongstruct.playground)
+	}
 
 	// set color for node and reset all other nodes color
 	for node := range *gongtree_models.GetGongstructInstancesSet[gongtree_models.Node](gongtreeStage) {

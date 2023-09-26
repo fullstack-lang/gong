@@ -309,6 +309,7 @@ var __gong__map_AstructBstruct2Use = make(map[string]*AstructBstruct2Use)
 var __gong__map_AstructBstructUse = make(map[string]*AstructBstructUse)
 var __gong__map_Bstruct = make(map[string]*Bstruct)
 var __gong__map_Dstruct = make(map[string]*Dstruct)
+var __gong__map_Fstruct = make(map[string]*Fstruct)
 
 // Parser needs to be configured for having the [Name1.Name2] or [pkg.Name1] ...
 // to be recognized as a proper identifier.
@@ -501,6 +502,10 @@ func UnmarshallGongstructStaging(stage *StageStruct, cmap *ast.CommentMap, assig
 										instanceDstruct := (&Dstruct{Name: instanceName}).Stage(stage)
 										instance = any(instanceDstruct)
 										__gong__map_Dstruct[identifier] = instanceDstruct
+									case "Fstruct":
+										instanceFstruct := (&Fstruct{Name: instanceName}).Stage(stage)
+										instance = any(instanceFstruct)
+										__gong__map_Fstruct[identifier] = instanceFstruct
 									}
 									__gong__map_Indentifiers_gongstructName[identifier] = gongstructName
 									return
@@ -558,6 +563,10 @@ func UnmarshallGongstructStaging(stage *StageStruct, cmap *ast.CommentMap, assig
 							// insertion point for date assign code
 							}
 						case "Dstruct":
+							switch fieldName {
+							// insertion point for date assign code
+							}
+						case "Fstruct":
 							switch fieldName {
 							// insertion point for date assign code
 							}
@@ -641,6 +650,10 @@ func UnmarshallGongstructStaging(stage *StageStruct, cmap *ast.CommentMap, assig
 							target := __gong__map_Bstruct[targetIdentifier]
 							__gong__map_Dstruct[identifier].Anarrayofb =
 								append(__gong__map_Dstruct[identifier].Anarrayofb, target)
+						}
+					case "Fstruct":
+						switch fieldName {
+						// insertion point for slice of pointers assign code
 						}
 					}
 				case *ast.SelectorExpr:
@@ -812,6 +825,14 @@ func UnmarshallGongstructStaging(stage *StageStruct, cmap *ast.CommentMap, assig
 					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
 					__gong__map_Dstruct[identifier].Name = fielValue
 				}
+			case "Fstruct":
+				switch fieldName {
+				// insertion point for field dependant code
+				case "Name":
+					// remove first and last char
+					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
+					__gong__map_Fstruct[identifier].Name = fielValue
+				}
 			}
 		case *ast.Ident:
 			// assignment to boolean field ?
@@ -893,6 +914,10 @@ func UnmarshallGongstructStaging(stage *StageStruct, cmap *ast.CommentMap, assig
 				switch fieldName {
 				// insertion point for field dependant code
 				}
+			case "Fstruct":
+				switch fieldName {
+				// insertion point for field dependant code
+				}
 			}
 		case *ast.SelectorExpr:
 			// assignment to enum field
@@ -966,6 +991,10 @@ func UnmarshallGongstructStaging(stage *StageStruct, cmap *ast.CommentMap, assig
 					// insertion point for enum assign code
 					}
 				case "Dstruct":
+					switch fieldName {
+					// insertion point for enum assign code
+					}
+				case "Fstruct":
 					switch fieldName {
 					// insertion point for enum assign code
 					}

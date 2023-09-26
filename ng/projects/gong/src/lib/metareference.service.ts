@@ -43,6 +43,10 @@ export class MetaReferenceService {
   }
 
   /** GET metareferences from the server */
+  // gets is more robust to refactoring
+  gets(GONG__StackPath: string): Observable<MetaReferenceDB[]> {
+    return this.getMetaReferences(GONG__StackPath)
+  }
   getMetaReferences(GONG__StackPath: string): Observable<MetaReferenceDB[]> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
@@ -56,6 +60,10 @@ export class MetaReferenceService {
   }
 
   /** GET metareference by id. Will 404 if id not found */
+  // more robust API to refactoring
+  get(id: number, GONG__StackPath: string): Observable<MetaReferenceDB> {
+	return this.getMetaReference(id, GONG__StackPath)
+  }
   getMetaReference(id: number, GONG__StackPath: string): Observable<MetaReferenceDB> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
@@ -68,6 +76,9 @@ export class MetaReferenceService {
   }
 
   /** POST: add a new metareference to the server */
+  post(metareferencedb: MetaReferenceDB, GONG__StackPath: string): Observable<MetaReferenceDB> {
+    return this.postMetaReference(metareferencedb, GONG__StackPath)	
+  }
   postMetaReference(metareferencedb: MetaReferenceDB, GONG__StackPath: string): Observable<MetaReferenceDB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
@@ -91,6 +102,9 @@ export class MetaReferenceService {
   }
 
   /** DELETE: delete the metareferencedb from the server */
+  delete(metareferencedb: MetaReferenceDB | number, GONG__StackPath: string): Observable<MetaReferenceDB> {
+    return this.deleteMetaReference(metareferencedb, GONG__StackPath)
+  }
   deleteMetaReference(metareferencedb: MetaReferenceDB | number, GONG__StackPath: string): Observable<MetaReferenceDB> {
     const id = typeof metareferencedb === 'number' ? metareferencedb : metareferencedb.ID;
     const url = `${this.metareferencesUrl}/${id}`;
@@ -108,6 +122,9 @@ export class MetaReferenceService {
   }
 
   /** PUT: update the metareferencedb on the server */
+  update(metareferencedb: MetaReferenceDB, GONG__StackPath: string): Observable<MetaReferenceDB> {
+    return this.updateMetaReference(metareferencedb, GONG__StackPath)
+  }
   updateMetaReference(metareferencedb: MetaReferenceDB, GONG__StackPath: string): Observable<MetaReferenceDB> {
     const id = typeof metareferencedb === 'number' ? metareferencedb : metareferencedb.ID;
     const url = `${this.metareferencesUrl}/${id}`;
