@@ -358,6 +358,7 @@ echo "package models
 type Country struct {
 Name string
 Hello *Hello
+AlternateHellos []*Hello
 }" > go/models/country.go
 gongc go/models
 cd go/cmd/helloworld
