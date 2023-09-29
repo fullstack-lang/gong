@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { AstructDB, FrontRepo } from 'test';
 
 @Component({
   selector: 'lib-testspecific',
@@ -11,5 +12,13 @@ import { Component } from '@angular/core';
   ]
 })
 export class TestspecificComponent {
+
+  frontRepo = new FrontRepo
+
+  titi() {
+
+    let a = this.frontRepo.getArray<AstructDB>()
+
+  }
 
 }
