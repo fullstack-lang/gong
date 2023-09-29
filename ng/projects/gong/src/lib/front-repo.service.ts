@@ -1,7 +1,7 @@
-import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Injectable } from '@angular/core'
+import { HttpClient, HttpHeaders } from '@angular/common/http'
 
-import { Observable, combineLatest, BehaviorSubject, of } from 'rxjs';
+import { Observable, combineLatest, BehaviorSubject, of } from 'rxjs'
 
 // insertion point sub template for services imports 
 import { GongBasicFieldDB } from './gongbasicfield-db'
@@ -43,42 +43,141 @@ import { SliceOfPointerToGongStructFieldService } from './sliceofpointertogongst
 
 // FrontRepo stores all instances in a front repository (design pattern repository)
 export class FrontRepo { // insertion point sub template 
-  GongBasicFields_array = new Array<GongBasicFieldDB>(); // array of repo instances
-  GongBasicFields = new Map<number, GongBasicFieldDB>(); // map of repo instances
-  GongBasicFields_batch = new Map<number, GongBasicFieldDB>(); // same but only in last GET (for finding repo instances to delete)
-  GongEnums_array = new Array<GongEnumDB>(); // array of repo instances
-  GongEnums = new Map<number, GongEnumDB>(); // map of repo instances
-  GongEnums_batch = new Map<number, GongEnumDB>(); // same but only in last GET (for finding repo instances to delete)
-  GongEnumValues_array = new Array<GongEnumValueDB>(); // array of repo instances
-  GongEnumValues = new Map<number, GongEnumValueDB>(); // map of repo instances
-  GongEnumValues_batch = new Map<number, GongEnumValueDB>(); // same but only in last GET (for finding repo instances to delete)
-  GongLinks_array = new Array<GongLinkDB>(); // array of repo instances
-  GongLinks = new Map<number, GongLinkDB>(); // map of repo instances
-  GongLinks_batch = new Map<number, GongLinkDB>(); // same but only in last GET (for finding repo instances to delete)
-  GongNotes_array = new Array<GongNoteDB>(); // array of repo instances
-  GongNotes = new Map<number, GongNoteDB>(); // map of repo instances
-  GongNotes_batch = new Map<number, GongNoteDB>(); // same but only in last GET (for finding repo instances to delete)
-  GongStructs_array = new Array<GongStructDB>(); // array of repo instances
-  GongStructs = new Map<number, GongStructDB>(); // map of repo instances
-  GongStructs_batch = new Map<number, GongStructDB>(); // same but only in last GET (for finding repo instances to delete)
-  GongTimeFields_array = new Array<GongTimeFieldDB>(); // array of repo instances
-  GongTimeFields = new Map<number, GongTimeFieldDB>(); // map of repo instances
-  GongTimeFields_batch = new Map<number, GongTimeFieldDB>(); // same but only in last GET (for finding repo instances to delete)
-  Metas_array = new Array<MetaDB>(); // array of repo instances
-  Metas = new Map<number, MetaDB>(); // map of repo instances
-  Metas_batch = new Map<number, MetaDB>(); // same but only in last GET (for finding repo instances to delete)
-  MetaReferences_array = new Array<MetaReferenceDB>(); // array of repo instances
-  MetaReferences = new Map<number, MetaReferenceDB>(); // map of repo instances
-  MetaReferences_batch = new Map<number, MetaReferenceDB>(); // same but only in last GET (for finding repo instances to delete)
-  ModelPkgs_array = new Array<ModelPkgDB>(); // array of repo instances
-  ModelPkgs = new Map<number, ModelPkgDB>(); // map of repo instances
-  ModelPkgs_batch = new Map<number, ModelPkgDB>(); // same but only in last GET (for finding repo instances to delete)
-  PointerToGongStructFields_array = new Array<PointerToGongStructFieldDB>(); // array of repo instances
-  PointerToGongStructFields = new Map<number, PointerToGongStructFieldDB>(); // map of repo instances
-  PointerToGongStructFields_batch = new Map<number, PointerToGongStructFieldDB>(); // same but only in last GET (for finding repo instances to delete)
-  SliceOfPointerToGongStructFields_array = new Array<SliceOfPointerToGongStructFieldDB>(); // array of repo instances
-  SliceOfPointerToGongStructFields = new Map<number, SliceOfPointerToGongStructFieldDB>(); // map of repo instances
-  SliceOfPointerToGongStructFields_batch = new Map<number, SliceOfPointerToGongStructFieldDB>(); // same but only in last GET (for finding repo instances to delete)
+  GongBasicFields_array = new Array<GongBasicFieldDB>() // array of repo instances
+  GongBasicFields = new Map<number, GongBasicFieldDB>() // map of repo instances
+  GongBasicFields_batch = new Map<number, GongBasicFieldDB>() // same but only in last GET (for finding repo instances to delete)
+
+  GongEnums_array = new Array<GongEnumDB>() // array of repo instances
+  GongEnums = new Map<number, GongEnumDB>() // map of repo instances
+  GongEnums_batch = new Map<number, GongEnumDB>() // same but only in last GET (for finding repo instances to delete)
+
+  GongEnumValues_array = new Array<GongEnumValueDB>() // array of repo instances
+  GongEnumValues = new Map<number, GongEnumValueDB>() // map of repo instances
+  GongEnumValues_batch = new Map<number, GongEnumValueDB>() // same but only in last GET (for finding repo instances to delete)
+
+  GongLinks_array = new Array<GongLinkDB>() // array of repo instances
+  GongLinks = new Map<number, GongLinkDB>() // map of repo instances
+  GongLinks_batch = new Map<number, GongLinkDB>() // same but only in last GET (for finding repo instances to delete)
+
+  GongNotes_array = new Array<GongNoteDB>() // array of repo instances
+  GongNotes = new Map<number, GongNoteDB>() // map of repo instances
+  GongNotes_batch = new Map<number, GongNoteDB>() // same but only in last GET (for finding repo instances to delete)
+
+  GongStructs_array = new Array<GongStructDB>() // array of repo instances
+  GongStructs = new Map<number, GongStructDB>() // map of repo instances
+  GongStructs_batch = new Map<number, GongStructDB>() // same but only in last GET (for finding repo instances to delete)
+
+  GongTimeFields_array = new Array<GongTimeFieldDB>() // array of repo instances
+  GongTimeFields = new Map<number, GongTimeFieldDB>() // map of repo instances
+  GongTimeFields_batch = new Map<number, GongTimeFieldDB>() // same but only in last GET (for finding repo instances to delete)
+
+  Metas_array = new Array<MetaDB>() // array of repo instances
+  Metas = new Map<number, MetaDB>() // map of repo instances
+  Metas_batch = new Map<number, MetaDB>() // same but only in last GET (for finding repo instances to delete)
+
+  MetaReferences_array = new Array<MetaReferenceDB>() // array of repo instances
+  MetaReferences = new Map<number, MetaReferenceDB>() // map of repo instances
+  MetaReferences_batch = new Map<number, MetaReferenceDB>() // same but only in last GET (for finding repo instances to delete)
+
+  ModelPkgs_array = new Array<ModelPkgDB>() // array of repo instances
+  ModelPkgs = new Map<number, ModelPkgDB>() // map of repo instances
+  ModelPkgs_batch = new Map<number, ModelPkgDB>() // same but only in last GET (for finding repo instances to delete)
+
+  PointerToGongStructFields_array = new Array<PointerToGongStructFieldDB>() // array of repo instances
+  PointerToGongStructFields = new Map<number, PointerToGongStructFieldDB>() // map of repo instances
+  PointerToGongStructFields_batch = new Map<number, PointerToGongStructFieldDB>() // same but only in last GET (for finding repo instances to delete)
+
+  SliceOfPointerToGongStructFields_array = new Array<SliceOfPointerToGongStructFieldDB>() // array of repo instances
+  SliceOfPointerToGongStructFields = new Map<number, SliceOfPointerToGongStructFieldDB>() // map of repo instances
+  SliceOfPointerToGongStructFields_batch = new Map<number, SliceOfPointerToGongStructFieldDB>() // same but only in last GET (for finding repo instances to delete)
+
+
+  getArray<Type>(): Array<Type> {
+    const token = this.getToken<Type>();
+
+    switch (token) {
+    // insertion point
+    case 'GongBasicFieldDB':
+      return this.GongBasicFields_array as unknown as Array<Type>
+    case 'GongEnumDB':
+      return this.GongEnums_array as unknown as Array<Type>
+    case 'GongEnumValueDB':
+      return this.GongEnumValues_array as unknown as Array<Type>
+    case 'GongLinkDB':
+      return this.GongLinks_array as unknown as Array<Type>
+    case 'GongNoteDB':
+      return this.GongNotes_array as unknown as Array<Type>
+    case 'GongStructDB':
+      return this.GongStructs_array as unknown as Array<Type>
+    case 'GongTimeFieldDB':
+      return this.GongTimeFields_array as unknown as Array<Type>
+    case 'MetaDB':
+      return this.Metas_array as unknown as Array<Type>
+    case 'MetaReferenceDB':
+      return this.MetaReferences_array as unknown as Array<Type>
+    case 'ModelPkgDB':
+      return this.ModelPkgs_array as unknown as Array<Type>
+    case 'PointerToGongStructFieldDB':
+      return this.PointerToGongStructFields_array as unknown as Array<Type>
+    case 'SliceOfPointerToGongStructFieldDB':
+      return this.SliceOfPointerToGongStructFields_array as unknown as Array<Type>
+    default:
+      throw new Error("Type not recognized");
+    }
+  }
+
+  // getMap allows for a get function that is robust to refactoring of the named struct name
+  getMap<Type>(): Map<number, Type> {
+    const token = this.getToken<Type>();
+
+    switch (token) {
+    // insertion point
+    case 'GongBasicFieldDB':
+      return this.GongBasicFields_array as unknown as Map<number, Type>
+    case 'GongEnumDB':
+      return this.GongEnums_array as unknown as Map<number, Type>
+    case 'GongEnumValueDB':
+      return this.GongEnumValues_array as unknown as Map<number, Type>
+    case 'GongLinkDB':
+      return this.GongLinks_array as unknown as Map<number, Type>
+    case 'GongNoteDB':
+      return this.GongNotes_array as unknown as Map<number, Type>
+    case 'GongStructDB':
+      return this.GongStructs_array as unknown as Map<number, Type>
+    case 'GongTimeFieldDB':
+      return this.GongTimeFields_array as unknown as Map<number, Type>
+    case 'MetaDB':
+      return this.Metas_array as unknown as Map<number, Type>
+    case 'MetaReferenceDB':
+      return this.MetaReferences_array as unknown as Map<number, Type>
+    case 'ModelPkgDB':
+      return this.ModelPkgs_array as unknown as Map<number, Type>
+    case 'PointerToGongStructFieldDB':
+      return this.PointerToGongStructFields_array as unknown as Map<number, Type>
+    case 'SliceOfPointerToGongStructFieldDB':
+      return this.SliceOfPointerToGongStructFields_array as unknown as Map<number, Type>
+    default:
+      throw new Error("Type not recognized");
+    }
+  }
+
+  // getToken allows for a get function that is robust to refactoring of the named struct name
+  private getToken<Type>(): string {
+    // insertion point
+  if (({} as Type) instanceof GongBasicFieldDB) return 'GongBasicFieldDB'
+  if (({} as Type) instanceof GongEnumDB) return 'GongEnumDB'
+  if (({} as Type) instanceof GongEnumValueDB) return 'GongEnumValueDB'
+  if (({} as Type) instanceof GongLinkDB) return 'GongLinkDB'
+  if (({} as Type) instanceof GongNoteDB) return 'GongNoteDB'
+  if (({} as Type) instanceof GongStructDB) return 'GongStructDB'
+  if (({} as Type) instanceof GongTimeFieldDB) return 'GongTimeFieldDB'
+  if (({} as Type) instanceof MetaDB) return 'MetaDB'
+  if (({} as Type) instanceof MetaReferenceDB) return 'MetaReferenceDB'
+  if (({} as Type) instanceof ModelPkgDB) return 'ModelPkgDB'
+  if (({} as Type) instanceof PointerToGongStructFieldDB) return 'PointerToGongStructFieldDB'
+  if (({} as Type) instanceof SliceOfPointerToGongStructFieldDB) return 'SliceOfPointerToGongStructFieldDB'
+    return '';
+  }
 }
 
 // the table component is called in different ways
