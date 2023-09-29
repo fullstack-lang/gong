@@ -1,7 +1,7 @@
-import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Injectable } from '@angular/core'
+import { HttpClient, HttpHeaders } from '@angular/common/http'
 
-import { Observable, combineLatest, BehaviorSubject, of } from 'rxjs';
+import { Observable, combineLatest, BehaviorSubject, of } from 'rxjs'
 
 // insertion point sub template for services imports 
 import { DummyDB } from './dummy-db'
@@ -10,9 +10,42 @@ import { DummyService } from './dummy.service'
 
 // FrontRepo stores all instances in a front repository (design pattern repository)
 export class FrontRepo { // insertion point sub template 
-  Dummys_array = new Array<DummyDB>(); // array of repo instances
-  Dummys = new Map<number, DummyDB>(); // map of repo instances
-  Dummys_batch = new Map<number, DummyDB>(); // same but only in last GET (for finding repo instances to delete)
+  Dummys_array = new Array<DummyDB>() // array of repo instances
+  Dummys = new Map<number, DummyDB>() // map of repo instances
+  Dummys_batch = new Map<number, DummyDB>() // same but only in last GET (for finding repo instances to delete)
+
+
+  getArray<Type>(): Array<Type> {
+    const token = this.getToken<Type>();
+
+    switch (token) {
+    // insertion point
+    case 'DummyDB':
+      return this.Dummys_array as unknown as Array<Type>
+    default:
+      throw new Error("Type not recognized");
+    }
+  }
+
+  // getMap allows for a get function that is robust to refactoring of the named struct name
+  getMap<Type>(): Map<number, Type> {
+    const token = this.getToken<Type>();
+
+    switch (token) {
+    // insertion point
+    case 'DummyDB':
+      return this.Dummys_array as unknown as Map<number, Type>
+    default:
+      throw new Error("Type not recognized");
+    }
+  }
+
+  // getToken allows for a get function that is robust to refactoring of the named struct name
+  private getToken<Type>(): string {
+    // insertion point
+  if (({} as Type) instanceof DummyDB) return 'DummyDB'
+    return '';
+  }
 }
 
 // the table component is called in different ways
