@@ -22,6 +22,8 @@ import { DstructService } from './dstruct.service'
 import { FstructDB } from './fstruct-db'
 import { FstructService } from './fstruct.service'
 
+const AstructDBSymbol = Symbol('AstructDB');
+const BstructDBSymbol = Symbol('BstructDB');
 
 // FrontRepo stores all instances in a front repository (design pattern repository)
 export class FrontRepo { // insertion point sub template 
@@ -43,6 +45,41 @@ export class FrontRepo { // insertion point sub template
   Fstructs_array = new Array<FstructDB>(); // array of repo instances
   Fstructs = new Map<number, FstructDB>(); // map of repo instances
   Fstructs_batch = new Map<number, FstructDB>(); // same but only in last GET (for finding repo instances to delete)
+
+  getArray<Type>(): Array<Type> {
+    const token = this.getToken<Type>();
+
+    switch (token) {
+      case 'AstructDB':
+        return this.Astructs_array as unknown as Array<Type>;
+      case 'BstructDB':
+        return this.Bstructs_array as unknown as Array<Type>;
+      // ... other cases
+      default:
+        throw new Error("Type not recognized");
+    }
+  }
+
+  getMap<Type>(): Map<number, Type> {
+    const token = this.getToken<Type>();
+
+    switch (token) {
+      case 'AstructDB':
+        return this.Astructs_array as unknown as Map<number, Type>;
+      case 'BstructDB':
+        return this.Bstructs_array as unknown as Map<number, Type>;
+      // ... other cases
+      default:
+        throw new Error("Type not recognized");
+    }
+  }
+
+  private getToken<Type>(): string {
+    if (({} as Type) instanceof AstructDB) return 'AstructDB';
+    if (({} as Type) instanceof BstructDB) return 'BstructDB';
+    // ... other type checks
+    return '';
+  }
 }
 
 // the table component is called in different ways
@@ -140,7 +177,7 @@ export class FrontRepoService {
   }
 
   // typing of observable can be messy in typescript. Therefore, one force the type
-  observableFrontRepo: [ 
+  observableFrontRepo: [
     Observable<null>, // see below for the of(null) observable
     // insertion point sub template 
     Observable<AstructDB[]>,
@@ -149,16 +186,16 @@ export class FrontRepoService {
     Observable<BstructDB[]>,
     Observable<DstructDB[]>,
     Observable<FstructDB[]>,
-  ] = [ 
-    // Using "combineLatest" with a placeholder observable.
-    //
-    // This allows the typescript compiler to pass when no GongStruct is present in the front API
-    //
-    // The "of(null)" is a "meaningless" observable that emits a single value (null) and completes.
-    // This is used as a workaround to satisfy TypeScript requirements and the "combineLatest" 
-    // expectation for a non-empty array of observables.
-    of(null), // 
-    // insertion point sub template
+  ] = [
+      // Using "combineLatest" with a placeholder observable.
+      //
+      // This allows the typescript compiler to pass when no GongStruct is present in the front API
+      //
+      // The "of(null)" is a "meaningless" observable that emits a single value (null) and completes.
+      // This is used as a workaround to satisfy TypeScript requirements and the "combineLatest" 
+      // expectation for a non-empty array of observables.
+      of(null), // 
+      // insertion point sub template
       this.astructService.getAstructs(this.GONG__StackPath),
       this.astructbstruct2useService.getAstructBstruct2Uses(this.GONG__StackPath),
       this.astructbstructuseService.getAstructBstructUses(this.GONG__StackPath),
@@ -177,7 +214,7 @@ export class FrontRepoService {
 
     this.GONG__StackPath = GONG__StackPath
 
-    this.observableFrontRepo = [ 
+    this.observableFrontRepo = [
       of(null), // see above for justification
       // insertion point sub template
       this.astructService.getAstructs(this.GONG__StackPath),
@@ -193,7 +230,7 @@ export class FrontRepoService {
         combineLatest(
           this.observableFrontRepo
         ).subscribe(
-          ([ 
+          ([
             ___of_null, // see above for the explanation about of
             // insertion point sub template for declarations 
             astructs_,
