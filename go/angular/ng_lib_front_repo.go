@@ -12,15 +12,42 @@ import (
 	"github.com/fullstack-lang/gong/go/models"
 )
 
-const NgLibFrontRepoServiceTemplate = `import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+const NgLibFrontRepoServiceTemplate = `import { Injectable } from '@angular/core'
+import { HttpClient, HttpHeaders } from '@angular/common/http'
 
-import { Observable, combineLatest, BehaviorSubject, of } from 'rxjs';
+import { Observable, combineLatest, BehaviorSubject, of } from 'rxjs'
 
 // insertion point sub template for services imports {{` + string(NgLibFrontRepoServiceImports) + `}}
 
 // FrontRepo stores all instances in a front repository (design pattern repository)
 export class FrontRepo { // insertion point sub template {{` + string(NgLibFrontRepoMapDecl) + `}}
+
+  getArray<Type>(): Array<Type> {
+    const token = this.getToken<Type>();
+
+    switch (token) {
+    // insertion point{{` + string(NgLibFrontRepoSwitchGetArray) + `}}
+    default:
+      throw new Error("Type not recognized");
+    }
+  }
+
+  // getMap allows for a get function that is robust to refactoring of the named struct name
+  getMap<Type>(): Map<number, Type> {
+    const token = this.getToken<Type>();
+
+    switch (token) {
+    // insertion point{{` + string(NgLibFrontRepoSwitchGetMap) + `}}
+    default:
+      throw new Error("Type not recognized");
+    }
+  }
+
+  // getToken allows for a get function that is robust to refactoring of the named struct name
+  private getToken<Type>(): string {
+    // insertion point{{` + string(NgLibFrontRepoSwitchGetToken) + `}}
+    return '';
+  }
 }
 
 // the table component is called in different ways
@@ -185,6 +212,9 @@ type NgLibFrontRepoServiceSubTemplate string
 const (
 	NgLibFrontRepoServiceImports       NgLibFrontRepoServiceSubTemplate = "ServiceImports"
 	NgLibFrontRepoMapDecl              NgLibFrontRepoServiceSubTemplate = "MapDecl"
+	NgLibFrontRepoSwitchGetArray       NgLibFrontRepoServiceSubTemplate = "SwitchGetArray"
+	NgLibFrontRepoSwitchGetMap         NgLibFrontRepoServiceSubTemplate = "SwitchGetMap"
+	NgLibFrontRepoSwitchGetToken       NgLibFrontRepoServiceSubTemplate = "SwitchGetToken"
 	NgLibFrontRepoObservableArrayType  NgLibFrontRepoServiceSubTemplate = "ObservableArrayType"
 	NgLibFrontRepoTypeCasting          NgLibFrontRepoServiceSubTemplate = "TypeCasting"
 	NgLibFrontRepoServiceDecl          NgLibFrontRepoServiceSubTemplate = "ServiceDecl"
@@ -206,9 +236,21 @@ import { {{Structname}}Service } from './{{structname}}.service'
 `,
 
 	string(NgLibFrontRepoMapDecl): `
-  {{Structname}}s_array = new Array<{{Structname}}DB>(); // array of repo instances
-  {{Structname}}s = new Map<number, {{Structname}}DB>(); // map of repo instances
-  {{Structname}}s_batch = new Map<number, {{Structname}}DB>(); // same but only in last GET (for finding repo instances to delete)`,
+  {{Structname}}s_array = new Array<{{Structname}}DB>() // array of repo instances
+  {{Structname}}s = new Map<number, {{Structname}}DB>() // map of repo instances
+  {{Structname}}s_batch = new Map<number, {{Structname}}DB>() // same but only in last GET (for finding repo instances to delete)
+`,
+
+	string(NgLibFrontRepoSwitchGetArray): `
+    case '{{Structname}}DB':
+      return this.{{Structname}}s_array as unknown as Array<Type>`,
+
+	string(NgLibFrontRepoSwitchGetMap): `
+    case '{{Structname}}DB':
+      return this.{{Structname}}s_array as unknown as Map<number, Type>`,
+
+	string(NgLibFrontRepoSwitchGetToken): `
+  if (({} as Type) instanceof {{Structname}}DB) return '{{Structname}}DB'`,
 
 	string(NgLibFrontRepoObservableArrayType): `
     Observable<{{Structname}}DB[]>,`,
