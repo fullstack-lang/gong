@@ -1,7 +1,7 @@
-import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Injectable } from '@angular/core'
+import { HttpClient, HttpHeaders } from '@angular/common/http'
 
-import { Observable, combineLatest, BehaviorSubject, of } from 'rxjs';
+import { Observable, combineLatest, BehaviorSubject, of } from 'rxjs'
 
 // insertion point sub template for services imports 
 import { AstructDB } from './astruct-db'
@@ -22,62 +22,88 @@ import { DstructService } from './dstruct.service'
 import { FstructDB } from './fstruct-db'
 import { FstructService } from './fstruct.service'
 
-const AstructDBSymbol = Symbol('AstructDB');
-const BstructDBSymbol = Symbol('BstructDB');
 
 // FrontRepo stores all instances in a front repository (design pattern repository)
 export class FrontRepo { // insertion point sub template 
-  Astructs_array = new Array<AstructDB>(); // array of repo instances
-  Astructs = new Map<number, AstructDB>(); // map of repo instances
-  Astructs_batch = new Map<number, AstructDB>(); // same but only in last GET (for finding repo instances to delete)
-  AstructBstruct2Uses_array = new Array<AstructBstruct2UseDB>(); // array of repo instances
-  AstructBstruct2Uses = new Map<number, AstructBstruct2UseDB>(); // map of repo instances
-  AstructBstruct2Uses_batch = new Map<number, AstructBstruct2UseDB>(); // same but only in last GET (for finding repo instances to delete)
-  AstructBstructUses_array = new Array<AstructBstructUseDB>(); // array of repo instances
-  AstructBstructUses = new Map<number, AstructBstructUseDB>(); // map of repo instances
-  AstructBstructUses_batch = new Map<number, AstructBstructUseDB>(); // same but only in last GET (for finding repo instances to delete)
-  Bstructs_array = new Array<BstructDB>(); // array of repo instances
-  Bstructs = new Map<number, BstructDB>(); // map of repo instances
-  Bstructs_batch = new Map<number, BstructDB>(); // same but only in last GET (for finding repo instances to delete)
-  Dstructs_array = new Array<DstructDB>(); // array of repo instances
-  Dstructs = new Map<number, DstructDB>(); // map of repo instances
-  Dstructs_batch = new Map<number, DstructDB>(); // same but only in last GET (for finding repo instances to delete)
-  Fstructs_array = new Array<FstructDB>(); // array of repo instances
-  Fstructs = new Map<number, FstructDB>(); // map of repo instances
-  Fstructs_batch = new Map<number, FstructDB>(); // same but only in last GET (for finding repo instances to delete)
+  Astructs_array = new Array<AstructDB>() // array of repo instances
+  Astructs = new Map<number, AstructDB>() // map of repo instances
+  Astructs_batch = new Map<number, AstructDB>() // same but only in last GET (for finding repo instances to delete)
+
+  AstructBstruct2Uses_array = new Array<AstructBstruct2UseDB>() // array of repo instances
+  AstructBstruct2Uses = new Map<number, AstructBstruct2UseDB>() // map of repo instances
+  AstructBstruct2Uses_batch = new Map<number, AstructBstruct2UseDB>() // same but only in last GET (for finding repo instances to delete)
+
+  AstructBstructUses_array = new Array<AstructBstructUseDB>() // array of repo instances
+  AstructBstructUses = new Map<number, AstructBstructUseDB>() // map of repo instances
+  AstructBstructUses_batch = new Map<number, AstructBstructUseDB>() // same but only in last GET (for finding repo instances to delete)
+
+  Bstructs_array = new Array<BstructDB>() // array of repo instances
+  Bstructs = new Map<number, BstructDB>() // map of repo instances
+  Bstructs_batch = new Map<number, BstructDB>() // same but only in last GET (for finding repo instances to delete)
+
+  Dstructs_array = new Array<DstructDB>() // array of repo instances
+  Dstructs = new Map<number, DstructDB>() // map of repo instances
+  Dstructs_batch = new Map<number, DstructDB>() // same but only in last GET (for finding repo instances to delete)
+
+  Fstructs_array = new Array<FstructDB>() // array of repo instances
+  Fstructs = new Map<number, FstructDB>() // map of repo instances
+  Fstructs_batch = new Map<number, FstructDB>() // same but only in last GET (for finding repo instances to delete)
+
 
   getArray<Type>(): Array<Type> {
     const token = this.getToken<Type>();
 
     switch (token) {
-      case 'AstructDB':
-        return this.Astructs_array as unknown as Array<Type>;
-      case 'BstructDB':
-        return this.Bstructs_array as unknown as Array<Type>;
-      // ... other cases
-      default:
-        throw new Error("Type not recognized");
+    // insertion point
+    case 'AstructDB':
+      return this.Astructs_array as unknown as Array<Type>
+    case 'AstructBstruct2UseDB':
+      return this.AstructBstruct2Uses_array as unknown as Array<Type>
+    case 'AstructBstructUseDB':
+      return this.AstructBstructUses_array as unknown as Array<Type>
+    case 'BstructDB':
+      return this.Bstructs_array as unknown as Array<Type>
+    case 'DstructDB':
+      return this.Dstructs_array as unknown as Array<Type>
+    case 'FstructDB':
+      return this.Fstructs_array as unknown as Array<Type>
+    default:
+      throw new Error("Type not recognized");
     }
   }
 
+  // getMap allows for a get function that is robust to refactoring of the named struct name
   getMap<Type>(): Map<number, Type> {
     const token = this.getToken<Type>();
 
     switch (token) {
-      case 'AstructDB':
-        return this.Astructs_array as unknown as Map<number, Type>;
-      case 'BstructDB':
-        return this.Bstructs_array as unknown as Map<number, Type>;
-      // ... other cases
-      default:
-        throw new Error("Type not recognized");
+    // insertion point
+    case 'AstructDB':
+      return this.Astructs_array as unknown as Map<number, Type>
+    case 'AstructBstruct2UseDB':
+      return this.AstructBstruct2Uses_array as unknown as Map<number, Type>
+    case 'AstructBstructUseDB':
+      return this.AstructBstructUses_array as unknown as Map<number, Type>
+    case 'BstructDB':
+      return this.Bstructs_array as unknown as Map<number, Type>
+    case 'DstructDB':
+      return this.Dstructs_array as unknown as Map<number, Type>
+    case 'FstructDB':
+      return this.Fstructs_array as unknown as Map<number, Type>
+    default:
+      throw new Error("Type not recognized");
     }
   }
 
+  // getToken allows for a get function that is robust to refactoring of the named struct name
   private getToken<Type>(): string {
-    if (({} as Type) instanceof AstructDB) return 'AstructDB';
-    if (({} as Type) instanceof BstructDB) return 'BstructDB';
-    // ... other type checks
+    // insertion point
+  if (({} as Type) instanceof AstructDB) return 'AstructDB'
+  if (({} as Type) instanceof AstructBstruct2UseDB) return 'AstructBstruct2UseDB'
+  if (({} as Type) instanceof AstructBstructUseDB) return 'AstructBstructUseDB'
+  if (({} as Type) instanceof BstructDB) return 'BstructDB'
+  if (({} as Type) instanceof DstructDB) return 'DstructDB'
+  if (({} as Type) instanceof FstructDB) return 'FstructDB'
     return '';
   }
 }
@@ -177,7 +203,7 @@ export class FrontRepoService {
   }
 
   // typing of observable can be messy in typescript. Therefore, one force the type
-  observableFrontRepo: [
+  observableFrontRepo: [ 
     Observable<null>, // see below for the of(null) observable
     // insertion point sub template 
     Observable<AstructDB[]>,
@@ -186,16 +212,16 @@ export class FrontRepoService {
     Observable<BstructDB[]>,
     Observable<DstructDB[]>,
     Observable<FstructDB[]>,
-  ] = [
-      // Using "combineLatest" with a placeholder observable.
-      //
-      // This allows the typescript compiler to pass when no GongStruct is present in the front API
-      //
-      // The "of(null)" is a "meaningless" observable that emits a single value (null) and completes.
-      // This is used as a workaround to satisfy TypeScript requirements and the "combineLatest" 
-      // expectation for a non-empty array of observables.
-      of(null), // 
-      // insertion point sub template
+  ] = [ 
+    // Using "combineLatest" with a placeholder observable.
+    //
+    // This allows the typescript compiler to pass when no GongStruct is present in the front API
+    //
+    // The "of(null)" is a "meaningless" observable that emits a single value (null) and completes.
+    // This is used as a workaround to satisfy TypeScript requirements and the "combineLatest" 
+    // expectation for a non-empty array of observables.
+    of(null), // 
+    // insertion point sub template
       this.astructService.getAstructs(this.GONG__StackPath),
       this.astructbstruct2useService.getAstructBstruct2Uses(this.GONG__StackPath),
       this.astructbstructuseService.getAstructBstructUses(this.GONG__StackPath),
@@ -214,7 +240,7 @@ export class FrontRepoService {
 
     this.GONG__StackPath = GONG__StackPath
 
-    this.observableFrontRepo = [
+    this.observableFrontRepo = [ 
       of(null), // see above for justification
       // insertion point sub template
       this.astructService.getAstructs(this.GONG__StackPath),
@@ -230,7 +256,7 @@ export class FrontRepoService {
         combineLatest(
           this.observableFrontRepo
         ).subscribe(
-          ([
+          ([ 
             ___of_null, // see above for the explanation about of
             // insertion point sub template for declarations 
             astructs_,
