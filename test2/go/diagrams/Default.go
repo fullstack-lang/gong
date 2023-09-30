@@ -27,9 +27,9 @@ var ___dummy__ref_models_Default ref_models.StageStruct
 var map_DocLink_Identifier_Default map[string]any = map[string]any{
 	// injection point for docLink to identifiers
 
-	"ref_models.Dummy": &(ref_models.Dummy{}),
+	"ref_models.Dummy": &(ref_models.A{}),
 
-	"ref_models.Dummy.Name": (ref_models.Dummy{}).Name,
+	"ref_models.Dummy.Name": (ref_models.A{}).Name,
 }
 
 // init might be handy if one want to have the data embedded in the binary
@@ -79,5 +79,3 @@ func DefaultInjection(stage *models.StageStruct) {
 
 	// Setup of pointers
 }
-
-

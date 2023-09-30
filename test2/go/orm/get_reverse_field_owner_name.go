@@ -14,14 +14,14 @@ func GetReverseFieldOwnerName[T models.Gongstruct](
 	res = ""
 	switch inst := any(instance).(type) {
 	// insertion point
-	case *models.Dummy:
-		tmp := GetInstanceDBFromInstance[models.Dummy, DummyDB](
+	case *models.A:
+		tmp := GetInstanceDBFromInstance[models.A, ADB](
 			stage, backRepo, inst,
 		)
 		_ = tmp
 		switch reverseField.GongstructName {
 		// insertion point
-		case "Dummy":
+		case "A":
 			switch reverseField.Fieldname {
 			}
 		}
@@ -41,14 +41,14 @@ func GetReverseFieldOwner[T models.Gongstruct](
 	res = nil
 	switch inst := any(instance).(type) {
 	// insertion point
-	case *models.Dummy:
-		tmp := GetInstanceDBFromInstance[models.Dummy, DummyDB](
+	case *models.A:
+		tmp := GetInstanceDBFromInstance[models.A, ADB](
 			stage, backRepo, inst,
 		)
 		_ = tmp
 		switch reverseField.GongstructName {
 		// insertion point
-		case "Dummy":
+		case "A":
 			switch reverseField.Fieldname {
 			}
 		}

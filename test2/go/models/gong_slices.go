@@ -33,7 +33,7 @@ func EvictInOtherSlices[OwningType PointerToGongstruct, FieldType PointerToGongs
 
 	switch owningInstanceInfered := any(owningInstance).(type) {
 	// insertion point
-	case *Dummy:
+	case *A:
 		// insertion point per field
 
 	default:

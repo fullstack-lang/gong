@@ -3,9 +3,9 @@
 // usefull for managing pointer ID values that can be nullable
 import { NullInt64 } from './null-int64'
 
-export class DummyDB {
+export class ADB {
 
-	static GONGSTRUCT_NAME = "Dummy"
+	static GONGSTRUCT_NAME = "A"
 
 	CreatedAt?: string
 	DeletedAt?: string

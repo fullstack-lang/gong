@@ -28,7 +28,6 @@ func NewStackInstance(
 	stage *models.StageStruct,
 	backRepo *orm.BackRepoStruct) {
 
-	// temporary
 	stage = models.NewStage(stackPath)
 
 	if len(filenames) == 0 {

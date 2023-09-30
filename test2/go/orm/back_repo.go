@@ -21,7 +21,7 @@ import (
 // BackRepoStruct supports callback functions
 type BackRepoStruct struct {
 	// insertion point for per struct back repo declarations
-	BackRepoDummy BackRepoDummyStruct
+	BackRepoA BackRepoAStruct
 
 	CommitFromBackNb uint // records commit increments when performed by the back
 
@@ -59,7 +59,7 @@ func NewBackRepo(stage *models.StageStruct, filename string) (backRepo *BackRepo
 	}
 
 	err = db.AutoMigrate( // insertion point for reference to structs
-		&DummyDB{},
+		&ADB{},
 	)
 
 	if err != nil {
@@ -70,10 +70,10 @@ func NewBackRepo(stage *models.StageStruct, filename string) (backRepo *BackRepo
 	backRepo = new(BackRepoStruct)
 
 	// insertion point for per struct back repo declarations
-	backRepo.BackRepoDummy = BackRepoDummyStruct{
-		Map_DummyDBID_DummyPtr: make(map[uint]*models.Dummy, 0),
-		Map_DummyDBID_DummyDB:  make(map[uint]*DummyDB, 0),
-		Map_DummyPtr_DummyDBID: make(map[*models.Dummy]uint, 0),
+	backRepo.BackRepoA = BackRepoAStruct{
+		Map_ADBID_APtr: make(map[uint]*models.A, 0),
+		Map_ADBID_ADB:  make(map[uint]*ADB, 0),
+		Map_APtr_ADBID: make(map[*models.A]uint, 0),
 
 		db:    db,
 		stage: stage,
@@ -123,13 +123,13 @@ func (backRepo *BackRepoStruct) IncrementPushFromFrontNb() uint {
 // Commit the BackRepoStruct inner variables and link to the database
 func (backRepo *BackRepoStruct) Commit(stage *models.StageStruct) {
 	// insertion point for per struct back repo phase one commit
-	backRepo.BackRepoDummy.CommitPhaseOne(stage)
+	backRepo.BackRepoA.CommitPhaseOne(stage)
 
 	// insertion point for per struct back repo for reseting the reverse pointers
-	backRepo.BackRepoDummy.ResetReversePointers(backRepo)
+	backRepo.BackRepoA.ResetReversePointers(backRepo)
 
 	// insertion point for per struct back repo phase two commit
-	backRepo.BackRepoDummy.CommitPhaseTwo(backRepo)
+	backRepo.BackRepoA.CommitPhaseTwo(backRepo)
 
 	backRepo.IncrementCommitFromBackNb()
 }
@@ -137,10 +137,10 @@ func (backRepo *BackRepoStruct) Commit(stage *models.StageStruct) {
 // Checkout the database into the stage
 func (backRepo *BackRepoStruct) Checkout(stage *models.StageStruct) {
 	// insertion point for per struct back repo phase one commit
-	backRepo.BackRepoDummy.CheckoutPhaseOne()
+	backRepo.BackRepoA.CheckoutPhaseOne()
 
 	// insertion point for per struct back repo phase two commit
-	backRepo.BackRepoDummy.CheckoutPhaseTwo(backRepo)
+	backRepo.BackRepoA.CheckoutPhaseTwo(backRepo)
 }
 
 // Backup the BackRepoStruct
@@ -148,7 +148,7 @@ func (backRepo *BackRepoStruct) Backup(stage *models.StageStruct, dirPath string
 	os.MkdirAll(dirPath, os.ModePerm)
 
 	// insertion point for per struct backup
-	backRepo.BackRepoDummy.Backup(dirPath)
+	backRepo.BackRepoA.Backup(dirPath)
 }
 
 // Backup in XL the BackRepoStruct
@@ -159,7 +159,7 @@ func (backRepo *BackRepoStruct) BackupXL(stage *models.StageStruct, dirPath stri
 	file := xlsx.NewFile()
 
 	// insertion point for per struct backup
-	backRepo.BackRepoDummy.BackupXL(file)
+	backRepo.BackRepoA.BackupXL(file)
 
 	var b bytes.Buffer
 	writer := bufio.NewWriter(&b)
@@ -184,14 +184,14 @@ func (backRepo *BackRepoStruct) Restore(stage *models.StageStruct, dirPath strin
 	//
 
 	// insertion point for per struct backup
-	backRepo.BackRepoDummy.RestorePhaseOne(dirPath)
+	backRepo.BackRepoA.RestorePhaseOne(dirPath)
 
 	//
 	// restauration second phase (reindex pointers with the new ID)
 	//
 
 	// insertion point for per struct backup
-	backRepo.BackRepoDummy.RestorePhaseTwo()
+	backRepo.BackRepoA.RestorePhaseTwo()
 
 	backRepo.stage.Checkout()
 }
@@ -219,7 +219,7 @@ func (backRepo *BackRepoStruct) RestoreXL(stage *models.StageStruct, dirPath str
 	//
 
 	// insertion point for per struct backup
-	backRepo.BackRepoDummy.RestoreXLPhaseOne(file)
+	backRepo.BackRepoA.RestoreXLPhaseOne(file)
 
 	// commit the restored stage
 	backRepo.stage.Commit()

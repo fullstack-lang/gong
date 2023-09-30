@@ -18,21 +18,21 @@ var __dummmy__letters = slices.Delete([]string{"a"}, 0, 1)
 var __dummy_orm = orm.BackRepoStruct{}
 
 // insertion point
-func __gong__New__DummyFormCallback(
-	dummy *models.Dummy,
+func __gong__New__AFormCallback(
+	a *models.A,
 	playground *Playground,
-) (dummyFormCallback *DummyFormCallback) {
-	dummyFormCallback = new(DummyFormCallback)
-	dummyFormCallback.playground = playground
-	dummyFormCallback.dummy = dummy
+) (aFormCallback *AFormCallback) {
+	aFormCallback = new(AFormCallback)
+	aFormCallback.playground = playground
+	aFormCallback.a = a
 
-	dummyFormCallback.CreationMode = (dummy == nil)
+	aFormCallback.CreationMode = (a == nil)
 
 	return
 }
 
-type DummyFormCallback struct {
-	dummy *models.Dummy
+type AFormCallback struct {
+	a *models.A
 
 	// If the form call is called on the creation of a new instnace
 	CreationMode bool
@@ -40,51 +40,51 @@ type DummyFormCallback struct {
 	playground *Playground
 }
 
-func (dummyFormCallback *DummyFormCallback) OnSave() {
+func (aFormCallback *AFormCallback) OnSave() {
 
-	log.Println("DummyFormCallback, OnSave")
+	log.Println("AFormCallback, OnSave")
 
 	// checkout formStage to have the form group on the stage synchronized with the
 	// back repo (and front repo)
-	dummyFormCallback.playground.formStage.Checkout()
+	aFormCallback.playground.formStage.Checkout()
 
-	if dummyFormCallback.dummy == nil {
-		dummyFormCallback.dummy = new(models.Dummy).Stage(dummyFormCallback.playground.stageOfInterest)
+	if aFormCallback.a == nil {
+		aFormCallback.a = new(models.A).Stage(aFormCallback.playground.stageOfInterest)
 	}
-	dummy_ := dummyFormCallback.dummy
-	_ = dummy_
+	a_ := aFormCallback.a
+	_ = a_
 
 	// get the formGroup
-	formGroup := dummyFormCallback.playground.formStage.FormGroups_mapString[table.FormGroupDefaultName.ToString()]
+	formGroup := aFormCallback.playground.formStage.FormGroups_mapString[table.FormGroupDefaultName.ToString()]
 
 	for _, formDiv := range formGroup.FormDivs {
 		switch formDiv.Name {
 		// insertion point per field
 		case "Name":
-			FormDivBasicFieldToField(&(dummy_.Name), formDiv)
+			FormDivBasicFieldToField(&(a_.Name), formDiv)
 		}
 	}
 
-	dummyFormCallback.playground.stageOfInterest.Commit()
-	fillUpTable[models.Dummy](
-		dummyFormCallback.playground,
+	aFormCallback.playground.stageOfInterest.Commit()
+	fillUpTable[models.A](
+		aFormCallback.playground,
 	)
-	dummyFormCallback.playground.tableStage.Commit()
+	aFormCallback.playground.tableStage.Commit()
 
 	// display a new form by reset the form stage
-	if dummyFormCallback.CreationMode {
-		dummyFormCallback.playground.formStage.Reset()
+	if aFormCallback.CreationMode {
+		aFormCallback.playground.formStage.Reset()
 		newFormGroup := (&table.FormGroup{
 			Name: table.FormGroupDefaultName.ToString(),
-			OnSave: __gong__New__DummyFormCallback(
+			OnSave: __gong__New__AFormCallback(
 				nil,
-				dummyFormCallback.playground,
+				aFormCallback.playground,
 			),
-		}).Stage(dummyFormCallback.playground.formStage)
-		dummy := new(models.Dummy)
-		FillUpForm(dummy, newFormGroup, dummyFormCallback.playground)
-		dummyFormCallback.playground.formStage.Commit()
+		}).Stage(aFormCallback.playground.formStage)
+		a := new(models.A)
+		FillUpForm(a, newFormGroup, aFormCallback.playground)
+		aFormCallback.playground.formStage.Commit()
 	}
 
-	fillUpTree(dummyFormCallback.playground)
+	fillUpTree(aFormCallback.playground)
 }

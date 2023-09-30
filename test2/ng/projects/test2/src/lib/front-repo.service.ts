@@ -4,15 +4,15 @@ import { HttpClient, HttpHeaders } from '@angular/common/http'
 import { Observable, combineLatest, BehaviorSubject, of } from 'rxjs'
 
 // insertion point sub template for services imports
-import { DummyDB } from './dummy-db'
-import { DummyService } from './dummy.service'
+import { ADB } from './a-db'
+import { AService } from './a.service'
 
 
 // FrontRepo stores all instances in a front repository (design pattern repository)
 export class FrontRepo { // insertion point sub template
-  Dummys_array = new Array<DummyDB>() // array of repo instances
-  Dummys = new Map<number, DummyDB>() // map of repo instances
-  Dummys_batch = new Map<number, DummyDB>() // same but only in last GET (for finding repo instances to delete)
+  As_array = new Array<ADB>() // array of repo instances
+  As = new Map<number, ADB>() // map of repo instances
+  As_batch = new Map<number, ADB>() // same but only in last GET (for finding repo instances to delete)
 
 
   // getArray allows for a get function that is robust to refactoring of the named struct name
@@ -21,8 +21,8 @@ export class FrontRepo { // insertion point sub template
   getArray<Type>(gongStructName: string): Array<Type> {
     switch (gongStructName) {
       // insertion point
-      case 'Dummy':
-        return this.Dummys_array as unknown as Array<Type>
+      case 'A':
+        return this.As_array as unknown as Array<Type>
       default:
         throw new Error("Type not recognized");
     }
@@ -32,8 +32,8 @@ export class FrontRepo { // insertion point sub template
   getMap<Type>(gongStructName: string): Map<number, Type> {
     switch (gongStructName) {
       // insertion point
-      case 'Dummy':
-        return this.Dummys_array as unknown as Map<number, Type>
+      case 'A':
+        return this.As_array as unknown as Map<number, Type>
       default:
         throw new Error("Type not recognized");
     }
@@ -100,7 +100,7 @@ export class FrontRepoService {
 
   constructor(
     private http: HttpClient, // insertion point sub template 
-    private dummyService: DummyService,
+    private aService: AService,
   ) { }
 
   // postService provides a post function for each struct name
@@ -133,7 +133,7 @@ export class FrontRepoService {
   observableFrontRepo: [
     Observable<null>, // see below for the of(null) observable
     // insertion point sub template 
-    Observable<DummyDB[]>,
+    Observable<ADB[]>,
   ] = [
       // Using "combineLatest" with a placeholder observable.
       //
@@ -144,7 +144,7 @@ export class FrontRepoService {
       // expectation for a non-empty array of observables.
       of(null), // 
       // insertion point sub template
-      this.dummyService.getDummys(this.GONG__StackPath),
+      this.aService.getAs(this.GONG__StackPath),
     ];
 
   //
@@ -160,7 +160,7 @@ export class FrontRepoService {
     this.observableFrontRepo = [
       of(null), // see above for justification
       // insertion point sub template
-      this.dummyService.getDummys(this.GONG__StackPath),
+      this.aService.getAs(this.GONG__StackPath),
     ]
 
     return new Observable<FrontRepo>(
@@ -171,40 +171,40 @@ export class FrontRepoService {
           ([
             ___of_null, // see above for the explanation about of
             // insertion point sub template for declarations 
-            dummys_,
+            as_,
           ]) => {
             // Typing can be messy with many items. Therefore, type casting is necessary here
             // insertion point sub template for type casting 
-            var dummys: DummyDB[]
-            dummys = dummys_ as DummyDB[]
+            var as: ADB[]
+            as = as_ as ADB[]
 
             // 
             // First Step: init map of instances
             // insertion point sub template for init 
             // init the array
-            this.frontRepo.Dummys_array = dummys
+            this.frontRepo.As_array = as
 
-            // clear the map that counts Dummy in the GET
-            this.frontRepo.Dummys_batch.clear()
+            // clear the map that counts A in the GET
+            this.frontRepo.As_batch.clear()
 
-            dummys.forEach(
-              dummy => {
-                this.frontRepo.Dummys.set(dummy.ID, dummy)
-                this.frontRepo.Dummys_batch.set(dummy.ID, dummy)
+            as.forEach(
+              a => {
+                this.frontRepo.As.set(a.ID, a)
+                this.frontRepo.As_batch.set(a.ID, a)
               }
             )
 
-            // clear dummys that are absent from the batch
-            this.frontRepo.Dummys.forEach(
-              dummy => {
-                if (this.frontRepo.Dummys_batch.get(dummy.ID) == undefined) {
-                  this.frontRepo.Dummys.delete(dummy.ID)
+            // clear as that are absent from the batch
+            this.frontRepo.As.forEach(
+              a => {
+                if (this.frontRepo.As_batch.get(a.ID) == undefined) {
+                  this.frontRepo.As.delete(a.ID)
                 }
               }
             )
 
-            // sort Dummys_array array
-            this.frontRepo.Dummys_array.sort((t1, t2) => {
+            // sort As_array array
+            this.frontRepo.As_array.sort((t1, t2) => {
               if (t1.Name > t2.Name) {
                 return 1;
               }
@@ -218,8 +218,8 @@ export class FrontRepoService {
             // 
             // Second Step: redeem pointers between instances (thanks to maps in the First Step)
             // insertion point sub template for redeem 
-            dummys.forEach(
-              dummy => {
+            as.forEach(
+              a => {
                 // insertion point sub sub template for ONE-/ZERO-ONE associations pointers redeeming
 
                 // insertion point for redeeming ONE-MANY associations
@@ -229,8 +229,8 @@ export class FrontRepoService {
             // 
             // Third Step: sort arrays (slices in go) according to their index
             // insertion point sub template for redeem 
-            dummys.forEach(
-              dummy => {
+            as.forEach(
+              a => {
                 // insertion point for sorting
               }
             )
@@ -245,29 +245,29 @@ export class FrontRepoService {
 
   // insertion point for pull per struct 
 
-  // DummyPull performs a GET on Dummy of the stack and redeem association pointers 
-  DummyPull(): Observable<FrontRepo> {
+  // APull performs a GET on A of the stack and redeem association pointers 
+  APull(): Observable<FrontRepo> {
     return new Observable<FrontRepo>(
       (observer) => {
         combineLatest([
-          this.dummyService.getDummys(this.GONG__StackPath)
+          this.aService.getAs(this.GONG__StackPath)
         ]).subscribe(
           ([ // insertion point sub template 
-            dummys,
+            as,
           ]) => {
             // init the array
-            this.frontRepo.Dummys_array = dummys
+            this.frontRepo.As_array = as
 
-            // clear the map that counts Dummy in the GET
-            this.frontRepo.Dummys_batch.clear()
+            // clear the map that counts A in the GET
+            this.frontRepo.As_batch.clear()
 
             // 
             // First Step: init map of instances
             // insertion point sub template 
-            dummys.forEach(
-              dummy => {
-                this.frontRepo.Dummys.set(dummy.ID, dummy)
-                this.frontRepo.Dummys_batch.set(dummy.ID, dummy)
+            as.forEach(
+              a => {
+                this.frontRepo.As.set(a.ID, a)
+                this.frontRepo.As_batch.set(a.ID, a)
 
                 // insertion point for redeeming ONE/ZERO-ONE associations
 
@@ -275,11 +275,11 @@ export class FrontRepoService {
               }
             )
 
-            // clear dummys that are absent from the GET
-            this.frontRepo.Dummys.forEach(
-              dummy => {
-                if (this.frontRepo.Dummys_batch.get(dummy.ID) == undefined) {
-                  this.frontRepo.Dummys.delete(dummy.ID)
+            // clear as that are absent from the GET
+            this.frontRepo.As.forEach(
+              a => {
+                if (this.frontRepo.As_batch.get(a.ID) == undefined) {
+                  this.frontRepo.As.delete(a.ID)
                 }
               }
             )
@@ -298,6 +298,6 @@ export class FrontRepoService {
 }
 
 // insertion point for get unique ID per struct 
-export function getDummyUniqueID(id: number): number {
+export function getAUniqueID(id: number): number {
   return 31 * id
 }

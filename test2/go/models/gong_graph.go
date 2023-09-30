@@ -5,8 +5,8 @@ func IsStaged[Type Gongstruct](stage *StageStruct, instance *Type) (ok bool) {
 
 	switch target := any(instance).(type) {
 	// insertion point for stage
-	case *Dummy:
-		ok = stage.IsStagedDummy(target)
+	case *A:
+		ok = stage.IsStagedA(target)
 
 	default:
 		_ = target
@@ -15,9 +15,9 @@ func IsStaged[Type Gongstruct](stage *StageStruct, instance *Type) (ok bool) {
 }
 
 // insertion point for stage per struct
-	func (stage *StageStruct) IsStagedDummy(dummy *Dummy) (ok bool) {
+	func (stage *StageStruct) IsStagedA(a *A) (ok bool) {
 
-		_, ok = stage.Dummys[dummy]
+		_, ok = stage.As[a]
 	
 		return
 	}
@@ -31,8 +31,8 @@ func StageBranch[Type Gongstruct](stage *StageStruct, instance *Type) {
 
 	switch target := any(instance).(type) {
 	// insertion point for stage branch
-	case *Dummy:
-		stage.StageBranchDummy(target)
+	case *A:
+		stage.StageBranchA(target)
 
 	default:
 		_ = target
@@ -40,14 +40,14 @@ func StageBranch[Type Gongstruct](stage *StageStruct, instance *Type) {
 }
 
 // insertion point for stage branch per struct
-func (stage *StageStruct) StageBranchDummy(dummy *Dummy) {
+func (stage *StageStruct) StageBranchA(a *A) {
 
 	// check if instance is already staged
-	if IsStaged(stage, dummy) {
+	if IsStaged(stage, a) {
 		return
 	}
 
-	dummy.Stage(stage)
+	a.Stage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -64,8 +64,8 @@ func UnstageBranch[Type Gongstruct](stage *StageStruct, instance *Type) {
 
 	switch target := any(instance).(type) {
 	// insertion point for unstage branch
-	case *Dummy:
-		stage.UnstageBranchDummy(target)
+	case *A:
+		stage.UnstageBranchA(target)
 
 	default:
 		_ = target
@@ -73,14 +73,14 @@ func UnstageBranch[Type Gongstruct](stage *StageStruct, instance *Type) {
 }
 
 // insertion point for unstage branch per struct
-func (stage *StageStruct) UnstageBranchDummy(dummy *Dummy) {
+func (stage *StageStruct) UnstageBranchA(a *A) {
 
 	// check if instance is already staged
-	if ! IsStaged(stage, dummy) {
+	if ! IsStaged(stage, a) {
 		return
 	}
 
-	dummy.Unstage(stage)
+	a.Unstage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
 
