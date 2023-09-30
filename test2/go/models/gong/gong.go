@@ -13,15 +13,15 @@ type StageStruct struct {
 }
 
 type Models struct {
-	models.StageStruct
+	*models.StageStruct
 }
 
 type X struct {
-	x.StageStruct
+	*x.StageStruct
 }
 
 type Y struct {
-	y.StageStruct
+	*y.StageStruct
 }
 
 func Dummy() {
@@ -34,4 +34,14 @@ func Dummy() {
 	stage.Models.As[a] = true
 	stage.X.X_As[a_c] = true
 
+}
+
+func NewStage(path string) (stage *StageStruct) {
+
+	stage = new(StageStruct)
+	stage.Models.StageStruct = models.NewStage(path)
+	stage.X.StageStruct = x.NewStage(path)
+	stage.Y.StageStruct = y.NewStage(path)
+
+	return
 }
