@@ -61,6 +61,7 @@ func Load(
 
 	diagramPackageCallbackSingloton := new(DiagramPackageCallbacksSingloton)
 	diagramPackageCallbackSingloton.gongtreeStage = gongtreeStage
+	diagramPackageCallbackSingloton.gongStage = gongStage
 	gongdocStage.OnAfterDiagramPackageUpdateCallback = diagramPackageCallbackSingloton
 
 	modelPackage, _ := gong_models.LoadEmbedded(gongStage, goModelsDir)

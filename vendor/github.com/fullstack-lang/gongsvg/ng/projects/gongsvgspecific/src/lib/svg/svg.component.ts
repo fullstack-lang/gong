@@ -76,7 +76,8 @@ export class SvgComponent implements OnInit, OnDestroy {
           // console.log('SvgComponent, Mouse down event occurred on rectangle ', rectangleID, " at ", coordinate)
           this.linkStartRectangleID = shapeMouseEvent.ShapeID
 
-          let rect = this.gongsvgFrontRepo?.Rects.get(shapeMouseEvent.ShapeID)
+          // refactorable of Rect name
+          let rect = this.gongsvgFrontRepo?.getMap<gongsvg.RectDB>(gongsvg.RectDB.GONGSTRUCT_NAME).get(shapeMouseEvent.ShapeID)
 
           if (rect == undefined) {
             return
@@ -189,8 +190,8 @@ export class SvgComponent implements OnInit, OnDestroy {
       gongsvgsFrontRepo => {
         this.gongsvgFrontRepo = gongsvgsFrontRepo
 
-        if (this.gongsvgFrontRepo.SVGs_array.length == 1) {
-          this.svg = this.gongsvgFrontRepo.SVGs_array[0]
+        if (this.gongsvgFrontRepo.getArray(gongsvg.SVGDB.GONGSTRUCT_NAME).length == 1) {
+          this.svg = this.gongsvgFrontRepo.getArray<gongsvg.SVGDB>(gongsvg.SVGDB.GONGSTRUCT_NAME)[0]
 
           // set the isEditable
           this.isEditableService.setIsEditable(this.svg!.IsEditable)
@@ -227,7 +228,7 @@ export class SvgComponent implements OnInit, OnDestroy {
 
   onEndOfLinkDrawing(startRectangleID: number, endRectangleID: number) {
 
-    let svgArray = this.gongsvgFrontRepo?.SVGs_array
+    let svgArray = this.gongsvgFrontRepo?.getArray<gongsvg.SVGDB>(gongsvg.SVGDB.GONGSTRUCT_NAME)
     // update the svg
     if (svgArray?.length == 1) {
       this.svg = svgArray[0]

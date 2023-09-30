@@ -10,16 +10,17 @@ import (
 )
 
 func Reload(
+	gongStage *gong_models.StageStruct,
 	gongdocStage *gongdoc_models.StageStruct,
 	gongtreeStage *gongtree_models.StageStruct,
 	diagramPackage *gongdoc_models.DiagramPackage,
 ) {
 
-	gong_models.GetDefaultStage().Checkout()
-	gong_models.GetDefaultStage().Reset()
-	modelPkg, _ := gong_models.LoadSource(gong_models.GetDefaultStage(),
+	gongStage.Checkout()
+	gongStage.Reset()
+	modelPkg, _ := gong_models.LoadSource(gongStage,
 		filepath.Join(diagramPackage.AbsolutePathToDiagramPackage, "../models"))
-	gong_models.GetDefaultStage().Commit()
+	gongStage.Commit()
 
 	diagramPackage.Stage_.Checkout()
 	diagramPackage.Stage_.Reset()
@@ -37,7 +38,7 @@ func Reload(
 		modelPkg, true)
 
 	// to be removed after fix of [issue](https://github.com/golang/go/issues/57559)
-	gongdoc_models.SetupMapDocLinkRenaming(gong_models.GetDefaultStage(), diagramPackage.Stage_)
+	gongdoc_models.SetupMapDocLinkRenaming(gongStage, diagramPackage.Stage_)
 	// end of the be removed
 	gongdoc_node2gongdoc.FillUpNodeTree(gongdocStage, gongtreeStage, diagramPackage)
 	diagramPackage.Stage_.Commit()

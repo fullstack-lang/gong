@@ -42,6 +42,10 @@ export class FormFieldDateTimeService {
   }
 
   /** GET formfielddatetimes from the server */
+  // gets is more robust to refactoring
+  gets(GONG__StackPath: string): Observable<FormFieldDateTimeDB[]> {
+    return this.getFormFieldDateTimes(GONG__StackPath)
+  }
   getFormFieldDateTimes(GONG__StackPath: string): Observable<FormFieldDateTimeDB[]> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
@@ -55,6 +59,10 @@ export class FormFieldDateTimeService {
   }
 
   /** GET formfielddatetime by id. Will 404 if id not found */
+  // more robust API to refactoring
+  get(id: number, GONG__StackPath: string): Observable<FormFieldDateTimeDB> {
+	return this.getFormFieldDateTime(id, GONG__StackPath)
+  }
   getFormFieldDateTime(id: number, GONG__StackPath: string): Observable<FormFieldDateTimeDB> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
@@ -67,6 +75,9 @@ export class FormFieldDateTimeService {
   }
 
   /** POST: add a new formfielddatetime to the server */
+  post(formfielddatetimedb: FormFieldDateTimeDB, GONG__StackPath: string): Observable<FormFieldDateTimeDB> {
+    return this.postFormFieldDateTime(formfielddatetimedb, GONG__StackPath)	
+  }
   postFormFieldDateTime(formfielddatetimedb: FormFieldDateTimeDB, GONG__StackPath: string): Observable<FormFieldDateTimeDB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
@@ -87,6 +98,9 @@ export class FormFieldDateTimeService {
   }
 
   /** DELETE: delete the formfielddatetimedb from the server */
+  delete(formfielddatetimedb: FormFieldDateTimeDB | number, GONG__StackPath: string): Observable<FormFieldDateTimeDB> {
+    return this.deleteFormFieldDateTime(formfielddatetimedb, GONG__StackPath)
+  }
   deleteFormFieldDateTime(formfielddatetimedb: FormFieldDateTimeDB | number, GONG__StackPath: string): Observable<FormFieldDateTimeDB> {
     const id = typeof formfielddatetimedb === 'number' ? formfielddatetimedb : formfielddatetimedb.ID;
     const url = `${this.formfielddatetimesUrl}/${id}`;
@@ -104,6 +118,9 @@ export class FormFieldDateTimeService {
   }
 
   /** PUT: update the formfielddatetimedb on the server */
+  update(formfielddatetimedb: FormFieldDateTimeDB, GONG__StackPath: string): Observable<FormFieldDateTimeDB> {
+    return this.updateFormFieldDateTime(formfielddatetimedb, GONG__StackPath)
+  }
   updateFormFieldDateTime(formfielddatetimedb: FormFieldDateTimeDB, GONG__StackPath: string): Observable<FormFieldDateTimeDB> {
     const id = typeof formfielddatetimedb === 'number' ? formfielddatetimedb : formfielddatetimedb.ID;
     const url = `${this.formfielddatetimesUrl}/${id}`;

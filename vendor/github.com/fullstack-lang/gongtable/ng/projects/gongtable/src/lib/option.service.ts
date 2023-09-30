@@ -43,6 +43,10 @@ export class OptionService {
   }
 
   /** GET options from the server */
+  // gets is more robust to refactoring
+  gets(GONG__StackPath: string): Observable<OptionDB[]> {
+    return this.getOptions(GONG__StackPath)
+  }
   getOptions(GONG__StackPath: string): Observable<OptionDB[]> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
@@ -56,6 +60,10 @@ export class OptionService {
   }
 
   /** GET option by id. Will 404 if id not found */
+  // more robust API to refactoring
+  get(id: number, GONG__StackPath: string): Observable<OptionDB> {
+	return this.getOption(id, GONG__StackPath)
+  }
   getOption(id: number, GONG__StackPath: string): Observable<OptionDB> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
@@ -68,6 +76,9 @@ export class OptionService {
   }
 
   /** POST: add a new option to the server */
+  post(optiondb: OptionDB, GONG__StackPath: string): Observable<OptionDB> {
+    return this.postOption(optiondb, GONG__StackPath)	
+  }
   postOption(optiondb: OptionDB, GONG__StackPath: string): Observable<OptionDB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
@@ -91,6 +102,9 @@ export class OptionService {
   }
 
   /** DELETE: delete the optiondb from the server */
+  delete(optiondb: OptionDB | number, GONG__StackPath: string): Observable<OptionDB> {
+    return this.deleteOption(optiondb, GONG__StackPath)
+  }
   deleteOption(optiondb: OptionDB | number, GONG__StackPath: string): Observable<OptionDB> {
     const id = typeof optiondb === 'number' ? optiondb : optiondb.ID;
     const url = `${this.optionsUrl}/${id}`;
@@ -108,6 +122,9 @@ export class OptionService {
   }
 
   /** PUT: update the optiondb on the server */
+  update(optiondb: OptionDB, GONG__StackPath: string): Observable<OptionDB> {
+    return this.updateOption(optiondb, GONG__StackPath)
+  }
   updateOption(optiondb: OptionDB, GONG__StackPath: string): Observable<OptionDB> {
     const id = typeof optiondb === 'number' ? optiondb : optiondb.ID;
     const url = `${this.optionsUrl}/${id}`;

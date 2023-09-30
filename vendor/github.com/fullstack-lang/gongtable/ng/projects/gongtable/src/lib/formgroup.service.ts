@@ -42,6 +42,10 @@ export class FormGroupService {
   }
 
   /** GET formgroups from the server */
+  // gets is more robust to refactoring
+  gets(GONG__StackPath: string): Observable<FormGroupDB[]> {
+    return this.getFormGroups(GONG__StackPath)
+  }
   getFormGroups(GONG__StackPath: string): Observable<FormGroupDB[]> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
@@ -55,6 +59,10 @@ export class FormGroupService {
   }
 
   /** GET formgroup by id. Will 404 if id not found */
+  // more robust API to refactoring
+  get(id: number, GONG__StackPath: string): Observable<FormGroupDB> {
+	return this.getFormGroup(id, GONG__StackPath)
+  }
   getFormGroup(id: number, GONG__StackPath: string): Observable<FormGroupDB> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
@@ -67,6 +75,9 @@ export class FormGroupService {
   }
 
   /** POST: add a new formgroup to the server */
+  post(formgroupdb: FormGroupDB, GONG__StackPath: string): Observable<FormGroupDB> {
+    return this.postFormGroup(formgroupdb, GONG__StackPath)	
+  }
   postFormGroup(formgroupdb: FormGroupDB, GONG__StackPath: string): Observable<FormGroupDB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
@@ -90,6 +101,9 @@ export class FormGroupService {
   }
 
   /** DELETE: delete the formgroupdb from the server */
+  delete(formgroupdb: FormGroupDB | number, GONG__StackPath: string): Observable<FormGroupDB> {
+    return this.deleteFormGroup(formgroupdb, GONG__StackPath)
+  }
   deleteFormGroup(formgroupdb: FormGroupDB | number, GONG__StackPath: string): Observable<FormGroupDB> {
     const id = typeof formgroupdb === 'number' ? formgroupdb : formgroupdb.ID;
     const url = `${this.formgroupsUrl}/${id}`;
@@ -107,6 +121,9 @@ export class FormGroupService {
   }
 
   /** PUT: update the formgroupdb on the server */
+  update(formgroupdb: FormGroupDB, GONG__StackPath: string): Observable<FormGroupDB> {
+    return this.updateFormGroup(formgroupdb, GONG__StackPath)
+  }
   updateFormGroup(formgroupdb: FormGroupDB, GONG__StackPath: string): Observable<FormGroupDB> {
     const id = typeof formgroupdb === 'number' ? formgroupdb : formgroupdb.ID;
     const url = `${this.formgroupsUrl}/${id}`;
