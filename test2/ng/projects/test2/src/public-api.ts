@@ -15,3 +15,4 @@ export * from './lib/a-db'
 export * from './lib/a.service'
 
 
+export * from './lib/AEnumType'
