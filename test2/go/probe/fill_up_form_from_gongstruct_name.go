@@ -26,17 +26,17 @@ func FillUpFormFromGongstructName(
 
 	switch gongstructName {
 	// insertion point
-	case "Dummy":
+	case "A":
 		formGroup := (&form.FormGroup{
 			Name:  form.FormGroupDefaultName.ToString(),
-			Label: prefix + " Dummy Form",
-			OnSave: __gong__New__DummyFormCallback(
+			Label: prefix + " A Form",
+			OnSave: __gong__New__AFormCallback(
 				nil,
 				playground,
 			),
 		}).Stage(formStage)
-		dummy := new(models.Dummy)
-		FillUpForm(dummy, formGroup, playground)
+		a := new(models.A)
+		FillUpForm(a, formGroup, playground)
 	}
 	formStage.Commit()
 }

@@ -110,45 +110,45 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 	_ = setValueField 
 
 	// insertion initialization of objects to stage
-	map_Dummy_Identifiers := make(map[*Dummy]string)
-	_ = map_Dummy_Identifiers
+	map_A_Identifiers := make(map[*A]string)
+	_ = map_A_Identifiers
 
-	dummyOrdered := []*Dummy{}
-	for dummy := range stage.Dummys {
-		dummyOrdered = append(dummyOrdered, dummy)
+	aOrdered := []*A{}
+	for a := range stage.As {
+		aOrdered = append(aOrdered, a)
 	}
-	sort.Slice(dummyOrdered[:], func(i, j int) bool {
-		return dummyOrdered[i].Name < dummyOrdered[j].Name
+	sort.Slice(aOrdered[:], func(i, j int) bool {
+		return aOrdered[i].Name < aOrdered[j].Name
 	})
-	identifiersDecl += "\n\n	// Declarations of staged instances of Dummy"
-	for idx, dummy := range dummyOrdered {
+	identifiersDecl += "\n\n	// Declarations of staged instances of A"
+	for idx, a := range aOrdered {
 
-		id = generatesIdentifier("Dummy", idx, dummy.Name)
-		map_Dummy_Identifiers[dummy] = id
+		id = generatesIdentifier("A", idx, a.Name)
+		map_A_Identifiers[a] = id
 
 		decl = IdentifiersDecls
 		decl = strings.ReplaceAll(decl, "{{Identifier}}", id)
-		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Dummy")
-		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", dummy.Name)
+		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "A")
+		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", a.Name)
 		identifiersDecl += decl
 
-		initializerStatements += "\n\n	// Dummy values setup"
+		initializerStatements += "\n\n	// A values setup"
 		// Initialisation of values
 		setValueField = StringInitStatement
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
 		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(dummy.Name))
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(a.Name))
 		initializerStatements += setValueField
 
 	}
 
 	// insertion initialization of objects to stage
-	for idx, dummy := range dummyOrdered {
+	for idx, a := range aOrdered {
 		var setPointerField string
 		_ = setPointerField
 
-		id = generatesIdentifier("Dummy", idx, dummy.Name)
-		map_Dummy_Identifiers[dummy] = id
+		id = generatesIdentifier("A", idx, a.Name)
+		map_A_Identifiers[a] = id
 
 		// Initialisation of values
 	}

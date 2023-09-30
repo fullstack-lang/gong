@@ -11,7 +11,7 @@ export * from './lib/commitnbfromback.service'
 export * from './lib/push_from_front_nb.service'
 
 
-export * from './lib/dummy-db'
-export * from './lib/dummy.service'
+export * from './lib/a-db'
+export * from './lib/a.service'
 
 

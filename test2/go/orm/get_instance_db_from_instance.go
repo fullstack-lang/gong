@@ -8,7 +8,7 @@ import (
 type GongstructDB interface {
 	// insertion point for generic types
 	// "int" is present to handle the case when no struct is present
-	int | DummyDB
+	int | ADB
 }
 
 func GetInstanceDBFromInstance[T models.Gongstruct, T2 GongstructDB](
@@ -18,9 +18,9 @@ func GetInstanceDBFromInstance[T models.Gongstruct, T2 GongstructDB](
 
 	switch concreteInstance := any(instance).(type) {
 	// insertion point for per struct backup
-	case *models.Dummy:
-		dummyInstance := any(concreteInstance).(*models.Dummy)
-		ret2 := backRepo.BackRepoDummy.GetDummyDBFromDummyPtr(dummyInstance)
+	case *models.A:
+		aInstance := any(concreteInstance).(*models.A)
+		ret2 := backRepo.BackRepoA.GetADBFromAPtr(aInstance)
 		ret = any(ret2).(*T2)
 	default:
 		_ = concreteInstance
@@ -35,8 +35,8 @@ func GetID[T models.Gongstruct](
 
 	switch inst := any(instance).(type) {
 	// insertion point for per struct backup
-	case *models.Dummy:
-		tmp := GetInstanceDBFromInstance[models.Dummy, DummyDB](
+	case *models.A:
+		tmp := GetInstanceDBFromInstance[models.A, ADB](
 			stage, backRepo, inst,
 		)
 		id = int(tmp.ID)
@@ -53,8 +53,8 @@ func GetIDPointer[T models.PointerToGongstruct](
 
 	switch inst := any(instance).(type) {
 	// insertion point for per struct backup
-	case *models.Dummy:
-		tmp := GetInstanceDBFromInstance[models.Dummy, DummyDB](
+	case *models.A:
+		tmp := GetInstanceDBFromInstance[models.A, ADB](
 			stage, backRepo, inst,
 		)
 		id = int(tmp.ID)
