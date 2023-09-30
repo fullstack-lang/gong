@@ -222,8 +222,6 @@ type BackRepoInterface interface {
 	GetLastPushFromFrontNb() uint
 }
 
-var _stage *StageStruct
-
 func NewStage(path string) (stage *StageStruct) {
 
 	stage = &StageStruct{ // insertion point for array initiatialisation
