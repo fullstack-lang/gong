@@ -43,6 +43,10 @@ export class TextService {
   }
 
   /** GET texts from the server */
+  // gets is more robust to refactoring
+  gets(GONG__StackPath: string): Observable<TextDB[]> {
+    return this.getTexts(GONG__StackPath)
+  }
   getTexts(GONG__StackPath: string): Observable<TextDB[]> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
@@ -56,6 +60,10 @@ export class TextService {
   }
 
   /** GET text by id. Will 404 if id not found */
+  // more robust API to refactoring
+  get(id: number, GONG__StackPath: string): Observable<TextDB> {
+	return this.getText(id, GONG__StackPath)
+  }
   getText(id: number, GONG__StackPath: string): Observable<TextDB> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
@@ -68,6 +76,9 @@ export class TextService {
   }
 
   /** POST: add a new text to the server */
+  post(textdb: TextDB, GONG__StackPath: string): Observable<TextDB> {
+    return this.postText(textdb, GONG__StackPath)	
+  }
   postText(textdb: TextDB, GONG__StackPath: string): Observable<TextDB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
@@ -94,6 +105,9 @@ export class TextService {
   }
 
   /** DELETE: delete the textdb from the server */
+  delete(textdb: TextDB | number, GONG__StackPath: string): Observable<TextDB> {
+    return this.deleteText(textdb, GONG__StackPath)
+  }
   deleteText(textdb: TextDB | number, GONG__StackPath: string): Observable<TextDB> {
     const id = typeof textdb === 'number' ? textdb : textdb.ID;
     const url = `${this.textsUrl}/${id}`;
@@ -111,6 +125,9 @@ export class TextService {
   }
 
   /** PUT: update the textdb on the server */
+  update(textdb: TextDB, GONG__StackPath: string): Observable<TextDB> {
+    return this.updateText(textdb, GONG__StackPath)
+  }
   updateText(textdb: TextDB, GONG__StackPath: string): Observable<TextDB> {
     const id = typeof textdb === 'number' ? textdb : textdb.ID;
     const url = `${this.textsUrl}/${id}`;

@@ -42,6 +42,10 @@ export class CellIconService {
   }
 
   /** GET cellicons from the server */
+  // gets is more robust to refactoring
+  gets(GONG__StackPath: string): Observable<CellIconDB[]> {
+    return this.getCellIcons(GONG__StackPath)
+  }
   getCellIcons(GONG__StackPath: string): Observable<CellIconDB[]> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
@@ -55,6 +59,10 @@ export class CellIconService {
   }
 
   /** GET cellicon by id. Will 404 if id not found */
+  // more robust API to refactoring
+  get(id: number, GONG__StackPath: string): Observable<CellIconDB> {
+	return this.getCellIcon(id, GONG__StackPath)
+  }
   getCellIcon(id: number, GONG__StackPath: string): Observable<CellIconDB> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
@@ -67,6 +75,9 @@ export class CellIconService {
   }
 
   /** POST: add a new cellicon to the server */
+  post(cellicondb: CellIconDB, GONG__StackPath: string): Observable<CellIconDB> {
+    return this.postCellIcon(cellicondb, GONG__StackPath)	
+  }
   postCellIcon(cellicondb: CellIconDB, GONG__StackPath: string): Observable<CellIconDB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
@@ -87,6 +98,9 @@ export class CellIconService {
   }
 
   /** DELETE: delete the cellicondb from the server */
+  delete(cellicondb: CellIconDB | number, GONG__StackPath: string): Observable<CellIconDB> {
+    return this.deleteCellIcon(cellicondb, GONG__StackPath)
+  }
   deleteCellIcon(cellicondb: CellIconDB | number, GONG__StackPath: string): Observable<CellIconDB> {
     const id = typeof cellicondb === 'number' ? cellicondb : cellicondb.ID;
     const url = `${this.celliconsUrl}/${id}`;
@@ -104,6 +118,9 @@ export class CellIconService {
   }
 
   /** PUT: update the cellicondb on the server */
+  update(cellicondb: CellIconDB, GONG__StackPath: string): Observable<CellIconDB> {
+    return this.updateCellIcon(cellicondb, GONG__StackPath)
+  }
   updateCellIcon(cellicondb: CellIconDB, GONG__StackPath: string): Observable<CellIconDB> {
     const id = typeof cellicondb === 'number' ? cellicondb : cellicondb.ID;
     const url = `${this.celliconsUrl}/${id}`;

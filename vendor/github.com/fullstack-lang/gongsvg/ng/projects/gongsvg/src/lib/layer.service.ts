@@ -43,6 +43,10 @@ export class LayerService {
   }
 
   /** GET layers from the server */
+  // gets is more robust to refactoring
+  gets(GONG__StackPath: string): Observable<LayerDB[]> {
+    return this.getLayers(GONG__StackPath)
+  }
   getLayers(GONG__StackPath: string): Observable<LayerDB[]> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
@@ -56,6 +60,10 @@ export class LayerService {
   }
 
   /** GET layer by id. Will 404 if id not found */
+  // more robust API to refactoring
+  get(id: number, GONG__StackPath: string): Observable<LayerDB> {
+	return this.getLayer(id, GONG__StackPath)
+  }
   getLayer(id: number, GONG__StackPath: string): Observable<LayerDB> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
@@ -68,6 +76,9 @@ export class LayerService {
   }
 
   /** POST: add a new layer to the server */
+  post(layerdb: LayerDB, GONG__StackPath: string): Observable<LayerDB> {
+    return this.postLayer(layerdb, GONG__StackPath)	
+  }
   postLayer(layerdb: LayerDB, GONG__StackPath: string): Observable<LayerDB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
@@ -121,6 +132,9 @@ export class LayerService {
   }
 
   /** DELETE: delete the layerdb from the server */
+  delete(layerdb: LayerDB | number, GONG__StackPath: string): Observable<LayerDB> {
+    return this.deleteLayer(layerdb, GONG__StackPath)
+  }
   deleteLayer(layerdb: LayerDB | number, GONG__StackPath: string): Observable<LayerDB> {
     const id = typeof layerdb === 'number' ? layerdb : layerdb.ID;
     const url = `${this.layersUrl}/${id}`;
@@ -138,6 +152,9 @@ export class LayerService {
   }
 
   /** PUT: update the layerdb on the server */
+  update(layerdb: LayerDB, GONG__StackPath: string): Observable<LayerDB> {
+    return this.updateLayer(layerdb, GONG__StackPath)
+  }
   updateLayer(layerdb: LayerDB, GONG__StackPath: string): Observable<LayerDB> {
     const id = typeof layerdb === 'number' ? layerdb : layerdb.ID;
     const url = `${this.layersUrl}/${id}`;

@@ -43,6 +43,10 @@ export class SVGService {
   }
 
   /** GET svgs from the server */
+  // gets is more robust to refactoring
+  gets(GONG__StackPath: string): Observable<SVGDB[]> {
+    return this.getSVGs(GONG__StackPath)
+  }
   getSVGs(GONG__StackPath: string): Observable<SVGDB[]> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
@@ -56,6 +60,10 @@ export class SVGService {
   }
 
   /** GET svg by id. Will 404 if id not found */
+  // more robust API to refactoring
+  get(id: number, GONG__StackPath: string): Observable<SVGDB> {
+	return this.getSVG(id, GONG__StackPath)
+  }
   getSVG(id: number, GONG__StackPath: string): Observable<SVGDB> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
@@ -68,6 +76,9 @@ export class SVGService {
   }
 
   /** POST: add a new svg to the server */
+  post(svgdb: SVGDB, GONG__StackPath: string): Observable<SVGDB> {
+    return this.postSVG(svgdb, GONG__StackPath)	
+  }
   postSVG(svgdb: SVGDB, GONG__StackPath: string): Observable<SVGDB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
@@ -95,6 +106,9 @@ export class SVGService {
   }
 
   /** DELETE: delete the svgdb from the server */
+  delete(svgdb: SVGDB | number, GONG__StackPath: string): Observable<SVGDB> {
+    return this.deleteSVG(svgdb, GONG__StackPath)
+  }
   deleteSVG(svgdb: SVGDB | number, GONG__StackPath: string): Observable<SVGDB> {
     const id = typeof svgdb === 'number' ? svgdb : svgdb.ID;
     const url = `${this.svgsUrl}/${id}`;
@@ -112,6 +126,9 @@ export class SVGService {
   }
 
   /** PUT: update the svgdb on the server */
+  update(svgdb: SVGDB, GONG__StackPath: string): Observable<SVGDB> {
+    return this.updateSVG(svgdb, GONG__StackPath)
+  }
   updateSVG(svgdb: SVGDB, GONG__StackPath: string): Observable<SVGDB> {
     const id = typeof svgdb === 'number' ? svgdb : svgdb.ID;
     const url = `${this.svgsUrl}/${id}`;

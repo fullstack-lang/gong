@@ -43,6 +43,10 @@ export class PointService {
   }
 
   /** GET points from the server */
+  // gets is more robust to refactoring
+  gets(GONG__StackPath: string): Observable<PointDB[]> {
+    return this.getPoints(GONG__StackPath)
+  }
   getPoints(GONG__StackPath: string): Observable<PointDB[]> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
@@ -56,6 +60,10 @@ export class PointService {
   }
 
   /** GET point by id. Will 404 if id not found */
+  // more robust API to refactoring
+  get(id: number, GONG__StackPath: string): Observable<PointDB> {
+	return this.getPoint(id, GONG__StackPath)
+  }
   getPoint(id: number, GONG__StackPath: string): Observable<PointDB> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
@@ -68,6 +76,9 @@ export class PointService {
   }
 
   /** POST: add a new point to the server */
+  post(pointdb: PointDB, GONG__StackPath: string): Observable<PointDB> {
+    return this.postPoint(pointdb, GONG__StackPath)	
+  }
   postPoint(pointdb: PointDB, GONG__StackPath: string): Observable<PointDB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
@@ -91,6 +102,9 @@ export class PointService {
   }
 
   /** DELETE: delete the pointdb from the server */
+  delete(pointdb: PointDB | number, GONG__StackPath: string): Observable<PointDB> {
+    return this.deletePoint(pointdb, GONG__StackPath)
+  }
   deletePoint(pointdb: PointDB | number, GONG__StackPath: string): Observable<PointDB> {
     const id = typeof pointdb === 'number' ? pointdb : pointdb.ID;
     const url = `${this.pointsUrl}/${id}`;
@@ -108,6 +122,9 @@ export class PointService {
   }
 
   /** PUT: update the pointdb on the server */
+  update(pointdb: PointDB, GONG__StackPath: string): Observable<PointDB> {
+    return this.updatePoint(pointdb, GONG__StackPath)
+  }
   updatePoint(pointdb: PointDB, GONG__StackPath: string): Observable<PointDB> {
     const id = typeof pointdb === 'number' ? pointdb : pointdb.ID;
     const url = `${this.pointsUrl}/${id}`;

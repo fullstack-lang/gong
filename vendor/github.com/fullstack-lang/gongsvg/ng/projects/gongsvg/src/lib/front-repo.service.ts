@@ -1,9 +1,9 @@
-import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Injectable } from '@angular/core'
+import { HttpClient, HttpHeaders } from '@angular/common/http'
 
-import { Observable, combineLatest, BehaviorSubject } from 'rxjs';
+import { Observable, combineLatest, BehaviorSubject, of } from 'rxjs'
 
-// insertion point sub template for services imports 
+// insertion point sub template for services imports
 import { AnimateDB } from './animate-db'
 import { AnimateService } from './animate.service'
 
@@ -57,58 +57,163 @@ import { TextService } from './text.service'
 
 
 // FrontRepo stores all instances in a front repository (design pattern repository)
-export class FrontRepo { // insertion point sub template 
-  Animates_array = new Array<AnimateDB>(); // array of repo instances
-  Animates = new Map<number, AnimateDB>(); // map of repo instances
-  Animates_batch = new Map<number, AnimateDB>(); // same but only in last GET (for finding repo instances to delete)
-  Circles_array = new Array<CircleDB>(); // array of repo instances
-  Circles = new Map<number, CircleDB>(); // map of repo instances
-  Circles_batch = new Map<number, CircleDB>(); // same but only in last GET (for finding repo instances to delete)
-  Ellipses_array = new Array<EllipseDB>(); // array of repo instances
-  Ellipses = new Map<number, EllipseDB>(); // map of repo instances
-  Ellipses_batch = new Map<number, EllipseDB>(); // same but only in last GET (for finding repo instances to delete)
-  Layers_array = new Array<LayerDB>(); // array of repo instances
-  Layers = new Map<number, LayerDB>(); // map of repo instances
-  Layers_batch = new Map<number, LayerDB>(); // same but only in last GET (for finding repo instances to delete)
-  Lines_array = new Array<LineDB>(); // array of repo instances
-  Lines = new Map<number, LineDB>(); // map of repo instances
-  Lines_batch = new Map<number, LineDB>(); // same but only in last GET (for finding repo instances to delete)
-  Links_array = new Array<LinkDB>(); // array of repo instances
-  Links = new Map<number, LinkDB>(); // map of repo instances
-  Links_batch = new Map<number, LinkDB>(); // same but only in last GET (for finding repo instances to delete)
-  LinkAnchoredTexts_array = new Array<LinkAnchoredTextDB>(); // array of repo instances
-  LinkAnchoredTexts = new Map<number, LinkAnchoredTextDB>(); // map of repo instances
-  LinkAnchoredTexts_batch = new Map<number, LinkAnchoredTextDB>(); // same but only in last GET (for finding repo instances to delete)
-  Paths_array = new Array<PathDB>(); // array of repo instances
-  Paths = new Map<number, PathDB>(); // map of repo instances
-  Paths_batch = new Map<number, PathDB>(); // same but only in last GET (for finding repo instances to delete)
-  Points_array = new Array<PointDB>(); // array of repo instances
-  Points = new Map<number, PointDB>(); // map of repo instances
-  Points_batch = new Map<number, PointDB>(); // same but only in last GET (for finding repo instances to delete)
-  Polygones_array = new Array<PolygoneDB>(); // array of repo instances
-  Polygones = new Map<number, PolygoneDB>(); // map of repo instances
-  Polygones_batch = new Map<number, PolygoneDB>(); // same but only in last GET (for finding repo instances to delete)
-  Polylines_array = new Array<PolylineDB>(); // array of repo instances
-  Polylines = new Map<number, PolylineDB>(); // map of repo instances
-  Polylines_batch = new Map<number, PolylineDB>(); // same but only in last GET (for finding repo instances to delete)
-  Rects_array = new Array<RectDB>(); // array of repo instances
-  Rects = new Map<number, RectDB>(); // map of repo instances
-  Rects_batch = new Map<number, RectDB>(); // same but only in last GET (for finding repo instances to delete)
-  RectAnchoredRects_array = new Array<RectAnchoredRectDB>(); // array of repo instances
-  RectAnchoredRects = new Map<number, RectAnchoredRectDB>(); // map of repo instances
-  RectAnchoredRects_batch = new Map<number, RectAnchoredRectDB>(); // same but only in last GET (for finding repo instances to delete)
-  RectAnchoredTexts_array = new Array<RectAnchoredTextDB>(); // array of repo instances
-  RectAnchoredTexts = new Map<number, RectAnchoredTextDB>(); // map of repo instances
-  RectAnchoredTexts_batch = new Map<number, RectAnchoredTextDB>(); // same but only in last GET (for finding repo instances to delete)
-  RectLinkLinks_array = new Array<RectLinkLinkDB>(); // array of repo instances
-  RectLinkLinks = new Map<number, RectLinkLinkDB>(); // map of repo instances
-  RectLinkLinks_batch = new Map<number, RectLinkLinkDB>(); // same but only in last GET (for finding repo instances to delete)
-  SVGs_array = new Array<SVGDB>(); // array of repo instances
-  SVGs = new Map<number, SVGDB>(); // map of repo instances
-  SVGs_batch = new Map<number, SVGDB>(); // same but only in last GET (for finding repo instances to delete)
-  Texts_array = new Array<TextDB>(); // array of repo instances
-  Texts = new Map<number, TextDB>(); // map of repo instances
-  Texts_batch = new Map<number, TextDB>(); // same but only in last GET (for finding repo instances to delete)
+export class FrontRepo { // insertion point sub template
+  Animates_array = new Array<AnimateDB>() // array of repo instances
+  Animates = new Map<number, AnimateDB>() // map of repo instances
+  Animates_batch = new Map<number, AnimateDB>() // same but only in last GET (for finding repo instances to delete)
+
+  Circles_array = new Array<CircleDB>() // array of repo instances
+  Circles = new Map<number, CircleDB>() // map of repo instances
+  Circles_batch = new Map<number, CircleDB>() // same but only in last GET (for finding repo instances to delete)
+
+  Ellipses_array = new Array<EllipseDB>() // array of repo instances
+  Ellipses = new Map<number, EllipseDB>() // map of repo instances
+  Ellipses_batch = new Map<number, EllipseDB>() // same but only in last GET (for finding repo instances to delete)
+
+  Layers_array = new Array<LayerDB>() // array of repo instances
+  Layers = new Map<number, LayerDB>() // map of repo instances
+  Layers_batch = new Map<number, LayerDB>() // same but only in last GET (for finding repo instances to delete)
+
+  Lines_array = new Array<LineDB>() // array of repo instances
+  Lines = new Map<number, LineDB>() // map of repo instances
+  Lines_batch = new Map<number, LineDB>() // same but only in last GET (for finding repo instances to delete)
+
+  Links_array = new Array<LinkDB>() // array of repo instances
+  Links = new Map<number, LinkDB>() // map of repo instances
+  Links_batch = new Map<number, LinkDB>() // same but only in last GET (for finding repo instances to delete)
+
+  LinkAnchoredTexts_array = new Array<LinkAnchoredTextDB>() // array of repo instances
+  LinkAnchoredTexts = new Map<number, LinkAnchoredTextDB>() // map of repo instances
+  LinkAnchoredTexts_batch = new Map<number, LinkAnchoredTextDB>() // same but only in last GET (for finding repo instances to delete)
+
+  Paths_array = new Array<PathDB>() // array of repo instances
+  Paths = new Map<number, PathDB>() // map of repo instances
+  Paths_batch = new Map<number, PathDB>() // same but only in last GET (for finding repo instances to delete)
+
+  Points_array = new Array<PointDB>() // array of repo instances
+  Points = new Map<number, PointDB>() // map of repo instances
+  Points_batch = new Map<number, PointDB>() // same but only in last GET (for finding repo instances to delete)
+
+  Polygones_array = new Array<PolygoneDB>() // array of repo instances
+  Polygones = new Map<number, PolygoneDB>() // map of repo instances
+  Polygones_batch = new Map<number, PolygoneDB>() // same but only in last GET (for finding repo instances to delete)
+
+  Polylines_array = new Array<PolylineDB>() // array of repo instances
+  Polylines = new Map<number, PolylineDB>() // map of repo instances
+  Polylines_batch = new Map<number, PolylineDB>() // same but only in last GET (for finding repo instances to delete)
+
+  Rects_array = new Array<RectDB>() // array of repo instances
+  Rects = new Map<number, RectDB>() // map of repo instances
+  Rects_batch = new Map<number, RectDB>() // same but only in last GET (for finding repo instances to delete)
+
+  RectAnchoredRects_array = new Array<RectAnchoredRectDB>() // array of repo instances
+  RectAnchoredRects = new Map<number, RectAnchoredRectDB>() // map of repo instances
+  RectAnchoredRects_batch = new Map<number, RectAnchoredRectDB>() // same but only in last GET (for finding repo instances to delete)
+
+  RectAnchoredTexts_array = new Array<RectAnchoredTextDB>() // array of repo instances
+  RectAnchoredTexts = new Map<number, RectAnchoredTextDB>() // map of repo instances
+  RectAnchoredTexts_batch = new Map<number, RectAnchoredTextDB>() // same but only in last GET (for finding repo instances to delete)
+
+  RectLinkLinks_array = new Array<RectLinkLinkDB>() // array of repo instances
+  RectLinkLinks = new Map<number, RectLinkLinkDB>() // map of repo instances
+  RectLinkLinks_batch = new Map<number, RectLinkLinkDB>() // same but only in last GET (for finding repo instances to delete)
+
+  SVGs_array = new Array<SVGDB>() // array of repo instances
+  SVGs = new Map<number, SVGDB>() // map of repo instances
+  SVGs_batch = new Map<number, SVGDB>() // same but only in last GET (for finding repo instances to delete)
+
+  Texts_array = new Array<TextDB>() // array of repo instances
+  Texts = new Map<number, TextDB>() // map of repo instances
+  Texts_batch = new Map<number, TextDB>() // same but only in last GET (for finding repo instances to delete)
+
+
+  // getArray allows for a get function that is robust to refactoring of the named struct name
+  // for instance frontRepo.getArray( Astruct.GONGSTRUCT_NAME), is robust to a refactoring of Astruct identifier
+  // contrary to frontRepo.Astructs_array which is not refactored when Astruct identifier is modified
+  getArray<Type>(gongStructName: string): Array<Type> {
+    switch (gongStructName) {
+      // insertion point
+      case 'Animate':
+        return this.Animates_array as unknown as Array<Type>
+      case 'Circle':
+        return this.Circles_array as unknown as Array<Type>
+      case 'Ellipse':
+        return this.Ellipses_array as unknown as Array<Type>
+      case 'Layer':
+        return this.Layers_array as unknown as Array<Type>
+      case 'Line':
+        return this.Lines_array as unknown as Array<Type>
+      case 'Link':
+        return this.Links_array as unknown as Array<Type>
+      case 'LinkAnchoredText':
+        return this.LinkAnchoredTexts_array as unknown as Array<Type>
+      case 'Path':
+        return this.Paths_array as unknown as Array<Type>
+      case 'Point':
+        return this.Points_array as unknown as Array<Type>
+      case 'Polygone':
+        return this.Polygones_array as unknown as Array<Type>
+      case 'Polyline':
+        return this.Polylines_array as unknown as Array<Type>
+      case 'Rect':
+        return this.Rects_array as unknown as Array<Type>
+      case 'RectAnchoredRect':
+        return this.RectAnchoredRects_array as unknown as Array<Type>
+      case 'RectAnchoredText':
+        return this.RectAnchoredTexts_array as unknown as Array<Type>
+      case 'RectLinkLink':
+        return this.RectLinkLinks_array as unknown as Array<Type>
+      case 'SVG':
+        return this.SVGs_array as unknown as Array<Type>
+      case 'Text':
+        return this.Texts_array as unknown as Array<Type>
+      default:
+        throw new Error("Type not recognized");
+    }
+  }
+
+  // getMap allows for a get function that is robust to refactoring of the named struct name
+  getMap<Type>(gongStructName: string): Map<number, Type> {
+    switch (gongStructName) {
+      // insertion point
+      case 'Animate':
+        return this.Animates_array as unknown as Map<number, Type>
+      case 'Circle':
+        return this.Circles_array as unknown as Map<number, Type>
+      case 'Ellipse':
+        return this.Ellipses_array as unknown as Map<number, Type>
+      case 'Layer':
+        return this.Layers_array as unknown as Map<number, Type>
+      case 'Line':
+        return this.Lines_array as unknown as Map<number, Type>
+      case 'Link':
+        return this.Links_array as unknown as Map<number, Type>
+      case 'LinkAnchoredText':
+        return this.LinkAnchoredTexts_array as unknown as Map<number, Type>
+      case 'Path':
+        return this.Paths_array as unknown as Map<number, Type>
+      case 'Point':
+        return this.Points_array as unknown as Map<number, Type>
+      case 'Polygone':
+        return this.Polygones_array as unknown as Map<number, Type>
+      case 'Polyline':
+        return this.Polylines_array as unknown as Map<number, Type>
+      case 'Rect':
+        return this.Rects_array as unknown as Map<number, Type>
+      case 'RectAnchoredRect':
+        return this.RectAnchoredRects_array as unknown as Map<number, Type>
+      case 'RectAnchoredText':
+        return this.RectAnchoredTexts_array as unknown as Map<number, Type>
+      case 'RectLinkLink':
+        return this.RectLinkLinks_array as unknown as Map<number, Type>
+      case 'SVG':
+        return this.SVGs_array as unknown as Map<number, Type>
+      case 'Text':
+        return this.Texts_array as unknown as Map<number, Type>
+      default:
+        throw new Error("Type not recognized");
+    }
+  }
 }
 
 // the table component is called in different ways
@@ -217,7 +322,9 @@ export class FrontRepoService {
   }
 
   // typing of observable can be messy in typescript. Therefore, one force the type
-  observableFrontRepo: [ // insertion point sub template 
+  observableFrontRepo: [
+    Observable<null>, // see below for the of(null) observable
+    // insertion point sub template 
     Observable<AnimateDB[]>,
     Observable<CircleDB[]>,
     Observable<EllipseDB[]>,
@@ -235,7 +342,16 @@ export class FrontRepoService {
     Observable<RectLinkLinkDB[]>,
     Observable<SVGDB[]>,
     Observable<TextDB[]>,
-  ] = [ // insertion point sub template
+  ] = [
+      // Using "combineLatest" with a placeholder observable.
+      //
+      // This allows the typescript compiler to pass when no GongStruct is present in the front API
+      //
+      // The "of(null)" is a "meaningless" observable that emits a single value (null) and completes.
+      // This is used as a workaround to satisfy TypeScript requirements and the "combineLatest" 
+      // expectation for a non-empty array of observables.
+      of(null), // 
+      // insertion point sub template
       this.animateService.getAnimates(this.GONG__StackPath),
       this.circleService.getCircles(this.GONG__StackPath),
       this.ellipseService.getEllipses(this.GONG__StackPath),
@@ -265,7 +381,9 @@ export class FrontRepoService {
 
     this.GONG__StackPath = GONG__StackPath
 
-    this.observableFrontRepo = [ // insertion point sub template
+    this.observableFrontRepo = [
+      of(null), // see above for justification
+      // insertion point sub template
       this.animateService.getAnimates(this.GONG__StackPath),
       this.circleService.getCircles(this.GONG__StackPath),
       this.ellipseService.getEllipses(this.GONG__StackPath),
@@ -290,7 +408,9 @@ export class FrontRepoService {
         combineLatest(
           this.observableFrontRepo
         ).subscribe(
-          ([ // insertion point sub template for declarations 
+          ([
+            ___of_null, // see above for the explanation about of
+            // insertion point sub template for declarations 
             animates_,
             circles_,
             ellipses_,

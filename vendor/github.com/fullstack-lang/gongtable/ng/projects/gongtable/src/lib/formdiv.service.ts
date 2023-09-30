@@ -45,6 +45,10 @@ export class FormDivService {
   }
 
   /** GET formdivs from the server */
+  // gets is more robust to refactoring
+  gets(GONG__StackPath: string): Observable<FormDivDB[]> {
+    return this.getFormDivs(GONG__StackPath)
+  }
   getFormDivs(GONG__StackPath: string): Observable<FormDivDB[]> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
@@ -58,6 +62,10 @@ export class FormDivService {
   }
 
   /** GET formdiv by id. Will 404 if id not found */
+  // more robust API to refactoring
+  get(id: number, GONG__StackPath: string): Observable<FormDivDB> {
+	return this.getFormDiv(id, GONG__StackPath)
+  }
   getFormDiv(id: number, GONG__StackPath: string): Observable<FormDivDB> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
@@ -70,6 +78,9 @@ export class FormDivService {
   }
 
   /** POST: add a new formdiv to the server */
+  post(formdivdb: FormDivDB, GONG__StackPath: string): Observable<FormDivDB> {
+    return this.postFormDiv(formdivdb, GONG__StackPath)	
+  }
   postFormDiv(formdivdb: FormDivDB, GONG__StackPath: string): Observable<FormDivDB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
@@ -103,6 +114,9 @@ export class FormDivService {
   }
 
   /** DELETE: delete the formdivdb from the server */
+  delete(formdivdb: FormDivDB | number, GONG__StackPath: string): Observable<FormDivDB> {
+    return this.deleteFormDiv(formdivdb, GONG__StackPath)
+  }
   deleteFormDiv(formdivdb: FormDivDB | number, GONG__StackPath: string): Observable<FormDivDB> {
     const id = typeof formdivdb === 'number' ? formdivdb : formdivdb.ID;
     const url = `${this.formdivsUrl}/${id}`;
@@ -120,6 +134,9 @@ export class FormDivService {
   }
 
   /** PUT: update the formdivdb on the server */
+  update(formdivdb: FormDivDB, GONG__StackPath: string): Observable<FormDivDB> {
+    return this.updateFormDiv(formdivdb, GONG__StackPath)
+  }
   updateFormDiv(formdivdb: FormDivDB, GONG__StackPath: string): Observable<FormDivDB> {
     const id = typeof formdivdb === 'number' ? formdivdb : formdivdb.ID;
     const url = `${this.formdivsUrl}/${id}`;
