@@ -43,6 +43,10 @@ export class FormFieldSelectService {
   }
 
   /** GET formfieldselects from the server */
+  // gets is more robust to refactoring
+  gets(GONG__StackPath: string): Observable<FormFieldSelectDB[]> {
+    return this.getFormFieldSelects(GONG__StackPath)
+  }
   getFormFieldSelects(GONG__StackPath: string): Observable<FormFieldSelectDB[]> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
@@ -56,6 +60,10 @@ export class FormFieldSelectService {
   }
 
   /** GET formfieldselect by id. Will 404 if id not found */
+  // more robust API to refactoring
+  get(id: number, GONG__StackPath: string): Observable<FormFieldSelectDB> {
+	return this.getFormFieldSelect(id, GONG__StackPath)
+  }
   getFormFieldSelect(id: number, GONG__StackPath: string): Observable<FormFieldSelectDB> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
@@ -68,6 +76,9 @@ export class FormFieldSelectService {
   }
 
   /** POST: add a new formfieldselect to the server */
+  post(formfieldselectdb: FormFieldSelectDB, GONG__StackPath: string): Observable<FormFieldSelectDB> {
+    return this.postFormFieldSelect(formfieldselectdb, GONG__StackPath)	
+  }
   postFormFieldSelect(formfieldselectdb: FormFieldSelectDB, GONG__StackPath: string): Observable<FormFieldSelectDB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
@@ -93,6 +104,9 @@ export class FormFieldSelectService {
   }
 
   /** DELETE: delete the formfieldselectdb from the server */
+  delete(formfieldselectdb: FormFieldSelectDB | number, GONG__StackPath: string): Observable<FormFieldSelectDB> {
+    return this.deleteFormFieldSelect(formfieldselectdb, GONG__StackPath)
+  }
   deleteFormFieldSelect(formfieldselectdb: FormFieldSelectDB | number, GONG__StackPath: string): Observable<FormFieldSelectDB> {
     const id = typeof formfieldselectdb === 'number' ? formfieldselectdb : formfieldselectdb.ID;
     const url = `${this.formfieldselectsUrl}/${id}`;
@@ -110,6 +124,9 @@ export class FormFieldSelectService {
   }
 
   /** PUT: update the formfieldselectdb on the server */
+  update(formfieldselectdb: FormFieldSelectDB, GONG__StackPath: string): Observable<FormFieldSelectDB> {
+    return this.updateFormFieldSelect(formfieldselectdb, GONG__StackPath)
+  }
   updateFormFieldSelect(formfieldselectdb: FormFieldSelectDB, GONG__StackPath: string): Observable<FormFieldSelectDB> {
     const id = typeof formfieldselectdb === 'number' ? formfieldselectdb : formfieldselectdb.ID;
     const url = `${this.formfieldselectsUrl}/${id}`;

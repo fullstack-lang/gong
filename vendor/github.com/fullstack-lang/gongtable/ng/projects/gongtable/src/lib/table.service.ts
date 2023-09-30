@@ -42,6 +42,10 @@ export class TableService {
   }
 
   /** GET tables from the server */
+  // gets is more robust to refactoring
+  gets(GONG__StackPath: string): Observable<TableDB[]> {
+    return this.getTables(GONG__StackPath)
+  }
   getTables(GONG__StackPath: string): Observable<TableDB[]> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
@@ -55,6 +59,10 @@ export class TableService {
   }
 
   /** GET table by id. Will 404 if id not found */
+  // more robust API to refactoring
+  get(id: number, GONG__StackPath: string): Observable<TableDB> {
+	return this.getTable(id, GONG__StackPath)
+  }
   getTable(id: number, GONG__StackPath: string): Observable<TableDB> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
@@ -67,6 +75,9 @@ export class TableService {
   }
 
   /** POST: add a new table to the server */
+  post(tabledb: TableDB, GONG__StackPath: string): Observable<TableDB> {
+    return this.postTable(tabledb, GONG__StackPath)	
+  }
   postTable(tabledb: TableDB, GONG__StackPath: string): Observable<TableDB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
@@ -93,6 +104,9 @@ export class TableService {
   }
 
   /** DELETE: delete the tabledb from the server */
+  delete(tabledb: TableDB | number, GONG__StackPath: string): Observable<TableDB> {
+    return this.deleteTable(tabledb, GONG__StackPath)
+  }
   deleteTable(tabledb: TableDB | number, GONG__StackPath: string): Observable<TableDB> {
     const id = typeof tabledb === 'number' ? tabledb : tabledb.ID;
     const url = `${this.tablesUrl}/${id}`;
@@ -110,6 +124,9 @@ export class TableService {
   }
 
   /** PUT: update the tabledb on the server */
+  update(tabledb: TableDB, GONG__StackPath: string): Observable<TableDB> {
+    return this.updateTable(tabledb, GONG__StackPath)
+  }
   updateTable(tabledb: TableDB, GONG__StackPath: string): Observable<TableDB> {
     const id = typeof tabledb === 'number' ? tabledb : tabledb.ID;
     const url = `${this.tablesUrl}/${id}`;

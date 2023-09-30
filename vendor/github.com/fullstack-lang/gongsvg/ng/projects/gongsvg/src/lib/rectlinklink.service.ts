@@ -45,6 +45,10 @@ export class RectLinkLinkService {
   }
 
   /** GET rectlinklinks from the server */
+  // gets is more robust to refactoring
+  gets(GONG__StackPath: string): Observable<RectLinkLinkDB[]> {
+    return this.getRectLinkLinks(GONG__StackPath)
+  }
   getRectLinkLinks(GONG__StackPath: string): Observable<RectLinkLinkDB[]> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
@@ -58,6 +62,10 @@ export class RectLinkLinkService {
   }
 
   /** GET rectlinklink by id. Will 404 if id not found */
+  // more robust API to refactoring
+  get(id: number, GONG__StackPath: string): Observable<RectLinkLinkDB> {
+	return this.getRectLinkLink(id, GONG__StackPath)
+  }
   getRectLinkLink(id: number, GONG__StackPath: string): Observable<RectLinkLinkDB> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
@@ -70,6 +78,9 @@ export class RectLinkLinkService {
   }
 
   /** POST: add a new rectlinklink to the server */
+  post(rectlinklinkdb: RectLinkLinkDB, GONG__StackPath: string): Observable<RectLinkLinkDB> {
+    return this.postRectLinkLink(rectlinklinkdb, GONG__StackPath)	
+  }
   postRectLinkLink(rectlinklinkdb: RectLinkLinkDB, GONG__StackPath: string): Observable<RectLinkLinkDB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
@@ -97,6 +108,9 @@ export class RectLinkLinkService {
   }
 
   /** DELETE: delete the rectlinklinkdb from the server */
+  delete(rectlinklinkdb: RectLinkLinkDB | number, GONG__StackPath: string): Observable<RectLinkLinkDB> {
+    return this.deleteRectLinkLink(rectlinklinkdb, GONG__StackPath)
+  }
   deleteRectLinkLink(rectlinklinkdb: RectLinkLinkDB | number, GONG__StackPath: string): Observable<RectLinkLinkDB> {
     const id = typeof rectlinklinkdb === 'number' ? rectlinklinkdb : rectlinklinkdb.ID;
     const url = `${this.rectlinklinksUrl}/${id}`;
@@ -114,6 +128,9 @@ export class RectLinkLinkService {
   }
 
   /** PUT: update the rectlinklinkdb on the server */
+  update(rectlinklinkdb: RectLinkLinkDB, GONG__StackPath: string): Observable<RectLinkLinkDB> {
+    return this.updateRectLinkLink(rectlinklinkdb, GONG__StackPath)
+  }
   updateRectLinkLink(rectlinklinkdb: RectLinkLinkDB, GONG__StackPath: string): Observable<RectLinkLinkDB> {
     const id = typeof rectlinklinkdb === 'number' ? rectlinklinkdb : rectlinklinkdb.ID;
     const url = `${this.rectlinklinksUrl}/${id}`;

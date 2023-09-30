@@ -43,6 +43,10 @@ export class CheckBoxService {
   }
 
   /** GET checkboxs from the server */
+  // gets is more robust to refactoring
+  gets(GONG__StackPath: string): Observable<CheckBoxDB[]> {
+    return this.getCheckBoxs(GONG__StackPath)
+  }
   getCheckBoxs(GONG__StackPath: string): Observable<CheckBoxDB[]> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
@@ -56,6 +60,10 @@ export class CheckBoxService {
   }
 
   /** GET checkbox by id. Will 404 if id not found */
+  // more robust API to refactoring
+  get(id: number, GONG__StackPath: string): Observable<CheckBoxDB> {
+	return this.getCheckBox(id, GONG__StackPath)
+  }
   getCheckBox(id: number, GONG__StackPath: string): Observable<CheckBoxDB> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
@@ -68,6 +76,9 @@ export class CheckBoxService {
   }
 
   /** POST: add a new checkbox to the server */
+  post(checkboxdb: CheckBoxDB, GONG__StackPath: string): Observable<CheckBoxDB> {
+    return this.postCheckBox(checkboxdb, GONG__StackPath)	
+  }
   postCheckBox(checkboxdb: CheckBoxDB, GONG__StackPath: string): Observable<CheckBoxDB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
@@ -91,6 +102,9 @@ export class CheckBoxService {
   }
 
   /** DELETE: delete the checkboxdb from the server */
+  delete(checkboxdb: CheckBoxDB | number, GONG__StackPath: string): Observable<CheckBoxDB> {
+    return this.deleteCheckBox(checkboxdb, GONG__StackPath)
+  }
   deleteCheckBox(checkboxdb: CheckBoxDB | number, GONG__StackPath: string): Observable<CheckBoxDB> {
     const id = typeof checkboxdb === 'number' ? checkboxdb : checkboxdb.ID;
     const url = `${this.checkboxsUrl}/${id}`;
@@ -108,6 +122,9 @@ export class CheckBoxService {
   }
 
   /** PUT: update the checkboxdb on the server */
+  update(checkboxdb: CheckBoxDB, GONG__StackPath: string): Observable<CheckBoxDB> {
+    return this.updateCheckBox(checkboxdb, GONG__StackPath)
+  }
   updateCheckBox(checkboxdb: CheckBoxDB, GONG__StackPath: string): Observable<CheckBoxDB> {
     const id = typeof checkboxdb === 'number' ? checkboxdb : checkboxdb.ID;
     const url = `${this.checkboxsUrl}/${id}`;

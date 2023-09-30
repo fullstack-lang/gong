@@ -43,6 +43,10 @@ export class RowService {
   }
 
   /** GET rows from the server */
+  // gets is more robust to refactoring
+  gets(GONG__StackPath: string): Observable<RowDB[]> {
+    return this.getRows(GONG__StackPath)
+  }
   getRows(GONG__StackPath: string): Observable<RowDB[]> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
@@ -56,6 +60,10 @@ export class RowService {
   }
 
   /** GET row by id. Will 404 if id not found */
+  // more robust API to refactoring
+  get(id: number, GONG__StackPath: string): Observable<RowDB> {
+	return this.getRow(id, GONG__StackPath)
+  }
   getRow(id: number, GONG__StackPath: string): Observable<RowDB> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
@@ -68,6 +76,9 @@ export class RowService {
   }
 
   /** POST: add a new row to the server */
+  post(rowdb: RowDB, GONG__StackPath: string): Observable<RowDB> {
+    return this.postRow(rowdb, GONG__StackPath)	
+  }
   postRow(rowdb: RowDB, GONG__StackPath: string): Observable<RowDB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
@@ -94,6 +105,9 @@ export class RowService {
   }
 
   /** DELETE: delete the rowdb from the server */
+  delete(rowdb: RowDB | number, GONG__StackPath: string): Observable<RowDB> {
+    return this.deleteRow(rowdb, GONG__StackPath)
+  }
   deleteRow(rowdb: RowDB | number, GONG__StackPath: string): Observable<RowDB> {
     const id = typeof rowdb === 'number' ? rowdb : rowdb.ID;
     const url = `${this.rowsUrl}/${id}`;
@@ -111,6 +125,9 @@ export class RowService {
   }
 
   /** PUT: update the rowdb on the server */
+  update(rowdb: RowDB, GONG__StackPath: string): Observable<RowDB> {
+    return this.updateRow(rowdb, GONG__StackPath)
+  }
   updateRow(rowdb: RowDB, GONG__StackPath: string): Observable<RowDB> {
     const id = typeof rowdb === 'number' ? rowdb : rowdb.ID;
     const url = `${this.rowsUrl}/${id}`;

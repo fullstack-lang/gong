@@ -43,6 +43,10 @@ export class ButtonService {
   }
 
   /** GET buttons from the server */
+  // gets is more robust to refactoring
+  gets(GONG__StackPath: string): Observable<ButtonDB[]> {
+    return this.getButtons(GONG__StackPath)
+  }
   getButtons(GONG__StackPath: string): Observable<ButtonDB[]> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
@@ -56,6 +60,10 @@ export class ButtonService {
   }
 
   /** GET button by id. Will 404 if id not found */
+  // more robust API to refactoring
+  get(id: number, GONG__StackPath: string): Observable<ButtonDB> {
+	return this.getButton(id, GONG__StackPath)
+  }
   getButton(id: number, GONG__StackPath: string): Observable<ButtonDB> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
@@ -68,6 +76,9 @@ export class ButtonService {
   }
 
   /** POST: add a new button to the server */
+  post(buttondb: ButtonDB, GONG__StackPath: string): Observable<ButtonDB> {
+    return this.postButton(buttondb, GONG__StackPath)	
+  }
   postButton(buttondb: ButtonDB, GONG__StackPath: string): Observable<ButtonDB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
@@ -91,6 +102,9 @@ export class ButtonService {
   }
 
   /** DELETE: delete the buttondb from the server */
+  delete(buttondb: ButtonDB | number, GONG__StackPath: string): Observable<ButtonDB> {
+    return this.deleteButton(buttondb, GONG__StackPath)
+  }
   deleteButton(buttondb: ButtonDB | number, GONG__StackPath: string): Observable<ButtonDB> {
     const id = typeof buttondb === 'number' ? buttondb : buttondb.ID;
     const url = `${this.buttonsUrl}/${id}`;
@@ -108,6 +122,9 @@ export class ButtonService {
   }
 
   /** PUT: update the buttondb on the server */
+  update(buttondb: ButtonDB, GONG__StackPath: string): Observable<ButtonDB> {
+    return this.updateButton(buttondb, GONG__StackPath)
+  }
   updateButton(buttondb: ButtonDB, GONG__StackPath: string): Observable<ButtonDB> {
     const id = typeof buttondb === 'number' ? buttondb : buttondb.ID;
     const url = `${this.buttonsUrl}/${id}`;
