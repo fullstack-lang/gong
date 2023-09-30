@@ -17,36 +17,29 @@ import { HttpClient, HttpHeaders } from '@angular/common/http'
 
 import { Observable, combineLatest, BehaviorSubject, of } from 'rxjs'
 
-// insertion point sub template for services imports {{` + string(NgLibFrontRepoServiceImports) + `}}
+// insertion point sub template for services imports{{` + string(NgLibFrontRepoServiceImports) + `}}
 
 // FrontRepo stores all instances in a front repository (design pattern repository)
-export class FrontRepo { // insertion point sub template {{` + string(NgLibFrontRepoMapDecl) + `}}
+export class FrontRepo { // insertion point sub template{{` + string(NgLibFrontRepoMapDecl) + `}}
 
-  getArray<Type>(): Array<Type> {
-    const token = this.getToken<Type>();
-
-    switch (token) {
-    // insertion point{{` + string(NgLibFrontRepoSwitchGetArray) + `}}
-    default:
-      throw new Error("Type not recognized");
+  // getArray allows for a get function that is robust to refactoring of the named struct name
+  // for instance frontRepo.getArray( Astruct.GONGSTRUCT_NAME), is robust to a refactoring of Astruct identifier
+  // contrary to frontRepo.Astructs_array which is not refactored when Astruct identifier is modified
+  getArray<Type>(gongStructName: string): Array<Type> {
+    switch (gongStructName) {
+      // insertion point{{` + string(NgLibFrontRepoSwitchGetArray) + `}}
+      default:
+        throw new Error("Type not recognized");
     }
   }
 
   // getMap allows for a get function that is robust to refactoring of the named struct name
-  getMap<Type>(): Map<number, Type> {
-    const token = this.getToken<Type>();
-
-    switch (token) {
-    // insertion point{{` + string(NgLibFrontRepoSwitchGetMap) + `}}
-    default:
-      throw new Error("Type not recognized");
+  getMap<Type>(gongStructName: string): Map<number, Type> {
+    switch (gongStructName) {
+      // insertion point{{` + string(NgLibFrontRepoSwitchGetMap) + `}}
+      default:
+        throw new Error("Type not recognized");
     }
-  }
-
-  // getToken allows for a get function that is robust to refactoring of the named struct name
-  private getToken<Type>(): string {
-    // insertion point{{` + string(NgLibFrontRepoSwitchGetToken) + `}}
-    return '';
   }
 }
 
@@ -139,19 +132,19 @@ export class FrontRepoService {
   }
 
   // typing of observable can be messy in typescript. Therefore, one force the type
-  observableFrontRepo: [ 
+  observableFrontRepo: [
     Observable<null>, // see below for the of(null) observable
     // insertion point sub template {{` + string(NgLibFrontRepoObservableArrayType) + `}}
-  ] = [ 
-    // Using "combineLatest" with a placeholder observable.
-    //
-    // This allows the typescript compiler to pass when no GongStruct is present in the front API
-    //
-    // The "of(null)" is a "meaningless" observable that emits a single value (null) and completes.
-    // This is used as a workaround to satisfy TypeScript requirements and the "combineLatest" 
-    // expectation for a non-empty array of observables.
-    of(null), // 
-    // insertion point sub template{{` + string(NgLibFrontRepoObservableRefs) + `}}
+  ] = [
+      // Using "combineLatest" with a placeholder observable.
+      //
+      // This allows the typescript compiler to pass when no GongStruct is present in the front API
+      //
+      // The "of(null)" is a "meaningless" observable that emits a single value (null) and completes.
+      // This is used as a workaround to satisfy TypeScript requirements and the "combineLatest" 
+      // expectation for a non-empty array of observables.
+      of(null), // 
+      // insertion point sub template{{` + string(NgLibFrontRepoObservableRefs) + `}}
     ];
 
   //
@@ -164,7 +157,7 @@ export class FrontRepoService {
 
     this.GONG__StackPath = GONG__StackPath
 
-    this.observableFrontRepo = [ 
+    this.observableFrontRepo = [
       of(null), // see above for justification
       // insertion point sub template{{` + string(NgLibFrontRepoObservableRefs) + `}}
     ]
@@ -174,7 +167,7 @@ export class FrontRepoService {
         combineLatest(
           this.observableFrontRepo
         ).subscribe(
-          ([ 
+          ([
             ___of_null, // see above for the explanation about of
             // insertion point sub template for declarations {{` + string(NgLibFrontRepoArraysDecls) + `}}
           ]) => {
@@ -214,7 +207,6 @@ const (
 	NgLibFrontRepoMapDecl              NgLibFrontRepoServiceSubTemplate = "MapDecl"
 	NgLibFrontRepoSwitchGetArray       NgLibFrontRepoServiceSubTemplate = "SwitchGetArray"
 	NgLibFrontRepoSwitchGetMap         NgLibFrontRepoServiceSubTemplate = "SwitchGetMap"
-	NgLibFrontRepoSwitchGetToken       NgLibFrontRepoServiceSubTemplate = "SwitchGetToken"
 	NgLibFrontRepoObservableArrayType  NgLibFrontRepoServiceSubTemplate = "ObservableArrayType"
 	NgLibFrontRepoTypeCasting          NgLibFrontRepoServiceSubTemplate = "TypeCasting"
 	NgLibFrontRepoServiceDecl          NgLibFrontRepoServiceSubTemplate = "ServiceDecl"
@@ -242,15 +234,12 @@ import { {{Structname}}Service } from './{{structname}}.service'
 `,
 
 	string(NgLibFrontRepoSwitchGetArray): `
-    case '{{Structname}}DB':
-      return this.{{Structname}}s_array as unknown as Array<Type>`,
+      case '{{Structname}}':
+        return this.{{Structname}}s_array as unknown as Array<Type>`,
 
 	string(NgLibFrontRepoSwitchGetMap): `
-    case '{{Structname}}DB':
-      return this.{{Structname}}s_array as unknown as Map<number, Type>`,
-
-	string(NgLibFrontRepoSwitchGetToken): `
-  if (({} as Type) instanceof {{Structname}}DB) return '{{Structname}}DB'`,
+      case '{{Structname}}':
+        return this.{{Structname}}s_array as unknown as Map<number, Type>`,
 
 	string(NgLibFrontRepoObservableArrayType): `
     Observable<{{Structname}}DB[]>,`,
