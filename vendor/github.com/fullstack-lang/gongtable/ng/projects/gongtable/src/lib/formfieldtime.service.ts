@@ -42,6 +42,10 @@ export class FormFieldTimeService {
   }
 
   /** GET formfieldtimes from the server */
+  // gets is more robust to refactoring
+  gets(GONG__StackPath: string): Observable<FormFieldTimeDB[]> {
+    return this.getFormFieldTimes(GONG__StackPath)
+  }
   getFormFieldTimes(GONG__StackPath: string): Observable<FormFieldTimeDB[]> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
@@ -55,6 +59,10 @@ export class FormFieldTimeService {
   }
 
   /** GET formfieldtime by id. Will 404 if id not found */
+  // more robust API to refactoring
+  get(id: number, GONG__StackPath: string): Observable<FormFieldTimeDB> {
+	return this.getFormFieldTime(id, GONG__StackPath)
+  }
   getFormFieldTime(id: number, GONG__StackPath: string): Observable<FormFieldTimeDB> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
@@ -67,6 +75,9 @@ export class FormFieldTimeService {
   }
 
   /** POST: add a new formfieldtime to the server */
+  post(formfieldtimedb: FormFieldTimeDB, GONG__StackPath: string): Observable<FormFieldTimeDB> {
+    return this.postFormFieldTime(formfieldtimedb, GONG__StackPath)	
+  }
   postFormFieldTime(formfieldtimedb: FormFieldTimeDB, GONG__StackPath: string): Observable<FormFieldTimeDB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
@@ -87,6 +98,9 @@ export class FormFieldTimeService {
   }
 
   /** DELETE: delete the formfieldtimedb from the server */
+  delete(formfieldtimedb: FormFieldTimeDB | number, GONG__StackPath: string): Observable<FormFieldTimeDB> {
+    return this.deleteFormFieldTime(formfieldtimedb, GONG__StackPath)
+  }
   deleteFormFieldTime(formfieldtimedb: FormFieldTimeDB | number, GONG__StackPath: string): Observable<FormFieldTimeDB> {
     const id = typeof formfieldtimedb === 'number' ? formfieldtimedb : formfieldtimedb.ID;
     const url = `${this.formfieldtimesUrl}/${id}`;
@@ -104,6 +118,9 @@ export class FormFieldTimeService {
   }
 
   /** PUT: update the formfieldtimedb on the server */
+  update(formfieldtimedb: FormFieldTimeDB, GONG__StackPath: string): Observable<FormFieldTimeDB> {
+    return this.updateFormFieldTime(formfieldtimedb, GONG__StackPath)
+  }
   updateFormFieldTime(formfieldtimedb: FormFieldTimeDB, GONG__StackPath: string): Observable<FormFieldTimeDB> {
     const id = typeof formfieldtimedb === 'number' ? formfieldtimedb : formfieldtimedb.ID;
     const url = `${this.formfieldtimesUrl}/${id}`;

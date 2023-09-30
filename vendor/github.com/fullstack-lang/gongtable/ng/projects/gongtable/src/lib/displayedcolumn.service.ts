@@ -43,6 +43,10 @@ export class DisplayedColumnService {
   }
 
   /** GET displayedcolumns from the server */
+  // gets is more robust to refactoring
+  gets(GONG__StackPath: string): Observable<DisplayedColumnDB[]> {
+    return this.getDisplayedColumns(GONG__StackPath)
+  }
   getDisplayedColumns(GONG__StackPath: string): Observable<DisplayedColumnDB[]> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
@@ -56,6 +60,10 @@ export class DisplayedColumnService {
   }
 
   /** GET displayedcolumn by id. Will 404 if id not found */
+  // more robust API to refactoring
+  get(id: number, GONG__StackPath: string): Observable<DisplayedColumnDB> {
+	return this.getDisplayedColumn(id, GONG__StackPath)
+  }
   getDisplayedColumn(id: number, GONG__StackPath: string): Observable<DisplayedColumnDB> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
@@ -68,6 +76,9 @@ export class DisplayedColumnService {
   }
 
   /** POST: add a new displayedcolumn to the server */
+  post(displayedcolumndb: DisplayedColumnDB, GONG__StackPath: string): Observable<DisplayedColumnDB> {
+    return this.postDisplayedColumn(displayedcolumndb, GONG__StackPath)	
+  }
   postDisplayedColumn(displayedcolumndb: DisplayedColumnDB, GONG__StackPath: string): Observable<DisplayedColumnDB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
@@ -91,6 +102,9 @@ export class DisplayedColumnService {
   }
 
   /** DELETE: delete the displayedcolumndb from the server */
+  delete(displayedcolumndb: DisplayedColumnDB | number, GONG__StackPath: string): Observable<DisplayedColumnDB> {
+    return this.deleteDisplayedColumn(displayedcolumndb, GONG__StackPath)
+  }
   deleteDisplayedColumn(displayedcolumndb: DisplayedColumnDB | number, GONG__StackPath: string): Observable<DisplayedColumnDB> {
     const id = typeof displayedcolumndb === 'number' ? displayedcolumndb : displayedcolumndb.ID;
     const url = `${this.displayedcolumnsUrl}/${id}`;
@@ -108,6 +122,9 @@ export class DisplayedColumnService {
   }
 
   /** PUT: update the displayedcolumndb on the server */
+  update(displayedcolumndb: DisplayedColumnDB, GONG__StackPath: string): Observable<DisplayedColumnDB> {
+    return this.updateDisplayedColumn(displayedcolumndb, GONG__StackPath)
+  }
   updateDisplayedColumn(displayedcolumndb: DisplayedColumnDB, GONG__StackPath: string): Observable<DisplayedColumnDB> {
     const id = typeof displayedcolumndb === 'number' ? displayedcolumndb : displayedcolumndb.ID;
     const url = `${this.displayedcolumnsUrl}/${id}`;

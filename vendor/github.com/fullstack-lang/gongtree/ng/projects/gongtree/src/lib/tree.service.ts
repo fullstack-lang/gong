@@ -42,6 +42,10 @@ export class TreeService {
   }
 
   /** GET trees from the server */
+  // gets is more robust to refactoring
+  gets(GONG__StackPath: string): Observable<TreeDB[]> {
+    return this.getTrees(GONG__StackPath)
+  }
   getTrees(GONG__StackPath: string): Observable<TreeDB[]> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
@@ -55,6 +59,10 @@ export class TreeService {
   }
 
   /** GET tree by id. Will 404 if id not found */
+  // more robust API to refactoring
+  get(id: number, GONG__StackPath: string): Observable<TreeDB> {
+	return this.getTree(id, GONG__StackPath)
+  }
   getTree(id: number, GONG__StackPath: string): Observable<TreeDB> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
@@ -67,6 +75,9 @@ export class TreeService {
   }
 
   /** POST: add a new tree to the server */
+  post(treedb: TreeDB, GONG__StackPath: string): Observable<TreeDB> {
+    return this.postTree(treedb, GONG__StackPath)	
+  }
   postTree(treedb: TreeDB, GONG__StackPath: string): Observable<TreeDB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
@@ -90,6 +101,9 @@ export class TreeService {
   }
 
   /** DELETE: delete the treedb from the server */
+  delete(treedb: TreeDB | number, GONG__StackPath: string): Observable<TreeDB> {
+    return this.deleteTree(treedb, GONG__StackPath)
+  }
   deleteTree(treedb: TreeDB | number, GONG__StackPath: string): Observable<TreeDB> {
     const id = typeof treedb === 'number' ? treedb : treedb.ID;
     const url = `${this.treesUrl}/${id}`;
@@ -107,6 +121,9 @@ export class TreeService {
   }
 
   /** PUT: update the treedb on the server */
+  update(treedb: TreeDB, GONG__StackPath: string): Observable<TreeDB> {
+    return this.updateTree(treedb, GONG__StackPath)
+  }
   updateTree(treedb: TreeDB, GONG__StackPath: string): Observable<TreeDB> {
     const id = typeof treedb === 'number' ? treedb : treedb.ID;
     const url = `${this.treesUrl}/${id}`;
