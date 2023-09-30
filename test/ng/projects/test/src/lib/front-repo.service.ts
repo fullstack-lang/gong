@@ -22,7 +22,6 @@ import { DstructService } from './dstruct.service'
 import { FstructDB } from './fstruct-db'
 import { FstructService } from './fstruct.service'
 
-
 // FrontRepo stores all instances in a front repository (design pattern repository)
 export class FrontRepo { // insertion point sub template 
   Astructs_array = new Array<AstructDB>() // array of repo instances
@@ -50,61 +49,47 @@ export class FrontRepo { // insertion point sub template
   Fstructs_batch = new Map<number, FstructDB>() // same but only in last GET (for finding repo instances to delete)
 
 
-  getArray<Type>(): Array<Type> {
-    const token = this.getToken<Type>();
+  getArray<Type>(gongStructName: string): Array<Type> {
 
-    switch (token) {
-    // insertion point
-    case 'AstructDB':
-      return this.Astructs_array as unknown as Array<Type>
-    case 'AstructBstruct2UseDB':
-      return this.AstructBstruct2Uses_array as unknown as Array<Type>
-    case 'AstructBstructUseDB':
-      return this.AstructBstructUses_array as unknown as Array<Type>
-    case 'BstructDB':
-      return this.Bstructs_array as unknown as Array<Type>
-    case 'DstructDB':
-      return this.Dstructs_array as unknown as Array<Type>
-    case 'FstructDB':
-      return this.Fstructs_array as unknown as Array<Type>
-    default:
-      throw new Error("Type not recognized");
+    switch (gongStructName) {
+      // insertion point
+      case 'Astruct':
+        return this.Astructs_array as unknown as Array<Type>
+      case 'AstructBstruct2Use':
+        return this.AstructBstruct2Uses_array as unknown as Array<Type>
+      case 'AstructBstructUse':
+        return this.AstructBstructUses_array as unknown as Array<Type>
+      case 'Bstruct':
+        return this.Bstructs_array as unknown as Array<Type>
+      case 'Dstruct':
+        return this.Dstructs_array as unknown as Array<Type>
+      case 'Fstruct':
+        return this.Fstructs_array as unknown as Array<Type>
+      default:
+        throw new Error("Type not recognized");
     }
   }
 
   // getMap allows for a get function that is robust to refactoring of the named struct name
-  getMap<Type>(): Map<number, Type> {
-    const token = this.getToken<Type>();
+  getMap<Type>(gongStructName: string): Map<number, Type> {
 
-    switch (token) {
-    // insertion point
-    case 'AstructDB':
-      return this.Astructs_array as unknown as Map<number, Type>
-    case 'AstructBstruct2UseDB':
-      return this.AstructBstruct2Uses_array as unknown as Map<number, Type>
-    case 'AstructBstructUseDB':
-      return this.AstructBstructUses_array as unknown as Map<number, Type>
-    case 'BstructDB':
-      return this.Bstructs_array as unknown as Map<number, Type>
-    case 'DstructDB':
-      return this.Dstructs_array as unknown as Map<number, Type>
-    case 'FstructDB':
-      return this.Fstructs_array as unknown as Map<number, Type>
-    default:
-      throw new Error("Type not recognized");
+    switch (gongStructName) {
+      // insertion point
+      case 'Astruct':
+        return this.Astructs_array as unknown as Map<number, Type>
+      case 'AstructBstruct2Use':
+        return this.AstructBstruct2Uses_array as unknown as Map<number, Type>
+      case 'AstructBstructUse':
+        return this.AstructBstructUses_array as unknown as Map<number, Type>
+      case 'Bstruct':
+        return this.Bstructs_array as unknown as Map<number, Type>
+      case 'Dstruct':
+        return this.Dstructs_array as unknown as Map<number, Type>
+      case 'Fstruct':
+        return this.Fstructs_array as unknown as Map<number, Type>
+      default:
+        throw new Error("Type not recognized");
     }
-  }
-
-  // getToken allows for a get function that is robust to refactoring of the named struct name
-  private getToken<Type>(): string {
-    // insertion point
-  if (({} as Type) instanceof AstructDB) return 'AstructDB'
-  if (({} as Type) instanceof AstructBstruct2UseDB) return 'AstructBstruct2UseDB'
-  if (({} as Type) instanceof AstructBstructUseDB) return 'AstructBstructUseDB'
-  if (({} as Type) instanceof BstructDB) return 'BstructDB'
-  if (({} as Type) instanceof DstructDB) return 'DstructDB'
-  if (({} as Type) instanceof FstructDB) return 'FstructDB'
-    return '';
   }
 }
 
@@ -203,7 +188,7 @@ export class FrontRepoService {
   }
 
   // typing of observable can be messy in typescript. Therefore, one force the type
-  observableFrontRepo: [ 
+  observableFrontRepo: [
     Observable<null>, // see below for the of(null) observable
     // insertion point sub template 
     Observable<AstructDB[]>,
@@ -212,16 +197,16 @@ export class FrontRepoService {
     Observable<BstructDB[]>,
     Observable<DstructDB[]>,
     Observable<FstructDB[]>,
-  ] = [ 
-    // Using "combineLatest" with a placeholder observable.
-    //
-    // This allows the typescript compiler to pass when no GongStruct is present in the front API
-    //
-    // The "of(null)" is a "meaningless" observable that emits a single value (null) and completes.
-    // This is used as a workaround to satisfy TypeScript requirements and the "combineLatest" 
-    // expectation for a non-empty array of observables.
-    of(null), // 
-    // insertion point sub template
+  ] = [
+      // Using "combineLatest" with a placeholder observable.
+      //
+      // This allows the typescript compiler to pass when no GongStruct is present in the front API
+      //
+      // The "of(null)" is a "meaningless" observable that emits a single value (null) and completes.
+      // This is used as a workaround to satisfy TypeScript requirements and the "combineLatest" 
+      // expectation for a non-empty array of observables.
+      of(null), // 
+      // insertion point sub template
       this.astructService.getAstructs(this.GONG__StackPath),
       this.astructbstruct2useService.getAstructBstruct2Uses(this.GONG__StackPath),
       this.astructbstructuseService.getAstructBstructUses(this.GONG__StackPath),
@@ -240,7 +225,7 @@ export class FrontRepoService {
 
     this.GONG__StackPath = GONG__StackPath
 
-    this.observableFrontRepo = [ 
+    this.observableFrontRepo = [
       of(null), // see above for justification
       // insertion point sub template
       this.astructService.getAstructs(this.GONG__StackPath),
@@ -256,7 +241,7 @@ export class FrontRepoService {
         combineLatest(
           this.observableFrontRepo
         ).subscribe(
-          ([ 
+          ([
             ___of_null, // see above for the explanation about of
             // insertion point sub template for declarations 
             astructs_,
