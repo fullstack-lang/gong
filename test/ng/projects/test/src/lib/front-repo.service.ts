@@ -3,7 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http'
 
 import { Observable, combineLatest, BehaviorSubject, of } from 'rxjs'
 
-// insertion point sub template for services imports 
+// insertion point sub template for services imports
 import { AstructDB } from './astruct-db'
 import { AstructService } from './astruct.service'
 
@@ -22,8 +22,9 @@ import { DstructService } from './dstruct.service'
 import { FstructDB } from './fstruct-db'
 import { FstructService } from './fstruct.service'
 
+
 // FrontRepo stores all instances in a front repository (design pattern repository)
-export class FrontRepo { // insertion point sub template 
+export class FrontRepo { // insertion point sub template
   Astructs_array = new Array<AstructDB>() // array of repo instances
   Astructs = new Map<number, AstructDB>() // map of repo instances
   Astructs_batch = new Map<number, AstructDB>() // same but only in last GET (for finding repo instances to delete)
@@ -49,8 +50,10 @@ export class FrontRepo { // insertion point sub template
   Fstructs_batch = new Map<number, FstructDB>() // same but only in last GET (for finding repo instances to delete)
 
 
+  // getArray allows for a get function that is robust to refactoring of the named struct name
+  // for instance frontRepo.getArray( Astruct.GONGSTRUCT_NAME), is robust to a refactoring of Astruct identifier
+  // contrary to frontRepo.Astructs_array which is not refactored when Astruct identifier is modified
   getArray<Type>(gongStructName: string): Array<Type> {
-
     switch (gongStructName) {
       // insertion point
       case 'Astruct':
@@ -72,7 +75,6 @@ export class FrontRepo { // insertion point sub template
 
   // getMap allows for a get function that is robust to refactoring of the named struct name
   getMap<Type>(gongStructName: string): Map<number, Type> {
-
     switch (gongStructName) {
       // insertion point
       case 'Astruct':
