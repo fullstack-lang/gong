@@ -20,6 +20,6 @@
     <as-split-area [size]="$any('*')">
         <!-- letting the component load only after ngOnInit is finished is important
         because the GONG__StackPath is not initialized otherwise -->
-        <lib-pkgelt-docs *ngIf="!loading" [GONG__StackPath]="GONG__StackPath"></lib-pkgelt-docs>
+        <lib-pkgelt-docs [GONG__StackPath]="GONG__StackPath"></lib-pkgelt-docs>
     </as-split-area>
 </as-split>

@@ -42,6 +42,10 @@ export class CellIntService {
   }
 
   /** GET cellints from the server */
+  // gets is more robust to refactoring
+  gets(GONG__StackPath: string): Observable<CellIntDB[]> {
+    return this.getCellInts(GONG__StackPath)
+  }
   getCellInts(GONG__StackPath: string): Observable<CellIntDB[]> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
@@ -55,6 +59,10 @@ export class CellIntService {
   }
 
   /** GET cellint by id. Will 404 if id not found */
+  // more robust API to refactoring
+  get(id: number, GONG__StackPath: string): Observable<CellIntDB> {
+	return this.getCellInt(id, GONG__StackPath)
+  }
   getCellInt(id: number, GONG__StackPath: string): Observable<CellIntDB> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
@@ -67,6 +75,9 @@ export class CellIntService {
   }
 
   /** POST: add a new cellint to the server */
+  post(cellintdb: CellIntDB, GONG__StackPath: string): Observable<CellIntDB> {
+    return this.postCellInt(cellintdb, GONG__StackPath)	
+  }
   postCellInt(cellintdb: CellIntDB, GONG__StackPath: string): Observable<CellIntDB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
@@ -87,6 +98,9 @@ export class CellIntService {
   }
 
   /** DELETE: delete the cellintdb from the server */
+  delete(cellintdb: CellIntDB | number, GONG__StackPath: string): Observable<CellIntDB> {
+    return this.deleteCellInt(cellintdb, GONG__StackPath)
+  }
   deleteCellInt(cellintdb: CellIntDB | number, GONG__StackPath: string): Observable<CellIntDB> {
     const id = typeof cellintdb === 'number' ? cellintdb : cellintdb.ID;
     const url = `${this.cellintsUrl}/${id}`;
@@ -104,6 +118,9 @@ export class CellIntService {
   }
 
   /** PUT: update the cellintdb on the server */
+  update(cellintdb: CellIntDB, GONG__StackPath: string): Observable<CellIntDB> {
+    return this.updateCellInt(cellintdb, GONG__StackPath)
+  }
   updateCellInt(cellintdb: CellIntDB, GONG__StackPath: string): Observable<CellIntDB> {
     const id = typeof cellintdb === 'number' ? cellintdb : cellintdb.ID;
     const url = `${this.cellintsUrl}/${id}`;

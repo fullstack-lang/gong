@@ -42,6 +42,10 @@ export class FormFieldFloat64Service {
   }
 
   /** GET formfieldfloat64s from the server */
+  // gets is more robust to refactoring
+  gets(GONG__StackPath: string): Observable<FormFieldFloat64DB[]> {
+    return this.getFormFieldFloat64s(GONG__StackPath)
+  }
   getFormFieldFloat64s(GONG__StackPath: string): Observable<FormFieldFloat64DB[]> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
@@ -55,6 +59,10 @@ export class FormFieldFloat64Service {
   }
 
   /** GET formfieldfloat64 by id. Will 404 if id not found */
+  // more robust API to refactoring
+  get(id: number, GONG__StackPath: string): Observable<FormFieldFloat64DB> {
+	return this.getFormFieldFloat64(id, GONG__StackPath)
+  }
   getFormFieldFloat64(id: number, GONG__StackPath: string): Observable<FormFieldFloat64DB> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
@@ -67,6 +75,9 @@ export class FormFieldFloat64Service {
   }
 
   /** POST: add a new formfieldfloat64 to the server */
+  post(formfieldfloat64db: FormFieldFloat64DB, GONG__StackPath: string): Observable<FormFieldFloat64DB> {
+    return this.postFormFieldFloat64(formfieldfloat64db, GONG__StackPath)	
+  }
   postFormFieldFloat64(formfieldfloat64db: FormFieldFloat64DB, GONG__StackPath: string): Observable<FormFieldFloat64DB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
@@ -87,6 +98,9 @@ export class FormFieldFloat64Service {
   }
 
   /** DELETE: delete the formfieldfloat64db from the server */
+  delete(formfieldfloat64db: FormFieldFloat64DB | number, GONG__StackPath: string): Observable<FormFieldFloat64DB> {
+    return this.deleteFormFieldFloat64(formfieldfloat64db, GONG__StackPath)
+  }
   deleteFormFieldFloat64(formfieldfloat64db: FormFieldFloat64DB | number, GONG__StackPath: string): Observable<FormFieldFloat64DB> {
     const id = typeof formfieldfloat64db === 'number' ? formfieldfloat64db : formfieldfloat64db.ID;
     const url = `${this.formfieldfloat64sUrl}/${id}`;
@@ -104,6 +118,9 @@ export class FormFieldFloat64Service {
   }
 
   /** PUT: update the formfieldfloat64db on the server */
+  update(formfieldfloat64db: FormFieldFloat64DB, GONG__StackPath: string): Observable<FormFieldFloat64DB> {
+    return this.updateFormFieldFloat64(formfieldfloat64db, GONG__StackPath)
+  }
   updateFormFieldFloat64(formfieldfloat64db: FormFieldFloat64DB, GONG__StackPath: string): Observable<FormFieldFloat64DB> {
     const id = typeof formfieldfloat64db === 'number' ? formfieldfloat64db : formfieldfloat64db.ID;
     const url = `${this.formfieldfloat64sUrl}/${id}`;

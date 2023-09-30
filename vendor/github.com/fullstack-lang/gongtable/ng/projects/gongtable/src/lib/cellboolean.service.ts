@@ -42,6 +42,10 @@ export class CellBooleanService {
   }
 
   /** GET cellbooleans from the server */
+  // gets is more robust to refactoring
+  gets(GONG__StackPath: string): Observable<CellBooleanDB[]> {
+    return this.getCellBooleans(GONG__StackPath)
+  }
   getCellBooleans(GONG__StackPath: string): Observable<CellBooleanDB[]> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
@@ -55,6 +59,10 @@ export class CellBooleanService {
   }
 
   /** GET cellboolean by id. Will 404 if id not found */
+  // more robust API to refactoring
+  get(id: number, GONG__StackPath: string): Observable<CellBooleanDB> {
+	return this.getCellBoolean(id, GONG__StackPath)
+  }
   getCellBoolean(id: number, GONG__StackPath: string): Observable<CellBooleanDB> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
@@ -67,6 +75,9 @@ export class CellBooleanService {
   }
 
   /** POST: add a new cellboolean to the server */
+  post(cellbooleandb: CellBooleanDB, GONG__StackPath: string): Observable<CellBooleanDB> {
+    return this.postCellBoolean(cellbooleandb, GONG__StackPath)	
+  }
   postCellBoolean(cellbooleandb: CellBooleanDB, GONG__StackPath: string): Observable<CellBooleanDB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
@@ -87,6 +98,9 @@ export class CellBooleanService {
   }
 
   /** DELETE: delete the cellbooleandb from the server */
+  delete(cellbooleandb: CellBooleanDB | number, GONG__StackPath: string): Observable<CellBooleanDB> {
+    return this.deleteCellBoolean(cellbooleandb, GONG__StackPath)
+  }
   deleteCellBoolean(cellbooleandb: CellBooleanDB | number, GONG__StackPath: string): Observable<CellBooleanDB> {
     const id = typeof cellbooleandb === 'number' ? cellbooleandb : cellbooleandb.ID;
     const url = `${this.cellbooleansUrl}/${id}`;
@@ -104,6 +118,9 @@ export class CellBooleanService {
   }
 
   /** PUT: update the cellbooleandb on the server */
+  update(cellbooleandb: CellBooleanDB, GONG__StackPath: string): Observable<CellBooleanDB> {
+    return this.updateCellBoolean(cellbooleandb, GONG__StackPath)
+  }
   updateCellBoolean(cellbooleandb: CellBooleanDB, GONG__StackPath: string): Observable<CellBooleanDB> {
     const id = typeof cellbooleandb === 'number' ? cellbooleandb : cellbooleandb.ID;
     const url = `${this.cellbooleansUrl}/${id}`;

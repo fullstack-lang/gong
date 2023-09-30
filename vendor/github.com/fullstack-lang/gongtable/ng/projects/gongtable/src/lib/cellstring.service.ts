@@ -42,6 +42,10 @@ export class CellStringService {
   }
 
   /** GET cellstrings from the server */
+  // gets is more robust to refactoring
+  gets(GONG__StackPath: string): Observable<CellStringDB[]> {
+    return this.getCellStrings(GONG__StackPath)
+  }
   getCellStrings(GONG__StackPath: string): Observable<CellStringDB[]> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
@@ -55,6 +59,10 @@ export class CellStringService {
   }
 
   /** GET cellstring by id. Will 404 if id not found */
+  // more robust API to refactoring
+  get(id: number, GONG__StackPath: string): Observable<CellStringDB> {
+	return this.getCellString(id, GONG__StackPath)
+  }
   getCellString(id: number, GONG__StackPath: string): Observable<CellStringDB> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
@@ -67,6 +75,9 @@ export class CellStringService {
   }
 
   /** POST: add a new cellstring to the server */
+  post(cellstringdb: CellStringDB, GONG__StackPath: string): Observable<CellStringDB> {
+    return this.postCellString(cellstringdb, GONG__StackPath)	
+  }
   postCellString(cellstringdb: CellStringDB, GONG__StackPath: string): Observable<CellStringDB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
@@ -87,6 +98,9 @@ export class CellStringService {
   }
 
   /** DELETE: delete the cellstringdb from the server */
+  delete(cellstringdb: CellStringDB | number, GONG__StackPath: string): Observable<CellStringDB> {
+    return this.deleteCellString(cellstringdb, GONG__StackPath)
+  }
   deleteCellString(cellstringdb: CellStringDB | number, GONG__StackPath: string): Observable<CellStringDB> {
     const id = typeof cellstringdb === 'number' ? cellstringdb : cellstringdb.ID;
     const url = `${this.cellstringsUrl}/${id}`;
@@ -104,6 +118,9 @@ export class CellStringService {
   }
 
   /** PUT: update the cellstringdb on the server */
+  update(cellstringdb: CellStringDB, GONG__StackPath: string): Observable<CellStringDB> {
+    return this.updateCellString(cellstringdb, GONG__StackPath)
+  }
   updateCellString(cellstringdb: CellStringDB, GONG__StackPath: string): Observable<CellStringDB> {
     const id = typeof cellstringdb === 'number' ? cellstringdb : cellstringdb.ID;
     const url = `${this.cellstringsUrl}/${id}`;
