@@ -69,7 +69,8 @@ func main() {
 	golang.RemoveGeneratedGongFilesButDocs(*pkgPath)
 
 	// initiate model package
-	modelPkg, _ := gong_models.LoadSource(gong_models.GetDefaultStage(), *pkgPath)
+	modelStage := gong_models.NewStage("")
+	modelPkg, _ := gong_models.LoadSource(modelStage, *pkgPath)
 
 	// check wether the package name follows gong naming convention
 	if strings.ContainsAny(modelPkg.Name, "-") {

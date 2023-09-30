@@ -6,7 +6,6 @@ package models
 import (
 	"errors"
 	"fmt"
-	"sync"
 	"time"
 )
 
@@ -103,17 +102,6 @@ type BackRepoInterface interface {
 	// insertion point for Commit and Checkout signatures{{` + string(rune(ModelGongStructInsertionCommitCheckout)) + `}}
 	GetLastCommitFromBackNb() uint
 	GetLastPushFromFrontNb() uint
-}
-
-var _stage *StageStruct
-
-var once sync.Once
-
-func GetDefaultStage() *StageStruct {
-	once.Do(func() {
-		_stage = NewStage("")
-	})
-	return _stage
 }
 
 func NewStage(path string) (stage *StageStruct) {
