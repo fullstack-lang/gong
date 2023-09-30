@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { AstructDB, FrontRepo } from 'test';
+import { AstructDB, BstructDB, FrontRepo } from 'test';
 
 @Component({
   selector: 'lib-testspecific',
@@ -15,10 +15,15 @@ export class TestspecificComponent {
 
   frontRepo = new FrontRepo
 
-  titi() {
+  constructor() {
 
-    let a = this.frontRepo.getArray<AstructDB>()
+    let frontRepo = new (FrontRepo)
 
+    frontRepo.Astructs_array.push(new (AstructDB))
+    frontRepo.Astructs_array.push(new (AstructDB))
+
+    let array = frontRepo.getArray(AstructDB.GONGSTRUCT_NAME)
+    console.log("", array.length)
   }
 
 }
