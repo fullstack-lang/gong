@@ -43,6 +43,10 @@ export class LineService {
   }
 
   /** GET lines from the server */
+  // gets is more robust to refactoring
+  gets(GONG__StackPath: string): Observable<LineDB[]> {
+    return this.getLines(GONG__StackPath)
+  }
   getLines(GONG__StackPath: string): Observable<LineDB[]> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
@@ -56,6 +60,10 @@ export class LineService {
   }
 
   /** GET line by id. Will 404 if id not found */
+  // more robust API to refactoring
+  get(id: number, GONG__StackPath: string): Observable<LineDB> {
+	return this.getLine(id, GONG__StackPath)
+  }
   getLine(id: number, GONG__StackPath: string): Observable<LineDB> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
@@ -68,6 +76,9 @@ export class LineService {
   }
 
   /** POST: add a new line to the server */
+  post(linedb: LineDB, GONG__StackPath: string): Observable<LineDB> {
+    return this.postLine(linedb, GONG__StackPath)	
+  }
   postLine(linedb: LineDB, GONG__StackPath: string): Observable<LineDB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
@@ -94,6 +105,9 @@ export class LineService {
   }
 
   /** DELETE: delete the linedb from the server */
+  delete(linedb: LineDB | number, GONG__StackPath: string): Observable<LineDB> {
+    return this.deleteLine(linedb, GONG__StackPath)
+  }
   deleteLine(linedb: LineDB | number, GONG__StackPath: string): Observable<LineDB> {
     const id = typeof linedb === 'number' ? linedb : linedb.ID;
     const url = `${this.linesUrl}/${id}`;
@@ -111,6 +125,9 @@ export class LineService {
   }
 
   /** PUT: update the linedb on the server */
+  update(linedb: LineDB, GONG__StackPath: string): Observable<LineDB> {
+    return this.updateLine(linedb, GONG__StackPath)
+  }
   updateLine(linedb: LineDB, GONG__StackPath: string): Observable<LineDB> {
     const id = typeof linedb === 'number' ? linedb : linedb.ID;
     const url = `${this.linesUrl}/${id}`;

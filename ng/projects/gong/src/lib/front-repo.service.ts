@@ -3,7 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http'
 
 import { Observable, combineLatest, BehaviorSubject, of } from 'rxjs'
 
-// insertion point sub template for services imports 
+// insertion point sub template for services imports
 import { GongBasicFieldDB } from './gongbasicfield-db'
 import { GongBasicFieldService } from './gongbasicfield.service'
 
@@ -42,7 +42,7 @@ import { SliceOfPointerToGongStructFieldService } from './sliceofpointertogongst
 
 
 // FrontRepo stores all instances in a front repository (design pattern repository)
-export class FrontRepo { // insertion point sub template 
+export class FrontRepo { // insertion point sub template
   GongBasicFields_array = new Array<GongBasicFieldDB>() // array of repo instances
   GongBasicFields = new Map<number, GongBasicFieldDB>() // map of repo instances
   GongBasicFields_batch = new Map<number, GongBasicFieldDB>() // same but only in last GET (for finding repo instances to delete)
@@ -92,91 +92,72 @@ export class FrontRepo { // insertion point sub template
   SliceOfPointerToGongStructFields_batch = new Map<number, SliceOfPointerToGongStructFieldDB>() // same but only in last GET (for finding repo instances to delete)
 
 
-  getArray<Type>(): Array<Type> {
-    const token = this.getToken<Type>();
-
-    switch (token) {
-    // insertion point
-    case 'GongBasicFieldDB':
-      return this.GongBasicFields_array as unknown as Array<Type>
-    case 'GongEnumDB':
-      return this.GongEnums_array as unknown as Array<Type>
-    case 'GongEnumValueDB':
-      return this.GongEnumValues_array as unknown as Array<Type>
-    case 'GongLinkDB':
-      return this.GongLinks_array as unknown as Array<Type>
-    case 'GongNoteDB':
-      return this.GongNotes_array as unknown as Array<Type>
-    case 'GongStructDB':
-      return this.GongStructs_array as unknown as Array<Type>
-    case 'GongTimeFieldDB':
-      return this.GongTimeFields_array as unknown as Array<Type>
-    case 'MetaDB':
-      return this.Metas_array as unknown as Array<Type>
-    case 'MetaReferenceDB':
-      return this.MetaReferences_array as unknown as Array<Type>
-    case 'ModelPkgDB':
-      return this.ModelPkgs_array as unknown as Array<Type>
-    case 'PointerToGongStructFieldDB':
-      return this.PointerToGongStructFields_array as unknown as Array<Type>
-    case 'SliceOfPointerToGongStructFieldDB':
-      return this.SliceOfPointerToGongStructFields_array as unknown as Array<Type>
-    default:
-      throw new Error("Type not recognized");
+  // getArray allows for a get function that is robust to refactoring of the named struct name
+  // for instance frontRepo.getArray<Astruct>( Astruct.GONGSTRUCT_NAME), is robust to a refactoring of Astruct identifier
+  // contrary to frontRepo.Astructs_array which is not refactored when Astruct identifier is modified
+  getArray<Type>(gongStructName: string): Array<Type> {
+    switch (gongStructName) {
+      // insertion point
+      case 'GongBasicField':
+        return this.GongBasicFields_array as unknown as Array<Type>
+      case 'GongEnum':
+        return this.GongEnums_array as unknown as Array<Type>
+      case 'GongEnumValue':
+        return this.GongEnumValues_array as unknown as Array<Type>
+      case 'GongLink':
+        return this.GongLinks_array as unknown as Array<Type>
+      case 'GongNote':
+        return this.GongNotes_array as unknown as Array<Type>
+      case 'GongStruct':
+        return this.GongStructs_array as unknown as Array<Type>
+      case 'GongTimeField':
+        return this.GongTimeFields_array as unknown as Array<Type>
+      case 'Meta':
+        return this.Metas_array as unknown as Array<Type>
+      case 'MetaReference':
+        return this.MetaReferences_array as unknown as Array<Type>
+      case 'ModelPkg':
+        return this.ModelPkgs_array as unknown as Array<Type>
+      case 'PointerToGongStructField':
+        return this.PointerToGongStructFields_array as unknown as Array<Type>
+      case 'SliceOfPointerToGongStructField':
+        return this.SliceOfPointerToGongStructFields_array as unknown as Array<Type>
+      default:
+        throw new Error("Type not recognized");
     }
   }
 
   // getMap allows for a get function that is robust to refactoring of the named struct name
-  getMap<Type>(): Map<number, Type> {
-    const token = this.getToken<Type>();
-
-    switch (token) {
-    // insertion point
-    case 'GongBasicFieldDB':
-      return this.GongBasicFields_array as unknown as Map<number, Type>
-    case 'GongEnumDB':
-      return this.GongEnums_array as unknown as Map<number, Type>
-    case 'GongEnumValueDB':
-      return this.GongEnumValues_array as unknown as Map<number, Type>
-    case 'GongLinkDB':
-      return this.GongLinks_array as unknown as Map<number, Type>
-    case 'GongNoteDB':
-      return this.GongNotes_array as unknown as Map<number, Type>
-    case 'GongStructDB':
-      return this.GongStructs_array as unknown as Map<number, Type>
-    case 'GongTimeFieldDB':
-      return this.GongTimeFields_array as unknown as Map<number, Type>
-    case 'MetaDB':
-      return this.Metas_array as unknown as Map<number, Type>
-    case 'MetaReferenceDB':
-      return this.MetaReferences_array as unknown as Map<number, Type>
-    case 'ModelPkgDB':
-      return this.ModelPkgs_array as unknown as Map<number, Type>
-    case 'PointerToGongStructFieldDB':
-      return this.PointerToGongStructFields_array as unknown as Map<number, Type>
-    case 'SliceOfPointerToGongStructFieldDB':
-      return this.SliceOfPointerToGongStructFields_array as unknown as Map<number, Type>
-    default:
-      throw new Error("Type not recognized");
+  getMap<Type>(gongStructName: string): Map<number, Type> {
+    switch (gongStructName) {
+      // insertion point
+      case 'GongBasicField':
+        return this.GongBasicFields_array as unknown as Map<number, Type>
+      case 'GongEnum':
+        return this.GongEnums_array as unknown as Map<number, Type>
+      case 'GongEnumValue':
+        return this.GongEnumValues_array as unknown as Map<number, Type>
+      case 'GongLink':
+        return this.GongLinks_array as unknown as Map<number, Type>
+      case 'GongNote':
+        return this.GongNotes_array as unknown as Map<number, Type>
+      case 'GongStruct':
+        return this.GongStructs_array as unknown as Map<number, Type>
+      case 'GongTimeField':
+        return this.GongTimeFields_array as unknown as Map<number, Type>
+      case 'Meta':
+        return this.Metas_array as unknown as Map<number, Type>
+      case 'MetaReference':
+        return this.MetaReferences_array as unknown as Map<number, Type>
+      case 'ModelPkg':
+        return this.ModelPkgs_array as unknown as Map<number, Type>
+      case 'PointerToGongStructField':
+        return this.PointerToGongStructFields_array as unknown as Map<number, Type>
+      case 'SliceOfPointerToGongStructField':
+        return this.SliceOfPointerToGongStructFields_array as unknown as Map<number, Type>
+      default:
+        throw new Error("Type not recognized");
     }
-  }
-
-  // getToken allows for a get function that is robust to refactoring of the named struct name
-  private getToken<Type>(): string {
-    // insertion point
-  if (({} as Type) instanceof GongBasicFieldDB) return 'GongBasicFieldDB'
-  if (({} as Type) instanceof GongEnumDB) return 'GongEnumDB'
-  if (({} as Type) instanceof GongEnumValueDB) return 'GongEnumValueDB'
-  if (({} as Type) instanceof GongLinkDB) return 'GongLinkDB'
-  if (({} as Type) instanceof GongNoteDB) return 'GongNoteDB'
-  if (({} as Type) instanceof GongStructDB) return 'GongStructDB'
-  if (({} as Type) instanceof GongTimeFieldDB) return 'GongTimeFieldDB'
-  if (({} as Type) instanceof MetaDB) return 'MetaDB'
-  if (({} as Type) instanceof MetaReferenceDB) return 'MetaReferenceDB'
-  if (({} as Type) instanceof ModelPkgDB) return 'ModelPkgDB'
-  if (({} as Type) instanceof PointerToGongStructFieldDB) return 'PointerToGongStructFieldDB'
-  if (({} as Type) instanceof SliceOfPointerToGongStructFieldDB) return 'SliceOfPointerToGongStructFieldDB'
-    return '';
   }
 }
 
@@ -281,7 +262,7 @@ export class FrontRepoService {
   }
 
   // typing of observable can be messy in typescript. Therefore, one force the type
-  observableFrontRepo: [ 
+  observableFrontRepo: [
     Observable<null>, // see below for the of(null) observable
     // insertion point sub template 
     Observable<GongBasicFieldDB[]>,
@@ -296,16 +277,16 @@ export class FrontRepoService {
     Observable<ModelPkgDB[]>,
     Observable<PointerToGongStructFieldDB[]>,
     Observable<SliceOfPointerToGongStructFieldDB[]>,
-  ] = [ 
-    // Using "combineLatest" with a placeholder observable.
-    //
-    // This allows the typescript compiler to pass when no GongStruct is present in the front API
-    //
-    // The "of(null)" is a "meaningless" observable that emits a single value (null) and completes.
-    // This is used as a workaround to satisfy TypeScript requirements and the "combineLatest" 
-    // expectation for a non-empty array of observables.
-    of(null), // 
-    // insertion point sub template
+  ] = [
+      // Using "combineLatest" with a placeholder observable.
+      //
+      // This allows the typescript compiler to pass when no GongStruct is present in the front API
+      //
+      // The "of(null)" is a "meaningless" observable that emits a single value (null) and completes.
+      // This is used as a workaround to satisfy TypeScript requirements and the "combineLatest" 
+      // expectation for a non-empty array of observables.
+      of(null), // 
+      // insertion point sub template
       this.gongbasicfieldService.getGongBasicFields(this.GONG__StackPath),
       this.gongenumService.getGongEnums(this.GONG__StackPath),
       this.gongenumvalueService.getGongEnumValues(this.GONG__StackPath),
@@ -330,7 +311,7 @@ export class FrontRepoService {
 
     this.GONG__StackPath = GONG__StackPath
 
-    this.observableFrontRepo = [ 
+    this.observableFrontRepo = [
       of(null), // see above for justification
       // insertion point sub template
       this.gongbasicfieldService.getGongBasicFields(this.GONG__StackPath),
@@ -352,7 +333,7 @@ export class FrontRepoService {
         combineLatest(
           this.observableFrontRepo
         ).subscribe(
-          ([ 
+          ([
             ___of_null, // see above for the explanation about of
             // insertion point sub template for declarations 
             gongbasicfields_,

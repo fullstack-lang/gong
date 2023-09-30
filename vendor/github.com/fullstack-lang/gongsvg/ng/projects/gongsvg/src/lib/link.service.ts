@@ -44,6 +44,10 @@ export class LinkService {
   }
 
   /** GET links from the server */
+  // gets is more robust to refactoring
+  gets(GONG__StackPath: string): Observable<LinkDB[]> {
+    return this.getLinks(GONG__StackPath)
+  }
   getLinks(GONG__StackPath: string): Observable<LinkDB[]> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
@@ -57,6 +61,10 @@ export class LinkService {
   }
 
   /** GET link by id. Will 404 if id not found */
+  // more robust API to refactoring
+  get(id: number, GONG__StackPath: string): Observable<LinkDB> {
+	return this.getLink(id, GONG__StackPath)
+  }
   getLink(id: number, GONG__StackPath: string): Observable<LinkDB> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
@@ -69,6 +77,9 @@ export class LinkService {
   }
 
   /** POST: add a new link to the server */
+  post(linkdb: LinkDB, GONG__StackPath: string): Observable<LinkDB> {
+    return this.postLink(linkdb, GONG__StackPath)	
+  }
   postLink(linkdb: LinkDB, GONG__StackPath: string): Observable<LinkDB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
@@ -105,6 +116,9 @@ export class LinkService {
   }
 
   /** DELETE: delete the linkdb from the server */
+  delete(linkdb: LinkDB | number, GONG__StackPath: string): Observable<LinkDB> {
+    return this.deleteLink(linkdb, GONG__StackPath)
+  }
   deleteLink(linkdb: LinkDB | number, GONG__StackPath: string): Observable<LinkDB> {
     const id = typeof linkdb === 'number' ? linkdb : linkdb.ID;
     const url = `${this.linksUrl}/${id}`;
@@ -122,6 +136,9 @@ export class LinkService {
   }
 
   /** PUT: update the linkdb on the server */
+  update(linkdb: LinkDB, GONG__StackPath: string): Observable<LinkDB> {
+    return this.updateLink(linkdb, GONG__StackPath)
+  }
   updateLink(linkdb: LinkDB, GONG__StackPath: string): Observable<LinkDB> {
     const id = typeof linkdb === 'number' ? linkdb : linkdb.ID;
     const url = `${this.linksUrl}/${id}`;

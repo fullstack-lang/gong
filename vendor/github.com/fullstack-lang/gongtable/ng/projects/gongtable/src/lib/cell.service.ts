@@ -48,6 +48,10 @@ export class CellService {
   }
 
   /** GET cells from the server */
+  // gets is more robust to refactoring
+  gets(GONG__StackPath: string): Observable<CellDB[]> {
+    return this.getCells(GONG__StackPath)
+  }
   getCells(GONG__StackPath: string): Observable<CellDB[]> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
@@ -61,6 +65,10 @@ export class CellService {
   }
 
   /** GET cell by id. Will 404 if id not found */
+  // more robust API to refactoring
+  get(id: number, GONG__StackPath: string): Observable<CellDB> {
+	return this.getCell(id, GONG__StackPath)
+  }
   getCell(id: number, GONG__StackPath: string): Observable<CellDB> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
@@ -73,6 +81,9 @@ export class CellService {
   }
 
   /** POST: add a new cell to the server */
+  post(celldb: CellDB, GONG__StackPath: string): Observable<CellDB> {
+    return this.postCell(celldb, GONG__StackPath)	
+  }
   postCell(celldb: CellDB, GONG__StackPath: string): Observable<CellDB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
@@ -106,6 +117,9 @@ export class CellService {
   }
 
   /** DELETE: delete the celldb from the server */
+  delete(celldb: CellDB | number, GONG__StackPath: string): Observable<CellDB> {
+    return this.deleteCell(celldb, GONG__StackPath)
+  }
   deleteCell(celldb: CellDB | number, GONG__StackPath: string): Observable<CellDB> {
     const id = typeof celldb === 'number' ? celldb : celldb.ID;
     const url = `${this.cellsUrl}/${id}`;
@@ -123,6 +137,9 @@ export class CellService {
   }
 
   /** PUT: update the celldb on the server */
+  update(celldb: CellDB, GONG__StackPath: string): Observable<CellDB> {
+    return this.updateCell(celldb, GONG__StackPath)
+  }
   updateCell(celldb: CellDB, GONG__StackPath: string): Observable<CellDB> {
     const id = typeof celldb === 'number' ? celldb : celldb.ID;
     const url = `${this.cellsUrl}/${id}`;

@@ -42,6 +42,10 @@ export class FormEditAssocButtonService {
   }
 
   /** GET formeditassocbuttons from the server */
+  // gets is more robust to refactoring
+  gets(GONG__StackPath: string): Observable<FormEditAssocButtonDB[]> {
+    return this.getFormEditAssocButtons(GONG__StackPath)
+  }
   getFormEditAssocButtons(GONG__StackPath: string): Observable<FormEditAssocButtonDB[]> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
@@ -55,6 +59,10 @@ export class FormEditAssocButtonService {
   }
 
   /** GET formeditassocbutton by id. Will 404 if id not found */
+  // more robust API to refactoring
+  get(id: number, GONG__StackPath: string): Observable<FormEditAssocButtonDB> {
+	return this.getFormEditAssocButton(id, GONG__StackPath)
+  }
   getFormEditAssocButton(id: number, GONG__StackPath: string): Observable<FormEditAssocButtonDB> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
@@ -67,6 +75,9 @@ export class FormEditAssocButtonService {
   }
 
   /** POST: add a new formeditassocbutton to the server */
+  post(formeditassocbuttondb: FormEditAssocButtonDB, GONG__StackPath: string): Observable<FormEditAssocButtonDB> {
+    return this.postFormEditAssocButton(formeditassocbuttondb, GONG__StackPath)	
+  }
   postFormEditAssocButton(formeditassocbuttondb: FormEditAssocButtonDB, GONG__StackPath: string): Observable<FormEditAssocButtonDB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
@@ -87,6 +98,9 @@ export class FormEditAssocButtonService {
   }
 
   /** DELETE: delete the formeditassocbuttondb from the server */
+  delete(formeditassocbuttondb: FormEditAssocButtonDB | number, GONG__StackPath: string): Observable<FormEditAssocButtonDB> {
+    return this.deleteFormEditAssocButton(formeditassocbuttondb, GONG__StackPath)
+  }
   deleteFormEditAssocButton(formeditassocbuttondb: FormEditAssocButtonDB | number, GONG__StackPath: string): Observable<FormEditAssocButtonDB> {
     const id = typeof formeditassocbuttondb === 'number' ? formeditassocbuttondb : formeditassocbuttondb.ID;
     const url = `${this.formeditassocbuttonsUrl}/${id}`;
@@ -104,6 +118,9 @@ export class FormEditAssocButtonService {
   }
 
   /** PUT: update the formeditassocbuttondb on the server */
+  update(formeditassocbuttondb: FormEditAssocButtonDB, GONG__StackPath: string): Observable<FormEditAssocButtonDB> {
+    return this.updateFormEditAssocButton(formeditassocbuttondb, GONG__StackPath)
+  }
   updateFormEditAssocButton(formeditassocbuttondb: FormEditAssocButtonDB, GONG__StackPath: string): Observable<FormEditAssocButtonDB> {
     const id = typeof formeditassocbuttondb === 'number' ? formeditassocbuttondb : formeditassocbuttondb.ID;
     const url = `${this.formeditassocbuttonsUrl}/${id}`;

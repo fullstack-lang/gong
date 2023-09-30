@@ -52,6 +52,10 @@ export class AnimateService {
   }
 
   /** GET animates from the server */
+  // gets is more robust to refactoring
+  gets(GONG__StackPath: string): Observable<AnimateDB[]> {
+    return this.getAnimates(GONG__StackPath)
+  }
   getAnimates(GONG__StackPath: string): Observable<AnimateDB[]> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
@@ -65,6 +69,10 @@ export class AnimateService {
   }
 
   /** GET animate by id. Will 404 if id not found */
+  // more robust API to refactoring
+  get(id: number, GONG__StackPath: string): Observable<AnimateDB> {
+	return this.getAnimate(id, GONG__StackPath)
+  }
   getAnimate(id: number, GONG__StackPath: string): Observable<AnimateDB> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
@@ -77,6 +85,9 @@ export class AnimateService {
   }
 
   /** POST: add a new animate to the server */
+  post(animatedb: AnimateDB, GONG__StackPath: string): Observable<AnimateDB> {
+    return this.postAnimate(animatedb, GONG__StackPath)	
+  }
   postAnimate(animatedb: AnimateDB, GONG__StackPath: string): Observable<AnimateDB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
@@ -127,6 +138,9 @@ export class AnimateService {
   }
 
   /** DELETE: delete the animatedb from the server */
+  delete(animatedb: AnimateDB | number, GONG__StackPath: string): Observable<AnimateDB> {
+    return this.deleteAnimate(animatedb, GONG__StackPath)
+  }
   deleteAnimate(animatedb: AnimateDB | number, GONG__StackPath: string): Observable<AnimateDB> {
     const id = typeof animatedb === 'number' ? animatedb : animatedb.ID;
     const url = `${this.animatesUrl}/${id}`;
@@ -144,6 +158,9 @@ export class AnimateService {
   }
 
   /** PUT: update the animatedb on the server */
+  update(animatedb: AnimateDB, GONG__StackPath: string): Observable<AnimateDB> {
+    return this.updateAnimate(animatedb, GONG__StackPath)
+  }
   updateAnimate(animatedb: AnimateDB, GONG__StackPath: string): Observable<AnimateDB> {
     const id = typeof animatedb === 'number' ? animatedb : animatedb.ID;
     const url = `${this.animatesUrl}/${id}`;

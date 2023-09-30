@@ -42,6 +42,10 @@ export class FormFieldStringService {
   }
 
   /** GET formfieldstrings from the server */
+  // gets is more robust to refactoring
+  gets(GONG__StackPath: string): Observable<FormFieldStringDB[]> {
+    return this.getFormFieldStrings(GONG__StackPath)
+  }
   getFormFieldStrings(GONG__StackPath: string): Observable<FormFieldStringDB[]> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
@@ -55,6 +59,10 @@ export class FormFieldStringService {
   }
 
   /** GET formfieldstring by id. Will 404 if id not found */
+  // more robust API to refactoring
+  get(id: number, GONG__StackPath: string): Observable<FormFieldStringDB> {
+	return this.getFormFieldString(id, GONG__StackPath)
+  }
   getFormFieldString(id: number, GONG__StackPath: string): Observable<FormFieldStringDB> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
@@ -67,6 +75,9 @@ export class FormFieldStringService {
   }
 
   /** POST: add a new formfieldstring to the server */
+  post(formfieldstringdb: FormFieldStringDB, GONG__StackPath: string): Observable<FormFieldStringDB> {
+    return this.postFormFieldString(formfieldstringdb, GONG__StackPath)	
+  }
   postFormFieldString(formfieldstringdb: FormFieldStringDB, GONG__StackPath: string): Observable<FormFieldStringDB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
@@ -87,6 +98,9 @@ export class FormFieldStringService {
   }
 
   /** DELETE: delete the formfieldstringdb from the server */
+  delete(formfieldstringdb: FormFieldStringDB | number, GONG__StackPath: string): Observable<FormFieldStringDB> {
+    return this.deleteFormFieldString(formfieldstringdb, GONG__StackPath)
+  }
   deleteFormFieldString(formfieldstringdb: FormFieldStringDB | number, GONG__StackPath: string): Observable<FormFieldStringDB> {
     const id = typeof formfieldstringdb === 'number' ? formfieldstringdb : formfieldstringdb.ID;
     const url = `${this.formfieldstringsUrl}/${id}`;
@@ -104,6 +118,9 @@ export class FormFieldStringService {
   }
 
   /** PUT: update the formfieldstringdb on the server */
+  update(formfieldstringdb: FormFieldStringDB, GONG__StackPath: string): Observable<FormFieldStringDB> {
+    return this.updateFormFieldString(formfieldstringdb, GONG__StackPath)
+  }
   updateFormFieldString(formfieldstringdb: FormFieldStringDB, GONG__StackPath: string): Observable<FormFieldStringDB> {
     const id = typeof formfieldstringdb === 'number' ? formfieldstringdb : formfieldstringdb.ID;
     const url = `${this.formfieldstringsUrl}/${id}`;

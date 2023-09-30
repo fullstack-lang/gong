@@ -43,6 +43,10 @@ export class LinkAnchoredTextService {
   }
 
   /** GET linkanchoredtexts from the server */
+  // gets is more robust to refactoring
+  gets(GONG__StackPath: string): Observable<LinkAnchoredTextDB[]> {
+    return this.getLinkAnchoredTexts(GONG__StackPath)
+  }
   getLinkAnchoredTexts(GONG__StackPath: string): Observable<LinkAnchoredTextDB[]> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
@@ -56,6 +60,10 @@ export class LinkAnchoredTextService {
   }
 
   /** GET linkanchoredtext by id. Will 404 if id not found */
+  // more robust API to refactoring
+  get(id: number, GONG__StackPath: string): Observable<LinkAnchoredTextDB> {
+	return this.getLinkAnchoredText(id, GONG__StackPath)
+  }
   getLinkAnchoredText(id: number, GONG__StackPath: string): Observable<LinkAnchoredTextDB> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
@@ -68,6 +76,9 @@ export class LinkAnchoredTextService {
   }
 
   /** POST: add a new linkanchoredtext to the server */
+  post(linkanchoredtextdb: LinkAnchoredTextDB, GONG__StackPath: string): Observable<LinkAnchoredTextDB> {
+    return this.postLinkAnchoredText(linkanchoredtextdb, GONG__StackPath)	
+  }
   postLinkAnchoredText(linkanchoredtextdb: LinkAnchoredTextDB, GONG__StackPath: string): Observable<LinkAnchoredTextDB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
@@ -97,6 +108,9 @@ export class LinkAnchoredTextService {
   }
 
   /** DELETE: delete the linkanchoredtextdb from the server */
+  delete(linkanchoredtextdb: LinkAnchoredTextDB | number, GONG__StackPath: string): Observable<LinkAnchoredTextDB> {
+    return this.deleteLinkAnchoredText(linkanchoredtextdb, GONG__StackPath)
+  }
   deleteLinkAnchoredText(linkanchoredtextdb: LinkAnchoredTextDB | number, GONG__StackPath: string): Observable<LinkAnchoredTextDB> {
     const id = typeof linkanchoredtextdb === 'number' ? linkanchoredtextdb : linkanchoredtextdb.ID;
     const url = `${this.linkanchoredtextsUrl}/${id}`;
@@ -114,6 +128,9 @@ export class LinkAnchoredTextService {
   }
 
   /** PUT: update the linkanchoredtextdb on the server */
+  update(linkanchoredtextdb: LinkAnchoredTextDB, GONG__StackPath: string): Observable<LinkAnchoredTextDB> {
+    return this.updateLinkAnchoredText(linkanchoredtextdb, GONG__StackPath)
+  }
   updateLinkAnchoredText(linkanchoredtextdb: LinkAnchoredTextDB, GONG__StackPath: string): Observable<LinkAnchoredTextDB> {
     const id = typeof linkanchoredtextdb === 'number' ? linkanchoredtextdb : linkanchoredtextdb.ID;
     const url = `${this.linkanchoredtextsUrl}/${id}`;

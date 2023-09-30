@@ -141,7 +141,8 @@ export class MaterialTableComponent implements OnInit {
 
         this.selectedTable = undefined
 
-        for (let table of this.gongtableFrontRepo.Tables_array) {
+        // use of the refactorable version
+        for (let table of this.gongtableFrontRepo.getArray<gongtable.TableDB>(gongtable.TableDB.GONGSTRUCT_NAME)) {
           if (table.Name == this.TableName) {
             this.selectedTable = table
           }
@@ -150,41 +151,6 @@ export class MaterialTableComponent implements OnInit {
         if (this.selectedTable == undefined) {
           return
         }
-
-        // sort rows according to their index
-        this.selectedTable.Rows?.sort((t1, t2) => {
-          let t1_revPointerID_Index = t1.Table_RowsDBID_Index
-          let t2_revPointerID_Index = t2.Table_RowsDBID_Index
-          if (t1_revPointerID_Index && t2_revPointerID_Index) {
-            if (t1_revPointerID_Index.Int64 > t2_revPointerID_Index.Int64) {
-              return 1;
-            }
-            if (t1_revPointerID_Index.Int64 < t2_revPointerID_Index.Int64) {
-              return -1;
-            }
-          }
-          return 0;
-        })
-
-        // sort cells according to their order
-        if (this.selectedTable.Rows) {
-          for (let row of this.selectedTable.Rows) {
-            row.Cells?.sort((t1, t2) => {
-              let t1_revPointerID_Index = t1.Row_CellsDBID_Index
-              let t2_revPointerID_Index = t2.Row_CellsDBID_Index
-              if (t1_revPointerID_Index && t2_revPointerID_Index) {
-                if (t1_revPointerID_Index.Int64 > t2_revPointerID_Index.Int64) {
-                  return 1;
-                }
-                if (t1_revPointerID_Index.Int64 < t2_revPointerID_Index.Int64) {
-                  return -1;
-                }
-              }
-              return 0;
-            })
-          }
-        }
-
 
         this.dataSource = new MatTableDataSource(this.selectedTable.Rows!)
 
@@ -197,20 +163,6 @@ export class MaterialTableComponent implements OnInit {
         if (this.selectedTable.DisplayedColumns == undefined) {
           return
         }
-
-        this.selectedTable.DisplayedColumns?.sort((t1, t2) => {
-          let t1_revPointerID_Index = t1.Table_DisplayedColumnsDBID_Index
-          let t2_revPointerID_Index = t2.Table_DisplayedColumnsDBID_Index
-          if (t1_revPointerID_Index && t2_revPointerID_Index) {
-            if (t1_revPointerID_Index.Int64 > t2_revPointerID_Index.Int64) {
-              return 1;
-            }
-            if (t1_revPointerID_Index.Int64 < t2_revPointerID_Index.Int64) {
-              return -1;
-            }
-          }
-          return 0;
-        })
 
         this.mapHeaderIdIndex = new Map<string, number>()
         let index = 0
@@ -355,7 +307,7 @@ export class MaterialTableComponent implements OnInit {
       // in case this component is called as a modal window (MatDialog)
       // exits,
       this.selectedTable.SavingInProgress = true
-      this.tableService.updateTable(this.selectedTable!, this.DataStack).subscribe(
+      this.tableService.update(this.selectedTable!, this.DataStack).subscribe(
         () => {
           // in case this component is called as a modal window (MatDialog)
           // exits,
@@ -380,7 +332,7 @@ export class MaterialTableComponent implements OnInit {
       () => {
 
         this.selectedTable!.SavingInProgress = false
-        this.tableService.updateTable(this.selectedTable!, this.DataStack).subscribe(
+        this.tableService.update(this.selectedTable!, this.DataStack).subscribe(
           () => {
             // in case this component is called as a modal window (MatDialog)
             // exits,

@@ -1,9 +1,9 @@
-import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Injectable } from '@angular/core'
+import { HttpClient, HttpHeaders } from '@angular/common/http'
 
-import { Observable, combineLatest, BehaviorSubject } from 'rxjs';
+import { Observable, combineLatest, BehaviorSubject, of } from 'rxjs'
 
-// insertion point sub template for services imports 
+// insertion point sub template for services imports
 import { CellDB } from './cell-db'
 import { CellService } from './cell.service'
 
@@ -75,76 +75,211 @@ import { TableService } from './table.service'
 
 
 // FrontRepo stores all instances in a front repository (design pattern repository)
-export class FrontRepo { // insertion point sub template 
-  Cells_array = new Array<CellDB>(); // array of repo instances
-  Cells = new Map<number, CellDB>(); // map of repo instances
-  Cells_batch = new Map<number, CellDB>(); // same but only in last GET (for finding repo instances to delete)
-  CellBooleans_array = new Array<CellBooleanDB>(); // array of repo instances
-  CellBooleans = new Map<number, CellBooleanDB>(); // map of repo instances
-  CellBooleans_batch = new Map<number, CellBooleanDB>(); // same but only in last GET (for finding repo instances to delete)
-  CellFloat64s_array = new Array<CellFloat64DB>(); // array of repo instances
-  CellFloat64s = new Map<number, CellFloat64DB>(); // map of repo instances
-  CellFloat64s_batch = new Map<number, CellFloat64DB>(); // same but only in last GET (for finding repo instances to delete)
-  CellIcons_array = new Array<CellIconDB>(); // array of repo instances
-  CellIcons = new Map<number, CellIconDB>(); // map of repo instances
-  CellIcons_batch = new Map<number, CellIconDB>(); // same but only in last GET (for finding repo instances to delete)
-  CellInts_array = new Array<CellIntDB>(); // array of repo instances
-  CellInts = new Map<number, CellIntDB>(); // map of repo instances
-  CellInts_batch = new Map<number, CellIntDB>(); // same but only in last GET (for finding repo instances to delete)
-  CellStrings_array = new Array<CellStringDB>(); // array of repo instances
-  CellStrings = new Map<number, CellStringDB>(); // map of repo instances
-  CellStrings_batch = new Map<number, CellStringDB>(); // same but only in last GET (for finding repo instances to delete)
-  CheckBoxs_array = new Array<CheckBoxDB>(); // array of repo instances
-  CheckBoxs = new Map<number, CheckBoxDB>(); // map of repo instances
-  CheckBoxs_batch = new Map<number, CheckBoxDB>(); // same but only in last GET (for finding repo instances to delete)
-  DisplayedColumns_array = new Array<DisplayedColumnDB>(); // array of repo instances
-  DisplayedColumns = new Map<number, DisplayedColumnDB>(); // map of repo instances
-  DisplayedColumns_batch = new Map<number, DisplayedColumnDB>(); // same but only in last GET (for finding repo instances to delete)
-  FormDivs_array = new Array<FormDivDB>(); // array of repo instances
-  FormDivs = new Map<number, FormDivDB>(); // map of repo instances
-  FormDivs_batch = new Map<number, FormDivDB>(); // same but only in last GET (for finding repo instances to delete)
-  FormEditAssocButtons_array = new Array<FormEditAssocButtonDB>(); // array of repo instances
-  FormEditAssocButtons = new Map<number, FormEditAssocButtonDB>(); // map of repo instances
-  FormEditAssocButtons_batch = new Map<number, FormEditAssocButtonDB>(); // same but only in last GET (for finding repo instances to delete)
-  FormFields_array = new Array<FormFieldDB>(); // array of repo instances
-  FormFields = new Map<number, FormFieldDB>(); // map of repo instances
-  FormFields_batch = new Map<number, FormFieldDB>(); // same but only in last GET (for finding repo instances to delete)
-  FormFieldDates_array = new Array<FormFieldDateDB>(); // array of repo instances
-  FormFieldDates = new Map<number, FormFieldDateDB>(); // map of repo instances
-  FormFieldDates_batch = new Map<number, FormFieldDateDB>(); // same but only in last GET (for finding repo instances to delete)
-  FormFieldDateTimes_array = new Array<FormFieldDateTimeDB>(); // array of repo instances
-  FormFieldDateTimes = new Map<number, FormFieldDateTimeDB>(); // map of repo instances
-  FormFieldDateTimes_batch = new Map<number, FormFieldDateTimeDB>(); // same but only in last GET (for finding repo instances to delete)
-  FormFieldFloat64s_array = new Array<FormFieldFloat64DB>(); // array of repo instances
-  FormFieldFloat64s = new Map<number, FormFieldFloat64DB>(); // map of repo instances
-  FormFieldFloat64s_batch = new Map<number, FormFieldFloat64DB>(); // same but only in last GET (for finding repo instances to delete)
-  FormFieldInts_array = new Array<FormFieldIntDB>(); // array of repo instances
-  FormFieldInts = new Map<number, FormFieldIntDB>(); // map of repo instances
-  FormFieldInts_batch = new Map<number, FormFieldIntDB>(); // same but only in last GET (for finding repo instances to delete)
-  FormFieldSelects_array = new Array<FormFieldSelectDB>(); // array of repo instances
-  FormFieldSelects = new Map<number, FormFieldSelectDB>(); // map of repo instances
-  FormFieldSelects_batch = new Map<number, FormFieldSelectDB>(); // same but only in last GET (for finding repo instances to delete)
-  FormFieldStrings_array = new Array<FormFieldStringDB>(); // array of repo instances
-  FormFieldStrings = new Map<number, FormFieldStringDB>(); // map of repo instances
-  FormFieldStrings_batch = new Map<number, FormFieldStringDB>(); // same but only in last GET (for finding repo instances to delete)
-  FormFieldTimes_array = new Array<FormFieldTimeDB>(); // array of repo instances
-  FormFieldTimes = new Map<number, FormFieldTimeDB>(); // map of repo instances
-  FormFieldTimes_batch = new Map<number, FormFieldTimeDB>(); // same but only in last GET (for finding repo instances to delete)
-  FormGroups_array = new Array<FormGroupDB>(); // array of repo instances
-  FormGroups = new Map<number, FormGroupDB>(); // map of repo instances
-  FormGroups_batch = new Map<number, FormGroupDB>(); // same but only in last GET (for finding repo instances to delete)
-  FormSortAssocButtons_array = new Array<FormSortAssocButtonDB>(); // array of repo instances
-  FormSortAssocButtons = new Map<number, FormSortAssocButtonDB>(); // map of repo instances
-  FormSortAssocButtons_batch = new Map<number, FormSortAssocButtonDB>(); // same but only in last GET (for finding repo instances to delete)
-  Options_array = new Array<OptionDB>(); // array of repo instances
-  Options = new Map<number, OptionDB>(); // map of repo instances
-  Options_batch = new Map<number, OptionDB>(); // same but only in last GET (for finding repo instances to delete)
-  Rows_array = new Array<RowDB>(); // array of repo instances
-  Rows = new Map<number, RowDB>(); // map of repo instances
-  Rows_batch = new Map<number, RowDB>(); // same but only in last GET (for finding repo instances to delete)
-  Tables_array = new Array<TableDB>(); // array of repo instances
-  Tables = new Map<number, TableDB>(); // map of repo instances
-  Tables_batch = new Map<number, TableDB>(); // same but only in last GET (for finding repo instances to delete)
+export class FrontRepo { // insertion point sub template
+  Cells_array = new Array<CellDB>() // array of repo instances
+  Cells = new Map<number, CellDB>() // map of repo instances
+  Cells_batch = new Map<number, CellDB>() // same but only in last GET (for finding repo instances to delete)
+
+  CellBooleans_array = new Array<CellBooleanDB>() // array of repo instances
+  CellBooleans = new Map<number, CellBooleanDB>() // map of repo instances
+  CellBooleans_batch = new Map<number, CellBooleanDB>() // same but only in last GET (for finding repo instances to delete)
+
+  CellFloat64s_array = new Array<CellFloat64DB>() // array of repo instances
+  CellFloat64s = new Map<number, CellFloat64DB>() // map of repo instances
+  CellFloat64s_batch = new Map<number, CellFloat64DB>() // same but only in last GET (for finding repo instances to delete)
+
+  CellIcons_array = new Array<CellIconDB>() // array of repo instances
+  CellIcons = new Map<number, CellIconDB>() // map of repo instances
+  CellIcons_batch = new Map<number, CellIconDB>() // same but only in last GET (for finding repo instances to delete)
+
+  CellInts_array = new Array<CellIntDB>() // array of repo instances
+  CellInts = new Map<number, CellIntDB>() // map of repo instances
+  CellInts_batch = new Map<number, CellIntDB>() // same but only in last GET (for finding repo instances to delete)
+
+  CellStrings_array = new Array<CellStringDB>() // array of repo instances
+  CellStrings = new Map<number, CellStringDB>() // map of repo instances
+  CellStrings_batch = new Map<number, CellStringDB>() // same but only in last GET (for finding repo instances to delete)
+
+  CheckBoxs_array = new Array<CheckBoxDB>() // array of repo instances
+  CheckBoxs = new Map<number, CheckBoxDB>() // map of repo instances
+  CheckBoxs_batch = new Map<number, CheckBoxDB>() // same but only in last GET (for finding repo instances to delete)
+
+  DisplayedColumns_array = new Array<DisplayedColumnDB>() // array of repo instances
+  DisplayedColumns = new Map<number, DisplayedColumnDB>() // map of repo instances
+  DisplayedColumns_batch = new Map<number, DisplayedColumnDB>() // same but only in last GET (for finding repo instances to delete)
+
+  FormDivs_array = new Array<FormDivDB>() // array of repo instances
+  FormDivs = new Map<number, FormDivDB>() // map of repo instances
+  FormDivs_batch = new Map<number, FormDivDB>() // same but only in last GET (for finding repo instances to delete)
+
+  FormEditAssocButtons_array = new Array<FormEditAssocButtonDB>() // array of repo instances
+  FormEditAssocButtons = new Map<number, FormEditAssocButtonDB>() // map of repo instances
+  FormEditAssocButtons_batch = new Map<number, FormEditAssocButtonDB>() // same but only in last GET (for finding repo instances to delete)
+
+  FormFields_array = new Array<FormFieldDB>() // array of repo instances
+  FormFields = new Map<number, FormFieldDB>() // map of repo instances
+  FormFields_batch = new Map<number, FormFieldDB>() // same but only in last GET (for finding repo instances to delete)
+
+  FormFieldDates_array = new Array<FormFieldDateDB>() // array of repo instances
+  FormFieldDates = new Map<number, FormFieldDateDB>() // map of repo instances
+  FormFieldDates_batch = new Map<number, FormFieldDateDB>() // same but only in last GET (for finding repo instances to delete)
+
+  FormFieldDateTimes_array = new Array<FormFieldDateTimeDB>() // array of repo instances
+  FormFieldDateTimes = new Map<number, FormFieldDateTimeDB>() // map of repo instances
+  FormFieldDateTimes_batch = new Map<number, FormFieldDateTimeDB>() // same but only in last GET (for finding repo instances to delete)
+
+  FormFieldFloat64s_array = new Array<FormFieldFloat64DB>() // array of repo instances
+  FormFieldFloat64s = new Map<number, FormFieldFloat64DB>() // map of repo instances
+  FormFieldFloat64s_batch = new Map<number, FormFieldFloat64DB>() // same but only in last GET (for finding repo instances to delete)
+
+  FormFieldInts_array = new Array<FormFieldIntDB>() // array of repo instances
+  FormFieldInts = new Map<number, FormFieldIntDB>() // map of repo instances
+  FormFieldInts_batch = new Map<number, FormFieldIntDB>() // same but only in last GET (for finding repo instances to delete)
+
+  FormFieldSelects_array = new Array<FormFieldSelectDB>() // array of repo instances
+  FormFieldSelects = new Map<number, FormFieldSelectDB>() // map of repo instances
+  FormFieldSelects_batch = new Map<number, FormFieldSelectDB>() // same but only in last GET (for finding repo instances to delete)
+
+  FormFieldStrings_array = new Array<FormFieldStringDB>() // array of repo instances
+  FormFieldStrings = new Map<number, FormFieldStringDB>() // map of repo instances
+  FormFieldStrings_batch = new Map<number, FormFieldStringDB>() // same but only in last GET (for finding repo instances to delete)
+
+  FormFieldTimes_array = new Array<FormFieldTimeDB>() // array of repo instances
+  FormFieldTimes = new Map<number, FormFieldTimeDB>() // map of repo instances
+  FormFieldTimes_batch = new Map<number, FormFieldTimeDB>() // same but only in last GET (for finding repo instances to delete)
+
+  FormGroups_array = new Array<FormGroupDB>() // array of repo instances
+  FormGroups = new Map<number, FormGroupDB>() // map of repo instances
+  FormGroups_batch = new Map<number, FormGroupDB>() // same but only in last GET (for finding repo instances to delete)
+
+  FormSortAssocButtons_array = new Array<FormSortAssocButtonDB>() // array of repo instances
+  FormSortAssocButtons = new Map<number, FormSortAssocButtonDB>() // map of repo instances
+  FormSortAssocButtons_batch = new Map<number, FormSortAssocButtonDB>() // same but only in last GET (for finding repo instances to delete)
+
+  Options_array = new Array<OptionDB>() // array of repo instances
+  Options = new Map<number, OptionDB>() // map of repo instances
+  Options_batch = new Map<number, OptionDB>() // same but only in last GET (for finding repo instances to delete)
+
+  Rows_array = new Array<RowDB>() // array of repo instances
+  Rows = new Map<number, RowDB>() // map of repo instances
+  Rows_batch = new Map<number, RowDB>() // same but only in last GET (for finding repo instances to delete)
+
+  Tables_array = new Array<TableDB>() // array of repo instances
+  Tables = new Map<number, TableDB>() // map of repo instances
+  Tables_batch = new Map<number, TableDB>() // same but only in last GET (for finding repo instances to delete)
+
+
+  // getArray allows for a get function that is robust to refactoring of the named struct name
+  // for instance frontRepo.getArray( Astruct.GONGSTRUCT_NAME), is robust to a refactoring of Astruct identifier
+  // contrary to frontRepo.Astructs_array which is not refactored when Astruct identifier is modified
+  getArray<Type>(gongStructName: string): Array<Type> {
+    switch (gongStructName) {
+      // insertion point
+      case 'Cell':
+        return this.Cells_array as unknown as Array<Type>
+      case 'CellBoolean':
+        return this.CellBooleans_array as unknown as Array<Type>
+      case 'CellFloat64':
+        return this.CellFloat64s_array as unknown as Array<Type>
+      case 'CellIcon':
+        return this.CellIcons_array as unknown as Array<Type>
+      case 'CellInt':
+        return this.CellInts_array as unknown as Array<Type>
+      case 'CellString':
+        return this.CellStrings_array as unknown as Array<Type>
+      case 'CheckBox':
+        return this.CheckBoxs_array as unknown as Array<Type>
+      case 'DisplayedColumn':
+        return this.DisplayedColumns_array as unknown as Array<Type>
+      case 'FormDiv':
+        return this.FormDivs_array as unknown as Array<Type>
+      case 'FormEditAssocButton':
+        return this.FormEditAssocButtons_array as unknown as Array<Type>
+      case 'FormField':
+        return this.FormFields_array as unknown as Array<Type>
+      case 'FormFieldDate':
+        return this.FormFieldDates_array as unknown as Array<Type>
+      case 'FormFieldDateTime':
+        return this.FormFieldDateTimes_array as unknown as Array<Type>
+      case 'FormFieldFloat64':
+        return this.FormFieldFloat64s_array as unknown as Array<Type>
+      case 'FormFieldInt':
+        return this.FormFieldInts_array as unknown as Array<Type>
+      case 'FormFieldSelect':
+        return this.FormFieldSelects_array as unknown as Array<Type>
+      case 'FormFieldString':
+        return this.FormFieldStrings_array as unknown as Array<Type>
+      case 'FormFieldTime':
+        return this.FormFieldTimes_array as unknown as Array<Type>
+      case 'FormGroup':
+        return this.FormGroups_array as unknown as Array<Type>
+      case 'FormSortAssocButton':
+        return this.FormSortAssocButtons_array as unknown as Array<Type>
+      case 'Option':
+        return this.Options_array as unknown as Array<Type>
+      case 'Row':
+        return this.Rows_array as unknown as Array<Type>
+      case 'Table':
+        return this.Tables_array as unknown as Array<Type>
+      default:
+        throw new Error("Type not recognized");
+    }
+  }
+
+  // getMap allows for a get function that is robust to refactoring of the named struct name
+  getMap<Type>(gongStructName: string): Map<number, Type> {
+    switch (gongStructName) {
+      // insertion point
+      case 'Cell':
+        return this.Cells_array as unknown as Map<number, Type>
+      case 'CellBoolean':
+        return this.CellBooleans_array as unknown as Map<number, Type>
+      case 'CellFloat64':
+        return this.CellFloat64s_array as unknown as Map<number, Type>
+      case 'CellIcon':
+        return this.CellIcons_array as unknown as Map<number, Type>
+      case 'CellInt':
+        return this.CellInts_array as unknown as Map<number, Type>
+      case 'CellString':
+        return this.CellStrings_array as unknown as Map<number, Type>
+      case 'CheckBox':
+        return this.CheckBoxs_array as unknown as Map<number, Type>
+      case 'DisplayedColumn':
+        return this.DisplayedColumns_array as unknown as Map<number, Type>
+      case 'FormDiv':
+        return this.FormDivs_array as unknown as Map<number, Type>
+      case 'FormEditAssocButton':
+        return this.FormEditAssocButtons_array as unknown as Map<number, Type>
+      case 'FormField':
+        return this.FormFields_array as unknown as Map<number, Type>
+      case 'FormFieldDate':
+        return this.FormFieldDates_array as unknown as Map<number, Type>
+      case 'FormFieldDateTime':
+        return this.FormFieldDateTimes_array as unknown as Map<number, Type>
+      case 'FormFieldFloat64':
+        return this.FormFieldFloat64s_array as unknown as Map<number, Type>
+      case 'FormFieldInt':
+        return this.FormFieldInts_array as unknown as Map<number, Type>
+      case 'FormFieldSelect':
+        return this.FormFieldSelects_array as unknown as Map<number, Type>
+      case 'FormFieldString':
+        return this.FormFieldStrings_array as unknown as Map<number, Type>
+      case 'FormFieldTime':
+        return this.FormFieldTimes_array as unknown as Map<number, Type>
+      case 'FormGroup':
+        return this.FormGroups_array as unknown as Map<number, Type>
+      case 'FormSortAssocButton':
+        return this.FormSortAssocButtons_array as unknown as Map<number, Type>
+      case 'Option':
+        return this.Options_array as unknown as Map<number, Type>
+      case 'Row':
+        return this.Rows_array as unknown as Map<number, Type>
+      case 'Table':
+        return this.Tables_array as unknown as Map<number, Type>
+      default:
+        throw new Error("Type not recognized");
+    }
+  }
 }
 
 // the table component is called in different ways
@@ -259,7 +394,9 @@ export class FrontRepoService {
   }
 
   // typing of observable can be messy in typescript. Therefore, one force the type
-  observableFrontRepo: [ // insertion point sub template 
+  observableFrontRepo: [
+    Observable<null>, // see below for the of(null) observable
+    // insertion point sub template 
     Observable<CellDB[]>,
     Observable<CellBooleanDB[]>,
     Observable<CellFloat64DB[]>,
@@ -283,7 +420,16 @@ export class FrontRepoService {
     Observable<OptionDB[]>,
     Observable<RowDB[]>,
     Observable<TableDB[]>,
-  ] = [ // insertion point sub template
+  ] = [
+      // Using "combineLatest" with a placeholder observable.
+      //
+      // This allows the typescript compiler to pass when no GongStruct is present in the front API
+      //
+      // The "of(null)" is a "meaningless" observable that emits a single value (null) and completes.
+      // This is used as a workaround to satisfy TypeScript requirements and the "combineLatest" 
+      // expectation for a non-empty array of observables.
+      of(null), // 
+      // insertion point sub template
       this.cellService.getCells(this.GONG__StackPath),
       this.cellbooleanService.getCellBooleans(this.GONG__StackPath),
       this.cellfloat64Service.getCellFloat64s(this.GONG__StackPath),
@@ -319,7 +465,9 @@ export class FrontRepoService {
 
     this.GONG__StackPath = GONG__StackPath
 
-    this.observableFrontRepo = [ // insertion point sub template
+    this.observableFrontRepo = [
+      of(null), // see above for justification
+      // insertion point sub template
       this.cellService.getCells(this.GONG__StackPath),
       this.cellbooleanService.getCellBooleans(this.GONG__StackPath),
       this.cellfloat64Service.getCellFloat64s(this.GONG__StackPath),
@@ -350,7 +498,9 @@ export class FrontRepoService {
         combineLatest(
           this.observableFrontRepo
         ).subscribe(
-          ([ // insertion point sub template for declarations 
+          ([
+            ___of_null, // see above for the explanation about of
+            // insertion point sub template for declarations 
             cells_,
             cellbooleans_,
             cellfloat64s_,

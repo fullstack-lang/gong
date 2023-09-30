@@ -43,6 +43,10 @@ export class PolygoneService {
   }
 
   /** GET polygones from the server */
+  // gets is more robust to refactoring
+  gets(GONG__StackPath: string): Observable<PolygoneDB[]> {
+    return this.getPolygones(GONG__StackPath)
+  }
   getPolygones(GONG__StackPath: string): Observable<PolygoneDB[]> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
@@ -56,6 +60,10 @@ export class PolygoneService {
   }
 
   /** GET polygone by id. Will 404 if id not found */
+  // more robust API to refactoring
+  get(id: number, GONG__StackPath: string): Observable<PolygoneDB> {
+	return this.getPolygone(id, GONG__StackPath)
+  }
   getPolygone(id: number, GONG__StackPath: string): Observable<PolygoneDB> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
@@ -68,6 +76,9 @@ export class PolygoneService {
   }
 
   /** POST: add a new polygone to the server */
+  post(polygonedb: PolygoneDB, GONG__StackPath: string): Observable<PolygoneDB> {
+    return this.postPolygone(polygonedb, GONG__StackPath)	
+  }
   postPolygone(polygonedb: PolygoneDB, GONG__StackPath: string): Observable<PolygoneDB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
@@ -94,6 +105,9 @@ export class PolygoneService {
   }
 
   /** DELETE: delete the polygonedb from the server */
+  delete(polygonedb: PolygoneDB | number, GONG__StackPath: string): Observable<PolygoneDB> {
+    return this.deletePolygone(polygonedb, GONG__StackPath)
+  }
   deletePolygone(polygonedb: PolygoneDB | number, GONG__StackPath: string): Observable<PolygoneDB> {
     const id = typeof polygonedb === 'number' ? polygonedb : polygonedb.ID;
     const url = `${this.polygonesUrl}/${id}`;
@@ -111,6 +125,9 @@ export class PolygoneService {
   }
 
   /** PUT: update the polygonedb on the server */
+  update(polygonedb: PolygoneDB, GONG__StackPath: string): Observable<PolygoneDB> {
+    return this.updatePolygone(polygonedb, GONG__StackPath)
+  }
   updatePolygone(polygonedb: PolygoneDB, GONG__StackPath: string): Observable<PolygoneDB> {
     const id = typeof polygonedb === 'number' ? polygonedb : polygonedb.ID;
     const url = `${this.polygonesUrl}/${id}`;

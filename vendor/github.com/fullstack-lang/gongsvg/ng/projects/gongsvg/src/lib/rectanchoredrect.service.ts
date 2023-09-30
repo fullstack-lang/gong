@@ -43,6 +43,10 @@ export class RectAnchoredRectService {
   }
 
   /** GET rectanchoredrects from the server */
+  // gets is more robust to refactoring
+  gets(GONG__StackPath: string): Observable<RectAnchoredRectDB[]> {
+    return this.getRectAnchoredRects(GONG__StackPath)
+  }
   getRectAnchoredRects(GONG__StackPath: string): Observable<RectAnchoredRectDB[]> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
@@ -56,6 +60,10 @@ export class RectAnchoredRectService {
   }
 
   /** GET rectanchoredrect by id. Will 404 if id not found */
+  // more robust API to refactoring
+  get(id: number, GONG__StackPath: string): Observable<RectAnchoredRectDB> {
+	return this.getRectAnchoredRect(id, GONG__StackPath)
+  }
   getRectAnchoredRect(id: number, GONG__StackPath: string): Observable<RectAnchoredRectDB> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
@@ -68,6 +76,9 @@ export class RectAnchoredRectService {
   }
 
   /** POST: add a new rectanchoredrect to the server */
+  post(rectanchoredrectdb: RectAnchoredRectDB, GONG__StackPath: string): Observable<RectAnchoredRectDB> {
+    return this.postRectAnchoredRect(rectanchoredrectdb, GONG__StackPath)	
+  }
   postRectAnchoredRect(rectanchoredrectdb: RectAnchoredRectDB, GONG__StackPath: string): Observable<RectAnchoredRectDB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
@@ -91,6 +102,9 @@ export class RectAnchoredRectService {
   }
 
   /** DELETE: delete the rectanchoredrectdb from the server */
+  delete(rectanchoredrectdb: RectAnchoredRectDB | number, GONG__StackPath: string): Observable<RectAnchoredRectDB> {
+    return this.deleteRectAnchoredRect(rectanchoredrectdb, GONG__StackPath)
+  }
   deleteRectAnchoredRect(rectanchoredrectdb: RectAnchoredRectDB | number, GONG__StackPath: string): Observable<RectAnchoredRectDB> {
     const id = typeof rectanchoredrectdb === 'number' ? rectanchoredrectdb : rectanchoredrectdb.ID;
     const url = `${this.rectanchoredrectsUrl}/${id}`;
@@ -108,6 +122,9 @@ export class RectAnchoredRectService {
   }
 
   /** PUT: update the rectanchoredrectdb on the server */
+  update(rectanchoredrectdb: RectAnchoredRectDB, GONG__StackPath: string): Observable<RectAnchoredRectDB> {
+    return this.updateRectAnchoredRect(rectanchoredrectdb, GONG__StackPath)
+  }
   updateRectAnchoredRect(rectanchoredrectdb: RectAnchoredRectDB, GONG__StackPath: string): Observable<RectAnchoredRectDB> {
     const id = typeof rectanchoredrectdb === 'number' ? rectanchoredrectdb : rectanchoredrectdb.ID;
     const url = `${this.rectanchoredrectsUrl}/${id}`;

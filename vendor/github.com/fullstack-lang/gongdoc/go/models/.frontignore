@@ -1,0 +1,3 @@
+# model of gongdoc does not need to be managed in the front. The front
+# is performed by gongsvg
+*.go

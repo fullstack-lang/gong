@@ -42,6 +42,10 @@ export class FormSortAssocButtonService {
   }
 
   /** GET formsortassocbuttons from the server */
+  // gets is more robust to refactoring
+  gets(GONG__StackPath: string): Observable<FormSortAssocButtonDB[]> {
+    return this.getFormSortAssocButtons(GONG__StackPath)
+  }
   getFormSortAssocButtons(GONG__StackPath: string): Observable<FormSortAssocButtonDB[]> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
@@ -55,6 +59,10 @@ export class FormSortAssocButtonService {
   }
 
   /** GET formsortassocbutton by id. Will 404 if id not found */
+  // more robust API to refactoring
+  get(id: number, GONG__StackPath: string): Observable<FormSortAssocButtonDB> {
+	return this.getFormSortAssocButton(id, GONG__StackPath)
+  }
   getFormSortAssocButton(id: number, GONG__StackPath: string): Observable<FormSortAssocButtonDB> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
@@ -67,6 +75,9 @@ export class FormSortAssocButtonService {
   }
 
   /** POST: add a new formsortassocbutton to the server */
+  post(formsortassocbuttondb: FormSortAssocButtonDB, GONG__StackPath: string): Observable<FormSortAssocButtonDB> {
+    return this.postFormSortAssocButton(formsortassocbuttondb, GONG__StackPath)	
+  }
   postFormSortAssocButton(formsortassocbuttondb: FormSortAssocButtonDB, GONG__StackPath: string): Observable<FormSortAssocButtonDB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
@@ -87,6 +98,9 @@ export class FormSortAssocButtonService {
   }
 
   /** DELETE: delete the formsortassocbuttondb from the server */
+  delete(formsortassocbuttondb: FormSortAssocButtonDB | number, GONG__StackPath: string): Observable<FormSortAssocButtonDB> {
+    return this.deleteFormSortAssocButton(formsortassocbuttondb, GONG__StackPath)
+  }
   deleteFormSortAssocButton(formsortassocbuttondb: FormSortAssocButtonDB | number, GONG__StackPath: string): Observable<FormSortAssocButtonDB> {
     const id = typeof formsortassocbuttondb === 'number' ? formsortassocbuttondb : formsortassocbuttondb.ID;
     const url = `${this.formsortassocbuttonsUrl}/${id}`;
@@ -104,6 +118,9 @@ export class FormSortAssocButtonService {
   }
 
   /** PUT: update the formsortassocbuttondb on the server */
+  update(formsortassocbuttondb: FormSortAssocButtonDB, GONG__StackPath: string): Observable<FormSortAssocButtonDB> {
+    return this.updateFormSortAssocButton(formsortassocbuttondb, GONG__StackPath)
+  }
   updateFormSortAssocButton(formsortassocbuttondb: FormSortAssocButtonDB, GONG__StackPath: string): Observable<FormSortAssocButtonDB> {
     const id = typeof formsortassocbuttondb === 'number' ? formsortassocbuttondb : formsortassocbuttondb.ID;
     const url = `${this.formsortassocbuttonsUrl}/${id}`;

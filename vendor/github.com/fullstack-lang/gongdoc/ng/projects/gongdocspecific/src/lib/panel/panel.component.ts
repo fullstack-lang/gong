@@ -20,33 +20,15 @@ export class PanelComponent implements OnInit {
 
   @Input() GONG__StackPath: string = ""
 
-  diagramPackage: gongdoc.DiagramPackageDB = new (gongdoc.DiagramPackageDB);
-
   constructor(
-    private diagramPackageService: gongdoc.DiagramPackageService,
   ) {
 
   }
 
   ngOnInit(): void {
-    // create a new GongDoc instance
-    this.diagramPackageService.getDiagramPackages(this.GONG__StackPath).subscribe(
 
-      diagramPackages => {
-
-        this.diagramPackage = diagramPackages[0];
-        console.log("PanelComponent", this.diagramPackage.Name)
-
-        this.loading = false
-      })
   }
 
   refresh() {
-    // refresh the view
-    this.diagramPackage.IsReloaded = true
-    this.diagramPackageService.updateDiagramPackage(this.diagramPackage, this.GONG__StackPath).subscribe(
-      diagramPackage => {
-        console.log('diagram package refreshed')
-      })
   }
 }
