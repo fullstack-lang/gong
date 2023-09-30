@@ -18,7 +18,7 @@ func FillUpForm[T models.Gongstruct](
 
 	switch instanceWithInferedType := any(instance).(type) {
 	// insertion point
-	case *models.Dummy:
+	case *models.A:
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, playground.formStage, formGroup, false)
 

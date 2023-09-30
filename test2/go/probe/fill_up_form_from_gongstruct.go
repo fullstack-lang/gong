@@ -14,11 +14,11 @@ func FillUpFormFromGongstruct[T models.Gongstruct](instance *T, playground *Play
 
 	switch instancesTyped := any(instance).(type) {
 	// insertion point
-	case *models.Dummy:
+	case *models.A:
 		formGroup := (&gongtable.FormGroup{
 			Name:  gongtable.FormGroupDefaultName.ToString(),
-			Label: "Update Dummy Form",
-			OnSave: __gong__New__DummyFormCallback(
+			Label: "Update A Form",
+			OnSave: __gong__New__AFormCallback(
 				instancesTyped,
 				playground,
 			),

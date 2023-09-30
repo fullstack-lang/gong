@@ -11,20 +11,20 @@ import { BehaviorSubject } from 'rxjs';
 import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 
-import { DummyDB } from './dummy-db';
+import { ADB } from './a-db';
 
 // insertion point for imports
 
 @Injectable({
   providedIn: 'root'
 })
-export class DummyService {
+export class AService {
 
   // Kamar Raïmo: Adding a way to communicate between components that share information
   // so that they are notified of a change.
-  DummyServiceChanged: BehaviorSubject<string> = new BehaviorSubject("");
+  AServiceChanged: BehaviorSubject<string> = new BehaviorSubject("");
 
-  private dummysUrl: string
+  private asUrl: string
 
   constructor(
     private http: HttpClient,
@@ -38,47 +38,47 @@ export class DummyService {
     origin = origin.replace("4200", "8080")
 
     // compute path to the service
-    this.dummysUrl = origin + '/api/github.com/fullstack-lang/gong/test2/go/v1/dummys';
+    this.asUrl = origin + '/api/github.com/fullstack-lang/gong/test2/go/v1/as';
   }
 
-  /** GET dummys from the server */
+  /** GET as from the server */
   // gets is more robust to refactoring
-  gets(GONG__StackPath: string): Observable<DummyDB[]> {
-    return this.getDummys(GONG__StackPath)
+  gets(GONG__StackPath: string): Observable<ADB[]> {
+    return this.getAs(GONG__StackPath)
   }
-  getDummys(GONG__StackPath: string): Observable<DummyDB[]> {
+  getAs(GONG__StackPath: string): Observable<ADB[]> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
-    return this.http.get<DummyDB[]>(this.dummysUrl, { params: params })
+    return this.http.get<ADB[]>(this.asUrl, { params: params })
       .pipe(
         tap(),
-		// tap(_ => this.log('fetched dummys')),
-        catchError(this.handleError<DummyDB[]>('getDummys', []))
+		// tap(_ => this.log('fetched as')),
+        catchError(this.handleError<ADB[]>('getAs', []))
       );
   }
 
-  /** GET dummy by id. Will 404 if id not found */
+  /** GET a by id. Will 404 if id not found */
   // more robust API to refactoring
-  get(id: number, GONG__StackPath: string): Observable<DummyDB> {
-	return this.getDummy(id, GONG__StackPath)
+  get(id: number, GONG__StackPath: string): Observable<ADB> {
+	return this.getA(id, GONG__StackPath)
   }
-  getDummy(id: number, GONG__StackPath: string): Observable<DummyDB> {
+  getA(id: number, GONG__StackPath: string): Observable<ADB> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
-    const url = `${this.dummysUrl}/${id}`;
-    return this.http.get<DummyDB>(url, { params: params }).pipe(
-      // tap(_ => this.log(`fetched dummy id=${id}`)),
-      catchError(this.handleError<DummyDB>(`getDummy id=${id}`))
+    const url = `${this.asUrl}/${id}`;
+    return this.http.get<ADB>(url, { params: params }).pipe(
+      // tap(_ => this.log(`fetched a id=${id}`)),
+      catchError(this.handleError<ADB>(`getA id=${id}`))
     );
   }
 
-  /** POST: add a new dummy to the server */
-  post(dummydb: DummyDB, GONG__StackPath: string): Observable<DummyDB> {
-    return this.postDummy(dummydb, GONG__StackPath)	
+  /** POST: add a new a to the server */
+  post(adb: ADB, GONG__StackPath: string): Observable<ADB> {
+    return this.postA(adb, GONG__StackPath)	
   }
-  postDummy(dummydb: DummyDB, GONG__StackPath: string): Observable<DummyDB> {
+  postA(adb: ADB, GONG__StackPath: string): Observable<ADB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
 
@@ -88,22 +88,22 @@ export class DummyService {
       params: params
     }
 
-    return this.http.post<DummyDB>(this.dummysUrl, dummydb, httpOptions).pipe(
+    return this.http.post<ADB>(this.asUrl, adb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
-        // this.log(`posted dummydb id=${dummydb.ID}`)
+        // this.log(`posted adb id=${adb.ID}`)
       }),
-      catchError(this.handleError<DummyDB>('postDummy'))
+      catchError(this.handleError<ADB>('postA'))
     );
   }
 
-  /** DELETE: delete the dummydb from the server */
-  delete(dummydb: DummyDB | number, GONG__StackPath: string): Observable<DummyDB> {
-    return this.deleteDummy(dummydb, GONG__StackPath)
+  /** DELETE: delete the adb from the server */
+  delete(adb: ADB | number, GONG__StackPath: string): Observable<ADB> {
+    return this.deleteA(adb, GONG__StackPath)
   }
-  deleteDummy(dummydb: DummyDB | number, GONG__StackPath: string): Observable<DummyDB> {
-    const id = typeof dummydb === 'number' ? dummydb : dummydb.ID;
-    const url = `${this.dummysUrl}/${id}`;
+  deleteA(adb: ADB | number, GONG__StackPath: string): Observable<ADB> {
+    const id = typeof adb === 'number' ? adb : adb.ID;
+    const url = `${this.asUrl}/${id}`;
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -111,19 +111,19 @@ export class DummyService {
       params: params
     };
 
-    return this.http.delete<DummyDB>(url, httpOptions).pipe(
-      tap(_ => this.log(`deleted dummydb id=${id}`)),
-      catchError(this.handleError<DummyDB>('deleteDummy'))
+    return this.http.delete<ADB>(url, httpOptions).pipe(
+      tap(_ => this.log(`deleted adb id=${id}`)),
+      catchError(this.handleError<ADB>('deleteA'))
     );
   }
 
-  /** PUT: update the dummydb on the server */
-  update(dummydb: DummyDB, GONG__StackPath: string): Observable<DummyDB> {
-    return this.updateDummy(dummydb, GONG__StackPath)
+  /** PUT: update the adb on the server */
+  update(adb: ADB, GONG__StackPath: string): Observable<ADB> {
+    return this.updateA(adb, GONG__StackPath)
   }
-  updateDummy(dummydb: DummyDB, GONG__StackPath: string): Observable<DummyDB> {
-    const id = typeof dummydb === 'number' ? dummydb : dummydb.ID;
-    const url = `${this.dummysUrl}/${id}`;
+  updateA(adb: ADB, GONG__StackPath: string): Observable<ADB> {
+    const id = typeof adb === 'number' ? adb : adb.ID;
+    const url = `${this.asUrl}/${id}`;
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
 
@@ -133,12 +133,12 @@ export class DummyService {
       params: params
     };
 
-    return this.http.put<DummyDB>(url, dummydb, httpOptions).pipe(
+    return this.http.put<ADB>(url, adb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
-        // this.log(`updated dummydb id=${dummydb.ID}`)
+        // this.log(`updated adb id=${adb.ID}`)
       }),
-      catchError(this.handleError<DummyDB>('updateDummy'))
+      catchError(this.handleError<ADB>('updateA'))
     );
   }
 
@@ -148,11 +148,11 @@ export class DummyService {
    * @param operation - name of the operation that failed
    * @param result - optional value to return as the observable result
    */
-  private handleError<T>(operation = 'operation in DummyService', result?: T) {
+  private handleError<T>(operation = 'operation in AService', result?: T) {
     return (error: any): Observable<T> => {
 
       // TODO: send the error to remote logging infrastructure
-      console.error("DummyService" + error); // log to console instead
+      console.error("AService" + error); // log to console instead
 
       // TODO: better job of transforming error for user consumption
       this.log(`${operation} failed: ${error.message}`);

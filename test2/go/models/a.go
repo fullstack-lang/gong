@@ -1,5 +1,5 @@
 package models
 
-type Dummy struct {
+type A struct {
 	Name string
 }

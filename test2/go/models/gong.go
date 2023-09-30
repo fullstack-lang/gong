@@ -34,13 +34,13 @@ type StageStruct struct {
 	path string
 
 	// insertion point for definition of arrays registering instances
-	Dummys           map[*Dummy]any
-	Dummys_mapString map[string]*Dummy
+	As           map[*A]any
+	As_mapString map[string]*A
 
-	OnAfterDummyCreateCallback OnAfterCreateInterface[Dummy]
-	OnAfterDummyUpdateCallback OnAfterUpdateInterface[Dummy]
-	OnAfterDummyDeleteCallback OnAfterDeleteInterface[Dummy]
-	OnAfterDummyReadCallback   OnAfterReadInterface[Dummy]
+	OnAfterACreateCallback OnAfterCreateInterface[A]
+	OnAfterAUpdateCallback OnAfterUpdateInterface[A]
+	OnAfterADeleteCallback OnAfterDeleteInterface[A]
+	OnAfterAReadCallback   OnAfterReadInterface[A]
 
 	AllModelsStructCreateCallback AllModelsStructCreateInterface
 
@@ -106,8 +106,8 @@ type BackRepoInterface interface {
 	BackupXL(stage *StageStruct, dirPath string)
 	RestoreXL(stage *StageStruct, dirPath string)
 	// insertion point for Commit and Checkout signatures
-	CommitDummy(dummy *Dummy)
-	CheckoutDummy(dummy *Dummy)
+	CommitA(a *A)
+	CheckoutA(a *A)
 	GetLastCommitFromBackNb() uint
 	GetLastPushFromFrontNb() uint
 }
@@ -115,8 +115,8 @@ type BackRepoInterface interface {
 func NewStage(path string) (stage *StageStruct) {
 
 	stage = &StageStruct{ // insertion point for array initiatialisation
-		Dummys:           make(map[*Dummy]any),
-		Dummys_mapString: make(map[string]*Dummy),
+		As:           make(map[*A]any),
+		As_mapString: make(map[string]*A),
 
 		// end of insertion point
 		Map_GongStructName_InstancesNb: make(map[string]int),
@@ -149,7 +149,7 @@ func (stage *StageStruct) Commit() {
 	}
 
 	// insertion point for computing the map of number of instances per gongstruct
-	stage.Map_GongStructName_InstancesNb["Dummy"] = len(stage.Dummys)
+	stage.Map_GongStructName_InstancesNb["A"] = len(stage.As)
 
 }
 
@@ -159,7 +159,7 @@ func (stage *StageStruct) Checkout() {
 	}
 
 	// insertion point for computing the map of number of instances per gongstruct
-	stage.Map_GongStructName_InstancesNb["Dummy"] = len(stage.Dummys)
+	stage.Map_GongStructName_InstancesNb["A"] = len(stage.As)
 
 }
 
@@ -192,80 +192,80 @@ func (stage *StageStruct) RestoreXL(dirPath string) {
 }
 
 // insertion point for cumulative sub template with model space calls
-// Stage puts dummy to the model stage
-func (dummy *Dummy) Stage(stage *StageStruct) *Dummy {
-	stage.Dummys[dummy] = __member
-	stage.Dummys_mapString[dummy.Name] = dummy
+// Stage puts a to the model stage
+func (a *A) Stage(stage *StageStruct) *A {
+	stage.As[a] = __member
+	stage.As_mapString[a.Name] = a
 
-	return dummy
+	return a
 }
 
-// Unstage removes dummy off the model stage
-func (dummy *Dummy) Unstage(stage *StageStruct) *Dummy {
-	delete(stage.Dummys, dummy)
-	delete(stage.Dummys_mapString, dummy.Name)
-	return dummy
+// Unstage removes a off the model stage
+func (a *A) Unstage(stage *StageStruct) *A {
+	delete(stage.As, a)
+	delete(stage.As_mapString, a.Name)
+	return a
 }
 
-// UnstageVoid removes dummy off the model stage
-func (dummy *Dummy) UnstageVoid(stage *StageStruct) {
-	delete(stage.Dummys, dummy)
-	delete(stage.Dummys_mapString, dummy.Name)
+// UnstageVoid removes a off the model stage
+func (a *A) UnstageVoid(stage *StageStruct) {
+	delete(stage.As, a)
+	delete(stage.As_mapString, a.Name)
 }
 
-// commit dummy to the back repo (if it is already staged)
-func (dummy *Dummy) Commit(stage *StageStruct) *Dummy {
-	if _, ok := stage.Dummys[dummy]; ok {
+// commit a to the back repo (if it is already staged)
+func (a *A) Commit(stage *StageStruct) *A {
+	if _, ok := stage.As[a]; ok {
 		if stage.BackRepo != nil {
-			stage.BackRepo.CommitDummy(dummy)
+			stage.BackRepo.CommitA(a)
 		}
 	}
-	return dummy
+	return a
 }
 
-func (dummy *Dummy) CommitVoid(stage *StageStruct) {
-	dummy.Commit(stage)
+func (a *A) CommitVoid(stage *StageStruct) {
+	a.Commit(stage)
 }
 
-// Checkout dummy to the back repo (if it is already staged)
-func (dummy *Dummy) Checkout(stage *StageStruct) *Dummy {
-	if _, ok := stage.Dummys[dummy]; ok {
+// Checkout a to the back repo (if it is already staged)
+func (a *A) Checkout(stage *StageStruct) *A {
+	if _, ok := stage.As[a]; ok {
 		if stage.BackRepo != nil {
-			stage.BackRepo.CheckoutDummy(dummy)
+			stage.BackRepo.CheckoutA(a)
 		}
 	}
-	return dummy
+	return a
 }
 
 // for satisfaction of GongStruct interface
-func (dummy *Dummy) GetName() (res string) {
-	return dummy.Name
+func (a *A) GetName() (res string) {
+	return a.Name
 }
 
 // swagger:ignore
 type AllModelsStructCreateInterface interface { // insertion point for Callbacks on creation
-	CreateORMDummy(Dummy *Dummy)
+	CreateORMA(A *A)
 }
 
 type AllModelsStructDeleteInterface interface { // insertion point for Callbacks on deletion
-	DeleteORMDummy(Dummy *Dummy)
+	DeleteORMA(A *A)
 }
 
 func (stage *StageStruct) Reset() { // insertion point for array reset
-	stage.Dummys = make(map[*Dummy]any)
-	stage.Dummys_mapString = make(map[string]*Dummy)
+	stage.As = make(map[*A]any)
+	stage.As_mapString = make(map[string]*A)
 
 }
 
 func (stage *StageStruct) Nil() { // insertion point for array nil
-	stage.Dummys = nil
-	stage.Dummys_mapString = nil
+	stage.As = nil
+	stage.As_mapString = nil
 
 }
 
 func (stage *StageStruct) Unstage() { // insertion point for array nil
-	for dummy := range stage.Dummys {
-		dummy.Unstage(stage)
+	for a := range stage.As {
+		a.Unstage(stage)
 	}
 
 }
@@ -276,7 +276,7 @@ func (stage *StageStruct) Unstage() { // insertion point for array nil
 // - full refactoring of Gongstruct identifiers / fields
 type Gongstruct interface {
 	// insertion point for generic types
-	Dummy
+	A
 }
 
 type GongtructBasicField interface {
@@ -289,7 +289,7 @@ type GongtructBasicField interface {
 // - full refactoring of Gongstruct identifiers / fields
 type PointerToGongstruct interface {
 	// insertion point for generic types
-	*Dummy
+	*A
 	GetName() string
 	CommitVoid(*StageStruct)
 	UnstageVoid(stage *StageStruct)
@@ -298,14 +298,14 @@ type PointerToGongstruct interface {
 type GongstructSet interface {
 	map[any]any |
 		// insertion point for generic types
-		map[*Dummy]any |
+		map[*A]any |
 		map[*any]any // because go does not support an extra "|" at the end of type specifications
 }
 
 type GongstructMapString interface {
 	map[any]any |
 		// insertion point for generic types
-		map[string]*Dummy |
+		map[string]*A |
 		map[*any]any // because go does not support an extra "|" at the end of type specifications
 }
 
@@ -316,8 +316,8 @@ func GongGetSet[Type GongstructSet](stage *StageStruct) *Type {
 
 	switch any(ret).(type) {
 	// insertion point for generic get functions
-	case map[*Dummy]any:
-		return any(&stage.Dummys).(*Type)
+	case map[*A]any:
+		return any(&stage.As).(*Type)
 	default:
 		return nil
 	}
@@ -330,8 +330,8 @@ func GongGetMap[Type GongstructMapString](stage *StageStruct) *Type {
 
 	switch any(ret).(type) {
 	// insertion point for generic get functions
-	case map[string]*Dummy:
-		return any(&stage.Dummys_mapString).(*Type)
+	case map[string]*A:
+		return any(&stage.As_mapString).(*Type)
 	default:
 		return nil
 	}
@@ -344,8 +344,8 @@ func GetGongstructInstancesSet[Type Gongstruct](stage *StageStruct) *map[*Type]a
 
 	switch any(ret).(type) {
 	// insertion point for generic get functions
-	case Dummy:
-		return any(&stage.Dummys).(*map[*Type]any)
+	case A:
+		return any(&stage.As).(*map[*Type]any)
 	default:
 		return nil
 	}
@@ -358,8 +358,8 @@ func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *S
 
 	switch any(ret).(type) {
 	// insertion point for generic get functions
-	case *Dummy:
-		return any(&stage.Dummys).(*map[Type]any)
+	case *A:
+		return any(&stage.As).(*map[Type]any)
 	default:
 		return nil
 	}
@@ -372,8 +372,8 @@ func GetGongstructInstancesMap[Type Gongstruct](stage *StageStruct) *map[string]
 
 	switch any(ret).(type) {
 	// insertion point for generic get functions
-	case Dummy:
-		return any(&stage.Dummys_mapString).(*map[string]*Type)
+	case A:
+		return any(&stage.As_mapString).(*map[string]*Type)
 	default:
 		return nil
 	}
@@ -388,8 +388,8 @@ func GetAssociationName[Type Gongstruct]() *Type {
 
 	switch any(ret).(type) {
 	// insertion point for instance with special fields
-	case Dummy:
-		return any(&Dummy{
+	case A:
+		return any(&A{
 			// Initialisation of associations
 		}).(*Type)
 	default:
@@ -410,8 +410,8 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *StageS
 
 	switch any(ret).(type) {
 	// insertion point of functions that provide maps for reverse associations
-	// reverse maps of direct associations of Dummy
-	case Dummy:
+	// reverse maps of direct associations of A
+	case A:
 		switch fieldname {
 		// insertion point for per direct association field
 		}
@@ -431,8 +431,8 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 
 	switch any(ret).(type) {
 	// insertion point of functions that provide maps for reverse associations
-	// reverse maps of direct associations of Dummy
-	case Dummy:
+	// reverse maps of direct associations of A
+	case A:
 		switch fieldname {
 		// insertion point for per direct association field
 		}
@@ -448,8 +448,8 @@ func GetGongstructName[Type Gongstruct]() (res string) {
 
 	switch any(ret).(type) {
 	// insertion point for generic get gongstruct name
-	case Dummy:
-		res = "Dummy"
+	case A:
+		res = "A"
 	}
 	return res
 }
@@ -462,8 +462,8 @@ func GetPointerToGongstructName[Type PointerToGongstruct]() (res string) {
 
 	switch any(ret).(type) {
 	// insertion point for generic get gongstruct name
-	case *Dummy:
-		res = "Dummy"
+	case *A:
+		res = "A"
 	}
 	return res
 }
@@ -475,7 +475,7 @@ func GetFields[Type Gongstruct]() (res []string) {
 
 	switch any(ret).(type) {
 	// insertion point for generic get gongstruct name
-	case Dummy:
+	case A:
 		res = []string{"Name"}
 	}
 	return
@@ -495,7 +495,7 @@ func GetReverseFields[Type Gongstruct]() (res []ReverseField) {
 	switch any(ret).(type) {
 
 	// insertion point for generic get gongstruct name
-	case Dummy:
+	case A:
 		var rf ReverseField
 		_ = rf
 	}
@@ -509,7 +509,7 @@ func GetFieldsFromPointer[Type PointerToGongstruct]() (res []string) {
 
 	switch any(ret).(type) {
 	// insertion point for generic get gongstruct name
-	case *Dummy:
+	case *A:
 		res = []string{"Name"}
 	}
 	return
@@ -519,7 +519,7 @@ func GetFieldStringValueFromPointer[Type PointerToGongstruct](instance Type, fie
 
 	switch inferedInstance := any(instance).(type) {
 	// insertion point for generic get gongstruct field value
-	case *Dummy:
+	case *A:
 		switch fieldName {
 		// string value of fields
 		case "Name":
@@ -535,7 +535,7 @@ func GetFieldStringValue[Type Gongstruct](instance Type, fieldName string) (res 
 
 	switch inferedInstance := any(instance).(type) {
 	// insertion point for generic get gongstruct field value
-	case Dummy:
+	case A:
 		switch fieldName {
 		// string value of fields
 		case "Name":
