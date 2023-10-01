@@ -5,8 +5,6 @@ import (
 	"errors"
 	"fmt"
 	"time"
-
-	"github.com/fullstack-lang/gong/test2/go/models/y"
 )
 
 // errUnkownEnum is returns when a value cannot match enum values
@@ -66,9 +64,6 @@ type StageStruct struct {
 	// map to enable docLink renaming when an identifier is renamed
 	Map_DocLink_Renaming map[string]GONG__Identifier
 	// the to be removed stops here
-
-	// each imported packages to the x package is a stage struct
-	GONG_Imported_Package_y *y.StageStruct
 }
 
 type GONG__Identifier struct {
