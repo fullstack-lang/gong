@@ -7,7 +7,7 @@ import (
 type A struct {
 	Name string
 
-	Y_A *y.Y_A
+	Y_A *y.A
 }
 
 func (a *A) Foo() {
