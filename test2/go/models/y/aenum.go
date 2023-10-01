@@ -1,10 +1,10 @@
 package y
 
 // swagger:enum AEnumType
-type A_Y_EnumType string
+type AEnumType string
 
 // values for EnumType
 const (
-	Y_ENUM_VAL1 A_Y_EnumType = "Y_ENUM_VAL1"
-	Y_ENUM_VAL2 A_Y_EnumType = "Y_ENUM_VAL2"
+	ENUM_VAL1 AEnumType = "ENUM_VAL1"
+	ENUM_VAL2 AEnumType = "ENUM_VAL2"
 )
