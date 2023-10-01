@@ -1,6 +1,6 @@
 package y
 
-type Y_A struct {
+type A struct {
 	Name string
 }
 
