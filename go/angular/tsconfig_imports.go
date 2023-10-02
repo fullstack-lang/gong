@@ -1,27 +1,12 @@
 package angular
 
 const TsConfigInsertForPaths = `
-      // 
-      // https://angular.io/guide/creating-libraries#use-typescript-path-mapping-for-peer-dependencies
-      //
-      // Angular libraries should list any @angular/* 
-      // dependencies the library depends on as peer dependencies. This ensures that when modules ask for Angular, 
-      // they all get the exact same module. If a library lists @angular/core in dependencies instead of peerDependencies, 
-      // it might get a different Angular module instead, which would cause your application to break.
-      "@angular/*": [
-        "./node_modules/@angular/*"
-      ],
-      "rxjs/operators": [
-        "./node_modules/rxjs/operators"
-      ],
-      "rxjs": [
-        "./node_modules/rxjs"
-      ],
-      "angular-split": [
-        "./node_modules/angular-split"
-      ],
-      "tslib": [
-        "./node_modules/tslib"
+      // when the dependant angular component present in "<project>/vendor" directory, it
+      // cannot find the node_modules directory by going recursively up.
+      // therefore one adds the following line to indicate to search in "<project>/ng/nodes_modules"
+      // for "./node_modules" seen from the tsconfig.json directory
+      "*": [
+        "./node_modules/*"
       ],
       "gong": [
         "projects/gong/src/public-api.ts",
