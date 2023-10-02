@@ -519,6 +519,16 @@
             ]
         },
         {
+            "name": "go run test2 -testPackageHierarchy",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/test2/go/cmd/test2",
+            "args": [
+                "-testPackageHierarchy",
+            ]
+        },
+        {
             "name": "go test BclassOrder",
             "type": "go",
             "request": "launch",
