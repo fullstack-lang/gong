@@ -324,7 +324,46 @@ map[GongFilePerStructSubTemplateId]string{
 			res = fmt.Sprintf("%d", inferedInstance.{{FieldName}})`,
 	GongFileFieldSubTmplStringValueBasicFieldIntDuration: `
 		case "{{FieldName}}":
-			res = fmt.Sprintf("%s", inferedInstance.{{FieldName}})`,
+			if math.Abs(inferedInstance.{{FieldName}}.Hours()) >= 24 {
+				days := __Gong__Abs(int(int(inferedInstance.{{FieldName}}.Hours()) / 24))
+				months := int(days / 31)
+				days = days - months*31
+
+				remainingHours := int(inferedInstance.{{FieldName}}.Hours()) % 24
+				remainingMinutes := int(inferedInstance.{{FieldName}}.Minutes()) % 60
+				remainingSeconds := int(inferedInstance.{{FieldName}}.Seconds()) % 60
+
+				if inferedInstance.{{FieldName}}.Hours() < 0 {
+					res = "- "
+				}
+
+				if months > 0 {
+					if months > 1 {
+						res = res + fmt.Sprintf("%d months", months)
+					} else {
+						res = res + fmt.Sprintf("%d month", months)
+					}
+				}
+				if days > 0 {
+					if months != 0 {
+						res = res + ", "
+					}
+					if days > 1 {
+						res = res + fmt.Sprintf("%d days", days)
+					} else {
+						res = res + fmt.Sprintf("%d day", days)
+					}
+
+				}
+				if remainingHours != 0 || remainingMinutes != 0 || remainingSeconds != 0 {
+					if days != 0 || (days == 0 && months != 0) {
+						res = res + ", "
+					}
+					res = res + fmt.Sprintf("%d hours, %d minutes, %d seconds\n", remainingHours, remainingMinutes, remainingSeconds)
+				}
+			} else {
+				res = fmt.Sprintf("%s\n", inferedInstance.{{FieldName}}.String())
+			}`,
 	GongFileFieldSubTmplStringValueBasicFieldEnumString: `
 		case "{{FieldName}}":
 			enum := inferedInstance.{{FieldName}}
