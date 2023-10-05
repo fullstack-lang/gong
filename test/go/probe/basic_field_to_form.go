@@ -141,7 +141,7 @@ func BasicFieldtoForm[T models.PointerToGongstruct, TF models.GongtructBasicFiel
 			formFieldIntHours.HasMaxValidator = true
 			formFieldIntHours.MaxValue = 23
 			formFieldIntHours.HasMinValidator = true
-			formFieldIntHours.MinValue = -24
+			formFieldIntHours.MinValue = 0
 			formFieldHours.FormFieldInt = formFieldIntHours
 		}
 
