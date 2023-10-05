@@ -1635,7 +1635,7 @@ func GetFieldStringValue[Type Gongstruct](instance Type, fieldName string) (res 
 		case "Anotherbooleanfield":
 			res = fmt.Sprintf("%t", inferedInstance.Anotherbooleanfield)
 		case "Duration1":
-			res = fmt.Sprintf("%d", inferedInstance.Duration1)
+			res = fmt.Sprintf("%s", inferedInstance.Duration1)
 		case "Anarrayofa":
 			for idx, __instance__ := range inferedInstance.Anarrayofa {
 				if idx > 0 {

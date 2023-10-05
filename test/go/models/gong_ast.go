@@ -742,7 +742,7 @@ func UnmarshallGongstructStaging(stage *StageStruct, cmap *ast.CommentMap, assig
 					if err != nil {
 						log.Fatalln(err)
 					}
-					__gong__map_Astruct[identifier].Duration1 = time.Duration(fielValue)
+					__gong__map_Astruct[identifier].Duration1 = time.Duration(int(exprSign) * int(fielValue))
 				case "StructRef":
 					// remove first and last char
 					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]

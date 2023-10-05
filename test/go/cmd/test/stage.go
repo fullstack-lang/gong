@@ -168,7 +168,7 @@ Second Line`
 	__Astruct__000002_A3.Floatfield = 2.000000
 	__Astruct__000002_A3.Intfield = 0
 	__Astruct__000002_A3.Anotherbooleanfield = false
-	__Astruct__000002_A3.Duration1 = 0
+	__Astruct__000002_A3.Duration1 = -79653000000000
 
 	// comment added to overcome the problem with the comment map association
 
@@ -241,5 +241,3 @@ Second Line`
 	__Dstruct__000000_D1.Anarrayofb = append(__Dstruct__000000_D1.Anarrayofb, __Bstruct__000001_B2)
 	__Dstruct__000000_D1.Anarrayofb = append(__Dstruct__000000_D1.Anarrayofb, __Bstruct__000002_B3)
 }
-
-
