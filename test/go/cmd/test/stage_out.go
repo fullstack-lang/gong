@@ -63,6 +63,8 @@ func stage_outInjection(stage *models.StageStruct) {
 	// Declarations of staged instances of Dstruct
 	__Dstruct__000000_D1 := (&models.Dstruct{Name: `D1`}).Stage(stage)
 
+	// Declarations of staged instances of Fstruct
+
 	// Setup of values
 
 	// Astruct values setup
@@ -124,7 +126,7 @@ Second Line`
 	__Astruct__000001_A2.Floatfield = 0.000000
 	__Astruct__000001_A2.Intfield = 0
 	__Astruct__000001_A2.Anotherbooleanfield = false
-	__Astruct__000001_A2.Duration1 = 0
+	__Astruct__000001_A2.Duration1 = -2773200000000000
 
 	// comment added to overcome the problem with the comment map association
 
@@ -168,7 +170,7 @@ Second Line`
 	__Astruct__000002_A3.Floatfield = 2.000000
 	__Astruct__000002_A3.Intfield = 0
 	__Astruct__000002_A3.Anotherbooleanfield = false
-	__Astruct__000002_A3.Duration1 = 0
+	__Astruct__000002_A3.Duration1 = -79653000000000
 
 	// comment added to overcome the problem with the comment map association
 
@@ -235,7 +237,7 @@ Second Line`
 	__Astruct__000000_A1.Anarrayofa = append(__Astruct__000000_A1.Anarrayofa, __Astruct__000000_A1)
 	__Astruct__000000_A1.Anotherarrayofb = append(__Astruct__000000_A1.Anotherarrayofb, __Bstruct__000001_B2)
 	__Astruct__000000_A1.Anotherarrayofb = append(__Astruct__000000_A1.Anotherarrayofb, __Bstruct__000002_B3)
-	__Astruct__000000_A1.Anarrayofb2Use = append(__Astruct__000000_A1.Anarrayofb2Use, __AstructBstruct2Use__000000_)
+	__Astruct__000000_A1.Anarrayofb2Use = append(__Astruct__000000_A1.Anarrayofb2Use, __AstructBstruct2Use__000001_)
 	__AstructBstruct2Use__000000_.Bstrcut2 = __Bstruct__000000_B1
 	__AstructBstruct2Use__000001_.Bstrcut2 = __Bstruct__000000_B1
 	__Dstruct__000000_D1.Anarrayofb = append(__Dstruct__000000_D1.Anarrayofb, __Bstruct__000001_B2)
