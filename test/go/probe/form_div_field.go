@@ -36,6 +36,7 @@ func FormDivBasicFieldToField[TF models.GongtructBasicField](field *TF, formDiv 
 		time := formDiv.FormFields[1].FormFieldTime.Value
 		*fieldWithInterferedType = addTimeComponents(date, time)
 	case *time.Duration:
+		isNeg := formDiv.CheckBoxs[0].Value
 		hours := formDiv.FormFields[0].FormFieldInt.Value
 		minutes := formDiv.FormFields[1].FormFieldInt.Value
 		seconds := formDiv.FormFields[2].FormFieldInt.Value
@@ -43,6 +44,10 @@ func FormDivBasicFieldToField[TF models.GongtructBasicField](field *TF, formDiv 
 		*fieldWithInterferedType = time.Duration(hours)*time.Hour +
 			time.Duration(minutes)*time.Minute +
 			time.Duration(seconds)*time.Second
+
+		if !isNeg {
+			*fieldWithInterferedType = -*fieldWithInterferedType
+		}
 
 	}
 }

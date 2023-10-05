@@ -75,7 +75,7 @@ func stageInjection(stage *models.StageStruct) {
 	__Astruct__000000_.Floatfield = 0.000000
 	__Astruct__000000_.Intfield = 0
 	__Astruct__000000_.Anotherbooleanfield = false
-	__Astruct__000000_.Duration1 = 0
+	__Astruct__000000_.Duration1 = 7965300000000000
 
 	// comment added to overcome the problem with the comment map association
 
