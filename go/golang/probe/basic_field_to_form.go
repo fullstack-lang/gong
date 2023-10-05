@@ -4,6 +4,7 @@ const BasicFieldtoFormTemplate = `// generated code - do not edit
 package probe
 
 import (
+	"math"
 	"time"
 
 	form "github.com/fullstack-lang/gongtable/go/models"
@@ -29,8 +30,8 @@ func BasicFieldtoForm[T models.PointerToGongstruct, TF models.GongtructBasicFiel
 		formDiv.FormFields = append(formDiv.FormFields, formField)
 
 		formFieldString := (&form.FormFieldString{
-			Name:  		"string",
-			Value: 		fieldWithInterferedType,
+			Name:       "string",
+			Value:      fieldWithInterferedType,
 			IsTextArea: isTextArea,
 		}).Stage(formStage)
 		formField.FormFieldString = formFieldString
@@ -118,6 +119,14 @@ func BasicFieldtoForm[T models.PointerToGongstruct, TF models.GongtructBasicFiel
 		formGroup.FormDivs = append(formGroup.FormDivs, formDiv)
 
 		{
+			checkBox := (&form.CheckBox{
+				Name:  "negative",
+				Value: fieldWithInterferedType < 0,
+			}).Stage(formStage)
+			formDiv.CheckBoxs = append(formDiv.CheckBoxs, checkBox)
+		}
+
+		{
 			formFieldHours := (&form.FormField{
 				Name:  "Hours",
 				Label: "Hours",
@@ -129,7 +138,7 @@ func BasicFieldtoForm[T models.PointerToGongstruct, TF models.GongtructBasicFiel
 
 			formFieldIntHours := (&form.FormFieldInt{
 				Name:  "Hours",
-				Value: int(fieldWithInterferedType.Hours()) % 24,
+				Value: int(math.Abs(fieldWithInterferedType.Hours())) % 24,
 			}).Stage(formStage)
 			formFieldIntHours.HasMaxValidator = true
 			formFieldIntHours.MaxValue = 23
@@ -149,7 +158,7 @@ func BasicFieldtoForm[T models.PointerToGongstruct, TF models.GongtructBasicFiel
 
 			formFieldIntMinutes := (&form.FormFieldInt{
 				Name:  "Minutes",
-				Value: int(fieldWithInterferedType.Minutes()) % 60,
+				Value: int(math.Abs(fieldWithInterferedType.Minutes())) % 60,
 			}).Stage(formStage)
 			formFieldIntMinutes.HasMaxValidator = true
 			formFieldIntMinutes.MaxValue = 59
@@ -168,7 +177,7 @@ func BasicFieldtoForm[T models.PointerToGongstruct, TF models.GongtructBasicFiel
 
 			formFieldIntSeconds := (&form.FormFieldInt{
 				Name:  "Seconds",
-				Value: int(fieldWithInterferedType.Seconds()) % 60,
+				Value: int(math.Abs(fieldWithInterferedType.Seconds())) % 60,
 			}).Stage(formStage)
 			formFieldIntSeconds.HasMaxValidator = true
 			formFieldIntSeconds.MaxValue = 59
