@@ -125,6 +125,26 @@ func BasicFieldtoForm[T models.PointerToGongstruct, TF models.GongtructBasicFiel
 		}
 
 		{
+			formFieldDays := (&form.FormField{
+				Name:  "Days",
+				Label: "Days",
+			}).Stage(formStage)
+			formFieldDays.HasBespokeWidth = true
+			formFieldDays.BespokeWidthPx = 90
+
+			formDiv.FormFields = append(formDiv.FormFields, formFieldDays)
+
+			value := int(math.Abs(fieldWithInterferedType.Hours() / 24))
+			formFieldIntDays := (&form.FormFieldInt{
+				Name:  "Days",
+				Value: value,
+			}).Stage(formStage)
+			formFieldIntDays.HasMinValidator = true
+			formFieldIntDays.MinValue = 0
+			formFieldDays.FormFieldInt = formFieldIntDays
+		}
+
+		{
 			formFieldHours := (&form.FormField{
 				Name:  "Hours",
 				Label: "Hours",
