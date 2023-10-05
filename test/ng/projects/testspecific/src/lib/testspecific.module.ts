@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { TestspecificComponent } from './testspecific.component';
+import { TestModule } from 'test';
 
 
 
@@ -8,6 +9,7 @@ import { TestspecificComponent } from './testspecific.component';
     TestspecificComponent
   ],
   imports: [
+    TestModule,
   ],
   exports: [
     TestspecificComponent

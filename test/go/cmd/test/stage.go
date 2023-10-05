@@ -45,7 +45,7 @@ func stageInjection(stage *models.StageStruct) {
 	// Declaration of instances to stage
 
 	// Declarations of staged instances of Astruct
-	__Astruct__000000_ := (&models.Astruct{Name: ``}).Stage(stage)
+	__Astruct__000000_ := (&models.Astruct{Name: `A2`}).Stage(stage)
 	__Astruct__000001_A1 := (&models.Astruct{Name: `A1`}).Stage(stage)
 	__Astruct__000002_A3 := (&models.Astruct{Name: `A3`}).Stage(stage)
 
@@ -66,7 +66,7 @@ func stageInjection(stage *models.StageStruct) {
 	// Setup of values
 
 	// Astruct values setup
-	__Astruct__000000_.Name = ``
+	__Astruct__000000_.Name = `A2`
 	__Astruct__000000_.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
 	__Astruct__000000_.Booleanfield = false
 	__Astruct__000000_.CEnum = models.CENUM_VAL1
@@ -75,7 +75,7 @@ func stageInjection(stage *models.StageStruct) {
 	__Astruct__000000_.Floatfield = 0.000000
 	__Astruct__000000_.Intfield = 0
 	__Astruct__000000_.Anotherbooleanfield = false
-	__Astruct__000000_.Duration1 = 0
+	__Astruct__000000_.Duration1 = 796530000000000000
 
 	// comment added to overcome the problem with the comment map association
 
