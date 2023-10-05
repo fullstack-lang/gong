@@ -287,6 +287,7 @@ const (
 
 	GongFileFieldSubTmplStringValueBasicFieldBool
 	GongFileFieldSubTmplStringValueBasicFieldInt
+	GongFileFieldSubTmplStringValueBasicFieldIntDuration
 	GongFileFieldSubTmplStringValueBasicFieldEnumString
 	GongFileFieldSubTmplStringValueBasicFieldEnumInt
 	GongFileFieldSubTmplStringValueBasicFieldFloat64
@@ -321,6 +322,9 @@ map[GongFilePerStructSubTemplateId]string{
 	GongFileFieldSubTmplStringValueBasicFieldInt: `
 		case "{{FieldName}}":
 			res = fmt.Sprintf("%d", inferedInstance.{{FieldName}})`,
+	GongFileFieldSubTmplStringValueBasicFieldIntDuration: `
+		case "{{FieldName}}":
+			res = fmt.Sprintf("%s", inferedInstance.{{FieldName}})`,
 	GongFileFieldSubTmplStringValueBasicFieldEnumString: `
 		case "{{FieldName}}":
 			enum := inferedInstance.{{FieldName}}
@@ -467,15 +471,21 @@ func CodeGeneratorModelGong(
 							GongFileFieldFieldSubTemplateCode[GongFileFieldSubTmplStringValueBasicFieldFloat64],
 							"{{FieldName}}", field.Name)
 					case types.Int, types.Int64:
+						if field.DeclaredType == "time.Duration" {
+							fieldStringValues += models.Replace1(
+								GongFileFieldFieldSubTemplateCode[GongFileFieldSubTmplStringValueBasicFieldIntDuration],
+								"{{FieldName}}", field.Name)
+							break
+						}
 						if field.GongEnum == nil {
 							fieldStringValues += models.Replace1(
 								GongFileFieldFieldSubTemplateCode[GongFileFieldSubTmplStringValueBasicFieldInt],
 								"{{FieldName}}", field.Name)
-						} else {
-							fieldStringValues += models.Replace1(
-								GongFileFieldFieldSubTemplateCode[GongFileFieldSubTmplStringValueBasicFieldEnumInt],
-								"{{FieldName}}", field.Name)
+							break
 						}
+						fieldStringValues += models.Replace1(
+							GongFileFieldFieldSubTemplateCode[GongFileFieldSubTmplStringValueBasicFieldEnumInt],
+							"{{FieldName}}", field.Name)
 					default:
 					}
 				case *models.GongTimeField:

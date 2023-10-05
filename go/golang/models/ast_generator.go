@@ -103,7 +103,7 @@ map[ModelGongAstFieldInsertionId]string{
 					if err != nil {
 						log.Fatalln(err)
 					}
-					__gong__map_{{Structname}}[identifier].{{FieldName}} = time.Duration(fielValue)`,
+					__gong__map_{{Structname}}[identifier].{{FieldName}} = time.Duration(int(exprSign) * int(fielValue))`,
 	ModelGongAstFieldAssignFloat64: `
 				case "{{FieldName}}":
 					// convert string to float64
