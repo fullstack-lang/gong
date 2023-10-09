@@ -23,6 +23,9 @@ var errUnkownEnum = errors.New("unkown enum")
 // needed to avoid when fmt package is not needed by generated code
 var __dummy__fmt_variable fmt.Scanner
 
+// idem for math package when not need by generated code
+var __dummy_math_variable = math.E
+
 // swagger:ignore
 type __void any
 
