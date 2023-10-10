@@ -4,6 +4,7 @@ import (
 	"time"
 
 	"github.com/fullstack-lang/gong/test2/go/models"
+
 	// injection point for ident package import declaration{{ImportPackageDeclaration}}
 )
 
@@ -37,21 +38,27 @@ func stage_outInjection(stage *models.StageStruct) {
 
 	// Declaration of instances to stage
 
-	// Declarations of staged instances of Dummy
-	__Dummy__000000_ := (&models.A{Name: ``}).Stage(stage)
-	__Dummy__000001_ := (&models.A{Name: ``}).Stage(stage)
-	__Dummy__000002_How_dummy_ := (&models.A{Name: `How dummy ?`}).Stage(stage)
+	// Declarations of staged instances of A
+	__A__000000_A1 := (&models.A{Name: `A1`}).Stage(stage)
+
+	// Declarations of staged instances of B
+	__B__000000_B1 := (&models.B{Name: `B1`}).Stage(stage)
+	__B__000001_B2 := (&models.B{Name: `B2`}).Stage(stage)
 
 	// Setup of values
 
-	// Dummy values setup
-	__Dummy__000000_.Name = ``
+	// A values setup
+	__A__000000_A1.Name = `A1`
 
-	// Dummy values setup
-	__Dummy__000001_.Name = ``
+	// B values setup
+	__B__000000_B1.Name = `B1`
 
-	// Dummy values setup
-	__Dummy__000002_How_dummy_.Name = `How dummy ?`
+	// B values setup
+	__B__000001_B2.Name = `B2`
 
 	// Setup of pointers
+	__A__000000_A1.Bs = append(__A__000000_A1.Bs, __B__000001_B2)
+	__A__000000_A1.Bs = append(__A__000000_A1.Bs, __B__000000_B1)
 }
+
+
