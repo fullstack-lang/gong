@@ -44,8 +44,8 @@ func Walk(relativePathToModel string, modelPkg *ModelPkg) {
 	ignorePatterns, err := gitignore.CompileIgnoreFile(
 		filepath.Join(relativePathToModel, ".frontignore"))
 	if err != nil {
-		if pathErr, ok := err.(*os.PathError); ok {
-			log.Println("No .frontignore file present", pathErr.Error())
+		if _, ok := err.(*os.PathError); ok {
+			log.Println("No .frontignore file present")
 		} else {
 			log.Fatalf("Failed to compile .frontignore: %v", err)
 		}

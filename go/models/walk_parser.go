@@ -9,6 +9,7 @@ import (
 	"go/token"
 	"io/fs"
 	"log"
+	"math"
 	"os"
 	"path/filepath"
 	"strings"
@@ -86,17 +87,53 @@ func WalkParser(parserPkgs map[string]*ast.Package, modelPkg *ModelPkg, ignorePa
 		map_StructName_hasIgnoreStatement[t.Name] = strings.Contains(t.Doc, "swagger:ignore")
 	}
 
+	// in astPackage.Files is the map of filePath to file
+	// the filePath can be absolute of relative
+	// in order to compute at what level to the "models" directory we are
+	// we need to process all filePath and get the distance to the "models" directory
+	// given that "models" directory name is forbiden in the path
+	minFilePathLength := math.MaxInt
+	for filePath := range astPackage.Files {
+		// get directories to the file
+		directories := make([]string, 0)
+		workingFilePath := filePath
+		for {
+			dir := filepath.Dir(workingFilePath)
+			if dir == workingFilePath {
+				break
+			}
+			directories = append(directories, dir)
+			workingFilePath = dir
+		}
+
+		if len(directories) < minFilePathLength {
+			minFilePathLength = len(directories)
+		}
+	}
+
 	// first pass : get "type" definition for enum & struct
 	//
 	// search all files
 	for filePath, file := range astPackage.Files {
 
-		var fileName string
 		var isFileFrontIgnored bool
+		fileName := filepath.Base(filePath)
 
-		if strings.Contains(filePath, string(os.PathSeparator)) {
-			fileNames := strings.Split(filePath, string(os.PathSeparator))
-			fileName = fileNames[len(fileNames)-1]
+		// get directories to the file
+		directories := make([]string, 0)
+		workingFilePath := filePath
+		for {
+			dir := filepath.Dir(workingFilePath)
+			if dir == workingFilePath {
+				break
+			}
+			directories = append(directories, dir)
+			workingFilePath = dir
+		}
+
+		// we do not take the files in the sub directories (yet)
+		if len(directories) > minFilePathLength {
+			continue
 		}
 
 		if fileName == "gong.go" {
