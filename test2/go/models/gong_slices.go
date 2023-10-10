@@ -35,6 +35,28 @@ func EvictInOtherSlices[OwningType PointerToGongstruct, FieldType PointerToGongs
 	// insertion point
 	case *A:
 		// insertion point per field
+		if fieldName == "Bs" {
+
+			// walk all instances of the owning type
+			for _instance := range *GetGongstructInstancesSetFromPointerType[OwningType](stage) {
+				if any(_instance).(*A) != owningInstanceInfered {
+					_inferedTypeInstance := any(_instance).(*A)
+					reference := make([]FieldType, 0)
+					targetFieldSlice := any(_inferedTypeInstance.Bs).([]FieldType)
+					copy(targetFieldSlice, reference)
+					_inferedTypeInstance.Bs = _inferedTypeInstance.Bs[0:]
+					for _, fieldInstance := range reference {
+						if _, ok := setOfFieldInstances[any(fieldInstance).(FieldType)]; !ok {
+							_inferedTypeInstance.Bs =
+								append(_inferedTypeInstance.Bs, any(fieldInstance).(*B))
+						}
+					}
+				}
+			}
+		}
+
+	case *B:
+		// insertion point per field
 
 	default:
 		_ = owningInstanceInfered // to avoid "declared and not used" error if no named struct has slices

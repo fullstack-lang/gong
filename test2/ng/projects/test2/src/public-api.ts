@@ -14,5 +14,8 @@ export * from './lib/push_from_front_nb.service'
 export * from './lib/a-db'
 export * from './lib/a.service'
 
+export * from './lib/b-db'
+export * from './lib/b.service'
+
 
 export * from './lib/AEnumType'
