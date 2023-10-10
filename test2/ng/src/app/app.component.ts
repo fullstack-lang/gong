@@ -22,8 +22,9 @@ export class AppComponent implements OnInit {
 
   default = 'Test2 Data/Model'
   view = this.default
+  test2view = 'Test2'
 
-  views: string[] = [this.default];
+  views: string[] = [this.default, this.test2view];
 
   scrollStyle = {
     'overflow- x': 'auto',
