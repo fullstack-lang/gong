@@ -7,23 +7,23 @@ import (
 	"sync"
 	"time"
 
-	"github.com/fullstack-lang/gong/test2/go/models/x"
-	orm_x "github.com/fullstack-lang/gong/test2/go/orm/x"
+	"github.com/fullstack-lang/gong/test2/go/models"
+	"github.com/fullstack-lang/gong/test2/go/orm"
 
 	"github.com/gin-gonic/gin"
 )
 
 // declaration in order to justify use of the models import
-var __A__dummysDeclaration__ x.A
-var __A_time__dummyDeclaration time.Duration
+var __B__dummysDeclaration__ models.B
+var __B_time__dummyDeclaration time.Duration
 
-var mutexA sync.Mutex
+var mutexB sync.Mutex
 
-// An AID parameter model.
+// An BID parameter model.
 //
 // This is used for operations that want the ID of an order in the path
-// swagger:parameters getA updateA deleteA
-type AID struct {
+// swagger:parameters getB updateB deleteB
+type BID struct {
 	// The ID of the order
 	//
 	// in: path
@@ -31,29 +31,29 @@ type AID struct {
 	ID int64
 }
 
-// AInput is a schema that can validate the user’s
+// BInput is a schema that can validate the user’s
 // input to prevent us from getting invalid data
-// swagger:parameters postA updateA
-type AInput struct {
-	// The A to submit or modify
+// swagger:parameters postB updateB
+type BInput struct {
+	// The B to submit or modify
 	// in: body
-	A *orm_x.AAPI
+	B *orm.BAPI
 }
 
-// GetAs
+// GetBs
 //
-// swagger:route GET /as as getAs
+// swagger:route GET /bs bs getBs
 //
-// # Get all as
+// # Get all bs
 //
 // Responses:
 // default: genericError
 //
-//	200: aDBResponse
-func (controller *Controller) GetAs(c *gin.Context) {
+//	200: bDBResponse
+func (controller *Controller) GetBs(c *gin.Context) {
 
 	// source slice
-	var aDBs []orm_x.ADB
+	var bDBs []orm.BDB
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -61,16 +61,16 @@ func (controller *Controller) GetAs(c *gin.Context) {
 		value := values["GONG__StackPath"]
 		if len(value) == 1 {
 			stackPath = value[0]
-			// log.Println("GetAs", "GONG__StackPath", stackPath)
+			// log.Println("GetBs", "GONG__StackPath", stackPath)
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
 	if backRepo == nil {
 		log.Panic("Stack github.com/fullstack-lang/gong/test2/go/models, Unkown stack", stackPath)
 	}
-	db := backRepo.BackRepoA.GetDB()
+	db := backRepo.BackRepoB.GetDB()
 
-	query := db.Find(&aDBs)
+	query := db.Find(&bDBs)
 	if query.Error != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
@@ -81,29 +81,29 @@ func (controller *Controller) GetAs(c *gin.Context) {
 	}
 
 	// slice that will be transmitted to the front
-	aAPIs := make([]orm_x.AAPI, 0)
+	bAPIs := make([]orm.BAPI, 0)
 
-	// for each a, update fields from the database nullable fields
-	for idx := range aDBs {
-		aDB := &aDBs[idx]
-		_ = aDB
-		var aAPI orm_x.AAPI
+	// for each b, update fields from the database nullable fields
+	for idx := range bDBs {
+		bDB := &bDBs[idx]
+		_ = bDB
+		var bAPI orm.BAPI
 
 		// insertion point for updating fields
-		aAPI.ID = aDB.ID
-		aDB.CopyBasicFieldsToA(&aAPI.A)
-		aAPI.APointersEnconding = aDB.APointersEnconding
-		aAPIs = append(aAPIs, aAPI)
+		bAPI.ID = bDB.ID
+		bDB.CopyBasicFieldsToB(&bAPI.B)
+		bAPI.BPointersEnconding = bDB.BPointersEnconding
+		bAPIs = append(bAPIs, bAPI)
 	}
 
-	c.JSON(http.StatusOK, aAPIs)
+	c.JSON(http.StatusOK, bAPIs)
 }
 
-// PostA
+// PostB
 //
-// swagger:route POST /as as postA
+// swagger:route POST /bs bs postB
 //
-// Creates a a
+// Creates a b
 //
 //	Consumes:
 //	- application/json
@@ -113,9 +113,9 @@ func (controller *Controller) GetAs(c *gin.Context) {
 //
 //	Responses:
 //	  200: nodeDBResponse
-func (controller *Controller) PostA(c *gin.Context) {
+func (controller *Controller) PostB(c *gin.Context) {
 
-	mutexA.Lock()
+	mutexB.Lock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -123,17 +123,17 @@ func (controller *Controller) PostA(c *gin.Context) {
 		value := values["GONG__StackPath"]
 		if len(value) == 1 {
 			stackPath = value[0]
-			// log.Println("PostAs", "GONG__StackPath", stackPath)
+			// log.Println("PostBs", "GONG__StackPath", stackPath)
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
 	if backRepo == nil {
 		log.Panic("Stack github.com/fullstack-lang/gong/test2/go/models, Unkown stack", stackPath)
 	}
-	db := backRepo.BackRepoA.GetDB()
+	db := backRepo.BackRepoB.GetDB()
 
 	// Validate input
-	var input orm_x.AAPI
+	var input orm.BAPI
 
 	err := c.ShouldBindJSON(&input)
 	if err != nil {
@@ -145,12 +145,12 @@ func (controller *Controller) PostA(c *gin.Context) {
 		return
 	}
 
-	// Create a
-	aDB := orm_x.ADB{}
-	aDB.APointersEnconding = input.APointersEnconding
-	aDB.CopyBasicFieldsFromA(&input.A)
+	// Create b
+	bDB := orm.BDB{}
+	bDB.BPointersEnconding = input.BPointersEnconding
+	bDB.CopyBasicFieldsFromB(&input.B)
 
-	query := db.Create(&aDB)
+	query := db.Create(&bDB)
 	if query.Error != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
@@ -161,33 +161,33 @@ func (controller *Controller) PostA(c *gin.Context) {
 	}
 
 	// get an instance (not staged) from DB instance, and call callback function
-	backRepo.BackRepoA.CheckoutPhaseOneInstance(&aDB)
-	a := backRepo.BackRepoA.Map_ADBID_APtr[aDB.ID]
+	backRepo.BackRepoB.CheckoutPhaseOneInstance(&bDB)
+	b := backRepo.BackRepoB.Map_BDBID_BPtr[bDB.ID]
 
-	if a != nil {
-		x.AfterCreateFromFront(backRepo.GetStage(), a)
+	if b != nil {
+		models.AfterCreateFromFront(backRepo.GetStage(), b)
 	}
 
 	// a POST is equivalent to a back repo commit increase
 	// (this will be improved with implementation of unit of work design pattern)
 	backRepo.IncrementPushFromFrontNb()
 
-	c.JSON(http.StatusOK, aDB)
+	c.JSON(http.StatusOK, bDB)
 
-	mutexA.Unlock()
+	mutexB.Unlock()
 }
 
-// GetA
+// GetB
 //
-// swagger:route GET /as/{ID} as getA
+// swagger:route GET /bs/{ID} bs getB
 //
-// Gets the details for a a.
+// Gets the details for a b.
 //
 // Responses:
 // default: genericError
 //
-//	200: aDBResponse
-func (controller *Controller) GetA(c *gin.Context) {
+//	200: bDBResponse
+func (controller *Controller) GetB(c *gin.Context) {
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -195,18 +195,18 @@ func (controller *Controller) GetA(c *gin.Context) {
 		value := values["GONG__StackPath"]
 		if len(value) == 1 {
 			stackPath = value[0]
-			// log.Println("GetA", "GONG__StackPath", stackPath)
+			// log.Println("GetB", "GONG__StackPath", stackPath)
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
 	if backRepo == nil {
 		log.Panic("Stack github.com/fullstack-lang/gong/test2/go/models, Unkown stack", stackPath)
 	}
-	db := backRepo.BackRepoA.GetDB()
+	db := backRepo.BackRepoB.GetDB()
 
-	// Get aDB in DB
-	var aDB orm_x.ADB
-	if err := db.First(&aDB, c.Param("id")).Error; err != nil {
+	// Get bDB in DB
+	var bDB orm.BDB
+	if err := db.First(&bDB, c.Param("id")).Error; err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
@@ -215,27 +215,27 @@ func (controller *Controller) GetA(c *gin.Context) {
 		return
 	}
 
-	var aAPI orm_x.AAPI
-	aAPI.ID = aDB.ID
-	aAPI.APointersEnconding = aDB.APointersEnconding
-	aDB.CopyBasicFieldsToA(&aAPI.A)
+	var bAPI orm.BAPI
+	bAPI.ID = bDB.ID
+	bAPI.BPointersEnconding = bDB.BPointersEnconding
+	bDB.CopyBasicFieldsToB(&bAPI.B)
 
-	c.JSON(http.StatusOK, aAPI)
+	c.JSON(http.StatusOK, bAPI)
 }
 
-// UpdateA
+// UpdateB
 //
-// swagger:route PATCH /as/{ID} as updateA
+// swagger:route PATCH /bs/{ID} bs updateB
 //
-// # Update a a
+// # Update a b
 //
 // Responses:
 // default: genericError
 //
-//	200: aDBResponse
-func (controller *Controller) UpdateA(c *gin.Context) {
+//	200: bDBResponse
+func (controller *Controller) UpdateB(c *gin.Context) {
 
-	mutexA.Lock()
+	mutexB.Lock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -243,17 +243,17 @@ func (controller *Controller) UpdateA(c *gin.Context) {
 		value := values["GONG__StackPath"]
 		if len(value) == 1 {
 			stackPath = value[0]
-			// log.Println("UpdateA", "GONG__StackPath", stackPath)
+			// log.Println("UpdateB", "GONG__StackPath", stackPath)
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
 	if backRepo == nil {
 		log.Panic("Stack github.com/fullstack-lang/gong/test2/go/models, Unkown stack", stackPath)
 	}
-	db := backRepo.BackRepoA.GetDB()
+	db := backRepo.BackRepoB.GetDB()
 
 	// Validate input
-	var input orm_x.AAPI
+	var input orm.BAPI
 	if err := c.ShouldBindJSON(&input); err != nil {
 		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -261,10 +261,10 @@ func (controller *Controller) UpdateA(c *gin.Context) {
 	}
 
 	// Get model if exist
-	var aDB orm_x.ADB
+	var bDB orm.BDB
 
-	// fetch the a
-	query := db.First(&aDB, c.Param("id"))
+	// fetch the b
+	query := db.First(&bDB, c.Param("id"))
 
 	if query.Error != nil {
 		var returnError GenericError
@@ -276,10 +276,10 @@ func (controller *Controller) UpdateA(c *gin.Context) {
 	}
 
 	// update
-	aDB.CopyBasicFieldsFromA(&input.A)
-	aDB.APointersEnconding = input.APointersEnconding
+	bDB.CopyBasicFieldsFromB(&input.B)
+	bDB.BPointersEnconding = input.BPointersEnconding
 
-	query = db.Model(&aDB).Updates(aDB)
+	query = db.Model(&bDB).Updates(bDB)
 	if query.Error != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
@@ -290,13 +290,13 @@ func (controller *Controller) UpdateA(c *gin.Context) {
 	}
 
 	// get an instance (not staged) from DB instance, and call callback function
-	aNew := new(x.A)
-	aDB.CopyBasicFieldsToA(aNew)
+	bNew := new(models.B)
+	bDB.CopyBasicFieldsToB(bNew)
 
 	// get stage instance from DB instance, and call callback function
-	aOld := backRepo.BackRepoA.Map_ADBID_APtr[aDB.ID]
-	if aOld != nil {
-		x.AfterUpdateFromFront(backRepo.GetStage(), aOld, aNew)
+	bOld := backRepo.BackRepoB.Map_BDBID_BPtr[bDB.ID]
+	if bOld != nil {
+		models.AfterUpdateFromFront(backRepo.GetStage(), bOld, bNew)
 	}
 
 	// an UPDATE generates a back repo commit increase
@@ -305,24 +305,24 @@ func (controller *Controller) UpdateA(c *gin.Context) {
 	// generates a checkout
 	backRepo.IncrementPushFromFrontNb()
 
-	// return status OK with the marshalling of the the aDB
-	c.JSON(http.StatusOK, aDB)
+	// return status OK with the marshalling of the the bDB
+	c.JSON(http.StatusOK, bDB)
 
-	mutexA.Unlock()
+	mutexB.Unlock()
 }
 
-// DeleteA
+// DeleteB
 //
-// swagger:route DELETE /as/{ID} as deleteA
+// swagger:route DELETE /bs/{ID} bs deleteB
 //
-// # Delete a a
+// # Delete a b
 //
 // default: genericError
 //
-//	200: aDBResponse
-func (controller *Controller) DeleteA(c *gin.Context) {
+//	200: bDBResponse
+func (controller *Controller) DeleteB(c *gin.Context) {
 
-	mutexA.Lock()
+	mutexB.Lock()
 
 	values := c.Request.URL.Query()
 	stackPath := ""
@@ -330,18 +330,18 @@ func (controller *Controller) DeleteA(c *gin.Context) {
 		value := values["GONG__StackPath"]
 		if len(value) == 1 {
 			stackPath = value[0]
-			// log.Println("DeleteA", "GONG__StackPath", stackPath)
+			// log.Println("DeleteB", "GONG__StackPath", stackPath)
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
 	if backRepo == nil {
 		log.Panic("Stack github.com/fullstack-lang/gong/test2/go/models, Unkown stack", stackPath)
 	}
-	db := backRepo.BackRepoA.GetDB()
+	db := backRepo.BackRepoB.GetDB()
 
 	// Get model if exist
-	var aDB orm_x.ADB
-	if err := db.First(&aDB, c.Param("id")).Error; err != nil {
+	var bDB orm.BDB
+	if err := db.First(&bDB, c.Param("id")).Error; err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
@@ -350,17 +350,17 @@ func (controller *Controller) DeleteA(c *gin.Context) {
 		return
 	}
 
-	// with gorm_x.Model field, default delete is a soft delete. Unscoped() force delete
-	db.Unscoped().Delete(&aDB)
+	// with gorm.Model field, default delete is a soft delete. Unscoped() force delete
+	db.Unscoped().Delete(&bDB)
 
 	// get an instance (not staged) from DB instance, and call callback function
-	aDeleted := new(x.A)
-	aDB.CopyBasicFieldsToA(aDeleted)
+	bDeleted := new(models.B)
+	bDB.CopyBasicFieldsToB(bDeleted)
 
 	// get stage instance from DB instance, and call callback function
-	aStaged := backRepo.BackRepoA.Map_ADBID_APtr[aDB.ID]
-	if aStaged != nil {
-		x.AfterDeleteFromFront(backRepo.GetStage(), aStaged, aDeleted)
+	bStaged := backRepo.BackRepoB.Map_BDBID_BPtr[bDB.ID]
+	if bStaged != nil {
+		models.AfterDeleteFromFront(backRepo.GetStage(), bStaged, bDeleted)
 	}
 
 	// a DELETE generates a back repo commit increase
@@ -369,5 +369,5 @@ func (controller *Controller) DeleteA(c *gin.Context) {
 
 	c.JSON(http.StatusOK, gin.H{"data": true})
 
-	mutexA.Unlock()
+	mutexB.Unlock()
 }

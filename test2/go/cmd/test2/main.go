@@ -13,8 +13,6 @@ import (
 	test2_orm "github.com/fullstack-lang/gong/test2/go/orm"
 	test2_probe "github.com/fullstack-lang/gong/test2/go/probe"
 
-	test2_fullstack_x "github.com/fullstack-lang/gong/test2/go/fullstack/x"
-
 	test2_static "github.com/fullstack-lang/gong/test2/go/static"
 )
 
@@ -67,9 +65,9 @@ func main() {
 		stage, backRepo := test2_fullstack.NewStackInstance(r, "test2")
 		_ = stage
 		_ = backRepo
-		stage_x, backRepo_x := test2_fullstack_x.NewStackInstance(r, "test2")
-		_ = stage_x
-		_ = backRepo_x
+		// stage_x, backRepo_x := test2_fullstack_x.NewStackInstance(r, "test2")
+		// _ = stage_x
+		// _ = backRepo_x
 	}
 
 	if !*testPackageHierarchy {

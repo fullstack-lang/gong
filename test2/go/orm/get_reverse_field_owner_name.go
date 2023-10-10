@@ -24,6 +24,30 @@ func GetReverseFieldOwnerName[T models.Gongstruct](
 		case "A":
 			switch reverseField.Fieldname {
 			}
+		case "B":
+			switch reverseField.Fieldname {
+			}
+		}
+
+	case *models.B:
+		tmp := GetInstanceDBFromInstance[models.B, BDB](
+			stage, backRepo, inst,
+		)
+		_ = tmp
+		switch reverseField.GongstructName {
+		// insertion point
+		case "A":
+			switch reverseField.Fieldname {
+			case "Bs":
+				if tmp != nil && tmp.A_BsDBID.Int64 != 0 {
+					id := uint(tmp.A_BsDBID.Int64)
+					reservePointerTarget := backRepo.BackRepoA.Map_ADBID_APtr[id]
+					res = reservePointerTarget.Name
+				}
+			}
+		case "B":
+			switch reverseField.Fieldname {
+			}
 		}
 
 	default:
@@ -49,6 +73,30 @@ func GetReverseFieldOwner[T models.Gongstruct](
 		switch reverseField.GongstructName {
 		// insertion point
 		case "A":
+			switch reverseField.Fieldname {
+			}
+		case "B":
+			switch reverseField.Fieldname {
+			}
+		}
+	
+	case *models.B:
+		tmp := GetInstanceDBFromInstance[models.B, BDB](
+			stage, backRepo, inst,
+		)
+		_ = tmp
+		switch reverseField.GongstructName {
+		// insertion point
+		case "A":
+			switch reverseField.Fieldname {
+			case "Bs":
+				if tmp != nil && tmp.A_BsDBID.Int64 != 0 {
+					id := uint(tmp.A_BsDBID.Int64)
+					reservePointerTarget := backRepo.BackRepoA.Map_ADBID_APtr[id]
+					res = reservePointerTarget
+				}
+			}
+		case "B":
 			switch reverseField.Fieldname {
 			}
 		}

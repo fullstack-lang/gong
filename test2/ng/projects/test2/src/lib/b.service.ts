@@ -11,20 +11,21 @@ import { BehaviorSubject } from 'rxjs';
 import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 
-import { ADB } from './a-db';
+import { BDB } from './b-db';
 
 // insertion point for imports
+import { ADB } from './a-db'
 
 @Injectable({
   providedIn: 'root'
 })
-export class AService {
+export class BService {
 
   // Kamar Raïmo: Adding a way to communicate between components that share information
   // so that they are notified of a change.
-  AServiceChanged: BehaviorSubject<string> = new BehaviorSubject("");
+  BServiceChanged: BehaviorSubject<string> = new BehaviorSubject("");
 
-  private asUrl: string
+  private bsUrl: string
 
   constructor(
     private http: HttpClient,
@@ -38,51 +39,51 @@ export class AService {
     origin = origin.replace("4200", "8080")
 
     // compute path to the service
-    this.asUrl = origin + '/api/github.com/fullstack-lang/gong/test2/go/v1/as';
+    this.bsUrl = origin + '/api/github.com/fullstack-lang/gong/test2/go/v1/bs';
   }
 
-  /** GET as from the server */
+  /** GET bs from the server */
   // gets is more robust to refactoring
-  gets(GONG__StackPath: string): Observable<ADB[]> {
-    return this.getAs(GONG__StackPath)
+  gets(GONG__StackPath: string): Observable<BDB[]> {
+    return this.getBs(GONG__StackPath)
   }
-  getAs(GONG__StackPath: string): Observable<ADB[]> {
+  getBs(GONG__StackPath: string): Observable<BDB[]> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
-    return this.http.get<ADB[]>(this.asUrl, { params: params })
+    return this.http.get<BDB[]>(this.bsUrl, { params: params })
       .pipe(
         tap(),
-		// tap(_ => this.log('fetched as')),
-        catchError(this.handleError<ADB[]>('getAs', []))
+		// tap(_ => this.log('fetched bs')),
+        catchError(this.handleError<BDB[]>('getBs', []))
       );
   }
 
-  /** GET a by id. Will 404 if id not found */
+  /** GET b by id. Will 404 if id not found */
   // more robust API to refactoring
-  get(id: number, GONG__StackPath: string): Observable<ADB> {
-	return this.getA(id, GONG__StackPath)
+  get(id: number, GONG__StackPath: string): Observable<BDB> {
+	return this.getB(id, GONG__StackPath)
   }
-  getA(id: number, GONG__StackPath: string): Observable<ADB> {
+  getB(id: number, GONG__StackPath: string): Observable<BDB> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
-    const url = `${this.asUrl}/${id}`;
-    return this.http.get<ADB>(url, { params: params }).pipe(
-      // tap(_ => this.log(`fetched a id=${id}`)),
-      catchError(this.handleError<ADB>(`getA id=${id}`))
+    const url = `${this.bsUrl}/${id}`;
+    return this.http.get<BDB>(url, { params: params }).pipe(
+      // tap(_ => this.log(`fetched b id=${id}`)),
+      catchError(this.handleError<BDB>(`getB id=${id}`))
     );
   }
 
-  /** POST: add a new a to the server */
-  post(adb: ADB, GONG__StackPath: string): Observable<ADB> {
-    return this.postA(adb, GONG__StackPath)	
+  /** POST: add a new b to the server */
+  post(bdb: BDB, GONG__StackPath: string): Observable<BDB> {
+    return this.postB(bdb, GONG__StackPath)	
   }
-  postA(adb: ADB, GONG__StackPath: string): Observable<ADB> {
+  postB(bdb: BDB, GONG__StackPath: string): Observable<BDB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
-    let Bs = adb.Bs
-    adb.Bs = []
+    let _A_Bs_reverse = bdb.A_Bs_reverse
+    bdb.A_Bs_reverse = new ADB
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -90,23 +91,23 @@ export class AService {
       params: params
     }
 
-    return this.http.post<ADB>(this.asUrl, adb, httpOptions).pipe(
+    return this.http.post<BDB>(this.bsUrl, bdb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
-	      adb.Bs = Bs
-        // this.log(`posted adb id=${adb.ID}`)
+        bdb.A_Bs_reverse = _A_Bs_reverse
+        // this.log(`posted bdb id=${bdb.ID}`)
       }),
-      catchError(this.handleError<ADB>('postA'))
+      catchError(this.handleError<BDB>('postB'))
     );
   }
 
-  /** DELETE: delete the adb from the server */
-  delete(adb: ADB | number, GONG__StackPath: string): Observable<ADB> {
-    return this.deleteA(adb, GONG__StackPath)
+  /** DELETE: delete the bdb from the server */
+  delete(bdb: BDB | number, GONG__StackPath: string): Observable<BDB> {
+    return this.deleteB(bdb, GONG__StackPath)
   }
-  deleteA(adb: ADB | number, GONG__StackPath: string): Observable<ADB> {
-    const id = typeof adb === 'number' ? adb : adb.ID;
-    const url = `${this.asUrl}/${id}`;
+  deleteB(bdb: BDB | number, GONG__StackPath: string): Observable<BDB> {
+    const id = typeof bdb === 'number' ? bdb : bdb.ID;
+    const url = `${this.bsUrl}/${id}`;
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -114,23 +115,23 @@ export class AService {
       params: params
     };
 
-    return this.http.delete<ADB>(url, httpOptions).pipe(
-      tap(_ => this.log(`deleted adb id=${id}`)),
-      catchError(this.handleError<ADB>('deleteA'))
+    return this.http.delete<BDB>(url, httpOptions).pipe(
+      tap(_ => this.log(`deleted bdb id=${id}`)),
+      catchError(this.handleError<BDB>('deleteB'))
     );
   }
 
-  /** PUT: update the adb on the server */
-  update(adb: ADB, GONG__StackPath: string): Observable<ADB> {
-    return this.updateA(adb, GONG__StackPath)
+  /** PUT: update the bdb on the server */
+  update(bdb: BDB, GONG__StackPath: string): Observable<BDB> {
+    return this.updateB(bdb, GONG__StackPath)
   }
-  updateA(adb: ADB, GONG__StackPath: string): Observable<ADB> {
-    const id = typeof adb === 'number' ? adb : adb.ID;
-    const url = `${this.asUrl}/${id}`;
+  updateB(bdb: BDB, GONG__StackPath: string): Observable<BDB> {
+    const id = typeof bdb === 'number' ? bdb : bdb.ID;
+    const url = `${this.bsUrl}/${id}`;
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
-    let Bs = adb.Bs
-    adb.Bs = []
+    let _A_Bs_reverse = bdb.A_Bs_reverse
+    bdb.A_Bs_reverse = new ADB
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -138,13 +139,13 @@ export class AService {
       params: params
     };
 
-    return this.http.put<ADB>(url, adb, httpOptions).pipe(
+    return this.http.put<BDB>(url, bdb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
-	      adb.Bs = Bs
-        // this.log(`updated adb id=${adb.ID}`)
+        bdb.A_Bs_reverse = _A_Bs_reverse
+        // this.log(`updated bdb id=${bdb.ID}`)
       }),
-      catchError(this.handleError<ADB>('updateA'))
+      catchError(this.handleError<BDB>('updateB'))
     );
   }
 
@@ -154,11 +155,11 @@ export class AService {
    * @param operation - name of the operation that failed
    * @param result - optional value to return as the observable result
    */
-  private handleError<T>(operation = 'operation in AService', result?: T) {
+  private handleError<T>(operation = 'operation in BService', result?: T) {
     return (error: any): Observable<T> => {
 
       // TODO: send the error to remote logging infrastructure
-      console.error("AService" + error); // log to console instead
+      console.error("BService" + error); // log to console instead
 
       // TODO: better job of transforming error for user consumption
       this.log(`${operation} failed: ${error.message}`);
