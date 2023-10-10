@@ -35,16 +35,18 @@ var dummy_A_sort sort.Float64Slice
 type AAPI struct {
 	gorm.Model
 
+	// why models.A It should be AWOP
 	models.A
 
 	// encoding of pointers
-	APointersEnconding
+	APointersEncoding
 }
 
-// APointersEnconding encodes pointers to Struct and
+// APointersEncoding encodes pointers to Struct and
 // reverse pointers of slice of poitners to Struct
-type APointersEnconding struct {
+type APointersEncoding struct {
 	// insertion for pointer fields encoding declaration
+	Bs []int `gorm:"type:TEXT"`
 }
 
 // ADB describes a a in the database
@@ -61,7 +63,7 @@ type ADB struct {
 	// Declation for basic field aDB.Name
 	Name_Data sql.NullString
 	// encoding of pointers
-	APointersEnconding
+	APointersEncoding
 }
 
 // ADBs arrays aDBs
@@ -225,6 +227,14 @@ func (backRepoA *BackRepoAStruct) CommitPhaseTwoInstance(backRepo *BackRepoStruc
 			if q := backRepoA.db.Save(bAssocEnd_DB); q.Error != nil {
 				return q.Error
 			}
+		}
+
+		// encode A.Bs into aDB
+		aDB.APointersEncoding.Bs = make([]int, 0)
+		for _, bAssocEnd := range a.Bs {
+			bAssocEnd_DB :=
+				backRepo.BackRepoB.GetBDBFromBPtr(bAssocEnd)
+			aDB.APointersEncoding.Bs = append(aDB.APointersEncoding.Bs, int(bAssocEnd_DB.ID))
 		}
 
 		query := backRepoA.db.Save(&aDB)
