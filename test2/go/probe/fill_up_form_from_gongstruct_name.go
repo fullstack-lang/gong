@@ -37,6 +37,17 @@ func FillUpFormFromGongstructName(
 		}).Stage(formStage)
 		a := new(models.A)
 		FillUpForm(a, formGroup, playground)
+	case "B":
+		formGroup := (&form.FormGroup{
+			Name:  form.FormGroupDefaultName.ToString(),
+			Label: prefix + " B Form",
+			OnSave: __gong__New__BFormCallback(
+				nil,
+				playground,
+			),
+		}).Stage(formStage)
+		b := new(models.B)
+		FillUpForm(b, formGroup, playground)
 	}
 	formStage.Commit()
 }

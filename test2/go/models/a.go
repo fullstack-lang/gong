@@ -7,6 +7,8 @@ import (
 type A struct {
 	Name string
 
+	Bs []*B
+
 	Y_A *y.A
 }
 

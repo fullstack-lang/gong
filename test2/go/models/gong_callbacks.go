@@ -10,6 +10,10 @@ func AfterCreateFromFront[Type Gongstruct](stage *StageStruct, instance *Type) {
 		if stage.OnAfterACreateCallback != nil {
 			stage.OnAfterACreateCallback.OnAfterCreate(stage, target)
 		}
+	case *B:
+		if stage.OnAfterBCreateCallback != nil {
+			stage.OnAfterBCreateCallback.OnAfterCreate(stage, target)
+		}
 	default:
 		_ = target
 	}
@@ -24,6 +28,11 @@ func AfterUpdateFromFront[Type Gongstruct](stage *StageStruct, old, new *Type) {
 		newTarget := any(new).(*A)
 		if stage.OnAfterAUpdateCallback != nil {
 			stage.OnAfterAUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
+	case *B:
+		newTarget := any(new).(*B)
+		if stage.OnAfterBUpdateCallback != nil {
+			stage.OnAfterBUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
 	default:
 		_ = oldTarget
@@ -40,6 +49,11 @@ func AfterDeleteFromFront[Type Gongstruct](stage *StageStruct, staged, front *Ty
 			staged := any(staged).(*A)
 			stage.OnAfterADeleteCallback.OnAfterDelete(stage, staged, front)
 		}
+	case *B:
+		if stage.OnAfterBDeleteCallback != nil {
+			staged := any(staged).(*B)
+			stage.OnAfterBDeleteCallback.OnAfterDelete(stage, staged, front)
+		}
 	default:
 		_ = front
 	}
@@ -53,6 +67,10 @@ func AfterReadFromFront[Type Gongstruct](stage *StageStruct, instance *Type) {
 	case *A:
 		if stage.OnAfterAReadCallback != nil {
 			stage.OnAfterAReadCallback.OnAfterRead(stage, target)
+		}
+	case *B:
+		if stage.OnAfterBReadCallback != nil {
+			stage.OnAfterBReadCallback.OnAfterRead(stage, target)
 		}
 	default:
 		_ = target
@@ -68,6 +86,9 @@ func SetCallbackAfterUpdateFromFront[Type Gongstruct](stage *StageStruct, callba
 	case *A:
 		stage.OnAfterAUpdateCallback = any(callback).(OnAfterUpdateInterface[A])
 	
+	case *B:
+		stage.OnAfterBUpdateCallback = any(callback).(OnAfterUpdateInterface[B])
+	
 	}
 }
 func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *StageStruct, callback OnAfterCreateInterface[Type]) {
@@ -77,6 +98,9 @@ func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *StageStruct, callba
 		// insertion point
 	case *A:
 		stage.OnAfterACreateCallback = any(callback).(OnAfterCreateInterface[A])
+	
+	case *B:
+		stage.OnAfterBCreateCallback = any(callback).(OnAfterCreateInterface[B])
 	
 	}
 }
@@ -88,6 +112,9 @@ func SetCallbackAfterDeleteFromFront[Type Gongstruct](stage *StageStruct, callba
 	case *A:
 		stage.OnAfterADeleteCallback = any(callback).(OnAfterDeleteInterface[A])
 	
+	case *B:
+		stage.OnAfterBDeleteCallback = any(callback).(OnAfterDeleteInterface[B])
+	
 	}
 }
 func SetCallbackAfterReadFromFront[Type Gongstruct](stage *StageStruct, callback OnAfterReadInterface[Type]) {
@@ -97,6 +124,9 @@ func SetCallbackAfterReadFromFront[Type Gongstruct](stage *StageStruct, callback
 		// insertion point
 	case *A:
 		stage.OnAfterAReadCallback = any(callback).(OnAfterReadInterface[A])
+	
+	case *B:
+		stage.OnAfterBReadCallback = any(callback).(OnAfterReadInterface[B])
 	
 	}
 }

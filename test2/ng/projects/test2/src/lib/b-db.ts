@@ -1,12 +1,12 @@
 // insertion point for imports
-import { BDB } from './b-db'
+import { ADB } from './a-db'
 
 // usefull for managing pointer ID values that can be nullable
 import { NullInt64 } from './null-int64'
 
-export class ADB {
+export class BDB {
 
-	static GONGSTRUCT_NAME = "A"
+	static GONGSTRUCT_NAME = "B"
 
 	CreatedAt?: string
 	DeletedAt?: string
@@ -16,5 +16,8 @@ export class ADB {
 	Name: string = ""
 
 	// insertion point for other declarations
-	Bs?: Array<BDB>
+	A_BsDBID: NullInt64 = new NullInt64
+	A_BsDBID_Index: NullInt64  = new NullInt64 // store the index of the b instance in A.Bs
+	A_Bs_reverse?: ADB 
+
 }

@@ -142,6 +142,38 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 
 	}
 
+	map_B_Identifiers := make(map[*B]string)
+	_ = map_B_Identifiers
+
+	bOrdered := []*B{}
+	for b := range stage.Bs {
+		bOrdered = append(bOrdered, b)
+	}
+	sort.Slice(bOrdered[:], func(i, j int) bool {
+		return bOrdered[i].Name < bOrdered[j].Name
+	})
+	identifiersDecl += "\n\n	// Declarations of staged instances of B"
+	for idx, b := range bOrdered {
+
+		id = generatesIdentifier("B", idx, b.Name)
+		map_B_Identifiers[b] = id
+
+		decl = IdentifiersDecls
+		decl = strings.ReplaceAll(decl, "{{Identifier}}", id)
+		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "B")
+		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", b.Name)
+		identifiersDecl += decl
+
+		initializerStatements += "\n\n	// B values setup"
+		// Initialisation of values
+		setValueField = StringInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(b.Name))
+		initializerStatements += setValueField
+
+	}
+
 	// insertion initialization of objects to stage
 	for idx, a := range aOrdered {
 		var setPointerField string
@@ -149,6 +181,24 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 
 		id = generatesIdentifier("A", idx, a.Name)
 		map_A_Identifiers[a] = id
+
+		// Initialisation of values
+		for _, _b := range a.Bs {
+			setPointerField = SliceOfPointersFieldInitStatement
+			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "Bs")
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_B_Identifiers[_b])
+			pointersInitializesStatements += setPointerField
+		}
+
+	}
+
+	for idx, b := range bOrdered {
+		var setPointerField string
+		_ = setPointerField
+
+		id = generatesIdentifier("B", idx, b.Name)
+		map_B_Identifiers[b] = id
 
 		// Initialisation of values
 	}
