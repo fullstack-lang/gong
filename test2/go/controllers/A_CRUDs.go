@@ -92,7 +92,7 @@ func (controller *Controller) GetAs(c *gin.Context) {
 		// insertion point for updating fields
 		aAPI.ID = aDB.ID
 		aDB.CopyBasicFieldsToA(&aAPI.A)
-		aAPI.APointersEnconding = aDB.APointersEnconding
+		aAPI.APointersEncoding = aDB.APointersEncoding
 		aAPIs = append(aAPIs, aAPI)
 	}
 
@@ -147,7 +147,7 @@ func (controller *Controller) PostA(c *gin.Context) {
 
 	// Create a
 	aDB := orm.ADB{}
-	aDB.APointersEnconding = input.APointersEnconding
+	aDB.APointersEncoding = input.APointersEncoding
 	aDB.CopyBasicFieldsFromA(&input.A)
 
 	query := db.Create(&aDB)
@@ -217,7 +217,7 @@ func (controller *Controller) GetA(c *gin.Context) {
 
 	var aAPI orm.AAPI
 	aAPI.ID = aDB.ID
-	aAPI.APointersEnconding = aDB.APointersEnconding
+	aAPI.APointersEncoding = aDB.APointersEncoding
 	aDB.CopyBasicFieldsToA(&aAPI.A)
 
 	c.JSON(http.StatusOK, aAPI)
@@ -277,7 +277,7 @@ func (controller *Controller) UpdateA(c *gin.Context) {
 
 	// update
 	aDB.CopyBasicFieldsFromA(&input.A)
-	aDB.APointersEnconding = input.APointersEnconding
+	aDB.APointersEncoding = input.APointersEncoding
 
 	query = db.Model(&aDB).Updates(aDB)
 	if query.Error != nil {
