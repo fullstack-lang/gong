@@ -43,6 +43,7 @@ func stage2Injection(stage *models.StageStruct) {
 	// Declarations of staged instances of B
 	__B__000000_B1 := (&models.B{Name: `B1`}).Stage(stage)
 	__B__000001_B2 := (&models.B{Name: `B2`}).Stage(stage)
+	__B__000002_B3 := (&models.B{Name: `B3`}).Stage(stage)
 
 	// Setup of values
 
@@ -55,7 +56,11 @@ func stage2Injection(stage *models.StageStruct) {
 	// B values setup
 	__B__000001_B2.Name = `B2`
 
+	// B values setup
+	__B__000002_B3.Name = `B3`
+
 	// Setup of pointers
 	__A__000000_A1.Bs = append(__A__000000_A1.Bs, __B__000000_B1)
-	__A__000000_A1.Bs = append(__A__000000_A1.Bs, __B__000001_B2)
+	// __A__000000_A1.Bs = append(__A__000000_A1.Bs, __B__000001_B2)
+	// __A__000000_A1.Bs = append(__A__000000_A1.Bs, __B__000002_B3)
 }
