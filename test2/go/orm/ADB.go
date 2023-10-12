@@ -46,7 +46,7 @@ type AAPI struct {
 // reverse pointers of slice of poitners to Struct
 type APointersEncoding struct {
 	// insertion for pointer fields encoding declaration
-	// Bs []int `gorm:"type:TEXT"`
+	Bs PointerCodeSlice `gorm:"type:TEXT"`
 }
 
 // ADB describes a a in the database
@@ -64,8 +64,6 @@ type ADB struct {
 	// Name_Data sql.NullString
 	// encoding of pointers
 	APointersEncoding
-
-	Nums PointerCodeSlice `gorm:"type:TEXT"`
 }
 
 // ADBs arrays aDBs
@@ -232,15 +230,14 @@ func (backRepoA *BackRepoAStruct) CommitPhaseTwoInstance(backRepo *BackRepoStruc
 		}
 
 		// encode A.Bs into aDB
-		// aDB.APointersEncoding.Bs = make([]int, 0)
-		aDB.Nums = make(PointerCodeSlice, 2)
-		aDB.Nums = append(aDB.Nums, 10)
-		aDB.Nums = append(aDB.Nums, 10)
-		// for _, bAssocEnd := range a.Bs {
-		// 	bAssocEnd_DB :=
-		// 		backRepo.BackRepoB.GetBDBFromBPtr(bAssocEnd)
-		// 	aDB.APointersEncoding.Bs = append(aDB.APointersEncoding.Bs, int(bAssocEnd_DB.ID))
-		// }
+		// 1. reset
+		aDB.APointersEncoding.Bs = make([]int, 0)
+		// 2. encode
+		for _, bAssocEnd := range a.Bs {
+			bAssocEnd_DB :=
+				backRepo.BackRepoB.GetBDBFromBPtr(bAssocEnd)
+			aDB.APointersEncoding.Bs = append(aDB.APointersEncoding.Bs, int(bAssocEnd_DB.ID))
+		}
 
 		query := backRepoA.db.Save(&aDB)
 		if query.Error != nil {
