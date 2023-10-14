@@ -92,7 +92,7 @@ func (controller *Controller) GetAs(c *gin.Context) {
 		// insertion point for updating fields
 		aAPI.ID = aDB.ID
 		aDB.CopyBasicFieldsToA(&aAPI.A)
-		// aAPI.APointersEncoding = aDB.APointersEncoding
+		aAPI.APointersEncoding = aDB.APointersEncoding
 		aAPIs = append(aAPIs, aAPI)
 	}
 

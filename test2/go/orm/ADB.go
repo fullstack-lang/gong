@@ -46,7 +46,7 @@ type AAPI struct {
 // reverse pointers of slice of poitners to Struct
 type APointersEncoding struct {
 	// insertion for pointer fields encoding declaration
-	Bs PointerCodeSlice `gorm:"type:TEXT"`
+	B2s StringSlice `gorm:"type:TEXT"`
 }
 
 // ADB describes a a in the database
@@ -61,7 +61,8 @@ type ADB struct {
 	// insertion for basic fields declaration
 
 	// Declation for basic field aDB.Name
-	// Name_Data sql.NullString
+	Name_Data sql.NullString
+
 	// encoding of pointers
 	APointersEncoding
 }
@@ -231,12 +232,12 @@ func (backRepoA *BackRepoAStruct) CommitPhaseTwoInstance(backRepo *BackRepoStruc
 
 		// encode A.Bs into aDB
 		// 1. reset
-		aDB.APointersEncoding.Bs = make([]int, 0)
+		aDB.APointersEncoding.B2s = make([]int, 0)
 		// 2. encode
 		for _, bAssocEnd := range a.Bs {
 			bAssocEnd_DB :=
 				backRepo.BackRepoB.GetBDBFromBPtr(bAssocEnd)
-			aDB.APointersEncoding.Bs = append(aDB.APointersEncoding.Bs, int(bAssocEnd_DB.ID))
+			aDB.APointersEncoding.B2s = append(aDB.APointersEncoding.B2s, int(bAssocEnd_DB.ID))
 		}
 
 		query := backRepoA.db.Save(&aDB)
@@ -310,7 +311,7 @@ func (backRepoA *BackRepoAStruct) CheckoutPhaseOneInstance(aDB *ADB) (Error erro
 		backRepoA.Map_APtr_ADBID[a] = aDB.ID
 
 		// append model store with the new element
-		// a.Name = aDB.Name_Data.String
+		a.Name = aDB.Name_Data.String
 		a.Stage(backRepoA.GetStage())
 	}
 	aDB.CopyBasicFieldsToA(a)
@@ -407,29 +408,29 @@ func (backRepo *BackRepoStruct) CheckoutA(a *models.A) {
 func (aDB *ADB) CopyBasicFieldsFromA(a *models.A) {
 	// insertion point for fields commit
 
-	// aDB.Name_Data.String = a.Name
-	// aDB.Name_Data.Valid = true
+	aDB.Name_Data.String = a.Name
+	aDB.Name_Data.Valid = true
 }
 
 // CopyBasicFieldsFromAWOP
 func (aDB *ADB) CopyBasicFieldsFromAWOP(a *AWOP) {
 	// insertion point for fields commit
 
-	// aDB.Name_Data.String = a.Name
-	// aDB.Name_Data.Valid = true
+	aDB.Name_Data.String = a.Name
+	aDB.Name_Data.Valid = true
 }
 
 // CopyBasicFieldsToA
 func (aDB *ADB) CopyBasicFieldsToA(a *models.A) {
 	// insertion point for checkout of basic fields (back repo to stage)
-	// a.Name = aDB.Name_Data.String
+	a.Name = aDB.Name_Data.String
 }
 
 // CopyBasicFieldsToAWOP
 func (aDB *ADB) CopyBasicFieldsToAWOP(a *AWOP) {
 	a.ID = int(aDB.ID)
 	// insertion point for checkout of basic fields (back repo to stage)
-	// a.Name = aDB.Name_Data.String
+	a.Name = aDB.Name_Data.String
 }
 
 // Backup generates a json file from a slice of all ADB instances in the backrepo
