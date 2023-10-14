@@ -4,6 +4,7 @@ import (
 	"time"
 
 	"github.com/fullstack-lang/gong/test2/go/models"
+
 	// injection point for ident package import declaration{{ImportPackageDeclaration}}
 )
 
@@ -61,6 +62,8 @@ func stage2Injection(stage *models.StageStruct) {
 
 	// Setup of pointers
 	__A__000000_A1.Bs = append(__A__000000_A1.Bs, __B__000000_B1)
-	// __A__000000_A1.Bs = append(__A__000000_A1.Bs, __B__000001_B2)
-	// __A__000000_A1.Bs = append(__A__000000_A1.Bs, __B__000002_B3)
+	__A__000000_A1.Bs = append(__A__000000_A1.Bs, __B__000001_B2)
+	__A__000000_A1.Bs = append(__A__000000_A1.Bs, __B__000002_B3)
 }
+
+
