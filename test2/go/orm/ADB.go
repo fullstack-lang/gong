@@ -36,7 +36,7 @@ type AAPI struct {
 	gorm.Model
 
 	// why models.A It should be AWOP
-	models.A
+	models.A_WOP
 
 	// encoding of pointers
 	APointersEncoding
@@ -46,7 +46,7 @@ type AAPI struct {
 // reverse pointers of slice of poitners to Struct
 type APointersEncoding struct {
 	// insertion for pointer fields encoding declaration
-	B2s StringSlice `gorm:"type:TEXT"`
+	Bs StringSlice `gorm:"type:TEXT"`
 }
 
 // ADB describes a a in the database
@@ -232,12 +232,12 @@ func (backRepoA *BackRepoAStruct) CommitPhaseTwoInstance(backRepo *BackRepoStruc
 
 		// encode A.Bs into aDB
 		// 1. reset
-		aDB.APointersEncoding.B2s = make([]int, 0)
+		aDB.APointersEncoding.Bs = make([]int, 0)
 		// 2. encode
 		for _, bAssocEnd := range a.Bs {
 			bAssocEnd_DB :=
 				backRepo.BackRepoB.GetBDBFromBPtr(bAssocEnd)
-			aDB.APointersEncoding.B2s = append(aDB.APointersEncoding.B2s, int(bAssocEnd_DB.ID))
+			aDB.APointersEncoding.Bs = append(aDB.APointersEncoding.Bs, int(bAssocEnd_DB.ID))
 		}
 
 		query := backRepoA.db.Save(&aDB)
@@ -412,6 +412,13 @@ func (aDB *ADB) CopyBasicFieldsFromA(a *models.A) {
 	aDB.Name_Data.Valid = true
 }
 
+func (aDB *ADB) CopyBasicFieldsFromA_WOP(a *models.A_WOP) {
+	// insertion point for fields commit
+
+	aDB.Name_Data.String = a.Name
+	aDB.Name_Data.Valid = true
+}
+
 // CopyBasicFieldsFromAWOP
 func (aDB *ADB) CopyBasicFieldsFromAWOP(a *AWOP) {
 	// insertion point for fields commit
@@ -422,6 +429,11 @@ func (aDB *ADB) CopyBasicFieldsFromAWOP(a *AWOP) {
 
 // CopyBasicFieldsToA
 func (aDB *ADB) CopyBasicFieldsToA(a *models.A) {
+	// insertion point for checkout of basic fields (back repo to stage)
+	a.Name = aDB.Name_Data.String
+}
+
+func (aDB *ADB) CopyBasicFieldsToA_WOP(a *models.A_WOP) {
 	// insertion point for checkout of basic fields (back repo to stage)
 	a.Name = aDB.Name_Data.String
 }
