@@ -35,7 +35,6 @@ var dummy_A_sort sort.Float64Slice
 type AAPI struct {
 	gorm.Model
 
-	// why models.A It should be AWOP
 	models.A_WOP
 
 	// encoding of pointers
@@ -46,7 +45,9 @@ type AAPI struct {
 // reverse pointers of slice of poitners to Struct
 type APointersEncoding struct {
 	// insertion for pointer fields encoding declaration
-	Bs StringSlice `gorm:"type:TEXT"`
+
+	// field Bs is a slice of pointers to another Struct (optional or 0..1)
+	Bs IntSlice`gorm:"type:TEXT"`
 }
 
 // ADB describes a a in the database
@@ -62,7 +63,6 @@ type ADB struct {
 
 	// Declation for basic field aDB.Name
 	Name_Data sql.NullString
-
 	// encoding of pointers
 	APointersEncoding
 }
@@ -153,7 +153,7 @@ func (backRepoA *BackRepoAStruct) CommitDeleteInstance(id uint) (Error error) {
 	aDB := backRepoA.Map_ADBID_ADB[id]
 	query := backRepoA.db.Unscoped().Delete(&aDB)
 	if query.Error != nil {
-		return query.Error
+		log.Fatal(query.Error)
 	}
 
 	// update stores
@@ -179,7 +179,7 @@ func (backRepoA *BackRepoAStruct) CommitPhaseOneInstance(a *models.A) (Error err
 
 	query := backRepoA.db.Create(&aDB)
 	if query.Error != nil {
-		return query.Error
+		log.Fatal(query.Error)
 	}
 
 	// update stores
@@ -230,14 +230,14 @@ func (backRepoA *BackRepoAStruct) CommitPhaseTwoInstance(backRepo *BackRepoStruc
 			}
 		}
 
-		// encode A.Bs into aDB
 		// 1. reset
 		aDB.APointersEncoding.Bs = make([]int, 0)
 		// 2. encode
 		for _, bAssocEnd := range a.Bs {
 			bAssocEnd_DB :=
 				backRepo.BackRepoB.GetBDBFromBPtr(bAssocEnd)
-			aDB.APointersEncoding.Bs = append(aDB.APointersEncoding.Bs, int(bAssocEnd_DB.ID))
+			aDB.APointersEncoding.Bs =
+				append(aDB.APointersEncoding.Bs, int(bAssocEnd_DB.ID))
 		}
 
 		query := backRepoA.db.Save(&aDB)
@@ -396,7 +396,7 @@ func (backRepo *BackRepoStruct) CheckoutA(a *models.A) {
 			aDB.ID = id
 
 			if err := backRepo.BackRepoA.db.First(&aDB, id).Error; err != nil {
-				log.Panicln("CheckoutA : Problem with getting object with id:", id)
+				log.Fatalln("CheckoutA : Problem with getting object with id:", id)
 			}
 			backRepo.BackRepoA.CheckoutPhaseOneInstance(&aDB)
 			backRepo.BackRepoA.CheckoutPhaseTwoInstance(backRepo, &aDB)
@@ -412,6 +412,7 @@ func (aDB *ADB) CopyBasicFieldsFromA(a *models.A) {
 	aDB.Name_Data.Valid = true
 }
 
+// CopyBasicFieldsFromA_WOP
 func (aDB *ADB) CopyBasicFieldsFromA_WOP(a *models.A_WOP) {
 	// insertion point for fields commit
 
@@ -433,6 +434,7 @@ func (aDB *ADB) CopyBasicFieldsToA(a *models.A) {
 	a.Name = aDB.Name_Data.String
 }
 
+// CopyBasicFieldsToA_WOP
 func (aDB *ADB) CopyBasicFieldsToA_WOP(a *models.A_WOP) {
 	// insertion point for checkout of basic fields (back repo to stage)
 	a.Name = aDB.Name_Data.String
@@ -464,12 +466,12 @@ func (backRepoA *BackRepoAStruct) Backup(dirPath string) {
 	file, err := json.MarshalIndent(forBackup, "", " ")
 
 	if err != nil {
-		log.Panic("Cannot json A ", filename, " ", err.Error())
+		log.Fatal("Cannot json A ", filename, " ", err.Error())
 	}
 
 	err = ioutil.WriteFile(filename, file, 0644)
 	if err != nil {
-		log.Panic("Cannot write the json A file", err.Error())
+		log.Fatal("Cannot write the json A file", err.Error())
 	}
 }
 
@@ -489,7 +491,7 @@ func (backRepoA *BackRepoAStruct) BackupXL(file *xlsx.File) {
 
 	sh, err := file.AddSheet("A")
 	if err != nil {
-		log.Panic("Cannot add XL file", err.Error())
+		log.Fatal("Cannot add XL file", err.Error())
 	}
 	_ = sh
 
@@ -514,13 +516,13 @@ func (backRepoA *BackRepoAStruct) RestoreXLPhaseOne(file *xlsx.File) {
 	sh, ok := file.Sheet["A"]
 	_ = sh
 	if !ok {
-		log.Panic(errors.New("sheet not found"))
+		log.Fatal(errors.New("sheet not found"))
 	}
 
 	// log.Println("Max row is", sh.MaxRow)
 	err := sh.ForEachRow(backRepoA.rowVisitorA)
 	if err != nil {
-		log.Panic("Err=", err)
+		log.Fatal("Err=", err)
 	}
 }
 
@@ -542,7 +544,7 @@ func (backRepoA *BackRepoAStruct) rowVisitorA(row *xlsx.Row) error {
 		aDB.ID = 0
 		query := backRepoA.db.Create(aDB)
 		if query.Error != nil {
-			log.Panic(query.Error)
+			log.Fatal(query.Error)
 		}
 		backRepoA.Map_ADBID_ADB[aDB.ID] = aDB
 		BackRepoAid_atBckpTime_newID[aDB_ID_atBackupTime] = aDB.ID
@@ -562,7 +564,7 @@ func (backRepoA *BackRepoAStruct) RestorePhaseOne(dirPath string) {
 	jsonFile, err := os.Open(filename)
 	// if we os.Open returns an error then handle it
 	if err != nil {
-		log.Panic("Cannot restore/open the json A file", filename, " ", err.Error())
+		log.Fatal("Cannot restore/open the json A file", filename, " ", err.Error())
 	}
 
 	// read our opened jsonFile as a byte array.
@@ -579,14 +581,14 @@ func (backRepoA *BackRepoAStruct) RestorePhaseOne(dirPath string) {
 		aDB.ID = 0
 		query := backRepoA.db.Create(aDB)
 		if query.Error != nil {
-			log.Panic(query.Error)
+			log.Fatal(query.Error)
 		}
 		backRepoA.Map_ADBID_ADB[aDB.ID] = aDB
 		BackRepoAid_atBckpTime_newID[aDB_ID_atBackupTime] = aDB.ID
 	}
 
 	if err != nil {
-		log.Panic("Cannot restore/unmarshall json A file", err.Error())
+		log.Fatal("Cannot restore/unmarshall json A file", err.Error())
 	}
 }
 
@@ -603,7 +605,7 @@ func (backRepoA *BackRepoAStruct) RestorePhaseTwo() {
 		// update databse with new index encoding
 		query := backRepoA.db.Model(aDB).Updates(*aDB)
 		if query.Error != nil {
-			log.Panic(query.Error)
+			log.Fatal(query.Error)
 		}
 	}
 

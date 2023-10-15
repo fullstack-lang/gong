@@ -42,6 +42,7 @@ func RemoveGeneratedGongFilesButDocs(
 		"gong_enum.go",
 		"gong_callbacks.go",
 		"gong_orchestrator.go",
+		"gong_wop.go",
 	}
 
 	for _, file := range filesToRemove {
