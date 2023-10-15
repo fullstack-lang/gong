@@ -91,8 +91,8 @@ func (controller *Controller) GetModelPkgs(c *gin.Context) {
 
 		// insertion point for updating fields
 		modelpkgAPI.ID = modelpkgDB.ID
-		modelpkgDB.CopyBasicFieldsToModelPkg(&modelpkgAPI.ModelPkg)
-		modelpkgAPI.ModelPkgPointersEnconding = modelpkgDB.ModelPkgPointersEnconding
+		modelpkgDB.CopyBasicFieldsToModelPkg_WOP(&modelpkgAPI.ModelPkg_WOP)
+		modelpkgAPI.ModelPkgPointersEncoding = modelpkgDB.ModelPkgPointersEncoding
 		modelpkgAPIs = append(modelpkgAPIs, modelpkgAPI)
 	}
 
@@ -147,8 +147,8 @@ func (controller *Controller) PostModelPkg(c *gin.Context) {
 
 	// Create modelpkg
 	modelpkgDB := orm.ModelPkgDB{}
-	modelpkgDB.ModelPkgPointersEnconding = input.ModelPkgPointersEnconding
-	modelpkgDB.CopyBasicFieldsFromModelPkg(&input.ModelPkg)
+	modelpkgDB.ModelPkgPointersEncoding = input.ModelPkgPointersEncoding
+	modelpkgDB.CopyBasicFieldsFromModelPkg_WOP(&input.ModelPkg_WOP)
 
 	query := db.Create(&modelpkgDB)
 	if query.Error != nil {
@@ -217,8 +217,8 @@ func (controller *Controller) GetModelPkg(c *gin.Context) {
 
 	var modelpkgAPI orm.ModelPkgAPI
 	modelpkgAPI.ID = modelpkgDB.ID
-	modelpkgAPI.ModelPkgPointersEnconding = modelpkgDB.ModelPkgPointersEnconding
-	modelpkgDB.CopyBasicFieldsToModelPkg(&modelpkgAPI.ModelPkg)
+	modelpkgAPI.ModelPkgPointersEncoding = modelpkgDB.ModelPkgPointersEncoding
+	modelpkgDB.CopyBasicFieldsToModelPkg_WOP(&modelpkgAPI.ModelPkg_WOP)
 
 	c.JSON(http.StatusOK, modelpkgAPI)
 }
@@ -276,8 +276,8 @@ func (controller *Controller) UpdateModelPkg(c *gin.Context) {
 	}
 
 	// update
-	modelpkgDB.CopyBasicFieldsFromModelPkg(&input.ModelPkg)
-	modelpkgDB.ModelPkgPointersEnconding = input.ModelPkgPointersEnconding
+	modelpkgDB.CopyBasicFieldsFromModelPkg_WOP(&input.ModelPkg_WOP)
+	modelpkgDB.ModelPkgPointersEncoding = input.ModelPkgPointersEncoding
 
 	query = db.Model(&modelpkgDB).Updates(modelpkgDB)
 	if query.Error != nil {
