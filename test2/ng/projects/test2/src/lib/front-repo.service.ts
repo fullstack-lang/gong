@@ -274,6 +274,17 @@ export class FrontRepoService {
                 // insertion point sub sub template for ONE-/ZERO-ONE associations pointers redeeming
 
                 // insertion point for redeeming ONE-MANY associations
+
+                let IntSlice_Bs = a.Bs! as unknown as number[]
+                a.Bs = new Array<BDB>()
+                for (let _bID of IntSlice_Bs) {
+                  let _b = this.frontRepo.Bs.get(_bID)
+                  if (_b != undefined) {
+                    a.Bs.push(_b)
+                  }
+                }
+
+
               }
             )
             bs.forEach(
@@ -282,18 +293,18 @@ export class FrontRepoService {
 
                 // insertion point for redeeming ONE-MANY associations
                 // insertion point for slice of pointer field A.Bs redeeming
-                {
-                  let _a = this.frontRepo.As.get(b.A_BsDBID.Int64)
-                  if (_a) {
-                    if (_a.Bs == undefined) {
-                      _a.Bs = new Array<BDB>()
-                    }
-                    _a.Bs.push(b)
-                    if (b.A_Bs_reverse == undefined) {
-                      b.A_Bs_reverse = _a
-                    }
-                  }
-                }
+                // {
+                //   let _a = this.frontRepo.As.get(b.A_BsDBID.Int64)
+                //   if (_a) {
+                // if (_a.Bs == undefined) {
+                //   _a.Bs = new Array<BDB>()
+                // }
+                //     _a.Bs.push(b)
+                //     if (b.A_Bs_reverse == undefined) {
+                //       b.A_Bs_reverse = _a
+                //     }
+                //   }
+                // }
               }
             )
 
