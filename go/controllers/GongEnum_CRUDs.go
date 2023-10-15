@@ -91,8 +91,8 @@ func (controller *Controller) GetGongEnums(c *gin.Context) {
 
 		// insertion point for updating fields
 		gongenumAPI.ID = gongenumDB.ID
-		gongenumDB.CopyBasicFieldsToGongEnum(&gongenumAPI.GongEnum)
-		gongenumAPI.GongEnumPointersEnconding = gongenumDB.GongEnumPointersEnconding
+		gongenumDB.CopyBasicFieldsToGongEnum_WOP(&gongenumAPI.GongEnum_WOP)
+		gongenumAPI.GongEnumPointersEncoding = gongenumDB.GongEnumPointersEncoding
 		gongenumAPIs = append(gongenumAPIs, gongenumAPI)
 	}
 
@@ -147,8 +147,8 @@ func (controller *Controller) PostGongEnum(c *gin.Context) {
 
 	// Create gongenum
 	gongenumDB := orm.GongEnumDB{}
-	gongenumDB.GongEnumPointersEnconding = input.GongEnumPointersEnconding
-	gongenumDB.CopyBasicFieldsFromGongEnum(&input.GongEnum)
+	gongenumDB.GongEnumPointersEncoding = input.GongEnumPointersEncoding
+	gongenumDB.CopyBasicFieldsFromGongEnum_WOP(&input.GongEnum_WOP)
 
 	query := db.Create(&gongenumDB)
 	if query.Error != nil {
@@ -217,8 +217,8 @@ func (controller *Controller) GetGongEnum(c *gin.Context) {
 
 	var gongenumAPI orm.GongEnumAPI
 	gongenumAPI.ID = gongenumDB.ID
-	gongenumAPI.GongEnumPointersEnconding = gongenumDB.GongEnumPointersEnconding
-	gongenumDB.CopyBasicFieldsToGongEnum(&gongenumAPI.GongEnum)
+	gongenumAPI.GongEnumPointersEncoding = gongenumDB.GongEnumPointersEncoding
+	gongenumDB.CopyBasicFieldsToGongEnum_WOP(&gongenumAPI.GongEnum_WOP)
 
 	c.JSON(http.StatusOK, gongenumAPI)
 }
@@ -276,8 +276,8 @@ func (controller *Controller) UpdateGongEnum(c *gin.Context) {
 	}
 
 	// update
-	gongenumDB.CopyBasicFieldsFromGongEnum(&input.GongEnum)
-	gongenumDB.GongEnumPointersEnconding = input.GongEnumPointersEnconding
+	gongenumDB.CopyBasicFieldsFromGongEnum_WOP(&input.GongEnum_WOP)
+	gongenumDB.GongEnumPointersEncoding = input.GongEnumPointersEncoding
 
 	query = db.Model(&gongenumDB).Updates(gongenumDB)
 	if query.Error != nil {

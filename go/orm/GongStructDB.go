@@ -35,16 +35,28 @@ var dummy_GongStruct_sort sort.Float64Slice
 type GongStructAPI struct {
 	gorm.Model
 
-	models.GongStruct
+	models.GongStruct_WOP
 
 	// encoding of pointers
-	GongStructPointersEnconding
+	GongStructPointersEncoding
 }
 
-// GongStructPointersEnconding encodes pointers to Struct and
+// GongStructPointersEncoding encodes pointers to Struct and
 // reverse pointers of slice of poitners to Struct
-type GongStructPointersEnconding struct {
+type GongStructPointersEncoding struct {
 	// insertion for pointer fields encoding declaration
+
+	// field GongBasicFields is a slice of pointers to another Struct (optional or 0..1)
+	GongBasicFields IntSlice`gorm:"type:TEXT"`
+
+	// field GongTimeFields is a slice of pointers to another Struct (optional or 0..1)
+	GongTimeFields IntSlice`gorm:"type:TEXT"`
+
+	// field PointerToGongStructFields is a slice of pointers to another Struct (optional or 0..1)
+	PointerToGongStructFields IntSlice`gorm:"type:TEXT"`
+
+	// field SliceOfPointerToGongStructFields is a slice of pointers to another Struct (optional or 0..1)
+	SliceOfPointerToGongStructFields IntSlice`gorm:"type:TEXT"`
 }
 
 // GongStructDB describes a gongstruct in the database
@@ -69,7 +81,7 @@ type GongStructDB struct {
 	// provide the sql storage for the boolan
 	IsIgnoredForFront_Data sql.NullBool
 	// encoding of pointers
-	GongStructPointersEnconding
+	GongStructPointersEncoding
 }
 
 // GongStructDBs arrays gongstructDBs
@@ -164,7 +176,7 @@ func (backRepoGongStruct *BackRepoGongStructStruct) CommitDeleteInstance(id uint
 	gongstructDB := backRepoGongStruct.Map_GongStructDBID_GongStructDB[id]
 	query := backRepoGongStruct.db.Unscoped().Delete(&gongstructDB)
 	if query.Error != nil {
-		return query.Error
+		log.Fatal(query.Error)
 	}
 
 	// update stores
@@ -190,7 +202,7 @@ func (backRepoGongStruct *BackRepoGongStructStruct) CommitPhaseOneInstance(gongs
 
 	query := backRepoGongStruct.db.Create(&gongstructDB)
 	if query.Error != nil {
-		return query.Error
+		log.Fatal(query.Error)
 	}
 
 	// update stores
@@ -241,6 +253,16 @@ func (backRepoGongStruct *BackRepoGongStructStruct) CommitPhaseTwoInstance(backR
 			}
 		}
 
+		// 1. reset
+		gongstructDB.GongStructPointersEncoding.GongBasicFields = make([]int, 0)
+		// 2. encode
+		for _, gongbasicfieldAssocEnd := range gongstruct.GongBasicFields {
+			gongbasicfieldAssocEnd_DB :=
+				backRepo.BackRepoGongBasicField.GetGongBasicFieldDBFromGongBasicFieldPtr(gongbasicfieldAssocEnd)
+			gongstructDB.GongStructPointersEncoding.GongBasicFields =
+				append(gongstructDB.GongStructPointersEncoding.GongBasicFields, int(gongbasicfieldAssocEnd_DB.ID))
+		}
+
 		// This loop encodes the slice of pointers gongstruct.GongTimeFields into the back repo.
 		// Each back repo instance at the end of the association encode the ID of the association start
 		// into a dedicated field for coding the association. The back repo instance is then saved to the db
@@ -258,6 +280,16 @@ func (backRepoGongStruct *BackRepoGongStructStruct) CommitPhaseTwoInstance(backR
 			if q := backRepoGongStruct.db.Save(gongtimefieldAssocEnd_DB); q.Error != nil {
 				return q.Error
 			}
+		}
+
+		// 1. reset
+		gongstructDB.GongStructPointersEncoding.GongTimeFields = make([]int, 0)
+		// 2. encode
+		for _, gongtimefieldAssocEnd := range gongstruct.GongTimeFields {
+			gongtimefieldAssocEnd_DB :=
+				backRepo.BackRepoGongTimeField.GetGongTimeFieldDBFromGongTimeFieldPtr(gongtimefieldAssocEnd)
+			gongstructDB.GongStructPointersEncoding.GongTimeFields =
+				append(gongstructDB.GongStructPointersEncoding.GongTimeFields, int(gongtimefieldAssocEnd_DB.ID))
 		}
 
 		// This loop encodes the slice of pointers gongstruct.PointerToGongStructFields into the back repo.
@@ -279,6 +311,16 @@ func (backRepoGongStruct *BackRepoGongStructStruct) CommitPhaseTwoInstance(backR
 			}
 		}
 
+		// 1. reset
+		gongstructDB.GongStructPointersEncoding.PointerToGongStructFields = make([]int, 0)
+		// 2. encode
+		for _, pointertogongstructfieldAssocEnd := range gongstruct.PointerToGongStructFields {
+			pointertogongstructfieldAssocEnd_DB :=
+				backRepo.BackRepoPointerToGongStructField.GetPointerToGongStructFieldDBFromPointerToGongStructFieldPtr(pointertogongstructfieldAssocEnd)
+			gongstructDB.GongStructPointersEncoding.PointerToGongStructFields =
+				append(gongstructDB.GongStructPointersEncoding.PointerToGongStructFields, int(pointertogongstructfieldAssocEnd_DB.ID))
+		}
+
 		// This loop encodes the slice of pointers gongstruct.SliceOfPointerToGongStructFields into the back repo.
 		// Each back repo instance at the end of the association encode the ID of the association start
 		// into a dedicated field for coding the association. The back repo instance is then saved to the db
@@ -298,9 +340,19 @@ func (backRepoGongStruct *BackRepoGongStructStruct) CommitPhaseTwoInstance(backR
 			}
 		}
 
+		// 1. reset
+		gongstructDB.GongStructPointersEncoding.SliceOfPointerToGongStructFields = make([]int, 0)
+		// 2. encode
+		for _, sliceofpointertogongstructfieldAssocEnd := range gongstruct.SliceOfPointerToGongStructFields {
+			sliceofpointertogongstructfieldAssocEnd_DB :=
+				backRepo.BackRepoSliceOfPointerToGongStructField.GetSliceOfPointerToGongStructFieldDBFromSliceOfPointerToGongStructFieldPtr(sliceofpointertogongstructfieldAssocEnd)
+			gongstructDB.GongStructPointersEncoding.SliceOfPointerToGongStructFields =
+				append(gongstructDB.GongStructPointersEncoding.SliceOfPointerToGongStructFields, int(sliceofpointertogongstructfieldAssocEnd_DB.ID))
+		}
+
 		query := backRepoGongStruct.db.Save(&gongstructDB)
 		if query.Error != nil {
-			return query.Error
+			log.Fatalln(query.Error)
 		}
 
 	} else {
@@ -535,7 +587,7 @@ func (backRepo *BackRepoStruct) CheckoutGongStruct(gongstruct *models.GongStruct
 			gongstructDB.ID = id
 
 			if err := backRepo.BackRepoGongStruct.db.First(&gongstructDB, id).Error; err != nil {
-				log.Panicln("CheckoutGongStruct : Problem with getting object with id:", id)
+				log.Fatalln("CheckoutGongStruct : Problem with getting object with id:", id)
 			}
 			backRepo.BackRepoGongStruct.CheckoutPhaseOneInstance(&gongstructDB)
 			backRepo.BackRepoGongStruct.CheckoutPhaseTwoInstance(backRepo, &gongstructDB)
@@ -545,6 +597,20 @@ func (backRepo *BackRepoStruct) CheckoutGongStruct(gongstruct *models.GongStruct
 
 // CopyBasicFieldsFromGongStruct
 func (gongstructDB *GongStructDB) CopyBasicFieldsFromGongStruct(gongstruct *models.GongStruct) {
+	// insertion point for fields commit
+
+	gongstructDB.Name_Data.String = gongstruct.Name
+	gongstructDB.Name_Data.Valid = true
+
+	gongstructDB.HasOnAfterUpdateSignature_Data.Bool = gongstruct.HasOnAfterUpdateSignature
+	gongstructDB.HasOnAfterUpdateSignature_Data.Valid = true
+
+	gongstructDB.IsIgnoredForFront_Data.Bool = gongstruct.IsIgnoredForFront
+	gongstructDB.IsIgnoredForFront_Data.Valid = true
+}
+
+// CopyBasicFieldsFromGongStruct_WOP
+func (gongstructDB *GongStructDB) CopyBasicFieldsFromGongStruct_WOP(gongstruct *models.GongStruct_WOP) {
 	// insertion point for fields commit
 
 	gongstructDB.Name_Data.String = gongstruct.Name
@@ -579,6 +645,14 @@ func (gongstructDB *GongStructDB) CopyBasicFieldsToGongStruct(gongstruct *models
 	gongstruct.IsIgnoredForFront = gongstructDB.IsIgnoredForFront_Data.Bool
 }
 
+// CopyBasicFieldsToGongStruct_WOP
+func (gongstructDB *GongStructDB) CopyBasicFieldsToGongStruct_WOP(gongstruct *models.GongStruct_WOP) {
+	// insertion point for checkout of basic fields (back repo to stage)
+	gongstruct.Name = gongstructDB.Name_Data.String
+	gongstruct.HasOnAfterUpdateSignature = gongstructDB.HasOnAfterUpdateSignature_Data.Bool
+	gongstruct.IsIgnoredForFront = gongstructDB.IsIgnoredForFront_Data.Bool
+}
+
 // CopyBasicFieldsToGongStructWOP
 func (gongstructDB *GongStructDB) CopyBasicFieldsToGongStructWOP(gongstruct *GongStructWOP) {
 	gongstruct.ID = int(gongstructDB.ID)
@@ -607,12 +681,12 @@ func (backRepoGongStruct *BackRepoGongStructStruct) Backup(dirPath string) {
 	file, err := json.MarshalIndent(forBackup, "", " ")
 
 	if err != nil {
-		log.Panic("Cannot json GongStruct ", filename, " ", err.Error())
+		log.Fatal("Cannot json GongStruct ", filename, " ", err.Error())
 	}
 
 	err = ioutil.WriteFile(filename, file, 0644)
 	if err != nil {
-		log.Panic("Cannot write the json GongStruct file", err.Error())
+		log.Fatal("Cannot write the json GongStruct file", err.Error())
 	}
 }
 
@@ -632,7 +706,7 @@ func (backRepoGongStruct *BackRepoGongStructStruct) BackupXL(file *xlsx.File) {
 
 	sh, err := file.AddSheet("GongStruct")
 	if err != nil {
-		log.Panic("Cannot add XL file", err.Error())
+		log.Fatal("Cannot add XL file", err.Error())
 	}
 	_ = sh
 
@@ -657,13 +731,13 @@ func (backRepoGongStruct *BackRepoGongStructStruct) RestoreXLPhaseOne(file *xlsx
 	sh, ok := file.Sheet["GongStruct"]
 	_ = sh
 	if !ok {
-		log.Panic(errors.New("sheet not found"))
+		log.Fatal(errors.New("sheet not found"))
 	}
 
 	// log.Println("Max row is", sh.MaxRow)
 	err := sh.ForEachRow(backRepoGongStruct.rowVisitorGongStruct)
 	if err != nil {
-		log.Panic("Err=", err)
+		log.Fatal("Err=", err)
 	}
 }
 
@@ -685,7 +759,7 @@ func (backRepoGongStruct *BackRepoGongStructStruct) rowVisitorGongStruct(row *xl
 		gongstructDB.ID = 0
 		query := backRepoGongStruct.db.Create(gongstructDB)
 		if query.Error != nil {
-			log.Panic(query.Error)
+			log.Fatal(query.Error)
 		}
 		backRepoGongStruct.Map_GongStructDBID_GongStructDB[gongstructDB.ID] = gongstructDB
 		BackRepoGongStructid_atBckpTime_newID[gongstructDB_ID_atBackupTime] = gongstructDB.ID
@@ -705,7 +779,7 @@ func (backRepoGongStruct *BackRepoGongStructStruct) RestorePhaseOne(dirPath stri
 	jsonFile, err := os.Open(filename)
 	// if we os.Open returns an error then handle it
 	if err != nil {
-		log.Panic("Cannot restore/open the json GongStruct file", filename, " ", err.Error())
+		log.Fatal("Cannot restore/open the json GongStruct file", filename, " ", err.Error())
 	}
 
 	// read our opened jsonFile as a byte array.
@@ -722,14 +796,14 @@ func (backRepoGongStruct *BackRepoGongStructStruct) RestorePhaseOne(dirPath stri
 		gongstructDB.ID = 0
 		query := backRepoGongStruct.db.Create(gongstructDB)
 		if query.Error != nil {
-			log.Panic(query.Error)
+			log.Fatal(query.Error)
 		}
 		backRepoGongStruct.Map_GongStructDBID_GongStructDB[gongstructDB.ID] = gongstructDB
 		BackRepoGongStructid_atBckpTime_newID[gongstructDB_ID_atBackupTime] = gongstructDB.ID
 	}
 
 	if err != nil {
-		log.Panic("Cannot restore/unmarshall json GongStruct file", err.Error())
+		log.Fatal("Cannot restore/unmarshall json GongStruct file", err.Error())
 	}
 }
 
@@ -746,7 +820,7 @@ func (backRepoGongStruct *BackRepoGongStructStruct) RestorePhaseTwo() {
 		// update databse with new index encoding
 		query := backRepoGongStruct.db.Model(gongstructDB).Updates(*gongstructDB)
 		if query.Error != nil {
-			log.Panic(query.Error)
+			log.Fatal(query.Error)
 		}
 	}
 

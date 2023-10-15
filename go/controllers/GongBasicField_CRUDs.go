@@ -91,8 +91,8 @@ func (controller *Controller) GetGongBasicFields(c *gin.Context) {
 
 		// insertion point for updating fields
 		gongbasicfieldAPI.ID = gongbasicfieldDB.ID
-		gongbasicfieldDB.CopyBasicFieldsToGongBasicField(&gongbasicfieldAPI.GongBasicField)
-		gongbasicfieldAPI.GongBasicFieldPointersEnconding = gongbasicfieldDB.GongBasicFieldPointersEnconding
+		gongbasicfieldDB.CopyBasicFieldsToGongBasicField_WOP(&gongbasicfieldAPI.GongBasicField_WOP)
+		gongbasicfieldAPI.GongBasicFieldPointersEncoding = gongbasicfieldDB.GongBasicFieldPointersEncoding
 		gongbasicfieldAPIs = append(gongbasicfieldAPIs, gongbasicfieldAPI)
 	}
 
@@ -147,8 +147,8 @@ func (controller *Controller) PostGongBasicField(c *gin.Context) {
 
 	// Create gongbasicfield
 	gongbasicfieldDB := orm.GongBasicFieldDB{}
-	gongbasicfieldDB.GongBasicFieldPointersEnconding = input.GongBasicFieldPointersEnconding
-	gongbasicfieldDB.CopyBasicFieldsFromGongBasicField(&input.GongBasicField)
+	gongbasicfieldDB.GongBasicFieldPointersEncoding = input.GongBasicFieldPointersEncoding
+	gongbasicfieldDB.CopyBasicFieldsFromGongBasicField_WOP(&input.GongBasicField_WOP)
 
 	query := db.Create(&gongbasicfieldDB)
 	if query.Error != nil {
@@ -217,8 +217,8 @@ func (controller *Controller) GetGongBasicField(c *gin.Context) {
 
 	var gongbasicfieldAPI orm.GongBasicFieldAPI
 	gongbasicfieldAPI.ID = gongbasicfieldDB.ID
-	gongbasicfieldAPI.GongBasicFieldPointersEnconding = gongbasicfieldDB.GongBasicFieldPointersEnconding
-	gongbasicfieldDB.CopyBasicFieldsToGongBasicField(&gongbasicfieldAPI.GongBasicField)
+	gongbasicfieldAPI.GongBasicFieldPointersEncoding = gongbasicfieldDB.GongBasicFieldPointersEncoding
+	gongbasicfieldDB.CopyBasicFieldsToGongBasicField_WOP(&gongbasicfieldAPI.GongBasicField_WOP)
 
 	c.JSON(http.StatusOK, gongbasicfieldAPI)
 }
@@ -276,8 +276,8 @@ func (controller *Controller) UpdateGongBasicField(c *gin.Context) {
 	}
 
 	// update
-	gongbasicfieldDB.CopyBasicFieldsFromGongBasicField(&input.GongBasicField)
-	gongbasicfieldDB.GongBasicFieldPointersEnconding = input.GongBasicFieldPointersEnconding
+	gongbasicfieldDB.CopyBasicFieldsFromGongBasicField_WOP(&input.GongBasicField_WOP)
+	gongbasicfieldDB.GongBasicFieldPointersEncoding = input.GongBasicFieldPointersEncoding
 
 	query = db.Model(&gongbasicfieldDB).Updates(gongbasicfieldDB)
 	if query.Error != nil {

@@ -35,15 +35,15 @@ var dummy_GongLink_sort sort.Float64Slice
 type GongLinkAPI struct {
 	gorm.Model
 
-	models.GongLink
+	models.GongLink_WOP
 
 	// encoding of pointers
-	GongLinkPointersEnconding
+	GongLinkPointersEncoding
 }
 
-// GongLinkPointersEnconding encodes pointers to Struct and
+// GongLinkPointersEncoding encodes pointers to Struct and
 // reverse pointers of slice of poitners to Struct
-type GongLinkPointersEnconding struct {
+type GongLinkPointersEncoding struct {
 	// insertion for pointer fields encoding declaration
 
 	// Implementation of a reverse ID for field GongNote{}.Links []*GongLink
@@ -73,7 +73,7 @@ type GongLinkDB struct {
 	// Declation for basic field gonglinkDB.ImportPath
 	ImportPath_Data sql.NullString
 	// encoding of pointers
-	GongLinkPointersEnconding
+	GongLinkPointersEncoding
 }
 
 // GongLinkDBs arrays gonglinkDBs
@@ -168,7 +168,7 @@ func (backRepoGongLink *BackRepoGongLinkStruct) CommitDeleteInstance(id uint) (E
 	gonglinkDB := backRepoGongLink.Map_GongLinkDBID_GongLinkDB[id]
 	query := backRepoGongLink.db.Unscoped().Delete(&gonglinkDB)
 	if query.Error != nil {
-		return query.Error
+		log.Fatal(query.Error)
 	}
 
 	// update stores
@@ -194,7 +194,7 @@ func (backRepoGongLink *BackRepoGongLinkStruct) CommitPhaseOneInstance(gonglink 
 
 	query := backRepoGongLink.db.Create(&gonglinkDB)
 	if query.Error != nil {
-		return query.Error
+		log.Fatal(query.Error)
 	}
 
 	// update stores
@@ -228,7 +228,7 @@ func (backRepoGongLink *BackRepoGongLinkStruct) CommitPhaseTwoInstance(backRepo 
 		// insertion point for translating pointers encodings into actual pointers
 		query := backRepoGongLink.db.Save(&gonglinkDB)
 		if query.Error != nil {
-			return query.Error
+			log.Fatalln(query.Error)
 		}
 
 	} else {
@@ -355,7 +355,7 @@ func (backRepo *BackRepoStruct) CheckoutGongLink(gonglink *models.GongLink) {
 			gonglinkDB.ID = id
 
 			if err := backRepo.BackRepoGongLink.db.First(&gonglinkDB, id).Error; err != nil {
-				log.Panicln("CheckoutGongLink : Problem with getting object with id:", id)
+				log.Fatalln("CheckoutGongLink : Problem with getting object with id:", id)
 			}
 			backRepo.BackRepoGongLink.CheckoutPhaseOneInstance(&gonglinkDB)
 			backRepo.BackRepoGongLink.CheckoutPhaseTwoInstance(backRepo, &gonglinkDB)
@@ -365,6 +365,20 @@ func (backRepo *BackRepoStruct) CheckoutGongLink(gonglink *models.GongLink) {
 
 // CopyBasicFieldsFromGongLink
 func (gonglinkDB *GongLinkDB) CopyBasicFieldsFromGongLink(gonglink *models.GongLink) {
+	// insertion point for fields commit
+
+	gonglinkDB.Name_Data.String = gonglink.Name
+	gonglinkDB.Name_Data.Valid = true
+
+	gonglinkDB.Recv_Data.String = gonglink.Recv
+	gonglinkDB.Recv_Data.Valid = true
+
+	gonglinkDB.ImportPath_Data.String = gonglink.ImportPath
+	gonglinkDB.ImportPath_Data.Valid = true
+}
+
+// CopyBasicFieldsFromGongLink_WOP
+func (gonglinkDB *GongLinkDB) CopyBasicFieldsFromGongLink_WOP(gonglink *models.GongLink_WOP) {
 	// insertion point for fields commit
 
 	gonglinkDB.Name_Data.String = gonglink.Name
@@ -399,6 +413,14 @@ func (gonglinkDB *GongLinkDB) CopyBasicFieldsToGongLink(gonglink *models.GongLin
 	gonglink.ImportPath = gonglinkDB.ImportPath_Data.String
 }
 
+// CopyBasicFieldsToGongLink_WOP
+func (gonglinkDB *GongLinkDB) CopyBasicFieldsToGongLink_WOP(gonglink *models.GongLink_WOP) {
+	// insertion point for checkout of basic fields (back repo to stage)
+	gonglink.Name = gonglinkDB.Name_Data.String
+	gonglink.Recv = gonglinkDB.Recv_Data.String
+	gonglink.ImportPath = gonglinkDB.ImportPath_Data.String
+}
+
 // CopyBasicFieldsToGongLinkWOP
 func (gonglinkDB *GongLinkDB) CopyBasicFieldsToGongLinkWOP(gonglink *GongLinkWOP) {
 	gonglink.ID = int(gonglinkDB.ID)
@@ -427,12 +449,12 @@ func (backRepoGongLink *BackRepoGongLinkStruct) Backup(dirPath string) {
 	file, err := json.MarshalIndent(forBackup, "", " ")
 
 	if err != nil {
-		log.Panic("Cannot json GongLink ", filename, " ", err.Error())
+		log.Fatal("Cannot json GongLink ", filename, " ", err.Error())
 	}
 
 	err = ioutil.WriteFile(filename, file, 0644)
 	if err != nil {
-		log.Panic("Cannot write the json GongLink file", err.Error())
+		log.Fatal("Cannot write the json GongLink file", err.Error())
 	}
 }
 
@@ -452,7 +474,7 @@ func (backRepoGongLink *BackRepoGongLinkStruct) BackupXL(file *xlsx.File) {
 
 	sh, err := file.AddSheet("GongLink")
 	if err != nil {
-		log.Panic("Cannot add XL file", err.Error())
+		log.Fatal("Cannot add XL file", err.Error())
 	}
 	_ = sh
 
@@ -477,13 +499,13 @@ func (backRepoGongLink *BackRepoGongLinkStruct) RestoreXLPhaseOne(file *xlsx.Fil
 	sh, ok := file.Sheet["GongLink"]
 	_ = sh
 	if !ok {
-		log.Panic(errors.New("sheet not found"))
+		log.Fatal(errors.New("sheet not found"))
 	}
 
 	// log.Println("Max row is", sh.MaxRow)
 	err := sh.ForEachRow(backRepoGongLink.rowVisitorGongLink)
 	if err != nil {
-		log.Panic("Err=", err)
+		log.Fatal("Err=", err)
 	}
 }
 
@@ -505,7 +527,7 @@ func (backRepoGongLink *BackRepoGongLinkStruct) rowVisitorGongLink(row *xlsx.Row
 		gonglinkDB.ID = 0
 		query := backRepoGongLink.db.Create(gonglinkDB)
 		if query.Error != nil {
-			log.Panic(query.Error)
+			log.Fatal(query.Error)
 		}
 		backRepoGongLink.Map_GongLinkDBID_GongLinkDB[gonglinkDB.ID] = gonglinkDB
 		BackRepoGongLinkid_atBckpTime_newID[gonglinkDB_ID_atBackupTime] = gonglinkDB.ID
@@ -525,7 +547,7 @@ func (backRepoGongLink *BackRepoGongLinkStruct) RestorePhaseOne(dirPath string) 
 	jsonFile, err := os.Open(filename)
 	// if we os.Open returns an error then handle it
 	if err != nil {
-		log.Panic("Cannot restore/open the json GongLink file", filename, " ", err.Error())
+		log.Fatal("Cannot restore/open the json GongLink file", filename, " ", err.Error())
 	}
 
 	// read our opened jsonFile as a byte array.
@@ -542,14 +564,14 @@ func (backRepoGongLink *BackRepoGongLinkStruct) RestorePhaseOne(dirPath string) 
 		gonglinkDB.ID = 0
 		query := backRepoGongLink.db.Create(gonglinkDB)
 		if query.Error != nil {
-			log.Panic(query.Error)
+			log.Fatal(query.Error)
 		}
 		backRepoGongLink.Map_GongLinkDBID_GongLinkDB[gonglinkDB.ID] = gonglinkDB
 		BackRepoGongLinkid_atBckpTime_newID[gonglinkDB_ID_atBackupTime] = gonglinkDB.ID
 	}
 
 	if err != nil {
-		log.Panic("Cannot restore/unmarshall json GongLink file", err.Error())
+		log.Fatal("Cannot restore/unmarshall json GongLink file", err.Error())
 	}
 }
 
@@ -572,7 +594,7 @@ func (backRepoGongLink *BackRepoGongLinkStruct) RestorePhaseTwo() {
 		// update databse with new index encoding
 		query := backRepoGongLink.db.Model(gonglinkDB).Updates(*gonglinkDB)
 		if query.Error != nil {
-			log.Panic(query.Error)
+			log.Fatal(query.Error)
 		}
 	}
 

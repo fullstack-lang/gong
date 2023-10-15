@@ -35,15 +35,15 @@ var dummy_GongEnumValue_sort sort.Float64Slice
 type GongEnumValueAPI struct {
 	gorm.Model
 
-	models.GongEnumValue
+	models.GongEnumValue_WOP
 
 	// encoding of pointers
-	GongEnumValuePointersEnconding
+	GongEnumValuePointersEncoding
 }
 
-// GongEnumValuePointersEnconding encodes pointers to Struct and
+// GongEnumValuePointersEncoding encodes pointers to Struct and
 // reverse pointers of slice of poitners to Struct
-type GongEnumValuePointersEnconding struct {
+type GongEnumValuePointersEncoding struct {
 	// insertion for pointer fields encoding declaration
 
 	// Implementation of a reverse ID for field GongEnum{}.GongEnumValues []*GongEnumValue
@@ -70,7 +70,7 @@ type GongEnumValueDB struct {
 	// Declation for basic field gongenumvalueDB.Value
 	Value_Data sql.NullString
 	// encoding of pointers
-	GongEnumValuePointersEnconding
+	GongEnumValuePointersEncoding
 }
 
 // GongEnumValueDBs arrays gongenumvalueDBs
@@ -162,7 +162,7 @@ func (backRepoGongEnumValue *BackRepoGongEnumValueStruct) CommitDeleteInstance(i
 	gongenumvalueDB := backRepoGongEnumValue.Map_GongEnumValueDBID_GongEnumValueDB[id]
 	query := backRepoGongEnumValue.db.Unscoped().Delete(&gongenumvalueDB)
 	if query.Error != nil {
-		return query.Error
+		log.Fatal(query.Error)
 	}
 
 	// update stores
@@ -188,7 +188,7 @@ func (backRepoGongEnumValue *BackRepoGongEnumValueStruct) CommitPhaseOneInstance
 
 	query := backRepoGongEnumValue.db.Create(&gongenumvalueDB)
 	if query.Error != nil {
-		return query.Error
+		log.Fatal(query.Error)
 	}
 
 	// update stores
@@ -222,7 +222,7 @@ func (backRepoGongEnumValue *BackRepoGongEnumValueStruct) CommitPhaseTwoInstance
 		// insertion point for translating pointers encodings into actual pointers
 		query := backRepoGongEnumValue.db.Save(&gongenumvalueDB)
 		if query.Error != nil {
-			return query.Error
+			log.Fatalln(query.Error)
 		}
 
 	} else {
@@ -349,7 +349,7 @@ func (backRepo *BackRepoStruct) CheckoutGongEnumValue(gongenumvalue *models.Gong
 			gongenumvalueDB.ID = id
 
 			if err := backRepo.BackRepoGongEnumValue.db.First(&gongenumvalueDB, id).Error; err != nil {
-				log.Panicln("CheckoutGongEnumValue : Problem with getting object with id:", id)
+				log.Fatalln("CheckoutGongEnumValue : Problem with getting object with id:", id)
 			}
 			backRepo.BackRepoGongEnumValue.CheckoutPhaseOneInstance(&gongenumvalueDB)
 			backRepo.BackRepoGongEnumValue.CheckoutPhaseTwoInstance(backRepo, &gongenumvalueDB)
@@ -359,6 +359,17 @@ func (backRepo *BackRepoStruct) CheckoutGongEnumValue(gongenumvalue *models.Gong
 
 // CopyBasicFieldsFromGongEnumValue
 func (gongenumvalueDB *GongEnumValueDB) CopyBasicFieldsFromGongEnumValue(gongenumvalue *models.GongEnumValue) {
+	// insertion point for fields commit
+
+	gongenumvalueDB.Name_Data.String = gongenumvalue.Name
+	gongenumvalueDB.Name_Data.Valid = true
+
+	gongenumvalueDB.Value_Data.String = gongenumvalue.Value
+	gongenumvalueDB.Value_Data.Valid = true
+}
+
+// CopyBasicFieldsFromGongEnumValue_WOP
+func (gongenumvalueDB *GongEnumValueDB) CopyBasicFieldsFromGongEnumValue_WOP(gongenumvalue *models.GongEnumValue_WOP) {
 	// insertion point for fields commit
 
 	gongenumvalueDB.Name_Data.String = gongenumvalue.Name
@@ -381,6 +392,13 @@ func (gongenumvalueDB *GongEnumValueDB) CopyBasicFieldsFromGongEnumValueWOP(gong
 
 // CopyBasicFieldsToGongEnumValue
 func (gongenumvalueDB *GongEnumValueDB) CopyBasicFieldsToGongEnumValue(gongenumvalue *models.GongEnumValue) {
+	// insertion point for checkout of basic fields (back repo to stage)
+	gongenumvalue.Name = gongenumvalueDB.Name_Data.String
+	gongenumvalue.Value = gongenumvalueDB.Value_Data.String
+}
+
+// CopyBasicFieldsToGongEnumValue_WOP
+func (gongenumvalueDB *GongEnumValueDB) CopyBasicFieldsToGongEnumValue_WOP(gongenumvalue *models.GongEnumValue_WOP) {
 	// insertion point for checkout of basic fields (back repo to stage)
 	gongenumvalue.Name = gongenumvalueDB.Name_Data.String
 	gongenumvalue.Value = gongenumvalueDB.Value_Data.String
@@ -413,12 +431,12 @@ func (backRepoGongEnumValue *BackRepoGongEnumValueStruct) Backup(dirPath string)
 	file, err := json.MarshalIndent(forBackup, "", " ")
 
 	if err != nil {
-		log.Panic("Cannot json GongEnumValue ", filename, " ", err.Error())
+		log.Fatal("Cannot json GongEnumValue ", filename, " ", err.Error())
 	}
 
 	err = ioutil.WriteFile(filename, file, 0644)
 	if err != nil {
-		log.Panic("Cannot write the json GongEnumValue file", err.Error())
+		log.Fatal("Cannot write the json GongEnumValue file", err.Error())
 	}
 }
 
@@ -438,7 +456,7 @@ func (backRepoGongEnumValue *BackRepoGongEnumValueStruct) BackupXL(file *xlsx.Fi
 
 	sh, err := file.AddSheet("GongEnumValue")
 	if err != nil {
-		log.Panic("Cannot add XL file", err.Error())
+		log.Fatal("Cannot add XL file", err.Error())
 	}
 	_ = sh
 
@@ -463,13 +481,13 @@ func (backRepoGongEnumValue *BackRepoGongEnumValueStruct) RestoreXLPhaseOne(file
 	sh, ok := file.Sheet["GongEnumValue"]
 	_ = sh
 	if !ok {
-		log.Panic(errors.New("sheet not found"))
+		log.Fatal(errors.New("sheet not found"))
 	}
 
 	// log.Println("Max row is", sh.MaxRow)
 	err := sh.ForEachRow(backRepoGongEnumValue.rowVisitorGongEnumValue)
 	if err != nil {
-		log.Panic("Err=", err)
+		log.Fatal("Err=", err)
 	}
 }
 
@@ -491,7 +509,7 @@ func (backRepoGongEnumValue *BackRepoGongEnumValueStruct) rowVisitorGongEnumValu
 		gongenumvalueDB.ID = 0
 		query := backRepoGongEnumValue.db.Create(gongenumvalueDB)
 		if query.Error != nil {
-			log.Panic(query.Error)
+			log.Fatal(query.Error)
 		}
 		backRepoGongEnumValue.Map_GongEnumValueDBID_GongEnumValueDB[gongenumvalueDB.ID] = gongenumvalueDB
 		BackRepoGongEnumValueid_atBckpTime_newID[gongenumvalueDB_ID_atBackupTime] = gongenumvalueDB.ID
@@ -511,7 +529,7 @@ func (backRepoGongEnumValue *BackRepoGongEnumValueStruct) RestorePhaseOne(dirPat
 	jsonFile, err := os.Open(filename)
 	// if we os.Open returns an error then handle it
 	if err != nil {
-		log.Panic("Cannot restore/open the json GongEnumValue file", filename, " ", err.Error())
+		log.Fatal("Cannot restore/open the json GongEnumValue file", filename, " ", err.Error())
 	}
 
 	// read our opened jsonFile as a byte array.
@@ -528,14 +546,14 @@ func (backRepoGongEnumValue *BackRepoGongEnumValueStruct) RestorePhaseOne(dirPat
 		gongenumvalueDB.ID = 0
 		query := backRepoGongEnumValue.db.Create(gongenumvalueDB)
 		if query.Error != nil {
-			log.Panic(query.Error)
+			log.Fatal(query.Error)
 		}
 		backRepoGongEnumValue.Map_GongEnumValueDBID_GongEnumValueDB[gongenumvalueDB.ID] = gongenumvalueDB
 		BackRepoGongEnumValueid_atBckpTime_newID[gongenumvalueDB_ID_atBackupTime] = gongenumvalueDB.ID
 	}
 
 	if err != nil {
-		log.Panic("Cannot restore/unmarshall json GongEnumValue file", err.Error())
+		log.Fatal("Cannot restore/unmarshall json GongEnumValue file", err.Error())
 	}
 }
 
@@ -558,7 +576,7 @@ func (backRepoGongEnumValue *BackRepoGongEnumValueStruct) RestorePhaseTwo() {
 		// update databse with new index encoding
 		query := backRepoGongEnumValue.db.Model(gongenumvalueDB).Updates(*gongenumvalueDB)
 		if query.Error != nil {
-			log.Panic(query.Error)
+			log.Fatal(query.Error)
 		}
 	}
 
