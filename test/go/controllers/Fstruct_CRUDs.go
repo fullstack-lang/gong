@@ -91,8 +91,8 @@ func (controller *Controller) GetFstructs(c *gin.Context) {
 
 		// insertion point for updating fields
 		fstructAPI.ID = fstructDB.ID
-		fstructDB.CopyBasicFieldsToFstruct(&fstructAPI.Fstruct)
-		fstructAPI.FstructPointersEnconding = fstructDB.FstructPointersEnconding
+		fstructDB.CopyBasicFieldsToFstruct_WOP(&fstructAPI.Fstruct_WOP)
+		fstructAPI.FstructPointersEncoding = fstructDB.FstructPointersEncoding
 		fstructAPIs = append(fstructAPIs, fstructAPI)
 	}
 
@@ -147,8 +147,8 @@ func (controller *Controller) PostFstruct(c *gin.Context) {
 
 	// Create fstruct
 	fstructDB := orm.FstructDB{}
-	fstructDB.FstructPointersEnconding = input.FstructPointersEnconding
-	fstructDB.CopyBasicFieldsFromFstruct(&input.Fstruct)
+	fstructDB.FstructPointersEncoding = input.FstructPointersEncoding
+	fstructDB.CopyBasicFieldsFromFstruct_WOP(&input.Fstruct_WOP)
 
 	query := db.Create(&fstructDB)
 	if query.Error != nil {
@@ -217,8 +217,8 @@ func (controller *Controller) GetFstruct(c *gin.Context) {
 
 	var fstructAPI orm.FstructAPI
 	fstructAPI.ID = fstructDB.ID
-	fstructAPI.FstructPointersEnconding = fstructDB.FstructPointersEnconding
-	fstructDB.CopyBasicFieldsToFstruct(&fstructAPI.Fstruct)
+	fstructAPI.FstructPointersEncoding = fstructDB.FstructPointersEncoding
+	fstructDB.CopyBasicFieldsToFstruct_WOP(&fstructAPI.Fstruct_WOP)
 
 	c.JSON(http.StatusOK, fstructAPI)
 }
@@ -276,8 +276,8 @@ func (controller *Controller) UpdateFstruct(c *gin.Context) {
 	}
 
 	// update
-	fstructDB.CopyBasicFieldsFromFstruct(&input.Fstruct)
-	fstructDB.FstructPointersEnconding = input.FstructPointersEnconding
+	fstructDB.CopyBasicFieldsFromFstruct_WOP(&input.Fstruct_WOP)
+	fstructDB.FstructPointersEncoding = input.FstructPointersEncoding
 
 	query = db.Model(&fstructDB).Updates(fstructDB)
 	if query.Error != nil {

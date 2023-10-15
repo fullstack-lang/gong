@@ -91,8 +91,8 @@ func (controller *Controller) GetDstructs(c *gin.Context) {
 
 		// insertion point for updating fields
 		dstructAPI.ID = dstructDB.ID
-		dstructDB.CopyBasicFieldsToDstruct(&dstructAPI.Dstruct)
-		dstructAPI.DstructPointersEnconding = dstructDB.DstructPointersEnconding
+		dstructDB.CopyBasicFieldsToDstruct_WOP(&dstructAPI.Dstruct_WOP)
+		dstructAPI.DstructPointersEncoding = dstructDB.DstructPointersEncoding
 		dstructAPIs = append(dstructAPIs, dstructAPI)
 	}
 
@@ -147,8 +147,8 @@ func (controller *Controller) PostDstruct(c *gin.Context) {
 
 	// Create dstruct
 	dstructDB := orm.DstructDB{}
-	dstructDB.DstructPointersEnconding = input.DstructPointersEnconding
-	dstructDB.CopyBasicFieldsFromDstruct(&input.Dstruct)
+	dstructDB.DstructPointersEncoding = input.DstructPointersEncoding
+	dstructDB.CopyBasicFieldsFromDstruct_WOP(&input.Dstruct_WOP)
 
 	query := db.Create(&dstructDB)
 	if query.Error != nil {
@@ -217,8 +217,8 @@ func (controller *Controller) GetDstruct(c *gin.Context) {
 
 	var dstructAPI orm.DstructAPI
 	dstructAPI.ID = dstructDB.ID
-	dstructAPI.DstructPointersEnconding = dstructDB.DstructPointersEnconding
-	dstructDB.CopyBasicFieldsToDstruct(&dstructAPI.Dstruct)
+	dstructAPI.DstructPointersEncoding = dstructDB.DstructPointersEncoding
+	dstructDB.CopyBasicFieldsToDstruct_WOP(&dstructAPI.Dstruct_WOP)
 
 	c.JSON(http.StatusOK, dstructAPI)
 }
@@ -276,8 +276,8 @@ func (controller *Controller) UpdateDstruct(c *gin.Context) {
 	}
 
 	// update
-	dstructDB.CopyBasicFieldsFromDstruct(&input.Dstruct)
-	dstructDB.DstructPointersEnconding = input.DstructPointersEnconding
+	dstructDB.CopyBasicFieldsFromDstruct_WOP(&input.Dstruct_WOP)
+	dstructDB.DstructPointersEncoding = input.DstructPointersEncoding
 
 	query = db.Model(&dstructDB).Updates(dstructDB)
 	if query.Error != nil {

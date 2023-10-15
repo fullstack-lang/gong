@@ -746,7 +746,7 @@ var BackRepoFieldSubTemplateCode map[BackRepoPerStructSubTemplate]string = map[B
 		// 2. encode
 		for _, {{associationStructName}}AssocEnd := range {{structname}}.{{FieldName}} {
 			{{associationStructName}}AssocEnd_DB :=
-				backRepo.BackRepo{{AssociationStructName}}.GetBDBFromBPtr({{associationStructName}}AssocEnd)
+				backRepo.BackRepo{{AssociationStructName}}.Get{{AssociationStructName}}DBFrom{{AssociationStructName}}Ptr({{associationStructName}}AssocEnd)
 			{{structname}}DB.{{Structname}}PointersEncoding.{{FieldName}} =
 				append({{structname}}DB.{{Structname}}PointersEncoding.{{FieldName}}, int({{associationStructName}}AssocEnd_DB.ID))
 		}

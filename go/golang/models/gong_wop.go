@@ -16,6 +16,11 @@ import (
 const ModelGongWopFileTemplate = `// generated code - do not edit
 package models
 
+import "time"
+
+// to avoid compile error if no time field is present
+var __GONG_time_The_fool_doth_think_he_is_wise__ = time.Hour
+
 // insertion point{{` + string(rune(ModelGongWopStruct)) + `}}
 `
 
@@ -38,19 +43,26 @@ type {{Structname}}_WOP struct {
 type GongWopSubSubTemplateInsertionsId int
 
 const (
-	GongWopFieldStringDecl GongWopSubSubTemplateInsertionsId = iota + 100
-	GongWopFieldIntDecl
+	GongWopBasicFieldDecl GongWopSubSubTemplateInsertionsId = iota + 100
+	GongWopEnumFieldDecl
+	GongWopTimeFieldDecl
+	GongWopDurationFieldDecl
 )
 
 var GongWopSubSubTemplate map[GongWopSubSubTemplateInsertionsId]string = // new line
 map[GongWopSubSubTemplateInsertionsId]string{
 
-	GongWopFieldStringDecl: `
-	{{FieldName}} string
-`,
-	GongWopFieldIntDecl: `
-	{{FieldName}} int
-`,
+	GongWopBasicFieldDecl: `
+	{{FieldName}} {{BasicKindName}}`,
+
+	GongWopEnumFieldDecl: `
+	{{FieldName}} {{EnumType}}`,
+
+	GongWopTimeFieldDecl: `
+	{{FieldName}} time.Time`,
+
+	GongWopDurationFieldDecl: `
+	{{FieldName}} time.Duration`,
 }
 
 func CodeGeneratorModelGongWop(
@@ -89,9 +101,30 @@ func CodeGeneratorModelGongWop(
 
 				switch field := field.(type) {
 				case *models.GongBasicField:
+					if field.GongEnum == nil {
+						if field.DeclaredType == "time.Duration" {
+							fieldCode += models.Replace1(
+								GongWopSubSubTemplate[GongWopDurationFieldDecl],
+								"{{FieldName}}", field.Name)
+						} else {
+							fieldCode += models.Replace2(
+								GongWopSubSubTemplate[GongWopBasicFieldDecl],
+								"{{FieldName}}", field.Name,
+								"{{BasicKindName}}", field.BasicKindName)
+						}
+
+					} else {
+						fieldCode += models.Replace2(
+							GongWopSubSubTemplate[GongWopEnumFieldDecl],
+							"{{FieldName}}", field.Name,
+							"{{EnumType}}", field.GongEnum.GetName())
+					}
+
+				case *models.GongTimeField:
 					fieldCode += models.Replace1(
-						GongWopSubSubTemplate[GongWopFieldStringDecl],
+						GongWopSubSubTemplate[GongWopTimeFieldDecl],
 						"{{FieldName}}", field.Name)
+
 				default:
 					_ = field
 				}

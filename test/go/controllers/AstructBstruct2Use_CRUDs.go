@@ -91,8 +91,8 @@ func (controller *Controller) GetAstructBstruct2Uses(c *gin.Context) {
 
 		// insertion point for updating fields
 		astructbstruct2useAPI.ID = astructbstruct2useDB.ID
-		astructbstruct2useDB.CopyBasicFieldsToAstructBstruct2Use(&astructbstruct2useAPI.AstructBstruct2Use)
-		astructbstruct2useAPI.AstructBstruct2UsePointersEnconding = astructbstruct2useDB.AstructBstruct2UsePointersEnconding
+		astructbstruct2useDB.CopyBasicFieldsToAstructBstruct2Use_WOP(&astructbstruct2useAPI.AstructBstruct2Use_WOP)
+		astructbstruct2useAPI.AstructBstruct2UsePointersEncoding = astructbstruct2useDB.AstructBstruct2UsePointersEncoding
 		astructbstruct2useAPIs = append(astructbstruct2useAPIs, astructbstruct2useAPI)
 	}
 
@@ -147,8 +147,8 @@ func (controller *Controller) PostAstructBstruct2Use(c *gin.Context) {
 
 	// Create astructbstruct2use
 	astructbstruct2useDB := orm.AstructBstruct2UseDB{}
-	astructbstruct2useDB.AstructBstruct2UsePointersEnconding = input.AstructBstruct2UsePointersEnconding
-	astructbstruct2useDB.CopyBasicFieldsFromAstructBstruct2Use(&input.AstructBstruct2Use)
+	astructbstruct2useDB.AstructBstruct2UsePointersEncoding = input.AstructBstruct2UsePointersEncoding
+	astructbstruct2useDB.CopyBasicFieldsFromAstructBstruct2Use_WOP(&input.AstructBstruct2Use_WOP)
 
 	query := db.Create(&astructbstruct2useDB)
 	if query.Error != nil {
@@ -217,8 +217,8 @@ func (controller *Controller) GetAstructBstruct2Use(c *gin.Context) {
 
 	var astructbstruct2useAPI orm.AstructBstruct2UseAPI
 	astructbstruct2useAPI.ID = astructbstruct2useDB.ID
-	astructbstruct2useAPI.AstructBstruct2UsePointersEnconding = astructbstruct2useDB.AstructBstruct2UsePointersEnconding
-	astructbstruct2useDB.CopyBasicFieldsToAstructBstruct2Use(&astructbstruct2useAPI.AstructBstruct2Use)
+	astructbstruct2useAPI.AstructBstruct2UsePointersEncoding = astructbstruct2useDB.AstructBstruct2UsePointersEncoding
+	astructbstruct2useDB.CopyBasicFieldsToAstructBstruct2Use_WOP(&astructbstruct2useAPI.AstructBstruct2Use_WOP)
 
 	c.JSON(http.StatusOK, astructbstruct2useAPI)
 }
@@ -276,8 +276,8 @@ func (controller *Controller) UpdateAstructBstruct2Use(c *gin.Context) {
 	}
 
 	// update
-	astructbstruct2useDB.CopyBasicFieldsFromAstructBstruct2Use(&input.AstructBstruct2Use)
-	astructbstruct2useDB.AstructBstruct2UsePointersEnconding = input.AstructBstruct2UsePointersEnconding
+	astructbstruct2useDB.CopyBasicFieldsFromAstructBstruct2Use_WOP(&input.AstructBstruct2Use_WOP)
+	astructbstruct2useDB.AstructBstruct2UsePointersEncoding = input.AstructBstruct2UsePointersEncoding
 
 	query = db.Model(&astructbstruct2useDB).Updates(astructbstruct2useDB)
 	if query.Error != nil {
