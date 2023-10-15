@@ -440,6 +440,13 @@ func main() {
 		filepath.Join(*pkgPath, "../orm/get_instance_db_from_instance.go"),
 		orm.GetInstanceDBFromInstanceTemplateCode, orm.GetInstanceDBFromInstanceSubTemplate)
 
+	gong_models.VerySimpleCodeGenerator(
+		modelPkg,
+		modelPkg.Name,
+		modelPkg.PkgPath,
+		filepath.Join(*pkgPath, "../orm/int_slice.go"),
+		orm.IntSliceTemplateCode)
+
 	// for the replacement of the of the first bar in the Gongstruct Type def
 	orm.ReplaceInFile("../orm/get_instance_db_from_instance.go", "	 | ", "	")
 
@@ -482,6 +489,8 @@ func main() {
 			filepath.Join(*pkgPath, "../models/gong_serialize.go"),
 			models.ModelGongSerializeFileTemplate, models.ModelGongSerializeStructSubTemplateCode)
 	}
+
+	models.CodeGeneratorModelGongWop(modelPkg, modelPkg.Name, *pkgPath)
 
 	orm.MultiCodeGeneratorBackRepo(
 		modelPkg,

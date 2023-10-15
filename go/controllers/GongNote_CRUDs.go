@@ -91,8 +91,8 @@ func (controller *Controller) GetGongNotes(c *gin.Context) {
 
 		// insertion point for updating fields
 		gongnoteAPI.ID = gongnoteDB.ID
-		gongnoteDB.CopyBasicFieldsToGongNote(&gongnoteAPI.GongNote)
-		gongnoteAPI.GongNotePointersEnconding = gongnoteDB.GongNotePointersEnconding
+		gongnoteDB.CopyBasicFieldsToGongNote_WOP(&gongnoteAPI.GongNote_WOP)
+		gongnoteAPI.GongNotePointersEncoding = gongnoteDB.GongNotePointersEncoding
 		gongnoteAPIs = append(gongnoteAPIs, gongnoteAPI)
 	}
 
@@ -147,8 +147,8 @@ func (controller *Controller) PostGongNote(c *gin.Context) {
 
 	// Create gongnote
 	gongnoteDB := orm.GongNoteDB{}
-	gongnoteDB.GongNotePointersEnconding = input.GongNotePointersEnconding
-	gongnoteDB.CopyBasicFieldsFromGongNote(&input.GongNote)
+	gongnoteDB.GongNotePointersEncoding = input.GongNotePointersEncoding
+	gongnoteDB.CopyBasicFieldsFromGongNote_WOP(&input.GongNote_WOP)
 
 	query := db.Create(&gongnoteDB)
 	if query.Error != nil {
@@ -217,8 +217,8 @@ func (controller *Controller) GetGongNote(c *gin.Context) {
 
 	var gongnoteAPI orm.GongNoteAPI
 	gongnoteAPI.ID = gongnoteDB.ID
-	gongnoteAPI.GongNotePointersEnconding = gongnoteDB.GongNotePointersEnconding
-	gongnoteDB.CopyBasicFieldsToGongNote(&gongnoteAPI.GongNote)
+	gongnoteAPI.GongNotePointersEncoding = gongnoteDB.GongNotePointersEncoding
+	gongnoteDB.CopyBasicFieldsToGongNote_WOP(&gongnoteAPI.GongNote_WOP)
 
 	c.JSON(http.StatusOK, gongnoteAPI)
 }
@@ -276,8 +276,8 @@ func (controller *Controller) UpdateGongNote(c *gin.Context) {
 	}
 
 	// update
-	gongnoteDB.CopyBasicFieldsFromGongNote(&input.GongNote)
-	gongnoteDB.GongNotePointersEnconding = input.GongNotePointersEnconding
+	gongnoteDB.CopyBasicFieldsFromGongNote_WOP(&input.GongNote_WOP)
+	gongnoteDB.GongNotePointersEncoding = input.GongNotePointersEncoding
 
 	query = db.Model(&gongnoteDB).Updates(gongnoteDB)
 	if query.Error != nil {

@@ -91,8 +91,8 @@ func (controller *Controller) GetGongStructs(c *gin.Context) {
 
 		// insertion point for updating fields
 		gongstructAPI.ID = gongstructDB.ID
-		gongstructDB.CopyBasicFieldsToGongStruct(&gongstructAPI.GongStruct)
-		gongstructAPI.GongStructPointersEnconding = gongstructDB.GongStructPointersEnconding
+		gongstructDB.CopyBasicFieldsToGongStruct_WOP(&gongstructAPI.GongStruct_WOP)
+		gongstructAPI.GongStructPointersEncoding = gongstructDB.GongStructPointersEncoding
 		gongstructAPIs = append(gongstructAPIs, gongstructAPI)
 	}
 
@@ -147,8 +147,8 @@ func (controller *Controller) PostGongStruct(c *gin.Context) {
 
 	// Create gongstruct
 	gongstructDB := orm.GongStructDB{}
-	gongstructDB.GongStructPointersEnconding = input.GongStructPointersEnconding
-	gongstructDB.CopyBasicFieldsFromGongStruct(&input.GongStruct)
+	gongstructDB.GongStructPointersEncoding = input.GongStructPointersEncoding
+	gongstructDB.CopyBasicFieldsFromGongStruct_WOP(&input.GongStruct_WOP)
 
 	query := db.Create(&gongstructDB)
 	if query.Error != nil {
@@ -217,8 +217,8 @@ func (controller *Controller) GetGongStruct(c *gin.Context) {
 
 	var gongstructAPI orm.GongStructAPI
 	gongstructAPI.ID = gongstructDB.ID
-	gongstructAPI.GongStructPointersEnconding = gongstructDB.GongStructPointersEnconding
-	gongstructDB.CopyBasicFieldsToGongStruct(&gongstructAPI.GongStruct)
+	gongstructAPI.GongStructPointersEncoding = gongstructDB.GongStructPointersEncoding
+	gongstructDB.CopyBasicFieldsToGongStruct_WOP(&gongstructAPI.GongStruct_WOP)
 
 	c.JSON(http.StatusOK, gongstructAPI)
 }
@@ -276,8 +276,8 @@ func (controller *Controller) UpdateGongStruct(c *gin.Context) {
 	}
 
 	// update
-	gongstructDB.CopyBasicFieldsFromGongStruct(&input.GongStruct)
-	gongstructDB.GongStructPointersEnconding = input.GongStructPointersEnconding
+	gongstructDB.CopyBasicFieldsFromGongStruct_WOP(&input.GongStruct_WOP)
+	gongstructDB.GongStructPointersEncoding = input.GongStructPointersEncoding
 
 	query = db.Model(&gongstructDB).Updates(gongstructDB)
 	if query.Error != nil {
