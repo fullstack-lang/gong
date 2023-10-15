@@ -91,8 +91,8 @@ func (controller *Controller) GetBs(c *gin.Context) {
 
 		// insertion point for updating fields
 		bAPI.ID = bDB.ID
-		bDB.CopyBasicFieldsToB(&bAPI.B)
-		bAPI.BPointersEnconding = bDB.BPointersEnconding
+		bDB.CopyBasicFieldsToB_WOP(&bAPI.B_WOP)
+		bAPI.BPointersEncoding = bDB.BPointersEncoding
 		bAPIs = append(bAPIs, bAPI)
 	}
 
@@ -147,8 +147,8 @@ func (controller *Controller) PostB(c *gin.Context) {
 
 	// Create b
 	bDB := orm.BDB{}
-	bDB.BPointersEnconding = input.BPointersEnconding
-	bDB.CopyBasicFieldsFromB(&input.B)
+	bDB.BPointersEncoding = input.BPointersEncoding
+	bDB.CopyBasicFieldsFromB_WOP(&input.B_WOP)
 
 	query := db.Create(&bDB)
 	if query.Error != nil {
@@ -217,8 +217,8 @@ func (controller *Controller) GetB(c *gin.Context) {
 
 	var bAPI orm.BAPI
 	bAPI.ID = bDB.ID
-	bAPI.BPointersEnconding = bDB.BPointersEnconding
-	bDB.CopyBasicFieldsToB(&bAPI.B)
+	bAPI.BPointersEncoding = bDB.BPointersEncoding
+	bDB.CopyBasicFieldsToB_WOP(&bAPI.B_WOP)
 
 	c.JSON(http.StatusOK, bAPI)
 }
@@ -276,8 +276,8 @@ func (controller *Controller) UpdateB(c *gin.Context) {
 	}
 
 	// update
-	bDB.CopyBasicFieldsFromB(&input.B)
-	bDB.BPointersEnconding = input.BPointersEnconding
+	bDB.CopyBasicFieldsFromB_WOP(&input.B_WOP)
+	bDB.BPointersEncoding = input.BPointersEncoding
 
 	query = db.Model(&bDB).Updates(bDB)
 	if query.Error != nil {
