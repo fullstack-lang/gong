@@ -51,15 +51,15 @@ var dummy_{{Structname}}_sort sort.Float64Slice
 type {{Structname}}API struct {
 	gorm.Model
 
-	models.{{Structname}}
+	models.{{Structname}}_WOP
 
 	// encoding of pointers
-	{{Structname}}PointersEnconding
+	{{Structname}}PointersEncoding
 }
 
-// {{Structname}}PointersEnconding encodes pointers to Struct and
+// {{Structname}}PointersEncoding encodes pointers to Struct and
 // reverse pointers of slice of poitners to Struct
-type {{Structname}}PointersEnconding struct {
+type {{Structname}}PointersEncoding struct {
 	// insertion for pointer fields encoding declaration{{` + string(rune(BackRepoPointerEncodingFieldsDeclaration)) + `}}
 }
 
@@ -74,7 +74,7 @@ type {{Structname}}DB struct {
 
 	// insertion for basic fields declaration{{` + string(rune(BackRepoBasicFieldsDeclaration)) + `}}
 	// encoding of pointers
-	{{Structname}}PointersEnconding
+	{{Structname}}PointersEncoding
 }
 
 // {{Structname}}DBs arrays {{structname}}DBs
@@ -159,7 +159,7 @@ func (backRepo{{Structname}} *BackRepo{{Structname}}Struct) CommitDeleteInstance
 	{{structname}}DB := backRepo{{Structname}}.Map_{{Structname}}DBID_{{Structname}}DB[id]
 	query := backRepo{{Structname}}.db.Unscoped().Delete(&{{structname}}DB)
 	if query.Error != nil {
-		return query.Error
+		log.Fatal(query.Error)
 	}
 
 	// update stores
@@ -185,7 +185,7 @@ func (backRepo{{Structname}} *BackRepo{{Structname}}Struct) CommitPhaseOneInstan
 
 	query := backRepo{{Structname}}.db.Create(&{{structname}}DB)
 	if query.Error != nil {
-		return query.Error
+		log.Fatal(query.Error)
 	}
 
 	// update stores
@@ -219,7 +219,7 @@ func (backRepo{{Structname}} *BackRepo{{Structname}}Struct) CommitPhaseTwoInstan
 		// insertion point for translating pointers encodings into actual pointers{{` + string(rune(BackRepoPointerEncodingFieldsCommit)) + `}}
 		query := backRepo{{Structname}}.db.Save(&{{structname}}DB)
 		if query.Error != nil {
-			return query.Error
+			log.Fatalln(query.Error)
 		}
 
 	} else {
@@ -346,7 +346,7 @@ func (backRepo *BackRepoStruct) Checkout{{Structname}}({{structname}} *models.{{
 			{{structname}}DB.ID = id
 
 			if err := backRepo.BackRepo{{Structname}}.db.First(&{{structname}}DB, id).Error; err != nil {
-				log.Panicln("Checkout{{Structname}} : Problem with getting object with id:", id)
+				log.Fatalln("Checkout{{Structname}} : Problem with getting object with id:", id)
 			}
 			backRepo.BackRepo{{Structname}}.CheckoutPhaseOneInstance(&{{structname}}DB)
 			backRepo.BackRepo{{Structname}}.CheckoutPhaseTwoInstance(backRepo, &{{structname}}DB)
@@ -359,6 +359,11 @@ func ({{structname}}DB *{{Structname}}DB) CopyBasicFieldsFrom{{Structname}}({{st
 	// insertion point for fields commit{{` + string(rune(BackRepoBasicFieldsCommit)) + `}}
 }
 
+// CopyBasicFieldsFrom{{Structname}}_WOP
+func ({{structname}}DB *{{Structname}}DB) CopyBasicFieldsFrom{{Structname}}_WOP({{structname}} *models.{{Structname}}_WOP) {
+	// insertion point for fields commit{{` + string(rune(BackRepoBasicFieldsCommit)) + `}}
+}
+
 // CopyBasicFieldsFrom{{Structname}}WOP
 func ({{structname}}DB *{{Structname}}DB) CopyBasicFieldsFrom{{Structname}}WOP({{structname}} *{{Structname}}WOP) {
 	// insertion point for fields commit{{` + string(rune(BackRepoBasicFieldsCommit)) + `}}
@@ -366,6 +371,11 @@ func ({{structname}}DB *{{Structname}}DB) CopyBasicFieldsFrom{{Structname}}WOP({
 
 // CopyBasicFieldsTo{{Structname}}
 func ({{structname}}DB *{{Structname}}DB) CopyBasicFieldsTo{{Structname}}({{structname}} *models.{{Structname}}) {
+	// insertion point for checkout of basic fields (back repo to stage){{` + string(rune(BackRepoBasicFieldsCheckout)) + `}}
+}
+
+// CopyBasicFieldsTo{{Structname}}_WOP
+func ({{structname}}DB *{{Structname}}DB) CopyBasicFieldsTo{{Structname}}_WOP({{structname}} *models.{{Structname}}_WOP) {
 	// insertion point for checkout of basic fields (back repo to stage){{` + string(rune(BackRepoBasicFieldsCheckout)) + `}}
 }
 
@@ -394,12 +404,12 @@ func (backRepo{{Structname}} *BackRepo{{Structname}}Struct) Backup(dirPath strin
 	file, err := json.MarshalIndent(forBackup, "", " ")
 
 	if err != nil {
-		log.Panic("Cannot json {{Structname}} ", filename, " ", err.Error())
+		log.Fatal("Cannot json {{Structname}} ", filename, " ", err.Error())
 	}
 
 	err = ioutil.WriteFile(filename, file, 0644)
 	if err != nil {
-		log.Panic("Cannot write the json {{Structname}} file", err.Error())
+		log.Fatal("Cannot write the json {{Structname}} file", err.Error())
 	}
 }
 
@@ -419,7 +429,7 @@ func (backRepo{{Structname}} *BackRepo{{Structname}}Struct) BackupXL(file *xlsx.
 
 	sh, err := file.AddSheet("{{Structname}}")
 	if err != nil {
-		log.Panic("Cannot add XL file", err.Error())
+		log.Fatal("Cannot add XL file", err.Error())
 	}
 	_ = sh
 
@@ -444,13 +454,13 @@ func (backRepo{{Structname}} *BackRepo{{Structname}}Struct) RestoreXLPhaseOne(fi
 	sh, ok := file.Sheet["{{Structname}}"]
 	_ = sh
 	if !ok {
-		log.Panic(errors.New("sheet not found"))
+		log.Fatal(errors.New("sheet not found"))
 	}
 
 	// log.Println("Max row is", sh.MaxRow)
 	err := sh.ForEachRow(backRepo{{Structname}}.rowVisitor{{Structname}})
 	if err != nil {
-		log.Panic("Err=", err)
+		log.Fatal("Err=", err)
 	}
 }
 
@@ -472,7 +482,7 @@ func (backRepo{{Structname}} *BackRepo{{Structname}}Struct) rowVisitor{{Structna
 		{{structname}}DB.ID = 0
 		query := backRepo{{Structname}}.db.Create({{structname}}DB)
 		if query.Error != nil {
-			log.Panic(query.Error)
+			log.Fatal(query.Error)
 		}
 		backRepo{{Structname}}.Map_{{Structname}}DBID_{{Structname}}DB[{{structname}}DB.ID] = {{structname}}DB
 		BackRepo{{Structname}}id_atBckpTime_newID[{{structname}}DB_ID_atBackupTime] = {{structname}}DB.ID
@@ -492,7 +502,7 @@ func (backRepo{{Structname}} *BackRepo{{Structname}}Struct) RestorePhaseOne(dirP
 	jsonFile, err := os.Open(filename)
 	// if we os.Open returns an error then handle it
 	if err != nil {
-		log.Panic("Cannot restore/open the json {{Structname}} file", filename, " ", err.Error())
+		log.Fatal("Cannot restore/open the json {{Structname}} file", filename, " ", err.Error())
 	}
 
 	// read our opened jsonFile as a byte array.
@@ -509,14 +519,14 @@ func (backRepo{{Structname}} *BackRepo{{Structname}}Struct) RestorePhaseOne(dirP
 		{{structname}}DB.ID = 0
 		query := backRepo{{Structname}}.db.Create({{structname}}DB)
 		if query.Error != nil {
-			log.Panic(query.Error)
+			log.Fatal(query.Error)
 		}
 		backRepo{{Structname}}.Map_{{Structname}}DBID_{{Structname}}DB[{{structname}}DB.ID] = {{structname}}DB
 		BackRepo{{Structname}}id_atBckpTime_newID[{{structname}}DB_ID_atBackupTime] = {{structname}}DB.ID
 	}
 
 	if err != nil {
-		log.Panic("Cannot restore/unmarshall json {{Structname}} file", err.Error())
+		log.Fatal("Cannot restore/unmarshall json {{Structname}} file", err.Error())
 	}
 }
 
@@ -533,7 +543,7 @@ func (backRepo{{Structname}} *BackRepo{{Structname}}Struct) RestorePhaseTwo() {
 		// update databse with new index encoding
 		query := backRepo{{Structname}}.db.Model({{structname}}DB).Updates(*{{structname}}DB)
 		if query.Error != nil {
-			log.Panic(query.Error)
+			log.Fatal(query.Error)
 		}
 	}
 
@@ -612,7 +622,9 @@ const (
 	BackRepoCommitBasicBooleanField
 	BackRepoCheckoutBasicFieldBoolean
 
-	BackRepoDeclarationPointerToStructField
+	BackRepoPointerEncoding
+	BackRepoSliceOfPointersEncoding
+
 	BackRepoCommitPointerToStructField
 	BackRepoCheckoutPointerToStructStageField
 	BackRepoReindexingPointerToStruct
@@ -647,11 +659,16 @@ var BackRepoFieldSubTemplateCode map[BackRepoPerStructSubTemplate]string = map[B
 	// provide the sql storage for the boolan
 	{{FieldName}}_Data sql.NullBool`,
 
-	BackRepoDeclarationPointerToStructField: `
+	BackRepoPointerEncoding: `
 
 	// field {{FieldName}} is a pointer to another Struct (optional or 0..1)
 	// This field is generated into another field to enable AS ONE association
 	{{FieldName}}ID sql.NullInt64`,
+
+	BackRepoSliceOfPointersEncoding: `
+
+	// field {{FieldName}} is a slice of pointers to another Struct (optional or 0..1)
+	{{FieldName}} IntSlice` + "`" + `gorm:"type:TEXT"` + "`",
 
 	BackRepoDeclarationSliceOfPointerToStructField: `
 
@@ -722,6 +739,16 @@ var BackRepoFieldSubTemplateCode map[BackRepoPerStructSubTemplate]string = map[B
 			if q := backRepo{{Structname}}.db.Save({{associationStructName}}AssocEnd_DB); q.Error != nil {
 				return q.Error
 			}
+		}
+
+		// 1. reset
+		{{structname}}DB.{{Structname}}PointersEncoding.{{FieldName}} = make([]int, 0)
+		// 2. encode
+		for _, {{associationStructName}}AssocEnd := range {{structname}}.{{FieldName}} {
+			{{associationStructName}}AssocEnd_DB :=
+				backRepo.BackRepo{{AssociationStructName}}.GetBDBFromBPtr({{associationStructName}}AssocEnd)
+			{{structname}}DB.{{Structname}}PointersEncoding.{{FieldName}} =
+				append({{structname}}DB.{{Structname}}PointersEncoding.{{FieldName}}, int({{associationStructName}}AssocEnd_DB.ID))
 		}
 `,
 
@@ -963,7 +990,7 @@ func MultiCodeGeneratorBackRepo(
 			case *models.PointerToGongStructField:
 
 				insertions[BackRepoPointerEncodingFieldsDeclaration] += models.Replace1(
-					BackRepoFieldSubTemplateCode[BackRepoDeclarationPointerToStructField],
+					BackRepoFieldSubTemplateCode[BackRepoPointerEncoding],
 					"{{FieldName}}", field.Name)
 
 				insertions[BackRepoPointerEncodingFieldsCommit] += models.Replace3(
@@ -985,6 +1012,12 @@ func MultiCodeGeneratorBackRepo(
 					"{{FieldName}}", field.Name)
 
 			case *models.SliceOfPointerToGongStructField:
+
+				insertions[BackRepoPointerEncodingFieldsDeclaration] += models.Replace2(
+					BackRepoFieldSubTemplateCode[BackRepoSliceOfPointersEncoding],
+					"{{FieldName}}", field.Name,
+					"{{AssociationStructName}}", field.GongStruct.Name,
+				)
 
 				insertions[BackRepoPointerEncodingFieldsCommit] += models.Replace3(
 					BackRepoFieldSubTemplateCode[BackRepoCommitSliceOfPointerToStructField],
@@ -1050,7 +1083,7 @@ func MultiCodeGeneratorBackRepo(
 
 		file, err := os.Create(filepath.Join(dirPath, _struct.Name+"DB.go"))
 		if err != nil {
-			log.Panic(err)
+			log.Fatal(err)
 		}
 		defer file.Close()
 		fmt.Fprint(file, codeGO)
