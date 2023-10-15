@@ -35,15 +35,15 @@ var dummy_B_sort sort.Float64Slice
 type BAPI struct {
 	gorm.Model
 
-	models.B
+	models.B_WOP
 
 	// encoding of pointers
-	BPointersEnconding
+	BPointersEncoding
 }
 
-// BPointersEnconding encodes pointers to Struct and
+// BPointersEncoding encodes pointers to Struct and
 // reverse pointers of slice of poitners to Struct
-type BPointersEnconding struct {
+type BPointersEncoding struct {
 	// insertion for pointer fields encoding declaration
 
 	// Implementation of a reverse ID for field A{}.Bs []*B
@@ -67,7 +67,7 @@ type BDB struct {
 	// Declation for basic field bDB.Name
 	Name_Data sql.NullString
 	// encoding of pointers
-	BPointersEnconding
+	BPointersEncoding
 }
 
 // BDBs arrays bDBs
@@ -156,7 +156,7 @@ func (backRepoB *BackRepoBStruct) CommitDeleteInstance(id uint) (Error error) {
 	bDB := backRepoB.Map_BDBID_BDB[id]
 	query := backRepoB.db.Unscoped().Delete(&bDB)
 	if query.Error != nil {
-		return query.Error
+		log.Fatal(query.Error)
 	}
 
 	// update stores
@@ -182,7 +182,7 @@ func (backRepoB *BackRepoBStruct) CommitPhaseOneInstance(b *models.B) (Error err
 
 	query := backRepoB.db.Create(&bDB)
 	if query.Error != nil {
-		return query.Error
+		log.Fatal(query.Error)
 	}
 
 	// update stores
@@ -216,7 +216,7 @@ func (backRepoB *BackRepoBStruct) CommitPhaseTwoInstance(backRepo *BackRepoStruc
 		// insertion point for translating pointers encodings into actual pointers
 		query := backRepoB.db.Save(&bDB)
 		if query.Error != nil {
-			return query.Error
+			log.Fatalln(query.Error)
 		}
 
 	} else {
@@ -343,7 +343,7 @@ func (backRepo *BackRepoStruct) CheckoutB(b *models.B) {
 			bDB.ID = id
 
 			if err := backRepo.BackRepoB.db.First(&bDB, id).Error; err != nil {
-				log.Panicln("CheckoutB : Problem with getting object with id:", id)
+				log.Fatalln("CheckoutB : Problem with getting object with id:", id)
 			}
 			backRepo.BackRepoB.CheckoutPhaseOneInstance(&bDB)
 			backRepo.BackRepoB.CheckoutPhaseTwoInstance(backRepo, &bDB)
@@ -353,6 +353,14 @@ func (backRepo *BackRepoStruct) CheckoutB(b *models.B) {
 
 // CopyBasicFieldsFromB
 func (bDB *BDB) CopyBasicFieldsFromB(b *models.B) {
+	// insertion point for fields commit
+
+	bDB.Name_Data.String = b.Name
+	bDB.Name_Data.Valid = true
+}
+
+// CopyBasicFieldsFromB_WOP
+func (bDB *BDB) CopyBasicFieldsFromB_WOP(b *models.B_WOP) {
 	// insertion point for fields commit
 
 	bDB.Name_Data.String = b.Name
@@ -369,6 +377,12 @@ func (bDB *BDB) CopyBasicFieldsFromBWOP(b *BWOP) {
 
 // CopyBasicFieldsToB
 func (bDB *BDB) CopyBasicFieldsToB(b *models.B) {
+	// insertion point for checkout of basic fields (back repo to stage)
+	b.Name = bDB.Name_Data.String
+}
+
+// CopyBasicFieldsToB_WOP
+func (bDB *BDB) CopyBasicFieldsToB_WOP(b *models.B_WOP) {
 	// insertion point for checkout of basic fields (back repo to stage)
 	b.Name = bDB.Name_Data.String
 }
@@ -399,12 +413,12 @@ func (backRepoB *BackRepoBStruct) Backup(dirPath string) {
 	file, err := json.MarshalIndent(forBackup, "", " ")
 
 	if err != nil {
-		log.Panic("Cannot json B ", filename, " ", err.Error())
+		log.Fatal("Cannot json B ", filename, " ", err.Error())
 	}
 
 	err = ioutil.WriteFile(filename, file, 0644)
 	if err != nil {
-		log.Panic("Cannot write the json B file", err.Error())
+		log.Fatal("Cannot write the json B file", err.Error())
 	}
 }
 
@@ -424,7 +438,7 @@ func (backRepoB *BackRepoBStruct) BackupXL(file *xlsx.File) {
 
 	sh, err := file.AddSheet("B")
 	if err != nil {
-		log.Panic("Cannot add XL file", err.Error())
+		log.Fatal("Cannot add XL file", err.Error())
 	}
 	_ = sh
 
@@ -449,13 +463,13 @@ func (backRepoB *BackRepoBStruct) RestoreXLPhaseOne(file *xlsx.File) {
 	sh, ok := file.Sheet["B"]
 	_ = sh
 	if !ok {
-		log.Panic(errors.New("sheet not found"))
+		log.Fatal(errors.New("sheet not found"))
 	}
 
 	// log.Println("Max row is", sh.MaxRow)
 	err := sh.ForEachRow(backRepoB.rowVisitorB)
 	if err != nil {
-		log.Panic("Err=", err)
+		log.Fatal("Err=", err)
 	}
 }
 
@@ -477,7 +491,7 @@ func (backRepoB *BackRepoBStruct) rowVisitorB(row *xlsx.Row) error {
 		bDB.ID = 0
 		query := backRepoB.db.Create(bDB)
 		if query.Error != nil {
-			log.Panic(query.Error)
+			log.Fatal(query.Error)
 		}
 		backRepoB.Map_BDBID_BDB[bDB.ID] = bDB
 		BackRepoBid_atBckpTime_newID[bDB_ID_atBackupTime] = bDB.ID
@@ -497,7 +511,7 @@ func (backRepoB *BackRepoBStruct) RestorePhaseOne(dirPath string) {
 	jsonFile, err := os.Open(filename)
 	// if we os.Open returns an error then handle it
 	if err != nil {
-		log.Panic("Cannot restore/open the json B file", filename, " ", err.Error())
+		log.Fatal("Cannot restore/open the json B file", filename, " ", err.Error())
 	}
 
 	// read our opened jsonFile as a byte array.
@@ -514,14 +528,14 @@ func (backRepoB *BackRepoBStruct) RestorePhaseOne(dirPath string) {
 		bDB.ID = 0
 		query := backRepoB.db.Create(bDB)
 		if query.Error != nil {
-			log.Panic(query.Error)
+			log.Fatal(query.Error)
 		}
 		backRepoB.Map_BDBID_BDB[bDB.ID] = bDB
 		BackRepoBid_atBckpTime_newID[bDB_ID_atBackupTime] = bDB.ID
 	}
 
 	if err != nil {
-		log.Panic("Cannot restore/unmarshall json B file", err.Error())
+		log.Fatal("Cannot restore/unmarshall json B file", err.Error())
 	}
 }
 
@@ -544,7 +558,7 @@ func (backRepoB *BackRepoBStruct) RestorePhaseTwo() {
 		// update databse with new index encoding
 		query := backRepoB.db.Model(bDB).Updates(*bDB)
 		if query.Error != nil {
-			log.Panic(query.Error)
+			log.Fatal(query.Error)
 		}
 	}
 

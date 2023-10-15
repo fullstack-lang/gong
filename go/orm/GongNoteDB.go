@@ -35,16 +35,19 @@ var dummy_GongNote_sort sort.Float64Slice
 type GongNoteAPI struct {
 	gorm.Model
 
-	models.GongNote
+	models.GongNote_WOP
 
 	// encoding of pointers
-	GongNotePointersEnconding
+	GongNotePointersEncoding
 }
 
-// GongNotePointersEnconding encodes pointers to Struct and
+// GongNotePointersEncoding encodes pointers to Struct and
 // reverse pointers of slice of poitners to Struct
-type GongNotePointersEnconding struct {
+type GongNotePointersEncoding struct {
 	// insertion for pointer fields encoding declaration
+
+	// field Links is a slice of pointers to another Struct (optional or 0..1)
+	Links IntSlice`gorm:"type:TEXT"`
 }
 
 // GongNoteDB describes a gongnote in the database
@@ -67,7 +70,7 @@ type GongNoteDB struct {
 	// Declation for basic field gongnoteDB.BodyHTML
 	BodyHTML_Data sql.NullString
 	// encoding of pointers
-	GongNotePointersEnconding
+	GongNotePointersEncoding
 }
 
 // GongNoteDBs arrays gongnoteDBs
@@ -162,7 +165,7 @@ func (backRepoGongNote *BackRepoGongNoteStruct) CommitDeleteInstance(id uint) (E
 	gongnoteDB := backRepoGongNote.Map_GongNoteDBID_GongNoteDB[id]
 	query := backRepoGongNote.db.Unscoped().Delete(&gongnoteDB)
 	if query.Error != nil {
-		return query.Error
+		log.Fatal(query.Error)
 	}
 
 	// update stores
@@ -188,7 +191,7 @@ func (backRepoGongNote *BackRepoGongNoteStruct) CommitPhaseOneInstance(gongnote 
 
 	query := backRepoGongNote.db.Create(&gongnoteDB)
 	if query.Error != nil {
-		return query.Error
+		log.Fatal(query.Error)
 	}
 
 	// update stores
@@ -239,9 +242,19 @@ func (backRepoGongNote *BackRepoGongNoteStruct) CommitPhaseTwoInstance(backRepo 
 			}
 		}
 
+		// 1. reset
+		gongnoteDB.GongNotePointersEncoding.Links = make([]int, 0)
+		// 2. encode
+		for _, gonglinkAssocEnd := range gongnote.Links {
+			gonglinkAssocEnd_DB :=
+				backRepo.BackRepoGongLink.GetGongLinkDBFromGongLinkPtr(gonglinkAssocEnd)
+			gongnoteDB.GongNotePointersEncoding.Links =
+				append(gongnoteDB.GongNotePointersEncoding.Links, int(gonglinkAssocEnd_DB.ID))
+		}
+
 		query := backRepoGongNote.db.Save(&gongnoteDB)
 		if query.Error != nil {
-			return query.Error
+			log.Fatalln(query.Error)
 		}
 
 	} else {
@@ -395,7 +408,7 @@ func (backRepo *BackRepoStruct) CheckoutGongNote(gongnote *models.GongNote) {
 			gongnoteDB.ID = id
 
 			if err := backRepo.BackRepoGongNote.db.First(&gongnoteDB, id).Error; err != nil {
-				log.Panicln("CheckoutGongNote : Problem with getting object with id:", id)
+				log.Fatalln("CheckoutGongNote : Problem with getting object with id:", id)
 			}
 			backRepo.BackRepoGongNote.CheckoutPhaseOneInstance(&gongnoteDB)
 			backRepo.BackRepoGongNote.CheckoutPhaseTwoInstance(backRepo, &gongnoteDB)
@@ -405,6 +418,20 @@ func (backRepo *BackRepoStruct) CheckoutGongNote(gongnote *models.GongNote) {
 
 // CopyBasicFieldsFromGongNote
 func (gongnoteDB *GongNoteDB) CopyBasicFieldsFromGongNote(gongnote *models.GongNote) {
+	// insertion point for fields commit
+
+	gongnoteDB.Name_Data.String = gongnote.Name
+	gongnoteDB.Name_Data.Valid = true
+
+	gongnoteDB.Body_Data.String = gongnote.Body
+	gongnoteDB.Body_Data.Valid = true
+
+	gongnoteDB.BodyHTML_Data.String = gongnote.BodyHTML
+	gongnoteDB.BodyHTML_Data.Valid = true
+}
+
+// CopyBasicFieldsFromGongNote_WOP
+func (gongnoteDB *GongNoteDB) CopyBasicFieldsFromGongNote_WOP(gongnote *models.GongNote_WOP) {
 	// insertion point for fields commit
 
 	gongnoteDB.Name_Data.String = gongnote.Name
@@ -439,6 +466,14 @@ func (gongnoteDB *GongNoteDB) CopyBasicFieldsToGongNote(gongnote *models.GongNot
 	gongnote.BodyHTML = gongnoteDB.BodyHTML_Data.String
 }
 
+// CopyBasicFieldsToGongNote_WOP
+func (gongnoteDB *GongNoteDB) CopyBasicFieldsToGongNote_WOP(gongnote *models.GongNote_WOP) {
+	// insertion point for checkout of basic fields (back repo to stage)
+	gongnote.Name = gongnoteDB.Name_Data.String
+	gongnote.Body = gongnoteDB.Body_Data.String
+	gongnote.BodyHTML = gongnoteDB.BodyHTML_Data.String
+}
+
 // CopyBasicFieldsToGongNoteWOP
 func (gongnoteDB *GongNoteDB) CopyBasicFieldsToGongNoteWOP(gongnote *GongNoteWOP) {
 	gongnote.ID = int(gongnoteDB.ID)
@@ -467,12 +502,12 @@ func (backRepoGongNote *BackRepoGongNoteStruct) Backup(dirPath string) {
 	file, err := json.MarshalIndent(forBackup, "", " ")
 
 	if err != nil {
-		log.Panic("Cannot json GongNote ", filename, " ", err.Error())
+		log.Fatal("Cannot json GongNote ", filename, " ", err.Error())
 	}
 
 	err = ioutil.WriteFile(filename, file, 0644)
 	if err != nil {
-		log.Panic("Cannot write the json GongNote file", err.Error())
+		log.Fatal("Cannot write the json GongNote file", err.Error())
 	}
 }
 
@@ -492,7 +527,7 @@ func (backRepoGongNote *BackRepoGongNoteStruct) BackupXL(file *xlsx.File) {
 
 	sh, err := file.AddSheet("GongNote")
 	if err != nil {
-		log.Panic("Cannot add XL file", err.Error())
+		log.Fatal("Cannot add XL file", err.Error())
 	}
 	_ = sh
 
@@ -517,13 +552,13 @@ func (backRepoGongNote *BackRepoGongNoteStruct) RestoreXLPhaseOne(file *xlsx.Fil
 	sh, ok := file.Sheet["GongNote"]
 	_ = sh
 	if !ok {
-		log.Panic(errors.New("sheet not found"))
+		log.Fatal(errors.New("sheet not found"))
 	}
 
 	// log.Println("Max row is", sh.MaxRow)
 	err := sh.ForEachRow(backRepoGongNote.rowVisitorGongNote)
 	if err != nil {
-		log.Panic("Err=", err)
+		log.Fatal("Err=", err)
 	}
 }
 
@@ -545,7 +580,7 @@ func (backRepoGongNote *BackRepoGongNoteStruct) rowVisitorGongNote(row *xlsx.Row
 		gongnoteDB.ID = 0
 		query := backRepoGongNote.db.Create(gongnoteDB)
 		if query.Error != nil {
-			log.Panic(query.Error)
+			log.Fatal(query.Error)
 		}
 		backRepoGongNote.Map_GongNoteDBID_GongNoteDB[gongnoteDB.ID] = gongnoteDB
 		BackRepoGongNoteid_atBckpTime_newID[gongnoteDB_ID_atBackupTime] = gongnoteDB.ID
@@ -565,7 +600,7 @@ func (backRepoGongNote *BackRepoGongNoteStruct) RestorePhaseOne(dirPath string) 
 	jsonFile, err := os.Open(filename)
 	// if we os.Open returns an error then handle it
 	if err != nil {
-		log.Panic("Cannot restore/open the json GongNote file", filename, " ", err.Error())
+		log.Fatal("Cannot restore/open the json GongNote file", filename, " ", err.Error())
 	}
 
 	// read our opened jsonFile as a byte array.
@@ -582,14 +617,14 @@ func (backRepoGongNote *BackRepoGongNoteStruct) RestorePhaseOne(dirPath string) 
 		gongnoteDB.ID = 0
 		query := backRepoGongNote.db.Create(gongnoteDB)
 		if query.Error != nil {
-			log.Panic(query.Error)
+			log.Fatal(query.Error)
 		}
 		backRepoGongNote.Map_GongNoteDBID_GongNoteDB[gongnoteDB.ID] = gongnoteDB
 		BackRepoGongNoteid_atBckpTime_newID[gongnoteDB_ID_atBackupTime] = gongnoteDB.ID
 	}
 
 	if err != nil {
-		log.Panic("Cannot restore/unmarshall json GongNote file", err.Error())
+		log.Fatal("Cannot restore/unmarshall json GongNote file", err.Error())
 	}
 }
 
@@ -606,7 +641,7 @@ func (backRepoGongNote *BackRepoGongNoteStruct) RestorePhaseTwo() {
 		// update databse with new index encoding
 		query := backRepoGongNote.db.Model(gongnoteDB).Updates(*gongnoteDB)
 		if query.Error != nil {
-			log.Panic(query.Error)
+			log.Fatal(query.Error)
 		}
 	}
 

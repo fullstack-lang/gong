@@ -91,8 +91,8 @@ func (controller *Controller) GetBstructs(c *gin.Context) {
 
 		// insertion point for updating fields
 		bstructAPI.ID = bstructDB.ID
-		bstructDB.CopyBasicFieldsToBstruct(&bstructAPI.Bstruct)
-		bstructAPI.BstructPointersEnconding = bstructDB.BstructPointersEnconding
+		bstructDB.CopyBasicFieldsToBstruct_WOP(&bstructAPI.Bstruct_WOP)
+		bstructAPI.BstructPointersEncoding = bstructDB.BstructPointersEncoding
 		bstructAPIs = append(bstructAPIs, bstructAPI)
 	}
 
@@ -147,8 +147,8 @@ func (controller *Controller) PostBstruct(c *gin.Context) {
 
 	// Create bstruct
 	bstructDB := orm.BstructDB{}
-	bstructDB.BstructPointersEnconding = input.BstructPointersEnconding
-	bstructDB.CopyBasicFieldsFromBstruct(&input.Bstruct)
+	bstructDB.BstructPointersEncoding = input.BstructPointersEncoding
+	bstructDB.CopyBasicFieldsFromBstruct_WOP(&input.Bstruct_WOP)
 
 	query := db.Create(&bstructDB)
 	if query.Error != nil {
@@ -217,8 +217,8 @@ func (controller *Controller) GetBstruct(c *gin.Context) {
 
 	var bstructAPI orm.BstructAPI
 	bstructAPI.ID = bstructDB.ID
-	bstructAPI.BstructPointersEnconding = bstructDB.BstructPointersEnconding
-	bstructDB.CopyBasicFieldsToBstruct(&bstructAPI.Bstruct)
+	bstructAPI.BstructPointersEncoding = bstructDB.BstructPointersEncoding
+	bstructDB.CopyBasicFieldsToBstruct_WOP(&bstructAPI.Bstruct_WOP)
 
 	c.JSON(http.StatusOK, bstructAPI)
 }
@@ -276,8 +276,8 @@ func (controller *Controller) UpdateBstruct(c *gin.Context) {
 	}
 
 	// update
-	bstructDB.CopyBasicFieldsFromBstruct(&input.Bstruct)
-	bstructDB.BstructPointersEnconding = input.BstructPointersEnconding
+	bstructDB.CopyBasicFieldsFromBstruct_WOP(&input.Bstruct_WOP)
+	bstructDB.BstructPointersEncoding = input.BstructPointersEncoding
 
 	query = db.Model(&bstructDB).Updates(bstructDB)
 	if query.Error != nil {

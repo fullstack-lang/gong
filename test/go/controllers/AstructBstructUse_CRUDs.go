@@ -91,8 +91,8 @@ func (controller *Controller) GetAstructBstructUses(c *gin.Context) {
 
 		// insertion point for updating fields
 		astructbstructuseAPI.ID = astructbstructuseDB.ID
-		astructbstructuseDB.CopyBasicFieldsToAstructBstructUse(&astructbstructuseAPI.AstructBstructUse)
-		astructbstructuseAPI.AstructBstructUsePointersEnconding = astructbstructuseDB.AstructBstructUsePointersEnconding
+		astructbstructuseDB.CopyBasicFieldsToAstructBstructUse_WOP(&astructbstructuseAPI.AstructBstructUse_WOP)
+		astructbstructuseAPI.AstructBstructUsePointersEncoding = astructbstructuseDB.AstructBstructUsePointersEncoding
 		astructbstructuseAPIs = append(astructbstructuseAPIs, astructbstructuseAPI)
 	}
 
@@ -147,8 +147,8 @@ func (controller *Controller) PostAstructBstructUse(c *gin.Context) {
 
 	// Create astructbstructuse
 	astructbstructuseDB := orm.AstructBstructUseDB{}
-	astructbstructuseDB.AstructBstructUsePointersEnconding = input.AstructBstructUsePointersEnconding
-	astructbstructuseDB.CopyBasicFieldsFromAstructBstructUse(&input.AstructBstructUse)
+	astructbstructuseDB.AstructBstructUsePointersEncoding = input.AstructBstructUsePointersEncoding
+	astructbstructuseDB.CopyBasicFieldsFromAstructBstructUse_WOP(&input.AstructBstructUse_WOP)
 
 	query := db.Create(&astructbstructuseDB)
 	if query.Error != nil {
@@ -217,8 +217,8 @@ func (controller *Controller) GetAstructBstructUse(c *gin.Context) {
 
 	var astructbstructuseAPI orm.AstructBstructUseAPI
 	astructbstructuseAPI.ID = astructbstructuseDB.ID
-	astructbstructuseAPI.AstructBstructUsePointersEnconding = astructbstructuseDB.AstructBstructUsePointersEnconding
-	astructbstructuseDB.CopyBasicFieldsToAstructBstructUse(&astructbstructuseAPI.AstructBstructUse)
+	astructbstructuseAPI.AstructBstructUsePointersEncoding = astructbstructuseDB.AstructBstructUsePointersEncoding
+	astructbstructuseDB.CopyBasicFieldsToAstructBstructUse_WOP(&astructbstructuseAPI.AstructBstructUse_WOP)
 
 	c.JSON(http.StatusOK, astructbstructuseAPI)
 }
@@ -276,8 +276,8 @@ func (controller *Controller) UpdateAstructBstructUse(c *gin.Context) {
 	}
 
 	// update
-	astructbstructuseDB.CopyBasicFieldsFromAstructBstructUse(&input.AstructBstructUse)
-	astructbstructuseDB.AstructBstructUsePointersEnconding = input.AstructBstructUsePointersEnconding
+	astructbstructuseDB.CopyBasicFieldsFromAstructBstructUse_WOP(&input.AstructBstructUse_WOP)
+	astructbstructuseDB.AstructBstructUsePointersEncoding = input.AstructBstructUsePointersEncoding
 
 	query = db.Model(&astructbstructuseDB).Updates(astructbstructuseDB)
 	if query.Error != nil {
