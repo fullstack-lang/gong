@@ -35,20 +35,23 @@ var dummy_Astruct_sort sort.Float64Slice
 type AstructAPI struct {
 	gorm.Model
 
-	models.Astruct
+	models.Astruct_WOP
 
 	// encoding of pointers
-	AstructPointersEnconding
+	AstructPointersEncoding
 }
 
-// AstructPointersEnconding encodes pointers to Struct and
+// AstructPointersEncoding encodes pointers to Struct and
 // reverse pointers of slice of poitners to Struct
-type AstructPointersEnconding struct {
+type AstructPointersEncoding struct {
 	// insertion for pointer fields encoding declaration
 
 	// field Associationtob is a pointer to another Struct (optional or 0..1)
 	// This field is generated into another field to enable AS ONE association
 	AssociationtobID sql.NullInt64
+
+	// field Anarrayofb is a slice of pointers to another Struct (optional or 0..1)
+	Anarrayofb IntSlice`gorm:"type:TEXT"`
 
 	// field Anotherassociationtob_2 is a pointer to another Struct (optional or 0..1)
 	// This field is generated into another field to enable AS ONE association
@@ -77,6 +80,18 @@ type AstructPointersEnconding struct {
 	// field Dstruct4 is a pointer to another Struct (optional or 0..1)
 	// This field is generated into another field to enable AS ONE association
 	Dstruct4ID sql.NullInt64
+
+	// field Anarrayofa is a slice of pointers to another Struct (optional or 0..1)
+	Anarrayofa IntSlice`gorm:"type:TEXT"`
+
+	// field Anotherarrayofb is a slice of pointers to another Struct (optional or 0..1)
+	Anotherarrayofb IntSlice`gorm:"type:TEXT"`
+
+	// field AnarrayofbUse is a slice of pointers to another Struct (optional or 0..1)
+	AnarrayofbUse IntSlice`gorm:"type:TEXT"`
+
+	// field Anarrayofb2Use is a slice of pointers to another Struct (optional or 0..1)
+	Anarrayofb2Use IntSlice`gorm:"type:TEXT"`
 
 	// field AnAstruct is a pointer to another Struct (optional or 0..1)
 	// This field is generated into another field to enable AS ONE association
@@ -162,7 +177,7 @@ type AstructDB struct {
 	// Declation for basic field astructDB.TextArea
 	TextArea_Data sql.NullString
 	// encoding of pointers
-	AstructPointersEnconding
+	AstructPointersEncoding
 }
 
 // AstructDBs arrays astructDBs
@@ -308,7 +323,7 @@ func (backRepoAstruct *BackRepoAstructStruct) CommitDeleteInstance(id uint) (Err
 	astructDB := backRepoAstruct.Map_AstructDBID_AstructDB[id]
 	query := backRepoAstruct.db.Unscoped().Delete(&astructDB)
 	if query.Error != nil {
-		return query.Error
+		log.Fatal(query.Error)
 	}
 
 	// update stores
@@ -334,7 +349,7 @@ func (backRepoAstruct *BackRepoAstructStruct) CommitPhaseOneInstance(astruct *mo
 
 	query := backRepoAstruct.db.Create(&astructDB)
 	if query.Error != nil {
-		return query.Error
+		log.Fatal(query.Error)
 	}
 
 	// update stores
@@ -395,6 +410,16 @@ func (backRepoAstruct *BackRepoAstructStruct) CommitPhaseTwoInstance(backRepo *B
 			if q := backRepoAstruct.db.Save(bstructAssocEnd_DB); q.Error != nil {
 				return q.Error
 			}
+		}
+
+		// 1. reset
+		astructDB.AstructPointersEncoding.Anarrayofb = make([]int, 0)
+		// 2. encode
+		for _, bstructAssocEnd := range astruct.Anarrayofb {
+			bstructAssocEnd_DB :=
+				backRepo.BackRepoBstruct.GetBstructDBFromBstructPtr(bstructAssocEnd)
+			astructDB.AstructPointersEncoding.Anarrayofb =
+				append(astructDB.AstructPointersEncoding.Anarrayofb, int(bstructAssocEnd_DB.ID))
 		}
 
 		// commit pointer value astruct.Anotherassociationtob_2 translates to updating the astruct.Anotherassociationtob_2ID
@@ -500,6 +525,16 @@ func (backRepoAstruct *BackRepoAstructStruct) CommitPhaseTwoInstance(backRepo *B
 			}
 		}
 
+		// 1. reset
+		astructDB.AstructPointersEncoding.Anarrayofa = make([]int, 0)
+		// 2. encode
+		for _, astructAssocEnd := range astruct.Anarrayofa {
+			astructAssocEnd_DB :=
+				backRepo.BackRepoAstruct.GetAstructDBFromAstructPtr(astructAssocEnd)
+			astructDB.AstructPointersEncoding.Anarrayofa =
+				append(astructDB.AstructPointersEncoding.Anarrayofa, int(astructAssocEnd_DB.ID))
+		}
+
 		// This loop encodes the slice of pointers astruct.Anotherarrayofb into the back repo.
 		// Each back repo instance at the end of the association encode the ID of the association start
 		// into a dedicated field for coding the association. The back repo instance is then saved to the db
@@ -517,6 +552,16 @@ func (backRepoAstruct *BackRepoAstructStruct) CommitPhaseTwoInstance(backRepo *B
 			if q := backRepoAstruct.db.Save(bstructAssocEnd_DB); q.Error != nil {
 				return q.Error
 			}
+		}
+
+		// 1. reset
+		astructDB.AstructPointersEncoding.Anotherarrayofb = make([]int, 0)
+		// 2. encode
+		for _, bstructAssocEnd := range astruct.Anotherarrayofb {
+			bstructAssocEnd_DB :=
+				backRepo.BackRepoBstruct.GetBstructDBFromBstructPtr(bstructAssocEnd)
+			astructDB.AstructPointersEncoding.Anotherarrayofb =
+				append(astructDB.AstructPointersEncoding.Anotherarrayofb, int(bstructAssocEnd_DB.ID))
 		}
 
 		// This loop encodes the slice of pointers astruct.AnarrayofbUse into the back repo.
@@ -538,6 +583,16 @@ func (backRepoAstruct *BackRepoAstructStruct) CommitPhaseTwoInstance(backRepo *B
 			}
 		}
 
+		// 1. reset
+		astructDB.AstructPointersEncoding.AnarrayofbUse = make([]int, 0)
+		// 2. encode
+		for _, astructbstructuseAssocEnd := range astruct.AnarrayofbUse {
+			astructbstructuseAssocEnd_DB :=
+				backRepo.BackRepoAstructBstructUse.GetAstructBstructUseDBFromAstructBstructUsePtr(astructbstructuseAssocEnd)
+			astructDB.AstructPointersEncoding.AnarrayofbUse =
+				append(astructDB.AstructPointersEncoding.AnarrayofbUse, int(astructbstructuseAssocEnd_DB.ID))
+		}
+
 		// This loop encodes the slice of pointers astruct.Anarrayofb2Use into the back repo.
 		// Each back repo instance at the end of the association encode the ID of the association start
 		// into a dedicated field for coding the association. The back repo instance is then saved to the db
@@ -557,6 +612,16 @@ func (backRepoAstruct *BackRepoAstructStruct) CommitPhaseTwoInstance(backRepo *B
 			}
 		}
 
+		// 1. reset
+		astructDB.AstructPointersEncoding.Anarrayofb2Use = make([]int, 0)
+		// 2. encode
+		for _, astructbstruct2useAssocEnd := range astruct.Anarrayofb2Use {
+			astructbstruct2useAssocEnd_DB :=
+				backRepo.BackRepoAstructBstruct2Use.GetAstructBstruct2UseDBFromAstructBstruct2UsePtr(astructbstruct2useAssocEnd)
+			astructDB.AstructPointersEncoding.Anarrayofb2Use =
+				append(astructDB.AstructPointersEncoding.Anarrayofb2Use, int(astructbstruct2useAssocEnd_DB.ID))
+		}
+
 		// commit pointer value astruct.AnAstruct translates to updating the astruct.AnAstructID
 		astructDB.AnAstructID.Valid = true // allow for a 0 value (nil association)
 		if astruct.AnAstruct != nil {
@@ -571,7 +636,7 @@ func (backRepoAstruct *BackRepoAstructStruct) CommitPhaseTwoInstance(backRepo *B
 
 		query := backRepoAstruct.db.Save(&astructDB)
 		if query.Error != nil {
-			return query.Error
+			log.Fatalln(query.Error)
 		}
 
 	} else {
@@ -878,7 +943,7 @@ func (backRepo *BackRepoStruct) CheckoutAstruct(astruct *models.Astruct) {
 			astructDB.ID = id
 
 			if err := backRepo.BackRepoAstruct.db.First(&astructDB, id).Error; err != nil {
-				log.Panicln("CheckoutAstruct : Problem with getting object with id:", id)
+				log.Fatalln("CheckoutAstruct : Problem with getting object with id:", id)
 			}
 			backRepo.BackRepoAstruct.CheckoutPhaseOneInstance(&astructDB)
 			backRepo.BackRepoAstruct.CheckoutPhaseTwoInstance(backRepo, &astructDB)
@@ -888,6 +953,71 @@ func (backRepo *BackRepoStruct) CheckoutAstruct(astruct *models.Astruct) {
 
 // CopyBasicFieldsFromAstruct
 func (astructDB *AstructDB) CopyBasicFieldsFromAstruct(astruct *models.Astruct) {
+	// insertion point for fields commit
+
+	astructDB.Name_Data.String = astruct.Name
+	astructDB.Name_Data.Valid = true
+
+	astructDB.Date_Data.Time = astruct.Date
+	astructDB.Date_Data.Valid = true
+
+	astructDB.Booleanfield_Data.Bool = astruct.Booleanfield
+	astructDB.Booleanfield_Data.Valid = true
+
+	astructDB.Aenum_Data.String = astruct.Aenum.ToString()
+	astructDB.Aenum_Data.Valid = true
+
+	astructDB.Aenum_2_Data.String = astruct.Aenum_2.ToString()
+	astructDB.Aenum_2_Data.Valid = true
+
+	astructDB.Benum_Data.String = astruct.Benum.ToString()
+	astructDB.Benum_Data.Valid = true
+
+	astructDB.CEnum_Data.Int64 = int64(astruct.CEnum)
+	astructDB.CEnum_Data.Valid = true
+
+	astructDB.CName_Data.String = astruct.CName
+	astructDB.CName_Data.Valid = true
+
+	astructDB.CFloatfield_Data.Float64 = astruct.CFloatfield
+	astructDB.CFloatfield_Data.Valid = true
+
+	astructDB.Floatfield_Data.Float64 = astruct.Floatfield
+	astructDB.Floatfield_Data.Valid = true
+
+	astructDB.Intfield_Data.Int64 = int64(astruct.Intfield)
+	astructDB.Intfield_Data.Valid = true
+
+	astructDB.Anotherbooleanfield_Data.Bool = astruct.Anotherbooleanfield
+	astructDB.Anotherbooleanfield_Data.Valid = true
+
+	astructDB.Duration1_Data.Int64 = int64(astruct.Duration1)
+	astructDB.Duration1_Data.Valid = true
+
+	astructDB.StructRef_Data.String = astruct.StructRef
+	astructDB.StructRef_Data.Valid = true
+
+	astructDB.FieldRef_Data.String = astruct.FieldRef
+	astructDB.FieldRef_Data.Valid = true
+
+	astructDB.EnumIntRef_Data.String = astruct.EnumIntRef
+	astructDB.EnumIntRef_Data.Valid = true
+
+	astructDB.EnumStringRef_Data.String = astruct.EnumStringRef
+	astructDB.EnumStringRef_Data.Valid = true
+
+	astructDB.EnumValue_Data.String = astruct.EnumValue
+	astructDB.EnumValue_Data.Valid = true
+
+	astructDB.ConstIdentifierValue_Data.String = astruct.ConstIdentifierValue
+	astructDB.ConstIdentifierValue_Data.Valid = true
+
+	astructDB.TextArea_Data.String = astruct.TextArea
+	astructDB.TextArea_Data.Valid = true
+}
+
+// CopyBasicFieldsFromAstruct_WOP
+func (astructDB *AstructDB) CopyBasicFieldsFromAstruct_WOP(astruct *models.Astruct_WOP) {
 	// insertion point for fields commit
 
 	astructDB.Name_Data.String = astruct.Name
@@ -1041,6 +1171,31 @@ func (astructDB *AstructDB) CopyBasicFieldsToAstruct(astruct *models.Astruct) {
 	astruct.TextArea = astructDB.TextArea_Data.String
 }
 
+// CopyBasicFieldsToAstruct_WOP
+func (astructDB *AstructDB) CopyBasicFieldsToAstruct_WOP(astruct *models.Astruct_WOP) {
+	// insertion point for checkout of basic fields (back repo to stage)
+	astruct.Name = astructDB.Name_Data.String
+	astruct.Date = astructDB.Date_Data.Time
+	astruct.Booleanfield = astructDB.Booleanfield_Data.Bool
+	astruct.Aenum.FromString(astructDB.Aenum_Data.String)
+	astruct.Aenum_2.FromString(astructDB.Aenum_2_Data.String)
+	astruct.Benum.FromString(astructDB.Benum_Data.String)
+	astruct.CEnum = models.CEnumTypeInt(astructDB.CEnum_Data.Int64)
+	astruct.CName = astructDB.CName_Data.String
+	astruct.CFloatfield = astructDB.CFloatfield_Data.Float64
+	astruct.Floatfield = astructDB.Floatfield_Data.Float64
+	astruct.Intfield = int(astructDB.Intfield_Data.Int64)
+	astruct.Anotherbooleanfield = astructDB.Anotherbooleanfield_Data.Bool
+	astruct.Duration1 = time.Duration(astructDB.Duration1_Data.Int64)
+	astruct.StructRef = astructDB.StructRef_Data.String
+	astruct.FieldRef = astructDB.FieldRef_Data.String
+	astruct.EnumIntRef = astructDB.EnumIntRef_Data.String
+	astruct.EnumStringRef = astructDB.EnumStringRef_Data.String
+	astruct.EnumValue = astructDB.EnumValue_Data.String
+	astruct.ConstIdentifierValue = astructDB.ConstIdentifierValue_Data.String
+	astruct.TextArea = astructDB.TextArea_Data.String
+}
+
 // CopyBasicFieldsToAstructWOP
 func (astructDB *AstructDB) CopyBasicFieldsToAstructWOP(astruct *AstructWOP) {
 	astruct.ID = int(astructDB.ID)
@@ -1086,12 +1241,12 @@ func (backRepoAstruct *BackRepoAstructStruct) Backup(dirPath string) {
 	file, err := json.MarshalIndent(forBackup, "", " ")
 
 	if err != nil {
-		log.Panic("Cannot json Astruct ", filename, " ", err.Error())
+		log.Fatal("Cannot json Astruct ", filename, " ", err.Error())
 	}
 
 	err = ioutil.WriteFile(filename, file, 0644)
 	if err != nil {
-		log.Panic("Cannot write the json Astruct file", err.Error())
+		log.Fatal("Cannot write the json Astruct file", err.Error())
 	}
 }
 
@@ -1111,7 +1266,7 @@ func (backRepoAstruct *BackRepoAstructStruct) BackupXL(file *xlsx.File) {
 
 	sh, err := file.AddSheet("Astruct")
 	if err != nil {
-		log.Panic("Cannot add XL file", err.Error())
+		log.Fatal("Cannot add XL file", err.Error())
 	}
 	_ = sh
 
@@ -1136,13 +1291,13 @@ func (backRepoAstruct *BackRepoAstructStruct) RestoreXLPhaseOne(file *xlsx.File)
 	sh, ok := file.Sheet["Astruct"]
 	_ = sh
 	if !ok {
-		log.Panic(errors.New("sheet not found"))
+		log.Fatal(errors.New("sheet not found"))
 	}
 
 	// log.Println("Max row is", sh.MaxRow)
 	err := sh.ForEachRow(backRepoAstruct.rowVisitorAstruct)
 	if err != nil {
-		log.Panic("Err=", err)
+		log.Fatal("Err=", err)
 	}
 }
 
@@ -1164,7 +1319,7 @@ func (backRepoAstruct *BackRepoAstructStruct) rowVisitorAstruct(row *xlsx.Row) e
 		astructDB.ID = 0
 		query := backRepoAstruct.db.Create(astructDB)
 		if query.Error != nil {
-			log.Panic(query.Error)
+			log.Fatal(query.Error)
 		}
 		backRepoAstruct.Map_AstructDBID_AstructDB[astructDB.ID] = astructDB
 		BackRepoAstructid_atBckpTime_newID[astructDB_ID_atBackupTime] = astructDB.ID
@@ -1184,7 +1339,7 @@ func (backRepoAstruct *BackRepoAstructStruct) RestorePhaseOne(dirPath string) {
 	jsonFile, err := os.Open(filename)
 	// if we os.Open returns an error then handle it
 	if err != nil {
-		log.Panic("Cannot restore/open the json Astruct file", filename, " ", err.Error())
+		log.Fatal("Cannot restore/open the json Astruct file", filename, " ", err.Error())
 	}
 
 	// read our opened jsonFile as a byte array.
@@ -1201,14 +1356,14 @@ func (backRepoAstruct *BackRepoAstructStruct) RestorePhaseOne(dirPath string) {
 		astructDB.ID = 0
 		query := backRepoAstruct.db.Create(astructDB)
 		if query.Error != nil {
-			log.Panic(query.Error)
+			log.Fatal(query.Error)
 		}
 		backRepoAstruct.Map_AstructDBID_AstructDB[astructDB.ID] = astructDB
 		BackRepoAstructid_atBckpTime_newID[astructDB_ID_atBackupTime] = astructDB.ID
 	}
 
 	if err != nil {
-		log.Panic("Cannot restore/unmarshall json Astruct file", err.Error())
+		log.Fatal("Cannot restore/unmarshall json Astruct file", err.Error())
 	}
 }
 
@@ -1285,7 +1440,7 @@ func (backRepoAstruct *BackRepoAstructStruct) RestorePhaseTwo() {
 		// update databse with new index encoding
 		query := backRepoAstruct.db.Model(astructDB).Updates(*astructDB)
 		if query.Error != nil {
-			log.Panic(query.Error)
+			log.Fatal(query.Error)
 		}
 	}
 

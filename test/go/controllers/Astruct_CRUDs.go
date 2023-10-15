@@ -91,8 +91,8 @@ func (controller *Controller) GetAstructs(c *gin.Context) {
 
 		// insertion point for updating fields
 		astructAPI.ID = astructDB.ID
-		astructDB.CopyBasicFieldsToAstruct(&astructAPI.Astruct)
-		astructAPI.AstructPointersEnconding = astructDB.AstructPointersEnconding
+		astructDB.CopyBasicFieldsToAstruct_WOP(&astructAPI.Astruct_WOP)
+		astructAPI.AstructPointersEncoding = astructDB.AstructPointersEncoding
 		astructAPIs = append(astructAPIs, astructAPI)
 	}
 
@@ -147,8 +147,8 @@ func (controller *Controller) PostAstruct(c *gin.Context) {
 
 	// Create astruct
 	astructDB := orm.AstructDB{}
-	astructDB.AstructPointersEnconding = input.AstructPointersEnconding
-	astructDB.CopyBasicFieldsFromAstruct(&input.Astruct)
+	astructDB.AstructPointersEncoding = input.AstructPointersEncoding
+	astructDB.CopyBasicFieldsFromAstruct_WOP(&input.Astruct_WOP)
 
 	query := db.Create(&astructDB)
 	if query.Error != nil {
@@ -217,8 +217,8 @@ func (controller *Controller) GetAstruct(c *gin.Context) {
 
 	var astructAPI orm.AstructAPI
 	astructAPI.ID = astructDB.ID
-	astructAPI.AstructPointersEnconding = astructDB.AstructPointersEnconding
-	astructDB.CopyBasicFieldsToAstruct(&astructAPI.Astruct)
+	astructAPI.AstructPointersEncoding = astructDB.AstructPointersEncoding
+	astructDB.CopyBasicFieldsToAstruct_WOP(&astructAPI.Astruct_WOP)
 
 	c.JSON(http.StatusOK, astructAPI)
 }
@@ -276,8 +276,8 @@ func (controller *Controller) UpdateAstruct(c *gin.Context) {
 	}
 
 	// update
-	astructDB.CopyBasicFieldsFromAstruct(&input.Astruct)
-	astructDB.AstructPointersEnconding = input.AstructPointersEnconding
+	astructDB.CopyBasicFieldsFromAstruct_WOP(&input.Astruct_WOP)
+	astructDB.AstructPointersEncoding = input.AstructPointersEncoding
 
 	query = db.Model(&astructDB).Updates(astructDB)
 	if query.Error != nil {
