@@ -107,8 +107,8 @@ func (controller *Controller) Get{{Structname}}s(c *gin.Context) {
 
 		// insertion point for updating fields
 		{{structname}}API.ID = {{structname}}DB.ID
-		{{structname}}DB.CopyBasicFieldsTo{{Structname}}(&{{structname}}API.{{Structname}})
-		{{structname}}API.{{Structname}}PointersEnconding = {{structname}}DB.{{Structname}}PointersEnconding
+		{{structname}}DB.CopyBasicFieldsTo{{Structname}}_WOP(&{{structname}}API.{{Structname}}_WOP)
+		{{structname}}API.{{Structname}}PointersEncoding = {{structname}}DB.{{Structname}}PointersEncoding
 		{{structname}}APIs = append({{structname}}APIs, {{structname}}API)
 	}
 
@@ -163,8 +163,8 @@ func (controller *Controller) Post{{Structname}}(c *gin.Context) {
 
 	// Create {{structname}}
 	{{structname}}DB := orm.{{Structname}}DB{}
-	{{structname}}DB.{{Structname}}PointersEnconding = input.{{Structname}}PointersEnconding
-	{{structname}}DB.CopyBasicFieldsFrom{{Structname}}(&input.{{Structname}})
+	{{structname}}DB.{{Structname}}PointersEncoding = input.{{Structname}}PointersEncoding
+	{{structname}}DB.CopyBasicFieldsFrom{{Structname}}_WOP(&input.{{Structname}}_WOP)
 
 	query := db.Create(&{{structname}}DB)
 	if query.Error != nil {
@@ -233,8 +233,8 @@ func (controller *Controller) Get{{Structname}}(c *gin.Context) {
 
 	var {{structname}}API orm.{{Structname}}API
 	{{structname}}API.ID = {{structname}}DB.ID
-	{{structname}}API.{{Structname}}PointersEnconding = {{structname}}DB.{{Structname}}PointersEnconding
-	{{structname}}DB.CopyBasicFieldsTo{{Structname}}(&{{structname}}API.{{Structname}})
+	{{structname}}API.{{Structname}}PointersEncoding = {{structname}}DB.{{Structname}}PointersEncoding
+	{{structname}}DB.CopyBasicFieldsTo{{Structname}}_WOP(&{{structname}}API.{{Structname}}_WOP)
 
 	c.JSON(http.StatusOK, {{structname}}API)
 }
@@ -292,8 +292,8 @@ func (controller *Controller) Update{{Structname}}(c *gin.Context) {
 	}
 
 	// update
-	{{structname}}DB.CopyBasicFieldsFrom{{Structname}}(&input.{{Structname}})
-	{{structname}}DB.{{Structname}}PointersEnconding = input.{{Structname}}PointersEnconding
+	{{structname}}DB.CopyBasicFieldsFrom{{Structname}}_WOP(&input.{{Structname}}_WOP)
+	{{structname}}DB.{{Structname}}PointersEncoding = input.{{Structname}}PointersEncoding
 
 	query = db.Model(&{{structname}}DB).Updates({{structname}}DB)
 	if query.Error != nil {

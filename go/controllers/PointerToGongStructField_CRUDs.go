@@ -91,8 +91,8 @@ func (controller *Controller) GetPointerToGongStructFields(c *gin.Context) {
 
 		// insertion point for updating fields
 		pointertogongstructfieldAPI.ID = pointertogongstructfieldDB.ID
-		pointertogongstructfieldDB.CopyBasicFieldsToPointerToGongStructField(&pointertogongstructfieldAPI.PointerToGongStructField)
-		pointertogongstructfieldAPI.PointerToGongStructFieldPointersEnconding = pointertogongstructfieldDB.PointerToGongStructFieldPointersEnconding
+		pointertogongstructfieldDB.CopyBasicFieldsToPointerToGongStructField_WOP(&pointertogongstructfieldAPI.PointerToGongStructField_WOP)
+		pointertogongstructfieldAPI.PointerToGongStructFieldPointersEncoding = pointertogongstructfieldDB.PointerToGongStructFieldPointersEncoding
 		pointertogongstructfieldAPIs = append(pointertogongstructfieldAPIs, pointertogongstructfieldAPI)
 	}
 
@@ -147,8 +147,8 @@ func (controller *Controller) PostPointerToGongStructField(c *gin.Context) {
 
 	// Create pointertogongstructfield
 	pointertogongstructfieldDB := orm.PointerToGongStructFieldDB{}
-	pointertogongstructfieldDB.PointerToGongStructFieldPointersEnconding = input.PointerToGongStructFieldPointersEnconding
-	pointertogongstructfieldDB.CopyBasicFieldsFromPointerToGongStructField(&input.PointerToGongStructField)
+	pointertogongstructfieldDB.PointerToGongStructFieldPointersEncoding = input.PointerToGongStructFieldPointersEncoding
+	pointertogongstructfieldDB.CopyBasicFieldsFromPointerToGongStructField_WOP(&input.PointerToGongStructField_WOP)
 
 	query := db.Create(&pointertogongstructfieldDB)
 	if query.Error != nil {
@@ -217,8 +217,8 @@ func (controller *Controller) GetPointerToGongStructField(c *gin.Context) {
 
 	var pointertogongstructfieldAPI orm.PointerToGongStructFieldAPI
 	pointertogongstructfieldAPI.ID = pointertogongstructfieldDB.ID
-	pointertogongstructfieldAPI.PointerToGongStructFieldPointersEnconding = pointertogongstructfieldDB.PointerToGongStructFieldPointersEnconding
-	pointertogongstructfieldDB.CopyBasicFieldsToPointerToGongStructField(&pointertogongstructfieldAPI.PointerToGongStructField)
+	pointertogongstructfieldAPI.PointerToGongStructFieldPointersEncoding = pointertogongstructfieldDB.PointerToGongStructFieldPointersEncoding
+	pointertogongstructfieldDB.CopyBasicFieldsToPointerToGongStructField_WOP(&pointertogongstructfieldAPI.PointerToGongStructField_WOP)
 
 	c.JSON(http.StatusOK, pointertogongstructfieldAPI)
 }
@@ -276,8 +276,8 @@ func (controller *Controller) UpdatePointerToGongStructField(c *gin.Context) {
 	}
 
 	// update
-	pointertogongstructfieldDB.CopyBasicFieldsFromPointerToGongStructField(&input.PointerToGongStructField)
-	pointertogongstructfieldDB.PointerToGongStructFieldPointersEnconding = input.PointerToGongStructFieldPointersEnconding
+	pointertogongstructfieldDB.CopyBasicFieldsFromPointerToGongStructField_WOP(&input.PointerToGongStructField_WOP)
+	pointertogongstructfieldDB.PointerToGongStructFieldPointersEncoding = input.PointerToGongStructFieldPointersEncoding
 
 	query = db.Model(&pointertogongstructfieldDB).Updates(pointertogongstructfieldDB)
 	if query.Error != nil {

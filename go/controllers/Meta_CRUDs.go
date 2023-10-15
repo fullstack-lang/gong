@@ -91,8 +91,8 @@ func (controller *Controller) GetMetas(c *gin.Context) {
 
 		// insertion point for updating fields
 		metaAPI.ID = metaDB.ID
-		metaDB.CopyBasicFieldsToMeta(&metaAPI.Meta)
-		metaAPI.MetaPointersEnconding = metaDB.MetaPointersEnconding
+		metaDB.CopyBasicFieldsToMeta_WOP(&metaAPI.Meta_WOP)
+		metaAPI.MetaPointersEncoding = metaDB.MetaPointersEncoding
 		metaAPIs = append(metaAPIs, metaAPI)
 	}
 
@@ -147,8 +147,8 @@ func (controller *Controller) PostMeta(c *gin.Context) {
 
 	// Create meta
 	metaDB := orm.MetaDB{}
-	metaDB.MetaPointersEnconding = input.MetaPointersEnconding
-	metaDB.CopyBasicFieldsFromMeta(&input.Meta)
+	metaDB.MetaPointersEncoding = input.MetaPointersEncoding
+	metaDB.CopyBasicFieldsFromMeta_WOP(&input.Meta_WOP)
 
 	query := db.Create(&metaDB)
 	if query.Error != nil {
@@ -217,8 +217,8 @@ func (controller *Controller) GetMeta(c *gin.Context) {
 
 	var metaAPI orm.MetaAPI
 	metaAPI.ID = metaDB.ID
-	metaAPI.MetaPointersEnconding = metaDB.MetaPointersEnconding
-	metaDB.CopyBasicFieldsToMeta(&metaAPI.Meta)
+	metaAPI.MetaPointersEncoding = metaDB.MetaPointersEncoding
+	metaDB.CopyBasicFieldsToMeta_WOP(&metaAPI.Meta_WOP)
 
 	c.JSON(http.StatusOK, metaAPI)
 }
@@ -276,8 +276,8 @@ func (controller *Controller) UpdateMeta(c *gin.Context) {
 	}
 
 	// update
-	metaDB.CopyBasicFieldsFromMeta(&input.Meta)
-	metaDB.MetaPointersEnconding = input.MetaPointersEnconding
+	metaDB.CopyBasicFieldsFromMeta_WOP(&input.Meta_WOP)
+	metaDB.MetaPointersEncoding = input.MetaPointersEncoding
 
 	query = db.Model(&metaDB).Updates(metaDB)
 	if query.Error != nil {

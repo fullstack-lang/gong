@@ -35,15 +35,15 @@ var dummy_MetaReference_sort sort.Float64Slice
 type MetaReferenceAPI struct {
 	gorm.Model
 
-	models.MetaReference
+	models.MetaReference_WOP
 
 	// encoding of pointers
-	MetaReferencePointersEnconding
+	MetaReferencePointersEncoding
 }
 
-// MetaReferencePointersEnconding encodes pointers to Struct and
+// MetaReferencePointersEncoding encodes pointers to Struct and
 // reverse pointers of slice of poitners to Struct
-type MetaReferencePointersEnconding struct {
+type MetaReferencePointersEncoding struct {
 	// insertion for pointer fields encoding declaration
 
 	// Implementation of a reverse ID for field Meta{}.MetaReferences []*MetaReference
@@ -67,7 +67,7 @@ type MetaReferenceDB struct {
 	// Declation for basic field metareferenceDB.Name
 	Name_Data sql.NullString
 	// encoding of pointers
-	MetaReferencePointersEnconding
+	MetaReferencePointersEncoding
 }
 
 // MetaReferenceDBs arrays metareferenceDBs
@@ -156,7 +156,7 @@ func (backRepoMetaReference *BackRepoMetaReferenceStruct) CommitDeleteInstance(i
 	metareferenceDB := backRepoMetaReference.Map_MetaReferenceDBID_MetaReferenceDB[id]
 	query := backRepoMetaReference.db.Unscoped().Delete(&metareferenceDB)
 	if query.Error != nil {
-		return query.Error
+		log.Fatal(query.Error)
 	}
 
 	// update stores
@@ -182,7 +182,7 @@ func (backRepoMetaReference *BackRepoMetaReferenceStruct) CommitPhaseOneInstance
 
 	query := backRepoMetaReference.db.Create(&metareferenceDB)
 	if query.Error != nil {
-		return query.Error
+		log.Fatal(query.Error)
 	}
 
 	// update stores
@@ -216,7 +216,7 @@ func (backRepoMetaReference *BackRepoMetaReferenceStruct) CommitPhaseTwoInstance
 		// insertion point for translating pointers encodings into actual pointers
 		query := backRepoMetaReference.db.Save(&metareferenceDB)
 		if query.Error != nil {
-			return query.Error
+			log.Fatalln(query.Error)
 		}
 
 	} else {
@@ -343,7 +343,7 @@ func (backRepo *BackRepoStruct) CheckoutMetaReference(metareference *models.Meta
 			metareferenceDB.ID = id
 
 			if err := backRepo.BackRepoMetaReference.db.First(&metareferenceDB, id).Error; err != nil {
-				log.Panicln("CheckoutMetaReference : Problem with getting object with id:", id)
+				log.Fatalln("CheckoutMetaReference : Problem with getting object with id:", id)
 			}
 			backRepo.BackRepoMetaReference.CheckoutPhaseOneInstance(&metareferenceDB)
 			backRepo.BackRepoMetaReference.CheckoutPhaseTwoInstance(backRepo, &metareferenceDB)
@@ -353,6 +353,14 @@ func (backRepo *BackRepoStruct) CheckoutMetaReference(metareference *models.Meta
 
 // CopyBasicFieldsFromMetaReference
 func (metareferenceDB *MetaReferenceDB) CopyBasicFieldsFromMetaReference(metareference *models.MetaReference) {
+	// insertion point for fields commit
+
+	metareferenceDB.Name_Data.String = metareference.Name
+	metareferenceDB.Name_Data.Valid = true
+}
+
+// CopyBasicFieldsFromMetaReference_WOP
+func (metareferenceDB *MetaReferenceDB) CopyBasicFieldsFromMetaReference_WOP(metareference *models.MetaReference_WOP) {
 	// insertion point for fields commit
 
 	metareferenceDB.Name_Data.String = metareference.Name
@@ -369,6 +377,12 @@ func (metareferenceDB *MetaReferenceDB) CopyBasicFieldsFromMetaReferenceWOP(meta
 
 // CopyBasicFieldsToMetaReference
 func (metareferenceDB *MetaReferenceDB) CopyBasicFieldsToMetaReference(metareference *models.MetaReference) {
+	// insertion point for checkout of basic fields (back repo to stage)
+	metareference.Name = metareferenceDB.Name_Data.String
+}
+
+// CopyBasicFieldsToMetaReference_WOP
+func (metareferenceDB *MetaReferenceDB) CopyBasicFieldsToMetaReference_WOP(metareference *models.MetaReference_WOP) {
 	// insertion point for checkout of basic fields (back repo to stage)
 	metareference.Name = metareferenceDB.Name_Data.String
 }
@@ -399,12 +413,12 @@ func (backRepoMetaReference *BackRepoMetaReferenceStruct) Backup(dirPath string)
 	file, err := json.MarshalIndent(forBackup, "", " ")
 
 	if err != nil {
-		log.Panic("Cannot json MetaReference ", filename, " ", err.Error())
+		log.Fatal("Cannot json MetaReference ", filename, " ", err.Error())
 	}
 
 	err = ioutil.WriteFile(filename, file, 0644)
 	if err != nil {
-		log.Panic("Cannot write the json MetaReference file", err.Error())
+		log.Fatal("Cannot write the json MetaReference file", err.Error())
 	}
 }
 
@@ -424,7 +438,7 @@ func (backRepoMetaReference *BackRepoMetaReferenceStruct) BackupXL(file *xlsx.Fi
 
 	sh, err := file.AddSheet("MetaReference")
 	if err != nil {
-		log.Panic("Cannot add XL file", err.Error())
+		log.Fatal("Cannot add XL file", err.Error())
 	}
 	_ = sh
 
@@ -449,13 +463,13 @@ func (backRepoMetaReference *BackRepoMetaReferenceStruct) RestoreXLPhaseOne(file
 	sh, ok := file.Sheet["MetaReference"]
 	_ = sh
 	if !ok {
-		log.Panic(errors.New("sheet not found"))
+		log.Fatal(errors.New("sheet not found"))
 	}
 
 	// log.Println("Max row is", sh.MaxRow)
 	err := sh.ForEachRow(backRepoMetaReference.rowVisitorMetaReference)
 	if err != nil {
-		log.Panic("Err=", err)
+		log.Fatal("Err=", err)
 	}
 }
 
@@ -477,7 +491,7 @@ func (backRepoMetaReference *BackRepoMetaReferenceStruct) rowVisitorMetaReferenc
 		metareferenceDB.ID = 0
 		query := backRepoMetaReference.db.Create(metareferenceDB)
 		if query.Error != nil {
-			log.Panic(query.Error)
+			log.Fatal(query.Error)
 		}
 		backRepoMetaReference.Map_MetaReferenceDBID_MetaReferenceDB[metareferenceDB.ID] = metareferenceDB
 		BackRepoMetaReferenceid_atBckpTime_newID[metareferenceDB_ID_atBackupTime] = metareferenceDB.ID
@@ -497,7 +511,7 @@ func (backRepoMetaReference *BackRepoMetaReferenceStruct) RestorePhaseOne(dirPat
 	jsonFile, err := os.Open(filename)
 	// if we os.Open returns an error then handle it
 	if err != nil {
-		log.Panic("Cannot restore/open the json MetaReference file", filename, " ", err.Error())
+		log.Fatal("Cannot restore/open the json MetaReference file", filename, " ", err.Error())
 	}
 
 	// read our opened jsonFile as a byte array.
@@ -514,14 +528,14 @@ func (backRepoMetaReference *BackRepoMetaReferenceStruct) RestorePhaseOne(dirPat
 		metareferenceDB.ID = 0
 		query := backRepoMetaReference.db.Create(metareferenceDB)
 		if query.Error != nil {
-			log.Panic(query.Error)
+			log.Fatal(query.Error)
 		}
 		backRepoMetaReference.Map_MetaReferenceDBID_MetaReferenceDB[metareferenceDB.ID] = metareferenceDB
 		BackRepoMetaReferenceid_atBckpTime_newID[metareferenceDB_ID_atBackupTime] = metareferenceDB.ID
 	}
 
 	if err != nil {
-		log.Panic("Cannot restore/unmarshall json MetaReference file", err.Error())
+		log.Fatal("Cannot restore/unmarshall json MetaReference file", err.Error())
 	}
 }
 
@@ -544,7 +558,7 @@ func (backRepoMetaReference *BackRepoMetaReferenceStruct) RestorePhaseTwo() {
 		// update databse with new index encoding
 		query := backRepoMetaReference.db.Model(metareferenceDB).Updates(*metareferenceDB)
 		if query.Error != nil {
-			log.Panic(query.Error)
+			log.Fatal(query.Error)
 		}
 	}
 

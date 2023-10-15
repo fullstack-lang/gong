@@ -35,16 +35,19 @@ var dummy_Dstruct_sort sort.Float64Slice
 type DstructAPI struct {
 	gorm.Model
 
-	models.Dstruct
+	models.Dstruct_WOP
 
 	// encoding of pointers
-	DstructPointersEnconding
+	DstructPointersEncoding
 }
 
-// DstructPointersEnconding encodes pointers to Struct and
+// DstructPointersEncoding encodes pointers to Struct and
 // reverse pointers of slice of poitners to Struct
-type DstructPointersEnconding struct {
+type DstructPointersEncoding struct {
 	// insertion for pointer fields encoding declaration
+
+	// field Anarrayofb is a slice of pointers to another Struct (optional or 0..1)
+	Anarrayofb IntSlice`gorm:"type:TEXT"`
 }
 
 // DstructDB describes a dstruct in the database
@@ -61,7 +64,7 @@ type DstructDB struct {
 	// Declation for basic field dstructDB.Name
 	Name_Data sql.NullString
 	// encoding of pointers
-	DstructPointersEnconding
+	DstructPointersEncoding
 }
 
 // DstructDBs arrays dstructDBs
@@ -150,7 +153,7 @@ func (backRepoDstruct *BackRepoDstructStruct) CommitDeleteInstance(id uint) (Err
 	dstructDB := backRepoDstruct.Map_DstructDBID_DstructDB[id]
 	query := backRepoDstruct.db.Unscoped().Delete(&dstructDB)
 	if query.Error != nil {
-		return query.Error
+		log.Fatal(query.Error)
 	}
 
 	// update stores
@@ -176,7 +179,7 @@ func (backRepoDstruct *BackRepoDstructStruct) CommitPhaseOneInstance(dstruct *mo
 
 	query := backRepoDstruct.db.Create(&dstructDB)
 	if query.Error != nil {
-		return query.Error
+		log.Fatal(query.Error)
 	}
 
 	// update stores
@@ -227,9 +230,19 @@ func (backRepoDstruct *BackRepoDstructStruct) CommitPhaseTwoInstance(backRepo *B
 			}
 		}
 
+		// 1. reset
+		dstructDB.DstructPointersEncoding.Anarrayofb = make([]int, 0)
+		// 2. encode
+		for _, bstructAssocEnd := range dstruct.Anarrayofb {
+			bstructAssocEnd_DB :=
+				backRepo.BackRepoBstruct.GetBstructDBFromBstructPtr(bstructAssocEnd)
+			dstructDB.DstructPointersEncoding.Anarrayofb =
+				append(dstructDB.DstructPointersEncoding.Anarrayofb, int(bstructAssocEnd_DB.ID))
+		}
+
 		query := backRepoDstruct.db.Save(&dstructDB)
 		if query.Error != nil {
-			return query.Error
+			log.Fatalln(query.Error)
 		}
 
 	} else {
@@ -383,7 +396,7 @@ func (backRepo *BackRepoStruct) CheckoutDstruct(dstruct *models.Dstruct) {
 			dstructDB.ID = id
 
 			if err := backRepo.BackRepoDstruct.db.First(&dstructDB, id).Error; err != nil {
-				log.Panicln("CheckoutDstruct : Problem with getting object with id:", id)
+				log.Fatalln("CheckoutDstruct : Problem with getting object with id:", id)
 			}
 			backRepo.BackRepoDstruct.CheckoutPhaseOneInstance(&dstructDB)
 			backRepo.BackRepoDstruct.CheckoutPhaseTwoInstance(backRepo, &dstructDB)
@@ -393,6 +406,14 @@ func (backRepo *BackRepoStruct) CheckoutDstruct(dstruct *models.Dstruct) {
 
 // CopyBasicFieldsFromDstruct
 func (dstructDB *DstructDB) CopyBasicFieldsFromDstruct(dstruct *models.Dstruct) {
+	// insertion point for fields commit
+
+	dstructDB.Name_Data.String = dstruct.Name
+	dstructDB.Name_Data.Valid = true
+}
+
+// CopyBasicFieldsFromDstruct_WOP
+func (dstructDB *DstructDB) CopyBasicFieldsFromDstruct_WOP(dstruct *models.Dstruct_WOP) {
 	// insertion point for fields commit
 
 	dstructDB.Name_Data.String = dstruct.Name
@@ -409,6 +430,12 @@ func (dstructDB *DstructDB) CopyBasicFieldsFromDstructWOP(dstruct *DstructWOP) {
 
 // CopyBasicFieldsToDstruct
 func (dstructDB *DstructDB) CopyBasicFieldsToDstruct(dstruct *models.Dstruct) {
+	// insertion point for checkout of basic fields (back repo to stage)
+	dstruct.Name = dstructDB.Name_Data.String
+}
+
+// CopyBasicFieldsToDstruct_WOP
+func (dstructDB *DstructDB) CopyBasicFieldsToDstruct_WOP(dstruct *models.Dstruct_WOP) {
 	// insertion point for checkout of basic fields (back repo to stage)
 	dstruct.Name = dstructDB.Name_Data.String
 }
@@ -439,12 +466,12 @@ func (backRepoDstruct *BackRepoDstructStruct) Backup(dirPath string) {
 	file, err := json.MarshalIndent(forBackup, "", " ")
 
 	if err != nil {
-		log.Panic("Cannot json Dstruct ", filename, " ", err.Error())
+		log.Fatal("Cannot json Dstruct ", filename, " ", err.Error())
 	}
 
 	err = ioutil.WriteFile(filename, file, 0644)
 	if err != nil {
-		log.Panic("Cannot write the json Dstruct file", err.Error())
+		log.Fatal("Cannot write the json Dstruct file", err.Error())
 	}
 }
 
@@ -464,7 +491,7 @@ func (backRepoDstruct *BackRepoDstructStruct) BackupXL(file *xlsx.File) {
 
 	sh, err := file.AddSheet("Dstruct")
 	if err != nil {
-		log.Panic("Cannot add XL file", err.Error())
+		log.Fatal("Cannot add XL file", err.Error())
 	}
 	_ = sh
 
@@ -489,13 +516,13 @@ func (backRepoDstruct *BackRepoDstructStruct) RestoreXLPhaseOne(file *xlsx.File)
 	sh, ok := file.Sheet["Dstruct"]
 	_ = sh
 	if !ok {
-		log.Panic(errors.New("sheet not found"))
+		log.Fatal(errors.New("sheet not found"))
 	}
 
 	// log.Println("Max row is", sh.MaxRow)
 	err := sh.ForEachRow(backRepoDstruct.rowVisitorDstruct)
 	if err != nil {
-		log.Panic("Err=", err)
+		log.Fatal("Err=", err)
 	}
 }
 
@@ -517,7 +544,7 @@ func (backRepoDstruct *BackRepoDstructStruct) rowVisitorDstruct(row *xlsx.Row) e
 		dstructDB.ID = 0
 		query := backRepoDstruct.db.Create(dstructDB)
 		if query.Error != nil {
-			log.Panic(query.Error)
+			log.Fatal(query.Error)
 		}
 		backRepoDstruct.Map_DstructDBID_DstructDB[dstructDB.ID] = dstructDB
 		BackRepoDstructid_atBckpTime_newID[dstructDB_ID_atBackupTime] = dstructDB.ID
@@ -537,7 +564,7 @@ func (backRepoDstruct *BackRepoDstructStruct) RestorePhaseOne(dirPath string) {
 	jsonFile, err := os.Open(filename)
 	// if we os.Open returns an error then handle it
 	if err != nil {
-		log.Panic("Cannot restore/open the json Dstruct file", filename, " ", err.Error())
+		log.Fatal("Cannot restore/open the json Dstruct file", filename, " ", err.Error())
 	}
 
 	// read our opened jsonFile as a byte array.
@@ -554,14 +581,14 @@ func (backRepoDstruct *BackRepoDstructStruct) RestorePhaseOne(dirPath string) {
 		dstructDB.ID = 0
 		query := backRepoDstruct.db.Create(dstructDB)
 		if query.Error != nil {
-			log.Panic(query.Error)
+			log.Fatal(query.Error)
 		}
 		backRepoDstruct.Map_DstructDBID_DstructDB[dstructDB.ID] = dstructDB
 		BackRepoDstructid_atBckpTime_newID[dstructDB_ID_atBackupTime] = dstructDB.ID
 	}
 
 	if err != nil {
-		log.Panic("Cannot restore/unmarshall json Dstruct file", err.Error())
+		log.Fatal("Cannot restore/unmarshall json Dstruct file", err.Error())
 	}
 }
 
@@ -578,7 +605,7 @@ func (backRepoDstruct *BackRepoDstructStruct) RestorePhaseTwo() {
 		// update databse with new index encoding
 		query := backRepoDstruct.db.Model(dstructDB).Updates(*dstructDB)
 		if query.Error != nil {
-			log.Panic(query.Error)
+			log.Fatal(query.Error)
 		}
 	}
 

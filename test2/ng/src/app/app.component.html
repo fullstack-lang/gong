@@ -7,6 +7,15 @@
     </mat-radio-group>
 </ng-template>
 
+<as-split unit="pixel" *ngIf="view==test2view" direction="vertical">
+    <as-split-area [size]=40>
+        <ng-container *ngTemplateOutlet="radioToolbar"></ng-container>
+    </as-split-area>
+    <as-split-area [size]="$any('*')">
+        <lib-test2specific [GONG__StackPath]="StackName"></lib-test2specific>
+    </as-split-area>
+</as-split>
+
 <as-split unit="pixel" *ngIf="view==default" direction="vertical">
     <as-split-area [size]=40>
         <ng-container *ngTemplateOutlet="radioToolbar"></ng-container>

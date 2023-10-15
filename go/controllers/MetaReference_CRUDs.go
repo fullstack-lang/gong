@@ -91,8 +91,8 @@ func (controller *Controller) GetMetaReferences(c *gin.Context) {
 
 		// insertion point for updating fields
 		metareferenceAPI.ID = metareferenceDB.ID
-		metareferenceDB.CopyBasicFieldsToMetaReference(&metareferenceAPI.MetaReference)
-		metareferenceAPI.MetaReferencePointersEnconding = metareferenceDB.MetaReferencePointersEnconding
+		metareferenceDB.CopyBasicFieldsToMetaReference_WOP(&metareferenceAPI.MetaReference_WOP)
+		metareferenceAPI.MetaReferencePointersEncoding = metareferenceDB.MetaReferencePointersEncoding
 		metareferenceAPIs = append(metareferenceAPIs, metareferenceAPI)
 	}
 
@@ -147,8 +147,8 @@ func (controller *Controller) PostMetaReference(c *gin.Context) {
 
 	// Create metareference
 	metareferenceDB := orm.MetaReferenceDB{}
-	metareferenceDB.MetaReferencePointersEnconding = input.MetaReferencePointersEnconding
-	metareferenceDB.CopyBasicFieldsFromMetaReference(&input.MetaReference)
+	metareferenceDB.MetaReferencePointersEncoding = input.MetaReferencePointersEncoding
+	metareferenceDB.CopyBasicFieldsFromMetaReference_WOP(&input.MetaReference_WOP)
 
 	query := db.Create(&metareferenceDB)
 	if query.Error != nil {
@@ -217,8 +217,8 @@ func (controller *Controller) GetMetaReference(c *gin.Context) {
 
 	var metareferenceAPI orm.MetaReferenceAPI
 	metareferenceAPI.ID = metareferenceDB.ID
-	metareferenceAPI.MetaReferencePointersEnconding = metareferenceDB.MetaReferencePointersEnconding
-	metareferenceDB.CopyBasicFieldsToMetaReference(&metareferenceAPI.MetaReference)
+	metareferenceAPI.MetaReferencePointersEncoding = metareferenceDB.MetaReferencePointersEncoding
+	metareferenceDB.CopyBasicFieldsToMetaReference_WOP(&metareferenceAPI.MetaReference_WOP)
 
 	c.JSON(http.StatusOK, metareferenceAPI)
 }
@@ -276,8 +276,8 @@ func (controller *Controller) UpdateMetaReference(c *gin.Context) {
 	}
 
 	// update
-	metareferenceDB.CopyBasicFieldsFromMetaReference(&input.MetaReference)
-	metareferenceDB.MetaReferencePointersEnconding = input.MetaReferencePointersEnconding
+	metareferenceDB.CopyBasicFieldsFromMetaReference_WOP(&input.MetaReference_WOP)
+	metareferenceDB.MetaReferencePointersEncoding = input.MetaReferencePointersEncoding
 
 	query = db.Model(&metareferenceDB).Updates(metareferenceDB)
 	if query.Error != nil {
