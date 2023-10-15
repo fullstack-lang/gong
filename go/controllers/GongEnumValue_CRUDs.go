@@ -91,8 +91,8 @@ func (controller *Controller) GetGongEnumValues(c *gin.Context) {
 
 		// insertion point for updating fields
 		gongenumvalueAPI.ID = gongenumvalueDB.ID
-		gongenumvalueDB.CopyBasicFieldsToGongEnumValue(&gongenumvalueAPI.GongEnumValue)
-		gongenumvalueAPI.GongEnumValuePointersEnconding = gongenumvalueDB.GongEnumValuePointersEnconding
+		gongenumvalueDB.CopyBasicFieldsToGongEnumValue_WOP(&gongenumvalueAPI.GongEnumValue_WOP)
+		gongenumvalueAPI.GongEnumValuePointersEncoding = gongenumvalueDB.GongEnumValuePointersEncoding
 		gongenumvalueAPIs = append(gongenumvalueAPIs, gongenumvalueAPI)
 	}
 
@@ -147,8 +147,8 @@ func (controller *Controller) PostGongEnumValue(c *gin.Context) {
 
 	// Create gongenumvalue
 	gongenumvalueDB := orm.GongEnumValueDB{}
-	gongenumvalueDB.GongEnumValuePointersEnconding = input.GongEnumValuePointersEnconding
-	gongenumvalueDB.CopyBasicFieldsFromGongEnumValue(&input.GongEnumValue)
+	gongenumvalueDB.GongEnumValuePointersEncoding = input.GongEnumValuePointersEncoding
+	gongenumvalueDB.CopyBasicFieldsFromGongEnumValue_WOP(&input.GongEnumValue_WOP)
 
 	query := db.Create(&gongenumvalueDB)
 	if query.Error != nil {
@@ -217,8 +217,8 @@ func (controller *Controller) GetGongEnumValue(c *gin.Context) {
 
 	var gongenumvalueAPI orm.GongEnumValueAPI
 	gongenumvalueAPI.ID = gongenumvalueDB.ID
-	gongenumvalueAPI.GongEnumValuePointersEnconding = gongenumvalueDB.GongEnumValuePointersEnconding
-	gongenumvalueDB.CopyBasicFieldsToGongEnumValue(&gongenumvalueAPI.GongEnumValue)
+	gongenumvalueAPI.GongEnumValuePointersEncoding = gongenumvalueDB.GongEnumValuePointersEncoding
+	gongenumvalueDB.CopyBasicFieldsToGongEnumValue_WOP(&gongenumvalueAPI.GongEnumValue_WOP)
 
 	c.JSON(http.StatusOK, gongenumvalueAPI)
 }
@@ -276,8 +276,8 @@ func (controller *Controller) UpdateGongEnumValue(c *gin.Context) {
 	}
 
 	// update
-	gongenumvalueDB.CopyBasicFieldsFromGongEnumValue(&input.GongEnumValue)
-	gongenumvalueDB.GongEnumValuePointersEnconding = input.GongEnumValuePointersEnconding
+	gongenumvalueDB.CopyBasicFieldsFromGongEnumValue_WOP(&input.GongEnumValue_WOP)
+	gongenumvalueDB.GongEnumValuePointersEncoding = input.GongEnumValuePointersEncoding
 
 	query = db.Model(&gongenumvalueDB).Updates(gongenumvalueDB)
 	if query.Error != nil {
