@@ -35,15 +35,15 @@ var dummy_Fstruct_sort sort.Float64Slice
 type FstructAPI struct {
 	gorm.Model
 
-	models.Fstruct
+	models.Fstruct_WOP
 
 	// encoding of pointers
-	FstructPointersEnconding
+	FstructPointersEncoding
 }
 
-// FstructPointersEnconding encodes pointers to Struct and
+// FstructPointersEncoding encodes pointers to Struct and
 // reverse pointers of slice of poitners to Struct
-type FstructPointersEnconding struct {
+type FstructPointersEncoding struct {
 	// insertion for pointer fields encoding declaration
 }
 
@@ -61,7 +61,7 @@ type FstructDB struct {
 	// Declation for basic field fstructDB.Name
 	Name_Data sql.NullString
 	// encoding of pointers
-	FstructPointersEnconding
+	FstructPointersEncoding
 }
 
 // FstructDBs arrays fstructDBs
@@ -150,7 +150,7 @@ func (backRepoFstruct *BackRepoFstructStruct) CommitDeleteInstance(id uint) (Err
 	fstructDB := backRepoFstruct.Map_FstructDBID_FstructDB[id]
 	query := backRepoFstruct.db.Unscoped().Delete(&fstructDB)
 	if query.Error != nil {
-		return query.Error
+		log.Fatal(query.Error)
 	}
 
 	// update stores
@@ -176,7 +176,7 @@ func (backRepoFstruct *BackRepoFstructStruct) CommitPhaseOneInstance(fstruct *mo
 
 	query := backRepoFstruct.db.Create(&fstructDB)
 	if query.Error != nil {
-		return query.Error
+		log.Fatal(query.Error)
 	}
 
 	// update stores
@@ -210,7 +210,7 @@ func (backRepoFstruct *BackRepoFstructStruct) CommitPhaseTwoInstance(backRepo *B
 		// insertion point for translating pointers encodings into actual pointers
 		query := backRepoFstruct.db.Save(&fstructDB)
 		if query.Error != nil {
-			return query.Error
+			log.Fatalln(query.Error)
 		}
 
 	} else {
@@ -337,7 +337,7 @@ func (backRepo *BackRepoStruct) CheckoutFstruct(fstruct *models.Fstruct) {
 			fstructDB.ID = id
 
 			if err := backRepo.BackRepoFstruct.db.First(&fstructDB, id).Error; err != nil {
-				log.Panicln("CheckoutFstruct : Problem with getting object with id:", id)
+				log.Fatalln("CheckoutFstruct : Problem with getting object with id:", id)
 			}
 			backRepo.BackRepoFstruct.CheckoutPhaseOneInstance(&fstructDB)
 			backRepo.BackRepoFstruct.CheckoutPhaseTwoInstance(backRepo, &fstructDB)
@@ -347,6 +347,14 @@ func (backRepo *BackRepoStruct) CheckoutFstruct(fstruct *models.Fstruct) {
 
 // CopyBasicFieldsFromFstruct
 func (fstructDB *FstructDB) CopyBasicFieldsFromFstruct(fstruct *models.Fstruct) {
+	// insertion point for fields commit
+
+	fstructDB.Name_Data.String = fstruct.Name
+	fstructDB.Name_Data.Valid = true
+}
+
+// CopyBasicFieldsFromFstruct_WOP
+func (fstructDB *FstructDB) CopyBasicFieldsFromFstruct_WOP(fstruct *models.Fstruct_WOP) {
 	// insertion point for fields commit
 
 	fstructDB.Name_Data.String = fstruct.Name
@@ -363,6 +371,12 @@ func (fstructDB *FstructDB) CopyBasicFieldsFromFstructWOP(fstruct *FstructWOP) {
 
 // CopyBasicFieldsToFstruct
 func (fstructDB *FstructDB) CopyBasicFieldsToFstruct(fstruct *models.Fstruct) {
+	// insertion point for checkout of basic fields (back repo to stage)
+	fstruct.Name = fstructDB.Name_Data.String
+}
+
+// CopyBasicFieldsToFstruct_WOP
+func (fstructDB *FstructDB) CopyBasicFieldsToFstruct_WOP(fstruct *models.Fstruct_WOP) {
 	// insertion point for checkout of basic fields (back repo to stage)
 	fstruct.Name = fstructDB.Name_Data.String
 }
@@ -393,12 +407,12 @@ func (backRepoFstruct *BackRepoFstructStruct) Backup(dirPath string) {
 	file, err := json.MarshalIndent(forBackup, "", " ")
 
 	if err != nil {
-		log.Panic("Cannot json Fstruct ", filename, " ", err.Error())
+		log.Fatal("Cannot json Fstruct ", filename, " ", err.Error())
 	}
 
 	err = ioutil.WriteFile(filename, file, 0644)
 	if err != nil {
-		log.Panic("Cannot write the json Fstruct file", err.Error())
+		log.Fatal("Cannot write the json Fstruct file", err.Error())
 	}
 }
 
@@ -418,7 +432,7 @@ func (backRepoFstruct *BackRepoFstructStruct) BackupXL(file *xlsx.File) {
 
 	sh, err := file.AddSheet("Fstruct")
 	if err != nil {
-		log.Panic("Cannot add XL file", err.Error())
+		log.Fatal("Cannot add XL file", err.Error())
 	}
 	_ = sh
 
@@ -443,13 +457,13 @@ func (backRepoFstruct *BackRepoFstructStruct) RestoreXLPhaseOne(file *xlsx.File)
 	sh, ok := file.Sheet["Fstruct"]
 	_ = sh
 	if !ok {
-		log.Panic(errors.New("sheet not found"))
+		log.Fatal(errors.New("sheet not found"))
 	}
 
 	// log.Println("Max row is", sh.MaxRow)
 	err := sh.ForEachRow(backRepoFstruct.rowVisitorFstruct)
 	if err != nil {
-		log.Panic("Err=", err)
+		log.Fatal("Err=", err)
 	}
 }
 
@@ -471,7 +485,7 @@ func (backRepoFstruct *BackRepoFstructStruct) rowVisitorFstruct(row *xlsx.Row) e
 		fstructDB.ID = 0
 		query := backRepoFstruct.db.Create(fstructDB)
 		if query.Error != nil {
-			log.Panic(query.Error)
+			log.Fatal(query.Error)
 		}
 		backRepoFstruct.Map_FstructDBID_FstructDB[fstructDB.ID] = fstructDB
 		BackRepoFstructid_atBckpTime_newID[fstructDB_ID_atBackupTime] = fstructDB.ID
@@ -491,7 +505,7 @@ func (backRepoFstruct *BackRepoFstructStruct) RestorePhaseOne(dirPath string) {
 	jsonFile, err := os.Open(filename)
 	// if we os.Open returns an error then handle it
 	if err != nil {
-		log.Panic("Cannot restore/open the json Fstruct file", filename, " ", err.Error())
+		log.Fatal("Cannot restore/open the json Fstruct file", filename, " ", err.Error())
 	}
 
 	// read our opened jsonFile as a byte array.
@@ -508,14 +522,14 @@ func (backRepoFstruct *BackRepoFstructStruct) RestorePhaseOne(dirPath string) {
 		fstructDB.ID = 0
 		query := backRepoFstruct.db.Create(fstructDB)
 		if query.Error != nil {
-			log.Panic(query.Error)
+			log.Fatal(query.Error)
 		}
 		backRepoFstruct.Map_FstructDBID_FstructDB[fstructDB.ID] = fstructDB
 		BackRepoFstructid_atBckpTime_newID[fstructDB_ID_atBackupTime] = fstructDB.ID
 	}
 
 	if err != nil {
-		log.Panic("Cannot restore/unmarshall json Fstruct file", err.Error())
+		log.Fatal("Cannot restore/unmarshall json Fstruct file", err.Error())
 	}
 }
 
@@ -532,7 +546,7 @@ func (backRepoFstruct *BackRepoFstructStruct) RestorePhaseTwo() {
 		// update databse with new index encoding
 		query := backRepoFstruct.db.Model(fstructDB).Updates(*fstructDB)
 		if query.Error != nil {
-			log.Panic(query.Error)
+			log.Fatal(query.Error)
 		}
 	}
 

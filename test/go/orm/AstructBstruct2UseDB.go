@@ -35,15 +35,15 @@ var dummy_AstructBstruct2Use_sort sort.Float64Slice
 type AstructBstruct2UseAPI struct {
 	gorm.Model
 
-	models.AstructBstruct2Use
+	models.AstructBstruct2Use_WOP
 
 	// encoding of pointers
-	AstructBstruct2UsePointersEnconding
+	AstructBstruct2UsePointersEncoding
 }
 
-// AstructBstruct2UsePointersEnconding encodes pointers to Struct and
+// AstructBstruct2UsePointersEncoding encodes pointers to Struct and
 // reverse pointers of slice of poitners to Struct
-type AstructBstruct2UsePointersEnconding struct {
+type AstructBstruct2UsePointersEncoding struct {
 	// insertion for pointer fields encoding declaration
 
 	// field Bstrcut2 is a pointer to another Struct (optional or 0..1)
@@ -71,7 +71,7 @@ type AstructBstruct2UseDB struct {
 	// Declation for basic field astructbstruct2useDB.Name
 	Name_Data sql.NullString
 	// encoding of pointers
-	AstructBstruct2UsePointersEnconding
+	AstructBstruct2UsePointersEncoding
 }
 
 // AstructBstruct2UseDBs arrays astructbstruct2useDBs
@@ -160,7 +160,7 @@ func (backRepoAstructBstruct2Use *BackRepoAstructBstruct2UseStruct) CommitDelete
 	astructbstruct2useDB := backRepoAstructBstruct2Use.Map_AstructBstruct2UseDBID_AstructBstruct2UseDB[id]
 	query := backRepoAstructBstruct2Use.db.Unscoped().Delete(&astructbstruct2useDB)
 	if query.Error != nil {
-		return query.Error
+		log.Fatal(query.Error)
 	}
 
 	// update stores
@@ -186,7 +186,7 @@ func (backRepoAstructBstruct2Use *BackRepoAstructBstruct2UseStruct) CommitPhaseO
 
 	query := backRepoAstructBstruct2Use.db.Create(&astructbstruct2useDB)
 	if query.Error != nil {
-		return query.Error
+		log.Fatal(query.Error)
 	}
 
 	// update stores
@@ -232,7 +232,7 @@ func (backRepoAstructBstruct2Use *BackRepoAstructBstruct2UseStruct) CommitPhaseT
 
 		query := backRepoAstructBstruct2Use.db.Save(&astructbstruct2useDB)
 		if query.Error != nil {
-			return query.Error
+			log.Fatalln(query.Error)
 		}
 
 	} else {
@@ -364,7 +364,7 @@ func (backRepo *BackRepoStruct) CheckoutAstructBstruct2Use(astructbstruct2use *m
 			astructbstruct2useDB.ID = id
 
 			if err := backRepo.BackRepoAstructBstruct2Use.db.First(&astructbstruct2useDB, id).Error; err != nil {
-				log.Panicln("CheckoutAstructBstruct2Use : Problem with getting object with id:", id)
+				log.Fatalln("CheckoutAstructBstruct2Use : Problem with getting object with id:", id)
 			}
 			backRepo.BackRepoAstructBstruct2Use.CheckoutPhaseOneInstance(&astructbstruct2useDB)
 			backRepo.BackRepoAstructBstruct2Use.CheckoutPhaseTwoInstance(backRepo, &astructbstruct2useDB)
@@ -374,6 +374,14 @@ func (backRepo *BackRepoStruct) CheckoutAstructBstruct2Use(astructbstruct2use *m
 
 // CopyBasicFieldsFromAstructBstruct2Use
 func (astructbstruct2useDB *AstructBstruct2UseDB) CopyBasicFieldsFromAstructBstruct2Use(astructbstruct2use *models.AstructBstruct2Use) {
+	// insertion point for fields commit
+
+	astructbstruct2useDB.Name_Data.String = astructbstruct2use.Name
+	astructbstruct2useDB.Name_Data.Valid = true
+}
+
+// CopyBasicFieldsFromAstructBstruct2Use_WOP
+func (astructbstruct2useDB *AstructBstruct2UseDB) CopyBasicFieldsFromAstructBstruct2Use_WOP(astructbstruct2use *models.AstructBstruct2Use_WOP) {
 	// insertion point for fields commit
 
 	astructbstruct2useDB.Name_Data.String = astructbstruct2use.Name
@@ -390,6 +398,12 @@ func (astructbstruct2useDB *AstructBstruct2UseDB) CopyBasicFieldsFromAstructBstr
 
 // CopyBasicFieldsToAstructBstruct2Use
 func (astructbstruct2useDB *AstructBstruct2UseDB) CopyBasicFieldsToAstructBstruct2Use(astructbstruct2use *models.AstructBstruct2Use) {
+	// insertion point for checkout of basic fields (back repo to stage)
+	astructbstruct2use.Name = astructbstruct2useDB.Name_Data.String
+}
+
+// CopyBasicFieldsToAstructBstruct2Use_WOP
+func (astructbstruct2useDB *AstructBstruct2UseDB) CopyBasicFieldsToAstructBstruct2Use_WOP(astructbstruct2use *models.AstructBstruct2Use_WOP) {
 	// insertion point for checkout of basic fields (back repo to stage)
 	astructbstruct2use.Name = astructbstruct2useDB.Name_Data.String
 }
@@ -420,12 +434,12 @@ func (backRepoAstructBstruct2Use *BackRepoAstructBstruct2UseStruct) Backup(dirPa
 	file, err := json.MarshalIndent(forBackup, "", " ")
 
 	if err != nil {
-		log.Panic("Cannot json AstructBstruct2Use ", filename, " ", err.Error())
+		log.Fatal("Cannot json AstructBstruct2Use ", filename, " ", err.Error())
 	}
 
 	err = ioutil.WriteFile(filename, file, 0644)
 	if err != nil {
-		log.Panic("Cannot write the json AstructBstruct2Use file", err.Error())
+		log.Fatal("Cannot write the json AstructBstruct2Use file", err.Error())
 	}
 }
 
@@ -445,7 +459,7 @@ func (backRepoAstructBstruct2Use *BackRepoAstructBstruct2UseStruct) BackupXL(fil
 
 	sh, err := file.AddSheet("AstructBstruct2Use")
 	if err != nil {
-		log.Panic("Cannot add XL file", err.Error())
+		log.Fatal("Cannot add XL file", err.Error())
 	}
 	_ = sh
 
@@ -470,13 +484,13 @@ func (backRepoAstructBstruct2Use *BackRepoAstructBstruct2UseStruct) RestoreXLPha
 	sh, ok := file.Sheet["AstructBstruct2Use"]
 	_ = sh
 	if !ok {
-		log.Panic(errors.New("sheet not found"))
+		log.Fatal(errors.New("sheet not found"))
 	}
 
 	// log.Println("Max row is", sh.MaxRow)
 	err := sh.ForEachRow(backRepoAstructBstruct2Use.rowVisitorAstructBstruct2Use)
 	if err != nil {
-		log.Panic("Err=", err)
+		log.Fatal("Err=", err)
 	}
 }
 
@@ -498,7 +512,7 @@ func (backRepoAstructBstruct2Use *BackRepoAstructBstruct2UseStruct) rowVisitorAs
 		astructbstruct2useDB.ID = 0
 		query := backRepoAstructBstruct2Use.db.Create(astructbstruct2useDB)
 		if query.Error != nil {
-			log.Panic(query.Error)
+			log.Fatal(query.Error)
 		}
 		backRepoAstructBstruct2Use.Map_AstructBstruct2UseDBID_AstructBstruct2UseDB[astructbstruct2useDB.ID] = astructbstruct2useDB
 		BackRepoAstructBstruct2Useid_atBckpTime_newID[astructbstruct2useDB_ID_atBackupTime] = astructbstruct2useDB.ID
@@ -518,7 +532,7 @@ func (backRepoAstructBstruct2Use *BackRepoAstructBstruct2UseStruct) RestorePhase
 	jsonFile, err := os.Open(filename)
 	// if we os.Open returns an error then handle it
 	if err != nil {
-		log.Panic("Cannot restore/open the json AstructBstruct2Use file", filename, " ", err.Error())
+		log.Fatal("Cannot restore/open the json AstructBstruct2Use file", filename, " ", err.Error())
 	}
 
 	// read our opened jsonFile as a byte array.
@@ -535,14 +549,14 @@ func (backRepoAstructBstruct2Use *BackRepoAstructBstruct2UseStruct) RestorePhase
 		astructbstruct2useDB.ID = 0
 		query := backRepoAstructBstruct2Use.db.Create(astructbstruct2useDB)
 		if query.Error != nil {
-			log.Panic(query.Error)
+			log.Fatal(query.Error)
 		}
 		backRepoAstructBstruct2Use.Map_AstructBstruct2UseDBID_AstructBstruct2UseDB[astructbstruct2useDB.ID] = astructbstruct2useDB
 		BackRepoAstructBstruct2Useid_atBckpTime_newID[astructbstruct2useDB_ID_atBackupTime] = astructbstruct2useDB.ID
 	}
 
 	if err != nil {
-		log.Panic("Cannot restore/unmarshall json AstructBstruct2Use file", err.Error())
+		log.Fatal("Cannot restore/unmarshall json AstructBstruct2Use file", err.Error())
 	}
 }
 
@@ -571,7 +585,7 @@ func (backRepoAstructBstruct2Use *BackRepoAstructBstruct2UseStruct) RestorePhase
 		// update databse with new index encoding
 		query := backRepoAstructBstruct2Use.db.Model(astructbstruct2useDB).Updates(*astructbstruct2useDB)
 		if query.Error != nil {
-			log.Panic(query.Error)
+			log.Fatal(query.Error)
 		}
 	}
 
