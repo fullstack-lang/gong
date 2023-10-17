@@ -85,8 +85,8 @@ export class AstructBstructUseService {
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
     let Bstruct2 = astructbstructusedb.Bstruct2
     astructbstructusedb.Bstruct2 = new BstructDB
-    let _Astruct_AnarrayofbUse_reverse = astructbstructusedb.Astruct_AnarrayofbUse_reverse
-    astructbstructusedb.Astruct_AnarrayofbUse_reverse = new AstructDB
+    let _Astruct_AnarrayofbUse_reverse = astructbstructusedb.AstructBstructUsePointersEncoding.Astruct_AnarrayofbUse_reverse
+    astructbstructusedb.AstructBstructUsePointersEncoding.Astruct_AnarrayofbUse_reverse = new AstructDB
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -97,7 +97,7 @@ export class AstructBstructUseService {
     return this.http.post<AstructBstructUseDB>(this.astructbstructusesUrl, astructbstructusedb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
-        astructbstructusedb.Astruct_AnarrayofbUse_reverse = _Astruct_AnarrayofbUse_reverse
+        astructbstructusedb.AstructBstructUsePointersEncoding.Astruct_AnarrayofbUse_reverse = _Astruct_AnarrayofbUse_reverse
         // this.log(`posted astructbstructusedb id=${astructbstructusedb.ID}`)
       }),
       catchError(this.handleError<AstructBstructUseDB>('postAstructBstructUse'))
@@ -135,8 +135,8 @@ export class AstructBstructUseService {
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
     let Bstruct2 = astructbstructusedb.Bstruct2
     astructbstructusedb.Bstruct2 = new BstructDB
-    let _Astruct_AnarrayofbUse_reverse = astructbstructusedb.Astruct_AnarrayofbUse_reverse
-    astructbstructusedb.Astruct_AnarrayofbUse_reverse = new AstructDB
+    let _Astruct_AnarrayofbUse_reverse = astructbstructusedb.AstructBstructUsePointersEncoding.Astruct_AnarrayofbUse_reverse
+    astructbstructusedb.AstructBstructUsePointersEncoding.Astruct_AnarrayofbUse_reverse = new AstructDB
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -147,7 +147,7 @@ export class AstructBstructUseService {
     return this.http.put<AstructBstructUseDB>(url, astructbstructusedb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
-        astructbstructusedb.Astruct_AnarrayofbUse_reverse = _Astruct_AnarrayofbUse_reverse
+        astructbstructusedb.AstructBstructUsePointersEncoding.Astruct_AnarrayofbUse_reverse = _Astruct_AnarrayofbUse_reverse
         // this.log(`updated astructbstructusedb id=${astructbstructusedb.ID}`)
       }),
       catchError(this.handleError<AstructBstructUseDB>('updateAstructBstructUse'))

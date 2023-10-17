@@ -111,8 +111,8 @@ export class AstructService {
     astructdb.Anarrayofb2Use = []
     let AnAstruct = astructdb.AnAstruct
     astructdb.AnAstruct = new AstructDB
-    let _Astruct_Anarrayofa_reverse = astructdb.Astruct_Anarrayofa_reverse
-    astructdb.Astruct_Anarrayofa_reverse = new AstructDB
+    let _Astruct_Anarrayofa_reverse = astructdb.AstructPointersEncoding.Astruct_Anarrayofa_reverse
+    astructdb.AstructPointersEncoding.Astruct_Anarrayofa_reverse = new AstructDB
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -128,7 +128,7 @@ export class AstructService {
 	      astructdb.Anotherarrayofb = Anotherarrayofb
 	      astructdb.AnarrayofbUse = AnarrayofbUse
 	      astructdb.Anarrayofb2Use = Anarrayofb2Use
-        astructdb.Astruct_Anarrayofa_reverse = _Astruct_Anarrayofa_reverse
+        astructdb.AstructPointersEncoding.Astruct_Anarrayofa_reverse = _Astruct_Anarrayofa_reverse
         // this.log(`posted astructdb id=${astructdb.ID}`)
       }),
       catchError(this.handleError<AstructDB>('postAstruct'))
@@ -192,8 +192,8 @@ export class AstructService {
     astructdb.Anarrayofb2Use = []
     let AnAstruct = astructdb.AnAstruct
     astructdb.AnAstruct = new AstructDB
-    let _Astruct_Anarrayofa_reverse = astructdb.Astruct_Anarrayofa_reverse
-    astructdb.Astruct_Anarrayofa_reverse = new AstructDB
+    let _Astruct_Anarrayofa_reverse = astructdb.AstructPointersEncoding.Astruct_Anarrayofa_reverse
+    astructdb.AstructPointersEncoding.Astruct_Anarrayofa_reverse = new AstructDB
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -209,7 +209,7 @@ export class AstructService {
 	      astructdb.Anotherarrayofb = Anotherarrayofb
 	      astructdb.AnarrayofbUse = AnarrayofbUse
 	      astructdb.Anarrayofb2Use = Anarrayofb2Use
-        astructdb.Astruct_Anarrayofa_reverse = _Astruct_Anarrayofa_reverse
+        astructdb.AstructPointersEncoding.Astruct_Anarrayofa_reverse = _Astruct_Anarrayofa_reverse
         // this.log(`updated astructdb id=${astructdb.ID}`)
       }),
       catchError(this.handleError<AstructDB>('updateAstruct'))
