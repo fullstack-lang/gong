@@ -15,4 +15,10 @@ export class FstructDB {
 	Name: string = ""
 
 	// insertion point for other declarations
+
+	FstructPointersEncoding: FstructPointersEncoding = new FstructPointersEncoding
+}
+
+export class FstructPointersEncoding {
+	// insertion point for other declarations
 }
