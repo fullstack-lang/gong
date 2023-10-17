@@ -16,6 +16,7 @@ export class BDB {
 	Name: string = ""
 
 	// insertion point for other declarations
+	// reverse pointers encoding (to be removed)
 	A_BsDBID: NullInt64 = new NullInt64
 	A_BsDBID_Index: NullInt64  = new NullInt64 // store the index of the b instance in A.Bs
 	A_Bs_reverse?: ADB 
