@@ -38,7 +38,7 @@ type BstructAPI struct {
 	models.Bstruct_WOP
 
 	// encoding of pointers
-	BstructPointersEncoding
+	BstructPointersEncoding BstructPointersEncoding
 }
 
 // BstructPointersEncoding encodes pointers to Struct and
@@ -47,21 +47,27 @@ type BstructPointersEncoding struct {
 	// insertion for pointer fields encoding declaration
 
 	// Implementation of a reverse ID for field Astruct{}.Anarrayofb []*Bstruct
+	// (to be removed)
 	Astruct_AnarrayofbDBID sql.NullInt64
 
 	// implementation of the index of the withing the slice
+	// (to be removed)
 	Astruct_AnarrayofbDBID_Index sql.NullInt64
 
 	// Implementation of a reverse ID for field Astruct{}.Anotherarrayofb []*Bstruct
+	// (to be removed)
 	Astruct_AnotherarrayofbDBID sql.NullInt64
 
 	// implementation of the index of the withing the slice
+	// (to be removed)
 	Astruct_AnotherarrayofbDBID_Index sql.NullInt64
 
 	// Implementation of a reverse ID for field Dstruct{}.Anarrayofb []*Bstruct
+	// (to be removed)
 	Dstruct_AnarrayofbDBID sql.NullInt64
 
 	// implementation of the index of the withing the slice
+	// (to be removed)
 	Dstruct_AnarrayofbDBID_Index sql.NullInt64
 }
 

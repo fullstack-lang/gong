@@ -38,7 +38,7 @@ type FstructAPI struct {
 	models.Fstruct_WOP
 
 	// encoding of pointers
-	FstructPointersEncoding
+	FstructPointersEncoding FstructPointersEncoding
 }
 
 // FstructPointersEncoding encodes pointers to Struct and
