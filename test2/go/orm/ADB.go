@@ -221,6 +221,7 @@ func (backRepoA *BackRepoAStruct) CommitPhaseTwoInstance(backRepo *BackRepoStruc
 				backRepo.BackRepoB.GetBDBFromBPtr(bAssocEnd)
 
 			// encode reverse pointer in the association end back repo instance
+			// (to be removed)
 			bAssocEnd_DB.A_BsDBID.Int64 = int64(aDB.ID)
 			bAssocEnd_DB.A_BsDBID.Valid = true
 			bAssocEnd_DB.A_BsDBID_Index.Int64 = int64(idx)

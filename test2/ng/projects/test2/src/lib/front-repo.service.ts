@@ -282,6 +282,7 @@ export class FrontRepoService {
 
                 // insertion point for redeeming ONE-MANY associations
                 // insertion point for slice of pointer field A.Bs redeeming
+                // to be removed
                 {
                   let _a = this.frontRepo.As.get(b.A_BsDBID.Int64)
                   if (_a) {
@@ -303,6 +304,7 @@ export class FrontRepoService {
             as.forEach(
               a => {
                 // insertion point for sorting
+                // to be removed
                 a.Bs?.sort((t1, t2) => {
                   if (t1.A_BsDBID_Index.Int64 > t2.A_BsDBID_Index.Int64) {
                     return 1;
@@ -410,6 +412,7 @@ export class FrontRepoService {
 
                 // insertion point for redeeming ONE-MANY associations
                 // insertion point for slice of pointer field A.Bs redeeming
+                // to be removed
                 {
                   let _a = this.frontRepo.As.get(b.A_BsDBID.Int64)
                   if (_a) {

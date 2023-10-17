@@ -732,6 +732,7 @@ var BackRepoFieldSubTemplateCode map[BackRepoPerStructSubTemplate]string = map[B
 				backRepo.BackRepo{{AssociationStructName}}.Get{{AssociationStructName}}DBFrom{{AssociationStructName}}Ptr({{associationStructName}}AssocEnd)
 
 			// encode reverse pointer in the association end back repo instance
+			// (to be removed)
 			{{associationStructName}}AssocEnd_DB.{{Structname}}_{{FieldName}}DBID.Int64 = int64({{structname}}DB.ID)
 			{{associationStructName}}AssocEnd_DB.{{Structname}}_{{FieldName}}DBID.Valid = true
 			{{associationStructName}}AssocEnd_DB.{{Structname}}_{{FieldName}}DBID_Index.Int64 = int64(idx)
