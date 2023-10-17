@@ -22,5 +22,6 @@ export class ADB {
 }
 
 export class APointersEncoding {
+	// insertion point for other declarations
 	Bs: number[] = []
 }
