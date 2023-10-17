@@ -4,13 +4,15 @@
     <h2>
         {{A.Name}}
     </h2>
+    <h3>B</h3>
+        <p *ngIf="A.B">
+            {{A.B.Name}}
+        </p>
     <h3>Bs</h3>
     <ng-container *ngFor="let B of A.Bs">
-
         <p>
             {{B.Name}}
         </p>
-
     </ng-container>
 </ng-container>
 

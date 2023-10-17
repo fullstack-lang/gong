@@ -14,6 +14,7 @@ import { catchError, map, tap } from 'rxjs/operators';
 import { ADB } from './a-db';
 
 // insertion point for imports
+import { BDB } from './b-db'
 
 @Injectable({
   providedIn: 'root'
@@ -81,6 +82,8 @@ export class AService {
   postA(adb: ADB, GONG__StackPath: string): Observable<ADB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
+    let B = adb.B
+    adb.B = new BDB
     let Bs = adb.Bs
     adb.Bs = []
 
@@ -129,6 +132,8 @@ export class AService {
     const url = `${this.asUrl}/${id}`;
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
+    let B = adb.B
+    adb.B = new BDB
     let Bs = adb.Bs
     adb.Bs = []
 

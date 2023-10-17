@@ -62,6 +62,8 @@ func (aFormCallback *AFormCallback) OnSave() {
 		// insertion point per field
 		case "Name":
 			FormDivBasicFieldToField(&(a_.Name), formDiv)
+		case "B":
+			FormDivSelectFieldToField(&(a_.B), aFormCallback.playground.stageOfInterest, formDiv)
 		}
 	}
 

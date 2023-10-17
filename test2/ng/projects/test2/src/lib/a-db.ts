@@ -15,13 +15,17 @@ export class ADB {
 	// insertion point for basic fields declarations
 	Name: string = ""
 
-	// insertion point for other declarations
+	// insertion point for pointers and slices of pointers declarations
+	B: BDB = new BDB
+
 	Bs: Array<BDB> = []
 
 	APointersEncoding: APointersEncoding = new APointersEncoding
 }
 
 export class APointersEncoding {
-	// insertion point for other declarations
+	// insertion point for pointers and slices of pointers encoding fields
+	BID: NullInt64 = new NullInt64 // if pointer is null, B.ID = 0
+
 	Bs: number[] = []
 }
