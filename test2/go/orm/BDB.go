@@ -38,7 +38,7 @@ type BAPI struct {
 	models.B_WOP
 
 	// encoding of pointers
-	BPointersEncoding
+	BPointersEncoding BPointersEncoding
 }
 
 // BPointersEncoding encodes pointers to Struct and

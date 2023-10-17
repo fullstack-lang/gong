@@ -54,7 +54,7 @@ type {{Structname}}API struct {
 	models.{{Structname}}_WOP
 
 	// encoding of pointers
-	{{Structname}}PointersEncoding
+	{{Structname}}PointersEncoding {{Structname}}PointersEncoding
 }
 
 // {{Structname}}PointersEncoding encodes pointers to Struct and
@@ -668,7 +668,7 @@ var BackRepoFieldSubTemplateCode map[BackRepoPerStructSubTemplate]string = map[B
 	BackRepoSliceOfPointersEncoding: `
 
 	// field {{FieldName}} is a slice of pointers to another Struct (optional or 0..1)
-	{{FieldName}} IntSlice` + "`" + `gorm:"type:TEXT"` + "`",
+	{{FieldName}} IntSlice` + " `" + `gorm:"type:TEXT"` + "`",
 
 	BackRepoDeclarationSliceOfPointerToStructField: `
 
