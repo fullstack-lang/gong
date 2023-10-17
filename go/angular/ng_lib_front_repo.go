@@ -400,6 +400,7 @@ var NgFrontRepoSliceOfPointerToStructTmplCode map[string]string = // new line
 map[string]string{
 	string(NgFrontRepoSliceOfPointerRedeeming): `
                 // insertion point for slice of pointer field {{Structname}}.{{FieldName}} redeeming
+                // to be removed
                 {
                   let _{{structname}} = this.frontRepo.{{Structname}}s.get({{assocStructName}}.{{Structname}}_{{FieldName}}DBID.Int64)
                   if (_{{structname}}) {
@@ -413,6 +414,7 @@ map[string]string{
                   }
                 }`,
 	string(NgFrontRepoSliceOfPointerSorting): `
+                // to be removed
                 {{structname}}.{{FieldName}}?.sort((t1, t2) => {
                   if (t1.{{Structname}}_{{FieldName}}DBID_Index.Int64 > t2.{{Structname}}_{{FieldName}}DBID_Index.Int64) {
                     return 1;

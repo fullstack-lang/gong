@@ -16,5 +16,12 @@ export class ADB {
 	Name: string = ""
 
 	// insertion point for other declarations
-	Bs?: Array<BDB>
+	Bs: Array<BDB> = []
+
+	APointersEncoding: APointersEncoding = new APointersEncoding
+}
+
+export class APointersEncoding {
+	// insertion point for other declarations
+	Bs: number[] = []
 }
