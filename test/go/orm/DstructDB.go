@@ -38,7 +38,7 @@ type DstructAPI struct {
 	models.Dstruct_WOP
 
 	// encoding of pointers
-	DstructPointersEncoding
+	DstructPointersEncoding DstructPointersEncoding
 }
 
 // DstructPointersEncoding encodes pointers to Struct and
@@ -47,7 +47,7 @@ type DstructPointersEncoding struct {
 	// insertion for pointer fields encoding declaration
 
 	// field Anarrayofb is a slice of pointers to another Struct (optional or 0..1)
-	Anarrayofb IntSlice`gorm:"type:TEXT"`
+	Anarrayofb IntSlice `gorm:"type:TEXT"`
 }
 
 // DstructDB describes a dstruct in the database
@@ -221,6 +221,7 @@ func (backRepoDstruct *BackRepoDstructStruct) CommitPhaseTwoInstance(backRepo *B
 				backRepo.BackRepoBstruct.GetBstructDBFromBstructPtr(bstructAssocEnd)
 
 			// encode reverse pointer in the association end back repo instance
+			// (to be removed)
 			bstructAssocEnd_DB.Dstruct_AnarrayofbDBID.Int64 = int64(dstructDB.ID)
 			bstructAssocEnd_DB.Dstruct_AnarrayofbDBID.Valid = true
 			bstructAssocEnd_DB.Dstruct_AnarrayofbDBID_Index.Int64 = int64(idx)
