@@ -82,8 +82,8 @@ export class BService {
   postB(bdb: BDB, GONG__StackPath: string): Observable<BDB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
-    let _A_Bs_reverse = bdb.A_Bs_reverse
-    bdb.A_Bs_reverse = new ADB
+    let _A_Bs_reverse = bdb.BPointersEncoding.A_Bs_reverse
+    bdb.BPointersEncoding.A_Bs_reverse = new ADB
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -94,7 +94,7 @@ export class BService {
     return this.http.post<BDB>(this.bsUrl, bdb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
-        bdb.A_Bs_reverse = _A_Bs_reverse
+        bdb.BPointersEncoding.A_Bs_reverse = _A_Bs_reverse
         // this.log(`posted bdb id=${bdb.ID}`)
       }),
       catchError(this.handleError<BDB>('postB'))
@@ -130,8 +130,8 @@ export class BService {
     const url = `${this.bsUrl}/${id}`;
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
-    let _A_Bs_reverse = bdb.A_Bs_reverse
-    bdb.A_Bs_reverse = new ADB
+    let _A_Bs_reverse = bdb.BPointersEncoding.A_Bs_reverse
+    bdb.BPointersEncoding.A_Bs_reverse = new ADB
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -142,7 +142,7 @@ export class BService {
     return this.http.put<BDB>(url, bdb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
-        bdb.A_Bs_reverse = _A_Bs_reverse
+        bdb.BPointersEncoding.A_Bs_reverse = _A_Bs_reverse
         // this.log(`updated bdb id=${bdb.ID}`)
       }),
       catchError(this.handleError<BDB>('updateB'))
