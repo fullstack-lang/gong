@@ -274,10 +274,8 @@ export class FrontRepoService {
                 // insertion point sub sub template for ONE-/ZERO-ONE associations pointers redeeming
 
                 // insertion point for redeeming ONE-MANY associations
-
-                let IntSlice_Bs = a.Bs! as unknown as number[]
                 a.Bs = new Array<BDB>()
-                for (let _bID of IntSlice_Bs) {
+                for (let _bID of a.APointersEncoding.Bs) {
                   let _b = this.frontRepo.Bs.get(_bID)
                   if (_b != undefined) {
                     a.Bs.push(_b)
