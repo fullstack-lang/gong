@@ -183,6 +183,14 @@ func (stage *StageStruct) Marshall(file *os.File, modelsPackageName, packageName
 		map_A_Identifiers[a] = id
 
 		// Initialisation of values
+		if a.B != nil {
+			setPointerField = PointerFieldInitStatement
+			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "B")
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_B_Identifiers[a.B])
+			pointersInitializesStatements += setPointerField
+		}
+
 		for _, _b := range a.Bs {
 			setPointerField = SliceOfPointersFieldInitStatement
 			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)

@@ -21,6 +21,7 @@ func FillUpForm[T models.Gongstruct](
 	case *models.A:
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, playground.formStage, formGroup, false)
+		AssociationFieldToForm("B", instanceWithInferedType.B, formGroup, playground)
 		AssociationSliceToForm("Bs", instanceWithInferedType, &instanceWithInferedType.Bs, formGroup, playground)
 
 	case *models.B:

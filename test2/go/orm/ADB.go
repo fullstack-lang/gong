@@ -46,6 +46,10 @@ type AAPI struct {
 type APointersEncoding struct {
 	// insertion for pointer fields encoding declaration
 
+	// field B is a pointer to another Struct (optional or 0..1)
+	// This field is generated into another field to enable AS ONE association
+	BID sql.NullInt64
+
 	// field Bs is a slice of pointers to another Struct (optional or 0..1)
 	Bs IntSlice `gorm:"type:TEXT"`
 }
@@ -211,6 +215,18 @@ func (backRepoA *BackRepoAStruct) CommitPhaseTwoInstance(backRepo *BackRepoStruc
 		aDB.CopyBasicFieldsFromA(a)
 
 		// insertion point for translating pointers encodings into actual pointers
+		// commit pointer value a.B translates to updating the a.BID
+		aDB.BID.Valid = true // allow for a 0 value (nil association)
+		if a.B != nil {
+			if BId, ok := backRepo.BackRepoB.Map_BPtr_BDBID[a.B]; ok {
+				aDB.BID.Int64 = int64(BId)
+				aDB.BID.Valid = true
+			}
+		} else {
+			aDB.BID.Int64 = 0
+			aDB.BID.Valid = true
+		}
+
 		// This loop encodes the slice of pointers a.Bs into the back repo.
 		// Each back repo instance at the end of the association encode the ID of the association start
 		// into a dedicated field for coding the association. The back repo instance is then saved to the db
@@ -348,6 +364,11 @@ func (backRepoA *BackRepoAStruct) CheckoutPhaseTwoInstance(backRepo *BackRepoStr
 	_ = a // sometimes, there is no code generated. This lines voids the "unused variable" compilation error
 
 	// insertion point for checkout of pointer encoding
+	// B field
+	a.B = nil
+	if aDB.BID.Int64 != 0 {
+		a.B = backRepo.BackRepoB.Map_BDBID_BPtr[uint(aDB.BID.Int64)]
+	}
 	// This loop redeem a.Bs in the stage from the encode in the back repo
 	// It parses all BDB in the back repo and if the reverse pointer encoding matches the back repo ID
 	// it appends the stage instance
@@ -603,6 +624,12 @@ func (backRepoA *BackRepoAStruct) RestorePhaseTwo() {
 		_ = aDB
 
 		// insertion point for reindexing pointers encoding
+		// reindexing B field
+		if aDB.BID.Int64 != 0 {
+			aDB.BID.Int64 = int64(BackRepoBid_atBckpTime_newID[uint(aDB.BID.Int64)])
+			aDB.BID.Valid = true
+		}
+
 		// update databse with new index encoding
 		query := backRepoA.db.Model(aDB).Updates(*aDB)
 		if query.Error != nil {
