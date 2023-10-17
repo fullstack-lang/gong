@@ -38,7 +38,7 @@ type AstructAPI struct {
 	models.Astruct_WOP
 
 	// encoding of pointers
-	AstructPointersEncoding
+	AstructPointersEncoding AstructPointersEncoding
 }
 
 // AstructPointersEncoding encodes pointers to Struct and
@@ -51,7 +51,7 @@ type AstructPointersEncoding struct {
 	AssociationtobID sql.NullInt64
 
 	// field Anarrayofb is a slice of pointers to another Struct (optional or 0..1)
-	Anarrayofb IntSlice`gorm:"type:TEXT"`
+	Anarrayofb IntSlice `gorm:"type:TEXT"`
 
 	// field Anotherassociationtob_2 is a pointer to another Struct (optional or 0..1)
 	// This field is generated into another field to enable AS ONE association
@@ -82,25 +82,27 @@ type AstructPointersEncoding struct {
 	Dstruct4ID sql.NullInt64
 
 	// field Anarrayofa is a slice of pointers to another Struct (optional or 0..1)
-	Anarrayofa IntSlice`gorm:"type:TEXT"`
+	Anarrayofa IntSlice `gorm:"type:TEXT"`
 
 	// field Anotherarrayofb is a slice of pointers to another Struct (optional or 0..1)
-	Anotherarrayofb IntSlice`gorm:"type:TEXT"`
+	Anotherarrayofb IntSlice `gorm:"type:TEXT"`
 
 	// field AnarrayofbUse is a slice of pointers to another Struct (optional or 0..1)
-	AnarrayofbUse IntSlice`gorm:"type:TEXT"`
+	AnarrayofbUse IntSlice `gorm:"type:TEXT"`
 
 	// field Anarrayofb2Use is a slice of pointers to another Struct (optional or 0..1)
-	Anarrayofb2Use IntSlice`gorm:"type:TEXT"`
+	Anarrayofb2Use IntSlice `gorm:"type:TEXT"`
 
 	// field AnAstruct is a pointer to another Struct (optional or 0..1)
 	// This field is generated into another field to enable AS ONE association
 	AnAstructID sql.NullInt64
 
 	// Implementation of a reverse ID for field Astruct{}.Anarrayofa []*Astruct
+	// (to be removed)
 	Astruct_AnarrayofaDBID sql.NullInt64
 
 	// implementation of the index of the withing the slice
+	// (to be removed)
 	Astruct_AnarrayofaDBID_Index sql.NullInt64
 }
 
@@ -403,6 +405,7 @@ func (backRepoAstruct *BackRepoAstructStruct) CommitPhaseTwoInstance(backRepo *B
 				backRepo.BackRepoBstruct.GetBstructDBFromBstructPtr(bstructAssocEnd)
 
 			// encode reverse pointer in the association end back repo instance
+			// (to be removed)
 			bstructAssocEnd_DB.Astruct_AnarrayofbDBID.Int64 = int64(astructDB.ID)
 			bstructAssocEnd_DB.Astruct_AnarrayofbDBID.Valid = true
 			bstructAssocEnd_DB.Astruct_AnarrayofbDBID_Index.Int64 = int64(idx)
@@ -516,6 +519,7 @@ func (backRepoAstruct *BackRepoAstructStruct) CommitPhaseTwoInstance(backRepo *B
 				backRepo.BackRepoAstruct.GetAstructDBFromAstructPtr(astructAssocEnd)
 
 			// encode reverse pointer in the association end back repo instance
+			// (to be removed)
 			astructAssocEnd_DB.Astruct_AnarrayofaDBID.Int64 = int64(astructDB.ID)
 			astructAssocEnd_DB.Astruct_AnarrayofaDBID.Valid = true
 			astructAssocEnd_DB.Astruct_AnarrayofaDBID_Index.Int64 = int64(idx)
@@ -545,6 +549,7 @@ func (backRepoAstruct *BackRepoAstructStruct) CommitPhaseTwoInstance(backRepo *B
 				backRepo.BackRepoBstruct.GetBstructDBFromBstructPtr(bstructAssocEnd)
 
 			// encode reverse pointer in the association end back repo instance
+			// (to be removed)
 			bstructAssocEnd_DB.Astruct_AnotherarrayofbDBID.Int64 = int64(astructDB.ID)
 			bstructAssocEnd_DB.Astruct_AnotherarrayofbDBID.Valid = true
 			bstructAssocEnd_DB.Astruct_AnotherarrayofbDBID_Index.Int64 = int64(idx)
@@ -574,6 +579,7 @@ func (backRepoAstruct *BackRepoAstructStruct) CommitPhaseTwoInstance(backRepo *B
 				backRepo.BackRepoAstructBstructUse.GetAstructBstructUseDBFromAstructBstructUsePtr(astructbstructuseAssocEnd)
 
 			// encode reverse pointer in the association end back repo instance
+			// (to be removed)
 			astructbstructuseAssocEnd_DB.Astruct_AnarrayofbUseDBID.Int64 = int64(astructDB.ID)
 			astructbstructuseAssocEnd_DB.Astruct_AnarrayofbUseDBID.Valid = true
 			astructbstructuseAssocEnd_DB.Astruct_AnarrayofbUseDBID_Index.Int64 = int64(idx)
@@ -603,6 +609,7 @@ func (backRepoAstruct *BackRepoAstructStruct) CommitPhaseTwoInstance(backRepo *B
 				backRepo.BackRepoAstructBstruct2Use.GetAstructBstruct2UseDBFromAstructBstruct2UsePtr(astructbstruct2useAssocEnd)
 
 			// encode reverse pointer in the association end back repo instance
+			// (to be removed)
 			astructbstruct2useAssocEnd_DB.Astruct_Anarrayofb2UseDBID.Int64 = int64(astructDB.ID)
 			astructbstruct2useAssocEnd_DB.Astruct_Anarrayofb2UseDBID.Valid = true
 			astructbstruct2useAssocEnd_DB.Astruct_Anarrayofb2UseDBID_Index.Int64 = int64(idx)

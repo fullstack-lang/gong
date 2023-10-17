@@ -20,8 +20,15 @@ export class AstructBstructUseDB {
 	Bstruct2?: BstructDB
 	Bstruct2ID: NullInt64 = new NullInt64 // if pointer is null, Bstruct2.ID = 0
 
+	// reverse pointers encoding (to be removed)
 	Astruct_AnarrayofbUseDBID: NullInt64 = new NullInt64
 	Astruct_AnarrayofbUseDBID_Index: NullInt64  = new NullInt64 // store the index of the astructbstructuse instance in Astruct.AnarrayofbUse
 	Astruct_AnarrayofbUse_reverse?: AstructDB 
 
+
+	AstructBstructUsePointersEncoding: AstructBstructUsePointersEncoding = new AstructBstructUsePointersEncoding
+}
+
+export class AstructBstructUsePointersEncoding {
+	// insertion point for other declarations
 }

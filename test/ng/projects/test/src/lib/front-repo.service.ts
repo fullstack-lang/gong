@@ -542,6 +542,7 @@ export class FrontRepoService {
 
                 // insertion point for redeeming ONE-MANY associations
                 // insertion point for slice of pointer field Astruct.Anarrayofa redeeming
+                // to be removed
                 {
                   let _astruct = this.frontRepo.Astructs.get(astruct.Astruct_AnarrayofaDBID.Int64)
                   if (_astruct) {
@@ -569,6 +570,7 @@ export class FrontRepoService {
 
                 // insertion point for redeeming ONE-MANY associations
                 // insertion point for slice of pointer field Astruct.Anarrayofb2Use redeeming
+                // to be removed
                 {
                   let _astruct = this.frontRepo.Astructs.get(astructbstruct2use.Astruct_Anarrayofb2UseDBID.Int64)
                   if (_astruct) {
@@ -596,6 +598,7 @@ export class FrontRepoService {
 
                 // insertion point for redeeming ONE-MANY associations
                 // insertion point for slice of pointer field Astruct.AnarrayofbUse redeeming
+                // to be removed
                 {
                   let _astruct = this.frontRepo.Astructs.get(astructbstructuse.Astruct_AnarrayofbUseDBID.Int64)
                   if (_astruct) {
@@ -616,6 +619,7 @@ export class FrontRepoService {
 
                 // insertion point for redeeming ONE-MANY associations
                 // insertion point for slice of pointer field Astruct.Anarrayofb redeeming
+                // to be removed
                 {
                   let _astruct = this.frontRepo.Astructs.get(bstruct.Astruct_AnarrayofbDBID.Int64)
                   if (_astruct) {
@@ -629,6 +633,7 @@ export class FrontRepoService {
                   }
                 }
                 // insertion point for slice of pointer field Astruct.Anotherarrayofb redeeming
+                // to be removed
                 {
                   let _astruct = this.frontRepo.Astructs.get(bstruct.Astruct_AnotherarrayofbDBID.Int64)
                   if (_astruct) {
@@ -642,6 +647,7 @@ export class FrontRepoService {
                   }
                 }
                 // insertion point for slice of pointer field Dstruct.Anarrayofb redeeming
+                // to be removed
                 {
                   let _dstruct = this.frontRepo.Dstructs.get(bstruct.Dstruct_AnarrayofbDBID.Int64)
                   if (_dstruct) {
@@ -677,6 +683,7 @@ export class FrontRepoService {
             astructs.forEach(
               astruct => {
                 // insertion point for sorting
+                // to be removed
                 astruct.Anarrayofb?.sort((t1, t2) => {
                   if (t1.Astruct_AnarrayofbDBID_Index.Int64 > t2.Astruct_AnarrayofbDBID_Index.Int64) {
                     return 1;
@@ -687,6 +694,7 @@ export class FrontRepoService {
                   return 0;
                 })
 
+                // to be removed
                 astruct.Anarrayofa?.sort((t1, t2) => {
                   if (t1.Astruct_AnarrayofaDBID_Index.Int64 > t2.Astruct_AnarrayofaDBID_Index.Int64) {
                     return 1;
@@ -697,6 +705,7 @@ export class FrontRepoService {
                   return 0;
                 })
 
+                // to be removed
                 astruct.Anotherarrayofb?.sort((t1, t2) => {
                   if (t1.Astruct_AnotherarrayofbDBID_Index.Int64 > t2.Astruct_AnotherarrayofbDBID_Index.Int64) {
                     return 1;
@@ -707,6 +716,7 @@ export class FrontRepoService {
                   return 0;
                 })
 
+                // to be removed
                 astruct.AnarrayofbUse?.sort((t1, t2) => {
                   if (t1.Astruct_AnarrayofbUseDBID_Index.Int64 > t2.Astruct_AnarrayofbUseDBID_Index.Int64) {
                     return 1;
@@ -717,6 +727,7 @@ export class FrontRepoService {
                   return 0;
                 })
 
+                // to be removed
                 astruct.Anarrayofb2Use?.sort((t1, t2) => {
                   if (t1.Astruct_Anarrayofb2UseDBID_Index.Int64 > t2.Astruct_Anarrayofb2UseDBID_Index.Int64) {
                     return 1;
@@ -747,6 +758,7 @@ export class FrontRepoService {
             dstructs.forEach(
               dstruct => {
                 // insertion point for sorting
+                // to be removed
                 dstruct.Anarrayofb?.sort((t1, t2) => {
                   if (t1.Dstruct_AnarrayofbDBID_Index.Int64 > t2.Dstruct_AnarrayofbDBID_Index.Int64) {
                     return 1;
@@ -866,6 +878,7 @@ export class FrontRepoService {
 
                 // insertion point for redeeming ONE-MANY associations
                 // insertion point for slice of pointer field Astruct.Anarrayofa redeeming
+                // to be removed
                 {
                   let _astruct = this.frontRepo.Astructs.get(astruct.Astruct_AnarrayofaDBID.Int64)
                   if (_astruct) {
@@ -937,6 +950,7 @@ export class FrontRepoService {
 
                 // insertion point for redeeming ONE-MANY associations
                 // insertion point for slice of pointer field Astruct.Anarrayofb2Use redeeming
+                // to be removed
                 {
                   let _astruct = this.frontRepo.Astructs.get(astructbstruct2use.Astruct_Anarrayofb2UseDBID.Int64)
                   if (_astruct) {
@@ -1008,6 +1022,7 @@ export class FrontRepoService {
 
                 // insertion point for redeeming ONE-MANY associations
                 // insertion point for slice of pointer field Astruct.AnarrayofbUse redeeming
+                // to be removed
                 {
                   let _astruct = this.frontRepo.Astructs.get(astructbstructuse.Astruct_AnarrayofbUseDBID.Int64)
                   if (_astruct) {
@@ -1072,6 +1087,7 @@ export class FrontRepoService {
 
                 // insertion point for redeeming ONE-MANY associations
                 // insertion point for slice of pointer field Astruct.Anarrayofb redeeming
+                // to be removed
                 {
                   let _astruct = this.frontRepo.Astructs.get(bstruct.Astruct_AnarrayofbDBID.Int64)
                   if (_astruct) {
@@ -1085,6 +1101,7 @@ export class FrontRepoService {
                   }
                 }
                 // insertion point for slice of pointer field Astruct.Anotherarrayofb redeeming
+                // to be removed
                 {
                   let _astruct = this.frontRepo.Astructs.get(bstruct.Astruct_AnotherarrayofbDBID.Int64)
                   if (_astruct) {
@@ -1098,6 +1115,7 @@ export class FrontRepoService {
                   }
                 }
                 // insertion point for slice of pointer field Dstruct.Anarrayofb redeeming
+                // to be removed
                 {
                   let _dstruct = this.frontRepo.Dstructs.get(bstruct.Dstruct_AnarrayofbDBID.Int64)
                   if (_dstruct) {

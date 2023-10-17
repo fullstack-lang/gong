@@ -38,7 +38,7 @@ type AstructBstructUseAPI struct {
 	models.AstructBstructUse_WOP
 
 	// encoding of pointers
-	AstructBstructUsePointersEncoding
+	AstructBstructUsePointersEncoding AstructBstructUsePointersEncoding
 }
 
 // AstructBstructUsePointersEncoding encodes pointers to Struct and
@@ -51,9 +51,11 @@ type AstructBstructUsePointersEncoding struct {
 	Bstruct2ID sql.NullInt64
 
 	// Implementation of a reverse ID for field Astruct{}.AnarrayofbUse []*AstructBstructUse
+	// (to be removed)
 	Astruct_AnarrayofbUseDBID sql.NullInt64
 
 	// implementation of the index of the withing the slice
+	// (to be removed)
 	Astruct_AnarrayofbUseDBID_Index sql.NullInt64
 }
 

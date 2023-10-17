@@ -673,9 +673,11 @@ var BackRepoFieldSubTemplateCode map[BackRepoPerStructSubTemplate]string = map[B
 	BackRepoDeclarationSliceOfPointerToStructField: `
 
 	// Implementation of a reverse ID for field {{AssociationStructName}}{}.{{FieldName}} []*{{Structname}}
+	// (to be removed)
 	{{AssociationStructName}}_{{FieldName}}DBID sql.NullInt64
 
 	// implementation of the index of the withing the slice
+	// (to be removed)
 	{{AssociationStructName}}_{{FieldName}}DBID_Index sql.NullInt64`,
 
 	//

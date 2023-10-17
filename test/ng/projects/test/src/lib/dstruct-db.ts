@@ -16,5 +16,12 @@ export class DstructDB {
 	Name: string = ""
 
 	// insertion point for other declarations
-	Anarrayofb?: Array<BstructDB>
+	Anarrayofb: Array<BstructDB> = []
+
+	DstructPointersEncoding: DstructPointersEncoding = new DstructPointersEncoding
+}
+
+export class DstructPointersEncoding {
+	// insertion point for other declarations
+	Anarrayofb: number[] = []
 }
