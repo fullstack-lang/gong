@@ -38,7 +38,7 @@ type AAPI struct {
 	models.A_WOP
 
 	// encoding of pointers
-	APointersEncoding
+	APointersEncoding APointersEncoding
 }
 
 // APointersEncoding encodes pointers to Struct and
@@ -47,7 +47,7 @@ type APointersEncoding struct {
 	// insertion for pointer fields encoding declaration
 
 	// field Bs is a slice of pointers to another Struct (optional or 0..1)
-	Bs IntSlice`gorm:"type:TEXT"`
+	Bs IntSlice `gorm:"type:TEXT"`
 }
 
 // ADB describes a a in the database
