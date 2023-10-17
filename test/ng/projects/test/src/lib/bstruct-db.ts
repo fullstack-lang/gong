@@ -19,7 +19,13 @@ export class BstructDB {
 	Floatfield2: number = 0
 	Intfield: number = 0
 
-	// insertion point for other declarations
+	// insertion point for pointers and slices of pointers declarations
+
+	BstructPointersEncoding: BstructPointersEncoding = new BstructPointersEncoding
+}
+
+export class BstructPointersEncoding {
+	// insertion point for pointers and slices of pointers encoding fields
 	// reverse pointers encoding (to be removed)
 	Astruct_AnarrayofbDBID: NullInt64 = new NullInt64
 	Astruct_AnarrayofbDBID_Index: NullInt64  = new NullInt64 // store the index of the bstruct instance in Astruct.Anarrayofb
@@ -35,10 +41,4 @@ export class BstructDB {
 	Dstruct_AnarrayofbDBID_Index: NullInt64  = new NullInt64 // store the index of the bstruct instance in Dstruct.Anarrayofb
 	Dstruct_Anarrayofb_reverse?: DstructDB 
 
-
-	BstructPointersEncoding: BstructPointersEncoding = new BstructPointersEncoding
-}
-
-export class BstructPointersEncoding {
-	// insertion point for other declarations
 }
