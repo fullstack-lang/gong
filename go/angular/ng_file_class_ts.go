@@ -201,7 +201,7 @@ func MultiCodeGeneratorNgClass(
 					TSinsertions[NgClassTsInsertionPerStructImports] += newImport
 				}
 
-				TSinsertions[NgClassTsInsertionPerStructOtherDecls] +=
+				TSinsertions[NgClassTsInsertionPerStructPointersEncoding] +=
 					models.Replace2(NgClassSubTemplateCode[NgClassTSPointerToStructFieldsDecl],
 						"{{FieldName}}", field.Name,
 						"{{TypeInput}}", field.GongStruct.Name)
@@ -251,7 +251,7 @@ func MultiCodeGeneratorNgClass(
 							TSinsertions[NgClassTsInsertionPerStructImports] += newImport
 						}
 
-						TSinsertions[NgClassTsInsertionPerStructOtherDecls] +=
+						TSinsertions[NgClassTsInsertionPerStructPointersEncoding] +=
 							models.Replace2(NgClassSubTemplateCode[NgClassTSSliceOfPtrToGongStructReverseID],
 								"{{FieldName}}", field.Name,
 								"{{AssocStructName}}", __struct.Name)
