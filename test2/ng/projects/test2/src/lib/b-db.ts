@@ -20,4 +20,10 @@ export class BDB {
 	A_BsDBID_Index: NullInt64  = new NullInt64 // store the index of the b instance in A.Bs
 	A_Bs_reverse?: ADB 
 
+
+	BPointersEncoding: BPointersEncoding = new BPointersEncoding
+}
+
+export class BPointersEncoding {
+	// insertion point for other declarations
 }
