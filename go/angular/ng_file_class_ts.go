@@ -99,6 +99,7 @@ import { {{AssocStructName}}DB } from './{{assocStructName}}-db'`,
 	{{FieldName}}: number[] = []`,
 
 	NgClassTSSliceOfPtrToGongStructReverseID: `
+	// reverse pointers encoding (to be removed)
 	{{AssocStructName}}_{{FieldName}}DBID: NullInt64 = new NullInt64
 	{{AssocStructName}}_{{FieldName}}DBID_Index: NullInt64  = new NullInt64 // store the index of the {{structname}} instance in {{AssocStructName}}.{{FieldName}}
 	{{AssocStructName}}_{{FieldName}}_reverse?: {{AssocStructName}}DB 
