@@ -274,13 +274,13 @@ export class FrontRepoService {
                 // insertion point sub sub template for ONE-/ZERO-ONE associations pointers redeeming
 
                 // insertion point for redeeming ONE-MANY associations
-                a.Bs = new Array<BDB>()
-                for (let _bID of a.APointersEncoding.Bs) {
-                  let _b = this.frontRepo.Bs.get(_bID)
-                  if (_b != undefined) {
-                    a.Bs.push(_b)
-                  }
-                }
+                // a.Bs = new Array<BDB>()
+                // for (let _bID of a.APointersEncoding.Bs) {
+                //   let _b = this.frontRepo.Bs.get(_bID)
+                //   if (_b != undefined) {
+                //     a.Bs.push(_b)
+                //   }
+                // }
 
 
               }
