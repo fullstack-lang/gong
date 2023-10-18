@@ -15,13 +15,13 @@ export class DstructDB {
 	// insertion point for basic fields declarations
 	Name: string = ""
 
-	// insertion point for other declarations
+	// insertion point for pointers and slices of pointers declarations
 	Anarrayofb: Array<BstructDB> = []
 
 	DstructPointersEncoding: DstructPointersEncoding = new DstructPointersEncoding
 }
 
 export class DstructPointersEncoding {
-	// insertion point for other declarations
+	// insertion point for pointers and slices of pointers encoding fields
 	Anarrayofb: number[] = []
 }

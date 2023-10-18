@@ -47,9 +47,11 @@ type BPointersEncoding struct {
 	// insertion for pointer fields encoding declaration
 
 	// Implementation of a reverse ID for field A{}.Bs []*B
+	// (to be removed)
 	A_BsDBID sql.NullInt64
 
 	// implementation of the index of the withing the slice
+	// (to be removed)
 	A_BsDBID_Index sql.NullInt64
 }
 

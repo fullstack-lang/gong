@@ -651,6 +651,9 @@ func UnmarshallGongstructStaging(stage *StageStruct, cmap *ast.CommentMap, assig
 			case "A":
 				switch fieldName {
 				// insertion point for field dependant code
+				case "B":
+					targetIdentifier := ident.Name
+					__gong__map_A[identifier].B = __gong__map_B[targetIdentifier]
 				}
 			case "B":
 				switch fieldName {

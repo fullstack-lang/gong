@@ -225,11 +225,11 @@ import { {{AssocStructName}}DB } from './{{assocStructName}}-db'`,
 	      {{structname}}db.{{FieldName}} = {{FieldName}}`,
 
 	NgServiceTSSliceOfPointerToGongStructReversePointerReset: `
-    let _{{AssocStructName}}_{{FieldName}}_reverse = {{structname}}db.{{AssocStructName}}_{{FieldName}}_reverse
-    {{structname}}db.{{AssocStructName}}_{{FieldName}}_reverse = new {{AssocStructName}}DB`,
+    let _{{AssocStructName}}_{{FieldName}}_reverse = {{structname}}db.{{Structname}}PointersEncoding.{{AssocStructName}}_{{FieldName}}_reverse
+    {{structname}}db.{{Structname}}PointersEncoding.{{AssocStructName}}_{{FieldName}}_reverse = new {{AssocStructName}}DB`,
 
 	NgServiceTSSliceOfPointerToGongStructReversePointerRestore: `
-        {{structname}}db.{{AssocStructName}}_{{FieldName}}_reverse = _{{AssocStructName}}_{{FieldName}}_reverse`,
+        {{structname}}db.{{Structname}}PointersEncoding.{{AssocStructName}}_{{FieldName}}_reverse = _{{AssocStructName}}_{{FieldName}}_reverse`,
 
 	NgServiceTSReversePointerToSliceOfGongStructImports: `
 import { {{AssocStructName}}DB } from './{{assocStructName}}-db'`,
