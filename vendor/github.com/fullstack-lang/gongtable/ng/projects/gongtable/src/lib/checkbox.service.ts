@@ -82,8 +82,8 @@ export class CheckBoxService {
   postCheckBox(checkboxdb: CheckBoxDB, GONG__StackPath: string): Observable<CheckBoxDB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
-    let _FormDiv_CheckBoxs_reverse = checkboxdb.FormDiv_CheckBoxs_reverse
-    checkboxdb.FormDiv_CheckBoxs_reverse = new FormDivDB
+    let _FormDiv_CheckBoxs_reverse = checkboxdb.CheckBoxPointersEncoding.FormDiv_CheckBoxs_reverse
+    checkboxdb.CheckBoxPointersEncoding.FormDiv_CheckBoxs_reverse = new FormDivDB
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -94,7 +94,7 @@ export class CheckBoxService {
     return this.http.post<CheckBoxDB>(this.checkboxsUrl, checkboxdb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
-        checkboxdb.FormDiv_CheckBoxs_reverse = _FormDiv_CheckBoxs_reverse
+        checkboxdb.CheckBoxPointersEncoding.FormDiv_CheckBoxs_reverse = _FormDiv_CheckBoxs_reverse
         // this.log(`posted checkboxdb id=${checkboxdb.ID}`)
       }),
       catchError(this.handleError<CheckBoxDB>('postCheckBox'))
@@ -130,8 +130,8 @@ export class CheckBoxService {
     const url = `${this.checkboxsUrl}/${id}`;
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
-    let _FormDiv_CheckBoxs_reverse = checkboxdb.FormDiv_CheckBoxs_reverse
-    checkboxdb.FormDiv_CheckBoxs_reverse = new FormDivDB
+    let _FormDiv_CheckBoxs_reverse = checkboxdb.CheckBoxPointersEncoding.FormDiv_CheckBoxs_reverse
+    checkboxdb.CheckBoxPointersEncoding.FormDiv_CheckBoxs_reverse = new FormDivDB
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -142,7 +142,7 @@ export class CheckBoxService {
     return this.http.put<CheckBoxDB>(url, checkboxdb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
-        checkboxdb.FormDiv_CheckBoxs_reverse = _FormDiv_CheckBoxs_reverse
+        checkboxdb.CheckBoxPointersEncoding.FormDiv_CheckBoxs_reverse = _FormDiv_CheckBoxs_reverse
         // this.log(`updated checkboxdb id=${checkboxdb.ID}`)
       }),
       catchError(this.handleError<CheckBoxDB>('updateCheckBox'))

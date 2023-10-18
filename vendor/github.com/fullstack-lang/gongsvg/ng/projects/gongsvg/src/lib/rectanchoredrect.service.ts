@@ -82,8 +82,8 @@ export class RectAnchoredRectService {
   postRectAnchoredRect(rectanchoredrectdb: RectAnchoredRectDB, GONG__StackPath: string): Observable<RectAnchoredRectDB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
-    let _Rect_RectAnchoredRects_reverse = rectanchoredrectdb.Rect_RectAnchoredRects_reverse
-    rectanchoredrectdb.Rect_RectAnchoredRects_reverse = new RectDB
+    let _Rect_RectAnchoredRects_reverse = rectanchoredrectdb.RectAnchoredRectPointersEncoding.Rect_RectAnchoredRects_reverse
+    rectanchoredrectdb.RectAnchoredRectPointersEncoding.Rect_RectAnchoredRects_reverse = new RectDB
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -94,7 +94,7 @@ export class RectAnchoredRectService {
     return this.http.post<RectAnchoredRectDB>(this.rectanchoredrectsUrl, rectanchoredrectdb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
-        rectanchoredrectdb.Rect_RectAnchoredRects_reverse = _Rect_RectAnchoredRects_reverse
+        rectanchoredrectdb.RectAnchoredRectPointersEncoding.Rect_RectAnchoredRects_reverse = _Rect_RectAnchoredRects_reverse
         // this.log(`posted rectanchoredrectdb id=${rectanchoredrectdb.ID}`)
       }),
       catchError(this.handleError<RectAnchoredRectDB>('postRectAnchoredRect'))
@@ -130,8 +130,8 @@ export class RectAnchoredRectService {
     const url = `${this.rectanchoredrectsUrl}/${id}`;
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
-    let _Rect_RectAnchoredRects_reverse = rectanchoredrectdb.Rect_RectAnchoredRects_reverse
-    rectanchoredrectdb.Rect_RectAnchoredRects_reverse = new RectDB
+    let _Rect_RectAnchoredRects_reverse = rectanchoredrectdb.RectAnchoredRectPointersEncoding.Rect_RectAnchoredRects_reverse
+    rectanchoredrectdb.RectAnchoredRectPointersEncoding.Rect_RectAnchoredRects_reverse = new RectDB
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -142,7 +142,7 @@ export class RectAnchoredRectService {
     return this.http.put<RectAnchoredRectDB>(url, rectanchoredrectdb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
-        rectanchoredrectdb.Rect_RectAnchoredRects_reverse = _Rect_RectAnchoredRects_reverse
+        rectanchoredrectdb.RectAnchoredRectPointersEncoding.Rect_RectAnchoredRects_reverse = _Rect_RectAnchoredRects_reverse
         // this.log(`updated rectanchoredrectdb id=${rectanchoredrectdb.ID}`)
       }),
       catchError(this.handleError<RectAnchoredRectDB>('updateRectAnchoredRect'))

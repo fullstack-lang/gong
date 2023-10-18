@@ -82,8 +82,8 @@ export class GongLinkService {
   postGongLink(gonglinkdb: GongLinkDB, GONG__StackPath: string): Observable<GongLinkDB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
-    let _GongNote_Links_reverse = gonglinkdb.GongNote_Links_reverse
-    gonglinkdb.GongNote_Links_reverse = new GongNoteDB
+    let _GongNote_Links_reverse = gonglinkdb.GongLinkPointersEncoding.GongNote_Links_reverse
+    gonglinkdb.GongLinkPointersEncoding.GongNote_Links_reverse = new GongNoteDB
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -94,7 +94,7 @@ export class GongLinkService {
     return this.http.post<GongLinkDB>(this.gonglinksUrl, gonglinkdb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
-        gonglinkdb.GongNote_Links_reverse = _GongNote_Links_reverse
+        gonglinkdb.GongLinkPointersEncoding.GongNote_Links_reverse = _GongNote_Links_reverse
         // this.log(`posted gonglinkdb id=${gonglinkdb.ID}`)
       }),
       catchError(this.handleError<GongLinkDB>('postGongLink'))
@@ -130,8 +130,8 @@ export class GongLinkService {
     const url = `${this.gonglinksUrl}/${id}`;
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
-    let _GongNote_Links_reverse = gonglinkdb.GongNote_Links_reverse
-    gonglinkdb.GongNote_Links_reverse = new GongNoteDB
+    let _GongNote_Links_reverse = gonglinkdb.GongLinkPointersEncoding.GongNote_Links_reverse
+    gonglinkdb.GongLinkPointersEncoding.GongNote_Links_reverse = new GongNoteDB
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -142,7 +142,7 @@ export class GongLinkService {
     return this.http.put<GongLinkDB>(url, gonglinkdb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
-        gonglinkdb.GongNote_Links_reverse = _GongNote_Links_reverse
+        gonglinkdb.GongLinkPointersEncoding.GongNote_Links_reverse = _GongNote_Links_reverse
         // this.log(`updated gonglinkdb id=${gonglinkdb.ID}`)
       }),
       catchError(this.handleError<GongLinkDB>('updateGongLink'))

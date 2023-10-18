@@ -24,8 +24,16 @@ export class PolylineDB {
 	StrokeDashArrayWhenSelected: string = ""
 	Transform: string = ""
 
-	// insertion point for other declarations
-	Animates?: Array<AnimateDB>
+	// insertion point for pointers and slices of pointers declarations
+	Animates: Array<AnimateDB> = []
+
+	PolylinePointersEncoding: PolylinePointersEncoding = new PolylinePointersEncoding
+}
+
+export class PolylinePointersEncoding {
+	// insertion point for pointers and slices of pointers encoding fields
+	Animates: number[] = []
+	// reverse pointers encoding (to be removed)
 	Layer_PolylinesDBID: NullInt64 = new NullInt64
 	Layer_PolylinesDBID_Index: NullInt64  = new NullInt64 // store the index of the polyline instance in Layer.Polylines
 	Layer_Polylines_reverse?: LayerDB 

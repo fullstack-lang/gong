@@ -356,7 +356,7 @@ export class MaterialTableComponent implements OnInit {
     const promises = []
     let index = 0
     for (let row of this.selectedTable?.Rows!) {
-      row.Table_RowsDBID_Index.Int64 = index++
+      row.RowPointersEncoding.Table_RowsDBID_Index.Int64 = index++
       promises.push(this.rowService.updateRow(row, this.DataStack))
     }
 

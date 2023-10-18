@@ -91,26 +91,26 @@ export class AnimateService {
   postAnimate(animatedb: AnimateDB, GONG__StackPath: string): Observable<AnimateDB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
-    let _Circle_Animations_reverse = animatedb.Circle_Animations_reverse
-    animatedb.Circle_Animations_reverse = new CircleDB
-    let _Ellipse_Animates_reverse = animatedb.Ellipse_Animates_reverse
-    animatedb.Ellipse_Animates_reverse = new EllipseDB
-    let _Line_Animates_reverse = animatedb.Line_Animates_reverse
-    animatedb.Line_Animates_reverse = new LineDB
-    let _LinkAnchoredText_Animates_reverse = animatedb.LinkAnchoredText_Animates_reverse
-    animatedb.LinkAnchoredText_Animates_reverse = new LinkAnchoredTextDB
-    let _Path_Animates_reverse = animatedb.Path_Animates_reverse
-    animatedb.Path_Animates_reverse = new PathDB
-    let _Polygone_Animates_reverse = animatedb.Polygone_Animates_reverse
-    animatedb.Polygone_Animates_reverse = new PolygoneDB
-    let _Polyline_Animates_reverse = animatedb.Polyline_Animates_reverse
-    animatedb.Polyline_Animates_reverse = new PolylineDB
-    let _Rect_Animations_reverse = animatedb.Rect_Animations_reverse
-    animatedb.Rect_Animations_reverse = new RectDB
-    let _RectAnchoredText_Animates_reverse = animatedb.RectAnchoredText_Animates_reverse
-    animatedb.RectAnchoredText_Animates_reverse = new RectAnchoredTextDB
-    let _Text_Animates_reverse = animatedb.Text_Animates_reverse
-    animatedb.Text_Animates_reverse = new TextDB
+    let _Circle_Animations_reverse = animatedb.AnimatePointersEncoding.Circle_Animations_reverse
+    animatedb.AnimatePointersEncoding.Circle_Animations_reverse = new CircleDB
+    let _Ellipse_Animates_reverse = animatedb.AnimatePointersEncoding.Ellipse_Animates_reverse
+    animatedb.AnimatePointersEncoding.Ellipse_Animates_reverse = new EllipseDB
+    let _Line_Animates_reverse = animatedb.AnimatePointersEncoding.Line_Animates_reverse
+    animatedb.AnimatePointersEncoding.Line_Animates_reverse = new LineDB
+    let _LinkAnchoredText_Animates_reverse = animatedb.AnimatePointersEncoding.LinkAnchoredText_Animates_reverse
+    animatedb.AnimatePointersEncoding.LinkAnchoredText_Animates_reverse = new LinkAnchoredTextDB
+    let _Path_Animates_reverse = animatedb.AnimatePointersEncoding.Path_Animates_reverse
+    animatedb.AnimatePointersEncoding.Path_Animates_reverse = new PathDB
+    let _Polygone_Animates_reverse = animatedb.AnimatePointersEncoding.Polygone_Animates_reverse
+    animatedb.AnimatePointersEncoding.Polygone_Animates_reverse = new PolygoneDB
+    let _Polyline_Animates_reverse = animatedb.AnimatePointersEncoding.Polyline_Animates_reverse
+    animatedb.AnimatePointersEncoding.Polyline_Animates_reverse = new PolylineDB
+    let _Rect_Animations_reverse = animatedb.AnimatePointersEncoding.Rect_Animations_reverse
+    animatedb.AnimatePointersEncoding.Rect_Animations_reverse = new RectDB
+    let _RectAnchoredText_Animates_reverse = animatedb.AnimatePointersEncoding.RectAnchoredText_Animates_reverse
+    animatedb.AnimatePointersEncoding.RectAnchoredText_Animates_reverse = new RectAnchoredTextDB
+    let _Text_Animates_reverse = animatedb.AnimatePointersEncoding.Text_Animates_reverse
+    animatedb.AnimatePointersEncoding.Text_Animates_reverse = new TextDB
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -121,16 +121,16 @@ export class AnimateService {
     return this.http.post<AnimateDB>(this.animatesUrl, animatedb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
-        animatedb.Circle_Animations_reverse = _Circle_Animations_reverse
-        animatedb.Ellipse_Animates_reverse = _Ellipse_Animates_reverse
-        animatedb.Line_Animates_reverse = _Line_Animates_reverse
-        animatedb.LinkAnchoredText_Animates_reverse = _LinkAnchoredText_Animates_reverse
-        animatedb.Path_Animates_reverse = _Path_Animates_reverse
-        animatedb.Polygone_Animates_reverse = _Polygone_Animates_reverse
-        animatedb.Polyline_Animates_reverse = _Polyline_Animates_reverse
-        animatedb.Rect_Animations_reverse = _Rect_Animations_reverse
-        animatedb.RectAnchoredText_Animates_reverse = _RectAnchoredText_Animates_reverse
-        animatedb.Text_Animates_reverse = _Text_Animates_reverse
+        animatedb.AnimatePointersEncoding.Circle_Animations_reverse = _Circle_Animations_reverse
+        animatedb.AnimatePointersEncoding.Ellipse_Animates_reverse = _Ellipse_Animates_reverse
+        animatedb.AnimatePointersEncoding.Line_Animates_reverse = _Line_Animates_reverse
+        animatedb.AnimatePointersEncoding.LinkAnchoredText_Animates_reverse = _LinkAnchoredText_Animates_reverse
+        animatedb.AnimatePointersEncoding.Path_Animates_reverse = _Path_Animates_reverse
+        animatedb.AnimatePointersEncoding.Polygone_Animates_reverse = _Polygone_Animates_reverse
+        animatedb.AnimatePointersEncoding.Polyline_Animates_reverse = _Polyline_Animates_reverse
+        animatedb.AnimatePointersEncoding.Rect_Animations_reverse = _Rect_Animations_reverse
+        animatedb.AnimatePointersEncoding.RectAnchoredText_Animates_reverse = _RectAnchoredText_Animates_reverse
+        animatedb.AnimatePointersEncoding.Text_Animates_reverse = _Text_Animates_reverse
         // this.log(`posted animatedb id=${animatedb.ID}`)
       }),
       catchError(this.handleError<AnimateDB>('postAnimate'))
@@ -166,26 +166,26 @@ export class AnimateService {
     const url = `${this.animatesUrl}/${id}`;
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
-    let _Circle_Animations_reverse = animatedb.Circle_Animations_reverse
-    animatedb.Circle_Animations_reverse = new CircleDB
-    let _Ellipse_Animates_reverse = animatedb.Ellipse_Animates_reverse
-    animatedb.Ellipse_Animates_reverse = new EllipseDB
-    let _Line_Animates_reverse = animatedb.Line_Animates_reverse
-    animatedb.Line_Animates_reverse = new LineDB
-    let _LinkAnchoredText_Animates_reverse = animatedb.LinkAnchoredText_Animates_reverse
-    animatedb.LinkAnchoredText_Animates_reverse = new LinkAnchoredTextDB
-    let _Path_Animates_reverse = animatedb.Path_Animates_reverse
-    animatedb.Path_Animates_reverse = new PathDB
-    let _Polygone_Animates_reverse = animatedb.Polygone_Animates_reverse
-    animatedb.Polygone_Animates_reverse = new PolygoneDB
-    let _Polyline_Animates_reverse = animatedb.Polyline_Animates_reverse
-    animatedb.Polyline_Animates_reverse = new PolylineDB
-    let _Rect_Animations_reverse = animatedb.Rect_Animations_reverse
-    animatedb.Rect_Animations_reverse = new RectDB
-    let _RectAnchoredText_Animates_reverse = animatedb.RectAnchoredText_Animates_reverse
-    animatedb.RectAnchoredText_Animates_reverse = new RectAnchoredTextDB
-    let _Text_Animates_reverse = animatedb.Text_Animates_reverse
-    animatedb.Text_Animates_reverse = new TextDB
+    let _Circle_Animations_reverse = animatedb.AnimatePointersEncoding.Circle_Animations_reverse
+    animatedb.AnimatePointersEncoding.Circle_Animations_reverse = new CircleDB
+    let _Ellipse_Animates_reverse = animatedb.AnimatePointersEncoding.Ellipse_Animates_reverse
+    animatedb.AnimatePointersEncoding.Ellipse_Animates_reverse = new EllipseDB
+    let _Line_Animates_reverse = animatedb.AnimatePointersEncoding.Line_Animates_reverse
+    animatedb.AnimatePointersEncoding.Line_Animates_reverse = new LineDB
+    let _LinkAnchoredText_Animates_reverse = animatedb.AnimatePointersEncoding.LinkAnchoredText_Animates_reverse
+    animatedb.AnimatePointersEncoding.LinkAnchoredText_Animates_reverse = new LinkAnchoredTextDB
+    let _Path_Animates_reverse = animatedb.AnimatePointersEncoding.Path_Animates_reverse
+    animatedb.AnimatePointersEncoding.Path_Animates_reverse = new PathDB
+    let _Polygone_Animates_reverse = animatedb.AnimatePointersEncoding.Polygone_Animates_reverse
+    animatedb.AnimatePointersEncoding.Polygone_Animates_reverse = new PolygoneDB
+    let _Polyline_Animates_reverse = animatedb.AnimatePointersEncoding.Polyline_Animates_reverse
+    animatedb.AnimatePointersEncoding.Polyline_Animates_reverse = new PolylineDB
+    let _Rect_Animations_reverse = animatedb.AnimatePointersEncoding.Rect_Animations_reverse
+    animatedb.AnimatePointersEncoding.Rect_Animations_reverse = new RectDB
+    let _RectAnchoredText_Animates_reverse = animatedb.AnimatePointersEncoding.RectAnchoredText_Animates_reverse
+    animatedb.AnimatePointersEncoding.RectAnchoredText_Animates_reverse = new RectAnchoredTextDB
+    let _Text_Animates_reverse = animatedb.AnimatePointersEncoding.Text_Animates_reverse
+    animatedb.AnimatePointersEncoding.Text_Animates_reverse = new TextDB
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -196,16 +196,16 @@ export class AnimateService {
     return this.http.put<AnimateDB>(url, animatedb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
-        animatedb.Circle_Animations_reverse = _Circle_Animations_reverse
-        animatedb.Ellipse_Animates_reverse = _Ellipse_Animates_reverse
-        animatedb.Line_Animates_reverse = _Line_Animates_reverse
-        animatedb.LinkAnchoredText_Animates_reverse = _LinkAnchoredText_Animates_reverse
-        animatedb.Path_Animates_reverse = _Path_Animates_reverse
-        animatedb.Polygone_Animates_reverse = _Polygone_Animates_reverse
-        animatedb.Polyline_Animates_reverse = _Polyline_Animates_reverse
-        animatedb.Rect_Animations_reverse = _Rect_Animations_reverse
-        animatedb.RectAnchoredText_Animates_reverse = _RectAnchoredText_Animates_reverse
-        animatedb.Text_Animates_reverse = _Text_Animates_reverse
+        animatedb.AnimatePointersEncoding.Circle_Animations_reverse = _Circle_Animations_reverse
+        animatedb.AnimatePointersEncoding.Ellipse_Animates_reverse = _Ellipse_Animates_reverse
+        animatedb.AnimatePointersEncoding.Line_Animates_reverse = _Line_Animates_reverse
+        animatedb.AnimatePointersEncoding.LinkAnchoredText_Animates_reverse = _LinkAnchoredText_Animates_reverse
+        animatedb.AnimatePointersEncoding.Path_Animates_reverse = _Path_Animates_reverse
+        animatedb.AnimatePointersEncoding.Polygone_Animates_reverse = _Polygone_Animates_reverse
+        animatedb.AnimatePointersEncoding.Polyline_Animates_reverse = _Polyline_Animates_reverse
+        animatedb.AnimatePointersEncoding.Rect_Animations_reverse = _Rect_Animations_reverse
+        animatedb.AnimatePointersEncoding.RectAnchoredText_Animates_reverse = _RectAnchoredText_Animates_reverse
+        animatedb.AnimatePointersEncoding.Text_Animates_reverse = _Text_Animates_reverse
         // this.log(`updated animatedb id=${animatedb.ID}`)
       }),
       catchError(this.handleError<AnimateDB>('updateAnimate'))

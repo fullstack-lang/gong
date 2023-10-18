@@ -26,8 +26,16 @@ export class TextDB {
 	StrokeDashArrayWhenSelected: string = ""
 	Transform: string = ""
 
-	// insertion point for other declarations
-	Animates?: Array<AnimateDB>
+	// insertion point for pointers and slices of pointers declarations
+	Animates: Array<AnimateDB> = []
+
+	TextPointersEncoding: TextPointersEncoding = new TextPointersEncoding
+}
+
+export class TextPointersEncoding {
+	// insertion point for pointers and slices of pointers encoding fields
+	Animates: number[] = []
+	// reverse pointers encoding (to be removed)
 	Layer_TextsDBID: NullInt64 = new NullInt64
 	Layer_TextsDBID_Index: NullInt64  = new NullInt64 // store the index of the text instance in Layer.Texts
 	Layer_Texts_reverse?: LayerDB 

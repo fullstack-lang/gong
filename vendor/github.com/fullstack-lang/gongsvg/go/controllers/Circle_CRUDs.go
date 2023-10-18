@@ -91,8 +91,8 @@ func (controller *Controller) GetCircles(c *gin.Context) {
 
 		// insertion point for updating fields
 		circleAPI.ID = circleDB.ID
-		circleDB.CopyBasicFieldsToCircle(&circleAPI.Circle)
-		circleAPI.CirclePointersEnconding = circleDB.CirclePointersEnconding
+		circleDB.CopyBasicFieldsToCircle_WOP(&circleAPI.Circle_WOP)
+		circleAPI.CirclePointersEncoding = circleDB.CirclePointersEncoding
 		circleAPIs = append(circleAPIs, circleAPI)
 	}
 
@@ -147,8 +147,8 @@ func (controller *Controller) PostCircle(c *gin.Context) {
 
 	// Create circle
 	circleDB := orm.CircleDB{}
-	circleDB.CirclePointersEnconding = input.CirclePointersEnconding
-	circleDB.CopyBasicFieldsFromCircle(&input.Circle)
+	circleDB.CirclePointersEncoding = input.CirclePointersEncoding
+	circleDB.CopyBasicFieldsFromCircle_WOP(&input.Circle_WOP)
 
 	query := db.Create(&circleDB)
 	if query.Error != nil {
@@ -217,8 +217,8 @@ func (controller *Controller) GetCircle(c *gin.Context) {
 
 	var circleAPI orm.CircleAPI
 	circleAPI.ID = circleDB.ID
-	circleAPI.CirclePointersEnconding = circleDB.CirclePointersEnconding
-	circleDB.CopyBasicFieldsToCircle(&circleAPI.Circle)
+	circleAPI.CirclePointersEncoding = circleDB.CirclePointersEncoding
+	circleDB.CopyBasicFieldsToCircle_WOP(&circleAPI.Circle_WOP)
 
 	c.JSON(http.StatusOK, circleAPI)
 }
@@ -276,8 +276,8 @@ func (controller *Controller) UpdateCircle(c *gin.Context) {
 	}
 
 	// update
-	circleDB.CopyBasicFieldsFromCircle(&input.Circle)
-	circleDB.CirclePointersEnconding = input.CirclePointersEnconding
+	circleDB.CopyBasicFieldsFromCircle_WOP(&input.Circle_WOP)
+	circleDB.CirclePointersEncoding = input.CirclePointersEncoding
 
 	query = db.Model(&circleDB).Updates(circleDB)
 	if query.Error != nil {

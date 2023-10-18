@@ -35,15 +35,15 @@ var dummy_FormFieldTime_sort sort.Float64Slice
 type FormFieldTimeAPI struct {
 	gorm.Model
 
-	models.FormFieldTime
+	models.FormFieldTime_WOP
 
 	// encoding of pointers
-	FormFieldTimePointersEnconding
+	FormFieldTimePointersEncoding FormFieldTimePointersEncoding
 }
 
-// FormFieldTimePointersEnconding encodes pointers to Struct and
+// FormFieldTimePointersEncoding encodes pointers to Struct and
 // reverse pointers of slice of poitners to Struct
-type FormFieldTimePointersEnconding struct {
+type FormFieldTimePointersEncoding struct {
 	// insertion for pointer fields encoding declaration
 }
 
@@ -67,7 +67,7 @@ type FormFieldTimeDB struct {
 	// Declation for basic field formfieldtimeDB.Step
 	Step_Data sql.NullFloat64
 	// encoding of pointers
-	FormFieldTimePointersEnconding
+	FormFieldTimePointersEncoding
 }
 
 // FormFieldTimeDBs arrays formfieldtimeDBs
@@ -162,7 +162,7 @@ func (backRepoFormFieldTime *BackRepoFormFieldTimeStruct) CommitDeleteInstance(i
 	formfieldtimeDB := backRepoFormFieldTime.Map_FormFieldTimeDBID_FormFieldTimeDB[id]
 	query := backRepoFormFieldTime.db.Unscoped().Delete(&formfieldtimeDB)
 	if query.Error != nil {
-		return query.Error
+		log.Fatal(query.Error)
 	}
 
 	// update stores
@@ -188,7 +188,7 @@ func (backRepoFormFieldTime *BackRepoFormFieldTimeStruct) CommitPhaseOneInstance
 
 	query := backRepoFormFieldTime.db.Create(&formfieldtimeDB)
 	if query.Error != nil {
-		return query.Error
+		log.Fatal(query.Error)
 	}
 
 	// update stores
@@ -222,7 +222,7 @@ func (backRepoFormFieldTime *BackRepoFormFieldTimeStruct) CommitPhaseTwoInstance
 		// insertion point for translating pointers encodings into actual pointers
 		query := backRepoFormFieldTime.db.Save(&formfieldtimeDB)
 		if query.Error != nil {
-			return query.Error
+			log.Fatalln(query.Error)
 		}
 
 	} else {
@@ -349,7 +349,7 @@ func (backRepo *BackRepoStruct) CheckoutFormFieldTime(formfieldtime *models.Form
 			formfieldtimeDB.ID = id
 
 			if err := backRepo.BackRepoFormFieldTime.db.First(&formfieldtimeDB, id).Error; err != nil {
-				log.Panicln("CheckoutFormFieldTime : Problem with getting object with id:", id)
+				log.Fatalln("CheckoutFormFieldTime : Problem with getting object with id:", id)
 			}
 			backRepo.BackRepoFormFieldTime.CheckoutPhaseOneInstance(&formfieldtimeDB)
 			backRepo.BackRepoFormFieldTime.CheckoutPhaseTwoInstance(backRepo, &formfieldtimeDB)
@@ -359,6 +359,20 @@ func (backRepo *BackRepoStruct) CheckoutFormFieldTime(formfieldtime *models.Form
 
 // CopyBasicFieldsFromFormFieldTime
 func (formfieldtimeDB *FormFieldTimeDB) CopyBasicFieldsFromFormFieldTime(formfieldtime *models.FormFieldTime) {
+	// insertion point for fields commit
+
+	formfieldtimeDB.Name_Data.String = formfieldtime.Name
+	formfieldtimeDB.Name_Data.Valid = true
+
+	formfieldtimeDB.Value_Data.Time = formfieldtime.Value
+	formfieldtimeDB.Value_Data.Valid = true
+
+	formfieldtimeDB.Step_Data.Float64 = formfieldtime.Step
+	formfieldtimeDB.Step_Data.Valid = true
+}
+
+// CopyBasicFieldsFromFormFieldTime_WOP
+func (formfieldtimeDB *FormFieldTimeDB) CopyBasicFieldsFromFormFieldTime_WOP(formfieldtime *models.FormFieldTime_WOP) {
 	// insertion point for fields commit
 
 	formfieldtimeDB.Name_Data.String = formfieldtime.Name
@@ -393,6 +407,14 @@ func (formfieldtimeDB *FormFieldTimeDB) CopyBasicFieldsToFormFieldTime(formfield
 	formfieldtime.Step = formfieldtimeDB.Step_Data.Float64
 }
 
+// CopyBasicFieldsToFormFieldTime_WOP
+func (formfieldtimeDB *FormFieldTimeDB) CopyBasicFieldsToFormFieldTime_WOP(formfieldtime *models.FormFieldTime_WOP) {
+	// insertion point for checkout of basic fields (back repo to stage)
+	formfieldtime.Name = formfieldtimeDB.Name_Data.String
+	formfieldtime.Value = formfieldtimeDB.Value_Data.Time
+	formfieldtime.Step = formfieldtimeDB.Step_Data.Float64
+}
+
 // CopyBasicFieldsToFormFieldTimeWOP
 func (formfieldtimeDB *FormFieldTimeDB) CopyBasicFieldsToFormFieldTimeWOP(formfieldtime *FormFieldTimeWOP) {
 	formfieldtime.ID = int(formfieldtimeDB.ID)
@@ -421,12 +443,12 @@ func (backRepoFormFieldTime *BackRepoFormFieldTimeStruct) Backup(dirPath string)
 	file, err := json.MarshalIndent(forBackup, "", " ")
 
 	if err != nil {
-		log.Panic("Cannot json FormFieldTime ", filename, " ", err.Error())
+		log.Fatal("Cannot json FormFieldTime ", filename, " ", err.Error())
 	}
 
 	err = ioutil.WriteFile(filename, file, 0644)
 	if err != nil {
-		log.Panic("Cannot write the json FormFieldTime file", err.Error())
+		log.Fatal("Cannot write the json FormFieldTime file", err.Error())
 	}
 }
 
@@ -446,7 +468,7 @@ func (backRepoFormFieldTime *BackRepoFormFieldTimeStruct) BackupXL(file *xlsx.Fi
 
 	sh, err := file.AddSheet("FormFieldTime")
 	if err != nil {
-		log.Panic("Cannot add XL file", err.Error())
+		log.Fatal("Cannot add XL file", err.Error())
 	}
 	_ = sh
 
@@ -471,13 +493,13 @@ func (backRepoFormFieldTime *BackRepoFormFieldTimeStruct) RestoreXLPhaseOne(file
 	sh, ok := file.Sheet["FormFieldTime"]
 	_ = sh
 	if !ok {
-		log.Panic(errors.New("sheet not found"))
+		log.Fatal(errors.New("sheet not found"))
 	}
 
 	// log.Println("Max row is", sh.MaxRow)
 	err := sh.ForEachRow(backRepoFormFieldTime.rowVisitorFormFieldTime)
 	if err != nil {
-		log.Panic("Err=", err)
+		log.Fatal("Err=", err)
 	}
 }
 
@@ -499,7 +521,7 @@ func (backRepoFormFieldTime *BackRepoFormFieldTimeStruct) rowVisitorFormFieldTim
 		formfieldtimeDB.ID = 0
 		query := backRepoFormFieldTime.db.Create(formfieldtimeDB)
 		if query.Error != nil {
-			log.Panic(query.Error)
+			log.Fatal(query.Error)
 		}
 		backRepoFormFieldTime.Map_FormFieldTimeDBID_FormFieldTimeDB[formfieldtimeDB.ID] = formfieldtimeDB
 		BackRepoFormFieldTimeid_atBckpTime_newID[formfieldtimeDB_ID_atBackupTime] = formfieldtimeDB.ID
@@ -519,7 +541,7 @@ func (backRepoFormFieldTime *BackRepoFormFieldTimeStruct) RestorePhaseOne(dirPat
 	jsonFile, err := os.Open(filename)
 	// if we os.Open returns an error then handle it
 	if err != nil {
-		log.Panic("Cannot restore/open the json FormFieldTime file", filename, " ", err.Error())
+		log.Fatal("Cannot restore/open the json FormFieldTime file", filename, " ", err.Error())
 	}
 
 	// read our opened jsonFile as a byte array.
@@ -536,14 +558,14 @@ func (backRepoFormFieldTime *BackRepoFormFieldTimeStruct) RestorePhaseOne(dirPat
 		formfieldtimeDB.ID = 0
 		query := backRepoFormFieldTime.db.Create(formfieldtimeDB)
 		if query.Error != nil {
-			log.Panic(query.Error)
+			log.Fatal(query.Error)
 		}
 		backRepoFormFieldTime.Map_FormFieldTimeDBID_FormFieldTimeDB[formfieldtimeDB.ID] = formfieldtimeDB
 		BackRepoFormFieldTimeid_atBckpTime_newID[formfieldtimeDB_ID_atBackupTime] = formfieldtimeDB.ID
 	}
 
 	if err != nil {
-		log.Panic("Cannot restore/unmarshall json FormFieldTime file", err.Error())
+		log.Fatal("Cannot restore/unmarshall json FormFieldTime file", err.Error())
 	}
 }
 
@@ -560,7 +582,7 @@ func (backRepoFormFieldTime *BackRepoFormFieldTimeStruct) RestorePhaseTwo() {
 		// update databse with new index encoding
 		query := backRepoFormFieldTime.db.Model(formfieldtimeDB).Updates(*formfieldtimeDB)
 		if query.Error != nil {
-			log.Panic(query.Error)
+			log.Fatal(query.Error)
 		}
 	}
 

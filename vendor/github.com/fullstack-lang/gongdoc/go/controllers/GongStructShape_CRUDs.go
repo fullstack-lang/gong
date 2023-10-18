@@ -91,8 +91,8 @@ func (controller *Controller) GetGongStructShapes(c *gin.Context) {
 
 		// insertion point for updating fields
 		gongstructshapeAPI.ID = gongstructshapeDB.ID
-		gongstructshapeDB.CopyBasicFieldsToGongStructShape(&gongstructshapeAPI.GongStructShape)
-		gongstructshapeAPI.GongStructShapePointersEnconding = gongstructshapeDB.GongStructShapePointersEnconding
+		gongstructshapeDB.CopyBasicFieldsToGongStructShape_WOP(&gongstructshapeAPI.GongStructShape_WOP)
+		gongstructshapeAPI.GongStructShapePointersEncoding = gongstructshapeDB.GongStructShapePointersEncoding
 		gongstructshapeAPIs = append(gongstructshapeAPIs, gongstructshapeAPI)
 	}
 
@@ -147,8 +147,8 @@ func (controller *Controller) PostGongStructShape(c *gin.Context) {
 
 	// Create gongstructshape
 	gongstructshapeDB := orm.GongStructShapeDB{}
-	gongstructshapeDB.GongStructShapePointersEnconding = input.GongStructShapePointersEnconding
-	gongstructshapeDB.CopyBasicFieldsFromGongStructShape(&input.GongStructShape)
+	gongstructshapeDB.GongStructShapePointersEncoding = input.GongStructShapePointersEncoding
+	gongstructshapeDB.CopyBasicFieldsFromGongStructShape_WOP(&input.GongStructShape_WOP)
 
 	query := db.Create(&gongstructshapeDB)
 	if query.Error != nil {
@@ -217,8 +217,8 @@ func (controller *Controller) GetGongStructShape(c *gin.Context) {
 
 	var gongstructshapeAPI orm.GongStructShapeAPI
 	gongstructshapeAPI.ID = gongstructshapeDB.ID
-	gongstructshapeAPI.GongStructShapePointersEnconding = gongstructshapeDB.GongStructShapePointersEnconding
-	gongstructshapeDB.CopyBasicFieldsToGongStructShape(&gongstructshapeAPI.GongStructShape)
+	gongstructshapeAPI.GongStructShapePointersEncoding = gongstructshapeDB.GongStructShapePointersEncoding
+	gongstructshapeDB.CopyBasicFieldsToGongStructShape_WOP(&gongstructshapeAPI.GongStructShape_WOP)
 
 	c.JSON(http.StatusOK, gongstructshapeAPI)
 }
@@ -276,8 +276,8 @@ func (controller *Controller) UpdateGongStructShape(c *gin.Context) {
 	}
 
 	// update
-	gongstructshapeDB.CopyBasicFieldsFromGongStructShape(&input.GongStructShape)
-	gongstructshapeDB.GongStructShapePointersEnconding = input.GongStructShapePointersEnconding
+	gongstructshapeDB.CopyBasicFieldsFromGongStructShape_WOP(&input.GongStructShape_WOP)
+	gongstructshapeDB.GongStructShapePointersEncoding = input.GongStructShapePointersEncoding
 
 	query = db.Model(&gongstructshapeDB).Updates(gongstructshapeDB)
 	if query.Error != nil {

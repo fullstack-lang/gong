@@ -38,7 +38,7 @@ type GongStructAPI struct {
 	models.GongStruct_WOP
 
 	// encoding of pointers
-	GongStructPointersEncoding
+	GongStructPointersEncoding GongStructPointersEncoding
 }
 
 // GongStructPointersEncoding encodes pointers to Struct and
@@ -47,16 +47,16 @@ type GongStructPointersEncoding struct {
 	// insertion for pointer fields encoding declaration
 
 	// field GongBasicFields is a slice of pointers to another Struct (optional or 0..1)
-	GongBasicFields IntSlice`gorm:"type:TEXT"`
+	GongBasicFields IntSlice `gorm:"type:TEXT"`
 
 	// field GongTimeFields is a slice of pointers to another Struct (optional or 0..1)
-	GongTimeFields IntSlice`gorm:"type:TEXT"`
+	GongTimeFields IntSlice `gorm:"type:TEXT"`
 
 	// field PointerToGongStructFields is a slice of pointers to another Struct (optional or 0..1)
-	PointerToGongStructFields IntSlice`gorm:"type:TEXT"`
+	PointerToGongStructFields IntSlice `gorm:"type:TEXT"`
 
 	// field SliceOfPointerToGongStructFields is a slice of pointers to another Struct (optional or 0..1)
-	SliceOfPointerToGongStructFields IntSlice`gorm:"type:TEXT"`
+	SliceOfPointerToGongStructFields IntSlice `gorm:"type:TEXT"`
 }
 
 // GongStructDB describes a gongstruct in the database
@@ -244,6 +244,7 @@ func (backRepoGongStruct *BackRepoGongStructStruct) CommitPhaseTwoInstance(backR
 				backRepo.BackRepoGongBasicField.GetGongBasicFieldDBFromGongBasicFieldPtr(gongbasicfieldAssocEnd)
 
 			// encode reverse pointer in the association end back repo instance
+			// (to be removed)
 			gongbasicfieldAssocEnd_DB.GongStruct_GongBasicFieldsDBID.Int64 = int64(gongstructDB.ID)
 			gongbasicfieldAssocEnd_DB.GongStruct_GongBasicFieldsDBID.Valid = true
 			gongbasicfieldAssocEnd_DB.GongStruct_GongBasicFieldsDBID_Index.Int64 = int64(idx)
@@ -273,6 +274,7 @@ func (backRepoGongStruct *BackRepoGongStructStruct) CommitPhaseTwoInstance(backR
 				backRepo.BackRepoGongTimeField.GetGongTimeFieldDBFromGongTimeFieldPtr(gongtimefieldAssocEnd)
 
 			// encode reverse pointer in the association end back repo instance
+			// (to be removed)
 			gongtimefieldAssocEnd_DB.GongStruct_GongTimeFieldsDBID.Int64 = int64(gongstructDB.ID)
 			gongtimefieldAssocEnd_DB.GongStruct_GongTimeFieldsDBID.Valid = true
 			gongtimefieldAssocEnd_DB.GongStruct_GongTimeFieldsDBID_Index.Int64 = int64(idx)
@@ -302,6 +304,7 @@ func (backRepoGongStruct *BackRepoGongStructStruct) CommitPhaseTwoInstance(backR
 				backRepo.BackRepoPointerToGongStructField.GetPointerToGongStructFieldDBFromPointerToGongStructFieldPtr(pointertogongstructfieldAssocEnd)
 
 			// encode reverse pointer in the association end back repo instance
+			// (to be removed)
 			pointertogongstructfieldAssocEnd_DB.GongStruct_PointerToGongStructFieldsDBID.Int64 = int64(gongstructDB.ID)
 			pointertogongstructfieldAssocEnd_DB.GongStruct_PointerToGongStructFieldsDBID.Valid = true
 			pointertogongstructfieldAssocEnd_DB.GongStruct_PointerToGongStructFieldsDBID_Index.Int64 = int64(idx)
@@ -331,6 +334,7 @@ func (backRepoGongStruct *BackRepoGongStructStruct) CommitPhaseTwoInstance(backR
 				backRepo.BackRepoSliceOfPointerToGongStructField.GetSliceOfPointerToGongStructFieldDBFromSliceOfPointerToGongStructFieldPtr(sliceofpointertogongstructfieldAssocEnd)
 
 			// encode reverse pointer in the association end back repo instance
+			// (to be removed)
 			sliceofpointertogongstructfieldAssocEnd_DB.GongStruct_SliceOfPointerToGongStructFieldsDBID.Int64 = int64(gongstructDB.ID)
 			sliceofpointertogongstructfieldAssocEnd_DB.GongStruct_SliceOfPointerToGongStructFieldsDBID.Valid = true
 			sliceofpointertogongstructfieldAssocEnd_DB.GongStruct_SliceOfPointerToGongStructFieldsDBID_Index.Int64 = int64(idx)

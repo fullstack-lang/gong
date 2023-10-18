@@ -84,8 +84,8 @@ export class SliceOfPointerToGongStructFieldService {
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
     let GongStruct = sliceofpointertogongstructfielddb.GongStruct
     sliceofpointertogongstructfielddb.GongStruct = new GongStructDB
-    let _GongStruct_SliceOfPointerToGongStructFields_reverse = sliceofpointertogongstructfielddb.GongStruct_SliceOfPointerToGongStructFields_reverse
-    sliceofpointertogongstructfielddb.GongStruct_SliceOfPointerToGongStructFields_reverse = new GongStructDB
+    let _GongStruct_SliceOfPointerToGongStructFields_reverse = sliceofpointertogongstructfielddb.SliceOfPointerToGongStructFieldPointersEncoding.GongStruct_SliceOfPointerToGongStructFields_reverse
+    sliceofpointertogongstructfielddb.SliceOfPointerToGongStructFieldPointersEncoding.GongStruct_SliceOfPointerToGongStructFields_reverse = new GongStructDB
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -96,7 +96,7 @@ export class SliceOfPointerToGongStructFieldService {
     return this.http.post<SliceOfPointerToGongStructFieldDB>(this.sliceofpointertogongstructfieldsUrl, sliceofpointertogongstructfielddb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
-        sliceofpointertogongstructfielddb.GongStruct_SliceOfPointerToGongStructFields_reverse = _GongStruct_SliceOfPointerToGongStructFields_reverse
+        sliceofpointertogongstructfielddb.SliceOfPointerToGongStructFieldPointersEncoding.GongStruct_SliceOfPointerToGongStructFields_reverse = _GongStruct_SliceOfPointerToGongStructFields_reverse
         // this.log(`posted sliceofpointertogongstructfielddb id=${sliceofpointertogongstructfielddb.ID}`)
       }),
       catchError(this.handleError<SliceOfPointerToGongStructFieldDB>('postSliceOfPointerToGongStructField'))
@@ -134,8 +134,8 @@ export class SliceOfPointerToGongStructFieldService {
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
     let GongStruct = sliceofpointertogongstructfielddb.GongStruct
     sliceofpointertogongstructfielddb.GongStruct = new GongStructDB
-    let _GongStruct_SliceOfPointerToGongStructFields_reverse = sliceofpointertogongstructfielddb.GongStruct_SliceOfPointerToGongStructFields_reverse
-    sliceofpointertogongstructfielddb.GongStruct_SliceOfPointerToGongStructFields_reverse = new GongStructDB
+    let _GongStruct_SliceOfPointerToGongStructFields_reverse = sliceofpointertogongstructfielddb.SliceOfPointerToGongStructFieldPointersEncoding.GongStruct_SliceOfPointerToGongStructFields_reverse
+    sliceofpointertogongstructfielddb.SliceOfPointerToGongStructFieldPointersEncoding.GongStruct_SliceOfPointerToGongStructFields_reverse = new GongStructDB
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -146,7 +146,7 @@ export class SliceOfPointerToGongStructFieldService {
     return this.http.put<SliceOfPointerToGongStructFieldDB>(url, sliceofpointertogongstructfielddb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
-        sliceofpointertogongstructfielddb.GongStruct_SliceOfPointerToGongStructFields_reverse = _GongStruct_SliceOfPointerToGongStructFields_reverse
+        sliceofpointertogongstructfielddb.SliceOfPointerToGongStructFieldPointersEncoding.GongStruct_SliceOfPointerToGongStructFields_reverse = _GongStruct_SliceOfPointerToGongStructFields_reverse
         // this.log(`updated sliceofpointertogongstructfielddb id=${sliceofpointertogongstructfielddb.ID}`)
       }),
       catchError(this.handleError<SliceOfPointerToGongStructFieldDB>('updateSliceOfPointerToGongStructField'))

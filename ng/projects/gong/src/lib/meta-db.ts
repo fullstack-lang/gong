@@ -16,6 +16,13 @@ export class MetaDB {
 	Name: string = ""
 	Text: string = ""
 
-	// insertion point for other declarations
-	MetaReferences?: Array<MetaReferenceDB>
+	// insertion point for pointers and slices of pointers declarations
+	MetaReferences: Array<MetaReferenceDB> = []
+
+	MetaPointersEncoding: MetaPointersEncoding = new MetaPointersEncoding
+}
+
+export class MetaPointersEncoding {
+	// insertion point for pointers and slices of pointers encoding fields
+	MetaReferences: number[] = []
 }

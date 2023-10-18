@@ -326,15 +326,17 @@ export class FrontRepoService {
 
                 // insertion point for redeeming ONE-MANY associations
                 // insertion point for slice of pointer field Node.Buttons redeeming
+                // to be removed
                 {
-                  let _node = this.frontRepo.Nodes.get(button.Node_ButtonsDBID.Int64)
+                  let _id = button.ButtonPointersEncoding.Node_ButtonsDBID.Int64
+                  let _node = this.frontRepo.Nodes.get(_id)
                   if (_node) {
                     if (_node.Buttons == undefined) {
                       _node.Buttons = new Array<ButtonDB>()
                     }
                     _node.Buttons.push(button)
-                    if (button.Node_Buttons_reverse == undefined) {
-                      button.Node_Buttons_reverse = _node
+                    if (button.ButtonPointersEncoding.Node_Buttons_reverse == undefined) {
+                      button.ButtonPointersEncoding.Node_Buttons_reverse = _node
                     }
                   }
                 }
@@ -346,28 +348,32 @@ export class FrontRepoService {
 
                 // insertion point for redeeming ONE-MANY associations
                 // insertion point for slice of pointer field Node.Children redeeming
+                // to be removed
                 {
-                  let _node = this.frontRepo.Nodes.get(node.Node_ChildrenDBID.Int64)
+                  let _id = node.NodePointersEncoding.Node_ChildrenDBID.Int64
+                  let _node = this.frontRepo.Nodes.get(_id)
                   if (_node) {
                     if (_node.Children == undefined) {
                       _node.Children = new Array<NodeDB>()
                     }
                     _node.Children.push(node)
-                    if (node.Node_Children_reverse == undefined) {
-                      node.Node_Children_reverse = _node
+                    if (node.NodePointersEncoding.Node_Children_reverse == undefined) {
+                      node.NodePointersEncoding.Node_Children_reverse = _node
                     }
                   }
                 }
                 // insertion point for slice of pointer field Tree.RootNodes redeeming
+                // to be removed
                 {
-                  let _tree = this.frontRepo.Trees.get(node.Tree_RootNodesDBID.Int64)
+                  let _id = node.NodePointersEncoding.Tree_RootNodesDBID.Int64
+                  let _tree = this.frontRepo.Trees.get(_id)
                   if (_tree) {
                     if (_tree.RootNodes == undefined) {
                       _tree.RootNodes = new Array<NodeDB>()
                     }
                     _tree.RootNodes.push(node)
-                    if (node.Tree_RootNodes_reverse == undefined) {
-                      node.Tree_RootNodes_reverse = _tree
+                    if (node.NodePointersEncoding.Tree_RootNodes_reverse == undefined) {
+                      node.NodePointersEncoding.Tree_RootNodes_reverse = _tree
                     }
                   }
                 }
@@ -392,21 +398,23 @@ export class FrontRepoService {
             nodes.forEach(
               node => {
                 // insertion point for sorting
+                // to be removed
                 node.Children?.sort((t1, t2) => {
-                  if (t1.Node_ChildrenDBID_Index.Int64 > t2.Node_ChildrenDBID_Index.Int64) {
+                  if (t1.NodePointersEncoding.Node_ChildrenDBID_Index.Int64 > t2.NodePointersEncoding.Node_ChildrenDBID_Index.Int64) {
                     return 1;
                   }
-                  if (t1.Node_ChildrenDBID_Index.Int64 < t2.Node_ChildrenDBID_Index.Int64) {
+                  if (t1.NodePointersEncoding.Node_ChildrenDBID_Index.Int64 < t2.NodePointersEncoding.Node_ChildrenDBID_Index.Int64) {
                     return -1;
                   }
                   return 0;
                 })
 
+                // to be removed
                 node.Buttons?.sort((t1, t2) => {
-                  if (t1.Node_ButtonsDBID_Index.Int64 > t2.Node_ButtonsDBID_Index.Int64) {
+                  if (t1.ButtonPointersEncoding.Node_ButtonsDBID_Index.Int64 > t2.ButtonPointersEncoding.Node_ButtonsDBID_Index.Int64) {
                     return 1;
                   }
-                  if (t1.Node_ButtonsDBID_Index.Int64 < t2.Node_ButtonsDBID_Index.Int64) {
+                  if (t1.ButtonPointersEncoding.Node_ButtonsDBID_Index.Int64 < t2.ButtonPointersEncoding.Node_ButtonsDBID_Index.Int64) {
                     return -1;
                   }
                   return 0;
@@ -417,11 +425,12 @@ export class FrontRepoService {
             trees.forEach(
               tree => {
                 // insertion point for sorting
+                // to be removed
                 tree.RootNodes?.sort((t1, t2) => {
-                  if (t1.Tree_RootNodesDBID_Index.Int64 > t2.Tree_RootNodesDBID_Index.Int64) {
+                  if (t1.NodePointersEncoding.Tree_RootNodesDBID_Index.Int64 > t2.NodePointersEncoding.Tree_RootNodesDBID_Index.Int64) {
                     return 1;
                   }
-                  if (t1.Tree_RootNodesDBID_Index.Int64 < t2.Tree_RootNodesDBID_Index.Int64) {
+                  if (t1.NodePointersEncoding.Tree_RootNodesDBID_Index.Int64 < t2.NodePointersEncoding.Tree_RootNodesDBID_Index.Int64) {
                     return -1;
                   }
                   return 0;
@@ -468,15 +477,17 @@ export class FrontRepoService {
 
                 // insertion point for redeeming ONE-MANY associations
                 // insertion point for slice of pointer field Node.Buttons redeeming
+                // to be removed
                 {
-                  let _node = this.frontRepo.Nodes.get(button.Node_ButtonsDBID.Int64)
+                  let _id = button.ButtonPointersEncoding.Node_ButtonsDBID.Int64
+                  let _node = this.frontRepo.Nodes.get(_id)
                   if (_node) {
                     if (_node.Buttons == undefined) {
                       _node.Buttons = new Array<ButtonDB>()
                     }
                     _node.Buttons.push(button)
-                    if (button.Node_Buttons_reverse == undefined) {
-                      button.Node_Buttons_reverse = _node
+                    if (button.ButtonPointersEncoding.Node_Buttons_reverse == undefined) {
+                      button.ButtonPointersEncoding.Node_Buttons_reverse = _node
                     }
                   }
                 }
@@ -532,28 +543,32 @@ export class FrontRepoService {
 
                 // insertion point for redeeming ONE-MANY associations
                 // insertion point for slice of pointer field Node.Children redeeming
+                // to be removed
                 {
-                  let _node = this.frontRepo.Nodes.get(node.Node_ChildrenDBID.Int64)
+                  let _id = node.NodePointersEncoding.Node_ChildrenDBID.Int64
+                  let _node = this.frontRepo.Nodes.get(_id)
                   if (_node) {
                     if (_node.Children == undefined) {
                       _node.Children = new Array<NodeDB>()
                     }
                     _node.Children.push(node)
-                    if (node.Node_Children_reverse == undefined) {
-                      node.Node_Children_reverse = _node
+                    if (node.NodePointersEncoding.Node_Children_reverse == undefined) {
+                      node.NodePointersEncoding.Node_Children_reverse = _node
                     }
                   }
                 }
                 // insertion point for slice of pointer field Tree.RootNodes redeeming
+                // to be removed
                 {
-                  let _tree = this.frontRepo.Trees.get(node.Tree_RootNodesDBID.Int64)
+                  let _id = node.NodePointersEncoding.Tree_RootNodesDBID.Int64
+                  let _tree = this.frontRepo.Trees.get(_id)
                   if (_tree) {
                     if (_tree.RootNodes == undefined) {
                       _tree.RootNodes = new Array<NodeDB>()
                     }
                     _tree.RootNodes.push(node)
-                    if (node.Tree_RootNodes_reverse == undefined) {
-                      node.Tree_RootNodes_reverse = _tree
+                    if (node.NodePointersEncoding.Tree_RootNodes_reverse == undefined) {
+                      node.NodePointersEncoding.Tree_RootNodes_reverse = _tree
                     }
                   }
                 }

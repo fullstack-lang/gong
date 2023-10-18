@@ -15,6 +15,13 @@ export class TreeDB {
 	// insertion point for basic fields declarations
 	Name: string = ""
 
-	// insertion point for other declarations
-	RootNodes?: Array<NodeDB>
+	// insertion point for pointers and slices of pointers declarations
+	RootNodes: Array<NodeDB> = []
+
+	TreePointersEncoding: TreePointersEncoding = new TreePointersEncoding
+}
+
+export class TreePointersEncoding {
+	// insertion point for pointers and slices of pointers encoding fields
+	RootNodes: number[] = []
 }

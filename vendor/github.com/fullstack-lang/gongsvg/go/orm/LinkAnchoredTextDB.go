@@ -35,27 +35,34 @@ var dummy_LinkAnchoredText_sort sort.Float64Slice
 type LinkAnchoredTextAPI struct {
 	gorm.Model
 
-	models.LinkAnchoredText
+	models.LinkAnchoredText_WOP
 
 	// encoding of pointers
-	LinkAnchoredTextPointersEnconding
+	LinkAnchoredTextPointersEncoding LinkAnchoredTextPointersEncoding
 }
 
-// LinkAnchoredTextPointersEnconding encodes pointers to Struct and
+// LinkAnchoredTextPointersEncoding encodes pointers to Struct and
 // reverse pointers of slice of poitners to Struct
-type LinkAnchoredTextPointersEnconding struct {
+type LinkAnchoredTextPointersEncoding struct {
 	// insertion for pointer fields encoding declaration
 
+	// field Animates is a slice of pointers to another Struct (optional or 0..1)
+	Animates IntSlice `gorm:"type:TEXT"`
+
 	// Implementation of a reverse ID for field Link{}.TextAtArrowEnd []*LinkAnchoredText
+	// (to be removed)
 	Link_TextAtArrowEndDBID sql.NullInt64
 
 	// implementation of the index of the withing the slice
+	// (to be removed)
 	Link_TextAtArrowEndDBID_Index sql.NullInt64
 
 	// Implementation of a reverse ID for field Link{}.TextAtArrowStart []*LinkAnchoredText
+	// (to be removed)
 	Link_TextAtArrowStartDBID sql.NullInt64
 
 	// implementation of the index of the withing the slice
+	// (to be removed)
 	Link_TextAtArrowStartDBID_Index sql.NullInt64
 }
 
@@ -106,7 +113,7 @@ type LinkAnchoredTextDB struct {
 	// Declation for basic field linkanchoredtextDB.Transform
 	Transform_Data sql.NullString
 	// encoding of pointers
-	LinkAnchoredTextPointersEnconding
+	LinkAnchoredTextPointersEncoding
 }
 
 // LinkAnchoredTextDBs arrays linkanchoredtextDBs
@@ -228,7 +235,7 @@ func (backRepoLinkAnchoredText *BackRepoLinkAnchoredTextStruct) CommitDeleteInst
 	linkanchoredtextDB := backRepoLinkAnchoredText.Map_LinkAnchoredTextDBID_LinkAnchoredTextDB[id]
 	query := backRepoLinkAnchoredText.db.Unscoped().Delete(&linkanchoredtextDB)
 	if query.Error != nil {
-		return query.Error
+		log.Fatal(query.Error)
 	}
 
 	// update stores
@@ -254,7 +261,7 @@ func (backRepoLinkAnchoredText *BackRepoLinkAnchoredTextStruct) CommitPhaseOneIn
 
 	query := backRepoLinkAnchoredText.db.Create(&linkanchoredtextDB)
 	if query.Error != nil {
-		return query.Error
+		log.Fatal(query.Error)
 	}
 
 	// update stores
@@ -296,6 +303,7 @@ func (backRepoLinkAnchoredText *BackRepoLinkAnchoredTextStruct) CommitPhaseTwoIn
 				backRepo.BackRepoAnimate.GetAnimateDBFromAnimatePtr(animateAssocEnd)
 
 			// encode reverse pointer in the association end back repo instance
+			// (to be removed)
 			animateAssocEnd_DB.LinkAnchoredText_AnimatesDBID.Int64 = int64(linkanchoredtextDB.ID)
 			animateAssocEnd_DB.LinkAnchoredText_AnimatesDBID.Valid = true
 			animateAssocEnd_DB.LinkAnchoredText_AnimatesDBID_Index.Int64 = int64(idx)
@@ -305,9 +313,19 @@ func (backRepoLinkAnchoredText *BackRepoLinkAnchoredTextStruct) CommitPhaseTwoIn
 			}
 		}
 
+		// 1. reset
+		linkanchoredtextDB.LinkAnchoredTextPointersEncoding.Animates = make([]int, 0)
+		// 2. encode
+		for _, animateAssocEnd := range linkanchoredtext.Animates {
+			animateAssocEnd_DB :=
+				backRepo.BackRepoAnimate.GetAnimateDBFromAnimatePtr(animateAssocEnd)
+			linkanchoredtextDB.LinkAnchoredTextPointersEncoding.Animates =
+				append(linkanchoredtextDB.LinkAnchoredTextPointersEncoding.Animates, int(animateAssocEnd_DB.ID))
+		}
+
 		query := backRepoLinkAnchoredText.db.Save(&linkanchoredtextDB)
 		if query.Error != nil {
-			return query.Error
+			log.Fatalln(query.Error)
 		}
 
 	} else {
@@ -461,7 +479,7 @@ func (backRepo *BackRepoStruct) CheckoutLinkAnchoredText(linkanchoredtext *model
 			linkanchoredtextDB.ID = id
 
 			if err := backRepo.BackRepoLinkAnchoredText.db.First(&linkanchoredtextDB, id).Error; err != nil {
-				log.Panicln("CheckoutLinkAnchoredText : Problem with getting object with id:", id)
+				log.Fatalln("CheckoutLinkAnchoredText : Problem with getting object with id:", id)
 			}
 			backRepo.BackRepoLinkAnchoredText.CheckoutPhaseOneInstance(&linkanchoredtextDB)
 			backRepo.BackRepoLinkAnchoredText.CheckoutPhaseTwoInstance(backRepo, &linkanchoredtextDB)
@@ -471,6 +489,47 @@ func (backRepo *BackRepoStruct) CheckoutLinkAnchoredText(linkanchoredtext *model
 
 // CopyBasicFieldsFromLinkAnchoredText
 func (linkanchoredtextDB *LinkAnchoredTextDB) CopyBasicFieldsFromLinkAnchoredText(linkanchoredtext *models.LinkAnchoredText) {
+	// insertion point for fields commit
+
+	linkanchoredtextDB.Name_Data.String = linkanchoredtext.Name
+	linkanchoredtextDB.Name_Data.Valid = true
+
+	linkanchoredtextDB.Content_Data.String = linkanchoredtext.Content
+	linkanchoredtextDB.Content_Data.Valid = true
+
+	linkanchoredtextDB.X_Offset_Data.Float64 = linkanchoredtext.X_Offset
+	linkanchoredtextDB.X_Offset_Data.Valid = true
+
+	linkanchoredtextDB.Y_Offset_Data.Float64 = linkanchoredtext.Y_Offset
+	linkanchoredtextDB.Y_Offset_Data.Valid = true
+
+	linkanchoredtextDB.FontWeight_Data.String = linkanchoredtext.FontWeight
+	linkanchoredtextDB.FontWeight_Data.Valid = true
+
+	linkanchoredtextDB.Color_Data.String = linkanchoredtext.Color
+	linkanchoredtextDB.Color_Data.Valid = true
+
+	linkanchoredtextDB.FillOpacity_Data.Float64 = linkanchoredtext.FillOpacity
+	linkanchoredtextDB.FillOpacity_Data.Valid = true
+
+	linkanchoredtextDB.Stroke_Data.String = linkanchoredtext.Stroke
+	linkanchoredtextDB.Stroke_Data.Valid = true
+
+	linkanchoredtextDB.StrokeWidth_Data.Float64 = linkanchoredtext.StrokeWidth
+	linkanchoredtextDB.StrokeWidth_Data.Valid = true
+
+	linkanchoredtextDB.StrokeDashArray_Data.String = linkanchoredtext.StrokeDashArray
+	linkanchoredtextDB.StrokeDashArray_Data.Valid = true
+
+	linkanchoredtextDB.StrokeDashArrayWhenSelected_Data.String = linkanchoredtext.StrokeDashArrayWhenSelected
+	linkanchoredtextDB.StrokeDashArrayWhenSelected_Data.Valid = true
+
+	linkanchoredtextDB.Transform_Data.String = linkanchoredtext.Transform
+	linkanchoredtextDB.Transform_Data.Valid = true
+}
+
+// CopyBasicFieldsFromLinkAnchoredText_WOP
+func (linkanchoredtextDB *LinkAnchoredTextDB) CopyBasicFieldsFromLinkAnchoredText_WOP(linkanchoredtext *models.LinkAnchoredText_WOP) {
 	// insertion point for fields commit
 
 	linkanchoredtextDB.Name_Data.String = linkanchoredtext.Name
@@ -568,6 +627,23 @@ func (linkanchoredtextDB *LinkAnchoredTextDB) CopyBasicFieldsToLinkAnchoredText(
 	linkanchoredtext.Transform = linkanchoredtextDB.Transform_Data.String
 }
 
+// CopyBasicFieldsToLinkAnchoredText_WOP
+func (linkanchoredtextDB *LinkAnchoredTextDB) CopyBasicFieldsToLinkAnchoredText_WOP(linkanchoredtext *models.LinkAnchoredText_WOP) {
+	// insertion point for checkout of basic fields (back repo to stage)
+	linkanchoredtext.Name = linkanchoredtextDB.Name_Data.String
+	linkanchoredtext.Content = linkanchoredtextDB.Content_Data.String
+	linkanchoredtext.X_Offset = linkanchoredtextDB.X_Offset_Data.Float64
+	linkanchoredtext.Y_Offset = linkanchoredtextDB.Y_Offset_Data.Float64
+	linkanchoredtext.FontWeight = linkanchoredtextDB.FontWeight_Data.String
+	linkanchoredtext.Color = linkanchoredtextDB.Color_Data.String
+	linkanchoredtext.FillOpacity = linkanchoredtextDB.FillOpacity_Data.Float64
+	linkanchoredtext.Stroke = linkanchoredtextDB.Stroke_Data.String
+	linkanchoredtext.StrokeWidth = linkanchoredtextDB.StrokeWidth_Data.Float64
+	linkanchoredtext.StrokeDashArray = linkanchoredtextDB.StrokeDashArray_Data.String
+	linkanchoredtext.StrokeDashArrayWhenSelected = linkanchoredtextDB.StrokeDashArrayWhenSelected_Data.String
+	linkanchoredtext.Transform = linkanchoredtextDB.Transform_Data.String
+}
+
 // CopyBasicFieldsToLinkAnchoredTextWOP
 func (linkanchoredtextDB *LinkAnchoredTextDB) CopyBasicFieldsToLinkAnchoredTextWOP(linkanchoredtext *LinkAnchoredTextWOP) {
 	linkanchoredtext.ID = int(linkanchoredtextDB.ID)
@@ -605,12 +681,12 @@ func (backRepoLinkAnchoredText *BackRepoLinkAnchoredTextStruct) Backup(dirPath s
 	file, err := json.MarshalIndent(forBackup, "", " ")
 
 	if err != nil {
-		log.Panic("Cannot json LinkAnchoredText ", filename, " ", err.Error())
+		log.Fatal("Cannot json LinkAnchoredText ", filename, " ", err.Error())
 	}
 
 	err = ioutil.WriteFile(filename, file, 0644)
 	if err != nil {
-		log.Panic("Cannot write the json LinkAnchoredText file", err.Error())
+		log.Fatal("Cannot write the json LinkAnchoredText file", err.Error())
 	}
 }
 
@@ -630,7 +706,7 @@ func (backRepoLinkAnchoredText *BackRepoLinkAnchoredTextStruct) BackupXL(file *x
 
 	sh, err := file.AddSheet("LinkAnchoredText")
 	if err != nil {
-		log.Panic("Cannot add XL file", err.Error())
+		log.Fatal("Cannot add XL file", err.Error())
 	}
 	_ = sh
 
@@ -655,13 +731,13 @@ func (backRepoLinkAnchoredText *BackRepoLinkAnchoredTextStruct) RestoreXLPhaseOn
 	sh, ok := file.Sheet["LinkAnchoredText"]
 	_ = sh
 	if !ok {
-		log.Panic(errors.New("sheet not found"))
+		log.Fatal(errors.New("sheet not found"))
 	}
 
 	// log.Println("Max row is", sh.MaxRow)
 	err := sh.ForEachRow(backRepoLinkAnchoredText.rowVisitorLinkAnchoredText)
 	if err != nil {
-		log.Panic("Err=", err)
+		log.Fatal("Err=", err)
 	}
 }
 
@@ -683,7 +759,7 @@ func (backRepoLinkAnchoredText *BackRepoLinkAnchoredTextStruct) rowVisitorLinkAn
 		linkanchoredtextDB.ID = 0
 		query := backRepoLinkAnchoredText.db.Create(linkanchoredtextDB)
 		if query.Error != nil {
-			log.Panic(query.Error)
+			log.Fatal(query.Error)
 		}
 		backRepoLinkAnchoredText.Map_LinkAnchoredTextDBID_LinkAnchoredTextDB[linkanchoredtextDB.ID] = linkanchoredtextDB
 		BackRepoLinkAnchoredTextid_atBckpTime_newID[linkanchoredtextDB_ID_atBackupTime] = linkanchoredtextDB.ID
@@ -703,7 +779,7 @@ func (backRepoLinkAnchoredText *BackRepoLinkAnchoredTextStruct) RestorePhaseOne(
 	jsonFile, err := os.Open(filename)
 	// if we os.Open returns an error then handle it
 	if err != nil {
-		log.Panic("Cannot restore/open the json LinkAnchoredText file", filename, " ", err.Error())
+		log.Fatal("Cannot restore/open the json LinkAnchoredText file", filename, " ", err.Error())
 	}
 
 	// read our opened jsonFile as a byte array.
@@ -720,14 +796,14 @@ func (backRepoLinkAnchoredText *BackRepoLinkAnchoredTextStruct) RestorePhaseOne(
 		linkanchoredtextDB.ID = 0
 		query := backRepoLinkAnchoredText.db.Create(linkanchoredtextDB)
 		if query.Error != nil {
-			log.Panic(query.Error)
+			log.Fatal(query.Error)
 		}
 		backRepoLinkAnchoredText.Map_LinkAnchoredTextDBID_LinkAnchoredTextDB[linkanchoredtextDB.ID] = linkanchoredtextDB
 		BackRepoLinkAnchoredTextid_atBckpTime_newID[linkanchoredtextDB_ID_atBackupTime] = linkanchoredtextDB.ID
 	}
 
 	if err != nil {
-		log.Panic("Cannot restore/unmarshall json LinkAnchoredText file", err.Error())
+		log.Fatal("Cannot restore/unmarshall json LinkAnchoredText file", err.Error())
 	}
 }
 
@@ -756,7 +832,7 @@ func (backRepoLinkAnchoredText *BackRepoLinkAnchoredTextStruct) RestorePhaseTwo(
 		// update databse with new index encoding
 		query := backRepoLinkAnchoredText.db.Model(linkanchoredtextDB).Updates(*linkanchoredtextDB)
 		if query.Error != nil {
-			log.Panic(query.Error)
+			log.Fatal(query.Error)
 		}
 	}
 

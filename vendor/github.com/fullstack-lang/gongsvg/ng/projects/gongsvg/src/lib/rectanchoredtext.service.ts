@@ -84,8 +84,8 @@ export class RectAnchoredTextService {
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
     let Animates = rectanchoredtextdb.Animates
     rectanchoredtextdb.Animates = []
-    let _Rect_RectAnchoredTexts_reverse = rectanchoredtextdb.Rect_RectAnchoredTexts_reverse
-    rectanchoredtextdb.Rect_RectAnchoredTexts_reverse = new RectDB
+    let _Rect_RectAnchoredTexts_reverse = rectanchoredtextdb.RectAnchoredTextPointersEncoding.Rect_RectAnchoredTexts_reverse
+    rectanchoredtextdb.RectAnchoredTextPointersEncoding.Rect_RectAnchoredTexts_reverse = new RectDB
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -97,7 +97,7 @@ export class RectAnchoredTextService {
       tap(_ => {
         // insertion point for restoration of reverse pointers
 	      rectanchoredtextdb.Animates = Animates
-        rectanchoredtextdb.Rect_RectAnchoredTexts_reverse = _Rect_RectAnchoredTexts_reverse
+        rectanchoredtextdb.RectAnchoredTextPointersEncoding.Rect_RectAnchoredTexts_reverse = _Rect_RectAnchoredTexts_reverse
         // this.log(`posted rectanchoredtextdb id=${rectanchoredtextdb.ID}`)
       }),
       catchError(this.handleError<RectAnchoredTextDB>('postRectAnchoredText'))
@@ -135,8 +135,8 @@ export class RectAnchoredTextService {
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
     let Animates = rectanchoredtextdb.Animates
     rectanchoredtextdb.Animates = []
-    let _Rect_RectAnchoredTexts_reverse = rectanchoredtextdb.Rect_RectAnchoredTexts_reverse
-    rectanchoredtextdb.Rect_RectAnchoredTexts_reverse = new RectDB
+    let _Rect_RectAnchoredTexts_reverse = rectanchoredtextdb.RectAnchoredTextPointersEncoding.Rect_RectAnchoredTexts_reverse
+    rectanchoredtextdb.RectAnchoredTextPointersEncoding.Rect_RectAnchoredTexts_reverse = new RectDB
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -148,7 +148,7 @@ export class RectAnchoredTextService {
       tap(_ => {
         // insertion point for restoration of reverse pointers
 	      rectanchoredtextdb.Animates = Animates
-        rectanchoredtextdb.Rect_RectAnchoredTexts_reverse = _Rect_RectAnchoredTexts_reverse
+        rectanchoredtextdb.RectAnchoredTextPointersEncoding.Rect_RectAnchoredTexts_reverse = _Rect_RectAnchoredTexts_reverse
         // this.log(`updated rectanchoredtextdb id=${rectanchoredtextdb.ID}`)
       }),
       catchError(this.handleError<RectAnchoredTextDB>('updateRectAnchoredText'))

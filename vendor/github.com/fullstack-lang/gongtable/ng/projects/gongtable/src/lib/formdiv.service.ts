@@ -92,8 +92,8 @@ export class FormDivService {
     formdivdb.FormEditAssocButton = new FormEditAssocButtonDB
     let FormSortAssocButton = formdivdb.FormSortAssocButton
     formdivdb.FormSortAssocButton = new FormSortAssocButtonDB
-    let _FormGroup_FormDivs_reverse = formdivdb.FormGroup_FormDivs_reverse
-    formdivdb.FormGroup_FormDivs_reverse = new FormGroupDB
+    let _FormGroup_FormDivs_reverse = formdivdb.FormDivPointersEncoding.FormGroup_FormDivs_reverse
+    formdivdb.FormDivPointersEncoding.FormGroup_FormDivs_reverse = new FormGroupDB
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -106,7 +106,7 @@ export class FormDivService {
         // insertion point for restoration of reverse pointers
 	      formdivdb.FormFields = FormFields
 	      formdivdb.CheckBoxs = CheckBoxs
-        formdivdb.FormGroup_FormDivs_reverse = _FormGroup_FormDivs_reverse
+        formdivdb.FormDivPointersEncoding.FormGroup_FormDivs_reverse = _FormGroup_FormDivs_reverse
         // this.log(`posted formdivdb id=${formdivdb.ID}`)
       }),
       catchError(this.handleError<FormDivDB>('postFormDiv'))
@@ -150,8 +150,8 @@ export class FormDivService {
     formdivdb.FormEditAssocButton = new FormEditAssocButtonDB
     let FormSortAssocButton = formdivdb.FormSortAssocButton
     formdivdb.FormSortAssocButton = new FormSortAssocButtonDB
-    let _FormGroup_FormDivs_reverse = formdivdb.FormGroup_FormDivs_reverse
-    formdivdb.FormGroup_FormDivs_reverse = new FormGroupDB
+    let _FormGroup_FormDivs_reverse = formdivdb.FormDivPointersEncoding.FormGroup_FormDivs_reverse
+    formdivdb.FormDivPointersEncoding.FormGroup_FormDivs_reverse = new FormGroupDB
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -164,7 +164,7 @@ export class FormDivService {
         // insertion point for restoration of reverse pointers
 	      formdivdb.FormFields = FormFields
 	      formdivdb.CheckBoxs = CheckBoxs
-        formdivdb.FormGroup_FormDivs_reverse = _FormGroup_FormDivs_reverse
+        formdivdb.FormDivPointersEncoding.FormGroup_FormDivs_reverse = _FormGroup_FormDivs_reverse
         // this.log(`updated formdivdb id=${formdivdb.ID}`)
       }),
       catchError(this.handleError<FormDivDB>('updateFormDiv'))

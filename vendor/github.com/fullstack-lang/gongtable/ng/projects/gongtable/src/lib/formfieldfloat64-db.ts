@@ -19,5 +19,11 @@ export class FormFieldFloat64DB {
 	HasMaxValidator: boolean = false
 	MaxValue: number = 0
 
-	// insertion point for other declarations
+	// insertion point for pointers and slices of pointers declarations
+
+	FormFieldFloat64PointersEncoding: FormFieldFloat64PointersEncoding = new FormFieldFloat64PointersEncoding
+}
+
+export class FormFieldFloat64PointersEncoding {
+	// insertion point for pointers and slices of pointers encoding fields
 }

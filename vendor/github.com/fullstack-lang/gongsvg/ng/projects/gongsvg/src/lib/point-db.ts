@@ -17,7 +17,14 @@ export class PointDB {
 	X: number = 0
 	Y: number = 0
 
-	// insertion point for other declarations
+	// insertion point for pointers and slices of pointers declarations
+
+	PointPointersEncoding: PointPointersEncoding = new PointPointersEncoding
+}
+
+export class PointPointersEncoding {
+	// insertion point for pointers and slices of pointers encoding fields
+	// reverse pointers encoding (to be removed)
 	Link_ControlPointsDBID: NullInt64 = new NullInt64
 	Link_ControlPointsDBID_Index: NullInt64  = new NullInt64 // store the index of the point instance in Link.ControlPoints
 	Link_ControlPoints_reverse?: LinkDB 

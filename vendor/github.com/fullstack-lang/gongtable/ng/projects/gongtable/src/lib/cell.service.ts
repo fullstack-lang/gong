@@ -97,8 +97,8 @@ export class CellService {
     celldb.CellBool = new CellBooleanDB
     let CellIcon = celldb.CellIcon
     celldb.CellIcon = new CellIconDB
-    let _Row_Cells_reverse = celldb.Row_Cells_reverse
-    celldb.Row_Cells_reverse = new RowDB
+    let _Row_Cells_reverse = celldb.CellPointersEncoding.Row_Cells_reverse
+    celldb.CellPointersEncoding.Row_Cells_reverse = new RowDB
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -109,7 +109,7 @@ export class CellService {
     return this.http.post<CellDB>(this.cellsUrl, celldb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
-        celldb.Row_Cells_reverse = _Row_Cells_reverse
+        celldb.CellPointersEncoding.Row_Cells_reverse = _Row_Cells_reverse
         // this.log(`posted celldb id=${celldb.ID}`)
       }),
       catchError(this.handleError<CellDB>('postCell'))
@@ -155,8 +155,8 @@ export class CellService {
     celldb.CellBool = new CellBooleanDB
     let CellIcon = celldb.CellIcon
     celldb.CellIcon = new CellIconDB
-    let _Row_Cells_reverse = celldb.Row_Cells_reverse
-    celldb.Row_Cells_reverse = new RowDB
+    let _Row_Cells_reverse = celldb.CellPointersEncoding.Row_Cells_reverse
+    celldb.CellPointersEncoding.Row_Cells_reverse = new RowDB
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -167,7 +167,7 @@ export class CellService {
     return this.http.put<CellDB>(url, celldb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
-        celldb.Row_Cells_reverse = _Row_Cells_reverse
+        celldb.CellPointersEncoding.Row_Cells_reverse = _Row_Cells_reverse
         // this.log(`updated celldb id=${celldb.ID}`)
       }),
       catchError(this.handleError<CellDB>('updateCell'))

@@ -35,21 +35,23 @@ var dummy_CheckBox_sort sort.Float64Slice
 type CheckBoxAPI struct {
 	gorm.Model
 
-	models.CheckBox
+	models.CheckBox_WOP
 
 	// encoding of pointers
-	CheckBoxPointersEnconding
+	CheckBoxPointersEncoding CheckBoxPointersEncoding
 }
 
-// CheckBoxPointersEnconding encodes pointers to Struct and
+// CheckBoxPointersEncoding encodes pointers to Struct and
 // reverse pointers of slice of poitners to Struct
-type CheckBoxPointersEnconding struct {
+type CheckBoxPointersEncoding struct {
 	// insertion for pointer fields encoding declaration
 
 	// Implementation of a reverse ID for field FormDiv{}.CheckBoxs []*CheckBox
+	// (to be removed)
 	FormDiv_CheckBoxsDBID sql.NullInt64
 
 	// implementation of the index of the withing the slice
+	// (to be removed)
 	FormDiv_CheckBoxsDBID_Index sql.NullInt64
 }
 
@@ -71,7 +73,7 @@ type CheckBoxDB struct {
 	// provide the sql storage for the boolan
 	Value_Data sql.NullBool
 	// encoding of pointers
-	CheckBoxPointersEnconding
+	CheckBoxPointersEncoding
 }
 
 // CheckBoxDBs arrays checkboxDBs
@@ -163,7 +165,7 @@ func (backRepoCheckBox *BackRepoCheckBoxStruct) CommitDeleteInstance(id uint) (E
 	checkboxDB := backRepoCheckBox.Map_CheckBoxDBID_CheckBoxDB[id]
 	query := backRepoCheckBox.db.Unscoped().Delete(&checkboxDB)
 	if query.Error != nil {
-		return query.Error
+		log.Fatal(query.Error)
 	}
 
 	// update stores
@@ -189,7 +191,7 @@ func (backRepoCheckBox *BackRepoCheckBoxStruct) CommitPhaseOneInstance(checkbox 
 
 	query := backRepoCheckBox.db.Create(&checkboxDB)
 	if query.Error != nil {
-		return query.Error
+		log.Fatal(query.Error)
 	}
 
 	// update stores
@@ -223,7 +225,7 @@ func (backRepoCheckBox *BackRepoCheckBoxStruct) CommitPhaseTwoInstance(backRepo 
 		// insertion point for translating pointers encodings into actual pointers
 		query := backRepoCheckBox.db.Save(&checkboxDB)
 		if query.Error != nil {
-			return query.Error
+			log.Fatalln(query.Error)
 		}
 
 	} else {
@@ -350,7 +352,7 @@ func (backRepo *BackRepoStruct) CheckoutCheckBox(checkbox *models.CheckBox) {
 			checkboxDB.ID = id
 
 			if err := backRepo.BackRepoCheckBox.db.First(&checkboxDB, id).Error; err != nil {
-				log.Panicln("CheckoutCheckBox : Problem with getting object with id:", id)
+				log.Fatalln("CheckoutCheckBox : Problem with getting object with id:", id)
 			}
 			backRepo.BackRepoCheckBox.CheckoutPhaseOneInstance(&checkboxDB)
 			backRepo.BackRepoCheckBox.CheckoutPhaseTwoInstance(backRepo, &checkboxDB)
@@ -360,6 +362,17 @@ func (backRepo *BackRepoStruct) CheckoutCheckBox(checkbox *models.CheckBox) {
 
 // CopyBasicFieldsFromCheckBox
 func (checkboxDB *CheckBoxDB) CopyBasicFieldsFromCheckBox(checkbox *models.CheckBox) {
+	// insertion point for fields commit
+
+	checkboxDB.Name_Data.String = checkbox.Name
+	checkboxDB.Name_Data.Valid = true
+
+	checkboxDB.Value_Data.Bool = checkbox.Value
+	checkboxDB.Value_Data.Valid = true
+}
+
+// CopyBasicFieldsFromCheckBox_WOP
+func (checkboxDB *CheckBoxDB) CopyBasicFieldsFromCheckBox_WOP(checkbox *models.CheckBox_WOP) {
 	// insertion point for fields commit
 
 	checkboxDB.Name_Data.String = checkbox.Name
@@ -382,6 +395,13 @@ func (checkboxDB *CheckBoxDB) CopyBasicFieldsFromCheckBoxWOP(checkbox *CheckBoxW
 
 // CopyBasicFieldsToCheckBox
 func (checkboxDB *CheckBoxDB) CopyBasicFieldsToCheckBox(checkbox *models.CheckBox) {
+	// insertion point for checkout of basic fields (back repo to stage)
+	checkbox.Name = checkboxDB.Name_Data.String
+	checkbox.Value = checkboxDB.Value_Data.Bool
+}
+
+// CopyBasicFieldsToCheckBox_WOP
+func (checkboxDB *CheckBoxDB) CopyBasicFieldsToCheckBox_WOP(checkbox *models.CheckBox_WOP) {
 	// insertion point for checkout of basic fields (back repo to stage)
 	checkbox.Name = checkboxDB.Name_Data.String
 	checkbox.Value = checkboxDB.Value_Data.Bool
@@ -414,12 +434,12 @@ func (backRepoCheckBox *BackRepoCheckBoxStruct) Backup(dirPath string) {
 	file, err := json.MarshalIndent(forBackup, "", " ")
 
 	if err != nil {
-		log.Panic("Cannot json CheckBox ", filename, " ", err.Error())
+		log.Fatal("Cannot json CheckBox ", filename, " ", err.Error())
 	}
 
 	err = ioutil.WriteFile(filename, file, 0644)
 	if err != nil {
-		log.Panic("Cannot write the json CheckBox file", err.Error())
+		log.Fatal("Cannot write the json CheckBox file", err.Error())
 	}
 }
 
@@ -439,7 +459,7 @@ func (backRepoCheckBox *BackRepoCheckBoxStruct) BackupXL(file *xlsx.File) {
 
 	sh, err := file.AddSheet("CheckBox")
 	if err != nil {
-		log.Panic("Cannot add XL file", err.Error())
+		log.Fatal("Cannot add XL file", err.Error())
 	}
 	_ = sh
 
@@ -464,13 +484,13 @@ func (backRepoCheckBox *BackRepoCheckBoxStruct) RestoreXLPhaseOne(file *xlsx.Fil
 	sh, ok := file.Sheet["CheckBox"]
 	_ = sh
 	if !ok {
-		log.Panic(errors.New("sheet not found"))
+		log.Fatal(errors.New("sheet not found"))
 	}
 
 	// log.Println("Max row is", sh.MaxRow)
 	err := sh.ForEachRow(backRepoCheckBox.rowVisitorCheckBox)
 	if err != nil {
-		log.Panic("Err=", err)
+		log.Fatal("Err=", err)
 	}
 }
 
@@ -492,7 +512,7 @@ func (backRepoCheckBox *BackRepoCheckBoxStruct) rowVisitorCheckBox(row *xlsx.Row
 		checkboxDB.ID = 0
 		query := backRepoCheckBox.db.Create(checkboxDB)
 		if query.Error != nil {
-			log.Panic(query.Error)
+			log.Fatal(query.Error)
 		}
 		backRepoCheckBox.Map_CheckBoxDBID_CheckBoxDB[checkboxDB.ID] = checkboxDB
 		BackRepoCheckBoxid_atBckpTime_newID[checkboxDB_ID_atBackupTime] = checkboxDB.ID
@@ -512,7 +532,7 @@ func (backRepoCheckBox *BackRepoCheckBoxStruct) RestorePhaseOne(dirPath string) 
 	jsonFile, err := os.Open(filename)
 	// if we os.Open returns an error then handle it
 	if err != nil {
-		log.Panic("Cannot restore/open the json CheckBox file", filename, " ", err.Error())
+		log.Fatal("Cannot restore/open the json CheckBox file", filename, " ", err.Error())
 	}
 
 	// read our opened jsonFile as a byte array.
@@ -529,14 +549,14 @@ func (backRepoCheckBox *BackRepoCheckBoxStruct) RestorePhaseOne(dirPath string) 
 		checkboxDB.ID = 0
 		query := backRepoCheckBox.db.Create(checkboxDB)
 		if query.Error != nil {
-			log.Panic(query.Error)
+			log.Fatal(query.Error)
 		}
 		backRepoCheckBox.Map_CheckBoxDBID_CheckBoxDB[checkboxDB.ID] = checkboxDB
 		BackRepoCheckBoxid_atBckpTime_newID[checkboxDB_ID_atBackupTime] = checkboxDB.ID
 	}
 
 	if err != nil {
-		log.Panic("Cannot restore/unmarshall json CheckBox file", err.Error())
+		log.Fatal("Cannot restore/unmarshall json CheckBox file", err.Error())
 	}
 }
 
@@ -559,7 +579,7 @@ func (backRepoCheckBox *BackRepoCheckBoxStruct) RestorePhaseTwo() {
 		// update databse with new index encoding
 		query := backRepoCheckBox.db.Model(checkboxDB).Updates(*checkboxDB)
 		if query.Error != nil {
-			log.Panic(query.Error)
+			log.Fatal(query.Error)
 		}
 	}
 

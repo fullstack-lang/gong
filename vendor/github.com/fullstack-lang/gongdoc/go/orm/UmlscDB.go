@@ -35,21 +35,26 @@ var dummy_Umlsc_sort sort.Float64Slice
 type UmlscAPI struct {
 	gorm.Model
 
-	models.Umlsc
+	models.Umlsc_WOP
 
 	// encoding of pointers
-	UmlscPointersEnconding
+	UmlscPointersEncoding UmlscPointersEncoding
 }
 
-// UmlscPointersEnconding encodes pointers to Struct and
+// UmlscPointersEncoding encodes pointers to Struct and
 // reverse pointers of slice of poitners to Struct
-type UmlscPointersEnconding struct {
+type UmlscPointersEncoding struct {
 	// insertion for pointer fields encoding declaration
 
+	// field States is a slice of pointers to another Struct (optional or 0..1)
+	States IntSlice `gorm:"type:TEXT"`
+
 	// Implementation of a reverse ID for field DiagramPackage{}.Umlscs []*Umlsc
+	// (to be removed)
 	DiagramPackage_UmlscsDBID sql.NullInt64
 
 	// implementation of the index of the withing the slice
+	// (to be removed)
 	DiagramPackage_UmlscsDBID_Index sql.NullInt64
 }
 
@@ -74,7 +79,7 @@ type UmlscDB struct {
 	// provide the sql storage for the boolan
 	IsInDrawMode_Data sql.NullBool
 	// encoding of pointers
-	UmlscPointersEnconding
+	UmlscPointersEncoding
 }
 
 // UmlscDBs arrays umlscDBs
@@ -169,7 +174,7 @@ func (backRepoUmlsc *BackRepoUmlscStruct) CommitDeleteInstance(id uint) (Error e
 	umlscDB := backRepoUmlsc.Map_UmlscDBID_UmlscDB[id]
 	query := backRepoUmlsc.db.Unscoped().Delete(&umlscDB)
 	if query.Error != nil {
-		return query.Error
+		log.Fatal(query.Error)
 	}
 
 	// update stores
@@ -195,7 +200,7 @@ func (backRepoUmlsc *BackRepoUmlscStruct) CommitPhaseOneInstance(umlsc *models.U
 
 	query := backRepoUmlsc.db.Create(&umlscDB)
 	if query.Error != nil {
-		return query.Error
+		log.Fatal(query.Error)
 	}
 
 	// update stores
@@ -237,6 +242,7 @@ func (backRepoUmlsc *BackRepoUmlscStruct) CommitPhaseTwoInstance(backRepo *BackR
 				backRepo.BackRepoUmlState.GetUmlStateDBFromUmlStatePtr(umlstateAssocEnd)
 
 			// encode reverse pointer in the association end back repo instance
+			// (to be removed)
 			umlstateAssocEnd_DB.Umlsc_StatesDBID.Int64 = int64(umlscDB.ID)
 			umlstateAssocEnd_DB.Umlsc_StatesDBID.Valid = true
 			umlstateAssocEnd_DB.Umlsc_StatesDBID_Index.Int64 = int64(idx)
@@ -246,9 +252,19 @@ func (backRepoUmlsc *BackRepoUmlscStruct) CommitPhaseTwoInstance(backRepo *BackR
 			}
 		}
 
+		// 1. reset
+		umlscDB.UmlscPointersEncoding.States = make([]int, 0)
+		// 2. encode
+		for _, umlstateAssocEnd := range umlsc.States {
+			umlstateAssocEnd_DB :=
+				backRepo.BackRepoUmlState.GetUmlStateDBFromUmlStatePtr(umlstateAssocEnd)
+			umlscDB.UmlscPointersEncoding.States =
+				append(umlscDB.UmlscPointersEncoding.States, int(umlstateAssocEnd_DB.ID))
+		}
+
 		query := backRepoUmlsc.db.Save(&umlscDB)
 		if query.Error != nil {
-			return query.Error
+			log.Fatalln(query.Error)
 		}
 
 	} else {
@@ -402,7 +418,7 @@ func (backRepo *BackRepoStruct) CheckoutUmlsc(umlsc *models.Umlsc) {
 			umlscDB.ID = id
 
 			if err := backRepo.BackRepoUmlsc.db.First(&umlscDB, id).Error; err != nil {
-				log.Panicln("CheckoutUmlsc : Problem with getting object with id:", id)
+				log.Fatalln("CheckoutUmlsc : Problem with getting object with id:", id)
 			}
 			backRepo.BackRepoUmlsc.CheckoutPhaseOneInstance(&umlscDB)
 			backRepo.BackRepoUmlsc.CheckoutPhaseTwoInstance(backRepo, &umlscDB)
@@ -412,6 +428,20 @@ func (backRepo *BackRepoStruct) CheckoutUmlsc(umlsc *models.Umlsc) {
 
 // CopyBasicFieldsFromUmlsc
 func (umlscDB *UmlscDB) CopyBasicFieldsFromUmlsc(umlsc *models.Umlsc) {
+	// insertion point for fields commit
+
+	umlscDB.Name_Data.String = umlsc.Name
+	umlscDB.Name_Data.Valid = true
+
+	umlscDB.Activestate_Data.String = umlsc.Activestate
+	umlscDB.Activestate_Data.Valid = true
+
+	umlscDB.IsInDrawMode_Data.Bool = umlsc.IsInDrawMode
+	umlscDB.IsInDrawMode_Data.Valid = true
+}
+
+// CopyBasicFieldsFromUmlsc_WOP
+func (umlscDB *UmlscDB) CopyBasicFieldsFromUmlsc_WOP(umlsc *models.Umlsc_WOP) {
 	// insertion point for fields commit
 
 	umlscDB.Name_Data.String = umlsc.Name
@@ -446,6 +476,14 @@ func (umlscDB *UmlscDB) CopyBasicFieldsToUmlsc(umlsc *models.Umlsc) {
 	umlsc.IsInDrawMode = umlscDB.IsInDrawMode_Data.Bool
 }
 
+// CopyBasicFieldsToUmlsc_WOP
+func (umlscDB *UmlscDB) CopyBasicFieldsToUmlsc_WOP(umlsc *models.Umlsc_WOP) {
+	// insertion point for checkout of basic fields (back repo to stage)
+	umlsc.Name = umlscDB.Name_Data.String
+	umlsc.Activestate = umlscDB.Activestate_Data.String
+	umlsc.IsInDrawMode = umlscDB.IsInDrawMode_Data.Bool
+}
+
 // CopyBasicFieldsToUmlscWOP
 func (umlscDB *UmlscDB) CopyBasicFieldsToUmlscWOP(umlsc *UmlscWOP) {
 	umlsc.ID = int(umlscDB.ID)
@@ -474,12 +512,12 @@ func (backRepoUmlsc *BackRepoUmlscStruct) Backup(dirPath string) {
 	file, err := json.MarshalIndent(forBackup, "", " ")
 
 	if err != nil {
-		log.Panic("Cannot json Umlsc ", filename, " ", err.Error())
+		log.Fatal("Cannot json Umlsc ", filename, " ", err.Error())
 	}
 
 	err = ioutil.WriteFile(filename, file, 0644)
 	if err != nil {
-		log.Panic("Cannot write the json Umlsc file", err.Error())
+		log.Fatal("Cannot write the json Umlsc file", err.Error())
 	}
 }
 
@@ -499,7 +537,7 @@ func (backRepoUmlsc *BackRepoUmlscStruct) BackupXL(file *xlsx.File) {
 
 	sh, err := file.AddSheet("Umlsc")
 	if err != nil {
-		log.Panic("Cannot add XL file", err.Error())
+		log.Fatal("Cannot add XL file", err.Error())
 	}
 	_ = sh
 
@@ -524,13 +562,13 @@ func (backRepoUmlsc *BackRepoUmlscStruct) RestoreXLPhaseOne(file *xlsx.File) {
 	sh, ok := file.Sheet["Umlsc"]
 	_ = sh
 	if !ok {
-		log.Panic(errors.New("sheet not found"))
+		log.Fatal(errors.New("sheet not found"))
 	}
 
 	// log.Println("Max row is", sh.MaxRow)
 	err := sh.ForEachRow(backRepoUmlsc.rowVisitorUmlsc)
 	if err != nil {
-		log.Panic("Err=", err)
+		log.Fatal("Err=", err)
 	}
 }
 
@@ -552,7 +590,7 @@ func (backRepoUmlsc *BackRepoUmlscStruct) rowVisitorUmlsc(row *xlsx.Row) error {
 		umlscDB.ID = 0
 		query := backRepoUmlsc.db.Create(umlscDB)
 		if query.Error != nil {
-			log.Panic(query.Error)
+			log.Fatal(query.Error)
 		}
 		backRepoUmlsc.Map_UmlscDBID_UmlscDB[umlscDB.ID] = umlscDB
 		BackRepoUmlscid_atBckpTime_newID[umlscDB_ID_atBackupTime] = umlscDB.ID
@@ -572,7 +610,7 @@ func (backRepoUmlsc *BackRepoUmlscStruct) RestorePhaseOne(dirPath string) {
 	jsonFile, err := os.Open(filename)
 	// if we os.Open returns an error then handle it
 	if err != nil {
-		log.Panic("Cannot restore/open the json Umlsc file", filename, " ", err.Error())
+		log.Fatal("Cannot restore/open the json Umlsc file", filename, " ", err.Error())
 	}
 
 	// read our opened jsonFile as a byte array.
@@ -589,14 +627,14 @@ func (backRepoUmlsc *BackRepoUmlscStruct) RestorePhaseOne(dirPath string) {
 		umlscDB.ID = 0
 		query := backRepoUmlsc.db.Create(umlscDB)
 		if query.Error != nil {
-			log.Panic(query.Error)
+			log.Fatal(query.Error)
 		}
 		backRepoUmlsc.Map_UmlscDBID_UmlscDB[umlscDB.ID] = umlscDB
 		BackRepoUmlscid_atBckpTime_newID[umlscDB_ID_atBackupTime] = umlscDB.ID
 	}
 
 	if err != nil {
-		log.Panic("Cannot restore/unmarshall json Umlsc file", err.Error())
+		log.Fatal("Cannot restore/unmarshall json Umlsc file", err.Error())
 	}
 }
 
@@ -619,7 +657,7 @@ func (backRepoUmlsc *BackRepoUmlscStruct) RestorePhaseTwo() {
 		// update databse with new index encoding
 		query := backRepoUmlsc.db.Model(umlscDB).Updates(*umlscDB)
 		if query.Error != nil {
-			log.Panic(query.Error)
+			log.Fatal(query.Error)
 		}
 	}
 

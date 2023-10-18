@@ -84,8 +84,8 @@ export class PolygoneService {
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
     let Animates = polygonedb.Animates
     polygonedb.Animates = []
-    let _Layer_Polygones_reverse = polygonedb.Layer_Polygones_reverse
-    polygonedb.Layer_Polygones_reverse = new LayerDB
+    let _Layer_Polygones_reverse = polygonedb.PolygonePointersEncoding.Layer_Polygones_reverse
+    polygonedb.PolygonePointersEncoding.Layer_Polygones_reverse = new LayerDB
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -97,7 +97,7 @@ export class PolygoneService {
       tap(_ => {
         // insertion point for restoration of reverse pointers
 	      polygonedb.Animates = Animates
-        polygonedb.Layer_Polygones_reverse = _Layer_Polygones_reverse
+        polygonedb.PolygonePointersEncoding.Layer_Polygones_reverse = _Layer_Polygones_reverse
         // this.log(`posted polygonedb id=${polygonedb.ID}`)
       }),
       catchError(this.handleError<PolygoneDB>('postPolygone'))
@@ -135,8 +135,8 @@ export class PolygoneService {
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
     let Animates = polygonedb.Animates
     polygonedb.Animates = []
-    let _Layer_Polygones_reverse = polygonedb.Layer_Polygones_reverse
-    polygonedb.Layer_Polygones_reverse = new LayerDB
+    let _Layer_Polygones_reverse = polygonedb.PolygonePointersEncoding.Layer_Polygones_reverse
+    polygonedb.PolygonePointersEncoding.Layer_Polygones_reverse = new LayerDB
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -148,7 +148,7 @@ export class PolygoneService {
       tap(_ => {
         // insertion point for restoration of reverse pointers
 	      polygonedb.Animates = Animates
-        polygonedb.Layer_Polygones_reverse = _Layer_Polygones_reverse
+        polygonedb.PolygonePointersEncoding.Layer_Polygones_reverse = _Layer_Polygones_reverse
         // this.log(`updated polygonedb id=${polygonedb.ID}`)
       }),
       catchError(this.handleError<PolygoneDB>('updatePolygone'))

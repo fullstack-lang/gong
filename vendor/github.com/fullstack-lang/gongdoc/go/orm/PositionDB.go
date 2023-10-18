@@ -35,15 +35,15 @@ var dummy_Position_sort sort.Float64Slice
 type PositionAPI struct {
 	gorm.Model
 
-	models.Position
+	models.Position_WOP
 
 	// encoding of pointers
-	PositionPointersEnconding
+	PositionPointersEncoding PositionPointersEncoding
 }
 
-// PositionPointersEnconding encodes pointers to Struct and
+// PositionPointersEncoding encodes pointers to Struct and
 // reverse pointers of slice of poitners to Struct
-type PositionPointersEnconding struct {
+type PositionPointersEncoding struct {
 	// insertion for pointer fields encoding declaration
 }
 
@@ -67,7 +67,7 @@ type PositionDB struct {
 	// Declation for basic field positionDB.Name
 	Name_Data sql.NullString
 	// encoding of pointers
-	PositionPointersEnconding
+	PositionPointersEncoding
 }
 
 // PositionDBs arrays positionDBs
@@ -162,7 +162,7 @@ func (backRepoPosition *BackRepoPositionStruct) CommitDeleteInstance(id uint) (E
 	positionDB := backRepoPosition.Map_PositionDBID_PositionDB[id]
 	query := backRepoPosition.db.Unscoped().Delete(&positionDB)
 	if query.Error != nil {
-		return query.Error
+		log.Fatal(query.Error)
 	}
 
 	// update stores
@@ -188,7 +188,7 @@ func (backRepoPosition *BackRepoPositionStruct) CommitPhaseOneInstance(position 
 
 	query := backRepoPosition.db.Create(&positionDB)
 	if query.Error != nil {
-		return query.Error
+		log.Fatal(query.Error)
 	}
 
 	// update stores
@@ -222,7 +222,7 @@ func (backRepoPosition *BackRepoPositionStruct) CommitPhaseTwoInstance(backRepo 
 		// insertion point for translating pointers encodings into actual pointers
 		query := backRepoPosition.db.Save(&positionDB)
 		if query.Error != nil {
-			return query.Error
+			log.Fatalln(query.Error)
 		}
 
 	} else {
@@ -349,7 +349,7 @@ func (backRepo *BackRepoStruct) CheckoutPosition(position *models.Position) {
 			positionDB.ID = id
 
 			if err := backRepo.BackRepoPosition.db.First(&positionDB, id).Error; err != nil {
-				log.Panicln("CheckoutPosition : Problem with getting object with id:", id)
+				log.Fatalln("CheckoutPosition : Problem with getting object with id:", id)
 			}
 			backRepo.BackRepoPosition.CheckoutPhaseOneInstance(&positionDB)
 			backRepo.BackRepoPosition.CheckoutPhaseTwoInstance(backRepo, &positionDB)
@@ -359,6 +359,20 @@ func (backRepo *BackRepoStruct) CheckoutPosition(position *models.Position) {
 
 // CopyBasicFieldsFromPosition
 func (positionDB *PositionDB) CopyBasicFieldsFromPosition(position *models.Position) {
+	// insertion point for fields commit
+
+	positionDB.X_Data.Float64 = position.X
+	positionDB.X_Data.Valid = true
+
+	positionDB.Y_Data.Float64 = position.Y
+	positionDB.Y_Data.Valid = true
+
+	positionDB.Name_Data.String = position.Name
+	positionDB.Name_Data.Valid = true
+}
+
+// CopyBasicFieldsFromPosition_WOP
+func (positionDB *PositionDB) CopyBasicFieldsFromPosition_WOP(position *models.Position_WOP) {
 	// insertion point for fields commit
 
 	positionDB.X_Data.Float64 = position.X
@@ -393,6 +407,14 @@ func (positionDB *PositionDB) CopyBasicFieldsToPosition(position *models.Positio
 	position.Name = positionDB.Name_Data.String
 }
 
+// CopyBasicFieldsToPosition_WOP
+func (positionDB *PositionDB) CopyBasicFieldsToPosition_WOP(position *models.Position_WOP) {
+	// insertion point for checkout of basic fields (back repo to stage)
+	position.X = positionDB.X_Data.Float64
+	position.Y = positionDB.Y_Data.Float64
+	position.Name = positionDB.Name_Data.String
+}
+
 // CopyBasicFieldsToPositionWOP
 func (positionDB *PositionDB) CopyBasicFieldsToPositionWOP(position *PositionWOP) {
 	position.ID = int(positionDB.ID)
@@ -421,12 +443,12 @@ func (backRepoPosition *BackRepoPositionStruct) Backup(dirPath string) {
 	file, err := json.MarshalIndent(forBackup, "", " ")
 
 	if err != nil {
-		log.Panic("Cannot json Position ", filename, " ", err.Error())
+		log.Fatal("Cannot json Position ", filename, " ", err.Error())
 	}
 
 	err = ioutil.WriteFile(filename, file, 0644)
 	if err != nil {
-		log.Panic("Cannot write the json Position file", err.Error())
+		log.Fatal("Cannot write the json Position file", err.Error())
 	}
 }
 
@@ -446,7 +468,7 @@ func (backRepoPosition *BackRepoPositionStruct) BackupXL(file *xlsx.File) {
 
 	sh, err := file.AddSheet("Position")
 	if err != nil {
-		log.Panic("Cannot add XL file", err.Error())
+		log.Fatal("Cannot add XL file", err.Error())
 	}
 	_ = sh
 
@@ -471,13 +493,13 @@ func (backRepoPosition *BackRepoPositionStruct) RestoreXLPhaseOne(file *xlsx.Fil
 	sh, ok := file.Sheet["Position"]
 	_ = sh
 	if !ok {
-		log.Panic(errors.New("sheet not found"))
+		log.Fatal(errors.New("sheet not found"))
 	}
 
 	// log.Println("Max row is", sh.MaxRow)
 	err := sh.ForEachRow(backRepoPosition.rowVisitorPosition)
 	if err != nil {
-		log.Panic("Err=", err)
+		log.Fatal("Err=", err)
 	}
 }
 
@@ -499,7 +521,7 @@ func (backRepoPosition *BackRepoPositionStruct) rowVisitorPosition(row *xlsx.Row
 		positionDB.ID = 0
 		query := backRepoPosition.db.Create(positionDB)
 		if query.Error != nil {
-			log.Panic(query.Error)
+			log.Fatal(query.Error)
 		}
 		backRepoPosition.Map_PositionDBID_PositionDB[positionDB.ID] = positionDB
 		BackRepoPositionid_atBckpTime_newID[positionDB_ID_atBackupTime] = positionDB.ID
@@ -519,7 +541,7 @@ func (backRepoPosition *BackRepoPositionStruct) RestorePhaseOne(dirPath string) 
 	jsonFile, err := os.Open(filename)
 	// if we os.Open returns an error then handle it
 	if err != nil {
-		log.Panic("Cannot restore/open the json Position file", filename, " ", err.Error())
+		log.Fatal("Cannot restore/open the json Position file", filename, " ", err.Error())
 	}
 
 	// read our opened jsonFile as a byte array.
@@ -536,14 +558,14 @@ func (backRepoPosition *BackRepoPositionStruct) RestorePhaseOne(dirPath string) 
 		positionDB.ID = 0
 		query := backRepoPosition.db.Create(positionDB)
 		if query.Error != nil {
-			log.Panic(query.Error)
+			log.Fatal(query.Error)
 		}
 		backRepoPosition.Map_PositionDBID_PositionDB[positionDB.ID] = positionDB
 		BackRepoPositionid_atBckpTime_newID[positionDB_ID_atBackupTime] = positionDB.ID
 	}
 
 	if err != nil {
-		log.Panic("Cannot restore/unmarshall json Position file", err.Error())
+		log.Fatal("Cannot restore/unmarshall json Position file", err.Error())
 	}
 }
 
@@ -560,7 +582,7 @@ func (backRepoPosition *BackRepoPositionStruct) RestorePhaseTwo() {
 		// update databse with new index encoding
 		query := backRepoPosition.db.Model(positionDB).Updates(*positionDB)
 		if query.Error != nil {
-			log.Panic(query.Error)
+			log.Fatal(query.Error)
 		}
 	}
 

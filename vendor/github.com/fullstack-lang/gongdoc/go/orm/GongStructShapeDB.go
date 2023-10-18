@@ -35,25 +35,33 @@ var dummy_GongStructShape_sort sort.Float64Slice
 type GongStructShapeAPI struct {
 	gorm.Model
 
-	models.GongStructShape
+	models.GongStructShape_WOP
 
 	// encoding of pointers
-	GongStructShapePointersEnconding
+	GongStructShapePointersEncoding GongStructShapePointersEncoding
 }
 
-// GongStructShapePointersEnconding encodes pointers to Struct and
+// GongStructShapePointersEncoding encodes pointers to Struct and
 // reverse pointers of slice of poitners to Struct
-type GongStructShapePointersEnconding struct {
+type GongStructShapePointersEncoding struct {
 	// insertion for pointer fields encoding declaration
 
 	// field Position is a pointer to another Struct (optional or 0..1)
 	// This field is generated into another field to enable AS ONE association
 	PositionID sql.NullInt64
 
+	// field Fields is a slice of pointers to another Struct (optional or 0..1)
+	Fields IntSlice `gorm:"type:TEXT"`
+
+	// field Links is a slice of pointers to another Struct (optional or 0..1)
+	Links IntSlice `gorm:"type:TEXT"`
+
 	// Implementation of a reverse ID for field Classdiagram{}.GongStructShapes []*GongStructShape
+	// (to be removed)
 	Classdiagram_GongStructShapesDBID sql.NullInt64
 
 	// implementation of the index of the withing the slice
+	// (to be removed)
 	Classdiagram_GongStructShapesDBID_Index sql.NullInt64
 }
 
@@ -91,7 +99,7 @@ type GongStructShapeDB struct {
 	// provide the sql storage for the boolan
 	IsSelected_Data sql.NullBool
 	// encoding of pointers
-	GongStructShapePointersEnconding
+	GongStructShapePointersEncoding
 }
 
 // GongStructShapeDBs arrays gongstructshapeDBs
@@ -198,7 +206,7 @@ func (backRepoGongStructShape *BackRepoGongStructShapeStruct) CommitDeleteInstan
 	gongstructshapeDB := backRepoGongStructShape.Map_GongStructShapeDBID_GongStructShapeDB[id]
 	query := backRepoGongStructShape.db.Unscoped().Delete(&gongstructshapeDB)
 	if query.Error != nil {
-		return query.Error
+		log.Fatal(query.Error)
 	}
 
 	// update stores
@@ -224,7 +232,7 @@ func (backRepoGongStructShape *BackRepoGongStructShapeStruct) CommitPhaseOneInst
 
 	query := backRepoGongStructShape.db.Create(&gongstructshapeDB)
 	if query.Error != nil {
-		return query.Error
+		log.Fatal(query.Error)
 	}
 
 	// update stores
@@ -278,6 +286,7 @@ func (backRepoGongStructShape *BackRepoGongStructShapeStruct) CommitPhaseTwoInst
 				backRepo.BackRepoField.GetFieldDBFromFieldPtr(fieldAssocEnd)
 
 			// encode reverse pointer in the association end back repo instance
+			// (to be removed)
 			fieldAssocEnd_DB.GongStructShape_FieldsDBID.Int64 = int64(gongstructshapeDB.ID)
 			fieldAssocEnd_DB.GongStructShape_FieldsDBID.Valid = true
 			fieldAssocEnd_DB.GongStructShape_FieldsDBID_Index.Int64 = int64(idx)
@@ -285,6 +294,16 @@ func (backRepoGongStructShape *BackRepoGongStructShapeStruct) CommitPhaseTwoInst
 			if q := backRepoGongStructShape.db.Save(fieldAssocEnd_DB); q.Error != nil {
 				return q.Error
 			}
+		}
+
+		// 1. reset
+		gongstructshapeDB.GongStructShapePointersEncoding.Fields = make([]int, 0)
+		// 2. encode
+		for _, fieldAssocEnd := range gongstructshape.Fields {
+			fieldAssocEnd_DB :=
+				backRepo.BackRepoField.GetFieldDBFromFieldPtr(fieldAssocEnd)
+			gongstructshapeDB.GongStructShapePointersEncoding.Fields =
+				append(gongstructshapeDB.GongStructShapePointersEncoding.Fields, int(fieldAssocEnd_DB.ID))
 		}
 
 		// This loop encodes the slice of pointers gongstructshape.Links into the back repo.
@@ -297,6 +316,7 @@ func (backRepoGongStructShape *BackRepoGongStructShapeStruct) CommitPhaseTwoInst
 				backRepo.BackRepoLink.GetLinkDBFromLinkPtr(linkAssocEnd)
 
 			// encode reverse pointer in the association end back repo instance
+			// (to be removed)
 			linkAssocEnd_DB.GongStructShape_LinksDBID.Int64 = int64(gongstructshapeDB.ID)
 			linkAssocEnd_DB.GongStructShape_LinksDBID.Valid = true
 			linkAssocEnd_DB.GongStructShape_LinksDBID_Index.Int64 = int64(idx)
@@ -306,9 +326,19 @@ func (backRepoGongStructShape *BackRepoGongStructShapeStruct) CommitPhaseTwoInst
 			}
 		}
 
+		// 1. reset
+		gongstructshapeDB.GongStructShapePointersEncoding.Links = make([]int, 0)
+		// 2. encode
+		for _, linkAssocEnd := range gongstructshape.Links {
+			linkAssocEnd_DB :=
+				backRepo.BackRepoLink.GetLinkDBFromLinkPtr(linkAssocEnd)
+			gongstructshapeDB.GongStructShapePointersEncoding.Links =
+				append(gongstructshapeDB.GongStructShapePointersEncoding.Links, int(linkAssocEnd_DB.ID))
+		}
+
 		query := backRepoGongStructShape.db.Save(&gongstructshapeDB)
 		if query.Error != nil {
-			return query.Error
+			log.Fatalln(query.Error)
 		}
 
 	} else {
@@ -494,7 +524,7 @@ func (backRepo *BackRepoStruct) CheckoutGongStructShape(gongstructshape *models.
 			gongstructshapeDB.ID = id
 
 			if err := backRepo.BackRepoGongStructShape.db.First(&gongstructshapeDB, id).Error; err != nil {
-				log.Panicln("CheckoutGongStructShape : Problem with getting object with id:", id)
+				log.Fatalln("CheckoutGongStructShape : Problem with getting object with id:", id)
 			}
 			backRepo.BackRepoGongStructShape.CheckoutPhaseOneInstance(&gongstructshapeDB)
 			backRepo.BackRepoGongStructShape.CheckoutPhaseTwoInstance(backRepo, &gongstructshapeDB)
@@ -504,6 +534,32 @@ func (backRepo *BackRepoStruct) CheckoutGongStructShape(gongstructshape *models.
 
 // CopyBasicFieldsFromGongStructShape
 func (gongstructshapeDB *GongStructShapeDB) CopyBasicFieldsFromGongStructShape(gongstructshape *models.GongStructShape) {
+	// insertion point for fields commit
+
+	gongstructshapeDB.Name_Data.String = gongstructshape.Name
+	gongstructshapeDB.Name_Data.Valid = true
+
+	gongstructshapeDB.Identifier_Data.String = gongstructshape.Identifier
+	gongstructshapeDB.Identifier_Data.Valid = true
+
+	gongstructshapeDB.ShowNbInstances_Data.Bool = gongstructshape.ShowNbInstances
+	gongstructshapeDB.ShowNbInstances_Data.Valid = true
+
+	gongstructshapeDB.NbInstances_Data.Int64 = int64(gongstructshape.NbInstances)
+	gongstructshapeDB.NbInstances_Data.Valid = true
+
+	gongstructshapeDB.Width_Data.Float64 = gongstructshape.Width
+	gongstructshapeDB.Width_Data.Valid = true
+
+	gongstructshapeDB.Heigth_Data.Float64 = gongstructshape.Heigth
+	gongstructshapeDB.Heigth_Data.Valid = true
+
+	gongstructshapeDB.IsSelected_Data.Bool = gongstructshape.IsSelected
+	gongstructshapeDB.IsSelected_Data.Valid = true
+}
+
+// CopyBasicFieldsFromGongStructShape_WOP
+func (gongstructshapeDB *GongStructShapeDB) CopyBasicFieldsFromGongStructShape_WOP(gongstructshape *models.GongStructShape_WOP) {
 	// insertion point for fields commit
 
 	gongstructshapeDB.Name_Data.String = gongstructshape.Name
@@ -566,6 +622,18 @@ func (gongstructshapeDB *GongStructShapeDB) CopyBasicFieldsToGongStructShape(gon
 	gongstructshape.IsSelected = gongstructshapeDB.IsSelected_Data.Bool
 }
 
+// CopyBasicFieldsToGongStructShape_WOP
+func (gongstructshapeDB *GongStructShapeDB) CopyBasicFieldsToGongStructShape_WOP(gongstructshape *models.GongStructShape_WOP) {
+	// insertion point for checkout of basic fields (back repo to stage)
+	gongstructshape.Name = gongstructshapeDB.Name_Data.String
+	gongstructshape.Identifier = gongstructshapeDB.Identifier_Data.String
+	gongstructshape.ShowNbInstances = gongstructshapeDB.ShowNbInstances_Data.Bool
+	gongstructshape.NbInstances = int(gongstructshapeDB.NbInstances_Data.Int64)
+	gongstructshape.Width = gongstructshapeDB.Width_Data.Float64
+	gongstructshape.Heigth = gongstructshapeDB.Heigth_Data.Float64
+	gongstructshape.IsSelected = gongstructshapeDB.IsSelected_Data.Bool
+}
+
 // CopyBasicFieldsToGongStructShapeWOP
 func (gongstructshapeDB *GongStructShapeDB) CopyBasicFieldsToGongStructShapeWOP(gongstructshape *GongStructShapeWOP) {
 	gongstructshape.ID = int(gongstructshapeDB.ID)
@@ -598,12 +666,12 @@ func (backRepoGongStructShape *BackRepoGongStructShapeStruct) Backup(dirPath str
 	file, err := json.MarshalIndent(forBackup, "", " ")
 
 	if err != nil {
-		log.Panic("Cannot json GongStructShape ", filename, " ", err.Error())
+		log.Fatal("Cannot json GongStructShape ", filename, " ", err.Error())
 	}
 
 	err = ioutil.WriteFile(filename, file, 0644)
 	if err != nil {
-		log.Panic("Cannot write the json GongStructShape file", err.Error())
+		log.Fatal("Cannot write the json GongStructShape file", err.Error())
 	}
 }
 
@@ -623,7 +691,7 @@ func (backRepoGongStructShape *BackRepoGongStructShapeStruct) BackupXL(file *xls
 
 	sh, err := file.AddSheet("GongStructShape")
 	if err != nil {
-		log.Panic("Cannot add XL file", err.Error())
+		log.Fatal("Cannot add XL file", err.Error())
 	}
 	_ = sh
 
@@ -648,13 +716,13 @@ func (backRepoGongStructShape *BackRepoGongStructShapeStruct) RestoreXLPhaseOne(
 	sh, ok := file.Sheet["GongStructShape"]
 	_ = sh
 	if !ok {
-		log.Panic(errors.New("sheet not found"))
+		log.Fatal(errors.New("sheet not found"))
 	}
 
 	// log.Println("Max row is", sh.MaxRow)
 	err := sh.ForEachRow(backRepoGongStructShape.rowVisitorGongStructShape)
 	if err != nil {
-		log.Panic("Err=", err)
+		log.Fatal("Err=", err)
 	}
 }
 
@@ -676,7 +744,7 @@ func (backRepoGongStructShape *BackRepoGongStructShapeStruct) rowVisitorGongStru
 		gongstructshapeDB.ID = 0
 		query := backRepoGongStructShape.db.Create(gongstructshapeDB)
 		if query.Error != nil {
-			log.Panic(query.Error)
+			log.Fatal(query.Error)
 		}
 		backRepoGongStructShape.Map_GongStructShapeDBID_GongStructShapeDB[gongstructshapeDB.ID] = gongstructshapeDB
 		BackRepoGongStructShapeid_atBckpTime_newID[gongstructshapeDB_ID_atBackupTime] = gongstructshapeDB.ID
@@ -696,7 +764,7 @@ func (backRepoGongStructShape *BackRepoGongStructShapeStruct) RestorePhaseOne(di
 	jsonFile, err := os.Open(filename)
 	// if we os.Open returns an error then handle it
 	if err != nil {
-		log.Panic("Cannot restore/open the json GongStructShape file", filename, " ", err.Error())
+		log.Fatal("Cannot restore/open the json GongStructShape file", filename, " ", err.Error())
 	}
 
 	// read our opened jsonFile as a byte array.
@@ -713,14 +781,14 @@ func (backRepoGongStructShape *BackRepoGongStructShapeStruct) RestorePhaseOne(di
 		gongstructshapeDB.ID = 0
 		query := backRepoGongStructShape.db.Create(gongstructshapeDB)
 		if query.Error != nil {
-			log.Panic(query.Error)
+			log.Fatal(query.Error)
 		}
 		backRepoGongStructShape.Map_GongStructShapeDBID_GongStructShapeDB[gongstructshapeDB.ID] = gongstructshapeDB
 		BackRepoGongStructShapeid_atBckpTime_newID[gongstructshapeDB_ID_atBackupTime] = gongstructshapeDB.ID
 	}
 
 	if err != nil {
-		log.Panic("Cannot restore/unmarshall json GongStructShape file", err.Error())
+		log.Fatal("Cannot restore/unmarshall json GongStructShape file", err.Error())
 	}
 }
 
@@ -749,7 +817,7 @@ func (backRepoGongStructShape *BackRepoGongStructShapeStruct) RestorePhaseTwo() 
 		// update databse with new index encoding
 		query := backRepoGongStructShape.db.Model(gongstructshapeDB).Updates(*gongstructshapeDB)
 		if query.Error != nil {
-			log.Panic(query.Error)
+			log.Fatal(query.Error)
 		}
 	}
 

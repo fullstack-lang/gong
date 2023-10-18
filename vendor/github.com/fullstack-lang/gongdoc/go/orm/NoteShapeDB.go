@@ -35,21 +35,26 @@ var dummy_NoteShape_sort sort.Float64Slice
 type NoteShapeAPI struct {
 	gorm.Model
 
-	models.NoteShape
+	models.NoteShape_WOP
 
 	// encoding of pointers
-	NoteShapePointersEnconding
+	NoteShapePointersEncoding NoteShapePointersEncoding
 }
 
-// NoteShapePointersEnconding encodes pointers to Struct and
+// NoteShapePointersEncoding encodes pointers to Struct and
 // reverse pointers of slice of poitners to Struct
-type NoteShapePointersEnconding struct {
+type NoteShapePointersEncoding struct {
 	// insertion for pointer fields encoding declaration
 
+	// field NoteShapeLinks is a slice of pointers to another Struct (optional or 0..1)
+	NoteShapeLinks IntSlice `gorm:"type:TEXT"`
+
 	// Implementation of a reverse ID for field Classdiagram{}.NoteShapes []*NoteShape
+	// (to be removed)
 	Classdiagram_NoteShapesDBID sql.NullInt64
 
 	// implementation of the index of the withing the slice
+	// (to be removed)
 	Classdiagram_NoteShapesDBID_Index sql.NullInt64
 }
 
@@ -92,7 +97,7 @@ type NoteShapeDB struct {
 	// provide the sql storage for the boolan
 	Matched_Data sql.NullBool
 	// encoding of pointers
-	NoteShapePointersEnconding
+	NoteShapePointersEncoding
 }
 
 // NoteShapeDBs arrays noteshapeDBs
@@ -205,7 +210,7 @@ func (backRepoNoteShape *BackRepoNoteShapeStruct) CommitDeleteInstance(id uint) 
 	noteshapeDB := backRepoNoteShape.Map_NoteShapeDBID_NoteShapeDB[id]
 	query := backRepoNoteShape.db.Unscoped().Delete(&noteshapeDB)
 	if query.Error != nil {
-		return query.Error
+		log.Fatal(query.Error)
 	}
 
 	// update stores
@@ -231,7 +236,7 @@ func (backRepoNoteShape *BackRepoNoteShapeStruct) CommitPhaseOneInstance(notesha
 
 	query := backRepoNoteShape.db.Create(&noteshapeDB)
 	if query.Error != nil {
-		return query.Error
+		log.Fatal(query.Error)
 	}
 
 	// update stores
@@ -273,6 +278,7 @@ func (backRepoNoteShape *BackRepoNoteShapeStruct) CommitPhaseTwoInstance(backRep
 				backRepo.BackRepoNoteShapeLink.GetNoteShapeLinkDBFromNoteShapeLinkPtr(noteshapelinkAssocEnd)
 
 			// encode reverse pointer in the association end back repo instance
+			// (to be removed)
 			noteshapelinkAssocEnd_DB.NoteShape_NoteShapeLinksDBID.Int64 = int64(noteshapeDB.ID)
 			noteshapelinkAssocEnd_DB.NoteShape_NoteShapeLinksDBID.Valid = true
 			noteshapelinkAssocEnd_DB.NoteShape_NoteShapeLinksDBID_Index.Int64 = int64(idx)
@@ -282,9 +288,19 @@ func (backRepoNoteShape *BackRepoNoteShapeStruct) CommitPhaseTwoInstance(backRep
 			}
 		}
 
+		// 1. reset
+		noteshapeDB.NoteShapePointersEncoding.NoteShapeLinks = make([]int, 0)
+		// 2. encode
+		for _, noteshapelinkAssocEnd := range noteshape.NoteShapeLinks {
+			noteshapelinkAssocEnd_DB :=
+				backRepo.BackRepoNoteShapeLink.GetNoteShapeLinkDBFromNoteShapeLinkPtr(noteshapelinkAssocEnd)
+			noteshapeDB.NoteShapePointersEncoding.NoteShapeLinks =
+				append(noteshapeDB.NoteShapePointersEncoding.NoteShapeLinks, int(noteshapelinkAssocEnd_DB.ID))
+		}
+
 		query := backRepoNoteShape.db.Save(&noteshapeDB)
 		if query.Error != nil {
-			return query.Error
+			log.Fatalln(query.Error)
 		}
 
 	} else {
@@ -438,7 +454,7 @@ func (backRepo *BackRepoStruct) CheckoutNoteShape(noteshape *models.NoteShape) {
 			noteshapeDB.ID = id
 
 			if err := backRepo.BackRepoNoteShape.db.First(&noteshapeDB, id).Error; err != nil {
-				log.Panicln("CheckoutNoteShape : Problem with getting object with id:", id)
+				log.Fatalln("CheckoutNoteShape : Problem with getting object with id:", id)
 			}
 			backRepo.BackRepoNoteShape.CheckoutPhaseOneInstance(&noteshapeDB)
 			backRepo.BackRepoNoteShape.CheckoutPhaseTwoInstance(backRepo, &noteshapeDB)
@@ -448,6 +464,38 @@ func (backRepo *BackRepoStruct) CheckoutNoteShape(noteshape *models.NoteShape) {
 
 // CopyBasicFieldsFromNoteShape
 func (noteshapeDB *NoteShapeDB) CopyBasicFieldsFromNoteShape(noteshape *models.NoteShape) {
+	// insertion point for fields commit
+
+	noteshapeDB.Name_Data.String = noteshape.Name
+	noteshapeDB.Name_Data.Valid = true
+
+	noteshapeDB.Identifier_Data.String = noteshape.Identifier
+	noteshapeDB.Identifier_Data.Valid = true
+
+	noteshapeDB.Body_Data.String = noteshape.Body
+	noteshapeDB.Body_Data.Valid = true
+
+	noteshapeDB.BodyHTML_Data.String = noteshape.BodyHTML
+	noteshapeDB.BodyHTML_Data.Valid = true
+
+	noteshapeDB.X_Data.Float64 = noteshape.X
+	noteshapeDB.X_Data.Valid = true
+
+	noteshapeDB.Y_Data.Float64 = noteshape.Y
+	noteshapeDB.Y_Data.Valid = true
+
+	noteshapeDB.Width_Data.Float64 = noteshape.Width
+	noteshapeDB.Width_Data.Valid = true
+
+	noteshapeDB.Heigth_Data.Float64 = noteshape.Heigth
+	noteshapeDB.Heigth_Data.Valid = true
+
+	noteshapeDB.Matched_Data.Bool = noteshape.Matched
+	noteshapeDB.Matched_Data.Valid = true
+}
+
+// CopyBasicFieldsFromNoteShape_WOP
+func (noteshapeDB *NoteShapeDB) CopyBasicFieldsFromNoteShape_WOP(noteshape *models.NoteShape_WOP) {
 	// insertion point for fields commit
 
 	noteshapeDB.Name_Data.String = noteshape.Name
@@ -524,6 +572,20 @@ func (noteshapeDB *NoteShapeDB) CopyBasicFieldsToNoteShape(noteshape *models.Not
 	noteshape.Matched = noteshapeDB.Matched_Data.Bool
 }
 
+// CopyBasicFieldsToNoteShape_WOP
+func (noteshapeDB *NoteShapeDB) CopyBasicFieldsToNoteShape_WOP(noteshape *models.NoteShape_WOP) {
+	// insertion point for checkout of basic fields (back repo to stage)
+	noteshape.Name = noteshapeDB.Name_Data.String
+	noteshape.Identifier = noteshapeDB.Identifier_Data.String
+	noteshape.Body = noteshapeDB.Body_Data.String
+	noteshape.BodyHTML = noteshapeDB.BodyHTML_Data.String
+	noteshape.X = noteshapeDB.X_Data.Float64
+	noteshape.Y = noteshapeDB.Y_Data.Float64
+	noteshape.Width = noteshapeDB.Width_Data.Float64
+	noteshape.Heigth = noteshapeDB.Heigth_Data.Float64
+	noteshape.Matched = noteshapeDB.Matched_Data.Bool
+}
+
 // CopyBasicFieldsToNoteShapeWOP
 func (noteshapeDB *NoteShapeDB) CopyBasicFieldsToNoteShapeWOP(noteshape *NoteShapeWOP) {
 	noteshape.ID = int(noteshapeDB.ID)
@@ -558,12 +620,12 @@ func (backRepoNoteShape *BackRepoNoteShapeStruct) Backup(dirPath string) {
 	file, err := json.MarshalIndent(forBackup, "", " ")
 
 	if err != nil {
-		log.Panic("Cannot json NoteShape ", filename, " ", err.Error())
+		log.Fatal("Cannot json NoteShape ", filename, " ", err.Error())
 	}
 
 	err = ioutil.WriteFile(filename, file, 0644)
 	if err != nil {
-		log.Panic("Cannot write the json NoteShape file", err.Error())
+		log.Fatal("Cannot write the json NoteShape file", err.Error())
 	}
 }
 
@@ -583,7 +645,7 @@ func (backRepoNoteShape *BackRepoNoteShapeStruct) BackupXL(file *xlsx.File) {
 
 	sh, err := file.AddSheet("NoteShape")
 	if err != nil {
-		log.Panic("Cannot add XL file", err.Error())
+		log.Fatal("Cannot add XL file", err.Error())
 	}
 	_ = sh
 
@@ -608,13 +670,13 @@ func (backRepoNoteShape *BackRepoNoteShapeStruct) RestoreXLPhaseOne(file *xlsx.F
 	sh, ok := file.Sheet["NoteShape"]
 	_ = sh
 	if !ok {
-		log.Panic(errors.New("sheet not found"))
+		log.Fatal(errors.New("sheet not found"))
 	}
 
 	// log.Println("Max row is", sh.MaxRow)
 	err := sh.ForEachRow(backRepoNoteShape.rowVisitorNoteShape)
 	if err != nil {
-		log.Panic("Err=", err)
+		log.Fatal("Err=", err)
 	}
 }
 
@@ -636,7 +698,7 @@ func (backRepoNoteShape *BackRepoNoteShapeStruct) rowVisitorNoteShape(row *xlsx.
 		noteshapeDB.ID = 0
 		query := backRepoNoteShape.db.Create(noteshapeDB)
 		if query.Error != nil {
-			log.Panic(query.Error)
+			log.Fatal(query.Error)
 		}
 		backRepoNoteShape.Map_NoteShapeDBID_NoteShapeDB[noteshapeDB.ID] = noteshapeDB
 		BackRepoNoteShapeid_atBckpTime_newID[noteshapeDB_ID_atBackupTime] = noteshapeDB.ID
@@ -656,7 +718,7 @@ func (backRepoNoteShape *BackRepoNoteShapeStruct) RestorePhaseOne(dirPath string
 	jsonFile, err := os.Open(filename)
 	// if we os.Open returns an error then handle it
 	if err != nil {
-		log.Panic("Cannot restore/open the json NoteShape file", filename, " ", err.Error())
+		log.Fatal("Cannot restore/open the json NoteShape file", filename, " ", err.Error())
 	}
 
 	// read our opened jsonFile as a byte array.
@@ -673,14 +735,14 @@ func (backRepoNoteShape *BackRepoNoteShapeStruct) RestorePhaseOne(dirPath string
 		noteshapeDB.ID = 0
 		query := backRepoNoteShape.db.Create(noteshapeDB)
 		if query.Error != nil {
-			log.Panic(query.Error)
+			log.Fatal(query.Error)
 		}
 		backRepoNoteShape.Map_NoteShapeDBID_NoteShapeDB[noteshapeDB.ID] = noteshapeDB
 		BackRepoNoteShapeid_atBckpTime_newID[noteshapeDB_ID_atBackupTime] = noteshapeDB.ID
 	}
 
 	if err != nil {
-		log.Panic("Cannot restore/unmarshall json NoteShape file", err.Error())
+		log.Fatal("Cannot restore/unmarshall json NoteShape file", err.Error())
 	}
 }
 
@@ -703,7 +765,7 @@ func (backRepoNoteShape *BackRepoNoteShapeStruct) RestorePhaseTwo() {
 		// update databse with new index encoding
 		query := backRepoNoteShape.db.Model(noteshapeDB).Updates(*noteshapeDB)
 		if query.Error != nil {
-			log.Panic(query.Error)
+			log.Fatal(query.Error)
 		}
 	}
 

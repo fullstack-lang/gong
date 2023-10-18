@@ -88,8 +88,8 @@ export class RectService {
     rectdb.RectAnchoredTexts = []
     let RectAnchoredRects = rectdb.RectAnchoredRects
     rectdb.RectAnchoredRects = []
-    let _Layer_Rects_reverse = rectdb.Layer_Rects_reverse
-    rectdb.Layer_Rects_reverse = new LayerDB
+    let _Layer_Rects_reverse = rectdb.RectPointersEncoding.Layer_Rects_reverse
+    rectdb.RectPointersEncoding.Layer_Rects_reverse = new LayerDB
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -103,7 +103,7 @@ export class RectService {
 	      rectdb.Animations = Animations
 	      rectdb.RectAnchoredTexts = RectAnchoredTexts
 	      rectdb.RectAnchoredRects = RectAnchoredRects
-        rectdb.Layer_Rects_reverse = _Layer_Rects_reverse
+        rectdb.RectPointersEncoding.Layer_Rects_reverse = _Layer_Rects_reverse
         // this.log(`posted rectdb id=${rectdb.ID}`)
       }),
       catchError(this.handleError<RectDB>('postRect'))
@@ -145,8 +145,8 @@ export class RectService {
     rectdb.RectAnchoredTexts = []
     let RectAnchoredRects = rectdb.RectAnchoredRects
     rectdb.RectAnchoredRects = []
-    let _Layer_Rects_reverse = rectdb.Layer_Rects_reverse
-    rectdb.Layer_Rects_reverse = new LayerDB
+    let _Layer_Rects_reverse = rectdb.RectPointersEncoding.Layer_Rects_reverse
+    rectdb.RectPointersEncoding.Layer_Rects_reverse = new LayerDB
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -160,7 +160,7 @@ export class RectService {
 	      rectdb.Animations = Animations
 	      rectdb.RectAnchoredTexts = RectAnchoredTexts
 	      rectdb.RectAnchoredRects = RectAnchoredRects
-        rectdb.Layer_Rects_reverse = _Layer_Rects_reverse
+        rectdb.RectPointersEncoding.Layer_Rects_reverse = _Layer_Rects_reverse
         // this.log(`updated rectdb id=${rectdb.ID}`)
       }),
       catchError(this.handleError<RectDB>('updateRect'))

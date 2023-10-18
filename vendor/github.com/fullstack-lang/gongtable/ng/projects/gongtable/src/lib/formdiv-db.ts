@@ -19,15 +19,26 @@ export class FormDivDB {
 	// insertion point for basic fields declarations
 	Name: string = ""
 
-	// insertion point for other declarations
-	FormFields?: Array<FormFieldDB>
-	CheckBoxs?: Array<CheckBoxDB>
+	// insertion point for pointers and slices of pointers declarations
+	FormFields: Array<FormFieldDB> = []
+	CheckBoxs: Array<CheckBoxDB> = []
 	FormEditAssocButton?: FormEditAssocButtonDB
-	FormEditAssocButtonID: NullInt64 = new NullInt64 // if pointer is null, FormEditAssocButton.ID = 0
 
 	FormSortAssocButton?: FormSortAssocButtonDB
+
+
+	FormDivPointersEncoding: FormDivPointersEncoding = new FormDivPointersEncoding
+}
+
+export class FormDivPointersEncoding {
+	// insertion point for pointers and slices of pointers encoding fields
+	FormFields: number[] = []
+	CheckBoxs: number[] = []
+	FormEditAssocButtonID: NullInt64 = new NullInt64 // if pointer is null, FormEditAssocButton.ID = 0
+
 	FormSortAssocButtonID: NullInt64 = new NullInt64 // if pointer is null, FormSortAssocButton.ID = 0
 
+	// reverse pointers encoding (to be removed)
 	FormGroup_FormDivsDBID: NullInt64 = new NullInt64
 	FormGroup_FormDivsDBID_Index: NullInt64  = new NullInt64 // store the index of the formdiv instance in FormGroup.FormDivs
 	FormGroup_FormDivs_reverse?: FormGroupDB 

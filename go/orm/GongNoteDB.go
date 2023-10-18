@@ -38,7 +38,7 @@ type GongNoteAPI struct {
 	models.GongNote_WOP
 
 	// encoding of pointers
-	GongNotePointersEncoding
+	GongNotePointersEncoding GongNotePointersEncoding
 }
 
 // GongNotePointersEncoding encodes pointers to Struct and
@@ -47,7 +47,7 @@ type GongNotePointersEncoding struct {
 	// insertion for pointer fields encoding declaration
 
 	// field Links is a slice of pointers to another Struct (optional or 0..1)
-	Links IntSlice`gorm:"type:TEXT"`
+	Links IntSlice `gorm:"type:TEXT"`
 }
 
 // GongNoteDB describes a gongnote in the database
@@ -233,6 +233,7 @@ func (backRepoGongNote *BackRepoGongNoteStruct) CommitPhaseTwoInstance(backRepo 
 				backRepo.BackRepoGongLink.GetGongLinkDBFromGongLinkPtr(gonglinkAssocEnd)
 
 			// encode reverse pointer in the association end back repo instance
+			// (to be removed)
 			gonglinkAssocEnd_DB.GongNote_LinksDBID.Int64 = int64(gongnoteDB.ID)
 			gonglinkAssocEnd_DB.GongNote_LinksDBID.Valid = true
 			gonglinkAssocEnd_DB.GongNote_LinksDBID_Index.Int64 = int64(idx)

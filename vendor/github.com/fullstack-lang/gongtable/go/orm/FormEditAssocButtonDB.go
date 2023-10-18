@@ -35,15 +35,15 @@ var dummy_FormEditAssocButton_sort sort.Float64Slice
 type FormEditAssocButtonAPI struct {
 	gorm.Model
 
-	models.FormEditAssocButton
+	models.FormEditAssocButton_WOP
 
 	// encoding of pointers
-	FormEditAssocButtonPointersEnconding
+	FormEditAssocButtonPointersEncoding FormEditAssocButtonPointersEncoding
 }
 
-// FormEditAssocButtonPointersEnconding encodes pointers to Struct and
+// FormEditAssocButtonPointersEncoding encodes pointers to Struct and
 // reverse pointers of slice of poitners to Struct
-type FormEditAssocButtonPointersEnconding struct {
+type FormEditAssocButtonPointersEncoding struct {
 	// insertion for pointer fields encoding declaration
 }
 
@@ -64,7 +64,7 @@ type FormEditAssocButtonDB struct {
 	// Declation for basic field formeditassocbuttonDB.Label
 	Label_Data sql.NullString
 	// encoding of pointers
-	FormEditAssocButtonPointersEnconding
+	FormEditAssocButtonPointersEncoding
 }
 
 // FormEditAssocButtonDBs arrays formeditassocbuttonDBs
@@ -156,7 +156,7 @@ func (backRepoFormEditAssocButton *BackRepoFormEditAssocButtonStruct) CommitDele
 	formeditassocbuttonDB := backRepoFormEditAssocButton.Map_FormEditAssocButtonDBID_FormEditAssocButtonDB[id]
 	query := backRepoFormEditAssocButton.db.Unscoped().Delete(&formeditassocbuttonDB)
 	if query.Error != nil {
-		return query.Error
+		log.Fatal(query.Error)
 	}
 
 	// update stores
@@ -182,7 +182,7 @@ func (backRepoFormEditAssocButton *BackRepoFormEditAssocButtonStruct) CommitPhas
 
 	query := backRepoFormEditAssocButton.db.Create(&formeditassocbuttonDB)
 	if query.Error != nil {
-		return query.Error
+		log.Fatal(query.Error)
 	}
 
 	// update stores
@@ -216,7 +216,7 @@ func (backRepoFormEditAssocButton *BackRepoFormEditAssocButtonStruct) CommitPhas
 		// insertion point for translating pointers encodings into actual pointers
 		query := backRepoFormEditAssocButton.db.Save(&formeditassocbuttonDB)
 		if query.Error != nil {
-			return query.Error
+			log.Fatalln(query.Error)
 		}
 
 	} else {
@@ -343,7 +343,7 @@ func (backRepo *BackRepoStruct) CheckoutFormEditAssocButton(formeditassocbutton 
 			formeditassocbuttonDB.ID = id
 
 			if err := backRepo.BackRepoFormEditAssocButton.db.First(&formeditassocbuttonDB, id).Error; err != nil {
-				log.Panicln("CheckoutFormEditAssocButton : Problem with getting object with id:", id)
+				log.Fatalln("CheckoutFormEditAssocButton : Problem with getting object with id:", id)
 			}
 			backRepo.BackRepoFormEditAssocButton.CheckoutPhaseOneInstance(&formeditassocbuttonDB)
 			backRepo.BackRepoFormEditAssocButton.CheckoutPhaseTwoInstance(backRepo, &formeditassocbuttonDB)
@@ -353,6 +353,17 @@ func (backRepo *BackRepoStruct) CheckoutFormEditAssocButton(formeditassocbutton 
 
 // CopyBasicFieldsFromFormEditAssocButton
 func (formeditassocbuttonDB *FormEditAssocButtonDB) CopyBasicFieldsFromFormEditAssocButton(formeditassocbutton *models.FormEditAssocButton) {
+	// insertion point for fields commit
+
+	formeditassocbuttonDB.Name_Data.String = formeditassocbutton.Name
+	formeditassocbuttonDB.Name_Data.Valid = true
+
+	formeditassocbuttonDB.Label_Data.String = formeditassocbutton.Label
+	formeditassocbuttonDB.Label_Data.Valid = true
+}
+
+// CopyBasicFieldsFromFormEditAssocButton_WOP
+func (formeditassocbuttonDB *FormEditAssocButtonDB) CopyBasicFieldsFromFormEditAssocButton_WOP(formeditassocbutton *models.FormEditAssocButton_WOP) {
 	// insertion point for fields commit
 
 	formeditassocbuttonDB.Name_Data.String = formeditassocbutton.Name
@@ -375,6 +386,13 @@ func (formeditassocbuttonDB *FormEditAssocButtonDB) CopyBasicFieldsFromFormEditA
 
 // CopyBasicFieldsToFormEditAssocButton
 func (formeditassocbuttonDB *FormEditAssocButtonDB) CopyBasicFieldsToFormEditAssocButton(formeditassocbutton *models.FormEditAssocButton) {
+	// insertion point for checkout of basic fields (back repo to stage)
+	formeditassocbutton.Name = formeditassocbuttonDB.Name_Data.String
+	formeditassocbutton.Label = formeditassocbuttonDB.Label_Data.String
+}
+
+// CopyBasicFieldsToFormEditAssocButton_WOP
+func (formeditassocbuttonDB *FormEditAssocButtonDB) CopyBasicFieldsToFormEditAssocButton_WOP(formeditassocbutton *models.FormEditAssocButton_WOP) {
 	// insertion point for checkout of basic fields (back repo to stage)
 	formeditassocbutton.Name = formeditassocbuttonDB.Name_Data.String
 	formeditassocbutton.Label = formeditassocbuttonDB.Label_Data.String
@@ -407,12 +425,12 @@ func (backRepoFormEditAssocButton *BackRepoFormEditAssocButtonStruct) Backup(dir
 	file, err := json.MarshalIndent(forBackup, "", " ")
 
 	if err != nil {
-		log.Panic("Cannot json FormEditAssocButton ", filename, " ", err.Error())
+		log.Fatal("Cannot json FormEditAssocButton ", filename, " ", err.Error())
 	}
 
 	err = ioutil.WriteFile(filename, file, 0644)
 	if err != nil {
-		log.Panic("Cannot write the json FormEditAssocButton file", err.Error())
+		log.Fatal("Cannot write the json FormEditAssocButton file", err.Error())
 	}
 }
 
@@ -432,7 +450,7 @@ func (backRepoFormEditAssocButton *BackRepoFormEditAssocButtonStruct) BackupXL(f
 
 	sh, err := file.AddSheet("FormEditAssocButton")
 	if err != nil {
-		log.Panic("Cannot add XL file", err.Error())
+		log.Fatal("Cannot add XL file", err.Error())
 	}
 	_ = sh
 
@@ -457,13 +475,13 @@ func (backRepoFormEditAssocButton *BackRepoFormEditAssocButtonStruct) RestoreXLP
 	sh, ok := file.Sheet["FormEditAssocButton"]
 	_ = sh
 	if !ok {
-		log.Panic(errors.New("sheet not found"))
+		log.Fatal(errors.New("sheet not found"))
 	}
 
 	// log.Println("Max row is", sh.MaxRow)
 	err := sh.ForEachRow(backRepoFormEditAssocButton.rowVisitorFormEditAssocButton)
 	if err != nil {
-		log.Panic("Err=", err)
+		log.Fatal("Err=", err)
 	}
 }
 
@@ -485,7 +503,7 @@ func (backRepoFormEditAssocButton *BackRepoFormEditAssocButtonStruct) rowVisitor
 		formeditassocbuttonDB.ID = 0
 		query := backRepoFormEditAssocButton.db.Create(formeditassocbuttonDB)
 		if query.Error != nil {
-			log.Panic(query.Error)
+			log.Fatal(query.Error)
 		}
 		backRepoFormEditAssocButton.Map_FormEditAssocButtonDBID_FormEditAssocButtonDB[formeditassocbuttonDB.ID] = formeditassocbuttonDB
 		BackRepoFormEditAssocButtonid_atBckpTime_newID[formeditassocbuttonDB_ID_atBackupTime] = formeditassocbuttonDB.ID
@@ -505,7 +523,7 @@ func (backRepoFormEditAssocButton *BackRepoFormEditAssocButtonStruct) RestorePha
 	jsonFile, err := os.Open(filename)
 	// if we os.Open returns an error then handle it
 	if err != nil {
-		log.Panic("Cannot restore/open the json FormEditAssocButton file", filename, " ", err.Error())
+		log.Fatal("Cannot restore/open the json FormEditAssocButton file", filename, " ", err.Error())
 	}
 
 	// read our opened jsonFile as a byte array.
@@ -522,14 +540,14 @@ func (backRepoFormEditAssocButton *BackRepoFormEditAssocButtonStruct) RestorePha
 		formeditassocbuttonDB.ID = 0
 		query := backRepoFormEditAssocButton.db.Create(formeditassocbuttonDB)
 		if query.Error != nil {
-			log.Panic(query.Error)
+			log.Fatal(query.Error)
 		}
 		backRepoFormEditAssocButton.Map_FormEditAssocButtonDBID_FormEditAssocButtonDB[formeditassocbuttonDB.ID] = formeditassocbuttonDB
 		BackRepoFormEditAssocButtonid_atBckpTime_newID[formeditassocbuttonDB_ID_atBackupTime] = formeditassocbuttonDB.ID
 	}
 
 	if err != nil {
-		log.Panic("Cannot restore/unmarshall json FormEditAssocButton file", err.Error())
+		log.Fatal("Cannot restore/unmarshall json FormEditAssocButton file", err.Error())
 	}
 }
 
@@ -546,7 +564,7 @@ func (backRepoFormEditAssocButton *BackRepoFormEditAssocButtonStruct) RestorePha
 		// update databse with new index encoding
 		query := backRepoFormEditAssocButton.db.Model(formeditassocbuttonDB).Updates(*formeditassocbuttonDB)
 		if query.Error != nil {
-			log.Panic(query.Error)
+			log.Fatal(query.Error)
 		}
 	}
 

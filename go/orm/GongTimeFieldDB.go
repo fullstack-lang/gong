@@ -38,7 +38,7 @@ type GongTimeFieldAPI struct {
 	models.GongTimeField_WOP
 
 	// encoding of pointers
-	GongTimeFieldPointersEncoding
+	GongTimeFieldPointersEncoding GongTimeFieldPointersEncoding
 }
 
 // GongTimeFieldPointersEncoding encodes pointers to Struct and
@@ -47,9 +47,11 @@ type GongTimeFieldPointersEncoding struct {
 	// insertion for pointer fields encoding declaration
 
 	// Implementation of a reverse ID for field GongStruct{}.GongTimeFields []*GongTimeField
+	// (to be removed)
 	GongStruct_GongTimeFieldsDBID sql.NullInt64
 
 	// implementation of the index of the withing the slice
+	// (to be removed)
 	GongStruct_GongTimeFieldsDBID_Index sql.NullInt64
 }
 

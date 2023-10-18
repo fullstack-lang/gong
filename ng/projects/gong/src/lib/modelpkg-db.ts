@@ -15,5 +15,11 @@ export class ModelPkgDB {
 	Name: string = ""
 	PkgPath: string = ""
 
-	// insertion point for other declarations
+	// insertion point for pointers and slices of pointers declarations
+
+	ModelPkgPointersEncoding: ModelPkgPointersEncoding = new ModelPkgPointersEncoding
+}
+
+export class ModelPkgPointersEncoding {
+	// insertion point for pointers and slices of pointers encoding fields
 }

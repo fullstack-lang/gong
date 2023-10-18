@@ -19,5 +19,11 @@ export class FormFieldIntDB {
 	HasMaxValidator: boolean = false
 	MaxValue: number = 0
 
-	// insertion point for other declarations
+	// insertion point for pointers and slices of pointers declarations
+
+	FormFieldIntPointersEncoding: FormFieldIntPointersEncoding = new FormFieldIntPointersEncoding
+}
+
+export class FormFieldIntPointersEncoding {
+	// insertion point for pointers and slices of pointers encoding fields
 }

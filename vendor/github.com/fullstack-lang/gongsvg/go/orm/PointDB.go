@@ -35,21 +35,23 @@ var dummy_Point_sort sort.Float64Slice
 type PointAPI struct {
 	gorm.Model
 
-	models.Point
+	models.Point_WOP
 
 	// encoding of pointers
-	PointPointersEnconding
+	PointPointersEncoding PointPointersEncoding
 }
 
-// PointPointersEnconding encodes pointers to Struct and
+// PointPointersEncoding encodes pointers to Struct and
 // reverse pointers of slice of poitners to Struct
-type PointPointersEnconding struct {
+type PointPointersEncoding struct {
 	// insertion for pointer fields encoding declaration
 
 	// Implementation of a reverse ID for field Link{}.ControlPoints []*Point
+	// (to be removed)
 	Link_ControlPointsDBID sql.NullInt64
 
 	// implementation of the index of the withing the slice
+	// (to be removed)
 	Link_ControlPointsDBID_Index sql.NullInt64
 }
 
@@ -73,7 +75,7 @@ type PointDB struct {
 	// Declation for basic field pointDB.Y
 	Y_Data sql.NullFloat64
 	// encoding of pointers
-	PointPointersEnconding
+	PointPointersEncoding
 }
 
 // PointDBs arrays pointDBs
@@ -168,7 +170,7 @@ func (backRepoPoint *BackRepoPointStruct) CommitDeleteInstance(id uint) (Error e
 	pointDB := backRepoPoint.Map_PointDBID_PointDB[id]
 	query := backRepoPoint.db.Unscoped().Delete(&pointDB)
 	if query.Error != nil {
-		return query.Error
+		log.Fatal(query.Error)
 	}
 
 	// update stores
@@ -194,7 +196,7 @@ func (backRepoPoint *BackRepoPointStruct) CommitPhaseOneInstance(point *models.P
 
 	query := backRepoPoint.db.Create(&pointDB)
 	if query.Error != nil {
-		return query.Error
+		log.Fatal(query.Error)
 	}
 
 	// update stores
@@ -228,7 +230,7 @@ func (backRepoPoint *BackRepoPointStruct) CommitPhaseTwoInstance(backRepo *BackR
 		// insertion point for translating pointers encodings into actual pointers
 		query := backRepoPoint.db.Save(&pointDB)
 		if query.Error != nil {
-			return query.Error
+			log.Fatalln(query.Error)
 		}
 
 	} else {
@@ -355,7 +357,7 @@ func (backRepo *BackRepoStruct) CheckoutPoint(point *models.Point) {
 			pointDB.ID = id
 
 			if err := backRepo.BackRepoPoint.db.First(&pointDB, id).Error; err != nil {
-				log.Panicln("CheckoutPoint : Problem with getting object with id:", id)
+				log.Fatalln("CheckoutPoint : Problem with getting object with id:", id)
 			}
 			backRepo.BackRepoPoint.CheckoutPhaseOneInstance(&pointDB)
 			backRepo.BackRepoPoint.CheckoutPhaseTwoInstance(backRepo, &pointDB)
@@ -365,6 +367,20 @@ func (backRepo *BackRepoStruct) CheckoutPoint(point *models.Point) {
 
 // CopyBasicFieldsFromPoint
 func (pointDB *PointDB) CopyBasicFieldsFromPoint(point *models.Point) {
+	// insertion point for fields commit
+
+	pointDB.Name_Data.String = point.Name
+	pointDB.Name_Data.Valid = true
+
+	pointDB.X_Data.Float64 = point.X
+	pointDB.X_Data.Valid = true
+
+	pointDB.Y_Data.Float64 = point.Y
+	pointDB.Y_Data.Valid = true
+}
+
+// CopyBasicFieldsFromPoint_WOP
+func (pointDB *PointDB) CopyBasicFieldsFromPoint_WOP(point *models.Point_WOP) {
 	// insertion point for fields commit
 
 	pointDB.Name_Data.String = point.Name
@@ -399,6 +415,14 @@ func (pointDB *PointDB) CopyBasicFieldsToPoint(point *models.Point) {
 	point.Y = pointDB.Y_Data.Float64
 }
 
+// CopyBasicFieldsToPoint_WOP
+func (pointDB *PointDB) CopyBasicFieldsToPoint_WOP(point *models.Point_WOP) {
+	// insertion point for checkout of basic fields (back repo to stage)
+	point.Name = pointDB.Name_Data.String
+	point.X = pointDB.X_Data.Float64
+	point.Y = pointDB.Y_Data.Float64
+}
+
 // CopyBasicFieldsToPointWOP
 func (pointDB *PointDB) CopyBasicFieldsToPointWOP(point *PointWOP) {
 	point.ID = int(pointDB.ID)
@@ -427,12 +451,12 @@ func (backRepoPoint *BackRepoPointStruct) Backup(dirPath string) {
 	file, err := json.MarshalIndent(forBackup, "", " ")
 
 	if err != nil {
-		log.Panic("Cannot json Point ", filename, " ", err.Error())
+		log.Fatal("Cannot json Point ", filename, " ", err.Error())
 	}
 
 	err = ioutil.WriteFile(filename, file, 0644)
 	if err != nil {
-		log.Panic("Cannot write the json Point file", err.Error())
+		log.Fatal("Cannot write the json Point file", err.Error())
 	}
 }
 
@@ -452,7 +476,7 @@ func (backRepoPoint *BackRepoPointStruct) BackupXL(file *xlsx.File) {
 
 	sh, err := file.AddSheet("Point")
 	if err != nil {
-		log.Panic("Cannot add XL file", err.Error())
+		log.Fatal("Cannot add XL file", err.Error())
 	}
 	_ = sh
 
@@ -477,13 +501,13 @@ func (backRepoPoint *BackRepoPointStruct) RestoreXLPhaseOne(file *xlsx.File) {
 	sh, ok := file.Sheet["Point"]
 	_ = sh
 	if !ok {
-		log.Panic(errors.New("sheet not found"))
+		log.Fatal(errors.New("sheet not found"))
 	}
 
 	// log.Println("Max row is", sh.MaxRow)
 	err := sh.ForEachRow(backRepoPoint.rowVisitorPoint)
 	if err != nil {
-		log.Panic("Err=", err)
+		log.Fatal("Err=", err)
 	}
 }
 
@@ -505,7 +529,7 @@ func (backRepoPoint *BackRepoPointStruct) rowVisitorPoint(row *xlsx.Row) error {
 		pointDB.ID = 0
 		query := backRepoPoint.db.Create(pointDB)
 		if query.Error != nil {
-			log.Panic(query.Error)
+			log.Fatal(query.Error)
 		}
 		backRepoPoint.Map_PointDBID_PointDB[pointDB.ID] = pointDB
 		BackRepoPointid_atBckpTime_newID[pointDB_ID_atBackupTime] = pointDB.ID
@@ -525,7 +549,7 @@ func (backRepoPoint *BackRepoPointStruct) RestorePhaseOne(dirPath string) {
 	jsonFile, err := os.Open(filename)
 	// if we os.Open returns an error then handle it
 	if err != nil {
-		log.Panic("Cannot restore/open the json Point file", filename, " ", err.Error())
+		log.Fatal("Cannot restore/open the json Point file", filename, " ", err.Error())
 	}
 
 	// read our opened jsonFile as a byte array.
@@ -542,14 +566,14 @@ func (backRepoPoint *BackRepoPointStruct) RestorePhaseOne(dirPath string) {
 		pointDB.ID = 0
 		query := backRepoPoint.db.Create(pointDB)
 		if query.Error != nil {
-			log.Panic(query.Error)
+			log.Fatal(query.Error)
 		}
 		backRepoPoint.Map_PointDBID_PointDB[pointDB.ID] = pointDB
 		BackRepoPointid_atBckpTime_newID[pointDB_ID_atBackupTime] = pointDB.ID
 	}
 
 	if err != nil {
-		log.Panic("Cannot restore/unmarshall json Point file", err.Error())
+		log.Fatal("Cannot restore/unmarshall json Point file", err.Error())
 	}
 }
 
@@ -572,7 +596,7 @@ func (backRepoPoint *BackRepoPointStruct) RestorePhaseTwo() {
 		// update databse with new index encoding
 		query := backRepoPoint.db.Model(pointDB).Updates(*pointDB)
 		if query.Error != nil {
-			log.Panic(query.Error)
+			log.Fatal(query.Error)
 		}
 	}
 

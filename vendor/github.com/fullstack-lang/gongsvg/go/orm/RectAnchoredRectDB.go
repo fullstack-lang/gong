@@ -35,21 +35,23 @@ var dummy_RectAnchoredRect_sort sort.Float64Slice
 type RectAnchoredRectAPI struct {
 	gorm.Model
 
-	models.RectAnchoredRect
+	models.RectAnchoredRect_WOP
 
 	// encoding of pointers
-	RectAnchoredRectPointersEnconding
+	RectAnchoredRectPointersEncoding RectAnchoredRectPointersEncoding
 }
 
-// RectAnchoredRectPointersEnconding encodes pointers to Struct and
+// RectAnchoredRectPointersEncoding encodes pointers to Struct and
 // reverse pointers of slice of poitners to Struct
-type RectAnchoredRectPointersEnconding struct {
+type RectAnchoredRectPointersEncoding struct {
 	// insertion for pointer fields encoding declaration
 
 	// Implementation of a reverse ID for field Rect{}.RectAnchoredRects []*RectAnchoredRect
+	// (to be removed)
 	Rect_RectAnchoredRectsDBID sql.NullInt64
 
 	// implementation of the index of the withing the slice
+	// (to be removed)
 	Rect_RectAnchoredRectsDBID_Index sql.NullInt64
 }
 
@@ -120,7 +122,7 @@ type RectAnchoredRectDB struct {
 	// Declation for basic field rectanchoredrectDB.Transform
 	Transform_Data sql.NullString
 	// encoding of pointers
-	RectAnchoredRectPointersEnconding
+	RectAnchoredRectPointersEncoding
 }
 
 // RectAnchoredRectDBs arrays rectanchoredrectDBs
@@ -260,7 +262,7 @@ func (backRepoRectAnchoredRect *BackRepoRectAnchoredRectStruct) CommitDeleteInst
 	rectanchoredrectDB := backRepoRectAnchoredRect.Map_RectAnchoredRectDBID_RectAnchoredRectDB[id]
 	query := backRepoRectAnchoredRect.db.Unscoped().Delete(&rectanchoredrectDB)
 	if query.Error != nil {
-		return query.Error
+		log.Fatal(query.Error)
 	}
 
 	// update stores
@@ -286,7 +288,7 @@ func (backRepoRectAnchoredRect *BackRepoRectAnchoredRectStruct) CommitPhaseOneIn
 
 	query := backRepoRectAnchoredRect.db.Create(&rectanchoredrectDB)
 	if query.Error != nil {
-		return query.Error
+		log.Fatal(query.Error)
 	}
 
 	// update stores
@@ -320,7 +322,7 @@ func (backRepoRectAnchoredRect *BackRepoRectAnchoredRectStruct) CommitPhaseTwoIn
 		// insertion point for translating pointers encodings into actual pointers
 		query := backRepoRectAnchoredRect.db.Save(&rectanchoredrectDB)
 		if query.Error != nil {
-			return query.Error
+			log.Fatalln(query.Error)
 		}
 
 	} else {
@@ -447,7 +449,7 @@ func (backRepo *BackRepoStruct) CheckoutRectAnchoredRect(rectanchoredrect *model
 			rectanchoredrectDB.ID = id
 
 			if err := backRepo.BackRepoRectAnchoredRect.db.First(&rectanchoredrectDB, id).Error; err != nil {
-				log.Panicln("CheckoutRectAnchoredRect : Problem with getting object with id:", id)
+				log.Fatalln("CheckoutRectAnchoredRect : Problem with getting object with id:", id)
 			}
 			backRepo.BackRepoRectAnchoredRect.CheckoutPhaseOneInstance(&rectanchoredrectDB)
 			backRepo.BackRepoRectAnchoredRect.CheckoutPhaseTwoInstance(backRepo, &rectanchoredrectDB)
@@ -457,6 +459,65 @@ func (backRepo *BackRepoStruct) CheckoutRectAnchoredRect(rectanchoredrect *model
 
 // CopyBasicFieldsFromRectAnchoredRect
 func (rectanchoredrectDB *RectAnchoredRectDB) CopyBasicFieldsFromRectAnchoredRect(rectanchoredrect *models.RectAnchoredRect) {
+	// insertion point for fields commit
+
+	rectanchoredrectDB.Name_Data.String = rectanchoredrect.Name
+	rectanchoredrectDB.Name_Data.Valid = true
+
+	rectanchoredrectDB.X_Data.Float64 = rectanchoredrect.X
+	rectanchoredrectDB.X_Data.Valid = true
+
+	rectanchoredrectDB.Y_Data.Float64 = rectanchoredrect.Y
+	rectanchoredrectDB.Y_Data.Valid = true
+
+	rectanchoredrectDB.Width_Data.Float64 = rectanchoredrect.Width
+	rectanchoredrectDB.Width_Data.Valid = true
+
+	rectanchoredrectDB.Height_Data.Float64 = rectanchoredrect.Height
+	rectanchoredrectDB.Height_Data.Valid = true
+
+	rectanchoredrectDB.RX_Data.Float64 = rectanchoredrect.RX
+	rectanchoredrectDB.RX_Data.Valid = true
+
+	rectanchoredrectDB.X_Offset_Data.Float64 = rectanchoredrect.X_Offset
+	rectanchoredrectDB.X_Offset_Data.Valid = true
+
+	rectanchoredrectDB.Y_Offset_Data.Float64 = rectanchoredrect.Y_Offset
+	rectanchoredrectDB.Y_Offset_Data.Valid = true
+
+	rectanchoredrectDB.RectAnchorType_Data.String = rectanchoredrect.RectAnchorType.ToString()
+	rectanchoredrectDB.RectAnchorType_Data.Valid = true
+
+	rectanchoredrectDB.WidthFollowRect_Data.Bool = rectanchoredrect.WidthFollowRect
+	rectanchoredrectDB.WidthFollowRect_Data.Valid = true
+
+	rectanchoredrectDB.HeightFollowRect_Data.Bool = rectanchoredrect.HeightFollowRect
+	rectanchoredrectDB.HeightFollowRect_Data.Valid = true
+
+	rectanchoredrectDB.Color_Data.String = rectanchoredrect.Color
+	rectanchoredrectDB.Color_Data.Valid = true
+
+	rectanchoredrectDB.FillOpacity_Data.Float64 = rectanchoredrect.FillOpacity
+	rectanchoredrectDB.FillOpacity_Data.Valid = true
+
+	rectanchoredrectDB.Stroke_Data.String = rectanchoredrect.Stroke
+	rectanchoredrectDB.Stroke_Data.Valid = true
+
+	rectanchoredrectDB.StrokeWidth_Data.Float64 = rectanchoredrect.StrokeWidth
+	rectanchoredrectDB.StrokeWidth_Data.Valid = true
+
+	rectanchoredrectDB.StrokeDashArray_Data.String = rectanchoredrect.StrokeDashArray
+	rectanchoredrectDB.StrokeDashArray_Data.Valid = true
+
+	rectanchoredrectDB.StrokeDashArrayWhenSelected_Data.String = rectanchoredrect.StrokeDashArrayWhenSelected
+	rectanchoredrectDB.StrokeDashArrayWhenSelected_Data.Valid = true
+
+	rectanchoredrectDB.Transform_Data.String = rectanchoredrect.Transform
+	rectanchoredrectDB.Transform_Data.Valid = true
+}
+
+// CopyBasicFieldsFromRectAnchoredRect_WOP
+func (rectanchoredrectDB *RectAnchoredRectDB) CopyBasicFieldsFromRectAnchoredRect_WOP(rectanchoredrect *models.RectAnchoredRect_WOP) {
 	// insertion point for fields commit
 
 	rectanchoredrectDB.Name_Data.String = rectanchoredrect.Name
@@ -596,6 +657,29 @@ func (rectanchoredrectDB *RectAnchoredRectDB) CopyBasicFieldsToRectAnchoredRect(
 	rectanchoredrect.Transform = rectanchoredrectDB.Transform_Data.String
 }
 
+// CopyBasicFieldsToRectAnchoredRect_WOP
+func (rectanchoredrectDB *RectAnchoredRectDB) CopyBasicFieldsToRectAnchoredRect_WOP(rectanchoredrect *models.RectAnchoredRect_WOP) {
+	// insertion point for checkout of basic fields (back repo to stage)
+	rectanchoredrect.Name = rectanchoredrectDB.Name_Data.String
+	rectanchoredrect.X = rectanchoredrectDB.X_Data.Float64
+	rectanchoredrect.Y = rectanchoredrectDB.Y_Data.Float64
+	rectanchoredrect.Width = rectanchoredrectDB.Width_Data.Float64
+	rectanchoredrect.Height = rectanchoredrectDB.Height_Data.Float64
+	rectanchoredrect.RX = rectanchoredrectDB.RX_Data.Float64
+	rectanchoredrect.X_Offset = rectanchoredrectDB.X_Offset_Data.Float64
+	rectanchoredrect.Y_Offset = rectanchoredrectDB.Y_Offset_Data.Float64
+	rectanchoredrect.RectAnchorType.FromString(rectanchoredrectDB.RectAnchorType_Data.String)
+	rectanchoredrect.WidthFollowRect = rectanchoredrectDB.WidthFollowRect_Data.Bool
+	rectanchoredrect.HeightFollowRect = rectanchoredrectDB.HeightFollowRect_Data.Bool
+	rectanchoredrect.Color = rectanchoredrectDB.Color_Data.String
+	rectanchoredrect.FillOpacity = rectanchoredrectDB.FillOpacity_Data.Float64
+	rectanchoredrect.Stroke = rectanchoredrectDB.Stroke_Data.String
+	rectanchoredrect.StrokeWidth = rectanchoredrectDB.StrokeWidth_Data.Float64
+	rectanchoredrect.StrokeDashArray = rectanchoredrectDB.StrokeDashArray_Data.String
+	rectanchoredrect.StrokeDashArrayWhenSelected = rectanchoredrectDB.StrokeDashArrayWhenSelected_Data.String
+	rectanchoredrect.Transform = rectanchoredrectDB.Transform_Data.String
+}
+
 // CopyBasicFieldsToRectAnchoredRectWOP
 func (rectanchoredrectDB *RectAnchoredRectDB) CopyBasicFieldsToRectAnchoredRectWOP(rectanchoredrect *RectAnchoredRectWOP) {
 	rectanchoredrect.ID = int(rectanchoredrectDB.ID)
@@ -639,12 +723,12 @@ func (backRepoRectAnchoredRect *BackRepoRectAnchoredRectStruct) Backup(dirPath s
 	file, err := json.MarshalIndent(forBackup, "", " ")
 
 	if err != nil {
-		log.Panic("Cannot json RectAnchoredRect ", filename, " ", err.Error())
+		log.Fatal("Cannot json RectAnchoredRect ", filename, " ", err.Error())
 	}
 
 	err = ioutil.WriteFile(filename, file, 0644)
 	if err != nil {
-		log.Panic("Cannot write the json RectAnchoredRect file", err.Error())
+		log.Fatal("Cannot write the json RectAnchoredRect file", err.Error())
 	}
 }
 
@@ -664,7 +748,7 @@ func (backRepoRectAnchoredRect *BackRepoRectAnchoredRectStruct) BackupXL(file *x
 
 	sh, err := file.AddSheet("RectAnchoredRect")
 	if err != nil {
-		log.Panic("Cannot add XL file", err.Error())
+		log.Fatal("Cannot add XL file", err.Error())
 	}
 	_ = sh
 
@@ -689,13 +773,13 @@ func (backRepoRectAnchoredRect *BackRepoRectAnchoredRectStruct) RestoreXLPhaseOn
 	sh, ok := file.Sheet["RectAnchoredRect"]
 	_ = sh
 	if !ok {
-		log.Panic(errors.New("sheet not found"))
+		log.Fatal(errors.New("sheet not found"))
 	}
 
 	// log.Println("Max row is", sh.MaxRow)
 	err := sh.ForEachRow(backRepoRectAnchoredRect.rowVisitorRectAnchoredRect)
 	if err != nil {
-		log.Panic("Err=", err)
+		log.Fatal("Err=", err)
 	}
 }
 
@@ -717,7 +801,7 @@ func (backRepoRectAnchoredRect *BackRepoRectAnchoredRectStruct) rowVisitorRectAn
 		rectanchoredrectDB.ID = 0
 		query := backRepoRectAnchoredRect.db.Create(rectanchoredrectDB)
 		if query.Error != nil {
-			log.Panic(query.Error)
+			log.Fatal(query.Error)
 		}
 		backRepoRectAnchoredRect.Map_RectAnchoredRectDBID_RectAnchoredRectDB[rectanchoredrectDB.ID] = rectanchoredrectDB
 		BackRepoRectAnchoredRectid_atBckpTime_newID[rectanchoredrectDB_ID_atBackupTime] = rectanchoredrectDB.ID
@@ -737,7 +821,7 @@ func (backRepoRectAnchoredRect *BackRepoRectAnchoredRectStruct) RestorePhaseOne(
 	jsonFile, err := os.Open(filename)
 	// if we os.Open returns an error then handle it
 	if err != nil {
-		log.Panic("Cannot restore/open the json RectAnchoredRect file", filename, " ", err.Error())
+		log.Fatal("Cannot restore/open the json RectAnchoredRect file", filename, " ", err.Error())
 	}
 
 	// read our opened jsonFile as a byte array.
@@ -754,14 +838,14 @@ func (backRepoRectAnchoredRect *BackRepoRectAnchoredRectStruct) RestorePhaseOne(
 		rectanchoredrectDB.ID = 0
 		query := backRepoRectAnchoredRect.db.Create(rectanchoredrectDB)
 		if query.Error != nil {
-			log.Panic(query.Error)
+			log.Fatal(query.Error)
 		}
 		backRepoRectAnchoredRect.Map_RectAnchoredRectDBID_RectAnchoredRectDB[rectanchoredrectDB.ID] = rectanchoredrectDB
 		BackRepoRectAnchoredRectid_atBckpTime_newID[rectanchoredrectDB_ID_atBackupTime] = rectanchoredrectDB.ID
 	}
 
 	if err != nil {
-		log.Panic("Cannot restore/unmarshall json RectAnchoredRect file", err.Error())
+		log.Fatal("Cannot restore/unmarshall json RectAnchoredRect file", err.Error())
 	}
 }
 
@@ -784,7 +868,7 @@ func (backRepoRectAnchoredRect *BackRepoRectAnchoredRectStruct) RestorePhaseTwo(
 		// update databse with new index encoding
 		query := backRepoRectAnchoredRect.db.Model(rectanchoredrectDB).Updates(*rectanchoredrectDB)
 		if query.Error != nil {
-			log.Panic(query.Error)
+			log.Fatal(query.Error)
 		}
 	}
 

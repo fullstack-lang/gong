@@ -91,8 +91,8 @@ func (controller *Controller) GetCellStrings(c *gin.Context) {
 
 		// insertion point for updating fields
 		cellstringAPI.ID = cellstringDB.ID
-		cellstringDB.CopyBasicFieldsToCellString(&cellstringAPI.CellString)
-		cellstringAPI.CellStringPointersEnconding = cellstringDB.CellStringPointersEnconding
+		cellstringDB.CopyBasicFieldsToCellString_WOP(&cellstringAPI.CellString_WOP)
+		cellstringAPI.CellStringPointersEncoding = cellstringDB.CellStringPointersEncoding
 		cellstringAPIs = append(cellstringAPIs, cellstringAPI)
 	}
 
@@ -147,8 +147,8 @@ func (controller *Controller) PostCellString(c *gin.Context) {
 
 	// Create cellstring
 	cellstringDB := orm.CellStringDB{}
-	cellstringDB.CellStringPointersEnconding = input.CellStringPointersEnconding
-	cellstringDB.CopyBasicFieldsFromCellString(&input.CellString)
+	cellstringDB.CellStringPointersEncoding = input.CellStringPointersEncoding
+	cellstringDB.CopyBasicFieldsFromCellString_WOP(&input.CellString_WOP)
 
 	query := db.Create(&cellstringDB)
 	if query.Error != nil {
@@ -217,8 +217,8 @@ func (controller *Controller) GetCellString(c *gin.Context) {
 
 	var cellstringAPI orm.CellStringAPI
 	cellstringAPI.ID = cellstringDB.ID
-	cellstringAPI.CellStringPointersEnconding = cellstringDB.CellStringPointersEnconding
-	cellstringDB.CopyBasicFieldsToCellString(&cellstringAPI.CellString)
+	cellstringAPI.CellStringPointersEncoding = cellstringDB.CellStringPointersEncoding
+	cellstringDB.CopyBasicFieldsToCellString_WOP(&cellstringAPI.CellString_WOP)
 
 	c.JSON(http.StatusOK, cellstringAPI)
 }
@@ -276,8 +276,8 @@ func (controller *Controller) UpdateCellString(c *gin.Context) {
 	}
 
 	// update
-	cellstringDB.CopyBasicFieldsFromCellString(&input.CellString)
-	cellstringDB.CellStringPointersEnconding = input.CellStringPointersEnconding
+	cellstringDB.CopyBasicFieldsFromCellString_WOP(&input.CellString_WOP)
+	cellstringDB.CellStringPointersEncoding = input.CellStringPointersEncoding
 
 	query = db.Model(&cellstringDB).Updates(cellstringDB)
 	if query.Error != nil {

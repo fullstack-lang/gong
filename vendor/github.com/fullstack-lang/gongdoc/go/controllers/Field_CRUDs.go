@@ -91,8 +91,8 @@ func (controller *Controller) GetFields(c *gin.Context) {
 
 		// insertion point for updating fields
 		fieldAPI.ID = fieldDB.ID
-		fieldDB.CopyBasicFieldsToField(&fieldAPI.Field)
-		fieldAPI.FieldPointersEnconding = fieldDB.FieldPointersEnconding
+		fieldDB.CopyBasicFieldsToField_WOP(&fieldAPI.Field_WOP)
+		fieldAPI.FieldPointersEncoding = fieldDB.FieldPointersEncoding
 		fieldAPIs = append(fieldAPIs, fieldAPI)
 	}
 
@@ -147,8 +147,8 @@ func (controller *Controller) PostField(c *gin.Context) {
 
 	// Create field
 	fieldDB := orm.FieldDB{}
-	fieldDB.FieldPointersEnconding = input.FieldPointersEnconding
-	fieldDB.CopyBasicFieldsFromField(&input.Field)
+	fieldDB.FieldPointersEncoding = input.FieldPointersEncoding
+	fieldDB.CopyBasicFieldsFromField_WOP(&input.Field_WOP)
 
 	query := db.Create(&fieldDB)
 	if query.Error != nil {
@@ -217,8 +217,8 @@ func (controller *Controller) GetField(c *gin.Context) {
 
 	var fieldAPI orm.FieldAPI
 	fieldAPI.ID = fieldDB.ID
-	fieldAPI.FieldPointersEnconding = fieldDB.FieldPointersEnconding
-	fieldDB.CopyBasicFieldsToField(&fieldAPI.Field)
+	fieldAPI.FieldPointersEncoding = fieldDB.FieldPointersEncoding
+	fieldDB.CopyBasicFieldsToField_WOP(&fieldAPI.Field_WOP)
 
 	c.JSON(http.StatusOK, fieldAPI)
 }
@@ -276,8 +276,8 @@ func (controller *Controller) UpdateField(c *gin.Context) {
 	}
 
 	// update
-	fieldDB.CopyBasicFieldsFromField(&input.Field)
-	fieldDB.FieldPointersEnconding = input.FieldPointersEnconding
+	fieldDB.CopyBasicFieldsFromField_WOP(&input.Field_WOP)
+	fieldDB.FieldPointersEncoding = input.FieldPointersEncoding
 
 	query = db.Model(&fieldDB).Updates(fieldDB)
 	if query.Error != nil {

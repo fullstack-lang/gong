@@ -35,16 +35,19 @@ var dummy_SVG_sort sort.Float64Slice
 type SVGAPI struct {
 	gorm.Model
 
-	models.SVG
+	models.SVG_WOP
 
 	// encoding of pointers
-	SVGPointersEnconding
+	SVGPointersEncoding SVGPointersEncoding
 }
 
-// SVGPointersEnconding encodes pointers to Struct and
+// SVGPointersEncoding encodes pointers to Struct and
 // reverse pointers of slice of poitners to Struct
-type SVGPointersEnconding struct {
+type SVGPointersEncoding struct {
 	// insertion for pointer fields encoding declaration
+
+	// field Layers is a slice of pointers to another Struct (optional or 0..1)
+	Layers IntSlice `gorm:"type:TEXT"`
 
 	// field StartRect is a pointer to another Struct (optional or 0..1)
 	// This field is generated into another field to enable AS ONE association
@@ -76,7 +79,7 @@ type SVGDB struct {
 	// provide the sql storage for the boolan
 	IsEditable_Data sql.NullBool
 	// encoding of pointers
-	SVGPointersEnconding
+	SVGPointersEncoding
 }
 
 // SVGDBs arrays svgDBs
@@ -171,7 +174,7 @@ func (backRepoSVG *BackRepoSVGStruct) CommitDeleteInstance(id uint) (Error error
 	svgDB := backRepoSVG.Map_SVGDBID_SVGDB[id]
 	query := backRepoSVG.db.Unscoped().Delete(&svgDB)
 	if query.Error != nil {
-		return query.Error
+		log.Fatal(query.Error)
 	}
 
 	// update stores
@@ -197,7 +200,7 @@ func (backRepoSVG *BackRepoSVGStruct) CommitPhaseOneInstance(svg *models.SVG) (E
 
 	query := backRepoSVG.db.Create(&svgDB)
 	if query.Error != nil {
-		return query.Error
+		log.Fatal(query.Error)
 	}
 
 	// update stores
@@ -239,6 +242,7 @@ func (backRepoSVG *BackRepoSVGStruct) CommitPhaseTwoInstance(backRepo *BackRepoS
 				backRepo.BackRepoLayer.GetLayerDBFromLayerPtr(layerAssocEnd)
 
 			// encode reverse pointer in the association end back repo instance
+			// (to be removed)
 			layerAssocEnd_DB.SVG_LayersDBID.Int64 = int64(svgDB.ID)
 			layerAssocEnd_DB.SVG_LayersDBID.Valid = true
 			layerAssocEnd_DB.SVG_LayersDBID_Index.Int64 = int64(idx)
@@ -246,6 +250,16 @@ func (backRepoSVG *BackRepoSVGStruct) CommitPhaseTwoInstance(backRepo *BackRepoS
 			if q := backRepoSVG.db.Save(layerAssocEnd_DB); q.Error != nil {
 				return q.Error
 			}
+		}
+
+		// 1. reset
+		svgDB.SVGPointersEncoding.Layers = make([]int, 0)
+		// 2. encode
+		for _, layerAssocEnd := range svg.Layers {
+			layerAssocEnd_DB :=
+				backRepo.BackRepoLayer.GetLayerDBFromLayerPtr(layerAssocEnd)
+			svgDB.SVGPointersEncoding.Layers =
+				append(svgDB.SVGPointersEncoding.Layers, int(layerAssocEnd_DB.ID))
 		}
 
 		// commit pointer value svg.StartRect translates to updating the svg.StartRectID
@@ -274,7 +288,7 @@ func (backRepoSVG *BackRepoSVGStruct) CommitPhaseTwoInstance(backRepo *BackRepoS
 
 		query := backRepoSVG.db.Save(&svgDB)
 		if query.Error != nil {
-			return query.Error
+			log.Fatalln(query.Error)
 		}
 
 	} else {
@@ -438,7 +452,7 @@ func (backRepo *BackRepoStruct) CheckoutSVG(svg *models.SVG) {
 			svgDB.ID = id
 
 			if err := backRepo.BackRepoSVG.db.First(&svgDB, id).Error; err != nil {
-				log.Panicln("CheckoutSVG : Problem with getting object with id:", id)
+				log.Fatalln("CheckoutSVG : Problem with getting object with id:", id)
 			}
 			backRepo.BackRepoSVG.CheckoutPhaseOneInstance(&svgDB)
 			backRepo.BackRepoSVG.CheckoutPhaseTwoInstance(backRepo, &svgDB)
@@ -448,6 +462,20 @@ func (backRepo *BackRepoStruct) CheckoutSVG(svg *models.SVG) {
 
 // CopyBasicFieldsFromSVG
 func (svgDB *SVGDB) CopyBasicFieldsFromSVG(svg *models.SVG) {
+	// insertion point for fields commit
+
+	svgDB.Name_Data.String = svg.Name
+	svgDB.Name_Data.Valid = true
+
+	svgDB.DrawingState_Data.String = svg.DrawingState.ToString()
+	svgDB.DrawingState_Data.Valid = true
+
+	svgDB.IsEditable_Data.Bool = svg.IsEditable
+	svgDB.IsEditable_Data.Valid = true
+}
+
+// CopyBasicFieldsFromSVG_WOP
+func (svgDB *SVGDB) CopyBasicFieldsFromSVG_WOP(svg *models.SVG_WOP) {
 	// insertion point for fields commit
 
 	svgDB.Name_Data.String = svg.Name
@@ -482,6 +510,14 @@ func (svgDB *SVGDB) CopyBasicFieldsToSVG(svg *models.SVG) {
 	svg.IsEditable = svgDB.IsEditable_Data.Bool
 }
 
+// CopyBasicFieldsToSVG_WOP
+func (svgDB *SVGDB) CopyBasicFieldsToSVG_WOP(svg *models.SVG_WOP) {
+	// insertion point for checkout of basic fields (back repo to stage)
+	svg.Name = svgDB.Name_Data.String
+	svg.DrawingState.FromString(svgDB.DrawingState_Data.String)
+	svg.IsEditable = svgDB.IsEditable_Data.Bool
+}
+
 // CopyBasicFieldsToSVGWOP
 func (svgDB *SVGDB) CopyBasicFieldsToSVGWOP(svg *SVGWOP) {
 	svg.ID = int(svgDB.ID)
@@ -510,12 +546,12 @@ func (backRepoSVG *BackRepoSVGStruct) Backup(dirPath string) {
 	file, err := json.MarshalIndent(forBackup, "", " ")
 
 	if err != nil {
-		log.Panic("Cannot json SVG ", filename, " ", err.Error())
+		log.Fatal("Cannot json SVG ", filename, " ", err.Error())
 	}
 
 	err = ioutil.WriteFile(filename, file, 0644)
 	if err != nil {
-		log.Panic("Cannot write the json SVG file", err.Error())
+		log.Fatal("Cannot write the json SVG file", err.Error())
 	}
 }
 
@@ -535,7 +571,7 @@ func (backRepoSVG *BackRepoSVGStruct) BackupXL(file *xlsx.File) {
 
 	sh, err := file.AddSheet("SVG")
 	if err != nil {
-		log.Panic("Cannot add XL file", err.Error())
+		log.Fatal("Cannot add XL file", err.Error())
 	}
 	_ = sh
 
@@ -560,13 +596,13 @@ func (backRepoSVG *BackRepoSVGStruct) RestoreXLPhaseOne(file *xlsx.File) {
 	sh, ok := file.Sheet["SVG"]
 	_ = sh
 	if !ok {
-		log.Panic(errors.New("sheet not found"))
+		log.Fatal(errors.New("sheet not found"))
 	}
 
 	// log.Println("Max row is", sh.MaxRow)
 	err := sh.ForEachRow(backRepoSVG.rowVisitorSVG)
 	if err != nil {
-		log.Panic("Err=", err)
+		log.Fatal("Err=", err)
 	}
 }
 
@@ -588,7 +624,7 @@ func (backRepoSVG *BackRepoSVGStruct) rowVisitorSVG(row *xlsx.Row) error {
 		svgDB.ID = 0
 		query := backRepoSVG.db.Create(svgDB)
 		if query.Error != nil {
-			log.Panic(query.Error)
+			log.Fatal(query.Error)
 		}
 		backRepoSVG.Map_SVGDBID_SVGDB[svgDB.ID] = svgDB
 		BackRepoSVGid_atBckpTime_newID[svgDB_ID_atBackupTime] = svgDB.ID
@@ -608,7 +644,7 @@ func (backRepoSVG *BackRepoSVGStruct) RestorePhaseOne(dirPath string) {
 	jsonFile, err := os.Open(filename)
 	// if we os.Open returns an error then handle it
 	if err != nil {
-		log.Panic("Cannot restore/open the json SVG file", filename, " ", err.Error())
+		log.Fatal("Cannot restore/open the json SVG file", filename, " ", err.Error())
 	}
 
 	// read our opened jsonFile as a byte array.
@@ -625,14 +661,14 @@ func (backRepoSVG *BackRepoSVGStruct) RestorePhaseOne(dirPath string) {
 		svgDB.ID = 0
 		query := backRepoSVG.db.Create(svgDB)
 		if query.Error != nil {
-			log.Panic(query.Error)
+			log.Fatal(query.Error)
 		}
 		backRepoSVG.Map_SVGDBID_SVGDB[svgDB.ID] = svgDB
 		BackRepoSVGid_atBckpTime_newID[svgDB_ID_atBackupTime] = svgDB.ID
 	}
 
 	if err != nil {
-		log.Panic("Cannot restore/unmarshall json SVG file", err.Error())
+		log.Fatal("Cannot restore/unmarshall json SVG file", err.Error())
 	}
 }
 
@@ -661,7 +697,7 @@ func (backRepoSVG *BackRepoSVGStruct) RestorePhaseTwo() {
 		// update databse with new index encoding
 		query := backRepoSVG.db.Model(svgDB).Updates(*svgDB)
 		if query.Error != nil {
-			log.Panic(query.Error)
+			log.Fatal(query.Error)
 		}
 	}
 

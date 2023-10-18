@@ -38,7 +38,7 @@ type MetaReferenceAPI struct {
 	models.MetaReference_WOP
 
 	// encoding of pointers
-	MetaReferencePointersEncoding
+	MetaReferencePointersEncoding MetaReferencePointersEncoding
 }
 
 // MetaReferencePointersEncoding encodes pointers to Struct and
@@ -47,9 +47,11 @@ type MetaReferencePointersEncoding struct {
 	// insertion for pointer fields encoding declaration
 
 	// Implementation of a reverse ID for field Meta{}.MetaReferences []*MetaReference
+	// (to be removed)
 	Meta_MetaReferencesDBID sql.NullInt64
 
 	// implementation of the index of the withing the slice
+	// (to be removed)
 	Meta_MetaReferencesDBID_Index sql.NullInt64
 }
 
