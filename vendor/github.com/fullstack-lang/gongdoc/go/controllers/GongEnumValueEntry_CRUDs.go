@@ -91,8 +91,8 @@ func (controller *Controller) GetGongEnumValueEntrys(c *gin.Context) {
 
 		// insertion point for updating fields
 		gongenumvalueentryAPI.ID = gongenumvalueentryDB.ID
-		gongenumvalueentryDB.CopyBasicFieldsToGongEnumValueEntry(&gongenumvalueentryAPI.GongEnumValueEntry)
-		gongenumvalueentryAPI.GongEnumValueEntryPointersEnconding = gongenumvalueentryDB.GongEnumValueEntryPointersEnconding
+		gongenumvalueentryDB.CopyBasicFieldsToGongEnumValueEntry_WOP(&gongenumvalueentryAPI.GongEnumValueEntry_WOP)
+		gongenumvalueentryAPI.GongEnumValueEntryPointersEncoding = gongenumvalueentryDB.GongEnumValueEntryPointersEncoding
 		gongenumvalueentryAPIs = append(gongenumvalueentryAPIs, gongenumvalueentryAPI)
 	}
 
@@ -147,8 +147,8 @@ func (controller *Controller) PostGongEnumValueEntry(c *gin.Context) {
 
 	// Create gongenumvalueentry
 	gongenumvalueentryDB := orm.GongEnumValueEntryDB{}
-	gongenumvalueentryDB.GongEnumValueEntryPointersEnconding = input.GongEnumValueEntryPointersEnconding
-	gongenumvalueentryDB.CopyBasicFieldsFromGongEnumValueEntry(&input.GongEnumValueEntry)
+	gongenumvalueentryDB.GongEnumValueEntryPointersEncoding = input.GongEnumValueEntryPointersEncoding
+	gongenumvalueentryDB.CopyBasicFieldsFromGongEnumValueEntry_WOP(&input.GongEnumValueEntry_WOP)
 
 	query := db.Create(&gongenumvalueentryDB)
 	if query.Error != nil {
@@ -217,8 +217,8 @@ func (controller *Controller) GetGongEnumValueEntry(c *gin.Context) {
 
 	var gongenumvalueentryAPI orm.GongEnumValueEntryAPI
 	gongenumvalueentryAPI.ID = gongenumvalueentryDB.ID
-	gongenumvalueentryAPI.GongEnumValueEntryPointersEnconding = gongenumvalueentryDB.GongEnumValueEntryPointersEnconding
-	gongenumvalueentryDB.CopyBasicFieldsToGongEnumValueEntry(&gongenumvalueentryAPI.GongEnumValueEntry)
+	gongenumvalueentryAPI.GongEnumValueEntryPointersEncoding = gongenumvalueentryDB.GongEnumValueEntryPointersEncoding
+	gongenumvalueentryDB.CopyBasicFieldsToGongEnumValueEntry_WOP(&gongenumvalueentryAPI.GongEnumValueEntry_WOP)
 
 	c.JSON(http.StatusOK, gongenumvalueentryAPI)
 }
@@ -276,8 +276,8 @@ func (controller *Controller) UpdateGongEnumValueEntry(c *gin.Context) {
 	}
 
 	// update
-	gongenumvalueentryDB.CopyBasicFieldsFromGongEnumValueEntry(&input.GongEnumValueEntry)
-	gongenumvalueentryDB.GongEnumValueEntryPointersEnconding = input.GongEnumValueEntryPointersEnconding
+	gongenumvalueentryDB.CopyBasicFieldsFromGongEnumValueEntry_WOP(&input.GongEnumValueEntry_WOP)
+	gongenumvalueentryDB.GongEnumValueEntryPointersEncoding = input.GongEnumValueEntryPointersEncoding
 
 	query = db.Model(&gongenumvalueentryDB).Updates(gongenumvalueentryDB)
 	if query.Error != nil {

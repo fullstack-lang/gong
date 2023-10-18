@@ -35,21 +35,26 @@ var dummy_Polygone_sort sort.Float64Slice
 type PolygoneAPI struct {
 	gorm.Model
 
-	models.Polygone
+	models.Polygone_WOP
 
 	// encoding of pointers
-	PolygonePointersEnconding
+	PolygonePointersEncoding PolygonePointersEncoding
 }
 
-// PolygonePointersEnconding encodes pointers to Struct and
+// PolygonePointersEncoding encodes pointers to Struct and
 // reverse pointers of slice of poitners to Struct
-type PolygonePointersEnconding struct {
+type PolygonePointersEncoding struct {
 	// insertion for pointer fields encoding declaration
 
+	// field Animates is a slice of pointers to another Struct (optional or 0..1)
+	Animates IntSlice `gorm:"type:TEXT"`
+
 	// Implementation of a reverse ID for field Layer{}.Polygones []*Polygone
+	// (to be removed)
 	Layer_PolygonesDBID sql.NullInt64
 
 	// implementation of the index of the withing the slice
+	// (to be removed)
 	Layer_PolygonesDBID_Index sql.NullInt64
 }
 
@@ -91,7 +96,7 @@ type PolygoneDB struct {
 	// Declation for basic field polygoneDB.Transform
 	Transform_Data sql.NullString
 	// encoding of pointers
-	PolygonePointersEnconding
+	PolygonePointersEncoding
 }
 
 // PolygoneDBs arrays polygoneDBs
@@ -204,7 +209,7 @@ func (backRepoPolygone *BackRepoPolygoneStruct) CommitDeleteInstance(id uint) (E
 	polygoneDB := backRepoPolygone.Map_PolygoneDBID_PolygoneDB[id]
 	query := backRepoPolygone.db.Unscoped().Delete(&polygoneDB)
 	if query.Error != nil {
-		return query.Error
+		log.Fatal(query.Error)
 	}
 
 	// update stores
@@ -230,7 +235,7 @@ func (backRepoPolygone *BackRepoPolygoneStruct) CommitPhaseOneInstance(polygone 
 
 	query := backRepoPolygone.db.Create(&polygoneDB)
 	if query.Error != nil {
-		return query.Error
+		log.Fatal(query.Error)
 	}
 
 	// update stores
@@ -272,6 +277,7 @@ func (backRepoPolygone *BackRepoPolygoneStruct) CommitPhaseTwoInstance(backRepo 
 				backRepo.BackRepoAnimate.GetAnimateDBFromAnimatePtr(animateAssocEnd)
 
 			// encode reverse pointer in the association end back repo instance
+			// (to be removed)
 			animateAssocEnd_DB.Polygone_AnimatesDBID.Int64 = int64(polygoneDB.ID)
 			animateAssocEnd_DB.Polygone_AnimatesDBID.Valid = true
 			animateAssocEnd_DB.Polygone_AnimatesDBID_Index.Int64 = int64(idx)
@@ -281,9 +287,19 @@ func (backRepoPolygone *BackRepoPolygoneStruct) CommitPhaseTwoInstance(backRepo 
 			}
 		}
 
+		// 1. reset
+		polygoneDB.PolygonePointersEncoding.Animates = make([]int, 0)
+		// 2. encode
+		for _, animateAssocEnd := range polygone.Animates {
+			animateAssocEnd_DB :=
+				backRepo.BackRepoAnimate.GetAnimateDBFromAnimatePtr(animateAssocEnd)
+			polygoneDB.PolygonePointersEncoding.Animates =
+				append(polygoneDB.PolygonePointersEncoding.Animates, int(animateAssocEnd_DB.ID))
+		}
+
 		query := backRepoPolygone.db.Save(&polygoneDB)
 		if query.Error != nil {
-			return query.Error
+			log.Fatalln(query.Error)
 		}
 
 	} else {
@@ -437,7 +453,7 @@ func (backRepo *BackRepoStruct) CheckoutPolygone(polygone *models.Polygone) {
 			polygoneDB.ID = id
 
 			if err := backRepo.BackRepoPolygone.db.First(&polygoneDB, id).Error; err != nil {
-				log.Panicln("CheckoutPolygone : Problem with getting object with id:", id)
+				log.Fatalln("CheckoutPolygone : Problem with getting object with id:", id)
 			}
 			backRepo.BackRepoPolygone.CheckoutPhaseOneInstance(&polygoneDB)
 			backRepo.BackRepoPolygone.CheckoutPhaseTwoInstance(backRepo, &polygoneDB)
@@ -447,6 +463,38 @@ func (backRepo *BackRepoStruct) CheckoutPolygone(polygone *models.Polygone) {
 
 // CopyBasicFieldsFromPolygone
 func (polygoneDB *PolygoneDB) CopyBasicFieldsFromPolygone(polygone *models.Polygone) {
+	// insertion point for fields commit
+
+	polygoneDB.Name_Data.String = polygone.Name
+	polygoneDB.Name_Data.Valid = true
+
+	polygoneDB.Points_Data.String = polygone.Points
+	polygoneDB.Points_Data.Valid = true
+
+	polygoneDB.Color_Data.String = polygone.Color
+	polygoneDB.Color_Data.Valid = true
+
+	polygoneDB.FillOpacity_Data.Float64 = polygone.FillOpacity
+	polygoneDB.FillOpacity_Data.Valid = true
+
+	polygoneDB.Stroke_Data.String = polygone.Stroke
+	polygoneDB.Stroke_Data.Valid = true
+
+	polygoneDB.StrokeWidth_Data.Float64 = polygone.StrokeWidth
+	polygoneDB.StrokeWidth_Data.Valid = true
+
+	polygoneDB.StrokeDashArray_Data.String = polygone.StrokeDashArray
+	polygoneDB.StrokeDashArray_Data.Valid = true
+
+	polygoneDB.StrokeDashArrayWhenSelected_Data.String = polygone.StrokeDashArrayWhenSelected
+	polygoneDB.StrokeDashArrayWhenSelected_Data.Valid = true
+
+	polygoneDB.Transform_Data.String = polygone.Transform
+	polygoneDB.Transform_Data.Valid = true
+}
+
+// CopyBasicFieldsFromPolygone_WOP
+func (polygoneDB *PolygoneDB) CopyBasicFieldsFromPolygone_WOP(polygone *models.Polygone_WOP) {
 	// insertion point for fields commit
 
 	polygoneDB.Name_Data.String = polygone.Name
@@ -523,6 +571,20 @@ func (polygoneDB *PolygoneDB) CopyBasicFieldsToPolygone(polygone *models.Polygon
 	polygone.Transform = polygoneDB.Transform_Data.String
 }
 
+// CopyBasicFieldsToPolygone_WOP
+func (polygoneDB *PolygoneDB) CopyBasicFieldsToPolygone_WOP(polygone *models.Polygone_WOP) {
+	// insertion point for checkout of basic fields (back repo to stage)
+	polygone.Name = polygoneDB.Name_Data.String
+	polygone.Points = polygoneDB.Points_Data.String
+	polygone.Color = polygoneDB.Color_Data.String
+	polygone.FillOpacity = polygoneDB.FillOpacity_Data.Float64
+	polygone.Stroke = polygoneDB.Stroke_Data.String
+	polygone.StrokeWidth = polygoneDB.StrokeWidth_Data.Float64
+	polygone.StrokeDashArray = polygoneDB.StrokeDashArray_Data.String
+	polygone.StrokeDashArrayWhenSelected = polygoneDB.StrokeDashArrayWhenSelected_Data.String
+	polygone.Transform = polygoneDB.Transform_Data.String
+}
+
 // CopyBasicFieldsToPolygoneWOP
 func (polygoneDB *PolygoneDB) CopyBasicFieldsToPolygoneWOP(polygone *PolygoneWOP) {
 	polygone.ID = int(polygoneDB.ID)
@@ -557,12 +619,12 @@ func (backRepoPolygone *BackRepoPolygoneStruct) Backup(dirPath string) {
 	file, err := json.MarshalIndent(forBackup, "", " ")
 
 	if err != nil {
-		log.Panic("Cannot json Polygone ", filename, " ", err.Error())
+		log.Fatal("Cannot json Polygone ", filename, " ", err.Error())
 	}
 
 	err = ioutil.WriteFile(filename, file, 0644)
 	if err != nil {
-		log.Panic("Cannot write the json Polygone file", err.Error())
+		log.Fatal("Cannot write the json Polygone file", err.Error())
 	}
 }
 
@@ -582,7 +644,7 @@ func (backRepoPolygone *BackRepoPolygoneStruct) BackupXL(file *xlsx.File) {
 
 	sh, err := file.AddSheet("Polygone")
 	if err != nil {
-		log.Panic("Cannot add XL file", err.Error())
+		log.Fatal("Cannot add XL file", err.Error())
 	}
 	_ = sh
 
@@ -607,13 +669,13 @@ func (backRepoPolygone *BackRepoPolygoneStruct) RestoreXLPhaseOne(file *xlsx.Fil
 	sh, ok := file.Sheet["Polygone"]
 	_ = sh
 	if !ok {
-		log.Panic(errors.New("sheet not found"))
+		log.Fatal(errors.New("sheet not found"))
 	}
 
 	// log.Println("Max row is", sh.MaxRow)
 	err := sh.ForEachRow(backRepoPolygone.rowVisitorPolygone)
 	if err != nil {
-		log.Panic("Err=", err)
+		log.Fatal("Err=", err)
 	}
 }
 
@@ -635,7 +697,7 @@ func (backRepoPolygone *BackRepoPolygoneStruct) rowVisitorPolygone(row *xlsx.Row
 		polygoneDB.ID = 0
 		query := backRepoPolygone.db.Create(polygoneDB)
 		if query.Error != nil {
-			log.Panic(query.Error)
+			log.Fatal(query.Error)
 		}
 		backRepoPolygone.Map_PolygoneDBID_PolygoneDB[polygoneDB.ID] = polygoneDB
 		BackRepoPolygoneid_atBckpTime_newID[polygoneDB_ID_atBackupTime] = polygoneDB.ID
@@ -655,7 +717,7 @@ func (backRepoPolygone *BackRepoPolygoneStruct) RestorePhaseOne(dirPath string) 
 	jsonFile, err := os.Open(filename)
 	// if we os.Open returns an error then handle it
 	if err != nil {
-		log.Panic("Cannot restore/open the json Polygone file", filename, " ", err.Error())
+		log.Fatal("Cannot restore/open the json Polygone file", filename, " ", err.Error())
 	}
 
 	// read our opened jsonFile as a byte array.
@@ -672,14 +734,14 @@ func (backRepoPolygone *BackRepoPolygoneStruct) RestorePhaseOne(dirPath string) 
 		polygoneDB.ID = 0
 		query := backRepoPolygone.db.Create(polygoneDB)
 		if query.Error != nil {
-			log.Panic(query.Error)
+			log.Fatal(query.Error)
 		}
 		backRepoPolygone.Map_PolygoneDBID_PolygoneDB[polygoneDB.ID] = polygoneDB
 		BackRepoPolygoneid_atBckpTime_newID[polygoneDB_ID_atBackupTime] = polygoneDB.ID
 	}
 
 	if err != nil {
-		log.Panic("Cannot restore/unmarshall json Polygone file", err.Error())
+		log.Fatal("Cannot restore/unmarshall json Polygone file", err.Error())
 	}
 }
 
@@ -702,7 +764,7 @@ func (backRepoPolygone *BackRepoPolygoneStruct) RestorePhaseTwo() {
 		// update databse with new index encoding
 		query := backRepoPolygone.db.Model(polygoneDB).Updates(*polygoneDB)
 		if query.Error != nil {
-			log.Panic(query.Error)
+			log.Fatal(query.Error)
 		}
 	}
 

@@ -35,15 +35,15 @@ var dummy_CellBoolean_sort sort.Float64Slice
 type CellBooleanAPI struct {
 	gorm.Model
 
-	models.CellBoolean
+	models.CellBoolean_WOP
 
 	// encoding of pointers
-	CellBooleanPointersEnconding
+	CellBooleanPointersEncoding CellBooleanPointersEncoding
 }
 
-// CellBooleanPointersEnconding encodes pointers to Struct and
+// CellBooleanPointersEncoding encodes pointers to Struct and
 // reverse pointers of slice of poitners to Struct
-type CellBooleanPointersEnconding struct {
+type CellBooleanPointersEncoding struct {
 	// insertion for pointer fields encoding declaration
 }
 
@@ -65,7 +65,7 @@ type CellBooleanDB struct {
 	// provide the sql storage for the boolan
 	Value_Data sql.NullBool
 	// encoding of pointers
-	CellBooleanPointersEnconding
+	CellBooleanPointersEncoding
 }
 
 // CellBooleanDBs arrays cellbooleanDBs
@@ -157,7 +157,7 @@ func (backRepoCellBoolean *BackRepoCellBooleanStruct) CommitDeleteInstance(id ui
 	cellbooleanDB := backRepoCellBoolean.Map_CellBooleanDBID_CellBooleanDB[id]
 	query := backRepoCellBoolean.db.Unscoped().Delete(&cellbooleanDB)
 	if query.Error != nil {
-		return query.Error
+		log.Fatal(query.Error)
 	}
 
 	// update stores
@@ -183,7 +183,7 @@ func (backRepoCellBoolean *BackRepoCellBooleanStruct) CommitPhaseOneInstance(cel
 
 	query := backRepoCellBoolean.db.Create(&cellbooleanDB)
 	if query.Error != nil {
-		return query.Error
+		log.Fatal(query.Error)
 	}
 
 	// update stores
@@ -217,7 +217,7 @@ func (backRepoCellBoolean *BackRepoCellBooleanStruct) CommitPhaseTwoInstance(bac
 		// insertion point for translating pointers encodings into actual pointers
 		query := backRepoCellBoolean.db.Save(&cellbooleanDB)
 		if query.Error != nil {
-			return query.Error
+			log.Fatalln(query.Error)
 		}
 
 	} else {
@@ -344,7 +344,7 @@ func (backRepo *BackRepoStruct) CheckoutCellBoolean(cellboolean *models.CellBool
 			cellbooleanDB.ID = id
 
 			if err := backRepo.BackRepoCellBoolean.db.First(&cellbooleanDB, id).Error; err != nil {
-				log.Panicln("CheckoutCellBoolean : Problem with getting object with id:", id)
+				log.Fatalln("CheckoutCellBoolean : Problem with getting object with id:", id)
 			}
 			backRepo.BackRepoCellBoolean.CheckoutPhaseOneInstance(&cellbooleanDB)
 			backRepo.BackRepoCellBoolean.CheckoutPhaseTwoInstance(backRepo, &cellbooleanDB)
@@ -354,6 +354,17 @@ func (backRepo *BackRepoStruct) CheckoutCellBoolean(cellboolean *models.CellBool
 
 // CopyBasicFieldsFromCellBoolean
 func (cellbooleanDB *CellBooleanDB) CopyBasicFieldsFromCellBoolean(cellboolean *models.CellBoolean) {
+	// insertion point for fields commit
+
+	cellbooleanDB.Name_Data.String = cellboolean.Name
+	cellbooleanDB.Name_Data.Valid = true
+
+	cellbooleanDB.Value_Data.Bool = cellboolean.Value
+	cellbooleanDB.Value_Data.Valid = true
+}
+
+// CopyBasicFieldsFromCellBoolean_WOP
+func (cellbooleanDB *CellBooleanDB) CopyBasicFieldsFromCellBoolean_WOP(cellboolean *models.CellBoolean_WOP) {
 	// insertion point for fields commit
 
 	cellbooleanDB.Name_Data.String = cellboolean.Name
@@ -376,6 +387,13 @@ func (cellbooleanDB *CellBooleanDB) CopyBasicFieldsFromCellBooleanWOP(cellboolea
 
 // CopyBasicFieldsToCellBoolean
 func (cellbooleanDB *CellBooleanDB) CopyBasicFieldsToCellBoolean(cellboolean *models.CellBoolean) {
+	// insertion point for checkout of basic fields (back repo to stage)
+	cellboolean.Name = cellbooleanDB.Name_Data.String
+	cellboolean.Value = cellbooleanDB.Value_Data.Bool
+}
+
+// CopyBasicFieldsToCellBoolean_WOP
+func (cellbooleanDB *CellBooleanDB) CopyBasicFieldsToCellBoolean_WOP(cellboolean *models.CellBoolean_WOP) {
 	// insertion point for checkout of basic fields (back repo to stage)
 	cellboolean.Name = cellbooleanDB.Name_Data.String
 	cellboolean.Value = cellbooleanDB.Value_Data.Bool
@@ -408,12 +426,12 @@ func (backRepoCellBoolean *BackRepoCellBooleanStruct) Backup(dirPath string) {
 	file, err := json.MarshalIndent(forBackup, "", " ")
 
 	if err != nil {
-		log.Panic("Cannot json CellBoolean ", filename, " ", err.Error())
+		log.Fatal("Cannot json CellBoolean ", filename, " ", err.Error())
 	}
 
 	err = ioutil.WriteFile(filename, file, 0644)
 	if err != nil {
-		log.Panic("Cannot write the json CellBoolean file", err.Error())
+		log.Fatal("Cannot write the json CellBoolean file", err.Error())
 	}
 }
 
@@ -433,7 +451,7 @@ func (backRepoCellBoolean *BackRepoCellBooleanStruct) BackupXL(file *xlsx.File) 
 
 	sh, err := file.AddSheet("CellBoolean")
 	if err != nil {
-		log.Panic("Cannot add XL file", err.Error())
+		log.Fatal("Cannot add XL file", err.Error())
 	}
 	_ = sh
 
@@ -458,13 +476,13 @@ func (backRepoCellBoolean *BackRepoCellBooleanStruct) RestoreXLPhaseOne(file *xl
 	sh, ok := file.Sheet["CellBoolean"]
 	_ = sh
 	if !ok {
-		log.Panic(errors.New("sheet not found"))
+		log.Fatal(errors.New("sheet not found"))
 	}
 
 	// log.Println("Max row is", sh.MaxRow)
 	err := sh.ForEachRow(backRepoCellBoolean.rowVisitorCellBoolean)
 	if err != nil {
-		log.Panic("Err=", err)
+		log.Fatal("Err=", err)
 	}
 }
 
@@ -486,7 +504,7 @@ func (backRepoCellBoolean *BackRepoCellBooleanStruct) rowVisitorCellBoolean(row 
 		cellbooleanDB.ID = 0
 		query := backRepoCellBoolean.db.Create(cellbooleanDB)
 		if query.Error != nil {
-			log.Panic(query.Error)
+			log.Fatal(query.Error)
 		}
 		backRepoCellBoolean.Map_CellBooleanDBID_CellBooleanDB[cellbooleanDB.ID] = cellbooleanDB
 		BackRepoCellBooleanid_atBckpTime_newID[cellbooleanDB_ID_atBackupTime] = cellbooleanDB.ID
@@ -506,7 +524,7 @@ func (backRepoCellBoolean *BackRepoCellBooleanStruct) RestorePhaseOne(dirPath st
 	jsonFile, err := os.Open(filename)
 	// if we os.Open returns an error then handle it
 	if err != nil {
-		log.Panic("Cannot restore/open the json CellBoolean file", filename, " ", err.Error())
+		log.Fatal("Cannot restore/open the json CellBoolean file", filename, " ", err.Error())
 	}
 
 	// read our opened jsonFile as a byte array.
@@ -523,14 +541,14 @@ func (backRepoCellBoolean *BackRepoCellBooleanStruct) RestorePhaseOne(dirPath st
 		cellbooleanDB.ID = 0
 		query := backRepoCellBoolean.db.Create(cellbooleanDB)
 		if query.Error != nil {
-			log.Panic(query.Error)
+			log.Fatal(query.Error)
 		}
 		backRepoCellBoolean.Map_CellBooleanDBID_CellBooleanDB[cellbooleanDB.ID] = cellbooleanDB
 		BackRepoCellBooleanid_atBckpTime_newID[cellbooleanDB_ID_atBackupTime] = cellbooleanDB.ID
 	}
 
 	if err != nil {
-		log.Panic("Cannot restore/unmarshall json CellBoolean file", err.Error())
+		log.Fatal("Cannot restore/unmarshall json CellBoolean file", err.Error())
 	}
 }
 
@@ -547,7 +565,7 @@ func (backRepoCellBoolean *BackRepoCellBooleanStruct) RestorePhaseTwo() {
 		// update databse with new index encoding
 		query := backRepoCellBoolean.db.Model(cellbooleanDB).Updates(*cellbooleanDB)
 		if query.Error != nil {
-			log.Panic(query.Error)
+			log.Fatal(query.Error)
 		}
 	}
 

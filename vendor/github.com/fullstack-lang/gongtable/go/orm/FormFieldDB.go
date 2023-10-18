@@ -35,15 +35,15 @@ var dummy_FormField_sort sort.Float64Slice
 type FormFieldAPI struct {
 	gorm.Model
 
-	models.FormField
+	models.FormField_WOP
 
 	// encoding of pointers
-	FormFieldPointersEnconding
+	FormFieldPointersEncoding FormFieldPointersEncoding
 }
 
-// FormFieldPointersEnconding encodes pointers to Struct and
+// FormFieldPointersEncoding encodes pointers to Struct and
 // reverse pointers of slice of poitners to Struct
-type FormFieldPointersEnconding struct {
+type FormFieldPointersEncoding struct {
 	// insertion for pointer fields encoding declaration
 
 	// field FormFieldString is a pointer to another Struct (optional or 0..1)
@@ -75,9 +75,11 @@ type FormFieldPointersEnconding struct {
 	FormFieldSelectID sql.NullInt64
 
 	// Implementation of a reverse ID for field FormDiv{}.FormFields []*FormField
+	// (to be removed)
 	FormDiv_FormFieldsDBID sql.NullInt64
 
 	// implementation of the index of the withing the slice
+	// (to be removed)
 	FormDiv_FormFieldsDBID_Index sql.NullInt64
 }
 
@@ -111,7 +113,7 @@ type FormFieldDB struct {
 	// Declation for basic field formfieldDB.BespokeWidthPx
 	BespokeWidthPx_Data sql.NullInt64
 	// encoding of pointers
-	FormFieldPointersEnconding
+	FormFieldPointersEncoding
 }
 
 // FormFieldDBs arrays formfieldDBs
@@ -215,7 +217,7 @@ func (backRepoFormField *BackRepoFormFieldStruct) CommitDeleteInstance(id uint) 
 	formfieldDB := backRepoFormField.Map_FormFieldDBID_FormFieldDB[id]
 	query := backRepoFormField.db.Unscoped().Delete(&formfieldDB)
 	if query.Error != nil {
-		return query.Error
+		log.Fatal(query.Error)
 	}
 
 	// update stores
@@ -241,7 +243,7 @@ func (backRepoFormField *BackRepoFormFieldStruct) CommitPhaseOneInstance(formfie
 
 	query := backRepoFormField.db.Create(&formfieldDB)
 	if query.Error != nil {
-		return query.Error
+		log.Fatal(query.Error)
 	}
 
 	// update stores
@@ -359,7 +361,7 @@ func (backRepoFormField *BackRepoFormFieldStruct) CommitPhaseTwoInstance(backRep
 
 		query := backRepoFormField.db.Save(&formfieldDB)
 		if query.Error != nil {
-			return query.Error
+			log.Fatalln(query.Error)
 		}
 
 	} else {
@@ -521,7 +523,7 @@ func (backRepo *BackRepoStruct) CheckoutFormField(formfield *models.FormField) {
 			formfieldDB.ID = id
 
 			if err := backRepo.BackRepoFormField.db.First(&formfieldDB, id).Error; err != nil {
-				log.Panicln("CheckoutFormField : Problem with getting object with id:", id)
+				log.Fatalln("CheckoutFormField : Problem with getting object with id:", id)
 			}
 			backRepo.BackRepoFormField.CheckoutPhaseOneInstance(&formfieldDB)
 			backRepo.BackRepoFormField.CheckoutPhaseTwoInstance(backRepo, &formfieldDB)
@@ -531,6 +533,29 @@ func (backRepo *BackRepoStruct) CheckoutFormField(formfield *models.FormField) {
 
 // CopyBasicFieldsFromFormField
 func (formfieldDB *FormFieldDB) CopyBasicFieldsFromFormField(formfield *models.FormField) {
+	// insertion point for fields commit
+
+	formfieldDB.Name_Data.String = formfield.Name
+	formfieldDB.Name_Data.Valid = true
+
+	formfieldDB.InputTypeEnum_Data.String = formfield.InputTypeEnum.ToString()
+	formfieldDB.InputTypeEnum_Data.Valid = true
+
+	formfieldDB.Label_Data.String = formfield.Label
+	formfieldDB.Label_Data.Valid = true
+
+	formfieldDB.Placeholder_Data.String = formfield.Placeholder
+	formfieldDB.Placeholder_Data.Valid = true
+
+	formfieldDB.HasBespokeWidth_Data.Bool = formfield.HasBespokeWidth
+	formfieldDB.HasBespokeWidth_Data.Valid = true
+
+	formfieldDB.BespokeWidthPx_Data.Int64 = int64(formfield.BespokeWidthPx)
+	formfieldDB.BespokeWidthPx_Data.Valid = true
+}
+
+// CopyBasicFieldsFromFormField_WOP
+func (formfieldDB *FormFieldDB) CopyBasicFieldsFromFormField_WOP(formfield *models.FormField_WOP) {
 	// insertion point for fields commit
 
 	formfieldDB.Name_Data.String = formfield.Name
@@ -586,6 +611,17 @@ func (formfieldDB *FormFieldDB) CopyBasicFieldsToFormField(formfield *models.For
 	formfield.BespokeWidthPx = int(formfieldDB.BespokeWidthPx_Data.Int64)
 }
 
+// CopyBasicFieldsToFormField_WOP
+func (formfieldDB *FormFieldDB) CopyBasicFieldsToFormField_WOP(formfield *models.FormField_WOP) {
+	// insertion point for checkout of basic fields (back repo to stage)
+	formfield.Name = formfieldDB.Name_Data.String
+	formfield.InputTypeEnum.FromString(formfieldDB.InputTypeEnum_Data.String)
+	formfield.Label = formfieldDB.Label_Data.String
+	formfield.Placeholder = formfieldDB.Placeholder_Data.String
+	formfield.HasBespokeWidth = formfieldDB.HasBespokeWidth_Data.Bool
+	formfield.BespokeWidthPx = int(formfieldDB.BespokeWidthPx_Data.Int64)
+}
+
 // CopyBasicFieldsToFormFieldWOP
 func (formfieldDB *FormFieldDB) CopyBasicFieldsToFormFieldWOP(formfield *FormFieldWOP) {
 	formfield.ID = int(formfieldDB.ID)
@@ -617,12 +653,12 @@ func (backRepoFormField *BackRepoFormFieldStruct) Backup(dirPath string) {
 	file, err := json.MarshalIndent(forBackup, "", " ")
 
 	if err != nil {
-		log.Panic("Cannot json FormField ", filename, " ", err.Error())
+		log.Fatal("Cannot json FormField ", filename, " ", err.Error())
 	}
 
 	err = ioutil.WriteFile(filename, file, 0644)
 	if err != nil {
-		log.Panic("Cannot write the json FormField file", err.Error())
+		log.Fatal("Cannot write the json FormField file", err.Error())
 	}
 }
 
@@ -642,7 +678,7 @@ func (backRepoFormField *BackRepoFormFieldStruct) BackupXL(file *xlsx.File) {
 
 	sh, err := file.AddSheet("FormField")
 	if err != nil {
-		log.Panic("Cannot add XL file", err.Error())
+		log.Fatal("Cannot add XL file", err.Error())
 	}
 	_ = sh
 
@@ -667,13 +703,13 @@ func (backRepoFormField *BackRepoFormFieldStruct) RestoreXLPhaseOne(file *xlsx.F
 	sh, ok := file.Sheet["FormField"]
 	_ = sh
 	if !ok {
-		log.Panic(errors.New("sheet not found"))
+		log.Fatal(errors.New("sheet not found"))
 	}
 
 	// log.Println("Max row is", sh.MaxRow)
 	err := sh.ForEachRow(backRepoFormField.rowVisitorFormField)
 	if err != nil {
-		log.Panic("Err=", err)
+		log.Fatal("Err=", err)
 	}
 }
 
@@ -695,7 +731,7 @@ func (backRepoFormField *BackRepoFormFieldStruct) rowVisitorFormField(row *xlsx.
 		formfieldDB.ID = 0
 		query := backRepoFormField.db.Create(formfieldDB)
 		if query.Error != nil {
-			log.Panic(query.Error)
+			log.Fatal(query.Error)
 		}
 		backRepoFormField.Map_FormFieldDBID_FormFieldDB[formfieldDB.ID] = formfieldDB
 		BackRepoFormFieldid_atBckpTime_newID[formfieldDB_ID_atBackupTime] = formfieldDB.ID
@@ -715,7 +751,7 @@ func (backRepoFormField *BackRepoFormFieldStruct) RestorePhaseOne(dirPath string
 	jsonFile, err := os.Open(filename)
 	// if we os.Open returns an error then handle it
 	if err != nil {
-		log.Panic("Cannot restore/open the json FormField file", filename, " ", err.Error())
+		log.Fatal("Cannot restore/open the json FormField file", filename, " ", err.Error())
 	}
 
 	// read our opened jsonFile as a byte array.
@@ -732,14 +768,14 @@ func (backRepoFormField *BackRepoFormFieldStruct) RestorePhaseOne(dirPath string
 		formfieldDB.ID = 0
 		query := backRepoFormField.db.Create(formfieldDB)
 		if query.Error != nil {
-			log.Panic(query.Error)
+			log.Fatal(query.Error)
 		}
 		backRepoFormField.Map_FormFieldDBID_FormFieldDB[formfieldDB.ID] = formfieldDB
 		BackRepoFormFieldid_atBckpTime_newID[formfieldDB_ID_atBackupTime] = formfieldDB.ID
 	}
 
 	if err != nil {
-		log.Panic("Cannot restore/unmarshall json FormField file", err.Error())
+		log.Fatal("Cannot restore/unmarshall json FormField file", err.Error())
 	}
 }
 
@@ -804,7 +840,7 @@ func (backRepoFormField *BackRepoFormFieldStruct) RestorePhaseTwo() {
 		// update databse with new index encoding
 		query := backRepoFormField.db.Model(formfieldDB).Updates(*formfieldDB)
 		if query.Error != nil {
-			log.Panic(query.Error)
+			log.Fatal(query.Error)
 		}
 	}
 

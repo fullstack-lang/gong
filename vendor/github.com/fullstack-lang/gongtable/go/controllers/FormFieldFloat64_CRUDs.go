@@ -91,8 +91,8 @@ func (controller *Controller) GetFormFieldFloat64s(c *gin.Context) {
 
 		// insertion point for updating fields
 		formfieldfloat64API.ID = formfieldfloat64DB.ID
-		formfieldfloat64DB.CopyBasicFieldsToFormFieldFloat64(&formfieldfloat64API.FormFieldFloat64)
-		formfieldfloat64API.FormFieldFloat64PointersEnconding = formfieldfloat64DB.FormFieldFloat64PointersEnconding
+		formfieldfloat64DB.CopyBasicFieldsToFormFieldFloat64_WOP(&formfieldfloat64API.FormFieldFloat64_WOP)
+		formfieldfloat64API.FormFieldFloat64PointersEncoding = formfieldfloat64DB.FormFieldFloat64PointersEncoding
 		formfieldfloat64APIs = append(formfieldfloat64APIs, formfieldfloat64API)
 	}
 
@@ -147,8 +147,8 @@ func (controller *Controller) PostFormFieldFloat64(c *gin.Context) {
 
 	// Create formfieldfloat64
 	formfieldfloat64DB := orm.FormFieldFloat64DB{}
-	formfieldfloat64DB.FormFieldFloat64PointersEnconding = input.FormFieldFloat64PointersEnconding
-	formfieldfloat64DB.CopyBasicFieldsFromFormFieldFloat64(&input.FormFieldFloat64)
+	formfieldfloat64DB.FormFieldFloat64PointersEncoding = input.FormFieldFloat64PointersEncoding
+	formfieldfloat64DB.CopyBasicFieldsFromFormFieldFloat64_WOP(&input.FormFieldFloat64_WOP)
 
 	query := db.Create(&formfieldfloat64DB)
 	if query.Error != nil {
@@ -217,8 +217,8 @@ func (controller *Controller) GetFormFieldFloat64(c *gin.Context) {
 
 	var formfieldfloat64API orm.FormFieldFloat64API
 	formfieldfloat64API.ID = formfieldfloat64DB.ID
-	formfieldfloat64API.FormFieldFloat64PointersEnconding = formfieldfloat64DB.FormFieldFloat64PointersEnconding
-	formfieldfloat64DB.CopyBasicFieldsToFormFieldFloat64(&formfieldfloat64API.FormFieldFloat64)
+	formfieldfloat64API.FormFieldFloat64PointersEncoding = formfieldfloat64DB.FormFieldFloat64PointersEncoding
+	formfieldfloat64DB.CopyBasicFieldsToFormFieldFloat64_WOP(&formfieldfloat64API.FormFieldFloat64_WOP)
 
 	c.JSON(http.StatusOK, formfieldfloat64API)
 }
@@ -276,8 +276,8 @@ func (controller *Controller) UpdateFormFieldFloat64(c *gin.Context) {
 	}
 
 	// update
-	formfieldfloat64DB.CopyBasicFieldsFromFormFieldFloat64(&input.FormFieldFloat64)
-	formfieldfloat64DB.FormFieldFloat64PointersEnconding = input.FormFieldFloat64PointersEnconding
+	formfieldfloat64DB.CopyBasicFieldsFromFormFieldFloat64_WOP(&input.FormFieldFloat64_WOP)
+	formfieldfloat64DB.FormFieldFloat64PointersEncoding = input.FormFieldFloat64PointersEncoding
 
 	query = db.Model(&formfieldfloat64DB).Updates(formfieldfloat64DB)
 	if query.Error != nil {

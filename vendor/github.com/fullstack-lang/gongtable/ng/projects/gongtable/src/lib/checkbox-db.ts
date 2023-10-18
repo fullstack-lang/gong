@@ -16,7 +16,14 @@ export class CheckBoxDB {
 	Name: string = ""
 	Value: boolean = false
 
-	// insertion point for other declarations
+	// insertion point for pointers and slices of pointers declarations
+
+	CheckBoxPointersEncoding: CheckBoxPointersEncoding = new CheckBoxPointersEncoding
+}
+
+export class CheckBoxPointersEncoding {
+	// insertion point for pointers and slices of pointers encoding fields
+	// reverse pointers encoding (to be removed)
 	FormDiv_CheckBoxsDBID: NullInt64 = new NullInt64
 	FormDiv_CheckBoxsDBID_Index: NullInt64  = new NullInt64 // store the index of the checkbox instance in FormDiv.CheckBoxs
 	FormDiv_CheckBoxs_reverse?: FormDivDB 

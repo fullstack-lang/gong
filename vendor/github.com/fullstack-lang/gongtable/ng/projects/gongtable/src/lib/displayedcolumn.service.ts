@@ -82,8 +82,8 @@ export class DisplayedColumnService {
   postDisplayedColumn(displayedcolumndb: DisplayedColumnDB, GONG__StackPath: string): Observable<DisplayedColumnDB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
-    let _Table_DisplayedColumns_reverse = displayedcolumndb.Table_DisplayedColumns_reverse
-    displayedcolumndb.Table_DisplayedColumns_reverse = new TableDB
+    let _Table_DisplayedColumns_reverse = displayedcolumndb.DisplayedColumnPointersEncoding.Table_DisplayedColumns_reverse
+    displayedcolumndb.DisplayedColumnPointersEncoding.Table_DisplayedColumns_reverse = new TableDB
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -94,7 +94,7 @@ export class DisplayedColumnService {
     return this.http.post<DisplayedColumnDB>(this.displayedcolumnsUrl, displayedcolumndb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
-        displayedcolumndb.Table_DisplayedColumns_reverse = _Table_DisplayedColumns_reverse
+        displayedcolumndb.DisplayedColumnPointersEncoding.Table_DisplayedColumns_reverse = _Table_DisplayedColumns_reverse
         // this.log(`posted displayedcolumndb id=${displayedcolumndb.ID}`)
       }),
       catchError(this.handleError<DisplayedColumnDB>('postDisplayedColumn'))
@@ -130,8 +130,8 @@ export class DisplayedColumnService {
     const url = `${this.displayedcolumnsUrl}/${id}`;
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
-    let _Table_DisplayedColumns_reverse = displayedcolumndb.Table_DisplayedColumns_reverse
-    displayedcolumndb.Table_DisplayedColumns_reverse = new TableDB
+    let _Table_DisplayedColumns_reverse = displayedcolumndb.DisplayedColumnPointersEncoding.Table_DisplayedColumns_reverse
+    displayedcolumndb.DisplayedColumnPointersEncoding.Table_DisplayedColumns_reverse = new TableDB
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -142,7 +142,7 @@ export class DisplayedColumnService {
     return this.http.put<DisplayedColumnDB>(url, displayedcolumndb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
-        displayedcolumndb.Table_DisplayedColumns_reverse = _Table_DisplayedColumns_reverse
+        displayedcolumndb.DisplayedColumnPointersEncoding.Table_DisplayedColumns_reverse = _Table_DisplayedColumns_reverse
         // this.log(`updated displayedcolumndb id=${displayedcolumndb.ID}`)
       }),
       catchError(this.handleError<DisplayedColumnDB>('updateDisplayedColumn'))

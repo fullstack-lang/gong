@@ -91,8 +91,8 @@ func (controller *Controller) GetPolylines(c *gin.Context) {
 
 		// insertion point for updating fields
 		polylineAPI.ID = polylineDB.ID
-		polylineDB.CopyBasicFieldsToPolyline(&polylineAPI.Polyline)
-		polylineAPI.PolylinePointersEnconding = polylineDB.PolylinePointersEnconding
+		polylineDB.CopyBasicFieldsToPolyline_WOP(&polylineAPI.Polyline_WOP)
+		polylineAPI.PolylinePointersEncoding = polylineDB.PolylinePointersEncoding
 		polylineAPIs = append(polylineAPIs, polylineAPI)
 	}
 
@@ -147,8 +147,8 @@ func (controller *Controller) PostPolyline(c *gin.Context) {
 
 	// Create polyline
 	polylineDB := orm.PolylineDB{}
-	polylineDB.PolylinePointersEnconding = input.PolylinePointersEnconding
-	polylineDB.CopyBasicFieldsFromPolyline(&input.Polyline)
+	polylineDB.PolylinePointersEncoding = input.PolylinePointersEncoding
+	polylineDB.CopyBasicFieldsFromPolyline_WOP(&input.Polyline_WOP)
 
 	query := db.Create(&polylineDB)
 	if query.Error != nil {
@@ -217,8 +217,8 @@ func (controller *Controller) GetPolyline(c *gin.Context) {
 
 	var polylineAPI orm.PolylineAPI
 	polylineAPI.ID = polylineDB.ID
-	polylineAPI.PolylinePointersEnconding = polylineDB.PolylinePointersEnconding
-	polylineDB.CopyBasicFieldsToPolyline(&polylineAPI.Polyline)
+	polylineAPI.PolylinePointersEncoding = polylineDB.PolylinePointersEncoding
+	polylineDB.CopyBasicFieldsToPolyline_WOP(&polylineAPI.Polyline_WOP)
 
 	c.JSON(http.StatusOK, polylineAPI)
 }
@@ -276,8 +276,8 @@ func (controller *Controller) UpdatePolyline(c *gin.Context) {
 	}
 
 	// update
-	polylineDB.CopyBasicFieldsFromPolyline(&input.Polyline)
-	polylineDB.PolylinePointersEnconding = input.PolylinePointersEnconding
+	polylineDB.CopyBasicFieldsFromPolyline_WOP(&input.Polyline_WOP)
+	polylineDB.PolylinePointersEncoding = input.PolylinePointersEncoding
 
 	query = db.Model(&polylineDB).Updates(polylineDB)
 	if query.Error != nil {

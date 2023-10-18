@@ -91,8 +91,8 @@ func (controller *Controller) GetFormFieldStrings(c *gin.Context) {
 
 		// insertion point for updating fields
 		formfieldstringAPI.ID = formfieldstringDB.ID
-		formfieldstringDB.CopyBasicFieldsToFormFieldString(&formfieldstringAPI.FormFieldString)
-		formfieldstringAPI.FormFieldStringPointersEnconding = formfieldstringDB.FormFieldStringPointersEnconding
+		formfieldstringDB.CopyBasicFieldsToFormFieldString_WOP(&formfieldstringAPI.FormFieldString_WOP)
+		formfieldstringAPI.FormFieldStringPointersEncoding = formfieldstringDB.FormFieldStringPointersEncoding
 		formfieldstringAPIs = append(formfieldstringAPIs, formfieldstringAPI)
 	}
 
@@ -147,8 +147,8 @@ func (controller *Controller) PostFormFieldString(c *gin.Context) {
 
 	// Create formfieldstring
 	formfieldstringDB := orm.FormFieldStringDB{}
-	formfieldstringDB.FormFieldStringPointersEnconding = input.FormFieldStringPointersEnconding
-	formfieldstringDB.CopyBasicFieldsFromFormFieldString(&input.FormFieldString)
+	formfieldstringDB.FormFieldStringPointersEncoding = input.FormFieldStringPointersEncoding
+	formfieldstringDB.CopyBasicFieldsFromFormFieldString_WOP(&input.FormFieldString_WOP)
 
 	query := db.Create(&formfieldstringDB)
 	if query.Error != nil {
@@ -217,8 +217,8 @@ func (controller *Controller) GetFormFieldString(c *gin.Context) {
 
 	var formfieldstringAPI orm.FormFieldStringAPI
 	formfieldstringAPI.ID = formfieldstringDB.ID
-	formfieldstringAPI.FormFieldStringPointersEnconding = formfieldstringDB.FormFieldStringPointersEnconding
-	formfieldstringDB.CopyBasicFieldsToFormFieldString(&formfieldstringAPI.FormFieldString)
+	formfieldstringAPI.FormFieldStringPointersEncoding = formfieldstringDB.FormFieldStringPointersEncoding
+	formfieldstringDB.CopyBasicFieldsToFormFieldString_WOP(&formfieldstringAPI.FormFieldString_WOP)
 
 	c.JSON(http.StatusOK, formfieldstringAPI)
 }
@@ -276,8 +276,8 @@ func (controller *Controller) UpdateFormFieldString(c *gin.Context) {
 	}
 
 	// update
-	formfieldstringDB.CopyBasicFieldsFromFormFieldString(&input.FormFieldString)
-	formfieldstringDB.FormFieldStringPointersEnconding = input.FormFieldStringPointersEnconding
+	formfieldstringDB.CopyBasicFieldsFromFormFieldString_WOP(&input.FormFieldString_WOP)
+	formfieldstringDB.FormFieldStringPointersEncoding = input.FormFieldStringPointersEncoding
 
 	query = db.Model(&formfieldstringDB).Updates(formfieldstringDB)
 	if query.Error != nil {

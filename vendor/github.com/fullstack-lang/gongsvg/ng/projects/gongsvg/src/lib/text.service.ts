@@ -84,8 +84,8 @@ export class TextService {
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
     let Animates = textdb.Animates
     textdb.Animates = []
-    let _Layer_Texts_reverse = textdb.Layer_Texts_reverse
-    textdb.Layer_Texts_reverse = new LayerDB
+    let _Layer_Texts_reverse = textdb.TextPointersEncoding.Layer_Texts_reverse
+    textdb.TextPointersEncoding.Layer_Texts_reverse = new LayerDB
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -97,7 +97,7 @@ export class TextService {
       tap(_ => {
         // insertion point for restoration of reverse pointers
 	      textdb.Animates = Animates
-        textdb.Layer_Texts_reverse = _Layer_Texts_reverse
+        textdb.TextPointersEncoding.Layer_Texts_reverse = _Layer_Texts_reverse
         // this.log(`posted textdb id=${textdb.ID}`)
       }),
       catchError(this.handleError<TextDB>('postText'))
@@ -135,8 +135,8 @@ export class TextService {
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
     let Animates = textdb.Animates
     textdb.Animates = []
-    let _Layer_Texts_reverse = textdb.Layer_Texts_reverse
-    textdb.Layer_Texts_reverse = new LayerDB
+    let _Layer_Texts_reverse = textdb.TextPointersEncoding.Layer_Texts_reverse
+    textdb.TextPointersEncoding.Layer_Texts_reverse = new LayerDB
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -148,7 +148,7 @@ export class TextService {
       tap(_ => {
         // insertion point for restoration of reverse pointers
 	      textdb.Animates = Animates
-        textdb.Layer_Texts_reverse = _Layer_Texts_reverse
+        textdb.TextPointersEncoding.Layer_Texts_reverse = _Layer_Texts_reverse
         // this.log(`updated textdb id=${textdb.ID}`)
       }),
       catchError(this.handleError<TextDB>('updateText'))

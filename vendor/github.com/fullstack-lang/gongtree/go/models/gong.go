@@ -4,14 +4,25 @@ package models
 import (
 	"errors"
 	"fmt"
+	"math"
 	"time"
 )
+
+func __Gong__Abs(x int) int {
+	if x < 0 {
+		return -x
+	}
+	return x
+}
 
 // errUnkownEnum is returns when a value cannot match enum values
 var errUnkownEnum = errors.New("unkown enum")
 
 // needed to avoid when fmt package is not needed by generated code
 var __dummy__fmt_variable fmt.Scanner
+
+// idem for math package when not need by generated code
+var __dummy_math_variable = math.E
 
 // swagger:ignore
 type __void any

@@ -103,8 +103,8 @@ export class FormFieldService {
     formfielddb.FormFieldDateTime = new FormFieldDateTimeDB
     let FormFieldSelect = formfielddb.FormFieldSelect
     formfielddb.FormFieldSelect = new FormFieldSelectDB
-    let _FormDiv_FormFields_reverse = formfielddb.FormDiv_FormFields_reverse
-    formfielddb.FormDiv_FormFields_reverse = new FormDivDB
+    let _FormDiv_FormFields_reverse = formfielddb.FormFieldPointersEncoding.FormDiv_FormFields_reverse
+    formfielddb.FormFieldPointersEncoding.FormDiv_FormFields_reverse = new FormDivDB
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -115,7 +115,7 @@ export class FormFieldService {
     return this.http.post<FormFieldDB>(this.formfieldsUrl, formfielddb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
-        formfielddb.FormDiv_FormFields_reverse = _FormDiv_FormFields_reverse
+        formfielddb.FormFieldPointersEncoding.FormDiv_FormFields_reverse = _FormDiv_FormFields_reverse
         // this.log(`posted formfielddb id=${formfielddb.ID}`)
       }),
       catchError(this.handleError<FormFieldDB>('postFormField'))
@@ -165,8 +165,8 @@ export class FormFieldService {
     formfielddb.FormFieldDateTime = new FormFieldDateTimeDB
     let FormFieldSelect = formfielddb.FormFieldSelect
     formfielddb.FormFieldSelect = new FormFieldSelectDB
-    let _FormDiv_FormFields_reverse = formfielddb.FormDiv_FormFields_reverse
-    formfielddb.FormDiv_FormFields_reverse = new FormDivDB
+    let _FormDiv_FormFields_reverse = formfielddb.FormFieldPointersEncoding.FormDiv_FormFields_reverse
+    formfielddb.FormFieldPointersEncoding.FormDiv_FormFields_reverse = new FormDivDB
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -177,7 +177,7 @@ export class FormFieldService {
     return this.http.put<FormFieldDB>(url, formfielddb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
-        formfielddb.FormDiv_FormFields_reverse = _FormDiv_FormFields_reverse
+        formfielddb.FormFieldPointersEncoding.FormDiv_FormFields_reverse = _FormDiv_FormFields_reverse
         // this.log(`updated formfielddb id=${formfielddb.ID}`)
       }),
       catchError(this.handleError<FormFieldDB>('updateFormField'))

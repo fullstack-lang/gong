@@ -38,7 +38,7 @@ type PointerToGongStructFieldAPI struct {
 	models.PointerToGongStructField_WOP
 
 	// encoding of pointers
-	PointerToGongStructFieldPointersEncoding
+	PointerToGongStructFieldPointersEncoding PointerToGongStructFieldPointersEncoding
 }
 
 // PointerToGongStructFieldPointersEncoding encodes pointers to Struct and
@@ -51,9 +51,11 @@ type PointerToGongStructFieldPointersEncoding struct {
 	GongStructID sql.NullInt64
 
 	// Implementation of a reverse ID for field GongStruct{}.PointerToGongStructFields []*PointerToGongStructField
+	// (to be removed)
 	GongStruct_PointerToGongStructFieldsDBID sql.NullInt64
 
 	// implementation of the index of the withing the slice
+	// (to be removed)
 	GongStruct_PointerToGongStructFieldsDBID_Index sql.NullInt64
 }
 

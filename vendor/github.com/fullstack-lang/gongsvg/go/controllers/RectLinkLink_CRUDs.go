@@ -91,8 +91,8 @@ func (controller *Controller) GetRectLinkLinks(c *gin.Context) {
 
 		// insertion point for updating fields
 		rectlinklinkAPI.ID = rectlinklinkDB.ID
-		rectlinklinkDB.CopyBasicFieldsToRectLinkLink(&rectlinklinkAPI.RectLinkLink)
-		rectlinklinkAPI.RectLinkLinkPointersEnconding = rectlinklinkDB.RectLinkLinkPointersEnconding
+		rectlinklinkDB.CopyBasicFieldsToRectLinkLink_WOP(&rectlinklinkAPI.RectLinkLink_WOP)
+		rectlinklinkAPI.RectLinkLinkPointersEncoding = rectlinklinkDB.RectLinkLinkPointersEncoding
 		rectlinklinkAPIs = append(rectlinklinkAPIs, rectlinklinkAPI)
 	}
 
@@ -147,8 +147,8 @@ func (controller *Controller) PostRectLinkLink(c *gin.Context) {
 
 	// Create rectlinklink
 	rectlinklinkDB := orm.RectLinkLinkDB{}
-	rectlinklinkDB.RectLinkLinkPointersEnconding = input.RectLinkLinkPointersEnconding
-	rectlinklinkDB.CopyBasicFieldsFromRectLinkLink(&input.RectLinkLink)
+	rectlinklinkDB.RectLinkLinkPointersEncoding = input.RectLinkLinkPointersEncoding
+	rectlinklinkDB.CopyBasicFieldsFromRectLinkLink_WOP(&input.RectLinkLink_WOP)
 
 	query := db.Create(&rectlinklinkDB)
 	if query.Error != nil {
@@ -217,8 +217,8 @@ func (controller *Controller) GetRectLinkLink(c *gin.Context) {
 
 	var rectlinklinkAPI orm.RectLinkLinkAPI
 	rectlinklinkAPI.ID = rectlinklinkDB.ID
-	rectlinklinkAPI.RectLinkLinkPointersEnconding = rectlinklinkDB.RectLinkLinkPointersEnconding
-	rectlinklinkDB.CopyBasicFieldsToRectLinkLink(&rectlinklinkAPI.RectLinkLink)
+	rectlinklinkAPI.RectLinkLinkPointersEncoding = rectlinklinkDB.RectLinkLinkPointersEncoding
+	rectlinklinkDB.CopyBasicFieldsToRectLinkLink_WOP(&rectlinklinkAPI.RectLinkLink_WOP)
 
 	c.JSON(http.StatusOK, rectlinklinkAPI)
 }
@@ -276,8 +276,8 @@ func (controller *Controller) UpdateRectLinkLink(c *gin.Context) {
 	}
 
 	// update
-	rectlinklinkDB.CopyBasicFieldsFromRectLinkLink(&input.RectLinkLink)
-	rectlinklinkDB.RectLinkLinkPointersEnconding = input.RectLinkLinkPointersEnconding
+	rectlinklinkDB.CopyBasicFieldsFromRectLinkLink_WOP(&input.RectLinkLink_WOP)
+	rectlinklinkDB.RectLinkLinkPointersEncoding = input.RectLinkLinkPointersEncoding
 
 	query = db.Model(&rectlinklinkDB).Updates(rectlinklinkDB)
 	if query.Error != nil {

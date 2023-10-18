@@ -202,21 +202,6 @@ export class SvgComponent implements OnInit, OnDestroy {
         if (this.svg.Layers == undefined) {
           return
         }
-
-        this.svg.Layers.sort((t1, t2) => {
-          let t1_revPointerID_Index = t1.SVG_LayersDBID_Index
-          let t2_revPointerID_Index = t2.SVG_LayersDBID_Index
-
-          if (t1_revPointerID_Index && t2_revPointerID_Index) {
-            if (t1_revPointerID_Index.Int64 > t2_revPointerID_Index.Int64) {
-              return 1;
-            }
-            if (t1_revPointerID_Index.Int64 < t2_revPointerID_Index.Int64) {
-              return -1;
-            }
-          }
-          return 0;
-        });
       }
 
     )
@@ -246,11 +231,11 @@ export class SvgComponent implements OnInit, OnDestroy {
 
     this.svg.DrawingState = gongsvg.DrawingState.DRAWING_LINE
 
-    this.svg.StartRectID.Valid = true
-    this.svg.StartRectID.Int64 = startRectangleID
+    this.svg.SVGPointersEncoding.StartRectID.Valid = true
+    this.svg.SVGPointersEncoding.StartRectID.Int64 = startRectangleID
 
-    this.svg.EndRectID.Valid = true
-    this.svg.EndRectID.Int64 = endRectangleID
+    this.svg.SVGPointersEncoding.EndRectID.Valid = true
+    this.svg.SVGPointersEncoding.EndRectID.Int64 = endRectangleID
 
     this.svgService.updateSVG(this.svg, this.GONG__StackPath).subscribe(
       () => {

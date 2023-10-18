@@ -36,16 +36,28 @@ export class LinkDB {
 	StrokeDashArrayWhenSelected: string = ""
 	Transform: string = ""
 
-	// insertion point for other declarations
+	// insertion point for pointers and slices of pointers declarations
 	Start?: RectDB
-	StartID: NullInt64 = new NullInt64 // if pointer is null, Start.ID = 0
 
 	End?: RectDB
+
+	TextAtArrowEnd: Array<LinkAnchoredTextDB> = []
+	TextAtArrowStart: Array<LinkAnchoredTextDB> = []
+	ControlPoints: Array<PointDB> = []
+
+	LinkPointersEncoding: LinkPointersEncoding = new LinkPointersEncoding
+}
+
+export class LinkPointersEncoding {
+	// insertion point for pointers and slices of pointers encoding fields
+	StartID: NullInt64 = new NullInt64 // if pointer is null, Start.ID = 0
+
 	EndID: NullInt64 = new NullInt64 // if pointer is null, End.ID = 0
 
-	TextAtArrowEnd?: Array<LinkAnchoredTextDB>
-	TextAtArrowStart?: Array<LinkAnchoredTextDB>
-	ControlPoints?: Array<PointDB>
+	TextAtArrowEnd: number[] = []
+	TextAtArrowStart: number[] = []
+	ControlPoints: number[] = []
+	// reverse pointers encoding (to be removed)
 	Layer_LinksDBID: NullInt64 = new NullInt64
 	Layer_LinksDBID_Index: NullInt64  = new NullInt64 // store the index of the link instance in Layer.Links
 	Layer_Links_reverse?: LayerDB 

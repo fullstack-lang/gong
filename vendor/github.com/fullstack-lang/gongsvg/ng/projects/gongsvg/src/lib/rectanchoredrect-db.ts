@@ -32,7 +32,14 @@ export class RectAnchoredRectDB {
 	StrokeDashArrayWhenSelected: string = ""
 	Transform: string = ""
 
-	// insertion point for other declarations
+	// insertion point for pointers and slices of pointers declarations
+
+	RectAnchoredRectPointersEncoding: RectAnchoredRectPointersEncoding = new RectAnchoredRectPointersEncoding
+}
+
+export class RectAnchoredRectPointersEncoding {
+	// insertion point for pointers and slices of pointers encoding fields
+	// reverse pointers encoding (to be removed)
 	Rect_RectAnchoredRectsDBID: NullInt64 = new NullInt64
 	Rect_RectAnchoredRectsDBID_Index: NullInt64  = new NullInt64 // store the index of the rectanchoredrect instance in Rect.RectAnchoredRects
 	Rect_RectAnchoredRects_reverse?: RectDB 

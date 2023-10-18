@@ -35,21 +35,23 @@ var dummy_UmlState_sort sort.Float64Slice
 type UmlStateAPI struct {
 	gorm.Model
 
-	models.UmlState
+	models.UmlState_WOP
 
 	// encoding of pointers
-	UmlStatePointersEnconding
+	UmlStatePointersEncoding UmlStatePointersEncoding
 }
 
-// UmlStatePointersEnconding encodes pointers to Struct and
+// UmlStatePointersEncoding encodes pointers to Struct and
 // reverse pointers of slice of poitners to Struct
-type UmlStatePointersEnconding struct {
+type UmlStatePointersEncoding struct {
 	// insertion for pointer fields encoding declaration
 
 	// Implementation of a reverse ID for field Umlsc{}.States []*UmlState
+	// (to be removed)
 	Umlsc_StatesDBID sql.NullInt64
 
 	// implementation of the index of the withing the slice
+	// (to be removed)
 	Umlsc_StatesDBID_Index sql.NullInt64
 }
 
@@ -73,7 +75,7 @@ type UmlStateDB struct {
 	// Declation for basic field umlstateDB.Y
 	Y_Data sql.NullFloat64
 	// encoding of pointers
-	UmlStatePointersEnconding
+	UmlStatePointersEncoding
 }
 
 // UmlStateDBs arrays umlstateDBs
@@ -168,7 +170,7 @@ func (backRepoUmlState *BackRepoUmlStateStruct) CommitDeleteInstance(id uint) (E
 	umlstateDB := backRepoUmlState.Map_UmlStateDBID_UmlStateDB[id]
 	query := backRepoUmlState.db.Unscoped().Delete(&umlstateDB)
 	if query.Error != nil {
-		return query.Error
+		log.Fatal(query.Error)
 	}
 
 	// update stores
@@ -194,7 +196,7 @@ func (backRepoUmlState *BackRepoUmlStateStruct) CommitPhaseOneInstance(umlstate 
 
 	query := backRepoUmlState.db.Create(&umlstateDB)
 	if query.Error != nil {
-		return query.Error
+		log.Fatal(query.Error)
 	}
 
 	// update stores
@@ -228,7 +230,7 @@ func (backRepoUmlState *BackRepoUmlStateStruct) CommitPhaseTwoInstance(backRepo 
 		// insertion point for translating pointers encodings into actual pointers
 		query := backRepoUmlState.db.Save(&umlstateDB)
 		if query.Error != nil {
-			return query.Error
+			log.Fatalln(query.Error)
 		}
 
 	} else {
@@ -355,7 +357,7 @@ func (backRepo *BackRepoStruct) CheckoutUmlState(umlstate *models.UmlState) {
 			umlstateDB.ID = id
 
 			if err := backRepo.BackRepoUmlState.db.First(&umlstateDB, id).Error; err != nil {
-				log.Panicln("CheckoutUmlState : Problem with getting object with id:", id)
+				log.Fatalln("CheckoutUmlState : Problem with getting object with id:", id)
 			}
 			backRepo.BackRepoUmlState.CheckoutPhaseOneInstance(&umlstateDB)
 			backRepo.BackRepoUmlState.CheckoutPhaseTwoInstance(backRepo, &umlstateDB)
@@ -365,6 +367,20 @@ func (backRepo *BackRepoStruct) CheckoutUmlState(umlstate *models.UmlState) {
 
 // CopyBasicFieldsFromUmlState
 func (umlstateDB *UmlStateDB) CopyBasicFieldsFromUmlState(umlstate *models.UmlState) {
+	// insertion point for fields commit
+
+	umlstateDB.Name_Data.String = umlstate.Name
+	umlstateDB.Name_Data.Valid = true
+
+	umlstateDB.X_Data.Float64 = umlstate.X
+	umlstateDB.X_Data.Valid = true
+
+	umlstateDB.Y_Data.Float64 = umlstate.Y
+	umlstateDB.Y_Data.Valid = true
+}
+
+// CopyBasicFieldsFromUmlState_WOP
+func (umlstateDB *UmlStateDB) CopyBasicFieldsFromUmlState_WOP(umlstate *models.UmlState_WOP) {
 	// insertion point for fields commit
 
 	umlstateDB.Name_Data.String = umlstate.Name
@@ -399,6 +415,14 @@ func (umlstateDB *UmlStateDB) CopyBasicFieldsToUmlState(umlstate *models.UmlStat
 	umlstate.Y = umlstateDB.Y_Data.Float64
 }
 
+// CopyBasicFieldsToUmlState_WOP
+func (umlstateDB *UmlStateDB) CopyBasicFieldsToUmlState_WOP(umlstate *models.UmlState_WOP) {
+	// insertion point for checkout of basic fields (back repo to stage)
+	umlstate.Name = umlstateDB.Name_Data.String
+	umlstate.X = umlstateDB.X_Data.Float64
+	umlstate.Y = umlstateDB.Y_Data.Float64
+}
+
 // CopyBasicFieldsToUmlStateWOP
 func (umlstateDB *UmlStateDB) CopyBasicFieldsToUmlStateWOP(umlstate *UmlStateWOP) {
 	umlstate.ID = int(umlstateDB.ID)
@@ -427,12 +451,12 @@ func (backRepoUmlState *BackRepoUmlStateStruct) Backup(dirPath string) {
 	file, err := json.MarshalIndent(forBackup, "", " ")
 
 	if err != nil {
-		log.Panic("Cannot json UmlState ", filename, " ", err.Error())
+		log.Fatal("Cannot json UmlState ", filename, " ", err.Error())
 	}
 
 	err = ioutil.WriteFile(filename, file, 0644)
 	if err != nil {
-		log.Panic("Cannot write the json UmlState file", err.Error())
+		log.Fatal("Cannot write the json UmlState file", err.Error())
 	}
 }
 
@@ -452,7 +476,7 @@ func (backRepoUmlState *BackRepoUmlStateStruct) BackupXL(file *xlsx.File) {
 
 	sh, err := file.AddSheet("UmlState")
 	if err != nil {
-		log.Panic("Cannot add XL file", err.Error())
+		log.Fatal("Cannot add XL file", err.Error())
 	}
 	_ = sh
 
@@ -477,13 +501,13 @@ func (backRepoUmlState *BackRepoUmlStateStruct) RestoreXLPhaseOne(file *xlsx.Fil
 	sh, ok := file.Sheet["UmlState"]
 	_ = sh
 	if !ok {
-		log.Panic(errors.New("sheet not found"))
+		log.Fatal(errors.New("sheet not found"))
 	}
 
 	// log.Println("Max row is", sh.MaxRow)
 	err := sh.ForEachRow(backRepoUmlState.rowVisitorUmlState)
 	if err != nil {
-		log.Panic("Err=", err)
+		log.Fatal("Err=", err)
 	}
 }
 
@@ -505,7 +529,7 @@ func (backRepoUmlState *BackRepoUmlStateStruct) rowVisitorUmlState(row *xlsx.Row
 		umlstateDB.ID = 0
 		query := backRepoUmlState.db.Create(umlstateDB)
 		if query.Error != nil {
-			log.Panic(query.Error)
+			log.Fatal(query.Error)
 		}
 		backRepoUmlState.Map_UmlStateDBID_UmlStateDB[umlstateDB.ID] = umlstateDB
 		BackRepoUmlStateid_atBckpTime_newID[umlstateDB_ID_atBackupTime] = umlstateDB.ID
@@ -525,7 +549,7 @@ func (backRepoUmlState *BackRepoUmlStateStruct) RestorePhaseOne(dirPath string) 
 	jsonFile, err := os.Open(filename)
 	// if we os.Open returns an error then handle it
 	if err != nil {
-		log.Panic("Cannot restore/open the json UmlState file", filename, " ", err.Error())
+		log.Fatal("Cannot restore/open the json UmlState file", filename, " ", err.Error())
 	}
 
 	// read our opened jsonFile as a byte array.
@@ -542,14 +566,14 @@ func (backRepoUmlState *BackRepoUmlStateStruct) RestorePhaseOne(dirPath string) 
 		umlstateDB.ID = 0
 		query := backRepoUmlState.db.Create(umlstateDB)
 		if query.Error != nil {
-			log.Panic(query.Error)
+			log.Fatal(query.Error)
 		}
 		backRepoUmlState.Map_UmlStateDBID_UmlStateDB[umlstateDB.ID] = umlstateDB
 		BackRepoUmlStateid_atBckpTime_newID[umlstateDB_ID_atBackupTime] = umlstateDB.ID
 	}
 
 	if err != nil {
-		log.Panic("Cannot restore/unmarshall json UmlState file", err.Error())
+		log.Fatal("Cannot restore/unmarshall json UmlState file", err.Error())
 	}
 }
 
@@ -572,7 +596,7 @@ func (backRepoUmlState *BackRepoUmlStateStruct) RestorePhaseTwo() {
 		// update databse with new index encoding
 		query := backRepoUmlState.db.Model(umlstateDB).Updates(*umlstateDB)
 		if query.Error != nil {
-			log.Panic(query.Error)
+			log.Fatal(query.Error)
 		}
 	}
 

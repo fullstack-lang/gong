@@ -35,21 +35,26 @@ var dummy_Path_sort sort.Float64Slice
 type PathAPI struct {
 	gorm.Model
 
-	models.Path
+	models.Path_WOP
 
 	// encoding of pointers
-	PathPointersEnconding
+	PathPointersEncoding PathPointersEncoding
 }
 
-// PathPointersEnconding encodes pointers to Struct and
+// PathPointersEncoding encodes pointers to Struct and
 // reverse pointers of slice of poitners to Struct
-type PathPointersEnconding struct {
+type PathPointersEncoding struct {
 	// insertion for pointer fields encoding declaration
 
+	// field Animates is a slice of pointers to another Struct (optional or 0..1)
+	Animates IntSlice `gorm:"type:TEXT"`
+
 	// Implementation of a reverse ID for field Layer{}.Paths []*Path
+	// (to be removed)
 	Layer_PathsDBID sql.NullInt64
 
 	// implementation of the index of the withing the slice
+	// (to be removed)
 	Layer_PathsDBID_Index sql.NullInt64
 }
 
@@ -91,7 +96,7 @@ type PathDB struct {
 	// Declation for basic field pathDB.Transform
 	Transform_Data sql.NullString
 	// encoding of pointers
-	PathPointersEnconding
+	PathPointersEncoding
 }
 
 // PathDBs arrays pathDBs
@@ -204,7 +209,7 @@ func (backRepoPath *BackRepoPathStruct) CommitDeleteInstance(id uint) (Error err
 	pathDB := backRepoPath.Map_PathDBID_PathDB[id]
 	query := backRepoPath.db.Unscoped().Delete(&pathDB)
 	if query.Error != nil {
-		return query.Error
+		log.Fatal(query.Error)
 	}
 
 	// update stores
@@ -230,7 +235,7 @@ func (backRepoPath *BackRepoPathStruct) CommitPhaseOneInstance(path *models.Path
 
 	query := backRepoPath.db.Create(&pathDB)
 	if query.Error != nil {
-		return query.Error
+		log.Fatal(query.Error)
 	}
 
 	// update stores
@@ -272,6 +277,7 @@ func (backRepoPath *BackRepoPathStruct) CommitPhaseTwoInstance(backRepo *BackRep
 				backRepo.BackRepoAnimate.GetAnimateDBFromAnimatePtr(animateAssocEnd)
 
 			// encode reverse pointer in the association end back repo instance
+			// (to be removed)
 			animateAssocEnd_DB.Path_AnimatesDBID.Int64 = int64(pathDB.ID)
 			animateAssocEnd_DB.Path_AnimatesDBID.Valid = true
 			animateAssocEnd_DB.Path_AnimatesDBID_Index.Int64 = int64(idx)
@@ -281,9 +287,19 @@ func (backRepoPath *BackRepoPathStruct) CommitPhaseTwoInstance(backRepo *BackRep
 			}
 		}
 
+		// 1. reset
+		pathDB.PathPointersEncoding.Animates = make([]int, 0)
+		// 2. encode
+		for _, animateAssocEnd := range path.Animates {
+			animateAssocEnd_DB :=
+				backRepo.BackRepoAnimate.GetAnimateDBFromAnimatePtr(animateAssocEnd)
+			pathDB.PathPointersEncoding.Animates =
+				append(pathDB.PathPointersEncoding.Animates, int(animateAssocEnd_DB.ID))
+		}
+
 		query := backRepoPath.db.Save(&pathDB)
 		if query.Error != nil {
-			return query.Error
+			log.Fatalln(query.Error)
 		}
 
 	} else {
@@ -437,7 +453,7 @@ func (backRepo *BackRepoStruct) CheckoutPath(path *models.Path) {
 			pathDB.ID = id
 
 			if err := backRepo.BackRepoPath.db.First(&pathDB, id).Error; err != nil {
-				log.Panicln("CheckoutPath : Problem with getting object with id:", id)
+				log.Fatalln("CheckoutPath : Problem with getting object with id:", id)
 			}
 			backRepo.BackRepoPath.CheckoutPhaseOneInstance(&pathDB)
 			backRepo.BackRepoPath.CheckoutPhaseTwoInstance(backRepo, &pathDB)
@@ -447,6 +463,38 @@ func (backRepo *BackRepoStruct) CheckoutPath(path *models.Path) {
 
 // CopyBasicFieldsFromPath
 func (pathDB *PathDB) CopyBasicFieldsFromPath(path *models.Path) {
+	// insertion point for fields commit
+
+	pathDB.Name_Data.String = path.Name
+	pathDB.Name_Data.Valid = true
+
+	pathDB.Definition_Data.String = path.Definition
+	pathDB.Definition_Data.Valid = true
+
+	pathDB.Color_Data.String = path.Color
+	pathDB.Color_Data.Valid = true
+
+	pathDB.FillOpacity_Data.Float64 = path.FillOpacity
+	pathDB.FillOpacity_Data.Valid = true
+
+	pathDB.Stroke_Data.String = path.Stroke
+	pathDB.Stroke_Data.Valid = true
+
+	pathDB.StrokeWidth_Data.Float64 = path.StrokeWidth
+	pathDB.StrokeWidth_Data.Valid = true
+
+	pathDB.StrokeDashArray_Data.String = path.StrokeDashArray
+	pathDB.StrokeDashArray_Data.Valid = true
+
+	pathDB.StrokeDashArrayWhenSelected_Data.String = path.StrokeDashArrayWhenSelected
+	pathDB.StrokeDashArrayWhenSelected_Data.Valid = true
+
+	pathDB.Transform_Data.String = path.Transform
+	pathDB.Transform_Data.Valid = true
+}
+
+// CopyBasicFieldsFromPath_WOP
+func (pathDB *PathDB) CopyBasicFieldsFromPath_WOP(path *models.Path_WOP) {
 	// insertion point for fields commit
 
 	pathDB.Name_Data.String = path.Name
@@ -523,6 +571,20 @@ func (pathDB *PathDB) CopyBasicFieldsToPath(path *models.Path) {
 	path.Transform = pathDB.Transform_Data.String
 }
 
+// CopyBasicFieldsToPath_WOP
+func (pathDB *PathDB) CopyBasicFieldsToPath_WOP(path *models.Path_WOP) {
+	// insertion point for checkout of basic fields (back repo to stage)
+	path.Name = pathDB.Name_Data.String
+	path.Definition = pathDB.Definition_Data.String
+	path.Color = pathDB.Color_Data.String
+	path.FillOpacity = pathDB.FillOpacity_Data.Float64
+	path.Stroke = pathDB.Stroke_Data.String
+	path.StrokeWidth = pathDB.StrokeWidth_Data.Float64
+	path.StrokeDashArray = pathDB.StrokeDashArray_Data.String
+	path.StrokeDashArrayWhenSelected = pathDB.StrokeDashArrayWhenSelected_Data.String
+	path.Transform = pathDB.Transform_Data.String
+}
+
 // CopyBasicFieldsToPathWOP
 func (pathDB *PathDB) CopyBasicFieldsToPathWOP(path *PathWOP) {
 	path.ID = int(pathDB.ID)
@@ -557,12 +619,12 @@ func (backRepoPath *BackRepoPathStruct) Backup(dirPath string) {
 	file, err := json.MarshalIndent(forBackup, "", " ")
 
 	if err != nil {
-		log.Panic("Cannot json Path ", filename, " ", err.Error())
+		log.Fatal("Cannot json Path ", filename, " ", err.Error())
 	}
 
 	err = ioutil.WriteFile(filename, file, 0644)
 	if err != nil {
-		log.Panic("Cannot write the json Path file", err.Error())
+		log.Fatal("Cannot write the json Path file", err.Error())
 	}
 }
 
@@ -582,7 +644,7 @@ func (backRepoPath *BackRepoPathStruct) BackupXL(file *xlsx.File) {
 
 	sh, err := file.AddSheet("Path")
 	if err != nil {
-		log.Panic("Cannot add XL file", err.Error())
+		log.Fatal("Cannot add XL file", err.Error())
 	}
 	_ = sh
 
@@ -607,13 +669,13 @@ func (backRepoPath *BackRepoPathStruct) RestoreXLPhaseOne(file *xlsx.File) {
 	sh, ok := file.Sheet["Path"]
 	_ = sh
 	if !ok {
-		log.Panic(errors.New("sheet not found"))
+		log.Fatal(errors.New("sheet not found"))
 	}
 
 	// log.Println("Max row is", sh.MaxRow)
 	err := sh.ForEachRow(backRepoPath.rowVisitorPath)
 	if err != nil {
-		log.Panic("Err=", err)
+		log.Fatal("Err=", err)
 	}
 }
 
@@ -635,7 +697,7 @@ func (backRepoPath *BackRepoPathStruct) rowVisitorPath(row *xlsx.Row) error {
 		pathDB.ID = 0
 		query := backRepoPath.db.Create(pathDB)
 		if query.Error != nil {
-			log.Panic(query.Error)
+			log.Fatal(query.Error)
 		}
 		backRepoPath.Map_PathDBID_PathDB[pathDB.ID] = pathDB
 		BackRepoPathid_atBckpTime_newID[pathDB_ID_atBackupTime] = pathDB.ID
@@ -655,7 +717,7 @@ func (backRepoPath *BackRepoPathStruct) RestorePhaseOne(dirPath string) {
 	jsonFile, err := os.Open(filename)
 	// if we os.Open returns an error then handle it
 	if err != nil {
-		log.Panic("Cannot restore/open the json Path file", filename, " ", err.Error())
+		log.Fatal("Cannot restore/open the json Path file", filename, " ", err.Error())
 	}
 
 	// read our opened jsonFile as a byte array.
@@ -672,14 +734,14 @@ func (backRepoPath *BackRepoPathStruct) RestorePhaseOne(dirPath string) {
 		pathDB.ID = 0
 		query := backRepoPath.db.Create(pathDB)
 		if query.Error != nil {
-			log.Panic(query.Error)
+			log.Fatal(query.Error)
 		}
 		backRepoPath.Map_PathDBID_PathDB[pathDB.ID] = pathDB
 		BackRepoPathid_atBckpTime_newID[pathDB_ID_atBackupTime] = pathDB.ID
 	}
 
 	if err != nil {
-		log.Panic("Cannot restore/unmarshall json Path file", err.Error())
+		log.Fatal("Cannot restore/unmarshall json Path file", err.Error())
 	}
 }
 
@@ -702,7 +764,7 @@ func (backRepoPath *BackRepoPathStruct) RestorePhaseTwo() {
 		// update databse with new index encoding
 		query := backRepoPath.db.Model(pathDB).Updates(*pathDB)
 		if query.Error != nil {
-			log.Panic(query.Error)
+			log.Fatal(query.Error)
 		}
 	}
 

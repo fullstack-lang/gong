@@ -93,8 +93,8 @@ export class LinkService {
     linkdb.TextAtArrowStart = []
     let ControlPoints = linkdb.ControlPoints
     linkdb.ControlPoints = []
-    let _Layer_Links_reverse = linkdb.Layer_Links_reverse
-    linkdb.Layer_Links_reverse = new LayerDB
+    let _Layer_Links_reverse = linkdb.LinkPointersEncoding.Layer_Links_reverse
+    linkdb.LinkPointersEncoding.Layer_Links_reverse = new LayerDB
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -108,7 +108,7 @@ export class LinkService {
 	      linkdb.TextAtArrowEnd = TextAtArrowEnd
 	      linkdb.TextAtArrowStart = TextAtArrowStart
 	      linkdb.ControlPoints = ControlPoints
-        linkdb.Layer_Links_reverse = _Layer_Links_reverse
+        linkdb.LinkPointersEncoding.Layer_Links_reverse = _Layer_Links_reverse
         // this.log(`posted linkdb id=${linkdb.ID}`)
       }),
       catchError(this.handleError<LinkDB>('postLink'))
@@ -154,8 +154,8 @@ export class LinkService {
     linkdb.TextAtArrowStart = []
     let ControlPoints = linkdb.ControlPoints
     linkdb.ControlPoints = []
-    let _Layer_Links_reverse = linkdb.Layer_Links_reverse
-    linkdb.Layer_Links_reverse = new LayerDB
+    let _Layer_Links_reverse = linkdb.LinkPointersEncoding.Layer_Links_reverse
+    linkdb.LinkPointersEncoding.Layer_Links_reverse = new LayerDB
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -169,7 +169,7 @@ export class LinkService {
 	      linkdb.TextAtArrowEnd = TextAtArrowEnd
 	      linkdb.TextAtArrowStart = TextAtArrowStart
 	      linkdb.ControlPoints = ControlPoints
-        linkdb.Layer_Links_reverse = _Layer_Links_reverse
+        linkdb.LinkPointersEncoding.Layer_Links_reverse = _Layer_Links_reverse
         // this.log(`updated linkdb id=${linkdb.ID}`)
       }),
       catchError(this.handleError<LinkDB>('updateLink'))

@@ -95,6 +95,6 @@
         <!-- Data row for each row in dataSource.
              The mat-row directive applies Angular Material styling.
              The *matRowDef directive defines a row for each row object in dataSource and sets its columns. -->
-        <tr mat-row *matRowDef="let row; columns: allDisplayedColumns" (click)="onClick( row.Table_RowsDBID_Index.Int64 )" cdkDrag [cdkDragDisabled]="!selectedTable!.CanDragDropRows"></tr>
+        <tr mat-row *matRowDef="let row; columns: allDisplayedColumns" (click)="onClick( row.RowPointersEncoding.Table_RowsDBID_Index.Int64 )" cdkDrag [cdkDragDisabled]="!selectedTable!.CanDragDropRows"></tr>
     </table>
 </section>

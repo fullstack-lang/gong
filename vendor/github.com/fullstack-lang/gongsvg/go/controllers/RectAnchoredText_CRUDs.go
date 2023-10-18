@@ -91,8 +91,8 @@ func (controller *Controller) GetRectAnchoredTexts(c *gin.Context) {
 
 		// insertion point for updating fields
 		rectanchoredtextAPI.ID = rectanchoredtextDB.ID
-		rectanchoredtextDB.CopyBasicFieldsToRectAnchoredText(&rectanchoredtextAPI.RectAnchoredText)
-		rectanchoredtextAPI.RectAnchoredTextPointersEnconding = rectanchoredtextDB.RectAnchoredTextPointersEnconding
+		rectanchoredtextDB.CopyBasicFieldsToRectAnchoredText_WOP(&rectanchoredtextAPI.RectAnchoredText_WOP)
+		rectanchoredtextAPI.RectAnchoredTextPointersEncoding = rectanchoredtextDB.RectAnchoredTextPointersEncoding
 		rectanchoredtextAPIs = append(rectanchoredtextAPIs, rectanchoredtextAPI)
 	}
 
@@ -147,8 +147,8 @@ func (controller *Controller) PostRectAnchoredText(c *gin.Context) {
 
 	// Create rectanchoredtext
 	rectanchoredtextDB := orm.RectAnchoredTextDB{}
-	rectanchoredtextDB.RectAnchoredTextPointersEnconding = input.RectAnchoredTextPointersEnconding
-	rectanchoredtextDB.CopyBasicFieldsFromRectAnchoredText(&input.RectAnchoredText)
+	rectanchoredtextDB.RectAnchoredTextPointersEncoding = input.RectAnchoredTextPointersEncoding
+	rectanchoredtextDB.CopyBasicFieldsFromRectAnchoredText_WOP(&input.RectAnchoredText_WOP)
 
 	query := db.Create(&rectanchoredtextDB)
 	if query.Error != nil {
@@ -217,8 +217,8 @@ func (controller *Controller) GetRectAnchoredText(c *gin.Context) {
 
 	var rectanchoredtextAPI orm.RectAnchoredTextAPI
 	rectanchoredtextAPI.ID = rectanchoredtextDB.ID
-	rectanchoredtextAPI.RectAnchoredTextPointersEnconding = rectanchoredtextDB.RectAnchoredTextPointersEnconding
-	rectanchoredtextDB.CopyBasicFieldsToRectAnchoredText(&rectanchoredtextAPI.RectAnchoredText)
+	rectanchoredtextAPI.RectAnchoredTextPointersEncoding = rectanchoredtextDB.RectAnchoredTextPointersEncoding
+	rectanchoredtextDB.CopyBasicFieldsToRectAnchoredText_WOP(&rectanchoredtextAPI.RectAnchoredText_WOP)
 
 	c.JSON(http.StatusOK, rectanchoredtextAPI)
 }
@@ -276,8 +276,8 @@ func (controller *Controller) UpdateRectAnchoredText(c *gin.Context) {
 	}
 
 	// update
-	rectanchoredtextDB.CopyBasicFieldsFromRectAnchoredText(&input.RectAnchoredText)
-	rectanchoredtextDB.RectAnchoredTextPointersEnconding = input.RectAnchoredTextPointersEnconding
+	rectanchoredtextDB.CopyBasicFieldsFromRectAnchoredText_WOP(&input.RectAnchoredText_WOP)
+	rectanchoredtextDB.RectAnchoredTextPointersEncoding = input.RectAnchoredTextPointersEncoding
 
 	query = db.Model(&rectanchoredtextDB).Updates(rectanchoredtextDB)
 	if query.Error != nil {

@@ -17,8 +17,16 @@ export class RowDB {
 	Name: string = ""
 	IsChecked: boolean = false
 
-	// insertion point for other declarations
-	Cells?: Array<CellDB>
+	// insertion point for pointers and slices of pointers declarations
+	Cells: Array<CellDB> = []
+
+	RowPointersEncoding: RowPointersEncoding = new RowPointersEncoding
+}
+
+export class RowPointersEncoding {
+	// insertion point for pointers and slices of pointers encoding fields
+	Cells: number[] = []
+	// reverse pointers encoding (to be removed)
 	Table_RowsDBID: NullInt64 = new NullInt64
 	Table_RowsDBID_Index: NullInt64  = new NullInt64 // store the index of the row instance in Table.Rows
 	Table_Rows_reverse?: TableDB 

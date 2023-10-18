@@ -84,8 +84,8 @@ export class LineService {
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
     let Animates = linedb.Animates
     linedb.Animates = []
-    let _Layer_Lines_reverse = linedb.Layer_Lines_reverse
-    linedb.Layer_Lines_reverse = new LayerDB
+    let _Layer_Lines_reverse = linedb.LinePointersEncoding.Layer_Lines_reverse
+    linedb.LinePointersEncoding.Layer_Lines_reverse = new LayerDB
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -97,7 +97,7 @@ export class LineService {
       tap(_ => {
         // insertion point for restoration of reverse pointers
 	      linedb.Animates = Animates
-        linedb.Layer_Lines_reverse = _Layer_Lines_reverse
+        linedb.LinePointersEncoding.Layer_Lines_reverse = _Layer_Lines_reverse
         // this.log(`posted linedb id=${linedb.ID}`)
       }),
       catchError(this.handleError<LineDB>('postLine'))
@@ -135,8 +135,8 @@ export class LineService {
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
     let Animates = linedb.Animates
     linedb.Animates = []
-    let _Layer_Lines_reverse = linedb.Layer_Lines_reverse
-    linedb.Layer_Lines_reverse = new LayerDB
+    let _Layer_Lines_reverse = linedb.LinePointersEncoding.Layer_Lines_reverse
+    linedb.LinePointersEncoding.Layer_Lines_reverse = new LayerDB
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -148,7 +148,7 @@ export class LineService {
       tap(_ => {
         // insertion point for restoration of reverse pointers
 	      linedb.Animates = Animates
-        linedb.Layer_Lines_reverse = _Layer_Lines_reverse
+        linedb.LinePointersEncoding.Layer_Lines_reverse = _Layer_Lines_reverse
         // this.log(`updated linedb id=${linedb.ID}`)
       }),
       catchError(this.handleError<LineDB>('updateLine'))

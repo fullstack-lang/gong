@@ -15,5 +15,11 @@ export class CellBooleanDB {
 	Name: string = ""
 	Value: boolean = false
 
-	// insertion point for other declarations
+	// insertion point for pointers and slices of pointers declarations
+
+	CellBooleanPointersEncoding: CellBooleanPointersEncoding = new CellBooleanPointersEncoding
+}
+
+export class CellBooleanPointersEncoding {
+	// insertion point for pointers and slices of pointers encoding fields
 }

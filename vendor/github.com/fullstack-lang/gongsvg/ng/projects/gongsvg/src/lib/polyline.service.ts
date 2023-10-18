@@ -84,8 +84,8 @@ export class PolylineService {
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
     let Animates = polylinedb.Animates
     polylinedb.Animates = []
-    let _Layer_Polylines_reverse = polylinedb.Layer_Polylines_reverse
-    polylinedb.Layer_Polylines_reverse = new LayerDB
+    let _Layer_Polylines_reverse = polylinedb.PolylinePointersEncoding.Layer_Polylines_reverse
+    polylinedb.PolylinePointersEncoding.Layer_Polylines_reverse = new LayerDB
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -97,7 +97,7 @@ export class PolylineService {
       tap(_ => {
         // insertion point for restoration of reverse pointers
 	      polylinedb.Animates = Animates
-        polylinedb.Layer_Polylines_reverse = _Layer_Polylines_reverse
+        polylinedb.PolylinePointersEncoding.Layer_Polylines_reverse = _Layer_Polylines_reverse
         // this.log(`posted polylinedb id=${polylinedb.ID}`)
       }),
       catchError(this.handleError<PolylineDB>('postPolyline'))
@@ -135,8 +135,8 @@ export class PolylineService {
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
     let Animates = polylinedb.Animates
     polylinedb.Animates = []
-    let _Layer_Polylines_reverse = polylinedb.Layer_Polylines_reverse
-    polylinedb.Layer_Polylines_reverse = new LayerDB
+    let _Layer_Polylines_reverse = polylinedb.PolylinePointersEncoding.Layer_Polylines_reverse
+    polylinedb.PolylinePointersEncoding.Layer_Polylines_reverse = new LayerDB
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -148,7 +148,7 @@ export class PolylineService {
       tap(_ => {
         // insertion point for restoration of reverse pointers
 	      polylinedb.Animates = Animates
-        polylinedb.Layer_Polylines_reverse = _Layer_Polylines_reverse
+        polylinedb.PolylinePointersEncoding.Layer_Polylines_reverse = _Layer_Polylines_reverse
         // this.log(`updated polylinedb id=${polylinedb.ID}`)
       }),
       catchError(this.handleError<PolylineDB>('updatePolyline'))

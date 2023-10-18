@@ -35,15 +35,15 @@ var dummy_CellString_sort sort.Float64Slice
 type CellStringAPI struct {
 	gorm.Model
 
-	models.CellString
+	models.CellString_WOP
 
 	// encoding of pointers
-	CellStringPointersEnconding
+	CellStringPointersEncoding CellStringPointersEncoding
 }
 
-// CellStringPointersEnconding encodes pointers to Struct and
+// CellStringPointersEncoding encodes pointers to Struct and
 // reverse pointers of slice of poitners to Struct
-type CellStringPointersEnconding struct {
+type CellStringPointersEncoding struct {
 	// insertion for pointer fields encoding declaration
 }
 
@@ -64,7 +64,7 @@ type CellStringDB struct {
 	// Declation for basic field cellstringDB.Value
 	Value_Data sql.NullString
 	// encoding of pointers
-	CellStringPointersEnconding
+	CellStringPointersEncoding
 }
 
 // CellStringDBs arrays cellstringDBs
@@ -156,7 +156,7 @@ func (backRepoCellString *BackRepoCellStringStruct) CommitDeleteInstance(id uint
 	cellstringDB := backRepoCellString.Map_CellStringDBID_CellStringDB[id]
 	query := backRepoCellString.db.Unscoped().Delete(&cellstringDB)
 	if query.Error != nil {
-		return query.Error
+		log.Fatal(query.Error)
 	}
 
 	// update stores
@@ -182,7 +182,7 @@ func (backRepoCellString *BackRepoCellStringStruct) CommitPhaseOneInstance(cells
 
 	query := backRepoCellString.db.Create(&cellstringDB)
 	if query.Error != nil {
-		return query.Error
+		log.Fatal(query.Error)
 	}
 
 	// update stores
@@ -216,7 +216,7 @@ func (backRepoCellString *BackRepoCellStringStruct) CommitPhaseTwoInstance(backR
 		// insertion point for translating pointers encodings into actual pointers
 		query := backRepoCellString.db.Save(&cellstringDB)
 		if query.Error != nil {
-			return query.Error
+			log.Fatalln(query.Error)
 		}
 
 	} else {
@@ -343,7 +343,7 @@ func (backRepo *BackRepoStruct) CheckoutCellString(cellstring *models.CellString
 			cellstringDB.ID = id
 
 			if err := backRepo.BackRepoCellString.db.First(&cellstringDB, id).Error; err != nil {
-				log.Panicln("CheckoutCellString : Problem with getting object with id:", id)
+				log.Fatalln("CheckoutCellString : Problem with getting object with id:", id)
 			}
 			backRepo.BackRepoCellString.CheckoutPhaseOneInstance(&cellstringDB)
 			backRepo.BackRepoCellString.CheckoutPhaseTwoInstance(backRepo, &cellstringDB)
@@ -353,6 +353,17 @@ func (backRepo *BackRepoStruct) CheckoutCellString(cellstring *models.CellString
 
 // CopyBasicFieldsFromCellString
 func (cellstringDB *CellStringDB) CopyBasicFieldsFromCellString(cellstring *models.CellString) {
+	// insertion point for fields commit
+
+	cellstringDB.Name_Data.String = cellstring.Name
+	cellstringDB.Name_Data.Valid = true
+
+	cellstringDB.Value_Data.String = cellstring.Value
+	cellstringDB.Value_Data.Valid = true
+}
+
+// CopyBasicFieldsFromCellString_WOP
+func (cellstringDB *CellStringDB) CopyBasicFieldsFromCellString_WOP(cellstring *models.CellString_WOP) {
 	// insertion point for fields commit
 
 	cellstringDB.Name_Data.String = cellstring.Name
@@ -375,6 +386,13 @@ func (cellstringDB *CellStringDB) CopyBasicFieldsFromCellStringWOP(cellstring *C
 
 // CopyBasicFieldsToCellString
 func (cellstringDB *CellStringDB) CopyBasicFieldsToCellString(cellstring *models.CellString) {
+	// insertion point for checkout of basic fields (back repo to stage)
+	cellstring.Name = cellstringDB.Name_Data.String
+	cellstring.Value = cellstringDB.Value_Data.String
+}
+
+// CopyBasicFieldsToCellString_WOP
+func (cellstringDB *CellStringDB) CopyBasicFieldsToCellString_WOP(cellstring *models.CellString_WOP) {
 	// insertion point for checkout of basic fields (back repo to stage)
 	cellstring.Name = cellstringDB.Name_Data.String
 	cellstring.Value = cellstringDB.Value_Data.String
@@ -407,12 +425,12 @@ func (backRepoCellString *BackRepoCellStringStruct) Backup(dirPath string) {
 	file, err := json.MarshalIndent(forBackup, "", " ")
 
 	if err != nil {
-		log.Panic("Cannot json CellString ", filename, " ", err.Error())
+		log.Fatal("Cannot json CellString ", filename, " ", err.Error())
 	}
 
 	err = ioutil.WriteFile(filename, file, 0644)
 	if err != nil {
-		log.Panic("Cannot write the json CellString file", err.Error())
+		log.Fatal("Cannot write the json CellString file", err.Error())
 	}
 }
 
@@ -432,7 +450,7 @@ func (backRepoCellString *BackRepoCellStringStruct) BackupXL(file *xlsx.File) {
 
 	sh, err := file.AddSheet("CellString")
 	if err != nil {
-		log.Panic("Cannot add XL file", err.Error())
+		log.Fatal("Cannot add XL file", err.Error())
 	}
 	_ = sh
 
@@ -457,13 +475,13 @@ func (backRepoCellString *BackRepoCellStringStruct) RestoreXLPhaseOne(file *xlsx
 	sh, ok := file.Sheet["CellString"]
 	_ = sh
 	if !ok {
-		log.Panic(errors.New("sheet not found"))
+		log.Fatal(errors.New("sheet not found"))
 	}
 
 	// log.Println("Max row is", sh.MaxRow)
 	err := sh.ForEachRow(backRepoCellString.rowVisitorCellString)
 	if err != nil {
-		log.Panic("Err=", err)
+		log.Fatal("Err=", err)
 	}
 }
 
@@ -485,7 +503,7 @@ func (backRepoCellString *BackRepoCellStringStruct) rowVisitorCellString(row *xl
 		cellstringDB.ID = 0
 		query := backRepoCellString.db.Create(cellstringDB)
 		if query.Error != nil {
-			log.Panic(query.Error)
+			log.Fatal(query.Error)
 		}
 		backRepoCellString.Map_CellStringDBID_CellStringDB[cellstringDB.ID] = cellstringDB
 		BackRepoCellStringid_atBckpTime_newID[cellstringDB_ID_atBackupTime] = cellstringDB.ID
@@ -505,7 +523,7 @@ func (backRepoCellString *BackRepoCellStringStruct) RestorePhaseOne(dirPath stri
 	jsonFile, err := os.Open(filename)
 	// if we os.Open returns an error then handle it
 	if err != nil {
-		log.Panic("Cannot restore/open the json CellString file", filename, " ", err.Error())
+		log.Fatal("Cannot restore/open the json CellString file", filename, " ", err.Error())
 	}
 
 	// read our opened jsonFile as a byte array.
@@ -522,14 +540,14 @@ func (backRepoCellString *BackRepoCellStringStruct) RestorePhaseOne(dirPath stri
 		cellstringDB.ID = 0
 		query := backRepoCellString.db.Create(cellstringDB)
 		if query.Error != nil {
-			log.Panic(query.Error)
+			log.Fatal(query.Error)
 		}
 		backRepoCellString.Map_CellStringDBID_CellStringDB[cellstringDB.ID] = cellstringDB
 		BackRepoCellStringid_atBckpTime_newID[cellstringDB_ID_atBackupTime] = cellstringDB.ID
 	}
 
 	if err != nil {
-		log.Panic("Cannot restore/unmarshall json CellString file", err.Error())
+		log.Fatal("Cannot restore/unmarshall json CellString file", err.Error())
 	}
 }
 
@@ -546,7 +564,7 @@ func (backRepoCellString *BackRepoCellStringStruct) RestorePhaseTwo() {
 		// update databse with new index encoding
 		query := backRepoCellString.db.Model(cellstringDB).Updates(*cellstringDB)
 		if query.Error != nil {
-			log.Panic(query.Error)
+			log.Fatal(query.Error)
 		}
 	}
 

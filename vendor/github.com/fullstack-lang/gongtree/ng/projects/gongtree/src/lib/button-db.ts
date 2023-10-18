@@ -16,7 +16,14 @@ export class ButtonDB {
 	Name: string = ""
 	Icon: string = ""
 
-	// insertion point for other declarations
+	// insertion point for pointers and slices of pointers declarations
+
+	ButtonPointersEncoding: ButtonPointersEncoding = new ButtonPointersEncoding
+}
+
+export class ButtonPointersEncoding {
+	// insertion point for pointers and slices of pointers encoding fields
+	// reverse pointers encoding (to be removed)
 	Node_ButtonsDBID: NullInt64 = new NullInt64
 	Node_ButtonsDBID_Index: NullInt64  = new NullInt64 // store the index of the button instance in Node.Buttons
 	Node_Buttons_reverse?: NodeDB 

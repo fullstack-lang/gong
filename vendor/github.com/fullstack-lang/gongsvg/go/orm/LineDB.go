@@ -35,21 +35,26 @@ var dummy_Line_sort sort.Float64Slice
 type LineAPI struct {
 	gorm.Model
 
-	models.Line
+	models.Line_WOP
 
 	// encoding of pointers
-	LinePointersEnconding
+	LinePointersEncoding LinePointersEncoding
 }
 
-// LinePointersEnconding encodes pointers to Struct and
+// LinePointersEncoding encodes pointers to Struct and
 // reverse pointers of slice of poitners to Struct
-type LinePointersEnconding struct {
+type LinePointersEncoding struct {
 	// insertion for pointer fields encoding declaration
 
+	// field Animates is a slice of pointers to another Struct (optional or 0..1)
+	Animates IntSlice `gorm:"type:TEXT"`
+
 	// Implementation of a reverse ID for field Layer{}.Lines []*Line
+	// (to be removed)
 	Layer_LinesDBID sql.NullInt64
 
 	// implementation of the index of the withing the slice
+	// (to be removed)
 	Layer_LinesDBID_Index sql.NullInt64
 }
 
@@ -106,7 +111,7 @@ type LineDB struct {
 	// Declation for basic field lineDB.MouseClickY
 	MouseClickY_Data sql.NullFloat64
 	// encoding of pointers
-	LinePointersEnconding
+	LinePointersEncoding
 }
 
 // LineDBs arrays lineDBs
@@ -234,7 +239,7 @@ func (backRepoLine *BackRepoLineStruct) CommitDeleteInstance(id uint) (Error err
 	lineDB := backRepoLine.Map_LineDBID_LineDB[id]
 	query := backRepoLine.db.Unscoped().Delete(&lineDB)
 	if query.Error != nil {
-		return query.Error
+		log.Fatal(query.Error)
 	}
 
 	// update stores
@@ -260,7 +265,7 @@ func (backRepoLine *BackRepoLineStruct) CommitPhaseOneInstance(line *models.Line
 
 	query := backRepoLine.db.Create(&lineDB)
 	if query.Error != nil {
-		return query.Error
+		log.Fatal(query.Error)
 	}
 
 	// update stores
@@ -302,6 +307,7 @@ func (backRepoLine *BackRepoLineStruct) CommitPhaseTwoInstance(backRepo *BackRep
 				backRepo.BackRepoAnimate.GetAnimateDBFromAnimatePtr(animateAssocEnd)
 
 			// encode reverse pointer in the association end back repo instance
+			// (to be removed)
 			animateAssocEnd_DB.Line_AnimatesDBID.Int64 = int64(lineDB.ID)
 			animateAssocEnd_DB.Line_AnimatesDBID.Valid = true
 			animateAssocEnd_DB.Line_AnimatesDBID_Index.Int64 = int64(idx)
@@ -311,9 +317,19 @@ func (backRepoLine *BackRepoLineStruct) CommitPhaseTwoInstance(backRepo *BackRep
 			}
 		}
 
+		// 1. reset
+		lineDB.LinePointersEncoding.Animates = make([]int, 0)
+		// 2. encode
+		for _, animateAssocEnd := range line.Animates {
+			animateAssocEnd_DB :=
+				backRepo.BackRepoAnimate.GetAnimateDBFromAnimatePtr(animateAssocEnd)
+			lineDB.LinePointersEncoding.Animates =
+				append(lineDB.LinePointersEncoding.Animates, int(animateAssocEnd_DB.ID))
+		}
+
 		query := backRepoLine.db.Save(&lineDB)
 		if query.Error != nil {
-			return query.Error
+			log.Fatalln(query.Error)
 		}
 
 	} else {
@@ -467,7 +483,7 @@ func (backRepo *BackRepoStruct) CheckoutLine(line *models.Line) {
 			lineDB.ID = id
 
 			if err := backRepo.BackRepoLine.db.First(&lineDB, id).Error; err != nil {
-				log.Panicln("CheckoutLine : Problem with getting object with id:", id)
+				log.Fatalln("CheckoutLine : Problem with getting object with id:", id)
 			}
 			backRepo.BackRepoLine.CheckoutPhaseOneInstance(&lineDB)
 			backRepo.BackRepoLine.CheckoutPhaseTwoInstance(backRepo, &lineDB)
@@ -477,6 +493,53 @@ func (backRepo *BackRepoStruct) CheckoutLine(line *models.Line) {
 
 // CopyBasicFieldsFromLine
 func (lineDB *LineDB) CopyBasicFieldsFromLine(line *models.Line) {
+	// insertion point for fields commit
+
+	lineDB.Name_Data.String = line.Name
+	lineDB.Name_Data.Valid = true
+
+	lineDB.X1_Data.Float64 = line.X1
+	lineDB.X1_Data.Valid = true
+
+	lineDB.Y1_Data.Float64 = line.Y1
+	lineDB.Y1_Data.Valid = true
+
+	lineDB.X2_Data.Float64 = line.X2
+	lineDB.X2_Data.Valid = true
+
+	lineDB.Y2_Data.Float64 = line.Y2
+	lineDB.Y2_Data.Valid = true
+
+	lineDB.Color_Data.String = line.Color
+	lineDB.Color_Data.Valid = true
+
+	lineDB.FillOpacity_Data.Float64 = line.FillOpacity
+	lineDB.FillOpacity_Data.Valid = true
+
+	lineDB.Stroke_Data.String = line.Stroke
+	lineDB.Stroke_Data.Valid = true
+
+	lineDB.StrokeWidth_Data.Float64 = line.StrokeWidth
+	lineDB.StrokeWidth_Data.Valid = true
+
+	lineDB.StrokeDashArray_Data.String = line.StrokeDashArray
+	lineDB.StrokeDashArray_Data.Valid = true
+
+	lineDB.StrokeDashArrayWhenSelected_Data.String = line.StrokeDashArrayWhenSelected
+	lineDB.StrokeDashArrayWhenSelected_Data.Valid = true
+
+	lineDB.Transform_Data.String = line.Transform
+	lineDB.Transform_Data.Valid = true
+
+	lineDB.MouseClickX_Data.Float64 = line.MouseClickX
+	lineDB.MouseClickX_Data.Valid = true
+
+	lineDB.MouseClickY_Data.Float64 = line.MouseClickY
+	lineDB.MouseClickY_Data.Valid = true
+}
+
+// CopyBasicFieldsFromLine_WOP
+func (lineDB *LineDB) CopyBasicFieldsFromLine_WOP(line *models.Line_WOP) {
 	// insertion point for fields commit
 
 	lineDB.Name_Data.String = line.Name
@@ -588,6 +651,25 @@ func (lineDB *LineDB) CopyBasicFieldsToLine(line *models.Line) {
 	line.MouseClickY = lineDB.MouseClickY_Data.Float64
 }
 
+// CopyBasicFieldsToLine_WOP
+func (lineDB *LineDB) CopyBasicFieldsToLine_WOP(line *models.Line_WOP) {
+	// insertion point for checkout of basic fields (back repo to stage)
+	line.Name = lineDB.Name_Data.String
+	line.X1 = lineDB.X1_Data.Float64
+	line.Y1 = lineDB.Y1_Data.Float64
+	line.X2 = lineDB.X2_Data.Float64
+	line.Y2 = lineDB.Y2_Data.Float64
+	line.Color = lineDB.Color_Data.String
+	line.FillOpacity = lineDB.FillOpacity_Data.Float64
+	line.Stroke = lineDB.Stroke_Data.String
+	line.StrokeWidth = lineDB.StrokeWidth_Data.Float64
+	line.StrokeDashArray = lineDB.StrokeDashArray_Data.String
+	line.StrokeDashArrayWhenSelected = lineDB.StrokeDashArrayWhenSelected_Data.String
+	line.Transform = lineDB.Transform_Data.String
+	line.MouseClickX = lineDB.MouseClickX_Data.Float64
+	line.MouseClickY = lineDB.MouseClickY_Data.Float64
+}
+
 // CopyBasicFieldsToLineWOP
 func (lineDB *LineDB) CopyBasicFieldsToLineWOP(line *LineWOP) {
 	line.ID = int(lineDB.ID)
@@ -627,12 +709,12 @@ func (backRepoLine *BackRepoLineStruct) Backup(dirPath string) {
 	file, err := json.MarshalIndent(forBackup, "", " ")
 
 	if err != nil {
-		log.Panic("Cannot json Line ", filename, " ", err.Error())
+		log.Fatal("Cannot json Line ", filename, " ", err.Error())
 	}
 
 	err = ioutil.WriteFile(filename, file, 0644)
 	if err != nil {
-		log.Panic("Cannot write the json Line file", err.Error())
+		log.Fatal("Cannot write the json Line file", err.Error())
 	}
 }
 
@@ -652,7 +734,7 @@ func (backRepoLine *BackRepoLineStruct) BackupXL(file *xlsx.File) {
 
 	sh, err := file.AddSheet("Line")
 	if err != nil {
-		log.Panic("Cannot add XL file", err.Error())
+		log.Fatal("Cannot add XL file", err.Error())
 	}
 	_ = sh
 
@@ -677,13 +759,13 @@ func (backRepoLine *BackRepoLineStruct) RestoreXLPhaseOne(file *xlsx.File) {
 	sh, ok := file.Sheet["Line"]
 	_ = sh
 	if !ok {
-		log.Panic(errors.New("sheet not found"))
+		log.Fatal(errors.New("sheet not found"))
 	}
 
 	// log.Println("Max row is", sh.MaxRow)
 	err := sh.ForEachRow(backRepoLine.rowVisitorLine)
 	if err != nil {
-		log.Panic("Err=", err)
+		log.Fatal("Err=", err)
 	}
 }
 
@@ -705,7 +787,7 @@ func (backRepoLine *BackRepoLineStruct) rowVisitorLine(row *xlsx.Row) error {
 		lineDB.ID = 0
 		query := backRepoLine.db.Create(lineDB)
 		if query.Error != nil {
-			log.Panic(query.Error)
+			log.Fatal(query.Error)
 		}
 		backRepoLine.Map_LineDBID_LineDB[lineDB.ID] = lineDB
 		BackRepoLineid_atBckpTime_newID[lineDB_ID_atBackupTime] = lineDB.ID
@@ -725,7 +807,7 @@ func (backRepoLine *BackRepoLineStruct) RestorePhaseOne(dirPath string) {
 	jsonFile, err := os.Open(filename)
 	// if we os.Open returns an error then handle it
 	if err != nil {
-		log.Panic("Cannot restore/open the json Line file", filename, " ", err.Error())
+		log.Fatal("Cannot restore/open the json Line file", filename, " ", err.Error())
 	}
 
 	// read our opened jsonFile as a byte array.
@@ -742,14 +824,14 @@ func (backRepoLine *BackRepoLineStruct) RestorePhaseOne(dirPath string) {
 		lineDB.ID = 0
 		query := backRepoLine.db.Create(lineDB)
 		if query.Error != nil {
-			log.Panic(query.Error)
+			log.Fatal(query.Error)
 		}
 		backRepoLine.Map_LineDBID_LineDB[lineDB.ID] = lineDB
 		BackRepoLineid_atBckpTime_newID[lineDB_ID_atBackupTime] = lineDB.ID
 	}
 
 	if err != nil {
-		log.Panic("Cannot restore/unmarshall json Line file", err.Error())
+		log.Fatal("Cannot restore/unmarshall json Line file", err.Error())
 	}
 }
 
@@ -772,7 +854,7 @@ func (backRepoLine *BackRepoLineStruct) RestorePhaseTwo() {
 		// update databse with new index encoding
 		query := backRepoLine.db.Model(lineDB).Updates(*lineDB)
 		if query.Error != nil {
-			log.Panic(query.Error)
+			log.Fatal(query.Error)
 		}
 	}
 

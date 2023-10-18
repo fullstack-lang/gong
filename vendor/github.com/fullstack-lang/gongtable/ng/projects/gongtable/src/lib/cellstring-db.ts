@@ -15,5 +15,11 @@ export class CellStringDB {
 	Name: string = ""
 	Value: string = ""
 
-	// insertion point for other declarations
+	// insertion point for pointers and slices of pointers declarations
+
+	CellStringPointersEncoding: CellStringPointersEncoding = new CellStringPointersEncoding
+}
+
+export class CellStringPointersEncoding {
+	// insertion point for pointers and slices of pointers encoding fields
 }

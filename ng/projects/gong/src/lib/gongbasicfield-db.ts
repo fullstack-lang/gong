@@ -22,10 +22,18 @@ export class GongBasicFieldDB {
 	IsDocLink: boolean = false
 	IsTextArea: boolean = false
 
-	// insertion point for other declarations
+	// insertion point for pointers and slices of pointers declarations
 	GongEnum?: GongEnumDB
+
+
+	GongBasicFieldPointersEncoding: GongBasicFieldPointersEncoding = new GongBasicFieldPointersEncoding
+}
+
+export class GongBasicFieldPointersEncoding {
+	// insertion point for pointers and slices of pointers encoding fields
 	GongEnumID: NullInt64 = new NullInt64 // if pointer is null, GongEnum.ID = 0
 
+	// reverse pointers encoding (to be removed)
 	GongStruct_GongBasicFieldsDBID: NullInt64 = new NullInt64
 	GongStruct_GongBasicFieldsDBID_Index: NullInt64  = new NullInt64 // store the index of the gongbasicfield instance in GongStruct.GongBasicFields
 	GongStruct_GongBasicFields_reverse?: GongStructDB 

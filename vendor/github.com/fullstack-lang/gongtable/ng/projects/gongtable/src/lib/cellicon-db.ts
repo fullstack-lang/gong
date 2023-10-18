@@ -15,5 +15,11 @@ export class CellIconDB {
 	Name: string = ""
 	Icon: string = ""
 
-	// insertion point for other declarations
+	// insertion point for pointers and slices of pointers declarations
+
+	CellIconPointersEncoding: CellIconPointersEncoding = new CellIconPointersEncoding
+}
+
+export class CellIconPointersEncoding {
+	// insertion point for pointers and slices of pointers encoding fields
 }

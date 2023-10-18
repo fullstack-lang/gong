@@ -25,13 +25,22 @@ export class RectLinkLinkDB {
 	StrokeDashArrayWhenSelected: string = ""
 	Transform: string = ""
 
-	// insertion point for other declarations
+	// insertion point for pointers and slices of pointers declarations
 	Start?: RectDB
-	StartID: NullInt64 = new NullInt64 // if pointer is null, Start.ID = 0
 
 	End?: LinkDB
+
+
+	RectLinkLinkPointersEncoding: RectLinkLinkPointersEncoding = new RectLinkLinkPointersEncoding
+}
+
+export class RectLinkLinkPointersEncoding {
+	// insertion point for pointers and slices of pointers encoding fields
+	StartID: NullInt64 = new NullInt64 // if pointer is null, Start.ID = 0
+
 	EndID: NullInt64 = new NullInt64 // if pointer is null, End.ID = 0
 
+	// reverse pointers encoding (to be removed)
 	Layer_RectLinkLinksDBID: NullInt64 = new NullInt64
 	Layer_RectLinkLinksDBID_Index: NullInt64  = new NullInt64 // store the index of the rectlinklink instance in Layer.RectLinkLinks
 	Layer_RectLinkLinks_reverse?: LayerDB 

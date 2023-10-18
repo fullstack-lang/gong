@@ -82,8 +82,8 @@ export class OptionService {
   postOption(optiondb: OptionDB, GONG__StackPath: string): Observable<OptionDB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
-    let _FormFieldSelect_Options_reverse = optiondb.FormFieldSelect_Options_reverse
-    optiondb.FormFieldSelect_Options_reverse = new FormFieldSelectDB
+    let _FormFieldSelect_Options_reverse = optiondb.OptionPointersEncoding.FormFieldSelect_Options_reverse
+    optiondb.OptionPointersEncoding.FormFieldSelect_Options_reverse = new FormFieldSelectDB
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -94,7 +94,7 @@ export class OptionService {
     return this.http.post<OptionDB>(this.optionsUrl, optiondb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
-        optiondb.FormFieldSelect_Options_reverse = _FormFieldSelect_Options_reverse
+        optiondb.OptionPointersEncoding.FormFieldSelect_Options_reverse = _FormFieldSelect_Options_reverse
         // this.log(`posted optiondb id=${optiondb.ID}`)
       }),
       catchError(this.handleError<OptionDB>('postOption'))
@@ -130,8 +130,8 @@ export class OptionService {
     const url = `${this.optionsUrl}/${id}`;
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
-    let _FormFieldSelect_Options_reverse = optiondb.FormFieldSelect_Options_reverse
-    optiondb.FormFieldSelect_Options_reverse = new FormFieldSelectDB
+    let _FormFieldSelect_Options_reverse = optiondb.OptionPointersEncoding.FormFieldSelect_Options_reverse
+    optiondb.OptionPointersEncoding.FormFieldSelect_Options_reverse = new FormFieldSelectDB
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -142,7 +142,7 @@ export class OptionService {
     return this.http.put<OptionDB>(url, optiondb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
-        optiondb.FormFieldSelect_Options_reverse = _FormFieldSelect_Options_reverse
+        optiondb.OptionPointersEncoding.FormFieldSelect_Options_reverse = _FormFieldSelect_Options_reverse
         // this.log(`updated optiondb id=${optiondb.ID}`)
       }),
       catchError(this.handleError<OptionDB>('updateOption'))
