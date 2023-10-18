@@ -15,7 +15,14 @@ export class DisplayedColumnDB {
 	// insertion point for basic fields declarations
 	Name: string = ""
 
-	// insertion point for other declarations
+	// insertion point for pointers and slices of pointers declarations
+
+	DisplayedColumnPointersEncoding: DisplayedColumnPointersEncoding = new DisplayedColumnPointersEncoding
+}
+
+export class DisplayedColumnPointersEncoding {
+	// insertion point for pointers and slices of pointers encoding fields
+	// reverse pointers encoding (to be removed)
 	Table_DisplayedColumnsDBID: NullInt64 = new NullInt64
 	Table_DisplayedColumnsDBID_Index: NullInt64  = new NullInt64 // store the index of the displayedcolumn instance in Table.DisplayedColumns
 	Table_DisplayedColumns_reverse?: TableDB 

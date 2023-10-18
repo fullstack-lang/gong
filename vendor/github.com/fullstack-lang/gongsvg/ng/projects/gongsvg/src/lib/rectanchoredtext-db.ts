@@ -30,8 +30,16 @@ export class RectAnchoredTextDB {
 	StrokeDashArrayWhenSelected: string = ""
 	Transform: string = ""
 
-	// insertion point for other declarations
-	Animates?: Array<AnimateDB>
+	// insertion point for pointers and slices of pointers declarations
+	Animates: Array<AnimateDB> = []
+
+	RectAnchoredTextPointersEncoding: RectAnchoredTextPointersEncoding = new RectAnchoredTextPointersEncoding
+}
+
+export class RectAnchoredTextPointersEncoding {
+	// insertion point for pointers and slices of pointers encoding fields
+	Animates: number[] = []
+	// reverse pointers encoding (to be removed)
 	Rect_RectAnchoredTextsDBID: NullInt64 = new NullInt64
 	Rect_RectAnchoredTextsDBID_Index: NullInt64  = new NullInt64 // store the index of the rectanchoredtext instance in Rect.RectAnchoredTexts
 	Rect_RectAnchoredTexts_reverse?: RectDB 

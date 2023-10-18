@@ -38,7 +38,7 @@ type ModelPkgAPI struct {
 	models.ModelPkg_WOP
 
 	// encoding of pointers
-	ModelPkgPointersEncoding
+	ModelPkgPointersEncoding ModelPkgPointersEncoding
 }
 
 // ModelPkgPointersEncoding encodes pointers to Struct and

@@ -91,8 +91,8 @@ func (controller *Controller) GetRects(c *gin.Context) {
 
 		// insertion point for updating fields
 		rectAPI.ID = rectDB.ID
-		rectDB.CopyBasicFieldsToRect(&rectAPI.Rect)
-		rectAPI.RectPointersEnconding = rectDB.RectPointersEnconding
+		rectDB.CopyBasicFieldsToRect_WOP(&rectAPI.Rect_WOP)
+		rectAPI.RectPointersEncoding = rectDB.RectPointersEncoding
 		rectAPIs = append(rectAPIs, rectAPI)
 	}
 
@@ -147,8 +147,8 @@ func (controller *Controller) PostRect(c *gin.Context) {
 
 	// Create rect
 	rectDB := orm.RectDB{}
-	rectDB.RectPointersEnconding = input.RectPointersEnconding
-	rectDB.CopyBasicFieldsFromRect(&input.Rect)
+	rectDB.RectPointersEncoding = input.RectPointersEncoding
+	rectDB.CopyBasicFieldsFromRect_WOP(&input.Rect_WOP)
 
 	query := db.Create(&rectDB)
 	if query.Error != nil {
@@ -217,8 +217,8 @@ func (controller *Controller) GetRect(c *gin.Context) {
 
 	var rectAPI orm.RectAPI
 	rectAPI.ID = rectDB.ID
-	rectAPI.RectPointersEnconding = rectDB.RectPointersEnconding
-	rectDB.CopyBasicFieldsToRect(&rectAPI.Rect)
+	rectAPI.RectPointersEncoding = rectDB.RectPointersEncoding
+	rectDB.CopyBasicFieldsToRect_WOP(&rectAPI.Rect_WOP)
 
 	c.JSON(http.StatusOK, rectAPI)
 }
@@ -276,8 +276,8 @@ func (controller *Controller) UpdateRect(c *gin.Context) {
 	}
 
 	// update
-	rectDB.CopyBasicFieldsFromRect(&input.Rect)
-	rectDB.RectPointersEnconding = input.RectPointersEnconding
+	rectDB.CopyBasicFieldsFromRect_WOP(&input.Rect_WOP)
+	rectDB.RectPointersEncoding = input.RectPointersEncoding
 
 	query = db.Model(&rectDB).Updates(rectDB)
 	if query.Error != nil {

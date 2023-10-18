@@ -35,15 +35,15 @@ var dummy_FormSortAssocButton_sort sort.Float64Slice
 type FormSortAssocButtonAPI struct {
 	gorm.Model
 
-	models.FormSortAssocButton
+	models.FormSortAssocButton_WOP
 
 	// encoding of pointers
-	FormSortAssocButtonPointersEnconding
+	FormSortAssocButtonPointersEncoding FormSortAssocButtonPointersEncoding
 }
 
-// FormSortAssocButtonPointersEnconding encodes pointers to Struct and
+// FormSortAssocButtonPointersEncoding encodes pointers to Struct and
 // reverse pointers of slice of poitners to Struct
-type FormSortAssocButtonPointersEnconding struct {
+type FormSortAssocButtonPointersEncoding struct {
 	// insertion for pointer fields encoding declaration
 }
 
@@ -64,7 +64,7 @@ type FormSortAssocButtonDB struct {
 	// Declation for basic field formsortassocbuttonDB.Label
 	Label_Data sql.NullString
 	// encoding of pointers
-	FormSortAssocButtonPointersEnconding
+	FormSortAssocButtonPointersEncoding
 }
 
 // FormSortAssocButtonDBs arrays formsortassocbuttonDBs
@@ -156,7 +156,7 @@ func (backRepoFormSortAssocButton *BackRepoFormSortAssocButtonStruct) CommitDele
 	formsortassocbuttonDB := backRepoFormSortAssocButton.Map_FormSortAssocButtonDBID_FormSortAssocButtonDB[id]
 	query := backRepoFormSortAssocButton.db.Unscoped().Delete(&formsortassocbuttonDB)
 	if query.Error != nil {
-		return query.Error
+		log.Fatal(query.Error)
 	}
 
 	// update stores
@@ -182,7 +182,7 @@ func (backRepoFormSortAssocButton *BackRepoFormSortAssocButtonStruct) CommitPhas
 
 	query := backRepoFormSortAssocButton.db.Create(&formsortassocbuttonDB)
 	if query.Error != nil {
-		return query.Error
+		log.Fatal(query.Error)
 	}
 
 	// update stores
@@ -216,7 +216,7 @@ func (backRepoFormSortAssocButton *BackRepoFormSortAssocButtonStruct) CommitPhas
 		// insertion point for translating pointers encodings into actual pointers
 		query := backRepoFormSortAssocButton.db.Save(&formsortassocbuttonDB)
 		if query.Error != nil {
-			return query.Error
+			log.Fatalln(query.Error)
 		}
 
 	} else {
@@ -343,7 +343,7 @@ func (backRepo *BackRepoStruct) CheckoutFormSortAssocButton(formsortassocbutton 
 			formsortassocbuttonDB.ID = id
 
 			if err := backRepo.BackRepoFormSortAssocButton.db.First(&formsortassocbuttonDB, id).Error; err != nil {
-				log.Panicln("CheckoutFormSortAssocButton : Problem with getting object with id:", id)
+				log.Fatalln("CheckoutFormSortAssocButton : Problem with getting object with id:", id)
 			}
 			backRepo.BackRepoFormSortAssocButton.CheckoutPhaseOneInstance(&formsortassocbuttonDB)
 			backRepo.BackRepoFormSortAssocButton.CheckoutPhaseTwoInstance(backRepo, &formsortassocbuttonDB)
@@ -353,6 +353,17 @@ func (backRepo *BackRepoStruct) CheckoutFormSortAssocButton(formsortassocbutton 
 
 // CopyBasicFieldsFromFormSortAssocButton
 func (formsortassocbuttonDB *FormSortAssocButtonDB) CopyBasicFieldsFromFormSortAssocButton(formsortassocbutton *models.FormSortAssocButton) {
+	// insertion point for fields commit
+
+	formsortassocbuttonDB.Name_Data.String = formsortassocbutton.Name
+	formsortassocbuttonDB.Name_Data.Valid = true
+
+	formsortassocbuttonDB.Label_Data.String = formsortassocbutton.Label
+	formsortassocbuttonDB.Label_Data.Valid = true
+}
+
+// CopyBasicFieldsFromFormSortAssocButton_WOP
+func (formsortassocbuttonDB *FormSortAssocButtonDB) CopyBasicFieldsFromFormSortAssocButton_WOP(formsortassocbutton *models.FormSortAssocButton_WOP) {
 	// insertion point for fields commit
 
 	formsortassocbuttonDB.Name_Data.String = formsortassocbutton.Name
@@ -375,6 +386,13 @@ func (formsortassocbuttonDB *FormSortAssocButtonDB) CopyBasicFieldsFromFormSortA
 
 // CopyBasicFieldsToFormSortAssocButton
 func (formsortassocbuttonDB *FormSortAssocButtonDB) CopyBasicFieldsToFormSortAssocButton(formsortassocbutton *models.FormSortAssocButton) {
+	// insertion point for checkout of basic fields (back repo to stage)
+	formsortassocbutton.Name = formsortassocbuttonDB.Name_Data.String
+	formsortassocbutton.Label = formsortassocbuttonDB.Label_Data.String
+}
+
+// CopyBasicFieldsToFormSortAssocButton_WOP
+func (formsortassocbuttonDB *FormSortAssocButtonDB) CopyBasicFieldsToFormSortAssocButton_WOP(formsortassocbutton *models.FormSortAssocButton_WOP) {
 	// insertion point for checkout of basic fields (back repo to stage)
 	formsortassocbutton.Name = formsortassocbuttonDB.Name_Data.String
 	formsortassocbutton.Label = formsortassocbuttonDB.Label_Data.String
@@ -407,12 +425,12 @@ func (backRepoFormSortAssocButton *BackRepoFormSortAssocButtonStruct) Backup(dir
 	file, err := json.MarshalIndent(forBackup, "", " ")
 
 	if err != nil {
-		log.Panic("Cannot json FormSortAssocButton ", filename, " ", err.Error())
+		log.Fatal("Cannot json FormSortAssocButton ", filename, " ", err.Error())
 	}
 
 	err = ioutil.WriteFile(filename, file, 0644)
 	if err != nil {
-		log.Panic("Cannot write the json FormSortAssocButton file", err.Error())
+		log.Fatal("Cannot write the json FormSortAssocButton file", err.Error())
 	}
 }
 
@@ -432,7 +450,7 @@ func (backRepoFormSortAssocButton *BackRepoFormSortAssocButtonStruct) BackupXL(f
 
 	sh, err := file.AddSheet("FormSortAssocButton")
 	if err != nil {
-		log.Panic("Cannot add XL file", err.Error())
+		log.Fatal("Cannot add XL file", err.Error())
 	}
 	_ = sh
 
@@ -457,13 +475,13 @@ func (backRepoFormSortAssocButton *BackRepoFormSortAssocButtonStruct) RestoreXLP
 	sh, ok := file.Sheet["FormSortAssocButton"]
 	_ = sh
 	if !ok {
-		log.Panic(errors.New("sheet not found"))
+		log.Fatal(errors.New("sheet not found"))
 	}
 
 	// log.Println("Max row is", sh.MaxRow)
 	err := sh.ForEachRow(backRepoFormSortAssocButton.rowVisitorFormSortAssocButton)
 	if err != nil {
-		log.Panic("Err=", err)
+		log.Fatal("Err=", err)
 	}
 }
 
@@ -485,7 +503,7 @@ func (backRepoFormSortAssocButton *BackRepoFormSortAssocButtonStruct) rowVisitor
 		formsortassocbuttonDB.ID = 0
 		query := backRepoFormSortAssocButton.db.Create(formsortassocbuttonDB)
 		if query.Error != nil {
-			log.Panic(query.Error)
+			log.Fatal(query.Error)
 		}
 		backRepoFormSortAssocButton.Map_FormSortAssocButtonDBID_FormSortAssocButtonDB[formsortassocbuttonDB.ID] = formsortassocbuttonDB
 		BackRepoFormSortAssocButtonid_atBckpTime_newID[formsortassocbuttonDB_ID_atBackupTime] = formsortassocbuttonDB.ID
@@ -505,7 +523,7 @@ func (backRepoFormSortAssocButton *BackRepoFormSortAssocButtonStruct) RestorePha
 	jsonFile, err := os.Open(filename)
 	// if we os.Open returns an error then handle it
 	if err != nil {
-		log.Panic("Cannot restore/open the json FormSortAssocButton file", filename, " ", err.Error())
+		log.Fatal("Cannot restore/open the json FormSortAssocButton file", filename, " ", err.Error())
 	}
 
 	// read our opened jsonFile as a byte array.
@@ -522,14 +540,14 @@ func (backRepoFormSortAssocButton *BackRepoFormSortAssocButtonStruct) RestorePha
 		formsortassocbuttonDB.ID = 0
 		query := backRepoFormSortAssocButton.db.Create(formsortassocbuttonDB)
 		if query.Error != nil {
-			log.Panic(query.Error)
+			log.Fatal(query.Error)
 		}
 		backRepoFormSortAssocButton.Map_FormSortAssocButtonDBID_FormSortAssocButtonDB[formsortassocbuttonDB.ID] = formsortassocbuttonDB
 		BackRepoFormSortAssocButtonid_atBckpTime_newID[formsortassocbuttonDB_ID_atBackupTime] = formsortassocbuttonDB.ID
 	}
 
 	if err != nil {
-		log.Panic("Cannot restore/unmarshall json FormSortAssocButton file", err.Error())
+		log.Fatal("Cannot restore/unmarshall json FormSortAssocButton file", err.Error())
 	}
 }
 
@@ -546,7 +564,7 @@ func (backRepoFormSortAssocButton *BackRepoFormSortAssocButtonStruct) RestorePha
 		// update databse with new index encoding
 		query := backRepoFormSortAssocButton.db.Model(formsortassocbuttonDB).Updates(*formsortassocbuttonDB)
 		if query.Error != nil {
-			log.Panic(query.Error)
+			log.Fatal(query.Error)
 		}
 	}
 

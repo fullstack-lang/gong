@@ -35,15 +35,15 @@ var dummy_Cell_sort sort.Float64Slice
 type CellAPI struct {
 	gorm.Model
 
-	models.Cell
+	models.Cell_WOP
 
 	// encoding of pointers
-	CellPointersEnconding
+	CellPointersEncoding CellPointersEncoding
 }
 
-// CellPointersEnconding encodes pointers to Struct and
+// CellPointersEncoding encodes pointers to Struct and
 // reverse pointers of slice of poitners to Struct
-type CellPointersEnconding struct {
+type CellPointersEncoding struct {
 	// insertion for pointer fields encoding declaration
 
 	// field CellString is a pointer to another Struct (optional or 0..1)
@@ -67,9 +67,11 @@ type CellPointersEnconding struct {
 	CellIconID sql.NullInt64
 
 	// Implementation of a reverse ID for field Row{}.Cells []*Cell
+	// (to be removed)
 	Row_CellsDBID sql.NullInt64
 
 	// implementation of the index of the withing the slice
+	// (to be removed)
 	Row_CellsDBID_Index sql.NullInt64
 }
 
@@ -87,7 +89,7 @@ type CellDB struct {
 	// Declation for basic field cellDB.Name
 	Name_Data sql.NullString
 	// encoding of pointers
-	CellPointersEnconding
+	CellPointersEncoding
 }
 
 // CellDBs arrays cellDBs
@@ -176,7 +178,7 @@ func (backRepoCell *BackRepoCellStruct) CommitDeleteInstance(id uint) (Error err
 	cellDB := backRepoCell.Map_CellDBID_CellDB[id]
 	query := backRepoCell.db.Unscoped().Delete(&cellDB)
 	if query.Error != nil {
-		return query.Error
+		log.Fatal(query.Error)
 	}
 
 	// update stores
@@ -202,7 +204,7 @@ func (backRepoCell *BackRepoCellStruct) CommitPhaseOneInstance(cell *models.Cell
 
 	query := backRepoCell.db.Create(&cellDB)
 	if query.Error != nil {
-		return query.Error
+		log.Fatal(query.Error)
 	}
 
 	// update stores
@@ -296,7 +298,7 @@ func (backRepoCell *BackRepoCellStruct) CommitPhaseTwoInstance(backRepo *BackRep
 
 		query := backRepoCell.db.Save(&cellDB)
 		if query.Error != nil {
-			return query.Error
+			log.Fatalln(query.Error)
 		}
 
 	} else {
@@ -448,7 +450,7 @@ func (backRepo *BackRepoStruct) CheckoutCell(cell *models.Cell) {
 			cellDB.ID = id
 
 			if err := backRepo.BackRepoCell.db.First(&cellDB, id).Error; err != nil {
-				log.Panicln("CheckoutCell : Problem with getting object with id:", id)
+				log.Fatalln("CheckoutCell : Problem with getting object with id:", id)
 			}
 			backRepo.BackRepoCell.CheckoutPhaseOneInstance(&cellDB)
 			backRepo.BackRepoCell.CheckoutPhaseTwoInstance(backRepo, &cellDB)
@@ -458,6 +460,14 @@ func (backRepo *BackRepoStruct) CheckoutCell(cell *models.Cell) {
 
 // CopyBasicFieldsFromCell
 func (cellDB *CellDB) CopyBasicFieldsFromCell(cell *models.Cell) {
+	// insertion point for fields commit
+
+	cellDB.Name_Data.String = cell.Name
+	cellDB.Name_Data.Valid = true
+}
+
+// CopyBasicFieldsFromCell_WOP
+func (cellDB *CellDB) CopyBasicFieldsFromCell_WOP(cell *models.Cell_WOP) {
 	// insertion point for fields commit
 
 	cellDB.Name_Data.String = cell.Name
@@ -474,6 +484,12 @@ func (cellDB *CellDB) CopyBasicFieldsFromCellWOP(cell *CellWOP) {
 
 // CopyBasicFieldsToCell
 func (cellDB *CellDB) CopyBasicFieldsToCell(cell *models.Cell) {
+	// insertion point for checkout of basic fields (back repo to stage)
+	cell.Name = cellDB.Name_Data.String
+}
+
+// CopyBasicFieldsToCell_WOP
+func (cellDB *CellDB) CopyBasicFieldsToCell_WOP(cell *models.Cell_WOP) {
 	// insertion point for checkout of basic fields (back repo to stage)
 	cell.Name = cellDB.Name_Data.String
 }
@@ -504,12 +520,12 @@ func (backRepoCell *BackRepoCellStruct) Backup(dirPath string) {
 	file, err := json.MarshalIndent(forBackup, "", " ")
 
 	if err != nil {
-		log.Panic("Cannot json Cell ", filename, " ", err.Error())
+		log.Fatal("Cannot json Cell ", filename, " ", err.Error())
 	}
 
 	err = ioutil.WriteFile(filename, file, 0644)
 	if err != nil {
-		log.Panic("Cannot write the json Cell file", err.Error())
+		log.Fatal("Cannot write the json Cell file", err.Error())
 	}
 }
 
@@ -529,7 +545,7 @@ func (backRepoCell *BackRepoCellStruct) BackupXL(file *xlsx.File) {
 
 	sh, err := file.AddSheet("Cell")
 	if err != nil {
-		log.Panic("Cannot add XL file", err.Error())
+		log.Fatal("Cannot add XL file", err.Error())
 	}
 	_ = sh
 
@@ -554,13 +570,13 @@ func (backRepoCell *BackRepoCellStruct) RestoreXLPhaseOne(file *xlsx.File) {
 	sh, ok := file.Sheet["Cell"]
 	_ = sh
 	if !ok {
-		log.Panic(errors.New("sheet not found"))
+		log.Fatal(errors.New("sheet not found"))
 	}
 
 	// log.Println("Max row is", sh.MaxRow)
 	err := sh.ForEachRow(backRepoCell.rowVisitorCell)
 	if err != nil {
-		log.Panic("Err=", err)
+		log.Fatal("Err=", err)
 	}
 }
 
@@ -582,7 +598,7 @@ func (backRepoCell *BackRepoCellStruct) rowVisitorCell(row *xlsx.Row) error {
 		cellDB.ID = 0
 		query := backRepoCell.db.Create(cellDB)
 		if query.Error != nil {
-			log.Panic(query.Error)
+			log.Fatal(query.Error)
 		}
 		backRepoCell.Map_CellDBID_CellDB[cellDB.ID] = cellDB
 		BackRepoCellid_atBckpTime_newID[cellDB_ID_atBackupTime] = cellDB.ID
@@ -602,7 +618,7 @@ func (backRepoCell *BackRepoCellStruct) RestorePhaseOne(dirPath string) {
 	jsonFile, err := os.Open(filename)
 	// if we os.Open returns an error then handle it
 	if err != nil {
-		log.Panic("Cannot restore/open the json Cell file", filename, " ", err.Error())
+		log.Fatal("Cannot restore/open the json Cell file", filename, " ", err.Error())
 	}
 
 	// read our opened jsonFile as a byte array.
@@ -619,14 +635,14 @@ func (backRepoCell *BackRepoCellStruct) RestorePhaseOne(dirPath string) {
 		cellDB.ID = 0
 		query := backRepoCell.db.Create(cellDB)
 		if query.Error != nil {
-			log.Panic(query.Error)
+			log.Fatal(query.Error)
 		}
 		backRepoCell.Map_CellDBID_CellDB[cellDB.ID] = cellDB
 		BackRepoCellid_atBckpTime_newID[cellDB_ID_atBackupTime] = cellDB.ID
 	}
 
 	if err != nil {
-		log.Panic("Cannot restore/unmarshall json Cell file", err.Error())
+		log.Fatal("Cannot restore/unmarshall json Cell file", err.Error())
 	}
 }
 
@@ -679,7 +695,7 @@ func (backRepoCell *BackRepoCellStruct) RestorePhaseTwo() {
 		// update databse with new index encoding
 		query := backRepoCell.db.Model(cellDB).Updates(*cellDB)
 		if query.Error != nil {
-			log.Panic(query.Error)
+			log.Fatal(query.Error)
 		}
 	}
 

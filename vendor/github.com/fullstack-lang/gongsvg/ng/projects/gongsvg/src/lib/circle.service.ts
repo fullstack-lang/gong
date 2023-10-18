@@ -84,8 +84,8 @@ export class CircleService {
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
     let Animations = circledb.Animations
     circledb.Animations = []
-    let _Layer_Circles_reverse = circledb.Layer_Circles_reverse
-    circledb.Layer_Circles_reverse = new LayerDB
+    let _Layer_Circles_reverse = circledb.CirclePointersEncoding.Layer_Circles_reverse
+    circledb.CirclePointersEncoding.Layer_Circles_reverse = new LayerDB
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -97,7 +97,7 @@ export class CircleService {
       tap(_ => {
         // insertion point for restoration of reverse pointers
 	      circledb.Animations = Animations
-        circledb.Layer_Circles_reverse = _Layer_Circles_reverse
+        circledb.CirclePointersEncoding.Layer_Circles_reverse = _Layer_Circles_reverse
         // this.log(`posted circledb id=${circledb.ID}`)
       }),
       catchError(this.handleError<CircleDB>('postCircle'))
@@ -135,8 +135,8 @@ export class CircleService {
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
     let Animations = circledb.Animations
     circledb.Animations = []
-    let _Layer_Circles_reverse = circledb.Layer_Circles_reverse
-    circledb.Layer_Circles_reverse = new LayerDB
+    let _Layer_Circles_reverse = circledb.CirclePointersEncoding.Layer_Circles_reverse
+    circledb.CirclePointersEncoding.Layer_Circles_reverse = new LayerDB
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -148,7 +148,7 @@ export class CircleService {
       tap(_ => {
         // insertion point for restoration of reverse pointers
 	      circledb.Animations = Animations
-        circledb.Layer_Circles_reverse = _Layer_Circles_reverse
+        circledb.CirclePointersEncoding.Layer_Circles_reverse = _Layer_Circles_reverse
         // this.log(`updated circledb id=${circledb.ID}`)
       }),
       catchError(this.handleError<CircleDB>('updateCircle'))

@@ -91,8 +91,8 @@ func (controller *Controller) GetFormSortAssocButtons(c *gin.Context) {
 
 		// insertion point for updating fields
 		formsortassocbuttonAPI.ID = formsortassocbuttonDB.ID
-		formsortassocbuttonDB.CopyBasicFieldsToFormSortAssocButton(&formsortassocbuttonAPI.FormSortAssocButton)
-		formsortassocbuttonAPI.FormSortAssocButtonPointersEnconding = formsortassocbuttonDB.FormSortAssocButtonPointersEnconding
+		formsortassocbuttonDB.CopyBasicFieldsToFormSortAssocButton_WOP(&formsortassocbuttonAPI.FormSortAssocButton_WOP)
+		formsortassocbuttonAPI.FormSortAssocButtonPointersEncoding = formsortassocbuttonDB.FormSortAssocButtonPointersEncoding
 		formsortassocbuttonAPIs = append(formsortassocbuttonAPIs, formsortassocbuttonAPI)
 	}
 
@@ -147,8 +147,8 @@ func (controller *Controller) PostFormSortAssocButton(c *gin.Context) {
 
 	// Create formsortassocbutton
 	formsortassocbuttonDB := orm.FormSortAssocButtonDB{}
-	formsortassocbuttonDB.FormSortAssocButtonPointersEnconding = input.FormSortAssocButtonPointersEnconding
-	formsortassocbuttonDB.CopyBasicFieldsFromFormSortAssocButton(&input.FormSortAssocButton)
+	formsortassocbuttonDB.FormSortAssocButtonPointersEncoding = input.FormSortAssocButtonPointersEncoding
+	formsortassocbuttonDB.CopyBasicFieldsFromFormSortAssocButton_WOP(&input.FormSortAssocButton_WOP)
 
 	query := db.Create(&formsortassocbuttonDB)
 	if query.Error != nil {
@@ -217,8 +217,8 @@ func (controller *Controller) GetFormSortAssocButton(c *gin.Context) {
 
 	var formsortassocbuttonAPI orm.FormSortAssocButtonAPI
 	formsortassocbuttonAPI.ID = formsortassocbuttonDB.ID
-	formsortassocbuttonAPI.FormSortAssocButtonPointersEnconding = formsortassocbuttonDB.FormSortAssocButtonPointersEnconding
-	formsortassocbuttonDB.CopyBasicFieldsToFormSortAssocButton(&formsortassocbuttonAPI.FormSortAssocButton)
+	formsortassocbuttonAPI.FormSortAssocButtonPointersEncoding = formsortassocbuttonDB.FormSortAssocButtonPointersEncoding
+	formsortassocbuttonDB.CopyBasicFieldsToFormSortAssocButton_WOP(&formsortassocbuttonAPI.FormSortAssocButton_WOP)
 
 	c.JSON(http.StatusOK, formsortassocbuttonAPI)
 }
@@ -276,8 +276,8 @@ func (controller *Controller) UpdateFormSortAssocButton(c *gin.Context) {
 	}
 
 	// update
-	formsortassocbuttonDB.CopyBasicFieldsFromFormSortAssocButton(&input.FormSortAssocButton)
-	formsortassocbuttonDB.FormSortAssocButtonPointersEnconding = input.FormSortAssocButtonPointersEnconding
+	formsortassocbuttonDB.CopyBasicFieldsFromFormSortAssocButton_WOP(&input.FormSortAssocButton_WOP)
+	formsortassocbuttonDB.FormSortAssocButtonPointersEncoding = input.FormSortAssocButtonPointersEncoding
 
 	query = db.Model(&formsortassocbuttonDB).Updates(formsortassocbuttonDB)
 	if query.Error != nil {

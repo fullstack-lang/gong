@@ -91,8 +91,8 @@ func (controller *Controller) GetGongEnumShapes(c *gin.Context) {
 
 		// insertion point for updating fields
 		gongenumshapeAPI.ID = gongenumshapeDB.ID
-		gongenumshapeDB.CopyBasicFieldsToGongEnumShape(&gongenumshapeAPI.GongEnumShape)
-		gongenumshapeAPI.GongEnumShapePointersEnconding = gongenumshapeDB.GongEnumShapePointersEnconding
+		gongenumshapeDB.CopyBasicFieldsToGongEnumShape_WOP(&gongenumshapeAPI.GongEnumShape_WOP)
+		gongenumshapeAPI.GongEnumShapePointersEncoding = gongenumshapeDB.GongEnumShapePointersEncoding
 		gongenumshapeAPIs = append(gongenumshapeAPIs, gongenumshapeAPI)
 	}
 
@@ -147,8 +147,8 @@ func (controller *Controller) PostGongEnumShape(c *gin.Context) {
 
 	// Create gongenumshape
 	gongenumshapeDB := orm.GongEnumShapeDB{}
-	gongenumshapeDB.GongEnumShapePointersEnconding = input.GongEnumShapePointersEnconding
-	gongenumshapeDB.CopyBasicFieldsFromGongEnumShape(&input.GongEnumShape)
+	gongenumshapeDB.GongEnumShapePointersEncoding = input.GongEnumShapePointersEncoding
+	gongenumshapeDB.CopyBasicFieldsFromGongEnumShape_WOP(&input.GongEnumShape_WOP)
 
 	query := db.Create(&gongenumshapeDB)
 	if query.Error != nil {
@@ -217,8 +217,8 @@ func (controller *Controller) GetGongEnumShape(c *gin.Context) {
 
 	var gongenumshapeAPI orm.GongEnumShapeAPI
 	gongenumshapeAPI.ID = gongenumshapeDB.ID
-	gongenumshapeAPI.GongEnumShapePointersEnconding = gongenumshapeDB.GongEnumShapePointersEnconding
-	gongenumshapeDB.CopyBasicFieldsToGongEnumShape(&gongenumshapeAPI.GongEnumShape)
+	gongenumshapeAPI.GongEnumShapePointersEncoding = gongenumshapeDB.GongEnumShapePointersEncoding
+	gongenumshapeDB.CopyBasicFieldsToGongEnumShape_WOP(&gongenumshapeAPI.GongEnumShape_WOP)
 
 	c.JSON(http.StatusOK, gongenumshapeAPI)
 }
@@ -276,8 +276,8 @@ func (controller *Controller) UpdateGongEnumShape(c *gin.Context) {
 	}
 
 	// update
-	gongenumshapeDB.CopyBasicFieldsFromGongEnumShape(&input.GongEnumShape)
-	gongenumshapeDB.GongEnumShapePointersEnconding = input.GongEnumShapePointersEnconding
+	gongenumshapeDB.CopyBasicFieldsFromGongEnumShape_WOP(&input.GongEnumShape_WOP)
+	gongenumshapeDB.GongEnumShapePointersEncoding = input.GongEnumShapePointersEncoding
 
 	query = db.Model(&gongenumshapeDB).Updates(gongenumshapeDB)
 	if query.Error != nil {

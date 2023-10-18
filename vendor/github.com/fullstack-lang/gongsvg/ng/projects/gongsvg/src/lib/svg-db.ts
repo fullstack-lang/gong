@@ -18,12 +18,21 @@ export class SVGDB {
 	DrawingState: string = ""
 	IsEditable: boolean = false
 
-	// insertion point for other declarations
-	Layers?: Array<LayerDB>
+	// insertion point for pointers and slices of pointers declarations
+	Layers: Array<LayerDB> = []
 	StartRect?: RectDB
-	StartRectID: NullInt64 = new NullInt64 // if pointer is null, StartRect.ID = 0
 
 	EndRect?: RectDB
+
+
+	SVGPointersEncoding: SVGPointersEncoding = new SVGPointersEncoding
+}
+
+export class SVGPointersEncoding {
+	// insertion point for pointers and slices of pointers encoding fields
+	Layers: number[] = []
+	StartRectID: NullInt64 = new NullInt64 // if pointer is null, StartRect.ID = 0
+
 	EndRectID: NullInt64 = new NullInt64 // if pointer is null, EndRect.ID = 0
 
 }

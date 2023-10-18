@@ -91,8 +91,8 @@ func (controller *Controller) GetRectAnchoredRects(c *gin.Context) {
 
 		// insertion point for updating fields
 		rectanchoredrectAPI.ID = rectanchoredrectDB.ID
-		rectanchoredrectDB.CopyBasicFieldsToRectAnchoredRect(&rectanchoredrectAPI.RectAnchoredRect)
-		rectanchoredrectAPI.RectAnchoredRectPointersEnconding = rectanchoredrectDB.RectAnchoredRectPointersEnconding
+		rectanchoredrectDB.CopyBasicFieldsToRectAnchoredRect_WOP(&rectanchoredrectAPI.RectAnchoredRect_WOP)
+		rectanchoredrectAPI.RectAnchoredRectPointersEncoding = rectanchoredrectDB.RectAnchoredRectPointersEncoding
 		rectanchoredrectAPIs = append(rectanchoredrectAPIs, rectanchoredrectAPI)
 	}
 
@@ -147,8 +147,8 @@ func (controller *Controller) PostRectAnchoredRect(c *gin.Context) {
 
 	// Create rectanchoredrect
 	rectanchoredrectDB := orm.RectAnchoredRectDB{}
-	rectanchoredrectDB.RectAnchoredRectPointersEnconding = input.RectAnchoredRectPointersEnconding
-	rectanchoredrectDB.CopyBasicFieldsFromRectAnchoredRect(&input.RectAnchoredRect)
+	rectanchoredrectDB.RectAnchoredRectPointersEncoding = input.RectAnchoredRectPointersEncoding
+	rectanchoredrectDB.CopyBasicFieldsFromRectAnchoredRect_WOP(&input.RectAnchoredRect_WOP)
 
 	query := db.Create(&rectanchoredrectDB)
 	if query.Error != nil {
@@ -217,8 +217,8 @@ func (controller *Controller) GetRectAnchoredRect(c *gin.Context) {
 
 	var rectanchoredrectAPI orm.RectAnchoredRectAPI
 	rectanchoredrectAPI.ID = rectanchoredrectDB.ID
-	rectanchoredrectAPI.RectAnchoredRectPointersEnconding = rectanchoredrectDB.RectAnchoredRectPointersEnconding
-	rectanchoredrectDB.CopyBasicFieldsToRectAnchoredRect(&rectanchoredrectAPI.RectAnchoredRect)
+	rectanchoredrectAPI.RectAnchoredRectPointersEncoding = rectanchoredrectDB.RectAnchoredRectPointersEncoding
+	rectanchoredrectDB.CopyBasicFieldsToRectAnchoredRect_WOP(&rectanchoredrectAPI.RectAnchoredRect_WOP)
 
 	c.JSON(http.StatusOK, rectanchoredrectAPI)
 }
@@ -276,8 +276,8 @@ func (controller *Controller) UpdateRectAnchoredRect(c *gin.Context) {
 	}
 
 	// update
-	rectanchoredrectDB.CopyBasicFieldsFromRectAnchoredRect(&input.RectAnchoredRect)
-	rectanchoredrectDB.RectAnchoredRectPointersEnconding = input.RectAnchoredRectPointersEnconding
+	rectanchoredrectDB.CopyBasicFieldsFromRectAnchoredRect_WOP(&input.RectAnchoredRect_WOP)
+	rectanchoredrectDB.RectAnchoredRectPointersEncoding = input.RectAnchoredRectPointersEncoding
 
 	query = db.Model(&rectanchoredrectDB).Updates(rectanchoredrectDB)
 	if query.Error != nil {

@@ -84,8 +84,8 @@ export class PathService {
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
     let Animates = pathdb.Animates
     pathdb.Animates = []
-    let _Layer_Paths_reverse = pathdb.Layer_Paths_reverse
-    pathdb.Layer_Paths_reverse = new LayerDB
+    let _Layer_Paths_reverse = pathdb.PathPointersEncoding.Layer_Paths_reverse
+    pathdb.PathPointersEncoding.Layer_Paths_reverse = new LayerDB
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -97,7 +97,7 @@ export class PathService {
       tap(_ => {
         // insertion point for restoration of reverse pointers
 	      pathdb.Animates = Animates
-        pathdb.Layer_Paths_reverse = _Layer_Paths_reverse
+        pathdb.PathPointersEncoding.Layer_Paths_reverse = _Layer_Paths_reverse
         // this.log(`posted pathdb id=${pathdb.ID}`)
       }),
       catchError(this.handleError<PathDB>('postPath'))
@@ -135,8 +135,8 @@ export class PathService {
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
     let Animates = pathdb.Animates
     pathdb.Animates = []
-    let _Layer_Paths_reverse = pathdb.Layer_Paths_reverse
-    pathdb.Layer_Paths_reverse = new LayerDB
+    let _Layer_Paths_reverse = pathdb.PathPointersEncoding.Layer_Paths_reverse
+    pathdb.PathPointersEncoding.Layer_Paths_reverse = new LayerDB
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -148,7 +148,7 @@ export class PathService {
       tap(_ => {
         // insertion point for restoration of reverse pointers
 	      pathdb.Animates = Animates
-        pathdb.Layer_Paths_reverse = _Layer_Paths_reverse
+        pathdb.PathPointersEncoding.Layer_Paths_reverse = _Layer_Paths_reverse
         // this.log(`updated pathdb id=${pathdb.ID}`)
       }),
       catchError(this.handleError<PathDB>('updatePath'))

@@ -16,5 +16,11 @@ export class FormFieldTimeDB {
 	Value: Date = new Date
 	Step: number = 0
 
-	// insertion point for other declarations
+	// insertion point for pointers and slices of pointers declarations
+
+	FormFieldTimePointersEncoding: FormFieldTimePointersEncoding = new FormFieldTimePointersEncoding
+}
+
+export class FormFieldTimePointersEncoding {
+	// insertion point for pointers and slices of pointers encoding fields
 }

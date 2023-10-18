@@ -91,8 +91,8 @@ func (controller *Controller) GetFormFieldSelects(c *gin.Context) {
 
 		// insertion point for updating fields
 		formfieldselectAPI.ID = formfieldselectDB.ID
-		formfieldselectDB.CopyBasicFieldsToFormFieldSelect(&formfieldselectAPI.FormFieldSelect)
-		formfieldselectAPI.FormFieldSelectPointersEnconding = formfieldselectDB.FormFieldSelectPointersEnconding
+		formfieldselectDB.CopyBasicFieldsToFormFieldSelect_WOP(&formfieldselectAPI.FormFieldSelect_WOP)
+		formfieldselectAPI.FormFieldSelectPointersEncoding = formfieldselectDB.FormFieldSelectPointersEncoding
 		formfieldselectAPIs = append(formfieldselectAPIs, formfieldselectAPI)
 	}
 
@@ -147,8 +147,8 @@ func (controller *Controller) PostFormFieldSelect(c *gin.Context) {
 
 	// Create formfieldselect
 	formfieldselectDB := orm.FormFieldSelectDB{}
-	formfieldselectDB.FormFieldSelectPointersEnconding = input.FormFieldSelectPointersEnconding
-	formfieldselectDB.CopyBasicFieldsFromFormFieldSelect(&input.FormFieldSelect)
+	formfieldselectDB.FormFieldSelectPointersEncoding = input.FormFieldSelectPointersEncoding
+	formfieldselectDB.CopyBasicFieldsFromFormFieldSelect_WOP(&input.FormFieldSelect_WOP)
 
 	query := db.Create(&formfieldselectDB)
 	if query.Error != nil {
@@ -217,8 +217,8 @@ func (controller *Controller) GetFormFieldSelect(c *gin.Context) {
 
 	var formfieldselectAPI orm.FormFieldSelectAPI
 	formfieldselectAPI.ID = formfieldselectDB.ID
-	formfieldselectAPI.FormFieldSelectPointersEnconding = formfieldselectDB.FormFieldSelectPointersEnconding
-	formfieldselectDB.CopyBasicFieldsToFormFieldSelect(&formfieldselectAPI.FormFieldSelect)
+	formfieldselectAPI.FormFieldSelectPointersEncoding = formfieldselectDB.FormFieldSelectPointersEncoding
+	formfieldselectDB.CopyBasicFieldsToFormFieldSelect_WOP(&formfieldselectAPI.FormFieldSelect_WOP)
 
 	c.JSON(http.StatusOK, formfieldselectAPI)
 }
@@ -276,8 +276,8 @@ func (controller *Controller) UpdateFormFieldSelect(c *gin.Context) {
 	}
 
 	// update
-	formfieldselectDB.CopyBasicFieldsFromFormFieldSelect(&input.FormFieldSelect)
-	formfieldselectDB.FormFieldSelectPointersEnconding = input.FormFieldSelectPointersEnconding
+	formfieldselectDB.CopyBasicFieldsFromFormFieldSelect_WOP(&input.FormFieldSelect_WOP)
+	formfieldselectDB.FormFieldSelectPointersEncoding = input.FormFieldSelectPointersEncoding
 
 	query = db.Model(&formfieldselectDB).Updates(formfieldselectDB)
 	if query.Error != nil {

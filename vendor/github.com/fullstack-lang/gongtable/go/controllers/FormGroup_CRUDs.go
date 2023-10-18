@@ -91,8 +91,8 @@ func (controller *Controller) GetFormGroups(c *gin.Context) {
 
 		// insertion point for updating fields
 		formgroupAPI.ID = formgroupDB.ID
-		formgroupDB.CopyBasicFieldsToFormGroup(&formgroupAPI.FormGroup)
-		formgroupAPI.FormGroupPointersEnconding = formgroupDB.FormGroupPointersEnconding
+		formgroupDB.CopyBasicFieldsToFormGroup_WOP(&formgroupAPI.FormGroup_WOP)
+		formgroupAPI.FormGroupPointersEncoding = formgroupDB.FormGroupPointersEncoding
 		formgroupAPIs = append(formgroupAPIs, formgroupAPI)
 	}
 
@@ -147,8 +147,8 @@ func (controller *Controller) PostFormGroup(c *gin.Context) {
 
 	// Create formgroup
 	formgroupDB := orm.FormGroupDB{}
-	formgroupDB.FormGroupPointersEnconding = input.FormGroupPointersEnconding
-	formgroupDB.CopyBasicFieldsFromFormGroup(&input.FormGroup)
+	formgroupDB.FormGroupPointersEncoding = input.FormGroupPointersEncoding
+	formgroupDB.CopyBasicFieldsFromFormGroup_WOP(&input.FormGroup_WOP)
 
 	query := db.Create(&formgroupDB)
 	if query.Error != nil {
@@ -217,8 +217,8 @@ func (controller *Controller) GetFormGroup(c *gin.Context) {
 
 	var formgroupAPI orm.FormGroupAPI
 	formgroupAPI.ID = formgroupDB.ID
-	formgroupAPI.FormGroupPointersEnconding = formgroupDB.FormGroupPointersEnconding
-	formgroupDB.CopyBasicFieldsToFormGroup(&formgroupAPI.FormGroup)
+	formgroupAPI.FormGroupPointersEncoding = formgroupDB.FormGroupPointersEncoding
+	formgroupDB.CopyBasicFieldsToFormGroup_WOP(&formgroupAPI.FormGroup_WOP)
 
 	c.JSON(http.StatusOK, formgroupAPI)
 }
@@ -276,8 +276,8 @@ func (controller *Controller) UpdateFormGroup(c *gin.Context) {
 	}
 
 	// update
-	formgroupDB.CopyBasicFieldsFromFormGroup(&input.FormGroup)
-	formgroupDB.FormGroupPointersEnconding = input.FormGroupPointersEnconding
+	formgroupDB.CopyBasicFieldsFromFormGroup_WOP(&input.FormGroup_WOP)
+	formgroupDB.FormGroupPointersEncoding = input.FormGroupPointersEncoding
 
 	query = db.Model(&formgroupDB).Updates(formgroupDB)
 	if query.Error != nil {

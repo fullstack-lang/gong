@@ -35,15 +35,15 @@ var dummy_FormFieldFloat64_sort sort.Float64Slice
 type FormFieldFloat64API struct {
 	gorm.Model
 
-	models.FormFieldFloat64
+	models.FormFieldFloat64_WOP
 
 	// encoding of pointers
-	FormFieldFloat64PointersEnconding
+	FormFieldFloat64PointersEncoding FormFieldFloat64PointersEncoding
 }
 
-// FormFieldFloat64PointersEnconding encodes pointers to Struct and
+// FormFieldFloat64PointersEncoding encodes pointers to Struct and
 // reverse pointers of slice of poitners to Struct
-type FormFieldFloat64PointersEnconding struct {
+type FormFieldFloat64PointersEncoding struct {
 	// insertion for pointer fields encoding declaration
 }
 
@@ -78,7 +78,7 @@ type FormFieldFloat64DB struct {
 	// Declation for basic field formfieldfloat64DB.MaxValue
 	MaxValue_Data sql.NullFloat64
 	// encoding of pointers
-	FormFieldFloat64PointersEnconding
+	FormFieldFloat64PointersEncoding
 }
 
 // FormFieldFloat64DBs arrays formfieldfloat64DBs
@@ -182,7 +182,7 @@ func (backRepoFormFieldFloat64 *BackRepoFormFieldFloat64Struct) CommitDeleteInst
 	formfieldfloat64DB := backRepoFormFieldFloat64.Map_FormFieldFloat64DBID_FormFieldFloat64DB[id]
 	query := backRepoFormFieldFloat64.db.Unscoped().Delete(&formfieldfloat64DB)
 	if query.Error != nil {
-		return query.Error
+		log.Fatal(query.Error)
 	}
 
 	// update stores
@@ -208,7 +208,7 @@ func (backRepoFormFieldFloat64 *BackRepoFormFieldFloat64Struct) CommitPhaseOneIn
 
 	query := backRepoFormFieldFloat64.db.Create(&formfieldfloat64DB)
 	if query.Error != nil {
-		return query.Error
+		log.Fatal(query.Error)
 	}
 
 	// update stores
@@ -242,7 +242,7 @@ func (backRepoFormFieldFloat64 *BackRepoFormFieldFloat64Struct) CommitPhaseTwoIn
 		// insertion point for translating pointers encodings into actual pointers
 		query := backRepoFormFieldFloat64.db.Save(&formfieldfloat64DB)
 		if query.Error != nil {
-			return query.Error
+			log.Fatalln(query.Error)
 		}
 
 	} else {
@@ -369,7 +369,7 @@ func (backRepo *BackRepoStruct) CheckoutFormFieldFloat64(formfieldfloat64 *model
 			formfieldfloat64DB.ID = id
 
 			if err := backRepo.BackRepoFormFieldFloat64.db.First(&formfieldfloat64DB, id).Error; err != nil {
-				log.Panicln("CheckoutFormFieldFloat64 : Problem with getting object with id:", id)
+				log.Fatalln("CheckoutFormFieldFloat64 : Problem with getting object with id:", id)
 			}
 			backRepo.BackRepoFormFieldFloat64.CheckoutPhaseOneInstance(&formfieldfloat64DB)
 			backRepo.BackRepoFormFieldFloat64.CheckoutPhaseTwoInstance(backRepo, &formfieldfloat64DB)
@@ -379,6 +379,29 @@ func (backRepo *BackRepoStruct) CheckoutFormFieldFloat64(formfieldfloat64 *model
 
 // CopyBasicFieldsFromFormFieldFloat64
 func (formfieldfloat64DB *FormFieldFloat64DB) CopyBasicFieldsFromFormFieldFloat64(formfieldfloat64 *models.FormFieldFloat64) {
+	// insertion point for fields commit
+
+	formfieldfloat64DB.Name_Data.String = formfieldfloat64.Name
+	formfieldfloat64DB.Name_Data.Valid = true
+
+	formfieldfloat64DB.Value_Data.Float64 = formfieldfloat64.Value
+	formfieldfloat64DB.Value_Data.Valid = true
+
+	formfieldfloat64DB.HasMinValidator_Data.Bool = formfieldfloat64.HasMinValidator
+	formfieldfloat64DB.HasMinValidator_Data.Valid = true
+
+	formfieldfloat64DB.MinValue_Data.Float64 = formfieldfloat64.MinValue
+	formfieldfloat64DB.MinValue_Data.Valid = true
+
+	formfieldfloat64DB.HasMaxValidator_Data.Bool = formfieldfloat64.HasMaxValidator
+	formfieldfloat64DB.HasMaxValidator_Data.Valid = true
+
+	formfieldfloat64DB.MaxValue_Data.Float64 = formfieldfloat64.MaxValue
+	formfieldfloat64DB.MaxValue_Data.Valid = true
+}
+
+// CopyBasicFieldsFromFormFieldFloat64_WOP
+func (formfieldfloat64DB *FormFieldFloat64DB) CopyBasicFieldsFromFormFieldFloat64_WOP(formfieldfloat64 *models.FormFieldFloat64_WOP) {
 	// insertion point for fields commit
 
 	formfieldfloat64DB.Name_Data.String = formfieldfloat64.Name
@@ -434,6 +457,17 @@ func (formfieldfloat64DB *FormFieldFloat64DB) CopyBasicFieldsToFormFieldFloat64(
 	formfieldfloat64.MaxValue = formfieldfloat64DB.MaxValue_Data.Float64
 }
 
+// CopyBasicFieldsToFormFieldFloat64_WOP
+func (formfieldfloat64DB *FormFieldFloat64DB) CopyBasicFieldsToFormFieldFloat64_WOP(formfieldfloat64 *models.FormFieldFloat64_WOP) {
+	// insertion point for checkout of basic fields (back repo to stage)
+	formfieldfloat64.Name = formfieldfloat64DB.Name_Data.String
+	formfieldfloat64.Value = formfieldfloat64DB.Value_Data.Float64
+	formfieldfloat64.HasMinValidator = formfieldfloat64DB.HasMinValidator_Data.Bool
+	formfieldfloat64.MinValue = formfieldfloat64DB.MinValue_Data.Float64
+	formfieldfloat64.HasMaxValidator = formfieldfloat64DB.HasMaxValidator_Data.Bool
+	formfieldfloat64.MaxValue = formfieldfloat64DB.MaxValue_Data.Float64
+}
+
 // CopyBasicFieldsToFormFieldFloat64WOP
 func (formfieldfloat64DB *FormFieldFloat64DB) CopyBasicFieldsToFormFieldFloat64WOP(formfieldfloat64 *FormFieldFloat64WOP) {
 	formfieldfloat64.ID = int(formfieldfloat64DB.ID)
@@ -465,12 +499,12 @@ func (backRepoFormFieldFloat64 *BackRepoFormFieldFloat64Struct) Backup(dirPath s
 	file, err := json.MarshalIndent(forBackup, "", " ")
 
 	if err != nil {
-		log.Panic("Cannot json FormFieldFloat64 ", filename, " ", err.Error())
+		log.Fatal("Cannot json FormFieldFloat64 ", filename, " ", err.Error())
 	}
 
 	err = ioutil.WriteFile(filename, file, 0644)
 	if err != nil {
-		log.Panic("Cannot write the json FormFieldFloat64 file", err.Error())
+		log.Fatal("Cannot write the json FormFieldFloat64 file", err.Error())
 	}
 }
 
@@ -490,7 +524,7 @@ func (backRepoFormFieldFloat64 *BackRepoFormFieldFloat64Struct) BackupXL(file *x
 
 	sh, err := file.AddSheet("FormFieldFloat64")
 	if err != nil {
-		log.Panic("Cannot add XL file", err.Error())
+		log.Fatal("Cannot add XL file", err.Error())
 	}
 	_ = sh
 
@@ -515,13 +549,13 @@ func (backRepoFormFieldFloat64 *BackRepoFormFieldFloat64Struct) RestoreXLPhaseOn
 	sh, ok := file.Sheet["FormFieldFloat64"]
 	_ = sh
 	if !ok {
-		log.Panic(errors.New("sheet not found"))
+		log.Fatal(errors.New("sheet not found"))
 	}
 
 	// log.Println("Max row is", sh.MaxRow)
 	err := sh.ForEachRow(backRepoFormFieldFloat64.rowVisitorFormFieldFloat64)
 	if err != nil {
-		log.Panic("Err=", err)
+		log.Fatal("Err=", err)
 	}
 }
 
@@ -543,7 +577,7 @@ func (backRepoFormFieldFloat64 *BackRepoFormFieldFloat64Struct) rowVisitorFormFi
 		formfieldfloat64DB.ID = 0
 		query := backRepoFormFieldFloat64.db.Create(formfieldfloat64DB)
 		if query.Error != nil {
-			log.Panic(query.Error)
+			log.Fatal(query.Error)
 		}
 		backRepoFormFieldFloat64.Map_FormFieldFloat64DBID_FormFieldFloat64DB[formfieldfloat64DB.ID] = formfieldfloat64DB
 		BackRepoFormFieldFloat64id_atBckpTime_newID[formfieldfloat64DB_ID_atBackupTime] = formfieldfloat64DB.ID
@@ -563,7 +597,7 @@ func (backRepoFormFieldFloat64 *BackRepoFormFieldFloat64Struct) RestorePhaseOne(
 	jsonFile, err := os.Open(filename)
 	// if we os.Open returns an error then handle it
 	if err != nil {
-		log.Panic("Cannot restore/open the json FormFieldFloat64 file", filename, " ", err.Error())
+		log.Fatal("Cannot restore/open the json FormFieldFloat64 file", filename, " ", err.Error())
 	}
 
 	// read our opened jsonFile as a byte array.
@@ -580,14 +614,14 @@ func (backRepoFormFieldFloat64 *BackRepoFormFieldFloat64Struct) RestorePhaseOne(
 		formfieldfloat64DB.ID = 0
 		query := backRepoFormFieldFloat64.db.Create(formfieldfloat64DB)
 		if query.Error != nil {
-			log.Panic(query.Error)
+			log.Fatal(query.Error)
 		}
 		backRepoFormFieldFloat64.Map_FormFieldFloat64DBID_FormFieldFloat64DB[formfieldfloat64DB.ID] = formfieldfloat64DB
 		BackRepoFormFieldFloat64id_atBckpTime_newID[formfieldfloat64DB_ID_atBackupTime] = formfieldfloat64DB.ID
 	}
 
 	if err != nil {
-		log.Panic("Cannot restore/unmarshall json FormFieldFloat64 file", err.Error())
+		log.Fatal("Cannot restore/unmarshall json FormFieldFloat64 file", err.Error())
 	}
 }
 
@@ -604,7 +638,7 @@ func (backRepoFormFieldFloat64 *BackRepoFormFieldFloat64Struct) RestorePhaseTwo(
 		// update databse with new index encoding
 		query := backRepoFormFieldFloat64.db.Model(formfieldfloat64DB).Updates(*formfieldfloat64DB)
 		if query.Error != nil {
-			log.Panic(query.Error)
+			log.Fatal(query.Error)
 		}
 	}
 

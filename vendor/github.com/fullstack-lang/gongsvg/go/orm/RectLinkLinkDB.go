@@ -35,15 +35,15 @@ var dummy_RectLinkLink_sort sort.Float64Slice
 type RectLinkLinkAPI struct {
 	gorm.Model
 
-	models.RectLinkLink
+	models.RectLinkLink_WOP
 
 	// encoding of pointers
-	RectLinkLinkPointersEnconding
+	RectLinkLinkPointersEncoding RectLinkLinkPointersEncoding
 }
 
-// RectLinkLinkPointersEnconding encodes pointers to Struct and
+// RectLinkLinkPointersEncoding encodes pointers to Struct and
 // reverse pointers of slice of poitners to Struct
-type RectLinkLinkPointersEnconding struct {
+type RectLinkLinkPointersEncoding struct {
 	// insertion for pointer fields encoding declaration
 
 	// field Start is a pointer to another Struct (optional or 0..1)
@@ -55,9 +55,11 @@ type RectLinkLinkPointersEnconding struct {
 	EndID sql.NullInt64
 
 	// Implementation of a reverse ID for field Layer{}.RectLinkLinks []*RectLinkLink
+	// (to be removed)
 	Layer_RectLinkLinksDBID sql.NullInt64
 
 	// implementation of the index of the withing the slice
+	// (to be removed)
 	Layer_RectLinkLinksDBID_Index sql.NullInt64
 }
 
@@ -99,7 +101,7 @@ type RectLinkLinkDB struct {
 	// Declation for basic field rectlinklinkDB.Transform
 	Transform_Data sql.NullString
 	// encoding of pointers
-	RectLinkLinkPointersEnconding
+	RectLinkLinkPointersEncoding
 }
 
 // RectLinkLinkDBs arrays rectlinklinkDBs
@@ -212,7 +214,7 @@ func (backRepoRectLinkLink *BackRepoRectLinkLinkStruct) CommitDeleteInstance(id 
 	rectlinklinkDB := backRepoRectLinkLink.Map_RectLinkLinkDBID_RectLinkLinkDB[id]
 	query := backRepoRectLinkLink.db.Unscoped().Delete(&rectlinklinkDB)
 	if query.Error != nil {
-		return query.Error
+		log.Fatal(query.Error)
 	}
 
 	// update stores
@@ -238,7 +240,7 @@ func (backRepoRectLinkLink *BackRepoRectLinkLinkStruct) CommitPhaseOneInstance(r
 
 	query := backRepoRectLinkLink.db.Create(&rectlinklinkDB)
 	if query.Error != nil {
-		return query.Error
+		log.Fatal(query.Error)
 	}
 
 	// update stores
@@ -296,7 +298,7 @@ func (backRepoRectLinkLink *BackRepoRectLinkLinkStruct) CommitPhaseTwoInstance(b
 
 		query := backRepoRectLinkLink.db.Save(&rectlinklinkDB)
 		if query.Error != nil {
-			return query.Error
+			log.Fatalln(query.Error)
 		}
 
 	} else {
@@ -433,7 +435,7 @@ func (backRepo *BackRepoStruct) CheckoutRectLinkLink(rectlinklink *models.RectLi
 			rectlinklinkDB.ID = id
 
 			if err := backRepo.BackRepoRectLinkLink.db.First(&rectlinklinkDB, id).Error; err != nil {
-				log.Panicln("CheckoutRectLinkLink : Problem with getting object with id:", id)
+				log.Fatalln("CheckoutRectLinkLink : Problem with getting object with id:", id)
 			}
 			backRepo.BackRepoRectLinkLink.CheckoutPhaseOneInstance(&rectlinklinkDB)
 			backRepo.BackRepoRectLinkLink.CheckoutPhaseTwoInstance(backRepo, &rectlinklinkDB)
@@ -443,6 +445,38 @@ func (backRepo *BackRepoStruct) CheckoutRectLinkLink(rectlinklink *models.RectLi
 
 // CopyBasicFieldsFromRectLinkLink
 func (rectlinklinkDB *RectLinkLinkDB) CopyBasicFieldsFromRectLinkLink(rectlinklink *models.RectLinkLink) {
+	// insertion point for fields commit
+
+	rectlinklinkDB.Name_Data.String = rectlinklink.Name
+	rectlinklinkDB.Name_Data.Valid = true
+
+	rectlinklinkDB.TargetAnchorPosition_Data.Float64 = rectlinklink.TargetAnchorPosition
+	rectlinklinkDB.TargetAnchorPosition_Data.Valid = true
+
+	rectlinklinkDB.Color_Data.String = rectlinklink.Color
+	rectlinklinkDB.Color_Data.Valid = true
+
+	rectlinklinkDB.FillOpacity_Data.Float64 = rectlinklink.FillOpacity
+	rectlinklinkDB.FillOpacity_Data.Valid = true
+
+	rectlinklinkDB.Stroke_Data.String = rectlinklink.Stroke
+	rectlinklinkDB.Stroke_Data.Valid = true
+
+	rectlinklinkDB.StrokeWidth_Data.Float64 = rectlinklink.StrokeWidth
+	rectlinklinkDB.StrokeWidth_Data.Valid = true
+
+	rectlinklinkDB.StrokeDashArray_Data.String = rectlinklink.StrokeDashArray
+	rectlinklinkDB.StrokeDashArray_Data.Valid = true
+
+	rectlinklinkDB.StrokeDashArrayWhenSelected_Data.String = rectlinklink.StrokeDashArrayWhenSelected
+	rectlinklinkDB.StrokeDashArrayWhenSelected_Data.Valid = true
+
+	rectlinklinkDB.Transform_Data.String = rectlinklink.Transform
+	rectlinklinkDB.Transform_Data.Valid = true
+}
+
+// CopyBasicFieldsFromRectLinkLink_WOP
+func (rectlinklinkDB *RectLinkLinkDB) CopyBasicFieldsFromRectLinkLink_WOP(rectlinklink *models.RectLinkLink_WOP) {
 	// insertion point for fields commit
 
 	rectlinklinkDB.Name_Data.String = rectlinklink.Name
@@ -519,6 +553,20 @@ func (rectlinklinkDB *RectLinkLinkDB) CopyBasicFieldsToRectLinkLink(rectlinklink
 	rectlinklink.Transform = rectlinklinkDB.Transform_Data.String
 }
 
+// CopyBasicFieldsToRectLinkLink_WOP
+func (rectlinklinkDB *RectLinkLinkDB) CopyBasicFieldsToRectLinkLink_WOP(rectlinklink *models.RectLinkLink_WOP) {
+	// insertion point for checkout of basic fields (back repo to stage)
+	rectlinklink.Name = rectlinklinkDB.Name_Data.String
+	rectlinklink.TargetAnchorPosition = rectlinklinkDB.TargetAnchorPosition_Data.Float64
+	rectlinklink.Color = rectlinklinkDB.Color_Data.String
+	rectlinklink.FillOpacity = rectlinklinkDB.FillOpacity_Data.Float64
+	rectlinklink.Stroke = rectlinklinkDB.Stroke_Data.String
+	rectlinklink.StrokeWidth = rectlinklinkDB.StrokeWidth_Data.Float64
+	rectlinklink.StrokeDashArray = rectlinklinkDB.StrokeDashArray_Data.String
+	rectlinklink.StrokeDashArrayWhenSelected = rectlinklinkDB.StrokeDashArrayWhenSelected_Data.String
+	rectlinklink.Transform = rectlinklinkDB.Transform_Data.String
+}
+
 // CopyBasicFieldsToRectLinkLinkWOP
 func (rectlinklinkDB *RectLinkLinkDB) CopyBasicFieldsToRectLinkLinkWOP(rectlinklink *RectLinkLinkWOP) {
 	rectlinklink.ID = int(rectlinklinkDB.ID)
@@ -553,12 +601,12 @@ func (backRepoRectLinkLink *BackRepoRectLinkLinkStruct) Backup(dirPath string) {
 	file, err := json.MarshalIndent(forBackup, "", " ")
 
 	if err != nil {
-		log.Panic("Cannot json RectLinkLink ", filename, " ", err.Error())
+		log.Fatal("Cannot json RectLinkLink ", filename, " ", err.Error())
 	}
 
 	err = ioutil.WriteFile(filename, file, 0644)
 	if err != nil {
-		log.Panic("Cannot write the json RectLinkLink file", err.Error())
+		log.Fatal("Cannot write the json RectLinkLink file", err.Error())
 	}
 }
 
@@ -578,7 +626,7 @@ func (backRepoRectLinkLink *BackRepoRectLinkLinkStruct) BackupXL(file *xlsx.File
 
 	sh, err := file.AddSheet("RectLinkLink")
 	if err != nil {
-		log.Panic("Cannot add XL file", err.Error())
+		log.Fatal("Cannot add XL file", err.Error())
 	}
 	_ = sh
 
@@ -603,13 +651,13 @@ func (backRepoRectLinkLink *BackRepoRectLinkLinkStruct) RestoreXLPhaseOne(file *
 	sh, ok := file.Sheet["RectLinkLink"]
 	_ = sh
 	if !ok {
-		log.Panic(errors.New("sheet not found"))
+		log.Fatal(errors.New("sheet not found"))
 	}
 
 	// log.Println("Max row is", sh.MaxRow)
 	err := sh.ForEachRow(backRepoRectLinkLink.rowVisitorRectLinkLink)
 	if err != nil {
-		log.Panic("Err=", err)
+		log.Fatal("Err=", err)
 	}
 }
 
@@ -631,7 +679,7 @@ func (backRepoRectLinkLink *BackRepoRectLinkLinkStruct) rowVisitorRectLinkLink(r
 		rectlinklinkDB.ID = 0
 		query := backRepoRectLinkLink.db.Create(rectlinklinkDB)
 		if query.Error != nil {
-			log.Panic(query.Error)
+			log.Fatal(query.Error)
 		}
 		backRepoRectLinkLink.Map_RectLinkLinkDBID_RectLinkLinkDB[rectlinklinkDB.ID] = rectlinklinkDB
 		BackRepoRectLinkLinkid_atBckpTime_newID[rectlinklinkDB_ID_atBackupTime] = rectlinklinkDB.ID
@@ -651,7 +699,7 @@ func (backRepoRectLinkLink *BackRepoRectLinkLinkStruct) RestorePhaseOne(dirPath 
 	jsonFile, err := os.Open(filename)
 	// if we os.Open returns an error then handle it
 	if err != nil {
-		log.Panic("Cannot restore/open the json RectLinkLink file", filename, " ", err.Error())
+		log.Fatal("Cannot restore/open the json RectLinkLink file", filename, " ", err.Error())
 	}
 
 	// read our opened jsonFile as a byte array.
@@ -668,14 +716,14 @@ func (backRepoRectLinkLink *BackRepoRectLinkLinkStruct) RestorePhaseOne(dirPath 
 		rectlinklinkDB.ID = 0
 		query := backRepoRectLinkLink.db.Create(rectlinklinkDB)
 		if query.Error != nil {
-			log.Panic(query.Error)
+			log.Fatal(query.Error)
 		}
 		backRepoRectLinkLink.Map_RectLinkLinkDBID_RectLinkLinkDB[rectlinklinkDB.ID] = rectlinklinkDB
 		BackRepoRectLinkLinkid_atBckpTime_newID[rectlinklinkDB_ID_atBackupTime] = rectlinklinkDB.ID
 	}
 
 	if err != nil {
-		log.Panic("Cannot restore/unmarshall json RectLinkLink file", err.Error())
+		log.Fatal("Cannot restore/unmarshall json RectLinkLink file", err.Error())
 	}
 }
 
@@ -710,7 +758,7 @@ func (backRepoRectLinkLink *BackRepoRectLinkLinkStruct) RestorePhaseTwo() {
 		// update databse with new index encoding
 		query := backRepoRectLinkLink.db.Model(rectlinklinkDB).Updates(*rectlinklinkDB)
 		if query.Error != nil {
-			log.Panic(query.Error)
+			log.Fatal(query.Error)
 		}
 	}
 

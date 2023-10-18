@@ -84,10 +84,10 @@ export class LinkAnchoredTextService {
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
     let Animates = linkanchoredtextdb.Animates
     linkanchoredtextdb.Animates = []
-    let _Link_TextAtArrowEnd_reverse = linkanchoredtextdb.Link_TextAtArrowEnd_reverse
-    linkanchoredtextdb.Link_TextAtArrowEnd_reverse = new LinkDB
-    let _Link_TextAtArrowStart_reverse = linkanchoredtextdb.Link_TextAtArrowStart_reverse
-    linkanchoredtextdb.Link_TextAtArrowStart_reverse = new LinkDB
+    let _Link_TextAtArrowEnd_reverse = linkanchoredtextdb.LinkAnchoredTextPointersEncoding.Link_TextAtArrowEnd_reverse
+    linkanchoredtextdb.LinkAnchoredTextPointersEncoding.Link_TextAtArrowEnd_reverse = new LinkDB
+    let _Link_TextAtArrowStart_reverse = linkanchoredtextdb.LinkAnchoredTextPointersEncoding.Link_TextAtArrowStart_reverse
+    linkanchoredtextdb.LinkAnchoredTextPointersEncoding.Link_TextAtArrowStart_reverse = new LinkDB
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -99,8 +99,8 @@ export class LinkAnchoredTextService {
       tap(_ => {
         // insertion point for restoration of reverse pointers
 	      linkanchoredtextdb.Animates = Animates
-        linkanchoredtextdb.Link_TextAtArrowEnd_reverse = _Link_TextAtArrowEnd_reverse
-        linkanchoredtextdb.Link_TextAtArrowStart_reverse = _Link_TextAtArrowStart_reverse
+        linkanchoredtextdb.LinkAnchoredTextPointersEncoding.Link_TextAtArrowEnd_reverse = _Link_TextAtArrowEnd_reverse
+        linkanchoredtextdb.LinkAnchoredTextPointersEncoding.Link_TextAtArrowStart_reverse = _Link_TextAtArrowStart_reverse
         // this.log(`posted linkanchoredtextdb id=${linkanchoredtextdb.ID}`)
       }),
       catchError(this.handleError<LinkAnchoredTextDB>('postLinkAnchoredText'))
@@ -138,10 +138,10 @@ export class LinkAnchoredTextService {
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
     let Animates = linkanchoredtextdb.Animates
     linkanchoredtextdb.Animates = []
-    let _Link_TextAtArrowEnd_reverse = linkanchoredtextdb.Link_TextAtArrowEnd_reverse
-    linkanchoredtextdb.Link_TextAtArrowEnd_reverse = new LinkDB
-    let _Link_TextAtArrowStart_reverse = linkanchoredtextdb.Link_TextAtArrowStart_reverse
-    linkanchoredtextdb.Link_TextAtArrowStart_reverse = new LinkDB
+    let _Link_TextAtArrowEnd_reverse = linkanchoredtextdb.LinkAnchoredTextPointersEncoding.Link_TextAtArrowEnd_reverse
+    linkanchoredtextdb.LinkAnchoredTextPointersEncoding.Link_TextAtArrowEnd_reverse = new LinkDB
+    let _Link_TextAtArrowStart_reverse = linkanchoredtextdb.LinkAnchoredTextPointersEncoding.Link_TextAtArrowStart_reverse
+    linkanchoredtextdb.LinkAnchoredTextPointersEncoding.Link_TextAtArrowStart_reverse = new LinkDB
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -153,8 +153,8 @@ export class LinkAnchoredTextService {
       tap(_ => {
         // insertion point for restoration of reverse pointers
 	      linkanchoredtextdb.Animates = Animates
-        linkanchoredtextdb.Link_TextAtArrowEnd_reverse = _Link_TextAtArrowEnd_reverse
-        linkanchoredtextdb.Link_TextAtArrowStart_reverse = _Link_TextAtArrowStart_reverse
+        linkanchoredtextdb.LinkAnchoredTextPointersEncoding.Link_TextAtArrowEnd_reverse = _Link_TextAtArrowEnd_reverse
+        linkanchoredtextdb.LinkAnchoredTextPointersEncoding.Link_TextAtArrowStart_reverse = _Link_TextAtArrowStart_reverse
         // this.log(`updated linkanchoredtextdb id=${linkanchoredtextdb.ID}`)
       }),
       catchError(this.handleError<LinkAnchoredTextDB>('updateLinkAnchoredText'))

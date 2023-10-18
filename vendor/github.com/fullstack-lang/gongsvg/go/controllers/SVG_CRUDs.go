@@ -91,8 +91,8 @@ func (controller *Controller) GetSVGs(c *gin.Context) {
 
 		// insertion point for updating fields
 		svgAPI.ID = svgDB.ID
-		svgDB.CopyBasicFieldsToSVG(&svgAPI.SVG)
-		svgAPI.SVGPointersEnconding = svgDB.SVGPointersEnconding
+		svgDB.CopyBasicFieldsToSVG_WOP(&svgAPI.SVG_WOP)
+		svgAPI.SVGPointersEncoding = svgDB.SVGPointersEncoding
 		svgAPIs = append(svgAPIs, svgAPI)
 	}
 
@@ -147,8 +147,8 @@ func (controller *Controller) PostSVG(c *gin.Context) {
 
 	// Create svg
 	svgDB := orm.SVGDB{}
-	svgDB.SVGPointersEnconding = input.SVGPointersEnconding
-	svgDB.CopyBasicFieldsFromSVG(&input.SVG)
+	svgDB.SVGPointersEncoding = input.SVGPointersEncoding
+	svgDB.CopyBasicFieldsFromSVG_WOP(&input.SVG_WOP)
 
 	query := db.Create(&svgDB)
 	if query.Error != nil {
@@ -217,8 +217,8 @@ func (controller *Controller) GetSVG(c *gin.Context) {
 
 	var svgAPI orm.SVGAPI
 	svgAPI.ID = svgDB.ID
-	svgAPI.SVGPointersEnconding = svgDB.SVGPointersEnconding
-	svgDB.CopyBasicFieldsToSVG(&svgAPI.SVG)
+	svgAPI.SVGPointersEncoding = svgDB.SVGPointersEncoding
+	svgDB.CopyBasicFieldsToSVG_WOP(&svgAPI.SVG_WOP)
 
 	c.JSON(http.StatusOK, svgAPI)
 }
@@ -276,8 +276,8 @@ func (controller *Controller) UpdateSVG(c *gin.Context) {
 	}
 
 	// update
-	svgDB.CopyBasicFieldsFromSVG(&input.SVG)
-	svgDB.SVGPointersEnconding = input.SVGPointersEnconding
+	svgDB.CopyBasicFieldsFromSVG_WOP(&input.SVG_WOP)
+	svgDB.SVGPointersEncoding = input.SVGPointersEncoding
 
 	query = db.Model(&svgDB).Updates(svgDB)
 	if query.Error != nil {

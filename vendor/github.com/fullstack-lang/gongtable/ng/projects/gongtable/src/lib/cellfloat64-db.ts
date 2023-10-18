@@ -15,5 +15,11 @@ export class CellFloat64DB {
 	Name: string = ""
 	Value: number = 0
 
-	// insertion point for other declarations
+	// insertion point for pointers and slices of pointers declarations
+
+	CellFloat64PointersEncoding: CellFloat64PointersEncoding = new CellFloat64PointersEncoding
+}
+
+export class CellFloat64PointersEncoding {
+	// insertion point for pointers and slices of pointers encoding fields
 }

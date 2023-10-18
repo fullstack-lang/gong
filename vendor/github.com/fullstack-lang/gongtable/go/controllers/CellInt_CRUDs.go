@@ -91,8 +91,8 @@ func (controller *Controller) GetCellInts(c *gin.Context) {
 
 		// insertion point for updating fields
 		cellintAPI.ID = cellintDB.ID
-		cellintDB.CopyBasicFieldsToCellInt(&cellintAPI.CellInt)
-		cellintAPI.CellIntPointersEnconding = cellintDB.CellIntPointersEnconding
+		cellintDB.CopyBasicFieldsToCellInt_WOP(&cellintAPI.CellInt_WOP)
+		cellintAPI.CellIntPointersEncoding = cellintDB.CellIntPointersEncoding
 		cellintAPIs = append(cellintAPIs, cellintAPI)
 	}
 
@@ -147,8 +147,8 @@ func (controller *Controller) PostCellInt(c *gin.Context) {
 
 	// Create cellint
 	cellintDB := orm.CellIntDB{}
-	cellintDB.CellIntPointersEnconding = input.CellIntPointersEnconding
-	cellintDB.CopyBasicFieldsFromCellInt(&input.CellInt)
+	cellintDB.CellIntPointersEncoding = input.CellIntPointersEncoding
+	cellintDB.CopyBasicFieldsFromCellInt_WOP(&input.CellInt_WOP)
 
 	query := db.Create(&cellintDB)
 	if query.Error != nil {
@@ -217,8 +217,8 @@ func (controller *Controller) GetCellInt(c *gin.Context) {
 
 	var cellintAPI orm.CellIntAPI
 	cellintAPI.ID = cellintDB.ID
-	cellintAPI.CellIntPointersEnconding = cellintDB.CellIntPointersEnconding
-	cellintDB.CopyBasicFieldsToCellInt(&cellintAPI.CellInt)
+	cellintAPI.CellIntPointersEncoding = cellintDB.CellIntPointersEncoding
+	cellintDB.CopyBasicFieldsToCellInt_WOP(&cellintAPI.CellInt_WOP)
 
 	c.JSON(http.StatusOK, cellintAPI)
 }
@@ -276,8 +276,8 @@ func (controller *Controller) UpdateCellInt(c *gin.Context) {
 	}
 
 	// update
-	cellintDB.CopyBasicFieldsFromCellInt(&input.CellInt)
-	cellintDB.CellIntPointersEnconding = input.CellIntPointersEnconding
+	cellintDB.CopyBasicFieldsFromCellInt_WOP(&input.CellInt_WOP)
+	cellintDB.CellIntPointersEncoding = input.CellIntPointersEncoding
 
 	query = db.Model(&cellintDB).Updates(cellintDB)
 	if query.Error != nil {

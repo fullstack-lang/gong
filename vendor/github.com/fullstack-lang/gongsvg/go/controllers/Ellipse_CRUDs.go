@@ -91,8 +91,8 @@ func (controller *Controller) GetEllipses(c *gin.Context) {
 
 		// insertion point for updating fields
 		ellipseAPI.ID = ellipseDB.ID
-		ellipseDB.CopyBasicFieldsToEllipse(&ellipseAPI.Ellipse)
-		ellipseAPI.EllipsePointersEnconding = ellipseDB.EllipsePointersEnconding
+		ellipseDB.CopyBasicFieldsToEllipse_WOP(&ellipseAPI.Ellipse_WOP)
+		ellipseAPI.EllipsePointersEncoding = ellipseDB.EllipsePointersEncoding
 		ellipseAPIs = append(ellipseAPIs, ellipseAPI)
 	}
 
@@ -147,8 +147,8 @@ func (controller *Controller) PostEllipse(c *gin.Context) {
 
 	// Create ellipse
 	ellipseDB := orm.EllipseDB{}
-	ellipseDB.EllipsePointersEnconding = input.EllipsePointersEnconding
-	ellipseDB.CopyBasicFieldsFromEllipse(&input.Ellipse)
+	ellipseDB.EllipsePointersEncoding = input.EllipsePointersEncoding
+	ellipseDB.CopyBasicFieldsFromEllipse_WOP(&input.Ellipse_WOP)
 
 	query := db.Create(&ellipseDB)
 	if query.Error != nil {
@@ -217,8 +217,8 @@ func (controller *Controller) GetEllipse(c *gin.Context) {
 
 	var ellipseAPI orm.EllipseAPI
 	ellipseAPI.ID = ellipseDB.ID
-	ellipseAPI.EllipsePointersEnconding = ellipseDB.EllipsePointersEnconding
-	ellipseDB.CopyBasicFieldsToEllipse(&ellipseAPI.Ellipse)
+	ellipseAPI.EllipsePointersEncoding = ellipseDB.EllipsePointersEncoding
+	ellipseDB.CopyBasicFieldsToEllipse_WOP(&ellipseAPI.Ellipse_WOP)
 
 	c.JSON(http.StatusOK, ellipseAPI)
 }
@@ -276,8 +276,8 @@ func (controller *Controller) UpdateEllipse(c *gin.Context) {
 	}
 
 	// update
-	ellipseDB.CopyBasicFieldsFromEllipse(&input.Ellipse)
-	ellipseDB.EllipsePointersEnconding = input.EllipsePointersEnconding
+	ellipseDB.CopyBasicFieldsFromEllipse_WOP(&input.Ellipse_WOP)
+	ellipseDB.EllipsePointersEncoding = input.EllipsePointersEncoding
 
 	query = db.Model(&ellipseDB).Updates(ellipseDB)
 	if query.Error != nil {

@@ -24,8 +24,16 @@ export class PathDB {
 	StrokeDashArrayWhenSelected: string = ""
 	Transform: string = ""
 
-	// insertion point for other declarations
-	Animates?: Array<AnimateDB>
+	// insertion point for pointers and slices of pointers declarations
+	Animates: Array<AnimateDB> = []
+
+	PathPointersEncoding: PathPointersEncoding = new PathPointersEncoding
+}
+
+export class PathPointersEncoding {
+	// insertion point for pointers and slices of pointers encoding fields
+	Animates: number[] = []
+	// reverse pointers encoding (to be removed)
 	Layer_PathsDBID: NullInt64 = new NullInt64
 	Layer_PathsDBID_Index: NullInt64  = new NullInt64 // store the index of the path instance in Layer.Paths
 	Layer_Paths_reverse?: LayerDB 

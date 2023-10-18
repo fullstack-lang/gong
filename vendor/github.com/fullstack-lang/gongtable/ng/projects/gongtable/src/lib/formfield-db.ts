@@ -27,28 +27,42 @@ export class FormFieldDB {
 	HasBespokeWidth: boolean = false
 	BespokeWidthPx: number = 0
 
-	// insertion point for other declarations
+	// insertion point for pointers and slices of pointers declarations
 	FormFieldString?: FormFieldStringDB
-	FormFieldStringID: NullInt64 = new NullInt64 // if pointer is null, FormFieldString.ID = 0
 
 	FormFieldFloat64?: FormFieldFloat64DB
-	FormFieldFloat64ID: NullInt64 = new NullInt64 // if pointer is null, FormFieldFloat64.ID = 0
 
 	FormFieldInt?: FormFieldIntDB
-	FormFieldIntID: NullInt64 = new NullInt64 // if pointer is null, FormFieldInt.ID = 0
 
 	FormFieldDate?: FormFieldDateDB
-	FormFieldDateID: NullInt64 = new NullInt64 // if pointer is null, FormFieldDate.ID = 0
 
 	FormFieldTime?: FormFieldTimeDB
-	FormFieldTimeID: NullInt64 = new NullInt64 // if pointer is null, FormFieldTime.ID = 0
 
 	FormFieldDateTime?: FormFieldDateTimeDB
-	FormFieldDateTimeID: NullInt64 = new NullInt64 // if pointer is null, FormFieldDateTime.ID = 0
 
 	FormFieldSelect?: FormFieldSelectDB
+
+
+	FormFieldPointersEncoding: FormFieldPointersEncoding = new FormFieldPointersEncoding
+}
+
+export class FormFieldPointersEncoding {
+	// insertion point for pointers and slices of pointers encoding fields
+	FormFieldStringID: NullInt64 = new NullInt64 // if pointer is null, FormFieldString.ID = 0
+
+	FormFieldFloat64ID: NullInt64 = new NullInt64 // if pointer is null, FormFieldFloat64.ID = 0
+
+	FormFieldIntID: NullInt64 = new NullInt64 // if pointer is null, FormFieldInt.ID = 0
+
+	FormFieldDateID: NullInt64 = new NullInt64 // if pointer is null, FormFieldDate.ID = 0
+
+	FormFieldTimeID: NullInt64 = new NullInt64 // if pointer is null, FormFieldTime.ID = 0
+
+	FormFieldDateTimeID: NullInt64 = new NullInt64 // if pointer is null, FormFieldDateTime.ID = 0
+
 	FormFieldSelectID: NullInt64 = new NullInt64 // if pointer is null, FormFieldSelect.ID = 0
 
+	// reverse pointers encoding (to be removed)
 	FormDiv_FormFieldsDBID: NullInt64 = new NullInt64
 	FormDiv_FormFieldsDBID_Index: NullInt64  = new NullInt64 // store the index of the formfield instance in FormDiv.FormFields
 	FormDiv_FormFields_reverse?: FormDivDB 

@@ -91,8 +91,8 @@ func (controller *Controller) GetPolygones(c *gin.Context) {
 
 		// insertion point for updating fields
 		polygoneAPI.ID = polygoneDB.ID
-		polygoneDB.CopyBasicFieldsToPolygone(&polygoneAPI.Polygone)
-		polygoneAPI.PolygonePointersEnconding = polygoneDB.PolygonePointersEnconding
+		polygoneDB.CopyBasicFieldsToPolygone_WOP(&polygoneAPI.Polygone_WOP)
+		polygoneAPI.PolygonePointersEncoding = polygoneDB.PolygonePointersEncoding
 		polygoneAPIs = append(polygoneAPIs, polygoneAPI)
 	}
 
@@ -147,8 +147,8 @@ func (controller *Controller) PostPolygone(c *gin.Context) {
 
 	// Create polygone
 	polygoneDB := orm.PolygoneDB{}
-	polygoneDB.PolygonePointersEnconding = input.PolygonePointersEnconding
-	polygoneDB.CopyBasicFieldsFromPolygone(&input.Polygone)
+	polygoneDB.PolygonePointersEncoding = input.PolygonePointersEncoding
+	polygoneDB.CopyBasicFieldsFromPolygone_WOP(&input.Polygone_WOP)
 
 	query := db.Create(&polygoneDB)
 	if query.Error != nil {
@@ -217,8 +217,8 @@ func (controller *Controller) GetPolygone(c *gin.Context) {
 
 	var polygoneAPI orm.PolygoneAPI
 	polygoneAPI.ID = polygoneDB.ID
-	polygoneAPI.PolygonePointersEnconding = polygoneDB.PolygonePointersEnconding
-	polygoneDB.CopyBasicFieldsToPolygone(&polygoneAPI.Polygone)
+	polygoneAPI.PolygonePointersEncoding = polygoneDB.PolygonePointersEncoding
+	polygoneDB.CopyBasicFieldsToPolygone_WOP(&polygoneAPI.Polygone_WOP)
 
 	c.JSON(http.StatusOK, polygoneAPI)
 }
@@ -276,8 +276,8 @@ func (controller *Controller) UpdatePolygone(c *gin.Context) {
 	}
 
 	// update
-	polygoneDB.CopyBasicFieldsFromPolygone(&input.Polygone)
-	polygoneDB.PolygonePointersEnconding = input.PolygonePointersEnconding
+	polygoneDB.CopyBasicFieldsFromPolygone_WOP(&input.Polygone_WOP)
+	polygoneDB.PolygonePointersEncoding = input.PolygonePointersEncoding
 
 	query = db.Model(&polygoneDB).Updates(polygoneDB)
 	if query.Error != nil {

@@ -91,8 +91,8 @@ func (controller *Controller) GetFormFieldDates(c *gin.Context) {
 
 		// insertion point for updating fields
 		formfielddateAPI.ID = formfielddateDB.ID
-		formfielddateDB.CopyBasicFieldsToFormFieldDate(&formfielddateAPI.FormFieldDate)
-		formfielddateAPI.FormFieldDatePointersEnconding = formfielddateDB.FormFieldDatePointersEnconding
+		formfielddateDB.CopyBasicFieldsToFormFieldDate_WOP(&formfielddateAPI.FormFieldDate_WOP)
+		formfielddateAPI.FormFieldDatePointersEncoding = formfielddateDB.FormFieldDatePointersEncoding
 		formfielddateAPIs = append(formfielddateAPIs, formfielddateAPI)
 	}
 
@@ -147,8 +147,8 @@ func (controller *Controller) PostFormFieldDate(c *gin.Context) {
 
 	// Create formfielddate
 	formfielddateDB := orm.FormFieldDateDB{}
-	formfielddateDB.FormFieldDatePointersEnconding = input.FormFieldDatePointersEnconding
-	formfielddateDB.CopyBasicFieldsFromFormFieldDate(&input.FormFieldDate)
+	formfielddateDB.FormFieldDatePointersEncoding = input.FormFieldDatePointersEncoding
+	formfielddateDB.CopyBasicFieldsFromFormFieldDate_WOP(&input.FormFieldDate_WOP)
 
 	query := db.Create(&formfielddateDB)
 	if query.Error != nil {
@@ -217,8 +217,8 @@ func (controller *Controller) GetFormFieldDate(c *gin.Context) {
 
 	var formfielddateAPI orm.FormFieldDateAPI
 	formfielddateAPI.ID = formfielddateDB.ID
-	formfielddateAPI.FormFieldDatePointersEnconding = formfielddateDB.FormFieldDatePointersEnconding
-	formfielddateDB.CopyBasicFieldsToFormFieldDate(&formfielddateAPI.FormFieldDate)
+	formfielddateAPI.FormFieldDatePointersEncoding = formfielddateDB.FormFieldDatePointersEncoding
+	formfielddateDB.CopyBasicFieldsToFormFieldDate_WOP(&formfielddateAPI.FormFieldDate_WOP)
 
 	c.JSON(http.StatusOK, formfielddateAPI)
 }
@@ -276,8 +276,8 @@ func (controller *Controller) UpdateFormFieldDate(c *gin.Context) {
 	}
 
 	// update
-	formfielddateDB.CopyBasicFieldsFromFormFieldDate(&input.FormFieldDate)
-	formfielddateDB.FormFieldDatePointersEnconding = input.FormFieldDatePointersEnconding
+	formfielddateDB.CopyBasicFieldsFromFormFieldDate_WOP(&input.FormFieldDate_WOP)
+	formfielddateDB.FormFieldDatePointersEncoding = input.FormFieldDatePointersEncoding
 
 	query = db.Model(&formfielddateDB).Updates(formfielddateDB)
 	if query.Error != nil {

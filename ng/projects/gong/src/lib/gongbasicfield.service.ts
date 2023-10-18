@@ -85,8 +85,8 @@ export class GongBasicFieldService {
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
     let GongEnum = gongbasicfielddb.GongEnum
     gongbasicfielddb.GongEnum = new GongEnumDB
-    let _GongStruct_GongBasicFields_reverse = gongbasicfielddb.GongStruct_GongBasicFields_reverse
-    gongbasicfielddb.GongStruct_GongBasicFields_reverse = new GongStructDB
+    let _GongStruct_GongBasicFields_reverse = gongbasicfielddb.GongBasicFieldPointersEncoding.GongStruct_GongBasicFields_reverse
+    gongbasicfielddb.GongBasicFieldPointersEncoding.GongStruct_GongBasicFields_reverse = new GongStructDB
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -97,7 +97,7 @@ export class GongBasicFieldService {
     return this.http.post<GongBasicFieldDB>(this.gongbasicfieldsUrl, gongbasicfielddb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
-        gongbasicfielddb.GongStruct_GongBasicFields_reverse = _GongStruct_GongBasicFields_reverse
+        gongbasicfielddb.GongBasicFieldPointersEncoding.GongStruct_GongBasicFields_reverse = _GongStruct_GongBasicFields_reverse
         // this.log(`posted gongbasicfielddb id=${gongbasicfielddb.ID}`)
       }),
       catchError(this.handleError<GongBasicFieldDB>('postGongBasicField'))
@@ -135,8 +135,8 @@ export class GongBasicFieldService {
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
     let GongEnum = gongbasicfielddb.GongEnum
     gongbasicfielddb.GongEnum = new GongEnumDB
-    let _GongStruct_GongBasicFields_reverse = gongbasicfielddb.GongStruct_GongBasicFields_reverse
-    gongbasicfielddb.GongStruct_GongBasicFields_reverse = new GongStructDB
+    let _GongStruct_GongBasicFields_reverse = gongbasicfielddb.GongBasicFieldPointersEncoding.GongStruct_GongBasicFields_reverse
+    gongbasicfielddb.GongBasicFieldPointersEncoding.GongStruct_GongBasicFields_reverse = new GongStructDB
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -147,7 +147,7 @@ export class GongBasicFieldService {
     return this.http.put<GongBasicFieldDB>(url, gongbasicfielddb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
-        gongbasicfielddb.GongStruct_GongBasicFields_reverse = _GongStruct_GongBasicFields_reverse
+        gongbasicfielddb.GongBasicFieldPointersEncoding.GongStruct_GongBasicFields_reverse = _GongStruct_GongBasicFields_reverse
         // this.log(`updated gongbasicfielddb id=${gongbasicfielddb.ID}`)
       }),
       catchError(this.handleError<GongBasicFieldDB>('updateGongBasicField'))

@@ -28,12 +28,7 @@ func NewStackInstance(
 	stage *models.StageStruct,
 	backRepo *orm.BackRepoStruct) {
 
-	// temporary
-	if stackPath == "" {
-		stage = models.GetDefaultStage()
-	} else {
-		stage = models.NewStage(stackPath)
-	}
+	stage = models.NewStage(stackPath)
 
 	if len(filenames) == 0 {
 		filenames = append(filenames, ":memory:")

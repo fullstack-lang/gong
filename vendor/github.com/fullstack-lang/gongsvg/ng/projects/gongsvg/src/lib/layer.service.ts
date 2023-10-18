@@ -102,8 +102,8 @@ export class LayerService {
     layerdb.Links = []
     let RectLinkLinks = layerdb.RectLinkLinks
     layerdb.RectLinkLinks = []
-    let _SVG_Layers_reverse = layerdb.SVG_Layers_reverse
-    layerdb.SVG_Layers_reverse = new SVGDB
+    let _SVG_Layers_reverse = layerdb.LayerPointersEncoding.SVG_Layers_reverse
+    layerdb.LayerPointersEncoding.SVG_Layers_reverse = new SVGDB
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -124,7 +124,7 @@ export class LayerService {
 	      layerdb.Paths = Paths
 	      layerdb.Links = Links
 	      layerdb.RectLinkLinks = RectLinkLinks
-        layerdb.SVG_Layers_reverse = _SVG_Layers_reverse
+        layerdb.LayerPointersEncoding.SVG_Layers_reverse = _SVG_Layers_reverse
         // this.log(`posted layerdb id=${layerdb.ID}`)
       }),
       catchError(this.handleError<LayerDB>('postLayer'))
@@ -180,8 +180,8 @@ export class LayerService {
     layerdb.Links = []
     let RectLinkLinks = layerdb.RectLinkLinks
     layerdb.RectLinkLinks = []
-    let _SVG_Layers_reverse = layerdb.SVG_Layers_reverse
-    layerdb.SVG_Layers_reverse = new SVGDB
+    let _SVG_Layers_reverse = layerdb.LayerPointersEncoding.SVG_Layers_reverse
+    layerdb.LayerPointersEncoding.SVG_Layers_reverse = new SVGDB
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -202,7 +202,7 @@ export class LayerService {
 	      layerdb.Paths = Paths
 	      layerdb.Links = Links
 	      layerdb.RectLinkLinks = RectLinkLinks
-        layerdb.SVG_Layers_reverse = _SVG_Layers_reverse
+        layerdb.LayerPointersEncoding.SVG_Layers_reverse = _SVG_Layers_reverse
         // this.log(`updated layerdb id=${layerdb.ID}`)
       }),
       catchError(this.handleError<LayerDB>('updateLayer'))

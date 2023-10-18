@@ -84,8 +84,8 @@ export class EllipseService {
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
     let Animates = ellipsedb.Animates
     ellipsedb.Animates = []
-    let _Layer_Ellipses_reverse = ellipsedb.Layer_Ellipses_reverse
-    ellipsedb.Layer_Ellipses_reverse = new LayerDB
+    let _Layer_Ellipses_reverse = ellipsedb.EllipsePointersEncoding.Layer_Ellipses_reverse
+    ellipsedb.EllipsePointersEncoding.Layer_Ellipses_reverse = new LayerDB
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -97,7 +97,7 @@ export class EllipseService {
       tap(_ => {
         // insertion point for restoration of reverse pointers
 	      ellipsedb.Animates = Animates
-        ellipsedb.Layer_Ellipses_reverse = _Layer_Ellipses_reverse
+        ellipsedb.EllipsePointersEncoding.Layer_Ellipses_reverse = _Layer_Ellipses_reverse
         // this.log(`posted ellipsedb id=${ellipsedb.ID}`)
       }),
       catchError(this.handleError<EllipseDB>('postEllipse'))
@@ -135,8 +135,8 @@ export class EllipseService {
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
     let Animates = ellipsedb.Animates
     ellipsedb.Animates = []
-    let _Layer_Ellipses_reverse = ellipsedb.Layer_Ellipses_reverse
-    ellipsedb.Layer_Ellipses_reverse = new LayerDB
+    let _Layer_Ellipses_reverse = ellipsedb.EllipsePointersEncoding.Layer_Ellipses_reverse
+    ellipsedb.EllipsePointersEncoding.Layer_Ellipses_reverse = new LayerDB
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -148,7 +148,7 @@ export class EllipseService {
       tap(_ => {
         // insertion point for restoration of reverse pointers
 	      ellipsedb.Animates = Animates
-        ellipsedb.Layer_Ellipses_reverse = _Layer_Ellipses_reverse
+        ellipsedb.EllipsePointersEncoding.Layer_Ellipses_reverse = _Layer_Ellipses_reverse
         // this.log(`updated ellipsedb id=${ellipsedb.ID}`)
       }),
       catchError(this.handleError<EllipseDB>('updateEllipse'))

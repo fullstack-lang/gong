@@ -84,8 +84,8 @@ export class RowService {
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
     let Cells = rowdb.Cells
     rowdb.Cells = []
-    let _Table_Rows_reverse = rowdb.Table_Rows_reverse
-    rowdb.Table_Rows_reverse = new TableDB
+    let _Table_Rows_reverse = rowdb.RowPointersEncoding.Table_Rows_reverse
+    rowdb.RowPointersEncoding.Table_Rows_reverse = new TableDB
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -97,7 +97,7 @@ export class RowService {
       tap(_ => {
         // insertion point for restoration of reverse pointers
 	      rowdb.Cells = Cells
-        rowdb.Table_Rows_reverse = _Table_Rows_reverse
+        rowdb.RowPointersEncoding.Table_Rows_reverse = _Table_Rows_reverse
         // this.log(`posted rowdb id=${rowdb.ID}`)
       }),
       catchError(this.handleError<RowDB>('postRow'))
@@ -135,8 +135,8 @@ export class RowService {
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
     let Cells = rowdb.Cells
     rowdb.Cells = []
-    let _Table_Rows_reverse = rowdb.Table_Rows_reverse
-    rowdb.Table_Rows_reverse = new TableDB
+    let _Table_Rows_reverse = rowdb.RowPointersEncoding.Table_Rows_reverse
+    rowdb.RowPointersEncoding.Table_Rows_reverse = new TableDB
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -148,7 +148,7 @@ export class RowService {
       tap(_ => {
         // insertion point for restoration of reverse pointers
 	      rowdb.Cells = Cells
-        rowdb.Table_Rows_reverse = _Table_Rows_reverse
+        rowdb.RowPointersEncoding.Table_Rows_reverse = _Table_Rows_reverse
         // this.log(`updated rowdb id=${rowdb.ID}`)
       }),
       catchError(this.handleError<RowDB>('updateRow'))

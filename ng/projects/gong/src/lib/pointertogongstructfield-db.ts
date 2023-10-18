@@ -17,10 +17,18 @@ export class PointerToGongStructFieldDB {
 	Index: number = 0
 	CompositeStructName: string = ""
 
-	// insertion point for other declarations
+	// insertion point for pointers and slices of pointers declarations
 	GongStruct?: GongStructDB
+
+
+	PointerToGongStructFieldPointersEncoding: PointerToGongStructFieldPointersEncoding = new PointerToGongStructFieldPointersEncoding
+}
+
+export class PointerToGongStructFieldPointersEncoding {
+	// insertion point for pointers and slices of pointers encoding fields
 	GongStructID: NullInt64 = new NullInt64 // if pointer is null, GongStruct.ID = 0
 
+	// reverse pointers encoding (to be removed)
 	GongStruct_PointerToGongStructFieldsDBID: NullInt64 = new NullInt64
 	GongStruct_PointerToGongStructFieldsDBID_Index: NullInt64  = new NullInt64 // store the index of the pointertogongstructfield instance in GongStruct.PointerToGongStructFields
 	GongStruct_PointerToGongStructFields_reverse?: GongStructDB 

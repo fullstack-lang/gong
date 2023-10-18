@@ -82,8 +82,8 @@ export class MetaReferenceService {
   postMetaReference(metareferencedb: MetaReferenceDB, GONG__StackPath: string): Observable<MetaReferenceDB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
-    let _Meta_MetaReferences_reverse = metareferencedb.Meta_MetaReferences_reverse
-    metareferencedb.Meta_MetaReferences_reverse = new MetaDB
+    let _Meta_MetaReferences_reverse = metareferencedb.MetaReferencePointersEncoding.Meta_MetaReferences_reverse
+    metareferencedb.MetaReferencePointersEncoding.Meta_MetaReferences_reverse = new MetaDB
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -94,7 +94,7 @@ export class MetaReferenceService {
     return this.http.post<MetaReferenceDB>(this.metareferencesUrl, metareferencedb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
-        metareferencedb.Meta_MetaReferences_reverse = _Meta_MetaReferences_reverse
+        metareferencedb.MetaReferencePointersEncoding.Meta_MetaReferences_reverse = _Meta_MetaReferences_reverse
         // this.log(`posted metareferencedb id=${metareferencedb.ID}`)
       }),
       catchError(this.handleError<MetaReferenceDB>('postMetaReference'))
@@ -130,8 +130,8 @@ export class MetaReferenceService {
     const url = `${this.metareferencesUrl}/${id}`;
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
-    let _Meta_MetaReferences_reverse = metareferencedb.Meta_MetaReferences_reverse
-    metareferencedb.Meta_MetaReferences_reverse = new MetaDB
+    let _Meta_MetaReferences_reverse = metareferencedb.MetaReferencePointersEncoding.Meta_MetaReferences_reverse
+    metareferencedb.MetaReferencePointersEncoding.Meta_MetaReferences_reverse = new MetaDB
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -142,7 +142,7 @@ export class MetaReferenceService {
     return this.http.put<MetaReferenceDB>(url, metareferencedb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
-        metareferencedb.Meta_MetaReferences_reverse = _Meta_MetaReferences_reverse
+        metareferencedb.MetaReferencePointersEncoding.Meta_MetaReferences_reverse = _Meta_MetaReferences_reverse
         // this.log(`updated metareferencedb id=${metareferencedb.ID}`)
       }),
       catchError(this.handleError<MetaReferenceDB>('updateMetaReference'))

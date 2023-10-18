@@ -15,5 +15,11 @@ export class FormEditAssocButtonDB {
 	Name: string = ""
 	Label: string = ""
 
-	// insertion point for other declarations
+	// insertion point for pointers and slices of pointers declarations
+
+	FormEditAssocButtonPointersEncoding: FormEditAssocButtonPointersEncoding = new FormEditAssocButtonPointersEncoding
+}
+
+export class FormEditAssocButtonPointersEncoding {
+	// insertion point for pointers and slices of pointers encoding fields
 }

@@ -38,7 +38,7 @@ type GongLinkAPI struct {
 	models.GongLink_WOP
 
 	// encoding of pointers
-	GongLinkPointersEncoding
+	GongLinkPointersEncoding GongLinkPointersEncoding
 }
 
 // GongLinkPointersEncoding encodes pointers to Struct and
@@ -47,9 +47,11 @@ type GongLinkPointersEncoding struct {
 	// insertion for pointer fields encoding declaration
 
 	// Implementation of a reverse ID for field GongNote{}.Links []*GongLink
+	// (to be removed)
 	GongNote_LinksDBID sql.NullInt64
 
 	// implementation of the index of the withing the slice
+	// (to be removed)
 	GongNote_LinksDBID_Index sql.NullInt64
 }
 

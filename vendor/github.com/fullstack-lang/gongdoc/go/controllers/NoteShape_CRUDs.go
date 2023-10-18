@@ -91,8 +91,8 @@ func (controller *Controller) GetNoteShapes(c *gin.Context) {
 
 		// insertion point for updating fields
 		noteshapeAPI.ID = noteshapeDB.ID
-		noteshapeDB.CopyBasicFieldsToNoteShape(&noteshapeAPI.NoteShape)
-		noteshapeAPI.NoteShapePointersEnconding = noteshapeDB.NoteShapePointersEnconding
+		noteshapeDB.CopyBasicFieldsToNoteShape_WOP(&noteshapeAPI.NoteShape_WOP)
+		noteshapeAPI.NoteShapePointersEncoding = noteshapeDB.NoteShapePointersEncoding
 		noteshapeAPIs = append(noteshapeAPIs, noteshapeAPI)
 	}
 
@@ -147,8 +147,8 @@ func (controller *Controller) PostNoteShape(c *gin.Context) {
 
 	// Create noteshape
 	noteshapeDB := orm.NoteShapeDB{}
-	noteshapeDB.NoteShapePointersEnconding = input.NoteShapePointersEnconding
-	noteshapeDB.CopyBasicFieldsFromNoteShape(&input.NoteShape)
+	noteshapeDB.NoteShapePointersEncoding = input.NoteShapePointersEncoding
+	noteshapeDB.CopyBasicFieldsFromNoteShape_WOP(&input.NoteShape_WOP)
 
 	query := db.Create(&noteshapeDB)
 	if query.Error != nil {
@@ -217,8 +217,8 @@ func (controller *Controller) GetNoteShape(c *gin.Context) {
 
 	var noteshapeAPI orm.NoteShapeAPI
 	noteshapeAPI.ID = noteshapeDB.ID
-	noteshapeAPI.NoteShapePointersEnconding = noteshapeDB.NoteShapePointersEnconding
-	noteshapeDB.CopyBasicFieldsToNoteShape(&noteshapeAPI.NoteShape)
+	noteshapeAPI.NoteShapePointersEncoding = noteshapeDB.NoteShapePointersEncoding
+	noteshapeDB.CopyBasicFieldsToNoteShape_WOP(&noteshapeAPI.NoteShape_WOP)
 
 	c.JSON(http.StatusOK, noteshapeAPI)
 }
@@ -276,8 +276,8 @@ func (controller *Controller) UpdateNoteShape(c *gin.Context) {
 	}
 
 	// update
-	noteshapeDB.CopyBasicFieldsFromNoteShape(&input.NoteShape)
-	noteshapeDB.NoteShapePointersEnconding = input.NoteShapePointersEnconding
+	noteshapeDB.CopyBasicFieldsFromNoteShape_WOP(&input.NoteShape_WOP)
+	noteshapeDB.NoteShapePointersEncoding = input.NoteShapePointersEncoding
 
 	query = db.Model(&noteshapeDB).Updates(noteshapeDB)
 	if query.Error != nil {

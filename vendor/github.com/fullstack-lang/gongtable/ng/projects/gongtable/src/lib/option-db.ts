@@ -15,7 +15,14 @@ export class OptionDB {
 	// insertion point for basic fields declarations
 	Name: string = ""
 
-	// insertion point for other declarations
+	// insertion point for pointers and slices of pointers declarations
+
+	OptionPointersEncoding: OptionPointersEncoding = new OptionPointersEncoding
+}
+
+export class OptionPointersEncoding {
+	// insertion point for pointers and slices of pointers encoding fields
+	// reverse pointers encoding (to be removed)
 	FormFieldSelect_OptionsDBID: NullInt64 = new NullInt64
 	FormFieldSelect_OptionsDBID_Index: NullInt64  = new NullInt64 // store the index of the option instance in FormFieldSelect.Options
 	FormFieldSelect_Options_reverse?: FormFieldSelectDB 

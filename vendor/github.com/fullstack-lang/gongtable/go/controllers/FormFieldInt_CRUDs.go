@@ -91,8 +91,8 @@ func (controller *Controller) GetFormFieldInts(c *gin.Context) {
 
 		// insertion point for updating fields
 		formfieldintAPI.ID = formfieldintDB.ID
-		formfieldintDB.CopyBasicFieldsToFormFieldInt(&formfieldintAPI.FormFieldInt)
-		formfieldintAPI.FormFieldIntPointersEnconding = formfieldintDB.FormFieldIntPointersEnconding
+		formfieldintDB.CopyBasicFieldsToFormFieldInt_WOP(&formfieldintAPI.FormFieldInt_WOP)
+		formfieldintAPI.FormFieldIntPointersEncoding = formfieldintDB.FormFieldIntPointersEncoding
 		formfieldintAPIs = append(formfieldintAPIs, formfieldintAPI)
 	}
 
@@ -147,8 +147,8 @@ func (controller *Controller) PostFormFieldInt(c *gin.Context) {
 
 	// Create formfieldint
 	formfieldintDB := orm.FormFieldIntDB{}
-	formfieldintDB.FormFieldIntPointersEnconding = input.FormFieldIntPointersEnconding
-	formfieldintDB.CopyBasicFieldsFromFormFieldInt(&input.FormFieldInt)
+	formfieldintDB.FormFieldIntPointersEncoding = input.FormFieldIntPointersEncoding
+	formfieldintDB.CopyBasicFieldsFromFormFieldInt_WOP(&input.FormFieldInt_WOP)
 
 	query := db.Create(&formfieldintDB)
 	if query.Error != nil {
@@ -217,8 +217,8 @@ func (controller *Controller) GetFormFieldInt(c *gin.Context) {
 
 	var formfieldintAPI orm.FormFieldIntAPI
 	formfieldintAPI.ID = formfieldintDB.ID
-	formfieldintAPI.FormFieldIntPointersEnconding = formfieldintDB.FormFieldIntPointersEnconding
-	formfieldintDB.CopyBasicFieldsToFormFieldInt(&formfieldintAPI.FormFieldInt)
+	formfieldintAPI.FormFieldIntPointersEncoding = formfieldintDB.FormFieldIntPointersEncoding
+	formfieldintDB.CopyBasicFieldsToFormFieldInt_WOP(&formfieldintAPI.FormFieldInt_WOP)
 
 	c.JSON(http.StatusOK, formfieldintAPI)
 }
@@ -276,8 +276,8 @@ func (controller *Controller) UpdateFormFieldInt(c *gin.Context) {
 	}
 
 	// update
-	formfieldintDB.CopyBasicFieldsFromFormFieldInt(&input.FormFieldInt)
-	formfieldintDB.FormFieldIntPointersEnconding = input.FormFieldIntPointersEnconding
+	formfieldintDB.CopyBasicFieldsFromFormFieldInt_WOP(&input.FormFieldInt_WOP)
+	formfieldintDB.FormFieldIntPointersEncoding = input.FormFieldIntPointersEncoding
 
 	query = db.Model(&formfieldintDB).Updates(formfieldintDB)
 	if query.Error != nil {

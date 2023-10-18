@@ -35,21 +35,23 @@ var dummy_DisplayedColumn_sort sort.Float64Slice
 type DisplayedColumnAPI struct {
 	gorm.Model
 
-	models.DisplayedColumn
+	models.DisplayedColumn_WOP
 
 	// encoding of pointers
-	DisplayedColumnPointersEnconding
+	DisplayedColumnPointersEncoding DisplayedColumnPointersEncoding
 }
 
-// DisplayedColumnPointersEnconding encodes pointers to Struct and
+// DisplayedColumnPointersEncoding encodes pointers to Struct and
 // reverse pointers of slice of poitners to Struct
-type DisplayedColumnPointersEnconding struct {
+type DisplayedColumnPointersEncoding struct {
 	// insertion for pointer fields encoding declaration
 
 	// Implementation of a reverse ID for field Table{}.DisplayedColumns []*DisplayedColumn
+	// (to be removed)
 	Table_DisplayedColumnsDBID sql.NullInt64
 
 	// implementation of the index of the withing the slice
+	// (to be removed)
 	Table_DisplayedColumnsDBID_Index sql.NullInt64
 }
 
@@ -67,7 +69,7 @@ type DisplayedColumnDB struct {
 	// Declation for basic field displayedcolumnDB.Name
 	Name_Data sql.NullString
 	// encoding of pointers
-	DisplayedColumnPointersEnconding
+	DisplayedColumnPointersEncoding
 }
 
 // DisplayedColumnDBs arrays displayedcolumnDBs
@@ -156,7 +158,7 @@ func (backRepoDisplayedColumn *BackRepoDisplayedColumnStruct) CommitDeleteInstan
 	displayedcolumnDB := backRepoDisplayedColumn.Map_DisplayedColumnDBID_DisplayedColumnDB[id]
 	query := backRepoDisplayedColumn.db.Unscoped().Delete(&displayedcolumnDB)
 	if query.Error != nil {
-		return query.Error
+		log.Fatal(query.Error)
 	}
 
 	// update stores
@@ -182,7 +184,7 @@ func (backRepoDisplayedColumn *BackRepoDisplayedColumnStruct) CommitPhaseOneInst
 
 	query := backRepoDisplayedColumn.db.Create(&displayedcolumnDB)
 	if query.Error != nil {
-		return query.Error
+		log.Fatal(query.Error)
 	}
 
 	// update stores
@@ -216,7 +218,7 @@ func (backRepoDisplayedColumn *BackRepoDisplayedColumnStruct) CommitPhaseTwoInst
 		// insertion point for translating pointers encodings into actual pointers
 		query := backRepoDisplayedColumn.db.Save(&displayedcolumnDB)
 		if query.Error != nil {
-			return query.Error
+			log.Fatalln(query.Error)
 		}
 
 	} else {
@@ -343,7 +345,7 @@ func (backRepo *BackRepoStruct) CheckoutDisplayedColumn(displayedcolumn *models.
 			displayedcolumnDB.ID = id
 
 			if err := backRepo.BackRepoDisplayedColumn.db.First(&displayedcolumnDB, id).Error; err != nil {
-				log.Panicln("CheckoutDisplayedColumn : Problem with getting object with id:", id)
+				log.Fatalln("CheckoutDisplayedColumn : Problem with getting object with id:", id)
 			}
 			backRepo.BackRepoDisplayedColumn.CheckoutPhaseOneInstance(&displayedcolumnDB)
 			backRepo.BackRepoDisplayedColumn.CheckoutPhaseTwoInstance(backRepo, &displayedcolumnDB)
@@ -353,6 +355,14 @@ func (backRepo *BackRepoStruct) CheckoutDisplayedColumn(displayedcolumn *models.
 
 // CopyBasicFieldsFromDisplayedColumn
 func (displayedcolumnDB *DisplayedColumnDB) CopyBasicFieldsFromDisplayedColumn(displayedcolumn *models.DisplayedColumn) {
+	// insertion point for fields commit
+
+	displayedcolumnDB.Name_Data.String = displayedcolumn.Name
+	displayedcolumnDB.Name_Data.Valid = true
+}
+
+// CopyBasicFieldsFromDisplayedColumn_WOP
+func (displayedcolumnDB *DisplayedColumnDB) CopyBasicFieldsFromDisplayedColumn_WOP(displayedcolumn *models.DisplayedColumn_WOP) {
 	// insertion point for fields commit
 
 	displayedcolumnDB.Name_Data.String = displayedcolumn.Name
@@ -369,6 +379,12 @@ func (displayedcolumnDB *DisplayedColumnDB) CopyBasicFieldsFromDisplayedColumnWO
 
 // CopyBasicFieldsToDisplayedColumn
 func (displayedcolumnDB *DisplayedColumnDB) CopyBasicFieldsToDisplayedColumn(displayedcolumn *models.DisplayedColumn) {
+	// insertion point for checkout of basic fields (back repo to stage)
+	displayedcolumn.Name = displayedcolumnDB.Name_Data.String
+}
+
+// CopyBasicFieldsToDisplayedColumn_WOP
+func (displayedcolumnDB *DisplayedColumnDB) CopyBasicFieldsToDisplayedColumn_WOP(displayedcolumn *models.DisplayedColumn_WOP) {
 	// insertion point for checkout of basic fields (back repo to stage)
 	displayedcolumn.Name = displayedcolumnDB.Name_Data.String
 }
@@ -399,12 +415,12 @@ func (backRepoDisplayedColumn *BackRepoDisplayedColumnStruct) Backup(dirPath str
 	file, err := json.MarshalIndent(forBackup, "", " ")
 
 	if err != nil {
-		log.Panic("Cannot json DisplayedColumn ", filename, " ", err.Error())
+		log.Fatal("Cannot json DisplayedColumn ", filename, " ", err.Error())
 	}
 
 	err = ioutil.WriteFile(filename, file, 0644)
 	if err != nil {
-		log.Panic("Cannot write the json DisplayedColumn file", err.Error())
+		log.Fatal("Cannot write the json DisplayedColumn file", err.Error())
 	}
 }
 
@@ -424,7 +440,7 @@ func (backRepoDisplayedColumn *BackRepoDisplayedColumnStruct) BackupXL(file *xls
 
 	sh, err := file.AddSheet("DisplayedColumn")
 	if err != nil {
-		log.Panic("Cannot add XL file", err.Error())
+		log.Fatal("Cannot add XL file", err.Error())
 	}
 	_ = sh
 
@@ -449,13 +465,13 @@ func (backRepoDisplayedColumn *BackRepoDisplayedColumnStruct) RestoreXLPhaseOne(
 	sh, ok := file.Sheet["DisplayedColumn"]
 	_ = sh
 	if !ok {
-		log.Panic(errors.New("sheet not found"))
+		log.Fatal(errors.New("sheet not found"))
 	}
 
 	// log.Println("Max row is", sh.MaxRow)
 	err := sh.ForEachRow(backRepoDisplayedColumn.rowVisitorDisplayedColumn)
 	if err != nil {
-		log.Panic("Err=", err)
+		log.Fatal("Err=", err)
 	}
 }
 
@@ -477,7 +493,7 @@ func (backRepoDisplayedColumn *BackRepoDisplayedColumnStruct) rowVisitorDisplaye
 		displayedcolumnDB.ID = 0
 		query := backRepoDisplayedColumn.db.Create(displayedcolumnDB)
 		if query.Error != nil {
-			log.Panic(query.Error)
+			log.Fatal(query.Error)
 		}
 		backRepoDisplayedColumn.Map_DisplayedColumnDBID_DisplayedColumnDB[displayedcolumnDB.ID] = displayedcolumnDB
 		BackRepoDisplayedColumnid_atBckpTime_newID[displayedcolumnDB_ID_atBackupTime] = displayedcolumnDB.ID
@@ -497,7 +513,7 @@ func (backRepoDisplayedColumn *BackRepoDisplayedColumnStruct) RestorePhaseOne(di
 	jsonFile, err := os.Open(filename)
 	// if we os.Open returns an error then handle it
 	if err != nil {
-		log.Panic("Cannot restore/open the json DisplayedColumn file", filename, " ", err.Error())
+		log.Fatal("Cannot restore/open the json DisplayedColumn file", filename, " ", err.Error())
 	}
 
 	// read our opened jsonFile as a byte array.
@@ -514,14 +530,14 @@ func (backRepoDisplayedColumn *BackRepoDisplayedColumnStruct) RestorePhaseOne(di
 		displayedcolumnDB.ID = 0
 		query := backRepoDisplayedColumn.db.Create(displayedcolumnDB)
 		if query.Error != nil {
-			log.Panic(query.Error)
+			log.Fatal(query.Error)
 		}
 		backRepoDisplayedColumn.Map_DisplayedColumnDBID_DisplayedColumnDB[displayedcolumnDB.ID] = displayedcolumnDB
 		BackRepoDisplayedColumnid_atBckpTime_newID[displayedcolumnDB_ID_atBackupTime] = displayedcolumnDB.ID
 	}
 
 	if err != nil {
-		log.Panic("Cannot restore/unmarshall json DisplayedColumn file", err.Error())
+		log.Fatal("Cannot restore/unmarshall json DisplayedColumn file", err.Error())
 	}
 }
 
@@ -544,7 +560,7 @@ func (backRepoDisplayedColumn *BackRepoDisplayedColumnStruct) RestorePhaseTwo() 
 		// update databse with new index encoding
 		query := backRepoDisplayedColumn.db.Model(displayedcolumnDB).Updates(*displayedcolumnDB)
 		if query.Error != nil {
-			log.Panic(query.Error)
+			log.Fatal(query.Error)
 		}
 	}
 

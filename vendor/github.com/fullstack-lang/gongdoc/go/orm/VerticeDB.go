@@ -35,15 +35,15 @@ var dummy_Vertice_sort sort.Float64Slice
 type VerticeAPI struct {
 	gorm.Model
 
-	models.Vertice
+	models.Vertice_WOP
 
 	// encoding of pointers
-	VerticePointersEnconding
+	VerticePointersEncoding VerticePointersEncoding
 }
 
-// VerticePointersEnconding encodes pointers to Struct and
+// VerticePointersEncoding encodes pointers to Struct and
 // reverse pointers of slice of poitners to Struct
-type VerticePointersEnconding struct {
+type VerticePointersEncoding struct {
 	// insertion for pointer fields encoding declaration
 }
 
@@ -67,7 +67,7 @@ type VerticeDB struct {
 	// Declation for basic field verticeDB.Name
 	Name_Data sql.NullString
 	// encoding of pointers
-	VerticePointersEnconding
+	VerticePointersEncoding
 }
 
 // VerticeDBs arrays verticeDBs
@@ -162,7 +162,7 @@ func (backRepoVertice *BackRepoVerticeStruct) CommitDeleteInstance(id uint) (Err
 	verticeDB := backRepoVertice.Map_VerticeDBID_VerticeDB[id]
 	query := backRepoVertice.db.Unscoped().Delete(&verticeDB)
 	if query.Error != nil {
-		return query.Error
+		log.Fatal(query.Error)
 	}
 
 	// update stores
@@ -188,7 +188,7 @@ func (backRepoVertice *BackRepoVerticeStruct) CommitPhaseOneInstance(vertice *mo
 
 	query := backRepoVertice.db.Create(&verticeDB)
 	if query.Error != nil {
-		return query.Error
+		log.Fatal(query.Error)
 	}
 
 	// update stores
@@ -222,7 +222,7 @@ func (backRepoVertice *BackRepoVerticeStruct) CommitPhaseTwoInstance(backRepo *B
 		// insertion point for translating pointers encodings into actual pointers
 		query := backRepoVertice.db.Save(&verticeDB)
 		if query.Error != nil {
-			return query.Error
+			log.Fatalln(query.Error)
 		}
 
 	} else {
@@ -349,7 +349,7 @@ func (backRepo *BackRepoStruct) CheckoutVertice(vertice *models.Vertice) {
 			verticeDB.ID = id
 
 			if err := backRepo.BackRepoVertice.db.First(&verticeDB, id).Error; err != nil {
-				log.Panicln("CheckoutVertice : Problem with getting object with id:", id)
+				log.Fatalln("CheckoutVertice : Problem with getting object with id:", id)
 			}
 			backRepo.BackRepoVertice.CheckoutPhaseOneInstance(&verticeDB)
 			backRepo.BackRepoVertice.CheckoutPhaseTwoInstance(backRepo, &verticeDB)
@@ -359,6 +359,20 @@ func (backRepo *BackRepoStruct) CheckoutVertice(vertice *models.Vertice) {
 
 // CopyBasicFieldsFromVertice
 func (verticeDB *VerticeDB) CopyBasicFieldsFromVertice(vertice *models.Vertice) {
+	// insertion point for fields commit
+
+	verticeDB.X_Data.Float64 = vertice.X
+	verticeDB.X_Data.Valid = true
+
+	verticeDB.Y_Data.Float64 = vertice.Y
+	verticeDB.Y_Data.Valid = true
+
+	verticeDB.Name_Data.String = vertice.Name
+	verticeDB.Name_Data.Valid = true
+}
+
+// CopyBasicFieldsFromVertice_WOP
+func (verticeDB *VerticeDB) CopyBasicFieldsFromVertice_WOP(vertice *models.Vertice_WOP) {
 	// insertion point for fields commit
 
 	verticeDB.X_Data.Float64 = vertice.X
@@ -393,6 +407,14 @@ func (verticeDB *VerticeDB) CopyBasicFieldsToVertice(vertice *models.Vertice) {
 	vertice.Name = verticeDB.Name_Data.String
 }
 
+// CopyBasicFieldsToVertice_WOP
+func (verticeDB *VerticeDB) CopyBasicFieldsToVertice_WOP(vertice *models.Vertice_WOP) {
+	// insertion point for checkout of basic fields (back repo to stage)
+	vertice.X = verticeDB.X_Data.Float64
+	vertice.Y = verticeDB.Y_Data.Float64
+	vertice.Name = verticeDB.Name_Data.String
+}
+
 // CopyBasicFieldsToVerticeWOP
 func (verticeDB *VerticeDB) CopyBasicFieldsToVerticeWOP(vertice *VerticeWOP) {
 	vertice.ID = int(verticeDB.ID)
@@ -421,12 +443,12 @@ func (backRepoVertice *BackRepoVerticeStruct) Backup(dirPath string) {
 	file, err := json.MarshalIndent(forBackup, "", " ")
 
 	if err != nil {
-		log.Panic("Cannot json Vertice ", filename, " ", err.Error())
+		log.Fatal("Cannot json Vertice ", filename, " ", err.Error())
 	}
 
 	err = ioutil.WriteFile(filename, file, 0644)
 	if err != nil {
-		log.Panic("Cannot write the json Vertice file", err.Error())
+		log.Fatal("Cannot write the json Vertice file", err.Error())
 	}
 }
 
@@ -446,7 +468,7 @@ func (backRepoVertice *BackRepoVerticeStruct) BackupXL(file *xlsx.File) {
 
 	sh, err := file.AddSheet("Vertice")
 	if err != nil {
-		log.Panic("Cannot add XL file", err.Error())
+		log.Fatal("Cannot add XL file", err.Error())
 	}
 	_ = sh
 
@@ -471,13 +493,13 @@ func (backRepoVertice *BackRepoVerticeStruct) RestoreXLPhaseOne(file *xlsx.File)
 	sh, ok := file.Sheet["Vertice"]
 	_ = sh
 	if !ok {
-		log.Panic(errors.New("sheet not found"))
+		log.Fatal(errors.New("sheet not found"))
 	}
 
 	// log.Println("Max row is", sh.MaxRow)
 	err := sh.ForEachRow(backRepoVertice.rowVisitorVertice)
 	if err != nil {
-		log.Panic("Err=", err)
+		log.Fatal("Err=", err)
 	}
 }
 
@@ -499,7 +521,7 @@ func (backRepoVertice *BackRepoVerticeStruct) rowVisitorVertice(row *xlsx.Row) e
 		verticeDB.ID = 0
 		query := backRepoVertice.db.Create(verticeDB)
 		if query.Error != nil {
-			log.Panic(query.Error)
+			log.Fatal(query.Error)
 		}
 		backRepoVertice.Map_VerticeDBID_VerticeDB[verticeDB.ID] = verticeDB
 		BackRepoVerticeid_atBckpTime_newID[verticeDB_ID_atBackupTime] = verticeDB.ID
@@ -519,7 +541,7 @@ func (backRepoVertice *BackRepoVerticeStruct) RestorePhaseOne(dirPath string) {
 	jsonFile, err := os.Open(filename)
 	// if we os.Open returns an error then handle it
 	if err != nil {
-		log.Panic("Cannot restore/open the json Vertice file", filename, " ", err.Error())
+		log.Fatal("Cannot restore/open the json Vertice file", filename, " ", err.Error())
 	}
 
 	// read our opened jsonFile as a byte array.
@@ -536,14 +558,14 @@ func (backRepoVertice *BackRepoVerticeStruct) RestorePhaseOne(dirPath string) {
 		verticeDB.ID = 0
 		query := backRepoVertice.db.Create(verticeDB)
 		if query.Error != nil {
-			log.Panic(query.Error)
+			log.Fatal(query.Error)
 		}
 		backRepoVertice.Map_VerticeDBID_VerticeDB[verticeDB.ID] = verticeDB
 		BackRepoVerticeid_atBckpTime_newID[verticeDB_ID_atBackupTime] = verticeDB.ID
 	}
 
 	if err != nil {
-		log.Panic("Cannot restore/unmarshall json Vertice file", err.Error())
+		log.Fatal("Cannot restore/unmarshall json Vertice file", err.Error())
 	}
 }
 
@@ -560,7 +582,7 @@ func (backRepoVertice *BackRepoVerticeStruct) RestorePhaseTwo() {
 		// update databse with new index encoding
 		query := backRepoVertice.db.Model(verticeDB).Updates(*verticeDB)
 		if query.Error != nil {
-			log.Panic(query.Error)
+			log.Fatal(query.Error)
 		}
 	}
 

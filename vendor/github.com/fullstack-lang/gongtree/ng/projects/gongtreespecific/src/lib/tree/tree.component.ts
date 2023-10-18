@@ -149,11 +149,6 @@ export class TreeComponent implements OnInit {
           return
         }
 
-        // sort the nodes by their index, and sort their buttons as well
-        treeSingloton.RootNodes.sort((a, b) =>
-          (a.Tree_RootNodesDBID_Index.Int64 >
-            b.Tree_RootNodesDBID_Index.Int64) ? 1 : -1)
-
         var rootNodes = new Array<Node>()
 
         if (treeSingloton.RootNodes != undefined) {
@@ -174,10 +169,6 @@ export class TreeComponent implements OnInit {
               if (gongNode.Buttons.length > 0) {
                 console.log("Button", gongNode.Name)
               }
-
-              gongNode.Buttons.sort((a, b) =>
-                (a.Node_ButtonsDBID_Index.Int64 >
-                  b.Node_ButtonsDBID_Index.Int64) ? 1 : -1)
             }
 
             if (node.gongNode.IsExpanded) {

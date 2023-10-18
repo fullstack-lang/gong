@@ -38,7 +38,7 @@ type MetaAPI struct {
 	models.Meta_WOP
 
 	// encoding of pointers
-	MetaPointersEncoding
+	MetaPointersEncoding MetaPointersEncoding
 }
 
 // MetaPointersEncoding encodes pointers to Struct and
@@ -47,7 +47,7 @@ type MetaPointersEncoding struct {
 	// insertion for pointer fields encoding declaration
 
 	// field MetaReferences is a slice of pointers to another Struct (optional or 0..1)
-	MetaReferences IntSlice`gorm:"type:TEXT"`
+	MetaReferences IntSlice `gorm:"type:TEXT"`
 }
 
 // MetaDB describes a meta in the database
@@ -227,6 +227,7 @@ func (backRepoMeta *BackRepoMetaStruct) CommitPhaseTwoInstance(backRepo *BackRep
 				backRepo.BackRepoMetaReference.GetMetaReferenceDBFromMetaReferencePtr(metareferenceAssocEnd)
 
 			// encode reverse pointer in the association end back repo instance
+			// (to be removed)
 			metareferenceAssocEnd_DB.Meta_MetaReferencesDBID.Int64 = int64(metaDB.ID)
 			metareferenceAssocEnd_DB.Meta_MetaReferencesDBID.Valid = true
 			metareferenceAssocEnd_DB.Meta_MetaReferencesDBID_Index.Int64 = int64(idx)

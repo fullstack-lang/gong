@@ -42,10 +42,20 @@ export class RectDB {
 	CanMoveHorizontaly: boolean = false
 	CanMoveVerticaly: boolean = false
 
-	// insertion point for other declarations
-	Animations?: Array<AnimateDB>
-	RectAnchoredTexts?: Array<RectAnchoredTextDB>
-	RectAnchoredRects?: Array<RectAnchoredRectDB>
+	// insertion point for pointers and slices of pointers declarations
+	Animations: Array<AnimateDB> = []
+	RectAnchoredTexts: Array<RectAnchoredTextDB> = []
+	RectAnchoredRects: Array<RectAnchoredRectDB> = []
+
+	RectPointersEncoding: RectPointersEncoding = new RectPointersEncoding
+}
+
+export class RectPointersEncoding {
+	// insertion point for pointers and slices of pointers encoding fields
+	Animations: number[] = []
+	RectAnchoredTexts: number[] = []
+	RectAnchoredRects: number[] = []
+	// reverse pointers encoding (to be removed)
 	Layer_RectsDBID: NullInt64 = new NullInt64
 	Layer_RectsDBID_Index: NullInt64  = new NullInt64 // store the index of the rect instance in Layer.Rects
 	Layer_Rects_reverse?: LayerDB 

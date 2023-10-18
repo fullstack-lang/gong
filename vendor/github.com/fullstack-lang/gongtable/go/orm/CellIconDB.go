@@ -35,15 +35,15 @@ var dummy_CellIcon_sort sort.Float64Slice
 type CellIconAPI struct {
 	gorm.Model
 
-	models.CellIcon
+	models.CellIcon_WOP
 
 	// encoding of pointers
-	CellIconPointersEnconding
+	CellIconPointersEncoding CellIconPointersEncoding
 }
 
-// CellIconPointersEnconding encodes pointers to Struct and
+// CellIconPointersEncoding encodes pointers to Struct and
 // reverse pointers of slice of poitners to Struct
-type CellIconPointersEnconding struct {
+type CellIconPointersEncoding struct {
 	// insertion for pointer fields encoding declaration
 }
 
@@ -64,7 +64,7 @@ type CellIconDB struct {
 	// Declation for basic field celliconDB.Icon
 	Icon_Data sql.NullString
 	// encoding of pointers
-	CellIconPointersEnconding
+	CellIconPointersEncoding
 }
 
 // CellIconDBs arrays celliconDBs
@@ -156,7 +156,7 @@ func (backRepoCellIcon *BackRepoCellIconStruct) CommitDeleteInstance(id uint) (E
 	celliconDB := backRepoCellIcon.Map_CellIconDBID_CellIconDB[id]
 	query := backRepoCellIcon.db.Unscoped().Delete(&celliconDB)
 	if query.Error != nil {
-		return query.Error
+		log.Fatal(query.Error)
 	}
 
 	// update stores
@@ -182,7 +182,7 @@ func (backRepoCellIcon *BackRepoCellIconStruct) CommitPhaseOneInstance(cellicon 
 
 	query := backRepoCellIcon.db.Create(&celliconDB)
 	if query.Error != nil {
-		return query.Error
+		log.Fatal(query.Error)
 	}
 
 	// update stores
@@ -216,7 +216,7 @@ func (backRepoCellIcon *BackRepoCellIconStruct) CommitPhaseTwoInstance(backRepo 
 		// insertion point for translating pointers encodings into actual pointers
 		query := backRepoCellIcon.db.Save(&celliconDB)
 		if query.Error != nil {
-			return query.Error
+			log.Fatalln(query.Error)
 		}
 
 	} else {
@@ -343,7 +343,7 @@ func (backRepo *BackRepoStruct) CheckoutCellIcon(cellicon *models.CellIcon) {
 			celliconDB.ID = id
 
 			if err := backRepo.BackRepoCellIcon.db.First(&celliconDB, id).Error; err != nil {
-				log.Panicln("CheckoutCellIcon : Problem with getting object with id:", id)
+				log.Fatalln("CheckoutCellIcon : Problem with getting object with id:", id)
 			}
 			backRepo.BackRepoCellIcon.CheckoutPhaseOneInstance(&celliconDB)
 			backRepo.BackRepoCellIcon.CheckoutPhaseTwoInstance(backRepo, &celliconDB)
@@ -353,6 +353,17 @@ func (backRepo *BackRepoStruct) CheckoutCellIcon(cellicon *models.CellIcon) {
 
 // CopyBasicFieldsFromCellIcon
 func (celliconDB *CellIconDB) CopyBasicFieldsFromCellIcon(cellicon *models.CellIcon) {
+	// insertion point for fields commit
+
+	celliconDB.Name_Data.String = cellicon.Name
+	celliconDB.Name_Data.Valid = true
+
+	celliconDB.Icon_Data.String = cellicon.Icon
+	celliconDB.Icon_Data.Valid = true
+}
+
+// CopyBasicFieldsFromCellIcon_WOP
+func (celliconDB *CellIconDB) CopyBasicFieldsFromCellIcon_WOP(cellicon *models.CellIcon_WOP) {
 	// insertion point for fields commit
 
 	celliconDB.Name_Data.String = cellicon.Name
@@ -375,6 +386,13 @@ func (celliconDB *CellIconDB) CopyBasicFieldsFromCellIconWOP(cellicon *CellIconW
 
 // CopyBasicFieldsToCellIcon
 func (celliconDB *CellIconDB) CopyBasicFieldsToCellIcon(cellicon *models.CellIcon) {
+	// insertion point for checkout of basic fields (back repo to stage)
+	cellicon.Name = celliconDB.Name_Data.String
+	cellicon.Icon = celliconDB.Icon_Data.String
+}
+
+// CopyBasicFieldsToCellIcon_WOP
+func (celliconDB *CellIconDB) CopyBasicFieldsToCellIcon_WOP(cellicon *models.CellIcon_WOP) {
 	// insertion point for checkout of basic fields (back repo to stage)
 	cellicon.Name = celliconDB.Name_Data.String
 	cellicon.Icon = celliconDB.Icon_Data.String
@@ -407,12 +425,12 @@ func (backRepoCellIcon *BackRepoCellIconStruct) Backup(dirPath string) {
 	file, err := json.MarshalIndent(forBackup, "", " ")
 
 	if err != nil {
-		log.Panic("Cannot json CellIcon ", filename, " ", err.Error())
+		log.Fatal("Cannot json CellIcon ", filename, " ", err.Error())
 	}
 
 	err = ioutil.WriteFile(filename, file, 0644)
 	if err != nil {
-		log.Panic("Cannot write the json CellIcon file", err.Error())
+		log.Fatal("Cannot write the json CellIcon file", err.Error())
 	}
 }
 
@@ -432,7 +450,7 @@ func (backRepoCellIcon *BackRepoCellIconStruct) BackupXL(file *xlsx.File) {
 
 	sh, err := file.AddSheet("CellIcon")
 	if err != nil {
-		log.Panic("Cannot add XL file", err.Error())
+		log.Fatal("Cannot add XL file", err.Error())
 	}
 	_ = sh
 
@@ -457,13 +475,13 @@ func (backRepoCellIcon *BackRepoCellIconStruct) RestoreXLPhaseOne(file *xlsx.Fil
 	sh, ok := file.Sheet["CellIcon"]
 	_ = sh
 	if !ok {
-		log.Panic(errors.New("sheet not found"))
+		log.Fatal(errors.New("sheet not found"))
 	}
 
 	// log.Println("Max row is", sh.MaxRow)
 	err := sh.ForEachRow(backRepoCellIcon.rowVisitorCellIcon)
 	if err != nil {
-		log.Panic("Err=", err)
+		log.Fatal("Err=", err)
 	}
 }
 
@@ -485,7 +503,7 @@ func (backRepoCellIcon *BackRepoCellIconStruct) rowVisitorCellIcon(row *xlsx.Row
 		celliconDB.ID = 0
 		query := backRepoCellIcon.db.Create(celliconDB)
 		if query.Error != nil {
-			log.Panic(query.Error)
+			log.Fatal(query.Error)
 		}
 		backRepoCellIcon.Map_CellIconDBID_CellIconDB[celliconDB.ID] = celliconDB
 		BackRepoCellIconid_atBckpTime_newID[celliconDB_ID_atBackupTime] = celliconDB.ID
@@ -505,7 +523,7 @@ func (backRepoCellIcon *BackRepoCellIconStruct) RestorePhaseOne(dirPath string) 
 	jsonFile, err := os.Open(filename)
 	// if we os.Open returns an error then handle it
 	if err != nil {
-		log.Panic("Cannot restore/open the json CellIcon file", filename, " ", err.Error())
+		log.Fatal("Cannot restore/open the json CellIcon file", filename, " ", err.Error())
 	}
 
 	// read our opened jsonFile as a byte array.
@@ -522,14 +540,14 @@ func (backRepoCellIcon *BackRepoCellIconStruct) RestorePhaseOne(dirPath string) 
 		celliconDB.ID = 0
 		query := backRepoCellIcon.db.Create(celliconDB)
 		if query.Error != nil {
-			log.Panic(query.Error)
+			log.Fatal(query.Error)
 		}
 		backRepoCellIcon.Map_CellIconDBID_CellIconDB[celliconDB.ID] = celliconDB
 		BackRepoCellIconid_atBckpTime_newID[celliconDB_ID_atBackupTime] = celliconDB.ID
 	}
 
 	if err != nil {
-		log.Panic("Cannot restore/unmarshall json CellIcon file", err.Error())
+		log.Fatal("Cannot restore/unmarshall json CellIcon file", err.Error())
 	}
 }
 
@@ -546,7 +564,7 @@ func (backRepoCellIcon *BackRepoCellIconStruct) RestorePhaseTwo() {
 		// update databse with new index encoding
 		query := backRepoCellIcon.db.Model(celliconDB).Updates(*celliconDB)
 		if query.Error != nil {
-			log.Panic(query.Error)
+			log.Fatal(query.Error)
 		}
 	}
 

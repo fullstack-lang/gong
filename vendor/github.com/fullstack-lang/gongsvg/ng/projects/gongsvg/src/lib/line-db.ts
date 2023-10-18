@@ -29,8 +29,16 @@ export class LineDB {
 	MouseClickX: number = 0
 	MouseClickY: number = 0
 
-	// insertion point for other declarations
-	Animates?: Array<AnimateDB>
+	// insertion point for pointers and slices of pointers declarations
+	Animates: Array<AnimateDB> = []
+
+	LinePointersEncoding: LinePointersEncoding = new LinePointersEncoding
+}
+
+export class LinePointersEncoding {
+	// insertion point for pointers and slices of pointers encoding fields
+	Animates: number[] = []
+	// reverse pointers encoding (to be removed)
 	Layer_LinesDBID: NullInt64 = new NullInt64
 	Layer_LinesDBID_Index: NullInt64  = new NullInt64 // store the index of the line instance in Layer.Lines
 	Layer_Lines_reverse?: LayerDB 

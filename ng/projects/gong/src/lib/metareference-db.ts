@@ -15,7 +15,14 @@ export class MetaReferenceDB {
 	// insertion point for basic fields declarations
 	Name: string = ""
 
-	// insertion point for other declarations
+	// insertion point for pointers and slices of pointers declarations
+
+	MetaReferencePointersEncoding: MetaReferencePointersEncoding = new MetaReferencePointersEncoding
+}
+
+export class MetaReferencePointersEncoding {
+	// insertion point for pointers and slices of pointers encoding fields
+	// reverse pointers encoding (to be removed)
 	Meta_MetaReferencesDBID: NullInt64 = new NullInt64
 	Meta_MetaReferencesDBID_Index: NullInt64  = new NullInt64 // store the index of the metareference instance in Meta.MetaReferences
 	Meta_MetaReferences_reverse?: MetaDB 

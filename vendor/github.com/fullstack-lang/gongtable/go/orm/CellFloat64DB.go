@@ -35,15 +35,15 @@ var dummy_CellFloat64_sort sort.Float64Slice
 type CellFloat64API struct {
 	gorm.Model
 
-	models.CellFloat64
+	models.CellFloat64_WOP
 
 	// encoding of pointers
-	CellFloat64PointersEnconding
+	CellFloat64PointersEncoding CellFloat64PointersEncoding
 }
 
-// CellFloat64PointersEnconding encodes pointers to Struct and
+// CellFloat64PointersEncoding encodes pointers to Struct and
 // reverse pointers of slice of poitners to Struct
-type CellFloat64PointersEnconding struct {
+type CellFloat64PointersEncoding struct {
 	// insertion for pointer fields encoding declaration
 }
 
@@ -64,7 +64,7 @@ type CellFloat64DB struct {
 	// Declation for basic field cellfloat64DB.Value
 	Value_Data sql.NullFloat64
 	// encoding of pointers
-	CellFloat64PointersEnconding
+	CellFloat64PointersEncoding
 }
 
 // CellFloat64DBs arrays cellfloat64DBs
@@ -156,7 +156,7 @@ func (backRepoCellFloat64 *BackRepoCellFloat64Struct) CommitDeleteInstance(id ui
 	cellfloat64DB := backRepoCellFloat64.Map_CellFloat64DBID_CellFloat64DB[id]
 	query := backRepoCellFloat64.db.Unscoped().Delete(&cellfloat64DB)
 	if query.Error != nil {
-		return query.Error
+		log.Fatal(query.Error)
 	}
 
 	// update stores
@@ -182,7 +182,7 @@ func (backRepoCellFloat64 *BackRepoCellFloat64Struct) CommitPhaseOneInstance(cel
 
 	query := backRepoCellFloat64.db.Create(&cellfloat64DB)
 	if query.Error != nil {
-		return query.Error
+		log.Fatal(query.Error)
 	}
 
 	// update stores
@@ -216,7 +216,7 @@ func (backRepoCellFloat64 *BackRepoCellFloat64Struct) CommitPhaseTwoInstance(bac
 		// insertion point for translating pointers encodings into actual pointers
 		query := backRepoCellFloat64.db.Save(&cellfloat64DB)
 		if query.Error != nil {
-			return query.Error
+			log.Fatalln(query.Error)
 		}
 
 	} else {
@@ -343,7 +343,7 @@ func (backRepo *BackRepoStruct) CheckoutCellFloat64(cellfloat64 *models.CellFloa
 			cellfloat64DB.ID = id
 
 			if err := backRepo.BackRepoCellFloat64.db.First(&cellfloat64DB, id).Error; err != nil {
-				log.Panicln("CheckoutCellFloat64 : Problem with getting object with id:", id)
+				log.Fatalln("CheckoutCellFloat64 : Problem with getting object with id:", id)
 			}
 			backRepo.BackRepoCellFloat64.CheckoutPhaseOneInstance(&cellfloat64DB)
 			backRepo.BackRepoCellFloat64.CheckoutPhaseTwoInstance(backRepo, &cellfloat64DB)
@@ -353,6 +353,17 @@ func (backRepo *BackRepoStruct) CheckoutCellFloat64(cellfloat64 *models.CellFloa
 
 // CopyBasicFieldsFromCellFloat64
 func (cellfloat64DB *CellFloat64DB) CopyBasicFieldsFromCellFloat64(cellfloat64 *models.CellFloat64) {
+	// insertion point for fields commit
+
+	cellfloat64DB.Name_Data.String = cellfloat64.Name
+	cellfloat64DB.Name_Data.Valid = true
+
+	cellfloat64DB.Value_Data.Float64 = cellfloat64.Value
+	cellfloat64DB.Value_Data.Valid = true
+}
+
+// CopyBasicFieldsFromCellFloat64_WOP
+func (cellfloat64DB *CellFloat64DB) CopyBasicFieldsFromCellFloat64_WOP(cellfloat64 *models.CellFloat64_WOP) {
 	// insertion point for fields commit
 
 	cellfloat64DB.Name_Data.String = cellfloat64.Name
@@ -375,6 +386,13 @@ func (cellfloat64DB *CellFloat64DB) CopyBasicFieldsFromCellFloat64WOP(cellfloat6
 
 // CopyBasicFieldsToCellFloat64
 func (cellfloat64DB *CellFloat64DB) CopyBasicFieldsToCellFloat64(cellfloat64 *models.CellFloat64) {
+	// insertion point for checkout of basic fields (back repo to stage)
+	cellfloat64.Name = cellfloat64DB.Name_Data.String
+	cellfloat64.Value = cellfloat64DB.Value_Data.Float64
+}
+
+// CopyBasicFieldsToCellFloat64_WOP
+func (cellfloat64DB *CellFloat64DB) CopyBasicFieldsToCellFloat64_WOP(cellfloat64 *models.CellFloat64_WOP) {
 	// insertion point for checkout of basic fields (back repo to stage)
 	cellfloat64.Name = cellfloat64DB.Name_Data.String
 	cellfloat64.Value = cellfloat64DB.Value_Data.Float64
@@ -407,12 +425,12 @@ func (backRepoCellFloat64 *BackRepoCellFloat64Struct) Backup(dirPath string) {
 	file, err := json.MarshalIndent(forBackup, "", " ")
 
 	if err != nil {
-		log.Panic("Cannot json CellFloat64 ", filename, " ", err.Error())
+		log.Fatal("Cannot json CellFloat64 ", filename, " ", err.Error())
 	}
 
 	err = ioutil.WriteFile(filename, file, 0644)
 	if err != nil {
-		log.Panic("Cannot write the json CellFloat64 file", err.Error())
+		log.Fatal("Cannot write the json CellFloat64 file", err.Error())
 	}
 }
 
@@ -432,7 +450,7 @@ func (backRepoCellFloat64 *BackRepoCellFloat64Struct) BackupXL(file *xlsx.File) 
 
 	sh, err := file.AddSheet("CellFloat64")
 	if err != nil {
-		log.Panic("Cannot add XL file", err.Error())
+		log.Fatal("Cannot add XL file", err.Error())
 	}
 	_ = sh
 
@@ -457,13 +475,13 @@ func (backRepoCellFloat64 *BackRepoCellFloat64Struct) RestoreXLPhaseOne(file *xl
 	sh, ok := file.Sheet["CellFloat64"]
 	_ = sh
 	if !ok {
-		log.Panic(errors.New("sheet not found"))
+		log.Fatal(errors.New("sheet not found"))
 	}
 
 	// log.Println("Max row is", sh.MaxRow)
 	err := sh.ForEachRow(backRepoCellFloat64.rowVisitorCellFloat64)
 	if err != nil {
-		log.Panic("Err=", err)
+		log.Fatal("Err=", err)
 	}
 }
 
@@ -485,7 +503,7 @@ func (backRepoCellFloat64 *BackRepoCellFloat64Struct) rowVisitorCellFloat64(row 
 		cellfloat64DB.ID = 0
 		query := backRepoCellFloat64.db.Create(cellfloat64DB)
 		if query.Error != nil {
-			log.Panic(query.Error)
+			log.Fatal(query.Error)
 		}
 		backRepoCellFloat64.Map_CellFloat64DBID_CellFloat64DB[cellfloat64DB.ID] = cellfloat64DB
 		BackRepoCellFloat64id_atBckpTime_newID[cellfloat64DB_ID_atBackupTime] = cellfloat64DB.ID
@@ -505,7 +523,7 @@ func (backRepoCellFloat64 *BackRepoCellFloat64Struct) RestorePhaseOne(dirPath st
 	jsonFile, err := os.Open(filename)
 	// if we os.Open returns an error then handle it
 	if err != nil {
-		log.Panic("Cannot restore/open the json CellFloat64 file", filename, " ", err.Error())
+		log.Fatal("Cannot restore/open the json CellFloat64 file", filename, " ", err.Error())
 	}
 
 	// read our opened jsonFile as a byte array.
@@ -522,14 +540,14 @@ func (backRepoCellFloat64 *BackRepoCellFloat64Struct) RestorePhaseOne(dirPath st
 		cellfloat64DB.ID = 0
 		query := backRepoCellFloat64.db.Create(cellfloat64DB)
 		if query.Error != nil {
-			log.Panic(query.Error)
+			log.Fatal(query.Error)
 		}
 		backRepoCellFloat64.Map_CellFloat64DBID_CellFloat64DB[cellfloat64DB.ID] = cellfloat64DB
 		BackRepoCellFloat64id_atBckpTime_newID[cellfloat64DB_ID_atBackupTime] = cellfloat64DB.ID
 	}
 
 	if err != nil {
-		log.Panic("Cannot restore/unmarshall json CellFloat64 file", err.Error())
+		log.Fatal("Cannot restore/unmarshall json CellFloat64 file", err.Error())
 	}
 }
 
@@ -546,7 +564,7 @@ func (backRepoCellFloat64 *BackRepoCellFloat64Struct) RestorePhaseTwo() {
 		// update databse with new index encoding
 		query := backRepoCellFloat64.db.Model(cellfloat64DB).Updates(*cellfloat64DB)
 		if query.Error != nil {
-			log.Panic(query.Error)
+			log.Fatal(query.Error)
 		}
 	}
 

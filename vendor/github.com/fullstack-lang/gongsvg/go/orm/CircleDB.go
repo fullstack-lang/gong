@@ -35,21 +35,26 @@ var dummy_Circle_sort sort.Float64Slice
 type CircleAPI struct {
 	gorm.Model
 
-	models.Circle
+	models.Circle_WOP
 
 	// encoding of pointers
-	CirclePointersEnconding
+	CirclePointersEncoding CirclePointersEncoding
 }
 
-// CirclePointersEnconding encodes pointers to Struct and
+// CirclePointersEncoding encodes pointers to Struct and
 // reverse pointers of slice of poitners to Struct
-type CirclePointersEnconding struct {
+type CirclePointersEncoding struct {
 	// insertion for pointer fields encoding declaration
 
+	// field Animations is a slice of pointers to another Struct (optional or 0..1)
+	Animations IntSlice `gorm:"type:TEXT"`
+
 	// Implementation of a reverse ID for field Layer{}.Circles []*Circle
+	// (to be removed)
 	Layer_CirclesDBID sql.NullInt64
 
 	// implementation of the index of the withing the slice
+	// (to be removed)
 	Layer_CirclesDBID_Index sql.NullInt64
 }
 
@@ -97,7 +102,7 @@ type CircleDB struct {
 	// Declation for basic field circleDB.Transform
 	Transform_Data sql.NullString
 	// encoding of pointers
-	CirclePointersEnconding
+	CirclePointersEncoding
 }
 
 // CircleDBs arrays circleDBs
@@ -216,7 +221,7 @@ func (backRepoCircle *BackRepoCircleStruct) CommitDeleteInstance(id uint) (Error
 	circleDB := backRepoCircle.Map_CircleDBID_CircleDB[id]
 	query := backRepoCircle.db.Unscoped().Delete(&circleDB)
 	if query.Error != nil {
-		return query.Error
+		log.Fatal(query.Error)
 	}
 
 	// update stores
@@ -242,7 +247,7 @@ func (backRepoCircle *BackRepoCircleStruct) CommitPhaseOneInstance(circle *model
 
 	query := backRepoCircle.db.Create(&circleDB)
 	if query.Error != nil {
-		return query.Error
+		log.Fatal(query.Error)
 	}
 
 	// update stores
@@ -284,6 +289,7 @@ func (backRepoCircle *BackRepoCircleStruct) CommitPhaseTwoInstance(backRepo *Bac
 				backRepo.BackRepoAnimate.GetAnimateDBFromAnimatePtr(animateAssocEnd)
 
 			// encode reverse pointer in the association end back repo instance
+			// (to be removed)
 			animateAssocEnd_DB.Circle_AnimationsDBID.Int64 = int64(circleDB.ID)
 			animateAssocEnd_DB.Circle_AnimationsDBID.Valid = true
 			animateAssocEnd_DB.Circle_AnimationsDBID_Index.Int64 = int64(idx)
@@ -293,9 +299,19 @@ func (backRepoCircle *BackRepoCircleStruct) CommitPhaseTwoInstance(backRepo *Bac
 			}
 		}
 
+		// 1. reset
+		circleDB.CirclePointersEncoding.Animations = make([]int, 0)
+		// 2. encode
+		for _, animateAssocEnd := range circle.Animations {
+			animateAssocEnd_DB :=
+				backRepo.BackRepoAnimate.GetAnimateDBFromAnimatePtr(animateAssocEnd)
+			circleDB.CirclePointersEncoding.Animations =
+				append(circleDB.CirclePointersEncoding.Animations, int(animateAssocEnd_DB.ID))
+		}
+
 		query := backRepoCircle.db.Save(&circleDB)
 		if query.Error != nil {
-			return query.Error
+			log.Fatalln(query.Error)
 		}
 
 	} else {
@@ -449,7 +465,7 @@ func (backRepo *BackRepoStruct) CheckoutCircle(circle *models.Circle) {
 			circleDB.ID = id
 
 			if err := backRepo.BackRepoCircle.db.First(&circleDB, id).Error; err != nil {
-				log.Panicln("CheckoutCircle : Problem with getting object with id:", id)
+				log.Fatalln("CheckoutCircle : Problem with getting object with id:", id)
 			}
 			backRepo.BackRepoCircle.CheckoutPhaseOneInstance(&circleDB)
 			backRepo.BackRepoCircle.CheckoutPhaseTwoInstance(backRepo, &circleDB)
@@ -459,6 +475,44 @@ func (backRepo *BackRepoStruct) CheckoutCircle(circle *models.Circle) {
 
 // CopyBasicFieldsFromCircle
 func (circleDB *CircleDB) CopyBasicFieldsFromCircle(circle *models.Circle) {
+	// insertion point for fields commit
+
+	circleDB.Name_Data.String = circle.Name
+	circleDB.Name_Data.Valid = true
+
+	circleDB.CX_Data.Float64 = circle.CX
+	circleDB.CX_Data.Valid = true
+
+	circleDB.CY_Data.Float64 = circle.CY
+	circleDB.CY_Data.Valid = true
+
+	circleDB.Radius_Data.Float64 = circle.Radius
+	circleDB.Radius_Data.Valid = true
+
+	circleDB.Color_Data.String = circle.Color
+	circleDB.Color_Data.Valid = true
+
+	circleDB.FillOpacity_Data.Float64 = circle.FillOpacity
+	circleDB.FillOpacity_Data.Valid = true
+
+	circleDB.Stroke_Data.String = circle.Stroke
+	circleDB.Stroke_Data.Valid = true
+
+	circleDB.StrokeWidth_Data.Float64 = circle.StrokeWidth
+	circleDB.StrokeWidth_Data.Valid = true
+
+	circleDB.StrokeDashArray_Data.String = circle.StrokeDashArray
+	circleDB.StrokeDashArray_Data.Valid = true
+
+	circleDB.StrokeDashArrayWhenSelected_Data.String = circle.StrokeDashArrayWhenSelected
+	circleDB.StrokeDashArrayWhenSelected_Data.Valid = true
+
+	circleDB.Transform_Data.String = circle.Transform
+	circleDB.Transform_Data.Valid = true
+}
+
+// CopyBasicFieldsFromCircle_WOP
+func (circleDB *CircleDB) CopyBasicFieldsFromCircle_WOP(circle *models.Circle_WOP) {
 	// insertion point for fields commit
 
 	circleDB.Name_Data.String = circle.Name
@@ -549,6 +603,22 @@ func (circleDB *CircleDB) CopyBasicFieldsToCircle(circle *models.Circle) {
 	circle.Transform = circleDB.Transform_Data.String
 }
 
+// CopyBasicFieldsToCircle_WOP
+func (circleDB *CircleDB) CopyBasicFieldsToCircle_WOP(circle *models.Circle_WOP) {
+	// insertion point for checkout of basic fields (back repo to stage)
+	circle.Name = circleDB.Name_Data.String
+	circle.CX = circleDB.CX_Data.Float64
+	circle.CY = circleDB.CY_Data.Float64
+	circle.Radius = circleDB.Radius_Data.Float64
+	circle.Color = circleDB.Color_Data.String
+	circle.FillOpacity = circleDB.FillOpacity_Data.Float64
+	circle.Stroke = circleDB.Stroke_Data.String
+	circle.StrokeWidth = circleDB.StrokeWidth_Data.Float64
+	circle.StrokeDashArray = circleDB.StrokeDashArray_Data.String
+	circle.StrokeDashArrayWhenSelected = circleDB.StrokeDashArrayWhenSelected_Data.String
+	circle.Transform = circleDB.Transform_Data.String
+}
+
 // CopyBasicFieldsToCircleWOP
 func (circleDB *CircleDB) CopyBasicFieldsToCircleWOP(circle *CircleWOP) {
 	circle.ID = int(circleDB.ID)
@@ -585,12 +655,12 @@ func (backRepoCircle *BackRepoCircleStruct) Backup(dirPath string) {
 	file, err := json.MarshalIndent(forBackup, "", " ")
 
 	if err != nil {
-		log.Panic("Cannot json Circle ", filename, " ", err.Error())
+		log.Fatal("Cannot json Circle ", filename, " ", err.Error())
 	}
 
 	err = ioutil.WriteFile(filename, file, 0644)
 	if err != nil {
-		log.Panic("Cannot write the json Circle file", err.Error())
+		log.Fatal("Cannot write the json Circle file", err.Error())
 	}
 }
 
@@ -610,7 +680,7 @@ func (backRepoCircle *BackRepoCircleStruct) BackupXL(file *xlsx.File) {
 
 	sh, err := file.AddSheet("Circle")
 	if err != nil {
-		log.Panic("Cannot add XL file", err.Error())
+		log.Fatal("Cannot add XL file", err.Error())
 	}
 	_ = sh
 
@@ -635,13 +705,13 @@ func (backRepoCircle *BackRepoCircleStruct) RestoreXLPhaseOne(file *xlsx.File) {
 	sh, ok := file.Sheet["Circle"]
 	_ = sh
 	if !ok {
-		log.Panic(errors.New("sheet not found"))
+		log.Fatal(errors.New("sheet not found"))
 	}
 
 	// log.Println("Max row is", sh.MaxRow)
 	err := sh.ForEachRow(backRepoCircle.rowVisitorCircle)
 	if err != nil {
-		log.Panic("Err=", err)
+		log.Fatal("Err=", err)
 	}
 }
 
@@ -663,7 +733,7 @@ func (backRepoCircle *BackRepoCircleStruct) rowVisitorCircle(row *xlsx.Row) erro
 		circleDB.ID = 0
 		query := backRepoCircle.db.Create(circleDB)
 		if query.Error != nil {
-			log.Panic(query.Error)
+			log.Fatal(query.Error)
 		}
 		backRepoCircle.Map_CircleDBID_CircleDB[circleDB.ID] = circleDB
 		BackRepoCircleid_atBckpTime_newID[circleDB_ID_atBackupTime] = circleDB.ID
@@ -683,7 +753,7 @@ func (backRepoCircle *BackRepoCircleStruct) RestorePhaseOne(dirPath string) {
 	jsonFile, err := os.Open(filename)
 	// if we os.Open returns an error then handle it
 	if err != nil {
-		log.Panic("Cannot restore/open the json Circle file", filename, " ", err.Error())
+		log.Fatal("Cannot restore/open the json Circle file", filename, " ", err.Error())
 	}
 
 	// read our opened jsonFile as a byte array.
@@ -700,14 +770,14 @@ func (backRepoCircle *BackRepoCircleStruct) RestorePhaseOne(dirPath string) {
 		circleDB.ID = 0
 		query := backRepoCircle.db.Create(circleDB)
 		if query.Error != nil {
-			log.Panic(query.Error)
+			log.Fatal(query.Error)
 		}
 		backRepoCircle.Map_CircleDBID_CircleDB[circleDB.ID] = circleDB
 		BackRepoCircleid_atBckpTime_newID[circleDB_ID_atBackupTime] = circleDB.ID
 	}
 
 	if err != nil {
-		log.Panic("Cannot restore/unmarshall json Circle file", err.Error())
+		log.Fatal("Cannot restore/unmarshall json Circle file", err.Error())
 	}
 }
 
@@ -730,7 +800,7 @@ func (backRepoCircle *BackRepoCircleStruct) RestorePhaseTwo() {
 		// update databse with new index encoding
 		query := backRepoCircle.db.Model(circleDB).Updates(*circleDB)
 		if query.Error != nil {
-			log.Panic(query.Error)
+			log.Fatal(query.Error)
 		}
 	}
 

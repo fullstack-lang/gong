@@ -35,15 +35,15 @@ var dummy_CellInt_sort sort.Float64Slice
 type CellIntAPI struct {
 	gorm.Model
 
-	models.CellInt
+	models.CellInt_WOP
 
 	// encoding of pointers
-	CellIntPointersEnconding
+	CellIntPointersEncoding CellIntPointersEncoding
 }
 
-// CellIntPointersEnconding encodes pointers to Struct and
+// CellIntPointersEncoding encodes pointers to Struct and
 // reverse pointers of slice of poitners to Struct
-type CellIntPointersEnconding struct {
+type CellIntPointersEncoding struct {
 	// insertion for pointer fields encoding declaration
 }
 
@@ -64,7 +64,7 @@ type CellIntDB struct {
 	// Declation for basic field cellintDB.Value
 	Value_Data sql.NullInt64
 	// encoding of pointers
-	CellIntPointersEnconding
+	CellIntPointersEncoding
 }
 
 // CellIntDBs arrays cellintDBs
@@ -156,7 +156,7 @@ func (backRepoCellInt *BackRepoCellIntStruct) CommitDeleteInstance(id uint) (Err
 	cellintDB := backRepoCellInt.Map_CellIntDBID_CellIntDB[id]
 	query := backRepoCellInt.db.Unscoped().Delete(&cellintDB)
 	if query.Error != nil {
-		return query.Error
+		log.Fatal(query.Error)
 	}
 
 	// update stores
@@ -182,7 +182,7 @@ func (backRepoCellInt *BackRepoCellIntStruct) CommitPhaseOneInstance(cellint *mo
 
 	query := backRepoCellInt.db.Create(&cellintDB)
 	if query.Error != nil {
-		return query.Error
+		log.Fatal(query.Error)
 	}
 
 	// update stores
@@ -216,7 +216,7 @@ func (backRepoCellInt *BackRepoCellIntStruct) CommitPhaseTwoInstance(backRepo *B
 		// insertion point for translating pointers encodings into actual pointers
 		query := backRepoCellInt.db.Save(&cellintDB)
 		if query.Error != nil {
-			return query.Error
+			log.Fatalln(query.Error)
 		}
 
 	} else {
@@ -343,7 +343,7 @@ func (backRepo *BackRepoStruct) CheckoutCellInt(cellint *models.CellInt) {
 			cellintDB.ID = id
 
 			if err := backRepo.BackRepoCellInt.db.First(&cellintDB, id).Error; err != nil {
-				log.Panicln("CheckoutCellInt : Problem with getting object with id:", id)
+				log.Fatalln("CheckoutCellInt : Problem with getting object with id:", id)
 			}
 			backRepo.BackRepoCellInt.CheckoutPhaseOneInstance(&cellintDB)
 			backRepo.BackRepoCellInt.CheckoutPhaseTwoInstance(backRepo, &cellintDB)
@@ -353,6 +353,17 @@ func (backRepo *BackRepoStruct) CheckoutCellInt(cellint *models.CellInt) {
 
 // CopyBasicFieldsFromCellInt
 func (cellintDB *CellIntDB) CopyBasicFieldsFromCellInt(cellint *models.CellInt) {
+	// insertion point for fields commit
+
+	cellintDB.Name_Data.String = cellint.Name
+	cellintDB.Name_Data.Valid = true
+
+	cellintDB.Value_Data.Int64 = int64(cellint.Value)
+	cellintDB.Value_Data.Valid = true
+}
+
+// CopyBasicFieldsFromCellInt_WOP
+func (cellintDB *CellIntDB) CopyBasicFieldsFromCellInt_WOP(cellint *models.CellInt_WOP) {
 	// insertion point for fields commit
 
 	cellintDB.Name_Data.String = cellint.Name
@@ -375,6 +386,13 @@ func (cellintDB *CellIntDB) CopyBasicFieldsFromCellIntWOP(cellint *CellIntWOP) {
 
 // CopyBasicFieldsToCellInt
 func (cellintDB *CellIntDB) CopyBasicFieldsToCellInt(cellint *models.CellInt) {
+	// insertion point for checkout of basic fields (back repo to stage)
+	cellint.Name = cellintDB.Name_Data.String
+	cellint.Value = int(cellintDB.Value_Data.Int64)
+}
+
+// CopyBasicFieldsToCellInt_WOP
+func (cellintDB *CellIntDB) CopyBasicFieldsToCellInt_WOP(cellint *models.CellInt_WOP) {
 	// insertion point for checkout of basic fields (back repo to stage)
 	cellint.Name = cellintDB.Name_Data.String
 	cellint.Value = int(cellintDB.Value_Data.Int64)
@@ -407,12 +425,12 @@ func (backRepoCellInt *BackRepoCellIntStruct) Backup(dirPath string) {
 	file, err := json.MarshalIndent(forBackup, "", " ")
 
 	if err != nil {
-		log.Panic("Cannot json CellInt ", filename, " ", err.Error())
+		log.Fatal("Cannot json CellInt ", filename, " ", err.Error())
 	}
 
 	err = ioutil.WriteFile(filename, file, 0644)
 	if err != nil {
-		log.Panic("Cannot write the json CellInt file", err.Error())
+		log.Fatal("Cannot write the json CellInt file", err.Error())
 	}
 }
 
@@ -432,7 +450,7 @@ func (backRepoCellInt *BackRepoCellIntStruct) BackupXL(file *xlsx.File) {
 
 	sh, err := file.AddSheet("CellInt")
 	if err != nil {
-		log.Panic("Cannot add XL file", err.Error())
+		log.Fatal("Cannot add XL file", err.Error())
 	}
 	_ = sh
 
@@ -457,13 +475,13 @@ func (backRepoCellInt *BackRepoCellIntStruct) RestoreXLPhaseOne(file *xlsx.File)
 	sh, ok := file.Sheet["CellInt"]
 	_ = sh
 	if !ok {
-		log.Panic(errors.New("sheet not found"))
+		log.Fatal(errors.New("sheet not found"))
 	}
 
 	// log.Println("Max row is", sh.MaxRow)
 	err := sh.ForEachRow(backRepoCellInt.rowVisitorCellInt)
 	if err != nil {
-		log.Panic("Err=", err)
+		log.Fatal("Err=", err)
 	}
 }
 
@@ -485,7 +503,7 @@ func (backRepoCellInt *BackRepoCellIntStruct) rowVisitorCellInt(row *xlsx.Row) e
 		cellintDB.ID = 0
 		query := backRepoCellInt.db.Create(cellintDB)
 		if query.Error != nil {
-			log.Panic(query.Error)
+			log.Fatal(query.Error)
 		}
 		backRepoCellInt.Map_CellIntDBID_CellIntDB[cellintDB.ID] = cellintDB
 		BackRepoCellIntid_atBckpTime_newID[cellintDB_ID_atBackupTime] = cellintDB.ID
@@ -505,7 +523,7 @@ func (backRepoCellInt *BackRepoCellIntStruct) RestorePhaseOne(dirPath string) {
 	jsonFile, err := os.Open(filename)
 	// if we os.Open returns an error then handle it
 	if err != nil {
-		log.Panic("Cannot restore/open the json CellInt file", filename, " ", err.Error())
+		log.Fatal("Cannot restore/open the json CellInt file", filename, " ", err.Error())
 	}
 
 	// read our opened jsonFile as a byte array.
@@ -522,14 +540,14 @@ func (backRepoCellInt *BackRepoCellIntStruct) RestorePhaseOne(dirPath string) {
 		cellintDB.ID = 0
 		query := backRepoCellInt.db.Create(cellintDB)
 		if query.Error != nil {
-			log.Panic(query.Error)
+			log.Fatal(query.Error)
 		}
 		backRepoCellInt.Map_CellIntDBID_CellIntDB[cellintDB.ID] = cellintDB
 		BackRepoCellIntid_atBckpTime_newID[cellintDB_ID_atBackupTime] = cellintDB.ID
 	}
 
 	if err != nil {
-		log.Panic("Cannot restore/unmarshall json CellInt file", err.Error())
+		log.Fatal("Cannot restore/unmarshall json CellInt file", err.Error())
 	}
 }
 
@@ -546,7 +564,7 @@ func (backRepoCellInt *BackRepoCellIntStruct) RestorePhaseTwo() {
 		// update databse with new index encoding
 		query := backRepoCellInt.db.Model(cellintDB).Updates(*cellintDB)
 		if query.Error != nil {
-			log.Panic(query.Error)
+			log.Fatal(query.Error)
 		}
 	}
 

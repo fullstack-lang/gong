@@ -82,8 +82,8 @@ export class GongEnumValueService {
   postGongEnumValue(gongenumvaluedb: GongEnumValueDB, GONG__StackPath: string): Observable<GongEnumValueDB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
-    let _GongEnum_GongEnumValues_reverse = gongenumvaluedb.GongEnum_GongEnumValues_reverse
-    gongenumvaluedb.GongEnum_GongEnumValues_reverse = new GongEnumDB
+    let _GongEnum_GongEnumValues_reverse = gongenumvaluedb.GongEnumValuePointersEncoding.GongEnum_GongEnumValues_reverse
+    gongenumvaluedb.GongEnumValuePointersEncoding.GongEnum_GongEnumValues_reverse = new GongEnumDB
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -94,7 +94,7 @@ export class GongEnumValueService {
     return this.http.post<GongEnumValueDB>(this.gongenumvaluesUrl, gongenumvaluedb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
-        gongenumvaluedb.GongEnum_GongEnumValues_reverse = _GongEnum_GongEnumValues_reverse
+        gongenumvaluedb.GongEnumValuePointersEncoding.GongEnum_GongEnumValues_reverse = _GongEnum_GongEnumValues_reverse
         // this.log(`posted gongenumvaluedb id=${gongenumvaluedb.ID}`)
       }),
       catchError(this.handleError<GongEnumValueDB>('postGongEnumValue'))
@@ -130,8 +130,8 @@ export class GongEnumValueService {
     const url = `${this.gongenumvaluesUrl}/${id}`;
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
-    let _GongEnum_GongEnumValues_reverse = gongenumvaluedb.GongEnum_GongEnumValues_reverse
-    gongenumvaluedb.GongEnum_GongEnumValues_reverse = new GongEnumDB
+    let _GongEnum_GongEnumValues_reverse = gongenumvaluedb.GongEnumValuePointersEncoding.GongEnum_GongEnumValues_reverse
+    gongenumvaluedb.GongEnumValuePointersEncoding.GongEnum_GongEnumValues_reverse = new GongEnumDB
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -142,7 +142,7 @@ export class GongEnumValueService {
     return this.http.put<GongEnumValueDB>(url, gongenumvaluedb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
-        gongenumvaluedb.GongEnum_GongEnumValues_reverse = _GongEnum_GongEnumValues_reverse
+        gongenumvaluedb.GongEnumValuePointersEncoding.GongEnum_GongEnumValues_reverse = _GongEnum_GongEnumValues_reverse
         // this.log(`updated gongenumvaluedb id=${gongenumvaluedb.ID}`)
       }),
       catchError(this.handleError<GongEnumValueDB>('updateGongEnumValue'))

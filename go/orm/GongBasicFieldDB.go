@@ -38,7 +38,7 @@ type GongBasicFieldAPI struct {
 	models.GongBasicField_WOP
 
 	// encoding of pointers
-	GongBasicFieldPointersEncoding
+	GongBasicFieldPointersEncoding GongBasicFieldPointersEncoding
 }
 
 // GongBasicFieldPointersEncoding encodes pointers to Struct and
@@ -51,9 +51,11 @@ type GongBasicFieldPointersEncoding struct {
 	GongEnumID sql.NullInt64
 
 	// Implementation of a reverse ID for field GongStruct{}.GongBasicFields []*GongBasicField
+	// (to be removed)
 	GongStruct_GongBasicFieldsDBID sql.NullInt64
 
 	// implementation of the index of the withing the slice
+	// (to be removed)
 	GongStruct_GongBasicFieldsDBID_Index sql.NullInt64
 }
 

@@ -91,8 +91,8 @@ func (controller *Controller) GetDiagramPackages(c *gin.Context) {
 
 		// insertion point for updating fields
 		diagrampackageAPI.ID = diagrampackageDB.ID
-		diagrampackageDB.CopyBasicFieldsToDiagramPackage(&diagrampackageAPI.DiagramPackage)
-		diagrampackageAPI.DiagramPackagePointersEnconding = diagrampackageDB.DiagramPackagePointersEnconding
+		diagrampackageDB.CopyBasicFieldsToDiagramPackage_WOP(&diagrampackageAPI.DiagramPackage_WOP)
+		diagrampackageAPI.DiagramPackagePointersEncoding = diagrampackageDB.DiagramPackagePointersEncoding
 		diagrampackageAPIs = append(diagrampackageAPIs, diagrampackageAPI)
 	}
 
@@ -147,8 +147,8 @@ func (controller *Controller) PostDiagramPackage(c *gin.Context) {
 
 	// Create diagrampackage
 	diagrampackageDB := orm.DiagramPackageDB{}
-	diagrampackageDB.DiagramPackagePointersEnconding = input.DiagramPackagePointersEnconding
-	diagrampackageDB.CopyBasicFieldsFromDiagramPackage(&input.DiagramPackage)
+	diagrampackageDB.DiagramPackagePointersEncoding = input.DiagramPackagePointersEncoding
+	diagrampackageDB.CopyBasicFieldsFromDiagramPackage_WOP(&input.DiagramPackage_WOP)
 
 	query := db.Create(&diagrampackageDB)
 	if query.Error != nil {
@@ -217,8 +217,8 @@ func (controller *Controller) GetDiagramPackage(c *gin.Context) {
 
 	var diagrampackageAPI orm.DiagramPackageAPI
 	diagrampackageAPI.ID = diagrampackageDB.ID
-	diagrampackageAPI.DiagramPackagePointersEnconding = diagrampackageDB.DiagramPackagePointersEnconding
-	diagrampackageDB.CopyBasicFieldsToDiagramPackage(&diagrampackageAPI.DiagramPackage)
+	diagrampackageAPI.DiagramPackagePointersEncoding = diagrampackageDB.DiagramPackagePointersEncoding
+	diagrampackageDB.CopyBasicFieldsToDiagramPackage_WOP(&diagrampackageAPI.DiagramPackage_WOP)
 
 	c.JSON(http.StatusOK, diagrampackageAPI)
 }
@@ -276,8 +276,8 @@ func (controller *Controller) UpdateDiagramPackage(c *gin.Context) {
 	}
 
 	// update
-	diagrampackageDB.CopyBasicFieldsFromDiagramPackage(&input.DiagramPackage)
-	diagrampackageDB.DiagramPackagePointersEnconding = input.DiagramPackagePointersEnconding
+	diagrampackageDB.CopyBasicFieldsFromDiagramPackage_WOP(&input.DiagramPackage_WOP)
+	diagrampackageDB.DiagramPackagePointersEncoding = input.DiagramPackagePointersEncoding
 
 	query = db.Model(&diagrampackageDB).Updates(diagrampackageDB)
 	if query.Error != nil {

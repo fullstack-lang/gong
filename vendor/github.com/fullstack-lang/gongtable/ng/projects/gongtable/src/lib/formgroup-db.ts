@@ -16,6 +16,13 @@ export class FormGroupDB {
 	Name: string = ""
 	Label: string = ""
 
-	// insertion point for other declarations
-	FormDivs?: Array<FormDivDB>
+	// insertion point for pointers and slices of pointers declarations
+	FormDivs: Array<FormDivDB> = []
+
+	FormGroupPointersEncoding: FormGroupPointersEncoding = new FormGroupPointersEncoding
+}
+
+export class FormGroupPointersEncoding {
+	// insertion point for pointers and slices of pointers encoding fields
+	FormDivs: number[] = []
 }

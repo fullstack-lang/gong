@@ -35,16 +35,22 @@ var dummy_FormDiv_sort sort.Float64Slice
 type FormDivAPI struct {
 	gorm.Model
 
-	models.FormDiv
+	models.FormDiv_WOP
 
 	// encoding of pointers
-	FormDivPointersEnconding
+	FormDivPointersEncoding FormDivPointersEncoding
 }
 
-// FormDivPointersEnconding encodes pointers to Struct and
+// FormDivPointersEncoding encodes pointers to Struct and
 // reverse pointers of slice of poitners to Struct
-type FormDivPointersEnconding struct {
+type FormDivPointersEncoding struct {
 	// insertion for pointer fields encoding declaration
+
+	// field FormFields is a slice of pointers to another Struct (optional or 0..1)
+	FormFields IntSlice `gorm:"type:TEXT"`
+
+	// field CheckBoxs is a slice of pointers to another Struct (optional or 0..1)
+	CheckBoxs IntSlice `gorm:"type:TEXT"`
 
 	// field FormEditAssocButton is a pointer to another Struct (optional or 0..1)
 	// This field is generated into another field to enable AS ONE association
@@ -55,9 +61,11 @@ type FormDivPointersEnconding struct {
 	FormSortAssocButtonID sql.NullInt64
 
 	// Implementation of a reverse ID for field FormGroup{}.FormDivs []*FormDiv
+	// (to be removed)
 	FormGroup_FormDivsDBID sql.NullInt64
 
 	// implementation of the index of the withing the slice
+	// (to be removed)
 	FormGroup_FormDivsDBID_Index sql.NullInt64
 }
 
@@ -75,7 +83,7 @@ type FormDivDB struct {
 	// Declation for basic field formdivDB.Name
 	Name_Data sql.NullString
 	// encoding of pointers
-	FormDivPointersEnconding
+	FormDivPointersEncoding
 }
 
 // FormDivDBs arrays formdivDBs
@@ -164,7 +172,7 @@ func (backRepoFormDiv *BackRepoFormDivStruct) CommitDeleteInstance(id uint) (Err
 	formdivDB := backRepoFormDiv.Map_FormDivDBID_FormDivDB[id]
 	query := backRepoFormDiv.db.Unscoped().Delete(&formdivDB)
 	if query.Error != nil {
-		return query.Error
+		log.Fatal(query.Error)
 	}
 
 	// update stores
@@ -190,7 +198,7 @@ func (backRepoFormDiv *BackRepoFormDivStruct) CommitPhaseOneInstance(formdiv *mo
 
 	query := backRepoFormDiv.db.Create(&formdivDB)
 	if query.Error != nil {
-		return query.Error
+		log.Fatal(query.Error)
 	}
 
 	// update stores
@@ -232,6 +240,7 @@ func (backRepoFormDiv *BackRepoFormDivStruct) CommitPhaseTwoInstance(backRepo *B
 				backRepo.BackRepoFormField.GetFormFieldDBFromFormFieldPtr(formfieldAssocEnd)
 
 			// encode reverse pointer in the association end back repo instance
+			// (to be removed)
 			formfieldAssocEnd_DB.FormDiv_FormFieldsDBID.Int64 = int64(formdivDB.ID)
 			formfieldAssocEnd_DB.FormDiv_FormFieldsDBID.Valid = true
 			formfieldAssocEnd_DB.FormDiv_FormFieldsDBID_Index.Int64 = int64(idx)
@@ -239,6 +248,16 @@ func (backRepoFormDiv *BackRepoFormDivStruct) CommitPhaseTwoInstance(backRepo *B
 			if q := backRepoFormDiv.db.Save(formfieldAssocEnd_DB); q.Error != nil {
 				return q.Error
 			}
+		}
+
+		// 1. reset
+		formdivDB.FormDivPointersEncoding.FormFields = make([]int, 0)
+		// 2. encode
+		for _, formfieldAssocEnd := range formdiv.FormFields {
+			formfieldAssocEnd_DB :=
+				backRepo.BackRepoFormField.GetFormFieldDBFromFormFieldPtr(formfieldAssocEnd)
+			formdivDB.FormDivPointersEncoding.FormFields =
+				append(formdivDB.FormDivPointersEncoding.FormFields, int(formfieldAssocEnd_DB.ID))
 		}
 
 		// This loop encodes the slice of pointers formdiv.CheckBoxs into the back repo.
@@ -251,6 +270,7 @@ func (backRepoFormDiv *BackRepoFormDivStruct) CommitPhaseTwoInstance(backRepo *B
 				backRepo.BackRepoCheckBox.GetCheckBoxDBFromCheckBoxPtr(checkboxAssocEnd)
 
 			// encode reverse pointer in the association end back repo instance
+			// (to be removed)
 			checkboxAssocEnd_DB.FormDiv_CheckBoxsDBID.Int64 = int64(formdivDB.ID)
 			checkboxAssocEnd_DB.FormDiv_CheckBoxsDBID.Valid = true
 			checkboxAssocEnd_DB.FormDiv_CheckBoxsDBID_Index.Int64 = int64(idx)
@@ -258,6 +278,16 @@ func (backRepoFormDiv *BackRepoFormDivStruct) CommitPhaseTwoInstance(backRepo *B
 			if q := backRepoFormDiv.db.Save(checkboxAssocEnd_DB); q.Error != nil {
 				return q.Error
 			}
+		}
+
+		// 1. reset
+		formdivDB.FormDivPointersEncoding.CheckBoxs = make([]int, 0)
+		// 2. encode
+		for _, checkboxAssocEnd := range formdiv.CheckBoxs {
+			checkboxAssocEnd_DB :=
+				backRepo.BackRepoCheckBox.GetCheckBoxDBFromCheckBoxPtr(checkboxAssocEnd)
+			formdivDB.FormDivPointersEncoding.CheckBoxs =
+				append(formdivDB.FormDivPointersEncoding.CheckBoxs, int(checkboxAssocEnd_DB.ID))
 		}
 
 		// commit pointer value formdiv.FormEditAssocButton translates to updating the formdiv.FormEditAssocButtonID
@@ -286,7 +316,7 @@ func (backRepoFormDiv *BackRepoFormDivStruct) CommitPhaseTwoInstance(backRepo *B
 
 		query := backRepoFormDiv.db.Save(&formdivDB)
 		if query.Error != nil {
-			return query.Error
+			log.Fatalln(query.Error)
 		}
 
 	} else {
@@ -477,7 +507,7 @@ func (backRepo *BackRepoStruct) CheckoutFormDiv(formdiv *models.FormDiv) {
 			formdivDB.ID = id
 
 			if err := backRepo.BackRepoFormDiv.db.First(&formdivDB, id).Error; err != nil {
-				log.Panicln("CheckoutFormDiv : Problem with getting object with id:", id)
+				log.Fatalln("CheckoutFormDiv : Problem with getting object with id:", id)
 			}
 			backRepo.BackRepoFormDiv.CheckoutPhaseOneInstance(&formdivDB)
 			backRepo.BackRepoFormDiv.CheckoutPhaseTwoInstance(backRepo, &formdivDB)
@@ -487,6 +517,14 @@ func (backRepo *BackRepoStruct) CheckoutFormDiv(formdiv *models.FormDiv) {
 
 // CopyBasicFieldsFromFormDiv
 func (formdivDB *FormDivDB) CopyBasicFieldsFromFormDiv(formdiv *models.FormDiv) {
+	// insertion point for fields commit
+
+	formdivDB.Name_Data.String = formdiv.Name
+	formdivDB.Name_Data.Valid = true
+}
+
+// CopyBasicFieldsFromFormDiv_WOP
+func (formdivDB *FormDivDB) CopyBasicFieldsFromFormDiv_WOP(formdiv *models.FormDiv_WOP) {
 	// insertion point for fields commit
 
 	formdivDB.Name_Data.String = formdiv.Name
@@ -503,6 +541,12 @@ func (formdivDB *FormDivDB) CopyBasicFieldsFromFormDivWOP(formdiv *FormDivWOP) {
 
 // CopyBasicFieldsToFormDiv
 func (formdivDB *FormDivDB) CopyBasicFieldsToFormDiv(formdiv *models.FormDiv) {
+	// insertion point for checkout of basic fields (back repo to stage)
+	formdiv.Name = formdivDB.Name_Data.String
+}
+
+// CopyBasicFieldsToFormDiv_WOP
+func (formdivDB *FormDivDB) CopyBasicFieldsToFormDiv_WOP(formdiv *models.FormDiv_WOP) {
 	// insertion point for checkout of basic fields (back repo to stage)
 	formdiv.Name = formdivDB.Name_Data.String
 }
@@ -533,12 +577,12 @@ func (backRepoFormDiv *BackRepoFormDivStruct) Backup(dirPath string) {
 	file, err := json.MarshalIndent(forBackup, "", " ")
 
 	if err != nil {
-		log.Panic("Cannot json FormDiv ", filename, " ", err.Error())
+		log.Fatal("Cannot json FormDiv ", filename, " ", err.Error())
 	}
 
 	err = ioutil.WriteFile(filename, file, 0644)
 	if err != nil {
-		log.Panic("Cannot write the json FormDiv file", err.Error())
+		log.Fatal("Cannot write the json FormDiv file", err.Error())
 	}
 }
 
@@ -558,7 +602,7 @@ func (backRepoFormDiv *BackRepoFormDivStruct) BackupXL(file *xlsx.File) {
 
 	sh, err := file.AddSheet("FormDiv")
 	if err != nil {
-		log.Panic("Cannot add XL file", err.Error())
+		log.Fatal("Cannot add XL file", err.Error())
 	}
 	_ = sh
 
@@ -583,13 +627,13 @@ func (backRepoFormDiv *BackRepoFormDivStruct) RestoreXLPhaseOne(file *xlsx.File)
 	sh, ok := file.Sheet["FormDiv"]
 	_ = sh
 	if !ok {
-		log.Panic(errors.New("sheet not found"))
+		log.Fatal(errors.New("sheet not found"))
 	}
 
 	// log.Println("Max row is", sh.MaxRow)
 	err := sh.ForEachRow(backRepoFormDiv.rowVisitorFormDiv)
 	if err != nil {
-		log.Panic("Err=", err)
+		log.Fatal("Err=", err)
 	}
 }
 
@@ -611,7 +655,7 @@ func (backRepoFormDiv *BackRepoFormDivStruct) rowVisitorFormDiv(row *xlsx.Row) e
 		formdivDB.ID = 0
 		query := backRepoFormDiv.db.Create(formdivDB)
 		if query.Error != nil {
-			log.Panic(query.Error)
+			log.Fatal(query.Error)
 		}
 		backRepoFormDiv.Map_FormDivDBID_FormDivDB[formdivDB.ID] = formdivDB
 		BackRepoFormDivid_atBckpTime_newID[formdivDB_ID_atBackupTime] = formdivDB.ID
@@ -631,7 +675,7 @@ func (backRepoFormDiv *BackRepoFormDivStruct) RestorePhaseOne(dirPath string) {
 	jsonFile, err := os.Open(filename)
 	// if we os.Open returns an error then handle it
 	if err != nil {
-		log.Panic("Cannot restore/open the json FormDiv file", filename, " ", err.Error())
+		log.Fatal("Cannot restore/open the json FormDiv file", filename, " ", err.Error())
 	}
 
 	// read our opened jsonFile as a byte array.
@@ -648,14 +692,14 @@ func (backRepoFormDiv *BackRepoFormDivStruct) RestorePhaseOne(dirPath string) {
 		formdivDB.ID = 0
 		query := backRepoFormDiv.db.Create(formdivDB)
 		if query.Error != nil {
-			log.Panic(query.Error)
+			log.Fatal(query.Error)
 		}
 		backRepoFormDiv.Map_FormDivDBID_FormDivDB[formdivDB.ID] = formdivDB
 		BackRepoFormDivid_atBckpTime_newID[formdivDB_ID_atBackupTime] = formdivDB.ID
 	}
 
 	if err != nil {
-		log.Panic("Cannot restore/unmarshall json FormDiv file", err.Error())
+		log.Fatal("Cannot restore/unmarshall json FormDiv file", err.Error())
 	}
 }
 
@@ -690,7 +734,7 @@ func (backRepoFormDiv *BackRepoFormDivStruct) RestorePhaseTwo() {
 		// update databse with new index encoding
 		query := backRepoFormDiv.db.Model(formdivDB).Updates(*formdivDB)
 		if query.Error != nil {
-			log.Panic(query.Error)
+			log.Fatal(query.Error)
 		}
 	}
 

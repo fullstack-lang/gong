@@ -16,7 +16,14 @@ export class GongEnumValueDB {
 	Name: string = ""
 	Value: string = ""
 
-	// insertion point for other declarations
+	// insertion point for pointers and slices of pointers declarations
+
+	GongEnumValuePointersEncoding: GongEnumValuePointersEncoding = new GongEnumValuePointersEncoding
+}
+
+export class GongEnumValuePointersEncoding {
+	// insertion point for pointers and slices of pointers encoding fields
+	// reverse pointers encoding (to be removed)
 	GongEnum_GongEnumValuesDBID: NullInt64 = new NullInt64
 	GongEnum_GongEnumValuesDBID_Index: NullInt64  = new NullInt64 // store the index of the gongenumvalue instance in GongEnum.GongEnumValues
 	GongEnum_GongEnumValues_reverse?: GongEnumDB 

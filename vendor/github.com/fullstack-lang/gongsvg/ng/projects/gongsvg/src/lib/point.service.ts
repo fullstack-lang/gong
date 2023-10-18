@@ -82,8 +82,8 @@ export class PointService {
   postPoint(pointdb: PointDB, GONG__StackPath: string): Observable<PointDB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
-    let _Link_ControlPoints_reverse = pointdb.Link_ControlPoints_reverse
-    pointdb.Link_ControlPoints_reverse = new LinkDB
+    let _Link_ControlPoints_reverse = pointdb.PointPointersEncoding.Link_ControlPoints_reverse
+    pointdb.PointPointersEncoding.Link_ControlPoints_reverse = new LinkDB
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -94,7 +94,7 @@ export class PointService {
     return this.http.post<PointDB>(this.pointsUrl, pointdb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
-        pointdb.Link_ControlPoints_reverse = _Link_ControlPoints_reverse
+        pointdb.PointPointersEncoding.Link_ControlPoints_reverse = _Link_ControlPoints_reverse
         // this.log(`posted pointdb id=${pointdb.ID}`)
       }),
       catchError(this.handleError<PointDB>('postPoint'))
@@ -130,8 +130,8 @@ export class PointService {
     const url = `${this.pointsUrl}/${id}`;
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
-    let _Link_ControlPoints_reverse = pointdb.Link_ControlPoints_reverse
-    pointdb.Link_ControlPoints_reverse = new LinkDB
+    let _Link_ControlPoints_reverse = pointdb.PointPointersEncoding.Link_ControlPoints_reverse
+    pointdb.PointPointersEncoding.Link_ControlPoints_reverse = new LinkDB
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -142,7 +142,7 @@ export class PointService {
     return this.http.put<PointDB>(url, pointdb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
-        pointdb.Link_ControlPoints_reverse = _Link_ControlPoints_reverse
+        pointdb.PointPointersEncoding.Link_ControlPoints_reverse = _Link_ControlPoints_reverse
         // this.log(`updated pointdb id=${pointdb.ID}`)
       }),
       catchError(this.handleError<PointDB>('updatePoint'))

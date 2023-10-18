@@ -38,7 +38,7 @@ type GongEnumAPI struct {
 	models.GongEnum_WOP
 
 	// encoding of pointers
-	GongEnumPointersEncoding
+	GongEnumPointersEncoding GongEnumPointersEncoding
 }
 
 // GongEnumPointersEncoding encodes pointers to Struct and
@@ -47,7 +47,7 @@ type GongEnumPointersEncoding struct {
 	// insertion for pointer fields encoding declaration
 
 	// field GongEnumValues is a slice of pointers to another Struct (optional or 0..1)
-	GongEnumValues IntSlice`gorm:"type:TEXT"`
+	GongEnumValues IntSlice `gorm:"type:TEXT"`
 }
 
 // GongEnumDB describes a gongenum in the database
@@ -227,6 +227,7 @@ func (backRepoGongEnum *BackRepoGongEnumStruct) CommitPhaseTwoInstance(backRepo 
 				backRepo.BackRepoGongEnumValue.GetGongEnumValueDBFromGongEnumValuePtr(gongenumvalueAssocEnd)
 
 			// encode reverse pointer in the association end back repo instance
+			// (to be removed)
 			gongenumvalueAssocEnd_DB.GongEnum_GongEnumValuesDBID.Int64 = int64(gongenumDB.ID)
 			gongenumvalueAssocEnd_DB.GongEnum_GongEnumValuesDBID.Valid = true
 			gongenumvalueAssocEnd_DB.GongEnum_GongEnumValuesDBID_Index.Int64 = int64(idx)

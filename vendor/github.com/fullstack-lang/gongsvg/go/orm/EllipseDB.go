@@ -35,21 +35,26 @@ var dummy_Ellipse_sort sort.Float64Slice
 type EllipseAPI struct {
 	gorm.Model
 
-	models.Ellipse
+	models.Ellipse_WOP
 
 	// encoding of pointers
-	EllipsePointersEnconding
+	EllipsePointersEncoding EllipsePointersEncoding
 }
 
-// EllipsePointersEnconding encodes pointers to Struct and
+// EllipsePointersEncoding encodes pointers to Struct and
 // reverse pointers of slice of poitners to Struct
-type EllipsePointersEnconding struct {
+type EllipsePointersEncoding struct {
 	// insertion for pointer fields encoding declaration
 
+	// field Animates is a slice of pointers to another Struct (optional or 0..1)
+	Animates IntSlice `gorm:"type:TEXT"`
+
 	// Implementation of a reverse ID for field Layer{}.Ellipses []*Ellipse
+	// (to be removed)
 	Layer_EllipsesDBID sql.NullInt64
 
 	// implementation of the index of the withing the slice
+	// (to be removed)
 	Layer_EllipsesDBID_Index sql.NullInt64
 }
 
@@ -100,7 +105,7 @@ type EllipseDB struct {
 	// Declation for basic field ellipseDB.Transform
 	Transform_Data sql.NullString
 	// encoding of pointers
-	EllipsePointersEnconding
+	EllipsePointersEncoding
 }
 
 // EllipseDBs arrays ellipseDBs
@@ -222,7 +227,7 @@ func (backRepoEllipse *BackRepoEllipseStruct) CommitDeleteInstance(id uint) (Err
 	ellipseDB := backRepoEllipse.Map_EllipseDBID_EllipseDB[id]
 	query := backRepoEllipse.db.Unscoped().Delete(&ellipseDB)
 	if query.Error != nil {
-		return query.Error
+		log.Fatal(query.Error)
 	}
 
 	// update stores
@@ -248,7 +253,7 @@ func (backRepoEllipse *BackRepoEllipseStruct) CommitPhaseOneInstance(ellipse *mo
 
 	query := backRepoEllipse.db.Create(&ellipseDB)
 	if query.Error != nil {
-		return query.Error
+		log.Fatal(query.Error)
 	}
 
 	// update stores
@@ -290,6 +295,7 @@ func (backRepoEllipse *BackRepoEllipseStruct) CommitPhaseTwoInstance(backRepo *B
 				backRepo.BackRepoAnimate.GetAnimateDBFromAnimatePtr(animateAssocEnd)
 
 			// encode reverse pointer in the association end back repo instance
+			// (to be removed)
 			animateAssocEnd_DB.Ellipse_AnimatesDBID.Int64 = int64(ellipseDB.ID)
 			animateAssocEnd_DB.Ellipse_AnimatesDBID.Valid = true
 			animateAssocEnd_DB.Ellipse_AnimatesDBID_Index.Int64 = int64(idx)
@@ -299,9 +305,19 @@ func (backRepoEllipse *BackRepoEllipseStruct) CommitPhaseTwoInstance(backRepo *B
 			}
 		}
 
+		// 1. reset
+		ellipseDB.EllipsePointersEncoding.Animates = make([]int, 0)
+		// 2. encode
+		for _, animateAssocEnd := range ellipse.Animates {
+			animateAssocEnd_DB :=
+				backRepo.BackRepoAnimate.GetAnimateDBFromAnimatePtr(animateAssocEnd)
+			ellipseDB.EllipsePointersEncoding.Animates =
+				append(ellipseDB.EllipsePointersEncoding.Animates, int(animateAssocEnd_DB.ID))
+		}
+
 		query := backRepoEllipse.db.Save(&ellipseDB)
 		if query.Error != nil {
-			return query.Error
+			log.Fatalln(query.Error)
 		}
 
 	} else {
@@ -455,7 +471,7 @@ func (backRepo *BackRepoStruct) CheckoutEllipse(ellipse *models.Ellipse) {
 			ellipseDB.ID = id
 
 			if err := backRepo.BackRepoEllipse.db.First(&ellipseDB, id).Error; err != nil {
-				log.Panicln("CheckoutEllipse : Problem with getting object with id:", id)
+				log.Fatalln("CheckoutEllipse : Problem with getting object with id:", id)
 			}
 			backRepo.BackRepoEllipse.CheckoutPhaseOneInstance(&ellipseDB)
 			backRepo.BackRepoEllipse.CheckoutPhaseTwoInstance(backRepo, &ellipseDB)
@@ -465,6 +481,47 @@ func (backRepo *BackRepoStruct) CheckoutEllipse(ellipse *models.Ellipse) {
 
 // CopyBasicFieldsFromEllipse
 func (ellipseDB *EllipseDB) CopyBasicFieldsFromEllipse(ellipse *models.Ellipse) {
+	// insertion point for fields commit
+
+	ellipseDB.Name_Data.String = ellipse.Name
+	ellipseDB.Name_Data.Valid = true
+
+	ellipseDB.CX_Data.Float64 = ellipse.CX
+	ellipseDB.CX_Data.Valid = true
+
+	ellipseDB.CY_Data.Float64 = ellipse.CY
+	ellipseDB.CY_Data.Valid = true
+
+	ellipseDB.RX_Data.Float64 = ellipse.RX
+	ellipseDB.RX_Data.Valid = true
+
+	ellipseDB.RY_Data.Float64 = ellipse.RY
+	ellipseDB.RY_Data.Valid = true
+
+	ellipseDB.Color_Data.String = ellipse.Color
+	ellipseDB.Color_Data.Valid = true
+
+	ellipseDB.FillOpacity_Data.Float64 = ellipse.FillOpacity
+	ellipseDB.FillOpacity_Data.Valid = true
+
+	ellipseDB.Stroke_Data.String = ellipse.Stroke
+	ellipseDB.Stroke_Data.Valid = true
+
+	ellipseDB.StrokeWidth_Data.Float64 = ellipse.StrokeWidth
+	ellipseDB.StrokeWidth_Data.Valid = true
+
+	ellipseDB.StrokeDashArray_Data.String = ellipse.StrokeDashArray
+	ellipseDB.StrokeDashArray_Data.Valid = true
+
+	ellipseDB.StrokeDashArrayWhenSelected_Data.String = ellipse.StrokeDashArrayWhenSelected
+	ellipseDB.StrokeDashArrayWhenSelected_Data.Valid = true
+
+	ellipseDB.Transform_Data.String = ellipse.Transform
+	ellipseDB.Transform_Data.Valid = true
+}
+
+// CopyBasicFieldsFromEllipse_WOP
+func (ellipseDB *EllipseDB) CopyBasicFieldsFromEllipse_WOP(ellipse *models.Ellipse_WOP) {
 	// insertion point for fields commit
 
 	ellipseDB.Name_Data.String = ellipse.Name
@@ -562,6 +619,23 @@ func (ellipseDB *EllipseDB) CopyBasicFieldsToEllipse(ellipse *models.Ellipse) {
 	ellipse.Transform = ellipseDB.Transform_Data.String
 }
 
+// CopyBasicFieldsToEllipse_WOP
+func (ellipseDB *EllipseDB) CopyBasicFieldsToEllipse_WOP(ellipse *models.Ellipse_WOP) {
+	// insertion point for checkout of basic fields (back repo to stage)
+	ellipse.Name = ellipseDB.Name_Data.String
+	ellipse.CX = ellipseDB.CX_Data.Float64
+	ellipse.CY = ellipseDB.CY_Data.Float64
+	ellipse.RX = ellipseDB.RX_Data.Float64
+	ellipse.RY = ellipseDB.RY_Data.Float64
+	ellipse.Color = ellipseDB.Color_Data.String
+	ellipse.FillOpacity = ellipseDB.FillOpacity_Data.Float64
+	ellipse.Stroke = ellipseDB.Stroke_Data.String
+	ellipse.StrokeWidth = ellipseDB.StrokeWidth_Data.Float64
+	ellipse.StrokeDashArray = ellipseDB.StrokeDashArray_Data.String
+	ellipse.StrokeDashArrayWhenSelected = ellipseDB.StrokeDashArrayWhenSelected_Data.String
+	ellipse.Transform = ellipseDB.Transform_Data.String
+}
+
 // CopyBasicFieldsToEllipseWOP
 func (ellipseDB *EllipseDB) CopyBasicFieldsToEllipseWOP(ellipse *EllipseWOP) {
 	ellipse.ID = int(ellipseDB.ID)
@@ -599,12 +673,12 @@ func (backRepoEllipse *BackRepoEllipseStruct) Backup(dirPath string) {
 	file, err := json.MarshalIndent(forBackup, "", " ")
 
 	if err != nil {
-		log.Panic("Cannot json Ellipse ", filename, " ", err.Error())
+		log.Fatal("Cannot json Ellipse ", filename, " ", err.Error())
 	}
 
 	err = ioutil.WriteFile(filename, file, 0644)
 	if err != nil {
-		log.Panic("Cannot write the json Ellipse file", err.Error())
+		log.Fatal("Cannot write the json Ellipse file", err.Error())
 	}
 }
 
@@ -624,7 +698,7 @@ func (backRepoEllipse *BackRepoEllipseStruct) BackupXL(file *xlsx.File) {
 
 	sh, err := file.AddSheet("Ellipse")
 	if err != nil {
-		log.Panic("Cannot add XL file", err.Error())
+		log.Fatal("Cannot add XL file", err.Error())
 	}
 	_ = sh
 
@@ -649,13 +723,13 @@ func (backRepoEllipse *BackRepoEllipseStruct) RestoreXLPhaseOne(file *xlsx.File)
 	sh, ok := file.Sheet["Ellipse"]
 	_ = sh
 	if !ok {
-		log.Panic(errors.New("sheet not found"))
+		log.Fatal(errors.New("sheet not found"))
 	}
 
 	// log.Println("Max row is", sh.MaxRow)
 	err := sh.ForEachRow(backRepoEllipse.rowVisitorEllipse)
 	if err != nil {
-		log.Panic("Err=", err)
+		log.Fatal("Err=", err)
 	}
 }
 
@@ -677,7 +751,7 @@ func (backRepoEllipse *BackRepoEllipseStruct) rowVisitorEllipse(row *xlsx.Row) e
 		ellipseDB.ID = 0
 		query := backRepoEllipse.db.Create(ellipseDB)
 		if query.Error != nil {
-			log.Panic(query.Error)
+			log.Fatal(query.Error)
 		}
 		backRepoEllipse.Map_EllipseDBID_EllipseDB[ellipseDB.ID] = ellipseDB
 		BackRepoEllipseid_atBckpTime_newID[ellipseDB_ID_atBackupTime] = ellipseDB.ID
@@ -697,7 +771,7 @@ func (backRepoEllipse *BackRepoEllipseStruct) RestorePhaseOne(dirPath string) {
 	jsonFile, err := os.Open(filename)
 	// if we os.Open returns an error then handle it
 	if err != nil {
-		log.Panic("Cannot restore/open the json Ellipse file", filename, " ", err.Error())
+		log.Fatal("Cannot restore/open the json Ellipse file", filename, " ", err.Error())
 	}
 
 	// read our opened jsonFile as a byte array.
@@ -714,14 +788,14 @@ func (backRepoEllipse *BackRepoEllipseStruct) RestorePhaseOne(dirPath string) {
 		ellipseDB.ID = 0
 		query := backRepoEllipse.db.Create(ellipseDB)
 		if query.Error != nil {
-			log.Panic(query.Error)
+			log.Fatal(query.Error)
 		}
 		backRepoEllipse.Map_EllipseDBID_EllipseDB[ellipseDB.ID] = ellipseDB
 		BackRepoEllipseid_atBckpTime_newID[ellipseDB_ID_atBackupTime] = ellipseDB.ID
 	}
 
 	if err != nil {
-		log.Panic("Cannot restore/unmarshall json Ellipse file", err.Error())
+		log.Fatal("Cannot restore/unmarshall json Ellipse file", err.Error())
 	}
 }
 
@@ -744,7 +818,7 @@ func (backRepoEllipse *BackRepoEllipseStruct) RestorePhaseTwo() {
 		// update databse with new index encoding
 		query := backRepoEllipse.db.Model(ellipseDB).Updates(*ellipseDB)
 		if query.Error != nil {
-			log.Panic(query.Error)
+			log.Fatal(query.Error)
 		}
 	}
 

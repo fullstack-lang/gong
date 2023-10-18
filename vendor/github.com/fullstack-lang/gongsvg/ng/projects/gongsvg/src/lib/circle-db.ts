@@ -26,8 +26,16 @@ export class CircleDB {
 	StrokeDashArrayWhenSelected: string = ""
 	Transform: string = ""
 
-	// insertion point for other declarations
-	Animations?: Array<AnimateDB>
+	// insertion point for pointers and slices of pointers declarations
+	Animations: Array<AnimateDB> = []
+
+	CirclePointersEncoding: CirclePointersEncoding = new CirclePointersEncoding
+}
+
+export class CirclePointersEncoding {
+	// insertion point for pointers and slices of pointers encoding fields
+	Animations: number[] = []
+	// reverse pointers encoding (to be removed)
 	Layer_CirclesDBID: NullInt64 = new NullInt64
 	Layer_CirclesDBID_Index: NullInt64  = new NullInt64 // store the index of the circle instance in Layer.Circles
 	Layer_Circles_reverse?: LayerDB 

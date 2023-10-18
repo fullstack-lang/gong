@@ -35,20 +35,26 @@ var dummy_DiagramPackage_sort sort.Float64Slice
 type DiagramPackageAPI struct {
 	gorm.Model
 
-	models.DiagramPackage
+	models.DiagramPackage_WOP
 
 	// encoding of pointers
-	DiagramPackagePointersEnconding
+	DiagramPackagePointersEncoding DiagramPackagePointersEncoding
 }
 
-// DiagramPackagePointersEnconding encodes pointers to Struct and
+// DiagramPackagePointersEncoding encodes pointers to Struct and
 // reverse pointers of slice of poitners to Struct
-type DiagramPackagePointersEnconding struct {
+type DiagramPackagePointersEncoding struct {
 	// insertion for pointer fields encoding declaration
+
+	// field Classdiagrams is a slice of pointers to another Struct (optional or 0..1)
+	Classdiagrams IntSlice `gorm:"type:TEXT"`
 
 	// field SelectedClassdiagram is a pointer to another Struct (optional or 0..1)
 	// This field is generated into another field to enable AS ONE association
 	SelectedClassdiagramID sql.NullInt64
+
+	// field Umlscs is a slice of pointers to another Struct (optional or 0..1)
+	Umlscs IntSlice `gorm:"type:TEXT"`
 }
 
 // DiagramPackageDB describes a diagrampackage in the database
@@ -82,7 +88,7 @@ type DiagramPackageDB struct {
 	// Declation for basic field diagrampackageDB.AbsolutePathToDiagramPackage
 	AbsolutePathToDiagramPackage_Data sql.NullString
 	// encoding of pointers
-	DiagramPackagePointersEnconding
+	DiagramPackagePointersEncoding
 }
 
 // DiagramPackageDBs arrays diagrampackageDBs
@@ -186,7 +192,7 @@ func (backRepoDiagramPackage *BackRepoDiagramPackageStruct) CommitDeleteInstance
 	diagrampackageDB := backRepoDiagramPackage.Map_DiagramPackageDBID_DiagramPackageDB[id]
 	query := backRepoDiagramPackage.db.Unscoped().Delete(&diagrampackageDB)
 	if query.Error != nil {
-		return query.Error
+		log.Fatal(query.Error)
 	}
 
 	// update stores
@@ -212,7 +218,7 @@ func (backRepoDiagramPackage *BackRepoDiagramPackageStruct) CommitPhaseOneInstan
 
 	query := backRepoDiagramPackage.db.Create(&diagrampackageDB)
 	if query.Error != nil {
-		return query.Error
+		log.Fatal(query.Error)
 	}
 
 	// update stores
@@ -254,6 +260,7 @@ func (backRepoDiagramPackage *BackRepoDiagramPackageStruct) CommitPhaseTwoInstan
 				backRepo.BackRepoClassdiagram.GetClassdiagramDBFromClassdiagramPtr(classdiagramAssocEnd)
 
 			// encode reverse pointer in the association end back repo instance
+			// (to be removed)
 			classdiagramAssocEnd_DB.DiagramPackage_ClassdiagramsDBID.Int64 = int64(diagrampackageDB.ID)
 			classdiagramAssocEnd_DB.DiagramPackage_ClassdiagramsDBID.Valid = true
 			classdiagramAssocEnd_DB.DiagramPackage_ClassdiagramsDBID_Index.Int64 = int64(idx)
@@ -261,6 +268,16 @@ func (backRepoDiagramPackage *BackRepoDiagramPackageStruct) CommitPhaseTwoInstan
 			if q := backRepoDiagramPackage.db.Save(classdiagramAssocEnd_DB); q.Error != nil {
 				return q.Error
 			}
+		}
+
+		// 1. reset
+		diagrampackageDB.DiagramPackagePointersEncoding.Classdiagrams = make([]int, 0)
+		// 2. encode
+		for _, classdiagramAssocEnd := range diagrampackage.Classdiagrams {
+			classdiagramAssocEnd_DB :=
+				backRepo.BackRepoClassdiagram.GetClassdiagramDBFromClassdiagramPtr(classdiagramAssocEnd)
+			diagrampackageDB.DiagramPackagePointersEncoding.Classdiagrams =
+				append(diagrampackageDB.DiagramPackagePointersEncoding.Classdiagrams, int(classdiagramAssocEnd_DB.ID))
 		}
 
 		// commit pointer value diagrampackage.SelectedClassdiagram translates to updating the diagrampackage.SelectedClassdiagramID
@@ -285,6 +302,7 @@ func (backRepoDiagramPackage *BackRepoDiagramPackageStruct) CommitPhaseTwoInstan
 				backRepo.BackRepoUmlsc.GetUmlscDBFromUmlscPtr(umlscAssocEnd)
 
 			// encode reverse pointer in the association end back repo instance
+			// (to be removed)
 			umlscAssocEnd_DB.DiagramPackage_UmlscsDBID.Int64 = int64(diagrampackageDB.ID)
 			umlscAssocEnd_DB.DiagramPackage_UmlscsDBID.Valid = true
 			umlscAssocEnd_DB.DiagramPackage_UmlscsDBID_Index.Int64 = int64(idx)
@@ -294,9 +312,19 @@ func (backRepoDiagramPackage *BackRepoDiagramPackageStruct) CommitPhaseTwoInstan
 			}
 		}
 
+		// 1. reset
+		diagrampackageDB.DiagramPackagePointersEncoding.Umlscs = make([]int, 0)
+		// 2. encode
+		for _, umlscAssocEnd := range diagrampackage.Umlscs {
+			umlscAssocEnd_DB :=
+				backRepo.BackRepoUmlsc.GetUmlscDBFromUmlscPtr(umlscAssocEnd)
+			diagrampackageDB.DiagramPackagePointersEncoding.Umlscs =
+				append(diagrampackageDB.DiagramPackagePointersEncoding.Umlscs, int(umlscAssocEnd_DB.ID))
+		}
+
 		query := backRepoDiagramPackage.db.Save(&diagrampackageDB)
 		if query.Error != nil {
-			return query.Error
+			log.Fatalln(query.Error)
 		}
 
 	} else {
@@ -482,7 +510,7 @@ func (backRepo *BackRepoStruct) CheckoutDiagramPackage(diagrampackage *models.Di
 			diagrampackageDB.ID = id
 
 			if err := backRepo.BackRepoDiagramPackage.db.First(&diagrampackageDB, id).Error; err != nil {
-				log.Panicln("CheckoutDiagramPackage : Problem with getting object with id:", id)
+				log.Fatalln("CheckoutDiagramPackage : Problem with getting object with id:", id)
 			}
 			backRepo.BackRepoDiagramPackage.CheckoutPhaseOneInstance(&diagrampackageDB)
 			backRepo.BackRepoDiagramPackage.CheckoutPhaseTwoInstance(backRepo, &diagrampackageDB)
@@ -492,6 +520,29 @@ func (backRepo *BackRepoStruct) CheckoutDiagramPackage(diagrampackage *models.Di
 
 // CopyBasicFieldsFromDiagramPackage
 func (diagrampackageDB *DiagramPackageDB) CopyBasicFieldsFromDiagramPackage(diagrampackage *models.DiagramPackage) {
+	// insertion point for fields commit
+
+	diagrampackageDB.Name_Data.String = diagrampackage.Name
+	diagrampackageDB.Name_Data.Valid = true
+
+	diagrampackageDB.Path_Data.String = diagrampackage.Path
+	diagrampackageDB.Path_Data.Valid = true
+
+	diagrampackageDB.GongModelPath_Data.String = diagrampackage.GongModelPath
+	diagrampackageDB.GongModelPath_Data.Valid = true
+
+	diagrampackageDB.IsEditable_Data.Bool = diagrampackage.IsEditable
+	diagrampackageDB.IsEditable_Data.Valid = true
+
+	diagrampackageDB.IsReloaded_Data.Bool = diagrampackage.IsReloaded
+	diagrampackageDB.IsReloaded_Data.Valid = true
+
+	diagrampackageDB.AbsolutePathToDiagramPackage_Data.String = diagrampackage.AbsolutePathToDiagramPackage
+	diagrampackageDB.AbsolutePathToDiagramPackage_Data.Valid = true
+}
+
+// CopyBasicFieldsFromDiagramPackage_WOP
+func (diagrampackageDB *DiagramPackageDB) CopyBasicFieldsFromDiagramPackage_WOP(diagrampackage *models.DiagramPackage_WOP) {
 	// insertion point for fields commit
 
 	diagrampackageDB.Name_Data.String = diagrampackage.Name
@@ -547,6 +598,17 @@ func (diagrampackageDB *DiagramPackageDB) CopyBasicFieldsToDiagramPackage(diagra
 	diagrampackage.AbsolutePathToDiagramPackage = diagrampackageDB.AbsolutePathToDiagramPackage_Data.String
 }
 
+// CopyBasicFieldsToDiagramPackage_WOP
+func (diagrampackageDB *DiagramPackageDB) CopyBasicFieldsToDiagramPackage_WOP(diagrampackage *models.DiagramPackage_WOP) {
+	// insertion point for checkout of basic fields (back repo to stage)
+	diagrampackage.Name = diagrampackageDB.Name_Data.String
+	diagrampackage.Path = diagrampackageDB.Path_Data.String
+	diagrampackage.GongModelPath = diagrampackageDB.GongModelPath_Data.String
+	diagrampackage.IsEditable = diagrampackageDB.IsEditable_Data.Bool
+	diagrampackage.IsReloaded = diagrampackageDB.IsReloaded_Data.Bool
+	diagrampackage.AbsolutePathToDiagramPackage = diagrampackageDB.AbsolutePathToDiagramPackage_Data.String
+}
+
 // CopyBasicFieldsToDiagramPackageWOP
 func (diagrampackageDB *DiagramPackageDB) CopyBasicFieldsToDiagramPackageWOP(diagrampackage *DiagramPackageWOP) {
 	diagrampackage.ID = int(diagrampackageDB.ID)
@@ -578,12 +640,12 @@ func (backRepoDiagramPackage *BackRepoDiagramPackageStruct) Backup(dirPath strin
 	file, err := json.MarshalIndent(forBackup, "", " ")
 
 	if err != nil {
-		log.Panic("Cannot json DiagramPackage ", filename, " ", err.Error())
+		log.Fatal("Cannot json DiagramPackage ", filename, " ", err.Error())
 	}
 
 	err = ioutil.WriteFile(filename, file, 0644)
 	if err != nil {
-		log.Panic("Cannot write the json DiagramPackage file", err.Error())
+		log.Fatal("Cannot write the json DiagramPackage file", err.Error())
 	}
 }
 
@@ -603,7 +665,7 @@ func (backRepoDiagramPackage *BackRepoDiagramPackageStruct) BackupXL(file *xlsx.
 
 	sh, err := file.AddSheet("DiagramPackage")
 	if err != nil {
-		log.Panic("Cannot add XL file", err.Error())
+		log.Fatal("Cannot add XL file", err.Error())
 	}
 	_ = sh
 
@@ -628,13 +690,13 @@ func (backRepoDiagramPackage *BackRepoDiagramPackageStruct) RestoreXLPhaseOne(fi
 	sh, ok := file.Sheet["DiagramPackage"]
 	_ = sh
 	if !ok {
-		log.Panic(errors.New("sheet not found"))
+		log.Fatal(errors.New("sheet not found"))
 	}
 
 	// log.Println("Max row is", sh.MaxRow)
 	err := sh.ForEachRow(backRepoDiagramPackage.rowVisitorDiagramPackage)
 	if err != nil {
-		log.Panic("Err=", err)
+		log.Fatal("Err=", err)
 	}
 }
 
@@ -656,7 +718,7 @@ func (backRepoDiagramPackage *BackRepoDiagramPackageStruct) rowVisitorDiagramPac
 		diagrampackageDB.ID = 0
 		query := backRepoDiagramPackage.db.Create(diagrampackageDB)
 		if query.Error != nil {
-			log.Panic(query.Error)
+			log.Fatal(query.Error)
 		}
 		backRepoDiagramPackage.Map_DiagramPackageDBID_DiagramPackageDB[diagrampackageDB.ID] = diagrampackageDB
 		BackRepoDiagramPackageid_atBckpTime_newID[diagrampackageDB_ID_atBackupTime] = diagrampackageDB.ID
@@ -676,7 +738,7 @@ func (backRepoDiagramPackage *BackRepoDiagramPackageStruct) RestorePhaseOne(dirP
 	jsonFile, err := os.Open(filename)
 	// if we os.Open returns an error then handle it
 	if err != nil {
-		log.Panic("Cannot restore/open the json DiagramPackage file", filename, " ", err.Error())
+		log.Fatal("Cannot restore/open the json DiagramPackage file", filename, " ", err.Error())
 	}
 
 	// read our opened jsonFile as a byte array.
@@ -693,14 +755,14 @@ func (backRepoDiagramPackage *BackRepoDiagramPackageStruct) RestorePhaseOne(dirP
 		diagrampackageDB.ID = 0
 		query := backRepoDiagramPackage.db.Create(diagrampackageDB)
 		if query.Error != nil {
-			log.Panic(query.Error)
+			log.Fatal(query.Error)
 		}
 		backRepoDiagramPackage.Map_DiagramPackageDBID_DiagramPackageDB[diagrampackageDB.ID] = diagrampackageDB
 		BackRepoDiagramPackageid_atBckpTime_newID[diagrampackageDB_ID_atBackupTime] = diagrampackageDB.ID
 	}
 
 	if err != nil {
-		log.Panic("Cannot restore/unmarshall json DiagramPackage file", err.Error())
+		log.Fatal("Cannot restore/unmarshall json DiagramPackage file", err.Error())
 	}
 }
 
@@ -723,7 +785,7 @@ func (backRepoDiagramPackage *BackRepoDiagramPackageStruct) RestorePhaseTwo() {
 		// update databse with new index encoding
 		query := backRepoDiagramPackage.db.Model(diagrampackageDB).Updates(*diagrampackageDB)
 		if query.Error != nil {
-			log.Panic(query.Error)
+			log.Fatal(query.Error)
 		}
 	}
 

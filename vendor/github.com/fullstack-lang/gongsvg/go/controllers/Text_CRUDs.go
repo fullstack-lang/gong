@@ -91,8 +91,8 @@ func (controller *Controller) GetTexts(c *gin.Context) {
 
 		// insertion point for updating fields
 		textAPI.ID = textDB.ID
-		textDB.CopyBasicFieldsToText(&textAPI.Text)
-		textAPI.TextPointersEnconding = textDB.TextPointersEnconding
+		textDB.CopyBasicFieldsToText_WOP(&textAPI.Text_WOP)
+		textAPI.TextPointersEncoding = textDB.TextPointersEncoding
 		textAPIs = append(textAPIs, textAPI)
 	}
 
@@ -147,8 +147,8 @@ func (controller *Controller) PostText(c *gin.Context) {
 
 	// Create text
 	textDB := orm.TextDB{}
-	textDB.TextPointersEnconding = input.TextPointersEnconding
-	textDB.CopyBasicFieldsFromText(&input.Text)
+	textDB.TextPointersEncoding = input.TextPointersEncoding
+	textDB.CopyBasicFieldsFromText_WOP(&input.Text_WOP)
 
 	query := db.Create(&textDB)
 	if query.Error != nil {
@@ -217,8 +217,8 @@ func (controller *Controller) GetText(c *gin.Context) {
 
 	var textAPI orm.TextAPI
 	textAPI.ID = textDB.ID
-	textAPI.TextPointersEnconding = textDB.TextPointersEnconding
-	textDB.CopyBasicFieldsToText(&textAPI.Text)
+	textAPI.TextPointersEncoding = textDB.TextPointersEncoding
+	textDB.CopyBasicFieldsToText_WOP(&textAPI.Text_WOP)
 
 	c.JSON(http.StatusOK, textAPI)
 }
@@ -276,8 +276,8 @@ func (controller *Controller) UpdateText(c *gin.Context) {
 	}
 
 	// update
-	textDB.CopyBasicFieldsFromText(&input.Text)
-	textDB.TextPointersEnconding = input.TextPointersEnconding
+	textDB.CopyBasicFieldsFromText_WOP(&input.Text_WOP)
+	textDB.TextPointersEncoding = input.TextPointersEncoding
 
 	query = db.Model(&textDB).Updates(textDB)
 	if query.Error != nil {

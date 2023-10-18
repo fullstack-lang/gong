@@ -24,8 +24,16 @@ export class PolygoneDB {
 	StrokeDashArrayWhenSelected: string = ""
 	Transform: string = ""
 
-	// insertion point for other declarations
-	Animates?: Array<AnimateDB>
+	// insertion point for pointers and slices of pointers declarations
+	Animates: Array<AnimateDB> = []
+
+	PolygonePointersEncoding: PolygonePointersEncoding = new PolygonePointersEncoding
+}
+
+export class PolygonePointersEncoding {
+	// insertion point for pointers and slices of pointers encoding fields
+	Animates: number[] = []
+	// reverse pointers encoding (to be removed)
 	Layer_PolygonesDBID: NullInt64 = new NullInt64
 	Layer_PolygonesDBID_Index: NullInt64  = new NullInt64 // store the index of the polygone instance in Layer.Polygones
 	Layer_Polygones_reverse?: LayerDB 

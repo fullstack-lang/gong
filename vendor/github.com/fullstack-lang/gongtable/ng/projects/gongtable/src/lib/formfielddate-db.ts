@@ -15,5 +15,11 @@ export class FormFieldDateDB {
 	Name: string = ""
 	Value: Date = new Date
 
-	// insertion point for other declarations
+	// insertion point for pointers and slices of pointers declarations
+
+	FormFieldDatePointersEncoding: FormFieldDatePointersEncoding = new FormFieldDatePointersEncoding
+}
+
+export class FormFieldDatePointersEncoding {
+	// insertion point for pointers and slices of pointers encoding fields
 }

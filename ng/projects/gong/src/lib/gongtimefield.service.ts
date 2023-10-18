@@ -82,8 +82,8 @@ export class GongTimeFieldService {
   postGongTimeField(gongtimefielddb: GongTimeFieldDB, GONG__StackPath: string): Observable<GongTimeFieldDB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
-    let _GongStruct_GongTimeFields_reverse = gongtimefielddb.GongStruct_GongTimeFields_reverse
-    gongtimefielddb.GongStruct_GongTimeFields_reverse = new GongStructDB
+    let _GongStruct_GongTimeFields_reverse = gongtimefielddb.GongTimeFieldPointersEncoding.GongStruct_GongTimeFields_reverse
+    gongtimefielddb.GongTimeFieldPointersEncoding.GongStruct_GongTimeFields_reverse = new GongStructDB
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -94,7 +94,7 @@ export class GongTimeFieldService {
     return this.http.post<GongTimeFieldDB>(this.gongtimefieldsUrl, gongtimefielddb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
-        gongtimefielddb.GongStruct_GongTimeFields_reverse = _GongStruct_GongTimeFields_reverse
+        gongtimefielddb.GongTimeFieldPointersEncoding.GongStruct_GongTimeFields_reverse = _GongStruct_GongTimeFields_reverse
         // this.log(`posted gongtimefielddb id=${gongtimefielddb.ID}`)
       }),
       catchError(this.handleError<GongTimeFieldDB>('postGongTimeField'))
@@ -130,8 +130,8 @@ export class GongTimeFieldService {
     const url = `${this.gongtimefieldsUrl}/${id}`;
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
-    let _GongStruct_GongTimeFields_reverse = gongtimefielddb.GongStruct_GongTimeFields_reverse
-    gongtimefielddb.GongStruct_GongTimeFields_reverse = new GongStructDB
+    let _GongStruct_GongTimeFields_reverse = gongtimefielddb.GongTimeFieldPointersEncoding.GongStruct_GongTimeFields_reverse
+    gongtimefielddb.GongTimeFieldPointersEncoding.GongStruct_GongTimeFields_reverse = new GongStructDB
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -142,7 +142,7 @@ export class GongTimeFieldService {
     return this.http.put<GongTimeFieldDB>(url, gongtimefielddb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
-        gongtimefielddb.GongStruct_GongTimeFields_reverse = _GongStruct_GongTimeFields_reverse
+        gongtimefielddb.GongTimeFieldPointersEncoding.GongStruct_GongTimeFields_reverse = _GongStruct_GongTimeFields_reverse
         // this.log(`updated gongtimefielddb id=${gongtimefielddb.ID}`)
       }),
       catchError(this.handleError<GongTimeFieldDB>('updateGongTimeField'))

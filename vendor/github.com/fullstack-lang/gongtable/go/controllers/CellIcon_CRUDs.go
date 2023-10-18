@@ -91,8 +91,8 @@ func (controller *Controller) GetCellIcons(c *gin.Context) {
 
 		// insertion point for updating fields
 		celliconAPI.ID = celliconDB.ID
-		celliconDB.CopyBasicFieldsToCellIcon(&celliconAPI.CellIcon)
-		celliconAPI.CellIconPointersEnconding = celliconDB.CellIconPointersEnconding
+		celliconDB.CopyBasicFieldsToCellIcon_WOP(&celliconAPI.CellIcon_WOP)
+		celliconAPI.CellIconPointersEncoding = celliconDB.CellIconPointersEncoding
 		celliconAPIs = append(celliconAPIs, celliconAPI)
 	}
 
@@ -147,8 +147,8 @@ func (controller *Controller) PostCellIcon(c *gin.Context) {
 
 	// Create cellicon
 	celliconDB := orm.CellIconDB{}
-	celliconDB.CellIconPointersEnconding = input.CellIconPointersEnconding
-	celliconDB.CopyBasicFieldsFromCellIcon(&input.CellIcon)
+	celliconDB.CellIconPointersEncoding = input.CellIconPointersEncoding
+	celliconDB.CopyBasicFieldsFromCellIcon_WOP(&input.CellIcon_WOP)
 
 	query := db.Create(&celliconDB)
 	if query.Error != nil {
@@ -217,8 +217,8 @@ func (controller *Controller) GetCellIcon(c *gin.Context) {
 
 	var celliconAPI orm.CellIconAPI
 	celliconAPI.ID = celliconDB.ID
-	celliconAPI.CellIconPointersEnconding = celliconDB.CellIconPointersEnconding
-	celliconDB.CopyBasicFieldsToCellIcon(&celliconAPI.CellIcon)
+	celliconAPI.CellIconPointersEncoding = celliconDB.CellIconPointersEncoding
+	celliconDB.CopyBasicFieldsToCellIcon_WOP(&celliconAPI.CellIcon_WOP)
 
 	c.JSON(http.StatusOK, celliconAPI)
 }
@@ -276,8 +276,8 @@ func (controller *Controller) UpdateCellIcon(c *gin.Context) {
 	}
 
 	// update
-	celliconDB.CopyBasicFieldsFromCellIcon(&input.CellIcon)
-	celliconDB.CellIconPointersEnconding = input.CellIconPointersEnconding
+	celliconDB.CopyBasicFieldsFromCellIcon_WOP(&input.CellIcon_WOP)
+	celliconDB.CellIconPointersEncoding = input.CellIconPointersEncoding
 
 	query = db.Model(&celliconDB).Updates(celliconDB)
 	if query.Error != nil {
