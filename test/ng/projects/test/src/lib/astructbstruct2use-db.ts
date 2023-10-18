@@ -16,8 +16,15 @@ export class AstructBstruct2UseDB {
 	// insertion point for basic fields declarations
 	Name: string = ""
 
-	// insertion point for other declarations
+	// insertion point for pointers and slices of pointers declarations
 	Bstrcut2?: BstructDB
+
+
+	AstructBstruct2UsePointersEncoding: AstructBstruct2UsePointersEncoding = new AstructBstruct2UsePointersEncoding
+}
+
+export class AstructBstruct2UsePointersEncoding {
+	// insertion point for pointers and slices of pointers encoding fields
 	Bstrcut2ID: NullInt64 = new NullInt64 // if pointer is null, Bstrcut2.ID = 0
 
 	// reverse pointers encoding (to be removed)
@@ -25,10 +32,4 @@ export class AstructBstruct2UseDB {
 	Astruct_Anarrayofb2UseDBID_Index: NullInt64  = new NullInt64 // store the index of the astructbstruct2use instance in Astruct.Anarrayofb2Use
 	Astruct_Anarrayofb2Use_reverse?: AstructDB 
 
-
-	AstructBstruct2UsePointersEncoding: AstructBstruct2UsePointersEncoding = new AstructBstruct2UsePointersEncoding
-}
-
-export class AstructBstruct2UsePointersEncoding {
-	// insertion point for other declarations
 }
