@@ -16,7 +16,7 @@ export class ADB {
 	Name: string = ""
 
 	// insertion point for pointers and slices of pointers declarations
-	B: BDB = new BDB
+	B?: BDB
 
 	Bs: Array<BDB> = []
 

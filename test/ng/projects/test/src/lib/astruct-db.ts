@@ -38,30 +38,30 @@ export class AstructDB {
 	TextArea: string = ""
 
 	// insertion point for pointers and slices of pointers declarations
-	Associationtob: BstructDB = new BstructDB
+	Associationtob?: BstructDB
 
 	Anarrayofb: Array<BstructDB> = []
-	Anotherassociationtob_2: BstructDB = new BstructDB
+	Anotherassociationtob_2?: BstructDB
 
 	CEnum_string?: string
-	Bstruct: BstructDB = new BstructDB
+	Bstruct?: BstructDB
 
-	Bstruct2: BstructDB = new BstructDB
+	Bstruct2?: BstructDB
 
-	Dstruct: DstructDB = new DstructDB
+	Dstruct?: DstructDB
 
-	Dstruct2: DstructDB = new DstructDB
+	Dstruct2?: DstructDB
 
-	Dstruct3: DstructDB = new DstructDB
+	Dstruct3?: DstructDB
 
-	Dstruct4: DstructDB = new DstructDB
+	Dstruct4?: DstructDB
 
 	Duration1_string?: string
 	Anarrayofa: Array<AstructDB> = []
 	Anotherarrayofb: Array<BstructDB> = []
 	AnarrayofbUse: Array<AstructBstructUseDB> = []
 	Anarrayofb2Use: Array<AstructBstruct2UseDB> = []
-	AnAstruct: AstructDB = new AstructDB
+	AnAstruct?: AstructDB
 
 
 	AstructPointersEncoding: AstructPointersEncoding = new AstructPointersEncoding

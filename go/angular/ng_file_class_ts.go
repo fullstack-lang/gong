@@ -90,7 +90,7 @@ import { {{AssocStructName}}DB } from './{{assocStructName}}-db'`,
 	{{FieldName}}: Date = new Date`,
 
 	NgClassTSPointerToStructFieldsDecl: `
-	{{FieldName}}: {{TypeInput}}DB = new {{TypeInput}}DB
+	{{FieldName}}?: {{TypeInput}}DB
 `,
 
 	NgClassTSPointerToStructFieldsEncodingDecl: `
