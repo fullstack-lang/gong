@@ -63,6 +63,9 @@ func (stage *StageStruct) StageBranchA(a *A) {
 	a.Stage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
+	if a.B != nil {
+		StageBranch(stage, a.B)
+	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _b := range a.Bs {
@@ -117,6 +120,9 @@ func (stage *StageStruct) UnstageBranchA(a *A) {
 	a.Unstage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
+	if a.B != nil {
+		UnstageBranch(stage, a.B)
+	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _b := range a.Bs {

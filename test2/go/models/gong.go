@@ -492,6 +492,8 @@ func GetAssociationName[Type Gongstruct]() *Type {
 		return any(&A{
 			// Initialisation of associations
 			// field is initialized with an instance of B with the name of the field
+			B: &B{Name: "B"},
+			// field is initialized with an instance of B with the name of the field
 			Bs: []*B{{Name: "Bs"}},
 		}).(*Type)
 	case B:
@@ -520,6 +522,23 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *StageS
 	case A:
 		switch fieldname {
 		// insertion point for per direct association field
+		case "B":
+			res := make(map[*B][]*A)
+			for a := range stage.As {
+				if a.B != nil {
+					b_ := a.B
+					var as []*A
+					_, ok := res[b_]
+					if ok {
+						as = res[b_]
+					} else {
+						as = make([]*A, 0)
+					}
+					as = append(as, a)
+					res[b_] = as
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		}
 	// reverse maps of direct associations of B
 	case B:
@@ -604,7 +623,7 @@ func GetFields[Type Gongstruct]() (res []string) {
 	switch any(ret).(type) {
 	// insertion point for generic get gongstruct name
 	case A:
-		res = []string{"Name", "Bs"}
+		res = []string{"Name", "B", "Bs"}
 	case B:
 		res = []string{"Name"}
 	}
@@ -646,7 +665,7 @@ func GetFieldsFromPointer[Type PointerToGongstruct]() (res []string) {
 	switch any(ret).(type) {
 	// insertion point for generic get gongstruct name
 	case *A:
-		res = []string{"Name", "Bs"}
+		res = []string{"Name", "B", "Bs"}
 	case *B:
 		res = []string{"Name"}
 	}
@@ -662,6 +681,10 @@ func GetFieldStringValueFromPointer[Type PointerToGongstruct](instance Type, fie
 		// string value of fields
 		case "Name":
 			res = inferedInstance.Name
+		case "B":
+			if inferedInstance.B != nil {
+				res = inferedInstance.B.Name
+			}
 		case "Bs":
 			for idx, __instance__ := range inferedInstance.Bs {
 				if idx > 0 {
@@ -691,6 +714,10 @@ func GetFieldStringValue[Type Gongstruct](instance Type, fieldName string) (res 
 		// string value of fields
 		case "Name":
 			res = inferedInstance.Name
+		case "B":
+			if inferedInstance.B != nil {
+				res = inferedInstance.B.Name
+			}
 		case "Bs":
 			for idx, __instance__ := range inferedInstance.Bs {
 				if idx > 0 {

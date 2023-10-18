@@ -384,7 +384,7 @@ map[string]string{
 	string(NgFrontRepoPtrToStructRedeeming): `
                 // insertion point for pointer field {{FieldName}} redeeming
                 {
-                  let _{{assocStructName}} = this.frontRepo.{{AssocStructName}}s.get({{structname}}.{{FieldName}}ID.Int64)
+                  let _{{assocStructName}} = this.frontRepo.{{AssocStructName}}s.get({{structname}}.{{Structname}}PointersEncoding.{{FieldName}}ID.Int64)
                   if (_{{assocStructName}}) {
                     {{structname}}.{{FieldName}} = _{{assocStructName}}
                   }
@@ -402,24 +402,25 @@ map[string]string{
                 // insertion point for slice of pointer field {{Structname}}.{{FieldName}} redeeming
                 // to be removed
                 {
-                  let _{{structname}} = this.frontRepo.{{Structname}}s.get({{assocStructName}}.{{Structname}}_{{FieldName}}DBID.Int64)
+                  let _id = {{assocStructName}}.{{AssocStructName}}PointersEncoding.{{Structname}}_{{FieldName}}DBID.Int64
+                  let _{{structname}} = this.frontRepo.{{Structname}}s.get(_id)
                   if (_{{structname}}) {
                     if (_{{structname}}.{{FieldName}} == undefined) {
                       _{{structname}}.{{FieldName}} = new Array<{{AssocStructName}}DB>()
                     }
                     _{{structname}}.{{FieldName}}.push({{assocStructName}})
-                    if ({{assocStructName}}.{{Structname}}_{{FieldName}}_reverse == undefined) {
-                      {{assocStructName}}.{{Structname}}_{{FieldName}}_reverse = _{{structname}}
+                    if ({{assocStructName}}.{{AssocStructName}}PointersEncoding.{{Structname}}_{{FieldName}}_reverse == undefined) {
+                      {{assocStructName}}.{{AssocStructName}}PointersEncoding.{{Structname}}_{{FieldName}}_reverse = _{{structname}}
                     }
                   }
                 }`,
 	string(NgFrontRepoSliceOfPointerSorting): `
                 // to be removed
                 {{structname}}.{{FieldName}}?.sort((t1, t2) => {
-                  if (t1.{{Structname}}_{{FieldName}}DBID_Index.Int64 > t2.{{Structname}}_{{FieldName}}DBID_Index.Int64) {
+                  if (t1.{{AssocStructName}}PointersEncoding.{{Structname}}_{{FieldName}}DBID_Index.Int64 > t2.{{AssocStructName}}PointersEncoding.{{Structname}}_{{FieldName}}DBID_Index.Int64) {
                     return 1;
                   }
-                  if (t1.{{Structname}}_{{FieldName}}DBID_Index.Int64 < t2.{{Structname}}_{{FieldName}}DBID_Index.Int64) {
+                  if (t1.{{AssocStructName}}PointersEncoding.{{Structname}}_{{FieldName}}DBID_Index.Int64 < t2.{{AssocStructName}}PointersEncoding.{{Structname}}_{{FieldName}}DBID_Index.Int64) {
                     return -1;
                   }
                   return 0;

@@ -14,11 +14,11 @@ export class FstructDB {
 	// insertion point for basic fields declarations
 	Name: string = ""
 
-	// insertion point for other declarations
+	// insertion point for pointers and slices of pointers declarations
 
 	FstructPointersEncoding: FstructPointersEncoding = new FstructPointersEncoding
 }
 
 export class FstructPointersEncoding {
-	// insertion point for other declarations
+	// insertion point for pointers and slices of pointers encoding fields
 }

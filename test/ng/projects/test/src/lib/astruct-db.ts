@@ -37,32 +37,24 @@ export class AstructDB {
 	ConstIdentifierValue: string = ""
 	TextArea: string = ""
 
-	// insertion point for other declarations
+	// insertion point for pointers and slices of pointers declarations
 	Associationtob?: BstructDB
-	AssociationtobID: NullInt64 = new NullInt64 // if pointer is null, Associationtob.ID = 0
 
 	Anarrayofb: Array<BstructDB> = []
 	Anotherassociationtob_2?: BstructDB
-	Anotherassociationtob_2ID: NullInt64 = new NullInt64 // if pointer is null, Anotherassociationtob_2.ID = 0
 
 	CEnum_string?: string
 	Bstruct?: BstructDB
-	BstructID: NullInt64 = new NullInt64 // if pointer is null, Bstruct.ID = 0
 
 	Bstruct2?: BstructDB
-	Bstruct2ID: NullInt64 = new NullInt64 // if pointer is null, Bstruct2.ID = 0
 
 	Dstruct?: DstructDB
-	DstructID: NullInt64 = new NullInt64 // if pointer is null, Dstruct.ID = 0
 
 	Dstruct2?: DstructDB
-	Dstruct2ID: NullInt64 = new NullInt64 // if pointer is null, Dstruct2.ID = 0
 
 	Dstruct3?: DstructDB
-	Dstruct3ID: NullInt64 = new NullInt64 // if pointer is null, Dstruct3.ID = 0
 
 	Dstruct4?: DstructDB
-	Dstruct4ID: NullInt64 = new NullInt64 // if pointer is null, Dstruct4.ID = 0
 
 	Duration1_string?: string
 	Anarrayofa: Array<AstructDB> = []
@@ -70,6 +62,34 @@ export class AstructDB {
 	AnarrayofbUse: Array<AstructBstructUseDB> = []
 	Anarrayofb2Use: Array<AstructBstruct2UseDB> = []
 	AnAstruct?: AstructDB
+
+
+	AstructPointersEncoding: AstructPointersEncoding = new AstructPointersEncoding
+}
+
+export class AstructPointersEncoding {
+	// insertion point for pointers and slices of pointers encoding fields
+	AssociationtobID: NullInt64 = new NullInt64 // if pointer is null, Associationtob.ID = 0
+
+	Anarrayofb: number[] = []
+	Anotherassociationtob_2ID: NullInt64 = new NullInt64 // if pointer is null, Anotherassociationtob_2.ID = 0
+
+	BstructID: NullInt64 = new NullInt64 // if pointer is null, Bstruct.ID = 0
+
+	Bstruct2ID: NullInt64 = new NullInt64 // if pointer is null, Bstruct2.ID = 0
+
+	DstructID: NullInt64 = new NullInt64 // if pointer is null, Dstruct.ID = 0
+
+	Dstruct2ID: NullInt64 = new NullInt64 // if pointer is null, Dstruct2.ID = 0
+
+	Dstruct3ID: NullInt64 = new NullInt64 // if pointer is null, Dstruct3.ID = 0
+
+	Dstruct4ID: NullInt64 = new NullInt64 // if pointer is null, Dstruct4.ID = 0
+
+	Anarrayofa: number[] = []
+	Anotherarrayofb: number[] = []
+	AnarrayofbUse: number[] = []
+	Anarrayofb2Use: number[] = []
 	AnAstructID: NullInt64 = new NullInt64 // if pointer is null, AnAstruct.ID = 0
 
 	// reverse pointers encoding (to be removed)
@@ -77,15 +97,4 @@ export class AstructDB {
 	Astruct_AnarrayofaDBID_Index: NullInt64  = new NullInt64 // store the index of the astruct instance in Astruct.Anarrayofa
 	Astruct_Anarrayofa_reverse?: AstructDB 
 
-
-	AstructPointersEncoding: AstructPointersEncoding = new AstructPointersEncoding
-}
-
-export class AstructPointersEncoding {
-	// insertion point for other declarations
-	Anarrayofb: number[] = []
-	Anarrayofa: number[] = []
-	Anotherarrayofb: number[] = []
-	AnarrayofbUse: number[] = []
-	Anarrayofb2Use: number[] = []
 }

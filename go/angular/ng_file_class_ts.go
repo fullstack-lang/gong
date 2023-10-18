@@ -31,13 +31,13 @@ export class {{Structname}}DB {
 
 	// insertion point for basic fields declarations{{` + string(rune(NgClassTsInsertionPerStructBasicFieldsDecl)) + `}}
 
-	// insertion point for other declarations{{` + string(rune(NgClassTsInsertionPerStructOtherDecls)) + `}}
+	// insertion point for pointers and slices of pointers declarations{{` + string(rune(NgClassTsInsertionPerStructOtherDecls)) + `}}
 
 	{{Structname}}PointersEncoding: {{Structname}}PointersEncoding = new {{Structname}}PointersEncoding
 }
 
 export class {{Structname}}PointersEncoding {
-	// insertion point for other declarations{{` + string(rune(NgClassTsInsertionPerStructPointersEncoding)) + `}}
+	// insertion point for pointers and slices of pointers encoding fields{{` + string(rune(NgClassTsInsertionPerStructPointersEncoding)) + `}}
 }
 `
 
@@ -65,6 +65,8 @@ const (
 
 	NgClassTSPointerToStructFieldsDecl
 
+	NgClassTSPointerToStructFieldsEncodingDecl
+
 	NgClassTSSliceOfPtrToStructFieldsDecl
 
 	NgClassPointersEncodingTSSliceOfPtrToStructFieldsDecl
@@ -89,6 +91,9 @@ import { {{AssocStructName}}DB } from './{{assocStructName}}-db'`,
 
 	NgClassTSPointerToStructFieldsDecl: `
 	{{FieldName}}?: {{TypeInput}}DB
+`,
+
+	NgClassTSPointerToStructFieldsEncodingDecl: `
 	{{FieldName}}ID: NullInt64 = new NullInt64 // if pointer is null, {{FieldName}}.ID = 0
 `,
 
@@ -206,6 +211,11 @@ func MultiCodeGeneratorNgClass(
 						"{{FieldName}}", field.Name,
 						"{{TypeInput}}", field.GongStruct.Name)
 
+				TSinsertions[NgClassTsInsertionPerStructPointersEncoding] +=
+					models.Replace2(NgClassSubTemplateCode[NgClassTSPointerToStructFieldsEncodingDecl],
+						"{{FieldName}}", field.Name,
+						"{{TypeInput}}", field.GongStruct.Name)
+
 			case *models.SliceOfPointerToGongStructField:
 
 				newImport := models.Replace2(NgClassSubTemplateCode[NgClassTSBasicFieldImports],
@@ -251,7 +261,7 @@ func MultiCodeGeneratorNgClass(
 							TSinsertions[NgClassTsInsertionPerStructImports] += newImport
 						}
 
-						TSinsertions[NgClassTsInsertionPerStructOtherDecls] +=
+						TSinsertions[NgClassTsInsertionPerStructPointersEncoding] +=
 							models.Replace2(NgClassSubTemplateCode[NgClassTSSliceOfPtrToGongStructReverseID],
 								"{{FieldName}}", field.Name,
 								"{{AssocStructName}}", __struct.Name)

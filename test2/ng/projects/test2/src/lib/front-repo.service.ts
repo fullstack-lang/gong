@@ -272,6 +272,13 @@ export class FrontRepoService {
             as.forEach(
               a => {
                 // insertion point sub sub template for ONE-/ZERO-ONE associations pointers redeeming
+                // insertion point for pointer field B redeeming
+                {
+                  let _b = this.frontRepo.Bs.get(a.APointersEncoding.BID.Int64)
+                  if (_b) {
+                    a.B = _b
+                  }
+                }
 
                 // insertion point for redeeming ONE-MANY associations
               }
@@ -284,14 +291,15 @@ export class FrontRepoService {
                 // insertion point for slice of pointer field A.Bs redeeming
                 // to be removed
                 {
-                  let _a = this.frontRepo.As.get(b.A_BsDBID.Int64)
+                  let _id = b.BPointersEncoding.A_BsDBID.Int64
+                  let _a = this.frontRepo.As.get(_id)
                   if (_a) {
                     if (_a.Bs == undefined) {
                       _a.Bs = new Array<BDB>()
                     }
                     _a.Bs.push(b)
-                    if (b.A_Bs_reverse == undefined) {
-                      b.A_Bs_reverse = _a
+                    if (b.BPointersEncoding.A_Bs_reverse == undefined) {
+                      b.BPointersEncoding.A_Bs_reverse = _a
                     }
                   }
                 }
@@ -306,10 +314,10 @@ export class FrontRepoService {
                 // insertion point for sorting
                 // to be removed
                 a.Bs?.sort((t1, t2) => {
-                  if (t1.A_BsDBID_Index.Int64 > t2.A_BsDBID_Index.Int64) {
+                  if (t1.BPointersEncoding.A_BsDBID_Index.Int64 > t2.BPointersEncoding.A_BsDBID_Index.Int64) {
                     return 1;
                   }
-                  if (t1.A_BsDBID_Index.Int64 < t2.A_BsDBID_Index.Int64) {
+                  if (t1.BPointersEncoding.A_BsDBID_Index.Int64 < t2.BPointersEncoding.A_BsDBID_Index.Int64) {
                     return -1;
                   }
                   return 0;
@@ -358,6 +366,13 @@ export class FrontRepoService {
                 this.frontRepo.As_batch.set(a.ID, a)
 
                 // insertion point for redeeming ONE/ZERO-ONE associations
+                // insertion point for pointer field B redeeming
+                {
+                  let _b = this.frontRepo.Bs.get(a.APointersEncoding.BID.Int64)
+                  if (_b) {
+                    a.B = _b
+                  }
+                }
 
                 // insertion point for redeeming ONE-MANY associations
               }
@@ -414,14 +429,15 @@ export class FrontRepoService {
                 // insertion point for slice of pointer field A.Bs redeeming
                 // to be removed
                 {
-                  let _a = this.frontRepo.As.get(b.A_BsDBID.Int64)
+                  let _id = b.BPointersEncoding.A_BsDBID.Int64
+                  let _a = this.frontRepo.As.get(_id)
                   if (_a) {
                     if (_a.Bs == undefined) {
                       _a.Bs = new Array<BDB>()
                     }
                     _a.Bs.push(b)
-                    if (b.A_Bs_reverse == undefined) {
-                      b.A_Bs_reverse = _a
+                    if (b.BPointersEncoding.A_Bs_reverse == undefined) {
+                      b.BPointersEncoding.A_Bs_reverse = _a
                     }
                   }
                 }
