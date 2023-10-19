@@ -10,6 +10,7 @@ var __GONG_time_The_fool_doth_think_he_is_wise__ = time.Hour
 type A_WOP struct {
 	// insertion point
 	Name string
+	NumberField int
 }
 
 type B_WOP struct {

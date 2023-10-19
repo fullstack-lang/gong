@@ -50,6 +50,7 @@ func stage2Injection(stage *models.StageStruct) {
 
 	// A values setup
 	__A__000000_A1.Name = `A1`
+	__A__000000_A1.NumberField = 40
 
 	// B values setup
 	__B__000000_B1.Name = `B1`

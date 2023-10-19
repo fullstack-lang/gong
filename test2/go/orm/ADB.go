@@ -67,6 +67,9 @@ type ADB struct {
 
 	// Declation for basic field aDB.Name
 	Name_Data sql.NullString
+
+	// Declation for basic field aDB.NumberField
+	NumberField_Data sql.NullInt64
 	// encoding of pointers
 	APointersEncoding
 }
@@ -89,6 +92,8 @@ type AWOP struct {
 	// insertion for WOP basic fields
 
 	Name string `xlsx:"1"`
+
+	NumberField int `xlsx:"2"`
 	// insertion for WOP pointer fields
 }
 
@@ -96,6 +101,7 @@ var A_Fields = []string{
 	// insertion for WOP basic fields
 	"ID",
 	"Name",
+	"NumberField",
 }
 
 type BackRepoAStruct struct {
@@ -432,6 +438,9 @@ func (aDB *ADB) CopyBasicFieldsFromA(a *models.A) {
 
 	aDB.Name_Data.String = a.Name
 	aDB.Name_Data.Valid = true
+
+	aDB.NumberField_Data.Int64 = int64(a.NumberField)
+	aDB.NumberField_Data.Valid = true
 }
 
 // CopyBasicFieldsFromA_WOP
@@ -440,6 +449,9 @@ func (aDB *ADB) CopyBasicFieldsFromA_WOP(a *models.A_WOP) {
 
 	aDB.Name_Data.String = a.Name
 	aDB.Name_Data.Valid = true
+
+	aDB.NumberField_Data.Int64 = int64(a.NumberField)
+	aDB.NumberField_Data.Valid = true
 }
 
 // CopyBasicFieldsFromAWOP
@@ -448,18 +460,23 @@ func (aDB *ADB) CopyBasicFieldsFromAWOP(a *AWOP) {
 
 	aDB.Name_Data.String = a.Name
 	aDB.Name_Data.Valid = true
+
+	aDB.NumberField_Data.Int64 = int64(a.NumberField)
+	aDB.NumberField_Data.Valid = true
 }
 
 // CopyBasicFieldsToA
 func (aDB *ADB) CopyBasicFieldsToA(a *models.A) {
 	// insertion point for checkout of basic fields (back repo to stage)
 	a.Name = aDB.Name_Data.String
+	a.NumberField = int(aDB.NumberField_Data.Int64)
 }
 
 // CopyBasicFieldsToA_WOP
 func (aDB *ADB) CopyBasicFieldsToA_WOP(a *models.A_WOP) {
 	// insertion point for checkout of basic fields (back repo to stage)
 	a.Name = aDB.Name_Data.String
+	a.NumberField = int(aDB.NumberField_Data.Int64)
 }
 
 // CopyBasicFieldsToAWOP
@@ -467,6 +484,7 @@ func (aDB *ADB) CopyBasicFieldsToAWOP(a *AWOP) {
 	a.ID = int(aDB.ID)
 	// insertion point for checkout of basic fields (back repo to stage)
 	a.Name = aDB.Name_Data.String
+	a.NumberField = int(aDB.NumberField_Data.Int64)
 }
 
 // Backup generates a json file from a slice of all ADB instances in the backrepo
