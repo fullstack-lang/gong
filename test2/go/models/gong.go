@@ -623,7 +623,7 @@ func GetFields[Type Gongstruct]() (res []string) {
 	switch any(ret).(type) {
 	// insertion point for generic get gongstruct name
 	case A:
-		res = []string{"Name", "B", "Bs"}
+		res = []string{"Name", "NumberField", "B", "Bs"}
 	case B:
 		res = []string{"Name"}
 	}
@@ -665,7 +665,7 @@ func GetFieldsFromPointer[Type PointerToGongstruct]() (res []string) {
 	switch any(ret).(type) {
 	// insertion point for generic get gongstruct name
 	case *A:
-		res = []string{"Name", "B", "Bs"}
+		res = []string{"Name", "NumberField", "B", "Bs"}
 	case *B:
 		res = []string{"Name"}
 	}
@@ -681,6 +681,8 @@ func GetFieldStringValueFromPointer[Type PointerToGongstruct](instance Type, fie
 		// string value of fields
 		case "Name":
 			res = inferedInstance.Name
+		case "NumberField":
+			res = fmt.Sprintf("%d", inferedInstance.NumberField)
 		case "B":
 			if inferedInstance.B != nil {
 				res = inferedInstance.B.Name
@@ -714,6 +716,8 @@ func GetFieldStringValue[Type Gongstruct](instance Type, fieldName string) (res 
 		// string value of fields
 		case "Name":
 			res = inferedInstance.Name
+		case "NumberField":
+			res = fmt.Sprintf("%d", inferedInstance.NumberField)
 		case "B":
 			if inferedInstance.B != nil {
 				res = inferedInstance.B.Name
