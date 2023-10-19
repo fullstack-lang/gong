@@ -281,6 +281,11 @@ export class FrontRepoService {
                 }
 
                 // insertion point for redeeming ONE-MANY associations
+                a.Bs = new Array<BDB>()
+                for (let _bId of a.APointersEncoding.Bs) {
+                  let _b = this.frontRepo.Bs.get(_bId)
+                  a.Bs.push(_b!)
+                }
               }
             )
             bs.forEach(
@@ -288,48 +293,12 @@ export class FrontRepoService {
                 // insertion point sub sub template for ONE-/ZERO-ONE associations pointers redeeming
 
                 // insertion point for redeeming ONE-MANY associations
-                // insertion point for slice of pointer field A.Bs redeeming
-                // to be removed
-                {
-                  let _id = b.BPointersEncoding.A_BsDBID.Int64
-                  let _a = this.frontRepo.As.get(_id)
-                  if (_a) {
-                    if (_a.Bs == undefined) {
-                      _a.Bs = new Array<BDB>()
-                    }
-                    _a.Bs.push(b)
-                    if (b.BPointersEncoding.A_Bs_reverse == undefined) {
-                      b.BPointersEncoding.A_Bs_reverse = _a
-                    }
-                  }
-                }
               }
             )
 
             // 
             // Third Step: sort arrays (slices in go) according to their index
-            // insertion point sub template for redeem 
-            as.forEach(
-              a => {
-                // insertion point for sorting
-                // to be removed
-                a.Bs?.sort((t1, t2) => {
-                  if (t1.BPointersEncoding.A_BsDBID_Index.Int64 > t2.BPointersEncoding.A_BsDBID_Index.Int64) {
-                    return 1;
-                  }
-                  if (t1.BPointersEncoding.A_BsDBID_Index.Int64 < t2.BPointersEncoding.A_BsDBID_Index.Int64) {
-                    return -1;
-                  }
-                  return 0;
-                })
-
-              }
-            )
-            bs.forEach(
-              b => {
-                // insertion point for sorting
-              }
-            )
+            // insertion point sub template for redeem
 
             // hand over control flow to observer
             observer.next(this.frontRepo)
