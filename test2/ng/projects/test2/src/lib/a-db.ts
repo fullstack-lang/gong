@@ -14,6 +14,7 @@ export class ADB {
 
 	// insertion point for basic fields declarations
 	Name: string = ""
+	NumberField: number = 0
 
 	// insertion point for pointers and slices of pointers declarations
 	B?: BDB

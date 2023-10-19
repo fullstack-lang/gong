@@ -21,8 +21,9 @@ import { GongtablespecificModule } from 'gongtablespecific'
 export class AppComponent implements OnInit {
 
   default = 'Test2 Data/Model'
-  view = this.default
   test2view = 'Test2'
+  view = this.test2view
+
 
   views: string[] = [this.default, this.test2view];
 
