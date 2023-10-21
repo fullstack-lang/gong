@@ -48,6 +48,8 @@ type StageStruct struct {
 	As           map[*A]any
 	As_mapString map[string]*A
 
+	A_Bs_reverseMap map[*B]*A
+
 	OnAfterACreateCallback OnAfterCreateInterface[A]
 	OnAfterAUpdateCallback OnAfterUpdateInterface[A]
 	OnAfterADeleteCallback OnAfterDeleteInterface[A]
