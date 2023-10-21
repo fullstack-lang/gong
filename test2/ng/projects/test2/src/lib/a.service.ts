@@ -104,8 +104,8 @@ export class AService {
         // insertion point for restoration of reverse pointers
         adb.B = frontRepo.Bs.get(adb.APointersEncoding.BID.Int64)
         adb.Bs = new Array<BDB>()
-        for (let _bId of adb.APointersEncoding.Bs) {
-          let _b = frontRepo.Bs.get(_bId)
+        for (let _id of adb.APointersEncoding.Bs) {
+          let _b = frontRepo.Bs.get(_id)
           if (_b != undefined) {
             adb.Bs.push(_b!)
           }
@@ -167,8 +167,8 @@ export class AService {
         // insertion point for restoration of reverse pointers
         adb.B = frontRepo.Bs.get(adb.APointersEncoding.BID.Int64)
         adb.Bs = new Array<BDB>()
-        for (let _bId of adb.APointersEncoding.Bs) {
-          let _b = frontRepo.Bs.get(_bId)
+        for (let _id of adb.APointersEncoding.Bs) {
+          let _b = frontRepo.Bs.get(_id)
           if (_b != undefined) {
             adb.Bs.push(_b!)
           }
