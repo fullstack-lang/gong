@@ -80,7 +80,7 @@ map[GetReverseFieldOwnerNameId]string{
 		switch reverseField.GongstructName {
 		// insertion point{{fieldToFormCode}}
 		}
-	`,
+`,
 }
 
 type GetReverseFieldOwnerNameSubTemplateId int
@@ -100,18 +100,12 @@ map[GetReverseFieldOwnerNameSubTemplateId]string{
 			switch reverseField.Fieldname {`,
 	GetReverseFieldOwnerNameSwitchCode: `
 			case "{{FieldName}}":
-				if tmp != nil && tmp.{{AssocStructName}}_{{FieldName}}DBID.Int64 != 0 {
-					id := uint(tmp.{{AssocStructName}}_{{FieldName}}DBID.Int64)
-					reservePointerTarget := backRepo.BackRepo{{AssocStructName}}.Map_{{AssocStructName}}DBID_{{AssocStructName}}Ptr[id]
-					res = reservePointerTarget.Name
+				if _{{assocStructName}}, ok := stage.{{AssocStructName}}_{{FieldName}}_reverseMap[inst]; ok {
+					res = _{{assocStructName}}.Name
 				}`,
 	GetReverseFieldOwnerSwitchCode: `
 			case "{{FieldName}}":
-				if tmp != nil && tmp.{{AssocStructName}}_{{FieldName}}DBID.Int64 != 0 {
-					id := uint(tmp.{{AssocStructName}}_{{FieldName}}DBID.Int64)
-					reservePointerTarget := backRepo.BackRepo{{AssocStructName}}.Map_{{AssocStructName}}DBID_{{AssocStructName}}Ptr[id]
-					res = reservePointerTarget
-				}`,
+				res = stage.{{AssocStructName}}_{{FieldName}}_reverseMap[inst]`,
 	GetReverseFieldOwnerNameMasterSwitchCodeEnd: `
 			}`,
 }
@@ -176,9 +170,10 @@ func CodeGeneratorGetReverseFieldOwnerName(
 								"{{FieldName}}", field.GetName())
 						}
 						if field.GongStruct == gongStruct {
-							fieldToFormCodeName += models.Replace2(
+							fieldToFormCodeName += models.Replace3(
 								GetReverseFieldOwnerNameSubSubTemplateCode[GetReverseFieldOwnerNameSwitchCode],
 								"{{AssocStructName}}", __struct.Name,
+								"{{assocStructName}}", strings.ToLower(__struct.Name),
 								"{{FieldName}}", field.GetName())
 						}
 					}

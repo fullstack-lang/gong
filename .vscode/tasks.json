@@ -190,6 +190,12 @@
             ]
         },
         {
+            "label": "03 - lsof -ti :8080 | xargs kill",
+            "type": "shell",
+            "command": "lsof -ti :8080 | xargs kill",
+            "group": "build"
+        },
+        {
             "label": "03 - ng serve test2 --host=127.0.0.1",
             "type": "shell",
             "options": {
