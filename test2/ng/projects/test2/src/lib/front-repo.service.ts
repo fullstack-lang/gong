@@ -157,7 +157,7 @@ export class FrontRepoService {
       // expectation for a non-empty array of observables.
       of(null), // 
       // insertion point sub template
-      this.aService.getAs(this.GONG__StackPath),
+      this.aService.getAs(this.GONG__StackPath, this.frontRepo),
       this.bService.getBs(this.GONG__StackPath),
     ];
 
@@ -174,7 +174,7 @@ export class FrontRepoService {
     this.observableFrontRepo = [
       of(null), // see above for justification
       // insertion point sub template
-      this.aService.getAs(this.GONG__StackPath),
+      this.aService.getAs(this.GONG__StackPath, this.frontRepo),
       this.bService.getBs(this.GONG__StackPath),
     ]
 
@@ -315,7 +315,7 @@ export class FrontRepoService {
     return new Observable<FrontRepo>(
       (observer) => {
         combineLatest([
-          this.aService.getAs(this.GONG__StackPath)
+          this.aService.getAs(this.GONG__StackPath, this.frontRepo)
         ]).subscribe(
           ([ // insertion point sub template 
             as,

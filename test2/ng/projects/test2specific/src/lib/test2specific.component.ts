@@ -79,14 +79,14 @@ export class Test2specificComponent implements OnInit, OnDestroy {
   onClickUpdateBasicField(A: test2.ADB) {
     A.NumberField = Math.floor(Math.random() * 100)
 
-    this.aService.update(A, "test2").subscribe()
+    this.aService.update(A, "test2", this.frontRepoService.frontRepo).subscribe()
   }
 
   onClickUpdatePointerField(A: test2.ADB) {
     let rank = Math.floor(Math.random() * this.frontRepo.Bs_array.length)
     A.B = this.frontRepo.Bs_array[rank]
 
-    this.aService.update(A, "test2").subscribe()
+    this.aService.update(A, "test2", this.frontRepoService.frontRepo).subscribe()
 
     A.B = this.frontRepo.Bs_array[rank]
   }
@@ -94,7 +94,7 @@ export class Test2specificComponent implements OnInit, OnDestroy {
   onClickUpdateSliceOfPointerField(A: test2.ADB) {
     shuffleBs(A)
 
-    this.aService.update(A, "test2").subscribe()
+    this.aService.update(A, "test2", this.frontRepoService.frontRepo).subscribe()
   }
 
 

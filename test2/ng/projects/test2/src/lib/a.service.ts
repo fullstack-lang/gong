@@ -15,6 +15,7 @@ import { ADB } from './a-db';
 
 // insertion point for imports
 import { BDB } from './b-db'
+import { FrontRepo, FrontRepoService } from './front-repo.service';
 
 @Injectable({
   providedIn: 'root'
@@ -44,42 +45,52 @@ export class AService {
 
   /** GET as from the server */
   // gets is more robust to refactoring
-  gets(GONG__StackPath: string): Observable<ADB[]> {
-    return this.getAs(GONG__StackPath)
+  gets(GONG__StackPath: string, frontRepo: FrontRepo): Observable<ADB[]> {
+    return this.getAs(GONG__StackPath, frontRepo)
   }
-  getAs(GONG__StackPath: string): Observable<ADB[]> {
+  getAs(GONG__StackPath: string, frontRepo: FrontRepo): Observable<ADB[]> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
     return this.http.get<ADB[]>(this.asUrl, { params: params })
       .pipe(
         tap(),
-		// tap(_ => this.log('fetched as')),
+        // tap(_ => this.log('fetched as')),
         catchError(this.handleError<ADB[]>('getAs', []))
       );
   }
 
   /** GET a by id. Will 404 if id not found */
   // more robust API to refactoring
-  get(id: number, GONG__StackPath: string): Observable<ADB> {
-	return this.getA(id, GONG__StackPath)
+  get(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<ADB> {
+    return this.getA(id, GONG__StackPath, frontRepo)
   }
-  getA(id: number, GONG__StackPath: string): Observable<ADB> {
+  getA(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<ADB> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
     const url = `${this.asUrl}/${id}`;
     return this.http.get<ADB>(url, { params: params }).pipe(
-      // tap(_ => this.log(`fetched a id=${id}`)),
+      tap(adb => {
+        adb.B = frontRepo.Bs.get(adb.APointersEncoding.BID.Int64)
+        adb.Bs = new Array<BDB>()
+        for (let _bId of adb.APointersEncoding.Bs) {
+          let _b = frontRepo.Bs.get(_bId)
+          if (_b != undefined) {
+            adb.Bs.push(_b!)
+          }
+        }
+        // this.log(`posted adb id=${adb.ID}`)
+      }),
       catchError(this.handleError<ADB>(`getA id=${id}`))
     );
   }
 
   /** POST: add a new a to the server */
-  post(adb: ADB, GONG__StackPath: string): Observable<ADB> {
-    return this.postA(adb, GONG__StackPath)	
+  post(adb: ADB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<ADB> {
+    return this.postA(adb, GONG__StackPath, frontRepo)
   }
-  postA(adb: ADB, GONG__StackPath: string): Observable<ADB> {
+  postA(adb: ADB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<ADB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
     let B = adb.B
@@ -95,8 +106,14 @@ export class AService {
 
     return this.http.post<ADB>(this.asUrl, adb, httpOptions).pipe(
       tap(_ => {
-        // insertion point for restoration of reverse pointers
-	      adb.Bs = Bs
+        adb.B = frontRepo.Bs.get(adb.APointersEncoding.BID.Int64)
+        adb.Bs = new Array<BDB>()
+        for (let _bId of adb.APointersEncoding.Bs) {
+          let _b = frontRepo.Bs.get(_bId)
+          if (_b != undefined) {
+            adb.Bs.push(_b!)
+          }
+        }
         // this.log(`posted adb id=${adb.ID}`)
       }),
       catchError(this.handleError<ADB>('postA'))
@@ -124,18 +141,25 @@ export class AService {
   }
 
   /** PUT: update the adb on the server */
-  update(adb: ADB, GONG__StackPath: string): Observable<ADB> {
-    return this.updateA(adb, GONG__StackPath)
+  update(adb: ADB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<ADB> {
+    return this.updateA(adb, GONG__StackPath, frontRepo)
   }
-  updateA(adb: ADB, GONG__StackPath: string): Observable<ADB> {
+  updateA(adb: ADB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<ADB> {
     const id = typeof adb === 'number' ? adb : adb.ID;
     const url = `${this.asUrl}/${id}`;
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
-    let B = adb.B
-    adb.B = new BDB
-    let Bs = adb.Bs
+    if (adb.B != undefined) {
+      adb.APointersEncoding.BID.Int64 = adb.B.ID
+      adb.APointersEncoding.BID.Valid = true
+    }
+    adb.B = undefined
+    adb.APointersEncoding.Bs = []
+    for (let _b of adb.Bs) {
+      adb.APointersEncoding.Bs.push(_b.ID)
+    }
     adb.Bs = []
+
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -145,8 +169,15 @@ export class AService {
 
     return this.http.put<ADB>(url, adb, httpOptions).pipe(
       tap(_ => {
-        // insertion point for restoration of reverse pointers
-	      adb.Bs = Bs
+        // insertion point for restoration of pointers
+        adb.B = frontRepo.Bs.get(adb.APointersEncoding.BID.Int64)
+        adb.Bs = new Array<BDB>()
+        for (let _bId of adb.APointersEncoding.Bs) {
+          let _b = frontRepo.Bs.get(_bId)
+          if (_ != undefined) {
+            adb.Bs.push(_b!)
+          }
+        }
         // this.log(`updated adb id=${adb.ID}`)
       }),
       catchError(this.handleError<ADB>('updateA'))
@@ -174,6 +205,6 @@ export class AService {
   }
 
   private log(message: string) {
-      console.log(message)
+    console.log(message)
   }
 }
