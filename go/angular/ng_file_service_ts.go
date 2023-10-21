@@ -314,6 +314,17 @@ func MultiCodeGeneratorNgService(
 
 			case *models.SliceOfPointerToGongStructField:
 
+				var importToInsert = models.Replace2(NgServiceSubTemplateCode[NgServiceTSPointerToGongStructImports],
+					"{{AssocStructName}}", field.GongStruct.Name,
+					"{{assocStructName}}", strings.ToLower(field.GongStruct.Name))
+
+				// cannot insert twice the same import
+				// or import twice the DB
+				if !strings.Contains(TSinsertions[NgServiceTsInsertionImports], importToInsert) &&
+					_struct.Name != field.GongStruct.Name {
+					TSinsertions[NgServiceTsInsertionImports] += importToInsert
+				}
+
 				TSinsertions[NgServiceTsInsertionPointerEncoding] +=
 					models.Replace3(NgServiceSubTemplateCode[NgServiceTSSliceOfPointerToGongStructEncode],
 						"{{AssocStructName}}", field.GongStruct.Name,

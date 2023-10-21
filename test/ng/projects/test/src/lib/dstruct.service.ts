@@ -15,6 +15,7 @@ import { DstructDB } from './dstruct-db';
 import { FrontRepo, FrontRepoService } from './front-repo.service';
 
 // insertion point for imports
+import { BstructDB } from './bstruct-db'
 
 @Injectable({
   providedIn: 'root'
