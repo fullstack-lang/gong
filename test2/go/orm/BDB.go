@@ -45,14 +45,6 @@ type BAPI struct {
 // reverse pointers of slice of poitners to Struct
 type BPointersEncoding struct {
 	// insertion for pointer fields encoding declaration
-
-	// Implementation of a reverse ID for field A{}.Bs []*B
-	// (to be removed)
-	A_BsDBID sql.NullInt64
-
-	// implementation of the index of the withing the slice
-	// (to be removed)
-	A_BsDBID_Index sql.NullInt64
 }
 
 // BDB describes a b in the database
@@ -549,54 +541,8 @@ func (backRepoB *BackRepoBStruct) RestorePhaseTwo() {
 
 		// next line of code is to avert unused variable compilation error
 		_ = bDB
-
-		// insertion point for reindexing pointers encoding
-		// This reindex b.Bs
-		if bDB.A_BsDBID.Int64 != 0 {
-			bDB.A_BsDBID.Int64 =
-				int64(BackRepoAid_atBckpTime_newID[uint(bDB.A_BsDBID.Int64)])
-		}
-
-		// update databse with new index encoding
-		query := backRepoB.db.Model(bDB).Updates(*bDB)
-		if query.Error != nil {
-			log.Fatal(query.Error)
-		}
 	}
 
-}
-
-// BackRepoB.ResetReversePointers commits all staged instances of B to the BackRepo
-// Phase Two is the update of instance with the field in the database
-func (backRepoB *BackRepoBStruct) ResetReversePointers(backRepo *BackRepoStruct) (Error error) {
-
-	for idx, b := range backRepoB.Map_BDBID_BPtr {
-		backRepoB.ResetReversePointersInstance(backRepo, idx, b)
-	}
-
-	return
-}
-
-func (backRepoB *BackRepoBStruct) ResetReversePointersInstance(backRepo *BackRepoStruct, idx uint, astruct *models.B) (Error error) {
-
-	// fetch matching bDB
-	if bDB, ok := backRepoB.Map_BDBID_BDB[idx]; ok {
-		_ = bDB // to avoid unused variable error if there are no reverse to reset
-
-		// insertion point for reverse pointers reset
-		if bDB.A_BsDBID.Int64 != 0 {
-			bDB.A_BsDBID.Int64 = 0
-			bDB.A_BsDBID.Valid = true
-
-			// save the reset
-			if q := backRepoB.db.Save(bDB); q.Error != nil {
-				return q.Error
-			}
-		}
-		// end of insertion point for reverse pointers reset
-	}
-
-	return
 }
 
 // this field is used during the restauration process.

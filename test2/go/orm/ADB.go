@@ -233,26 +233,6 @@ func (backRepoA *BackRepoAStruct) CommitPhaseTwoInstance(backRepo *BackRepoStruc
 			aDB.BID.Valid = true
 		}
 
-		// This loop encodes the slice of pointers a.Bs into the back repo.
-		// Each back repo instance at the end of the association encode the ID of the association start
-		// into a dedicated field for coding the association. The back repo instance is then saved to the db
-		for idx, bAssocEnd := range a.Bs {
-
-			// get the back repo instance at the association end
-			bAssocEnd_DB :=
-				backRepo.BackRepoB.GetBDBFromBPtr(bAssocEnd)
-
-			// encode reverse pointer in the association end back repo instance
-			// (to be removed)
-			bAssocEnd_DB.A_BsDBID.Int64 = int64(aDB.ID)
-			bAssocEnd_DB.A_BsDBID.Valid = true
-			bAssocEnd_DB.A_BsDBID_Index.Int64 = int64(idx)
-			bAssocEnd_DB.A_BsDBID_Index.Valid = true
-			if q := backRepoA.db.Save(bAssocEnd_DB); q.Error != nil {
-				return q.Error
-			}
-		}
-
 		// 1. reset
 		aDB.APointersEncoding.Bs = make([]int, 0)
 		// 2. encode
@@ -380,27 +360,9 @@ func (backRepoA *BackRepoAStruct) CheckoutPhaseTwoInstance(backRepo *BackRepoStr
 	// it appends the stage instance
 	// 1. reset the slice
 	a.Bs = a.Bs[:0]
-	// 2. loop all instances in the type in the association end
-	for _, bDB_AssocEnd := range backRepo.BackRepoB.Map_BDBID_BDB {
-		// 3. Does the ID encoding at the end and the ID at the start matches ?
-		if bDB_AssocEnd.A_BsDBID.Int64 == int64(aDB.ID) {
-			// 4. fetch the associated instance in the stage
-			b_AssocEnd := backRepo.BackRepoB.Map_BDBID_BPtr[bDB_AssocEnd.ID]
-			// 5. append it the association slice
-			a.Bs = append(a.Bs, b_AssocEnd)
-		}
+	for _, _bID := range aDB.APointersEncoding.Bs {
+		a.Bs = append(a.Bs, backRepo.BackRepoB.Map_BDBID_BPtr[uint(_bID)])
 	}
-
-	// sort the array according to the order
-	sort.Slice(a.Bs, func(i, j int) bool {
-		bDB_i_ID := backRepo.BackRepoB.Map_BPtr_BDBID[a.Bs[i]]
-		bDB_j_ID := backRepo.BackRepoB.Map_BPtr_BDBID[a.Bs[j]]
-
-		bDB_i := backRepo.BackRepoB.Map_BDBID_BDB[bDB_i_ID]
-		bDB_j := backRepo.BackRepoB.Map_BDBID_BDB[bDB_j_ID]
-
-		return bDB_i.A_BsDBID_Index.Int64 < bDB_j.A_BsDBID_Index.Int64
-	})
 
 	return
 }
