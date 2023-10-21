@@ -48,6 +48,7 @@ type StageStruct struct {
 	As           map[*A]any
 	As_mapString map[string]*A
 
+	// insertion point for slice of pointers maps
 	A_Bs_reverseMap map[*B]*A
 
 	OnAfterACreateCallback OnAfterCreateInterface[A]
@@ -57,6 +58,8 @@ type StageStruct struct {
 
 	Bs           map[*B]any
 	Bs_mapString map[string]*B
+
+	// insertion point for slice of pointers maps
 
 	OnAfterBCreateCallback OnAfterCreateInterface[B]
 	OnAfterBUpdateCallback OnAfterUpdateInterface[B]
@@ -170,6 +173,8 @@ func (stage *StageStruct) CommitWithSuspendedCallbacks() {
 }
 
 func (stage *StageStruct) Commit() {
+	stage.ComputeReverseMaps()
+
 	if stage.BackRepo != nil {
 		stage.BackRepo.Commit(stage)
 	}
@@ -185,6 +190,7 @@ func (stage *StageStruct) Checkout() {
 		stage.BackRepo.Checkout(stage)
 	}
 
+	stage.ComputeReverseMaps()
 	// insertion point for computing the map of number of instances per gongstruct
 	stage.Map_GongStructName_InstancesNb["A"] = len(stage.As)
 	stage.Map_GongStructName_InstancesNb["B"] = len(stage.Bs)

@@ -149,6 +149,8 @@ func ({{structname}} *{{Structname}}) GetName() (res string) {
 	{{Structname}}s           map[*{{Structname}}]any
 	{{Structname}}s_mapString map[string]*{{Structname}}
 
+	// insertion point for slice of pointers maps{{SliceOfPointersReverseMaps}}
+
 	OnAfter{{Structname}}CreateCallback OnAfterCreateInterface[{{Structname}}]
 	OnAfter{{Structname}}UpdateCallback OnAfterUpdateInterface[{{Structname}}]
 	OnAfter{{Structname}}DeleteCallback OnAfterDeleteInterface[{{Structname}}]
@@ -303,6 +305,8 @@ const (
 
 	GongFileFieldSubTmplPointerFieldPointerAssociationMapFunction
 	GongFileFieldSubTmplPointerFieldSliceOfPointersAssociationMapFunction
+
+	GongFileSliceOfPointersReverseMap
 )
 
 // for each sub template code, there is the sub template code
@@ -431,6 +435,9 @@ map[GongFilePerStructSubTemplateId]string{
 			}
 			return any(res).(map[*End][]*Start)`,
 
+	GongFileSliceOfPointersReverseMap: `
+	{{Structname}}_{{FieldName}}_reverseMap map[*{{AssocStructName}}]*{{Structname}}`,
+
 	GongFileFieldSubTmplPointerFieldSliceOfPointersAssociationMapFunction: `
 		case "{{FieldName}}":
 			res := make(map[*{{AssocStructName}}]*{{Structname}})
@@ -482,6 +489,7 @@ func CodeGeneratorModelGong(
 			fieldReversePointerAssociationMapCode := ``
 			fieldReverseSliceOfPointersAssociationMapCode := ``
 			associationFieldInitialization := ``
+			sliceOfPointersReverseMapStorageCode := ``
 
 			associationFieldInitializationPerCompositeStruct := make(map[string]string, 0)
 
@@ -563,6 +571,12 @@ func CodeGeneratorModelGong(
 						"{{FieldName}}", field.Name,
 						"{{AssocStructName}}", field.GongStruct.Name,
 						"{{assocstructname}}", strings.ToLower(field.GongStruct.Name))
+
+					sliceOfPointersReverseMapStorageCode += models.Replace3(
+						GongFileFieldFieldSubTemplateCode[GongFileSliceOfPointersReverseMap],
+						"{{FieldName}}", field.Name,
+						"{{AssocStructName}}", field.GongStruct.Name,
+						"{{assocstructname}}", strings.ToLower(field.GongStruct.Name))
 					associationFieldInitialization += models.Replace3(
 						GongFileFieldFieldSubTemplateCode[GongFileFieldSubTmplAssociationNameSliceOfPointersField],
 						"{{FieldName}}", field.Name,
@@ -610,6 +624,10 @@ func CodeGeneratorModelGong(
 				"{{structname}}", strings.ToLower(gongStruct.Name),
 				"{{Structname}}", gongStruct.Name)
 
+			sliceOfPointersReverseMapStorageCode = models.Replace2(sliceOfPointersReverseMapStorageCode,
+				"{{structname}}", strings.ToLower(gongStruct.Name),
+				"{{Structname}}", gongStruct.Name)
+
 			fieldNames += `}`
 
 			// The generation has to be be reproductible, therefore the map
@@ -629,13 +647,14 @@ func CodeGeneratorModelGong(
 					"{{PerCompositeFieldInit}}", associationFieldInitializationPerCompositeStruct[compositeStructName])
 			}
 
-			generatedCodeFromSubTemplate := models.Replace8(ModelGongStructSubTemplateCode[subStructTemplate],
+			generatedCodeFromSubTemplate := models.Replace9(ModelGongStructSubTemplateCode[subStructTemplate],
 				"{{structname}}", strings.ToLower(gongStruct.Name),
 				"{{Structname}}", gongStruct.Name,
 				"{{ListOfFieldsName}}", fieldNames,
 				"{{ListOfReverseFields}}", reverseFields,
 				"{{StringValueOfFields}}", fieldStringValues,
 				"{{fieldReversePointerAssociationMapCode}}", fieldReversePointerAssociationMapCode,
+				"{{SliceOfPointersReverseMaps}}", sliceOfPointersReverseMapStorageCode,
 				"{{fieldReverseSliceOfPointersAssociationMapCode}}", fieldReverseSliceOfPointersAssociationMapCode,
 				"{{associationFieldInitialization}}", associationFieldInitialization,
 			)
