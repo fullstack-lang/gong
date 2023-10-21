@@ -158,7 +158,7 @@ export class FrontRepoService {
       of(null), // 
       // insertion point sub template
       this.aService.getAs(this.GONG__StackPath, this.frontRepo),
-      this.bService.getBs(this.GONG__StackPath),
+      this.bService.getBs(this.GONG__StackPath, this.frontRepo),
     ];
 
   //
@@ -175,7 +175,7 @@ export class FrontRepoService {
       of(null), // see above for justification
       // insertion point sub template
       this.aService.getAs(this.GONG__StackPath, this.frontRepo),
-      this.bService.getBs(this.GONG__StackPath),
+      this.bService.getBs(this.GONG__StackPath, this.frontRepo),
     ]
 
     return new Observable<FrontRepo>(
@@ -267,38 +267,25 @@ export class FrontRepoService {
 
 
             // 
-            // Second Step: redeem pointers between instances (thanks to maps in the First Step)
+            // Second Step: reddeem slice of pointers fields
             // insertion point sub template for redeem 
             as.forEach(
               a => {
-                // insertion point sub sub template for ONE-/ZERO-ONE associations pointers redeeming
-                // insertion point for pointer field B redeeming
-                {
-                  let _b = this.frontRepo.Bs.get(a.APointersEncoding.BID.Int64)
-                  if (_b) {
-                    a.B = _b
-                  }
-                }
-
-                // insertion point for redeeming ONE-MANY associations
+                // insertion point for sorting
                 a.Bs = new Array<BDB>()
-                for (let _bId of a.APointersEncoding.Bs) {
-                  let _b = this.frontRepo.Bs.get(_bId)
-                  a.Bs.push(_b!)
+                for (let _id of a.APointersEncoding.Bs) {
+                  let _b = this.frontRepo.Bs.get(_id)
+                  if (_b != undefined) {
+                    a.Bs.push(_b!)
+                  }
                 }
               }
             )
             bs.forEach(
               b => {
-                // insertion point sub sub template for ONE-/ZERO-ONE associations pointers redeeming
-
-                // insertion point for redeeming ONE-MANY associations
+                // insertion point for sorting
               }
             )
-
-            // 
-            // Third Step: sort arrays (slices in go) according to their index
-            // insertion point sub template for redeem
 
             // hand over control flow to observer
             observer.next(this.frontRepo)
@@ -373,7 +360,7 @@ export class FrontRepoService {
     return new Observable<FrontRepo>(
       (observer) => {
         combineLatest([
-          this.bService.getBs(this.GONG__StackPath)
+          this.bService.getBs(this.GONG__StackPath, this.frontRepo)
         ]).subscribe(
           ([ // insertion point sub template 
             bs,
