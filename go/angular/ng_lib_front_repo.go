@@ -411,7 +411,7 @@ map[string]string{
                   }
                 }`,
 	string(NgFrontRepoSliceOfPointerSorting): `
-                {{structname}}.{{FieldName}} = new Array<BDB>()
+                {{structname}}.{{FieldName}} = new Array<{{AssocStructName}}DB>()
                 for (let _id of {{structname}}.{{Structname}}PointersEncoding.{{FieldName}}) {
                   let _{{assocStructName}} = this.frontRepo.{{AssocStructName}}s.get(_id)
                   if (_{{assocStructName}} != undefined) {

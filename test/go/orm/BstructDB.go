@@ -45,30 +45,6 @@ type BstructAPI struct {
 // reverse pointers of slice of poitners to Struct
 type BstructPointersEncoding struct {
 	// insertion for pointer fields encoding declaration
-
-	// Implementation of a reverse ID for field Astruct{}.Anarrayofb []*Bstruct
-	// (to be removed)
-	Astruct_AnarrayofbDBID sql.NullInt64
-
-	// implementation of the index of the withing the slice
-	// (to be removed)
-	Astruct_AnarrayofbDBID_Index sql.NullInt64
-
-	// Implementation of a reverse ID for field Astruct{}.Anotherarrayofb []*Bstruct
-	// (to be removed)
-	Astruct_AnotherarrayofbDBID sql.NullInt64
-
-	// implementation of the index of the withing the slice
-	// (to be removed)
-	Astruct_AnotherarrayofbDBID_Index sql.NullInt64
-
-	// Implementation of a reverse ID for field Dstruct{}.Anarrayofb []*Bstruct
-	// (to be removed)
-	Dstruct_AnarrayofbDBID sql.NullInt64
-
-	// implementation of the index of the withing the slice
-	// (to be removed)
-	Dstruct_AnarrayofbDBID_Index sql.NullInt64
 }
 
 // BstructDB describes a bstruct in the database
@@ -621,24 +597,6 @@ func (backRepoBstruct *BackRepoBstructStruct) RestorePhaseTwo() {
 		_ = bstructDB
 
 		// insertion point for reindexing pointers encoding
-		// This reindex bstruct.Anarrayofb
-		if bstructDB.Astruct_AnarrayofbDBID.Int64 != 0 {
-			bstructDB.Astruct_AnarrayofbDBID.Int64 =
-				int64(BackRepoAstructid_atBckpTime_newID[uint(bstructDB.Astruct_AnarrayofbDBID.Int64)])
-		}
-
-		// This reindex bstruct.Anotherarrayofb
-		if bstructDB.Astruct_AnotherarrayofbDBID.Int64 != 0 {
-			bstructDB.Astruct_AnotherarrayofbDBID.Int64 =
-				int64(BackRepoAstructid_atBckpTime_newID[uint(bstructDB.Astruct_AnotherarrayofbDBID.Int64)])
-		}
-
-		// This reindex bstruct.Anarrayofb
-		if bstructDB.Dstruct_AnarrayofbDBID.Int64 != 0 {
-			bstructDB.Dstruct_AnarrayofbDBID.Int64 =
-				int64(BackRepoDstructid_atBckpTime_newID[uint(bstructDB.Dstruct_AnarrayofbDBID.Int64)])
-		}
-
 		// update databse with new index encoding
 		query := backRepoBstruct.db.Model(bstructDB).Updates(*bstructDB)
 		if query.Error != nil {
@@ -666,33 +624,6 @@ func (backRepoBstruct *BackRepoBstructStruct) ResetReversePointersInstance(backR
 		_ = bstructDB // to avoid unused variable error if there are no reverse to reset
 
 		// insertion point for reverse pointers reset
-		if bstructDB.Astruct_AnarrayofbDBID.Int64 != 0 {
-			bstructDB.Astruct_AnarrayofbDBID.Int64 = 0
-			bstructDB.Astruct_AnarrayofbDBID.Valid = true
-
-			// save the reset
-			if q := backRepoBstruct.db.Save(bstructDB); q.Error != nil {
-				return q.Error
-			}
-		}
-		if bstructDB.Astruct_AnotherarrayofbDBID.Int64 != 0 {
-			bstructDB.Astruct_AnotherarrayofbDBID.Int64 = 0
-			bstructDB.Astruct_AnotherarrayofbDBID.Valid = true
-
-			// save the reset
-			if q := backRepoBstruct.db.Save(bstructDB); q.Error != nil {
-				return q.Error
-			}
-		}
-		if bstructDB.Dstruct_AnarrayofbDBID.Int64 != 0 {
-			bstructDB.Dstruct_AnarrayofbDBID.Int64 = 0
-			bstructDB.Dstruct_AnarrayofbDBID.Valid = true
-
-			// save the reset
-			if q := backRepoBstruct.db.Save(bstructDB); q.Error != nil {
-				return q.Error
-			}
-		}
 		// end of insertion point for reverse pointers reset
 	}
 

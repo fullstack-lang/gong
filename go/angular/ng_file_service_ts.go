@@ -233,7 +233,7 @@ import { {{AssocStructName}}DB } from './{{assocStructName}}-db'`,
     {{structname}}db.{{FieldName}} = []`,
 
 	NgServiceTSSliceOfPointerToGongStructDecode: `
-        {{structname}}db.{{FieldName}} = new Array<BDB>()
+        {{structname}}db.{{FieldName}} = new Array<{{AssocStructName}}DB>()
         for (let _id of {{structname}}db.{{Structname}}PointersEncoding.{{FieldName}}) {
           let _{{assocStructName}} = frontRepo.{{AssocStructName}}s.get(_id)
           if (_{{assocStructName}} != undefined) {
