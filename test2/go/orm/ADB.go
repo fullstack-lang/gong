@@ -360,8 +360,8 @@ func (backRepoA *BackRepoAStruct) CheckoutPhaseTwoInstance(backRepo *BackRepoStr
 	// it appends the stage instance
 	// 1. reset the slice
 	a.Bs = a.Bs[:0]
-	for _, _bID := range aDB.APointersEncoding.Bs {
-		a.Bs = append(a.Bs, backRepo.BackRepoB.Map_BDBID_BPtr[uint(_bID)])
+	for _, _Bid := range aDB.APointersEncoding.Bs {
+		a.Bs = append(a.Bs, backRepo.BackRepoB.Map_BDBID_BPtr[uint(_Bid)])
 	}
 
 	return
