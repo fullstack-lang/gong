@@ -541,8 +541,39 @@ func (backRepoB *BackRepoBStruct) RestorePhaseTwo() {
 
 		// next line of code is to avert unused variable compilation error
 		_ = bDB
+
+		// insertion point for reindexing pointers encoding
+		// update databse with new index encoding
+		query := backRepoB.db.Model(bDB).Updates(*bDB)
+		if query.Error != nil {
+			log.Fatal(query.Error)
+		}
 	}
 
+}
+
+// BackRepoB.ResetReversePointers commits all staged instances of B to the BackRepo
+// Phase Two is the update of instance with the field in the database
+func (backRepoB *BackRepoBStruct) ResetReversePointers(backRepo *BackRepoStruct) (Error error) {
+
+	for idx, b := range backRepoB.Map_BDBID_BPtr {
+		backRepoB.ResetReversePointersInstance(backRepo, idx, b)
+	}
+
+	return
+}
+
+func (backRepoB *BackRepoBStruct) ResetReversePointersInstance(backRepo *BackRepoStruct, idx uint, astruct *models.B) (Error error) {
+
+	// fetch matching bDB
+	if bDB, ok := backRepoB.Map_BDBID_BDB[idx]; ok {
+		_ = bDB // to avoid unused variable error if there are no reverse to reset
+
+		// insertion point for reverse pointers reset
+		// end of insertion point for reverse pointers reset
+	}
+
+	return
 }
 
 // this field is used during the restauration process.
