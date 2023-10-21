@@ -96,14 +96,6 @@ type AstructPointersEncoding struct {
 	// field AnAstruct is a pointer to another Struct (optional or 0..1)
 	// This field is generated into another field to enable AS ONE association
 	AnAstructID sql.NullInt64
-
-	// Implementation of a reverse ID for field Astruct{}.Anarrayofa []*Astruct
-	// (to be removed)
-	Astruct_AnarrayofaDBID sql.NullInt64
-
-	// implementation of the index of the withing the slice
-	// (to be removed)
-	Astruct_AnarrayofaDBID_Index sql.NullInt64
 }
 
 // AstructDB describes a astruct in the database
@@ -395,26 +387,6 @@ func (backRepoAstruct *BackRepoAstructStruct) CommitPhaseTwoInstance(backRepo *B
 			astructDB.AssociationtobID.Valid = true
 		}
 
-		// This loop encodes the slice of pointers astruct.Anarrayofb into the back repo.
-		// Each back repo instance at the end of the association encode the ID of the association start
-		// into a dedicated field for coding the association. The back repo instance is then saved to the db
-		for idx, bstructAssocEnd := range astruct.Anarrayofb {
-
-			// get the back repo instance at the association end
-			bstructAssocEnd_DB :=
-				backRepo.BackRepoBstruct.GetBstructDBFromBstructPtr(bstructAssocEnd)
-
-			// encode reverse pointer in the association end back repo instance
-			// (to be removed)
-			bstructAssocEnd_DB.Astruct_AnarrayofbDBID.Int64 = int64(astructDB.ID)
-			bstructAssocEnd_DB.Astruct_AnarrayofbDBID.Valid = true
-			bstructAssocEnd_DB.Astruct_AnarrayofbDBID_Index.Int64 = int64(idx)
-			bstructAssocEnd_DB.Astruct_AnarrayofbDBID_Index.Valid = true
-			if q := backRepoAstruct.db.Save(bstructAssocEnd_DB); q.Error != nil {
-				return q.Error
-			}
-		}
-
 		// 1. reset
 		astructDB.AstructPointersEncoding.Anarrayofb = make([]int, 0)
 		// 2. encode
@@ -509,26 +481,6 @@ func (backRepoAstruct *BackRepoAstructStruct) CommitPhaseTwoInstance(backRepo *B
 			astructDB.Dstruct4ID.Valid = true
 		}
 
-		// This loop encodes the slice of pointers astruct.Anarrayofa into the back repo.
-		// Each back repo instance at the end of the association encode the ID of the association start
-		// into a dedicated field for coding the association. The back repo instance is then saved to the db
-		for idx, astructAssocEnd := range astruct.Anarrayofa {
-
-			// get the back repo instance at the association end
-			astructAssocEnd_DB :=
-				backRepo.BackRepoAstruct.GetAstructDBFromAstructPtr(astructAssocEnd)
-
-			// encode reverse pointer in the association end back repo instance
-			// (to be removed)
-			astructAssocEnd_DB.Astruct_AnarrayofaDBID.Int64 = int64(astructDB.ID)
-			astructAssocEnd_DB.Astruct_AnarrayofaDBID.Valid = true
-			astructAssocEnd_DB.Astruct_AnarrayofaDBID_Index.Int64 = int64(idx)
-			astructAssocEnd_DB.Astruct_AnarrayofaDBID_Index.Valid = true
-			if q := backRepoAstruct.db.Save(astructAssocEnd_DB); q.Error != nil {
-				return q.Error
-			}
-		}
-
 		// 1. reset
 		astructDB.AstructPointersEncoding.Anarrayofa = make([]int, 0)
 		// 2. encode
@@ -537,26 +489,6 @@ func (backRepoAstruct *BackRepoAstructStruct) CommitPhaseTwoInstance(backRepo *B
 				backRepo.BackRepoAstruct.GetAstructDBFromAstructPtr(astructAssocEnd)
 			astructDB.AstructPointersEncoding.Anarrayofa =
 				append(astructDB.AstructPointersEncoding.Anarrayofa, int(astructAssocEnd_DB.ID))
-		}
-
-		// This loop encodes the slice of pointers astruct.Anotherarrayofb into the back repo.
-		// Each back repo instance at the end of the association encode the ID of the association start
-		// into a dedicated field for coding the association. The back repo instance is then saved to the db
-		for idx, bstructAssocEnd := range astruct.Anotherarrayofb {
-
-			// get the back repo instance at the association end
-			bstructAssocEnd_DB :=
-				backRepo.BackRepoBstruct.GetBstructDBFromBstructPtr(bstructAssocEnd)
-
-			// encode reverse pointer in the association end back repo instance
-			// (to be removed)
-			bstructAssocEnd_DB.Astruct_AnotherarrayofbDBID.Int64 = int64(astructDB.ID)
-			bstructAssocEnd_DB.Astruct_AnotherarrayofbDBID.Valid = true
-			bstructAssocEnd_DB.Astruct_AnotherarrayofbDBID_Index.Int64 = int64(idx)
-			bstructAssocEnd_DB.Astruct_AnotherarrayofbDBID_Index.Valid = true
-			if q := backRepoAstruct.db.Save(bstructAssocEnd_DB); q.Error != nil {
-				return q.Error
-			}
 		}
 
 		// 1. reset
@@ -569,26 +501,6 @@ func (backRepoAstruct *BackRepoAstructStruct) CommitPhaseTwoInstance(backRepo *B
 				append(astructDB.AstructPointersEncoding.Anotherarrayofb, int(bstructAssocEnd_DB.ID))
 		}
 
-		// This loop encodes the slice of pointers astruct.AnarrayofbUse into the back repo.
-		// Each back repo instance at the end of the association encode the ID of the association start
-		// into a dedicated field for coding the association. The back repo instance is then saved to the db
-		for idx, astructbstructuseAssocEnd := range astruct.AnarrayofbUse {
-
-			// get the back repo instance at the association end
-			astructbstructuseAssocEnd_DB :=
-				backRepo.BackRepoAstructBstructUse.GetAstructBstructUseDBFromAstructBstructUsePtr(astructbstructuseAssocEnd)
-
-			// encode reverse pointer in the association end back repo instance
-			// (to be removed)
-			astructbstructuseAssocEnd_DB.Astruct_AnarrayofbUseDBID.Int64 = int64(astructDB.ID)
-			astructbstructuseAssocEnd_DB.Astruct_AnarrayofbUseDBID.Valid = true
-			astructbstructuseAssocEnd_DB.Astruct_AnarrayofbUseDBID_Index.Int64 = int64(idx)
-			astructbstructuseAssocEnd_DB.Astruct_AnarrayofbUseDBID_Index.Valid = true
-			if q := backRepoAstruct.db.Save(astructbstructuseAssocEnd_DB); q.Error != nil {
-				return q.Error
-			}
-		}
-
 		// 1. reset
 		astructDB.AstructPointersEncoding.AnarrayofbUse = make([]int, 0)
 		// 2. encode
@@ -597,26 +509,6 @@ func (backRepoAstruct *BackRepoAstructStruct) CommitPhaseTwoInstance(backRepo *B
 				backRepo.BackRepoAstructBstructUse.GetAstructBstructUseDBFromAstructBstructUsePtr(astructbstructuseAssocEnd)
 			astructDB.AstructPointersEncoding.AnarrayofbUse =
 				append(astructDB.AstructPointersEncoding.AnarrayofbUse, int(astructbstructuseAssocEnd_DB.ID))
-		}
-
-		// This loop encodes the slice of pointers astruct.Anarrayofb2Use into the back repo.
-		// Each back repo instance at the end of the association encode the ID of the association start
-		// into a dedicated field for coding the association. The back repo instance is then saved to the db
-		for idx, astructbstruct2useAssocEnd := range astruct.Anarrayofb2Use {
-
-			// get the back repo instance at the association end
-			astructbstruct2useAssocEnd_DB :=
-				backRepo.BackRepoAstructBstruct2Use.GetAstructBstruct2UseDBFromAstructBstruct2UsePtr(astructbstruct2useAssocEnd)
-
-			// encode reverse pointer in the association end back repo instance
-			// (to be removed)
-			astructbstruct2useAssocEnd_DB.Astruct_Anarrayofb2UseDBID.Int64 = int64(astructDB.ID)
-			astructbstruct2useAssocEnd_DB.Astruct_Anarrayofb2UseDBID.Valid = true
-			astructbstruct2useAssocEnd_DB.Astruct_Anarrayofb2UseDBID_Index.Int64 = int64(idx)
-			astructbstruct2useAssocEnd_DB.Astruct_Anarrayofb2UseDBID_Index.Valid = true
-			if q := backRepoAstruct.db.Save(astructbstruct2useAssocEnd_DB); q.Error != nil {
-				return q.Error
-			}
 		}
 
 		// 1. reset
@@ -758,27 +650,9 @@ func (backRepoAstruct *BackRepoAstructStruct) CheckoutPhaseTwoInstance(backRepo 
 	// it appends the stage instance
 	// 1. reset the slice
 	astruct.Anarrayofb = astruct.Anarrayofb[:0]
-	// 2. loop all instances in the type in the association end
-	for _, bstructDB_AssocEnd := range backRepo.BackRepoBstruct.Map_BstructDBID_BstructDB {
-		// 3. Does the ID encoding at the end and the ID at the start matches ?
-		if bstructDB_AssocEnd.Astruct_AnarrayofbDBID.Int64 == int64(astructDB.ID) {
-			// 4. fetch the associated instance in the stage
-			bstruct_AssocEnd := backRepo.BackRepoBstruct.Map_BstructDBID_BstructPtr[bstructDB_AssocEnd.ID]
-			// 5. append it the association slice
-			astruct.Anarrayofb = append(astruct.Anarrayofb, bstruct_AssocEnd)
-		}
+	for _, _Bstructid := range astructDB.AstructPointersEncoding.Anarrayofb {
+		astruct.Anarrayofb = append(astruct.Anarrayofb, backRepo.BackRepoBstruct.Map_BstructDBID_BstructPtr[uint(_Bstructid)])
 	}
-
-	// sort the array according to the order
-	sort.Slice(astruct.Anarrayofb, func(i, j int) bool {
-		bstructDB_i_ID := backRepo.BackRepoBstruct.Map_BstructPtr_BstructDBID[astruct.Anarrayofb[i]]
-		bstructDB_j_ID := backRepo.BackRepoBstruct.Map_BstructPtr_BstructDBID[astruct.Anarrayofb[j]]
-
-		bstructDB_i := backRepo.BackRepoBstruct.Map_BstructDBID_BstructDB[bstructDB_i_ID]
-		bstructDB_j := backRepo.BackRepoBstruct.Map_BstructDBID_BstructDB[bstructDB_j_ID]
-
-		return bstructDB_i.Astruct_AnarrayofbDBID_Index.Int64 < bstructDB_j.Astruct_AnarrayofbDBID_Index.Int64
-	})
 
 	// Anotherassociationtob_2 field
 	astruct.Anotherassociationtob_2 = nil
@@ -820,108 +694,36 @@ func (backRepoAstruct *BackRepoAstructStruct) CheckoutPhaseTwoInstance(backRepo 
 	// it appends the stage instance
 	// 1. reset the slice
 	astruct.Anarrayofa = astruct.Anarrayofa[:0]
-	// 2. loop all instances in the type in the association end
-	for _, astructDB_AssocEnd := range backRepo.BackRepoAstruct.Map_AstructDBID_AstructDB {
-		// 3. Does the ID encoding at the end and the ID at the start matches ?
-		if astructDB_AssocEnd.Astruct_AnarrayofaDBID.Int64 == int64(astructDB.ID) {
-			// 4. fetch the associated instance in the stage
-			astruct_AssocEnd := backRepo.BackRepoAstruct.Map_AstructDBID_AstructPtr[astructDB_AssocEnd.ID]
-			// 5. append it the association slice
-			astruct.Anarrayofa = append(astruct.Anarrayofa, astruct_AssocEnd)
-		}
+	for _, _Astructid := range astructDB.AstructPointersEncoding.Anarrayofa {
+		astruct.Anarrayofa = append(astruct.Anarrayofa, backRepo.BackRepoAstruct.Map_AstructDBID_AstructPtr[uint(_Astructid)])
 	}
-
-	// sort the array according to the order
-	sort.Slice(astruct.Anarrayofa, func(i, j int) bool {
-		astructDB_i_ID := backRepo.BackRepoAstruct.Map_AstructPtr_AstructDBID[astruct.Anarrayofa[i]]
-		astructDB_j_ID := backRepo.BackRepoAstruct.Map_AstructPtr_AstructDBID[astruct.Anarrayofa[j]]
-
-		astructDB_i := backRepo.BackRepoAstruct.Map_AstructDBID_AstructDB[astructDB_i_ID]
-		astructDB_j := backRepo.BackRepoAstruct.Map_AstructDBID_AstructDB[astructDB_j_ID]
-
-		return astructDB_i.Astruct_AnarrayofaDBID_Index.Int64 < astructDB_j.Astruct_AnarrayofaDBID_Index.Int64
-	})
 
 	// This loop redeem astruct.Anotherarrayofb in the stage from the encode in the back repo
 	// It parses all BstructDB in the back repo and if the reverse pointer encoding matches the back repo ID
 	// it appends the stage instance
 	// 1. reset the slice
 	astruct.Anotherarrayofb = astruct.Anotherarrayofb[:0]
-	// 2. loop all instances in the type in the association end
-	for _, bstructDB_AssocEnd := range backRepo.BackRepoBstruct.Map_BstructDBID_BstructDB {
-		// 3. Does the ID encoding at the end and the ID at the start matches ?
-		if bstructDB_AssocEnd.Astruct_AnotherarrayofbDBID.Int64 == int64(astructDB.ID) {
-			// 4. fetch the associated instance in the stage
-			bstruct_AssocEnd := backRepo.BackRepoBstruct.Map_BstructDBID_BstructPtr[bstructDB_AssocEnd.ID]
-			// 5. append it the association slice
-			astruct.Anotherarrayofb = append(astruct.Anotherarrayofb, bstruct_AssocEnd)
-		}
+	for _, _Bstructid := range astructDB.AstructPointersEncoding.Anotherarrayofb {
+		astruct.Anotherarrayofb = append(astruct.Anotherarrayofb, backRepo.BackRepoBstruct.Map_BstructDBID_BstructPtr[uint(_Bstructid)])
 	}
-
-	// sort the array according to the order
-	sort.Slice(astruct.Anotherarrayofb, func(i, j int) bool {
-		bstructDB_i_ID := backRepo.BackRepoBstruct.Map_BstructPtr_BstructDBID[astruct.Anotherarrayofb[i]]
-		bstructDB_j_ID := backRepo.BackRepoBstruct.Map_BstructPtr_BstructDBID[astruct.Anotherarrayofb[j]]
-
-		bstructDB_i := backRepo.BackRepoBstruct.Map_BstructDBID_BstructDB[bstructDB_i_ID]
-		bstructDB_j := backRepo.BackRepoBstruct.Map_BstructDBID_BstructDB[bstructDB_j_ID]
-
-		return bstructDB_i.Astruct_AnotherarrayofbDBID_Index.Int64 < bstructDB_j.Astruct_AnotherarrayofbDBID_Index.Int64
-	})
 
 	// This loop redeem astruct.AnarrayofbUse in the stage from the encode in the back repo
 	// It parses all AstructBstructUseDB in the back repo and if the reverse pointer encoding matches the back repo ID
 	// it appends the stage instance
 	// 1. reset the slice
 	astruct.AnarrayofbUse = astruct.AnarrayofbUse[:0]
-	// 2. loop all instances in the type in the association end
-	for _, astructbstructuseDB_AssocEnd := range backRepo.BackRepoAstructBstructUse.Map_AstructBstructUseDBID_AstructBstructUseDB {
-		// 3. Does the ID encoding at the end and the ID at the start matches ?
-		if astructbstructuseDB_AssocEnd.Astruct_AnarrayofbUseDBID.Int64 == int64(astructDB.ID) {
-			// 4. fetch the associated instance in the stage
-			astructbstructuse_AssocEnd := backRepo.BackRepoAstructBstructUse.Map_AstructBstructUseDBID_AstructBstructUsePtr[astructbstructuseDB_AssocEnd.ID]
-			// 5. append it the association slice
-			astruct.AnarrayofbUse = append(astruct.AnarrayofbUse, astructbstructuse_AssocEnd)
-		}
+	for _, _AstructBstructUseid := range astructDB.AstructPointersEncoding.AnarrayofbUse {
+		astruct.AnarrayofbUse = append(astruct.AnarrayofbUse, backRepo.BackRepoAstructBstructUse.Map_AstructBstructUseDBID_AstructBstructUsePtr[uint(_AstructBstructUseid)])
 	}
-
-	// sort the array according to the order
-	sort.Slice(astruct.AnarrayofbUse, func(i, j int) bool {
-		astructbstructuseDB_i_ID := backRepo.BackRepoAstructBstructUse.Map_AstructBstructUsePtr_AstructBstructUseDBID[astruct.AnarrayofbUse[i]]
-		astructbstructuseDB_j_ID := backRepo.BackRepoAstructBstructUse.Map_AstructBstructUsePtr_AstructBstructUseDBID[astruct.AnarrayofbUse[j]]
-
-		astructbstructuseDB_i := backRepo.BackRepoAstructBstructUse.Map_AstructBstructUseDBID_AstructBstructUseDB[astructbstructuseDB_i_ID]
-		astructbstructuseDB_j := backRepo.BackRepoAstructBstructUse.Map_AstructBstructUseDBID_AstructBstructUseDB[astructbstructuseDB_j_ID]
-
-		return astructbstructuseDB_i.Astruct_AnarrayofbUseDBID_Index.Int64 < astructbstructuseDB_j.Astruct_AnarrayofbUseDBID_Index.Int64
-	})
 
 	// This loop redeem astruct.Anarrayofb2Use in the stage from the encode in the back repo
 	// It parses all AstructBstruct2UseDB in the back repo and if the reverse pointer encoding matches the back repo ID
 	// it appends the stage instance
 	// 1. reset the slice
 	astruct.Anarrayofb2Use = astruct.Anarrayofb2Use[:0]
-	// 2. loop all instances in the type in the association end
-	for _, astructbstruct2useDB_AssocEnd := range backRepo.BackRepoAstructBstruct2Use.Map_AstructBstruct2UseDBID_AstructBstruct2UseDB {
-		// 3. Does the ID encoding at the end and the ID at the start matches ?
-		if astructbstruct2useDB_AssocEnd.Astruct_Anarrayofb2UseDBID.Int64 == int64(astructDB.ID) {
-			// 4. fetch the associated instance in the stage
-			astructbstruct2use_AssocEnd := backRepo.BackRepoAstructBstruct2Use.Map_AstructBstruct2UseDBID_AstructBstruct2UsePtr[astructbstruct2useDB_AssocEnd.ID]
-			// 5. append it the association slice
-			astruct.Anarrayofb2Use = append(astruct.Anarrayofb2Use, astructbstruct2use_AssocEnd)
-		}
+	for _, _AstructBstruct2Useid := range astructDB.AstructPointersEncoding.Anarrayofb2Use {
+		astruct.Anarrayofb2Use = append(astruct.Anarrayofb2Use, backRepo.BackRepoAstructBstruct2Use.Map_AstructBstruct2UseDBID_AstructBstruct2UsePtr[uint(_AstructBstruct2Useid)])
 	}
-
-	// sort the array according to the order
-	sort.Slice(astruct.Anarrayofb2Use, func(i, j int) bool {
-		astructbstruct2useDB_i_ID := backRepo.BackRepoAstructBstruct2Use.Map_AstructBstruct2UsePtr_AstructBstruct2UseDBID[astruct.Anarrayofb2Use[i]]
-		astructbstruct2useDB_j_ID := backRepo.BackRepoAstructBstruct2Use.Map_AstructBstruct2UsePtr_AstructBstruct2UseDBID[astruct.Anarrayofb2Use[j]]
-
-		astructbstruct2useDB_i := backRepo.BackRepoAstructBstruct2Use.Map_AstructBstruct2UseDBID_AstructBstruct2UseDB[astructbstruct2useDB_i_ID]
-		astructbstruct2useDB_j := backRepo.BackRepoAstructBstruct2Use.Map_AstructBstruct2UseDBID_AstructBstruct2UseDB[astructbstruct2useDB_j_ID]
-
-		return astructbstruct2useDB_i.Astruct_Anarrayofb2UseDBID_Index.Int64 < astructbstruct2useDB_j.Astruct_Anarrayofb2UseDBID_Index.Int64
-	})
 
 	// AnAstruct field
 	astruct.AnAstruct = nil
@@ -1438,12 +1240,6 @@ func (backRepoAstruct *BackRepoAstructStruct) RestorePhaseTwo() {
 			astructDB.AnAstructID.Valid = true
 		}
 
-		// This reindex astruct.Anarrayofa
-		if astructDB.Astruct_AnarrayofaDBID.Int64 != 0 {
-			astructDB.Astruct_AnarrayofaDBID.Int64 =
-				int64(BackRepoAstructid_atBckpTime_newID[uint(astructDB.Astruct_AnarrayofaDBID.Int64)])
-		}
-
 		// update databse with new index encoding
 		query := backRepoAstruct.db.Model(astructDB).Updates(*astructDB)
 		if query.Error != nil {
@@ -1471,15 +1267,6 @@ func (backRepoAstruct *BackRepoAstructStruct) ResetReversePointersInstance(backR
 		_ = astructDB // to avoid unused variable error if there are no reverse to reset
 
 		// insertion point for reverse pointers reset
-		if astructDB.Astruct_AnarrayofaDBID.Int64 != 0 {
-			astructDB.Astruct_AnarrayofaDBID.Int64 = 0
-			astructDB.Astruct_AnarrayofaDBID.Valid = true
-
-			// save the reset
-			if q := backRepoAstruct.db.Save(astructDB); q.Error != nil {
-				return q.Error
-			}
-		}
 		// end of insertion point for reverse pointers reset
 	}
 

@@ -12,6 +12,7 @@ import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 
 import { BstructDB } from './bstruct-db';
+import { FrontRepo, FrontRepoService } from './front-repo.service';
 
 // insertion point for imports
 import { AstructDB } from './astruct-db'
@@ -45,10 +46,10 @@ export class BstructService {
 
   /** GET bstructs from the server */
   // gets is more robust to refactoring
-  gets(GONG__StackPath: string): Observable<BstructDB[]> {
-    return this.getBstructs(GONG__StackPath)
+  gets(GONG__StackPath: string, frontRepo: FrontRepo): Observable<BstructDB[]> {
+    return this.getBstructs(GONG__StackPath, frontRepo)
   }
-  getBstructs(GONG__StackPath: string): Observable<BstructDB[]> {
+  getBstructs(GONG__StackPath: string, frontRepo: FrontRepo): Observable<BstructDB[]> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
@@ -62,10 +63,10 @@ export class BstructService {
 
   /** GET bstruct by id. Will 404 if id not found */
   // more robust API to refactoring
-  get(id: number, GONG__StackPath: string): Observable<BstructDB> {
-	return this.getBstruct(id, GONG__StackPath)
+  get(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<BstructDB> {
+    return this.getBstruct(id, GONG__StackPath, frontRepo)
   }
-  getBstruct(id: number, GONG__StackPath: string): Observable<BstructDB> {
+  getBstruct(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<BstructDB> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
@@ -77,10 +78,10 @@ export class BstructService {
   }
 
   /** POST: add a new bstruct to the server */
-  post(bstructdb: BstructDB, GONG__StackPath: string): Observable<BstructDB> {
-    return this.postBstruct(bstructdb, GONG__StackPath)	
+  post(bstructdb: BstructDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<BstructDB> {
+    return this.postBstruct(bstructdb, GONG__StackPath, frontRepo)
   }
-  postBstruct(bstructdb: BstructDB, GONG__StackPath: string): Observable<BstructDB> {
+  postBstruct(bstructdb: BstructDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<BstructDB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
     let _Astruct_Anarrayofb_reverse = bstructdb.BstructPointersEncoding.Astruct_Anarrayofb_reverse
@@ -129,14 +130,15 @@ export class BstructService {
   }
 
   /** PUT: update the bstructdb on the server */
-  update(bstructdb: BstructDB, GONG__StackPath: string): Observable<BstructDB> {
-    return this.updateBstruct(bstructdb, GONG__StackPath)
+  update(bstructdb: BstructDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<BstructDB> {
+    return this.updateBstruct(bstructdb, GONG__StackPath, frontRepo)
   }
-  updateBstruct(bstructdb: BstructDB, GONG__StackPath: string): Observable<BstructDB> {
+  updateBstruct(bstructdb: BstructDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<BstructDB> {
     const id = typeof bstructdb === 'number' ? bstructdb : bstructdb.ID;
     const url = `${this.bstructsUrl}/${id}`;
 
-    // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
+    // insertion point for reset of pointers (to avoid circular JSON)
+	// and encoding of pointers
     let _Astruct_Anarrayofb_reverse = bstructdb.BstructPointersEncoding.Astruct_Anarrayofb_reverse
     bstructdb.BstructPointersEncoding.Astruct_Anarrayofb_reverse = new AstructDB
     let _Astruct_Anotherarrayofb_reverse = bstructdb.BstructPointersEncoding.Astruct_Anotherarrayofb_reverse
@@ -183,6 +185,6 @@ export class BstructService {
   }
 
   private log(message: string) {
-      console.log(message)
+    console.log(message)
   }
 }
