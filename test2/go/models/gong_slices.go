@@ -62,3 +62,15 @@ func EvictInOtherSlices[OwningType PointerToGongstruct, FieldType PointerToGongs
 		_ = owningInstanceInfered // to avoid "declared and not used" error if no named struct has slices
 	}
 }
+
+// ComputeReverseMaps computes the reverse map, for all intances, for all slice to pointers field
+// Its complexity is in O(n)O(p) where p is the number of pointers
+func (stage *StageStruct) ComputeReverseMaps() {
+	clear(stage.A_Bs_reverseMap)
+	for a := range stage.As {
+		_ = a
+		for _, _b := range a.Bs {
+			stage.A_Bs_reverseMap[_b] = a
+		}
+	}
+}
