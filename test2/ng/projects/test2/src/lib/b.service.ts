@@ -54,7 +54,7 @@ export class BService {
     return this.http.get<BDB[]>(this.bsUrl, { params: params })
       .pipe(
         tap(),
-		// tap(_ => this.log('fetched bs')),
+        // tap(_ => this.log('fetched bs')),
         catchError(this.handleError<BDB[]>('getBs', []))
       );
   }
@@ -62,7 +62,7 @@ export class BService {
   /** GET b by id. Will 404 if id not found */
   // more robust API to refactoring
   get(id: number, GONG__StackPath: string): Observable<BDB> {
-	return this.getB(id, GONG__StackPath)
+    return this.getB(id, GONG__StackPath)
   }
   getB(id: number, GONG__StackPath: string): Observable<BDB> {
 
@@ -77,7 +77,7 @@ export class BService {
 
   /** POST: add a new b to the server */
   post(bdb: BDB, GONG__StackPath: string): Observable<BDB> {
-    return this.postB(bdb, GONG__StackPath)	
+    return this.postB(bdb, GONG__StackPath)
   }
   postB(bdb: BDB, GONG__StackPath: string): Observable<BDB> {
 
@@ -133,6 +133,8 @@ export class BService {
     let _A_Bs_reverse = bdb.BPointersEncoding.A_Bs_reverse
     bdb.BPointersEncoding.A_Bs_reverse = new ADB
 
+
+
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
@@ -170,6 +172,6 @@ export class BService {
   }
 
   private log(message: string) {
-      console.log(message)
+    console.log(message)
   }
 }
