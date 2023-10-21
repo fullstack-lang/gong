@@ -25,6 +25,7 @@ import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 
 import { {{Structname}}DB } from './{{structname}}-db';
+import { FrontRepo, FrontRepoService } from './front-repo.service';
 
 // insertion point for imports{{` + string(rune(NgServiceTsInsertionImports)) + `}}
 
@@ -56,10 +57,10 @@ export class {{Structname}}Service {
 
   /** GET {{structname}}s from the server */
   // gets is more robust to refactoring
-  gets(GONG__StackPath: string): Observable<{{Structname}}DB[]> {
-    return this.get{{Structname}}s(GONG__StackPath)
+  gets(GONG__StackPath: string, frontRepo: FrontRepo): Observable<{{Structname}}DB[]> {
+    return this.get{{Structname}}s(GONG__StackPath, frontRepo)
   }
-  get{{Structname}}s(GONG__StackPath: string): Observable<{{Structname}}DB[]> {
+  get{{Structname}}s(GONG__StackPath: string, frontRepo: FrontRepo): Observable<{{Structname}}DB[]> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
@@ -73,10 +74,10 @@ export class {{Structname}}Service {
 
   /** GET {{structname}} by id. Will 404 if id not found */
   // more robust API to refactoring
-  get(id: number, GONG__StackPath: string): Observable<{{Structname}}DB> {
-	return this.get{{Structname}}(id, GONG__StackPath)
+  get(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<{{Structname}}DB> {
+    return this.get{{Structname}}(id, GONG__StackPath, frontRepo)
   }
-  get{{Structname}}(id: number, GONG__StackPath: string): Observable<{{Structname}}DB> {
+  get{{Structname}}(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<{{Structname}}DB> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
@@ -88,12 +89,12 @@ export class {{Structname}}Service {
   }
 
   /** POST: add a new {{structname}} to the server */
-  post({{structname}}db: {{Structname}}DB, GONG__StackPath: string): Observable<{{Structname}}DB> {
-    return this.post{{Structname}}({{structname}}db, GONG__StackPath)	
+  post({{structname}}db: {{Structname}}DB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<{{Structname}}DB> {
+    return this.post{{Structname}}({{structname}}db, GONG__StackPath, frontRepo)
   }
-  post{{Structname}}({{structname}}db: {{Structname}}DB, GONG__StackPath: string): Observable<{{Structname}}DB> {
+  post{{Structname}}({{structname}}db: {{Structname}}DB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<{{Structname}}DB> {
 
-    // insertion point for reset of pointers and reverse pointers (to avoid circular JSON){{` + string(rune(NgServiceTsInsertionPointerReset)) + `}}
+    // insertion point for reset of pointers and reverse pointers (to avoid circular JSON){{` + string(rune(NgServiceTsInsertionPointerEncoding)) + `}}
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -103,7 +104,7 @@ export class {{Structname}}Service {
 
     return this.http.post<{{Structname}}DB>(this.{{structname}}sUrl, {{structname}}db, httpOptions).pipe(
       tap(_ => {
-        // insertion point for restoration of reverse pointers{{` + string(rune(NgServiceTsInsertionPointerRestore)) + `}}
+        // insertion point for restoration of reverse pointers{{` + string(rune(NgServiceTsInsertionPointerDecoding)) + `}}
         // this.log(` + "`" + `posted {{structname}}db id=${{{structname}}db.ID}` + "`" + `)
       }),
       catchError(this.handleError<{{Structname}}DB>('post{{Structname}}'))
@@ -131,14 +132,15 @@ export class {{Structname}}Service {
   }
 
   /** PUT: update the {{structname}}db on the server */
-  update({{structname}}db: {{Structname}}DB, GONG__StackPath: string): Observable<{{Structname}}DB> {
-    return this.update{{Structname}}({{structname}}db, GONG__StackPath)
+  update({{structname}}db: {{Structname}}DB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<{{Structname}}DB> {
+    return this.update{{Structname}}({{structname}}db, GONG__StackPath, frontRepo)
   }
-  update{{Structname}}({{structname}}db: {{Structname}}DB, GONG__StackPath: string): Observable<{{Structname}}DB> {
+  update{{Structname}}({{structname}}db: {{Structname}}DB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<{{Structname}}DB> {
     const id = typeof {{structname}}db === 'number' ? {{structname}}db : {{structname}}db.ID;
     const url = ` + "`" + `${this.{{structname}}sUrl}/${id}` + "`" + `;
 
-    // insertion point for reset of pointers and reverse pointers (to avoid circular JSON){{` + string(rune(NgServiceTsInsertionPointerReset)) + `}}
+    // insertion point for reset of pointers (to avoid circular JSON)
+	// and encoding of pointers{{` + string(rune(NgServiceTsInsertionPointerEncoding)) + `}}
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -148,7 +150,7 @@ export class {{Structname}}Service {
 
     return this.http.put<{{Structname}}DB>(url, {{structname}}db, httpOptions).pipe(
       tap(_ => {
-        // insertion point for restoration of reverse pointers{{` + string(rune(NgServiceTsInsertionPointerRestore)) + `}}
+        // insertion point for restoration of reverse pointers{{` + string(rune(NgServiceTsInsertionPointerDecoding)) + `}}
         // this.log(` + "`" + `updated {{structname}}db id=${{{structname}}db.ID}` + "`" + `)
       }),
       catchError(this.handleError<{{Structname}}DB>('update{{Structname}}'))
@@ -176,7 +178,7 @@ export class {{Structname}}Service {
   }
 
   private log(message: string) {
-      console.log(message)
+    console.log(message)
   }
 }
 `
@@ -186,8 +188,8 @@ export class {{Structname}}Service {
 type NgServiceTsInsertionPoint int
 
 const (
-	NgServiceTsInsertionPointerReset NgServiceTsInsertionPoint = iota
-	NgServiceTsInsertionPointerRestore
+	NgServiceTsInsertionPointerEncoding NgServiceTsInsertionPoint = iota
+	NgServiceTsInsertionPointerDecoding
 
 	NgServiceTsInsertionImports
 
@@ -198,10 +200,11 @@ type NgServiceSubTemplate int
 
 const (
 	NgServiceTSPointerToGongStructImports NgServiceSubTemplate = iota
-	NgServiceTSPointerToGongStructReset
+	NgServiceTSPointerToGongStructEncode
+	NgServiceTSPointerToGongStructDecode
 
-	NgServiceTSSliceOfPointerToGongStructReset
-	NgServiceTSSliceOfPointerToGongStructRestore
+	NgServiceTSSliceOfPointerToGongStructEncode
+	NgServiceTSSliceOfPointerToGongStructDecode
 	NgServiceTSSliceOfPointerToGongStructReversePointerReset
 	NgServiceTSSliceOfPointerToGongStructReversePointerRestore
 
@@ -213,16 +216,30 @@ var NgServiceSubTemplateCode map[NgServiceSubTemplate]string = map[NgServiceSubT
 	NgServiceTSPointerToGongStructImports: `
 import { {{AssocStructName}}DB } from './{{assocStructName}}-db'`,
 
-	NgServiceTSPointerToGongStructReset: `
-    let {{FieldName}} = {{structname}}db.{{FieldName}}
-    {{structname}}db.{{FieldName}} = new {{AssocStructName}}DB`,
+	NgServiceTSPointerToGongStructEncode: `
+    if ({{structname}}db.{{FieldName}} != undefined) {
+      {{structname}}db.{{Structname}}PointersEncoding.{{FieldName}}ID.Int64 = {{structname}}db.{{FieldName}}.ID
+      {{structname}}db.{{Structname}}PointersEncoding.{{FieldName}}ID.Valid = true
+    }
+    {{structname}}db.{{FieldName}} = undefined`,
 
-	NgServiceTSSliceOfPointerToGongStructReset: `
-    let {{FieldName}} = {{structname}}db.{{FieldName}}
+	NgServiceTSPointerToGongStructDecode: `
+        {{structname}}db.{{FieldName}} = frontRepo.{{AssocStructName}}s.get({{structname}}db.{{Structname}}PointersEncoding.{{FieldName}}ID.Int64)`,
+
+	NgServiceTSSliceOfPointerToGongStructEncode: `
+    for (let _{{assocStructName}} of {{structname}}db.{{FieldName}}) {
+      {{structname}}db.{{Structname}}PointersEncoding.{{FieldName}}.push(_{{assocStructName}}.ID)
+    }
     {{structname}}db.{{FieldName}} = []`,
 
-	NgServiceTSSliceOfPointerToGongStructRestore: `
-	      {{structname}}db.{{FieldName}} = {{FieldName}}`,
+	NgServiceTSSliceOfPointerToGongStructDecode: `
+        {{structname}}db.{{FieldName}} = new Array<BDB>()
+        for (let _bId of {{structname}}db.APointersEncoding.Bs) {
+          let _{{assocStructName}} = frontRepo.{{AssocStructName}}s.get(_bId)
+          if (_{{assocStructName}} != undefined) {
+            {{structname}}db.{{FieldName}}.push(_{{assocStructName}}!)
+          }
+        }`,
 
 	NgServiceTSSliceOfPointerToGongStructReversePointerReset: `
     let _{{AssocStructName}}_{{FieldName}}_reverse = {{structname}}db.{{Structname}}PointersEncoding.{{AssocStructName}}_{{FieldName}}_reverse
@@ -273,9 +290,15 @@ func MultiCodeGeneratorNgService(
 			switch field := field.(type) {
 			case *models.PointerToGongStructField:
 
-				TSinsertions[NgServiceTsInsertionPointerReset] +=
-					models.Replace2(NgServiceSubTemplateCode[NgServiceTSPointerToGongStructReset],
+				TSinsertions[NgServiceTsInsertionPointerEncoding] +=
+					models.Replace2(NgServiceSubTemplateCode[NgServiceTSPointerToGongStructEncode],
 						"{{FieldName}}", field.Name,
+						"{{AssocStructName}}", field.GongStruct.Name)
+
+				TSinsertions[NgServiceTsInsertionPointerDecoding] +=
+					models.Replace3(NgServiceSubTemplateCode[NgServiceTSPointerToGongStructDecode],
+						"{{FieldName}}", field.Name,
+						"{{assocStructName}}", strings.ToLower(field.GongStruct.Name),
 						"{{AssocStructName}}", field.GongStruct.Name)
 
 				var importToInsert = models.Replace2(NgServiceSubTemplateCode[NgServiceTSPointerToGongStructImports],
@@ -291,12 +314,16 @@ func MultiCodeGeneratorNgService(
 
 			case *models.SliceOfPointerToGongStructField:
 
-				TSinsertions[NgServiceTsInsertionPointerReset] +=
-					models.Replace1(NgServiceSubTemplateCode[NgServiceTSSliceOfPointerToGongStructReset],
+				TSinsertions[NgServiceTsInsertionPointerEncoding] +=
+					models.Replace3(NgServiceSubTemplateCode[NgServiceTSSliceOfPointerToGongStructEncode],
+						"{{AssocStructName}}", field.GongStruct.Name,
+						"{{assocStructName}}", strings.ToLower(field.GongStruct.Name),
 						"{{FieldName}}", field.Name)
 
-				TSinsertions[NgServiceTsInsertionPointerRestore] +=
-					models.Replace1(NgServiceSubTemplateCode[NgServiceTSSliceOfPointerToGongStructRestore],
+				TSinsertions[NgServiceTsInsertionPointerDecoding] +=
+					models.Replace3(NgServiceSubTemplateCode[NgServiceTSSliceOfPointerToGongStructDecode],
+						"{{AssocStructName}}", field.GongStruct.Name,
+						"{{assocStructName}}", strings.ToLower(field.GongStruct.Name),
 						"{{FieldName}}", field.Name)
 			}
 		}
@@ -311,12 +338,12 @@ func MultiCodeGeneratorNgService(
 
 					if field.GongStruct == _struct {
 
-						TSinsertions[NgServiceTsInsertionPointerReset] +=
+						TSinsertions[NgServiceTsInsertionPointerEncoding] +=
 							models.Replace2(NgServiceSubTemplateCode[NgServiceTSSliceOfPointerToGongStructReversePointerReset],
 								"{{FieldName}}", field.Name,
 								"{{AssocStructName}}", __struct.Name)
 
-						TSinsertions[NgServiceTsInsertionPointerRestore] +=
+						TSinsertions[NgServiceTsInsertionPointerDecoding] +=
 							models.Replace2(NgServiceSubTemplateCode[NgServiceTSSliceOfPointerToGongStructReversePointerRestore],
 								"{{FieldName}}", field.Name,
 								"{{AssocStructName}}", __struct.Name)
