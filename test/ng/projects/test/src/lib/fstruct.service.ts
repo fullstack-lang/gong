@@ -12,6 +12,7 @@ import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 
 import { FstructDB } from './fstruct-db';
+import { FrontRepo, FrontRepoService } from './front-repo.service';
 
 // insertion point for imports
 
@@ -43,10 +44,10 @@ export class FstructService {
 
   /** GET fstructs from the server */
   // gets is more robust to refactoring
-  gets(GONG__StackPath: string): Observable<FstructDB[]> {
-    return this.getFstructs(GONG__StackPath)
+  gets(GONG__StackPath: string, frontRepo: FrontRepo): Observable<FstructDB[]> {
+    return this.getFstructs(GONG__StackPath, frontRepo)
   }
-  getFstructs(GONG__StackPath: string): Observable<FstructDB[]> {
+  getFstructs(GONG__StackPath: string, frontRepo: FrontRepo): Observable<FstructDB[]> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
@@ -60,10 +61,10 @@ export class FstructService {
 
   /** GET fstruct by id. Will 404 if id not found */
   // more robust API to refactoring
-  get(id: number, GONG__StackPath: string): Observable<FstructDB> {
-	return this.getFstruct(id, GONG__StackPath)
+  get(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FstructDB> {
+    return this.getFstruct(id, GONG__StackPath, frontRepo)
   }
-  getFstruct(id: number, GONG__StackPath: string): Observable<FstructDB> {
+  getFstruct(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FstructDB> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
@@ -75,10 +76,10 @@ export class FstructService {
   }
 
   /** POST: add a new fstruct to the server */
-  post(fstructdb: FstructDB, GONG__StackPath: string): Observable<FstructDB> {
-    return this.postFstruct(fstructdb, GONG__StackPath)	
+  post(fstructdb: FstructDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FstructDB> {
+    return this.postFstruct(fstructdb, GONG__StackPath, frontRepo)
   }
-  postFstruct(fstructdb: FstructDB, GONG__StackPath: string): Observable<FstructDB> {
+  postFstruct(fstructdb: FstructDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FstructDB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
 
@@ -118,14 +119,15 @@ export class FstructService {
   }
 
   /** PUT: update the fstructdb on the server */
-  update(fstructdb: FstructDB, GONG__StackPath: string): Observable<FstructDB> {
-    return this.updateFstruct(fstructdb, GONG__StackPath)
+  update(fstructdb: FstructDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FstructDB> {
+    return this.updateFstruct(fstructdb, GONG__StackPath, frontRepo)
   }
-  updateFstruct(fstructdb: FstructDB, GONG__StackPath: string): Observable<FstructDB> {
+  updateFstruct(fstructdb: FstructDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FstructDB> {
     const id = typeof fstructdb === 'number' ? fstructdb : fstructdb.ID;
     const url = `${this.fstructsUrl}/${id}`;
 
-    // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
+    // insertion point for reset of pointers (to avoid circular JSON)
+	// and encoding of pointers
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -163,6 +165,6 @@ export class FstructService {
   }
 
   private log(message: string) {
-      console.log(message)
+    console.log(message)
   }
 }
