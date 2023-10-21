@@ -12,10 +12,10 @@ import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 
 import { ADB } from './a-db';
+import { FrontRepo, FrontRepoService } from './front-repo.service';
 
 // insertion point for imports
 import { BDB } from './b-db'
-import { FrontRepo, FrontRepoService } from './front-repo.service';
 
 @Injectable({
   providedIn: 'root'
@@ -55,7 +55,7 @@ export class AService {
     return this.http.get<ADB[]>(this.asUrl, { params: params })
       .pipe(
         tap(),
-        // tap(_ => this.log('fetched as')),
+		// tap(_ => this.log('fetched as')),
         catchError(this.handleError<ADB[]>('getAs', []))
       );
   }
@@ -71,17 +71,7 @@ export class AService {
 
     const url = `${this.asUrl}/${id}`;
     return this.http.get<ADB>(url, { params: params }).pipe(
-      tap(adb => {
-        adb.B = frontRepo.Bs.get(adb.APointersEncoding.BID.Int64)
-        adb.Bs = new Array<BDB>()
-        for (let _bId of adb.APointersEncoding.Bs) {
-          let _b = frontRepo.Bs.get(_bId)
-          if (_b != undefined) {
-            adb.Bs.push(_b!)
-          }
-        }
-        // this.log(`posted adb id=${adb.ID}`)
-      }),
+      // tap(_ => this.log(`fetched a id=${id}`)),
       catchError(this.handleError<ADB>(`getA id=${id}`))
     );
   }
@@ -93,9 +83,14 @@ export class AService {
   postA(adb: ADB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<ADB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
-    let B = adb.B
-    adb.B = new BDB
-    let Bs = adb.Bs
+    if (adb.B != undefined) {
+      adb.APointersEncoding.BID.Int64 = adb.B.ID
+      adb.APointersEncoding.BID.Valid = true
+    }
+    adb.B = undefined
+    for (let _b of adb.Bs) {
+      adb.APointersEncoding.Bs.push(_b.ID)
+    }
     adb.Bs = []
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
@@ -106,6 +101,7 @@ export class AService {
 
     return this.http.post<ADB>(this.asUrl, adb, httpOptions).pipe(
       tap(_ => {
+        // insertion point for restoration of reverse pointers
         adb.B = frontRepo.Bs.get(adb.APointersEncoding.BID.Int64)
         adb.Bs = new Array<BDB>()
         for (let _bId of adb.APointersEncoding.Bs) {
@@ -148,18 +144,17 @@ export class AService {
     const id = typeof adb === 'number' ? adb : adb.ID;
     const url = `${this.asUrl}/${id}`;
 
-    // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
+    // insertion point for reset of pointers (to avoid circular JSON)
+	// and encoding of pointers
     if (adb.B != undefined) {
       adb.APointersEncoding.BID.Int64 = adb.B.ID
       adb.APointersEncoding.BID.Valid = true
     }
     adb.B = undefined
-    adb.APointersEncoding.Bs = []
     for (let _b of adb.Bs) {
       adb.APointersEncoding.Bs.push(_b.ID)
     }
     adb.Bs = []
-
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -169,12 +164,12 @@ export class AService {
 
     return this.http.put<ADB>(url, adb, httpOptions).pipe(
       tap(_ => {
-        // insertion point for restoration of pointers
+        // insertion point for restoration of reverse pointers
         adb.B = frontRepo.Bs.get(adb.APointersEncoding.BID.Int64)
         adb.Bs = new Array<BDB>()
         for (let _bId of adb.APointersEncoding.Bs) {
           let _b = frontRepo.Bs.get(_bId)
-          if (_ != undefined) {
+          if (_b != undefined) {
             adb.Bs.push(_b!)
           }
         }
