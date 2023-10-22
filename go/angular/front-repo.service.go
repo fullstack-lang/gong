@@ -291,16 +291,15 @@ import { {{Structname}}Service } from './{{structname}}.service'
 	NgLibFrontRepoRedeemPointers: `
             {{structname}}s.forEach(
               {{structname}} => {
-                // insertion point sub sub template for ONE-/ZERO-ONE associations pointers redeeming{{` + string(NgFrontRepoPtrToStructRedeeming) + `}}
-
-                // insertion point for redeeming ONE-MANY associations{{` + string(NgFrontRepoSliceOfPointerDecoding) + `}}
+                // insertion point sub sub template for ONE-/ZERO-ONE associations pointers redeeming{{` + string(rune(NgFrontRepoPtrToStructRedeeming)) + `}}
               }
             )`,
 
 	NgLibFrontRepoSlicesOfPointersDecode: `
             {{structname}}s.forEach(
               {{structname}} => {
-                // insertion point for sorting{{` + string(NgFrontRepoSliceOfPointerSorting) + `}}
+                // insertion point sub sub template for ONE-/ZERO-ONE associations pointers redeeming{{` + string(rune(NgFrontRepoPtrToStructRedeeming)) + `}}
+                // insertion point for pointers decoding{{` + string(rune(NgFrontRepoSliceOfPointerSorting)) + `}}
               }
             )`,
 
@@ -330,9 +329,7 @@ import { {{Structname}}Service } from './{{structname}}.service'
                 this.frontRepo.{{Structname}}s.set({{structname}}.ID, {{structname}})
                 this.frontRepo.{{Structname}}s_batch.set({{structname}}.ID, {{structname}})
 
-                // insertion point for redeeming ONE/ZERO-ONE associations{{` + string(NgFrontRepoPtrToStructRedeeming) + `}}
-
-                // insertion point for redeeming ONE-MANY associations{{` + string(NgFrontRepoSliceOfPointerDecoding) + `}}
+                // insertion point for redeeming ONE/ZERO-ONE associations{{` + string(rune(NgFrontRepoPtrToStructRedeeming)) + `}}
               }
             )
 
@@ -363,21 +360,22 @@ export function get{{Structname}}UniqueID(id: number): number {
 }`,
 }
 
-type NgLibFrontRepoServiceSubSubTemplate string
+type NgLibFrontRepoServiceSubSubTemplate int
 
 const (
-	NgFrontRepoPtrToStructRedeeming NgLibFrontRepoServiceSubSubTemplate = "NgFrontRepoPtrToStructRedeeming"
+	NgFrontRepoPtrToStructRedeeming NgLibFrontRepoServiceSubSubTemplate = iota + 1789
+	NgFrontRepoSliceOfPointerSorting
 )
 
 // for each sub sub template, what sub template it relates to
-var NgLibFrontRepoPointerToStructSubSubToSubMap map[string]string = //
-map[string]string{
-	string(NgFrontRepoPtrToStructRedeeming): string(rune(NgLibFrontRepoRedeemPointers)),
+var NgLibFrontRepoPointerToStructSubSubToSubMap map[NgLibFrontRepoServiceSubSubTemplate]string = //
+map[NgLibFrontRepoServiceSubSubTemplate]string{
+	NgFrontRepoPtrToStructRedeeming: string(rune(NgLibFrontRepoRedeemPointers)),
 }
 
-var NgFrontRepoPtrToStructTmplCodes map[string]string = // new line
-map[string]string{
-	string(NgFrontRepoPtrToStructRedeeming): `
+var NgFrontRepoPtrToStructTmplCodes map[NgLibFrontRepoServiceSubSubTemplate]string = // new line
+map[NgLibFrontRepoServiceSubSubTemplate]string{
+	NgFrontRepoPtrToStructRedeeming: `
                 // insertion point for pointer field {{FieldName}} redeeming
                 {
                   let _{{assocStructName}} = this.frontRepo.{{AssocStructName}}s.get({{structname}}.{{Structname}}PointersEncoding.{{FieldName}}ID.Int64)
@@ -385,32 +383,7 @@ map[string]string{
                     {{structname}}.{{FieldName}} = _{{assocStructName}}
                   }
                 }`,
-}
-
-const (
-	NgFrontRepoSliceOfPointerDecoding NgLibFrontRepoServiceSubSubTemplate = "NgFrontRepoSliceOfPointerRedeeming"
-	NgFrontRepoSliceOfPointerSorting  NgLibFrontRepoServiceSubSubTemplate = "NgFrontRepoSliceOfPointerSorting"
-)
-
-var NgFrontRepoSliceOfPointerToStructTmplCode map[string]string = // new line
-map[string]string{
-	string(NgFrontRepoSliceOfPointerDecoding): `
-                // insertion point for slice of pointer field {{Structname}}.{{FieldName}} redeeming
-                // to be removed
-                {
-                  let _id = {{assocStructName}}.{{AssocStructName}}PointersEncoding.{{Structname}}_{{FieldName}}DBID.Int64
-                  let _{{structname}} = this.frontRepo.{{Structname}}s.get(_id)
-                  if (_{{structname}}) {
-                    if (_{{structname}}.{{FieldName}} == undefined) {
-                      _{{structname}}.{{FieldName}} = new Array<{{AssocStructName}}DB>()
-                    }
-                    _{{structname}}.{{FieldName}}.push({{assocStructName}})
-                    if ({{assocStructName}}.{{AssocStructName}}PointersEncoding.{{Structname}}_{{FieldName}}_reverse == undefined) {
-                      {{assocStructName}}.{{AssocStructName}}PointersEncoding.{{Structname}}_{{FieldName}}_reverse = _{{structname}}
-                    }
-                  }
-                }`,
-	string(NgFrontRepoSliceOfPointerSorting): `
+	NgFrontRepoSliceOfPointerSorting: `
                 {{structname}}.{{FieldName}} = new Array<{{AssocStructName}}DB>()
                 for (let _id of {{structname}}.{{Structname}}PointersEncoding.{{FieldName}}) {
                   let _{{assocStructName}} = this.frontRepo.{{AssocStructName}}s.get(_id)
@@ -456,7 +429,6 @@ func CodeGeneratorNgFrontRepo(
 		_ = structName
 
 		fieldPointerToStructCodes := ""
-		fieldSliceOfPtrToStructCodes := ""
 		fieldSliceOfPtrSortingToStructCodes := ""
 
 		// compute code per field
@@ -468,7 +440,7 @@ func CodeGeneratorNgFrontRepo(
 				assocStructName := strings.ToLower(field.GongStruct.Name)
 
 				fieldPointerToStructCodes += models.Replace6(
-					NgFrontRepoPtrToStructTmplCodes[string(NgFrontRepoPtrToStructRedeeming)],
+					NgFrontRepoPtrToStructTmplCodes[NgFrontRepoPtrToStructRedeeming],
 					"{{fieldName}}", fieldName,
 					"{{FieldName}}", field.Name,
 					"{{AssocStructName}}", field.GongStruct.Name,
@@ -482,40 +454,13 @@ func CodeGeneratorNgFrontRepo(
 				assocStructName := strings.ToLower(field.GongStruct.Name)
 
 				fieldSliceOfPtrSortingToStructCodes += models.Replace6(
-					NgFrontRepoSliceOfPointerToStructTmplCode[string(NgFrontRepoSliceOfPointerSorting)],
+					NgFrontRepoPtrToStructTmplCodes[NgFrontRepoSliceOfPointerSorting],
 					"{{fieldName}}", fieldName,
 					"{{FieldName}}", field.Name,
 					"{{AssocStructName}}", field.GongStruct.Name,
 					"{{assocStructName}}", assocStructName,
 					"{{Structname}}", _struct.Name,
 					"{{structname}}", structName)
-			}
-		}
-
-		//
-		// Parse all fields from other structs that points to this struct
-		//
-		for _, __struct := range structList {
-			for _, field := range __struct.Fields {
-				switch field := field.(type) {
-				case *models.SliceOfPointerToGongStructField:
-
-					if field.GongStruct == _struct {
-
-						fieldName := strings.ToLower(field.Name)
-						assocStructName := strings.ToLower(field.GongStruct.Name)
-						__structName := strings.ToLower(__struct.Name)
-
-						fieldSliceOfPtrToStructCodes += models.Replace6(
-							NgFrontRepoSliceOfPointerToStructTmplCode[string(NgFrontRepoSliceOfPointerDecoding)],
-							"{{fieldName}}", fieldName,
-							"{{FieldName}}", field.Name,
-							"{{AssocStructName}}", field.GongStruct.Name,
-							"{{assocStructName}}", assocStructName,
-							"{{Structname}}", __struct.Name,
-							"{{structname}}", __structName)
-					}
-				}
 			}
 		}
 
@@ -526,17 +471,12 @@ func CodeGeneratorNgFrontRepo(
 				"{{structname}}", structName,
 				"{{Prime}}", strconv.Itoa(models.Primes[structIndex+10]))
 
-			toReplace := "{{" + string(NgFrontRepoPtrToStructRedeeming) + "}}"
+			toReplace := "{{" + string(rune(NgFrontRepoPtrToStructRedeeming)) + "}}"
 			perStructCodes[subTemplate] = strings.ReplaceAll(
 				perStructCodes[subTemplate],
 				toReplace, fieldPointerToStructCodes)
 
-			toReplace = "{{" + string(NgFrontRepoSliceOfPointerDecoding) + "}}"
-			perStructCodes[subTemplate] = strings.ReplaceAll(
-				perStructCodes[subTemplate],
-				toReplace, fieldSliceOfPtrToStructCodes)
-
-			toReplace = "{{" + string(NgFrontRepoSliceOfPointerSorting) + "}}"
+			toReplace = "{{" + string(rune(NgFrontRepoSliceOfPointerSorting)) + "}}"
 			perStructCodes[subTemplate] = strings.ReplaceAll(
 				perStructCodes[subTemplate],
 				toReplace, fieldSliceOfPtrSortingToStructCodes)
