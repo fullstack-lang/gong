@@ -48,6 +48,13 @@ type StageStruct struct {
 	Astructs           map[*Astruct]any
 	Astructs_mapString map[string]*Astruct
 
+	// insertion point for slice of pointers maps
+	Astruct_Anarrayofb_reverseMap map[*Bstruct]*Astruct
+	Astruct_Anarrayofa_reverseMap map[*Astruct]*Astruct
+	Astruct_Anotherarrayofb_reverseMap map[*Bstruct]*Astruct
+	Astruct_AnarrayofbUse_reverseMap map[*AstructBstructUse]*Astruct
+	Astruct_Anarrayofb2Use_reverseMap map[*AstructBstruct2Use]*Astruct
+
 	OnAfterAstructCreateCallback OnAfterCreateInterface[Astruct]
 	OnAfterAstructUpdateCallback OnAfterUpdateInterface[Astruct]
 	OnAfterAstructDeleteCallback OnAfterDeleteInterface[Astruct]
@@ -55,6 +62,8 @@ type StageStruct struct {
 
 	AstructBstruct2Uses           map[*AstructBstruct2Use]any
 	AstructBstruct2Uses_mapString map[string]*AstructBstruct2Use
+
+	// insertion point for slice of pointers maps
 
 	OnAfterAstructBstruct2UseCreateCallback OnAfterCreateInterface[AstructBstruct2Use]
 	OnAfterAstructBstruct2UseUpdateCallback OnAfterUpdateInterface[AstructBstruct2Use]
@@ -64,6 +73,8 @@ type StageStruct struct {
 	AstructBstructUses           map[*AstructBstructUse]any
 	AstructBstructUses_mapString map[string]*AstructBstructUse
 
+	// insertion point for slice of pointers maps
+
 	OnAfterAstructBstructUseCreateCallback OnAfterCreateInterface[AstructBstructUse]
 	OnAfterAstructBstructUseUpdateCallback OnAfterUpdateInterface[AstructBstructUse]
 	OnAfterAstructBstructUseDeleteCallback OnAfterDeleteInterface[AstructBstructUse]
@@ -71,6 +82,8 @@ type StageStruct struct {
 
 	Bstructs           map[*Bstruct]any
 	Bstructs_mapString map[string]*Bstruct
+
+	// insertion point for slice of pointers maps
 
 	OnAfterBstructCreateCallback OnAfterCreateInterface[Bstruct]
 	OnAfterBstructUpdateCallback OnAfterUpdateInterface[Bstruct]
@@ -80,6 +93,9 @@ type StageStruct struct {
 	Dstructs           map[*Dstruct]any
 	Dstructs_mapString map[string]*Dstruct
 
+	// insertion point for slice of pointers maps
+	Dstruct_Anarrayofb_reverseMap map[*Bstruct]*Dstruct
+
 	OnAfterDstructCreateCallback OnAfterCreateInterface[Dstruct]
 	OnAfterDstructUpdateCallback OnAfterUpdateInterface[Dstruct]
 	OnAfterDstructDeleteCallback OnAfterDeleteInterface[Dstruct]
@@ -87,6 +103,8 @@ type StageStruct struct {
 
 	Fstructs           map[*Fstruct]any
 	Fstructs_mapString map[string]*Fstruct
+
+	// insertion point for slice of pointers maps
 
 	OnAfterFstructCreateCallback OnAfterCreateInterface[Fstruct]
 	OnAfterFstructUpdateCallback OnAfterUpdateInterface[Fstruct]
@@ -220,6 +238,8 @@ func (stage *StageStruct) CommitWithSuspendedCallbacks() {
 }
 
 func (stage *StageStruct) Commit() {
+	stage.ComputeReverseMaps()
+
 	if stage.BackRepo != nil {
 		stage.BackRepo.Commit(stage)
 	}
@@ -239,6 +259,7 @@ func (stage *StageStruct) Checkout() {
 		stage.BackRepo.Checkout(stage)
 	}
 
+	stage.ComputeReverseMaps()
 	// insertion point for computing the map of number of instances per gongstruct
 	stage.Map_GongStructName_InstancesNb["Astruct"] = len(stage.Astructs)
 	stage.Map_GongStructName_InstancesNb["AstructBstruct2Use"] = len(stage.AstructBstruct2Uses)

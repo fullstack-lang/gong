@@ -24,10 +24,8 @@ func GetReverseFieldOwnerName[T models.Gongstruct](
 		case "Astruct":
 			switch reverseField.Fieldname {
 			case "Anarrayofa":
-				if tmp != nil && tmp.Astruct_AnarrayofaDBID.Int64 != 0 {
-					id := uint(tmp.Astruct_AnarrayofaDBID.Int64)
-					reservePointerTarget := backRepo.BackRepoAstruct.Map_AstructDBID_AstructPtr[id]
-					res = reservePointerTarget.Name
+				if _astruct, ok := stage.Astruct_Anarrayofa_reverseMap[inst]; ok {
+					res = _astruct.Name
 				}
 			}
 		case "AstructBstruct2Use":
@@ -57,10 +55,8 @@ func GetReverseFieldOwnerName[T models.Gongstruct](
 		case "Astruct":
 			switch reverseField.Fieldname {
 			case "Anarrayofb2Use":
-				if tmp != nil && tmp.Astruct_Anarrayofb2UseDBID.Int64 != 0 {
-					id := uint(tmp.Astruct_Anarrayofb2UseDBID.Int64)
-					reservePointerTarget := backRepo.BackRepoAstruct.Map_AstructDBID_AstructPtr[id]
-					res = reservePointerTarget.Name
+				if _astruct, ok := stage.Astruct_Anarrayofb2Use_reverseMap[inst]; ok {
+					res = _astruct.Name
 				}
 			}
 		case "AstructBstruct2Use":
@@ -90,10 +86,8 @@ func GetReverseFieldOwnerName[T models.Gongstruct](
 		case "Astruct":
 			switch reverseField.Fieldname {
 			case "AnarrayofbUse":
-				if tmp != nil && tmp.Astruct_AnarrayofbUseDBID.Int64 != 0 {
-					id := uint(tmp.Astruct_AnarrayofbUseDBID.Int64)
-					reservePointerTarget := backRepo.BackRepoAstruct.Map_AstructDBID_AstructPtr[id]
-					res = reservePointerTarget.Name
+				if _astruct, ok := stage.Astruct_AnarrayofbUse_reverseMap[inst]; ok {
+					res = _astruct.Name
 				}
 			}
 		case "AstructBstruct2Use":
@@ -123,16 +117,12 @@ func GetReverseFieldOwnerName[T models.Gongstruct](
 		case "Astruct":
 			switch reverseField.Fieldname {
 			case "Anarrayofb":
-				if tmp != nil && tmp.Astruct_AnarrayofbDBID.Int64 != 0 {
-					id := uint(tmp.Astruct_AnarrayofbDBID.Int64)
-					reservePointerTarget := backRepo.BackRepoAstruct.Map_AstructDBID_AstructPtr[id]
-					res = reservePointerTarget.Name
+				if _astruct, ok := stage.Astruct_Anarrayofb_reverseMap[inst]; ok {
+					res = _astruct.Name
 				}
 			case "Anotherarrayofb":
-				if tmp != nil && tmp.Astruct_AnotherarrayofbDBID.Int64 != 0 {
-					id := uint(tmp.Astruct_AnotherarrayofbDBID.Int64)
-					reservePointerTarget := backRepo.BackRepoAstruct.Map_AstructDBID_AstructPtr[id]
-					res = reservePointerTarget.Name
+				if _astruct, ok := stage.Astruct_Anotherarrayofb_reverseMap[inst]; ok {
+					res = _astruct.Name
 				}
 			}
 		case "AstructBstruct2Use":
@@ -147,10 +137,8 @@ func GetReverseFieldOwnerName[T models.Gongstruct](
 		case "Dstruct":
 			switch reverseField.Fieldname {
 			case "Anarrayofb":
-				if tmp != nil && tmp.Dstruct_AnarrayofbDBID.Int64 != 0 {
-					id := uint(tmp.Dstruct_AnarrayofbDBID.Int64)
-					reservePointerTarget := backRepo.BackRepoDstruct.Map_DstructDBID_DstructPtr[id]
-					res = reservePointerTarget.Name
+				if _dstruct, ok := stage.Dstruct_Anarrayofb_reverseMap[inst]; ok {
+					res = _dstruct.Name
 				}
 			}
 		case "Fstruct":
@@ -237,11 +225,7 @@ func GetReverseFieldOwner[T models.Gongstruct](
 		case "Astruct":
 			switch reverseField.Fieldname {
 			case "Anarrayofa":
-				if tmp != nil && tmp.Astruct_AnarrayofaDBID.Int64 != 0 {
-					id := uint(tmp.Astruct_AnarrayofaDBID.Int64)
-					reservePointerTarget := backRepo.BackRepoAstruct.Map_AstructDBID_AstructPtr[id]
-					res = reservePointerTarget
-				}
+				res = stage.Astruct_Anarrayofa_reverseMap[inst]
 			}
 		case "AstructBstruct2Use":
 			switch reverseField.Fieldname {
@@ -259,7 +243,7 @@ func GetReverseFieldOwner[T models.Gongstruct](
 			switch reverseField.Fieldname {
 			}
 		}
-	
+
 	case *models.AstructBstruct2Use:
 		tmp := GetInstanceDBFromInstance[models.AstructBstruct2Use, AstructBstruct2UseDB](
 			stage, backRepo, inst,
@@ -270,11 +254,7 @@ func GetReverseFieldOwner[T models.Gongstruct](
 		case "Astruct":
 			switch reverseField.Fieldname {
 			case "Anarrayofb2Use":
-				if tmp != nil && tmp.Astruct_Anarrayofb2UseDBID.Int64 != 0 {
-					id := uint(tmp.Astruct_Anarrayofb2UseDBID.Int64)
-					reservePointerTarget := backRepo.BackRepoAstruct.Map_AstructDBID_AstructPtr[id]
-					res = reservePointerTarget
-				}
+				res = stage.Astruct_Anarrayofb2Use_reverseMap[inst]
 			}
 		case "AstructBstruct2Use":
 			switch reverseField.Fieldname {
@@ -292,7 +272,7 @@ func GetReverseFieldOwner[T models.Gongstruct](
 			switch reverseField.Fieldname {
 			}
 		}
-	
+
 	case *models.AstructBstructUse:
 		tmp := GetInstanceDBFromInstance[models.AstructBstructUse, AstructBstructUseDB](
 			stage, backRepo, inst,
@@ -303,11 +283,7 @@ func GetReverseFieldOwner[T models.Gongstruct](
 		case "Astruct":
 			switch reverseField.Fieldname {
 			case "AnarrayofbUse":
-				if tmp != nil && tmp.Astruct_AnarrayofbUseDBID.Int64 != 0 {
-					id := uint(tmp.Astruct_AnarrayofbUseDBID.Int64)
-					reservePointerTarget := backRepo.BackRepoAstruct.Map_AstructDBID_AstructPtr[id]
-					res = reservePointerTarget
-				}
+				res = stage.Astruct_AnarrayofbUse_reverseMap[inst]
 			}
 		case "AstructBstruct2Use":
 			switch reverseField.Fieldname {
@@ -325,7 +301,7 @@ func GetReverseFieldOwner[T models.Gongstruct](
 			switch reverseField.Fieldname {
 			}
 		}
-	
+
 	case *models.Bstruct:
 		tmp := GetInstanceDBFromInstance[models.Bstruct, BstructDB](
 			stage, backRepo, inst,
@@ -336,17 +312,9 @@ func GetReverseFieldOwner[T models.Gongstruct](
 		case "Astruct":
 			switch reverseField.Fieldname {
 			case "Anarrayofb":
-				if tmp != nil && tmp.Astruct_AnarrayofbDBID.Int64 != 0 {
-					id := uint(tmp.Astruct_AnarrayofbDBID.Int64)
-					reservePointerTarget := backRepo.BackRepoAstruct.Map_AstructDBID_AstructPtr[id]
-					res = reservePointerTarget
-				}
+				res = stage.Astruct_Anarrayofb_reverseMap[inst]
 			case "Anotherarrayofb":
-				if tmp != nil && tmp.Astruct_AnotherarrayofbDBID.Int64 != 0 {
-					id := uint(tmp.Astruct_AnotherarrayofbDBID.Int64)
-					reservePointerTarget := backRepo.BackRepoAstruct.Map_AstructDBID_AstructPtr[id]
-					res = reservePointerTarget
-				}
+				res = stage.Astruct_Anotherarrayofb_reverseMap[inst]
 			}
 		case "AstructBstruct2Use":
 			switch reverseField.Fieldname {
@@ -360,17 +328,13 @@ func GetReverseFieldOwner[T models.Gongstruct](
 		case "Dstruct":
 			switch reverseField.Fieldname {
 			case "Anarrayofb":
-				if tmp != nil && tmp.Dstruct_AnarrayofbDBID.Int64 != 0 {
-					id := uint(tmp.Dstruct_AnarrayofbDBID.Int64)
-					reservePointerTarget := backRepo.BackRepoDstruct.Map_DstructDBID_DstructPtr[id]
-					res = reservePointerTarget
-				}
+				res = stage.Dstruct_Anarrayofb_reverseMap[inst]
 			}
 		case "Fstruct":
 			switch reverseField.Fieldname {
 			}
 		}
-	
+
 	case *models.Dstruct:
 		tmp := GetInstanceDBFromInstance[models.Dstruct, DstructDB](
 			stage, backRepo, inst,
@@ -397,7 +361,7 @@ func GetReverseFieldOwner[T models.Gongstruct](
 			switch reverseField.Fieldname {
 			}
 		}
-	
+
 	case *models.Fstruct:
 		tmp := GetInstanceDBFromInstance[models.Fstruct, FstructDB](
 			stage, backRepo, inst,
@@ -424,7 +388,7 @@ func GetReverseFieldOwner[T models.Gongstruct](
 			switch reverseField.Fieldname {
 			}
 		}
-	
+
 	default:
 		_ = inst
 	}
