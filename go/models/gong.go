@@ -48,6 +48,8 @@ type StageStruct struct {
 	GongBasicFields           map[*GongBasicField]any
 	GongBasicFields_mapString map[string]*GongBasicField
 
+	// insertion point for slice of pointers maps
+
 	OnAfterGongBasicFieldCreateCallback OnAfterCreateInterface[GongBasicField]
 	OnAfterGongBasicFieldUpdateCallback OnAfterUpdateInterface[GongBasicField]
 	OnAfterGongBasicFieldDeleteCallback OnAfterDeleteInterface[GongBasicField]
@@ -55,6 +57,9 @@ type StageStruct struct {
 
 	GongEnums           map[*GongEnum]any
 	GongEnums_mapString map[string]*GongEnum
+
+	// insertion point for slice of pointers maps
+	GongEnum_GongEnumValues_reverseMap map[*GongEnumValue]*GongEnum
 
 	OnAfterGongEnumCreateCallback OnAfterCreateInterface[GongEnum]
 	OnAfterGongEnumUpdateCallback OnAfterUpdateInterface[GongEnum]
@@ -64,6 +69,8 @@ type StageStruct struct {
 	GongEnumValues           map[*GongEnumValue]any
 	GongEnumValues_mapString map[string]*GongEnumValue
 
+	// insertion point for slice of pointers maps
+
 	OnAfterGongEnumValueCreateCallback OnAfterCreateInterface[GongEnumValue]
 	OnAfterGongEnumValueUpdateCallback OnAfterUpdateInterface[GongEnumValue]
 	OnAfterGongEnumValueDeleteCallback OnAfterDeleteInterface[GongEnumValue]
@@ -71,6 +78,8 @@ type StageStruct struct {
 
 	GongLinks           map[*GongLink]any
 	GongLinks_mapString map[string]*GongLink
+
+	// insertion point for slice of pointers maps
 
 	OnAfterGongLinkCreateCallback OnAfterCreateInterface[GongLink]
 	OnAfterGongLinkUpdateCallback OnAfterUpdateInterface[GongLink]
@@ -80,6 +89,9 @@ type StageStruct struct {
 	GongNotes           map[*GongNote]any
 	GongNotes_mapString map[string]*GongNote
 
+	// insertion point for slice of pointers maps
+	GongNote_Links_reverseMap map[*GongLink]*GongNote
+
 	OnAfterGongNoteCreateCallback OnAfterCreateInterface[GongNote]
 	OnAfterGongNoteUpdateCallback OnAfterUpdateInterface[GongNote]
 	OnAfterGongNoteDeleteCallback OnAfterDeleteInterface[GongNote]
@@ -87,6 +99,12 @@ type StageStruct struct {
 
 	GongStructs           map[*GongStruct]any
 	GongStructs_mapString map[string]*GongStruct
+
+	// insertion point for slice of pointers maps
+	GongStruct_GongBasicFields_reverseMap map[*GongBasicField]*GongStruct
+	GongStruct_GongTimeFields_reverseMap map[*GongTimeField]*GongStruct
+	GongStruct_PointerToGongStructFields_reverseMap map[*PointerToGongStructField]*GongStruct
+	GongStruct_SliceOfPointerToGongStructFields_reverseMap map[*SliceOfPointerToGongStructField]*GongStruct
 
 	OnAfterGongStructCreateCallback OnAfterCreateInterface[GongStruct]
 	OnAfterGongStructUpdateCallback OnAfterUpdateInterface[GongStruct]
@@ -96,6 +114,8 @@ type StageStruct struct {
 	GongTimeFields           map[*GongTimeField]any
 	GongTimeFields_mapString map[string]*GongTimeField
 
+	// insertion point for slice of pointers maps
+
 	OnAfterGongTimeFieldCreateCallback OnAfterCreateInterface[GongTimeField]
 	OnAfterGongTimeFieldUpdateCallback OnAfterUpdateInterface[GongTimeField]
 	OnAfterGongTimeFieldDeleteCallback OnAfterDeleteInterface[GongTimeField]
@@ -103,6 +123,9 @@ type StageStruct struct {
 
 	Metas           map[*Meta]any
 	Metas_mapString map[string]*Meta
+
+	// insertion point for slice of pointers maps
+	Meta_MetaReferences_reverseMap map[*MetaReference]*Meta
 
 	OnAfterMetaCreateCallback OnAfterCreateInterface[Meta]
 	OnAfterMetaUpdateCallback OnAfterUpdateInterface[Meta]
@@ -112,6 +135,8 @@ type StageStruct struct {
 	MetaReferences           map[*MetaReference]any
 	MetaReferences_mapString map[string]*MetaReference
 
+	// insertion point for slice of pointers maps
+
 	OnAfterMetaReferenceCreateCallback OnAfterCreateInterface[MetaReference]
 	OnAfterMetaReferenceUpdateCallback OnAfterUpdateInterface[MetaReference]
 	OnAfterMetaReferenceDeleteCallback OnAfterDeleteInterface[MetaReference]
@@ -119,6 +144,8 @@ type StageStruct struct {
 
 	ModelPkgs           map[*ModelPkg]any
 	ModelPkgs_mapString map[string]*ModelPkg
+
+	// insertion point for slice of pointers maps
 
 	OnAfterModelPkgCreateCallback OnAfterCreateInterface[ModelPkg]
 	OnAfterModelPkgUpdateCallback OnAfterUpdateInterface[ModelPkg]
@@ -128,6 +155,8 @@ type StageStruct struct {
 	PointerToGongStructFields           map[*PointerToGongStructField]any
 	PointerToGongStructFields_mapString map[string]*PointerToGongStructField
 
+	// insertion point for slice of pointers maps
+
 	OnAfterPointerToGongStructFieldCreateCallback OnAfterCreateInterface[PointerToGongStructField]
 	OnAfterPointerToGongStructFieldUpdateCallback OnAfterUpdateInterface[PointerToGongStructField]
 	OnAfterPointerToGongStructFieldDeleteCallback OnAfterDeleteInterface[PointerToGongStructField]
@@ -135,6 +164,8 @@ type StageStruct struct {
 
 	SliceOfPointerToGongStructFields           map[*SliceOfPointerToGongStructField]any
 	SliceOfPointerToGongStructFields_mapString map[string]*SliceOfPointerToGongStructField
+
+	// insertion point for slice of pointers maps
 
 	OnAfterSliceOfPointerToGongStructFieldCreateCallback OnAfterCreateInterface[SliceOfPointerToGongStructField]
 	OnAfterSliceOfPointerToGongStructFieldUpdateCallback OnAfterUpdateInterface[SliceOfPointerToGongStructField]
@@ -298,6 +329,8 @@ func (stage *StageStruct) CommitWithSuspendedCallbacks() {
 }
 
 func (stage *StageStruct) Commit() {
+	stage.ComputeReverseMaps()
+
 	if stage.BackRepo != nil {
 		stage.BackRepo.Commit(stage)
 	}
@@ -323,6 +356,7 @@ func (stage *StageStruct) Checkout() {
 		stage.BackRepo.Checkout(stage)
 	}
 
+	stage.ComputeReverseMaps()
 	// insertion point for computing the map of number of instances per gongstruct
 	stage.Map_GongStructName_InstancesNb["GongBasicField"] = len(stage.GongBasicFields)
 	stage.Map_GongStructName_InstancesNb["GongEnum"] = len(stage.GongEnums)

@@ -12,8 +12,10 @@ import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 
 import { GongEnumDB } from './gongenum-db';
+import { FrontRepo, FrontRepoService } from './front-repo.service';
 
 // insertion point for imports
+import { GongEnumValueDB } from './gongenumvalue-db'
 
 @Injectable({
   providedIn: 'root'
@@ -43,10 +45,10 @@ export class GongEnumService {
 
   /** GET gongenums from the server */
   // gets is more robust to refactoring
-  gets(GONG__StackPath: string): Observable<GongEnumDB[]> {
-    return this.getGongEnums(GONG__StackPath)
+  gets(GONG__StackPath: string, frontRepo: FrontRepo): Observable<GongEnumDB[]> {
+    return this.getGongEnums(GONG__StackPath, frontRepo)
   }
-  getGongEnums(GONG__StackPath: string): Observable<GongEnumDB[]> {
+  getGongEnums(GONG__StackPath: string, frontRepo: FrontRepo): Observable<GongEnumDB[]> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
@@ -60,10 +62,10 @@ export class GongEnumService {
 
   /** GET gongenum by id. Will 404 if id not found */
   // more robust API to refactoring
-  get(id: number, GONG__StackPath: string): Observable<GongEnumDB> {
-	return this.getGongEnum(id, GONG__StackPath)
+  get(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<GongEnumDB> {
+    return this.getGongEnum(id, GONG__StackPath, frontRepo)
   }
-  getGongEnum(id: number, GONG__StackPath: string): Observable<GongEnumDB> {
+  getGongEnum(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<GongEnumDB> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
@@ -75,13 +77,15 @@ export class GongEnumService {
   }
 
   /** POST: add a new gongenum to the server */
-  post(gongenumdb: GongEnumDB, GONG__StackPath: string): Observable<GongEnumDB> {
-    return this.postGongEnum(gongenumdb, GONG__StackPath)	
+  post(gongenumdb: GongEnumDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<GongEnumDB> {
+    return this.postGongEnum(gongenumdb, GONG__StackPath, frontRepo)
   }
-  postGongEnum(gongenumdb: GongEnumDB, GONG__StackPath: string): Observable<GongEnumDB> {
+  postGongEnum(gongenumdb: GongEnumDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<GongEnumDB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
-    let GongEnumValues = gongenumdb.GongEnumValues
+    for (let _gongenumvalue of gongenumdb.GongEnumValues) {
+      gongenumdb.GongEnumPointersEncoding.GongEnumValues.push(_gongenumvalue.ID)
+    }
     gongenumdb.GongEnumValues = []
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
@@ -93,7 +97,13 @@ export class GongEnumService {
     return this.http.post<GongEnumDB>(this.gongenumsUrl, gongenumdb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
-	      gongenumdb.GongEnumValues = GongEnumValues
+        gongenumdb.GongEnumValues = new Array<GongEnumValueDB>()
+        for (let _id of gongenumdb.GongEnumPointersEncoding.GongEnumValues) {
+          let _gongenumvalue = frontRepo.GongEnumValues.get(_id)
+          if (_gongenumvalue != undefined) {
+            gongenumdb.GongEnumValues.push(_gongenumvalue!)
+          }
+        }
         // this.log(`posted gongenumdb id=${gongenumdb.ID}`)
       }),
       catchError(this.handleError<GongEnumDB>('postGongEnum'))
@@ -121,15 +131,18 @@ export class GongEnumService {
   }
 
   /** PUT: update the gongenumdb on the server */
-  update(gongenumdb: GongEnumDB, GONG__StackPath: string): Observable<GongEnumDB> {
-    return this.updateGongEnum(gongenumdb, GONG__StackPath)
+  update(gongenumdb: GongEnumDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<GongEnumDB> {
+    return this.updateGongEnum(gongenumdb, GONG__StackPath, frontRepo)
   }
-  updateGongEnum(gongenumdb: GongEnumDB, GONG__StackPath: string): Observable<GongEnumDB> {
+  updateGongEnum(gongenumdb: GongEnumDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<GongEnumDB> {
     const id = typeof gongenumdb === 'number' ? gongenumdb : gongenumdb.ID;
     const url = `${this.gongenumsUrl}/${id}`;
 
-    // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
-    let GongEnumValues = gongenumdb.GongEnumValues
+    // insertion point for reset of pointers (to avoid circular JSON)
+	// and encoding of pointers
+    for (let _gongenumvalue of gongenumdb.GongEnumValues) {
+      gongenumdb.GongEnumPointersEncoding.GongEnumValues.push(_gongenumvalue.ID)
+    }
     gongenumdb.GongEnumValues = []
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
@@ -141,7 +154,13 @@ export class GongEnumService {
     return this.http.put<GongEnumDB>(url, gongenumdb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
-	      gongenumdb.GongEnumValues = GongEnumValues
+        gongenumdb.GongEnumValues = new Array<GongEnumValueDB>()
+        for (let _id of gongenumdb.GongEnumPointersEncoding.GongEnumValues) {
+          let _gongenumvalue = frontRepo.GongEnumValues.get(_id)
+          if (_gongenumvalue != undefined) {
+            gongenumdb.GongEnumValues.push(_gongenumvalue!)
+          }
+        }
         // this.log(`updated gongenumdb id=${gongenumdb.ID}`)
       }),
       catchError(this.handleError<GongEnumDB>('updateGongEnum'))
@@ -169,6 +188,6 @@ export class GongEnumService {
   }
 
   private log(message: string) {
-      console.log(message)
+    console.log(message)
   }
 }

@@ -12,10 +12,10 @@ import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 
 import { GongBasicFieldDB } from './gongbasicfield-db';
+import { FrontRepo, FrontRepoService } from './front-repo.service';
 
 // insertion point for imports
 import { GongEnumDB } from './gongenum-db'
-import { GongStructDB } from './gongstruct-db'
 
 @Injectable({
   providedIn: 'root'
@@ -45,10 +45,10 @@ export class GongBasicFieldService {
 
   /** GET gongbasicfields from the server */
   // gets is more robust to refactoring
-  gets(GONG__StackPath: string): Observable<GongBasicFieldDB[]> {
-    return this.getGongBasicFields(GONG__StackPath)
+  gets(GONG__StackPath: string, frontRepo: FrontRepo): Observable<GongBasicFieldDB[]> {
+    return this.getGongBasicFields(GONG__StackPath, frontRepo)
   }
-  getGongBasicFields(GONG__StackPath: string): Observable<GongBasicFieldDB[]> {
+  getGongBasicFields(GONG__StackPath: string, frontRepo: FrontRepo): Observable<GongBasicFieldDB[]> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
@@ -62,10 +62,10 @@ export class GongBasicFieldService {
 
   /** GET gongbasicfield by id. Will 404 if id not found */
   // more robust API to refactoring
-  get(id: number, GONG__StackPath: string): Observable<GongBasicFieldDB> {
-	return this.getGongBasicField(id, GONG__StackPath)
+  get(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<GongBasicFieldDB> {
+    return this.getGongBasicField(id, GONG__StackPath, frontRepo)
   }
-  getGongBasicField(id: number, GONG__StackPath: string): Observable<GongBasicFieldDB> {
+  getGongBasicField(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<GongBasicFieldDB> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
@@ -77,16 +77,17 @@ export class GongBasicFieldService {
   }
 
   /** POST: add a new gongbasicfield to the server */
-  post(gongbasicfielddb: GongBasicFieldDB, GONG__StackPath: string): Observable<GongBasicFieldDB> {
-    return this.postGongBasicField(gongbasicfielddb, GONG__StackPath)	
+  post(gongbasicfielddb: GongBasicFieldDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<GongBasicFieldDB> {
+    return this.postGongBasicField(gongbasicfielddb, GONG__StackPath, frontRepo)
   }
-  postGongBasicField(gongbasicfielddb: GongBasicFieldDB, GONG__StackPath: string): Observable<GongBasicFieldDB> {
+  postGongBasicField(gongbasicfielddb: GongBasicFieldDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<GongBasicFieldDB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
-    let GongEnum = gongbasicfielddb.GongEnum
-    gongbasicfielddb.GongEnum = new GongEnumDB
-    let _GongStruct_GongBasicFields_reverse = gongbasicfielddb.GongBasicFieldPointersEncoding.GongStruct_GongBasicFields_reverse
-    gongbasicfielddb.GongBasicFieldPointersEncoding.GongStruct_GongBasicFields_reverse = new GongStructDB
+    if (gongbasicfielddb.GongEnum != undefined) {
+      gongbasicfielddb.GongBasicFieldPointersEncoding.GongEnumID.Int64 = gongbasicfielddb.GongEnum.ID
+      gongbasicfielddb.GongBasicFieldPointersEncoding.GongEnumID.Valid = true
+    }
+    gongbasicfielddb.GongEnum = undefined
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -97,7 +98,7 @@ export class GongBasicFieldService {
     return this.http.post<GongBasicFieldDB>(this.gongbasicfieldsUrl, gongbasicfielddb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
-        gongbasicfielddb.GongBasicFieldPointersEncoding.GongStruct_GongBasicFields_reverse = _GongStruct_GongBasicFields_reverse
+        gongbasicfielddb.GongEnum = frontRepo.GongEnums.get(gongbasicfielddb.GongBasicFieldPointersEncoding.GongEnumID.Int64)
         // this.log(`posted gongbasicfielddb id=${gongbasicfielddb.ID}`)
       }),
       catchError(this.handleError<GongBasicFieldDB>('postGongBasicField'))
@@ -125,18 +126,20 @@ export class GongBasicFieldService {
   }
 
   /** PUT: update the gongbasicfielddb on the server */
-  update(gongbasicfielddb: GongBasicFieldDB, GONG__StackPath: string): Observable<GongBasicFieldDB> {
-    return this.updateGongBasicField(gongbasicfielddb, GONG__StackPath)
+  update(gongbasicfielddb: GongBasicFieldDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<GongBasicFieldDB> {
+    return this.updateGongBasicField(gongbasicfielddb, GONG__StackPath, frontRepo)
   }
-  updateGongBasicField(gongbasicfielddb: GongBasicFieldDB, GONG__StackPath: string): Observable<GongBasicFieldDB> {
+  updateGongBasicField(gongbasicfielddb: GongBasicFieldDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<GongBasicFieldDB> {
     const id = typeof gongbasicfielddb === 'number' ? gongbasicfielddb : gongbasicfielddb.ID;
     const url = `${this.gongbasicfieldsUrl}/${id}`;
 
-    // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
-    let GongEnum = gongbasicfielddb.GongEnum
-    gongbasicfielddb.GongEnum = new GongEnumDB
-    let _GongStruct_GongBasicFields_reverse = gongbasicfielddb.GongBasicFieldPointersEncoding.GongStruct_GongBasicFields_reverse
-    gongbasicfielddb.GongBasicFieldPointersEncoding.GongStruct_GongBasicFields_reverse = new GongStructDB
+    // insertion point for reset of pointers (to avoid circular JSON)
+	// and encoding of pointers
+    if (gongbasicfielddb.GongEnum != undefined) {
+      gongbasicfielddb.GongBasicFieldPointersEncoding.GongEnumID.Int64 = gongbasicfielddb.GongEnum.ID
+      gongbasicfielddb.GongBasicFieldPointersEncoding.GongEnumID.Valid = true
+    }
+    gongbasicfielddb.GongEnum = undefined
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -147,7 +150,7 @@ export class GongBasicFieldService {
     return this.http.put<GongBasicFieldDB>(url, gongbasicfielddb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
-        gongbasicfielddb.GongBasicFieldPointersEncoding.GongStruct_GongBasicFields_reverse = _GongStruct_GongBasicFields_reverse
+        gongbasicfielddb.GongEnum = frontRepo.GongEnums.get(gongbasicfielddb.GongBasicFieldPointersEncoding.GongEnumID.Int64)
         // this.log(`updated gongbasicfielddb id=${gongbasicfielddb.ID}`)
       }),
       catchError(this.handleError<GongBasicFieldDB>('updateGongBasicField'))
@@ -175,6 +178,6 @@ export class GongBasicFieldService {
   }
 
   private log(message: string) {
-      console.log(message)
+    console.log(message)
   }
 }

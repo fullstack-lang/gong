@@ -39,10 +39,8 @@ func GetReverseFieldOwnerName[T models.Gongstruct](
 		case "GongStruct":
 			switch reverseField.Fieldname {
 			case "GongBasicFields":
-				if tmp != nil && tmp.GongStruct_GongBasicFieldsDBID.Int64 != 0 {
-					id := uint(tmp.GongStruct_GongBasicFieldsDBID.Int64)
-					reservePointerTarget := backRepo.BackRepoGongStruct.Map_GongStructDBID_GongStructPtr[id]
-					res = reservePointerTarget.Name
+				if _gongstruct, ok := stage.GongStruct_GongBasicFields_reverseMap[inst]; ok {
+					res = _gongstruct.Name
 				}
 			}
 		case "GongTimeField":
@@ -123,10 +121,8 @@ func GetReverseFieldOwnerName[T models.Gongstruct](
 		case "GongEnum":
 			switch reverseField.Fieldname {
 			case "GongEnumValues":
-				if tmp != nil && tmp.GongEnum_GongEnumValuesDBID.Int64 != 0 {
-					id := uint(tmp.GongEnum_GongEnumValuesDBID.Int64)
-					reservePointerTarget := backRepo.BackRepoGongEnum.Map_GongEnumDBID_GongEnumPtr[id]
-					res = reservePointerTarget.Name
+				if _gongenum, ok := stage.GongEnum_GongEnumValues_reverseMap[inst]; ok {
+					res = _gongenum.Name
 				}
 			}
 		case "GongEnumValue":
@@ -183,10 +179,8 @@ func GetReverseFieldOwnerName[T models.Gongstruct](
 		case "GongNote":
 			switch reverseField.Fieldname {
 			case "Links":
-				if tmp != nil && tmp.GongNote_LinksDBID.Int64 != 0 {
-					id := uint(tmp.GongNote_LinksDBID.Int64)
-					reservePointerTarget := backRepo.BackRepoGongNote.Map_GongNoteDBID_GongNotePtr[id]
-					res = reservePointerTarget.Name
+				if _gongnote, ok := stage.GongNote_Links_reverseMap[inst]; ok {
+					res = _gongnote.Name
 				}
 			}
 		case "GongStruct":
@@ -327,10 +321,8 @@ func GetReverseFieldOwnerName[T models.Gongstruct](
 		case "GongStruct":
 			switch reverseField.Fieldname {
 			case "GongTimeFields":
-				if tmp != nil && tmp.GongStruct_GongTimeFieldsDBID.Int64 != 0 {
-					id := uint(tmp.GongStruct_GongTimeFieldsDBID.Int64)
-					reservePointerTarget := backRepo.BackRepoGongStruct.Map_GongStructDBID_GongStructPtr[id]
-					res = reservePointerTarget.Name
+				if _gongstruct, ok := stage.GongStruct_GongTimeFields_reverseMap[inst]; ok {
+					res = _gongstruct.Name
 				}
 			}
 		case "GongTimeField":
@@ -429,10 +421,8 @@ func GetReverseFieldOwnerName[T models.Gongstruct](
 		case "Meta":
 			switch reverseField.Fieldname {
 			case "MetaReferences":
-				if tmp != nil && tmp.Meta_MetaReferencesDBID.Int64 != 0 {
-					id := uint(tmp.Meta_MetaReferencesDBID.Int64)
-					reservePointerTarget := backRepo.BackRepoMeta.Map_MetaDBID_MetaPtr[id]
-					res = reservePointerTarget.Name
+				if _meta, ok := stage.Meta_MetaReferences_reverseMap[inst]; ok {
+					res = _meta.Name
 				}
 			}
 		case "MetaReference":
@@ -519,10 +509,8 @@ func GetReverseFieldOwnerName[T models.Gongstruct](
 		case "GongStruct":
 			switch reverseField.Fieldname {
 			case "PointerToGongStructFields":
-				if tmp != nil && tmp.GongStruct_PointerToGongStructFieldsDBID.Int64 != 0 {
-					id := uint(tmp.GongStruct_PointerToGongStructFieldsDBID.Int64)
-					reservePointerTarget := backRepo.BackRepoGongStruct.Map_GongStructDBID_GongStructPtr[id]
-					res = reservePointerTarget.Name
+				if _gongstruct, ok := stage.GongStruct_PointerToGongStructFields_reverseMap[inst]; ok {
+					res = _gongstruct.Name
 				}
 			}
 		case "GongTimeField":
@@ -570,10 +558,8 @@ func GetReverseFieldOwnerName[T models.Gongstruct](
 		case "GongStruct":
 			switch reverseField.Fieldname {
 			case "SliceOfPointerToGongStructFields":
-				if tmp != nil && tmp.GongStruct_SliceOfPointerToGongStructFieldsDBID.Int64 != 0 {
-					id := uint(tmp.GongStruct_SliceOfPointerToGongStructFieldsDBID.Int64)
-					reservePointerTarget := backRepo.BackRepoGongStruct.Map_GongStructDBID_GongStructPtr[id]
-					res = reservePointerTarget.Name
+				if _gongstruct, ok := stage.GongStruct_SliceOfPointerToGongStructFields_reverseMap[inst]; ok {
+					res = _gongstruct.Name
 				}
 			}
 		case "GongTimeField":
@@ -636,11 +622,7 @@ func GetReverseFieldOwner[T models.Gongstruct](
 		case "GongStruct":
 			switch reverseField.Fieldname {
 			case "GongBasicFields":
-				if tmp != nil && tmp.GongStruct_GongBasicFieldsDBID.Int64 != 0 {
-					id := uint(tmp.GongStruct_GongBasicFieldsDBID.Int64)
-					reservePointerTarget := backRepo.BackRepoGongStruct.Map_GongStructDBID_GongStructPtr[id]
-					res = reservePointerTarget
-				}
+				res = stage.GongStruct_GongBasicFields_reverseMap[inst]
 			}
 		case "GongTimeField":
 			switch reverseField.Fieldname {
@@ -661,7 +643,7 @@ func GetReverseFieldOwner[T models.Gongstruct](
 			switch reverseField.Fieldname {
 			}
 		}
-	
+
 	case *models.GongEnum:
 		tmp := GetInstanceDBFromInstance[models.GongEnum, GongEnumDB](
 			stage, backRepo, inst,
@@ -706,7 +688,7 @@ func GetReverseFieldOwner[T models.Gongstruct](
 			switch reverseField.Fieldname {
 			}
 		}
-	
+
 	case *models.GongEnumValue:
 		tmp := GetInstanceDBFromInstance[models.GongEnumValue, GongEnumValueDB](
 			stage, backRepo, inst,
@@ -720,11 +702,7 @@ func GetReverseFieldOwner[T models.Gongstruct](
 		case "GongEnum":
 			switch reverseField.Fieldname {
 			case "GongEnumValues":
-				if tmp != nil && tmp.GongEnum_GongEnumValuesDBID.Int64 != 0 {
-					id := uint(tmp.GongEnum_GongEnumValuesDBID.Int64)
-					reservePointerTarget := backRepo.BackRepoGongEnum.Map_GongEnumDBID_GongEnumPtr[id]
-					res = reservePointerTarget
-				}
+				res = stage.GongEnum_GongEnumValues_reverseMap[inst]
 			}
 		case "GongEnumValue":
 			switch reverseField.Fieldname {
@@ -757,7 +735,7 @@ func GetReverseFieldOwner[T models.Gongstruct](
 			switch reverseField.Fieldname {
 			}
 		}
-	
+
 	case *models.GongLink:
 		tmp := GetInstanceDBFromInstance[models.GongLink, GongLinkDB](
 			stage, backRepo, inst,
@@ -780,11 +758,7 @@ func GetReverseFieldOwner[T models.Gongstruct](
 		case "GongNote":
 			switch reverseField.Fieldname {
 			case "Links":
-				if tmp != nil && tmp.GongNote_LinksDBID.Int64 != 0 {
-					id := uint(tmp.GongNote_LinksDBID.Int64)
-					reservePointerTarget := backRepo.BackRepoGongNote.Map_GongNoteDBID_GongNotePtr[id]
-					res = reservePointerTarget
-				}
+				res = stage.GongNote_Links_reverseMap[inst]
 			}
 		case "GongStruct":
 			switch reverseField.Fieldname {
@@ -808,7 +782,7 @@ func GetReverseFieldOwner[T models.Gongstruct](
 			switch reverseField.Fieldname {
 			}
 		}
-	
+
 	case *models.GongNote:
 		tmp := GetInstanceDBFromInstance[models.GongNote, GongNoteDB](
 			stage, backRepo, inst,
@@ -853,7 +827,7 @@ func GetReverseFieldOwner[T models.Gongstruct](
 			switch reverseField.Fieldname {
 			}
 		}
-	
+
 	case *models.GongStruct:
 		tmp := GetInstanceDBFromInstance[models.GongStruct, GongStructDB](
 			stage, backRepo, inst,
@@ -898,7 +872,7 @@ func GetReverseFieldOwner[T models.Gongstruct](
 			switch reverseField.Fieldname {
 			}
 		}
-	
+
 	case *models.GongTimeField:
 		tmp := GetInstanceDBFromInstance[models.GongTimeField, GongTimeFieldDB](
 			stage, backRepo, inst,
@@ -924,11 +898,7 @@ func GetReverseFieldOwner[T models.Gongstruct](
 		case "GongStruct":
 			switch reverseField.Fieldname {
 			case "GongTimeFields":
-				if tmp != nil && tmp.GongStruct_GongTimeFieldsDBID.Int64 != 0 {
-					id := uint(tmp.GongStruct_GongTimeFieldsDBID.Int64)
-					reservePointerTarget := backRepo.BackRepoGongStruct.Map_GongStructDBID_GongStructPtr[id]
-					res = reservePointerTarget
-				}
+				res = stage.GongStruct_GongTimeFields_reverseMap[inst]
 			}
 		case "GongTimeField":
 			switch reverseField.Fieldname {
@@ -949,7 +919,7 @@ func GetReverseFieldOwner[T models.Gongstruct](
 			switch reverseField.Fieldname {
 			}
 		}
-	
+
 	case *models.Meta:
 		tmp := GetInstanceDBFromInstance[models.Meta, MetaDB](
 			stage, backRepo, inst,
@@ -994,7 +964,7 @@ func GetReverseFieldOwner[T models.Gongstruct](
 			switch reverseField.Fieldname {
 			}
 		}
-	
+
 	case *models.MetaReference:
 		tmp := GetInstanceDBFromInstance[models.MetaReference, MetaReferenceDB](
 			stage, backRepo, inst,
@@ -1026,11 +996,7 @@ func GetReverseFieldOwner[T models.Gongstruct](
 		case "Meta":
 			switch reverseField.Fieldname {
 			case "MetaReferences":
-				if tmp != nil && tmp.Meta_MetaReferencesDBID.Int64 != 0 {
-					id := uint(tmp.Meta_MetaReferencesDBID.Int64)
-					reservePointerTarget := backRepo.BackRepoMeta.Map_MetaDBID_MetaPtr[id]
-					res = reservePointerTarget
-				}
+				res = stage.Meta_MetaReferences_reverseMap[inst]
 			}
 		case "MetaReference":
 			switch reverseField.Fieldname {
@@ -1045,7 +1011,7 @@ func GetReverseFieldOwner[T models.Gongstruct](
 			switch reverseField.Fieldname {
 			}
 		}
-	
+
 	case *models.ModelPkg:
 		tmp := GetInstanceDBFromInstance[models.ModelPkg, ModelPkgDB](
 			stage, backRepo, inst,
@@ -1090,7 +1056,7 @@ func GetReverseFieldOwner[T models.Gongstruct](
 			switch reverseField.Fieldname {
 			}
 		}
-	
+
 	case *models.PointerToGongStructField:
 		tmp := GetInstanceDBFromInstance[models.PointerToGongStructField, PointerToGongStructFieldDB](
 			stage, backRepo, inst,
@@ -1116,11 +1082,7 @@ func GetReverseFieldOwner[T models.Gongstruct](
 		case "GongStruct":
 			switch reverseField.Fieldname {
 			case "PointerToGongStructFields":
-				if tmp != nil && tmp.GongStruct_PointerToGongStructFieldsDBID.Int64 != 0 {
-					id := uint(tmp.GongStruct_PointerToGongStructFieldsDBID.Int64)
-					reservePointerTarget := backRepo.BackRepoGongStruct.Map_GongStructDBID_GongStructPtr[id]
-					res = reservePointerTarget
-				}
+				res = stage.GongStruct_PointerToGongStructFields_reverseMap[inst]
 			}
 		case "GongTimeField":
 			switch reverseField.Fieldname {
@@ -1141,7 +1103,7 @@ func GetReverseFieldOwner[T models.Gongstruct](
 			switch reverseField.Fieldname {
 			}
 		}
-	
+
 	case *models.SliceOfPointerToGongStructField:
 		tmp := GetInstanceDBFromInstance[models.SliceOfPointerToGongStructField, SliceOfPointerToGongStructFieldDB](
 			stage, backRepo, inst,
@@ -1167,11 +1129,7 @@ func GetReverseFieldOwner[T models.Gongstruct](
 		case "GongStruct":
 			switch reverseField.Fieldname {
 			case "SliceOfPointerToGongStructFields":
-				if tmp != nil && tmp.GongStruct_SliceOfPointerToGongStructFieldsDBID.Int64 != 0 {
-					id := uint(tmp.GongStruct_SliceOfPointerToGongStructFieldsDBID.Int64)
-					reservePointerTarget := backRepo.BackRepoGongStruct.Map_GongStructDBID_GongStructPtr[id]
-					res = reservePointerTarget
-				}
+				res = stage.GongStruct_SliceOfPointerToGongStructFields_reverseMap[inst]
 			}
 		case "GongTimeField":
 			switch reverseField.Fieldname {
@@ -1192,7 +1150,7 @@ func GetReverseFieldOwner[T models.Gongstruct](
 			switch reverseField.Fieldname {
 			}
 		}
-	
+
 	default:
 		_ = inst
 	}

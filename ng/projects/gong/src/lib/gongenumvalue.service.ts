@@ -12,9 +12,9 @@ import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 
 import { GongEnumValueDB } from './gongenumvalue-db';
+import { FrontRepo, FrontRepoService } from './front-repo.service';
 
 // insertion point for imports
-import { GongEnumDB } from './gongenum-db'
 
 @Injectable({
   providedIn: 'root'
@@ -44,10 +44,10 @@ export class GongEnumValueService {
 
   /** GET gongenumvalues from the server */
   // gets is more robust to refactoring
-  gets(GONG__StackPath: string): Observable<GongEnumValueDB[]> {
-    return this.getGongEnumValues(GONG__StackPath)
+  gets(GONG__StackPath: string, frontRepo: FrontRepo): Observable<GongEnumValueDB[]> {
+    return this.getGongEnumValues(GONG__StackPath, frontRepo)
   }
-  getGongEnumValues(GONG__StackPath: string): Observable<GongEnumValueDB[]> {
+  getGongEnumValues(GONG__StackPath: string, frontRepo: FrontRepo): Observable<GongEnumValueDB[]> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
@@ -61,10 +61,10 @@ export class GongEnumValueService {
 
   /** GET gongenumvalue by id. Will 404 if id not found */
   // more robust API to refactoring
-  get(id: number, GONG__StackPath: string): Observable<GongEnumValueDB> {
-	return this.getGongEnumValue(id, GONG__StackPath)
+  get(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<GongEnumValueDB> {
+    return this.getGongEnumValue(id, GONG__StackPath, frontRepo)
   }
-  getGongEnumValue(id: number, GONG__StackPath: string): Observable<GongEnumValueDB> {
+  getGongEnumValue(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<GongEnumValueDB> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
@@ -76,14 +76,12 @@ export class GongEnumValueService {
   }
 
   /** POST: add a new gongenumvalue to the server */
-  post(gongenumvaluedb: GongEnumValueDB, GONG__StackPath: string): Observable<GongEnumValueDB> {
-    return this.postGongEnumValue(gongenumvaluedb, GONG__StackPath)	
+  post(gongenumvaluedb: GongEnumValueDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<GongEnumValueDB> {
+    return this.postGongEnumValue(gongenumvaluedb, GONG__StackPath, frontRepo)
   }
-  postGongEnumValue(gongenumvaluedb: GongEnumValueDB, GONG__StackPath: string): Observable<GongEnumValueDB> {
+  postGongEnumValue(gongenumvaluedb: GongEnumValueDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<GongEnumValueDB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
-    let _GongEnum_GongEnumValues_reverse = gongenumvaluedb.GongEnumValuePointersEncoding.GongEnum_GongEnumValues_reverse
-    gongenumvaluedb.GongEnumValuePointersEncoding.GongEnum_GongEnumValues_reverse = new GongEnumDB
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -94,7 +92,6 @@ export class GongEnumValueService {
     return this.http.post<GongEnumValueDB>(this.gongenumvaluesUrl, gongenumvaluedb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
-        gongenumvaluedb.GongEnumValuePointersEncoding.GongEnum_GongEnumValues_reverse = _GongEnum_GongEnumValues_reverse
         // this.log(`posted gongenumvaluedb id=${gongenumvaluedb.ID}`)
       }),
       catchError(this.handleError<GongEnumValueDB>('postGongEnumValue'))
@@ -122,16 +119,15 @@ export class GongEnumValueService {
   }
 
   /** PUT: update the gongenumvaluedb on the server */
-  update(gongenumvaluedb: GongEnumValueDB, GONG__StackPath: string): Observable<GongEnumValueDB> {
-    return this.updateGongEnumValue(gongenumvaluedb, GONG__StackPath)
+  update(gongenumvaluedb: GongEnumValueDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<GongEnumValueDB> {
+    return this.updateGongEnumValue(gongenumvaluedb, GONG__StackPath, frontRepo)
   }
-  updateGongEnumValue(gongenumvaluedb: GongEnumValueDB, GONG__StackPath: string): Observable<GongEnumValueDB> {
+  updateGongEnumValue(gongenumvaluedb: GongEnumValueDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<GongEnumValueDB> {
     const id = typeof gongenumvaluedb === 'number' ? gongenumvaluedb : gongenumvaluedb.ID;
     const url = `${this.gongenumvaluesUrl}/${id}`;
 
-    // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
-    let _GongEnum_GongEnumValues_reverse = gongenumvaluedb.GongEnumValuePointersEncoding.GongEnum_GongEnumValues_reverse
-    gongenumvaluedb.GongEnumValuePointersEncoding.GongEnum_GongEnumValues_reverse = new GongEnumDB
+    // insertion point for reset of pointers (to avoid circular JSON)
+	// and encoding of pointers
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -142,7 +138,6 @@ export class GongEnumValueService {
     return this.http.put<GongEnumValueDB>(url, gongenumvaluedb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
-        gongenumvaluedb.GongEnumValuePointersEncoding.GongEnum_GongEnumValues_reverse = _GongEnum_GongEnumValues_reverse
         // this.log(`updated gongenumvaluedb id=${gongenumvaluedb.ID}`)
       }),
       catchError(this.handleError<GongEnumValueDB>('updateGongEnumValue'))
@@ -170,6 +165,6 @@ export class GongEnumValueService {
   }
 
   private log(message: string) {
-      console.log(message)
+    console.log(message)
   }
 }

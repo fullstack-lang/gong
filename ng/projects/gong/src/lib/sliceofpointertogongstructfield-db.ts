@@ -28,9 +28,4 @@ export class SliceOfPointerToGongStructFieldPointersEncoding {
 	// insertion point for pointers and slices of pointers encoding fields
 	GongStructID: NullInt64 = new NullInt64 // if pointer is null, GongStruct.ID = 0
 
-	// reverse pointers encoding (to be removed)
-	GongStruct_SliceOfPointerToGongStructFieldsDBID: NullInt64 = new NullInt64
-	GongStruct_SliceOfPointerToGongStructFieldsDBID_Index: NullInt64  = new NullInt64 // store the index of the sliceofpointertogongstructfield instance in GongStruct.SliceOfPointerToGongStructFields
-	GongStruct_SliceOfPointerToGongStructFields_reverse?: GongStructDB 
-
 }

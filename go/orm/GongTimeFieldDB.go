@@ -45,14 +45,6 @@ type GongTimeFieldAPI struct {
 // reverse pointers of slice of poitners to Struct
 type GongTimeFieldPointersEncoding struct {
 	// insertion for pointer fields encoding declaration
-
-	// Implementation of a reverse ID for field GongStruct{}.GongTimeFields []*GongTimeField
-	// (to be removed)
-	GongStruct_GongTimeFieldsDBID sql.NullInt64
-
-	// implementation of the index of the withing the slice
-	// (to be removed)
-	GongStruct_GongTimeFieldsDBID_Index sql.NullInt64
 }
 
 // GongTimeFieldDB describes a gongtimefield in the database
@@ -587,12 +579,6 @@ func (backRepoGongTimeField *BackRepoGongTimeFieldStruct) RestorePhaseTwo() {
 		_ = gongtimefieldDB
 
 		// insertion point for reindexing pointers encoding
-		// This reindex gongtimefield.GongTimeFields
-		if gongtimefieldDB.GongStruct_GongTimeFieldsDBID.Int64 != 0 {
-			gongtimefieldDB.GongStruct_GongTimeFieldsDBID.Int64 =
-				int64(BackRepoGongStructid_atBckpTime_newID[uint(gongtimefieldDB.GongStruct_GongTimeFieldsDBID.Int64)])
-		}
-
 		// update databse with new index encoding
 		query := backRepoGongTimeField.db.Model(gongtimefieldDB).Updates(*gongtimefieldDB)
 		if query.Error != nil {
@@ -620,15 +606,6 @@ func (backRepoGongTimeField *BackRepoGongTimeFieldStruct) ResetReversePointersIn
 		_ = gongtimefieldDB // to avoid unused variable error if there are no reverse to reset
 
 		// insertion point for reverse pointers reset
-		if gongtimefieldDB.GongStruct_GongTimeFieldsDBID.Int64 != 0 {
-			gongtimefieldDB.GongStruct_GongTimeFieldsDBID.Int64 = 0
-			gongtimefieldDB.GongStruct_GongTimeFieldsDBID.Valid = true
-
-			// save the reset
-			if q := backRepoGongTimeField.db.Save(gongtimefieldDB); q.Error != nil {
-				return q.Error
-			}
-		}
 		// end of insertion point for reverse pointers reset
 	}
 

@@ -217,26 +217,6 @@ func (backRepoMeta *BackRepoMetaStruct) CommitPhaseTwoInstance(backRepo *BackRep
 		metaDB.CopyBasicFieldsFromMeta(meta)
 
 		// insertion point for translating pointers encodings into actual pointers
-		// This loop encodes the slice of pointers meta.MetaReferences into the back repo.
-		// Each back repo instance at the end of the association encode the ID of the association start
-		// into a dedicated field for coding the association. The back repo instance is then saved to the db
-		for idx, metareferenceAssocEnd := range meta.MetaReferences {
-
-			// get the back repo instance at the association end
-			metareferenceAssocEnd_DB :=
-				backRepo.BackRepoMetaReference.GetMetaReferenceDBFromMetaReferencePtr(metareferenceAssocEnd)
-
-			// encode reverse pointer in the association end back repo instance
-			// (to be removed)
-			metareferenceAssocEnd_DB.Meta_MetaReferencesDBID.Int64 = int64(metaDB.ID)
-			metareferenceAssocEnd_DB.Meta_MetaReferencesDBID.Valid = true
-			metareferenceAssocEnd_DB.Meta_MetaReferencesDBID_Index.Int64 = int64(idx)
-			metareferenceAssocEnd_DB.Meta_MetaReferencesDBID_Index.Valid = true
-			if q := backRepoMeta.db.Save(metareferenceAssocEnd_DB); q.Error != nil {
-				return q.Error
-			}
-		}
-
 		// 1. reset
 		metaDB.MetaPointersEncoding.MetaReferences = make([]int, 0)
 		// 2. encode
@@ -359,27 +339,9 @@ func (backRepoMeta *BackRepoMetaStruct) CheckoutPhaseTwoInstance(backRepo *BackR
 	// it appends the stage instance
 	// 1. reset the slice
 	meta.MetaReferences = meta.MetaReferences[:0]
-	// 2. loop all instances in the type in the association end
-	for _, metareferenceDB_AssocEnd := range backRepo.BackRepoMetaReference.Map_MetaReferenceDBID_MetaReferenceDB {
-		// 3. Does the ID encoding at the end and the ID at the start matches ?
-		if metareferenceDB_AssocEnd.Meta_MetaReferencesDBID.Int64 == int64(metaDB.ID) {
-			// 4. fetch the associated instance in the stage
-			metareference_AssocEnd := backRepo.BackRepoMetaReference.Map_MetaReferenceDBID_MetaReferencePtr[metareferenceDB_AssocEnd.ID]
-			// 5. append it the association slice
-			meta.MetaReferences = append(meta.MetaReferences, metareference_AssocEnd)
-		}
+	for _, _MetaReferenceid := range metaDB.MetaPointersEncoding.MetaReferences {
+		meta.MetaReferences = append(meta.MetaReferences, backRepo.BackRepoMetaReference.Map_MetaReferenceDBID_MetaReferencePtr[uint(_MetaReferenceid)])
 	}
-
-	// sort the array according to the order
-	sort.Slice(meta.MetaReferences, func(i, j int) bool {
-		metareferenceDB_i_ID := backRepo.BackRepoMetaReference.Map_MetaReferencePtr_MetaReferenceDBID[meta.MetaReferences[i]]
-		metareferenceDB_j_ID := backRepo.BackRepoMetaReference.Map_MetaReferencePtr_MetaReferenceDBID[meta.MetaReferences[j]]
-
-		metareferenceDB_i := backRepo.BackRepoMetaReference.Map_MetaReferenceDBID_MetaReferenceDB[metareferenceDB_i_ID]
-		metareferenceDB_j := backRepo.BackRepoMetaReference.Map_MetaReferenceDBID_MetaReferenceDB[metareferenceDB_j_ID]
-
-		return metareferenceDB_i.Meta_MetaReferencesDBID_Index.Int64 < metareferenceDB_j.Meta_MetaReferencesDBID_Index.Int64
-	})
 
 	return
 }

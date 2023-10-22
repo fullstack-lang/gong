@@ -1,5 +1,4 @@
 // insertion point for imports
-import { MetaDB } from './meta-db'
 
 // usefull for managing pointer ID values that can be nullable
 import { NullInt64 } from './null-int64'
@@ -22,9 +21,4 @@ export class MetaReferenceDB {
 
 export class MetaReferencePointersEncoding {
 	// insertion point for pointers and slices of pointers encoding fields
-	// reverse pointers encoding (to be removed)
-	Meta_MetaReferencesDBID: NullInt64 = new NullInt64
-	Meta_MetaReferencesDBID_Index: NullInt64  = new NullInt64 // store the index of the metareference instance in Meta.MetaReferences
-	Meta_MetaReferences_reverse?: MetaDB 
-
 }
