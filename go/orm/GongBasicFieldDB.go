@@ -49,14 +49,6 @@ type GongBasicFieldPointersEncoding struct {
 	// field GongEnum is a pointer to another Struct (optional or 0..1)
 	// This field is generated into another field to enable AS ONE association
 	GongEnumID sql.NullInt64
-
-	// Implementation of a reverse ID for field GongStruct{}.GongBasicFields []*GongBasicField
-	// (to be removed)
-	GongStruct_GongBasicFieldsDBID sql.NullInt64
-
-	// implementation of the index of the withing the slice
-	// (to be removed)
-	GongStruct_GongBasicFieldsDBID_Index sql.NullInt64
 }
 
 // GongBasicFieldDB describes a gongbasicfield in the database
@@ -688,12 +680,6 @@ func (backRepoGongBasicField *BackRepoGongBasicFieldStruct) RestorePhaseTwo() {
 			gongbasicfieldDB.GongEnumID.Valid = true
 		}
 
-		// This reindex gongbasicfield.GongBasicFields
-		if gongbasicfieldDB.GongStruct_GongBasicFieldsDBID.Int64 != 0 {
-			gongbasicfieldDB.GongStruct_GongBasicFieldsDBID.Int64 =
-				int64(BackRepoGongStructid_atBckpTime_newID[uint(gongbasicfieldDB.GongStruct_GongBasicFieldsDBID.Int64)])
-		}
-
 		// update databse with new index encoding
 		query := backRepoGongBasicField.db.Model(gongbasicfieldDB).Updates(*gongbasicfieldDB)
 		if query.Error != nil {
@@ -721,15 +707,6 @@ func (backRepoGongBasicField *BackRepoGongBasicFieldStruct) ResetReversePointers
 		_ = gongbasicfieldDB // to avoid unused variable error if there are no reverse to reset
 
 		// insertion point for reverse pointers reset
-		if gongbasicfieldDB.GongStruct_GongBasicFieldsDBID.Int64 != 0 {
-			gongbasicfieldDB.GongStruct_GongBasicFieldsDBID.Int64 = 0
-			gongbasicfieldDB.GongStruct_GongBasicFieldsDBID.Valid = true
-
-			// save the reset
-			if q := backRepoGongBasicField.db.Save(gongbasicfieldDB); q.Error != nil {
-				return q.Error
-			}
-		}
 		// end of insertion point for reverse pointers reset
 	}
 

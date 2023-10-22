@@ -45,14 +45,6 @@ type GongEnumValueAPI struct {
 // reverse pointers of slice of poitners to Struct
 type GongEnumValuePointersEncoding struct {
 	// insertion for pointer fields encoding declaration
-
-	// Implementation of a reverse ID for field GongEnum{}.GongEnumValues []*GongEnumValue
-	// (to be removed)
-	GongEnum_GongEnumValuesDBID sql.NullInt64
-
-	// implementation of the index of the withing the slice
-	// (to be removed)
-	GongEnum_GongEnumValuesDBID_Index sql.NullInt64
 }
 
 // GongEnumValueDB describes a gongenumvalue in the database
@@ -569,12 +561,6 @@ func (backRepoGongEnumValue *BackRepoGongEnumValueStruct) RestorePhaseTwo() {
 		_ = gongenumvalueDB
 
 		// insertion point for reindexing pointers encoding
-		// This reindex gongenumvalue.GongEnumValues
-		if gongenumvalueDB.GongEnum_GongEnumValuesDBID.Int64 != 0 {
-			gongenumvalueDB.GongEnum_GongEnumValuesDBID.Int64 =
-				int64(BackRepoGongEnumid_atBckpTime_newID[uint(gongenumvalueDB.GongEnum_GongEnumValuesDBID.Int64)])
-		}
-
 		// update databse with new index encoding
 		query := backRepoGongEnumValue.db.Model(gongenumvalueDB).Updates(*gongenumvalueDB)
 		if query.Error != nil {
@@ -602,15 +588,6 @@ func (backRepoGongEnumValue *BackRepoGongEnumValueStruct) ResetReversePointersIn
 		_ = gongenumvalueDB // to avoid unused variable error if there are no reverse to reset
 
 		// insertion point for reverse pointers reset
-		if gongenumvalueDB.GongEnum_GongEnumValuesDBID.Int64 != 0 {
-			gongenumvalueDB.GongEnum_GongEnumValuesDBID.Int64 = 0
-			gongenumvalueDB.GongEnum_GongEnumValuesDBID.Valid = true
-
-			// save the reset
-			if q := backRepoGongEnumValue.db.Save(gongenumvalueDB); q.Error != nil {
-				return q.Error
-			}
-		}
 		// end of insertion point for reverse pointers reset
 	}
 
