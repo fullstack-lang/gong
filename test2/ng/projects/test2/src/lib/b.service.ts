@@ -12,9 +12,9 @@ import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 
 import { BDB } from './b-db';
+import { FrontRepo, FrontRepoService } from './front-repo.service';
 
 // insertion point for imports
-import { ADB } from './a-db'
 
 @Injectable({
   providedIn: 'root'
@@ -44,10 +44,10 @@ export class BService {
 
   /** GET bs from the server */
   // gets is more robust to refactoring
-  gets(GONG__StackPath: string): Observable<BDB[]> {
-    return this.getBs(GONG__StackPath)
+  gets(GONG__StackPath: string, frontRepo: FrontRepo): Observable<BDB[]> {
+    return this.getBs(GONG__StackPath, frontRepo)
   }
-  getBs(GONG__StackPath: string): Observable<BDB[]> {
+  getBs(GONG__StackPath: string, frontRepo: FrontRepo): Observable<BDB[]> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
@@ -61,10 +61,10 @@ export class BService {
 
   /** GET b by id. Will 404 if id not found */
   // more robust API to refactoring
-  get(id: number, GONG__StackPath: string): Observable<BDB> {
-	return this.getB(id, GONG__StackPath)
+  get(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<BDB> {
+    return this.getB(id, GONG__StackPath, frontRepo)
   }
-  getB(id: number, GONG__StackPath: string): Observable<BDB> {
+  getB(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<BDB> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
@@ -76,14 +76,12 @@ export class BService {
   }
 
   /** POST: add a new b to the server */
-  post(bdb: BDB, GONG__StackPath: string): Observable<BDB> {
-    return this.postB(bdb, GONG__StackPath)	
+  post(bdb: BDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<BDB> {
+    return this.postB(bdb, GONG__StackPath, frontRepo)
   }
-  postB(bdb: BDB, GONG__StackPath: string): Observable<BDB> {
+  postB(bdb: BDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<BDB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
-    let _A_Bs_reverse = bdb.BPointersEncoding.A_Bs_reverse
-    bdb.BPointersEncoding.A_Bs_reverse = new ADB
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -94,7 +92,6 @@ export class BService {
     return this.http.post<BDB>(this.bsUrl, bdb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
-        bdb.BPointersEncoding.A_Bs_reverse = _A_Bs_reverse
         // this.log(`posted bdb id=${bdb.ID}`)
       }),
       catchError(this.handleError<BDB>('postB'))
@@ -122,16 +119,15 @@ export class BService {
   }
 
   /** PUT: update the bdb on the server */
-  update(bdb: BDB, GONG__StackPath: string): Observable<BDB> {
-    return this.updateB(bdb, GONG__StackPath)
+  update(bdb: BDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<BDB> {
+    return this.updateB(bdb, GONG__StackPath, frontRepo)
   }
-  updateB(bdb: BDB, GONG__StackPath: string): Observable<BDB> {
+  updateB(bdb: BDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<BDB> {
     const id = typeof bdb === 'number' ? bdb : bdb.ID;
     const url = `${this.bsUrl}/${id}`;
 
-    // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
-    let _A_Bs_reverse = bdb.BPointersEncoding.A_Bs_reverse
-    bdb.BPointersEncoding.A_Bs_reverse = new ADB
+    // insertion point for reset of pointers (to avoid circular JSON)
+	// and encoding of pointers
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -142,7 +138,6 @@ export class BService {
     return this.http.put<BDB>(url, bdb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
-        bdb.BPointersEncoding.A_Bs_reverse = _A_Bs_reverse
         // this.log(`updated bdb id=${bdb.ID}`)
       }),
       catchError(this.handleError<BDB>('updateB'))
@@ -170,6 +165,6 @@ export class BService {
   }
 
   private log(message: string) {
-      console.log(message)
+    console.log(message)
   }
 }

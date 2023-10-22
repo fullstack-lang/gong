@@ -12,8 +12,10 @@ import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 
 import { DstructDB } from './dstruct-db';
+import { FrontRepo, FrontRepoService } from './front-repo.service';
 
 // insertion point for imports
+import { BstructDB } from './bstruct-db'
 
 @Injectable({
   providedIn: 'root'
@@ -43,10 +45,10 @@ export class DstructService {
 
   /** GET dstructs from the server */
   // gets is more robust to refactoring
-  gets(GONG__StackPath: string): Observable<DstructDB[]> {
-    return this.getDstructs(GONG__StackPath)
+  gets(GONG__StackPath: string, frontRepo: FrontRepo): Observable<DstructDB[]> {
+    return this.getDstructs(GONG__StackPath, frontRepo)
   }
-  getDstructs(GONG__StackPath: string): Observable<DstructDB[]> {
+  getDstructs(GONG__StackPath: string, frontRepo: FrontRepo): Observable<DstructDB[]> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
@@ -60,10 +62,10 @@ export class DstructService {
 
   /** GET dstruct by id. Will 404 if id not found */
   // more robust API to refactoring
-  get(id: number, GONG__StackPath: string): Observable<DstructDB> {
-	return this.getDstruct(id, GONG__StackPath)
+  get(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<DstructDB> {
+    return this.getDstruct(id, GONG__StackPath, frontRepo)
   }
-  getDstruct(id: number, GONG__StackPath: string): Observable<DstructDB> {
+  getDstruct(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<DstructDB> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
@@ -75,13 +77,15 @@ export class DstructService {
   }
 
   /** POST: add a new dstruct to the server */
-  post(dstructdb: DstructDB, GONG__StackPath: string): Observable<DstructDB> {
-    return this.postDstruct(dstructdb, GONG__StackPath)	
+  post(dstructdb: DstructDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<DstructDB> {
+    return this.postDstruct(dstructdb, GONG__StackPath, frontRepo)
   }
-  postDstruct(dstructdb: DstructDB, GONG__StackPath: string): Observable<DstructDB> {
+  postDstruct(dstructdb: DstructDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<DstructDB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
-    let Anarrayofb = dstructdb.Anarrayofb
+    for (let _bstruct of dstructdb.Anarrayofb) {
+      dstructdb.DstructPointersEncoding.Anarrayofb.push(_bstruct.ID)
+    }
     dstructdb.Anarrayofb = []
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
@@ -93,7 +97,13 @@ export class DstructService {
     return this.http.post<DstructDB>(this.dstructsUrl, dstructdb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
-	      dstructdb.Anarrayofb = Anarrayofb
+        dstructdb.Anarrayofb = new Array<BstructDB>()
+        for (let _id of dstructdb.DstructPointersEncoding.Anarrayofb) {
+          let _bstruct = frontRepo.Bstructs.get(_id)
+          if (_bstruct != undefined) {
+            dstructdb.Anarrayofb.push(_bstruct!)
+          }
+        }
         // this.log(`posted dstructdb id=${dstructdb.ID}`)
       }),
       catchError(this.handleError<DstructDB>('postDstruct'))
@@ -121,15 +131,18 @@ export class DstructService {
   }
 
   /** PUT: update the dstructdb on the server */
-  update(dstructdb: DstructDB, GONG__StackPath: string): Observable<DstructDB> {
-    return this.updateDstruct(dstructdb, GONG__StackPath)
+  update(dstructdb: DstructDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<DstructDB> {
+    return this.updateDstruct(dstructdb, GONG__StackPath, frontRepo)
   }
-  updateDstruct(dstructdb: DstructDB, GONG__StackPath: string): Observable<DstructDB> {
+  updateDstruct(dstructdb: DstructDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<DstructDB> {
     const id = typeof dstructdb === 'number' ? dstructdb : dstructdb.ID;
     const url = `${this.dstructsUrl}/${id}`;
 
-    // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
-    let Anarrayofb = dstructdb.Anarrayofb
+    // insertion point for reset of pointers (to avoid circular JSON)
+	// and encoding of pointers
+    for (let _bstruct of dstructdb.Anarrayofb) {
+      dstructdb.DstructPointersEncoding.Anarrayofb.push(_bstruct.ID)
+    }
     dstructdb.Anarrayofb = []
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
@@ -141,7 +154,13 @@ export class DstructService {
     return this.http.put<DstructDB>(url, dstructdb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
-	      dstructdb.Anarrayofb = Anarrayofb
+        dstructdb.Anarrayofb = new Array<BstructDB>()
+        for (let _id of dstructdb.DstructPointersEncoding.Anarrayofb) {
+          let _bstruct = frontRepo.Bstructs.get(_id)
+          if (_bstruct != undefined) {
+            dstructdb.Anarrayofb.push(_bstruct!)
+          }
+        }
         // this.log(`updated dstructdb id=${dstructdb.ID}`)
       }),
       catchError(this.handleError<DstructDB>('updateDstruct'))
@@ -169,6 +188,6 @@ export class DstructService {
   }
 
   private log(message: string) {
-      console.log(message)
+    console.log(message)
   }
 }

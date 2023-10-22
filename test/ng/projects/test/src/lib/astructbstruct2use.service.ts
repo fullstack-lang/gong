@@ -12,6 +12,7 @@ import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 
 import { AstructBstruct2UseDB } from './astructbstruct2use-db';
+import { FrontRepo, FrontRepoService } from './front-repo.service';
 
 // insertion point for imports
 import { BstructDB } from './bstruct-db'
@@ -45,10 +46,10 @@ export class AstructBstruct2UseService {
 
   /** GET astructbstruct2uses from the server */
   // gets is more robust to refactoring
-  gets(GONG__StackPath: string): Observable<AstructBstruct2UseDB[]> {
-    return this.getAstructBstruct2Uses(GONG__StackPath)
+  gets(GONG__StackPath: string, frontRepo: FrontRepo): Observable<AstructBstruct2UseDB[]> {
+    return this.getAstructBstruct2Uses(GONG__StackPath, frontRepo)
   }
-  getAstructBstruct2Uses(GONG__StackPath: string): Observable<AstructBstruct2UseDB[]> {
+  getAstructBstruct2Uses(GONG__StackPath: string, frontRepo: FrontRepo): Observable<AstructBstruct2UseDB[]> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
@@ -62,10 +63,10 @@ export class AstructBstruct2UseService {
 
   /** GET astructbstruct2use by id. Will 404 if id not found */
   // more robust API to refactoring
-  get(id: number, GONG__StackPath: string): Observable<AstructBstruct2UseDB> {
-	return this.getAstructBstruct2Use(id, GONG__StackPath)
+  get(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<AstructBstruct2UseDB> {
+    return this.getAstructBstruct2Use(id, GONG__StackPath, frontRepo)
   }
-  getAstructBstruct2Use(id: number, GONG__StackPath: string): Observable<AstructBstruct2UseDB> {
+  getAstructBstruct2Use(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<AstructBstruct2UseDB> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
@@ -77,14 +78,17 @@ export class AstructBstruct2UseService {
   }
 
   /** POST: add a new astructbstruct2use to the server */
-  post(astructbstruct2usedb: AstructBstruct2UseDB, GONG__StackPath: string): Observable<AstructBstruct2UseDB> {
-    return this.postAstructBstruct2Use(astructbstruct2usedb, GONG__StackPath)	
+  post(astructbstruct2usedb: AstructBstruct2UseDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<AstructBstruct2UseDB> {
+    return this.postAstructBstruct2Use(astructbstruct2usedb, GONG__StackPath, frontRepo)
   }
-  postAstructBstruct2Use(astructbstruct2usedb: AstructBstruct2UseDB, GONG__StackPath: string): Observable<AstructBstruct2UseDB> {
+  postAstructBstruct2Use(astructbstruct2usedb: AstructBstruct2UseDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<AstructBstruct2UseDB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
-    let Bstrcut2 = astructbstruct2usedb.Bstrcut2
-    astructbstruct2usedb.Bstrcut2 = new BstructDB
+    if (astructbstruct2usedb.Bstrcut2 != undefined) {
+      astructbstruct2usedb.AstructBstruct2UsePointersEncoding.Bstrcut2ID.Int64 = astructbstruct2usedb.Bstrcut2.ID
+      astructbstruct2usedb.AstructBstruct2UsePointersEncoding.Bstrcut2ID.Valid = true
+    }
+    astructbstruct2usedb.Bstrcut2 = undefined
     let _Astruct_Anarrayofb2Use_reverse = astructbstruct2usedb.AstructBstruct2UsePointersEncoding.Astruct_Anarrayofb2Use_reverse
     astructbstruct2usedb.AstructBstruct2UsePointersEncoding.Astruct_Anarrayofb2Use_reverse = new AstructDB
 
@@ -97,6 +101,7 @@ export class AstructBstruct2UseService {
     return this.http.post<AstructBstruct2UseDB>(this.astructbstruct2usesUrl, astructbstruct2usedb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
+        astructbstruct2usedb.Bstrcut2 = frontRepo.Bstructs.get(astructbstruct2usedb.AstructBstruct2UsePointersEncoding.Bstrcut2ID.Int64)
         astructbstruct2usedb.AstructBstruct2UsePointersEncoding.Astruct_Anarrayofb2Use_reverse = _Astruct_Anarrayofb2Use_reverse
         // this.log(`posted astructbstruct2usedb id=${astructbstruct2usedb.ID}`)
       }),
@@ -125,16 +130,20 @@ export class AstructBstruct2UseService {
   }
 
   /** PUT: update the astructbstruct2usedb on the server */
-  update(astructbstruct2usedb: AstructBstruct2UseDB, GONG__StackPath: string): Observable<AstructBstruct2UseDB> {
-    return this.updateAstructBstruct2Use(astructbstruct2usedb, GONG__StackPath)
+  update(astructbstruct2usedb: AstructBstruct2UseDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<AstructBstruct2UseDB> {
+    return this.updateAstructBstruct2Use(astructbstruct2usedb, GONG__StackPath, frontRepo)
   }
-  updateAstructBstruct2Use(astructbstruct2usedb: AstructBstruct2UseDB, GONG__StackPath: string): Observable<AstructBstruct2UseDB> {
+  updateAstructBstruct2Use(astructbstruct2usedb: AstructBstruct2UseDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<AstructBstruct2UseDB> {
     const id = typeof astructbstruct2usedb === 'number' ? astructbstruct2usedb : astructbstruct2usedb.ID;
     const url = `${this.astructbstruct2usesUrl}/${id}`;
 
-    // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
-    let Bstrcut2 = astructbstruct2usedb.Bstrcut2
-    astructbstruct2usedb.Bstrcut2 = new BstructDB
+    // insertion point for reset of pointers (to avoid circular JSON)
+	// and encoding of pointers
+    if (astructbstruct2usedb.Bstrcut2 != undefined) {
+      astructbstruct2usedb.AstructBstruct2UsePointersEncoding.Bstrcut2ID.Int64 = astructbstruct2usedb.Bstrcut2.ID
+      astructbstruct2usedb.AstructBstruct2UsePointersEncoding.Bstrcut2ID.Valid = true
+    }
+    astructbstruct2usedb.Bstrcut2 = undefined
     let _Astruct_Anarrayofb2Use_reverse = astructbstruct2usedb.AstructBstruct2UsePointersEncoding.Astruct_Anarrayofb2Use_reverse
     astructbstruct2usedb.AstructBstruct2UsePointersEncoding.Astruct_Anarrayofb2Use_reverse = new AstructDB
 
@@ -147,6 +156,7 @@ export class AstructBstruct2UseService {
     return this.http.put<AstructBstruct2UseDB>(url, astructbstruct2usedb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
+        astructbstruct2usedb.Bstrcut2 = frontRepo.Bstructs.get(astructbstruct2usedb.AstructBstruct2UsePointersEncoding.Bstrcut2ID.Int64)
         astructbstruct2usedb.AstructBstruct2UsePointersEncoding.Astruct_Anarrayofb2Use_reverse = _Astruct_Anarrayofb2Use_reverse
         // this.log(`updated astructbstruct2usedb id=${astructbstruct2usedb.ID}`)
       }),
@@ -175,6 +185,6 @@ export class AstructBstruct2UseService {
   }
 
   private log(message: string) {
-      console.log(message)
+    console.log(message)
   }
 }

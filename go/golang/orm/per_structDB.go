@@ -629,12 +629,8 @@ const (
 	BackRepoCheckoutPointerToStructStageField
 	BackRepoReindexingPointerToStruct
 
-	BackRepoDeclarationSliceOfPointerToStructField
 	BackRepoCommitSliceOfPointerToStructField
 	BackRepoCheckoutSliceOfPointerToStructStageField
-	BackRepoReindexingSliceOfPointerToStruct
-
-	BackRepoReversePointerResetSliceOfPointerToStruct
 )
 
 var BackRepoFieldSubTemplateCode map[BackRepoPerStructSubTemplate]string = map[BackRepoPerStructSubTemplate]string{
@@ -669,16 +665,6 @@ var BackRepoFieldSubTemplateCode map[BackRepoPerStructSubTemplate]string = map[B
 
 	// field {{FieldName}} is a slice of pointers to another Struct (optional or 0..1)
 	{{FieldName}} IntSlice` + " `" + `gorm:"type:TEXT"` + "`",
-
-	BackRepoDeclarationSliceOfPointerToStructField: `
-
-	// Implementation of a reverse ID for field {{AssociationStructName}}{}.{{FieldName}} []*{{Structname}}
-	// (to be removed)
-	{{AssociationStructName}}_{{FieldName}}DBID sql.NullInt64
-
-	// implementation of the index of the withing the slice
-	// (to be removed)
-	{{AssociationStructName}}_{{FieldName}}DBID_Index sql.NullInt64`,
 
 	//
 	// Commit sub templates
@@ -724,26 +710,6 @@ var BackRepoFieldSubTemplateCode map[BackRepoPerStructSubTemplate]string = map[B
 `,
 
 	BackRepoCommitSliceOfPointerToStructField: `
-		// This loop encodes the slice of pointers {{structname}}.{{FieldName}} into the back repo.
-		// Each back repo instance at the end of the association encode the ID of the association start
-		// into a dedicated field for coding the association. The back repo instance is then saved to the db
-		for idx, {{associationStructName}}AssocEnd := range {{structname}}.{{FieldName}} {
-
-			// get the back repo instance at the association end
-			{{associationStructName}}AssocEnd_DB :=
-				backRepo.BackRepo{{AssociationStructName}}.Get{{AssociationStructName}}DBFrom{{AssociationStructName}}Ptr({{associationStructName}}AssocEnd)
-
-			// encode reverse pointer in the association end back repo instance
-			// (to be removed)
-			{{associationStructName}}AssocEnd_DB.{{Structname}}_{{FieldName}}DBID.Int64 = int64({{structname}}DB.ID)
-			{{associationStructName}}AssocEnd_DB.{{Structname}}_{{FieldName}}DBID.Valid = true
-			{{associationStructName}}AssocEnd_DB.{{Structname}}_{{FieldName}}DBID_Index.Int64 = int64(idx)
-			{{associationStructName}}AssocEnd_DB.{{Structname}}_{{FieldName}}DBID_Index.Valid = true
-			if q := backRepo{{Structname}}.db.Save({{associationStructName}}AssocEnd_DB); q.Error != nil {
-				return q.Error
-			}
-		}
-
 		// 1. reset
 		{{structname}}DB.{{Structname}}PointersEncoding.{{FieldName}} = make([]int, 0)
 		// 2. encode
@@ -798,46 +764,10 @@ var BackRepoFieldSubTemplateCode map[BackRepoPerStructSubTemplate]string = map[B
 	// it appends the stage instance
 	// 1. reset the slice
 	{{structname}}.{{FieldName}} = {{structname}}.{{FieldName}}[:0]
-	// 2. loop all instances in the type in the association end
-	for _, {{associationStructName}}DB_AssocEnd := range backRepo.BackRepo{{AssociationStructName}}.Map_{{AssociationStructName}}DBID_{{AssociationStructName}}DB {
-		// 3. Does the ID encoding at the end and the ID at the start matches ?
-		if {{associationStructName}}DB_AssocEnd.{{Structname}}_{{FieldName}}DBID.Int64 == int64({{structname}}DB.ID) {
-			// 4. fetch the associated instance in the stage
-			{{associationStructName}}_AssocEnd := backRepo.BackRepo{{AssociationStructName}}.Map_{{AssociationStructName}}DBID_{{AssociationStructName}}Ptr[{{associationStructName}}DB_AssocEnd.ID]
-			// 5. append it the association slice
-			{{structname}}.{{FieldName}} = append({{structname}}.{{FieldName}}, {{associationStructName}}_AssocEnd)
-		}
+	for _, _{{AssociationStructName}}id := range {{structname}}DB.{{Structname}}PointersEncoding.{{FieldName}} {
+		{{structname}}.{{FieldName}} = append({{structname}}.{{FieldName}}, backRepo.BackRepo{{AssociationStructName}}.Map_{{AssociationStructName}}DBID_{{AssociationStructName}}Ptr[uint(_{{AssociationStructName}}id)])
 	}
-
-	// sort the array according to the order
-	sort.Slice({{structname}}.{{FieldName}}, func(i, j int) bool {
-		{{associationStructName}}DB_i_ID := backRepo.BackRepo{{AssociationStructName}}.Map_{{AssociationStructName}}Ptr_{{AssociationStructName}}DBID[{{structname}}.{{FieldName}}[i]]
-		{{associationStructName}}DB_j_ID := backRepo.BackRepo{{AssociationStructName}}.Map_{{AssociationStructName}}Ptr_{{AssociationStructName}}DBID[{{structname}}.{{FieldName}}[j]]
-
-		{{associationStructName}}DB_i := backRepo.BackRepo{{AssociationStructName}}.Map_{{AssociationStructName}}DBID_{{AssociationStructName}}DB[{{associationStructName}}DB_i_ID]
-		{{associationStructName}}DB_j := backRepo.BackRepo{{AssociationStructName}}.Map_{{AssociationStructName}}DBID_{{AssociationStructName}}DB[{{associationStructName}}DB_j_ID]
-
-		return {{associationStructName}}DB_i.{{Structname}}_{{FieldName}}DBID_Index.Int64 < {{associationStructName}}DB_j.{{Structname}}_{{FieldName}}DBID_Index.Int64
-	})
 `,
-
-	BackRepoReindexingSliceOfPointerToStruct: `
-		// This reindex {{structname}}.{{FieldName}}
-		if {{structname}}DB.{{AssociationStructName}}_{{FieldName}}DBID.Int64 != 0 {
-			{{structname}}DB.{{AssociationStructName}}_{{FieldName}}DBID.Int64 =
-				int64(BackRepo{{AssociationStructName}}id_atBckpTime_newID[uint({{structname}}DB.{{AssociationStructName}}_{{FieldName}}DBID.Int64)])
-		}
-`,
-	BackRepoReversePointerResetSliceOfPointerToStruct: `
-		if {{structname}}DB.{{AssociationStructName}}_{{FieldName}}DBID.Int64 != 0 {
-			{{structname}}DB.{{AssociationStructName}}_{{FieldName}}DBID.Int64 = 0
-			{{structname}}DB.{{AssociationStructName}}_{{FieldName}}DBID.Valid = true
-
-			// save the reset
-			if q := backRepo{{Structname}}.db.Save({{structname}}DB); q.Error != nil {
-				return q.Error
-			}
-		}`,
 }
 
 // MultiCodeGeneratorBackRepo parses mdlPkg and generates the code for the
@@ -1034,37 +964,6 @@ func MultiCodeGeneratorBackRepo(
 					"{{associationStructName}}", strings.ToLower(field.GongStruct.Name),
 					"{{FieldName}}", field.Name)
 
-			}
-		}
-
-		//
-		// Parse all fields from other structs that points to this struct
-		//
-		for _, __struct := range structList {
-			for _, field := range __struct.Fields {
-				switch field := field.(type) {
-				case *models.SliceOfPointerToGongStructField:
-
-					if field.GongStruct == _struct {
-
-						insertions[BackRepoPointerEncodingFieldsDeclaration] += models.Replace2(
-							BackRepoFieldSubTemplateCode[BackRepoDeclarationSliceOfPointerToStructField],
-							"{{FieldName}}", field.Name,
-							"{{AssociationStructName}}", __struct.Name)
-
-						insertions[BackRepoPointerEncodingFieldsReindexing] += models.Replace3(
-							BackRepoFieldSubTemplateCode[BackRepoReindexingSliceOfPointerToStruct],
-							"{{AssociationStructName}}", __struct.Name,
-							"{{associationStructName}}", strings.ToLower(__struct.Name),
-							"{{FieldName}}", field.Name)
-
-						insertions[BackRepoPointerReversePointersReseting] += models.Replace3(
-							BackRepoFieldSubTemplateCode[BackRepoReversePointerResetSliceOfPointerToStruct],
-							"{{AssociationStructName}}", __struct.Name,
-							"{{associationStructName}}", strings.ToLower(__struct.Name),
-							"{{FieldName}}", field.Name)
-					}
-				}
 			}
 		}
 
