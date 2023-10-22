@@ -1,5 +1,4 @@
 // insertion point for imports
-import { ADB } from './a-db'
 
 // usefull for managing pointer ID values that can be nullable
 import { NullInt64 } from './null-int64'
@@ -21,4 +20,5 @@ export class BDB {
 }
 
 export class BPointersEncoding {
+	// insertion point for pointers and slices of pointers encoding fields
 }

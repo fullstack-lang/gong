@@ -71,8 +71,6 @@ const (
 
 	NgClassPointersEncodingTSSliceOfPtrToStructFieldsDecl
 
-	NgClassTSSliceOfPtrToGongStructReverseID
-
 	NgClassTSOtherDeclsTimeDuration
 
 	NgClassTSOtherDeclsEnumInt
@@ -102,13 +100,6 @@ import { {{AssocStructName}}DB } from './{{assocStructName}}-db'`,
 
 	NgClassPointersEncodingTSSliceOfPtrToStructFieldsDecl: `
 	{{FieldName}}: number[] = []`,
-
-	NgClassTSSliceOfPtrToGongStructReverseID: `
-	// reverse pointers encoding (to be removed)
-	{{AssocStructName}}_{{FieldName}}DBID: NullInt64 = new NullInt64
-	{{AssocStructName}}_{{FieldName}}DBID_Index: NullInt64  = new NullInt64 // store the index of the {{structname}} instance in {{AssocStructName}}.{{FieldName}}
-	{{AssocStructName}}_{{FieldName}}_reverse?: {{AssocStructName}}DB 
-`,
 
 	NgClassTSOtherDeclsTimeDuration: `
 	{{FieldName}}_string?: string`,
@@ -238,35 +229,6 @@ func MultiCodeGeneratorNgClass(
 						"{{FieldName}}", field.Name,
 						"{{TypeInput}}", field.GongStruct.Name)
 
-			}
-		}
-
-		//
-		// Parse all fields from other structs that points to this struct
-		//
-		for _, __struct := range structList {
-			for _, field := range __struct.Fields {
-				switch field := field.(type) {
-				case *models.SliceOfPointerToGongStructField:
-
-					if field.GongStruct == _struct {
-
-						newImport := models.Replace2(NgClassSubTemplateCode[NgClassTSBasicFieldImports],
-							"{{AssocStructName}}", __struct.Name,
-							"{{assocStructName}}", strings.ToLower(__struct.Name))
-
-						// for imports, duplicate imports are not allowed
-						if !strings.Contains(TSinsertions[NgClassTsInsertionPerStructImports], newImport) &&
-							__struct != field.GongStruct {
-							TSinsertions[NgClassTsInsertionPerStructImports] += newImport
-						}
-
-						TSinsertions[NgClassTsInsertionPerStructPointersEncoding] +=
-							models.Replace2(NgClassSubTemplateCode[NgClassTSSliceOfPtrToGongStructReverseID],
-								"{{FieldName}}", field.Name,
-								"{{AssocStructName}}", __struct.Name)
-					}
-				}
 			}
 		}
 

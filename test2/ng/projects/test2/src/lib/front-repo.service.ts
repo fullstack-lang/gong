@@ -271,8 +271,15 @@ export class FrontRepoService {
             // insertion point sub template for redeem 
             as.forEach(
               a => {
+                // insertion point sub sub template for ONE-/ZERO-ONE associations pointers redeeming
+                // insertion point for pointer field B redeeming
+                {
+                  let _b = this.frontRepo.Bs.get(a.APointersEncoding.BID.Int64)
+                  if (_b) {
+                    a.B = _b
+                  }
+                }
                 // insertion point for pointers decoding
-                a.B = this.frontRepo.Bs.get(a.APointersEncoding.BID.Int64)
                 a.Bs = new Array<BDB>()
                 for (let _id of a.APointersEncoding.Bs) {
                   let _b = this.frontRepo.Bs.get(_id)
@@ -284,7 +291,8 @@ export class FrontRepoService {
             )
             bs.forEach(
               b => {
-                // insertion point for sorting
+                // insertion point sub sub template for ONE-/ZERO-ONE associations pointers redeeming
+                // insertion point for pointers decoding
               }
             )
 
@@ -330,8 +338,6 @@ export class FrontRepoService {
                     a.B = _b
                   }
                 }
-
-                // insertion point for redeeming ONE-MANY associations
               }
             )
 
