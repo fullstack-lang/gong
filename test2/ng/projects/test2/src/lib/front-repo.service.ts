@@ -271,7 +271,8 @@ export class FrontRepoService {
             // insertion point sub template for redeem 
             as.forEach(
               a => {
-                // insertion point for sorting
+                // insertion point for pointers decoding
+                a.B = this.frontRepo.Bs.get(a.APointersEncoding.BID.Int64)
                 a.Bs = new Array<BDB>()
                 for (let _id of a.APointersEncoding.Bs) {
                   let _b = this.frontRepo.Bs.get(_id)
