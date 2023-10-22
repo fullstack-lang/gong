@@ -17,17 +17,17 @@ import { HttpClient, HttpHeaders } from '@angular/common/http'
 
 import { Observable, combineLatest, BehaviorSubject, of } from 'rxjs'
 
-// insertion point sub template for services imports{{` + string(NgLibFrontRepoServiceImports) + `}}
+// insertion point sub template for services imports{{` + string(rune(NgLibFrontRepoServiceImports)) + `}}
 
 // FrontRepo stores all instances in a front repository (design pattern repository)
-export class FrontRepo { // insertion point sub template{{` + string(NgLibFrontRepoMapDecl) + `}}
+export class FrontRepo { // insertion point sub template{{` + string(rune(NgLibFrontRepoMapDecl)) + `}}
 
   // getArray allows for a get function that is robust to refactoring of the named struct name
   // for instance frontRepo.getArray<Astruct>( Astruct.GONGSTRUCT_NAME), is robust to a refactoring of Astruct identifier
   // contrary to frontRepo.Astructs_array which is not refactored when Astruct identifier is modified
   getArray<Type>(gongStructName: string): Array<Type> {
     switch (gongStructName) {
-      // insertion point{{` + string(NgLibFrontRepoSwitchGetArray) + `}}
+      // insertion point{{` + string(rune(NgLibFrontRepoSwitchGetArray)) + `}}
       default:
         throw new Error("Type not recognized");
     }
@@ -36,7 +36,7 @@ export class FrontRepo { // insertion point sub template{{` + string(NgLibFrontR
   // getMap allows for a get function that is robust to refactoring of the named struct name
   getMap<Type>(gongStructName: string): Map<number, Type> {
     switch (gongStructName) {
-      // insertion point{{` + string(NgLibFrontRepoSwitchGetMap) + `}}
+      // insertion point{{` + string(rune(NgLibFrontRepoSwitchGetMap)) + `}}
       default:
         throw new Error("Type not recognized");
     }
@@ -102,7 +102,7 @@ export class FrontRepoService {
   frontRepo = new (FrontRepo)
 
   constructor(
-    private http: HttpClient, // insertion point sub template {{` + string(NgLibFrontRepoServiceDecl) + `}}
+    private http: HttpClient, // insertion point sub template {{` + string(rune(NgLibFrontRepoServiceDecl)) + `}}
   ) { }
 
   // postService provides a post function for each struct name
@@ -134,7 +134,7 @@ export class FrontRepoService {
   // typing of observable can be messy in typescript. Therefore, one force the type
   observableFrontRepo: [
     Observable<null>, // see below for the of(null) observable
-    // insertion point sub template {{` + string(NgLibFrontRepoObservableArrayType) + `}}
+    // insertion point sub template {{` + string(rune(NgLibFrontRepoObservableArrayType)) + `}}
   ] = [
       // Using "combineLatest" with a placeholder observable.
       //
@@ -144,7 +144,7 @@ export class FrontRepoService {
       // This is used as a workaround to satisfy TypeScript requirements and the "combineLatest" 
       // expectation for a non-empty array of observables.
       of(null), // 
-      // insertion point sub template{{` + string(NgLibFrontRepoObservableRefs) + `}}
+      // insertion point sub template{{` + string(rune(NgLibFrontRepoObservableRefs)) + `}}
     ];
 
   //
@@ -159,7 +159,7 @@ export class FrontRepoService {
 
     this.observableFrontRepo = [
       of(null), // see above for justification
-      // insertion point sub template{{` + string(NgLibFrontRepoObservableRefs) + `}}
+      // insertion point sub template{{` + string(rune(NgLibFrontRepoObservableRefs)) + `}}
     ]
 
     return new Observable<FrontRepo>(
@@ -169,18 +169,18 @@ export class FrontRepoService {
         ).subscribe(
           ([
             ___of_null, // see above for the explanation about of
-            // insertion point sub template for declarations {{` + string(NgLibFrontRepoArraysDecls) + `}}
+            // insertion point sub template for declarations {{` + string(rune(NgLibFrontRepoArraysDecls)) + `}}
           ]) => {
             // Typing can be messy with many items. Therefore, type casting is necessary here
-            // insertion point sub template for type casting {{` + string(NgLibFrontRepoTypeCasting) + `}}
+            // insertion point sub template for type casting {{` + string(rune(NgLibFrontRepoTypeCasting)) + `}}
 
             // 
             // First Step: init map of instances
-            // insertion point sub template for init {{` + string(NgLibFrontRepoInitMapInstances) + `}}
+            // insertion point sub template for init {{` + string(rune(NgLibFrontRepoInitMapInstances)) + `}}
 
             // 
             // Second Step: reddeem slice of pointers fields
-            // insertion point sub template for redeem {{` + string(NgLibFrontRepoSlicesOfPointersDecode) + `}}
+            // insertion point sub template for redeem {{` + string(rune(NgLibFrontRepoSlicesOfPointersDecode)) + `}}
 
             // hand over control flow to observer
             observer.next(this.frontRepo)
@@ -190,70 +190,70 @@ export class FrontRepoService {
     )
   }
 
-  // insertion point for pull per struct {{` + string(NgLibFrontRepoPerStructPull) + `}}
+  // insertion point for pull per struct {{` + string(rune(NgLibFrontRepoPerStructPull)) + `}}
 }
 
-// insertion point for get unique ID per struct {{` + string(NgLibFrontRepoPerStructGetUniqueID) + `}}
+// insertion point for get unique ID per struct {{` + string(rune(NgLibFrontRepoPerStructGetUniqueID)) + `}}
 `
 
-type NgLibFrontRepoServiceSubTemplate string
+type FrontRepoInsertionPointId int
 
 const (
-	NgLibFrontRepoServiceImports         NgLibFrontRepoServiceSubTemplate = "ServiceImports"
-	NgLibFrontRepoMapDecl                NgLibFrontRepoServiceSubTemplate = "MapDecl"
-	NgLibFrontRepoSwitchGetArray         NgLibFrontRepoServiceSubTemplate = "SwitchGetArray"
-	NgLibFrontRepoSwitchGetMap           NgLibFrontRepoServiceSubTemplate = "SwitchGetMap"
-	NgLibFrontRepoObservableArrayType    NgLibFrontRepoServiceSubTemplate = "ObservableArrayType"
-	NgLibFrontRepoTypeCasting            NgLibFrontRepoServiceSubTemplate = "TypeCasting"
-	NgLibFrontRepoServiceDecl            NgLibFrontRepoServiceSubTemplate = "ServiceDecl"
-	NgLibFrontRepoObservableRefs         NgLibFrontRepoServiceSubTemplate = "ObservableRefs"
-	NgLibFrontRepoArraysDecls            NgLibFrontRepoServiceSubTemplate = "ArraysDecls"
-	NgLibFrontRepoInitMapInstances       NgLibFrontRepoServiceSubTemplate = "InitMapInstances"
-	NgLibFrontRepoRedeemPointers         NgLibFrontRepoServiceSubTemplate = "RedeemPointers"
-	NgLibFrontRepoSlicesOfPointersDecode NgLibFrontRepoServiceSubTemplate = "SortSlicesOfPointers"
-	NgLibFrontRepoPerStructPull          NgLibFrontRepoServiceSubTemplate = "PerStructPull"
-	NgLibFrontRepoPerStructGetUniqueID   NgLibFrontRepoServiceSubTemplate = "PerStructGetUniqueID"
+	NgLibFrontRepoServiceImports FrontRepoInsertionPointId = iota
+	NgLibFrontRepoMapDecl
+	NgLibFrontRepoSwitchGetArray
+	NgLibFrontRepoSwitchGetMap
+	NgLibFrontRepoObservableArrayType
+	NgLibFrontRepoTypeCasting
+	NgLibFrontRepoServiceDecl
+	NgLibFrontRepoObservableRefs
+	NgLibFrontRepoArraysDecls
+	NgLibFrontRepoInitMapInstances
+	NgLibFrontRepoRedeemPointers
+	NgLibFrontRepoSlicesOfPointersDecode
+	NgLibFrontRepoPerStructPull
+	NgLibFrontRepoPerStructGetUniqueID
 )
 
-var NgFrontRepoPerStructTmplCodes map[string]string = // new line
-map[string]string{
+var NgFrontRepoPerStructTmplCodes map[FrontRepoInsertionPointId]string = // new line
+map[FrontRepoInsertionPointId]string{
 
-	string(NgLibFrontRepoServiceImports): `
+	NgLibFrontRepoServiceImports: `
 import { {{Structname}}DB } from './{{structname}}-db'
 import { {{Structname}}Service } from './{{structname}}.service'
 `,
 
-	string(NgLibFrontRepoMapDecl): `
+	NgLibFrontRepoMapDecl: `
   {{Structname}}s_array = new Array<{{Structname}}DB>() // array of repo instances
   {{Structname}}s = new Map<number, {{Structname}}DB>() // map of repo instances
   {{Structname}}s_batch = new Map<number, {{Structname}}DB>() // same but only in last GET (for finding repo instances to delete)
 `,
 
-	string(NgLibFrontRepoSwitchGetArray): `
+	NgLibFrontRepoSwitchGetArray: `
       case '{{Structname}}':
         return this.{{Structname}}s_array as unknown as Array<Type>`,
 
-	string(NgLibFrontRepoSwitchGetMap): `
+	NgLibFrontRepoSwitchGetMap: `
       case '{{Structname}}':
         return this.{{Structname}}s_array as unknown as Map<number, Type>`,
 
-	string(NgLibFrontRepoObservableArrayType): `
+	NgLibFrontRepoObservableArrayType: `
     Observable<{{Structname}}DB[]>,`,
 
-	string(NgLibFrontRepoServiceDecl): `
+	NgLibFrontRepoServiceDecl: `
     private {{structname}}Service: {{Structname}}Service,`,
 
-	string(NgLibFrontRepoObservableRefs): `
+	NgLibFrontRepoObservableRefs: `
       this.{{structname}}Service.get{{Structname}}s(this.GONG__StackPath, this.frontRepo),`,
 
-	string(NgLibFrontRepoArraysDecls): `
+	NgLibFrontRepoArraysDecls: `
             {{structname}}s_,`,
 
-	string(NgLibFrontRepoTypeCasting): `
+	NgLibFrontRepoTypeCasting: `
             var {{structname}}s: {{Structname}}DB[]
             {{structname}}s = {{structname}}s_ as {{Structname}}DB[]`,
 
-	string(NgLibFrontRepoInitMapInstances): `
+	NgLibFrontRepoInitMapInstances: `
             // init the array
             this.frontRepo.{{Structname}}s_array = {{structname}}s
 
@@ -288,7 +288,7 @@ import { {{Structname}}Service } from './{{structname}}.service'
             });
 `,
 
-	string(NgLibFrontRepoRedeemPointers): `
+	NgLibFrontRepoRedeemPointers: `
             {{structname}}s.forEach(
               {{structname}} => {
                 // insertion point sub sub template for ONE-/ZERO-ONE associations pointers redeeming{{` + string(NgFrontRepoPtrToStructRedeeming) + `}}
@@ -297,14 +297,14 @@ import { {{Structname}}Service } from './{{structname}}.service'
               }
             )`,
 
-	string(NgLibFrontRepoSlicesOfPointersDecode): `
+	NgLibFrontRepoSlicesOfPointersDecode: `
             {{structname}}s.forEach(
               {{structname}} => {
                 // insertion point for sorting{{` + string(NgFrontRepoSliceOfPointerSorting) + `}}
               }
             )`,
 
-	string(NgLibFrontRepoPerStructPull): `
+	NgLibFrontRepoPerStructPull: `
 
   // {{Structname}}Pull performs a GET on {{Structname}} of the stack and redeem association pointers 
   {{Structname}}Pull(): Observable<FrontRepo> {
@@ -357,7 +357,7 @@ import { {{Structname}}Service } from './{{structname}}.service'
     )
   }`,
 
-	string(NgLibFrontRepoPerStructGetUniqueID): `
+	NgLibFrontRepoPerStructGetUniqueID: `
 export function get{{Structname}}UniqueID(id: number): number {
   return {{Prime}} * id
 }`,
@@ -372,7 +372,7 @@ const (
 // for each sub sub template, what sub template it relates to
 var NgLibFrontRepoPointerToStructSubSubToSubMap map[string]string = //
 map[string]string{
-	string(NgFrontRepoPtrToStructRedeeming): string(NgLibFrontRepoRedeemPointers),
+	string(NgFrontRepoPtrToStructRedeeming): string(rune(NgLibFrontRepoRedeemPointers)),
 }
 
 var NgFrontRepoPtrToStructTmplCodes map[string]string = // new line
@@ -433,7 +433,7 @@ func CodeGeneratorNgFrontRepo(
 
 	code := NgLibFrontRepoServiceTemplate
 
-	perStructCodes := make(map[string]string)
+	perStructCodes := make(map[FrontRepoInsertionPointId]string)
 	for subTemplate := range NgFrontRepoPerStructTmplCodes {
 		perStructCodes[subTemplate] = ""
 	}
@@ -547,7 +547,7 @@ func CodeGeneratorNgFrontRepo(
 	// final per struct replacement
 	//
 	for perStructTmplCode := range NgFrontRepoPerStructTmplCodes {
-		toReplace := "{{" + string(perStructTmplCode) + "}}"
+		toReplace := "{{" + string(rune(perStructTmplCode)) + "}}"
 		code = strings.ReplaceAll(code, toReplace, perStructCodes[perStructTmplCode])
 	}
 
