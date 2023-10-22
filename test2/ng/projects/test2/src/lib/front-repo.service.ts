@@ -381,23 +381,6 @@ export class FrontRepoService {
                 this.frontRepo.Bs_batch.set(b.ID, b)
 
                 // insertion point for redeeming ONE/ZERO-ONE associations
-
-                // insertion point for redeeming ONE-MANY associations
-                // insertion point for slice of pointer field A.Bs redeeming
-                // to be removed
-                {
-                  let _id = b.BPointersEncoding.A_BsDBID.Int64
-                  let _a = this.frontRepo.As.get(_id)
-                  if (_a) {
-                    if (_a.Bs == undefined) {
-                      _a.Bs = new Array<BDB>()
-                    }
-                    _a.Bs.push(b)
-                    if (b.BPointersEncoding.A_Bs_reverse == undefined) {
-                      b.BPointersEncoding.A_Bs_reverse = _a
-                    }
-                  }
-                }
               }
             )
 
