@@ -12,18 +12,9 @@ import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 
 import { AnimateDB } from './animate-db';
+import { FrontRepo, FrontRepoService } from './front-repo.service';
 
 // insertion point for imports
-import { CircleDB } from './circle-db'
-import { EllipseDB } from './ellipse-db'
-import { LineDB } from './line-db'
-import { LinkAnchoredTextDB } from './linkanchoredtext-db'
-import { PathDB } from './path-db'
-import { PolygoneDB } from './polygone-db'
-import { PolylineDB } from './polyline-db'
-import { RectDB } from './rect-db'
-import { RectAnchoredTextDB } from './rectanchoredtext-db'
-import { TextDB } from './text-db'
 
 @Injectable({
   providedIn: 'root'
@@ -53,10 +44,10 @@ export class AnimateService {
 
   /** GET animates from the server */
   // gets is more robust to refactoring
-  gets(GONG__StackPath: string): Observable<AnimateDB[]> {
-    return this.getAnimates(GONG__StackPath)
+  gets(GONG__StackPath: string, frontRepo: FrontRepo): Observable<AnimateDB[]> {
+    return this.getAnimates(GONG__StackPath, frontRepo)
   }
-  getAnimates(GONG__StackPath: string): Observable<AnimateDB[]> {
+  getAnimates(GONG__StackPath: string, frontRepo: FrontRepo): Observable<AnimateDB[]> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
@@ -70,10 +61,10 @@ export class AnimateService {
 
   /** GET animate by id. Will 404 if id not found */
   // more robust API to refactoring
-  get(id: number, GONG__StackPath: string): Observable<AnimateDB> {
-	return this.getAnimate(id, GONG__StackPath)
+  get(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<AnimateDB> {
+    return this.getAnimate(id, GONG__StackPath, frontRepo)
   }
-  getAnimate(id: number, GONG__StackPath: string): Observable<AnimateDB> {
+  getAnimate(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<AnimateDB> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
@@ -85,32 +76,12 @@ export class AnimateService {
   }
 
   /** POST: add a new animate to the server */
-  post(animatedb: AnimateDB, GONG__StackPath: string): Observable<AnimateDB> {
-    return this.postAnimate(animatedb, GONG__StackPath)	
+  post(animatedb: AnimateDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<AnimateDB> {
+    return this.postAnimate(animatedb, GONG__StackPath, frontRepo)
   }
-  postAnimate(animatedb: AnimateDB, GONG__StackPath: string): Observable<AnimateDB> {
+  postAnimate(animatedb: AnimateDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<AnimateDB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
-    let _Circle_Animations_reverse = animatedb.AnimatePointersEncoding.Circle_Animations_reverse
-    animatedb.AnimatePointersEncoding.Circle_Animations_reverse = new CircleDB
-    let _Ellipse_Animates_reverse = animatedb.AnimatePointersEncoding.Ellipse_Animates_reverse
-    animatedb.AnimatePointersEncoding.Ellipse_Animates_reverse = new EllipseDB
-    let _Line_Animates_reverse = animatedb.AnimatePointersEncoding.Line_Animates_reverse
-    animatedb.AnimatePointersEncoding.Line_Animates_reverse = new LineDB
-    let _LinkAnchoredText_Animates_reverse = animatedb.AnimatePointersEncoding.LinkAnchoredText_Animates_reverse
-    animatedb.AnimatePointersEncoding.LinkAnchoredText_Animates_reverse = new LinkAnchoredTextDB
-    let _Path_Animates_reverse = animatedb.AnimatePointersEncoding.Path_Animates_reverse
-    animatedb.AnimatePointersEncoding.Path_Animates_reverse = new PathDB
-    let _Polygone_Animates_reverse = animatedb.AnimatePointersEncoding.Polygone_Animates_reverse
-    animatedb.AnimatePointersEncoding.Polygone_Animates_reverse = new PolygoneDB
-    let _Polyline_Animates_reverse = animatedb.AnimatePointersEncoding.Polyline_Animates_reverse
-    animatedb.AnimatePointersEncoding.Polyline_Animates_reverse = new PolylineDB
-    let _Rect_Animations_reverse = animatedb.AnimatePointersEncoding.Rect_Animations_reverse
-    animatedb.AnimatePointersEncoding.Rect_Animations_reverse = new RectDB
-    let _RectAnchoredText_Animates_reverse = animatedb.AnimatePointersEncoding.RectAnchoredText_Animates_reverse
-    animatedb.AnimatePointersEncoding.RectAnchoredText_Animates_reverse = new RectAnchoredTextDB
-    let _Text_Animates_reverse = animatedb.AnimatePointersEncoding.Text_Animates_reverse
-    animatedb.AnimatePointersEncoding.Text_Animates_reverse = new TextDB
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -121,16 +92,6 @@ export class AnimateService {
     return this.http.post<AnimateDB>(this.animatesUrl, animatedb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
-        animatedb.AnimatePointersEncoding.Circle_Animations_reverse = _Circle_Animations_reverse
-        animatedb.AnimatePointersEncoding.Ellipse_Animates_reverse = _Ellipse_Animates_reverse
-        animatedb.AnimatePointersEncoding.Line_Animates_reverse = _Line_Animates_reverse
-        animatedb.AnimatePointersEncoding.LinkAnchoredText_Animates_reverse = _LinkAnchoredText_Animates_reverse
-        animatedb.AnimatePointersEncoding.Path_Animates_reverse = _Path_Animates_reverse
-        animatedb.AnimatePointersEncoding.Polygone_Animates_reverse = _Polygone_Animates_reverse
-        animatedb.AnimatePointersEncoding.Polyline_Animates_reverse = _Polyline_Animates_reverse
-        animatedb.AnimatePointersEncoding.Rect_Animations_reverse = _Rect_Animations_reverse
-        animatedb.AnimatePointersEncoding.RectAnchoredText_Animates_reverse = _RectAnchoredText_Animates_reverse
-        animatedb.AnimatePointersEncoding.Text_Animates_reverse = _Text_Animates_reverse
         // this.log(`posted animatedb id=${animatedb.ID}`)
       }),
       catchError(this.handleError<AnimateDB>('postAnimate'))
@@ -158,34 +119,15 @@ export class AnimateService {
   }
 
   /** PUT: update the animatedb on the server */
-  update(animatedb: AnimateDB, GONG__StackPath: string): Observable<AnimateDB> {
-    return this.updateAnimate(animatedb, GONG__StackPath)
+  update(animatedb: AnimateDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<AnimateDB> {
+    return this.updateAnimate(animatedb, GONG__StackPath, frontRepo)
   }
-  updateAnimate(animatedb: AnimateDB, GONG__StackPath: string): Observable<AnimateDB> {
+  updateAnimate(animatedb: AnimateDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<AnimateDB> {
     const id = typeof animatedb === 'number' ? animatedb : animatedb.ID;
     const url = `${this.animatesUrl}/${id}`;
 
-    // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
-    let _Circle_Animations_reverse = animatedb.AnimatePointersEncoding.Circle_Animations_reverse
-    animatedb.AnimatePointersEncoding.Circle_Animations_reverse = new CircleDB
-    let _Ellipse_Animates_reverse = animatedb.AnimatePointersEncoding.Ellipse_Animates_reverse
-    animatedb.AnimatePointersEncoding.Ellipse_Animates_reverse = new EllipseDB
-    let _Line_Animates_reverse = animatedb.AnimatePointersEncoding.Line_Animates_reverse
-    animatedb.AnimatePointersEncoding.Line_Animates_reverse = new LineDB
-    let _LinkAnchoredText_Animates_reverse = animatedb.AnimatePointersEncoding.LinkAnchoredText_Animates_reverse
-    animatedb.AnimatePointersEncoding.LinkAnchoredText_Animates_reverse = new LinkAnchoredTextDB
-    let _Path_Animates_reverse = animatedb.AnimatePointersEncoding.Path_Animates_reverse
-    animatedb.AnimatePointersEncoding.Path_Animates_reverse = new PathDB
-    let _Polygone_Animates_reverse = animatedb.AnimatePointersEncoding.Polygone_Animates_reverse
-    animatedb.AnimatePointersEncoding.Polygone_Animates_reverse = new PolygoneDB
-    let _Polyline_Animates_reverse = animatedb.AnimatePointersEncoding.Polyline_Animates_reverse
-    animatedb.AnimatePointersEncoding.Polyline_Animates_reverse = new PolylineDB
-    let _Rect_Animations_reverse = animatedb.AnimatePointersEncoding.Rect_Animations_reverse
-    animatedb.AnimatePointersEncoding.Rect_Animations_reverse = new RectDB
-    let _RectAnchoredText_Animates_reverse = animatedb.AnimatePointersEncoding.RectAnchoredText_Animates_reverse
-    animatedb.AnimatePointersEncoding.RectAnchoredText_Animates_reverse = new RectAnchoredTextDB
-    let _Text_Animates_reverse = animatedb.AnimatePointersEncoding.Text_Animates_reverse
-    animatedb.AnimatePointersEncoding.Text_Animates_reverse = new TextDB
+    // insertion point for reset of pointers (to avoid circular JSON)
+	// and encoding of pointers
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -196,16 +138,6 @@ export class AnimateService {
     return this.http.put<AnimateDB>(url, animatedb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
-        animatedb.AnimatePointersEncoding.Circle_Animations_reverse = _Circle_Animations_reverse
-        animatedb.AnimatePointersEncoding.Ellipse_Animates_reverse = _Ellipse_Animates_reverse
-        animatedb.AnimatePointersEncoding.Line_Animates_reverse = _Line_Animates_reverse
-        animatedb.AnimatePointersEncoding.LinkAnchoredText_Animates_reverse = _LinkAnchoredText_Animates_reverse
-        animatedb.AnimatePointersEncoding.Path_Animates_reverse = _Path_Animates_reverse
-        animatedb.AnimatePointersEncoding.Polygone_Animates_reverse = _Polygone_Animates_reverse
-        animatedb.AnimatePointersEncoding.Polyline_Animates_reverse = _Polyline_Animates_reverse
-        animatedb.AnimatePointersEncoding.Rect_Animations_reverse = _Rect_Animations_reverse
-        animatedb.AnimatePointersEncoding.RectAnchoredText_Animates_reverse = _RectAnchoredText_Animates_reverse
-        animatedb.AnimatePointersEncoding.Text_Animates_reverse = _Text_Animates_reverse
         // this.log(`updated animatedb id=${animatedb.ID}`)
       }),
       catchError(this.handleError<AnimateDB>('updateAnimate'))
@@ -233,6 +165,6 @@ export class AnimateService {
   }
 
   private log(message: string) {
-      console.log(message)
+    console.log(message)
   }
 }

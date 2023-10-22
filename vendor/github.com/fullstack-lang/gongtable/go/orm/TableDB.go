@@ -276,26 +276,6 @@ func (backRepoTable *BackRepoTableStruct) CommitPhaseTwoInstance(backRepo *BackR
 		tableDB.CopyBasicFieldsFromTable(table)
 
 		// insertion point for translating pointers encodings into actual pointers
-		// This loop encodes the slice of pointers table.DisplayedColumns into the back repo.
-		// Each back repo instance at the end of the association encode the ID of the association start
-		// into a dedicated field for coding the association. The back repo instance is then saved to the db
-		for idx, displayedcolumnAssocEnd := range table.DisplayedColumns {
-
-			// get the back repo instance at the association end
-			displayedcolumnAssocEnd_DB :=
-				backRepo.BackRepoDisplayedColumn.GetDisplayedColumnDBFromDisplayedColumnPtr(displayedcolumnAssocEnd)
-
-			// encode reverse pointer in the association end back repo instance
-			// (to be removed)
-			displayedcolumnAssocEnd_DB.Table_DisplayedColumnsDBID.Int64 = int64(tableDB.ID)
-			displayedcolumnAssocEnd_DB.Table_DisplayedColumnsDBID.Valid = true
-			displayedcolumnAssocEnd_DB.Table_DisplayedColumnsDBID_Index.Int64 = int64(idx)
-			displayedcolumnAssocEnd_DB.Table_DisplayedColumnsDBID_Index.Valid = true
-			if q := backRepoTable.db.Save(displayedcolumnAssocEnd_DB); q.Error != nil {
-				return q.Error
-			}
-		}
-
 		// 1. reset
 		tableDB.TablePointersEncoding.DisplayedColumns = make([]int, 0)
 		// 2. encode
@@ -304,26 +284,6 @@ func (backRepoTable *BackRepoTableStruct) CommitPhaseTwoInstance(backRepo *BackR
 				backRepo.BackRepoDisplayedColumn.GetDisplayedColumnDBFromDisplayedColumnPtr(displayedcolumnAssocEnd)
 			tableDB.TablePointersEncoding.DisplayedColumns =
 				append(tableDB.TablePointersEncoding.DisplayedColumns, int(displayedcolumnAssocEnd_DB.ID))
-		}
-
-		// This loop encodes the slice of pointers table.Rows into the back repo.
-		// Each back repo instance at the end of the association encode the ID of the association start
-		// into a dedicated field for coding the association. The back repo instance is then saved to the db
-		for idx, rowAssocEnd := range table.Rows {
-
-			// get the back repo instance at the association end
-			rowAssocEnd_DB :=
-				backRepo.BackRepoRow.GetRowDBFromRowPtr(rowAssocEnd)
-
-			// encode reverse pointer in the association end back repo instance
-			// (to be removed)
-			rowAssocEnd_DB.Table_RowsDBID.Int64 = int64(tableDB.ID)
-			rowAssocEnd_DB.Table_RowsDBID.Valid = true
-			rowAssocEnd_DB.Table_RowsDBID_Index.Int64 = int64(idx)
-			rowAssocEnd_DB.Table_RowsDBID_Index.Valid = true
-			if q := backRepoTable.db.Save(rowAssocEnd_DB); q.Error != nil {
-				return q.Error
-			}
 		}
 
 		// 1. reset
@@ -448,54 +408,18 @@ func (backRepoTable *BackRepoTableStruct) CheckoutPhaseTwoInstance(backRepo *Bac
 	// it appends the stage instance
 	// 1. reset the slice
 	table.DisplayedColumns = table.DisplayedColumns[:0]
-	// 2. loop all instances in the type in the association end
-	for _, displayedcolumnDB_AssocEnd := range backRepo.BackRepoDisplayedColumn.Map_DisplayedColumnDBID_DisplayedColumnDB {
-		// 3. Does the ID encoding at the end and the ID at the start matches ?
-		if displayedcolumnDB_AssocEnd.Table_DisplayedColumnsDBID.Int64 == int64(tableDB.ID) {
-			// 4. fetch the associated instance in the stage
-			displayedcolumn_AssocEnd := backRepo.BackRepoDisplayedColumn.Map_DisplayedColumnDBID_DisplayedColumnPtr[displayedcolumnDB_AssocEnd.ID]
-			// 5. append it the association slice
-			table.DisplayedColumns = append(table.DisplayedColumns, displayedcolumn_AssocEnd)
-		}
+	for _, _DisplayedColumnid := range tableDB.TablePointersEncoding.DisplayedColumns {
+		table.DisplayedColumns = append(table.DisplayedColumns, backRepo.BackRepoDisplayedColumn.Map_DisplayedColumnDBID_DisplayedColumnPtr[uint(_DisplayedColumnid)])
 	}
-
-	// sort the array according to the order
-	sort.Slice(table.DisplayedColumns, func(i, j int) bool {
-		displayedcolumnDB_i_ID := backRepo.BackRepoDisplayedColumn.Map_DisplayedColumnPtr_DisplayedColumnDBID[table.DisplayedColumns[i]]
-		displayedcolumnDB_j_ID := backRepo.BackRepoDisplayedColumn.Map_DisplayedColumnPtr_DisplayedColumnDBID[table.DisplayedColumns[j]]
-
-		displayedcolumnDB_i := backRepo.BackRepoDisplayedColumn.Map_DisplayedColumnDBID_DisplayedColumnDB[displayedcolumnDB_i_ID]
-		displayedcolumnDB_j := backRepo.BackRepoDisplayedColumn.Map_DisplayedColumnDBID_DisplayedColumnDB[displayedcolumnDB_j_ID]
-
-		return displayedcolumnDB_i.Table_DisplayedColumnsDBID_Index.Int64 < displayedcolumnDB_j.Table_DisplayedColumnsDBID_Index.Int64
-	})
 
 	// This loop redeem table.Rows in the stage from the encode in the back repo
 	// It parses all RowDB in the back repo and if the reverse pointer encoding matches the back repo ID
 	// it appends the stage instance
 	// 1. reset the slice
 	table.Rows = table.Rows[:0]
-	// 2. loop all instances in the type in the association end
-	for _, rowDB_AssocEnd := range backRepo.BackRepoRow.Map_RowDBID_RowDB {
-		// 3. Does the ID encoding at the end and the ID at the start matches ?
-		if rowDB_AssocEnd.Table_RowsDBID.Int64 == int64(tableDB.ID) {
-			// 4. fetch the associated instance in the stage
-			row_AssocEnd := backRepo.BackRepoRow.Map_RowDBID_RowPtr[rowDB_AssocEnd.ID]
-			// 5. append it the association slice
-			table.Rows = append(table.Rows, row_AssocEnd)
-		}
+	for _, _Rowid := range tableDB.TablePointersEncoding.Rows {
+		table.Rows = append(table.Rows, backRepo.BackRepoRow.Map_RowDBID_RowPtr[uint(_Rowid)])
 	}
-
-	// sort the array according to the order
-	sort.Slice(table.Rows, func(i, j int) bool {
-		rowDB_i_ID := backRepo.BackRepoRow.Map_RowPtr_RowDBID[table.Rows[i]]
-		rowDB_j_ID := backRepo.BackRepoRow.Map_RowPtr_RowDBID[table.Rows[j]]
-
-		rowDB_i := backRepo.BackRepoRow.Map_RowDBID_RowDB[rowDB_i_ID]
-		rowDB_j := backRepo.BackRepoRow.Map_RowDBID_RowDB[rowDB_j_ID]
-
-		return rowDB_i.Table_RowsDBID_Index.Int64 < rowDB_j.Table_RowsDBID_Index.Int64
-	})
 
 	return
 }

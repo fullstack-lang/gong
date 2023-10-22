@@ -45,14 +45,6 @@ type FieldAPI struct {
 // reverse pointers of slice of poitners to Struct
 type FieldPointersEncoding struct {
 	// insertion for pointer fields encoding declaration
-
-	// Implementation of a reverse ID for field GongStructShape{}.Fields []*Field
-	// (to be removed)
-	GongStructShape_FieldsDBID sql.NullInt64
-
-	// implementation of the index of the withing the slice
-	// (to be removed)
-	GongStructShape_FieldsDBID_Index sql.NullInt64
 }
 
 // FieldDB describes a field in the database
@@ -623,12 +615,6 @@ func (backRepoField *BackRepoFieldStruct) RestorePhaseTwo() {
 		_ = fieldDB
 
 		// insertion point for reindexing pointers encoding
-		// This reindex field.Fields
-		if fieldDB.GongStructShape_FieldsDBID.Int64 != 0 {
-			fieldDB.GongStructShape_FieldsDBID.Int64 =
-				int64(BackRepoGongStructShapeid_atBckpTime_newID[uint(fieldDB.GongStructShape_FieldsDBID.Int64)])
-		}
-
 		// update databse with new index encoding
 		query := backRepoField.db.Model(fieldDB).Updates(*fieldDB)
 		if query.Error != nil {
@@ -656,15 +642,6 @@ func (backRepoField *BackRepoFieldStruct) ResetReversePointersInstance(backRepo 
 		_ = fieldDB // to avoid unused variable error if there are no reverse to reset
 
 		// insertion point for reverse pointers reset
-		if fieldDB.GongStructShape_FieldsDBID.Int64 != 0 {
-			fieldDB.GongStructShape_FieldsDBID.Int64 = 0
-			fieldDB.GongStructShape_FieldsDBID.Valid = true
-
-			// save the reset
-			if q := backRepoField.db.Save(fieldDB); q.Error != nil {
-				return q.Error
-			}
-		}
 		// end of insertion point for reverse pointers reset
 	}
 

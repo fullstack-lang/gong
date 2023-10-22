@@ -11,7 +11,10 @@ export class LineComponent implements OnInit {
   @Input() Line?: gongsvg.LineDB
   @Input() GONG__StackPath: string = ""
 
-  constructor(private lineService: gongsvg.LineService) { }
+  constructor(
+    private lineService: gongsvg.LineService,
+    private gongsvgFrontRepoService: gongsvg.FrontRepoService,
+  ) { }
 
   ngOnInit(): void {
 
@@ -25,7 +28,7 @@ export class LineComponent implements OnInit {
     this.Line!.MouseClickX = event.clientX
     this.Line!.MouseClickY = event.clientY
 
-    this.lineService.updateLine(this.Line!, this.GONG__StackPath).subscribe()
+    this.lineService.updateLine(this.Line!, this.GONG__StackPath, this.gongsvgFrontRepoService.frontRepo).subscribe()
 
   }
 

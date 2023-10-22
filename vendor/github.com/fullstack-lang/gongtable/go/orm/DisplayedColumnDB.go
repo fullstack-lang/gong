@@ -45,14 +45,6 @@ type DisplayedColumnAPI struct {
 // reverse pointers of slice of poitners to Struct
 type DisplayedColumnPointersEncoding struct {
 	// insertion for pointer fields encoding declaration
-
-	// Implementation of a reverse ID for field Table{}.DisplayedColumns []*DisplayedColumn
-	// (to be removed)
-	Table_DisplayedColumnsDBID sql.NullInt64
-
-	// implementation of the index of the withing the slice
-	// (to be removed)
-	Table_DisplayedColumnsDBID_Index sql.NullInt64
 }
 
 // DisplayedColumnDB describes a displayedcolumn in the database
@@ -551,12 +543,6 @@ func (backRepoDisplayedColumn *BackRepoDisplayedColumnStruct) RestorePhaseTwo() 
 		_ = displayedcolumnDB
 
 		// insertion point for reindexing pointers encoding
-		// This reindex displayedcolumn.DisplayedColumns
-		if displayedcolumnDB.Table_DisplayedColumnsDBID.Int64 != 0 {
-			displayedcolumnDB.Table_DisplayedColumnsDBID.Int64 =
-				int64(BackRepoTableid_atBckpTime_newID[uint(displayedcolumnDB.Table_DisplayedColumnsDBID.Int64)])
-		}
-
 		// update databse with new index encoding
 		query := backRepoDisplayedColumn.db.Model(displayedcolumnDB).Updates(*displayedcolumnDB)
 		if query.Error != nil {
@@ -584,15 +570,6 @@ func (backRepoDisplayedColumn *BackRepoDisplayedColumnStruct) ResetReversePointe
 		_ = displayedcolumnDB // to avoid unused variable error if there are no reverse to reset
 
 		// insertion point for reverse pointers reset
-		if displayedcolumnDB.Table_DisplayedColumnsDBID.Int64 != 0 {
-			displayedcolumnDB.Table_DisplayedColumnsDBID.Int64 = 0
-			displayedcolumnDB.Table_DisplayedColumnsDBID.Valid = true
-
-			// save the reset
-			if q := backRepoDisplayedColumn.db.Save(displayedcolumnDB); q.Error != nil {
-				return q.Error
-			}
-		}
 		// end of insertion point for reverse pointers reset
 	}
 

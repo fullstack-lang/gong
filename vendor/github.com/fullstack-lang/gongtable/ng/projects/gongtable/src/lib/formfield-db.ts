@@ -6,7 +6,6 @@ import { FormFieldDateDB } from './formfielddate-db'
 import { FormFieldTimeDB } from './formfieldtime-db'
 import { FormFieldDateTimeDB } from './formfielddatetime-db'
 import { FormFieldSelectDB } from './formfieldselect-db'
-import { FormDivDB } from './formdiv-db'
 
 // usefull for managing pointer ID values that can be nullable
 import { NullInt64 } from './null-int64'
@@ -61,10 +60,5 @@ export class FormFieldPointersEncoding {
 	FormFieldDateTimeID: NullInt64 = new NullInt64 // if pointer is null, FormFieldDateTime.ID = 0
 
 	FormFieldSelectID: NullInt64 = new NullInt64 // if pointer is null, FormFieldSelect.ID = 0
-
-	// reverse pointers encoding (to be removed)
-	FormDiv_FormFieldsDBID: NullInt64 = new NullInt64
-	FormDiv_FormFieldsDBID_Index: NullInt64  = new NullInt64 // store the index of the formfield instance in FormDiv.FormFields
-	FormDiv_FormFields_reverse?: FormDivDB 
 
 }

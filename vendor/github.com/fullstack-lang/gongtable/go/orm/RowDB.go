@@ -48,14 +48,6 @@ type RowPointersEncoding struct {
 
 	// field Cells is a slice of pointers to another Struct (optional or 0..1)
 	Cells IntSlice `gorm:"type:TEXT"`
-
-	// Implementation of a reverse ID for field Table{}.Rows []*Row
-	// (to be removed)
-	Table_RowsDBID sql.NullInt64
-
-	// implementation of the index of the withing the slice
-	// (to be removed)
-	Table_RowsDBID_Index sql.NullInt64
 }
 
 // RowDB describes a row in the database
@@ -226,26 +218,6 @@ func (backRepoRow *BackRepoRowStruct) CommitPhaseTwoInstance(backRepo *BackRepoS
 		rowDB.CopyBasicFieldsFromRow(row)
 
 		// insertion point for translating pointers encodings into actual pointers
-		// This loop encodes the slice of pointers row.Cells into the back repo.
-		// Each back repo instance at the end of the association encode the ID of the association start
-		// into a dedicated field for coding the association. The back repo instance is then saved to the db
-		for idx, cellAssocEnd := range row.Cells {
-
-			// get the back repo instance at the association end
-			cellAssocEnd_DB :=
-				backRepo.BackRepoCell.GetCellDBFromCellPtr(cellAssocEnd)
-
-			// encode reverse pointer in the association end back repo instance
-			// (to be removed)
-			cellAssocEnd_DB.Row_CellsDBID.Int64 = int64(rowDB.ID)
-			cellAssocEnd_DB.Row_CellsDBID.Valid = true
-			cellAssocEnd_DB.Row_CellsDBID_Index.Int64 = int64(idx)
-			cellAssocEnd_DB.Row_CellsDBID_Index.Valid = true
-			if q := backRepoRow.db.Save(cellAssocEnd_DB); q.Error != nil {
-				return q.Error
-			}
-		}
-
 		// 1. reset
 		rowDB.RowPointersEncoding.Cells = make([]int, 0)
 		// 2. encode
@@ -368,27 +340,9 @@ func (backRepoRow *BackRepoRowStruct) CheckoutPhaseTwoInstance(backRepo *BackRep
 	// it appends the stage instance
 	// 1. reset the slice
 	row.Cells = row.Cells[:0]
-	// 2. loop all instances in the type in the association end
-	for _, cellDB_AssocEnd := range backRepo.BackRepoCell.Map_CellDBID_CellDB {
-		// 3. Does the ID encoding at the end and the ID at the start matches ?
-		if cellDB_AssocEnd.Row_CellsDBID.Int64 == int64(rowDB.ID) {
-			// 4. fetch the associated instance in the stage
-			cell_AssocEnd := backRepo.BackRepoCell.Map_CellDBID_CellPtr[cellDB_AssocEnd.ID]
-			// 5. append it the association slice
-			row.Cells = append(row.Cells, cell_AssocEnd)
-		}
+	for _, _Cellid := range rowDB.RowPointersEncoding.Cells {
+		row.Cells = append(row.Cells, backRepo.BackRepoCell.Map_CellDBID_CellPtr[uint(_Cellid)])
 	}
-
-	// sort the array according to the order
-	sort.Slice(row.Cells, func(i, j int) bool {
-		cellDB_i_ID := backRepo.BackRepoCell.Map_CellPtr_CellDBID[row.Cells[i]]
-		cellDB_j_ID := backRepo.BackRepoCell.Map_CellPtr_CellDBID[row.Cells[j]]
-
-		cellDB_i := backRepo.BackRepoCell.Map_CellDBID_CellDB[cellDB_i_ID]
-		cellDB_j := backRepo.BackRepoCell.Map_CellDBID_CellDB[cellDB_j_ID]
-
-		return cellDB_i.Row_CellsDBID_Index.Int64 < cellDB_j.Row_CellsDBID_Index.Int64
-	})
 
 	return
 }
@@ -630,12 +584,6 @@ func (backRepoRow *BackRepoRowStruct) RestorePhaseTwo() {
 		_ = rowDB
 
 		// insertion point for reindexing pointers encoding
-		// This reindex row.Rows
-		if rowDB.Table_RowsDBID.Int64 != 0 {
-			rowDB.Table_RowsDBID.Int64 =
-				int64(BackRepoTableid_atBckpTime_newID[uint(rowDB.Table_RowsDBID.Int64)])
-		}
-
 		// update databse with new index encoding
 		query := backRepoRow.db.Model(rowDB).Updates(*rowDB)
 		if query.Error != nil {
@@ -663,15 +611,6 @@ func (backRepoRow *BackRepoRowStruct) ResetReversePointersInstance(backRepo *Bac
 		_ = rowDB // to avoid unused variable error if there are no reverse to reset
 
 		// insertion point for reverse pointers reset
-		if rowDB.Table_RowsDBID.Int64 != 0 {
-			rowDB.Table_RowsDBID.Int64 = 0
-			rowDB.Table_RowsDBID.Valid = true
-
-			// save the reset
-			if q := backRepoRow.db.Save(rowDB); q.Error != nil {
-				return q.Error
-			}
-		}
 		// end of insertion point for reverse pointers reset
 	}
 

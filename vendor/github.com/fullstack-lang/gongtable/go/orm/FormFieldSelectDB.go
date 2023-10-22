@@ -234,26 +234,6 @@ func (backRepoFormFieldSelect *BackRepoFormFieldSelectStruct) CommitPhaseTwoInst
 			formfieldselectDB.ValueID.Valid = true
 		}
 
-		// This loop encodes the slice of pointers formfieldselect.Options into the back repo.
-		// Each back repo instance at the end of the association encode the ID of the association start
-		// into a dedicated field for coding the association. The back repo instance is then saved to the db
-		for idx, optionAssocEnd := range formfieldselect.Options {
-
-			// get the back repo instance at the association end
-			optionAssocEnd_DB :=
-				backRepo.BackRepoOption.GetOptionDBFromOptionPtr(optionAssocEnd)
-
-			// encode reverse pointer in the association end back repo instance
-			// (to be removed)
-			optionAssocEnd_DB.FormFieldSelect_OptionsDBID.Int64 = int64(formfieldselectDB.ID)
-			optionAssocEnd_DB.FormFieldSelect_OptionsDBID.Valid = true
-			optionAssocEnd_DB.FormFieldSelect_OptionsDBID_Index.Int64 = int64(idx)
-			optionAssocEnd_DB.FormFieldSelect_OptionsDBID_Index.Valid = true
-			if q := backRepoFormFieldSelect.db.Save(optionAssocEnd_DB); q.Error != nil {
-				return q.Error
-			}
-		}
-
 		// 1. reset
 		formfieldselectDB.FormFieldSelectPointersEncoding.Options = make([]int, 0)
 		// 2. encode
@@ -381,27 +361,9 @@ func (backRepoFormFieldSelect *BackRepoFormFieldSelectStruct) CheckoutPhaseTwoIn
 	// it appends the stage instance
 	// 1. reset the slice
 	formfieldselect.Options = formfieldselect.Options[:0]
-	// 2. loop all instances in the type in the association end
-	for _, optionDB_AssocEnd := range backRepo.BackRepoOption.Map_OptionDBID_OptionDB {
-		// 3. Does the ID encoding at the end and the ID at the start matches ?
-		if optionDB_AssocEnd.FormFieldSelect_OptionsDBID.Int64 == int64(formfieldselectDB.ID) {
-			// 4. fetch the associated instance in the stage
-			option_AssocEnd := backRepo.BackRepoOption.Map_OptionDBID_OptionPtr[optionDB_AssocEnd.ID]
-			// 5. append it the association slice
-			formfieldselect.Options = append(formfieldselect.Options, option_AssocEnd)
-		}
+	for _, _Optionid := range formfieldselectDB.FormFieldSelectPointersEncoding.Options {
+		formfieldselect.Options = append(formfieldselect.Options, backRepo.BackRepoOption.Map_OptionDBID_OptionPtr[uint(_Optionid)])
 	}
-
-	// sort the array according to the order
-	sort.Slice(formfieldselect.Options, func(i, j int) bool {
-		optionDB_i_ID := backRepo.BackRepoOption.Map_OptionPtr_OptionDBID[formfieldselect.Options[i]]
-		optionDB_j_ID := backRepo.BackRepoOption.Map_OptionPtr_OptionDBID[formfieldselect.Options[j]]
-
-		optionDB_i := backRepo.BackRepoOption.Map_OptionDBID_OptionDB[optionDB_i_ID]
-		optionDB_j := backRepo.BackRepoOption.Map_OptionDBID_OptionDB[optionDB_j_ID]
-
-		return optionDB_i.FormFieldSelect_OptionsDBID_Index.Int64 < optionDB_j.FormFieldSelect_OptionsDBID_Index.Int64
-	})
 
 	return
 }

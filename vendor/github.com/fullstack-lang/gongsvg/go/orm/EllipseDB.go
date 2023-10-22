@@ -48,14 +48,6 @@ type EllipsePointersEncoding struct {
 
 	// field Animates is a slice of pointers to another Struct (optional or 0..1)
 	Animates IntSlice `gorm:"type:TEXT"`
-
-	// Implementation of a reverse ID for field Layer{}.Ellipses []*Ellipse
-	// (to be removed)
-	Layer_EllipsesDBID sql.NullInt64
-
-	// implementation of the index of the withing the slice
-	// (to be removed)
-	Layer_EllipsesDBID_Index sql.NullInt64
 }
 
 // EllipseDB describes a ellipse in the database
@@ -285,26 +277,6 @@ func (backRepoEllipse *BackRepoEllipseStruct) CommitPhaseTwoInstance(backRepo *B
 		ellipseDB.CopyBasicFieldsFromEllipse(ellipse)
 
 		// insertion point for translating pointers encodings into actual pointers
-		// This loop encodes the slice of pointers ellipse.Animates into the back repo.
-		// Each back repo instance at the end of the association encode the ID of the association start
-		// into a dedicated field for coding the association. The back repo instance is then saved to the db
-		for idx, animateAssocEnd := range ellipse.Animates {
-
-			// get the back repo instance at the association end
-			animateAssocEnd_DB :=
-				backRepo.BackRepoAnimate.GetAnimateDBFromAnimatePtr(animateAssocEnd)
-
-			// encode reverse pointer in the association end back repo instance
-			// (to be removed)
-			animateAssocEnd_DB.Ellipse_AnimatesDBID.Int64 = int64(ellipseDB.ID)
-			animateAssocEnd_DB.Ellipse_AnimatesDBID.Valid = true
-			animateAssocEnd_DB.Ellipse_AnimatesDBID_Index.Int64 = int64(idx)
-			animateAssocEnd_DB.Ellipse_AnimatesDBID_Index.Valid = true
-			if q := backRepoEllipse.db.Save(animateAssocEnd_DB); q.Error != nil {
-				return q.Error
-			}
-		}
-
 		// 1. reset
 		ellipseDB.EllipsePointersEncoding.Animates = make([]int, 0)
 		// 2. encode
@@ -427,27 +399,9 @@ func (backRepoEllipse *BackRepoEllipseStruct) CheckoutPhaseTwoInstance(backRepo 
 	// it appends the stage instance
 	// 1. reset the slice
 	ellipse.Animates = ellipse.Animates[:0]
-	// 2. loop all instances in the type in the association end
-	for _, animateDB_AssocEnd := range backRepo.BackRepoAnimate.Map_AnimateDBID_AnimateDB {
-		// 3. Does the ID encoding at the end and the ID at the start matches ?
-		if animateDB_AssocEnd.Ellipse_AnimatesDBID.Int64 == int64(ellipseDB.ID) {
-			// 4. fetch the associated instance in the stage
-			animate_AssocEnd := backRepo.BackRepoAnimate.Map_AnimateDBID_AnimatePtr[animateDB_AssocEnd.ID]
-			// 5. append it the association slice
-			ellipse.Animates = append(ellipse.Animates, animate_AssocEnd)
-		}
+	for _, _Animateid := range ellipseDB.EllipsePointersEncoding.Animates {
+		ellipse.Animates = append(ellipse.Animates, backRepo.BackRepoAnimate.Map_AnimateDBID_AnimatePtr[uint(_Animateid)])
 	}
-
-	// sort the array according to the order
-	sort.Slice(ellipse.Animates, func(i, j int) bool {
-		animateDB_i_ID := backRepo.BackRepoAnimate.Map_AnimatePtr_AnimateDBID[ellipse.Animates[i]]
-		animateDB_j_ID := backRepo.BackRepoAnimate.Map_AnimatePtr_AnimateDBID[ellipse.Animates[j]]
-
-		animateDB_i := backRepo.BackRepoAnimate.Map_AnimateDBID_AnimateDB[animateDB_i_ID]
-		animateDB_j := backRepo.BackRepoAnimate.Map_AnimateDBID_AnimateDB[animateDB_j_ID]
-
-		return animateDB_i.Ellipse_AnimatesDBID_Index.Int64 < animateDB_j.Ellipse_AnimatesDBID_Index.Int64
-	})
 
 	return
 }
@@ -809,12 +763,6 @@ func (backRepoEllipse *BackRepoEllipseStruct) RestorePhaseTwo() {
 		_ = ellipseDB
 
 		// insertion point for reindexing pointers encoding
-		// This reindex ellipse.Ellipses
-		if ellipseDB.Layer_EllipsesDBID.Int64 != 0 {
-			ellipseDB.Layer_EllipsesDBID.Int64 =
-				int64(BackRepoLayerid_atBckpTime_newID[uint(ellipseDB.Layer_EllipsesDBID.Int64)])
-		}
-
 		// update databse with new index encoding
 		query := backRepoEllipse.db.Model(ellipseDB).Updates(*ellipseDB)
 		if query.Error != nil {
@@ -842,15 +790,6 @@ func (backRepoEllipse *BackRepoEllipseStruct) ResetReversePointersInstance(backR
 		_ = ellipseDB // to avoid unused variable error if there are no reverse to reset
 
 		// insertion point for reverse pointers reset
-		if ellipseDB.Layer_EllipsesDBID.Int64 != 0 {
-			ellipseDB.Layer_EllipsesDBID.Int64 = 0
-			ellipseDB.Layer_EllipsesDBID.Valid = true
-
-			// save the reset
-			if q := backRepoEllipse.db.Save(ellipseDB); q.Error != nil {
-				return q.Error
-			}
-		}
 		// end of insertion point for reverse pointers reset
 	}
 

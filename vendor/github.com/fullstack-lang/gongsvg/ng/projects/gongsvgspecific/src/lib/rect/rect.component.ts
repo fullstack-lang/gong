@@ -57,6 +57,7 @@ export class RectComponent implements OnInit, OnDestroy, DoCheck, OnChanges {
     private svgEventService: SvgEventService,
     private isEditableService: IsEditableService,
     private refreshService: RefreshService,
+    private gongsvgFrontRepoService: gongsvg.FrontRepoService,
   ) {
 
     this.subscriptions.push(
@@ -126,7 +127,7 @@ export class RectComponent implements OnInit, OnDestroy, DoCheck, OnChanges {
             if (this.anchorDragging || this.rectDragging || this.Rect.IsSelected) {
               this.Rect.IsSelected = false
               this.manageHandles()
-              this.rectService.updateRect(this.Rect, this.GONG__StackPath).subscribe(
+              this.rectService.updateRect(this.Rect, this.GONG__StackPath, this.gongsvgFrontRepoService.frontRepo).subscribe(
                 _ => {
                   this.refreshService.emitRefreshRequestEvent(0)
                 }
@@ -141,7 +142,7 @@ export class RectComponent implements OnInit, OnDestroy, DoCheck, OnChanges {
               console.log("rect, mouseEventService.mouseMouseUpEvent$.subscribe, from the shape: ", this.Rect?.Name)
               this.Rect.IsSelected = !this.Rect.IsSelected
               this.manageHandles()
-              this.rectService.updateRect(this.Rect, this.GONG__StackPath).subscribe(
+              this.rectService.updateRect(this.Rect, this.GONG__StackPath, this.gongsvgFrontRepoService.frontRepo).subscribe(
                 _ => {
                   this.refreshService.emitRefreshRequestEvent(0)
                 }
@@ -153,7 +154,7 @@ export class RectComponent implements OnInit, OnDestroy, DoCheck, OnChanges {
               console.log("rect, mouseEventService.mouseMouseUpEvent$.subscribe: from the svg", this.Rect?.Name)
               this.Rect.IsSelected = false
               this.manageHandles()
-              this.rectService.updateRect(this.Rect, this.GONG__StackPath).subscribe(
+              this.rectService.updateRect(this.Rect, this.GONG__StackPath, this.gongsvgFrontRepoService.frontRepo).subscribe(
                 _ => {
                   this.refreshService.emitRefreshRequestEvent(0)
                 }
@@ -187,7 +188,7 @@ export class RectComponent implements OnInit, OnDestroy, DoCheck, OnChanges {
               ) {
                 this.Rect.IsSelected = true
                 this.manageHandles()
-                this.rectService.updateRect(this.Rect, this.GONG__StackPath).subscribe(
+                this.rectService.updateRect(this.Rect, this.GONG__StackPath, this.gongsvgFrontRepoService.frontRepo).subscribe(
                   _ => {
                     this.refreshService.emitRefreshRequestEvent(0)
                   }
@@ -205,7 +206,7 @@ export class RectComponent implements OnInit, OnDestroy, DoCheck, OnChanges {
               ) {
                 this.Rect.IsSelected = true
                 this.manageHandles()
-                this.rectService.updateRect(this.Rect, this.GONG__StackPath).subscribe(
+                this.rectService.updateRect(this.Rect, this.GONG__StackPath, this.gongsvgFrontRepoService.frontRepo).subscribe(
                   _ => {
                     this.refreshService.emitRefreshRequestEvent(0)
                   }
@@ -360,7 +361,7 @@ export class RectComponent implements OnInit, OnDestroy, DoCheck, OnChanges {
       this.activeAnchor = null;
       this.Rect!.IsSelected = false
       this.manageHandles()
-      this.rectService.updateRect(this.Rect, this.GONG__StackPath).subscribe(
+      this.rectService.updateRect(this.Rect, this.GONG__StackPath, this.gongsvgFrontRepoService.frontRepo).subscribe(
         _ => {
           this.refreshService.emitRefreshRequestEvent(0)
         }

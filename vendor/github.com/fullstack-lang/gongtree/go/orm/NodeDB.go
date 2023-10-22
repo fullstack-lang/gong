@@ -51,22 +51,6 @@ type NodePointersEncoding struct {
 
 	// field Buttons is a slice of pointers to another Struct (optional or 0..1)
 	Buttons IntSlice `gorm:"type:TEXT"`
-
-	// Implementation of a reverse ID for field Node{}.Children []*Node
-	// (to be removed)
-	Node_ChildrenDBID sql.NullInt64
-
-	// implementation of the index of the withing the slice
-	// (to be removed)
-	Node_ChildrenDBID_Index sql.NullInt64
-
-	// Implementation of a reverse ID for field Tree{}.RootNodes []*Node
-	// (to be removed)
-	Tree_RootNodesDBID sql.NullInt64
-
-	// implementation of the index of the withing the slice
-	// (to be removed)
-	Tree_RootNodesDBID_Index sql.NullInt64
 }
 
 // NodeDB describes a node in the database
@@ -278,26 +262,6 @@ func (backRepoNode *BackRepoNodeStruct) CommitPhaseTwoInstance(backRepo *BackRep
 		nodeDB.CopyBasicFieldsFromNode(node)
 
 		// insertion point for translating pointers encodings into actual pointers
-		// This loop encodes the slice of pointers node.Children into the back repo.
-		// Each back repo instance at the end of the association encode the ID of the association start
-		// into a dedicated field for coding the association. The back repo instance is then saved to the db
-		for idx, nodeAssocEnd := range node.Children {
-
-			// get the back repo instance at the association end
-			nodeAssocEnd_DB :=
-				backRepo.BackRepoNode.GetNodeDBFromNodePtr(nodeAssocEnd)
-
-			// encode reverse pointer in the association end back repo instance
-			// (to be removed)
-			nodeAssocEnd_DB.Node_ChildrenDBID.Int64 = int64(nodeDB.ID)
-			nodeAssocEnd_DB.Node_ChildrenDBID.Valid = true
-			nodeAssocEnd_DB.Node_ChildrenDBID_Index.Int64 = int64(idx)
-			nodeAssocEnd_DB.Node_ChildrenDBID_Index.Valid = true
-			if q := backRepoNode.db.Save(nodeAssocEnd_DB); q.Error != nil {
-				return q.Error
-			}
-		}
-
 		// 1. reset
 		nodeDB.NodePointersEncoding.Children = make([]int, 0)
 		// 2. encode
@@ -306,26 +270,6 @@ func (backRepoNode *BackRepoNodeStruct) CommitPhaseTwoInstance(backRepo *BackRep
 				backRepo.BackRepoNode.GetNodeDBFromNodePtr(nodeAssocEnd)
 			nodeDB.NodePointersEncoding.Children =
 				append(nodeDB.NodePointersEncoding.Children, int(nodeAssocEnd_DB.ID))
-		}
-
-		// This loop encodes the slice of pointers node.Buttons into the back repo.
-		// Each back repo instance at the end of the association encode the ID of the association start
-		// into a dedicated field for coding the association. The back repo instance is then saved to the db
-		for idx, buttonAssocEnd := range node.Buttons {
-
-			// get the back repo instance at the association end
-			buttonAssocEnd_DB :=
-				backRepo.BackRepoButton.GetButtonDBFromButtonPtr(buttonAssocEnd)
-
-			// encode reverse pointer in the association end back repo instance
-			// (to be removed)
-			buttonAssocEnd_DB.Node_ButtonsDBID.Int64 = int64(nodeDB.ID)
-			buttonAssocEnd_DB.Node_ButtonsDBID.Valid = true
-			buttonAssocEnd_DB.Node_ButtonsDBID_Index.Int64 = int64(idx)
-			buttonAssocEnd_DB.Node_ButtonsDBID_Index.Valid = true
-			if q := backRepoNode.db.Save(buttonAssocEnd_DB); q.Error != nil {
-				return q.Error
-			}
 		}
 
 		// 1. reset
@@ -450,54 +394,18 @@ func (backRepoNode *BackRepoNodeStruct) CheckoutPhaseTwoInstance(backRepo *BackR
 	// it appends the stage instance
 	// 1. reset the slice
 	node.Children = node.Children[:0]
-	// 2. loop all instances in the type in the association end
-	for _, nodeDB_AssocEnd := range backRepo.BackRepoNode.Map_NodeDBID_NodeDB {
-		// 3. Does the ID encoding at the end and the ID at the start matches ?
-		if nodeDB_AssocEnd.Node_ChildrenDBID.Int64 == int64(nodeDB.ID) {
-			// 4. fetch the associated instance in the stage
-			node_AssocEnd := backRepo.BackRepoNode.Map_NodeDBID_NodePtr[nodeDB_AssocEnd.ID]
-			// 5. append it the association slice
-			node.Children = append(node.Children, node_AssocEnd)
-		}
+	for _, _Nodeid := range nodeDB.NodePointersEncoding.Children {
+		node.Children = append(node.Children, backRepo.BackRepoNode.Map_NodeDBID_NodePtr[uint(_Nodeid)])
 	}
-
-	// sort the array according to the order
-	sort.Slice(node.Children, func(i, j int) bool {
-		nodeDB_i_ID := backRepo.BackRepoNode.Map_NodePtr_NodeDBID[node.Children[i]]
-		nodeDB_j_ID := backRepo.BackRepoNode.Map_NodePtr_NodeDBID[node.Children[j]]
-
-		nodeDB_i := backRepo.BackRepoNode.Map_NodeDBID_NodeDB[nodeDB_i_ID]
-		nodeDB_j := backRepo.BackRepoNode.Map_NodeDBID_NodeDB[nodeDB_j_ID]
-
-		return nodeDB_i.Node_ChildrenDBID_Index.Int64 < nodeDB_j.Node_ChildrenDBID_Index.Int64
-	})
 
 	// This loop redeem node.Buttons in the stage from the encode in the back repo
 	// It parses all ButtonDB in the back repo and if the reverse pointer encoding matches the back repo ID
 	// it appends the stage instance
 	// 1. reset the slice
 	node.Buttons = node.Buttons[:0]
-	// 2. loop all instances in the type in the association end
-	for _, buttonDB_AssocEnd := range backRepo.BackRepoButton.Map_ButtonDBID_ButtonDB {
-		// 3. Does the ID encoding at the end and the ID at the start matches ?
-		if buttonDB_AssocEnd.Node_ButtonsDBID.Int64 == int64(nodeDB.ID) {
-			// 4. fetch the associated instance in the stage
-			button_AssocEnd := backRepo.BackRepoButton.Map_ButtonDBID_ButtonPtr[buttonDB_AssocEnd.ID]
-			// 5. append it the association slice
-			node.Buttons = append(node.Buttons, button_AssocEnd)
-		}
+	for _, _Buttonid := range nodeDB.NodePointersEncoding.Buttons {
+		node.Buttons = append(node.Buttons, backRepo.BackRepoButton.Map_ButtonDBID_ButtonPtr[uint(_Buttonid)])
 	}
-
-	// sort the array according to the order
-	sort.Slice(node.Buttons, func(i, j int) bool {
-		buttonDB_i_ID := backRepo.BackRepoButton.Map_ButtonPtr_ButtonDBID[node.Buttons[i]]
-		buttonDB_j_ID := backRepo.BackRepoButton.Map_ButtonPtr_ButtonDBID[node.Buttons[j]]
-
-		buttonDB_i := backRepo.BackRepoButton.Map_ButtonDBID_ButtonDB[buttonDB_i_ID]
-		buttonDB_j := backRepo.BackRepoButton.Map_ButtonDBID_ButtonDB[buttonDB_j_ID]
-
-		return buttonDB_i.Node_ButtonsDBID_Index.Int64 < buttonDB_j.Node_ButtonsDBID_Index.Int64
-	})
 
 	return
 }
@@ -811,18 +719,6 @@ func (backRepoNode *BackRepoNodeStruct) RestorePhaseTwo() {
 		_ = nodeDB
 
 		// insertion point for reindexing pointers encoding
-		// This reindex node.Children
-		if nodeDB.Node_ChildrenDBID.Int64 != 0 {
-			nodeDB.Node_ChildrenDBID.Int64 =
-				int64(BackRepoNodeid_atBckpTime_newID[uint(nodeDB.Node_ChildrenDBID.Int64)])
-		}
-
-		// This reindex node.RootNodes
-		if nodeDB.Tree_RootNodesDBID.Int64 != 0 {
-			nodeDB.Tree_RootNodesDBID.Int64 =
-				int64(BackRepoTreeid_atBckpTime_newID[uint(nodeDB.Tree_RootNodesDBID.Int64)])
-		}
-
 		// update databse with new index encoding
 		query := backRepoNode.db.Model(nodeDB).Updates(*nodeDB)
 		if query.Error != nil {
@@ -850,24 +746,6 @@ func (backRepoNode *BackRepoNodeStruct) ResetReversePointersInstance(backRepo *B
 		_ = nodeDB // to avoid unused variable error if there are no reverse to reset
 
 		// insertion point for reverse pointers reset
-		if nodeDB.Node_ChildrenDBID.Int64 != 0 {
-			nodeDB.Node_ChildrenDBID.Int64 = 0
-			nodeDB.Node_ChildrenDBID.Valid = true
-
-			// save the reset
-			if q := backRepoNode.db.Save(nodeDB); q.Error != nil {
-				return q.Error
-			}
-		}
-		if nodeDB.Tree_RootNodesDBID.Int64 != 0 {
-			nodeDB.Tree_RootNodesDBID.Int64 = 0
-			nodeDB.Tree_RootNodesDBID.Valid = true
-
-			// save the reset
-			if q := backRepoNode.db.Save(nodeDB); q.Error != nil {
-				return q.Error
-			}
-		}
 		// end of insertion point for reverse pointers reset
 	}
 

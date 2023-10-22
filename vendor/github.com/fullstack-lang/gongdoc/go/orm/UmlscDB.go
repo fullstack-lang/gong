@@ -48,14 +48,6 @@ type UmlscPointersEncoding struct {
 
 	// field States is a slice of pointers to another Struct (optional or 0..1)
 	States IntSlice `gorm:"type:TEXT"`
-
-	// Implementation of a reverse ID for field DiagramPackage{}.Umlscs []*Umlsc
-	// (to be removed)
-	DiagramPackage_UmlscsDBID sql.NullInt64
-
-	// implementation of the index of the withing the slice
-	// (to be removed)
-	DiagramPackage_UmlscsDBID_Index sql.NullInt64
 }
 
 // UmlscDB describes a umlsc in the database
@@ -232,26 +224,6 @@ func (backRepoUmlsc *BackRepoUmlscStruct) CommitPhaseTwoInstance(backRepo *BackR
 		umlscDB.CopyBasicFieldsFromUmlsc(umlsc)
 
 		// insertion point for translating pointers encodings into actual pointers
-		// This loop encodes the slice of pointers umlsc.States into the back repo.
-		// Each back repo instance at the end of the association encode the ID of the association start
-		// into a dedicated field for coding the association. The back repo instance is then saved to the db
-		for idx, umlstateAssocEnd := range umlsc.States {
-
-			// get the back repo instance at the association end
-			umlstateAssocEnd_DB :=
-				backRepo.BackRepoUmlState.GetUmlStateDBFromUmlStatePtr(umlstateAssocEnd)
-
-			// encode reverse pointer in the association end back repo instance
-			// (to be removed)
-			umlstateAssocEnd_DB.Umlsc_StatesDBID.Int64 = int64(umlscDB.ID)
-			umlstateAssocEnd_DB.Umlsc_StatesDBID.Valid = true
-			umlstateAssocEnd_DB.Umlsc_StatesDBID_Index.Int64 = int64(idx)
-			umlstateAssocEnd_DB.Umlsc_StatesDBID_Index.Valid = true
-			if q := backRepoUmlsc.db.Save(umlstateAssocEnd_DB); q.Error != nil {
-				return q.Error
-			}
-		}
-
 		// 1. reset
 		umlscDB.UmlscPointersEncoding.States = make([]int, 0)
 		// 2. encode
@@ -374,27 +346,9 @@ func (backRepoUmlsc *BackRepoUmlscStruct) CheckoutPhaseTwoInstance(backRepo *Bac
 	// it appends the stage instance
 	// 1. reset the slice
 	umlsc.States = umlsc.States[:0]
-	// 2. loop all instances in the type in the association end
-	for _, umlstateDB_AssocEnd := range backRepo.BackRepoUmlState.Map_UmlStateDBID_UmlStateDB {
-		// 3. Does the ID encoding at the end and the ID at the start matches ?
-		if umlstateDB_AssocEnd.Umlsc_StatesDBID.Int64 == int64(umlscDB.ID) {
-			// 4. fetch the associated instance in the stage
-			umlstate_AssocEnd := backRepo.BackRepoUmlState.Map_UmlStateDBID_UmlStatePtr[umlstateDB_AssocEnd.ID]
-			// 5. append it the association slice
-			umlsc.States = append(umlsc.States, umlstate_AssocEnd)
-		}
+	for _, _UmlStateid := range umlscDB.UmlscPointersEncoding.States {
+		umlsc.States = append(umlsc.States, backRepo.BackRepoUmlState.Map_UmlStateDBID_UmlStatePtr[uint(_UmlStateid)])
 	}
-
-	// sort the array according to the order
-	sort.Slice(umlsc.States, func(i, j int) bool {
-		umlstateDB_i_ID := backRepo.BackRepoUmlState.Map_UmlStatePtr_UmlStateDBID[umlsc.States[i]]
-		umlstateDB_j_ID := backRepo.BackRepoUmlState.Map_UmlStatePtr_UmlStateDBID[umlsc.States[j]]
-
-		umlstateDB_i := backRepo.BackRepoUmlState.Map_UmlStateDBID_UmlStateDB[umlstateDB_i_ID]
-		umlstateDB_j := backRepo.BackRepoUmlState.Map_UmlStateDBID_UmlStateDB[umlstateDB_j_ID]
-
-		return umlstateDB_i.Umlsc_StatesDBID_Index.Int64 < umlstateDB_j.Umlsc_StatesDBID_Index.Int64
-	})
 
 	return
 }
@@ -648,12 +602,6 @@ func (backRepoUmlsc *BackRepoUmlscStruct) RestorePhaseTwo() {
 		_ = umlscDB
 
 		// insertion point for reindexing pointers encoding
-		// This reindex umlsc.Umlscs
-		if umlscDB.DiagramPackage_UmlscsDBID.Int64 != 0 {
-			umlscDB.DiagramPackage_UmlscsDBID.Int64 =
-				int64(BackRepoDiagramPackageid_atBckpTime_newID[uint(umlscDB.DiagramPackage_UmlscsDBID.Int64)])
-		}
-
 		// update databse with new index encoding
 		query := backRepoUmlsc.db.Model(umlscDB).Updates(*umlscDB)
 		if query.Error != nil {
@@ -681,15 +629,6 @@ func (backRepoUmlsc *BackRepoUmlscStruct) ResetReversePointersInstance(backRepo 
 		_ = umlscDB // to avoid unused variable error if there are no reverse to reset
 
 		// insertion point for reverse pointers reset
-		if umlscDB.DiagramPackage_UmlscsDBID.Int64 != 0 {
-			umlscDB.DiagramPackage_UmlscsDBID.Int64 = 0
-			umlscDB.DiagramPackage_UmlscsDBID.Valid = true
-
-			// save the reset
-			if q := backRepoUmlsc.db.Save(umlscDB); q.Error != nil {
-				return q.Error
-			}
-		}
 		// end of insertion point for reverse pointers reset
 	}
 

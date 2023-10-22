@@ -1,6 +1,5 @@
 // insertion point for imports
 import { CellDB } from './cell-db'
-import { TableDB } from './table-db'
 
 // usefull for managing pointer ID values that can be nullable
 import { NullInt64 } from './null-int64'
@@ -26,9 +25,4 @@ export class RowDB {
 export class RowPointersEncoding {
 	// insertion point for pointers and slices of pointers encoding fields
 	Cells: number[] = []
-	// reverse pointers encoding (to be removed)
-	Table_RowsDBID: NullInt64 = new NullInt64
-	Table_RowsDBID_Index: NullInt64  = new NullInt64 // store the index of the row instance in Table.Rows
-	Table_Rows_reverse?: TableDB 
-
 }
