@@ -27,19 +27,15 @@ func GetReverseFieldOwnerName[T models.Gongstruct](
 		case "Circle":
 			switch reverseField.Fieldname {
 			case "Animations":
-				if tmp != nil && tmp.Circle_AnimationsDBID.Int64 != 0 {
-					id := uint(tmp.Circle_AnimationsDBID.Int64)
-					reservePointerTarget := backRepo.BackRepoCircle.Map_CircleDBID_CirclePtr[id]
-					res = reservePointerTarget.Name
+				if _circle, ok := stage.Circle_Animations_reverseMap[inst]; ok {
+					res = _circle.Name
 				}
 			}
 		case "Ellipse":
 			switch reverseField.Fieldname {
 			case "Animates":
-				if tmp != nil && tmp.Ellipse_AnimatesDBID.Int64 != 0 {
-					id := uint(tmp.Ellipse_AnimatesDBID.Int64)
-					reservePointerTarget := backRepo.BackRepoEllipse.Map_EllipseDBID_EllipsePtr[id]
-					res = reservePointerTarget.Name
+				if _ellipse, ok := stage.Ellipse_Animates_reverseMap[inst]; ok {
+					res = _ellipse.Name
 				}
 			}
 		case "Layer":
@@ -48,10 +44,8 @@ func GetReverseFieldOwnerName[T models.Gongstruct](
 		case "Line":
 			switch reverseField.Fieldname {
 			case "Animates":
-				if tmp != nil && tmp.Line_AnimatesDBID.Int64 != 0 {
-					id := uint(tmp.Line_AnimatesDBID.Int64)
-					reservePointerTarget := backRepo.BackRepoLine.Map_LineDBID_LinePtr[id]
-					res = reservePointerTarget.Name
+				if _line, ok := stage.Line_Animates_reverseMap[inst]; ok {
+					res = _line.Name
 				}
 			}
 		case "Link":
@@ -60,19 +54,15 @@ func GetReverseFieldOwnerName[T models.Gongstruct](
 		case "LinkAnchoredText":
 			switch reverseField.Fieldname {
 			case "Animates":
-				if tmp != nil && tmp.LinkAnchoredText_AnimatesDBID.Int64 != 0 {
-					id := uint(tmp.LinkAnchoredText_AnimatesDBID.Int64)
-					reservePointerTarget := backRepo.BackRepoLinkAnchoredText.Map_LinkAnchoredTextDBID_LinkAnchoredTextPtr[id]
-					res = reservePointerTarget.Name
+				if _linkanchoredtext, ok := stage.LinkAnchoredText_Animates_reverseMap[inst]; ok {
+					res = _linkanchoredtext.Name
 				}
 			}
 		case "Path":
 			switch reverseField.Fieldname {
 			case "Animates":
-				if tmp != nil && tmp.Path_AnimatesDBID.Int64 != 0 {
-					id := uint(tmp.Path_AnimatesDBID.Int64)
-					reservePointerTarget := backRepo.BackRepoPath.Map_PathDBID_PathPtr[id]
-					res = reservePointerTarget.Name
+				if _path, ok := stage.Path_Animates_reverseMap[inst]; ok {
+					res = _path.Name
 				}
 			}
 		case "Point":
@@ -81,28 +71,22 @@ func GetReverseFieldOwnerName[T models.Gongstruct](
 		case "Polygone":
 			switch reverseField.Fieldname {
 			case "Animates":
-				if tmp != nil && tmp.Polygone_AnimatesDBID.Int64 != 0 {
-					id := uint(tmp.Polygone_AnimatesDBID.Int64)
-					reservePointerTarget := backRepo.BackRepoPolygone.Map_PolygoneDBID_PolygonePtr[id]
-					res = reservePointerTarget.Name
+				if _polygone, ok := stage.Polygone_Animates_reverseMap[inst]; ok {
+					res = _polygone.Name
 				}
 			}
 		case "Polyline":
 			switch reverseField.Fieldname {
 			case "Animates":
-				if tmp != nil && tmp.Polyline_AnimatesDBID.Int64 != 0 {
-					id := uint(tmp.Polyline_AnimatesDBID.Int64)
-					reservePointerTarget := backRepo.BackRepoPolyline.Map_PolylineDBID_PolylinePtr[id]
-					res = reservePointerTarget.Name
+				if _polyline, ok := stage.Polyline_Animates_reverseMap[inst]; ok {
+					res = _polyline.Name
 				}
 			}
 		case "Rect":
 			switch reverseField.Fieldname {
 			case "Animations":
-				if tmp != nil && tmp.Rect_AnimationsDBID.Int64 != 0 {
-					id := uint(tmp.Rect_AnimationsDBID.Int64)
-					reservePointerTarget := backRepo.BackRepoRect.Map_RectDBID_RectPtr[id]
-					res = reservePointerTarget.Name
+				if _rect, ok := stage.Rect_Animations_reverseMap[inst]; ok {
+					res = _rect.Name
 				}
 			}
 		case "RectAnchoredRect":
@@ -111,10 +95,8 @@ func GetReverseFieldOwnerName[T models.Gongstruct](
 		case "RectAnchoredText":
 			switch reverseField.Fieldname {
 			case "Animates":
-				if tmp != nil && tmp.RectAnchoredText_AnimatesDBID.Int64 != 0 {
-					id := uint(tmp.RectAnchoredText_AnimatesDBID.Int64)
-					reservePointerTarget := backRepo.BackRepoRectAnchoredText.Map_RectAnchoredTextDBID_RectAnchoredTextPtr[id]
-					res = reservePointerTarget.Name
+				if _rectanchoredtext, ok := stage.RectAnchoredText_Animates_reverseMap[inst]; ok {
+					res = _rectanchoredtext.Name
 				}
 			}
 		case "RectLinkLink":
@@ -126,10 +108,8 @@ func GetReverseFieldOwnerName[T models.Gongstruct](
 		case "Text":
 			switch reverseField.Fieldname {
 			case "Animates":
-				if tmp != nil && tmp.Text_AnimatesDBID.Int64 != 0 {
-					id := uint(tmp.Text_AnimatesDBID.Int64)
-					reservePointerTarget := backRepo.BackRepoText.Map_TextDBID_TextPtr[id]
-					res = reservePointerTarget.Name
+				if _text, ok := stage.Text_Animates_reverseMap[inst]; ok {
+					res = _text.Name
 				}
 			}
 		}
@@ -153,10 +133,8 @@ func GetReverseFieldOwnerName[T models.Gongstruct](
 		case "Layer":
 			switch reverseField.Fieldname {
 			case "Circles":
-				if tmp != nil && tmp.Layer_CirclesDBID.Int64 != 0 {
-					id := uint(tmp.Layer_CirclesDBID.Int64)
-					reservePointerTarget := backRepo.BackRepoLayer.Map_LayerDBID_LayerPtr[id]
-					res = reservePointerTarget.Name
+				if _layer, ok := stage.Layer_Circles_reverseMap[inst]; ok {
+					res = _layer.Name
 				}
 			}
 		case "Line":
@@ -219,10 +197,8 @@ func GetReverseFieldOwnerName[T models.Gongstruct](
 		case "Layer":
 			switch reverseField.Fieldname {
 			case "Ellipses":
-				if tmp != nil && tmp.Layer_EllipsesDBID.Int64 != 0 {
-					id := uint(tmp.Layer_EllipsesDBID.Int64)
-					reservePointerTarget := backRepo.BackRepoLayer.Map_LayerDBID_LayerPtr[id]
-					res = reservePointerTarget.Name
+				if _layer, ok := stage.Layer_Ellipses_reverseMap[inst]; ok {
+					res = _layer.Name
 				}
 			}
 		case "Line":
@@ -321,10 +297,8 @@ func GetReverseFieldOwnerName[T models.Gongstruct](
 		case "SVG":
 			switch reverseField.Fieldname {
 			case "Layers":
-				if tmp != nil && tmp.SVG_LayersDBID.Int64 != 0 {
-					id := uint(tmp.SVG_LayersDBID.Int64)
-					reservePointerTarget := backRepo.BackRepoSVG.Map_SVGDBID_SVGPtr[id]
-					res = reservePointerTarget.Name
+				if _svg, ok := stage.SVG_Layers_reverseMap[inst]; ok {
+					res = _svg.Name
 				}
 			}
 		case "Text":
@@ -351,10 +325,8 @@ func GetReverseFieldOwnerName[T models.Gongstruct](
 		case "Layer":
 			switch reverseField.Fieldname {
 			case "Lines":
-				if tmp != nil && tmp.Layer_LinesDBID.Int64 != 0 {
-					id := uint(tmp.Layer_LinesDBID.Int64)
-					reservePointerTarget := backRepo.BackRepoLayer.Map_LayerDBID_LayerPtr[id]
-					res = reservePointerTarget.Name
+				if _layer, ok := stage.Layer_Lines_reverseMap[inst]; ok {
+					res = _layer.Name
 				}
 			}
 		case "Line":
@@ -417,10 +389,8 @@ func GetReverseFieldOwnerName[T models.Gongstruct](
 		case "Layer":
 			switch reverseField.Fieldname {
 			case "Links":
-				if tmp != nil && tmp.Layer_LinksDBID.Int64 != 0 {
-					id := uint(tmp.Layer_LinksDBID.Int64)
-					reservePointerTarget := backRepo.BackRepoLayer.Map_LayerDBID_LayerPtr[id]
-					res = reservePointerTarget.Name
+				if _layer, ok := stage.Layer_Links_reverseMap[inst]; ok {
+					res = _layer.Name
 				}
 			}
 		case "Line":
@@ -489,16 +459,12 @@ func GetReverseFieldOwnerName[T models.Gongstruct](
 		case "Link":
 			switch reverseField.Fieldname {
 			case "TextAtArrowEnd":
-				if tmp != nil && tmp.Link_TextAtArrowEndDBID.Int64 != 0 {
-					id := uint(tmp.Link_TextAtArrowEndDBID.Int64)
-					reservePointerTarget := backRepo.BackRepoLink.Map_LinkDBID_LinkPtr[id]
-					res = reservePointerTarget.Name
+				if _link, ok := stage.Link_TextAtArrowEnd_reverseMap[inst]; ok {
+					res = _link.Name
 				}
 			case "TextAtArrowStart":
-				if tmp != nil && tmp.Link_TextAtArrowStartDBID.Int64 != 0 {
-					id := uint(tmp.Link_TextAtArrowStartDBID.Int64)
-					reservePointerTarget := backRepo.BackRepoLink.Map_LinkDBID_LinkPtr[id]
-					res = reservePointerTarget.Name
+				if _link, ok := stage.Link_TextAtArrowStart_reverseMap[inst]; ok {
+					res = _link.Name
 				}
 			}
 		case "LinkAnchoredText":
@@ -555,10 +521,8 @@ func GetReverseFieldOwnerName[T models.Gongstruct](
 		case "Layer":
 			switch reverseField.Fieldname {
 			case "Paths":
-				if tmp != nil && tmp.Layer_PathsDBID.Int64 != 0 {
-					id := uint(tmp.Layer_PathsDBID.Int64)
-					reservePointerTarget := backRepo.BackRepoLayer.Map_LayerDBID_LayerPtr[id]
-					res = reservePointerTarget.Name
+				if _layer, ok := stage.Layer_Paths_reverseMap[inst]; ok {
+					res = _layer.Name
 				}
 			}
 		case "Line":
@@ -627,10 +591,8 @@ func GetReverseFieldOwnerName[T models.Gongstruct](
 		case "Link":
 			switch reverseField.Fieldname {
 			case "ControlPoints":
-				if tmp != nil && tmp.Link_ControlPointsDBID.Int64 != 0 {
-					id := uint(tmp.Link_ControlPointsDBID.Int64)
-					reservePointerTarget := backRepo.BackRepoLink.Map_LinkDBID_LinkPtr[id]
-					res = reservePointerTarget.Name
+				if _link, ok := stage.Link_ControlPoints_reverseMap[inst]; ok {
+					res = _link.Name
 				}
 			}
 		case "LinkAnchoredText":
@@ -687,10 +649,8 @@ func GetReverseFieldOwnerName[T models.Gongstruct](
 		case "Layer":
 			switch reverseField.Fieldname {
 			case "Polygones":
-				if tmp != nil && tmp.Layer_PolygonesDBID.Int64 != 0 {
-					id := uint(tmp.Layer_PolygonesDBID.Int64)
-					reservePointerTarget := backRepo.BackRepoLayer.Map_LayerDBID_LayerPtr[id]
-					res = reservePointerTarget.Name
+				if _layer, ok := stage.Layer_Polygones_reverseMap[inst]; ok {
+					res = _layer.Name
 				}
 			}
 		case "Line":
@@ -753,10 +713,8 @@ func GetReverseFieldOwnerName[T models.Gongstruct](
 		case "Layer":
 			switch reverseField.Fieldname {
 			case "Polylines":
-				if tmp != nil && tmp.Layer_PolylinesDBID.Int64 != 0 {
-					id := uint(tmp.Layer_PolylinesDBID.Int64)
-					reservePointerTarget := backRepo.BackRepoLayer.Map_LayerDBID_LayerPtr[id]
-					res = reservePointerTarget.Name
+				if _layer, ok := stage.Layer_Polylines_reverseMap[inst]; ok {
+					res = _layer.Name
 				}
 			}
 		case "Line":
@@ -819,10 +777,8 @@ func GetReverseFieldOwnerName[T models.Gongstruct](
 		case "Layer":
 			switch reverseField.Fieldname {
 			case "Rects":
-				if tmp != nil && tmp.Layer_RectsDBID.Int64 != 0 {
-					id := uint(tmp.Layer_RectsDBID.Int64)
-					reservePointerTarget := backRepo.BackRepoLayer.Map_LayerDBID_LayerPtr[id]
-					res = reservePointerTarget.Name
+				if _layer, ok := stage.Layer_Rects_reverseMap[inst]; ok {
+					res = _layer.Name
 				}
 			}
 		case "Line":
@@ -909,10 +865,8 @@ func GetReverseFieldOwnerName[T models.Gongstruct](
 		case "Rect":
 			switch reverseField.Fieldname {
 			case "RectAnchoredRects":
-				if tmp != nil && tmp.Rect_RectAnchoredRectsDBID.Int64 != 0 {
-					id := uint(tmp.Rect_RectAnchoredRectsDBID.Int64)
-					reservePointerTarget := backRepo.BackRepoRect.Map_RectDBID_RectPtr[id]
-					res = reservePointerTarget.Name
+				if _rect, ok := stage.Rect_RectAnchoredRects_reverseMap[inst]; ok {
+					res = _rect.Name
 				}
 			}
 		case "RectAnchoredRect":
@@ -975,10 +929,8 @@ func GetReverseFieldOwnerName[T models.Gongstruct](
 		case "Rect":
 			switch reverseField.Fieldname {
 			case "RectAnchoredTexts":
-				if tmp != nil && tmp.Rect_RectAnchoredTextsDBID.Int64 != 0 {
-					id := uint(tmp.Rect_RectAnchoredTextsDBID.Int64)
-					reservePointerTarget := backRepo.BackRepoRect.Map_RectDBID_RectPtr[id]
-					res = reservePointerTarget.Name
+				if _rect, ok := stage.Rect_RectAnchoredTexts_reverseMap[inst]; ok {
+					res = _rect.Name
 				}
 			}
 		case "RectAnchoredRect":
@@ -1017,10 +969,8 @@ func GetReverseFieldOwnerName[T models.Gongstruct](
 		case "Layer":
 			switch reverseField.Fieldname {
 			case "RectLinkLinks":
-				if tmp != nil && tmp.Layer_RectLinkLinksDBID.Int64 != 0 {
-					id := uint(tmp.Layer_RectLinkLinksDBID.Int64)
-					reservePointerTarget := backRepo.BackRepoLayer.Map_LayerDBID_LayerPtr[id]
-					res = reservePointerTarget.Name
+				if _layer, ok := stage.Layer_RectLinkLinks_reverseMap[inst]; ok {
+					res = _layer.Name
 				}
 			}
 		case "Line":
@@ -1143,10 +1093,8 @@ func GetReverseFieldOwnerName[T models.Gongstruct](
 		case "Layer":
 			switch reverseField.Fieldname {
 			case "Texts":
-				if tmp != nil && tmp.Layer_TextsDBID.Int64 != 0 {
-					id := uint(tmp.Layer_TextsDBID.Int64)
-					reservePointerTarget := backRepo.BackRepoLayer.Map_LayerDBID_LayerPtr[id]
-					res = reservePointerTarget.Name
+				if _layer, ok := stage.Layer_Texts_reverseMap[inst]; ok {
+					res = _layer.Name
 				}
 			}
 		case "Line":
@@ -1218,20 +1166,12 @@ func GetReverseFieldOwner[T models.Gongstruct](
 		case "Circle":
 			switch reverseField.Fieldname {
 			case "Animations":
-				if tmp != nil && tmp.Circle_AnimationsDBID.Int64 != 0 {
-					id := uint(tmp.Circle_AnimationsDBID.Int64)
-					reservePointerTarget := backRepo.BackRepoCircle.Map_CircleDBID_CirclePtr[id]
-					res = reservePointerTarget
-				}
+				res = stage.Circle_Animations_reverseMap[inst]
 			}
 		case "Ellipse":
 			switch reverseField.Fieldname {
 			case "Animates":
-				if tmp != nil && tmp.Ellipse_AnimatesDBID.Int64 != 0 {
-					id := uint(tmp.Ellipse_AnimatesDBID.Int64)
-					reservePointerTarget := backRepo.BackRepoEllipse.Map_EllipseDBID_EllipsePtr[id]
-					res = reservePointerTarget
-				}
+				res = stage.Ellipse_Animates_reverseMap[inst]
 			}
 		case "Layer":
 			switch reverseField.Fieldname {
@@ -1239,11 +1179,7 @@ func GetReverseFieldOwner[T models.Gongstruct](
 		case "Line":
 			switch reverseField.Fieldname {
 			case "Animates":
-				if tmp != nil && tmp.Line_AnimatesDBID.Int64 != 0 {
-					id := uint(tmp.Line_AnimatesDBID.Int64)
-					reservePointerTarget := backRepo.BackRepoLine.Map_LineDBID_LinePtr[id]
-					res = reservePointerTarget
-				}
+				res = stage.Line_Animates_reverseMap[inst]
 			}
 		case "Link":
 			switch reverseField.Fieldname {
@@ -1251,20 +1187,12 @@ func GetReverseFieldOwner[T models.Gongstruct](
 		case "LinkAnchoredText":
 			switch reverseField.Fieldname {
 			case "Animates":
-				if tmp != nil && tmp.LinkAnchoredText_AnimatesDBID.Int64 != 0 {
-					id := uint(tmp.LinkAnchoredText_AnimatesDBID.Int64)
-					reservePointerTarget := backRepo.BackRepoLinkAnchoredText.Map_LinkAnchoredTextDBID_LinkAnchoredTextPtr[id]
-					res = reservePointerTarget
-				}
+				res = stage.LinkAnchoredText_Animates_reverseMap[inst]
 			}
 		case "Path":
 			switch reverseField.Fieldname {
 			case "Animates":
-				if tmp != nil && tmp.Path_AnimatesDBID.Int64 != 0 {
-					id := uint(tmp.Path_AnimatesDBID.Int64)
-					reservePointerTarget := backRepo.BackRepoPath.Map_PathDBID_PathPtr[id]
-					res = reservePointerTarget
-				}
+				res = stage.Path_Animates_reverseMap[inst]
 			}
 		case "Point":
 			switch reverseField.Fieldname {
@@ -1272,29 +1200,17 @@ func GetReverseFieldOwner[T models.Gongstruct](
 		case "Polygone":
 			switch reverseField.Fieldname {
 			case "Animates":
-				if tmp != nil && tmp.Polygone_AnimatesDBID.Int64 != 0 {
-					id := uint(tmp.Polygone_AnimatesDBID.Int64)
-					reservePointerTarget := backRepo.BackRepoPolygone.Map_PolygoneDBID_PolygonePtr[id]
-					res = reservePointerTarget
-				}
+				res = stage.Polygone_Animates_reverseMap[inst]
 			}
 		case "Polyline":
 			switch reverseField.Fieldname {
 			case "Animates":
-				if tmp != nil && tmp.Polyline_AnimatesDBID.Int64 != 0 {
-					id := uint(tmp.Polyline_AnimatesDBID.Int64)
-					reservePointerTarget := backRepo.BackRepoPolyline.Map_PolylineDBID_PolylinePtr[id]
-					res = reservePointerTarget
-				}
+				res = stage.Polyline_Animates_reverseMap[inst]
 			}
 		case "Rect":
 			switch reverseField.Fieldname {
 			case "Animations":
-				if tmp != nil && tmp.Rect_AnimationsDBID.Int64 != 0 {
-					id := uint(tmp.Rect_AnimationsDBID.Int64)
-					reservePointerTarget := backRepo.BackRepoRect.Map_RectDBID_RectPtr[id]
-					res = reservePointerTarget
-				}
+				res = stage.Rect_Animations_reverseMap[inst]
 			}
 		case "RectAnchoredRect":
 			switch reverseField.Fieldname {
@@ -1302,11 +1218,7 @@ func GetReverseFieldOwner[T models.Gongstruct](
 		case "RectAnchoredText":
 			switch reverseField.Fieldname {
 			case "Animates":
-				if tmp != nil && tmp.RectAnchoredText_AnimatesDBID.Int64 != 0 {
-					id := uint(tmp.RectAnchoredText_AnimatesDBID.Int64)
-					reservePointerTarget := backRepo.BackRepoRectAnchoredText.Map_RectAnchoredTextDBID_RectAnchoredTextPtr[id]
-					res = reservePointerTarget
-				}
+				res = stage.RectAnchoredText_Animates_reverseMap[inst]
 			}
 		case "RectLinkLink":
 			switch reverseField.Fieldname {
@@ -1317,14 +1229,10 @@ func GetReverseFieldOwner[T models.Gongstruct](
 		case "Text":
 			switch reverseField.Fieldname {
 			case "Animates":
-				if tmp != nil && tmp.Text_AnimatesDBID.Int64 != 0 {
-					id := uint(tmp.Text_AnimatesDBID.Int64)
-					reservePointerTarget := backRepo.BackRepoText.Map_TextDBID_TextPtr[id]
-					res = reservePointerTarget
-				}
+				res = stage.Text_Animates_reverseMap[inst]
 			}
 		}
-	
+
 	case *models.Circle:
 		tmp := GetInstanceDBFromInstance[models.Circle, CircleDB](
 			stage, backRepo, inst,
@@ -1344,11 +1252,7 @@ func GetReverseFieldOwner[T models.Gongstruct](
 		case "Layer":
 			switch reverseField.Fieldname {
 			case "Circles":
-				if tmp != nil && tmp.Layer_CirclesDBID.Int64 != 0 {
-					id := uint(tmp.Layer_CirclesDBID.Int64)
-					reservePointerTarget := backRepo.BackRepoLayer.Map_LayerDBID_LayerPtr[id]
-					res = reservePointerTarget
-				}
+				res = stage.Layer_Circles_reverseMap[inst]
 			}
 		case "Line":
 			switch reverseField.Fieldname {
@@ -1390,7 +1294,7 @@ func GetReverseFieldOwner[T models.Gongstruct](
 			switch reverseField.Fieldname {
 			}
 		}
-	
+
 	case *models.Ellipse:
 		tmp := GetInstanceDBFromInstance[models.Ellipse, EllipseDB](
 			stage, backRepo, inst,
@@ -1410,11 +1314,7 @@ func GetReverseFieldOwner[T models.Gongstruct](
 		case "Layer":
 			switch reverseField.Fieldname {
 			case "Ellipses":
-				if tmp != nil && tmp.Layer_EllipsesDBID.Int64 != 0 {
-					id := uint(tmp.Layer_EllipsesDBID.Int64)
-					reservePointerTarget := backRepo.BackRepoLayer.Map_LayerDBID_LayerPtr[id]
-					res = reservePointerTarget
-				}
+				res = stage.Layer_Ellipses_reverseMap[inst]
 			}
 		case "Line":
 			switch reverseField.Fieldname {
@@ -1456,7 +1356,7 @@ func GetReverseFieldOwner[T models.Gongstruct](
 			switch reverseField.Fieldname {
 			}
 		}
-	
+
 	case *models.Layer:
 		tmp := GetInstanceDBFromInstance[models.Layer, LayerDB](
 			stage, backRepo, inst,
@@ -1512,17 +1412,13 @@ func GetReverseFieldOwner[T models.Gongstruct](
 		case "SVG":
 			switch reverseField.Fieldname {
 			case "Layers":
-				if tmp != nil && tmp.SVG_LayersDBID.Int64 != 0 {
-					id := uint(tmp.SVG_LayersDBID.Int64)
-					reservePointerTarget := backRepo.BackRepoSVG.Map_SVGDBID_SVGPtr[id]
-					res = reservePointerTarget
-				}
+				res = stage.SVG_Layers_reverseMap[inst]
 			}
 		case "Text":
 			switch reverseField.Fieldname {
 			}
 		}
-	
+
 	case *models.Line:
 		tmp := GetInstanceDBFromInstance[models.Line, LineDB](
 			stage, backRepo, inst,
@@ -1542,11 +1438,7 @@ func GetReverseFieldOwner[T models.Gongstruct](
 		case "Layer":
 			switch reverseField.Fieldname {
 			case "Lines":
-				if tmp != nil && tmp.Layer_LinesDBID.Int64 != 0 {
-					id := uint(tmp.Layer_LinesDBID.Int64)
-					reservePointerTarget := backRepo.BackRepoLayer.Map_LayerDBID_LayerPtr[id]
-					res = reservePointerTarget
-				}
+				res = stage.Layer_Lines_reverseMap[inst]
 			}
 		case "Line":
 			switch reverseField.Fieldname {
@@ -1588,7 +1480,7 @@ func GetReverseFieldOwner[T models.Gongstruct](
 			switch reverseField.Fieldname {
 			}
 		}
-	
+
 	case *models.Link:
 		tmp := GetInstanceDBFromInstance[models.Link, LinkDB](
 			stage, backRepo, inst,
@@ -1608,11 +1500,7 @@ func GetReverseFieldOwner[T models.Gongstruct](
 		case "Layer":
 			switch reverseField.Fieldname {
 			case "Links":
-				if tmp != nil && tmp.Layer_LinksDBID.Int64 != 0 {
-					id := uint(tmp.Layer_LinksDBID.Int64)
-					reservePointerTarget := backRepo.BackRepoLayer.Map_LayerDBID_LayerPtr[id]
-					res = reservePointerTarget
-				}
+				res = stage.Layer_Links_reverseMap[inst]
 			}
 		case "Line":
 			switch reverseField.Fieldname {
@@ -1654,7 +1542,7 @@ func GetReverseFieldOwner[T models.Gongstruct](
 			switch reverseField.Fieldname {
 			}
 		}
-	
+
 	case *models.LinkAnchoredText:
 		tmp := GetInstanceDBFromInstance[models.LinkAnchoredText, LinkAnchoredTextDB](
 			stage, backRepo, inst,
@@ -1680,17 +1568,9 @@ func GetReverseFieldOwner[T models.Gongstruct](
 		case "Link":
 			switch reverseField.Fieldname {
 			case "TextAtArrowEnd":
-				if tmp != nil && tmp.Link_TextAtArrowEndDBID.Int64 != 0 {
-					id := uint(tmp.Link_TextAtArrowEndDBID.Int64)
-					reservePointerTarget := backRepo.BackRepoLink.Map_LinkDBID_LinkPtr[id]
-					res = reservePointerTarget
-				}
+				res = stage.Link_TextAtArrowEnd_reverseMap[inst]
 			case "TextAtArrowStart":
-				if tmp != nil && tmp.Link_TextAtArrowStartDBID.Int64 != 0 {
-					id := uint(tmp.Link_TextAtArrowStartDBID.Int64)
-					reservePointerTarget := backRepo.BackRepoLink.Map_LinkDBID_LinkPtr[id]
-					res = reservePointerTarget
-				}
+				res = stage.Link_TextAtArrowStart_reverseMap[inst]
 			}
 		case "LinkAnchoredText":
 			switch reverseField.Fieldname {
@@ -1726,7 +1606,7 @@ func GetReverseFieldOwner[T models.Gongstruct](
 			switch reverseField.Fieldname {
 			}
 		}
-	
+
 	case *models.Path:
 		tmp := GetInstanceDBFromInstance[models.Path, PathDB](
 			stage, backRepo, inst,
@@ -1746,11 +1626,7 @@ func GetReverseFieldOwner[T models.Gongstruct](
 		case "Layer":
 			switch reverseField.Fieldname {
 			case "Paths":
-				if tmp != nil && tmp.Layer_PathsDBID.Int64 != 0 {
-					id := uint(tmp.Layer_PathsDBID.Int64)
-					reservePointerTarget := backRepo.BackRepoLayer.Map_LayerDBID_LayerPtr[id]
-					res = reservePointerTarget
-				}
+				res = stage.Layer_Paths_reverseMap[inst]
 			}
 		case "Line":
 			switch reverseField.Fieldname {
@@ -1792,7 +1668,7 @@ func GetReverseFieldOwner[T models.Gongstruct](
 			switch reverseField.Fieldname {
 			}
 		}
-	
+
 	case *models.Point:
 		tmp := GetInstanceDBFromInstance[models.Point, PointDB](
 			stage, backRepo, inst,
@@ -1818,11 +1694,7 @@ func GetReverseFieldOwner[T models.Gongstruct](
 		case "Link":
 			switch reverseField.Fieldname {
 			case "ControlPoints":
-				if tmp != nil && tmp.Link_ControlPointsDBID.Int64 != 0 {
-					id := uint(tmp.Link_ControlPointsDBID.Int64)
-					reservePointerTarget := backRepo.BackRepoLink.Map_LinkDBID_LinkPtr[id]
-					res = reservePointerTarget
-				}
+				res = stage.Link_ControlPoints_reverseMap[inst]
 			}
 		case "LinkAnchoredText":
 			switch reverseField.Fieldname {
@@ -1858,7 +1730,7 @@ func GetReverseFieldOwner[T models.Gongstruct](
 			switch reverseField.Fieldname {
 			}
 		}
-	
+
 	case *models.Polygone:
 		tmp := GetInstanceDBFromInstance[models.Polygone, PolygoneDB](
 			stage, backRepo, inst,
@@ -1878,11 +1750,7 @@ func GetReverseFieldOwner[T models.Gongstruct](
 		case "Layer":
 			switch reverseField.Fieldname {
 			case "Polygones":
-				if tmp != nil && tmp.Layer_PolygonesDBID.Int64 != 0 {
-					id := uint(tmp.Layer_PolygonesDBID.Int64)
-					reservePointerTarget := backRepo.BackRepoLayer.Map_LayerDBID_LayerPtr[id]
-					res = reservePointerTarget
-				}
+				res = stage.Layer_Polygones_reverseMap[inst]
 			}
 		case "Line":
 			switch reverseField.Fieldname {
@@ -1924,7 +1792,7 @@ func GetReverseFieldOwner[T models.Gongstruct](
 			switch reverseField.Fieldname {
 			}
 		}
-	
+
 	case *models.Polyline:
 		tmp := GetInstanceDBFromInstance[models.Polyline, PolylineDB](
 			stage, backRepo, inst,
@@ -1944,11 +1812,7 @@ func GetReverseFieldOwner[T models.Gongstruct](
 		case "Layer":
 			switch reverseField.Fieldname {
 			case "Polylines":
-				if tmp != nil && tmp.Layer_PolylinesDBID.Int64 != 0 {
-					id := uint(tmp.Layer_PolylinesDBID.Int64)
-					reservePointerTarget := backRepo.BackRepoLayer.Map_LayerDBID_LayerPtr[id]
-					res = reservePointerTarget
-				}
+				res = stage.Layer_Polylines_reverseMap[inst]
 			}
 		case "Line":
 			switch reverseField.Fieldname {
@@ -1990,7 +1854,7 @@ func GetReverseFieldOwner[T models.Gongstruct](
 			switch reverseField.Fieldname {
 			}
 		}
-	
+
 	case *models.Rect:
 		tmp := GetInstanceDBFromInstance[models.Rect, RectDB](
 			stage, backRepo, inst,
@@ -2010,11 +1874,7 @@ func GetReverseFieldOwner[T models.Gongstruct](
 		case "Layer":
 			switch reverseField.Fieldname {
 			case "Rects":
-				if tmp != nil && tmp.Layer_RectsDBID.Int64 != 0 {
-					id := uint(tmp.Layer_RectsDBID.Int64)
-					reservePointerTarget := backRepo.BackRepoLayer.Map_LayerDBID_LayerPtr[id]
-					res = reservePointerTarget
-				}
+				res = stage.Layer_Rects_reverseMap[inst]
 			}
 		case "Line":
 			switch reverseField.Fieldname {
@@ -2056,7 +1916,7 @@ func GetReverseFieldOwner[T models.Gongstruct](
 			switch reverseField.Fieldname {
 			}
 		}
-	
+
 	case *models.RectAnchoredRect:
 		tmp := GetInstanceDBFromInstance[models.RectAnchoredRect, RectAnchoredRectDB](
 			stage, backRepo, inst,
@@ -2100,11 +1960,7 @@ func GetReverseFieldOwner[T models.Gongstruct](
 		case "Rect":
 			switch reverseField.Fieldname {
 			case "RectAnchoredRects":
-				if tmp != nil && tmp.Rect_RectAnchoredRectsDBID.Int64 != 0 {
-					id := uint(tmp.Rect_RectAnchoredRectsDBID.Int64)
-					reservePointerTarget := backRepo.BackRepoRect.Map_RectDBID_RectPtr[id]
-					res = reservePointerTarget
-				}
+				res = stage.Rect_RectAnchoredRects_reverseMap[inst]
 			}
 		case "RectAnchoredRect":
 			switch reverseField.Fieldname {
@@ -2122,7 +1978,7 @@ func GetReverseFieldOwner[T models.Gongstruct](
 			switch reverseField.Fieldname {
 			}
 		}
-	
+
 	case *models.RectAnchoredText:
 		tmp := GetInstanceDBFromInstance[models.RectAnchoredText, RectAnchoredTextDB](
 			stage, backRepo, inst,
@@ -2166,11 +2022,7 @@ func GetReverseFieldOwner[T models.Gongstruct](
 		case "Rect":
 			switch reverseField.Fieldname {
 			case "RectAnchoredTexts":
-				if tmp != nil && tmp.Rect_RectAnchoredTextsDBID.Int64 != 0 {
-					id := uint(tmp.Rect_RectAnchoredTextsDBID.Int64)
-					reservePointerTarget := backRepo.BackRepoRect.Map_RectDBID_RectPtr[id]
-					res = reservePointerTarget
-				}
+				res = stage.Rect_RectAnchoredTexts_reverseMap[inst]
 			}
 		case "RectAnchoredRect":
 			switch reverseField.Fieldname {
@@ -2188,7 +2040,7 @@ func GetReverseFieldOwner[T models.Gongstruct](
 			switch reverseField.Fieldname {
 			}
 		}
-	
+
 	case *models.RectLinkLink:
 		tmp := GetInstanceDBFromInstance[models.RectLinkLink, RectLinkLinkDB](
 			stage, backRepo, inst,
@@ -2208,11 +2060,7 @@ func GetReverseFieldOwner[T models.Gongstruct](
 		case "Layer":
 			switch reverseField.Fieldname {
 			case "RectLinkLinks":
-				if tmp != nil && tmp.Layer_RectLinkLinksDBID.Int64 != 0 {
-					id := uint(tmp.Layer_RectLinkLinksDBID.Int64)
-					reservePointerTarget := backRepo.BackRepoLayer.Map_LayerDBID_LayerPtr[id]
-					res = reservePointerTarget
-				}
+				res = stage.Layer_RectLinkLinks_reverseMap[inst]
 			}
 		case "Line":
 			switch reverseField.Fieldname {
@@ -2254,7 +2102,7 @@ func GetReverseFieldOwner[T models.Gongstruct](
 			switch reverseField.Fieldname {
 			}
 		}
-	
+
 	case *models.SVG:
 		tmp := GetInstanceDBFromInstance[models.SVG, SVGDB](
 			stage, backRepo, inst,
@@ -2314,7 +2162,7 @@ func GetReverseFieldOwner[T models.Gongstruct](
 			switch reverseField.Fieldname {
 			}
 		}
-	
+
 	case *models.Text:
 		tmp := GetInstanceDBFromInstance[models.Text, TextDB](
 			stage, backRepo, inst,
@@ -2334,11 +2182,7 @@ func GetReverseFieldOwner[T models.Gongstruct](
 		case "Layer":
 			switch reverseField.Fieldname {
 			case "Texts":
-				if tmp != nil && tmp.Layer_TextsDBID.Int64 != 0 {
-					id := uint(tmp.Layer_TextsDBID.Int64)
-					reservePointerTarget := backRepo.BackRepoLayer.Map_LayerDBID_LayerPtr[id]
-					res = reservePointerTarget
-				}
+				res = stage.Layer_Texts_reverseMap[inst]
 			}
 		case "Line":
 			switch reverseField.Fieldname {
@@ -2380,7 +2224,7 @@ func GetReverseFieldOwner[T models.Gongstruct](
 			switch reverseField.Fieldname {
 			}
 		}
-	
+
 	default:
 		_ = inst
 	}

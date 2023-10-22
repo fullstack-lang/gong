@@ -2,7 +2,6 @@
 import { RectDB } from './rect-db'
 import { LinkAnchoredTextDB } from './linkanchoredtext-db'
 import { PointDB } from './point-db'
-import { LayerDB } from './layer-db'
 
 // usefull for managing pointer ID values that can be nullable
 import { NullInt64 } from './null-int64'
@@ -57,9 +56,4 @@ export class LinkPointersEncoding {
 	TextAtArrowEnd: number[] = []
 	TextAtArrowStart: number[] = []
 	ControlPoints: number[] = []
-	// reverse pointers encoding (to be removed)
-	Layer_LinksDBID: NullInt64 = new NullInt64
-	Layer_LinksDBID_Index: NullInt64  = new NullInt64 // store the index of the link instance in Layer.Links
-	Layer_Links_reverse?: LayerDB 
-
 }

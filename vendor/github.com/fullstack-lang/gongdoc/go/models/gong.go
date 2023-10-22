@@ -48,6 +48,11 @@ type StageStruct struct {
 	Classdiagrams           map[*Classdiagram]any
 	Classdiagrams_mapString map[string]*Classdiagram
 
+	// insertion point for slice of pointers maps
+	Classdiagram_GongStructShapes_reverseMap map[*GongStructShape]*Classdiagram
+	Classdiagram_GongEnumShapes_reverseMap map[*GongEnumShape]*Classdiagram
+	Classdiagram_NoteShapes_reverseMap map[*NoteShape]*Classdiagram
+
 	OnAfterClassdiagramCreateCallback OnAfterCreateInterface[Classdiagram]
 	OnAfterClassdiagramUpdateCallback OnAfterUpdateInterface[Classdiagram]
 	OnAfterClassdiagramDeleteCallback OnAfterDeleteInterface[Classdiagram]
@@ -55,6 +60,10 @@ type StageStruct struct {
 
 	DiagramPackages           map[*DiagramPackage]any
 	DiagramPackages_mapString map[string]*DiagramPackage
+
+	// insertion point for slice of pointers maps
+	DiagramPackage_Classdiagrams_reverseMap map[*Classdiagram]*DiagramPackage
+	DiagramPackage_Umlscs_reverseMap map[*Umlsc]*DiagramPackage
 
 	OnAfterDiagramPackageCreateCallback OnAfterCreateInterface[DiagramPackage]
 	OnAfterDiagramPackageUpdateCallback OnAfterUpdateInterface[DiagramPackage]
@@ -64,6 +73,8 @@ type StageStruct struct {
 	Fields           map[*Field]any
 	Fields_mapString map[string]*Field
 
+	// insertion point for slice of pointers maps
+
 	OnAfterFieldCreateCallback OnAfterCreateInterface[Field]
 	OnAfterFieldUpdateCallback OnAfterUpdateInterface[Field]
 	OnAfterFieldDeleteCallback OnAfterDeleteInterface[Field]
@@ -71,6 +82,9 @@ type StageStruct struct {
 
 	GongEnumShapes           map[*GongEnumShape]any
 	GongEnumShapes_mapString map[string]*GongEnumShape
+
+	// insertion point for slice of pointers maps
+	GongEnumShape_GongEnumValueEntrys_reverseMap map[*GongEnumValueEntry]*GongEnumShape
 
 	OnAfterGongEnumShapeCreateCallback OnAfterCreateInterface[GongEnumShape]
 	OnAfterGongEnumShapeUpdateCallback OnAfterUpdateInterface[GongEnumShape]
@@ -80,6 +94,8 @@ type StageStruct struct {
 	GongEnumValueEntrys           map[*GongEnumValueEntry]any
 	GongEnumValueEntrys_mapString map[string]*GongEnumValueEntry
 
+	// insertion point for slice of pointers maps
+
 	OnAfterGongEnumValueEntryCreateCallback OnAfterCreateInterface[GongEnumValueEntry]
 	OnAfterGongEnumValueEntryUpdateCallback OnAfterUpdateInterface[GongEnumValueEntry]
 	OnAfterGongEnumValueEntryDeleteCallback OnAfterDeleteInterface[GongEnumValueEntry]
@@ -87,6 +103,10 @@ type StageStruct struct {
 
 	GongStructShapes           map[*GongStructShape]any
 	GongStructShapes_mapString map[string]*GongStructShape
+
+	// insertion point for slice of pointers maps
+	GongStructShape_Fields_reverseMap map[*Field]*GongStructShape
+	GongStructShape_Links_reverseMap map[*Link]*GongStructShape
 
 	OnAfterGongStructShapeCreateCallback OnAfterCreateInterface[GongStructShape]
 	OnAfterGongStructShapeUpdateCallback OnAfterUpdateInterface[GongStructShape]
@@ -96,6 +116,8 @@ type StageStruct struct {
 	Links           map[*Link]any
 	Links_mapString map[string]*Link
 
+	// insertion point for slice of pointers maps
+
 	OnAfterLinkCreateCallback OnAfterCreateInterface[Link]
 	OnAfterLinkUpdateCallback OnAfterUpdateInterface[Link]
 	OnAfterLinkDeleteCallback OnAfterDeleteInterface[Link]
@@ -103,6 +125,9 @@ type StageStruct struct {
 
 	NoteShapes           map[*NoteShape]any
 	NoteShapes_mapString map[string]*NoteShape
+
+	// insertion point for slice of pointers maps
+	NoteShape_NoteShapeLinks_reverseMap map[*NoteShapeLink]*NoteShape
 
 	OnAfterNoteShapeCreateCallback OnAfterCreateInterface[NoteShape]
 	OnAfterNoteShapeUpdateCallback OnAfterUpdateInterface[NoteShape]
@@ -112,6 +137,8 @@ type StageStruct struct {
 	NoteShapeLinks           map[*NoteShapeLink]any
 	NoteShapeLinks_mapString map[string]*NoteShapeLink
 
+	// insertion point for slice of pointers maps
+
 	OnAfterNoteShapeLinkCreateCallback OnAfterCreateInterface[NoteShapeLink]
 	OnAfterNoteShapeLinkUpdateCallback OnAfterUpdateInterface[NoteShapeLink]
 	OnAfterNoteShapeLinkDeleteCallback OnAfterDeleteInterface[NoteShapeLink]
@@ -119,6 +146,8 @@ type StageStruct struct {
 
 	Positions           map[*Position]any
 	Positions_mapString map[string]*Position
+
+	// insertion point for slice of pointers maps
 
 	OnAfterPositionCreateCallback OnAfterCreateInterface[Position]
 	OnAfterPositionUpdateCallback OnAfterUpdateInterface[Position]
@@ -128,6 +157,8 @@ type StageStruct struct {
 	UmlStates           map[*UmlState]any
 	UmlStates_mapString map[string]*UmlState
 
+	// insertion point for slice of pointers maps
+
 	OnAfterUmlStateCreateCallback OnAfterCreateInterface[UmlState]
 	OnAfterUmlStateUpdateCallback OnAfterUpdateInterface[UmlState]
 	OnAfterUmlStateDeleteCallback OnAfterDeleteInterface[UmlState]
@@ -136,6 +167,9 @@ type StageStruct struct {
 	Umlscs           map[*Umlsc]any
 	Umlscs_mapString map[string]*Umlsc
 
+	// insertion point for slice of pointers maps
+	Umlsc_States_reverseMap map[*UmlState]*Umlsc
+
 	OnAfterUmlscCreateCallback OnAfterCreateInterface[Umlsc]
 	OnAfterUmlscUpdateCallback OnAfterUpdateInterface[Umlsc]
 	OnAfterUmlscDeleteCallback OnAfterDeleteInterface[Umlsc]
@@ -143,6 +177,8 @@ type StageStruct struct {
 
 	Vertices           map[*Vertice]any
 	Vertices_mapString map[string]*Vertice
+
+	// insertion point for slice of pointers maps
 
 	OnAfterVerticeCreateCallback OnAfterCreateInterface[Vertice]
 	OnAfterVerticeUpdateCallback OnAfterUpdateInterface[Vertice]
@@ -311,6 +347,8 @@ func (stage *StageStruct) CommitWithSuspendedCallbacks() {
 }
 
 func (stage *StageStruct) Commit() {
+	stage.ComputeReverseMaps()
+
 	if stage.BackRepo != nil {
 		stage.BackRepo.Commit(stage)
 	}
@@ -337,6 +375,7 @@ func (stage *StageStruct) Checkout() {
 		stage.BackRepo.Checkout(stage)
 	}
 
+	stage.ComputeReverseMaps()
 	// insertion point for computing the map of number of instances per gongstruct
 	stage.Map_GongStructName_InstancesNb["Classdiagram"] = len(stage.Classdiagrams)
 	stage.Map_GongStructName_InstancesNb["DiagramPackage"] = len(stage.DiagramPackages)

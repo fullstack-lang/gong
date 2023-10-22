@@ -45,14 +45,6 @@ type CheckBoxAPI struct {
 // reverse pointers of slice of poitners to Struct
 type CheckBoxPointersEncoding struct {
 	// insertion for pointer fields encoding declaration
-
-	// Implementation of a reverse ID for field FormDiv{}.CheckBoxs []*CheckBox
-	// (to be removed)
-	FormDiv_CheckBoxsDBID sql.NullInt64
-
-	// implementation of the index of the withing the slice
-	// (to be removed)
-	FormDiv_CheckBoxsDBID_Index sql.NullInt64
 }
 
 // CheckBoxDB describes a checkbox in the database
@@ -570,12 +562,6 @@ func (backRepoCheckBox *BackRepoCheckBoxStruct) RestorePhaseTwo() {
 		_ = checkboxDB
 
 		// insertion point for reindexing pointers encoding
-		// This reindex checkbox.CheckBoxs
-		if checkboxDB.FormDiv_CheckBoxsDBID.Int64 != 0 {
-			checkboxDB.FormDiv_CheckBoxsDBID.Int64 =
-				int64(BackRepoFormDivid_atBckpTime_newID[uint(checkboxDB.FormDiv_CheckBoxsDBID.Int64)])
-		}
-
 		// update databse with new index encoding
 		query := backRepoCheckBox.db.Model(checkboxDB).Updates(*checkboxDB)
 		if query.Error != nil {
@@ -603,15 +589,6 @@ func (backRepoCheckBox *BackRepoCheckBoxStruct) ResetReversePointersInstance(bac
 		_ = checkboxDB // to avoid unused variable error if there are no reverse to reset
 
 		// insertion point for reverse pointers reset
-		if checkboxDB.FormDiv_CheckBoxsDBID.Int64 != 0 {
-			checkboxDB.FormDiv_CheckBoxsDBID.Int64 = 0
-			checkboxDB.FormDiv_CheckBoxsDBID.Valid = true
-
-			// save the reset
-			if q := backRepoCheckBox.db.Save(checkboxDB); q.Error != nil {
-				return q.Error
-			}
-		}
 		// end of insertion point for reverse pointers reset
 	}
 

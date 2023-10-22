@@ -45,14 +45,6 @@ type NoteShapeLinkAPI struct {
 // reverse pointers of slice of poitners to Struct
 type NoteShapeLinkPointersEncoding struct {
 	// insertion for pointer fields encoding declaration
-
-	// Implementation of a reverse ID for field NoteShape{}.NoteShapeLinks []*NoteShapeLink
-	// (to be removed)
-	NoteShape_NoteShapeLinksDBID sql.NullInt64
-
-	// implementation of the index of the withing the slice
-	// (to be removed)
-	NoteShape_NoteShapeLinksDBID_Index sql.NullInt64
 }
 
 // NoteShapeLinkDB describes a noteshapelink in the database
@@ -587,12 +579,6 @@ func (backRepoNoteShapeLink *BackRepoNoteShapeLinkStruct) RestorePhaseTwo() {
 		_ = noteshapelinkDB
 
 		// insertion point for reindexing pointers encoding
-		// This reindex noteshapelink.NoteShapeLinks
-		if noteshapelinkDB.NoteShape_NoteShapeLinksDBID.Int64 != 0 {
-			noteshapelinkDB.NoteShape_NoteShapeLinksDBID.Int64 =
-				int64(BackRepoNoteShapeid_atBckpTime_newID[uint(noteshapelinkDB.NoteShape_NoteShapeLinksDBID.Int64)])
-		}
-
 		// update databse with new index encoding
 		query := backRepoNoteShapeLink.db.Model(noteshapelinkDB).Updates(*noteshapelinkDB)
 		if query.Error != nil {
@@ -620,15 +606,6 @@ func (backRepoNoteShapeLink *BackRepoNoteShapeLinkStruct) ResetReversePointersIn
 		_ = noteshapelinkDB // to avoid unused variable error if there are no reverse to reset
 
 		// insertion point for reverse pointers reset
-		if noteshapelinkDB.NoteShape_NoteShapeLinksDBID.Int64 != 0 {
-			noteshapelinkDB.NoteShape_NoteShapeLinksDBID.Int64 = 0
-			noteshapelinkDB.NoteShape_NoteShapeLinksDBID.Valid = true
-
-			// save the reset
-			if q := backRepoNoteShapeLink.db.Save(noteshapelinkDB); q.Error != nil {
-				return q.Error
-			}
-		}
 		// end of insertion point for reverse pointers reset
 	}
 

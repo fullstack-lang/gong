@@ -27,10 +27,8 @@ func GetReverseFieldOwnerName[T models.Gongstruct](
 		case "Node":
 			switch reverseField.Fieldname {
 			case "Buttons":
-				if tmp != nil && tmp.Node_ButtonsDBID.Int64 != 0 {
-					id := uint(tmp.Node_ButtonsDBID.Int64)
-					reservePointerTarget := backRepo.BackRepoNode.Map_NodeDBID_NodePtr[id]
-					res = reservePointerTarget.Name
+				if _node, ok := stage.Node_Buttons_reverseMap[inst]; ok {
+					res = _node.Name
 				}
 			}
 		case "Tree":
@@ -51,19 +49,15 @@ func GetReverseFieldOwnerName[T models.Gongstruct](
 		case "Node":
 			switch reverseField.Fieldname {
 			case "Children":
-				if tmp != nil && tmp.Node_ChildrenDBID.Int64 != 0 {
-					id := uint(tmp.Node_ChildrenDBID.Int64)
-					reservePointerTarget := backRepo.BackRepoNode.Map_NodeDBID_NodePtr[id]
-					res = reservePointerTarget.Name
+				if _node, ok := stage.Node_Children_reverseMap[inst]; ok {
+					res = _node.Name
 				}
 			}
 		case "Tree":
 			switch reverseField.Fieldname {
 			case "RootNodes":
-				if tmp != nil && tmp.Tree_RootNodesDBID.Int64 != 0 {
-					id := uint(tmp.Tree_RootNodesDBID.Int64)
-					reservePointerTarget := backRepo.BackRepoTree.Map_TreeDBID_TreePtr[id]
-					res = reservePointerTarget.Name
+				if _tree, ok := stage.Tree_RootNodes_reverseMap[inst]; ok {
+					res = _tree.Name
 				}
 			}
 		}
@@ -114,17 +108,13 @@ func GetReverseFieldOwner[T models.Gongstruct](
 		case "Node":
 			switch reverseField.Fieldname {
 			case "Buttons":
-				if tmp != nil && tmp.Node_ButtonsDBID.Int64 != 0 {
-					id := uint(tmp.Node_ButtonsDBID.Int64)
-					reservePointerTarget := backRepo.BackRepoNode.Map_NodeDBID_NodePtr[id]
-					res = reservePointerTarget
-				}
+				res = stage.Node_Buttons_reverseMap[inst]
 			}
 		case "Tree":
 			switch reverseField.Fieldname {
 			}
 		}
-	
+
 	case *models.Node:
 		tmp := GetInstanceDBFromInstance[models.Node, NodeDB](
 			stage, backRepo, inst,
@@ -138,23 +128,15 @@ func GetReverseFieldOwner[T models.Gongstruct](
 		case "Node":
 			switch reverseField.Fieldname {
 			case "Children":
-				if tmp != nil && tmp.Node_ChildrenDBID.Int64 != 0 {
-					id := uint(tmp.Node_ChildrenDBID.Int64)
-					reservePointerTarget := backRepo.BackRepoNode.Map_NodeDBID_NodePtr[id]
-					res = reservePointerTarget
-				}
+				res = stage.Node_Children_reverseMap[inst]
 			}
 		case "Tree":
 			switch reverseField.Fieldname {
 			case "RootNodes":
-				if tmp != nil && tmp.Tree_RootNodesDBID.Int64 != 0 {
-					id := uint(tmp.Tree_RootNodesDBID.Int64)
-					reservePointerTarget := backRepo.BackRepoTree.Map_TreeDBID_TreePtr[id]
-					res = reservePointerTarget
-				}
+				res = stage.Tree_RootNodes_reverseMap[inst]
 			}
 		}
-	
+
 	case *models.Tree:
 		tmp := GetInstanceDBFromInstance[models.Tree, TreeDB](
 			stage, backRepo, inst,
@@ -172,7 +154,7 @@ func GetReverseFieldOwner[T models.Gongstruct](
 			switch reverseField.Fieldname {
 			}
 		}
-	
+
 	default:
 		_ = inst
 	}

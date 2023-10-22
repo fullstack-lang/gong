@@ -4,7 +4,6 @@ import { CellFloat64DB } from './cellfloat64-db'
 import { CellIntDB } from './cellint-db'
 import { CellBooleanDB } from './cellboolean-db'
 import { CellIconDB } from './cellicon-db'
-import { RowDB } from './row-db'
 
 // usefull for managing pointer ID values that can be nullable
 import { NullInt64 } from './null-int64'
@@ -46,10 +45,5 @@ export class CellPointersEncoding {
 	CellBoolID: NullInt64 = new NullInt64 // if pointer is null, CellBool.ID = 0
 
 	CellIconID: NullInt64 = new NullInt64 // if pointer is null, CellIcon.ID = 0
-
-	// reverse pointers encoding (to be removed)
-	Row_CellsDBID: NullInt64 = new NullInt64
-	Row_CellsDBID_Index: NullInt64  = new NullInt64 // store the index of the cell instance in Row.Cells
-	Row_Cells_reverse?: RowDB 
 
 }

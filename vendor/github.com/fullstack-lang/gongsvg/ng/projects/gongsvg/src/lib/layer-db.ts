@@ -9,7 +9,6 @@ import { PolygoneDB } from './polygone-db'
 import { PathDB } from './path-db'
 import { LinkDB } from './link-db'
 import { RectLinkLinkDB } from './rectlinklink-db'
-import { SVGDB } from './svg-db'
 
 // usefull for managing pointer ID values that can be nullable
 import { NullInt64 } from './null-int64'
@@ -53,9 +52,4 @@ export class LayerPointersEncoding {
 	Paths: number[] = []
 	Links: number[] = []
 	RectLinkLinks: number[] = []
-	// reverse pointers encoding (to be removed)
-	SVG_LayersDBID: NullInt64 = new NullInt64
-	SVG_LayersDBID_Index: NullInt64  = new NullInt64 // store the index of the layer instance in SVG.Layers
-	SVG_Layers_reverse?: SVGDB 
-
 }

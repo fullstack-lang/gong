@@ -12,9 +12,12 @@ import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 
 import { RectDB } from './rect-db';
+import { FrontRepo, FrontRepoService } from './front-repo.service';
 
 // insertion point for imports
-import { LayerDB } from './layer-db'
+import { AnimateDB } from './animate-db'
+import { RectAnchoredTextDB } from './rectanchoredtext-db'
+import { RectAnchoredRectDB } from './rectanchoredrect-db'
 
 @Injectable({
   providedIn: 'root'
@@ -44,10 +47,10 @@ export class RectService {
 
   /** GET rects from the server */
   // gets is more robust to refactoring
-  gets(GONG__StackPath: string): Observable<RectDB[]> {
-    return this.getRects(GONG__StackPath)
+  gets(GONG__StackPath: string, frontRepo: FrontRepo): Observable<RectDB[]> {
+    return this.getRects(GONG__StackPath, frontRepo)
   }
-  getRects(GONG__StackPath: string): Observable<RectDB[]> {
+  getRects(GONG__StackPath: string, frontRepo: FrontRepo): Observable<RectDB[]> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
@@ -61,10 +64,10 @@ export class RectService {
 
   /** GET rect by id. Will 404 if id not found */
   // more robust API to refactoring
-  get(id: number, GONG__StackPath: string): Observable<RectDB> {
-	return this.getRect(id, GONG__StackPath)
+  get(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<RectDB> {
+    return this.getRect(id, GONG__StackPath, frontRepo)
   }
-  getRect(id: number, GONG__StackPath: string): Observable<RectDB> {
+  getRect(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<RectDB> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
@@ -76,20 +79,24 @@ export class RectService {
   }
 
   /** POST: add a new rect to the server */
-  post(rectdb: RectDB, GONG__StackPath: string): Observable<RectDB> {
-    return this.postRect(rectdb, GONG__StackPath)	
+  post(rectdb: RectDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<RectDB> {
+    return this.postRect(rectdb, GONG__StackPath, frontRepo)
   }
-  postRect(rectdb: RectDB, GONG__StackPath: string): Observable<RectDB> {
+  postRect(rectdb: RectDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<RectDB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
-    let Animations = rectdb.Animations
+    for (let _animate of rectdb.Animations) {
+      rectdb.RectPointersEncoding.Animations.push(_animate.ID)
+    }
     rectdb.Animations = []
-    let RectAnchoredTexts = rectdb.RectAnchoredTexts
+    for (let _rectanchoredtext of rectdb.RectAnchoredTexts) {
+      rectdb.RectPointersEncoding.RectAnchoredTexts.push(_rectanchoredtext.ID)
+    }
     rectdb.RectAnchoredTexts = []
-    let RectAnchoredRects = rectdb.RectAnchoredRects
+    for (let _rectanchoredrect of rectdb.RectAnchoredRects) {
+      rectdb.RectPointersEncoding.RectAnchoredRects.push(_rectanchoredrect.ID)
+    }
     rectdb.RectAnchoredRects = []
-    let _Layer_Rects_reverse = rectdb.RectPointersEncoding.Layer_Rects_reverse
-    rectdb.RectPointersEncoding.Layer_Rects_reverse = new LayerDB
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -100,10 +107,27 @@ export class RectService {
     return this.http.post<RectDB>(this.rectsUrl, rectdb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
-	      rectdb.Animations = Animations
-	      rectdb.RectAnchoredTexts = RectAnchoredTexts
-	      rectdb.RectAnchoredRects = RectAnchoredRects
-        rectdb.RectPointersEncoding.Layer_Rects_reverse = _Layer_Rects_reverse
+        rectdb.Animations = new Array<AnimateDB>()
+        for (let _id of rectdb.RectPointersEncoding.Animations) {
+          let _animate = frontRepo.Animates.get(_id)
+          if (_animate != undefined) {
+            rectdb.Animations.push(_animate!)
+          }
+        }
+        rectdb.RectAnchoredTexts = new Array<RectAnchoredTextDB>()
+        for (let _id of rectdb.RectPointersEncoding.RectAnchoredTexts) {
+          let _rectanchoredtext = frontRepo.RectAnchoredTexts.get(_id)
+          if (_rectanchoredtext != undefined) {
+            rectdb.RectAnchoredTexts.push(_rectanchoredtext!)
+          }
+        }
+        rectdb.RectAnchoredRects = new Array<RectAnchoredRectDB>()
+        for (let _id of rectdb.RectPointersEncoding.RectAnchoredRects) {
+          let _rectanchoredrect = frontRepo.RectAnchoredRects.get(_id)
+          if (_rectanchoredrect != undefined) {
+            rectdb.RectAnchoredRects.push(_rectanchoredrect!)
+          }
+        }
         // this.log(`posted rectdb id=${rectdb.ID}`)
       }),
       catchError(this.handleError<RectDB>('postRect'))
@@ -131,22 +155,27 @@ export class RectService {
   }
 
   /** PUT: update the rectdb on the server */
-  update(rectdb: RectDB, GONG__StackPath: string): Observable<RectDB> {
-    return this.updateRect(rectdb, GONG__StackPath)
+  update(rectdb: RectDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<RectDB> {
+    return this.updateRect(rectdb, GONG__StackPath, frontRepo)
   }
-  updateRect(rectdb: RectDB, GONG__StackPath: string): Observable<RectDB> {
+  updateRect(rectdb: RectDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<RectDB> {
     const id = typeof rectdb === 'number' ? rectdb : rectdb.ID;
     const url = `${this.rectsUrl}/${id}`;
 
-    // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
-    let Animations = rectdb.Animations
+    // insertion point for reset of pointers (to avoid circular JSON)
+	// and encoding of pointers
+    for (let _animate of rectdb.Animations) {
+      rectdb.RectPointersEncoding.Animations.push(_animate.ID)
+    }
     rectdb.Animations = []
-    let RectAnchoredTexts = rectdb.RectAnchoredTexts
+    for (let _rectanchoredtext of rectdb.RectAnchoredTexts) {
+      rectdb.RectPointersEncoding.RectAnchoredTexts.push(_rectanchoredtext.ID)
+    }
     rectdb.RectAnchoredTexts = []
-    let RectAnchoredRects = rectdb.RectAnchoredRects
+    for (let _rectanchoredrect of rectdb.RectAnchoredRects) {
+      rectdb.RectPointersEncoding.RectAnchoredRects.push(_rectanchoredrect.ID)
+    }
     rectdb.RectAnchoredRects = []
-    let _Layer_Rects_reverse = rectdb.RectPointersEncoding.Layer_Rects_reverse
-    rectdb.RectPointersEncoding.Layer_Rects_reverse = new LayerDB
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -157,10 +186,27 @@ export class RectService {
     return this.http.put<RectDB>(url, rectdb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
-	      rectdb.Animations = Animations
-	      rectdb.RectAnchoredTexts = RectAnchoredTexts
-	      rectdb.RectAnchoredRects = RectAnchoredRects
-        rectdb.RectPointersEncoding.Layer_Rects_reverse = _Layer_Rects_reverse
+        rectdb.Animations = new Array<AnimateDB>()
+        for (let _id of rectdb.RectPointersEncoding.Animations) {
+          let _animate = frontRepo.Animates.get(_id)
+          if (_animate != undefined) {
+            rectdb.Animations.push(_animate!)
+          }
+        }
+        rectdb.RectAnchoredTexts = new Array<RectAnchoredTextDB>()
+        for (let _id of rectdb.RectPointersEncoding.RectAnchoredTexts) {
+          let _rectanchoredtext = frontRepo.RectAnchoredTexts.get(_id)
+          if (_rectanchoredtext != undefined) {
+            rectdb.RectAnchoredTexts.push(_rectanchoredtext!)
+          }
+        }
+        rectdb.RectAnchoredRects = new Array<RectAnchoredRectDB>()
+        for (let _id of rectdb.RectPointersEncoding.RectAnchoredRects) {
+          let _rectanchoredrect = frontRepo.RectAnchoredRects.get(_id)
+          if (_rectanchoredrect != undefined) {
+            rectdb.RectAnchoredRects.push(_rectanchoredrect!)
+          }
+        }
         // this.log(`updated rectdb id=${rectdb.ID}`)
       }),
       catchError(this.handleError<RectDB>('updateRect'))
@@ -188,6 +234,6 @@ export class RectService {
   }
 
   private log(message: string) {
-      console.log(message)
+    console.log(message)
   }
 }

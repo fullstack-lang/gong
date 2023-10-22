@@ -12,9 +12,9 @@ import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 
 import { CheckBoxDB } from './checkbox-db';
+import { FrontRepo, FrontRepoService } from './front-repo.service';
 
 // insertion point for imports
-import { FormDivDB } from './formdiv-db'
 
 @Injectable({
   providedIn: 'root'
@@ -44,10 +44,10 @@ export class CheckBoxService {
 
   /** GET checkboxs from the server */
   // gets is more robust to refactoring
-  gets(GONG__StackPath: string): Observable<CheckBoxDB[]> {
-    return this.getCheckBoxs(GONG__StackPath)
+  gets(GONG__StackPath: string, frontRepo: FrontRepo): Observable<CheckBoxDB[]> {
+    return this.getCheckBoxs(GONG__StackPath, frontRepo)
   }
-  getCheckBoxs(GONG__StackPath: string): Observable<CheckBoxDB[]> {
+  getCheckBoxs(GONG__StackPath: string, frontRepo: FrontRepo): Observable<CheckBoxDB[]> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
@@ -61,10 +61,10 @@ export class CheckBoxService {
 
   /** GET checkbox by id. Will 404 if id not found */
   // more robust API to refactoring
-  get(id: number, GONG__StackPath: string): Observable<CheckBoxDB> {
-	return this.getCheckBox(id, GONG__StackPath)
+  get(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<CheckBoxDB> {
+    return this.getCheckBox(id, GONG__StackPath, frontRepo)
   }
-  getCheckBox(id: number, GONG__StackPath: string): Observable<CheckBoxDB> {
+  getCheckBox(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<CheckBoxDB> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
@@ -76,14 +76,12 @@ export class CheckBoxService {
   }
 
   /** POST: add a new checkbox to the server */
-  post(checkboxdb: CheckBoxDB, GONG__StackPath: string): Observable<CheckBoxDB> {
-    return this.postCheckBox(checkboxdb, GONG__StackPath)	
+  post(checkboxdb: CheckBoxDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<CheckBoxDB> {
+    return this.postCheckBox(checkboxdb, GONG__StackPath, frontRepo)
   }
-  postCheckBox(checkboxdb: CheckBoxDB, GONG__StackPath: string): Observable<CheckBoxDB> {
+  postCheckBox(checkboxdb: CheckBoxDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<CheckBoxDB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
-    let _FormDiv_CheckBoxs_reverse = checkboxdb.CheckBoxPointersEncoding.FormDiv_CheckBoxs_reverse
-    checkboxdb.CheckBoxPointersEncoding.FormDiv_CheckBoxs_reverse = new FormDivDB
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -94,7 +92,6 @@ export class CheckBoxService {
     return this.http.post<CheckBoxDB>(this.checkboxsUrl, checkboxdb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
-        checkboxdb.CheckBoxPointersEncoding.FormDiv_CheckBoxs_reverse = _FormDiv_CheckBoxs_reverse
         // this.log(`posted checkboxdb id=${checkboxdb.ID}`)
       }),
       catchError(this.handleError<CheckBoxDB>('postCheckBox'))
@@ -122,16 +119,15 @@ export class CheckBoxService {
   }
 
   /** PUT: update the checkboxdb on the server */
-  update(checkboxdb: CheckBoxDB, GONG__StackPath: string): Observable<CheckBoxDB> {
-    return this.updateCheckBox(checkboxdb, GONG__StackPath)
+  update(checkboxdb: CheckBoxDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<CheckBoxDB> {
+    return this.updateCheckBox(checkboxdb, GONG__StackPath, frontRepo)
   }
-  updateCheckBox(checkboxdb: CheckBoxDB, GONG__StackPath: string): Observable<CheckBoxDB> {
+  updateCheckBox(checkboxdb: CheckBoxDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<CheckBoxDB> {
     const id = typeof checkboxdb === 'number' ? checkboxdb : checkboxdb.ID;
     const url = `${this.checkboxsUrl}/${id}`;
 
-    // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
-    let _FormDiv_CheckBoxs_reverse = checkboxdb.CheckBoxPointersEncoding.FormDiv_CheckBoxs_reverse
-    checkboxdb.CheckBoxPointersEncoding.FormDiv_CheckBoxs_reverse = new FormDivDB
+    // insertion point for reset of pointers (to avoid circular JSON)
+	// and encoding of pointers
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -142,7 +138,6 @@ export class CheckBoxService {
     return this.http.put<CheckBoxDB>(url, checkboxdb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
-        checkboxdb.CheckBoxPointersEncoding.FormDiv_CheckBoxs_reverse = _FormDiv_CheckBoxs_reverse
         // this.log(`updated checkboxdb id=${checkboxdb.ID}`)
       }),
       catchError(this.handleError<CheckBoxDB>('updateCheckBox'))
@@ -170,6 +165,6 @@ export class CheckBoxService {
   }
 
   private log(message: string) {
-      console.log(message)
+    console.log(message)
   }
 }

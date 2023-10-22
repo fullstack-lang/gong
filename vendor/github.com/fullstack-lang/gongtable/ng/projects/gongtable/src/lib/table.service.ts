@@ -12,8 +12,11 @@ import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 
 import { TableDB } from './table-db';
+import { FrontRepo, FrontRepoService } from './front-repo.service';
 
 // insertion point for imports
+import { DisplayedColumnDB } from './displayedcolumn-db'
+import { RowDB } from './row-db'
 
 @Injectable({
   providedIn: 'root'
@@ -43,10 +46,10 @@ export class TableService {
 
   /** GET tables from the server */
   // gets is more robust to refactoring
-  gets(GONG__StackPath: string): Observable<TableDB[]> {
-    return this.getTables(GONG__StackPath)
+  gets(GONG__StackPath: string, frontRepo: FrontRepo): Observable<TableDB[]> {
+    return this.getTables(GONG__StackPath, frontRepo)
   }
-  getTables(GONG__StackPath: string): Observable<TableDB[]> {
+  getTables(GONG__StackPath: string, frontRepo: FrontRepo): Observable<TableDB[]> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
@@ -60,10 +63,10 @@ export class TableService {
 
   /** GET table by id. Will 404 if id not found */
   // more robust API to refactoring
-  get(id: number, GONG__StackPath: string): Observable<TableDB> {
-	return this.getTable(id, GONG__StackPath)
+  get(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<TableDB> {
+    return this.getTable(id, GONG__StackPath, frontRepo)
   }
-  getTable(id: number, GONG__StackPath: string): Observable<TableDB> {
+  getTable(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<TableDB> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
@@ -75,15 +78,19 @@ export class TableService {
   }
 
   /** POST: add a new table to the server */
-  post(tabledb: TableDB, GONG__StackPath: string): Observable<TableDB> {
-    return this.postTable(tabledb, GONG__StackPath)	
+  post(tabledb: TableDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<TableDB> {
+    return this.postTable(tabledb, GONG__StackPath, frontRepo)
   }
-  postTable(tabledb: TableDB, GONG__StackPath: string): Observable<TableDB> {
+  postTable(tabledb: TableDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<TableDB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
-    let DisplayedColumns = tabledb.DisplayedColumns
+    for (let _displayedcolumn of tabledb.DisplayedColumns) {
+      tabledb.TablePointersEncoding.DisplayedColumns.push(_displayedcolumn.ID)
+    }
     tabledb.DisplayedColumns = []
-    let Rows = tabledb.Rows
+    for (let _row of tabledb.Rows) {
+      tabledb.TablePointersEncoding.Rows.push(_row.ID)
+    }
     tabledb.Rows = []
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
@@ -95,8 +102,20 @@ export class TableService {
     return this.http.post<TableDB>(this.tablesUrl, tabledb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
-	      tabledb.DisplayedColumns = DisplayedColumns
-	      tabledb.Rows = Rows
+        tabledb.DisplayedColumns = new Array<DisplayedColumnDB>()
+        for (let _id of tabledb.TablePointersEncoding.DisplayedColumns) {
+          let _displayedcolumn = frontRepo.DisplayedColumns.get(_id)
+          if (_displayedcolumn != undefined) {
+            tabledb.DisplayedColumns.push(_displayedcolumn!)
+          }
+        }
+        tabledb.Rows = new Array<RowDB>()
+        for (let _id of tabledb.TablePointersEncoding.Rows) {
+          let _row = frontRepo.Rows.get(_id)
+          if (_row != undefined) {
+            tabledb.Rows.push(_row!)
+          }
+        }
         // this.log(`posted tabledb id=${tabledb.ID}`)
       }),
       catchError(this.handleError<TableDB>('postTable'))
@@ -124,17 +143,22 @@ export class TableService {
   }
 
   /** PUT: update the tabledb on the server */
-  update(tabledb: TableDB, GONG__StackPath: string): Observable<TableDB> {
-    return this.updateTable(tabledb, GONG__StackPath)
+  update(tabledb: TableDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<TableDB> {
+    return this.updateTable(tabledb, GONG__StackPath, frontRepo)
   }
-  updateTable(tabledb: TableDB, GONG__StackPath: string): Observable<TableDB> {
+  updateTable(tabledb: TableDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<TableDB> {
     const id = typeof tabledb === 'number' ? tabledb : tabledb.ID;
     const url = `${this.tablesUrl}/${id}`;
 
-    // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
-    let DisplayedColumns = tabledb.DisplayedColumns
+    // insertion point for reset of pointers (to avoid circular JSON)
+	// and encoding of pointers
+    for (let _displayedcolumn of tabledb.DisplayedColumns) {
+      tabledb.TablePointersEncoding.DisplayedColumns.push(_displayedcolumn.ID)
+    }
     tabledb.DisplayedColumns = []
-    let Rows = tabledb.Rows
+    for (let _row of tabledb.Rows) {
+      tabledb.TablePointersEncoding.Rows.push(_row.ID)
+    }
     tabledb.Rows = []
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
@@ -146,8 +170,20 @@ export class TableService {
     return this.http.put<TableDB>(url, tabledb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
-	      tabledb.DisplayedColumns = DisplayedColumns
-	      tabledb.Rows = Rows
+        tabledb.DisplayedColumns = new Array<DisplayedColumnDB>()
+        for (let _id of tabledb.TablePointersEncoding.DisplayedColumns) {
+          let _displayedcolumn = frontRepo.DisplayedColumns.get(_id)
+          if (_displayedcolumn != undefined) {
+            tabledb.DisplayedColumns.push(_displayedcolumn!)
+          }
+        }
+        tabledb.Rows = new Array<RowDB>()
+        for (let _id of tabledb.TablePointersEncoding.Rows) {
+          let _row = frontRepo.Rows.get(_id)
+          if (_row != undefined) {
+            tabledb.Rows.push(_row!)
+          }
+        }
         // this.log(`updated tabledb id=${tabledb.ID}`)
       }),
       catchError(this.handleError<TableDB>('updateTable'))
@@ -175,6 +211,6 @@ export class TableService {
   }
 
   private log(message: string) {
-      console.log(message)
+    console.log(message)
   }
 }

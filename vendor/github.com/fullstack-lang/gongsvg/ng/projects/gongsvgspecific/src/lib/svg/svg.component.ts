@@ -237,11 +237,11 @@ export class SvgComponent implements OnInit, OnDestroy {
     this.svg.SVGPointersEncoding.EndRectID.Valid = true
     this.svg.SVGPointersEncoding.EndRectID.Int64 = endRectangleID
 
-    this.svgService.updateSVG(this.svg, this.GONG__StackPath).subscribe(
+    this.svgService.updateSVG(this.svg, this.GONG__StackPath, this.gongsvgFrontRepoService.frontRepo).subscribe(
       () => {
         // back to normal state
         this.svg.DrawingState = gongsvg.DrawingState.NOT_DRAWING_LINE
-        this.svgService.updateSVG(this.svg, this.GONG__StackPath).subscribe()
+        this.svgService.updateSVG(this.svg, this.GONG__StackPath, this.gongsvgFrontRepoService.frontRepo).subscribe()
       }
     )
   }

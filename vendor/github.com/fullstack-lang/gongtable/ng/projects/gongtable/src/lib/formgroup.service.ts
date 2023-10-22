@@ -12,8 +12,10 @@ import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 
 import { FormGroupDB } from './formgroup-db';
+import { FrontRepo, FrontRepoService } from './front-repo.service';
 
 // insertion point for imports
+import { FormDivDB } from './formdiv-db'
 
 @Injectable({
   providedIn: 'root'
@@ -43,10 +45,10 @@ export class FormGroupService {
 
   /** GET formgroups from the server */
   // gets is more robust to refactoring
-  gets(GONG__StackPath: string): Observable<FormGroupDB[]> {
-    return this.getFormGroups(GONG__StackPath)
+  gets(GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormGroupDB[]> {
+    return this.getFormGroups(GONG__StackPath, frontRepo)
   }
-  getFormGroups(GONG__StackPath: string): Observable<FormGroupDB[]> {
+  getFormGroups(GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormGroupDB[]> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
@@ -60,10 +62,10 @@ export class FormGroupService {
 
   /** GET formgroup by id. Will 404 if id not found */
   // more robust API to refactoring
-  get(id: number, GONG__StackPath: string): Observable<FormGroupDB> {
-	return this.getFormGroup(id, GONG__StackPath)
+  get(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormGroupDB> {
+    return this.getFormGroup(id, GONG__StackPath, frontRepo)
   }
-  getFormGroup(id: number, GONG__StackPath: string): Observable<FormGroupDB> {
+  getFormGroup(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormGroupDB> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
@@ -75,13 +77,15 @@ export class FormGroupService {
   }
 
   /** POST: add a new formgroup to the server */
-  post(formgroupdb: FormGroupDB, GONG__StackPath: string): Observable<FormGroupDB> {
-    return this.postFormGroup(formgroupdb, GONG__StackPath)	
+  post(formgroupdb: FormGroupDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormGroupDB> {
+    return this.postFormGroup(formgroupdb, GONG__StackPath, frontRepo)
   }
-  postFormGroup(formgroupdb: FormGroupDB, GONG__StackPath: string): Observable<FormGroupDB> {
+  postFormGroup(formgroupdb: FormGroupDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormGroupDB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
-    let FormDivs = formgroupdb.FormDivs
+    for (let _formdiv of formgroupdb.FormDivs) {
+      formgroupdb.FormGroupPointersEncoding.FormDivs.push(_formdiv.ID)
+    }
     formgroupdb.FormDivs = []
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
@@ -93,7 +97,13 @@ export class FormGroupService {
     return this.http.post<FormGroupDB>(this.formgroupsUrl, formgroupdb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
-	      formgroupdb.FormDivs = FormDivs
+        formgroupdb.FormDivs = new Array<FormDivDB>()
+        for (let _id of formgroupdb.FormGroupPointersEncoding.FormDivs) {
+          let _formdiv = frontRepo.FormDivs.get(_id)
+          if (_formdiv != undefined) {
+            formgroupdb.FormDivs.push(_formdiv!)
+          }
+        }
         // this.log(`posted formgroupdb id=${formgroupdb.ID}`)
       }),
       catchError(this.handleError<FormGroupDB>('postFormGroup'))
@@ -121,15 +131,18 @@ export class FormGroupService {
   }
 
   /** PUT: update the formgroupdb on the server */
-  update(formgroupdb: FormGroupDB, GONG__StackPath: string): Observable<FormGroupDB> {
-    return this.updateFormGroup(formgroupdb, GONG__StackPath)
+  update(formgroupdb: FormGroupDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormGroupDB> {
+    return this.updateFormGroup(formgroupdb, GONG__StackPath, frontRepo)
   }
-  updateFormGroup(formgroupdb: FormGroupDB, GONG__StackPath: string): Observable<FormGroupDB> {
+  updateFormGroup(formgroupdb: FormGroupDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormGroupDB> {
     const id = typeof formgroupdb === 'number' ? formgroupdb : formgroupdb.ID;
     const url = `${this.formgroupsUrl}/${id}`;
 
-    // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
-    let FormDivs = formgroupdb.FormDivs
+    // insertion point for reset of pointers (to avoid circular JSON)
+	// and encoding of pointers
+    for (let _formdiv of formgroupdb.FormDivs) {
+      formgroupdb.FormGroupPointersEncoding.FormDivs.push(_formdiv.ID)
+    }
     formgroupdb.FormDivs = []
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
@@ -141,7 +154,13 @@ export class FormGroupService {
     return this.http.put<FormGroupDB>(url, formgroupdb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
-	      formgroupdb.FormDivs = FormDivs
+        formgroupdb.FormDivs = new Array<FormDivDB>()
+        for (let _id of formgroupdb.FormGroupPointersEncoding.FormDivs) {
+          let _formdiv = frontRepo.FormDivs.get(_id)
+          if (_formdiv != undefined) {
+            formgroupdb.FormDivs.push(_formdiv!)
+          }
+        }
         // this.log(`updated formgroupdb id=${formgroupdb.ID}`)
       }),
       catchError(this.handleError<FormGroupDB>('updateFormGroup'))
@@ -169,6 +188,6 @@ export class FormGroupService {
   }
 
   private log(message: string) {
-      console.log(message)
+    console.log(message)
   }
 }

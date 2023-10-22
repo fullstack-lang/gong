@@ -78,6 +78,7 @@ export class LinkComponent implements OnInit, AfterViewInit, DoCheck, AfterViewC
     private elementRef: ElementRef,
     private isEditableService: IsEditableService,
     private refreshService: RefreshService,
+    private gongsvgFrontRepoService: gongsvg.FrontRepoService,
   ) {
 
     this.subscriptions.push(
@@ -359,7 +360,7 @@ export class LinkComponent implements OnInit, AfterViewInit, DoCheck, AfterViewC
               console.log("Link, link selected selected: ", this.Link?.Name)
             } else {
               this.linkUpdating = true
-              this.linkService.updateLink(this.Link!, this.GONG__StackPath).subscribe(
+              this.linkService.updateLink(this.Link!, this.GONG__StackPath, this.gongsvgFrontRepoService.frontRepo).subscribe(
                 link => {
                   // this.Link = link
                   this.linkUpdating = false
@@ -372,11 +373,11 @@ export class LinkComponent implements OnInit, AfterViewInit, DoCheck, AfterViewC
           if (this.textDragging && this.isEditableService.getIsEditable()) {
             if (this.draggedSegmentPositionOnArrow == gongsvg.PositionOnArrowType.POSITION_ON_ARROW_END) {
               let text = this.Link!.TextAtArrowEnd![this.draggedTextIndex]
-              this.anchoredTextService.updateLinkAnchoredText(text, this.GONG__StackPath).subscribe()
+              this.anchoredTextService.updateLinkAnchoredText(text, this.GONG__StackPath, this.gongsvgFrontRepoService.frontRepo).subscribe()
             }
             if (this.draggedSegmentPositionOnArrow == gongsvg.PositionOnArrowType.POSITION_ON_ARROW_START) {
               let text = this.Link!.TextAtArrowStart![this.draggedTextIndex]
-              this.anchoredTextService.updateLinkAnchoredText(text, this.GONG__StackPath).subscribe()
+              this.anchoredTextService.updateLinkAnchoredText(text, this.GONG__StackPath, this.gongsvgFrontRepoService.frontRepo).subscribe()
             }
           }
           this.dragging = false

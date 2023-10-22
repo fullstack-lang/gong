@@ -48,22 +48,6 @@ type LinkAnchoredTextPointersEncoding struct {
 
 	// field Animates is a slice of pointers to another Struct (optional or 0..1)
 	Animates IntSlice `gorm:"type:TEXT"`
-
-	// Implementation of a reverse ID for field Link{}.TextAtArrowEnd []*LinkAnchoredText
-	// (to be removed)
-	Link_TextAtArrowEndDBID sql.NullInt64
-
-	// implementation of the index of the withing the slice
-	// (to be removed)
-	Link_TextAtArrowEndDBID_Index sql.NullInt64
-
-	// Implementation of a reverse ID for field Link{}.TextAtArrowStart []*LinkAnchoredText
-	// (to be removed)
-	Link_TextAtArrowStartDBID sql.NullInt64
-
-	// implementation of the index of the withing the slice
-	// (to be removed)
-	Link_TextAtArrowStartDBID_Index sql.NullInt64
 }
 
 // LinkAnchoredTextDB describes a linkanchoredtext in the database
@@ -293,26 +277,6 @@ func (backRepoLinkAnchoredText *BackRepoLinkAnchoredTextStruct) CommitPhaseTwoIn
 		linkanchoredtextDB.CopyBasicFieldsFromLinkAnchoredText(linkanchoredtext)
 
 		// insertion point for translating pointers encodings into actual pointers
-		// This loop encodes the slice of pointers linkanchoredtext.Animates into the back repo.
-		// Each back repo instance at the end of the association encode the ID of the association start
-		// into a dedicated field for coding the association. The back repo instance is then saved to the db
-		for idx, animateAssocEnd := range linkanchoredtext.Animates {
-
-			// get the back repo instance at the association end
-			animateAssocEnd_DB :=
-				backRepo.BackRepoAnimate.GetAnimateDBFromAnimatePtr(animateAssocEnd)
-
-			// encode reverse pointer in the association end back repo instance
-			// (to be removed)
-			animateAssocEnd_DB.LinkAnchoredText_AnimatesDBID.Int64 = int64(linkanchoredtextDB.ID)
-			animateAssocEnd_DB.LinkAnchoredText_AnimatesDBID.Valid = true
-			animateAssocEnd_DB.LinkAnchoredText_AnimatesDBID_Index.Int64 = int64(idx)
-			animateAssocEnd_DB.LinkAnchoredText_AnimatesDBID_Index.Valid = true
-			if q := backRepoLinkAnchoredText.db.Save(animateAssocEnd_DB); q.Error != nil {
-				return q.Error
-			}
-		}
-
 		// 1. reset
 		linkanchoredtextDB.LinkAnchoredTextPointersEncoding.Animates = make([]int, 0)
 		// 2. encode
@@ -435,27 +399,9 @@ func (backRepoLinkAnchoredText *BackRepoLinkAnchoredTextStruct) CheckoutPhaseTwo
 	// it appends the stage instance
 	// 1. reset the slice
 	linkanchoredtext.Animates = linkanchoredtext.Animates[:0]
-	// 2. loop all instances in the type in the association end
-	for _, animateDB_AssocEnd := range backRepo.BackRepoAnimate.Map_AnimateDBID_AnimateDB {
-		// 3. Does the ID encoding at the end and the ID at the start matches ?
-		if animateDB_AssocEnd.LinkAnchoredText_AnimatesDBID.Int64 == int64(linkanchoredtextDB.ID) {
-			// 4. fetch the associated instance in the stage
-			animate_AssocEnd := backRepo.BackRepoAnimate.Map_AnimateDBID_AnimatePtr[animateDB_AssocEnd.ID]
-			// 5. append it the association slice
-			linkanchoredtext.Animates = append(linkanchoredtext.Animates, animate_AssocEnd)
-		}
+	for _, _Animateid := range linkanchoredtextDB.LinkAnchoredTextPointersEncoding.Animates {
+		linkanchoredtext.Animates = append(linkanchoredtext.Animates, backRepo.BackRepoAnimate.Map_AnimateDBID_AnimatePtr[uint(_Animateid)])
 	}
-
-	// sort the array according to the order
-	sort.Slice(linkanchoredtext.Animates, func(i, j int) bool {
-		animateDB_i_ID := backRepo.BackRepoAnimate.Map_AnimatePtr_AnimateDBID[linkanchoredtext.Animates[i]]
-		animateDB_j_ID := backRepo.BackRepoAnimate.Map_AnimatePtr_AnimateDBID[linkanchoredtext.Animates[j]]
-
-		animateDB_i := backRepo.BackRepoAnimate.Map_AnimateDBID_AnimateDB[animateDB_i_ID]
-		animateDB_j := backRepo.BackRepoAnimate.Map_AnimateDBID_AnimateDB[animateDB_j_ID]
-
-		return animateDB_i.LinkAnchoredText_AnimatesDBID_Index.Int64 < animateDB_j.LinkAnchoredText_AnimatesDBID_Index.Int64
-	})
 
 	return
 }
@@ -817,18 +763,6 @@ func (backRepoLinkAnchoredText *BackRepoLinkAnchoredTextStruct) RestorePhaseTwo(
 		_ = linkanchoredtextDB
 
 		// insertion point for reindexing pointers encoding
-		// This reindex linkanchoredtext.TextAtArrowEnd
-		if linkanchoredtextDB.Link_TextAtArrowEndDBID.Int64 != 0 {
-			linkanchoredtextDB.Link_TextAtArrowEndDBID.Int64 =
-				int64(BackRepoLinkid_atBckpTime_newID[uint(linkanchoredtextDB.Link_TextAtArrowEndDBID.Int64)])
-		}
-
-		// This reindex linkanchoredtext.TextAtArrowStart
-		if linkanchoredtextDB.Link_TextAtArrowStartDBID.Int64 != 0 {
-			linkanchoredtextDB.Link_TextAtArrowStartDBID.Int64 =
-				int64(BackRepoLinkid_atBckpTime_newID[uint(linkanchoredtextDB.Link_TextAtArrowStartDBID.Int64)])
-		}
-
 		// update databse with new index encoding
 		query := backRepoLinkAnchoredText.db.Model(linkanchoredtextDB).Updates(*linkanchoredtextDB)
 		if query.Error != nil {
@@ -856,24 +790,6 @@ func (backRepoLinkAnchoredText *BackRepoLinkAnchoredTextStruct) ResetReversePoin
 		_ = linkanchoredtextDB // to avoid unused variable error if there are no reverse to reset
 
 		// insertion point for reverse pointers reset
-		if linkanchoredtextDB.Link_TextAtArrowEndDBID.Int64 != 0 {
-			linkanchoredtextDB.Link_TextAtArrowEndDBID.Int64 = 0
-			linkanchoredtextDB.Link_TextAtArrowEndDBID.Valid = true
-
-			// save the reset
-			if q := backRepoLinkAnchoredText.db.Save(linkanchoredtextDB); q.Error != nil {
-				return q.Error
-			}
-		}
-		if linkanchoredtextDB.Link_TextAtArrowStartDBID.Int64 != 0 {
-			linkanchoredtextDB.Link_TextAtArrowStartDBID.Int64 = 0
-			linkanchoredtextDB.Link_TextAtArrowStartDBID.Valid = true
-
-			// save the reset
-			if q := backRepoLinkAnchoredText.db.Save(linkanchoredtextDB); q.Error != nil {
-				return q.Error
-			}
-		}
 		// end of insertion point for reverse pointers reset
 	}
 

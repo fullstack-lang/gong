@@ -12,9 +12,9 @@ import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 
 import { DisplayedColumnDB } from './displayedcolumn-db';
+import { FrontRepo, FrontRepoService } from './front-repo.service';
 
 // insertion point for imports
-import { TableDB } from './table-db'
 
 @Injectable({
   providedIn: 'root'
@@ -44,10 +44,10 @@ export class DisplayedColumnService {
 
   /** GET displayedcolumns from the server */
   // gets is more robust to refactoring
-  gets(GONG__StackPath: string): Observable<DisplayedColumnDB[]> {
-    return this.getDisplayedColumns(GONG__StackPath)
+  gets(GONG__StackPath: string, frontRepo: FrontRepo): Observable<DisplayedColumnDB[]> {
+    return this.getDisplayedColumns(GONG__StackPath, frontRepo)
   }
-  getDisplayedColumns(GONG__StackPath: string): Observable<DisplayedColumnDB[]> {
+  getDisplayedColumns(GONG__StackPath: string, frontRepo: FrontRepo): Observable<DisplayedColumnDB[]> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
@@ -61,10 +61,10 @@ export class DisplayedColumnService {
 
   /** GET displayedcolumn by id. Will 404 if id not found */
   // more robust API to refactoring
-  get(id: number, GONG__StackPath: string): Observable<DisplayedColumnDB> {
-	return this.getDisplayedColumn(id, GONG__StackPath)
+  get(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<DisplayedColumnDB> {
+    return this.getDisplayedColumn(id, GONG__StackPath, frontRepo)
   }
-  getDisplayedColumn(id: number, GONG__StackPath: string): Observable<DisplayedColumnDB> {
+  getDisplayedColumn(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<DisplayedColumnDB> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
@@ -76,14 +76,12 @@ export class DisplayedColumnService {
   }
 
   /** POST: add a new displayedcolumn to the server */
-  post(displayedcolumndb: DisplayedColumnDB, GONG__StackPath: string): Observable<DisplayedColumnDB> {
-    return this.postDisplayedColumn(displayedcolumndb, GONG__StackPath)	
+  post(displayedcolumndb: DisplayedColumnDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<DisplayedColumnDB> {
+    return this.postDisplayedColumn(displayedcolumndb, GONG__StackPath, frontRepo)
   }
-  postDisplayedColumn(displayedcolumndb: DisplayedColumnDB, GONG__StackPath: string): Observable<DisplayedColumnDB> {
+  postDisplayedColumn(displayedcolumndb: DisplayedColumnDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<DisplayedColumnDB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
-    let _Table_DisplayedColumns_reverse = displayedcolumndb.DisplayedColumnPointersEncoding.Table_DisplayedColumns_reverse
-    displayedcolumndb.DisplayedColumnPointersEncoding.Table_DisplayedColumns_reverse = new TableDB
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -94,7 +92,6 @@ export class DisplayedColumnService {
     return this.http.post<DisplayedColumnDB>(this.displayedcolumnsUrl, displayedcolumndb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
-        displayedcolumndb.DisplayedColumnPointersEncoding.Table_DisplayedColumns_reverse = _Table_DisplayedColumns_reverse
         // this.log(`posted displayedcolumndb id=${displayedcolumndb.ID}`)
       }),
       catchError(this.handleError<DisplayedColumnDB>('postDisplayedColumn'))
@@ -122,16 +119,15 @@ export class DisplayedColumnService {
   }
 
   /** PUT: update the displayedcolumndb on the server */
-  update(displayedcolumndb: DisplayedColumnDB, GONG__StackPath: string): Observable<DisplayedColumnDB> {
-    return this.updateDisplayedColumn(displayedcolumndb, GONG__StackPath)
+  update(displayedcolumndb: DisplayedColumnDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<DisplayedColumnDB> {
+    return this.updateDisplayedColumn(displayedcolumndb, GONG__StackPath, frontRepo)
   }
-  updateDisplayedColumn(displayedcolumndb: DisplayedColumnDB, GONG__StackPath: string): Observable<DisplayedColumnDB> {
+  updateDisplayedColumn(displayedcolumndb: DisplayedColumnDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<DisplayedColumnDB> {
     const id = typeof displayedcolumndb === 'number' ? displayedcolumndb : displayedcolumndb.ID;
     const url = `${this.displayedcolumnsUrl}/${id}`;
 
-    // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
-    let _Table_DisplayedColumns_reverse = displayedcolumndb.DisplayedColumnPointersEncoding.Table_DisplayedColumns_reverse
-    displayedcolumndb.DisplayedColumnPointersEncoding.Table_DisplayedColumns_reverse = new TableDB
+    // insertion point for reset of pointers (to avoid circular JSON)
+	// and encoding of pointers
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -142,7 +138,6 @@ export class DisplayedColumnService {
     return this.http.put<DisplayedColumnDB>(url, displayedcolumndb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
-        displayedcolumndb.DisplayedColumnPointersEncoding.Table_DisplayedColumns_reverse = _Table_DisplayedColumns_reverse
         // this.log(`updated displayedcolumndb id=${displayedcolumndb.ID}`)
       }),
       catchError(this.handleError<DisplayedColumnDB>('updateDisplayedColumn'))
@@ -170,6 +165,6 @@ export class DisplayedColumnService {
   }
 
   private log(message: string) {
-      console.log(message)
+    console.log(message)
   }
 }

@@ -12,6 +12,7 @@ import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 
 import { FormSortAssocButtonDB } from './formsortassocbutton-db';
+import { FrontRepo, FrontRepoService } from './front-repo.service';
 
 // insertion point for imports
 
@@ -43,10 +44,10 @@ export class FormSortAssocButtonService {
 
   /** GET formsortassocbuttons from the server */
   // gets is more robust to refactoring
-  gets(GONG__StackPath: string): Observable<FormSortAssocButtonDB[]> {
-    return this.getFormSortAssocButtons(GONG__StackPath)
+  gets(GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormSortAssocButtonDB[]> {
+    return this.getFormSortAssocButtons(GONG__StackPath, frontRepo)
   }
-  getFormSortAssocButtons(GONG__StackPath: string): Observable<FormSortAssocButtonDB[]> {
+  getFormSortAssocButtons(GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormSortAssocButtonDB[]> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
@@ -60,10 +61,10 @@ export class FormSortAssocButtonService {
 
   /** GET formsortassocbutton by id. Will 404 if id not found */
   // more robust API to refactoring
-  get(id: number, GONG__StackPath: string): Observable<FormSortAssocButtonDB> {
-	return this.getFormSortAssocButton(id, GONG__StackPath)
+  get(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormSortAssocButtonDB> {
+    return this.getFormSortAssocButton(id, GONG__StackPath, frontRepo)
   }
-  getFormSortAssocButton(id: number, GONG__StackPath: string): Observable<FormSortAssocButtonDB> {
+  getFormSortAssocButton(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormSortAssocButtonDB> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
@@ -75,10 +76,10 @@ export class FormSortAssocButtonService {
   }
 
   /** POST: add a new formsortassocbutton to the server */
-  post(formsortassocbuttondb: FormSortAssocButtonDB, GONG__StackPath: string): Observable<FormSortAssocButtonDB> {
-    return this.postFormSortAssocButton(formsortassocbuttondb, GONG__StackPath)	
+  post(formsortassocbuttondb: FormSortAssocButtonDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormSortAssocButtonDB> {
+    return this.postFormSortAssocButton(formsortassocbuttondb, GONG__StackPath, frontRepo)
   }
-  postFormSortAssocButton(formsortassocbuttondb: FormSortAssocButtonDB, GONG__StackPath: string): Observable<FormSortAssocButtonDB> {
+  postFormSortAssocButton(formsortassocbuttondb: FormSortAssocButtonDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormSortAssocButtonDB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
 
@@ -118,14 +119,15 @@ export class FormSortAssocButtonService {
   }
 
   /** PUT: update the formsortassocbuttondb on the server */
-  update(formsortassocbuttondb: FormSortAssocButtonDB, GONG__StackPath: string): Observable<FormSortAssocButtonDB> {
-    return this.updateFormSortAssocButton(formsortassocbuttondb, GONG__StackPath)
+  update(formsortassocbuttondb: FormSortAssocButtonDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormSortAssocButtonDB> {
+    return this.updateFormSortAssocButton(formsortassocbuttondb, GONG__StackPath, frontRepo)
   }
-  updateFormSortAssocButton(formsortassocbuttondb: FormSortAssocButtonDB, GONG__StackPath: string): Observable<FormSortAssocButtonDB> {
+  updateFormSortAssocButton(formsortassocbuttondb: FormSortAssocButtonDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<FormSortAssocButtonDB> {
     const id = typeof formsortassocbuttondb === 'number' ? formsortassocbuttondb : formsortassocbuttondb.ID;
     const url = `${this.formsortassocbuttonsUrl}/${id}`;
 
-    // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
+    // insertion point for reset of pointers (to avoid circular JSON)
+	// and encoding of pointers
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -163,6 +165,6 @@ export class FormSortAssocButtonService {
   }
 
   private log(message: string) {
-      console.log(message)
+    console.log(message)
   }
 }

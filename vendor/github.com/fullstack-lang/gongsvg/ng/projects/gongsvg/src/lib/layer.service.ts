@@ -12,9 +12,19 @@ import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 
 import { LayerDB } from './layer-db';
+import { FrontRepo, FrontRepoService } from './front-repo.service';
 
 // insertion point for imports
-import { SVGDB } from './svg-db'
+import { RectDB } from './rect-db'
+import { TextDB } from './text-db'
+import { CircleDB } from './circle-db'
+import { LineDB } from './line-db'
+import { EllipseDB } from './ellipse-db'
+import { PolylineDB } from './polyline-db'
+import { PolygoneDB } from './polygone-db'
+import { PathDB } from './path-db'
+import { LinkDB } from './link-db'
+import { RectLinkLinkDB } from './rectlinklink-db'
 
 @Injectable({
   providedIn: 'root'
@@ -44,10 +54,10 @@ export class LayerService {
 
   /** GET layers from the server */
   // gets is more robust to refactoring
-  gets(GONG__StackPath: string): Observable<LayerDB[]> {
-    return this.getLayers(GONG__StackPath)
+  gets(GONG__StackPath: string, frontRepo: FrontRepo): Observable<LayerDB[]> {
+    return this.getLayers(GONG__StackPath, frontRepo)
   }
-  getLayers(GONG__StackPath: string): Observable<LayerDB[]> {
+  getLayers(GONG__StackPath: string, frontRepo: FrontRepo): Observable<LayerDB[]> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
@@ -61,10 +71,10 @@ export class LayerService {
 
   /** GET layer by id. Will 404 if id not found */
   // more robust API to refactoring
-  get(id: number, GONG__StackPath: string): Observable<LayerDB> {
-	return this.getLayer(id, GONG__StackPath)
+  get(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<LayerDB> {
+    return this.getLayer(id, GONG__StackPath, frontRepo)
   }
-  getLayer(id: number, GONG__StackPath: string): Observable<LayerDB> {
+  getLayer(id: number, GONG__StackPath: string, frontRepo: FrontRepo): Observable<LayerDB> {
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
 
@@ -76,34 +86,52 @@ export class LayerService {
   }
 
   /** POST: add a new layer to the server */
-  post(layerdb: LayerDB, GONG__StackPath: string): Observable<LayerDB> {
-    return this.postLayer(layerdb, GONG__StackPath)	
+  post(layerdb: LayerDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<LayerDB> {
+    return this.postLayer(layerdb, GONG__StackPath, frontRepo)
   }
-  postLayer(layerdb: LayerDB, GONG__StackPath: string): Observable<LayerDB> {
+  postLayer(layerdb: LayerDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<LayerDB> {
 
     // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
-    let Rects = layerdb.Rects
+    for (let _rect of layerdb.Rects) {
+      layerdb.LayerPointersEncoding.Rects.push(_rect.ID)
+    }
     layerdb.Rects = []
-    let Texts = layerdb.Texts
+    for (let _text of layerdb.Texts) {
+      layerdb.LayerPointersEncoding.Texts.push(_text.ID)
+    }
     layerdb.Texts = []
-    let Circles = layerdb.Circles
+    for (let _circle of layerdb.Circles) {
+      layerdb.LayerPointersEncoding.Circles.push(_circle.ID)
+    }
     layerdb.Circles = []
-    let Lines = layerdb.Lines
+    for (let _line of layerdb.Lines) {
+      layerdb.LayerPointersEncoding.Lines.push(_line.ID)
+    }
     layerdb.Lines = []
-    let Ellipses = layerdb.Ellipses
+    for (let _ellipse of layerdb.Ellipses) {
+      layerdb.LayerPointersEncoding.Ellipses.push(_ellipse.ID)
+    }
     layerdb.Ellipses = []
-    let Polylines = layerdb.Polylines
+    for (let _polyline of layerdb.Polylines) {
+      layerdb.LayerPointersEncoding.Polylines.push(_polyline.ID)
+    }
     layerdb.Polylines = []
-    let Polygones = layerdb.Polygones
+    for (let _polygone of layerdb.Polygones) {
+      layerdb.LayerPointersEncoding.Polygones.push(_polygone.ID)
+    }
     layerdb.Polygones = []
-    let Paths = layerdb.Paths
+    for (let _path of layerdb.Paths) {
+      layerdb.LayerPointersEncoding.Paths.push(_path.ID)
+    }
     layerdb.Paths = []
-    let Links = layerdb.Links
+    for (let _link of layerdb.Links) {
+      layerdb.LayerPointersEncoding.Links.push(_link.ID)
+    }
     layerdb.Links = []
-    let RectLinkLinks = layerdb.RectLinkLinks
+    for (let _rectlinklink of layerdb.RectLinkLinks) {
+      layerdb.LayerPointersEncoding.RectLinkLinks.push(_rectlinklink.ID)
+    }
     layerdb.RectLinkLinks = []
-    let _SVG_Layers_reverse = layerdb.LayerPointersEncoding.SVG_Layers_reverse
-    layerdb.LayerPointersEncoding.SVG_Layers_reverse = new SVGDB
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -114,17 +142,76 @@ export class LayerService {
     return this.http.post<LayerDB>(this.layersUrl, layerdb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
-	      layerdb.Rects = Rects
-	      layerdb.Texts = Texts
-	      layerdb.Circles = Circles
-	      layerdb.Lines = Lines
-	      layerdb.Ellipses = Ellipses
-	      layerdb.Polylines = Polylines
-	      layerdb.Polygones = Polygones
-	      layerdb.Paths = Paths
-	      layerdb.Links = Links
-	      layerdb.RectLinkLinks = RectLinkLinks
-        layerdb.LayerPointersEncoding.SVG_Layers_reverse = _SVG_Layers_reverse
+        layerdb.Rects = new Array<RectDB>()
+        for (let _id of layerdb.LayerPointersEncoding.Rects) {
+          let _rect = frontRepo.Rects.get(_id)
+          if (_rect != undefined) {
+            layerdb.Rects.push(_rect!)
+          }
+        }
+        layerdb.Texts = new Array<TextDB>()
+        for (let _id of layerdb.LayerPointersEncoding.Texts) {
+          let _text = frontRepo.Texts.get(_id)
+          if (_text != undefined) {
+            layerdb.Texts.push(_text!)
+          }
+        }
+        layerdb.Circles = new Array<CircleDB>()
+        for (let _id of layerdb.LayerPointersEncoding.Circles) {
+          let _circle = frontRepo.Circles.get(_id)
+          if (_circle != undefined) {
+            layerdb.Circles.push(_circle!)
+          }
+        }
+        layerdb.Lines = new Array<LineDB>()
+        for (let _id of layerdb.LayerPointersEncoding.Lines) {
+          let _line = frontRepo.Lines.get(_id)
+          if (_line != undefined) {
+            layerdb.Lines.push(_line!)
+          }
+        }
+        layerdb.Ellipses = new Array<EllipseDB>()
+        for (let _id of layerdb.LayerPointersEncoding.Ellipses) {
+          let _ellipse = frontRepo.Ellipses.get(_id)
+          if (_ellipse != undefined) {
+            layerdb.Ellipses.push(_ellipse!)
+          }
+        }
+        layerdb.Polylines = new Array<PolylineDB>()
+        for (let _id of layerdb.LayerPointersEncoding.Polylines) {
+          let _polyline = frontRepo.Polylines.get(_id)
+          if (_polyline != undefined) {
+            layerdb.Polylines.push(_polyline!)
+          }
+        }
+        layerdb.Polygones = new Array<PolygoneDB>()
+        for (let _id of layerdb.LayerPointersEncoding.Polygones) {
+          let _polygone = frontRepo.Polygones.get(_id)
+          if (_polygone != undefined) {
+            layerdb.Polygones.push(_polygone!)
+          }
+        }
+        layerdb.Paths = new Array<PathDB>()
+        for (let _id of layerdb.LayerPointersEncoding.Paths) {
+          let _path = frontRepo.Paths.get(_id)
+          if (_path != undefined) {
+            layerdb.Paths.push(_path!)
+          }
+        }
+        layerdb.Links = new Array<LinkDB>()
+        for (let _id of layerdb.LayerPointersEncoding.Links) {
+          let _link = frontRepo.Links.get(_id)
+          if (_link != undefined) {
+            layerdb.Links.push(_link!)
+          }
+        }
+        layerdb.RectLinkLinks = new Array<RectLinkLinkDB>()
+        for (let _id of layerdb.LayerPointersEncoding.RectLinkLinks) {
+          let _rectlinklink = frontRepo.RectLinkLinks.get(_id)
+          if (_rectlinklink != undefined) {
+            layerdb.RectLinkLinks.push(_rectlinklink!)
+          }
+        }
         // this.log(`posted layerdb id=${layerdb.ID}`)
       }),
       catchError(this.handleError<LayerDB>('postLayer'))
@@ -152,36 +239,55 @@ export class LayerService {
   }
 
   /** PUT: update the layerdb on the server */
-  update(layerdb: LayerDB, GONG__StackPath: string): Observable<LayerDB> {
-    return this.updateLayer(layerdb, GONG__StackPath)
+  update(layerdb: LayerDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<LayerDB> {
+    return this.updateLayer(layerdb, GONG__StackPath, frontRepo)
   }
-  updateLayer(layerdb: LayerDB, GONG__StackPath: string): Observable<LayerDB> {
+  updateLayer(layerdb: LayerDB, GONG__StackPath: string, frontRepo: FrontRepo): Observable<LayerDB> {
     const id = typeof layerdb === 'number' ? layerdb : layerdb.ID;
     const url = `${this.layersUrl}/${id}`;
 
-    // insertion point for reset of pointers and reverse pointers (to avoid circular JSON)
-    let Rects = layerdb.Rects
+    // insertion point for reset of pointers (to avoid circular JSON)
+	// and encoding of pointers
+    for (let _rect of layerdb.Rects) {
+      layerdb.LayerPointersEncoding.Rects.push(_rect.ID)
+    }
     layerdb.Rects = []
-    let Texts = layerdb.Texts
+    for (let _text of layerdb.Texts) {
+      layerdb.LayerPointersEncoding.Texts.push(_text.ID)
+    }
     layerdb.Texts = []
-    let Circles = layerdb.Circles
+    for (let _circle of layerdb.Circles) {
+      layerdb.LayerPointersEncoding.Circles.push(_circle.ID)
+    }
     layerdb.Circles = []
-    let Lines = layerdb.Lines
+    for (let _line of layerdb.Lines) {
+      layerdb.LayerPointersEncoding.Lines.push(_line.ID)
+    }
     layerdb.Lines = []
-    let Ellipses = layerdb.Ellipses
+    for (let _ellipse of layerdb.Ellipses) {
+      layerdb.LayerPointersEncoding.Ellipses.push(_ellipse.ID)
+    }
     layerdb.Ellipses = []
-    let Polylines = layerdb.Polylines
+    for (let _polyline of layerdb.Polylines) {
+      layerdb.LayerPointersEncoding.Polylines.push(_polyline.ID)
+    }
     layerdb.Polylines = []
-    let Polygones = layerdb.Polygones
+    for (let _polygone of layerdb.Polygones) {
+      layerdb.LayerPointersEncoding.Polygones.push(_polygone.ID)
+    }
     layerdb.Polygones = []
-    let Paths = layerdb.Paths
+    for (let _path of layerdb.Paths) {
+      layerdb.LayerPointersEncoding.Paths.push(_path.ID)
+    }
     layerdb.Paths = []
-    let Links = layerdb.Links
+    for (let _link of layerdb.Links) {
+      layerdb.LayerPointersEncoding.Links.push(_link.ID)
+    }
     layerdb.Links = []
-    let RectLinkLinks = layerdb.RectLinkLinks
+    for (let _rectlinklink of layerdb.RectLinkLinks) {
+      layerdb.LayerPointersEncoding.RectLinkLinks.push(_rectlinklink.ID)
+    }
     layerdb.RectLinkLinks = []
-    let _SVG_Layers_reverse = layerdb.LayerPointersEncoding.SVG_Layers_reverse
-    layerdb.LayerPointersEncoding.SVG_Layers_reverse = new SVGDB
 
     let params = new HttpParams().set("GONG__StackPath", GONG__StackPath)
     let httpOptions = {
@@ -192,17 +298,76 @@ export class LayerService {
     return this.http.put<LayerDB>(url, layerdb, httpOptions).pipe(
       tap(_ => {
         // insertion point for restoration of reverse pointers
-	      layerdb.Rects = Rects
-	      layerdb.Texts = Texts
-	      layerdb.Circles = Circles
-	      layerdb.Lines = Lines
-	      layerdb.Ellipses = Ellipses
-	      layerdb.Polylines = Polylines
-	      layerdb.Polygones = Polygones
-	      layerdb.Paths = Paths
-	      layerdb.Links = Links
-	      layerdb.RectLinkLinks = RectLinkLinks
-        layerdb.LayerPointersEncoding.SVG_Layers_reverse = _SVG_Layers_reverse
+        layerdb.Rects = new Array<RectDB>()
+        for (let _id of layerdb.LayerPointersEncoding.Rects) {
+          let _rect = frontRepo.Rects.get(_id)
+          if (_rect != undefined) {
+            layerdb.Rects.push(_rect!)
+          }
+        }
+        layerdb.Texts = new Array<TextDB>()
+        for (let _id of layerdb.LayerPointersEncoding.Texts) {
+          let _text = frontRepo.Texts.get(_id)
+          if (_text != undefined) {
+            layerdb.Texts.push(_text!)
+          }
+        }
+        layerdb.Circles = new Array<CircleDB>()
+        for (let _id of layerdb.LayerPointersEncoding.Circles) {
+          let _circle = frontRepo.Circles.get(_id)
+          if (_circle != undefined) {
+            layerdb.Circles.push(_circle!)
+          }
+        }
+        layerdb.Lines = new Array<LineDB>()
+        for (let _id of layerdb.LayerPointersEncoding.Lines) {
+          let _line = frontRepo.Lines.get(_id)
+          if (_line != undefined) {
+            layerdb.Lines.push(_line!)
+          }
+        }
+        layerdb.Ellipses = new Array<EllipseDB>()
+        for (let _id of layerdb.LayerPointersEncoding.Ellipses) {
+          let _ellipse = frontRepo.Ellipses.get(_id)
+          if (_ellipse != undefined) {
+            layerdb.Ellipses.push(_ellipse!)
+          }
+        }
+        layerdb.Polylines = new Array<PolylineDB>()
+        for (let _id of layerdb.LayerPointersEncoding.Polylines) {
+          let _polyline = frontRepo.Polylines.get(_id)
+          if (_polyline != undefined) {
+            layerdb.Polylines.push(_polyline!)
+          }
+        }
+        layerdb.Polygones = new Array<PolygoneDB>()
+        for (let _id of layerdb.LayerPointersEncoding.Polygones) {
+          let _polygone = frontRepo.Polygones.get(_id)
+          if (_polygone != undefined) {
+            layerdb.Polygones.push(_polygone!)
+          }
+        }
+        layerdb.Paths = new Array<PathDB>()
+        for (let _id of layerdb.LayerPointersEncoding.Paths) {
+          let _path = frontRepo.Paths.get(_id)
+          if (_path != undefined) {
+            layerdb.Paths.push(_path!)
+          }
+        }
+        layerdb.Links = new Array<LinkDB>()
+        for (let _id of layerdb.LayerPointersEncoding.Links) {
+          let _link = frontRepo.Links.get(_id)
+          if (_link != undefined) {
+            layerdb.Links.push(_link!)
+          }
+        }
+        layerdb.RectLinkLinks = new Array<RectLinkLinkDB>()
+        for (let _id of layerdb.LayerPointersEncoding.RectLinkLinks) {
+          let _rectlinklink = frontRepo.RectLinkLinks.get(_id)
+          if (_rectlinklink != undefined) {
+            layerdb.RectLinkLinks.push(_rectlinklink!)
+          }
+        }
         // this.log(`updated layerdb id=${layerdb.ID}`)
       }),
       catchError(this.handleError<LayerDB>('updateLayer'))
@@ -230,6 +395,6 @@ export class LayerService {
   }
 
   private log(message: string) {
-      console.log(message)
+    console.log(message)
   }
 }

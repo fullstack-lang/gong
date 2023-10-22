@@ -430,29 +430,29 @@ export class FrontRepoService {
       // expectation for a non-empty array of observables.
       of(null), // 
       // insertion point sub template
-      this.cellService.getCells(this.GONG__StackPath),
-      this.cellbooleanService.getCellBooleans(this.GONG__StackPath),
-      this.cellfloat64Service.getCellFloat64s(this.GONG__StackPath),
-      this.celliconService.getCellIcons(this.GONG__StackPath),
-      this.cellintService.getCellInts(this.GONG__StackPath),
-      this.cellstringService.getCellStrings(this.GONG__StackPath),
-      this.checkboxService.getCheckBoxs(this.GONG__StackPath),
-      this.displayedcolumnService.getDisplayedColumns(this.GONG__StackPath),
-      this.formdivService.getFormDivs(this.GONG__StackPath),
-      this.formeditassocbuttonService.getFormEditAssocButtons(this.GONG__StackPath),
-      this.formfieldService.getFormFields(this.GONG__StackPath),
-      this.formfielddateService.getFormFieldDates(this.GONG__StackPath),
-      this.formfielddatetimeService.getFormFieldDateTimes(this.GONG__StackPath),
-      this.formfieldfloat64Service.getFormFieldFloat64s(this.GONG__StackPath),
-      this.formfieldintService.getFormFieldInts(this.GONG__StackPath),
-      this.formfieldselectService.getFormFieldSelects(this.GONG__StackPath),
-      this.formfieldstringService.getFormFieldStrings(this.GONG__StackPath),
-      this.formfieldtimeService.getFormFieldTimes(this.GONG__StackPath),
-      this.formgroupService.getFormGroups(this.GONG__StackPath),
-      this.formsortassocbuttonService.getFormSortAssocButtons(this.GONG__StackPath),
-      this.optionService.getOptions(this.GONG__StackPath),
-      this.rowService.getRows(this.GONG__StackPath),
-      this.tableService.getTables(this.GONG__StackPath),
+      this.cellService.getCells(this.GONG__StackPath, this.frontRepo),
+      this.cellbooleanService.getCellBooleans(this.GONG__StackPath, this.frontRepo),
+      this.cellfloat64Service.getCellFloat64s(this.GONG__StackPath, this.frontRepo),
+      this.celliconService.getCellIcons(this.GONG__StackPath, this.frontRepo),
+      this.cellintService.getCellInts(this.GONG__StackPath, this.frontRepo),
+      this.cellstringService.getCellStrings(this.GONG__StackPath, this.frontRepo),
+      this.checkboxService.getCheckBoxs(this.GONG__StackPath, this.frontRepo),
+      this.displayedcolumnService.getDisplayedColumns(this.GONG__StackPath, this.frontRepo),
+      this.formdivService.getFormDivs(this.GONG__StackPath, this.frontRepo),
+      this.formeditassocbuttonService.getFormEditAssocButtons(this.GONG__StackPath, this.frontRepo),
+      this.formfieldService.getFormFields(this.GONG__StackPath, this.frontRepo),
+      this.formfielddateService.getFormFieldDates(this.GONG__StackPath, this.frontRepo),
+      this.formfielddatetimeService.getFormFieldDateTimes(this.GONG__StackPath, this.frontRepo),
+      this.formfieldfloat64Service.getFormFieldFloat64s(this.GONG__StackPath, this.frontRepo),
+      this.formfieldintService.getFormFieldInts(this.GONG__StackPath, this.frontRepo),
+      this.formfieldselectService.getFormFieldSelects(this.GONG__StackPath, this.frontRepo),
+      this.formfieldstringService.getFormFieldStrings(this.GONG__StackPath, this.frontRepo),
+      this.formfieldtimeService.getFormFieldTimes(this.GONG__StackPath, this.frontRepo),
+      this.formgroupService.getFormGroups(this.GONG__StackPath, this.frontRepo),
+      this.formsortassocbuttonService.getFormSortAssocButtons(this.GONG__StackPath, this.frontRepo),
+      this.optionService.getOptions(this.GONG__StackPath, this.frontRepo),
+      this.rowService.getRows(this.GONG__StackPath, this.frontRepo),
+      this.tableService.getTables(this.GONG__StackPath, this.frontRepo),
     ];
 
   //
@@ -468,29 +468,29 @@ export class FrontRepoService {
     this.observableFrontRepo = [
       of(null), // see above for justification
       // insertion point sub template
-      this.cellService.getCells(this.GONG__StackPath),
-      this.cellbooleanService.getCellBooleans(this.GONG__StackPath),
-      this.cellfloat64Service.getCellFloat64s(this.GONG__StackPath),
-      this.celliconService.getCellIcons(this.GONG__StackPath),
-      this.cellintService.getCellInts(this.GONG__StackPath),
-      this.cellstringService.getCellStrings(this.GONG__StackPath),
-      this.checkboxService.getCheckBoxs(this.GONG__StackPath),
-      this.displayedcolumnService.getDisplayedColumns(this.GONG__StackPath),
-      this.formdivService.getFormDivs(this.GONG__StackPath),
-      this.formeditassocbuttonService.getFormEditAssocButtons(this.GONG__StackPath),
-      this.formfieldService.getFormFields(this.GONG__StackPath),
-      this.formfielddateService.getFormFieldDates(this.GONG__StackPath),
-      this.formfielddatetimeService.getFormFieldDateTimes(this.GONG__StackPath),
-      this.formfieldfloat64Service.getFormFieldFloat64s(this.GONG__StackPath),
-      this.formfieldintService.getFormFieldInts(this.GONG__StackPath),
-      this.formfieldselectService.getFormFieldSelects(this.GONG__StackPath),
-      this.formfieldstringService.getFormFieldStrings(this.GONG__StackPath),
-      this.formfieldtimeService.getFormFieldTimes(this.GONG__StackPath),
-      this.formgroupService.getFormGroups(this.GONG__StackPath),
-      this.formsortassocbuttonService.getFormSortAssocButtons(this.GONG__StackPath),
-      this.optionService.getOptions(this.GONG__StackPath),
-      this.rowService.getRows(this.GONG__StackPath),
-      this.tableService.getTables(this.GONG__StackPath),
+      this.cellService.getCells(this.GONG__StackPath, this.frontRepo),
+      this.cellbooleanService.getCellBooleans(this.GONG__StackPath, this.frontRepo),
+      this.cellfloat64Service.getCellFloat64s(this.GONG__StackPath, this.frontRepo),
+      this.celliconService.getCellIcons(this.GONG__StackPath, this.frontRepo),
+      this.cellintService.getCellInts(this.GONG__StackPath, this.frontRepo),
+      this.cellstringService.getCellStrings(this.GONG__StackPath, this.frontRepo),
+      this.checkboxService.getCheckBoxs(this.GONG__StackPath, this.frontRepo),
+      this.displayedcolumnService.getDisplayedColumns(this.GONG__StackPath, this.frontRepo),
+      this.formdivService.getFormDivs(this.GONG__StackPath, this.frontRepo),
+      this.formeditassocbuttonService.getFormEditAssocButtons(this.GONG__StackPath, this.frontRepo),
+      this.formfieldService.getFormFields(this.GONG__StackPath, this.frontRepo),
+      this.formfielddateService.getFormFieldDates(this.GONG__StackPath, this.frontRepo),
+      this.formfielddatetimeService.getFormFieldDateTimes(this.GONG__StackPath, this.frontRepo),
+      this.formfieldfloat64Service.getFormFieldFloat64s(this.GONG__StackPath, this.frontRepo),
+      this.formfieldintService.getFormFieldInts(this.GONG__StackPath, this.frontRepo),
+      this.formfieldselectService.getFormFieldSelects(this.GONG__StackPath, this.frontRepo),
+      this.formfieldstringService.getFormFieldStrings(this.GONG__StackPath, this.frontRepo),
+      this.formfieldtimeService.getFormFieldTimes(this.GONG__StackPath, this.frontRepo),
+      this.formgroupService.getFormGroups(this.GONG__StackPath, this.frontRepo),
+      this.formsortassocbuttonService.getFormSortAssocButtons(this.GONG__StackPath, this.frontRepo),
+      this.optionService.getOptions(this.GONG__StackPath, this.frontRepo),
+      this.rowService.getRows(this.GONG__StackPath, this.frontRepo),
+      this.tableService.getTables(this.GONG__StackPath, this.frontRepo),
     ]
 
     return new Observable<FrontRepo>(
@@ -1338,7 +1338,7 @@ export class FrontRepoService {
 
 
             // 
-            // Second Step: redeem pointers between instances (thanks to maps in the First Step)
+            // Second Step: reddeem slice of pointers fields
             // insertion point sub template for redeem 
             cells.forEach(
               cell => {
@@ -1378,102 +1378,49 @@ export class FrontRepoService {
                     cell.CellIcon = _cellicon
                   }
                 }
-
-                // insertion point for redeeming ONE-MANY associations
-                // insertion point for slice of pointer field Row.Cells redeeming
-                // to be removed
-                {
-                  let _id = cell.CellPointersEncoding.Row_CellsDBID.Int64
-                  let _row = this.frontRepo.Rows.get(_id)
-                  if (_row) {
-                    if (_row.Cells == undefined) {
-                      _row.Cells = new Array<CellDB>()
-                    }
-                    _row.Cells.push(cell)
-                    if (cell.CellPointersEncoding.Row_Cells_reverse == undefined) {
-                      cell.CellPointersEncoding.Row_Cells_reverse = _row
-                    }
-                  }
-                }
+                // insertion point for pointers decoding
               }
             )
             cellbooleans.forEach(
               cellboolean => {
                 // insertion point sub sub template for ONE-/ZERO-ONE associations pointers redeeming
-
-                // insertion point for redeeming ONE-MANY associations
+                // insertion point for pointers decoding
               }
             )
             cellfloat64s.forEach(
               cellfloat64 => {
                 // insertion point sub sub template for ONE-/ZERO-ONE associations pointers redeeming
-
-                // insertion point for redeeming ONE-MANY associations
+                // insertion point for pointers decoding
               }
             )
             cellicons.forEach(
               cellicon => {
                 // insertion point sub sub template for ONE-/ZERO-ONE associations pointers redeeming
-
-                // insertion point for redeeming ONE-MANY associations
+                // insertion point for pointers decoding
               }
             )
             cellints.forEach(
               cellint => {
                 // insertion point sub sub template for ONE-/ZERO-ONE associations pointers redeeming
-
-                // insertion point for redeeming ONE-MANY associations
+                // insertion point for pointers decoding
               }
             )
             cellstrings.forEach(
               cellstring => {
                 // insertion point sub sub template for ONE-/ZERO-ONE associations pointers redeeming
-
-                // insertion point for redeeming ONE-MANY associations
+                // insertion point for pointers decoding
               }
             )
             checkboxs.forEach(
               checkbox => {
                 // insertion point sub sub template for ONE-/ZERO-ONE associations pointers redeeming
-
-                // insertion point for redeeming ONE-MANY associations
-                // insertion point for slice of pointer field FormDiv.CheckBoxs redeeming
-                // to be removed
-                {
-                  let _id = checkbox.CheckBoxPointersEncoding.FormDiv_CheckBoxsDBID.Int64
-                  let _formdiv = this.frontRepo.FormDivs.get(_id)
-                  if (_formdiv) {
-                    if (_formdiv.CheckBoxs == undefined) {
-                      _formdiv.CheckBoxs = new Array<CheckBoxDB>()
-                    }
-                    _formdiv.CheckBoxs.push(checkbox)
-                    if (checkbox.CheckBoxPointersEncoding.FormDiv_CheckBoxs_reverse == undefined) {
-                      checkbox.CheckBoxPointersEncoding.FormDiv_CheckBoxs_reverse = _formdiv
-                    }
-                  }
-                }
+                // insertion point for pointers decoding
               }
             )
             displayedcolumns.forEach(
               displayedcolumn => {
                 // insertion point sub sub template for ONE-/ZERO-ONE associations pointers redeeming
-
-                // insertion point for redeeming ONE-MANY associations
-                // insertion point for slice of pointer field Table.DisplayedColumns redeeming
-                // to be removed
-                {
-                  let _id = displayedcolumn.DisplayedColumnPointersEncoding.Table_DisplayedColumnsDBID.Int64
-                  let _table = this.frontRepo.Tables.get(_id)
-                  if (_table) {
-                    if (_table.DisplayedColumns == undefined) {
-                      _table.DisplayedColumns = new Array<DisplayedColumnDB>()
-                    }
-                    _table.DisplayedColumns.push(displayedcolumn)
-                    if (displayedcolumn.DisplayedColumnPointersEncoding.Table_DisplayedColumns_reverse == undefined) {
-                      displayedcolumn.DisplayedColumnPointersEncoding.Table_DisplayedColumns_reverse = _table
-                    }
-                  }
-                }
+                // insertion point for pointers decoding
               }
             )
             formdivs.forEach(
@@ -1493,21 +1440,19 @@ export class FrontRepoService {
                     formdiv.FormSortAssocButton = _formsortassocbutton
                   }
                 }
-
-                // insertion point for redeeming ONE-MANY associations
-                // insertion point for slice of pointer field FormGroup.FormDivs redeeming
-                // to be removed
-                {
-                  let _id = formdiv.FormDivPointersEncoding.FormGroup_FormDivsDBID.Int64
-                  let _formgroup = this.frontRepo.FormGroups.get(_id)
-                  if (_formgroup) {
-                    if (_formgroup.FormDivs == undefined) {
-                      _formgroup.FormDivs = new Array<FormDivDB>()
-                    }
-                    _formgroup.FormDivs.push(formdiv)
-                    if (formdiv.FormDivPointersEncoding.FormGroup_FormDivs_reverse == undefined) {
-                      formdiv.FormDivPointersEncoding.FormGroup_FormDivs_reverse = _formgroup
-                    }
+                // insertion point for pointers decoding
+                formdiv.FormFields = new Array<FormFieldDB>()
+                for (let _id of formdiv.FormDivPointersEncoding.FormFields) {
+                  let _formfield = this.frontRepo.FormFields.get(_id)
+                  if (_formfield != undefined) {
+                    formdiv.FormFields.push(_formfield!)
+                  }
+                }
+                formdiv.CheckBoxs = new Array<CheckBoxDB>()
+                for (let _id of formdiv.FormDivPointersEncoding.CheckBoxs) {
+                  let _checkbox = this.frontRepo.CheckBoxs.get(_id)
+                  if (_checkbox != undefined) {
+                    formdiv.CheckBoxs.push(_checkbox!)
                   }
                 }
               }
@@ -1515,8 +1460,7 @@ export class FrontRepoService {
             formeditassocbuttons.forEach(
               formeditassocbutton => {
                 // insertion point sub sub template for ONE-/ZERO-ONE associations pointers redeeming
-
-                // insertion point for redeeming ONE-MANY associations
+                // insertion point for pointers decoding
               }
             )
             formfields.forEach(
@@ -1571,51 +1515,31 @@ export class FrontRepoService {
                     formfield.FormFieldSelect = _formfieldselect
                   }
                 }
-
-                // insertion point for redeeming ONE-MANY associations
-                // insertion point for slice of pointer field FormDiv.FormFields redeeming
-                // to be removed
-                {
-                  let _id = formfield.FormFieldPointersEncoding.FormDiv_FormFieldsDBID.Int64
-                  let _formdiv = this.frontRepo.FormDivs.get(_id)
-                  if (_formdiv) {
-                    if (_formdiv.FormFields == undefined) {
-                      _formdiv.FormFields = new Array<FormFieldDB>()
-                    }
-                    _formdiv.FormFields.push(formfield)
-                    if (formfield.FormFieldPointersEncoding.FormDiv_FormFields_reverse == undefined) {
-                      formfield.FormFieldPointersEncoding.FormDiv_FormFields_reverse = _formdiv
-                    }
-                  }
-                }
+                // insertion point for pointers decoding
               }
             )
             formfielddates.forEach(
               formfielddate => {
                 // insertion point sub sub template for ONE-/ZERO-ONE associations pointers redeeming
-
-                // insertion point for redeeming ONE-MANY associations
+                // insertion point for pointers decoding
               }
             )
             formfielddatetimes.forEach(
               formfielddatetime => {
                 // insertion point sub sub template for ONE-/ZERO-ONE associations pointers redeeming
-
-                // insertion point for redeeming ONE-MANY associations
+                // insertion point for pointers decoding
               }
             )
             formfieldfloat64s.forEach(
               formfieldfloat64 => {
                 // insertion point sub sub template for ONE-/ZERO-ONE associations pointers redeeming
-
-                // insertion point for redeeming ONE-MANY associations
+                // insertion point for pointers decoding
               }
             )
             formfieldints.forEach(
               formfieldint => {
                 // insertion point sub sub template for ONE-/ZERO-ONE associations pointers redeeming
-
-                // insertion point for redeeming ONE-MANY associations
+                // insertion point for pointers decoding
               }
             )
             formfieldselects.forEach(
@@ -1628,78 +1552,62 @@ export class FrontRepoService {
                     formfieldselect.Value = _option
                   }
                 }
-
-                // insertion point for redeeming ONE-MANY associations
+                // insertion point for pointers decoding
+                formfieldselect.Options = new Array<OptionDB>()
+                for (let _id of formfieldselect.FormFieldSelectPointersEncoding.Options) {
+                  let _option = this.frontRepo.Options.get(_id)
+                  if (_option != undefined) {
+                    formfieldselect.Options.push(_option!)
+                  }
+                }
               }
             )
             formfieldstrings.forEach(
               formfieldstring => {
                 // insertion point sub sub template for ONE-/ZERO-ONE associations pointers redeeming
-
-                // insertion point for redeeming ONE-MANY associations
+                // insertion point for pointers decoding
               }
             )
             formfieldtimes.forEach(
               formfieldtime => {
                 // insertion point sub sub template for ONE-/ZERO-ONE associations pointers redeeming
-
-                // insertion point for redeeming ONE-MANY associations
+                // insertion point for pointers decoding
               }
             )
             formgroups.forEach(
               formgroup => {
                 // insertion point sub sub template for ONE-/ZERO-ONE associations pointers redeeming
-
-                // insertion point for redeeming ONE-MANY associations
+                // insertion point for pointers decoding
+                formgroup.FormDivs = new Array<FormDivDB>()
+                for (let _id of formgroup.FormGroupPointersEncoding.FormDivs) {
+                  let _formdiv = this.frontRepo.FormDivs.get(_id)
+                  if (_formdiv != undefined) {
+                    formgroup.FormDivs.push(_formdiv!)
+                  }
+                }
               }
             )
             formsortassocbuttons.forEach(
               formsortassocbutton => {
                 // insertion point sub sub template for ONE-/ZERO-ONE associations pointers redeeming
-
-                // insertion point for redeeming ONE-MANY associations
+                // insertion point for pointers decoding
               }
             )
             options.forEach(
               option => {
                 // insertion point sub sub template for ONE-/ZERO-ONE associations pointers redeeming
-
-                // insertion point for redeeming ONE-MANY associations
-                // insertion point for slice of pointer field FormFieldSelect.Options redeeming
-                // to be removed
-                {
-                  let _id = option.OptionPointersEncoding.FormFieldSelect_OptionsDBID.Int64
-                  let _formfieldselect = this.frontRepo.FormFieldSelects.get(_id)
-                  if (_formfieldselect) {
-                    if (_formfieldselect.Options == undefined) {
-                      _formfieldselect.Options = new Array<OptionDB>()
-                    }
-                    _formfieldselect.Options.push(option)
-                    if (option.OptionPointersEncoding.FormFieldSelect_Options_reverse == undefined) {
-                      option.OptionPointersEncoding.FormFieldSelect_Options_reverse = _formfieldselect
-                    }
-                  }
-                }
+                // insertion point for pointers decoding
               }
             )
             rows.forEach(
               row => {
                 // insertion point sub sub template for ONE-/ZERO-ONE associations pointers redeeming
-
-                // insertion point for redeeming ONE-MANY associations
-                // insertion point for slice of pointer field Table.Rows redeeming
-                // to be removed
-                {
-                  let _id = row.RowPointersEncoding.Table_RowsDBID.Int64
-                  let _table = this.frontRepo.Tables.get(_id)
-                  if (_table) {
-                    if (_table.Rows == undefined) {
-                      _table.Rows = new Array<RowDB>()
-                    }
-                    _table.Rows.push(row)
-                    if (row.RowPointersEncoding.Table_Rows_reverse == undefined) {
-                      row.RowPointersEncoding.Table_Rows_reverse = _table
-                    }
+                // insertion point for pointers decoding
+                row.Cells = new Array<CellDB>()
+                for (let _id of row.RowPointersEncoding.Cells) {
+                  let _cell = this.frontRepo.Cells.get(_id)
+                  if (_cell != undefined) {
+                    row.Cells.push(_cell!)
                   }
                 }
               }
@@ -1707,204 +1615,21 @@ export class FrontRepoService {
             tables.forEach(
               table => {
                 // insertion point sub sub template for ONE-/ZERO-ONE associations pointers redeeming
-
-                // insertion point for redeeming ONE-MANY associations
-              }
-            )
-
-            // 
-            // Third Step: sort arrays (slices in go) according to their index
-            // insertion point sub template for redeem 
-            cells.forEach(
-              cell => {
-                // insertion point for sorting
-              }
-            )
-            cellbooleans.forEach(
-              cellboolean => {
-                // insertion point for sorting
-              }
-            )
-            cellfloat64s.forEach(
-              cellfloat64 => {
-                // insertion point for sorting
-              }
-            )
-            cellicons.forEach(
-              cellicon => {
-                // insertion point for sorting
-              }
-            )
-            cellints.forEach(
-              cellint => {
-                // insertion point for sorting
-              }
-            )
-            cellstrings.forEach(
-              cellstring => {
-                // insertion point for sorting
-              }
-            )
-            checkboxs.forEach(
-              checkbox => {
-                // insertion point for sorting
-              }
-            )
-            displayedcolumns.forEach(
-              displayedcolumn => {
-                // insertion point for sorting
-              }
-            )
-            formdivs.forEach(
-              formdiv => {
-                // insertion point for sorting
-                // to be removed
-                formdiv.FormFields?.sort((t1, t2) => {
-                  if (t1.FormFieldPointersEncoding.FormDiv_FormFieldsDBID_Index.Int64 > t2.FormFieldPointersEncoding.FormDiv_FormFieldsDBID_Index.Int64) {
-                    return 1;
+                // insertion point for pointers decoding
+                table.DisplayedColumns = new Array<DisplayedColumnDB>()
+                for (let _id of table.TablePointersEncoding.DisplayedColumns) {
+                  let _displayedcolumn = this.frontRepo.DisplayedColumns.get(_id)
+                  if (_displayedcolumn != undefined) {
+                    table.DisplayedColumns.push(_displayedcolumn!)
                   }
-                  if (t1.FormFieldPointersEncoding.FormDiv_FormFieldsDBID_Index.Int64 < t2.FormFieldPointersEncoding.FormDiv_FormFieldsDBID_Index.Int64) {
-                    return -1;
+                }
+                table.Rows = new Array<RowDB>()
+                for (let _id of table.TablePointersEncoding.Rows) {
+                  let _row = this.frontRepo.Rows.get(_id)
+                  if (_row != undefined) {
+                    table.Rows.push(_row!)
                   }
-                  return 0;
-                })
-
-                // to be removed
-                formdiv.CheckBoxs?.sort((t1, t2) => {
-                  if (t1.CheckBoxPointersEncoding.FormDiv_CheckBoxsDBID_Index.Int64 > t2.CheckBoxPointersEncoding.FormDiv_CheckBoxsDBID_Index.Int64) {
-                    return 1;
-                  }
-                  if (t1.CheckBoxPointersEncoding.FormDiv_CheckBoxsDBID_Index.Int64 < t2.CheckBoxPointersEncoding.FormDiv_CheckBoxsDBID_Index.Int64) {
-                    return -1;
-                  }
-                  return 0;
-                })
-
-              }
-            )
-            formeditassocbuttons.forEach(
-              formeditassocbutton => {
-                // insertion point for sorting
-              }
-            )
-            formfields.forEach(
-              formfield => {
-                // insertion point for sorting
-              }
-            )
-            formfielddates.forEach(
-              formfielddate => {
-                // insertion point for sorting
-              }
-            )
-            formfielddatetimes.forEach(
-              formfielddatetime => {
-                // insertion point for sorting
-              }
-            )
-            formfieldfloat64s.forEach(
-              formfieldfloat64 => {
-                // insertion point for sorting
-              }
-            )
-            formfieldints.forEach(
-              formfieldint => {
-                // insertion point for sorting
-              }
-            )
-            formfieldselects.forEach(
-              formfieldselect => {
-                // insertion point for sorting
-                // to be removed
-                formfieldselect.Options?.sort((t1, t2) => {
-                  if (t1.OptionPointersEncoding.FormFieldSelect_OptionsDBID_Index.Int64 > t2.OptionPointersEncoding.FormFieldSelect_OptionsDBID_Index.Int64) {
-                    return 1;
-                  }
-                  if (t1.OptionPointersEncoding.FormFieldSelect_OptionsDBID_Index.Int64 < t2.OptionPointersEncoding.FormFieldSelect_OptionsDBID_Index.Int64) {
-                    return -1;
-                  }
-                  return 0;
-                })
-
-              }
-            )
-            formfieldstrings.forEach(
-              formfieldstring => {
-                // insertion point for sorting
-              }
-            )
-            formfieldtimes.forEach(
-              formfieldtime => {
-                // insertion point for sorting
-              }
-            )
-            formgroups.forEach(
-              formgroup => {
-                // insertion point for sorting
-                // to be removed
-                formgroup.FormDivs?.sort((t1, t2) => {
-                  if (t1.FormDivPointersEncoding.FormGroup_FormDivsDBID_Index.Int64 > t2.FormDivPointersEncoding.FormGroup_FormDivsDBID_Index.Int64) {
-                    return 1;
-                  }
-                  if (t1.FormDivPointersEncoding.FormGroup_FormDivsDBID_Index.Int64 < t2.FormDivPointersEncoding.FormGroup_FormDivsDBID_Index.Int64) {
-                    return -1;
-                  }
-                  return 0;
-                })
-
-              }
-            )
-            formsortassocbuttons.forEach(
-              formsortassocbutton => {
-                // insertion point for sorting
-              }
-            )
-            options.forEach(
-              option => {
-                // insertion point for sorting
-              }
-            )
-            rows.forEach(
-              row => {
-                // insertion point for sorting
-                // to be removed
-                row.Cells?.sort((t1, t2) => {
-                  if (t1.CellPointersEncoding.Row_CellsDBID_Index.Int64 > t2.CellPointersEncoding.Row_CellsDBID_Index.Int64) {
-                    return 1;
-                  }
-                  if (t1.CellPointersEncoding.Row_CellsDBID_Index.Int64 < t2.CellPointersEncoding.Row_CellsDBID_Index.Int64) {
-                    return -1;
-                  }
-                  return 0;
-                })
-
-              }
-            )
-            tables.forEach(
-              table => {
-                // insertion point for sorting
-                // to be removed
-                table.DisplayedColumns?.sort((t1, t2) => {
-                  if (t1.DisplayedColumnPointersEncoding.Table_DisplayedColumnsDBID_Index.Int64 > t2.DisplayedColumnPointersEncoding.Table_DisplayedColumnsDBID_Index.Int64) {
-                    return 1;
-                  }
-                  if (t1.DisplayedColumnPointersEncoding.Table_DisplayedColumnsDBID_Index.Int64 < t2.DisplayedColumnPointersEncoding.Table_DisplayedColumnsDBID_Index.Int64) {
-                    return -1;
-                  }
-                  return 0;
-                })
-
-                // to be removed
-                table.Rows?.sort((t1, t2) => {
-                  if (t1.RowPointersEncoding.Table_RowsDBID_Index.Int64 > t2.RowPointersEncoding.Table_RowsDBID_Index.Int64) {
-                    return 1;
-                  }
-                  if (t1.RowPointersEncoding.Table_RowsDBID_Index.Int64 < t2.RowPointersEncoding.Table_RowsDBID_Index.Int64) {
-                    return -1;
-                  }
-                  return 0;
-                })
-
+                }
               }
             )
 
@@ -1923,7 +1648,7 @@ export class FrontRepoService {
     return new Observable<FrontRepo>(
       (observer) => {
         combineLatest([
-          this.cellService.getCells(this.GONG__StackPath)
+          this.cellService.getCells(this.GONG__StackPath, this.frontRepo)
         ]).subscribe(
           ([ // insertion point sub template 
             cells,
@@ -1978,23 +1703,6 @@ export class FrontRepoService {
                     cell.CellIcon = _cellicon
                   }
                 }
-
-                // insertion point for redeeming ONE-MANY associations
-                // insertion point for slice of pointer field Row.Cells redeeming
-                // to be removed
-                {
-                  let _id = cell.CellPointersEncoding.Row_CellsDBID.Int64
-                  let _row = this.frontRepo.Rows.get(_id)
-                  if (_row) {
-                    if (_row.Cells == undefined) {
-                      _row.Cells = new Array<CellDB>()
-                    }
-                    _row.Cells.push(cell)
-                    if (cell.CellPointersEncoding.Row_Cells_reverse == undefined) {
-                      cell.CellPointersEncoding.Row_Cells_reverse = _row
-                    }
-                  }
-                }
               }
             )
 
@@ -2024,7 +1732,7 @@ export class FrontRepoService {
     return new Observable<FrontRepo>(
       (observer) => {
         combineLatest([
-          this.cellbooleanService.getCellBooleans(this.GONG__StackPath)
+          this.cellbooleanService.getCellBooleans(this.GONG__StackPath, this.frontRepo)
         ]).subscribe(
           ([ // insertion point sub template 
             cellbooleans,
@@ -2044,8 +1752,6 @@ export class FrontRepoService {
                 this.frontRepo.CellBooleans_batch.set(cellboolean.ID, cellboolean)
 
                 // insertion point for redeeming ONE/ZERO-ONE associations
-
-                // insertion point for redeeming ONE-MANY associations
               }
             )
 
@@ -2075,7 +1781,7 @@ export class FrontRepoService {
     return new Observable<FrontRepo>(
       (observer) => {
         combineLatest([
-          this.cellfloat64Service.getCellFloat64s(this.GONG__StackPath)
+          this.cellfloat64Service.getCellFloat64s(this.GONG__StackPath, this.frontRepo)
         ]).subscribe(
           ([ // insertion point sub template 
             cellfloat64s,
@@ -2095,8 +1801,6 @@ export class FrontRepoService {
                 this.frontRepo.CellFloat64s_batch.set(cellfloat64.ID, cellfloat64)
 
                 // insertion point for redeeming ONE/ZERO-ONE associations
-
-                // insertion point for redeeming ONE-MANY associations
               }
             )
 
@@ -2126,7 +1830,7 @@ export class FrontRepoService {
     return new Observable<FrontRepo>(
       (observer) => {
         combineLatest([
-          this.celliconService.getCellIcons(this.GONG__StackPath)
+          this.celliconService.getCellIcons(this.GONG__StackPath, this.frontRepo)
         ]).subscribe(
           ([ // insertion point sub template 
             cellicons,
@@ -2146,8 +1850,6 @@ export class FrontRepoService {
                 this.frontRepo.CellIcons_batch.set(cellicon.ID, cellicon)
 
                 // insertion point for redeeming ONE/ZERO-ONE associations
-
-                // insertion point for redeeming ONE-MANY associations
               }
             )
 
@@ -2177,7 +1879,7 @@ export class FrontRepoService {
     return new Observable<FrontRepo>(
       (observer) => {
         combineLatest([
-          this.cellintService.getCellInts(this.GONG__StackPath)
+          this.cellintService.getCellInts(this.GONG__StackPath, this.frontRepo)
         ]).subscribe(
           ([ // insertion point sub template 
             cellints,
@@ -2197,8 +1899,6 @@ export class FrontRepoService {
                 this.frontRepo.CellInts_batch.set(cellint.ID, cellint)
 
                 // insertion point for redeeming ONE/ZERO-ONE associations
-
-                // insertion point for redeeming ONE-MANY associations
               }
             )
 
@@ -2228,7 +1928,7 @@ export class FrontRepoService {
     return new Observable<FrontRepo>(
       (observer) => {
         combineLatest([
-          this.cellstringService.getCellStrings(this.GONG__StackPath)
+          this.cellstringService.getCellStrings(this.GONG__StackPath, this.frontRepo)
         ]).subscribe(
           ([ // insertion point sub template 
             cellstrings,
@@ -2248,8 +1948,6 @@ export class FrontRepoService {
                 this.frontRepo.CellStrings_batch.set(cellstring.ID, cellstring)
 
                 // insertion point for redeeming ONE/ZERO-ONE associations
-
-                // insertion point for redeeming ONE-MANY associations
               }
             )
 
@@ -2279,7 +1977,7 @@ export class FrontRepoService {
     return new Observable<FrontRepo>(
       (observer) => {
         combineLatest([
-          this.checkboxService.getCheckBoxs(this.GONG__StackPath)
+          this.checkboxService.getCheckBoxs(this.GONG__StackPath, this.frontRepo)
         ]).subscribe(
           ([ // insertion point sub template 
             checkboxs,
@@ -2299,23 +1997,6 @@ export class FrontRepoService {
                 this.frontRepo.CheckBoxs_batch.set(checkbox.ID, checkbox)
 
                 // insertion point for redeeming ONE/ZERO-ONE associations
-
-                // insertion point for redeeming ONE-MANY associations
-                // insertion point for slice of pointer field FormDiv.CheckBoxs redeeming
-                // to be removed
-                {
-                  let _id = checkbox.CheckBoxPointersEncoding.FormDiv_CheckBoxsDBID.Int64
-                  let _formdiv = this.frontRepo.FormDivs.get(_id)
-                  if (_formdiv) {
-                    if (_formdiv.CheckBoxs == undefined) {
-                      _formdiv.CheckBoxs = new Array<CheckBoxDB>()
-                    }
-                    _formdiv.CheckBoxs.push(checkbox)
-                    if (checkbox.CheckBoxPointersEncoding.FormDiv_CheckBoxs_reverse == undefined) {
-                      checkbox.CheckBoxPointersEncoding.FormDiv_CheckBoxs_reverse = _formdiv
-                    }
-                  }
-                }
               }
             )
 
@@ -2345,7 +2026,7 @@ export class FrontRepoService {
     return new Observable<FrontRepo>(
       (observer) => {
         combineLatest([
-          this.displayedcolumnService.getDisplayedColumns(this.GONG__StackPath)
+          this.displayedcolumnService.getDisplayedColumns(this.GONG__StackPath, this.frontRepo)
         ]).subscribe(
           ([ // insertion point sub template 
             displayedcolumns,
@@ -2365,23 +2046,6 @@ export class FrontRepoService {
                 this.frontRepo.DisplayedColumns_batch.set(displayedcolumn.ID, displayedcolumn)
 
                 // insertion point for redeeming ONE/ZERO-ONE associations
-
-                // insertion point for redeeming ONE-MANY associations
-                // insertion point for slice of pointer field Table.DisplayedColumns redeeming
-                // to be removed
-                {
-                  let _id = displayedcolumn.DisplayedColumnPointersEncoding.Table_DisplayedColumnsDBID.Int64
-                  let _table = this.frontRepo.Tables.get(_id)
-                  if (_table) {
-                    if (_table.DisplayedColumns == undefined) {
-                      _table.DisplayedColumns = new Array<DisplayedColumnDB>()
-                    }
-                    _table.DisplayedColumns.push(displayedcolumn)
-                    if (displayedcolumn.DisplayedColumnPointersEncoding.Table_DisplayedColumns_reverse == undefined) {
-                      displayedcolumn.DisplayedColumnPointersEncoding.Table_DisplayedColumns_reverse = _table
-                    }
-                  }
-                }
               }
             )
 
@@ -2411,7 +2075,7 @@ export class FrontRepoService {
     return new Observable<FrontRepo>(
       (observer) => {
         combineLatest([
-          this.formdivService.getFormDivs(this.GONG__StackPath)
+          this.formdivService.getFormDivs(this.GONG__StackPath, this.frontRepo)
         ]).subscribe(
           ([ // insertion point sub template 
             formdivs,
@@ -2445,23 +2109,6 @@ export class FrontRepoService {
                     formdiv.FormSortAssocButton = _formsortassocbutton
                   }
                 }
-
-                // insertion point for redeeming ONE-MANY associations
-                // insertion point for slice of pointer field FormGroup.FormDivs redeeming
-                // to be removed
-                {
-                  let _id = formdiv.FormDivPointersEncoding.FormGroup_FormDivsDBID.Int64
-                  let _formgroup = this.frontRepo.FormGroups.get(_id)
-                  if (_formgroup) {
-                    if (_formgroup.FormDivs == undefined) {
-                      _formgroup.FormDivs = new Array<FormDivDB>()
-                    }
-                    _formgroup.FormDivs.push(formdiv)
-                    if (formdiv.FormDivPointersEncoding.FormGroup_FormDivs_reverse == undefined) {
-                      formdiv.FormDivPointersEncoding.FormGroup_FormDivs_reverse = _formgroup
-                    }
-                  }
-                }
               }
             )
 
@@ -2491,7 +2138,7 @@ export class FrontRepoService {
     return new Observable<FrontRepo>(
       (observer) => {
         combineLatest([
-          this.formeditassocbuttonService.getFormEditAssocButtons(this.GONG__StackPath)
+          this.formeditassocbuttonService.getFormEditAssocButtons(this.GONG__StackPath, this.frontRepo)
         ]).subscribe(
           ([ // insertion point sub template 
             formeditassocbuttons,
@@ -2511,8 +2158,6 @@ export class FrontRepoService {
                 this.frontRepo.FormEditAssocButtons_batch.set(formeditassocbutton.ID, formeditassocbutton)
 
                 // insertion point for redeeming ONE/ZERO-ONE associations
-
-                // insertion point for redeeming ONE-MANY associations
               }
             )
 
@@ -2542,7 +2187,7 @@ export class FrontRepoService {
     return new Observable<FrontRepo>(
       (observer) => {
         combineLatest([
-          this.formfieldService.getFormFields(this.GONG__StackPath)
+          this.formfieldService.getFormFields(this.GONG__StackPath, this.frontRepo)
         ]).subscribe(
           ([ // insertion point sub template 
             formfields,
@@ -2611,23 +2256,6 @@ export class FrontRepoService {
                     formfield.FormFieldSelect = _formfieldselect
                   }
                 }
-
-                // insertion point for redeeming ONE-MANY associations
-                // insertion point for slice of pointer field FormDiv.FormFields redeeming
-                // to be removed
-                {
-                  let _id = formfield.FormFieldPointersEncoding.FormDiv_FormFieldsDBID.Int64
-                  let _formdiv = this.frontRepo.FormDivs.get(_id)
-                  if (_formdiv) {
-                    if (_formdiv.FormFields == undefined) {
-                      _formdiv.FormFields = new Array<FormFieldDB>()
-                    }
-                    _formdiv.FormFields.push(formfield)
-                    if (formfield.FormFieldPointersEncoding.FormDiv_FormFields_reverse == undefined) {
-                      formfield.FormFieldPointersEncoding.FormDiv_FormFields_reverse = _formdiv
-                    }
-                  }
-                }
               }
             )
 
@@ -2657,7 +2285,7 @@ export class FrontRepoService {
     return new Observable<FrontRepo>(
       (observer) => {
         combineLatest([
-          this.formfielddateService.getFormFieldDates(this.GONG__StackPath)
+          this.formfielddateService.getFormFieldDates(this.GONG__StackPath, this.frontRepo)
         ]).subscribe(
           ([ // insertion point sub template 
             formfielddates,
@@ -2677,8 +2305,6 @@ export class FrontRepoService {
                 this.frontRepo.FormFieldDates_batch.set(formfielddate.ID, formfielddate)
 
                 // insertion point for redeeming ONE/ZERO-ONE associations
-
-                // insertion point for redeeming ONE-MANY associations
               }
             )
 
@@ -2708,7 +2334,7 @@ export class FrontRepoService {
     return new Observable<FrontRepo>(
       (observer) => {
         combineLatest([
-          this.formfielddatetimeService.getFormFieldDateTimes(this.GONG__StackPath)
+          this.formfielddatetimeService.getFormFieldDateTimes(this.GONG__StackPath, this.frontRepo)
         ]).subscribe(
           ([ // insertion point sub template 
             formfielddatetimes,
@@ -2728,8 +2354,6 @@ export class FrontRepoService {
                 this.frontRepo.FormFieldDateTimes_batch.set(formfielddatetime.ID, formfielddatetime)
 
                 // insertion point for redeeming ONE/ZERO-ONE associations
-
-                // insertion point for redeeming ONE-MANY associations
               }
             )
 
@@ -2759,7 +2383,7 @@ export class FrontRepoService {
     return new Observable<FrontRepo>(
       (observer) => {
         combineLatest([
-          this.formfieldfloat64Service.getFormFieldFloat64s(this.GONG__StackPath)
+          this.formfieldfloat64Service.getFormFieldFloat64s(this.GONG__StackPath, this.frontRepo)
         ]).subscribe(
           ([ // insertion point sub template 
             formfieldfloat64s,
@@ -2779,8 +2403,6 @@ export class FrontRepoService {
                 this.frontRepo.FormFieldFloat64s_batch.set(formfieldfloat64.ID, formfieldfloat64)
 
                 // insertion point for redeeming ONE/ZERO-ONE associations
-
-                // insertion point for redeeming ONE-MANY associations
               }
             )
 
@@ -2810,7 +2432,7 @@ export class FrontRepoService {
     return new Observable<FrontRepo>(
       (observer) => {
         combineLatest([
-          this.formfieldintService.getFormFieldInts(this.GONG__StackPath)
+          this.formfieldintService.getFormFieldInts(this.GONG__StackPath, this.frontRepo)
         ]).subscribe(
           ([ // insertion point sub template 
             formfieldints,
@@ -2830,8 +2452,6 @@ export class FrontRepoService {
                 this.frontRepo.FormFieldInts_batch.set(formfieldint.ID, formfieldint)
 
                 // insertion point for redeeming ONE/ZERO-ONE associations
-
-                // insertion point for redeeming ONE-MANY associations
               }
             )
 
@@ -2861,7 +2481,7 @@ export class FrontRepoService {
     return new Observable<FrontRepo>(
       (observer) => {
         combineLatest([
-          this.formfieldselectService.getFormFieldSelects(this.GONG__StackPath)
+          this.formfieldselectService.getFormFieldSelects(this.GONG__StackPath, this.frontRepo)
         ]).subscribe(
           ([ // insertion point sub template 
             formfieldselects,
@@ -2888,8 +2508,6 @@ export class FrontRepoService {
                     formfieldselect.Value = _option
                   }
                 }
-
-                // insertion point for redeeming ONE-MANY associations
               }
             )
 
@@ -2919,7 +2537,7 @@ export class FrontRepoService {
     return new Observable<FrontRepo>(
       (observer) => {
         combineLatest([
-          this.formfieldstringService.getFormFieldStrings(this.GONG__StackPath)
+          this.formfieldstringService.getFormFieldStrings(this.GONG__StackPath, this.frontRepo)
         ]).subscribe(
           ([ // insertion point sub template 
             formfieldstrings,
@@ -2939,8 +2557,6 @@ export class FrontRepoService {
                 this.frontRepo.FormFieldStrings_batch.set(formfieldstring.ID, formfieldstring)
 
                 // insertion point for redeeming ONE/ZERO-ONE associations
-
-                // insertion point for redeeming ONE-MANY associations
               }
             )
 
@@ -2970,7 +2586,7 @@ export class FrontRepoService {
     return new Observable<FrontRepo>(
       (observer) => {
         combineLatest([
-          this.formfieldtimeService.getFormFieldTimes(this.GONG__StackPath)
+          this.formfieldtimeService.getFormFieldTimes(this.GONG__StackPath, this.frontRepo)
         ]).subscribe(
           ([ // insertion point sub template 
             formfieldtimes,
@@ -2990,8 +2606,6 @@ export class FrontRepoService {
                 this.frontRepo.FormFieldTimes_batch.set(formfieldtime.ID, formfieldtime)
 
                 // insertion point for redeeming ONE/ZERO-ONE associations
-
-                // insertion point for redeeming ONE-MANY associations
               }
             )
 
@@ -3021,7 +2635,7 @@ export class FrontRepoService {
     return new Observable<FrontRepo>(
       (observer) => {
         combineLatest([
-          this.formgroupService.getFormGroups(this.GONG__StackPath)
+          this.formgroupService.getFormGroups(this.GONG__StackPath, this.frontRepo)
         ]).subscribe(
           ([ // insertion point sub template 
             formgroups,
@@ -3041,8 +2655,6 @@ export class FrontRepoService {
                 this.frontRepo.FormGroups_batch.set(formgroup.ID, formgroup)
 
                 // insertion point for redeeming ONE/ZERO-ONE associations
-
-                // insertion point for redeeming ONE-MANY associations
               }
             )
 
@@ -3072,7 +2684,7 @@ export class FrontRepoService {
     return new Observable<FrontRepo>(
       (observer) => {
         combineLatest([
-          this.formsortassocbuttonService.getFormSortAssocButtons(this.GONG__StackPath)
+          this.formsortassocbuttonService.getFormSortAssocButtons(this.GONG__StackPath, this.frontRepo)
         ]).subscribe(
           ([ // insertion point sub template 
             formsortassocbuttons,
@@ -3092,8 +2704,6 @@ export class FrontRepoService {
                 this.frontRepo.FormSortAssocButtons_batch.set(formsortassocbutton.ID, formsortassocbutton)
 
                 // insertion point for redeeming ONE/ZERO-ONE associations
-
-                // insertion point for redeeming ONE-MANY associations
               }
             )
 
@@ -3123,7 +2733,7 @@ export class FrontRepoService {
     return new Observable<FrontRepo>(
       (observer) => {
         combineLatest([
-          this.optionService.getOptions(this.GONG__StackPath)
+          this.optionService.getOptions(this.GONG__StackPath, this.frontRepo)
         ]).subscribe(
           ([ // insertion point sub template 
             options,
@@ -3143,23 +2753,6 @@ export class FrontRepoService {
                 this.frontRepo.Options_batch.set(option.ID, option)
 
                 // insertion point for redeeming ONE/ZERO-ONE associations
-
-                // insertion point for redeeming ONE-MANY associations
-                // insertion point for slice of pointer field FormFieldSelect.Options redeeming
-                // to be removed
-                {
-                  let _id = option.OptionPointersEncoding.FormFieldSelect_OptionsDBID.Int64
-                  let _formfieldselect = this.frontRepo.FormFieldSelects.get(_id)
-                  if (_formfieldselect) {
-                    if (_formfieldselect.Options == undefined) {
-                      _formfieldselect.Options = new Array<OptionDB>()
-                    }
-                    _formfieldselect.Options.push(option)
-                    if (option.OptionPointersEncoding.FormFieldSelect_Options_reverse == undefined) {
-                      option.OptionPointersEncoding.FormFieldSelect_Options_reverse = _formfieldselect
-                    }
-                  }
-                }
               }
             )
 
@@ -3189,7 +2782,7 @@ export class FrontRepoService {
     return new Observable<FrontRepo>(
       (observer) => {
         combineLatest([
-          this.rowService.getRows(this.GONG__StackPath)
+          this.rowService.getRows(this.GONG__StackPath, this.frontRepo)
         ]).subscribe(
           ([ // insertion point sub template 
             rows,
@@ -3209,23 +2802,6 @@ export class FrontRepoService {
                 this.frontRepo.Rows_batch.set(row.ID, row)
 
                 // insertion point for redeeming ONE/ZERO-ONE associations
-
-                // insertion point for redeeming ONE-MANY associations
-                // insertion point for slice of pointer field Table.Rows redeeming
-                // to be removed
-                {
-                  let _id = row.RowPointersEncoding.Table_RowsDBID.Int64
-                  let _table = this.frontRepo.Tables.get(_id)
-                  if (_table) {
-                    if (_table.Rows == undefined) {
-                      _table.Rows = new Array<RowDB>()
-                    }
-                    _table.Rows.push(row)
-                    if (row.RowPointersEncoding.Table_Rows_reverse == undefined) {
-                      row.RowPointersEncoding.Table_Rows_reverse = _table
-                    }
-                  }
-                }
               }
             )
 
@@ -3255,7 +2831,7 @@ export class FrontRepoService {
     return new Observable<FrontRepo>(
       (observer) => {
         combineLatest([
-          this.tableService.getTables(this.GONG__StackPath)
+          this.tableService.getTables(this.GONG__StackPath, this.frontRepo)
         ]).subscribe(
           ([ // insertion point sub template 
             tables,
@@ -3275,8 +2851,6 @@ export class FrontRepoService {
                 this.frontRepo.Tables_batch.set(table.ID, table)
 
                 // insertion point for redeeming ONE/ZERO-ONE associations
-
-                // insertion point for redeeming ONE-MANY associations
               }
             )
 
