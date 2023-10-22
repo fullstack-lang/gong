@@ -339,40 +339,6 @@ func MultiCodeGeneratorNgService(
 			}
 		}
 
-		//
-		// Parse all fields from other structs that points to this struct
-		//
-		for _, __struct := range structList {
-			for _, field := range __struct.Fields {
-				switch field := field.(type) {
-				case *models.SliceOfPointerToGongStructField:
-
-					if field.GongStruct == _struct {
-
-						TSinsertions[NgServiceTsInsertionPointerEncoding] +=
-							models.Replace2(NgServiceSubTemplateCode[NgServiceTSSliceOfPointerToGongStructReversePointerReset],
-								"{{FieldName}}", field.Name,
-								"{{AssocStructName}}", __struct.Name)
-
-						TSinsertions[NgServiceTsInsertionPointerDecoding] +=
-							models.Replace2(NgServiceSubTemplateCode[NgServiceTSSliceOfPointerToGongStructReversePointerRestore],
-								"{{FieldName}}", field.Name,
-								"{{AssocStructName}}", __struct.Name)
-
-						var importToInsert = models.Replace2(NgServiceSubTemplateCode[NgServiceTSReversePointerToSliceOfGongStructImports],
-							"{{AssocStructName}}", __struct.Name,
-							"{{assocStructName}}", strings.ToLower(__struct.Name))
-
-						// cannot insert twice the same import
-						if !strings.Contains(TSinsertions[NgServiceTsInsertionImports], importToInsert) &&
-							__struct.Name != _struct.Name {
-							TSinsertions[NgServiceTsInsertionImports] += importToInsert
-						}
-					}
-				}
-			}
-		}
-
 		for insertion := NgServiceTsInsertionPoint(0); insertion < NgServiceTsInsertionsNb; insertion++ {
 			toReplace := "{{" + string(rune(insertion)) + "}}"
 			codeTS = strings.ReplaceAll(codeTS, toReplace, TSinsertions[insertion])
